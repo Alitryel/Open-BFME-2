@@ -179,6 +179,9 @@ typedef char Rva004EA3B8TargetSize[sizeof(Rva004EA3B8) == 0x30 ? 1 : -1];
 typedef char Rva004E9B46TargetSize[sizeof(Rva004E9B46) == 0x18 ? 1 : -1];
 typedef char Rva005990DFTargetSize[sizeof(Rva005990DF) == 0x30 ? 1 : -1];
 #include "AIEconomyBuilder/AIEconomyBuilderFarmLibrary.h"
+// bfme link decl-only begin
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **); }
+// bfme link decl-only end
 class AIWallBuilder {public: void DoXfer(Xfer*);};
 class Rva00598DA2 {public: void rva00598DA2(Xfer*);};
 class Rva0059761B {public: void rva0059761B(void*);};

@@ -22,6 +22,9 @@ public:
 
 class Vector3 { public:float x,y,z; };
 #include "../../../../../reference/shims/wwmath/Vector2.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 class ShaderClass { public:ShaderClass(const ShaderClass &s):bits(s.bits){} ShaderClass(unsigned x):bits(x){} unsigned bits;static ShaderClass _PresetAlphaShader;};
 class SegLineRendererClass { public:enum TextureMapMode { Tile=2 }; };
 class RenderObjClass { public: virtual void Delete_This(); int refs; };

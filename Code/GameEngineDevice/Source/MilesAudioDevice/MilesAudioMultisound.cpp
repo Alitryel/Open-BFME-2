@@ -95,6 +95,11 @@ class AudioFileCache {public:Rva00690FF0Handle requestFile(const BfmePoolRef10&,
 struct AudioSettings {char pad0[0x74];int globalRange;char pad78[0x3c];int cacheThreshold;};
 extern float g_00DBA4FC;
 #include <limits>
+// bfme link decl-only begin
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 class MilesAudioManager {public:
  virtual ~MilesAudioManager();
  virtual void slot1();

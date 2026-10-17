@@ -10,6 +10,11 @@
 #endif
 #include <hash_map>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 
 class GameWindow;
 class WindowVideo;

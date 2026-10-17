@@ -51,6 +51,9 @@ void *&vector<void*>::operator[](size_t __n)
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 #include <windows.h>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;

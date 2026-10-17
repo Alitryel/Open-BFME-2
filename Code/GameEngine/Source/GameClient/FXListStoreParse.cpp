@@ -25,6 +25,10 @@ namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+// bfme link decl-only end
 struct FieldParse;class INI;
 struct FieldParse {const char*name;void(*parse)(INI*,void*,void*,const void*);const void*data;int offset;};
 class INI {public:const char*getNextToken(const char*);void initFromINI(void*,const FieldParse*);static void parseBool(INI*,void*,void*,const void*);char opaque00[8];int loadType;};

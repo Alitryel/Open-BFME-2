@@ -17,6 +17,9 @@ template<> inline void allocator<void *>::deallocate(void **p, unsigned int) con
 #pragma comment(linker, "/alternatename:?Rva00030830FreeAllocation@@YAXPAX@Z=_free")
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 class Rva001E7087 : public Snapshot {
 public:
     Rva001E7087();

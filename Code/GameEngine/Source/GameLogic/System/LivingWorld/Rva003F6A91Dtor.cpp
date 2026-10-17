@@ -19,6 +19,9 @@ void Rva00030830FreeAllocation(void *);
 #include <vector>
 #undef free
 #include "Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 
 class Rva003F5206Listener
 {

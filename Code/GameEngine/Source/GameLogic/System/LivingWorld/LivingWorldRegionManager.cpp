@@ -612,6 +612,9 @@ class Rva003F409F;
 // Callback prefix: slot0 compares two army words and slot1 deletes.
 // Separate installed tables BE4320/BE433C bound BE4318/BE4334 at two slots.
 #include "../../../../Include/Common/RegionArmyComparatorView.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 struct LivingWorldBattleArmyView;
 struct LivingWorldBattlePlayerView;
 struct LivingWorldBattleCoord;

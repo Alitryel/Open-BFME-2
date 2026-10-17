@@ -15,6 +15,10 @@
 #include <hash_map>
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+// bfme link decl-only end
 
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
