@@ -7,6 +7,16 @@
 // the object at +0 and 1, then tail-call the rowed list<int>::pop_back
 // 0x00053D4F. Field meanings and the owner's name are not established.
 #include <list>
+// list<int>'s iterator operator-- is inlined here; imported, this unit emits no
+// non-retail out-of-line copy of it (STLport body verbatim).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_List_iterator<int, _Nonconst_traits<int> > &_List_iterator<int, _Nonconst_traits<int> >::operator--()
+{
+	this->_M_decr();
+	return *this;
+}
+}
 
 namespace _STL {
 template <> void list<int, allocator<int> >::pop_back();

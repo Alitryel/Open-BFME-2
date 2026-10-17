@@ -19,6 +19,16 @@
 #include "../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 #include <list>
+// list<int>'s iterator operator-- is inlined here; imported, this unit emits no
+// non-retail out-of-line copy of it (STLport body verbatim).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_List_iterator<int, _Nonconst_traits<int> > &_List_iterator<int, _Nonconst_traits<int> >::operator--()
+{
+	this->_M_decr();
+	return *this;
+}
+}
 #include <map>
 
 typedef unsigned int UnsignedInt;
