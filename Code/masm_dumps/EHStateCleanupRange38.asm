@@ -76,43 +76,7 @@ PUBLIC ?rva0077c8c4@@YAXXZ
     ret
 ?rva0077c8c4@@YAXXZ ENDP
 
-; Unwind@00b7c9be at RVA 0x0077C9BE; 22-byte body ends at RET.
-PUBLIC ?rva0077c9be@@YAXXZ
-?rva0077c9be@@YAXXZ PROC
-    push 0088BA39h
-    push 5
-    push 4
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 7Ch
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0077c9be@@YAXXZ ENDP
-
 ; Unwind@00b7cb24 at RVA 0x0077CB24; 24-byte body ends at RET.
-; Same target helper and array arguments as 0x77C8C4; frame slot is [ebp-20].
-PUBLIC ?rva0077cb24@@YAXXZ
-?rva0077cb24@@YAXXZ PROC
-    push 0046C94Bh
-    push 2
-    push 14h
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 3C4h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0077cb24@@YAXXZ ENDP
-; Unwind@00b7d4f8: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
-PUBLIC ?rva0077d4f8@@YAXXZ
-?rva0077d4f8@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Gen_uw_0049b47c@@QAE@XZ
-?rva0077d4f8@@YAXXZ ENDP
 ; Unwind@00b7d884 at RVA 0x0077D884; 25-byte state-bit cleanup ends at RET.
 ; Retail clears bit 0 at [ebp-16] and conditionally tail-jumps through [ebp+8].
 PUBLIC ?rva0077d884@@YAXXZ
@@ -197,19 +161,6 @@ cleanup_done_0077ed89:
 
 ; Unwind@00b7edb4 at RVA 0x0077EDB4; 27-byte array cleanup ends at RET.
 ; Target passes [ebp-20]+0xdc to eh-vector-dtor with element size 0x1ac,
-; count 8, and raw destructor VA 0x006294FD.
-PUBLIC ?rva0077edb4@@YAXXZ
-?rva0077edb4@@YAXXZ PROC
-    push 006294FDh
-    push 8
-    push 1ACh
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 0DCh
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0077edb4@@YAXXZ ENDP
-
 ; Unwind@00b7ee74 at RVA 0x0077EE74; 25-byte state-bit cleanup ends at RET.
 ; Retail clears bit 0 at [ebp-32] and tail-jumps to object [ebp-48].
 PUBLIC ?rva0077ee74@@YAXXZ
@@ -312,33 +263,7 @@ cleanup_done_0078018d:
 
 ; Unwind@00b80229 at RVA 0x00780229; 24-byte array cleanup ends at RET.
 ; Target passes [ebp-20]+0x88 to eh-vector-dtor with size 12 count 8 and
-; raw destructor VA 0x00542D70 (rowed STLport narrow basic_string dtor RVA 0x142D70).
-PUBLIC ?rva00780229@@YAXXZ
-?rva00780229@@YAXXZ PROC
-    push 00542D70h
-    push 8
-    push 0Ch
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 88h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00780229@@YAXXZ ENDP
-
 ; Unwind@00b802d2 at RVA 0x007802D2; 24-byte array cleanup ends at RET.
-; Same target element type and helper arguments as 0x780229; frame slot is [ebp-16].
-PUBLIC ?rva007802d2@@YAXXZ
-?rva007802d2@@YAXXZ PROC
-    push 00542D70h
-    push 8
-    push 0Ch
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 88h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007802d2@@YAXXZ ENDP
-
 ; Unwind@00b803c1 at RVA 0x007803C1; 25-byte cleanup ends at RET.
 ; Retail clears state bit 0 in [ebp-16] and tail-jumps through [ebp+8].
 PUBLIC ?rva007803c1@@YAXXZ
@@ -354,19 +279,6 @@ cleanup_done_007803c1:
 ?rva007803c1@@YAXXZ ENDP
 
 ; Unwind@00b804a6 at RVA 0x007804A6; 24-byte array cleanup ends at RET.
-; Target passes [ebp-24]+0xd0 with size 12 count 8 and raw dtor VA 0x00542D70.
-PUBLIC ?rva007804a6@@YAXXZ
-?rva007804a6@@YAXXZ PROC
-    push 00542D70h
-    push 8
-    push 0Ch
-    mov eax, DWORD PTR [ebp-24]
-    add eax, 0D0h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007804a6@@YAXXZ ENDP
-
 ; Unwind@00b8059a at RVA 0x0078059A; 24-byte array cleanup ends at RET.
 ; Same target type and array parameters as 0x7804A6; frame slot is [ebp-16].
 PUBLIC ?rva0078059a@@YAXXZ
@@ -396,19 +308,6 @@ PUBLIC ?rva007812ad@@YAXXZ
 ?rva007812ad@@YAXXZ ENDP
 
 ; Unwind@00b8138c at RVA 0x0078138C; 24-byte array cleanup ends at RET.
-; Same target type and array parameters as 0x7812AD; frame slot is [ebp-20].
-PUBLIC ?rva0078138c@@YAXXZ
-?rva0078138c@@YAXXZ PROC
-    push 00757CD9h
-    push 14h
-    push 0Ch
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 1FCh
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0078138c@@YAXXZ ENDP
-
 ; Unwind@00b81431 at RVA 0x00781431; 22-byte eh-vector-dtor passes [ebp-16]+4 with size 24 count 7 and raw dtor VA 0x0079EAB7.
 PUBLIC ?rva00781431@@YAXXZ
 ?rva00781431@@YAXXZ PROC
@@ -614,18 +513,6 @@ PUBLIC ?rva0078258c@@YAXXZ
     jmp ?clear@Rva003B4071@@QAEXXZ
 ?rva0078258c@@YAXXZ ENDP
 
-; Unwind@00b827e8 at RVA 0x007827E8; 20-byte masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to the EmissionVelocityInfo dtor at 0x0049B47C.
-PUBLIC ?rva007827e8@@YAXXZ
-?rva007827e8@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1EmissionVelocityInfo@FXParticleSystem@@UAE@XZ
-?rva007827e8@@YAXXZ ENDP
-
 ; Unwind@00b836e8 at RVA 0x007836E8; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-24] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva007836e8@@YAXXZ
@@ -766,18 +653,6 @@ cleanup_done_00784239:
     ret
 ?rva00784239@@YAXXZ ENDP
 
-; Unwind@00b8430b: masked-add cleanup adds 04h to [ebp-20] and tail-jumps to 0x0007FAB3.
-PUBLIC ?rva0078430b@@YAXXZ
-?rva0078430b@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-20]
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 04h
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ
-?rva0078430b@@YAXXZ ENDP
-
 ; Unwind@00b84973 at RVA 0x00784973; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-28] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00784973@@YAXXZ
@@ -821,30 +696,6 @@ cleanup_done_00784a1f:
 ?rva00784a1f@@YAXXZ ENDP
 
 ; Unwind@00b84ac6 at RVA 0x00784AC6; 25-byte vector cleanup ends at RET.
-; Target passes [ebp-0xe7c] to the rowed iterator with element size 0x1ac count 8 and dtor VA 0x006294FD.
-PUBLIC ?rva00784ac6@@YAXXZ
-?rva00784ac6@@YAXXZ PROC
-    push 006294FDh
-    push 8
-    push 1ACh
-    lea eax, DWORD PTR [ebp-0E7Ch]
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00784ac6@@YAXXZ ENDP
-
-; Unwind@00b84ae7 at RVA 0x00784AE7; 22-byte eh-vector-dtor passes [ebp-244] with size 4 count 8 and raw dtor VA 0x009B804E.
-PUBLIC ?rva00784ae7@@YAXXZ
-?rva00784ae7@@YAXXZ PROC
-    push 009B804Eh
-    push 8
-    push 4
-    lea eax, DWORD PTR [ebp-244]
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00784ae7@@YAXXZ ENDP
-
 ; Unwind@00b84e61: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva00784e61@@YAXXZ
 ?rva00784e61@@YAXXZ PROC
@@ -1119,18 +970,6 @@ cleanup_done_007862be:
     ret
 ?rva007862be@@YAXXZ ENDP
 
-; Unwind@00b86a1b: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
-PUBLIC ?rva00786a1b@@YAXXZ
-?rva00786a1b@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Gen_uw_0049b47c@@QAE@XZ
-?rva00786a1b@@YAXXZ ENDP
-
 ; Unwind@00b86c20 at RVA 0x00786C20; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 1 at [ebp-16] and tail-jumps with [ebp-28] to the rowed folded destructor at 0x0007FAB3.
 PUBLIC ?rva00786c20@@YAXXZ
@@ -1394,19 +1233,6 @@ cleanup_done_0078875d:
 ?rva0078875d@@YAXXZ ENDP
 
 ; Unwind@00b88c1c at RVA 0x00788C1C; 24-byte vector cleanup ends at RET.
-; Target passes [ebp-16]+0x2f4 to the rowed iterator with element size 4 count 8 and raw dtor VA 0x004B3FD0.
-PUBLIC ?rva00788c1c@@YAXXZ
-?rva00788c1c@@YAXXZ PROC
-    push 004B3FD0h
-    push 8
-    push 4
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 2F4h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00788c1c@@YAXXZ ENDP
-
 ; Unwind@00b88cba at RVA 0x00788CBA; 24-byte vector cleanup ends at RET.
 ; Target passes [ebp-16]+0x2f4 to the rowed iterator with element size 4 count 8 and raw dtor VA 0x004B3FD0.
 PUBLIC ?rva00788cba@@YAXXZ
@@ -1490,19 +1316,6 @@ cleanup_done_007891e8:
 ?rva007891e8@@YAXXZ ENDP
 
 ; Unwind@00b892ea at RVA 0x007892EA; 27-byte vector cleanup ends at RET.
-; Target passes [ebp-20]+0xdc to the rowed iterator with element size 0x1d0 count 8 and raw dtor VA 0x00847B0E.
-PUBLIC ?rva007892ea@@YAXXZ
-?rva007892ea@@YAXXZ PROC
-    push 00847B0Eh
-    push 8
-    push 1D0h
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 0DCh
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007892ea@@YAXXZ ENDP
-
 ; Unwind@00b89325 at RVA 0x00789325; 27-byte vector cleanup ends at RET.
 ; Target passes [ebp-16]+0xdc to the rowed iterator with element size 0x1d0 count 8 and raw dtor VA 0x00847B0E.
 PUBLIC ?rva00789325@@YAXXZ
@@ -2003,18 +1816,6 @@ cleanup_done_0079113a:
     ret
 ?rva0079113a@@YAXXZ ENDP
 
-; Unwind@00b918e9 at RVA 0x007918E9; 20-byte masked-add cleanup adds 8 to [ebp-16] and tail-jumps to the folded vector dtor at 0x0007FAB3.
-PUBLIC ?rva007918e9@@YAXXZ
-?rva007918e9@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 8
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1?$vector@HV?$allocator@H@_STL@@@_STL@@QAE@XZ
-?rva007918e9@@YAXXZ ENDP
-
 ; Unwind@00b91b95 at RVA 0x00791B95; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20]; loads ECX with MOV from [ebp+8] only when set.
 ; The tail-jump target is a matched function at RVA 0x005B804E; parent identity/layout remain unproven.
@@ -2135,19 +1936,6 @@ PUBLIC ?rva007949c5@@YAXXZ
 cleanup_done_007949c5:
     ret
 ?rva007949c5@@YAXXZ ENDP
-
-; Unwind@00b94a82 at RVA 0x00794A82; 22-byte body ends at RET.
-PUBLIC ?rva00794a82@@YAXXZ
-?rva00794a82@@YAXXZ PROC
-    push 0090EB02h
-    push 7
-    push 8
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 24h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00794a82@@YAXXZ ENDP
 
 ; Unwind@00b94adc at RVA 0x00794ADC; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-16]; uses LEA from [ebp-20] only when set.
@@ -2578,70 +2366,6 @@ cleanup_done_00793094:
     ret
 ?rva00793094@@YAXXZ ENDP
 
-; Unwind@00b9322b at RVA 0x0079322B; 22-byte body ends at RET.
-PUBLIC ?rva0079322b@@YAXXZ
-?rva0079322b@@YAXXZ PROC
-    push 009CD0D7h
-    push 10h
-    push 4
-    lea eax, DWORD PTR [ebp-0ACh]
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0079322b@@YAXXZ ENDP
-
-; Unwind@00b93312 at RVA 0x00793312; 22-byte body ends at RET.
-PUBLIC ?rva00793312@@YAXXZ
-?rva00793312@@YAXXZ PROC
-    push 008F7D7Fh
-    push 2
-    push 0Ch
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 0Ch
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00793312@@YAXXZ ENDP
-
-; Unwind@00b93328 at RVA 0x00793328; 22-byte body ends at RET.
-PUBLIC ?rva00793328@@YAXXZ
-?rva00793328@@YAXXZ PROC
-    push 008F9630h
-    push 2
-    push 0Ch
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 24h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00793328@@YAXXZ ENDP
-
-; Unwind@00b93387 at RVA 0x00793387; 22-byte body ends at RET.
-PUBLIC ?rva00793387@@YAXXZ
-?rva00793387@@YAXXZ PROC
-    push 008F7D7Fh
-    push 2
-    push 0Ch
-    mov eax, DWORD PTR [ebp-28]
-    add eax, 0Ch
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00793387@@YAXXZ ENDP
-
-; Unwind@00b9339d at RVA 0x0079339D; 22-byte body ends at RET.
-PUBLIC ?rva0079339d@@YAXXZ
-?rva0079339d@@YAXXZ PROC
-    push 008F9630h
-    push 2
-    push 0Ch
-    mov eax, DWORD PTR [ebp-28]
-    add eax, 24h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0079339d@@YAXXZ ENDP
-
 ; Unwind@00b93a65 at RVA 0x00793A65; target byte boundary is 25 bytes.
 ; State bit 0 gates [ebp-5c] cleanup through RVA 0x0048BA39; parent
 ; identity and concrete local type remain unknown.
@@ -2729,30 +2453,6 @@ PUBLIC ?rva00781953@@YAXXZ
     jmp ??1Rva0055B0CC@@UAE@XZ
 ?rva00781953@@YAXXZ ENDP
 
-; Unwind@00b82215 at RVA 0x00782215; 20-byte masked-add funclet tail-jumps to dtor.
-PUBLIC ?rva00782215@@YAXXZ
-?rva00782215@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 4
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1?$map@VAsciiString@@V1@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@V1@@_STL@@@3@@_STL@@QAE@XZ
-?rva00782215@@YAXXZ ENDP
-
-; Unwind@00b83ce0 at RVA 0x00783CE0; 20-byte masked-add funclet tail-jumps to dtor.
-PUBLIC ?rva00783ce0@@YAXXZ
-?rva00783ce0@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 4
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ
-?rva00783ce0@@YAXXZ ENDP
-
 ; Unwind@00b840e9 at RVA 0x007840E9; 20-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva007840e9@@YAXXZ
 ?rva007840e9@@YAXXZ PROC
@@ -2802,30 +2502,6 @@ PUBLIC ?rva0078768e@@YAXXZ
     and ecx, eax
     jmp ??1Rva00574A8A@@UAE@XZ
 ?rva0078768e@@YAXXZ ENDP
-
-; Unwind@00b925e9 at RVA 0x007925E9; 20-byte masked-add funclet tail-jumps to apply.
-PUBLIC ?rva007925e9@@YAXXZ
-?rva007925e9@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva00506B28DwordImmSetter@@QAEXXZ
-?rva007925e9@@YAXXZ ENDP
-
-; Unwind@00b93241 at RVA 0x00793241; 19-byte eh-vector-dtor lea target.
-PUBLIC ?rva00793241@@YAXXZ
-?rva00793241@@YAXXZ PROC
-    push 008F87B7h
-    push 2
-    push 10h
-    lea eax, [ebp-108]
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00793241@@YAXXZ ENDP
 
 ; Unwind@00b93655 at RVA 0x00793655; 20-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva00793655@@YAXXZ
