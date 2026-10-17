@@ -49,6 +49,24 @@ template <>
 char *basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char);
 }
 
+// bfme link decl-only begin: members whose copies here are not retail's (owned or kept elsewhere)
+namespace _STL { template <> char *__find_if(char *, char *, _Eq_char_bound<char_traits<char> >, const random_access_iterator_tag &); }
+namespace _STL { template <> reverse_iterator<const char *> __find_if(reverse_iterator<const char *>, reverse_iterator<const char *>, _Not_within_traits<char_traits<char> >, const random_access_iterator_tag &); }
+namespace _STL { template <> char *find_if(char *, char *, _Eq_char_bound<char_traits<char> >); }
+namespace _STL { template <> reverse_iterator<const char *> find_if(reverse_iterator<const char *>, reverse_iterator<const char *>, _Not_within_traits<char_traits<char> >); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const basic_string<char, char_traits<char>, allocator<char> > &, size_t, size_t, const allocator<char> &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const allocator<char> &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(size_t, char, const allocator<char> &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const char *, size_t, const allocator<char> &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(_String_reserve_t, size_t, const allocator<char> &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::operator=(const basic_string<char, char_traits<char>, allocator<char> > &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::append(const basic_string<char, char_traits<char>, allocator<char> > &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::append(size_t, char); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > &basic_string<char, char_traits<char>, allocator<char> >::append(const char *); }
+namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find(const char *, size_t) const; }
+namespace _STL { template <> size_t basic_string<char, char_traits<char>, allocator<char> >::find_last_not_of(const char *, size_t, size_t) const; }
+// bfme link decl-only end
+
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
