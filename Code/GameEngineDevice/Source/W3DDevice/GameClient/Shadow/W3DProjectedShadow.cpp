@@ -65,6 +65,11 @@
 #include "W3DDevice/GameClient/W3DShadow.h"
 #include "W3DDevice/GameClient/Heightmap.h"
 #include "ref_ptr.h"
+// Retail's RefCountPtr<TextureClass>::operator= (0x000424D0, rowed in
+// TextureStatisticsVector.cpp) releases through TextureBaseClass::Release_Ref
+// out of line; this unit's headers would inline RefCountClass's instead, so
+// call the rowed body rather than emitting that copy.
+template<> const RefCountPtr<TextureClass> &RefCountPtr<TextureClass>::operator=(const RefCountPtr<TextureClass> &);
 
 // ?setDecalUVAxis@W3DShadowTexture@@QAEXAAVVector3@@0@Z
 // retail 0x00108603, 57 bytes. Dedicated TU carrying the Open-BFME-1 donor
