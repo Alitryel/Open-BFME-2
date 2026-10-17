@@ -139,3 +139,32 @@ float Rva00094AFDRandomField::get() const
 {
 	return m_value.getValue();
 }
+
+class Rva00098540RandomField
+{
+public:
+	int get() const;
+private:
+	char m_pad00[0x30];
+	GameClientRandomVariable m_value;
+};
+
+int Rva00098540RandomField::get() const
+{
+	return (int)m_value.getValue();
+}
+
+class Rva0009854DRandomField
+{
+public:
+	float get() const;
+private:
+	char m_pad00[0x3C];
+	GameClientRandomVariable m_value;
+};
+
+float Rva0009854DRandomField::get() const
+{
+	return m_value.getValue();
+}
+
