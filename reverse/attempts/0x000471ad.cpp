@@ -1,18 +1,28 @@
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
-// partial score=0.9795 date=2026-10-16
+// partial score=0.99 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
+// Bank state (size-exact 1474 B, 9 diff lines): <math.h> float tan overload
+// with tanf at the first site gives retail's pop placement and done flag
+// order; in-class render setters (+0 and +0x48, as in the BFME 1 twin
+// 0x006F1AC0) give retail's image=edx / const2=ecx / render=eax registers;
+// RectClass Width()/Height() inline readers restore the halfU-first SSE
+// block the setters otherwise reshuffle. Residue: retail keeps the 0x470D5
+// handle temp in its own slot (-0x28) and packs width's x87 transfer temp
+// into endUV.Y (-0x2c); the dead-throw lever puts the handle temp in
+// percent's dead home (+0x1c) instead. Without the lever the frame is 0x50;
+// any nested block for the triangle locals packs both (frame 0x48). Callee
+// 0x000470D5 is still unmatched and unpinned.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "BFME2ParticleTextureHandles.h"
-extern "C" float __cdecl atan2f(float,float);
-extern "C" double __cdecl tan(double);
+#include <math.h>
 const float ClockPi=3.14159265358979323846f;
 class Vector2{public:float X,Y;Vector2&operator=(const Vector2&v){X=v.X;Y=v.Y;return *this;}};
-class RectClass{public:float Left,Top,Right,Bottom;};
+class RectClass{public:float Left,Top,Right,Bottom;float Width()const{return Right-Left;}float Height()const{return Bottom-Top;}};
 class Image{public:char gap[0x14];RectClass uv;};
 BFME2ParticleTextureHandle Rva000470D5(const Image*);
 class Rva000456C9{public:void rva000456C9(const RefCountPtr<TextureClass>*);};
-class Render2DClass{public:void Add_Tri(const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,unsigned long);unsigned state;char gap04[0x44];bool active;};
+class Render2DClass{public:void set00(unsigned v){state=v;}void set48(bool b){active=b;}void Add_Tri(const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,unsigned long);unsigned state;char gap04[0x44];bool active;};
 class W3DDisplay{public:virtual void Rva000471AD(const Image*,float,float,float,float,float,unsigned long);char gap04[0x164];Render2DClass*render;};
 inline float clockPi(){return 3.14159265358979323846f;}
 void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,float bottom,float percent,unsigned long color)
@@ -26,8 +36,8 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
  float angle=twoPi-(twoPi*percent)*0.01f;
  if(angle<=0.0f)return;
  if(angle>twoPi)angle=twoPi;
- render->state=2;
- render->active=true;
+ render->set00(2);
+ render->set48(true);
  ((Rva000456C9*)render)->rva000456C9((const RefCountPtr<TextureClass>*)&Rva000470D5(image));
  float height=bottom-top;
  float halfHeight=height*0.5f;
@@ -36,8 +46,8 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
  Vector2 center={left+halfWidth,top+halfHeight};
  float widthHeight=width/height;
  float heightWidth=height/width;
- float halfU=(uv->Right-uv->Left)*0.5f;
- float halfV=(uv->Bottom-uv->Top)*0.5f;
+ float halfU=uv->Width()*0.5f;
+ float halfV=uv->Height()*0.5f;
  Vector2 centerUV={uv->Left+halfU,uv->Top+halfV};
  float corner=atan2f(width,height);
  Vector2 end={left,top};
@@ -46,7 +56,7 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
  Vector2 startUV={centerUV.X,uv->Top};
  bool done=false;
  if(angle<=corner){
-  float t=(float)tan(angle);
+  float t=tanf(angle);
   end.X=(float)(center.X-halfHeight*t);
   endUV.X=(float)(centerUV.X-t*halfU*heightWidth);
   done=true;

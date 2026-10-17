@@ -134,6 +134,18 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 - **Parentheses stop cl reassociating by a power of two.** `distance * 2.0f
   * ease` compiled as `ease * distance * 2`; `(2.0f * distance) * ease` kept
   retail's order (0x0009B510 bank, nd 41 -> 37).
+- **Inline member calls move registers far from the call.** Two in-class
+  setters (`render->set00(2)` for `render->state = 2`) gave retail's integer
+  registers for the whole prologue, but swapped two XMM values in a later
+  block. Inline `RectClass::Width()`/`Height()` readers in that block put
+  them back. When one inline fixes a block and breaks another, try inlines in
+  the broken block before dropping the fix. The setters' parameters made no
+  difference. Rva000471AD image clock bank, nd 24 -> 9.
+- **The float `tan` overload is two inline levels.** In `<math.h>`,
+  `tan(float)` forwards to `tanf`, which calls `tan(double)`. Each level moves
+  the call's `pop ecx` cleanup later. `tanf(x)` (one level) at one site and
+  `tan(x)` (two levels) at another matched where `(float)tan(x)` did not.
+  Same bank.
 
 ## Linking
 
