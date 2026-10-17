@@ -1,8 +1,12 @@
 // ?rva002A8306@PlayerList@@QAEX_N@Z
+// partial score=0.771 date=2026-10-17
+// ?rva002A8306@PlayerList@@QAEX_N@Z
 // partial score=0.8403 date=2026-10-14
 // ?rva002A8306@PlayerList@@QAEX_N@Z
 // partial score=0.7 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?rva002A8306@PlayerList@@QAEX_N@Z retail 0x002A8306..0x002A851D 535 B.
 // Observer cycling: callers AptPalantir::OnBttnObserveNextPlayer 0x002D3100
 // (true) and ObservePriorPlayer 0x002D3108 (false) on ThePlayerList.
@@ -127,20 +131,24 @@ void PlayerList::rva002A8306(bool forward)
 
 	int index = player->m_playerIndex;
 	int step = forward ? 1 : -1;
-	int observer = !player->isPlayerActive() ? player->m_playerIndex : -1;
-	for (int i = 0; i < ThePlayerList->m_playerCount; ++i) {
+	int observer = !player->isPlayerActive() ? index : -1;
+	int i;
+	for (i = 0; i < ThePlayerList->m_playerCount; ++i) {
 		Player *p = ThePlayerList->getNthPlayer(i);
 		if (observer == -1 && p && !p->isPlayerActive() && p->m_5C == 0)
 			observer = i;
 	}
 
+	_ReadWriteBarrier();
 	int start = index;
 	for (;;) {
-		index += step;
-		if (index >= ThePlayerList->m_playerCount)
-			index = 0;
-		else if (index < 0)
-			index = ThePlayerList->m_playerCount;
+		int next = index + step;
+		int count = ThePlayerList->m_playerCount;
+		if (next >= count)
+			next = 0;
+		else if (next < 0)
+			next = count;
+		index = next;
 		if (index == start)
 			break;
 		Player *p = ThePlayerList->getNthPlayer(index);
