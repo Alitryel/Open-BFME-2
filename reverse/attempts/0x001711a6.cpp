@@ -1,6 +1,10 @@
 // ?rva001711a6@Rva00171024@@QAEXXZ
+// partial score=0.617 date=2026-10-17
+// ?rva001711a6@Rva00171024@@QAEXXZ
 // partial score=0.57 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // Full semantic reconstruction of native 1711A6..171522 (892B).
 // WB A12EB0 names TexturePacker::UpdateResultTexture in texturepacker.cpp.
@@ -77,19 +81,25 @@ public:
 void Rva00171024::rva001711a6()
 {
     dirty=false;
+    RectangleMap::iterator end=rectangles.end();
     reinterpret_cast<Rva001333C6 *>(&result)->f();
     inverseWidth=inverseHeight=1.0f;
     AreaMap byArea;
-    for(RectangleMap::iterator it=rectangles.begin(); it!=rectangles.end(); ++it) {
+    _ReadWriteBarrier();
+    for(RectangleMap::iterator it=rectangles.begin(); it!=end; ++it) {
         const TextureBaseClass *texture=reinterpret_cast<const TextureBaseClass *>(&it->first);
-        unsigned area=(unsigned)texture->rva00132784()*(unsigned)texture->rva0013275A();
-        byArea.insert(AreaMap::value_type(area,it->first));
+        unsigned width=(unsigned)texture->rva0013275A();
+        unsigned height=(unsigned)texture->rva00132784();
+        unsigned area=height*width;
+        AreaMap::value_type entry(area,it->first);
+        byArea.insert(entry);
     }
     int side=1;
     int skyline[64];
-    skyline[0]=0;
-    for(AreaMap::reverse_iterator it=byArea.rbegin(); it!=byArea.rend(); ++it) {
-        AssetReference texture(it->second);
+    for(int i=0;i<64;++i) skyline[i]=0;
+    for(AreaMap::reverse_iterator it=byArea.rbegin(); (1 ? it!=byArea.rend() : it!=byArea.rend()); ++it) {
+        const AssetReference &keyref=it->second;
+        AssetReference texture(keyref);
         TextureBaseClass *handle=reinterpret_cast<TextureBaseClass *>(&texture);
         int width=((unsigned)handle->rva0013275A()+31u)>>5;
         int height=((unsigned)handle->rva00132784()+31u)>>5;
@@ -124,6 +134,7 @@ void Rva00171024::rva001711a6()
     for(RectangleMap::iterator it=rectangles.begin(); it!=rectangles.end(); ++it) {
         AssetReference texture(it->first);
         Rva00170999Data rect=it->second;
+        _ReadWriteBarrier();
         W3DRadarResetSurface source=reinterpret_cast<CursorTextureSlot *>(&texture)->Get_Surface_Level();
         D3DXLoadSurfaceFromSurface(destination.surface,0,&rect,source.surface,0,0,1,0);
     }
