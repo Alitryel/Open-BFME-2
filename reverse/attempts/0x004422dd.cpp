@@ -1,4 +1,6 @@
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
+// partial score=0.988 date=2026-10-17
+// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.91839 date=2026-10-14
@@ -92,12 +94,12 @@ void AptMpGameSetup::HostValidateColors() {
     if((GameSlot*)(*map)[(unsigned)color]==slot) continue;
    if(special) owner->SetColor(slot,-1);
    else {
-    char c = 0;
+    int c;
+    *(volatile int*)&i = *(volatile int*)&i;
     _ReadWriteBarrier();
-    while(c<allowed.size()) {
+    for(c=0;(unsigned)c<allowed.size();++c) {
      RespawnPtrMap *lookup=(RespawnPtrMap*)&reserved;
-     if(allowed[c] && lookup->find(c)==lookup->end()) goto colorFound;
-     ++c;
+     if(allowed[c] && lookup->find((unsigned)c)==lookup->end()) goto colorFound;
     }
     goto colorDone;
 colorFound:
