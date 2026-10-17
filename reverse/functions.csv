@@ -46778,7 +46778,7 @@ _FilterBlock_C,,0x001B8560,993,Code/Libraries/Source/VP6/FilterBlockC.cpp,matche
 ?Rva000B5179Apply@@YAXPAX00@Z,,0x000B5179,97,Code/GameEngine/Source/Common/Rva000B5179.cpp,matched,leaf via rowed B304B 6 buckets stride C end B0 flags F6 bit8 F4 inner stride 3C
 ?rva0058ADA8@Rva0058ADA8@@QAEXH@Z,,0x0058ADA8,40,Code/GameEngine/Source/Common/Rva0058ADA8.cpp,matched,leaf via vslots 8 and 0x14 m0C m18
 ?rva0058AD94@Rva0058AD94@@QAEXH@Z,,0x0058AD94,11,Code/GameEngine/Source/Common/Rva0058AD94.cpp,matched,m0C at +0xC shared with neighbour v04 slot 0x10 ret4 int arg
-?Rva0058AE1EGet@@YGHPAX@Z,,0x0058AE1E,24,Code/GameEngine/Source/Common/Rva0058AE1E.cpp,matched,AIUpdateInterface at +0x258 victim nonzero via rowed getCurrentVictim
+?Rva0058AE1EHasVictim@@YG_NPAVObject@@@Z,,0x0058AE1E,24,Code/GameEngine/Source/Common/Rva0058AE1E.cpp,matched,AIUpdateInterface at +0x258 victim nonzero via rowed getCurrentVictim
 ?rva00054120@MilesAudioManager@@QAEEPAVINI@@@Z,,0x00054120,187,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp,matched,ABI correction from target call sites 0x54222 and 0x61C1C: ECX=this plus INI*; six audio INI loads and result OR remain byte-verified; class association inferred
 ?Rva00054E8BCreate@@YGPAURva00054E8BNode@@ABVRva00051C6C@@@Z,,0x00054E8B,37,Code/Libraries/Source/WWVegas/WWLib/stlport_slist_rva00051c6c_create.cpp,matched,slist node allocate 12 plus zero next plus rowed Construct plus caller 0x000556E7
 ?rva0005456B@MilesAudioManager@@QAEHXZ,,0x0005456B,43,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva0005456B.cpp,matched,unlock lane this+0xA38 list from InitSamplePools rowed erase 0x00438539 callers 0x000620D3 0x000620ED

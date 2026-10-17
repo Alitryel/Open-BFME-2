@@ -122,6 +122,16 @@ public:
 #define COORD3D_VIEW_DTOR
 #include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
+// Coord3D::scale is retail's out-of-line 0x000036D1 (region.cpp); the rows
+// here inline it. Scaling through this TU-local helper keeps the inline
+// expansion without emitting a non-retail ?scale@Coord3D COMDAT copy.
+static inline void scaleInPlace(Coord3D &c, float s)
+{
+	c.x *= s;
+	c.y *= s;
+	c.z *= s;
+}
+
 // A KindOfMaskType view: 224 bits, zeroed then set bit by bit.
 struct Rva005D75BEMask
 {
@@ -214,9 +224,20 @@ public:
 	int m_274;			// +0x274
 };
 
+// The ref-counted handle assignment at 0x0041D5D0 is rowed as
+// BfmeRefCF::bfmeAssignCF (BfmeConv1923.cpp).
+class BfmeRefCF
+{
+public:
+	BfmeRefCF *bfmeAssignCF(const BfmeRefCF &other);	// 0x0041D5D0
+};
+
 struct BfmeWideResult
 {
-	BfmeWideResult &operator=(const BfmeWideResult &other);	// 0x0041D5D0
+	void assign(const BfmeWideResult &other)
+	{
+		((BfmeRefCF *)this)->bfmeAssignCF(*(const BfmeRefCF *)&other);
+	}
 	Object *next() throw();	// 0x00045623
 	~BfmeWideResult();	// 0x0004AA28
 	void *m_value;
@@ -295,7 +316,7 @@ unsigned Rva005EE816::rva005D8C4C(Object *source)
 	Coord3D corners[4];
 	corners[0] = Coord3D(1.0f, 1.0f, 0.0f);
 	corners[0].normalize();
-	corners[0].scale(radius);
+	scaleInPlace(corners[0], radius);
 	corners[1] = Coord3D(-corners[0].x, corners[0].y, 0.0f);
 	corners[2] = Coord3D(-corners[0].x, -corners[0].y, 0.0f);
 	corners[3] = Coord3D(corners[0].x, -corners[0].y, 0.0f);
@@ -330,7 +351,7 @@ unsigned Rva005EE816::rva005D8F0F(Object *source)
 	Coord3D corners[4];
 	corners[0] = Coord3D(1.0f, 1.0f, 0.0f);
 	corners[0].normalize();
-	corners[0].scale(radius);
+	scaleInPlace(corners[0], radius);
 	corners[1] = Coord3D(-corners[0].x, corners[0].y, 0.0f);
 	corners[2] = Coord3D(-corners[0].x, -corners[0].y, 0.0f);
 	corners[3] = Coord3D(corners[0].x, -corners[0].y, 0.0f);
@@ -365,7 +386,7 @@ unsigned Rva005EE816::rva005D9721(Object *source)
 	Coord3D corners[4];
 	corners[0] = Coord3D(1.0f, 1.0f, 0.0f);
 	corners[0].normalize();
-	corners[0].scale(radius);
+	scaleInPlace(corners[0], radius);
 	corners[1] = Coord3D(-corners[0].x, corners[0].y, 0.0f);
 	corners[2] = Coord3D(-corners[0].x, -corners[0].y, 0.0f);
 	corners[3] = Coord3D(corners[0].x, -corners[0].y, 0.0f);
@@ -398,7 +419,7 @@ unsigned Rva005EE816::rva005D91D2(Object *source)
 	Coord3D corners[4];
 	corners[0] = Coord3D(1.0f, 1.0f, 0.0f);
 	corners[0].normalize();
-	corners[0].scale(radius);
+	scaleInPlace(corners[0], radius);
 	corners[1] = Coord3D(-corners[0].x, corners[0].y, 0.0f);
 	corners[2] = Coord3D(-corners[0].x, -corners[0].y, 0.0f);
 	corners[3] = Coord3D(corners[0].x, -corners[0].y, 0.0f);
@@ -428,6 +449,13 @@ bool __stdcall Rva0058AE1EHasVictim(Object *obj);	// 0x0058AE1E
 // resolves. Retail's classes derive from Rva005EEDAA (whose dtor 0x005EEDAA
 // precedes both accessors): 0x005D874A's vftable belongs to Rva005D8723,
 // 0x005D9E12 sits in three sibling vftables; this view flattens them.
+class StickyBombUpdate
+{
+public:
+	void setTargetObject(Object *obj);			// 0x005EEDB5
+	Object *getTargetObject() const;			// 0x005EEDE6
+};
+
 class Rva005EEDB5Picker
 {
 public:
@@ -440,8 +468,10 @@ public:
 	virtual bool shouldActivate(Object *source);	// slot 6
 	virtual void assignKindOfs();					// slot 7
 	virtual bool rva005D9E12Accept(Object *source, Object *obj);	// slot 8
-	void rva005EEDB5(Object *obj);		// 0x005EEDB5
-	Object *rva005EEDE6() const;		// 0x005EEDE6
+	// 0x005EEDB5 / 0x005EEDE6: the +0x1C target-id accessors, ICF-folded with
+	// (and rowed as) StickyBombUpdate's setTargetObject / getTargetObject.
+	void setTarget(Object *obj) { ((StickyBombUpdate *)this)->setTargetObject(obj); }
+	Object *getTarget() const { return ((const StickyBombUpdate *)this)->getTargetObject(); }
 	float getRadius() const { return m_10; }
 	bool rva005D874A(Object *source);
 protected:
@@ -463,24 +493,24 @@ public:
 bool Rva005EEDB5Picker::rva005D874A(Object *source)
 {
 	if (Rva0058AE1EHasVictim(source)) {
-		rva005EEDB5(0);
+		setTarget(0);
 		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(source->getPosition(), getRadius(), 0,
 			Rva0026119DFilter().link(&Rva00261409Filter(source->getControllingPlayer(), true, 4)), 1);
 		Object *obj;
 		while ((obj = hits.next()) != 0) {
-			if (!rva005EEDE6()) {
-				rva005EEDB5(obj);
+			if (!getTarget()) {
+				setTarget(obj);
 				continue;
 			}
 			Rva005D874AModule *mine = obj->m_254;
-			Rva005D874AModule *theirs = rva005EEDE6()->m_254;
+			Rva005D874AModule *theirs = getTarget()->m_254;
 			if (mine->rva005D874AValue() < theirs->rva005D874AValue()) {
-				rva005EEDB5(obj);
+				setTarget(obj);
 				break;
 			}
 		}
 	}
-	if (rva005EEDE6())
+	if (getTarget())
 		return true;
 	return false;
 }
@@ -526,24 +556,24 @@ bool AISpecialPowerElendil::shouldActivate(Object *source)
 bool AISpecialPowerEnemyTypeKiller::shouldActivate(Object *source)
 {
 	if (Rva0058AE1EHasVictim(source)) {
-		rva005EEDB5(0);
+		setTarget(0);
 		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(source->getPosition(), getRadius(), 0,
 			Rva0026119DFilter().link(&Rva00261409Filter(source->getControllingPlayer(), true, 4)), 1);
 		assignKindOfs();
 		for (Object *obj = hits.next(); obj; obj = hits.next()) {
 			if (!obj->isAnyKindOf(m_kindOfs) || !rva005D9E12Accept(source, obj))
 				continue;
-			if (!rva005EEDE6()) {
-				rva005EEDB5(obj);
+			if (!getTarget()) {
+				setTarget(obj);
 				continue;
 			}
 			Rva005D874AModule *mine = obj->m_254;
-			Rva005D874AModule *theirs = rva005EEDE6()->m_254;
+			Rva005D874AModule *theirs = getTarget()->m_254;
 			if (mine->rva005D874AValue() < theirs->rva005D874AValue())
-				rva005EEDB5(obj);
+				setTarget(obj);
 		}
 	}
-	if (rva005EEDE6())
+	if (getTarget())
 		return true;
 	return false;
 }
@@ -593,11 +623,11 @@ bool AISpecialPowerCaptureBuilding::shouldActivate(Object *source)
 			kinds.clear();
 			kinds.set(3);
 			kinds.set(90);
-			hits = ThePartitionManager->iterateObjectsInRange(target->getPosition(), 200.0f, 0,
+			hits.assign(ThePartitionManager->iterateObjectsInRange(target->getPosition(), 200.0f, 0,
 				Rva0026119DFilter().link(Rva00261409Filter(source->getControllingPlayer(), true, 4)
-					.link(&Rva003959FA(*(BfmeFixedStorage0004543D *)&kinds))), 0);
+					.link(&Rva003959FA(*(BfmeFixedStorage0004543D *)&kinds))), 0));
 			if (!hits.next()) {
-				((Rva005EEDB5Picker *)this)->rva005EEDB5(target);
+				((Rva005EEDB5Picker *)this)->setTarget(target);
 				return true;
 			}
 		}
