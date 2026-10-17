@@ -1,4 +1,6 @@
 // ?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ
+// partial score=0.846 date=2026-10-17
+// ?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ
 // partial score=0.771 date=2026-10-15
 // ?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ
 // partial score=0.773 date=2026-10-14
@@ -76,13 +78,14 @@ private:
 
 void OnlineHome::rva005B98E9()
 {
-	_ReadWriteBarrier();
 	if (m_motd && TheGameSpyInfo)
 	{
 		GadgetListBoxReset(m_motd);
 		AsciiString line;
 		UnicodeString text;
-		AsciiString motd = TheGameSpyInfo->getMOTD();
+		AsciiString motd;
+		motd = TheGameSpyInfo->getMOTD();
+		int color = *(volatile int *)&GameSpyColor[27];
 		while (motd.nextToken(&line, "\n"))
 		{
 			if (line.getCharAt(line.getLength() - 1) == '\r')
@@ -90,7 +93,7 @@ void OnlineHome::rva005B98E9()
 			line.trim();
 			if (line.isEmpty())
 				line = " ";
-			int color = GameSpyColor[27];
+			color = GameSpyColor[27];
 			if (line.startsWith("\\\\"))
 				line = line.str() + 1;
 			else if (line.startsWith("\\") && line.getLength() > 9)
