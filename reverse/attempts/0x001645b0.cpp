@@ -1,4 +1,6 @@
 // ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z
+// partial score=0.158 date=2026-10-17
+// ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z
 // partial score=0.5930984846148111 date=2026-10-14
 // ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z
 // partial score=0.5856347628183083 date=2026-10-13
@@ -13,6 +15,8 @@
 // Capture_Update0x1622B0 remains banked; its preexisting pin resolves this trial.
 // Current source has no new pins, globals, asm, or optimizer pragmas.
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // Target0x1645B0,4712B Blend_Update; ZH algorithm plus native compressed channel path.
 class Vector3
@@ -284,6 +288,9 @@ piv_idx<NumPivots;
 ++piv_idx){
 
 
+   _ReadWriteBarrier();
+   _ReadWriteBarrier();
+   _ReadWriteBarrier();
    PivotClass *pivot=&Pivot[piv_idx];
 
    const PivotTransform &parent=pivot->Parent->Transform;
