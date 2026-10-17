@@ -443,6 +443,17 @@ inline float Coord2D::toAngle() const
     return ACos(cosine);
 }
 
+// Native1040AE is the by-value subtraction called twice by the exported
+// ClosestPointOnLineSegment6B3100. WorldBuilder's MathCoord2D.h twin names
+// its operand class Coord2D; the existing MathCoord2D row is a lifetime view
+// of the same39B scalar-SSE body. Keep the real class spelling in this home.
+inline Coord2D operator-(Coord2D left, const Coord2D &right)
+{
+    left.x -= right.x;
+    left.y -= right.y;
+    return left;
+}
+
 // These are header inlines that the units including the header emit as
 // select-any copies, which plain definitions here collided with. The anchor
 // keeps this unit's copies for the rows; it is not retail code.
@@ -452,6 +463,7 @@ void _bfmeCoord2DInlineAnchor(Coord2D *c)
 {
     Coord2D local;
     Coord2D copy(*c);
+    copy = copy - local;
     c->normalize();
     c->length();
     c->GetLengthSqrd();
