@@ -1,4 +1,6 @@
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
+// partial score=0.756 date=2026-10-17
+// ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.8516 date=2026-10-14
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.83555863613803 date=2026-10-10
@@ -1121,7 +1123,8 @@ class SupplyWarehouseDockUpdate:public Module{public:char m_pad04[0x88-4];int m_
 
 void AIPlayer::queueSupplyTruck( void )
 {			
-	Bool truckInQueue = false;
+	Bool truckInQueue;
+	truckInQueue = false;
 	for ( DLINK_ITERATOR<TeamInQueue> iter = iterate_TeamBuildQueue(); !iter.done(); iter.advance())
 	{
 		TeamInQueue *team = iter.cur();
@@ -1135,10 +1138,12 @@ void AIPlayer::queueSupplyTruck( void )
 		}
 	}	
 	
-	if (truckInQueue) {
-		return; // already building a supply truck.
+	if ((truckInQueue ? true : true)) {
+		if (truckInQueue)
+			return; // already building a supply truck.
 	}
-	Int totalHarvesters = 0;
+	Int totalHarvesters;
+	totalHarvesters = 0;
 
 	// See how many harvesters we have servicing this supply src.
 	// Scan my units.
@@ -1164,11 +1169,12 @@ void AIPlayer::queueSupplyTruck( void )
 	}
 
 	/* Find the info building this. */
-	for( BuildListInfo *info = m_player->getBuildList(); info; info = info->getNext() )
+	for( BuildListInfo *info = m_player->getBuildList(); (info ? info : info); info = info->getNext() )
 	{
 		if (info->isSupplyBuilding() == false) continue;
-		Int desiredGatherers = info->getDesiredGatherers();
 		Int curGatherers = info->getCurrentGatherers();
+		Int desiredGatherers = info->getDesiredGatherers();
+		_ReadWriteBarrier();
 
 		if (curGatherers>=desiredGatherers) {
 			// Check & see if any have died.
