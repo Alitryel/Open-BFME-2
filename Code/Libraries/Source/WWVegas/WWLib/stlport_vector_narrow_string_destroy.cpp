@@ -25,4 +25,11 @@ private:
 	char m_pad[12];
 };
 }
-template class _STL::vector<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >, _STL::allocator<_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > > >;
+// This view models destruction only. Instantiate just the teardown operations:
+// whole-class instantiation also emits copying/growth with implicit byte copies,
+// which must instead resolve to the existing verified string-vector providers.
+typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NarrowString;
+template _STL::vector<NarrowString>::~vector();
+template void _STL::vector<NarrowString>::_M_clear();
+template void _STL::vector<NarrowString>::clear();
+template void _STL::vector<NarrowString>::pop_back();
