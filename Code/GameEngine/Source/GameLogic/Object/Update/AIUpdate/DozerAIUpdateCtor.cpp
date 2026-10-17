@@ -749,6 +749,7 @@ class GameLogic
 {
 public:
 	Object *findObjectByID(ObjectID id);
+	void destroyObject(Object *obj);
 	UnsignedInt getFrame() const { return m_frame; }
 	void rva0023D0C2(Object *obj, Int handle);
 private:
@@ -1765,6 +1766,7 @@ public:
 extern ThingFactory *TheThingFactory;
 
 class Rva0039B795;
+class Rva0039B7AD;
 
 struct Rva0039BAD2Input;
 
@@ -1784,6 +1786,7 @@ class Rva003B0D7C
 {
 public:
 	UnsignedInt withdraw(UnsignedInt amount, Rva0039B795 *stats, Bool flag);
+	void rva003B0D7C(Int amount, Rva0039B7AD *stats, Bool flag);
 };
 
 enum PlayerType
@@ -2495,4 +2498,50 @@ StateReturnType DozerActionDoActionState::update()
 	}
 
 	return STATE_CONTINUE;
+}
+
+// Native200B 489D09..489DD1 is dozer interface slot27 (primary object +3E4).
+// WB DozerAIUpdate.cpp:2794 names destroyPhantomStructure. Native fields/calls
+// prove +4A4 id, +40C rebuild flag, the cost refund, stats reversal, object
+// destruction and both UI/player id removals; keep the existing opaque method.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+class ScoreKeeper { public: void addObjectBuilt(Object *, Int); };
+class Rva002ACECC { public: void rva002ACECC(Int); };
+
+void DozerAIUpdate::rva00489D09()
+{
+	if (m_4A4 == 0)
+		return;
+
+	Object *obj = TheGameLogic->findObjectByID((ObjectID)m_4A4);
+	if (obj)
+	{
+		Player *player = obj->getControllingPlayer();
+		Rva0039B795 *scoreKeeper = player->getStats();
+		if (!m_isRebuild)
+		{
+			UnsignedInt amount = (UnsignedInt)obj->m_buildCost;
+			Rva003B0D7C *money = player->getMoney();
+			money->rva003B0D7C((Int)amount, reinterpret_cast<Rva0039B7AD *>(scoreKeeper), true);
+			reinterpret_cast<Rva0039BAD2 *>(scoreKeeper)->rva0039BAD2((Rva0039BAD2Input *)obj->getTemplate(), -amount);
+			reinterpret_cast<ScoreKeeper *>(scoreKeeper)->addObjectBuilt(obj, -1);
+		}
+		TheGameLogic->destroyObject(obj);
+		reinterpret_cast<Rva0029F93A *>(TheInGameUI)->rva0029F93A(m_4A4);
+		Object *ownerObject = getObject();
+		if (ownerObject)
+		{
+			_ReadWriteBarrier();
+			Player *owner = ownerObject->getControllingPlayer();
+			if (owner)
+				reinterpret_cast<Rva002ACECC *>(owner)->rva002ACECC(m_4A4);
+		}
+	}
+	else
+	{
+		m_4A4 = 0;
+		return;
+	}
+	m_4A4 = 0;
 }
