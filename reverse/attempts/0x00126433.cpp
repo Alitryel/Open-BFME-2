@@ -1,5 +1,5 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.7487117839279287 date=2026-10-13
+// partial score=0.7572 date=2026-10-17
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
 // Native layouts/calls adapted; donor mathematical structure. Bank only.
  
@@ -1304,7 +1304,7 @@ DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 Matrix4 identity(true);DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
 const float parallel_factor=.9f;unsigned chunk_size=129;if(chunk_size>num_points)chunk_size=num_points;
 for(unsigned chunkIndex=0;chunkIndex<num_points-1;chunkIndex+=chunk_size-1){
-unsigned point_cnt=MIN(num_points-chunkIndex,chunk_size);unsigned pointIndex,segmentIndex,intersectionIndex;
+unsigned point_cnt=num_points-chunkIndex;if(point_cnt>=chunk_size)point_cnt=chunk_size;unsigned pointIndex,segmentIndex,intersectionIndex;
 Vector3 xformed_pts[129];
 Matrix3D view2(view[0].X,view[0].Y,view[0].Z,view[0].W,view[1].X,view[1].Y,view[1].Z,view[1].W,view[2].X,view[2].Y,view[2].Z,view[2].W);
 Matrix3D modelview;modelview.mul(view2,transform);
