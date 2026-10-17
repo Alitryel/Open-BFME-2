@@ -1,4 +1,6 @@
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
+// partial score=0.79 date=2026-10-17
+// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.9080518138749478 date=2026-10-14
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.9032743070748416 date=2026-10-14
@@ -91,7 +93,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
   int x=(int)(obj->position.x*0.1f),y=(int)(obj->position.y*0.1f);
   for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if((i ? (cell&&cell->gate()) : (cell&&cell->gate()))){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
  }
- Rva0027C36A data;
+ struct { Rva0027C36A d; unsigned char pad[4]; } dataW; Rva0027C36A &data = dataW.d;
  if(drawable){void*poly;if(drawable->rva0027267D((int)&data,(int)&poly,0,0)||drawable->rva002726C3((int)&data,(int)&poly,0,0))gate=true;}
  float angle=obj->orientation;
  for(int k=0;(k<obj->end-obj->begin) && obj->templ == obj->templ && obj->templ == obj->templ;++k){
