@@ -95,11 +95,20 @@ private:
 	Object *m_object; // +0xFC
 };
 
+// The lookup-table removal 0x00239C38 is rowed as Rva00239C38::rva00239C38
+// (Rva00239C38Erase.cpp): call it by that name, not by GameClient.cpp's
+// Zero Hour removeDrawableFromLookupTable body, which is not retail's.
+class Rva0055A88BDwordField;
+class Rva00239C38
+{
+public:
+	void rva00239C38(const Rva0055A88BDwordField *arg);
+};
+
 class GameClient
 {
 public:
 	virtual void destroyDrawable(Drawable *draw);
-	void removeDrawableFromLookupTable(Drawable *draw);
 
 private:
 	unsigned char m_pad004[0x14 - 0x04];
@@ -123,7 +132,7 @@ void GameClient::destroyDrawable(Drawable *draw)
 		draw->friend_bindToObject(0);
 	}
 	// remove from the drawable lookup table
-	removeDrawableFromLookupTable(draw);
+	reinterpret_cast<Rva00239C38 *>(this)->rva00239C38(reinterpret_cast<const Rva0055A88BDwordField *>(draw));
 	m_drawablesToDelete.push_back(draw);
 }
 
