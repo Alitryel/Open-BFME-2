@@ -1,4 +1,6 @@
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
+// partial score=0.747 date=2026-10-17
+// ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // partial score=0.833930351338802 date=2026-10-13
 // Round2 follow-up: WB D337F0 and native2F95F6..2F9DBA preserve identity.
 // Zone return locals are full-width in native; trigger-grid query has an inline
@@ -9,6 +11,8 @@
 // instantiation also needs provider reconciliation. No new pins were added.
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // wb-lead 2.000 callgraph: Pathfinder::SetBridgeStateRepaired at 0x002E7205.
 // Identity evidence: the GeneralsMD AIPathfind.cpp implementation
@@ -1285,23 +1289,24 @@ Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *
     if(diameter!=rva002E7749(0,cell.x,cell.y,layer,diameter,true)){
         Int offset=1;ICoord2D previous;
         while(offset<8){
+            _ReadWriteBarrier();
             previous=cell;
             cell.x+=offset;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
             cell.y+=offset;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.x-=offset;
+            Int nx = cell.x - offset; cell.x = nx;
+            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break;
+            nx = cell.x - offset; cell.x = nx;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.x-=offset;
-            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.y-=offset;
-            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.y-=offset;
-            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.x+=offset;
-            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            cell.x+=offset;
-            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            { Int ny = cell.y - offset; cell.y = ny;
+            if(rva002E7749(0,cell.x,ny,layer,diameter,true)==diameter)break; }
+            { Int ny = cell.y - offset; cell.y = ny;
+            if(rva002E7749(0,cell.x,ny,layer,diameter,true)==diameter)break; }
+            { Int nx = cell.x + offset; cell.x = nx;
+            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break; }
+            { Int nx = cell.x + offset; cell.x = nx;
+            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break; }
             ++offset;cell=previous;
         }
         if(offset>=8)return 0;
