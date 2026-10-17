@@ -1,4 +1,6 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
+// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+#include <set>
 //
 // ??0Rva000D3A17@@QAE@XZ @0x000D3A8A 157B
 // Evidence: chain from rowed 0x000D3A17 which this ctor calls with rowed 0x000D1C83
@@ -15,14 +17,18 @@ struct Rva000D3A8AElemA
 	int m_08; // +0x08
 };
 
-struct Rva000D3A8AElemB
-{
-	Rva000D3A8AElemB();
-	~Rva000D3A8AElemB();
-	void *m_head; // +0x00
-	int m_04; // +0x04
-	int m_08; // +0x08
-};
+// Lifetime-only STLport view of this native tree. D3A8A supplies D3A71/D3991
+// for ten12B elements at +94; D3991 tail-calls the owned D3945 tree destructor.
+// The constructor chain allocates20B nodes:16B links/color and4B payload.
+// D3BFD/D22BD independently connect this owner to32-bit signed-key lookup
+// and range erase; D20A9/D2294 destroy nodes without value teardown.
+// Rva000D20A9Key is an opaque nominal key view with that4B representation.
+// Original key/comparator names and insertion uniqueness remain unknown;
+// only construction/destruction are represented here. This does not bind the
+// public set<int> instantiation, whose destructor has another native address.
+struct Rva000D20A9Key { int value; };
+typedef _STL::set<Rva000D20A9Key> Rva000D3A8AElemB;
+typedef char ProvenHolderSize[sizeof(Rva000D3A8AElemB)==12 ? 1 : -1];
 
 class W3DBuffBuffer
 {
