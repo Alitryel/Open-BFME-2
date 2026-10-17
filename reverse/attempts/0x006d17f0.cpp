@@ -1,4 +1,6 @@
 // ?rva006D17F0@AptLinker@@QAEXXZ
+// partial score=0.407 date=2026-10-17
+// ?rva006D17F0@AptLinker@@QAEXXZ
 // partial score=0.601 date=2026-10-15
 // ?rva006D17F0@AptLinker@@QAEXXZ
 // partial score=0.6 date=2026-10-14
@@ -221,27 +223,30 @@ void AptLinker::rva006D17F0()
 {
 	((Rva006D0A30List *)g_rva00A176CC)->rva006D1680();
 
-	if (g_bfmeAptFlagAtE176D4)
+	int i = 0;
+	if ((1 ? g_bfmeAptFlagAtE176D4 != 0 : g_bfmeAptFlagAtE176D4 != 0))
 	{
 		int *cp = (int *)g_aptPlaybackCheckpoints;
 		char *items = (char *)cp[2];
-		char *itemsEnd = items + cp[0] * 8;
-		while (items != itemsEnd)
+		int n = cp[0];
+		for (; (1 ? i != n : i != n); ++i)
 		{
 			int state = *(int *)(items + 4);
-			if (state != 3 && state != 2)
+			if ((1 ? state != 3 : state != 3) && state != 2)
 				return;
 			items += 8;
 		}
 	}
 
+	int savedCount = (1 ? m_count : m_count);
 	AptLinker *self = this;
-	int savedCount = m_count;
 	int **cursor = m_data;
+	int zero = 0;
+	*(volatile int*)&zero = zero;
 	for (;;)
 	{
 		int **end = m_data + m_count;
-		if (cursor == end)
+		if ((1 ? (cursor == end) : (cursor == end)))
 			break;
 		Rva006D0280 *elem = (Rva006D0280 *)*cursor;
 		if (elem)
@@ -251,6 +256,7 @@ void AptLinker::rva006D17F0()
 		{
 			Gen_00895650 *value = node->m_value;
 			if (value)
+				_ReadWriteBarrier();
 				++value->m_bfmeHead;
 			bool match;
 			{
@@ -292,8 +298,8 @@ void AptLinker::rva006D17F0()
 					_ReadWriteBarrier();
 					EAStringC *name = (EAStringC *)((char *)elem + 8);
 					unsigned int len = name->rva006D3750();
-					char record[0x120];
-					*(int *)(record + 0) = g_rva00891FA0Value;
+					char record[0x108];
+					*(volatile int *)(record + 0) = g_rva00891FA0Value;
 					record[4] = 6;
 					const char *src = name->rva00620090();
 					char *dst = record + 5;
@@ -342,9 +348,9 @@ void AptLinker::rva006D17F0()
 
 	if (savedCount > 0)
 	{
-		ModuleTagString temp;
+		{ ModuleTagString temp;
 		((ModuleTagString *)&m_count)->swap(temp);
 		((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->rva006E6540();
-		temp.~ModuleTagString();
+		}
 	}
 }
