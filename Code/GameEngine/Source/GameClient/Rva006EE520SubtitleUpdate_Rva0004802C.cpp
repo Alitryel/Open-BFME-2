@@ -1,4 +1,4 @@
-// cl: -DNDEBUG -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameClient
+// cl: -DNDEBUG -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameClient -Ireference/shims/bfme2_ascii
 // BFME subtitle update body at retail RVA 0x006EE520.
 // The address-qualified class keeps the unresolved original method name
 // explicit while the manager and sink access views preserve unresolved callee
@@ -9,35 +9,26 @@
 
 class Rva006EE520;
 
-template <typename T>
-class StringBase
-{
-	protected:
-	~StringBase();
-
-	void releaseBuffer();
-	void *m_data;
-
-	friend class Rva006EE520;
-};
-
-typedef StringBase<unsigned short> UnicodeString;
+#include "unicode_string.h"
 
 class SubtitleEntry;
 
-class Rva006ED3D0TextAccess
+// The rowed SubTitleManager accessors (0x000468AD, 0x00046973, 0x000469CB,
+// 0x00046906) on the same object.
+class SubTitleManager
 {
 public:
-	UnicodeString getText(int index) const;
+	bool HasBeenDisplayed(int index);
+	void SetDisplayedStats(int index);
+	unsigned int GetColor(int index);
+	UnicodeString GetText(int index);
 };
 
-class SubtitleManager : public Rva006ED3D0TextAccess
+class SubtitleManager
 {
 public:
 	int getStartFrame(int index) const;
-	bool hasBeenDisplayed(int index) const;
-	unsigned int getColor(int index) const;
-	void setDisplayedStats(int index);
+	SubTitleManager *subTitles() { return (SubTitleManager *)this; }
 
 	char m_pad00[0x14];
 	_STL::vector<SubtitleEntry *> m_entries;
@@ -46,7 +37,7 @@ public:
 class SubTitleWindow
 {
 public:
-	void rva00260BBF(const UnicodeString &text, unsigned int color);
+	void rva00260BBF(const StringBase<unsigned short> &text, unsigned int color);
 };
 
 class Rva006EE520
@@ -72,11 +63,11 @@ void Rva006EE520::update(int frame)
 	for (int i = 0; i < count; ++i)
 	{
 		int startFrame = self->m_manager->getStartFrame(i);
-		if (self->m_manager->hasBeenDisplayed(i) || frame < startFrame)
+		if (self->m_manager->subTitles()->HasBeenDisplayed(i) || frame < startFrame)
 			continue;
 
-		self->m_sink->rva00260BBF(self->m_manager->getText(i),
-			self->m_manager->getColor(i));
-		self->m_manager->setDisplayedStats(i);
+		self->m_sink->rva00260BBF(self->m_manager->subTitles()->GetText(i),
+			self->m_manager->subTitles()->GetColor(i));
+		self->m_manager->subTitles()->SetDisplayedStats(i);
 	}
 }
