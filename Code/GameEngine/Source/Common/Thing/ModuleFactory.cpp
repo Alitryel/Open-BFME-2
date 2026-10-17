@@ -363,8 +363,11 @@ ModuleFactory::~ModuleFactory( void )
 // are taken. CaveContain's data factory emitted its ModuleData constructor and
 // the Zero Hour OpenContainModuleData destructor, neither retail's, ahead of
 // their owners; its deleting dtor and dtor rows live in
-// ContainModuleDeletingDtors.cpp and CaveContainModuleDataFriendNew.cpp. This
-// compiler anchor is not a recovered retail function.
+// ContainModuleDeletingDtors.cpp and CaveContainModuleDataFriendNew.cpp. The
+// SpawnBehavior and StructureBody data factories did the same (their ctor and
+// dtor copies, and StructureBody's ActiveBodyModuleData dtor); their deleting
+// dtors are emitted by FamilyDeletingDtors.cpp. UpgradeModule contributes only
+// its field parser. This compiler anchor is not a recovered retail function.
 #define BFME_EMIT_MODULE_INSTANCE(cls) *instances++ = &cls::friend_newModuleInstance
 #define BFME_EMIT_MODULE_DATA(cls) *data++ = &cls::friend_newModuleData
 // ?bfmeEmitModuleFactoryInlines absent-from-retail
@@ -373,7 +376,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 {
 	BFME_EMIT_MODULE_INSTANCE( BridgeTowerBehavior );
 	BFME_EMIT_MODULE_INSTANCE( InstantDeathBehavior );
-	BFME_EMIT_MODULE_DATA( SpawnBehavior );
 	BFME_EMIT_MODULE_INSTANCE( DestroyDie );
 	BFME_EMIT_MODULE_INSTANCE( CrushDie );
 	BFME_EMIT_MODULE_INSTANCE( CreateCrateDie );
@@ -389,7 +391,7 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
 	BFME_EMIT_MODULE_DATA( StructureCollapseUpdate );
 	BFME_EMIT_MODULE_DATA( WorkerAIUpdate );
-	BFME_EMIT_MODULE_DATA( UpgradeModule );
+	*parsers++ = &UpgradeModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
 	BFME_EMIT_MODULE_INSTANCE( LockWeaponCreate );
 	BFME_EMIT_MODULE_INSTANCE( PreorderCreate );
@@ -401,7 +403,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( SquishCollide );
 	*parsers++ = &UnitCrateCollideModuleData::buildFieldParse;
 	*parsers++ = &SalvageCrateCollideModuleData::buildFieldParse;
-	BFME_EMIT_MODULE_DATA( StructureBody );
 	BFME_EMIT_MODULE_INSTANCE( InactiveBody );
 	BFME_EMIT_MODULE_INSTANCE( AnimatedParticleSysBoneClientUpdate );
 	BFME_EMIT_MODULE_INSTANCE( BeaconClientUpdate );

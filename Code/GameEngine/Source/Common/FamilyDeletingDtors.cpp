@@ -133,3 +133,17 @@ protected:
 };
 // ?<Xfer::Xfer> absent-from-retail
 Xfer::Xfer(EmitVtableTag *) {}
+
+// ??_GSpawnBehaviorModuleData@@UAEPAXI@Z @0x257653: calls the rowed dtor 0x25766F.
+// Moved from ModuleFactory.cpp, whose SpawnBehavior data factory also emitted
+// Zero Hour ctor/dtor copies that are not retail's.
+class SpawnBehaviorModuleData { public: SpawnBehaviorModuleData(EmitVtableTag *); virtual ~SpawnBehaviorModuleData(); };
+// ?<SpawnBehaviorModuleData::SpawnBehaviorModuleData> absent-from-retail
+SpawnBehaviorModuleData::SpawnBehaviorModuleData(EmitVtableTag *) {}
+
+// ??_GStructureBodyModuleData@@UAEPAXI@Z @0x25706B: calls the rowed dtor 0x257087.
+// Moved from ModuleFactory.cpp, whose StructureBody data factory also emitted
+// Zero Hour ctor/dtor copies that are not retail's.
+class StructureBodyModuleData { public: StructureBodyModuleData(EmitVtableTag *); virtual ~StructureBodyModuleData(); };
+// ?<StructureBodyModuleData::StructureBodyModuleData> absent-from-retail
+StructureBodyModuleData::StructureBodyModuleData(EmitVtableTag *) {}
