@@ -25,6 +25,7 @@ namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int
 namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
 namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D *, unsigned int, Coord3D const &); }
 namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_insert_overflow(Coord3D *, Coord3D const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::resize(unsigned int); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
@@ -83,4 +84,11 @@ void Rva0055A246::rva0055A7DB(int count, void *outVec)
 			it.rva005C7636();
 		} while (!((Rva005C743B *)&it)->rva005C743B());
 	}
+}
+
+// resize(n) binds to the rowed retail copy (declared above), so the two rowed
+// helpers its stock body used to pull in are instantiated explicitly.
+template void _STL::vector<Coord3D, _STL::allocator<Coord3D> >::insert(Coord3D *, unsigned int, const Coord3D &);
+namespace _STL {
+template Coord3D *__copy_ptrs(Coord3D *, Coord3D *, Coord3D *, const __false_type &);
 }

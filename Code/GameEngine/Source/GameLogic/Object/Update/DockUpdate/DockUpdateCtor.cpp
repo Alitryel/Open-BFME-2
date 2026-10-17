@@ -43,6 +43,7 @@ enum ObjectID
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iterator, unsigned int, bool); }
 // bfme link decl-only end
 
 // BFME's resize overload passes its fill value by value. The vendored STLport
@@ -297,3 +298,17 @@ void bfmeEmitDockUpdateCtor(ObjectIDVector *v)
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?dockAnchor@DockUpdate@@UAEXXZ=?isClearToApproach@DockUpdate@@UBE_NPBVObject@@@Z")
+
+// _M_fill_insert binds to the kept retail copy (declared above), so its two
+// rowed callees are no longer pulled in by it; emit them explicitly.
+namespace _STL {
+template _Bit_iterator __copy_backward(_Bit_iterator, _Bit_iterator, _Bit_iterator,
+	const random_access_iterator_tag &, int *);
+}
+
+// ?bfmeAnchorDockBitIterNe absent-from-retail
+void *bfmeAnchorDockBitIterNe()
+{
+	bool (*ne)(const _STL::_Bit_iterator_base &, const _STL::_Bit_iterator_base &) = &_STL::operator!=;
+	return (void *)ne;
+}
