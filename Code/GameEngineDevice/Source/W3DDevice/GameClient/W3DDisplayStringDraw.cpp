@@ -262,33 +262,3 @@ Bool W3DDisplayString::rva00106277( void )
 	return TRUE;
 }
 
-// ?draw@W3DDisplayString@@UAEXHHHH@Z
-void W3DDisplayString::draw( Int x, Int y, Color xDrop, Color yDrop )
-{
-	if( !rva00106277() )
-		return;
-	if( m_bfmeColorsChanged || x != m_textPos.x || y != m_textPos.y )
-	{
-		m_textPos.x = x;
-		m_textPos.y = y;
-		m_textRenderer.Reset_Polys();
-		if( xDrop || yDrop )
-		{
-			m_textRenderer.Set_Location( Vector2( m_textPos.x + xDrop, m_textPos.y + yDrop ) );
-			m_textRenderer.Draw_Sentence( m_dropColors[ 0 ], m_dropColors[ 1 ], m_dropColors[ 2 ], m_dropColors[ 3 ] );
-		}
-		m_textRenderer.Set_Location( Vector2( m_textPos.x, m_textPos.y ) );
-		m_textRenderer.Draw_Sentence( m_textColors[ 0 ], m_textColors[ 1 ], m_textColors[ 2 ], m_textColors[ 3 ] );
-		if( m_useHotKey )
-		{
-			m_textRendererHotKey.Reset_Polys();
-			m_textRendererHotKey.Set_Location( Vector2( m_textPos.x + m_hotKeyPos.x, m_textPos.y + m_hotKeyPos.y ) );
-			m_textRendererHotKey.Draw_Sentence( m_hotKeyColor, m_hotKeyColor, m_hotKeyColor, m_hotKeyColor );
-			m_textRendererHotKey.Render();
-		}
-		m_bfmeColorsChanged = FALSE;
-	}
-	m_textRenderer.Render();
-	if( TheGameClient )
-		m_lastResourceFrame = TheGameClient->getFrame();
-}
