@@ -1,26 +1,39 @@
 // ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z
-// partial score=0.99 date=2026-10-17
-// ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z
-// partial score=0.967 date=2026-10-15
-// cl: /O2 /MD /EHsc
-// ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z, retail
-// 0x006B3100..0x006B3200 (export 1138 names it). WB twin 0x6F6610 (file
-// MathCoord2D.h asserts): operator- twice, dot products, `projection /= length`,
-// a copy of direction scaled by operator*= and operator+ with the start.
-// Callees: the rowed ??G/??H 0x001040AE / 0x0007DEC8 (rowed with the
-// MathCoord2D view name; BFME 2's class is Coord2D per the exports).
-// Residue (nd6, size exact): the y product's fmul/fstp and the final fstp st(0)
-// schedule before the begin.y arg copy / result push; retail interleaves them.
-class Coord2D
-{
+// partial score=1.0 date=2026-10-17
+// Reviewed Oct17: native256B6B3100..6B3200, export1138. Actual raw byte
+// comparison resolves all calls through separately verified canonical39B
+// Coord2D +/- providers at1040AE/7DEC8. The canonical ctor/dtor view is used.
+// This complete 2D-distance source is NOT landable yet: visible inline +/-
+// in the x87 caller emit29B copies, while retail's kept scalar-SSE bodies
+// are39B. Paired link_check correctly refuses those copies. External-only
+// declarations restore the old6-instruction tail interleave; imported inline
+// definitions emit259B via6B indirect calls; extern templates lose visibility;
+// SSE TU flags emit253B and SSE math rather than native x87. Scalar SSE
+// intrinsics emit70B aligned-frame helpers. No check was weakened. The
+// production distance unit is restored; only the real SSE providers land.
+// cl: /O2 /G7 /MD /EHsc /I.
+struct Coord2DBase { float x; float y; };
+class Rva009F4070PositionProvider {
 public:
-	Coord2D() {}
-	Coord2D(const Coord2D &that) : x(that.x), y(that.y) {}
-	~Coord2D() {}
-	Coord2D &operator*=(float s) { x *= s; y *= s; return *this; }
-	float x;
-	float y;
+ virtual void slot0();
+ virtual const Coord2DBase *position();
 };
+float Rva009F4070DistanceSquared(const Coord2DBase *a,
+ Rva009F4070PositionProvider *provider)
+{
+ const Coord2DBase *b = provider->position();
+ float dy = b->y - a->y;
+ float dx = b->x - a->x;
+ return dx * dx + dy * dy;
+}
+
+// ClosestPointOnLineSegment, native6B3100..6B3200, export1138. The WB
+// MathCoord2D.h twin and retail calls1040AE/7DEC8 establish the by-value
+// Coord2D lifetime ABI. Existing x87 2D-distance unit keeps native precision;
+// the canonical ctor view supplies the same non-POD representation.
+// A distinct projection quotient gives retail's interleaved result copies.
+#define COORD2D_VIEW_DTOR
+#include "Code/Libraries/Include/Lib/Coord2DCtorView.h"
 inline Coord2D operator-(Coord2D left, const Coord2D &right) { left.x -= right.x; left.y -= right.y; return left; }
 inline Coord2D operator+(Coord2D left, const Coord2D &right) { left.x += right.x; left.y += right.y; return left; }
 
