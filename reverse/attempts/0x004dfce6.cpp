@@ -1,4 +1,6 @@
 // ?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z
+// partial score=0.588 date=2026-10-17
+// ?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z
 // partial score=0.5 date=2026-10-14
 // ?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z
 // partial score=0.75 date=2026-10-09
@@ -43,8 +45,8 @@ void Rva004DFCE6::rva004DFCE6(Object *object,void *callback)
   Coord3D adjustment={opposite.x*radius,opposite.y*radius,opposite.z*radius};
   direction.x=edge.x+adjustment.x;
   direction.y=edge.y+adjustment.y;
-  center08=direction;
   direction.z=edge.z+adjustment.z;
+  center08=direction;
   radius04=radius;
   }
  }
