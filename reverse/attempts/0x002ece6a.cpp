@@ -1,4 +1,6 @@
 // ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
+// partial score=0.952 date=2026-10-17
+// ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9587 date=2026-10-15
 // ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9537 date=2026-10-13
@@ -74,8 +76,10 @@ class Rva002E6DC4 {public:Bool rva002E6DC4(void *,void *);};
 Bool Rva001E3679(Int);
 __forceinline Bool Rva002ECE6AInfo::acceptCell(PathfindCell *to) {
 
-  if(!to->bit21()) {if(flag5D)return false;}else flag5D=1;
+  if(!to->bit21()) return false;
+  *(volatile unsigned char*)&flag5D = 1;
   LineOccupant *node=to->info?to->info->occupants:0;
+  if(*(volatile unsigned char*)&flag5D == 0) {} else if(flag5D) return true;
   if(node){Object *current=object;do{Object *other=node->object;if(other!=current && other->container!=current)return false;node=node->next;}while(node); }
 
  return true;
