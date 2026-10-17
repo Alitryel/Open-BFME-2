@@ -1,4 +1,6 @@
 // ?rva002829BD@Rva002829BD@@QAEXPBVModuleData@@PAX@Z
+// partial score=0.745 date=2026-10-17
+// ?rva002829BD@Rva002829BD@@QAEXPBVModuleData@@PAX@Z
 // partial score=0.8892 date=2026-10-13
 // ?rva002829BD@Rva002829BD@@QAEXPBVModuleData@@PAX@Z
 // partial score=0.88920056 date=2026-10-07
@@ -28,13 +30,14 @@ void Rva002829BD::rva002829BD(const ModuleData*item,void*fn){
   radius=padding;center=*reinterpret_cast<Coord3D*(__cdecl*)(const ModuleData*)>(fn)(item);
  }else if(!((Rva004DFA43*)this)->rva004DFA43((void*)item,fn)){
   Coord3D old=center;
-  Coord3D p=*reinterpret_cast<Coord3D*(__cdecl*)(const ModuleData*)>(fn)(item); Coord3D delta=old-p;
+  Coord3D p=*reinterpret_cast<Coord3D*(__cdecl*)(const ModuleData*)>(fn)(item);
+  { Coord3D delta=old-p;
   float dist=delta.length();delta.normalize();
   Coord3D inverse=-delta;
   Coord3D edge=old+delta*radius;
   float grown=(radius+dist+extra)*0.5f;
   center=edge+grown*inverse;
-  radius=grown;
+  radius=grown; }
  }
  elements.push_back(item);
 }
