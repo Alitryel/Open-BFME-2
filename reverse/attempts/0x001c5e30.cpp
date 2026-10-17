@@ -1,10 +1,14 @@
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
+// partial score=0.921 date=2026-10-17
+// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
 // partial score=0.766 date=2026-10-14
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
 // partial score=0.9398 date=2026-10-13
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
 // partial score=0.9398 date=2026-10-13
 // cl: /O2 /G6 /DNDEBUG /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Clean room: reverse/vp6_cleanroom/specs/001c5e30.md plus retail only.
 // No decoder source was consulted.
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z retail
@@ -99,7 +103,7 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 	if (0 != pbi->profile && pbi->loopFilterMode != 0) {
 		VP6_PredictFiltered(pbi, source + pbi->reconIndex,
 			pbi->vectors[block].x, pbi->vectors[block].y);
-		mvx = pbi->vectors[block].x;
+		mvx = *(volatile short *)&pbi->vectors[block].x;
 		mvy = (pbi->loopFilteredBlock ? (pbi->vectors[block].y) : (pbi->vectors[block].y));
 		y = mvy;
 		x = mvx;
@@ -111,14 +115,14 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 		offset2 = 34;
 	} else {
 		yPhase = y & mask;
-		mvy = pbi->vectors[block].y;
 		mvx = pbi->vectors[block].x;
-		y = mvy;
 		x = mvx;
+		mvy = pbi->vectors[block].y;
+		y = mvy;
 		xPhase = x & mask;
 		base = source + pbi->reconIndex
 			+ pbi->frameStride * ((y + ((y >> 31) & mask)) >> pbi->vectorShift)
-			+ ((x + ((x >> 31) & mask)) >> pbi->vectorShift);
+			+ ((x + ((x >> 31) & mask)) >> (*(volatile int *)&pbi->vectorShift));
 		stride = pbi->reconStride;
 		offset2 = 0;
 		offset1 = 0;
