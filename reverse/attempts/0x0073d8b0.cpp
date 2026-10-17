@@ -1,4 +1,6 @@
 // ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
+// partial score=0.919 date=2026-10-17
+// ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
 // partial score=0.619 date=2026-10-14
 // ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
 // partial score=0.91754 date=2026-10-09
@@ -810,7 +812,7 @@ __forceinline unsigned shroudByteChecksum(const unsigned char *data, unsigned co
 
 void ShroudManagerImpl::rva0073D8B0(Xfer *target)
 {
- if(!target->isCRC()) {
+ if((1 ? (!target->isCRC()) : (!target->isCRC()))) {
   drainPending();
   for(BfmeThingCDE *node=(BfmeThingCDE *)nodes; node; node=node->next) {
    node->d_008f7ec0();
@@ -846,14 +848,31 @@ void ShroudManagerImpl::rva0073D8B0(Xfer *target)
    processPending(true);
   }
  } else {
-  ShroudManagerImpl008FBA40Element *element=elements;
+  unsigned char *element=(unsigned char *)elements;
   _ReadWriteBarrier();
   unsigned scratch=0;
   for(unsigned y=0;y<height;++y) {
-   for(unsigned x=0;x<width;++x,++element) {
-    for(unsigned p=0;p<20;++p) {
-     scratch+=shroudByteChecksum((unsigned char *)&element->playerStates[p].status,2);
-     scratch+=shroudByteChecksum((unsigned char *)&element->playerStates[p].counters,6);
+   for(unsigned x=0;x<width;++x,element+=0xa8) {
+    const unsigned char *row=element;
+    for(unsigned p=0;p<20;++p,row+=8) {
+     unsigned value=0;
+     const unsigned char *data=row + 6;
+     unsigned count=2;
+     do {
+      unsigned byte=*data++;
+      unsigned high=value>>31;
+      value=byte+(value<<1)+high;
+     } while(--count);
+     scratch+=value;
+     value=0;
+     count=6;
+     do {
+      unsigned byte=data[2];
+      ++data;
+      unsigned high=value>>31;
+      value=byte+(value<<1)+high;
+     } while(--count);
+     scratch+=value;
     }
    }
   }
