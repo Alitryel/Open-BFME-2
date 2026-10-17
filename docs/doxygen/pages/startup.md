@@ -19,6 +19,7 @@ other part of the engine depends on it. What happens on each frame is on
 | `Code/GameEngine/Source/Common/System/CopyProtectVerified.cpp` | `CopyProtect::setVerified` and `CopyProtect::isVerified` |
 | `Code/Libraries/Source/subsystem/` | mainly `SubsystemInterface` and `SubsystemInterfaceList`, the registration framework |
 | `Code/GameEngine/Source/Common/System/SubsystemInterface.cpp` | `SubsystemInterfaceList::postProcessLoadAll` |
+| `Code/GameEngine/Source/Common/System/SubsystemInterfaceLoadIniFilesFromLegend.cpp` | `SubsystemInterface::loadIniFilesFromLegend`, the legend loader |
 
 **Key classes.** `GameEngine` owns startup and the main loop, and
 `Win32GameEngine` is the Windows subclass `CreateGameEngine` builds.
@@ -26,7 +27,8 @@ other part of the engine depends on it. What happens on each frame is on
 `postProcessLoad`, `reset`, `update`, plus `loadIniFilesFromLegend`, which
 the BFME games add; BFME 1 has it too); `SubsystemInterfaceList` (`TheSubsystemList`)
 keeps them in registration order. `SubsystemLegend` reads
-`SubsystemLegend.ini`, which tells each subsystem which INI files to load.
+`SubsystemLegend.ini`, which lists, per subsystem name, the INI files to
+load.
 `GlobalData` (`TheWritableGlobalData`) holds the settings that the command
 line and the INI files fill in.
 
@@ -151,15 +153,26 @@ That function names the subsystem with its registration string, calls its
 `init`, then asks it to load its data from the legend, and records it in the
 list together with a small slot object that owns the subsystem (destroying
 the slot deletes the subsystem and clears its global). Only if the legend
-supplied nothing does it load the INI paths the caller passed;
+lookup reports that it loaded nothing does it load the INI paths the caller
+passed;
 `GameEngine::init` passes none. `GameEngine::init` also passes a CRC xfer to
 some registrations and none to others, but that argument only reaches those
-unused fallback paths. The legend lookup
+unused fallback paths. The base legend lookup
 (`SubsystemInterface::loadIniFilesFromLegend`) finds the `LoadSubsystem`
 block named after the subsystem and loads the files and directories it
 lists, less its exclusions, through the list's current xfer. During
-`GameEngine::init` that is the CRC xfer, so the legend data of every
-subsystem it registers enters the INI CRC (\ref sub_ini_legend).
+`GameEngine::init` that is the CRC xfer, so the files this lookup loads
+while `init` runs enter the INI CRC (\ref sub_ini_legend). Not every
+legend-listed file goes through it: `InGameUI::init` loads its `InGameUI`
+entry through a helper that passes no writer (\ref sub_ini_entry). The
+lookup is virtual, and a subsystem can override it: for example, the
+subsystems registered as `TheAwardSystemManager` and `TheCreateAHeroManager`
+replace it with one that loads nothing and reports success, so the legend
+loads none of their data and their fallback is skipped too. Each reads a
+fixed INI file in its own `init` instead. That `init` is guarded only by
+the manager's own instance pointer, which its constructor sets before
+registration calls `init`, so the file always loads during
+`GameEngine::init`.
 
 ## Shutdown {#page_startup_shutdown}
 
@@ -196,50 +209,62 @@ flag whose meaning is not yet known then picks one of two paths.
 
 ## Modding notes {#page_startup_modding}
 
-- **Which INI files load is data.** Each subsystem reads the files and
-  directories its `LoadSubsystem` block in
+- **Which INI files load is data.** Each subsystem that uses the base
+  legend lookup reads the files and directories its `LoadSubsystem` block in
   `Data\INI\Default\SubsystemLegend.ini` lists, looked up by the registration
   name in the table above. There are no fallback paths in code, so a
-  subsystem with no block loads nothing through registration. Files named in
-  code here are only `SubsystemLegend.ini`, `Water.ini`, `Fire.ini`,
-  `Environment.ini` and `CommandMap.ini`.
+  subsystem with no block loads nothing through registration. The
+  subsystems registered as `TheAwardSystemManager` and
+  `TheCreateAHeroManager` override the lookup to load nothing and read fixed
+  files in their own `init` (`Data\INI\AwardSystem.ini` and
+  `Data\INI\CreateAHeroSystem.ini`), so the legend cannot redirect those.
+  Each `init` is guarded only by the manager's own instance pointer, which
+  its constructor sets, so both files always load during
+  `GameEngine::init`.
+  Files `GameEngine::init` itself names are only `SubsystemLegend.ini`,
+  `Water.ini`, `Fire.ini`, `Environment.ini` and `CommandMap.ini`.
 - **The order is code.** It decides which data exists when a later subsystem
   initialises. Adding a subsystem or reordering needs a code change.
 - **Some rules data is checksummed.** `Water.ini`, `Fire.ini` and
   `Environment.ini` definitely load through the CRC xfer, and the
   Create-a-Hero data's own CRC is added to the INI CRC. `GameEngine::init`
   passes a CRC xfer to some registrations and none to others, but that
-  argument only reaches the unused fallback paths. The legend lookup passes
-  the list's CRC xfer for every subsystem, so legend data loaded during
-  `GameEngine::init` enters the INI CRC (\ref sub_ini_legend).
-  `SubsystemLegend.ini` and `CommandMap.ini` load without it.
+  argument only reaches the unused fallback paths. The files the base
+  legend lookup loads during `GameEngine::init` go through the list's CRC
+  xfer. A block's exclusions skip any `InitFile`, and any file in a
+  subdirectory of an `InitPath` directory, whose path starts with an
+  excluded value; files directly in an `InitPath` directory always load
+  (\ref sub_ini_legend). The Create-a-Hero manager's
+  own `init` reads `CreateAHeroSystem.ini` through the same xfer; the award
+  system's reads `AwardSystem.ini` without it, as do the loads of
+  `SubsystemLegend.ini` and `CommandMap.ini`.
 - **Where the CRC is checked.** In BFME 2, `LANAPI::RequestGameJoin` sends
   the INI CRC with a LAN join request, and the online custom-match join
   refuses a room whose executable CRC, INI CRC or a third checksum differs
   ("GUI:JoinFailedCRCMismatch"). A client whose executable or checksummed
   INI data differ from the room's is therefore refused by the online join
   screen; a change outside those checksums is not shown to cause a
-  mismatch. What a LAN host does with the CRC is not yet traced (Zero Hour's
-  LAN check is commented out). Zero Hour also writes the INI CRC into replay
-  headers, and its replay code reports, but does not refuse, a replay whose
-  CRC differs.
+  mismatch. What a LAN host does with the CRC is not established (Zero
+  Hour's LAN check is commented out). Zero Hour also writes the INI CRC into
+  replay headers, and its replay code reports, but does not refuse, a replay
+  whose CRC differs.
 - **Useful options** (handlers in `CommandLine*.cpp`; names from the retail
   option table):
   - `-mod <folder or .big>` records a mod folder or archive path in the
     global data, provided the path exists (a relative path is resolved
     against a game folder), and sets the same flag as `-preferLocalFiles`
-    (Zero Hour's archive file system then mounts the archive; the BFME 2
-    consumer is not yet traced);
+    (after its switch loop the command-line dispatcher loads the recorded
+    archive or folder; see parseMod());
   - `-file <map or replay>` sets the initial file handled at the end of
     init (above); `-noshellmap` skips the menu background map;
   - `-xres` and `-yres` set the resolution and `-win` windowed mode;
-  - `-randomSeed` stores a seed value (Zero Hour uses it to seed game-logic
-    random numbers from the map-select menu; the BFME 2 consumer is not yet
-    traced);
+  - `-randomSeed` fixes the seed that games and replays start with,
+    overriding the one they are given (parseRandomSeed());
   - `-Watchdog` or `-noWatchdog` decide whether `GameEngine::init` starts
     the watchdog thread at the end of initialisation.
 
-  The dispatcher that reads the option table is not yet matched.
+  \ref grp_w1_commandline describes the dispatcher that reads the option
+  table.
 - **Read from disk before the file system exists:** the splash image and the
   window icon (`lotrbfme.ico`), so they cannot come from a BIG archive.
 

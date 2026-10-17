@@ -108,17 +108,26 @@ members currently sit in address-named staging files; search
   `.lws` files there.
 - `GameLogic::xferObjectTOC` and `GameClient::xferDrawableTOC` save tables
   that map template names to small ids, so saves name their templates.
-- The routines that write and read a whole save file (Zero Hour: `saveGame`,
-  `loadGame`) are not yet reconstructed.
+- `GameState::saveGame` writes a whole save file. It opens the file through
+  `TheFileSystem`, fills the save summary (description, date, map, the human
+  players' names and the local player's hero), then runs
+  `GameState::xferSaveData` through an `XferSave` on that file. A failure
+  shows `GUI:Error` or `GUI:ErrorSavingGame`; on success it can show
+  `GUI:GameSaveComplete`.
 
 ## Checksums {#sub_save_load_crc_crc}
 
 - **INI CRC.** `GameEngine::init` attaches a checksum writer to the
-  subsystem list, so every INI file a subsystem loads through its
-  `SubsystemLegend.ini` entry passes through it (`SubsystemLegend.ini`
-  itself does not; \ref sub_ini). The fallback paths used when a subsystem
-  has no legend entry are checksummed for some subsystems only. `Water.ini`,
-  `Fire.ini` and `Environment.ini` are also loaded through it. The sum plus
+  subsystem list, so every file the base legend loader
+  (`SubsystemInterface::loadIniFilesFromLegend`) reads for a subsystem while
+  `init` registers it passes through it (\ref sub_ini_legend). Not every
+  legend-listed file does: `InGameUI::init` loads its `InGameUI` entry
+  through a helper that passes no writer, and `SubsystemLegend.ini` itself
+  loads without it (\ref sub_ini_entry). The
+  fallback paths used when a subsystem's legend lookup reports that it
+  loaded nothing would be checksummed for some subsystems only, but
+  `GameEngine::init` passes none. `Water.ini`, `Fire.ini` and
+  `Environment.ini` are also loaded through it. The sum plus
   a Create-a-Hero checksum becomes the global data's INI CRC, which
   `LANAPI::RequestGameJoin` puts in LAN join requests (\ref sub_network) and
   replays record.
@@ -137,16 +146,15 @@ members currently sit in address-named staging files; search
   computes the logic CRC and sends it in a logic-CRC message (Zero Hour:
   `MSG_LOGIC_CRC`). Reports are kept per frame until every player has sent
   one; a mismatch starts desync handling, which can write diagnostic dumps
-  and notify the network layer. The comparing routine is matched, but its
-  name is not yet confirmed.
+  and notify the network layer.
 - **Arithmetic.** The sum rotates left one bit and adds each 32-bit word,
   then each leftover byte. Zero Hour's `XferCRC` byte-swaps each word and
   packs leftover bytes into one word, so the games' values differ.
 - **Client check.** A guard around the client update records the logic CRC
   first. In BFME 1 it compares afterwards and, on a difference, shows
   "GameLogic changed outside of GameLogic::update()!" and appends to
-  `CLIENT_DESYNC_<machine>.txt`. BFME 2 has the same strings, but only the
-  guard's constructor is matched so far. A flag enables the check.
+  `CLIENT_DESYNC_<machine>.txt`. BFME 2 has the same strings; how its guard
+  compares has not been established. A flag enables the check.
 
 ## Replays {#sub_save_load_crc_replays}
 
@@ -173,15 +181,15 @@ members currently sit in address-named staging files; search
 
 ## Entry points {#sub_save_load_crc_entry}
 
-| Function | Role | State |
-|---|---|---|
-| `GameState::init` | registers the save blocks | matched |
-| `GameState::xferSaveData` | walks one block list to save, load or checksum | matched |
-| `GameStateMap::DoXfer` | the map, its path and the id counters in a save | matched |
-| `GameLogic::getCRC` | the logic checksum | matched |
-| `RecorderClass::startRecording` | opens a replay and writes its header | matched |
-| `RecorderClass::playbackFile` | starts replay playback | matched |
-| whole-file save and load | write or read a save file | not yet reconstructed |
+| Function | Role |
+|---|---|
+| `GameState::init` | registers the save blocks |
+| `GameState::xferSaveData` | walks one block list to save, load or checksum |
+| `GameStateMap::DoXfer` | the map, its path and the id counters in a save |
+| `GameLogic::getCRC` | the logic checksum |
+| `RecorderClass::startRecording` | opens a replay and writes its header |
+| `RecorderClass::playbackFile` | starts replay playback |
+| `GameState::saveGame` | writes a whole save file |
 
 ## How it connects {#sub_save_load_crc_connects}
 
@@ -229,8 +237,8 @@ members currently sit in address-named staging files; search
 - **Nothing here is data-driven.** Block lists, folders, extensions and the
   replay format are code; a mod changes what is saved only by changing the
   classes that save themselves.
-- **Data changes break multiplayer and replays.** The INI files loaded
-  through `SubsystemLegend.ini` entries, and `Water.ini`, `Fire.ini` and
+- **Data changes break multiplayer and replays.** The INI files the base
+  legend loader reads at startup, and `Water.ini`, `Fire.ini` and
   `Environment.ini`, feed the INI CRC that LAN joins carry and replays
   record. Anything that changes logic results, INI values the simulation
   reads included, changes the logic CRC: unmodified players desync, and old
@@ -271,18 +279,15 @@ members currently sit in address-named staging files; search
 
 ## State of the reconstruction {#sub_save_load_crc_state}
 
-The `Xfer` base and its operators, the stream classes, the `Snapshot`
-header, `GameState` block registration and save-list code, `GameStateMap`,
-`GameLogic::getCRC` and most of `RecorderClass` are matched and named,
-mostly from exports, the WorldBuilder twin and the BFME 1 and Zero Hour
-donors. `GameLogic::getCRC` is the donors' name; the WorldBuilder twin uses
-another (see the table above), so it may still be renamed. Whole-file save
-and load and the client check's comparison are not yet reconstructed; the
-CRC report comparison is matched but its name is not yet confirmed, and the
-checksum writer's class name is a placeholder. Hundreds of per-class
-transfer functions are named, but a large share still sit in address-named
-files, and many units here do not link yet. To refresh this picture, search
-`reverse/functions.csv` and `reverse/link_status.csv` for the files above.
+Reconstructed code here includes the `Xfer` base and its operators, the
+stream classes, the `Snapshot` header, `GameState` block registration,
+save-list code and `GameState::saveGame`, `GameStateMap`,
+`GameLogic::getCRC` and much of `RecorderClass`, named mostly from exports,
+the WorldBuilder twin and the BFME 1 and Zero Hour donors.
+`GameLogic::getCRC` is the donors' name; the WorldBuilder twin uses another
+(see the table above), so it may still be renamed. For what is matched,
+named and linking now, search `reverse/functions.csv` and
+`reverse/link_status.csv` for the files above.
 
 ## Reading list {#sub_save_load_crc_reading}
 

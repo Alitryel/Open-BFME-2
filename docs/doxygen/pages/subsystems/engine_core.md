@@ -64,8 +64,8 @@ Hour keeps that class), so search by function name rather than by file.
   (\ref sub_save_load_crc).
 - `SubsystemLegend` (`TheSubsystemLegend`) holds
   `Data\INI\Default\SubsystemLegend.ini`: one `LoadSubsystem` block per
-  subsystem name, listing the INI files and directories that subsystem
-  loads (\ref sub_ini).
+  subsystem name, listing the INI files and directories the legend loader
+  loads for that subsystem, and paths it skips (\ref sub_ini_legend).
 - `GlobalData` (`TheWritableGlobalData`) holds the settings that the
   command line and the INI files fill in. `Version` (`TheVersion`) and
   `CopyProtect` are small services for `WinMain`; `UserPreferences` is the
@@ -78,11 +78,15 @@ Hour keeps that class), so search by function name rather than by file.
 template. The new object is stored in its global, named with its
 registration string (such as `TheWeaponStore`), initialised, and then offered
 its data from the legend; `SubsystemInterfaceList::initSubsystem` loads the
-INI paths its caller passed only if the legend supplied nothing. Each list
+INI paths its caller passed only if the subsystem's legend lookup reports
+that it loaded nothing. Each list
 entry is paired with a small slot object that owns the subsystem: destroying
-the slot deletes it and clears its global. The legend lookup
-(`SubsystemInterface::loadIniFilesFromLegend`) is not yet matched; its draft
-follows BFME 1. \ref page_startup gives the registration order.
+the slot deletes it and clears its global. The base legend lookup
+(`SubsystemInterface::loadIniFilesFromLegend`) is described in
+\ref sub_ini_legend. It is virtual, and a subsystem can override it: for
+example, the subsystems registered as `TheAwardSystemManager` and
+`TheCreateAHeroManager` replace it with one that loads nothing and reports
+success. \ref page_startup gives the registration order.
 
 ## Entry points {#sub_engine_core_entry}
 
@@ -171,26 +175,36 @@ arithmetic.
 ## Modding notes {#sub_engine_core_modding}
 
 - **Which files a subsystem loads is data; which subsystems exist is code.**
-  A mod can redirect or extend a subsystem's INI files through its
-  `LoadSubsystem` block in `SubsystemLegend.ini`, looked up by the
-  registration name (the lookup itself is reconstructed from BFME 1 and not
-  yet byte-verified). Adding a subsystem, removing one or changing the
-  creation order needs a code change in `GameEngine::init`.
+  A mod can redirect or extend the INI files of a subsystem that uses the
+  base legend loader through its `LoadSubsystem` block in
+  `SubsystemLegend.ini`, looked up by the registration name
+  (\ref sub_ini_legend). Adding a subsystem, removing
+  one or changing the creation order needs a code change in
+  `GameEngine::init`.
 - **Some files are fixed paths.** `GameEngine::init` loads a few files
   directly rather than through legend entries, so the legend cannot
   redirect them: `SubsystemLegend.ini` itself, `Water.ini`, `Fire.ini` and
   `Environment.ini` (each read from `Data\INI\Default` and then again from
-  `Data\INI` as an override), and `CommandMap.ini`.
+  `Data\INI` as an override), and `CommandMap.ini`. The subsystems
+  registered as `TheAwardSystemManager` and `TheCreateAHeroManager`
+  override the legend loader and read fixed files in their own `init`
+  instead: `Data\INI\AwardSystem.ini` and `Data\INI\CreateAHeroSystem.ini`.
+  Each `init` is guarded only by the manager's own instance pointer, which
+  its constructor sets, so both files load at startup. Subsystems that keep the legend loader
+  can also read fixed files in their own `init`, for example the audio
+  manager (\ref sub_audio) and the announcer registered as `TheEva`
+  (\ref sub_gameclient).
 - **Startup data is checksummed.** While it registers subsystems,
   `GameEngine::init` gives the subsystem list a CRC-computing `Xfer`, which
-  the legend loader (reconstructed from BFME 1) passes to the INI files it
-  reads; the Water, Fire and
-  Environment INI files are read through the same `Xfer`. The result, plus
+  the legend loader passes to the INI files it reads; the Water, Fire and
+  Environment INI files are read through the same `Xfer`, and so is
+  `CreateAHeroSystem.ini` by the Create-a-Hero manager's own `init`. The
+  result, plus
   the create-a-hero data's CRC, is the INI CRC. A LAN join request carries
   it, GameSpy game listings advertise it, and the online custom-match join
   screen refuses a game whose INI CRC differs from its own, so a mod that
   changes this data cannot join an unmodified online game. Whether a LAN
-  host checks it is not yet traced. `SubsystemLegend.ini` itself and
+  host checks it is not established. `SubsystemLegend.ini` itself and
   `CommandMap.ini` are loaded outside the CRC. \ref page_startup has the
   details and the command-line options such as `-mod`.
 - **Preference files are outside the archives.** `UserPreferences` reads and

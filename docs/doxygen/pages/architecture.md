@@ -53,14 +53,14 @@ named `TheXxx` (`TheGameLogic`, `TheGameClient`, `TheAudio`,
 `SubsystemInterfaceList::initSubsystem` (the file system, name-key
 generator, command lists, LOD manager and map cache are created directly).
 `initSubsystem` names the subsystem with its `TheXxx` string, calls its
-`init`, calls the subsystem's legend loader (believed to load the
+`init`, calls the subsystem's legend loader (the base loader loads the
 `InitFile` and `InitPath` entries listed under that name in
-`SubsystemLegend.ini`; that body is not reconstructed yet), records it in
-`TheSubsystemList`, and loads the caller's fallback paths only if the
-legend loader reported nothing. The legend is the first subsystem created
-this way, and `Data\INI\Default\SubsystemLegend.ini` is loaded right after
-it. When all are up, `SubsystemInterfaceList::postProcessLoadAll` runs a
-post-load pass.
+`SubsystemLegend.ini`, skipping the paths the entry excludes as
+\ref sub_ini_legend describes), records it in `TheSubsystemList`, and loads
+the caller's fallback paths only if the legend loader reported that it
+loaded nothing. The legend is the first subsystem created this way, and
+`Data\INI\Default\SubsystemLegend.ini` is loaded right after it. When all
+are up, `SubsystemInterfaceList::postProcessLoadAll` runs a post-load pass.
 
 ## Platform seams {#page_architecture_seams}
 
@@ -162,7 +162,10 @@ Determinism is protected in three visible ways:
   INI file and directory paths to the subsystems that load data. BFME 2
   passes none and relies on the legend, apart from a few files `init` loads
   by fixed name (`SubsystemLegend.ini`, `Water.ini`, `Fire.ini`,
-  `Environment.ini`, `CommandMap.ini`).
+  `Environment.ini`, `CommandMap.ini`) and files some subsystems read by
+  fixed path in their own `init` (the audio manager and `TheEva`, for
+  example, and the award system and Create-a-Hero manager, which also
+  override the legend loader).
 - **New systems.** The Apt UI player, Lua scripting, the Living World
   stores and managers and Create-a-Hero have no Zero Hour counterpart.
 - **Platform.** A Unicode command line, a JPG splash through ATL,
@@ -187,7 +190,7 @@ To refresh: `rg` a name in `reverse/functions.csv`, and read
 
 - **The legend decides which INI files load.** `SubsystemLegend.ini` holds
   `LoadSubsystem` blocks with `InitFile` and `InitPath` entries, matched to
-  subsystems by name (the lookup itself is not reconstructed yet). Because
+  subsystems by name (\ref sub_ini_legend). Because
   BFME 2's `init` passes no fallback paths, a subsystem without a legend
   entry loads no INI data through this route.
 - **Override files.** `Water.ini`, `Fire.ini` and `Environment.ini` load
@@ -205,11 +208,16 @@ To refresh: `rg` a name in `reverse/functions.csv`, and read
 - **The INI CRC covers some visual data.** Startup INI data feeds the INI
   CRC in LAN join requests. The startup loads of `Water.ini`, `Fire.ini`
   and `Environment.ini` go through the INI CRC writer, so editing them can
-  change the INI CRC even when logic state is untouched. `init` also hands
-  that writer to presentation-side stores such as the FX list and damage
-  FX stores; which legend-loaded files count depends on the unreconstructed
-  legend loader, and whether a BFME 2 host refuses a mismatch is not
-  established.
+  change the INI CRC even when logic state is untouched. The base legend
+  loader reads the files the legend lists for each subsystem `init`
+  registers that keeps it, presentation-side stores such as the FX list
+  store included, through the same writer, so those files count too unless
+  the legend excludes them (\ref sub_ini_legend). Not every legend-listed
+  file counts: `InGameUI::init` loads its entry through a helper that passes
+  no writer (\ref sub_ini_entry). The subsystems registered
+  as `TheCreateAHeroManager` and `TheAwardSystemManager` override the loader
+  and load nothing from the legend. Whether a BFME 2 host refuses a mismatch
+  is not established.
 - **Saves and replays.** Zero Hour: saves use the same `Xfer` snapshots as
   the logic CRC and replays store only commands, so a logic change affects
   both (\ref sub_save_load_crc).

@@ -209,9 +209,11 @@ bodies:
   requests when full.
 - **Checksums:** `TheAI` and `TheAerialPathfinder` are initialised with
   the INI checksum transfer. The skirmish AI, formation, orders, army,
-  base, threat and heuristic subsystems are initialised with none, and
-  whether their legend-listed INI enters the checksum depends on the
-  legend loader, which is not yet verified. The pathfinder's
+  base, threat and heuristic subsystems are initialised with none, but that
+  argument only reaches fallback paths, which `GameEngine::init` does not
+  supply: the base legend loader, for any of them that keeps it, reads
+  their legend-listed INI through the checksum transfer, apart from the
+  paths their blocks exclude (\ref sub_ini_legend). The pathfinder's
   `Data\INI\Pathfinder.ini` is read with no checksum transfer, so it is
   not part of that checksum.
 - **Multiplayer:** AI runs in the logic on every machine, including the

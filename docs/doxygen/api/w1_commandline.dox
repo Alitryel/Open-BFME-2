@@ -112,19 +112,28 @@
 ///   it registers its subsystems, the subsystem list holds the checksum
 ///   writer, and SubsystemInterface::loadIniFilesFromLegend loads the files
 ///   and directories that `SubsystemLegend.ini` lists for a subsystem
-///   through that writer, apart from paths the legend excludes. It does so
-///   whatever writer the registration call passes; that writer is used only
-///   for fallback files when the legend loads nothing for the subsystem.
-///   Which data is checksummed is therefore decided by the legend, which is
-///   data, plus `Water.ini`, `Fire.ini` and `Environment.ini`, which
-///   GameEngine::init loads through the writer directly, plus the
-///   Create-a-Hero data's own checksum (CreateAHeroCRC::getCRC), which it
+///   through that writer, skipping excluded paths as \ref sub_ini_legend
+///   describes. It does so whatever writer the registration call passes;
+///   that writer is used only for fallback files when the subsystem's
+///   legend step reports that it loaded nothing.
+///   Which data is checksummed is therefore decided mainly by the legend,
+///   which is data. The checksum also includes `Water.ini`, `Fire.ini` and
+///   `Environment.ini`, which GameEngine::init loads through the writer
+///   directly, any file a subsystem's own `init` loads through the
+///   subsystem list's writer during registration, and the Create-a-Hero
+///   data's own checksum (CreateAHeroCRC::getCRC), which GameEngine::init
 ///   adds to the result. `SubsystemLegend.ini` and `CommandMap.ini` load
 ///   without the writer. A subsystem can replace the legend step: the award
 ///   system does, and its own load of `Data\INI\AwardSystem.ini` passes no
-///   writer. The online join screen compares the result, a LAN join request
-///   carries it, and replay code compares it with the value stored in a
-///   replay's header (\ref page_startup_modding).
+///   writer; the Create-a-Hero manager does too, and its own load of
+///   `Data\INI\CreateAHeroSystem.ini` uses the subsystem list's writer, so
+///   that fixed file is checksummed although it does not come from the
+///   legend.
+///   Not every legend-listed file counts: `InGameUI::init` loads its
+///   `InGameUI` entry through a helper that passes no writer
+///   (\ref sub_ini_entry). The online join screen compares the result, a
+///   LAN join request carries it, and replay code compares it with the
+///   value stored in a replay's header (\ref page_startup_modding).
 /// - Not all checksummed data loads after the mod archives. The global
 ///   data's legend files are checksummed, but GameEngine::init reads them
 ///   before parseCommandLine loads the `-mod` archives. Data loaded after

@@ -204,7 +204,7 @@ Zero Hour's code is in `GameEngine/Source/Common/Audio/` (`GameAudio.cpp`,
   a subsystem's `init` before its `SubsystemLegend.ini` lookup, so any
   files a legend entry added for `TheAudio` would load after the built-in
   ones, and would count toward the INI checksum (see **Checksum** below);
-  \ref sub_engine_core describes the legend and how far it is understood.
+  \ref sub_ini_legend describes the legend loader.
 - **map.ini limits.** Sound definitions cannot be defined or overridden in
   a map's `map.ini`. Their parsers throw an INI exception when the file is
   loaded in the INI override mode (Zero Hour loads `map.ini` in that

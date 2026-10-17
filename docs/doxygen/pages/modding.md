@@ -40,18 +40,17 @@ identified yet, so treat this rule as Zero Hour's until it is.
 searches the mounted archives first and loose files on disk only after
 that, so an archived file wins over a loose file with the same path. When
 the prefer-local flag is set, the order flips: loose files are tried first
-(first under an optional language directory set elsewhere, whose value
-is not yet established, then as `lang\<language>\<file>`, then as the
-plain path) and the archives last. A request that creates a file (Zero
-Hour's `CREATE` access bit) never goes to the archives. The flag is set
-by:
+(first under the folder recorded by `-mod`, when `-mod` named a folder,
+then as `lang\<language>\<file>`, then as the plain path) and the
+archives last. A request that creates a file (Zero Hour's `CREATE` access
+bit) never goes to the archives. The flag is set by:
 
 - `-mod` (`parseMod`), always;
 - `-preferLocalFiles` (`parsePreferLocalFiles`);
 - the set-up step above, when `shaders.big` is not found on disk;
-- a setter that also stores the language directory and mounts every
-  `*.BIG` in it with the first group's flag; what calls it is not yet
-  identified.
+- the command-line dispatcher's `-mod` folder step, after its switch
+  loop, which also stores the folder as that first search prefix and loads
+  every `*.BIG` in it over the game's archives (see parseMod()).
 
 The global names `TheArchiveFileSystem` and `TheLocalFileSystem` in the
 current sources are provisional and point at the opposite backends:
@@ -63,23 +62,43 @@ to a base folder held in the global data (in BFME 1 it is the user data
 folder). A folder is recorded as the mod directory, a file as the mod
 archive. Zero Hour: `ArchiveFileSystem::loadMods` then mounts the mod
 archive, and every `*.big` in the mod folder, with the replace flag set,
-so mod files win over the game's. In BFME 2 the code that consumes the two
-settings has not been identified yet.
+so mod files win over the game's. In BFME 2 the command-line dispatcher
+loads them after its switch loop; parseMod() has the details.
 
 \ref sub_common_services covers the file system classes.
 
 ## INI definitions {#page_modding_ini}
 
 `GameEngine::init` loads `Data\INI\Default\SubsystemLegend.ini` before any
-other INI file. Each subsystem's INI files come from its `LoadSubsystem`
-entry in the legend. `SubsystemInterfaceList::initSubsystem` would load
-code-supplied paths when the legend loader reports that it loaded nothing,
-but `GameEngine::init` supplies none, so the legend is the only source of
-each store's INI file list (Zero Hour, which has no legend, wrote these
-paths in code). The legend loader's BFME 2 body is not reconstructed yet.
-Compared with BFME 1's it adds a check for a `mithriledition.txt` file and,
-according to `reverse/re_attempts.log`, an exclusion list; what either
-changes is not yet understood.
+other INI file. A subsystem that uses the base legend loader gets its INI
+files from its `LoadSubsystem` entry in the legend.
+`SubsystemInterfaceList::initSubsystem` would load code-supplied paths when
+the legend loader reports that it loaded nothing, but `GameEngine::init`
+supplies none, so for those subsystems the legend is the only source of the
+INI files that registration loads (Zero Hour, which has no legend, wrote
+these paths in code). A subsystem's own `init` can still read files by
+fixed path, which the legend cannot redirect: the audio manager (`TheAudio`)
+reads `AudioSettings.ini` and its sound lists (\ref sub_audio) and the
+announcer (`TheEva`) its `Eva.ini` files, for example, and the AI's
+pathfinder reads `Data\INI\Pathfinder.ini` when it is created
+(\ref sub_ai_pathfinding).
+The loader is virtual, and a subsystem can override it: for example, those
+registered as `TheAwardSystemManager` and `TheCreateAHeroManager` replace it
+with one that loads nothing and reports success, and read a fixed file in
+their own `init` (`Data\INI\AwardSystem.ini` and
+`Data\INI\CreateAHeroSystem.ini`), so the legend cannot redirect those
+files. Each `init` skips its load only when the manager's own instance
+pointer is unset, and the manager's constructor has already set it, so
+during startup both files always load.
+Unlike BFME 1's, BFME 2's base legend loader skips every
+`InitFile` whose path starts with one of the entry's `ExcludePath` values
+(or, unless a global switch is set, its `IncludePathCinematics` values) and
+passes the same list as the filter for files in the subdirectories of each
+`InitPath` directory. It also reports whether a `mithriledition.txt` file
+exists to the copy-protection check (`CopyProtect::setVerified`); that
+setter keeps the first verdict it receives, which `WinMain` has already set
+from the launcher, so in the normal startup path the file changes nothing
+(\ref sub_ini_legend).
 
 Besides the legend itself, `GameEngine::init` names INI files directly:
 `Water.ini`, `Fire.ini` and `Environment.ini`, each a base file in
@@ -201,11 +220,20 @@ the subsystem list's xfer from just before the legend is loaded until after
 the last INI store is created. `Water.ini`, `Fire.ini` and
 `Environment.ini` (base and overlay) are loaded through that writer
 directly, and its result plus the CreateAHero manager's CRC is stored as
-the INI CRC. BFME 1's legend loader passes the subsystem list's xfer to
-every file it loads; if BFME 2's does the same, legend-listed files feed
-the INI CRC too. BFME 2's legend loader is not yet reconstructed and has
-extra gate and exclusion logic, so which legend files feed BFME 2's INI
-CRC is not yet established.
+the INI CRC. The base legend loader passes the subsystem list's xfer to
+every file and directory it loads, so the files it loads for a subsystem
+registered while that writer is installed feed the INI CRC too. Not every
+legend-listed file goes through it: `InGameUI::init` loads its `InGameUI`
+entry through a helper that passes no writer (\ref sub_ini_entry). An
+entry's exclusions skip any `InitFile`, and any file in a subdirectory of an
+`InitPath` directory, whose path starts with an excluded value; files
+directly in an `InitPath` directory always load (\ref sub_ini_legend).
+The subsystems registered as `TheAwardSystemManager` and
+`TheCreateAHeroManager` override the loader with one that loads nothing, so
+the legend cannot add INI files to them. The Create-a-Hero manager's own
+`init` loads `Data\INI\CreateAHeroSystem.ini` through the same writer, so
+that fixed file feeds the INI CRC too; the award system's loads
+`Data\INI\AwardSystem.ini` without it.
 
 A LAN join request carries the INI CRC, together with a 16-byte block the
 donor sources call the executable CRC and one further BFME CRC. How the
@@ -238,8 +266,10 @@ simulation therefore makes existing replays play out differently.
 - Fixed in code: the module catalogue, the script condition and action
   types, the Lua native functions, the callbacks screens register with
   Apt, 32 slots per command set, the archive mount order and the files
-  named in code (`Water.ini`, `Fire.ini`, `Environment.ini`,
-  `CommandMap.ini`, and per map `map.ini`, `solo.ini` and `map.str`).
+  named in code, for example `SubsystemLegend.ini`, `Water.ini`,
+  `Fire.ini`, `Environment.ini`, `CommandMap.ini`, `AwardSystem.ini`,
+  `CreateAHeroSystem.ini`, `Pathfinder.ini`, the audio manager's and the
+  announcer's INI files, and per map `map.ini`, `solo.ini` and `map.str`.
 - When unsure whether a change is safe for multiplayer, ask whether it
   changes anything the logic reads. If it does, every player needs it.
 
@@ -262,8 +292,9 @@ simulation therefore makes existing replays play out differently.
 - \ref page_architecture for the template and module model,
   \ref page_startup for the load order.
 - BFME 2 sources: `Code/GameEngine/Source/Common/GameEngineInit.cpp`,
-  `Code/Libraries/Source/subsystem/SubsystemInterface.cpp` (its
-  `loadIniFilesFromLegend` is BFME 1's body, not BFME 2's),
+  `Code/Libraries/Source/subsystem/SubsystemInterface.cpp`,
+  `Code/GameEngine/Source/Common/System/SubsystemInterfaceLoadIniFilesFromLegend.cpp`
+  (the legend loader),
   `Code/GameEngine/Source/Common/Thing/ThingTemplateParseModuleName.cpp`,
   `Code/GameEngine/Source/Common/Thing/ModuleFactoryInit.cpp`,
   `Code/GameEngine/Source/GameClient/GUI/FileSystemOpenFile.cpp` and

@@ -160,13 +160,16 @@ and matched code, not its Zero Hour-derived `ini.cpp` table.
   (\ref page_modding_rules). No registration there passes hard-coded INI
   paths (Zero Hour passes many), so what the FX list store or the
   particle-system manager loads at registration comes from the files
-  `SubsystemLegend.ini` lists for it; the font library and the banner UI
-  also load from the legend, in `GameClient::init` and `InGameUI::init`.
-  BFME 1's legend loader passes the checksum to every file. BFME 2's is not
-  yet matched and adds a gate and an exclusion list, so which of these
-  files BFME 2 checksums is not established: do not assume client data is
-  outside the checksum. `Water.ini`, `Fire.ini` and `Environment.ini` load
-  through it directly; `CommandMap.ini`, the announcer's `Eva.ini` files,
+  `SubsystemLegend.ini` lists for it. The font library (from
+  `GameClient::init`) and the banner UI (from `InGameUI::init`) also load
+  from the legend; both calls run inside `GameEngine::init` while the
+  checksum is installed. Both go through the base legend loader, which
+  passes the checksum to every file and directory it loads, so their files
+  are checksummed unless the legend excludes them (\ref sub_ini_legend).
+  `InGameUI::init` loads its own `InGameUI` entry through a helper that
+  passes no checksum, so those files are not (\ref sub_ini_entry).
+  `Water.ini`, `Fire.ini` and `Environment.ini` load through the checksum
+  directly; `CommandMap.ini`, the announcer's `Eva.ini` files,
   `ImageCollection::load` and `VideoPlayer::init` load without it.
 - **Model bones are gameplay data.** Dock, spawn-point and `BoneFXUpdate`
   bones the logic reads (\ref sub_gameclient_connects) are not just visuals.

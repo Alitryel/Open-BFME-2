@@ -50,9 +50,13 @@ BFME 2 descends from and is not yet confirmed in BFME 2 itself.
   first. Its `LoadSubsystem` blocks name, per subsystem, the INI files and
   directories to load. `SubsystemInterfaceList::initSubsystem` loads a
   subsystem's legend entry first and falls back to caller-supplied paths
-  only when the entry lists nothing. `GameEngine::init` supplies no such
-  paths, so in BFME 2 the INI that `initSubsystem` loads for a subsystem
-  comes only from its `LoadSubsystem` block. A subsystem's own `init` can
+  only when the subsystem's legend lookup reports that it loaded nothing
+  (\ref sub_ini_legend). The lookup is virtual: some subsystems, such as
+  the one registered as `TheAwardSystemManager`, override it to load
+  nothing and report success, so any block for them is ignored.
+  `GameEngine::init` supplies no such paths, so in BFME 2 the INI that
+  `initSubsystem` loads for a subsystem comes only from its
+  `LoadSubsystem` block. A subsystem's own `init` can
   still parse INI itself (`InGameUI::init` parses its InGameUI
   definition). Only SubsystemLegend.ini itself, Water/Fire/Environment.ini
   (Default copy then override) and `CommandMap.ini` are loaded by name in
@@ -269,12 +273,13 @@ BFME 2 descends from and is not yet confirmed in BFME 2 itself.
   with their scripts, Apt movies, string tables, W3D assets and BIG
   archives. New behaviour needs code: INI can only pick from the modules,
   block keywords and field names the engine registers.
-- In BFME 2 the INI files loaded for each registered subsystem come
-  entirely from SubsystemLegend.ini: `GameEngine::init` passes no fallback
-  paths, so removing or emptying a subsystem's `LoadSubsystem` block means
-  no INI is loaded for it (apart from any its own `init` parses). Only the
-  legend itself, Water/Fire/Environment.ini (Default copy then override)
-  and `CommandMap.ini` are loaded by name.
+- In BFME 2 the INI files `initSubsystem` loads for each registered
+  subsystem come entirely from SubsystemLegend.ini: `GameEngine::init`
+  passes no fallback paths, so removing or emptying a subsystem's
+  `LoadSubsystem` block means no INI is loaded for it (apart from any its
+  own `init` parses). Only the legend itself, Water/Fire/Environment.ini
+  (Default copy then override) and `CommandMap.ini` are loaded by name in
+  `GameEngine::init`.
 - Changing anything the logic reads (objects, weapons, upgrades, scripts,
   Lua) changes the simulation, so every player needs the same data.
   Changing startup INI can also change the INI CRC that a LAN join
