@@ -41,3 +41,29 @@ namespace _com_util {
 // Native 654830..654841: VariantClear followed by the HRESULT check.
 extern "C" __declspec(dllimport) long __stdcall VariantClear(void*);
 _variant_t::~_variant_t() {_com_util::CheckError(VariantClear(this));}
+
+// Native 6549B0..654B06 includes the C++ catch funclet (343 bytes).
+extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
+extern "C" __declspec(dllimport) int __stdcall WideCharToMultiByte(unsigned int,unsigned long,const unsigned short*,int,char*,int,const char*,int*);
+extern "C" unsigned int __cdecl wcslen(const unsigned short*);
+void * __cdecl operator new(unsigned int);
+void __cdecl operator delete(void*);
+namespace _com_util {
+ char *__stdcall ConvertBSTRToString(unsigned short *source) {
+  if(!source)return 0;
+  int inputLength=wcslen(source)+1;
+  int outputLength=WideCharToMultiByte(0,0,source,inputLength,0,0,0,0);
+  if(!outputLength) {
+   _com_issue_error((long)GetLastError()<=0 ? (long)GetLastError() : (long)((GetLastError()&0xffff)|0x80070000));
+   return 0;
+  }
+  char *output;
+  try {output=(char*)::operator new(outputLength);}catch(...) {output=0;}
+  if(!output) {_com_issue_error((long)0x8007000e);return 0;}
+  if(!WideCharToMultiByte(0,0,source,inputLength,output,outputLength,0,0)) {
+   ::operator delete(output);output=0;
+   _com_issue_error((long)GetLastError()<=0 ? (long)GetLastError() : (long)((GetLastError()&0xffff)|0x80070000));
+  }
+  return output;
+ }
+}
