@@ -1,4 +1,6 @@
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
+// partial score=0.311 date=2026-10-17
+// ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
 // partial score=0.2 date=2026-10-15
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
 // partial score=0.562 date=2026-10-15
@@ -149,9 +151,9 @@ class Rva0009BF33
  CameraClass *m_camera;
 // +0xC0
  char m_padC4[0x1B0 - 0xC4];
- volatile Int m_1b0;
+ Int m_1b0;
 // +0x1B0
- volatile Int m_1b4;
+ Int m_1b4;
 // +0x1B4
  Int m_1b8;
 // +0x1B8
@@ -164,24 +166,27 @@ void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord
 
 {
 	_ReadWriteBarrier();
- m_camera->slot20();
+ CameraClass *cam = m_camera;
+ cam->slot20();
  Vector2 min, max;
- m_camera->Get_View_Plane(min, max);
+ cam->Get_View_Plane(min, max);
  Real dx = max.X - min.X;
  Real dy = max.Y - min.Y;
  Int px;
  Int py;
  Real width;
  Real height;
+ Int sx = screen->m_x;
+ Int sy = screen->m_y;
  if (!(m_19)) {
-  px = screen->m_x;
-  py = screen->m_y;
+  px = sx;
+  py = sy;
   width = (Real)(unsigned int)TheDisplay->getWidth();
   height = (Real)(unsigned int)TheDisplay->getHeight();
   
  } else {
-  px = screen->m_x - m_1b0;
-  py = screen->m_y - m_1b4;
+  px = sx - m_1b0;
+  py = sy - m_1b4;
   width = (Real)m_1b8;
   height = (Real)m_1bc;
   
@@ -190,10 +195,11 @@ void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord
  volatile Real t2 = ((Real)py / height - 0.5f) * dy;
  Real t1 = -t2;
  Real w = 1.0f;
- rayEnd->x = __vref(m_camera->m_18) * t0 + m_camera->m_1c * t1 - m_camera->m_20 * w;
- rayEnd->y = m_camera->m_28 * t0 + m_camera->m_2c * t1 - m_camera->m_30 * w;
- rayEnd->z = m_camera->m_38 * t0 + m_camera->m_3c * t1 - m_camera->m_40 * w;
+ rayEnd->x = __vref(cam->m_18) * t0 + cam->m_1c * t1 - cam->m_20 * w;
+ rayEnd->y = cam->m_28 * t0 + cam->m_2c * t1 - cam->m_30 * w;
+ rayEnd->z = cam->m_38 * t0 + cam->m_3c * t1 - cam->m_40 * w;
  rayEnd->Normalize();
- *rayStart = m_camera->Get_Position();
+ Vector3 position = cam->Get_Position();
+ *rayStart = position;
  
 }
