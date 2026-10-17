@@ -1,4 +1,6 @@
 // ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
+// partial score=0.808 date=2026-10-17
+// ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
 // partial score=0.9 date=2026-10-15
 // ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
 // partial score=0.6 date=2026-10-15
@@ -11,8 +13,8 @@ struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 class Rva00567BD7 {
 public:
- int action; bool flag; TargetRef00217D4C *ref; bool active;
- Rva00567BD7():action(0),ref(0),active(false){}
+ int action; TargetRef00217D4C *ref; bool flag; bool active;
+ Rva00567BD7():action(0),ref(0 ? ref : ref){ *(volatile int*)&flag = 0; }
  Rva00567BD7(const Rva00567BD7 &);
 
 };
