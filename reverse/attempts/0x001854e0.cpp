@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.819 date=2026-10-17
+// ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.8893 date=2026-10-14
 // ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.9248 date=2026-10-06
@@ -54,20 +56,19 @@ void WSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 			break;
 		case AXISTYPE_Y:
 				tex_matrix[0].X = 0.5f;
+	tex_matrix[0].Y = 0.0f;
 	tex_matrix[0].Z = 0.0f;
 	tex_matrix[0].W = 0.5f;
-	tex_matrix[0].Y = 0.0f;
 	tex_matrix[1].X = 0.0f;
-	tex_matrix[1].Z = 0.5f;
-	_ReadWriteBarrier();
-	tex_matrix[1].W = 0.5f;
 	tex_matrix[1].Y = 0.0f;
+	tex_matrix[1].Z = 0.5f;
+	tex_matrix[1].W = 0.5f;
+	tex_matrix[2].X = 0.0f;
 	tex_matrix[2].Y = 0.0f;
 	tex_matrix[2].Z = 1.0f;
-	tex_matrix[2].X = 0.0f;
 	tex_matrix[2].W = 0.0f;
-	tex_matrix[3].Y = 0.0f;
 	tex_matrix[3].X = 0.0f;
+	tex_matrix[3].Y = 0.0f;
 	tex_matrix[3].Z = 0.0f;
 	tex_matrix[3].W = 1.0f;
 			break;
