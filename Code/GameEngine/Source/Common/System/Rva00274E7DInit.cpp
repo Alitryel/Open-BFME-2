@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /Oy- /DNDEBUG /MD /GX
 // ?Rva00274E7DInit@@YAXXZ, retail 0x00274E7D (1147B): UI image table init.
-// Evidence: 4 literal finds via ImageCollection 0x002D92F6 into Drawable::s_fullAmmo/74/80/84,
+// Evidence: 4 literal finds via ImageCollection 0x002D92F6 into Drawable::s_fullAmmo/emptyAmmo/pipImage/pipOverlay,
 // new 0x38 array into Drawable::s_animationTemplates, 12 rva finds via 0x002D752D from g_00DBB660..694
 // into array slots 0-2/4-9/11-13 with slot 10 zeroed, 4 literal finds into
 // g_00DFEB88/8C/90/94, flag g_00DFEB6C; unblocks 0x002797BD; prev/next flags.
@@ -27,18 +27,21 @@ public:
 // and the same 14-slot icon table (including the null emoticon slot). These
 // donor names describe target-supported roles; the node type stays opaque.
 // One provider per datum; cleanup and consumers use these exact names.
+// The ContainPip/ContainPipFrame slots (VA 0x00DFEB80/84) are the pip and its
+// frame overlay that Drawable 0x00277669 (Drawable_rva00273755.cpp) draws; they
+// carry that reader's member names so both units bind one datum.
 class Drawable {
     friend void Rva00274E7DInit();
     friend void Rva00270190Free();
     static const Image *s_fullAmmo;
     static const Image *s_emptyAmmo;
+    static const Image *s_pipImage;
+    static const Image *s_pipOverlay;
     static Rva002D752DNode **s_animationTemplates;
 };
 
 extern ImageCollection *TheMappedImageCollection;
 class Rva002D752D; extern class Anim2DCollection *TheAnim2DCollection;
-extern const Image *g_00DFEB80;
-extern const Image *g_00DFEB84;
 extern const Image *g_00DFEB88;
 extern const Image *g_00DFEB8C;
 extern const Image *g_00DFEB90;
@@ -56,8 +59,8 @@ extern unsigned char g_00DFEB6C;
 unsigned char g_00DFEB6C;
 const Image *Drawable::s_fullAmmo;
 const Image *Drawable::s_emptyAmmo;
-const Image *g_00DFEB80;
-const Image *g_00DFEB84;
+const Image *Drawable::s_pipImage;
+const Image *Drawable::s_pipOverlay;
 const Image *g_00DFEB88;
 const Image *g_00DFEB8C;
 const Image *g_00DFEB90;
@@ -101,11 +104,11 @@ void Rva00274E7DInit(void)
 	}
 	{
 		AsciiString tmp("ContainPip");
-		g_00DFEB80 = TheMappedImageCollection->findImageByName(tmp);
+		Drawable::s_pipImage = TheMappedImageCollection->findImageByName(tmp);
 	}
 	{
 		AsciiString tmp("ContainPipFrame");
-		g_00DFEB84 = TheMappedImageCollection->findImageByName(tmp);
+		Drawable::s_pipOverlay = TheMappedImageCollection->findImageByName(tmp);
 	}
 	Drawable::s_animationTemplates = (Rva002D752DNode **)operator new[](0x38);
 	{
