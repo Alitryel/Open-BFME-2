@@ -138,16 +138,6 @@ private:
 	void *m_678;
 };
 
-// ?rva006C1A50@Rva006C1A50Owner@@QAEXH@Z
-void Rva006C1A50Owner::rva006C1A50(int v)
-{
-	if (m_678 == (void *)this) {
-		if (m_510)
-			((Rva00033150 *)this)->rva00033150(v);
-	} else {
-		((Rva000338F0 *)m_678)->rva000338F0(v);
-	}
-}
 
 // Retail 0x006C1D60 93B (WB 0x70CEC0): the owner's guarded unlock lane. When the
 // table at +0x684 is enabled (+0x680) the key is looked up (find inlined; WB names
