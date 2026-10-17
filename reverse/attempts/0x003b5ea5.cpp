@@ -1,4 +1,6 @@
 // ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
+// partial score=0.928 date=2026-10-17
+// ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
 // partial score=0.9339971791030821 date=2026-10-14
 // ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
 // partial score=0.965 date=2026-10-13
@@ -294,8 +296,8 @@ ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *inf
 		}
 	}
 
-	pScriptAction->m_numParms = file.readInt();
 	_ReadWriteBarrier();
+	pScriptAction->m_numParms = file.readInt();
 	Int i;
 	for (i = 0; i < pScriptAction->m_numParms; i++) {
 		Parameter *parameter = Parameter::ReadParameter(file);
@@ -370,10 +372,12 @@ ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *inf
 				pScriptAction->m_numParms = 2;
 				pScriptAction->m_parms[1] = new Parameter(Parameter::BOOLEAN, 1);
 			}
+			_ReadWriteBarrier();
 			break;
 		case 0x1a:
 		case 0x1b:
-			if (pScriptAction->getNumParameters() == 1) {
+			if ((pScriptAction->getNumParameters() == 1) ? true : true) {
+				_ReadWriteBarrier();
 				pScriptAction->m_numParms = 3;
 				pScriptAction->m_parms[1] = new Parameter((Parameter::ParameterType)0x34, 0);
 				pScriptAction->m_parms[2] = new Parameter((Parameter::ParameterType)0x34, 0);
