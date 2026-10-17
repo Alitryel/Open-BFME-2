@@ -2,6 +2,10 @@
 // stlport
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 
 // Suppress this TU's non-retail _String_base<char> dtor copy (family2-LK3 rows
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.

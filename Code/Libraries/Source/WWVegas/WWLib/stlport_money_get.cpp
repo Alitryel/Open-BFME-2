@@ -2,6 +2,10 @@
 // stlport
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
 // stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
 // line) is not retail's and came before it in link order; the body still inlines

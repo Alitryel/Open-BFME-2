@@ -10,6 +10,10 @@ template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { 
 }
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // The 64-bit integer writers are owned by stlport_write_integer_backward_64.cpp,
 // stlport_write_integer_backward_int64.cpp and stlport_write_decimal_backward_u64.cpp.
 // This unit's copies are not retail's; declare their instantiations only.

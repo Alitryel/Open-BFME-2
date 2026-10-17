@@ -38,6 +38,13 @@ public:
 	};
 };
 
+// STLport defines this out of line in locale_impl.cpp, where retail's
+// ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes this
+// unit's select-any copy of ??_Gfacet retail's.
+inline locale::facet::~facet()
+{
+}
+
 class time_base
 {
 public:

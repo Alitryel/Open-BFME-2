@@ -22,6 +22,10 @@
  */
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 namespace _STL {
 static void _Classic_monetary_formats(money_base::pattern& positive,money_base::pattern& negative) {
  positive.field[0] = (char)money_base::symbol;

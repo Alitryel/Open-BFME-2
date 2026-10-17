@@ -2,6 +2,10 @@
 // stlport
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 
 #include <cstddef>
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):

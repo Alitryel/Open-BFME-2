@@ -44,6 +44,10 @@ namespace _STL { template<> basic_string<char>::basic_string(const char*, const 
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // Use the independently verified bool reader at retail RVA 0x000091D0.
 namespace _STL {
 template <> istreambuf_iterator<char, char_traits<char> >

@@ -37,6 +37,11 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(
 }
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, the
+// retail unit that also holds this file's facet constructor (0x00006F50): its
+// scalar deleting destructor (0x00007490) inlines the empty body. Seeing the
+// body here makes this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // bfme link decl-only begin
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __copy_float_and_fill<char, ostreambuf_iterator<char, char_traits<char> > >(char const *, char const *, ostreambuf_iterator<char, char_traits<char> >, int, int, char, char, char); }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __copy_integer_and_fill<char, ostreambuf_iterator<char, char_traits<char> > >(char const *, int, ostreambuf_iterator<char, char_traits<char> >, int, int, char, char, char); }

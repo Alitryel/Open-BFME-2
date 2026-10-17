@@ -57,6 +57,10 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 }
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // basic_string<char>::reserve is retail's 116-byte body at 0x0000C390, owned by
 // stlport_narrow_string_reserve.cpp; this unit's header copy is not retail's and
 // came before it in link order, so only declare its instantiation here.

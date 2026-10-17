@@ -2,6 +2,10 @@
 // stlport
 
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // The complete native float scanners are owned by the read_float units
 // (F850 narrow;10420 wide). Keep this unit's generic copies out of the link.
 namespace _STL {

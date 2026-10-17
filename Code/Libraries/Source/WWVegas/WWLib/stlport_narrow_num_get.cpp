@@ -5,6 +5,10 @@
 // Canonical default construction is supplied by retail7850.
 namespace _STL { template <> basic_string<char>::basic_string(); }
 #include <locale>
+// STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
+// retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
+// this unit's select-any copy of ??_Gfacet retail's.
+namespace _STL { inline locale::facet::~facet() {} }
 // Use the independently verified bool reader at retail RVA 0x000091D0.
 namespace _STL {
 template <> istreambuf_iterator<char, char_traits<char> >
