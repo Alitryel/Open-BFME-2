@@ -1,4 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD
+// Native EH action 0x789325 destroys the eight LANGameSlot objects at +0xDC with stride0x1D0; the complete parent EH graph proves this 27B lifetime.
 // ??1LANGameInfo@@UAE@XZ retail 0x004482FB 87B: Zero Hour's LANGameInfo
 // declares no destructor (GameNetwork/LANGameInfo.h), so this is the implicit
 // virtual one, called by the scalar deleting destructor 0x004482DF in slot 0
