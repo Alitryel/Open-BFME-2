@@ -31,6 +31,7 @@ void free(void *);
 #include <vector>
 #include "ascii_string.h"
 #include "subsystem_interface.h"
+#define BFME_SNAPSHOT_NAME_SLOT 1
 #include "Common/Snapshot.h"
 
 class LargeGroupAudioAudioMap;
@@ -111,7 +112,7 @@ class Rva003EDC16 { public: void rva003EDC16(); };
 class Rva003EDDD4 { public: void rva003EDDD4(int changed); };
 class Rva003EDDF5 { public: void rva003EDDF5(int arg); };
 class Rva0020DXXX { public: void rva0020D834(); };
-class Rva001B4E82 { public: void rva001B4E82(void *subsystem); };
+
 
 // Field parser for the holder's "Key" entries (0x003EDBAE).
 class Rva003D4920
@@ -149,8 +150,8 @@ public:
 	static void parseLargeGroupAudioUnusedKnownKeysDefinition(INI *ini);
 
 protected:
-	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual void loadPostProcess() {}
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 
 private:
@@ -181,6 +182,14 @@ const FieldParse *Rva0020D98D::getFieldParse()
 	return TheLargeGroupAudioUnusedKnownKeysFieldParse;
 }
 
+// Native Snapshot table BE4090 slot2 returns this complete class name.
+// The interface proves the getter role and no-argument ABI; its original
+// C++ access is unknown and follows the existing protected Snapshot API.
+const char *LargeGroupAudio::GetSnapshotName() const
+{
+	return "LargeGroupAudio";
+}
+
 LargeGroupAudio::LargeGroupAudio()
 	: m_34(NULL), m_waitingForLevelLoad(true), m_39(false), m_needsToRegenerateAfterReload(false), m_3C(-1)
 {
@@ -194,7 +203,7 @@ Rva0020D98D::Rva0020D98D()
 LargeGroupAudio::~LargeGroupAudio()
 {
 	if (TheSubsystemList)
-		((Rva001B4E82 *)TheSubsystemList)->rva001B4E82(this);
+		TheSubsystemList->removeSubsystem(this);
 	removeOverrides();
 	for (_STL::vector<LargeGroupAudioAudioMap *>::iterator it = m_baseAudioMaps.begin(); it != m_baseAudioMaps.end(); ++it)
 		::delete *it;

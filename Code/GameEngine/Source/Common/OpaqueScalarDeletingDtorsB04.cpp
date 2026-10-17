@@ -18,7 +18,6 @@
 //   0x0020180F  0x0020182B  0x00BE3070#0
 //   0x002035F5  0x00203EBA  0x00BD3B54#0
 //   0x0020D9D0  0x0020D9EC  0x00BE3FF4#0
-//   0x0020E1E1  0x0020DF0B  0x00BE40A0#0
 //   0x0020E6DF  0x0020E205  0x00BE4334#1
 //   0x00210C17  0x00210B38  0x00BE4358#0
 //   0x00211121  0x0021113D  0x00BE5118#0
@@ -113,22 +112,7 @@ Rva0020D9EC::Rva0020D9EC(EmitVtableTag *)
 {
 }
 
-class Rva0020DF0BBase0 { public: virtual ~Rva0020DF0BBase0(); private: char m_unmodelled[0x8]; };
-// Secondary base at +0xC: the this-adjusting deleting-destructor thunk
-// (sub ecx, 0xC) at 0x0020DDFB in its vtable is target evidence for it.
-class Rva0020DF0BBaseC { public: virtual ~Rva0020DF0BBaseC(); };
-class Rva0020DF0B : public Rva0020DF0BBase0, public Rva0020DF0BBaseC
-{
-public:
-	Rva0020DF0B(EmitVtableTag *);
-public:
-	virtual ~Rva0020DF0B();
-};
-
-// ?<Rva0020DF0B::Rva0020DF0B> absent-from-retail
-Rva0020DF0B::Rva0020DF0B(EmitVtableTag *)
-{
-}
+// LargeGroupAudio now emits its own deleting wrapper and -0xC thunk.
 
 #include "../../Include/Common/RegionArmyComparatorView.h"
 

@@ -63,6 +63,9 @@ public:
 	SubsystemInterfaceList();
 	~SubsystemInterfaceList();
 
+	// Native 001B4E82 removes this subsystem from the registry at +0x0C.
+	void removeSubsystem(SubsystemInterface *sys);
+
 	void initSubsystem(SubsystemInterface *sys, void *slot, const char *path1,
 					   const char *path2, const char *dirpath, Xfer *pXfer, AsciiString name);
 
