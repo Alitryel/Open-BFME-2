@@ -83,22 +83,6 @@ void AptOnline::OnlineHome::OfficialSite(const char *unused)
 	bfmeMinimizeCurrentThreadWindow();
 }
 
-// Retail 0x005B9B73, 73 bytes: "AptOnlineHome::InitGadgets" keeps the
-// "OnlineHome::MessageOfTheDay" list box and fills it.
-void AptOnline::OnlineHome::InitGadgets(const char *name, void *argument, GameWindow *window)
-{
-	if (!g_Va00E06480)
-		return;
-	if (!window)
-		return;
-	GadgetListBoxReset(window);
-	if (strcmp(name, "OnlineHome::MessageOfTheDay") == 0)
-	{
-		m_messageOfTheDay = window;
-		bfmeGo924A((BfmeKeyLC *)window, 0);
-		rva005B98E9();
-	}
-}
 
 // Retail 0x005B906C, 51 bytes: "OnlineHome::NumTickerFields", an Apt query
 // answering 12.
