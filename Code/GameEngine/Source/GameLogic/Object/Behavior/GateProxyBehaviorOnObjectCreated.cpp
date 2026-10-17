@@ -17,23 +17,37 @@ public:
 class GateProxyCreateInterface
 {
 public:
-	virtual void s00();
+	virtual ~GateProxyCreateInterface();
 	virtual void onObjectCreated();
 };
 
 class GateOpenAndCloseBehavior : public GateProxyPrimaryView, public GateProxyCreateInterface
 {
 public:
+	virtual ~GateOpenAndCloseBehavior();
 	virtual void onObjectCreated();
 };
 
-class GateProxyBehavior : public GateOpenAndCloseBehavior
+class __declspec(novtable) GateProxyBehavior : public GateOpenAndCloseBehavior
 {
 public:
+	virtual ~GateProxyBehavior();
 	virtual void onObjectCreated();
 };
 
 void GateProxyBehavior::onObjectCreated()
 {
 	GateOpenAndCloseBehavior::onObjectCreated();
+}
+
+// Native 254024..254029 is an unchanged-this jump to the complete base dtor
+// 498798. Constructor 24E2CC calls base 49889C then installs BEF304 at +4;
+// its slot 0 is 253328 (this-4) -> 254008 (deleting dtor) -> 254024.
+// This independently establishes GateProxy ownership and the base relation.
+// Only the primary/creation-interface prefix is modelled here. novtable is
+// the destructor-only compilation context: retail has no derived vptr stores;
+// the separate constructor still installs all four derived vptrs. The BF1
+// 3ce339fbfa AIDockStateDestructors pattern is compiler context, not identity.
+GateProxyBehavior::~GateProxyBehavior()
+{
 }
