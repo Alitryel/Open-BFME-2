@@ -106,7 +106,7 @@ AsciiStringPlusText operator+(const AsciiString &left, const char *right);
 class Rva00527827Base
 {
 public:
-	virtual ~Rva00527827Base();
+	virtual ~Rva00527827Base() {} // inline-empty, as Rva00527CCEDtor.cpp spells it (no out-of-line dtor exists)
 };
 
 // +0x1C: the reference holder whose destructor 0x005F8F96 the unwind funclet
