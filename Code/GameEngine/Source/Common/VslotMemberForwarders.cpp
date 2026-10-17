@@ -10,6 +10,37 @@
 
 typedef int Int;
 
+// LINK: views of the rowed owners these forwarders reach (respelled from the address-named targets).
+template <class T> class StringBase { public: void set(const T *); };
+class W3DHordeModelDrawModuleData { public: int rva00079167(); int rva00079186(int); };
+class DataChunkInput; struct DataChunkInfo;
+class WorldHeightMap { public: bool rva000B0DA8(DataChunkInput &, DataChunkInfo *); };
+class Render2DClass { public: void Reset(); };
+class TextureFilterClass { public: void Apply(unsigned int); };
+namespace _STL { template <class T> class allocator; template <class T, class A> class _List_base { public: void clear(); }; }
+struct BfmeVectorRecord001B4A39;
+class Rva002034E9Host { public: bool rva002034E9(); };
+class Rva0020F58E { public: int length() const; };
+class Rva00210E7C { public: void rva00210E9D(); };
+class AsciiStringPlusString { public: int length() const; };
+class Rva002226E5TextPlusString { public: int write(char *); int length() const; };
+class Rva002D2DF6 { public: void rva002D2DF6(); };
+class Xfer;
+class AptPalantir { public: void xfer(Xfer *); };
+namespace FXParticleSystem { class WindModuleInfo { public: virtual void DoXfer(Xfer &); }; }
+class BfmeTargetCN;
+class BfmeOwnCO { public: char bfmeGuardedCO(BfmeTargetCN *, void *); };
+namespace OldPolygonTriggerDataChunkParserBase { class Impl { public: bool parsePolygonTriggersChunkImpl(DataChunkInput &, const DataChunkInfo *); bool parseWaterAreasChunkImpl(DataChunkInput &, const DataChunkInfo *); }; }
+class Rva0032AFD4 { public: void rva0032AFD4(char *, int, int); };
+class RadiusDecal { public: void clear(); };
+class Rva00330E2DFrameOpacity { public: void rva00330E2D(unsigned int); };
+class Rva00358E6A { public: void rva00358F7C(); };
+class CreateAHeroData;
+class ConnectionManager { public: bool areAllQueuesEmpty(); void rva004D01D5(CreateAHeroData *, int, unsigned short, unsigned char); };
+class UnicodeString;
+class Rva004D0E93 { public: void rva004D0E93(int, int, const UnicodeString &); };
+namespace FXParticleSystem { class DefaultColorModuleInfo { public: void tintAllColors(int); }; }
+
 class Rva00330E2DTarget
 {
 public:
@@ -28,7 +59,7 @@ private:
 // vtable 0x00BCBC40#24
 void Rva000B318DForwarder::rva000B318D(Int a0)
 {
-	m_member.rva00330E2D(a0);
+	((Rva00330E2DFrameOpacity *)&m_member)->rva00330E2D(a0);
 }
 
 class Rva00330DBATarget
@@ -49,7 +80,7 @@ private:
 // vtable 0x00BCBC40#28
 void Rva000B3266Forwarder::rva000B3266()
 {
-	m_member.rva00330DBA();
+	((RadiusDecal *)&m_member)->clear();
 }
 
 class Rva000055F5Target
@@ -70,7 +101,7 @@ private:
 // vtable 0x00BCBC40#53
 void Rva000B5FB3Forwarder::rva000B5FB3(Int a0)
 {
-	m_member.rva000055F5(a0);
+	((StringBase<char> *)&m_member)->set((const char *)a0);
 }
 
 class Rva0013132DTarget
@@ -112,7 +143,7 @@ private:
 // vtable 0x00BD25D8#16
 void Rva00131CEAForwarder::rva00131CEA(Int a0)
 {
-	m_member.rva0013EA30(a0);
+	((TextureFilterClass *)&m_member)->Apply(a0);
 }
 
 class Rva0055B863Target
@@ -133,7 +164,7 @@ private:
 // vtable 0x00C1C53C#4
 void Rva003ABCE6Forwarder::rva003ABCE6(Int a0)
 {
-	m_member.rva0055B863(a0);
+	((FXParticleSystem::DefaultColorModuleInfo *)&m_member)->tintAllColors(a0);
 }
 
 class Rva0023DAA5Target
@@ -154,7 +185,7 @@ private:
 // vtable 0x00BC7C90#45
 void Rva002C5265Forwarder::rva002C5265()
 {
-	m_member.rva0023DAA5();
+	((_STL::_List_base<int, _STL::allocator<int> > *)&m_member)->clear();
 }
 
 class Rva002D2DF6Target
@@ -175,7 +206,7 @@ private:
 // vtable 0x00C02AA8#9
 void Rva002D35C7Forwarder::rva002D35C7()
 {
-	m_member->rva002D2DF6();
+	((Rva002D2DF6 *)m_member)->rva002D2DF6();
 }
 
 class Rva002D6460Target
@@ -196,7 +227,7 @@ private:
 // vtable 0x00C02A84#7
 void Rva002D65EEForwarder::rva002D65EE(Int a0)
 {
-	m_member->rva002D6460(a0);
+	((AptPalantir *)m_member)->xfer((Xfer *)a0);
 }
 
 class Rva003295B4Target
@@ -217,7 +248,7 @@ private:
 // vtable 0x00C0D8C4#1
 void Rva0032965BForwarder::rva0032965B(Int a0, Int a1)
 {
-	m_member->rva003295B4(a0, a1);
+	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parseWaterAreasChunkImpl(*(DataChunkInput *)a0, (const DataChunkInfo *)a1);
 }
 
 class Rva00119F00Target
@@ -238,7 +269,7 @@ private:
 // vtable 0x00BC3C80#53
 void Rva000448B9Forwarder::rva000448B9()
 {
-	m_member->rva00119F00();
+	((Render2DClass *)m_member)->Reset();
 }
 
 class Rva00079167Target
@@ -259,7 +290,7 @@ private:
 // vtable 0x00BC68F0#66
 void Rva000791DDForwarder::rva000791DD()
 {
-	m_member->rva00079167();
+	((W3DHordeModelDrawModuleData *)m_member)->rva00079167();
 }
 
 class Rva00079186Target
@@ -280,7 +311,7 @@ private:
 // vtable 0x00BC68F0#67
 void Rva000791E5Forwarder::rva000791E5(Int a0)
 {
-	m_member->rva00079186(a0);
+	((W3DHordeModelDrawModuleData *)m_member)->rva00079186(a0);
 }
 
 class Rva00210E9DTarget
@@ -302,7 +333,7 @@ private:
 // vtable 0x00BC89C8#12
 void Rva0009AD42Forwarder::rva0009AD42()
 {
-	((Rva00210E9DTarget *)TheLivingWorldManager)->rva00210E9D();
+	((Rva00210E7C *)TheLivingWorldManager)->rva00210E9D();
 }
 
 class Rva000B0DA8Target
@@ -323,7 +354,7 @@ private:
 // vtable 0x00BC95B8#1
 void Rva000B1974Forwarder::rva000B1974(Int a0, Int a1)
 {
-	m_member->rva000B0DA8(a0, a1);
+	((WorldHeightMap *)m_member)->rva000B0DA8(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
 }
 
 class Rva001B4C7ATarget
@@ -344,7 +375,7 @@ private:
 // vtable 0x00BD7678#1
 void Rva001B4CD0Forwarder::rva001B4CD0()
 {
-	m_member.rva001B4C7A();
+	((_STL::_List_base<BfmeVectorRecord001B4A39, _STL::allocator<BfmeVectorRecord001B4A39> > *)&m_member)->clear();
 }
 
 class Rva00222D47Target
@@ -380,7 +411,7 @@ private:
 // vtable 0x00BE74F0#9
 void Rva0022C9D2Forwarder::rva0022C9D2()
 {
-	m_member.rva0023DAA5();
+	((_STL::_List_base<int, _STL::allocator<int> > *)&m_member)->clear();
 }
 
 class Rva004CF3B9Target
@@ -401,7 +432,7 @@ private:
 // vtable 0x00BF6040#31
 void Rva0025DC30Forwarder::rva0025DC30()
 {
-	m_member->rva004CF3B9();
+	((ConnectionManager *)m_member)->areAllQueuesEmpty();
 }
 
 class Rva004D01D5Target
@@ -422,7 +453,7 @@ private:
 // vtable 0x00BF6040#34
 void Rva0025DC56Forwarder::rva0025DC56(Int a0, Int a1, Int a2, Int a3)
 {
-	m_member->rva004D01D5(a0, a1, a2, a3);
+	((ConnectionManager *)m_member)->rva004D01D5((CreateAHeroData *)a0, a1, (unsigned short)a2, (unsigned char)a3);
 }
 
 class Rva004D0E93Target
@@ -443,7 +474,7 @@ private:
 // vtable 0x00BF6040#66
 void Rva0025DEDDForwarder::rva0025DEDD(Int a0, Int a1, Int a2)
 {
-	m_member->rva004D0E93(a0, a1, a2);
+	((Rva004D0E93 *)m_member)->rva004D0E93(a0, a1, *(const UnicodeString *)a2);
 }
 
 class Rva002034E9Target
@@ -465,7 +496,7 @@ private:
 // vtable 0x00BFDF18#5
 void Rva002A9F53Forwarder::rva002A9F53()
 {
-	(*(Rva002034E9Target **)&TheGameLogic)->rva002034E9();
+	(*(Rva002034E9Host **)&TheGameLogic)->rva002034E9();
 }
 
 class Rva00513B94Target
@@ -486,7 +517,7 @@ private:
 // vtable 0x00BFDC6C#0
 void Rva002AADAEForwarder::rva002AADAE()
 {
-	m_member->rva00513B94();
+	((Rva002226E5TextPlusString *)m_member)->length();
 }
 
 class Rva00222D9ATarget
@@ -507,7 +538,7 @@ private:
 // vtable 0x00BFDC6C#2
 void Rva002AC2BFForwarder::rva002AC2BF(Int a0)
 {
-	m_member->rva00222D9A(a0);
+	((Rva002226E5TextPlusString *)m_member)->write((char *)a0);
 }
 
 class Rva002AC2CFTarget
@@ -549,7 +580,7 @@ private:
 // vtable 0x00C07484#1
 void Rva00300481Forwarder::rva00300481(Int a0, Int a1)
 {
-	m_member->rva003003C5(a0, a1);
+	((BfmeOwnCO *)m_member)->bfmeGuardedCO((BfmeTargetCN *)a0, (void *)a1);
 }
 
 class Rva003294D6Target
@@ -570,7 +601,7 @@ private:
 // vtable 0x00C0D8C4#0
 void Rva00329653Forwarder::rva00329653(Int a0, Int a1)
 {
-	m_member->rva003294D6(a0, a1);
+	((OldPolygonTriggerDataChunkParserBase::Impl *)m_member)->parsePolygonTriggersChunkImpl(*(DataChunkInput *)a0, (const DataChunkInfo *)a1);
 }
 
 class Rva002198C8Target
@@ -591,7 +622,7 @@ private:
 // vtable 0x00C0D938#0
 void Rva0032AF9CForwarder::rva0032AF9C()
 {
-	m_member->rva002198C8();
+	((AsciiStringPlusString *)m_member)->length();
 }
 
 class Rva0032AFD4Target
@@ -612,13 +643,13 @@ private:
 // vtable 0x00C0D938#1
 void Rva0032AFCCForwarder::rva0032AFCC(Int a0, Int a1, Int a2)
 {
-	m_member->rva0032AFD4(a0, a1, a2);
+	((Rva0032AFD4 *)m_member)->rva0032AFD4((char *)a0, a1, a2);
 }
 
 class Rva0033082FTarget
 {
 public:
-	void rva0033082F(Int a0, Int a1);
+	unsigned char rva0033082F(Int a0, Int a1);
 };
 
 class Rva003308EEForwarder
@@ -654,7 +685,7 @@ private:
 // vtable 0x00C15398#9
 void Rva003592FAForwarder::rva003592FA()
 {
-	m_member.rva00358F7C();
+	((Rva00358E6A *)&m_member)->rva00358F7C();
 }
 
 class Rva00392092Target
@@ -697,7 +728,7 @@ private:
 // vtable 0x00C1B5A8#3
 void Rva003A5896Forwarder::rva003A5896(Int a0)
 {
-	m_member.rva003A547E(a0);
+	((FXParticleSystem::WindModuleInfo *)&m_member)->FXParticleSystem::WindModuleInfo::DoXfer(*(Xfer *)a0);
 }
 
 class Rva004DFC20
@@ -739,7 +770,7 @@ private:
 // vtable 0x00C37C20#0
 void Rva003FCE30Forwarder::rva003FCE30()
 {
-	m_member->rva0020F0D3();
+	((Rva0020F58E *)m_member)->length();
 }
 
 class Rva003FD05ETarget
