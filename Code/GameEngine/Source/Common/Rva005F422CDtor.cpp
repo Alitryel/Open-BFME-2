@@ -90,7 +90,17 @@ private:
 };
 }
 
-class Rva005E426F:public StrategicInGameUI::ArmyUnitIcon,public Rva005E3A76 {};
+struct EmitVtableTag;
+class Rva005E426F:public StrategicInGameUI::ArmyUnitIcon,public Rva005E3A76 {
+public:
+ Rva005E426F(EmitVtableTag *);
+};
+// Emits Rva005E426F's tables, whose virtual-base table 0x00877C9C reaches the
+// three ArmyUnitIcon overrides through vtordisp thunks with a further -0x10
+// (0x005E3D2A/35/40): ArmyUnitIcon expects its virtual base at +0x20, the
+// composite places it at +0x30.
+// ?<Rva005E426F::Rva005E426F> absent-from-retail
+Rva005E426F::Rva005E426F(EmitVtableTag *):StrategicInGameUI::ArmyUnitIcon(0,0,0){}
 void __cdecl operator delete(void *);
 class Rva005E41D7 { public: void *destroy(unsigned int flags); };
 void *Rva005E41D7::destroy(unsigned int flags) {
