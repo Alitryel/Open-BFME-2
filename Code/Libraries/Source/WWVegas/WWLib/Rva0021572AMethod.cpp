@@ -11,7 +11,8 @@
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -20,7 +21,12 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 };
 
-extern const FieldParse g_00BE574C;
+class LibraryMap { public: static void parse(INI *, void *, void *, const void *); };
+// The retail table at 0x007E574C: 1 entries and the null terminator; every parser is rowed.
+extern const FieldParse g_00BE574C[2] = {
+	{ "LibraryMap", (FieldParseProc)&LibraryMap::parse, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 class Rva0021572A
 {
@@ -35,5 +41,5 @@ Rva0021572A::Rva0021572A(INI *ini)
 {
 	const char *tok = ini->getNextToken(0);
 	m_00.set(tok);
-	ini->initFromINI(this, &g_00BE574C);
+	ini->initFromINI(this, g_00BE574C);
 }
