@@ -11,6 +11,9 @@
 // body allocates the record and clears its loadAIScripts flag.
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
+// bfme link decl-only end
 
 struct PlayerPosition
 {

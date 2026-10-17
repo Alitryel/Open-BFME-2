@@ -107,6 +107,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "Common/MultiplayerSettings.h"
 #include "GameClient/GameText.h"
 #include "GameNetwork/GUIUtil.h"
+// bfme link decl-only begin
+namespace _STL { template <> pair<_Rb_tree_iterator<int, _Nonconst_traits<int> >, bool> _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::insert_unique(int const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

@@ -186,6 +186,9 @@ struct Coord3DZero
 struct DrawableICoord2D { int x, y; };
 
 #include "../../../Libraries/Include/Lib/RGBColor.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ModuleData const *, allocator<ModuleData const *> >::_M_insert_overflow(ModuleData const **, ModuleData const *const &, __true_type const &, unsigned int, bool); }
+// bfme link decl-only end
 
 class Rva0010F149Handle
 {

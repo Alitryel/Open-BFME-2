@@ -25,6 +25,9 @@ void Rva00030830FreeAllocation(void *);
 #include <vector>
 #undef free
 #include <string.h>
+// bfme link decl-only begin
+namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *); }
+// bfme link decl-only end
 struct BfmePod16 {char bytes[16];};
 namespace _STL {template<> __declspec(noinline) BfmePod16 *vector<BfmePod16>::erase(BfmePod16 *,BfmePod16 *);}
 // Native 5C counters are four-byte integers. This scoped view uses the

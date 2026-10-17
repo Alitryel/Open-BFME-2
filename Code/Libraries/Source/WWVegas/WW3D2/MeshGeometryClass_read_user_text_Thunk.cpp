@@ -11,6 +11,9 @@
 #pragma optimize("", on)
 #include "chunkio.h"
 #include "sharebuf.h"
+// bfme link decl-only begin
+template <> ShareBufferClass<char>::~ShareBufferClass();
+// bfme link decl-only end
 // Rowed explicit specialization (MeshGeometryShareBufferInstantiations.cpp, 0x00169E20):
 // declared so this unit does not instantiate the generic sharebuf.h destructor.
 template<> ShareBufferClass<char>::~ShareBufferClass();

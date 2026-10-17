@@ -8,6 +8,9 @@
 // (volatile zero stores escape the or/and read-modify-write hoist and, unlike a fence, do not pin the EH-state store,
 // which then lands next to the clear() call as in retail).
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 template<class T> __forceinline volatile T &r1_vwrite(T &value) 
 
 {

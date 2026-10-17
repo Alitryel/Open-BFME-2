@@ -46,6 +46,9 @@
 #include "GameLogic/Module/HackInternetAIUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Object.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 //#include "GameLogic/PartitionManager.h"
 
 #ifdef _INTERNAL

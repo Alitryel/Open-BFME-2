@@ -19,6 +19,9 @@
 // Team's vtable slot 2 is retail's class-name getter (0x003A3709), not crc.
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::~_Rb_tree(); }
+// bfme link decl-only end
 
 
 class Rva0055B0CC

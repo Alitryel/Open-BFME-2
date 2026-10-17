@@ -44,6 +44,9 @@
 #include "GameClient/MapUtil.h"
 #include "GameLogic/AI.h"
 #include "GameLogic/AIPathfind.h"
+// bfme link decl-only begin
+namespace _STL { template <> ICoord2D * allocator<ICoord2D>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

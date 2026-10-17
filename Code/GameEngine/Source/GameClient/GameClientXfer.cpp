@@ -35,6 +35,9 @@ static inline bool operator!=(const _List_iterator<T, L> &a,
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 class Xfer;
 class DynamicAudioEventInfo {public:void xferNoName(Xfer*);};

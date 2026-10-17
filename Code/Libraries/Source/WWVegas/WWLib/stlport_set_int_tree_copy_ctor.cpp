@@ -12,6 +12,9 @@
 // pair<const int,int> names; the pin below adds the set<int> spelling for the
 // same address rather than editing those rows.
 #include <set>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_node<int> * _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::_M_create_node(int const &); }
+// bfme link decl-only end
 
 typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::allocator<int> > IntSetTree;
 

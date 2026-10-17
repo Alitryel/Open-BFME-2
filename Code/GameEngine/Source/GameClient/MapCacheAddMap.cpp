@@ -45,6 +45,9 @@ bool operator<(const AsciiString &,const AsciiString &);
 namespace _STL {template<> struct less<AsciiString> { bool operator()(const AsciiString&a,const AsciiString&b)const{return a<b;} };}
 
 #include "../../../Libraries/Include/Lib/Region3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
+// bfme link decl-only end
 class WaypointMap : public _STL::map<AsciiString,Coord3D> {public: void update(); int numStartSpots;};
 struct PlayerPosition { unsigned char human,computer,loadAIScripts; int forceTeam; _STL::set<AsciiString> factions; };
 struct MapPlayers { PlayerPosition items[8]; };

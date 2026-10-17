@@ -73,6 +73,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "decalmsh.h"
 #include "matrixmapper.h"
 #include "texture.h"
+// bfme link decl-only begin
+template <> RenderObjClass * MultiListClass<RenderObjClass>::Remove_Head();
+// bfme link decl-only end
 #pragma optimize("", on)
 
 

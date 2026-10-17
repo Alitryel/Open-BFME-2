@@ -61,6 +61,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "W3DDevice/GameClient/W3DGameClient.h"
 #include "W3DDevice/GameClient/Module/W3DTankTruckDraw.h"
 #include "WW3D2/matinfo.h"
+// bfme link decl-only begin
+template <> DynamicVectorClass<Render2DClass *>::~DynamicVectorClass();
+// bfme link decl-only end
 
 //#define SHOW_TANK_DEBRIS
 //-------------------------------------------------------------------------------------------------

@@ -74,6 +74,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameClient/GameClient.h"
 #include "GameClient/InGameUI.h"
 #include "GameClient/View.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 //#pragma optimize("", off)

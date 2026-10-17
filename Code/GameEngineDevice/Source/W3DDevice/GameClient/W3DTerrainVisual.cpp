@@ -82,6 +82,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "WW3D2/ColType.h"
 #include "WW3D2/ColTest.h"
 #include "WW3D2/assetmgr.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // placement unverified: no rowed DIR32 site yet; ZH asset-manager singleton starts null.
 WW3DAssetManager *WW3DAssetManager::TheInstance = 0;

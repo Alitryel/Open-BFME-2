@@ -160,6 +160,9 @@ public:
 #include "camera.h"
 #include "stripoptimizer.h"
 #include "meshgeometry.h"
+// bfme link decl-only begin
+template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
+// bfme link decl-only end
 
 /*
 ** Global Instance of the DX8MeshRender

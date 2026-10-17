@@ -12,6 +12,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include "Object872.h"
+// bfme link decl-only begin
+namespace _STL { template <> BfmeObject872 * vector<BfmeObject872, allocator<BfmeObject872> >::erase(BfmeObject872 *, BfmeObject872 *); }
+// bfme link decl-only end
 // bfme link decl-only: retail's operator= is StlportObject872Assign.cpp's
 // 0x002CFF66; this unit's /O2 copy differs and sorted first in link order.
 namespace _STL {

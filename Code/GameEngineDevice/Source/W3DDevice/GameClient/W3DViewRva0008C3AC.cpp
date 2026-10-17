@@ -20,6 +20,9 @@ template <> __declspec(dllimport) __forceinline void __malloc_alloc<0>::dealloca
 #include "Coord3D.h"
 #include "Coord2D.h"
 #include "GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 struct CameraCoordinates:Coord3D{CameraCoordinates(){}CameraCoordinates(const Coord3D&p){x=p.x;y=p.y;z=p.z;}};
 class RenderObjClass;
 template<class T> class RefMultiListIterator;

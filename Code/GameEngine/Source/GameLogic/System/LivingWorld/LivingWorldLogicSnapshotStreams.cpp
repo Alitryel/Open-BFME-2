@@ -2,6 +2,9 @@
 // stlport
 #include <list>
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _List_base<UnicodeString, allocator<UnicodeString> >::clear(); }
+// bfme link decl-only end
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free

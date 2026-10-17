@@ -345,6 +345,9 @@ struct Rva001DD1B3
 ;
 // stlport
 #include <set>
+// bfme link decl-only begin
+namespace _STL { template <> void vector<BfmePod52, allocator<BfmePod52> >::_M_fill_insert(BfmePod52 *, unsigned int, BfmePod52 const &); }
+// bfme link decl-only end
 typedef _STL::_Rb_tree<Rva001DD1B3, Rva001DD1B3, _STL::_Identity<Rva001DD1B3>, _STL::less<Rva001DD1B3>, _STL::allocator<Rva001DD1B3> > EvaDelayedTree;
 namespace _STL 
 {

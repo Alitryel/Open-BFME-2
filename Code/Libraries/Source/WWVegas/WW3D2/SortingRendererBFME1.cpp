@@ -171,6 +171,9 @@ public:
 #include "statistics.h"
 #include <wwprofile.h>
 #include <algorithm>
+// bfme link decl-only begin
+template <> RefCountPtr<TextureClass>::RefCountPtr();
+// bfme link decl-only end
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

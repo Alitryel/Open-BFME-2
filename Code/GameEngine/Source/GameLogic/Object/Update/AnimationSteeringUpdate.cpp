@@ -43,6 +43,9 @@
 #include "GameLogic/Object.h"
 #include "GameLogic/Module/AnimationSteeringUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

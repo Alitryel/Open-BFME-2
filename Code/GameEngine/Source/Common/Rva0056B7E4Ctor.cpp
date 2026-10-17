@@ -25,6 +25,9 @@
 #include "ascii_string.h"
 #include <vector>
 #include "int_dealloc.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<int, allocator<int> >::~vector(); }
+// bfme link decl-only end
 
 class Rva0056B7E4
 {

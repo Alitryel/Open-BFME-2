@@ -14,6 +14,9 @@
 // (news 0x3C, sole caller at 0x24B625). Row supersedes the ctor pin.
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<int, allocator<int> >::_Vector_base(allocator<int> const &); }
+// bfme link decl-only end
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
 // deallocate COMDATs (one byte shape per TU flags); explicit

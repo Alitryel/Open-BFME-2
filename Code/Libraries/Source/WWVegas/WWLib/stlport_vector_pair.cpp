@@ -5,6 +5,9 @@
 #include <stl/_alloc.h>
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 
 // Preserve retail's inlined buffer release while using the canonical public allocator.
 namespace _STL {

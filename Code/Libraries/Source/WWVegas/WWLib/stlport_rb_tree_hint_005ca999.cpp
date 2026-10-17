@@ -32,6 +32,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 }
 
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+// bfme link decl-only end
 bool operator<(const AsciiString &, const AsciiString &);
 // The list's base constructor is provided by the verified shared list family.
 extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::_List_base(const _STL::allocator<AsciiString> &);

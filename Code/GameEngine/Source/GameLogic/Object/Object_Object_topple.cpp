@@ -151,6 +151,9 @@ public:
 #include "Common/MiscAudio.h"
 #include "Common/AudioEventInfo.h"
 #include "Common/DynamicAudioEventInfo.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

@@ -8,6 +8,9 @@
 // 0x00C17E04 via gate. Evidence: vtable stores, callees rowed, dtor rowed
 // 0x0037381C, caller 0x0022F8CB.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pair<int const, void *> > >::_Rb_tree_base(allocator<pair<int const, void *> > const &); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

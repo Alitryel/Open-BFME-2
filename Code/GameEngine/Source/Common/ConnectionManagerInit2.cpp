@@ -7,6 +7,9 @@
 #include <set>
 #include <string.h>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pair<int const, void *> > >::_Rb_tree_base(allocator<pair<int const, void *> > const &); }
+// bfme link decl-only end
 
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
 // this TU emits no per-flag copy of them or of their allocator leaves.

@@ -12,6 +12,9 @@
 #include <map>
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+// bfme link decl-only end
 struct Rva00318CEBOther {char gap[0x14];int playerID;};
 class Rva00318CEB {public:bool rva00318CEB(const Rva00318CEBOther*);};
 class Rva002E071E {public:bool rva002E071E(const Rva002E071E*) const;};

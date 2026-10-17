@@ -81,6 +81,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwprofile.h"
 #include "wwmemlog.h"
 #include "assetmgr.h"
+// bfme link decl-only begin
+template <> bool VectorClass<Vector2>::operator==(VectorClass<Vector2> const &) const;
+// bfme link decl-only end
 
 // Retail Vector2/Vector4 resize bodies belong to Vector2Resize.cpp.
 // Declare their specializations so this consumer references those owners.

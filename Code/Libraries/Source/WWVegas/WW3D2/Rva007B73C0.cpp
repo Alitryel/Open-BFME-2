@@ -13,6 +13,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 void __cdecl operator delete[](void *) throw();
 #include "vector3.h"
 #include "vector.h"
+// bfme link decl-only begin
+template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
+// bfme link decl-only end
 class PointGroupClass {friend void Rva007B73C0(); static VectorClass<Vector3> transformed_loc;};
 // Native global9F709C is PointGroupClass::transformed_loc, read and resized by17E920.
 // Native complete7B73C0..7B73FB restores VectorClass<Vector3> vptr and clears owned storage.

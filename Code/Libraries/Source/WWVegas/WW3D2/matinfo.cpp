@@ -64,6 +64,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwdebug.h"
 #include "meshmdl.h"
 #include "texture.h"
+// bfme link decl-only begin
+template <> bool VectorClass<ShaderClass>::Resize(int, ShaderClass const *);
+// bfme link decl-only end
 
 // ??0MaterialInfoClass@@ present-unmatched
 MaterialInfoClass::MaterialInfoClass(void)

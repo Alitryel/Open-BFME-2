@@ -62,6 +62,9 @@ struct GeometryRecord
 class Xfer;
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<GeometryRecord, allocator<GeometryRecord> >::~vector(); }
+// bfme link decl-only end
 
 
 class GeometryInfo : public Snapshot

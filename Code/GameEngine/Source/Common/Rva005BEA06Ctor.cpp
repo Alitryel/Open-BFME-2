@@ -3,6 +3,9 @@
 // ??0Rva005BEA06@@QAE@XZ @0x005BEA06 28B
 // Evidence: unlock ctor clears +0x00 then vector<ushort> +0x04 with 3 via rowed 0x002339F3 clears +0x10 +0x14 returns this; caller 0x0052038A; precedent Rva0058062BCtor same vector init list.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 class Rva005BEA06
 {

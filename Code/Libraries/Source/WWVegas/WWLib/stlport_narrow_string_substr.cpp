@@ -7,6 +7,9 @@
 // MSVC retains its inline temporaries under /Od, fixing the 0x40 frame.
 
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+// bfme link decl-only end
 
 namespace _STL
 {

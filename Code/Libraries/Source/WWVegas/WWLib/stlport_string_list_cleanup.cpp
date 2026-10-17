@@ -9,6 +9,9 @@
 #include "ascii_string.h"
 #include <map>
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, list<AsciiString, allocator<AsciiString> > >, _Select1st<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > >, less<AsciiString>, allocator<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > >::_M_erase(_Rb_tree_node<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > *); }
+// bfme link decl-only end
 typedef _STL::pair<const AsciiString,_STL::list<AsciiString> > StringListPair;
 typedef _STL::_Rb_tree<AsciiString,StringListPair,_STL::_Select1st<StringListPair>,_STL::less<AsciiString>,_STL::allocator<StringListPair> > StringListTree;
 template StringListTree::~_Rb_tree();

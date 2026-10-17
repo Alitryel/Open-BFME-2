@@ -10,6 +10,9 @@
 // seven -1 words at +0x18..+0x30, zeros at +0x10/+0x14/+0x34, -1 at +0x0C).
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> int * allocator<int>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
 // deallocate COMDATs (one byte shape per TU flags); explicit

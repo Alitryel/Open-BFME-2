@@ -59,6 +59,9 @@
 #include "GameLogic/Module/CreateModule.h"
 #include "GameLogic/Module/DozerAIUpdate.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // BFME's AudioManager vtable puts addAudioEvent at slot 17; the ZH header lands
 // it at 12, so the call comes out [edx+0x30] instead of [edx+0x44].

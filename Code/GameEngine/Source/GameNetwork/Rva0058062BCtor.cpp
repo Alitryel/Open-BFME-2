@@ -12,6 +12,9 @@
 // Callers: 0x00581171 passes the list object plus the element's v07 result;
 // ret 8 with this in eax.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 class Rva000795C1Record
 {

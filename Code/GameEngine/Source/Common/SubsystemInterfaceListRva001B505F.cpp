@@ -14,6 +14,9 @@
 // throwing, which emits retail's state -1 store and the guarded, bottom-tested loops;
 // obj and flag declared at function scope before the vector give retail's frame slots.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 class ModuleData;
 

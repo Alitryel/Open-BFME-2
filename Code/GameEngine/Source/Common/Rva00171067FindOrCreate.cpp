@@ -16,6 +16,9 @@
 // and the copy keeps its own frame slot (a named local or a functional cast
 // makes the compiler re-materialise the address or elide the copy).
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> bool less<unsigned int>::operator()(unsigned int const &, unsigned int const &) const; }
+// bfme link decl-only end
 
 class TextureClass
 {

@@ -51,6 +51,9 @@ private:
 };
 
 #include "shader.h"
+// bfme link decl-only begin
+template <> RefCountPtr<TextureClass>::RefCountPtr();
+// bfme link decl-only end
 
 class RefCountClass {
 public:

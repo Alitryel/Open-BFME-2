@@ -5,6 +5,9 @@
 // Evidence: calls rowed baseConstruct 0x001B4E63 rowed Rva0022181D 0x0022181D rowed map 0x0033C432 rowed StringBase 0x00037BA0 rowed setName 0x0006F3CC; vtable at +0 auto; caller 0x00222105; precedent ShellCtor EH base.
 #include "ascii_string.h"
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

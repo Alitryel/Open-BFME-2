@@ -54,6 +54,9 @@ template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 #include "Common/Snapshot.h"
 #include "Coord3D.h"
 #include "../../Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 #pragma intrinsic(memset)
 template <> bool StringBase<char>::isEmpty() const throw();

@@ -12,6 +12,9 @@ template <> __forceinline void StringBase<char>::set(const char *text) {
     set(text, text ? strlen(text) : 0);
 }
 #include "ascii_string.h"
+// bfme link decl-only begin
+template <> void StringBase<char>::set(char const *);
+// bfme link decl-only end
 class Xfer;
 enum INILoadType {INI_LOAD_INVALID,INI_LOAD_OVERWRITE};
 class INI {

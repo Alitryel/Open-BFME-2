@@ -78,6 +78,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwmemlog.h"
 #include "w3dexclusionlist.h"
 #include "animatedsoundmgr.h"
+// bfme link decl-only begin
+template <> bool DynamicVectorClass<StringClass>::Add(StringClass const &);
+// bfme link decl-only end
 
 
 /*********************************************************************************************** 

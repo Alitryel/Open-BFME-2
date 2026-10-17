@@ -23,5 +23,8 @@ static inline const int &min(const int &a, const int &b)
 }
 #include <vector>
 #include <algorithm>
+// bfme link decl-only begin
+namespace _STL { template <> AsciiString * copy_backward<AsciiString *, AsciiString *>(AsciiString *, AsciiString *, AsciiString *); }
+// bfme link decl-only end
 
 template void _STL::stable_sort<AsciiString *>(AsciiString *, AsciiString *);

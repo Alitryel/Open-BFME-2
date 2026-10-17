@@ -6,6 +6,9 @@
 // declaration-only specialisation keeps that call out of line, as in retail.
 // The payload is int as in the rowed base (tgrid_008_Rva0006FA99.cpp).
 #include <slist>
+// bfme link decl-only begin
+namespace _STL { template <> _Slist_node_base * _Slist_base<int, allocator<int> >::_M_erase_after(_Slist_node_base *, _Slist_node_base *); }
+// bfme link decl-only end
 
 namespace _STL {
 template <> _Slist_base<int, allocator<int> >::_Slist_base(const allocator<int> &);

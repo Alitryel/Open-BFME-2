@@ -238,6 +238,9 @@ typedef char BFMERetailDirectInputKeyboardSizeCheck[ sizeof( DirectInputKeyboard
 #include "WW3D2/HAnim.h"
 #include "WW3D2/HTree.h"
 #include "WW3D2/AnimObj.h"  ///< @todo superhack for demo, remove!
+// bfme link decl-only begin
+template <> DynamicVectorClass<Render2DClass *>::~DynamicVectorClass();
+// bfme link decl-only end
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

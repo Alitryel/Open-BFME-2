@@ -12,6 +12,9 @@
 // recovered target callees; every byte of the constructor verifies.
 
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+// bfme link decl-only end
 
 namespace _STL
 {

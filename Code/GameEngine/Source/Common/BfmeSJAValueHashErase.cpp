@@ -18,6 +18,9 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 namespace rts
 {

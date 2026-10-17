@@ -54,6 +54,9 @@ public:
 #include "Common/ArchiveFile.h"
 #include "Common/File.h"
 #include "Common/PerfTimer.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, ArchivedFileInfo>, _Select1st<pair<AsciiString const, ArchivedFileInfo> >, less<AsciiString>, allocator<pair<AsciiString const, ArchivedFileInfo> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 #pragma inline_depth(0)
 // ?_bfmeDetailedDirMapAnchor@@YAXPAV?$map@VAsciiString@@VDetailedArchivedDirectoryInfo@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@VDetailedArchivedDirectoryInfo@@@_STL@@@3@@_STL@@@Z absent-from-retail

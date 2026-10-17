@@ -66,6 +66,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "static_sort_list.h"
 
 #include "rendobj.h"
+// bfme link decl-only begin
+template <> bool RefMultiListClass<RenderObjClass>::Release_Head();
+// bfme link decl-only end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Initialization Functions ////////////////////////////////////////////////////////////////////////

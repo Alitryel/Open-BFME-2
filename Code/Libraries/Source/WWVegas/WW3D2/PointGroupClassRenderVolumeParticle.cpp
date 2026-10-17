@@ -39,6 +39,9 @@ extern "C" void _ReadWriteBarrier(void);
 // DX8Wrapper setters; the BFME stage layout keeps the sixteen texture slots.
 #include "dx8wrapper.h"
 #include "vp.h"
+// bfme link decl-only begin
+template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
+// bfme link decl-only end
 
 // Retail Vector2/Vector4 resize bodies belong to Vector2Resize.cpp.
 // Declare their specializations so this consumer references those owners.

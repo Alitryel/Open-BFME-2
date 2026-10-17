@@ -315,6 +315,7 @@ extern "C" {
 // bfme link decl-only begin
 namespace _STL { template <> _Node_Alloc_Lock<1, 0>::~_Node_Alloc_Lock(); }
 namespace _STL { template <> void * __node_alloc<1, 0>::_S_refill(unsigned int); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
 #      define _FPCLASSIFY(x)     (_IS32(x)?_Fpclassf(x):_Fpclass(x))
        extern int _Fpclass(double);

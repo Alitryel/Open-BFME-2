@@ -127,6 +127,9 @@ public:
 };
 
 #include "../../../Common/PartitionRangeQueryCallView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, BfmeE8 const &, __false_type const &, unsigned int, bool); }
+// bfme link decl-only end
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {

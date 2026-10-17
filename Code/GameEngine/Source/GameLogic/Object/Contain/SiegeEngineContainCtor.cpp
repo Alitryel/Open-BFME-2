@@ -29,6 +29,9 @@ namespace _STL {
 template <> _List_base<int, allocator<int> >::~_List_base();
 }
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 class Thing;
 class ModuleData;

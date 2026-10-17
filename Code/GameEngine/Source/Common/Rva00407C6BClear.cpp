@@ -4,6 +4,9 @@
 // ?rva00407C6B@Rva00407C6B@@QAEXXZ retail 0x00407C6B 20B
 // Evidence: unlock lane; two Rb_tree int-int clears via twin pin clear 0x0021A917 (twin of dup); caller 0x00408C11; prev our Object 23B same /O1.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

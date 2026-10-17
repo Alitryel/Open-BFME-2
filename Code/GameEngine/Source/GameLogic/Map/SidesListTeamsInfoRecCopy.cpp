@@ -18,6 +18,9 @@
 #include <vector>
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<pair<AsciiString, AsciiString>, pair<pair<AsciiString, AsciiString> const, int>, _Select1st<pair<pair<AsciiString, AsciiString> const, int> >, less<pair<AsciiString, AsciiString> >, allocator<pair<pair<AsciiString, AsciiString> const, int> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 class Dict
 {

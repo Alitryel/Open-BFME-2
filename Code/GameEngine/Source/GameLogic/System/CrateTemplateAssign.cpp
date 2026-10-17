@@ -21,6 +21,9 @@ struct BfmeStringRecord000B757D
 	BfmeStringRecord000B757D &operator=(const BfmeStringRecord000B757D &o);	// out of line: pinned 0x001D9990
 };
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> _List_iterator<BfmeStringRecord000B757D, _Nonconst_traits<BfmeStringRecord000B757D> > list<BfmeStringRecord000B757D, allocator<BfmeStringRecord000B757D> >::insert(_List_iterator<BfmeStringRecord000B757D, _Nonconst_traits<BfmeStringRecord000B757D> >, BfmeStringRecord000B757D const &); }
+// bfme link decl-only end
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

@@ -46,6 +46,9 @@ void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<
 extern int BfmeLogicFramesPerSecond;
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::~_Rb_tree(); }
+// bfme link decl-only end
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 

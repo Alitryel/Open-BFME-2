@@ -28,6 +28,9 @@ template <typename T> struct BfmeStringData
 };
 
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> > list<UnicodeString, allocator<UnicodeString> >::insert(_List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> >, UnicodeString const &); }
+// bfme link decl-only end
 
 inline bool operator==(const UnicodeString &a, const UnicodeString &b)
 {

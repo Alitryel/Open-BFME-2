@@ -12,6 +12,9 @@
 // constructor at 0x0033C432 only as an ICF ABI view; target member types,
 // class purpose and remaining storage are unknown.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 class Rva00502D48
 {

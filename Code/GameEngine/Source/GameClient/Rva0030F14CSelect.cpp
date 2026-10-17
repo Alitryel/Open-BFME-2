@@ -22,6 +22,9 @@
 // writes its home only where the container branch replaces it, as retail does.
 #include <list>
 #include "Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 typedef int Int;
 enum KindOfType
 {

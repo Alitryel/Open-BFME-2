@@ -21,6 +21,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <list>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> ObjectID * vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *, ObjectID *); }
+// bfme link decl-only end
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free

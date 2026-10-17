@@ -52,6 +52,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "bez_fwd_iterator.h"
 
 #include "d3dx8math.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::resize(unsigned int); }
+// bfme link decl-only end
 
 // Declaration-only: the rowed vector<Coord3D> members are bound, this TU emits no per-flag copy.
 namespace _STL {

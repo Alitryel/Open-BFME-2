@@ -53,6 +53,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 #include "GameClient/GameText.h"
 #include "GameNetwork/DownloadManager.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_iterator<QueuedDownload, _Nonconst_traits<QueuedDownload> > list<QueuedDownload, allocator<QueuedDownload> >::insert(_List_iterator<QueuedDownload, _Nonconst_traits<QueuedDownload> >, QueuedDownload const &); }
+// bfme link decl-only end
 
 DownloadManager *TheDownloadManager;
 

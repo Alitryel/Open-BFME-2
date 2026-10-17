@@ -52,6 +52,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Module/CashHackSpecialPower.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<CashHackSpecialPowerModuleData::Upgrades, CashHackSpecialPowerModuleData::Upgrades>(CashHackSpecialPowerModuleData::Upgrades *, CashHackSpecialPowerModuleData::Upgrades const &); }
+// bfme link decl-only end
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

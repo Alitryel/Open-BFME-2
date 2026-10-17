@@ -17,6 +17,9 @@ typedef unsigned int UnsignedInt;
 #include "Common/Snapshot.h"
 #include "Coord2D.h"
 #include "RGBColor.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 class Vector3 { public: float X, Y, Z; Vector3(float a, float b, float c) { X=a; Y=b; Z=c; } };
 

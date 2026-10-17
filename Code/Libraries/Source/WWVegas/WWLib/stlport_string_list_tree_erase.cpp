@@ -16,6 +16,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include <list>
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, list<AsciiString, allocator<AsciiString> > >, _Select1st<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > >, less<AsciiString>, allocator<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > >::_M_erase(_Rb_tree_node<pair<AsciiString const, list<AsciiString, allocator<AsciiString> > > > *); }
+// bfme link decl-only end
 
 
 bool operator<(const AsciiString &left, const AsciiString &right);

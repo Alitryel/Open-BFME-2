@@ -190,6 +190,9 @@ typedef char SceneRenderInfoLightOffset[(offsetof(RenderInfoClass,light_environm
 #include "dx8wrapper.h"
 #include "light.h"
 #include "lightenvironment.h"
+// bfme link decl-only begin
+template <> bool RefMultiListClass<RenderObjClass>::Release_Head();
+// bfme link decl-only end
 typedef RefMultiListIterator<RenderObjClass> SceneRenderIterator;
 class BfmeVecHF;
 class Gen_0094AC70 { public: void bfmeSetPair(const BfmeVecHF*,const BfmeVecHF*); };

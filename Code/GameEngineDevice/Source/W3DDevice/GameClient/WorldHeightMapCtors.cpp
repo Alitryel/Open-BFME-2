@@ -31,6 +31,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<int, allocator<int> >::~vector(); }
+// bfme link decl-only end
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 

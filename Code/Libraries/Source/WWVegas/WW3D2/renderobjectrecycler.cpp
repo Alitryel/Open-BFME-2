@@ -57,6 +57,9 @@
 #include "assetmgr.h"
 #include "part_emt.h"
 #include "matrix3d.h"
+// bfme link decl-only begin
+template <> bool RefMultiListClass<RenderObjClass>::Release_Head();
+// bfme link decl-only end
 
 
 /***********************************************************************************************

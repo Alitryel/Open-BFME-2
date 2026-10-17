@@ -26,6 +26,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 }
 #include <vector>
 #include <algorithm>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 extern GameLogic *TheGameLogic;
 struct AIDozerLookupNode { AIDozerLookupNode *next; ObjectID key; Object *object; };

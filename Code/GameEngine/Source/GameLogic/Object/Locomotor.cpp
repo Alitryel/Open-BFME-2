@@ -66,6 +66,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/AIUpdate.h"
+// bfme link decl-only begin
+template <> float clamp<float>(float, float, float);
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

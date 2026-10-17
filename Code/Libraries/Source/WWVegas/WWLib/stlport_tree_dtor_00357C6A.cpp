@@ -7,6 +7,9 @@
 #include <stl/_alloc.h>
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 
 typedef _STL::pair<const unsigned, void *> Rva00357C6APair;
 

@@ -10,6 +10,9 @@
 // this=Player from getNthPlayer.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> int * allocator<int>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
 // deallocate COMDATs (one byte shape per TU flags); explicit
