@@ -332,3 +332,15 @@ int Rva00656B60Get(void)
 {
 	return (int)&g_rva00CE12FCMutex;
 }
+
+// Existing compiled-ledger global at VA0x00DD828C replaces the fixed image
+// address; the getter remains the complete six-byte native body.
+extern unsigned int g_Va00DD828C;
+// ?Rva006655E0Get@@YAHXZ @ 0x006655E0 (6B): returns 0x00DD828C.
+// CC-island (prev C3 then 6xCC, 10xCC after) between a C7-imm setter and
+// the next setter. 1 direct E8 caller (0x6579D3), Ghidra-6, no branch
+// sources. Opaque address-derived name.
+int Rva006655E0Get(void)
+{
+	return (int)&g_Va00DD828C;
+}

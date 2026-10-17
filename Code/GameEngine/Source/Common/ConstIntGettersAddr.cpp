@@ -155,14 +155,7 @@ int Rva005088C8Get(void)
 	return 0x00C64180;
 }
 
-// ?Rva006655E0Get@@YAHXZ @ 0x006655E0 (6B): returns 0x00DD828C.
-// CC-island (prev C3 then 6xCC, 10xCC after) between a C7-imm setter and
-// the next setter. 1 direct E8 caller (0x6579D3), Ghidra-6, no branch
-// sources. Opaque address-derived name.
-int Rva006655E0Get(void)
-{
-	return 0x00DD828C;
-}
+
 
 // ?Rva00668100Get@@YAHXZ @ 0x00668100 (6B): returns 0x00DD8314.
 // CC-island (10xCC after) following a call/leave/ret tail. 1 direct E8
