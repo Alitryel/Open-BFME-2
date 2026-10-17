@@ -1,4 +1,6 @@
 // ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
+// partial score=0.99 date=2026-10-17
+// ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
 // partial score=0.947068 date=2026-10-15
 // ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
 // partial score=0.836 date=2026-10-15
@@ -85,7 +87,9 @@ void Rva000BB3E6::rva000BB3E6(int a, int b, int c, int d, AsciiString bone, cons
 	}
 	else
 	{
-		if (m_holder->m_objAddr != 0)
-			FXList::doFXObj(fx, (const Object *)m_holder->m_objAddr, 0);
+		volatile Rva000BB3E6Holder *holder = m_holder;
+		if (holder->m_objAddr != 0)
+			FXList::doFXObj(fx,
+				m_holder->m_objAddr != 0 ? (const Object *)m_holder->m_objAddr : (const Object *)0, 0);
 	}
 }
