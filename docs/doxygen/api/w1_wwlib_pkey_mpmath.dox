@@ -97,30 +97,29 @@
 /// inputs, so there the output must not overlap an input.
 ///
 /// \par What else is here
-/// The remaining routines are small and not documented one by one:
+/// XMP_Count_Bits, XMP_Compare, the add and subtract routines, XMP_Neg,
+/// the shift and rotate routines, the multiply and divide routines that
+/// take a 16-bit number, XMP_Signed_Mult, and the double-width product and
+/// reduction helpers behind XMP_Mod_Mult have entries of their own;
+/// \ref grp_w1012_wwlib_mpmath_arith gives an overview of them. The
+/// remaining routines are small and not documented one by one:
 /// - setup and moves: XMP_Init, XMP_Move;
 /// - bit helpers, inline in mpmath.h with out-of-line copies in retail:
 ///   XMP_Set_Bit, XMP_Test_Bit, XMP_Bits_To_Mask, XMP_Bits_To_Digits,
 ///   XMP_Digits_To_Bits, XMP_Is_Negative;
-/// - queries: XMP_Count_Bits, XMP_Count_Bytes, XMP_Significance,
-///   XMP_Compare and XMP_Test_Eq_Int;
-/// - add, subtract, increment, negate and shift: XMP_Add, XMP_Add_Int,
-///   XMP_Sub, XMP_Sub_Int, XMP_Inc, XMP_Dec, XMP_Neg, XMP_Abs, XMP_Not,
-///   XMP_Rotate_Left, XMP_Shift_Left_Bits, XMP_Shift_Right_Bits;
-/// - multiply and divide by a 16-bit number: XMP_Unsigned_Mult_Int,
-///   XMP_Signed_Mult_Int, XMP_Unsigned_Div_Int;
-/// - signed full multiply: XMP_Signed_Mult, which handles the signs around
-///   XMP_Unsigned_Mult;
-/// - the double-width product and reduction behind XMP_Mod_Mult:
-///   XMP_Double_Mul, XMP_Hybrid_Mul and the quotient estimator
-///   mp_quo_digit, plus XMP_Mod_Mult_Clear, which wipes the staged modulus;
-/// - byte and text conversion: XMP_Encode, XMP_Encode_Bounded,
-///   XMP_Signed_Decode, XMP_Unsigned_Decode, XMP_DER_Encode, XMP_DER_Decode,
-///   XMP_DER_Length_Encode and XMP_Decode_ASCII;
-/// - random numbers from a Straw: XMP_Randomize, XMP_Randomize_Bounded;
-/// - primality: XMP_Is_Prime, XMP_Is_Small_Prime, XMP_Small_Divisors_Test,
-///   and the 3,511-entry primeTable (every prime up to 32719) that
+/// - queries: XMP_Count_Bytes, XMP_Significance and XMP_Test_Eq_Int;
+/// - increment, decrement, absolute value and complement: XMP_Inc,
+///   XMP_Dec, XMP_Abs, XMP_Not;
+/// - the 3,511-entry primeTable (every prime up to 32719) that
 ///   XMP_Fetch_Prime_Table and XMP_Fetch_Prime_Size expose.
+///
+/// The byte and text conversions XMP_Encode, XMP_Encode_Bounded,
+/// XMP_Signed_Decode, XMP_Unsigned_Decode, XMP_DER_Encode, XMP_DER_Decode,
+/// XMP_DER_Length_Encode and XMP_Decode_ASCII, the random-number routines
+/// XMP_Randomize and XMP_Randomize_Bounded, and the primality tests
+/// XMP_Is_Prime, XMP_Is_Small_Prime and XMP_Small_Divisors_Test have
+/// entries of their own; \ref grp_w1012_wwlib_mpmath_encode_prime gives an
+/// overview of them.
 ///
 /// \par Retail quirks
 /// Matched bodies, so retail behaves the same way:
@@ -473,14 +472,19 @@
 ///
 /// \par Implementation
 /// XMP_Double_Mul forms the full double-width product in a static staging
-/// buffer. The product is then reduced by long division in 16-bit units:
-/// mp_quo_digit estimates each quotient unit from the staged reciprocal
-/// (the source calls this Smith's modulo reduction), XMP_Hybrid_Mul
-/// subtracts that multiple of the modulus, and one subtraction of the
-/// modulus corrects an estimate that came out too large, which the source
-/// says is rare. The dividend is kept as its one's complement so that the
-/// subtraction becomes an addition.
-/// The low precision digits that remain are the result.
+/// buffer. The product is then reduced by long division in 16-bit units.
+/// Before the loop the dividend is replaced by its one's complement, so
+/// that adding to it subtracts from the true value. For each quotient unit,
+/// mp_quo_digit estimates the unit from the staged reciprocal (the source
+/// calls this Smith's modulo reduction), and XMP_Hybrid_Mul adds that
+/// multiple of the modulus to the complemented dividend, which subtracts it
+/// from the true value. An estimate that came out too large, which the
+/// source says is rare, leaves the top bit of the current leading unit
+/// clear. XMP_Mod_Mult then corrects it once: XMP_Sub subtracts the modulus
+/// from the one's-complement dividend, which adds one modulus back to the
+/// true remainder, the same as using a quotient unit one smaller. After the
+/// loop the low precision digits are complemented back and copied to prod
+/// as the result.
 ///
 /// \param prod         [out] The product modulo the staged modulus.
 /// \param multiplicand Must be below the modulus.
