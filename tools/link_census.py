@@ -1291,14 +1291,40 @@ UNREFERENCED_COPIES = OUT / "unreferenced_copies.json"
 LAYOUT_DIFF_BYTES = 4  # at most this many bytes off, same length: layout-like
 
 
+def instruction_shape(code):
+    """[(mnemonic, size, operands)] of x86 code with every register operand
+    reduced to "reg": two bodies of one shape differ only in register
+    allocation. Immediates and memory displacements stay, so a member
+    offset or a sizeof still shows."""
+    import capstone
+    from capstone import x86
+    md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    md.detail = True
+    shape = []
+    for ins in md.disasm(bytes(code), 0):
+        operands = []
+        for op in ins.operands:
+            if op.type == x86.X86_OP_REG:
+                operands.append("reg")
+            elif op.type == x86.X86_OP_IMM:
+                operands.append(("imm", op.imm))
+            elif op.type == x86.X86_OP_MEM:
+                operands.append(("mem", op.size, op.mem.disp, op.mem.scale, op.mem.base != 0, op.mem.index != 0))
+        shape.append((ins.mnemonic, ins.size, tuple(operands)))
+    return shape
+
+
 def copy_kind(body, majority):
     """(kind, differing bytes) of one COMDAT copy against the majority copy.
 
-    "layout" when it has the majority's length and at most LAYOUT_DIFF_BYTES
-    bytes differ (a member offset or a constant: a stale class view);
-    "relocation" when the bytes are equal and only the relocations differ (a
-    call or a vftable slot binding another name); "codegen" otherwise
-    (inlining, flags); "unclassified" when a body cannot be read."""
+    For a copy of the majority's length with differing bytes: "register" when
+    both decode to the same instructions, immediates and displacements and
+    only the register choice differs (register allocation, not layout);
+    else "layout" when at most LAYOUT_DIFF_BYTES bytes differ (a member
+    offset, a sizeof or an operand type: a stale class view). "relocation"
+    when the bytes are equal and only the relocations differ (a call or a
+    vftable slot binding another name); "codegen" otherwise (inlining,
+    flags); "unclassified" when a body cannot be read."""
     if body is None or majority is None:
         return "unclassified", None
     if len(body) != len(majority):
@@ -1306,6 +1332,8 @@ def copy_kind(body, majority):
     differ = sum(a != b for a, b in zip(body, majority))
     if not differ:
         return "relocation", 0
+    if instruction_shape(body) == instruction_shape(majority):
+        return "register", differ
     return ("layout" if differ <= LAYOUT_DIFF_BYTES else "codegen"), differ
 
 

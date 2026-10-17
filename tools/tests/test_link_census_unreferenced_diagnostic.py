@@ -1,7 +1,8 @@
 """The `unreferenced` rule's diagnostic: copies keep_rule exempts that differ
 from the majority copy are listed (link_census.unreferenced_differs,
 link_check's `diagnostic` lines, link_rank --stale-views) and classified
-layout-like / relocation / codegen-like, never charged as blockers."""
+layout-like / register / relocation / codegen-like, never charged as
+blockers."""
 import struct
 import sys
 from pathlib import Path
@@ -61,6 +62,10 @@ def census(tmp_path, bodies_by_object):
 
 @pytest.mark.parametrize("body,majority,kind,differ", [
     (STALE, GETTER, "layout", 1),
+    # ShaderClass's copy ctor in two units: mov ecx,[ecx]; mov [eax],ecx vs edx -- registers only
+    (bytes.fromhex("8bc18b4c24048b098908c20400"), bytes.fromhex("8bc18b4c24048b118910c20400"), "register", 2),
+    # a signed vs an unsigned bit index (sar vs shr): an operand type, layout-like
+    (bytes.fromhex("8bc8c1f805c3"), bytes.fromhex("8bc8c1e805c3"), "layout", 1),
     (GETTER, GETTER, "relocation", 0),
     (LONGER, GETTER, "codegen", None),
     (bytes(7), GETTER, "codegen", 5),

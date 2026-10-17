@@ -25,7 +25,8 @@ COMDAT copies with their retail-truth verdicts, and every file's blockers):
 and, never a blocker, `diagnostic` lines: copies keep_rule's `unreferenced`
 rule exempts that differ from the majority copy, classified layout-like
 (same length, at most link_census.LAYOUT_DIFF_BYTES bytes off: a stale private
-class view), relocation or codegen-like (link_census.unreferenced_differs).
+class view), register (same instructions, other registers), relocation or
+codegen-like (link_census.unreferenced_differs).
 
 These are the census's own rules and functions (Open-BFME-1's link_check.py,
 ported with them), so a file the census counts as linked is one this calls
@@ -843,6 +844,8 @@ def describe_differ(entry):
     if entry["kind"] == "layout":
         return (f"layout-like: {entry['bytes_differ']} byte(s) differ from the majority copy, same length "
                 "-- a stale private class view?")
+    if entry["kind"] == "register":
+        return "register allocation differs from the majority copy, same instructions and offsets"
     if entry["kind"] == "relocation":
         return "relocations differ from the majority copy, bytes equal"
     if entry["kind"] == "codegen":
