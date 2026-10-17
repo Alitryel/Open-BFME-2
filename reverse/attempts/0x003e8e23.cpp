@@ -1,4 +1,6 @@
 // ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
+// partial score=0.873 date=2026-10-17
+// ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
 // partial score=0.9586 date=2026-10-15
 // ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
 // partial score=0.8316 date=2026-10-14
@@ -438,6 +440,7 @@ public:
 class ObjectTypesTypeSet
 {
 public:
+	virtual ~ObjectTypesTypeSet();
 	Bool isInSet(const ThingTemplate *tmpl) const;
 };
 class ObjectTypesTemp
@@ -485,6 +488,7 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 					{
 						Int rank = tracker->getRank();
 						Bool matches = false;
+						*(Bool * volatile *)&matches = 0;
 						switch (comparisonParm->getInt())
 						{
 							case 0: matches = rank < rankParm->getInt(); break;
