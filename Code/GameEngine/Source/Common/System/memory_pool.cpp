@@ -132,7 +132,7 @@ public:
 	int rva00031430(const void *block, char *dst, unsigned int left);
 	unsigned int rva000311E0(const void *src, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap);
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
-	int rva00031D00(void *block);				// callee of 0x32160 (body unrecovered, address-derived name)
+	int rva00031D00(void *block);				// chunk check error count, callee of 0x32160 (address-derived name)
 	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
 	unsigned int rva00032050(void *chunk, unsigned int flags);	// locked per-chunk check count (banked, unrecovered; address-derived name)
 	unsigned int rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev);	// locked 0x32050 count plus free-chunk bits
@@ -180,7 +180,11 @@ private:
 	unsigned int m_maxFastSize;
 	Rva00031BF0Chunk* m_fastBins[10];
 	Rva00031BF0Chunk* m_bins[256];
-	char m_pad430[0x18];
+	char m_pad430[0x10];
+	// +0x440: the distinguished chunk 0x31BF0 classifies as kind 3 and
+	// 0x31D00 checks for self-linked fd/bk (label descriptive).
+	void *m_topChunk;
+	char m_pad444[4];
 	ListNode m_sentinel;
 	// Lock wrapper proven by 0x00032A20: Enter/Leave on the pointer at
 	// +0x4E4 with a use count at +0x18 of the wrapper.
@@ -189,7 +193,11 @@ private:
 		unsigned char m_pad[0x18];
 		int volatile m_count;
 	};
-	unsigned char m_pad468[0x49C - (0x448 + sizeof(ListNode))];
+	unsigned char m_pad468[0x470 - (0x448 + sizeof(ListNode))];
+	// +0x470: recursion guard 0x31D00 raises around its checks (label
+	// descriptive; it only runs them while the count is at most one).
+	int m_checkDepth;
+	unsigned char m_pad474[0x49C - 0x474];
 	// Second intrusive list proven by 0x00032160: sentinel embedded at +0x49C
 	// with its next pointer at +0xC; entries compare (node - *node) with the key.
 	// Only the offsets are target facts; the labels are descriptive.
@@ -200,7 +208,11 @@ private:
 		RegionLink *m_next;
 	};
 	RegionLink m_regions;
-	unsigned char m_pad4AC[0x4E4 - (0x49C + sizeof(RegionLink))];
+	unsigned char m_pad4AC[0x4D4 - (0x49C + sizeof(RegionLink))];
+	// +0x4D4: alignment unit 0x31D00 masks mapped-chunk bounds with (minus
+	// one); a page size by its use, the original name is unknown.
+	unsigned int m_pageSize;
+	unsigned char m_pad4D8[0x4E4 - 0x4D8];
 	Lock *m_4E4;
 };
 
@@ -1113,6 +1125,73 @@ int GeneralAllocator::rva00031BF0(const void* block) {
    if(p==chunk) return 2;
  }
  return 0;
+}
+
+// ?rva00031D00@GeneralAllocator@Allocator@EA@@QAEHPAX@Z @0x00031D00 351B
+// Native 31D00..31E5F RET4. Under the +0x4E4 lock, and only while the +0x470
+// recursion guard is at most one, counts failed consistency checks of the
+// chunk at the argument: size range; for a mapped chunk (size bit 2) region
+// membership via 0x31680 and +0x4D4-unit alignment of both ends plus 8-byte
+// alignment; otherwise containment in the 0x31680 region, plus self-linked
+// list words, minimum size and a clear in-use bit for the +0x440 chunk, or
+// the region-start and fencepost bounds when the region list holds one entry.
+// Each check is spelled (cond) && 1: that keeps retail's one-add-per-check
+// order (a plain (cond) term lets the optimizer pair the adds), and the
+// in-use bit is re-read as a byte as retail does. Check meanings follow the
+// dlmalloc-family chunk checks; only offsets and operations are target facts.
+int GeneralAllocator::rva00031D00(void *block)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+	int errors = 0;
+	int depth = m_checkDepth;
+	if (depth <= 1)
+	{
+		++depth;
+		m_checkDepth = depth;
+		const unsigned int *header = (const unsigned int *)block;
+		unsigned int size = header[1] & 0x7FFFFFF8;
+		errors += (size >= 0x40000000) && 1;
+		if ((header[1] & 2) != 0)
+		{
+			errors += (rva00031680(block) != 0) && 1;
+			errors += ((((unsigned int)block - header[0]) & (m_pageSize - 1)) != 0) && 1;
+			errors += ((((unsigned int)block + size + 0x10) & (m_pageSize - 1)) != 0) && 1;
+			errors += (((unsigned char)(unsigned int)block & 7) != 0) && 1;
+		}
+		else
+		{
+			ListNode *region = (ListNode *)rva00031680(block);
+			errors += (region == 0) && 1;
+			errors += ((unsigned int)block < region->m_unk0) && 1;
+			unsigned int regionEnd = region->m_unk0 + region->m_size;
+			errors += ((unsigned int)block >= regionEnd) && 1;
+			unsigned int blockEnd = (unsigned int)block + size;
+			errors += (blockEnd >= regionEnd) && 1;
+			if (block == m_topChunk)
+			{
+				errors += (header[2] != (unsigned int)block || header[3] != (unsigned int)block) && 1;
+				errors += (size < 0x10) && 1;
+				errors += (((unsigned char)~*(const unsigned char *)(header + 1)) & 1) && 1;
+			}
+			else if (m_sentinel.m_prev == m_sentinel.m_next)
+			{
+				errors += ((unsigned int)block < region->m_unk0) && 1;
+				errors += ((unsigned int)region + region->m_size - 0x10 < blockEnd) && 1;
+			}
+		}
+		m_checkDepth = depth - 1;
+	}
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return errors;
 }
 }
 }
