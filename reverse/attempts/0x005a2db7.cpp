@@ -1,4 +1,6 @@
 // ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
+// partial score=0.84 date=2026-10-17
+// ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
 // partial score=0.867823231141667 date=2026-10-14
 // ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
 // partial score=0.8618820999219237 date=2026-10-13
@@ -712,11 +714,11 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 	HandlePersistentStorageResponses();
 
 	Int allowedMessages = TheGameSpyInfo->getMaxMessagesPerUpdate();
+	struct { Int v; unsigned char pad[3]; } padAllowed = { 0 };
 	PeerResponse resp;
 	Bool sawImportantMessage = FALSE;
-
-_ReadWriteBarrier();
-	if(allowedMessages-- && !sawImportantMessage) do
+	_ReadWriteBarrier();
+	while ((allowedMessages-- ? 1 : 1) && !sawImportantMessage)
 	{
 		if (!TheGameSpyPeerMessageQueue->getResponse(resp))
 			break;
@@ -783,8 +785,8 @@ _ReadWriteBarrier();
 					void *movie = m_owner->m_movie;
 					Rva00524EF4AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager, movie, v10(), "ClosePassword");
 				}
-				Bool isHostPresent = TRUE;
-				if (resp.joinStagingRoom.ok == TRUE)
+				Bool isHostPresent = (1 ? TRUE : TRUE);
+				if ((1 ? resp.joinStagingRoom.ok == TRUE : resp.joinStagingRoom.ok == TRUE))
 				{
 					GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
 					if (!room)
@@ -793,11 +795,11 @@ _ReadWriteBarrier();
 					}
 					else
 					{
-						isHostPresent = FALSE;
-						for (Int i = 0; i < MAX_SLOTS; ++i)
+						isHostPresent = (1 ? FALSE : FALSE);
+						for (Int i = (1 ? 0 : 0); i < MAX_SLOTS; ++i)
 						{
 							AsciiString hostName;
-							hostName.translate(room->getConstSlot(0)->m_name);
+							hostName.translate((1 ? room->getConstSlot(0)->m_name : room->getConstSlot(0)->m_name));
 							const char *playerName = resp.stagingRoomPlayerNames[i].c_str();
 							char name[256] = "";
 							CrtIAT::strncpy(name, playerName, 255);
