@@ -1,6 +1,11 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.81 date=2026-10-17
-// claudeb3 r4: sourcePos rotated (pitch, angle), scaled by factor, THEN translated by pos (retail 0x4cb..0x549); frame 0x88+8 left.
+// partial score=0.862 date=2026-10-17
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.8044951179662893 date=2026-10-14
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.7862699169745524 date=2026-10-14
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.7682677643035726 date=2026-10-14
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
 // Corrected live-camera pitch semantics: no XY inverse-pitch adjustment on that branch.
 // Uses actual donor WWMath::Sqrt x87 helper and by-value constraints; see evidence JSON.
@@ -97,6 +102,14 @@ public:
 		X = v.X;
 		Y = v.Y;
 		Z = v.Z;
+	}
+
+	Vector3 &operator=(const Coord3D &that)
+	{
+		X = that.x;
+		Y = that.y;
+		Z = that.z;
+		return *this;
 	}
 
 	Vector3 &operator=(const Vector3 &v)
@@ -425,8 +438,8 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     }
     v->pos.x+=v->shakeX;v->pos.y+=v->shakeY;
     if(v->mode==2) {
-        sourcePos.Set(__vref(v->pos.x),v->pos.y,v->pos.z);
-        if(v->explicitTarget.lengthSqr()==0.0f) targetPos.Set(v->pos.x,v->pos.y,0);
+        sourcePos=v->pos;
+        if(v->explicitTarget.lengthSqr()==0.0f) {targetPos=sourcePos;targetPos.Z=0;}
         else targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
         v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll); return;
     }
@@ -443,7 +456,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         if(capped<0.5f)capped=0.5f;
         v->fov=0.87266463f*capped;
     } else {
-        sourcePos.Set(v->offset.X*v->zoom,v->offset.Y*v->zoom,v->offset.Z*v->zoom);
+        sourcePos.X=v->offset.X*v->zoom;sourcePos.Y=v->offset.Y*v->zoom;sourcePos.Z=v->offset.Z*v->zoom;
         if(v->liveCamera) {
             Object *object=TheGameLogic->findObjectByID(v->lock);
             if(object) sourcePos.Z=(v->offset.Z+object->getPosition()->z)*v->zoom;
