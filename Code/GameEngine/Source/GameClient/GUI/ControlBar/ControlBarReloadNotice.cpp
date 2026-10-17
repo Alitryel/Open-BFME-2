@@ -26,20 +26,20 @@
 #include <hash_map>
 #include <cstddef>
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// the retail copy serves the link. Imported inline: still inlined, never emitted.
 namespace _STL {
-template <> void *&_STL::vector<void*>::operator[](size_t);
+template <> __declspec(dllimport) __forceinline void *&_STL::vector<void*>::operator[](size_t __n) { return *(this->_M_start + __n); }
 }
 // Suppress this TU's non-retail vector<void*> begin/end copies (family2-LK3 rows 6/9):
-// the retail copies serve the link. Plain declaration-only form (no __imp_).
+// the retail copies serve the link. Imported inline: still inlined, never emitted.
 namespace _STL {
-template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
+template <> __declspec(dllimport) __forceinline void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void*>::end() { return this->_M_finish; }
 }
 // Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// the retail copy serves the link. Imported inline: still inlined, never emitted.
 namespace _STL {
-template <> size_t vector<void*>::size() const;
+template <> __declspec(dllimport) __forceinline size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
 }
 
 // g_Va00E01D0C: VA 0x00E01D0C (.bss); retail initial byte 00.
