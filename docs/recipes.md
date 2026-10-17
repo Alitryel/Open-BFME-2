@@ -48,6 +48,16 @@ draft and `next_work.py` serves `wpo` candidates last.
 - **Typed struct arrays, not byte-offset arithmetic.** Indexing a modelled
   array reproduces retail's `[index+base]` operand order. The TheAudio volume
   loops 0x0005244A and 0x000524AA.
+- **Donor class shapes over flattened arrays.** A private Matrix3D with
+  `float Row[3][4]` and hand-inlined identity stores missed two scheduling
+  slots even with two `_ReadWriteBarrier()` calls. The donor's shapes matched:
+  Vector4 rows, `Set` and `Make_Identity`, `sinf`/`cosf`, all forced inline
+  as WWINLINE spells them. A plain `inline` Matrix3D is called out of line
+  at /O1. Rva001040D5 camera setup 0x0010473F.
+- **Constructor arguments run right to left.** When retail calls B before A
+  and both values feed one object, build it as `T v(A(), B())`. That gave
+  retail's getHeight-then-getWidth order and its float homes, which separate
+  locals and member assignments did not. Same function.
 - **Real STLport containers over hand-written views.** Use `_STL::vector`
   and friends from the vendored headers; private views drift in codegen and
   block linking. CreateAHeroManager::GetSubClassDefaultBlingId 0x0021BF11
