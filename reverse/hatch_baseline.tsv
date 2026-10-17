@@ -1883,7 +1883,6 @@ address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShaderManage
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DViewCameraModFinalPitchBfme.cpp	g_Va00DE204C	2
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DViewCameraModFinalZoomBfme.cpp	g_Va00DE204C	2
 address_global	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp	g_pRva006E97A0Object	2
-address_global	Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp	g_Va00E1F55C	2
 address_global	Code/Libraries/Source/DirtySock/ProtoSSLParseCertificate.c	g_Rva0112CB48	2
 address_global	Code/Libraries/Source/DirtySock/ProtoSSLParseCertificate.c	g_Rva0112CB48EmptyStrings	4
 address_global	Code/Libraries/Source/DirtySock/ProtoSSLParseCertificate.c	g_Rva0112CB48Modulus0	2
@@ -39590,7 +39589,6 @@ present_unmatched	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptScriptFunctionBodies.cpp	AptObject::AptObject	1
 present_unmatched	Code/Libraries/Source/Apt/AptValue/AptValueVector.cpp	bfmeEmitAptValueVector@@YAXPAVAptValueNameEntry@@@Z	1
 present_unmatched	Code/Libraries/Source/Apt/AptValue/Rva006DA4D0Finish.cpp	Rva006DA4D0::Rva006DA4D0	1
-present_unmatched	Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp	bfmeEmitRtcGetErrorFunc@@YAXXZ	1
 present_unmatched	Code/Libraries/Source/Compression/LZHCompress/CompLibSource/Huff.cpp	1HuffStat@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/DirtySock/Rva006560E0Deleter.cpp	0Rva006560E0@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/DirtySock/Rva006560E0Deleter.cpp	marked	1
