@@ -1,5 +1,12 @@
 // ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.99 date=2026-10-17
+// partial score=0.992315541601256 date=2026-10-17
+// Oct17 review: the later farm rewrite was rejected by the normal float-ref
+// gate. Multiplying 0.01 before g_secondsPerLogicFrame is NOT exact: its
+// __real@3c23d70a relocation lands on mutable native DBA4F8 (retail 0.2f).
+// Keep this earlier correct expression and its honest two-instruction residue:
+// native FMUL frame-time then MOV ECX receiver; this emits MOV ECX then FMUL.
+// Full392B with every existing home row intact; ten additional receiver/ref/
+// volatile/global controls do not fix scheduling. No production code retained.
 // ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9923155416012559 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
@@ -197,7 +204,10 @@ UpdateSleepTime TransportContain::update()
 				BodyModuleInterface *body = object->m_body;
 				if (body->getHealth() < body->getMaxHealth())
 				{
-					float regen = (body->getMaxHealth() * md->m_healthRegen * 0.01f) * g_secondsPerLogicFrame;
+					float regen = body->getMaxHealth();
+					regen *= md->m_healthRegen;
+					regen *= g_secondsPerLogicFrame;
+					regen *= 0.01f;
 					object->attemptHealing(regen, m_object);
 				}
 			}
