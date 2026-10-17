@@ -1,9 +1,6 @@
 // ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z
-// partial score=0.9741983547385209 date=2026-10-14
 // ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z
-// partial score=0.9386475126 date=2026-10-10
 // ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z
-// partial score=0.9386475126363394 date=2026-10-10
 // ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /EHsc /arch:SSE /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
@@ -221,17 +218,16 @@ void SubTitleWindow::rva00260BBF(const StringBase<unsigned short>&text,unsigned 
   while(*start&&SubtitleSeparator(*start))++start;
   p=start;
   const unsigned short*lastBreak=start;
-  if((p ? (!*p) : (!*p)))continue;
+  if(*p==0)continue;
   do
   {
-   unsigned short c=*p;
-   while(c&&SubtitleSeparator(c))
+   while(*p&&(( *p==0x20)||(*p==0x95)))
    {
     ++p;
-    c=*p;
-    
    }
-   while(*p&&!SubtitleSeparator(*p)&&*p!='\n')++p;
+   if(!*p)goto subtitle_word_done;
+   while(*p&&!( *p==0x20||*p==0x95)&&*p!='\n')++p;
+   subtitle_word_done:
    UnicodeString measured(start,(int)(p-start));
    m_00->setText(measured);
    int w,h;
