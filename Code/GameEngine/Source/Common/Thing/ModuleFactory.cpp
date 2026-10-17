@@ -388,7 +388,8 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( RebuildHoleExposeDie );
 	BFME_EMIT_MODULE_INSTANCE( KeepObjectDie );
 	BFME_EMIT_MODULE_INSTANCE( StealthDetectorUpdate );
-	BFME_EMIT_MODULE_DATA( AutoDepositUpdate );
+	// Keep the rowed deleting destructor without emitting the ZH INI parser.
+	(void)new AutoDepositUpdateModuleData;
 	BFME_EMIT_MODULE_INSTANCE( LaserUpdate );
 	BFME_EMIT_MODULE_INSTANCE( OCLUpdate );
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
