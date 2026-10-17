@@ -18920,7 +18920,7 @@ _rva005DE059,0x005DE059,address,placeholder
 ??_GRva005E54AE@@UAEPAXI@Z,0x005E54B9,address,placeholder
 ??0Rva005E54D5@@QAE@HHH@Z,0x005E54D5,address,placeholder
 ?method@Rva005E5554@@QAEXXZ,0x005E5554,address,placeholder
-?step@Rva005E5554@@QAEXXZ,0x005E5554,address,placeholder
+?step@Rva005E5554@@UAEXXZ,0x005E5554,address,placeholder
 ??_GRva005E54F7@@QAEPAXI@Z,0x005E5628,address,placeholder
 ??_GRva005E567D@@UAEPAXI@Z,0x005E567D,address,placeholder
 ??0Rva005E569A@@QAE@HPAX@Z,0x005E569A,address,placeholder

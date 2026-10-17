@@ -235,7 +235,8 @@ public:
 class Rva005E5554
 {
 public:
-	void step();
+	// virtual: also reached through the this-8 thunk 0x005CDA53.
+	virtual void step();
 };
 
 

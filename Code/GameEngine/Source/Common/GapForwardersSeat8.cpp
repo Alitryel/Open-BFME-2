@@ -380,6 +380,8 @@ Rva005756B6::Rva005756B6(EmitVtableTag *) {}
 DEFINE_THUNK_UAE(Rva005E6B8F, rva005E6B8F, 0x08, ())
 // ?<Rva0047E33F::Rva0047E33F> absent-from-retail
 DEFINE_THUNK_UAE(Rva0047E33F, rva0047E33F, 0x20, (int, int))
+// ?<Rva005E5554::Rva005E5554> absent-from-retail
+DEFINE_THUNK_UAE(Rva005E5554, step, 0x08, ())
 struct Rva00575CA6_BaseA { virtual void rva00575CA6() = 0; };
 struct Rva00575CA6_BaseB { virtual void rva00575CA6() = 0; };
 class Rva00575CA6 : public Rva00575CA6_BaseA, public Rva00575CA6_BaseB
