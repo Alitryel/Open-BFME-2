@@ -493,97 +493,7 @@ Bridge * TerrainLogic::findBridgeLayerAt( const Coord3D *pLoc, PathfindLayerEnum
 	return(NULL);
 }
 
-// ?objectInteractsWithBridgeLayer@TerrainLogic@@UBE_NPAVObject@@H_N@Z @0x002804B2
-// Zero Hour's test less its LAYER_WALL case.
-Bool TerrainLogic::objectInteractsWithBridgeLayer(Object *obj, Int layer, Bool considerBridgeHealth) const
-{
-	if (layer == LAYER_GROUND) return false;
-	Bridge *pBridge = getFirstBridge();
 
-	while (pBridge ) {
-		if (pBridge->getLayer() == layer) {
-			Bool match = false;
-			if (pBridge->isPointOnBridge(obj->getPosition()) ) {
-				match = true;
-			}
-
-			Real radius = obj->getGeometryInfo().getMinorRadius();
-			radius += PATHFIND_CELL_SIZE_F/2.0f;
-			Region2D bounds;
-			bounds.lo.x = obj->getPosition()->x;
-			bounds.lo.y = obj->getPosition()->y;
-			bounds.hi = bounds.lo;
-			bounds.lo.x -= radius;
-			bounds.lo.y -= radius;
-			bounds.hi.x += radius;
-			bounds.hi.y += radius;
-			if (pBridge->isCellOnEnd(&bounds)) {
-				match = true;
-			}
-
-			if (match) {
-				Real bridgeHeight = pBridge->getBridgeHeight(obj->getPosition(), NULL);
-				Real delta = fabs(obj->getPosition()->z-bridgeHeight);
-				if (delta>LAYER_Z_CLOSE_ENOUGH_F) {
-					return false;
-				}
-
-				// make sure it's not destroyed. can't interact with dead bridges.
-				if (considerBridgeHealth && pBridge->peekBridgeInfo()->curDamageState == BODY_RUBBLE)
-				{
-					return false;
-				}
-
-				return true;
-			}
-			return false;
-		}
-
-		pBridge = pBridge->getNext();
-	}
-	return(false);
-}
-
-// ?objectInteractsWithBridgeEnd@TerrainLogic@@UBE_NPAVObject@@H@Z @0x002805C1
-Bool TerrainLogic::objectInteractsWithBridgeEnd(Object *obj, Int layer) const
-{
-	if (layer == LAYER_GROUND) return false;
-	Bridge *pBridge = getFirstBridge();
-
-	while (pBridge ) {
-		if (pBridge->getLayer() == layer) {
-			Bool match = false;
-
-			Real radius = obj->getGeometryInfo().getMinorRadius();
-			radius += PATHFIND_CELL_SIZE_F/2.0f;
-			Region2D bounds;
-			bounds.lo.x = obj->getPosition()->x;
-			bounds.lo.y = obj->getPosition()->y;
-			bounds.hi = bounds.lo;
-			bounds.lo.x -= radius;
-			bounds.lo.y -= radius;
-			bounds.hi.x += radius;
-			bounds.hi.y += radius;
-			if (pBridge->isCellOnEnd(&bounds)) {
-				match = true;
-			}
-
-			if (match) {
-				Real bridgeHeight = pBridge->getBridgeHeight(obj->getPosition(), NULL);
-				Real delta = fabs(obj->getPosition()->z-bridgeHeight);
-				if (delta>LAYER_Z_CLOSE_ENOUGH_F)
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
-		}
-
-		pBridge = pBridge->getNext();
-	}
-	return(false);
-}
 
 // ?pickBridge@TerrainLogic@@UAE_NABVVector3@@0PAV2@@Z @0x00281ECA
 // Zero Hour's pick, reporting a hit rather than the drawable; with no bridge
@@ -664,17 +574,6 @@ void TerrainLogic::deleteBridge( Bridge *bridge )
 	// delete the bridge in question
 	bridge->deleteInstance();
 
-}  // end deleteBridge
-
-// ?updateBridgeDamageStates@TerrainLogic@@UAEXXZ @0x00281EA5
-void TerrainLogic::updateBridgeDamageStates( void )
-{
-	Bridge *pBridge = getFirstBridge();
-	while (pBridge) {
-		pBridge->updateDamageState();
-		pBridge = pBridge->getNext();
-	}
-	m_bridgeDamageStatesChanged = true;
 }
 
 // ?loadPostProcess@TerrainLogic@@MAEXXZ @0x002820A0
@@ -692,113 +591,10 @@ void TerrainLogic::loadPostProcess( void )
 	}
 }
 
-// ?getHighestLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PBUCoord3D@@_N@Z @0x002803F9
-// Zero Hour's search less its wall layer.
-PathfindLayerEnum TerrainLogic::getHighestLayerForDestination(const Coord3D *pos, Bool onlyHealthyBridges)
-{
-	PathfindLayerEnum bestLayer = LAYER_GROUND;
-	Real bestDistance = pos->z - getGroundHeight(pos->x, pos->y);	// NOT fabs in this case.
 
-	for (Bridge *pBridge = getFirstBridge(); pBridge != NULL; pBridge = pBridge->getNext()) {
-
-		if (onlyHealthyBridges && pBridge->peekBridgeInfo()->curDamageState == BODY_RUBBLE)
-			continue;
-
-		if (pBridge->isPointOnBridge(pos) ) {
-			Real delta = pos->z - pBridge->getBridgeHeight(pos, NULL);
-			// must be ABOVE (or on) the bridge for this call. (srj)
-			if (delta >= 0 && fabs(delta) < fabs(bestDistance)) {
-				bestLayer = (PathfindLayerEnum)pBridge->getLayer();
-				bestDistance = delta;
-			}
-		}
-	}
-	return(bestLayer);
-}
-
-// ?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z @0x002802FE
-// Zero Hour's nearest-deck search; BFME 2 replaces its wall check with the
-// pathfinder's ramp test and, failing that, the pathfinder's own layer
-// choice for the object at a copy of the position (0x002ED236).
-PathfindLayerEnum TerrainLogic::getLayerForDestination(Object *obj, const Coord3D *pos)
-{
-	Bridge *pBridge = getFirstBridge();
-	PathfindLayerEnum bestLayer = LAYER_GROUND;
-	Real bestDistance = fabs(pos->z - getGroundHeight(pos->x, pos->y));
-	while (pBridge ) {
-		if (pBridge->isPointOnBridge(pos) ) {
-			Real bridgeHeight = pBridge->getBridgeHeight(pos, NULL);
-			Real delta = fabs(pos->z-bridgeHeight);
-			if (delta<bestDistance) {
-				bestLayer = (PathfindLayerEnum)pBridge->getLayer();
-				bestDistance = delta;
-			}
-		}
-		pBridge = pBridge->getNext();
-	}
-	if (bestLayer == LAYER_GROUND) {
-		if (TheAI->pathfinder()->IsPointOnRamp(pos)) {
-			bestLayer = LAYER_RAMP;
-		} else if (TheAI && TheAI->pathfinder()) {
-			bestLayer = TheAI->pathfinder()->rva002ED236(obj, *pos);
-		}
-	}
-	return bestLayer;
-}
 
 extern TerrainLogic *TheTerrainLogic;
 
-// ?updateDamageState@Bridge@@QAEXXZ @0x00281C13
-// Zero Hour's update: a bridge that falls to rubble closes its pathfinder
-// layer and kills (damage and death type 11) whatever stands on it; one
-// repaired from rubble reopens the layer unless scaffolding is still up.
-void Bridge::updateDamageState( void )
-{
-	m_bridgeInfo.damageStateChanged = false;
-	if (m_bridgeInfo.bridgeObjectID == INVALID_OBJECT_ID) {
-		return; // no object
-	}
-	Object *bridge = TheGameLogic->findObjectByID(m_bridgeInfo.bridgeObjectID);
-	if (bridge) {
-		BodyDamageType damageState = bridge->getBodyModule()->getDamageState();
-		if (damageState == m_bridgeInfo.curDamageState) {
-			return;
-		}
-		BodyDamageType prevDamageState = m_bridgeInfo.curDamageState;
-		m_bridgeInfo.curDamageState = damageState;
-		if (damageState == BODY_RUBBLE) {
-			// Kill anything on the bridge.
-			TheAI->pathfinder()->SetBridgeStateRepaired(m_layer, false);
-			m_bridgeInfo.damageStateChanged = true;
-
-			Object *obj;
-			for (obj = TheGameLogic->getFirstObject(); obj; obj=obj->getNextObject()) {
-				if (obj->rva0028B511() == m_layer) {
-					if (TheTerrainLogic->objectInteractsWithBridgeLayer(obj, obj->rva0028B511(), false)) {
-						DamageInfo damageInfo;
-						damageInfo.m_damageType = 11;
-						damageInfo.m_deathType = 11;
-						damageInfo.m_sourceID = obj->getID();
-						damageInfo.m_amount = HUGE_DAMAGE_AMOUNT;
-						obj->attemptDamage( &damageInfo );
-					}
-				}
-			}
-		}
-		if (prevDamageState == BODY_RUBBLE)
-		{
-			// we're repairing from rubble.
-			BridgeBehaviorInterface *bbi = BridgeBehavior::getBridgeBehaviorInterfaceFromObject( bridge );
-			if( bbi == NULL || bbi->isScaffoldPresent() == false )
-			{
-				TheAI->pathfinder()->SetBridgeStateRepaired(m_layer, true);
-			}
-			m_bridgeInfo.damageStateChanged = true;
-		}
-	} else {
-		m_bridgeInfo.bridgeObjectID = INVALID_OBJECT_ID;
-	}
-}
 
 // Inline here as in Zero Hour's BaseType.h. The cell tests still call the
 // out-of-line normalize (rowed in coord3d.cpp with length, 0x000035B6 and
