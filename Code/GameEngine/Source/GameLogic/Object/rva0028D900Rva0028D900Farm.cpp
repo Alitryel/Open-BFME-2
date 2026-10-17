@@ -1,5 +1,4 @@
 // ?rva0028D900@Object@@QAE_NPAM0@Z
-// partial score=0.95 date=2026-10-10
 // cl: /O1 /DNDEBUG /MD /arch:SSE
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -19,6 +18,7 @@ class Object
 public:
     bool rva0028D900(float *out1, float *out2);
 private:
+    static inline float value(Sub028D900 *sub) { return sub->m_val534; }
     char m_pad0[4];
     Sub028D900 *m_sub4;
     char m_pad8[0xB0];
@@ -32,9 +32,7 @@ bool Object::rva0028D900(float *out1, float *out2)
         *out2 = 0.0f;
         return false;
     }
-    float v = 1.5f;
-    if (m_sub4)
-        v = m_sub4->m_val534;
+    float v = !m_sub4 ? 1.5f : value(m_sub4);
     float s = max(20.0f, min(150.0f, m_multB8 * v));
     *out1 = 3.0f;
     *out2 = max(20.0f, s * 2.0f);
