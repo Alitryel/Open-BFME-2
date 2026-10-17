@@ -1316,7 +1316,7 @@ Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/GapBodiesSeat5A.cpp,no,7,0,0,0,0
 Code/GameEngine/Source/Common/GapBodiesSeat5B.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,yes,0,0,0,0,0
+Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,no,3,0,0,0,1
 Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/GapThunksSeat8.cpp,yes,0,0,0,0,0
@@ -7758,7 +7758,7 @@ Code/GameEngine/Source/Common/Rva007B5DE0StaticInstance.cpp,no,0,0,1,0,0
 Code/GameEngine/Source/Common/Rva007B6610.cpp,no,3,0,0,0,0
 Code/GameEngine/Source/Common/Rva007B67C0ArrayInit.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva007B6830SegLineInit.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,no,65,1,0,2,1
+Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,no,64,1,0,2,1
 Code/GameEngine/Source/Common/Rva007B6890SingletonFwd.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/Rva007B68D0Siblings.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp,no,80,0,0,0,0
@@ -8449,7 +8449,7 @@ Code/GameEngine/Source/Common/System/Rva0002BF4AClear.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva0002CB02Operator.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva0002F9A0CopyGlobalString.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva00030730Init.cpp,no,11,0,0,0,0
-Code/GameEngine/Source/Common/System/Rva00031010Insert.cpp,yes,0,0,0,0,0
+Code/GameEngine/Source/Common/System/Rva00031010Insert.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva000317C0Cluster.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva00032050Cluster.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/System/Rva00032920Finish.cpp,yes,0,0,0,0,0
@@ -11592,7 +11592,7 @@ Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustTargetDestination.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderAttackViewForwarders.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderBuildGroundPath.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/AI/PathfinderCellLineWalks.cpp,no,2,0,0,0,0
+Code/GameEngine/Source/GameLogic/AI/PathfinderCellLineWalks.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderCellObjectQuery.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderCellQueryPredicates.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/AI/PathfinderCheckForMovement.cpp,yes,0,0,0,0,0
@@ -14048,7 +14048,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DeployStyleAIUpdateModul
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DeployStyleAIUpdateXfer.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdate.cpp,no,16,0,8,0,3
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateConstruct.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp,no,165,0,5,0,1
+Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp,no,164,0,5,0,1
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateDeleter.cpp,no,0,0,1,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateModuleDataCtor.cpp,no,0,0,0,1,1
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateResumeConstruction.cpp,yes,0,0,0,0,0
@@ -22706,6 +22706,7 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva004e32f2_overflow.cpp,no,0
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva004e32f2_pushback.cpp,no,0,0,7,0,0
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva004f77e0_dtor.cpp,no,0,0,1,0,1
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00504755_overflow.cpp,yes,0,0,0,0,0
+Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00523ec0marker_pop_back.cpp,no,1,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0052bde6_overflow.cpp,no,0,0,3,0,1
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0052bde6_pushback.cpp,no,0,0,6,0,1
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva0052bef0_overflow.cpp,no,0,0,3,0,1
