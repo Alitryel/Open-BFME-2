@@ -96269,3 +96269,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva005CF9B2@Rva005CF9B2@@QAEXXZ,,0x005CF9B2,23,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,vtable forwarder via +0xC pointer then rowed 0x0042D697 and 0x005CB265
 ?invoke@Rva007EB6D0Object@@QAEXXZ,,0x00658660,13,Code/GameEngine/Source/Common/Rva007EB6D0VirtualTail.cpp,matched,virtual tail-call via advance() to +0x24 target tail(); sibling of 0x00658670
 ?swap@?$list@UcrateCreationEntry@@V?$allocator@UcrateCreationEntry@@@_STL@@@_STL@@QAEXAAV12@@Z,,0x00288A79,15,Code/GameEngine/Source/Common/System/CrateCreationEntryListClear.cpp,matched,list<crateCreationEntry>::swap delegating to alloc_proxy swap 0x00574B2D
+??0Rva002BF7AC@@QAE@HABV?$allocator@PAVGameWindow@@@_STL@@@Z,,0x002BF7AC,18,Code/GameEngine/Source/GameClient/Rva002BF77BDispatch.cpp,matched,vector base constructor delegating to _Vector_base<GameWindow*> 0x00211E58

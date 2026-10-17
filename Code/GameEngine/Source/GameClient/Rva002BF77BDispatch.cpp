@@ -43,3 +43,25 @@ void Rva002BF77B::rva002BF77B(){
  WindowVideoManager::WindowVideoMap::iterator it=table.begin();
  for(;it!=table.end();++it)reinterpret_cast<Rva002BF77BTarget*>(it->second)->dispatch();
 }
+
+namespace _STL {
+template <class _Tp, class _Alloc> class _Vector_base;
+template <>
+class _Vector_base<GameWindow*, allocator<GameWindow*> >
+{
+public:
+	_Vector_base(const allocator<GameWindow*> &);
+};
+}
+
+class Rva002BF7AC : public _STL::_Vector_base<GameWindow*, _STL::allocator<GameWindow*> >
+{
+public:
+	Rva002BF7AC(int unused, const _STL::allocator<GameWindow*> &a);
+};
+
+Rva002BF7AC::Rva002BF7AC(int unused, const _STL::allocator<GameWindow*> &a)
+	: _STL::_Vector_base<GameWindow*, _STL::allocator<GameWindow*> >(a)
+{
+}
+
