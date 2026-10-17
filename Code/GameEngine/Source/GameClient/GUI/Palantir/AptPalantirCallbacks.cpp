@@ -409,23 +409,8 @@ void AptPalantir::OnBttnObjectives(const char *unused)
 	m_e5 = false;
 }
 
-// Retail 0x002D30F8, 16 bytes: "AptPalantir::OnBttnObserveNextPlayer".
-void AptPalantir::OnBttnObserveNextPlayer(const char *unused)
-{
-	ThePlayerList->rva002A8306(true);
-}
 
-// Retail 0x002D3108, 16 bytes: "AptPalantir::OnBttnObservePriorPlayer".
-void AptPalantir::OnBttnObservePriorPlayer(const char *unused)
-{
-	ThePlayerList->rva002A8306(false);
-}
 
-// Retail 0x002D3118, 13 bytes: "AptPalantir::OnBttnMessenger".
-void AptPalantir::OnBttnMessenger(const char *value)
-{
-	Rva005117DF(value);
-}
 
 // Retail 0x002D3002, 197 bytes: "AptPalantir::OnBttnSpellStore" clicks the
 // control bar's general button for the player: the button's owner gets
@@ -552,12 +537,6 @@ void AptPalantir::rva002D3E84(const char *unused)
 		TheControlBar->rva004C1B60(0, (void *)button);
 }
 
-// Retail 0x002D3EEA, 146 bytes: "AptPalantir::OnHelpBoxLoaded" builds the
-// help box panel for the loaded movie.
-void AptPalantir::OnHelpBoxLoaded(const char *path)
-{
-	((Rva002D38EB *)&m_helpBox)->reset(new Rva00527CCE(AptUtils::LevelIndexFromTarget(path), AsciiString(AptUtils::SkipLevelN(path))));
-}
 
 // Retail 0x002D3F8A, 160 bytes: "AptPalantir::OnHeroSelectLoaded".
 void AptPalantir::OnHeroSelectLoaded(const char *path)
@@ -583,21 +562,7 @@ Rva0052710C::Rva0052710C(int level, const AsciiString &name, void *c0, void *f8)
 {
 }
 
-// Retail 0x00528AC3, 67 bytes: called at 0x002D5835 for the four-byte slot
-// at caller this+0x90. It allocates 0xDC bytes and forwards this plus the
-// caller's EDI argument to 0x005288C4. Payload semantics are unknown.
-Rva00528AC3::Rva00528AC3(void *argument)
-	: m_0(new Rva005288C4Payload(this, argument))
-{
-}
 
-// Retail 0x0052A244, 67 bytes: called at 0x002D5825 for the four-byte slot
-// at caller this+0x8C. It allocates 0xDC bytes and forwards this plus the
-// caller's EDI argument to 0x00529FC5. Payload semantics are unknown.
-Rva0052A244::Rva0052A244(void *argument)
-	: m_0(new Rva00529FC5Payload(this, argument))
-{
-}
 
 // Retail 0x0052AF1C, 67 bytes: called at 0x002D5845 for the four-byte slot
 // at caller this+0x94. It allocates 0x230 bytes and forwards this plus the
