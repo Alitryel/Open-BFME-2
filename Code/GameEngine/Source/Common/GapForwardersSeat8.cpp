@@ -389,6 +389,11 @@ DEFINE_THUNK_UAE(Rva00085947, rva00085947, 0xB4, ())
 // W3DView's secondary base at +0xB4 (vtable 0x007C7530) also declares init.
 // ?<W3DView::W3DView> absent-from-retail
 DEFINE_THUNK_UAE(W3DView, init, 0xB4, ())
+// ?<Rva0030817A::Rva0030817A> absent-from-retail
+DEFINE_THUNK_UAE(Rva0030817A, rva0030817A, 0x30, (int))
+struct Rva00472444Mask;
+// ?<Rva00472444::Rva00472444> absent-from-retail
+DEFINE_THUNK_UAE(Rva00472444, rva00472444, 0xFC, (const Rva00472444Mask &, const AsciiString *))
 struct Rva00575CA6_BaseA { virtual void rva00575CA6() = 0; };
 struct Rva00575CA6_BaseB { virtual void rva00575CA6() = 0; };
 class Rva00575CA6 : public Rva00575CA6_BaseA, public Rva00575CA6_BaseB

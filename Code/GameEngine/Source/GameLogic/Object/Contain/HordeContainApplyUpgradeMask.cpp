@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /Ireference/shims/bfmealloc /MD /EHs /EHc- /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
-// ?rva00472444@Rva00472444@@QAEXABURva00472444Mask@@PBVAsciiString@@@Z,
+// ?rva00472444@Rva00472444@@UAEXABURva00472444Mask@@PBVAsciiString@@@Z,
 // retail 0x00472444..0x004725D5 (401 B, RET 8), on the horde contain's +0x20
 // interface: collects the upgrade templates of every set bit of a 1024-bit
 // mask, then applies each one an object still lacks to every contained
@@ -39,8 +39,10 @@ struct Rva0046247DPair {void *first;const _STL::list<Object *> *second;};
 class Rva0046247D {public:__declspec(noinline) void rva0046247D(Rva0046247DPair &p){void *base=this;char *field=(char *)base+0x20;p.first=base?field:0;p.second=(const _STL::list<Object *> *)((char *)base+0x54);}};
 class HordeContain {public:bool rva004723F2(Object *,const AsciiString &);};
 struct Rva00472444Mask {unsigned int words[32];__forceinline bool test(unsigned int bit)const{return (words[bit>>5] & (1U<<(bit&31)))!=0;}};
-class Rva00472444 {public:void rva00472444(const Rva00472444Mask &,const AsciiString *);
-private:char unknown[0x150];_STL::set<int> m_ids;
+class Rva00472444 {public:
+// virtual: also reached through the this-0xFC thunk 0x00474142.
+virtual void rva00472444(const Rva00472444Mask &,const AsciiString *);
+private:char unknown[0x150 - 4];_STL::set<int> m_ids;
 };
 void Rva00472444::rva00472444(const Rva00472444Mask &mask,const AsciiString *name){
  Rva0046247DPair pair;

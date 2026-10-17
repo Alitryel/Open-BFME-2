@@ -5,7 +5,7 @@
 // ?rva00330B41@Rva00330B2E@@QAEXH@Z, retail 0x00330B41, 15 bytes.
 // Same class: stores arg at +0x30 (right after 0x28-sized m_08) then calls
 // slot12. Caller 0x30817D (jmp). Abuts 0x30B2E (tail jmp ends FF 60 30).
-// ?rva0030817A@Rva0030817A@@QAEXH@Z, retail 0x0030817A, 8 bytes.
+// ?rva0030817A@Rva0030817A@@UAEXH@Z, retail 0x0030817A, 8 bytes.
 // Chain: add ecx,0x30 + jmp to Rva00330B2E::rva00330B41. Caller 0x308FDC.
 // ?rva003081C7@Rva003081C7@@QAEEXZ, retail 0x003081C7, 24 bytes.
 // Null-checked word at +4 of object at +0x80, returns (word > 0).
@@ -53,14 +53,15 @@ void Rva00330B2E::rva00330B41(int v)
 }
 
 //
-// ?rva0030817A@Rva0030817A@@QAEXH@Z retail 0x0030817A 8 bytes.
+// ?rva0030817A@Rva0030817A@@UAEXH@Z retail 0x0030817A 8 bytes.
 // Holder+0x30 forwards int arg to Rva00330B2E::rva00330B41 (tail jmp).
 class Rva0030817A
 {
 public:
-	void rva0030817A(int v);
+	// virtual: also reached through the this-0x30 thunk 0x00308FD9.
+	virtual void rva0030817A(int v);
 private:
-	char m_pad00[0x30];
+	char m_pad04[0x30 - 4];
 	Rva00330B2E m_30;
 };
 

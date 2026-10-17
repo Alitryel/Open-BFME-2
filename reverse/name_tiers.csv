@@ -7502,7 +7502,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?rva00308139@Rva00308139@@QAEXABVAsciiString@@@Z,0x00308139,address,placeholder
 ?get@Rva00308156LeaGetter@@QBEPAXXZ,0x00308156,address,placeholder
 ?rva0030815D@Rva0030815D@@QAEXABVAsciiString@@@Z,0x0030815D,address,placeholder
-?rva0030817A@Rva0030817A@@QAEXH@Z,0x0030817A,address,placeholder
+?rva0030817A@Rva0030817A@@UAEXH@Z,0x0030817A,address,placeholder
 ?rva003081C7@Rva003081C7@@QAEEXZ,0x003081C7,address,placeholder
 ?rva003081DF@Rva003081DF@@QAEXXZ,0x003081DF,address,placeholder
 ?rva003081FB@Rva003081FB@@QAEEXZ,0x003081FB,address,placeholder
