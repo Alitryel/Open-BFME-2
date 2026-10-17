@@ -71,6 +71,34 @@ enum ParticleSystemID
 	INVALID_PARTICLE_SYSTEM_ID = 0
 };
 
+// Keep stateless allocator wrappers inline and provide the real POD-vector
+// teardown used by native exception cleanup. These bodies follow the local
+// allocator shim and STLport header; reusing the allocator subobject avoids
+// introducing a temporary lifetime into retail's five-state EH graph.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ParticleSystemID>::deallocate(ParticleSystemID *__p, size_t __n) const
+{
+    _STLP_ASSERT((__p == 0) == (__n == 0))
+    if (__p != 0) ::free((void *)__p);
+}
+
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ParticleSystemID *, ParticleSystemID, allocator<ParticleSystemID> >::deallocate(ParticleSystemID *__p, size_t __n)
+{
+    __stl_alloc_rebind(static_cast<allocator<ParticleSystemID> &>(*this),
+        (ParticleSystemID *)0).deallocate(__p, __n);
+}
+
+template <> __declspec(nothrow) __forceinline
+_Vector_base<ParticleSystemID, allocator<ParticleSystemID> >::~_Vector_base()
+{
+    if (_M_start != 0)
+        _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+
+}
+
 typedef _STL::vector<ParticleSystemID, _STL::allocator<ParticleSystemID> > ParticleSystemIDVec;
 
 enum { BONE_FX_MAX_BONES = 8 };

@@ -53,6 +53,13 @@ enum ParticleSystemID
 typedef _STL::vector<ParticleSystemID, _STL::allocator<ParticleSystemID> > ParticleSystemIDVec;
 
 namespace _STL {
+// The destructor unit supplies the native 14-byte POD vector teardown.
+// Keep constructor-failure cleanup calls external to that shared provider.
+template <>
+_Vector_base<ParticleSystemID, allocator<ParticleSystemID> >::~_Vector_base();
+template <>
+vector<ParticleSystemID, allocator<ParticleSystemID> >::~vector();
+
 // Declared-only explicit specializations: keep the calls external so this TU
 // emits no COMDAT copy of its own (the kept retail/first copies link).
 // throw() keeps retail's nothrow analysis (no extra EH state in the ctor).
