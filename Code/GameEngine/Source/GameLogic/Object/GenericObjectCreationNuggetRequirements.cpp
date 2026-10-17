@@ -112,13 +112,3 @@ bool GenericObjectCreationNugget::rva001F1513(const Object *obj) const
 	return false;
 }
 
-void GenericObjectCreationNugget::create(const Object *primary, const Object *secondary, unsigned int lifetimeFrames) const
-{
-	if (primary) {
-		if (m_skipIfSignificantlyAirborne && primary->isSignificantlyAboveTerrain())
-			return;
-		if (rva001F1513(primary))
-			reallyCreate((const Coord3D *)primary->m_position, (const Matrix3D *)((const char *)primary + 8),
-				primary->m_pad44, primary, lifetimeFrames);
-	}
-}
