@@ -1,4 +1,6 @@
 // ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
+// partial score=0.686 date=2026-10-17
+// ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
 // partial score=0.845 date=2026-10-15
 // ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
 // partial score=0.85986 date=2026-10-14
@@ -42,6 +44,8 @@ bool Locomotor::locoUpdate_maintainCurrentPosition(Object *obj)
 {
  if(!obj) return false;
  savedTransform.m[0]=obj->transform.m[0]; savedTransform.m[1]=obj->transform.m[1]; savedTransform.m[2]=obj->transform.m[2]; savedTransform.m[3]=obj->transform.m[3]; savedTransform.m[4]=obj->transform.m[4]; savedTransform.m[5]=obj->transform.m[5]; savedTransform.m[6]=obj->transform.m[6]; savedTransform.m[7]=obj->transform.m[7]; savedTransform.m[8]=obj->transform.m[8]; savedTransform.m[9]=obj->transform.m[9]; savedTransform.m[10]=obj->transform.m[10]; savedTransform.m[11]=obj->transform.m[11];
+ Matrix3D *dst=&savedTransform;
+ dst->m[0]=obj->transform.m[0]; dst->m[1]=obj->transform.m[1]; dst->m[2]=obj->transform.m[2]; dst->m[3]=obj->transform.m[3]; dst->m[4]=obj->transform.m[4]; dst->m[5]=obj->transform.m[5]; dst->m[6]=obj->transform.m[6]; dst->m[7]=obj->transform.m[7]; dst->m[8]=obj->transform.m[8]; dst->m[9]=obj->transform.m[9]; dst->m[10]=obj->transform.m[10]; dst->m[11]=obj->transform.m[11];
  if(!getFlag(2)) {maintainPos=obj->position;flags|=4;}
  if(!obj->hasCondition(61)) {
   obj->clearCondition(133); obj->clearCondition(134);
@@ -68,7 +72,7 @@ bool Locomotor::locoUpdate_maintainCurrentPosition(Object *obj)
  default:
   speed=0.0f;((Rva001E6516*)this)->rva001E6516(obj);requiresConstantCalling=true;break;
  }
- if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=requiresConstantCalling;
+ if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=true;
  ((Thing*)obj)->setTransformMatrix(&savedTransform);
  return requiresConstantCalling;
 }
