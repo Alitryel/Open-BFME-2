@@ -1296,7 +1296,7 @@ _Rva0088E1A0ShowAssertCrashDialog,0x0003D880,address,placeholder
 ?rva00072740@Rva00072740@@QAEPAHXZ,0x00072740,address,placeholder
 ?rva0007274B@Rva00072740@@QAEPAHXZ,0x0007274B,address,placeholder
 ?get@Rva00072756MaskedChaseField@@QBEHXZ,0x00072756,address,placeholder
-??_GRva00072899@@UAEPAXI@Z,0x00072899,address,placeholder
+??_GRefCountClass@@MAEPAXI@Z,0x00072899,address,placeholder
 ?rva000728E2@Rva000728E2@@QAEXXZ,0x000728E2,address,placeholder
 ?rva000729CC@Rva000729CC@@QAEX_N@Z,0x000729CC,address,placeholder
 ?set@Gen_00727030@@QAEX_N@Z,0x000729DA,address,placeholder

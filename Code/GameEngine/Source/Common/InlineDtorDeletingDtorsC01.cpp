@@ -12,7 +12,7 @@
 //   wrapper     vtable
 //   0x00051E4D  0x00BC5128  Rva00051E4D
 //   0x000723C7  0x00BC64B0  Rva000723C7
-//   0x00072899  0x00BC650C  Rva00072899
+//   0x00072899  0x00BC650C  RefCountClass
 //   0x00074626  0x00BC65A8  Rva00074626
 //   0x0007827B  0x00BC6778  FileFactoryClass
 //   0x0007DFF2  0x00BC6F24  Rva0007DFF2
@@ -68,15 +68,24 @@ Rva000723C7::Rva000723C7(EmitVtableTag *)
 {
 }
 
-class Rva00072899
+// WWLib refcount.h declares the destructor protected: virtual ~RefCountClass(void)
+// (retail mangle MAE, witnessed by the matched ??1RefCountClass@@MAE@XZ at
+// 0x00072892 and the census-named ??_GRefCountClass@@MAEPAXI@Z COMDAT copies).
+// Consumer-compatible two-virtual view, matching GapBodiesGE31.cpp: Delete_This
+// is slot zero (supplied externally, not called here) and the protected empty
+// dtor is slot one; the deleting-dtor body does not depend on the NumRefs
+// layout, so no members are modelled.
+class RefCountClass
 {
 public:
-	Rva00072899(EmitVtableTag *);
-	virtual ~Rva00072899() {}
+	RefCountClass(EmitVtableTag *);
+	virtual void Delete_This();
+protected:
+	virtual ~RefCountClass() {}
 };
 
-// ?<Rva00072899::Rva00072899> absent-from-retail
-Rva00072899::Rva00072899(EmitVtableTag *)
+// ?<RefCountClass::RefCountClass> absent-from-retail
+RefCountClass::RefCountClass(EmitVtableTag *)
 {
 }
 
