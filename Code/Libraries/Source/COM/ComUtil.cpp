@@ -73,7 +73,10 @@ extern "C" __declspec(dllimport) int __stdcall lstrlen(const char*);
 extern "C" __declspec(dllimport) int __stdcall MultiByteToWideChar(unsigned int,unsigned long,const char*,int,unsigned short*,int);
 extern "C" __declspec(dllimport) unsigned short *__stdcall SysAllocString(const unsigned short*);
 extern "C" void *__cdecl malloc(unsigned int);
-extern "C" void __cdecl free(void*);
+// The CRT import thunk forwards the caller's stack. Reuse its existing owner
+// and pointer-taking ABI view, as Rva009F68C6PointerArray.cpp does; global
+// free instead names the game's memory-pool override at RVA 00030830.
+void __cdecl ji_00628f98();
 extern "C" void *__cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 namespace _com_util {
@@ -91,12 +94,12 @@ namespace _com_util {
   } __except(1) {temporary=0;}
   if(!temporary) {_com_issue_error((long)0x8007000e);return 0;}
   if(!MultiByteToWideChar(0,0,source,inputLength,temporary,outputLength)) {
-   if(outputLength>=4096)free(temporary);
+   if(outputLength>=4096)((void (__cdecl *)(void *))&ji_00628f98)(temporary);
    _com_issue_error((long)GetLastError()<=0 ? (long)GetLastError() : (long)((GetLastError()&0xffff)|0x80070000));
    return 0;
   }
   unsigned short *result=SysAllocString(temporary);
-  if(outputLength>=4096)free(temporary);
+  if(outputLength>=4096)((void (__cdecl *)(void *))&ji_00628f98)(temporary);
   if(!result)_com_issue_error((long)0x8007000e);
   return result;
  }
