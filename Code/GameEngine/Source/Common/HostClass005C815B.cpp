@@ -3,10 +3,13 @@
 struct Rva005C847BRecord {
 	char pad[0x48];
 	void method_005C901B();
-	void method_005C8F50(int a0, int a1);
 	void method_005C90F1(int a0, int a1);
 	void method_005C9311(int m14, int a0, float a1);
 };
+
+// 0x005C8F50 is rowed as Rva005C8F50Elem::rva005C8F50 (Rva005C8F50Method.cpp),
+// the same 0x48-byte record viewed through its filtered-erase member.
+class Rva005C8F50Elem { public: void rva005C8F50(int a, int b); };
 
 class HostClass005C815B {
 public:
@@ -33,7 +36,7 @@ void HostClass005C815B::method_005C815B()
 void HostClass005C815B::method_005C834A(int a0, int a1)
 {
 	for (Rva005C847BRecord *it = m_start; it != m_finish; ++it) {
-		it->method_005C8F50(a0, a1);
+		((Rva005C8F50Elem *)it)->rva005C8F50(a0, a1);
 	}
 }
 
