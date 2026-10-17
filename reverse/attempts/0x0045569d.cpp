@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.976 date=2026-10-17
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.76 date=2026-10-15
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.94 date=2026-10-15
@@ -462,6 +464,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	CreateMask statusBits;
 	memset(&statusBits, 0, sizeof(statusBits));
 	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, false);
+	_ReadWriteBarrier();
 	obj->rva0028BAC0();
 	Real orientation = angle;
 	obj->setProducer(foundation);
@@ -486,7 +489,8 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 					delta.y = foundation->getPosition()->y;
 					delta.x -= keep->getPosition()->x;
 					delta.y -= keep->getPosition()->y;
-					orientation = normalizeAngle(Rva000422A0Atan2(delta.y, delta.x));
+					const Coord3D *deltaPtr = &delta;
+					orientation = normalizeAngle(Rva000422A0Atan2(deltaPtr->y, deltaPtr->x));
 					orientation = obj->getTemplate()->getPlacementAngle() + orientation;
 				}
 			}
@@ -555,11 +559,14 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	BfmeItemE63 *oldMember = (BfmeItemE63 *)getObject()->findModule(memberKey);
 	if (newMember && oldMember)
 	{
-		newMember->m_keepID = oldMember->m_keepID;
+		((BfmeItemE63 * volatile *)&newMember)[0] = newMember;
+		ObjectID keepID = *(volatile ObjectID *)&oldMember->m_keepID;
+		newMember->m_keepID = keepID;
 		newMember->m_castleID = oldMember->m_castleID;
 		if (!isRebuild)
 		{
-			UnsignedInt cost = what->rva0033A69A(owningPlayer, (1 ? ((Int)getObject()) : ((Int)getObject())), -1);
+			Int selfInt = (Int)getObject();
+			UnsignedInt cost = obj->getTemplate()->rva0033A69A(owningPlayer, selfInt, -1);
 			owningPlayer->getMoney()->rva003B0CB3(cost, owningPlayer->getStats(), true);
 			owningPlayer->getStats()->rva0039BAD2((Rva0039BAD2Input *)what, cost);
 			obj->m_buildCost = (Real)cost;
