@@ -1,4 +1,6 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
+// partial score=0.794 date=2026-10-17
+// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.9 date=2026-10-15
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.9 date=2026-10-15
@@ -13,6 +15,8 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.98 date=2026-10-11
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // BFME2's score screen Apt callbacks, 0x0051BF75 onward, bound by these
@@ -904,14 +908,20 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 void AptScoreScreen::rva0051DE3D()
 
 {
- if (!m_objectives)
+ struct { AptScoreObjectives *v; unsigned char pad[3]; } _o = { m_objectives };
+ struct { int v; unsigned char pad[3]; } _c = { 0 };
+ AptScoreObjectives *objectives = _o.v;
+ if (!objectives)
  return;
- for (int i = 0; i < m_objectives->m_count; ++i)
+ int count = objectives->m_count;
+ _c.v = count;
+ count = _c.v;
+ for (int i = 0; i < count; ++i)
  
  {
   AsciiString key;
   key.format("APT:objective%d", i);
-  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(m_objectives->m_labels[i].str()), false);
+  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(objectives->m_labels[i].str()), false);
   
  }
  if (!TheGameLogic || !TheThingFactory)
@@ -946,11 +956,13 @@ void AptScoreScreen::rva0051DE3D()
  }
  _STL::sort<BfmeE12Key *>((BfmeE12Key *)heroes.begin(), (BfmeE12Key *)heroes.end());
  m_heroUpgrades.clear();
- for (unsigned int k = 0; k < heroes.size(); ++k)
+ unsigned int k = 0;
+ for (; k < heroes.size(); ++k)
  
  {
   AsciiString key;
-  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", m_heroUpgrades.end() - m_heroUpgrades.begin() + 1);
+  int slot = (int)(m_heroUpgrades.end() - m_heroUpgrades.begin()) + 1;
+  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", slot);
   TheRva00222A8BTarget->rva002239E2(key, heroes[k].image);
   m_heroUpgrades.push_back(heroes[k].upgraded);
   
