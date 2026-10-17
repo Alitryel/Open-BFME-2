@@ -14,6 +14,11 @@
 // placeholder, not a claim (present-unmatched). Names are address-derived
 // (Rva<dtor rva>) and disclaim identity.
 // Audit 2026-09-26: all 30 wrapper/callee boundaries and both calls verified.
+// Retired 2026-10-17: the 0x000D1E6C/0x000D1E88 pair. Its owner is proven to
+// be ShareBufferClass<unsigned> -- the pinned dtor's vtable store 0xBCE330 is
+// the vtable the rowed ctor 0xD1DE2 and the rowed copy ctor 0x15B000 install --
+// so both bodies now live under their real names in
+// Code/Libraries/Source/WWVegas/WW3D2/ShareBufferClassUnsignedCtor.cpp.
 // Virtual declarations are emission scaffolds, not recovered class layouts.
 // Nine wrappers have no pointer occurrence in retail .rdata/.data; virtual
 // ownership is unproven for those, as documented in the audit table.
@@ -25,13 +30,6 @@ struct EmitVtableTag;
 class Rva000C2980 { public: Rva000C2980(EmitVtableTag *); virtual ~Rva000C2980(); };
 // ?<Rva000C2980::Rva000C2980> absent-from-retail
 Rva000C2980::Rva000C2980(EmitVtableTag *) {}
-
-// ??_GRva000D1E88@@UAEPAXI@Z @0x000D1E6C 28B; calls pinned ??1 at 0x000D1E88
-void __cdecl operator delete[](void *p) throw();
-extern int g_bfmeVftBVJS[];
-class Rva000D1E88 { public: __declspec(noinline) virtual ~Rva000D1E88(); private: int _pad04; void *m_arr08; };
-Rva000D1E88::~Rva000D1E88() { delete[] (char *)m_arr08; *(int **)this = g_bfmeVftBVJS; }
-void Rva000D1E88_Delete(Rva000D1E88 *p) { delete p; }
 
 // ??_GRva000D1BA6@@UAEPAXI@Z @0x000D208D 28B; calls pinned ??1 at 0x000D1BA6
 class Rva000D1BA6 { public: Rva000D1BA6(EmitVtableTag *); virtual ~Rva000D1BA6(); };
