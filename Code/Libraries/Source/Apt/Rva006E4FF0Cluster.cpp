@@ -81,26 +81,6 @@ public:
 	void rva006E58D0Body(void *a, void *b, void *c);
 };
 
-// ?rva006E58D0Body@Rva006E58D0@@QAEXPAX00@Z @0x006E58D0 (105B). Fixes up the
-// pConstFile->aConstants offset into a pointer, asserts it is below 0xfffff at
-// AptAnimation.cpp:0xC3, clears this+0x30 and forwards to rva006E5050, then
-// restores the offset. Address-derived name; arg2 is the constant file.
-void Rva006E58D0::rva006E58D0Body(void *a, void *b, void *c)
-{
-	Rva006E58D0ConstFile *pConstFile = (Rva006E58D0ConstFile *)b;
-	if (!(pConstFile->aConstants < 0xfffff))
-	{
-		g_bfmeAptAssertAtE17734("(unsigned)pConstFile->aConstants < 0xfffff", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptAnimation.cpp", 0xC3);
-		if (g_bfmeAptBreakOnAssertAtDDC01C)
-			__debugbreak();
-	}
-	if (pConstFile->aConstants != 0)
-		pConstFile->aConstants += (unsigned int)pConstFile;
-	m_field30 = 0;
-	rva006E5050(a, b, c);
-	if (pConstFile->aConstants != 0)
-		pConstFile->aConstants -= (unsigned int)pConstFile;
-}
 
 // AptActionQueueC::ClearActions (WorldBuilder name, its __FUNCTION__ string) @0x006E4A90 (239B). Drains the action pool
 // from m_pCurrent to m_pEnd: validates the cursor via rowed rva006E3230, then
