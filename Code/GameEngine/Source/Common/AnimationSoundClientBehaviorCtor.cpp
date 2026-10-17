@@ -12,10 +12,10 @@
 extern "C" const void *const vtbl_00C6FFFC[];  // folded, 10 classes; via ??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C6FFFC=??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@")
 
-extern "C" const void *const vtbl_00C5EE74[];  // ??_7AnimationSoundClientBehavior@@6BASCB_Iface@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C5EE74=??_7AnimationSoundClientBehavior@@6BASCB_Iface@@@")
-extern "C" const void *const vtbl_00C5EE80[];  // ??_7AnimationSoundClientBehavior@@6BPrimaryP@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C5EE80=??_7AnimationSoundClientBehavior@@6BPrimaryP@@@")
+extern "C" const void *const vtbl_00C5EE74[];  // ??_7AnimationSoundClientBehavior@@6BRva004C9E33Iface@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5EE74=??_7AnimationSoundClientBehavior@@6BRva004C9E33Iface@@@")
+extern "C" const void *const vtbl_00C5EE80[];  // ??_7AnimationSoundClientBehavior@@6BRva004C9DC9Primary@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C5EE80=??_7AnimationSoundClientBehavior@@6BRva004C9DC9Primary@@@")
 
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)

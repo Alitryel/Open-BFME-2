@@ -22,10 +22,10 @@ extern "C" const void *const vtbl_00C57328[];  // folded, 41 classes; via ??_7Al
 extern "C" const void *const vtbl_00C58790[];  // folded, 55 classes; via ??_7AODHordeContain@@6BIface2C@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C58790=??_7AODHordeContain@@6BIface2C@@@")
 
-extern "C" const void *const vtbl_00C57BF8[];  // ??_7Rva004B4CDF@@6BUpgradeMux@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C57BF8=??_7Rva004B4CDF@@6BUpgradeMux@@@")
-extern "C" const void *const vtbl_00C57C40[];  // ??_7Rva004B4CDF@@6BObjectModule@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C57C40=??_7Rva004B4CDF@@6BObjectModule@@@")
+extern "C" const void *const vtbl_00C57BF8[];  // ??_7Rva004B4CDF@@6BUpgradeDerivedBaseC@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C57BF8=??_7Rva004B4CDF@@6BUpgradeDerivedBaseC@@@")
+extern "C" const void *const vtbl_00C57C40[];  // ??_7Rva004B4CDF@@6BUpgradeDerivedBaseA@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C57C40=??_7Rva004B4CDF@@6BUpgradeDerivedBaseA@@@")
 
 class Thing;
 class ModuleData;

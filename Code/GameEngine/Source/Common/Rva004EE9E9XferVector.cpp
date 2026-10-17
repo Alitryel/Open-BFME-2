@@ -14,8 +14,8 @@
 // the record's (frame 0x10), as in Rva00207F91Xfer.cpp.
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-extern "C" const void *const vtbl_00C62A28[];  // ??_7Elem003AF8C0@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C62A28=??_7Elem003AF8C0@@6B@")
+extern "C" const void *const vtbl_00C62A28[];  // ??_7Rva004EE1A9@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C62A28=??_7Rva004EE1A9@@6B@")
 
 struct __declspec(novtable) Elem003AF8C0 : public Snapshot
 {
@@ -90,7 +90,7 @@ struct XferException
     int tag;
 };
 extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_Va00CFFD18;
+extern int g_rva008ffd18ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 Xfer *Rva004EE9E9XferVector(Xfer *xfer, Rva004EE6D0 *vector)
@@ -115,7 +115,7 @@ Xfer *Rva004EE9E9XferVector(Xfer *xfer, Rva004EE6D0 *vector)
         {
             XferException error;
             bfmeFormatText(&error, 4, "Vector must be empty on load");
-            _CxxThrowException(&error, (const _s__ThrowInfo *)&g_Va00CFFD18); __assume(0);
+            _CxxThrowException(&error, (const _s__ThrowInfo *)&g_rva008ffd18ThrowInfo); __assume(0);
         }
         else
         {
