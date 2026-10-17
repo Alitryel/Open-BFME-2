@@ -60,6 +60,8 @@
 #include "sharebuf.h"
 // Retail keeps one ShareBufferClass<VertexMaterialClass *> dtor (0x0015AC90); this unit calls it.
 template <> ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass(void);
+// Its copy constructor (0x0015AB50) too: rowed in ShareBufferClassVertexMaterialCopyCtor.cpp.
+template <> ShareBufferClass<VertexMaterialClass *>::ShareBufferClass(const ShareBufferClass<VertexMaterialClass *> &that);
 #include "meshmatdesc.h"
 #include "texture.h"
 #include "vertmaterial.h"
