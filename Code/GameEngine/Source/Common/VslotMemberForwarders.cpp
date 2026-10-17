@@ -687,9 +687,10 @@ public:
 class Rva003A5896Forwarder
 {
 public:
-	void rva003A5896(Int a0);
+	// virtual: also reached through the this-0x1C thunk 0x003A589E.
+	virtual void rva003A5896(Int a0);
 private:
-	char m_lead[0x1C];
+	char m_lead[0x1C - 4];
 	Rva003A547ETarget m_member;
 };
 

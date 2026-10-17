@@ -382,6 +382,8 @@ DEFINE_THUNK_UAE(Rva005E6B8F, rva005E6B8F, 0x08, ())
 DEFINE_THUNK_UAE(Rva0047E33F, rva0047E33F, 0x20, (int, int))
 // ?<Rva005E5554::Rva005E5554> absent-from-retail
 DEFINE_THUNK_UAE(Rva005E5554, step, 0x08, ())
+// ?<Rva003A5896Forwarder::Rva003A5896Forwarder> absent-from-retail
+DEFINE_THUNK_UAE(Rva003A5896Forwarder, rva003A5896, 0x1C, (int))
 struct Rva00575CA6_BaseA { virtual void rva00575CA6() = 0; };
 struct Rva00575CA6_BaseB { virtual void rva00575CA6() = 0; };
 class Rva00575CA6 : public Rva00575CA6_BaseA, public Rva00575CA6_BaseB
