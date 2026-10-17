@@ -447,3 +447,16 @@ void Rva005E4663::rva005E4663() { ((Rva005E4389 *)((char *)this - *(int *)((char
 class Rva005E5237 { public: void rva005E5237(); };
 void Rva005E5237::rva005E5237() { ((Rva005E51D3 *)((char *)this - *(int *)((char *)this - 4)))->rva005E51D3(); }
 
+
+// --- 0x003ABF24 (8B): this-8 adjustor thunk of Rva003AA6BD's deleting
+// destructor, jumping to the rowed vector deleting destructor 0x003AA704.
+struct Rva003AA6BD_BaseA { virtual ~Rva003AA6BD_BaseA(); char m_pad[4]; };
+struct Rva003AA6BD_BaseB { virtual ~Rva003AA6BD_BaseB(); };
+class Rva003AA6BD : public Rva003AA6BD_BaseA, public Rva003AA6BD_BaseB
+{
+public:
+	Rva003AA6BD(EmitVtableTag *);
+	virtual ~Rva003AA6BD();
+};
+// ?<Rva003AA6BD::Rva003AA6BD> absent-from-retail
+Rva003AA6BD::Rva003AA6BD(EmitVtableTag *) {}
