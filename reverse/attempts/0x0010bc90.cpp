@@ -1,4 +1,6 @@
 // ?getTexture@Rva0010BC90ShadowManager@@QAEPAVW3DShadowTexture@@PBD@Z
+// partial score=0.99 date=2026-10-17
+// ?getTexture@Rva0010BC90ShadowManager@@QAEPAVW3DShadowTexture@@PBD@Z
 // partial score=0.92929 date=2026-10-14
 // ?getTexture@Rva0010BC90ShadowManager@@QAEPAVW3DShadowTexture@@PBD@Z
 // partial score=0.95 date=2026-10-08
@@ -115,19 +117,26 @@ W3DShadowTexture *Rva0010BC90ShadowManager::getTexture(const char *name)
 
 {
  AsciiString filename=Rva00108B93Make(name)+".tga";
- W3DShadowTexture *result=reinterpret_cast<W3DShadowTexture*>(manager->Get_Anim(filename.str()));
+ W3DShadowTexture *result = 0;
+ _ReadWriteBarrier();
+ _ReadWriteBarrier();
+ {
+  HAnimClass *tmp = manager->Get_Anim(filename.str());
+  _ReadWriteBarrier();
+  *(volatile W3DShadowTexture **)&result = reinterpret_cast<W3DShadowTexture*>(tmp);
+ }
  if (!result) 
  {
   BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(filename.str(),0,0);
   if(!texture.m_ptr) return 0;
   reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->addressU=1;
   reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->addressV=1;
+  reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->_M_clear_nothrow(0);
   _ReadWriteBarrier();
   result=new W3DShadowTexture;
-  reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->_M_clear_nothrow(0);
   reinterpret_cast<Rva007AE680Name*>(result)->setName(filename.str());
   manager->Add_Anim(reinterpret_cast<HAnimClass*>(result));
-  result->texture=texture;
+  (1 ? result->texture : result->texture)=texture;
   
  }
  return result;
