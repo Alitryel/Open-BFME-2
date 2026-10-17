@@ -44,3 +44,7 @@ long __cdecl _com_dispatch_method(IDispatch *dispatch,long id,unsigned short fla
  if(hr<0)__errorPfn(hr,error);
  return hr;
 }
+
+long __stdcall _com_dispatch_propget(IDispatch *dispatch,long id,unsigned short type,void *result) {
+ return _com_dispatch_method(dispatch,id,2,type,result,0);
+}
