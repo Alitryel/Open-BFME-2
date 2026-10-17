@@ -1,4 +1,6 @@
 // ?UpdateSort@CollisionManagerImpl@@QAEXXZ
+// partial score=0.81 date=2026-10-17
+// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
 // partial score=0.787 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -85,13 +87,12 @@ public:
 	void collectAll();
 };
 
-// Address-named placeholder callees (unrowed providers): Lab2 alias-binds the
-// embedded RVA. The closers rename these to CollisionManagerImpl::_AddOverlap
-// (0x00759490) and the 0x007586F0 provider once those rows land.
-class Rva00759490Callee
+// 0x00759490 is rowed as Rva009A3540PairOwner::rva00759490 (the donor's
+// CollisionManagerImpl::_AddOverlap); 0x007586F0 is still an unrowed placeholder.
+class Rva009A3540PairOwner
 {
 public:
-	void rva00759490(Rva009A45A0CollisionData *a, Rva009A45A0CollisionData *b);
+	void rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
 };
 
 class Rva007586F0Callee
@@ -161,7 +162,7 @@ __forceinline void CollisionManagerImpl::insertSorted(Rva009A45A0CollisionData *
 	{
 		while (open != 0)
 		{
-			((Rva00759490Callee *)this)->rva00759490(open, node);
+			((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)open, (Rva009A3540OpaqueOwner *)node);
 			Rva009A45A0CollisionData *closed = open;
 			if (closed->m_openNext != 0)
 				closed->m_openNext->m_openPrev = closed->m_openPrev;
@@ -174,7 +175,7 @@ __forceinline void CollisionManagerImpl::insertSorted(Rva009A45A0CollisionData *
 			if (!(cur->m_value < value))
 				break;
 			if (cur->isMin())
-				((Rva00759490Callee *)this)->rva00759490(cur->m_node, node);
+				((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)cur->m_node, (Rva009A3540OpaqueOwner *)node);
 			prev = cur;
 			cur = cur->m_next;
 		}
@@ -188,18 +189,19 @@ __forceinline void CollisionManagerImpl::insertSorted(Rva009A45A0CollisionData *
 		axis->m_min.m_next->m_prev = &axis->m_min;
 }
 
+__forceinline void pushHead(Rva009A3AD0Endpoint *endpoint, Rva009A3AD0Endpoint **head)
+{
+	endpoint->m_prev = 0;
+	endpoint->m_next = *head;
+	if (endpoint->m_next != 0)
+		endpoint->m_next->m_prev = endpoint;
+	*head = endpoint;
+}
+
 __forceinline void CollisionManagerImpl::pushFront(Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head)
 {
-	axis->m_min.m_prev = 0;
-	axis->m_min.m_next = *head;
-	if (*head != 0)
-		(*head)->m_prev = &axis->m_min;
-	*head = &axis->m_min;
-	axis->m_max.m_prev = 0;
-	axis->m_max.m_next = *head;
-	if (*head != 0)
-		(*head)->m_prev = &axis->m_max;
-	*head = &axis->m_max;
+	pushHead(&axis->m_min, head);
+	pushHead(&axis->m_max, head);
 }
 
 void CollisionManagerImpl::UpdateSort()
@@ -289,7 +291,7 @@ void CollisionManagerImpl::UpdateSort()
 						if (!(before->m_value > cur->m_value))
 							break;
 						if (before->m_isMax && cur->isMin())
-							((Rva00759490Callee *)this)->rva00759490(before->m_node, cur->m_node);
+							((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)before->m_node, (Rva009A3540OpaqueOwner *)cur->m_node);
 						else if (before->isMin() && cur->m_isMax)
 							_RemoveOverlap(
 								(Rva009A3540OpaqueOwner *)before->m_node,
@@ -300,7 +302,6 @@ void CollisionManagerImpl::UpdateSort()
 				}
 
 				Rva009A3AD0Endpoint *next = cur->m_next;
-				_ReadWriteBarrier();
 				if (cur->m_prev != 0)
 					cur->m_prev->m_next = cur->m_next;
 				else
@@ -338,7 +339,7 @@ void CollisionManagerImpl::UpdateSort()
 			if (cur->isMin())
 			{
 				for (Rva009A45A0CollisionData *other = open; other != 0; other = other->m_openNext)
-					((Rva00759490Callee *)this)->rva00759490(other, cur->m_node);
+					((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)other, (Rva009A3540OpaqueOwner *)cur->m_node);
 				cur->m_node->m_openPrev = &open;
 				cur->m_node->m_openNext = open;
 				if (cur->m_node->m_openNext != 0)
