@@ -14,13 +14,9 @@
 // which owns filtertable at VA 0x00DB6C28) and initializes the flag from its
 // bool result. The flag is write-only in retail (its only .text reference is
 // this store) and zero-filled at load. The target spelling is not recovered,
-// so the flag gets a neutral descriptive name; the initializer keeps its
-// address-derived name.
+// so the flag gets a neutral descriptive name. The initializer is the
+// compiler's own dynamic initializer for it (_$E1, listed in .CRT$XCU at
+// RVA 0x009A4414).
 extern bool Rva001B20E5Init();
 
-bool g_bfmeEncodingFilterTableValid = false;
-
-void Rva007ACFB0StoreTableValid()
-{
-	g_bfmeEncodingFilterTableValid = Rva001B20E5Init();
-}
+bool g_bfmeEncodingFilterTableValid = Rva001B20E5Init();
