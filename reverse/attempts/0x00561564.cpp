@@ -1,15 +1,14 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.978 date=2026-10-17
-// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.93 date=2026-10-17 (parallel bank 9b921f7f77: WWMath-style Cross_Product, superseded)
-// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.8239538373516954 date=2026-10-16
+// partial score=0.9823 date=2026-10-17
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
+// Parallel bank (other seat, .978, 441/462 insns at this rebase; this bank 443/462) notes:
 // doParticles .978 (2026-10-17): WB 1429DF0 calls Coord3D::crossProduct(&C,&A,&B),(&A,&B,&C)
 // (TU-local inline twin); endpoint branch stores offset before out (WB 142a59d),
 // which moves the refresh IV onto offset; noise locals declared v1,v0,v2.
 // Residue: 5 cross-product operand load orders, offset.x term rotation and
 // out.x add operand order. Disproven: source FP term order, zero-init, out/offset decl order.
+// Rebase merge 2026-10-17 (opus): its Vec::crossProduct static member in this body is neutral (443/462,
+// same misses); its correct 5617d1 load order comes from elsewhere (axisC.Set / v1,v0,v2 decls untested here).
 // Primary clean donor: BFME1 LightningDrawModuleCtor005F4E90.cpp at 575ba2b04.
 // Target 561C34..561D31 RET8 and named LightningDraw publisher/getInstance
 // establish the constructor's family. Native calls ParticleModule55C86D and
@@ -198,7 +197,7 @@ class LightningDrawModuleInfoBase {public:virtual ~LightningDrawModuleInfoBase()
 class LightningDrawModuleInfo:public LightningDrawModuleInfoBase {public:LightningDrawModuleInfo();virtual ~LightningDrawModuleInfo();virtual const char* GetSnapshotName();virtual void LoadPostProcess();virtual void DoXfer(class Xfer&);Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
 class ParticleSystem;template<class T>class TrackingPtr{};
 class LightningDrawModuleTemplate {public:char pad[12];Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
-class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*);private: ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}static void crossProduct(const Vec*a,const Vec*b,Vec*r){r->x=(a->y*b->z-a->z*b->y);r->y=(a->z*b->x-a->x*b->z);r->z=(a->x*b->y-a->y*b->x);}} axisA,axisB,axisC;int tail;};
+class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*); ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}} axisA,axisB,axisC;int tail;};
 LightningDrawModule::LightningDrawModule(TrackingPtr<ParticleSystem>& system,const LightningDrawModuleTemplate* source):ParticleModule005F2CA0(&system,(void*)source),LightningDrawModuleInfo(){
  a=source->a;b=source->b;c=source->c;value=source->value;flag=source->flag;
  count=1;axisA.Set(1,0,0);axisB.Set(0,1,0);axisC.Set(0,1,0);tail=0;
@@ -208,8 +207,16 @@ LightningDrawModule::LightningDrawModule(TrackingPtr<ParticleSystem>& system,con
 Rva00561C34Point::Rva00561C34Point() {}
 
 Vector3::Vector3() {}
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
+static inline void Rva00561564AddP(const Vector3 *a,const Coord3D *b,Coord3D *r){
+ r->x=a->X+b->x;
+ r->y=a->Y+b->y;
+ r->z=a->Z+b->z;
+}
+static inline void Rva00561564CrossP(const FXParticleSystem::LightningDrawModule::Vec *a,const FXParticleSystem::LightningDrawModule::Vec *b,FXParticleSystem::LightningDrawModule::Vec *r){
+ r->x=(a->y*b->z-a->z*b->y);
+ r->y=(a->z*b->x-a->x*b->z);
+ r->z=(a->x*b->y-a->y*b->x);
+}
 int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,void* bounds,int* particleCount) {
  if(WW3D::IsCurrentlyRenderingShadowMap)return 0;
  int n=0;
@@ -240,21 +247,18 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
   BFME2ParticleTextureHandle texture=TextureAsset::Get(getSystem()->m_textureName.str(),0,0);
   if(refresh){
    axisA.Set(locs[n-1].X-locs[0].X,locs[n-1].Y-locs[0].Y,locs[n-1].Z-locs[0].Z);axisA.normalize();
-   axisC.Set(0,0,1);
-   Vec::crossProduct(&axisC,&axisA,&axisB);
-   Vec::crossProduct(&axisA,&axisB,&axisC);
+   axisC.x=0;axisC.y=0;axisC.z=1;
+   Rva00561564CrossP(&axisC,&axisA,&axisB);
+   Rva00561564CrossP(&axisA,&axisB,&axisC);
    for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
-    float v1=0,v0=0,v2=0;
     if(i!=0 && i!=n-1){
-     v0=((GameClientRandomVariable*)&a)->getValue();
-     v1=((GameClientRandomVariable*)&b)->getValue();
-     v2=((GameClientRandomVariable*)&c)->getValue();
-     offset[i].x=v0*axisB.x+v1*axisC.x+v2*axisA.x;
-     offset[i].y=v0*axisB.y+v1*axisC.y+v2*axisA.y;
-     offset[i].z=v0*axisB.z+v1*axisC.z+v2*axisA.z;
-     out[i].x=locs[i].X+offset[i].x;
-     out[i].y=locs[i].Y+offset[i].y;
-     out[i].z=locs[i].Z+offset[i].z;
+     float v0=((GameClientRandomVariable*)&a)->getValue();
+     float v1=((GameClientRandomVariable*)&b)->getValue();
+     float v2=((GameClientRandomVariable*)&c)->getValue();
+     offset[i].x=v1*axisC.x+v2*axisA.x+v0*axisB.x;
+     offset[i].y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
+     offset[i].z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
+     Rva00561564AddP(&locs[i],&offset[i],&out[i]);
     }else{
      out[i].x=offset[i].x=locs[i].X;
      out[i].y=offset[i].y=locs[i].Y;
