@@ -85,13 +85,10 @@ class Rva005E278EBase8
 public:
 	virtual ~Rva005E278EBase8() {}
 };
-class Rva005E278EBaseC
-{
-public:
-	virtual ~Rva005E278EBaseC() {}
-};
+class LivingWorldLogic;
+#include "../../Include/Common/LivingWorldLogicObserver.h"
 
-class Rva005E278E : public Rva005E278EBase0, public Rva005E278EBase8, public Rva005E278EBaseC
+class Rva005E278E : public Rva005E278EBase0, public Rva005E278EBase8, public LivingWorldLogicObserver
 {
 public:
 	virtual ~Rva005E278E();
@@ -111,5 +108,5 @@ Rva005E278E::~Rva005E278E()
 	}
 	((Rva005E278EPlot *)((Rva005E2138 *)this)->rva005E2138())->~Rva005E278EPlot();
 	Rva005E278EItem *item = m_10->m_0C->m_170[m_14];
-	item->m_holder.rva002B7250((CreateAHeroData *)static_cast<Rva005E278EBaseC *>(this));
+	item->m_holder.rva002B7250((CreateAHeroData *)static_cast<LivingWorldLogicObserver *>(this));
 }

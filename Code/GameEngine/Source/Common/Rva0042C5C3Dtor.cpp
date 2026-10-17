@@ -111,13 +111,7 @@ public:
  virtual ~Rva001DB080() {}
 };
 
-class LivingWorldLogicObserver
-{
-public:
- virtual void event6_0(int) {}
- virtual void event6_1(LivingWorldLogic *) {}
- ~LivingWorldLogicObserver() {}
-};
+#include "../../Include/Common/LivingWorldLogicObserver.h"
 
 #include "../../Include/Common/RegionTurnObserverView.h"
 

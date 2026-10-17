@@ -25,13 +25,10 @@ private:
 	int m_04;
 };
 
-class Rva005CE874Interface
-{
-public:
-	virtual ~Rva005CE874Interface() {}
-};
+class LivingWorldLogic;
+#include "../../../../../Include/Common/LivingWorldLogicObserver.h"
 
-class Rva005CE874 : public Rva005E67FE, public Rva005CE874Interface
+class Rva005CE874 : public Rva005E67FE, public LivingWorldLogicObserver
 {
 public:
 	virtual ~Rva005CE874();

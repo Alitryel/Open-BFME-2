@@ -24,12 +24,9 @@ public:
     virtual ~Rva00575EEABase1() {}
     int m_x4;
 };
-class Rva00575EEABase2 {
-public:
-    Rva00575EEABase2() {}
-    virtual ~Rva00575EEABase2() {}
-};
-class Rva00575EEA : public Rva00575EEABase1, public Rva00575EEABase2 {
+class LivingWorldLogic;
+#include "../../Include/Common/LivingWorldLogicObserver.h"
+class Rva00575EEA : public Rva00575EEABase1, public LivingWorldLogicObserver {
 public:
     Rva00575EEA(int value, Parent00575EEA *parent);
     virtual ~Rva00575EEA();
@@ -38,7 +35,7 @@ private:
 };
 Rva00575EEA::~Rva00575EEA()
 {
-    m_parentC->holder.rva002B7250((CreateAHeroData *)(Rva00575EEABase2 *)this);
+    m_parentC->holder.rva002B7250((CreateAHeroData *)(LivingWorldLogicObserver *)this);
 }
 
 // Native 005761C6..0057621A is the constructor of the same class: its
@@ -49,5 +46,5 @@ Rva00575EEA::~Rva00575EEA()
 Rva00575EEA::Rva00575EEA(int value, Parent00575EEA *parent)
     : Rva00575EEABase1(value), m_parentC(parent)
 {
-    parent->holder.append((Rva002BA8F1Listener *)static_cast<Rva00575EEABase2 *>(this));
+    parent->holder.append((Rva002BA8F1Listener *)static_cast<LivingWorldLogicObserver *>(this));
 }
