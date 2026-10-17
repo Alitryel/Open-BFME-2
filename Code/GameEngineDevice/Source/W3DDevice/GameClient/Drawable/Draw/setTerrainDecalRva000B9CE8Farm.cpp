@@ -142,22 +142,7 @@ private:
 	Shadow *m_terrainDecal; // +0x5C
 };
 
-//-------------------------------------------------------------------------------------------------
-void W3DModelDraw::setTerrainDecalSize(Real x, Real y)
-{
-	if (m_terrainDecal)
-	{
-		m_terrainDecal->setSize(x,y);
-	}
-}
-//-------------------------------------------------------------------------------------------------
-void W3DModelDraw::setTerrainDecalOpacity(Real o)
-{
-	if (m_terrainDecal)
-	{
-		m_terrainDecal->setOpacity((Int)(255.0f * o));
-	}
-}
+// setTerrainDecalSize and setTerrainDecalOpacity are rowed in W3DModelDrawTerrainDecal.cpp.
 
 //-------------------------------------------------------------------------------------------------
 void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
