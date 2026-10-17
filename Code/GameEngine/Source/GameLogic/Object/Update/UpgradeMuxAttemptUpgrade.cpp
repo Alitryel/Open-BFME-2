@@ -2,13 +2,17 @@
 //
 // ?forceRefreshUpgrade@UpgradeMux@@UAEXXZ, retail 0x004CE270, 12 bytes.
 // ?attemptUpgrade@UpgradeMux@@UAE_NABV?$BitFlags@$0IA@@@@Z, retail 0x004CE27C, 33 bytes.
-// UpgradeMux slots 5 and 1 of vftable 0x00C5FF10 (installed by the rowed
+// ?isAlreadyUpgraded@UpgradeMux@@UBE_NXZ, retail 0x00098CBC, 4 bytes.
+// UpgradeMux slots 5, 1 and 0 of vftable 0x00C5FF10 (installed by the rowed
 // ??0UpgradeMux at 0x004CE2A3); both are shared by the 17 behavior
 // vftables that embed an UpgradeMux. Donor ZH UpgradeModule.cpp:
 //   forceRefreshUpgrade: if executed, re-run upgradeImplementation (slot 10,
 //     the slot the rowed giveSelfUpgrade calls third);
 //   attemptUpgrade: if wouldUpgrade (slot 2, rowed 0x004CE2B0) then
 //     giveSelfUpgrade (rowed 0x0045230C) and return true.
+//   isAlreadyUpgraded: return the executed flag. Slot 0 of 0x00C5FF10 holds
+//     0x00098CBC (mov al,[ecx+4] / ret); retail ICF-folds it with the
+//     identical RegistryClass::Is_Valid body rowed there.
 // Retail's attemptUpgrade pops one dword (ret 4) and forwards it unchanged,
 // so BFME2 passes the mask by reference, not by value as ZH does.
 
@@ -25,7 +29,7 @@ class UpgradeMux
 public:
 	void giveSelfUpgrade();
 
-	virtual void slot00();
+	virtual bool isAlreadyUpgraded() const;
 	virtual bool attemptUpgrade(const UpgradeMaskType &keyMask);
 	virtual bool wouldUpgrade(const UpgradeMaskType &keyMask) const;
 	virtual void slot03();
@@ -40,6 +44,12 @@ public:
 private:
 	bool m_upgradeExecuted; // +4
 };
+
+// ?isAlreadyUpgraded@UpgradeMux@@UBE_NXZ @0x00098CBC
+bool UpgradeMux::isAlreadyUpgraded() const
+{
+	return m_upgradeExecuted;
+}
 
 // ?forceRefreshUpgrade@UpgradeMux@@UAEXXZ @0x004CE270
 void UpgradeMux::forceRefreshUpgrade()
