@@ -1,8 +1,12 @@
 // ?rva005C674A@Rva005C674A@@QAEXXZ
+// partial score=0.714 date=2026-10-17
+// ?rva005C674A@Rva005C674A@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?rva005C674A@Rva005C674A@@QAEXXZ
 // partial score=0.820314917892695 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /ICode/Libraries/Include/Lib /ICode/Libraries/Source/WWVegas/WWLib /ICode
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 #include <map>
 #include <math.h>
@@ -48,10 +52,17 @@ void Rva005C674A::rva005C674A(){
  update();if(!active)return;
  Coord2D dir;dir.x=0.0f;dir.y=(float)(count<=1?0:-1);
  if(count>1){
-  float fraction;
-  if((*reinterpret_cast<float*>(0x00E065C4))!=0.0f) fraction=((*reinterpret_cast<float*>(0x00E065C4))<(float)elapsed?(*reinterpret_cast<float*>(0x00E065C4)):(float)elapsed)/(*reinterpret_cast<float*>(0x00E065C4));
-  else fraction=1.0f;
-  rotateRadialDirection(dir,1.0f-fraction);
+  float denom=*reinterpret_cast<float*>(0x00E065C4);
+  float fraction=1.0f;
+  if(denom!=0.0f){
+   float e=(float)elapsed;
+   float num=(1 ? denom : denom)<e?denom:e;
+   fraction=num/denom;
+   _ReadWriteBarrier();
+  } else {
+   fraction=*reinterpret_cast<float*>(0x00BBB8D8);
+  }
+  rotateRadialDirection(dir,(float)((double)1.0f-(double)fraction));
  }
  for(int i=0;i<count;++i){
   RadialIntPoint extent;
