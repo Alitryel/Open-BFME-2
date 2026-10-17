@@ -95,6 +95,16 @@
 
 #include "shdlib.h"
 
+// Set_Gamma inlines Bound<float>, yet this /O2 unit still emitted an unreferenced
+// frameless copy; retail's body is the /O1 0x0006599E (DX8WrapperO1Inlines.cpp).
+// Inline the stock body here without emitting a copy.
+template<> __declspec(dllimport) __forceinline float Bound<float>(float original, float minval, float maxval)
+{
+	if (original < minval) return(minval);
+	if (original > maxval) return(maxval);
+	return(original);
+}
+
 template<>
 VectorClass<ResolutionDescClass> &VectorClass<ResolutionDescClass>::operator =(
 	const VectorClass<ResolutionDescClass> &vec)
