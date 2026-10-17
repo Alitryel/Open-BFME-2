@@ -94530,8 +94530,6 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?j_001df428@@YAXXZ,,0x001DF428,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001DF2D3
 ?j_001e6f22@@YAXXZ,,0x001E6F22,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001E6731
 ?j_001f887e@@YAXXZ,,0x001F887E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001F8810
-?j_0023d02e@@YAXXZ,,0x0023D02E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0040F87E
-?j_0023d0a7@@YAXXZ,,0x0023D0A7,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0040D3D5
 ?j_002b2950@@YAXXZ,,0x002B2950,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0023D03E
 ?j_00359269@@YAXXZ,,0x00359269,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00358FA5
 ?j_0035980c@@YAXXZ,,0x0035980C,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003597C3
@@ -96143,3 +96141,5 @@ __ehhandler$?rva00480093@ShareExperienceBehavior@@UAEXM@Z,,0x0078B967,10,Code/Ga
 ?rva003A5757@Rva003A5757@@WBM@AEXPAVXfer@@@Z,,0x003A59BB,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-0x1C) to rowed virtual rva003A5757 at 0x003A5757 (WindModuleInfo subobject at +0x1C)
 ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z,,0x002ECE6A,436,Code/GameEngine/Source/GameLogic/Pathfinder/Rva002ECE6AInfoCtor.cpp,matched,line-walk cell callback beside its ctor: latched +0x5D bit-21 reject and occupant/container reject then burning grid and movement checks; a _WriteBarrier in the latched reject keeps its return apart from the occupant reject so the flag test and return form retail's out-of-line block
 ?cellCallback@Rva002F600CInfo@@QAEHPAVPathfindCell@@0HH@Z,,0x002F600C,105,Code/GameEngine/Source/GameLogic/AI/Rva002F600CQueryCallback.cpp,matched,cell callback of walker 0x002F6D22 under the spelling the walker calls; renamed from Rva002F600CContext::rva002F600C with from/to cells and x/y; the 0x002F52A7 out word is a block local MSVC places in the dead from slot
+?rva0023D028@GameLogic@@QAEXXZ,,0x0023D028,11,Code/GameEngine/Source/Common/RvaWideAdjustFwds.cpp,matched,GameLogic+0x184 ArmySummarySystem adjust then tail jump to rowed 0x0040F87E
+?rva0023D0A1@GameLogic@@QAEHH@Z,,0x0023D0A1,11,Code/GameEngine/Source/Common/RvaWideAdjustFwds.cpp,matched,GameLogic+0x184 ArmySummarySystem adjust then tail jump to rowed 0x0040D3D5

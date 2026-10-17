@@ -33,7 +33,9 @@ class ArmySummarySystem {public:const AsciiString *GetArmyNameByID(int);const As
 	void CallArmyToEngageInBattleByID(int id);
 	float GetArmyEngageProgressByID(int id);
 	int GetArmyCurFramesToReinforceByID(int id);
-	void rva0040D280(Object *obj, int id);};
+	void rva0040D280(Object *obj, int id);
+	void rva0040F87E();
+	int rva0040D3D5(int id);};
 
 class Rva0040FAFESub
 {
@@ -76,7 +78,9 @@ public:
 class GameLogic
 {
 public:
+	void rva0023D028();
 	void rva0023D033();
+	int rva0023D0A1(int value);
 	void rva0023D03E();
 	void rva0023D054(int a, int b, Rva0040D2FDVec *out);
 	const AsciiString *rva0023D05F(int value);
@@ -199,6 +203,21 @@ void *Rva0023D049::rva0023D049(int value)
 void GameLogic::rva0023D054(int a, int b, Rva0040D2FDVec *out)
 {
 	((ArmySummarySystem *)((char *)this + 0x184))->rva0040D2FD(a, b, out);
+}
+
+// ?rva0023D028@GameLogic@@QAEXXZ, native 0x0023D028..0x0023D033 (11B): the
+// GameLogic+0x184 ArmySummarySystem adjustment and a tail jump to its rowed
+// argument-less 0x0040F87E member. Outer method name unknown.
+void GameLogic::rva0023D028()
+{
+	((ArmySummarySystem *)((char *)this + 0x184))->rva0040F87E();
+}
+
+// ?rva0023D0A1@GameLogic@@QAEHH@Z, native 0x0023D0A1..0x0023D0AC (11B): the
+// same adjustment and a tail jump to the rowed one-argument 0x0040D3D5 member.
+int GameLogic::rva0023D0A1(int value)
+{
+	return ((ArmySummarySystem *)((char *)this + 0x184))->rva0040D3D5(value);
 }
 
 // ?rva0023D03E@GameLogic@@QAEXXZ, native 0x0023D03E..0x0023D049 (11B): the
