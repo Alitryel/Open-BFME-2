@@ -1,4 +1,6 @@
 // ?Rva00237D3DCheck@@YAHXZ
+// partial score=0.791 date=2026-10-17
+// ?Rva00237D3DCheck@@YAHXZ
 // partial score=0.628 date=2026-10-15
 // ?Rva00237D3DCheck@@YAHXZ
 // partial score=0.887 date=2026-10-14
@@ -40,7 +42,9 @@ int Rva00237D3DCheck() {
     data.stateData=0;
     data.url=0;
     data.flags=0x210;
-    long status=WinVerifyTrust(0,&action,&data);
+    volatile long *pstatus = (volatile long *)0;
+    long status = (argc ? WinVerifyTrust(0,&action,&data) : WinVerifyTrust(0,&action,&data));
     LocalFree(argv);
+    *pstatus = status;
     return 1;
 }
