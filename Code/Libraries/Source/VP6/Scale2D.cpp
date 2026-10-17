@@ -13,9 +13,10 @@ typedef unsigned char Byte;
 typedef void (__cdecl *Scale1D)( const Byte *, int, unsigned int, unsigned int,
 	Byte *, int, unsigned int, unsigned int );
 
-extern void __cdecl Rva009A9980( const Byte *, int, unsigned int, unsigned int,
+// The rowed C scalers of Scale1D.cpp (0x001BA3C0, 0x001BA460).
+extern "C" void __cdecl Scale1D_c( const Byte *, int, unsigned int, unsigned int,
 	Byte *, int, unsigned int, unsigned int );
-extern void __cdecl Rva009A9A20( const Byte *, int, unsigned int, unsigned int,
+extern "C" void __cdecl Scale1D_2t1_i( const Byte *, int, unsigned int, unsigned int,
 	Byte *, int, unsigned int, unsigned int );
 extern "C" void __cdecl Scale1D_2t1_ps( Byte *, int, int, int,
 	Byte *, int, int, int );
@@ -41,13 +42,13 @@ extern "C" void __cdecl Scale2D(
 	unsigned int bands;
 	unsigned int destBandHeight;
 	unsigned int sourceBandHeight;
-	Scale1D scaleVertical = Rva009A9980;
-	Scale1D scaleHorizontal = Rva009A9980;
+	Scale1D scaleVertical = Scale1D_c;
+	Scale1D scaleHorizontal = Scale1D_c;
 	Scale1D scaleTwoToOne = (Scale1D)Scale1D_2t1_ps;
 	if( hscale == 2 && hratio == 1 )
 		scaleHorizontal = scaleTwoToOne;
 	if( vscale == 2 && vratio == 1 )
-		scaleVertical = interlaced ? scaleTwoToOne : Rva009A9A20;
+		scaleVertical = interlaced ? scaleTwoToOne : Scale1D_2t1_i;
 
 	if( sourceHeight == destHeight )
 	{
