@@ -1,4 +1,5 @@
 // cl: /O1 /MD /EHsc
+// Native EH action 0x763839 destroys the 1200 record elements at +0x5C0 with stride0xE8; the complete parent EH graph proves this 30B lifetime.
 // Native EH action 0x763865 destroys the 64 tree-type elements at +0x44558 with stride0x5C; the complete parent EH graph proves this 24B lifetime.
 // ??1Rva000EDA94@@UAE@XZ, retail 0x000EDA94..0x000EDB39 (165 bytes, EH):
 // the destructor of a tree-buffer subclass (opaque pin of its scalar
