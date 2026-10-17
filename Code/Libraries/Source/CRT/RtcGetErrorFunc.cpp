@@ -12,3 +12,16 @@ _RTC_error_fn __cdecl _RTC_GetErrorFunc(const void*) {
 _RTC_error_fn __cdecl _RTC_SetErrorFunc(_RTC_error_fn callback) {
  _RTC_error_fn old=_RTC_ErrorReportFunc;_RTC_ErrorReportFunc=callback;return old;
 }
+
+extern "C" {
+ static const char *_RTC_errlist[4]={
+  "Stack pointer corruption",
+  "Cast to smaller type causing loss of data",
+  "Stack memory corruption",
+  "Local variable used before initialization"
+ };
+}
+const char *__cdecl _RTC_GetErrDesc(_RTC_ErrorNumber errnum) {
+ if(errnum<0 || errnum>=4)return 0;
+ return _RTC_errlist[errnum];
+}
