@@ -63,6 +63,13 @@ public:
     bool didUnitExist(const AsciiString &);
 };
 extern ScriptEngine *TheScriptEngine;
+class Rva0022AD10Subsystem
+{
+public:
+    char m_pad[0x34];
+    bool m_flag34;
+};
+extern Rva0022AD10Subsystem *TheFormationAssistant;
 class ScriptConditions
 {
 protected:
@@ -71,6 +78,7 @@ protected:
     bool evaluateNamedCreated(Parameter *);
     bool evaluateNamedUnitDying(Parameter *);
     bool evaluateNamedUnitTotallyDead(Parameter *);
+    bool rva003E3EBA();
     bool rva003E3EC3(Parameter *);
 };
 bool ScriptConditions::evaluateNamedUnitDestroyed(Parameter *pUnitParm)
@@ -125,6 +133,11 @@ bool ScriptConditions::evaluateNamedUnitTotallyDead(Parameter *pUnitParm)
         return true;
     }
     return false;
+}
+
+bool ScriptConditions::rva003E3EBA()
+{
+    return TheFormationAssistant->m_flag34;
 }
 
 bool ScriptConditions::rva003E3EC3(Parameter *pUnitParm)

@@ -96279,3 +96279,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva000B2341@Rva000B1984@@QBEEXZ,,0x000B2341,8,Code/GameEngine/Source/Common/GapBodiesGE35.cpp,matched,
 ?Rva0029A24FGet@@YA_NXZ,,0x0029A24F,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,
 ?getFieldParse@UpgradeMuxData@@SAPBUFieldParse@@XZ,,0x004CEA8E,6,Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp,matched,UpgradeMuxData getFieldParse returns static FieldParse table at 0x00C60010
+?rva003E3EBA@ScriptConditions@@IAE_NXZ,,0x003E3EBA,9,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_evaluateNamedUnit.cpp,matched,ScriptConditions rva003E3EBA returns TheFormationAssistant flag at 0x34
