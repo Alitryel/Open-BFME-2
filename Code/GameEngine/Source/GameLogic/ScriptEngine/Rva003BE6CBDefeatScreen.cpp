@@ -36,7 +36,9 @@ class Rva001EB0CAHolder
 public:
 	void rva001EB0CA();
 };
-extern Rva001EB0CAHolder *TheVisualHolder;
+// The holder is the global at 0x00DFDC8C, TheLinearCampaignManager.
+class LinearCampaignManager;
+extern LinearCampaignManager *TheLinearCampaignManager;
 
 class Player;
 struct Rva003BE6CBP34
@@ -104,12 +106,13 @@ public:
 class ScriptEngine;
 extern ScriptEngine *TheScriptEngine;	// the global at 0x00DFE16C; 0x002036B4 is one of its members
 
-class Rva0021A4E6
+// The global at 0x00DFE344; 0x0021A4E6 is rowed as its member.
+class CreateAHeroManager
 {
 public:
 	void rva0021A4E6();
 };
-extern Rva0021A4E6 *TheHeroManager;
+extern CreateAHeroManager *TheCreateAHeroManager;
 
 class Rva00E02D6C
 {
@@ -132,8 +135,8 @@ void Rva003BE6CB::rva003BE6CB()
 {
 	m_flagC = 0;
 	TheGameLogic->rva00376D49();
-	if (TheVisualHolder != 0)
-		TheVisualHolder->rva001EB0CA();
+	if (TheLinearCampaignManager != 0)
+		((Rva001EB0CAHolder *)TheLinearCampaignManager)->rva001EB0CA();
 	((Rva003BBAD3 *)this)->rva003BBAD3();
 	if (m_flagC == 0) {
 		Player *pl = ThePlayerList->m_localPlayer;
@@ -149,8 +152,8 @@ void Rva003BE6CB::rva003BE6CB()
 		}
 	}
 	TheCampaignManager->m_flag2D = false;
-	if (TheVisualHolder != 0)
-		TheVisualHolder->rva001EB0CA();
+	if (TheLinearCampaignManager != 0)
+		((Rva001EB0CAHolder *)TheLinearCampaignManager)->rva001EB0CA();
 	((Rva002036B4GlobalCopier *)TheScriptEngine)->apply();
-	TheHeroManager->rva0021A4E6();
+	TheCreateAHeroManager->rva0021A4E6();
 }
