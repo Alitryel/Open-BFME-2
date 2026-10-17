@@ -11,6 +11,12 @@ template <> struct hash<AsciiString> {
 };
 }
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 typedef _STL::pair<const AsciiString, AsciiString> MacroPair;
 typedef _STL::hashtable<MacroPair, AsciiString, rts::hash<AsciiString>,
     _STL::_Select1st<MacroPair>, _STL::equal_to<AsciiString>,

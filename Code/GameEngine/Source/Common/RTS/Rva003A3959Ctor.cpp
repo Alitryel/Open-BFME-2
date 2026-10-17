@@ -4,6 +4,11 @@
 // Evidence: chain packet calls rowed 0x003A393A; vtable store at [this] plus EH_prolog with handler 0x00781A02; callers 0x002AF8BB and 0x003A3AB8; unblocks 0x003A39A7; empty base arms EH state 0 (ProductionUpdateModuleData precedent).
 #include <hash_map>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+// bfme link decl-only end
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

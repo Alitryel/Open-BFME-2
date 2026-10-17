@@ -2,6 +2,9 @@
 // stlport
 // ??1Rva004E61C8@@UAE@XZ @0x004E61C8 105B: dtor stores vtable calls 0x4E5D6E deletes +0xc virtual result vector auto frees +0x10 base SubsystemInterface
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
 class SubsystemInterface

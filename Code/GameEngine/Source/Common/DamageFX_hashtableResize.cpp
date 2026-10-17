@@ -12,6 +12,10 @@
 
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+// bfme link decl-only end
 
 enum NameKeyType
 {

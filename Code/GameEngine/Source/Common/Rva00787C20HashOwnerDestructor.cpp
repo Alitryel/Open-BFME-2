@@ -29,6 +29,11 @@ template <> void **vector<void*>::end();
 }
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+// bfme link decl-only end
 
 struct Gen_t_00786db0_p12cd
 {

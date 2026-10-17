@@ -31,6 +31,11 @@ static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_
 #include <vector>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "reference/shims/moduledata/Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 
 typedef bool Bool;
 typedef int Int;

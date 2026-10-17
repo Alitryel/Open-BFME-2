@@ -13,6 +13,9 @@
 #include "Common/Snapshot.h"
 
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **, void **); }
+// bfme link decl-only end
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 // Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):

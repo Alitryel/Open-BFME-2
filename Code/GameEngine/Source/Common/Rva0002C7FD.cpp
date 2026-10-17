@@ -20,6 +20,11 @@
 // at2C881/2C884 are exchanged. Every direct callee resolves.
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+// bfme link decl-only end
 void Rva00030830FreeAllocation(void *);
 template<> inline _STL::_Vector_base<void*,_STL::allocator<void*> >::~_Vector_base() {
  if(this->_M_start) Rva00030830FreeAllocation(this->_M_start);

@@ -32,6 +32,9 @@ namespace _STL
 #undef free
 typedef bool Bool;
 #include "subsystem_interface.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 class RvaVector
 
 {

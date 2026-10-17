@@ -123,6 +123,16 @@ protected:
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own

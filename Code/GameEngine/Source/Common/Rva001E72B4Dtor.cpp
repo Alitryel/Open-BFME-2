@@ -11,6 +11,10 @@
 // for the unwind map is the rowed 0x001E6FE5), and SubsystemInterface last.
 // Owner and element identities are not established.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+// bfme link decl-only end
 
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
