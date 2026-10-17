@@ -6,6 +6,14 @@
 // transcription (matches BFME1 reverse shape); getVel is out-of-line (call)
 // and setVel/setCurPos inline to stores.
 // The matched trig operations inline; keep the CRT float overloads local.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define inline static inline
 #define getCurPos getCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #define getEndPos getEndPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link

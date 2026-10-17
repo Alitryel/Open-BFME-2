@@ -8,6 +8,14 @@
 // result pointer and returns with ret 4; caller/callee bytes support the
 // Coord2D return ABI. The volatile clamp-home store reproduces retail's write
 // to the getVel result slot when the speed floor is reached.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #define getCurPos getCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #define getEndPos getEndPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #define setCurPos setCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link

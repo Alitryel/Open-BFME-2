@@ -6,6 +6,14 @@
 // directly there and does not return an aggregate pointer in EAX. The caller
 // at 7133F0 supplies the same output storage. This ABI difference also lets
 // MSVC reproduce retail's pivot-search and elimination unrolling naturally.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it; retail links the
+// /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
+// lookuptable.cpp pattern) so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "vector4.h"
 
 class Matrix4 { public: void Inverse(Matrix4 *out) const; Vector4 Row[4]; };
