@@ -543,6 +543,7 @@ class CreateAHeroManager
 {
 public:
 	Rva0040A3F9 *rva0021F797();
+	void rva0021A428(const CreateAHeroData &hero);
 };
 
 // The data ledger and GameEngine::init name RVA9FE344 TheCreateAHeroManager.
@@ -555,15 +556,10 @@ extern CreateAHeroManager *TheCreateAHeroManager;
 // target identity stays address-derived. The 106-byte 0x0021A428 helper is
 // thiscall with one pointer argument (ECX is the manager and the callee pops
 // four bytes); this call and 0x005B5B1E and 0x005B694F establish that ABI.
-// WB leaves it unnamed and its operation is unresolved. The existing
-// UseSub spellings are caller aliases only. The manager pointer is expressed
-// through its canonical data-ledger name above.
+// WB leaves it unnamed and its operation is unresolved; it is the rowed
+// CreateAHeroManager::rva0021A428 (CreateAHero.cpp). The manager pointer is
+// expressed through its canonical data-ledger name above.
 void SelectRandomHero();
-class Rva005B5B0CMgr
-{
-public:
-	void UseSub(void *hero);
-};
 
 class AptMpGameSetup
 {
@@ -687,7 +683,7 @@ void AptSkirmish::InitCreateAHeroOnStartGame()
 			continue;
 
 		if (i == 0)
-			((Rva005B5B0CMgr *)TheCreateAHeroManager)->UseSub(hero);
+			TheCreateAHeroManager->rva0021A428(*hero);
 		slot->rva0037AD8D(*hero);
 	}
 }
