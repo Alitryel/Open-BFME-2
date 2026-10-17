@@ -1,4 +1,6 @@
 // ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
+// partial score=0.82 date=2026-10-17
+// ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
 // partial score=0.78 date=2026-10-14
 // ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
 // partial score=0.8 date=2026-10-13
@@ -8,18 +10,18 @@
 // partial score=0.80 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD
 // Retail 0x001B3159 (442B). Port target: Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding0MotionChannelCtor.cpp
-// (append after the dtor; MERGE with its BFME2MotionChannel/views - do NOT redefine; reuse its base/derived,
-// add only FindIndex (IN-CLASS: out-of-line defs trip find_declared_unmatched even though rowed at 0x1B2EFC -
-// in-class is exempt and inlines identically) + virtual UnknownSlot4 + Vector3; NO present-unmatched marker (hatch)).
-// 440/442 in the TU (existing ctor/dtor rows re-verified). Interpolation (SSE lerps) is exact modulo cascade.
-// FIXED HERE vs prior bank: low=0 before high=Count-2 in the search arm (was high-first; retail ands low first).
-// WALL (single allocator decision + cascade): retail puts the cursor param in EBX (pushes 3 regs) and derives
-// timecodes/masked/index around it; ours keeps cursor in EDX (2 regs) rotating the rest (timecodesEDI/maskedEBX).
-// Everything downstream (including the exact SSE lerps) follows from that one choice. Tried/neutral: decl order,
-// ai-style splits (N/A here), xor elimination (retail HAS the xor; keep index^low order).
-// Prescription (U1 T-probe): cursor is ~6 deref uses vs masked-temps; find what tips ebx (likely the masked-temp
-// web merging vs cursor web weight at FindIndex entry). Sibling slots 3/5 share this blocker; fix rolls forward.
-// t=25 model=muse-spark (seat W7-MP6).
+// (merge with its BFME2MotionChannel views; FindIndex in-class __forceinline: O1/O2 never auto-inline it,
+// and retail has no call or pointer to the standalone 0x1B2EFC, so every slot inlines it).
+// PROBE, NOT SOURCE: FindIndex returns `short` here. With `int` (the real type) this body is 22 diff rows;
+// with `short` it is 7 (movsx edx,ax for retail's mov edx,eax; cmp operand order; frame load placement).
+// Wall = retail copies the inlined result out of EAX into a separate caller live range (EDX). Retail slot3
+// 0x1B2FEF (mov edx,eax) and slot5 0x1B3313 (mov edi,eax) copy the same way, so the cause is the shared
+// caller pattern. Neutral/worse (do not retry): long/unsigned/unsigned long/__int64 returns, unsigned or
+// long caller index, const index, dead `index = 0` init, assignment inside the condition, `last` local,
+// split conditions, nested __forceinline sample helper, caller-side cursor writeback, single-exit FindIndex,
+// `return *(*cursor)++ = index`, ternary dead uses of index/cursor anywhere but the ratio division.
+// The `cursor ? x : x` in the ratio is what puts the cursor in EBX (only there; numerator form also works
+// but swaps xmm1/xmm2); slot3 keeps the cursor in EDX. t=45 model=claude-opus-5-5.
 class Vector3 { public: float X, Y, Z; };
 class Quaternion { public: float X, Y, Z, W; };
 class ChunkLoadClass;
@@ -34,7 +36,7 @@ public:
 class BFME2Encoding0MotionChannel : public BFME2MotionChannel {
 public:
  unsigned short *TimeCodes; float *Samples;
- __forceinline int FindIndex(unsigned time, int **cursor)
+ __forceinline short FindIndex(unsigned time, int **cursor)
  {
   int low = 0;
   int index;
