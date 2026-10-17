@@ -1,7 +1,5 @@
 // ?rva001F5923@Rva001F5923@@QAEXXZ
-// partial score=0.98998 date=2026-10-13
 // ?rva001F5923@Rva001F5923@@QAEXXZ
-// partial score=0.9899833194328607 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common
 // Native1F5923..1F5A6A (327B). Owner/original callback name unresolved,
 // so neutral receiver spelling retained. WB B16630 maps via vtable and
@@ -18,7 +16,7 @@
 // of native dead before timer's EBP-20/-1C; all other327-byte code matches.
 // stlport
 #include <list>
-#include "GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64*);
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64*);
@@ -64,14 +62,15 @@ class RvaSmartPtr12{public:RvaSmartPtr12():ptr(0),prev(0),next(0){};RvaSmartPtr1
 class Rva001F5923{public:void rva001F5923();char pad0[0x4c];_STL::list<RvaSmartPtr12> systems;char pad50[0x60-0x50];float elapsed;int playerIndex;char pad68[0x74-0x68];unsigned lastFrame;};
 void Rva001F5923::rva001F5923(){
  elapsed=0.0f;
- __int64 frequency,before;
- if(TheWritableGlobalData->profile){QueryPerformanceFrequency(&frequency);QueryPerformanceCounter(&before);}
+ __int64 frequency,after;
+ if(TheWritableGlobalData->profile){QueryPerformanceFrequency(&frequency);{__int64 initialAfter; QueryPerformanceCounter(&initialAfter);}}
  if(TheWritableGlobalData && TheWritableGlobalData->skipRepeatedFrames){unsigned frame=TheGameClient?TheGameClient->getFrame():0;if(frame==lastFrame)return;lastFrame=frame;}
  RvaSmartPtr12 sys;
+ __int64 before;
  bool paused=TheGameClient->flagC8 && !TheGameLogic->getFlag125();
  for(_STL::list<RvaSmartPtr12>::iterator i=systems.begin();i!=systems.end();){
   sys=*i;
   if(sys.ptr){if(sys.ptr->flag98 || paused){if(!sys.ptr->update(playerIndex)){++i;::delete sys.ptr;}else ++i;}else ++i;}
  }
- if(TheWritableGlobalData->profile){__int64 after;QueryPerformanceCounter(&after);elapsed=(after-before)*1000.0f/frequency;}
+ if(TheWritableGlobalData->profile){QueryPerformanceCounter(&after);elapsed=(after-before)*1000.0f/frequency;}
 }
