@@ -96280,3 +96280,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?Rva0029A24FGet@@YA_NXZ,,0x0029A24F,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,
 ?getFieldParse@UpgradeMuxData@@SAPBUFieldParse@@XZ,,0x004CEA8E,6,Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp,matched,UpgradeMuxData getFieldParse returns static FieldParse table at 0x00C60010
 ?rva003E3EBA@ScriptConditions@@IAE_NXZ,,0x003E3EBA,9,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_evaluateNamedUnit.cpp,matched,ScriptConditions rva003E3EBA returns TheFormationAssistant flag at 0x34
+?set@Rva001513E5@@QAEXXZ,,0x001513E5,5,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva001513E5 sets bit 2 of byte at +7

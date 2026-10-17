@@ -581,3 +581,16 @@ float Rva001E4132::rva001E4132(float, float y1, float, float y2)
 	return (y2 - y1) / ((float)BfmeLogicFramesPerSecond + (float)BfmeLogicFramesPerSecond);
 }
 
+// 0x001513E5 (5B): sets bit 2 at byte offset +7
+class Rva001513E5
+{
+public:
+	void set();
+private:
+	char m_pad[7];
+	unsigned char m_flags7;
+};
+void Rva001513E5::set()
+{
+	m_flags7 |= 4;
+}
