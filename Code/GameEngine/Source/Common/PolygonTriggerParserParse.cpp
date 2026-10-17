@@ -68,21 +68,8 @@ class Rva00330C50 : public virtual Rva00330C50Interface
 }
 ;
 // Rva00330C50::Rva00330C50 is rowed in its home unit; this copy was a duplicate definition.
-class AreaPolygonBase 
-{
- public: void reserve(int);
- 
-}
-;
-// Native330AA6 is an8-byte terminal jump to rowed AreaPolygonBase::reserve
-// at30B96B with the measured container adjustment8. The following16 bytes
-// form a separate float virtual dispatch, not part of this reserve wrapper.
-__declspec(noinline) void Rva00330C50::rva00330AA6(int count)
-
-{
- reinterpret_cast<AreaPolygonBase*>(&container)->reserve(count);
- 
-}
+// Rva00330C50::rva00330AA6 (0x00330AA6) is rowed in Rva00330C50Ctor.cpp; this unit
+// only calls it.
 #include "ascii_string.h"
 class PolygonTrigger;
 class PolygonSecondary 
