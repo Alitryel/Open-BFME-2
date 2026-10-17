@@ -214,45 +214,8 @@ W3DTerrainVisual::W3DTerrainVisual()
 //-------------------------------------------------------------------------------------------------
 /** reset */
 //-------------------------------------------------------------------------------------------------
-// ?W3DTerrainVisual::reset present-unmatched
-void W3DTerrainVisual::reset( void )
-{
-
-	// extend
-	TerrainVisual::reset();
-
-	m_terrainRenderObject->reset();
-
-	if (TheW3DShadowManager)
-		TheW3DShadowManager->Reset();
-
-	if (TheSmudgeManager)
-		TheSmudgeManager->reset();
-
-	if (TheTerrainTracksRenderObjClassSystem)
-		TheTerrainTracksRenderObjClassSystem->Reset();
-
-	// reset water render object if present
-	if( m_waterRenderObject )
-	{
-		for (Int i=0; i<5; i++)
-		{
-			//check if this texture was ever changed from default
-			if (m_currentSkyboxTexNames[i] != m_initialSkyboxTexNames[i])
-			{
-				m_waterRenderObject->replaceSkyboxTexture(m_currentSkyboxTexNames[i], m_initialSkyboxTexNames[i]);
-				m_currentSkyboxTexNames[i]=m_initialSkyboxTexNames[i];	//update current state to new texture
-			}
-		}
-
-		m_waterRenderObject->reset();
-	}
-
-#ifdef DO_SEISMIC_SIMULATIONS
-  m_seismicSimulationList.clear();
-#endif
-  
-}  // end reset
+// W3DTerrainVisual::reset is rowed with BFME2's body in W3DTerrainVisualInit.cpp;
+// the Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** update */
