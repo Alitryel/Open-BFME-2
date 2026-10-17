@@ -1,4 +1,6 @@
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
+// partial score=0.917 date=2026-10-17
+// ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 // partial score=0.913 date=2026-10-15
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 // partial score=0.925 date=2026-10-13
@@ -104,8 +106,8 @@ struct HeapTable
 	bool m_addingHeaps;
 };
 
-extern HeapTable g_heaps;
-extern unsigned long g_heapTlsIndex;
+#define g_heaps (*(HeapTable *)0x00DE0414)
+#define g_heapTlsIndex (*(unsigned long *)0x00DB35A4)
 
 EA::Allocator::GeneralAllocator *_GetHeapAllocator(unsigned int id)
 {
@@ -292,7 +294,7 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 					usedBytes += block->m_dataSize;
 				lastFree = 0;
 			}
-			else if (__vref(t_m_blockType) == 8)
+			else if (block->m_blockType == 8)
 			{
 				++coreCount;
 				committed += block->m_blockSize;
