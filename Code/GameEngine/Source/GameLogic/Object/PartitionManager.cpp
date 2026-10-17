@@ -51,7 +51,11 @@
 //-----------------------------------------------------------------------------
 //         Includes                                                      
 //-----------------------------------------------------------------------------
+// Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members
+// take the optimize state of their definition; PreRTS.h brings <vector> in.
+#pragma optimize("s", on)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#pragma optimize("", on)
 
 // Use the established exact byte-vector insertion specialization; this TU
 // must not instantiate an optimization-specific competing copy of its helpers.
@@ -3564,63 +3568,9 @@ Real PartitionManager::getGoalDistanceSquared(const Object *obj, const Coord3D *
 }
 
 //-----------------------------------------------------------------------------
-#pragma optimize("s", on)
-Real PartitionManager::getRelativeAngle2D( const Object *obj, const Object *otherObj )
-{
-	return getRelativeAngle2D(obj, otherObj->getPosition());
-}
-#pragma optimize("", on)
-
-//-----------------------------------------------------------------------------
-#pragma optimize("s", on)
-Real PartitionManager::getRelativeAngle2D( const Object *obj, const Coord3D *pos )
-{
-	Coord3D v;
-	
-	// compute vector to given position
-	Coord3D objPos = *obj->getPosition();
-	v.x = pos->x - objPos.x;
-	v.y = pos->y - objPos.y;
-	v.z = 0.0f;
-
-	Real dist = (Real)sqrtf(sqr(v.x) + sqr(v.y));
-
-	// normalize
-	if (dist == 0.0f)
-		return 0.0f;
-
-
-	const Coord3D *dir = obj->getUnitDirectionVector2D();
-
-	Real distInv = 1.0f / dist;
-	v.x *= distInv;
-	v.y *= distInv;
-	v.z *= distInv;
-
-	// dot of two unit vectors is cos of angle
-	Real c = dir->x*v.x + dir->y*v.y; // + dir->z*v.z;
-
-	// bound it in case of numerical error
-	if (c < -1.0)
-		c = -1.0;
-	else if (c > 1.0)
-		c = 1.0;
-
-	Real value = (Real)ACos( c );
-
-	// Determine sign by checking Z component of dir cross v
-	// Note this is assumes 2D, and is identical to dotting the perpendicular of v with dir
-	Real perpZ = dir->x * v.y - dir->y * v.x;
-	if (perpZ < 0.0f)
-		value = -value;
-
-	// note: to make this 3D, 'dir' and 'v' can be normalized and dotted just as they are
-	// to test sign, compute N = dir X v, then P = N x dir, then S = P . v, where sign of
-	// S is sign of angle - MSB
-
-	return value;
-}
-#pragma optimize("", on)
+// PartitionManager::getRelativeAngle2D (both overloads): Zero Hour bodies with no
+// proven retail address (0x002C9BE4 is Weapon::getAttackRange); BFME2 callers use
+// Object::GetRelativeAngle 0x000B4542 instead. Not defined here.
 
 //-----------------------------------------------------------------------------
 // ?iterateObjectsInRange@PartitionManager@@ present-unmatched

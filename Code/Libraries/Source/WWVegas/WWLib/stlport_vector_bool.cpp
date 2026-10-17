@@ -1,7 +1,10 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 
+// Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members take the optimize state of their definition.
+#pragma optimize("s", on)
 #include <vector>
+#pragma optimize("", on)
 
 // RVA6D52A has a verified external provider; do not offer a wrong incidental copy.
 namespace _STL { template<> void vector<bool>::clear(); }

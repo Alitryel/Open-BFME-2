@@ -11,7 +11,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+// Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members take the optimize state of their definition.
+#pragma optimize("y", on)
 #include <vector>
+#pragma optimize("", on)
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

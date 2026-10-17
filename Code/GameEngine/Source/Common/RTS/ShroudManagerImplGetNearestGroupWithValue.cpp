@@ -16,7 +16,10 @@
 // PartitionManager getNearestGroupWithValue/iterateCellsBreadthFirst. Native differs
 // in mask/value-index/threshold and left,right,up,down ordering; donor names/layouts
 // are not claimed as target facts. No new pin or tracked source was changed.
+// Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members take the optimize state of their definition.
+#pragma optimize("s", on)
 #include <vector>
+#pragma optimize("", on)
 #include <deque>
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 struct BfmeE8 { int a,b; };
