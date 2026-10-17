@@ -1,4 +1,6 @@
 // ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
+// partial score=0.985 date=2026-10-17
+// ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
 // partial score=0.8828 date=2026-10-14
 // ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
 // partial score=0.8541 date=2026-10-14
@@ -130,7 +132,7 @@ class Rva006D07E0Key;
 void Rva00893030(Rva006D07E0Key,void*,void*,void*);
 int g_aptConstResetState0,g_aptConstResetState1;
 void Rva000AB96DLoadAnimation(const char *name,BfmeRefVGO value) {
- Rva000AB910 *owner=new Rva000AB910(AsciiString(name));
+ Rva000AB910 *owner=new Rva000AB910(name);
  owner->rva000AB956();
  AsciiString path;
  path.format("%s.const",name);
