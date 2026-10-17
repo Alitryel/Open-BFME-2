@@ -126,6 +126,7 @@ class BitFlags
 {
 public:
 	static Int getSingleBitFromName( const char *token );
+	static const char **getBitNamesList() { return VeterancyNames104; }
 
 private:
 	_STL::bitset<NUMBITS> m_bits;
@@ -145,3 +146,7 @@ Int BitFlags<NUMBITS>::getSingleBitFromName( const char *token )
 
 // ?getSingleBitFromName@?$BitFlags@$0GI@@@SAHPBD@Z
 template Int BitFlags<104>::getSingleBitFromName( const char *token );
+
+// ?getBitNamesList@?$BitFlags@$0GI@@@SAPAPBDXZ, retail 0x0047E394 (6 bytes):
+// mov eax, offset VeterancyNames104 / ret (ZH BitFlags::getBitNamesList).
+template const char **BitFlags<104>::getBitNamesList();
