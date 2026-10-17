@@ -17,12 +17,18 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 struct BfmePod196 { int a[49]; };
 inline bool operator==(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] < y.a[0]; }
+// This size-only view must use the existing native element-copy and insert owners.
+namespace _STL {
+template <> void _Construct<BfmePod196, BfmePod196>(BfmePod196 *, const BfmePod196 &) throw();
+template <> list<BfmePod196>::iterator list<BfmePod196>::insert(iterator, const BfmePod196 &);
+}
 struct Rva004393D6 : public _STL::list<BfmePod196>
 {
 	int m_04;
 	int m_08;
 	int m_0c;
 	Rva004393D6(const Rva004393D6 &o);
+	~Rva004393D6(); // native explicit-clear destructor at 0x00438FC5
 	Rva004393D6 &operator=(const Rva004393D6 &o);
 };
 Rva004393D6::Rva004393D6(const Rva004393D6 &o) : _STL::list<BfmePod196>(o), m_04(o.m_04), m_08(o.m_08), m_0c(o.m_0c)

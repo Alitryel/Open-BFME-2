@@ -56,6 +56,8 @@ struct BfmePod196 { int a[49]; };
 inline bool operator==(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] < y.a[0]; }
 namespace _STL { template<> void _Construct<BfmePod196, BfmePod196>(BfmePod196 *, const BfmePod196 &) throw(); }
+// Keep the native 37-byte insert provider from its dedicated unit.
+namespace _STL { template <> list<BfmePod196>::iterator list<BfmePod196>::insert(iterator, const BfmePod196 &); }
 // Experience payload cleanup is virtual: retail list clear 0x002887EA.
 // Keep the proven 0x108-byte node payload and existing provider spelling.
 struct BfmePod264 { BfmePod264(const BfmePod264 &); virtual ~BfmePod264(); int a[65]; };

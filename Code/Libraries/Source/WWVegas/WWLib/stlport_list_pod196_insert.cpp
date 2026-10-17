@@ -18,4 +18,9 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 struct BfmePod196 { int a[49]; };
 inline bool operator==(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod196 &x, const BfmePod196 &y) { return x.a[0] < y.a[0]; }
-template class _STL::list<BfmePod196, _STL::allocator<BfmePod196> >;
+// This unit owns only insert; node allocation/copying belong to the existing provider.
+namespace _STL {
+template <> _List_node<BfmePod196> *list<BfmePod196>::_M_create_node(const BfmePod196 &);
+}
+template _STL::list<BfmePod196>::iterator _STL::list<BfmePod196>::insert(
+    _STL::list<BfmePod196>::iterator, const BfmePod196 &);
