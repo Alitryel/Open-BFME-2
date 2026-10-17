@@ -1,4 +1,6 @@
 // ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
+// partial score=0.921 date=2026-10-17
+// ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
 // partial score=0.9402902722801967 date=2026-10-13
 // ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
 // partial score=0.9402902722801967 date=2026-10-13
@@ -31,7 +33,9 @@ void ArmorStore::parseArmorDefinition(INI*ini){
  const char*c=ini->getNextToken(0);
  NameKeyType key=TheNameKeyGenerator->nameToKey(c);
  ArmorTemplate*armorTmpl;
- ArmorMap::const_iterator it=TheArmorStore->templates.find(key);
+ struct { ArmorMap::const_iterator v; unsigned char pad[3]; } itWrap;
+ ArmorMap::const_iterator &it = itWrap.v;
+ { it=TheArmorStore->templates.find(key); }
  if(it!=TheArmorStore->templates.end()){
   armorTmpl=it->second;
   if(ini->getLoadType()==5){
