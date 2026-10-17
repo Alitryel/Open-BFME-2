@@ -42,7 +42,7 @@ class AIUpdateInterface : public AIUpdateInterfaceSlots
 {
 public:
     bool isMoving() const;
-    const LocomotorSet &getLocomotorSet() const
+    const LocomotorSet &hordeLocomotorSet() const
     {
         return *(const LocomotorSet *)((const char *)this + 0x1CC);
     }
@@ -161,7 +161,7 @@ void HordeContain::rva0046A10D()
         it->object->rva0028AD32();
     Pathfinder *pathfinder =
         *(Pathfinder **)((char *)TheAI + 0x10);
-    pathfinder->AdjustDestination(owner, ai->getLocomotorSet(), &original, 0);
+    pathfinder->AdjustDestination(owner, ai->hordeLocomotorSet(), &original, 0);
     {
         Coord3D delta;
         delta.x = owner->m_position.x;
