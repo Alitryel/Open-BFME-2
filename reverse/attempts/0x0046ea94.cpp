@@ -1,4 +1,6 @@
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
+// partial score=0.878 date=2026-10-17
+// ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.836 date=2026-10-15
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.766 date=2026-10-14
@@ -557,7 +559,7 @@ public:
 	bool test110(int bit) const { return ((m_110 >> bit) & 1) != 0; }
 	const Coord3D *getPosition() const { return &m_position; }
 	bool isEquivalentTemplate(const ThingTemplate *t) const { return m_template->isEquivalentTo(t); }
-	__forceinline unsigned int isKindOf(int kind) const
+	__declspec(noinline) unsigned int isKindOf(int kind) const
 	{
 		return m_template->m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
 	}
@@ -955,6 +957,12 @@ public:
 class Rva0046BB38Iface11C : public Rva0046BB38Iface6
 {
 public:
+	unsigned char m_pad11C[0x148 - 0x11C];
+	int m_148; // +0x148 (interface m_264 equivalent)
+	int m_14C; // +0x14C
+	unsigned char m_pad150_pad[0x150 - 0x14C];
+	int m_150; // +0x150 (interface m_26C equivalent)
+	unsigned char m_pad154[0x164 - 0x154];
 	virtual int rva0046979B() = 0; virtual void assignSpotToUnit(Object *obj) = 0; virtual void rva00469F2F(Object *obj) = 0; virtual void gap13() = 0;
 	virtual void removeMemberFromHorde(Object *obj) = 0; virtual void gap15() = 0; virtual void performReform() = 0; virtual void rva0046FE99(_STL::list<Object *> &out) = 0;
 	virtual void gap18() = 0; virtual Object *rva0046CB2C() = 0; virtual Object *rva0046CC09() = 0; virtual Object *rva0046CBCA() = 0;
@@ -1373,23 +1381,27 @@ bool HordeContain::rva0046EA94(Object *obj)
 		return false;
 	if (obj->testStatus((ObjectStatusTypes)0x3B) || obj->testStatus((ObjectStatusTypes)0x3E))
 		return false;
-	Object *self = m_object;
+	Rva0046BB38Iface11C *ifc = (Rva0046BB38Iface11C *)(void *)this;
+	Object *self = *(Object * volatile *)((char *)ifc - 0x114);
 	if (self->testStatus((ObjectStatusTypes)0x3E))
 		return false;
-	if (obj->isDisabled() || obj->isKindOf((KindOfType)0xDA))
+	if (obj->isDisabled() || (1 ? (unsigned char)obj->isKindOf((KindOfType)0xDA) : (unsigned char)obj->isKindOf((KindOfType)0xDA)))
 		return false;
 	Object *other = obj->rva002931F5(false);
-	Player *player = self->getControllingPlayer();
-	if (player != obj->getControllingPlayer())
+	if (self->getControllingPlayer() != obj->getControllingPlayer())
 		return false;
 	if (!other)
 	{
-		const HordeContainModuleDataFields *data = fields();
-		if (rva0046970D(obj, (int)m_264, &data->m_1F4, false))
+		const HordeContainModuleDataFields *data = ((HordeContain *)((char *)((Rva0046BB38Iface11C *)(void *)this) - 0x11C))->fields();
+		const Rva00469851Names *n1 = &data->m_1F4;
+		const Rva00469851Names *n2 = &data->m_218;
+		int firstIndex = (int)m_264;
+		if (rva0046970D(obj, *(int *)((char *)this + 0x148), n1, false))
 			return true;
-		if (rva0046970D(obj, m_26C, &data->m_218, false) && m_object->m_264->m_24 <= 1)
+		if (rva0046970D(obj, *(int *)((char *)this + 0x150), n2, false) && self->m_264->m_24 <= 1)
 			return true;
-		if (!data->m_238 || !(obj->m_template->m_109 & 8) || data->m_23C.compare(obj->m_template->m_64) != 0)
+		const ThingTemplate *tmpl = obj->m_template;
+		if (!data->m_238 || !(tmpl->m_109 & 8) || data->m_23C.compare(tmpl->m_64) != 0)
 			return false;
 		return true;
 	}
