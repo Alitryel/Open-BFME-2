@@ -96277,3 +96277,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva0030C4D6@Rva0030C4D6@@QAEHH@Z,,0x0030C4D6,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,vtordisp adjustor forwarder calling Rva0030BEF9Owner::fwd 0x0030BEF9
 ?Rva003E54A8@@YA_NXZ,,0x003E54A8,12,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,
 ?rva000B2341@Rva000B1984@@QBEEXZ,,0x000B2341,8,Code/GameEngine/Source/Common/GapBodiesGE35.cpp,matched,
+?Rva0029A24FGet@@YA_NXZ,,0x0029A24F,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,

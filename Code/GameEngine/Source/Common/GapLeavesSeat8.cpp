@@ -445,6 +445,13 @@ void Rva0023527FScales::rva0023527F()
 		m_values[i] = 1.0f;
 }
 
+// --- 0x0029A24F (6B): getter of BfmeFormationPreviewUseDecals (VA DC84F4).
+extern bool BfmeFormationPreviewUseDecals;
+bool __cdecl Rva0029A24FGet()
+{
+	return BfmeFormationPreviewUseDecals;
+}
+
 // --- 0x0029A255 (8B): the square of the float at +0x2C (x87).
 class Rva0029A255Float
 {
