@@ -18,6 +18,12 @@
 #include <string.h>
 #include <vector>
 #include "ascii_string.h"
+// Retail calls StringBase<char>::find (0x0002C459) itself; AsciiString's
+// forwarder would add a jmp stub retail never had, so call the base directly.
+static __forceinline const char *bfmeFind(const AsciiString &s, char c)
+{
+	return ((const StringBase<char> *)&s)->find(c);
+}
 typedef int Int;
 class RenderObjClass
 
@@ -317,7 +323,7 @@ void W3DModelDraw::updateSubObjects()
   
   {
    Int objIndex;
-   const char *wildcard = it->m_name.find('*');
+   const char *wildcard = bfmeFind(it->m_name, '*');
    if (wildcard)
    
    {
@@ -382,7 +388,7 @@ void W3DModelDraw::updateSubObjects()
   
   {
    Int objIndex;
-   const char *wildcard = it->m_name.find('*');
+   const char *wildcard = bfmeFind(it->m_name, '*');
    if (wildcard)
    
    {
