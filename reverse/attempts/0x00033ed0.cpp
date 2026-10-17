@@ -1,4 +1,6 @@
 // ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
+// partial score=0.457 date=2026-10-17
+// ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
 // partial score=0.55 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -56,7 +58,7 @@ private:
     unsigned int m_0;			// +0x00
     unsigned int m_flags4;		// +0x04 (max fast size | trim bit0)
     Rva00033ED0Chunk *m_fastBins[10];	// +0x08
-    Rva00033ED0Chunk *m_binLinks[128];	// +0x30
+    Rva00033ED0Chunk *m_binLinks[256];	// +0x30
     unsigned int m_binmap[4];		// +0x430
     Rva00033ED0Chunk *m_top;		// +0x440
     Rva00033ED0Chunk *m_top2;		// +0x444
@@ -129,27 +131,36 @@ private:
 
 void *Rva006C1F60::rva00033ED0(unsigned int size, int flags)
 {
-    unsigned int rounded;
-    unsigned int binIdx;
+    unsigned int dummy0 = 0;
+    struct { unsigned int v; unsigned char pad[8]; } roundedSlot;
+    unsigned int dummy1 = 0;
+    unsigned int binIdx = 0;
+    unsigned int dummy2 = 0;
+    roundedSlot.v = 0;
+    *(volatile unsigned int*)&dummy1 = 0;
+    *(volatile unsigned int*)&dummy2 = 0;
+    {
+        if ((1 ? flags : flags) & 8)
+            return ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(size);
+    }
 retry:
-    if (flags & 8)
-        return ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(flags);
-
-    rounded = size + 0xb;
-    if (rounded > 0x10)
-        rounded &= ~7u;
+    roundedSlot.v = size + 0xb;
+    if (roundedSlot.v > 0x10)
+        roundedSlot.v &= ~7u;
     else
-        rounded = 0x10;
+        roundedSlot.v = 0x10;
+    unsigned int &rounded = roundedSlot.v;
 
     // Fast bins.
     if (rounded <= m_flags4)
     {
         unsigned int fi = rounded >> 3;
-        Rva00033ED0Chunk *c = *(Rva00033ED0Chunk **)((char *)this + 4 * fi);
+        Rva00033ED0Chunk * volatile *slot = (Rva00033ED0Chunk **)((char *)this + 4 * fi);
+        Rva00033ED0Chunk *c = *slot;
         if (c != 0)
         {
             c->m_size = c->m_size & 0x7ffffffbu;
-            *(Rva00033ED0Chunk **)((char *)this + 4 * fi) = c->m_next;
+            *slot = c->m_next;
             return (char *)c + 8;
         }
     }
@@ -158,9 +169,9 @@ retry:
     if (rounded < 0x200)
     {
         binIdx = rounded >> 3;
-        Rva00033ED0Chunk *head = binHead(binIdx);
         Rva00033ED0Chunk *c = binNext(binIdx);
-        if (c != head)
+        Rva00033ED0Chunk *head = binHead(binIdx);
+        if ((c ? c : c) != head)
         {
             *(unsigned int *)((char *)c + rounded + 4) |= 1;
             c->m_next->m_prev = c->m_prev;
@@ -201,18 +212,19 @@ retry:
                     *(unsigned int *)((char *)newTop + rest) = rest;
                     return (char *)c + 8;
                 }
+                unsigned int idx;
+                Rva00033ED0Chunk *next;
+                Rva00033ED0Chunk *prev;
+                if (csize != 0)
+                {
+                    unsorted->m_next = cnext;
+                    cnext->m_prev = unsorted;
+                }
                 if (csize == rounded)
                 {
                     *(unsigned int *)((char *)c + rounded + 4) |= 1;
                     return (char *)c + 8;
                 }
-
-                unsorted->m_next = cnext;
-                cnext->m_prev = unsorted;
-
-                unsigned int idx;
-                Rva00033ED0Chunk *next;
-                Rva00033ED0Chunk *prev;
                 if (csize < 0x200)
                 {
                     idx = csize >> 3;
@@ -251,6 +263,7 @@ retry:
                 c = unsorted->m_next;
                 _ReadWriteBarrier();
                 if (c == unsorted)
+                    _ReadWriteBarrier();
                     break;
             }
         }
