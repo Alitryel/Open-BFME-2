@@ -10,7 +10,13 @@ namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base
 namespace _STL { template <> bool basic_filebuf<unsigned short, char_traits<unsigned short> >::_M_allocate_buffers(unsigned short *, int); }
 namespace _STL { template <> fpos<int> basic_filebuf<unsigned short, char_traits<unsigned short> >::_M_seek_return(long, int); }
 namespace _STL { template <> basic_filebuf<unsigned short, char_traits<unsigned short> > * basic_filebuf<unsigned short, char_traits<unsigned short> >::open(char const *, int); }
+namespace _STL { template <> locale basic_ios<unsigned short, char_traits<unsigned short> >::imbue(const locale &); }
 // bfme link decl-only end
+// ?bfmeAnchorWideIfstreamAssign absent-from-retail
+void bfmeAnchorWideIfstreamAssign(_STL::string &s, char *first, char *last)
+{
+	s.assign(first, last);
+}
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
