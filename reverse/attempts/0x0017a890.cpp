@@ -1,4 +1,6 @@
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
+// partial score=0.841 date=2026-10-17
+// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.7990908115358819 date=2026-10-13
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // PointGroup geometry helper, target0x0017A890, full12000B including its12-entry table.
@@ -17,6 +19,14 @@
 // Remaining ground matrix/register allocation and stack homes prevent exact recovery.
 // Owner integration preserves43/43 existing rows. Removing its historical optimization
 // anchor also preserves those bytes but emits a50B ctor iterator vs retail42B; reverted.
+// Round4 (2026-10-17): case7 Matrix4 view via transposed Get_Transform(int,Matrix4&)
+// overload (row3 dead-stored as retail), TU-local by-value Matrix3D*Vector3 operator,
+// vertex_loc declared before loop_sel, four scaled offsets dx0/dx1/dy0/dy1 computed
+// before stores with integer Z copies: now 12000B/frameB8 exact size/frame, score0.841.
+// Disproven: ZH i-indexed case7 (vert+=4, point_loc[i]) 12036B score0.823.
+// Remaining: case7 keeps two vertex IVs and point_loc in memory (retail: one derived IV
+// lea esi,[eax+14h] from invariant base, point_loc in ebp); case0 lost its pre-loop
+// xmm6 reload through global register allocation; cases5/6 register choice.
 // Banked source is NOT verified recovery.
 // cl: /O2 /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 #include "sharebuf.h"
@@ -28,6 +38,10 @@
 #include "matrix3d.h"
 struct RenderStateStruct { unsigned char opaque[0x22C]; Matrix4 view; };
 class DX8Wrapper { public:
+ static __forceinline void Get_Transform(int,Matrix4& v) {
+  if(render_state_changed&(1<<19)) v.Make_Identity();
+  else {v[0][0]=render_state.view[0][0];v[0][1]=render_state.view[1][0];v[0][2]=render_state.view[2][0];v[0][3]=render_state.view[3][0];v[1][0]=render_state.view[0][1];v[1][1]=render_state.view[1][1];v[1][2]=render_state.view[2][1];v[1][3]=render_state.view[3][1];v[2][0]=render_state.view[0][2];v[2][1]=render_state.view[1][2];v[2][2]=render_state.view[2][2];v[2][3]=render_state.view[3][2];v[3][0]=render_state.view[0][3];v[3][1]=render_state.view[1][3];v[3][2]=render_state.view[2][3];v[3][3]=render_state.view[3][3];}
+ }
  static __forceinline void Get_Transform(int,Matrix3D& v) {
   if(render_state_changed&(1<<19)) v.Make_Identity();
   else {v[0][0]=render_state.view[0][0];v[0][1]=render_state.view[1][0];v[0][2]=render_state.view[2][0];v[0][3]=render_state.view[3][0];v[1][0]=render_state.view[0][1];v[1][1]=render_state.view[1][1];v[1][2]=render_state.view[2][1];v[1][3]=render_state.view[3][1];v[2][0]=render_state.view[0][2];v[2][1]=render_state.view[1][2];v[2][2]=render_state.view[2][2];v[2][3]=render_state.view[3][2];}
@@ -36,6 +50,15 @@ private: static RenderStateStruct render_state; static unsigned render_state_cha
 };
 #include "ww3d.h"
 #include <d3dx8.h>
+static __forceinline Vector3 operator * (const Matrix3D &A,const Vector3 &a)
+{
+	return Vector3
+	(
+		(A[0][0]*a[0] + A[0][1]*a[1] + A[0][2]*a[2] + A[0][3]),
+		(A[1][0]*a[0] + A[1][1]*a[1] + A[1][2]*a[2] + A[1][3]),
+		(A[2][0]*a[0] + A[2][1]*a[1] + A[2][2]*a[2] + A[2][3])
+	);
+}
 static Vector3 GroundMultiplierX(1,0,0),GroundMultiplierY(0,1,0);
 extern VectorClass<Vector3> VertexLoc;
 extern VectorClass<Vector2> VertexUV;
@@ -74,6 +97,7 @@ private:
 
 void PointGroupClass::rva009148C0(Vector3*point_loc,float*point_size,unsigned char*point_orientation,int active_points) {
 	int i, j;
+	Vector3 *vertex_loc = &VertexLoc[0];
 
 	/*
 	** Generate the vertex locations from the point locations (note that both are in camera space).
@@ -101,7 +125,6 @@ void PointGroupClass::rva009148C0(Vector3*point_loc,float*point_size,unsigned ch
 		(point_orientation ? 2 : 0) + (point_size ? 1 : 0));
 
 	
-	Vector3 *vertex_loc = &VertexLoc[0];
 
 
 	/// @todo lorenzen sez: this switch statement may be done more compactly another way... look into it
@@ -255,7 +278,7 @@ vertex_loc[ 3].Z = point_loc[0].Z + _QuadVertexLocationOrientationTable[point_or
 
 		case QUADS_SIZE_ORIENT:
 {
-Matrix3D view; Vector3 result;
+Matrix4 view; Vector4 result;
 if (!Get_Flag(BILLBOARD)) {
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 for (i = 0; i < active_points; i++, point_size++, point_orientation++, point_loc++, vertex_loc += 4) {
@@ -266,40 +289,45 @@ for (i = 0; i < active_points; i++, point_size++, point_orientation++, point_loc
 						Vector4 orientedVecX = rotMat * GroundMultiplierX;
 						Vector4 orientedVecY = rotMat * GroundMultiplierY;
 
-						vertex_loc[ 0].X = point_loc[0].X +	(orientedVecX.X + orientedVecY.X) * point_size[0];
-						vertex_loc[ 0].Y = point_loc[0].Y +	(orientedVecX.Y + orientedVecY.Y) * point_size[0];
+						float dx0 = (orientedVecX.X + orientedVecY.X) * point_size[0];
+						float dx1 = (orientedVecX.X - orientedVecY.X) * point_size[0];
+						float dy0 = (orientedVecX.Y + orientedVecY.Y) * point_size[0];
+						float dy1 = (orientedVecX.Y - orientedVecY.Y) * point_size[0];
+
+						vertex_loc[ 0].X = point_loc[0].X + dx0;
+						vertex_loc[ 0].Y = point_loc[0].Y + dy0;
 						vertex_loc[ 0].Z = point_loc[0].Z;
 
-						vertex_loc[ 1].X = point_loc[0].X +	(orientedVecX.X - orientedVecY.X) * point_size[0];
-						vertex_loc[ 1].Y = point_loc[0].Y +	(orientedVecX.Y - orientedVecY.Y) * point_size[0];
+						vertex_loc[ 1].X = point_loc[0].X + dx1;
+						vertex_loc[ 1].Y = point_loc[0].Y + dy1;
 						vertex_loc[ 1].Z = point_loc[0].Z;
 
-						vertex_loc[ 2].X = point_loc[0].X +	-(orientedVecX.X + orientedVecY.X) * point_size[0];
-						vertex_loc[ 2].Y = point_loc[0].Y +	-(orientedVecX.Y + orientedVecY.Y) * point_size[0];
+						vertex_loc[ 2].X = point_loc[0].X - dx0;
+						vertex_loc[ 2].Y = point_loc[0].Y - dy0;
 						vertex_loc[ 2].Z = point_loc[0].Z;
 
-						vertex_loc[ 3].X = point_loc[0].X +	(-orientedVecX.X + orientedVecY.X) * point_size[0];
-						vertex_loc[ 3].Y = point_loc[0].Y +	(-orientedVecX.Y + orientedVecY.Y) * point_size[0];
+						vertex_loc[ 3].X = point_loc[0].X - dx1;
+						vertex_loc[ 3].Y = point_loc[0].Y - dy1;
 						vertex_loc[ 3].Z = point_loc[0].Z;
 
 						// now apply the view transform so that this data is in the format expected
 						// upon the functions return.
-						Matrix3D::Transform_Vector(view,vertex_loc[ 0],&result);
+						result = view*vertex_loc[0];
 						vertex_loc[ 0].X = result.X;
 						vertex_loc[ 0].Y = result.Y;
 						vertex_loc[ 0].Z = result.Z;
 
-						Matrix3D::Transform_Vector(view,vertex_loc[ 1],&result);
+						result = view*vertex_loc[1];
 						vertex_loc[ 1].X = result.X;
 						vertex_loc[ 1].Y = result.Y;
 						vertex_loc[ 1].Z = result.Z;
 
-						Matrix3D::Transform_Vector(view,vertex_loc[ 2],&result);
+						result = view*vertex_loc[2];
 						vertex_loc[ 2].X = result.X;
 						vertex_loc[ 2].Y = result.Y;
 						vertex_loc[ 2].Z = result.Z;
 
-						Matrix3D::Transform_Vector(view,vertex_loc[ 3],&result);
+						result = view*vertex_loc[3];
 						vertex_loc[ 3].X = result.X;
 						vertex_loc[ 3].Y = result.Y;
 						vertex_loc[ 3].Z = result.Z;
