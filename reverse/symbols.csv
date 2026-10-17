@@ -2231,7 +2231,6 @@ name,address,notes
 ??0Rva001D9670Store@@QAE@XZ,0x001D9670,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0Rva001DF3F1Element@@QAE@ABU0@@Z,0x001DE878,copy constructor read from retail REL32 in _Construct<Rva001DF3F1Element> 0x001DEDA7 (byte-exact modulo relocs in StlportConstructFamily.cpp); element identity unproven; address-derived name
 ??0Rva001DFEAABase@@QAE@XZ,0x001DFEAA,shared FXNugget-family base ctor; called with this undisplaced from 16 ctor-start sites incl AttachedModelFXNugget 0x1E084A; installs vtable 0xBDC940; do-not-name without family proof
-??0Rva001E4DB0@@QAE@ABV0@@Z,0x001E4DEB,copy-ctor sharing vtable 0x007DE8B4 base Rva001E3624 and AsciiString at +0x10 with rowed dtor 0x001E4DB0; 961B body copies base plus StringBase plus members to +0x150; called twice by byte-exact 0x001E67BF
 ??0Rva001E7270Store@@QAE@XZ,0x001E7270,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ??0Rva001F41AF@@QAE@ABV0@@Z,0x001F41AF,copy-ctor spelling of the rowed clone-assign body; called on raw storage by copy ctor chain 0x001F9C73..0x001FC3BF and returns this
 ??0Rva001F4D06Base@@QAE@PAX0@Z,0x001F4B63,base ctor called by Rva001F4D06 derived ctor (banked 0x001F4B63 stash names SmartPtr/chain params, unlanded; void* honest); REL32 read from placed 0x001F4D06 body
@@ -13665,7 +13664,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?ReAcquireResources@WaterTracksRenderSystem@@QAEXXZ,0x000FE065,callee of ?init@WaterTracksRenderSystem@@QAEXXZ
 ?rva003731CB@Rva0037381C@@QAEXPAVRva00373373Portal@@PAVPlayer@@@Z,0x003731CB,callee of ?Init@Rva003733B5Base@@QAEXXZ
 ?rva002AE4C5@Rva002AE4C5@@QAEAAHPBVAsciiString@@@Z,0x002AE4C5,callee of ?rva002AE8CF@Player@@QAEXPBVAsciiString@@MH@Z
-??0Rva001E3955@@QAE@XZ,0x001E4ABE,callee of ?rva001E520C@Rva001E520C@@QAEPAVRva001E3955@@PAV2@@Z
 ?rva005049A4@Rva005049A4KeyRange@@QBEPAURva00504AB4Key@@ABM@Z,0x005049A4,callee of ?eval@FCurve@@QBEMM@Z
 ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z,0x00042C80,callee of ?rva00044928@W3DDisplay@@QAEXMMMMMKK@Z
 ?rva002118C2@Rva002141D1@@QAEXXZ,0x002118C2,callee of ?rva002141D1@Rva002141D1@@QAEXXZ

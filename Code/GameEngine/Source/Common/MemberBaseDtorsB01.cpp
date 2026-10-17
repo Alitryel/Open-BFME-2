@@ -3,7 +3,7 @@
 // Destructors of the 59-byte member-then-base shape: store the class vptr,
 // destroy one member at a fixed offset (EH state 0), then call the base
 // destructor; the same shape as the rowed ??1Rva0098477@@UAE@XZ
-// (SubsystemDerivedDtors.cpp) and ??1Rva001E4DB0@@UAE@XZ.  Each class is
+// (SubsystemDerivedDtors.cpp) and ??1LocomotorTemplate@@UAE@XZ.  Each class is
 // named after its destructor address; the base and member destructors are
 // declared, not defined, and resolve to their ledger rows or address-named
 // pins at the addresses the retail calls prove.  Layout is modelled only as

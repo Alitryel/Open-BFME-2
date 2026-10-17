@@ -1,10 +1,10 @@
 // cl: /O1 /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 //
-// ??0Rva001E4DB0@@QAE@ABV0@@Z, retail 0x001E4DEB, 961 bytes.
-// Copy constructor of the Rva001E4DB0 holder (vtable 0x007DE8B4, rowed dtor
+// ??0LocomotorTemplate@@QAE@ABV0@@Z, retail 0x001E4DEB, 961 bytes.
+// Copy constructor of the LocomotorTemplate holder (vtable 0x007DE8B4, rowed dtor
 // 0x001E4DB0): base copy constructor (0x007664DD, base Rva001E3624), the AsciiString at
 // +0x10 copy-constructed, then the same member-wise int/byte copies up to +0x151 as
-// the sibling copy assignment Rva001E3955::operator= (Rva001E3955Assign.cpp).
+// the sibling copy assignment LocomotorTemplate::operator= (Rva001E3955Assign.cpp).
 // Target evidence: retail body and the shared member offsets/widths read byte for byte.
 #include "ascii_string.h"
 class Rva001E3624
@@ -14,11 +14,11 @@ public:
 	virtual ~Rva001E3624();
 	char m_pad[0x0C];
 };
-class Rva001E4DB0 : public Rva001E3624
+class LocomotorTemplate : public Rva001E3624
 {
 public:
-	Rva001E4DB0(const Rva001E4DB0 &rhs);
-	virtual ~Rva001E4DB0();
+	LocomotorTemplate(const LocomotorTemplate &rhs);
+	virtual ~LocomotorTemplate();
 private:
 	AsciiString m_10;
 	int m_14;
@@ -111,7 +111,7 @@ private:
 	unsigned char m_151;
 };
 
-Rva001E4DB0::Rva001E4DB0(const Rva001E4DB0 &rhs) : Rva001E3624(rhs), m_10(rhs.m_10)
+LocomotorTemplate::LocomotorTemplate(const LocomotorTemplate &rhs) : Rva001E3624(rhs), m_10(rhs.m_10)
 {
 	m_14 = rhs.m_14;
 	m_18 = rhs.m_18;

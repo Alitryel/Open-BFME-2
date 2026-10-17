@@ -1,45 +1,37 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 // Native 001E520C..001E525A, 78 bytes, RET4; incoming ECX is unused.
-// Existing rowed assignment 001E3955 fixes the template's neutral name.
+// The rowed LocomotorTemplate assignment 001E3955 and constructor 001E4ABE.
 // Constructor 001E4ABE..001E4DB0 only initializes fields and cannot throw.
 // Allocation size 0x154, override link +4 and flag +8 are target facts.
-// CrateSystem::newCrateTemplateOverride supplies the source pattern;
-// original receiver and member names remain unknown.
-class Rva001E3955
+// LocomotorStore::newOverride: the rowed LocomotorStore::
+// parseLocomotorTemplateDefinition 0x001E8A94 calls it on TheLocomotorStore
+// with the final override; donor ZH Locomotor.cpp newOverride (allocate,
+// copy, link, mark), plus BFME2's g_00E01EA8 bracket around the copy.
+class LocomotorTemplate
 {
 public:
-    Rva001E3955() throw();
-    Rva001E3955 &operator=(const Rva001E3955 &rhs);
-    void setNextOverride(Rva001E3955 *next) { m_next = next; }
+    LocomotorTemplate() throw();
+    LocomotorTemplate &operator=(const LocomotorTemplate &rhs);
+    void setNextOverride(LocomotorTemplate *next) { m_next = next; }
     void markAsOverride() { m_override = true; }
 private:
     void *m_vptr;
-    Rva001E3955 *m_next;
-    bool m_override;
-    char m_unknown09[0x154 - 9];
-};
-class Rva001E4DB0
-{
-public:
-    Rva001E4DB0() throw();
-private:
-    void *m_vptr;
-    Rva001E3955 *m_next;
+    LocomotorTemplate *m_next;
     bool m_override;
     char m_unknown09[0x154 - 9];
 };
 
-class Rva001E520C
+class LocomotorStore
 {
 public:
-    Rva001E3955 *rva001E520C(Rva001E3955 *original);
+    LocomotorTemplate *newOverride(LocomotorTemplate *original);
 };
 extern unsigned char g_00E01EA8;
-Rva001E3955 *Rva001E520C::rva001E520C(Rva001E3955 *original)
+LocomotorTemplate *LocomotorStore::newOverride(LocomotorTemplate *original)
 {
     if (!original)
         return 0;
-    Rva001E3955 *result = (Rva001E3955 *)new Rva001E4DB0;
+    LocomotorTemplate *result = new LocomotorTemplate;
     g_00E01EA8 = 1;
     *result = *original;
     g_00E01EA8 = 0;

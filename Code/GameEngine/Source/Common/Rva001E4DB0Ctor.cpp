@@ -1,25 +1,21 @@
-// ??0Rva001E4DB0@@QAE@XZ @0x001E4ABE 754B
-// LocomotorTemplate defaults (the class the rowed dtor 0x001E4DB0 and copy
-// ctor 0x001E4DEB belong to); WB 0xADBAE0 plus the BFME1 a7c38d3b donor
-// Locomotor.cpp constructor give the semantic lead, retail/WB establish every
-// field. The existing native Locomotor ctor 0x1E449A consumes template
-// +58/+60/+C4/+C8; m_2C/m_44/m_50 are integer frame counts from 0x00DBA4E4,
-// not floats. The class keeps the dtor family's address-derived spelling
-// pending the LocomotorTemplate home reconciliation.
+// ??0LocomotorTemplate@@QAE@XZ @0x001E4ABE 754B
+// LocomotorTemplate default constructor: the class of the rowed dtor
+// 0x001E4DB0, copy ctor 0x001E4DEB, copy assignment 0x001E3955 and validate
+// 0x001E38B9 (vtable 0x007DE8B4, 0x154 bytes, as LocomotorStore's
+// parseLocomotorTemplateDefinition 0x001E8A94 allocates it). WB 0xADBAE0 plus
+// the BFME1 a7c38d3b donor Locomotor.cpp constructor give the semantic lead,
+// retail/WB establish every field. The native Locomotor ctor 0x1E449A
+// consumes template +58/+60/+C4/+C8; m_2C/m_44/m_50 are integer frame counts
+// from 0x00DBA4E4, not floats. Field names past the ZH set are not recovered;
+// +0x150 is the byte flag LocomotorSet::addLocomotor tests into the set's
+// +0x15 and the rowed clone 0x001E67BF clears (default 0; +0x151 defaults
+// to 1).
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfme2_ascii
-// Locomotor-template defaults: WB0xADBae0 and native0x1E4ABE.
 // BFME1 donor a7c38d3b2597121f178ab5190b3062478823257d:
 // game/GameEngine/Source/GameLogic/Object/Locomotor.cpp supplies the semantic
 // LocomotorTemplate constructor lead; retail/WB establish every field below.
-// Existing native Locomotor ctor 0x1E449A consumes template +58/+60/+C4/+C8.
-// The existing copy ctor 0x1E4DEB and dtor 0x1E4DB0 share this vtable/layout.
-// m_2C/m_44/m_50 are integer frame counts from BfmeLogicFramesPerSecond, NOT floats.
-// Retains existing vtable owner spelling pending home-unit reconciliation.
-// tools/explain_mismatch reports exact 754B. Not admitted by ./build.sh:
-// canonical Locomotor.cpp still compiles a different ZH class layout; its
-// matched getLegalSurfaces currently reads template+10 rather than native+14.
-// A safe home-unit integration must reconcile that view and existing ctor pin
-// Rva001E3955, copy/dtor names, and consumers together. No claimed recovery.
+// The canonical Locomotor.cpp still declares the ZH layout of this class; its
+// matched getLegalSurfaces reads template+10 rather than native+14.
 #include "ascii_string.h"
 extern int BfmeLogicFramesPerSecond;
 class Rva001E3624 {
@@ -30,10 +26,10 @@ public:
     bool isOverride;
     int key;
 };
-class Rva001E4DB0 : public Rva001E3624 {
+class LocomotorTemplate : public Rva001E3624 {
 public:
-    Rva001E4DB0();
-    virtual ~Rva001E4DB0();
+    LocomotorTemplate();
+    virtual ~LocomotorTemplate();
 private:
 	AsciiString m_10;
 	int m_14;
@@ -126,7 +122,7 @@ private:
 	unsigned char m_151;
 };
 
-Rva001E4DB0::Rva001E4DB0()
+LocomotorTemplate::LocomotorTemplate()
 {
     m_14C = 1.0f;
     m_24 = 1.0f;

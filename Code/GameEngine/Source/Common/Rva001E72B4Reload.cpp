@@ -133,16 +133,15 @@ enum NameKeyType { NAMEKEY_INVALID=0 };
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *); };
 extern NameKeyGenerator *TheNameKeyGenerator;
 class Overridable { public: Overridable *friend_getFinalOverride(); };
-class Rva001E3955 { public: Rva001E3955() throw(); char storage[0x154]; };
-class Rva001E520C { public: Rva001E3955 *rva001E520C(Rva001E3955 *); };
+class LocomotorTemplate { public: LocomotorTemplate() throw(); void validate(); char storage[0x154]; };
 class Rva001E6731 { public: unsigned rva001E71FA(const int &); };
-class LocomotorTemplate { public: void validate(); };
 struct LocomotorParserView { void *vtable; Overridable *next; bool overrideFlag; char pad9[3]; int retired; AsciiString name; __forceinline void setName(const AsciiString &value) { name.setCopyInline(value); } };
 class LocomotorStore {
 public:
  LocomotorTemplate *findLocomotorTemplate(int);
+ LocomotorTemplate *newOverride(LocomotorTemplate *);
  static void parseLocomotorTemplateDefinition(INI *);
- char pad[0xC]; _STL::map<int,int> templates; _STL::vector<Rva001E3955 *> retired;
+ char pad[0xC]; _STL::map<int,int> templates; _STL::vector<LocomotorTemplate *> retired;
 };
 extern LocomotorStore *TheLocomotorStore;
 
@@ -150,29 +149,29 @@ extern const FieldParse LocomotorTemplateFields;
 void LocomotorStore::parseLocomotorTemplateDefinition(INI *ini) {
  if(!TheLocomotorStore) throw INIException(3,"TheLocomotorStore==NULL");
  const char *token=ini->getNextToken(0);
- Rva001E3955 *loco;
+ LocomotorTemplate *loco;
  {
  int key=TheNameKeyGenerator->nameToKey(token);
  LocomotorStore *store=TheLocomotorStore;
- Rva001E3955 *original=(Rva001E3955 *)store->findLocomotorTemplate(key);
+ LocomotorTemplate *original=store->findLocomotorTemplate(key);
  loco=original;
  if(loco) {
   if(ini->type==2) {
    LocomotorParserView *v=(LocomotorParserView *)loco;
-   Rva001E3955 *final=v->next ? (Rva001E3955 *)v->next->friend_getFinalOverride() : loco;
-   loco=((Rva001E520C *)store)->rva001E520C(final);
+   LocomotorTemplate *final=v->next ? (LocomotorTemplate *)v->next->friend_getFinalOverride() : loco;
+   loco=store->newOverride(final);
   } else if(ini->type==5) {
    ((LocomotorParserView *)loco)->retired=1;
    Rva001E6731 *map=(Rva001E6731 *)&TheLocomotorStore->templates;
    map->rva001E71FA(key);
    reinterpret_cast<_STL::vector<const ModuleData*> *>(&TheLocomotorStore->retired)->push_back(reinterpret_cast<const ModuleData* const&>(original));
    if(((LocomotorParserView *)loco)->overrideFlag) g_Va00DFDC61=true;
-   loco=new Rva001E3955;
+   loco=new LocomotorTemplate;
    ((LocomotorParserView *)loco)->retired=0;
    TheLocomotorStore->templates[key]=(int)loco;
   } else return;
  } else {
-  loco=new Rva001E3955;
+  loco=new LocomotorTemplate;
   if(ini->type==2) ((LocomotorParserView *)loco)->overrideFlag=true;
   TheLocomotorStore->templates[key]=(int)loco;
  }
@@ -182,7 +181,7 @@ void LocomotorStore::parseLocomotorTemplateDefinition(INI *ini) {
  // Diagnostic lifetime inferred from native EH; original local spelling unknown.
  if(0){AsciiString diagnostic;}
   ini->initFromINI(loco,&LocomotorTemplateFields);
-  ((LocomotorTemplate *)loco)->validate();
+  loco->validate();
  }
 }
 

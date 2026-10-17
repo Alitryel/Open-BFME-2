@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 //
-// ??4Rva001E3955@@QAEAAV0@ABV0@@Z, retail 0x001E3955, 927 bytes.
+// ??4LocomotorTemplate@@QAEAAV0@ABV0@@Z, retail 0x001E3955, 927 bytes.
 // Copy assignment: base StreakDrawModuleTemplate operator= (rowed 0x1FD28E),
 // AsciiString at +0x10 via rowed StringBase::set (0x366F0), then bulk int/byte
 // copies to +0x151, return *this. Evidence: 2 rowed callees, straight-line
@@ -15,10 +15,10 @@ public:
 	char m_pad[0x10];
 };
 }
-class Rva001E3955 : public FXParticleSystem::StreakDrawModuleTemplate
+class LocomotorTemplate : public FXParticleSystem::StreakDrawModuleTemplate
 {
 public:
-	Rva001E3955 &operator=(const Rva001E3955 &rhs);
+	LocomotorTemplate &operator=(const LocomotorTemplate &rhs);
 private:
 	AsciiString m_10;
 	int m_14;
@@ -110,8 +110,8 @@ private:
 	unsigned char m_150;
 	unsigned char m_151;
 };
-// ??4Rva001E3955@@QAEAAV0@ABV0@@Z @0x001E3955
-Rva001E3955 &Rva001E3955::operator=(const Rva001E3955 &rhs)
+// ??4LocomotorTemplate@@QAEAAV0@ABV0@@Z @0x001E3955
+LocomotorTemplate &LocomotorTemplate::operator=(const LocomotorTemplate &rhs)
 {
 	FXParticleSystem::StreakDrawModuleTemplate::operator=(*(const FXParticleSystem::StreakDrawModuleTemplate *)&rhs);
 	m_10.setCopyInline(rhs.m_10);

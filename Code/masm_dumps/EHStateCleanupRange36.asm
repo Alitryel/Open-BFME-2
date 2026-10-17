@@ -17,7 +17,7 @@ EXTERN ??1BfmeStringTailRecord156@@QAE@XZ:PROC
 EXTERN ??1Rva00087A93@@QAE@XZ:PROC
 EXTERN ??1Rva00690FF0Handle@@QAE@XZ:PROC
 EXTERN ??1?$RefCountPtr@VMeshClass@@@@QAE@XZ:PROC
-EXTERN ??1Rva001E4DB0@@UAE@XZ:PROC
+EXTERN ??1LocomotorTemplate@@UAE@XZ:PROC
 EXTERN ??1Gen_uw_000b3f43@@QAE@XZ:PROC
 EXTERN ?rva002115C5@Rva002115C5@@QAEXXZ:PROC
 EXTERN ??1?$basic_ios@DV?$char_traits@D@_STL@@@_STL@@UAE@XZ:PROC
@@ -812,7 +812,7 @@ PUBLIC ?rva00769FCB@@YAXXZ
     jz NEAR PTR cleanup_done_00769FCB
     and DWORD PTR [ebp-16], -2
     mov ecx, DWORD PTR [ebp+8]
-    jmp ??1Rva001E4DB0@@UAE@XZ
+    jmp ??1LocomotorTemplate@@UAE@XZ
 cleanup_done_00769FCB:
     ret
 ?rva00769FCB@@YAXXZ ENDP

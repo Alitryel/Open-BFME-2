@@ -299,92 +299,10 @@ static void calcDirectionToApplyThrust(
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //-------------------------------------------------------------------------------------------------
-// ?LocomotorTemplate::LocomotorTemplate present-unmatched
-LocomotorTemplate::LocomotorTemplate()
-{
-	// these values mean "make the same as undamaged if not explicitly specified"
-	m_maxSpeedDamaged = -1.0f;
-	m_maxTurnRateDamaged = -1.0f;
-	m_accelerationDamaged = -1.0f;
-	m_liftDamaged = -1.0f;
-
-	m_surfaces = 0;
-	m_maxSpeed = 0.0f;
-	m_maxTurnRate = 0.0f;
-	m_acceleration = 0.0f;
-	m_lift = 0.0f;
-	m_braking = BIGNUM;
-	m_minSpeed = 0.0f;
-	m_minTurnSpeed = BIGNUM;
-	m_behaviorZ = Z_NO_Z_MOTIVE_FORCE;
-	m_appearance = LOCO_OTHER;
-	m_movePriority = LOCO_MOVES_MIDDLE;
-	m_preferredHeight = 0;
-	m_preferredHeightDamping = 1.0f;
-	m_circlingRadius = 0;
-
-	m_maxThrustAngle = 0;
-	m_speedLimitZ = 999999.0f;
-	m_extra2DFriction = 0.0f;
-
-	m_accelPitchLimit = 0;
-	m_decelPitchLimit = 0;
-	m_bounceKick = 0;
-
-//	m_pitchStiffness = 0;
-//	m_rollStiffness = 0;
-//	m_pitchDamping = 0;
-//	m_rollDamping = 0;
-// it's highly unlikely you want zero for the defaults for stiffness and damping... (srj)
-// for stiffness: stiffness of the "springs" in the suspension 0 = no stiffness, 1 = totally stiff (huh huh, he said "stiff")
-// for damping: 0=perfect spring, bounces forever.  1=glued to terrain.
-	m_pitchStiffness = 0.1f;
-	m_rollStiffness = 0.1f;
-	m_pitchDamping = 0.9f;
-	m_rollDamping = 0.9f;
-	m_forwardVelCoef = 0;
-	m_pitchByZVelCoef = 0;
-	m_thrustRoll = 0.0f;
-	m_wobbleRate = 0.0f;
-	m_minWobble = 0.0f;
-	m_maxWobble = 0.0f;
-	m_lateralVelCoef = 0;
-	m_forwardAccelCoef = 0;
-	m_lateralAccelCoef = 0;
-	m_uniformAxialDamping = 1.0f;
-	m_turnPivotOffset = 0;
-	m_apply2DFrictionWhenAirborne = false;
-	m_downhillOnly = false;
-	m_allowMotiveForceWhileAirborne = false;
-	m_locomotorWorksWhenDead = false;
-	m_airborneTargetingHeight = INT_MAX;
-	m_stickToGround = false;
-	m_canMoveBackward = false;
-	m_hasSuspension = false;
-	m_wheelTurnAngle = 0;
-	m_maximumWheelExtension = 0;
-	m_maximumWheelCompression = 0;
-	m_closeEnoughDist = 1.0f;
-	m_isCloseEnoughDist3D = FALSE;
-	m_ultraAccurateSlideIntoPlaceFactor = 0.0f;
-
-	m_wanderWidthFactor = 0.0f;
-	m_wanderLengthFactor = 1.0f;
-	m_wanderAboutPointRadius = 0.0f;
-  
-	m_rudderCorrectionDegree    = 0.0f;
-	m_rudderCorrectionRate      = 0.0f;	
-	m_elevatorCorrectionDegree  = 0.0f;
-	m_elevatorCorrectionRate    = 0.0f;
-
-}
+// LocomotorTemplate::LocomotorTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E4DB0Ctor.cpp (0x001E4ABE).
 
 //-------------------------------------------------------------------------------------------------
-// ?LocomotorTemplate::~LocomotorTemplate present-unmatched
-LocomotorTemplate::~LocomotorTemplate()
-{
-
-}
+// LocomotorTemplate::~LocomotorTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E4DB0Dtor.cpp (0x001E4DB0).
 
 //-------------------------------------------------------------------------------------------------
 // LocomotorTemplate::validate is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/LocomotorTemplateValidate.cpp (0x001E38B9).
@@ -530,25 +448,7 @@ void LocomotorStore::update()
 // LocomotorStore::reset is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/LocomotorStoreReset.cpp (0x001E681D).
 
 //-------------------------------------------------------------------------------------------------
-// ?LocomotorStore::newOverride present-unmatched
-LocomotorTemplate *LocomotorStore::newOverride( LocomotorTemplate *locoTemplate )
-{
-	if (locoTemplate == NULL)
-		return NULL;
-
-	// allocate new template
-	LocomotorTemplate *newTemplate = newInstance(LocomotorTemplate);
-
-	// copy data from final override to 'newTemplate' as a set of initial default values
-	*newTemplate = *locoTemplate;
-	locoTemplate->setNextOverride(newTemplate);
-
-	newTemplate->markAsOverride();
-
-	// return the newly created override for us to set values with etc
-	return newTemplate;
-
-}  // end newOverride
+// LocomotorStore::newOverride is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva001E520COverride.cpp (0x001E520C).
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void LocomotorStore::parseLocomotorTemplateDefinition(INI* ini)

@@ -194,8 +194,8 @@ template void _STL::_Construct<BfmePod340, BfmePod340>(BfmePod340 *, const BfmeP
 // address keeps one definition.
 //   0x0040E96D -> ??0ArmySummary@@QAE@ABV0@@Z
 #pragma comment(linker, "/alternatename:??0BfmePod104@@QAE@ABU0@@Z=??0ArmySummary@@QAE@ABV0@@Z")
-//   0x001E4DEB -> ??0Rva001E4DB0@@QAE@ABV0@@Z
-#pragma comment(linker, "/alternatename:??0BfmePod340@@QAE@ABU0@@Z=??0Rva001E4DB0@@QAE@ABV0@@Z")
+//   0x001E4DEB -> ??0LocomotorTemplate@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0BfmePod340@@QAE@ABU0@@Z=??0LocomotorTemplate@@QAE@ABV0@@Z")
 //   0x001DE878 -> ??0Rva001DF2D3Element@@QAE@ABU0@@Z
 #pragma comment(linker, "/alternatename:??0Rva001DF3F1Element@@QAE@ABU0@@Z=??0Rva001DF2D3Element@@QAE@ABU0@@Z")
 //   0x00332106 -> ??0?$list@PAURva00332106PointerTarget@@V?$allocator@PAURva00332106PointerTarget@@@_STL@@@_STL@@QAE@ABV01@@Z

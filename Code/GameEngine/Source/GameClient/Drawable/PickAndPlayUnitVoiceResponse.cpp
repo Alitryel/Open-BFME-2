@@ -324,24 +324,22 @@ public:
 	const Overridable *friend_getFinalOverride() const;
 };
 
-class LocomotorTemplate;
-
-class Rva001E4DB0
+class LocomotorTemplate
 {
 public:
-	Rva001E4DB0(const Rva001E4DB0 &o);
-	virtual ~Rva001E4DB0();
-	Rva001E4DB0 rva001E67BF();
+	LocomotorTemplate(const LocomotorTemplate &o);
+	virtual ~LocomotorTemplate();
+	LocomotorTemplate rva001E67BF();
 	Overridable *m_next;
 	char m_pad08[0x08];
 	AsciiString m_name;
 	char m_pad14[0x154 - 0x14];
 };
 
-inline Rva001E4DB0 *finalOverrideOf(Rva001E4DB0 *t)
+inline LocomotorTemplate *finalOverrideOf(LocomotorTemplate *t)
 {
 	if (t->m_next)
-		return (Rva001E4DB0 *)t->m_next->friend_getFinalOverride();
+		return (LocomotorTemplate *)t->m_next->friend_getFinalOverride();
 	return t;
 }
 
@@ -1155,13 +1153,13 @@ static bool moveRequiresClimbingWalls(Object *obj, const Coord3D *pos)
 	for (int i = 0; i < count; ++i)
 	{
 		Locomotor *loco = ai->m_locomotors[i];
-		Rva001E4DB0 *lt = (Rva001E4DB0 *)TheLocomotorStore->findLocomotorTemplate(TheNameKeyGenerator->nameToKey(loco->getTemplateName()));
+		LocomotorTemplate *lt = TheLocomotorStore->findLocomotorTemplate(TheNameKeyGenerator->nameToKey(loco->getTemplateName()));
 		if (!lt)
 			continue;
 		lt = finalOverrideOf(lt);
 		((TempTemplatePushView *)&temps)->push_back((const BfmePod340 &)lt->rva001E67BF());
-		((Rva001E4DB0 *)temps.m_finish - 1)->m_name = "TempVoiceMoveOverWallTesting_" + lt->m_name;
-		((LocomotorSet *)&locoSet)->addLocomotor((const LocomotorTemplate *)((Rva001E4DB0 *)temps.m_finish - 1), true);
+		((LocomotorTemplate *)temps.m_finish - 1)->m_name = "TempVoiceMoveOverWallTesting_" + lt->m_name;
+		((LocomotorSet *)&locoSet)->addLocomotor((const LocomotorTemplate *)((LocomotorTemplate *)temps.m_finish - 1), true);
 	}
 	g_00E01EA8 = 0;
 	if (!TheAI->getPathfinder()->QuickDoesPathExist(horde, &horde->m_pos, pos, (int)&locoSet))
