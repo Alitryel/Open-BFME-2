@@ -1,9 +1,13 @@
 // ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.268 date=2026-10-17
+// ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.669017 date=2026-10-09
 // Native560B11..561375 Butterfly renderer complete2148B; two wing quads per particle.
 // Purpose from WB1424D50 and exact Streak sibling. Five64B matrix default lifetimes
 // precede the loop in retail; conditional rotation owns a sixth.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include <math.h>
 class RenderInfoClass;
@@ -50,7 +54,11 @@ namespace FXParticleSystem {
 class ButterflyDrawModule {public:virtual int doParticles(RenderInfoClass&,void*,int*);private:ParticleSystem*system;__forceinline ParticleSystem*getSystem(){return system?system:Make001FCBD7();}};
 int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCount){
  if(WW3D::IsCurrentlyRenderingShadowMap)return 0;
- int count=0;Vector3*positions=g_00E065C8->Get_Array();Vector4*colors=g_00E065CC->Get_Array();
+ Vector4*colors=g_00E065CC->Get_Array();
+ _ReadWriteBarrier();
+ Vector3*positions=g_00E065C8->Get_Array();
+ int count=0;
+ _ReadWriteBarrier();
  const ButterflyBox*box=(const ButterflyBox*)bounds;
  float cx=box->center.X,cy=box->center.Y,cz=box->center.Z;
  float ex=box->extent.X,ey=box->extent.Y,ez=box->extent.Z;
