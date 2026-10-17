@@ -118,3 +118,24 @@ Rva005B6B93::Rva005B6B93(AptCreateAHero *owner)
 	BIND_COMMAND(OnMyPowerRollOut, "AptCreateAHero::OnMyPowerRollOut")
 	{ AsciiString name("CahManager::InitGadgets"); _bfme_setAptScreenRef(name, AptRef<AptScreenInitGadgets>(MakeDelegate(this, &Rva005B6B93::InitGadgets))); }
 }
+
+// ?Rva005B6B93::OnDeleteHero present-unmatched
+void Rva005B6B93::OnDeleteHero(const char *) {}
+// ?Rva005B6B93::OnPlayGame present-unmatched
+void Rva005B6B93::OnPlayGame(const char *) {}
+// ?Rva005B6B93::OnSelectAward present-unmatched
+void Rva005B6B93::OnSelectAward(const char *) {}
+// ?Rva005B6B93::OnSortIcon present-unmatched
+void Rva005B6B93::OnSortIcon(const char *) {}
+// ?Rva005B6B93::OnSortName present-unmatched
+void Rva005B6B93::OnSortName(const char *) {}
+// ?Rva005B6B93::OnSortType present-unmatched
+void Rva005B6B93::OnSortType(const char *) {}
+// ?Rva005B6B93::OnMyPowerRollOver present-unmatched
+void Rva005B6B93::OnMyPowerRollOver(const char *) {}
+// ?Rva005B6B93::OnMyPowerRollOut present-unmatched
+void Rva005B6B93::OnMyPowerRollOut(const char *) {}
+// ?Rva005B6B93::InitGadgets present-unmatched
+void Rva005B6B93::InitGadgets(const char *, void *, GameWindow *) {}
+// ?Rva005B6B93::~Rva005B6B93 present-unmatched
+Rva005B6B93::~Rva005B6B93() {}
