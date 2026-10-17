@@ -9,3 +9,9 @@ _com_error::_com_error(long value,IErrorInfo *error,bool addRef)
 {
  if(info && addRef)info->AddRef();
 }
+
+_com_error::_com_error(const _com_error& other)
+ :result(other.result),info(other.info),message(0)
+{
+ if(info)info->AddRef();
+}
