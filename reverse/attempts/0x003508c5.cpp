@@ -1,6 +1,10 @@
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
+// partial score=0.816 date=2026-10-17
+// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.817718347601175 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // NEAR draft (bank): register allocation swaps ESI/EDI against retail; move to
 // Code/GameEngine/Source/GameLogic/AI/ and restore the ../../Common include paths.
 //
@@ -394,6 +398,7 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
   if (m_isAttackingObject)
   sourceAI->setTurretTargetObject(tur, victim, m_isForceAttacking);
   else
+  _ReadWriteBarrier();
   sourceAI->setTurretTargetPosition(tur, getMachineGoalPosition());
   if (sourceAI->getTurretTurnRate(tur) != 0.0f)
   return STATE_CONTINUE;
@@ -401,7 +406,8 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
  }
  const Real REL_THRESH = 0.035f;
  const Real DISABLED_THRESH = 0.3f;
- volatile Real aimDelta = weapon ? weapon->getTemplate()->m_aimDelta : 0.0f;
+ Real aimDelta = weapon ? weapon->getTemplate()->m_aimDelta : 0.0f;
+ *(volatile Real*)&aimDelta = aimDelta;
  if (aimDelta < REL_THRESH)
  aimDelta = REL_THRESH;
  Real turnRate = 0.0f;
