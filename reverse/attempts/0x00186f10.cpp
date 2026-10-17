@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.542 date=2026-10-17
+// ?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.5463121784 date=2026-09-27
 // cl: /Ireference/shims/bfmestages /G7 /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 
@@ -55,29 +57,33 @@ void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	Matrix4x4 mat;	
 	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);		
 	Matrix4x4 mv;
-	mv[0].X = mat[0].X;
+	float zero = (float)(double)0.0f;
+	float one = (float)(double)1.0f;
+	mv[0].X = (1 ? (mat[0].X) : (mat[0].X));
 	mv[0].Y = mat[1].X;
 	mv[0].Z = mat[2].X;
-	mv[0].W = 0.0f;
 	mv[1].X = mat[0].Y;
 	mv[1].Y = mat[1].Y;
 	mv[1].Z = mat[2].Y;
-	mv[1].W = 0.0f;
 	mv[2].X = mat[0].Z;
 	mv[2].Y = mat[1].Z;
 	mv[2].Z = mat[2].Z;
-	mv[2].W = 0.0f;
-	mv[3].X = 0.0f;
-	mv[3].Y = 0.0f;
-	mv[3].Z = 0.0f;
-	mv[3].W = 1.0f;	
+	mv[0].W = zero;
+	mv[1].W = zero;
+	mv[2].W = zero;
+	mv[3].X = zero;
+	mv[3].Y = zero;
+	mv[3].Z = zero;
+	mv[3].W = one;	
 
 	update_temporal_state();
 
 	float u_offset, v_offset;
 	calculate_uv_offset(&u_offset, &v_offset);
 
-	float del=0.5f * OOGridWidth;	
+	struct { float v; unsigned char pad[12]; } del_pad;
+	del_pad.v = (float)(double)(0.5f * OOGridWidth);
+	float del = del_pad.v;
 	// Set up the offset matrix		
 	Matrix4x4 md;	
 
@@ -142,7 +148,11 @@ void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	// change the world space reflection vector to a UV coordinate
 	// then offset by the grid coordinate
 
+	{
+	float del_copy = del;
 	tex_matrix = md * mv;
+	*(volatile float*)&del = del_copy;
+	}
 }
 
 // Resume: scalar-Init and product-temporary variants did not match. Use
