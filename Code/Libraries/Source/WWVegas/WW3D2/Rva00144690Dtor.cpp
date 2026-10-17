@@ -14,6 +14,8 @@
 // @0x610640. Base flags (-EHsc-) kept: the retail dtor carries an SEH
 // prolog with states that /EHsc does not reproduce.
 
+inline void *operator new(unsigned int, void *where) { return where; }
+
 class MultiListObjectClass
 {
 public:
@@ -66,6 +68,14 @@ Rva00144690::~Rva00144690()
 // ??0Rva00144690@@QAE@XZ, retail 0x00143D10 (39 bytes): the constructor, the
 // multilist.h inline chain (the node constructor clears all five words, the
 // list constructor points the head at itself) under this class's vtable.
-Rva00144690::Rva00144690()
+// Inline, as the MeshModelClass ctor units see it (they inline it and emit the
+// same COMDAT); a strong copy here duplicated theirs at link.
+inline Rva00144690::Rva00144690()
 {
+}
+
+// ?bfmeAnchorRva00144690Ctor absent-from-retail
+void *bfmeAnchorRva00144690Ctor(void *where)
+{
+	return ::new (where) Rva00144690();
 }
