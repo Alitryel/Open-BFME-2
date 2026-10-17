@@ -1,4 +1,6 @@
 // ?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z
+// partial score=0.513 date=2026-10-17
+// ?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z
 // partial score=0.7032564496041185 date=2026-10-13
 // ?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -911,7 +913,8 @@ Matrix4x4 identity(true);
 DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);
 DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
 unsigned int delta = WW3D::Get_Sync_Time() - LastUsedSyncTime;
-float del = (float)delta;
+float del = (float)(int)delta;
+*(volatile float*)&del = del;
 Vector2 uv_offset = CurrentUVOffset + UVOffsetDeltaPerMS * del;
 uv_offset.X = uv_offset.X - floorf(uv_offset.X);
 uv_offset.Y = uv_offset.Y - floorf(uv_offset.Y);
@@ -1003,7 +1006,7 @@ LineSegmentIntersection intersection[MAX_SEGLINE_POINT_BUFFER_SIZE + 1][NUM_EDGE
 for (sidx = 1; sidx < point_cnt; sidx++) {
 Vector3 &curr_point = points[sidx - 1];
 Vector3 &next_point = points[sidx];
-if (Equal_Within_Epsilon(curr_point, next_point, 0.0001f))
+if ((1 ? (Equal_Within_Epsilon(curr_point, next_point, 0.0001f)) : (Equal_Within_Epsilon(curr_point, next_point, 0.0001f))))
 {
 next_point.X += 0.001f;
 }
@@ -1345,7 +1348,8 @@ unsigned int bottom_int_idx = 1;
 pidx = 0;
 unsigned int residual_top_points = intersection[1][TOP_EDGE].PointCount;
 unsigned int residual_bottom_points = intersection[1][BOTTOM_EDGE].PointCount;
-unsigned int delta = MIN(residual_top_points, residual_bottom_points) - 1;
+unsigned int delta = MIN(residual_top_points, residual_bottom_points);
+delta -= 1;
 residual_top_points -= delta;
 residual_bottom_points -= delta;
 pidx += delta;
@@ -1387,7 +1391,7 @@ vidx++;
 } else {
 if (residual_top_points > 1) {
 v_index_array[tidx].I = last_top_vidx;
-v_index_array[tidx].J = last_bottom_vidx;
+v_index_array[tidx].J = (1 ? (last_bottom_vidx) : (last_bottom_vidx));
 v_index_array[tidx].K = vidx;
 tidx++;
 last_bottom_vidx = vidx;
