@@ -318,3 +318,17 @@ int Rva00381452Get(void)
 {
 	return (int)&g_00E02310;
 }
+
+// Existing compiled-ledger global at VA0x00E09F9C replaces the fixed image
+// address; the getter remains the complete six-byte native body.
+class Rva00CE12FCMutex;
+extern Rva00CE12FCMutex g_rva00CE12FCMutex;
+// ?Rva00656B60Get@@YAHXZ @ 0x00656B60 (6B): returns 0x00E09F9C.
+// CC-island after a double-ret (xor-eax/ret then ret), 16 direct E8
+// callers, Ghidra-6. The lone byte-scan branch hit (js at 0x656B4E) is a
+// false decode: capstone shows 0x656B4C is mov [eax],0xCE1078 and the 78
+// is its immediate byte. Opaque address-derived name.
+int Rva00656B60Get(void)
+{
+	return (int)&g_rva00CE12FCMutex;
+}
