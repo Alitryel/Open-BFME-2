@@ -1,4 +1,6 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.986 date=2026-10-17
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.9935589632 date=2026-10-15
 // W7-D1 r10 checkpoint: whole 2333B body; raw instruction diff12; EH EXACT.
 // The former bank's dummy assign is replaced by the real 169B provider from
@@ -467,7 +469,8 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
     else if(m_BonesPerVertex>0 && links[0]) {
      if(m_BonesPerVertex==1) *(int *)(vertices+desc.basisEnd)=remap[links[0][i]];
      else if(m_BonesPerVertex==2) {
-      *(int *)(vertices+desc.basisEnd)=remap[links[0][i]]+(remap[links[1][i]]<<8);
+      int firstBone=links[0][i];
+      *(int *)(vertices+desc.basisEnd)=remap[firstBone]+(remap[links[1][i]]<<8);
       *(Vector2 *)(vertices+desc.extensionDataOffset)=Vector2(weights[0][i]/100.0f,weights[1][i]/100.0f);
       if(positions[1]) *(Vector3 *)(vertices+desc.extensionOffset)=positions[1][i];
       if(normals[1]) *(Vector3 *)(vertices+desc.extensionEnd)=normals[1][i];
