@@ -29,9 +29,6 @@
 //   0x005F41B7  0x005F4179  0x00C79448#0
 //   0x005F4ECC  0x005F4EE8  0x00C794E4#0
 //   0x005F5678  0x005F566A  0x00C7953C#0
-//   0x005F5882  0x005F5819  0x00C79570#0
-//   0x005F5C5B  0x005F5BF2  0x00C795B4#0
-//   0x005F5F0F  0x005F5EA6  0x00C795F0#0
 
 struct EmitVtableTag;
 
@@ -231,47 +228,7 @@ Rva005F566A::Rva005F566A(EmitVtableTag *)
 {
 }
 
-// Primary base at +0 (vptr plus one word), named as its ??_7Rva005F5819@@6BRva005F5819Base0@@@ table.
-class Rva005F5819Base0 { public: virtual ~Rva005F5819Base0(); private: char m_unmodelled04[4]; };
-class Rva005F5819 : public Rva005F5819Base0, public Rva005E12D1
-{
-public:
-	Rva005F5819(EmitVtableTag *);
-public:
-	virtual ~Rva005F5819();
-};
-
-// ?<Rva005F5819::Rva005F5819> absent-from-retail
-Rva005F5819::Rva005F5819(EmitVtableTag *)
-{
-}
-
-// Primary base at +0 (vptr plus one word), named as its ??_7Rva005F5BF2@@6BRva005F5BF2Base0@@@ table.
-class Rva005F5BF2Base0 { public: virtual ~Rva005F5BF2Base0(); private: char m_unmodelled04[4]; };
-class Rva005F5BF2 : public Rva005F5BF2Base0, public Rva005E12D1
-{
-public:
-	Rva005F5BF2(EmitVtableTag *);
-public:
-	virtual ~Rva005F5BF2();
-};
-
-// ?<Rva005F5BF2::Rva005F5BF2> absent-from-retail
-Rva005F5BF2::Rva005F5BF2(EmitVtableTag *)
-{
-}
-
-// Primary base at +0 (vptr plus one word), named as its ??_7Rva005F5EA6@@6BRva005F5EA6Base0@@@ table.
-class Rva005F5EA6Base0 { public: virtual ~Rva005F5EA6Base0(); private: char m_unmodelled04[4]; };
-class Rva005F5EA6 : public Rva005F5EA6Base0, public Rva005E12D1
-{
-public:
-	Rva005F5EA6(EmitVtableTag *);
-public:
-	virtual ~Rva005F5EA6();
-};
-
-// ?<Rva005F5EA6::Rva005F5EA6> absent-from-retail
-Rva005F5EA6::Rva005F5EA6(EmitVtableTag *)
-{
-}
+// The native Rva005F5819 / Rva005F5BF2 / Rva005F5EA6 deleting wrappers
+// and -8 adjusting thunks are now emitted by their complete destructor
+// units. Their synthetic partial views conflicted with the real base
+// destructor definitions and are removed.
