@@ -607,3 +607,10 @@ int Rva0018C0F9::get() const
 {
 	return m_val - 2;
 }
+
+// 0x0045B49B (11B): returns ms scaled by BfmeClientFramesPerMillisecond
+extern float BfmeClientFramesPerMillisecond;
+float Rva0045B49BScale(float ms)
+{
+	return BfmeClientFramesPerMillisecond * ms;
+}

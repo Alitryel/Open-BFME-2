@@ -96282,3 +96282,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva003E3EBA@ScriptConditions@@IAE_NXZ,,0x003E3EBA,9,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_evaluateNamedUnit.cpp,matched,ScriptConditions rva003E3EBA returns TheFormationAssistant flag at 0x34
 ?set@Rva001513E5@@QAEXXZ,,0x001513E5,5,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva001513E5 sets bit 2 of byte at +7
 ?get@Rva0018C0F9@@QBEHXZ,,0x0018C0F9,5,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva0018C0F9 returns dword at +0 minus 2
+?Rva0045B49BScale@@YAMM@Z,,0x0045B49B,11,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva0045B49BScale scales float by BfmeClientFramesPerMillisecond
