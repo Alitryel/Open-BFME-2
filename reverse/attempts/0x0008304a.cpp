@@ -1,7 +1,8 @@
 // ?AllocateAndFillBuffers@RenderableStandingWaterArea@@QAEXXZ
-// partial score=0.8192510452196319 date=2026-10-16
+// partial score=0.84 date=2026-10-17
 // cl: /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
+// claudeb3 r5: Vector3 temp origin via BfmeOriginInts (retail movss stores) and one continuous grid pointer (*grid++=in): inner fill loop now matches retail (pointer in edi, x in memory). Remaining: retail keeps a per-row grid pointer IV in memory (+=nx, set after ny>0 guard); half/center/lock slots not packed (frame 0x9c vs retail 0x90); zero-register choice in vector copy (edi vs ebx).
 // RenderableStandingWaterArea::createTexture: native 0x0007EDBC..0x0007EEB0,
 // 244 bytes, RET4. WB 0x0073EFF0 identifies the method and W3DWater.cpp.
 // Native calls and member accesses prove area+40, texture slots+50, and
@@ -305,6 +306,7 @@ public:
  float x,y;
 };
 MathCoord2D operator+(MathCoord2D,const MathCoord2D&);
+inline int *BfmeOriginInts(const Vector3 &v){return (int*)&v;}
 void RenderableStandingWaterArea::AllocateAndFillBuffers() {
  reinterpret_cast<Rva00081F03*>(this)->rva00081F03();
  BFMEDX8DeviceLock guard;
@@ -327,26 +329,22 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
  MathCoord2D half(spacing*.5f,spacing*.5f);
  MathCoord2D center=(*reinterpret_cast<MathCoord2D*>(&bounds))+half;
  int count=0;
- char *row=*reinterpret_cast<char**>(&flags);
+ char *grid=*reinterpret_cast<char**>(&flags);
  for(int y=0;y<ny;++y) {
-  char *slot=row;
   Coord2D pos;pos.y=y*spacing+center.y;
   for(int x=0;x<nx;++x){
    pos.x=x*spacing+center.x;
    
    Rva0030D111Shape *shape=m_area ? reinterpret_cast<Rva0030D111Shape*>(reinterpret_cast<char*>(m_area)+0x18+(*reinterpret_cast<int**>(reinterpret_cast<char*>(m_area)+0x18))[1]) : 0;
    bool in=Rva0030D111Contains(shape,&pos);
-   *slot++=in;
+   *grid++=in;
    count+=in;
   }
-  row+=nx;
  }
  if(!count)return;
  {
-  int origin[3];origin[0]=*reinterpret_cast<int*>(&bounds.x0);origin[1]=*reinterpret_cast<int*>(&bounds.y0);origin[2]=*reinterpret_cast<int*>(boundary+2);
-
   int indexCount=count*6;
-  Rva00082A53 cache(reinterpret_cast<int>(this),nx,ny,spacing,origin,2*count+nx+1);
+  Rva00082A53 cache(reinterpret_cast<int>(this),nx,ny,spacing,BfmeOriginInts(Vector3(bounds.x0,bounds.y0,boundary[2])),2*count+nx+1);
   const ModuleData *ib=reinterpret_cast<const ModuleData*>(new DX8IndexBufferClass(indexCount,DX8IndexBufferClass::USAGE_DEFAULT));
   indexBuffers.push_back(ib);
   {
