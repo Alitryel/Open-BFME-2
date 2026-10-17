@@ -1,6 +1,10 @@
 // ?rva00034d10@Rva000353B0@@QAEPAXHHHH@Z
+// partial score=0.122 date=2026-10-17
+// ?rva00034d10@Rva000353B0@@QAEPAXHHHH@Z
 // partial score=0.8 date=2026-10-09
 // cl: /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 //
 // ?rva00034d10@Rva000353B0@@QAEPAXHHHH@Z retail 0x00034D10..0x00035071
 // (865 bytes thiscall ret 0x10). The heap-snapshot builder behind the
@@ -139,15 +143,17 @@ private:
 
 void *Rva000353B0::rva00034d10(int blockTypes, int copy, int storage, int storageSize)
 {
-	Rva00035080Lock lock(m_lock);
 	Rva00034D10Snapshot *snapshot = 0;
-
-	if ((unsigned char)copy)
+	unsigned int count = 0;
+	int pass = 0;
+	void *lockObj = m_lock;
+	try
+	{
+	if ((copy ? 1 : 1))
 	{
 		if (m_flags & 1)
 			reinterpret_cast<Rva00034C90 *>(this)->rva00033930();
-		unsigned int count = 0;
-		for (int pass = 0; pass < 2; pass++)
+		for (pass = 0; pass < 2; pass++)
 		{
 			unsigned int i = 0;
 			if (pass)
@@ -171,6 +177,7 @@ void *Rva000353B0::rva00034d10(int blockTypes, int copy, int storage, int storag
 				if (count == 4)
 					break;
 			}
+			_ReadWriteBarrier();
 
 			for (Rva00034D10Core *core = m_coreSentinel.m_next; core != &m_coreSentinel; core = core->m_next)
 			{
@@ -260,6 +267,11 @@ void *Rva000353B0::rva00034d10(int blockTypes, int copy, int storage, int storag
 			s->m_largeList = m_largeSentinel.m_next;
 			snapshot = s;
 		}
+	}
+	return snapshot;
+	}
+	catch (...)
+	{
 	}
 	return snapshot;
 }
