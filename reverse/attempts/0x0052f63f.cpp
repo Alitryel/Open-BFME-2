@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.601 date=2026-10-17
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8014 date=2026-10-14
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.6198830409 date=2026-10-13
@@ -251,7 +253,7 @@ static __forceinline float wallDelta(PathfindLayer *entry,const float &height) {
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
 void Pathfinder::rva0052F63F(Object*obj,bool insert)
 {
- Drawable*drawable=obj->getDrawable();if(!drawable)return;
+ Drawable*drawable=(insert ? obj->getDrawable() : obj->getDrawable());if(!drawable)return;
  static const volatile float tolerance=3.5f;Rva0027C36A data;PolygonTrigger*poly;
  if(insert){
   float h;poly=(PolygonTrigger*)drawable->rva002725E7((int)&h);
@@ -317,6 +319,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
  if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->templ->name;}
  IRegion2D world;area->getBounds((int*)&world);
  int loX=FLOOR(world.lo.x/10)-2;
+ _ReadWriteBarrier();
  int loY=FLOOR(world.lo.y/10)-2;
  int hiX=CEIL(world.hi.x/10)+2;
  int hiY=CEIL(world.hi.y/10)+2;
@@ -338,6 +341,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
       if(m_map[k][l].layer!=current)++count;
      }
     }
+    _ReadWriteBarrier();
     if(count>1)m_map[i][j].pinched=true;
    }
   }
