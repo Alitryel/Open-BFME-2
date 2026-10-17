@@ -1,4 +1,6 @@
 // ?parseCastleTemplateMaps@SidesList@@QAEXXZ
+// partial score=0.938 date=2026-10-17
+// ?parseCastleTemplateMaps@SidesList@@QAEXXZ
 // partial score=0.93 date=2026-10-15
 // ?rva0032F84F@Rva0032F84F@@QAEXXZ
 // partial score=0.9 date=2026-10-15
@@ -550,15 +552,20 @@ void SidesList::parseCastleTemplateMaps()
 		path.concat("\\");
 		path.concat(mapName);
 		path.concat(".bse");
-		AsciiString fileName = path;
+		AsciiString fileName;
+		fileName = path;
 		Rva00240000 fileStrm;
 		bool fileFound = fileStrm.rva00308050(fileName);
 		if (fileFound) {
 			DataChunkInput file(&fileStrm);
-			BfmeParserBindingVE parser(this, &SidesList::parseCastleTemplateDataChunk, &file,
-				AsciiString("CastleTemplates"), AsciiString::TheEmptyString);
-			if (!file.parse(0))
+			BfmeParserBindingVE parser(this, &SidesList::parseCastleTemplateDataChunk, &file, "CastleTemplates", AsciiString::TheEmptyString);
+			bool ok = file.parse(0);
+			switch (ok) {
+			case false:
 				throw ERROR_CORRUPT_FILE_FORMAT;
+			case true:
+				break;
+			}
 			((Rva003079ED *)&fileStrm)->rva003079ED();
 		}
 	}
