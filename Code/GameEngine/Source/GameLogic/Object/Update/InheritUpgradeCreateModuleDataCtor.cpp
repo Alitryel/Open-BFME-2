@@ -51,6 +51,7 @@ private:
 };
 
 extern const void *const g_00C59768[];
+const void *const g_00C59768[] = { 0 };
 
 // ??0InheritUpgradeCreateModuleData@@QAE@XZ
 InheritUpgradeCreateModuleData::InheritUpgradeCreateModuleData()

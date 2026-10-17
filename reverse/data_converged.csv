@@ -1,4 +1,5 @@
 address,name,evidence
+0x00C59768,?g_00C59768@@3QBQBXB,link_cycle repair: vtable extern for InheritUpgradeCreateModuleDataCtor
 0x009FE758,?TheWritableGlobalData@@3PAVGlobalData@@A,df6d949728; link_cycle 6241d0694b: no data-back
 0x009FE78C,?TheGameLogic@@3PAVGameLogic@@A,6241d0694b; link_cycle 6241d0694b: no data-back
 0x009FE16C,?TheScriptEngine@@3PAVScriptEngine@@A,6241d0694b; link_cycle 6241d0694b: no data-back
