@@ -825,7 +825,10 @@ ThingTemplate::~ThingTemplate()
 // ThingTemplate::resolveNames is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/Rva0033C2C2ResolveNames.cpp (0x0033C2C2).
 
 //=============================================================================
-#ifdef LOAD_TEST_ASSETS
+// Zero Hour's LOAD_TEST_ASSETS initForLTA has no BFME 2 body; compiled here, its
+// ModuleInfo::clear() calls emitted a non-retail Nugget::operator= (3-bool
+// Nugget) ahead of retail's 0x002CEFCD. Kept for reference only.
+#if defined(LOAD_TEST_ASSETS) && 0
 // ?ThingTemplate::initForLTA present-unmatched
 void ThingTemplate::initForLTA(const AsciiString& name)
 {
