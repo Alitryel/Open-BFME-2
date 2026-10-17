@@ -7,7 +7,8 @@
 // length-prefixed m_8 with chars at +8; word-copy zero loop reusing dead arg.
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char *g_00C7A570[];
+// The retail table at RVA 0x0087A570: 3 string pointers.
+extern const char *g_00C7A570[3] = { "_player", "_ally", "_enemy" };
 int __cdecl Rva0050E9FEAptCall(Rva00222A8BTarget *, void *, const char *, const char *, const char **);
 
 class Rva005FFC26

@@ -7,7 +7,8 @@
 class Rva00222A8BTarget;
 
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char *g_00C7A49C[];
+// The retail table at RVA 0x0087A49C: 2 string pointers.
+extern const char *g_00C7A49C[2] = { "_ally", "_enemy" };
 
 int __cdecl Rva0050E9FEAptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const char **a0ptr);
 

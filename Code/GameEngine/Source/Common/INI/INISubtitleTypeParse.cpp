@@ -12,7 +12,8 @@ public:
 	int scanIndexList(const char *token, const char *const *names);
 };
 
-extern const char *g_00DD9914[];
+// The retail table at RVA 0x009D9914: 3 string pointers.
+extern const char *g_00DD9914[3] = { "CINEMA", "HUD", 0 };
 
 // ?Rva006882E0Parse@@YAXPAVINI@@PAX1PBX@Z
 void Rva006882E0Parse(INI *ini, void *, void *store, const void *)
