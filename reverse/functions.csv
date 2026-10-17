@@ -96259,3 +96259,5 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva002E1155@LivingWorldPlayer@@QAE_NPAVRva00319CED@@@Z,,0x002E1155,57,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldPlayer.cpp,matched,recovered affordability check; native2E1155..2E118E RET4 and WBDE4B30; canQueueUnit proves owner; queued points at298 from OnUnitDequeued; all three callees rowed; direct sum expression exact in real home TU; t=14 model=Codex
 ?get@Rva00098540RandomField@@QBEHXZ,,0x00098540,13,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,add ecx 0x30 then call GameClientRandomVariable::getValue and ftol2
 ?get@Rva0009854DRandomField@@QBEMXZ,,0x0009854D,8,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,add ecx 0x3c then tail jump to GameClientRandomVariable::getValue
+?rva00462477@Rva00462477@@QBE_NXZ,,0x00462477,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,return BfmeAIExitDoorFlag
+?rva001E4132@Rva001E4132@@QAEMMMMM@Z,,0x001E4132,21,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,height delta divided by twice logic fps

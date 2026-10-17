@@ -16,6 +16,8 @@ struct Rva002E373CHolder;
 extern Rva002E373CHolder *g_Va00DBD0F4;
 class GameLogic;
 extern GameLogic *TheGameLogic;
+extern int BfmeLogicFramesPerSecond;
+extern bool BfmeAIExitDoorFlag;
 
 // --- 0x0024C80D (12B): complement seven consecutive 32-bit words in place
 // (twin: Rva00332E83BitWords::flip, four words).
@@ -560,3 +562,15 @@ void *Rva00299CCE::get() const { return (char *)this - 0x49C; }
 // 0x00299CDD (7B): returns the float at -0x490.
 class Rva00299CDD { public: float get() const; };
 float Rva00299CDD::get() const { return *(const float *)((const char *)this - 0x490); }
+
+// 0x00462477 (6B): returns the boolean flag BfmeAIExitDoorFlag.
+class Rva00462477 { public: bool rva00462477() const; };
+bool Rva00462477::rva00462477() const { return BfmeAIExitDoorFlag; }
+
+// 0x001E4132 (21B): height delta divided by twice logic fps.
+class Rva001E4132 { public: float rva001E4132(float a, float y1, float b, float y2); };
+float Rva001E4132::rva001E4132(float, float y1, float, float y2)
+{
+	return (y2 - y1) / ((float)BfmeLogicFramesPerSecond + (float)BfmeLogicFramesPerSecond);
+}
+
