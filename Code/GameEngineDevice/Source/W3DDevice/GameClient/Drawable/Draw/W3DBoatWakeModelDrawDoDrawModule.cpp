@@ -24,7 +24,8 @@
 
 typedef float Real;
 
-extern Real g_Va00DB52E8;
+// Native writable speed-ratio step; retail RVA 0x009B52E8 is 0A D7 A3 3B.
+Real g_Va00DB52E8 = 0.005f;
 
 class Object;
 struct Rva0028AC4EEntry;

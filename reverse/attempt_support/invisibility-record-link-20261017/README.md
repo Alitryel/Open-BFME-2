@@ -29,3 +29,18 @@ no gain is attributed to them. This is not a whole-game link or runtime test.
 comparison.json preserves changed results and complete object symbol deltas.
 Full paired results, original objects, source snapshots and build/EH logs
 remain ignored under build/local-macos/invisibility-record-link/.
+
+## Boat wake speed-ratio dependency
+
+The 742-byte W3DBoatWakeModelDraw::doDrawModule at 0x000D0D24 had one
+unresolved symbol: g_Va00DB52E8. Its native reads use VA 0x00DB52E8
+(RVA 0x009B52E8); retail stores 0A D7 A3 3B in writable .data, exactly
+float 0.005. Define the existing Real/float declaration in the consumer TU
+and add a four-byte data ownership row. No guessed adjacent extent, extra
+alias or pin is used. Normal build verifies the function and the data's
+compiler sizeof and complete initial value. All 21 emitted COMDATs stay
+identical. The paired refreshed-index comparison removes this sole unresolved
+name and adds only the intended strong data definition. No other consumer
+of this symbol is found. boat-comparison.json records both results.
+This contributes another 742 locally linkable matched bytes, for 976 total;
+no census history or global progress counter is rewritten.
