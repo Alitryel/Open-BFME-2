@@ -1,10 +1,14 @@
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
+// partial score=0.813 date=2026-10-17
+// ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.9 date=2026-10-15
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.898 date=2026-10-15
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.870247 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 #include <vector>
 #include <set>
@@ -43,7 +47,8 @@ void CastleBehavior::rva00398E9A(){
  Player *civilian=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey("PlyrCivilian"));
  const CastleData *d=data;
  if(d->radius<=0.0f || d->disabled)return;
- Coord3D pos;pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
+ struct { Coord3D v; unsigned char pad[4]; } posHold;
+ Coord3D &pos=posHold.v;pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
  BfmeFixedStorage0004543D flags;flags.words[0]|=0xf00;
  BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&pos,d->radius,0,
   PartitionFilterRejectByKindOf(Rva00045411BitSet(0,127),*(BfmeFixedStorage0004543D*)g_00DFEFA4StoragePrototype).link(Rva003959FA(flags).link(&Rva0026119DFilter())),0);
@@ -64,7 +69,9 @@ void CastleBehavior::rva00398E9A(){
   int &weight=weights[player->index];
   if(weight<0)weight=value;
   weight+=value;
-  weight+=value*candidate->type->weight;
+  _ReadWriteBarrier();
+  int scaled=value*candidate->type->weight;
+  weight+=scaled;
  }
  int chosen=-1;int largest=chosen;
  for(int i=0;i<20;++i){if(weights[i]>largest){chosen=i;largest=weights[i];}}
