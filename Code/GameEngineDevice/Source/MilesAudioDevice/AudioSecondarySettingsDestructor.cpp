@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// Native1ED70C..1ED840 complete308B destructor; allocatedF4 by Miles
+// Native1ED840..1EDC41 complete1025B destructor; allocatedF4 by Miles
 // constructor5CF5F. Native unwind states0..29 establish42 individually
 // constructed four-byte owning handles, followed by five-handle arrayA8 and
 // fourteen trailing handlesBC. Each uses existing null-check Release_Ref
