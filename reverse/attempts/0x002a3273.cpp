@@ -1,5 +1,5 @@
 // ?rva002A3273@InGameUI@@QAEXPBVGameMessage@@@Z
-// partial score=0.7 date=2026-10-10
+// partial score=0.93 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 // stlport
 #include <list>
@@ -13,7 +13,7 @@ extern RecorderClass *TheRecorder;
 struct HintTemplateView {char pad108[0x108];unsigned char kind108;char pad109[6];unsigned char kind10f;};
 enum CellShroudStatus {SHROUD_NONE=0};
 class Object {public:char pad0[4];HintTemplateView *type;char pad8[0x6c];unsigned id;bool isLocallyControlled() const;CellShroudStatus getShroudStatusForPlayer(int) const;};
-class Drawable {public:char padFC[0xfc];Object *object;};
+class Drawable {public:char padFC[0xfc];Object *object;Object *getObject() const {return object;}};
 union GameMessageArgumentType {int integer;};
 class GameMessage {public:char pad10[0x10];int type;const GameMessageArgumentType *getArgument(int) const;};
 class Mouse {public:char pad4f0c[0x4f0c];ICoord2D pos;int getCursorIndex(const AsciiString &);};
@@ -31,15 +31,17 @@ struct DNode {DNode *next,*prev;Drawable *value;};
 struct DList {DNode *head;Drawable *front() const {return head->next->value;}};
 struct IdNode {IdNode *next,*prev;unsigned value;};
 enum ObjectID {INVALID_OBJECT_ID=0};
-struct Rva0029FB3BIter {IdNode *node;};
-struct Rva0029FB3BAlloc {};
+struct Rva0029FB3BIterBase {IdNode *node;Rva0029FB3BIterBase(IdNode *n):node(n){}};
+struct Rva0029FB3BIter:public Rva0029FB3BIterBase {Rva0029FB3BIter(IdNode *n):Rva0029FB3BIterBase(n){}Rva0029FB3BIter(const Rva0029FB3BIter &o):Rva0029FB3BIterBase(o.node){}};
+struct Rva0029FB3BAlloc {Rva0029FB3BAlloc(){}};
 class PoolMember {public:void Rva00268902();};
 class Rva0029FB3BMember {public:
  IdNode *node;void *init(void *);
- Rva0029FB3BMember(){Rva0029FB3BAlloc a;init(&a);}
+ Rva0029FB3BMember(const Rva0029FB3BAlloc &a=Rva0029FB3BAlloc()){init((void *)&a);}
  ~Rva0029FB3BMember(){((PoolMember *)this)->Rva00268902();}
  Rva0029FB3BIter insert(Rva0029FB3BIter,const ObjectID &);
- Rva0029FB3BIter end() const {Rva0029FB3BIter i={node};return i;}
+ void push_back(const ObjectID &x){insert(end(),x);}
+ Rva0029FB3BIter end() const {return Rva0029FB3BIter(node);}
  unsigned size() const {unsigned n=0;for(IdNode *i=node->next;i!=node;i=i->next)++n;return n;}
 };
 class CreateAHeroData;
@@ -347,7 +349,7 @@ void InGameUI::rva002A3273(const GameMessage *msg)
  const Drawable *draw=TheGameClient->findDrawableByID(mousedOver);
  int type=msg->type;
  if (draw && (type==0xa7 || type==0xc0)) {
-  const Object *obj=draw->object;
+  const Object *obj=draw->getObject();
   int player=ThePlayerList?ThePlayerList->local->index:0;
   if(obj && obj->getShroudStatusForPlayer(player)==4)type=0xb3;
  }
@@ -362,11 +364,11 @@ void InGameUI::rva002A3273(const GameMessage *msg)
    window=window->winGetParent();
   }
  }
- const Object *obj=draw?draw->object:0;
+ const Object *obj=draw?draw->getObject():0;
  bool selectable=CanSelectDrawable(draw,false);
  if(!obj)selectable=false;
  const Drawable *source=0;const Object *sourceObj=0;
- if(getSelectCount()==1){source=getAllSelectedDrawables()->front();sourceObj=source?source->object:0;}
+ if(getSelectCount()==1){source=getAllSelectedDrawables()->front();sourceObj=source?source->getObject():0;}
  switch(mouseMode){
  case 0:
   if(underWindow || (sourceObj&&!sourceObj->isLocallyControlled())){((Rva0029B313 *)this)->rva0029B313(2);return;}
@@ -375,7 +377,7 @@ void InGameUI::rva002A3273(const GameMessage *msg)
    if(list) {
     int value=ThePlayerList->local->value750;
     Rva0029FB3BMember ids;
-    for(DNode *i=list->head->next;i!=list->head;i=i->next){ObjectID id=(ObjectID)i->value->object->id;ids.insert(ids.end(),id);}
+    DNode *head=list->head;for(DNode *i=head->next;i!=head;i=i->next){ObjectID id=(ObjectID)i->value->getObject()->id;ids.push_back(id);}
     if(ids.size()>0){
      Coord3D position;TheTacticalView->screenToTerrain(&TheMouse->pos,&position,false);
      if(TheAiOrdersManager->rva0035538C(position,value,(const _STL::list<CreateAHeroData *> *)&ids)){((Rva0029B313 *)this)->rva0029B313(0x37);return;}
@@ -386,36 +388,41 @@ void InGameUI::rva002A3273(const GameMessage *msg)
   case 0xb3:
    if(!selectable && sourceObj && sourceObj->isLocallyControlled() && (sourceObj->type->kind108&0x80))((Rva0029B313 *)this)->rva0029B313(0xc);
    else if(selectable && obj->isLocallyControlled() && !(obj->type->kind10f&0x10))((Rva0029B313 *)this)->rva0029B313(0xd);
-   else if((unsigned char)TheRadar->rva0029A224(window) && !TheRadar->forced && (TheRadar->hidden || !ThePlayerList->local->hasRadar()))((Rva0029B313 *)this)->rva0029B313(2);
-   else ((Rva0029B313 *)this)->rva0029B313(5);break;
+   else {
+    Radar *radar=TheRadar;
+    if((unsigned char)radar->rva0029A224(window) && !radar->forced && (radar->hidden || !ThePlayerList->local->hasRadar()))((Rva0029B313 *)this)->rva0029B313(2);
+    else ((Rva0029B313 *)this)->rva0029B313(5);
+   }
+   break;
   case 0xb4:
    if(selectable && obj->isLocallyControlled())((Rva0029B313 *)this)->rva0029B313(0xd);
    else ((Rva0029B313 *)this)->rva0029B313(6);break;
-  case 0xa7:((Rva0029B313 *)this)->rva0029B313(0x7);break;
+case 0xb5:((Rva0029B313 *)this)->rva0029B313(0x22);break;
+case 0xa7:((Rva0029B313 *)this)->rva0029B313(0x7);break;
+case 0xc0:((Rva0029B313 *)this)->rva0029B313(0x23);break;
 case 0xa9:((Rva0029B313 *)this)->rva0029B313(0x8);break;
 case 0xaa:((Rva0029B313 *)this)->rva0029B313(0x9);break;
 case 0xab:((Rva0029B313 *)this)->rva0029B313(0x11);break;
+case 0xb1:((Rva0029B313 *)this)->rva0029B313(0x1d);break;
+case 0xb2:((Rva0029B313 *)this)->rva0029B313(0x2e);break;
 case 0xac:((Rva0029B313 *)this)->rva0029B313(0x12);break;
 case 0xad:((Rva0029B313 *)this)->rva0029B313(0x13);break;
 case 0xae:((Rva0029B313 *)this)->rva0029B313(0x14);break;
 case 0xaf:((Rva0029B313 *)this)->rva0029B313(0xe);break;
 case 0xb0:((Rva0029B313 *)this)->rva0029B313(0xf);break;
-case 0xb1:((Rva0029B313 *)this)->rva0029B313(0x1d);break;
-case 0xb2:((Rva0029B313 *)this)->rva0029B313(0x2e);break;
-case 0xb5:((Rva0029B313 *)this)->rva0029B313(0x22);break;
 case 0xb6:((Rva0029B313 *)this)->rva0029B313(0xf);break;
 case 0xb8:((Rva0029B313 *)this)->rva0029B313(0xf);break;
-case 0xb9:((Rva0029B313 *)this)->rva0029B313(0x15);break;
 case 0xbb:((Rva0029B313 *)this)->rva0029B313(0x1c);break;
+case 0xb9:((Rva0029B313 *)this)->rva0029B313(0x15);break;
+case 0xbc:if(!selectable)((Rva0029B313 *)this)->rva0029B313(0x10);else ((Rva0029B313 *)this)->rva0029B313(0xd);break;
 case 0xbd:((Rva0029B313 *)this)->rva0029B313(0x27);break;
-case 0xc0:((Rva0029B313 *)this)->rva0029B313(0x23);break;
 case 0xc1:((Rva0029B313 *)this)->rva0029B313(0x35);break;
 case 0xc2:((Rva0029B313 *)this)->rva0029B313(0x36);break;
-case 0x7d7:((Rva0029B313 *)this)->rva0029B313(0x29);break;case 0x7d8:((Rva0029B313 *)this)->rva0029B313(0x30);break;
-  case 0xbc:((Rva0029B313 *)this)->rva0029B313(selectable?0xd:0x10);break;
-  case 0xa8:case 0xbf:((Rva0029B313 *)this)->rva0029B313(0xc);break;
-case 0xbe:((Rva0029B313 *)this)->rva0029B313(5);break;
 case 0x7d6:((Rva0029B313 *)this)->rva0029B313(msg->getArgument(1)->integer);break;
+case 0x7d7:((Rva0029B313 *)this)->rva0029B313(0x29);break;
+case 0x7d8:((Rva0029B313 *)this)->rva0029B313(0x30);break;
+case 0xa8:case 0xbf:((Rva0029B313 *)this)->rva0029B313(0xc);break;
+case 0xbe:((Rva0029B313 *)this)->rva0029B313(5);break;
   }
   break;
  case 1:
@@ -426,18 +433,20 @@ case 0x7d6:((Rva0029B313 *)this)->rva0029B313(msg->getArgument(1)->integer);brea
   if(underWindow){((Rva0029B313 *)this)->rva0029B313(2);return;}
   if(pending){
    if(pending->isContextCommand() || pending->command==0x18 || pending->command==0x26 || pending->command==0x20 || pending->command==0x1f){
-    if(!pending->radius){
+    int radius=pending->radius;
+    if(radius==0){
      clearRadius();
-     int index=TheMouse->getCursorIndex(type==0xa4?pending->cursor:pending->invalid);
-     ((Rva0029B313 *)this)->rva0029B313(index!=-1?index:4);
-    } else {((Rva0029B313 *)this)->rva0029B313(0);radiusCursor(pending->radius,pending->special,pending->weapon,type==0xa4);}
+     int index;
+     switch(type){case 0xa4:index=TheMouse->getCursorIndex(pending->cursor);break;default:index=TheMouse->getCursorIndex(pending->invalid);break;}
+     if(index!=-1)((Rva0029B313 *)this)->rva0029B313(index);else ((Rva0029B313 *)this)->rva0029B313(4);
+    } else {((Rva0029B313 *)this)->rva0029B313(0);radiusCursor(radius,pending->special,pending->weapon,type==0xa4);}
    } else if(pending->options&0x227){
-    if(!pending->radius){clearRadius();int index=TheMouse->getCursorIndex(pending->cursor);((Rva0029B313 *)this)->rva0029B313(index!=-1?index:4);}
-    else {((Rva0029B313 *)this)->rva0029B313(0);radiusCursor(pending->radius,pending->special,pending->weapon,true);}
+    int radius=pending->radius;
+    if(radius==0){clearRadius();int index=TheMouse->getCursorIndex(pending->cursor);if(index!=-1)((Rva0029B313 *)this)->rva0029B313(index);else ((Rva0029B313 *)this)->rva0029B313(4);}
+    else {((Rva0029B313 *)this)->rva0029B313(0);radiusCursor(radius,pending->special,pending->weapon,true);}
    } else clearRadius();
   }
   break;
  }
 }
 
-int Radar::rva0029A224(GameWindow *value) { GameWindow *w=window; if(w==value && w) return 1; return 0; }
