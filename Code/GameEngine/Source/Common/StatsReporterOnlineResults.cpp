@@ -11,6 +11,12 @@
 // the final x87 accumulation exactly as retail does at 0x005C1563.
 namespace _STL {void*__copy_trivial(const void*,const void*,void*)throw();}
 #include <map>
+// map<unsigned char,float> node deallocation: same bytes as the kept copies (which spell
+// the free at 0x00030830 differently); declared here so this unit binds to them.
+namespace _STL {
+template <> void allocator<_Rb_tree_node<pair<const unsigned char, float> > >::deallocate(_Rb_tree_node<pair<const unsigned char, float> > *, size_t) const;
+template <> void _STLP_alloc_proxy<_Rb_tree_node<pair<const unsigned char, float> > *, _Rb_tree_node<pair<const unsigned char, float> >, allocator<_Rb_tree_node<pair<const unsigned char, float> > > >::deallocate(_Rb_tree_node<pair<const unsigned char, float> > *, size_t);
+}
 #include <vector>
 typedef int Int;
 class XferStub;
