@@ -4,21 +4,34 @@
 // at 28 bytes and the LibraryMapCache vector header at 12 bytes.
 // Existing member/base provider declarations are preserved; this is not
 // a claim that all private class views or inherited template pins agree.
-class BfmeBaseCH
+// LINK: the base dtor 0x0032C36B is rowed as the STLport map tree dtor and the
+// member dtor 0x0032C3A3 as ??1Rva0032C3A3, so the base and member take those types.
+class AsciiString;
+namespace _STL {
+template <class A, class B> struct pair;
+template <class P> struct _Select1st;
+template <class T> struct less;
+template <class T> class allocator;
+template <class K, class V, class KoV, class C, class A> class _Rb_tree
 {
 public:
-	~BfmeBaseCH();
+	~_Rb_tree();
 
 	unsigned char m_bfmeHeadCH[0xc];
 };
+}
+typedef _STL::pair<AsciiString, AsciiString> BfmeCHKey;
+typedef _STL::pair<const BfmeCHKey, int> BfmeCHValue;
+typedef _STL::_Rb_tree<BfmeCHKey, BfmeCHValue, _STL::_Select1st<BfmeCHValue>, _STL::less<BfmeCHKey>, _STL::allocator<BfmeCHValue> > BfmeBaseCH;
 
-class BfmeMemCH
+class Rva0032C3A3
 {
 public:
-	~BfmeMemCH();
+	~Rva0032C3A3();
 
 	unsigned char m_bfmeHeadCH[0x10];
 };
+typedef Rva0032C3A3 BfmeMemCH;
 
 class TeamsInfoRec : public BfmeBaseCH
 {
