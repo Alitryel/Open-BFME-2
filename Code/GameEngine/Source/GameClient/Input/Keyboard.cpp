@@ -164,6 +164,8 @@ public:
 
 	// Zero Hour's accessors; retail emits them out of line (0x00232620,
 	// 0x0023262C, 0x00232660) and inlines them here.
+	// 0x00232620 (12B, RET4): the status byte (+1) of m_keyStatus[key] at +0x1C;
+	// this inline copy is retail's out-of-line body.
 	UnsignedByte getKeyStatusData(UnsignedByte key) { return m_keyStatus[key].status; }
 	bool getKeyStateBit(UnsignedByte key, Int bit) { return (m_keyStatus[key].state & bit) ? 1 : 0; }
 	void setKeyStatusData(UnsignedByte key, UnsignedByte data) { m_keyStatus[key].status = data; }
