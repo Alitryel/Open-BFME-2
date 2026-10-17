@@ -162,14 +162,8 @@ public:
 	void rva005E16A7(INI *ini);
 	void rva005E2126(INI *ini);
 };
-void Rva005E16A7::rva005E16A7(INI *ini)
-{
-	ini->initFromINI(this, g_rva005E16A7FieldParse);
-}
-void Rva005E16A7::rva005E2126(INI *ini)
-{
-	ini->initFromINI(this, g_rva005E2126FieldParse);
-}
+
+
 
 // 0x005F84F7: clears entry i (8 bytes each) of the +0x20 vector through the
 // rowed 0x002BED91 when i is in range.
