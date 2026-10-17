@@ -1,10 +1,14 @@
 // ?rva002AEEA7@Player@@QAEXH@Z
+// partial score=0.582 date=2026-10-17
+// ?rva002AEEA7@Player@@QAEXH@Z
 // partial score=0.739 date=2026-10-15
 // ?rva002AEEA7@Player@@QAEXH@Z
 // partial score=0.7 date=2026-10-13
 // ?rva002AEEA7@Player@@QAEXH@Z
 // partial score=0.93 date=2026-10-13
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /O1 /arch:SSE /G7
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // ?rva002AEEA7@Player@@QAEXH@Z @0x002AEEA7 400B. Player orders all units to
 // enter KindOf-7 structures: partition query over the KindOf-7/all-objects
@@ -250,13 +254,14 @@ void Player::rva002AEEA7(int val)
 		for (; cur != m_playerTeamPrototypes; cur = cur->m_next)
 		{
 			Team *team = cur->m_value->head;
-			if (!team)
-				continue;
 			do
 			{
+				if (!team)
+					break;
 				DLINK_ITERATOR<Object> objIter = team->iterate_TeamMemberList();
 				for (; objIter.cur() != 0; objIter.advance())
 				{
+					_ReadWriteBarrier();
 					Object *obj = objIter.cur();
 					if (!obj)
 						continue;
