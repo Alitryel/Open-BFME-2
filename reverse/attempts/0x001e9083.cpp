@@ -1,4 +1,6 @@
 // ?rva001E9083@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
+// partial score=0.318 date=2026-10-17
+// ?rva001E9083@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.66 date=2026-10-14
 // ?rva001E9083@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.61 date=2026-10-13
@@ -310,14 +312,16 @@ class Rva001E46E1
 ;
 void Rva001E46E1::rva001E9083(Object*obj,const Coord3D*goal,float distance,float speed)
 {
- flags44&=~4u;
- matrix68=obj->transform08;
- if(TheGameLogic->getFrame()<=frame60&&speed>max5c)speed=max5c;
- float maxSpeed=rva001E46E1(obj);
+ Object*objref=obj;
+ this->flags44&=~4u;
+ this->matrix68=objref->transform08;
+ if(TheGameLogic->getFrame()<=this->frame60&&speed>this->max5c)speed=this->max5c;
+ float maxSpeed=this->rva001E46E1(objref);
  if(speed>maxSpeed)speed=maxSpeed;
- if(Rva001E4194Get((Rva001E4194A*)obj)||obj->testStatus((ObjectStatusTypes)37))return;
- flag99=false;
- void*path=Rva001E3FFDGet((Rva001E3FFDOuter*)obj);
+ if(Rva001E4194Get((Rva001E4194A*)objref)||objref->testStatus((ObjectStatusTypes)37))return;
+ this->flag99=false;
+ void*path=Rva001E3FFDGet((Rva001E3FFDOuter*)objref);
+ _ReadWriteBarrier();
  if(path)flag99=((Rva001E3557*)path)->rva001E3557();
  if(!obj->testStatus((ObjectStatusTypes)38)&&!obj->p274)
  {
@@ -334,6 +338,7 @@ void Rva001E46E1::rva001E9083(Object*obj,const Coord3D*goal,float distance,float
     dir->x*move,dir->y*move,dir->z*move
    }
    ;
+   _ReadWriteBarrier();
    pos.x+=delta.x;
    pos.y+=delta.y;
    pos.z+=delta.z;
@@ -434,8 +439,11 @@ void Rva001E46E1::rva001E9083(Object*obj,const Coord3D*goal,float distance,float
    }
    
    {
+    volatile unsigned count=1;
     Rva00373EC6*stealth=obj->rva0028F4BC();
     if(stealth&&stealth->p3c)((StealthUpdate*)stealth)->markAsDetected(0,1,0,true);
+    _ReadWriteBarrier();
+    _ReadWriteBarrier();
     
    }
    return;
