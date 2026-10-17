@@ -111,6 +111,7 @@ public:
 	virtual void rva0009C144();
 	virtual void rva0009C4FC(int x, int y, int width, int height);
 	void rva0009BAA4();
+	virtual void rva0009C422(bool active);
 
 private:
 	Rva0009D6FARef *m_C0;
@@ -221,7 +222,7 @@ void Rva0009D55BProduct::rva0009C784(unsigned int phase, unsigned int previous)
 // rowed 0x0009AA0F) and three lights (+0xC8/+0xCC/+0xD0, LightClass type 1),
 // sets +0x134 to 1, copies the +0x104 vector to +0xF8 and runs the pinned
 // refreshes 0x0009BAA4 and 0x0009CD9B.
-class CameraClass { public: CameraClass(); void Set_Clip_Planes(float znear, float zfar); void Set_View_Plane(float hfov, float vfov); void Set_Viewport(const Vector2 &min, const Vector2 &max); void Set_Aspect_Ratio(float ratio); char m_data[0x3FC]; };
+class CameraClass { public: CameraClass(); void Set_Clip_Planes(float znear, float zfar); void Set_View_Plane(float hfov, float vfov); void Set_Viewport(const Vector2 &min, const Vector2 &max); void Set_Aspect_Ratio(float ratio); float Get_Aspect_Ratio() const; char m_data[0x3FC]; };
 class Rva0009AA0F { public: Rva0009AA0F(int owner); char m_data[0x10C]; };
 class LightClass { public: enum LightType { POINT = 0, DIRECTIONAL = 1 }; LightClass(LightType type); char m_data[0x120]; };
 class Matrix3D;
@@ -261,7 +262,7 @@ class W3DGameClientShadowShim { public: void setLightPosition(int index, float x
 struct Rva0009DB5AShadowView { void *m_vtbl; int m_04; };
 struct Rva0009DB5AGlobalView { unsigned char m_pad[0x60]; bool m_shadows; };
 struct Rva0009DB5AManagerView { unsigned char m_pad[0x1E4]; int m_1E4; };
-struct Rva0009DB5ALivingWorldView { unsigned char m_pad[0x18]; bool m_active; };
+struct Rva0009DB5ALivingWorldView { unsigned char m_pad[0x18]; bool m_active; bool m_viewMode; };
 
 void Rva0009D55BProduct::rva0009DB5A(bool active)
 {
@@ -493,4 +494,52 @@ void Rva0009D55BProduct::rva0009C4FC(int x, int y, int width, int height)
 	m_C4->slot6(m_E0);
 	((Rva0009C134Host *)this)->rva0009BAA4();
 	Rva00118660Call(m_C4, m_C0);
+}
+
+// ?rva0009C422@Rva0009D55BProduct@@UAEX_N@Z retail 0x0009C422 (218 bytes,
+// ret 4; slot 20 of the product table): remembers the camera's aspect ratio
+// once (+0x1AC) unless the +0x19 view mode is already on, stores the mode,
+// and either copies the living-world manager's +0x34 and +0x2C/+0x30 words
+// into +0x134/+0xF8/+0xFC and refreshes (0x0009BAA4), or restores the full
+// viewport and saved aspect ratio and calls the table's slot 7.
+class Rva0009C422Slots
+{
+public:
+	D55B_SLOTS4(v0) virtual void v4(); virtual void v5(); virtual void v6();
+	virtual void slot7();
+};
+
+void Rva0009D55BProduct::rva0009C422(bool active)
+{
+	Rva0009DB5ALivingWorldView *state = (Rva0009DB5ALivingWorldView *)this;
+	if (m_1AC == 0.0f && m_C0)
+	{
+		if (state->m_viewMode)
+			return;
+		m_1AC = ((CameraClass *)m_C0)->Get_Aspect_Ratio();
+	}
+	state->m_viewMode = active;
+	if (!active)
+	{
+		if (m_C0)
+		{
+			Vector2 lo(0.0f, 0.0f);
+			Vector2 hi(1.0f, 1.0f);
+			((CameraClass *)m_C0)->Set_Viewport(lo, hi);
+			if (m_1AC == 0.0f)
+				return;
+			((CameraClass *)m_C0)->Set_Aspect_Ratio(m_1AC);
+		}
+	}
+	else
+	{
+		char *base = (char *)TheLivingWorldManager + 0x14;
+
+		m_134 = *(float *)(base + 0x20);
+		m_F8.x = *(float *)(base + 0x18);
+		m_F8.y = *(float *)(base + 0x1C);
+		((Rva0009C134Host *)this)->rva0009BAA4();
+	}
+	if (!active)
+		((Rva0009C422Slots *)this)->slot7();
 }
