@@ -1,3 +1,5 @@
+// ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
+// partial score=0.7893 date=2026-10-17
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.7892620310435328 date=2026-10-14
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
@@ -257,8 +259,8 @@ v->SetString("dynamic");
 return v;
 }
 
-   case 17:if(text->variable.IsEmpty())return gpUndefinedValue;
-return makeLookupString(text->variable);
+   case 17:if(!text->variable.IsEmpty())return makeLookupString(text->variable);
+return gpUndefinedValue;
 
    case 18:return AptBoolean::Create((text->definition->wordWrap&0xFFFFFF)!=0);
 
