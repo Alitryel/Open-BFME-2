@@ -1,8 +1,12 @@
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
+// partial score=0.537 date=2026-10-17
+// ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.7563 date=2026-10-14
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.924901 date=2026-10-09
 // cl: /O2 /G7 /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // FontCharsClass::Store_Thai_GDI_Glyph, target 00157FF0..0015851B (1323B).
 // WB 009F1BD0 supplies the named glyph-index rasterization and averaging loop.
@@ -90,7 +94,8 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
  int tileY=64/Scale;
  int tileWidth=Scale*tileX;
  int tileHeight=Scale*tileY;
- SIZE charSize;
+ struct { SIZE v; unsigned char pad[12]; } charSizePadded;
+ SIZE &charSize = charSizePadded.v;
  if(!::GetTextExtentPointI(g_fontCharsGdiState->dc,&glyph,1,&charSize))
   charSize.cx=charSize.cy=1;
  ABC abc;
@@ -98,7 +103,7 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
  if(!::GetCharABCWidthsI(g_fontCharsGdiState->dc,glyph,1,0,&abc)) {
   abc.abcA=0;abc.abcB=1;abc.abcC=0;
  } else {
-  unsigned int width=abc.abcB;
+  unsigned int width=*(volatile unsigned int*)&abc.abcB;
   if(abc.abcC>0) width+=abc.abcC;
   if(abc.abcA>0) width+=abc.abcA;
   else origin=-abc.abcA;
