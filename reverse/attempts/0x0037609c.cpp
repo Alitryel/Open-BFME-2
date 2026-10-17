@@ -1,4 +1,6 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.236 date=2026-10-17
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.25 date=2026-10-14
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE1_N@Z
 // partial score=0.25 date=2026-10-14
@@ -8,6 +10,8 @@
 // "setup" point/angle block, the 5x200 collision-test search with sin/cos
 // probes, and the ProfileHighLevel report tail.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 
 struct Coord3D
@@ -130,16 +134,18 @@ private:
 bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
     const unsigned char *label, const unsigned char *firstPointRaw, bool adjust)
 {
-    Rva006C65F0 whole("computeAerialPath", "The whole thing.", true);
     unsigned char *self = (unsigned char *)thing;
+    Rva006C65F0 whole("computeAerialPath", "The whole thing.", true);
+    Coord3D target = { 0 };
+    target.X = dest->X;
+    target.Y = dest->Y;
+    target.Z = dest->Z;
     void *pathfinder = *(void **)(self + 0x258);
     if (pathfinder == 0)
     {
         whole.~Rva006C65F0();
         return false;
     }
-
-    Coord3D target = *dest;
     if (adjust)
     {
         Object *obj = ((GameLogic *)g_rva00DFE78C)->findObjectByID((ObjectID)*(unsigned int *)(self + 0x74));
@@ -148,18 +154,22 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             whole.~Rva006C65F0();
             return false;
         }
-        ((Pathfinder *)pathfinder)->AdjustDestination(obj,
-            *(const LocomotorSet *)((unsigned char *)pathfinder + 0x1cc), &target, 0);
+        const LocomotorSet *ls = *(const LocomotorSet *const *)((unsigned char *)pathfinder + 0x1cc);
+        ((Pathfinder *)pathfinder)->AdjustDestination(obj, *ls, &target, 0);
         ((Object *)obj)->rva0028ACEE(&target, 1);
     }
 
     Coord3D center;
     ((Object *)self)->Get2DCenterVectorTo(&center, &target);
-    float distance = center.length();
+    float distance;
+    {
+        distance = center.length();
+    }
 
     {
         Rva006C65F0 setup("setup", "setting up first points", true);
         Coord3D dir;
+        dir.X = 0.0f; dir.Y = 0.0f; dir.Z = 0.0f;
         ((Thing *)self)->getUnitDirectionVector3D(dir);
         float radius = distance * 3.0f;
         if (radius > 1500.0f)
@@ -256,6 +266,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                             Coord3D q2;
                             q2.X = sin(a2) * radius + center.X;
                             q2.Y = cos(a2) * radius + center.Y;
+                            _ReadWriteBarrier();
                             q2.Z = probe.Z;
                             if (!havePoint)
                             {
@@ -349,7 +360,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
         ProfileHighLevel::Id id;
         for (unsigned int i = 0; ProfileHighLevel::EnumProfile(i, id); ++i)
         {
-            char text[64];
+            char text[32];
             UnicodeString str;
             str.format((const unsigned short *)L"%S took %S %S.",
                 text, id.GetDescr(), id.GetCurrentValue(), id.GetUnit());
