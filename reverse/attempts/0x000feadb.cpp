@@ -1,4 +1,6 @@
 // ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
+// partial score=0.921 date=2026-10-17
+// ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
 // partial score=0.856 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z
@@ -296,7 +298,13 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 
 	if (batchStart < (WATER_VB_PAGES*WATER_STRIP_X*WATER_STRIP_Y-m_x*m_y))
 	{	//we have room in current VB, append new verts
-		if(vertexBuffer->Get_DX8_Vertex_Buffer()->Lock(batchStart*vertexBuffer->FVF_Info().Get_FVF_Size(),m_x*m_y*vertexBuffer->FVF_Info().Get_FVF_Size(),(unsigned char**)&vb,D3DLOCK_NOOVERWRITE) != D3D_OK)
+		Int fvfSizeA = vertexBuffer->FVF_Info().Get_FVF_Size();
+	Int lockOff = batchStart*fvfSizeA;
+	Int lockSize = m_x*m_y*fvfSizeA;
+	DX8VertexBufferClass *vbSrc = vertexBuffer;
+	IDirect3DVertexBuffer8 **pdbuf = (IDirect3DVertexBuffer8**)((char*)vbSrc+0x1c);
+	IDirect3DVertexBuffer8 *dbuf = *pdbuf;
+	if((1 ? dbuf->Lock(lockOff,lockSize,(unsigned char**)&vb,D3DLOCK_NOOVERWRITE) : dbuf->Lock(lockOff,lockSize,(unsigned char**)&vb,D3DLOCK_NOOVERWRITE)) != D3D_OK)
 			return batchStart;
 	}
 	else
@@ -312,8 +320,11 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 	if (m_type == WaveTypeStationary)
 	{	//stationary wave
 		waveFrontOrigin = m_startPos;
-		waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f;	//offset to left edge of wave
-		waveTailOrigin = waveFrontOrigin - m_waveFinalHeight * ooWaveDirLen*m_waveDir;
+		Real finalW = m_waveFinalWidth;
+		Vector2 halfPerp = m_perpDir*finalW*0.5f;
+		waveFrontOrigin -= halfPerp;	//offset to left edge of wave
+		Real tailDist = (m_waveFinalHeight * ooWaveDirLen);
+		waveTailOrigin = waveFrontOrigin - tailDist*m_waveDir;
 		waveAlpha = 0.0f;
 
 		if (m_elapsedMs >= m_totalMs)
@@ -344,7 +355,8 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 			widthFrac = waveAlpha;
 			widthFrac=(m_waveInitialWidth + widthFrac* (m_waveFinalWidth-m_waveInitialWidth))/m_waveFinalWidth;
 
-			waveFrontOrigin = m_startPos + m_initialVelocity*m_elapsedMs*ooWaveDirLen*m_waveDir;
+			Real vel = m_initialVelocity*m_elapsedMs*ooWaveDirLen;
+			waveFrontOrigin = m_startPos + vel*m_waveDir;
 			waveFrontOrigin -= m_perpDir*m_waveFinalWidth*0.5f*widthFrac;
 			waveTailOrigin = waveFrontOrigin - m_waveInitialHeight * ooWaveDirLen*m_waveDir;
 		}
@@ -352,7 +364,8 @@ Int WaterTracksObj::render(DX8VertexBufferClass	*vertexBuffer, Int batchStart, R
 		if (m_elapsedMs < m_totalMs)
 		{	waveAlpha = 1.0f;
 			widthFrac = 1.0f;
-			waveFrontOrigin = m_startPos + m_initialVelocity*m_timeToReachBeach*ooWaveDirLen*m_waveDir;
+			Real reachScale = m_initialVelocity*m_timeToReachBeach*ooWaveDirLen;
+			waveFrontOrigin = m_startPos + reachScale*m_waveDir;
 			waveTailOrigin = waveFrontOrigin;
 			Real elapsedMs=m_elapsedMs - m_timeToReachBeach;
 			waveFrontOrigin += (m_initialVelocity*elapsedMs+0.5f*m_frontSlowDownAcc*elapsedMs*elapsedMs)*ooWaveDirLen*m_waveDir;
