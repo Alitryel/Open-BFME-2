@@ -2410,13 +2410,15 @@ def read_funclet(row, object_symbol, output, target):
 
 
 def proven_weak_dtor_default(row, name, address, output, symbol_map):
-    """Prove an MSVC vector-dtor weak reference to this unit's rowed scalar dtor.
+    """Prove an MSVC vector-dtor weak reference to its class's rowed scalar dtor.
 
     This is an object-local linker fallback, never a new global name binding.
     A real binding/definition wins. Only SEARCH_LIBRARY and the compiler's
     same-class ??_E -> ??_G pair are supported; malformed/chained aliases fail.
-    The default must itself be a complete, independently rowed exact body in
-    this source, so ordinary unit-wide data/EH checks also cover its references.
+    The default resolves the way the linker resolves it: to the one real
+    matched row of that name, wherever it lives. Its own unit's gate proves
+    that body; a row in this source is also proven here against this object's
+    copy. Retail's jump target must still equal the row's address.
     """
     if not name.startswith('??_E') or name in symbol_map:
         return False
@@ -2441,20 +2443,28 @@ def proven_weak_dtor_default(row, name, address, output, symbol_map):
         if fallback['name'] != default or fallback.get('storage') != 2:
             return False
         definitions = [s for s in symbols if s['name'] == default and s['section'] > 0]
-        if (len(definitions) != 1 or definitions[0].get('storage') != 2
-                or not definitions[0].get('type', 0) & 0x20):
+        if len(definitions) > 1:
             return False
-        if not sections[definitions[0]['section'] - 1]['characteristics'] & 0x20:
-            return False
+        for definition in definitions:
+            if (definition.get('storage') != 2 or not definition.get('type', 0) & 0x20
+                    or not sections[definition['section'] - 1]['characteristics'] & 0x20):
+                return False
         owners = [r for r in load_all_function_rows() if r['name'] == default]
         if len(owners) != 1:
             return False
         owner = owners[0]
-        if (owner['source'] != row['source'] or owner['status'] != 'matched'
+        if (owner['status'] != 'matched'
                 or int(owner['target_rva'], 16) != address
                 or ledger_object_symbol(owner) != default or is_alias_row(owner)
                 or 'gen-alias' in notes_tokens(owner) or is_scaffold_row(owner)
                 or address not in symbol_map.get(default, ())):
+            return False
+        if owner['source'] != row['source']:
+            # Another unit owns and gates the scalar dtor, as for any call
+            # bound to that row's name; this object's COMDAT copy (if any)
+            # is the linker's concern (link_census), not this jump's.
+            return True
+        if not definitions:
             return False
         body, relocs = read_object_symbol_bytes(output, default, code_only=True)
         size = int(owner['target_size'])
