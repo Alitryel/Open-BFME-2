@@ -44,6 +44,30 @@
 #include "Common/INI.h"
 #include "Common/INIException.h"
 #include "GameClient/DrawGroupInfo.h"
+extern "C" {
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseQuotedAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parsePercentToReal@@YAXPAVINI@@PAX1PBX@Z")();
+}
+// The retail table at 0x007DBE10: 12 entries and the null terminator; every parser is a rowed code owner.
+const FieldParse DrawGroupInfo::s_fieldParseTable[13] = {
+	{ "UsePlayerColor", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x9 },
+	{ "ColorForText", (INIFieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC },
+	{ "ColorForTextDropShadow", (INIFieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "FontName", (INIFieldParseProc)&__identifier("?parseQuotedAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x0 },
+	{ "FontSize", (INIFieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "FontIsBold", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ "DropShadowOffsetX", (INIFieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "DropShadowOffsetY", (INIFieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ "DrawPositionXPixel", (INIFieldParseProc)&__identifier("?parseInt@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
+	{ "DrawPositionXPercent", (INIFieldParseProc)&__identifier("?parsePercentToReal@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
+	{ "DrawPositionYPixel", (INIFieldParseProc)&__identifier("?parseInt@@YAXPAVINI@@PAX1PBX@Z"), (const void *)1, 0x0 },
+	{ "DrawPositionYPercent", (INIFieldParseProc)&__identifier("?parsePercentToReal@@YAXPAVINI@@PAX1PBX@Z"), (const void *)1, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 void parseInt( INI* ini, void * /*instance*/, void *store, const void* userData )
 {
