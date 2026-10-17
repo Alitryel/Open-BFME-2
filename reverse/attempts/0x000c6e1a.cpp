@@ -1,4 +1,6 @@
 // ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
+// partial score=0.99 date=2026-10-17
+// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
 // partial score=0.9507339886985016 date=2026-10-14
 // ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
 // partial score=0.95 date=2026-10-13
@@ -313,6 +315,7 @@ void Rva000C6E1A::rva000C6E1A()
 		{
 			if (m_state && !(drawable->m_flags & 8))
 			{
+				if (0) throw 1;
 				_STL::list<BfmePod32> bones;
 				for (_STL::list<BfmePod32>::iterator it = m_state->m_bones.begin(); it != m_state->m_bones.end(); ++it)
 					bones.push_back(*it);
@@ -371,31 +374,29 @@ void Rva000C6E1A::rva000C6E1A()
 						if (current != rec.trigger)
 							continue;
 					}
-					Coord3D pos;
-					pos.x = 0.0f;
-					pos.y = 0.0f;
-					pos.z = 0.0f;
+					Coord3D pos = { 0.0f, 0.0f, 0.0f };
 					float rotation = 0.0f;
-					volatile int boneIndex;
+					int boneIndex = 0;
 					if (m_renderObject)
-						boneIndex = m_renderObject->Get_Bone_Index(rec.text.str());
+						*(volatile int *)&boneIndex = m_renderObject->Get_Bone_Index(rec.text.str());
 					else
-						boneIndex = 0;
-					if (m_data->m_useClientBones)
+						*(volatile int *)&boneIndex = 0;
+					ParticleModuleData *data = m_data;
+					if (data->m_useClientBones)
 					{
 						Matrix3D xf;
 
-						Drawable *d = m_drawable;
 						_ReadWriteBarrier();
+						_ReadWriteBarrier();
+						Drawable *d = m_drawable;
 						if (d->getCurrentClientBonePositions((rec.text.str()), 0, 0, &xf, 1))
 							((Rva001F38C1Slot *)sys.operator->())->set(*(const Rva001F38C1Arg *)&xf);
-							_ReadWriteBarrier();
 					}
 					else if (rec.followBone)
 					{
 						if (boneIndex && m_renderObject)
 						{
-							Matrix3D xf = __vref(m_renderObject)->Get_Bone_Transform(boneIndex);
+							Matrix3D xf = m_renderObject->Get_Bone_Transform(boneIndex);
 							((Rva001F38C1Slot *)sys.operator->())->set(*(const Rva001F38C1Arg *)&xf);
 						}
 						else
