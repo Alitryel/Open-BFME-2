@@ -1257,6 +1257,7 @@ class Rva00527D7E
 {
 public:
 	void rva00527D7E(int unused);
+	void rva00527D88(int unused);
 	void rva00531101(bool value);
 	int rva0056DC7E() const;
 private:
@@ -1272,6 +1273,11 @@ private:
 void Rva00527D7E::rva00527D7E(int)
 {
 	m_08 = 2;
+}
+
+void Rva00527D7E::rva00527D88(int)
+{
+	m_08 &= 0;
 }
 
 void Rva00527D7E::rva00531101(bool value)
