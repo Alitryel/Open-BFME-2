@@ -24,7 +24,8 @@ private:
 class TerrainResourceBehaviorModuleData : public TerrainResourceModuleDataBase
 {
 public:
-	TerrainResourceBehaviorModuleData();
+	TerrainResourceBehaviorModuleData(); // rowed in TerrainResourceBehaviorModuleDataCtor.cpp
+	TerrainResourceBehaviorModuleData(struct TerrainResourceDtorVtableTag *); // vtable anchor, no retail body
 // Implicit virtual dtor (never declared, never defined)
 private:
 	float m_radius;
@@ -35,8 +36,8 @@ private:
 	unsigned char m_pad16[2];
 	Rva003623E5Filter m_member18;
 };
-// ??0TerrainResourceBehaviorModuleData@@QAE@XZ present-unmatched
-TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData()
+// ?<TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData> absent-from-retail
+TerrainResourceBehaviorModuleData::TerrainResourceBehaviorModuleData(TerrainResourceDtorVtableTag *)
 {
 }
 void deleteTerrainResourceBehaviorModuleData(TerrainResourceBehaviorModuleData *p)

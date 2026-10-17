@@ -23,7 +23,8 @@ public:
 class BoredUpdateModuleData : public BoredUpdateModuleDataBase
 {
 public:
-	BoredUpdateModuleData();
+	BoredUpdateModuleData(); // rowed in BoredUpdateModuleDataCtor.cpp
+	BoredUpdateModuleData(struct EmitVtableTag *); // vtable anchor, no retail body
 // Implicit virtual dtor (never declared, never defined)
 private:
 	unsigned char m_unk04[4];
@@ -34,8 +35,8 @@ private:
 	unsigned char m_pad15[3];
 	int m_specialPowerTemplate;
 };
-// ??0BoredUpdateModuleData@@QAE@XZ present-unmatched
-BoredUpdateModuleData::BoredUpdateModuleData()
+// ?<BoredUpdateModuleData::BoredUpdateModuleData> absent-from-retail
+BoredUpdateModuleData::BoredUpdateModuleData(EmitVtableTag *)
 {
 }
 void deleteBoredUpdateModuleData(BoredUpdateModuleData *p)

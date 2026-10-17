@@ -13,14 +13,15 @@ public:
 class EvacuateDamageModuleData : public EvacuateDamageModuleDataBase
 {
 public:
-	EvacuateDamageModuleData();
+	EvacuateDamageModuleData(); // rowed in EvacuateDamageModuleDataCtor.cpp
+	EvacuateDamageModuleData(struct EmitVtableTag *); // vtable anchor, no retail body
 // Implicit virtual dtor (never declared, never defined)
 private:
 	unsigned char m_unk04[4];
 	AsciiString m_weapon;
 };
-// ??0EvacuateDamageModuleData@@QAE@XZ present-unmatched
-EvacuateDamageModuleData::EvacuateDamageModuleData()
+// ?<EvacuateDamageModuleData::EvacuateDamageModuleData> absent-from-retail
+EvacuateDamageModuleData::EvacuateDamageModuleData(EmitVtableTag *)
 {
 }
 void deleteEvacuateDamageModuleData(EvacuateDamageModuleData *p)

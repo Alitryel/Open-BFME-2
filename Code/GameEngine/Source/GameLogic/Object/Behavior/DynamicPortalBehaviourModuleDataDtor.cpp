@@ -90,7 +90,8 @@ private:
 class DynamicPortalBehaviourModuleData : public Rva00253487Base
 {
 public:
-	DynamicPortalBehaviourModuleData();
+	DynamicPortalBehaviourModuleData(); // rowed in DynamicPortalBehaviourModuleDataCtor.cpp
+	DynamicPortalBehaviourModuleData(struct EmitVtableTag *); // vtable anchor, no retail body
 
 // Implicit virtual dtor (never declared, never defined): the compiler
 // emits it for the vtable/??_G chain with member teardown in reverse
@@ -111,8 +112,8 @@ private:
 	Rva003623E5Filter m_destroyedDamageTimeout; // +0x158, DestroyedDamageTimeoutMS
 };
 
-// ??0DynamicPortalBehaviourModuleData@@QAE@XZ present-unmatched
-DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData()
+// ?<DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData> absent-from-retail
+DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData(EmitVtableTag *)
 {
 }
 
