@@ -4,6 +4,7 @@
 #include <rope>
 // bfme link decl-only begin
 namespace _STL { template <> void allocator<char>::deallocate(char *, unsigned int) const; }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 // bfme link decl-only end
 
 template class _STL::rope<char, _STL::allocator<char> >;
