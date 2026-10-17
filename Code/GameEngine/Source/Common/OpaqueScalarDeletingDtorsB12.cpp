@@ -93,7 +93,12 @@ Rva005173F8::Rva005173F8(EmitVtableTag *)
 {
 }
 
-class Rva005204EF
+// Primary base at +0 (the 0x218-byte screen window) and secondary base at
+// +0x218: slot 0 of the secondary table is the this-adjusting (sub ecx,
+// 0x218) deleting-destructor thunk 0x005204E4, target evidence for both.
+class Rva005204EFBase0 { public: virtual ~Rva005204EFBase0(); private: char m_unmodelled04[0x218 - 0x04]; };
+class Rva005204EFBase218 { public: virtual ~Rva005204EFBase218(); };
+class Rva005204EF : public Rva005204EFBase0, public Rva005204EFBase218
 {
 public:
 	Rva005204EF(EmitVtableTag *);

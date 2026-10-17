@@ -62,7 +62,14 @@ Rva0059EA42::Rva0059EA42(EmitVtableTag *)
 {
 }
 
-class Rva005A0009
+// Bases at +0x60 and +0x6C: their tables (0x00C713B8, 0x00C713AC) hold the
+// this-adjusting deleting-destructor thunks 0x005A00D6 (sub ecx, 0x60; slot 0)
+// and 0x005A00DE (sub ecx, 0x6C; slot 2), target evidence for both; the
+// derived Rva005BA23A and Rva005BA2CB tables repeat that shape.
+class Rva005A0009Base0 { public: virtual ~Rva005A0009Base0(); private: char m_unmodelled04[0x60 - 0x04]; };
+class Rva005A0009Base60 { public: virtual ~Rva005A0009Base60(); private: char m_unmodelled64[0x6C - 0x64]; };
+class Rva005A0009Base6C { public: virtual void slot0(); virtual void slot1(); virtual ~Rva005A0009Base6C(); };
+class Rva005A0009 : public Rva005A0009Base0, public Rva005A0009Base60, public Rva005A0009Base6C
 {
 public:
 	Rva005A0009(EmitVtableTag *);
@@ -140,7 +147,7 @@ Rva005B5CF4::Rva005B5CF4(EmitVtableTag *)
 {
 }
 
-class Rva005BA23A
+class Rva005BA23A : public Rva005A0009
 {
 public:
 	Rva005BA23A(EmitVtableTag *);
@@ -149,11 +156,12 @@ public:
 };
 
 // ?<Rva005BA23A::Rva005BA23A> absent-from-retail
-Rva005BA23A::Rva005BA23A(EmitVtableTag *)
+Rva005BA23A::Rva005BA23A(EmitVtableTag *tag)
+	: Rva005A0009(tag)
 {
 }
 
-class Rva005BA2CB
+class Rva005BA2CB : public Rva005A0009
 {
 public:
 	Rva005BA2CB(EmitVtableTag *);
@@ -162,7 +170,8 @@ public:
 };
 
 // ?<Rva005BA2CB::Rva005BA2CB> absent-from-retail
-Rva005BA2CB::Rva005BA2CB(EmitVtableTag *)
+Rva005BA2CB::Rva005BA2CB(EmitVtableTag *tag)
+	: Rva005A0009(tag)
 {
 }
 
