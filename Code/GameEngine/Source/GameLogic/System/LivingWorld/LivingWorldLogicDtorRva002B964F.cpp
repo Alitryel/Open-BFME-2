@@ -101,12 +101,7 @@ public:
 	~LivingWorldBuildingObserver() {}
 };
 
-class Rva0056B126B2
-{
-public:
-	virtual void slot00() = 0;
-	~Rva0056B126B2() {}
-};
+#include "../../../../Include/Common/Rva0056B126B2.h"
 
 class Rva002B964FPlayerObserver
 {

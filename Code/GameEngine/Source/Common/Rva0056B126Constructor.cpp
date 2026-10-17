@@ -31,21 +31,9 @@ private:
 	char m_pad04[4];
 };
 
-class __declspec(novtable) Rva0056B126B1
-{
-public:
-	virtual ~Rva0056B126B1() {}
-	virtual void b1Anchor();
-	int m_a8;
-	int m_bC;
-};
+#include "../../Include/Common/Rva0056B126B1.h"
 
-class Rva0056B126B2
-{
-public:
-	Rva0056B126B2();
-	virtual ~Rva0056B126B2() {}
-};
+#include "../../Include/Common/Rva0056B126B2.h"
 // ??0Rva0056B126B2@@QAE@XZ @0x002B2523 9B: the default constructor, storing the
 // class's own vtable (VA 0x00BFDF68) and returning this.
 Rva0056B126B2::Rva0056B126B2()

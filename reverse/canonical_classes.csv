@@ -116,3 +116,5 @@ _com_error,Code/Libraries/Source/COM/ComError.h,existing header; contract class_
 LivingWorldLogicObserver,Code/GameEngine/Include/Common/LivingWorldLogicObserver.h,native BED658 two-slot nonvirtual lifetime contract; generated data+methods completed with explicit destructor and external parameter declaration; 5/5 units verified and adopted
 LivingWorldBattleListener,Code/GameEngine/Include/Common/LivingWorldBattleListener.h,native C3702C five-slot nonvirtual listener contract; generated methods completed with explicit special lifetimes; 6/6 units verified and adopted
 Rva005CCC07Base,Code/GameEngine/Include/Common/Rva005CCC07Base.h,native C77E7C seven-slot nonvirtual minimal lifetime contract; explicit special lifetime retained; 2/2 units verified and adopted
+Rva0056B126B2,Code/GameEngine/Include/Common/Rva0056B126B2.h,complete native BFDF68 four-slot observer; explicit nonvirtual teardown and existing out-of-line constructor; 3/3 units verified and adopted
+Rva0056B126B1,Code/GameEngine/Include/Common/Rva0056B126B1.h,partial adjacent view; native destructor and false RET4 callback prefix; explicit novtable and opaque words; 2/2 units verified and adopted

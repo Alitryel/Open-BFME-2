@@ -17,17 +17,8 @@ public:
 private:
     char m_pad04[4];
 };
-class __declspec(novtable) Rva0056B126B1 {
-public:
-    virtual ~Rva0056B126B1() {}
-    int m_a8;
-    int m_bC;
-};
-class Rva0056B126B2 {
-public:
-    Rva0056B126B2() {}
-    virtual ~Rva0056B126B2() {}
-};
+#include "../../Include/Common/Rva0056B126B1.h"
+#include "../../Include/Common/Rva0056B126B2.h"
 class Rva0056B126 : public Rva0056AC26, public Rva0056B126B1, public Rva0056B126B2 {
 public:
     virtual ~Rva0056B126();
