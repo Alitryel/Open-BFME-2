@@ -20,4 +20,10 @@ void __cdecl _RTC_Initialize() {
   __except(1) {}
  }
 }
+void __cdecl _RTC_Terminate() {
+ for(RtcCallback *p=__rtc_taa+1;p<__rtc_tzz;++p) {
+  __try {if(*p)(*p)();}
+  __except(1) {}
+ }
+}
 }
