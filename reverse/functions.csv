@@ -96263,3 +96263,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?rva001E4132@Rva001E4132@@QAEMMMMM@Z,,0x001E4132,21,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,height delta divided by twice logic fps
 ?Rva006017C9@@YAHH@Z,,0x006017C9,17,Code/Libraries/Source/file/TextFile.cpp,matched,lookup character class from TextFileCharacterClasses table
 ?rva006F7AB0@AptDisplayList@@QAEXHPAX@Z,,0x006F7AB0,13,Code/Libraries/Source/Apt/Rva006F6A50Cluster.cpp,matched,forwards second argument to bfmeProcess1279
+??0Rva00260F77Filter@@QAE@PAVBfmeTargetAM@@_N@Z,,0x00484144,29,Code/GameEngine/Source/Common/BfmeConv1739.cpp,matched,partition filter constructor storing vtable 0x00C49F14

@@ -17,12 +17,13 @@ class Object;
 class Rva00260F77Filter
 {
 public:
+	Rva00260F77Filter(BfmeTargetAM *target, bool invert);
 	virtual ~Rva00260F77Filter();
 	virtual bool allow(Object *value);
 
-	unsigned char m_bfmeHeadAM[4];
+	void *m_bfmeHeadAM;
 	BfmeTargetAM *m_bfmeTargetAM;
-	char m_bfmeInvertAM;
+	bool m_bfmeInvertAM;
 };
 
 bool Rva00260F77Filter::allow(Object *value)
@@ -35,3 +36,9 @@ bool Rva00260F77Filter::allow(Object *value)
 
 	return !m_bfmeTargetAM->bfmeTestAM(value);
 }
+
+Rva00260F77Filter::Rva00260F77Filter(BfmeTargetAM *target, bool invert)
+	: m_bfmeHeadAM(0), m_bfmeTargetAM(target), m_bfmeInvertAM(invert)
+{
+}
+

@@ -64475,3 +64475,4 @@ _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Sour
 ?rva001E4132@Rva001E4132@@QAEMMMMM@Z	0x001E4132	21	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 21B; height delta divided by twice logic fps
 ?Rva006017C9@@YAHH@Z	0x006017C9	17	landed	add_match verified Code/Libraries/Source/file/TextFile.cpp 17B; lookup character class from TextFileCharacterClasses table
 ?rva006F7AB0@AptDisplayList@@QAEXHPAX@Z	0x006F7AB0	13	landed	add_match verified Code/Libraries/Source/Apt/Rva006F6A50Cluster.cpp 13B; forwards second argument to bfmeProcess1279
+??0Rva00260F77Filter@@QAE@PAVBfmeTargetAM@@_N@Z	0x00484144	29	landed	add_match verified Code/GameEngine/Source/Common/BfmeConv1739.cpp 29B; partition filter constructor storing vtable 0x00C49F14
