@@ -44,10 +44,13 @@ class Object;
 // Native48B matrix consumer; identity assignments independently proved by
 // retail and WB01292600. BFME1 cee35b7 WWMath Matrix3D(bool)/Make_Identity
 // corroborates the clean reference algorithm; no original helper-name claim.
+// The rowed caller inlines the identity constructor; dllimport keeps this
+// TU from also emitting an unreferenced 82-byte ??0Matrix3D@@QAE@_N@Z, which
+// is not retail's (0x0004C91A builds Vector4 rows first) and held the link.
 class Matrix3D {
 public:
  float row[3][4];
- explicit Matrix3D(bool init) { if(init) {
+ __declspec(dllimport) __forceinline explicit Matrix3D(bool init) { if(init) {
   row[0][0]=1;row[0][1]=0;row[0][2]=0;row[0][3]=0;
   row[1][0]=0;row[1][1]=1;row[1][2]=0;row[1][3]=0;
   row[2][0]=0;row[2][1]=0;row[2][2]=1;row[2][3]=0;
@@ -140,12 +143,11 @@ class CreateAHeroHero
 public:
 	bool UpdateCommandSet(UnsignedInt commandSet);			// 0x00407705
 };
-class Rva00219B9E
+class CreateAHeroManager
 {
 public:
 	CreateAHeroData *rva002197A6(Int id);						// 0x002197A6
 };
-class CreateAHeroManager;
 extern CreateAHeroManager *TheCreateAHeroManager;
 
 class GameLogic;
@@ -176,7 +178,7 @@ void DelayedExperienceLevelGrantSystem::rva00420C8E(ExperienceLevelView *level, 
 
 	if (obj->m_template->m_11F & 0x40)
 	{
-		CreateAHeroData *hero = ((Rva00219B9E *)TheCreateAHeroManager)->rva002197A6(obj->m_heroID);
+		CreateAHeroData *hero = TheCreateAHeroManager->rva002197A6(obj->m_heroID);
 		if (hero)
 			((CreateAHeroHero *)hero)->UpdateCommandSet(level->m_commandSet);
 	}
