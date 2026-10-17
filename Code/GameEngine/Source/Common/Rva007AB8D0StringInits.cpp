@@ -26,6 +26,7 @@ template <class C> class char_traits;
 template <class C, class Tr = char_traits<C>, class A = allocator<C> > class basic_string
 {
 public:
+	__declspec(dllimport) __forceinline basic_string() {} // storage-only definition below; emits nothing
 	basic_string( const C *s, const A &a = A() );
 private:
 	C *m_start;
@@ -47,7 +48,9 @@ void __cdecl rva007B6A20();
 void __cdecl rva007B6A30();
 void __cdecl rva007B6A40();
 
-extern unsigned g_Va00DDEB2C;
+// STLport's locale name sentinel (0x009DEB2C), constructed from "*" by the
+// initializer below: storage only here, so no compiler initializer is emitted.
+namespace _STL { basic_string<char> _Nameless; }
 extern unsigned g_Va00DDEF08;
 extern unsigned g_Va00DDEEFC;
 extern unsigned g_Va00DDEF14;
@@ -72,7 +75,7 @@ struct Rva007AB8D0StringInits
 
 void __cdecl Rva007AB8D0StringInits::rva007AB8D0()
 {
-	( (NarrowString *)&g_Va00DDEB2C )->NarrowString::basic_string( "*" );
+	( &_STL::_Nameless )->NarrowString::basic_string( "*" );
 	atexit( rva007B68C0 );
 }
 

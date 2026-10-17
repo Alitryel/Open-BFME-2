@@ -82,7 +82,7 @@ private:
 	_Locale_impl *_M_impl;
 };
 
-extern const string _Nameless;
+extern string _Nameless; // non-const, as defined (0x009DEB2C)
 
 bool locale::operator==(const locale &that) const
 {

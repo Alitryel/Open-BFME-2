@@ -179,7 +179,7 @@ public:
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > StlNarrowString;
 typedef _STL::_String_base<char, _STL::allocator<char> > StlNarrowStringBase;
 
-extern unsigned g_Va00DDEB2C;
+namespace _STL { extern StlNarrowString _Nameless; } // 0x009DEB2C, defined in Rva007AB8D0StringInits.cpp
 extern unsigned g_Va00DDEF08;
 extern unsigned g_Va00DDEEFC;
 extern unsigned g_Va00DDEF14;
@@ -189,10 +189,10 @@ extern unsigned g_Va00DDEEF0;
 extern unsigned g_Va00DDEF20;
 extern unsigned g_Va00DDEF2C;
 
-// ?rva007B68C0@@YAXXZ @ 0x007B68C0 (10B). Global string dtor thunk: ecx=&g_Va00DDEB2C then tail-jmp to rowed ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ (0x00142D70).
+// ?rva007B68C0@@YAXXZ @ 0x007B68C0 (10B). Global string dtor thunk: ecx=&_STL::_Nameless then tail-jmp to rowed ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ (0x00142D70).
 void __cdecl rva007B68C0()
 {
-	StlNarrowString *p = (StlNarrowString *)&g_Va00DDEB2C;
+	StlNarrowString *p = &_STL::_Nameless;
 	return p->~basic_string();
 }
 
