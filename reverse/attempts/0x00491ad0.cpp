@@ -1,4 +1,6 @@
 // ?rva00491AD0@AttachUpdate@@QAEXXZ
+// partial score=0.957 date=2026-10-17
+// ?rva00491AD0@AttachUpdate@@QAEXXZ
 // partial score=0.931697912511634 date=2026-10-13
 // ?rva00491AD0@AttachUpdate@@QAEXXZ
 // partial score=0.931697912511634 date=2026-10-10
@@ -274,14 +276,16 @@ void AttachUpdate::rva00491AD0()
 	obj->setStatus(OBJECT_STATUS_RVA00491AD0_98, true);
 	FXList::doFXObj(data->m_attachFX, obj, parent);
 	Player *local = ThePlayerList->getLocalPlayer();
-	if (local && player) {
-		const Coord3D *where = parent->getPosition();
+	Player *local2 = local;
+	Player *player2 = player;
+	if (local2 && player2) {
+		const Coord3D *where;
 		if (player == local) {
-			TheEva->rva001DE2DA(data->m_parentOwnerAttachmentEvaEvent, where, 0);
+			Object *ownerParent = parent;
+			TheEva->rva001DE2DA(data->m_parentOwnerAttachmentEvaEvent, ownerParent->getPosition(), 0);
 			m_diedEvaEvent = data->m_parentOwnerDiedEvaEvent;
 		} else if (local->getRelationship(player) == ALLIES) {
-			_ReadWriteBarrier();
-			TheEva->rva001DE2DA(data->m_parentAllyAttachmentEvaEvent, where, 0);
+			TheEva->rva001DE2DA(data->m_parentAllyAttachmentEvaEvent, parent->getPosition(), 0);
 			m_diedEvaEvent = data->m_parentAllyDiedEvaEvent;
 		} else {
 			TheEva->rva001DE2DA(data->m_parentEnemyAttachmentEvaEvent, where, 0);
