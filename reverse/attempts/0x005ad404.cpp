@@ -1,6 +1,10 @@
 // ?rva005AD404@Rva005ACCE4@@QAEPAVObject@@PAVPlayer@@@Z
+// partial score=0.616 date=2026-10-17
+// ?rva005AD404@Rva005ACCE4@@QAEPAVObject@@PAVPlayer@@@Z
 // partial score=0.8 date=2026-10-04
 // cl: /O1 /G7 /MD /GX /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // The "FarmKillSquad" skirmish-AI tactic (vtable 0x00872474; ctor 0x005ACF38
@@ -402,7 +406,10 @@ Object *Rva005ACCE4::rva005AD404(Player *player)
 		base.z = building->m_pos.z;
 		Object *farm = rva005AD0E6();
 		_STL::map<float, Object *> byDistance;
-		for (ObjectID *it = ids.begin(); it != ids.end(); ++it) {
+		ObjectID *it = ids.begin();
+		ObjectID *end = ids.end();
+		_ReadWriteBarrier();
+		for (; it != end; ++it) {
 			Object *obj = TheGameLogic->findObjectByID(*it);
 			if (obj && !(obj->m_04->m_10E & 4)
 				&& TheAI->pathfinder()->rva002F4B33(farm, &farm->m_pos, obj, 0)) {
@@ -411,13 +418,17 @@ Object *Rva005ACCE4::rva005AD404(Player *player)
 					byDistance.insert(_STL::pair<const float, Object *>(distance, obj));
 			}
 		}
+		Object *result = 0;
 		if (byDistance.size() != 0)
-			return (--byDistance.end())->second;
-		return 0;
+			result = (--byDistance.end())->second;
+		return result;
 	}
-	if (ids.empty())
-		return 0;
-	return TheGameLogic->findObjectByID(ids[GetGameLogicRandomValue(0, ids.size() - 1,
-		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIFarmKillSquad.cpp",
-		304)]);
+	{
+		unsigned int count = ids.size();
+		if (count == 0)
+			return 0;
+		return TheGameLogic->findObjectByID(ids[GetGameLogicRandomValue(0, count - 1,
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIFarmKillSquad.cpp",
+			304)]);
+	}
 }
