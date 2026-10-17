@@ -1,9 +1,18 @@
 // ?UnknownSlot5@BFME2Encoding0MotionChannel@@UAEXMPAVQuaternion@@PAPAE@Z
+// partial score=0.907 date=2026-10-17
+// ?UnknownSlot5@BFME2Encoding0MotionChannel@@UAEXMPAVQuaternion@@PAPAE@Z
 // partial score=0.8 date=2026-10-09
 // ?UnknownSlot5@BFME2Encoding0MotionChannel@@UAEXMPAVQuaternion@@PAPAE@Z
 // partial score=0.8 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD
 // FindIndex shape: `int low = 0;` declared ahead of `index` and re-zeroed in the search arm (the same lever that closed the standalone FindIndex 0x1B2EFC); halves the differing rows. Remaining: retail copies the inlined result into EDX before the interpolation and orders low=0 before high.
+// Round (2026-10-17): search arm spelled `low = 0; int high=Count-2;` (retail standalone
+// and inline copies both zero low first; landed standalone 0x1B2EFC stays exact with it):
+// search arm now matches, slot5 0.899->0.907, slot3 inline 0.909->0.917. Only wall left:
+// retail copies the inlined result out of EAX (slot5 mov edi,eax; slot3 mov edx,eax) and
+// computes Count-1 in EAX. Disproven: plain/`inline` FindIndex (not inlined at /O1, 171B),
+// unsigned caller index (inert), single-exit cached path (386B), donor p2idx/else caller
+// (0.63), donor tc0 time local (inert).
 // BFME1 9cbfb551fe20 motchan.cpp TimeCodedMotionChannel Get_Vector and
 // Get_QuatVector supply sample selection/interpolation. BFME2 factory and
 // load bodies independently prove vtable slots3..5 and timecode14/samples18.
@@ -44,7 +53,7 @@ __forceinline int BFME2Encoding0MotionChannel::FindIndex(unsigned int time, int 
   if (time <= (TimeCodes[0] & ~0x8000)) index=0;
   else if (time >= (TimeCodes[Count-1] & ~0x8000)) index=Count-1;
   else {
-   int high=Count-2; low = 0;
+   low = 0; int high=Count-2;
    for (;;) {
     index=(low+high)/2;
     if (time < (TimeCodes[index] & ~0x8000)) high=index;
