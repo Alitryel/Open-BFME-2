@@ -1,4 +1,6 @@
 // ?updateInterestZones@TacticalAI@@QAEXXZ
+// partial score=0.879 date=2026-10-17
+// ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.939 date=2026-10-15
 // ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.90125 date=2026-10-14
@@ -276,9 +278,10 @@ void TacticalAI::updateInterestZones() {
  }
  typedef _STL::list<TeamPrototype *> PrototypeList;
  PrototypeList &prototypes=((Rva002C6607PlayerView*)player)->prototypes;
- PrototypeList::iterator p=prototypes.begin();
+ PrototypeList::iterator begin=prototypes.begin();
  _ReadWriteBarrier();
  PrototypeList::iterator end=prototypes.end();
+ PrototypeList::iterator p=begin;
  for(;p!=end;++p) {
   for(DLINK_ITERATOR<Team> teams=((*p ? *p : *p))->iterate_TeamInstanceList();!teams.done();teams.advance()) {
    Team *team=teams.cur();
