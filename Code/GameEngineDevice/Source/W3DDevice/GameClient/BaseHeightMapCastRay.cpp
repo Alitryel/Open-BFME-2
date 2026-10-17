@@ -37,6 +37,11 @@ static inline Real bfmeCeilD(Real f) { double d = ceil(f); return (Real)d; }
 #define REAL_TO_INT_FLOOR(x) WWMath::Float_To_Long(bfmeFloorD(x))
 #define REAL_TO_INT_CEIL(x) WWMath::Float_To_Long(bfmeCeilD(x))
 
+// ?rva0006653B@Rva0006653B@@QAEGHH@Z, retail 0x0006653B (64 bytes): the
+// clamped 2D ushort lookup (each index pinned to [0, extent), extents at +0x08
+// and +0x0C, table at +0x24, index extentX * y + x; 12 callers, RET 8). This
+// unit's inline copy is retail's body and owns the row; Cast_Ray needs the
+// body visible to keep retail's register choice around its five calls.
 class Rva0006653B
 {
 public:
