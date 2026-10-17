@@ -150,6 +150,27 @@ BfmePickNode1284 *BfmePicker1284::bfmePick1284(int pointX, int pointY)
 	return 0;
 }
 
+// BFME1 donor 266226456f9751c8a71a3cec7a0bf3f82ac97bf7; B1 0x008BAC30.
+// Native BFME2 0x006F9C80..0x006F9CA5 (37 B): x87 accesses prove two input floats,
+// six coefficients, two output floats and their access order. The affine reading
+// follows the donor and existing picker views; original type names, source linkage
+// and caller association remain unknown. This static source view reproduces the
+// observed point ECX / coefficients EAX / output EDX register inputs.
+static void rva006F9C80(const BfmeVector2_1290 *point, const BfmeTransform2_1290 *transform,
+	BfmeVector2_1290 *out)
+{
+	out->x = transform->m00 * point->x + transform->m01 * point->y + transform->tx;
+	out->y = transform->m10 * point->x + transform->m11 * point->y + transform->ty;
+}
+
+// ?rva006F9C80Caller@@YAXPBUBfmeVector2_1290@@PBUBfmeTransform2_1290@@PAU1@@Z absent-from-retail
+// TU-local caller that keeps the static above alive with retail's register convention.
+void rva006F9C80Caller(const BfmeVector2_1290 *point, const BfmeTransform2_1290 *transform,
+	BfmeVector2_1290 *out)
+{
+	rva006F9C80(point, transform, out);
+}
+
 static int bfmeContains1283(const BfmeTriangle1290 *triangle, float x, float y)
 {
 	int inside = 0;

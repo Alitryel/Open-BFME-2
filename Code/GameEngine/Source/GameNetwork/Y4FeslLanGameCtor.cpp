@@ -175,9 +175,10 @@ Rva00808920LanGame::Rva00808920LanGame( int maxPlayers )
 // BFME1 donor 266226456f9751c8a71a3cec7a0bf3f82ac97bf7; B1 0x00808E00.
 // BFME2 native 0x00674D50..0x00674D74 (36 B): a file-static tokenizer step. It returns the token at *cursor,
 // cuts it at the first separator and advances *cursor past it, or clears *cursor when no
-// separator is left. Every retail use is inlined (no direct caller), so it keeps an
-// address-derived name; as a file-static it takes the separator in AL and the cursor in
-// EDI, retail's private convention.
+// separator is left. The original target name and source linkage are unknown.
+// This static source view reproduces the observed AL separator / EDI cursor inputs.
+// The donor supplies the tokenizer interpretation, independently confirmed by the
+// target's strchr call and token/cursor writes.
 // ?rva00674D50@@YAPADDPAPAD@Z
 static __declspec(noinline) char *rva00674D50( char separator, char **cursor )
 {
