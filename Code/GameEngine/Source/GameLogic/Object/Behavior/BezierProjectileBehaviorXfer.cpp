@@ -325,27 +325,4 @@ class BezierFlightView {public:
  virtual void fire(Object *,const Coord3D *);
 };
 class WWMath {public:static float __fastcall Inv_Sqrt(float);};
-void BezierProjectileBehavior::rva0045CC72(int flag) {
- Object *object=m_object;
- const BezierPathDataView *data=(const BezierPathDataView *)m_moduleData;
- if(!data->flag && !(unsigned char)flag)((UpdateModule *)this)->setWakeFrame(object,1);
- ++m_int78;
- int count=m_vec44.size();
- if(count<2){rva0045C975(flag);return;}
- BezierPathRecord *path=(BezierPathRecord *)m_vec44.m_start;
- Coord3D delta;
- delta.x=path[count-1].x-path[count-2].x;
- delta.y=path[count-1].y-path[count-2].y;
- delta.z=0;
- float lengthSquared=delta.x*delta.x+delta.y*delta.y;
- if(lengthSquared!=0.0f) {
-  float inverseLength=WWMath::Inv_Sqrt(lengthSquared);
-  delta.x*=inverseLength;
-  delta.y*=inverseLength;
- }
- Coord3D position;
- position.x=((BezierPositionView *)object)->position.x+delta.x*data->scale;
- position.y=((BezierPositionView *)object)->position.y+delta.y*data->scale;
- position.z=((BezierTerrainView *)TheTerrainLogic)->height(position.x,position.y,0);
- ((BezierFlightView *)this)->fire(0,&position);
-}
+
