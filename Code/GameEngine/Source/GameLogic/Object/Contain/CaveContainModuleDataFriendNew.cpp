@@ -27,7 +27,20 @@ public:
 	void initFromINIMultiProc(void *what, void (__cdecl *proc)(MultiIniFieldParse &));
 };
 
-class CaveContainModuleData
+class OpenContainModuleData
+{
+public:
+	virtual ~OpenContainModuleData();
+
+private:
+	unsigned char m_pad[0x98 - 4];
+};
+
+// The 5-byte dtor 0x0025770F jmps to the rowed OpenContainModuleData dtor
+// 0x00257481 with `this` unchanged and stores no vptr (novtable, as the
+// HordeGarrisonContainModuleData dtor 0x00257A05 does). Its deleting dtor
+// 0x002576F3 is emitted with the vtable in ContainModuleDeletingDtors.cpp.
+class __declspec(novtable) CaveContainModuleData : public OpenContainModuleData
 {
 public:
 	CaveContainModuleData();
@@ -36,8 +49,15 @@ public:
 	static ModuleData *friend_newModuleData(INI *ini);
 
 private:
-	unsigned char m_pad[0x9C - 4];
+	int m_caveIndexData;	// +0x98
 };
+
+typedef char CaveContainModuleDataSize[sizeof(CaveContainModuleData) == 0x9C ? 1 : -1];
+
+// ??1CaveContainModuleData@@UAE@XZ
+CaveContainModuleData::~CaveContainModuleData()
+{
+}
 
 // ?friend_newModuleData@CaveContainModuleData@@SAPAVModuleData@@PAVINI@@@Z
 ModuleData *CaveContainModuleData::friend_newModuleData(INI *ini)

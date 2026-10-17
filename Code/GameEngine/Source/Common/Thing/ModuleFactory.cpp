@@ -360,7 +360,11 @@ ModuleFactory::~ModuleFactory( void )
 // subclasses inherit. The CreateCrateDie, CrushDie and crate-collide data
 // factories also emitted this view's ModuleData constructors, proven not
 // retail's ahead of their owners; only the field parsers whose rows live here
-// are taken. This compiler anchor is not a recovered retail function.
+// are taken. CaveContain's data factory emitted its ModuleData constructor and
+// the Zero Hour OpenContainModuleData destructor, neither retail's, ahead of
+// their owners; its deleting dtor and dtor rows live in
+// ContainModuleDeletingDtors.cpp and CaveContainModuleDataFriendNew.cpp. This
+// compiler anchor is not a recovered retail function.
 #define BFME_EMIT_MODULE_INSTANCE(cls) *instances++ = &cls::friend_newModuleInstance
 #define BFME_EMIT_MODULE_DATA(cls) *data++ = &cls::friend_newModuleData
 // ?bfmeEmitModuleFactoryInlines absent-from-retail
@@ -369,7 +373,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 {
 	BFME_EMIT_MODULE_INSTANCE( BridgeTowerBehavior );
 	BFME_EMIT_MODULE_INSTANCE( InstantDeathBehavior );
-	BFME_EMIT_MODULE_DATA( CaveContain );
 	BFME_EMIT_MODULE_DATA( SpawnBehavior );
 	BFME_EMIT_MODULE_INSTANCE( DestroyDie );
 	BFME_EMIT_MODULE_INSTANCE( CrushDie );

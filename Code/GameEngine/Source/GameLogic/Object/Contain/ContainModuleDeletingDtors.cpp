@@ -99,3 +99,9 @@ CitadelSlaughterHordeContainModuleData::CitadelSlaughterHordeContainModuleData(E
 class GarrisonContainModuleData { public: GarrisonContainModuleData(EmitVtableTag *); virtual ~GarrisonContainModuleData(); };
 // ?<GarrisonContainModuleData::GarrisonContainModuleData> absent-from-retail
 GarrisonContainModuleData::GarrisonContainModuleData(EmitVtableTag *) {}
+
+// ??_GCaveContainModuleData@@UAEPAXI@Z @0x002576F3 28B: slot 0 of vtable 0x00C43F40; calls ??1 at 0x0025770F.
+// Owner evidence: vtable 0x00C43F40 installed by ctor 0x00466D37 (rowed ??0CaveContainModuleData); ModuleFactory pairs CaveContain with data factory 0x00257714; dtor 0x0025770F is a 5B jmp to the OpenContainModuleData dtor 0x00257481 (rowed).
+class CaveContainModuleData { public: CaveContainModuleData(EmitVtableTag *); virtual ~CaveContainModuleData(); };
+// ?<CaveContainModuleData::CaveContainModuleData> absent-from-retail
+CaveContainModuleData::CaveContainModuleData(EmitVtableTag *) {}
