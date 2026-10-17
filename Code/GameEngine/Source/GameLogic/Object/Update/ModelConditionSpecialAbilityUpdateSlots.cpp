@@ -210,30 +210,6 @@ void ModelConditionSpecialAbilityUpdate::startUnpacking()
 	}
 }
 
-// ?onExit@ModelConditionSpecialAbilityUpdate@@MAEX_N0@Z @0x00490F35
-void ModelConditionSpecialAbilityUpdate::onExit(bool a, bool b)
-{
-	SpecialAbilityUpdate::onExit(a, b);
-
-	const ModelConditionSpecialAbilityUpdateModuleData *data =
-		(const ModelConditionSpecialAbilityUpdateModuleData *)m_moduleData;
-	Object *object = m_object;
-	switch (data->m_C8)
-	{
-	case 0:
-		clearModelConditionBit(object, 10 * 32 + 10);
-		break;
-	case 1:
-		clearModelConditionBit(object, 6 * 32 + 19);
-		break;
-	case 2:
-		clearModelConditionBit(object, 6 * 32 + 20);
-		break;
-	case 3:
-		clearModelConditionBit(object, 6 * 32 + 21);
-		break;
-	}
-}
 
 void ModelConditionSpecialAbilityUpdate::triggerAbilityEffect()
 {
