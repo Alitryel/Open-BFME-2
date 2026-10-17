@@ -1,4 +1,6 @@
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.083 date=2026-10-17
+// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.33 date=2026-10-14
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.33 date=2026-10-14
@@ -8,6 +10,8 @@
 // the nugget vector at +0x90..+0x94, tests relationship/status/range filters
 // and activates/deactivates nuggets through the rowed EmotionNugget calls.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 0 };
@@ -121,7 +125,7 @@ private:
     int m_b4;					// +0xb4
 };
 
-extern unsigned char *g_rva00DFE758;
+extern unsigned char g_rva00DFE758[];
 extern GameLogic *g_rva00DFE78C;
 extern void *g_rva00DFF000;
 extern int g_rva00DBA4E4;
@@ -160,10 +164,11 @@ float GetGameLogicRandomValueReal(float, float, char *, int);
 
 UpdateSleepTime EmotionTrackerUpdate::update()
 {
-    Thing *thing = m_4;
+    EmotionTrackerUpdate *self = (EmotionTrackerUpdate *)((char *)this - 0xc);
+    Thing *thing = *(Thing **)((char *)self + 8);
     if (thing == 0)
         return (UpdateSleepTime)0x3fffffff;
-    Object *obj = m_8;
+    Object *obj = *(Object **)((char *)self + 0xc);
     if (obj == 0)
         return (UpdateSleepTime)0x3fffffff;
 
@@ -177,24 +182,16 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         return (UpdateSleepTime)1;
     }
 
+    --m_a0;
     if (m_b4 > 0)
         --m_b4;
 
     if (g_rva00DFE758[0xe9c] != 0)
     {
-        Coord3D pos;
-        pos.X = 0.0f;
-        pos.Y = 0.0f;
-        pos.Z = 0.0f;
-        pos.X = (float)thing->m_c;
-        ((void (__fastcall *)(void *, int, int))((*(void ***)g_rva00DFE758)[0x18 / 4]))(g_rva00DFE758, 0, 0);
-    }
-
-    if (g_rva00DFE758[0xe9c] != 0)
-    {
-        float dx = *(float *)((char *)obj + 0x3c);
-        float dy = *(float *)((char *)obj + 0x40);
-        float dz = *(float *)((char *)obj + 0x38);
+        Coord3D tpos = *(Coord3D *)((char *)obj + 0x38);
+        float dx = tpos.X;
+        float dy = tpos.Y;
+        float dz = tpos.Z;
         ((void (__fastcall *)(void *, int, int, float, float, float))((*(void ***)g_rva00DFEC50)[0x18 / 4]))(
             g_rva00DFEC50, 0, 0, dz, dx, dy);
         if (thing->m_c != 0)
@@ -208,8 +205,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                 g_rva00DFEA3C, 0xffff0000, g_rva00DFEA3C, &dz);
     }
 
-    --m_a0;
-    if (m_a0 <= 0 && thing->m_c != 0 && m_b4 == 0)
+    {
+    unsigned int a0 = m_a0 - 1;
+    m_a0 = a0;
+    if (a0 == 0 && thing->m_c != 0 && m_b4 == 0)
     {
         m_a0 = thing->m_c;
         Rva004B0FEB profiler(this);
@@ -218,25 +217,34 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         if (!obj->testStatus((ObjectStatusTypes)0x44))
         {
             Player *player = obj->getControllingPlayer();
+            {
             PartitionFilter filter;
             filter.m_0 = 0xc0719c;
             filter.m_4 = (int)obj;
             filter.m_c = 1;
+            {
             PartitionFilter f1;
             f1.m_0 = 0;
             f1.m_4 = 0xbf8fe4;
             f1.m_player = player;
             f1.m_c = 0;
+            filter.And(f1);
+            }
+            {
             PartitionFilter f2;
             f2.m_0 = 0;
             f2.m_4 = 0xbf8fe4;
             f2.m_player = player;
             f2.m_c = 0;
-            filter.And(f1);
             filter.And(f2);
-            Coord3D pos = *(Coord3D *)((char *)obj + 0x38);
+            }
+            Coord3D pos;
+            *(unsigned int *)&pos.X = *(unsigned int *)((char *)obj + 0x38);
+            *(unsigned int *)&pos.Y = *(unsigned int *)((char *)obj + 0x3c);
+            *(unsigned int *)&pos.Z = *(unsigned int *)((char *)obj + 0x40);
             closest = ((PartitionManager *)g_rva00DFE748)->getClosestObject(
                 &pos, *(float *)((char *)thing + 8), 0, &filter);
+            }
         }
         if (closest != 0)
         {
@@ -263,6 +271,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
             m_15 = g_rva00DFE758[0] ? 1 : 0;
         }
     }
+    }
 
     int playerPlayers = 0;
     (void)playerPlayers;
@@ -270,10 +279,11 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         unsigned int *player = (unsigned int *)obj->getControllingPlayer();
         if (player != 0)
         {
+            int pid = (int)player[0x54 / 4];
             playerPlayers = ((PlayerList *)g_rva00DFEEE8)->getPlayersWithRelationship(
-                (int)player[0x54 / 4], 3, false);
+                pid, 3, false);
             int other = ((PlayerList *)g_rva00DFEEE8)->getPlayersWithRelationship(
-                (int)player[0x54 / 4], 4, false);
+                pid, 4, false);
             ((Rva00739830View *)((char *)thing + 0x38))->rva00739830(
                 (void *)0, other, 1);
         }
@@ -304,6 +314,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
             continue;
         int rel = obj->getRelationship(target);
         int state = nugget->m_4;
+        (void)state;
         if (*(unsigned char *)(*(unsigned int *)((char *)target + 4) + 0x11a) & 1)
         {
             if (rel == REL_ALLY)
@@ -364,6 +375,8 @@ UpdateSleepTime EmotionTrackerUpdate::update()
 
     if (!foundAny)
         m_b0 = 0;
+    _ReadWriteBarrier();
+    _ReadWriteBarrier();
 
     if (g_rva00DFE78C->m_frame > m_ac && bestEnemy != 0 && m_b0 == 0)
     {
