@@ -1,4 +1,5 @@
 // The complete native parents and associative EH code/data graphs prove
+// Native EH action 0x75FB4F destroys the 255 owning camera-path records at +0x2C with stride20; the complete parent EH graph proves this 25B lifetime.
 // the naturally emitted handlers recorded with this unit. Each has one
 // primary owner and its full 10-byte extent.
 // cl: /MD /EHsc /DNDEBUG
