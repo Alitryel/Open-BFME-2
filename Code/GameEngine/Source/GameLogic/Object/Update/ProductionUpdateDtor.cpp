@@ -20,6 +20,31 @@ namespace _STL { template <> void _STLP_alloc_proxy<AsciiString *, AsciiString, 
 namespace _STL { template <> void allocator<_List_node<int> >::deallocate(_List_node<int> *, unsigned int) const; }
 namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, unsigned int) const; }
 // bfme link decl-only end
+// BitFlags<11> is DisabledMaskType (BitFlags11DisabilityCtors.cpp); its
+// copy is a 4-byte memcpy call in retail.
+#pragma function(memcpy)
+extern "C" void *memcpy(void *dst, const void *src, unsigned int n);
+
+template <int NUM_BITS>
+class BitFlags
+{
+public:
+	__forceinline BitFlags(const BitFlags &src) { memcpy(m_bits, src.m_bits, sizeof(m_bits)); }
+
+private:
+	unsigned int m_bits[(NUM_BITS + 31) / 32];
+};
+typedef BitFlags<11> DisabledMaskType;
+
+// The module data's disabled-type mask at +0x2C, the one field
+// getDisabledTypesToProcess reads.
+class ProductionUpdateModuleData
+{
+public:
+	char m_pad00[0x2C];
+	DisabledMaskType m_disabledTypesToProcess;	// +0x2C
+};
+
 class Rva0049B47CFold
 {
 public:
@@ -43,6 +68,7 @@ class Rva0024A797_B2
 {
 public:
 	virtual void f2();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
 	int m_pad2[3];
 };
 
@@ -94,7 +120,13 @@ class ProductionUpdate : public UpdateModule, public Iface20, public Iface24
 {
 public:
 	virtual ~ProductionUpdate();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
 private:
+	const ProductionUpdateModuleData *getProductionUpdateModuleData() const
+	{
+		return (const ProductionUpdateModuleData *)m_pad[0];
+	}
+
 	ProductionEntry *m_queue28;
 	char m_pad2C[0xF8];
 	_STL::_List_base<int, _STL::allocator<int> > m_list124;
@@ -102,6 +134,15 @@ private:
 	int m_12C;
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > m_vec130;
 };
+
+// ProductionUpdate's UpdateModuleInterface table 0x00C514F4 (at +0x10)
+// holds update in slot 0 and, in slot 1 where UpdateModule's default
+// 0x00253376 sits in other modules' tables, this override returning the
+// module data's mask. Retail places it just before the destructor.
+DisabledMaskType ProductionUpdate::getDisabledTypesToProcess() const
+{
+	return getProductionUpdateModuleData()->m_disabledTypesToProcess;
+}
 
 ProductionUpdate::~ProductionUpdate()
 {
