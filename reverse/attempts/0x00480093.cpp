@@ -1,4 +1,6 @@
 // ?rva00480093@ShareExperienceBehavior@@UAEXM@Z
+// partial score=0.99 date=2026-10-17
+// ?rva00480093@ShareExperienceBehavior@@UAEXM@Z
 // partial score=0.9 date=2026-10-14
 // ?rva00480093@ShareExperienceBehavior@@UAEXM@Z
 // partial score=0.93 date=2026-10-04
@@ -244,19 +246,22 @@ void ShareExperienceBehavior::rva00480093(float amount)
 {
 	const ShareExperienceBehaviorModuleData *data = m_moduleData;
 	Object *obj = m_object;
-	if (!(!((obj ? data->m_10 : data->m_10) <= 0.0f)))
+	if (!(data->m_10 > BfmeZeroRange))
 		return;
 	if (obj->testStatus(OBJECT_STATUS_RVA00480093_65))
 		return;
 	bool selfFlag = (obj->m_template->m_110 >> 26) & 1;
+	const void *what = &data->m_14;
+	Player *player = obj->getControllingPlayer();
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(obj->getPosition(), data->m_08, 0,
 		Rva002614DFFilter(obj).link(&Rva0026119DFilter())->link(&Rva00260EB1Filter(obj, 4, false))
 			->link(&Rva002611BFFilter(obj))
-			->link(&Rva002614ECFilter(&data->m_14, obj->getControllingPlayer(), true)), 0);
+			->link(&Rva002614ECFilter(what, player, true)), 0);
+	const Coord3D *pos = obj->getPosition();
 	Coord3D center;
-	center.x = obj->getPosition()->x;
-	center.y = obj->getPosition()->y;
-	center.z = obj->getPosition()->z;
+	center.x = pos->x;
+	center.y = pos->y;
+	center.z = pos->z;
 	Object *other;
 	while (0 != (other = hits.next())) {
 		if (selfFlag && !TheGameLogic->m_9F && (other->m_template->m_110 & 0x04000000))
