@@ -60,7 +60,7 @@ public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC();
 private: Rva000BB4ACRef *m_ptr14;
 };
 typedef char Pod248RefElement24Size[sizeof(Rva000BB4AC)==24?1:-1];
-struct BfmeStringRecord000B950F { char m[24]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
+struct BfmeStringRecord000B950F { char m[12]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
 struct BfmeFixedObject60 { char m[60]; BfmeFixedObject60(const BfmeFixedObject60 &); ~BfmeFixedObject60(); };
 struct BfmePod32 { char m[32]; BfmePod32(const BfmePod32 &); ~BfmePod32(); };
 // Retain the assignment providers' existing opaque spellings. Both views

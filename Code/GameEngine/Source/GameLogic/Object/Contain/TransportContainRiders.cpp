@@ -178,8 +178,8 @@ class ModelConditionFlags
 public:
 	__declspec(dllimport) __forceinline unsigned int testMask(unsigned int mask) const { return m_words[0] & mask; }
 	void setMask(unsigned int mask) { m_words[0] |= mask; }
-	unsigned int test(int bit) const { return m_words[bit >> 5] & (1U << (bit & 0x1f)); }
-	void set(int bit) { m_words[bit >> 5] |= 1U << (bit & 0x1f); }
+	unsigned int test(int bit) const { return m_words[(unsigned int)bit >> 5] & (1U << (bit & 0x1f)); }
+	void set(int bit) { m_words[(unsigned int)bit >> 5] |= 1U << (bit & 0x1f); }
 private:
 	unsigned int m_words[4];
 };
