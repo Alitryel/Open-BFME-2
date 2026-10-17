@@ -1,4 +1,6 @@
 // ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
+// partial score=0.844 date=2026-10-17
+// ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
 // partial score=0.9611 date=2026-10-15
 // ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
 // partial score=0.921521 date=2026-10-14
@@ -96,10 +98,10 @@ void Rva0070E900::rva0070E900(void *pBase,void *pConstantFile,void *pCount) {
     }
     break;
    case 2:
-    MOVIE_ASSERT((((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel) ? ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel) : ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel))<0xfffff,"(unsigned)aFrames[i].apControls[j]->frameLabel.szLabel < 0xfffff",0x46);
-    MOVIE_OFFSET(aFrames[i].apControls[j]->frameLabel.szLabel,char *);
+    MOVIE_ASSERT((j ? ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel) : ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel))<0xfffff,"(unsigned)aFrames[i].apControls[j]->frameLabel.szLabel < 0xfffff",0x46);
+    MOVIE_OFFSET(aFrames[i].apControls[(j ? j : j)]->frameLabel.szLabel,char *);
     {
-     EAStringC label(((aFrames[i].apControls[j]->frameLabel.szLabel) ? (aFrames[i].apControls[j]->frameLabel.szLabel) : ((aFrames[i]).apControls[j]->frameLabel.szLabel)));
+     EAStringC label((1 ? aFrames[i].apControls[j]->frameLabel.szLabel : aFrames[i].apControls[j]->frameLabel.szLabel));
      phLabels->Set(&label,AptInteger::Create(i));
     }
     break;
