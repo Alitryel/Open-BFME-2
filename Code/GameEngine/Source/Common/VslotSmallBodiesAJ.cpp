@@ -888,7 +888,7 @@ void Rva004766BE::rva004766BE(const Object *a)
 class Rva0047E33F : public TransportContain
 {
 public:
-	void rva0047E33F(int a, int b);
+	virtual void rva0047E33F(int a, int b);
 };
 void Rva0047E33F::rva0047E33F(int a, int b)
 {

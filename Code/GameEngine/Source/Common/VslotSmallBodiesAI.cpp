@@ -354,9 +354,9 @@ public:
 class Rva00575CA6
 {
 public:
-	void rva00575CA6();
+	virtual void rva00575CA6();
 private:
-	char m_pad00[0x24];
+	char m_pad04[0x24 - 4];
 	Rva000AD6F4 m_24;
 };
 void Rva00575CA6::rva00575CA6()
@@ -398,10 +398,10 @@ inline void *__cdecl operator new(unsigned int size, void *place)
 class Rva00575CAE
 {
 public:
-	void rva00575CAE(void *arg);
+	virtual void rva00575CAE(void *arg);
 
 private:
-	char m_pad00[0x28];
+	char m_pad04[0x28 - 4];
 	Rva00575674 m_28;
 };
 void Rva00575CAE::rva00575CAE(void *arg)

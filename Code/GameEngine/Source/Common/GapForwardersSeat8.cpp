@@ -353,17 +353,53 @@ DEFINE_THUNK_UAE(Rva0055EFC5, rva0055EFC5, 0x0C, (Xfer *))
 DEFINE_THUNK_UAE(Rva003A5757, rva003A5757, 0x1C, (Xfer *))
 struct Parent0057605D;
 // ?<Rva005756B6::Rva005756B6> absent-from-retail
-struct Rva005756B6_BaseA { virtual void rva00576105(Parent0057605D *) = 0; };
-struct Rva005756B6_BaseB { virtual void rva00576105(Parent0057605D *) = 0; };
+struct Parent00575EEA;
+struct Parent00575E4E;
+struct Rva005756B6_BaseA
+{
+	virtual void rva00576388(Parent00575EEA *) = 0;
+	virtual void rva00576105(Parent0057605D *) = 0;
+	virtual void rva00576323(Parent00575E4E *) = 0;
+};
+struct Rva005756B6_BaseB
+{
+	virtual void rva00576388(Parent00575EEA *) = 0;
+	virtual void rva00576105(Parent0057605D *) = 0;
+	virtual void rva00576323(Parent00575E4E *) = 0;
+};
 class Rva005756B6 : public Rva005756B6_BaseA, public Rva005756B6_BaseB
 {
 public:
 	Rva005756B6(EmitVtableTag *);
+	virtual void rva00576388(Parent00575EEA *);
 	virtual void rva00576105(Parent0057605D *);
+	virtual void rva00576323(Parent00575E4E *);
 };
 Rva005756B6::Rva005756B6(EmitVtableTag *) {}
 // ?<Rva005E6B8F::Rva005E6B8F> absent-from-retail
 DEFINE_THUNK_UAE(Rva005E6B8F, rva005E6B8F, 0x08, ())
+// ?<Rva0047E33F::Rva0047E33F> absent-from-retail
+DEFINE_THUNK_UAE(Rva0047E33F, rva0047E33F, 0x20, (int, int))
+struct Rva00575CA6_BaseA { virtual void rva00575CA6() = 0; };
+struct Rva00575CA6_BaseB { virtual void rva00575CA6() = 0; };
+class Rva00575CA6 : public Rva00575CA6_BaseA, public Rva00575CA6_BaseB
+{
+public:
+	Rva00575CA6(EmitVtableTag *);
+	virtual void rva00575CA6();
+};
+// ?<Rva00575CA6::Rva00575CA6> absent-from-retail
+Rva00575CA6::Rva00575CA6(EmitVtableTag *) {}
+struct Rva00575CAE_BaseA { virtual void rva00575CAE(void *) = 0; };
+struct Rva00575CAE_BaseB { virtual void rva00575CAE(void *) = 0; };
+class Rva00575CAE : public Rva00575CAE_BaseA, public Rva00575CAE_BaseB
+{
+public:
+	Rva00575CAE(EmitVtableTag *);
+	virtual void rva00575CAE(void *);
+};
+// ?<Rva00575CAE::Rva00575CAE> absent-from-retail
+Rva00575CAE::Rva00575CAE(EmitVtableTag *) {}
 
 namespace FXParticleSystem
 {

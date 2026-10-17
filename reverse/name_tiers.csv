@@ -12885,7 +12885,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?name@Rva0047E325Named@@QBEPBDXZ,0x0047E325,address,placeholder
 ?rva0047E32B@Rva0047E32B@@QAEXXZ,0x0047E32B,address,placeholder
 ?rva0047E330@Rva0047E330@@QAEXXZ,0x0047E330,address,placeholder
-?rva0047E33F@Rva0047E33F@@QAEXHH@Z,0x0047E33F,address,placeholder
+?rva0047E33F@Rva0047E33F@@UAEXHH@Z,0x0047E33F,address,placeholder
 ??1Rva0047EB78@@UAE@XZ,0x0047EB78,address,placeholder
 ?name@Rva0047EBA9Named@@QBEPBDXZ,0x0047EBA9,address,placeholder
 ??_GRva0047EB78@@UAEPAXI@Z,0x0047ED21,address,placeholder
@@ -16943,7 +16943,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ??0Rva005756B6@@QAE@H@Z,0x005756B6,address,placeholder
 ?rva005756E7@Rva005756E7@@QAEXXZ,0x005756E7,address,placeholder
 ??_GRva0057571C@@QAEPAXI@Z,0x00575700,address,placeholder
-?rva00575CA6@Rva00575CA6@@QAEXXZ,0x00575CA6,address,placeholder
+?rva00575CA6@Rva00575CA6@@UAEXXZ,0x00575CA6,address,placeholder
 ??1Rva00575D45@@UAE@XZ,0x00575D45,address,placeholder
 ?rva00575DBA@Rva00575DBA@@QAEXH@Z,0x00575DBA,address,placeholder
 ?rva00575DC2@Rva00575DC2@@QAEXH@Z,0x00575DC2,address,placeholder

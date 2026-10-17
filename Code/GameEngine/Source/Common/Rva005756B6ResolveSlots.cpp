@@ -7,9 +7,9 @@
 // object 4 bytes before this interface -- the rowed constructors 0x005761C6,
 // 0x0057605D and 0x00576172 respectively, under the names they are rowed
 // as. No WorldBuilder names are matched.
-//   ?rva00576388@Rva005756B6@@QAEXPAUParent00575EEA@@@Z  slot 60
+//   ?rva00576388@Rva005756B6@@UAEXPAUParent00575EEA@@@Z  slot 60 (this-4 thunk 0x00576446)
 //   ?rva00576105@Rva005756B6@@UAEXPAUParent0057605D@@@Z  slot 61 (also reached by the this-4 thunk 0x0057616A)
-//   ?rva00576323@Rva005756B6@@QAEXPAUParent00575E4E@@@Z  slot 62
+//   ?rva00576323@Rva005756B6@@UAEXPAUParent00575E4E@@@Z  slot 62 (this-4 thunk 0x0057644E)
 
 struct Parent0057605D;
 struct Parent00575E4E;
@@ -59,9 +59,9 @@ public:
 class Rva005756B6
 {
 public:
-	void rva00576388(Parent00575EEA *parent);
+	virtual void rva00576388(Parent00575EEA *parent);
 	virtual void rva00576105(Parent0057605D *parent);
-	void rva00576323(Parent00575E4E *parent);
+	virtual void rva00576323(Parent00575E4E *parent);
 private:
 	int outer() { return (int)((char *)this - 4); }
 
