@@ -107,15 +107,8 @@ ParticleSystemTemplate *Rva001E0C77::rva001E0C77(Int a, Int)
 	return TheParticleSystemManager->rva001F9343(*(const AsciiString *)&m_148, a);
 }
 
-// 0x0042c0ae: installed-vtable scalar store. Only the native memory
-// write and stack-word ABI are known; owner and field meaning remain unknown.
-class Rva0042C0AEScalarStore {public: void rva0042C0AE(Int unused); private: char m_prefix[0x28]; Int m_value;};
-void Rva0042C0AEScalarStore::rva0042C0AE(Int unused) {m_value=0;}
-
-// 0x0042c0b5: installed-vtable scalar store. Only the native memory
-// write and stack-word ABI are known; owner and field meaning remain unknown.
-class Rva0042C0B5ScalarStore {public: void rva0042C0B5(Int unused,Int value); private: char m_prefix[0x24]; Int m_value;};
-void Rva0042C0B5ScalarStore::rva0042C0B5(Int unused,Int value) {m_value=value;}
+// Native42C0AE and42C0B5 now use the proven +4/+8 observer receivers
+// in Rva0042C5C3Dtor.cpp; both write the complete object word at+2C.
 
 // 0x0056a9ed: installed-vtable scalar store. Only the native memory
 // write and stack-word ABI are known; owner and field meaning remain unknown.

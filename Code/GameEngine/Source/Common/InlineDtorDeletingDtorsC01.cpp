@@ -23,7 +23,6 @@
 //   0x000EFA0E  0x00BCEF9C  Rva000EFA0E
 //   0x001164B6  0x00BCFB24  Rva001164B6
 //   0x001A4697  0x00BD6CB4  BFME2MotionChannel
-//   0x001DB080  0x00BDBA74  Rva001DB080
 //   0x00203E76  0x00BE3990  Rva00203E76
 //   0x0020E20C  0x00BE4318  Rva0020E20C
 //   0x00215E42  0x00BE5838  Rva00215E42
@@ -296,17 +295,9 @@ BFME2MotionChannel::~BFME2MotionChannel()
 {
 }
 
-class Rva001DB080
-{
-public:
-	Rva001DB080(EmitVtableTag *);
-	virtual ~Rva001DB080() {}
-};
-
-// ?<Rva001DB080::Rva001DB080> absent-from-retail
-Rva001DB080::Rva001DB080(EmitVtableTag *)
-{
-}
+// Rva001DB080 now emits its native two-slot translator table and exact29B
+// deleting destructor from Rva0042C5C3Dtor.cpp; the single-slot emitter was
+// an incomplete base view and is removed.
 
 class Rva00203E76
 {

@@ -23,7 +23,6 @@
 //   0x0041F9D2  0x0041F94A  0x00C3B8C8#0
 //   0x0041FC9B  0x0041FB13  0x00C3B914#0
 //   0x00426A3F  0x00426745  0x00C3C408#0
-//   0x0042C677  0x0042C5C3  0x00C3C6E4#1
 //   0x0042C977  0x0042C833  0x00C3C6EC#1
 //   0x00432151  0x00431FB5  0x00C3C9AC#4
 //   0x00436197  0x00435DE7  0x00C3CDC8#0
@@ -161,18 +160,8 @@ Rva00426745::Rva00426745(EmitVtableTag *)
 {
 }
 
-class Rva0042C5C3
-{
-public:
-	Rva0042C5C3(EmitVtableTag *);
-public:
-	virtual ~Rva0042C5C3();
-};
-
-// ?<Rva0042C5C3::Rva0042C5C3> absent-from-retail
-Rva0042C5C3::Rva0042C5C3(EmitVtableTag *)
-{
-}
+// Native42C677 is now emitted by the complete Rva0042C5C3 owner and its
+// proven two-slot primary table in Rva0042C5C3Dtor.cpp.
 
 class Rva0042C833
 {

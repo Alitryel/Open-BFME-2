@@ -11,7 +11,8 @@
 // 0x00574A8A), the StrategicHUD cell base at +0x14 (rowed 0x0042E00F) and
 // the three interface bases whose inline destructors restore 0x00C62A20,
 // 0x00BED658 and 0x00BDBA74 (out-of-line copies 0x004EDFFF, 0x00238D97 and
-// 0x00429191). Identities are not established.
+// 0x00429191). Complete-class identity remains unknown; interface roles
+// are established by the native tables and registrations below.
 class CreateAHeroData;
 class Rva0042C1B7Item;
 class Rva002D3627Host;
@@ -49,7 +50,7 @@ class Rva000AD6F4
 public:
 	Rva000AD6F4() : m_ptr(0) {}
 	~Rva000AD6F4();
-private:
+
 	void *m_ptr;
 };
 
@@ -100,34 +101,56 @@ private:
 	int m_04;
 };
 
-class Gen_uwm_00429191
+// BFME1 a0e8f345a9b2 MessageStream shim and its ZH GeneralsMD header
+// corroborate translator slot order. Native BDBA74 and the114B message
+// callback establish this target ABI; the neutral class spelling is retained.
+class Rva001DB080
 {
 public:
-	virtual void s0();
-	~Gen_uwm_00429191() {}
+ virtual int translateGameMessage(const void *) = 0;
+ virtual ~Rva001DB080() {}
 };
 
-class Gen_uwm_00238d97
+class LivingWorldLogicObserver
 {
 public:
-	virtual void s0();
-	~Gen_uwm_00238d97() {}
+ virtual void event6_0(int) {}
+ virtual void event6_1(LivingWorldLogic *) {}
+ ~LivingWorldLogicObserver() {}
 };
 
-class Gen_uwm_004edfff
-{
-public:
-	virtual void s0();
-	~Gen_uwm_004edfff() {}
+#include "../../Include/Common/RegionTurnObserverView.h"
+
+struct Rva0042C083Param {int x,y;};
+union GameMessageArgumentType {Rva0042C083Param position;int integer;};
+class GameMessage {public:const GameMessageArgumentType*getArgument(int)const;char unknown0[0x10];int type;};
+class Rva005E6817Mid {public:int fwd(GameMessage*);};
+class Rva0042C083 {public:void rva0042C083(const Rva0042C083Param*);};
+class RAMFile {public:virtual int write(const void*,int);};
+class Mouse {public:
+ virtual void m0();virtual void m1();virtual void m2();virtual void m3();virtual void m4();
+ virtual void m5();virtual void m6();virtual void m7();virtual void m8();virtual void m9();
+ virtual void m10();virtual void m11();virtual void m12();virtual void m13();virtual void m14();
+ virtual void m15();virtual void m16();virtual void m17();virtual void m18();virtual void m19(int);
+ char unknown4[0x4FA0];int cursor;
+};
+extern Mouse*TheMouse;
+class Rva0042C0DBDelegate {public:
+ virtual void slot0();virtual void slot1();virtual int slot2(GameMessage*);virtual int slot3(const Rva0042C083Param*,int);
+ __declspec(noinline) int invokeMessage(GameMessage*);__declspec(noinline) int invokePoint(const Rva0042C083Param*,int);
 };
 
-class Rva0042C5C3 : public Gen_uwm_00429191, public Gen_uwm_00238d97, public Gen_uwm_004edfff,
+class Rva0042C5C3 : public Rva001DB080, public LivingWorldLogicObserver, public RegionTurnObserverView,
 	public Rva0042DFF5, public Rva00574A8A
 {
 public:
 	Rva0042C5C3(Rva0042C1B7Item *owner, Rva002D3627Host *holder,
 		Rva0042CBB6 *source, Rva0042D8D4 *state);
 	virtual ~Rva0042C5C3();
+ virtual int translateGameMessage(const void *);
+ virtual void event6_0(int);
+ virtual void EndTurn(int,int);
+ int rva0042C0DB(const Rva0042C083Param *,int);
 private:
 	int m_18;
 	int m_1C;
@@ -156,17 +179,17 @@ Rva0042C5C3::Rva0042C5C3(Rva0042C1B7Item *owner, Rva002D3627Host *holder,
 	reinterpret_cast<StrategicHUD::HUD *>(static_cast<Rva0042DFF5 *>(this))->Show();
 	m_owner->rva002B230F((int)this);
 	reinterpret_cast<Rva005A0B4CList *>(&TheLivingWorldLogic->m_list4C)->append(
-		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<Gen_uwm_00238d97 *>(this)));
+		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<LivingWorldLogicObserver *>(this)));
 	reinterpret_cast<Rva005A0B4CList *>(&TheLivingWorldLogic->m_list1C)->append(
-		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<Gen_uwm_004edfff *>(this)));
+		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<RegionTurnObserverView *>(this)));
 }
 
 Rva0042C5C3::~Rva0042C5C3()
 {
 	if (TheLivingWorldLogic)
 	{
-		TheLivingWorldLogic->m_list1C.rva002B7250((CreateAHeroData *)static_cast<Gen_uwm_004edfff *>(this));
-		TheLivingWorldLogic->m_list4C.rva002B7250((CreateAHeroData *)static_cast<Gen_uwm_00238d97 *>(this));
+		TheLivingWorldLogic->m_list1C.rva002B7250((CreateAHeroData *)static_cast<RegionTurnObserverView *>(this));
+		TheLivingWorldLogic->m_list4C.rva002B7250((CreateAHeroData *)static_cast<LivingWorldLogicObserver *>(this));
 	}
 	m_owner->rva0042CAEB((int)this);
 }
@@ -182,3 +205,42 @@ Rva0042C5C3::~Rva0042C5C3()
 // Native 0x00787666: complete20B null-preserving adjusted-base lifetime action.
 // Whole180B owner and native EH graph prove the receiver adjustment; the
 // existing same-object7B destructor restores its witnessed base table.
+
+int Rva0042C5C3::rva0042C0DB(const Rva0042C083Param*p,int value){
+ if(TheMouse){
+  int cursor;
+  switch(m_24){
+   default:
+    if(m_34.m_ptr)cursor=((Rva0042C0DBDelegate *)m_34.m_ptr)->invokePoint(p,value);
+    else cursor=((RAMFile*)((char*)this+0xC))->RAMFile::write(p,value);
+    if(cursor<1||cursor>=0x38)cursor=2;
+    break;
+   case 3:cursor=2;break;
+  }
+  if(cursor!=TheMouse->cursor)TheMouse->m19(cursor);
+ }
+ ((Rva0042C083 *)m_1C)->rva0042C083(p);
+ return 0;
+}
+int Rva0042C5C3::translateGameMessage(const void *raw){
+ GameMessage *m=(GameMessage*)raw;
+ if(m_24!=3){
+  int result;
+  if(m_34.m_ptr)result=((Rva0042C0DBDelegate *)m_34.m_ptr)->invokeMessage(m);
+  else result=((Rva005E6817Mid*)((char*)this+0xC))->fwd(m);
+  if(result==1)return result;
+ }
+ int type=m->type;
+ if(type!=3)return type==0x6F;
+ Rva0042C083Param point=m->getArgument(0)->position;
+ return rva0042C0DB(&point,m->getArgument(1)->integer);
+}
+
+void Rva0042C5C3::event6_0(int){m_2C=0;}
+void Rva0042C5C3::EndTurn(int,int value){m_2C=value;}
+
+// Native C3C6E4 is the two-slot translator table. C3C6DC at+4 is the
+// two-slot Logic observer; C3C6D4 at+8 is the two-slot turn observer.
+// Their scalar callbacks both write complete-object word2C. The names of
+// the complete class and this state word remain unknown. These three views
+// replace single-slot placeholders; the existing+C provider is retained.
