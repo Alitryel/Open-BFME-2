@@ -14,7 +14,12 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
-#include "vector4.h"
+// The Vector4 view is the SSE link view (ctor/Set/scalar product stay inline
+// without emitting copies that compete with retail's owners); the row below
+// keeps this unit's /O2 flags. WWMath's Fabs is inlined everywhere here, so
+// its /O2 copy is renamed out of the link (retail's owner is size-optimised).
+#define Fabs Fabs_BFME_LINK_LOCAL
+#include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 
 class Matrix4 { public: void Inverse(Matrix4 *out) const; Vector4 Row[4]; };
 
