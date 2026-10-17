@@ -6225,10 +6225,10 @@ class Rva001F4B01
 public:
 	virtual ~Rva001F4B01();
 };
-class Rva001FBD17
+class ParticleSystem
 {
 public:
-	virtual ~Rva001FBD17();
+	virtual ~ParticleSystem();
 };
 class Rva001FBF4D
 {
@@ -6249,11 +6249,11 @@ void __cdecl rva007B7588()
 extern unsigned g_Va00DFDD60;
 unsigned int g_Va00DFDD60;
 
-// ?rva007B759C@@YAXXZ @ 0x007B759C (10B). Global Rva001FBD17 dtor thunk: ecx=&g_Va00DFDD60 then tail-jmp to pinned ??1Rva001FBD17@@UAE@XZ (0x001FBD17; scalar deleting dtor 0x001FC17F, vtable 0x00BE1A10#0). No callers. Honest address name.
+// ?rva007B759C@@YAXXZ @ 0x007B759C (10B). Global ParticleSystem dtor thunk: ecx=&g_Va00DFDD60 then tail-jmp to pinned ??1ParticleSystem@@UAE@XZ (0x001FBD17; scalar deleting dtor 0x001FC17F, vtable 0x00BE1A10#0). No callers. Honest address name.
 void __cdecl rva007B759C()
 {
-	Rva001FBD17 *p = (Rva001FBD17 *)&g_Va00DFDD60;
-	return p->Rva001FBD17::~Rva001FBD17();
+	ParticleSystem *p = (ParticleSystem *)&g_Va00DFDD60;
+	return p->ParticleSystem::~ParticleSystem();
 }
 
 extern unsigned g_Va00DFDF40;

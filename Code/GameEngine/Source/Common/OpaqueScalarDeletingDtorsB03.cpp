@@ -292,18 +292,8 @@ Rva001F9D98::Rva001F9D98(EmitVtableTag *)
 {
 }
 
-class Rva001FBD17
-{
-public:
-	Rva001FBD17(EmitVtableTag *);
-public:
-	virtual ~Rva001FBD17();
-};
-
-// ?<Rva001FBD17::Rva001FBD17> absent-from-retail
-Rva001FBD17::Rva001FBD17(EmitVtableTag *)
-{
-}
+// ParticleSystem's deleting dtor 0x001FC17F is emitted with its vtable by
+// ParticleSystemDestructor.cpp, which rows it.
 
 class Rva001FC0F1
 {

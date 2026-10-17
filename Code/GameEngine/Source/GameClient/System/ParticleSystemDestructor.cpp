@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // ParticleSystem destructor native 001FBD17..001FBEB1 (410B).
-// Existing opaque Rva001FBD17 owns the retail BE1A10 scalar-delete slot;
+// Existing opaque ParticleSystem owns the retail BE1A10 scalar-delete slot;
 // constructor001FC701 independently proves ParticleSystem identity/1DC extent.
 // BF1 f98983a7d ParticleSystemDestructor.cpp and ZH ParticleSys.cpp guide
 // detach slave/master/control-particle and manager removal semantics. Target
@@ -130,10 +130,10 @@ class Rva003B0401:public Rva003B0344 {public:Rva003B0401(const RvaSmartPtr12&);}
 class Rva001F4A22 {public:void rva001F4A22();};
 class Rva001F8109 {public:void rva001F8109(const RvaSmartPtr12&);};
 class FxDrawer {public:virtual void *destroyDelete(unsigned);};
-class Rva001FBD17 : public FXParticleSystem::ParticleSystemInfo {
+class ParticleSystem : public FXParticleSystem::ParticleSystemInfo {
 public:
 
- virtual ~Rva001FBD17();virtual bool update(int);
+ virtual ~ParticleSystem();virtual bool update(int);
  BfmeParticleSystemHandle *head,*tail;FxDrawer *drawer;ParticleSystemID id;float accumulated;unsigned attachedDrawable,attachedObject;
  AsciiString unknownB8;ParticleMatrix localTransform,transform;
  unsigned burstLeft,delayLeft,startTime,lifetimeLeft,count;
@@ -144,9 +144,9 @@ public:
  bool localIdentity,identity,forever,stopped,destroyed,firstPos,saveable,skip;
  unsigned char unknown1A8;FXParticleSystem::ParticleSystemTemplateTail chain;
 };
-typedef char ParticleExtent[sizeof(Rva001FBD17)==0x1DC?1:-1];
+typedef char ParticleExtent[sizeof(ParticleSystem)==0x1DC?1:-1];
 
-Rva001FBD17::~Rva001FBD17() {
+ParticleSystem::~ParticleSystem() {
  if(slave.ptr) {
   { RvaSmartPtr12 empty;slave->rva001F5467(empty);empty.ptr=0; }
   { RvaSmartPtr12 empty;((Rva001F5496*)this)->rva001F5496(empty);empty.ptr=0; }

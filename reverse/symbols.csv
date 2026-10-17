@@ -4291,7 +4291,7 @@ name,address,notes
 ??1Rva001F4540Vec@@UAE@XZ,0x003A6201,"destructor the vector deleting destructor 0x001F4540 calls and hands to the eh vector destructor iterator (DIR32 at 0x001F454F); opaque address name"
 ??1Rva001F4B01@@UAE@XZ,0x001F4B01,"destructor the scalar deleting destructor 0x001F4B47 calls (REL32 at 0x001F4B4A; vtable 0x00BE171C#0); opaque address name"
 ??1Rva001F4D22@@UAE@XZ,0x001F4D22,"destructor the scalar deleting destructor 0x001F61E5 calls (REL32 at 0x001F61E8; vtable 0x00BE174C#0); opaque address name"
-??1Rva001FBD17@@UAE@XZ,0x001FBD17,"destructor the scalar deleting destructor 0x001FC17F calls (REL32 at 0x001FC182; vtable 0x00BE1A10#0); opaque address name"
+??1ParticleSystem@@UAE@XZ,0x001FBD17,"destructor the scalar deleting destructor 0x001FC17F calls (REL32 at 0x001FC182; vtable 0x00BE1A10#0); opaque address name"
 ??1Rva001FBF4D@@UAE@XZ,0x001FBF4D,"destructor the vector deleting destructor 0x001FC052 calls and hands to the eh vector destructor iterator (DIR32 at 0x001FC061); opaque address name"
 ??1Rva001FC036@@QAE@XZ,0x001FBF4D,non-virtual dtor called directly by scalar deleting dtor 0x001FC036; owning class unproven
 ??1Rva001FC0F1@@UAE@XZ,0x001FC0F1,"destructor the scalar deleting destructor 0x001FC3A3 calls (REL32 at 0x001FC3A6; vtable 0x00BE1A38#0); opaque address name"
