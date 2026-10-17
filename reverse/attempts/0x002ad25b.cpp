@@ -1,4 +1,6 @@
 // ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
+// partial score=0.959 date=2026-10-17
+// ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
 // partial score=0.9453824643375456 date=2026-10-14
 // ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
 // partial score=0.945 date=2026-10-13
@@ -56,13 +58,13 @@ struct TeamsInfoEntry {short next,previous,reserved,free;int generation;Dict dic
 class SidesList;extern SidesList*TheSidesList;
 class TeamsInfoRec {
 public:
- int getFirstTeamID() const{return (TheSidesList?&teams:&teams)->front().next;}
+ int getFirstTeamID() const{return teams.front().next;}
  int getNextTeamID(int id) const{return teams[id].next;}
  Dict *getTeamInfo(int id){return &teams[id].dict;}
  void removeTeam(int id);
  int addTeam(const Dict *dict);
 private:
- char index[0xC];_STL::vector<TeamsInfoEntry> teams;short count,freeHead;
+ _STL::vector<TeamsInfoEntry> teams; char padFix[0x1C];
 };
 class SidesList {
 public:
@@ -114,17 +116,18 @@ void Player::rva002AD25B(const AsciiString &playerName)
  }
  Dict *sideDict=TheSidesList->getSkirmishSideInfo(skirmishIndex)->getDict();
  AsciiString originalPlayerName=sideDict->getAsciiString(TheKey_playerName.get());
- int teamID=(TheSidesList ? TheSidesList : TheSidesList)->getSkirmishTeams()->getFirstTeamID();if(teamID)do {
-  if ((TheSidesList ? TheSidesList : TheSidesList)->getSkirmishTeams()->getTeamInfo(teamID)->getAsciiString(TheKey_teamOwner.get())==originalPlayerName) {
-   Dict teamDict(*(TheSidesList ? TheSidesList : TheSidesList)->getSkirmishTeams()->getTeamInfo(teamID));
+ int teamID=TheSidesList->getSkirmishTeams()->getFirstTeamID();if(teamID)do {
+  if (originalPlayerName==TheSidesList->getSkirmishTeams()->getTeamInfo(teamID)->getAsciiString(TheKey_teamOwner.get())) {
+   Dict teamDict(*TheSidesList->getSkirmishTeams()->getTeamInfo(teamID));
    AsciiString teamName=teamDict.getAsciiString(TheKey_teamName.get());
-   if (equalTeamNode(teamName,"team"+originalPlayerName))
-    teamDict.setAsciiString(TheKey_teamName.get(),"team"+playerName);
+   static const char *teamPrefix="team";
+   if (equalTeamNode(teamName,teamPrefix+originalPlayerName))
+    teamDict.setAsciiString(TheKey_teamName.get(),teamPrefix+playerName);
    teamDict.setAsciiString(TheKey_teamOwner.get(),playerName);
    int existingTeam;
    if (((Rva0019C520Owner*)TheSidesList)->forward(((Rva0020F58E*)&(*(const Rva002226E5TextPlusString*)&(playerName+"/")+teamName))->operator AsciiString(),(int)&existingTeam))
     TheSidesList->getTeams()->removeTeam(existingTeam);
    TheSidesList->getTeams()->addTeam(&teamDict);
   }
- teamID=(TheSidesList ? TheSidesList : TheSidesList)->getSkirmishTeams()->getNextTeamID(teamID); }while(teamID);
+ teamID=TheSidesList->getSkirmishTeams()->getNextTeamID(teamID); }while(teamID);
 }
