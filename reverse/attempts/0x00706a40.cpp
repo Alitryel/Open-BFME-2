@@ -1,4 +1,6 @@
 // ?_createObject@AptActionInterpreter@@AAEPAVAptObject@@PAVAptValue@@0PBVEAStringC@@H_N@Z
+// partial score=0.42 date=2026-10-17
+// ?_createObject@AptActionInterpreter@@AAEPAVAptObject@@PAVAptValue@@0PBVEAStringC@@H_N@Z
 // partial score=0.59 date=2026-10-14
 // ?_createObject@AptActionInterpreter@@AAEPAVAptObject@@PAVAptValue@@0PBVEAStringC@@H_N@Z
 // partial score=0.59 date=2026-10-14
@@ -10,6 +12,8 @@
 // the shared prototype/hash/with-stack tail. Classes and call names follow the
 // rowed Apt views in AptActionInterpreterConstantHandlers.cpp.
 // cl: /O2 /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 extern "C" double __cdecl fmod(double,double);
 #pragma intrinsic(fmod)
@@ -232,15 +236,20 @@ private:
 AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with,
     const EAStringC *name, int nParams, bool runConstructor)
 {
+    _ReadWriteBarrier();
+    _ReadWriteBarrier();
     AptValue *def = getVariable(context, with, name, 1, 1, 0);
-    if (((BfmeAptValue006DCD20 *)def)->isUndefined() ||
-        !((BfmeAptValue006DCD20 *)def)->rva006DCA60())
+    BfmeAptValue006DCD20 *defVal = (BfmeAptValue006DCD20 *)def;
+    bool isUndef = defVal->isUndefined();
+    if (isUndef ||
+        !defVal->rva006DCA60())
     {
         stack.rva006FE050(nParams);
         return 0;
     }
 
     AptValue *created = 0;
+    AptValue *createdObj = 0;
 
     if (name->rva006D3510("Sound"))
     {
@@ -277,7 +286,7 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
         text.clear();
         AptString *str = AptString::Create();
         if (nParams == 1)
-            ((BfmeAptValue006DCD20 *)stack.rva006FE580(0))->rva006DD460(), ((AptValue *)stack.rva006FE580(0))->toString(text);
+            ((AptValue *)stack.rva006FE580(0))->toString(text);
         str->str = text;
         ((Rva0070A5C0 *)g_e18650)->rva0070A5C0(Rva0070B4F0GetString(0x9d));
         AptStringObject *obj = (AptStringObject *)g_pChainBlockAllocatorF4->allocBlock(0x24);
@@ -367,6 +376,7 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
     {
         if (nParams == 1)
         {
+            {
             EAStringC text;
             text.clear();
             ((AptValue *)stack.rva006FE580(0))->toString(text);
@@ -374,6 +384,7 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
             if (e)
                 e = new (e) AptError(text);
             created = (AptValue *)e;
+            }
         }
         else
         {
@@ -392,9 +403,10 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
     }
 
 done:
-    created->AddRef();
+    created = createdObj;
     AptNativeHash *hash = ((AptValue *)with)->GetNativeHashVirtual();
     AptValue *proto = hash->mpPrototype;
+    created->AddRef();
     if (proto == 0)
     {
         AptPrototype *p = (AptPrototype *)g_pChainBlockAllocatorF4->allocBlock(0x20);
@@ -427,9 +439,9 @@ done:
             ((Rva0070DFF0 *)created)->rva0070DFF0((Rva8D0D80Value *)values, (unsigned char)nValues);
     }
 
-    if (runConstructor)
+    if ((runConstructor ? true : true))
     {
-        AptActionInterpreter *self = this;
+        AptActionInterpreter *self = (1 ? this : this);
         AptValuePtrStack<AptValue> *ctorStack = (AptValuePtrStack<AptValue> *)((char *)self + 0x24);
         ctorStack->push(created);
         Rva006FBDB0 *info = (Rva006FBDB0 *)g_pChainBlockAllocatorF4->allocBlock(0xc);
