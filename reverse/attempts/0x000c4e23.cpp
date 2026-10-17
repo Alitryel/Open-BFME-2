@@ -1,4 +1,6 @@
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
+// partial score=0.998 date=2026-10-17
+// ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
 // partial score=0.96 date=2026-10-16
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
 // partial score=0.96 date=2026-10-16
@@ -297,7 +299,7 @@ public:
 	void setFlag30(unsigned char b) { m_30 = b; }
 };
 class Rva00330A37 { public: void rva00330A37(Int a, Int b, Int c, Int d, Int e, Int f, Int g, Int h); };
-class Rva000B22B3StateView { public: bool rva000B22B3() const; };
+class Rva000B22B3StateView { public: int rva000B22B3() const; };
 class W3DShadowManager { public: Shadow *addShadow(RenderObjClass *robj, Shadow::ShadowTypeInfo *info, Drawable *draw); };
 extern W3DShadowManager *TheW3DShadowManager;
 class Rva000B4653 { public: void *rva000B4653(Int index); };
@@ -314,7 +316,7 @@ struct GlobalDataView
 	char m_pad138[0x13C - 0x138];
 	Bool m_13C;
 };
-extern Real g_Va00DBA500FramesScale;
+extern Real BfmeClientFramesPerMillisecond;
 
 class W3DDisplayView
 {
@@ -326,6 +328,7 @@ extern W3DDisplayView *g_Va00DE1B34Scene;
 
 struct ThingTemplateView
 {
+	const AsciiString &getName() const { return m_name; }
 	char m_pad000[0x64];
 	AsciiString m_name;                     // +0x64
 	char m_pad068[0x90 - 0x68];
@@ -350,6 +353,7 @@ struct ThingTemplateView
 
 struct DrawableView
 {
+	ThingTemplateView *getTemplate() const { return m_template; }
 	char m_pad000[4];
 	ThingTemplateView *m_template;          // +0x004
 	char m_pad008[0xA8 - 8];
@@ -412,7 +416,10 @@ public:
 	void rva000B5FE6();
 	Bool setModelState(const ModelConditionInfo *newState, Bool forceReset, void *arg);
 
-	W3DScriptedModelDrawModuleDataView *m_moduleData;   // +0x04
+	const W3DScriptedModelDrawModuleDataView *getModuleData() const { return m_moduleData; }
+	const W3DScriptedModelDrawModuleDataView *getW3DScriptedModelDrawModuleData() const { return getModuleData(); }
+
+	const W3DScriptedModelDrawModuleDataView *m_moduleData;   // +0x04
 	DrawableView *m_drawable;                            // +0x08
 	W3DScriptedModelDrawSub0C m_sub0C;                   // +0x0C
 	char m_pad010[0x14 - 0x10];
@@ -433,9 +440,8 @@ public:
 	Rva00084206Track *m_track;                           // +0x60
 	char m_pad064[0x68 - 0x64];
 	_STL::vector<Rva00079EA1Element> m_68;               // +0x68
-	Rva00079EA1Element *m_74begin;                       // +0x74
-	Rva00079EA1Element *m_78end;                         // +0x78
-	char m_pad07C[0xBC - 0x7C];
+	_STL::vector<Rva00079EA1Element> m_74;               // +0x74
+	char m_pad080[0xBC - 0x80];
 	Int m_BC;
 	Int m_C0;
 	char m_pad0C4[0x170 - 0xC4];
@@ -449,7 +455,7 @@ public:
 
 Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Bool forceReset, void *arg)
 {
-	if (m_moduleData->m_15F && m_BC != 0)
+	if (getW3DScriptedModelDrawModuleData()->m_15F && m_BC != 0)
 		return false;
 	if (newState == 0)
 		return false;
@@ -484,7 +490,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		&& !forceReset)
 	{
 		void *last = (void *)m_drawable->m_364;
-		Rva000C3886Range *range = (Rva000C3886Range *)m_moduleData->m_30;
+		Rva000C3886Range *range = (Rva000C3886Range *)getW3DScriptedModelDrawModuleData()->m_30;
 		((Rva000C3886 *)newState)->rva000C3886(m_renderObject, ((const Rva000788D3FloatField *)m_drawable)->get(), range, (Rva000C3886Obj *)arg, last);
 	}
 	else
@@ -501,20 +507,20 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 
 		DrawableView *draw = m_drawable;
 		modelName = rva000C2E3A(*((Rva000B4AB5 *)newState)->rva000B4AB5(draw->m_364));
-		Int numReplacements = m_moduleData->m_7C.size();
-		Int numRecords = m_moduleData->m_records70.size();
+		Int numReplacements = getW3DScriptedModelDrawModuleData()->m_7C.size();
+		Int numRecords = getW3DScriptedModelDrawModuleData()->m_records70.size();
 		((StringBase<char> &)m_54).set("");
 
 		if (((const StringBase<char> *)((Rva000B4AB5 *)newState)->rva000B4AB5(draw->m_364))->isEmpty())
 		{
 			m_renderObject = 0;
 		}
-		else if ((Bool)((m_drawable->m_26C >> 31) & 1) && m_moduleData->m_record8C.text0.begin() != m_moduleData->m_record8C.text0.end())
+		else if ((Bool)((m_drawable->m_26C >> 31) & 1) && !getW3DScriptedModelDrawModuleData()->m_record8C.text0.empty())
 		{
 			AsciiStringVec originals;
 			AsciiStringVec replacements;
 			AsciiStringVec extras;
-			BfmeNarrowRecord00079C23 record(m_moduleData->m_record8C);
+			BfmeNarrowRecord00079C23 record(getW3DScriptedModelDrawModuleData()->m_record8C);
 			((StringBase<char> &)m_54).set(record.text0.c_str());
 			originals.push_back(AsciiString(record.text0.c_str()));
 			if (!record.text1.empty())
@@ -580,7 +586,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		{
 			Bool found = false;
 			BfmeNarrowRecord00079C23 record;
-			for (const BfmeNarrowRecord00079C23 *it = m_moduleData->m_records70.begin(); it != m_moduleData->m_records70.end(); ++it)
+			for (const BfmeNarrowRecord00079C23 *it = getW3DScriptedModelDrawModuleData()->m_records70.begin(); it != getW3DScriptedModelDrawModuleData()->m_records70.end(); ++it)
 			{
 				BfmeNarrowRecord00079C23 candidate(*it);
 				if (((GlobalDataView *)TheWritableGlobalData)->m_134 == candidate.word0)
@@ -613,7 +619,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				Debug::SkipNext(true);
 				theDebug->SkipNext();
 				(theDebug->CrashBegin(0, 0, 0) << "ASSET ERROR: Model " << (const StringBase<char> &)modelName
-					<< " not found in drawable " << (const StringBase<char> &)draw->m_template->m_name << "!").CrashDone(2);
+					<< " not found in drawable " << (const StringBase<char> &)draw->getTemplate()->getName() << "!").CrashDone(2);
 			}
 		}
 
@@ -630,8 +636,10 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		}
 
 		((W3DModelDraw *)this)->rva000B7C24();
+		void *lastObject = (void *)draw->m_364;
+		Rva000C3886Range *stateRange = (Rva000C3886Range *)getW3DScriptedModelDrawModuleData()->m_30;
 		((Rva000C3886 *)newState)->rva000C3886(m_renderObject, ((const Rva000788D3FloatField *)draw)->get(),
-			(Rva000C3886Range *)m_moduleData->m_30, (Rva000C3886Obj *)arg, (void *)draw->m_364);
+			stateRange, (Rva000C3886Obj *)arg, lastObject);
 		((Rva000C18E3 *)this)->rva000C18E3((SrcArg000C18E3 *)arg);
 
 		ThingTemplateView *tmpl = draw->m_template;
@@ -640,10 +648,12 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 
 		RenderObjClass *robj = m_renderObject;
 		if (robj && ((GlobalDataView *)TheWritableGlobalData)->m_13C && m_track == 0 && TheTerrainTracksRenderObjClassSystem
-			&& !((const StringBase<char> &)m_moduleData->m_trackTexture).isEmpty())
+			&& !((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_trackTexture).isEmpty())
 		{
 			m_track = TheTerrainTracksRenderObjClassSystem->bind((Rva00084B18RenderObj *)robj, 10.0f,
-				m_moduleData->m_trackTexture.str(), m_moduleData->m_44.str(), m_moduleData->m_48.str());
+				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_trackTexture).str(),
+				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_44).str(),
+				((const StringBase<char> &)getW3DScriptedModelDrawModuleData()->m_48).str());
 			if (m_track)
 				m_track->m_drawable38 = draw;
 		}
@@ -652,7 +662,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		if (shadowInfo && shadowInfo->m_08)
 		{
 			robj = m_renderObject;
-			if (robj && TheW3DShadowManager && !m_moduleData->m_12B)
+			if (robj && TheW3DShadowManager && !getW3DScriptedModelDrawModuleData()->m_12B)
 			{
 				m_shadow = TheW3DShadowManager->addShadow(robj, (Shadow::ShadowTypeInfo *)shadowInfo, (Drawable *)draw);
 				if (m_shadow)
@@ -660,12 +670,14 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 					m_shadow->enableShadowInvisible(m_49);
 					m_shadow->enableShadowRender(m_4A && !m_4B);
 					m_shadow->m_30 = 1;
-					if (((Rva000B22B3StateView *)m_shadow)->rva000B22B3())
+					typedef bool (Rva000B22B3StateView::*BoolQuery)() const;
+					typedef void (Rva00330A37::*FadeFrames)(UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt);
+					if ((((const Rva000B22B3StateView *)m_shadow)->*(BoolQuery)&Rva000B22B3StateView::rva000B22B3)())
 					{
 						m_shadow->setOpacity(newState->m_shadowE0);
-						((Rva00330A37 *)m_shadow)->rva00330A37(0, -1, newState->m_shadowE0,
-							(Int)(g_Va00DBA500FramesScale * (double)newState->m_shadowE4), newState->m_shadowE8, -1,
-							(Int)(g_Va00DBA500FramesScale * (double)newState->m_shadowEC), newState->m_shadowF0);
+						(((Rva00330A37 *)m_shadow)->*(FadeFrames)&Rva00330A37::rva00330A37)(0, -1, newState->m_shadowE0,
+							(UnsignedInt)(BfmeClientFramesPerMillisecond * newState->m_shadowE4), newState->m_shadowE8, -1,
+							(UnsignedInt)(BfmeClientFramesPerMillisecond * newState->m_shadowEC), newState->m_shadowF0);
 					}
 					else
 					{
@@ -674,7 +686,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				}
 			}
 		}
-		else if (m_renderObject && TheW3DShadowManager && tmpl && tmpl->m_shadowType && !m_moduleData->m_12B)
+		else if (m_renderObject && TheW3DShadowManager && tmpl && tmpl->m_shadowType && !getW3DScriptedModelDrawModuleData()->m_12B)
 		{
 			Shadow::ShadowTypeInfo info;
 			info.m_ShadowName = tmpl->m_shadowTexture;
@@ -702,11 +714,13 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				Real fadeOut;
 				Int last;
 				((Rva0033A5F4 *)tmpl)->rva0033A5F4(&opacity, &fadeIn, &opacity2, &fadeOut, &last);
-				if (((Rva000B22B3StateView *)m_shadow)->rva000B22B3())
+				typedef bool (Rva000B22B3StateView::*BoolQuery)() const;
+				typedef void (Rva00330A37::*FadeFrames)(UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt);
+				if ((((const Rva000B22B3StateView *)m_shadow)->*(BoolQuery)&Rva000B22B3StateView::rva000B22B3)())
 				{
 					m_shadow->setOpacity(opacity);
-					((Rva00330A37 *)m_shadow)->rva00330A37(0, -1, opacity, (Int)((double)fadeIn * g_Va00DBA500FramesScale), opacity2, -1,
-						(Int)((double)fadeOut * g_Va00DBA500FramesScale), last);
+					(((Rva00330A37 *)m_shadow)->*(FadeFrames)&Rva00330A37::rva00330A37)(0, -1, opacity, (UnsignedInt)(fadeIn * BfmeClientFramesPerMillisecond), opacity2, -1,
+						(UnsignedInt)(fadeOut * BfmeClientFramesPerMillisecond), last);
 				}
 				else
 				{
@@ -717,14 +731,14 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 
 		if (m_renderObject && tmpl)
 		{
-			if (m_moduleData->m_128)
+			if (getW3DScriptedModelDrawModuleData()->m_128)
 			{
 				((RenderObjView *)m_renderObject)->slot1CC(1);
-				Int setting = m_moduleData->m_129;
+				Int setting = getW3DScriptedModelDrawModuleData()->m_129;
 				((RenderObjView *)m_renderObject)->slot1D4(setting);
 			}
 			rva000B5FE6();
-			((Rva000B3E82 *)this)->rva000B3E82(m_moduleData->m_15C);
+			((Rva000B3E82 *)this)->rva000B3E82(getW3DScriptedModelDrawModuleData()->m_15C);
 			g_Va00DE1B34Scene->addRenderObject(m_renderObject);
 			((RenderObjView *)m_renderObject)->Set_ObjectScale158(draw->m_248, 0);
 			Int decal = draw->m_A8;
@@ -736,7 +750,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			}
 			((RenderObjView *)m_renderObject)->Set_Transform(transform);
 			slotFC();
-			if (m_moduleData->m_138)
+			if (getW3DScriptedModelDrawModuleData()->m_138)
 			{
 				AsciiString animName;
 				animName.format("%s.%s", modelName.str(), modelName.str());
@@ -752,7 +766,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 
 	m_1C9 = true;
 	m_curState = newState;
-	if (m_68.begin() != m_68.end() && m_74begin != m_78end)
+	if (!m_68.empty() && !m_74.empty())
 		m_sub0C.slot74();
 	return true;
 }
