@@ -3,7 +3,7 @@
 // Zeroes two int[21] blocks at +4 and +0x58; called from ctor 0x004F599E after vtable store.
 // ??0Rva004F599E@@QAE@XZ, retail 0x004F599E, 14 bytes.
 // Ctor stores vtable 0x00863254 then calls rva004F597F; evidence chain lane caller 0x002B0FF8.
-extern const void *const g_00C63254[];
+const void *const g_00C63254[4] = { (const void *)9048317, (const void *)4931536, (const void *)9394604, (const void *)9394610 };
 
 class Rva004F599E
 {

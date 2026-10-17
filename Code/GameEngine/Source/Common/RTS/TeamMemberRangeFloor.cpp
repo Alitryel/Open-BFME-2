@@ -28,7 +28,7 @@ public:
 	char m_pad[0x258];
 	Rva002627E8 *m_range;
 };
-extern const float g_00C1ADB8;
+const float g_00C1ADB8 = 999999.0f;  // retail 0x0081ADB8
 class Team {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;

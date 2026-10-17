@@ -5,7 +5,7 @@
 // Evidence: leaf lane; callees rowed 0x00263895 ctor and pinned 0x0029848E attemptDamage;
 // callers in 0x004A86E7 region; DamageInfo 0x7C view per Rva00263895Init.cpp;
 // and [m],0 zero idiom needs /O1; movss needs /arch:SSE.
-extern float g_00C53840;
+float g_00C53840 = 999999.0f;  // retail 0x00853840
 
 class DamageInfo;
 
