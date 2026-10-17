@@ -83,7 +83,7 @@ extern "C" void __cdecl WmtReconInter(void *, unsigned char *, const unsigned ch
 extern "C" void __cdecl ScalarReconInterHalfPixel2(void);
 extern "C" void __cdecl MmxReconInterHalfPixel2(void *, void *, const void *, const void *, const void *, int);
 extern "C" void __cdecl CopyBlockMMX(const void *, void *, int);
-extern void __cdecl d_009c74f0(void);
+extern "C" void __cdecl FilterBlock_wmt(void);	// rowed C body (was address-named d_009c74f0)
 extern "C" void __cdecl WmtReconInterHalfPixel2(void *, void *, const void *, const void *, const void *, int);
 extern "C" void __cdecl Wmt_IDct10_Dx(const void *, const void *, void *);
 
@@ -91,9 +91,9 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *, const void *, void *);
 // address-derived names, pinned in reverse/symbols.csv.
 extern "C" void __cdecl FilterBlockBil_8_wmt(void);
 extern "C" void __cdecl FilterBlockBil_8_mmx(void);
-extern void __cdecl Rva009A8110(void);
+extern "C" void __cdecl FilterBlockBil_8_C(void);	// rowed C body (was address-named Rva009A8110)
 extern void __cdecl Rva009A74D0(void);
-extern void __cdecl Rva009C6D20(void);
+extern "C" void __cdecl ClearMmx(void);	// rowed C body (was address-named Rva009C6D20)
 extern void __cdecl Rva009A7030(void);
 extern "C" void __cdecl AverageBlock_C(void);
 extern "C" void __cdecl FilterBlock_mmx(void *, void *, void *, int, int, int, int);
@@ -102,7 +102,7 @@ extern "C" void __cdecl SubtractBlock_C(void);
 extern "C" void __cdecl ScalarReconInter(void);
 extern "C" void __cdecl ReconBlock_C(void);
 extern "C" void __cdecl ScalarReconIntra(short *, unsigned char *, const short *, int);
-extern void __cdecl Rva009C80C0(void);
+extern "C" void __cdecl Wmt_idct1(void);	// rowed C body (was address-named Rva009C80C0)
 extern "C" void __cdecl Wmt_IDct_Dx(const void *, const void *, void *);
 extern "C" void __cdecl MMX_idct10(void);
 extern "C" void __cdecl MMX_idct(void);
@@ -110,7 +110,7 @@ extern "C" void __cdecl MMX_idct1(void);
 extern "C" void __cdecl MMX_idct10_DX(void);
 extern "C" void __cdecl MMX_idct_DX(void);
 extern void __cdecl Rva009C6360(void);
-extern void __cdecl Rva009C5D60(void);
+extern "C" void __cdecl IDct10(void);	// rowed C body (was address-named Rva009C5D60)
 extern void __cdecl Rva009C5890(void);
 
 typedef void (__cdecl *BfmeSpreadFn)();
@@ -124,7 +124,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 
 	if (tierC)
 	{
-		BfmeSpreadFn low = (BfmeSpreadFn)&Rva009C80C0;
+		BfmeSpreadFn low = (BfmeSpreadFn)&Wmt_idct1;
 		BfmeSpreadFn mid = (BfmeSpreadFn)&Wmt_IDct10_Dx;
 		BfmeSpreadFn tail = (BfmeSpreadFn)&Wmt_IDct_Dx;
 
@@ -152,14 +152,14 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 		g_bfmeSlotD8C = (void *)&WmtReconIntra;
 		g_bfmeSlotD84 = (void *)&WmtReconInter;
 		g_bfmeSlotB58 = (void *)&WmtReconInterHalfPixel2;
-		g_bfmeSlotB48 = (void *)&Rva009C6D20;
+		g_bfmeSlotB48 = (void *)&ClearMmx;
 		g_bfmeSlotB4C = (void *)&AverageBlock_MMX;
 		g_bfmeSlotB50 = (void *)&UnpackBlock_MMX;
 		g_bfmeSlotD88 = (void *)&ReconBlock_MMX;
 		g_bfmeSlotB5C = (void *)&SubtractBlock_MMX;
 		g_bfmeSlotB44 = (void *)&CopyBlockMMX;
 		g_bfmeSlotABC = (void *)&FilterBlockBil_8_wmt;
-		g_bfmeSlotB54 = (void *)&d_009c74f0;
+		g_bfmeSlotB54 = (void *)&FilterBlock_wmt;
 		g_bfmeSlotB40 = (void *)&Copy12x12_MMX;
 		return;
 	}
@@ -194,7 +194,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 		g_bfmeSlotD8C = (void *)&MMXReconIntra;
 		g_bfmeSlotD84 = (void *)&MmxReconInter;
 		g_bfmeSlotB58 = (void *)&MmxReconInterHalfPixel2;
-		g_bfmeSlotB48 = (void *)&Rva009C6D20;
+		g_bfmeSlotB48 = (void *)&ClearMmx;
 		g_bfmeSlotB4C = (void *)&AverageBlock_MMX;
 		g_bfmeSlotB50 = (void *)&UnpackBlock_MMX;
 		g_bfmeSlotD88 = (void *)&ReconBlock_MMX;
@@ -208,7 +208,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 
 	{
 		BfmeSpreadFn low = (BfmeSpreadFn)&Rva009C6360;
-		BfmeSpreadFn mid = (BfmeSpreadFn)&Rva009C5D60;
+		BfmeSpreadFn mid = (BfmeSpreadFn)&IDct10;
 		BfmeSpreadFn tail = (BfmeSpreadFn)&Rva009C5890;
 		BfmeSpreadFn *cell;
 
@@ -243,7 +243,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 		g_bfmeSlotD88 = (void *)&ReconBlock_C;
 		g_bfmeSlotB5C = (void *)&SubtractBlock_C;
 		g_bfmeSlotB44 = (void *)&Rva009A74D0;
-		g_bfmeSlotABC = (void *)&Rva009A8110;
+		g_bfmeSlotABC = (void *)&FilterBlockBil_8_C;
 		g_bfmeSlotB54 = (void *)&FilterBlock_C;
 		g_bfmeSlotB40 = (void *)&Copy12x12_MMX;
 	}
