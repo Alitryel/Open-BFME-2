@@ -52,7 +52,7 @@ const Rva00271898Color *Rva00271826::rva00271898()
 		pulse->blue = m_28.blue;
 		float rate = (float)(double)(((Rva00271898Logic *)TheGameLogic)->m_frame * m_40);
 		_ReadWriteBarrier();
-		float scale = (0.5f * ((float)sin(rate)) * m_3C) + 0.5f;
+		float scale = (0.5f * ((float)sin((double)rate)) * m_3C) + 0.5f;
 		*(volatile float *)&pulse->red = pulse->red * scale;
 		m_44.green = m_44.green * scale;
 		m_44.blue = m_44.blue * scale;
