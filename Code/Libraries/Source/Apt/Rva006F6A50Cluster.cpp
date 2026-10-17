@@ -307,6 +307,7 @@ public:
 	{
 		return ((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock((int)size);
 	}
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 
 	char m_pad[0x14];
 };
