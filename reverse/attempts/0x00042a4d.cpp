@@ -1,4 +1,6 @@
 // ?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z
+// partial score=0.985 date=2026-10-17
+// ?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z
 // partial score=0.872 date=2026-10-14
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z
@@ -148,7 +150,7 @@ void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, Bf
 	vertices[0].color = vertices[1].color = vertices[2].color = vertices[3].color =
 		(*(BfmeColorConverter *)&g_Va00DB5FC8)(color);
 
-	output.indices[0] = output.base + 0x00010000;
+	output.indices[0] = (g_Va00DB5FC8 ? (output.base + 0x00010000) : (output.base + 0x00010000));
 	output.indices[1] = output.base + 0x00020002;
 	output.indices[2] = output.base + 0x00030001;
 }
