@@ -89,6 +89,7 @@ class HordeContainModuleData : public TransportContainModuleData
 {
 public:
 	HordeContainModuleData();
+	virtual ~HordeContainModuleData();	// rowed 0x00475942 (HordeContainModuleDataDtor.cpp)
 
 private:
 	_STL::vector<BfmeE16> m_vec18C;
