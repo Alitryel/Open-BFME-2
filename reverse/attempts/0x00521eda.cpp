@@ -1,4 +1,6 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
+// partial score=0.985 date=2026-10-17
+// ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.99 date=2026-10-14
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.97 date=2026-10-14
@@ -704,9 +706,9 @@ bool AptSkirmish::InitTheGame() {
   Rva0040A3F9 *heroes=((CreateAHeroManager *)TheHeroManager)->rva0021F797();
   { GameSlotConnectInfo info;player->setState(SLOT_PLAYER,prefs->Rva0043B9F5(),&info); }
   { GameSlotConnectInfo info;enemy->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&info); }
-  volatile int side = (*(int *)((char *)this+0x304)!=1)+1;
-  int index=0;
-  _ReadWriteBarrier();
+  int index = -1;
+  int mode = *(int *)((char *)this+0x304);
+  int side = 1 != mode ? 2 : 1;
   if(!ThePlayerTemplateStore->rva001FD367(side,&index)) index=-1;
   player->setPlayerTemplate(index);
   int hero=heroes->findIndex(((CreateAHeroManager *)TheHeroManager)->GetDefaultHero(side));
