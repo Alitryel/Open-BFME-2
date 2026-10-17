@@ -1,4 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// Native EH action 0x7A1414 destroys the counted virtual base at +0xC guarded by the most-derived constructor flag; the complete parent EH graph proves this 28B lifetime.
 //
 // ??0Rva005CC698@@QAE@PAX0PAURva005CE93EContext@@@Z, retail 0x005CC698
 // (240 bytes, RET 0x10 with MSVC's hidden most-derived flag): the constructor
