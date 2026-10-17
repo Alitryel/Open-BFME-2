@@ -1,37 +1,122 @@
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// partial score=0.9375 date=2026-10-17
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// ?rva00104A75@Rva001041D8@@QAEXXZ
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib
-// ?rva00104A75@Rva001041D8@@QAEXXZ retail 0x00104A75..0x00104BDA (357 bytes,
-// RET): slot 16 of the 0x88-byte object's vtable 0x00BCF770 (destructor
-// 0x001041D8 and constructor 0x0010461F, Rva001041D8Dtor.cpp; the W3D
-// Palantir lead there stays unproven). With a source at +0x20, it draws the
-// four-sided ring between the outer corners at +0x48 and the inner corners
-// at +0x68 through the display's 2D renderer (TheDisplay slot 95): the ring
-// geometry is rebuilt first (0x00104359) when the rowed check 0x00104195
-// sees the saved corners at +0x28 move, the renderer takes the texture at
-// +0x24 (0x000456C9) with its +0x48 flag set, its first word is held at 1
-// for the draw and restored after, and each side is two triangles through
-// the rowed 0x001049C7 with the UV rectangle at source +0x14, then the
-// renderer draws (0x0011A040).
+// ?rva00104A75@Rva0010461F@@QAEXXZ
+// partial score=0.964 date=2026-10-17
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// ??0Rva0010461F@@QAE@XZ retail 0x0010461F..0x00104723 (260 bytes EH).
+// Constructor of the 0x88-byte object the factory 0x0008F32C creates and
+// stores in TheRva002D3627Host (0x009FF028). Base is Rva002D3573 (ctor
+// 0x002D638E; MI with vtables at +0 and +0xC; WB names the base
+// Palantir::Palantir as a lead only); this class stores vtables 0x00BCF770
+// and 0x00BCF760. Members: three zeroed words (+0x14) the mapped image
+// "RadarViewBoxEdge" looked up through TheMappedImageCollection
+// (findImageByName 0x002D92F6) a texture slot (+0x24; assignment 0x000424D0)
+// and three Coord2D[4] arrays (+0x28 +0x48 +0x68) built by the eh vector
+// constructor iterator with the exported Coord2D ctor/dtor. When the image
+// exists its name is loaded through TextureAsset::Get 0x00132D89
+// and stored in the slot; the returned handle releases its texture
+// (0x0061ED10). The unwind funclet also destroys the slot (its destructor is
+// declared only). Class and member names are unresolved.
 //
-// Its own unit: the dtor unit links today, and 0x00104359 and 0x0011A040
-// have no definition yet. Target facts: boundary, vtable slot, callees and
-// member offsets from retail; all names are address-derived.
-#include "Coord2D.h"
+// ?rva00104359@Rva0010461F@@QAEXXZ retail 0x00104359 (710 bytes) rebuilds
+// the bevelled radar view box. It takes the shortest edge of the four
+// corners (GetRadarViewBoxCorner 0x002D3850), scales the edge image's size
+// (+0x24) by TheDisplay's width over 1024 and caps it at that edge, then
+// offsets each corner along the bisector of its two edges (angles through
+// 0x0010414C, differences 0x0010416E, wrap 0x0010410F) into the inner
+// (+0x48) and outer (+0x68) rings; +0x28 keeps the corners. The offset is
+// one MathCoord2D added and subtracted through operator+= and operator-=;
+// that is what gives retail's 0x34 frame and the loop pointer on +0x6C.
+// It calls sinf and cosf: the <math.h> sin(float) and cos(float) overloads
+// would emit copies that differ from retail's.
+#include <math.h>
+#include "ascii_string.h"
+#include "Common/Snapshot.h"
+#include "BFME2ParticleTextureHandles.h"
 
-class TextureClass;
-template<class T> class RefCountPtr
+#define COORD2D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord2DCtorView.h"
+
+class Image
 {
 public:
-	T *Referent;
+	const AsciiString &getName() const { return m_name; }
+	int getImageSize() const { return m_24; }
+
+private:
+	char m_pad00[8];
+	AsciiString m_name; // +0x08
+	char m_pad0C[0x24 - 0x0C];
+	int m_24; // +0x24
 };
 
+class ImageCollection
+{
+public:
+	const Image *findImageByName(const AsciiString &name);
+};
+
+extern ImageCollection *TheMappedImageCollection;
+
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *name, int a, int b);
+};
+
+struct CursorTextureSlot
+{
+	CursorTextureSlot() : Ptr(0) {}
+	~CursorTextureSlot();
+	void operator=(const BFME2ParticleTextureHandle &handle);
+	void *Ptr;
+};
+
+class GameEngineDeletingBase
+{
+public:
+	virtual ~GameEngineDeletingBase();
+
+private:
+	char m_pad04[8];
+};
+
+class Rva002D3573 : public GameEngineDeletingBase, public Snapshot
+{
+public:
+	Rva002D3573();
+	virtual ~Rva002D3573();
+
+private:
+	void *m_holder; // +0x10
+};
+
+class Rva0010461F : public Rva002D3573
+{
+public:
+	Rva0010461F();
+	virtual ~Rva0010461F();
+	void rva00104359();
+	void rva00104A75();
+
+private:
+	int m_14;
+	int m_18;
+	int m_1C;
+	const Image *m_edgeImage; // +0x20
+	CursorTextureSlot m_edgeTexture; // +0x24
+	Coord2D m_28[4];
+	Coord2D m_48[4];
+	Coord2D m_68[4];
+};
+
+Rva0010461F::Rva0010461F()
+	: m_14(0), m_18(0), m_1C(0),
+	  m_edgeImage(TheMappedImageCollection->findImageByName(AsciiString("RadarViewBoxEdge")))
+{
+	if (m_edgeImage != 0)
+		m_edgeTexture = TextureAsset::Get(m_edgeImage->getName().str(), 1, 0);
+}
+
+class TextureClass;
 class Render2DClass
 {
 public:
@@ -57,39 +142,6 @@ class Rva0011A040Target
 public:
 	void rva0011A040();
 };
-
-class Display
-{
-public:
-#define DISPLAY_SLOT(n) virtual void slot##n();
-	DISPLAY_SLOT(00) DISPLAY_SLOT(01) DISPLAY_SLOT(02) DISPLAY_SLOT(03)
-	DISPLAY_SLOT(04) DISPLAY_SLOT(05) DISPLAY_SLOT(06) DISPLAY_SLOT(07)
-	DISPLAY_SLOT(08) DISPLAY_SLOT(09) DISPLAY_SLOT(10) DISPLAY_SLOT(11)
-	DISPLAY_SLOT(12) DISPLAY_SLOT(13) DISPLAY_SLOT(14) DISPLAY_SLOT(15)
-	DISPLAY_SLOT(16) DISPLAY_SLOT(17) DISPLAY_SLOT(18) DISPLAY_SLOT(19)
-	DISPLAY_SLOT(20) DISPLAY_SLOT(21) DISPLAY_SLOT(22) DISPLAY_SLOT(23)
-	DISPLAY_SLOT(24) DISPLAY_SLOT(25) DISPLAY_SLOT(26) DISPLAY_SLOT(27)
-	DISPLAY_SLOT(28) DISPLAY_SLOT(29) DISPLAY_SLOT(30) DISPLAY_SLOT(31)
-	DISPLAY_SLOT(32) DISPLAY_SLOT(33) DISPLAY_SLOT(34) DISPLAY_SLOT(35)
-	DISPLAY_SLOT(36) DISPLAY_SLOT(37) DISPLAY_SLOT(38) DISPLAY_SLOT(39)
-	DISPLAY_SLOT(40) DISPLAY_SLOT(41) DISPLAY_SLOT(42) DISPLAY_SLOT(43)
-	DISPLAY_SLOT(44) DISPLAY_SLOT(45) DISPLAY_SLOT(46) DISPLAY_SLOT(47)
-	DISPLAY_SLOT(48) DISPLAY_SLOT(49) DISPLAY_SLOT(50) DISPLAY_SLOT(51)
-	DISPLAY_SLOT(52) DISPLAY_SLOT(53) DISPLAY_SLOT(54) DISPLAY_SLOT(55)
-	DISPLAY_SLOT(56) DISPLAY_SLOT(57) DISPLAY_SLOT(58) DISPLAY_SLOT(59)
-	DISPLAY_SLOT(60) DISPLAY_SLOT(61) DISPLAY_SLOT(62) DISPLAY_SLOT(63)
-	DISPLAY_SLOT(64) DISPLAY_SLOT(65) DISPLAY_SLOT(66) DISPLAY_SLOT(67)
-	DISPLAY_SLOT(68) DISPLAY_SLOT(69) DISPLAY_SLOT(70) DISPLAY_SLOT(71)
-	DISPLAY_SLOT(72) DISPLAY_SLOT(73) DISPLAY_SLOT(74) DISPLAY_SLOT(75)
-	DISPLAY_SLOT(76) DISPLAY_SLOT(77) DISPLAY_SLOT(78) DISPLAY_SLOT(79)
-	DISPLAY_SLOT(80) DISPLAY_SLOT(81) DISPLAY_SLOT(82) DISPLAY_SLOT(83)
-	DISPLAY_SLOT(84) DISPLAY_SLOT(85) DISPLAY_SLOT(86) DISPLAY_SLOT(87)
-	DISPLAY_SLOT(88) DISPLAY_SLOT(89) DISPLAY_SLOT(90) DISPLAY_SLOT(91)
-	DISPLAY_SLOT(92) DISPLAY_SLOT(93) DISPLAY_SLOT(94)
-#undef DISPLAY_SLOT
-	virtual Render2DClass *get2DRenderer();
-};
-extern Display *TheDisplay;
 
 // The UV rectangle the source carries at +0x14.
 struct Rva00104A75Rect
@@ -117,22 +169,6 @@ struct Rva00104A75StateHold
 	int m_saved;
 };
 
-class Rva001041D8
-{
-public:
-	void rva00104A75();
-	void rva00104359();
-	bool rva00104195();
-
-private:
-	char m_00[0x20];
-	Rva00104A75Source *m_source;
-	RefCountPtr<TextureClass> m_texture;
-	Coord2D m_saved[4];
-	Coord2D m_outer[4];
-	Coord2D m_inner[4];
-};
-
 // The saved-corner check 0x00104195 is rowed under its own owner.
 class Rva00104195
 {
@@ -140,9 +176,193 @@ public:
 	bool rva00104195();
 };
 
-void Rva001041D8::rva00104A75()
+
+class Display
 {
-	if (!m_source)
+public:
+	virtual void f00() = 0; virtual void f01() = 0; virtual void f02() = 0;
+	virtual void f03() = 0; virtual void f04() = 0; virtual void f05() = 0;
+	virtual void f06() = 0; virtual void f07() = 0; virtual void f08() = 0;
+	virtual void f09() = 0; virtual void f10() = 0; virtual void f11() = 0;
+	virtual void f12() = 0; virtual void f13() = 0; virtual void f14() = 0;
+	virtual void f15() = 0;
+	virtual unsigned int getWidth() = 0; // slot 16
+ virtual void f17();
+ virtual void f18();
+ virtual void f19();
+ virtual void f20();
+ virtual void f21();
+ virtual void f22();
+ virtual void f23();
+ virtual void f24();
+ virtual void f25();
+ virtual void f26();
+ virtual void f27();
+ virtual void f28();
+ virtual void f29();
+ virtual void f30();
+ virtual void f31();
+ virtual void f32();
+ virtual void f33();
+ virtual void f34();
+ virtual void f35();
+ virtual void f36();
+ virtual void f37();
+ virtual void f38();
+ virtual void f39();
+ virtual void f40();
+ virtual void f41();
+ virtual void f42();
+ virtual void f43();
+ virtual void f44();
+ virtual void f45();
+ virtual void f46();
+ virtual void f47();
+ virtual void f48();
+ virtual void f49();
+ virtual void f50();
+ virtual void f51();
+ virtual void f52();
+ virtual void f53();
+ virtual void f54();
+ virtual void f55();
+ virtual void f56();
+ virtual void f57();
+ virtual void f58();
+ virtual void f59();
+ virtual void f60();
+ virtual void f61();
+ virtual void f62();
+ virtual void f63();
+ virtual void f64();
+ virtual void f65();
+ virtual void f66();
+ virtual void f67();
+ virtual void f68();
+ virtual void f69();
+ virtual void f70();
+ virtual void f71();
+ virtual void f72();
+ virtual void f73();
+ virtual void f74();
+ virtual void f75();
+ virtual void f76();
+ virtual void f77();
+ virtual void f78();
+ virtual void f79();
+ virtual void f80();
+ virtual void f81();
+ virtual void f82();
+ virtual void f83();
+ virtual void f84();
+ virtual void f85();
+ virtual void f86();
+ virtual void f87();
+ virtual void f88();
+ virtual void f89();
+ virtual void f90();
+ virtual void f91();
+ virtual void f92();
+ virtual void f93();
+ virtual void f94();
+ virtual Render2DClass *get2DRenderer();
+};
+extern Display *TheDisplay;
+
+class Rva002D3850
+{
+public:
+	float *GetRadarViewBoxCorner(int index);
+};
+
+inline float sqr(float v) { return v * v; }
+
+// Its inline members compile as PathfinderSidewaysAttack.cpp's (built /Ow)
+// do, so the COMDAT copies this unit emits agree with the ones the link keeps.
+#pragma optimize("w", on)
+class MathCoord2D
+{
+public:
+	MathCoord2D() {}
+	MathCoord2D(const MathCoord2D &that) : x(that.x), y(that.y) {}
+	MathCoord2D(float ix, float iy) : x(ix), y(iy) {}
+	~MathCoord2D() {}
+	MathCoord2D &operator-=(const MathCoord2D &c) { x -= c.x; y -= c.y; return *this; }
+	MathCoord2D &operator+=(const MathCoord2D &c) { x += c.x; y += c.y; return *this; }
+	__forceinline float GetLength() const { return (float)sqrt(x * x + sqr(y)); }
+	float x;
+	float y;
+};
+#pragma optimize("", on)
+
+// Not expanded at /O1: the COMDAT is 0x001040AE, also emitted by
+// PathfinderSidewaysAttack.cpp.
+inline MathCoord2D operator-(MathCoord2D left, const MathCoord2D &right)
+{
+	left -= right;
+	return left;
+}
+
+float __cdecl Rva0010410FWrap(float a);
+float __cdecl Rva0010414CGet(float *p);
+float __cdecl Rva0010416EFloat(float a, float b);
+
+inline float angleOf(const MathCoord2D &v) { return Rva0010414CGet((float *)&v); }
+
+void Rva0010461F::rva00104359()
+{
+	float minLength = 3.402823466e+38F;
+	for (int i = 0; i < 4; ++i)
+	{
+		const MathCoord2D *cur = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(i);
+		int j = i + 1;
+		if (j >= 4)
+			j -= 4;
+		const MathCoord2D *next = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(j);
+		MathCoord2D edge = *next - *cur;
+		float length = edge.GetLength();
+		if (minLength > length)
+			minLength = length;
+	}
+	float size = (float)m_edgeImage->getImageSize();
+	size = (float)TheDisplay->getWidth() * size / 1024.0f;
+	if (size > minLength)
+		size = minLength;
+	const MathCoord2D *prev = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(3);
+	for (int k = 0; k < 4; ++k)
+	{
+		const MathCoord2D *cur = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(k);
+		int j = k + 1;
+		if (j >= 4)
+			j -= 4;
+		const MathCoord2D *next = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(j);
+		m_48[k] = *(const Coord2D *)cur;
+		m_68[k] = *(const Coord2D *)cur;
+		if ((cur->x != next->x || cur->y != next->y) && (cur->x != prev->x || cur->y != prev->y))
+		{
+			float a1 = angleOf(*next - *cur);
+			float a2 = angleOf(*prev - *cur);
+			float bisector = Rva0010410FWrap(Rva0010416EFloat(a2, a1) * 0.5f + a1);
+			float half = Rva0010416EFloat(bisector, a1);
+			if (fabs(half) > 0.00001f)
+			{
+				float dist = size * 0.5f / sinf(half);
+				float c = cosf(bisector);
+				float s = sinf(bisector);
+				MathCoord2D offset(c * dist, s * dist);
+				*(MathCoord2D *)&m_48[k] += offset;
+				*(MathCoord2D *)&m_68[k] -= offset;
+			}
+		}
+		prev = cur;
+	}
+	for (int n = 0; n < 4; ++n)
+		m_28[n] = *(const Coord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(n);
+}
+
+void Rva0010461F::rva00104A75()
+{
+	if (!m_edgeImage)
 		return;
 	Render2DClass *renderer = TheDisplay->get2DRenderer();
 	if (!renderer)
@@ -150,15 +370,15 @@ void Rva001041D8::rva00104A75()
 	if (((Rva00104195 *)this)->rva00104195())
 		rva00104359();
 	renderer->m_48 = true;
-	((Rva000456C9 *)renderer)->rva000456C9(&m_texture);
+	((Rva000456C9 *)renderer)->rva000456C9((const RefCountPtr<TextureClass> *)&m_edgeTexture);
 	Rva00104A75StateHold hold(renderer, 1);
-	const Rva00104A75Rect *uv = &m_source->m_uv;
+	const Rva00104A75Rect *uv = &((const Rva00104A75Source *)m_edgeImage)->m_uv;
 	for (int i = 0; i < 4; i++) {
 		int next = i + 1;
 		if (next >= 4)
 			next = i - 3;
-		Coord2D *innerNext = &m_inner[next];
-		Coord2D *outerNext = &m_outer[next];
+		Coord2D *innerNext = &m_68[next];
+		Coord2D *outerNext = &m_48[next];
 		Coord2D uv0;		uv0.x = uv->lo.x;
 		uv0.y = uv->lo.y;
 		Coord2D uv1;
@@ -170,8 +390,8 @@ void Rva001041D8::rva00104A75()
 		Coord2D uv3;
 		uv3.x = uv->lo.x;
 		uv3.y = uv->hi.y;
-		Rva001049C7AddTriangle(renderer, &m_outer[i], &m_inner[i], innerNext, &uv0, &uv1, &uv2);
-		Rva001049C7AddTriangle(renderer, &m_outer[i], innerNext, outerNext, &uv0, &uv2, &uv3);
+		Rva001049C7AddTriangle(renderer, &m_48[i], &m_68[i], innerNext, &uv0, &uv1, &uv2);
+		Rva001049C7AddTriangle(renderer, &m_48[i], innerNext, outerNext, &uv0, &uv2, &uv3);
 	}
 	((Rva0011A040Target *)renderer)->rva0011A040();
 }
