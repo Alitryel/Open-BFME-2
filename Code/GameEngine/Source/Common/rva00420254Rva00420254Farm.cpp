@@ -1,5 +1,4 @@
 // ?rva00420254@VictoryConditions@@QAEXABVAsciiString@@_N00@Z
-// partial score=0.97 date=2026-10-15
 // cl: /O1 /EHsc /MD /arch:SSE /GF- /Ireference/shims/bfme2_ascii
 // d3 seat6 w2: /GF- (two "" uses compiled as separate literals: suffix stays in ECX,
 // state in EDI as retail) + the fetchName result passed as a temporary, equal-arm
@@ -102,15 +101,16 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 // Original UI slot name inferred from ShowEndGame string, not source identity.
 void VictoryConditions::rva00420254(const AsciiString &label,bool defeat,const AsciiString &name,const AsciiString &extra)
 {
- if(g_pRva00224BC9 && !m_endGameShowing) {
+ switch (1) { case 1: if(!g_pRva00224BC9 || m_endGameShowing) break;
  { AsciiString key(":VictoryDefeat");
-    ((BfmeAptWindowManager *)g_pRva00224BC9)->bfmeSetText(key,((VictoryTextPrefix *)TheGameText)->fetchName(&label,0),false); }
+      ((BfmeAptWindowManager *)g_pRva00224BC9)->bfmeSetText(key,((VictoryTextPrefix *)TheGameText)->fetchName(&label,0),false); }
  const char *suffix;
  if (!extra.isEmpty()) suffix=extra.str();
  else suffix="";
  ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,defeat?"0":"1",(void *)name.str(),(void *)suffix,0,0);
   m_endGameShowing=true;
-  m_endGameShowTime=timeGetTime();
+  unsigned long t = (true ? timeGetTime() : timeGetTime());
+  m_endGameShowTime=t;
   *(bool *)((char *)TheDisplay+0x140)=false;
  }
 }
