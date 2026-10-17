@@ -1,4 +1,6 @@
 // ??0TeamsInfoRec@@QAE@ABV0@@Z
+// partial score=0.903 date=2026-10-17
+// ??0TeamsInfoRec@@QAE@ABV0@@Z
 // partial score=0.784 date=2026-10-15
 // ??0TeamsInfoRec@@QAE@ABV0@@Z
 // partial score=0.762128 date=2026-10-15
@@ -143,11 +145,19 @@ void TeamsInfoRec::moveTeamsToNewOwner(const AsciiString &oldOwner, const AsciiS
 TeamsInfoRec::TeamsInfoRec(const TeamsInfoRec &other)
     : m_entries(other.m_entries), m_numActive(other.m_numActive), m_freeHead(other.m_freeHead)
 {
-    TeamIndex::iterator hint = m_index.begin();
+    TeamIndex::iterator hint = (1 ? (m_index.begin()) : (m_index.begin()));
     TeamIndex::const_iterator end = other.m_index.end();
     for (TeamIndex::const_iterator it = other.m_index.begin(); it != end; ++it) {
-        hint = m_index.insert(hint, *it);
-        for (int id = hint->second; id != 0; id = m_entries[id].m_overridesID)
-            m_entries[id].m_indexIt = hint;
+        TeamIndex::iterator inserted = m_index.insert(hint, *it);
+        int id = inserted->second;
+        _STL::vector<BfmeThingUBB> &entries = m_entries;
+        for (; id != 0; ) {
+            unsigned int offset = (unsigned short)id;
+            short nextID = m_entries[offset].m_overridesID;
+            BfmeThingUBB &entry = m_entries[offset];
+            id = nextID;
+            entry.m_indexIt = inserted;
+        }
+        hint = inserted;
     }
 }
