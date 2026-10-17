@@ -1,4 +1,6 @@
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
+// partial score=0.913 date=2026-10-17
+// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.857 date=2026-10-17
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.7990908115358819 date=2026-10-13
@@ -33,6 +35,10 @@
 // vert += 4 and loc-first pointer increments. Masked insn match 2074/2475 (round4 1860),
 // emitted 11968B. Disproven: Vector3 operators in cases 0/4/5/6, i-indexed inputs, ZH
 // indexed case 0. Open: case 0 regalloc, case 4 Z add order, case 7 rotation IVs, case 9.
+// Round6 (2026-10-17): ground case 7 uses output vertex index vert, 4 Vector3& aliases
+// v0..v3, and fresh X/Y point reads; case 0 captures default_size before scaling;
+// case 9 uses 6 const volatile Vector3& table aliases. Exact 12000B / frame 0xB8,
+// byte-identical over case 8 (1017B) and case 9 (1494B) at retail addresses, fitness 0.913.
 // Banked source is NOT verified recovery.
 // cl: /O2 /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 #include "sharebuf.h"
@@ -141,9 +147,10 @@ void PointGroupClass::rva009148C0(Vector3*point_loc,float*point_size,unsigned ch
 			{
 				// Setup constant vertex offsets (since size and orientation are invariants)
 				Vector3 scaled_offset[3];
-				scaled_offset[0] = _TriVertexLocationOrientationTable[DefaultPointOrientation][0] * DefaultPointSize;
-				scaled_offset[1] = _TriVertexLocationOrientationTable[DefaultPointOrientation][1] * DefaultPointSize;
-				scaled_offset[2] = _TriVertexLocationOrientationTable[DefaultPointOrientation][2] * DefaultPointSize;
+				float default_size = DefaultPointSize;
+				scaled_offset[0] = _TriVertexLocationOrientationTable[DefaultPointOrientation][0] * default_size;
+				scaled_offset[1] = _TriVertexLocationOrientationTable[DefaultPointOrientation][1] * default_size;
+				scaled_offset[2] = _TriVertexLocationOrientationTable[DefaultPointOrientation][2] * default_size;
 
 				// Add vertex offsets to point locations to get vertex locations
 				for (i = 0; i < active_points; i++, point_loc++, vertex_loc += 3) {
@@ -287,7 +294,8 @@ vertex_loc[ 3].Z = point_loc[0].Z + scaled_offset[3].Z;
 Matrix4 view; Vector4 result;
 if (!Get_Flag(BILLBOARD)) {
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
-for (i = 0; i < active_points; i++, point_size++, point_orientation++, point_loc++, vertex_loc += 4) {
+int vert = 0;
+for (i = 0; i < active_points; i++, point_size++, point_orientation++, point_loc++) {
 						// If we're not billboarding, then the coordinate we have is in screen space.
 						Matrix4 rotMat;
 						D3DXMatrixRotationZ(&(D3DXMATRIX&) rotMat, ((float)point_orientation[0] / 255.0f * 2 * D3DX_PI));
@@ -295,48 +303,55 @@ for (i = 0; i < active_points; i++, point_size++, point_orientation++, point_loc
 						Vector4 orientedVecX = rotMat * GroundMultiplierX;
 						Vector4 orientedVecY = rotMat * GroundMultiplierY;
 
+						Vector3 &v0 = vertex_loc[vert + 0];
+						Vector3 &v1 = vertex_loc[vert + 1];
+						Vector3 &v2 = vertex_loc[vert + 2];
+						Vector3 &v3 = vertex_loc[vert + 3];
+
 						float dx0 = (orientedVecX.X + orientedVecY.X) * point_size[0];
 						float dx1 = (orientedVecX.X - orientedVecY.X) * point_size[0];
 						float dy0 = (orientedVecX.Y + orientedVecY.Y) * point_size[0];
 						float dy1 = (orientedVecX.Y - orientedVecY.Y) * point_size[0];
 
-						vertex_loc[ 0].X = point_loc[0].X + dx0;
-						vertex_loc[ 0].Y = point_loc[0].Y + dy0;
-						vertex_loc[ 0].Z = point_loc[0].Z;
+						v0.X = ((const volatile Vector3 *)point_loc)->X + dx0;
+						v0.Y = ((const volatile Vector3 *)point_loc)->Y + dy0;
+						v0.Z = point_loc[0].Z;
 
-						vertex_loc[ 1].X = point_loc[0].X + dx1;
-						vertex_loc[ 1].Y = point_loc[0].Y + dy1;
-						vertex_loc[ 1].Z = point_loc[0].Z;
+						v1.X = ((const volatile Vector3 *)point_loc)->X + dx1;
+						v1.Y = ((const volatile Vector3 *)point_loc)->Y + dy1;
+						v1.Z = point_loc[0].Z;
 
-						vertex_loc[ 2].X = point_loc[0].X - dx0;
-						vertex_loc[ 2].Y = point_loc[0].Y - dy0;
-						vertex_loc[ 2].Z = point_loc[0].Z;
+						v2.X = ((const volatile Vector3 *)point_loc)->X - dx0;
+						v2.Y = ((const volatile Vector3 *)point_loc)->Y - dy0;
+						v2.Z = point_loc[0].Z;
 
-						vertex_loc[ 3].X = point_loc[0].X - dx1;
-						vertex_loc[ 3].Y = point_loc[0].Y - dy1;
-						vertex_loc[ 3].Z = point_loc[0].Z;
+						v3.X = ((const volatile Vector3 *)point_loc)->X - dx1;
+						v3.Y = ((const volatile Vector3 *)point_loc)->Y - dy1;
+						v3.Z = point_loc[0].Z;
 
 						// now apply the view transform so that this data is in the format expected
 						// upon the functions return.
-						result = view*vertex_loc[0];
-						vertex_loc[ 0].X = result.X;
-						vertex_loc[ 0].Y = result.Y;
-						vertex_loc[ 0].Z = result.Z;
+						result = view*v0;
+						v0.X = result.X;
+						v0.Y = result.Y;
+						v0.Z = result.Z;
 
-						result = view*vertex_loc[1];
-						vertex_loc[ 1].X = result.X;
-						vertex_loc[ 1].Y = result.Y;
-						vertex_loc[ 1].Z = result.Z;
+						result = view*v1;
+						v1.X = result.X;
+						v1.Y = result.Y;
+						v1.Z = result.Z;
 
-						result = view*vertex_loc[2];
-						vertex_loc[ 2].X = result.X;
-						vertex_loc[ 2].Y = result.Y;
-						vertex_loc[ 2].Z = result.Z;
+						result = view*v2;
+						v2.X = result.X;
+						v2.Y = result.Y;
+						v2.Z = result.Z;
 
-						result = view*vertex_loc[3];
-						vertex_loc[ 3].X = result.X;
-						vertex_loc[ 3].Y = result.Y;
-						vertex_loc[ 3].Z = result.Z;
+						result = view*v3;
+						v3.X = result.X;
+						v3.Y = result.Y;
+						v3.Z = result.Z;
+
+						vert += 4;
 					}
 }else{
 int vert = 0;
@@ -417,24 +432,30 @@ vertex_loc[2].Z = point_loc[0].Z + scaled_locs[2].Z;
    			float y_scale = (VPYMax - VPYMin) / yres;
    
 				Vector3 scaled_locs[2][3];
-				scaled_locs[0][0].X = _ScreenspaceVertexLocationSizeTable[0][0].X * x_scale;
-scaled_locs[0][0].Y = _ScreenspaceVertexLocationSizeTable[0][0].Y * y_scale;
-scaled_locs[0][0].Z = _ScreenspaceVertexLocationSizeTable[0][0].Z;
-scaled_locs[0][1].X = _ScreenspaceVertexLocationSizeTable[0][1].X * x_scale;
-scaled_locs[0][1].Y = _ScreenspaceVertexLocationSizeTable[0][1].Y * y_scale;
-scaled_locs[0][1].Z = _ScreenspaceVertexLocationSizeTable[0][1].Z;
-scaled_locs[0][2].X = _ScreenspaceVertexLocationSizeTable[0][2].X * x_scale;
-scaled_locs[0][2].Y = _ScreenspaceVertexLocationSizeTable[0][2].Y * y_scale;
-scaled_locs[0][2].Z = _ScreenspaceVertexLocationSizeTable[0][2].Z;
-scaled_locs[1][0].X = _ScreenspaceVertexLocationSizeTable[1][0].X * x_scale;
-scaled_locs[1][0].Y = _ScreenspaceVertexLocationSizeTable[1][0].Y * y_scale;
-scaled_locs[1][0].Z = _ScreenspaceVertexLocationSizeTable[1][0].Z;
-scaled_locs[1][1].X = _ScreenspaceVertexLocationSizeTable[1][1].X * x_scale;
-scaled_locs[1][1].Y = _ScreenspaceVertexLocationSizeTable[1][1].Y * y_scale;
-scaled_locs[1][1].Z = _ScreenspaceVertexLocationSizeTable[1][1].Z;
-scaled_locs[1][2].X = _ScreenspaceVertexLocationSizeTable[1][2].X * x_scale;
-scaled_locs[1][2].Y = _ScreenspaceVertexLocationSizeTable[1][2].Y * y_scale;
-scaled_locs[1][2].Z = _ScreenspaceVertexLocationSizeTable[1][2].Z;
+				const volatile Vector3 &t00 = _ScreenspaceVertexLocationSizeTable[0][0];
+				const volatile Vector3 &t01 = _ScreenspaceVertexLocationSizeTable[0][1];
+				const volatile Vector3 &t02 = _ScreenspaceVertexLocationSizeTable[0][2];
+				const volatile Vector3 &t10 = _ScreenspaceVertexLocationSizeTable[1][0];
+				const volatile Vector3 &t11 = _ScreenspaceVertexLocationSizeTable[1][1];
+				const volatile Vector3 &t12 = _ScreenspaceVertexLocationSizeTable[1][2];
+				scaled_locs[0][0].X = t00.X * x_scale;
+				scaled_locs[0][0].Y = t00.Y * y_scale;
+				scaled_locs[0][0].Z = t00.Z;
+				scaled_locs[0][1].X = t01.X * x_scale;
+				scaled_locs[0][1].Y = t01.Y * y_scale;
+				scaled_locs[0][1].Z = t01.Z;
+				scaled_locs[0][2].X = t02.X * x_scale;
+				scaled_locs[0][2].Y = t02.Y * y_scale;
+				scaled_locs[0][2].Z = t02.Z;
+				scaled_locs[1][0].X = t10.X * x_scale;
+				scaled_locs[1][0].Y = t10.Y * y_scale;
+				scaled_locs[1][0].Z = t10.Z;
+				scaled_locs[1][1].X = t11.X * x_scale;
+				scaled_locs[1][1].Y = t11.Y * y_scale;
+				scaled_locs[1][1].Z = t11.Z;
+				scaled_locs[1][2].X = t12.X * x_scale;
+				scaled_locs[1][2].Y = t12.Y * y_scale;
+				scaled_locs[1][2].Z = t12.Z;
 
 				// Add vertex offsets to point locations to get vertex locations
 				for (i = 0; i < active_points; i++, point_size++) {
