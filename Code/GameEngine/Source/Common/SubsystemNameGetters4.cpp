@@ -48,7 +48,7 @@ BFME_LITERAL_NAME_GETTER(Rva003B03EDNamed, "GPUParticleSystemStorageModule")
 // Rva003B3662 "Script" is Script::GetSnapshotName, rowed under its real
 // name from Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B40FANamed, "ScriptGroup")
-BFME_LITERAL_NAME_GETTER(Rva003B7745Named, "ScriptList")
+// ScriptList::GetSnapshotName is owned by ScriptListDestructor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B9124Named, "LivingWorldCampaignManager")
 BFME_LITERAL_NAME_GETTER(Rva003F3418Named, "LivingWorldRegion")
 BFME_LITERAL_NAME_GETTER(Rva003F6A8BNamed, "LivingWorldBattle")

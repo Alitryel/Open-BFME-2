@@ -3,6 +3,10 @@
 // constructed empty list and lets the temporary's destructor release the old
 // contents (REL32 from SidesInfo::init 0x32CDD5).
 
+// Native C1FAAC and the complete destructor establish the Snapshot base.
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 class Rva003B761E
 {
 public:
@@ -18,18 +22,22 @@ public:
 	ScriptListBase();
 
 private:
-	void *m_vtable;
 	void *m_firstGroup;
 	void *m_firstScript;
 };
 
-class ScriptList : public ScriptListBase
+class ScriptList : public Snapshot, public ScriptListBase
 {
 public:
 	ScriptList();
 	~ScriptList();
 	void clear();
 	void swap(ScriptList *other);
+
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 
 private:
 	Rva003B761E m_first;

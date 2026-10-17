@@ -303,11 +303,8 @@ void ScriptList::crc( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@ScriptList@@MAEXXZ present-unmatched
-void ScriptList::loadPostProcess( void )
-{
-
-}
+// ScriptList::loadPostProcess is owned by ScriptListDestructor.cpp; native
+// C1FAAC slot1 points to the shared empty RET. Keep a single definition.
 
 /**
   ScriptList::duplicate - Creates a full, "deep" copy of scriptlist. 

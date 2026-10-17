@@ -337,14 +337,23 @@ class ScriptConditions : public SubsystemInterface
 };
 extern ScriptConditions *TheScriptConditions;
 
-class ScriptList
+// Correct native C1FAAC Snapshot lifetime interface; the opaque remainder
+// preserves the independently measured4C-byte temporary and frame layout.
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+class ScriptList : public Snapshot
 {
 public:
 	ScriptList();
 	~ScriptList();
 
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+
 private:
-	char m_body[0x4C];
+	char m_body[0x48];
 };
 
 class SidesInfo

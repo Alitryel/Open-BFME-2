@@ -14048,6 +14048,7 @@ object_symbol	reverse/functions.csv	0x00782552	1
 object_symbol	reverse/functions.csv	0x0078255D	1
 object_symbol	reverse/functions.csv	0x00782572	1
 object_symbol	reverse/functions.csv	0x00782584	1
+object_symbol	reverse/functions.csv	0x0078258C	1	allow=a7060f3c5c8be8564c937ca8b8e9a1d1a53039b6
 object_symbol	reverse/functions.csv	0x007825CF	1
 object_symbol	reverse/functions.csv	0x007825D7	1
 object_symbol	reverse/functions.csv	0x007825DF	1
@@ -38891,7 +38892,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	getR
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	getUiText@Parameter@@QBE?AVAsciiString@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	loadPostProcess@Script@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	loadPostProcess@ScriptGroup@@MAEXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	loadPostProcess@ScriptList@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	qualify@Parameter@@QAEXABVAsciiString@@00@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	reset@ScriptList@@SAXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp	updateDefaults@ScriptList@@SAXXZ	1

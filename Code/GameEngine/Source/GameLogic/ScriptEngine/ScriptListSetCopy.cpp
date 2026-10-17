@@ -105,10 +105,15 @@ Rva003B8802Set::Rva003B8802Set(const Rva003B8802Set &other)
 
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+class Rva003B31DF;
+class Rva003B3204;
 class ScriptListBase
 {
 public:
     ~ScriptListBase();
+private:
+    Rva003B31DF *m_firstGroup;
+    Rva003B3204 *m_firstScript;
 };
 class Rva003525E0Pair
 {

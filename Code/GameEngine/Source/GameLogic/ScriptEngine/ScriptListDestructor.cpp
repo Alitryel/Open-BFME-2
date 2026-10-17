@@ -11,45 +11,34 @@
 // partial score=0.93 date=2026-09-02
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
-class Gen_0035B8A0
+// Retail table C1FAAC is deleting destructor / post-load / name / xfer.
+// Copy constructor3B88DA independently establishes the same 4C-byte layout:
+// Snapshot4 + two head pointers8 + two record sets32. The set lifetime
+// providers are already recovered at3B766B and3B7167; donor addresses were
+// only provisional names. Original nominal names of those records are unknown.
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+class Rva003B872ASet
 {
 public:
-	~Gen_0035B8A0();
+	~Rva003B872ASet();
 
 private:
 	unsigned char m_data[0x20];
 };
 
-class Gen_0035B960
+class Rva003B8802Set
 {
 public:
-	~Gen_0035B960();
+	~Rva003B8802Set();
 
 private:
 	unsigned char m_data[0x20];
 };
 
-class ScriptGroupPoolObject
-{
-public:
-	ScriptGroupPoolObject *next;
-	void deleteInstance(int destroy);
-};
-
-class ScriptPoolObject
-{
-public:
-	ScriptPoolObject *next;
-	void deleteInstance(int destroy);
-};
-
-// upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Scripts.h
-class ScriptListInterface
-{
-public:
-	virtual void reset();
-	~ScriptListInterface() {}
-};
+class Rva003B31DF { public: void clear(); };
+class Rva003B3204 { public: void clear(); };
 
 class ScriptListBase
 {
@@ -57,26 +46,36 @@ public:
     ~ScriptListBase();
 
 private:
-	ScriptPoolObject *m_firstGroup;
-	ScriptGroupPoolObject *m_firstScript;
+	Rva003B31DF *m_firstGroup;
+	Rva003B3204 *m_firstScript;
 };
 
 
-class ScriptList : public ScriptListInterface, public ScriptListBase
+class ScriptList : public Snapshot, public ScriptListBase
 {
 public:
 	ScriptList();
 	~ScriptList();
 
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
+
 private:
-	Gen_0035B8A0 m_first;
-	Gen_0035B960 m_second;
+	Rva003B872ASet m_first;
+	Rva003B8802Set m_second;
 };
 
-// ??1ScriptList@@QAE@XZ
+typedef char ScriptListExtent[(sizeof(ScriptList) == 0x4c) ? 1 : -1];
+
+// ??1ScriptList@@UAE@XZ
 ScriptList::~ScriptList()
 {
 }
+
+void ScriptList::loadPostProcess() {}
+const char *ScriptList::GetSnapshotName() const { return "ScriptList"; }
 
 // Full native boundary3B793A..3B79F1 RET8; anchor3B7951 is an interior entry.
 // ZH Scripts.cpp ParseScriptsDataChunk supplies the register/parse/copy semantics.
@@ -209,6 +208,23 @@ bool Rva003B7836(DataChunkInput &file, DataChunkInfo *info, void *data)
  bool &result = *new(reinterpret_cast<unsigned char *>(&data) + 3) bool;
  result = file.parse(0);
  return result;
+}
+
+// Native3B4071 owns the two recursive head cleanups in reverse member order.
+// The complete destructor and its EH graph use this base at nullable this+4.
+// Keep the definition after its callers, preserving the native out-of-line call.
+ScriptListBase::~ScriptListBase()
+{
+ Rva003B3204 *script = m_firstScript;
+ if (script) {
+  script->clear();
+  operator delete(script);
+ }
+ Rva003B31DF *group = m_firstGroup;
+ if (group) {
+  group->clear();
+  operator delete(group);
+ }
 }
 
 
