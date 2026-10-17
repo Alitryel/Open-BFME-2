@@ -184,24 +184,5 @@ void MilesAudioManager::rva0005329C()
 		LeaveCriticalSection(m_b90->m_section);
 }
 
-// Native5D734 returns an audio handle in EAX; WB786F40 identifies addOrResumeAudioEvent.
-// These vtable wrappers discard the returned handle.
-// vtable 0x00BC55B0#25
-void MilesAudioManager::rva0005DABB(Int a)
-{
-	addOrResumeAudioEvent(reinterpret_cast<AudioEventRTS *>(a), 0, 1, 0, 1);
-}
 
-// vtable 0x00BC55B0#29
-void MilesAudioManager::rva0005DAE6(Int a, Int b)
-{
-	addOrResumeAudioEvent(reinterpret_cast<AudioEventRTS *>(a), 1, b, 0, 1);
-}
 
-// vtable 0x00BC55B0#24: the argument is an object whose first dword is the
-// event pointer; the equal-arm read keeps retail's load ahead of the constant
-// pushes.
-void MilesAudioManager::rva0005DACF(const Int &a)
-{
-	addOrResumeAudioEvent(reinterpret_cast<AudioEventRTS *>((a ? a : a)), 0, 1, 0, 1);
-}
