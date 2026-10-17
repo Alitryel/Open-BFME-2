@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.91 date=2026-10-17
+// ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.8825 date=2026-10-14
 // ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.95 date=2026-10-14
@@ -1503,7 +1505,7 @@ StateReturnType AIFollowPathAsTeamState::update()
 			else
 				status = STATE_SUCCESS;
 		}
-		if (status != STATE_SUCCESS && status != STATE_FAILURE && !resumed)
+		if ((1 ? status != STATE_SUCCESS : status != STATE_SUCCESS) && status != STATE_FAILURE && !resumed)
 			return status;
 	}
 
@@ -1519,7 +1521,8 @@ StateReturnType AIFollowPathAsTeamState::update()
 			if (ai->isDoingGroundMovement())
 				ai->setDesiredSpeed(speed);
 			Real relative = obj->GetRelativeAngle(pos);
-			ai->slot135(normalizeAngle(obj->getOrientation() + relative));
+			Real turn = normalizeAngle(obj->getOrientation() + relative);
+			ai->slot135(turn);
 		}
 		m_index++;
 		ai->m_currentGoalPathIndex = m_index;
@@ -1534,21 +1537,21 @@ StateReturnType AIFollowPathAsTeamState::update()
 	{
 		Object *obj = getMachineOwner();
 		AIUpdateInterface *ai = obj->getObservedAI();
-		Real ownerX = obj->getPosition()->x;
-		Real ownerY = obj->getPosition()->y;
+		Real ownerX = *(volatile Real*)&obj->getPosition()->x;
+		Real ownerY = *(volatile Real*)&obj->getPosition()->y;
 		const Coord3D *pos = (const Coord3D *)ai->m_goalPath->rva00346FA5(m_index);
 		Bool tooClose = true;
 		while (pos && tooClose)
 		{
 			Real dx = pos->x - ownerX;
-			_ReadWriteBarrier();
 			Real dy = pos->y - ownerY;
 			tooClose = false;
-			if (dy * dy + dx * dx < PATHFIND_CELL_SIZE_F * PATHFIND_CELL_SIZE_F)
+			if ((dx * dx + dy * dy) < PATHFIND_CELL_SIZE_F * PATHFIND_CELL_SIZE_F)
 				tooClose = true;
 			Int nextIndex = m_index + 1;
+			Real behindX = __cp(pos->x - ownerX);
 			const Coord3D *nextPos = (const Coord3D *)ai->m_goalPath->rva00346FA5(nextIndex);
-			if (nextPos && (nextPos->y - pos->y) * (pos->y - ownerY) + (nextPos->x - pos->x) * __cp(pos->x - ownerX) < 0.0f)
+			if (nextPos && (nextPos->y - pos->y) * (pos->y - ownerY) + (nextPos->x - pos->x) * behindX < 0.0f)
 				tooClose = true;
 			if (tooClose)
 			{
