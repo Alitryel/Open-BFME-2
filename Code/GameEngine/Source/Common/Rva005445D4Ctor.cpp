@@ -21,7 +21,37 @@ public:
 	unsigned char m_pad1D[0x20 - 0x1D];
 };
 
-extern const void *const g_00C69A20[];
+// The retail table at RVA 0x00869A20: 17 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GTurretAIIdleState@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Rva005445F9Get@@YAHXZ")();
+void __identifier("?xfer@Rva005445D4@@UAEXPAVXfer@@@Z")();
+void __identifier("?onEnter@AIDockProcessDockState@@UAE?AW4StateReturnType@@XZ")();
+void __identifier("?onExit@AIDockProcessDockState@@UAEXW4StateExitType@@@Z")();
+void __identifier("?update@AIDockProcessDockState@@UAE?AW4StateReturnType@@XZ")();
+void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
+}
+extern const void *const g_00C69A20[17] = {
+	(const void *)&__identifier("??_GTurretAIIdleState@@UAEPAXI@Z"), // slot 0 0x004D8507
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?Rva005445F9Get@@YAHXZ"), // slot 2 0x005445F9
+	(const void *)&__identifier("?xfer@Rva005445D4@@UAEXPAVXfer@@@Z"), // slot 3 0x00544AD2
+	(const void *)&__identifier("?onEnter@AIDockProcessDockState@@UAE?AW4StateReturnType@@XZ"), // slot 4 0x00544646
+	(const void *)&__identifier("?onExit@AIDockProcessDockState@@UAEXW4StateExitType@@@Z"), // slot 5 0x00544670
+	(const void *)&__identifier("?update@AIDockProcessDockState@@UAE?AW4StateReturnType@@XZ"), // slot 6 0x00544B96
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 8 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 9 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 10 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 11 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 12 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 13 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 14 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 15 0x0047A699
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 16 0x000B3FD0
+};
 
 class Rva005445D4 : public State
 {

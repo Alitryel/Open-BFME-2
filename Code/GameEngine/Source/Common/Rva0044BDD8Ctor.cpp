@@ -5,7 +5,16 @@
 // 0x0083EDFC) and zeroing +4. Same /O1 /Ob0 recipe and holder layout.
 // Evidence: rowed callee copy ctor 0x0044BD00; vtable g_00C3EDFC; caller 0x0044BF28;
 // landing unblocks 0x0044BF13.
-extern const void *const g_00C3EDFC[];
+// The retail table at RVA 0x0083EDFC: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva0044BE1DRecord@@QAEPAXI@Z")();
+void __identifier("?rva0044BDF7@Rva0044BDF7@@QAEXH@Z")();
+}
+extern const void *const g_00C3EDFC[2] = {
+	(const void *)&__identifier("??_GRva0044BE1DRecord@@QAEPAXI@Z"), // slot 0 0x0044BE1D
+	(const void *)&__identifier("?rva0044BDF7@Rva0044BDF7@@QAEXH@Z"), // slot 1 0x0044BDF7
+};
 
 struct Rva004C5DD0Ref
 {

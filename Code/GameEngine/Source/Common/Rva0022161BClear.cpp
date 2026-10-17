@@ -36,7 +36,16 @@ void Rva0022161B::rva0022161B()
 // Non-virtual dtor of 8-byte polymorphic holder: stores vtable 0x00BE6BA8 at +0
 // then tail-jumps to member at +4 via Rva0022161B::rva0022161B at 0x0022161B.
 // Evidence: chain lane calls just-landed 0x0022161B plus 27 callers plus LINK BONUS 3 files plus vtable 0x00BE6BA8.
-extern const void *const g_00BE6BA8[];
+// The retail table at RVA 0x007E6BA8: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva0022167C@@QAEPAXI@Z")();
+int __cdecl _purecall(void);
+}
+extern const void *const g_00BE6BA8[2] = {
+	(const void *)&__identifier("??_GRva0022167C@@QAEPAXI@Z"), // slot 0 0x0022168A
+	(const void *)&__identifier("_purecall"), // slot 1 0x0003B810
+};
 class __declspec(novtable) Rva0022167C {
 public:
 	~Rva0022167C();

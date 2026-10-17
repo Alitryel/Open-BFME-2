@@ -4,7 +4,18 @@
 // null-name constructor, stores that pointer at +0x50, and installs vtable
 // 0x0083AD60. The class identity is unknown; its base and layout follow the
 // target constructor and caller rather than donor naming.
-extern const void *const g_00C3AD60[];
+// The retail table at RVA 0x0083AD60: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00419E38@@UAEPAXI@Z")();
+void __identifier("?Execute@ThreadClass@@UAEXXZ")();
+void __identifier("?Thread_Function@GameResultsThreadClass@@UAEXXZ")();
+}
+extern const void *const g_00C3AD60[3] = {
+	(const void *)&__identifier("??_GRva00419E38@@UAEPAXI@Z"), // slot 0 0x00419E1C
+	(const void *)&__identifier("?Execute@ThreadClass@@UAEXXZ"), // slot 1 0x006104B0
+	(const void *)&__identifier("?Thread_Function@GameResultsThreadClass@@UAEXXZ"), // slot 2 0x0041A843
+};
 
 class __declspec(novtable) ThreadClass
 {

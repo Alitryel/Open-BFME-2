@@ -46,7 +46,14 @@ private:
 };
 
 extern "C" const unsigned char __identifier("??_7Secondary005E7ED7@@6B@")[];
-extern const void *const g_00BE6C38[];
+// The retail table at RVA 0x007E6C38: 1 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00221C15@@QAEPAXI@Z")();
+}
+extern const void *const g_00BE6C38[1] = {
+	(const void *)&__identifier("??_GRva00221C15@@QAEPAXI@Z"), // slot 0 0x00221C5C
+};
 
 class Rva00221C15Empty
 {
