@@ -16,9 +16,17 @@
 // and the copy keeps its own frame slot (a named local or a functional cast
 // makes the compiler re-materialise the address or elide the copy).
 #include <map>
-// bfme link decl-only begin
-namespace _STL { template <> bool less<unsigned int>::operator()(unsigned int const &, unsigned int const &) const; }
-// bfme link decl-only end
+// Inlined here; imported, this unit emits no non-retail out-of-line copies (STLport
+// bodies verbatim). A declaration-only form left _M_find calling it out of line.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(const unsigned int &x, const unsigned int &y) const { return x < y; }
+}
+// Compare tree nodes locally so this TU does not emit an iterator-base operator!= copy.
+namespace _STL {
+template <class V, class Traits>
+static inline bool operator!=(const _Rb_tree_iterator<V, Traits> &a, const _Rb_tree_iterator<V, Traits> &b)
+{ return a._M_node != b._M_node; }
+}
 
 class TextureClass
 {
