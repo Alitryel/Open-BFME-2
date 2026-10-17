@@ -1,5 +1,5 @@
 // ?rva000EBFD1@Rva000EC9C6@@QAEXXZ
-// partial score=0.66993480156173 date=2026-10-10
+// partial score=0.82 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // BF1 575ba2b04 W3DTreeBufferRva00734270.cpp and ZH updateVertexBuffer
 // provide the update/alpha/locked-buffer semantics. Target EBFD1..EC67F
@@ -53,10 +53,13 @@ void Rva000EC9C6::rva000EBFD1(){
    if(!types[type].mesh)type=0;
    Matrix3D transform;
    if(trees[i].state || trees[i].flagC4)transform=trees[i].world;
-   else {transform.Set(location);}
+   else {transform.Make_Identity();transform.Set_Translation(location);}
    transform[1][0] *= scale;transform[0][0] *= scale;transform[2][0] *= scale;transform[1][1] *= scale;transform[0][1] *= scale;transform[2][1] *= scale;transform[1][2] *= scale;transform[0][2] *= scale;transform[2][2] *= scale;
    transform.postMul(trees[i].transform);
-   transform.Translate(types[type].offset);
+   {const Vector3 &t=types[type].offset;
+    transform[0][3]+=transform[0][0]*t.X+transform[0][1]*t.Y+transform[0][2]*t.Z;
+    transform[1][3]+=transform[1][0]*t.X+transform[1][1]*t.Y+transform[1][2]*t.Z;
+    transform[2][3]+=transform[2][0]*t.X+transform[2][1]*t.Y+transform[2][2]*t.Z;}
    TreeVertex *cur=vb+trees[i].firstVertex;
    int n=types[type].mesh->Peek_Model()->Get_Vertex_Count();
    Vector3 *vertices=types[type].mesh->Peek_Model()->Get_Vertex_Array();
