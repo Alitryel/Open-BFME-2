@@ -253,6 +253,7 @@ public:
 	Rva000B1984 *rva000B2308(int value);
 	void rva000B2329();
 	unsigned int rva000B233B() const;
+	unsigned char rva000B2341() const;
 	void rva000B2349(bool on);
 private:
 	union
@@ -293,6 +294,13 @@ void Rva000B1984::rva000B2329()
 unsigned int Rva000B1984::rva000B233B() const
 {
 	return m_bits.low;
+}
+
+unsigned char Rva000B1984::rva000B2341() const
+{
+	unsigned char val = m_word >> 30;
+	val &= 1;
+	return val;
 }
 
 void Rva000B1984::rva000B2349(bool on)

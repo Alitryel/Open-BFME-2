@@ -64488,3 +64488,4 @@ _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Sour
 ?rva0030C4CE@Rva0030C4CE@@QAEHH@Z	0x0030C4CE	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B; vtordisp adjustor forwarder calling Rva0030BEE6Owner::fwd 0x0030BEE6
 ?rva0030C4D6@Rva0030C4D6@@QAEHH@Z	0x0030C4D6	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B; vtordisp adjustor forwarder calling Rva0030BEF9Owner::fwd 0x0030BEF9
 ?Rva003E54A8@@YA_NXZ	0x003E54A8	12	landed	add_match verified Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp 12B
+?rva000B2341@Rva000B1984@@QBEEXZ	0x000B2341	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE35.cpp 8B
