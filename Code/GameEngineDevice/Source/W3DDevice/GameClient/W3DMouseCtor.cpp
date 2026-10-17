@@ -1,4 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// Native EH action 0x760489 destroys the constructor lifetime of 21 D3D surface references at +0x6028 with stride4; the complete parent EH graph proves this 24B lifetime.
 //
 // ??0W3DMouse@@QAE@XZ, retail 0x00098E69, 218 bytes.
 // ??1W3DMouse@@UAE@XZ, retail 0x00099927, 139 bytes.
