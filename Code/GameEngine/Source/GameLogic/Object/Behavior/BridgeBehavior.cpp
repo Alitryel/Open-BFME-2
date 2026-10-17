@@ -85,14 +85,8 @@ extern const Real g_00BC2A10 = 8.0f;
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorModuleDataCtorThunk.cpp
-// ??0BridgeBehaviorModuleData@@QAE@XZ present-unmatched
-BridgeBehaviorModuleData::BridgeBehaviorModuleData( void )
-{
-
-	m_lateralScaffoldSpeed = 1.0f;
-	m_verticalScaffoldSpeed = 1.0f;
-
-}  // end BridgeBehaviorModuleData
+// BridgeBehaviorModuleData's constructor is rowed at 0x00457FF1 with BFME2's body
+// (BridgeBehaviorModuleDataCtor.cpp); the Zero Hour copy was a second definition.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -111,22 +105,8 @@ BridgeBehaviorModuleData::~BridgeBehaviorModuleData( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void BridgeBehaviorModuleData::buildFieldParse( MultiIniFieldParse &p )
-{
-  BehaviorModuleData::buildFieldParse( p );
-
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "LateralScaffoldSpeed",			INI::parseVelocityReal, NULL, offsetof( BridgeBehaviorModuleData, m_lateralScaffoldSpeed ) },
-		{ "VerticalScaffoldSpeed",		INI::parseVelocityReal, NULL, offsetof( BridgeBehaviorModuleData, m_verticalScaffoldSpeed ) },
-		{ "BridgeDieFX",		parseFX,		NULL,			offsetof( BridgeBehaviorModuleData, m_fx ) },
-		{ "BridgeDieOCL",		parseOCL,		NULL,			offsetof( BridgeBehaviorModuleData, m_ocl ) },
-		{ 0, 0, 0, 0 }
-	};
-
-  p.add( dataFieldParse );
-
-}  // end buildFieldParse
+// BridgeBehaviorModuleData::buildFieldParse is rowed at 0x00458268 with BFME2's
+// body (BehaviorModuleDataBuildFieldParse.cpp); the Zero Hour copy was a second definition.
 
 // ------------------------------------------------------------------------------------------------
 /** Parse time and location info in the form of:
@@ -259,41 +239,8 @@ static void parseTimeAndLocationInfo( INI *ini, void *instance,
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/BridgeBehaviorCtorThunk.cpp
-// ??0BridgeBehavior@@QAE@PAVThing@@PBVModuleData@@@Z present-unmatched
-BridgeBehavior::BridgeBehavior( Thing *thing, const ModuleData *moduleData )
-							: UpdateModule( thing, moduleData )
-{
-	Int i;
-	m_scaffoldObjectIDList.clear();
-	m_scaffoldPresent = FALSE;
-
-	for( i = 0; i < BRIDGE_MAX_TOWERS; ++i )
-		m_towerID[ i ] = INVALID_ID;
-
-	m_fxResolved = FALSE;
-	for( Int bodyState = BODY_PRISTINE; bodyState < BODYDAMAGETYPE_COUNT; ++bodyState )
-	{
-
-		// initialize the fx and ocl lists
-		for( i = 0; i < MAX_BRIDGE_BODY_FX; ++i )
-		{
-
-			m_damageToOCL[ bodyState ][ i ] = NULL;
-			m_damageToFX[ bodyState ][ i ] = NULL;
-			m_repairToOCL[ bodyState ][ i ] = NULL;
-			m_repairToFX[ bodyState ][ i ] = NULL;
-
-		}  // end for i
-
-		// these don't need initialization, they have constructors
-		// m_damageToSound[ bodyState ] = ???
-		// m_repairToSound[ bodyState ] = ???
-
-	}  // end for, bodyState
-
-	m_deathFrame = 0;
-
-}  // end BridgeBehavior
+// BridgeBehavior's constructor is rowed with BFME2's body in BridgeBehaviorCtor.cpp;
+// the Zero Hour copy was a second definition.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
