@@ -1,4 +1,6 @@
 // ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
+// partial score=0.727 date=2026-10-17
+// ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
 // partial score=0.8380635624538064 date=2026-10-10
 // ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
 // partial score=0.8380635624538064 date=2026-10-09
@@ -40,8 +42,9 @@ class Rva006D1D10 {public:
 };
 void Rva006D1D10::update(Rva006D07E0Key first,Rva006D07E0Key second){
  ((Rva006D1450*)this)->intern(second);
- Rva006D0790Ref found(((Rva006D07E0List*)this)->find(first).node->entry);
- void*name=found.ptr->name;
+ Rva006D0790*entry=((Rva006D07E0List*)this)->find(first).node->entry;
+ Rva006D0790Ref found(entry);
+ void*name=entry->name;
  BfmeNodeVMU*node=head;
  while(node){if(node->entry->name==name)break;node=node->next;}
  if(!node){Rva006D0790Ref item(new Rva006D0790(first,name));prepend(item);}
