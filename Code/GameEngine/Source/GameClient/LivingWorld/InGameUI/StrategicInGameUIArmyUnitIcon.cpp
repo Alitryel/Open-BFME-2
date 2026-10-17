@@ -46,11 +46,12 @@ struct UnitUpgradeList {
  __forceinline unsigned size() const { return end-begin; }
  __forceinline void push_back(int &id) { reinterpret_cast<_STL::vector<ScienceType> *>(this)->push_back(reinterpret_cast<const ScienceType &>(id)); }
 };
-class Rva005F41AF { public: virtual void DoUpdate(); void rva005F41AF(); };
+struct TreeHintRef00217D4C;
+class Rva005F41AF { public: virtual TreeHintRef00217D4C CreateMovieClip(AptMovieClipFrame *); virtual void DoUpdate(); void rva005F41AF(); };
 struct UnitClipHolder { void *p; __forceinline void *get() const { return p; } __forceinline bool IsBound() const { return p!=0; } };
 namespace StrategicInGameUI {
 class ArmyUnitIcon : public virtual Rva005F41AF {
-public: virtual void DoUpdate(); void AddUpgradeIcons();
+public: virtual TreeHintRef00217D4C CreateMovieClip(AptMovieClipFrame *); virtual void DoUpdate(); void AddUpgradeIcons();
 private: int owner; UnitView *unit; UnitClipHolder clip; UnitUpgradeList upgrades; int unknown1c;
 };
 }
@@ -92,26 +93,26 @@ struct StrategicButtonImageView; struct Rva005F01D6In;
 namespace StrategicInGameUI { const Image *GetButtonImage(const StrategicButtonImageView *,int); }
 const Image *Rva005F01D6Get(Rva005F01D6In *);
 // WB1626A60 names CreateMovieClip (this file, line103). Retail5F49F0
-// is the complete171-byte counted-return factory, with a secondary receiver:
-// owner-1C, unit-18, clip-14, primary receiver-20. The ABI projection keeps
-// its address-derived spelling until the enclosing virtual-base contract is
-// reconciled. Allocates50 bytes via the established414-byte clip constructor,
-// sets portrait/type/count through owned providers, then calls AddUpgradeIcons.
-// Capturing each clip before its argument calls preserves retail evaluation
-// order; the counted return inlines the reference increment and hidden result.
-class Rva005F49F0 { public: TreeHintRef00217D4C rva005F49F0(AptMovieClipFrame *); };
-TreeHintRef00217D4C Rva005F49F0::rva005F49F0(AptMovieClipFrame *frame) {
+// is the complete171-byte counted-return factory; as an override of the
+// virtual base's slot 2 its receiver is that base (+0x20), which is why the
+// owner, unit and clip read at -1C/-18/-14. Its vtordisp thunk 0x005F4A9B is
+// emitted by StrategicInGameUIArmyUnitIconLifetime.cpp. Allocates50 bytes via
+// the established414-byte clip constructor, sets portrait/type/count through
+// owned providers, then calls AddUpgradeIcons. Capturing each clip before its
+// argument calls preserves retail evaluation order; the counted return inlines
+// the reference increment and hidden result.
+TreeHintRef00217D4C StrategicInGameUI::ArmyUnitIcon::CreateMovieClip(AptMovieClipFrame *frame) {
  TargetRef00217D4C *made = (TargetRef00217D4C *)new StrategicHUD::ArmyUnitIconMovieClip(frame);
- Rva002BED91 *holder = (Rva002BED91 *)((char *)this - 0x14);
+ Rva002BED91 *holder = (Rva002BED91 *)&clip;
  holder->set(made);
- int player = *(int *)((char *)*(void **)((char *)this-0x1c)+0x54);
+ int player = *(int *)((char *)owner+0x54);
  StrategicHUD::ArmyMemberIconMovieClip *portrait = (StrategicHUD::ArmyMemberIconMovieClip *)*(void **)holder;
- portrait->rva005FC9E0(StrategicInGameUI::GetButtonImage(*(const StrategicButtonImageView **)((char *)this-0x18),player));
+ portrait->rva005FC9E0(StrategicInGameUI::GetButtonImage((const StrategicButtonImageView *)unit,player));
  Rva005FC9F0 *type = (Rva005FC9F0 *)*(void **)holder;
- type->rva005FC9E8(Rva005F01D6Get(*(Rva005F01D6In **)((char *)this-0x18)));
+ type->rva005FC9E8(Rva005F01D6Get((Rva005F01D6In *)unit));
  Rva005FC9F0 *quantity = (Rva005FC9F0 *)*(void **)holder;
- quantity->rva005FC9F0((*(Rva0037E07C **)((char *)this-0x18))->rva0037E07C());
- ((StrategicInGameUI::ArmyUnitIcon *)((char *)this-0x20))->AddUpgradeIcons();
+ quantity->rva005FC9F0(((Rva0037E07C *)unit)->rva0037E07C());
+ AddUpgradeIcons();
  return TreeHintRef00217D4C(*(TargetRef00217D4C **)holder);
 }
 
