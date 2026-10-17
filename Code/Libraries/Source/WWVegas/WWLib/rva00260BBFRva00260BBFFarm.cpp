@@ -9,6 +9,9 @@
 #include "unicode_string.h"
 #include <vector>
 #include <algorithm>
+// bfme link decl-only begin
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
+// bfme link decl-only end
 struct Rva00260B88Element
 {
  int a[2];

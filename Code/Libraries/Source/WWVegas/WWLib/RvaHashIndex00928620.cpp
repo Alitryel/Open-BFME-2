@@ -8,6 +8,17 @@
 #define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+// bfme link decl-only end
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

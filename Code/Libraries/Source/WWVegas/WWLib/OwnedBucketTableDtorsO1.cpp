@@ -186,6 +186,19 @@ void Rva00289706::rva00289706()
 // matching the complete native two-state EH graph and guard-bit cleanups.
 #include "ascii_string.h"
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+// bfme link decl-only end
 struct Rva00148B27Element { char bytes[1]; };
 struct Rva002A9029Element { char bytes[1]; };
 typedef _STL::pair<const int, Rva00148B27Element> StringMapFindValue;

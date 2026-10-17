@@ -21,6 +21,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // bfme link decl-only begin
 namespace _STL { template <> void deque<void *, allocator<void *> >::_M_reallocate_map(unsigned int, bool); }
 namespace _STL { template <> void ***copy<void ***, void ***>(void ***, void ***, void ***); }
+namespace _STL { template <> unsigned int deque<void *, allocator<void *> >::max_size() const; }
 // bfme link decl-only end
 
 // Native 0x0038938C: STLport4.5.3 pointer queue pop forwarding to its owned provider.

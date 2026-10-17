@@ -15,6 +15,9 @@
 // from the former ArmorHashMapErase.cpp row that byte-matched here.
 #include <hash_set>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 
 struct Rva00051B89Keyed;
 

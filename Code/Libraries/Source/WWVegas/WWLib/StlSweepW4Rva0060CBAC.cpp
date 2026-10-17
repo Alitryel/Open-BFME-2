@@ -6,6 +6,10 @@
 #include <hash_map>
 #include <string>
 #include <utility>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+// bfme link decl-only end
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization

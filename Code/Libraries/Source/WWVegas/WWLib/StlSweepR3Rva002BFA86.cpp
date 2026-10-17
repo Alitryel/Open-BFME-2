@@ -16,6 +16,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #pragma optimize("", on)
 
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 
 
 

@@ -9,6 +9,9 @@
 // The shared clear worker only unlinks/frees nodes with trivially destructible
 // values. Its ArmorTable spelling is retained from the established provider.
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+// bfme link decl-only end
 struct Rva0014918DElement {char bytes[8];};
 enum NameKeyType {NAMEKEY_INVALID=0,NAMEKEY_MAX=1<<23,FORCE_NAMEKEYTYPE_LONG=0x7fffffff};
 namespace rts { template<class T>struct hash {unsigned operator()(const T&v)const{return (unsigned)v;} }; }

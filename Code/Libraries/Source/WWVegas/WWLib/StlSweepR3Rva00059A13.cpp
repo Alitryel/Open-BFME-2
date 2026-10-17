@@ -8,6 +8,14 @@
 // declaration-only specialisation keeps that call out of line here, as in
 // retail. Owner name address-derived.
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 
 struct Rva0005893DRecord {Rva0005893DRecord();Rva0005893DRecord(const Rva0005893DRecord&);~Rva0005893DRecord();Rva0005893DRecord&operator=(const Rva0005893DRecord&);char bytes[1];bool operator<(const Rva0005893DRecord&)const;bool operator==(const Rva0005893DRecord&)const;};
 

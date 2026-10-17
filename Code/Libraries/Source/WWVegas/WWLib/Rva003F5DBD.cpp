@@ -16,6 +16,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> vector<void *, allocator<void *> > & vector<void *, allocator<void *> >::operator=(vector<void *, allocator<void *> > const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+// bfme link decl-only end
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
 // shape per TU flags); explicit dllimport+forceinline specializations take

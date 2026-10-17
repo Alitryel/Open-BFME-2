@@ -4,6 +4,12 @@
 // of native GetEdges16E450 invokes its5B destructor16E2B0. Existing pair-key
 // clear86B provider was fold-proven in RvaMapIndexGenP12pod00928690.cpp.
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+// bfme link decl-only end
 typedef _STL::pair<int, int> Rva00928590Key;
 struct Rva00928590Hash { unsigned operator()(const Rva00928590Key &) const; };
 struct Rva00928590Eq { bool operator()(const Rva00928590Key &, const Rva00928590Key &) const; };
