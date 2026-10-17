@@ -34440,6 +34440,8 @@ pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponRva002CE849Parse.c
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponRva002CE849Parse.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp	"gsy",on	1
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponSetSetWeaponLock.cpp	"",on	1	allow=f00ca48831a4db00af40ab05ce9900581a6b3bdf
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponSetSetWeaponLock.cpp	"p",on	1	allow=f00ca48831a4db00af40ab05ce9900581a6b3bdf
 pragma_optimize	Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp	"y",off	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp	"y",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/ScriptEngine/Rva0054840AXfer.cpp	"",on	1

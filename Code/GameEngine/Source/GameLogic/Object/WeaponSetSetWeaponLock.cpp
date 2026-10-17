@@ -1,4 +1,4 @@
-// cl: /O1 /Oy /G7 /arch:SSE /DNDEBUG /MD
+// cl: /I. /O1 /Oy /G7 /arch:SSE /DNDEBUG /MD
 //
 // WeaponSet::setWeaponLock, retail 0x002C8AAE (237 bytes).
 // Identity: Zero Hour WeaponSet.cpp setWeaponLock (false for NOT_LOCKED or an
@@ -201,12 +201,19 @@ class Rva002CA9CA
 public:
 	bool rva002CA9CA(int id, const void *arg);
 };
+enum WeaponChoiceCriteria
+{
+ PREFER_MOST_DAMAGE=0, PREFER_LONGEST_RANGE=1, PREFER_SPECIAL=2,
+ PREFER_SMALLEST_RANGE_ERROR=3, PREFER_RANDOM=4, PREFER_TEMPLATE_DEFAULT=5
+};
 class WeaponSet
 {
 public:
 	bool setWeaponLock(WeaponSlotType weaponSlot, WeaponLockType lockType);
  void updateWeaponSet(const Object *);
  void releaseWeaponLock(WeaponLockType);
+ bool chooseBestWeaponForTarget(const Object *, const Object *, WeaponChoiceCriteria, CommandSourceType);
+ bool rva002C75D1(int, int) const;
 	CanAttackResult getAbleToUseWeaponAgainstTarget(AbleToAttackType, const Object *, const Object *, const Coord3D *, CommandSourceType) const;
 	CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType, const Object *, const Object *, CommandSourceType) const;
 private:
@@ -292,8 +299,11 @@ class Rva002C943B { public: void rva002C943B(const Rva002C943BSrc *); };
 struct SavedWeaponState { int fields[5]; SavedWeaponState() { ((Rva002C9424 *)this)->rva002C9424(); } };
 class WeaponTemplate { public:
  char pad0[0xc]; int m_key; char pad10[0x2c-0x10]; float m_minTargetAngle; char pad30[0x58-0x30]; int m_damageType;
- char pad5C[0x10c-0x5c]; unsigned m_anti; char pad110[4]; bool m_damage; char pad115[0x170-0x115]; bool m_noVictimAttack;
+ char pad5C[0x78-0x5c]; int m_clipSize; char pad7C[0x10c-0x7c]; unsigned m_anti;
+ char pad110[4]; bool m_damage; char pad115[0x128-0x115]; int m_autoReload;
+ char pad12C[0x16b-0x12c]; bool m_autoChoose; char pad16C[0x170-0x16c]; bool m_noVictimAttack;
 };
+enum WeaponStatus { READY_TO_FIRE=0, OUT_OF_AMMO=1 };
 class Weapon { public:
  virtual void *nativeSlot0(unsigned)=0;
  void rva002CE226(const Object *,const SavedWeaponState *);
@@ -301,6 +311,11 @@ class Weapon { public:
  char isWithinAttackRange(Object *,void *,float,int) const;
  bool isSourceObjectWithGoalPositionWithinAttackRange(const Object *,const Coord3D *,const Object *,const Coord3D *) const; // 0x002CB2D1
  bool rva002CCED3(const Object *,const Object *);
+ WeaponStatus getStatus() const;
+ bool isWithinTargetPitch(const Object *,const Object *) const;
+ float rva002C957E() const;
+ bool rva002C969D(const void *,int);
+ float rva002C9BE4(const Object *,const Object *) const;
  WeaponTemplate *m_template; unsigned m_ownerID;
  char padC[0x4c-0xc]; bool m_pitch;
 };
@@ -309,8 +324,12 @@ class WeaponStore { friend class WeaponSet; protected:
  WeaponTemplate *findWeaponTemplatePrivate(NameKeyType) const; public:
  Weapon *allocateNewWeapon(const WeaponTemplate *,WeaponSlotType) const;
 }; extern WeaponStore *TheWeaponStore;
+class Rva000CF0D6 { public: bool test(const Rva000CF0D6 *) const; };
+class ModelConditionFlags { public: bool rva000B3EB3() const; private: unsigned m_bits[19]; };
 class WeaponTemplateSet { public:
- char pad0[0x14]; const WeaponTemplate *m_weapons[6]; char pad2C[0xec-0x2c]; BitFlags<218> m_victimKindOf[6]; char pad194[0x35c-0x194]; bool m_sharedReload,m_sharedLock;
+ char pad0[0x14]; const WeaponTemplate *m_weapons[6]; char pad2C[0x44-0x2c];
+ BitFlags<218> m_kindOf44[6],m_victimKindOf[6]; ModelConditionFlags m_conditions194[6];
+ bool m_sharedReload,m_sharedLock; char pad35E[2]; WeaponChoiceCriteria m_defaultCriteria; bool m_364;
 };
 void WeaponSet::updateWeaponSet(const Object *obj)
 {
@@ -462,6 +481,7 @@ public:
 class AIUpdateInterface
 {
 public:
+ bool isWeaponSlotOnTurretAndAimingAtTarget(WeaponSlotType, const Object *) const;
 	char m_pad000[0x1F0];
 	Rva001E46E1 *m_1F0;
 };
@@ -773,3 +793,276 @@ CanAttackResult WeaponSet::getAbleToAttackSpecificObject(AbleToAttackType attack
 
 	return getAbleToUseWeaponAgainstTarget(attackType, source, victim, &victim->m_position, commandSource);
 }
+
+
+// Native 2C7D03..2C82C8 RET16: six-slot weapon choice. The BFME1/ZH donor
+// supplies the operation; target control flow and accesses establish the added
+// criteria, per-slot preference masks, default criterion and readiness rules.
+// Local slot metrics feed an inlined decision helper: this preserves native's
+// random/range/error reload order at the switch join without barriers or asm.
+// This is source decomposition, not a claim about the original helper name.
+class Rva002C9400ByteField { public: unsigned char get() const; };
+float __cdecl GetGameLogicRandomValueReal(float, float, char *, int);
+// /Op is required only for this native body and its inline decision helper.
+// Scope it here: applying /Op to older rows changes their verified x87 calls.
+#pragma optimize("p", on)
+static __forceinline void decideCandidate(WeaponChoiceCriteria criteria, Weapon * weapon, const Object * obj, const Object * victim, bool weaponIsReady, float damage, float random, float attackRange, float rangeError, int & i, int & currentDecision, int & currentDecisionBackup, bool & found, bool & foundBackup, float & bestDamage, float & bestDamageBackup, float & longestRange, float & longestRangeBackup, float & smallestError, float & smallestErrorBackup, float & bestRandom, float & bestRandomBackup) {
+		switch (criteria)
+		{
+		case PREFER_SPECIAL:
+			if (weapon->rva002C969D(obj, (int)victim))
+			{
+				currentDecision = i;
+				bestDamage = damage;
+				found = true;
+				i = -1;
+				break;
+			}
+		case PREFER_MOST_DAMAGE:
+			if (!weaponIsReady)
+			{
+				if (damage >= bestDamageBackup)
+				{
+					bestDamageBackup = damage;
+					currentDecisionBackup = i;
+					foundBackup = true;
+				}
+			}
+			else if (damage >= bestDamage)
+			{
+				bestDamage = damage;
+				currentDecision = i;
+				found = true;
+			}
+			break;
+		case PREFER_LONGEST_RANGE:
+			if (!weaponIsReady)
+			{
+				if (attackRange > longestRangeBackup)
+				{
+					longestRangeBackup = attackRange;
+					currentDecisionBackup = i;
+					foundBackup = true;
+				}
+			}
+			else if (attackRange > longestRange)
+			{
+				longestRange = attackRange;
+				currentDecision = i;
+				found = true;
+			}
+			break;
+		case PREFER_SMALLEST_RANGE_ERROR:
+			if (!weaponIsReady)
+			{
+				if (rangeError <= smallestErrorBackup)
+				{
+					smallestErrorBackup = rangeError;
+					currentDecisionBackup = i;
+					foundBackup = true;
+				}
+			}
+			else if (rangeError <= smallestError)
+			{
+				smallestError = rangeError;
+				currentDecision = i;
+				found = true;
+			}
+			break;
+		case PREFER_RANDOM:
+			if (!weaponIsReady)
+			{
+				if (random > bestRandomBackup)
+				{
+					bestRandomBackup = random;
+					currentDecisionBackup = i;
+					foundBackup = true;
+				}
+			}
+			else if (random > bestRandom)
+			{
+				bestRandom = random;
+				currentDecision = i;
+				found = true;
+			}
+			break;
+		}
+}
+bool WeaponSet::chooseBestWeaponForTarget(const Object *obj, const Object *victim,
+	WeaponChoiceCriteria criteriaArg, CommandSourceType cmdSource)
+{
+	WeaponChoiceCriteria criteria = criteriaArg == PREFER_TEMPLATE_DEFAULT ? m_set->m_defaultCriteria : criteriaArg;
+
+	if (m_curWeaponLockedStatus != NOT_LOCKED)
+		return true;
+
+	if (m_set->m_364)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			if (m_weapons[i] && m_weapons[i]->getStatus() != READY_TO_FIRE)
+				return true;
+		}
+	}
+
+	if (victim == 0)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			Weapon *weapon = m_weapons[i];
+			if (weapon == 0)
+				continue;
+			if (weapon->getStatus() == OUT_OF_AMMO && weapon->m_template->m_autoReload != 0)
+				continue;
+			if (((const Rva002C9400ByteField *)weapon->m_template)->get())
+				continue;
+			if (weapon->m_template->m_autoChoose)
+			{
+				m_curWeapon = (WeaponSlotType)i;
+				return true;
+			}
+		}
+		m_curWeapon = PRIMARY_WEAPON;
+		return false;
+	}
+
+	bool found = false;
+	bool foundBackup = false;
+	float longestRange = 0.0f;
+	float bestDamage = 0.0f;
+	float smallestError = 1.0e10f;
+	float bestRandom = 0.0f;
+	float longestRangeBackup = 0.0f;
+	float bestDamageBackup = 0.0f;
+	float smallestErrorBackup = 1.0e10f;
+	float bestRandomBackup = 0.0f;
+	int currentDecision = 0;
+	int currentDecisionBackup = 0;
+
+	for (int i = 5; i >= 0; --i)
+	{
+		Weapon *weapon = m_weapons[i];
+		if (weapon == 0)
+			continue;
+		if (!rva002C75D1(i, cmdSource))
+			continue;
+		if (weapon->m_template->m_noVictimAttack)
+			continue;
+
+		WeaponStatus status = weapon->getStatus();
+		if (status == OUT_OF_AMMO)
+		{
+			if (weapon->m_template->m_autoReload != 0)
+				continue;
+			if (weapon->m_template->m_clipSize >= 0)
+				continue;
+		}
+
+		if ((weapon->m_template->m_anti & getVictimAntiMask(victim)) == 0)
+			continue;
+		if (!weapon->isWithinTargetPitch(obj, victim))
+			continue;
+
+		bool canAffect = weapon->rva002CCED3(obj, victim);
+		if (!canAffect && weapon->m_template->m_damageType != 8)
+			continue;
+
+		Coord3D delta;
+		delta.x = obj->m_position.x;
+		delta.y = obj->m_position.y;
+		delta.z = obj->m_position.z;
+		delta.x -= victim->m_position.x;
+		delta.y -= victim->m_position.y;
+		delta.z -= victim->m_position.z;
+		float distance = delta.length();
+
+		float damage = canAffect ? 1.0f : 0.0f;
+		float attackRange = weapon->rva002C9BE4(obj, victim);
+		float minRange = weapon->rva002C957E();
+
+		bool weaponIsReady = (status == READY_TO_FIRE || status == (WeaponStatus)4);
+
+		float rangeError = 0.0f;
+		if (((const Rva002C9400ByteField *)weapon->m_template)->get())
+			rangeError = distance;
+		else if (minRange > distance)
+			rangeError = minRange - distance;
+		else if (distance > attackRange)
+			rangeError = distance - attackRange;
+
+		float random = GetGameLogicRandomValueReal(0.0f, 1.0f,
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponSet.cpp", 0x5c6);
+
+		if ((obj->m_ai && obj->m_ai->isWeaponSlotOnTurretAndAimingAtTarget((WeaponSlotType)i, victim))
+			|| minRange > distance)
+			weaponIsReady = false;
+
+		const WeaponTemplateSet *set = m_set;
+		const BitFlags<218> &victimKindOf = set->m_victimKindOf[i];
+		if (victimKindOf.any())
+		{
+			if (((const Thing *)victim)->isAnyKindOf(*(const BitFlags<69> *)&victimKindOf))
+			{
+				damage = 100000.0f;
+				attackRange = 100000.0f;
+				rangeError = 0.0f;
+				random += 1.0f;
+				weaponIsReady = weapon->getStatus() != OUT_OF_AMMO && distance >= minRange;
+			}
+			else
+			{
+				damage = -1.0f;
+				attackRange = -1.0f;
+				rangeError = 1.0e10f;
+				random -= 1.0f;
+				weaponIsReady = false;
+			}
+		}
+
+		const BitFlags<218> &kindOf44 = m_set->m_kindOf44[i];
+		if (kindOf44.any() && ((const Thing *)victim)->isAnyKindOf(*(const BitFlags<69> *)&kindOf44))
+		{
+			damage = 1.0e10f;
+			attackRange = 1.0e10f;
+			rangeError = 0.0f;
+			random += 1.0f;
+			weaponIsReady = weapon->getStatus() != OUT_OF_AMMO && distance >= minRange;
+		}
+
+		const ModelConditionFlags &conditions = m_set->m_conditions194[i];
+		if (conditions.rva000B3EB3())
+		{
+			if (((const Rva000CF0D6 *)&obj->m_conditionBits)->test((const Rva000CF0D6 *)&conditions))
+			{
+				damage = 1.0e10f;
+				attackRange = 1.0e10f;
+				rangeError = 0.0f;
+				random += 1.0f;
+				weaponIsReady = weapon->getStatus() != OUT_OF_AMMO && distance >= minRange;
+			}
+			else
+			{
+				damage = -1.0f;
+				attackRange = -1.0f;
+				rangeError = 1.0e10f;
+				random -= 1.0f;
+				weaponIsReady = false;
+			}
+		}
+
+		decideCandidate(criteria, weapon, obj, victim, weaponIsReady, damage, random, attackRange, rangeError, i, currentDecision, currentDecisionBackup, found, foundBackup, bestDamage, bestDamageBackup, longestRange, longestRangeBackup, smallestError, smallestErrorBackup, bestRandom, bestRandomBackup);
+	}
+
+	if (found)
+		m_curWeapon = (WeaponSlotType)currentDecision;
+	else if (foundBackup)
+	{
+		m_curWeapon = (WeaponSlotType)currentDecisionBackup;
+		found = true;
+	}
+	else
+		m_curWeapon = PRIMARY_WEAPON;
+	return found;
+}
+
+#pragma optimize("", on)
