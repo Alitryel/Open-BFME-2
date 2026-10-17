@@ -283,28 +283,8 @@ Bool W3DTerrainLogic::isClearLineOfSight(const Coord3D& pos, const Coord3D& posO
 //-------------------------------------------------------------------------------------------------
 /** W3D specific get height function for logical terrain */
 //-------------------------------------------------------------------------------------------------
-// ?getGroundHeight@W3DTerrainLogic@@ present-unmatched
-Real W3DTerrainLogic::getGroundHeight( Real x, Real y, Coord3D* normal ) const
-{
-#define USE_THE_TERRAIN_OBJECT
-#ifdef USE_THE_TERRAIN_OBJECT
-	if (TheTerrainRenderObject) 
-	{
-		return TheTerrainRenderObject->getHeightMapHeight(x,y,normal);
-	}	
-	else 
-	{
-		if (normal)
-		{	
-			//return a default normal pointing up
-			normal->x=0.0f;
-			normal->y=0.0f;
-			normal->z=1.0f;
-		}
-		return 0;
-	}
-#endif
-}  // end getHight
+// W3DTerrainLogic::getGroundHeight is rowed at 0x00062C45 (Rva00062FFFTerrainMaximumExtent.cpp)
+// with BFME2's body; the Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** Get the height considering the layer. */
