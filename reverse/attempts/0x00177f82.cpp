@@ -1,4 +1,6 @@
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
+// partial score=0.804 date=2026-10-17
+// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.8867 date=2026-10-14
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.8996551009461485 date=2026-10-10
@@ -46,11 +48,11 @@ class PointGroupTargetFVF {
 	unsigned diffuse;
 
 public:
-	unsigned Get_FVF_Size() const { return stride; }
-	unsigned Get_Location_Offset() const { return location; }
- unsigned Get_Normal_Offset() const { return normal; }
-	unsigned Get_Tex_Offset(unsigned) const { return tex0; }
-	unsigned Get_Diffuse_Offset() const { return diffuse; }
+	unsigned Get_FVF_Size() const { return *(volatile const unsigned *)&stride; }
+	unsigned Get_Location_Offset() const { return *(volatile const unsigned *)&location; }
+ unsigned Get_Normal_Offset() const { return *(volatile const unsigned *)&normal; }
+	unsigned Get_Tex_Offset(unsigned) const { return *(volatile const unsigned *)&tex0; }
+	unsigned Get_Diffuse_Offset() const { return *(volatile const unsigned *)&diffuse; }
 };
 
 struct BfmeSortingVBAccess {
