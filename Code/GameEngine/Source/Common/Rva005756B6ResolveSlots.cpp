@@ -8,7 +8,7 @@
 // 0x0057605D and 0x00576172 respectively, under the names they are rowed
 // as. No WorldBuilder names are matched.
 //   ?rva00576388@Rva005756B6@@QAEXPAUParent00575EEA@@@Z  slot 60
-//   ?rva00576105@Rva005756B6@@QAEXPAUParent0057605D@@@Z  slot 61
+//   ?rva00576105@Rva005756B6@@UAEXPAUParent0057605D@@@Z  slot 61 (also reached by the this-4 thunk 0x0057616A)
 //   ?rva00576323@Rva005756B6@@QAEXPAUParent00575E4E@@@Z  slot 62
 
 struct Parent0057605D;
@@ -60,12 +60,12 @@ class Rva005756B6
 {
 public:
 	void rva00576388(Parent00575EEA *parent);
-	void rva00576105(Parent0057605D *parent);
+	virtual void rva00576105(Parent0057605D *parent);
 	void rva00576323(Parent00575E4E *parent);
 private:
 	int outer() { return (int)((char *)this - 4); }
 
-	unsigned char m_pad00[0x28];
+	unsigned char m_pad04[0x28 - 4];
 	Rva00575674 m_holder28;					// +0x28
 };
 

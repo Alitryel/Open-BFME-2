@@ -271,9 +271,9 @@ public:
 class Rva005E6B8F
 {
 public:
-	void rva005E6B8F();
+	virtual void rva005E6B8F();
 private:
-	char m_pad00[0x14];
+	char m_pad04[0x14 - 4];
 	Rva005E6B3E *m_14;
 };
 

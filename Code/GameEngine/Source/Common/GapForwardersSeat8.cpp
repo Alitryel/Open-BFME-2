@@ -351,6 +351,19 @@ DEFINE_THUNK_UAE(Rva0056234A, rva0056234A, 0x0C, (Xfer *))
 DEFINE_THUNK_UAE(Rva0055EFC5, rva0055EFC5, 0x0C, (Xfer *))
 // ?<Rva003A5757::Rva003A5757> absent-from-retail
 DEFINE_THUNK_UAE(Rva003A5757, rva003A5757, 0x1C, (Xfer *))
+struct Parent0057605D;
+// ?<Rva005756B6::Rva005756B6> absent-from-retail
+struct Rva005756B6_BaseA { virtual void rva00576105(Parent0057605D *) = 0; };
+struct Rva005756B6_BaseB { virtual void rva00576105(Parent0057605D *) = 0; };
+class Rva005756B6 : public Rva005756B6_BaseA, public Rva005756B6_BaseB
+{
+public:
+	Rva005756B6(EmitVtableTag *);
+	virtual void rva00576105(Parent0057605D *);
+};
+Rva005756B6::Rva005756B6(EmitVtableTag *) {}
+// ?<Rva005E6B8F::Rva005E6B8F> absent-from-retail
+DEFINE_THUNK_UAE(Rva005E6B8F, rva005E6B8F, 0x08, ())
 
 namespace FXParticleSystem
 {
