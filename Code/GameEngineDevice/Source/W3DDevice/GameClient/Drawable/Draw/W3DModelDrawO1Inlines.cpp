@@ -40,6 +40,9 @@
 #include "WW3D2/Mesh.h"
 #include "WW3D2/MeshMdl.h"
 #include "Common/BitFlagsIO.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // Use the rowed four-word SWAR intersection counters from
 // BitFlags117CountInverseIntersection.cpp (inverse: 0x0033AE53), not ZH COMDATs.

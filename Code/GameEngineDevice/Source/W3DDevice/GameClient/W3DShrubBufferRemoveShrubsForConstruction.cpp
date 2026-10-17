@@ -82,6 +82,10 @@ struct GeometryRecord
 };
 
 #include "Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<GeometryRecord, allocator<GeometryRecord> >::~vector(); }
+namespace _STL { template <> vector<GeometryShape, allocator<GeometryShape> >::~vector(); }
+// bfme link decl-only end
 
 class GeometryInfo : public Snapshot
 {

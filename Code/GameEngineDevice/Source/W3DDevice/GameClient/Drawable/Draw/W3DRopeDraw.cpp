@@ -41,6 +41,9 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 
 struct BfmePod16 { int a[4]; };
 #include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> BfmeE16 * allocator<BfmeE16>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 // Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

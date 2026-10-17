@@ -15,6 +15,9 @@ struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 struct TreeHintRef00217D4C {void *p; ~TreeHintRef00217D4C();};
 namespace _STL {template<> vector<TreeHintRef00217D4C>::~vector();

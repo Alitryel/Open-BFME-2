@@ -100,6 +100,15 @@ static inline Bool isValidTimeToCalcLogicStuff()
 
 #if defined(DEBUG_CRC) && (defined(_DEBUG) || defined(_INTERNAL))
 #include <cstdarg>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<pair<NameKeyType const, PristineBoneInfo>, pair<NameKeyType const, PristineBoneInfo> >(pair<NameKeyType const, PristineBoneInfo> *, pair<NameKeyType const, PristineBoneInfo> const &); }
+namespace _STL { template <> PristineBoneInfo & map<NameKeyType, PristineBoneInfo, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::operator[](NameKeyType const &); }
+namespace _STL { template <> _Rb_tree_node<pair<NameKeyType const, PristineBoneInfo> > * _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::_M_create_node(pair<NameKeyType const, PristineBoneInfo> const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > > _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::_M_insert(_Rb_tree_node_base *, _Rb_tree_node_base *, pair<NameKeyType const, PristineBoneInfo> const &, _Rb_tree_node_base *); }
+namespace _STL { template <> _Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > > map<NameKeyType, PristineBoneInfo, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::insert(_Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > >, pair<NameKeyType const, PristineBoneInfo> const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > > _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::insert_unique(_Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > >, pair<NameKeyType const, PristineBoneInfo> const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > >, bool> _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::insert_unique(pair<NameKeyType const, PristineBoneInfo> const &); }
+// bfme link decl-only end
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/MiniLog.h
 class LogClass
 {

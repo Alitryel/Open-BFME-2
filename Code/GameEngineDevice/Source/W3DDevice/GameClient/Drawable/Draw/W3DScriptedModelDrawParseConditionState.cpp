@@ -19,6 +19,9 @@
 #include "ascii_string.h"
 #include <string.h>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
+// bfme link decl-only end
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {

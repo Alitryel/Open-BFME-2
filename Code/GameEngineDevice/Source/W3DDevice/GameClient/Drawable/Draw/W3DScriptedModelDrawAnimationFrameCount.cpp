@@ -834,6 +834,15 @@ void W3DScriptedModelDraw::processAnimations(){
 // selection spine with script transitions, three lanes and weapon timing.
 #include "ascii_string.h"
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_erase(_Rb_tree_node<AsciiString> *); }
+namespace _STL { template <> void vector<BfmePod24, allocator<BfmePod24> >::_M_insert_overflow(BfmePod24 *, BfmePod24 const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
+namespace _STL { template <> pair<_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >, bool> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::insert_unique(AsciiString const &); }
+// bfme link decl-only end
 class AdjustReport {public:
  virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual AdjustReport*text(const char*);virtual void s15();virtual void s16();virtual void s17();virtual void s18();virtual void finish(int);
  AdjustReport&operator<<(const Debug::Format&v){text((const char*)&v);return *this;}

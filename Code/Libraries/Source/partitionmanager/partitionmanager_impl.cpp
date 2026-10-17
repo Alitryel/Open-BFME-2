@@ -285,6 +285,9 @@ __forceinline unsigned int bfmeInlineCellX1050(PartitionManagerImpl *manager, fl
 // element names describe provider storage, not this query's element identity.
 struct Rva00626EF0Element { int words[6]; };
 #include "../../Include/Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> pair<int, int> * __uninitialized_copy<pair<int, int> const *, pair<int, int> *>(pair<int, int> const *, pair<int, int> const *, pair<int, int> *, __false_type const &); }
+// bfme link decl-only end
 enum ObjectID;
 class FlightDeckBehavior { public: struct FlightDeckInfo { Coord3D m_prep; float m_orientation; int m_runway; ObjectID m_objectInSpace; }; };
 // Match the existing FlightDeckInfo growth provider's malloc/free allocator.

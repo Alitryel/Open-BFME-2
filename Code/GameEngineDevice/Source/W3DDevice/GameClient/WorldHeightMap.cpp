@@ -103,6 +103,10 @@ extern const StaticNameKey TheKey_objectBasePhase("objectBasePhase");
 #include "W3DDevice/GameClient/W3DShadow.h"
 
 #include "Common/file.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ICoord2D, allocator<ICoord2D> >::_M_insert_overflow(ICoord2D *, ICoord2D const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> ICoord2D * allocator<ICoord2D>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

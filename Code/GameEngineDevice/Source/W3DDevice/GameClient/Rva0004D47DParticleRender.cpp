@@ -30,6 +30,11 @@ static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_
 }
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 class FrustumClass {};
 struct Vector3Data { float X, Y, Z; };

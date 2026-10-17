@@ -48,6 +48,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
+namespace _STL { template <> vector<bool, allocator<bool> >::vector(allocator<bool> const &); }
+namespace _STL { template <> vector<bool, allocator<bool> > & vector<bool, allocator<bool> >::operator=(vector<bool, allocator<bool> > const &); }
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iter<_Bit_reference, _Bit_reference *>, unsigned int, bool); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_insert_aux(_Bit_iter<_Bit_reference, _Bit_reference *>, bool); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsigned int); }
+// bfme link decl-only end
 
 typedef _STL::vector<bool, _STL::allocator<bool> > W3DBoolVector;
 

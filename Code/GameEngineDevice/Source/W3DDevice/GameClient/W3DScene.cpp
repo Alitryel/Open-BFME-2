@@ -103,6 +103,10 @@ void RGB_To_HSV(Vector3 &, const Vector3 &);
 void HSV_To_RGB(Vector3 &, const Vector3 &);
 
 #include "WW3D2/shdlib.h"
+// bfme link decl-only begin
+template <> bool RefMultiListClass<RenderObjClass>::Add(RenderObjClass *, bool);
+template <> bool RefMultiListClass<RenderObjClass>::Release_Head();
+// bfme link decl-only end
 // Imported-forceinline: this unit inlines RefMultiListClass<RenderObjClass>::Remove
 // and must not emit its 48-byte COMDAT copy, which was first in link order and
 // differs from retail's 47-byte body (rowed 0x0006EF4E, RefMultiListRenderObjRemove.cpp).
