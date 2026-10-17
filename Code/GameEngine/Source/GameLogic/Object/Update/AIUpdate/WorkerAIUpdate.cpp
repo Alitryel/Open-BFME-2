@@ -133,21 +133,8 @@ WorkerAIUpdate::WorkerAIUpdate( Thing *thing, const ModuleData* moduleData ) :
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1WorkerAIUpdate@@MAE@XZ present-unmatched
-WorkerAIUpdate::~WorkerAIUpdate( void )
-{
-
-	// delete our behavior state machine
-	if( m_dozerMachine )
-		m_dozerMachine->deleteInstance();
-
-	if( m_supplyTruckStateMachine )
-		m_supplyTruckStateMachine->deleteInstance();
-
-	if( m_workerMachine )
-		m_workerMachine->deleteInstance();
-
-}
+// WorkerAIUpdate's destructor is rowed with BFME2's body in WorkerAIUpdateDtor.cpp;
+// the Zero Hour copy here was a second definition.
 
 //-------------------------------------------------------------------------------------------------
 // One instruction away, and the instruction is the class. With the three offsets
