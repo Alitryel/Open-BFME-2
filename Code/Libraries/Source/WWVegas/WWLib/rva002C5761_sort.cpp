@@ -1,6 +1,8 @@
 // cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?Rva002C5761Sort@@YGXPAX@Z @0x002C5761 162B: collect doubly-linked nodes via vector then sort and relink.
+// ?rva002C5761@GameWindowManager@@QAEXPAVGameWindow@@@Z @0x002C5761 162B: collect a window's
+// doubly-linked child nodes via vector then sort and relink. Both callers (0x005A1F47,
+// 0x005BAA20) load TheWindowManager into ECX and push one window; the body ignores ECX (ret 4).
 // Evidence: calls rowed push_back ModuleData 0x004DFCB0, sort int 0x002C571E, base BfmeE16 0x00211E58, free 0x00030830;
 // list offsets +0x204 head, +0x1f8 next, +0x1fc prev; comparator push 0x006C0C45; callers 0x005A1F47 and 0x005BAA20.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -33,9 +35,16 @@ struct RvaHead
 };
 
 // ??$sort@PAHP6A_NHH@Z@_STL@@YAXPAH0P6A_NHH@Z@Z present-unmatched
-void __stdcall Rva002C5761Sort(void *p)
+class GameWindow;
+class GameWindowManager
 {
-	RvaHead *obj = (RvaHead *)p;
+public:
+	void rva002C5761(GameWindow *window);
+};
+
+void GameWindowManager::rva002C5761(GameWindow *window)
+{
+	RvaHead *obj = (RvaHead *)window;
 	_STL::vector<BfmeE16> tmp;
 	RvaNode **headLoc = &obj->m_head;
 	const ModuleData *cur = (const ModuleData *)*headLoc;

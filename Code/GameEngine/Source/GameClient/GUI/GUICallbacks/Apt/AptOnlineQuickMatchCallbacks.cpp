@@ -36,13 +36,12 @@ void GadgetComboBoxReset(GameWindow *comboBox);
 class OnlineQuickMatchWindowRef { public: GameWindow *m_window; };
 class Rva00323674 { public: Rva00323674(GameWindow *); };
 
-// Native 2C5761 ignores ECX and returns with RET4. Keep the caller's observed
-// manager load while invoking the existing stdcall provider, as in save/load.
-class GameWindowManager {};
-void __stdcall Rva002C5761Sort(void *);
-union QuickMatchSortCall {
- void (__stdcall *provider)(void *);
- void (GameWindowManager::*receiver)(GameWindow *);
+// Native 2C5761 is the rowed thiscall GameWindowManager::rva002C5761 (it
+// ignores ECX and returns with RET4); the caller loads the manager.
+class GameWindowManager
+{
+public:
+	void rva002C5761(GameWindow *window);
 };
 
 extern GameWindowManager *TheWindowManager;
@@ -142,9 +141,7 @@ void AptOnline::OnlineQuickMatch::InitGadgets(const char *name, void *argument, 
 		m_gadgets |= 0x80;
 		m_ladder = window;
 	}
-	QuickMatchSortCall sort;
-	sort.provider = &Rva002C5761Sort;
-	(TheWindowManager->*sort.receiver)(m_window);
+	TheWindowManager->rva002C5761(m_window);
 }
 
 // Retail 0x0056DCB7, 8 bytes: "AptOnline::Login::CancelLogin".
