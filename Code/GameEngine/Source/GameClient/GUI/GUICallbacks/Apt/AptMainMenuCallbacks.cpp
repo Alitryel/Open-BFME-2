@@ -489,31 +489,7 @@ void AptMainMenu::ContinueCampaign(const char *unused)
 		m_state = 1;
 }
 
-// Retail 0x00514E76, 42 bytes: "AptMainMenu::OnInitialized".
-void AptMainMenu::OnInitialized(const char *unused)
-{
-	ResetResolution(0);
-	m_initialized = true;
-	if (m_pendingRestart)
-	{
-		m_restart = true;
-		m_pendingRestart = false;
-	}
-}
 
-// Retail 0x005152E7, 114 bytes: "AptMainMenu::ExitGame" fires the
-// "ShellMainMenuExitPushed" script event, stops audio, runs the shell's
-// 0x0035BEC7 and sets TheGameEngine's vslot 20.
-void AptMainMenu::ExitGame(const char *unused)
-{
-	{
-		AsciiString name(g_009C108C);
-		TheScriptEngine->rva00357DD2(name);
-	}
-	TheAudio->v35(2, 1, 0);
-	TheShell->rva0035BEC7();
-	TheGameEngine->v20(true);
-}
 
 // Retail 0x00515074, 169 bytes: "AptMainMenu::BattleSchool" runs the
 // "MainMenuToBattleSchool" transition and clears the options file's
@@ -553,14 +529,6 @@ void AptMainMenu::Credits(const char *unused)
 	((GameEngineRate *)TheGameEngine)->v18(100);
 }
 
-// Retail 0x005158A7, 27 bytes. Name unknown: picks the credits menu
-// (+0x2A4 = "CreditsMenu") and runs 0x00515633; the time line's continue
-// 0x0051ED7E calls it on the main menu.
-void AptMainMenu::rva005158A7()
-{
-	m_2a4 = "CreditsMenu";
-	rva00515633();
-}
 
 // Retail 0x00515231, 182 bytes: "AptMainMenu::CreditsExit" stops and frees
 // the credits, restores the shell's audio unless 0x0035BD5D holds, reverses
@@ -648,30 +616,6 @@ void AptMainMenu::rva00514DC0(int button)
 		m_282 = button == 2;
 }
 
-// Retail 0x00514C15, 214 bytes: "AptMainMenu::ResetResolution" resizes a
-// windowed game's window to the display's resolution when they differ.
-void AptMainMenu::ResetResolution(const char *unused)
-{
-	if (!TheDisplay->getWindowed())
-		return;
-	int width = TheDisplay->getWidth();
-	int height = TheDisplay->getHeight();
-	tagRECT rect = {0};
-	GetClientRect(ApplicationHWnd, &rect);
-	if (rect.right - rect.left != width || rect.bottom - rect.top != height)
-	{
-		rect.left = 0;
-		rect.top = 0;
-		rect.right = width;
-		rect.bottom = height;
-		unsigned long style = GetWindowLongA(ApplicationHWnd, -16);
-		AdjustWindowRect(&rect, style, 0);
-		SetWindowPos(ApplicationHWnd, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 6);
-		TheMouse->rva000B3FD0();
-		Rva0041267F();
-		TheInGameUI->v108();
-	}
-}
 
 // AptMainMenu::LinearCampaignStart, retail 0x00514D05..0x00514DC0 (187 bytes,
 // cdecl static). WorldBuilder names it in AptMainMenu.cpp and asserts
@@ -1059,30 +1003,3 @@ void __cdecl Rva00437EC4Set(float seconds);
 struct AptMainMenuWide : public AptMainMenu, public FunctorBinding {};
 struct Rva00514DDAWide : public Rva00514DDA, public FunctorBinding {};
 
-void AptMainMenu::rva00515980()
-{
-	TheGameInfo = 0;
-	if (TheSkirmishGameInfo)
-	{
-		::delete TheSkirmishGameInfo;
-		TheSkirmishGameInfo = 0;
-	}
-	if (m_2a4.compare("CreditsMenu") != 0)
-	{
-		if (m_27f)
-			rva00514FE9();
-		else if (m_280)
-			TheTransitionHandler->reverse(AsciiString("PreParchmentMapFade_StartNew"));
-		TheShell->m_5d = false;
-		TheShell->m_6c = true;
-		if (m_state == 8)
-		{
-			m_282 = false;
-			AptMessageBox::Show(2, TheGameText->fetch("GUI:ValidateDisplayModeTitle"), TheGameText->fetch("GUI:ValidateDisplayModeMessage"),
-				TreeHintRef00217D4C(FunctorBinding(this, static_cast<void (AptMainMenuWide::*)(int)>(&AptMainMenu::rva00514DC0))),
-				TreeHintRef00217D4C(FunctorBinding(this, static_cast<void (Rva00514DDAWide::*)(int)>(&Rva00514DDA::rva00514DDA))));
-			Rva00437EC4Set(10.0f);
-			TheMouse->_bfme_setEngineVisibility(true);
-		}
-	}
-}
