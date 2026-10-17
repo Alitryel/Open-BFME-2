@@ -28,15 +28,17 @@ public:
 };
 }
 
-struct Rva00438FC5
+// Reference-only view: the only fact these bodies need is the destructor
+// address, so the view claims no members.
+struct Rva004393D6
 {
-	~Rva00438FC5();
+	~Rva004393D6();
 };
 
 struct Rva0023D377
 {
 	unsigned int m_00;
-	Rva00438FC5 m_04;
+	Rva004393D6 m_04;
 	~Rva0023D377();
 };
 

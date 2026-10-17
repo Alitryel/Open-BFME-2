@@ -7,15 +7,17 @@
 // self plus 0x00240C6E; ghidra size 53 vs 72 trust ret plus int3.
 extern "C" void __cdecl free(void *block);
 
-struct Rva00438FC5
+// Rva004393D6 is a reference-only view here: the only fact this body needs is
+// the destructor address, so the view claims no members.
+struct Rva004393D6
 {
-	~Rva00438FC5();
+	~Rva004393D6();
 };
 
 struct Rva0023D377
 {
 	unsigned int m_00;
-	Rva00438FC5 m_04;
+	Rva004393D6 m_04;
 	~Rva0023D377();
 };
 
