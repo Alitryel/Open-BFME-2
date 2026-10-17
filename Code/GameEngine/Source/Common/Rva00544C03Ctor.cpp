@@ -39,7 +39,37 @@ public:
 	unsigned char m_pad1D[0x20 - 0x1D];
 };
 
-extern const void *const g_00C69C98[];
+// The retail table at RVA 0x00869C98: 17 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GTurretAIIdleState@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Rva00544C24Get@@YAHXZ")();
+void __identifier("?xfer@AIHarvestPrepareSiteState@@UAEXPAVXfer@@@Z")();
+void __identifier("?onEnter@AIHarvestPrepareSiteState@@UAE?AW4StateReturnType@@XZ")();
+void __identifier("?rva005450B5@Rva005450B5@@QAEXH@Z")();
+void __identifier("?update@AIHarvestPrepareSiteState@@UAE?AW4StateReturnType@@XZ")();
+void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
+}
+extern const void *const g_00C69C98[17] = {
+	(const void *)&__identifier("??_GTurretAIIdleState@@UAEPAXI@Z"), // slot 0 0x004D8507
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?Rva00544C24Get@@YAHXZ"), // slot 2 0x00544C24
+	(const void *)&__identifier("?xfer@AIHarvestPrepareSiteState@@UAEXPAVXfer@@@Z"), // slot 3 0x00544AB3
+	(const void *)&__identifier("?onEnter@AIHarvestPrepareSiteState@@UAE?AW4StateReturnType@@XZ"), // slot 4 0x00544E3B
+	(const void *)&__identifier("?rva005450B5@Rva005450B5@@QAEXH@Z"), // slot 5 0x005450B5
+	(const void *)&__identifier("?update@AIHarvestPrepareSiteState@@UAE?AW4StateReturnType@@XZ"), // slot 6 0x00544FC6
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 8 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 9 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 10 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 11 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 12 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 13 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 14 0x0047A699
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 15 0x0047A699
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 16 0x000B3FD0
+};
 
 class Object;
 class AIUpdateInterface;
