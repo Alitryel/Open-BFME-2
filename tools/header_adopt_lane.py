@@ -196,7 +196,13 @@ def view_methods(name, sources, known=()):
             for typedef, spelling in TYPEDEFS.items():
                 member = re.sub(r"\b%s\b" % typedef, spelling, member)
             words = set(re.findall(r"[A-Za-z_]\w*", member)) - PRIMITIVE_WORDS - {name} - set(known)
-            if any(w[0].isupper() for w in words):
+            # A hump-underscore word (Delete_This, Add_Ref, Release_Ref) is an
+            # identifier a view names, not a type the header lacks: WWLib method
+            # identifiers spell that way and their true types never appear in
+            # the declaration. Over-keeping is safe — the per-unit byte
+            # tournament rejects any spelling that is not byte-equivalent.
+            hump_id = re.compile(r"^[A-Z][A-Za-z0-9]*(?:_[A-Z][A-Za-z0-9]*)+$")
+            if any(w[0].isupper() and not hump_id.match(w) for w in words):
                 continue                      # needs a type the header does not declare
             seen[signature(member, name)][member] += 1
     # an inline body beats a bare declaration: units that inline the method need it
@@ -254,7 +260,11 @@ def generate(contract, variant, methods, header=None):
         # an out-of-line copy constructor: retail calls one (a matched ??0X@@QAE@ABU0@@Z row)
         lines.append(f"    {name}(const {name} &that);")
     if "methods" in variant:
-        for member in methods.values():
+        # A leading destructor would put the delete-dtor in earlier vtable
+        # slots: every non-destructor method must precede it.
+        members = list(methods.values())
+        members.sort(key=lambda m: 1 if re.match(r"^\s*(?:\w+\s+)*~\w*\s*\(", m) else 0)
+        for member in members:
             lines.append("    " + member.replace("\n", "\n    "))
     lines += ["};", "", f"#endif // {guard}", ""]
     return "\n".join(lines)

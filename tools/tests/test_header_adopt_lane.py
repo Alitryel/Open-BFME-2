@@ -78,3 +78,32 @@ def test_view_methods_merge_void_spelling_and_skip_declspec_special_members(tmp_
     methods = lane.view_methods("Region3D", ["a.cpp", "b.cpp"], {"Coord3D"})
     assert len(methods) == 2                    # one width, one in(): pointer parameter names do not count
     assert "{" in methods[lane.signature("bool in(const Coord3D *p) const;", "Region3D")]   # the body wins
+
+
+def test_view_methods_keeps_hump_underscore_identifiers(tmp_path, monkeypatch):
+    # WWLib method names are hump-underscore identifiers (Delete_This,
+    # Add_Ref); the old all-uppercase-sounds-like-a-type filter dropped every
+    # such method, so generated headers shipped vtables whose slot 0 was the
+    # delete-dtor instead of the base class's Delete_This.
+    monkeypatch.setattr(lane, "ROOT", tmp_path)
+    (tmp_path / "rc.cpp").write_text(
+        "class RefCountClass {\n"
+        "public:\n"
+        "    void Release_Ref(void);\n"
+        "    virtual void Delete_This(void);\n"
+        "    virtual ~RefCountClass(void);\n"
+        "private:\n"
+        "    int NumRefs;\n};\n")
+    methods = lane.view_methods("RefCountClass", ["rc.cpp"])
+    assert "virtual void Delete_This(void);" in " ".join(methods.values())
+
+
+def test_generated_header_orders_destructor_last():
+    # A leading destructor would put the delete-dtor in the class vtable's
+    # first slot; the donor order keeps member virtuals before it.
+    methods = {"void Delete_This();": "virtual void Delete_This();",
+               "~dtor": "virtual ~RefCountClass(void) {}"}
+    contract = {"class": "RefCountClass", "key": "class", "key_by": "bytes", "size": 8, "size_by": "zh",
+                "bases": [], "fields": []}
+    text = lane.generate(contract, "data+methods", methods, None)
+    assert text.index("Delete_This") < text.rindex("~RefCountClass")
