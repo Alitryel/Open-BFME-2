@@ -1,10 +1,12 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva002DEE9A@Rva002DEE9AOwner@@QAEXXZ @0x002DEE9A 41B: triple-call clearer
-// (thiscall, void). Clears the +0xE0C and +0xE10 sub-objects via landed
-// list clear 0x0023DAA5, invokes pinned 0x002DE311 on this, then zeroes the
-// +0xE18 byte. Honest address-derived names; sub-object identities unproven
-// beyond the shared clear shape.
+// ?reset@GameState@@UAEXXZ @0x002DEE9A 41B. GameState's primary table
+// 0x00C0402C (installed by the rowed ctor 0x002DE4E6) holds it in slot 9, the
+// canonical subsystem reset slot: PlayerList's table 0x00BFD618 has its rowed
+// reset in slot 9 and update in slot 10, and GameState's slot 10 is the shared
+// empty RET. Body: clears the +0xE0C and +0xE10 lists via the landed list
+// clear 0x0023DAA5, runs the rowed 0x002DE311 on this, then zeroes the +0xE18
+// byte. Member identities are offsets.
 
 namespace _STL {
 template <class T> class allocator;
@@ -32,19 +34,19 @@ public:
 	void rva002DE311();
 };
 
-class Rva002DEE9AOwner
+class GameState
 {
 public:
-	void rva002DEE9A();
+	virtual void reset();
 private:
-	char m_pad00[0xE0C];
+	char m_pad04[0xE0C - 4];
 	Rva002DEE9A0E0C m_s0E0C;
 	Rva002DEE9A0E10 m_s0E10;
 	unsigned char m_b0E18;
 };
 
-// ?rva002DEE9A@Rva002DEE9AOwner@@QAEXXZ
-void Rva002DEE9AOwner::rva002DEE9A()
+// ?reset@GameState@@UAEXXZ
+void GameState::reset()
 {
 	((_STL::_List_base<int, _STL::allocator<int> > *)&m_s0E0C)->clear();
 	((_STL::_List_base<int, _STL::allocator<int> > *)&m_s0E10)->clear();

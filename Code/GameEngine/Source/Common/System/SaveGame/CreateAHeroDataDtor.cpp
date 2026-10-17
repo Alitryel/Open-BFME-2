@@ -48,6 +48,8 @@ public:
     bool rva00408A55();
     bool rva004099CA(AsciiString *name, bool flag);
     virtual ~CreateAHeroData();
+protected:
+    virtual void loadPostProcess();
 };
 CreateAHeroData::~CreateAHeroData() { if (!text4C.isEmpty()) WriteNamedHeroAtRva004074CF(); UnregisterCreateAHeroAtRva0021A624(this); }
 
@@ -252,4 +254,10 @@ bool CreateAHeroData::rva00408A55()
       return true;
     }
     return false;
+}
+
+// CreateAHeroData table 0x00C38D88 slot 1 (loadPostProcess, the canonical
+// Snapshot order) is the shared empty RET 0x000B3FD0.
+void CreateAHeroData::loadPostProcess()
+{
 }

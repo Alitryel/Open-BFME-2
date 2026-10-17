@@ -32,7 +32,6 @@ class Rva00062FFFTerrainPrefix
 public:
     void getMaximumPathfindExtent(Region3D *extent) const;
     void activeBoundaryExtent(Region3D *extent) const;
-    float groundHeight(float x,float y,Coord3D *normal) const;
     float rva00062C23(const Coord3D &pos, const Coord3D &posOther) const;
     void largestBoundaryExtent(Region3D *extent) const;
     void getExtentIncludingBorder(Region3D *extent) const;
@@ -176,7 +175,18 @@ float Rva00062FFFTerrainPrefix::rva00062C23(const Coord3D &pos, const Coord3D &p
  return TheTerrainRenderObject ? TheTerrainRenderObject->EstimateMaxHeightAlongLine(pos,posOther) : 0.0f;
 }
 
-float Rva00062FFFTerrainPrefix::groundHeight(float x,float y,Coord3D *normal) const {
+// W3DTerrainLogic's terrain table 0x00BC5890 and TerrainLogic's 0x00BFB2C8
+// line up slot for slot (slot 4 holds each class's rowed loadMap, slot 5 its
+// newMap); slot 6 (+0x18) is this body here and the rowed
+// TerrainLogic::getGroundHeight 0x0027CE9A there, so this is the W3D
+// override, as in Zero Hour.
+class W3DTerrainLogic
+{
+public:
+	virtual Real getGroundHeight(Real x, Real y, Coord3D *normal) const;
+};
+
+Real W3DTerrainLogic::getGroundHeight(Real x, Real y, Coord3D *normal) const {
  if(normal) {normal->x=0.0f;normal->y=0.0f;normal->z=1.0f;}
  if(TheTerrainRenderObject)
   return ((const Rva00062C45HeightMapVtableSlice *)TheTerrainRenderObject)->getHeightMapHeight(x,y,normal);

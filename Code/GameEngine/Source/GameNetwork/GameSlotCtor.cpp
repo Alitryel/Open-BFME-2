@@ -19,7 +19,7 @@ class Rva0022CE19SnapshotBase
 {
 public:
 	inline virtual ~Rva0022CE19SnapshotBase() {}
-	virtual void crc(Xfer *);
+	virtual void loadPostProcess();
 	virtual const char *typeName() const;
 	virtual void xfer(Xfer *);
 };
@@ -50,6 +50,9 @@ class GameSlot : public Rva0022CE19SnapshotBase
 public:
 	GameSlot();
 	virtual void reset();
+
+protected:
+	virtual void loadPostProcess();
 
 private:
 	unsigned int word04;
@@ -112,4 +115,11 @@ void GameSlot::reset()
 	hero64 = defaultHero;
 	flag1A4 = true;
 	text1A8 = AsciiString::TheEmptyString;
+}
+
+// GameSlot table 0x00BE7420 slot 1 (loadPostProcess, the canonical Snapshot
+// order) is the shared empty RET 0x000B3FD0, as in every GameSlot-derived
+// table (0x00C19424, 0x00C3E4FC).
+void GameSlot::loadPostProcess()
+{
 }

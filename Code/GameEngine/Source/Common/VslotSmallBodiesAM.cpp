@@ -74,24 +74,6 @@ void Rva003511C9::onExit(StateExitType status)
 	m_18->v14(0);
 }
 
-// 0x003A389E: clears +0xBC/+0xC0 and runs the pinned TeamFactory::clear.
-class TeamFactory
-{
-public:
-	void clear();
-	void rva003A389E();
-private:
-	char m_pad00[0xBC];
-	Int m_BC;
-	Int m_C0;
-};
-void TeamFactory::rva003A389E()
-{
-	m_BC = 0;
-	m_C0 = 0;
-	clear();
-}
-
 // 0x004201D5: byte i of the +0x70 array.
 class Rva004201D5
 {

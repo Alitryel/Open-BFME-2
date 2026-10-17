@@ -840,17 +840,6 @@ void Rva00385BDC::rva00385BDC()
 	Rva0038404A::rva00384E8E();
 }
 
-// 0x003A3899: tail jump to TeamFactory::clear.
-class Rva003A3899 : public TeamFactory
-{
-public:
-	void rva003A3899();
-};
-void Rva003A3899::rva003A3899()
-{
-	TeamFactory::clear();
-}
-
 // 0x003A44DA: tail jump to CreateModule::xfer.
 class Rva003A44DA : public CreateModule
 {
