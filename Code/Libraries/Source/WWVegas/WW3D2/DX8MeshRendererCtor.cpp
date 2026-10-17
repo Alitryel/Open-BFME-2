@@ -25,6 +25,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // stays uninitialized in both games. No pins: every member ctor is header-
 // inline (SimpleDynVecClass, GenericMultiListClass head self-link).
 #define Matrix4x4 Matrix4  // BFME renamed it
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
 #include "dx8renderer.h"
 
 // ??0DX8MeshRendererClass@@QAE@XZ

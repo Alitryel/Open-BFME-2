@@ -55,6 +55,11 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -196,7 +201,8 @@ void CameraShakeSystemClass::CameraShakerClass::Compute_Rotations(const Vector3 
 
 
 
-
+
+
 
 void CameraShakeSystemClass::Add_Camera_Shake
 (

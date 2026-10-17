@@ -7,6 +7,11 @@
 // owned by BfmeNonRefSceneList_dtor.cpp, not the donor RenderObj list template.
 // Retain the existing neutral Rva00141D00 owner; the original element name
 // and the purpose of its leading integer remain unknown.
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
 #include "multilist.h"
 
 class BfmeNonRefSceneList : public GenericMultiListClass

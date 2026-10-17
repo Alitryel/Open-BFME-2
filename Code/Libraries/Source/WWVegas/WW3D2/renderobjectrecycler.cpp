@@ -46,6 +46,11 @@
  *   RenderObjectRecyclerClass::Reset_Model -- resets a render object so it can be re-used     *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
 #include "renderobjectrecycler.h"
 #include <string.h>
 #include "rendobj.h"

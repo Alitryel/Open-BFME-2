@@ -6,6 +6,11 @@
 // come from retail; smart-reference names remain the established modeled types.
 // The transient move list uses the existing opaque1447B0/BD34EC provider;
 // no new destructor identity is claimed. Native global singleton is a pointer.
+// multilist.h's inline members are retail's size-optimised bodies: compile
+// them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
+#pragma optimize("s", on)
+#include "multilist.h"
+#pragma optimize("", on)
 #include "multilist.h"
 
 class TextureClass
