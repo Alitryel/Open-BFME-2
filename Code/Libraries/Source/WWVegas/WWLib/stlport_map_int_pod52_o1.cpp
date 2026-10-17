@@ -36,4 +36,7 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 struct BfmePod52 { int a[13]; };
+// The rowed ~_Rb_tree (stlport_map_int_pod52_tree_dtor.cpp, 0x00425FB4) resets the
+// EH state before freeing the header; this unit's copy did not. Bind to it.
+namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::~_Rb_tree(); }
 template class _STL::map<int, BfmePod52, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod52> > >;

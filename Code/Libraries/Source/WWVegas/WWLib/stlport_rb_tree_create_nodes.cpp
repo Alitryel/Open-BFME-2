@@ -56,6 +56,9 @@ struct BfmePod16 { int a[4]; };
 struct BfmePod20 { int a[5]; };
 struct BfmePod24 { int a[6]; };
 struct BfmePod52 { int a[13]; };
+// The rowed ~_Rb_tree (stlport_map_int_pod52_tree_dtor.cpp, 0x00425FB4) resets the
+// EH state before freeing the header; this unit's copy did not. Bind to it.
+namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::~_Rb_tree(); }
 struct BfmeStringRecord00448113 { public: unsigned char m_data[8]; };
 struct BfmeStringRecord004D05B8 { public: unsigned char m_data[8]; };
 class Rva00064640Record { public: unsigned char m_data[28]; };

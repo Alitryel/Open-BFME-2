@@ -154,6 +154,9 @@ struct BfmePod52
 	NameKeyType m_nameKey;
 	StanceData m_stances[6];
 };
+// The rowed ~_Rb_tree (stlport_map_int_pod52_tree_dtor.cpp, 0x00425FB4) resets the
+// EH state before freeing the header; this unit's copy did not. Bind to it.
+namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::~_Rb_tree(); }
 
 BfmePod52::BfmePod52(NameKeyType key) : m_nameKey(key)
 {
