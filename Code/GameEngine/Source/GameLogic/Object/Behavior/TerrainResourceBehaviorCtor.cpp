@@ -26,8 +26,35 @@ extern "C" const void *const vtbl_00C493F8[];  // ??_7Rva00481F82@@6BRva00481F82
 #pragma comment(linker, "/alternatename:_vtbl_00C493F8=??_7Rva00481F82@@6BRva00481F82_S3@@@")
 extern "C" const void *const vtbl_00C493FC[];  // ??_7Rva00481F82@@6BRva00481F82_S2@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C493FC=??_7Rva00481F82@@6BRva00481F82_S2@@@")
-extern "C" const void *const vtbl_00C49408[];  // ??_7Rva00481F82@@6BRva0024A797@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C49408=??_7Rva00481F82@@6BRva0024A797@@@")
+// The retail table at RVA 0x00849408: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00481F82@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ")();
+void __identifier("?name@Rva00481FA9Named@@QBEPBDXZ")();
+void __identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z")();
+void __identifier("?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?rva00482134@Rva00482134@@QAEXXZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C49408[13] = {
+	(const void *)&__identifier("??_GRva00481F82@@UAEPAXI@Z"), // slot 0 0x00482118
+	(const void *)&__identifier("?loadPostProcess@TerrainResourceBehavior@@MAEXXZ"), // slot 1 0x0048223D
+	(const void *)&__identifier("?name@Rva00481FA9Named@@QBEPBDXZ"), // slot 2 0x00481FA9
+	(const void *)&__identifier("?xfer@TerrainResourceBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x004821CB
+	(const void *)&__identifier("?rva000481FBD@TerrainResourceBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00481FBD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("?rva00482134@Rva00482134@@QAEXXZ"), // slot 8 0x00482134
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
 extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
 

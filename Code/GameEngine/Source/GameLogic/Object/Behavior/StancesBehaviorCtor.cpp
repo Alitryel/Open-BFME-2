@@ -11,8 +11,34 @@
 // bytes (next explicit store is +0x30); its 23B body (Vector_base 0x211E58 +
 // or -1 at +0x0C) fits a vector plus flag word.
 
-extern "C" const void *const vtbl_00C424DC[];  // ??_7StancesBehavior@@6BRva0024A797@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C424DC=??_7StancesBehavior@@6BRva0024A797@@@")
+// The retail table at RVA 0x008424DC: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GStancesBehavior@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
+void __identifier("?Rva0045EFB6Get@@YAHXZ")();
+void __identifier("?xfer@StancesBehavior@@MAEXPAVXfer@@@Z")();
+void __identifier("?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C424DC[13] = {
+	(const void *)&__identifier("??_GStancesBehavior@@UAEPAXI@Z"), // slot 0 0x0045F068
+	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
+	(const void *)&__identifier("?Rva0045EFB6Get@@YAHXZ"), // slot 2 0x0045EFB6
+	(const void *)&__identifier("?xfer@StancesBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x0045ED9D
+	(const void *)&__identifier("?rva00045EFBC@StancesBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x0045EFBC
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
 
 extern "C" const void *const vtbl_00C424D0[];  // ??_7StancesBehavior@@6BStancesBehaviorInterfaceB@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C424D0=??_7StancesBehavior@@6BStancesBehaviorInterfaceB@@@")

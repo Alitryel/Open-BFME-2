@@ -14,7 +14,14 @@ public:
 	Rva0056B7E4(const AsciiString &name);
 };
 
-extern "C" const void *const vtbl_00C3789C[];
+// The retail table at RVA 0x0083789C: 1 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva0056B613@Rva0056B613@@QAEXH@Z")();
+}
+extern "C" const void *const vtbl_00C3789C[1] = {
+	(const void *)&__identifier("?rva0056B613@Rva0056B613@@QAEXH@Z"), // slot 0 0x0056B613
+};
 
 class Rva0056B63E
 {
