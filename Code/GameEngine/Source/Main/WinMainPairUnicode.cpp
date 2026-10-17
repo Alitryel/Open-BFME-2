@@ -213,6 +213,22 @@ WinMainTitlePair operator+(const Rva000B3F84Pair &left, const unsigned short *ri
 	return result;
 }
 
+// Native109CFD..109D3A: narrow text-pair plus C string. The shadow cache
+//10BC90 and StatsDisplay57A09F pass the eight-byte pair made by108B93;
+// the16-byte result is materialized by the existing narrow title converter.
+// Complete body and init(B3F84) relocation fold onto the existing generic
+// eight-byte-expression plus text owner, without asserting that owner type
+// as this pair's layout. Keep this overload beside its wide-string twin.
+WinMainTitlePair operator+(const Rva000B3F84Pair &left, const char *right)
+{
+	Rva000B3F84Pair text;
+	text.init(right);
+	WinMainTitlePair result;
+	static_cast<Rva000B3F84Pair &>(result) = left;
+	result.m_secondPair = text;
+	return result;
+}
+
 // ??H@YA?AURva002343C3TitleSegment@@ABUPairWithChar@@PBG@Z @0x513B5B
 Rva002343C3TitleSegment operator+(const PairWithChar &left, const unsigned short *right)
 {
