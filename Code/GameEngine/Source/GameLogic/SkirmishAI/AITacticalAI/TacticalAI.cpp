@@ -237,19 +237,6 @@ void TacticalAI::rva002C64D0(const Coord3DBase *position, int id)
     }
 }
 
-// Native73B RET0 and WB E88F20 ordered callgraph use the established
-// TacticalAI chooser/generator fields. The final dispatcher1C is independent
-// of whether a request is chosen. Original update-method name unresolved.
-void TacticalAI::rva002C6779() {
- updateInterestZones();
- if(chooser) chooser->rva00505911();
- generator->rva005069B4();
- Rva002C589B *request;
- if(chooser) target=request=chooser->getBestTarget();
- else request=fallback;
- if(request) generator->activateTactic((Rva00506909Request*)request,player);
- tail->rva00506AFA();
-}
 
 // Native 2C600A..2C60A9 and the named WB/filter caller establish predicate identity.
 
