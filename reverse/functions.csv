@@ -35579,7 +35579,6 @@ _Rva001CA000Vp6WideAccum,,0x001CA000,4240,Code/GameEngine/Source/Common/Rva001CA
 ?ji_0075ac08@@YAXXZ,,0x0075AC08,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA6FC;dll=msvcr71.dll;import=isprint;target=isprint
 ?ji_0075ac0e@@YAXXZ,,0x0075AC0E,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA700;dll=msvcr71.dll;import=gmtime;target=gmtime
 ?ji_0075ac7a@@YAXXZ,,0x0075AC7A,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA748;dll=msvcr71.dll;import=_setjmp3;target=setjmp3
-?ji_0075ace8@@YAXXZ,,0x0075ACE8,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA75C;dll=msvcr71.dll;import=_CRT_RTC_INIT;target=_CRT_RTC_INIT
 ?ji_0075b4cc@@YAXXZ,,0x0075B4CC,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA9A0;dll=wsock32.dll;import=inet_ntoa;target=inet_ntoa
 ?ji_0075b4f0@@YAXXZ,,0x0075B4F0,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA5F4;dll=msvcr71.dll;import=_strupr;target=_strupr
 ?init@SidesInfo@@QAEXPBVDict@@@Z,,0x0032CDAA,84,Code/GameEngine/Source/GameLogic/Map/SidesList_sidesInfo.cpp,matched,ZH SidesInfo init; BFME2 target stores ScriptList by value and clears vector at +0x54; /O1 /G7
@@ -96333,3 +96332,4 @@ __RTC_SetErrorFunc,,0x0075ACD1,16,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,
 __RTC_GetErrDesc,,0x0075AC98,24,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,matched,Authored from native userapi.obj identity and full24B; signed index guard0..3; native private16B four-string descriptor table atDDDFF4 preserved; complete literal values separately verified
 __RTC_SetErrorType,,0x0075ACB0,33,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,matched,Authored from native userapi.obj identity and complete33B; signed index0..3 swaps existing external _RTC_ErrorLevels int table; original error.obj remains its provider; complete four-body userapi member now C++
 __controlfp,,0x0062991C,6,Code/Libraries/Source/CRT/ControlFp.cpp,matched,Typed real C++ import veneer; public float.h unsigned32 two-argument cdecl ABI; original fp8 REL32 and retail PE msvcr71 _controlfp IAT BBA588 independently prove identity; replaces anonymous import scaffold
+__CRT_RTC_INIT,,0x0075ACE8,6,Code/Libraries/Source/CRT/CrtRtcInitImport.cpp,matched,Typed real C++ import veneer; public rtcapi.h five-argument cdecl callback-return ABI; native init.obj calls and PE msvcr71 _CRT_RTC_INIT IAT BBA75C independently establish identity; O2 emits native frame-free6B
