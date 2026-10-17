@@ -96157,3 +96157,4 @@ __ehhandler$?rva00480093@ShareExperienceBehavior@@UAEXM@Z,,0x0078B967,10,Code/Ga
 ?rva003A5896@Rva003A5896Forwarder@@WBM@AEXH@Z,,0x003A589E,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-0x1C) to rowed virtual rva003A5896 at 0x003A5896; vftable entry 0x0081B5A4
 _$E3,,0x007B6F3C,1,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracksTestUpdate.cpp,matched,empty atexit cleanup of TestWaterUpdate's second function-local static; registered at 0x000FF937 (the first is 0x007B6F3D)
 _$E6,,0x007B85E2,1,Code/GameEngine/Source/GameLogic/Object/Contain/HordeGarrisonContainTransform.cpp,matched,empty atexit cleanup of the function-local static in HordeGarrisonContain::rva00464829; registered at 0x00479FAE
+_rva00BB6C15Cleanup,,0x007B6C15,1,Code/GameEngine/Source/GameClient/Rva00085947Method.cpp,matched,empty atexit cleanup rva00087D42 registers for its cached position static (push at 0x00087D67)
