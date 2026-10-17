@@ -1,4 +1,6 @@
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
+// partial score=0.886 date=2026-10-17
+// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
 // partial score=0.8559 date=2026-10-13
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
 // partial score=0.97 date=2026-10-13
@@ -220,19 +222,21 @@ int AIBuildableWallSegment::canMake(Player *player)
  &result, startNode, &startNode->m_position, getWorldPosition(), false);
  if (failed)
  return 9;
- if (result.m_20 != 0) 
+ switch (result.m_20)
  {
-  if (result.m_20 == 7)
+ case 0:
+  break;
+ case 7:
   return 2;
+ default:
   return 9;
-  
  }
- if (player->m_money < result.m_pad04)
+ unsigned int money = player->m_money;
+ if (money < result.m_pad04)
  return 2;
  m_totalCost = result.m_pad04;
- {
- AsciiString dummy;
- }
+ if (0) { AsciiString dummy; }
+ zero = *(volatile int *)&m_totalCost;
  return zero;
  
 }
