@@ -1,4 +1,6 @@
 // ?rva000332D0@GeneralAllocator@Allocator@EA@@QAE_NPAXI_N100@Z
+// partial score=0.99 date=2026-10-17
+// ?rva000332D0@GeneralAllocator@Allocator@EA@@QAE_NPAXI_N100@Z
 // partial score=0.922 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -118,7 +120,7 @@ static inline void rva000332D0AddDoubleFencepost(unsigned int *chunk, unsigned i
 	unsigned int fencepostOffset = ((size & 0x7FFFFFF8) - 9) & 0xFFFFFFF8;
 	chunk[1] = (size & 0x80000007) | fencepostOffset;
 	unsigned int *fencepost = (unsigned int *)((char *)chunk + fencepostOffset);
-	fencepost[0] = fencepostOffset;
+	*(unsigned int *)((char *)chunk + fencepostOffset) = fencepostOffset;
 	fencepost[1] = flags | 8;
 	fencepost[2] = 8;
 	fencepost[3] = 9;
@@ -141,16 +143,16 @@ bool GeneralAllocator::rva000332D0(void *core, unsigned int size, bool freeCore,
 			if (size & 0xF)
 				size = size / 16 * 16;
 			CoreBlock *block = (CoreBlock *)core;
-			CoreBlock *head = &m_cores;
+			block->m_freeCore = freeCore;
+			block->m_freeCore2 = freeCore;
 			block->m_firstChunk = (Rva00031010Node *)(((unsigned int)core + 0x27) & ~7);
 			block->m_size = size;
 			block->m_committedSize = size;
 			block->m_flag0C = false;
-			block->m_freeCore = freeCore;
-			block->m_freeCore2 = freeCore;
 			block->m_trimCore = trimCore;
 			block->m_releaseFunction = releaseFunction;
 			block->m_releaseContext = releaseContext;
+			CoreBlock *head = &m_cores;
 			block->m_prev = head;
 			block->m_next = head->m_next;
 			head->m_next = block;
@@ -164,9 +166,12 @@ bool GeneralAllocator::rva000332D0(void *core, unsigned int size, bool freeCore,
 					block->m_size = 0;
 			}
 			unsigned int *chunk = (unsigned int *)block->m_firstChunk;
-			chunk[1] = ((unsigned int)block - (unsigned int)chunk + size) | 1;
-			chunk[0] = 0;
-			rva000332D0AddDoubleFencepost(chunk, 0);
+			unsigned int *chunkCopy = chunk;
+			unsigned int initSize = ((unsigned int)block - (unsigned int)chunkCopy + size);
+			unsigned int initFlags = (1 ? initSize : initSize) | 1;
+			chunkCopy[1] = initFlags;
+			chunkCopy[0] = 0;
+			rva000332D0AddDoubleFencepost(chunkCopy, 0);
 			_ReadWriteBarrier();
 			((Rva00031010 *)this)->rva00031010((Rva00031010Node *)chunk, m_top != &m_bin);
 			if (lock != 0)
