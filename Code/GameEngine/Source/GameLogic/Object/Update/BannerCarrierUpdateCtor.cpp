@@ -17,8 +17,34 @@ extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AI
 
 extern "C" const void *const vtbl_00C4F82C[];  // ??_7Rva004969FF@@6BRva004969FF_B2@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C4F82C=??_7Rva004969FF@@6BRva004969FF_B2@@@")
-extern "C" const void *const vtbl_00C4F838[];  // ??_7Rva004969FF@@6BRva0024A797@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C4F838=??_7Rva004969FF@@6BRva0024A797@@@")
+// The retail table at RVA 0x0084F838: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva004969FF@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
+void __identifier("?name@Rva00496A18Named@@QBEPBDXZ")();
+void __identifier("?xfer@Rva0047F94C@@QAEXPAVXfer@@@Z")();
+void __identifier("?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ")();
+}
+extern "C" const void *const vtbl_00C4F838[13] = {
+	(const void *)&__identifier("??_GRva004969FF@@UAEPAXI@Z"), // slot 0 0x00496AC2
+	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
+	(const void *)&__identifier("?name@Rva00496A18Named@@QBEPBDXZ"), // slot 2 0x00496A18
+	(const void *)&__identifier("?xfer@Rva0047F94C@@QAEXPAVXfer@@@Z"), // slot 3 0x0047F94C
+	(const void *)&__identifier("?rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00496A1E
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+	(const void *)&__identifier("?getUpdatePhase@UpdateModule@@MBE?AW4SleepyUpdatePhase@@XZ"), // slot 12 0x0022C4CB
+};
 
 class Thing;
 class ModuleData;

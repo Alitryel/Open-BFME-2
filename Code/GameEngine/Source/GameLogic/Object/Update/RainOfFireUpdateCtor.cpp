@@ -25,8 +25,18 @@ extern "C" const void *const vtbl_00C6FFFC[];  // folded, 10 classes; via ??_7?$
 
 extern "C" const void *const vtbl_00C54BA0[];  // ??_7RainOfFireUpdate@@6BSecondary20@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C54BA0=??_7RainOfFireUpdate@@6BSecondary20@@@")
-extern "C" const void *const vtbl_00C54BA8[];  // ??_7RainOfFireUpdate@@6BRva0024A797@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C54BA8=??_7RainOfFireUpdate@@6BRva0024A797@@@")
+// The retail table at RVA 0x00854BA8: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?update@RainOfFireUpdate@@UAE?AW4UpdateSleepTime@@XZ")();
+void __identifier("?getDisabledTypesToProcess@UpdateModule@@UBE?AV?$BitFlags@$0L@@@XZ")();
+void __identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z")();
+}
+extern "C" const void *const vtbl_00C54BA8[3] = {
+	(const void *)&__identifier("?update@RainOfFireUpdate@@UAE?AW4UpdateSleepTime@@XZ"), // slot 0 0x004AC2A8
+	(const void *)&__identifier("?getDisabledTypesToProcess@UpdateModule@@UBE?AV?$BitFlags@$0L@@@XZ"), // slot 1 0x00253376
+	(const void *)&__identifier("?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z"), // slot 2 0x0044DF8D
+};
 extern "C" const void *const vtbl_00C54BB8[];  // ??_7RainOfFireUpdate@@6BBehaviorModuleOther@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C54BB8=??_7RainOfFireUpdate@@6BBehaviorModuleOther@@@")
 extern "C" const void *const vtbl_00C54C74[];  // ??_7RainOfFireUpdate@@6BBehaviorModuleBase@@@

@@ -38,7 +38,49 @@
 // 0xDEC0E0 identity, slot 0/2-7 names) are not claimed.
 #include <vector>
 
-extern "C" const void *const vtbl_00BCF2F8[];
+// The retail table at RVA 0x007CF2F8: 21 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?init@Rva007DCA80@@UAEHXZ")();
+void __identifier("?shutdown@Rva007DCA80@@UAEHXZ")();
+void __identifier("?preRender@Rva007DCA80@@UAE_NAA_NAAH@Z")();
+void __identifier("?postRender@Rva007DCA80@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z")();
+void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
+void __identifier("?set@Rva007D85C0@@MAEHW4FilterModes@@@Z")();
+void __identifier("?rva000FB0BC@Rva007D85C0@@UAEXXZ")();
+void __identifier("?init@ScreenHilightFilter@@UAEHXZ")();
+void __identifier("?shutdown@ScreenHilightFilter@@QAEHXZ")();
+void __identifier("?preRender@ScreenHilightFilter@@UAE_NAA_NAAW4CustomScenePassModes@@@Z")();
+void __identifier("?postRender@ScreenHilightFilter@@UAE_NHAAVCoord2D@@AA_NPAV2@@Z")();
+void __identifier("?set@ScreenHilightFilter@@MAEHW4FilterModes@@@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?shutdown@Rva007D85C0@@QAEHXZ")();
+void __identifier("?preRender@Rva007D85C0@@UAE_NAA_NAAW4CustomScenePassModes@@@Z")();
+void __identifier("?postRender@Rva007D85C0@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z")();
+}
+extern "C" const void *const vtbl_00BCF2F8[21] = {
+	(const void *)&__identifier("?init@Rva007DCA80@@UAEHXZ"), // slot 0 0x000F9D94
+	(const void *)&__identifier("?shutdown@Rva007DCA80@@UAEHXZ"), // slot 1 0x000FA8AE
+	(const void *)&__identifier("?preRender@Rva007DCA80@@UAE_NAA_NAAH@Z"), // slot 2 0x000F9C9D
+	(const void *)&__identifier("?postRender@Rva007DCA80@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z"), // slot 3 0x000F9F82
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 4 0x005CB9FA
+	(const void *)&__identifier("?set@Rva007D85C0@@MAEHW4FilterModes@@@Z"), // slot 5 0x000FA632
+	(const void *)&__identifier("?rva000FB0BC@Rva007D85C0@@UAEXXZ"), // slot 6 0x000FB0BC
+	(const void *)&__identifier("?init@ScreenHilightFilter@@UAEHXZ"), // slot 7 0x000FA935
+	(const void *)&__identifier("?shutdown@ScreenHilightFilter@@QAEHXZ"), // slot 8 0x000FB8EB
+	(const void *)&__identifier("?preRender@ScreenHilightFilter@@UAE_NAA_NAAW4CustomScenePassModes@@@Z"), // slot 9 0x000FAAC5
+	(const void *)&__identifier("?postRender@ScreenHilightFilter@@UAE_NHAAVCoord2D@@AA_NPAV2@@Z"), // slot 10 0x000FAC37
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 11 0x005CB9FA
+	(const void *)&__identifier("?set@ScreenHilightFilter@@MAEHW4FilterModes@@@Z"), // slot 12 0x000FB10B
+	(const void *)&__identifier("?rva000FB0BC@Rva007D85C0@@UAEXXZ"), // slot 13 0x000FB0BC
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 14 0x000D43D0
+	(const void *)&__identifier("?shutdown@Rva007D85C0@@QAEHXZ"), // slot 15 0x000FB964
+	(const void *)&__identifier("?preRender@Rva007D85C0@@UAE_NAA_NAAW4CustomScenePassModes@@@Z"), // slot 16 0x000FAFF8
+	(const void *)&__identifier("?postRender@Rva007D85C0@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z"), // slot 17 0x000FB2C1
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 18 0x005CB9FA
+	(const void *)&__identifier("?set@ScreenHilightFilter@@MAEHW4FilterModes@@@Z"), // slot 19 0x000FB10B
+	(const void *)&__identifier("?rva000FB0BC@Rva007D85C0@@UAEXXZ"), // slot 20 0x000FB0BC
+};
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 
