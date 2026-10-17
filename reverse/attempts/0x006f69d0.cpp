@@ -1,11 +1,5 @@
 // ??0Rva006F69D0@@QAE@PAXHH@Z
-// partial score=0.946 date=2026-10-17
-// ??0Rva006F69D0@@QAE@PAXHH@Z
-// partial score=0.9397 date=2026-10-15
-// cl: /O2 /MD /DNDEBUG
-// Bank note: x87 float copies need an x87 TU (region default is SSE; a new TU needs a
-// flag_defaults.py propose override). Only residue: retail loads `second` into dx
-// before `mov eax,ecx` and gives the descriptor ecx; cl here moves this first.
+// partial score=0.97 date=2026-10-17
 extern const float BfmeZeroRange;
 
 struct Rva006F69D0Descriptor
@@ -38,12 +32,12 @@ public:
 };
 
 Rva006F69D0::Rva006F69D0(void *descriptor, int second, int fourth) throw()
-	: m_18(0)
 {
-	int s = *(volatile int*)&second;
-	const Rva006F69D0Descriptor *d = (const Rva006F69D0Descriptor *)descriptor;
-	m_18 = (unsigned short)s;
-	m_18 = (unsigned short)second;
+	// Both volatile reads only order the two parameter loads (no behaviour change):
+	// retail loads second, then moves this to eax, then gives the descriptor ecx.
+	unsigned short s = *(volatile unsigned short*)&second;
+	const Rva006F69D0Descriptor *d = *(const Rva006F69D0Descriptor *volatile *)&descriptor;
+	m_18 = s;
 	m_14 = d->m_flags;
 	m_00 = fourth;
 	m_1a = d->m_word38;
