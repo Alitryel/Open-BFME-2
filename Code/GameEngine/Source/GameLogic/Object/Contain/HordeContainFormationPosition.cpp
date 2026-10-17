@@ -12,6 +12,14 @@
 // that lifetime reproduces the native ESP-save and cached record index.
 // Canonical Coord3D plus field-wise input and output copies preserve
 // native SSE values until return. No new pin or alternative callee spelling.
+#include <functional>
+#include <utility>
+// less<int>::operator() and pair<const int,int>'s ctor: this /O1 unit inlines both but,
+// imported, emits no copies of its own (the census keeps other units' copies).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &x, const int &y) const { return x < y; }
+template <> __declspec(dllimport) __forceinline pair<const int, int>::pair(const int &a, const int &b) : first(a), second(b) {}
+}
 #include <map>
 #include <vector>
 // Keep template bodies visible for nonescape analysis; use existing providers
