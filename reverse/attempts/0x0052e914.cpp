@@ -1,8 +1,12 @@
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.886 date=2026-10-17
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.901 date=2026-10-14
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.98 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Native 0052ED74..0052F294, 1312B, RET8. Neutral shared receiver and
 // existing int-word ABI come from rowed 0052F294; retail tests the flag byte.
 // WB12DD670 corroborates the bridge-bounds removal and raised-wall endpoint
@@ -60,11 +64,12 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 	pt=topLeftCorner;pt.x=bottomRightCorner.x;
 	if(theBridge->isPointOnBridge(&pt))bridgeCount++;
 	if(flag){
+		PathfindZoneManager *zm=&m_zoneManager;
 		if(bridgeCount!=0&&cell->getType()==4){
 			Object *obj=TheGameLogic->findObjectByID(cell->getObstacleID());
-			if(obj){cell->rva0052DFB1((const Rva0052DFB1Arg*)obj);m_zoneManager.MarkDirty(i,j);}
+			if(obj){cell->rva0052DFB1((const Rva0052DFB1Arg*)obj);zm->MarkDirty(i,j);}
 		}
-		if(bridgeCount>0){if(((Rva0052E001*)cell)->rva0052E001(true))m_zoneManager.MarkDirty(i,j);}
+		if(bridgeCount>0){if(((Rva0052E001*)cell)->rva0052E001(true))zm->MarkDirty(i,j);}
 		if(bridgeCount==4){
 			bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
 			changed|=((Rva00366500*)cell)->rva00366500(0x10);
@@ -101,6 +106,7 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 			}
 		}else{
 			bool changed=((Rva00366500*)cell)->rva00366500(0x10);
+			_ReadWriteBarrier();
 			changed|=cell->SetType_Dirty(5);
 			changed|=((Rva00366500*)cell)->rva0036652D(0);
 			if(changed)m_zoneManager.MarkDirty(i,j);
