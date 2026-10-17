@@ -174,7 +174,9 @@ private:
 	_STLP_auto_lock(const _STLP_auto_lock &);
 };
 
-extern _STLP_mutex_base _Stl_loc_global_locale_lock;
+// STLport locale_impl.cpp's global-locale lock (0x009DEB1C), defined with locale::global
+// as there (_STLP_MUTEX_INITIALIZER: zero).
+_STLP_mutex_base _Stl_loc_global_locale_lock = { 0 };
 extern string _Nameless;
 
 locale __cdecl locale::global(const locale &L)
