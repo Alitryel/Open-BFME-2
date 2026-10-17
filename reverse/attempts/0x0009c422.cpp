@@ -1,4 +1,6 @@
 // ?rva0009C422@Rva0009D55BProduct@@UAEX_N@Z
+// partial score=0.99 date=2026-10-17
+// ?rva0009C422@Rva0009D55BProduct@@UAEX_N@Z
 // partial score=0.95 date=2026-10-13
 // ?rva0009C422@Rva0009D55BProduct@@UAEX_N@Z
 // partial score=0.94 date=2026-10-12
@@ -310,9 +312,18 @@ void Rva0009D55BProduct::rva0009DB5A(bool active)
 // and either copies the living-world manager's +0x34 and +0x2C/+0x30 words
 // into +0x134/+0xF8/+0xFC and refreshes (0x0009BAA4), or restores the full
 // viewport and saved aspect ratio and calls the table's slot 7.
-struct Rva0009C422ManagerHead { unsigned char m_pad[0x14]; };
-struct Rva0009C422ManagerPart { unsigned char m_pad[0x18]; float m_18; float m_1C; };
-struct Rva0009C422ManagerView : public Rva0009C422ManagerHead, public Rva0009C422ManagerPart { Rva0009C422ManagerPart &part() { return *this; } float m_34; };
+struct Rva0009C422ManagerInner
+{
+	float m_04;
+	float m_08;
+	unsigned char m_pad0C[0x20 - 0x0C];
+	float m_20;
+};
+struct Rva0009C422ManagerView
+{
+	unsigned char m_pad[0x14];
+	Rva0009C422ManagerInner m_14;
+};
 class Rva0009C422Slots
 {
 public:
@@ -323,11 +334,9 @@ public:
 void Rva0009D55BProduct::rva0009C422(bool active)
 {
 	Rva0009DB5ALivingWorldView *state = (Rva0009DB5ALivingWorldView *)this;
-	if (m_1AC == 0.0f && m_C0)
+	if (m_1AC == 0.0f && m_C0 && !state->m_viewMode)
 	{
-		if (state->m_viewMode)
-			return;
-		m_1AC = ((CameraClass *)m_C0)->Get_Aspect_Ratio();
+			m_1AC = ((CameraClass *)m_C0)->Get_Aspect_Ratio();
 	}
 	state->m_viewMode = active;
 	if (!active)
@@ -337,17 +346,20 @@ void Rva0009D55BProduct::rva0009C422(bool active)
 			Vector2 lo = { 0.0f, 0.0f };
 			Vector2 hi = { 1.0f, 1.0f };
 			((CameraClass *)m_C0)->Set_Viewport(lo, hi);
-			if (m_1AC == 0.0f)
-				return;
-			((CameraClass *)m_C0)->Set_Aspect_Ratio(m_1AC);
+			if (m_1AC != 0.0f)
+				((CameraClass *)m_C0)->Set_Aspect_Ratio(m_1AC);
 		}
-		((Rva0009C422Slots *)this)->slot7();
-		return;
 	}
-	Rva0009C422ManagerView *manager = (Rva0009C422ManagerView *)TheLivingWorldManager;
+	else
+	{
+		Rva0009C422ManagerView *manager = (Rva0009C422ManagerView *)TheLivingWorldManager;
+		char *base = (char *)manager + 0x14;
 
-	m_134 = manager->m_34;
-	m_F8.x = (manager->part()).m_18;
-	m_F8.y = (manager->part()).m_1C;
-	((Rva0009C134Host *)this)->rva0009BAA4();
+		m_134 = *(float *)(base + 0x20);
+		m_F8.x = *(float *)(base + 0x18);
+		m_F8.y = *(float *)(base + 0x1C);
+		((Rva0009C134Host *)this)->rva0009BAA4();
+	}
+	if (!active)
+		((Rva0009C422Slots *)this)->slot7();
 }
