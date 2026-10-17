@@ -25,7 +25,7 @@ namespace _STL {template<> void _Construct<Rva00502EA4Record,Rva00502EA4Record>(
 
 // This caller's native REL32 already names the kept provider at 0x00502C53.
 // Compatible calling convention and argument/return ABI; binding is address-proven.
-#pragma comment(linker, "/alternatename:??$_Construct@URva00502EA4Record@@U1@@_STL@@YAXPAURva00502EA4Record@@ABU1@@Z=??$_Construct@URva00502C53Element@@U1@@_STL@@YAXPAURva00502C53Element@@ABU1@@Z")
+#pragma comment(linker, "/alternatename:??$_Construct@URva00502EA4Record@@U1@@_STL@@YAXPAURva00502EA4Record@@ABU1@@Z=??$_Construct@U?$pair@$$CBHURva00501656@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva00501656@@@0@ABU10@@Z")
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template _STL::_Rb_tree_node<Rva00502EA4Record> * _STL::_Rb_tree<Rva00502EA4Record, Rva00502EA4Record, _STL::_Identity<Rva00502EA4Record>, _STL::less<Rva00502EA4Record>, _STL::allocator<Rva00502EA4Record> >::_M_create_node(Rva00502EA4Record const &);
