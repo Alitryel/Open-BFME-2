@@ -16,7 +16,50 @@ public:
 	BfmeThingSJ(int val);
 };
 
-extern const void *const g_00BD2690[];
+// The native MissingFactory table has 18 entries (RVA 0x007D2690).
+// Its rowed constructor installs it; slot 1 is the named MissingFactory::PreLoad.
+// Slots match the sibling Factory/RecolorFactoryDecal tables through slot 17;
+// the next word belongs to CameraClass's independently rowed secondary table.
+// These declarations name existing COFF code owners only. No call uses their
+// placeholder prototype; each pointer relocation is verified against retail.
+extern "C" {
+void __identifier("?bfmeGo1035G@BfmeG1035@@QAEPADXZ")();
+void __identifier("?PreLoad@MissingFactory@TextureAsset@@QAEXXZ")();
+void __identifier("??1Coord2D@@QAE@XZ")();
+void __identifier("?bfmeGo937B@BfmeThing937B@@QAEXXZ")();
+void __identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")();
+void __identifier("?rva00133380@Rva00131BE5@@QAEXXZ")();
+void __identifier("?Delete@AssetFactoryBase@@UAEXXZ")();
+void __identifier("??_GRva002DB8BA@@UAEPAXI@Z")();
+void __identifier("?rva00131CF2@Rva00131CF2@@QAE_NXZ")();
+void __identifier("?method@Rva009EB8A0@@QAEXXZ")();
+void __identifier("?bfmeGo1024E@BfmeE1024@@QAEXXZ")();
+void __identifier("?Rva000EF29AGet@@YAHXZ")();
+void __identifier("?rva00131CDB@Rva00131CDB@@QBEIXZ")();
+void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
+void __identifier("?rva00131CEA@Rva00131CEAForwarder@@QAEXH@Z")();
+void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
+}
+extern const void *const g_00BD2690[18] = {
+    (const void *)&__identifier("?bfmeGo1035G@BfmeG1035@@QAEPADXZ"), // slot 0
+    (const void *)&__identifier("?PreLoad@MissingFactory@TextureAsset@@QAEXXZ"), // slot 1
+    (const void *)&__identifier("??1Coord2D@@QAE@XZ"), // slot 2
+    (const void *)&__identifier("?bfmeGo937B@BfmeThing937B@@QAEXXZ"), // slot 3
+    (const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 4
+    (const void *)&__identifier("??1Coord2D@@QAE@XZ"), // slot 5
+    (const void *)&__identifier("??1Coord2D@@QAE@XZ"), // slot 6
+    (const void *)&__identifier("?rva00133380@Rva00131BE5@@QAEXXZ"), // slot 7
+    (const void *)&__identifier("?Delete@AssetFactoryBase@@UAEXXZ"), // slot 8
+    (const void *)&__identifier("??_GRva002DB8BA@@UAEPAXI@Z"), // slot 9
+    (const void *)&__identifier("?rva00131CF2@Rva00131CF2@@QAE_NXZ"), // slot 10
+    (const void *)&__identifier("?method@Rva009EB8A0@@QAEXXZ"), // slot 11
+    (const void *)&__identifier("?bfmeGo1024E@BfmeE1024@@QAEXXZ"), // slot 12
+    (const void *)&__identifier("?Rva000EF29AGet@@YAHXZ"), // slot 13
+    (const void *)&__identifier("?rva00131CDB@Rva00131CDB@@QBEIXZ"), // slot 14
+    (const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 15
+    (const void *)&__identifier("?rva00131CEA@Rva00131CEAForwarder@@QAEXH@Z"), // slot 16
+    (const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // slot 17
+};
 
 class HierarchyPrototypeRef
 {
