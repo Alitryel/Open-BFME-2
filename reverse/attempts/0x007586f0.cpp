@@ -1,4 +1,6 @@
 // ?rva007586F0@Rva007586F0@@QAEXXZ
+// partial score=0.491 date=2026-10-17
+// ?rva007586F0@Rva007586F0@@QAEXXZ
 // partial score=0.699 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -46,12 +48,15 @@ void Rva007586F0::rva007586F0()
             lists[side].head=node;
             node->next=old;
             ++lists[side].count;
-            side^=1;
+            side ^= 1;
+            _ReadWriteBarrier();
+            _ReadWriteBarrier();
             node=next;
         }
         unsigned source=0;
         unsigned run=1;
-        while(lists[source+1].count) {
+        while((source ? lists[source+1].count : lists[source+1].count)) {
+            _ReadWriteBarrier();
             SortChain *a=&lists[source], *b=&lists[source+1];
             source^=2;
             lists[source].count=lists[source+1].count=0;
