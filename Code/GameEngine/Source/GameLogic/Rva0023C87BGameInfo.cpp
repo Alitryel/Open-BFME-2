@@ -15,7 +15,7 @@ class NetworkInterface; extern NetworkInterface *TheNetwork;
 class LANAPI; extern LANAPI *TheLAN;
 class GameSpyStagingRoom; extern GameSpyStagingRoom *TheGameSpyGame;
 class RecorderClass; extern RecorderClass *TheRecorder;
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class GameInfo; class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo; // defined in SkirmishGameOptionsMenu.cpp
 
 struct Bfme939Helper
 {
@@ -62,7 +62,7 @@ GameInfo *Rva0023C87BLogic::rva0023C87B()
 	} else if (TheRecorder && ((Bfme939Helper *)TheRecorder)->get() == 1) {
 		game = (GameInfo *)((char *)TheRecorder + 0x24);
 	} else if (m_gameMode == 2) {
-		game = TheSkirmishGameInfo;
+		game = (GameInfo *)TheSkirmishGameInfo;
 	}
 	return game;
 }
