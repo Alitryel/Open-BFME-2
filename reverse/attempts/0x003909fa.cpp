@@ -1,4 +1,6 @@
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
+// partial score=0.738 date=2026-10-17
+// ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.84 date=2026-10-15
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.94 date=2026-10-09
@@ -66,19 +68,23 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  if(obj->holder && !(obj->holder->type->option115&0x20)) {
   ((UpdateModule *)this)->setWakeFrame(obj,UPDATE_SLEEP_FOREVER);return;
  }
- if(obj->testStatus(RVA_STATUS_46))obj->rva00293105();
  AIUpdateInterface *ai=obj->ai;
+ if(obj->testStatus(RVA_STATUS_46))obj->rva00293105();
  if(ai && !ai->slot16C()) {ai->rva0026331C();ai->commands.aiIdle(RVA_COMMAND_SOURCE_2);}
  ((UpdateModule *)this)->setWakeFrame(obj,UPDATE_SLEEP_NONE);
- Coord3D position;
- memcpy(&position.x,&obj->position.x,sizeof(float));
- memcpy(&position.y,&obj->position.y,sizeof(float));
- memcpy(&position.z,&obj->position.z,sizeof(float));
- float height=position.z-TheTerrainLogic->getLayerHeight(position.x,position.y,(PathfindLayerEnum)obj->rva0028B511(),0,true);
- if(height<0.0f)height=0.0f;
- float simulatedHeight=height;
  int frames=0;
- for(;frames<3*g_Va00DBA4E4 && simulatedHeight>0.0f;++frames)
+ float height=0.0f;
+ float simulatedHeight=0.0f;
+ Coord3D position;
+ {
+  memcpy(&position.x,&obj->position.x,sizeof(float));
+  memcpy(&position.y,&obj->position.y,sizeof(float));
+  memcpy(&position.z,&obj->position.z,sizeof(float));
+ }
+ height=position.z-TheTerrainLogic->getLayerHeight(position.x,position.y,(PathfindLayerEnum)obj->rva0028B511(),0,true);
+ if(height<0.0f)height=0.0f;
+ simulatedHeight=height;
+ for(;frames<(3*g_Va00DBA4E4) && simulatedHeight>0.0f;++frames)
   simulatedHeight+=TheWritableGlobalData->gravity*config->factor*frames;
  const Coord3D *velocity=(const Coord3D *)force;
  float vertical=velocity->z;
@@ -88,7 +94,7 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  duration+=frames;
  float count=(float)duration;
  float peak=(vertical*0.5f)*(count*0.5f);
- _ReadWriteBarrier();
+ *(volatile float*)&height = height;
  if(peak<0.0f)peak=0.0f;
  Coord3D destination=obj->position;
  position.x=velocity->x*count;destination.x+=position.x;
