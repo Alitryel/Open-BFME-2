@@ -308,3 +308,12 @@ comments carrying the `Coord3D` contract's own `decided_by` evidence. One signat
 (`Coord3D::sub(const Coord3DBase *)`) is excluded: `Coord3DBase` has no contract. The
 recipe is plain auto-analysis (no ledger seeding), so the rebuild needs only the
 executable, the pinned tools and this package.
+
+Result (2026-10-17, Ghidra 12.1.2, 5 Ghidra launches, 372 s of which 349 s is the
+import and auto-analysis): every rebuild step passed; 58 of 58 replayed fields compare
+equal after a fresh-process reopen and the second apply changed nothing. Plain
+auto-analysis already agreed with the package on all 18 names (through the demangler),
+all 18 ledger body extents and 12 of the 17 replayable signatures, storage included;
+the replay changed the 5 signatures that carry parameters (types and names), created
+the 3 contract types and wrote the 2 comments. That agreement is a pilot observation
+about these simple exported methods, not a measure of the rest of the binary.
