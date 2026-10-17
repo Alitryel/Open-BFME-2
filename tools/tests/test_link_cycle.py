@@ -1381,3 +1381,97 @@ def test_eh_verdict_is_a_verdict_for_a_thunk_outside_the_image():
     # the same thunk inside both images reaches the shape and FuncInfo checks
     assert lc.eh_verdict(image, 16, image, 16, B, B) != "thunk outside the image"
     assert lc.eh_verdict(image, 0, image, 16, B, B) == "thunk shape differs"
+
+
+def test_import_libraries_keep_source_thunks_and_generate_unowned_thunks(tmp_path, monkeypatch):
+    def run(cmd, **kw):
+        Path(next(a for a in cmd if a.startswith("/OUT:"))[5:]).write_bytes(b"!<arch>\n")
+        return subprocess.CompletedProcess(cmd, 0, "", "")
+    monkeypatch.setattr(lc.subprocess, "run", run)
+    monkeypatch.setattr(lc.build, "vc71_root", lambda: tmp_path)
+    monkeypatch.setattr(lc.build, "compiler_environment", lambda root: {})
+    lc.make_import_libs({"test.dll": ["Foo@4", "_bar", "?cpp@@YAXXZ", "Missing@0"]},
+                        tmp_path, {"_Foo@4", "__bar", "?cpp@@YAXXZ"})
+    assert (tmp_path / "imp_test.def").read_text() == (
+        "LIBRARY test.dll\nEXPORTS\n  Foo@4 DATA\n  _bar DATA\n"
+        "  ?cpp@@YAXXZ DATA\n  Missing@0\n")
+
+
+def test_runtime_libraries_are_explicit_md_defaults(tmp_path, monkeypatch):
+    monkeypatch.setattr(lc.build, "vc71_root", lambda: tmp_path)
+    assert lc.runtime_libraries() == [tmp_path / "Vc7/lib/msvcrt.lib", tmp_path / "Vc7/lib/oldnames.lib"]
+
+
+def test_defined_externals_excludes_undefined_and_static_names(tmp_path):
+    path = lc.write_coff(tmp_path / "providers.obj", [(".text", 0x60100020, b"\xc3", 0)],
+                         [("_owned", 1, 0, lc.EXTERNAL),
+                          ("_static", 1, 0, lc.STATIC),
+                          ("_missing", 0, 0, lc.EXTERNAL)])
+    assert lc.defined_externals(lc.Objects([path, tmp_path / "absent.obj"])) == {"_owned"}
+
+
+def test_native_import_thunk_and_crt_statics_link_without_force(tmp_path):
+    import shutil
+    if sys.platform != "win32" and not shutil.which("wine"):
+        pytest.skip("requires the committed MSVC/Wine toolchain")
+    import pefile
+    refs = ["__fltused", "___security_cookie", "__except_handler3", "_stricmp"]
+    obj = tmp_path / "probe.obj"
+    obj.write_bytes(emit(
+        [{"name": ".text", "flags": TEXT, "body": b"\xff\x25" + bytes(4),
+          "relocs": [(2, "__imp__Sleep@4", 6)]},
+         {"name": ".data", "flags": 0xC0300040, "body": bytes(4 * len(refs)),
+          "relocs": [(4 * i, n, 6) for i, n in enumerate(refs)]}],
+        [{"name": "_Sleep@4", "sec": 0}, {"name": "__imp__Sleep@4"}]
+        + [{"name": n} for n in refs]))
+    root = lc.build.vc71_root()
+    def link(libs, label):
+        target = tmp_path / (label + ".dll")
+        cmd = [str(root / "Vc7/bin/link.exe"), "/NOLOGO", "/DLL", "/NOENTRY",
+               "/NODEFAULTLIB", "/MACHINE:X86", "/OPT:NOREF", "/OUT:" + str(target),
+               obj.name] + [os.path.relpath(p, tmp_path) for p in libs]
+        if sys.platform != "win32":
+            cmd.insert(0, "wine")
+        result = subprocess.run(cmd, cwd=tmp_path, env=lc.build.compiler_environment(root),
+                                capture_output=True, text=True, errors="replace")
+        return result, target
+    before = tmp_path / "before"
+    before.mkdir()
+    result, _ = link(lc.make_import_libs({"kernel32.dll": ["Sleep@4"]}, before), "before")
+    assert result.returncode != 0
+    assert "LNK2005" in result.stdout and "__fltused" in result.stdout
+    after = tmp_path / "after"
+    after.mkdir()
+    objects = lc.Objects([obj])
+    libs = lc.make_import_libs({"kernel32.dll": ["Sleep@4"]}, after,
+                              lc.defined_externals(objects)) + lc.runtime_libraries()
+    result, target = link(libs, "after")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "LNK2005" not in result.stdout
+    image = pefile.PE(str(target))
+    assert any(d.dll.lower() == b"kernel32.dll" and any(i.name == b"Sleep" for i in d.imports)
+               for d in image.DIRECTORY_ENTRY_IMPORT)
+
+
+def test_stdcall_import_rewrite_preserves_archive_offsets_and_data_type(tmp_path):
+    def member(symbol, kind):
+        payload = struct.pack("<HHHHIIHH", 0, 0xffff, 0, 0x14c, 0,
+                              len(symbol) + 1 + len("test.dll") + 1, 0, kind)
+        payload += symbol.encode() + b"\0test.dll\0"
+        header = b"test.dll/".ljust(16) + b"0".ljust(12) + b"0".ljust(6) * 2
+        header += b"0".ljust(8) + str(len(payload)).encode().ljust(10) + b"`\n"
+        return header + payload + (b"\n" if len(payload) & 1 else b"")
+    raw = b"!<arch>\n" + member("_Foo@4", (2 << 2) | 1)
+    raw += member("_Bar@8", 2 << 2) + member("?cpp@@YAXXZ", 1 << 2)
+    path = tmp_path / "imports.lib"
+    path.write_bytes(raw)
+    lc.undecorate_stdcall_imports(path)
+    changed = path.read_bytes()
+    assert len(changed) == len(raw)
+    differences = [i for i, (a, b) in enumerate(zip(raw, changed)) if a != b]
+    assert len(differences) == 2
+    assert all(raw[i] ^ changed[i] == 4 for i in differences)
+    # The short member's DATA bit and C++ name mode are untouched.
+    assert struct.unpack_from("<H", changed, 8 + 60 + 18)[0] == (3 << 2) | 1
+    lc.undecorate_stdcall_imports(path)
+    assert path.read_bytes() == changed

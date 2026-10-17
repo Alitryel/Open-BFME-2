@@ -17,7 +17,8 @@ fixes of research 29, 31 and the round-2 review:
      quarantined and the link repeats until no order item drifts.
   3. Link setup: __except_list is an absolute 0 (the CRT's definition);
      import libraries are generated from retail's own import table for every
-     __imp_ name an object references; /OPT:NOICF. Unresolved names get 4-byte
+     __imp_ name an object references (IAT-only when source owns the thunk);
+     explicit /MD runtime libraries supply CRT statics and legacy aliases; /OPT:NOICF. Unresolved names get 4-byte
      data stubs, duplicate definitions need /FORCE; both are counted.
   4. Measure (per ledger row, every failing relocation, not the first):
      - a unit counts only when the /MAP shows the link selected its own copy
@@ -480,13 +481,56 @@ def read_through(code, fo):
     return fo >= 1 and code[fo - 1] == 0xA1 and not (fo >= 2 and code[fo - 2] in (0x8B, 0x8D, 0xFF, 0x89, 0xC7))
 
 
-def make_import_libs(entries, outdir):
+def defined_externals(objs):
+    """Names already provided by source objects, including native import thunks."""
+    return {y.name for p in objs.paths for o in [objs.get(p)] if o
+            for y in o[1].values() if y.cls == EXTERNAL and y.sec > 0}
+
+
+def runtime_libraries():
+    """Explicit /MD defaults: /NODEFAULTLIB otherwise drops CRT statics and aliases."""
+    directory = build.vc71_root() / "Vc7" / "lib"
+    return [directory / "msvcrt.lib", directory / "oldnames.lib"]
+
+
+def undecorate_stdcall_imports(path):
+    """Preserve COFF _name@N providers but import the DLL's undecorated name.
+
+    lib.exe /DEF retains @N in the DLL import name, including for DATA IAT-only
+    entries. Short import objects support UNDECORATE explicitly; changing that
+    name-type field leaves member sizes and both archive indexes intact.
+    Entries come from import_def_entries, which only accepts these spellings
+    when retail imports the undecorated function.
+    """
+    data = bytearray(path.read_bytes())
+    at = 8
+    while at + 60 <= len(data):
+        size = int(data[at + 48:at + 58].decode("ascii").strip())
+        start = at + 60
+        if size >= 20 and data[start:start + 4] == b"\0\0\xff\xff":
+            end = data.index(0, start + 20, start + size)
+            symbol = bytes(data[start + 20:end]).decode("latin-1")
+            kind = struct.unpack_from("<H", data, start + 18)[0]
+            if re.fullmatch(r"_[^?@]+@\d+", symbol) and (kind >> 2) & 7 == 2:
+                struct.pack_into("<H", data, start + 18, (kind & ~0x1C) | (3 << 2))
+        at += 60 + size + (size & 1)
+    path.write_bytes(data)
+
+
+def make_import_libs(entries, outdir, defined=()):
     root = build.vc71_root()
     libs = []
     for dll, names in sorted(entries.items()):
         stem = re.sub(r"\W", "_", dll.rsplit(".", 1)[0].lower())
         d = outdir / f"imp_{stem}.def"
-        d.write_text(f"LIBRARY {dll}\nEXPORTS\n" + "".join(f"  {n}\n" for n in names), encoding="latin-1")
+        # A CODE import member defines both __imp_X and a callable X thunk.
+        # When source already owns X, request only the IAT datum. DATA changes
+        # the archive's providers, not the imported DLL/name or the IAT contents.
+        exports = []
+        for n in names:
+            symbol = n if n.startswith("?") else "_" + n
+            exports.append(f"  {n}" + (" DATA" if symbol in defined else "") + "\n")
+        d.write_text(f"LIBRARY {dll}\nEXPORTS\n" + "".join(exports), encoding="latin-1")
         lib = outdir / f"imp_{stem}.lib"
         cmd = [str(root / "Vc7/bin/lib.exe"), "/NOLOGO", "/MACHINE:X86", f"/DEF:{d}", f"/OUT:{lib}"]
         if sys.platform != "win32":
@@ -494,6 +538,7 @@ def make_import_libs(entries, outdir):
         res = subprocess.run(cmd, capture_output=True, text=True, errors="replace", env=build.compiler_environment(root))
         if res.returncode or not lib.exists():
             raise SystemExit(f"link_cycle: lib.exe failed for {dll}:\n{res.stdout}{res.stderr}")
+        undecorate_stdcall_imports(lib)
         libs.append(lib)
     return libs
 
@@ -2190,7 +2235,7 @@ def cycle(args):
     cuts = [a for a in ghidra + list(byaddr) if text0 <= a < text0 + textsz]
     retail_imports = census.retail_imports()
     entries, imp_missing = import_def_entries(undefined_imports(objs), retail_imports)
-    libs = make_import_libs(entries, out)
+    libs = make_import_libs(entries, out, defined_externals(objs)) + runtime_libraries()
     absobj = write_coff(out / "absolute.obj", [], [(n, -1, v, EXTERNAL) for n, v in ABSOLUTE.items()])
     times["analyze"] = round(time.time() - t)
     print(f"link_cycle: {len(rows):,} rows, {len(units):,} units, {len(present):,} objects "
