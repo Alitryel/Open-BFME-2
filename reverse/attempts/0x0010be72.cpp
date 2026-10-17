@@ -1,5 +1,5 @@
 // ?rva0010BE72@Rva0010C785@@UAEXXZ
-// partial score=0.992 date=2026-10-15
+// partial score=0.998 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
@@ -18,7 +18,12 @@
 // same field offsets. Target deltas read from retail: the projected shadow's
 // list link sits at +0x114 (BFME 1: +0xD4), and the fade value rounds
 // through the dllimport ceil (slot 0x00BBA578). The method name is
-// address-derived; neither image names the slot.
+// address-derived; neither image names the slot. Each fade rounds the
+// lerp through the <math.h> float ceil overload (ceil(float) -> ceilf ->
+// the dllimport ceil): those two inline levels give retail's x87 pop order
+// around the double argument store. The list's base constructor, destructor,
+// clear and insert are the ICF-folded STLport pointer-list bodies, pinned
+// with this unit as their fold proof.
 
 #include <math.h>
 #include <list>
@@ -117,14 +122,14 @@ void Rva0010C785::rva0010BE72(void)
 					else if (frame < value44)
 					{
 						double from = value40;
-						shadow->setOpacity(fast_float2long_round(ceil(from + (Real)(frame - value38) / (Real)(value44 - value38) * (value48 - from))));
+						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - value38) / (Real)(value44 - value38) * (value48 - from)))));
 					}
 					else if (frame < value4C)
 						shadow->setOpacity(value48);
 					else if (frame < value50)
 					{
 						double from = value48;
-						shadow->setOpacity(fast_float2long_round(ceil(from + (Real)(frame - value4C) / (Real)(value50 - value4C) * (value54 - from))));
+						shadow->setOpacity(fast_float2long_round(ceil((float)(from + (Real)(frame - value4C) / (Real)(value50 - value4C) * (value54 - from)))));
 					}
 					else
 						shadow->setOpacity(value54);
