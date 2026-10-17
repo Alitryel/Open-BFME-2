@@ -173,10 +173,12 @@ void PartitionManager::rva007397A0(bool value)
 // Cell-sum thunk via +0x10 pointer tail-jumping to rowed 0x0073BD70.
 // Evidence: retail mov ecx [ecx+0x10] jmp; callers 0x004B0F6D 0x004B1438 0x004B1954 0x004D942B.
 struct BfmePointFD;
+struct BfmeCellOut;
 class Gen_008F7CD0
 {
 public:
 	int bfmeCellSum(const BfmePointFD *pt, int a, unsigned int b) const;
+	void rva0073BC60(int mask, int index, BfmeCellOut *out) const;
 };
 class Rva00739830
 {
@@ -190,6 +192,25 @@ private:
 int Rva00739830::rva00739830(const BfmePointFD *pt, int a, unsigned int b) const
 {
 	return m_cell->bfmeCellSum(pt, a, b);
+}
+
+//
+// ?rva00739810@Rva00739810@@QBEXHHPAUBfmeCellOut@@@Z retail 0x00739810 8B.
+// Best-cell thunk via +0x10 pointer tail-jumping to rowed 0x0073BC60.
+// Evidence: retail mov ecx [ecx+0x10] jmp; gap between rowed 0x00739800 and
+// 0x00739820; no direct caller or absolute reference in retail.
+class Rva00739810
+{
+public:
+	void rva00739810(int mask, int index, BfmeCellOut *out) const;
+private:
+	char m_pad[0x10];
+	Gen_008F7CD0 *m_cell; // +0x10
+};
+
+void Rva00739810::rva00739810(int mask, int index, BfmeCellOut *out) const
+{
+	m_cell->rva0073BC60(mask, index, out);
 }
 
 //
