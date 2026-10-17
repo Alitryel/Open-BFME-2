@@ -114,78 +114,10 @@ ThingFactory *TheThingFactory = NULL;  ///< Thing manager singleton declaration
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ??1ThingFactory@@ present-unmatched
-//-------------------------------------------------------------------------------------------------
-/** Create a new template with name 'name' and add to our template list */
-//-------------------------------------------------------------------------------------------------
-// ?newTemplate@ThingFactory@@ present-unmatched
-ThingTemplate *ThingFactory::newTemplate( const AsciiString& name )
-{
-	ThingTemplate *newTemplate;
-
-	// allocate template
-	newTemplate = newInstance(ThingTemplate);
-
-	// if the default template is present, get it and copy over any data to the new template
-	const ThingTemplate *defaultT = findTemplate( AsciiString( "DefaultThingTemplate" ), FALSE );
-	if( defaultT )
-	{
-
-		// copy over static data
-		*newTemplate = *defaultT;
-		newTemplate->setCopiedFromDefault();
-
-	}  // end if
-
-	// give template a unique identifier
-	newTemplate->friend_setTemplateID( m_nextTemplateID++ );
-	DEBUG_ASSERTCRASH( m_nextTemplateID != 0, ("m_nextTemplateID wrapped to zero") );
-
-	// assign name
-	newTemplate->friend_setTemplateName( name );
-
-	// add to list
-	addTemplate( newTemplate );
-
-	// return the newly created template
-	return newTemplate;
-
-}
-
-//-------------------------------------------------------------------------------------------------
-/** Create newTemplate, copy data from final override of 'thingTemplate' to the newly created one,
-	* and add newTemplate as the m_override of that final override.  NOTE that newTemplate
-	* is *NOT* added to master template list, it is a hidden place to store
-	* override values for 'thingTemplate' */
-//-------------------------------------------------------------------------------------------------
-// ?newOverride@ThingFactory@@ present-unmatched
-ThingTemplate* ThingFactory::newOverride( ThingTemplate *thingTemplate )
-{
-
-	// sanity
-	DEBUG_ASSERTCRASH( thingTemplate, ("newOverride(): NULL 'parent' thing template\n") );
-
-	// sanity just for debuging, the weapon must be in the master list to do overrides
-	DEBUG_ASSERTCRASH( findTemplate( thingTemplate->getName() ) != NULL,
-										 ("newOverride(): Thing template '%s' not in master list\n", 
-										 thingTemplate->getName().str()) );
-
-	// find final override of the 'parent' template
-	ThingTemplate *child = (ThingTemplate*) thingTemplate->friend_getFinalOverride();
-
-	// allocate new template
-	ThingTemplate *newTemplate = newInstance(ThingTemplate);
-
-	// copy data from final override to 'newTemplate' as a set of initial default values
-	*newTemplate = *child;
-	newTemplate->setCopiedFromDefault();
-
-	newTemplate->markAsOverride();
-	child->setNextOverride(newTemplate);
-
-	// return the newly created override for us to set values with etc
-	return newTemplate;
-
-}  // end newOverride
+// BFME2's newTemplate and newOverride are recovered in ThingFactoryNewTemplate.cpp
+// and ThingFactoryNewOverride.cpp. The unmatched ZH copies formerly left here
+// emitted a non-retail 1216-byte ThingTemplate::operator= (Zero Hour layout)
+// ahead of retail's 0x002D1101 in link order; keep them out of the link.
 
 //-------------------------------------------------------------------------------------------------
 /** Init */
@@ -490,3 +422,12 @@ void reportMissingNameInTemplate( AsciiString templateName )
 // a compile anchor, not a retail data claim.
 extern ThingTemplate *(ThingTemplate::*const _bfmeInlineAnchorFriendNext)() const =
     &ThingTemplate::friend_getNextTemplate;
+
+// The same for the header-inline rows that the ZH ThingTemplate::operator=
+// used to pull in: compile anchors, not retail data claims.
+extern ProductionPrerequisite &(ProductionPrerequisite::*const _bfmeInlineAnchorPrereqAssign)(const ProductionPrerequisite &) =
+    &ProductionPrerequisite::operator=;
+extern DynamicAudioEventRTS &(DynamicAudioEventRTS::*const _bfmeInlineAnchorDynAudioAssign)(const DynamicAudioEventRTS &) =
+    &DynamicAudioEventRTS::operator=;
+extern std::vector<ProductionPrerequisite>::size_type (std::vector<ProductionPrerequisite>::*const _bfmeInlineAnchorPrereqSize)() const =
+    &std::vector<ProductionPrerequisite>::size;

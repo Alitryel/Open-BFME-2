@@ -37,6 +37,12 @@ private:
 
 typedef char ProductionPrerequisiteSizeCheck[sizeof(ProductionPrerequisite) == 0x24 ? 1 : -1];
 
+// bfme link decl-only: retail's operator= is ProductionPrerequisiteVectorAssign.cpp's
+// 0x002D1033; this unit's copy differs and sorted first in link order.
+namespace _STL {
+template <> vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &
+vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::operator=(const vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &);
+}
 template class _STL::vector<ProductionPrerequisite>;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
