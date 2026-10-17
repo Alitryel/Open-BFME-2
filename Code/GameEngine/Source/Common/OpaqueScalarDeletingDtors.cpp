@@ -865,20 +865,6 @@ void ObjectModule_Anchor(ObjectModule *p)
 	p->ObjectModule::~ObjectModule();
 }
 
-class Rva004D7B93
-{
-public:
-	Rva004D7B93(EmitVtableTag *);
-	virtual ~Rva004D7B93();
-};
-
-// The tag constructor (no retail counterpart) makes this TU emit the vtable
-// and with it the scalar deleting destructor; the destructor is only declared here.
-// ?<Rva004D7B93::Rva004D7B93> absent-from-retail
-Rva004D7B93::Rva004D7B93(EmitVtableTag *)
-{
-}
-
 // Guarded-delete clear() batch: each owner below holds a heap element at
 // +0. The retail body loads the element, nulls the slot, and on non-null
 // runs the element destructor followed by the shared scalar operator

@@ -4600,7 +4600,6 @@ name,address,notes
 ??1Rva004BF951@@UAE@XZ,0x004BF951,opaque MI base dtor (SEH); 7 derived MI dtors tail-call it; identity unproven
 ??1Rva004CE36@@UAE@XZ,0x004CE36,opaque SEH dtor (mov-eax-cookie prologue, start inferred from prologue shape); called by scalar-deleting-dtor at 0x4CF47; identity unproven, address-derived name
 ??1Rva004D2344@@QAE@XZ,0x004D2344,destructor called by the unreferenced scalar deleting dtor 0x0025DEE5 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
-??1Rva004D7B93@@UAE@XZ,0x004D7B93,opaque dtor for scalar-deleting-dtor at 0x4D8507 (5B tail-jmp to pinned 0x49B47C fold); identity unproven address-derived pin
 ??1Rva004D960C@@QAE@XZ,0x004D960C,destructor called by the unreferenced scalar deleting dtor 0x004D96E4 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004DCE8E@@QAE@XZ,0x004DCE8E,destructor called by the unreferenced scalar deleting dtor 0x004B0D0C (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004DDF3A@@QAE@XZ,0x004DDF3A,destructor called by the unreferenced scalar deleting dtor 0x0028AB32 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name

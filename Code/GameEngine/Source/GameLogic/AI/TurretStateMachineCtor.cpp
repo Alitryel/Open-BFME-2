@@ -10,6 +10,11 @@
 // is pinned there) and creates every state with plain operator new; each
 // state constructor passes its own name key to the rowed TurretState base
 // 0x004D7B70.
+// Retail vtables 0x00C607D8/830/890/8F0/950 share deleting destructor
+// 0x004D8507. Their slot-2 string getters identify the five state names below.
+// This unit naturally emits the complete 28-byte helper; its call to the
+// complete destructor resolves through StateGetMachineGoalObject.cpp, without
+// the retired Rva004D7B93 pin or a synthetic vtable-emitting constructor.
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 typedef UnsignedInt StateID;
