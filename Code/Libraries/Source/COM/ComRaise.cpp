@@ -21,3 +21,8 @@ _com_error::~_com_error()
  if(info)info->Release();
  if(message)LocalFree((HLOCAL)message);
 }
+
+void __stdcall _com_raise_error(long value,IErrorInfo *error)
+{
+ throw _com_error(value,error,false);
+}
