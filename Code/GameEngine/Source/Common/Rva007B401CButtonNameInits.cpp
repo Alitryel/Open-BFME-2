@@ -22,6 +22,10 @@ void __cdecl rva007B94B4();
 
 extern unsigned g_Va00E062FC;
 extern unsigned g_Va00E0630C;
+// Owned here: the two 16-byte button-name statics this unit constructs (zero-filled .data;
+// their initialisers below fill them).
+unsigned int g_Va00E062FC;
+unsigned int g_Va00E0630C;
 
 class Rva00221635
 {

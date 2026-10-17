@@ -27,6 +27,10 @@ void __cdecl rva007B6B23();
 
 extern unsigned g_Va00DE1D00;
 extern unsigned g_Va00DE1D60;
+// Owned here: the two 0x60-byte GeometryInfo statics this unit constructs (zero-filled .data;
+// their initialisers below fill them).
+unsigned int g_Va00DE1D00;
+unsigned int g_Va00DE1D60;
 
 struct Rva007ABD4BGeometryInits
 {
