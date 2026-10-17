@@ -708,502 +708,111 @@ private:
 };
 
 // Retail 0x0059EC65, 13 bytes: "AptOnline::CustomMatch::PlayGame".
-void AptOnlineCustomMatch::PlayGame(const char *unused)
-{
-	m_state = 7;
-}
+// AptOnlineCustomMatch::PlayGame is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059ECC1, 17 bytes: "AptOnline::CustomMatch::LoadGame".
-void AptOnlineCustomMatch::LoadGame(const char *unused)
-{
-	AptSaveLoad::OpenScreen(2, 16, false);
-}
+// AptOnlineCustomMatch::LoadGame is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059ED18, 20 bytes: "AptOnline::CustomMatch::CancelPopUpCreate".
-void AptOnlineCustomMatch::CancelPopUpCreate(const char *unused)
-{
-	m_state = 1;
-	m_popUp = false;
-}
+// AptOnlineCustomMatch::CancelPopUpCreate is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059ED2C, 61 bytes: "AptOnline::CustomMatch::CancelPopUpHost"
 // also tells the movie "ClosePassword".
-void AptOnlineCustomMatch::CancelPopUpHost(const char *unused)
-{
-	void *movie = m_owner->m_movie;
-	Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), movie, v10(), "ClosePassword");
-	m_state = 1;
-	m_popUp = false;
-}
+// AptOnlineCustomMatch::CancelPopUpHost is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059ED69, 17 bytes: "AptOnline::CustomMatch::OnOpenConnectionsScreen".
-void AptOnlineCustomMatch::OnOpenConnectionsScreen(const char *unused)
-{
-	if (!m_connectionsScreen)
-		m_connectionsScreen = true;
-}
+// AptOnlineCustomMatch::OnOpenConnectionsScreen is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059ED7A, 17 bytes: "AptOnline::CustomMatch::OnClosingConnectionsScreen".
-void AptOnlineCustomMatch::OnClosingConnectionsScreen(const char *unused)
-{
-	if (m_connectionsScreen)
-		m_connectionsScreen = false;
-}
+// AptOnlineCustomMatch::OnClosingConnectionsScreen is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A0F15, 10 bytes: "AptOnline::CustomMatch::Refresh".
-void AptOnlineCustomMatch::Refresh(const char *unused)
-{
-	rva005A0D61(true);
-}
+// AptOnlineCustomMatch::Refresh is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A0F1F, 44 bytes: bound as "AptOnline::OnOpenCreateDialog";
 // focuses the +0x49C window and moves to state 3.
-void AptOnlineCustomMatch::OnOpenCreateDialog(const char *unused)
-{
-	FillGameNameTextEntry(true);
-	TheWindowManager->winSetFocus(m_createDialog);
-	m_state = 3;
-}
+// AptOnlineCustomMatch::OnOpenCreateDialog is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A1281, 343 bytes (WorldBuilder name, AptOnlineCustomMatch.cpp
 // line 1004; wb-name-unverified): asks the host for the slot's hero, as the
 // BFME1 donor's applySlotTeam shape with "Hero=%d" of GameSlot::encodeHero.
-bool AptOnlineCustomMatch::MpOwnerSelectHero(GameSlot *slot)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	room->resetAccepted();
-	if (TheGameSpyInfo->amIHost())
-	{
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-	{
-		AsciiString options;
-		options.format("Hero=%d", slot->encodeHero());
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectHero is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A13D8, 343 bytes (WorldBuilder name; wb-name-unverified): the
 // BFME1 donor applySlotTeam (0x0053D170) with "Team=%d".
-bool AptOnlineCustomMatch::MpOwnerSelectTeam(GameSlot *slot, int team)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	slot->m_teamNumber = team;
-	room->resetAccepted();
-	if (TheGameSpyInfo->amIHost())
-	{
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-	{
-		AsciiString options;
-		options.format("Team=%d", team);
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectTeam is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A152F, 350 bytes (WorldBuilder name; wb-name-unverified):
 // "Handicap=%d" for the slot's +0x20; the host resets acceptance again
 // before publishing the options.
-bool AptOnlineCustomMatch::MpOwnerSelectHandicap(GameSlot *slot, int handicap)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	slot->m_handicap = handicap;
-	room->resetAccepted();
-	if (TheGameSpyInfo->amIHost())
-	{
-		room->resetAccepted();
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-	{
-		AsciiString options;
-		options.format("Handicap=%d", handicap);
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectHandicap is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A186B, 341 bytes (WorldBuilder name; wb-name-unverified):
 // "StartPos=%d"; the BFME1 donor is applySlotStartPos.
-bool AptOnlineCustomMatch::MpOwnerSelectStartPosition(GameSlot *slot, int startPos)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	slot->m_startPos = startPos;
-	slot->m_startPos14 = startPos;
-	if (room->amIHost())
-	{
-		room->resetAccepted();
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-	{
-		AsciiString options;
-		options.format("StartPos=%d", slot->m_startPos);
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectStartPosition is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A19C0, 399 bytes (WorldBuilder name; wb-name-unverified):
 // stores the translated clan ID through GameSlot 0x003FF5F2, then, when not
 // hosting, asks the host "clanID=<id>" only for the local player's slot.
-bool AptOnlineCustomMatch::MpOwnerSetClanID(GameSlot *slot, const UnicodeString &clanID)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	AsciiString clan;
-	clan.translate(clanID);
-	slot->rva003FF5F2(clan);
-	room->resetAccepted();
-	if (TheGameSpyInfo->amIHost())
-	{
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-	{
-		if (!slot->isPlayer(TheGameSpyInfo->getLocalName()))
-			return false;
-
-		AsciiString options("clanID=");
-		options += clan;
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSetClanID is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A1DCE, 288 bytes (WorldBuilder name; wb-name-unverified): a
 // joined player tells the host "READY" / "UNREADY" (options "true").
-bool AptOnlineCustomMatch::MpOwnerOnReadyChecked(bool ready)
-{
-	if (TheGameSpyInfo->amIHost())
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-
-	UnicodeString hostName(room->getSlot(0)->m_name);
-	AsciiString asciiName;
-	asciiName.translate(hostName);
-
-	PeerRequest req;
-	req.peerRequestType = 0xD;
-	req.isStagingRoom = true;
-	req.options = "true";
-	req.id = ready ? "READY" : "UNREADY";
-	req.nick = asciiName.str();
-	TheGameSpyPeerMessageQueue->addRequest(req);
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerOnReadyChecked is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059F043, 180 bytes (WorldBuilder name; wb-name-unverified): the
 // staging room counterpart of AptLanLobby::MpOwnerPrintMessage 0x004448E5.
-void AptOnlineCustomMatch::MpOwnerPrintMessage(const UnicodeString &text, int kind)
-{
-	if (!TheGameSpyInfo)
-		return;
-
-	switch (kind)
-	{
-	case 0:
-		TheGameSpyInfo->v61(text, g_00DB9198);
-		break;
-	case 1:
-		if (!g_Va00E046B8)
-			MessageBoxOk(UnicodeString(L""), text, 0);
-		TheGameSpyInfo->v61(text, (&g_00DB91B4)[17]);
-		break;
-	case 2:
-		TheGameSpyInfo->v65(text);
-		break;
-	}
-}
+// AptOnlineCustomMatch::MpOwnerPrintMessage is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A0B7E, 240 bytes (WorldBuilder name; wb-name-unverified): the
 // host's map change, the staging room counterpart of
 // AptLanLobby::bfmeMapChanged 0x00444F9C.
-bool AptOnlineCustomMatch::MpOwnerSelectMap(const AsciiString &mapName)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	if (!TheGameSpyGame)
-		return false;
-
-	AsciiString lowerMap = mapName;
-	lowerMap.toLower();
-	TheGameSpyGame->setMap(lowerMap);
-	MapCache::iterator it = TheMapCache->find(lowerMap);
-	if (it != TheMapCache->end())
-	{
-		TheGameSpyGame->getGameSpySlot(0)->setMapAvailability(true);
-		TheGameSpyGame->setMapCRC(it->second.m_CRC);
-		TheGameSpyGame->setMapSize(it->second.m_filesize);
-	}
-	TheGameSpyGame->adjustSlotsForMap();
-	TheGameSpyGame->resetAccepted();
-	TheGameSpyGame->resetStartSpots();
-	TheGameSpyInfo->setGameOptions();
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectMap is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059EBDE, 32 bytes, vftable 0x008713B8 slot 1 (unnamed in
 // WorldBuilder): whether the current staging room says this player hosts.
-bool AptOnlineCustomMatch::rva0059EBDE()
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-	return room->amIHost();
-}
+// AptOnlineCustomMatch::rva0059EBDE is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A1D32, 156 bytes, vftable 0x008713B8 slot 15 (unnamed in
 // WorldBuilder): the host posts request 0xE "EUI/" with options "true".
-void AptOnlineCustomMatch::rva005A1D32()
-{
-	if (TheGameSpyPeerMessageQueue && TheGameSpyInfo && TheGameSpyInfo->amIHost())
-	{
-		PeerRequest req;
-		req.peerRequestType = 0xE;
-		req.isStagingRoom = true;
-		req.id = "EUI/";
-		req.options = "true";
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-}
+// AptOnlineCustomMatch::rva005A1D32 is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A10DA, 423 bytes (WorldBuilder name; wb-name-unverified):
 // "PlayerTemplate=%d"; the host also enables the +0x70 member.
-bool AptOnlineCustomMatch::MpOwnerSelectPlayerTemplate(GameSlot *slot, int playerTemplate)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-	if (room->getLocalSlotNum() < 0)
-		return false;
-
-	slot->setPlayerTemplate(playerTemplate);
-	room->resetAccepted();
-	if (TheGameSpyInfo->amIHost())
-	{
-		room->resetAccepted();
-		TheGameSpyInfo->setGameOptions();
-		m_70.enable();
-	}
-	else
-	{
-		AsciiString options;
-		options.format("PlayerTemplate=%d", playerTemplate);
-		AsciiString hostName;
-		hostName.translate(room->getSlot(0)->m_name);
-
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		req.id = "REQ/";
-		req.nick = hostName.str();
-		req.options = options.str();
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-	if (slot->m_name.compare(room->getSlot(room->getLocalSlotNum())->m_name) == 0)
-		RefreshScreen();
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectPlayerTemplate is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059F37C, 253 bytes (WorldBuilder name; wb-name-unverified):
 // counts open requests of the connecting pop-up; the first clears the eight
 // slot lines and opens it, the last close closes it.
-void AptOnlineCustomMatch::OpenConnectionScreen(bool open)
-{
-	if (!g_bfmeAptWindowManager)
-		return;
-
-	if (open)
-	{
-		if (m_connectingCount == 0)
-		{
-			for (int i = 0; i < 8; ++i)
-			{
-				Rva0059F20BSet(i, UnicodeString((const unsigned short *)L" "));
-				Rva0059F296Set(i, UnicodeString((const unsigned short *)L" "));
-			}
-			void *movie = m_owner->m_movie;
-			Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), movie, v10(), "PopUpConnectingOpen");
-		}
-		++m_connectingCount;
-	}
-	else if (m_connectingCount != 0)
-	{
-		if (--m_connectingCount == 0)
-		{
-			void *movie = m_owner->m_movie;
-			Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), movie, v10(), "PopUpConnectingClose");
-		}
-	}
-}
+// AptOnlineCustomMatch::OpenConnectionScreen is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A1C87, 171 bytes, vftable 0x008713B8 slot 16 (unnamed in
 // WorldBuilder): opens or closes the connecting pop-up; a host opening it
 // also posts request 0xE "DUI/" with options "true".
-void AptOnlineCustomMatch::rva005A1C87(bool open)
-{
-	OpenConnectionScreen(open);
-	if (open && TheGameSpyInfo->amIHost() && TheGameSpyPeerMessageQueue)
-	{
-		PeerRequest req;
-		req.peerRequestType = 0xE;
-		req.isStagingRoom = true;
-		req.id = "DUI/";
-		req.options = "true";
-		TheGameSpyPeerMessageQueue->addRequest(req);
-	}
-}
+// AptOnlineCustomMatch::rva005A1C87 is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059EBFE, 82 bytes, vftable 0x008713B8 slot 2 (unnamed in
 // WorldBuilder): publishes the game options and, on the host, saves the
 // room's ten rule ints through GameModePreferences "Rules" -- the staging
 // room counterpart of AptLanLobby's slot 2 (0x00444279).
-void AptOnlineCustomMatch::rva0059EBFE()
-{
-	if (!TheGameSpyInfo)
-		return;
-	TheGameSpyInfo->setGameOptions();
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (room && room->amIHost())
-	{
-		m_prefs.rva0044DDFB(room->m_rules);
-		m_prefs.write();
-	}
-}
+// AptOnlineCustomMatch::rva0059EBFE is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059EC50, 21 bytes, vftable 0x008713B8 slot 22 (unnamed in
 // WorldBuilder): whether the NAT negotiator 0x00A063F8 exists and is idle.
-bool AptOnlineCustomMatch::rva0059EC50()
-{
-	if (TheNAT && ((Rva005A6D47 *)TheNAT)->m_10 == 0)
-		return true;
-	return false;
-}
+// AptOnlineCustomMatch::rva0059EC50 is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059EF49, 14 bytes, vftable 0x00871414 slot 8 (unnamed in
 // WorldBuilder): the negation of the +0x70 panel's 0x0043DBCA test.
-bool AptOnlineCustomMatch::rva0059EF49()
-{
-	return !((Rva0043DFE0 *)&m_70)->rva0043DBCA();
-}
+// AptOnlineCustomMatch::rva0059EF49 is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A6697, 33 bytes, vftable 0x00871414 slot 9 (unnamed in
 // WorldBuilder): in state 2 runs 0x005A5B38; states 0 and 1 stay; any other
 // state falls back to 1.
-bool AptOnlineCustomMatch::rva005A6697()
-{
-	switch (m_state)
-	{
-	case 0:
-		return false;
-	case 1:
-		return false;
-	case 2:
-		return ((Rva005A5B38Box *)this)->Run();
-	default:
-		m_state = 1;
-		return false;
-	}
-}
+// AptOnlineCustomMatch::rva005A6697 is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x0059EFA0, 163 bytes: AptOnlineCustomMatch::InitGadgets (the
 // retail string names it), vftable 0x00871414 slot 2.
-void AptOnlineCustomMatch::InitGadgets()
-{
-	m_prefsLoader.rva00580316(&m_prefs);
-	m_prefs.write();
-	((AptMpGameSetup *)&m_70)->rva0043DE19();
-	m_4b0 = 0;
-	if (TheWindowManager)
-		TheWindowManager->pad45();
-	_bfme_closeAptScreen(AsciiString("AptOnlineCustomMatch::InitGadgets"));
-	m_48c = 0;
-	m_490 = 0;
-	m_494 = 0;
-	m_textentryGameName = 0;
-	m_createDialog = 0;
-	((Rva0052493F *)this)->rva0052493F();
-}
+// AptOnlineCustomMatch::InitGadgets is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A168D..0x005A186B, 478 bytes, MpOwner vftable slot 9.
 // WorldBuilder 0x014EA540 names this callback and asserts GameSpy state at
@@ -1212,52 +821,7 @@ void AptOnlineCustomMatch::InitGadgets()
 // A human slot is kicked before resetting its connection information;
 // changing whether a nonhuman slot is AI invalidates the room's acceptance.
 // Retail redraws the grid inside the kick branch and again on success.
-bool AptOnlineCustomMatch::MpOwnerSelectPlayer(GameSlot *slot, int state, int)
-{
-	if (!TheGameSpyInfo)
-		return false;
-	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
-	if (!room)
-		return false;
-	if (slot->m_state == SLOT_PLAYER)
-	{
-		PeerRequest req;
-		req.peerRequestType = 0xD;
-		req.isStagingRoom = true;
-		AsciiString name;
-		name.translate(slot->m_name);
-		req.nick = name.str();
-		req.id = "KICK/";
-		req.options = "true";
-		TheGameSpyPeerMessageQueue->addRequest(req);
-		if (TheNAT)
-		{
-			int index = room->getSlotNum(name);
-			if (index >= 0)
-				TheNAT->processPlayerLeave(index);
-		}
-		slot->setState((SlotState)state, UnicodeString::TheEmptyString,
-			&GameSlotConnectInfo());
-		room->resetAccepted();
-		TheGameSpyInfo->setGameOptions();
-		if (m_connectionGrid)
-			m_connectionGrid->RedrawGrid(0);
-	}
-	else if (slot->m_state != state)
-	{
-		bool oldAI = slot->isAI();
-		slot->setState((SlotState)state, UnicodeString::TheEmptyString,
-			&GameSlotConnectInfo());
-		if (oldAI ^ slot->isAI())
-			room->resetAccepted();
-		TheGameSpyInfo->setGameOptions();
-	}
-	else
-		return false;
-	if (m_connectionGrid)
-		m_connectionGrid->RedrawGrid(0);
-	return true;
-}
+// AptOnlineCustomMatch::MpOwnerSelectPlayer is rowed in its home unit; this copy was a duplicate definition.
 
 // Retail 0x005A2C77..0x005A2DB7, 320 bytes, ret 4. WorldBuilder
 // 0x014F0720 names RequestJoinGame and asserts roomToJoin at line 2647.
@@ -1265,29 +829,7 @@ bool AptOnlineCustomMatch::MpOwnerSelectPlayer(GameSlot *slot, int state, int)
 // their address-derived owner names retain uncertainty about those fields.
 // Native bytes prove the selected ID at +0x4B8, copied room WORD at +0x1008,
 // peer request type 11, and the transition to state 11 with pending marker -1.
-bool AptOnlineCustomMatch::RequestJoinGame(const char *password)
-{
-	GameSpyStagingRoom *room = GetGameToJoin();
-	if (!room)
-		return false;
-	TheGameSpyInfo->gs49(m_gameToJoinID);
-	((Rva003821E2 *)TheGameSpyGame)->assign(
-		((Rva0022C4DF *)room)->rva0022C4DF());
-	((Rva0059F2EB *)TheGameSpyGame)->rva0059F2EB(
-		((Rva0059F322AsciiField *)room)->get());
-	TheGameSpyGame->m_1008 = room->m_1008;
-	TheGameSpyGame->rva003FF1A7(room->m_5c);
-	PeerRequest req;
-	req.peerRequestType = 11;
-	req.unknown_10 = ((Rva0022C4DF *)room)->rva0022C4DF().str();
-	req.gameID = m_gameToJoinID;
-	req.unknown_1c = password;
-	TheGameSpyPeerMessageQueue->addRequest(req);
-	m_state = 11;
-	m_4a8 = -1;
-	m_popUp = true;
-	return true;
-}
+// AptOnlineCustomMatch::RequestJoinGame is rowed in its home unit; this copy was a duplicate definition.
 
 class GameTextInterface
 {
@@ -1303,40 +845,13 @@ extern GameTextInterface *TheGameText;
 // 0x014EC750 counterpart returns a UnicodeString by value. Native tooltip
 // callers pass a signed ladder rank: negatives fetch the unavailable label;
 // other values use the UTF-16 "%d" literal at 0x00BC9260. Name remains unknown.
-UnicodeString Rva0059F12A(int rank)
-{
-	UnicodeString text;
-	if (rank < 0)
-		text = TheGameText->fetch("TOOLTIP:LadderRankUnavailable");
-	else
-		text.format((const unsigned short *)L"%d", rank);
-	return text;
-}
+UnicodeString Rva0059F12A(int rank); // rowed in AptOnlineCustomMatchCallbacks.cpp
 
 void GadgetTextEntrySetText(GameWindow *, UnicodeString);
 // Retail RVA 0x005A0DC2, 339 bytes, RET4; named WB014F84A0 and assert4214.
 // The complete native body establishes the +8 target field delta and
 // both string lifetimes. The flag at4C2 retains an address-derived label.
-void AptOnlineCustomMatch::FillGameNameTextEntry(bool flag)
-{
- if (!m_textentryGameName)
-  return;
- UnicodeString secondText;
- UnicodeString firstText;
- if (flag) {
-  firstText.translate(m_prefs.rva0044DAA8(TheGameSpyInfo->getLocalName()));
-  secondText.translate(m_prefs.rva0044DBA5());
- } else {
-  GameSpyStagingRoom *room = GetGameToJoin();
-  if (room)
-   firstText = ((Rva0022C4DF *)room)->rva0022C4DF();
- }
- m_4c2 = true;
- GadgetTextEntrySetText(m_textentryGameName, firstText);
- m_textentryGameName->winEnable(flag);
- m_createDialog->winEnable(true);
- GadgetTextEntrySetText(m_createDialog, secondText);
-}
+// AptOnlineCustomMatch::FillGameNameTextEntry is rowed in its home unit; this copy was a duplicate definition.
 
 extern int g_Va00E063F0;
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
@@ -1352,122 +867,7 @@ class Rva005A5BAFClass { public: void rva005A5BAF(); };
 // "GUI:GSBuddyInviteFailed", "GUI:GSDisconReason%d"). Every state ends in
 // the +0x70 panel's OnUpdate and, when that reports a change, UpdatePings,
 // except the state-14 launch which returns at once.
-void AptOnlineCustomMatch::rva005A61C6()
-{
-	switch (m_state)
-	{
-	case 0:
-		if (g_Va00E063F0 == 1 && rva005A1EEE() && m_70.m_ladder != 0)
-			m_state = 4;
-		break;
-	case 1:
-	{
-		void *movie = m_owner->m_movie;
-		Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), movie, v10(), "OnStartLobby");
-		m_state = 2;
-	}
-		// fall through
-	case 2:
-		rva005A0D61(false);
-		break;
-	case 4:
-		rva005A2899();
-		break;
-	case 6:
-		if (TheNAT)
-			((Rva005A6D47 *)TheNAT)->rva005A8F57();
-		UpdateHostStartGameButton();
-		break;
-	case 7:
-		if (((AptMpGameSetup *)&m_70)->OnHostStartGame(true))
-		{
-			m_state = 8;
-		}
-		else
-		{
-			m_state = 6;
-			rva0059EE96(1, 1);
-			Rva00381C2DClear(1);
-		}
-		break;
-	case 8:
-		if (!((AptMpGameSetup *)&m_70)->WaitStartGame())
-		{
-			m_state = 6;
-			rva0059EE96(1, 1);
-		}
-		break;
-	case 9:
-		rva005A57BA(false);
-		break;
-	case 13:
-		if (timeGetTime() - m_inviteTime > 15000)
-		{
-			((Rva005170CD *)m_owner)->rva005170CD();
-			m_inviteTime = 0;
-			GSMessageBoxOk(TheGameText->fetch("GUI:GSBuddyInviteFailedTitle"),
-				TheGameText->fetch("GUI:GSBuddyInviteFailed"), 0);
-			rva005A1EEE();
-		}
-		else if (((Rva0059FC9F *)this)->rva0059FC9F() >= 0)
-		{
-			((Rva005A5BAFClass *)this)->rva005A5BAF();
-		}
-		break;
-	case 12:
-		if (!TheNAT && TheGameSpyGame->getLocalSlotNum() >= 0)
-		{
-			TheNAT = (NAT *)new Rva005A734B;
-			GameInfo::Address38 address;
-			address.ip = TheGameSpyInfo->v85();
-			address.port = TheGameSpyInfo->v86();
-			TheGameSpyGame->m_38 = address;
-			((Rva005A6D47 *)TheNAT)->m_observers.append(&m_observer);
-		}
-		if (TheNAT)
-			((Rva005A6D47 *)TheNAT)->rva005A8F57();
-		if (m_owner->m_2b0)
-			((Rva005170CD *)m_owner)->rva005170CD();
-		break;
-	case 14:
-		if (TheGameSpyGame && TheGameSpyGame->m_11)
-		{
-			if (!TheGameSpyInfo->v88(false))
-			{
-				int count = TheGameSpyInfo->v93();
-				bool done = false;
-				PeerResponse resp;
-				while (count--)
-				{
-					if (done || !TheGameSpyPeerMessageQueue->getResponse(resp))
-						break;
-					switch (resp.peerResponseType)
-					{
-					case PeerResponse::PEERRESPONSE_DISCONNECT:
-					{
-						done = true;
-						AsciiString reason;
-						reason.format("GUI:GSDisconReason%d", resp.discon.reason);
-						TheGameSpyInfo->v89(resp.discon.reason);
-						break;
-					}
-					}
-				}
-			}
-		}
-		else
-		{
-			if (TheGameSpyGame->m_5c == 1)
-				TheGameSpyGame->launchWOTRMPGame();
-			else
-				TheGameSpyGame->launchGame();
-			return;
-		}
-		break;
-	}
-	if (((AptMpGameSetup *)&m_70)->OnUpdate())
-		UpdatePings();
-}
+// AptOnlineCustomMatch::rva005A61C6 is rowed in its home unit; this copy was a duplicate definition.
 
 class LanguageFilter { public: void filterLine(UnicodeString &line); }; // rowed 0x00388102
 extern LanguageFilter *TheLanguageFilter;
@@ -1500,72 +900,7 @@ struct Rva005A2899GlobalView
 // vslot-13 flag, the "localhost" ladder address, the ping string, the ladder's
 // 16-byte key (else zeros) and the map's +0x34 cache value, and moves to
 // state 5.
-void AptOnlineCustomMatch::rva005A2899()
-{
-	PeerRequest req;
-	if (m_70.m_ladder)
-	{
-		if (m_textentryGameName)
-		{
-			UnicodeString name;
-			name.translate(m_prefs.rva0044DAA8(TheGameSpyInfo->getLocalName()));
-			GadgetTextEntrySetText(m_textentryGameName, name);
-		}
-		if (m_createDialog)
-		{
-			UnicodeString password;
-			password.translate(m_prefs.rva0044DBA5());
-			GadgetTextEntrySetText(m_createDialog, password);
-		}
-	}
-	UnicodeString gameName = GadgetTextEntryGetText(m_textentryGameName);
-	if (TheLanguageFilter)
-		TheLanguageFilter->filterLine(gameName);
-	AsciiString asciiName(gameName);
-	m_prefs.rva0044DE5A(asciiName);
-	req.peerRequestType = 9;
-	req.unknown_10 = gameName.str();
-	((Rva003821E2 *)TheGameSpyGame)->assign(gameName);
-	AsciiString passwd;
-	passwd.translate(GadgetTextEntryGetText(m_createDialog));
-	req.unknown_1c = passwd.str();
-	m_prefs.rva0044DEC1(passwd);
-	req.creation.allowObservers = true;
-	TheGameSpyGame->m_fed = true;
-	((Rva005A2899GlobalView *)TheWritableGlobalData)->m_version.rva00237E28(&req.creation.version);
-	req.creation.exeCRC = ((Rva005A2899GlobalView *)TheWritableGlobalData)->m_exeCRC;
-	req.creation.iniCRC = ((Rva005A2899GlobalView *)TheWritableGlobalData)->m_iniCRC;
-	req.creation.gameVersion = TheGameSpyInfo->v85();
-	req.creation.restrictGameList = TheGameSpyConfig->v13();
-	req.unknown_4c = "localhost";
-	req.creation.ladPort = 0;
-	((Rva0059F2EB *)TheGameSpyGame)->rva0059F2EB(AsciiString(req.unknown_4c.c_str()));
-	TheGameSpyGame->m_1008 = req.creation.ladPort;
-	req.unknown_58 = TheGameSpyInfo->v71().str();
-	int slot = m_70.m_7c;
-	TheGameSpyGame->rva003FF1A7(slot);
-	req.creation.localSlot = slot;
-	if (m_70.m_ladder)
-	{
-		memcpy(req.creation.ladderKey, m_70.m_ladder->m_key, sizeof(req.creation.ladderKey));
-		req.unknown_1c = "";
-	}
-	else
-	{
-		memset(req.creation.ladderKey, 0, sizeof(req.creation.ladderKey));
-	}
-	req.creation.mapValue = 2;
-	if (TheMapCache)
-	{
-		AsciiString map = m_prefs.rva0044D986();
-		map.toLower();
-		MapCache::iterator it = TheMapCache->find(map);
-		if (it != TheMapCache->end())
-			req.creation.mapValue = it->second.m_20;
-	}
-	TheGameSpyPeerMessageQueue->addRequest(req);
-	m_state = 5;
-}
+// AptOnlineCustomMatch::rva005A2899 is rowed in its home unit; this copy was a duplicate definition.
 
 // The UnicodeString buffer header as retail's inlined emptiness test reads
 // it: the length word at +4.
