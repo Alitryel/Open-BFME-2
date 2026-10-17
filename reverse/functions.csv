@@ -95780,3 +95780,4 @@ _rva009B1ED0,,0x001C28C0,701,Code/GameEngine/Source/Common/Rva009B1ED0Filter.cpp
 ?Rva000A91D8AptFreeConstantTable@@YAXPAX@Z,,0x000A91D8,5,Code/GameEngine/Source/Common/EmptyFoldTwins.cpp,matched,ICF twin of tail jump at 0x000A91D8
 ?Rva000910FBAptPointHitTest@@YAHXZ,,0x000910FB,4,Code/GameEngine/Source/Common/EmptyFoldTwins.cpp,matched,ICF twin of trivial virtual at 0x000910FB
 ?Rva000D43D0AptLoadSound@@YAHXZ,,0x000D43D0,3,Code/GameEngine/Source/Common/EmptyFoldTwins.cpp,matched,ICF twin of zero-return at 0x000D43D0
+?rva000ABA2F@@YAXXZ,,0x000ABA2F,339,Code/Libraries/Source/WWVegas/WWLib/Rva000ABA2F.cpp,matched,W3D Apt host installs gAptFuncs callbacks (slots E17728..E177CC); banked attempt exact at 0x000ABA2F
