@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /Ireference/shims/subsystem_bfme2 /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0TerrainLogic@@QAE@XZ, retail 0x00283FAA..0x0028417C (466 bytes, EH,
 // ret 0): TerrainLogic's constructor. Identity: it installs the vtable
@@ -18,6 +18,12 @@
 // objects (rowed append 0x005A0B4C) and creates the +0x584 Rva00283081
 // (rowed ctor) with 100.0f and the identity callback 0x000D1D26 (defined and
 // rowed here). Member meanings beyond these offsets are not established.
+// ABI reconciliation with the now-exact destructor: canonical Snapshot name
+// slot and SubsystemInterface; real loadMap/reset/init/update declarations;
+// four-slot listener roots with nonvirtual destructors. Callback ownership is
+// established by the native tables BC5848/BC5838. Distinct root types are
+// structural views of the folded interfaces; native member offsets, all ctor
+// bytes and the full constructor EH graph are preserved.
 // Match the game deallocator and its EH contract, as in buildBeacons.
 #include <stdlib.h>
 namespace _STL { void __cdecl free(void *) throw(...); }
@@ -51,33 +57,41 @@ void _STLP_alloc_proxy<_List_node<Coord3D> *, _List_node<Coord3D>, allocator<_Li
 typedef int Int;
 typedef float Real;
 
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();								// 0x001B4E63
-	virtual ~SubsystemInterface();
-private:
-	unsigned char m_04[8];
-};
+typedef bool Bool;
+#include "subsystem_interface.h"
 
-// The two listener interfaces: separate classes whose identical tables fold to
-// 0x00BC6F34 (retail stores each through its own immediate).
-class TerrainLogicListenerA
-{
+// Root tables BC6F34: empty RET4 followed by three pure callbacks.
+class WaterHandle;
+class TerrainLogicListenerRootA {
 public:
-	TerrainLogicListenerA() {}
-	virtual void vslot0();
-	~TerrainLogicListenerA();
+ virtual void vslot0(int);
+ virtual void vslot1(int, WaterHandle *) = 0;
+ virtual void vslot2(void *, void *) = 0;
+ virtual void vslot3(void *, void *) = 0;
+ ~TerrainLogicListenerRootA() {}
 };
-
-class TerrainLogicListenerB
-{
+class TerrainLogicListenerA : public TerrainLogicListenerRootA {
 public:
-	TerrainLogicListenerB() {}
-	virtual void vslot0();
-	~TerrainLogicListenerB();
+ virtual void vslot1(int, WaterHandle *);
+ virtual void vslot3(void *, void *);
+ ~TerrainLogicListenerA();
+};
+class TerrainLogicListenerRootB {
+public:
+ virtual void vslot0(int);
+ virtual void vslot1(int, WaterHandle *) = 0;
+ virtual void vslot2(void *, void *) = 0;
+ virtual void vslot3(void *, void *) = 0;
+ ~TerrainLogicListenerRootB() {}
+};
+class TerrainLogicListenerB : public TerrainLogicListenerRootB {
+public:
+ virtual void vslot1(int, WaterHandle *);
+ virtual void vslot3(void *, void *);
+ ~TerrainLogicListenerB();
 };
 
 // Native getWaypointByID28333F stores Waypoint pointers keyed by unsigned ID
@@ -114,9 +128,10 @@ public:
 class Rva00283081
 {
 public:
-	Rva00283081(float f, int i) throw();				// 0x004DFC59
+	Rva00283081(float f, int i) throw();
+	virtual ~Rva00283081(); // 0x00283081; ctor 0x004DFC59
 private:
-	unsigned char m_bytes[0x24];
+	unsigned char m_bytes[0x20];
 };
 
 // The callback the +0x584 object receives: returns its argument.
@@ -137,10 +152,13 @@ class TerrainLogic : public Snapshot, public SubsystemInterface,
 public:
 	TerrainLogic();
 	virtual ~TerrainLogic();
-	virtual void vslot0();
+	virtual void reset();
+	virtual bool loadMap(const AsciiString &, class ChunkInputStream *, bool, bool);
+	virtual void init();
+	virtual void update();
 
 protected:
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
 
@@ -175,6 +193,8 @@ private:
 	bool m_1914;										// +0x1914
 	Real m_1918;										// +0x1918
 };
+
+
 
 TerrainLogic::TerrainLogic()
 	: m_24(0), m_28(0), m_2C(0), m_48(1),

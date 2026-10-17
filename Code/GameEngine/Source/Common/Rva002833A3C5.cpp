@@ -111,21 +111,50 @@ TreeHintRef00217D4C Rva00283033::rva00283033(void *key)
     return rva0028292B(this, i);
 }
 
-class Rva002833A3C5Owner
-{
+// Native TerrainLogic listener tables BC5848/BC5838 slot3 bind these
+// existing complete34B bodies. Structural view names; entry-relative fields.
+// Root tables BC6F34: empty RET4 followed by three pure callbacks.
+class WaterHandle;
+class TerrainLogicListenerRootA {
 public:
-    void rva002833A3(void *, void *key);
-    void rva002833C5(void *, void *key);
-private:
-    char pad[0x3c];
-    Rva00283033 *m_map3c;
-    Rva00283033 *m_map40;
+ virtual void vslot0(int);
+ virtual void vslot1(int, WaterHandle *) = 0;
+ virtual void vslot2(void *, void *) = 0;
+ virtual void vslot3(void *, void *) = 0;
+ ~TerrainLogicListenerRootA() {}
 };
-void Rva002833A3C5Owner::rva002833A3(void *, void *key)
+class TerrainLogicListenerA : public TerrainLogicListenerRootA {
+public:
+ virtual void vslot1(int, WaterHandle *);
+ virtual void vslot3(void *, void *);
+ ~TerrainLogicListenerA();
+};
+class TerrainLogicListenerRootB {
+public:
+ virtual void vslot0(int);
+ virtual void vslot1(int, WaterHandle *) = 0;
+ virtual void vslot2(void *, void *) = 0;
+ virtual void vslot3(void *, void *) = 0;
+ ~TerrainLogicListenerRootB() {}
+};
+class TerrainLogicListenerB : public TerrainLogicListenerRootB {
+public:
+ virtual void vslot1(int, WaterHandle *);
+ virtual void vslot3(void *, void *);
+ ~TerrainLogicListenerB();
+};
+
+struct TerrainListenerRemovalFields
 {
-    m_map40->rva00283033(key);
+ char pad[0x3c];
+ Rva00283033 *m_map3c;
+ Rva00283033 *m_map40;
+};
+void TerrainLogicListenerA::vslot3(void *, void *key)
+{
+    reinterpret_cast<TerrainListenerRemovalFields *>(this)->m_map40->rva00283033(key);
 }
-void Rva002833A3C5Owner::rva002833C5(void *, void *key)
+void TerrainLogicListenerB::vslot3(void *, void *key)
 {
-    m_map3c->rva00283033(key);
+    reinterpret_cast<TerrainListenerRemovalFields *>(this)->m_map3c->rva00283033(key);
 }
