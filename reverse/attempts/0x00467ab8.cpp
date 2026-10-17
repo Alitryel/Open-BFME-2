@@ -1,4 +1,6 @@
 // ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
+// partial score=0.987 date=2026-10-17
+// ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
 // partial score=0.948449 date=2026-10-15
 // ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
 // partial score=0.948449 date=2026-10-15
@@ -290,7 +292,8 @@ void Rva00467AB8::rva00467AB8(Object *rider)
  rider->clearCondition(88);
  AIUpdateInterface *ai=rider->ai;
  if (module->attitude() && ai) ai->rva0026DE3B(2);
- if ((exitFrame ? ((reinterpret_cast<const unsigned char *>(object())[0x438]&1)) : ((reinterpret_cast<const unsigned char *>(object())[0x438]&1))) && !(reinterpret_cast<const unsigned char *>(rider)[0x438]&1))
+ if (reinterpret_cast<const unsigned char *>(object())[0x438]&1)
+ if (!exitFrame)
  reinterpret_cast<Rva00464B96 *>(reinterpret_cast<char *>(this)-0x20)->rva00464B96(rider);
  if (module->mood() && ai) ai->rva00262FFF();
  exitFrame=TheGameLogic->getFrame()+module->exitDelay;
