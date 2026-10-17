@@ -424,10 +424,10 @@ public:
 
 struct TeamTemplateInfo
 {
-	unsigned char m_pad00[0x210 - 0x1E8];
-	Bool m_isAIRecruitable; // proto +0x210
-	unsigned char m_pad211[0x21C - 0x211];
-	int m_productionPriority; // proto +0x21C
+	unsigned char m_pad00[0xE4];
+	Bool m_isAIRecruitable; // +0xE4 (proto +0x210)
+	unsigned char m_padE5[0xF0 - 0xE5];
+	int m_productionPriority; // +0xF0 (proto +0x21C)
 };
 
 class Team : public MemoryPoolObject, public Snapshot
@@ -558,8 +558,8 @@ private:
 	Bool m_productionConditionAlwaysFalse; // +0x1C
 	AsciiString m_productionConditionScope; // +0x20
 	Script *m_productionConditionScript; // +0x24
-	unsigned char m_pad28[0x1E8 - 0x28];
-	TeamTemplateInfo m_teamTemplate; // +0x1E8
+	unsigned char m_pad28[0x12C - 0x28];
+	TeamTemplateInfo m_teamTemplate; // +0x12C (the TeamPrototype ctor at 0x3A3299 constructs it there)
 	unsigned char m_pad220[0x23C - 0x220];
 	AsciiString m_productionCondition; // +0x23C
 	unsigned char m_pad240[0x334 - 0x240];

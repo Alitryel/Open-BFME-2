@@ -109,16 +109,16 @@ private:
 
 struct TeamTemplateInfo
 {
-	unsigned char m_pad00[0x16];
-	Bool m_attackCommonTarget; // +0x16 (prototype +0x216)
+	unsigned char m_pad00[0xEA];
+	Bool m_attackCommonTarget; // +0xEA (prototype +0x216)
 };
 class TeamPrototype
 {
 public:
 	const TeamTemplateInfo *getTemplateInfo(void) const { return &m_teamTemplate; }
 private:
-	unsigned char m_pad00[0x200];
-	TeamTemplateInfo m_teamTemplate; // +0x200
+	unsigned char m_pad00[0x12C];
+	TeamTemplateInfo m_teamTemplate; // +0x12C (the TeamPrototype ctor at 0x3A3299 constructs it there)
 };
 class Team
 {
@@ -156,7 +156,7 @@ class Object
 {
 public:
 	ObjectID getID() const { return m_id; }
-	Team *getTeam() { return m_team; }
+	Team *getTeam() const { return m_team; }
 	Player *getControllingPlayer() const;
 	Relationship getRelationship(const Object *that) const;
 	CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType attackType, const Object *obj, CommandSourceType commandSource) const;
