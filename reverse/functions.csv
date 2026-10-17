@@ -94567,7 +94567,6 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?j_0052b492@@YAXXZ,,0x0052B492,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0060CE41
 ?j_0052b7b3@@YAXXZ,,0x0052B7B3,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0052B6FE
 ?j_00552bcd@@YAXXZ,,0x00552BCD,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0055218E
-?j_005ae769@@YAXXZ,,0x005AE769,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x005AE76E
 ?j_0060c9be@@YAXXZ,,0x0060C9BE,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0060C9A7
 ?j_006c1d50@@YAXXZ,,0x006C1D50,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x000338D0
 ?j_006e31e0@@YAXXZ,,0x006E31E0,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x006CD440
@@ -96175,3 +96174,6 @@ _rva00BB6C15Cleanup,,0x007B6C15,1,Code/GameEngine/Source/GameClient/Rva00085947M
 ?setTowerObjectID@Bridge@@QAEXW4ObjectID@@W4BridgeTowerType@@@Z,,0x00456547,15,Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorXfer.cpp,matched,Bridge::setTowerObjectID inline COMDAT; owned by BridgeBehaviorXfer.cpp whose retail xfer body emits it
 ?setBridgeObjectID@Bridge@@QAEXW4ObjectID@@@Z,,0x0045653D,10,Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorXfer.cpp,matched,Bridge::setBridgeObjectID inline COMDAT; owned by BridgeBehaviorXfer.cpp whose retail xfer body emits it
 ?Get_Texture_Name@TextureBaseClass@@QBEABVStringClass@@XZ,,0x005FBE57,4,Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp,matched,TextureBaseClass::Get_Texture_Name inline COMDAT; owned by meshmdlio.cpp which emits the retail copy (matinfo.cpp's donor Get_Texture_Index caller was removed)
+??_EAptCreateAHero@@WCBI@AEPAXI@Z,,0x00513CD4,11,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroConstructor.cpp,matched,this-adjusting (-0x218) deleting-dtor thunk already emitted by the constructor unit; jumps through the weak vector deleting dtor alias whose COFF default is the rowed ??_G 0x00513DB4
+??_EAptCampaignReview@@WCBI@AEPAXI@Z,,0x00512911,11,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCampaignReview.cpp,matched,this-adjusting (-0x218) deleting-dtor thunk already emitted by this unit; jumps through the weak vector deleting dtor alias whose COFF default is the rowed ??_G 0x00512AAC
+??_EAptMessengerOnline@@WCBI@AEPAXI@Z,,0x005AE763,11,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptMessengerOnlineConstructor.cpp,matched,this-adjusting (-0x218) deleting-dtor thunk already emitted by this unit; jumps through the weak vector deleting dtor alias whose COFF default is the rowed ??_G 0x005AE76E; the gen gap thunk row at 0x005AE769 was its jmp and yields
