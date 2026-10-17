@@ -64479,3 +64479,4 @@ _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Sour
 ?rva00521B48@Rva00521B48@@QAEXHH@Z	0x00521B48	14	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 14B; vtable forwarder -0x27C then rowed AptSkirmish::InitCreateAHeroOnStartGame 0x005218AF
 ?rva0059EF57@Rva0059EF57@@QAEXHHH@Z	0x0059EF57	11	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 11B; vtable forwarder -0x6C then rowed AptOnlineCustomMatch::UpdatePings 0x0059ED8B
 ?rva005CF9B2@Rva005CF9B2@@QAEXXZ	0x005CF9B2	23	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 23B; vtable forwarder via +0xC pointer then rowed 0x0042D697 and 0x005CB265
+?invoke@Rva007EB6D0Object@@QAEXXZ	0x00658660	13	landed	add_match verified Code/GameEngine/Source/Common/Rva007EB6D0VirtualTail.cpp 13B; virtual tail-call via advance() to +0x24 target tail(); sibling of 0x00658670
