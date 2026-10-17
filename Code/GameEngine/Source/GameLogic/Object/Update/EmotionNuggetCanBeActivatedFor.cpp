@@ -13,7 +13,25 @@
 // rva0028C197, rva0028C149, getCurrentStateID 0x00262FC3,
 // TheGameLogic 0x009FE78C, g_Va007C26F0; callers at 0x004B10E3, 0x004B14B0,
 // 0x004B1572, 0x004B1ABE, 0x004B1B69 pass (int,int,ptr) with ret 0xC.
+#include <functional>
+// This /O1 unit inlines these compares; imported, it emits no non-retail copies of them.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &x, const int &y) const { return x < y; }
+template <> __declspec(dllimport) __forceinline bool less<unsigned short>::operator()(const unsigned short &x, const unsigned short &y) const { return x < y; }
+}
 #include <map>
+// Compare tree nodes locally so this TU does not emit an iterator-base operator!= copy.
+namespace _STL {
+template <class V, class Traits>
+static inline bool operator!=(const _Rb_tree_iterator<V, Traits> &a, const _Rb_tree_iterator<V, Traits> &b)
+{ return a._M_node != b._M_node; }
+}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const unsigned short, int>, _Nonconst_traits<pair<const unsigned short, int> > >::_Rb_tree_iterator(
+	const _Rb_tree_iterator<pair<const unsigned short, int>, _Nonconst_traits<pair<const unsigned short, int> > > &x)
+	{ _M_node = x._M_node; }
+}
 #include "ascii_string.h"
 enum ObjectStatusTypes
 
