@@ -1,4 +1,6 @@
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
+// partial score=0.865 date=2026-10-17
+// ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
 // partial score=0.75 date=2026-10-14
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
 // partial score=0.85 date=2026-10-10
@@ -109,21 +111,32 @@ ICoord2D Rva0053ED1A::rva0053EDF4()
  Object* obj=TheGameLogic->findObjectByID((ObjectID)id);ICoord2D screen;
  if(obj && !(reinterpret_cast<Rva0053EDF4Object*>(obj)->info[0x109]&0x40))
  {
+  Coord3D world;
   Drawable* draw=obj->getDrawable();
-  const Coord3D* position;
-  if(draw) position=draw->getPosition();else position=&reinterpret_cast<Rva0053EDF4Object*>(obj)->position;
-  _ReadWriteBarrier();
-  Coord3D world=*position;
+  if(draw) world=*draw->getPosition();
+  else world=reinterpret_cast<Rva0053EDF4Object*>(obj)->position;
   Coord3D contact={0,0,0};
   if(obj->getWorldspaceBestContactPoint(&contact,&contact,"Menu",0,0,false))
   {
     contact.x-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.x;
-    contact.y-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.y;
-    world.x+=contact.x;world.y+=contact.y;world.z+=contact.z;
     contact.z-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.z;
+    contact.y-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.y;
+    *(volatile float*)&contact.x=contact.x;
+    *(volatile float*)&contact.z=contact.z;
+    *(volatile float*)&contact.y=contact.y;
+    world.x+=contact.x;
+    world.z=contact.z;
+    world.y+=contact.y;
   }
   else world.z+=reinterpret_cast<Rva0053EDF4Object*>(obj)->geometry.getMaxHeightAbovePosition()*0.5f;
-  if(TheTacticalView->worldToScreenTriReturn(&world,&screen)==0)return screen;
+  if(TheTacticalView->worldToScreenTriReturn(&world,&screen)!=0)
+  {
+   screen.x=-999;screen.y=-999;
+  }
  }
- screen.x=screen.y=-999;return screen;
+ else
+ {
+  screen.x=-999;screen.y=-999;
+ }
+ return screen;
 }
