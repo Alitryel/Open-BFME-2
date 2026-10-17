@@ -215,6 +215,7 @@ public:
 	void rva006F76B0();
 	void rva006F79B0(void *arg1, void *arg2);
 	void rva006F7A30();
+	void rva006F7AB0(int, void *);
  void bfmeProcess1279(void*);
  void instantiateCharacter(int,AptCharacter*,EAStringC*,AptCIH*,int,int,AptCIH**,int*);
 
@@ -469,6 +470,13 @@ void AptDisplayList::rva006F7A30()
 		node = node->m_next;
 	}
 }
+
+// ?rva006F7AB0@AptDisplayList@@QAEXHPAX@Z @0x006F7AB0 13B
+void AptDisplayList::rva006F7AB0(int, void *item)
+{
+	bfmeProcess1279(item);
+}
+
 
 // Target 0x006F7330 is a 112-byte cdecl callback. Its retail bytes test the
 // rowed AptCIH predicate before changing render state, push the colour and
