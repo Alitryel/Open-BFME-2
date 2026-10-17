@@ -111,38 +111,6 @@ private:
 	bool m_needPolyDraw;                  // +0xD5
 };
 
-void Rva00104DB0::rva00105216(Color color)
-{
-	bool needDraw = false;
-
-	if (m_needPolyDraw)
-	{
-		m_needPolyDraw = false;
-		needDraw = true;
-	}
-
-	if (m_currTextColor != color)
-	{
-		m_currTextColor = color;
-		needDraw = true;
-	}
-
-	if (needDraw || m_newTextPos)
-	{
-		Color outline = reinterpret_cast<Rva00105216ManagerView *>(TheWindowManager)->winMakeColor(0, 0, 0, 255);
-
-		m_textRenderer.Reset_Polys();
-		m_textRenderer.Set_Location(Vector2(m_textPosX + 1, m_textPosY + 1));
-		m_textRenderer.Draw_Sentence(outline, outline, outline, outline);
-
-		m_textRenderer.Set_Location(Vector2(m_textPosX, m_textPosY));
-		m_textRenderer.Draw_Sentence(m_currTextColor, m_currTextColor, m_currTextColor, m_currTextColor);
-
-		m_newTextPos = false;
-	}
-
-	reinterpret_cast<Rva00155AD0 *>(&m_textRenderer)->rva00155AD0();
-}
 
 // Native 10500F..105216, RET8: slot 1 of the drawer vtable at 0x7CF800.
 // ZH W3DGameWinDefaultDraw is the semantic guide. BFME2 calls the pass as a
