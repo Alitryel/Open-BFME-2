@@ -93,3 +93,15 @@ Win32GameEngine::~Win32GameEngine()
 {
 	SetErrorMode(m_previousErrorMode);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?m_unknown02@GameEngine@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?m_unknown09@GameEngine@@UAEXXZ=?reset@Win32GameEngine@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?m_unknown10@GameEngine@@UAEXXZ=?update@Win32GameEngine@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?m_unknown14@GameEngine@@UAEXXZ=?init@GameEngine@@UAEXHQAPAD@Z")
+#pragma comment(linker, "/alternatename:?m_unknown15@GameEngine@@UAEXXZ=?rva0022D290@GameEngine@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?m_unknown16@GameEngine@@UAEXXZ=?rva00225AD5@GameEngine@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?m_unknown17@GameEngine@@UAEXXZ=?rva00225AFF@GameEngine@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?m_unknown22@GameEngine@@UAEXXZ=?isMultiplayerSession@GameEngine@@UAE_NXZ")

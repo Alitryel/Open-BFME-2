@@ -94,3 +94,10 @@ Rva00483C35::~Rva00483C35()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f1@Rva0045D39E_Mid@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva0045D39E_B2@@UAEXXZ=?update@SlowDeathBehavior@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?fe@Rva0045D39E_E1@@UAEXXZ=?onDie@SlowDeathBehavior@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?ff@Rva0045D39E_E2@@UAEXXZ=?beginSlowDeath@SlowDeathBehavior@@UAEXPBVDamageInfo@@@Z")

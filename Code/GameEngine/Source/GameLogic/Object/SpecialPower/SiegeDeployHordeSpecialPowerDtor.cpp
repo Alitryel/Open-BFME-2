@@ -69,3 +69,10 @@ SiegeDeployHordeSpecialPower::~SiegeDeployHordeSpecialPower()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f1@SiegeDeployHordeSpecialPower_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@SiegeDeployHordeSpecialPower_S2@@UAEXXZ=?update@SiegeDeployHordeSpecialPower@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f3@SiegeDeployHordeSpecialPower_S3@@UAEXXZ=?initiateIntentToDoSpecialPower@SiegeDeployHordeSpecialPower@@UAEXPBVSpecialPowerTemplate@@PBVObject@@PBUCoord3D@@IPBVWaypoint@@@Z")
+#pragma comment(linker, "/alternatename:?f4@SiegeDeployHordeSpecialPower_S4@@UAEXXZ=?eq@Rva0026A910@@QBE_NH@Z")

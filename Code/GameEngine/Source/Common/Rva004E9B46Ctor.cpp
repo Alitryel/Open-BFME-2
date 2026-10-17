@@ -24,3 +24,9 @@ public:
 Rva004E9B46::Rva004E9B46(int x) : m_08(x)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v0@Rva00506B1B@@UAEXXZ=??_GRva004E9B46@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?v1@Rva00506B1B@@UAEXXZ=?update@AIWallBuilder@@QAEXXZ")

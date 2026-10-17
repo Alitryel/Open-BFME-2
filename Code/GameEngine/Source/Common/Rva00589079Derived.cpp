@@ -317,3 +317,13 @@ void Rva00482E96::xfer(Xfer *xfer)
 #pragma comment(linker, "/alternatename:?f3@Rva00482E96_S3@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
 #pragma comment(linker, "/alternatename:?f1@Rva00482E96_S1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
 #pragma comment(linker, "/alternatename:?s02@Rva00482E96@@UAEXXZ=?Rva00482E4BGet@@YAHXZ")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva00481F82_S2@@UAEXXZ=?update@TerrainResourceBehavior@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f2@Rva00482E96_S2@@UAEXXZ=?rva00482BB9@Rva00482BB9@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?f3@Rva00481F82_S3@@UAEXXZ=?rva00482152@Rva00482152@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?f3@Rva00589079_S3@@UAEXXZ=?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@M0MM@Z")
+#pragma comment(linker, "/alternatename:?f4@Rva00482E96_S4@@UAEXXZ=?onDie@FireWeaponWhenDeadBehavior@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f4@Rva00589079_S4@@UAEXXZ=?eq@Rva0026A910@@QBE_NH@Z")

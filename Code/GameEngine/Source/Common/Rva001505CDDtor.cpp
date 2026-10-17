@@ -71,3 +71,8 @@ Rva001505CD::~Rva001505CD()
 {
 	Rva001532E1Erase("Sas");
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?s0@Gen_uw_000e14bd@@UAEXXZ=??_GRva001505CD@@UAEPAXI@Z")

@@ -77,3 +77,13 @@ Rva0060237D::~Rva0060237D()
 #pragma comment(linker, "/alternatename:?slot11@File@@UAEXXZ=?get@Rva002A79A1DwordField@@QBEHXZ")
 #pragma comment(linker, "/alternatename:?slot12@File@@UAEXXZ=?getData@NetWrapperCommandMsg@@QAEPAEXZ")
 #pragma comment(linker, "/alternatename:?slot13@File@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot04@File@@UAEXXZ=?write@MemoryWriteFile@@UAEHPBXH@Z")
+#pragma comment(linker, "/alternatename:?slot06@File@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?slot07@File@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?slot08@File@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?slot09@File@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?slot14@File@@UAEXXZ=??0RealRange@@QAE@XZ")
