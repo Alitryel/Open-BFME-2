@@ -76,6 +76,8 @@ SYMBOLS = ROOT / "reverse" / "symbols.csv"
 DELETED = ROOT / "reverse" / "deleted_rows.csv"
 GHIDRA = ROOT / "reverse" / "ghidra_functions.csv"
 SOURCE_DIR = ROOT / "Code" / "gen_small"
+# Every address in the image is at least this; no object a sized delete frees is this large.
+IMAGE_BASE = 0x00400000
 OWNED_SOURCE_DIR = "Code/gen_small/uw_gen_"
 # The lock add_match.py and gen_small.land_batch take. land() rewrites rows
 # rather than appending them, so a single-row append interleaving with it would
@@ -1049,6 +1051,25 @@ def row_name(rva, tombstoned):
     return name
 
 
+def hold_shared_sized_deletes(on_ladder):
+    """Split off the sized-delete funclets whose operator delete takes several class sizes.
+
+    A base class's sized delete inherited by derived classes is one retail function reached
+    with each derived size; per-size invented names cannot express that, so those funclets stay
+    unclaimed. A "size" at or above the image base is a pushed address mis-read as a size: it
+    stays on the ladder, where the one-delete-per-address guard in emit_and_write stops the run.
+    Returns (kept, held, shared delete addresses).
+    """
+    sizes = collections.defaultdict(set)
+    for f in on_ladder:
+        if f.kind == "S":
+            sizes[f.target].add(f.extra)
+    shared = {t for t, s in sizes.items() if len(s) > 1 and max(s) < IMAGE_BASE}
+    held = [f for f in on_ladder if f.kind == "S" and f.target in shared]
+    kept = [f for f in on_ladder if not (f.kind == "S" and f.target in shared)]
+    return kept, held, shared
+
+
 def emit_and_write(ledger, on_ladder, snapshot):
     """Compile the owned sources, then write rows, pins and tombstones.
 
@@ -1061,19 +1082,10 @@ def emit_and_write(ledger, on_ladder, snapshot):
     functions_eol = ledger_io.lf_terminator(functions_raw, "functions.csv")
     symbols_eol = ledger_io.lf_terminator(SYMBOLS.read_bytes(), "symbols.csv")
 
-    # One retail operator delete reached with several class sizes (a base class's sized delete
-    # inherited by derived classes) cannot be told apart by per-size invented names: leave those
-    # funclets unclaimed instead of pinning one address under several operator names.
-    sizes = collections.defaultdict(set)
-    for f in on_ladder:
-        if f.kind == "S":
-            sizes[f.target].add(f.extra)
-    shared = {t for t, s in sizes.items() if len(s) > 1}
-    if shared:
-        held = [f for f in on_ladder if f.kind == "S" and f.target in shared]
+    on_ladder, held, shared = hold_shared_sized_deletes(on_ladder)
+    if held:
         print("  leaving %d sized-delete funclet(s) unclaimed: their delete(s) %s are reached with "
               "several class sizes" % (len(held), ", ".join("0x%08X" % t for t in sorted(shared))))
-        on_ladder = [f for f in on_ladder if not (f.kind == "S" and f.target in shared)]
 
     files = plan(on_ladder)
     by_key = collections.defaultdict(list)
