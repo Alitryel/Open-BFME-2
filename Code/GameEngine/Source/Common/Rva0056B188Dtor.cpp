@@ -46,14 +46,7 @@ public:
 	virtual ~Rva0056AC26();
 };
 
-class Rva0056B188Second
-{
-public:
-	virtual ~Rva0056B188Second() {}
-
-protected:
-	Rva0056B188Owner *m_owner; // +0x04 in this base, +0x18 overall
-};
+#include "../../Include/Common/Rva0056B188Second.h"
 
 class Rva0056B188 : public Rva0056AC26, public Rva0056B188Second
 {

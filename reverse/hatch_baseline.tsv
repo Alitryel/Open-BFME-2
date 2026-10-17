@@ -19054,6 +19054,7 @@ object_symbol	reverse/functions.csv	0x0079A457	1	allow=25dfc7ad62bc4bc58e6a39da8
 object_symbol	reverse/functions.csv	0x0079A475	1
 object_symbol	reverse/functions.csv	0x0079A47D	1	allow=6a9d41f962359c38a3b6e1f492119d4ae6210cf2
 object_symbol	reverse/functions.csv	0x0079A49B	1
+object_symbol	reverse/functions.csv	0x0079A4A3	1	allow=bbc41bce96a8119b16ac49f5fd03863eeaace358
 object_symbol	reverse/functions.csv	0x0079A4C1	1
 object_symbol	reverse/functions.csv	0x0079A4C9	1
 object_symbol	reverse/functions.csv	0x0079A4DE	1

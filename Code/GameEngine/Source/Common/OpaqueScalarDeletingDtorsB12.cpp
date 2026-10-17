@@ -25,7 +25,7 @@
 //   0x00551323  0x0055133F  0x00C6AC0C#0
 //   0x00568629  0x005685EE  0x00C6CF74#0
 //   0x0056B0A3  0x0056AD19  0x00C6D1EC#0
-//   0x0056B460  0x0056B188  0x00C6D3A8#0
+//   Rva0056B188's wrapper is emitted by its real MI lifetime unit.
 //   0x0056BAA3  0x0056B9A2  0x00C6D810#0
 //   0x0056D61F  0x0056D3FD  0x00C6DAA4#0
 //   0x0056D74F  0x0056D690  0x00C6DAC4#0
@@ -274,19 +274,6 @@ public:
 
 // ?<Rva0056AD19::Rva0056AD19> absent-from-retail
 Rva0056AD19::Rva0056AD19(EmitVtableTag *)
-{
-}
-
-class Rva0056B188
-{
-public:
-	Rva0056B188(EmitVtableTag *);
-public:
-	virtual ~Rva0056B188();
-};
-
-// ?<Rva0056B188::Rva0056B188> absent-from-retail
-Rva0056B188::Rva0056B188(EmitVtableTag *)
 {
 }
 
