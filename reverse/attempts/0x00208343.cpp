@@ -1,4 +1,6 @@
 // ??0ScriptEngine@@QAE@XZ
+// partial score=0.981 date=2026-10-17
+// ??0ScriptEngine@@QAE@XZ
 // partial score=0.983 date=2026-10-15
 // ??0ScriptEngine@@QAE@XZ
 // partial score=0.987 date=2026-10-13
@@ -77,4 +79,4 @@ extern "C" int st_CurrentFrame;
 extern "C" int scriptLastFrame;
 extern unsigned char scriptLogicContinuationLatch;
 extern unsigned char scriptClientContinuationLatch;
-ScriptEngine::ScriptEngine():unknown1C(0),a100(0),a104(0),a108(0),a110(0),a114(0),a118(0),a11C(0),a12C(true),a130(0),a134(0),a138(0),a13C(false),a140(0),a144(0),a148(0),a14C(0),a150(0),a154(0),a158(0),a15C(0),a160(0),a4D4(false),a4D5(true),a4D6(false),a4D7(false),a4D8(false),a4D9(true),a4DA(true),a4E0(0),a4E8(0),a4F0(0),a4F8(0){difficulty=1;st_CurrentFrame=scriptLastFrame=0;scriptLogicContinuationLatch=scriptClientContinuationLatch=true;}
+ScriptEngine::ScriptEngine():unknown1C(0),a100(0),a104(0),a108(0),a110(0),a114(0),a118(0),a11C(0),a12C(true),a130(0),a134(0),a138(0),a13C(false),a140(0),a144(0),a148(0),a14C(0),a150(0),a154(0),a158(0),a15C(0),a160(0),a4D4(false),a4D6(false),a4D7(false),a4D8(false),a4E0(0),a4E8(0),a4F0(0){(1 ? difficulty : difficulty)=1;st_CurrentFrame=scriptLastFrame=0;scriptLogicContinuationLatch=scriptClientContinuationLatch=true;*(volatile bool*)&a4D5=true;*(volatile bool*)&a4D9=true;*(volatile double*)&a4F8=0;*(volatile bool*)&a4DA=true;}
