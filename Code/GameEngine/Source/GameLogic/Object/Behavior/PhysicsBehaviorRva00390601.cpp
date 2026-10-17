@@ -178,16 +178,6 @@ __declspec(noinline) inline void PhysicsBehavior::rva00390557(const Coord3D *whe
 // ?bfmeAnchorRva00390557 absent-from-retail
 void bfmeAnchorRva00390557(PhysicsBehavior *p, const Coord3D *where) { p->rva00390557(where, 0.0f, 0.0f, 0, 0); }
 
-// BFME1 c1f3b5af79's PhysicsBehaviorApplyZeroMotiveForce.cpp supplies the
-// zero-vector wrapper as a semantic lead. BFME2's native 00390E36..00390E61
-// instead forwards two stack arguments (RET8) to the existing 003909FA pin.
-// The target proves a zero Coord3D and unchanged this, but not the old name.
-void PhysicsBehavior::rva00390E36(int source, int weapon)
-{
-	Coord3D force;
-	force.zero();
-	reinterpret_cast<Rva003909FAObj *>(this)->consume(&force, source, weapon);
-}
 
 // Receiver comes from Object+25C; native 390533..390557 reads its Object+8.
 // Condition-array base10C is established independently by rowed setters.
