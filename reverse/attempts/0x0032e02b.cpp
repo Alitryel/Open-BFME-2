@@ -1,4 +1,6 @@
 // ?validateSides@SidesList@@QAE_NXZ
+// partial score=0.99 date=2026-10-17
+// ?validateSides@SidesList@@QAE_NXZ
 // partial score=0.994552 date=2026-10-15
 // ?validateSides@SidesList@@QAE_NXZ
 // partial score=0.9945519711364812 date=2026-10-14
@@ -1360,7 +1362,9 @@ bool SidesList::validateSides()
 
 restart:
 	for (i = m_teamrec.entryRaw(0).m_next; i != 0; ) {
-		int next = m_teamrec.m_teams[i].m_next;
+		unsigned int teamOffset = (unsigned int)i * sizeof(TeamsInfoEntry);
+		TeamsInfoEntry *entry = (TeamsInfoEntry *)((char *)&m_teamrec.m_teams[0] + teamOffset);
+		int next = entry->m_next;
 		Dict *tdict = &m_teamrec.entryRaw(i).m_dict;
 		AsciiString tname = tdict->getAsciiString(TheKey_teamName);
 		if (findSideInfo(tname) != 0) {
@@ -1372,9 +1376,9 @@ restart:
 	}
 
 	for (i = m_teamrec.entryRaw(0).m_next; i != 0; i = m_teamrec.entryRaw(i).m_next) {
-		if (m_teamrec.entryRaw(i).m_free != 0)
+		if (m_teamrec.m_teams[i].m_free != 0)
 			continue;
-		Dict *tdict = &m_teamrec.entryRaw(i).m_dict;
+		Dict *tdict = &m_teamrec.m_teams[i].m_dict;
 		AsciiString tname = tdict->getAsciiString(TheKey_teamName);
 		AsciiString towner = tdict->getAsciiString(TheKey_teamOwner);
 		if (findSideInfo(towner) == 0 || towner == tname) {
