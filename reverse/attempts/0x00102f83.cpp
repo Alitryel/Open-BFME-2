@@ -1,9 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.8044951179662893 date=2026-10-14
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.7862699169745524 date=2026-10-14
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.7682677643035726 date=2026-10-14
+// partial score=0.81 date=2026-10-17
+// claudeb3 r4: sourcePos rotated (pitch, angle), scaled by factor, THEN translated by pos (retail 0x4cb..0x549); frame 0x88+8 left.
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
 // Corrected live-camera pitch semantics: no XY inverse-pitch adjustment on that branch.
 // Uses actual donor WWMath::Sqrt x87 helper and by-value constraints; see evidence JSON.
@@ -456,9 +453,9 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     float factor=1.0-(v->groundLevel/sourcePos.Z);
     Matrix3D angleTransform(Vector3(0,0,1),v->angle);
     Matrix3D pitchTransform(Vector3(1,0,0),v->pitch);
-    sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;
     pitchTransform.mulVector3(sourcePos); angleTransform.mulVector3(sourcePos);
     sourcePos.X*=factor;sourcePos.Y*=factor;sourcePos.Z*=factor;
+    sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;
     targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;
     Object *object=v->liveCamera?TheGameLogic->findObjectByID(v->lock):0;
     if(v->liveCamera && (!object || (object->cameraKindFlags()&0x10))) {
