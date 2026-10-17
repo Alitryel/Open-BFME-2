@@ -1,6 +1,10 @@
 // ?rva005424C4@XmlNameSlotList@@QAEHXZ
+// partial score=0.744 date=2026-10-17
+// ?rva005424C4@XmlNameSlotList@@QAEHXZ
 // partial score=0.12 date=2026-10-10
 // cl: /O1 /MD /Oi-
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?Rva00542425Skip@@YAPADPAD@Z @0x00542425 36B
 // Identifier-char skip: advances past [A-Za-z0-9_] via isalnum IAT and '_' check
 // returning first non-ident pointer. Evidence: retail bytes unlock lane plus two
@@ -63,22 +67,25 @@ int XmlNameSlotList::rva005424C4()
  int kind=1;
  m_pos=((Rva005423F0 *)this)->rva005423F0(m_pos)+1;
  m_inTag=false;
- if(*m_pos==0)goto failed;
+ if(*m_pos==0)
+  return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
  if(*m_pos=='/') {
   ++m_pos;
   kind=2;
-  if(*m_pos==0)goto failed;
+  if(*m_pos==0)
+   return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
  }
  m_pos=((Rva005423F0 *)this)->rva005423F0(m_pos);
- if(*m_pos==0)goto failed;
+ if(*m_pos==0)
+  return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
  m_tail=m_pos;
  char *tagEnd=Rva00542425Skip(m_pos);
  m_pos=tagEnd;
  if(*m_pos==0)goto failed;
  m_pos=((Rva005423F0 *)this)->rva005423F0(m_pos);
  if(*m_pos==0)goto failed;
- m_mark=0;
- if(kind==1) {
+ if((kind==1) ? true : false) {
+  *(volatile int*)&m_mark=0;
   while(isalnum(*m_pos)) {
    char *name=m_pos;
    char *nameEnd=Rva00542425Skip(m_pos);
@@ -102,6 +109,7 @@ int XmlNameSlotList::rva005424C4()
    ++m_pos;
    if(*m_pos==0)goto failed;
    m_pos=((Rva005423F0 *)this)->rva005423F0(m_pos);
+   _ReadWriteBarrier();
    if(*m_pos==0)goto failed;
    if(m_mark<4) {
     char saved=*nameEnd;
