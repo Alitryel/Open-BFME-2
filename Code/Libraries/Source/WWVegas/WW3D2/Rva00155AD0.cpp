@@ -80,6 +80,7 @@ extern int G00DEC4A0,G00DEC4A4;
 #define render2DShaderBits ((unsigned)G00DB5FBC)
 #define render2DExtraShaderBits ((unsigned)G00DEC4A0)
 #define render2DShaderAlphaFlag ((unsigned)G00DEC4A4)
+extern unsigned number_of_DX8_calls;
 struct _D3DVIEWPORT8 {unsigned X,Y,Width,Height;float MinZ,MaxZ;};
 struct IDirect3DDevice8 { void **vtable; };
 struct RenderStateStruct { unsigned shader;VertexMaterialClass*material;unsigned char unmodelled[0x1EC-8];Matrix4 world,view; };
@@ -97,7 +98,6 @@ protected:
     static Matrix4 DeviceProjectionMatrix;
     static float ZFar,ZNear;
     static IDirect3DDevice8 *D3DDevice;
-    static unsigned matrix_changes;
     friend class Rva00118F50;
 public:
     static __forceinline void SetMaterial(VertexMaterialClass*m) {
@@ -112,7 +112,7 @@ public:
     static __forceinline void SetProjection(const Matrix4&m) {
         Matrix4 transposed=m.Transpose();ProjectionMatrix=transposed;DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
         typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-        ((SetTransform)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++matrix_changes;
+        ((SetTransform)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++number_of_DX8_calls;
     }
     static __forceinline void SetView(const Matrix4&m) {Matrix4 transposed=m.Transpose();render_state.view=transposed;render_state_changed&=~0x80000;render_state_changed|=2;}
     static __forceinline void SetShader(unsigned shader) {
@@ -143,7 +143,7 @@ void Rva00118F50::rva00118F50() {
     DX8Wrapper::SetWorldIdentity();DX8Wrapper::SetViewIdentity();
     DX8Wrapper::ProjectionMatrix.Make_Identity();DX8Wrapper::DeviceProjectionMatrix.Make_Identity();DX8Wrapper::ZFar=0.0f;DX8Wrapper::ZNear=0.0f;
     typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-    ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&DX8Wrapper::DeviceProjectionMatrix);++DX8Wrapper::matrix_changes;
+    ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&DX8Wrapper::DeviceProjectionMatrix);++number_of_DX8_calls;
     // Keep the native DWORD count argument loads; the equivalent conditional
     // preserves MSVC 7.1's argument lowering for these WORD-parameter ABIs.
     DynamicVBAccessClass vb(2,5,(vertices.Count ? vertices.Count : vertices.Count),0);
