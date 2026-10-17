@@ -402,6 +402,8 @@ public:
 // ?<Rva004543A9LeaNegSbbField::Rva004543A9LeaNegSbbField> absent-from-retail
 Rva004543A9LeaNegSbbField::Rva004543A9LeaNegSbbField(EmitVtableTag *) {}
 struct Rva00472444Mask;
+// ?<Rva005E549E::Rva005E549E> absent-from-retail
+DEFINE_THUNK_UAE(Rva005E549E, rva005E549E, 0x08, ())
 // ?<Rva00472444::Rva00472444> absent-from-retail
 DEFINE_THUNK_UAE(Rva00472444, rva00472444, 0xFC, (const Rva00472444Mask &, const AsciiString *))
 struct Rva00575CA6_BaseA { virtual void rva00575CA6() = 0; };

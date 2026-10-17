@@ -100,7 +100,7 @@ public:
 class Rva005E549E
 {
 public:
-	void rva005E549E();
+	virtual void rva005E549E();
 };
 
 class Rva005F327ARun
@@ -118,6 +118,6 @@ public:
 
 void Rva005E5554::method()
 {
-	((Rva005E549E *)this)->rva005E549E();
+	((Rva005E549E *)this)->Rva005E549E::rva005E549E();
 	((Rva005F327ARun *)((char *)this - 8))->run();
 }

@@ -65,13 +65,13 @@ char Rva005E4300Cmp::operator()(int keyA,int keyB) const
  no:return false;
 }
 
-class Rva005E549E {public:void rva005E549E();};
+class Rva005E549E {public:virtual void rva005E549E();};
 class Rva005F6022ByteChaseField {public:unsigned char get()const;};
 namespace StrategicInGameUI {UnicodeString GetTooltipText(int);}
 struct RGBColor;class Mouse {public:void rva001EEA6D(UnicodeString,int,const RGBColor*,float);};extern Mouse*TheMouse;
 class Rva005E6B3E {public:void rva005E6B3E();char unknown0[4];void*clip;char unknown8[0x10];Rva005E4300Entry*entry;};
 void Rva005E6B3E::rva005E6B3E(){
- ((Rva005E549E*)((char*)clip+0xC))->rva005E549E();
+ ((Rva005E549E*)((char*)clip+0xC))->Rva005E549E::rva005E549E();
  if(((Rva005F6022ByteChaseField*)clip)->get()){
   Rva005E3967Template*t=StrategicInGameUI::Rva005E3967(entry);
   int kind=t->archetype;
