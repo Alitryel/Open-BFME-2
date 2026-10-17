@@ -2980,7 +2980,7 @@ _XMP_Is_Prime,,0x0061DA50,75,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ?Set_Rotation_Keyframes@ParticleEmitterDefClass@@UAEXAAU?$ParticlePropertyStruct@M@@M@Z,,0x001B1DC0,99,Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp,matched,placed by masked byte-scan; single hit
 ??0ZigZagLinearOffsetTextureMapperClass@@QAE@ABV0@@Z,,0x001831C0,93,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,placed by masked byte-scan; single hit
 ?Make_Identity@Matrix4@@QAEXXZ,,0x00076735,91,Code/Libraries/Source/WWVegas/WW3D2/camera.cpp,matched,placed by masked byte-scan; single hit
-??0SceneClass@@QAE@XZ,,0x00140C60,90,Code/Libraries/Source/WWVegas/WW3D2/scene.cpp,matched,placed by masked byte-scan; single hit
+??0SceneClass@@QAE@XZ,,0x00140C60,90,Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClassConstructorBFME2.cpp,matched,placed by masked byte-scan; single hit
 ??0RotateTextureMapperClass@@QAE@ABV0@@Z,,0x00182780,87,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,placed by masked byte-scan; single hit
 ??0BumpEnvTextureMapperClass@@QAE@MMABVVector2@@0_N0I@Z,,0x00186940,86,Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,matched,placed by masked byte-scan; single hit
 ?Add@?$SimpleDynVecClass@E@@QAE_NABEH@Z,,0x001AC7D0,85,Code/Libraries/Source/WWVegas/WW3D2/part_buf.cpp,matched,placed by masked byte-scan; single hit

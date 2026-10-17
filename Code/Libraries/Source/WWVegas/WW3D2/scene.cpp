@@ -85,6 +85,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("s", on)
 #include "multilist.h"
 #pragma optimize("", on)
+#pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
 #include "scene.h"
@@ -151,15 +152,18 @@ protected:
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-SceneClass::SceneClass(void) : 
-	AmbientLight(0.5f,0.5f,0.5f),
-	PolyRenderMode(FILL),
-	ExtraPassPolyRenderMode(EXTRA_PASS_DISABLE),
-	FogEnabled(false),
-	FogColor(0,0,0),
-	FogStart(0.0f),
-	FogEnd(1000.0f)	// Arbitrary default value
+// SceneClass::SceneClass (0x00140C60) is rowed in SimpleSceneClassConstructorBFME2.cpp,
+// whose SimpleSceneClass ctor emits the same body; a strong copy here duplicated it.
+// The ctor also emitted (through the vtable) five scene.h inline virtuals rowed here;
+// direct calls keep them emitted.
+// ?bfmeAnchorSceneClassInlineRows absent-from-retail
+void bfmeAnchorSceneClassInlineRows(SceneClass *scene, RenderInfoClass &rinfo, const Vector3 &v, bool on)
 {
+	scene->SceneClass::Set_Fog_Color(v);
+	scene->SceneClass::Set_Ambient_Light(v);
+	scene->SceneClass::Set_Fog_Range(0.0f, 1.0f);
+	scene->SceneClass::Set_Fog_Enable(on);
+	scene->SceneClass::Compute_Point_Visibility(rinfo, v);
 }
 
 
