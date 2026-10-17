@@ -17,6 +17,7 @@
 #include "vector3.h"
 #include "sphere.h"
 #include <math.h>
+#include "region.h"
 class TextureBaseClass { public: void Release_Ref(); };
 class TextureClass : public TextureBaseClass {};
 template<class T> class RefCountPtr { public: T *m_ptr; const RefCountPtr &operator=(const RefCountPtr &); ~RefCountPtr(){if(m_ptr)m_ptr->Release_Ref();} };
@@ -61,6 +62,7 @@ public:
  WaterTracksObj *next,*previous;
  void init(float,float,Vector2&,Vector2&,char*,int,void*);
  virtual void Get_Obj_Space_Bounding_Sphere(SphereClass &out) const;
+ virtual void Get_Obj_Space_Bounding_Box(Region3D &out) const;
 };
 // Target FE440..FE488 evaluates cos before sin, then Y*cos + X*sin.
 // Keep that arithmetic visible locally without changing the shared donor header.
@@ -75,6 +77,10 @@ static __forceinline void rotateInit(Vector2 &v,float angle)
 void WaterTracksObj::Get_Obj_Space_Bounding_Sphere(SphereClass &out) const
 {
  out=sphere;
+}
+void WaterTracksObj::Get_Obj_Space_Bounding_Box(Region3D &out) const
+{
+ out.Region3D::Region3D(*(Region3D*)&box);
 }
 void WaterTracksObj::init(float width,float length,Vector2 &start,Vector2 &end,char *textureName,int timeOffset,void *settings)
 {

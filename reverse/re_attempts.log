@@ -64497,3 +64497,4 @@ _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Sour
 ?Rva0045B49BScale@@YAMM@Z	0x0045B49B	11	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 11B; Rva0045B49BScale scales float by BfmeClientFramesPerMillisecond
 ?rva00527D88@Rva00527D7E@@QAEXH@Z	0x00527D88	7	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp 7B; gap body; shape from retail bytes; address-derived identity
 ?get@Rva0036CC89CmpBoolField@@QBE_NXZ	0x0036CC89	11	landed	add_match verified Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp 11B; gap body; shape from retail bytes; address-derived identity
+?Get_Obj_Space_Bounding_Box@WaterTracksObj@@UBEXAAURegion3D@@@Z	0x000FE369	16	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracks.cpp 16B; Zero Hour WaterTracksObj bounds getter; Region3D copy of plus0x18 through folded 0x0009AC04 copy ctor
