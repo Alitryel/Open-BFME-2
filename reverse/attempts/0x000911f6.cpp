@@ -1,4 +1,6 @@
 // ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
+// partial score=0.99 date=2026-10-17
+// ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
 // partial score=0.9668 date=2026-10-15
 // ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
 // partial score=0.9 date=2026-10-14
@@ -46,7 +48,8 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 		if ( diff - m_at50 > q2 )
 			m_at50 = diff;
 	}
-	while ( m_at48 < (arg ? trans : trans) ) {
+	int limit = arg ? trans : trans;
+	while ( m_at48 < limit ) {
 		if ( v13() )
 			break;
 		if ( edi != 0 )
@@ -62,7 +65,7 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 	m_at2c->v0();
 	ebx |= 1;
 	v2();
-	if ( edi == 0 )
+	if ( *(volatile int*)&edi == 0 )
 		return ebx;
 	if ( !v13() )
 		return ebx;
