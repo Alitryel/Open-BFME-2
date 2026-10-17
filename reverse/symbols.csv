@@ -5213,7 +5213,6 @@ name,address,notes
 ??4OBBoxClass@@QAEAAV0@ABV0@@Z,0x00133990,address read from the REL32 displacement at a placed body
 ??4OnlineQuickMatchWindowRef@@QAEAAV0@PAVGameWindow@@@Z,0x0007B719,one-pointer store returning this (11B; ICF-folded with the rowed _List_iterator<int> node ctor; MpGameSetupComboRef's operator= alias); REL32 at 0x005BA977 in AptOnline::OnlineQuickMatch::InitGadgets rebinding the quick match screen's color window at +0x80
 ??4OrthoEmissionVelocityModuleTemplate@FXParticleSystem@@QAEAAV01@ABV01@@Z,0x003A71B3,BFME2 export; the module template assignment the ConcreteModuleTemplate wrapper forwards to
-??4Overridable@@QAEAAV0@ABV0@@Z,0x001FD28E,ICF-folded trivial base copy (5B return-this like matched FX rows); RankInfo assign base call
 ??4ParticleSystemTemplateTail@FXParticleSystem@@QAEAAV01@ABV01@@Z,0x001FC404,PC exported template assignment1FCED1 calls tail+A4 here after verified base and string assignments; original member identity unasserted
 ??4PeerRequest@@QAEAAV0@ABV0@@Z,0x0038B248,callee of getRequest (0x0038D4C4) at the site its BFME1 donor calls it; may be an ICF alias
 ??4PeerResponse@@QAEAAV0@ABV0@@Z,0x0038B383,sole direct call is from vtable-confirmed GameSpyPeerMessageQueue::getResponse at 0x38DFCA site 0x38E000; Ghidra boundary 0x38B383/340 has thiscall copy ABI; target copies PeerResponse string fields at the donor header offsets and its 8-string array at +0x88; target getResponse and matched addResponse identify the same response queue

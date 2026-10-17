@@ -1,0 +1,11 @@
+# Overridable assignment provider
+
+Published census: 2026-10-17 22:07 at c38493eca2. The missing assignment was the sole named blocker of two units with 3,305 matched bytes. Larger served blockers already have unresolved code-generation or identity prerequisites in the attempt log.
+
+Target proof: five independently rowed assignment callers reach native RVA 0x1FD28E. That complete five-byte body returns ECX and pops one argument; it does not copy override ownership state. Its entire emitted body and relocations equal the existing physical FX CategoryModuleInfo assignment owner. This is a real source provider, replacing the old address pin, with zero unique C++ byte credit. Keep the provider separate from consumers: even noinline does not stop VC7.1 eliminating a visible side-effect-free call.
+
+Reference review: committed BFME1 a0e8f345a9 and the ZH Overridable definition describe chain/allocation ownership, but an implicit donor assignment would copy those fields. The target's explicit calls and native no-op establish the BFME2 behavior; no donor no-op implementation is claimed.
+
+Verification: provider and all five consumers pass 11/11 normal body checks, with literal, float and import checks and no skips. Against the published census, link_check predicts BfmeObject476Assignment.cpp (802B) and ThingTemplateAssignment.cpp (2,497B) now link. Provider remains linked (45B unique source bytes). Overall affected-source LINKED increases 45 -> 3,344 bytes, +3,299B. The other three consumers retain independent STL/COMDAT blockers. This is a census prediction, not a successful full game link.
+
+BFME1 freshness attempt: official master fetched at 83cf4efed952653857ee7aa0fe972f85b097b8c4. Its 47 changed paths include no headers and none are read by the 23,050 examined dependency receipts. Full baseline revalidation was attempted over the native mount, but compilation was prohibitively slow; the isolated snapshot attempt then failed cloning Git metadata: missing promisor object 871b88155b5a1a81f1b319912bec34522f1bf205 (lazy fetching disabled by local upload-pack). No full before/after verdict was obtained, no successful timestamp recorded, and the previously verified a0e8f345a9 pointer is preserved. Logs remain under ignored build/local-macos/next-link-runtime/.

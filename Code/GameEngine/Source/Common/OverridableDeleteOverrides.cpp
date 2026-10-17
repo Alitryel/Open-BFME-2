@@ -11,6 +11,7 @@ public:
     Overridable *m_nextOverride;
     bool m_isOverride;
     Overridable *deleteOverrides();
+    Overridable &operator=(const Overridable &that);
 };
 inline Overridable *Overridable::deleteOverrides() {
     if (m_isOverride) {
@@ -32,3 +33,12 @@ void _bfmeOverridableInlineAnchor(Overridable *p)
     p->deleteOverrides();
 }
 #pragma inline_depth()
+
+// Native assignment callers reach the folded return-this body at 1FD28E.
+// Template copying preserves destination override-chain/allocation state.
+// This provider stays separate from the callers: a visible empty definition
+// lets VC7.1 remove their native base-assignment call even with noinline.
+Overridable &Overridable::operator=(const Overridable &that)
+{
+    return *this;
+}
