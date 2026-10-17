@@ -78,7 +78,7 @@ struct Rva003B0E75 {float values[4];void rva003B0E75();};
 struct HandicapView {float values[4];};
 #include "../../../../Libraries/Include/Lib/RGBColor.h"
 class ScoreKeeper {public:void reset(int);};
-enum NameKeyType{NAMEKEY_INVALID=0};class NameKeyGenerator {public:NameKeyType nameToKey(const AsciiString&);};
+enum NameKeyType{NAMEKEY_INVALID=0};class NameKeyGenerator {public:NameKeyType nameToKey(const AsciiString&);NameKeyType nameToKey(const char*);};
 extern NameKeyGenerator* TheNameKeyGenerator;
 class GlobalData;extern GlobalData*TheWritableGlobalData;
 class GameLogic;extern GameLogic*TheGameLogic;
@@ -100,11 +100,13 @@ char gap00[0x18];AsciiString side;HandicapView handicap;Rva003B0D7C money;RGBCol
 char gap44[0xF4-0x44];Rva001FD42B cost;Rva000427195 time;Rva001FD458 veterancy;
 char gap120[0x150-0x120];bool observer;char gap151[3];unsigned char property154;
 };
+enum PlayerType {PLAYER_HUMAN,PLAYER_COMPUTER};
 class Player {public:
-void init(const PlayerTemplate*);
+void init(const PlayerTemplate*);void initFromDict(const class Dict*);
+void setPlayerType(PlayerType,bool);void rva002AD25B(const AsciiString&);bool rva002AC4D4(int*);
 void addToBuildList(Object*);
 void addToPriorityBuildList(const AsciiString&,Coord3D*,float);
-void deleteUpgradeList();void rva002A99FA();void initPlayerUpgrades();
+int getPlayerIndex()const{return index;}void deleteUpgradeList();void rva002A99FA();void initPlayerUpgrades();
 char gap00[0xC];const unsigned char*property;
 char gap10[0x34-0x10];const PlayerTemplate*tmplate;UnicodeString displayName;HandicapView handicap;
 AsciiString name;NameKeyType nameKey;int index;AsciiString side;int type;
@@ -187,4 +189,122 @@ void Player::addToPriorityBuildList(const AsciiString&name,Coord3D*pos,float ang
  Coord3D location;location.x=pos->x;location.y=pos->y;location.z=pos->z;
  info->position=location;info->angle=angle;info->priority=true;info->rebuilds=1;
  info->next=(BuildListInfo*)buildList;buildList=(PolymorphicOwner*)info;
+}
+
+class ResourceGatheringManager:public PolymorphicOwner {char rest[8];public:ResourceGatheringManager();};
+class TunnelTracker:public PolymorphicOwner {char rest[0x24];public:TunnelTracker();};
+class Dict;struct Handicap {float values[4];void readFromDict(const Dict*);};
+class Rva00148F5ECache;
+extern Rva00148F5ECache TheKey_playerFaction,TheKey_playerDisplayName,TheKey_playerName,TheKey_playerIsSkirmish,TheKey_playerIsHuman,TheKey_playerIsPreorder,TheKey_multiplayerStartIndex,TheKey_skirmishDifficulty,TheKey_playerStartMoney,TheKey_playerHandicap,TheKey_teamName,TheKey_teamOwner;
+class Rva00148F5ECache {public:NameKeyType get();private:NameKeyType value;const char*name;};
+extern Rva00148F5ECache TheKey_playerAIType,TheKey_playerFactionIcon,TheKey_livingWorldPlayerID;
+
+inline __declspec(noinline) NameKeyType Rva00148F5ECache::get(){if(value==NAMEKEY_INVALID){if(TheNameKeyGenerator)value=TheNameKeyGenerator->nameToKey(name);}return value;}
+class Dict {public:
+ Dict(const Dict&d):data(d.data){if(data)++*(unsigned short*)data;}
+ ~Dict(){releaseData();}enum DataType{DICT_NONE=-1,DICT_BOOL,DICT_INT,DICT_REAL,DICT_ASCIISTRING,DICT_UNICODESTRING};DataType getType(int)const;
+ AsciiString getAsciiString(int,bool * =0)const;UnicodeString getUnicodeString(int,bool * =0)const;
+ bool getBool(int,bool * =0)const;int getInt(int,bool * =0)const;
+ void setAsciiString(int,const AsciiString&);
+ void clear();int getPairCount()const;NameKeyType getNthKey(int)const;DataType getNthType(int)const;float getReal(int,bool * =0)const;bool getNthBool(int)const;int getNthInt(int)const;float getNthReal(int)const;AsciiString getNthAsciiString(int)const;UnicodeString getNthUnicodeString(int)const;void setBool(int,bool);void setInt(int,int);void setReal(int,float);void setUnicodeString(int,const UnicodeString&);bool remove(int);void copyPairFrom(const Dict&,int);
+ private:void releaseData();void*data;
+};
+class ScriptList {public:ScriptList(const ScriptList&);virtual ~ScriptList();private:char opaque[0x48];};
+class SidesInfo {public:void*build;Dict dict;ScriptList scripts;char tail[12];Dict*getDict(){return &dict;}ScriptList*getScriptList(){return &scripts;}void setScriptList(ScriptList*);};
+struct TeamRec {short next,prev,reserved,flags;int gen;Dict dict;};
+class TeamsInfoRec {public:char index[12];_STL::vector<TeamRec> teams;char rest[4];
+ int first(){return teams[0].next;}int next(int n){return teams[n].next;}Dict*get(int n){return &teams[n].dict;}
+ int addTeam(const Dict*);void removeTeam(int);
+};
+class SidesList {public:char pad[0x7c0];int skirmishCount;SidesInfo skirmishSides[20];TeamsInfoRec teams,skirmishTeams;
+ SidesInfo*getSkirmishSideInfo(int);SidesInfo*getSideInfo(int);
+};
+extern SidesList*TheSidesList;
+class PlayerTemplateStore{public:const PlayerTemplate*findPlayerTemplate(NameKeyType)const;};extern PlayerTemplateStore*ThePlayerTemplateStore;
+class Rva002A9ACC {public:void rva002A9ACC(const Dict*);};
+struct Rva000B3F84Pair {const char *text;int len;};struct AsciiStringRef {const AsciiString *string;};
+struct Rva002226E5TextPlusString {Rva002226E5TextPlusString(){}Rva000B3F84Pair left;AsciiStringRef right;operator AsciiString();};
+Rva002226E5TextPlusString operator+(const char*,const AsciiString&);
+bool Rva002ACFC1Equal(int,int);
+struct DifficultyView{char pad[0x1a4c4];int value;};class ScriptEngine;extern ScriptEngine*TheScriptEngine;
+struct Rva004DFC20{void clear();};
+struct RegionManagerView{void*getCurrent();};
+class Rva0020E6B7RegionManager{public:class LivingWorldBattle*rva0020E6B7();};
+class LivingWorldBattle{public:char pad[0x24];class LivingWorldRegion*region;void*rva003F4D09();};
+class RegionOwner{public:char pad[0x14];int index;};class CreateAHeroData;
+class LivingWorldRegion{public:char pad[0x11c];bool flag;int rva003F0614(CreateAHeroData*)const;};
+struct CampaignView{char pad[0xb0];Rva0020E6B7RegionManager*regions;bool active;};
+class LivingWorldLogic{public:int rva002B47B1();int rva002B479F();};
+inline __declspec(noinline) SidesInfo*SidesList::getSkirmishSideInfo(int i){return i>=0 && i<skirmishCount?&skirmishSides[i]:0;}
+struct CharCompare {char m_unused;};
+int compareRange(const char*,int,const char*,int,CharCompare);
+template<> inline __declspec(noinline) int StringBase<char>::compare(const char *str,int len)const {return compareRange(m_data?&m_data->data[0]:"",m_data?m_data->length:0,str,len,CharCompare());}
+template<> inline __declspec(noinline) int StringBase<char>::compare(const char *str)const{return compare(str,str?(int)strlen(str):0);}
+extern "C" int memcmp(const void*,const void*,unsigned);
+inline __declspec(noinline) int compareRange(const char *a,int alen,const char *b,int blen,CharCompare tag){int length=alen<blen?alen:blen;int result=memcmp(a,b,length);if(result!=0)return result;return alen-blen;}
+
+void Player::initFromDict(const Dict*d){
+ AsciiString tmplname=d->getAsciiString(TheKey_playerFaction.get());
+ const PlayerTemplate*pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(tmplname));
+ if(!pt)pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey("FactionCivilian"));
+ init(pt);displayName=d->getUnicodeString(TheKey_playerDisplayName.get());AsciiString pname=d->getAsciiString(TheKey_playerName.get());name=pname;nameKey=TheNameKeyGenerator->nameToKey(pname);
+ bool exists;bool skirmish=false;bool forceHuman=false;
+ bool wasObserver=pt->observer;if(!wasObserver && d->getBool(TheKey_playerIsSkirmish.get(),&exists)){
+  for(int sp=0;sp<TheSidesList->skirmishCount;++sp){
+   AsciiString faction=TheSidesList->getSkirmishSideInfo(sp)->getDict()->getAsciiString(TheKey_playerFaction.get());
+   const PlayerTemplate*spt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(faction));
+   if(spt && spt->side==side){skirmish=true;break;}
+  }
+  if(!skirmish)forceHuman=true;
+ }
+ defaultTeam=(void*)d->getInt(TheKey_multiplayerStartIndex.get(),&exists);
+ ((Rva002A9ACC*)this)->rva002A9ACC(d);unknown27C=d->getInt(TheKey_playerHandicap.get(),&exists);
+ if(d->getBool(TheKey_playerIsHuman.get()) || forceHuman){
+  setPlayerType(PLAYER_HUMAN,skirmish);
+  if(d->getBool(TheKey_playerIsPreorder.get(),&exists))flag33B=true;
+  if(TheSidesList->skirmishCount>0 && ((const StringBase<char>&)d->getAsciiString(TheKey_playerName.get())).compare("ReplayObserver")!=0 && ((const StringBase<char>&)tmplname).compare("FactionObserver")!=0){
+   if(d->getType(TheKey_playerAIType.get())!=3){
+    AsciiString humanSide("SkirmishHuman");
+    bool found=false;int i;
+    for(i=0;i<TheSidesList->skirmishCount;++i){
+     if(TheSidesList->getSkirmishSideInfo(i)->getDict()->getAsciiString(TheKey_playerName.get())==humanSide){found=true;break;}
+    }
+    if(found){
+ ScriptList scripts(*TheSidesList->getSkirmishSideInfo(i)->getScriptList());TheSidesList->getSideInfo(getPlayerIndex())->setScriptList(&scripts);
+ AsciiString original=TheSidesList->getSkirmishSideInfo(i)->getDict()->getAsciiString(TheKey_playerName.get());
+ for(int id=TheSidesList->skirmishTeams.first();id;id=TheSidesList->skirmishTeams.next(id)){
+  if(TheSidesList->skirmishTeams.get(id)->getAsciiString(TheKey_teamOwner.get())==original){Dict team(*TheSidesList->skirmishTeams.get(id));AsciiString tname=team.getAsciiString(TheKey_teamName.get());if(Rva002ACFC1Equal((int)&tname,(int)&("team"+original)))team.setAsciiString(TheKey_teamName.get(),"team"+pname);team.setAsciiString(TheKey_teamOwner.get(),pname);TheSidesList->teams.addTeam(&team);}
+ }
+    }
+   }
+   skirmish=false;rva002AD25B(pname);
+  }
+ }else setPlayerType(PLAYER_COMPUTER,skirmish);
+ if(skirmish){
+  int skirmishNdx;{int t;if(!rva002AC4D4(&t))return;skirmishNdx=t;}
+  int diff=d->getInt(TheKey_skirmishDifficulty.get(),&exists);int difficulty=((DifficultyView*)TheScriptEngine)->value;if(exists)difficulty=diff;
+  if(ai)*(int*)((char*)ai+0x2c)=difficulty;
+  if(d->getType(TheKey_playerAIType.get())!=3){
+   ScriptList scripts(*TheSidesList->getSkirmishSideInfo(skirmishNdx)->getScriptList());TheSidesList->getSideInfo(getPlayerIndex())->setScriptList(&scripts);
+   for(int id=TheSidesList->teams.first();id;){int next=TheSidesList->teams.next(id);if(TheSidesList->teams.get(id)->getAsciiString(TheKey_teamOwner.get())==pname)TheSidesList->teams.removeTeam(id);id=next;}
+   // Keep copyTeams' team semantics inline without recopying the script list.
+   Rva00148F5ECache&pkr=TheKey_playerName;AsciiString original=TheSidesList->getSkirmishSideInfo(skirmishNdx)->getDict()->getAsciiString(pkr.get());
+   for(int id=TheSidesList->skirmishTeams.first();id;id=TheSidesList->skirmishTeams.next(id)){
+    if(TheSidesList->skirmishTeams.get(id)->getAsciiString(TheKey_teamOwner.get())==original){Dict team(*TheSidesList->skirmishTeams.get(id));AsciiString tname=team.getAsciiString(TheKey_teamName.get());if(Rva002ACFC1Equal((int)&tname,(int)&("team"+original)))team.setAsciiString(TheKey_teamName.get(),"team"+pname);team.setAsciiString(TheKey_teamOwner.get(),pname);TheSidesList->teams.addTeam(&team);}
+   }
+  }
+  rva002AD25B(pname);
+ }
+ if(resources){::delete resources;resources=0;}resources=new ResourceGatheringManager;
+ if(tunnel){::delete tunnel;tunnel=0;}tunnel=new TunnelTracker;
+ ((Handicap*)&handicap)->readFromDict(d);((Rva004DFC20*)((char*)playerRelations+4))->clear();((Rva004DFC20*)((char*)teamRelations+4))->clear();
+ Player*self=this;for(int i=0;i<20;++i){self->attackedBy[i]=false;self->attackFrames[i]=0;}unknown3A8=0;
+ int m=d->getInt(TheKey_playerStartMoney.get(),&exists);if(exists)money.rva003B0D7C(m,(Rva0039B7AD*)&score,false);
+ for(int i=0;i<10;++i){if(squads[i]){::delete squads[i];squads[i]=0;}squads[i]=new Squad;}
+ if(selection){::delete selection;selection=0;}selection=new Squad;
+ text74C=d->getAsciiString(TheKey_playerFactionIcon.get(),&exists);int ri=d->getInt(TheKey_livingWorldPlayerID.get(),&exists);if(exists)unknown3AC=ri;
+ if(((LogicModeView*)TheGameLogic)->mode!=3 && ((CampaignView*)TheLivingWorldLogic)->active){
+  LivingWorldBattle*cur=((CampaignView*)TheLivingWorldLogic)->regions->rva0020E6B7();
+  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4D09();LivingWorldRegion*r;if(owner && unknown3AC==*(volatile int*)&owner->index && ((r=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || r->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
+ }
 }

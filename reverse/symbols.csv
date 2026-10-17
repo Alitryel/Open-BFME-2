@@ -15855,3 +15855,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva007586F0@CollisionManagerImpl@@QAEXXZ,0x007586F0,REL32 read at 0x00759A06 in UpdateSort 0x00759600 (rebuild path: merge-sort of the axis lists before the overlap sweep; WB 0x01802EC0 unnamed; body 460 B unrowed)
 ??$find@PAVRva0040AF66@@H@_STL@@YAPAVRva0040AF66@@PAV1@0ABH@Z,0x0040A8AC,Typed statistic-key search; whole 27-byte wrapper and 118-byte unrolled search fold onto existing Pod104 search bodies; fold-proof=Code/GameEngine/Source/Common/Rva0040BAD0.cpp
 ?rva002A4A68@InGameUI@@QAEXXZ,0x002A4A68,non-virtual InGameUI call (ecx = TheInGameUI 0x009FEDF0) at 0x0004A81D in the byte-verified W3DDisplay::rva0004A462 0x0004A462; 404B body walks a list at +0x8D0 (floating-text style update); opaque address name
+?rva002AD25B@Player@@QAEXABVAsciiString@@@Z,0x002AD25B,callee of ?initFromDict@Player@@QAEXPBVDict@@@Z
