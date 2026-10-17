@@ -1,4 +1,6 @@
 // ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
+// partial score=0.99 date=2026-10-17
+// ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
 // partial score=0.908 date=2026-10-15
 // ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
 // partial score=0.5 date=2026-10-14
@@ -350,11 +352,15 @@ void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool
   unsigned int flags=block->m_size;
   unsigned int prev=(flags&2)?block->m_prevSize:0;
   unsigned int footprint=(block->m_size&0x7FFFFFF8)+prev;
-  int size=flags&0x7FFFFFF8;
+  unsigned int size=flags&0x7FFFFFF8;
   if(!(block->m_size&2))size+=4;
+  *(volatile unsigned int*)&size=size;
   unsigned int overhead=prev+8;
   unsigned int debugSize=rva006C2510((char *)block+8,0,0);
-  size=size-debugSize-8;
+  unsigned int usedSize=size-debugSize;
+  _ReadWriteBarrier();
+  unsigned int selectedSize=allocation ? usedSize : usedSize;
+  size=selectedSize-8;
   _ReadWriteBarrier();
   if(allocation) {
    m_lastAllocation=GetTickCount()/1000;
@@ -368,11 +374,12 @@ void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool
    m_metrics[1].totalAllocBytes+=overhead;
    m_metrics[2].currentBytes+=debugSize;
    m_metrics[2].totalAllocBytes+=debugSize;
-   m_metrics[3].currentBytes+=size;
-   m_metrics[3].totalAllocBytes+=size;
+   unsigned int used=size;
+   m_metrics[3].currentBytes+=used;
+   m_metrics[3].totalAllocBytes+=used;
    if(m_metrics[3].peakBytes<m_metrics[3].currentBytes)m_metrics[3].peakBytes=m_metrics[3].currentBytes;
   } else {
-   m_lastFree=(m_lastAllocation ? (GetTickCount()) : (GetTickCount()))/1000;
+   m_lastFree=GetTickCount()/1000;
    --m_metrics[0].currentCount;
    m_metrics[0].currentBytes-=footprint;
    ++m_metrics[0].totalFreeCount;
