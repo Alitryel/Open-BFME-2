@@ -401,7 +401,7 @@ void HordeContain::rva0047A895(Object *obj, const Coord3D *pos, float angle, boo
 		delta.sub(&newPos);
 		if (delta.GetLength() > maxMove) {
 			delta.normalize();
-			delta.scale(maxMove);
+			delta.scaleInlined(maxMove);
 			newPos.add(&delta);
 		} else {
 			newPos = *pos;
@@ -459,7 +459,7 @@ void HordeContain::rva0047A413()
 			if (segLen > remaining) {
 				Coord3D d(dir);
 				d.normalize();
-				d.scale(remaining);
+				d.scaleInlined(remaining);
 				d.add(&m_points[seg].m_pos);
 				m_ranks[i].m_pos = d;
 				float a0 = m_points[seg].m_angle;
