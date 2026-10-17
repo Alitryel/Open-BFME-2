@@ -1,4 +1,6 @@
 // ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
+// partial score=0.944 date=2026-10-17
+// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
 // partial score=0.9432 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // Native 28F326..28F44C 294B RET8; complete WB CE75F0 twin.
@@ -49,6 +51,11 @@ unsigned char Rva0028F326Owner::rva0028F326(unsigned targetWord,float range)
  facing.x=Cos(angle);
  facing.y=Sin(angle);
  facing.z=0.0f;
- range=delta.x*facing.x+delta.y*facing.y+delta.z*facing.z;
+ float dx=delta.x,dy=delta.y,dz=delta.z;
+ float fx=facing.x,fy=facing.y,fz=facing.z;
+ float dot=dx*fx;
+ dot=dy*fy+dot;
+ dot=dz*fz+dot;
+ range=dot;
  return range>=Cos(type->visionAngle*0.008725001f);
 }
