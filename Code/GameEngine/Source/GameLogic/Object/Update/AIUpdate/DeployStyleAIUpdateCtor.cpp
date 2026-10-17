@@ -26,13 +26,6 @@ public:
 	char pad00[0x74]; ObjectID m_id;
 };
 class AICommandInterface { public: void aiIdle(CommandSourceType); };
-class AIUpdateInterface {
-public:
-	virtual void aiDoCommand(const AICommandParms *parms);
-	WhichTurretType getWhichTurretForCurWeapon() const;
-	void setTurretEnabled(WhichTurretType,Bool);
-	void recenterTurret(WhichTurretType);
-};
 class Rva0048E61F { public: int rva0048E61F(); };
 extern GameLogic *TheGameLogic;
 
@@ -205,8 +198,8 @@ public:
 // statics, DIR32-masked) over a 0x3E4 member (ctor 0x26AFDA, size 0xC4
 // ending at 0x4A8) plus zeros at +0x4A8..0x4B8 in retail order
 // (0x4B4 before 0x4B0), then runs the pinned class helper (0x48E65B).
-// This ABI view declares no virtuals of its own: the stores land from explicit
-// members in body order (AssaultTransport precedent). Row supersedes the
+// novtable keeps this partial view from emitting synthetic vtables or stores;
+// the constructor retains the five explicit retail vptr stores. Row supersedes the
 // sole-caller pin; the instance factory at 0x24D1E6 is the single raw caller.
 
 class Thing;
@@ -218,13 +211,17 @@ static int s_secondary10;
 static int s_secondary20;
 static int s_secondary24;
 
-class Rva0026E9BDBase
+class __declspec(novtable) AIUpdateInterface
 {
 public:
-	Rva0026E9BDBase(Thing *thing, const ModuleData *moduleData);
+	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
+	virtual void aiDoCommand(const AICommandParms *parms);
+	WhichTurretType getWhichTurretForCurWeapon() const;
+	void setTurretEnabled(WhichTurretType,Bool);
+	void recenterTurret(WhichTurretType);
 
 protected:
-	const void *m_vtable;			// +0x00
+	// The declared virtual member supplies the primary vptr at +0x00.
 	unsigned char m_pad04[0x0C - 4];
 	const void *m_p0C;			// +0x0C
 	const void *m_p10;			// +0x10
@@ -243,7 +240,7 @@ private:
 	unsigned char m_pad[0xC4];
 };
 
-class DeployStyleAIUpdate : public Rva0026E9BDBase
+class __declspec(novtable) DeployStyleAIUpdate : public AIUpdateInterface
 {
 public:
 	DeployStyleAIUpdate(Thing *thing, const ModuleData *moduleData);
@@ -286,9 +283,9 @@ protected:
 
 // ??0DeployStyleAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x48E983
 DeployStyleAIUpdate::DeployStyleAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: Rva0026E9BDBase(thing, moduleData)
+	: AIUpdateInterface(thing, moduleData)
 {
-	m_vtable = &s_vtable;
+	*reinterpret_cast<const void **>(this) = &s_vtable;
 	m_p0C = &s_secondary0C;
 	m_p10 = &s_secondary10;
 	m_p20 = &s_secondary20;

@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 //
 // ??0AnimalAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0047ECA8
-// (121 bytes). Behavior ctor over the pinned opaque Transport base (0x26E9BD,
+// (121 bytes). Behavior ctor over the rowed AIUpdateInterface base (0x26E9BD,
 // thing plus data): installs the six behavior vtable slots (+0x00/+0x0C/+0x10/
 // +0x20/+0x24 via explicit members with TU-local dummy statics, DIR32-masked;
 // +0x3E4 double-stored C1C780-then-C47B84) plus zeros at +0x3E8/+0x3F8/+0x3F9
@@ -23,10 +23,10 @@ static int s_secondary24;
 static int s_slot3E4first;
 static int s_slot3E4second;
 
-class Rva0026E9BDBase
+class AIUpdateInterface
 {
 public:
-	Rva0026E9BDBase(Thing *thing, const ModuleData *moduleData);
+	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 
 protected:
 	const void *m_vtable;			// +0x00
@@ -46,7 +46,7 @@ protected:
 	unsigned char m_3F9;			// +0x3F9
 };
 
-class AnimalAIUpdate : public Rva0026E9BDBase
+class AnimalAIUpdate : public AIUpdateInterface
 {
 public:
 	AnimalAIUpdate(Thing *thing, const ModuleData *moduleData);
@@ -54,7 +54,7 @@ public:
 
 // ??0AnimalAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x47ECA8
 AnimalAIUpdate::AnimalAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: Rva0026E9BDBase(thing, moduleData)
+	: AIUpdateInterface(thing, moduleData)
 {
 	*(const void * volatile *)&m_p3E4 = &s_slot3E4first;
 	m_p3E4 = &s_slot3E4second;

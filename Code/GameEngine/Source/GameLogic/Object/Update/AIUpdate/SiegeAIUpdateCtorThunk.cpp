@@ -44,17 +44,17 @@ public:
 	virtual void siegeAIUpdateIface4Anchor();
 };
 
-class SiegeAIUpdateBase : public BehaviorModule,
+class AIUpdateInterface : public BehaviorModule,
 	public SiegeAIUpdateIface1,
 	public SiegeAIUpdateIface2,
 	public SiegeAIUpdateIface3,
 	public SiegeAIUpdateIface4
 {
 public:
-	SiegeAIUpdateBase(Thing *thing, const ModuleData *moduleData);
+	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
 };
 
-class SiegeAIUpdate : public SiegeAIUpdateBase
+class SiegeAIUpdate : public AIUpdateInterface
 {
 public:
 	SiegeAIUpdate(Thing *thing, const ModuleData *moduleData);
@@ -62,7 +62,7 @@ public:
 
 // ??0SiegeAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
 SiegeAIUpdate::SiegeAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: SiegeAIUpdateBase(thing, moduleData)
+	: AIUpdateInterface(thing, moduleData)
 {
 }
 
