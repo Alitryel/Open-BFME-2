@@ -174,13 +174,13 @@ private:
 class ThingTemplate
 {
 public:
-	const ModuleInfo &getDrawModuleInfo() const { return m_drawModuleInfo; }
+	__declspec(dllimport) const ModuleInfo &getDrawModuleInfo() const { return m_drawModuleInfo; }
 	const AsciiString &getName() const { return m_name; }
 	UnsignedShort getShadowType() const { return m_shadowType; }
 	Int get5B8() const { return m_5B8; }
 	unsigned char get5EB() const { return m_5EB; }
 	unsigned char get5EC() const { return m_5EC; }
-	const AsciiString &getShadowTextureName() const { return m_shadowTextureName; }
+	__declspec(dllimport) const AsciiString &getShadowTextureName() const { return m_shadowTextureName; }
 private:
 	char m_pad00[0x64];
 	AsciiString m_name; // +0x64

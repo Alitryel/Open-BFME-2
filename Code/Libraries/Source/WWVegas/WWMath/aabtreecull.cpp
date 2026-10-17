@@ -68,7 +68,7 @@ class FastCriticalSectionClass
 {
 	unsigned Flag;
 public:
-	FastCriticalSectionClass() : Flag(0) {}
+	__declspec(dllimport) FastCriticalSectionClass() : Flag(0) {}
 	class LockClass
 	{
 		FastCriticalSectionClass &cs;

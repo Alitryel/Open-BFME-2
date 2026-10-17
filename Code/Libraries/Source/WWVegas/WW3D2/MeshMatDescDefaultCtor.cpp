@@ -31,7 +31,7 @@ protected:
 };
 class TextureClass : public TextureBaseClass {
 public:
-    void Add_Ref() { ++NumRefs; }
+    __declspec(dllimport) void Add_Ref() { ++NumRefs; }
 };
 template <class T> class RefCountPtr {
 public:
@@ -57,7 +57,7 @@ template <> RefCountPtr<TextureClass>::RefCountPtr();
 
 class RefCountClass {
 public:
-    void Add_Ref() { ++NumRefs; }
+    __declspec(dllimport) void Add_Ref() { ++NumRefs; }
     __declspec(dllimport) __forceinline void Release_Ref() { --NumRefs; if (NumRefs == 0) Delete_This(); }
     virtual void Delete_This();
 protected:
@@ -180,7 +180,7 @@ public:
     MeshMatDescClass &operator=(const MeshMatDescClass &that);
     RefCountPtr<TextureClass> Get_Single_Texture(int pass, int stage) const;
     ShaderClass Get_Single_Shader(int pass = 0) const { return Shader[pass]; }
-    VertexMaterialClass *Peek_Single_Material(int pass = 0) const { return Material[pass]; }
+    __declspec(dllimport) VertexMaterialClass *Peek_Single_Material(int pass = 0) const { return Material[pass]; }
     void Store_Pass0_State(bool store);
     void Init_Alternate(MeshMatDescClass &default_materials, MeshMatDescClass &alternate_materials);
     int Get_UV_Array_Count() {

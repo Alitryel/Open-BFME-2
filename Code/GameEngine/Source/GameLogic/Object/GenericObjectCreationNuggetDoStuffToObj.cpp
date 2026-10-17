@@ -297,7 +297,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	__declspec(dllimport) Player *getLocalPlayer() { return m_local; }
 private:
 	char m_pad[0x10];
 	Player *m_local; // +0x10

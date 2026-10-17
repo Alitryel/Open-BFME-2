@@ -141,7 +141,7 @@ void rva0052DAE9(Bool open);
 Int getXIndex() const { return m_pathInfo->position.x; }
 Int getYIndex() const { return m_pathInfo->position.y; }
 float rva0052DD75(float facing, Int count, float weight);
-CellType getType() const { return (CellType)(m_info & 0xf); }
+__declspec(dllimport) CellType getType() const { return (CellType)(m_info & 0xf); }
 Int getLayer() const { return (m_info & 0x3f0) >> 4; }
 
 private:

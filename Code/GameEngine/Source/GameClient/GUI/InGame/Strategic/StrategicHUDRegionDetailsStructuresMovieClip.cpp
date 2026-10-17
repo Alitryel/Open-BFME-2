@@ -50,7 +50,7 @@ struct FunctorBinding
 class Rva0057BC63FunctorHolder
 {
 public:
-	Rva0057BC63FunctorHolder() {}
+	__declspec(dllimport) Rva0057BC63FunctorHolder() {}
 	Rva0057BC63FunctorHolder(const FunctorBinding &binding); // 0x0057BC63
 
 	void *m_ptr;

@@ -126,7 +126,7 @@ struct Vector3
 	Vector3 &operator*=(float k) { X = X*k; Y = Y*k; Z = Z*k; return *this; }
 	void Set(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
 	float Length2() const { return X*X + Y*Y + Z*Z; }
-	__forceinline void Normalize()
+	__declspec(dllimport) __forceinline void Normalize()
 	{
 		float len2 = Length2();
 		if (len2 != 0.0f)

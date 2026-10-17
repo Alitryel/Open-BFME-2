@@ -178,7 +178,7 @@ class ModuleInfo
 	const void *m_end;
 	const void *m_storage;
 public:
-	int getCount() const
+	__declspec(dllimport) int getCount() const
 	{
 		return ((const char *)m_end - (const char *)m_begin) / 20;
 	}

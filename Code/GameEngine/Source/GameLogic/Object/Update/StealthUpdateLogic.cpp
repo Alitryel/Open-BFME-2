@@ -927,7 +927,7 @@ public:
 	virtual UpdateSleepTime update();
 	UpdateSleepTime rva00374FD5();
 	Bool canDisguise() const { return getStealthUpdateModuleData()->m_teamDisguised; }
-	Bool isDisguised() const { return m_disguiseAsTemplate != NULL; }
+	__declspec(dllimport) Bool isDisguised() const { return m_disguiseAsTemplate != NULL; }
 	__declspec(dllimport) __forceinline Int getDisguisedPlayerIndex() const { return m_disguiseAsPlayerIndex; }
 	const ThingTemplate *getDisguisedTemplate() { return m_disguiseAsTemplate; }
 protected:

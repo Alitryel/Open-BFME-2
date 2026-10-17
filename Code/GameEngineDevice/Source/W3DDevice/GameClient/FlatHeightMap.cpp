@@ -199,7 +199,7 @@ class Matrix3D
 {
 public:
 	__forceinline Matrix3D() {}
-	__forceinline void Set(const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &pos)
+	__declspec(dllimport) __forceinline void Set(const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &pos)
 	{
 		Row[0].X = x.X; Row[0].Y = y.X; Row[0].Z = z.X; Row[0].W = pos.X;
 		Row[1].X = x.Y; Row[1].Y = y.Y; Row[1].Z = z.Y; Row[1].W = pos.Y;
@@ -217,7 +217,7 @@ public:
 	__forceinline Matrix4x4 &operator=(const Matrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; return *this; }
 	__forceinline explicit Matrix4x4(const Matrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
 	__forceinline Matrix4x4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
-	__forceinline Matrix4x4 Transpose() const
+	__declspec(dllimport) __forceinline Matrix4x4 Transpose() const
 	{
 		return Matrix4x4(
 			Vector4(Row[0][0], Row[1][0], Row[2][0], Row[3][0]),
@@ -391,9 +391,9 @@ void Rva0004CB5FSet(int);
 class WorldHeightMap
 {
 public:
-	Int getXExtent(void) { return m_width; }
-	Int getYExtent(void) { return m_height; }
-	Int getBorderSizeInline(void) const { return m_borderSize; }
+	__declspec(dllimport) Int getXExtent(void) { return m_width; }
+	__declspec(dllimport) Int getYExtent(void) { return m_height; }
+	__declspec(dllimport) Int getBorderSizeInline(void) const { return m_borderSize; }
 private:
 	char m_pad00[8];
 	Int m_width;	// +0x08

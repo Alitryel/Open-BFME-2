@@ -387,7 +387,7 @@ class AIUpdateInterface : public BfmeVirtualSlots<137>
 public:
 	virtual Bool isDoingGroundMovement() const; // slot 137 (+0x224)
 	Object *getObject() const { return m_object; }
-	Path *getPath() { return m_path; }
+	__declspec(dllimport) Path *getPath() { return m_path; }
 	__declspec(dllimport) __forceinline Real getPathExtraDistance() const { return m_pathExtraDistance; }
 	__declspec(dllimport) __forceinline Bool isAiInDeadState() const { return m_isAiDead; }
 	void chooseGoodLocomotorFromCurrentSet();

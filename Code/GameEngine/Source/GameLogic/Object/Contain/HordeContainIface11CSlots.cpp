@@ -411,7 +411,7 @@ public:
 	{
 		unsigned char m_pad[0x14];
 	};
-	int getCount() const { return m_end - m_begin; }
+	__declspec(dllimport) int getCount() const { return m_end - m_begin; }
 	const ModuleData *getNthData(int i) const;
 	Entry *m_begin; // vector<Entry>
 	Entry *m_end;

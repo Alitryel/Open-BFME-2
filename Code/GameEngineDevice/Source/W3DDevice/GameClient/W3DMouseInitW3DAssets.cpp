@@ -137,7 +137,7 @@ public:
 		Row[2].Set(0.0f,0.0f,1.0f,0.0f);
 	}
 	__forceinline void Set_Translation( const Vector3 & t ) { Row[0][3] = t[0]; Row[1][3] = t[1]; Row[2][3] = t[2]; }
-	__forceinline void Rotate_Z( float theta )
+	__declspec(dllimport) __forceinline void Rotate_Z( float theta )
 	{
 		float tmp1,tmp2;
 		float c,s;

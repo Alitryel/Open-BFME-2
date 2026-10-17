@@ -580,7 +580,7 @@ class GeometryInfo
 {
 public:
 	Real getMajorRadius() const { return m_majorRadius; }
-	Real getBoundingSphereRadius() const { return m_boundingSphereRadius; }
+	__declspec(dllimport) Real getBoundingSphereRadius() const { return m_boundingSphereRadius; }
 private:
 	unsigned char m_pad00[0x10];
 	Real m_majorRadius; // +0x10
@@ -704,7 +704,7 @@ public:
 	// mismatch loses link order. Rebinding in-TU uses to this unique copy
 	// (inlined at all use sites) drops the loser symbol. No flags touched.
 	Real bfme_construction_percent() const { return m_constructionPercent; }
-	void setConstructionPercent(Real percent) { m_constructionPercent = percent; }
+	__declspec(dllimport) void setConstructionPercent(Real percent) { m_constructionPercent = percent; }
 	void setStatus(ObjectStatusTypes status, Bool set);
 protected:
 	friend class DozerActionDoActionState;
@@ -1798,7 +1798,7 @@ enum PlayerType
 class Player
 {
 public:
-	PlayerType getPlayerType() const { return m_playerType; }
+	__declspec(dllimport) PlayerType getPlayerType() const { return m_playerType; }
 	Rva003B0D7C *getMoney() { return &m_money; }
 	Team *getDefaultTeam() const { return m_defaultTeam; }
 	Rva0039B795 *getStats() { return &m_stats; }
