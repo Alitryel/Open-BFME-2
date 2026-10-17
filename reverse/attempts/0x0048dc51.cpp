@@ -273,7 +273,9 @@ __forceinline void placeControlPoint(Coord3D &out, const Coord3D &offset, Real a
 	Real s = (float)sin((double)(angle));
 	Real c = (Real)cos(angle);
 	Real x = pt.x;
-	pt.x = c * x - s * y + pos.x;
+	Real rx = c * x;
+	rx = rx - s * y;
+	pt.x = rx + pos.x;
 	pt.y = x * s + c * y + pos.y;
 	pt.z = 0.0f;
 	out = pt;
@@ -289,7 +291,9 @@ void FloodUpdate::rva0048DC51(const FloodMember *member, Rva0048E16C *record)
 	const FloodUpdateModuleData *data = getFloodUpdateModuleData();
 	Real angle = data->m_angleOfFlow;
 	if (data->m_directionIsRelative)
-		angle = normalizeAngle(getObject()->getOrientation() + angle);
+		angle = (1 ? normalizeAngle(getObject()->getOrientation() + angle) : normalizeAngle(0.0f));
+		_ReadWriteBarrier();
+		_ReadWriteBarrier();
 		_ReadWriteBarrier();
 
 	Coord3D points[4];
