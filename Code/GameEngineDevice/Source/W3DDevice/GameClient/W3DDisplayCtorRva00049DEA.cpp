@@ -97,11 +97,18 @@ class BfmeStrVM0
  
 }
 ;
+class RTS3DScene;
+class RTS2DScene;
+class RTS3DInterfaceScene;
 class W3DDisplay : public BfmeStrVM0
 
 {
  public:
  W3DDisplay();
+ virtual ~W3DDisplay(); // rowed 0x00049FCB (W3DDisplayDtor.cpp)
+ static RTS3DScene *m_3DScene; // 0x009E1B34
+ static RTS2DScene *m_2DScene; // 0x009E1B38
+ static RTS3DInterfaceScene *m_3DInterfaceScene; // 0x009E1B3C
  bool m_initialized;
  char pad145[3];
  void *m_lightA[4];
@@ -129,9 +136,8 @@ class W3DDisplay : public BfmeStrVM0
 ;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
-extern void *TheScene3D;
-extern void *TheScene3DInterface;
-extern void *TheScene2D;
+// Retail .data starts it at 0; this ctor and the dtor null it.
+RTS3DInterfaceScene *W3DDisplay::m_3DInterfaceScene = 0;
 // CameraShakerSystem (0x009E1E94): this ctor fills it with the shaker list and
 // W3DDisplay::~W3DDisplay deletes and nulls it. Retail .data starts it at 0.
 CameraShakeSystemClass CameraShakerSystem;
@@ -141,9 +147,9 @@ W3DDisplay::W3DDisplay()
  m_184 = 0;
  m_188 = 0;
  m_initialized = false;
- TheScene3D = 0;
- TheScene3DInterface = 0;
- TheScene2D = 0;
+ m_3DScene = 0;
+ m_2DScene = 0;
+ m_3DInterfaceScene = 0;
  m_180 = (float)((GlobalDataView *)TheWritableGlobalData)->value28;
  for (int i = 0; i < 4; i++)
  
