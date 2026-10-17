@@ -16,10 +16,9 @@ class CreateObjectDieModuleData
 {
 public:
 	CreateObjectDieModuleData();
-	~CreateObjectDieModuleData();
+	virtual ~CreateObjectDieModuleData(); // virtual, as rowed (0x00485DDA)
 
 protected:
-	const void *m_vtable; // +0
 	unsigned char m_pad04[0x4C - 4]; // +4..+0x4B, real base tail
 };
 
@@ -32,7 +31,7 @@ private:
 	unsigned char m_filter[4];
 };
 
-class CreateObjectDieIfEldestKindofModuleData : public CreateObjectDieModuleData
+class __declspec(novtable) CreateObjectDieIfEldestKindofModuleData : public CreateObjectDieModuleData
 {
 public:
 	CreateObjectDieIfEldestKindofModuleData();
@@ -45,5 +44,5 @@ private:
 CreateObjectDieIfEldestKindofModuleData::CreateObjectDieIfEldestKindofModuleData()
 	: CreateObjectDieModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>((unsigned int)&g_00C4AA08);
+	*(const void **)this = reinterpret_cast<const void *>((unsigned int)&g_00C4AA08);
 }

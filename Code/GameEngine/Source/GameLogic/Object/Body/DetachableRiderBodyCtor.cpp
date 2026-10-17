@@ -47,10 +47,9 @@ class ActiveBody
 {
 public:
 	ActiveBody(Thing *thing, const ModuleData *moduleData);
-	~ActiveBody();
+	virtual ~ActiveBody(); // virtual, as rowed (0x004BF951)
 
 protected:
-	const void *m_vtable;
 	const ModuleData *m_moduleData;
 	unsigned char m_pad08[4];
 	const void *m_secondary0C;
@@ -58,7 +57,7 @@ protected:
 	unsigned char m_pad14[0x100 - 0x14];
 };
 
-class DetachableRiderBody : public ActiveBody
+class __declspec(novtable) DetachableRiderBody : public ActiveBody
 {
 public:
 	DetachableRiderBody(Thing *thing, const ModuleData *moduleData);
@@ -72,7 +71,7 @@ DetachableRiderBody::DetachableRiderBody(Thing *thing, const ModuleData *moduleD
 	: ActiveBody(thing, moduleData), m_100()
 {
 	const DetachableRiderBodyModuleData *data = (const DetachableRiderBodyModuleData *)m_moduleData;
-	m_vtable = (const void *)((unsigned int)vtbl_00C5C0B8);
+	*(const void **)this = (const void *)((unsigned int)vtbl_00C5C0B8);
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C5BFF8);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C5BF48);
 	*(void **)&m_100 = (void *)((unsigned int)vtbl_00C5BF00);

@@ -54,24 +54,23 @@ class ActiveBodyModuleData
 {
 public:
 	ActiveBodyModuleData();
-	~ActiveBodyModuleData();
+	virtual ~ActiveBodyModuleData(); // virtual, as rowed (0x00256CB0)
 };
 
-class StructureBodyModuleData : public ActiveBodyModuleData
+class __declspec(novtable) StructureBodyModuleData : public ActiveBodyModuleData
 {
 public:
 	StructureBodyModuleData();
 
 private:
-	const void *m_vtable; // +0
 	unsigned char m_pad[0x48 - 4]; // +4
 	const FXList *m_healingBuffFx; // +0x48
 };
 
 // ??0StructureBodyModuleData@@QAE@XZ @0x257006
 inline StructureBodyModuleData::StructureBodyModuleData()
-	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF4028))
 {
+	*(const void **)this = reinterpret_cast<const void *>((unsigned int)&g_00BF4028);
 	AsciiString &healingDefault = TheWritableGlobalData->m_healingBuff;
 	if (!healingDefault.isEmpty())
 		m_healingBuffFx = TheFXListStore->findFXList(healingDefault.c_str());

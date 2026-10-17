@@ -22,9 +22,9 @@ class FireWeaponUpdate
 {
 public:
 	FireWeaponUpdate(Thing *thing, const ModuleData *moduleData);
-	~FireWeaponUpdate();
+	virtual ~FireWeaponUpdate(); // virtual, as rowed (0x0048BD11)
 private:
-	char m_pad[0x2C];
+	char m_pad[0x2C - 4];
 };
 
 class Rva0029FB3BMember
@@ -34,7 +34,7 @@ public:
 	void reset();
 };
 
-class DamageFieldUpdate : public FireWeaponUpdate
+class __declspec(novtable) DamageFieldUpdate : public FireWeaponUpdate
 {
 public:
 	DamageFieldUpdate(Thing *thing, const ModuleData *moduleData);
