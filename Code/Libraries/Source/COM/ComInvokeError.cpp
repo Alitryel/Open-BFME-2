@@ -5,17 +5,7 @@
 // The message field is an opaque allocation pointer; its element type is not claimed.
 // Native comraise constructor654C90 proves the vptr/long/pointer/pointer layout.
 // Only the static API is defined here; no object or virtual body is emitted.
-class _com_error {
-public:
- _com_error(long,IErrorInfo*,bool);
- _com_error(const _com_error&);
- virtual ~_com_error();
- static long WCodeToHRESULT(unsigned short);
-private:
- long result;
- IErrorInfo *info;
- void *message;
-};
+#include "ComError.h"
 typedef char ComErrorSize[sizeof(_com_error)==16?1:-1];
 long _com_error::WCodeToHRESULT(unsigned short code) {
  return code>=0xfe00 ? (long)0x8004ffff : (long)(0x80040200+(unsigned int)code);

@@ -545,6 +545,7 @@ Code/Libraries/Source/Apt/Rva006E4FF0Cluster.cpp,-O2,3,1,region default loses ro
 Code/Libraries/Source/Apt/Rva006F9EF0Cluster.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Benchmark/nbench0.cpp,-O2,4,1,region default loses rows
 Code/Libraries/Source/Benchmark/nbench1.cpp,-O2,62,11,region default loses rows
+Code/Libraries/Source/COM/ComRaise.cpp,-O2 -G6,1,1,region default loses rows
 Code/Libraries/Source/COM/ComUtil.cpp,-O2 -G6,1,1,region default loses rows
 Code/Libraries/Source/Compression/EAC/huffencode.cpp,,13,1,region default loses rows
 Code/Libraries/Source/Compression/LZHCompress/CompLibSource/Lz.cpp,,13,1,region default loses rows
