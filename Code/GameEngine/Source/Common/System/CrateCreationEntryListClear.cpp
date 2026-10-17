@@ -31,3 +31,4 @@ bool operator==(const crateCreationEntry &a, const crateCreationEntry &b);
 bool operator<(const crateCreationEntry &a, const crateCreationEntry &b);
 
 template class _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >;
+template void _STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> >::swap(_STL::list<crateCreationEntry, _STL::allocator<crateCreationEntry> > &);
