@@ -1,4 +1,6 @@
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
+// partial score=0.932 date=2026-10-17
+// ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.918203 date=2026-10-14
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.8931 date=2026-10-13
@@ -88,7 +90,7 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
   if(tiles.rva00392D71(i)==10) {
    float radius=tiles.rva00392CC5(i)?((NativeBuildRadiusView*)tiles.rva00392CC5(i))->radius:20.0f;
    Object *old=((PartitionRangeQueryCallView*)ThePartitionManager)->rva00625340((const Coord3D*)tiles.rva00392CF9(i),radius*0.25f,1);
-   if(old && (((NativeBuildObjectView*)old)->dead&1)) {
+   if(old && (*(volatile unsigned char*)&((NativeBuildObjectView*)old)->dead & 1)) {
     const ThingTemplate *oldTemplate=((NativeBuildObjectView*)old)->thing;
     if(oldTemplate->isEquivalentTo((const ThingTemplate*)tiles.rva00392CC5(i))) {
      NativeBuildBehavior *behavior=(NativeBuildBehavior*)old->rva0028BD17();if(behavior)behavior->s4(0);
@@ -101,15 +103,19 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
    created.push_back(id);
    made->rva0028AFE7(builder);
    if(tiles.rva00392D49(i))made->teleportTo((const Coord3D*)tiles.rva00392CF9(i),false);
-   NativeBuildBody *body=((NativeBuildObjectView*)made)->body;if(body)body->s32(1.0f-body->s4(false));
+   NativeBuildBody *body=((NativeBuildObjectView*)made)->body;if(body)body->s32((-(-1.0f) - (-body->s4(false))));
    NativeBuildBehavior *behavior=(NativeBuildBehavior*)made->rva0028BD17();
    NativeBuildBehavior *producer=(NativeBuildBehavior*)((Rva00293330*)builder)->rva00293330(kind);
-   if(behavior&&producer&&!(((made ? ((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing) : ((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing)))->flag11B&0x10)&&(i ? (tiles.status!=10) : (tiles.status!=10)))behavior->s17(producer->s14()*i);
+   const NativeBuildTemplateView *madeTpl=(const NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing;
+   if(behavior&&producer&&!(madeTpl->flag11B&0x10)&&(tiles.status!=10)){int mult=(int)(producer->s14()*(int)*(volatile unsigned *)&i);behavior->s17(mult);}
    ((NativeBuildObjectView*)made)->construction=0.0f;
    made->setStatus(NATIVE_STATUS57,false);made->setStatus(NATIVE_STATUS2,true);
    Rva001E4912 mask;((Rva001E431E*)made)->rva001E431E((const int*)mask.rva001E4912(0,0x44,0x45));
    if(((Thing*)made)->getDrawable())((Thing*)made)->getDrawable()->fadeIn(0x8A);
-   if(result&&(((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing)->flag11B&0x10))*result=made;
+   if(result){
+    const NativeBuildTemplateView *resTpl=(const NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing;
+    if(resTpl->flag11B&0x10)*result=made;
+   }
    const ThingTemplate *tile=(const ThingTemplate*)tiles.rva00392CC5(i);
    if(tile)((NativeBuildObjectView*)made)->cost=(float)(unsigned)tile->rva0033A69A(player,(int)builder,-1);
   }
@@ -128,7 +134,7 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
   if(behavior) {
    if(parent)behavior->s18(parent);
    behavior->s18(builder);
-   for(std::list<int>::iterator jt=created.begin();(behavior ? jt : jt)!=created.end();++jt) {Object *other=TheGameLogic->findObjectByID((ObjectID)*jt);if(other)behavior->s18(other);}
+   for(std::list<int>::iterator jt=created.begin();jt!=created.end();++jt) {Object *other=TheGameLogic->findObjectByID((ObjectID)*jt);if(other)behavior->s18(other);}
   }
   NativeBuildBehavior *producer=(NativeBuildBehavior*)builder->rva0028BD17();if(producer)producer->s18(made);
  }
