@@ -11,6 +11,9 @@
 #pragma optimize("", on)
 #include "chunkio.h"
 #include "sharebuf.h"
+// Rowed explicit specialization (MeshGeometryShareBufferInstantiations.cpp, 0x00169E20):
+// declared so this unit does not instantiate the generic sharebuf.h destructor.
+template<> ShareBufferClass<char>::~ShareBufferClass();
 
 // Donor layout labels are retained; target accesses establish the +0x14 slot.
 class MeshGeometryClass
