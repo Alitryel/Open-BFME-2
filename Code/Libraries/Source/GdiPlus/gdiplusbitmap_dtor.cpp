@@ -3,7 +3,7 @@
 // by the ATL 7.1 CImage translation unit that carries the Gdiplus::Image and
 // Gdiplus::Bitmap vtables.
 //
-// Bitmap's scalar deleting destructor gets its own unit. Its 36 bytes are
+// Bitmap's constructors and scalar deleting destructor share this unit. Its 36 bytes are
 // ~Image folded in whole - the vftable store at 0x00BBB524 and the dispose -
 // because the destructor is DEFINED here rather than declared. The main unit
 // keeps the out-of-line definition, which is what lets Image's own scalar
@@ -129,76 +129,8 @@ public:
 };
 
 
-Image *Image::Clone()
-{
-    GpImage *cloneimage = 0;
-
-    SetStatus(DllExports::GdipCloneImage(nativeImage, &cloneimage));
-
-    return new Image(cloneimage, lastResult);
-}
-
-UINT Image::GetWidth()
-{
-    UINT width = 0;
-
-    SetStatus(DllExports::GdipGetImageWidth(nativeImage, &width));
-
-    return width;
-}
-
-UINT Image::GetHeight()
-{
-    UINT height = 0;
-
-    SetStatus(DllExports::GdipGetImageHeight(nativeImage, &height));
-
-    return height;
-}
-
-PixelFormat Image::GetPixelFormat()
-{
-    PixelFormat format;
-
-    SetStatus(DllExports::GdipGetImagePixelFormat(nativeImage, &format));
-
-    return format;
-}
-
-INT Image::GetPaletteSize()
-{
-    INT size = 0;
-
-    SetStatus(DllExports::GdipGetImagePaletteSize(nativeImage, &size));
-
-    return size;
-}
-
-Status Image::GetPalette(ColorPalette *palette, INT size)
-{
-    return SetStatus(DllExports::GdipGetImagePalette(nativeImage, palette, size));
-}
-
-// ?Image::Image present-unmatched
-// No target identity has been established for this SDK constructor.
-// The former 25-byte candidate at RVA 0x0059B7CB installs an unrelated
-// vtable at VA 0x00C70EBC. Its matching instruction shape does not prove
-// GDI+ ownership; it is recovered separately with an address-derived name.
-Image::Image(GpImage *nativeImage, Status status)
-{
-    SetNativeImage(nativeImage);
-    lastResult = status;
-}
-
-// ?Image::SetNativeImage absent-from-retail
-// Ten bytes with five occurrences in .text and not one of them at a function
-// start: every occurrence is interior to some larger body. This is an SDK
-// inline that retail expanded at each call site and never emitted standalone.
-void Image::SetNativeImage(GpImage *nativeImage)
-{
-    this->nativeImage = nativeImage;
-}
-
+// These two native constructors emit Bitmap own vtable and its deleting
+// destructor. Other SDK methods are provided by gdiplusbitmap.cpp.
 Bitmap::Bitmap(const WCHAR *filename, BOOL useEmbeddedColorManagement)
 {
     GpBitmap *bitmap = 0;
@@ -212,7 +144,7 @@ Bitmap::Bitmap(const WCHAR *filename, BOOL useEmbeddedColorManagement)
         lastResult = DllExports::GdipCreateBitmapFromFile(filename, &bitmap);
     }
 
-    SetNativeImage((GpImage *)bitmap);
+    nativeImage = (GpImage *)bitmap;
 }
 
 Bitmap::Bitmap(INT width, INT height, INT stride, PixelFormat format, BYTE *scan0)
@@ -221,18 +153,8 @@ Bitmap::Bitmap(INT width, INT height, INT stride, PixelFormat format, BYTE *scan
 
     lastResult = DllExports::GdipCreateBitmapFromScan0(width, height, stride, format, scan0, &bitmap);
 
-    SetNativeImage((GpImage *)bitmap);
+    nativeImage = (GpImage *)bitmap;
 }
 
-Status Bitmap::LockBits(const Rect *rect, UINT flags, PixelFormat format, BitmapData *lockedBitmapData)
-{
-    return SetStatus(DllExports::GdipBitmapLockBits(
-        (GpBitmap *)nativeImage, rect, flags, format, lockedBitmapData));
-}
-
-Status Bitmap::UnlockBits(BitmapData *lockedBitmapData)
-{
-    return SetStatus(DllExports::GdipBitmapUnlockBits((GpBitmap *)nativeImage, lockedBitmapData));
-}
 
 }

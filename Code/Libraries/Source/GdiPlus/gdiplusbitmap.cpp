@@ -188,30 +188,7 @@ void Image::SetNativeImage(GpImage *nativeImage)
     this->nativeImage = nativeImage;
 }
 
-Bitmap::Bitmap(const WCHAR *filename, BOOL useEmbeddedColorManagement)
-{
-    GpBitmap *bitmap = 0;
-
-    if (useEmbeddedColorManagement)
-    {
-        lastResult = DllExports::GdipCreateBitmapFromFileICM(filename, &bitmap);
-    }
-    else
-    {
-        lastResult = DllExports::GdipCreateBitmapFromFile(filename, &bitmap);
-    }
-
-    SetNativeImage((GpImage *)bitmap);
-}
-
-Bitmap::Bitmap(INT width, INT height, INT stride, PixelFormat format, BYTE *scan0)
-{
-    GpBitmap *bitmap = 0;
-
-    lastResult = DllExports::GdipCreateBitmapFromScan0(width, height, stride, format, scan0, &bitmap);
-
-    SetNativeImage((GpImage *)bitmap);
-}
+// Bitmap constructors and their deleting destructor live in gdiplusbitmap_dtor.cpp.
 
 Status Bitmap::LockBits(const Rect *rect, UINT flags, PixelFormat format, BitmapData *lockedBitmapData)
 {
