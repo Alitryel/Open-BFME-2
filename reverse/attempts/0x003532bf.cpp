@@ -1,12 +1,8 @@
 // ?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z
-// partial score=0.938 date=2026-10-17
-// ?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z
 // partial score=0.9037 date=2026-10-14
 // ?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z
 // partial score=0.8 date=2026-10-11
 // cl: /ICode/GameEngine/Source/Common /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 //
 // AIStates.cpp bodies of BFME 2's attack state machine that are not yet rowed
 // in the per-state units (declarations carried from
@@ -1120,24 +1116,22 @@ void rva003532BF(Object *source,StateMachine *,Bool attackMove) {
  ShipContainView *contain=(ShipContainView *)source->m_contain;
  if(!contain || !contain->count(0)) return;
  Coord3D land;
- const Coord3D *sourcePosition = *(const Coord3D * volatile *)&source;
- if(!TheAI->pathfinder()->getClosestPointOnLand(sourcePosition,source,&land)) return;
+ if(!TheAI->pathfinder()->getClosestPointOnLand(source->getPosition(),source,&land)) return;
  ShipContainedOutput objects;
  contain->objects(&objects);
  for(ShipContainedNode *node=objects.list->header->next; node!=objects.list->header; node=node->next) {
   Object *passenger=node->object;
   passenger->getAI()->ignoreObstacle(source);
-  _ReadWriteBarrier();
-  Bool isShip = (passenger->getTemplate()->m_kindOf[13] & 0x20) != 0;
   {
   Coord3D point;
   point.x=((ShipEvacuatePositionView *)source)->x;
   point.y=((ShipEvacuatePositionView *)source)->y;
   point.z=source->getPosition()->z;
-  if(isShip) {
-   if(attackMove) ((Rva00352F9D *)((char *)passenger->getAI()+0x20))->rva003531DB(source,point,(CommandSourceType)source->getAI()->slot143());
-   else ((Rva00352F9D *)((char *)passenger->getAI()+0x20))->rva003530F3(source,point,(CommandSourceType)source->getAI()->slot143());
-  } else ((Rva00352F9D *)((char *)passenger->getAI()+0x20))->rva0035300B(source,point,(CommandSourceType)source->getAI()->slot143());
+  AIUpdateInterface *passengerAI=passenger->getAI();
+  if((node->object)->getTemplate()->m_kindOf[13]&0x20) {
+   if(attackMove) ((Rva00352F9D *)((char *)passengerAI+0x20))->rva003531DB(source,point,(CommandSourceType)source->getAI()->slot143());
+   else ((Rva00352F9D *)((char *)passengerAI+0x20))->rva003530F3(source,point,(CommandSourceType)source->getAI()->slot143());
+  } else ((Rva00352F9D *)((char *)passengerAI+0x20))->rva0035300B(source,point,(CommandSourceType)source->getAI()->slot143());
   }
  }
 }

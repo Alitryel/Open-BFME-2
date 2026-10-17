@@ -1,6 +1,4 @@
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
-// partial score=0.963 date=2026-10-17
-// ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.824 date=2026-10-15
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.95 date=2026-10-13
@@ -8,8 +6,6 @@
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.95 date=2026-10-07
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /O1 /arch:SSE /G7
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ConnectionManager::parseUserList, retail 0x004D1616, 431 bytes.
 //
 // Reference: Zero Hour GameEngine/Source/GameNetwork/ConnectionManager.cpp
@@ -129,16 +125,14 @@ void ConnectionManager::parseUserList(const GameInfo *game)
 	if (!game)
 		return;
 
-	(void)*(volatile Int *)&m_localSlot;
 	m_localSlot = game->getLocalSlotNum();
 	SeedNextCommandIDFromPlayerCount(m_localSlot);
-	if (0) throw 1;
 
 	Int numUsers = 0;
 	for (Int i = 0; i < MAX_SLOTS; ++i)
 	{
 		GameSlot *slot = const_cast<GameSlot *>(game->getConstSlot(i));
-		if (slot && (slot->isHuman() ? true : true))
+		if (slot && slot->isHuman())
 		{
 			if (i == m_localSlot)
 			{
@@ -150,10 +144,10 @@ void ConnectionManager::parseUserList(const GameInfo *game)
 			{
 				m_connections[i] = new Connection;
 				m_connections[i]->rva0058BAA7(slot->getAddress(), slot->getName(), m_transport);
-				if (*(volatile bool*)0x00E02D8B)
+				if (g_Va00E02D8B)
 				{
-					m_connections[i]->rva0058BAA7(&InitAddrs(ResolveIP(*(AsciiString*)0x00E02D90),
-						(UnsignedShort)atoi(((AsciiString*)0x00E02D94)->str())), slot->getName(), m_transport);
+					m_connections[i]->rva0058BAA7(&InitAddrs(ResolveIP(*(AsciiString *)&g_Va00E02D90),
+						(UnsignedShort)atoi(((AsciiString *)&g_Va00E02D94)->str())), slot->getName(), m_transport);
 				}
 				m_frameData[i] = new FrameDataManager(false);
 			}
