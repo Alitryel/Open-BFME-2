@@ -94,10 +94,10 @@ public:
 	void append(Rva002BA8F1Listener *listener);
 	unsigned char m_pad[0x14];
 };
-class Rva005D4DA9
+class Rva005D4C61
 {
 public:
-	Rva005D4DA9(int level, const AsciiString &path);
+	Rva005D4C61(int level, const AsciiString &path);
 	void *m_0;
 	Rva005A0B4CList m_listeners; // +0x04
 };
@@ -410,11 +410,17 @@ struct AptTextPlusStringPlusString : Rva002226E5TextPlusString
 	AsciiStringRef m_third;
 };
 
-struct AptTextPlusStringPlusStringText : AptTextPlusStringPlusString
+// LINK: the materializer is rowed as Rva005F1D06's conversion operator, so the
+// four-part node takes it from that base.
+struct Rva005F1D06 : AptTextPlusStringPlusString
 {
 	operator AsciiString(); // 0x005F1D47
 
 	Rva000B3F84Pair m_text;
+};
+
+struct AptTextPlusStringPlusStringText : Rva005F1D06
+{
 };
 
 inline AptTextPlusStringPlusString operator+(const Rva002226E5TextPlusString &left, const AsciiString &right)
@@ -475,7 +481,6 @@ public:
  void OnScrollBarUnloaded(const char*);
 	void rva005F2E85();
  void Update();
- Rva005F38D8Ref rva005F3652(int position);
  Rva005F2577Holder CreateMemberIconSlot(int position);
  virtual void rva005F267E(int,float);
 private:
@@ -594,11 +599,11 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::OnScrollBarLoaded(const char *nam
 	Rva005F2CBAScrollBarHolder *scrollBar = (Rva005F2CBAScrollBarHolder *)&m_scrollBar;
 	if (scrollBar->m_ptr == 0)
 	{
-		((Rva00575674 *)scrollBar)->rva00575674((Object *)new Rva005D4DA9(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		((Rva00575674 *)scrollBar)->rva00575674((Object *)new Rva005D4C61(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 		((Rva005D49CD *)scrollBar->m_ptr)->rva005D49D5(false);
 		if (m_slotWidth > 0.0f)
 			SetupScrollBar();
-		((Rva005D4DA9 *)scrollBar->m_ptr)->m_listeners.append((Rva002BA8F1Listener *)this);
+		((Rva005D4C61 *)scrollBar->m_ptr)->m_listeners.append((Rva002BA8F1Listener *)this);
 	}
 }
 
@@ -713,25 +718,7 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::OnScrollBarUnloaded(const char*) 
  reinterpret_cast<Rva000AD6F4*>(&m_scrollBar)->clear();
 }
 
-// Native 0x005F38D8 29B RET8: forwards the position argument to the
-// implementation (+4) icon-slot lookup 0x005F3652 and returns its counted
-// reference through the caller's hidden pointer. Same shape as the checklist
-// forwarder Rva005CCFF3::rva005CCFF3 (29B, native 5CCFF3, masked twin 1.0);
-// the receiver's outer class is unidentified, so address-derived, while the
-// +4 implementation is ArmyDetailsMovieClip::Impl (the callee reads its
-// +0x24 icon-slot vector) and the int argument follows from the callee's
-// clamp of [ebp+0xc] against that vector's size.
-class Rva005F38D8
-{
-public:
-	Rva005F38D8Ref rva005F38D8(int position);
-	void *unknown00;
-	StrategicHUD::ArmyDetailsMovieClip::Impl *implementation;
-};
-Rva005F38D8Ref Rva005F38D8::rva005F38D8(int position)
-{
-	return implementation->rva005F3652(position);
-}
+// The 0x005F38D8 forwarder (Rva005F38D8::rva005F38D8) lives in Rva005F38D8Forward.cpp.
 
 // StrategicHUD::ArmyDetailsMovieClip::Impl::CreateMemberIconSlot (WorldBuilder
 // name, line 409 asserts position against m_iconSlots.size(); retail strings
@@ -836,4 +823,10 @@ StrategicHUD::ArmyDetailsMovieClip::Impl::Impl(ArmyDetailsMovieClip*owner,int le
  g_bfmeAptWindowManager->bfmeSetText("APT:"+prefix+m_name0C+"_MemberName",UnicodeString::TheEmptyString,false);
  g_bfmeAptWindowManager->bfmeSetText("APT:"+prefix+m_name0C+"_MemberRank",UnicodeString::TheEmptyString,false);
  g_bfmeAptWindowManager->bfmeSetText("APT:"+prefix+m_name0C+"_CommandPoints",UnicodeString::TheEmptyString,false);
+}
+
+// ??1Rva005F3444Base@@QAE@XZ: the base dtor only restores its vtable; retail folds it into
+// 0x005277B3 (ICF twin of ?apply@Rva0005277B3DwordImmSetter@@QAEXXZ).
+__declspec(noinline) Rva005F3444Base::~Rva005F3444Base()
+{
 }
