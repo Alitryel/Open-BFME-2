@@ -1,8 +1,12 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
+// partial score=0.944 date=2026-10-17
+// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.93 date=2026-10-14
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.78 date=2026-10-13
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 #include "ascii_string.h"
 #define _OPERATOR_NEW_DEFINED_
@@ -89,8 +93,10 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  int flipU=0;Vector2 startPos,endPos;AssetList00208F90 assets;
  if(W3DGCData00DE2000) {
   TrackCollection *collection=reinterpret_cast<WaterMapView*>(W3DGCData00DE2000)->tracks;
-  for(IndexPair it=collection->begin(),last=collection->end();it!=last;advance(it),const_cast<unsigned&>(last.first)=reinterpret_cast<unsigned>(collection),last.second=reinterpret_cast<Rva0007E394Element*>(collection->size())) {
+  for(IndexPair it=collection->begin(),last=collection->end();it!=last;advance(it),last.second=reinterpret_cast<Rva0007E394Element*>(collection->size())) {
+   const_cast<unsigned&>(last.first)=reinterpret_cast<unsigned>(collection);
    Rva0007E394Element *record=collection->at(it);
+   _ReadWriteBarrier();
    if(reinterpret_cast<Rva0030C94ADwordField*>(record)->get())continue;
    int count=record->end-record->begin;
    if(count<2)continue;
@@ -99,10 +105,10 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
     int next=i+1;Vector2 *base=record->begin;const Vector2 &a=base[i];const Vector2 &b=base[next];Vector2 start(a.X,a.Y);Vector2 end(b.X,b.Y);
     Vector2 dir(end.X-start.X,end.Y-start.Y);
     Vector2 midpoint=start+dir*0.5f;
-    startPos=midpoint;
+    endPos=midpoint;
     Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
-    endPos=midpoint+perp;
-    if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&startPos.X,&endPos.X,1))continue;
+    startPos=(1 ? midpoint+perp : midpoint+perp);
+    if((1 ? reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&endPos.X,&startPos.X,1) : 0))continue;
     WaterTracksObj *track=TheWaterTracksRenderSystem->bindTrack(WaveTypeOcean);
     if(track) {
      float fraction=GetGameClientRandomValueReal(0.0f,1.0f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Water\\W3DWaterTracks.cpp",1141);
