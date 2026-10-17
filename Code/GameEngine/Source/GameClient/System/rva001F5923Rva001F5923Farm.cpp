@@ -16,6 +16,14 @@
 // of native dead before timer's EBP-20/-1C; all other327-byte code matches.
 // stlport
 #include <list>
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper
+// (retail keeps one _List_iterator_base::operator!=; BfmeAptScreenLanLobbyOnInitGadget.cpp pattern).
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64*);
