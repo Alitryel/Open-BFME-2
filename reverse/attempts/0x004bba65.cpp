@@ -1,4 +1,6 @@
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
+// partial score=0.753 date=2026-10-17
+// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // partial score=0.844 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
@@ -445,10 +447,12 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
  other->getUnitDirectionVector2D(direction);
  Coord3D actualPosition;
  ((Rva0028E8D4*)other)->rva0028E8D4(&actualPosition.x);
- const Coord3D*myPos=getObject()->getPosition();
+ const Coord3D*myPos=self->getPosition();
  Coord3D to;
- to.x=myPos->x-other->getPosition()->x;
- to.y=myPos->y-other->getPosition()->y;
+ float dx=myPos->x-other->getPosition()->x;
+ float dy=myPos->y-other->getPosition()->y;
+ to.x=dx;
+ to.y=dy;
  if(to.x*direction.x+to.y*direction.y<0.0f)
  {
   to=*myPos;
