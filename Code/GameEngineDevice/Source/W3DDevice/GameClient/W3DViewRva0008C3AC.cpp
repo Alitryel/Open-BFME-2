@@ -9,6 +9,12 @@
 // BFME W3DView::update, retail 0x007446A0.
 // Constructor 0x00745B10 installs SubsystemInterface table 0x01121764 at +0xFC. Slot 5 reaches this body through ILT 0x00007F31.
 #include <math.h>
+#include <memory>
+// Retail's __malloc_alloc<0>::deallocate (0x00023A70) is the /Od import-call body
+// this /D_CRTIMP= unit cannot emit; inline it here, imported, so no copy is emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { free((char *)p); }
+}
 #include <vector>
 // stlport
 #include "Coord3D.h"

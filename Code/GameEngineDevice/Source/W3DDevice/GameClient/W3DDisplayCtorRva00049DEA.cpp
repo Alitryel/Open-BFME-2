@@ -68,6 +68,7 @@ class CameraShakeSystemClass
 {
  public:
  class CameraShakerClass;
+ void *m_shakers; // the one word retail keeps at 0x009E1E94
 };
 template <class ObjectType> class MultiListClass
 {
@@ -131,7 +132,9 @@ extern GlobalData *TheWritableGlobalData;
 extern void *TheScene3D;
 extern void *TheScene3DInterface;
 extern void *TheScene2D;
-extern Rva0065CA4 *TheRva0065CA4List;
+// CameraShakerSystem (0x009E1E94): this ctor fills it with the shaker list and
+// W3DDisplay::~W3DDisplay deletes and nulls it. Retail .data starts it at 0.
+CameraShakeSystemClass CameraShakerSystem;
 W3DDisplay::W3DDisplay()
 
 {
@@ -164,7 +167,7 @@ W3DDisplay::W3DDisplay()
  r1_vwrite((m_184 ? m_1cc : m_1cc)) = 0;
  r1_vwrite(m_278) = 0;
  m_27c = 0;
- TheRva0065CA4List = (Rva0065CA4 *)new MultiListClass<CameraShakeSystemClass::CameraShakerClass>;
+ CameraShakerSystem.m_shakers = new MultiListClass<CameraShakeSystemClass::CameraShakerClass>;
  m_280.rva00043511();
  
 }
