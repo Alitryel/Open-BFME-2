@@ -429,22 +429,7 @@ public:
 	static void rva00254628(MultiIniFieldParse &p);
 };
 
-void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &p)
-{
-	p.add((const FieldParse *)Rva004CE29DGet(), 8);
-	p.add(s_Rva00254628FieldParse, 0);
-}
 
-// ModuleFactory::init registers 0x0025464A (DelayedUpgrade) and 0x0025470D
-// (LocomotorSetUpgrade) as data factories; they keep the address-derived
-// names of their symbols.csv pins like their unowned peers.
-ModuleData *ModuleFactoryDataAt0025464A(INI *ini)
-{
-	Rva0025460F *data = new Rva0025460F;
-	if (ini)
-		ini->initFromINIMultiProc(data, Rva00254628ModuleData::rva00254628);
-	return (ModuleData *)data;
-}
 
 class Rva002546EBModuleData
 {
@@ -452,19 +437,7 @@ public:
 	static void rva002546EB(MultiIniFieldParse &p);
 };
 
-void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &p)
-{
-	p.add((const FieldParse *)Rva004CE29DGet(), 8);
-	p.add(s_Rva002546EBFieldParse, 0);
-}
 
-ModuleData *ModuleFactoryDataAt0025470D(INI *ini)
-{
-	RadarUpgradeModuleData *data = new RadarUpgradeModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, Rva002546EBModuleData::rva002546EB);
-	return (ModuleData *)data;
-}
 
 // --- 0x0025F342 (67B): swaps a marker into the +0x80 list in place of the
 // one with the same name, returning the unlinked one (or null); 0x0025F3AE
@@ -1371,12 +1344,6 @@ private:
 	Rva00256AB0Owner *m_field;
 };
 
-bool Rva0028BC3B::rva0028BC3B() const
-{
-	if (m_field == 0)
-		return false;
-	return m_field->hasEntries();
-}
 
 // --- 0x0028C59F (14B): zeroes twenty bytes of this through the CRT memset
 // thunk 0x006291AE.
@@ -1551,12 +1518,6 @@ void Object::rva002934D9(ObjectScriptStatusBit bit)
 	setScriptStatus(bit, false);
 }
 
-// --- 0x00294D4B (22B, cdecl): the rowed 0x00294C1A on the first object with
-// the second, false and 1.0.
-void Rva00294D4B(Object *obj, Object *other)
-{
-	obj->rva00294C1A(other, false, 1.0f);
-}
 
 // --- 0x0028F92B (21B): returns by value the rowed 0x0028F633 pair of 0 and
 // this +0x38 word.
