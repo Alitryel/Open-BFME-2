@@ -41,7 +41,15 @@ void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
 }
 
-template class _STL::vector<void *, _STL::allocator<void *> >;
+// Instantiate only the members and helpers this unit owns. A whole-class
+// instantiation here also emitted optimised copies of every other member,
+// and each one lost to the /Od bodies retail keeps (stlport_vector_voidptr.cpp,
+// stlport_vector_voidptr_alloc.cpp).
+template void **_STL::vector<void *, _STL::allocator<void *> >::erase(void **, void **);
+template void **_STL::vector<void *, _STL::allocator<void *> >::erase(void **);
+template void **_STL::fill_n(void **, unsigned int, void *const &);
+template void **_STL::__uninitialized_fill_n(void **, unsigned int, void *const &, const _STL::__false_type &);
+template void **_STL::__uninitialized_copy(void **, void **, void **, const _STL::__false_type &);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

@@ -43,4 +43,7 @@ namespace _STL {
 template <> void _STL::vector<void *>::clear();
 }
 
-template class _STL::vector<void *, _STL::allocator<void *> >;
+// Instantiate only the copy constructor this unit owns: a whole-class
+// instantiation also emitted this unit's /Od copies of every other member,
+// which compete with the owners' bodies (operator= among them).
+template _STL::vector<void *, _STL::allocator<void *> >::vector(const _STL::vector<void *, _STL::allocator<void *> > &);

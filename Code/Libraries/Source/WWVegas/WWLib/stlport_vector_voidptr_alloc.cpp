@@ -47,6 +47,20 @@ template <> void _STL::vector<void *>::insert(void **position, size_t n, void *c
 // ABI is projected here. Preserve that callee rather than substituting the
 // optimized void-pointer erase at 0x0031BD55.
 template <> unsigned int *_STL::vector<unsigned int>::erase(unsigned int *first, unsigned int *last);
+// stlport_hash_map_int.cpp owns the retail allocator constructor and _M_set
+// (expanded inline here, as retail's /Od bodies do, without an emitted copy),
+// stlport_vector_voidptr_opt.cpp the single-element erase. Declare the rest
+// of the members this /Od unit does not own so the explicit class
+// instantiation below does not emit competing copies of them.
+// bfme link decl-only begin
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void vector<void *, allocator<void *> >::_M_set(void **s, void **f, void **e) { this->_M_start = s; this->_M_finish = f; this->_M_end_of_storage._M_data = e; } }
+namespace _STL { template <> void **vector<void *, allocator<void *> >::erase(void **); }
+namespace _STL { template <> void *const &vector<void *, allocator<void *> >::operator[](unsigned int) const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int); }
+namespace _STL { template <> void *const &vector<void *, allocator<void *> >::at(unsigned int) const; }
+// bfme link decl-only end
 
 namespace _STL
 {

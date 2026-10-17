@@ -21,6 +21,13 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::push_back(
 namespace _STL { template <> void vector<void *, allocator<void *> >::push_back(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+namespace _STL { template <> vector<void *, allocator<void *> > &vector<void *, allocator<void *> >::operator=(vector<void *, allocator<void *> > const &); }
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
+namespace _STL { template <> void **vector<void *, allocator<void *> >::erase(void **); }
+namespace _STL { template <> void *const &vector<void *, allocator<void *> >::operator[](unsigned int) const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int, void *const &); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int); }
 // bfme link decl-only end
 // ~_STLP_alloc_proxy is rowed here (retail 1-instruction body); the declared-only constructors above no longer emit it, so anchor it.
 template _STL::_STLP_alloc_proxy<void **, void *, _STL::allocator<void *> >::~_STLP_alloc_proxy();

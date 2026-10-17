@@ -34,6 +34,9 @@ template <> __declspec(dllimport) __forceinline
 void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
 }
+// stlport_vector_voidptr_alloc.cpp owns vector<void*>::operator= (0x00027BA0);
+// call it rather than emit this unit's copy for Gen_p48cd's assignment.
+namespace _STL { template <> vector<void *, allocator<void *> > &vector<void *, allocator<void *> >::operator=(vector<void *, allocator<void *> > const &); }
 
 enum ScienceType
 {
