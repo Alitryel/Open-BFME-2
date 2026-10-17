@@ -134,12 +134,17 @@ private:
 // retail retained field pointer; title comes from40C65D for owner playerID54,
 // description from template40. Allocates the measured12-byte InGameSimpleHelp
 // and returns the same counted-reference ABI used by the clip factory.
-class Rva005F4254 {
+// ArmyHeroIcon's slot-3 override (its table C79468 reaches it through the
+// vtordisp thunk 0x005F43A4 that ArmyHeroIconCtor.cpp emits). The receiver is
+// the virtual base (+0x14), so this flat view keeps the base-relative reads.
+namespace StrategicInGameUI {
+class ArmyHeroIcon {
 public:
-    TreeHintRef00217D4C rva005F4254();
+    virtual TreeHintRef00217D4C rva005F4254();
     __forceinline const AsciiString &getName() const { return (*(UnitView **)((char *)this-0xc))->name; }
 };
-TreeHintRef00217D4C Rva005F4254::rva005F4254()
+}
+TreeHintRef00217D4C StrategicInGameUI::ArmyHeroIcon::rva005F4254()
 {
     const AsciiString *key = &getName();
     if (!((const StringBase<char> *)key)->isEmpty()) {
