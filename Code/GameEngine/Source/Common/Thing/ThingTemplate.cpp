@@ -342,140 +342,11 @@ const ModuleInfo::Nugget *ModuleInfo::getNuggetWithTag( const AsciiString& tag )
 // ModuleInfo::addModuleInfo is defined with its retail-matched body in Code/GameEngine/Source/Common/Thing/ModuleInfoAddModuleInfo.cpp (0x0033D553).
 
 //-------------------------------------------------------------------------------------------------
-// ?ModuleInfo::clearModuleDataWithTag present-unmatched
-Bool ModuleInfo::clearModuleDataWithTag(const AsciiString& tagToClear, AsciiString& clearedModuleNameOut) 
-{ 
-	Bool cleared = false;
-
-	// do NOT clear... we only want to modify this if we return true.
-	// if we return false, we should leave this unmodified.
-	//clearedModuleNameOut.clear();
-
-	for (std::vector<Nugget>::iterator it = m_info.begin(); it != m_info.end(); /* empty */ ) 
-	{
-		if (it->m_moduleTag == tagToClear)
-		{
-			DEBUG_ASSERTCRASH(!cleared, ("Hmm, multiple clears in ModuleInfo::clearModuleDataWithTag, should this be possible?"));
-			clearedModuleNameOut = it->first;
-			it = m_info.erase(it);
-			cleared = true;
-		}
-		else
-		{
-			++it;
-		}
-	}
-	return cleared;
-}
-
-
-
-
-
-//-------------------------------------------------------------------------------------------------
-// ?ModuleInfo::clearCopiedFromDefaultEntries present-unmatched
-Bool ModuleInfo::clearCopiedFromDefaultEntries(Int interfaceMask, const AsciiString &newName, const ThingTemplate *fullTemplate ) 
-{ 
-  static KindOfMaskType ImmuneToGPSScramblerMask;
-  KindOfMaskType &m = ImmuneToGPSScramblerMask;
-  m.set(KINDOF_AIRCRAFT);// NO PLANES or helicopters
-  m.set(KINDOF_SHRUBBERY);// NO trees or bushes
-  m.set(KINDOF_OPTIMIZED_TREE);
-  m.set(KINDOF_STRUCTURE);// NO buildings
-  m.set(KINDOF_DRAWABLE_ONLY);
-  m.set(KINDOF_MOB_NEXUS);
-  m.set(KINDOF_IGNORED_IN_GUI);
-  m.set(KINDOF_CLEARED_BY_BUILD);
-  m.set(KINDOF_DEFENSIVE_WALL);
-  m.set(KINDOF_BALLISTIC_MISSILE);
-  m.set(KINDOF_SUPPLY_SOURCE);
-  m.set(KINDOF_BOAT);
-  m.set(KINDOF_INERT);
-  m.set(KINDOF_BRIDGE);
-  m.set(KINDOF_LANDMARK_BRIDGE);
-  m.set(KINDOF_BRIDGE_TOWER);
-  Bool disallowed =  fullTemplate->isAnyKindOf( ImmuneToGPSScramblerMask );
-
-  static KindOfMaskType CandidateForGPSScramblerMask;
-  CandidateForGPSScramblerMask.set(KINDOF_SCORE);
-  CandidateForGPSScramblerMask.set(KINDOF_VEHICLE);
-  CandidateForGPSScramblerMask.set(KINDOF_INFANTRY);
-  CandidateForGPSScramblerMask.set(KINDOF_PORTABLE_STRUCTURE);
-  Bool candidate =  fullTemplate->isAnyKindOf( CandidateForGPSScramblerMask );
-
-  Bool ret = false;
-
-	std::vector<Nugget>::iterator it = m_info.begin();
-	while( it != m_info.end() )
-	{
-		if( (it->interfaceMask & interfaceMask) != 0 && it->copiedFromDefault )
-		{
-      if ( it->inheritable )
-			{
-				if( it->m_moduleTag.compare("ModuleTag_DefaultAutoHealBehavior") == 0  && !fullTemplate->isTrainable() )
-				{
-					// Don't inherit this module if it is entirely useless to us.
-          it = m_info.erase( it );
-			    ret = true;
-				}
-				else
-				{
-					++it;//skip to the next nugget, 'cause we inherit this one
-				}
-			}
-      else if ( it->overrideableByLikeKind)
-      {
-        
-        AsciiString oldName = it->first;
-        if ( oldName == newName  //we will dump this instance, since the INI author requested a specific one of the same class
-             || disallowed  // or, we just do not Add these special overrideables to these kinds of templates, so just dump it
-             || candidate == FALSE )
-        {
-          it = m_info.erase( it );
-			    ret = true;
-        }
-        else
-			    ++it;//no match, preserve the default instnace of this Module for now
-      }
-      else // just dump this instance of this Module, since one of the same interface mask has been added by caller
-      {
-        it = m_info.erase( it );
-			  ret = true;
-      }
-    }
-    else
-			++it;
-	}
-	return ret;
-}
-
-
-
-
-
-
-
-
-//-------------------------------------------------------------------------------------------------
-Bool ModuleInfo::clearAiModuleInfo() 
-{ 
-	Bool ret = false;
-
-	std::vector<Nugget>::iterator it = m_info.begin();
-	while( it != m_info.end() )
-	{
-		if (it->second->isAiModuleData() )
-		{
-			it = m_info.erase( it );
-			ret = true;
-		}
-		else
-		{
-			++it;
-		}
-	}
-	return ret;
-}
+// ModuleInfo's vector<Nugget> filters live in their own BFME 2 units: clearModuleDataWithTag
+// (0x0033C807, Rva0033C807FindErase.cpp), the interface-mask filter (0x0033C84A,
+// ModuleInfoRva0033C84A.cpp) and clearAiModuleInfo (0x0033C882, ModuleInfoRva0033C8B5.cpp).
+// The Zero Hour copies formerly here (3-bool Nugget) emitted a non-retail
+// vector<Nugget>::erase and Nugget::operator= ahead of retail's 0x0033C3BC/0x002CEFCD.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -1265,3 +1136,8 @@ bool Rva00331578::rva00331578(const Rva00331578 &other)
 namespace _STL {
 template _Vector_base<ScienceType, allocator<ScienceType> >::_Vector_base(size_t, const allocator<ScienceType> &);
 }
+
+// clearCopiedFromDefaultEntries (gone, see above) was this unit's user of the
+// KindOf bitset AND row; a compile anchor, not a retail data claim, keeps it.
+extern void (_STL::_Base_bitset<4>::*const _bfmeInlineAnchorBitsetAnd)(const _STL::_Base_bitset<4> &) =
+    &_STL::_Base_bitset<4>::_M_do_and;
