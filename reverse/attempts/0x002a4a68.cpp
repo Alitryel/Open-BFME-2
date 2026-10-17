@@ -1,4 +1,6 @@
 // ?rva002A4A68@Rva002A4A68@@QAEXXZ
+// partial score=0.99 date=2026-10-17
+// ?rva002A4A68@Rva002A4A68@@QAEXXZ
 // partial score=0.927 date=2026-10-15
 // ?rva002A4A68@Rva002A4A68@@QAEXXZ
 // partial score=0.91 date=2026-10-13
@@ -146,7 +148,7 @@ del:;
             ::operator delete(p);
             _STL::list<int>::iterator it;
             *(void * *)&it = cur;
-            _STL::list<int>::iterator nxt = lst->erase(it);
+            _STL::list<int>::iterator nxt = (1 ? (lst->erase(it)) : (lst->erase(it)));
             cur = *(void * *)&nxt;
             if (cur != *(void * *)lst)
                 continue;
@@ -155,8 +157,8 @@ del:;
 update:;
         p->m_4 += p->m_14;
         p->m_14 *= p->m_1c;
-        p->m_18 *= p->m_1c;
         p->m_8 += p->m_18;
+        p->m_18 *= p->m_1c;
         if (p->m_10 & 1) {
             int cur2 = p->m_c - TheGameClient->getFrame();
             if ((unsigned)cur2 < (unsigned)g_00DFEE08) {
@@ -179,19 +181,15 @@ update:;
         break;
     }
 count:;
-    void *h = *(void * *)lst;
+    void *h = *(void * volatile *)lst;
     void *n = *(void * *)h;
-    if (n == h) {
-        *(int *)((char *)this + 0x908) = -1;
-        *(int *)((char *)this + 0x90c) = -1;
-        return;
-    }
     int cnt = 0;
-    void *t = n;
-    do {
+    void *t = *(void * *)n;
+    void *end = n;
+    while (t != end) {
         t = *(void * *)t;
         ++cnt;
-    } while (t != h);
+    }
     if (cnt == 0) {
         *(int *)((char *)this + 0x908) = -1;
         *(int *)((char *)this + 0x90c) = -1;
