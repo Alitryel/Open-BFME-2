@@ -28,6 +28,11 @@ namespace _STL { template <> bool __get_monetary_value<istreambuf_iterator<char,
 // back_insert_iterator<string>::operator= (row 0x00019160) was emitted only through the removed copy above.
 namespace _STL { typedef back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > > bfmeMoneyGetOutIt;
 static bfmeMoneyGetOutIt &(bfmeMoneyGetOutIt::*bfmeMoneyGetOutAssign)(const char &) = &bfmeMoneyGetOutIt::operator=; }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 // bfme link decl-only end
 // bfme link decl-only begin
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char); }

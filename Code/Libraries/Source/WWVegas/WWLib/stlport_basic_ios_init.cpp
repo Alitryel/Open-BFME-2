@@ -25,6 +25,7 @@ namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ost
 // The float inserter's body belongs to stlport_narrow_ostream_put_num.cpp; leave
 // it declared so this unit emits no wrong copy ahead of the rowed one.
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::operator<<(float); }
+namespace _STL { template <> locale basic_ios<unsigned short, char_traits<unsigned short> >::imbue(locale const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

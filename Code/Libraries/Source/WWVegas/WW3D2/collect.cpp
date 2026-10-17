@@ -118,6 +118,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // Retail keeps one VectorClass<Vector3>::Resize, 0x000F0BF1 (vector_class_vector3_resize.cpp);
 // this unit only calls it and lists it in the vtable.
 template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
+template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
+template <> VectorClass<ProxyClass> & VectorClass<ProxyClass>::operator=(VectorClass<ProxyClass> const &);
 // bfme link decl-only end
 //#include "sr.hpp"
 

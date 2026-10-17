@@ -16,6 +16,28 @@ namespace _STL { template <> basic_filebuf<char, char_traits<char> > * basic_fil
 // this unit is first in link order for both, so their out-of-line copies
 // beat every inlined-shape copy in the stream units.
 namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::overflow(int); }
+namespace _STL { template <> bool equal<char *, char *, _Eq_traits<char_traits<char> > >(char *, char *, char *, _Eq_traits<char_traits<char> >); }
+namespace _STL { template <> basic_filebuf<char, char_traits<char> >::basic_filebuf(); }
+namespace _STL { template <> fpos<int>::fpos(long); }
+namespace _STL { template <> basic_filebuf<char, char_traits<char> >::~basic_filebuf(); }
+namespace _STL { template <> bool _Eq_traits<char_traits<char> >::operator()(char const &, char const &) const; }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_allocate_buffers(); }
+namespace _STL { template <> void basic_filebuf<char, char_traits<char> >::_M_exit_putback_mode(); }
+namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::_M_output_error(); }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_seek_init(bool); }
+namespace _STL { template <> fpos<int> basic_filebuf<char, char_traits<char> >::_M_seek_return(long, int); }
+namespace _STL { template <> void basic_filebuf<char, char_traits<char> >::_M_setup_codecvt(locale const &); }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_switch_to_input_mode(); }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_switch_to_output_mode(); }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_unshift(); }
+namespace _STL { template <> basic_filebuf<char, char_traits<char> > * basic_filebuf<char, char_traits<char> >::close(); }
+namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::is_open() const; }
+namespace _STL { template <> basic_filebuf<char, char_traits<char> > * basic_filebuf<char, char_traits<char> >::open(int, int); }
+namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::pbackfail(int); }
+namespace _STL { template <> fpos<int> basic_filebuf<char, char_traits<char> >::seekoff(long, int, int); }
+namespace _STL { template <> fpos<int> basic_filebuf<char, char_traits<char> >::seekpos(fpos<int>, int); }
+namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::showmanyc(); }
+namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::sync(); }
 // bfme link decl-only end
 
 // Native allocation owner 0x00013F10 (189 bytes) supplies this helper.

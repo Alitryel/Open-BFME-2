@@ -86,6 +86,12 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 #include <string>
 #undef private
 #include <locale>
+// bfme link decl-only begin
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > fill_n<ostreambuf_iterator<char, char_traits<char> >, unsigned int, char>(ostreambuf_iterator<char, char_traits<char> >, unsigned int, char const &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > & ostreambuf_iterator<char, char_traits<char> >::operator=(char); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+// bfme link decl-only end
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.

@@ -76,6 +76,13 @@ template <> ShareBufferClass<Vector3>::~ShareBufferClass();
 template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
 template <> void SimpleDynVecClass<Vector4>::Delete_All(bool);
 template <> bool SimpleVecClass<Vector4>::Resize(int);
+template <> SimpleDynVecClass<Vector3>::SimpleDynVecClass(int);
+template <> SimpleVecClass<Vector3>::SimpleVecClass(int);
+template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
+template <> SimpleVecClass<Vector3>::~SimpleVecClass();
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 // bfme link decl-only end
 
 // These specializations are rowed in their canonical defining units. Keep

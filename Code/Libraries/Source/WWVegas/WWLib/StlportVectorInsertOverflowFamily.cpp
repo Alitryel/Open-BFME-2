@@ -136,6 +136,10 @@ struct Rva005E2B0EElement { char m_pad[4]; public: Rva005E2B0EElement(const Rva0
 struct GeometryShape { char m_pad[36]; public: GeometryShape(const GeometryShape &); ~GeometryShape(); };
 // 4-byte element; push_back 0x005EFD53.
 #include "../../../../GameEngine/Source/Common/RegionIconSlotReferenceView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<GeometryShape, GeometryShape>(GeometryShape *, GeometryShape const &); }
+namespace _STL { template <> void _Destroy<RvaSmartPtr12 *>(RvaSmartPtr12 *, RvaSmartPtr12 *); }
+// bfme link decl-only end
 // 4-byte element; push_back 0x005F13E6.
 struct Rva005F13E6Element { char m_pad[4]; public: Rva005F13E6Element(const Rva005F13E6Element &); ~Rva005F13E6Element(); };
 // 4-byte element; push_back 0x005FA197.

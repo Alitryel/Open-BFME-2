@@ -2,6 +2,20 @@
 // stlport
 
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> list<int, allocator<int> >::list(list<int, allocator<int> > const &); }
+namespace _STL { template <> list<int, allocator<int> >::list(allocator<int> const &); }
+namespace _STL { template <> list<int, allocator<int> > & list<int, allocator<int> >::operator=(list<int, allocator<int> > const &); }
+namespace _STL { template <> _List_iterator<int, _Nonconst_traits<int> > & _List_iterator<int, _Nonconst_traits<int> >::operator++(); }
+namespace _STL { template <> _List_iterator<int, _Const_traits<int> > & _List_iterator<int, _Const_traits<int> >::operator--(); }
+namespace _STL { template <> _List_node<int> * list<int, allocator<int> >::_M_create_node(int const &); }
+namespace _STL { template <> _List_iterator<int, _Nonconst_traits<int> > list<int, allocator<int> >::erase(_List_iterator<int, _Nonconst_traits<int> >, _List_iterator<int, _Nonconst_traits<int> >); }
+namespace _STL { template <> void list<int, allocator<int> >::push_back(int const &); }
+namespace _STL { template <> void list<int, allocator<int> >::push_back(); }
+namespace _STL { template <> void list<int, allocator<int> >::push_front(int const &); }
+namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &, _List_iterator<int, _Nonconst_traits<int> >); }
+namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &); }
+// bfme link decl-only end
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.

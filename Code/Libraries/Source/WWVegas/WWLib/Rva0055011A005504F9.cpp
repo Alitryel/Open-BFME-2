@@ -26,6 +26,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <map>
 #include <string>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
+namespace _STL { template <> unsigned int & map<basic_string<char, char_traits<char>, allocator<char> >, unsigned int, less<basic_string<char, char_traits<char>, allocator<char> > >, allocator<pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int> > >::operator[](basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int>, _Nonconst_traits<pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int> > >, bool> _Rb_tree<basic_string<char, char_traits<char>, allocator<char> >, pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int>, _Select1st<pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int> >, less<basic_string<char, char_traits<char>, allocator<char> > >, allocator<pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int> > >::insert_unique(pair<basic_string<char, char_traits<char>, allocator<char> > const, unsigned int> const &); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

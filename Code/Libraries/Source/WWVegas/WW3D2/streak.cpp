@@ -78,6 +78,14 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "sortingrenderer.h"
 // bfme link decl-only begin
 template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
+template <> SimpleDynVecClass<float>::~SimpleDynVecClass();
+template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
+template <> SimpleVecClass<float>::~SimpleVecClass();
+template <> SimpleVecClass<Vector3>::~SimpleVecClass();
+template <> bool SimpleDynVecClass<Vector3>::Add(Vector3 const &, int);
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<float>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
 // bfme link decl-only end
 // This unit inlines SimpleDynVecClass<float>::Add and <Vector3>::Shrink at every
 // use but still emitted unreferenced /O2 copies of both; retail's bodies are

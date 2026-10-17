@@ -64,6 +64,13 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwdebug.h"
 #include <string.h>
 #include "nstrdup.h"
+// bfme link decl-only begin
+template <> bool VectorClass<float>::operator==(VectorClass<float> const &) const;
+template <> int DynamicVectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const &);
+template <> int VectorClass<float>::ID(float const *);
+template <> bool VectorClass<float>::Resize(int, float const *);
+// bfme link decl-only end
 
 // Retail keeps one HAnimComboDataClass pool allocator (0x001963A0); this unit calls it.
 template <> HAnimComboDataClass *ObjectPoolClass<HAnimComboDataClass, 256>::Allocate_Object_Memory(void);

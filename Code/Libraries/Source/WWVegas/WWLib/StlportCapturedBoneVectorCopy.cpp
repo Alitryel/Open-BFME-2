@@ -10,6 +10,9 @@
 // A memberwise translation copy retains the loop's +0x1C address bases.
 // Advancing the source first retains retail's EAX/ECX induction registers.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 struct BfmeCapturedBoneRotation
 {

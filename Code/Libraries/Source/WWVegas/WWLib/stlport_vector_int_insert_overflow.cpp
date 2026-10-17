@@ -12,6 +12,9 @@
 // (the reverse direction is a hard C2375), so the shim's deallocation emits
 // retail's direct call to _free at 0x30830.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<int, allocator<int> >::_Vector_base(allocator<int> const &); }
+// bfme link decl-only end
 
 extern "C" void __cdecl free(void *);
 

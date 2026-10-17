@@ -64,6 +64,10 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 // Keep this TU's inline string storage implementation local.
 #define _String_base _String_base_NumPutBool_RV
 #include <locale>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.

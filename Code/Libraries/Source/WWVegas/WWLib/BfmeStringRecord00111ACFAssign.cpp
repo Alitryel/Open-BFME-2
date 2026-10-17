@@ -30,4 +30,11 @@ BfmeStringRecord00111ACF &BfmeStringRecord00111ACF::operator=(const BfmeStringRe
     return *this;
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> BfmeStringRecord00111ACF * __copy_backward<BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, int>(BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> BfmeStringRecord00111ACF * __uninitialized_copy<BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *>(BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, __false_type const &); }
+namespace _STL { template <> void fill<BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF>(BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF const &); }
+namespace _STL { template <> BfmeStringRecord00111ACF * vector<BfmeStringRecord00111ACF, allocator<BfmeStringRecord00111ACF> >::erase(BfmeStringRecord00111ACF *, BfmeStringRecord00111ACF *); }
+namespace _STL { template <> void vector<BfmeStringRecord00111ACF, allocator<BfmeStringRecord00111ACF> >::push_back(BfmeStringRecord00111ACF const &); }
+// bfme link decl-only end
 template class _STL::vector<BfmeStringRecord00111ACF, _STL::allocator<BfmeStringRecord00111ACF> >;

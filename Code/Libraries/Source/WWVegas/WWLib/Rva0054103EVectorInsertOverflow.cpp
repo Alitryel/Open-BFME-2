@@ -36,5 +36,8 @@ private:
 // bfme link decl-only begin
 // Retail keeps insert at 0x00541DDF (Rva00541DDFFinish.cpp); this /G7 unit would emit a second, different copy first.
 namespace _STL { template <> Rva0054103E *vector<Rva0054103E, allocator<Rva0054103E> >::insert(Rva0054103E *, const Rva0054103E &); }
+namespace _STL { template <> void _Construct<Rva0054103E, Rva0054103E>(Rva0054103E *, Rva0054103E const &); }
+namespace _STL { template <> vector<Rva0054103E, allocator<Rva0054103E> >::vector(vector<Rva0054103E, allocator<Rva0054103E> > const &); }
+namespace _STL { template <> Rva0054103E * vector<Rva0054103E, allocator<Rva0054103E> >::erase(Rva0054103E *, Rva0054103E *); }
 // bfme link decl-only end
 template class _STL::vector<Rva0054103E, _STL::allocator<Rva0054103E> >;

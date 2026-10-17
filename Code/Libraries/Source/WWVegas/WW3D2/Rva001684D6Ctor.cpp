@@ -1,6 +1,10 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2renderobj /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 #include "rendobj.h"
 #include "simplevec.h"
+// bfme link decl-only begin
+template <> SimpleDynVecClass<Vector3>::~SimpleDynVecClass();
+template <> bool SimpleVecClass<Vector3>::Resize(int);
+// bfme link decl-only end
 // Native16844F..1684B2 constructs the RenderObj C4 base; points C4;
 // float widths D4; renderer settings E4. The same primary/secondary tables
 // BD41C8/BD41C4 are independently owned by deleting dtor1684BA and Clone1686EB.

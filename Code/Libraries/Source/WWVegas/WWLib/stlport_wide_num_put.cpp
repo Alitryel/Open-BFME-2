@@ -22,6 +22,21 @@ namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(c
 namespace _STL { template <> char * __write_decimal_backward<unsigned __int64>(char *, unsigned __int64, int, __false_type const &); }
 
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > _M_do_put_float<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, double>(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, double); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_float_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, unsigned short const *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_integer<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, int, unsigned short); }
+namespace _STL { template <> char * __write_decimal_backward<long>(char *, long, int, __true_type const &); }
+namespace _STL { template <> char * __write_integer_backward<long>(char *, int, long); }
+namespace _STL { template <> char * __write_integer_backward<unsigned long>(char *, int, unsigned long); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, void const *) const; }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

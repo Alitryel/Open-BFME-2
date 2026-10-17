@@ -32,6 +32,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<unsigned short, unsigned short>(unsigned short *, unsigned short const &); }
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {
 	void resize(unsigned n, unsigned short x);

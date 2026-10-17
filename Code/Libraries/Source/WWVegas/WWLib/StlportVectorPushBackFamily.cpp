@@ -403,6 +403,21 @@ typedef float Real;
 typedef bool Bool;
 
 #include "Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<GeometryShape, GeometryShape>(GeometryShape *, GeometryShape const &); }
+namespace _STL { template <> void _Destroy<Rva004F9018Element *>(Rva004F9018Element *, Rva004F9018Element *); }
+namespace _STL { template <> void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *, Rva005E71C6Ref *); }
+namespace _STL { template <> void _Destroy<Rva00568A20 *>(Rva00568A20 *, Rva00568A20 *); }
+namespace _STL { template <> void _Destroy<RvaSmartPtr12 *>(RvaSmartPtr12 *, RvaSmartPtr12 *); }
+namespace _STL { template <> void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *); }
+namespace _STL { template <> void _Destroy<RvaSmartPtr12>(RvaSmartPtr12 *); }
+namespace _STL { template <> void vector<GeometryShape, allocator<GeometryShape> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva00413B16Element, allocator<Rva00413B16Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva004F9018Element, allocator<Rva004F9018Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva0021F876, allocator<Rva0021F876> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva00403927, allocator<Rva00403927> >::_M_clear(); }
+namespace _STL { template <> void vector<RvaSmartPtr12, allocator<RvaSmartPtr12> >::_M_clear(); }
+// bfme link decl-only end
 
 class Rva0030E8DF { public: void rva0030E8DF(); };
 class Rva0030E961

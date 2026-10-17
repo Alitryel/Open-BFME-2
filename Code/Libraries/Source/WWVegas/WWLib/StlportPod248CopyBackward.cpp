@@ -46,6 +46,11 @@ template <> void _Construct<BfmePod248, BfmePod248>(BfmePod248 *, const BfmePod2
 }
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmePod248, BfmePod248>(BfmePod248 *, BfmePod248 const &); }
+namespace _STL { template <> BfmePod248 * __uninitialized_fill_n<BfmePod248 *, unsigned int, BfmePod248>(BfmePod248 *, unsigned int, BfmePod248 const &, __false_type const &); }
+namespace _STL { template <> void vector<BfmePod248, allocator<BfmePod248> >::_M_clear(); }
+// bfme link decl-only end
 
 template BfmePod248 *_STL::__copy_backward(BfmePod248 *, BfmePod248 *, BfmePod248 *, const _STL::random_access_iterator_tag &, int *);
 template BfmePod248 *_STL::__copy_backward_ptrs(BfmePod248 *, BfmePod248 *, BfmePod248 *, const _STL::__false_type &);

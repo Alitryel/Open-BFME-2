@@ -10,4 +10,8 @@
 // Its retail allocator includes the allocation-hint argument. The base pin
 // follows that independently decoded ABI/behavior, not a masked-call guess.
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 template _STL::vector<unsigned int>::vector(const _STL::vector<unsigned int>&);

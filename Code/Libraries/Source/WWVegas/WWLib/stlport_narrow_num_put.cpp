@@ -52,6 +52,10 @@ namespace _STL { template <> char * __write_integer_backward<__int64>(char *, in
 namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(char *, int, unsigned __int64); }
 namespace _STL { template <> char * __write_decimal_backward<__int64>(char *, __int64, int, __true_type const &); }
 namespace _STL { template <> char * __write_decimal_backward<unsigned __int64>(char *, unsigned __int64, int, __false_type const &); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do_put_float<char, ostreambuf_iterator<char, char_traits<char> >, double>(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, double); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_integer<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, int, char); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, void const *) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, bool) const; }
 // bfme link decl-only end
 // __copy_integer_and_fill<char> is owned by stlport_narrow_copy_integer_and_fill.cpp.
 // This unit's copy is not retail's and inlined sputc into an out-of-line

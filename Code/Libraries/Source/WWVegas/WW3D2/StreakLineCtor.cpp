@@ -56,6 +56,11 @@ protected:
 };
 
 #include "simplevec.h"
+// bfme link decl-only begin
+template <> SimpleDynVecClass<float>::~SimpleDynVecClass();
+template <> SimpleVecClass<float>::~SimpleVecClass();
+template <> bool SimpleVecClass<float>::Resize(int);
+// bfme link decl-only end
 
 class Vector3
 {

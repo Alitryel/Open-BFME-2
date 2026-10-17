@@ -3,6 +3,12 @@
 void __cdecl operator delete[](void *) throw();
 #include "vector.h"
 #include "vector2i.h"
+// bfme link decl-only begin
+template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
+template <> int VectorClass<int>::ID(int const &);
+template <> int VectorClass<int>::ID(int const *);
+template <> bool VectorClass<int>::Resize(int, int const *);
+// bfme link decl-only end
 
 // Donor BFME1 9cbfb551fe20 Render2DSentenceClass_Allocate_New_Surface.cpp.
 // BFME2 native 158C60..158E87/551B: no leading Unlock; spacing uses loadCharacterData.

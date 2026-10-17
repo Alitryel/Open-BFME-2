@@ -99,6 +99,12 @@ template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> bool __get_decimal_integer<unsigned short *, long double>(unsigned short *&, unsigned short *&, long double &); }
+namespace _STL { template <> bool __get_monetary_value<istreambuf_iterator<unsigned short, char_traits<unsigned short> >, back_insert_iterator<basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > >, unsigned short>(istreambuf_iterator<unsigned short, char_traits<unsigned short> > &, istreambuf_iterator<unsigned short, char_traits<unsigned short> >, back_insert_iterator<basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > >, ctype<unsigned short> const &, unsigned short, int, unsigned short, basic_string<char, char_traits<char>, allocator<char> > const &, bool &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(); }
+namespace _STL { template <> unsigned short * basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_insert_aux(unsigned short *, unsigned short); }
+namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
 // bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

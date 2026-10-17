@@ -20,6 +20,12 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> void _List_base<AsciiString, allocator<AsciiString> >::clear(); }
+namespace _STL { template <> _List_iterator<AsciiString, _Nonconst_traits<AsciiString> > list<AsciiString, allocator<AsciiString> >::insert(_List_iterator<AsciiString, _Nonconst_traits<AsciiString> >, AsciiString const &); }
+// bfme link decl-only end
 
 extern "C" void __cdecl free(void *block);
 

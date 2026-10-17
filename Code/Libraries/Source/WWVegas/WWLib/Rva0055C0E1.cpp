@@ -7,6 +7,12 @@
 #include <ostream>
 
 #include "../../../Include/Lib/RGBColor.h"
+// bfme link decl-only begin
+namespace _STL { template <> bool basic_ios<char, char_traits<char> >::_S_eof(int); }
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::clear(int); }
+namespace _STL { template <> bool ostreambuf_iterator<char, char_traits<char> >::failed() const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, long) const; }
+// bfme link decl-only end
 
 extern float g_00BC2900;
 // g_00BC2900: matched references place it at VA 0xbc2900 (retail .rdata value 255.0f).

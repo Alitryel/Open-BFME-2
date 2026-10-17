@@ -74,6 +74,11 @@ template <> ShareBufferClass<VertexMaterialClass *>::ShareBufferClass(const Shar
 #include	"dx8wrapper.h"
 #include "dx8caps.h"
 #include "meshmdl.h"
+// bfme link decl-only begin
+template <> ShareBufferClass<unsigned int>::ShareBufferClass(ShareBufferClass<unsigned int> const &);
+template <> ShareBufferClass<Vector2>::ShareBufferClass(ShareBufferClass<Vector2> const &);
+template <> RefCountPtr<TextureClass>::~RefCountPtr();
+// bfme link decl-only end
 
 // The BFME2 ShaderClass specialization is defined in sharebuf_shader_copy_ctor.cpp.
 template<> ShareBufferClass<ShaderClass>::~ShareBufferClass(void);

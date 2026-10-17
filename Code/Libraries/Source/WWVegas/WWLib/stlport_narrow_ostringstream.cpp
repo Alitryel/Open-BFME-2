@@ -18,6 +18,12 @@ namespace _STL { template <> basic_streambuf<char, char_traits<char> > * basic_s
 namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::uflow(); }
 namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::underflow(); }
 namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::xsputn(char const *, int); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> locale basic_ios<char, char_traits<char> >::imbue(locale const &); }
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::init(basic_streambuf<char, char_traits<char> > *); }
+namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
 // bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

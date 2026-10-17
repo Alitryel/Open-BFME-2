@@ -3,6 +3,10 @@
 // ?Rva0041865FRegenerateAtLevel@@YAXPAVINI@@PAX1PBX@Z @0x0041865F 123B.
 // Target evidence: the adjacent table entry identifies RegenerateAtLevel; retail parses Regenerate then Level, inserts into the supplied int map, and throws on duplicate keys.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, int> > * _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_create_node(pair<int const, int> const &); }
+// bfme link decl-only end
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

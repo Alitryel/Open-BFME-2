@@ -59,6 +59,14 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "win.h"
 #include "wwhack.h"
 #include "systimer.h"
+// bfme link decl-only begin
+template <> VectorClass<int>::~VectorClass();
+template <> bool VectorClass<int>::operator==(VectorClass<int> const &) const;
+template <> void VectorClass<int>::Clear();
+template <> int VectorClass<int>::ID(int const &);
+template <> int VectorClass<int>::ID(int const *);
+template <> bool VectorClass<int>::Resize(int, int const *);
+// bfme link decl-only end
 
 
 DECLARE_FORCE_LINK( Twiddler )

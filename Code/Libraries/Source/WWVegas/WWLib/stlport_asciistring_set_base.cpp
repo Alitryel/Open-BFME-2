@@ -12,6 +12,11 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_copy(_Rb_tree_node<AsciiString> *, _Rb_tree_node<AsciiString> *); }
+namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >, bool> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::insert_unique(AsciiString const &); }
+// bfme link decl-only end
 bool operator<(const AsciiString &, const AsciiString &);
 namespace _STL {
 // The rowed ~_Rb_tree (MapMetaDataCopy.cpp, 0x589BE) is the kept copy; do not emit another.

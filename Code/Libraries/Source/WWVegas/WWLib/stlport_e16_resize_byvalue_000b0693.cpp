@@ -28,6 +28,11 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 }
 
 #include "../../../Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
+namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_insert_overflow(BfmeE16 *, BfmeE16 const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> BfmeE16 * allocator<BfmeE16>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 struct BfmePod16 { int a[4]; };
 
 class BfmeE16Vector : public _STL::vector<BfmeE16, _STL::allocator<BfmeE16 > >

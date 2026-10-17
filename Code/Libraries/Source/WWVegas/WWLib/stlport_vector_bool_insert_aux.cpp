@@ -10,5 +10,9 @@
 #include "PreRTS.h"
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> copy<_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *> >(_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>); }
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+// bfme link decl-only end
 
 template void _STL::vector<bool>::_M_insert_aux(_STL::vector<bool>::iterator, bool);

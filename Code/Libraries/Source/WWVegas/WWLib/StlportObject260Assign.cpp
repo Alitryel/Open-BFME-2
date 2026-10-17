@@ -2,6 +2,9 @@
 // stlport
 #include <vector>
 #include "Object260.h"
+// bfme link decl-only begin
+namespace _STL { template <> BfmeFixedObject260 * allocator<BfmeFixedObject260>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

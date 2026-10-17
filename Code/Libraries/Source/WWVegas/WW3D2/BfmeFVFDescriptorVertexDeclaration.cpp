@@ -9,6 +9,9 @@
 // stlport
 #include <vector>
 #include "Lib/ICoord2D.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 struct FxVertexElement {unsigned short stream,offset;unsigned char type,method,usage,index;};
 
 namespace _STL {

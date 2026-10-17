@@ -52,6 +52,11 @@ extern void *__cdecl operator new[](size_t);
 #include <inisup.h>
 #include <assert.h>
 #include <windows.h>
+// bfme link decl-only begin
+template <> VectorClass<StringClass>::VectorClass(int, StringClass const *);
+template <> void DynamicVectorClass<StringClass>::Clear();
+template <> bool VectorClass<StringClass>::Resize(int, StringClass const *);
+// bfme link decl-only end
 void	RegistryClass::Delete_Value( const char * name)
 {
 	if (IsLocked) {

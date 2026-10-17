@@ -25,5 +25,6 @@ private:
 #include <vector>
 // bfme link decl-only begin
 namespace _STL { template <> vector<Rva000BB491, allocator<Rva000BB491> > & vector<Rva000BB491, allocator<Rva000BB491> >::operator=(vector<Rva000BB491, allocator<Rva000BB491> > const &); }
+namespace _STL { template <> void _Destroy<Rva000BB491 *>(Rva000BB491 *, Rva000BB491 *); }
 // bfme link decl-only end
 template class _STL::vector<Rva000BB491, _STL::allocator<Rva000BB491> >;

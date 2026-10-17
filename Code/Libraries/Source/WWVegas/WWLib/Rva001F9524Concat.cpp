@@ -10,6 +10,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <string>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(_String_reserve_t, unsigned int, allocator<char> const &); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::_M_construct_null(char *); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::_M_construct_null_aux(char *, __true_type const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::append(basic_string<char, char_traits<char>, allocator<char> > const &); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

@@ -12,6 +12,10 @@
 // Callers: deque ctor 0x006209D0 at 0x6209F3 and base ctor 0x00620690 at 0x6206D0.
 // Donor: vendor/stlport/stl/_deque.c _M_initialize_map.
 #include <deque>
+// bfme link decl-only begin
+namespace _STL { template <> void deque<int, allocator<int> >::_M_reallocate_map(unsigned int, bool); }
+namespace _STL { template <> int * allocator<int>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 class SightingInfo;
 template class _STL::deque<SightingInfo*, _STL::allocator<SightingInfo* > >;
 

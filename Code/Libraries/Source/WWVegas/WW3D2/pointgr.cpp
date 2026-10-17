@@ -111,6 +111,13 @@ class CameraClass;
 #include "dx8fvf.h"
 #include "D3dx8math.h"
 #include "sortingrenderer.h"
+// bfme link decl-only begin
+template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
+template <> bool VectorClass<float>::operator==(VectorClass<float> const &) const;
+template <> bool VectorClass<Vector2>::operator==(VectorClass<Vector2> const &) const;
+template <> int VectorClass<float>::ID(float const &);
+template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
+// bfme link decl-only end
 
 // Retail Vector2/Vector4 resize bodies belong to Vector2Resize.cpp.
 // Declare their specializations so this consumer references those owners.

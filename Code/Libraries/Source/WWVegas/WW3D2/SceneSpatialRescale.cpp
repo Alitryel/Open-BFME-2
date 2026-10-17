@@ -23,6 +23,9 @@ inline void *operator new(unsigned int, void *p) { return p; }
 #define __PLACEMENT_VEC_NEW_INLINE
 // stlport
 #include <slist>
+// bfme link decl-only begin
+namespace _STL { template <> _Slist_node_base * _Slist_base<int, allocator<int> >::_M_erase_after(_Slist_node_base *, _Slist_node_base *); }
+// bfme link decl-only end
 
 struct Gen_00943CF0_Node
 {

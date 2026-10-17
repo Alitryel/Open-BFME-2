@@ -66,6 +66,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "chunkio.h"
 #include "persistfactory.h"
 #include "vector2.h"
+// bfme link decl-only begin
+template <> SimpleVecClass<float>::~SimpleVecClass();
+template <> bool SimpleVecClass<float>::Resize(int);
+// bfme link decl-only end
 
 
 /*

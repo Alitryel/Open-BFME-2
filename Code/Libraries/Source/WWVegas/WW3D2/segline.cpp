@@ -68,6 +68,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "vp.h"
 #include "vector3i.h"
 #include "sortingrenderer.h"
+// bfme link decl-only begin
+template <> bool SimpleDynVecClass<Vector3>::Add(Vector3 const &, int);
+template <> bool SimpleDynVecClass<Vector3>::Resize(int);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int);
+// bfme link decl-only end
 
 static SegLineRendererClass _LineRenderer;
 

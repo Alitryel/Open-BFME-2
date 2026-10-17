@@ -27,6 +27,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "aabox.h"
 #include "scene.h"
 #include "camera.h"
+// bfme link decl-only begin
+template <> RenderObjClass * RefMultiListClass<RenderObjClass>::Peek_Head();
+template <> void RefMultiListClass<RenderObjClass>::Reset_List();
+// bfme link decl-only end
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 

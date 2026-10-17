@@ -60,6 +60,8 @@ namespace _STL { template <> void *const &vector<void *, allocator<void *> >::op
 namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::resize(unsigned int); }
 namespace _STL { template <> void *const &vector<void *, allocator<void *> >::at(unsigned int) const; }
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
+namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **); }
 // bfme link decl-only end
 
 namespace _STL

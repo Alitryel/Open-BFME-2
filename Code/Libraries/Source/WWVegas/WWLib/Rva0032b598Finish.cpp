@@ -11,6 +11,10 @@
 // `if (p) new (p) T(v)` free-function attempt banked one byte away.
 #include <memory>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 struct BfmeE8 { int a, b; };
 

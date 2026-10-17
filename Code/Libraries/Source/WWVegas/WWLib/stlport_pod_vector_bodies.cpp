@@ -25,6 +25,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <algorithm>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned char * allocator<unsigned char>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 struct BfmePod20 { int a[5]; };
 struct BfmePod24 { int a[6]; };
 inline bool operator==(const BfmePod20 &x, const BfmePod20 &y) { return x.a[0] == y.a[0]; }
