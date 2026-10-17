@@ -1,4 +1,6 @@
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
+// partial score=0.857 date=2026-10-17
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.872 date=2026-10-15
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.8675 date=2026-10-13
@@ -273,7 +275,9 @@ namespace _STL
   prev->_M_next=next;
   next->_M_prev=prev;
   _Destroy(&node->_M_data);
-  this->_M_node.deallocate(node,1);
+  extern void *g_freeList001EB130;
+  *(void**)node=g_freeList001EB130;
+  g_freeList001EB130=node;
   return ObjectIterator((_Node*)next);
   
  }
@@ -530,8 +534,9 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
  transferring=true;
  if (!object->getParent() && !object->isHorde()) 
  {
-  HordeMemberSlot * volatile memberSlot = getOrdinarySlot();
-  if (accepts(object,memberSlot->value(),&fields->ordinaryNames,false)) 
+  HordeMemberSlot *memberSlot = getOrdinarySlot();
+  const int &slotValue = memberSlot->value();
+  if (accepts(object,slotValue,&fields->ordinaryNames,false)) 
   {
    rva00473125(object,memberSlot->storage(),ordinaryIndex);
    return 0;
@@ -555,11 +560,12 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   if (!fields->matchNamed || fields->name.compare(object->type->name)!=0) return 0;
   
  }
- Rva0046D158Record * volatile record = rva0046D158(object->type->name);
+ ThingTemplate *objectType = object->type;
+ Rva0046D158Record *record = rva0046D158(objectType->name);
  if (!record) return 0;
  AsciiString replacement(record->replacement);
- Object *created=0;
  const ThingTemplate *type=(const ThingTemplate*)reinterpret_cast<Rva002D06CA*>(TheThingFactory)->rva002D06CA(&replacement);
+ Object *created=0;
  if (type) 
  {
   ModuleSlot15 *module=(ModuleSlot15*)owner->rva0028BC58(0);
@@ -570,7 +576,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   ObjectList members;
   collect(members);
   Object *firstCarrier=TheGameLogic->findObjectByID((ObjectID)carrierID);
-  Object *firstMember=0;
+  Object *firstMember;
   if (firstCarrier) 
   {
    ObjectIterator found = _STL::find(members.begin(),members.end(),firstCarrier);
@@ -633,34 +639,30 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   else 
   {
    HordeContain *combined=result->horde();
-   Object *carrier=0;
    const Object *member=0;
-   if (firstCarrier) 
+   Object *carrier=0;
+   if (firstCarrier && secondCarrier) 
    {
-    if (secondCarrier) 
+    if (firstCarrier->tracker->level>=secondCarrier->tracker->level) 
     {
-     if (firstCarrier->tracker->level>=secondCarrier->tracker->level) 
-     {
-      carrier=firstCarrier;
-      member=firstMember;
-      TheGameLogic->destroyObject(secondCarrier);
-      
-     }
-     else 
-     {
-      carrier=secondCarrier;
-      member=secondMember;
-      TheGameLogic->destroyObject(firstCarrier);
-      
-     }
+     carrier=firstCarrier;
+     member=firstMember;
+     TheGameLogic->destroyObject(secondCarrier);
      
     }
     else 
     {
-     carrier=firstCarrier;
-     member=firstMember;
+     carrier=secondCarrier;
+     member=secondMember;
+     TheGameLogic->destroyObject(firstCarrier);
      
     }
+    
+   }
+   else if (firstCarrier) 
+   {
+    carrier=firstCarrier;
+    member=firstMember;
     
    }
    else if (secondCarrier) 
