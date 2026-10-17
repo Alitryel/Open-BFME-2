@@ -1,8 +1,12 @@
 // ?getBridgeHeight@Bridge@@QAEMPBUCoord3D@@PAU2@@Z
+// partial score=0.546 date=2026-10-17
+// ?getBridgeHeight@Bridge@@QAEMPBUCoord3D@@PAU2@@Z
 // partial score=0.6 date=2026-10-12
 // ?getBridgeHeight@Bridge@@QAEMPBUCoord3D@@PAU2@@Z
 // partial score=0.6 date=2026-10-07
 // cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /DNDEBUG /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // 2026-10-12 trials (Opus 5.5, ~40 min, none beat 0.60 instruction-sequence ratio):
 //   scalar deltas from-then-to around the `to` copy (0.52); Coord3D tmp reused for the
 //   to-edge delta so toDY lives in the copy's +4 slot (0.60, 694 B); tmp for both edges
@@ -102,14 +106,14 @@ Real Bridge::getBridgeHeight(const Coord3D *pLoc, Coord3D *normal)
 {
 	if (m_area)
 	{
-		Coord3D toNormal;
-		toNormal.x = m_bridgeInfo.toRight.y - m_bridgeInfo.toLeft.y;
-		toNormal.y = -(m_bridgeInfo.toRight.x - m_bridgeInfo.toLeft.x);
-		toNormal.z = 0;
 		Coord3D fromNormal;
 		fromNormal.x = -(m_bridgeInfo.fromRight.y - m_bridgeInfo.fromLeft.y);
 		fromNormal.y = m_bridgeInfo.fromRight.x - m_bridgeInfo.fromLeft.x;
 		fromNormal.z = 0;
+		Coord3D toNormal;
+		toNormal.y = -(m_bridgeInfo.toRight.x - m_bridgeInfo.toLeft.x);
+		toNormal.x = m_bridgeInfo.toRight.y - m_bridgeInfo.toLeft.y;
+		toNormal.z = 0;
 		Coord3D along = m_bridgeInfo.to;
 		along.x -= m_bridgeInfo.from.x;
 		along.y -= m_bridgeInfo.from.y;
@@ -123,9 +127,13 @@ Real Bridge::getBridgeHeight(const Coord3D *pLoc, Coord3D *normal)
 		{
 			toNormal.x *= -1.0f;
 			toNormal.y *= -1.0f;
+			_ReadWriteBarrier();
 			toNormal.z *= -1.0f;
 		}
+		*(volatile Real*)&fromNormal.x = fromNormal.x;
+		*(volatile Real*)&fromNormal.y = fromNormal.y;
 		fromNormal.normalize();
+		*(volatile Real*)&toNormal.z = toNormal.z;
 		toNormal.normalize();
 
 		Real fromDist = (pLoc->x - m_bridgeInfo.from.x) * fromNormal.x + (pLoc->y - m_bridgeInfo.from.y) * fromNormal.y;
