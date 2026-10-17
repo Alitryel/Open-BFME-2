@@ -1,4 +1,6 @@
 // ?StartPatchCheck@@YAXXZ
+// partial score=0.99 date=2026-10-17
+// ?StartPatchCheck@@YAXXZ
 // partial score=0.9423 date=2026-10-13
 // ?StartPatchCheck@@YAXXZ
 // partial score=0.97 date=2026-10-08
@@ -239,13 +241,13 @@ int Rva005BC4CEStart(int hostName);
 void reallyStartPatchCheck();
 void StartPatchCheck()
 {
- online.run++;
+ *(volatile unsigned char*)0x00E06574=1;
  online.cancel=true;
- online.checking=true;
  online.cantConnect=false;
  online.checks=0;
+ online.run++;
  MessageBoxOk(UnicodeString(L""),TheGameText->fetch("GUI:CheckingForPatches"),CancelPatchCheckCallbackAndReopenDropdown);
- g_00E06576=1;
+ online.checking=true;
  MainMenuUrlComponents components;
  char hostName[512];
  memset(&components,0,sizeof(components));
