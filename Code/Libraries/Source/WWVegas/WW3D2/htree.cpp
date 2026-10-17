@@ -173,89 +173,9 @@ HTreeClass::HTreeClass(void) :
  *=============================================================================================*/
 
 
-/*********************************************************************************************** 
- * HTreeClass::Simple_Evaluate_Pivot -- Returns the transform of a pivot at the given frame.	  *
- *                                                                                             * 
- * INPUT:                                                                                      * 
- *                                                                                             * 
- * OUTPUT:                                                                                     * 
- *                                                                                             * 
- * WARNINGS:                                                                                   * 
- *                                                                                             * 
- * HISTORY:                                                                                    * 
- *   04/13/2000 PDS  : Created.                                                                * 
- *=============================================================================================*/
-bool HTreeClass::Simple_Evaluate_Pivot
-(	
-	HAnimClass *		motion,
-	int					pivot_index,
-	float					frame,
-	const Matrix3D &	obj_tm,
-	Matrix3D *			end_tm
-) const
-{
-	bool retval = false;
-	end_tm->Make_Identity ();
-
-	if (	motion != NULL &&
-			end_tm != NULL &&
-			pivot_index >= 0 &&
-			pivot_index < NumPivots)
-	{
-		//
-		//	Loop over the hierarchy of pivots that this pivot is
-		// attached to and transform each.
-		//
-		for (	PivotClass *pivot = &Pivot[pivot_index];
-				pivot != NULL && pivot->Parent != NULL;
-				pivot = pivot->Parent)
-		{
-			//
-			//	Build a matrix that represents the animation for this pivot
-			//
-
-			Matrix3D anim_tm;
-			motion->Get_Transform(anim_tm, pivot->Index, frame);
-
-//			Quaternion q;
-//			motion->Get_Orientation (q, pivot->Index, frame);
-//			Matrix3D anim_tm = ::Build_Matrix3D(q);
-
-			Vector3 trans;
-			anim_tm.Get_Translation(&trans);
-			anim_tm.Set_Translation(trans * ScaleFactor);
-
-			//
-			//	Transform the animation transform by the 'relative-to-parent' transform.
-			//
-			Matrix3D curr_tm;
-			Matrix3D::Multiply(pivot->BaseTransform, anim_tm, &curr_tm);
-
-			//
-			//	Transform the return value by this transform
-			//
-#ifdef ALLOW_TEMPORARIES
-			Matrix3D::Multiply (curr_tm, *end_tm, end_tm);
-#else
-			end_tm->preMul(curr_tm);
-#endif
-		}
-
-		//
-		//	Transform the return value by the object's transform
-		//
-#ifdef ALLOW_TEMPORARIES
-		Matrix3D::Multiply (obj_tm, *end_tm, end_tm);		
-#else
-			end_tm->preMul(obj_tm);
-#endif
-
-		// Success!
-		retval = true;
-	}	
-
-	return retval;
-}
+// HTreeClass::Simple_Evaluate_Pivot(motion, pivot, frame, obj_tm, end_tm) is
+// rowed at 0x00161700 with BFME2's body (HTreeClassReadPivots.cpp); the donor
+// body that stood here was not retail's and would be the copy the link keeps.
 
 
 
