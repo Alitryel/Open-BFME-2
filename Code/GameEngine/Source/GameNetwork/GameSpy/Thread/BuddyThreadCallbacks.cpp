@@ -99,9 +99,10 @@ struct GPGetInfoResponseArg
 
 typedef void (*GPCallback)(GPConnection *, void *, void *);
 
-void gpGetInfo(GPConnection *connection, GPProfile profile, GPEnum checkCache,
+// The GameSpy presence SDK (gp.c) is C: the rowed _gpGetInfo / _gpGetBuddyStatus.
+extern "C" void gpGetInfo(GPConnection *connection, GPProfile profile, GPEnum checkCache,
 	GPEnum blocking, GPCallback callback, void *param);
-void gpGetBuddyStatus(GPConnection *connection, int index, GPBuddyStatus *status);
+extern "C" void gpGetBuddyStatus(GPConnection *connection, int index, GPBuddyStatus *status);
 _STL::wstring MultiByteToWideCharSingleLine(const char *text);
 
 void getInfoResponseForRequest(GPConnection *, GPGetInfoResponseArg *, void *);
@@ -133,7 +134,9 @@ struct BuddyResponse
 
 		struct
 		{
-			char identity[0x56];
+			char nick[31];
+			char email[51];
+			char countrycode[3];
 			wchar_t text[1025];
 		} request;
 
@@ -210,6 +213,20 @@ void getInfoResponseForStatus(GPConnection *, GPGetInfoResponseArg *arg,
 	_mbscpy(response->arg.status.nick, arg->nick);
 	_mbscpy(response->arg.status.email, arg->email);
 	_mbscpy(response->arg.status.countrycode, arg->countrycode);
+}
+
+// ?getInfoResponseForRequest@@YAXPAVGPConnection@@PAUGPGetInfoResponseArg@@PAX@Z, Zero Hour
+// BuddyThread.cpp. The request record's nick/email/countrycode sit at the status
+// record's offsets, so this body is getInfoResponseForStatus's and retail folds
+// the two: requestCallback passes 0x00550651 as its GPCallback.
+void getInfoResponseForRequest(GPConnection *, GPGetInfoResponseArg *arg,
+	void *param)
+{
+	BuddyResponse *response = (BuddyResponse *)param;
+	response->profile = arg->profile;
+	_mbscpy(response->arg.request.nick, arg->nick);
+	_mbscpy(response->arg.request.email, arg->email);
+	_mbscpy(response->arg.request.countrycode, arg->countrycode);
 }
 
 void BuddyThreadClass::requestCallback(GPConnection *connection,
