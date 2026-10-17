@@ -1,6 +1,10 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
+// partial score=0.301 date=2026-10-17
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.447 date=2026-10-09
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ZH meshgeometry.cpp get_deformed_vertices guides the run-based transforms.
 // Target extends it with two bind-position streams, planar bone/percent-weight
 // arrays, a precomputed run list and compact quaternion transforms.
@@ -66,6 +70,7 @@ private:
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z present-unmatched
 void MeshModelClass::get_deformed_vertices(Vector3 *dst,Vector3 *dstNorm,const HTreeClass *tree) {
  if(!runs)return;
+ _ReadWriteBarrier();
  if(!bones)return;
  if(!tree)return;
  int streams=1;
