@@ -65,9 +65,8 @@ struct Rva0004F7F4Owner;
 class Rva002D76A6
 {
 public:
-	virtual void v0();
 	Rva002D76A6();
-	~Rva002D76A6();
+	virtual ~Rva002D76A6();
 private:
 	int m_04;
 	int m_08;
@@ -78,6 +77,7 @@ class Rva004EFE9 : public Rva002D76A6
 public:
 	Rva004EFE9(Rva0004F7F4Owner *owner, Rva0004EFE9Position position, const char *name);
 	virtual ~Rva004EFE9();
+	virtual void rva0004F7F4();			// table 0x00BC4DDC slot 1 (Rva0004EFE9Dtor.cpp)
 private:
 	Rva0004F7F4Owner *m_owner;			// +0x0C
 	Rva0004EFE9Position m_position;			// +0x10
