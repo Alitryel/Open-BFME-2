@@ -692,6 +692,10 @@ void Rva003844D7::rva00555845(const Rva003844D7 *source) {
     }
 }
 
+// The native EH graph shared with the id constructor binds cleanup 0x798C97
+// to m_maps94: six 12-byte StatsShortMap elements at +0x94, destroyed through
+// the vector iterator and the verified map destructor at 0x38356C. Both complete
+// constructor graphs match; this folded 24-byte action has one retail row.
 // Native [554F70,5550A0),304B copy constructor initializes map members,
 // resets the record, then incorporates its source through554AF2.
 Rva00553E47StatsCore::Rva00553E47StatsCore(const Rva00553E47StatsCore &source) {
