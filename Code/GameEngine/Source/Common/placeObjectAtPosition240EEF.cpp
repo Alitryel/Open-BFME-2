@@ -273,6 +273,10 @@ class Rva001FD19E {public:const char *rva001FD19E(int);};
 class Rva001FD2D9 {public:Coord3D *rva001FD2D9(Coord3D*,int);};
 struct FindPositionOptions {unsigned flags;float minRadius,maxRadius,startAngle,maxZDelta;void *ignoreObject;const void *sourceToPathToDest;void *relationshipObject;};
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+// vector3.h's Vector3::operator*=(float) under a unit-local name: called as the
+// Vector3 member, this unit emitted an external copy that differs from the kept
+// one (the 96f26b7c4d pattern). Body unchanged.
+struct PlaceDeltaView : Vector3 { WWINLINE PlaceDeltaView & operator *= (float k) { X = X*k; Y=Y*k; Z=Z*k; return *this; } };
 extern PartitionManager *ThePartitionManager;
 class NetworkPartitionDispatch {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void update();};
 class TerrainLogic {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual float getGroundHeight(float,float,Coord3D*);};
@@ -327,7 +331,7 @@ void placeNetworkBuildingsForPlayer(int slotNum,const GameSlot *slot,Player *pla
    Vector3 reference(0.0f,1.0f,0.0f);
    float angle=(float)acos(Vector3::Dot_Product(direction,reference));
    if(direction.X*reference.Y-direction.Y*reference.X<0.0f)angle*=-1.0f;
-   delta.Rotate_Z(angle);delta*=offset.GetLength();
+   delta.Rotate_Z(angle);((PlaceDeltaView &)delta)*=offset.GetLength();
    objPos=*reinterpret_cast<const Coord3D*>(&delta);
    objPos.x+=origin.x;objPos.y+=origin.y;objPos.z+=origin.z;
   }
