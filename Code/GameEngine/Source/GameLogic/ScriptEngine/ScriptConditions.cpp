@@ -261,26 +261,3 @@ Bool ScriptConditions::evaluateCondition(Condition *condition) {
  return inverted ? !result : result;
 }
 
-// Native 3E91F6..3E92B2 RET12, WB callgraph name lead.
-// Split team-null and hasAnyObjects guards preserve native shared false block.
-Bool ScriptConditions::evaluateSkirmishCanFireSpecialPowerOnTeam(Parameter *pSkirmishPlayerParm,
-	Parameter *pSpecialPowerParm, Parameter *pTeamParm)
-{
-	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357B82(pSkirmishPlayerParm));
-	if (player == 0)
-		return false;
-	Object *obj = player->rva002AC629();
-	if (obj == 0)
-		return false;
-	const SpecialPowerTemplate *power = TheSpecialPowerStore->findSpecialPowerTemplate(pSpecialPowerParm->getString());
-	if (power == 0)
-	{
-		pSpecialPowerParm->setField20(-1);
-		return false;
-	}
-	Team *team = TheScriptEngine->getTeamNamed(pTeamParm->getString(), false);
-	if (team == 0) return false;
-	if (!team->hasAnyObjects(false)) return false;
-	Coord3D pos;
-	return TheActionManager->canDoSpecialPowerAtLocation(obj, team->rva0039DA2A(&pos), CMD_FROM_AI, power, 0, 0, true);
-}
