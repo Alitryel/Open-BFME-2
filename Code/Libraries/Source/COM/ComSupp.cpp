@@ -48,3 +48,13 @@ long __cdecl _com_dispatch_method(IDispatch *dispatch,long id,unsigned short fla
 long __stdcall _com_dispatch_propget(IDispatch *dispatch,long id,unsigned short type,void *result) {
  return _com_dispatch_method(dispatch,id,2,type,result,0);
 }
+
+long __cdecl _com_dispatch_propput(IDispatch *dispatch,long id,unsigned short type,...) {
+ unsigned short types[2]={type,0};
+ unsigned short flags=(type==9 || type==13)?8:4;
+ va_list args;va_start(args,type);
+ IErrorInfo *error;
+ long hr=_com_invoke_helper(dispatch,id,flags,0,0,types,args,&error);
+ if(hr<0)__errorPfn(hr,error);
+ return hr;
+}
