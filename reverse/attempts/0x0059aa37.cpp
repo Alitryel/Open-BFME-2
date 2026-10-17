@@ -1,4 +1,6 @@
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
+// partial score=0.969 date=2026-10-17
+// ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.9 date=2026-10-13
@@ -165,7 +167,9 @@ void AITeamBuilder::checkIdleTeams() {
   Team* defaultTeam=owner14->defaultTeam;
   for(int i=0;i<count;++i) {
    Object* obj=((Rva0025BFF8*)units)->rva0025BFF8(i);
-   if((obj->objectTemplate->isKindOf(3)&&!obj->objectTemplate->isKindOf(7))||obj->objectTemplate->isKindOf(90)) {
+   RecruitThingTemplate* tmpl = obj->objectTemplate;
+   RecruitThingTemplate* tmplCopy = obj->objectTemplate;
+   if((tmpl->isKindOf(3)&&!tmplCopy->isKindOf(7))||tmpl->isKindOf(90)) {
     if(obj->team==defaultTeam&&!obj->testStatus(STATUS_90)) {
      int id=obj->objectID;
      if(idleIDs.find(id)==idleIDs.end()&&TheGameLogic->getFrame()-obj->frame4c0>=(unsigned)g_00E063E0) {
@@ -176,13 +180,17 @@ void AITeamBuilder::checkIdleTeams() {
    }
   }
   IdleTargetList* list=g_00DFEEF8->rva002A8AB1(owner14)->targetList;
-  if(!idle.empty()&&!list->points.empty()) {
-   Object* obj=idle[GetGameLogicRandomValue(0,idle.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITeamBuilder\\AITeamBuilder.cpp",0x251)];
-
-   IdleTargetPoint* point=list->points[(list->points.size()-1)];
+  if(*(volatile Object**)idle.end() != *(volatile Object**)idle.begin() && !list->points.empty()) {
+   Object** idleBegin=&idle[0];
+   int idx=GetGameLogicRandomValue(0,idle.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITeamBuilder\\AITeamBuilder.cpp",0x251);
+   Object* obj=idleBegin[idx];
+   _STL::vector<IdleTargetPoint*>& pts=list->points;
+   int last=pts.size()-1;
+   IdleTargetPoint* point=pts[last];
    int id=obj->objectID;
    idleIDs.insert(id);
-   ((Rva00295A0FCommands*)((char*)obj->ai+0x20))->Rva00295A0FCommand(&point->position,0x7fffffff,0);
+   AIUpdateInterface* ai=obj->ai;
+   ((Rva00295A0FCommands*)((char*)ai+0x20))->Rva00295A0FCommand(&point->position,0x7fffffff,0);
   }
  }
 }
