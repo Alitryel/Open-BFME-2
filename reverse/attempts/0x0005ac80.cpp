@@ -1,4 +1,6 @@
 // ?rva0005AC80@MilesAudioManager@@QAE?AVRva0036CA00Str@@ABVAsciiString@@H@Z
+// partial score=0.872 date=2026-10-17
+// ?rva0005AC80@MilesAudioManager@@QAE?AVRva0036CA00Str@@ABVAsciiString@@H@Z
 // partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
@@ -41,7 +43,7 @@ namespace _STL { template <> void vector<Rva0036CA00Str,allocator<Rva0036CA00Str
 class Rva001DA19EBase { char native[0xc4]; public: Rva001DA19EBase(); };
 class MilesMutexGuard { void *mutex; bool flag; public: MilesMutexGuard(void*,int); ~MilesMutexGuard(); };
 class Rva00056F61;
-struct Rva0041534BIter { void *m_node; Rva00056F61 *m_table; Rva0041534BIter(void*n,Rva00056F61*t):m_node(n),m_table(t){} };
+struct Rva0041534BIter { void *m_node; Rva0041534BIter(void*n,Rva00056F61*):m_node(n){} };
 class Rva00056F61 { char native[0x14]; public: __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString*); };
 class Rva00059FBBMap { public: AudioEventInfo *&rva00059FBB(const AsciiString&); };
 struct AudioInfoNode { void *next; AsciiString key; AudioEventInfo *info; };
@@ -52,18 +54,20 @@ class MilesAudioManager {
 public:
  Rva0036CA00Str rva0005AC80(const AsciiString &name,int context);
 };
-Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name,int)
+Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name,int context)
 {
  MilesMutexGuard guard(mutex,0);
  Rva0041534BIter found=infos.rva0041534B(&name);
  if(found.m_node && ((OpaqueRefCounted*)((AudioInfoNode*)found.m_node)->info)->rva00050EFA()) {
   Rva0036CA00Str result(((AudioInfoNode*)found.m_node)->info);
   ((OpaqueRefCounted*)result.get())->Release_Ref();
-  return result;
+  return Rva0036CA00Str((const AudioEventInfo*)0);
+ } else {
+  dirty=false;
+  Rva0036CA00Str temp((AudioEventInfo*)new Rva001DA19EBase);
+  owned.push_back(temp);
+  AudioEventInfo *ownedInfo = (AudioEventInfo*)temp.get();
+  ((Rva00059FBBMap*)&infos)->rva00059FBB(name)=ownedInfo;
+  return Rva0036CA00Str(((Rva00059FBBMap*)&infos)->rva00059FBB(name));
  }
- dirty=false;
- Rva0036CA00Str result((AudioEventInfo*)new Rva001DA19EBase);
- owned.push_back(result);
- ((Rva00059FBBMap*)&infos)->rva00059FBB(name)=(AudioEventInfo*)result.get();
- return Rva0036CA00Str(((Rva00059FBBMap*)&infos)->rva00059FBB(name));
 }
