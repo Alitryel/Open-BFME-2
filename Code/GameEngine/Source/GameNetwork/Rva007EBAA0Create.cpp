@@ -5,7 +5,8 @@
 void *Gen007F0130(unsigned int size);
 
 extern int vftable_01129D30;
-extern void Rva007EB820(void);
+// The +4 slot is the rowed Rva006587B0Print (BfmeConv1321.cpp, 0x006587B0).
+void Rva006587B0Print(void *p, const char *text);
 extern void *g_Va0130A5A0;
 
 void Rva007EBAA0(void)
@@ -19,7 +20,7 @@ void Rva007EBAA0(void)
 		*((int *)p + 3) = 0;
 		*((int *)p + 4) = 0;
 		*(int *)p = (int)&vftable_01129D30;
-		*((int *)p + 1) = (int)&Rva007EB820;
+		*((int *)p + 1) = (int)&Rva006587B0Print;
 		g_Va0130A5A0 = p;
 	}
 	else
