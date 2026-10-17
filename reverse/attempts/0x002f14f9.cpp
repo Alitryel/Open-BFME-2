@@ -1,4 +1,6 @@
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
+// partial score=0.913 date=2026-10-17
+// ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
 // partial score=0.896 date=2026-10-15
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
 // partial score=0.8938 date=2026-10-14
@@ -1196,12 +1198,13 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
   
  }
  ICoord2D cell;
- int below,above;
+ int above;
+ int below;
  Rva002EBC14Cell(&cell,obj,(const Coord3D *)obj->position);
- Rva002EBCD6Split(obj,&below,&above);
+ Rva002EBCD6Split(obj,&above,&below);
+ int extent=below+above;
  cell.x-=below;
  cell.y-=below;
- int extent=below+above;
  int layers[2];
  layers[0]=obj->rva0028B511();
  int layerCount=1;
@@ -1221,11 +1224,11 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
   if(contain)relatedID=((PathfinderAttackContainView *)contain)->slot18();
   
  }
- volatile int range = realToIntFloor(weapon->getAttackRange(obj)/10.0f+0.1f);
+ volatile int range = realToIntFloor((float)((double)weapon->getAttackRange(obj)*(double)0.1f)+(float)(double)0.1f);
  Object *best=0;
  _ReadWriteBarrier();
  float bestDistance=1e10f;
- while(range-->=0) 
+ while (range-- >= 0)
  {
   for(int i=extent;i>=0;--i) 
   {
