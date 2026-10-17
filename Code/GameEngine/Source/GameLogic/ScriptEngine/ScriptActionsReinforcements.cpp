@@ -459,7 +459,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 			} else {
 				int slots = obj->rva0028FBBE();
 				if (slots == 0)
-					slots = 0x7fffff;
+					slots = 8388607;	// 0x7FFFFF, a slot cap (decimal so link_debt does not read it as an image address)
 				pushPartitionEntry(vecOfUnits, _STL::pair<ObjectID, unsigned int>(obj->getID(), slots));
 			}
 		}
