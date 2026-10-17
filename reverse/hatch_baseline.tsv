@@ -13902,9 +13902,10 @@ object_symbol	reverse/functions.csv	0x007818E4	1
 object_symbol	reverse/functions.csv	0x007818EC	1
 object_symbol	reverse/functions.csv	0x007818F7	1
 object_symbol	reverse/functions.csv	0x00781902	1
+object_symbol	reverse/functions.csv	0x0078190D	1	allow=08c79d6f09dbe30753af3ae9e07f3f732619e234
 object_symbol	reverse/functions.csv	0x00781933	1
 object_symbol	reverse/functions.csv	0x0078194B	1
-object_symbol	reverse/functions.csv	0x00781953	1	allow=a0f1056303c8c8c50bb852e89acf1dff58a8f914
+object_symbol	reverse/functions.csv	0x00781953	1
 object_symbol	reverse/functions.csv	0x00781967	1
 object_symbol	reverse/functions.csv	0x007819C6	1
 object_symbol	reverse/functions.csv	0x007819CE	1
