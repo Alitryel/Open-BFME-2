@@ -138,7 +138,7 @@ void W3DSnowManager::init()
 }
 
 
-class Overridable { public: virtual ~Overridable(); Overridable *m_nextOverride; bool m_isOverride; const Overridable *getFinalOverride() const { return m_nextOverride ? m_nextOverride->getFinalOverride() : this; } };
+class Overridable { public: virtual ~Overridable(); Overridable *m_nextOverride; bool m_isOverride; const Overridable *getFinalOverride() const { if (m_nextOverride) return m_nextOverride->getFinalOverride(); return this; } };
 class WeatherSetting : public Overridable { public: unsigned char m_pad0C[0x0C]; AsciiString m_snowTexture; unsigned char m_target1C[0x28]; bool m_usePointSprites; bool m_snowEnabled; };
 template<class T> class OVERRIDE { public: const T *m_object; operator const T *() const { if (!m_object) return 0; return static_cast<const T *>(m_object->getFinalOverride()); } const T *operator->() const { if (!m_object) return 0; return static_cast<const T *>(m_object->getFinalOverride()); } };
 extern OVERRIDE<WeatherSetting> TheWeatherSetting;
