@@ -1,6 +1,9 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 
+// Retail's basic_ios<char>::widen is the generic ctype<char>::widen dispatch (as in
+// stlport_basic_ios_init.cpp), not STLport's identity specialization.
+#define _STLP_NO_METHOD_SPECIALIZATION
 #include <ios>
 
 // Retail's generic-widening init is owned by stlport_basic_ios_init.cpp.
