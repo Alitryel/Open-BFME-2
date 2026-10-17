@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // ?rva0010C145@W3DProjectedShadowManager@@QAEPAVW3DProjectedShadow@@PAVRenderObjClass@@PAUShadowTypeInfo@Shadow@@_N2@Z
 // retail 0x0010C145..0x0010C2D5 (400 bytes, ret 0x10).
 // Decal-style sibling of the rowed W3DProjectedShadowManager::addShadow
@@ -85,11 +85,122 @@ public:
 	virtual void getBounds(ShadowBounds &bounds); // +0x110
 };
 
-class Rva0010BC90ShadowManager
+// Native10BC90..10BDF8 complete360B; the rowed400B sibling below calls
+// this same manager view. Native accesses bind its cache at24C and texture
+// handle at shadow-entry30. TextureAsset::Get is the verified132D89 owner.
+// HAnim and shroud spellings below are existing generic-helper ABI views;
+// their use does not claim this texture cache stores animation objects.
+// Result's native stack home is retained by the barrier/address-taken view;
+// the constant conditional names the same field and emits no branch.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+#include "ascii_string.h"
+class Rva000B3F84Pair 
 {
-public:
-	W3DShadowTexture *getTexture(const char *name);
-};
+ public: Rva000B3F84Pair() 
+ {
+  
+ }
+ const char *m_ptr;
+ int m_len;
+ 
+}
+;
+struct WinMainTitlePair : Rva000B3F84Pair 
+{
+ operator AsciiString();
+ Rva000B3F84Pair m_secondPair;
+ 
+}
+;
+Rva000B3F84Pair Rva00108B93Make(const char*);
+WinMainTitlePair operator+(const Rva000B3F84Pair&,const char*);
+class TextureBaseClass 
+{
+ public: void Release_Ref();
+ 
+}
+;
+class TextureClass : public TextureBaseClass 
+{
+ 
+}
+;
+template<class T> class RefCountPtr 
+{
+ public: T *m_ptr;
+ const RefCountPtr& operator=(const RefCountPtr&);
+ ~RefCountPtr()
+ {
+  if(m_ptr)m_ptr->Release_Ref();
+  
+ }
+ 
+}
+;
+class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass> 
+{
+ 
+}
+;
+class TextureAsset {public: static BFME2ParticleTextureHandle Get(const char*,int,int);};
+namespace _STL 
+{
+ class ios_base 
+ {
+  protected: void _M_clear_nothrow(int);
+  
+ }
+ ;
+ 
+}
+class Rva0010BC90ShadowManager;
+class ShroudFilter : public _STL::ios_base 
+{
+ friend class Rva0010BC90ShadowManager;
+ public: unsigned prefix[3];
+ int addressU,addressV;
+ 
+}
+;
+class ShroudTexture 
+{
+ public: ShroudFilter *getFilter();
+ 
+}
+;
+class HAnimClass;
+class HAnimManagerClass 
+{
+ public: HAnimClass *Get_Anim(const char*);
+ bool Add_Anim(HAnimClass*);
+ 
+}
+;
+class Rva007AE680Name 
+{
+ public: void setName(const char*);
+ 
+}
+;
+class W3DShadowTexture 
+{
+ public: W3DShadowTexture();
+ char prefix[0x30];
+ RefCountPtr<TextureClass> texture;
+ char tail[0xa4-0x34];
+ 
+}
+;
+class Rva0010BC90ShadowManager 
+{
+ public: char prefix[0x24c];
+ HAnimManagerClass *manager;
+ W3DShadowTexture *getTexture(const char*);
+ 
+}
+;
+
 
 class Rva0010BB11ShadowFactory
 {
@@ -141,4 +252,34 @@ W3DProjectedShadow *W3DProjectedShadowManager::rva0010C145(RenderObjClass *objec
 	else
 		return factory->create(textures->getTexture(info->name()), object, info->m_type, info->m_byte26,
 			sizeX, sizeY, height, info->m_offsetX, info->m_offsetY, m_list08, 0, 0, 0);
+}
+
+W3DShadowTexture *Rva0010BC90ShadowManager::getTexture(const char *name)
+
+{
+ AsciiString filename=Rva00108B93Make(name)+".tga";
+ W3DShadowTexture *result = 0;
+ _ReadWriteBarrier();
+ _ReadWriteBarrier();
+ {
+  HAnimClass *tmp = manager->Get_Anim(filename.str());
+  _ReadWriteBarrier();
+  *(volatile W3DShadowTexture **)&result = reinterpret_cast<W3DShadowTexture*>(tmp);
+ }
+ if (!result) 
+ {
+  BFME2ParticleTextureHandle texture=TextureAsset::Get(filename.str(),0,0);
+  if(!texture.m_ptr) return 0;
+  reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->addressU=1;
+  reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->addressV=1;
+  reinterpret_cast<ShroudTexture*>(&texture)->getFilter()->_M_clear_nothrow(0);
+  _ReadWriteBarrier();
+  result=new W3DShadowTexture;
+  reinterpret_cast<Rva007AE680Name*>(result)->setName(filename.str());
+  manager->Add_Anim(reinterpret_cast<HAnimClass*>(result));
+  (1 ? result->texture : result->texture)=texture;
+  
+ }
+ return result;
+ 
 }
