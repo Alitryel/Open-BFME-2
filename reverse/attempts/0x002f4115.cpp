@@ -1,8 +1,12 @@
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
+// partial score=0.7 date=2026-10-17
+// ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.823262 date=2026-10-09
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.85 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z, retail
@@ -238,20 +242,24 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 	AIUpdateInterface *ai;
 	if (reinterpret_cast<Rva0028B984ByteField *>(obj)->get())goto reject;ai=obj->getAI();if(ai==0&&locoSet==0)goto reject;goto work;reject:return false;work:;
 	Int surfaces;
-	if (locoSet)
+	if (locoSet) {
 		surfaces = locoSet->m_validSurfaces;
-	else
-		surfaces = ai->m_locomotorSurfaces;
+	} else {
+		Int t = *(volatile Int *)&ai->m_locomotorSurfaces;
+		t = *(volatile Int *)&ai->m_locomotorSurfaces;
+		t = *(volatile Int *)&ai->m_locomotorSurfaces;
+		surfaces = t;
+	}
 	Int crusherLevel = obj->getTemplate()->m_56C;
 	Bool b634 = obj->getTemplate()->m_634;
 	Bool flagA = obj->rva0028AC62();
 	Bool flagB = obj->rva0028AFBB();
 	ZoneQuery query;
-	query.m_surfaces = surfaces;
 	query.m_04 = !b634;
 	query.m_05 = flagB;
 	query.m_08 = crusherLevel - 1;
 	query.m_0C = flagA;
+	query.m_surfaces = surfaces;
 
 	ZoneWaypointMap zoneWaypoints;
 	WaypointZoneMap waypointZones;
@@ -286,8 +294,9 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 			Waypoint *wp = (Waypoint *)(*it).second;
 			++it;
 			for (Int i = 0; i < wp->getNumLinks(); ++i) {
-				zone = (Int)wp->getLink(i);
-				FoldWayFindMap::iterator found = reinterpret_cast<FoldWayFindMap *>(&waypointZones)->find((const unsigned int &)zone);
+				Waypoint *link = wp->getLink(i);
+				unsigned int key = (unsigned int)link;
+				FoldWayFindMap::iterator found = reinterpret_cast<FoldWayFindMap *>(&waypointZones)->find(key);
 				if (found != reinterpret_cast<FoldWayFindMap *>(&waypointZones)->end()) {
 					zone = (Int)(*found).second;
 					if (visited.s().find(zone) == visited.s().end()) {
