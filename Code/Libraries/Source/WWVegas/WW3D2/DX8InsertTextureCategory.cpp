@@ -161,13 +161,12 @@ protected:
 		unsigned vertex_offset);
 };
 
-inline bool Equal_Material(
-	const VertexMaterialClass *left,
-	const VertexMaterialClass *right)
+// dx8renderer.cpp's file-local helper (its out-of-line copy is 0x00143910).
+inline static bool Equal_Material(const VertexMaterialClass* mat1,const VertexMaterialClass* mat2)
 {
-	unsigned long left_crc = left ? left->Get_CRC() : 0;
-	unsigned long right_crc = right ? right->Get_CRC() : 0;
-	return left_crc == right_crc;
+	int crc0 = mat1 ? mat1->Get_CRC() : 0;
+	int crc1 = mat2 ? mat2->Get_CRC() : 0;
+	return (crc0 == crc1);
 }
 
 void DX8FVFCategoryContainer::Insert_To_Texture_Category(
