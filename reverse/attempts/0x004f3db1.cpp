@@ -1,4 +1,6 @@
 // ?selectTeamToReinforce@AIPlayer@@MAE_NH@Z
+// partial score=0.668 date=2026-10-17
+// ?selectTeamToReinforce@AIPlayer@@MAE_NH@Z
 // partial score=0.8156204714343568 date=2026-10-10
 // ?selectTeamToReinforce@AIPlayer@@MAE_NH@Z
 // partial score=0.7939423069063325 date=2026-10-09
@@ -1103,7 +1105,7 @@ Bool AIPlayer::selectTeamToReinforce( Int minPriority )
 		teamQ->m_frameStarted = TheGameLogic->getFrame();
 		teamQ->m_team = curTeam; 
 
-		AsciiString teamName = curTeam->getPrototype()->getName();
+		AsciiString teamName = (1 ? (curTeam->getPrototype()->getName()) : (curTeam->getPrototype()->getName()));
 		teamName.concat(" - AutoReinforcing one ");
 		teamName.concat(curThing->getName());
 		TheScriptEngine->AppendDebugMessage(teamName, false);
