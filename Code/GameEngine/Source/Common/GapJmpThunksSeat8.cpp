@@ -1004,3 +1004,157 @@ void Rva002BC588::rva002BC588() { ((Rva002BBBE7 *)this)->rva002BC39D(); }
 // ecx loaded from the immediate; no direct callers.
 extern unsigned int g_Va00E04544;
 void Rva002BC5C9ClearMap() { ((Rva002BBBE7 *)&g_Va00E04544)->rva002BC39D(); }
+
+// ---- fifth group -----------------------------------------------------------
+class GeometryInfo { public: virtual ~GeometryInfo(); };
+class Dict { public: void clear(); };
+class Rva004DFC20 { public: void clear(); };
+struct BfmeOpaqueOwnedRecord492;
+struct BfmeOpaqueOwnedRecord840;
+struct BfmeE12;
+class ModuleData;
+class GameInfo { public: void setSeed(int); };
+class Rva005E626DListener { public: virtual void notify(void *); };
+enum ObjectID { INVALID_ID = 0 };
+class GarrisonContain { public: virtual int getObjectGarrisonPointIndex(ObjectID); };
+class TransportContain { public: virtual bool isExitBusy() const; };
+class Module;
+class Object
+{
+	friend class Rva00487075;
+protected:
+	Module *findModule(NameKeyType) const;
+};
+class NetCommandList { public: void reset(); };
+class RenderObjClass { public: virtual void Update_Sub_Object_Transforms(); };
+
+namespace _STL
+{
+template <class T> class allocator;
+template <class T, class A> class deque
+{
+public:
+	void push_back(const T &);
+};
+template <class T, class A> class vector
+{
+public:
+	void reserve(unsigned int);
+	void swap(vector<T, A> &);
+};
+template <class T> struct _Deque_iterator_base
+{
+	int _M_subtract(const _Deque_iterator_base<T> &) const;
+};
+template <unsigned int N> class bitset
+{
+public:
+	bitset<N> &_Unchecked_set(unsigned int, int);
+	bitset<N> &_Unchecked_reset(unsigned int);
+	bool _Unchecked_test(unsigned int) const;
+};
+}
+
+// 0x00283E97 (5B) -> GeometryInfo::~GeometryInfo 0x00050B2A.
+class Rva00283E97 { public: void rva00283E97(); };
+void Rva00283E97::rva00283E97() { ((GeometryInfo *)this)->GeometryInfo::~GeometryInfo(); }
+
+// 0x00329DBD (5B) -> Dict::clear 0x00313574.
+class Rva00329DBD { public: void rva00329DBD(); };
+void Rva00329DBD::rva00329DBD() { ((Dict *)this)->clear(); }
+
+// 0x00360961 (5B) -> Rva004DFC20::clear 0x001DBCDC.
+class Rva00360961 { public: void rva00360961(); };
+void Rva00360961::rva00360961() { ((Rva004DFC20 *)this)->clear(); }
+
+// 0x0038D55B (5B) -> deque<BfmeOpaqueOwnedRecord492>::push_back 0x0038D2A3.
+class Rva0038D55B { public: void rva0038D55B(const BfmeOpaqueOwnedRecord492 &v); };
+void Rva0038D55B::rva0038D55B(const BfmeOpaqueOwnedRecord492 &v)
+{
+	((_STL::deque<BfmeOpaqueOwnedRecord492, _STL::allocator<BfmeOpaqueOwnedRecord492> > *)this)->push_back(v);
+}
+
+// 0x0038D560 (5B) -> deque<BfmeOpaqueOwnedRecord840>::push_back 0x0038D2D5.
+class Rva0038D560 { public: void rva0038D560(const BfmeOpaqueOwnedRecord840 &v); };
+void Rva0038D560::rva0038D560(const BfmeOpaqueOwnedRecord840 &v)
+{
+	((_STL::deque<BfmeOpaqueOwnedRecord840, _STL::allocator<BfmeOpaqueOwnedRecord840> > *)this)->push_back(v);
+}
+
+// 0x003B02EF (5B) -> vector<BfmeE12>::reserve 0x003B0224.
+class Rva003B02EF { public: void rva003B02EF(unsigned int n); };
+void Rva003B02EF::rva003B02EF(unsigned int n)
+{
+	((_STL::vector<BfmeE12, _STL::allocator<BfmeE12> > *)this)->reserve(n);
+}
+
+// 0x003B0325 (5B) -> vector<const ModuleData *>::reserve 0x002B712E.
+class Rva003B0325 { public: void rva003B0325(unsigned int n); };
+void Rva003B0325::rva003B0325(unsigned int n)
+{
+	((_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *)this)->reserve(n);
+}
+
+// 0x00421DC3 (5B) -> _Deque_iterator_base<void *>::_M_subtract 0x00051A98.
+class Rva00421DC3 { public: int rva00421DC3(const _STL::_Deque_iterator_base<void *> &x) const; };
+int Rva00421DC3::rva00421DC3(const _STL::_Deque_iterator_base<void *> &x) const
+{
+	return ((const _STL::_Deque_iterator_base<void *> *)this)->_M_subtract(x);
+}
+
+// 0x004477DB (5B) -> GameInfo::setSeed 0x003FF328.
+class Rva004477DB { public: void rva004477DB(int seed); };
+void Rva004477DB::rva004477DB(int seed) { ((GameInfo *)this)->setSeed(seed); }
+
+// 0x00466E05 (5B) -> Rva005E626DListener::notify 0x0047A69C.
+class Rva00466E05 { public: void rva00466E05(void *p); };
+void Rva00466E05::rva00466E05(void *p) { ((Rva005E626DListener *)this)->Rva005E626DListener::notify(p); }
+
+// 0x00479BC5 (5B) -> GarrisonContain::getObjectGarrisonPointIndex 0x00479292.
+class Rva00479BC5 { public: int rva00479BC5(ObjectID id); };
+int Rva00479BC5::rva00479BC5(ObjectID id) { return ((GarrisonContain *)this)->GarrisonContain::getObjectGarrisonPointIndex(id); }
+
+// 0x0047CA2D (5B) -> TransportContain::isExitBusy 0x00466DA9.
+class Rva0047CA2D { public: bool rva0047CA2D() const; };
+bool Rva0047CA2D::rva0047CA2D() const { return ((const TransportContain *)this)->TransportContain::isExitBusy(); }
+
+// 0x00487075 (5B) -> Object::findModule 0x0028B6D6.
+class Rva00487075 { public: Module *rva00487075(NameKeyType key) const; };
+Module *Rva00487075::rva00487075(NameKeyType key) const { return ((const Object *)this)->findModule(key); }
+
+// 0x004CEF01 (5B) -> NetCommandList::reset 0x0058B283.
+class Rva004CEF01 { public: void rva004CEF01(); };
+void Rva004CEF01::rva004CEF01() { ((NetCommandList *)this)->reset(); }
+
+// 0x004D1A9B (5B) -> bitset<117>::_Unchecked_set 0x004D0F39.
+class Rva004D1A9B { public: _STL::bitset<117> &rva004D1A9B(unsigned int pos, int val); };
+_STL::bitset<117> &Rva004D1A9B::rva004D1A9B(unsigned int pos, int val)
+{
+	return ((_STL::bitset<117> *)this)->_Unchecked_set(pos, val);
+}
+
+// 0x004D1AA0 (5B) -> bitset<86>::_Unchecked_reset 0x004D0F63.
+class Rva004D1AA0 { public: _STL::bitset<86> &rva004D1AA0(unsigned int pos); };
+_STL::bitset<86> &Rva004D1AA0::rva004D1AA0(unsigned int pos)
+{
+	return ((_STL::bitset<86> *)this)->_Unchecked_reset(pos);
+}
+
+// 0x004D1AA5 (5B) -> bitset<45>::_Unchecked_test 0x001E37E8.
+class Rva004D1AA5 { public: bool rva004D1AA5(unsigned int pos) const; };
+bool Rva004D1AA5::rva004D1AA5(unsigned int pos) const
+{
+	return ((const _STL::bitset<45> *)this)->_Unchecked_test(pos);
+}
+
+// 0x005048B0 (5B) -> vector<AsciiString>::swap 0x00567ECD.
+class Rva005048B0 { public: void rva005048B0(_STL::vector<AsciiString, _STL::allocator<AsciiString> > &other); };
+void Rva005048B0::rva005048B0(_STL::vector<AsciiString, _STL::allocator<AsciiString> > &other)
+{
+	((_STL::vector<AsciiString, _STL::allocator<AsciiString> > *)this)->swap(other);
+}
+
+// 0x006CC4D0 (5B) -> RenderObjClass::Update_Sub_Object_Transforms 0x0069E440.
+class Rva006CC4D0 { public: void rva006CC4D0(); };
+void Rva006CC4D0::rva006CC4D0() { ((RenderObjClass *)this)->RenderObjClass::Update_Sub_Object_Transforms(); }
+
