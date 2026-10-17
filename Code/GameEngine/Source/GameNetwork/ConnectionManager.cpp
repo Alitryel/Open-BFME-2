@@ -247,22 +247,7 @@ ConnectionManager::~ConnectionManager(void)
 /**
  * Le constructor
  */
-// ??0ConnectionManager@@ present-unmatched
-ConnectionManager::ConnectionManager(void)
-{
-	for (Int i = 0; i < MAX_SLOTS; ++i) {
-		m_frameData[i] = NULL;
-	}
-	m_transport = NULL;
-	m_disconnectManager = NULL;
-	m_pendingCommands = NULL;
-	m_relayedCommands = NULL;
-	m_localAddr = 0;
-	m_localPort = 0;
-	m_netCommandWrapperList = NULL;
-	m_localUser = NULL;
-	m_localUser = newInstance(User);
-}
+// ConnectionManager::ConnectionManager is rowed in its home unit; this copy was a duplicate definition.
 
 /**
  * Initialize the connection manager and any subsystems.
