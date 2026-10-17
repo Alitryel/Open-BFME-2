@@ -1,4 +1,6 @@
 // ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
+// partial score=0.937 date=2026-10-17
+// ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
 // partial score=0.967448007813129 date=2026-10-14
 // ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
 // partial score=0.955263981926797 date=2026-10-13
@@ -211,8 +213,7 @@ bool ActionManager::canDoSpecialPowerAtLocation(const Object *obj,const Coord3D 
    BfmeWideResult iter=ThePartitionManager->iterateObjectsInRange(loc,radius,4,alive.link(&filter),0);
    Object *target;
    while((target=iter.next())!=0) {
-    BfmeFixedStorage0004543D mask(0,2,7);
-    if(target->isAnyKindOf(*(const BitFlags<69> *)&mask)) {
+    if(target->isAnyKindOf(*(const BitFlags<69> *)&BfmeFixedStorage0004543D(0,2,7))) {
      if(!(target->objectTemplate()[0x117]&1) && !(target->objectTemplate()[0x10e]&1)) return false;
     }
     if((loc ? (*(const float *)(target->objectTemplate()+0x610)>100.0f) : (*(const float *)(target->objectTemplate()+0x610)>100.0f))) return false;
