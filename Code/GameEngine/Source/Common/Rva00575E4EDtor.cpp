@@ -24,12 +24,8 @@ public:
     virtual ~Rva00575E4EBase1() {}
     int m_x4;
 };
-class Rva00575E4EBase2 {
-public:
-    __declspec(dllimport) __forceinline Rva00575E4EBase2() {}
-    virtual ~Rva00575E4EBase2() {}
-};
-class Rva00575E4E : public Rva00575E4EBase1, public Rva00575E4EBase2 {
+#include "../../Include/Common/LivingWorldBattleListener.h"
+class Rva00575E4E : public Rva00575E4EBase1, public LivingWorldBattleListener {
 public:
     Rva00575E4E(int value, Parent00575E4E *parent);
     virtual ~Rva00575E4E();
@@ -38,7 +34,7 @@ private:
 };
 Rva00575E4E::~Rva00575E4E()
 {
-    m_parentC->holder.rva002B7250((CreateAHeroData *)(Rva00575E4EBase2 *)this);
+    m_parentC->holder.rva002B7250((CreateAHeroData *)(LivingWorldBattleListener *)this);
 }
 
 // Native 00576172..005761C6 constructor has the two final vptrs that
@@ -49,5 +45,5 @@ Rva00575E4E::~Rva00575E4E()
 Rva00575E4E::Rva00575E4E(int value, Parent00575E4E *parent)
     : Rva00575E4EBase1(value), m_parentC(parent)
 {
-    parent->holder.append((Rva002BA8F1Listener *)static_cast<Rva00575E4EBase2 *>(this));
+    parent->holder.append((Rva002BA8F1Listener *)static_cast<LivingWorldBattleListener *>(this));
 }

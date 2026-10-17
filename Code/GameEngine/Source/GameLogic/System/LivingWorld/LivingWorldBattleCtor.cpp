@@ -54,17 +54,7 @@ private:
 };
 
 // The +4 listener interface (vtable 0x00C3702C: five empty slots).
-class LivingWorldBattleListener
-{
-public:
-	LivingWorldBattleListener() {}
-	~LivingWorldBattleListener() {}
-	virtual void onArmyRemoved(void *army);
-	virtual void slot1(int a, int b);
-	virtual void slot2(int a);
-	virtual void slot3(int a);
-	virtual void slot4(int a);
-};
+#include "../../../../Include/Common/LivingWorldBattleListener.h"
 
 // 16-byte element stand-in whose vector base is the rowed 0x00211E58 body
 // (the slots are 0x1C bytes; this constructor never touches them).

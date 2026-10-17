@@ -41,17 +41,7 @@ public:
 	int m_flags;
 };
 
-class LivingWorldBattleListener
-{
-public:
-	LivingWorldBattleListener() {}
-	~LivingWorldBattleListener() {}
-	virtual void onArmyRemoved(void *army);
-	virtual void slot1(int a, int b);
-	virtual void slot2(int a);
-	virtual void slot3(int a);
-	virtual void slot4(int a);
-};
+#include "../../../../Include/Common/LivingWorldBattleListener.h"
 
 struct BfmeStringRecord00111ACF;
 

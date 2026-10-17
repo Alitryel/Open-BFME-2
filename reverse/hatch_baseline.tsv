@@ -19051,6 +19051,7 @@ object_symbol	reverse/functions.csv	0x0079A420	1
 object_symbol	reverse/functions.csv	0x0079A42B	1
 object_symbol	reverse/functions.csv	0x0079A433	1
 object_symbol	reverse/functions.csv	0x0079A44F	1
+object_symbol	reverse/functions.csv	0x0079A457	1	allow=25dfc7ad62bc4bc58e6a39da895338ea7d8280d0
 object_symbol	reverse/functions.csv	0x0079A475	1
 object_symbol	reverse/functions.csv	0x0079A49B	1
 object_symbol	reverse/functions.csv	0x0079A4C1	1
@@ -19273,6 +19274,7 @@ object_symbol	reverse/functions.csv	0x0079B1DE	1
 object_symbol	reverse/functions.csv	0x0079B1E8	1
 object_symbol	reverse/functions.csv	0x0079B210	1
 object_symbol	reverse/functions.csv	0x0079B222	1
+object_symbol	reverse/functions.csv	0x0079B22A	1	allow=25dfc7ad62bc4bc58e6a39da895338ea7d8280d0
 object_symbol	reverse/functions.csv	0x0079B248	1
 object_symbol	reverse/functions.csv	0x0079B26E	1
 object_symbol	reverse/functions.csv	0x0079B276	1	allow=32d88663029003063b565c93dd83b68736054b33
@@ -20943,6 +20945,7 @@ object_symbol	reverse/functions.csv	0x007A1EB6	1
 object_symbol	reverse/functions.csv	0x007A1EBE	1
 object_symbol	reverse/functions.csv	0x007A1EC6	1
 object_symbol	reverse/functions.csv	0x007A1ED8	1
+object_symbol	reverse/functions.csv	0x007A1EF2	1	allow=25dfc7ad62bc4bc58e6a39da895338ea7d8280d0
 object_symbol	reverse/functions.csv	0x007A1F18	1
 object_symbol	reverse/functions.csv	0x007A1F23	1
 object_symbol	reverse/functions.csv	0x007A1F2B	1
@@ -36739,7 +36742,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva005CBA04Ctor.cpp	1Rva005CBA04
 present_unmatched	Code/GameEngine/Source/Common/Rva005CF8E3Dtor.cpp	1Rva005CF8E3Base@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005D0D85Dtor.cpp	1Rva005D0D85Base@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005D12E3Dtor.cpp	1Rva005D12E3Base@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva005D2111Dtor.cpp	1SecondBase005D2111@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp	1Elem005D25F2@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp	1Rva005D25F2Base@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva005D3C2BDtor.cpp	1Rva005D3C2BBase@@UAE@XZ	1

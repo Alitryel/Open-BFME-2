@@ -24,12 +24,8 @@ public:
     int m_a8;
     int m_bC;
 };
-class Rva0056B0BFB2 {
-public:
-    Rva0056B0BFB2() {}
-    virtual ~Rva0056B0BFB2() {}
-};
-class Rva0056B0BF : public Rva0056AC26, public Rva0056B0BFB1, public Rva0056B0BFB2 {
+#include "../../Include/Common/LivingWorldBattleListener.h"
+class Rva0056B0BF : public Rva0056AC26, public Rva0056B0BFB1, public LivingWorldBattleListener {
 public:
     virtual ~Rva0056B0BF();
 private:
@@ -37,5 +33,5 @@ private:
 };
 Rva0056B0BF::~Rva0056B0BF()
 {
-    m_parent18->holder.rva002B7250((CreateAHeroData *)(Rva0056B0BFB2 *)this);
+    m_parent18->holder.rva002B7250((CreateAHeroData *)(LivingWorldBattleListener *)this);
 }

@@ -45,14 +45,9 @@ public:
 	int m_bC;
 };
 
-class Rva0056B0BFB2
-{
-public:
-	Rva0056B0BFB2() {}
-	virtual ~Rva0056B0BFB2() {}
-};
+#include "../../Include/Common/LivingWorldBattleListener.h"
 
-class Rva0056B0BF : public Rva0056AC26, public Rva0056B0BFB1, public Rva0056B0BFB2
+class Rva0056B0BF : public Rva0056AC26, public Rva0056B0BFB1, public LivingWorldBattleListener
 {
 public:
 	Rva0056B0BF(Rva0056AC26Owner *owner, Parent0056B0BF *parent);
@@ -71,5 +66,5 @@ Rva0056B0BF::Rva0056B0BF(Rva0056AC26Owner *owner, Parent0056B0BF *parent)
 	m_1D = false;
 	m_1E = false;
 	owner->m_flag20 = true;
-	m_parent18->holder.append((Rva002BA8F1Listener *)static_cast<Rva0056B0BFB2 *>(this));
+	m_parent18->holder.append((Rva002BA8F1Listener *)static_cast<LivingWorldBattleListener *>(this));
 }

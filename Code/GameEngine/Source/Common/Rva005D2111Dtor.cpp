@@ -20,26 +20,19 @@ protected:
 	int m04;
 	int m08;
 };
-class SecondBase005D2111
-{
-public:
-	virtual ~SecondBase005D2111();
-protected:
-	int m04;
-};
-// ??1SecondBase005D2111@@UAE@XZ present-unmatched
-inline SecondBase005D2111::~SecondBase005D2111()
-{
-}
-class Rva005D2111 : public Rva005CCDDD, public SecondBase005D2111
+#include "../../Include/Common/LivingWorldBattleListener.h"
+class Rva005D2111 : public Rva005CCDDD, public LivingWorldBattleListener
 {
 public:
 	virtual ~Rva005D2111();
 private:
+	// Native holder stays at+14; the unread word+10 is not assigned to
+	// the shared four-byte observer by the destructor evidence.
+	int m_opaque10;
 	Holder005D2111 *m_holder;
 };
 Rva005D2111::~Rva005D2111()
 {
 	if (m_holder)
-		m_holder->m08.rva002B7250((CreateAHeroData *)(SecondBase005D2111 *)this);
+		m_holder->m08.rva002B7250((CreateAHeroData *)(LivingWorldBattleListener *)this);
 }
