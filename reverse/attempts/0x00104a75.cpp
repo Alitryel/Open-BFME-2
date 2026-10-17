@@ -1,4 +1,6 @@
 // ?rva00104A75@Rva001041D8@@QAEXXZ
+// partial score=0.982 date=2026-10-17
+// ?rva00104A75@Rva001041D8@@QAEXXZ
 // partial score=0.99 date=2026-10-14
 // ?rva00104A75@Rva001041D8@@QAEXXZ
 // partial score=0.9859243697478991 date=2026-10-14
@@ -158,9 +160,10 @@ void Rva001041D8::rva00104A75()
 	Rva00104A75StateHold hold(renderer, 1);
 	const Rva00104A75Rect *uv = &m_source->m_uv;
 	for (int i = 0; i < 4; i++) {
-		int next = i + 1;
-		if (next >= 4)
-			next = i - 3;
+		int following = i + 1;
+		int next = i - 3;
+		if (following >= 4)
+			next = following;
 		Coord2D *innerNext = &m_inner[next];
 		Coord2D *outerNext = &m_outer[next];
 		Coord2D uv0;		uv0.x = uv->lo.x;
