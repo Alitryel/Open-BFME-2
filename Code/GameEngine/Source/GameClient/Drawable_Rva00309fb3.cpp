@@ -172,6 +172,25 @@ struct GlowEffect
 
 	static const FieldParse m_fieldParseTable[];
 };
+extern "C" {
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00808350: 10 entries and the null terminator; every parser is a rowed code owner.
+const FieldParse GlowEffect::m_fieldParseTable[11] = {
+	{ "GlowEnabled", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x0 },
+	{ "GlowDiameter", (INIFieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "GlowIntensity", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ "GlowTextureWidth", (INIFieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC },
+	{ "RadiusScale1", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "RadiusScale2", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ "Amplitude1", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "Amplitude2", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1C },
+	{ "TerrainGlow", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ "MultipassGlowEnabled", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x21 },
+	{ 0, 0, 0, 0 }
+};
 
 // BFME has a fourth INILoadType that Zero Hour does not, value 4. Both it and
 // INI_LOAD_CREATE_OVERRIDES suppress the write-back. Left as the literal because

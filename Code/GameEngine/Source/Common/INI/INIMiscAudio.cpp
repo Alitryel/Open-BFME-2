@@ -5,7 +5,8 @@
 // (vtable slot +0x13C) where ZH had it non-virtual; the block fills it from
 // MiscAudio's field-parse table 0x00BDF2D0.
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -18,6 +19,74 @@ public:
 struct MiscAudio
 {
 	static const FieldParse m_fieldParseTable[];
+};
+extern "C" {
+void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+}
+// The retail table at 0x007DF2D0: 61 entries and the null terminator; every parser is a rowed code owner.
+const FieldParse MiscAudio::m_fieldParseTable[62] = {
+	{ "RadarNotifyHarvesterUnderAttackSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
+	{ "RadarNotifyStructureUnderAttackSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4 },
+	{ "RadarNotifyInfiltrationSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x8 },
+	{ "RadarNotifyOnlineSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xC },
+	{ "RadarNotifyOfflineSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x10 },
+	{ "GenericRadarEvent", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x14 },
+	{ "BeaconPlacedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x18 },
+	{ "BeaconPlacementFailed", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1C },
+	{ "DefectorTimerTickSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x20 },
+	{ "DefectorTimerDingSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x24 },
+	{ "AllCheerSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x28 },
+	{ "NoCanDoSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x2C },
+	{ "StealthDiscoveredSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x30 },
+	{ "StealthNeutralizedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x34 },
+	{ "MoneyDepositSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x38 },
+	{ "MoneyWithdrawSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x3C },
+	{ "BuildingDisabled", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x40 },
+	{ "BuildingReenabled", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x44 },
+	{ "VehicleDisabled", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x48 },
+	{ "VehicleReenabled", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4C },
+	{ "SplatterVehiclePilotsBrain", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x50 },
+	{ "CrateHeal", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x54 },
+	{ "CrateShroud", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x58 },
+	{ "CrateFreeUnit", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x5C },
+	{ "CrateMoney", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x60 },
+	{ "UnitPromoted", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x64 },
+	{ "RepairSparks", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x68 },
+	{ "EnterCloseCombat", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x6C },
+	{ "ExitCloseCombat", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x70 },
+	{ "IncomingChatNotification", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x74 },
+	{ "PrivateMessageNotification", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x78 },
+	{ "BuddyMessageNotification", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x7C },
+	{ "EnabledHotKeyPressed", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x80 },
+	{ "DisabledHotKeyPressed", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x84 },
+	{ "DisabledButtonClicked", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x88 },
+	{ "LowLODShellMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x8C },
+	{ "HighLODShellMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x90 },
+	{ "ScoreScreenMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x94 },
+	{ "ShellMapLoadMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x98 },
+	{ "FullScreenSubMenuMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x9C },
+	{ "SaveFileLoadMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xA0 },
+	{ "CreditsMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xA4 },
+	{ "VolumeSampleMusic", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xB0 },
+	{ "VolumeSampleSoundFX", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xA8 },
+	{ "VolumeSampleVoice", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xAC },
+	{ "VolumeSampleAmbient", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xB4 },
+	{ "VolumeSampleMovie", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xB8 },
+	{ "MissionBriefingCharacterClick", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xBC },
+	{ "ComboBoxClick", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xC0 },
+	{ "GameSpyCommunicatorOpen", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xC4 },
+	{ "RIFThingTemplateReloadedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xC8 },
+	{ "RIFObjectsRefreshedSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xCC },
+	{ "FastForwardModeOn", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xD0 },
+	{ "FastForwardModeOff", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xD4 },
+	{ "RallyPointSet", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xD8 },
+	{ "UnableToSetRallyPoint", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xDC },
+	{ "PlanningModeOrderGiven", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xE0 },
+	{ "BuildingPlacementSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xE4 },
+	{ "BadBuildingPlacementSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xE8 },
+	{ "WallPlacementSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xEC },
+	{ "TargetObjectWithSpecialPowerSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0xF0 },
+	{ 0, 0, 0, 0 }
 };
 
 class AudioManager

@@ -25,6 +25,14 @@ struct AnimationSoundClientBehaviorGlobalSetting
 
 	static const FieldParse m_fieldParseTable[];
 };
+extern "C" {
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x0083CA88: 1 entries and the null terminator; every parser is a rowed code owner.
+const FieldParse AnimationSoundClientBehaviorGlobalSetting::m_fieldParseTable[2] = {
+	{ "MinMicrophoneDistanceToDirty", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 // The single instance the block parses into, at 0x012B4D44. Nothing in the image
 // names it; the class name is the block keyword.
