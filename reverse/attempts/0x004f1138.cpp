@@ -1,10 +1,14 @@
 // ?isSupplySourceAttacked@AIPlayer@@QAE_NXZ
+// partial score=0.96 date=2026-10-17
+// ?isSupplySourceAttacked@AIPlayer@@QAE_NXZ
 // partial score=0.93 date=2026-10-13
 // ?isSupplySourceAttacked@AIPlayer@@QAE_NXZ
 // partial score=0.9 date=2026-10-08
 // ?isSupplySourceAttacked@AIPlayer@@QAE_NXZ
 // partial score=0.9 date=2026-10-08
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 //
 // BFME2 BuildListInfo desired-gatherers getter, transferred from the exact
 // BFME1 reconstruction (Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp).
@@ -626,10 +630,18 @@ Bool AIPlayer::isSupplySourceAttacked()
 	if (curFrame == 0) {
 		m_supplySourceAttackCheckFrame = curFrame + SCAN_RATE;
 		// can't be attacked on first frame.
-	} else {
+		return false;
+	}
+	{
 	m_attackedSupplyCenter = INVALID_ID;
-	if (curFrame >= m_supplySourceAttackCheckFrame) {
-	if (m_player->getAttackedFrame() + SCAN_RATE >= curFrame) {
+	if (curFrame < m_supplySourceAttackCheckFrame)
+		return false;
+	_ReadWriteBarrier();
+	if (m_player->getAttackedFrame() + SCAN_RATE < curFrame) {
+		return false;
+	}
+{
+	{
 	m_supplySourceAttackCheckFrame = curFrame + SCAN_RATE;
 
 	// Scan my units.
@@ -642,7 +654,11 @@ Bool AIPlayer::isSupplySourceAttacked()
 			}
 			for (DLINK_ITERATOR<Object> objIter = team->iterate_TeamMemberList(); !objIter.done(); objIter.advance()) {
 				Object *obj = objIter.cur();
-				if (!obj) {
+				_ReadWriteBarrier();
+				if (!objIter.cur()) {
+					continue;
+				}
+				if (!objIter.cur()) {
 					continue;
 				}
 				if (!obj->isKindOf(34) && !obj->isKindOf(14) && !obj->isKindOf(16)) {
