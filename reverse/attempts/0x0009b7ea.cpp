@@ -1,4 +1,6 @@
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
+// partial score=0.94 date=2026-10-17
+// ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.9769963871932229 date=2026-10-14
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.9731624517254267 date=2026-10-14
@@ -61,8 +63,8 @@ Vector3 forward=tm.Get_Z_Vector()*-1.0f;
 for(;i<4;++i){
 int x,y;
 switch(i){case 0:x=0;y=1;break;case 1:x=1;y=1;break;case 2:x=0;y=0;break;case 3:x=1;y=0;break;default:x=0;y=0;break;}
-float dx=(x-0.5-cam->offsetX())*extent.X;
-float dy=(y-0.5-cam->offsetY())*extent.Y;
+float dx=(x-0.5-cam->offsetX())*extent.Y;
+float dy=(y-0.5-cam->offsetY())*extent.X;
 Vector3 dir(tm[0][0]*dx+tm[0][1]*dy+forward.X,tm[1][0]*dx+tm[1][1]*dy+forward.Y,tm[2][0]*dx+tm[2][1]*dy+forward.Z);
 dir.Normalize();
 Vector3 p=camera->Get_Position()+dir;
