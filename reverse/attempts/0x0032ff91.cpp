@@ -1,4 +1,6 @@
 // ?rva0032FF91@SidesList@@QAEXXZ
+// partial score=0.864 date=2026-10-17
+// ?rva0032FF91@SidesList@@QAEXXZ
 // partial score=0.85 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //
@@ -183,14 +185,16 @@ void SidesList::rva0032FF91()
 	SidesList newSides;
 	newSides.m_teamrec = m_teamrec;
 
-	for (int i = 0; i < m_numSides; )
+	int i = 0;
+	volatile int vi = 0;
+	for (; i < m_numSides; )
 	{
 		AsciiString name = m_sides[i].getDict()->getAsciiString(TheKey_playerName);
 		bool isCivilian = name.isEmpty() || name.compare("PlyrCivilian") == 0 || name.compare("PlyrCreeps") == 0;
 		if (isCivilian)
 		{
 			m_sides[i].getDict()->setBool(TheKey_playerIsHuman, false);
-			++i;
+			i = i + 1;
 		}
 		else
 		{
