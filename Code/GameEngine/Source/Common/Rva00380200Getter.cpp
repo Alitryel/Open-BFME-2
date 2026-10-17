@@ -246,16 +246,7 @@ class ExperienceLevelStore {
 // TheExperienceLevelStore is only an alias of the owned global TheExperienceLevelSystem (ledger names column); this unit reads the owner through its own view type.
 extern class ExperienceLevelSystem *TheExperienceLevelSystem;
 #define TheExperienceLevelStore (*(ExperienceLevelStore * *)&TheExperienceLevelSystem)
-Rva00380200::Rva00380200()
- :m_ptr(0),m_scalars(0),m_0C(0),m_10(1),m_14(1),m_18(1),m_1C(0),m_20(0x7FFFFFFF),m_24(0),m_28(0)
-{
 
- if(TheExperienceLevelStore) {
-  AsciiString name("PlayerSkillPointsScalarTable");
-  m_scalars=TheExperienceLevelStore->FindExperienceScalarTableByName(name);
- }
- rva0038028B();
-}
 
 // Native003805BB..003806D4 RET8 and WB F642C0 establish the skill-point
 // accumulator. BFME1 Player_addSkillPoints supplied the semantic guide; the
