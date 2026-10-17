@@ -1,10 +1,14 @@
 // ?update@FireLogicSystem@@UAEXXZ
+// partial score=0.937 date=2026-10-17
+// ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.9107 date=2026-10-14
 // ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.9107 date=2026-10-10
 // ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.85 date=2026-10-08
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // FireLogicSystem's registration of a placed object (0x00286373): the id is
@@ -844,7 +848,8 @@ void FireLogicSystem::update()
 				}
 				cell->m_field30 = 0;
 				cell->m_check = 0;
-				if ((float)cell->m_fuel > 0.0f)
+				_ReadWriteBarrier();
+				if (*(volatile float*)&cell->m_fuel > 0.0f)
 				{
 					cell->m_type = 2;
 					m_9C(worldX, worldY);
@@ -860,7 +865,10 @@ void FireLogicSystem::update()
 						cell->m_check = 0;
 						continue;
 					}
-					Rva00287B2AResult added = insertCell(m_cellsOnFire, Rva00285BEC(worldX, worldY));
+					{
+					Rva00285BEC key(worldX, worldY);
+					Rva00287B2AResult added = insertCell(m_cellsOnFire, key);
+					}
 				}
 				cell->m_check -= (unsigned short)(cell->m_flammability + m_98);
 				Int consumed;
@@ -991,15 +999,18 @@ void FireLogicSystem::update()
 						if (m_cellsOnFire.m_size >= (unsigned int)m_90)
 							continue;
 						cell->m_field30 = 0;
-						Rva00287B2AResult added = insertCell(m_cellsOnFire, Rva00285BEC(row * 10 + 5, col * 10 + 5));
+						Rva00285BEC key(row * 10 + 5, col * 10 + 5);
+						Rva00287B2AResult added = insertCell(m_cellsOnFire, key);
 					}
 					unsigned int value = cell->m_check + heat;
 					if (value > cell->m_field18)
 						value = cell->m_field18;
+					{
 					Rva00287F76Element e;
 					e.m_cell = cell;
 					e.m_value = (unsigned short)value;
 					pending.push_back(e);
+					}
 				}
 			}
 		}
