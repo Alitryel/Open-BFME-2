@@ -1,4 +1,6 @@
 // ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
+// partial score=0.98 date=2026-10-17
+// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
 // partial score=0.9773335563733689 date=2026-10-15
 // ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
 // partial score=0.9655269320843091 date=2026-10-14
@@ -219,7 +221,10 @@ void Object::rva00294C1A(ObjectExperienceVictim victim,ObjectExperienceFlag flag
 
    scale=points;
    Object *related=rva002931F5(false);
-   if ((*(ExperienceTracker * volatile *)&related->tracker)) scale=((Rva0039AF9B*)(*(ExperienceTracker * volatile *)&related->tracker))->rva0039AF9B(points);
+   if (related->tracker) {
+    Object *trackerObject=(Object*)related->tracker;
+    scale=((Rva0039AF9B*)trackerObject->tracker)->rva0039AF9B(points);
+   }
    receiver->grant(this,scale);
   } else tracker->rva0039B315(points,true,true,true,false);
 
