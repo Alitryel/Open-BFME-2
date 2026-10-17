@@ -1,4 +1,6 @@
 // ??0Rva006F69D0@@QAE@PAXHH@Z
+// partial score=0.946 date=2026-10-17
+// ??0Rva006F69D0@@QAE@PAXHH@Z
 // partial score=0.9397 date=2026-10-15
 // cl: /O2 /MD /DNDEBUG
 // Bank note: x87 float copies need an x87 TU (region default is SSE; a new TU needs a
@@ -36,8 +38,11 @@ public:
 };
 
 Rva006F69D0::Rva006F69D0(void *descriptor, int second, int fourth) throw()
+	: m_18(0)
 {
+	int s = *(volatile int*)&second;
 	const Rva006F69D0Descriptor *d = (const Rva006F69D0Descriptor *)descriptor;
+	m_18 = (unsigned short)s;
 	m_18 = (unsigned short)second;
 	m_14 = d->m_flags;
 	m_00 = fourth;
