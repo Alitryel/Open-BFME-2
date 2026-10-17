@@ -1,10 +1,14 @@
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
+// partial score=0.961 date=2026-10-17
+// ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.55 date=2026-10-15
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.8920744680851063 date=2026-10-14
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.8920744680851063 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.84 date=2026-10-07
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ @0x004B13D8 470B.
@@ -134,7 +138,7 @@ private:
 struct Rva004B13D8Frame
 {
 	int mine;
-	Rva004DD018 **volatile cursor;
+	Rva004DD018 **cursor;
 	int level;
 	int slotA;
 	int slotB;
@@ -165,9 +169,10 @@ restart:
 	if (tracker)
 		frame.level = tracker->m_level;
 
-	for (frame.cursor = m_begin; frame.cursor != m_end; ++frame.cursor)
+	frame.cursor = m_begin;
+	do
 	{
-		Rva004DD018 *entry = *frame.cursor;
+		Rva004DD018 *entry = *m_begin;
 		if (!entry)
 			continue;
 
@@ -183,19 +188,23 @@ restart:
 			}
 		}
 
-		int flag = m_b4;ModuleData *data=m_data;
+		int flag = m_b4;
 		int kind = entry->m_4->m_4;
 		if (flag)
 		{
 			if (kind != m_b0)
+			{
+				(void)*(volatile Rva004DD018 ***)&frame.cursor;
 				continue;
+			}
 		}
 		else if (m_bytes[kind] == 0)
 		{
 			continue;
 		}
 
-		if ((1 ? (!flag) : (!flag)))
+		ModuleData *data = m_data;
+		if ((flag ? (!flag) : (!flag)))
 		{
 			if (data->m_2c == (unsigned char)flag && frame.level >= data->m_30)
 			{
@@ -227,7 +236,11 @@ restart:
 		Object *found = TheGameLogic->findObjectByID((ObjectID)m_ids[kind]);
 		if (entry->rva004DD018((void *)frame.slotA, (void *)frame.slotB, found))
 			return entry;
-	}
+		Rva004DD018 **end = m_end;
+		if (frame.cursor + 1 == end)
+			break;
+		++frame.cursor;
+	} while (true);
 
 	if (m_b4)
 	{
