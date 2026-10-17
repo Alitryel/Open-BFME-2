@@ -64,6 +64,9 @@ private:
 
 extern unsigned int g_00DB91B4;
 extern unsigned int g_00DB91B0;
+// Owned here (their only reader); retail .data initial colors.
+unsigned int g_00DB91B4 = 0xFFFF00FF;
+unsigned int g_00DB91B0 = 0xFFFF0000;
 
 // A ChatWindowsLan member that never reads `this`: both retail callers in
 // ChatWindowsLan (0x005D5715 in 0x005D56D0 and 0x005D579A in 0x005D574C) load

@@ -56,7 +56,12 @@ public:
 
 extern Debug *theDebug;
 extern void *g_00E030C4;
-extern void *g_00E030C8;
+// The stringbuf singleton slot (VA 0x00E030C4) has only this unit's readers.
+void *g_00E030C4;
+// The command object slot (VA 0x00E030C8) is defined by its cleanup unit
+// (Rva00419A99Cleanup.cpp) under that unit's element type.
+class Rva00419A99Item;
+extern Rva00419A99Item *g_00E030C8;
 
 class Rva00419BCD_IO
 {
@@ -95,7 +100,7 @@ void __cdecl Rva00419BFAInit()
 	if (g_00E030C8)
 		return;
 	Rva00419BFA_Cmd *p = new Rva00419BFA_Cmd;
-	g_00E030C8 = p;
+	g_00E030C8 = (Rva00419A99Item *)(void *)p;
 	theDebug->_M_slot_84("game", p);
 	theDebug->_M_slot_80("stringbuf", "internal string buffer", Rva00419BCDCreate);
 	theDebug->Command("debug.io stringbuf add");

@@ -9,6 +9,22 @@ inline void *operator new(size_t, void *place)
 }
 extern void *g_00DBC46C[];
 extern int g_00C00960[];
+// g_00C00960 and the per-b row table g_00DBC46C have this function as their
+// only reader. Retail .rdata rows at VA 0xc008b8..0xc00918 (6 ints each, read
+// only through g_00DBC46C's .data pointers at VA 0xdbc46c) and the image's
+// contents follow; b selects rows 0xc00918, 0xc00900, 0xc008e8, 0xc008d0 and
+// twice 0xc008b8.
+int g_00C00960[6] = {
+	123, 124, 125, 538, 539, -1,
+};
+static int g_00C00918[6] = { -1, -1, -1, -1, -1, -1, };
+static int g_00C00900[6] = { 41, 47, 53, 530, 531, -1, };
+static int g_00C008E8[6] = { 44, 50, 56, 532, 533, -1, };
+static int g_00C008D0[6] = { 45, 51, 57, 534, 535, -1, };
+static int g_00C008B8[6] = { 40, 46, 52, 536, 537, -1, };
+void *g_00DBC46C[6] = {
+	g_00C00918, g_00C00900, g_00C008E8, g_00C008D0, g_00C008B8, g_00C008B8,
+};
 // g_00C00948: matched references place it at VA 0xc00948; retail contents, sized to the
 // 0x18-byte gap before the next known global there.
 int g_00C00948[6] = {

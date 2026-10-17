@@ -110,6 +110,12 @@ extern Int g_value12A6F38;								///< retail [0x012A6F38]
 extern Int g_value12A6FA8;								///< retail [0x012A6FA8]
 extern Int g_value12A6FB0;								///< retail [0x012A6FB0]
 extern Int g_value12A6FB4;								///< retail [0x012A6FB4]
+// Defined here with the BFME2 image's initial values; these handlers are
+// their only writers (GameLogicInit.cpp also reads the first).
+Int g_value12A6F38 = -1;	///< BFME2 .data VA 0x00DC116C
+Int g_value12A6FA8 = 0;		///< BFME2 .data VA 0x00DC1178
+Int g_value12A6FB0 = 0;		///< BFME2 .data VA 0x00DC1180
+Int g_value12A6FB4 = -1;	///< BFME2 .data VA 0x00DC1184
 extern Int NET_CRC_INTERVAL; // native RVA 0x009BC800
 
 // ?Rva00061260_parse@@YAHQAPADH@Z

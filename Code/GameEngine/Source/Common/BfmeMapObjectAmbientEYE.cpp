@@ -112,6 +112,10 @@ void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, 
 extern void *g_bfmeCurEYE;
 // Rename counter for customized map-object infos (retail 0x00E00948, no owner).
 extern int g_00E00948;
+// Both are zero-initialised .data (VA 0x00E00938 and 0x00E00948) and owned here;
+// bfmeGoEYE (BfmeConv888.cpp) is the mode's only writer.
+void *g_bfmeCurEYE;
+int g_00E00948;
 
 struct BfmeNodeEYE
 {

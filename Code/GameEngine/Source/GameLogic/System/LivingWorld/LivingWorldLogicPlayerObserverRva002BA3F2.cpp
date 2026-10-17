@@ -223,6 +223,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 namespace _STL { template<> void vector<Rva002B9062Element>::_M_clear(); }
 
 extern const Real g_00BFDF64;	// 0.6f, file-local rdata used only here
+const Real g_00BFDF64 = 0.6f;	// retail .rdata VA 0x00BFDF64 (bound by address: max takes const Real &)
 
 struct Rva002BA3F2Max
 {

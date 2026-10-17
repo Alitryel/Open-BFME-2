@@ -161,6 +161,8 @@ class Rva000E07F4Host {public:void rva000E0584(Rva000E07F4Obj*);};
 int rva000E07F4(Rva000E07F4Obj*,Rva000E07F4Host*);
 extern "C" __declspec(dllimport) unsigned __stdcall timeGetTime();
 extern float terrainLineOpacity;
+// Owned here (its only reader); retail .data VA 0x00DB5468 starts at 1.0f.
+float terrainLineOpacity = 1.0f;
 enum NameKeyType{NativeNameKeyUnknown=0};
 class ArmorTemplate{float payload[38];};namespace rts{template<class T>struct hash{unsigned operator()(const T&t)const{return(unsigned)t;}};}
 typedef _STL::pair<const NameKeyType,ArmorTemplate> ArmorPair;
