@@ -1,4 +1,5 @@
 // cl: /O1 /G7 /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /EHsc /arch:SSE
+// Native EH action 0x797360 destroys the constructor lifetime of 56 twenty-byte union-find objects at +0x1B594; the complete parent EH graph proves this 24B lifetime.
 // stlport
 #include <algorithm>
 #include <vector>
