@@ -125,6 +125,15 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   same branches with the three loads first. A snippet shows the same split
   with the pointer as a parameter (grouped) or a call result (interleaved).
   0x0050A4A2 (Made002CC8A4 cone test).
+- **Name constructed temporaries.** `SailCoord3D xcol(m[0][0], m[1][0],
+  m[2][0]); axis.dot(xcol)` gave retail's XMM numbering and hoisted the
+  column loads; an unnamed `axis.dot(SailCoord3D(...))` did not. A named
+  local with a destructor needs `/EHsc` on the unit's `// cl:` line: under the
+  base `-EHsc-` cl wraps it in an `__EH_prolog` frame (650 B against 625).
+  W3DSailModelDraw 0x000D08C3.
+- **Parentheses stop cl reassociating by a power of two.** `distance * 2.0f
+  * ease` compiled as `ease * distance * 2`; `(2.0f * distance) * ease` kept
+  retail's order (0x0009B510 bank, nd 41 -> 37).
 
 ## Linking
 

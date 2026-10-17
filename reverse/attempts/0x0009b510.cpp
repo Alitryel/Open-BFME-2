@@ -1,5 +1,5 @@
 // ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z
-// partial score=0.73 date=2026-10-15
+// partial score=0.85 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z retail 0x0009B510..0x0009B7EA
 // (730 bytes, ret 0xC): the camera transform builder the rowed refresh
@@ -13,6 +13,11 @@
 // a yaw eased from +0x11C towards 0 (and on by the fade) rotating the offset
 // about Z; an identity transform and the rowed Matrix3D::Look_At 0x00712150
 // with roll 0. Member meanings and the class name remain unresolved.
+// Remaining residue (size-exact, 37 diff lines): retail loads offset.X into
+// xmm2 right after the 0x0009AAA8 call, ahead of the x87 lerp, and adds
+// [edi] at 0x0009B623; ours loads m_110.X and adds [ebp-0x10]. A separate
+// eye variable for Look_At, a temporary, member-wise construction and
+// Vector3 ctor spellings do not move it.
 #include <math.h>
 
 class Vector3
@@ -38,20 +43,28 @@ public:
     }
 };
 
+class Vector4
+{
+public:
+    float X, Y, Z, W;
+    __forceinline float &operator[](int i) { return (&X)[i]; }
+    __forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+};
 class Matrix3D
 {
 public:
     Matrix3D() {}
+    __forceinline explicit Matrix3D(bool init) { if (init) Make_Identity(); }
     __forceinline void Make_Identity()
     {
-        Row[0][0] = 1.0f; Row[0][1] = 0.0f; Row[0][2] = 0.0f; Row[0][3] = 0.0f;
-        Row[1][0] = 0.0f; Row[1][1] = 1.0f; Row[1][2] = 0.0f; Row[1][3] = 0.0f;
-        Row[2][0] = 0.0f; Row[2][1] = 0.0f; Row[2][2] = 1.0f; Row[2][3] = 0.0f;
+        Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
+        Row[1].Set(0.0f, 1.0f, 0.0f, 0.0f);
+        Row[2].Set(0.0f, 0.0f, 1.0f, 0.0f);
     }
+    __forceinline void Set_Translation(const Vector3 &t) { Row[0][3] = t.X; Row[1][3] = t.Y; Row[2][3] = t.Z; }
     void Look_At(const Vector3 &p, const Vector3 &t, float roll);
-    float Row[3][4];
+    Vector4 Row[3];
 };
-
 #define B510_SLOTS4(p) virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3();
 #define B510_SLOTS16(p) B510_SLOTS4(p##0) B510_SLOTS4(p##1) B510_SLOTS4(p##2) B510_SLOTS4(p##3)
 class Rva0009B510Object
@@ -103,10 +116,8 @@ void Rva0009C134Host::rva0009B510(Matrix3D &tm, float distance, float pitch)
     offset += m_110;
     if (m_188)
     {
-        Matrix3D translate;
-        translate.Row[0][0] = 1.0f; translate.Row[0][1] = 0.0f; translate.Row[0][2] = 0.0f; translate.Row[0][3] = 192.43f;
-        translate.Row[1][0] = 0.0f; translate.Row[1][1] = 1.0f; translate.Row[1][2] = 0.0f; translate.Row[1][3] = 569.88f;
-        translate.Row[2][0] = 0.0f; translate.Row[2][1] = 0.0f; translate.Row[2][2] = 1.0f; translate.Row[2][3] = distance * 2.0f * ease;
+        Matrix3D translate(true);
+        translate.Set_Translation(Vector3(192.43f, 569.88f, (2.0f * distance) * ease));
         m_188->Set_Transform(translate);
     }
     offset -= m_110;
