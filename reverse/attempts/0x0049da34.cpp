@@ -1,4 +1,6 @@
 // ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
+// partial score=0.765 date=2026-10-17
+// ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
 // partial score=0.788 date=2026-10-15
 // ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
 // partial score=0.7827 date=2026-10-13
@@ -1327,16 +1329,19 @@ Bool ProductionUpdate::queueCreateUnit( const ThingTemplate *unitType, Int reviv
 	if (m_productionCount >= getProductionUpdateModuleData()->m_maxQueueEntries)
 		return FALSE;
 
-	Player *player = getObject()->getControllingPlayer();
+	Player *player = (1 ? getObject()->getControllingPlayer() : getObject()->getControllingPlayer());
 	UnsignedInt cost = 0;
-	if( revival )
+	Bool isRevival = revival;
+	if( isRevival )
 		cost = reinterpret_cast<Rva0037E6E8 *>(&player->m_revivalTracker)->rva0037E649( revivalIndex, getObject() );
-	else if( (unitType->freeKindWord118() & 0x20000000) == 0 )
+	else
 		cost = unitType->rva0033A69A( player, reinterpret_cast<Int>(getObject()), -1 );
 
 	Int count = five ? 5 : 1;
-	Bool first = TRUE;
-	if (count) do
+	Bool first = (1 ? TRUE : TRUE);
+	if (count == 0)
+		return TRUE;
+	do
 	{
 		if (m_productionCount >= getProductionUpdateModuleData()->m_maxQueueEntries)
 			break;
