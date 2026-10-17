@@ -171,30 +171,7 @@ struct Rva000ECF79Coord {
 struct Rva000ECF79Data;
 
 // The 0xE8-byte tree record (Zero Hour TTree plus BFME fields); default ctor 0x000EB27F.
-class Rva000EB08C {
-public:
-	Rva000EB08C();
-	Vector3 location;
-	Real scale;
-	Matrix3D transform;
-	Int treeType;
-	unsigned char m_pad44[0x58 - 0x44];
-	UnsignedInt drawableID;
-	unsigned char m_pad5c[0x6c - 0x5c];
-	Real m_angularVelocity;
-	Real m_angularAcceleration;
-	Coord3D m_toppleDirection;
-	Int m_toppleState;
-	Real m_angularAccumulation;
-	unsigned char m_pad88[4];
-	UnsignedInt m_options;
-	Matrix3D m_mtx;
-	UnsignedInt m_sinkFramesLeft;
-	Bool m_flagC4;
-	unsigned char m_padC5[0xe0 - 0xc5];
-	Int m_fieldE0;
-	Int m_fieldE4;
-};
+#include "W3DTreeRecord.h"
 
 // The memberwise record copy at 0x000EADA7, rowed as a copy constructor.
 class Rva000EADA7 {
@@ -228,7 +205,7 @@ protected:
 	virtual void xfer(Xfer *xfer);
 private:
 	unsigned char m_pad004[0x5c0 - 4];
-	Rva000EB08C m_trees[1200];
+	Rva000EDA94Record m_trees[1200];
 	Int m_numTrees;
 	unsigned char m_pad44544[0x44558 - 0x44544];
 	W3DTreeType m_treeTypes[64];
@@ -295,7 +272,7 @@ void W3DTreeBuffer::xfer(Xfer *xfer)
 		m_numTrees = 0;
 
 	for (i = 0; i < numTrees; i++) {
-		Rva000EB08C tree;
+		Rva000EDA94Record tree;
 		memset(&tree, 0, sizeof(tree));
 		AsciiString modelName;
 		AsciiString modelTexture;
@@ -364,7 +341,7 @@ void W3DTreeBuffer::xfer(Xfer *xfer)
 			addTree(tree.drawableID, pos, tree.scale, &tree.transform, 0, m_treeTypes[treeType].m_data,
 				doShadow ? 1 : 0, textureName, m_treeTypes[treeType].m_templateName);
 			if (m_numTrees) {
-				Rva000EB08C *curTree = &m_trees[m_numTrees - 1];
+				Rva000EDA94Record *curTree = &m_trees[m_numTrees - 1];
 				curTree->m_angularAcceleration = tree.m_angularAcceleration;
 				curTree->m_angularVelocity = tree.m_angularVelocity;
 				curTree->m_toppleDirection = tree.m_toppleDirection;

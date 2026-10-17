@@ -9,9 +9,8 @@
 // ?rva000EB21D@Rva000EB08C@@QAEXXZ @0x000EB21D 98B. Loop over E8 array with
 // checker at +0x44548, flag byte at elem +4, arg at elem +8, step at +0x45C60,
 // set +0x44544 on change, clear +0x44546. Caller 0x000EDB60. Honest name.
-// ??0Rva000EB08C@@QAE@XZ @0x000EB27F 45B. Default ctor with Region2D[3] at
-// +0x10 and +0x90 via vector ctor iterator 0x1423 with folded empty ctor
-// 0x47A6A9. Caller 0x000ED667. Honest name.
+// The record constructor formerly carried this manager name. Its independent
+// record layout and lifetime now live with the EDA94 destructor.
 class GlobalData
 {
 public:
@@ -29,12 +28,10 @@ public:
 	void *m_end;
 };
 
-#include "../../../Libraries/Include/Lib/Region2D.h"
 
 class Rva000EB08C
 {
 public:
-	Rva000EB08C();
 	void rva000EB08C(int index, bool flag);
 	bool rva000EB2AC(int id, bool flag);
 	void rva000EB21D();
@@ -61,11 +58,7 @@ private:
 		Elem2Target *ptr;
 		char m_pad04[0x5C - 4];
 	};
-	char m_pad00[0x10];
-	Region2D m_10[3];
-	char m_pad40[0x90 - 0x40];
-	Region2D m_90[3];
-	char m_padC0[0x600 - 0xC0];
+	char m_pad00[0x600];
 	Elem1 m_elems[1];
 	char m_pad01[0x44540 - 0x600 - 0xE8];
 	int m_count;
@@ -124,8 +117,4 @@ void Rva000EB08C::rva000EB21D()
 		}
 	}
 	m_44546 = 0;
-}
-
-Rva000EB08C::Rva000EB08C()
-{
 }

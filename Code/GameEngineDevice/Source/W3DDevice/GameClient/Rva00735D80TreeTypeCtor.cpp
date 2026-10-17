@@ -1,31 +1,15 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/shims/stringinline
-//
-// Byte-twin of ??0TTreeType@@QAE@XZ at 0x0071EAC0
-// (W3DTreeTypeLifecycle.cpp): identical 113 bytes once relocations are
-// masked. Both array-construct calls go through the same generic
-// ??_L@YGXPAXIHP6EX0@Z1@Z helper with the same Coord2D ctor/dtor function
-// pointers, so the callees do not depend on the class name; no real name is
-// provable for this record, so it is claimed address-derived.
-
+// Native E8656 and EC67F are separate 98B constructors. Their coordinate
+// array callbacks and string offsets agree; no original class names are asserted.
+// EC67F is explicitly paired with EC6E1 by EDE35's 64x5C vector construction.
 #include "coord2d.h"
 
-template <typename T> struct StringInlineData
-{
-	int m_refCount;
-	int m_length;
-	T m_text[1];
-};
-
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
-
-
-#include "../../../../../reference/shims/bfme2_ascii/unicode_string.h"
 
 class Rva00735D80TreeType
 {
 public:
 	Rva00735D80TreeType();
-	~Rva00735D80TreeType();
 
 private:
 	unsigned char m_treeData[0x24];
@@ -42,27 +26,7 @@ Rva00735D80TreeType::Rva00735D80TreeType()
 {
 }
 
-// Rva00735D80TreeType::~Rva00735D80TreeType: defined in Rva00735D80TreeTypeDtor.cpp (its row's unit).
-
-// ??0Rva000EC67F@@QAE@XZ, retail 0x000EC67F, 98 bytes: the same construction for a
-// sibling class of this layout; only the EH handler record differs from
-// ??0Rva00735D80TreeType's bytes. It directly precedes the destructor rowed at
-// 0x000EC6E1. Identity is not recovered.
-class Rva000EC67F
-{
-public:
-	Rva000EC67F();
-	~Rva000EC67F();
-private:
-	unsigned char m_treeData[0x24];
-	Coord2D m_primaryTextureCoords[2];
-	Coord2D m_secondaryTextureCoords[2];
-	unsigned char m_textureFlags[4];
-	AsciiString m_modelName;
-	AsciiString m_textureName;
-	AsciiString m_shadowName;
-	AsciiString m_animationName;
-};
+#include "W3DTreeTypeRecord.h"
 
 Rva000EC67F::Rva000EC67F()
 {

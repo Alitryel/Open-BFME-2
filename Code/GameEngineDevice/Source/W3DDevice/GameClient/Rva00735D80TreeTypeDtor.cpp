@@ -1,49 +1,19 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/shims/stringinline
-//
-// ??1Rva00735D80TreeType@@QAE@XZ, retail 0x000EC6E1, 124 bytes.
-// Evidence: Rva00735D80TreeTypeCtor.cpp's destructor compiles to these bytes
-// except the four string teardowns: retail calls the folded string dtor at
-// 0x00036410, while ~AsciiString resolves to its rowed 5-byte copy at
-// 0x0048BA39. The strings are spelled AsciiStringMember here, as other TUs
-// do for call sites that read 0x00036410; it lives apart from the ctor so the
-// rowed ctor keeps its AsciiString members.
-
+// Native EC6E1 tears down the type paired with EC67F by EDE35's vector
+// construction. The shared AsciiString now reproduces the native direct
+// releaseBuffer calls at 36410, replacing the old AsciiStringMember surrogate.
+// E86B8 remains a distinct native destructor; adjacency does not pair it.
 #include "coord2d.h"
 
-class AsciiStringMember
-{
-public:
-	~AsciiStringMember();
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-private:
-	void *m_data;
-};
+#include "W3DTreeTypeRecord.h"
 
-class Rva00735D80TreeType
-{
-public:
-	~Rva00735D80TreeType();
-
-private:
-	unsigned char m_treeData[0x24];
-	Coord2D m_primaryTextureCoords[2];
-	Coord2D m_secondaryTextureCoords[2];
-	unsigned char m_textureFlags[4];
-	AsciiStringMember m_modelName;
-	AsciiStringMember m_textureName;
-	AsciiStringMember m_shadowName;
-	AsciiStringMember m_animationName;
-};
-
-Rva00735D80TreeType::~Rva00735D80TreeType()
+Rva000EC67F::~Rva000EC67F()
 {
 }
 
-// ??1Rva000E86B8@@QAE@XZ, retail 0x000E86B8, 124 bytes: the same teardown for a
-// sibling class of this layout; only the EH handler record differs from
-// ~Rva00735D80TreeType's bytes. It directly follows the constructor rowed at
-// 0x000E8656, as 0x000EC67F precedes the destructor rowed at 0x000EC6E1, so retail
-// holds two such classes. Identity is not recovered.
+// Separate124B teardown at E86B8; its other lifetime relationships stay unasserted.
 class Rva000E86B8
 {
 public:
@@ -53,10 +23,10 @@ private:
 	Coord2D m_primaryTextureCoords[2];
 	Coord2D m_secondaryTextureCoords[2];
 	unsigned char m_textureFlags[4];
-	AsciiStringMember m_modelName;
-	AsciiStringMember m_textureName;
-	AsciiStringMember m_shadowName;
-	AsciiStringMember m_animationName;
+	AsciiString m_modelName;
+	AsciiString m_textureName;
+	AsciiString m_shadowName;
+	AsciiString m_animationName;
 };
 
 Rva000E86B8::~Rva000E86B8()

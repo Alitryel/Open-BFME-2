@@ -1,4 +1,9 @@
-// cl: /O1 /MD /EHsc
+#include "coord2d.h"
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "vector3.h"
+#include "matrix3d.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+// cl: /O1 /MD /EHsc /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Native EH action 0x763839 destroys the 1200 record elements at +0x5C0 with stride0xE8; the complete parent EH graph proves this 30B lifetime.
 // Native EH action 0x763865 destroys the 64 tree-type elements at +0x44558 with stride0x5C; the complete parent EH graph proves this 24B lifetime.
 // ??1Rva000EDA94@@UAE@XZ, retail 0x000EDA94..0x000EDB39 (165 bytes, EH):
@@ -6,7 +11,7 @@
 // deleting destructor; table 0x00BCEEA4) over the rowed base Rva000E6AC0
 // (destructor 0x000E6C6F). It releases and clears the reference held by
 // each of its 64 tree types at +0x44558, then its parts die: the 64 tree
-// types (rowed ??1Rva00735D80TreeType 0x000EC6E1 through the eh vector
+// types (rowed ??1Rva000EC67F 0x000EC6E1 through the eh vector
 // destructor iterator), the +0x44548 wrapper (inline destructor running the
 // rowed 0x0008B470; out-of-line copy 0x0008B4CD for the unwind map), the
 // 1200 0xE8-byte records at +0x5C0 (element destructor is the shared bare
@@ -20,11 +25,8 @@ private:
 	unsigned char m_pad04[0x5C0 - 4];
 };
 
-struct Rva000EDA94Record
-{
-	~Rva000EDA94Record();
-	unsigned char m_data[0xE8];
-};
+#include "W3DTreeRecord.h"
+
 
 class Rva0008B470
 {
@@ -49,14 +51,8 @@ private:
 	int m_refs;
 };
 
-class Rva00735D80TreeType
-{
-public:
-	~Rva00735D80TreeType();
-	Rva000EDA94Ref *m_ref;
-private:
-	unsigned char m_pad04[0x5C - 4];
-};
+class Rva000EDA94Ref;
+#include "W3DTreeTypeRecord.h"
 
 class Rva000EDA94 : public Rva000E6AC0
 {
@@ -66,7 +62,7 @@ private:
 	Rva000EDA94Record m_records[0x4B0];		// +0x5C0
 	unsigned char m_pad44540[0x44548 - 0x44540];
 	Rva0008B4CD m_member44548;			// +0x44548
-	Rva00735D80TreeType m_types[0x40];		// +0x44558
+	Rva000EC67F m_types[0x40];		// +0x44558
 };
 
 Rva000EDA94::~Rva000EDA94()
@@ -81,9 +77,8 @@ Rva000EDA94::~Rva000EDA94()
 	}
 }
 
-// ??1Rva000EDA94Record@@QAE@XZ, retail 0x000B3FD0 (1B): the record element
-// destructor the eh vector destructor iterator is given is the shared bare
-// return (ICF-rowed as Region2D's destructor); defined here so it resolves.
-Rva000EDA94Record::~Rva000EDA94Record()
-{
-}
+
+// Native EB27F: construct the two Matrix3D members at +10/+90.
+// Kept with the existing record callback provider so all native lifetimes
+// and their callers are judged together in the published linking index.
+Rva000EDA94Record::Rva000EDA94Record() {}

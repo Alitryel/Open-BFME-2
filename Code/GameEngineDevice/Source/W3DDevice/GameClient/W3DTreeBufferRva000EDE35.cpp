@@ -1,13 +1,18 @@
+#include "coord2d.h"
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "vector3.h"
+#include "matrix3d.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 // W3DTreeBuffer constructor, retail 0x000EDE35 (210B). The vtable 0x00BCEEA4
 // names the class; the layout is established by the landed W3DTreeBuffer*
 // siblings: base Rva000E6AC0 (ctor rowed 0x000E6AC0), 1200 records of 0xE8 at
-// +0x5C0 (ctor rowed as ??0Rva000EB08C@@QAE@XZ at 0x000EB27F), dirty byte
+// +0x5C0 (ctor rowed as ??0Rva000EDA94Record@@QAE@XZ at 0x000EB27F), dirty byte
 // +0x44545, ObjectCreationList-style 12-byte member at +0x44548 (ctor pinned
 // as ??0Rva0052413E@@QAE@XZ at 0x001F81BF), 64 types of 0x5C at +0x44558
 // (ctor ??0Rva000EC67F@@QAE@XZ at 0x000EC67F, dtor at 0x000EC6E1). The two
 // member arrays get their ??_L vector-constructor-iterator calls from the
 // element ctor/dtor declarations.
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 #include <string.h>
 
 class Rva000E6AC0Base
@@ -35,23 +40,11 @@ private:
 	unsigned char m_storage[12];
 };
 
-class Rva000EB08C
-{
-public:
-	Rva000EB08C();
-	~Rva000EB08C();
-private:
-	unsigned char m_storage[0xE8];
-};
+#include "W3DTreeRecord.h"
 
-class Rva000EC67F
-{
-public:
-	Rva000EC67F();
-	~Rva000EC67F();
-private:
-	unsigned char m_storage[0x5C];
-};
+
+class Rva000EDA94Ref;
+#include "W3DTreeTypeRecord.h"
 
 class Rva000EA24D
 {
@@ -59,10 +52,10 @@ public:
 	void rva000EA24D();
 };
 
-class Rva00066A9ASub
+class Rva000E6FC8
 {
 public:
-	void tailA();
+	void rva000EA1F3();
 };
 
 class W3DTreeBuffer : public Rva000E6AC0
@@ -70,7 +63,7 @@ class W3DTreeBuffer : public Rva000E6AC0
 public:
 	W3DTreeBuffer();
 private:
-	Rva000EB08C m_records[1200];		// +0x5C0
+	Rva000EDA94Record m_records[1200];		// +0x5C0
 	int m_count;				// +0x44540
 	unsigned char m_44544;
 	unsigned char m_44545;
@@ -99,5 +92,5 @@ W3DTreeBuffer::W3DTreeBuffer()
 	memset(&m_records[0], 0, sizeof(m_records));
 	m_45c60 = 1;
 	m_45c64 = 0;
-	((Rva00066A9ASub *)this)->tailA();
+	((Rva000E6FC8 *)this)->rva000EA1F3();
 }
