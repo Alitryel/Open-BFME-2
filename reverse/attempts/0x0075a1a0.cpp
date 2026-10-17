@@ -1,4 +1,6 @@
 // ?rva0075A1A0@BfmeThingCGD@@QAEXXZ
+// partial score=0.99 date=2026-10-17
+// ?rva0075A1A0@BfmeThingCGD@@QAEXXZ
 // partial score=0.92 date=2026-10-15
 // cl: /MD /EHsc /Ob2 /G6 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
@@ -205,7 +207,12 @@ void BfmeThingCGD::rva0075A1A0()
 		rva0075A1A0Count(counts, n->m_bfme00);
 		rva0075A1A0Count(counts, n->m_bfme04);
 	}
-	rva0075A1A0Max(counts);
+	{
+		unsigned int most = 0;
+		for (Rva0075A1A0Counts::iterator it = counts.begin(); it != counts.end(); ++it)
+			if ((*it).second > most)
+				most = (*it).second;
+	}
 	counts.clear();
 
 	m_index2 = 0;
