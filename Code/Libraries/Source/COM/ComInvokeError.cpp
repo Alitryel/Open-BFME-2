@@ -7,7 +7,7 @@
 // Only the static API is defined here; no object or virtual body is emitted.
 class _com_error {
 public:
- _com_error(long,IErrorInfo*,bool=true);
+ _com_error(long,IErrorInfo*,bool);
  _com_error(const _com_error&);
  virtual ~_com_error();
  static long WCodeToHRESULT(unsigned short);
