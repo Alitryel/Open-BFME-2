@@ -3642,40 +3642,8 @@ void W3DModelDraw::doHideShowProjectileObjects( UnsignedInt showCount, UnsignedI
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?updateSubObjects@W3DModelDraw@@ present-unmatched
-void W3DModelDraw::updateSubObjects()
-{
-	if (!m_renderObject)
-		return;
-
-	if (!m_subObjectVec.empty())
-	{
-		for (std::vector<ModelConditionInfo::HideShowSubObjInfo>::const_iterator it = m_subObjectVec.begin(); it != m_subObjectVec.end(); ++it)
-		{
-			Int objIndex;
-			RenderObjClass* subObj;
-
-			if ((subObj = m_renderObject->Get_Sub_Object_By_Name(it->subObjName.str(), &objIndex)) != NULL)
-			{
-				subObj->Set_Hidden(it->hide);
-
-				const HTreeClass *htree = m_renderObject->Get_HTree();
-				if (htree)
-				{	
-					//get the bone of this subobject so we can hide all other child objects that use this bone
-					//as a parent.
-					Int boneIdx = m_renderObject->Get_Sub_Object_Bone_Index(0, objIndex);
-					doHideShowBoneSubObjs( it->hide, m_renderObject->Get_Num_Sub_Objects(), boneIdx, m_renderObject, htree);
-				}
-				subObj->Release_Ref();
-			}
-			else
-			{
-				DEBUG_CRASH(("*** ASSET ERROR: SubObject %s not found (%s)!\n",it->subObjName.str(),getDrawable()->getTemplate()->getName().str()));
-			}
-		}
-	}
-}
+// W3DModelDraw::updateSubObjects is rowed with BFME2's body in W3DModelDrawUpdateSubObjects.cpp;
+// the Zero Hour copy here was a second definition.
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

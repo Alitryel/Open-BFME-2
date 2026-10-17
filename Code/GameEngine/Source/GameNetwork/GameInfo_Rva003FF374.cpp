@@ -174,15 +174,8 @@ Bool GameSlot::isOpen( void ) const
 // GameInfo ----------------------------------------
 
 // byte-exact reconstruction: game/GameEngine/Source/GameNetwork/GameInfo_ctor.cpp
-// ??0GameInfo@@QAE@XZ present-unmatched
-GameInfo::GameInfo()
-{
-	for (int i=0; i<MAX_SLOTS; ++i)
-	{
-		m_slot[i] = NULL;
-	}
-	reset();
-}
+// GameInfo's constructor is rowed with BFME2's body in GameInfoReset.cpp; the Zero Hour
+// copy here was a second definition.
 
 // init is owned by the BFME2 init recovery; the former unrowed
 // donor body here used BFME1 GameInfo/GameSlot layouts.
