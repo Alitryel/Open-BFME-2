@@ -1,5 +1,5 @@
 // BFME2 carries five more virtuals ahead of bfmeHeadUC than BFME1 (slot 0x48, not 0x34).
-extern "C" unsigned char bfmeVftUC[];
+extern int g_bfmeVtableCZ[];					// retail 0x008E4A10
 
 class BfmeThingUC;
 class BfmeNodeUC;
@@ -51,7 +51,7 @@ extern BfmeNodeUC *g_bfmeThingUCHead; // 0x0130B198
 void BfmeThingUC::bfmeResetUC()
 {
 	BfmeSubUC *sub = m_bfmeSub;
-	m_bfmeVft = bfmeVftUC;
+	m_bfmeVft = (unsigned char *)g_bfmeVtableCZ;
 	if (sub != 0)
 		sub->bfmeDropUC(this);
 }
