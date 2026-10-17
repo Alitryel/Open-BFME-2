@@ -64076,3 +64076,4 @@ __ehhandler$?rva00480093@ShareExperienceBehavior@@UAEXM@Z	0x0078B967	10	landed	a
 ?rva00575CAE@Rva00575CAE@@W3AEXPAX@Z	0x00576039	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B; adjustor thunk (this-4) to rowed virtual rva00575CAE at 0x00575CAE
 ?rva00576388@Rva005756B6@@W3AEXPAUParent00575EEA@@@Z	0x00576446	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B; adjustor thunk (this-4) to rowed slot-60 virtual rva00576388; vftable entry 0x0086E6F4
 ?rva00576323@Rva005756B6@@W3AEXPAUParent00575E4E@@@Z	0x0057644E	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B; adjustor thunk (this-4) to rowed slot-62 virtual rva00576323
+?rva00181230@Rva00181230@@QBEHXZ	0x00181230	21	landed	add_match verified Code/GameEngine/Source/Common/ConstIntGetters8.cpp 21B; supersedes 6B true-arm row 0x0018123C t=4 model=claude-opus-5.5

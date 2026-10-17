@@ -6,9 +6,23 @@
 // constant. Kept in a fresh TU to avoid contending with hot getter files.
 // No // cl: line (defaults match the frameless 6-byte shape).
 
-// ?Rva0018123CGet@@YAHXZ @ 0x0018123c (6B): returns 0x00000001.
-// Conditional-skip target (cmp / jne +6). Opaque address-derived name.
-int Rva0018123CGet(void)
+// ?rva00181230@Rva00181230@@QBEHXZ @ 0x00181230 (21B): 1 when the byte flag at
+// +4 and the dword at +8 are both clear, else 0 (the 6B "returns 1" getter
+// once rowed at 0x0018123c was this body's true arm). No call, jump or data
+// reference in retail; address-derived owner.
+class Rva00181230
 {
-	return 0x00000001;
+public:
+	int rva00181230() const;
+private:
+	int m_00;
+	bool m_04;
+	int m_08;
+};
+
+int Rva00181230::rva00181230() const
+{
+	if (m_04 || m_08)
+		return 0;
+	return 1;
 }
