@@ -1,4 +1,6 @@
 // ?Rva004177D5@@YAXH@Z
+// partial score=0.99 date=2026-10-17
+// ?Rva004177D5@@YAXH@Z
 // partial score=0.843261 date=2026-10-15
 // ?Rva004177D5@@YAXH@Z
 // partial score=0.97 date=2026-10-14
@@ -217,12 +219,14 @@ void Rva00416589(BfmeStringRecord00415F34 record)
 // besides the request records.
 void Rva004177D5(int profile)
 {
- BuddyRequest req;
- req.type=7;
- req.profile=profile;
- TheGameSpyBuddyMessageQueue->addRequest(req);
- RequestEraseTree *requests=(RequestEraseTree *)TheGameSpyInfo->getBuddyRequestMap();
- requests->erase(*(const Rva00385CBAElement *)&profile);
+ {
+  BuddyRequest req;
+  req.type=7;
+  req.profile=profile;
+  TheGameSpyBuddyMessageQueue->addRequest(req);
+ }
+ _STL::map<int,int> *requestMap = TheGameSpyInfo->getBuddyRequestMap();
+ requestMap->erase(profile);
  BuddyRequest add;
  add.type=5;
  add.profile=profile;
