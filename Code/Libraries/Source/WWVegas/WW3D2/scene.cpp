@@ -431,90 +431,12 @@ void SceneClass::Load(ChunkLoadClass & cload)
  *   12/10/98  GTH : Created.                                                                 *
  *   06/27/02	KM Shader system light environment updates                                       *
  *=============================================================================================*/
-// ?Customized_Render@SimpleSceneClass@@ present-unmatched
-void SimpleSceneClass::Customized_Render(RenderInfoClass & rinfo)
-{	
-//	SceneClass::Render(rinfo);
-
-   // If visibility has not been checked for this scene since the last
-   // Render() call, check it (set/clear the visibility bit in all render
-   // objects in the scene).
-   if (!Visibility_Checked) {
-      // set the visibility bit in all render objects in all layers.
-	   Visibility_Check(&rinfo.Camera);
-   }
-   Visibility_Checked = false;	
-	
-	RefRenderObjListIterator it(&UpdateList);	
-
-	// allow all objects in the update list to do their "every frame" processing
-	for (it.First(); !it.Is_Done(); it.Next()) {
-		it.Peek_Obj()->On_Frame_Update();
-	}
-
-	// apply only the first four lights in the scene
-	// derived classes should use light environment
-	WWASSERT(rinfo.light_environment==NULL);
-	int count=0;
-	// Turn off lights in case we have none
-	DX8Wrapper::Set_Light(0,NULL);
-	DX8Wrapper::Set_Light(1,NULL);
-	DX8Wrapper::Set_Light(2,NULL);
-	DX8Wrapper::Set_Light(3,NULL);
-
-// (gth) WWShade only works with light environments.  We need to upgrade LightEnvironment to
-// support real point lights, etc.  It will likely just evolve into "the n most important" lights
-// rather than optimizing lights into directional lights...
-#if 0
-	for (it.First(&LightList); !it.Is_Done(); it.Next())
-	{		
-		if (count<4)
-		{
-			DX8Wrapper::Set_Light(count,*(LightClass*)it.Peek_Obj());
-		} else
-		{
-			// Simple scene only supports 4 global lights
-			WWDEBUG_SAY(("Light %d ignored\n",count));
-		}
-		count++;
-	}
-#endif
-
-	// adding light environment for new shader system
-	if (!rinfo.light_environment)
-	{
-		static LightEnvironmentClass lenv;
-
-		lenv.Reset(Vector3(0,0,0),AmbientLight);
-
-		for (it.First(&LightList); !it.Is_Done(); it.Next()) 
-		{
-			lenv.Add_Light(*(LightClass*)it.Peek_Obj());
-		}	
-		lenv.Pre_Render_Update(rinfo.Camera.Get_Transform());
-
-		rinfo.light_environment=&lenv;
-	}
-
-
-	// loop through all render objects in the list:
-	for (it.First(&RenderList); !it.Is_Done(); it.Next()) {
-
-		// get the render object
-		RenderObjClass * robj = it.Peek_Obj();
-
-		if (robj->Is_Really_Visible()) {
-			if (robj->Get_Render_Hook()) {
-				if (robj->Get_Render_Hook()->Pre_Render(robj, rinfo)) {
-					robj->Render(rinfo);
-				}
-				robj->Get_Render_Hook()->Post_Render(robj, rinfo);
-			} else {
-				robj->Render(rinfo);
-			}
-		}
-	}
-}
+// SimpleSceneClass::Customized_Render is rowed in SimpleSceneClassConstructorBFME2.cpp;
+// the Zero Hour copy here duplicated it. It was also what emitted the rowed
+// RenderObjClass::Get_Render_Hook inline here; this pointer is a compile anchor for
+// that row, not a retail data claim.
+extern RenderHookClass *(RenderObjClass::*const _bfmeInlineAnchorGetRenderHook)() =
+	&RenderObjClass::Get_Render_Hook;
 
 // SimpleSceneClass::Post_Render_Processing is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_Post_Render_Processing.cpp (0x00141BB0).
 
