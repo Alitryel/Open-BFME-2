@@ -1,5 +1,4 @@
 // ?rva00104A75@Rva0010461F@@QAEXXZ
-// partial score=0.964 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // ??0Rva0010461F@@QAE@XZ retail 0x0010461F..0x00104723 (260 bytes EH).
 // Constructor of the 0x88-byte object the factory 0x0008F32C creates and
@@ -30,10 +29,10 @@
 #include <math.h>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
-#include "BFME2ParticleTextureHandles.h"
+#include "../../../GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
 
 #define COORD2D_VIEW_DTOR
-#include "../../../../Libraries/Include/Lib/Coord2DCtorView.h"
+#include "../../../Libraries/Include/Lib/Coord2DCtorView.h"
 
 class Image
 {
@@ -376,7 +375,7 @@ void Rva0010461F::rva00104A75()
 	for (int i = 0; i < 4; i++) {
 		int next = i + 1;
 		if (next >= 4)
-			next = i - 3;
+			next -= 4;
 		Coord2D *innerNext = &m_68[next];
 		Coord2D *outerNext = &m_48[next];
 		Coord2D uv0;		uv0.x = uv->lo.x;
@@ -390,8 +389,10 @@ void Rva0010461F::rva00104A75()
 		Coord2D uv3;
 		uv3.x = uv->lo.x;
 		uv3.y = uv->hi.y;
-		Rva001049C7AddTriangle(renderer, &m_48[i], &m_68[i], innerNext, &uv0, &uv1, &uv2);
-		Rva001049C7AddTriangle(renderer, &m_48[i], innerNext, outerNext, &uv0, &uv2, &uv3);
+		Coord2D *outer = &m_48[i];
+		Coord2D *inner = &m_68[i];
+		Rva001049C7AddTriangle(renderer, outer, inner, innerNext, &uv0, &uv1, &uv2);
+		Rva001049C7AddTriangle(renderer, outer, innerNext, outerNext, &uv0, &uv2, &uv3);
 	}
 	((Rva0011A040Target *)renderer)->rva0011A040();
 }
