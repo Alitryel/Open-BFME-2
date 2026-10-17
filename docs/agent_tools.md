@@ -6,7 +6,7 @@ typed arguments (RVAs are hex, sizes are decimal bytes) and prints JSON with `--
 
 | Verb | Answers |
 |---|---|
-| `python3 tools/ghidra_refdb.py fn DB RVA\|NAME` | Ghidra's function at or containing an RVA: boundary, body ranges, name, signature |
+| `python3 tools/ghidra_refdb.py fn DB RVA\|NAME` | Ghidra's function at or containing an RVA: boundary, body ranges, name, signature; `containment` says how (`exact`, `entry`, `bounds-candidate`, `name`) |
 | `python3 tools/ghidra_refdb.py callers DB RVA` / `callees DB RVA` | call-graph edges |
 | `python3 tools/ghidra_refdb.py xrefs-to DB RVA` / `xrefs-from DB RVA` | every reference, with kind and operand |
 | `python3 tools/ghidra_refdb.py strings DB RVA` | strings a function references |
@@ -22,8 +22,11 @@ typed arguments (RVAs are hex, sizes are decimal bytes) and prints JSON with `--
 ## Reference snapshots (Ghidra, read-only)
 
 The analysed Ghidra project (BFME1, BFME2 and RotWK) is exported to one SQLite file
-per binary with tables `functions`, `xrefs`, `strings`, `data`, `switches`, `types` and
-`meta`. Snapshots are not committed. Local path: `build/refdb/<program>.sqlite`, for
+per binary with tables `functions`, `function_ranges`, `xrefs`, `strings`, `data`,
+`switches`, `types` and `meta`. Schema version 2 adds `function_ranges` (every body
+interval, end exclusive): `fn` then answers containment exactly and never reports a
+gap between body ranges. A version-1 snapshot stays readable, but its containing-function
+answers are marked `bounds-candidate`: not containment evidence (`docs/re_metadata.md`). Snapshots are not committed. Local path: `build/refdb/<program>.sqlite`, for
 example `build/refdb/bfme2_game.dat-442295.sqlite`. Published path: a GitHub release
 tagged `refdb-YYYYMMDD` carrying `refdb-<program>-<content12>.sqlite`, where
 `content12` is the first 12 hex digits of `meta.content_sha256`. Fetch it with
@@ -53,8 +56,22 @@ project. A name qualifies only if it has evidence behind it:
 
 A matched row on its own does not qualify, because the agent picked that name.
 Placeholders never sync. Only `ilt` may replace a name that is not a placeholder.
-`sync-apply` writes the plan into the canonical project with
-`tools/ghidra/apply_names.java`, tagging each function `refdb-sync tier=...`.
+To write names, bind the plan to the project's actual state and replay it through the
+validated metadata path (`tools/ghidra/apply_metadata.java`: target, precondition and
+evidence checks in Ghidra itself, one transaction, rollback on any failure):
+
+    python3 tools/ghidra_refdb.py sync-plan DB --project P.gpr --program NAME --out plan.json
+    python3 tools/ghidra_refdb.py sync-apply --project P.gpr --program NAME --plan plan.json
+
+An unbound TSV plan is refused with the command that regenerates it.
+
+## Curated metadata overlay
+
+Accepted names, bodies, signatures, canonical types and managed comments live in Git
+as a reviewable package (`reverse/re_metadata/<target>/`) and are replayed into a
+private, freshly rebuilt Ghidra project with `metadata-rebuild`; `metadata-validate`,
+`-export`, `-plan`, `-apply`, `-compare` and `-recipe` cover the steps.
+`docs/re_metadata.md` is the manual. A replayed fact is not a recovered byte.
 
 ## Similarity instead of BSim
 

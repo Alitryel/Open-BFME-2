@@ -13,8 +13,12 @@ of agents read concurrently, and names flow back INTO the project only through
   load     TSV directory -> SQLite (deterministic: sorted rows, content digest)
   verbs    fn, callers, callees, xrefs-to, xrefs-from, strings, switch, type
            -- the typed read interface agents call (JSON on stdout)
-  sync-plan   evidence-tier ledger names that differ from the snapshot's names
-  sync-apply  apply a sync plan to a CANONICAL project with tools/ghidra/apply_names.java
+  sync-plan   evidence-tier ledger names that differ from the snapshot's names; with
+              --project/--program and a .json --out, a bound, validated metadata plan
+  sync-apply  apply a bound sync plan (tools/ghidra/apply_metadata.java); an unbound
+              legacy TSV is refused with the command that regenerates it
+  metadata-validate | -export | -plan | -apply | -compare | -rebuild | -recipe
+              the curated RE metadata overlay (tools/re_metadata.py, docs/re_metadata.md)
 
 Snapshots are not committed. They live at build/refdb/<program>.sqlite and are
 published as release artifacts `refdb-<program>-<sha12>.sqlite` (docs/agent_tools.md).
@@ -27,6 +31,9 @@ Usage:
   python3 tools/ghidra_refdb.py fn DB 0x0068AAB0
   python3 tools/ghidra_refdb.py callers DB 0x0068AAB0
   python3 tools/ghidra_refdb.py sync-plan DB [--out plan.tsv]
+  python3 tools/ghidra_refdb.py sync-plan DB --project P.gpr --program NAME --out plan.json
+  python3 tools/ghidra_refdb.py metadata-rebuild --metadata PKG --executable EXE \
+      --project build/re_metadata/rebuilt.gpr --program NAME --receipt receipt.json
 """
 import argparse
 import csv
@@ -482,11 +489,19 @@ def main(argv=None):
         v.add_argument("db"), v.add_argument("key")
     sp = sub.add_parser("sync-plan")
     sp.add_argument("db"), sp.add_argument("--out"), sp.add_argument("--reverse")
+    sp.add_argument("--project", help="bind the plan to this project's actual state (needs --program)")
+    sp.add_argument("--program")
+    sp.add_argument("--ghidra"), sp.add_argument("--java")
     sa = sub.add_parser("sync-apply")
     sa.add_argument("--project", required=True, help="the CANONICAL project, never a working copy")
     sa.add_argument("--program", required=True), sa.add_argument("--plan", required=True)
+    sa.add_argument("--receipt")
     sa.add_argument("--ghidra"), sa.add_argument("--java")
+    _metadata_parsers(sub)
     args = ap.parse_args(argv)
+    if args.cmd.startswith("metadata-") or (args.cmd == "sync-plan" and args.project) \
+            or args.cmd == "sync-apply":
+        return _metadata_main(args)
 
     if args.cmd == "export":
         for program in args.program:
@@ -509,11 +524,112 @@ def main(argv=None):
             tiers[row[3]] = tiers.get(row[3], 0) + 1
         print(json.dumps({"renames": len(plan), "by_tier": tiers}, indent=2))
 
-    elif args.cmd == "sync-apply":
-        gpr = Path(args.project)
-        headless(ghidra_home(args.ghidra), java_home(args.java), gpr.parent, gpr.stem,
-                 args.program, "apply_names.java", [Path(args.plan).resolve()], read_only=False)
-        print(f"applied {args.plan} to {args.program}")
+
+def _metadata_parsers(sub):
+    def common(p, project=True, metadata=True):
+        if metadata:
+            p.add_argument("--metadata", required=True, help="package directory (manifest.json)")
+        if project:
+            p.add_argument("--project", required=True, help="private project <name>.gpr")
+            p.add_argument("--program", required=True, help="program name inside the project")
+        p.add_argument("--evidence-root", help="directory holding reverse/*.csv (default: the manifest's)")
+        p.add_argument("--ghidra"), p.add_argument("--java")
+    v = sub.add_parser("metadata-validate", help="validate a package and its bound inputs")
+    common(v, project=False)
+    v.add_argument("--executable", help="also check the executable hash, image base and sections")
+    v.add_argument("--update-digest", action="store_true", help="rewrite metadata_sha256 after review")
+    e = sub.add_parser("metadata-export", help="scoped observations -> proposal records")
+    common(e, metadata=False)
+    e.add_argument("--metadata"), e.add_argument("--scope", required=True), e.add_argument("--out-dir", required=True)
+    p = sub.add_parser("metadata-plan", help="read-only plan against a project's actual state")
+    common(p)
+    p.add_argument("--out", required=True)
+    a = sub.add_parser("metadata-apply", help="apply a validated plan in one transaction")
+    common(a)
+    a.add_argument("--plan", required=True), a.add_argument("--receipt", required=True)
+    a.add_argument("--fail-after", type=int, help=argparse.SUPPRESS)   # test hook: injected failure
+    c = sub.add_parser("metadata-compare", help="compare an observation export with desired facts")
+    common(c, project=False)
+    c.add_argument("--actual", required=True), c.add_argument("--out")
+    r = sub.add_parser("metadata-rebuild", help="fresh project: import, analyse, replay, compare, refdb")
+    common(r)
+    r.add_argument("--executable", required=True), r.add_argument("--receipt", required=True)
+    r.add_argument("--refdb-out"), r.add_argument("--max-cpu", type=int)
+    rr = sub.add_parser("metadata-recipe", help="record effective analyzer options from an actual import")
+    common(rr, project=False)
+    rr.add_argument("--executable", required=True), rr.add_argument("--scratch", required=True)
+    rr.add_argument("--max-cpu", type=int)
+
+
+def _metadata_main(args):
+    """JSON summary on stdout, diagnostics on stderr, exit code by category (docs/re_metadata.md)."""
+    import re_metadata as rm
+    try:
+        if args.cmd == "metadata-validate":
+            out = rm.cmd_validate(args.metadata, args.executable, args.update_digest, args.evidence_root)
+        elif args.cmd == "metadata-export":
+            out = rm.cmd_export(args.project, args.program, args.metadata, args.scope, args.out_dir,
+                                ghidra=args.ghidra, java=args.java)
+        elif args.cmd == "metadata-plan":
+            plan = rm.cmd_plan(args.metadata, args.project, args.program, args.out,
+                               evidence_root=args.evidence_root, ghidra=args.ghidra, java=args.java)
+            out = {k: plan[k] for k in ("status", "conflicts", "unsupported", "excluded", "plan_sha256")}
+            out["counts"] = {"operations": len(plan["operations"]), "noops": len(plan["noops"]),
+                             "conflicts": len(plan["conflicts"]), "unsupported": len(plan["unsupported"])}
+            out["plan"] = args.out
+        elif args.cmd == "metadata-apply":
+            receipt = rm.cmd_apply(args.metadata, args.project, args.program, args.plan, args.receipt,
+                                   evidence_root=args.evidence_root, fail_after=args.fail_after,
+                                   ghidra=args.ghidra, java=args.java)
+            out = {k: receipt.get(k) for k in ("status", "counts", "before_sha256", "after_sha256", "save")}
+            out["receipt"] = args.receipt
+        elif args.cmd == "metadata-compare":
+            out = rm.cmd_compare(args.metadata, args.actual, args.out, args.evidence_root)
+        elif args.cmd == "metadata-rebuild":
+            receipt = rm.cmd_rebuild(args.metadata, args.executable, args.project, args.program, args.receipt,
+                                     evidence_root=args.evidence_root, ghidra=args.ghidra, java=args.java,
+                                     refdb_out=args.refdb_out, max_cpu=args.max_cpu)
+            out = {"status": receipt["status"], "steps": {s["step"]: s["status"] for s in receipt["steps"]},
+                   "receipt": args.receipt}
+        elif args.cmd == "metadata-recipe":
+            out = rm.cmd_record_recipe(args.metadata, args.executable, args.scratch,
+                                       ghidra=args.ghidra, java=args.java, max_cpu=args.max_cpu)
+        elif args.cmd == "sync-plan":
+            if not args.out or not args.out.endswith(".json") or not args.program:
+                raise rm.MetadataError("invalid", "a bound sync plan needs --project, --program and --out PLAN.json")
+            db = connect(args.db)
+            meta = dict(db.execute("SELECT key, value FROM meta"))
+            reverse = Path(args.reverse or REVERSE)
+            target = {"executable_sha256": meta.get("executable_sha256", "").lower(),
+                      "image_base": meta.get("image_base", "").lower(), "address_space": "ram", "pointer_size": 4,
+                      "language_id": meta.get("language", ""), "compiler_spec_id": meta.get("compiler_spec", "windows")}
+            pkg_dir = Path(args.out).with_suffix(".package")
+            pkg = rm.name_sync_package(db, reverse, pkg_dir, target)
+            plan = rm.cmd_plan(pkg_dir, args.project, args.program, args.out, ghidra=args.ghidra, java=args.java)
+            out = {"status": plan["status"], "renames": len(plan["operations"]), "package": str(pkg_dir),
+                   "plan": args.out, "conflicts": plan["conflicts"][:20]}
+        else:   # sync-apply
+            if not args.plan.endswith(".json"):
+                raise rm.MetadataError(
+                    "invalid", "legacy unbound TSV plans are no longer applied: regenerate a bound plan with "
+                    f"`python3 tools/ghidra_refdb.py sync-plan DB --project {args.project} --program "
+                    f"{args.program} --out plan.json`, review it, then sync-apply --plan plan.json")
+            pkg_dir = Path(args.plan).with_suffix(".package")
+            receipt = rm.cmd_apply(pkg_dir, args.project, args.program, args.plan,
+                                   args.receipt or str(Path(args.plan).with_suffix(".receipt.json")),
+                                   ghidra=args.ghidra, java=args.java)
+            out = {k: receipt.get(k) for k in ("status", "counts", "save")}
+    except rm.MetadataError as exc:
+        sys.stderr.write(f"{args.cmd}: {exc}\n")
+        out = {"status": exc.category, "error": str(exc), **exc.details}
+    print(json.dumps(out, indent=2, sort_keys=True))
+    status = out.get("status")
+    code = rm.EXIT.get(status, 0 if status in ("ok", "noop", "pass", "ready") else 1)
+    if args.cmd == "metadata-plan" and status == "ready":
+        code = 0
+    if args.cmd == "metadata-export" and status == "partial":
+        code = rm.EXIT["unsupported"]
+    sys.exit(code)
 
 
 if __name__ == "__main__":
