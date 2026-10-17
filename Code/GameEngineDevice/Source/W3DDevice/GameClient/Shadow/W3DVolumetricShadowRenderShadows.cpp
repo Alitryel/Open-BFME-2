@@ -461,10 +461,16 @@ protected:
 #define SHADOW_DYNAMIC_VOLUME_FVF D3DFVF_XYZ
 
 extern FrustumClass shadowCameraFrustum;
+// Owned here: the camera frustum renderShadows copies each frame; retail
+// .data leaves its 264 bytes zero (VA 0x009EBD00).
+FrustumClass shadowCameraFrustum;
 extern Real bcX, bcY, bcZ, beX, beY, beZ;
 extern Int nShadowVertsInBuf;
 extern Int nShadowIndicesInBuf;
 extern W3DBufferManager::W3DVertexBuffer *lastActiveVertexBuffer;
+// Owned here: reset below after each batch; retail .data starts it at 0
+// (VA 0x009EBCF4).
+W3DBufferManager::W3DVertexBuffer *lastActiveVertexBuffer = 0;
 
 void W3DVolumetricShadowManager::renderShadows(RenderInfoClass &rinfo)
 {

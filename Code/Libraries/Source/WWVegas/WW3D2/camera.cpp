@@ -198,6 +198,15 @@ CameraClass::CameraClass(const CameraClass & src) :
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
+// FrustumClass's implicit copy assignment is retail's size-optimised,
+// frame-pointer body (0x000F194F, rowed in frustum_copy.cpp). This unit's /O2
+// would otherwise instantiate an unrolled copy for the assignments below that
+// the link keeps first; instantiate it here for size instead.
+#pragma optimize("s", on)
+#pragma optimize("y", off)
+static void bfmeFrustumCopyAnchor(FrustumClass &to, const FrustumClass &from) { to = from; }
+#pragma optimize("", on)
+
 CameraClass & CameraClass::operator = (const CameraClass & that)
 {
 	if (this != &that) {
