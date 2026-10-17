@@ -143,3 +143,7 @@ void Rva00DF6F94GapFillerContext::Add_Rendering_Task(RefCountPtr<MeshClass> mesh
 	for (unsigned int i = 0; i < renderingMethodStack.size(); ++i)
 		record->methods[i] = *(const Rva00072A94 *)&renderingMethodStack[i];
 }
+
+// Template instantiations take the optimize state at the end of the TU: retail's
+// RefCountPtr<MeshClass>::~RefCountPtr (MeshClassRender.cpp) is the speed form.
+#pragma optimize("t", on)
