@@ -1,9 +1,5 @@
 // ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
-// partial score=0.8804 date=2026-10-13
-// ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
-// partial score=0.8804 date=2026-10-13
-// ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
-// partial score=0.9 date=2026-10-07
+// partial score=0.8804 date=2026-10-17
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
 // stlport
 //
@@ -274,7 +270,7 @@ __forceinline void placeControlPoint(Coord3D &out, const Coord3D &offset, Real a
 	Real y = offset.y;
 	Coord3D pt;
 	pt.x = offset.x;
-	Real s = (Real)sin(angle);
+	Real s = (float)sin((double)(angle));
 	Real c = (Real)cos(angle);
 	Real x = pt.x;
 	pt.x = c * x - s * y + pos.x;
