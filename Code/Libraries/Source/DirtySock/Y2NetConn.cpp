@@ -252,7 +252,9 @@ int Rva007EB380Startup( char *params )
 // 0x007EB650 is its counterpart: two teardowns and the state back to zero, so
 // the next startup will run.  It checks nothing first -- shutting down twice is
 // allowed here where starting twice is not -- and always reports success.
-int Rva007EB650Shutdown( void )
+// Native caller5521FD passes one flags word and removes it after the call.
+// Shutdown ignores that argument; the complete34B body remains unchanged.
+int Rva007EB650Shutdown( int flags )
 {
 	Rva007F8D30();
 	Rva007FD270();
