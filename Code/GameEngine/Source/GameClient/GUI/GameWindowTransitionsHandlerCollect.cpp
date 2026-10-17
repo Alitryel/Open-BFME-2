@@ -21,6 +21,10 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(
 	CRITICAL_SECTION *lock);
 
+// The unwind funclet keeps an out-of-line ~CriticalSectionLock COMDAT; retail's
+// (0x0061FC60, mov eax,[ecx]; push eax) is the favor-speed shape the sibling
+// GameWindowTransitionsHandlerWait.cpp also spells this way.
+#pragma optimize("t", on)
 class CriticalSectionLock
 {
 public:
@@ -28,6 +32,7 @@ public:
 	CriticalSectionLock(CRITICAL_SECTION *cs) : m_cs(cs) { EnterCriticalSection(m_cs); }
 	~CriticalSectionLock() { LeaveCriticalSection(m_cs); }
 };
+#pragma optimize("", on)
 
 class Rva001DC0EC
 {
