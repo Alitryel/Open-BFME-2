@@ -73,17 +73,16 @@ public:
 extern int BfmeRenderWidth,BfmeRenderHeight;
 #define renderDeviceWidth ((unsigned)BfmeRenderWidth)
 #define renderDeviceHeight ((unsigned)BfmeRenderHeight)
-extern int g_Va00DB5FC0,g_Va00DB5FC4,g_Va00DB5FBC;
-extern unsigned g_Va00DEC4A0,g_Va00DEC4A4;
-#define render2DSrcBlend ((unsigned)g_Va00DB5FC0)
-#define render2DDstBlend ((unsigned)g_Va00DB5FC4)
-#define render2DShaderBits ((unsigned)g_Va00DB5FBC)
-#define render2DExtraShaderBits g_Va00DEC4A0
-#define render2DShaderAlphaFlag g_Va00DEC4A4
+extern int G00DB5FC0,G00DB5FC4,G00DB5FBC;
+extern int G00DEC4A0,G00DEC4A4;
+#define render2DSrcBlend ((unsigned)G00DB5FC0)
+#define render2DDstBlend ((unsigned)G00DB5FC4)
+#define render2DShaderBits ((unsigned)G00DB5FBC)
+#define render2DExtraShaderBits ((unsigned)G00DEC4A0)
+#define render2DShaderAlphaFlag ((unsigned)G00DEC4A4)
 struct _D3DVIEWPORT8 {unsigned X,Y,Width,Height;float MinZ,MaxZ;};
 struct IDirect3DDevice8 { void **vtable; };
 struct RenderStateStruct { unsigned shader;VertexMaterialClass*material;unsigned char unmodelled[0x1EC-8];Matrix4 world,view; };
-extern Matrix4 g_mapperProjectionUpload_009EDBF0;
 class ShaderClass { protected: static bool ShaderDirty; friend class DX8Wrapper; };
 class DX8Wrapper {
 public:
@@ -95,6 +94,7 @@ protected:
     static unsigned render_state_changed;
     static RenderStateStruct render_state;
     static Matrix4 ProjectionMatrix;
+    static Matrix4 DeviceProjectionMatrix;
     static float ZFar,ZNear;
     static IDirect3DDevice8 *D3DDevice;
     static unsigned matrix_changes;
@@ -106,13 +106,13 @@ public:
         render_state.material=m;render_state_changed|=0x4000;
     }
     static __declspec(dllimport) __forceinline void GetView(Matrix4&m) {if(render_state_changed&0x80000)m.Make_Identity();else {const Matrix4 &src=render_state.view;m[0][0]=src[0][0];m[0][1]=src[1][0];m[0][2]=src[2][0];m[0][3]=src[3][0];m[1][0]=src[0][1];m[1][1]=src[1][1];m[1][2]=src[2][1];m[1][3]=src[3][1];m[2][0]=src[0][2];m[2][1]=src[1][2];m[2][2]=src[2][2];m[2][3]=src[3][2];m[3][0]=src[0][3];m[3][1]=src[1][3];m[3][2]=src[2][3];m[3][3]=src[3][3];}}
-    static __forceinline void GetProjection(Matrix4&m) {const Matrix4 &src=g_mapperProjectionUpload_009EDBF0;m[0][0]=src[0][0];m[0][1]=src[1][0];m[0][2]=src[2][0];m[0][3]=src[3][0];m[1][0]=src[0][1];m[1][1]=src[1][1];m[1][2]=src[2][1];m[1][3]=src[3][1];m[2][0]=src[0][2];m[2][1]=src[1][2];m[2][2]=src[2][2];m[2][3]=src[3][2];m[3][0]=src[0][3];m[3][1]=src[1][3];m[3][2]=src[2][3];m[3][3]=src[3][3];}
+    static __forceinline void GetProjection(Matrix4&m) {const Matrix4 &src=DeviceProjectionMatrix;m[0][0]=src[0][0];m[0][1]=src[1][0];m[0][2]=src[2][0];m[0][3]=src[3][0];m[1][0]=src[0][1];m[1][1]=src[1][1];m[1][2]=src[2][1];m[1][3]=src[3][1];m[2][0]=src[0][2];m[2][1]=src[1][2];m[2][2]=src[2][2];m[2][3]=src[3][2];m[3][0]=src[0][3];m[3][1]=src[1][3];m[3][2]=src[2][3];m[3][3]=src[3][3];}
     static __forceinline void SetWorldIdentity() {if(!(render_state_changed&0x40000)){render_state.world.Make_Identity();render_state_changed|=0x40001;}}
     static __forceinline void SetViewIdentity() {if(!(render_state_changed&0x80000)){render_state.view.Make_Identity();render_state_changed|=0x80002;}}
     static __forceinline void SetProjection(const Matrix4&m) {
-        Matrix4 transposed=m.Transpose();ProjectionMatrix=transposed;g_mapperProjectionUpload_009EDBF0=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
+        Matrix4 transposed=m.Transpose();ProjectionMatrix=transposed;DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
         typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-        ((SetTransform)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&g_mapperProjectionUpload_009EDBF0);++matrix_changes;
+        ((SetTransform)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++matrix_changes;
     }
     static __forceinline void SetView(const Matrix4&m) {Matrix4 transposed=m.Transpose();render_state.view=transposed;render_state_changed&=~0x80000;render_state_changed|=2;}
     static __forceinline void SetShader(unsigned shader) {
@@ -141,9 +141,9 @@ void Rva00118F50::rva00118F50() {
     VertexMaterialClass*vm=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
     DX8Wrapper::SetMaterial(vm);if(vm)vm->Release_Ref();
     DX8Wrapper::SetWorldIdentity();DX8Wrapper::SetViewIdentity();
-    DX8Wrapper::ProjectionMatrix.Make_Identity();g_mapperProjectionUpload_009EDBF0.Make_Identity();DX8Wrapper::ZFar=0.0f;DX8Wrapper::ZNear=0.0f;
+    DX8Wrapper::ProjectionMatrix.Make_Identity();DX8Wrapper::DeviceProjectionMatrix.Make_Identity();DX8Wrapper::ZFar=0.0f;DX8Wrapper::ZNear=0.0f;
     typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-    ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&g_mapperProjectionUpload_009EDBF0);++DX8Wrapper::matrix_changes;
+    ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&DX8Wrapper::DeviceProjectionMatrix);++DX8Wrapper::matrix_changes;
     // Keep the native DWORD count argument loads; the equivalent conditional
     // preserves MSVC 7.1's argument lowering for these WORD-parameter ABIs.
     DynamicVBAccessClass vb(2,5,(vertices.Count ? vertices.Count : vertices.Count),0);
