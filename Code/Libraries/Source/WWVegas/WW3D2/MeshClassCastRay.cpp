@@ -40,7 +40,7 @@ public:
 		ORIENTED =	0x00000800,
 	};
 
-	int Get_Flag(FlagsType flag) { return Flags & flag; }
+	__declspec(dllimport) int Get_Flag(FlagsType flag) { return Flags & flag; }
 	void Get_Bounding_Box(AABoxClass * set_box);
 	bool Cast_Ray(RayCollisionTestClass & raytest);
 	bool Intersect_OBBox(OBBoxIntersectionTestClass & boxtest);

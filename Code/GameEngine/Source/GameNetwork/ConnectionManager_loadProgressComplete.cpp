@@ -59,7 +59,7 @@ public:
 	void sendLocalCommand(NetCommandMsg *msg, UnsignedByte relay);
 
 private:
-	__forceinline void processLoadComplete(NetCommandMsg *msg)
+	__declspec(dllimport) __forceinline void processLoadComplete(NetCommandMsg *msg)
 	{
 		TheGameLogic->processProgressComplete(msg->getPlayerID());
 	}

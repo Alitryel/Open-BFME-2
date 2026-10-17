@@ -37,7 +37,7 @@ typedef StringBase<char> AsciiString;
 class UpdateModuleData
 {
 public:
-	UpdateModuleData()
+	__declspec(dllimport) UpdateModuleData()
 	{
 	}
 	~UpdateModuleData();

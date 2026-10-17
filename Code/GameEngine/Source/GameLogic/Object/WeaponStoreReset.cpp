@@ -20,7 +20,7 @@ class WeaponTemplate
 public:
 	virtual ~WeaponTemplate();
 
-	void reset( void ) { }
+	__declspec(dllimport) void reset( void ) { }
 
 	WeaponTemplate *friend_clearNextTemplate( void ) { WeaponTemplate *ret = m_nextTemplate; m_nextTemplate = 0; return ret; }
 	bool isOverride( void ) { return m_nextTemplate != 0; }
