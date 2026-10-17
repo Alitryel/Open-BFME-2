@@ -11,7 +11,7 @@
 namespace _STL {
 template<> class allocator<char> {public:static char *allocate(unsigned int,const void *);};
 template<> void _Construct<Rva00525119>(Rva00525119 *,const Rva00525119 &);
-template<> __declspec(noinline) _List_node<Rva00525119> *list<Rva00525119,allocator<Rva00525119> >::_M_create_node(const Rva00525119 &x) {
+template<> inline __declspec(noinline) _List_node<Rva00525119> *list<Rva00525119,allocator<Rva00525119> >::_M_create_node(const Rva00525119 &x) {
  _List_node<Rva00525119> *p=(_List_node<Rva00525119> *)allocator<char>::allocate(sizeof(_List_node<Rva00525119>),0);
  _Construct(&p->_M_data,x);return p;
 }

@@ -39,6 +39,15 @@ namespace _STL
 {
 
 	template<> void _S_sort(list<Rva00525119, allocator<Rva00525119> > &, Rva00525951Less);
+	// Retail's builder-list node allocation (0x005258C0) calls the shared
+	// one-word copy out of line; same select-any body as StlSweepW5Rva00526103.cpp.
+	template<> void _Construct<Rva00525119>(Rva00525119 *, const Rva00525119 &);
+	template<> inline __declspec(noinline) _List_node<Rva00525119> *list<Rva00525119, allocator<Rva00525119> >::_M_create_node(const Rva00525119 &x)
+	{
+		_List_node<Rva00525119> *p = (_List_node<Rva00525119> *)allocator<char>::allocate(sizeof(_List_node<Rva00525119>), 0);
+		_Construct(&p->_M_data, x);
+		return p;
+	}
 }
 
 typedef int Int;
