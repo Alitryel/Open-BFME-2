@@ -1,4 +1,6 @@
 // ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
+// partial score=0.9734 date=2026-10-17
+// ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
 // partial score=0.8211008385075881 date=2026-10-16
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
@@ -1046,6 +1048,7 @@ public:
 	unsigned char usingMeleeAttack();
 	void rva0046A893(Object *obj);
 	void checkSpecialUnitDeath(Object *obj);
+	void refreshDrawable(Drawable *drawable);
 	void *rva0046AF12();
 	int getBannerCarrierIndexToUse(const Object *obj, const ThingTemplate **outTemplate);
 	HordeBannerCarrierUpdate *rva00468E26(Object *obj);
@@ -1263,6 +1266,11 @@ class Eva {public:bool reportEvaEvent(EvaEventID,const Coord3D*,const Coord3D*);
 extern Eva *TheEva;
 class Rva00265254 { public: Rva00265254(unsigned, unsigned, unsigned, unsigned); int words[19]; };
 class Rva001E42F2 { public: void rva001E42F2(const int *); };
+__forceinline void HordeContain::refreshDrawable(Drawable *drawable)
+{
+	if (drawable && ((HordeDeathDrawable *)drawable)->refresh)
+		drawable->rva00272945(rva0046D3FC(0));
+}
 void HordeContain::notifyOfMemberDeath(Object *obj)
 {
 	union { Rva0046247DPair pair; struct { int pad; int id; } words; } scratch;
@@ -1270,21 +1278,19 @@ void HordeContain::notifyOfMemberDeath(Object *obj)
 	if (!obj)
 		return;
 	((HordeDeathControl *)m_2C8)->slot6(obj);
-	UpdateModule *update = (UpdateModule *)this;
-	if (!((Rva004693AD *)update)->rva004693AD((Rva004693ADArg *)obj)) {
+	if (!((Rva004693AD *)(UpdateModule *)this)->rva004693AD((Rva004693ADArg *)obj)) {
 		scratch.words.id = obj->getID();
 		m_194.push_front(m_17C[scratch.words.id]);
 	}
 	if (obj->isKindOf(KINDOF_HORDE_DEATH)) {
 		Object *other = TheGameLogic->findObjectByID((ObjectID)obj->getID());
 		if (other) {
-			Rva00265254 mask(0, 0x67, 0x69, 0x1bb);
-			((Rva001E42F2 *)other)->rva001E42F2(mask.words);
+			((Rva001E42F2 *)other)->rva001E42F2(Rva00265254(0, 0x67, 0x69, 0x1bb).words);
 			((Thing *)other)->setPositionZ(((HordeDeathHeight *)TheTerrainLogic)->height(obj->m_position.x, obj->m_position.y, obj->rva0028B511(), false, true));
 		}
 	}
-	if (obj->m_254) {
-		const unsigned *data = ((HordeDeathBody *)obj->m_254)->slot15();
+	if (Rva0046B850Module *body = obj->m_254) {
+		const unsigned *data = ((HordeDeathBody *)body)->slot15();
 		if (data)
 			m_29C = data[2];
 		else
@@ -1294,25 +1300,24 @@ void HordeContain::notifyOfMemberDeath(Object *obj)
 	((Rva00463D9BTree *)&m_17C)->erase(*(const Rva00463D9BElement *)&scratch.words.id);
 	scratch.words.id = obj->getID();
 	m_170.erase(scratch.words.id);
-	while (update->rva00470B21()) {
+	while (rva00470B21()) {
 	}
-	const _STL::list<Object *> *items = ((Rva0046247DPair *)((Rva0046247D *)update)->rva0046247D(scratch.pair))->m04;
+	const _STL::list<Object *> *items = ((Rva0046247DPair *)((Rva0046247D *)this)->rva0046247D(scratch.pair))->m04;
 	if (items->empty() && m_170.empty()) {
-		TheEva->reportEvaEvent((EvaEventID)((HordeDeathDataView *)m_moduleData)->deathEvent, &obj->m_position, 0);
+		const HordeDeathDataView *data = (const HordeDeathDataView *)m_moduleData;
+		TheEva->reportEvaEvent((EvaEventID)data->deathEvent, &obj->m_position, 0);
 		TheGameLogic->destroyObject(m_object);
 	}
 	m_298 = TheGameLogic->m_frame;
 	if (TheWritableGlobalData->m_9A6) {
-		Drawable *drawable = ((Thing *)m_object)->getDrawable();
-		if (drawable && ((HordeDeathDrawable *)drawable)->refresh)
-			drawable->rva00272945(((HordeDeathInterface *)(Rva0046BB38Iface11C *)this)->slot96(0));
+		refreshDrawable(((Thing *)m_object)->getDrawable());
 	}
 	checkSpecialUnitDeath(obj);
 	const HordeContainModuleDataFields *md = fields();
 	if (md && !md->m_1D8) {
 		_STL::list<const Object *> contained;
 		rva0046D1F7(contained);
-		if ((unsigned)((Rva00291793 *)&contained)->rva00291793() < md->m_268)
+		if (contained.size() < (unsigned)md->m_268)
 			rva004696E5();
 	}
 }
