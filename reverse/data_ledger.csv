@@ -21892,7 +21892,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A23100,512,.data,global,?g_bfmeClampTable@@3QBEB,Code/Libraries/Source/VP6/FilteringC.cpp,owned,,1,57
 0x00A23300,4,.data,global,?g_bfmeSharedJX@@3HA,Code/Libraries/Source/VP6/CreatePBInstance.cpp,owned,,1,2
 0x00A23304,12,.data,global,_g_buckets,,unowned,,0,12
-0x00A23310,4,.data,global,?g_rva00E23310@@3PAXA,Code/GameEngine/Source/Common/System/MemoryImportFreeAdapters.cpp,owned,,1,2
+0x00A23310,4,.data,global,___onexitbegin,,unowned,,0,3
 0x00A25000,512,rts.ver,global,?g_versionBlock@@3QBDB,,unowned,,0,1
 0xC141E44D,0,,global,??1MoveHint@@QAE@XZ,,unowned,,0,1
 0xC141F04D,0,,global,??1MoveHint@@QAE@XZ,,unowned,,0,1

@@ -40,11 +40,23 @@ preview them; no new census evidence is claimed. The separate, non-executed
 focused DLL forces the previous eleven CRT routines plus these six public
 support/startup definitions, using the original CRT archive, Win32 libraries,
 source-owned import thunks and scoped IAT-only import entries. Its WinMain is an
-explicit test double. This proves bounded symbol closure without duplicate
+explicit test double; the expanded link also includes both existing memory-free
+adapters and an explicit test double for their game-free pointer slot. Its map
+shows one native COMMON for each exit-table global. This proves bounded symbol closure without duplicate
 public definitions; it does not prove full-game placement or runtime behavior.
 No full link cycle, census, boot or other maintainer verification runner was run.
 
-`verification.json`, `focused-link.json` and `inputs.json` preserve the results,
+The existing `MemoryImportFreeAdapters.cpp` had emitted a separate address-named
+zero pointer at VA `0x00e23310`. The native startup's exact relocation identifies
+that datum as `__onexitbegin`. Both 29/35-byte adapters retain exact bytes while
+now declaring the correctly typed C global, leaving the original four-byte
+COMMON in `atonexit.obj` as its sole definition. The canonical C/C++-only data
+collector regenerates the one affected record from current exact objects as
+`unowned` (no authored C++ definition), rather than inventing an additional
+owner; native COMMON ownership is separately proven in `exit-data.json`. Both
+units pass `data_check --enforce` with zero findings. No baseline is enlarged.
+
+`verification.json`, `focused-link.json`, `exit-data.json` and `inputs.json` preserve the results,
 source and input hashes and resolved SDK header paths. `check_startup.py` checks
 current normal-build objects and retail read-only; its optional sizeof probe
 uses the existing data-row tool's isolated probe directory. Run it with the
