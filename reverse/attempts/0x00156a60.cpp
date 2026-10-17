@@ -1,4 +1,6 @@
 // ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
+// partial score=0.78 date=2026-10-17
+// ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
 // partial score=0.775 date=2026-10-14
 // ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
 // partial score=0.7604897040120062 date=2026-10-10
@@ -10,8 +12,13 @@
 // Target glyph-index validation/cache at4C/44C/45C, scale40, font48,
 // buffer list14/count20, pixel28/height2C/ascent30/overlap38 measured.
 // Text-output flag2 and direct character cache replace Thai flag12/map.
-// This is a nonmatching bank:1303B/frameA4 vsnative1299/frameAC,
-// all calls resolve; compiler loop/local allocation remains different.
+// This is a nonmatching bank: 1285B/frameA4 vs native 1299/frameAC,
+// all calls resolve. Tile size is a SIZE aggregate and halfArea a plain
+// int (volatile removed): struct-diff 81->71, rawnd 954->942. Remaining
+// wall: native does no LICM/strength reduction on the outer ty loop
+// (ty*tileX, ty*tile.cy multiplied and -tile.cx recomputed per ty, ty
+// counted up in edi/[B+A0]); ours strength-reduces it. RECT inside tx,
+// sy at ty level, do/while and goto outer loops all keep the SR.
 #include <windows.h>
 extern "C" __declspec(dllimport) DWORD WINAPI GetGlyphIndicesW(HDC,LPCWSTR,int,LPWORD,DWORD);
 #include <map>
@@ -93,12 +100,11 @@ const FontCharsClassCharDataStruct *FontCharsClass::loadCharBitmap(unsigned shor
  }
 
  int area=Scale*Scale;
- volatile int halfArea = area>>1;
+int halfArea = area>>1;
  int tileX=64/Scale;
  int tileY=64/Scale;
- int tileWidth=Scale*tileX;
- int tileHeight=Scale*tileY;
- SIZE charSize={tileWidth,tileHeight};
+ SIZE tile={Scale*tileX,Scale*tileY};
+ SIZE charSize;
  if(!::GetTextExtentPoint32W(g_fontCharsGdiState->dc,&ch,1,&charSize))
   charSize.cx=charSize.cy=1;
  int width=(Scale+charSize.cx-1)/Scale+overlap;
@@ -112,11 +118,11 @@ const FontCharsClassCharDataStruct *FontCharsClass::loadCharBitmap(unsigned shor
  memset(pixels+width*height,0,bottom*width*2);
  int tilesX=(width+tileX-1)/tileX;
  int tilesY=(height+tileY-1)/tileY;
- RECT rect={0,0,(Scale*tileX),tileHeight};
+ RECT rect={0,0,(Scale*tileX),tile.cy};
  for(int ty=0;ty<tilesY;++ty) {
   for(int tx=0;tx<tilesX;++tx) {
 
-   int sx=tx*tileWidth,sy=ty*tileHeight;
+   int sx=tx*tile.cx,sy=ty*tile.cy;
    ::ExtTextOutW(g_fontCharsGdiState->dc,-sx,-sy,2,&rect,&ch,1,0);
    int maxX=tx*tileX+tileX;
    if(maxX>width) maxX=width;
