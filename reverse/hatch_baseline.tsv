@@ -2053,6 +2053,7 @@ address_global	Code/Libraries/Source/WWVegas/WWLib/Rva00418573Lookup.cpp	g_Va00B
 address_global	Code/Libraries/Source/WWVegas/WWLib/Rva004E4F82Finish.cpp	g_Va00BBB8D8	2
 address_global	Code/Libraries/Source/WWVegas/WWLib/Rva0055C0E1.cpp	g_Va007C26F0	4
 address_global	Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeFamily.cpp	g_Va01304B64	2
+address_global	Code/Libraries/Source/WWVegas/WWLib/simpledynvec_vector3_clip.cpp	g_Va00BCF628	3	allow=670707c273400190129a4e73dc671a5c155886e3
 address_global	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_science_base_001FF76E.cpp	g_Va00DB9440	1
 address_global	Code/gen_small/Rva0041AEF8Finish.cpp	g_Rva0107301CEmptyString	2
 alternatename	Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h	??1BfmeAudioEventPrefix136@@UAE@XZ	1
