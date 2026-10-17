@@ -9,10 +9,18 @@
 // release at +4, ICF-shared); the element's real type is not recovered.
 #include <vector>
 
+// LINK: 0x0029D7C2 is rowed ??1CameraMarker@@QAE@XZ; the element dtor reaches it
+// through a qualified call.
+class CameraMarker
+{
+public:
+	~CameraMarker();
+};
+
 class Rva00523EC0Marker
 {
 public:
-	~Rva00523EC0Marker();
+	~Rva00523EC0Marker() { ((CameraMarker *)this)->CameraMarker::~CameraMarker(); }
 private:
 	int m_00;
 	void *m_04;
