@@ -665,19 +665,6 @@ cleanup_done_00768107:
     ret
 ?rva00768107@@YAXXZ ENDP
 
-; Unwind@00b681d1: state bit 0 at [ebp-16]; cleanup transfer at [ebp+8].
-PUBLIC ?rva007681D1@@YAXXZ
-?rva007681D1@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_007681D1
-    and DWORD PTR [ebp-16], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1Gen_uw_0017098d@@QAE@XZ
-cleanup_done_007681D1:
-    ret
-?rva007681D1@@YAXXZ ENDP
-
 ; Unwind@00b6826d: state bit 0 at [ebp-16]; cleanup transfer at [ebp+8].
 PUBLIC ?rva0076826D@@YAXXZ
 ?rva0076826D@@YAXXZ PROC

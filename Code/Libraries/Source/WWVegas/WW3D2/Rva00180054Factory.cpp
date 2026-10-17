@@ -5,11 +5,7 @@
 // as the landed 0x0017FC1E/0x0014CF01 factories). Owner copy ctor pinned at
 // 0x00180023.
 
-class HierarchyPrototype
-{
-public:
-	void Release_Ref();
-};
+class HierarchyPrototype;
 
 // Match the existing counted-registry release provider and shared texture view.
 #include "../../../../GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
@@ -34,7 +30,7 @@ public:
 	~Rva00180023()
 	{
 		if (m_prototype != 0)
-			m_prototype->Release_Ref();
+			((TextureClass *)m_prototype)->Release_Ref();
 	}
 
 	HierarchyPrototype *m_prototype; // +0x00
