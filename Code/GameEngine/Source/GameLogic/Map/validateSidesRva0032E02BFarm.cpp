@@ -1,15 +1,8 @@
 // ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.99 date=2026-10-17
 // ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.994552 date=2026-10-15
 // ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.9945519711364812 date=2026-10-14
 // ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.9946 date=2026-10-14
 // ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.9945519711364812 date=2026-10-13
-// ?validateSides@SidesList@@QAE_NXZ
-// partial score=0.9945519711364812 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // stlport
@@ -1362,8 +1355,9 @@ bool SidesList::validateSides()
 
 restart:
 	for (i = m_teamrec.entryRaw(0).m_next; i != 0; ) {
+		char *base = (char *)&m_teamrec.m_teams[0];
 		unsigned int teamOffset = (unsigned int)i * sizeof(TeamsInfoEntry);
-		TeamsInfoEntry *entry = (TeamsInfoEntry *)((char *)&m_teamrec.m_teams[0] + teamOffset);
+		TeamsInfoEntry *entry = (TeamsInfoEntry *)(base + teamOffset);
 		int next = entry->m_next;
 		Dict *tdict = &m_teamrec.entryRaw(i).m_dict;
 		AsciiString tname = tdict->getAsciiString(TheKey_teamName);

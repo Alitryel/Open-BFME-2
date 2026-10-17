@@ -64462,3 +64462,4 @@ __ehhandler$?rva005BD6A7@@YAXXZ	0x007A0025	10	landed	add_match verified Code/Gam
 ?rva005F38D8@Rva005F38D8@@QAE?AURva005F38D8Ref@@H@Z	0x005F38D8	29	landed	add_match verified Code/GameEngine/Source/Common/Rva005F38D8Forward.cpp 29B; masked twin 1.0 of checklist forwarder 5CCFF3 (29B); holder +4 impl is ArmyDetailsMovieClip::Impl (callee reads +0x24 icon slots); int position per callee clamp; moved to its own unit because the callee is rowed CreateMemberIconSlot with the Holder return type
 ?rva00104A75@Rva0010461F@@QAEXXZ	0x00104A75	357	landed	add_match verified Code/GameEngine/Source/Common/rva00104A75Rva00104A75Farm.cpp 357B
 _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Source/VP6/_AnyRatioFrameScaleRva001BAF30Farm.cpp 606B
+?validateSides@SidesList@@QAE_NXZ	0x0032E02B	1097	landed	add_match verified Code/GameEngine/Source/GameLogic/Map/validateSidesRva0032E02BFarm.cpp 1097B

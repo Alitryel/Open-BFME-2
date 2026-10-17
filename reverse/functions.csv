@@ -96255,3 +96255,4 @@ __ehhandler$?rva005BD6A7@@YAXXZ,,0x007A0025,10,Code/GameEngine/Source/GameNetwor
 ?rva005F38D8@Rva005F38D8@@QAE?AURva005F38D8Ref@@H@Z,,0x005F38D8,29,Code/GameEngine/Source/Common/Rva005F38D8Forward.cpp,matched,masked twin 1.0 of checklist forwarder 5CCFF3 (29B); holder +4 impl is ArmyDetailsMovieClip::Impl (callee reads +0x24 icon slots); int position per callee clamp; moved to its own unit because the callee is rowed CreateMemberIconSlot with the Holder return type
 ?rva00104A75@Rva0010461F@@QAEXXZ,,0x00104A75,357,Code/GameEngine/Source/Common/rva00104A75Rva00104A75Farm.cpp,matched,
 _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScaleRva001BAF30Farm.cpp,matched,
+?validateSides@SidesList@@QAE_NXZ,,0x0032E02B,1097,Code/GameEngine/Source/GameLogic/Map/validateSidesRva0032E02BFarm.cpp,matched,
