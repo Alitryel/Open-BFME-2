@@ -1,51 +1,27 @@
 // ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.976837701698967 date=2026-10-16
-// cl: /G7 /arch:SSE /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /O1
-// stlport
-// ??1RampageBehaviorModuleData@@UAE@XZ, RVA 0x00458C9B, size 48.
-// Virtual dtor destroying RequiredUpgrade vector at +8 then restoring
-// Snapshot base vtable 0xBBB554 with trivial base inlined (no base call).
-// Evidence: EH state 0 single vector teardown 0x2CC70, vtable-last
-// 0xBBB554 same shape as UpgradeModuleData 0x255A42, slot-0 deleter
-// 0x458C7F calls here, ctor 0x458C0F owns class and table 0xC40E78.
-#include <vector>
-
-#include "ascii_string.h"
-
-// A declaration-only specialization stops this TU emitting its own
-// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
-namespace _STL {
-template <> vector<AsciiString, allocator<AsciiString> >::~vector();
-template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
-template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
-template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
-}
-
-class ModuleDataBase
-{
-public:
-    virtual ~ModuleDataBase() {}
-};
-
-class RampageBehaviorModuleData : public ModuleDataBase
-{
-public:
-    RampageBehaviorModuleData(int);
-private:
-    unsigned int m_unused04;
-    _STL::vector<AsciiString> m_requiredUpgrade;
-};
-
-// ?dummyCtor@RampageBehaviorModuleData@@QAE@H@Z present-unmatched
-RampageBehaviorModuleData::RampageBehaviorModuleData(int)
-{
-}
-
-void deleteRampageBehaviorModuleData(RampageBehaviorModuleData *p)
-{
-    delete p;
-}
-
+// ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// Native full689B 458CCB..458F7C, secondary update callback at +10.
+// New native corrections to the old bank: AI commands are embedded at
+// AIUpdate+20; decrement expiry always clears weapon8/possibly idles;
+// saved state compares/stores absolute health; max reference retains NaN
+// selection (one > max ? one : max). No global float alias is introduced.
+// cl: /I. /I. /O1 /DNDEBUG /MD /arch:SSE /G7
+//
+// ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// Target identity: slot 0 of RampageBehavior's UpdateModuleInterface table
+// (secondary vtable at 0x00C40DA8); the callback's this pointer is the
+// interface subobject at complete-object +0x10. The target reads module data
+// from this-0x0C and Object from this-0x08. The vtable owner and module-data
+// layout are independently established by the rowed constructor and data
+// constructor.
+//
+// Reference evidence: GeneralsMD AIRampageStateUpdate/OnEnter establish the
+// rampage state purpose and frame-timer behavior. This BFME2 method is not a
+// donor-body match: its upgrade gate, health ratio, weapon commands, condition
+// bits and timer fields are reconstructed from this body's calls and offsets.
+// Names for the two BodyModuleInterface float slots and Object condition bits
+// remain address-derived; the target calls below use only rowed helpers.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
@@ -242,9 +218,10 @@ class Object : public Thing
  __forceinline void clearConditionWord5Bit2()
  
  {
-  if (m_conditionWords[5] & 4) 
+  if (*((volatile unsigned char *)this+0x120) & 4) 
   {
-   *(unsigned int *)((char *)this+0x120) &= ~4U;
+   UnsignedInt *words = m_conditionWords;
+   words[5] &= ~4U;
    rva0028AE6D();
    
   }
@@ -255,7 +232,8 @@ class Object : public Thing
  {
   if (!(m_conditionWords[5] & 4)) 
   {
-   *(unsigned int *)((char *)this+0x120) |= 4;
+   UnsignedInt *words = m_conditionWords;
+   words[5] |= 4U;
    rva0028AE6D();
    
   }
@@ -350,13 +328,13 @@ class Rva00458BE1
  
 }
 ;
-class RampageBehavior : public UpdateModule
+class RampageBehavior
 
 {
  public:
  virtual UpdateSleepTime update();
  private:
-
+ unsigned char m_pad04[0x10 - 4];
  float m_10;
  Int m_14;
  Int m_18;
@@ -366,14 +344,14 @@ class RampageBehavior : public UpdateModule
 UpdateSleepTime RampageBehavior::update()
 
 {
- Object *owner = m_object;
+ Object *owner = *(Object **)((char *)this - 8);
  AIUpdateInterfaceView *ai = owner->m_ai;
  BodyModuleFloatInterface *body = owner->m_body;
  Drawable *drawable = owner->getDrawable();
  if (!body || !ai || !drawable)
  return UPDATE_SLEEP_FOREVER;
  const RampageBehaviorModuleDataView *data =
- (const RampageBehaviorModuleDataView *)m_moduleData;
+ (const RampageBehaviorModuleDataView *)*(const ModuleData **)((char *)this - 0xC);
  for (const unsigned char *upgrade = data->m_requiredUpgradeStart;
  upgrade != data->m_requiredUpgradeFinish; upgrade += 4) 
  {
@@ -385,7 +363,8 @@ UpdateSleepTime RampageBehavior::update()
  }
  float health = body->rva0048F64EGetA();
  float maxHealth = body->rva0048F64EGetB();
- float healthRatio = health / rampageMax(1.0f, maxHealth);
+ const float denominator = rampageMax(1.0f, maxHealth);
+ float healthRatio = health / denominator;
  if (m_14 > 0) 
  {
   --m_14;
@@ -410,7 +389,7 @@ UpdateSleepTime RampageBehavior::update()
  || !(m_10 > health)
  || m_18 != 0)
  goto updateResetTimer;
- if (((Rva00458BE1 *)this)->rva00458BE1()) 
+ if (((Rva00458BE1 *)((char *)this - 0x10))->rva00458BE1()) 
  {
   owner->clearWeaponSetFlag(WEAPONSET_7);
   owner->setWeaponSetFlag(WEAPONSET_8);
@@ -443,6 +422,3 @@ UpdateSleepTime RampageBehavior::update()
  return UPDATE_SLEEP_NONE;
  
 }
-
-// The complete UpdateModule bases supply the +0x10 interface adjustment;
-// source fields m_10/m_14/m_18 occupy complete-object +0x20/+0x24/+0x28.
