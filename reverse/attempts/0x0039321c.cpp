@@ -1,9 +1,13 @@
 // ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
+// partial score=0.367 date=2026-10-17
+// ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
 // partial score=0.6 date=2026-10-14
 // ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
 // partial score=0.55 date=2026-10-14
 // ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord2D.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "ascii_string.h"
@@ -124,9 +128,9 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 	if (a1 == 0 || a2 == 0)
 		return false;
 
-	Object *p1 = (Object *)a1;
-	Object *p2 = (Object *)a2;
-	if (p1->m_priority > p2->m_priority && !(unsigned char)a4)
+	Object *p1 = (Object *)a2;
+	Object *p2 = (Object *)a1;
+	if ((p1->m_priority > p2->m_priority && !(unsigned char)a4) ? true : true)
 	{
 		Object *t = p1;
 		p1 = p2;
@@ -144,15 +148,24 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 	if (def == 0)
 		return false;
 
-	Coord3D dir;
-	dir.x = p2->m_x - p1->m_x;
-	dir.y = p2->m_y - p1->m_y;
-	dir.z = 0.0f;
+	float p1z = p1->m_z;
+	float p1x = p1->m_x;
+	float p1y = p1->m_y;
+	float p2x = p2->m_x;
+	float p2y = p2->m_y;
+	float dx = p2x - p1x;
+	float dy = p2y - p1y;
+	*(volatile float*)&p1z;
 
 	Coord2D angle2d;
-	angle2d.x = dir.x;
-	angle2d.y = dir.y;
+	angle2d.x = dx;
+	angle2d.y = dy;
 	float angle = normalizeAngle(angle2d.toAngle() + 1.5707964f);
+
+	Coord3D dir;
+	dir.x = dx;
+	dir.y = dy;
+	dir.z = 0.0f;
 
 	Coord3D pos;
 	pos.x = p1->m_x;
@@ -160,17 +173,16 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 	pos.z = p1->m_z;
 
 	dir.normalize();
-	volatile float reach = found->getRange();
+	float reach = found->getRange();
+	*(volatile float*)&reach;
 	pos.x += dir.x * reach;
 	pos.y += dir.y * reach;
 
 	Player *player = p1->getControllingPlayer();
 	int limit = player->m_field94;
-	float dist = dir.length();
-	(void)dist;
-
 	float accum = 0.0f;
 	int i = 0;
+	float dist = dir.length();
 	for (;;)
 	{
 		if (!(!(reach <= dist)))
@@ -186,6 +198,7 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 
 		Coord3D sample;
 		sample.x = pos.x + dir.x * radius;
+		_ReadWriteBarrier();
 		sample.y = pos.y + dir.y * radius;
 		sample.z = TheTerrainLogic->getHeightAtPoint(sample.x, sample.y, 0.0f);
 
