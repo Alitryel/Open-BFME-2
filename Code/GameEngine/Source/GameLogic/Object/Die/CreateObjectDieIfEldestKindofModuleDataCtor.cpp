@@ -1,3 +1,5 @@
+char g_00C4AA08;
+
 // cl: /DNDEBUG /MD /GX
 //
 // ??0CreateObjectDieIfEldestKindofModuleData@@QAE@XZ, retail 0x00485E19,
@@ -43,5 +45,5 @@ private:
 CreateObjectDieIfEldestKindofModuleData::CreateObjectDieIfEldestKindofModuleData()
 	: CreateObjectDieModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00C4AA08);
+	m_vtable = reinterpret_cast<const void *>((unsigned int)&g_00C4AA08);
 }

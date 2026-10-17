@@ -15,6 +15,8 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 extern "C" const void *const vtbl_00BC6F20[];  // folded, 7 classes; via ??_7Rva0007DF07@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BC6F20=??_7Rva0007DF07@@6B@")
+extern const void *const g_00C3944C[];
+extern const void *const g_00C3945C[];
 
 class Player;
 class Object;
@@ -83,8 +85,8 @@ struct Rva0040C430Ret
 ArmySummaryEntry::ArmySummaryEntry() : CarryoverUnit()
 {
 	MemberAC *p = &m_ac;
-	p->m_vtable = (void *)0x00C3945C;
-	*(unsigned int *)this = 0x00C3944C;
+	p->m_vtable = (void *)g_00C3945C;
+	*(unsigned int *)this = (unsigned int)g_00C3944C;
 	m_b4 = 0;
 	m_b8 = 0;
 	m_bc = 0;

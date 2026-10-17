@@ -1,3 +1,5 @@
+char g_00C70220;
+
 // cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 //
 // ??0AIUpdateModuleData@@QAE@XZ at retail 0x0058925D (58B). The
@@ -38,7 +40,7 @@ private:
 
 // ??0AIUpdateModuleData@@QAE@XZ @0x58925D
 AIUpdateModuleData::AIUpdateModuleData()
-	: m_vtable(reinterpret_cast<void *>(0x00C70220))
+	: m_vtable(reinterpret_cast<void *>((unsigned int)&g_00C70220))
 	, m_unused08(0)
 	, m_voice()
 {

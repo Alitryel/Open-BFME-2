@@ -16,6 +16,9 @@ extern "C" const void *const vtbl_00C4D640[];  // folded, 11 classes; via ??_7Le
 extern "C" const void *const vtbl_00C552A4[];  // folded, 6 classes; via ??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C552A4=??_7GiveOrRestoreUpgradeSpecialPower@@6BDamageModuleInterface@@@")
 
+extern char g_00C55108;
+extern char g_00C55118;
+
 class Thing;
 class ModuleData;
 
@@ -51,9 +54,9 @@ GloriousChargeUpdate::GloriousChargeUpdate(Thing *thing, const ModuleData *modul
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x88);
 	void *context = (void *)((char *)&moduleData + 3);
-	*(const void **)this = (const void *)0x00C55118;
+	*(const void **)this = (const void *)(unsigned int)&g_00C55118;
 	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C55108;
+	*(const void **)((char *)this + 0x10) = (const void *)(unsigned int)&g_00C55108;
 	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C552A4);
 	member->init(context);
 	m_8C &= 0;

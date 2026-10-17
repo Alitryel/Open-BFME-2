@@ -30,6 +30,10 @@ extern "C" const void *const vtbl_00C45D2C[];  // ??_7HordeSiegeEngineContain@@6
 extern "C" const void *const vtbl_00C45EA8[];  // ??_7HordeSiegeEngineContain@@6BIface10@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C45EA8=??_7HordeSiegeEngineContain@@6BIface10@@@")
 
+char g_00C45CFC;
+char g_00C45D30;
+char g_00C45EB8;
+
 class Thing;
 class ModuleData;
 
@@ -80,14 +84,14 @@ private:
 HordeTransportContain::HordeTransportContain(Thing *thing, const ModuleData *moduleData)
 	: TransportContain(thing, moduleData), m_11D()
 {
-	m_vtable = (const void *)0x00C45EB8;
+	m_vtable = (const void *)(unsigned int)&g_00C45EB8;
 	m_secondary0C = (const void *)((unsigned int)vtbl_00C441B8);
 	m_secondary10 = (const void *)((unsigned int)vtbl_00C45EA8);
-	m_20 = (const void *)0x00C45D30;
+	m_20 = (const void *)(unsigned int)&g_00C45D30;
 	m_24 = (const void *)((unsigned int)vtbl_00C46064);
 	m_28 = (const void *)((unsigned int)vtbl_00C45D2C);
 	m_2C = (const void *)((unsigned int)vtbl_00C58790);
-	m_30 = (const void *)0x00C45CFC;
+	m_30 = (const void *)(unsigned int)&g_00C45CFC;
 	m_34 = (const void *)((unsigned int)vtbl_00C45CEC);
 	m_FC = (const void *)((unsigned int)vtbl_00C47834);
 	*(int *)((char *)&m_11D + 3) = -1000;

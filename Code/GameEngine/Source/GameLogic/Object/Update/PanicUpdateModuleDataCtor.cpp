@@ -1,3 +1,5 @@
+char g_00C59CF8;
+
 // cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 // Identity: ModuleFactory registers this data class under "EvacuateDamage" (addModule
 // pairs the name with this factory); formerly misnamed PanicUpdateModuleData.
@@ -44,7 +46,7 @@ private:
 
 // ??0EvacuateDamageModuleData@@QAE@XZ @0x4BAD10
 EvacuateDamageModuleData::EvacuateDamageModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C59CF8))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C59CF8))
 	, m_evacuationWeapon()
 {
 	m_evacuationWeapon.clear();

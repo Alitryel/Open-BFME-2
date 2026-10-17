@@ -1,3 +1,5 @@
+char g_00BF4128;
+
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /arch:SSE /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -89,7 +91,7 @@ private:
 
 // ??0SpawnBehaviorModuleData@@QAE@XZ @0x2575C2
 inline SpawnBehaviorModuleData::SpawnBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF4128))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF4128))
 {
 	m_dieMuxData.init();
 	m_slaveBlock.construct();

@@ -1,10 +1,12 @@
+char g_00BF2358;
+
 // cl: /O1 /DNDEBUG /MD /GX
 //
 // FadeAndDieOrnamentUpdateModuleData file-unit (parse first; the ctor
 // remains pinned for a follow-up).
 //
 // ?buildFieldParse@FadeAndDieOrnamentUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z,
-// retail 0x0025438C, 17 bytes. Single-table parse proc (table 0x00BF2358)
+// retail 0x0025438C, 17 bytes. Single-table parse proc (table (unsigned int)&g_00BF2358)
 // through the rowed MultiIniFieldParse::add at 0x2BC6E. Row supersedes the
 // parse pin.
 //
@@ -17,7 +19,7 @@
 // FollowTarget at +0x34 set to true. The empty UpdateModuleData base
 // (inline-empty ctor plus declared-only dtor) advances EH state 0 with no
 // emitted code (Topple precedent). Field identity is the own table at
-// 0x00BF2358 (AttachToTargetBone at +0x08, Envelope at +0x0C,
+// (unsigned int)&g_00BF2358 (AttachToTargetBone at +0x08, Envelope at +0x0C,
 // FollowTarget at +0x34). The rowed factory at 0x255601 news 0x38.
 
 extern "C" const void *const vtbl_00BF3740[];  // ??_7Rva0025558E@@6B@
@@ -77,7 +79,7 @@ private:
 // ?buildFieldParse@FadeAndDieOrnamentUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x0025438C
 void FadeAndDieOrnamentUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BF2358), 0);
+	parse.add(reinterpret_cast<const FieldParse *>((unsigned int)&g_00BF2358), 0);
 }
 
 // ??0FadeAndDieOrnamentUpdateModuleData@@QAE@XZ @0x002555AC

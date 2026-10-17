@@ -1,3 +1,8 @@
+
+char g_00C5BAE8;
+char g_00C5BD38;
+char g_00C585DC;
+
 // cl: /O1 /DNDEBUG /MD
 //
 // Chained ModuleData::buildFieldParse procs: each calls its base-class
@@ -21,7 +26,7 @@
 // pad, address-taken by its factory at 0x24F02F).
 // ?buildFieldParse@DelayedDeathBodyModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x004C159E, 27 bytes (chained on the pinned RespawnUpdate base proc
-// at 0x4C12D0, then table 0x00C5BAE8 holding DelayedDeathTime at +0x6C plus
+// at 0x4C12D0, then table (unsigned int)&g_00C5BAE8 holding DelayedDeathTime at +0x6C plus
 // ImmortalUntilDeathTime at +0x70 plus InvulnerableFX at +0x74 plus
 // DoHealthCheck at +0x78 plus DelayedDeathPrerequisiteUpgrade at +0x7C,
 // matching the ctor stores; factory at 0x251622 pushes this proc).
@@ -427,13 +432,13 @@ void SupplyWarehouseDockUpdateModuleData::buildFieldParse(MultiIniFieldParse &pa
 void DelayedDeathBodyModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	RespawnBodyModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5BAE8), 0);
+	parse.add(reinterpret_cast<const FieldParse *>((unsigned int)&g_00C5BAE8), 0);
 }
 
 void FreeLifeBodyModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	RespawnBodyModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5BD38), 0);
+	parse.add(reinterpret_cast<const FieldParse *>((unsigned int)&g_00C5BD38), 0);
 }
 
 class GloriousChargeUpdateModuleData
@@ -643,7 +648,7 @@ public:
 void MaxHealthUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C585DC), 0);
+	parse.add(reinterpret_cast<const FieldParse *>((unsigned int)&g_00C585DC), 0);
 }
 
 class TooltipUpgradeModuleData

@@ -1,3 +1,5 @@
+char g_00BF4028;
+
 // cl: /O1 /arch:SSE /GX /Oy- /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0StructureBodyModuleData@@QAE@XZ, retail 0x00257006, 101 bytes.
@@ -68,7 +70,7 @@ private:
 
 // ??0StructureBodyModuleData@@QAE@XZ @0x257006
 inline StructureBodyModuleData::StructureBodyModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF4028))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF4028))
 {
 	AsciiString &healingDefault = TheWritableGlobalData->m_healingBuff;
 	if (!healingDefault.isEmpty())

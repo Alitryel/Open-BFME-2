@@ -8,7 +8,8 @@
 #include "ascii_string.h"
 class ThingTemplate;
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &key); };
-#define TheRva00DFF000 (*(ThingFactory **)0x00DFF000)
+extern ThingFactory *TheThingFactory;
+#define TheRva00DFF000 TheThingFactory
 struct Rva0037E3D9Def
 {
 	char m_pad00[0x4DC];

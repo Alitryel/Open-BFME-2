@@ -1,10 +1,12 @@
+char g_00BF2658;
+
 // cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0CommandPointsUpgradeModuleData@@QAE@XZ, retail 0x00254891, 65 bytes.
 // EH ctor over the rowed Rva00253487Base base (0x253487, frameless and
 // therefore not unwindable): base call, single state-0 store, the compact
 // and-zero of CommandPoints at +0x118, the lea of RequiredObject at +0x11C,
-// the distinctive vtable literal 0x00BF2658, then the filter construction
+// the distinctive vtable literal (unsigned int)&g_00BF2658, then the filter construction
 // through the opaque 0x3623E5 pin (EnragedUpdateModuleDataCtor precedent:
 // same mangled owner, 4 bytes of storage, declared dtor). Size 0x120
 // matches the rowed ModuleData factory at 0x2548D2 (sole raw caller, news
@@ -48,7 +50,7 @@ private:
 
 // ??0CommandPointsUpgradeModuleData@@QAE@XZ @0x254891
 CommandPointsUpgradeModuleData::CommandPointsUpgradeModuleData()
-	: m_vtable(reinterpret_cast<void *>(0x00BF2658)),
+	: m_vtable(reinterpret_cast<void *>((unsigned int)&g_00BF2658)),
 	m_commandPoints(0),
 	m_requiredObject()
 {

@@ -1,9 +1,11 @@
+char g_00BF33C0;
+
 // cl: /O1 /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0UpgradeDieModuleData@@QAE@XZ, retail 0x002550ED, 22 bytes.
 // Frameless ctor over the pinned SEH base (??0DestroyDieModuleData@@QAE@XZ at
 // 0x253510, whose 12 ctor-position callers include this body at 0x2550F0):
-// base call, then the distinctive vtable literal 0x00BF33C0, then the
+// base call, then the distinctive vtable literal (unsigned int)&g_00BF33C0, then the
 // compact and-zero of the UpgradeToRemove name word at +0x38 (the rowed
 // buildFieldParse table 0x00BF0958 holds UpgradeToRemove at +0x38, and
 // BFME1's UpgradeDieModuleDataCtorThunk donor models the same word as the
@@ -38,7 +40,7 @@ private:
 // ??0UpgradeDieModuleData@@QAE@XZ @0x2550ED
 inline UpgradeDieModuleData::UpgradeDieModuleData()
 {
-	m_vtable = reinterpret_cast<void *>(0x00BF33C0);
+	m_vtable = reinterpret_cast<void *>((unsigned int)&g_00BF33C0);
 	_ReadWriteBarrier();
 	m_upgradeName = 0;
 }

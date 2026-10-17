@@ -1,3 +1,5 @@
+char g_00C59B20;
+
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -134,7 +136,7 @@ private:
 
 // ??0TransitionDamageFXModuleData@@QAE@XZ @0x004BA58A
 TransitionDamageFXModuleData::TransitionDamageFXModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C59B20))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C59B20))
 {
 	Int i, j;
 	for (i = 0; i < BODYDAMAGETYPE_COUNT; ++i) {

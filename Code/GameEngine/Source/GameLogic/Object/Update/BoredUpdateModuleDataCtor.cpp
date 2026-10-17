@@ -1,3 +1,5 @@
+char g_00C4F590;
+
 // cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??0BoredUpdateModuleData@@QAE@XZ, retail 0x004966FE, 130 bytes.
@@ -69,7 +71,7 @@ private:
 
 // ??0BoredUpdateModuleData@@QAE@XZ @0x4966FE
 BoredUpdateModuleData::BoredUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4F590))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C4F590))
 {
 	m_scanDelayTime = LogicFramesPerSecond;
 	m_scanDistance = 300.0f;

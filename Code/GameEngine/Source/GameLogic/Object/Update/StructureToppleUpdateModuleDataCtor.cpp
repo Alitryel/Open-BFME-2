@@ -1,8 +1,10 @@
+char g_00BF43A8;
+
 // cl: /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0StructureToppleUpdateModuleData@@QAE@XZ, retail 0x00257A5E, 256 bytes.
-// StructureTopple data ctor over vtable 0x00BF43A8. Donor is ZH
+// StructureTopple data ctor over vtable (unsigned int)&g_00BF43A8. Donor is ZH
 // StructureToppleUpdate.h (same member order and values) with BFME2
 // changes: DieMuxData member at +8 constructed through its rowed init at
 // 0x004CE534, an extra float at +0x48 (0.06), the damage-flags word as -1
@@ -116,7 +118,7 @@ public:
 	StructureToppleUpdateModuleData();
 
 private:
-	const void *m_vtable; // +0, retail 0x00BF43A8
+	const void *m_vtable; // +0, retail (unsigned int)&g_00BF43A8
 	int m_unused04; // +4, untouched padding
 	DieMuxData m_dieMuxData; // +8
 	Int m_minToppleDelay; // +0x38
@@ -144,7 +146,7 @@ private:
 // ??0StructureToppleUpdateModuleData@@QAE@XZ @0x00257A5E
 inline StructureToppleUpdateModuleData::StructureToppleUpdateModuleData()
 	: UpdateModuleData()
-	, m_vtable(reinterpret_cast<const void *>(0x00BF43A8))
+	, m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00BF43A8))
 	, m_crushingWeaponName(0)
 {
 	m_minToppleDelay = 0;

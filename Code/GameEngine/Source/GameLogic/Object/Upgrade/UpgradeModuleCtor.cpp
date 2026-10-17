@@ -1,3 +1,5 @@
+char g_00C42768;
+
 // cl: /DNDEBUG /MD /GX
 //
 // ??0UpgradeModule@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x00460AEC,
@@ -63,7 +65,7 @@ UpgradeModule::UpgradeModule(Thing *thing, const ModuleData *moduleData)
 {
 	*(void * volatile *)&m_18 = (void *)((unsigned int)vtbl_00BE2B78);
 	*(void **)&m_mux = (void *)((unsigned int)vtbl_00C42720);
-	*(void **)this = (void *)0x00C42768;
+	*(void **)this = (void *)(unsigned int)&g_00C42768;
 	*(void **)((char *)this + 0xC) = (void *)((unsigned int)vtbl_00C57328);
 	m_18 = (void *)((unsigned int)vtbl_00C58790);
 }

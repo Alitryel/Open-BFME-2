@@ -1,3 +1,5 @@
+extern char g_00E0661C;
+
 // cl: /DNDEBUG /MD
 // ??0Rva005756B6@@QAE@H@Z retail 0x005756B6 49B
 // Derived ctor of rowed base Rva005CBA04 (0x005CBA04): builds a 4B
@@ -29,7 +31,7 @@ private:
 	int m_08;
 };
 Rva005756B6::Rva005756B6(int arg)
-	: Rva005CBA04(*reinterpret_cast<const BfmeFixedStorage002CF0F0 *>(0x00E0661C))
+	: Rva005CBA04(*reinterpret_cast<const BfmeFixedStorage002CF0F0 *>((unsigned int)&g_00E0661C))
 	, m_08(arg)
 {
 }

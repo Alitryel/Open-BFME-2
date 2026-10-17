@@ -1,3 +1,5 @@
+char g_00BE2870;
+
 // cl: /Oy- /DNDEBUG /MD /GX- /Oi-
 // stlport
 //
@@ -137,7 +139,7 @@ void RankInfoStore::friend_parseRankDefinition(INI *ini)
 			info->setNextOverride(newInfo);
 			newInfo->markAsOverride(); // must do AFTER the copy
 
-			ini->initFromINI(newInfo, reinterpret_cast<const FieldParse *>(0x00BE2870));
+			ini->initFromINI(newInfo, reinterpret_cast<const FieldParse *>((unsigned int)&g_00BE2870));
 			//TheRankInfoStore->m_rankInfos.push_back(newInfo);	// NO, BAD, WRONG -- don't add in this case.
 		}
 		else
@@ -155,7 +157,7 @@ void RankInfoStore::friend_parseRankDefinition(INI *ini)
 			// an address-taken variable pins early, a copy sinks late).
 			RankInfo *info = new RankInfo;
 			RankInfo *const storedInfo = info;
-			ini->initFromINI(info, reinterpret_cast<const FieldParse *>(0x00BE2870));
+			ini->initFromINI(info, reinterpret_cast<const FieldParse *>((unsigned int)&g_00BE2870));
 			TheRankInfoStore->m_rankInfos.push_back(storedInfo);		}
 	}
 }

@@ -1,3 +1,5 @@
+char g_00C50EE8;
+
 // cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
@@ -107,7 +109,7 @@ private:
 
 // ??0AttributeModifierAuraUpdateModuleData@@QAE@XZ @0x49BBD5
 AttributeModifierAuraUpdateModuleData::AttributeModifierAuraUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C50EE8))
+	: m_vtable(reinterpret_cast<const void *>((unsigned int)&g_00C50EE8))
 	, m_bonusName()
 	, m_vec0C()
 {
