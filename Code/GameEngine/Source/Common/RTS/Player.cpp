@@ -202,6 +202,13 @@ EMPTY_DTOR(Squad)
 #include "GameNetwork/GameInfo.h"
 // bfme link decl-only begin
 namespace _STL { template <> vector<ObjectID, allocator<ObjectID> >::vector(vector<ObjectID, allocator<ObjectID> > const &); }
+template <> int min<int>(int, int);
+namespace _STL { template <> _List_base<Object *, allocator<Object *> >::_List_base(allocator<Object *> const &); }
+namespace _STL { template <> _List_base<Object *, allocator<Object *> >::~_List_base(); }
+namespace _STL { template <> bool less<unsigned int>::operator()(unsigned int const &, unsigned int const &) const; }
+namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(ScienceType *, ScienceType const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
 // bfme link decl-only end
 
 // Every vector<ScienceType> teardown here is inline in retail's game units; this

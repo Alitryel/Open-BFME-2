@@ -3,6 +3,10 @@
 // ??1Rva0042FCE6@@QAE@XZ, retail 0x0042FCE6, 54 bytes.
 // Dtor stores derived vtable 0x0083C960 destroys tree at +0x28 via rowed 0x00357C6A stores base vtable 0x007DBA74. Evidence: caller 0x0042FE1F deleting dtor base vtable matches BfmeOwnVVD base.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<unsigned int, pair<unsigned int const, void *>, _Select1st<pair<unsigned int const, void *> >, less<unsigned int>, allocator<pair<unsigned int const, void *> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<unsigned int, pair<unsigned int const, void *>, _Select1st<pair<unsigned int const, void *> >, less<unsigned int>, allocator<pair<unsigned int const, void *> > >::_M_erase(_Rb_tree_node<pair<unsigned int const, void *> > *); }
+// bfme link decl-only end
 
 typedef _STL::pair<const unsigned int, void *> Rva0042FCE6Pair;
 typedef _STL::_Rb_tree<unsigned int, Rva0042FCE6Pair, _STL::_Select1st<Rva0042FCE6Pair>, _STL::less<unsigned int>, _STL::allocator<Rva0042FCE6Pair> > Rva0042FCE6Tree;

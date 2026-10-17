@@ -14,6 +14,13 @@
 #include <string>
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<basic_string<char, char_traits<char>, allocator<char> >, pair<basic_string<char, char_traits<char>, allocator<char> > const, int>, _Select1st<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> >, less<basic_string<char, char_traits<char>, allocator<char> > >, allocator<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> > >::~_Rb_tree(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
+namespace _STL { template <> void _Rb_tree<basic_string<char, char_traits<char>, allocator<char> >, pair<basic_string<char, char_traits<char>, allocator<char> > const, int>, _Select1st<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> >, less<basic_string<char, char_traits<char>, allocator<char> > >, allocator<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> > >::_M_erase(_Rb_tree_node<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> > *); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// bfme link decl-only end
 
 class Rva004FA830
 {

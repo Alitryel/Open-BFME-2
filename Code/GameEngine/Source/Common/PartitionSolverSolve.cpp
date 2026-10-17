@@ -11,6 +11,10 @@
 // /EHs retains the native cleanup assumption around extern-C allocation.
 #include "PreRTS.h"
 #include "Common/PartitionSolver.h"
+// bfme link decl-only begin
+namespace _STL { template <> pair<ObjectID, unsigned int> * copy_backward<pair<ObjectID, unsigned int> *, pair<ObjectID, unsigned int> *>(pair<ObjectID, unsigned int> *, pair<ObjectID, unsigned int> *, pair<ObjectID, unsigned int> *); }
+namespace _STL { template <> void sort<pair<ObjectID, unsigned int> *, bool(*)(pair<ObjectID, unsigned int>, pair<ObjectID, unsigned int>)>(pair<ObjectID, unsigned int> *, pair<ObjectID, unsigned int> *, bool (*)(pair<ObjectID, unsigned int>, pair<ObjectID, unsigned int>)); }
+// bfme link decl-only end
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {

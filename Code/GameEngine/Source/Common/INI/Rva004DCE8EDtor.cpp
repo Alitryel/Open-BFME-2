@@ -3,6 +3,11 @@
 // ??1Rva004DCE8E@@QAE@XZ @0x004DCE8E 54B: dtor destroying two Rb_tree maps at +0x14 and +0x20.
 // Evidence: retail lea ecx [esi+0x20] calls rowed 0x004DCE51 then lea ecx [esi+0x14] calls rowed 0x004636FE with EH prolog table 0x00B916EC; pin ??1Rva004DCE8E@@QAE@XZ; caller deleting dtor in FamilyDeletingDtors11.cpp.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::_M_erase(_Rb_tree_node<pair<unsigned short const, int> > *); }
+namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::clear(); }
+// bfme link decl-only end
 
 struct Rva00462D35Mapped
 {

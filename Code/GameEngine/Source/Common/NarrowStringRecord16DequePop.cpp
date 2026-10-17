@@ -12,6 +12,9 @@
 void __cdecl free(void *);
 #include "BfmeNarrowRecord0041A617.h"
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

@@ -31,6 +31,17 @@ static inline const unsigned int &min(const unsigned int &a, const unsigned int 
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > * __uninitialized_copy<basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *>(basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *, __false_type const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > * __uninitialized_fill_n<basic_string<char, char_traits<char>, allocator<char> > *, unsigned int, basic_string<char, char_traits<char>, allocator<char> > >(basic_string<char, char_traits<char>, allocator<char> > *, unsigned int, basic_string<char, char_traits<char>, allocator<char> > const &, __false_type const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> void vector<basic_string<char, char_traits<char>, allocator<char> >, allocator<basic_string<char, char_traits<char>, allocator<char> > > >::_M_insert_overflow(basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_string<char, char_traits<char>, allocator<char> >::substr(unsigned int, unsigned int) const; }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

@@ -81,6 +81,7 @@ namespace _STL { template <> _List_node<AsciiString> * allocator<_List_node<Asci
 namespace _STL { template <> void allocator<_List_node<AsciiString> >::deallocate(_List_node<AsciiString> *, unsigned int) const; }
 namespace _STL { template <> _List_node<AsciiString> * _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::allocate(unsigned int); }
 namespace _STL { template <> void _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::deallocate(_List_node<AsciiString> *, unsigned int); }
+namespace _STL { template <> pair<AsciiString const, AsciiString>::~pair(); }
 // bfme link decl-only end
 
 namespace _STL

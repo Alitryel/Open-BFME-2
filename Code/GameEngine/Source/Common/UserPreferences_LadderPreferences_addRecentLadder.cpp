@@ -77,6 +77,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "GameClient/MapUtil.h"
 #include "GameClient/ChallengeGenerals.h"
 #include "GameNetwork/GameSpy/PeerDefs.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<pair<long const, LadderPref>, pair<long const, LadderPref> >(pair<long const, LadderPref> *, pair<long const, LadderPref> const &); }
+namespace _STL { template <> LadderPref & map<long, LadderPref, less<long>, allocator<pair<long const, LadderPref> > >::operator[](long const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

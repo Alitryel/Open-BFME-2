@@ -134,6 +134,8 @@ template <> set<AsciiString, less<AsciiString>, allocator<AsciiString> >::set();
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
 namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_erase(_Rb_tree_node<pair<AsciiString const, Coord3D> > *); }
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::~_List_base(); }
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
 // bfme link decl-only end
 
 #ifdef _INTERNAL

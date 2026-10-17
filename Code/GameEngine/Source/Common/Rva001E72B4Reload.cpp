@@ -116,6 +116,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <map>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+// bfme link decl-only end
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

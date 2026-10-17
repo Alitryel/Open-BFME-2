@@ -17,6 +17,9 @@
 #include "Common/INIException.h"
 #include <map>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+// bfme link decl-only end
 
 // Keep the already-inlined node comparison local instead of emitting the
 // incompatible shared _Rb_tree_base_iterator::operator!= COMDAT.

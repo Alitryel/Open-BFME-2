@@ -15,6 +15,12 @@
 #include <bitset>
 #include <string.h>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
+namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
+// bfme link decl-only end
 class Rva001E3624 {public:Rva001E3624():next(0),flag(false),extra(-1){}virtual ~Rva001E3624();void*next;bool flag;int extra;};
 class Rva002390CB {public:~Rva002390CB();char bytes[8];};
 class Rva0024C7B3Member {public:Rva0024C7B3Member() throw();unsigned words[7];};

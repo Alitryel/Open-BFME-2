@@ -23,6 +23,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// bfme link decl-only end
 typedef _STL::map<int,int> IntegerMap;
 struct TreeHintPayload001F8ACB { unsigned int value; };
 bool operator<(const AsciiString &, const AsciiString &);

@@ -25,6 +25,14 @@
 #include <utility>
 #include <strstream>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> basic_ostream<char, char_traits<char> > & _M_put_num<char, char_traits<char>, unsigned long>(basic_ostream<char, char_traits<char> > &, unsigned long); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_nowiden(char const *); }
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::clear(int); }
+namespace _STL { template <> bool ostreambuf_iterator<char, char_traits<char> >::failed() const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, unsigned long) const; }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

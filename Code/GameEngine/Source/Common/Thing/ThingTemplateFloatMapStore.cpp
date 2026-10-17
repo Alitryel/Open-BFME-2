@@ -5,6 +5,11 @@
 // the rowed integer-float subscript directly.
 
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> float & map<int, float, less<int>, allocator<pair<int const, float> > >::operator[](int const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, float>, _Nonconst_traits<pair<int const, float> > > _Rb_tree<int, pair<int const, float>, _Select1st<pair<int const, float> >, less<int>, allocator<pair<int const, float> > >::insert_unique(_Rb_tree_iterator<pair<int const, float>, _Nonconst_traits<pair<int const, float> > >, pair<int const, float> const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, float>, _Nonconst_traits<pair<int const, float> > >, bool> _Rb_tree<int, pair<int const, float>, _Select1st<pair<int const, float> >, less<int>, allocator<pair<int const, float> > >::insert_unique(pair<int const, float> const &); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

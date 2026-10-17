@@ -20,6 +20,14 @@ struct Gen_p12pod { int a[3]; };
 #define COORD3D_VIEW_DTOR
 #include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 #include "../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D *, unsigned int, Coord3D const &); }
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_insert_overflow(Coord3D *, Coord3D const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 class Rva0055A246
 {

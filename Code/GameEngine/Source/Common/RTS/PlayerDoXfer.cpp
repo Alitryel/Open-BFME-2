@@ -39,6 +39,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include <new>
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 #include "../BfmeSpecialPowerTimer8.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// bfme link decl-only end
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 class Xfer;

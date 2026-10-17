@@ -6,6 +6,10 @@
 // map<int,int> _M_find (0x00388F63) and map<int,void*> erase (0x005530A8) names, so the map
 // is reached through those two views; W3DScriptedModelDraw.cpp holds the rest of the class.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::erase(_Rb_tree_iterator<pair<int const, void *>, _Nonconst_traits<pair<int const, void *> > >); }
+// bfme link decl-only end
 // Retail inlines the typed node comparison. Keep that comparison local so
 // this unit does not emit a competing tree-base operator!= COMDAT.
 namespace _STL {

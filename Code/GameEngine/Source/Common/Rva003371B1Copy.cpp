@@ -9,6 +9,10 @@
 #include <memory>
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 struct BfmeStringRecord000331962 {
     unsigned int word;
     AsciiString text;

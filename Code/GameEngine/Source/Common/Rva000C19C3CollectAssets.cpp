@@ -16,6 +16,14 @@
 #include <vector>
 template<class T> struct StringInlineData {int m_refCount,m_length;T m_text[1];};
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_Rb_tree(less<AsciiString> const &, allocator<AsciiString> const &); }
+namespace _STL { template <> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(allocator<AsciiString> const &); }
+namespace _STL { template <> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_erase(_Rb_tree_node<AsciiString> *); }
+// bfme link decl-only end
 struct AsciiStringRef{const AsciiString*m_string;};
 class Rva000B3F84Pair{public:Rva000B3F84Pair(){}const char*m_ptr;int m_len;};
 struct AsciiStringPlusText:AsciiStringRef{operator AsciiString();Rva000B3F84Pair m_right;};

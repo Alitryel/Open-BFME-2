@@ -21,6 +21,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "bez_fwd_iterator.h"
 #include "d3dx8math.h"
 #include "../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 // Retail's uninitialized-copy target at 0x000766F5 is rowed as the 12-byte
 // BfmeE12 specialization, although this vector body uses Coord3D (three Real

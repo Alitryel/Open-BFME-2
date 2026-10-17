@@ -46,6 +46,12 @@ template <typename T> struct BfmeStringData
 };
 
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<UnicodeString, allocator<UnicodeString> >::~_List_base(); }
+namespace _STL { template <> _List_node<UnicodeString> * list<UnicodeString, allocator<UnicodeString> >::_M_create_node(UnicodeString const &); }
+namespace _STL { template <> void _List_base<UnicodeString, allocator<UnicodeString> >::clear(); }
+namespace _STL { template <> _List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> > list<UnicodeString, allocator<UnicodeString> >::erase(_List_iterator<UnicodeString, _Nonconst_traits<UnicodeString> >); }
+// bfme link decl-only end
 
 template <> class StringBase<unsigned short>
 {

@@ -64,6 +64,12 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "Common/ArchiveFileSystem.h"
 #include "Common/File.h"
 #include "Common/PerfTimer.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, DetailedArchivedDirectoryInfo>, _Select1st<pair<AsciiString const, DetailedArchivedDirectoryInfo> >, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::_Rb_tree(less<AsciiString> const &, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > const &); }
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, DetailedArchivedDirectoryInfo>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::_Rb_tree_base(allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > const &); }
+namespace _STL { template <> map<AsciiString, DetailedArchivedDirectoryInfo, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::map(); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, ArchivedFileInfo>, _Select1st<pair<AsciiString const, ArchivedFileInfo> >, less<AsciiString>, allocator<pair<AsciiString const, ArchivedFileInfo> > >::~_Rb_tree(); }
+// bfme link decl-only end
 
 
 // checks to see if str matches searchString.  Search string is done in the

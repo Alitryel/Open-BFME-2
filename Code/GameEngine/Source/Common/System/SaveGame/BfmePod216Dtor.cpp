@@ -15,6 +15,10 @@
 #include <map>
 #include <set>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// bfme link decl-only end
 
 enum ScienceType
 {

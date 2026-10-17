@@ -17,6 +17,10 @@
 #undef _STLP_DEFAULT_CONSTRUCTED
 #define _STLP_DEFAULT_CONSTRUCTED(_TTp) _TTp()
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 class INI { public: const char *getNextToken(const char *s); };
 class Rva00221A58 { public: Rva00221A58(const Rva00221A58 &other); private: char m_pad[0x1C]; };
 class Rva00221B42 { private: char m_pad[0x20]; };

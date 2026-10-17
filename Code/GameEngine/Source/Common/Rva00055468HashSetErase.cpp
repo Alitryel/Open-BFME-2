@@ -15,6 +15,9 @@
 // from the former ArmorHashMapErase.cpp row that byte-matched here.
 #include <hash_set>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

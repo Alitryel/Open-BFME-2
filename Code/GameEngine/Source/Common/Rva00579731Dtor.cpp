@@ -21,6 +21,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void vector<AsciiString, allocator<AsciiString> >::reserve(unsigned int); }
+// bfme link decl-only end
 
 class INI
 {

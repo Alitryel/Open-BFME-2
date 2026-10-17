@@ -17,6 +17,9 @@
 #include "Common/Snapshot.h"
 #include "ascii_string.h"
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
+// bfme link decl-only end
 
 struct Rva00501875Count
 {

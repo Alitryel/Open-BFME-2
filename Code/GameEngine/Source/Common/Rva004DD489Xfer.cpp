@@ -13,6 +13,16 @@
 #include <map>
 #include <set>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> pair<unsigned short const, int>::pair(unsigned short const &, int const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> bool less<unsigned short>::operator()(unsigned short const &, unsigned short const &) const; }
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+namespace _STL { template <> _Rb_tree_node<pair<int const, int> > * _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_create_node(pair<int const, int> const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
+// bfme link decl-only end
 
 // Keep the already-inlined node comparison local instead of emitting the
 // incompatible shared _Rb_tree_base_iterator::operator!= COMDAT.

@@ -6,6 +6,10 @@
 // The int/int map is only the established key-search storage view: native
 // node payload is a48B matrix followed by the bone index at node44.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_node<pair<int const, int> > *& _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_S_left(_Rb_tree_node<pair<int const, int> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, int> > *& _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_S_right(_Rb_tree_node<pair<int const, int> > *); }
+// bfme link decl-only end
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

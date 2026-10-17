@@ -297,6 +297,11 @@ template <> inline const unsigned int &max<unsigned int>(const unsigned int &a, 
 #include "GameClient/Module/AnimatedParticleSysBoneClientUpdate.h"
 #include "GameClient/Module/SwayClientUpdate.h"
 #include "GameClient/Module/BeaconClientUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

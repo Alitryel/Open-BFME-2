@@ -12,6 +12,11 @@
 // to the list as the list's pointer type. Replaces the banked 0.91 attempt,
 // which wrote the vtable stores as volatile integers.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pair<int const, void *> > >::_Rb_tree_base(allocator<pair<int const, void *> > const &); }
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::_M_erase(_Rb_tree_node<pair<int const, void *> > *); }
+// bfme link decl-only end
 struct Rva002BA8F1Listener;
 struct Rva005E4AE2Listener
 {

@@ -128,6 +128,11 @@ template<> inline int BitFlags<11>::countInverseIntersection(const BitFlags<11> 
 #include "GameLogic/Weapon.h"
 
 #include "Common/UnitTimings.h" //Contains the DO_UNIT_TIMINGS define jba.	
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, WeaponTemplateSet const &); }
+namespace _STL { template <> void _Destroy<ProductionPrerequisite *>(ProductionPrerequisite *, ProductionPrerequisite *); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // Retail keeps one vector<ProductionPrerequisite>::push_back (0x0033EA10); this
 // unit calls it rather than leading link order with its own copy.

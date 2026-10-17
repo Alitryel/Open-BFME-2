@@ -14,6 +14,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members take the optimize state of their definition.
 #pragma optimize("y", on)
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_reference _Bit_iter<_Bit_reference, _Bit_reference *>::operator*() const; }
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> & _Bit_iter<_Bit_reference, _Bit_reference *>::operator+=(int); }
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iter<_Bit_reference, _Bit_reference *>, unsigned int, bool); }
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> vector<bool, allocator<bool> >::begin(); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::insert(_Bit_iter<_Bit_reference, _Bit_reference *>, unsigned int, bool); }
+// bfme link decl-only end
 #pragma optimize("", on)
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

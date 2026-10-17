@@ -19,6 +19,9 @@ static inline bool operator!=(const _List_iterator<T, L> &a,
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+// bfme link decl-only end
 namespace _STL {
 static inline void _Construct(int *__p, const int &__val)
 { new (__p) int(__val); }

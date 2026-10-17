@@ -19,6 +19,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <hash_map>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int hash_map<int, int, hash<int>, equal_to<int>, allocator<pair<int const, int> > >::bucket_count() const; }
+namespace _STL { template <> unsigned int hashtable<pair<int const, int>, int, hash<int>, _Select1st<pair<int const, int> >, equal_to<int>, allocator<pair<int const, int> > >::bucket_count() const; }
+// bfme link decl-only end
 
 class Player;
 class Object;

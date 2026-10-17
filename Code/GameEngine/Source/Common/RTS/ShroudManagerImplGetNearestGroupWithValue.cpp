@@ -22,6 +22,12 @@
 #pragma optimize("", on)
 #include <deque>
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_reference vector<bool, allocator<bool> >::operator[](unsigned int); }
+namespace _STL { template <> _Bit_reference _Bit_iter<_Bit_reference, _Bit_reference *>::operator*() const; }
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> _Bit_iter<_Bit_reference, _Bit_reference *>::operator+(int) const; }
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> & _Bit_iter<_Bit_reference, _Bit_reference *>::operator+=(int); }
+// bfme link decl-only end
 struct BfmeE8 { int a,b; };
 struct Rva0073E4C0Record { Rva0073E4C0Record(); Rva0073E4C0Record(const Rva0073E4C0Record&); ~Rva0073E4C0Record(); Rva0073E4C0Record&operator=(const Rva0073E4C0Record&); private: char bytes[8]; };
 namespace _STL {

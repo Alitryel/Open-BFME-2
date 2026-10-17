@@ -329,6 +329,14 @@ AsciiString TheThingTemplateBeingParsedName;
 #ifdef CHECK_THING_NAMES
 
 #include "Common/STLTypedefs.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<ProductionPrerequisite::PrereqUnitRec *>(ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *); }
+namespace _STL { template <> ScienceType * __copy<ScienceType const *, ScienceType *, int>(ScienceType const *, ScienceType const *, ScienceType *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> unsigned int const * __lower_bound<unsigned int const *, unsigned int, less<unsigned int>, int>(unsigned int const *, unsigned int const *, unsigned int const &, less<unsigned int>, int *); }
+namespace _STL { template <> void advance<unsigned int const *, int>(unsigned int const *&, int); }
+namespace _STL { template <> unsigned int hash<char const *>::operator()(char const *) const; }
+namespace _STL { template <> pair<AsciiString const, ThingTemplate *> & hashtable<pair<AsciiString const, ThingTemplate *>, AsciiString, rts::hash<AsciiString>, _Select1st<pair<AsciiString const, ThingTemplate *> >, rts::equal_to<AsciiString>, allocator<pair<AsciiString const, ThingTemplate *> > >::_M_insert(pair<AsciiString const, ThingTemplate *> const &); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
