@@ -90,6 +90,30 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "Common/ThingSort.h"
 #include "Common/BitFlagsIO.h"
 
+// ZH's BitFlags intersection counters count through std::bitset inlines; retail
+// keeps the four-word SWAR bodies out of line in BitFlagsCountIntersection.cpp
+// (intersection 0x0033ADC0, inverse 0x0028F55C). The same computation here, so
+// this TU emits retail's bytes while findBestInfoSlow keeps the alias knowledge
+// the ZH inline gave it (SparseMatchFinder's matched body caches the vector end
+// across these calls). BFME2's BitFlags<11> storage is one dword at +0.
+template<> inline int BitFlags<11>::countIntersection(const BitFlags<11> &that) const
+{
+	unsigned v = *(const unsigned *)&m_bits & *(const unsigned *)&that.m_bits;
+	v = v - ((v >> 1) & 0x55555555);
+	v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+	v = (v + (v >> 4)) & 0x0F0F0F0F;
+	return (int)((v * 0x01010101u) >> 24);
+}
+
+template<> inline int BitFlags<11>::countInverseIntersection(const BitFlags<11> &that) const
+{
+	unsigned v = ~*(const unsigned *)&m_bits & *(const unsigned *)&that.m_bits;
+	v = v - ((v >> 1) & 0x55555555);
+	v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+	v = (v + (v >> 4)) & 0x0F0F0F0F;
+	return (int)((v * 0x01010101u) >> 24);
+}
+
 #include "GameClient/Drawable.h"
 #include "GameClient/FXList.h"
 #include "GameClient/GameText.h"
