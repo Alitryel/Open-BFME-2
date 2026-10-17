@@ -36,3 +36,11 @@ void __stdcall _com_issue_errorex(long hr,IUnknown *unknown,const _GUID& iid) {
 void __stdcall _set_com_error_handler(ErrorHandler callback) {__errorPfn=callback;}
 
 void __stdcall _com_issue_error(long hr) {__errorPfn(hr,0);}
+
+long __cdecl _com_dispatch_method(IDispatch *dispatch,long id,unsigned short flags,unsigned short type,void *result,const unsigned short *types,...) {
+ va_list args;va_start(args,types);
+ IErrorInfo *error;
+ long hr=_com_invoke_helper(dispatch,id,flags,type,result,types,args,&error);
+ if(hr<0)__errorPfn(hr,error);
+ return hr;
+}
