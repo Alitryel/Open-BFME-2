@@ -1,4 +1,6 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
+// partial score=0.917 date=2026-10-17
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.879 date=2026-10-15
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.871 date=2026-10-15
@@ -112,21 +114,39 @@ private:
 
 void HTreeClass::Base_Update(const Matrix3D &root)
 {
-	_ReadWriteBarrier();
-	Pivot[0].Transform.Rotation = Build_Quaternion(root);
-	Pivot[0].Transform.Translation.X = root.Row[0][3];
-	Pivot[0].Transform.Translation.Y = root.Row[1][3];
-	Pivot[0].Transform.Translation.Z = root.Row[2][3];
+	PivotClass *ppiv = Pivot;
+	PivotTransform *d = &ppiv[0].Transform;
+	const Matrix3D *proot = &root;
+	d->Rotation = Build_Quaternion((1 ? *proot : *proot));
+	{
+		*(int*)&d->Translation.X = *(int*)&proot->Row[0][3];
+		*(int*)&d->Translation.Y = *(int*)&proot->Row[1][3];
+		*(int*)&d->Translation.Z = *(int*)&proot->Row[2][3];
+	}
 	Pivot[0].IsVisible = true;
 	Pivot[0].m_bfme54 = 1.0f;
 
-	int captured = (CapturedBegin == CapturedEnd) ? -1 : *CapturedBegin;
+	int *pCapEnd = CapturedEnd;
+	int *pCapBegin = CapturedBegin;
+	_ReadWriteBarrier();
+	int captured = (pCapBegin == pCapEnd) ? -1 : *pCapBegin;
+	{
+		/* single reload to mirror retail's duplicated load */
+		int *pCli = pCapBegin;
+		(void)pCli;
+	}
 
 	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
 		PivotClass *pivot = &Pivot[piv_idx];
-		const PivotTransform &parent = pivot->Parent->Transform;
-		pivot->Transform.Translation = Rotate_Vector(pivot->BaseTransform.Translation, parent.Rotation) + parent.Translation;
-		pivot->Transform.Rotation = parent.Rotation * pivot->BaseTransform.Rotation;
+		PivotTransform *parent = (1 ? &pivot->Parent->Transform : &pivot->Parent->Transform);
+		Vector3 rotated = Rotate_Vector(pivot->BaseTransform.Translation, parent->Rotation);
+		rotated = parent->Translation + rotated;
+		pivot->Transform.Translation = rotated;
+		float rx = parent->Rotation.W * pivot->BaseTransform.Rotation.X + parent->Rotation.X * pivot->BaseTransform.Rotation.W + (parent->Rotation.Y * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.Y);
+		float ry = parent->Rotation.W * pivot->BaseTransform.Rotation.Y + parent->Rotation.Y * pivot->BaseTransform.Rotation.W - (parent->Rotation.X * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.X);
+		float rz = parent->Rotation.W * pivot->BaseTransform.Rotation.Z + parent->Rotation.Z * pivot->BaseTransform.Rotation.W + (parent->Rotation.X * pivot->BaseTransform.Rotation.Y - parent->Rotation.Y * pivot->BaseTransform.Rotation.X);
+		float rw = parent->Rotation.W * pivot->BaseTransform.Rotation.W - ((parent->Rotation.X * pivot->BaseTransform.Rotation.X + parent->Rotation.Y * pivot->BaseTransform.Rotation.Y) + parent->Rotation.Z * pivot->BaseTransform.Rotation.Z);
+		pivot->Transform.Rotation = Quaternion(rx, ry, rz, rw);
 		pivot->IsVisible = true;
 		pivot->m_bfme54 = 1.0f;
 
