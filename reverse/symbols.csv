@@ -10685,7 +10685,6 @@ name,address,notes
 ?rva004E3B78@Rva004E3B78@@QAEXXZ,0x004E3B78,thiscall void(); tail target of dump-range-18 0x003EED9D on this+8
 ?rva004E476C@AptPlayerStatus@@QAEXXZ,0x004E476C,unrowed player-row refresh of the player status screen (Ghidra FUN_008e476c; EH frame; checks +0x288 == 1 itself); REL32 read at the screen's OnInitialized callback 0x004E4A3D with ECX = this; address name
 ?rva004E50C8@Rva004E50C8@@QAEXXZ,0x004E50C8,thiscall void callee of 0x004E52DC read from its REL32 displacement; body unrowed
-?rva004E701E@Rva004E7277@@QAEXXZ,0x004E701E,thiscall void callee of 0x004E7277 read from its REL32 displacement (same this); body unrowed
 ?rva004E7B0C@Rva004E7B0CHolder@@QAEXXZ,0x004E7B0C,"forwarder (mov ecx, [ecx] / jmp 0x004E7A85) of the holder at TheInGameUI +0x58C; TerrainResourceClientBehavior slot 17 0x004CC5FA calls it before raising its +0x0C flag"
 ?rva004E7D1D@Rva004E7B0CHolder@@QAEXXZ,0x004E7D1D,"forwarder (mov ecx, [ecx] / jmp 0x004E7CEF) of the holder at TheInGameUI +0x58C; TerrainResourceClientBehavior slot 18 0x004CC61A calls it before clearing its +0x0C flag"
 ?rva004E8FF6@Rva004E8FF6@@QAEXPAX@Z,0x004E8FF6,thiscall single-arg callee of 0x004E9710 read from its REL32 displacement; body unrowed

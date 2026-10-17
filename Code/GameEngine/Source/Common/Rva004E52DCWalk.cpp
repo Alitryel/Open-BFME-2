@@ -1,19 +1,13 @@
 // cl: /Ireference/shims/bfmealloc /Ireference/shims/bfmelist /O1 /Op /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 // stlport
 //
-// Three small dump-range bodies: 0x4E52DC walks a circular node list
-// calling the pinned 0x4E50C8 on each member, 0x4E7277 is an m_08/m_40
-// state gate tail-calling the rowed 0x4E6846, and 0x4E7392 copy-inits
-// m_00/m_04/m_08 through the pinned 0x4E72C0. Retail 0x004E52DC 31B,
-// 0x004E7277 36B, 0x004E7392 39B. Callee pins are honest address-derived
-// candidates; the 0xBFD010 VA goes through a g_00 file-RVA extern (the
-// pointed-to bytes read as pointers, so static-struct, not vtable).
-
-extern int g_007FD010;
+// Native4E52DC walks a circular list and calls4E50C8 on each node's member.
+// The separate4E7277 notification state gate calls the verified UpdateNotice
+// provider before tail-calling4E6846. Their existing31B/36B rows stay exact.
 
 // Native4E50C8..4E52DC complete532B. The existing circular-list walker
 // calls this subobject at node+8. Retail accesses establish center+0 radius18
-// opacity24 length bounds28/2C color30 and two STLport lists34/3C.
+// opacity24 length bounds28/2C color30 and two STLport lists34/38.
 // Shadow manager and ShadowTypeInfo use existing native owners. The original
 // application class/method names remain unknown. Farm's explicit float cast
 // on the x result is equivalent to compound assignment; no volatile or barrier.
@@ -67,10 +61,12 @@ public:
 	void rva004E6846();
 };
 
+// Native4E7277 calls the already verified577B UpdateNotice at4E701E.
+class InGameNotificationBoxMovieClip { public: void UpdateNotice(); };
+
 class Rva004E7277
 {
 public:
-	void rva004E701E();
 	void rva004E7277();
 	void *rva004E7392(Rva004E7277 *arg);
 	void rva004E72C0(void *arg);
@@ -89,18 +85,15 @@ void Rva004E7277::rva004E7277()
 	if (m_08 == 0)
 		return;
 	if (m_40 != 0)
-		rva004E701E();
+		((InGameNotificationBoxMovieClip *)this)->UpdateNotice();
 	if (m_08 == 3)
 		((Rva004E6846 *)this)->rva004E6846();
 }
 
-// ?rva004E7392@Rva004E7277@@QAEXPAVRva004E7277@@@Z @0x004E7392 39B.
-
-// ?rva004E50C8@Rva004E50C8@@QAEXXZ present-unmatched
 void Rva004E50C8::rva004E50C8(){
  Shadow::ShadowTypeInfo info;
  info.m_first="TerrainClaimSegment";info.m_byte25=0;info.m_byte26=1;info.m_type=64;
- for(_STL::list<AngleRange>::iterator node=angles.begin();node!=angles.end();++node){
+ for(_STL::list<AngleRange>::iterator node=angles.begin();node._M_node!=angles.end()._M_node;++node){
   float begin=(*node).first;float end=(*node).last;
   float circumference=radius*6.28318548f;
   float difference=end-begin;
