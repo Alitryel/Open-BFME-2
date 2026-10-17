@@ -136,9 +136,14 @@ struct Rva005AE7C6Info {
     int tail;
     Rva005AE7C6Info() : profile(-1), tail(-1) {}
 };
-class Rva0059FB4F {public: bool rva0059FB4F(void *info);};
+// The query is the rowed AptOnlineCustomMatch::FillBuddyInviteGameInfo
+// (0x0059FB4F) and the helper the rowed cdecl Rva0041647ASend (0x0041647A),
+// whose 24-byte Rva004160BEInfo record has this local's layout.
+class Rva0059EF62;
+class AptOnlineCustomMatch {public: bool FillBuddyInviteGameInfo(Rva0059EF62 *info);};
 extern int g_currentAptOnlineCustomMatch;
-void __cdecl Rva0041647A(void *info);
+struct Rva004160BEInfo;
+void Rva0041647ASend(const Rva004160BEInfo *info);
 
 class AptMessenger
 {
@@ -218,10 +223,10 @@ void AptMessenger::rva005AE886()
 // the remaining scalar meanings are retained as address-derived views.
 void AptMessengerOnline::OnBttnInvite()
 {
-    Rva0059FB4F *query = (Rva0059FB4F *)g_currentAptOnlineCustomMatch;
+    AptOnlineCustomMatch *query = (AptOnlineCustomMatch *)g_currentAptOnlineCustomMatch;
     if (query) {
         Rva005AE7C6Info info;
-        if (!query->rva0059FB4F(&info))
+        if (!query->FillBuddyInviteGameInfo((Rva0059EF62 *)&info))
             return;
         _STL::vector<int> selected;
         GetSelectedPlayers(0, (int)&selected, 0);
@@ -230,7 +235,7 @@ void AptMessengerOnline::OnBttnInvite()
             int profile = *it;
             if (profile != TheGameSpyInfo->getLocalProfileID()) {
                 info.profile = profile;
-                Rva0041647A(&info);
+                Rva0041647ASend((const Rva004160BEInfo *)&info);
             }
         }
     }
