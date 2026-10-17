@@ -1,4 +1,6 @@
 // ?rva006E5940@Rva006E5940@@QAEXH@Z
+// partial score=0.947 date=2026-10-17
+// ?rva006E5940@Rva006E5940@@QAEXH@Z
 // partial score=0.9665 date=2026-10-14
 // ?rva006E5940@Rva006E5940@@QAEXH@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
@@ -6,7 +8,7 @@ template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // ?rva006E5940@Rva006E5940@@QAEXH@Z
 // partial score=0.949571647118817 date=2026-10-09
 // cl: /I. /O2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-extern "C" void Rva006FD040(void*,void*,void*);
+extern "C" void (__cdecl *Rva006FD040)(void*,void*,void*);
 class Rva0070EDC0 
 {
  public:void rva0070EDC0(int,void*);
@@ -239,7 +241,8 @@ void Rva006E5940::rva006E5940(int delta)
    case 7:((void(__cdecl*)(int))g_aptFreeTextureSlot)(O->words[0]);
    O->words[0]=i;
    break;
-   case 9:((Rva0070EDC0*)((char*)O+8))->rva0070EDC0(delta,g);
+   case 9:{ Rva0070EDC0 *receiver=(Rva0070EDC0*)((char*)O+8); receiver->rva0070EDC0(delta,g); }
+   if(i)
    if(i)
    {
     g_bfmeAptAssertAtE17734("i == 0","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptAnimation.cpp",390);
@@ -252,7 +255,7 @@ void Rva006E5940::rva006E5940(int delta)
     SLIDE(O->t10.records[j].p);
     
    }
-   SLIDE(__vref(O->t10.records));
+   SLIDE(O->t10.records);
    break;
    
   }
