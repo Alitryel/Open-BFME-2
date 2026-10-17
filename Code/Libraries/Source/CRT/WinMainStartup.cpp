@@ -50,14 +50,13 @@ static int check_managed_app() {
  }
  return 0;
 }
-// ?WinMainCRTStartup present-unmatched
 int __cdecl WinMainCRTStartup() {
  int in_quotes=0;
  int managed=check_managed_app();
  int result;
  __try {
   __set_app_type(2);
-  __onexitend=__onexitbegin=(ExitProc *)-1;
+  __onexitbegin=__onexitend=(ExitProc *)-1;
   *__p__fmode()=_fmode;
   *__p__commode()=_commode;
   _adjust_fdiv=*_imp___adjust_fdiv;

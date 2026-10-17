@@ -5,7 +5,9 @@
 // No CRT implementation source was read. Folding adds zero unique bytes.
 struct _exception;
 extern "C" {
+// Native merr.obj owns this four-byte default-hook flag, initialized to one.
+// Moving it with the callback prevents the old strong member being pulled.
+int __defaultmatherr=1;
 int __cdecl _setargv() {return 0;}
-// ?_matherr present-unmatched
 int __cdecl _matherr(_exception *) {return 0;}
 }
