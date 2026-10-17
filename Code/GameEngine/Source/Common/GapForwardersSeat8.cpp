@@ -507,6 +507,10 @@ Rva003AA6BD::Rva003AA6BD(EmitVtableTag *) {}
 // callback base) -> ??_G 0x0051CE56.
 // ?<Rva0051CBC6::Rva0051CBC6> absent-from-retail
 DEFINE_DTOR_THUNK(Rva0051CBC6, 0x218, public)
+// --- 0x004E845F (11B): AptInGameChat, one-slot table 0x00C6262C (the
+// +0x218 screen callback base) -> ??_G 0x004E84E3.
+// ?<AptInGameChat::AptInGameChat> absent-from-retail
+DEFINE_DTOR_THUNK(AptInGameChat, 0x218, public)
 // --- 0x004AB88F (8B): slot 11 of table 0x00C548B8 (the +0x24 base) ->
 // ??_G 0x004ABB1B.
 // ?<LargeGroupAudioUpdate::LargeGroupAudioUpdate> absent-from-retail
