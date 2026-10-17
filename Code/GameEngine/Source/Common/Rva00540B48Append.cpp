@@ -11,26 +11,28 @@
 // the four member pointers are the pinned VC7.1 vcall thunks. The vector's
 // begin is read before the entry is built (kept across the call in the dead
 // key slot), the hint after. The value assignment is the 9-dword
-// Rva0053FDE6 operator= retail folds at 0x0053FFCE; this unit emits it
-// (noinline, as retail calls it) so a fold-proof pin can name it there.
+// Rva0053FDE6 operator= retail folds at 0x0053FFCE (called, not inlined).
 // Identity is not recovered: names follow the existing pins and the
 // neighbouring Rva0054034ALocate.cpp.
+
+// Retail calls the 9-dword assignment at 0x0053FFCE, rowed as
+// Render2DSentenceClass::SentenceDataStruct::operator= (render2dsentence.cpp);
+// this /Oy- unit would emit a framed copy, so it calls the row by name.
+class Render2DSentenceClass
+{
+public:
+	struct SentenceDataStruct
+	{
+		SentenceDataStruct &operator=(const SentenceDataStruct &o);
+	};
+};
 
 class Rva0053FDE6
 {
 public:
-	// ??4Rva0053FDE6@@QAEAAV0@ABV0@@Z, folded by retail onto 0x0053FFCE (61B).
-	__declspec(noinline) Rva0053FDE6 &operator=(const Rva0053FDE6 &o)
+	__declspec(dllimport) __forceinline Rva0053FDE6 &operator=(const Rva0053FDE6 &o)
 	{
-		m_00 = o.m_00;
-		m_04 = o.m_04;
-		m_08 = o.m_08;
-		m_0c = o.m_0c;
-		m_10 = o.m_10;
-		m_14 = o.m_14;
-		m_18 = o.m_18;
-		m_1c = o.m_1c;
-		m_20 = o.m_20;
+		*(Render2DSentenceClass::SentenceDataStruct *)this = *(const Render2DSentenceClass::SentenceDataStruct *)&o;
 		return *this;
 	}
 	int m_00;
