@@ -234,15 +234,24 @@ TerrainLogic::TerrainLogic()
 // ported Zero Hour unit's header places the members elsewhere). Its own
 // tables 0x00BC5890/+4 0x00BC5858; the two listener tables fold with
 // TerrainLogic's.
+// Retain the actual derived overrides after reconciling the base API.
+// Native BC5890 primary slots1..4 are62E4A /62AF1 /62E2F /63153.
+// Native BC5858 secondary slots1/9/10 are62B17 /62B44 /62B97;
+// they must not silently inherit the base TerrainLogic implementations.
+// This address-derived constructor view still needs its existing W3D method
+// names reconciled with their providers before it links.
 class Rva00062A7EProduct : public TerrainLogic
 {
 public:
 	Rva00062A7EProduct();
 	virtual ~Rva00062A7EProduct();
-	virtual void vslot0();
+	virtual bool loadMap(const AsciiString &, ChunkInputStream *, bool, bool);
+	virtual void init();
+	virtual void reset();
+	virtual void update();
 
 protected:
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
 
