@@ -74,6 +74,33 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // bfme link decl-only begin
 template <> SimpleDynVecClass<Vector4>::~SimpleDynVecClass();
 // bfme link decl-only end
+// This unit inlines SimpleDynVecClass<float>::Add and <Vector3>::Shrink at every
+// use but still emitted unreferenced /O2 copies of both; retail's bodies are
+// 0x001683C3 and the /O1 0x00100210. Inline them under the stock bodies without
+// emitting copies.
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Grow(int new_size_hint)
+{
+	int new_size = MAX(Length() + Length()/4,Length() + 4);
+	new_size = MAX(new_size,new_size_hint);
+	return Resize(new_size);
+}
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<float>::Add(float const & object, int new_size_hint)
+{
+	if (ActiveCount >= VectorMax) {
+		if (!Grow(new_size_hint)) {
+			return false;
+		}
+	}
+	(*this)[ActiveCount++] = object;
+	return true;
+}
+template <> __declspec(dllimport) __forceinline bool SimpleDynVecClass<Vector3>::Shrink(void)
+{
+	if (ActiveCount < VectorMax/4) {
+		return Resize(ActiveCount);
+	}
+	return true;
+}
 
 static SegLineRendererClass _LineRenderer;
 
