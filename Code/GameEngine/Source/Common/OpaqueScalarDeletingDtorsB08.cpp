@@ -89,19 +89,6 @@ Rva000416E7::Rva000416E7(EmitVtableTag *)
 {
 }
 
-class Rva006109C0
-{
-public:
-	Rva006109C0(EmitVtableTag *);
-public:
-	virtual ~Rva006109C0();
-};
-
-// ?<Rva006109C0::Rva006109C0> absent-from-retail
-Rva006109C0::Rva006109C0(EmitVtableTag *)
-{
-}
-
 class W3DShroudMaterialPassClass
 {
 public:
@@ -159,7 +146,5 @@ Rva00256B94::Rva00256B94(EmitVtableTag *)
 // address keeps one definition and the unit links.
 //   0x000E14BD reads ??1FXShaderParameterSourceNamespace@@UAE@XZ
 #pragma comment(linker, "/alternatename:??1Rva000E14BD@@UAE@XZ=??1FXShaderParameterSourceNamespace@@UAE@XZ")
-//   0x006109C0 reads ??1MultiListObjectClass@@UAE@XZ
-#pragma comment(linker, "/alternatename:??1Rva006109C0@@UAE@XZ=??1MultiListObjectClass@@UAE@XZ")
 //   0x00256B94 reads ??1StructureCollapseUpdateModuleData@@UAE@XZ
 #pragma comment(linker, "/alternatename:??1Rva00256B94@@UAE@XZ=??1StructureCollapseUpdateModuleData@@UAE@XZ")
