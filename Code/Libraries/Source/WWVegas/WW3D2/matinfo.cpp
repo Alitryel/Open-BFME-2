@@ -79,16 +79,8 @@ MaterialInfoClass * MaterialInfoClass::Clone(void) const
 }
 
 
-// ?Get_Texture_Index@MaterialInfoClass@@QAEHPBD@Z present-unmatched
-int MaterialInfoClass::Get_Texture_Index(const char * name)
-{
-	for (int i=0; i<Textures.Count(); i++) {
-		if (stricmp(name,Textures[i]->Get_Texture_Name()) == 0) {
-			return i;
-		}
-	}
-	return -1;
-}
+// MaterialInfoClass::Get_Texture_Index is rowed with BFME2's body in
+// MaterialInfoGetTextureIndex.cpp; the donor copy here was a second definition.
 
 // ?Get_Texture@MaterialInfoClass@@QAEPAVTextureClass@@H@Z present-unmatched
 TextureClass * MaterialInfoClass::Get_Texture(int index)
