@@ -52,7 +52,7 @@ private:
 typedef MultiListClass<DX8FVFCategoryContainer> FVFCategoryList;
 typedef MultiListIterator<DX8FVFCategoryContainer> FVFCategoryListIterator;
 void Add_Rigid_Mesh_To_Container(FVFCategoryList*,unsigned,MeshModelClass*);
-class WW3D {public:static bool Is_Sorting_Enabled(){return _IsSortingEnabled;} static bool _IsSortingEnabled;};
+class WW3D {public:static bool Is_Sorting_Enabled(){return IsSortingEnabled;} private: static bool IsSortingEnabled;};
 class DX8MeshRendererClass {
 public:
  void Register_Mesh_Type(MeshModelClass*);
