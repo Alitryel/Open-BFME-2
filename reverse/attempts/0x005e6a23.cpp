@@ -1,4 +1,6 @@
 // ?Rva005E6A23@StrategicInGameUI@@YA?AUTreeHintRef00217D4C@@PBURva005E4300Entry@@@Z
+// partial score=0.978 date=2026-10-17
+// ?Rva005E6A23@StrategicInGameUI@@YA?AUTreeHintRef00217D4C@@PBURva005E4300Entry@@@Z
 // partial score=0.97 date=2026-10-13
 // ?Rva005E6A23@StrategicInGameUI@@YA?AUTreeHintRef00217D4C@@PBURva005E4300Entry@@@Z
 // partial score=0.97 date=2026-10-10
@@ -133,12 +135,17 @@ class Rva0037DCA5 {public:void *rva0037DC52();};
 class InGameSimpleHelp {public:InGameSimpleHelp(const UnicodeString&,const UnicodeString&);virtual ~InGameSimpleHelp();int count;void*impl;};
 namespace StrategicInGameUI {
 TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry*entry) {
- const UnicodeString &title=Rva005E3967(entry)->titleText();
- if(!title.isEmpty()) {
-  Rva005E3967Template *t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->rva0037DC52();
+ Rva005E3967Template *t=(Rva005E3967Template *)Rva005E3967(entry);
+ Rva005E3967Template *t2=t;
+ const UnicodeString &title=t2->titleText();
+ const UnicodeString *titleAddress=*(const UnicodeString *volatile *)&title;
+ if(!titleAddress->isEmpty()) {
+  t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->rva0037DC52();
   if(t) {
    const UnicodeString &description=t->descriptionText();
    return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(title,description));
+  } else {
+   return TreeHintRef00217D4C();
   }
  }
  return TreeHintRef00217D4C();
