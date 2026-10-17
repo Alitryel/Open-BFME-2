@@ -365,8 +365,9 @@
 
 /// \file Gadget/GadgetComboBox.cpp
 /// \ingroup grp_w1_gui_gadgets
-/// \brief Combo box helpers; documented here: colours, text colours and
-///        the text length limit.
+/// \brief Combo box helpers; documented here: colours (with the list box
+///        colour setter they use), text colours, the text length limit
+///        and the drop-down row count.
 ///
 /// A combo box is a window with three child gadgets: an edit box (a text
 /// entry field) showing the current text, a drop-down button and a list box
@@ -418,9 +419,14 @@
 /// \param hiliteSelectedItemBorderColor   Selected-item border when
 ///                                        highlighted.
 ///
-/// \note The source fetches the children through accessor functions whose
-///       current names follow Zero Hour's field order, not BFME 2's; the
-///       body's local variable names give the actual roles.
+/// \note The edit box and drop-down button are fetched through small
+///       accessor functions whose code matches Zero Hour's
+///       GadgetComboBoxGetListBox and GadgetComboBoxGetEditBox as compiled
+///       with Zero Hour's field offsets. BFME 2 places the three children
+///       one pointer slot later, so the accessor Zero Hour names for the
+///       list box reads the edit box, and the one it names for the edit box
+///       reads the drop-down button. The roles above are the ones the slots
+///       hold in BFME 2.
 ///
 /// \par Modding
 /// The default palette is hard-coded in
@@ -529,7 +535,8 @@
 /// \file Gadget/GadgetPushButton.cpp
 /// \ingroup grp_w1_gui_gadgets
 /// \brief Push button helpers: the check-like (toggle) mode, plus the
-///        GadgetButtonGetData accessor (not documented here).
+///        GadgetButtonGetData accessor (documented with
+///        \ref grp_w3_gui_gadget_lists).
 ///
 /// A check-like push button stays pressed when clicked and releases on the
 /// next click, like a check box drawn as a button. Two pieces of window
