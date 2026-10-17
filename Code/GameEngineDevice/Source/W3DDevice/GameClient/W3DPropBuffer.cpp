@@ -224,72 +224,13 @@ DECLARE_PERF_TIMER(Prop_Render)
 //=============================================================================
 /** Draws the props.  Uses camera to cull. */
 //=============================================================================
-// ?drawProps@W3DPropBuffer@@ present-unmatched
-void W3DPropBuffer::drawProps(RenderInfoClass &rinfo)
-{
-	USE_PERF_TIMER(Prop_Render)
-
-	Int i;
-	if (m_doCull) {
-		cull(&rinfo.Camera);
-	}
-	const GlobalData::TerrainLighting *objectLighting = TheGlobalData->m_terrainObjectsLighting[TheGlobalData->m_timeOfDay];
-
-	LightEnvironmentClass lightEnv;
-	Vector3 center(0,0,0); // arbitrary center point. [6/6/2003]
-	Vector3 ambient(objectLighting[0].ambient.red, objectLighting[0].ambient.green, objectLighting[0].ambient.blue);
-	lightEnv.Reset(center, ambient);
-
-	Matrix3D mtx;
-	const Vector3 zeroVector(0.0f, 0.0f, 0.0f);
-	const Vector3 xVector(1.0f, 0.0f, 0.0f);
-	const Vector3 yVector(0.0f, 1.0f, 0.0f);
-
-	for (i = 0; i < MAX_GLOBAL_LIGHTS; ++i)
-	{
-			m_light->Set_Ambient(zeroVector);
-			m_light->Set_Diffuse(Vector3(objectLighting[i].diffuse.red,
-																		 objectLighting[i].diffuse.green,
-																		 objectLighting[i].diffuse.blue));
-			m_light->Set_Specular(zeroVector);
-			mtx.Set(xVector, yVector, Vector3(objectLighting[i].lightPos.x, objectLighting[i].lightPos.y, objectLighting[i].lightPos.z), zeroVector);
-			m_light->Set_Transform(mtx);
-			lightEnv.Add_Light(*m_light);
-	}
-	
-	rinfo.light_environment = &lightEnv;
-	for	(i=0; i<m_numProps; i++) {
-		if (!m_props[i].visible) {
-			continue;
-		}
-		if (m_props[i].m_robj==NULL) {
-			continue;
-		}
-		if (!ThePlayerList || !ThePartitionManager) {
-			//  in Worldbuilder. No shroud either. jba. [6/9/2003]
-			m_props[i].ss = OBJECTSHROUD_CLEAR;
-		}
-		if (m_props[i].ss == OBJECTSHROUD_INVALID) {
-			Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-			m_props[i].ss = ThePartitionManager->getPropShroudStatusForPlayer(localPlayerIndex, &m_props[i].location);
-		}
-		if (m_props[i].ss >= OBJECTSHROUD_SHROUDED) {
-			continue;
-		}
-		if (m_props[i].ss <= OBJECTSHROUD_INVALID) {
-			continue;
-		}
-		if (TheTerrainRenderObject->getShroud() && m_props[i].ss != CELLSHROUD_CLEAR) {
-			rinfo.Push_Material_Pass(m_propShroudMaterialPass);
-			m_props[i].m_robj->Render(rinfo);
-			rinfo.Pop_Material_Pass();
-		} else {
-			m_props[i].m_robj->Render(rinfo);
-		}
-	}
-	rinfo.light_environment = NULL;
-
-}
+// W3DPropBuffer::drawProps is rowed in W3DPropBufferDrawProps.cpp; the Zero Hour copy
+// here was a non-retail second definition. It also emitted two inline rows of this
+// unit; these pointers are compile anchors for them, not retail data claims.
+extern void (Matrix3D::*const _bfmeInlineAnchorMatrix3DSet)(const Vector3 &, const Vector3 &, const Vector3 &, const Vector3 &) =
+	&Matrix3D::Set;
+extern void (Vector4::*const _bfmeInlineAnchorVector4Set)(float, float, float, float) =
+	&Vector4::Set;
 
 
 // ------------------------------------------------------------------------------------------------

@@ -37,7 +37,7 @@ class Matrix3D
 {
 public:
 	__declspec(dllimport) __forceinline Matrix3D(void) {}
-	__forceinline void Set(const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &pos)
+	__declspec(dllimport) __forceinline void Set(const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &pos)
 	{
 		Row[0][0] = x.X; Row[0][1] = y.X; Row[0][2] = z.X; Row[0][3] = pos.X;
 		Row[1][0] = x.Y; Row[1][1] = y.Y; Row[1][2] = z.Y; Row[1][3] = pos.Y;
