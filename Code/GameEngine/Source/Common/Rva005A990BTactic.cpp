@@ -153,23 +153,6 @@ public:
 	virtual void update();
 };
 
-bool AIBasePenetrationTroopsTactic::canRun(void *request)
-{
-	Rva002A8AB1Record *running = g_00DFEEF8->rva002A8AB1(m_owner);
-	if (running->rva002C7196(AIBasePenetrationTroopsTactic_IsRunning))
-		return false;
-	if (!checkTarget(request))
-		return false;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
-	if (!record || record->m_16C < 1)
-		return false;
-	Object *obj = ((Rva002C589B *)request)->rva002C5DA6();
-	if (!obj)
-		return false;
-	if ((obj->m_04->m_120 & 4) && !(obj->m_94 & 1) && !(obj->m_438 & 1))
-		return true;
-	return false;
-}
 
 void AIBasePenetrationTroopsTactic::cleanUp()
 {
