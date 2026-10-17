@@ -1,11 +1,5 @@
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.988 date=2026-10-17
-// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
-// partial score=0.9 date=2026-10-14
-// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
-// partial score=0.91839 date=2026-10-14
-// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
-// partial score=0.75 date=2026-10-13
 // cl: /O1 /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /arch:SSE /Op
 // stlport
 // Near-exact 0x004422DD..0x004424E7 (522B), WB HostValidateColors lead.
@@ -22,12 +16,14 @@
 // Corrected Oct13 attempt: assignment and SetColor execute before exiting the
 // available-color search, as retail 0x0044249E..0x004424BC proves. The previous
 // bank had an unreachable assignment after break and its 0.96 score was stale.
-// This unsigned search emits507B with native0x28 frame; receiver/slot registers,
-// saved-pointer/key homes and success-block placement still differ from522B.
-// No matched source, global owner, pin or compiler escape hatch was changed.
+// Oct17 verified trial: 523 emitted bytes versus native 522. The second
+// loop snapshots its index and increments before getSlot; native increments
+// at the tail. This accounts for an extra MOV/PUSH byte and shifted branch
+// displacements; all other normalized instructions agree. This is not an
+// exact body or full relocation proof. The previous farm's volatile self-read
+// and write emitted 528B, not the claimed near-exact 522B. No escape hatch is
+// needed for this trial, and no production source or ledger was changed.
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <map>
 #include <vector>
 #include <new>
@@ -85,18 +81,17 @@ void AptMpGameSetup::HostValidateColors() {
   (*map)[(unsigned)color]=(Image*)slot;
  }
  if(repair) {
-  for(i=0;8 > i;++i) {
-   GameSlot *slot=info->getSlot(i);
+  i=0; while(i<8) { unsigned slotIndex=i++;
+   GameSlot *slot=info->getSlot(slotIndex);
    if((0 == slot)) continue;
    ImageSubscriptMap *map=(ImageSubscriptMap*)&reserved;
-   int color=(i ? slot->color : slot->color);
+   int color=slot->color;
    if(color<0 && (special || slot->isObserver() || slot->state==1)) continue;
     if((GameSlot*)(*map)[(unsigned)color]==slot) continue;
    if(special) owner->SetColor(slot,-1);
    else {
     int c;
-    *(volatile int*)&i = *(volatile int*)&i;
-    _ReadWriteBarrier();
+
     for(c=0;(unsigned)c<allowed.size();++c) {
      RespawnPtrMap *lookup=(RespawnPtrMap*)&reserved;
      if(allowed[c] && lookup->find((unsigned)c)==lookup->end()) goto colorFound;
