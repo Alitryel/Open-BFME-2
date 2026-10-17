@@ -32,3 +32,8 @@ _variant_t::_variant_t(long value,unsigned short tag)
   integerValue=value;
  }
 }
+
+// Native 6547B0..6547BE: signed HRESULT check, 15 bytes.
+namespace _com_util {
+ void CheckError(long hr) {if(hr<0)_com_issue_error(hr);}
+}
