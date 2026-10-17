@@ -11,19 +11,23 @@ public:
  virtual void notifyIconListBackgroundClicked();
 private: class Impl *m_impl;
 };
-}
-class Rva005F6806Heap {
+// The 0x38-byte member at +8 is the hero clip's Impl, rowed at 0x005F654C.
+class HeroArmyDetailsMovieClip {
 public:
- Rva005F6806Heap(void *,void *,void *);
- virtual ~Rva005F6806Heap();
-private: char storage[0x38-4];
+ class Impl {
+ public:
+  Impl(void *,unsigned int,const AsciiString &);
+  virtual ~Impl();
+ private: char storage[0x38-4];
+ };
 };
+}
 class Rva005F64F5 : public StrategicHUD::ArmyDetailsMovieClip {
 public:
  Rva005F64F5(int,const AsciiString &,bool);
  virtual ~Rva005F64F5();
-private: Rva005F6806Heap *owned8;
+private: StrategicHUD::HeroArmyDetailsMovieClip::Impl *owned8;
 };
 Rva005F64F5::Rva005F64F5(int level,const AsciiString &name,bool back)
  : StrategicHUD::ArmyDetailsMovieClip(level,name,1,back),
- owned8(new Rva005F6806Heap(this,(void *)level,(void *)&name)) {}
+ owned8(new StrategicHUD::HeroArmyDetailsMovieClip::Impl(this,level,name)) {}
