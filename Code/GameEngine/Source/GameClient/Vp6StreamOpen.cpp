@@ -8,6 +8,10 @@
 // container-header scanning, frame allocation/configuration, and stream timing.
 // The empty AsciiString path resolves to retail's existing empty literal.
 #include "ascii_string.h"
+class Rva00090FE0 {public:int rva00090FE0(unsigned int);};
+class Rva007E4AD0Vp6Stream {public:void update();};
+class At2cObj {public:virtual void v0();};
+extern unsigned char g_00DE4498;
 struct Video;
 struct CodecState;
 extern "C" int __cdecl VP6_StartDecoder(CodecState **,int,int);
@@ -21,7 +25,7 @@ struct MovieHeader {int id;unsigned size;int unused;short width,height;int a,max
 class Rva007E3C20Vp6Stream {
 public:
  virtual ~Rva007E3C20Vp6Stream();
- virtual void s01();virtual void s02();virtual void s03();virtual void s04();virtual void s05();virtual void s06();virtual void s07();virtual void s08();virtual void s09();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual void s14();virtual void s15();virtual void s16();virtual void s17();virtual void s18();
+ virtual void s01();virtual void s02();virtual void s03();virtual void s04();virtual bool s05(int);virtual int rva000911F6(int);virtual void s07();virtual void s08();virtual void s09();virtual void s10();virtual void s11();virtual void s12();virtual bool s13();virtual void s14();virtual void s15();virtual void s16();virtual void s17();virtual void s18();
  virtual bool open(const AsciiString&,const Video*,bool);
  virtual int s20(const Video*);
 private:
@@ -46,4 +50,60 @@ bool Rva007E3C20Vp6Stream::open(const AsciiString &path,const Video *video,bool 
  if(hasAlpha){VP6_StartDecoder(&alphaFrame,width,height);VP6_SetPbParam(alphaFrame,0,0);}
  s02();start=-s20(video);start+=timeGetTime();last=-1;lastAlpha=-1;
  return true;
+}
+
+// Native 000911F6..00091323 is the 301-byte stream vslot6 dispatcher.
+// Vtable BC7F20 slot6 at BC7F38 points here; slot19 points to the
+// independently rowed open method at 000918BC.
+// It selects a target frame from the owned elapsed-time helper; advances
+// through stream virtuals; updates the existing clock; and returns status
+// bits 2 (already done) / 4 (advanced) / 1 (output dispatched).
+// The body describes native scheduling and virtual dispatch only. No codec
+// implementation source was read or used. The original method name is unknown.
+int Rva007E3C20Vp6Stream::rva000911F6( int arg )
+{
+	bool initiallyDone = s13();
+	int resultFlags = initiallyDone ? 2 : 0;
+	if ( last < 0 )
+		s02();
+	int nonBlocking = arg & 4;
+	if ( nonBlocking == 0 && ( resultFlags & 2 ) )
+		return resultFlags;
+	if ( !s05( arg ) )
+		return resultFlags;
+	int targetFrame = ((Rva00090FE0 *)this)->rva00090FE0((unsigned int)arg);
+	if ( g_00DE4498 != 0 || nonBlocking != 0 || ( arg & 0x40 ) != 0 ) {
+		int m44 = c; int m40 = this->b;
+		unsigned int now = timeGetTime();
+		// Equal-valued divisor alternatives retain this compiler
+		// home for the saved flag; both use the same measured rate.
+		int diff = (int)now - (int)( ( (__int64)( m44 * 1000 ) * targetFrame ) / (nonBlocking ? m40 : m40) );
+		int q1 = m40 / m44;
+		int q2 = 1000 / q1;
+		if ( diff - start > q2 )
+			start = diff;
+	}
+	int limit = targetFrame;
+	while ( last < limit ) {
+		if ( s13() )
+			break;
+		if ( nonBlocking != 0 )
+			break;
+		s02();
+		resultFlags |= 4;
+	}
+	if ( arg & 1 )
+		return resultFlags;
+	if ( (lastAlpha) == last )
+		return resultFlags;
+	s03();
+	((At2cObj *)at2c)->v0();
+	resultFlags |= 1;
+	s02();
+	if ( *(volatile int*)&nonBlocking == 0 )
+		return resultFlags;
+	if ( !s13() )
+		return resultFlags;
+	((Rva007E4AD0Vp6Stream *)this)->update();
+	return resultFlags;
 }
