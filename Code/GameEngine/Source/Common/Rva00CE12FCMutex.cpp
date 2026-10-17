@@ -5,6 +5,7 @@
 // derived vtable VA CE12FC supplies Sleep, GetTickCount, wait and release.
 // The constructor creates a mutex at +4. Complete destruction closes that
 // handle, then restores the base vtable through its genuine destructor65D180.
+extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void *);
 extern "C" __declspec(dllimport) void *__stdcall CreateMutexA(void *, int, const char *);
 
@@ -50,3 +51,13 @@ Rva00CE12FCMutex g_rva00CE12FCMutex;
 #pragma comment(linker, "/alternatename:?ticks@Rva00CE12FCMutex@@UAEKXZ=_current_time")
 #pragma comment(linker, "/alternatename:?wait@Rva00CE12FCMutex@@UAEXXZ=?bfmeGo1037H@BfmeH1037@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?release@Rva00CE12FCMutex@@UAEXXZ=?bfmeGo1038D@BfmeD1038@@QAEXXZ")
+
+// Retail CE12FC slot1 is the six-byte import tail at656BA0. Thread552027
+// obtains this singleton through656B60, passes33, and calls that slot. A
+// thiscall member forwarding its one stack argument to stdcall Sleep has
+// the same cleanup contract; ECX is unused. PE IAT identity proves Sleep.
+// The class and method spelling remain the existing BFME1-derived view.
+void Rva00CE12FCMutex::sleep(unsigned long milliseconds)
+{
+    Sleep(milliseconds);
+}
