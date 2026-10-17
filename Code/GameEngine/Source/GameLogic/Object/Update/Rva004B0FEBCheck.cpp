@@ -63,18 +63,24 @@ public:
 	bool accepts(Object *obj, Player *player);
 };
 
-struct EntryInner
+struct EmotionEntry
 {
 	char m_pad00[4];
-	int m_4;
+	int m_04;
 };
 
-class Rva004DD018
+// The owned 4DD018 provider is EmotionNugget::CanBeActivatedFor.
+// Native caller4B10E3 pushes two counter words (ctor4B0EE5 stores counts at
+// +14/+18) and the complete Object pointer through that provider's proven
+// argument view. Use its existing name/ABI; no second pin or wrapper.
+struct Rva004DD018Arg;
+
+class EmotionNugget
 {
 public:
-	bool rva004DD018(void *a, void *b, Object *other);
+	bool CanBeActivatedFor(int a, int b, Rva004DD018Arg *other);
 	char m_pad00[4];
-	EntryInner *m_4;
+	EmotionEntry *m_entry;
 };
 
 struct RvaFilterHolder10
@@ -88,8 +94,8 @@ struct Rva004B0FEBData
 	char m_pad00[4];
 	RvaFilterHolder10 *m_4;
 	char m_pad08[0x90 - 8];
-	Rva004DD018 **m_begin;
-	Rva004DD018 **m_end;
+	EmotionNugget **m_begin;
+	EmotionNugget **m_end;
 };
 
 class AI {public:char pad[0x10];Pathfinder *pathfinder;};
@@ -113,8 +119,8 @@ private:
 	Rva004B0FEBData *m_8;
 	Object *m_c;
 	void *m_10;
-	void *m_14;
-	void *m_18;
+	int m_14;
+	int m_18;
 	Object *m_1c;
 	volatile unsigned char m_20;
 };
@@ -173,11 +179,11 @@ body:
 	if (path->IsPointOnWall((int)(void *)&other->m_pos, false))
 		return false;
 
-	Rva004DD018 **it = m_8->m_begin;
+	EmotionNugget **it = m_8->m_begin;
 	while (it != m_8->m_end)
 	{
-		int kind = (*it)->m_4->m_4;
-		if ((kind == 0 || kind == 3) && (*it)->rva004DD018(m_14, m_18, other))
+		int kind = (*it)->m_entry->m_04;
+		if ((kind == 0 || kind == 3) && (*it)->CanBeActivatedFor(m_14, m_18, reinterpret_cast<Rva004DD018Arg *>(other)))
 			break;
 		++it;
 	}
