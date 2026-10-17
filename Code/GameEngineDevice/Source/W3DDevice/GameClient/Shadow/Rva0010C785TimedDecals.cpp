@@ -1,6 +1,4 @@
-// ?rva0010BE72@Rva0010C785@@UAEXXZ
-// partial score=0.998 date=2026-10-17
-// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // ?rva0010BE72@Rva0010C785@@UAEXXZ @ 0x0010BE72 499B, ret
@@ -23,9 +21,14 @@
 // the dllimport ceil): those two inline levels give retail's x87 pop order
 // around the double argument store. The list's base constructor, destructor,
 // clear and insert are the ICF-folded STLport pointer-list bodies, pinned
-// with this unit as their fold proof.
+// with this unit as their fold proof. Those bodies free nodes with a direct
+// call to _free (0x00030830), as /D_CRTIMP= gives the other units proving
+// these folds, while ceil stays imported, so _CRTIMP is emptied only after
+// <math.h>.
 
 #include <math.h>
+#undef _CRTIMP
+#define _CRTIMP
 #include <list>
 
 typedef int Int;
