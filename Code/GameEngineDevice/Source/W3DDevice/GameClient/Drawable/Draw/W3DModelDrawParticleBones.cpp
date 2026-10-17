@@ -1,43 +1,39 @@
-// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
-// partial score=0.99 date=2026-10-17
-// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
-// partial score=0.9507339886985016 date=2026-10-14
-// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
-// partial score=0.95 date=2026-10-13
-// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ
-// partial score=0.97 date=2026-10-13
+// ?rva000C6E1A@W3DModelDraw@@QAEXXZ
 // cl: /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
 //
-// ?rva000C6E1A@Rva000C6E1A@@QAEXXZ  retail 0x000C6E1A..0x000C7699 (2175B)
-// WorldBuilder twin 0x0092DD90 (4394B, unnamed).
+// Native 0x000C6E1A..0x000C7699: complete 2175-byte body, including its final RET.
+// The full native control flow, call targets and exception graph are reproduced.
+// WorldBuilder 0x0092DD90..0x0092EEBA (4394 bytes) supplies the corresponding
+// control flow and field accesses. Zero Hour's
+// W3DModelDraw::recalcBonesForClientParticleSystems supplies the bone-placement
+// semantics; BFME2 adds persistent records, callbacks and terrain restrictions.
+// The existing W3DModelDraw::rva000C6E1A call in doDrawModule (0x000C7BC4) and
+// its established symbol pin supply the class spelling. The method's original
+// name remains unknown, so the address-derived method name is retained.
 //
-// Client particle systems attached to the bones of a W3DModelDraw-like draw
-// module. Once the dirty byte (+0x48) is set it concatenates the particle-bone
-// records of the current condition state (+0x18, list at +0x74) and of the
-// module data (+0x14, list at +0xB4) into a local list and walks it: records
-// with a persist id that is already tracked in the list at +0x64 are skipped
-// (or the tracked system is destroyed, kind 1 also erases the entry, kind 2
-// marks it), the rest create a system, place it (client bone matrices, bone
-// translation or bone-less origin), apply the only-on-water / only-on-land
-// terrain query, attach it to the drawable and track it. When the dirty byte
-// is clear the secondary interface at +0xC takes slot 0x6C(1) and the bone
-// attachment update 0xC65CB runs instead.
+// This body needs a dedicated family unit. W3DModelDrawParticles.cpp's 143-byte
+// sibling requires potentially throwing command/handle declarations for its
+// own unwind graph. This body's corresponding calls are nothrow. The cleanup
+// sibling uses a different handle-return view, while the original ZH owner
+// still has vector-based particle records instead of BFME2's 32-byte list
+// payloads. Reusing those views would change existing exact bodies or this
+// one's ABI/lifetimes. No shared header or sibling declaration is changed.
 //
-// Layout facts are target reads (retail accesses); the record fields come from
-// the scripted-model INI reader (W3DScriptedModelDrawParticleSysBone.cpp) and
-// the copy at 0xB75AE: text +0 / trigger +4 / persist id +8 / persist kind +0xC /
-// callback arg +0x10 / callback +0x14 / template +0x18 / follow-bone +0x1C /
-// house colour +0x1D / only-on-land +0x1E / only-on-water +0x1F. Donor: ZH
-// W3DModelDraw::recalcBonesForClientParticleSystems supplies the bone placement
-// shape; the owning class name is not established.
+// The dirty path merges the current condition state's particle-bone list
+// (+0x18 -> +0x74) and module-data list (+0x14 -> +0xB4), handles persistence
+// against the tracker at +0x64, creates and places each accepted system,
+// applies water/land restrictions, and records it. The clean path calls
+// secondary-interface slot +0x6C and the existing 0x000C65CB bone update.
+//
+// Record fields are established by the native 0x000B75AE copy and the
+// W3DScriptedModelDrawParticleSysBone INI reader: text +0, trigger +4,
+// persistence ID +8, kind +0xC, callback argument +0x10, callback +0x14,
+// template +0x18, follow-bone +0x1C, house color +0x1D, land +0x1E, water +0x1F.
 #define _STLP_NO_EXCEPTIONS 1
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include "ascii_string.h"
 #include "Coord3D.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 
 namespace _STL {
 template <class T, class LeftTraits, class RightTraits>
@@ -112,17 +108,20 @@ class Matrix3D
 public:
 	__forceinline Matrix3D() {}
 	__forceinline Matrix3D(const Matrix3D &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
-	__forceinline Matrix3D(bool)
+	__forceinline explicit Matrix3D(bool init)
 	{
-		Row[0].X = 1.0f; Row[0].Y = 0.0f; Row[0].Z = 0.0f; Row[0].W = 0.0f;
-		Row[1].X = 0.0f; Row[1].Y = 1.0f; Row[1].Z = 0.0f; Row[1].W = 0.0f;
-		Row[2].X = 0.0f; Row[2].Y = 0.0f; Row[2].Z = 1.0f; Row[2].W = 0.0f;
+		if (init)
+		{
+			Row[0].X = 1.0f; Row[0].Y = 0.0f; Row[0].Z = 0.0f; Row[0].W = 0.0f;
+			Row[1].X = 0.0f; Row[1].Y = 1.0f; Row[1].Z = 0.0f; Row[1].W = 0.0f;
+			Row[2].X = 0.0f; Row[2].Y = 0.0f; Row[2].Z = 1.0f; Row[2].W = 0.0f;
+		}
 	}
 	__forceinline void Scale(float scale)
 	{
-		Row[0][0] *= scale; Row[1][0] *= scale; Row[2][0] *= scale;
-		Row[0][1] *= scale; Row[1][1] *= scale; Row[2][1] *= scale;
-		Row[0][2] *= scale; Row[1][2] *= scale; Row[2][2] *= scale;
+			Row[0][0] *= scale; Row[1][0] *= scale; Row[2][0] *= scale;
+			Row[0][1] *= scale; Row[1][1] *= scale; Row[2][1] *= scale;
+			Row[0][2] *= scale; Row[1][2] *= scale; Row[2][2] *= scale;
 	}
 	__forceinline Vector3 Get_Translation() const { Vector3 v; v.X = Row[0][3]; v.Y = Row[1][3]; v.Z = Row[2][3]; return v; }
 	float Get_Z_Rotation(void) const;
@@ -173,11 +172,11 @@ public:
 };
 
 class ParticleSystemTemplate;
-class Rva000C6E1A;
+class W3DModelDraw;
 class ParticleSystemManager
 {
 	BfmeParticleSystemHandle findParticleSystemByID(ParticleSystemID);
-	friend class Rva000C6E1A;
+	friend class W3DModelDraw;
 public:
 	BfmeParticleSystemHandle createParticleSystem(
 		const ParticleSystemTemplate *sysTemplate, Bool createSlaves) throw();
@@ -264,7 +263,11 @@ static __forceinline void Transform_Vector(const Matrix3D &A, const Vector3 &in,
 
 static __forceinline void Transform_VectorLand(const Matrix3D &A, const Vector3 &in, Vector3 *out)
 {
-	float x = in.X * A.Row[0][0] + in.Y * A.Row[0][1] + in.Z * A.Row[0][2] + A.Row[0][3];
+	// Retail takes this product's register operand from the initialized input X.
+	// The volatile-qualified reference preserves that read with MSVC 7.1;
+	// the complete emitted arithmetic and its exception graph are byte-checked.
+	const volatile float &inputX = in.X;
+	float x = inputX * A.Row[0][0] + (in.Y * A.Row[0][1] + in.Z * A.Row[0][2]) + A.Row[0][3];
 	float y = in.X * A.Row[1][0] + in.Y * A.Row[1][1] + in.Z * A.Row[1][2] + A.Row[1][3];
 	float z = in.X * A.Row[2][0] + in.Y * A.Row[2][1] + in.Z * A.Row[2][2] + A.Row[2][3];
 	out->X = x;
@@ -285,7 +288,7 @@ public:
 	virtual void slot6C(bool flag);
 };
 
-class Rva000C6E1A
+class W3DModelDraw
 {
 public:
 	void rva000C6E1A();
@@ -306,7 +309,7 @@ private:
 	_STL::list<BfmeStringRecord000B757D> m_tracked;					// +0x64
 };
 
-void Rva000C6E1A::rva000C6E1A()
+void W3DModelDraw::rva000C6E1A()
 {
 	if (m_dirty)
 	{
@@ -315,7 +318,7 @@ void Rva000C6E1A::rva000C6E1A()
 		{
 			if (m_state && !(drawable->m_flags & 8))
 			{
-				if (0) throw 1;
+
 				_STL::list<BfmePod32> bones;
 				for (_STL::list<BfmePod32>::iterator it = m_state->m_bones.begin(); it != m_state->m_bones.end(); ++it)
 					bones.push_back(*it);
@@ -386,10 +389,9 @@ void Rva000C6E1A::rva000C6E1A()
 					{
 						Matrix3D xf;
 
-						_ReadWriteBarrier();
-						_ReadWriteBarrier();
+						const char *name = rec.text.str();
 						Drawable *d = m_drawable;
-						if (d->getCurrentClientBonePositions((rec.text.str()), 0, 0, &xf, 1))
+						if (d->getCurrentClientBonePositions(name, 0, 0, &xf, 1))
 							((Rva001F38C1Slot *)sys.operator->())->set(*(const Rva001F38C1Arg *)&xf);
 					}
 					else if (rec.followBone)
