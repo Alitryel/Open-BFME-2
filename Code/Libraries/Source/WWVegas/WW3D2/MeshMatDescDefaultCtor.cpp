@@ -255,7 +255,9 @@ MeshMatDescClass::MeshMatDescClass(const MeshMatDescClass &that) : PassCount(1),
     *this = that;
 }
 
-extern ShaderClass NullShader;
+// NullShader (0x009F6F2C): BFME2's global no-shader marker (Zero Hour's
+// MeshMatDescClass::NullShader), statically zero; defined beside its user here.
+ShaderClass NullShader(0);
 
 // meshmatdesc.cpp defines Set_Single_Material, Set_Single_Shader and
 // Set_Single_Texture ahead of this body and retail inlines all three here.
