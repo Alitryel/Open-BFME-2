@@ -64,7 +64,7 @@ public:
 	bool testStatus(ObjectStatusTypes bit) const;
 	const Coord3D *getPosition() const { return &m_position; }
 	const Rva00469689Body *getBody264() const { return m_264; }
-	__forceinline unsigned int isKindOf(int kind) const
+	__forceinline unsigned int templateKindOfBits(int kind) const
 	{
 		return m_template->m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
 	}
@@ -176,7 +176,7 @@ bool HordeContain::dissolveComboHordeIfNeeded()
 				const Object *member = *it;
 				if (member == 0)
 					continue;
-				if (member->isKindOf(68))
+				if (member->templateKindOfBits(68))
 					continue;
 				const ThingTemplate *tmpl = member->m_template;
 				if (!first)
