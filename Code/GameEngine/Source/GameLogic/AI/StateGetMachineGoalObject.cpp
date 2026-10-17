@@ -32,6 +32,8 @@
 // `mov ecx,[ecx+0x18]; jmp` site in .text and sits in the exact 8-byte gap
 // between the matched 0x0033F25C+7 and 0x0033F26B, which fixes its boundary.
 
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 typedef int StateID;
 
 class Object;
@@ -42,11 +44,10 @@ public:
 	Object *getGoalObject();
 };
 
-class State
+class State : public Snapshot
 {
 public:
-	virtual void vslot00();
-	virtual void vslot04();
+	virtual ~State();
 	StateID m_id;						// +0x04
 	StateID m_successStateID;			// +0x08
 	StateID m_failureStateID;			// +0x0C
@@ -62,4 +63,22 @@ public:
 Object *State::getMachineGoalObject()
 {
 	return m_machine->getGoalObject();
+}
+
+// Native 4D7B93..4D7B98 is a shared complete State-derived destructor.
+// Target ctor 4D7B70 calls State ctor 4D73FC and installs C60790;
+// C60790 slot0 is deleting dtor 4D8507 whose direct call reaches 4D7B93.
+// This supplies the missing constructor/owner relation: reuse that ctor's
+// address-derived Rva004D7B70 identity, without choosing a name from the many
+// other state tables sharing this destructor. Its base cleanup is the proven
+// State/Snapshot fold at 49B47C. novtable is a destructor-only compiler view;
+// the separate native ctor still installs C60790. No added fields are assumed.
+class __declspec(novtable) Rva004D7B70 : public State
+{
+public:
+ virtual ~Rva004D7B70();
+};
+
+Rva004D7B70::~Rva004D7B70()
+{
 }
