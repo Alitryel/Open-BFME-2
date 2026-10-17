@@ -148,17 +148,22 @@ void Rva00452460::getUpgradeActivationMasks(UpgradeMaskType &activation, Upgrade
 {
 	((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.getUpgradeActivationMasksRV(activation, conflicting);
 }
-class Rva00460AAC : public Rva00452EDDPrimary<0x10>, public Rva00452460Iface
+// UpgradeModule (BehaviorModule at +0x00, UpgradeMux at +0x10): slots 11 and
+// 12 of ??_7UpgradeModule@@6BUpgradeMux@@@ (0x00842720), inherited unchanged
+// by the UpgradeMux table of every UpgradeModule subclass that does not
+// override them (ArmorUpgrade, AttributeModifierUpgrade, ... 32 tables).
+// Donor ZH UpgradeModule.h inlines; BFME 1 names the same pair.
+class UpgradeModule : public Rva00452EDDPrimary<0x10>, public Rva00452460Iface
 {
-public:
+protected:
 	void getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const;
 	void performUpgradeFX();
 };
-void Rva00460AAC::getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const
+void UpgradeModule::getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const
 {
 	((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.getUpgradeActivationMasksRV(activation, conflicting);
 }
-void Rva00460AAC::performUpgradeFX()
+void UpgradeModule::performUpgradeFX()
 {
 	((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.performUpgradeFX(m_object);
 }
