@@ -151,7 +151,10 @@ public:
 	unsigned char m_pad000[0x64];
 	AsciiString m_nameString;		// +0x64
 	unsigned char m_pad068[0x108 - 0x68];
-	unsigned char m_kindOf[0x1C];		// +0x108
+	union {
+		unsigned char m_kindOf[0x1C];		// +0x108
+		unsigned int m_kindOfWords[7];
+	};
 };
 
 enum ObjectStatusTypes
@@ -169,6 +172,30 @@ class ProductionUpdateInterface
 public:
 	virtual void pu00(); virtual void pu01(); virtual void pu02();
 	virtual Bool queueUpgrade(const UpgradeTemplate *upgrade);	// +0x0C
+};
+
+// The body module isSupplySourceAttacked reads: the no-effect flag of the
+// last damage at +0x78 and the last-damage getters in vtable slots 15 and 16.
+struct DamageInfoOutput
+{
+	unsigned char m_pad[0x78];
+	Bool m_noEffect;			// +0x78
+};
+
+struct DamageInfo
+{
+	DamageInfoOutput out;
+};
+
+class BodyModuleInterface
+{
+public:
+	virtual void b00(); virtual void b01(); virtual void b02(); virtual void b03();
+	virtual void b04(); virtual void b05(); virtual void b06(); virtual void b07();
+	virtual void b08(); virtual void b09(); virtual void b10(); virtual void b11();
+	virtual void b12(); virtual void b13(); virtual void b14();
+	virtual const DamageInfo *getLastDamageInfo() const;		// +0x3C
+	virtual unsigned int getLastDamageTimestamp() const;		// +0x40
 };
 
 class BfmeObjectVirtualTail { public: unsigned char m_vt[4]; };
@@ -191,6 +218,14 @@ class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase, public BfmeObj
 public:
 	bool isKindOfStructure() const { return (m_template->m_kindOf[0] & 0x80) != 0; }
 	bool isKindOfSupplySource() const { return (m_template->m_kindOf[10] & 0x40) != 0; }
+	// The KindOf bit as the masked mask word, not a Bool: retail tests each
+	// word in memory and merges the two word-0 bits into one test.
+	__forceinline unsigned int isKindOf(Int t) const
+	{
+		return m_template->m_kindOfWords[t >> 5] & (1u << (t & 31));
+	}
+	ObjectID getID() const { return m_id; }
+	BodyModuleInterface *getBodyModule() const { return m_body; }
 	const ThingTemplate *getTemplate() const { return m_template; }
 	Bool isSignificantlyAboveTerrain() const;	// 0x0030ADDC
 	Player *getControllingPlayer() const;	// 0x0028AFA9
@@ -209,11 +244,15 @@ protected:
 	Module *findModule(NameKeyType key) const;
 	friend class AIPlayer;
 private:
-	unsigned char m_pad70[0x8C - 0x70];
+	unsigned char m_pad70[0x74 - 0x70];
+	ObjectID m_id;				// +0x74
+	unsigned char m_pad78[0x8C - 0x78];
 	Object *m_next;				// +0x8C
 	unsigned char m_pad90[0xB8 - 0x90];
 	float m_boundingCircleRadius;		// +0xB8
-	unsigned char m_padBC[0x304 - 0xBC];
+	unsigned char m_padBC[0x254 - 0xBC];
+	BodyModuleInterface *m_body;		// +0x254
+	unsigned char m_pad258[0x304 - 0x258];
 	Team *m_team;				// +0x304
 };
 
@@ -328,12 +367,15 @@ public:
 		PlayerTeamNode *m_head;
 	};
 	const PlayerTeamList *getPlayerTeams() const { return &m_playerTeamPrototypes; }
+	unsigned int getAttackedFrame() const { return m_attackedFrame; }
 private:
 	unsigned char m_pad[0x50];
 	NameKeyType m_playerNameKey;		// +0x50
 	Int m_playerIndex;			// +0x54
 	unsigned char m_pad58[0x32C - 0x58];
 	PlayerTeamList m_playerTeamPrototypes;	// +0x32C
+	unsigned char m_pad330[0x354 - 0x330];
+	unsigned int m_attackedFrame;		// +0x354
 };
 
 class PlayerList
@@ -390,6 +432,10 @@ class GameLogic
 public:
 	Object *getFirstObject();	// 0x0023CAD2
 	Object *findObjectByID(ObjectID id);	// 0x00049DC5
+	unsigned int getFrame() const { return m_frame; }
+private:
+	unsigned char m_pad[0x40];
+	unsigned int m_frame;			// +0x40
 };
 extern GameLogic *TheGameLogic;
 
@@ -642,6 +688,60 @@ void AIPlayer::checkForSupplyCenter(BuildListInfo *info, Object *bldg)
 			}
 		}
 	}
+}
+
+// ?isSupplySourceAttacked@AIPlayer@@QAE_NXZ (0x004F1138)
+// Zero Hour's body on BFME2's team walk (the member iterator's out-of-line
+// advance is visible below); BFME2 tests KindOf bits 34, 14 and 16 and scans
+// every 10 frames.
+Bool AIPlayer::isSupplySourceAttacked()
+{
+	const Int SCAN_RATE = 10;
+	unsigned int curFrame = TheGameLogic->getFrame();
+	if (curFrame == 0) {
+		m_supplySourceAttackCheckFrame = curFrame + SCAN_RATE;
+		return false;
+	}
+	m_attackedSupplyCenter = INVALID_ID;
+	if (curFrame < m_supplySourceAttackCheckFrame)
+		return false;
+	if (m_player->getAttackedFrame() + SCAN_RATE < curFrame)
+		return false;
+	m_supplySourceAttackCheckFrame = curFrame + SCAN_RATE;
+
+	Player::PlayerTeamList::const_iterator it;
+	for (it = m_player->getPlayerTeams()->begin(); it != m_player->getPlayerTeams()->end(); ++it)
+	{
+		for (DLINK_ITERATOR<Team> iter = (*it)->iterate_TeamInstanceList(); !iter.done(); iter.advance())
+		{
+			Team *team = iter.cur();
+			if (!team)
+				continue;
+			for (DLINK_ITERATOR<Object> members = team->iterate_TeamMemberList(); !members.done(); members.advance())
+			{
+				Object *obj = members.cur();
+				if (!obj)
+					continue;
+				if (obj->isKindOf(34) || obj->isKindOf(14) || obj->isKindOf(16))
+				{
+					BodyModuleInterface *body = obj->getBodyModule();
+					if (!body)
+						continue;
+					const DamageInfo *info = body->getLastDamageInfo();
+					if (!info)
+						continue;
+					if (info->out.m_noEffect)
+						continue;
+					if (body->getLastDamageTimestamp() + SCAN_RATE > curFrame)
+					{
+						m_attackedSupplyCenter = members.cur()->getID();
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
 }
 
 // 0x004F1256: sqrt comes from <math.h>, so the float overload rounds the
