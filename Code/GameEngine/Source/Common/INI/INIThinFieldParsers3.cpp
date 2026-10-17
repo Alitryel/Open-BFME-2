@@ -16,7 +16,8 @@
 
 #define NULL 0
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -25,6 +26,9 @@ public:
 	const char *getNextTokenOrNull(const char *seps = 0);
 	int scanIndexList(const char *token, const char *const *names);
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseICoord2D(INI *, void *, void *, const void *);
+	static void parseColorInt(INI *, void *, void *, const void *);
+	static void parseInt(INI *, void *, void *, const void *);
 };
 
 void Rva000B9468Parse(INI *ini, void *instance, void *store, const void *userData);
@@ -72,7 +76,14 @@ private:
 };
 }
 
-extern const FieldParse g_00BE2AA0[];
+// The retail table at 0x007E2AA0: 4 entries and the null terminator; every parser is rowed.
+extern const FieldParse g_00BE2AA0[5] = {
+	{ "StartPosition", (FieldParseProc)&INI::parseICoord2D, 0, 0x0 },
+	{ "EndPosition", (FieldParseProc)&INI::parseICoord2D, 0, 0x8 },
+	{ "Color", (FieldParseProc)&INI::parseColorInt, 0, 0x14 },
+	{ "Width", (FieldParseProc)&INI::parseInt, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 
 class ShellMenuSchemeLine
 {
