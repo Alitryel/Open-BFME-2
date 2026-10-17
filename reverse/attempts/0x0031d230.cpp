@@ -1,4 +1,6 @@
 // ?rva0031D230@ControlBar@@QAEXXZ
+// partial score=0.95 date=2026-10-17
+// ?rva0031D230@ControlBar@@QAEXXZ
 // partial score=0.95 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -233,13 +235,13 @@ void ControlBar::rva0031D230()
 
 	if (!TheInGameUI->areSelectedObjectsControllable())
 	{
-		Drawable *draw = selectedDrawables->front();
-		if (!draw)
+		drawToEvaluateFor = selectedDrawables->front();
+		if (!drawToEvaluateFor)
 		{
 			switchToContext(0, 0);
 			return;
 		}
-		Object *obj = draw->m_object;
+		Object *obj = drawToEvaluateFor->m_object;
 		if (!obj)
 		{
 			switchToContext(0, 0);
@@ -250,18 +252,18 @@ void ControlBar::rva0031D230()
 			&& obj->getControllingPlayer()->getPlayerTemplate()
 			&& obj->getControllingPlayer()->getPlayerTemplate()->getBeaconTemplate().compare(obj->getTemplate()->getName()) == 0)
 		{
-			switchToContext(5, draw);
+			switchToContext(5, drawToEvaluateFor);
 		}
 		else
 		{
 			ContainModuleInterface *contain = obj->m_contain;
 			if (contain && contain->getContainMax() > 0)
 			{
-				switchToContext(4, draw);
+				switchToContext(4, drawToEvaluateFor);
 				Player *localPlayer = ThePlayerList->m_local;
 				if (contain->vfD8() && contain->vfE0() == localPlayer)
 				{
-					switchToContext(3, draw);
+					switchToContext(3, drawToEvaluateFor);
 					return;
 				}
 				const Player *otherPlayer = contain->getApparentControllingPlayer(localPlayer);
