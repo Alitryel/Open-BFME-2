@@ -1,4 +1,6 @@
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
+// partial score=0.77 date=2026-10-17
+// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.8212 date=2026-10-14
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.823 date=2026-10-10
@@ -393,12 +395,15 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	Int maxY = m_yOrigin + m_width;
 	WorldHeightMap *map = m_map;
 	Int limitX = map->getXExtent() - 1;
-	_ReadWriteBarrier();
 	Int limitY = map->getYExtent() - 1;
-	if (maxX > limitX)
-		maxX = limitX;
+	Int copyX = limitX;
+	_ReadWriteBarrier();
+	limitX = copyX;
 	if (maxY > limitY)
-		maxY = __cp(map->getYExtent() - 1);
+		maxY = limitY;
+	if (maxX > limitX)
+		_ReadWriteBarrier();
+		maxX = __cp(map->getXExtent() - 1);
 	if (partialRange.lo.x > maxX || partialRange.lo.y > maxY
 		|| partialRange.hi.x < minX || partialRange.hi.y < minY)
 		return;
@@ -488,7 +493,6 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			pos.X = (i + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			m_map->getTerrainNormal(i + 1, j, &normal);
-			_ReadWriteBarrier();
 			curVb->u1 = info.u1;
 			curVb->v1 = info.v1;
 			curVb->x = pos.X;
@@ -533,7 +537,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			m_curNumCliffVertices++;
 
 			*curIb++ = base;
-			if (!m_map->getFlip(i, j)) {
+			if (!flip) {
 				*curIb++ = base + 3;
 				*curIb++ = base + 2;
 				*curIb++ = base;
