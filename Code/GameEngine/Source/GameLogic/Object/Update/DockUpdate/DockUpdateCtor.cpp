@@ -200,7 +200,7 @@ enum
 
 _STLP_BEGIN_NAMESPACE
 template<>
-__declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *destination, const Coord3D &value)
+inline __declspec(noinline) void _Construct<Coord3D, Coord3D>(Coord3D *destination, const Coord3D &value)
 {
 	if (destination != NULL)
 	{
