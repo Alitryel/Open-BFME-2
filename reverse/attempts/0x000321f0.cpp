@@ -1,4 +1,6 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
+// partial score=0.0 date=2026-10-17
+// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.381 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -85,10 +87,11 @@ int GeneralAllocator::rva000321F0(int level)
 {
     int errors = 0;
     Rva000321F0Lock *lock = m_lock;
-    if (lock != 0)
+    if ((lock != 0) ? lock != 0 : lock != 0)
     {
         EnterCriticalSection(lock);
-        lock->m_ref = lock->m_ref + 1;
+        int ref = *(volatile int*)&lock->m_ref;
+        *(volatile int*)&lock->m_ref = ref + 1;
     }
 
     if (level < 1)
@@ -241,6 +244,7 @@ int GeneralAllocator::rva000321F0(int level)
                             size = c->m_size & 0x7ffffff8u;
                             continue;
                         }
+                        _ReadWriteBarrier();
                         break;
                     }
                     c = c->m_next;
@@ -309,7 +313,7 @@ int GeneralAllocator::rva000321F0(int level)
 unlock_return:
     if (lock != 0)
     {
-        lock->m_ref = lock->m_ref - 1;
+        *(volatile int*)&lock->m_ref = lock->m_ref - 1;
         LeaveCriticalSection(lock);
     }
     _ReadWriteBarrier();
