@@ -449,13 +449,7 @@ class Rva0020FB41Outer
 public:
 	void rva0020F685();
 };
-class RegionTurnObserverView
-{
-public:
-	virtual void BeginTurn(int, int) = 0;
-	virtual void EndTurn(int, int) = 0;
-	~RegionTurnObserverView() {}
-};
+#include "../../../../Include/Common/RegionTurnObserverView.h"
 class Rva00210B38 : public Snapshot, public RegionTurnObserverView
 {
 public:

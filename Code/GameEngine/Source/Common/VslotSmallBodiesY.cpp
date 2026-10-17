@@ -331,47 +331,7 @@ bool AISpellBookBuffTerrain::shouldActivate(Object *obj)
 	return false;
 }
 
-// 0x004FC23E: virtual slot 8 of the +0x20 object with (+0x1C set, true)
-// unless the first argument is set, then the rowed 0x005392C2 on it unless
-// the second is.
-class Rva005392C2
-{
-public:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void v03();
-	virtual void v04();
-	virtual void v05();
-	virtual void v06();
-	virtual void v07();
-	virtual void v08(bool a, bool b);
-	void rva005392C2();
-};
-class Rva004FC23E
-{
-public:
-	void rva004FC23E(Int a, Int b);
-private:
-	char m_pad00[0x1C];
-	Int m_1C;
-	Rva005392C2 *m_20;
-};
-void Rva004FC23E::rva004FC23E(Int a, Int b)
-{
-	if (!a)
-	{
-		Rva005392C2 *p = m_20;
-		if (p)
-			p->v08(m_1C != 0, true);
-	}
-	if (!b)
-	{
-		Rva005392C2 *p = m_20;
-		if (p)
-			p->rva005392C2();
-	}
-}
+// Native4FC23E now uses its proven +4 observer receiver in Rva004FC4D1Dtor.cpp.
 
 // 0x004B65A5 (interface at +0x10): the rowed 0x001E431E resp. 0x001E42F2
 // on the object with the module data's +0x164 resp. +0x118 condition flags,

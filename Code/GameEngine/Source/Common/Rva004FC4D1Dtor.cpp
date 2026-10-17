@@ -1,5 +1,3 @@
-// ??1Rva004FC4D1@@UAE@XZ
-// partial score=0.85 date=2026-10-10
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -20,12 +18,7 @@
 
 enum ObjectID { INVALID_ID = 0 };
 
-class Gen_uwm_004edfff
-{
-public:
-	virtual void slot00();
-	~Gen_uwm_004edfff() {}
-};
+#include "../../Include/Common/RegionTurnObserverView.h"
 
 class Rva004FC320Listener
 {
@@ -46,7 +39,6 @@ public:
 	__forceinline Rva000AD6F4() : m_ptr(0) {}
 	void clear();
 	~Rva000AD6F4();
-private:
 	void *m_ptr;
 };
 
@@ -66,10 +58,11 @@ public:
 };
 extern LivingWorldLogic *TheLivingWorldLogic;
 
-class Rva004FC4D1 : public Snapshot, public _STL::vector<ObjectID>, public Gen_uwm_004edfff
+class Rva004FC4D1 : public Snapshot, public _STL::vector<ObjectID>, public RegionTurnObserverView
 {
 public:
 	virtual ~Rva004FC4D1();
+	virtual void BeginTurn(int a, int b);
 private:
 	char m_pad14[0x20 - 0x14];
 	Rva000AD6F4 m_20;
@@ -79,5 +72,40 @@ private:
 Rva004FC4D1::~Rva004FC4D1()
 {
 	((Rva004FC320List *)static_cast<_STL::vector<ObjectID> *>(this))->forEach(&Rva004FC320Listener::notify, this);
-	TheLivingWorldLogic->m_1C.rva002B7250((CreateAHeroData *)static_cast<Gen_uwm_004edfff *>(this));
+	TheLivingWorldLogic->m_1C.rva002B7250((CreateAHeroData *)static_cast<RegionTurnObserverView *>(this));
+}
+
+class Rva005392C2
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual void v04();
+	virtual void v05();
+	virtual void v06();
+	virtual void v07();
+	virtual void v08(bool a, bool b);
+	void rva005392C2();
+};
+
+// Native C63528 binds BeginTurn at 4FC23E and inherited EndTurn at 50B238.
+// The +4 observer adjusts the callback receiver: building +20 and icon +24
+// become callback-relative +1C and +20. The Snapshot name and constructor
+// 4FC807 separately identify the complete owner as LivingWorldBuildPlot.
+void Rva004FC4D1::BeginTurn(int a, int b)
+{
+	if (!a)
+	{
+		Rva005392C2 *p = (Rva005392C2 *)m_24.m_ptr;
+		if (p)
+			p->v08(m_20.m_ptr != 0, true);
+	}
+	if (!b)
+	{
+		Rva005392C2 *p = (Rva005392C2 *)m_24.m_ptr;
+		if (p)
+			p->rva005392C2();
+	}
 }
