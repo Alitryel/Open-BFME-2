@@ -101,6 +101,11 @@
 #include "assetmgr.h"
 #include "ww3d.h"
 #include "w3derr.h"
+// bfme link decl-only begin
+// Retail keeps one VectorClass<Vector3>::Resize, 0x000F0BF1 (vector_class_vector3_resize.cpp);
+// this unit only calls it and lists it in the vtable.
+template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
+// bfme link decl-only end
 //#include "sr.hpp"
 
 
