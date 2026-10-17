@@ -166,12 +166,6 @@ void Rva0053ED1A::rva0053EF92()
 	m_at58 = 0;
 }
 
-void Rva0053ED1A::rva0053EFAE()
-{
-	if (m_at58 != m_at54)
-		rva0053EF7B();
-	static_cast<Rva005C6D4D *>(this)->rva005C6D9C();
-}
 
 void Rva0053ED1A::rva0053EFC7(WindowList &list)
 {
