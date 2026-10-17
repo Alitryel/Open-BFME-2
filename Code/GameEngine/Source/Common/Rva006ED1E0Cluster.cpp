@@ -46,6 +46,17 @@ public:
     void freeBlock(void *p, int size);
 };
 extern Rva006DB270 *g_pChainBlockAllocator;
+// Same inline base dtor as Rva006ED2A0Dtor.cpp: the base vtable's by-product
+// ??_GRva006ED2A0Base then is retail's 0x006ED020 shape in both units.
+// ??1Rva006ED2A0Base@@UAE@XZ present-unmatched
+inline Rva006ED2A0Base::~Rva006ED2A0Base()
+{
+    Rva0070A840 *p = m_10;
+    if (p) {
+        p->Rva0070A840::~Rva0070A840();
+        g_pChainBlockAllocator->freeBlock(p, 0x14);
+    }
+}
 class Rva006ED2A0 : public Rva006ED2A0Base
 {
 public:
