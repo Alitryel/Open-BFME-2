@@ -34,6 +34,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #ifndef HRAWANIM_H
 #define HRAWANIM_H
 
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "always.h"
 // Scoped by -Ireference/shims/bfmehrawanim on the unit's `// cl:` line.
 

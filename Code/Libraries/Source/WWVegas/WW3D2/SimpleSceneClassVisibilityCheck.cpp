@@ -5,6 +5,11 @@
 // BFME2 adds changed-object spatial updates and a visible owning list.
 // Callee rva00142410 is the unrowed spatial collect at 0x00142410 (pinned at land).
 // Camera cull goes through the first virtual past CameraClass's own table.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "aabox.h"
 #include "scene.h"

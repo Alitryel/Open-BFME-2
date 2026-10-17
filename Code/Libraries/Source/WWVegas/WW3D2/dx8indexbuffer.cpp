@@ -47,6 +47,11 @@
 // it from its own directory, and a quoted include searches the including
 // file's directory before the -I list, so the reference copy would win the
 // include guard before reference/shims/indexbuffercount/ ever got a look in.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "dx8caps.h"
 #include "dx8indexbuffer.h"
 #include "dx8wrapper.h"

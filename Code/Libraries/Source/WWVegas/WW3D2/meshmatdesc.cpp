@@ -50,6 +50,11 @@
 // The local header is shared by 17 other TUs, so take the reference layout by
 // angle-bracket include (its VERTMATERIAL_H guard then swallows the local copy
 // meshmatdesc.h pulls in) and drop the glue for the length of that include only.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "always.h"
 #pragma push_macro("W3DMPO_GLUE")
 #undef W3DMPO_GLUE

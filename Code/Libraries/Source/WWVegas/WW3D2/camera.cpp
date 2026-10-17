@@ -2,6 +2,11 @@
 // Keep MSVC math.h float overloads local; matched operations already inline.
 #pragma push_macro("inline")
 #define inline static inline
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include <math.h>
 #pragma pop_macro("inline")
 // Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE

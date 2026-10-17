@@ -7,6 +7,11 @@
 // matches the matched ctor (arrays +4 through +0x1C, LineCount +0x20,
 // Texture +0x24).
 
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "sharebuf.h"
 #include "texture.h"
 #include "vector3.h"

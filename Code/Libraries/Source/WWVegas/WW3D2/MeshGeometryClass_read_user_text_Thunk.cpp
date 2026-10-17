@@ -4,6 +4,11 @@
 // The reference W3D format names chunk 0x0C MESH_USER_TEXT.
 // /G7 reproduces the retail body; the donor class/member labels are retained.
 
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "chunkio.h"
 #include "sharebuf.h"
 

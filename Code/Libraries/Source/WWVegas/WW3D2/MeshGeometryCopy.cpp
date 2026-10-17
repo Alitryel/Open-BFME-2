@@ -17,6 +17,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 ** +0x54 ushort buffer, and +0x5C opaque release-only buffer.
 */
 // Preserve inline refcounts without unused competing external copies.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 #include "rendobj.h"
 // Keep aabtree.h from pulling the BFME1 MeshGeometryClass body into this view.

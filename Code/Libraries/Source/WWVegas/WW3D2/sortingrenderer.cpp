@@ -52,6 +52,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "dx8caps.h" // BFME2 DX8Caps layout (MaxTexturesPerPass at +0x2B0) has to win the include guard over the ZH sibling
 #include "sortingrenderer.h"
 #include "dx8vertexbuffer.h"

@@ -3,6 +3,11 @@
 #define BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
 // Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
 // copy that competes with retail's integer-move owner (0x006D8A30).
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // stlport
 // Use the verified out-of-line material getter; the ordinary /O2 header copy
