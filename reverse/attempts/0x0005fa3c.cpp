@@ -1,4 +1,6 @@
 // ?rva0005FA3C@MilesAudioManager@@QAEXI@Z
+// partial score=0.976 date=2026-10-17
+// ?rva0005FA3C@MilesAudioManager@@QAEXI@Z
 // partial score=0.895969955969956 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/GameEngineDevice/Source/MilesAudioDevice
 // stlport
@@ -11,10 +13,12 @@ struct QueuedStopEvent {char at00[0x8C];bool m_at8C;};
 void MilesAudioManager::rva0005FA3C(unsigned int handle)
 {
  if(handle<5)return;
+ {
  for(PlayingAudioList::iterator it=m_playingStreams.begin();it!=m_playingStreams.end();++it) {
   PlayingAudioRef audio=*it;
   if(!audio.get())continue;
   if(audio->m_event->m_playingHandle==handle) {
+   *(volatile int*)&audio->m_event->m_at80;
    --audio->m_event->m_at80;
    if(audio->m_event->m_at80<=0) {
     audio->m_event->m_at4C=true;
@@ -23,6 +27,7 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
    }
    return;
   }
+ }
  }
  for(PlayingAudioList::iterator it=m_playingSounds.begin();it!=m_playingSounds.end();++it) {
   PlayingAudioRef audio=*it;
@@ -53,10 +58,11 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
     break;
    }
   }
-  if(m_playingMusic[i].get()&&m_playingMusic[i]->m_event->m_playingHandle==handle) {
-   --m_playingMusic[i]->m_event->m_at80;
-   if(m_playingMusic[i]->m_event->m_at80>0)return;
-   reinterpret_cast<Rva000A8C9B *>(&m_playingMusic[i])->clear();
+  PlayingAudioRef &music=m_playingMusic[i];
+  if(music.get()&&music->m_event->m_playingHandle==handle) {
+   --music->m_event->m_at80;
+   if(music->m_event->m_at80>0)return;
+   reinterpret_cast<Rva000A8C9B *>(&music)->clear();
   }
   for(int j=0;j<2;++j) {
    MusicStack &stack=m_musicStack[i][j];
@@ -73,7 +79,7 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
  {
   Rva00054EBETable::iterator found=reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
   if(found._M_cur) {
-   Rva00051107AudioRequest *request=*reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
+   Rva00051107AudioRequest *request;
    --request->m_pendingEvent->m_at80;
    if(request->m_pendingEvent->m_at80>0)return;
    Rva00054EBETable::iterator copy=found;
