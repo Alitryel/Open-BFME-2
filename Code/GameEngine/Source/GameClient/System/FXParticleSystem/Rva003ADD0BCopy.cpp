@@ -7,7 +7,24 @@ public:
 private:
 	char m_pad[176];
 };
-extern const void *const g_00C1C954[];
+// The retail table at RVA 0x0081C954: 6 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ADFB2@@UAEPAXI@Z")();
+void __identifier("?rva0055BA3D@Rva0055B9BDView@@QAEXXZ")();
+void __identifier("?make@U4Maker005EA530@@QAEPAVU4Made005EA530@@XZ")();
+void __identifier("?rva0055BB5C@Rva0055BB5C@@UAEXPAVXfer@@@Z")();
+void __identifier("?rva0055BBAE@Rva003ADFB2@@QAE_NH@Z")();
+void __identifier("?get@Rva003AC99ALeaGetter@@QBEPAXXZ")();
+}
+extern const void *const g_00C1C954[6] = {
+	(const void *)&__identifier("??_GRva003ADFB2@@UAEPAXI@Z"), // slot 0 0x003AE270
+	(const void *)&__identifier("?rva0055BA3D@Rva0055B9BDView@@QAEXXZ"), // slot 1 0x0055BA3D
+	(const void *)&__identifier("?make@U4Maker005EA530@@QAEPAVU4Made005EA530@@XZ"), // slot 2 0x003ADCEB
+	(const void *)&__identifier("?rva0055BB5C@Rva0055BB5C@@UAEXPAVXfer@@@Z"), // slot 3 0x0055BB5C
+	(const void *)&__identifier("?rva0055BBAE@Rva003ADFB2@@QAE_NH@Z"), // slot 4 0x0055BBAE
+	(const void *)&__identifier("?get@Rva003AC99ALeaGetter@@QBEPAXXZ"), // slot 5 0x003AC99A
+};
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$0A@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 class Rva003ADD0B : public Rva003ADD31
 {
