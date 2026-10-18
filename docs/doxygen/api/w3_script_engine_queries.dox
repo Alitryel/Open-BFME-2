@@ -175,8 +175,8 @@
 /// An object type list is a named set of object types that actions and
 /// conditions accept where they expect an object type. BFME 2's action
 /// table has the `OBJECTLIST_ADDOBJECTTYPE` and
-/// `OBJECTLIST_REMOVEOBJECTTYPE` actions, which in Zero Hour are what build
-/// the lists. The engine keeps its lists in one list of `ObjectTypes`
+/// `OBJECTLIST_REMOVEOBJECTTYPE` actions, which build the lists, as in Zero
+/// Hour. The engine keeps its lists in one list of `ObjectTypes`
 /// pointers, which this function searches. Callers include
 /// ScriptConditions::evaluatePlayerHasKilledTypeUnits and more than a dozen
 /// script-action handlers.
@@ -192,17 +192,22 @@
 /// \return The list, or null when no list has that name.
 ///
 /// \par Modding
-/// In Zero Hour a list exists only while a script has created it: Zero
-/// Hour creates the list on the first add (or remove) action for its name
-/// and deletes it when it becomes empty; until then, and after that, an
-/// action given the name finds nothing. Zero Hour's ScriptEngine::xfer
-/// saves the lists through ObjectTypes::xfer. How BFME 2 creates and saves
-/// the lists is not established here.
+/// A list exists only while a script has created it. Both actions go
+/// through ScriptEngine::doObjectTypeListMaintenance, which creates the
+/// list on the first add (or remove) action for its name, adds a type only
+/// when the list does not hold it yet, and deletes the list when it
+/// becomes empty; until then, and after that, an action given the name
+/// finds nothing. Zero Hour behaves the same. Zero Hour's
+/// ScriptEngine::xfer saves the lists through ObjectTypes::xfer; how BFME 2
+/// saves them is not established here.
 ///
 /// \par Provenance
 /// Behaviour from the matched BFME 2 body. The creation and deletion rules
-/// (ScriptEngine::doObjectTypeListMaintenance there) and the saving of the
-/// lists through ScriptEngine::xfer are Zero Hour's.
+/// come from the BFME 2 bodies of ScriptEngine::doObjectTypeListMaintenance
+/// and ObjectTypes::addObjectType and from ScriptActions::executeAction,
+/// which calls the maintenance function for the two actions; they match
+/// Zero Hour's. The saving of the lists through ScriptEngine::xfer is
+/// Zero Hour's.
 ///
 /// \see ObjectTypes::xfer, ScriptConditions::evaluatePlayerHasKilledTypeUnits
 
@@ -439,11 +444,12 @@
 /// In BFME 2 it is called from the player's science code in two places:
 /// the player's science reset, which rebuilds the player's sciences from
 /// the player template and the rank starting sciences and then notifies
-/// every science in the resulting list, and the player's add-science
-/// function. Zero Hour's callers are the same pair, Player::resetSciences
-/// and Player::addScience. In Zero Hour the condition code asks
-/// ScriptEngine::isScienceAcquired (which can remove the entry it finds),
-/// and ScriptEngine::xfer saves the lists.
+/// every science in the resulting list, and Player::addScience, which
+/// calls it only when the science is new to the player (when the script
+/// engine exists). Zero Hour's callers are the same pair,
+/// Player::resetSciences and Player::addScience. In Zero Hour the
+/// condition code asks ScriptEngine::isScienceAcquired (which can remove
+/// the entry it finds), and ScriptEngine::xfer saves the lists.
 ///
 /// \param playerIndex  The player's index in the player list. Not checked
 ///                     against the 20-slot bound.
@@ -456,7 +462,8 @@
 /// \par Provenance
 /// Behaviour and the slot count from the matched BFME 2 body and
 /// ScriptEngine::reset. The two call sites are read from the retail code,
-/// and the science reset's behaviour from its matched body. The reader and
+/// and the behaviour of the science reset and Player::addScience from their
+/// BFME 2 bodies. The reader and
 /// the saving are Zero Hour's.
 ///
 /// \see ScriptEngine::reset

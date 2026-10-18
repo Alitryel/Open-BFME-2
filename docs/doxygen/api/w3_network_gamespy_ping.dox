@@ -38,9 +38,10 @@
 ///   icon GameInfo shows in the lobby) and as naming a map (PeerDefs.cpp).
 ///   BFME 2's copy constructor and destructor for the class contain only
 ///   the memberwise sequence a compiler generates; whether the original
-///   source declared them is not known. The copy copies the base part,
-///   installs the class's vtable, then copies each slot (through the
-///   compiler's exception-aware array-copy helper), the strings, which
+///   source declared them is not known. The copy copies the GameInfo part
+///   with GameInfo's copy constructor, installs the class's vtable, then
+///   copies each slot (through the compiler's exception-aware array-copy
+///   helper), the strings, which
 ///   share their text by reference count, and the plain fields. In Zero
 ///   Hour a copy leaves GameInfo's slot pointers aimed at the source room's
 ///   slots, which is why addStagingRoom calls
@@ -113,9 +114,10 @@
 /// BFME 2's body contains only the memberwise teardown, which matches the
 /// compiler-generated sequence: release each narrow-string member (an
 /// AsciiString drops its reference to the shared text), destroy each slot
-/// through the compiler's array-destructor helper, and run the base
-/// destructor. Zero Hour's StagingRoomGameInfo.h declares no destructor
-/// for the class; whether BFME 2's original source declared one is not
+/// through the compiler's array-destructor helper, and run GameInfo's
+/// destructor for the base part. Zero Hour's StagingRoomGameInfo.h
+/// declares no destructor for the class; whether BFME 2's original
+/// source declared one is not
 /// known.
 ///
 /// \see GameSpyStagingRoom::cleanUpSlotPointers,
