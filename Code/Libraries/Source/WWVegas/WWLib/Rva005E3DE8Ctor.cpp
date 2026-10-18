@@ -21,3 +21,8 @@ Rva005E3DE8::Rva005E3DE8() : Rva00221635((int)&AsciiString("ArmyDetailsPanel")),
 // explicit compatible-layout view, without adding a second name pin.
 // This polymorphic ctor view is separate from the old opaque-member dtor
 // view because merging changes that native dtor's vptr store codegen.
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?pure@Rva005E3DE8@@UAEXXZ=??_GRva005E3DE8@@QAEPAXI@Z")
