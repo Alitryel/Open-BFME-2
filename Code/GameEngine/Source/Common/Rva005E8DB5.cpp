@@ -11,7 +11,7 @@ struct Rva005E8DB5Param
 };
 
 int g_00E06734;	// retail RVA 0x00A06734 (.bss), defined here
-extern int g_00E06748;
+int g_00E06748;	// retail RVA 0x00A06748 (.bss), defined here
 
 class Rva005E8DB5
 {
