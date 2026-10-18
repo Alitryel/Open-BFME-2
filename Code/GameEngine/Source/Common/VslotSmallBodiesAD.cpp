@@ -96,13 +96,7 @@ private:
 	char m_pad00[0x18];
 	Rva00349D02Machine *m_18;
 };
-Int Rva00349D02::rva00349D02()
-{
-	Object *owner = m_18->m_owner14;
-	Int result = rva003497E6();
-	owner->setStatus(OBJECT_STATUS_1C, result == -1);
-	return result;
-}
+
 
 // 0x00359729: HotKeyManager::translate (0x00359556, rowed in
 // MessageStream/HotKey.cpp) of the manager at VA 0x00E01E28 with the
@@ -170,10 +164,7 @@ public:
 	void rva003C35F7(Int a, Int b);
 	void rva003C35AA(Int a, Int b, bool c);
 };
-void Rva003C35F7::rva003C35F7(Int a, Int b)
-{
-	rva003C35AA(a, b, true);
-}
+
 
 // 0x0040E0C5: for the argument's +0x78 object in state 4 (+0x2C), the
 // pinned 0x0040DF77 then the rowed 0x0040E02B; answers true.
@@ -199,16 +190,7 @@ class Rva0040E0C5
 public:
 	bool rva0040E0C5(Rva0040E0C5Arg *arg);
 };
-bool Rva0040E0C5::rva0040E0C5(Rva0040E0C5Arg *arg)
-{
-	Rva0040DF77 *x = arg->m_78;
-	if (x && x->m_2C == 4)
-	{
-		x->rva0040DF77();
-		x->rva0040E02B();
-	}
-	return true;
-}
+
 
 // 0x00414B89 and 0x00415122: the pinned 0x00414B0A resp. 0x0041505B on
 // every 0x30-byte entry of the [+0x10, +0x14) range.
@@ -320,11 +302,7 @@ private:
 	Int m_04;
 	Int m_08;
 };
-void Rva004CDF00::rva004CDF00(Int a, Int b)
-{
-	rva004502CE(a, b);
-	rva004CDDBA(1);
-}
+
 void Rva004CDF00::rva004CDF1D()
 {
 	if (m_08)
@@ -358,10 +336,7 @@ public:
 	bool rva00508925(Int a, Int b);
 	unsigned char rva005075D6(Int a, Int b);
 };
-bool Rva00508925::rva00508925(Int a, Int b)
-{
-	return (bool)rva005075D6(a, b);
-}
+
 
 class Rva00507823
 {
@@ -475,9 +450,3 @@ private:
 	Rva003AFF06SystemPtr m_system;				///< +0x4
 };
 
-// ?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z @0x003AFF06 (28B)
-void Rva003AFF06::rva003AFF06(void *a, void *b)
-{
-	if (m_system != 0)
-		m_system->rva001F9BA4(a, b);
-}
