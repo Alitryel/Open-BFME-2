@@ -93,6 +93,8 @@ public:
 
 	void Thread_Function();
 
+public:
+	virtual ~MouseThreadClass();	// rowed elsewhere; declared so this unit binds to it
 };
 extern "C" { MouseThreadClass thread; }
 

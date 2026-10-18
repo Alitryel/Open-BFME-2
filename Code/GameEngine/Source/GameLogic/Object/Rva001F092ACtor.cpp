@@ -46,6 +46,8 @@ private:
 	_STL::map<int, void *> m_map;
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_vec0;
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_vec1;
+public:
+	virtual ~Rva001F092A();	// rowed elsewhere; declared so this unit binds to it
 };
 
 Rva001F092A::Rva001F092A()

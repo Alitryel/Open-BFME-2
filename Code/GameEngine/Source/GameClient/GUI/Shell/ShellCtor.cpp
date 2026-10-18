@@ -81,6 +81,8 @@ private:
 	unsigned char m_pad6E[2];
 	int m_70;
 	int m_74;
+public:
+	virtual ~Shell();	// rowed elsewhere; declared so this unit binds to it
 };
 
 Shell::Shell()

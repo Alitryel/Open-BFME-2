@@ -22,6 +22,8 @@ class FunctorNotSet : public exception
 {
 public:
 	__declspec(dllimport) __forceinline FunctorNotSet() {}
+public:
+	virtual ~FunctorNotSet();	// rowed elsewhere; declared so this unit binds to it
 };
 struct Rva005D388BValue
 {

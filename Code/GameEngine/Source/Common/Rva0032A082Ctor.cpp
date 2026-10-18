@@ -28,6 +28,8 @@ public:
 private:
 	void *m_a;
 	void *m_b;
+public:
+	virtual ~Rva003B3417();	// rowed elsewhere; declared so this unit binds to it
 };
 
 class Rva0032A082 : public Rva003B3417

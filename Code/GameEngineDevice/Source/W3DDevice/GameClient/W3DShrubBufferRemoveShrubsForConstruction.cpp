@@ -120,6 +120,8 @@ private:
 	int m_cached50;
 	int m_cached54;
 	int m_cached58;
+public:
+	virtual ~GeometryInfo();	// rowed elsewhere; declared so this unit binds to it
 };
 struct Rva000E9D18Shrub
 {

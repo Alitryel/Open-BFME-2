@@ -142,6 +142,8 @@ public:
 	virtual void notifyClosed();
 private:
 	Rva005F4EE8Source *m_source08;			// +0x08
+public:
+	virtual ~Rva005F4EE8();	// rowed elsewhere; declared so this unit binds to it
 };
 
 Rva005F4EE8::Rva005F4EE8(Rva005F4EE8Source *source, int level, const AsciiString &name)

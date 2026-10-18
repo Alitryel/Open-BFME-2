@@ -17,6 +17,8 @@ class Rva003ADFDB : public V3Vt01111D90, public V3Second08
 {
 public:
 	Rva003ADFDB(const Rva003ADFDB &other);
+public:
+	virtual ~Rva003ADFDB();	// rowed elsewhere; declared so this unit binds to it
 };
 class Rva003ADF61
 {

@@ -146,6 +146,8 @@ private:
 	int m_selfTaskingSpawnCount;
 	int m_initialBurstCountdown;
 	AsciiString *m_templateNameIterator;
+public:
+	virtual ~SpawnBehavior();	// rowed elsewhere; declared so this unit binds to it
 };
 
 SpawnBehavior::SpawnBehavior(Thing *thing, const ModuleData *moduleData)

@@ -391,6 +391,8 @@ class Rva002E0EF7 : public Rva002E0F1E
 {
 public:
 	Rva002E0EF7();
+public:
+	virtual ~Rva002E0EF7();	// rowed elsewhere; declared so this unit binds to it
 };
 
 class Rva002E0A0A

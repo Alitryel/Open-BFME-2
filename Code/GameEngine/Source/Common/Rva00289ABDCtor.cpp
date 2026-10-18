@@ -158,6 +158,8 @@ public:
 	Rva00288BBA *m_rva20;
 	unsigned char m_b24;
 	_STL::map<int, void *> m_map28;
+public:
+	virtual ~Rva00289ABD();	// rowed elsewhere; declared so this unit binds to it
 };
 Rva00289ABD::Rva00289ABD()
 	: m_vec14(_STL::allocator<BfmeE16>()), m_b24(0)

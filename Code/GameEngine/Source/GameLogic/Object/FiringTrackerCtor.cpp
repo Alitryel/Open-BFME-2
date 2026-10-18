@@ -96,6 +96,8 @@ private:
 	Coord3D m_lastShotPosition;
 	unsigned int m_frameToStopLoopingSound;
 	AudioHandle m_audioHandle;
+public:
+	virtual ~FiringTracker();	// rowed elsewhere; declared so this unit binds to it
 };
 
 FiringTracker::FiringTracker(Thing *thing, const ModuleData *data) :

@@ -95,6 +95,8 @@ private:
 	Real m_cached50;
 	Real m_cached54;
 	Real m_cached58;
+public:
+	virtual ~GeometryInfo();	// rowed elsewhere; declared so this unit binds to it
 };
 
 inline GeometryInfo::GeometryInfo(GeometryType type, Bool isSmall, Real height,

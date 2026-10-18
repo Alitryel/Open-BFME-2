@@ -11,5 +11,7 @@
 #include <vector>
 class Object;
 class __declspec(novtable) SubsystemInterface {public:SubsystemInterface();virtual ~SubsystemInterface();private:virtual void unused()=0;char flag;int value;};
-class Rva001E72B4:public SubsystemInterface {public:Rva001E72B4();private:_STL::map<int,void*> map;_STL::vector<Object*> entries;};
+class Rva001E72B4:public SubsystemInterface {public:Rva001E72B4();private:_STL::map<int,void*> map;_STL::vector<Object*> entries;public:
+	virtual ~Rva001E72B4();	// rowed elsewhere; declared so this unit binds to it
+};
 Rva001E72B4::Rva001E72B4(){}

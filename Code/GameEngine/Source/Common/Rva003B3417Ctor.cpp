@@ -35,6 +35,8 @@ public:
 private:
 	void *m_a;
 	void *m_b;
+public:
+	virtual ~Rva003B3417();	// rowed elsewhere; declared so this unit binds to it
 };
 
 Rva003B3417::Rva003B3417(void *a, void *b, BfmeParserRegistryVE *registry, const AsciiString *parentLabel)
