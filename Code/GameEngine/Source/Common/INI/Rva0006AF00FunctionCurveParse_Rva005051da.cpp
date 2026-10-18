@@ -41,17 +41,7 @@ class Rva00504F09FunctionCurve { public: void finish(); };
 class Rva0006AB90FunctionCurve
 {
 public:
-	Rva0006AB90FunctionCurve( Rva0006AB10Curve *curve ) :
-		m_curve( curve ),
-		m_firstKey( true ),
-		m_lastTime( 0.0f ),
-		m_lastValue( 0.0f ),
-		m_inTangent( 0.0f ),
-		m_outTangent( 0.0f ),
-		m_haveInTangent( false ),
-		m_haveOutTangent( false )
-	{
-	}/* the rowed Rva00504F09FunctionCurve::finish */ __declspec(dllimport) __forceinline void finish() { ((Rva00504F09FunctionCurve *)this)->finish(); }
+	Rva0006AB90FunctionCurve( Rva0006AB10Curve *curve );/* the rowed Rva00504F09FunctionCurve::finish */ __declspec(dllimport) __forceinline void finish() { ((Rva00504F09FunctionCurve *)this)->finish(); }
 
 private:
 	Rva0006AB10Curve *m_curve;
