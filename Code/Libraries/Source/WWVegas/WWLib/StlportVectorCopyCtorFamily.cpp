@@ -37,7 +37,9 @@ struct BfmeE8
 struct Rva00423A4A
 {
 	unsigned int m_data[3];
-	// Size-only view: use the vector-owning definition's destructor.
+	// Size-only view: use the vector-owning definition's copy constructor and
+	// destructor (retail's _Construct 0x00423E83 calls the former).
+	Rva00423A4A(const Rva00423A4A &o);
 	~Rva00423A4A();
 };
 
