@@ -42,7 +42,9 @@ namespace _STL
 	template <class T, class A> class vector;
 }
 struct BfmeStringRecord005DDD40;
-extern _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > g_00E022F8[2];
+extern unsigned int g_chatHistoryVectors[6];
+// Retail startup constructs two 12-byte vectors in this zero-filled storage.
+#define g_00E022F8 ((_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > *)g_chatHistoryVectors)
 
 struct CursorTextureSlot;
 extern CursorTextureSlot cursorTextures[][21];

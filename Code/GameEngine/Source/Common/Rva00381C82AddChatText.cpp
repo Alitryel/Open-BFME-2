@@ -29,7 +29,12 @@ struct BfmeStringRecord005DDD40 {
 	BfmeStringRecord005DDD40() : word(0) {}
 };
 
-extern _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > g_00E022F8[2];
+extern unsigned int g_chatHistoryVectors[6];
+// Retail startup constructs two 12-byte vectors in this zero-filled storage.
+#define g_00E022F8 ((_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > *)g_chatHistoryVectors)
+
+// The separately rowed push_back owns its overflow call.
+namespace _STL { template <> void vector<BfmeStringRecord005DDD40>::push_back(const BfmeStringRecord005DDD40 &); }
 
 class Rva0038188BListener
 {
@@ -48,7 +53,8 @@ private:
 	unsigned int m_index;
 };
 
-extern Rva0038188BList g_00E02310;
+class Rva003818B0List;
+extern Rva003818B0List g_00E02310;
 
 class Rva001FF3A9
 {
@@ -62,5 +68,5 @@ void Rva00381C82AddChatText(int window, const UnicodeString &text, int color)
 	rec.text.set(text);
 	rec.word = (unsigned int)color;
 	g_00E022F8[window].push_back(rec);
-	g_00E02310.forEach((void (Rva0038188BListener::*)(void *, int))&Rva001FF3A9::rva001FF3A9, (void *)window, (int)&rec);
+	((Rva0038188BList *)&g_00E02310)->forEach((void (Rva0038188BListener::*)(void *, int))&Rva001FF3A9::rva001FF3A9, (void *)window, (int)&rec);
 }

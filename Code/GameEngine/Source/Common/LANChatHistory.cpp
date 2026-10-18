@@ -7,11 +7,17 @@
 // to preserve native ESI base+EDI iteration; all by-value UnicodeString cleanup verified.
 // cl: /O1 /Oy- /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
+#include "string_base.h"
+// Keep UnicodeString header inlines without competing out-of-line copies.
+#define __forceinline __declspec(dllimport) __forceinline
 #include "unicode_string.h"
+#undef __forceinline
 #include <vector>
 class GameWindow;
 struct BfmeStringRecord005DDD40 {UnicodeString text;unsigned word;BfmeStringRecord005DDD40(const BfmeStringRecord005DDD40&);};
-extern _STL::vector<BfmeStringRecord005DDD40> g_00E022F8[2];
+extern unsigned int g_chatHistoryVectors[6];
+// Retail startup constructs two 12-byte vectors in this zero-filled storage.
+#define g_00E022F8 ((_STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > *)g_chatHistoryVectors)
 void GadgetListBoxReset(GameWindow*);
 int GadgetListBoxAddEntryText(GameWindow*,UnicodeString,int,int,int,bool);
 void Rva00381618(GameWindow*window,unsigned kind) {
