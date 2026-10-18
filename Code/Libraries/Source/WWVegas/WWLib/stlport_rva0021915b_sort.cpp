@@ -32,4 +32,9 @@ struct Rva0021B753
 	bool operator()(const Rva0021915B &a, const Rva0021915B &b) const;
 };
 
+// The separately rowed partition owns its swap and unwind graph.
+namespace _STL {
+template <> Rva0021915B *__unguarded_partition<Rva0021915B *, Rva0021915B, Rva0021B753>(Rva0021915B *, Rva0021915B *, Rva0021915B, Rva0021B753);
+}
+
 template void _STL::sort<Rva0021915B *, Rva0021B753>(Rva0021915B *, Rva0021915B *, Rva0021B753);
