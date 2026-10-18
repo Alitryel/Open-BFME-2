@@ -105,51 +105,7 @@ public:
  void rva0059A153(TeamPrototype *);
  void checkIdleTeams();
 };
-// Native59AC6E..59ADB9,331B; WB1528FA0 AITeamBuilder::update (assert125).
-// The two prototype passes, owner14, active/ready31C/31D, Team flags5D/5E
-// and110/111, set18 and every call are corroborated by retail. Keep the
-// existing address-derived receiver and recruited-helper ABIs. Threat
-// provider is presently typed int; this call site consumes its low byte.
-void Rva0059AC4D::update()
-{
- for (_STL::vector<TeamPrototype *>::iterator it=prototypes.begin(); it!=prototypes.end(); ++it) {
-  TeamPrototype *prototype=*it;
-  if (prototype->building) {
-   int mode=*(int *)((char *)prototype+0x2cc);
-   switch(mode) {
-    case 2: rva0059AC4D(prototype); break;
-    default: rva0059ABC9(prototype); break;
-   }
-  }
- }
- for (_STL::vector<TeamPrototype *>::iterator it=prototypes.begin(); it!=prototypes.end(); ++it) {
-  TeamPrototype *prototype=*it;
-  if (prototype->building) {
-   Requirements *requirements=&prototype->requirements;
-   Team *team=rva00599F74(prototype);
-   if (team) {
-    int count=((AITeamBuilder *)this)->getCurNumUnits(team);
-    if ((unsigned)count >= requirements->minimum &&
-        ((Rva0039D5A9 *)requirements)->rva0039D5A9()==0 &&
-        (requirements->mode==1 || (unsigned)count>=requirements->maximum ||
-         (unsigned char)((AITeamBuilder *)this)->doesTeamMeetThreat(team))) {
-     team->flag110=true;
-     team->flag111=false;
-     if (!team->active) { team->dirty=true; team->active=true; }
-     SkirmishAI *ai=(SkirmishAI *)g_00DFEEF8->rva002A8AB1(owner);
-     ai->Register(team);
-     prototype->building=false;
-     prototype->ready=true;
-    }
-   }
-  }
- }
- for (_STL::set<int>::iterator it=busy.begin(); it!=busy.end();) {
-  if (!TheGameLogic->findObjectByID((ObjectID)*it)) busy.erase(it++);
-  else ++it;
- }
- ((AITeamBuilder *)this)->checkIdleTeams();
-}
+
 
 // Native599F74..599FAA54B; WB1529260 getTeamForAIPrototype asserts157..166.
 // Head334 and callback5C4AF5 use the proven zero-adjusted8B member pointer.
