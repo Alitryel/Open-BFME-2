@@ -38,6 +38,10 @@ struct Rva004F6352 { char m_pad[12]; public: Rva004F6352(const Rva004F6352 &); ~
 // 20-byte element; layout owner Rva003371B1Copy.cpp.
 class Rva003371B1 { char m_pad[20]; public: Rva003371B1(const Rva003371B1 &); ~Rva003371B1(); };
 
+// Bind the incidental cleanup to the rowed _M_clear in
+// StlportVectorGrowthFootprints.cpp instead of emitting a second copy.
+namespace _STL { template <> void vector<BfmeVectorRecord002AF478>::_M_clear(); }
+
 namespace _STL
 {
 template <> void _Construct<BfmeRecord001ECAF9, BfmeRecord001ECAF9>(BfmeRecord001ECAF9 *, const BfmeRecord001ECAF9 &);
