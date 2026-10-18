@@ -6,9 +6,13 @@
 // theAptButtonTooltipMapBlockParse from packet, flags /O1 /arch:SSE /G7.
 #include "ascii_string.h"
 
+class INI;
 struct FieldParse
 {
-	void *m_x00;
+	const char *m_token;
+	void (*m_func)(INI *, class Rva002241D6 *);
+	const void *m_userData;
+	int m_offset;
 };
 
 class INI;
@@ -27,18 +31,20 @@ void __declspec(noinline) rva00224A31(INI *ini, Rva002241D6 *inst)
 
 struct BlockParse
 {
-	unsigned char m_pad00[0xC];
-	FieldParse m_field;
-	void (*m_func)(INI *, Rva002241D6 *);
-	int m_14;
-	int m_18;
-	int m_1C;
-	int m_20;
-	int m_24;
-	int m_28;
+	BlockParse *m_next;
+	const char *m_name;
+	void (*m_parse)(INI *);
+	FieldParse m_fields[2];
 };
 
-extern BlockParse theAptButtonTooltipMapBlockParse;
+void rva00224DFF(INI *ini);
+// Whole native DBA1CC..DBA1F8 record: registration header and the two
+// FieldParse entries. The lazy initializer below installs ButtonMap's
+// callback; retail's initial callback/userData/offset words are all zero.
+BlockParse theAptButtonTooltipMapBlockParse = {
+	0, "AptButtonTooltipMap", rva00224DFF,
+	{ { "ButtonMap", 0, 0, 0 }, { 0, 0, 0, 0 } }
+};
 int g_00DFE6D8;	// retail RVA 0x009FE6D8 (.bss), defined here
 
 class INI
@@ -58,15 +64,15 @@ void Rva00224A3F::rva00224A3F(INI *ini)
 	if ((g_00DFE6D8 & 1) == 0)
 	{
 		g_00DFE6D8 |= 1;
-		theAptButtonTooltipMapBlockParse.m_func = rva00224A31;
-		theAptButtonTooltipMapBlockParse.m_14 = 0;
-		theAptButtonTooltipMapBlockParse.m_18 = 0;
-		theAptButtonTooltipMapBlockParse.m_1C = 0;
-		theAptButtonTooltipMapBlockParse.m_20 = 0;
-		theAptButtonTooltipMapBlockParse.m_24 = 0;
-		theAptButtonTooltipMapBlockParse.m_28 = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[0].m_func = rva00224A31;
+		theAptButtonTooltipMapBlockParse.m_fields[0].m_userData = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[0].m_offset = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[1].m_token = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[1].m_func = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[1].m_userData = 0;
+		theAptButtonTooltipMapBlockParse.m_fields[1].m_offset = 0;
 	}
-	ini->initFromINI(this, &theAptButtonTooltipMapBlockParse.m_field);
+	ini->initFromINI(this, theAptButtonTooltipMapBlockParse.m_fields);
 }
 
 class Rva00224CDC;
