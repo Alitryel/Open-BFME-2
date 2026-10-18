@@ -42,6 +42,12 @@ namespace _STL { template <> unsigned short basic_filebuf<unsigned short, char_t
 namespace _STL { template <> locale basic_ios<unsigned short, char_traits<unsigned short> >::imbue(locale const &); }
 namespace _STL { template <> fpos<int> basic_filebuf<unsigned short, char_traits<unsigned short> >::seekpos(fpos<int>, int); }
 namespace _STL { template <> unsigned short basic_filebuf<unsigned short, char_traits<unsigned short> >::underflow(); }
+// Retail close is owned by stlport_wide_filebuf.cpp at 0x15240.
+namespace _STL { template <> basic_filebuf<unsigned short, char_traits<unsigned short> > * basic_filebuf<unsigned short, char_traits<unsigned short> >::close(); }
+// Keep the destructor and buffer allocator with their rowed providers too;
+// removing close's inline body changes these incidental copies' codegen.
+namespace _STL { template <> basic_filebuf<unsigned short, char_traits<unsigned short> >::~basic_filebuf(); }
+namespace _STL { template <> bool basic_filebuf<unsigned short, char_traits<unsigned short> >::_M_allocate_buffers(unsigned short *, int); }
 // bfme link decl-only end
 
 // Retail's generic-widening init is owned by stlport_basic_ios_init.cpp.
