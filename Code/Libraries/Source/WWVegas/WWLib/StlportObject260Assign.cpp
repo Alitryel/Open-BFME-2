@@ -1,9 +1,10 @@
-// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /EHsc /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 #include <vector>
 #include "Object260.h"
 // bfme link decl-only begin
 namespace _STL { template <> BfmeFixedObject260 * allocator<BfmeFixedObject260>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void _Construct<BfmeFixedObject260, BfmeFixedObject260>(BfmeFixedObject260 *, const BfmeFixedObject260 &); }
 // bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
