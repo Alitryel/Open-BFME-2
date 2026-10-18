@@ -347,12 +347,6 @@ void __cdecl rva007B7768()
 	p->~AsciiString();
 }
 
-// ?rva007B7786@@YAXXZ @ 0x007B7786 (10B): ecx=&g_Va00DFE7A8, tail-jump to rowed ??1Rva0023DBC3@@QAE@XZ (0x0023DBC3)
-void __cdecl rva007B7786()
-{
-	Rva0023DBC3 *p = (Rva0023DBC3 *)&g_Va00DFE7A8;
-	p->~Rva0023DBC3();
-}
 
 // ?rva007B7842@@YAXXZ @ 0x007B7842 (10B): ecx=&g_Va00DFED9C, tail-jump to rowed ??1OutwardEmissionVelocityInfo@FXParticleSystem@@UAE@XZ (0x0049B47C)
 void __cdecl rva007B7842()
@@ -845,19 +839,7 @@ void __cdecl rva007B9965()
 	p->~Rva005E7529();
 }
 
-// ?rva007B9979@@YAXXZ @ 0x007B9979 (10B): ecx=&g_Va00E06734, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
-void __cdecl rva007B9979()
-{
-	Rva005E16DA *p = (Rva005E16DA *)&g_Va00E06734;
-	p->Rva005E16DA::~Rva005E16DA();
-}
 
-// ?rva007B9983@@YAXXZ @ 0x007B9983 (10B): ecx=&g_Va00E06748, tail-jump to rowed ??1Rva005E16DA@@UAE@XZ (0x005E16FD)
-void __cdecl rva007B9983()
-{
-	Rva005E16DA *p = (Rva005E16DA *)&g_Va00E06748;
-	p->Rva005E16DA::~Rva005E16DA();
-}
 
 // ?rva007B9AB0@@YAXXZ @ 0x007B9AB0 (10B): ecx=&g_Va00E08D48, tail-jump to rowed ??1SimpleFileFactoryClass@@UAE@XZ (0x00613140)
 void __cdecl rva007B9AB0()
