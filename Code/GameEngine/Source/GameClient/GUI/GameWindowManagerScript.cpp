@@ -141,11 +141,15 @@ static GameWinDrawFunc			drawFunc = NULL;
 // Keep these strings in their original initialization order and expose this
 // existing storage: native DIR32 bindings are RVA A01308/A0130C/A01310.
 // The compiler-generated initializer/cleanup rows still verify this storage.
+// Retail's initializers call the out-of-line AsciiString() at 0x00326BE6
+// rather than folding the construction away.
+#pragma inline_depth( 0 )
 AsciiString g_systemCallbackName;
 AsciiString g_inputCallbackName;
 AsciiString g_tooltipCallbackName;
 // Expose the original fourth string at native RVA A01314, preserving order.
 AsciiString g_drawCallbackName;
+#pragma inline_depth()
 
 // default visual properties
 static Color defEnabledColor		= 0;

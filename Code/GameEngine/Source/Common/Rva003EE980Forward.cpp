@@ -59,8 +59,13 @@ private:
 
 // Matched DIR32 witness places this one-pointer AsciiString at VA 0x00E02E84
 // in the zero-filled .data tail; the shared BFME2 header establishes its
-// four-byte layout and the retail initial bytes are zero.
-AsciiString g_Rva00E02E84;
+// four-byte layout and the retail initial bytes are zero. Its retail dynamic
+// initializer (0x007AF9BB) constructs it from "UnifiedEffect" through the
+// out-of-line AsciiString(const char *) at 0x0000654A, as in
+// Rva003EE900Forward.cpp.
+#pragma inline_depth( 0 )
+AsciiString g_Rva00E02E84("UnifiedEffect");
+#pragma inline_depth()
 
 class Rva003EE980
 {

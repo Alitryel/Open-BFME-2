@@ -60,20 +60,25 @@ private:
 };
 
 // These six target objects occupy the zero-filled .data tail. Their matched
-// DIR32 references establish each VA; no explicit initializer preserves the
-// retail zero-initialized storage before normal AsciiString initialization.
+// DIR32 references establish each VA, and each retail dynamic initializer
+// (0x007AF8E3.. 0x007AF9AF) constructs its string from the effect name it
+// pushes before registering the atexit cleanup. Retail's initializers call
+// the out-of-line AsciiString(const char *) at 0x0000654A rather than
+// expanding it, as in Rva007AB85CAtexitInits.cpp.
+#pragma inline_depth( 0 )
 // VA 0x00E02E7C (.data, zero-filled tail).
-AsciiString g_Rva00E02E7C;
+AsciiString g_Rva00E02E7C("HomeRegionHighlight");
 // VA 0x00E02E78 (.data, zero-filled tail).
-AsciiString g_Rva00E02E78;
+AsciiString g_Rva00E02E78("FilledOwnershipEffect");
 // VA 0x00E02E80 (.data, zero-filled tail).
-AsciiString g_Rva00E02E80;
+AsciiString g_Rva00E02E80("RegionSelectionEffect");
 // VA 0x00E02E68 (.data, zero-filled tail).
-AsciiString g_Rva00E02E68;
+AsciiString g_Rva00E02E68("MouseoverEffectFlareup");
 // VA 0x00E02E6C (.data, zero-filled tail).
-AsciiString g_Rva00E02E6C;
+AsciiString g_Rva00E02E6C("MouseoutEffectFlareup");
 // VA 0x00E02E64 (.data, zero-filled tail).
-AsciiString g_Rva00E02E64;
+AsciiString g_Rva00E02E64("BordersEffect");
+#pragma inline_depth()
 
 class Rva003EE900
 {
