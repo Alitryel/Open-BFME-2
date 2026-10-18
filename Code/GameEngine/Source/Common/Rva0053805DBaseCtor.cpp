@@ -14,7 +14,8 @@
 // read from a const global shared with the water-area chunk reader 0x00328E96
 // (its stores are scheduled before the load, so it is not a literal); its
 // original name is unknown.
-extern const float g_00C691E8;
+// Retail VA 0x00C691E8 stores bits 0x3D75C290, one ULP above 0.06f.
+extern const float g_00C691E8 = 0.06000000238418579f;
 
 class VBase00C6EE28
 {

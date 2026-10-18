@@ -53,7 +53,8 @@ public:
 extern Debug *theDebug;
 void __cdecl _bfme_debugRecordCallsite(int kind);
 bool __cdecl bfmeRva000387C0(void);
-extern const char g_00C0EA88[];
+// Retail VA 0x00C0EA88: complete format string and trailing zero padding.
+extern const char g_00C0EA88[32] = "ThingTemplate %s not found!\n";
 
 enum ErrorCode
 {
