@@ -68,11 +68,15 @@ private:
 	int m_value;
 };
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class UpdateBase
 {
 public:
 	UpdateBase() {}
-	~UpdateBase();
+	// Retail's ctor unwind (state 0) destroys this base through 0x0049B47C,
+	// the folded Snapshot destructor: restore table 0x00BBB554 at +0, return.
+	~UpdateBase() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 };
 
 class AttributeModifierAuraUpdateModuleData : public UpdateBase

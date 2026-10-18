@@ -23,11 +23,24 @@ private:
 	char m_pad[12];
 };
 
+// Retail's ctor unwind destroys this base through 0x0057C03B, the rowed
+// protected ~CategoryModuleClass<0> (restore table 0x00C6FFFC at +0).
+class EmptyBase005AFE86;
+namespace FXParticleSystem {
+template <int N> class CategoryModuleClass
+{
+protected:
+	~CategoryModuleClass();
+	friend class ::EmptyBase005AFE86;
+};
+}
+typedef FXParticleSystem::CategoryModuleClass<0> Rva0057C03BBase;
+
 class EmptyBase005AFE86
 {
 public:
 	EmptyBase005AFE86() {}
-	~EmptyBase005AFE86();
+	~EmptyBase005AFE86() { ((Rva0057C03BBase *)this)->Rva0057C03BBase::~Rva0057C03BBase(); }
 };
 
 class Rva005AFE86 : public EmptyBase005AFE86

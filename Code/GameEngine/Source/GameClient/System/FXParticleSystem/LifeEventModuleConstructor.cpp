@@ -45,11 +45,15 @@ public:
     bool flag;
 };
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class Rva003AE11B
 {
 public:
     Rva003AE11B() : time(0), fx(0) {}
-    virtual ~Rva003AE11B();
+    // Retail destroys this subobject through 0x0049B47C (vtable slot 0 and the
+    // ctor unwind): the folded Snapshot destructor, restore 0x00BBB554, return.
+    __declspec(noinline) virtual ~Rva003AE11B() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
     unsigned time;
     const FXList *fx;
 };

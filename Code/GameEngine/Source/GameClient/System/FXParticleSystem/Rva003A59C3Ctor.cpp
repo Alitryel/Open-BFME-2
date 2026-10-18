@@ -48,11 +48,15 @@ public:
 
 // Same shape as the rowed Rva003AE07D (V3PolyCopyCtors.cpp): vtable
 // 0x00C1B568 and a Real at +4 zeroed by the default ctor.
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+
 class Rva003A59C3B3
 {
 public:
 	Rva003A59C3B3() : m_real04(0.0f) {}
-	virtual ~Rva003A59C3B3();
+	// Retail destroys this subobject through 0x0049B47C (vtable slot 0 and the
+	// ctor unwind): the folded Snapshot destructor, restore 0x00BBB554, return.
+	virtual ~Rva003A59C3B3() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 	virtual void s0() {}
 	virtual void s1() {}
 
