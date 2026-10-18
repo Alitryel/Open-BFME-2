@@ -76,7 +76,7 @@ int compareRange(const char *a, int alen, const char *b, int blen, CharCompare t
 int compareRangeNoCase(const char *a, int alen, const char *b, int blen, CharCompare tag);
 
 template <>
-int StringBase<char>::compare(const char *str, int len) const
+inline __declspec(noinline) int StringBase<char>::compare(const char *str, int len) const
 {
     return compareRange(m_data ? &m_data->data[0] : "", m_data ? m_data->length : 0, str, len,
         CharCompare());
@@ -135,7 +135,7 @@ bool StringBase<char>::endsWith(const char *str) const
 }
 
 template <>
-int StringBase<char>::compare(const char *str) const
+inline __declspec(noinline) int StringBase<char>::compare(const char *str) const
 {
     return compare(str, str ? (int)strlen(str) : 0);
 }
@@ -357,3 +357,12 @@ bool Rva0002C5E6(const StringBase<char> &text,const Rva0002C5E6Range *range) {
  return false;
 }
 
+
+// PlayerInitFromDict.cpp keeps both narrow compare bodies visible (its row's
+// EH and register shape depend on them), so they are select-any copies of the
+// same body there and here; this anchor keeps this unit's copies emitted.
+// ?bfmeAnchorStringBaseCompare absent-from-retail
+int bfmeAnchorStringBaseCompare(const StringBase<char> &s, const char *text)
+{
+    return s.compare(text);
+}
