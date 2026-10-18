@@ -317,7 +317,7 @@ void __cdecl rva007B6A6E()
 #include "../../Include/Common/Rva00041004Lock.h"
 
 extern unsigned g_Va00DE0850;
-extern unsigned g_Va00DE0828;
+unsigned g_Va00DE0828;	// retail RVA 0x009E0828 (.bss), defined here
 
 // ?rva007B6A80@@YAXXZ @ 0x007B6A80 (10B). Global Rva00041004 dtor thunk: ecx=&g_Va00DE0850 then tail-jmp to rowed ??1Rva00041004@@UAE@XZ (0x00040FE5).
 void __cdecl rva007B6A80()
