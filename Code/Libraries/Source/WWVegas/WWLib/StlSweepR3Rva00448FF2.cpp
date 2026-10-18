@@ -14,9 +14,12 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
                               const _Rb_tree_iterator<_RbVal, _RbRight> &b)
 { return a._M_node != b._M_node; }
 }
+// Trivial 8-byte POD element. The tree's _M_insert at 0x00448E64 is the same
+// function as the BfmeStringRecord00448113 tree's (symbols.csv), whose element
+// is a bare POD, so retail has no element ctor/dtor to call; the four declared
+// special members were donor over-specification and left this unit's own set
+// instantiation with unresolved ??0/??1Rva00448FF2Record references.
 struct Rva00448FF2Record {
- Rva00448FF2Record(); Rva00448FF2Record(const Rva00448FF2Record&);
- ~Rva00448FF2Record(); Rva00448FF2Record&operator=(const Rva00448FF2Record&);
  char bytes[8];
 };
 bool operator<(const Rva00448FF2Record&,const Rva00448FF2Record&);
