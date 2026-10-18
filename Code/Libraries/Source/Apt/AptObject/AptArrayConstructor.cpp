@@ -55,12 +55,6 @@ private:
     AptValue **mpValues;
     int mnCapacity,mnLength;
 };
-AptArray::AptArray() : AptObject((AptVirtualFunctionTable_Indices)22)
-{
-    mnCapacity=0;
-    mpValues=0;
-    mnLength=0;
-}
 
 #pragma comment(linker, "/alternatename:??0AptValue@@IAE@W4AptVirtualFunctionTable_Indices@@@Z=??0BfmeAptValue006DCD20@@QAE@H@Z")
 typedef char AptArrayNativeSize[sizeof(AptArray)==44?1:-1];
