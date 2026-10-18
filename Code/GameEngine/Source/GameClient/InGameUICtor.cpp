@@ -251,10 +251,12 @@ Rva002A1B1D::Rva002A1B1D()
 }
 
 // Record holder at +0x574 (constructor 0x004E63FC, destructor 0x0029E2A9).
+class Rva004E63FC { public: Rva004E63FC(); };
 class Rva0029E2A9
 {
 public:
-	Rva0029E2A9();
+	// Construction is the rowed ??0Rva004E63FC, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva0029E2A9() { ((Rva004E63FC *)this)->Rva004E63FC::Rva004E63FC(); }
 	~Rva0029E2A9();
 
 private:
