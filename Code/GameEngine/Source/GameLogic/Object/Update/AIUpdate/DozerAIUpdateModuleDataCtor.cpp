@@ -23,14 +23,17 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
+// The derived vftable (retail 0x0084EA88), emitted by the unit owning its deleting dtor.
+extern "C" const void *const __identifier("??_7WeaponModeSpecialPowerUpdateModuleData@@6B@")[];
+
 class AIUpdateModuleData
 {
 public:
 	AIUpdateModuleData();
-	virtual ~AIUpdateModuleData();
+	~AIUpdateModuleData();
 
 private:
-	unsigned char m_pad[0x18 - 4];
+	unsigned char m_pad[0x18];	// vftable pointer at +0x00, stored by the derived ctor body
 };
 
 class WeaponModeSpecialPowerUpdateModuleData : public AIUpdateModuleData
@@ -47,7 +50,7 @@ private:
 
 WeaponModeSpecialPowerUpdateModuleData::WeaponModeSpecialPowerUpdateModuleData()
 {
-	*(unsigned int *)this = 0x00C4EA88;
+	*(unsigned int *)this = ((unsigned int)__identifier("??_7WeaponModeSpecialPowerUpdateModuleData@@6B@"));
 	_ReadWriteBarrier();
 	m_18 = 0;
 	m_1C = 0;

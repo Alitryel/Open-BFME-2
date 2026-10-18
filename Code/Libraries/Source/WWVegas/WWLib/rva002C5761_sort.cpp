@@ -35,6 +35,8 @@ struct RvaHead
 };
 
 // ??$sort@PAHP6A_NHH@Z@_STL@@YAXPAH0P6A_NHH@Z@Z present-unmatched
+class BfmeItemEG;
+bool bfmeLess(const BfmeItemEG *, const BfmeItemEG *); // rowed 0x002C0C45, the sort comparator
 class GameWindow;
 class GameWindowManager
 {
@@ -53,7 +55,7 @@ void GameWindowManager::rva002C5761(GameWindow *window)
 		cur = (const ModuleData *)((RvaNode *)cur)->m_next;
 	}
 	typedef bool (__cdecl *CmpFn)(int, int);
-	CmpFn cmp = (CmpFn)0x006C0C45;
+	CmpFn cmp = (CmpFn)&bfmeLess;
 	_STL::sort((int *)(( _STL::vector<const ModuleData *> *)&tmp)->begin(),
 		(int *)(( _STL::vector<const ModuleData *> *)&tmp)->end(), cmp);
 	RvaNode *prev = 0;
