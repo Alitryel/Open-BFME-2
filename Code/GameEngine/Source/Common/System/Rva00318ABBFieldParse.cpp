@@ -79,3 +79,9 @@ void Rva00318A87::rva00318A87()
 	m_0C = *(AsciiString *)&g_Va00E01CF4;
 }
 
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?TheRva00318ABBSunbeam@@3UFieldParse@@B=?TheRva00318ABBSunbeam@@3QBUFieldParse@@B")

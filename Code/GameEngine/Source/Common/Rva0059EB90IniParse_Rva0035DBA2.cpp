@@ -36,3 +36,10 @@ void rva0059EB90(INI *ini, Gen_00489270 *store)
 	ini->initFromINI(item, reinterpret_cast<const FieldParse *>(g_emptyFieldParseTable));
 	store->m((int)item);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0BfmeC1137@@QAE@XZ=??0Rva0035DA01@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?TheRva0059EB90FieldParse@@3QBUFieldParse@@B=?g_emptyFieldParseTable@@3QBHB")
