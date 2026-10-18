@@ -186,4 +186,11 @@ extern PFN_D3DXLoadSurfaceFromSurface __identifier("_imp__D3DXLoadSurfaceFromSur
 HRESULT __stdcall D3DXLoadSurfaceFromSurface(LPDIRECT3DSURFACE9 pDestSurface, const PALETTEENTRY *pDestPalette, const RECT *pDestRect, LPDIRECT3DSURFACE9 pSrcSurface, const PALETTEENTRY *pSrcPalette, const RECT *pSrcRect, DWORD Filter, D3DCOLOR ColorKey) {
  return __identifier("_imp__D3DXLoadSurfaceFromSurface@32")(pDestSurface, pDestPalette, pDestRect, pSrcSurface, pSrcPalette, pSrcRect, Filter, ColorKey);
 }
+
+// _D3DXGetFVFVertexSize@4
+typedef UINT (__stdcall *PFN_D3DXGetFVFVertexSize)(DWORD);
+extern PFN_D3DXGetFVFVertexSize __identifier("_imp__D3DXGetFVFVertexSize@4");
+UINT __stdcall D3DXGetFVFVertexSize(DWORD FVF) {
+ return __identifier("_imp__D3DXGetFVFVertexSize@4")(FVF);
+}
 }
