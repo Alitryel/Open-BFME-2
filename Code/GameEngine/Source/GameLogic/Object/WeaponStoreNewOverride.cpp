@@ -269,6 +269,16 @@ private:
 
 typedef _STL::vector<WeaponTemplate *, _STL::allocator<WeaponTemplate *> > WeaponTemplateVector;
 
+// The constructor retail runs on the 0x180-byte block (0x002CD169) is rowed
+// as Rva002CD4A6's; weapon.cpp's Zero Hour WeaponTemplate() is not that body.
+class Rva002CD4A6
+{
+public:
+	Rva002CD4A6();
+private:
+	unsigned char m_bytes[0x180];
+};
+
 class WeaponStore
 {
 public:
@@ -293,7 +303,7 @@ WeaponTemplate *WeaponStore::newOverride(WeaponTemplate *weaponTemplate)
 	if (weaponTemplate->isOverride())
 		return 0;
 
-	WeaponTemplate *wt = new WeaponTemplate;
+	WeaponTemplate *wt = reinterpret_cast<WeaponTemplate *>(new Rva002CD4A6);
 	*wt = *weaponTemplate;
 	wt->friend_setNextTemplate(weaponTemplate);
 	wt->friend_setIsOverride();
@@ -336,7 +346,7 @@ WeaponTemplate *WeaponStore::newWeaponTemplate(const AsciiString &name)
 {
     if (((const StringBase<char> *)&name)->isEmpty())
         return 0;
-    WeaponTemplate *wt = new WeaponTemplate;
+    WeaponTemplate *wt = reinterpret_cast<WeaponTemplate *>(new Rva002CD4A6);
     wt->m_name = name;
     wt->m_nameKey = TheNameKeyGenerator->nameToKey(name);
     m_weaponTemplateVector.push_back(wt);
