@@ -1,17 +1,8 @@
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.921 date=2026-10-17
-// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.766 date=2026-10-14
-// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.9398 date=2026-10-13
-// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
-// partial score=0.9398 date=2026-10-13
+// partial score=0.88 date=2026-10-18
 // cl: /O2 /G6 /DNDEBUG /MD
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // Clean room: reverse/vp6_cleanroom/specs/001c5e30.md plus retail only.
 // No decoder source was consulted.
-// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z retail
 // 0x001C5E30..0x001C6130 (768 bytes) cdecl (decoder instance / 16-bit
 // output block / block position 0..5); spec name VP6_PredictFilteredBlock
 // and the pinned name is kept (the matched caller 0x001C6130 declares it).
@@ -103,8 +94,8 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 	if (0 != pbi->profile && pbi->loopFilterMode != 0) {
 		VP6_PredictFiltered(pbi, source + pbi->reconIndex,
 			pbi->vectors[block].x, pbi->vectors[block].y);
-		mvx = *(volatile short *)&pbi->vectors[block].x;
-		mvy = (pbi->loopFilteredBlock ? (pbi->vectors[block].y) : (pbi->vectors[block].y));
+		mvx = pbi->vectors[block].x;
+		mvy = pbi->vectors[block].y;
 		y = mvy;
 		x = mvx;
 		xPhase = x & pbi->vectorMask;
@@ -114,15 +105,15 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 		offset1 = 34;
 		offset2 = 34;
 	} else {
-		yPhase = y & mask;
 		mvx = pbi->vectors[block].x;
 		x = mvx;
 		mvy = pbi->vectors[block].y;
 		y = mvy;
+		yPhase = y & mask;
 		xPhase = x & mask;
 		base = source + pbi->reconIndex
 			+ pbi->frameStride * ((y + ((y >> 31) & mask)) >> pbi->vectorShift)
-			+ ((x + ((x >> 31) & mask)) >> (*(volatile int *)&pbi->vectorShift));
+			+ ((x + ((x >> 31) & mask)) >> pbi->vectorShift);
 		stride = pbi->reconStride;
 		offset2 = 0;
 		offset1 = 0;
@@ -142,10 +133,11 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 					output, stride, xPhase, yPhase, 0);
 			} else if (pbi->filterMode == 2) {
 				if (pbi->sizeThreshold > 0)
-					limit = (1 << (pbi->sizeThreshold - 1)) << 2;
+					// Retail x86 masks the shift count to five bits.
+					limit = (1UL << ((pbi->sizeThreshold - 1) & 31)) << 2;
 				else
 					limit = 128;
-				if ((base ? (0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit)) : (0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit)))) {
+				if ((0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit))) {
 					((Rva009B5530Filter)g_bfmeSlotB54)(base + offset1, base + offset2,
 						output, stride, xPhase, yPhase, 0);
 				} else if (pbi->varianceThreshold != 0) {
