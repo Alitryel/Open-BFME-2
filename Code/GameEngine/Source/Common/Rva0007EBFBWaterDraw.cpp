@@ -246,7 +246,7 @@ private:
 	bool m_isOverride;
 };
 
-class Rva00DFF488Setting : public Overridable
+class WaterTransparencySetting : public Overridable
 {
 public:
 	char m_pad0C[0x50 - 0x0C];
@@ -272,7 +272,7 @@ public:
 private:
 	const T *m_overridable;
 };
-extern OVERRIDE<Rva00DFF488Setting> TheRva00DFF488Setting;
+extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
 
 void Rva00080168ReflectionTexture(ID3DXEffect *effect, D3DXHANDLE handle);
 void Rva000800D6BlendUsingTerrainAlpha(ID3DXEffect *effect, D3DXHANDLE handle);
@@ -420,7 +420,7 @@ void Rva00080131MinWaterOpacity(ID3DXEffect *effect, D3DXHANDLE handle)
 
 void Rva00080168ReflectionTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
-	if (TheWritableGlobalData->m_5E && W3DGCData00DE2000 && TheRva00DFF488Setting && TheRva00DFF488Setting->m_50)
+	if (TheWritableGlobalData->m_5E && W3DGCData00DE2000 && TheWaterTransparency && TheWaterTransparency->m_50)
 		effect->SetTexture(handle, ((Rva00080168Owner *)W3DGCData00DE2000)->m_F8.Peek_D3D_Base_Texture());
 	else
 		effect->SetTexture(handle, Rva00132F30BlackTexture().Peek_D3D_Base_Texture());

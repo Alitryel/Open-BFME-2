@@ -2,7 +2,7 @@
 // Native0007FD89..0007FE1B RET4. Receiver vector108/10C and entry owner40
 // are measured; original receiver and predicate names are unresolved.
 // Existing ReflectionTexture callback80168 independently binds globals
-// TheWritableGlobalData+5E and TheRva00DFF488Setting final override+50.
+// TheWritableGlobalData+5E and TheWaterTransparency final override+50.
 // Reuse the existing native14B Rva001E35DFView getter without a new name.
 // Callee308DF0 uses ECX and RET0, returning owned pointer84 in EAX.
 // Callee7FB85 uses ECX and arg8, returns AL, RET4 after polygon clipping.
@@ -17,7 +17,7 @@ public:
  }
  void *unknown00;Rva001E35DFView *next;bool isOverride;
 };
-class Rva00DFF488Setting : public Rva001E35DFView {
+class WaterTransparencySetting : public Rva001E35DFView {
 public:char unknown0C[0x44];bool flag50;
 };
 template<class T> class OVERRIDE {
@@ -26,11 +26,11 @@ public:
  const T *operator->() const {if(!pointer)return 0;return (const T *)pointer->getFinalOverride();}
  const T *pointer;
 };
-extern OVERRIDE<Rva00DFF488Setting> TheRva00DFF488Setting;
-struct Rva00308DF0Result {char unknown00[0x1c];int kind;};
-class Rva00308DF0Owner {public:Rva00308DF0Result *rva00308DF0();};
+extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
+class Rva00308DF0Ref {public:char unknown00[0x1c];int kind;};
+class Rva00308DF0 {public:Rva00308DF0Ref *rva00308DF0();};
 class Rva0007FD89Entry {
-public:char unknown00[0x40];Rva00308DF0Owner *owner;
+public:char unknown00[0x40];Rva00308DF0 *owner;
  bool rva0007FB85(void *input);
 };
 class WaterRenderObjClass {
@@ -40,10 +40,10 @@ private:char unknown00[0x108];Rva0007FD89Entry **first,**last,**capacity;
 bool WaterRenderObjClass::IsReflectionVisible(void *input)
 {
  if(!input)return false;
- if(reinterpret_cast<GlobalDataGate *>(TheWritableGlobalData)->enabled && TheRva00DFF488Setting && TheRva00DFF488Setting->flag50) {
+ if(reinterpret_cast<GlobalDataGate *>(TheWritableGlobalData)->enabled && TheWaterTransparency && TheWaterTransparency->flag50) {
   for(Rva0007FD89Entry **it=first;it!=last;++it) {
    Rva0007FD89Entry *entry=*it;
-   Rva00308DF0Result *data=entry->owner->rva00308DF0();
+   Rva00308DF0Ref *data=entry->owner->rva00308DF0();
    if(data && data->kind>=2 && entry->rva0007FB85(input))return true;
   }
  }

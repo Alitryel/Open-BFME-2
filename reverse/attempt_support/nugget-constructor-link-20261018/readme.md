@@ -31,3 +31,9 @@ additional blockers and is not changed for an unmeasured zero-byte repair.
 The Requirements_Create and PositionCreate callers need unrowed 2618-byte
 reallyCreate 1F1634 (existing blocked attempt 65133); no retry without its
 missing dependencies. This repair adds no authored C++ function bytes.
+
+Post-commit shadow identity diagnostic: the pre-existing global AnimSet vector
+base constructor spelling binds 211E58 and is classified wrong. This repair
+does not alter that template call or its target; the byte gate independently
+verifies the two emitted folded constructors and resolved retail owners.
+The diagnostic is retained as a limitation, with no baseline modification.
