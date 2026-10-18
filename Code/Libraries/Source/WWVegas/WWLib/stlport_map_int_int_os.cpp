@@ -14,6 +14,18 @@
 
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+
+// Preserve STLport's inlined walk without emitting a competing size-profile
+// wrapper. stlport_map_int_int.cpp owns the complete retail entry at 0x169ED0.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{
+    _M_node = _Rb_global_inst::_M_increment(_M_node);
+    return *this;
+}
+}
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &a,bool const &b) : first(a), second(b) {} }
 // bfme link decl-only begin
