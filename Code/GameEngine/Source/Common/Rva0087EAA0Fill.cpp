@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /Ob0
-// ?Rva006BE270Fill@@YAXPAUBfmeElem60@@0ABU1@@Z 0x006BE270 112B evidence: BfmeVec60::insert caller 0x006BF800 fills range with value; struct layout from GeometryInfoSet BfmeElem60 plus AsciiString op= pin 0x000366F0; sibling bfmeCopyAA TU flags
+// ?Rva006BE270Fill@@YAXPAUBfmeElem60@@0ABU1@@Z 0x006BE270 112B evidence: BfmeVec60::insert caller 0x006BF800 fills range with value; struct layout from GeometryInfoSet BfmeElem60 plus canonical StringBase<char>::set(copy) 0x000366F0; sibling bfmeCopyAA TU flags
 #include "ascii_string.h"
 
 struct BfmeCoord60
@@ -33,7 +33,7 @@ void Rva006BE270Fill(BfmeElem60 *first, BfmeElem60 *last, const BfmeElem60 &valu
 		first->m_08 = value.m_08;
 		first->m_0C = value.m_0C;
 		first->m_10 = value.m_10;
-		first->m_1C = value.m_1C;
+		((StringBase<char> *)&first->m_1C)->set(*(const StringBase<char> *)&value.m_1C);
 		first->m_20 = value.m_20;
 		first->m_21 = value.m_21;
 		++first;
