@@ -77,13 +77,39 @@ namespace LivingWorldTutorial
 	class LogicTurn { public: static void ParseINI(INI *ini, Rva003F9004 *outer); };
 }
 
-extern const FieldParse g_00C373D8;
 extern "C" {
 void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z")();
+void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
 }
+// The task names the "Task" field indexes (retail .rdata 0x00C37174): 14
+// pointers, the last "INVALID", with no null after them (the strings follow).
+extern const char *const LivingWorldTutorialTaskNames[14] = {
+	"EndPhase",
+	"ZoomScroll",
+	"BuildBarracks",
+	"TrainUnit",
+	"MergeGarrison",
+	"MoveHeroArmyToRegion",
+	"OpenDetailsPanel",
+	"SelectBattle",
+	"EnableAutoResolveButtonAndWaitForCompletion",
+	"RetreatArmies",
+	"ScriptedArmyMove",
+	"ScriptedDelay",
+	"EndTutorial",
+	"INVALID",
+};
+// SessionTask's table at 0x00C373D8: 3 entries and the null terminator.
+extern const FieldParse g_00C373D8[4] = {
+	{ "Task", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), LivingWorldTutorialTaskNames, 0x8 },
+	{ "Params", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC },
+	{ "Text", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ 0, 0, 0, 0 }
+};
 // The retail table at 0x00837468: 4 entries and the null terminator; every parser is a rowed code owner.
 extern const FieldParse g_00C37468[5] = {
 	{ "Audio", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x8 },
@@ -101,7 +127,7 @@ void LivingWorldTutorial::SessionTask::ParseINI(INI *ini, Rva003F7C0C *outer)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
 	Rva003F8ED6 *p = new Rva003F8ED6((outer->m_04?outer->m_04:outer->m_04));
-	ini->initFromINI(p, &g_00C373D8);
+	ini->initFromINI(p, g_00C373D8);
 	outer->rva003F7C0C(p);
 }
 

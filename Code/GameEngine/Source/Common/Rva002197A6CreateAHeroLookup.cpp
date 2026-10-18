@@ -41,7 +41,10 @@ public:
 	GameSlot *getSlot(int index);
 };
 extern GameInfo *TheGameInfo;
-extern _STL::vector<CreateAHeroData *> g_CreateAHeroRegistry;
+// The registry's storage is the global ScriptGlueRva003BE7ED.cpp defines at
+// that address (g_00DFE358); read it through a vector view.
+extern unsigned int g_00DFE358;
+#define g_CreateAHeroRegistry (*(_STL::vector<CreateAHeroData *> *)&g_00DFE358)
 
 class CreateAHeroManager
 {

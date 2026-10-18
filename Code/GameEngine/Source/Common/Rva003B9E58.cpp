@@ -11,11 +11,12 @@
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
-// VA 0x00DFE7AC: the string base this body writes (the one-pointer twin of
-// StringBase<char>, as the sibling's 0x00DFE7B0 key).
-extern AsciiString g_Va00DFE7AC;
 // The enable byte the sibling owns (Rva003B9EC4.cpp).
 extern unsigned char g_00DFE7A8;
+// VA 0x00DFE7AC: the string base this body writes (the one-pointer twin of
+// StringBase<char>, as the sibling's 0x00DFE7B0 key), four bytes into the
+// datum whose first byte is that enable flag (retail .data 0x00DFE7A8, 8B).
+#define g_Va00DFE7AC (*(AsciiString *)((unsigned char *)&g_00DFE7A8 + 4))
 
 struct Rva003B9E58Arg { char m_pad00[4]; const char *m_04; };
 

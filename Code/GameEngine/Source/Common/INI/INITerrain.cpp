@@ -7,13 +7,26 @@
 // field-parse table 0x00C0C3A8 (TerrainType::getFieldParse(), inline in ZH).
 #include "ascii_string.h"
 
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
 	const char *getNextToken(const char *seps = 0);
 	void initFromINI(void *what, const FieldParse *parseTable);
+
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva00339E1C_ParseBrowser(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva00318242_ParseNamedReal(INI *ini, void *instance, void *store, const void *userData);
 
 	static void parseTerrainDefinition(INI *ini);
 };
@@ -170,3 +183,71 @@ void iniParseWaterTexturesDefinition(INI *ini)
 		list->dump();
 	}
 }
+
+// The terrain class names (retail .data 0x00DBE340, 47 names and a null), the
+// "Class" field's lookup list; read from retail.
+const char *terrainTypeNames[] =
+{
+	"NONE",
+	"NEXT",
+	"Region",
+	"Minas_Tirith",
+	"Osgiliath",
+	"Dead_Marshes",
+	"Edoras",
+	"Helm's_Deep",
+	"Paths_of_Dead",
+	"Fangorn_Forest",
+	"Misty_Mountains",
+	"Rivendell",
+	"Moria",
+	"The_Shire",
+	"Isengard",
+	"Mordor",
+	"Misc_Village",
+	"Misc_Grassland",
+	"Misc_Town",
+	"Misc_Woodland",
+	"Misc_Water",
+	"Type",
+	"Grass",
+	"Rock",
+	"Dirt",
+	"Snow",
+	"Cliff",
+	"Misc",
+	"DESERT_1",
+	"DESERT_2",
+	"DESERT_3",
+	"EASTERN_EUROPE_1",
+	"EASTERN_EUROPE_2",
+	"EASTERN_EUROPE_3",
+	"SWISS_1",
+	"SWISS_2",
+	"SWISS_3",
+	"SNOW_1",
+	"SNOW_2",
+	"SNOW_3",
+	"ASPHALT",
+	"CONCRETE",
+	"TRANSITION",
+	"SAND",
+	"WOOD",
+	"BLEND_EDGE",
+	"LOTR_NEW",
+	0
+};
+
+// TerrainType's field-parse table, retail .rdata 0x00C0C3A8: Zero Hour's four
+// fields plus BFME2's TerrainObject (offset 0). Parsers by their rowed
+// addresses: parseAsciiString 0x0002F11E, parseBool 0x0002E850, the "Class"
+// list parser 0x00339E1C, the TerrainObject parser 0x00318242.
+const FieldParse TerrainType::m_terrainTypeFieldParseTable[] =
+{
+	{ "Texture", INI::parseAsciiString, 0, 0x08 },
+	{ "BlendEdges", INI::parseBool, 0, 0x0C },
+	{ "Class", INI::Rva00339E1C_ParseBrowser, terrainTypeNames, 0x10 },
+	{ "RestrictConstruction", INI::parseBool, 0, 0x1C },
+	{ "TerrainObject", INI::Rva00318242_ParseNamedReal, 0, 0x00 },
+	{ 0, 0, 0, 0 },
+};
