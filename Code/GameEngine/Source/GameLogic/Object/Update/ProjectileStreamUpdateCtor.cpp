@@ -102,3 +102,9 @@ ProjectileStreamUpdate::ProjectileStreamUpdate(Thing *thing, const ModuleData *m
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?unused@BehaviorModuleOther@@EAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?unused@BehaviorModuleBase@@EAEXXZ=??_GRva0033EEC9@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?update@UpdateModule@@UAEXXZ=?update@ProjectileStreamUpdate@@UAE?AW4UpdateSleepTime@@XZ")

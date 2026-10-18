@@ -90,3 +90,8 @@ void CreateModule::loadPostProcess( void )
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??0ExperienceLevelCreateBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0CreateModule@@QAE@PAVThing@@PBVModuleData@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?crc@BehaviorModule@@MAEXPAVXfer@@@Z=??_GRva004607E1@@UAEPAXI@Z")
