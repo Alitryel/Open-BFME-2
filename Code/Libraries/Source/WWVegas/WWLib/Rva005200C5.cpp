@@ -15,6 +15,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 enum ScienceType { SCIENCE_FIRST = 0 };
 
+// Retail calls the shared push_back at 0x002E01C6; keep its growth helper there.
+namespace _STL { template <> void vector<ScienceType>::push_back(const ScienceType &); }
+
 struct BfmePod40;
 class Rva0040AAD5 {
 public:

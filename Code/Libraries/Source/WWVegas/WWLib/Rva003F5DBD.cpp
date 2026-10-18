@@ -53,6 +53,9 @@ enum ScienceType
 	SCIENCE_0 = 0
 };
 
+// Retail calls the shared push_back at 0x002E01C6; keep its growth helper there.
+namespace _STL { template <> void vector<ScienceType>::push_back(const ScienceType &); }
+
 class CreateAHeroData;
 
 class Rva002B7250
