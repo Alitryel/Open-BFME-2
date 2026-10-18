@@ -320,7 +320,7 @@ protected:
 	OrnamentData m_params;
 };
 
-extern void GameGetColorComponentsReal(
+extern void Rva002D2ACAGet(
 	Color color, Real *red, Real *green, Real *blue, Real *alpha);
 
 W3DLaserDraw::W3DLaserDraw( Thing *thing, const ModuleData* moduleData ) :
@@ -353,8 +353,8 @@ W3DLaserDraw::W3DLaserDraw( Thing *thing, const ModuleData* moduleData ) :
 	}
 
 	Real innerRed, innerGreen, innerBlue, innerAlpha, outerRed, outerGreen, outerBlue, outerAlpha;
-	GameGetColorComponentsReal( data->m_innerColor, &innerRed, &innerGreen, &innerBlue, &innerAlpha );
-	GameGetColorComponentsReal( data->m_outerColor, &outerRed, &outerGreen, &outerBlue, &outerAlpha );
+	Rva002D2ACAGet( data->m_innerColor, &innerRed, &innerGreen, &innerBlue, &innerAlpha );
+	Rva002D2ACAGet( data->m_outerColor, &outerRed, &outerGreen, &outerBlue, &outerAlpha );
 
 	m_line3D = new SegmentedLineClass *[ *(const volatile UnsignedInt *)&data->m_numBeams * data->m_segments ];
 
