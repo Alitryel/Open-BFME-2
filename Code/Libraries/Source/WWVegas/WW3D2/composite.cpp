@@ -76,6 +76,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 
 #include "../WWMath/SphereClassLink.h"
+// Use the rowed AABox initializer and keep only inline StringClass emptiness tests.
+#include "../WWMath/AABoxClassLink.h"
+#include "../../../../../reference/shims/bfme_part_emt_inline/wwstring.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "composite.h"
 #include "wwdebug.h"
