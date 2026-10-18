@@ -65,6 +65,14 @@ struct Made002CC5E1DamageScalar
 	float scalar;
 };
 
+// The native owner calls the shared vector destructor at 0x00507BD0.
+// Keep its allocator and element teardown with that retail provider.
+namespace _STL {
+template <> vector<Made002CC5E1DamageScalar>::~vector();
+template <> _Vector_base<Made002CC5E1DamageScalar,
+    allocator<Made002CC5E1DamageScalar> >::~_Vector_base();
+}
+
 class Rva00507823
 {
 public:
