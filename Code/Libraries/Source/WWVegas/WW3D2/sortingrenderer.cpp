@@ -147,6 +147,8 @@ public:
 	unsigned short vertex_count;			// Number of vertices used in vb
 public:
 	SortingNodeStruct();
+public:
+	~SortingNodeStruct();
 };
 
 static DLListClass<SortingNodeStruct> sorted_list;
