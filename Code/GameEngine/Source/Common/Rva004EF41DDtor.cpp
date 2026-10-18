@@ -11,13 +11,13 @@ class Rva004F07E6
 public:
 	virtual ~Rva004F07E6();
 };
-class Rva004EF41D : public Rva004F07E6
+class AISkirmishPlayer : public Rva004F07E6
 {
 public:
-	virtual ~Rva004EF41D();
+	virtual ~AISkirmishPlayer();
 };
 void __cdecl operator delete(void *p);
-Rva004EF41D::~Rva004EF41D()
+AISkirmishPlayer::~AISkirmishPlayer()
 {
 	((AIPlayer *)this)->clearTeamsInQueue();
 }
