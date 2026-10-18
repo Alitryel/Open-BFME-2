@@ -75,7 +75,7 @@ template <> struct pair<const int, Rva00501776>
 };
 }
 
-_STL::pair<const int, Rva00501776>::pair(const _STL::pair<const int, Rva00501776> &o)
+inline __declspec(noinline) _STL::pair<const int, Rva00501776>::pair(const _STL::pair<const int, Rva00501776> &o)
 	: first(o.first)
 	, second(o.second)
 {
@@ -161,3 +161,12 @@ Rva0050245DElement::Rva0050245DElement(const int &a, const Rva005020AFSub &b)
 #pragma comment(linker, "/alternatename:??0Rva004F802CSub@@QAE@ABU0@@Z=??0?$vector@URva004F69D6Record@@V?$allocator@URva004F69D6Record@@@_STL@@@_STL@@QAE@ABV01@@Z")
 //   0x00501B33 -> ??0?$_Rb_tree@URva00501B33Element@@U1@U?$_Identity@URva00501B33Element@@@_STL@@U?$less@URva00501B33Element@@@3@V?$allocator@URva00501B33Element@@@3@@_STL@@QAE@ABV01@@Z
 #pragma comment(linker, "/alternatename:??0Rva005020AFSub@@QAE@ABU0@@Z=??0?$_Rb_tree@URva00501B33Element@@U1@U?$_Identity@URva00501B33Element@@@_STL@@U?$less@URva00501B33Element@@@3@V?$allocator@URva00501B33Element@@@3@@_STL@@QAE@ABV01@@Z")
+
+// GatherWorldInformationRva0050366BFarm.cpp emits a select-any copy of the same
+// pair<const int, Rva00501776> copy constructor; defining it inline-noinline
+// here keeps one body under the name. The anchor keeps this copy emitted.
+// ?bfmeAnchorPairRva00501776 absent-from-retail
+void bfmeAnchorPairRva00501776(_STL::pair<const int, Rva00501776> *p, const _STL::pair<const int, Rva00501776> &o)
+{
+	p->_STL::pair<const int, Rva00501776>::pair(o);
+}
