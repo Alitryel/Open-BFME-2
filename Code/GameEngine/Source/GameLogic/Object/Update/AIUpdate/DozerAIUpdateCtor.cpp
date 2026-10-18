@@ -1795,6 +1795,7 @@ enum PlayerType
 	PLAYER_COMPUTER
 };
 
+class ParticleSystem { public: Bool isSaveable() const; };
 class Player
 {
 public:
@@ -1805,7 +1806,7 @@ public:
 	Bool isLocalPlayer() const;
 	// The flag after ZH's m_canBuildUnits/m_canBuildBase (+0x338/+0x339),
 	// where ZH keeps m_observer.
-	Bool rva002AA223() const;
+	/* the rowed ParticleSystem::isSaveable */ __declspec(dllimport) __forceinline Bool rva002AA223() const { return ((const ParticleSystem *)this)->isSaveable(); }
 	void onStructureCreated(Object *builder, Object *structure);
 	void onStructureConstructionComplete(Object *builder, Object *structure, Bool isRebuild);
 private:
