@@ -158,4 +158,11 @@ extern PFN_D3DXCreateCubeTextureFromFileInMemoryEx __identifier("_imp__D3DXCreat
 HRESULT __stdcall D3DXCreateCubeTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Size, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo, PALETTEENTRY *pPalette, LPDIRECT3DCUBETEXTURE9 *ppCubeTexture) {
  return __identifier("_imp__D3DXCreateCubeTextureFromFileInMemoryEx@56")(pDevice, pSrcData, SrcDataSize, Size, MipLevels, Usage, Format, Pool, Filter, MipFilter, ColorKey, pSrcInfo, pPalette, ppCubeTexture);
 }
+
+// _D3DXGetImageInfoFromFileInMemory@12
+typedef HRESULT (__stdcall *PFN_D3DXGetImageInfoFromFileInMemory)(LPCVOID, UINT, D3DXIMAGE_INFO *);
+extern PFN_D3DXGetImageInfoFromFileInMemory __identifier("_imp__D3DXGetImageInfoFromFileInMemory@12");
+HRESULT __stdcall D3DXGetImageInfoFromFileInMemory(LPCVOID pSrcData, UINT SrcDataSize, D3DXIMAGE_INFO *pSrcInfo) {
+ return __identifier("_imp__D3DXGetImageInfoFromFileInMemory@12")(pSrcData, SrcDataSize, pSrcInfo);
+}
 }
