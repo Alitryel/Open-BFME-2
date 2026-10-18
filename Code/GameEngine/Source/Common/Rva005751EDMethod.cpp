@@ -54,12 +54,14 @@ private:
 class Rva00575125Second
 {
 public:
-	virtual ~Rva00575125Second();
+	virtual void slot0(int);
+	~Rva00575125Second();
 };
 class Rva00575125 : public Rva005746AF, public Rva00575125Second
 {
 public:
 	Rva00575125(int a, void *mgr);
+	virtual void slot0(int);
 private:
 	void *m_14;
 };

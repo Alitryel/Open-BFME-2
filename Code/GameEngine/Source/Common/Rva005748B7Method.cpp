@@ -34,15 +34,6 @@ class Rva000AD6F4
 public:
 	~Rva000AD6F4();
 };
-class Rva005747CC
-{
-public:
-	void rva005747CC(int unused);
-};
-void Rva005747CC::rva005747CC(int)
-{
-	((Rva000AD6F4 *)(*(char **)((char *)this - 0x0C) + 0x54))->~Rva000AD6F4();
-}
 class Rva005756F2
 {
 public:

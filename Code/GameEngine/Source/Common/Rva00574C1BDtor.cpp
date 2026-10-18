@@ -1,4 +1,4 @@
-// cl: /MD /EHsc
+// cl: /O1 /MD /EHsc
 // ??1Rva00574C1B@@UAE@XZ retail 0x00574C1B 83B
 // Two-base dtor: own vptrs C6E4A4 (+0) and C6E4C0 (+0x10); under EH state 1
 // the +0x10 subobject is unregistered from the list at +4 of the owner held
@@ -29,22 +29,36 @@ private:
 	unsigned char m_pad04[0x10 - 4];
 };
 
-class Rva00574C1BSecond
+class Rva00575125Second
 {
 public:
-	virtual ~Rva00574C1BSecond() {}
-
-protected:
-	Rva00574C1BOwner *m_owner; // +0x04 in this base, +0x14 overall
+	virtual void slot0(int);
+	~Rva00575125Second();
 };
-
-class Rva00574C1B : public Rva005746AF, public Rva00574C1BSecond
+inline Rva00575125Second::~Rva00575125Second() {}
+class Rva00574C1B : public Rva005746AF, public Rva00575125Second
 {
 public:
 	virtual ~Rva00574C1B();
+	virtual void slot0(int);
+private:
+	Rva00574C1BOwner *m_owner;
 };
 
 Rva00574C1B::~Rva00574C1B()
 {
-	m_owner->m_list.rva002B7250((CreateAHeroData *)static_cast<Rva00574C1BSecond *>(this));
+	m_owner->m_list.rva002B7250((CreateAHeroData *)static_cast<Rva00575125Second *>(this));
+}
+
+class Rva000AD6F4
+{
+public:
+	~Rva000AD6F4();
+};
+
+// Native C6E4C0 slot 0 receives the secondary-base pointer. MSVC adjusts
+// this override's receiver by -0x10, producing the native [ecx-0x0C] load.
+void Rva00574C1B::slot0(int)
+{
+	((Rva000AD6F4 *)(*(char **)((char *)this + 4) + 0x54))->~Rva000AD6F4();
 }
