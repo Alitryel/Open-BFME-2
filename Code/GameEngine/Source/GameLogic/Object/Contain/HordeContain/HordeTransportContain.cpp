@@ -229,47 +229,4 @@ struct Rva0047778BObjectView {
 int GetGameLogicRandomValue(int,int,char *,int);
 
 class Rva0046247DDescriptor {public: Rva0036AE51ListView rva0046247D();};
-void HordeTransportContain::rva0047778B()
-{
- IntList outerObjects=((Rva0046247DDescriptor *)this)->rva0046247D().rva0036AE51();
- Matrix3D matrices[32];
- int indices[32];
- int next=0;
- for(IntList::iterator i=outerObjects.begin();i!=outerObjects.end();++i)
- {
-  RiderContain *contain=(RiderContain *)((Rva0047A040Base9E0 *)((char *)this+0x11D))->rva00588B8A((void*)containmentFirstWord(*i));
-  if(!contain)continue;
-  IntList nested=contain->s108().rva0036AE51();
-  for(IntList::iterator j=nested.begin();j!=nested.end();++j)
-  {
-   Object *object=(Object *)containmentFirstWord(*j);
-   AsciiString bone=((Rva00463235 *)this)->rva00463235((Thing *)object);
-   int count;
-   {const char *name=bone.str();Object *owner=(Object *)m_object;
-    count=owner->getMultiLogicalBonePosition(name,32,0,matrices,true,(int)indices);}
-   if(!count){const char *name=bone.str();Object *owner=(Object *)m_object;
-    if(owner->getSingleLogicalBonePosition(name,0,matrices))count=1;}
-   if(next>=count)next=0;
-   contain->sA8(object);
-   ((RemovalNotice *)((char *)this+0x20))->sA4(object,0);
-   Matrix3D matrix(matrices[next]);
-   Vector3 position=matrix.Get_Translation();
-   ((Thing *)object)->setPosition((const Coord3D *)&position);
-   Rva0047778BObjectView *view=(Rva0047778BObjectView *)object;
-   PhysicsBehavior *physics=view->physics;
-   if(physics)
-   {
-    Vector3 direction=((const Matrix3D *)view->transform)->Get_X_Vector();
-    direction.Z=1.0f;
-    float magnitude=(float)GetGameLogicRandomValue(5,10,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",0x234);
-    direction*=magnitude;
-    Coord3D force; force.x=direction.X; force.y=direction.Y; force.z=direction.Z;
-    physics->rva00390629(true);
-    if(view->condition.test(127)==0) {view->condition.set(127);object->rva0028AE6D();}
-    ((Rva003909FAObj *)physics)->consume(&force,0,0);
-   }
-   object->kill(DeathDamage,NormalDeath);
-   ++next;
-  }
- }
-}
+
