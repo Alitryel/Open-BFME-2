@@ -80,9 +80,13 @@ public:Rva0040E0EB(const _STL::vector<Rva0040CB11Entry>&v):_STL::vector<Rva0040C
 };
 struct Rva0040F454Cmp {};
 class Rva0040CF55Owner {public:int sumUnflagged()const;};
-class Rva0040C495 {public:Object*rva0040C495(Player*,int);};
-struct Rva0040E534Input {Rva0040C495*value;};
-class Rva0040E6D6Sub {public:void forward(int*);void*words[3];};
+// The entry lookup is the rowed ArmySummaryEntry::rva0040C495 0x0040C495.
+struct Rva0040E534Input {ArmySummaryEntry*value;};
+// The delayed-key append is the rowed four-byte vector push_back 0x002E01C6
+// (ICF-shared; bound through the vector<NameKeyType> row).
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+namespace _STL { template <> void vector<NameKeyType, allocator<NameKeyType> >::push_back(const NameKeyType &); }
+typedef _STL::vector<NameKeyType> Rva0040E6D6Sub;
 class Rva00318C32Ret {public:char bytes00[0x28];_STL::vector<AsciiString>delayed;};
 class Rva00318C79Owner {public:Rva00318C32Ret*rva00318C32();};
 struct Rva002B488EResult {char bytes00[0x54];int ownerID;__forceinline int getOwnerID()const{return ownerID;}};
@@ -160,7 +164,7 @@ void ArmySummary::Load(bool battle,bool first,int overrideID)
    _STL::vector<AsciiString>::const_iterator current=delayedNames.begin(),end=delayedNames.end();
    postpone=false;
    while(!postpone && current!=end){if(current->compare(definition->name)==0)postpone=true;++current;}
-   if(postpone){self->delayed.forward(&saved[index].key);continue;}
+   if(postpone){self->delayed.push_back(*(const NameKeyType*)&saved[index].key);continue;}
    int count=saved[index].value->count;
    if(definition->commandPoints>0 && pass>0)count=budget/definition->commandPoints;
    if(count>saved[index].value->count)count=saved[index].value->count;
