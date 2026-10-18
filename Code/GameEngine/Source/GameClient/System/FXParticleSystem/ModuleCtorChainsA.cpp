@@ -190,7 +190,24 @@ extern const void *const g_00C1C4C8[11] = {
 };
 extern "C" const void *const __identifier("??_7Rva003AE928@@6B@")[];
 extern const void *const g_00C1C508[];
-extern const void *const g_00C1C504[];
+// The retail table at RVA 0x0081C504: 6 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva003AC8D7@Rva003AC8D7Host@@UAEPAVRva003AC8D7Object@@I@Z")();
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+int __cdecl _purecall(void);
+void __identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z")();
+void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
+}
+extern const void *const g_00C1C504[6] = {
+	(const void *)&__identifier("?rva003AC8D7@Rva003AC8D7Host@@UAEPAVRva003AC8D7Object@@I@Z"), // slot 0 0x003AC8D7
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 1 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 2 0x000B3FD0
+	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
+	(const void *)&__identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z"), // slot 4 0x0055B30F
+	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
+};
 extern const void *const g_00C1CDBC[];
 extern const void *const g_00C1C644[];
 extern const void *const g_00C1C640[];
