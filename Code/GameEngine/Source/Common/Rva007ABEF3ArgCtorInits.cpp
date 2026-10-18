@@ -137,7 +137,7 @@ extern unsigned g_Va00E06614;
 extern unsigned g_Va00E06618;
 extern unsigned g_Va00E0661C;
 unsigned g_Va00DF2984;	// retail RVA 0x009F2984 (.bss), defined here
-extern unsigned g_Va00E00944;
+unsigned g_Va00E00944;	// retail RVA 0x00A00944 (.bss), defined here
 // Owned by W3DFontCharsCache.cpp; the initializer uses the existing ABI view.
 class FontCharsClass;
 extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
