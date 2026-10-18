@@ -13,13 +13,21 @@
 // emits no vtable.
 #include "ascii_string.h"
 
+// Retail's ctor unwind destroys this base through the rowed ~Rva005E3258
+// 0x005E3258.
+class Rva005E3258
+{
+public:
+	virtual ~Rva005E3258();
+};
+
 namespace StrategicHUD
 {
 class RegionDetailsMovieClip
 {
 public:
 	RegionDetailsMovieClip(int level, const AsciiString &name, int region);
-	~RegionDetailsMovieClip();
+	~RegionDetailsMovieClip() { ((Rva005E3258 *)this)->Rva005E3258::~Rva005E3258(); }
 protected:
 	const void *m_vtable;		// +0x00
 	unsigned char m_pad04[4];

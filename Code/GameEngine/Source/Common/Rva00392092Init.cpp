@@ -19,10 +19,18 @@ public:
 	unsigned int m_count;
 };
 
+// The element ctor retail hands the vector-new iterator, 0x00391FC4, is rowed
+// as ??0Rva004D9A3C (GapBodiesGE14.cpp).
+class Rva004D9A3C
+{
+public:
+	Rva004D9A3C();
+};
+
 class Rva00391FC4
 {
 public:
-	Rva00391FC4();
+	Rva00391FC4() { ((Rva004D9A3C *)this)->Rva004D9A3C::Rva004D9A3C(); }
 private:
 	float m_float00, m_float04, m_float08;
 	float m_float0C;

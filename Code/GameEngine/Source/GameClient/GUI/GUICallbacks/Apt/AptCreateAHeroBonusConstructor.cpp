@@ -73,7 +73,9 @@ class Rva005B2575 : public Rva005B2575Base
 public:
 	Rva005B2575(AptCreateAHero *owner);
 	virtual ~Rva005B2575();
-	void InitGadgets(const char *, void *, GameWindow *);
+	// Retail binds CahBonus::InitGadgets to RVA 0x000D1407, an empty ret-0xC stub
+	// (ICF-folded with the rowed RenderObjClass::Set_Animation).
+	void InitGadgets(const char *, void *, GameWindow *) {}
 };
 
 Rva005B2575::Rva005B2575(AptCreateAHero *owner)
