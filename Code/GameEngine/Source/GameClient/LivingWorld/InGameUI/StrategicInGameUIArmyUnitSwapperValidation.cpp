@@ -35,7 +35,7 @@ struct Rva005E59FCKeyIterator {
 
 namespace _STL {
 template<> int *copy(Rva005E59FCKeyIterator,Rva005E59FCKeyIterator,int *);
-template<> __declspec(noinline) int *__uninitialized_copy(Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator last,int *result,const __true_type&) {
+template<> inline __declspec(noinline) int *__uninitialized_copy(Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator last,int *result,const __true_type&) {
  _Rb_tree_node_base *n=first.node; int *d=result;
  for(;n!=last.node;n=_Rb_global<bool>::_M_increment(n),++d) {if(d) *d=*(int*)((char*)n+16);}
  return d;
