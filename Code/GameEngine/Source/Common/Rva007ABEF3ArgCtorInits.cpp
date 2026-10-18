@@ -91,7 +91,7 @@ void __cdecl rva007B6C2A();
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
 unsigned g_Va00DEBE24;	// retail RVA 0x009EBE24 (.bss), defined here
-extern unsigned g_Va00DF94D0;
+unsigned g_Va00DF94D0;	// retail RVA 0x009F94D0 (.bss), defined here
 unsigned g_Va00DF94B0;	// retail RVA 0x009F94B0 (.bss), defined here
 unsigned g_Va00DF708C;	// retail RVA 0x009F708C (.bss), defined here
 // VA 0x00E01E08: the 16-byte Rva00346BC0 record rva007AEBB7 constructs at
