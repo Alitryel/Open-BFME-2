@@ -107,13 +107,6 @@ private:
 	Coord2D m_68[4];
 };
 
-Rva0010461F::Rva0010461F()
-	: m_14(0), m_18(0), m_1C(0),
-	  m_edgeImage(TheMappedImageCollection->findImageByName(AsciiString("RadarViewBoxEdge")))
-{
-	if (m_edgeImage != 0)
-		m_edgeTexture = TextureAsset::Get(m_edgeImage->getName().str(), 1, 0);
-}
 
 class TextureClass;
 class Render2DClass
@@ -308,56 +301,6 @@ float __cdecl Rva0010416EFloat(float a, float b);
 
 inline float angleOf(const MathCoord2D &v) { return Rva0010414CGet((float *)&v); }
 
-void Rva0010461F::rva00104359()
-{
-	float minLength = 3.402823466e+38F;
-	for (int i = 0; i < 4; ++i)
-	{
-		const MathCoord2D *cur = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(i);
-		int j = i + 1;
-		if (j >= 4)
-			j -= 4;
-		const MathCoord2D *next = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(j);
-		MathCoord2D edge = *next - *cur;
-		float length = edge.GetLength();
-		if (minLength > length)
-			minLength = length;
-	}
-	float size = (float)m_edgeImage->getImageSize();
-	size = (float)TheDisplay->getWidth() * size / 1024.0f;
-	if (size > minLength)
-		size = minLength;
-	const MathCoord2D *prev = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(3);
-	for (int k = 0; k < 4; ++k)
-	{
-		const MathCoord2D *cur = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(k);
-		int j = k + 1;
-		if (j >= 4)
-			j -= 4;
-		const MathCoord2D *next = (const MathCoord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(j);
-		m_48[k] = *(const Coord2D *)cur;
-		m_68[k] = *(const Coord2D *)cur;
-		if ((cur->x != next->x || cur->y != next->y) && (cur->x != prev->x || cur->y != prev->y))
-		{
-			float a1 = angleOf(*next - *cur);
-			float a2 = angleOf(*prev - *cur);
-			float bisector = Rva0010410FWrap(Rva0010416EFloat(a2, a1) * 0.5f + a1);
-			float half = Rva0010416EFloat(bisector, a1);
-			if (fabs(half) > 0.00001f)
-			{
-				float dist = size * 0.5f / sinf(half);
-				float c = cosf(bisector);
-				float s = sinf(bisector);
-				MathCoord2D offset(c * dist, s * dist);
-				*(MathCoord2D *)&m_48[k] += offset;
-				*(MathCoord2D *)&m_68[k] -= offset;
-			}
-		}
-		prev = cur;
-	}
-	for (int n = 0; n < 4; ++n)
-		m_28[n] = *(const Coord2D *)((Rva002D3850 *)this)->GetRadarViewBoxCorner(n);
-}
 
 void Rva0010461F::rva00104A75()
 {
