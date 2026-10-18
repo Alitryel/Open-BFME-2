@@ -1,5 +1,7 @@
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
-// partial score=0.9606 date=2026-10-18
+// partial score=1.0 date=2026-10-18
+// Text and four home-unit EH rows exact. Landing held for template-provider linking.
+// ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
@@ -74,7 +76,7 @@ Team* AITeamBuilder::getTeamForAIPrototype(TeamPrototype* prototype) {
 }
 
 #include "GameLogicObjectLookupView.h"
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Lib/Coord3D.h"
 // Both rowed native query providers walk seven words. The existing
 // Thing::isAnyKindOf provider retains BitFlags<69> in its ABI spelling;
 // the actual requirement storage and any() instantiation are BitFlags<218>.
@@ -157,7 +159,7 @@ struct Rva002A8AB1Record { char prefix[0x164]; IdleTargetList* targetList; };
 class Rva0025BFF8 { public: Object* rva0025BFF8(int); };
 class Rva00295A0FCommands { public: void Rva00295A0FCommand(void*,int,int); };
 int GetGameLogicRandomValue(int,int,char*,int);
-namespace _STL { template<> void vector<Object*>::push_back(Object* const&); }
+
 void AITeamBuilder::checkIdleTeams() {
  void* stats=g_00DFEEF8->rva002A8F24(owner14);
  void* units=*(void**)stats;
@@ -180,7 +182,7 @@ void AITeamBuilder::checkIdleTeams() {
    }
   }
   IdleTargetList* list=g_00DFEEF8->rva002A8AB1(owner14)->targetList;
-  if(idle.end() != idle.begin() && !list->points.empty()) {
+  if(!idle.empty() && !list->points.empty()) {
    Object** idleBegin=&idle[0];
    int idx=GetGameLogicRandomValue(0,idle.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITeamBuilder\\AITeamBuilder.cpp",0x251);
    Object* obj=idleBegin[idx];
