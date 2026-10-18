@@ -119,41 +119,6 @@ inline void operator delete(void *p,KeyObjectAllocation size){g_pChainBlockAlloc
 EAStringC *Rva0070B4F0GetString(int);
 AptValue *Rva008A4EA0MakeFloat(float);
 struct KeyAnimationAnalog {unsigned char prefix[0x7c];float leftX,leftY;unsigned char unused[8];float rightX,rightY;};
-AptValue *AptKey::sMethod_getAnalogStickInfo(AptValue *,int)
-{
- int controller=0;
- int type=503;
- if(Rva008A5250LastKey!=0) {
-  unsigned int input=Rva008A5250LastKey;
-  if(!(((input&3)==1&&(input&0xfffe0000)==0x3ec0000)||(input&0xfffe0000)==0x3ea0000)) {
-   g_bfmeAptAssertAtE17734("INPUT_IS_ANALOG(&gAptActionInterpreter.input)","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMiscObjects.cpp",839);
-   if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
-  }
-  type=Rva008A5250LastKey>>17;
-  controller=(Rva008A5250LastKey>>2)&255;
- }
- controller-=2;
- AptObject *obj=new(keyObjectAllocation) AptObject((AptVirtualFunctionTable_Indices)27);
- AptValue *controllerValue=AptInteger::Create(controller);
- EAStringC *name=Rva0070B4F0GetString(47);
- reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(name,controllerValue);
- EAStringC temp("fXAxisValue");
- if(type==501) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftX);
-  AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftY);
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
-  temp="fYAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
-  } else if(type==502) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightX);
-  AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightY);
-  temp="fXAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
-  temp="fYAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
- }
- return obj;
-}
 AptValue *aptKeyValue();
 AptValue *aptKeyCode();
 AptInteger *aptPackedKeyFieldAt008A5360();
