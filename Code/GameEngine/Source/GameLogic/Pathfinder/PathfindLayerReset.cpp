@@ -139,50 +139,7 @@ private:
 	int m_triggerObjectID;
 };
 
-// Native 0x00366DEC..0x00366E2E, RET 0.
-void PathfindLayer::rva00366DEC()
-{
-	m_bridge = 0;
-	rva003667D4();
-	m_layer = 1;
-	if (m_triggers)
-		::operator delete(m_triggers->slot0(0));
-	m_triggers = 0;
-	m_startCell.x = -1;
-	m_startCell.y = -1;
-	m_endCell.x = -1;
-	m_endCell.y = -1;
-	m_zone = -1;
-	m_triggerObjectID = -1;
-}
 
-// Native 0x003667D4..0x0036683D, RET 0. Reference algorithm:
-// game/GameEngine/Source/GameLogic/AI/PathfindLayerApplyZone.cpp bfmeReset
-// at the same donor revision. Target adds the zone reset at +0x2C.
-void PathfindLayer::rva003667D4()
-{
-	if (m_layerCells)
-	{
-		for (int i = 0; i < m_width; ++i)
-		{
-			for (int j = 0; j < m_height; ++j)
-			{
-				PathfindCell *cell = &m_layerCells[i][j];
-				cell->rva0052DED3();
-			}
-		}
-		delete[] m_layerCells;
-		m_layerCells = 0;
-	}
-	if (m_blockOfMapCells)
-		delete[] static_cast<MixFileCreator::FileInfoStruct *>(m_blockOfMapCells);
-	m_zone = -1;
-	m_blockOfMapCells = 0;
-	m_width = 0;
-	m_height = 0;
-	m_xOrigin = 0;
-	m_yOrigin = 0;
-}
 
 // Native 0x003666FD..0x003667D4, RET 4. Donor at the revision above:
 // game/GameEngine/Source/GameLogic/AI/PathfindLayerXfer.cpp. Target uses the
@@ -249,9 +206,6 @@ void PathfindLayer::ClassifyWallCells()
  }
 }
 
-// Native array cleanup callback367369 in Pathfinder destructor2F213F;
-// target tail-jumps the already verified66B layer release wrapper.
-PathfindLayer::~PathfindLayer(){rva00366DEC();}
 
 // Native 003666C6..003666FD: constructor callback of the 16x64-byte
 // layer array in Pathfinder 002F6E22. ZH/BF1 constructor is the semantic
@@ -355,114 +309,4 @@ __forceinline long fast_float2long_round(float f)
  return i;
  
 }
-void PathfindLayer::ClassifyBridgeCells()
 
-{
- m_startCell.x=-1;
- m_startCell.y=-1;
- m_endCell.x=-1;
- m_endCell.y=-1;
- for(int x=0;x<m_width;++x) 
- {
-  for(int y=0;y<m_height;++y) 
-  {
-   PathfindCell *cell=&m_layerCells[x][y];
-   reinterpret_cast<Rva00366500*>(cell)->rva0036652D(0);
-   reinterpret_cast<Rva00366500*>(cell)->rva00366500(m_layer);
-   int worldX=x+m_xOrigin,worldY=y+m_yOrigin;
-   Coord3D lo,hi,point;
-   lo.y=worldY*10.0f;
-   hi.y=lo.y+10.0f;
-   lo.x=worldX*10.0f;
-   hi.x=lo.x+10.0f;
-   int inside=0;
-   if(m_bridge->isPointOnBridge(&lo))++inside;
-   point=lo;
-   point.y=hi.y;
-   if(m_bridge->isPointOnBridge(&point))++inside;
-   if(m_bridge->isPointOnBridge(&hi))++inside;
-   point=lo;
-   point.x=hi.x;
-   if(m_bridge->isPointOnBridge(&point))++inside;
-   cell->rva0052DED3();
-   reinterpret_cast<Rva00366500*>(cell)->rva00366500(m_layer);
-   cell->SetType_Dirty(5);
-   if(inside==4)cell->SetType_Dirty(0);
-   else 
-   {
-    if(inside!=0)cell->SetType_Dirty(6);
-    Region2D region;
-    region.lo.x=lo.x;
-    region.lo.y=lo.y;
-    region.hi.x=hi.x;
-    region.hi.y=hi.y;
-    if(m_bridge->isCellOnSide(&region))cell->SetType_Dirty(6);
-    else 
-    {
-     if(m_bridge->isCellOnEnd(&region))cell->SetType_Dirty(0);
-     float height;
-     if(m_bridge->isCellEntryPoint(&region,&height)) 
-     {
-      cell->SetType_Dirty(0);
-      reinterpret_cast<Rva00366500*>(cell)->rva0036652D(1);
-      PathfindCell *ground=TheAI->m_pathfinder->getCell(LAYER_GROUND,worldX,worldY);
-      if((reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f)))
-      reinterpret_cast<PathfindZoneManager*>(reinterpret_cast<char*>(TheAI->m_pathfinder)+0x460)->MarkDirty(worldX,worldY);
-      
-     }
-     
-    }
-    
-   }
-   Coord3D center;
-   center.z=lo.z;
-   center.x=lo.x+5.0f;
-   center.y=lo.y+5.0f;
-   if((cell->m_flags&15)!=5 && ((cell->m_flags>>10)&0x3f)!=1) 
-   {
-    float height=TheTerrainLogic->slot7(center.x,center.y,true,0,true)+10.0f;
-    if(height>m_bridge->getBridgeHeight(&center,0)) 
-    {
-     PathfindCell *ground=TheAI->m_pathfinder->getCell(LAYER_GROUND,worldX,worldY);
-     if((ground->m_flags&15)!=4 && ground->SetType_Dirty(6))
-     reinterpret_cast<PathfindZoneManager*>(reinterpret_cast<char*>(TheAI->m_pathfinder)+0x460)->MarkDirty(worldX,worldY);
-     
-    }
-    
-   }
-   
-  }
-  Rva0027C36A info;
-  info=m_bridge->info;
-  Coord3D direction;
-  direction.x=__vref(info.to.x)-info.from.x;
-  direction.y=__vref(info.to.y)-info.from.y;
-  direction.z=info.to.z-info.from.z;
-  direction.normalize();
-  direction.x*=7.0f;
-  direction.y*=7.0f;
-  m_startCell.x=fast_float2long_round(floorf((info.from.x-direction.x)*0.1f));
-  m_startCell.y=fast_float2long_round(floorf((info.from.y-direction.y)*0.1f));
-  m_endCell.x=fast_float2long_round(floorf((info.to.x+direction.x)*0.1f));
-  m_endCell.y=fast_float2long_round(floorf((info.to.y+direction.y)*0.1f));
-  
- }
- if(m_destroyed) 
- {
-  for(int x=0;x<m_width;++x)for(int y=0;y<m_height;++y) 
-  {
-   PathfindCell *cell=&m_layerCells[x][y];
-   if(static_cast<unsigned char>(Rva002E6E6CGet((cell->m_flags>>10)&0x3f))) 
-   {
-    PathfindCell *ground=TheAI->m_pathfinder->getCell(LAYER_GROUND,x+m_xOrigin,y+m_yOrigin);
-    if(ground && reinterpret_cast<Rva00366500*>(ground)->rva0036652D(0))
-    reinterpret_cast<PathfindZoneManager*>(reinterpret_cast<char*>(TheAI->m_pathfinder)+0x460)->MarkDirty(x+m_xOrigin,y+m_yOrigin);
-    
-   }
-   cell->SetType_Dirty(6);
-   
-  }
-  
- }
- 
-}
