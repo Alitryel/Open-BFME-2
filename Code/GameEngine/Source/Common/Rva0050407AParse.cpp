@@ -12,7 +12,8 @@
 typedef int Int;
 typedef float Real;
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INIException
 {
@@ -66,7 +67,18 @@ public:
 	Rva00064390 m_base;
 };
 
-extern const FieldParse g_00C63CE8[];
+extern "C" {
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?dup_002F0F7@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00863CE8: 4 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C63CE8[5] = {
+	{ "Intensity", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x0 },
+	{ "Time", (FieldParseProc)&__identifier("?dup_002F0F7@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ "EaseIn", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "EaseOut", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ 0, 0, 0, 0 }
+};
 
 static unsigned int rva003BB860Scale(unsigned int value)
 {
