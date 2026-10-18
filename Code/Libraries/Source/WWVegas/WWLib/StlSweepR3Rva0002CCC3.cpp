@@ -60,7 +60,9 @@ namespace _STL {
 template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
+template <> void vector<void*>::clear();
 }
+
 
 
 
