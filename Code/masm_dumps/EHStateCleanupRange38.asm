@@ -147,17 +147,6 @@ cleanup_done_0077ed38:
 
 ; Unwind@00b7ed89 at RVA 0x0077ED89; 25-byte state-bit cleanup ends at RET.
 ; Retail clears bit 0 at [ebp-24] and conditionally tail-jumps through [ebp+8].
-PUBLIC ?rva0077ed89@@YAXXZ
-?rva0077ed89@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-24]
-    and eax, 1
-    jz NEAR PTR cleanup_done_0077ed89
-    and DWORD PTR [ebp-24], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1UnicodeString@@QAE@XZ
-cleanup_done_0077ed89:
-    ret
-?rva0077ed89@@YAXXZ ENDP
 
 ; Unwind@00b7edb4 at RVA 0x0077EDB4; 27-byte array cleanup ends at RET.
 ; Target passes [ebp-20]+0xdc to eh-vector-dtor with element size 0x1ac,
