@@ -78,7 +78,7 @@ unsigned g_Va00DFE358;	// retail RVA 0x009FE358 (.bss), defined here
 extern unsigned g_Va00DFEA44;
 extern unsigned g_Va00DFF134;
 extern unsigned g_Va00E031A8;
-extern unsigned g_Va00E04484;
+unsigned g_Va00E04484;	// retail RVA 0x00A04484 (.bss), defined here
 extern unsigned g_Va00E04920;
 extern unsigned g_Va00E0657C;
 extern unsigned g_Va00E06654;
