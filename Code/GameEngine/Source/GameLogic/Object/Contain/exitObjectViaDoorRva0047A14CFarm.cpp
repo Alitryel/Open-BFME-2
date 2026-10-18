@@ -17,6 +17,9 @@
 // finally the object itself. Without a horde the object exits directly.
 // WorldBuilder's twin (0x011A8120) is unnamed.
 
+// Keep the standard header methods inline and defer external iterator
+// helpers to their existing rowed providers.
+namespace _STL { struct __declspec(dllimport) _List_iterator_base; }
 #include <list>
 #include "../../../../Include/GameLogic/ContainmentListView.h"
 
