@@ -1060,7 +1060,7 @@ void __cdecl rva007B6B91()
 }
 
 extern unsigned g_Va00DEBE24;
-extern unsigned g_Va00DF3648;
+unsigned g_Va00DF3648;	// retail RVA 0x009F3648 (.bss), defined here
 extern unsigned g_Va00DF3660;
 
 // ?rva007B6E5E@@YAXXZ @ 0x007B6E5E (10B). Global DynamicVectorClass dtor thunk: ecx=&g_Va00DEBE24 then tail-jmp to rowed ??1?$DynamicVectorClass@VKeyClass@Curve3DClass@@@@UAE@XZ (0x000F1D19).
