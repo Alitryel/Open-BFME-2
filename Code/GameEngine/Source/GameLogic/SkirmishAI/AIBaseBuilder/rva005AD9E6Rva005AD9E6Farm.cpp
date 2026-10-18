@@ -1,17 +1,10 @@
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.42681992337164754 date=2026-10-15
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.6 date=2026-10-15
-// ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.448 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.633 date=2026-10-14
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.91 date=2026-10-01
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
-// partial score=0.91 date=2026-10-01
 // cl: /O1 /arch:SSE /G7 /MD
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ @ 0x005AD9E6 25B
 // Circular list count: head at [this+0], empty when [head]==head.
@@ -38,13 +31,18 @@ int Rva005AD9E6::rva005AD9E6()
 {
 	Rva005AD9E6Node *head = m_head;
 	Rva005AD9E6Node *cur = head->m_next;
-	if ((head ? (cur == head) : (cur == head)))
-		return 0;
-	int n = 0;
-	while ((1 ? (((cur != head))) : (((cur != head))))) {
-		
-		cur = (cur->m_next);
-		++n;
+	int result;
+	if (1 ? cur == head : cur == head) {
+		_ReadWriteBarrier();
+		result = 0;
+	} else {
+		int n = 0;
+		while (cur != head) {
+			cur = cur->m_next;
+			++n;
+		}
+		_ReadWriteBarrier();
+		result = n;
 	}
-	return n;
+	return result;
 }
