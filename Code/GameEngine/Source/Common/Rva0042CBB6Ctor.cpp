@@ -4,7 +4,16 @@
 #pragma comment(linker, "/alternatename:?ji_006291ae@@YAPAXPAXHI@Z=?ji_006291ae@@YAXXZ")
 void *__cdecl ji_006291ae(void *dest, int val, unsigned int count);
 
-extern const void *const g_00C3C6F4[];
+// The retail table at RVA 0x0083C6F4: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva0042CC7B@Rva0042CBB6@@QAEHPAVGameMessage@@@Z")();
+void __identifier("??_GRva0042CBB6@@UAEPAXI@Z")();
+}
+extern const void *const g_00C3C6F4[2] = {
+	(const void *)&__identifier("?rva0042CC7B@Rva0042CBB6@@QAEHPAVGameMessage@@@Z"), // slot 0 0x0042CC7B
+	(const void *)&__identifier("??_GRva0042CBB6@@UAEPAXI@Z"), // slot 1 0x004296EE
+};
 extern void *g_00E03210;
 
 class Rva0042CBB6
