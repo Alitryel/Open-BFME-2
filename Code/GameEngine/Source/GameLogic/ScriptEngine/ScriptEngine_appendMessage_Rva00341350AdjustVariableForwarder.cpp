@@ -85,7 +85,6 @@ extern "C" __declspec(dllimport) FARPROC __stdcall GetProcAddress(
 
 template <class T> class StringBase
 {
-	friend class BFMERetailAsciiString;
 	friend class AsciiString;
 
 protected:
@@ -116,20 +115,6 @@ public:
 	Data *m_data;
 };
 
-template <class T> class BFMERetailStringBase;
-
-class BFMERetailAsciiString : public StringBase<char>
-{
-	friend class AsciiString;
-	friend class BFMERetailStringBase<char>;
-
-public:
-	BFMERetailAsciiString(const char *text) : StringBase<char>(text) {}
-
-private:
-	void releaseBuffer();					// 0x00887940
-};
-
 class AsciiString : private StringBase<char>
 {
 public:
@@ -138,6 +123,7 @@ public:
 	AsciiString(const AsciiString &other) : StringBase<char>(other) {}
 	~AsciiString()
 	{
+		// Retail 0x00036410 is owned by StringBase<char>, including destruction.
 		StringBase<char>::releaseBuffer();
 	}
 
