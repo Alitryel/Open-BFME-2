@@ -36,7 +36,7 @@ struct FactionStatBlock
 	int losses[4];
 };
 
-extern FactionStatBlock g_Va00E06484;
+FactionStatBlock g_Va00E06484;	// retail RVA 0x00A06484 (.bss), defined here
 extern FactionStatBlock g_Va00E064A4;
 extern FactionStatBlock g_Va00E064C4;
 extern FactionStatBlock g_Va00E064E4;
