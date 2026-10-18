@@ -5,15 +5,37 @@
 // Original application identities and field meanings remain unasserted.
 #include "ascii_string.h"
 
-class Rva004186F2
+// The 12-byte member is a view of retail's STLport tree value: its copy is the
+// native 165-byte _Rb_tree copy rowed at 0x004186F2, reached directly by the
+// record copies, and its teardown is retail's 5-byte forwarder rowed at
+// 0x0022CCE5 (the funclet of the record copy 0x004188B6 jumps there). Declare
+// the tree type with exactly those two operations so both calls bind to rowed
+// definitions instead of address-only placeholder names no object defines. The
+// body keeps only the 12 bytes the surrounding records lay out.
+class Rva0022CCE5
 {
 public:
-	Rva004186F2(const Rva004186F2 &other);
-	~Rva004186F2();
+	void rva0022CCE5();
+};
+struct Rva004186F2Element;
+namespace _STL {
+template <class _Tp> struct _Identity;
+template <class _Tp> struct less;
+template <class _Tp> class allocator;
+template <class _Tp, class _Val, class _Key, class _Compare, class _Alloc>
+class _Rb_tree
+{
+public:
+	_Rb_tree(const _Rb_tree &other);
+	~_Rb_tree() { ((Rva0022CCE5 *)this)->rva0022CCE5(); }
 
 private:
 	char m_pad[0xC];
 };
+}
+typedef _STL::_Rb_tree<Rva004186F2Element, Rva004186F2Element,
+	_STL::_Identity<Rva004186F2Element>, _STL::less<Rva004186F2Element>,
+	_STL::allocator<Rva004186F2Element> > Rva004186F2;
 
 // Each 12-byte member is reached through an inline copy of a holder,
 // which gives retail's lea/lea/push argument order at +0xC.
