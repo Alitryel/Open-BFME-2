@@ -144,6 +144,8 @@ struct Rva003328B6Element
 	NameKeyType m_key2;
 	Rva0029FB3BMember m_list;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva003328B6Element,Rva003328B6Element>(Rva003328B6Element *p,Rva003328B6Element const &v) { new (p) Rva003328B6Element(v); } }
 
 class Rva00331EAD : public Rva003328B6Element
 {

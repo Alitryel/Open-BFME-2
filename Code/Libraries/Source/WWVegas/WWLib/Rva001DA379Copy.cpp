@@ -16,6 +16,8 @@ class BfmeStringTailRecord156
 public:
 	char m_pad[156];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<BfmeStringTailRecord156,BfmeStringTailRecord156>(BfmeStringTailRecord156 *p,BfmeStringTailRecord156 const &v) { new (p) BfmeStringTailRecord156(v); } }
 
 struct BfmePod8
 {

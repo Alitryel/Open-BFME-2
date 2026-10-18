@@ -11,6 +11,8 @@ template <> struct hash<AsciiString> {
 };
 }
 #include <hash_map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }

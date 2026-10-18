@@ -14,6 +14,8 @@ struct BfmeFloat4Record00469C61 {
     BfmeFloat4Record00469C61 &operator=(const BfmeFloat4Record00469C61 &o);
     float x, y, z, w;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<BfmeFloat4Record00469C61,BfmeFloat4Record00469C61>(BfmeFloat4Record00469C61 *p,BfmeFloat4Record00469C61 const &v) { new (p) BfmeFloat4Record00469C61(v); } }
 extern "C" void __cdecl free(void *p);
 namespace _STL {
 template<>

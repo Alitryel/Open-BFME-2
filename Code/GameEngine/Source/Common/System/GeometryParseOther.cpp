@@ -44,6 +44,8 @@ private:
 	friend class GeometryShape;
 	friend class INI;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<GeometryInfo,GeometryInfo>(GeometryInfo *p,GeometryInfo const &v) { new (p) GeometryInfo(v); } }
 void GeometryInfo::parseGeometryOther(INI *ini, void *, void *store, const void *) {
     GeometryInfo geometry(GEOMETRY_SPHERE, false, 10.0f, 10.0f, 10.0f);
     const char *token=ini->getNextTokenOrNull(ini->getSepsColon());

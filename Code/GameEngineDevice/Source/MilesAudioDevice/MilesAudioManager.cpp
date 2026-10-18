@@ -1000,6 +1000,8 @@ struct BfmeStringTailRecord144 {
     bool m_at8C;
     char at8D[3];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *p) { typedef BfmeStringTailRecord144 BfmeDestroyT; p->~BfmeDestroyT(); } }
 typedef _STL::vector<BfmeStringTailRecord144> QueuedAudioEvents;
 template<> QueuedAudioEvents::iterator QueuedAudioEvents::erase(iterator first, iterator last);
 

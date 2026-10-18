@@ -23,6 +23,8 @@ template <> bool less<unsigned int>::operator()(const unsigned int &a, const uns
 #include <map>
 #include <set>
 #include "ascii_string.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<AsciiString>(AsciiString *p) { typedef AsciiString BfmeDestroyT; p->~BfmeDestroyT(); } }
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }

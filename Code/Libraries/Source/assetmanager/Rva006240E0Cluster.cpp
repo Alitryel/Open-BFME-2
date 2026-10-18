@@ -24,6 +24,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }

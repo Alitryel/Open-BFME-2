@@ -28,6 +28,8 @@ public:
 	// ?BitFlags::BitFlags present-unmatched
 	__declspec(noinline) BitFlags(const BitFlags &that) { memcpy(this, &that, sizeof(*this)); }
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<BitFlags<117> const ,ModelConditionInfo const *>::pair(BitFlags<117> const &a,ModelConditionInfo const * const &b) : first(a), second(b) {} }
 template <class MatchableType, class FlagSet>
 class SparseMatchFinder
 {

@@ -212,6 +212,8 @@ struct TreeHintOpaque0043671B
 	void *m_0;
 	void *m_4;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<TreeHintOpaque0043671B>(TreeHintOpaque0043671B *p) { typedef TreeHintOpaque0043671B BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 class GameWindow;
 

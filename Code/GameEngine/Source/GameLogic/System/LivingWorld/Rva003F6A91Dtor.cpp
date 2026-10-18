@@ -42,6 +42,8 @@ public:
 };
 
 #include "../../../../Include/Common/LivingWorldBattleListener.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 
 struct BfmeStringRecord00111ACF;
 

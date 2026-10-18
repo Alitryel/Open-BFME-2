@@ -25,6 +25,8 @@ struct BfmeRecord001DD3BC
 {
 	unsigned char m_data[8];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeRecord001DD3BC>(BfmeRecord001DD3BC *p) { typedef BfmeRecord001DD3BC BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 bool operator<(const BfmeRecord001DD3BC &a, const BfmeRecord001DD3BC &b);
 

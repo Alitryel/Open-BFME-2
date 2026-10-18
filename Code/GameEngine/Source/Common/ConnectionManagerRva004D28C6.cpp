@@ -28,6 +28,8 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 }
 #include "ascii_string.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<unsigned short const ,int>::pair(unsigned short const &a,int const &b) : first(a), second(b) {} }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned short>::operator()(unsigned short const &x,unsigned short const &y)const  { return x < y; } }
 
 // The progress-map subscript at 004DD277 is emitted by this real caller.

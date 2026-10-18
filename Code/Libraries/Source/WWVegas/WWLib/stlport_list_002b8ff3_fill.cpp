@@ -23,5 +23,7 @@ struct BfmeStringRecord002B4DC1
 	BfmeStringRecord002B4DC1() { m_head.m_data = 0; m_a = 0; m_b = 3; }
 	~BfmeStringRecord002B4DC1() { m_head.releaseBuffer(); }
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<BfmeStringRecord002B4DC1,BfmeStringRecord002B4DC1>(BfmeStringRecord002B4DC1 *p,BfmeStringRecord002B4DC1 const &v) { new (p) BfmeStringRecord002B4DC1(v); } }
 
 template _STL::list<BfmeStringRecord002B4DC1, _STL::allocator<BfmeStringRecord002B4DC1> >::list(unsigned int);

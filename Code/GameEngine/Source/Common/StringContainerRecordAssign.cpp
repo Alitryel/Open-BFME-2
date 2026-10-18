@@ -13,6 +13,8 @@ struct BfmeContainerRecord00048139 {
 	unsigned char m_pad[0x5C - 8];
 	~BfmeContainerRecord00048139();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeContainerRecord00048139>(BfmeContainerRecord00048139 *p) { typedef BfmeContainerRecord00048139 BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 BfmeContainerRecord00048139 *copyRecordRangeWithScratch(const char *first, const char *last, BfmeContainerRecord00048139 *dest, void *outerCtx);
 

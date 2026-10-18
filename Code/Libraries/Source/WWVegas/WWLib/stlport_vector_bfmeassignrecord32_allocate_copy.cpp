@@ -27,6 +27,8 @@ struct BfmeAssignRecord32 {
 	char m_body[0x20];
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeAssignRecord32>(BfmeAssignRecord32 *p) { typedef BfmeAssignRecord32 BfmeDestroyT; p->~BfmeDestroyT(); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<BfmeAssignRecord32,allocator<BfmeAssignRecord32> >::~vector(); }
 namespace _STL {
 template <> void _Construct<BfmeAssignRecord32, BfmeAssignRecord32>(BfmeAssignRecord32 *, const BfmeAssignRecord32 &);

@@ -26,5 +26,7 @@ struct Rva00501E3FElement
 	unsigned int m_data[5];
 	~Rva00501E3FElement() {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *p) { typedef Rva00501E3FElement BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 template class _STL::vector<Rva00501E3FElement>;

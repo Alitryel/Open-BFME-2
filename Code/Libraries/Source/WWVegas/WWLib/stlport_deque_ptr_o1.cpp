@@ -35,6 +35,8 @@ template <> __declspec(dllimport) __forceinline void **allocator<void *>::alloca
 
 // Native 0x0038938C: STLport4.5.3 pointer queue pop forwarding to its owned provider.
 #include <queue>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 template void _STL::queue<void*,_STL::deque<void*,_STL::allocator<void*> > >::pop();
 
 // Instantiate only the members this unit owns; a whole-class instantiation

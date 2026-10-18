@@ -39,6 +39,8 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include <new>
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 #include "../BfmeSpecialPowerTimer8.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<int,int>(int *p,int const &v) { new (p) int(v); } }
 // bfme link decl-only begin
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 // bfme link decl-only end

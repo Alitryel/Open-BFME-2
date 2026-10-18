@@ -120,6 +120,8 @@ struct Rva00501E3FElement
 	void *opaque;
 	Rva0059B8FDLinkMap &links() { return *(Rva0059B8FDLinkMap *)map; }
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *p) { typedef Rva00501E3FElement BfmeDestroyT; p->~BfmeDestroyT(); } }
 typedef _STL::vector<Rva00501E3FElement> Rva0059BB50Records;
 
 namespace _STL {

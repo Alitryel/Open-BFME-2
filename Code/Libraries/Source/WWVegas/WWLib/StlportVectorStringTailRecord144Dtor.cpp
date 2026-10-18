@@ -12,6 +12,8 @@ struct BfmeStringTailRecord144
 	virtual ~BfmeStringTailRecord144();
 	unsigned char body[0x90 - 4];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *p) { typedef BfmeStringTailRecord144 BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 typedef char VerifyRecordSize[(sizeof(BfmeStringTailRecord144) == 0x90) ? 1 : -1];
 

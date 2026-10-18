@@ -84,6 +84,8 @@ template <typename T> struct hash
 // and the memberwise copy ctor (same inline bodies as WWMath/coord3d.cpp).
 // Coord3D: shared header/view; no private copy.
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 // bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }

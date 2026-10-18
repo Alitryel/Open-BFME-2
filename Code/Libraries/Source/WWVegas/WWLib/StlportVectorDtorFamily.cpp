@@ -179,6 +179,8 @@ class CreateAHeroManager
 public:
     class CreateAHeroSubClass { public: ~CreateAHeroSubClass(); };
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<CreateAHeroManager::CreateAHeroSubClass *>(CreateAHeroManager::CreateAHeroSubClass * f,CreateAHeroManager::CreateAHeroSubClass * l,__false_type const &) { for ( ; f != l; ++f) _Destroy(&*f); } }
 template _STL::vector<CreateAHeroManager::CreateAHeroSubClass>::~vector();
 
 // The following ~vector bodies share the 63B Destroy-plus-free shape under

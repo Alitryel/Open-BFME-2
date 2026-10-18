@@ -49,6 +49,8 @@ public:
 	unsigned int m_data[3];
 	~Rva0052BDE6() {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva0052BDE6,Rva0052BDE6>(Rva0052BDE6 *p,Rva0052BDE6 const &v) { new (p) Rva0052BDE6(v); } }
 
 class Rva0052BE33
 {
@@ -63,12 +65,16 @@ public:
 	unsigned int m_data[3];
 	~Rva0052BEF0() {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva0052BEF0,Rva0052BEF0>(Rva0052BEF0 *p,Rva0052BEF0 const &v) { new (p) Rva0052BEF0(v); } }
 
 struct Rva005668E9Element
 {
 	unsigned int m_data[3];
 	~Rva005668E9Element() {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva005668E9Element,Rva005668E9Element>(Rva005668E9Element *p,Rva005668E9Element const &v) { new (p) Rva005668E9Element(v); } }
 
 template _STL::vector<Rva002B72C9>::vector(const _STL::vector<Rva002B72C9> &);
 template _STL::vector<_STL::vector<BfmeE8> >::vector(const _STL::vector<_STL::vector<BfmeE8> > &);

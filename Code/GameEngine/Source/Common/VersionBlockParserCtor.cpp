@@ -21,6 +21,8 @@ struct VersionBlockEntry
 	const char *m_value; // +0xC
 	char m_padTail[8]; // +0x10, contents unproven
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<VersionBlockEntry>(VersionBlockEntry *p) { typedef VersionBlockEntry BfmeDestroyT; p->~BfmeDestroyT(); } }
 
 class VersionBlockParser
 {

@@ -12,6 +12,8 @@
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<ObjectID const ,Coord3D>::pair(ObjectID const &a,Coord3D const &b) : first(a), second(b) {} }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }

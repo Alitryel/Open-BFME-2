@@ -95,6 +95,8 @@ class DamageFX
 public:
     int m_valueWords[0x1E0];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<NameKeyType const ,DamageFX>::pair(NameKeyType const &a,DamageFX const &b) : first(a), second(b) {} }
 
 inline bool operator==(const DamageFX &x, const DamageFX &y)
 {

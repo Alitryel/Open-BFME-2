@@ -27,6 +27,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <hash_set>
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<unsigned short,unsigned short>(unsigned short *p,unsigned short const &v) { new (p) unsigned short(v); } }
 // bfme link decl-only begin
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
