@@ -111,7 +111,9 @@ template<> void __destroy_aux<Rva004F87BCElement *>(Rva004F87BCElement *first,Rv
 // 4-byte element; push_back 0x004F8D92.
 struct Rva004F8D92Element { char m_pad[4]; public: Rva004F8D92Element(const Rva004F8D92Element &); ~Rva004F8D92Element(); };
 // 12-byte element; push_back 0x004F9018.
-struct Rva004F9018Element { char m_pad[12]; public: Rva004F9018Element(const Rva004F9018Element &); ~Rva004F9018Element(); };
+class Rva005F8F96 { public: ~Rva005F8F96(); };
+struct Rva004F9018Element { char m_pad[12]; public: Rva004F9018Element(const Rva004F9018Element &); // Destruction is the rowed ??1Rva005F8F96, reached by a qualified call.
+__declspec(dllimport) __forceinline ~Rva004F9018Element() { ((Rva005F8F96 *)this)->Rva005F8F96::~Rva005F8F96(); } };
 // 20-byte element; push_back 0x00501E3F.
 struct Rva00501E3FElement { char m_pad[20]; public: Rva00501E3FElement(const Rva00501E3FElement &); ~Rva00501E3FElement(); };
 // 20-byte element; push_back 0x00566303.
