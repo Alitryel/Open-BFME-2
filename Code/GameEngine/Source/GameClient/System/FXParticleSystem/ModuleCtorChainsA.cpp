@@ -160,7 +160,34 @@ extern "C" const void *const __identifier("??_7Rva003AE928@@6BModuleInfoHeadBase
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?GPU_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?GPU_DRAW_MODULE_NAME@2@3QBDBVGpuDrawModule@2@VGpuDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern const void *const g_00C1C488[];
 extern "C" const void *const __identifier("??_7Rva005EBCC0Object@@6BV3Slot2@@@")[];
-extern const void *const g_00C1C4C8[];
+// The retail table at RVA 0x0081C4C8: 11 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACEF7@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+int __cdecl _purecall(void);
+void __identifier("?xfer@Rva003AE928@@UAEXPAVXfer@@@Z")();
+void __identifier("?doParticles@GpuDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z")();
+void __identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ")();
+void __identifier("?rva0056394A@Rva0056394A@@QAE?AVAsciiString@@XZ")();
+void __identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ")();
+void __identifier("?get@Bfme939Helper@@QBEHXZ")();
+void __identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ")();
+void __identifier("?get@Rva00094A98FloatField@@QBEMXZ")();
+}
+extern const void *const g_00C1C4C8[11] = {
+	(const void *)&__identifier("??_GRva003ACEF7@@UAEPAXI@Z"), // slot 0 0x003ACEDB
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("?xfer@Rva003AE928@@UAEXPAVXfer@@@Z"), // slot 3 0x00563965
+	(const void *)&__identifier("?doParticles@GpuDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x005639A4
+	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
+	(const void *)&__identifier("?rva0056394A@Rva0056394A@@QAE?AVAsciiString@@XZ"), // slot 6 0x0056394A
+	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
+	(const void *)&__identifier("?get@Bfme939Helper@@QBEHXZ"), // slot 8 0x0030F2C7
+	(const void *)&__identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ"), // slot 9 0x0030D377
+	(const void *)&__identifier("?get@Rva00094A98FloatField@@QBEMXZ"), // slot 10 0x00094A98
+};
 extern "C" const void *const __identifier("??_7Rva003AE928@@6B@")[];
 extern const void *const g_00C1C508[];
 extern const void *const g_00C1C504[];
