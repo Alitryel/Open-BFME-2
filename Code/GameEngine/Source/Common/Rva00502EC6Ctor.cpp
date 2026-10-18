@@ -54,3 +54,10 @@ Rva00502EC6::Rva00502EC6()
 	: m_flag00(0)
 {
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva004FFE96@@QAE@XZ=??0?$set@URva004FFE96Element@@U?$less@URva004FFE96Element@@@_STL@@V?$allocator@URva004FFE96Element@@@3@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??0Rva00502D48@@QAE@XZ=??0?$set@URva00502D48Element@@U?$less@URva00502D48Element@@@_STL@@V?$allocator@URva00502D48Element@@@3@@_STL@@QAE@XZ")

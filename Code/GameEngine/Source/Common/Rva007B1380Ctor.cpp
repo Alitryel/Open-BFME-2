@@ -42,3 +42,10 @@ void Rva007B1380::rva00109D64(void)
 	m_60 = 20.0f;
 	m_64 = false;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva007B12F0Base@@QAE@XZ=?initialize@Rva000EFA4E@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?handle@Rva007B12F0Base@@UAEXXZ=??_GBfmeShadowBufferOwnerBase@@UAEPAXI@Z")

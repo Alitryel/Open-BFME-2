@@ -285,3 +285,14 @@ void famgenDelete(Rva0035FF76 *p) { delete p; }
 #pragma comment(linker, "/alternatename:?slot1@Rva0035E00F@@UAEXXZ=?init@MainMenuScaleUpTransition@@UAEXPAVGameWindow@@@Z")
 #pragma comment(linker, "/alternatename:?slot5@Rva0035E00F@@UAEXXZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?slot7@Rva0035E00F@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva001DBAC3Base@@UAE@XZ=??1Rva001DBAA4@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?slot3@Rva0035E00F@@UAEXXZ=?rva0035D1BD@Rva0035D1BD@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot4@MainMenuMediumScaleUpTransition@@UAEXXZ=?draw@MainMenuMediumScaleUpTransition@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot4@Rva0035E00F@@UAEXXZ=?draw@MainMenuScaleUpTransition@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot6@MainMenuMediumScaleUpTransition@@UAEXXZ=?rva0035D1E7@Rva0035D1E7@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot6@Rva0035E00F@@UAEXXZ=?rva0035D1E7@Rva0035D1E7@@QAEXXZ")

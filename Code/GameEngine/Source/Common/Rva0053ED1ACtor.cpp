@@ -99,3 +99,13 @@ void Rva0053ED1A::rva0053EDD2()
 	else
 		return ((Rva005C65F1 *)this)->rva005C65F1();
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva005C6D4D@@QAE@XZ=??0Rva005C6C7B@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v01@Rva0053ED1A@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v02@Rva0053ED1A@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?v03@Rva0053ED1A@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v04@Rva0053ED1A@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")

@@ -323,3 +323,14 @@ void _bfmeOpaqueSingleInheritanceDtorInlineAnchor(void *storage)
 	rva008FCA3->Rva008FCA3::~Rva008FCA3();
 }
 #pragma inline_depth()
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva0023AE08@@QAE@XZ=??0GameClient@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0023AE08@@UAE@XZ=??1GameClient@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva0028418A@@UAE@XZ=??1TerrainLogic@@UAE@XZ")
+#pragma comment(linker, "/alternatename:??1Rva002D0588@@UAE@XZ=??1ThingFactory@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?f1@MiBase1_4C743@@UAEXXZ=??_ERva004C743@@WM@AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?f1@MiBase1_62AF7@@UAEXXZ=??_ERva0062AF7@@W3AEPAXI@Z")

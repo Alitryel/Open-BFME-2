@@ -43,3 +43,9 @@ Rva00229811::Rva00229811()
 // Other units call this body (pinned at its address) under the spelling(s)
 // below, with the same calling convention and stack arguments; bind them.
 #pragma comment(linker, "/alternatename:??0TreeHintOpaque0043671B@@QAE@XZ=??0Rva00229811@@QAE@XZ")
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva005B804B@@QAE@XZ=??3@YAXPAX@Z")

@@ -63,3 +63,13 @@ Rva005BA23A::~Rva005BA23A()
 	if (g_Va00E06544 == (int)this)
 		g_Va00E06544 = 0;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva005A0009@@UAE@XZ=??1AptOnlineCustomMatch@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?s60@Rva005BA23ABase60@@UAEXXZ=??_ERva005BA23A@@WGA@AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?s60@Rva005BA2CBBase60@@UAEXXZ=??_ERva005BA2CB@@WGA@AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?s6C@Rva005BA23ABase6C@@UAEXXZ=?rva0059EF57@Rva0059EF57@@QAEXHHH@Z")
+#pragma comment(linker, "/alternatename:?s6C@Rva005BA2CBBase6C@@UAEXXZ=?rva0059EF57@Rva0059EF57@@QAEXHHH@Z")

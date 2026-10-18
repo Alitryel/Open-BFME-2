@@ -106,3 +106,9 @@ Rva0055B52E::Rva0055B52E(unsigned int a, const Rva0055B52ESrc *src)
 	m_index = 1;
 	((Rva0055B39C *)this)->rva0055B39C();
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva0055BCD2@@UAE@XZ=??3@YAXPAX@Z")

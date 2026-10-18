@@ -74,3 +74,10 @@ void Rva00170B9C::erase(Rva00170D0FIterator position)
 {
 	m_tree.rva00170AA9(position);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rva00170AA9@Rva00170D0FTree@@QAEXURva00170D0FIterator@@@Z=?rva00170AA9@Rva00170AA9@@QAEXPAURva00170AA9Node@@@Z")
+#pragma comment(linker, "/alternatename:?rva00357180@Rva00170D0FTree@@QBEPAURva00170D0FNode@@ABI@Z=??$_M_find@I@?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBIPAX@_STL@@@1@ABI@Z")

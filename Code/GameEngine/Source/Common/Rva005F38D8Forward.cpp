@@ -44,3 +44,9 @@ Rva005F38D8Ref Rva005F38D8::rva005F38D8(int position)
 {
 	return implementation->rva005F3652(position);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rva005F3652@Impl@ArmyDetailsMovieClip@StrategicHUD@@QAE?AURva005F38D8Ref@@H@Z=?CreateMemberIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@QAE?AVRva005F2577Holder@@H@Z")

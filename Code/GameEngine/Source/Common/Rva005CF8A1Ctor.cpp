@@ -31,3 +31,9 @@ Rva005CF8A1::Rva005CF8A1(void *p)
 	: Rva005CF8A1Base(p)
 {
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva005CF8A1Base@@QAE@XZ=??1?$list@URva0073EEE0ListValue@@V?$allocator@URva0073EEE0ListValue@@@_STL@@@_STL@@QAE@XZ")

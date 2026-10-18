@@ -74,6 +74,7 @@ BfmeWideResult BfmeWideForwardB::bfmeForwardWideB(int a, int b, int c, int d)
 // Appends `next` at the tail of this filter's +0x04 chain and returns this,
 // so callers build a chain inline: a.link(&b)->link(&c). 66 matched callers
 // reference it (pin 0x00625790).
+// ?Rva000421C8::link present-unmatched
 Rva000421C8 *Rva000421C8::link(Rva000421C8 *next)
 {
 	Rva000421C8 *x;
@@ -82,3 +83,10 @@ Rva000421C8 *Rva000421C8::link(Rva000421C8 *next)
 	x->m_next = next;
 	return this;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?bfmeMakeWideResult@BfmeWideResultSource@@QAE?AUBfmeWideResult@@HHHHHH@Z=?GetObjectsInRange@PartitionManagerImpl@@QAE?AURva009F39F0Result@@PBMMPBURva009F4130Range@@HPAVRva009F2AB0Mask@@H@Z")
+#pragma comment(linker, "/alternatename:?rva00628770@Rva00628770Impl@@QAE?AUBfmeWideResult@@PBUCoord3D@@MHHPAVRva000421C8@@H@Z=?GetObjectsInRange@PartitionManagerImpl@@QAE?AURva009F39F0Result@@PBMMPBURva009F4130Range@@HPAVRva009F2AB0Mask@@H@Z")

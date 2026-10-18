@@ -58,3 +58,9 @@ void bfmeEmitRva0040DC1FErase(_STL::vector<Rva004F69C3, _STL::allocator<Rva004F6
 	p->erase((_STL::vector<Rva004F69C3, _STL::allocator<Rva004F69C3> >::iterator)0);
 }
 #pragma inline_depth()
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??$__copy_ptrs@PAURva004F69C3@@PAU1@@_STL@@YAPAURva004F69C3@@PAU1@00ABU__false_type@0@@Z=??$__copy_ptrs@PAVRva0040D0A4Entry@@PAV1@@_STL@@YAPAVRva0040D0A4Entry@@PAV1@00U__false_type@0@@Z")

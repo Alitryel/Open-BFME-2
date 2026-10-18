@@ -78,3 +78,10 @@ void Rva005D0C31::rva005D0034(int a, int b, int c)
 	if (b == ((Rva005D0034LogicView *)TheLivingWorldLogic)->m_98 && c == m_target->m_14)
 		m_target->m_holder1C.reset(new Rva005D0034Callback(m_target));
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?c0@Rva005D0034Callback@@UAEXXZ=??_GRva005CF86B@@QAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?reset@Rva000AD6F4@@QAEXPAX@Z=?rva00575674@Rva00575674@@QAEXPAVObject@@@Z")

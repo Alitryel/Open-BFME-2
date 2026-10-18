@@ -66,3 +66,9 @@ void Rva00392092Target::rva00392092()
 	unsigned int count = TheWritableGlobalData->m_count;
 	m_array08 = new Rva00391FC4[count];
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva00391FC4@@QAE@XZ=?ji_00629182@@YAXXZ")
