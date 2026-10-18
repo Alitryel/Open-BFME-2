@@ -49,10 +49,11 @@ private:
 	MultiListNodeClass *ListNode;
 };
 
-class GenericMultiListClass
+// Only the derived member list is constructed; retail stores its vptr.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
-	GenericMultiListClass()
+	__declspec(dllimport) __forceinline GenericMultiListClass()
 	{
 		Head.Next = Head.Prev = &Head;
 		Head.Object = 0;
@@ -88,6 +89,13 @@ public:
 	T *Referent;
 };
 
+// Native array initialization uses the same six-byte callback as the
+// material/texture migration units (326BE6).
+#pragma optimize("s", on)
+#pragma optimize("t", off)
+template<> inline RefCountPtr<TextureClass>::RefCountPtr() : Referent(0) {}
+#pragma optimize("", on)
+
 class VertexMaterialClass
 {
 public:
@@ -101,6 +109,15 @@ class DX8PolygonRendererClass;
 class DX8FVFCategoryContainer;
 class ShaderClass { public: unsigned ShaderBits; };
 
+// Member +1C installs table BD34E0 and unwinds to 144690; use that
+// existing opaque provider without asserting the list's original type name.
+class Rva00144690 : public GenericMultiListClass
+{
+public:
+	Rva00144690() {}
+	virtual ~Rva00144690();
+};
+
 class DX8TextureCategoryClass : public MultiListObjectClass
 {
 public:
@@ -112,7 +129,7 @@ private:
 	RefCountPtr<TextureClass> textures[2];
 	ShaderClass shader;
 	VertexMaterialClass *material;
-	MultiListClass<DX8PolygonRendererClass> PolygonRendererList;
+	Rva00144690 PolygonRendererList;
 	DX8FVFCategoryContainer *container;
 	void *render_task_head;
 };
