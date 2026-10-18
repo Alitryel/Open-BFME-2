@@ -1,14 +1,6 @@
-// ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// Target Ghidra5967B3+341; same 54-byte owner as constructor/dtor5966DD/59675A.
-// BF1 9cbfb551fe20 FadeInTextRender.cpp initialize is the primary source lead:
-// font scaling plus TextElvenClouds allocation. Target uses one animation and three phases.
-// Target facts: Display slot40 unsigned width; FontLibrary getFont; Anim2D allocation34,
-// template/collection call providers; oldScale20/font4; width4C and animation-derived height50.
-// 0.75 and .00125 are compiler constants verified against retail data, not global escape hatches.
-// Phase stores straddle two reads of canonical g_009BA4E8; preserve that alias-sensitive order.
-// Existing address-derived constructor argument views retain provider identity uncertainty.
+// FadeInTextRender rendering, native 0x00596908..0x00596AE9.
+// LoadAssets belongs to Rva0059675AInitialize.cpp; this unit only needs
+// its virtual declaration, not a second definition of the asset loader.
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -55,27 +47,14 @@ class Anim2DTemplate;class Anim2DCollection;extern Anim2DCollection*TheAnim2DCol
 struct Rva002D752DNode;class Rva002D752D {public:Rva002D752DNode*rva002D752D(const StringBase<char>&);};
 static inline const StringBase<char>&fadeTextBase(const AsciiString&s){return *(const StringBase<char>*)&s;}
 class Anim2D {public:void setCurrentFrame(unsigned short);void draw(int,int,int,int);Anim2D(Anim2DTemplate*,Anim2DCollection*);unsigned getCurrentFrameHeight() const;char pad[0x34];};
-extern int g_009BA4E8;
 // Slot 1 of FadeInTextRender's vftable 0x00C70A70 (slot 0 is its deleting
 // destructor), as WB's LoadAssets is slot 1 of its table: virtual.
 class FadeInTextRender {public:
  virtual ~FadeInTextRender();virtual void LoadAssets();virtual void rva00596908(Text004721F0*,const ICoord2D*,unsigned);
  GameFont*font;int minX,minY,maxX,maxY;unsigned effectColor;Anim2D*anim;float oldScale;AsciiString fontName;unsigned color;int delay;unsigned fontSize;unsigned starts[3],ends[3];int width,height;
 };
-void FadeInTextRender::LoadAssets() {
- float naturalWidth=(float)((FadeDisplayCalls*)TheDisplay)->width();
- float scale=naturalWidth*0.00125f;scale*=0.75f;
- if(scale!=oldScale){font=0;oldScale=scale;}
- if(!font)font=TheFontLibrary->getFont(&fontName,(float)fontSize*scale,false);
- if(!anim){
-  anim=new Anim2D((Anim2DTemplate*)((Rva002D752D*)TheAnim2DCollection)->rva002D752D(fadeTextBase(AsciiString("TextElvenClouds"))),TheAnim2DCollection);
-  starts[1]=0;int end=g_009BA4E8;ends[2]=~0u;
-  ends[1]=end;starts[2]=end+1;
-  starts[0]=starts[2]+g_009BA4E8/2;ends[0]=~0u;
- }
- width=(int)naturalWidth;
- height=(int)((float)anim->getCurrentFrameHeight()*scale);
-}
+// LoadAssets is defined and byte-verified in Rva0059675AInitialize.cpp.
+// This rendering unit uses the virtual declaration above.
 
 // Native596908..596AE9 is FadeInTextRender tableC70A70 slot2. BF1 cee35b7d8
 // FadeInTextRenderDraw004721F0 is the semantic guide; target bounds worker
