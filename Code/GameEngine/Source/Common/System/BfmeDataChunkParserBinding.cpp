@@ -69,3 +69,9 @@ BfmeParserBindingVE::BfmeParserBindingVE(SidesList *owner, BfmeSidesListChunkCal
 	  m_callback(callback)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?bfmeSlot0@BfmeParserBindingVE@@UAEXXZ=??_GRva003B241AOwner@@QAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot1@BfmeParserBindingVE@@UAEXXZ=?invoke@Rva000AD770Binding@@QAEEPAX0@Z")
