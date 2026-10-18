@@ -146,3 +146,11 @@ HordeSiegeEngineContain::HordeSiegeEngineContain(Thing *thing, const ModuleData 
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f2C@Iface2C@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f10@Iface10@@UAEXXZ=?rva00477AF3@Rva00477AF3UpdateReceiver@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?f24@Iface24@@UAEXXZ=?rva004628D1@Rva004628D1@@UAEXPAVObject@@HH@Z")
+#pragma comment(linker, "/alternatename:?f28@Iface28@@UAEXXZ=?onDie@HordeTransportContain@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?fFC@IfaceFC@@UAEXXZ=?createPayloadMember@TransportContain@@UAEPAVObject@@PBVThingTemplate@@PAVPayloadContainView@@PAV2@PBDH@Z")

@@ -55,3 +55,9 @@ private:
 Rva007C454::Rva007C454()
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f0@CamBase0@@UAEXXZ=?DeleteThis@BfmeDynamicVBRefCount@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?g0@CamBase1@@UAEXXZ=??_ERva007C454@@W7AEPAXI@Z")

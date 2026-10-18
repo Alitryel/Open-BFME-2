@@ -56,3 +56,10 @@ Rva005CDDA4::Rva005CDDA4(void *a1, int a2, int a3, int a4, int a5, int a6)
 	  m_20(0)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?c0@Rva005CDDA4Callback@@UAEXXZ=?create@Rva005CE06CReceiver@@QAE?AV?$RvaCloneResult@VRva005CDF6C@@@@ABURvaPayloadInput16@@@Z")
+#pragma comment(linker, "/alternatename:?c1@Rva005CDDA4Callback@@UAEXXZ=??_ERva005CDCEE@@WCI@AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?c2@Rva005CDDA4Callback@@UAEXXZ=?rva005E6B8F@Rva005E6B8F@@W7AEXXZ")
