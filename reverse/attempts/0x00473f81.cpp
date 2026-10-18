@@ -1,4 +1,6 @@
 // ?rva00473F81@Rva00473F81@@QAEAAVRva00469155@@ABH@Z
+// partial score=0.97 date=2026-10-18
+// ?rva00473F81@Rva00473F81@@QAEAAVRva00469155@@ABH@Z
 // partial score=0.97 date=2026-10-14
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
@@ -34,23 +36,13 @@ namespace _STL {
 template <> Rva00470205Map::iterator Rva00470205Map::insert(iterator, const value_type &);
 typedef Rva00470205Map::iterator (Rva00470205Map::*RecordInsertFn)(Rva00470205Map::iterator, const Rva00470205Map::value_type &);
 typedef Rva00469155Map::iterator (Rva00470205Map::*MapInsertFn)(Rva00469155Map::iterator, const Rva00469155Map::value_type &);
-template <> __forceinline Rva00469155Map::iterator Rva00469155Map::insert(iterator pos, const value_type &value)
-{
-	RecordInsertFn real = &Rva00470205Map::insert;
-	return (reinterpret_cast<Rva00470205Map *>(this)->*reinterpret_cast<MapInsertFn &>(real))(pos, value);
-}
 }
 
-class Rva00473F81 : public _STL::map<int, Rva00469155>
+class Rva00473F81 : public Rva00470205Map
 {
 public:
 	Rva00469155 &rva00473F81(const int &key);
 };
-
-static __forceinline const Rva00469155Map::value_type &asPair(const Rva00469BEA &entry)
-{
-	return *(const Rva00469155Map::value_type *)&entry;
-}
 
 Rva00469155 &Rva00473F81::rva00473F81(const int &key)
 {
@@ -58,7 +50,7 @@ Rva00469155 &Rva00473F81::rva00473F81(const int &key)
 	iterator i = *(iterator *)&found;
 	if (i == end() || key < (*i).first)
 	{
-		i = insert(i, asPair(Rva00469BEA(key, Rva00469155())));
+		i = insert(i, *(const value_type *)&Rva00469BEA(key, Rva00469155()));
 	}
-	return (*i).second;
+	return *(Rva00469155 *)&(*i).second;
 }

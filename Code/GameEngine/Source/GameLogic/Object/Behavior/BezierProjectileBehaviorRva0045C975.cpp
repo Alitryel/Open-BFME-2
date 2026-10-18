@@ -1,16 +1,5 @@
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.97 date=2026-10-17
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.969 date=2026-10-17
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.842 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.83 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD
 //
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z, retail 0x0045C975..0x0045CA8E
 // (281 B, RET4, the int argument unused): the projectile's landing. Between the
 // rowed deleting destructor 0x0045C959 and xfer 0x0045CA8E, on the module's
 // layout (module data +4, object +8, path vector +0x44, counters +0x28/+0x70/
@@ -23,15 +12,12 @@ extern "C" void _ReadWriteBarrier(void);
 // and kills the object (DamageType 8), status 5 is cleared, and the AI gets
 // command 0x0045003E with the data's +0x38 value, or idles, from source 2.
 // Method and field names are address- or role-derived.
-// BANK residue: retail keeps this/data/command in EDI and the object/AI in
-// ESI (swapped here) and tests/sets the +0x118 bit as mov eax,mask; test
-// [esi+118],eax; or [esi+118],eax (here the word is loaded once into a register).
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+// WB 0x1183230 (inlined into its BitFlags<591>::SetBit slot) gives the statement
+// shape: Object::setModelConditionState(122) as an early-return test/set on the
+// model-condition words at +0x10C followed by the notifier, and the AI command
+// block re-reading getAI() and the data command in each arm; that shape gives
+// retail's register assignment and the [esi+0x118] memory operands.
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 enum PathfindLayerEnum { LAYER_INVALID = -1 };
 enum DamageType { DAMAGE_TYPE_8 = 8 };
 enum DeathType { DEATH_TYPE_0 = 0 };
@@ -85,19 +71,21 @@ public:
 	void rva001E42F2(const int *p);
 };
 
+struct CondBits { unsigned words[4];
+ unsigned test(int bit) const { return words[bit>>5] & (1U<<(bit&31)); }
+ void set(int bit) { words[bit>>5] |= 1U<<(bit&31); } };
 class Object
 {
 public:
 	const Coord3D *getPosition() const { return &m_pos38; }
-	// Sets status bit 26 once, notifying through 0x0028AE6D.
-	__forceinline void rva0045C975SetBit26()
+	ObjectAI *getAI() const { return m_ai258; }
+	// Model condition 122 (+0x118 bit 26), notifying through 0x0028AE6D.
+	__forceinline void setModelConditionState122()
 	{
-		if (!(m_flags118 & 0x4000000))
-		{
-			_ReadWriteBarrier();
-			m_flags118 |= 0x4000000;
-			rva0028AE6D();
-		}
+		if (m_cond.test(122))
+			return;
+		m_cond.set(122);
+		rva0028AE6D();
 	}
 	void rva0028B4CE(PathfindLayerEnum layer);
 	void rva0028AE6D();
@@ -106,8 +94,8 @@ public:
 
 	char m_pad0[0x38];
 	Coord3D m_pos38; // +0x38
-	char m_pad44[0x118 - 0x44];
-	unsigned int m_flags118; // +0x118
+	char m_pad44[0x10c - 0x44];
+	CondBits m_cond;
 	char m_pad11C[0x258 - 0x11C];
 	ObjectAI *m_ai258; // +0x258
 };
@@ -189,24 +177,21 @@ void BezierProjectileBehavior::rva0045C975(int)
 	Rva001E4912 bits;
 	((Rva001E42F2 *)obj)->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
 
-	const BezierModuleData *d = (1 ? m_moduleData : m_moduleData);
-	if (*(volatile const unsigned char *)&d->m_flag19)
+	const BezierModuleData *d = m_moduleData;
+	if (d->m_flag19)
 	{
-		(d->m_flag19 ? obj->rva0045C975SetBit26() : obj->rva0045C975SetBit26());
+		obj->setModelConditionState122();
 		obj->kill(DAMAGE_TYPE_8, DEATH_TYPE_0);
 	}
 	obj->setStatus(OBJECT_STATUS_5, false);
 
-	ObjectAI *ai = obj->m_ai258;
-	unsigned int command = d->m_command38;
-	if (command > 0)
+	if (d->m_command38 > 0)
 	{
-		_ReadWriteBarrier();
-		if (ai)
-			ai->m_ai.rva0045003E(command, COMMAND_SOURCE_2);
+		if (obj->getAI())
+			obj->getAI()->m_ai.rva0045003E(d->m_command38, COMMAND_SOURCE_2);
 	}
-	else if (ai)
+	else if (obj->getAI())
 	{
-		ai->m_ai.aiIdle(COMMAND_SOURCE_2);
+		obj->getAI()->m_ai.aiIdle(COMMAND_SOURCE_2);
 	}
 }
