@@ -72,8 +72,8 @@ void __cdecl rva007B8590();
 
 unsigned g_Va00DDF580;	// retail RVA 0x009DF580 (.bss), defined here
 extern unsigned g_Va00DF29A8;
-extern unsigned g_Va00DFE174;
-extern unsigned g_Va00DFE1AC;
+extern unsigned int g_00DFE174;
+extern unsigned int g_00DFE1AC;
 unsigned g_Va00DFE358;	// retail RVA 0x009FE358 (.bss), defined here
 extern unsigned g_Va00DFEA44;
 extern unsigned g_Va00DFF134;
@@ -121,14 +121,14 @@ void Rva007ABB96AllocCtorInits::rva007ABB96()
 // 0x007AD7C0 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFE174, atexit(0x007B75F6 -> 0x0002CC70)
 void Rva007ABB96AllocCtorInits::rva007AD7C0()
 {
-	( (E16Vector *)&g_Va00DFE174 )->E16Vector::vector();
+	( (E16Vector *)&g_00DFE174 )->E16Vector::vector();
 	atexit( rva007B75F6 );
 }
 
 // 0x007AD899 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFE1AC, atexit(0x007B760A -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007AD899()
 {
-	( (E16Vector *)&g_Va00DFE1AC )->E16Vector::vector();
+	( (E16Vector *)&g_00DFE1AC )->E16Vector::vector();
 	atexit( rva007B760A );
 }
 

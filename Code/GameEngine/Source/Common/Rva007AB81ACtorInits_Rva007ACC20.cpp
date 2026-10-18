@@ -138,7 +138,7 @@ extern Rva0030ADED TheFireSettingsSaved;		// 0x00DFF4B8
 extern Rva00214E02 TheCloudEffectSettings;		// 0x00DFE280 (Rva007B6880Thunks.cpp)
 extern Rva00214E02 TheCloudEffectSettingsSaved;	// 0x00DFE1E8
 extern unsigned g_Va00E065EC;
-extern unsigned g_Va00E06664;
+extern unsigned int g_00E06664;
 extern unsigned g_Va00E06665;
 extern unsigned g_Va00E06724;
 extern unsigned g_Va00E08D48;
@@ -210,7 +210,7 @@ void Rva007AB81ACtorInits::rva007B4C38()
 // ?rva007B4C4E@Rva007AB81ACtorInits@@SAXXZ @ 0x007B4C4E (22B): ??0Init@ios_base@_STL@@QAE@XZ on VA 0x00E06664, atexit(0x007B9810)
 void Rva007AB81ACtorInits::rva007B4C4E()
 {
-	( (_STL::ios_base::Init *)&g_Va00E06664 )->_STL::ios_base::Init::Init();
+	( (_STL::ios_base::Init *)&g_00E06664 )->_STL::ios_base::Init::Init();
 	atexit( rva007B9810 );
 }
 
