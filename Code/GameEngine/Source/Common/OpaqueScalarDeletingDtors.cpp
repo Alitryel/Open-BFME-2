@@ -960,10 +960,12 @@ void Rva005FC1CA::clear()
 	delete doomed;
 }
 
+class Rva005FFBCB { public: ~Rva005FFBCB(); };
 class Rva005FFBCBElem
 {
 public:
-	~Rva005FFBCBElem();
+	// Destruction is the rowed ??1Rva005FFBCB, reached by a qualified call.
+	__declspec(dllimport) __forceinline ~Rva005FFBCBElem() { ((Rva005FFBCB *)this)->Rva005FFBCB::~Rva005FFBCB(); }
 };
 
 void Rva0060006A::clear()
