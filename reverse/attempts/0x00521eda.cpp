@@ -1,5 +1,7 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.999 date=2026-10-18
+// ?InitTheGame@AptSkirmish@@QAE_NXZ
+// partial score=0.999 date=2026-10-18
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
 // W10-c2f: /D_CRTIMP= (vector<long> dtor calls the rowed game _free 0x30830 directly, not the CRT import) and a named
@@ -677,7 +679,7 @@ struct SkirmishGameView { char pad[0x10];bool inGame;char pad11[0x38-0x11];unsig
 struct SkirmishSlotView { void *v;int state;int u8;int team;char pad[0x38-0x10];unsigned word38,word3c; };
 class PlayerTemplateStore {public:bool rva001FD367(int,int *) const;};extern PlayerTemplateStore *ThePlayerTemplateStore;
 class Rva003B8BAA {public:void rva003B930D(_STL::vector<long> *);};extern Rva003B8BAA *g_00E02D6C;
-class SkirmishScenarioView {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void select(long);};
+class SkirmishScenarioView {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void select(long);void choose(long id){select(id);}};
 class GlobalData {public:char pad[0x9d4];unsigned flags;};extern GlobalData *TheWritableGlobalData;
 class MapMetaData {public:char pad[0x28];unsigned size,crc;};
 class MapCache {public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
@@ -718,7 +720,7 @@ bool AptSkirmish::InitTheGame() {
    _STL::vector<long> scenarios;g_00E02D6C->rva003B930D(&scenarios);
    if(!scenarios.empty()) {
     ((SkirmishGameView *)TheSkirmishGameInfo)->scenario=scenarios[0];
-    ((SkirmishScenarioView *)((char *)this+0x27c))->select((enemy ? (((SkirmishGameView *)TheSkirmishGameInfo)->scenario) : (((SkirmishGameView *)TheSkirmishGameInfo)->scenario)));
+    ((SkirmishScenarioView *)((char *)this+0x27c))->choose(((SkirmishGameView *)TheSkirmishGameInfo)->scenario);
    }
   }
   char rules[0x28];int rmode=*(int *)((char *)this+0x304);MpGameRules::GetDefaults(rmode,rules);
