@@ -18,12 +18,13 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 };
 
+class Rva003F3F27 { public: void rva003F3B4F(); };
 class Rva003F3F03
 {
 public:
 	void rva003F3F03(INI *ini);
 	void rva003F2F24();
-	void rva003F3B4F();
+	/* the rowed Rva003F3F27::rva003F3B4F */ __declspec(dllimport) __forceinline void rva003F3B4F() { ((Rva003F3F27 *)this)->rva003F3B4F(); }
 };
 
 void Rva003F3F03::rva003F3F03(INI *ini)
