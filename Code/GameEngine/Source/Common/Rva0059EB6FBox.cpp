@@ -67,6 +67,7 @@ struct Rva0059EB6FInfo
 	virtual void Notify();
 };
 
+class GameModePreferences { public: void setStrategicScenario(int); };
 struct Rva0059EB6FSub
 {
 	virtual void d00();
@@ -74,7 +75,7 @@ struct Rva0059EB6FSub
 	virtual void d02();
 	virtual void Go();
 
-	void SetScenario(int mode);
+	/* the rowed GameModePreferences::setStrategicScenario */ __declspec(dllimport) __forceinline void SetScenario(int p0) { ((GameModePreferences *)this)->setStrategicScenario(p0); }
 };
 
 struct AptOnlineCustomMatch
