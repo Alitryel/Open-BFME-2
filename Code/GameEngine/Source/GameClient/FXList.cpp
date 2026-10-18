@@ -416,9 +416,7 @@ class ViewShakeFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(ViewShakeFXNugget, "ViewShakeFXNugget")		
 public:
 
-	ViewShakeFXNugget() : m_shake(View::SHAKE_NORMAL)
-	{
-	}
+	ViewShakeFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
