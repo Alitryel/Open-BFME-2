@@ -30,7 +30,10 @@ private:
 class Rva005D06CBB2
 {
 public:
-	virtual ~Rva005D06CBB2() {}
+	~Rva005D06CBB2() {}
+	virtual void s0() {}
+	virtual void s1() {}
+	virtual void s2() {}
 };
 class Rva005EB753
 {
