@@ -1,9 +1,3 @@
-// ?rva00624130@Rva00624130@@QAEXXZ
-// partial score=0.99638 date=2026-10-14
-// ?rva00624130@Rva00624130@@QAEXXZ
-// partial score=0.996 date=2026-10-14
-// ?rva00624130@Rva00624130@@QAEXXZ
-// partial score=0.99 date=2026-10-07
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/sweep
 // stlport
 // Banked target worker624130..624690:1347B executable body, one byte
@@ -11,16 +5,15 @@
 // the1376B extent. Reference Open-BFME-1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f,
 // game/Libraries/Source/assetmanager/Q1Receiver0134FAAC_Gen009F1510.cpp.
 // Native differences: TLS heap tag61737374 via30980/309B0, existing global
-// E09C08 set for queues4..6, target +8 layout and64bit unsigned-cost counter.
+// E09C08 (g_assetUpdateLowQueueBusy) set for queues4..6, target +8 layout and64bit unsigned-cost counter.
 // The custom20B set header avoids donor allocator/OOM divergence. Original
 // element and receiver names remain opaque; no allocation extent is claimed.
-// Remaining code gap: four operand bytes in the aggregate queue-count
-// calculation. Native schedules queue2's node difference before queue0's;
-// all other 1376 bytes and every callee relocation now agree. The real
+// WB 0x0167C2E0 names it AssetManagerImpl::Update. The three queues are
+// reached through a local base pointer, both for the queue-2 empty test and
+// the aggregate count: that is what lets cl order the node-difference terms
+// (2,1,0) apart from the cursor terms, as retail does. The real
 // pointer-set const-find and lower-bound instantiations are verified fold
 // rows in AssetPointerSetFind.cpp. Native EH graph verifies EXACT.
-// Permuted sums and forced-inline typed queue views retain the same gap.
-// No new pins or baselines were admitted. This remains an unclaimed bank.
 
 // Retail mixes direct static free with imported memmove.
 #include <stdlib.h>
@@ -208,7 +201,9 @@ public:
 
 typedef char Rva00624130SizeCheck[sizeof(Rva00624130) == 0x200 ? 1 : -1];
 
-extern volatile bool g_q1Flag0134FAA8;
+// The byte at 0x00E09C08, beside Rva0061FFA0.cpp's g_q1Flag0134FAA8
+// (0x00E09C09): cleared on every update and set while queues 4..6 drain.
+bool g_assetUpdateLowQueueBusy = false;
 class Rva000309B0 {
     void *m_previous;
 public:
@@ -228,8 +223,9 @@ public:
 void Rva00624130::rva00624130()
 {
 	bool changed = false;
+	Q1Queue009F1510 *queues = m_deques78;
 	AssetWorkerHeapScope heap(0x61737374);
-	g_q1Flag0134FAA8 = false;
+	g_assetUpdateLowQueueBusy = false;
 	for (int q = 0; q < 7; ++q)
 	{
 		if (q == 3)
@@ -238,7 +234,7 @@ void Rva00624130::rva00624130()
 			continue;
 		while (!m_deques78[q].empty())
 		{
-            if (q >= 4 && q <= 6) g_q1Flag0134FAA8 = true;
+            if (q >= 4 && q <= 6) g_assetUpdateLowQueueBusy = true;
 			EnterCriticalSection(&m_lock60);
 			if ((q == 0 || q == 4) && m_deques78[q + 1].size() >= 100)
 			{
@@ -302,8 +298,7 @@ void Rva00624130::rva00624130()
 						m_field20 = 0;
 				}
 				m_deques78[entry->m_queue].push_back(*(int *)&entry);
-				if (q == 2 && m_deques78[0].empty() && m_deques78[1].empty() &&
-					(entry ? m_deques78[2] : m_deques78[2]).empty())
+				if (q == 2 && queues[0].empty() && queues[1].empty() && queues[2].empty())
 				{
 					changed = true;
 				}
@@ -314,7 +309,7 @@ void Rva00624130::rva00624130()
 	if (changed)
 		refresh();
 	EnterCriticalSection(&m_lock60);
-	unsigned int total = m_deques78[1].size() + m_deques78[2].size() + m_deques78[0].size();
+	unsigned int total = queues[0].size() + queues[1].size() + queues[2].size();
 	LeaveCriticalSection(&m_lock60);
 	if (total <= m_field1e4)
 		SetThreadPriority(reinterpret_cast<HANDLE>(m_thread), THREAD_PRIORITY_BELOW_NORMAL);
