@@ -80,6 +80,12 @@ public:
 	char m_pad[3];
 	Rva00568A20() : m_ref(), m_host(0) {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva00568A20 * __uninitialized_fill_n<Rva00568A20 *,unsigned int,Rva00568A20>(Rva00568A20 *,unsigned int,Rva00568A20 const &,__false_type const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva00568A20 * __uninitialized_copy<Rva00568A20 *,Rva00568A20 *>(Rva00568A20 *,Rva00568A20 *,Rva00568A20 *,__false_type const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<Rva00568A20,Rva00568A20>(Rva00568A20 *,Rva00568A20 const &); }
 
 class Rva0056A3FF
 {

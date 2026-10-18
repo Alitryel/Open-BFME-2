@@ -4,6 +4,8 @@
 #include <stl/_alloc.h>
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 #include <map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> bool map<int,int,less<int>,allocator<pair<int const ,int> > >::value_compare::operator()(pair<int const ,int> const &,pair<int const ,int> const &)const ; }
 namespace _STL { template<> pair<map<int,int>::iterator,bool> map<int,int>::insert(const value_type&); }
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Const_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::upper_bound(int const &) const; }

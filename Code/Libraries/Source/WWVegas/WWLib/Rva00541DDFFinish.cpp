@@ -53,4 +53,6 @@ private:
 	int m_00;
 	Region2D m_04;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva0054103E * allocator<Rva0054103E>::allocate(unsigned int,void const *)const ; }
 template _STL::vector<Rva0054103E>::iterator _STL::vector<Rva0054103E>::insert(Rva0054103E *, const Rva0054103E &);

@@ -32,6 +32,8 @@ public:
 		int m_whichInterfaces;
 	};
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_base<pair<NameKeyType const ,ModuleFactory::ModuleTemplate>,allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > >::_Rb_tree_base(allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > const &); }
 struct FieldParse;
 
 class INI

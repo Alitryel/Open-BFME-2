@@ -73,6 +73,8 @@ struct Gen_p48cd
 	_STL::vector<void *> m_04;
 	char m_pad10[0x30 - 4 - 12];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Gen_p48cd * vector<Gen_p48cd,allocator<Gen_p48cd> >::erase(Gen_p48cd *); }
 
 class Rva003F5DBD
 {

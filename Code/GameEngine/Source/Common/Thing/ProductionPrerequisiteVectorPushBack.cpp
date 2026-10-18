@@ -34,6 +34,8 @@ public:
 private:
 	void *m_unreconstructed[9];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::~vector(); }
 
 typedef char ProductionPrerequisiteSizeCheck[sizeof(ProductionPrerequisite) == 0x24 ? 1 : -1];
 

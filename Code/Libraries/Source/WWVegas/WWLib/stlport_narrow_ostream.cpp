@@ -14,6 +14,10 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(
 }
 
 #include <ostream>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_ostream<char,char_traits<char> > & basic_ostream<char,char_traits<char> >::operator<<(unsigned long); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_ostream<char,char_traits<char> > & basic_ostream<char,char_traits<char> >::operator<<(int); }
 // bfme link decl-only begin
 namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
 namespace _STL { template <> bool _M_init<char, char_traits<char> >(basic_ostream<char, char_traits<char> > &); }

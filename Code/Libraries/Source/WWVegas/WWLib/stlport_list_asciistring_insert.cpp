@@ -57,6 +57,8 @@ public:
 private:
     char *m_text;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _List_node<AsciiString> * list<AsciiString,allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 
 inline bool operator==(const AsciiString &a, const AsciiString &b) { return a.compare(b) == 0; }
 inline bool operator!=(const AsciiString &a, const AsciiString &b) { return a.compare(b) != 0; }

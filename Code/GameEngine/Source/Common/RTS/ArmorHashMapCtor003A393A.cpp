@@ -81,6 +81,8 @@ class ArmorTemplate
 public:
 	float m_damageCoefficient[38];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::~hashtable(); }
 
 typedef std::hash_map<
 	NameKeyType,

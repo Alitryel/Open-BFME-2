@@ -29,6 +29,8 @@ struct BfmeE8 {
     BfmeE8() {}
     BfmeE8(const BfmeE8& value): x(value.x), y(value.y) {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<BfmeE8,allocator<BfmeE8> >::vector(vector<BfmeE8,allocator<BfmeE8> > const &); }
 
 // Retail 0x0030B9F3..0x0030BA8C is the STLport insertion provider called
 // below: the explicit float copy constructor reproduces its movss temporary

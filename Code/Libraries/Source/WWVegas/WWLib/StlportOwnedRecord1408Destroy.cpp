@@ -26,6 +26,8 @@ struct BfmeOpaqueOwnedRecord1408 {
 	BfmeOpaqueOwnedRecord1408();
 	BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Deque_iterator_base<BfmeOpaqueOwnedRecord1408>::_M_increment(); }
 
 typedef _STL::_Deque_iterator<BfmeOpaqueOwnedRecord1408, _STL::_Nonconst_traits<BfmeOpaqueOwnedRecord1408> > DeqIt1408;
 

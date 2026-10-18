@@ -36,6 +36,8 @@ template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { 
 
 #include <locale>
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * __match<istreambuf_iterator<char,char_traits<char> >,basic_string<char,char_traits<char>,allocator<char> > *,long>(istreambuf_iterator<char,char_traits<char> > &,istreambuf_iterator<char,char_traits<char> > &,basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *,long *); }
 // bfme link decl-only begin
 namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > istreambuf_iterator<char, char_traits<char> >::operator++(int); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }

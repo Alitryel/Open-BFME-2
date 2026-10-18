@@ -49,6 +49,8 @@ struct StrategicBattleSideCountView {char unknown00[28];};
 extern "C" unsigned char *__cdecl _mbscpy(unsigned char *,const unsigned char *);
 
 #include "../../../Libraries/Include/Lib/RGBColor.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > _Rb_tree<int,pair<int const ,int>,_Select1st<pair<int const ,int> >,less<int>,allocator<pair<int const ,int> > >::insert_unique(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,pair<int const ,int> const &); }
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }

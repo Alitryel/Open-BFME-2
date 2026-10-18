@@ -87,6 +87,10 @@ struct BfmeFloat4Record00469C61
 	Rva00690FF0Handle m_head;
 	char m_pad[12];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _List_iterator<BfmeFloat4Record00469C61,_Nonconst_traits<BfmeFloat4Record00469C61> > list<BfmeFloat4Record00469C61,allocator<BfmeFloat4Record00469C61> >::insert(_List_iterator<BfmeFloat4Record00469C61,_Nonconst_traits<BfmeFloat4Record00469C61> >,BfmeFloat4Record00469C61 const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<BfmeFloat4Record00469C61,BfmeFloat4Record00469C61>(BfmeFloat4Record00469C61 *,BfmeFloat4Record00469C61 const &); }
 bool operator==(const BfmeFloat4Record00469C61 &, const BfmeFloat4Record00469C61 &);
 bool operator<(const BfmeFloat4Record00469C61 &, const BfmeFloat4Record00469C61 &);
 

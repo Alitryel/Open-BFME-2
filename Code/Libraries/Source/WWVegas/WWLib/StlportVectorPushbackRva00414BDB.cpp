@@ -22,6 +22,10 @@ struct Rva00414BDBElement {
 	Rva00414BDBElement &operator=(const Rva00414BDBElement &);
 	~Rva00414BDBElement();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva00414BDBElement * __uninitialized_fill_n<Rva00414BDBElement *,unsigned int,Rva00414BDBElement>(Rva00414BDBElement *,unsigned int,Rva00414BDBElement const &,__false_type const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva00414BDBElement * __uninitialized_copy<Rva00414BDBElement *,Rva00414BDBElement *>(Rva00414BDBElement *,Rva00414BDBElement *,Rva00414BDBElement *,__false_type const &); }
 
 namespace _STL {
 template <> void _Construct<Rva00414BDBElement, Rva00414BDBElement>(Rva00414BDBElement *, const Rva00414BDBElement &);

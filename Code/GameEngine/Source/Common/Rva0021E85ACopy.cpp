@@ -25,6 +25,12 @@ class LadderPref
 {
 	char m_opaque[0x10];	// 16 bytes: the retail copy ctor 0x5BA3F5 copies +0, +4, +8 (short), +0xC
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<long,pair<long const ,LadderPref>,_Select1st<pair<long const ,LadderPref> >,less<long>,allocator<pair<long const ,LadderPref> > >::~_Rb_tree(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Destroy<pair<long const ,LadderPref> >(pair<long const ,LadderPref> *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<pair<long const ,LadderPref>,pair<long const ,LadderPref> >(pair<long const ,LadderPref> *,pair<long const ,LadderPref> const &); }
 
 class BfmeFixedStorage002CF0F0
 {

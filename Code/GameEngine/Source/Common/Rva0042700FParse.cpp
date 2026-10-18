@@ -24,6 +24,8 @@ struct BfmeStringRecord00426A5B
 	unsigned char flag2;
 	BfmeStringRecord00426A5B();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> BfmeStringRecord00426A5B * vector<BfmeStringRecord00426A5B,allocator<BfmeStringRecord00426A5B> >::erase(BfmeStringRecord00426A5B *,BfmeStringRecord00426A5B *); }
 
 class INI
 {

@@ -103,6 +103,10 @@ struct equal_to
 typedef _STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > ArmorRtsMap;
 
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::_M_initialize_buckets(unsigned int); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::~hashtable(); }
 // bfme link decl-only begin
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }

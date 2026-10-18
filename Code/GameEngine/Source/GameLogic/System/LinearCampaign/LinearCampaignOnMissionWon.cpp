@@ -22,6 +22,8 @@ class Rva0037EACC {public:void rva0037EACC(void*);};
 class Rva0037E421 {public:void* rva0037E421(int);};
 class Object {public:char p0[0x8c]; Object* next;char p90[0x438-0x90];unsigned char status;};
 #include "GameLogicObjectLookupView.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<BfmePod172,allocator<BfmePod172> >::push_back(BfmePod172 const &); }
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, BfmePod172 const &); }
 namespace _STL { template <> void _Destroy<BfmeAssignRecord172 *>(BfmeAssignRecord172 *, BfmeAssignRecord172 *); }

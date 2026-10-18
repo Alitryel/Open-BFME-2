@@ -21,6 +21,8 @@ struct Rva0027EA49 {
 	int m_00;
 	TargetRef00217D4C *m_04;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_node<Rva0027EA49> * _Rb_tree<Rva0027EA49,Rva0027EA49,_Identity<Rva0027EA49>,less<Rva0027EA49>,allocator<Rva0027EA49> >::_M_create_node(Rva0027EA49 const &); }
 bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b);
 typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > Rva0027EA49Tree;
 

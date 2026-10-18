@@ -99,6 +99,8 @@ struct BfmeStringNoCaseLess
 		return left < right;
 	}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<AsciiString,AsciiString,_Identity<AsciiString>,BfmeStringNoCaseLess,allocator<AsciiString> >::~_Rb_tree(); }
 
 typedef std::set<AsciiString, BfmeStringNoCaseLess> FilenameList;
 

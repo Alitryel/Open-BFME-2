@@ -121,6 +121,12 @@ struct TreeHintPayload001F8ACB
 	TreeHintPayload001F8ACB() : m_val(0) {}
 	TreeHintPayload001F8ACB(const TreeHintPayload001F8ACB &o) : m_val(o.m_val) {}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const ,TreeHintPayload001F8ACB>,_Nonconst_traits<pair<AsciiString const ,TreeHintPayload001F8ACB> > >,bool> _Rb_tree<AsciiString,pair<AsciiString const ,TreeHintPayload001F8ACB>,_Select1st<pair<AsciiString const ,TreeHintPayload001F8ACB> >,less<AsciiString>,allocator<pair<AsciiString const ,TreeHintPayload001F8ACB> > >::insert_unique(pair<AsciiString const ,TreeHintPayload001F8ACB> const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const ,TreeHintPayload001F8ACB> > * _Rb_tree<AsciiString,pair<AsciiString const ,TreeHintPayload001F8ACB>,_Select1st<pair<AsciiString const ,TreeHintPayload001F8ACB> >,less<AsciiString>,allocator<pair<AsciiString const ,TreeHintPayload001F8ACB> > >::_M_create_node(pair<AsciiString const ,TreeHintPayload001F8ACB> const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const ,TreeHintPayload001F8ACB>,_Select1st<pair<AsciiString const ,TreeHintPayload001F8ACB> >,less<AsciiString>,allocator<pair<AsciiString const ,TreeHintPayload001F8ACB> > >::~_Rb_tree(); }
 
 typedef _STL::pair<const AsciiString, TreeHintPayload001F8ACB> TreeHintPair001F8ACB;
 typedef _STL::map<AsciiString, TreeHintPayload001F8ACB, _STL::less<AsciiString>, _STL::allocator<TreeHintPair001F8ACB> > Map001F8ACB;

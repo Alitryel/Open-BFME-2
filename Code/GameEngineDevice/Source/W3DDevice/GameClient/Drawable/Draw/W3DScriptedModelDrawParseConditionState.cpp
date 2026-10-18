@@ -72,6 +72,8 @@ struct BfmePod252
 {
 	unsigned char m_bytes[252];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Destroy<BfmePod252 *>(BfmePod252 *,BfmePod252 *); }
 class Rva000C38F8 { public: Rva000C38F8(); };
 class Rva000C27B0 { public: Rva000C27B0 &operator=(const Rva000C27B0 &that); };
 class Rva000C2980 { public: ~Rva000C2980(); };

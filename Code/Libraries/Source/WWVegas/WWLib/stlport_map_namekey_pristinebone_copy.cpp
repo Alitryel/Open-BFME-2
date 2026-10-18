@@ -19,6 +19,8 @@ struct PristineBoneInfo
 {
 	unsigned char m_data[52];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<pair<NameKeyType const ,PristineBoneInfo>,pair<NameKeyType const ,PristineBoneInfo> >(pair<NameKeyType const ,PristineBoneInfo> *,pair<NameKeyType const ,PristineBoneInfo> const &); }
 
 typedef _STL::_Rb_tree<NameKeyType, _STL::pair<const NameKeyType, PristineBoneInfo>, _STL::_Select1st<_STL::pair<const NameKeyType, PristineBoneInfo> >, _STL::less<NameKeyType>, _STL::allocator<_STL::pair<const NameKeyType, PristineBoneInfo> > > PristineBoneTree;
 template PristineBoneTree::_Link_type PristineBoneTree::_M_copy(PristineBoneTree::_Link_type, PristineBoneTree::_Link_type);

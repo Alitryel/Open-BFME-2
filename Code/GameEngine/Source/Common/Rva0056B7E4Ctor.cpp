@@ -25,6 +25,8 @@
 #include "ascii_string.h"
 #include <vector>
 #include "int_dealloc.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<int,allocator<int> >::~_Vector_base(); }
 // bfme link decl-only begin
 namespace _STL { template <> vector<int, allocator<int> >::~vector(); }
 // bfme link decl-only end

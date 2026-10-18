@@ -20,6 +20,8 @@ struct Rva00390729Element
 {
 	int opaque[3];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<Rva00390729Element,allocator<Rva00390729Element> >::reserve(unsigned int); }
 
 struct XferVersion
 {

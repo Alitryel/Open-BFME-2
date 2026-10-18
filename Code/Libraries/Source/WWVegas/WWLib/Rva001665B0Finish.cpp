@@ -60,6 +60,8 @@ struct Elem36
 		return *this;
 	}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Elem36 * __copy_backward<Elem36 *,Elem36 *,int>(Elem36 *,Elem36 *,Elem36 *,random_access_iterator_tag const &,int *); }
 
 typedef _STL::vector<Elem36, _STL::allocator<Elem36> > Elem36Vector;
 // _Construct<Elem36> is the pinned copy construct at 0x001610F0: declare it so this unit calls it

@@ -24,4 +24,6 @@ struct Rva005C8624Element
 {
 	int a[18];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<Rva005C8624Element,Rva005C8624Element>(Rva005C8624Element *,Rva005C8624Element const &); }
 template class _STL::vector<Rva005C8624Element, _STL::allocator<Rva005C8624Element> >;
