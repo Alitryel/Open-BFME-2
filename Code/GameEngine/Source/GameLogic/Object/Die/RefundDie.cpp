@@ -100,10 +100,7 @@ class DieModule : public ObjectModule,
 	public DieModuleInterface
 {
 public:
-	DieModule( Thing *thing, const ModuleData *moduleData )
-		: ObjectModule( thing, moduleData )
-	{
-	}
+	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
 class RefundDie : public DieModule
