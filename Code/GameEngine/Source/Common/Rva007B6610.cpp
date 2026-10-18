@@ -25,7 +25,7 @@
 // ABI without asserting that the target object is vector<void *>.
 extern void Rva00142E20();
 // Existing global owner for the initialized storage at 0x00E0ABB4.
-extern unsigned int g_Va00E0ABB4;
+unsigned int g_Va00E0ABB4;	// retail RVA 0x00A0ABB4 (.bss), defined here
 // Rowed ten-byte atexit thunk at RVA 0x007B9BC0.
 extern void __cdecl rva007B9BC0(void);
 
