@@ -175,10 +175,19 @@ class Rva000AD6F4
  {
   
  }
+ // Retail's destructor is the folded 29-byte clear body at 0x000AD6F4
+ // (Disp8DivAvgDwordGetters.cpp spells the same copy).
  ~Rva000AD6F4()
  {
-  clear();
-  
+  struct Slot0 { virtual void *virt0(unsigned int); };
+  Rva002E3E2AObject *p=pointer;
+  pointer=0;
+  void *q;
+  if(p)
+   q=((Slot0 *)p)->virt0(0);
+  else
+   q=0;
+  ::operator delete(q);
  }
  void clear();
  Rva002E3E2AOut rva002E3E2A();

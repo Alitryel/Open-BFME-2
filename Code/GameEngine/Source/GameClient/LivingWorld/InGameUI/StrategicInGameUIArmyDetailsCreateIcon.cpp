@@ -13,7 +13,8 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct SBServer {
  void *m_handle;
  SBServer():m_handle(0){}
- inline __declspec(noinline) SBServer(const SBServer &src):m_handle(src.m_handle) {if(m_handle)++*(int *)((char *)m_handle+((int **)m_handle)[0][1]+4);}
+ // Retail's copy (0x005E3B2D, stlport_map_int_sbserver.cpp) spelled the same way.
+ inline __declspec(noinline) SBServer(const SBServer &src) {void *handle=src.m_handle; m_handle=handle; if(handle!=0){void *slot=*(void **)handle; char *obj=(char *)((void **)slot)[1]+(unsigned int)handle; ++*(int *)(obj+4);}}
  ~SBServer(){if(m_handle)ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)((char *)m_handle+((int **)m_handle)[0][1]));}
  SBServer &operator=(const SBServer &);
  void Rva005E3B9E();
