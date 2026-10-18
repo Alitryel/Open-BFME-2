@@ -118,19 +118,6 @@ private:
 	class RenderObjClass *m_buildingPlacementArrow;		// +0xABC
 };
 
-Rva0008EF3FProduct::Rva0008EF3FProduct()
-{
-	int i;
-
-	for (i = 0; i < MAX_MOVE_HINTS; i++)
-	{
-		m_moveHintRenderObj[i] = 0;
-		m_moveHintAnim[i] = 0;
-	}
-
-	m_buildingPlacementAnchor = 0;
-	m_buildingPlacementArrow = 0;
-}
 
 // ?init@Rva0008EF3FProduct@@UAEXXZ @0x0008F0BB 5B: SubsystemInterface slot 1
 // of the product's vtable 0x00BC7A88, extending nothing: a tail jump to the
