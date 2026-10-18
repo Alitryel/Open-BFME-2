@@ -82,14 +82,14 @@ public:
 // (pinned at 0x00030830 beside the pre-existing ?free@@ alias): the C++
 // decoration is throwing, which is what makes the caller emit retail's
 // state stores ahead of the branches (DynamicPortal WayPoint precedent).
-void freeRva001F092AVecBuf(void *ptr);
+void Rva00030830GameFree(void *ptr);
 
 struct Rva001F092AVec
 {
 	~Rva001F092AVec()
 	{
 		if (m_begin != 0)
-			freeRva001F092AVecBuf(m_begin);
+			Rva00030830GameFree(m_begin);
 	}
 	void **m_begin;
 	void **m_end;
