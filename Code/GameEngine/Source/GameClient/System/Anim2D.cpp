@@ -825,7 +825,7 @@ class Rva002D7127 : public Anim2D
 public:
 	void rva002D7127(Int x, Int y, Int width, Int height);
 	void rva002D6FFF(Int x, Int y);
-	void rva002D6F80(Real x, Real y, UnsignedByte opacity);
+	void rva002D6F80(Real x, Real y, Int opacity);
 
 	// BFME 2 grows Anim2D by a draw size the real-coordinate draw reads.
 	Int m_drawWidth;	///< 0x2C
@@ -884,13 +884,17 @@ void Rva002D7127::rva002D6FFF(Int x, Int y)
 
 }  // end rva002D6FFF
 
-// ?rva002D6F80@Rva002D7127@@QAEXMME@Z @0x002D6F80 127B: BFME's real-coordinate
+// ?rva002D6F80@Rva002D7127@@QAEXMMH@Z @0x002D6F80 127B: BFME's real-coordinate
 // draw with an explicit opacity byte (BFME1 Anim2DRealCoordinateDrawing.cpp's
 // Rva005BA910Anim2D::draw is the same shape): the opacity fills all four
 // colour channels, the size comes from Anim2D +0x2C/+0x30, and the image goes
 // through the non-virtual Display::drawImage wrapper (0x0004D6B3) with mode 3.
 // Called from 0x002A4BC2.
-void Rva002D7127::rva002D6F80(Real x, Real y, UnsignedByte opacity)
+// The opacity parameter is 32-bit: the caller 0x002A4A68 (and WorldBuilder's
+// drawInstanceSizeAdditive caller) pushes the GlobalData dword with no movzx,
+// which an UnsignedByte parameter always forces; GameMakeColor's byte
+// parameters still truncate it to the movzx this body begins with.
+void Rva002D7127::rva002D6F80(Real x, Real y, Int opacity)
 {
 	Color color = GameMakeColor( opacity, opacity, opacity, opacity );
 	((W3DDisplay *)TheDisplay)->rva0004D6B3( (Image *)m_template->getFrame( m_currentFrame ), x, y, x + m_drawWidth, y + m_drawHeight, color, 3 );

@@ -1,33 +1,41 @@
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.995 date=2026-10-18
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.927 date=2026-10-15
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.91 date=2026-10-13
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.8952 date=2026-10-13
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.8952 date=2026-10-13
-// ?rva002A4A68@InGameUI@@QAEXXZ
-// partial score=0.8919 date=2026-10-05
-// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /arch:SSE
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
-// ?rva002A4A68@InGameUI@@QAEXXZ @0x002A4A68 404B
-// evidence: unlock lane, caller 0x0004A462, callees all rowed, globals TheGameLogic TheGameClient TheWritableGlobalData
+//
+// ?rva002A4A68@InGameUI@@QAEXXZ, retail 0x002A4A68..0x002A4BFC (404 bytes, RET):
+// the InGameUI per-frame update (floating-text style; purpose inferred) that
+// W3DDisplay::rva0004A462 calls on
+// TheInGameUI (pinned name). Shape from WorldBuilder 0xDBF4E0: a debug-only
+// call on the +0x8D4 holder (retail folds it onto the empty RET 0x000B3FD0),
+// then a walk of the STLport list at +0x8D0. Unless the game is paused, an
+// entry whose end frame has passed, or that is flagged (bit 2) while its
+// Anim2D status has 0x4 set (ZH: ANIM_2D_STATUS_COMPLETE), is deleted with
+// its Anim2D and erased.
+// Otherwise its position integrates its velocity, the velocity decays by the
+// +0x1C factor, a fading entry (bit 0) sets the animation alpha from the
+// remaining frames over the fade length 0x009FEE08, the animation size comes
+// from the GlobalData random variable (+0.5f, rounded) or the entry's own
+// size, and the animation is drawn at the entry position with the GlobalData
+// opacity dword. An empty list resets +0x908/+0x90C to -1.
+// The +0x8D4 call is spelled through a visible non-inline barrier body: retail
+// keeps the receiver base in EDX across it (cross-TU knowledge that the
+// callee preserves it) yet keeps the call; an empty body is elided by cl.
 #include <list>
+#include "../Common/GameLogicObjectLookupView.h"
 
-template<typename T> class StringBase
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+class Rva002A1B1D
 {
-	friend class InGameUI;
-	void validate() const;
+public:
+	void rva000B3FD0();
 };
+__declspec(noinline) void Rva002A1B1D::rva000B3FD0()
+{
+	_ReadWriteBarrier();
+}
 
 class InGameUI;
 
-class GameLogic {
-public:
-    unsigned char isGamePaused();
-};
 extern GameLogic *TheGameLogic;
 
 class ClientFrameSubsystem {
@@ -65,7 +73,8 @@ public:
     virtual int _v30();
     virtual int getFrame();
 };
-extern ClientFrameSubsystem *TheGameClient;
+class GameClient;
+extern GameClient *TheGameClient;
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
@@ -88,7 +97,7 @@ public:
 
 class Rva002D7127 {
 public:
-    virtual void *first(int a);
+    virtual ~Rva002D7127();
     void rva002D6F80(float a, float b, int c);
     char _pad0[0x10 - 4];
     unsigned char m_flag10;
@@ -118,21 +127,18 @@ public:
     char _pad[0x910];
 };
 
-template<> __declspec(noinline) void StringBase<unsigned short>::validate() const { (void)*(volatile char *)this; }
-// ?rva002A4A68@InGameUI@@QAEXXZ present-unmatched
 void InGameUI::rva002A4A68()
 {
-    ((const StringBase<unsigned short> *)((const char *)this + 0x8d4))->validate();
+    ((Rva002A1B1D *)((char *)this + 0x8d4))->rva000B3FD0();
     _STL::list<int> &lst = *(_STL::list<int> *)((char *)this + 0x8d0);
     _STL::list<int>::iterator it = lst.begin();
     while (it != lst.end()) {
         Payload *p = (Payload *)*it;
         if (!TheGameLogic->isGamePaused()) {
-            unsigned frame = TheGameClient->getFrame();
+            unsigned frame = ((ClientFrameSubsystem *)TheGameClient)->getFrame();
             if (frame >= (unsigned)p->m_c || ((p->m_10 & 2) && (p->m_obj->m_flag10 & 4))) {
-                Rva002D7127 *o = p->m_obj;
-                ::operator delete(o ? o->first(0) : 0);
-                ::operator delete(p);
+                ::delete p->m_obj;
+                delete p;
                 it = (p ? lst.erase(it) : lst.erase(it));
                 continue;
             }
@@ -142,7 +148,7 @@ void InGameUI::rva002A4A68()
         p->m_8 += p->m_18;
         p->m_18 *= p->m_1c;
         if (p->m_10 & 1) {
-            unsigned remaining = p->m_c - TheGameClient->getFrame();
+            unsigned remaining = p->m_c - ((ClientFrameSubsystem *)TheGameClient)->getFrame();
             if (remaining < g_00DFEE08) {
                 p->m_obj->m_1c = (float)remaining / (float)g_00DFEE08;
             }
