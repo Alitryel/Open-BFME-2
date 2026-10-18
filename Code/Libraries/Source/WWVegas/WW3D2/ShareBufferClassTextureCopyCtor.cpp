@@ -52,12 +52,21 @@ private:
 };
 #pragma optimize("", on)
 
+// The texture instantiation's destructor body is rowed as ~BfmeOwnVVE at
+// 0x0015CC90: vtable 0xBD3C94 (installed by the copy ctor below) holds the
+// deleting dtor 0x0015D020 that calls it.
+class BfmeOwnVVE
+{
+public:
+	~BfmeOwnVVE();
+};
+
 template <class T>
 class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(const ShareBufferClass &that);
-	virtual ~ShareBufferClass();
+	virtual ~ShareBufferClass() { ((BfmeOwnVVE *)this)->BfmeOwnVVE::~BfmeOwnVVE(); }
 
 protected:
 	T *m_rawBuffer; // +0x08

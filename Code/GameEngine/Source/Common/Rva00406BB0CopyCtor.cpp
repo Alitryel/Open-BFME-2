@@ -19,11 +19,19 @@ private:
 	friend class Rva00406BB0Base;
 };
 
+// Retail's ctor unwind destroys this base through the rowed ~Rva00215E42
+// at 0x004059AC.
+class Rva00215E42
+{
+public:
+	virtual ~Rva00215E42();
+};
+
 class Rva00406BB0Base
 {
 public:
 	Rva00406BB0Base(const Rva00406BB0Base &other) {}
-	virtual ~Rva00406BB0Base();
+	virtual ~Rva00406BB0Base() { ((Rva00215E42 *)this)->Rva00215E42::~Rva00215E42(); }
 	virtual void keep() {}
 };
 

@@ -25,11 +25,14 @@ private:
 	int m_flags;
 };
 
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 class __declspec(novtable) Rva00359E13Interface
 {
 public:
 	Rva00359E13Interface() {}
-	virtual ~Rva00359E13Interface();
+	// Retail's ctor unwind destroys this base through 0x0049B47C, the folded
+	// Snapshot destructor: restore table 0x00BBB554 and return.
+	virtual ~Rva00359E13Interface() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 };
 
 class Rva00359E13 : public Rva00359E13Interface, public Rva00330757Member

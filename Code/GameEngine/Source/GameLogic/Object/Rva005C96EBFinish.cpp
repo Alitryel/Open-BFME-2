@@ -12,11 +12,20 @@
 // 0x005C9886 (pushes 0x26C), and rowed base/member ctors. No donor establishes
 // the receiver's target name or the context's type.
 
+// Retail destroys this GameWindow-derived screen base through the rowed
+// protected ~GameWindow 0x00314A0C (the unwind funclet / vtable slot 0 target).
+class GameWindow
+{
+protected:
+	virtual ~GameWindow();
+	friend class BfmeAptScreenBase;
+};
+
 class BfmeAptScreenBase
 {
 public:
 	BfmeAptScreenBase(void *ctx);
-	~BfmeAptScreenBase();
+	~BfmeAptScreenBase() { ((GameWindow *)this)->GameWindow::~GameWindow(); }
 	virtual void slot0();
 protected:
 	void *m_anchor;

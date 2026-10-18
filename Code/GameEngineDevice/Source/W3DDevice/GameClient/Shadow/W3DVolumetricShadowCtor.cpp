@@ -80,13 +80,21 @@ struct W3DVolumetricShadowRenderTask : public W3DBufferManager::W3DRenderTask
 	UnsignedByte		m_lightIndex;
 };
 
+// Retail's ctor unwind destroys the shadow base through 0x00108B4D, the rowed
+// 7B restore of table 0x00BCEFA0 (?apply@Rva00108B4DDwordImmSetter).
+class Rva00108B4DDwordImmSetter
+{
+public:
+	void apply();
+};
+
 // The shadow base constructed by the rowed 0x000F0F2B; its original name
 // is not established, only its size and the enable flags at +4/+5.
 class Rva000F0F2B
 {
 public:
 	Rva000F0F2B();
-	virtual ~Rva000F0F2B();
+	virtual ~Rva000F0F2B() { ((Rva00108B4DDwordImmSetter *)this)->apply(); }
 protected:
 	Bool m_isEnabled;
 	Bool m_isInvisibleEnabled;
