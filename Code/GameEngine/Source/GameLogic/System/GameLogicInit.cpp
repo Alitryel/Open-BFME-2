@@ -435,11 +435,12 @@ private:
 	int m_body[17];
 };
 
+class SpawnArmy { public: virtual void loadPostProcess(); };
 class Rva0043B660
 {
 public:
 	Rva0043B660(void);
-	void rva000B3FD0(void);
+	/* the rowed SpawnArmy::loadPostProcess */ __declspec(dllimport) __forceinline void rva000B3FD0() { ((SpawnArmy *)this)->SpawnArmy::loadPostProcess(); }
 
 private:
 	int m_body[4];
