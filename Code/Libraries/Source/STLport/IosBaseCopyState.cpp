@@ -12,7 +12,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <stdio.h>
 
 namespace _STL
 {
@@ -33,6 +32,9 @@ struct U2Elem8
 };
 
 extern void *Rva0083F3B0Duplicate(const U2Elem8 *src, int count);
+
+extern void *g_global;						// BFME1 0x013592F0
+extern void (__cdecl *g_call)(void *, void *);		// BFME1 0x013593C8
 
 namespace _STL
 {
@@ -55,12 +57,10 @@ public:
 protected:
 	void _M_copy_state(const ios_base &x);
 	void _M_setstate_nothrow(int state) { _M_iostate |= state; }
-	// Keep the native inline failure path and bind its data/call operands to
-	// their CRT imports. The outlined helper is owned by narrow_istream.
-	__declspec(dllimport) __forceinline void _M_check_exception_mask()
+	void _M_check_exception_mask()
 	{
 		if (_M_iostate & _M_exception_mask)
-			fputs("ios failure", stderr);
+			g_call((void *)"ios failure", (char *)g_global + 0x40);
 	}
 
 public:

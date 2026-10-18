@@ -1,5 +1,9 @@
 # Stream copy-state CRT binding repair, 2026-10-18
 
+Recovery status: the source repair is deferred; see recovery.md and the
+complete deferred-repair.patch. The measurements below describe that patch,
+not a currently landed linked-byte gain.
+
 The matched 432-byte `_STL::ios_base::_M_copy_state` at RVA 0x0001C300
 used unresolved BFME 1-derived placeholders for the CRT stream array and
 failure output routine. Its private inline helper also emitted a non-retail
