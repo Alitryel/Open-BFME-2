@@ -174,7 +174,7 @@ class Rva00222479ByteOneSetter
  
 }
 ;
-// TheLivingWorldLogic (VA 0x00DFEF10, the ledger's g_009FEF10); its
+// TheLivingWorldLogic (VA 0x00DFEF10); its
 // unrowed 0x002B3740 returns a byte of its current entry, pinned by
 // address.
 class Rva002BA8F1Logic
@@ -185,7 +185,8 @@ class Rva002BA8F1Logic
  
 }
 ;
-extern class Rva002BA8F1Logic *g_009FEF10;
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
 class AptScoreScreen
 
 {
@@ -264,7 +265,7 @@ void AptScoreScreen::RestartGame(const char *unused)
 void AptScoreScreen::Continue(const char *unused)
 
 {
- g_009FEF10->rva002B3740();
+ ((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B3740();
  m_state = 3;
  
 }
