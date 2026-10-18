@@ -1,5 +1,8 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
+// partial score=0.985 date=2026-10-18
+// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.9758 date=2026-10-15
+// W10-c5: the FX call goes through a static inline doFX(fx,a,b) wrapper (WB 0x10e9df0 shows the fx temp evaluated before the call), closing retail mov eax,[eax+0x30]; push edi; push ebx; push eax. Remaining: retail loads duration0c once (mov eax,[eax+0xc]; cmp eax,edx) where ours compares memory then reloads.
 // cl: /I. /O1 /G7 /arch:SSE /EHsc /MD /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Primary guide: BFME 1 EmotionNugget.cpp at verified pointer 0bef414b5.
@@ -87,6 +90,8 @@ public:
     _STL::map<unsigned short, int> templates20;
     unsigned until2c, activated30;
 };
+static inline unsigned addDur(unsigned frame, unsigned dur) { return dur ? frame + dur : 0; }
+static inline void doFX(const FXList *fx, const Object *a, const Object *b) { FXList::doFXObj(fx, a, b); }
 void EmotionNugget::OnActivation(Object *target, int duration)
 {
     activated30 = TheGameLogic->getFrame();
@@ -105,7 +110,7 @@ void EmotionNugget::OnActivation(Object *target, int duration)
         void *query = object->rva0029439D();
         if (query) object = ((Rva0029439DIface *)query)->v19();
         if (!object) object = object00;
-        FXList::doFXObj(getTemplate()->fx30, object, target);
+        doFX(getTemplate()->fx30, object, target);
     }
     AIUpdateInterface *ai = object00->ai;
     if (ai) {

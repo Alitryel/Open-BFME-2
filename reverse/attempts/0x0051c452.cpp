@@ -1,15 +1,12 @@
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.96 date=2026-10-16
-// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.96 date=2026-10-16
-// w9-o3: farm best + ThingFactory::findTemplate rename, WB else-if, single m_tooltip join, direct m_movie; 891/890 B, one regalloc residue (tmpl vs customName ebx)
-// farm best: 15 instruction differences (retail 890 B); key d7809eb8b83832c5842a
+// partial score=0.995 date=2026-10-18
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
 // partial score=0.9528538495088165 date=2026-10-15
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
 // partial score=0.90708 date=2026-10-14
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
 // partial score=0.96 date=2026-10-07
+// W10-c5: callee resolved to the rowed ThingFactory::findTemplate(const AsciiString&) (0x002D06CA) on the real TheThingFactory global; barrier/dead-block/customName ternary hacks removed (WB 0x145f4d0 statement shape). Remaining 1 site: retail add ebx,0x30; push ebx for &tmpl->displayName (ours lea eax,[ebx+0x30]; push eax) - only the equal-arm ternary / reference forms keep the rest exact.
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -18,6 +15,8 @@
 // screen's registration; that binding is their only reference. The class
 // is named for the strings' prefix. +0x27C is the screen's state.
 #include <vector>
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "unicode_string.h"
 extern "C" int __cdecl strcmp(const char *left, const char *right);
@@ -151,13 +150,10 @@ struct Rva002D06CATemplate
 ;
 class ThingTemplate;
 class ThingFactory
-
 {
- public:
- const ThingTemplate *findTemplate(const AsciiString &key);
- 
-}
-;
+public:
+ const ThingTemplate *findTemplate(const AsciiString &name);
+};
 extern ThingFactory *TheThingFactory;
 // A persistent unit's list box item data: its template name at +4 and the
 // player's name for it at +0xA0.
@@ -385,25 +381,22 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
       
       {
        unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplate(m_renaming->m_templateName);
+       if (unitTemplate && (unitTemplate->m_113 & 4))
+       
+       {
+        label = "TOOLTIP:YouMayNotRenameAHero";
+        TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
+        goto done_hover;
+       
+       }
+       
       }
-      if (unitTemplate && (unitTemplate->m_113 & 4))
-      
-      {
-       label = "TOOLTIP:YouMayNotRenameAHero";
-       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
-      
-      }
-      else
-      
-      {
-       label = "TOOLTIP:ClickToRenameThisUnit";
-       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
-      
-      }
+      label = (1 ? "TOOLTIP:ClickToRenameThisUnit" : "TOOLTIP:ClickToRenameThisUnit");
+      TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
       
      }
+     done_hover:
      m_tooltip = label;
-
      
     }
     
@@ -447,15 +440,17 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
    AptScorePersistentUnit *renaming = m_renaming;
    UnicodeString &customName = renaming->m_customName;
    if (!customName.isEmpty())
-   name = customName;
+    name = customName;
    else if (unitTemplate)
-   name = unitTemplate->m_displayName;
-   if (0) { AsciiString t1_dead; }
+   {
+    name = (1 ? unitTemplate->m_displayName : unitTemplate->m_displayName);
+   }
    GadgetTextEntrySetText(m_rename, name);
    TheWindowManager->winSetFocus(m_rename);
    m_units->winEnable(false);
    void *movie = m_movie;
-   TheRva00222A8BTarget->invoke(movie, "openRenamePersistentUnit", 0, 0, 0, 0, 0, 0);
+   void *movieCopy = movie;
+   TheRva00222A8BTarget->invoke(movieCopy, "openRenamePersistentUnit", 0, 0, 0, 0, 0, 0);
    break;
    
   }
