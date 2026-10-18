@@ -20,17 +20,8 @@
 
 struct EmitVtableTag;
 
-// ??_GCastleBehavior@@UAEPAXI@Z @0x00399354 28B: slot 0 of vtable 0x00C1A780; calls ??1 at 0x0039857D.
-// Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x00398538 uses class-name string "CastleBehavior".
-class CastleBehavior { public: CastleBehavior(EmitVtableTag *); virtual ~CastleBehavior(); };
-// ?<CastleBehavior::CastleBehavior> absent-from-retail
-CastleBehavior::CastleBehavior(EmitVtableTag *) {}
-
-// ??_GStancesBehavior@@UAEPAXI@Z @0x0045F068 28B: slot 0 of vtable 0x00C424DC; calls ??1 at 0x0045F001.
-// Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x0045EFBC uses class-name string "StancesBehavior".
-class StancesBehavior { public: StancesBehavior(EmitVtableTag *); virtual ~StancesBehavior(); };
-// ?<StancesBehavior::StancesBehavior> absent-from-retail
-StancesBehavior::StancesBehavior(EmitVtableTag *) {}
+// CastleBehavior and StancesBehavior wrappers now come from their real
+// destructor units; the removed scaffolds emitted conflicting partial vtables.
 
 // ??_GPropagandaTowerBehaviorModuleData@@UAEPAXI@Z @0x00481BB2 28B: slot 0 of vtable 0x00C49288; calls ??1 at 0x00481BCE.
 // Owner evidence (audited 2026-09-26): retail registration PropagandaTowerBehavior -> data factory RVA 0x0024C21B -> ctor RVA 0x0048197C; primary vptr store RVA 0x00481988.
