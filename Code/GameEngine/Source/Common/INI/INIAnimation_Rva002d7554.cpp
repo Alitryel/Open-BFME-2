@@ -37,14 +37,22 @@ private:
 
 class Anim2DTemplate
 {
-public:
+	friend class INI;
+protected:
 	static const FieldParse s_anim2DFieldParseTable[];
+};
+
+// Bind the tree lookup to its existing row, as parseAnim2DTemplate does.
+struct Rva002D752DNode;
+class Rva002D752D
+{
+public:
+	Rva002D752DNode *rva002D752D(const StringBase<char> &name);
 };
 
 class Anim2DCollection
 {
 public:
-	Anim2DTemplate *findTemplate(const AsciiString &name);
 	Anim2DTemplate *newTemplate(const AsciiString &name);
 };
 
@@ -70,7 +78,7 @@ void INI::parseAnim2DDefinition( INI *ini )
 	if( !TheAnim2DCollection )
 		return;
 
-	animTemplate = TheAnim2DCollection->findTemplate( name );
+	animTemplate = (Anim2DTemplate *)((Rva002D752D *)TheAnim2DCollection)->rva002D752D( *(const StringBase<char> *)&name );
 	if( animTemplate == 0 )
 	{
 		animTemplate = TheAnim2DCollection->newTemplate( name );

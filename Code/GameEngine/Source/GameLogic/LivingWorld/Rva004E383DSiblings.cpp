@@ -11,7 +11,13 @@
 // with the record at ebp-0x20 and the exception buffer at ebp-0x14.
 typedef int Int;
 
-struct FieldParse;
+struct FieldParse
+{
+	const char *name;
+	void (*parse)(class INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 class INIException
 {
@@ -27,6 +33,7 @@ class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void Rva004E3816Parse(INI *, void *, void *, const void *);
 };
 
 // The record is the EyeTower temp built at ebp-0x20: a 0x0C-byte vector whose
@@ -42,21 +49,28 @@ private:
 	char m_body[ 0x0C ];
 };
 
+struct Rva005668E9Element;
+
 class Rva005669B7Owner
 {
 public:
-	void append( Rva004E364F *record );
+	void rva005669B7(const Rva005668E9Element &record);
 };
 
-extern const FieldParse g_00C62034;
+// Retail VA 0x00C62034: the LookPoint list callback and null sentinel.
+extern const FieldParse g_00C62034[2] =
+{
+	{ "LookPoint", INI::Rva004E3816Parse, 0, 0 },
+	{ 0, 0, 0, 0 }
+};
 
 void ParseEyeTowerPointData( INI *ini, void *instance, void *, const void * )
 {
 	if( ini && instance )
 	{
 		Rva004E364F record;
-		ini->initFromINI( &record, &g_00C62034 );
-		((Rva005669B7Owner *)instance)->append( &record );
+		ini->initFromINI( &record, g_00C62034 );
+		((Rva005669B7Owner *)instance)->rva005669B7( *(const Rva005668E9Element *)&record );
 	}
 	else
 		throw INIException( 3, "ParseEyeTowerPointData::Invalid data passed in." );

@@ -38,7 +38,6 @@
 
 #define ANIM2D_INLINE_SNAPSHOT_DTOR
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-#define DEFINE_ANIM_2D_MODE_NAMES
 #include "Common/RandomValue.h"
 #include "Common/Xfer.h"
 #include "GameClient/Anim2D.h"
@@ -65,6 +64,14 @@ private:
 //#pragma optimize("", off)
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
 #endif
+
+// Native VA 0x00DBCC84: the table uses this one shared mode-name array.
+// Keep it external so its complete initializer has an owned data receipt.
+char *Anim2DModeNames[] =
+{
+	"NONE", "ONCE", "ONCE_BACKWARDS", "LOOP", "LOOP_BACKWARDS",
+	"PING_PONG", "PING_PONG_BACKWARDS", 0
+};
 
 // GLOBAL /////////////////////////////////////////////////////////////////////////////////////////
 Anim2DCollection *TheAnim2DCollection = NULL;

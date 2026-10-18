@@ -12,7 +12,13 @@
 
 typedef int Int;
 
-struct FieldParse;
+struct FieldParse
+{
+	const char *name;
+	void (*parse)(class INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 class INIException
 {
@@ -28,6 +34,9 @@ class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseCoord2D(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
 };
 
 class Rva004E16D9Record
@@ -40,13 +49,28 @@ private:
 	char m_body[ 0x28 ];
 };
 
+struct BfmePod40;
+
 class Rva0056652FOwner
 {
 public:
-  void append( Rva004E16D9Record *record );
+  void rva0056652F(const BfmePod40 &record);
 };
 
-extern const FieldParse g_00C61AE8;
+// Retail VA 0x00C61AE8: eight fields followed by the null sentinel.
+// Names, callbacks and offsets come from this table, independently of BFME 1.
+extern const FieldParse g_00C61AE8[9] =
+{
+	{ "Region", INI::parseAsciiString, 0, 0x04 },
+	{ "EventName", INI::parseAsciiString, 0, 0x08 },
+	{ "Position", INI::parseCoord2D, 0, 0x10 },
+	{ "Movie", INI::parseAsciiString, 0, 0x18 },
+	{ "PlayNextActAfterMovie", INI::parseBool, 0, 0x1C },
+	{ "RemoveEvent", INI::parseBool, 0, 0x1D },
+	{ "UseArmy", INI::parseAsciiString, 0, 0x0C },
+	{ "ArmyAttackDirection", INI::parseCoord2D, 0, 0x20 },
+	{ 0, 0, 0, 0 }
+};
 
 // ?ParseForceBattle@@YAXPAVINI@@PAX1PBX@Z
 void ParseForceBattle( INI *ini, void *instance, void *, const void * )
@@ -54,8 +78,8 @@ void ParseForceBattle( INI *ini, void *instance, void *, const void * )
 	if( ini && instance )
 	{
 		Rva004E16D9Record record;
-		ini->initFromINI( &record, &g_00C61AE8 );
-		((Rva0056652FOwner *)instance)->append( &record );
+		ini->initFromINI( &record, g_00C61AE8 );
+		((Rva0056652FOwner *)instance)->rva0056652F( *(const BfmePod40 *)&record );
 	}
 	else
 		throw INIException( 3, "ParseForceBattle::Invalid data passed in." );
