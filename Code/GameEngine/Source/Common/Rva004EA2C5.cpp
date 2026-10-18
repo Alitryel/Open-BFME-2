@@ -35,14 +35,16 @@ private:
 };
 
 extern GameLogic *TheGameLogic;
-extern const StringBase<char> g_00E04490;
+// The rowed initializer at 7B31DF constructs "FarmTemplate" in this
+// four-byte storage; its existing owner keeps the global address unique.
+extern unsigned g_Va00E04490;
 
 int __cdecl Rva004EA2C5Get()
 {
 	int count = 0;
 	for (Object *obj = TheGameLogic->getFirstObject(); obj; obj = obj->getNextObject()) {
 		Rva004EA2C5Template *holder = obj->m_holder;
-		if (holder->m_name.compare(g_00E04490) == 0)
+		if (holder->m_name.compare(*(const StringBase<char> *)&g_Va00E04490) == 0)
 			++count;
 	}
 	return count;

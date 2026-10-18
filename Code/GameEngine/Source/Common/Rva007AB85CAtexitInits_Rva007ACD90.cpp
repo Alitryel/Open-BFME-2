@@ -43,19 +43,21 @@ void __cdecl rva007B9680();
 void __cdecl rva007B968A();
 void __cdecl rva007B9B40();
 
+// Storage is owned by Rva007AB85CAtexitInits.cpp and its data rows.
+// This split initializer unit only refers to the same objects.
 // VA 0x00DEC290: zero-initialized AsciiString storage, explicitly constructed below.
-unsigned BfmeLiveCameraModeNameStorage;
-unsigned g_Va00DEC3B8;	// retail RVA 0x009EC3B8 (.bss), defined here
-unsigned g_Va00DFF030;
-unsigned g_Va00E022E8;
-unsigned g_Va00E028C4;
-unsigned g_Va00E02D68;
-unsigned g_Va00E02E70;
-unsigned g_Va00E02E74;
-unsigned g_Va00E04490;	// retail RVA 0x00A04490 (.bss), defined here
-unsigned g_Va00E063D4;	// retail RVA 0x00A063D4 (.bss), defined here
-unsigned g_Va00E06444;	// retail RVA 0x00A06444 (.bss), defined here
-unsigned g_Va00E06448;	// retail RVA 0x00A06448 (.bss), defined here
+extern unsigned BfmeLiveCameraModeNameStorage;
+extern unsigned g_Va00DEC3B8;	// retail RVA 0x009EC3B8 (.bss), owned by the original initializer unit
+extern unsigned g_Va00DFF030;
+extern unsigned g_Va00E022E8;
+extern unsigned g_Va00E028C4;
+extern unsigned g_Va00E02D68;
+extern unsigned g_Va00E02E70;
+extern unsigned g_Va00E02E74;
+extern unsigned g_Va00E04490;	// retail RVA 0x00A04490 (.bss), owned by the original initializer unit
+extern unsigned g_Va00E063D4;	// retail RVA 0x00A063D4 (.bss), owned by the original initializer unit
+extern unsigned g_Va00E06444;	// retail RVA 0x00A06444 (.bss), owned by the original initializer unit
+extern unsigned g_Va00E06448;	// retail RVA 0x00A06448 (.bss), owned by the original initializer unit
 
 struct Rva007AB85CAtexitInits
 {
