@@ -75,6 +75,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+#include "../WWMath/SphereClassLink.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "composite.h"
 #include "wwdebug.h"

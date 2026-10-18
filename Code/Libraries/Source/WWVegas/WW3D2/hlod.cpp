@@ -13,6 +13,7 @@
 #pragma optimize("gsy", on)
 #include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
 #pragma optimize("", on)
+#include "../WWMath/SphereClassLink.h"
 
 // rendobj.h: this unit inlines RenderObjClass::Set_Hidden (a qualified or
 // in-constructor call), so it needs the bit setters' bodies.
