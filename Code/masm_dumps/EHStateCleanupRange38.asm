@@ -76,8 +76,6 @@ PUBLIC ?rva0077c8c4@@YAXXZ
     ret
 ?rva0077c8c4@@YAXXZ ENDP
 
-; Unwind@00b7cb24 at RVA 0x0077CB24; 24-byte body ends at RET.
-; Unwind@00b7d884 at RVA 0x0077D884; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b7e855 at RVA 0x0077E855; 20-byte masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to the EmissionVelocityInfo dtor at 0x0049B47C.
 PUBLIC ?rva0077e855@@YAXXZ
 ?rva0077e855@@YAXXZ PROC
@@ -90,7 +88,6 @@ PUBLIC ?rva0077e855@@YAXXZ
     jmp ??1EmissionVelocityInfo@FXParticleSystem@@UAE@XZ
 ?rva0077e855@@YAXXZ ENDP
 
-; Unwind@00b7ec69 at RVA 0x0077EC69; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b7ed0d at RVA 0x0077ED0D; 25-byte state-bit cleanup ends at RET.
 ; Retail clears bit 0 at [ebp-20] and conditionally tail-jumps through [ebp+8].
 PUBLIC ?rva0077ed0d@@YAXXZ
@@ -105,14 +102,6 @@ cleanup_done_0077ed0d:
     ret
 ?rva0077ed0d@@YAXXZ ENDP
 
-; Unwind@00b7ed38 at RVA 0x0077ED38; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b7ed89 at RVA 0x0077ED89; 25-byte state-bit cleanup ends at RET.
-; Retail clears bit 0 at [ebp-24] and conditionally tail-jumps through [ebp+8].
-
-; Unwind@00b7edb4 at RVA 0x0077EDB4; 27-byte array cleanup ends at RET.
-; Target passes [ebp-20]+0xdc to eh-vector-dtor with element size 0x1ac,
-; Unwind@00b7ee74 at RVA 0x0077EE74; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b7efe4 at RVA 0x0077EFE4; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b7f57f at RVA 0x0077F57F; 27-byte array cleanup ends at RET.
 ; Target passes [ebp-16]+0xdc to eh-vector-dtor with size 0x1e0 count 8 and
 ; raw destructor VA 0x00782398.
@@ -143,14 +132,6 @@ PUBLIC ?rva0077f708@@YAXXZ
     ret
 ?rva0077f708@@YAXXZ ENDP
 
-; Unwind@00b80013 at RVA 0x00780013; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b80174 at RVA 0x00780174; 25-byte cleanup ends at RET.
-; Unwind@00b8018d at RVA 0x0078018D; 25-byte cleanup ends at RET.
-; Unwind@00b80229 at RVA 0x00780229; 24-byte array cleanup ends at RET.
-; Target passes [ebp-20]+0x88 to eh-vector-dtor with size 12 count 8 and
-; Unwind@00b802d2 at RVA 0x007802D2; 24-byte array cleanup ends at RET.
-; Unwind@00b803c1 at RVA 0x007803C1; 25-byte cleanup ends at RET.
-; Unwind@00b804a6 at RVA 0x007804A6; 24-byte array cleanup ends at RET.
 ; Unwind@00b8059a at RVA 0x0078059A; 24-byte array cleanup ends at RET.
 ; Same target type and array parameters as 0x7804A6; frame slot is [ebp-16].
 PUBLIC ?rva0078059a@@YAXXZ
@@ -179,7 +160,6 @@ PUBLIC ?rva007812ad@@YAXXZ
     ret
 ?rva007812ad@@YAXXZ ENDP
 
-; Unwind@00b8138c at RVA 0x0078138C; 24-byte array cleanup ends at RET.
 ; Unwind@00b81431 at RVA 0x00781431; 22-byte eh-vector-dtor passes [ebp-16]+4 with size 24 count 7 and raw dtor VA 0x0079EAB7.
 PUBLIC ?rva00781431@@YAXXZ
 ?rva00781431@@YAXXZ PROC
@@ -261,13 +241,6 @@ PUBLIC ?rva007819ce@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva007819ce@@YAXXZ ENDP
 
-; Unwind@00b81ee6 at RVA 0x00781EE6; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b81eff at RVA 0x00781EFF; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8217e at RVA 0x0078217E; 25-byte state-bit cleanup ends at RET.
-; Target clears bit 0 at [ebp-20] and tail-jumps through [ebp+8] to AsciiString dtor.
-
-; Unwind@00b8228f at RVA 0x0078228F; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b823be at RVA 0x007823BE; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b82404 at RVA 0x00782404; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-36] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00782404@@YAXXZ
@@ -282,9 +255,6 @@ cleanup_done_00782404:
     ret
 ?rva00782404@@YAXXZ ENDP
 
-; Unwind@00b82478 at RVA 0x00782478; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b824d7 at RVA 0x007824D7; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8258c: masked-add cleanup adds 04h to [ebp-16] and tail-jumps to 0x003B4071.
 PUBLIC ?rva0078258c@@YAXXZ
 ?rva0078258c@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
@@ -310,9 +280,6 @@ cleanup_done_007836e8:
     ret
 ?rva007836e8@@YAXXZ ENDP
 
-; Unwind@00b8378d at RVA 0x0078378D; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8382a at RVA 0x0078382A; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b83928 at RVA 0x00783928; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b8398a at RVA 0x0078398A; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps with [ebp-20] to the rowed UnicodeString thunk.
 PUBLIC ?rva0078398a@@YAXXZ
@@ -341,19 +308,6 @@ cleanup_done_007839a3:
     ret
 ?rva007839a3@@YAXXZ ENDP
 
-; Unwind@00b83a5e at RVA 0x00783A5E; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b83ac1 at RVA 0x00783AC1; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b84220 at RVA 0x00784220; 25-byte state-bit cleanup ends at RET.
-; Target clears bit 0 at [ebp-16] and tail-jumps with [ebp-20] to the rowed UnicodeString thunk.
-
-; Unwind@00b84239 at RVA 0x00784239; 25-byte state-bit cleanup ends at RET.
-; Target clears bit 1 at [ebp-16] and tail-jumps through [ebp+8] to the rowed UnicodeString thunk.
-
-; Unwind@00b84973 at RVA 0x00784973; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b849c6 at RVA 0x007849C6; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b84a1f at RVA 0x00784A1F; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b84ac6 at RVA 0x00784AC6; 25-byte vector cleanup ends at RET.
-; Unwind@00b84e61: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva00784e61@@YAXXZ
 ?rva00784e61@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
@@ -365,7 +319,6 @@ PUBLIC ?rva00784e61@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva00784e61@@YAXXZ ENDP
 
-; Unwind@00b84f0c at RVA 0x00784F0C; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b85033 at RVA 0x00785033; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-80] and tail-jumps through [ebp+8] to the rowed dtor.
 PUBLIC ?rva00785033@@YAXXZ
@@ -380,7 +333,6 @@ cleanup_done_00785033:
     ret
 ?rva00785033@@YAXXZ ENDP
 
-; Unwind@00b8509f at RVA 0x0078509F; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b850cc at RVA 0x007850CC; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps through [ebp+8] to the rowed holder call.
 PUBLIC ?rva007850cc@@YAXXZ
@@ -395,7 +347,6 @@ cleanup_done_007850cc:
     ret
 ?rva007850cc@@YAXXZ ENDP
 
-; Unwind@00b85121 at RVA 0x00785121; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b8539a at RVA 0x0078539A; 24-byte vector cleanup ends at RET.
 ; Target passes [ebp-16]+0x80 to the rowed iterator with element size 12 count 15 and AsciiString dtor VA 0x0088BA39.
 PUBLIC ?rva0078539a@@YAXXZ
@@ -410,9 +361,6 @@ PUBLIC ?rva0078539a@@YAXXZ
     ret
 ?rva0078539a@@YAXXZ ENDP
 
-; Unwind@00b85754 at RVA 0x00785754; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8577f at RVA 0x0078577F; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8582c: masked-add cleanup adds 04h to [ebp-16] and tail-jumps to 0x0007FAB3.
 PUBLIC ?rva0078582c@@YAXXZ
 ?rva0078582c@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
@@ -424,11 +372,6 @@ PUBLIC ?rva0078582c@@YAXXZ
     jmp ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ
 ?rva0078582c@@YAXXZ ENDP
 
-; Unwind@00b85b4b at RVA 0x00785B4B; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b85b64 at RVA 0x00785B64; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b85b87 at RVA 0x00785B87; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b85ba0 at RVA 0x00785BA0; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b85bc3 at RVA 0x00785BC3; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b85bee at RVA 0x00785BEE; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00785bee@@YAXXZ
@@ -443,7 +386,6 @@ cleanup_done_00785bee:
     ret
 ?rva00785bee@@YAXXZ ENDP
 
-; Unwind@00b85c19 at RVA 0x00785C19; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b85e8a at RVA 0x00785E8A; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00785e8a@@YAXXZ
@@ -470,8 +412,6 @@ PUBLIC ?rva007860ce@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva007860ce@@YAXXZ ENDP
 
-; Unwind@00b862be at RVA 0x007862BE; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b86c20 at RVA 0x00786C20; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b86c39 at RVA 0x00786C39; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 2 at [ebp-16] and tail-jumps with [ebp-44] to the existing rowed 0x000796BC provider.
 PUBLIC ?rva00786c39@@YAXXZ
@@ -498,12 +438,6 @@ PUBLIC ?rva00786f3c@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva00786f3c@@YAXXZ ENDP
 
-; Unwind@00b87397 at RVA 0x00787397; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b87453 at RVA 0x00787453; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b875b8 at RVA 0x007875B8; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b87601 at RVA 0x00787601; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8776d at RVA 0x0078776D; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b877a2 at RVA 0x007877A2; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b8787d at RVA 0x0078787D; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps with [ebp-20] to AsciiString dtor.
 PUBLIC ?rva0078787d@@YAXXZ
@@ -518,12 +452,6 @@ cleanup_done_0078787d:
     ret
 ?rva0078787d@@YAXXZ ENDP
 
-; Unwind@00b8809b at RVA 0x0078809B; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b880bc at RVA 0x007880BC; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b882c7 at RVA 0x007882C7; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b88460 at RVA 0x00788460; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8848b at RVA 0x0078848B; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b884b6 at RVA 0x007884B6; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b88604 at RVA 0x00788604; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-20] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00788604@@YAXXZ
@@ -538,8 +466,6 @@ cleanup_done_00788604:
     ret
 ?rva00788604@@YAXXZ ENDP
 
-; Unwind@00b8875d at RVA 0x0078875D; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b88c1c at RVA 0x00788C1C; 24-byte vector cleanup ends at RET.
 ; Unwind@00b88cba at RVA 0x00788CBA; 24-byte vector cleanup ends at RET.
 ; Target passes [ebp-16]+0x2f4 to the rowed iterator with element size 4 count 8 and raw dtor VA 0x004B3FD0.
 PUBLIC ?rva00788cba@@YAXXZ
@@ -554,7 +480,6 @@ PUBLIC ?rva00788cba@@YAXXZ
     ret
 ?rva00788cba@@YAXXZ ENDP
 
-; Unwind@00b88e2b at RVA 0x00788E2B; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b88e8a at RVA 0x00788E8A; 22-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva00788e8a@@YAXXZ
 ?rva00788e8a@@YAXXZ PROC
@@ -567,10 +492,6 @@ PUBLIC ?rva00788e8a@@YAXXZ
     jmp ??1Rva004444D2@@UAE@XZ
 ?rva00788e8a@@YAXXZ ENDP
 
-; Unwind@00b88f9e at RVA 0x00788F9E; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b891cf at RVA 0x007891CF; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b891e8 at RVA 0x007891E8; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b892ea at RVA 0x007892EA; 27-byte vector cleanup ends at RET.
 ; Unwind@00b89325 at RVA 0x00789325; 27-byte vector cleanup ends at RET.
 ; Target passes [ebp-16]+0xdc to the rowed iterator with element size 0x1d0 count 8 and raw dtor VA 0x00847B0E.
 PUBLIC ?rva00789325@@YAXXZ
@@ -612,8 +533,6 @@ PUBLIC ?rva00789417@@YAXXZ
     ret
 ?rva00789417@@YAXXZ ENDP
 
-; Unwind@00b8947e at RVA 0x0078947E; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b895a0 at RVA 0x007895A0; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b89799 at RVA 0x00789799; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-20] and tail-jumps through [ebp+8] to AsciiString dtor.
 PUBLIC ?rva00789799@@YAXXZ
@@ -670,10 +589,6 @@ cleanup_done_00789842:
     ret
 ?rva00789842@@YAXXZ ENDP
 
-; Unwind@00b898a1 at RVA 0x007898A1; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b89920 at RVA 0x00789920; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8995b at RVA 0x0078995B; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8998e at RVA 0x0078998E; 25-byte state-bit cleanup ends at RET.
 ; Unwind@00b8a463 at RVA 0x0078A463; 19-byte eh-vector-dtor lea target passes [ebp-80] with size 12 count 4 and raw dtor VA 0x004B3FD0.
 PUBLIC ?rva0078a463@@YAXXZ
 ?rva0078a463@@YAXXZ PROC
@@ -764,17 +679,6 @@ PUBLIC ?rva0078b58e@@YAXXZ
     ret
 ?rva0078b58e@@YAXXZ ENDP
 
-; Unwind@00b8bd4c at RVA 0x0078BD4C; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8bd65 at RVA 0x0078BD65; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8bd7e at RVA 0x0078BD7E; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b7c3fb at RVA 0x0077C3FB; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; forms ECX with LEA from [ebp+8] only when set.
-; Unwind@00b7c414 at RVA 0x0077C414; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 1 at [ebp-16]; forms ECX with LEA from [ebp-24] only when set.
-; Unwind@00b7c4ac at RVA 0x0077C4AC; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; forms ECX with LEA from [ebp-24] only when set.
-; Unwind@00b8bd97 at RVA 0x0078BD97; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 3 at [ebp-24]; forms ECX with LEA from [ebp-108] only when set.
 ; Unwind@00b8d24f at RVA 0x0078D24F; 22-byte eh-vector-dtor target passes [ebp-16]+0x44 with size 4 count 16 and raw dtor VA 0x0050F149.
 PUBLIC ?rva0078d24f@@YAXXZ
 ?rva0078d24f@@YAXXZ PROC
@@ -800,10 +704,6 @@ PUBLIC ?rva0078d398@@YAXXZ
     jmp ??1UpdateModule@@UAE@XZ
 ?rva0078d398@@YAXXZ ENDP
 
-; Unwind@00b8e2ce at RVA 0x0078E2CE; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; loads ECX with MOV from [ebp+8] only when set.
-; Unwind@00b8fbb0 at RVA 0x0078FBB0; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 2 at [ebp-16]; loads ECX with MOV from [ebp+8] only when set.
 ; Unwind@00b90c05 at RVA 0x00790C05; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20]; loads ECX with MOV from [ebp+8] only when set.
 ; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
@@ -819,8 +719,6 @@ cleanup_done_00790c05:
     ret
 ?rva00790c05@@YAXXZ ENDP
 
-; Unwind@00b91028 at RVA 0x00791028; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-24]; loads ECX with MOV from [ebp+8] only when set.
 ; Unwind@00b910c8 at RVA 0x007910C8; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-24]; loads ECX with MOV from [ebp+8] only when set.
 ; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
@@ -835,19 +733,6 @@ PUBLIC ?rva007910c8@@YAXXZ
 cleanup_done_007910c8:
     ret
 ?rva007910c8@@YAXXZ ENDP
-
-; Unwind@00b9113a at RVA 0x0079113A; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-28]; loads ECX with MOV from [ebp+8] only when set.
-; Unwind@00b91b95 at RVA 0x00791B95; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-20]; loads ECX with MOV from [ebp+8] only when set.
-; Unwind@00b91c6c at RVA 0x00791C6C; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-20]; loads ECX with MOV from [ebp+8] only when set.
-; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
-
-; Unwind@00b921c9 at RVA 0x007921C9; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; loads ECX with MOV from [ebp+8] only when set.
-; Unwind@00b92867 at RVA 0x00792867; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-20]; loads ECX with MOV from [ebp+8] only when set.
 
 ; Unwind@00b94872 at RVA 0x00794872; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20]; uses MOV from [ebp+8] only when set.
@@ -864,8 +749,6 @@ cleanup_done_00794872:
     ret
 ?rva00794872@@YAXXZ ENDP
 
-; Unwind@00b948fb at RVA 0x007948FB; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-24]; uses LEA from [ebp+8] only when set.
 ; Unwind@00b949a2 at RVA 0x007949A2; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-24]; uses LEA from [ebp+8] only when set.
 ; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
@@ -896,13 +779,6 @@ cleanup_done_007949c5:
     ret
 ?rva007949c5@@YAXXZ ENDP
 
-; Unwind@00b94adc at RVA 0x00794ADC; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; uses LEA from [ebp-20] only when set.
-; Unwind@00b94b98 at RVA 0x00794B98; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; uses LEA from [ebp-20] only when set.
-; Unwind@00b94bbb at RVA 0x00794BBB; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 2 at [ebp-16]; uses LEA from [ebp-24] only when set.
-; Unwind@00b94e32: masked-add cleanup adds 218h to [ebp-16] and tail-jumps to 0x005248D0.
 PUBLIC ?rva00794e32@@YAXXZ
 ?rva00794e32@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
@@ -929,22 +805,6 @@ cleanup_done_0079504c:
     ret
 ?rva0079504c@@YAXXZ ENDP
 
-; Unwind@00b9509f at RVA 0x0079509F; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-40]; uses MOV from [ebp+8] only when set.
-; Unwind@00b9584d at RVA 0x0079584D; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-16]; uses LEA from [ebp-24] only when set.
-; Unwind@00b95866 at RVA 0x00795866; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 1 at [ebp-16]; uses LEA from [ebp-32] only when set.
-; Unwind@00b9588f at RVA 0x0079588F; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 2 at [ebp-16]; uses LEA from [ebp-24] only when set.
-; Unwind@00b958a8 at RVA 0x007958A8; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 3 at [ebp-16]; uses LEA from [ebp-32] only when set.
-; Unwind@00b958d1 at RVA 0x007958D1; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 4 at [ebp-16]; uses LEA from [ebp-24] only when set.
-; Unwind@00b958ea at RVA 0x007958EA; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 5 at [ebp-16]; uses LEA from [ebp-32] only when set.
-; Unwind@00b95913 at RVA 0x00795913; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 6 at [ebp-16]; uses LEA from [ebp-24] only when set.
 ; Unwind@00b95d0d at RVA 0x00795D0D; 25-byte state-bit cleanup ends at RET.
 ; Retail tests and clears bit 0 at [ebp-32]; uses MOV from [ebp+8] only when set.
 ; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
@@ -960,10 +820,6 @@ cleanup_done_00795d0d:
     ret
 ?rva00795d0d@@YAXXZ ENDP
 
-; Unwind@00b95d4a at RVA 0x00795D4A; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-20]; uses MOV from [ebp+8] only when set.
-; Unwind@00b9619c at RVA 0x0079619C; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-20]; uses LEA from [ebp-48] only when set.
 ; Unwind@00b962c3 at RVA 0x007962C3; 22-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva007962c3@@YAXXZ
 ?rva007962c3@@YAXXZ PROC
@@ -976,55 +832,6 @@ PUBLIC ?rva007962c3@@YAXXZ
     jmp ??1Rva004444D2@@UAE@XZ
 ?rva007962c3@@YAXXZ ENDP
 
-; Unwind@00b961b5 at RVA 0x007961B5; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 1 at [ebp-20]; uses LEA from [ebp-36] only when set.
-
-; Unwind@00b963cf at RVA 0x007963CF; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-28] then loads ECX from [ebp+8] only when set.
-
-; Unwind@00b9592c at RVA 0x0079592C; 27-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 7 of the byte at [ebp-16]; the set path passes [ebp-32] to AsciiString.
-; Unwind@00b8fb7e at RVA 0x0078FB7E; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b8fb97 at RVA 0x0078FB97; 25-byte state-bit cleanup ends at RET.
-; Unwind@00b91289 at RVA 0x00791289; target byte boundary is 25 bytes.
-; State bit 0 gates cleanup at [ebp-28] via VA 0x008C9F38; parent and
-; Unwind@00b912a2 at RVA 0x007912A2; target byte boundary is 25 bytes.
-; State bit 1 gates cleanup at [ebp-20] via VA 0x008C9F38; parent and
-; Unwind@00b912cd at RVA 0x007912CD; target byte boundary is 25 bytes.
-; State bit 0 gates cleanup at [ebp-20] via VA 0x008C9F38; parent and
-; Unwind@00b922c7 at RVA 0x007922C7; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp+8] cleanup through matched RVA 0x002E3A80;
-; parent identity and cleanup-object layout remain unknown.
-
-; Unwind@00b92364 at RVA 0x00792364; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp+8] cleanup through matched RVA 0x005F8F96;
-; parent identity and cleanup-object layout remain unknown.
-PUBLIC ?rva00792364@@YAXXZ
-?rva00792364@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-3Ch]
-    and eax, 1
-    jz NEAR PTR cleanup_done_00792364
-    and DWORD PTR [ebp-3Ch], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1Rva005F8F96@@QAE@XZ
-cleanup_done_00792364:
-    ret
-?rva00792364@@YAXXZ ENDP
-
-; Unwind@00b92eb6 at RVA 0x00792EB6; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp+8] cleanup through RVA 0x005B804E; parent
-; Unwind@00b93094 at RVA 0x00793094; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp-14] cleanup through RVA 0x005F8F96; parent
-; Unwind@00b93a65 at RVA 0x00793A65; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp-5c] cleanup through RVA 0x0048BA39; parent
-; Unwind@00b93a86 at RVA 0x00793A86; target byte boundary is 25 bytes.
-; State bit 1 gates [ebp-60] cleanup through RVA 0x0048BA39; parent
-; Unwind@00b93a9f at RVA 0x00793A9F; target byte boundary is 25 bytes.
-; State bit 2 gates [ebp-48] cleanup through RVA 0x0048BA39; parent
-; Unwind@00b93ad8 at RVA 0x00793AD8; target byte boundary is 25 bytes.
-; State bit 3 gates [ebp+8] cleanup through RVA 0x0048BA39; parent
-; Unwind@00b93ba5 at RVA 0x00793BA5; target byte boundary is 25 bytes.
-; State bit 0 gates [ebp+8] cleanup through folded RVA 0x0007FAB3;
 ; Unwind@00b81953 at RVA 0x00781953; 20-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva00781953@@YAXXZ
 ?rva00781953@@YAXXZ PROC
@@ -1048,8 +855,6 @@ PUBLIC ?rva007873e9@@YAXXZ
     and ecx, eax
     jmp ??1EmissionVelocityInfo@FXParticleSystem@@UAE@XZ
 ?rva007873e9@@YAXXZ ENDP
-
-
 
 ; Unwind@00b8768e at RVA 0x0078768E; 20-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva0078768e@@YAXXZ
