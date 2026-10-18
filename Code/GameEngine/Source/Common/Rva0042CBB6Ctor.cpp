@@ -14,7 +14,7 @@ extern const void *const g_00C3C6F4[2] = {
 	(const void *)&__identifier("?rva0042CC7B@Rva0042CBB6@@QAEHPAVGameMessage@@@Z"), // slot 0 0x0042CC7B
 	(const void *)&__identifier("??_GRva0042CBB6@@UAEPAXI@Z"), // slot 1 0x004296EE
 };
-extern void *g_00E03210;
+void * g_00E03210;	// retail RVA 0x00A03210 (.bss), defined here
 
 class Rva0042CBB6
 {
