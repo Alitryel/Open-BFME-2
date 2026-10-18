@@ -1,6 +1,6 @@
 // cl: -GR- -EHsc-
 // ?MpOwnerSelectStrategicScenario@AptOnlineCustomMatch@@UAE_NH@Z @0x0059EB6F 64B: gated notify-set-go. With
-// the info singleton present and its flag word nonzero, fire the slot-0xDC
+// the info singleton and TheGameSpyGame present, fire the slot-0xDC
 // virtual on the info, forward the arg to the pinned 1-arg callee 0x44D5EE
 // (matched as GameModePreferences::setStrategicScenario) on the +0x40C
 // sub-object, then fire that sub-object's slot-0xC virtual. Else false.
@@ -87,14 +87,15 @@ struct AptOnlineCustomMatch
 };
 
 extern class GameSpyInfoInterface *TheGameSpyInfo;
-extern int g_rva0059EB6FFlag;
+class GameSpyStagingRoom;
+extern GameSpyStagingRoom *TheGameSpyGame;
 
 bool AptOnlineCustomMatch::MpOwnerSelectStrategicScenario(int mode)
 {
 	Rva0059EB6FInfo *info = (*(Rva0059EB6FInfo **)&TheGameSpyInfo);
 	if (info == 0)
 		return false;
-	if (g_rva0059EB6FFlag == 0)
+	if (TheGameSpyGame == 0)
 		return false;
 	info->Notify();
 	m_40C.SetScenario(mode);
