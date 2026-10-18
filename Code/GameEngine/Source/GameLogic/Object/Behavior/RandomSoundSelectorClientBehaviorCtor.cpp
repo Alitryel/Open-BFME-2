@@ -67,14 +67,17 @@ class ModuleData;
 typedef float Real;
 Real GetGameClientRandomValueReal(Real lo, Real hi, char *file, int line);
 
-class Rva00252B68
+// Retail's state-0 funclet 0x00790791 unwinds the base through 0x00254C4B,
+// the rowed virtual ??1Rva00252B68@@UAE@XZ (Rva0049B47CDerived.cpp). The
+// vptr is the implicit one; novtable on both classes keeps the compiler from
+// storing vtables, which the ctor below stores itself.
+class __declspec(novtable) Rva00252B68
 {
 public:
 	Rva00252B68(Thing *thing, const ModuleData *moduleData);
-	~Rva00252B68();
+	virtual ~Rva00252B68();
 
 protected:
-	const void *m_vtable;
 	unsigned char m_pad[0x0C - 4];
 };
 
@@ -93,7 +96,7 @@ public:
 
 #define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
 
-class RandomSoundSelectorClientBehavior : public Rva00252B68
+class __declspec(novtable) RandomSoundSelectorClientBehavior : public Rva00252B68
 {
 public:
 	RandomSoundSelectorClientBehavior(Thing *thing, const ModuleData *moduleData);
@@ -110,7 +113,7 @@ RandomSoundSelectorClientBehavior::RandomSoundSelectorClientBehavior(Thing *thin
 {
 	int *slot0C = (int *)&m_0C;
 	*slot0C = (int)((unsigned int)vtbl_00BE2B78);
-	m_vtable = g_00C5F378;
+	*(const void **)this = g_00C5F378;
 	m_0C = g_00C5F368;
 	m_10 = GetGameClientRandomValueReal(0.0f, 1.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\Drawable\\Behavior\\RandomSoundSelectorClientBehavior.cpp", 0x62);
 	Rva00DFE77CHolder *holder = TheRva00DFE77C;

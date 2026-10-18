@@ -13,11 +13,19 @@ void __cdecl Rva003FECFECreateButtonFlash(void **pp);
 void __cdecl Rva003FEDDBShowButtonFlash(void **pp);
 int g_00E065C0;	// retail RVA 0x00A065C0 (.bss), defined here
 
+// Retail unwinds the base (state 0, funclet 0x007A0B9B) through 0x004E84A4,
+// rowed as ??1Rva005F0584Base1@@QAE@XZ (Rva005F0584Dtor.cpp).
+class Rva005F0584Base1
+{
+public:
+	~Rva005F0584Base1();
+};
+
 class RvaBase
 {
 public:
 	RvaBase() : m_4(0) {}
-	~RvaBase();
+	~RvaBase() { ((Rva005F0584Base1 *)this)->Rva005F0584Base1::~Rva005F0584Base1(); }
 	int m_4;
 };
 

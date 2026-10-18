@@ -30,14 +30,23 @@ private:
 // EH-driving shim (ToppleUpdateModuleDataCtor precedent): the retail body
 // has an EH frame with a single state-0 store but makes no base call and
 // declares no member with a dtor, so the unwindable is manufactured with an
-// empty base carrying a declared-only (never defined, never linked) dtor.
+// empty base whose dtor forwards to the body retail's funclet reaches.
 // It emits zero code and covers the +0 vptr plus +4 gap ahead of the +0x08
 // members below.
+// Retail's state-0 funclet 0x0078F6E3 unwinds it through the Snapshot
+// destructor fold 0x0049B47C, rowed here under its non-virtual spelling
+// ??1Rva0040E3EEBase@@QAE@XZ (Rva0040E3EEFinish.cpp): forward to it.
+class Rva0040E3EEBase
+{
+public:
+	~Rva0040E3EEBase();
+};
+
 class AODCrushCollideEmptyBase
 {
 public:
 	AODCrushCollideEmptyBase() {}
-	~AODCrushCollideEmptyBase();
+	~AODCrushCollideEmptyBase() { ((Rva0040E3EEBase *)this)->Rva0040E3EEBase::~Rva0040E3EEBase(); }
 
 private:
 	unsigned char m_pad[4];
