@@ -1,18 +1,9 @@
 // ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
-// partial score=0.86 date=2026-10-16
 // ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
-// partial score=0.838990894163308 date=2026-10-14
 // ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
-// partial score=0.84 date=2026-10-13
-// ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
-// partial score=0.838991 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /EHsc /arch:SSE /G7 /ICode/Libraries/Include
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 #include "Lib/Coord3D.h"
-struct ICoord2D
-{
-int x;
-int y;
-};
 
 struct Rva002EBC7FPair
 {
@@ -91,47 +82,37 @@ bool rva002EDFF9(Object *obj, Coord3D *out);
 PathfindCell *getCell(PathfindLayerEnum layer, int cellX, int cellY);
 };
 
-int __cdecl Rva002E9B31Get(void *p);
-__declspec(noinline) inline void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
-{
-	int v = Rva002E9B31Get(p);
-	int h = v / 2;
-	*outHalf = h;
-	*outRest = v - h;
-}
-bool __cdecl Rva002EBBFBIsOdd(void *p);
-ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool center, const Coord3D *pos);
-__declspec(noinline) inline ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *out,void *p,const Coord3D *pos) {
- Rva002E7875WorldToCell(out,Rva002EBBFBIsOdd(p),pos);return out;
-}
-struct PathfinderCellPoint { int x; int y; };
-PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
-typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
-__declspec(noinline) inline void *__cdecl rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
-{
-	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
-	return a1;
-}
+void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest);
+ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *out, void *obj, const Coord3D *pos);
+void *__cdecl rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4);
 
 bool Pathfinder::rva002EDFF9(Object *obj, Coord3D *out)
 {
-int rest;
 int half;
-Rva002EBCD6Split(obj, &half, &rest);
+int rest;
+{
+int tHalf;
+int tRest;
+Rva002EBCD6Split(obj, &tHalf, &tRest);
+half = tHalf;
+rest = tRest;
+}
 ICoord2D pair;
 Rva002EBC14Cell(&pair, obj, out);
 PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, out);
 Coord3D tmp;
 Coord3D *p = (Coord3D *)rva002EBC7F(&tmp, obj, (Rva002EBC7FPair *)&pair, layer);
-*out = *p;
 int kind = 0;
+*out = *p;
 if (obj->m_kind274)
 kind = obj->m_kind274->m_kind74;
 int xStart = pair.x - half;
 int xEnd = pair.x + rest;
 if (xStart >= xEnd)
 return true;
-int yStart = pair.y - half;
+int yStart;
+*(volatile int *)&yStart = pair.y;
+*(volatile int *)&yStart -= half;
 int yEnd = pair.y + rest;
 int y;
 for (; xStart < xEnd; ++xStart)
@@ -178,8 +159,7 @@ return false;
 if ((other->m_info04->m_b109 & 1) == 0)
 return false;
 }
-ListNode *l2 = head ? head->m_list14 : 0;
-for (ListNode *n = l2; n; n = n->m_next)
+for (ListNode *n = head ? head->m_list14 : 0; n; n = n->m_next)
 {
 Object *other = n->m_obj08;
 if (other == obj)
