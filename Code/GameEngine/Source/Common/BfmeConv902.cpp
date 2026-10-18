@@ -43,14 +43,3 @@ void BfmeItemKA::bfmeDoKA()
 extern BfmeItemKA **g_bfmeBegKA;
 extern BfmeItemKA **g_bfmeEndKA;
 
-// Previously recovered from BFME 1 game/GameEngine/Source/Common/BfmeConv902.cpp;
-// retail 0x00260805 (33B), still exact with the layout method's compiler flags.
-void bfmeGoKA(void)
-{
-	BfmeItemKA **p = g_bfmeBegKA;
-	BfmeItemKA **e = g_bfmeEndKA;
-	while (p != e) {
-		(*p)->bfmeDoKA();
-		++p;
-	}
-}
