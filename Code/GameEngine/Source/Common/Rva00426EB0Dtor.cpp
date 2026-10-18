@@ -6,15 +6,8 @@
 // Evidence: vtable store 0xBBB554 at [this] via g_00BBB554; call to rowed
 // 0x00426B73; EH_prolog via 0x00629188; caller 0x00426E94 deleting dtor;
 // shape follows Rva0026AF86Dtor plus PillageModuleDataDtor TU-local Snapshot.
-extern const void *const g_00BBB554[];
-
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-};
-// ??1Snapshot@@UAE@XZ present-unmatched
-inline Snapshot::~Snapshot() { *(const void **)this = g_00BBB554; }
+// The rowed Snapshot destructor and its table share the canonical symbol.
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 struct Rva00426B73
 {
