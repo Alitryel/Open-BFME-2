@@ -67,6 +67,7 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __copy_integer_and_fill<char, ostreambuf_iterator<char, char_traits<char> > >(char const *, int, ostreambuf_iterator<char, char_traits<char> >, int, int, char, char, char); }
 // bfme link decl-only end
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
@@ -119,3 +120,9 @@ void _bfmeStlportNarrowNumPutBoolInlineAnchor()
             *static_cast<_STL::ios_base *>(0), 0, false);
 }
 #pragma inline_depth()
+
+// __copy_integer_and_fill is declared only (stlport_narrow_copy_integer_and_fill.cpp
+// owns retail's copy); keep the retail helpers it instantiated here.
+template _STL::ostreambuf_iterator<char, _STL::char_traits<char> > _STL::__copy_aux<char const *, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > >(char const *, char const *, _STL::ostreambuf_iterator<char, _STL::char_traits<char> >, _STL::__false_type const &);
+template _STL::ostreambuf_iterator<char, _STL::char_traits<char> > _STL::fill_n<_STL::ostreambuf_iterator<char, _STL::char_traits<char> >, int, char>(_STL::ostreambuf_iterator<char, _STL::char_traits<char> >, int, char const &);
+template _STL::ostreambuf_iterator<char, _STL::char_traits<char> > _STL::__copy<char const *, _STL::ostreambuf_iterator<char, _STL::char_traits<char> >, int>(char const *, char const *, _STL::ostreambuf_iterator<char, _STL::char_traits<char> >, _STL::random_access_iterator_tag const &, int *);

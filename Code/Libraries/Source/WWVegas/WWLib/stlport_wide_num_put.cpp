@@ -36,6 +36,8 @@ namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, void const *) const; }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_integer_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, int, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_float<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, unsigned short, unsigned short, basic_string<char, char_traits<char>, allocator<char> > const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -43,3 +45,9 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
 }
 template class _STL::num_put<wchar_t, _STL::ostreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >;
+// The two writers above are declared only; keep the retail helpers they
+// instantiated in this unit as explicit instantiations.
+template unsigned short * _STL::find<unsigned short *, unsigned short>(unsigned short *, unsigned short *, unsigned short const &);
+template _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> > _STL::__copy_aux<unsigned short const *, _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> > >(unsigned short const *, unsigned short const *, _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> >, _STL::__false_type const &);
+template _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> > _STL::fill_n<_STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> >, int, unsigned short>(_STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> >, int, unsigned short const &);
+template _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> > _STL::__copy<unsigned short const *, _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> >, int>(unsigned short const *, unsigned short const *, _STL::ostreambuf_iterator<unsigned short, _STL::char_traits<unsigned short> >, _STL::random_access_iterator_tag const &, int *);
