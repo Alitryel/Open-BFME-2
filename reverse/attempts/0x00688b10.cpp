@@ -1,4 +1,6 @@
 // ?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z
+// partial score=0.78 date=2026-10-18
+// ?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z
 // partial score=0.781863091410866 date=2026-10-16
 // cl: /Ireference/shims/iniexception /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
@@ -15,6 +17,8 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 #include "ascii_string.h"
+#include "unicode_string.h"
+template<> inline bool StringBase<unsigned short>::isEmpty() const throw() { return m_data == 0 || m_data->length == 0; }
 
 
 union SubtitleEntryBulk
@@ -188,141 +192,131 @@ static const char *const subtitleAlignments[] = {
 	"CENTER", "LEFT", "RIGHT", 0
 };
 
-// ?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z
-void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void *userData)
+void parseSubtitleText( INI *ini, void *, void *store, const void * )
 {
-	SubtitleManager *manager = (SubtitleManager *)TheVideoPlayer->getVideo(ini->getFilename());
-	if (manager == 0 || fieldContext == 0)
+	void *target = store;
+	SubtitleManager *manager = (SubtitleManager *)TheVideoPlayer->getVideo( ini->getFilename() );
+	if ( manager != 0 && target != 0 )
 	{
-		AsciiString filename = ini->getFilename();
-		throw INIException(9, "Could not locate SubTitleManager for %s", *(void **)&filename);
-	}
-
-	AsciiString label;
-	UnsignedInt color = 0;
-	Int style = 0x7fffffff;
-	Int alignment = 0x7fffffff;
-	Int line = 0x7fffffff;
-	Int startFrame = 0x7fffffff;
-	Int endFrame = 0x7fffffff;
-	const char *token = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-	while (token != 0)
+	UnicodeString text;
+	unsigned int color = 0;
+	int style = 0x7fffffff;
+	int align = 0x7fffffff;
+	int line = 0x7fffffff;
+	int startFrame = 0x7fffffff;
+	int endFrame = 0x7fffffff;
+	for ( const char *token = ini->getNextTokenOrNull( ini->m_defaultSeparators ); token != 0;
+		token = ini->getNextTokenOrNull( ini->m_defaultSeparators ) )
 	{
-		if (_strcmpi(token, "Label") == 0 && label.isEmpty())
+		if ( _stricmp( token, "Label" ) == 0 && text.isEmpty() )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_colonSeparators);
-			if (value == 0 || !label.isEmpty() || !((unsigned char (__cdecl *)(const char *,AsciiString *))manager->m_second)(value, &label))
+			const char *label = ini->getNextTokenOrNull( ini->m_colonSeparators );
+			if ( label == 0 || !text.isEmpty() || !((Bool (__cdecl *)(const char *,UnicodeString *))manager->m_second)(label, &text) )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8, "Invalid text label while parsing %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Invalid text label while parsing %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
 		}
-		else if (_strcmpi(token, "Color") == 0 && color == 0)
+		else if ( _stricmp( token, "Color" ) == 0 && color == 0 )
 		{
-			const char *channels[] = { "R", "G", "B" };
-			color = 0;
-			for (Int channel = 0; channel < 3; ++channel)
+			const char *names[ 3 ] = { "R", "G", "B" };
+			for ( int i = 0; i < 3; ++i )
 			{
-				const char *value = ini->getNextSubToken(channels[channel]);
-				Int component = ini->scanInt(value);
-				if (component < 0 || component > 255)
+				int value = ini->scanInt( ini->getNextSubToken( names[ i ] ) );
+				if ( value < 0 || value > 255 )
 				{
-					AsciiString filename = ini->getFilename();
-					throw INIException(3,
-						"color value %s=%i out of range (0..255) in %s on line %d",
-						channels[channel], component, *(void **)&filename, ini->getLineNum());
+					throw INIException( 3, "color value %s=%i out of range (0..255) in %s on line %d",
+						names[ i ], value, ini->getFilename(), ini->getLineNum() );
 				}
-				color = (color << 8) | component;
+				color = ( color << 8 ) | value;
 			}
 			color |= 0xff000000;
 		}
-		else if (_strcmpi(token, "Style") == 0 && style == 0x7fffffff)
+		else if ( _stricmp( token, "Style" ) == 0 && style == 0x7fffffff )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0)
+			const char *value = ini->getNextTokenOrNull( ini->m_defaultSeparators );
+			if ( value == 0 )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8, "Expected subtitle style type not found in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Expected subtitle style type not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
-			style = ini->scanIndexList(value, subtitleStyles);
+			style = ini->scanIndexList( value, subtitleStyles );
 		}
-		else if (_strcmpi(token, "Align") == 0 && alignment == 0x7fffffff)
+		else if ( _stricmp( token, "Align" ) == 0 && align == 0x7fffffff )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0)
+			const char *value = ini->getNextTokenOrNull( ini->m_defaultSeparators );
+			if ( value == 0 )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8, "Expected subtitle alignment type not found in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Expected subtitle alignment type not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
-			alignment = ini->scanIndexList(value, subtitleAlignments);
+			align = ini->scanIndexList( value, subtitleAlignments );
 		}
-		else if (_strcmpi(token, "Line") == 0 && line == 0x7fffffff)
+		else if ( _stricmp( token, "Line" ) == 0 && line == 0x7fffffff )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0)
+			const char *value = ini->getNextTokenOrNull( ini->m_defaultSeparators );
+			if ( value != 0 )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8,
-					"Expected subtitle line value for Line: not found in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				line = ini->scanInt( value ) - 1;
+				if ( line < 0 || line >= 15 )
+				{
+					throw INIException( 3, "Subtitle Line value %d out of range (%d..%d) in %s on line %d",
+						line, 1, 15, ini->getFilename(), ini->getLineNum() );
+				}
 			}
-			line = ini->scanInt(value) - 1;
-			if (line < 0 || line > 14)
+			else
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(3,
-					"Subtitle Line value %d out of range (%d..%d) in %s on line %d",
-					line, 1, 15, *(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Expected subtitle line value for Line: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
 		}
-		else if (_strcmpi(token, "StartFrame") == 0 && startFrame == 0x7fffffff)
+		else if ( _stricmp( token, "StartFrame" ) == 0 && startFrame == 0x7fffffff )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0)
+			const char *value = ini->getNextTokenOrNull( ini->m_defaultSeparators );
+			if ( value != 0 )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8,
-					"Expected subtitle StartFrame value for StartFrame: not found in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				startFrame = ini->scanInt( value );
+				if ( startFrame < 0 )
+				{
+					throw INIException( 3, "Subtitle StartFrame must be greater than 0 in %s on line %d",
+						ini->getFilename(), ini->getLineNum() );
+				}
 			}
-			startFrame = ini->scanInt(value);
-			if (startFrame < 0)
+			else
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(3,
-					"Subtitle StartFrame must be greater than 0 in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Expected subtitle StartFrame value for StartFrame: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
 		}
-		else if (_strcmpi(token, "EndFrame") == 0 && endFrame == 0x7fffffff)
+		else if ( _stricmp( token, "EndFrame" ) == 0 && endFrame == 0x7fffffff )
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0)
+			const char *value = ini->getNextTokenOrNull( ini->m_defaultSeparators );
+			if ( value != 0 )
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(8,
-					"Expected subtitle EndFrame value for EndFrame: not found in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				endFrame = ini->scanInt( value );
+				if ( endFrame < 0 )
+				{
+					throw INIException( 3, "Subtitle EndFrame must be greater than 0 in %s on line %d",
+						ini->getFilename(), ini->getLineNum() );
+				}
 			}
-			endFrame = ini->scanInt(value);
-			if (endFrame < 0)
+			else
 			{
-				AsciiString filename = ini->getFilename();
-				throw INIException(3,
-					"Subtitle EndFrame must be greater than 0 in %s on line %d",
-					*(void **)&filename, ini->getLineNum());
+				throw INIException( 8, "Expected subtitle EndFrame value for EndFrame: not found in %s on line %d",
+					ini->getFilename(), ini->getLineNum() );
 			}
 		}
 		else
 		{
-			throw INIException(3,
-				"bad colon spacing, or unexpected token in TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend");
+			throw INIException( 3, "bad colon spacing, or unexpected token in TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend" );
 		}
-		token = ini->getNextTokenOrNull(ini->m_defaultSeparators);
 	}
-	manager->addSubtitle(label, color, style, alignment, line,
-		startFrame, endFrame);
+	// The ledger types addSubtitle's first argument as AsciiString; retail
+	// passes this UnicodeString.
+	manager->addSubtitle( *(const AsciiString *)&text, color, style, align, line, startFrame, endFrame );
+	}
+	else
+	{
+		throw INIException( 9, "Could not locate SubTitleManager for %s", ini->getFilename() );
+	}
 }
