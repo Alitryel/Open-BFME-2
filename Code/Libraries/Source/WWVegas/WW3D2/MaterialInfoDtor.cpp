@@ -27,6 +27,13 @@ private:
 
 typedef RefCountPtr<TextureClass> TextureVectorCell;
 
+// The compiler-generated array deleting destructor takes the flags of its
+// first use. Instantiate retail's /O1 helper in an unemitted static function,
+// following TextureHandleAssignment.cpp, before the native vector cleanup.
+#pragma optimize("gsy", on)
+static void materialTextureDeleteAnchor(TextureVectorCell *cells) { delete[] cells; }
+#pragma optimize("", on)
+
 class TextureVectorBaseCtorShim
 {
 public:
@@ -71,6 +78,7 @@ private:
 	int ActiveCount, GrowthStep;
 };
 
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -83,6 +91,8 @@ protected:
 private:
 	int Count;
 };
+
+#pragma optimize("", on)
 
 class MaterialInfoClass : public RefCountClass
 {

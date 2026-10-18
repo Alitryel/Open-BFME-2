@@ -80,6 +80,8 @@ private:
 	unsigned char m_data[8];
 };
 
+// Retail links the size-optimized RefCountClass helpers from hlod.cpp.
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -92,6 +94,8 @@ protected:
 private:
 	int Count;
 };
+
+#pragma optimize("", on)
 
 class MaterialInfoClass : public RefCountClass
 {
