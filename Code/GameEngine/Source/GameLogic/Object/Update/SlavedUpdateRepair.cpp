@@ -70,6 +70,8 @@
 #include "Common/BfmeAudioEventPrefix136.h"
 
 typedef float Real;
+typedef unsigned int UnsignedInt;
+typedef unsigned char UnsignedByte;
 typedef int Int;
 typedef bool Bool;
 
@@ -236,12 +238,14 @@ typedef Rva00263895Member DamageInfo;
 
 enum DamageType
 {
-	DAMAGE_HEALING = 7
+	DAMAGE_HEALING = 7,
+	DAMAGE_UNRESISTABLE = 8
 };
 
 enum DeathType
 {
-	DEATH_NORMAL = 1
+	DEATH_NORMAL = 0,
+	DEATH_NONE = 1
 };
 
 class BodyModuleInterface
@@ -249,6 +253,11 @@ class BodyModuleInterface
 public:
 	virtual void slot00();
 	virtual void attemptHealing(DamageInfo *info);
+	virtual void slot02();
+	virtual void slot03();
+	virtual Real getHealth() const;
+	virtual void slot05();
+	virtual Real getMaxHealth() const;
 };
 
 class Weapon
@@ -285,10 +294,17 @@ private:
 	Real x, y, z;
 };
 
-class Matrix3D;
+// The object's transform at +0x08: three rows of four.
+class Matrix3D
+{
+public:
+	Real Row[3][4];
+};
 class Drawable
 {
 public:
+	void fadeOut(UnsignedInt frames);
+	void fadeIn(UnsignedInt frames);
 	Int getPristineBonePositions(const char *boneNamePrefix, Int startIndex,
 		Coord3D *positions, Matrix3D *transforms, Int maxBones, Int extra) const;
 };
@@ -425,9 +441,59 @@ public:
 	void rva002D9508(const void *src);
 };
 
+enum Relationship
+{
+	ENEMIES = 0,
+	NEUTRAL = 1,
+	ALLIES = 2
+};
+class Team
+{
+public:
+	Relationship getRelationship(const Team *that) const;
+};
+class ScoreKeeper
+{
+public:
+	void addObjectLost(const Object *o);
+};
+// The player's score keeper sits at +0x3BC.
+class Player
+{
+public:
+	ScoreKeeper *getScoreKeeper() { return &m_scoreKeeper; }
+private:
+	unsigned char m_pad000[0x3BC];
+	ScoreKeeper m_scoreKeeper; // +0x3BC
+};
+enum PathfindLayerEnum
+{
+	LAYER_INVALID = 0
+};
+enum ObjectPrivateStatusBits
+{
+	EFFECTIVELY_DEAD = 0x01
+};
+
 class Object : public Thing
 {
 public:
+	const Matrix3D *getTransformMatrix() const { return &m_transform; }
+	Team *getTeam() const { return m_team; }
+	Player *getControllingPlayer() const;
+	Bool isEffectivelyDead() const { return (m_privateStatus & EFFECTIVELY_DEAD) != 0; }
+	void kill(DamageType damageType = DAMAGE_UNRESISTABLE, DeathType deathType = DEATH_NORMAL);
+	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);	// 0x00298C76 Object::defect
+	Int rva0028B511() const;
+	void rva0028B4CE(PathfindLayerEnum layer);
+	// Inline ABI adapters only: emitting a wrapper would compete with the
+	// native Object accessors supplied by their existing ledger owners.
+	__declspec(dllimport) __forceinline PathfindLayerEnum getLayer() const { return (PathfindLayerEnum)rva0028B511(); }
+	__declspec(dllimport) __forceinline void setLayer(PathfindLayerEnum layer) { rva0028B4CE(layer); }
+	void clearWeaponBonusCondition(WeaponBonusConditionType wbc)
+	{
+		m_weaponBonusCondition &= ~(1 << wbc);
+	}
 	ObjectID getID() const { return m_id; }
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
@@ -466,7 +532,8 @@ public:
 		}
 	}
 private:
-	unsigned char m_pad000[0x38];
+	unsigned char m_pad000[0x08];
+	Matrix3D m_transform; // +0x08
 	Coord3D m_position; // +0x38
 	unsigned char m_pad044[0x74 - 0x44];
 	ObjectID m_id; // +0x74
@@ -477,8 +544,12 @@ private:
 	unsigned char m_pad158[0x254 - 0x158];
 	BodyModuleInterface *m_body; // +0x254
 	AIUpdateInterface *m_ai; // +0x258
-	unsigned char m_pad25C[0x380 - 0x25C];
+	unsigned char m_pad25C[0x304 - 0x25C];
+	Team *m_team; // +0x304
+	unsigned char m_pad308[0x380 - 0x308];
 	int m_weaponBonusCondition; // +0x380
+	unsigned char m_pad384[0x438 - 0x384];
+	UnsignedByte m_privateStatus; // +0x438
 };
 class ModuleData;
 class ObjectModule
@@ -596,12 +667,44 @@ public:
 template <> class AIUpdateSlots<0>
 {
 };
-// AIUpdateInterface: chooseLocomotorSet is primary slot 142 in BFME2; the
-// command interface is the subobject at +0x20.
-class AIUpdateInterface : public AIUpdateSlots<142>
+class AIUpdateSlotsIdle : public AIUpdateSlots<110>
+{
+public:
+	virtual Bool isIdle() const = 0;
+};
+template <int N> class AIUpdateSlotsHigh : public AIUpdateSlotsHigh<N - 1>
+{
+public:
+	virtual void gapHigh(char (*)[N]) = 0;
+};
+template <> class AIUpdateSlotsHigh<111> : public AIUpdateSlotsIdle
+{
+};
+class PathNode
+{
+public:
+	const Coord3D *getPosition() const { return &m_pos; }
+private:
+	unsigned char m_pad00[0x0C];
+	Coord3D m_pos; // +0x0C
+};
+class Path
+{
+public:
+	PathNode *getLastNode() const { return m_pathTail; }
+private:
+	unsigned char m_pad00[0x08];
+	PathNode *m_pathTail; // +0x08
+};
+// AIUpdateInterface: isIdle is primary slot 110 and chooseLocomotorSet slot
+// 142 in BFME2; the command interface is the subobject at +0x20 and the
+// current path is at +0x140.
+class AIUpdateInterface : public AIUpdateSlotsHigh<142>
 {
 public:
 	virtual bool chooseLocomotorSet(LocomotorSetType wst) = 0;
+	Object *getCurrentVictim() const;
+	Path *getPath() { return m_path; }
 	Locomotor *getCurLocomotor() { return m_curLocomotor; }
 	void aiIdle(CommandSourceType cmdSource) { m_commands.aiIdle(cmdSource); }
 	void aiGoProne(const DamageInfo *info, CommandSourceType cmdSource)
@@ -616,7 +719,9 @@ public:
 private:
 	unsigned char m_pad004[0x20 - 4];
 	AICommandInterface m_commands; // +0x20
-	unsigned char m_pad024[0x1F0 - 0x24];
+	unsigned char m_pad024[0x140 - 0x24];
+	Path *m_path; // +0x140
+	unsigned char m_pad144[0x1F0 - 0x144];
 	Locomotor *m_curLocomotor; // +0x1F0
 };
 class SlavedUpdateModuleData
@@ -645,12 +750,16 @@ public:
 	AsciiString m_weldingFXBone; // +0x50
 	Bool m_stayOnSameLayerAsMaster; // +0x54
 	Bool m_dieOnMastersDeath; // +0x55
-	unsigned char m_pad56[0x6C - 0x56];
+	unsigned char m_pad56[0x58 - 0x56];
+	Coord3D m_guardPositionOffset; // +0x58
+	Int m_fadeOutRange; // +0x64
+	UnsignedInt m_fadeTime; // +0x68
 	Bool m_markUnselectable; // +0x6C
 };
-extern int g_Va00E03BBC; // SLAVED_UPDATE_RATE
-// g_Va00E03BBC: matched references place it at VA 0xe03bbc (zero-filled .bss).
-int g_Va00E03BBC;
+// Native E03BBC is the mutable update interval. Initializer7B1A27 writes
+// logic frames/second divided by four; endRepair and update read it. The
+// original identifier is unknown; this source owns the zero-initialized int.
+int BfmeSlavedUpdateIntervalFrames;
 // SlavedUpdateInterface (vptr at +0x20), Zero Hour's slot order: retail
 // vftable 0x00851E30 holds getSlaverID, onEnslave 0x004A1BFD, onSlaverDie
 // 0x004A1C05, onSlaverDamage 0x004A1C59, isSelfTasking, then BFME2's
@@ -663,10 +772,15 @@ public:
 	virtual void onSlaverDie(const DamageInfo *info) = 0;
 	virtual void onSlaverDamage(const DamageInfo *info) = 0;
 	virtual Bool isSelfTasking() const = 0;
+	virtual Bool getUseSlaverAsControlForEvaObjectSightedEvents() const = 0;
+	virtual void suspendUpdate() = 0;
+	virtual Bool isUpdateSuspended() const = 0;
+	virtual Bool getDieOnMastersDeath() const = 0;
 };
 class SlavedUpdate : public UpdateModule, public SlavedUpdateInterface
 {
 public:
+	virtual UpdateSleepTime update();
 	virtual void onEnslave(const Object *slaver);
 	virtual void onSlaverDie(const DamageInfo *info);
 	virtual void onSlaverDamage(const DamageInfo *info);
@@ -687,6 +801,9 @@ private:
 	int m_framesToWait; // +0x34
 	RepairStates m_repairState; // +0x38
 	bool m_repairing; // +0x3C
+	ObjectID m_guardTargetID; // +0x40
+	Bool m_updateSuspended; // +0x44
+	Bool m_fadedOut; // +0x45
 };
 void SlavedUpdate::setRepairModelConditionStates(ModelConditionFlagType flag)
 {
@@ -705,7 +822,7 @@ void SlavedUpdate::endRepair()
 {
 	if (m_repairState != REPAIRSTATE_NONE)
 	{
-		m_framesToWait = g_Va00E03BBC;
+		m_framesToWait = BfmeSlavedUpdateIntervalFrames;
 		m_repairState = REPAIRSTATE_NONE;
 		m_repairing = false;
 		setRepairModelConditionStates(MODELCONDITION_PACKING);
@@ -953,7 +1070,7 @@ void SlavedUpdate::doRepairLogic()
 			DamageInfo healingInfo;
 			healingInfo.m_mem.m_1C = repairAmount;
 			healingInfo.m_mem.m_0C = DAMAGE_HEALING;
-			healingInfo.m_mem.m_18 = DEATH_NORMAL;
+			healingInfo.m_mem.m_18 = DEATH_NONE;
 			body->attemptHealing(&healingInfo);
 		}
 	}
@@ -1101,4 +1218,252 @@ void SlavedUpdate::startSlavedEffects(const Object *slaver)
 	Drawable *draw = getObject()->getDrawable();
 	if (draw)
 		((Rva002710AE *)draw)->rva002710AE((BuildListInfo *)slaver, (Arg2 *)(SlavedUpdateInterface *)this);
+}
+
+const Real CLOSE_ENOUGH = 15;
+const Real CLOSE_ENOUGH_SQR = (CLOSE_ENOUGH * CLOSE_ENOUGH);
+const Real LOGICFRAMES_PER_MSEC_REAL = ((Real)30) / ((Real)1000);
+
+class Vector3
+{
+public:
+	Real X;
+	Real Y;
+	Real Z;
+	Vector3() {}
+	Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
+};
+
+static __forceinline Vector3 transformSlavedPoint(const Matrix3D &A, const Vector3 &a)
+{
+	Real ry = A.Row[1][0] * a.X + A.Row[1][1] * a.Y + A.Row[1][2] * a.Z + A.Row[1][3];
+	Real rz = A.Row[2][0] * a.X + A.Row[2][1] * a.Y + A.Row[2][2] * a.Z + A.Row[2][3];
+	Real rx = A.Row[0][0] * a.X + A.Row[0][1] * a.Y + A.Row[0][2] * a.Z + A.Row[0][3];
+	return Vector3(rx, ry, rz);
+}
+
+
+// Native 0x004A265E..0x004A2BD1 (1395B). Zero Hour SlavedUpdate::update
+// supplies the master/slave repair, attack, scout, guard and leash structure;
+// target callers, the surrounding owned SlavedUpdate methods and native field
+// accesses establish the receiver, interfaces, added fade path and BFME2 ABI.
+UpdateSleepTime SlavedUpdate::update()
+{
+	if (m_framesToWait > 0)
+	{
+		m_framesToWait--;
+	}
+	if (m_repairState == REPAIRSTATE_NONE)
+	{
+		if (m_framesToWait > 0)
+		{
+			return UPDATE_SLEEP_NONE;
+		}
+		m_framesToWait = BfmeSlavedUpdateIntervalFrames;
+	}
+
+	if (m_slaver == INVALID_ID)
+		return UPDATE_SLEEP_NONE;
+
+	if (isUpdateSuspended())
+		return UPDATE_SLEEP_FOREVER;
+
+	const SlavedUpdateModuleData *data = getSlavedUpdateModuleData();
+	Object *me = getObject();
+	if (!me || !data)
+	{
+		return UPDATE_SLEEP_NONE;
+	}
+
+	if (data->m_dieOnMastersDeath)
+	{
+		Object *master = TheGameLogic->findObjectByID(m_slaver);
+		if (!master || master->isEffectivelyDead())
+		{
+			me->getControllingPlayer()->getScoreKeeper()->addObjectLost(me);
+			me->kill();
+			return UPDATE_SLEEP_FOREVER;
+		}
+	}
+
+	AIUpdateInterface *myAI = me->getAIUpdateInterface();
+	if (!myAI)
+	{
+		return UPDATE_SLEEP_NONE;
+	}
+	Locomotor *locomotor = myAI->getCurLocomotor();
+	if (!locomotor)
+	{
+		return UPDATE_SLEEP_NONE;
+	}
+
+	if (m_guardTargetID != INVALID_ID)
+	{
+		Object *guardTarget = TheGameLogic->findObjectByID(m_guardTargetID);
+		if (guardTarget && guardTarget->isEffectivelyDead())
+			guardTarget = NULL;
+		if (!guardTarget)
+			m_guardTargetID = INVALID_ID;
+	}
+
+	Object *master = TheGameLogic->findObjectByID(m_slaver);
+	if (!master || master->isEffectivelyDead())
+	{
+		stopSlavedEffects();
+		return UPDATE_SLEEP_NONE;
+	}
+	if (master->getTeam()->getRelationship(me->getTeam()) != ALLIES)
+	{
+		me->rva00298C76(master->getTeam(), 0);
+		stopSlavedEffects();
+		return UPDATE_SLEEP_FOREVER;
+	}
+
+	if (data->m_stayOnSameLayerAsMaster)
+		me->setLayer(master->getLayer());
+
+	master->clearWeaponBonusCondition(WEAPONBONUSCONDITION_DRONE_SPOTTING);
+
+	Object *target = NULL;
+	AIUpdateInterface *masterAI = master->getAIUpdateInterface();
+	if (masterAI)
+	{
+		target = masterAI->getCurrentVictim();
+	}
+
+	Int healthPercentage = 100;
+	if (data->m_repairRatePerSecond > 0.0f)
+	{
+		BodyModuleInterface *body = master->getBodyModule();
+		if (body)
+		{
+			Real health = body->getHealth();
+			Real maxHealth = body->getMaxHealth();
+			healthPercentage = (Int)(health / maxHealth * 100.0f);
+		}
+	}
+
+	if (healthPercentage <= data->m_repairWhenHealthBelowPercentage)
+	{
+		doRepairLogic();
+		return UPDATE_SLEEP_NONE;
+	}
+
+	if (data->m_attackRange)
+	{
+		if (target)
+		{
+			endRepair();
+			doAttackLogic(target);
+			return UPDATE_SLEEP_NONE;
+		}
+	}
+
+	if (data->m_scoutRange)
+	{
+		if (masterAI && masterAI->getPath())
+		{
+			const Coord3D *masterDest = masterAI->getPath()->getLastNode()->getPosition();
+			Real distSqr = master->rva002C97E8(master->getPosition(), masterDest);
+			if (distSqr > sqr(data->m_guardMaxRange * 0.5f))
+			{
+				endRepair();
+				doScoutLogic(masterDest);
+				return UPDATE_SLEEP_NONE;
+			}
+		}
+	}
+
+	if (healthPercentage < 100)
+	{
+		doRepairLogic();
+		return UPDATE_SLEEP_NONE;
+	}
+
+	// These two actual points occupy the native adjacent 12-byte homes.
+	// Construct the transform result directly: assigning it afterwards creates
+	// another return temporary and changes both the frame and SSE schedule.
+	struct GuardPoints
+	{
+		Vector3 transformed;
+		Coord3D pinned;
+		__forceinline GuardPoints(const Matrix3D &matrix, const Vector3 &offset)
+			: transformed(transformSlavedPoint(matrix, offset)) {}
+	} points(*master->getTransformMatrix(), Vector3(data->m_guardPositionOffset.x,
+		data->m_guardPositionOffset.y, data->m_guardPositionOffset.z));
+	Vector3 &v = points.transformed;
+	Coord3D &pinnedPosition = points.pinned;
+	pinnedPosition = *(Coord3D *)&v;
+
+	if (data->m_fadeOutRange)
+	{
+		if (me->getDistanceSquared(&pinnedPosition) <= sqr(data->m_fadeOutRange))
+		{
+			if (!m_fadedOut)
+			{
+				Drawable *draw = me->getDrawable();
+				if (draw)
+				{
+					draw->fadeOut((UnsignedInt)(data->m_fadeTime * LOGICFRAMES_PER_MSEC_REAL));
+					m_fadedOut = true;
+				}
+			}
+		}
+		else if (m_fadedOut)
+		{
+			Drawable *draw = me->getDrawable();
+			if (draw)
+			{
+				draw->fadeIn((UnsignedInt)(data->m_fadeTime * LOGICFRAMES_PER_MSEC_REAL));
+				m_fadedOut = false;
+			}
+		}
+	}
+
+	if (data->m_guardMaxRange)
+	{
+		// Keep the bank's equivalent lookup branches: MSVC merges them into
+		// the one native call, but flattening them changes its frame allocation.
+		Object *guardTarget = (m_framesToWait ? (TheGameLogic->findObjectByID(m_guardTargetID)) : (TheGameLogic->findObjectByID(m_guardTargetID)));
+		if (guardTarget)
+		{
+			endRepair();
+			Coord3D *guardPosition = (Coord3D *)&v;
+			guardPosition->set(guardTarget->getPosition());
+			doGuardLogic(guardPosition, false);
+		}
+		else if (myAI->isIdle())
+		{
+			if (me->getDistanceSquared(&pinnedPosition) > CLOSE_ENOUGH_SQR
+				|| me->getDistanceSquared(master->getPosition()) > sqr(data->m_guardMaxRange))
+			{
+				endRepair();
+				doGuardLogic(&pinnedPosition, false);
+			}
+		}
+		else if (myAI->getCurrentVictim())
+		{
+			if (me->getDistanceSquared(master->getPosition()) > sqr(data->m_guardMaxRange))
+			{
+				endRepair();
+				doGuardLogic(&pinnedPosition, true);
+			}
+		}
+	}
+
+	if (data->m_leashRange)
+	{
+		if (myAI->isIdle() || me->getDistanceSquared(master->getPosition()) > sqr(data->m_leashRange))
+		{
+			if (!myAI->isIdle())
+			{
+				me->setStatus(OBJECT_STATUS_SLAVE_RETURNING);
+				me->setModelConditionState(MODELCONDITION_SLAVE_RETURNING);
+			}
+			endRepair();
+			doGuardLogic(&pinnedPosition, false);
+		}
+	}
+
+	return UPDATE_SLEEP_NONE;
 }

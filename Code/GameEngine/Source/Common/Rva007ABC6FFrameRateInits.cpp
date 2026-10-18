@@ -51,7 +51,7 @@ extern int g_00E063E8;
 int g_00E063E8 = 0;	// owned here; retail .data starts it at 0
 extern int TheW3DFrameLengthInMsec;
 extern int g_Va00DFE18C;
-extern int g_Va00E03BBC;
+extern int BfmeSlavedUpdateIntervalFrames;
 extern unsigned g_00E063CC;
 unsigned g_00E063CC = 0;	// owned here; retail .data starts it at 0
 extern unsigned int g_00DFEE08;
@@ -253,7 +253,7 @@ void Rva007ABC6FFrameRateInits::rva007B15B2()
 // ?rva007B1A27@Rva007ABC6FFrameRateInits@@SAXXZ @ 0x007B1A27 (17B): global at VA 0x00E03BBC, named as the TU that reads it names it
 void Rva007ABC6FFrameRateInits::rva007B1A27()
 {
-	g_Va00E03BBC = BfmeLogicFramesPerSecond / 4;
+	BfmeSlavedUpdateIntervalFrames = BfmeLogicFramesPerSecond / 4;
 }
 
 // ?rva007B3B50@Rva007ABC6FFrameRateInits@@SAXXZ @ 0x007B3B50 (16B): global at VA 0x00E05F24, named as the TU that reads it names it
