@@ -31,8 +31,16 @@ BfmeRefVGO::BfmeRefVGO(const BfmeRefVGO &other)
 // of bfmeAssignVGO in BfmeConv1355.cpp: decrement, dropping the shared block
 // when the count reaches zero. Dec resolves through the rowed Rva006CFDF0DecRef
 // leaf, drop through the bfmeDropVGO pin at 0x006D0440.
-BfmeRefVGO::~BfmeRefVGO()
+// Rva006CDE50Collect.cpp emits a select-any copy of this same body for its
+// unwind path; defined inline-noinline here too so the name keeps one body.
+inline __declspec(noinline) BfmeRefVGO::~BfmeRefVGO()
 {
     if (m_bfmeP && bfmeDecVGO(m_bfmeP) == 0)
         bfmeDropVGO(m_bfmeP);
+}
+
+// ?bfmeAnchorBfmeRefVGODtor absent-from-retail
+void bfmeAnchorBfmeRefVGODtor(BfmeRefVGO *p)
+{
+    p->BfmeRefVGO::~BfmeRefVGO();
 }
