@@ -88,4 +88,11 @@ extern PFN_D3DXFilterTexture __identifier("_imp__D3DXFilterTexture@16");
 HRESULT __stdcall D3DXFilterTexture(LPDIRECT3DBASETEXTURE9 pBaseTexture, const PALETTEENTRY *pPalette, UINT SrcLevel, DWORD MipFilter) {
  return __identifier("_imp__D3DXFilterTexture@16")(pBaseTexture, pPalette, SrcLevel, MipFilter);
 }
+
+// _D3DXLoadSurfaceFromMemory@40
+typedef HRESULT (__stdcall *PFN_D3DXLoadSurfaceFromMemory)(LPDIRECT3DSURFACE9, const PALETTEENTRY *, const RECT *, LPCVOID, D3DFORMAT, UINT, const PALETTEENTRY *, const RECT *, DWORD, D3DCOLOR);
+extern PFN_D3DXLoadSurfaceFromMemory __identifier("_imp__D3DXLoadSurfaceFromMemory@40");
+HRESULT __stdcall D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface, const PALETTEENTRY *pDestPalette, const RECT *pDestRect, LPCVOID pSrcMemory, D3DFORMAT SrcFormat, UINT SrcPitch, const PALETTEENTRY *pSrcPalette, const RECT *pSrcRect, DWORD Filter, D3DCOLOR ColorKey) {
+ return __identifier("_imp__D3DXLoadSurfaceFromMemory@40")(pDestSurface, pDestPalette, pDestRect, pSrcMemory, SrcFormat, SrcPitch, pSrcPalette, pSrcRect, Filter, ColorKey);
+}
 }
