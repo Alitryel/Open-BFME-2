@@ -1,9 +1,4 @@
 // ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.9279 date=2026-10-15
-// ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.9 date=2026-10-14
-// ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
-// partial score=0.8926492984108162 date=2026-10-10
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 
 typedef float Real;
@@ -20,10 +15,8 @@ float Sin(float);
 
 struct In002E6BA1 { Int x,y; };
 
-struct IRegion2D
-{
-	Int loX, loY, hiX, hiY;
-};
+#include "ICoord2D.h"
+#include "IRegion2D.h"
 
 class Overridable
 {
@@ -140,23 +133,25 @@ void Pathfinder::rva0052E4C9(Object *fenceObject, Bool insertFence)
 	Real tl_y = fencePosition->y + halfsizeY * c - fenceOffset * s;
 
 
-	for (Int iy = numStepsY;0 < iy; --iy, tl_x += ydx, tl_y += ydy)
+	for (Int iy = numStepsY; 0 < iy; --iy, tl_x += ydx, tl_y += ydy)
 	{
 		Real x = tl_x;
 		Real y = tl_y;
-		for (Int ix = numStepsX; ix > 0; --ix, x += xdx, y += xdy)
+		for (Int ix = numStepsX; 0 < ix; --ix, x += xdx, y += xdy)
 		{
 			Int cx = RealToIntFloor((x + 0.5f) / PATHFIND_CELL_SIZE_F);
 			Int cy = RealToIntFloor((y + 0.5f) / PATHFIND_CELL_SIZE_F);
 
-			if (cx >= 0 && cy >= 0 && cx < m_extent.hiX && cy < m_extent.hiY)
+			if (cx >= 0 && cy >= 0 && cx < m_extent.hi.x && cy < m_extent.hi.y)
 			{
-				Bool changed;
 				if (insertFence) {
 					In002E6BA1 cellPos={cx,cy};
-					changed=m_map[cx][cy].rva0052DEEF((const Rva0052DEEFArg *)fenceObject,true,&cellPos);
-				} else changed=m_map[cx][cy].rva0052DFB1((const Rva0052DFB1Arg *)fenceObject);
-				if(changed)m_zoneManager.MarkDirty(cx,cy);
+					if(m_map[cx][cy].rva0052DEEF((const Rva0052DEEFArg *)fenceObject,true,&cellPos))
+						m_zoneManager.MarkDirty(cx,cy);
+				} else {
+					if(m_map[cx][cy].rva0052DFB1((const Rva0052DFB1Arg *)fenceObject))
+						m_zoneManager.MarkDirty(cx,cy);
+				}
 			}
 		}
 	}
