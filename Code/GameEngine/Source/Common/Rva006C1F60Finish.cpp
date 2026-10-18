@@ -124,6 +124,8 @@ class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
 class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
+	unsigned int rva006C1FE0(char *base, int length, char **bodyOut);
+	unsigned int rva006C2510(char *block, int mode, char **outBody);
 	void *rva006C2010Run6(void *block, unsigned int size, unsigned short kind, void *dst, unsigned int capacity, unsigned int *outLen);
 	void rva006C2AA0(unsigned char fillFree, unsigned char fillDelayedFree,
 		unsigned char fillNew, unsigned char fillGuard, unsigned char fillUnusedCore);
@@ -301,4 +303,50 @@ int Rva006C1F60::rva006C1DC0(unsigned int block) {
  }
  return 0;
 success:return 1;
+}
+
+// Native 006C2510..006C25E6, 214 bytes, RET12. The allocator lock, mode
+// override at +67C and optional record lookup at +680/+684 are independently
+// established by the sibling 006C25F0 reader. The inline path reads the
+// trailing unsigned 16-bit length; the record path uses the same member
+// reader at 006C1FE0. The original public method name remains unproved.
+unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **outBody)
+{
+	Rva00030DD0Lock *lock = m_lock;
+	if (lock)
+		Rva00030DD0AddRef(lock);
+	unsigned int result = 0;
+	int gate = mode;
+	if (mode == 2)
+		gate = *(int *)((char *)this + 0x67C);
+	if (!gate) {
+		// Allocated data starts after the two header words. The free-only
+		// m_prev/m_next links overlap that data; sizeof(Chunk) includes them.
+		// Deriving both views from the header also retains retail's distinct
+		// base/size register lifetimes without the bank's volatile self-read.
+		GeneralAllocatorChunk *chunk = (GeneralAllocatorChunk *)(block - 8);
+		unsigned int h = chunk->m_size;
+		unsigned int size;
+		if (!(h & 2))
+			size = (h & 0x7FFFFFF8) + 4;
+		else
+			size = h & 0x7FFFFFF8;
+		char *base = (char *)chunk + 2 * sizeof(unsigned int);
+		unsigned short bodySize = *(unsigned short *)(size + base - 10);
+		char *body = (char *)((size - bodySize) + base - 10);
+		if (outBody)
+			*outBody = body;
+		result = bodySize + 2;
+	} else if (*(bool *)((char *)this + 0x680)) {
+		void *out = 0;
+		if (((Rva006C1850 *)((char *)this + 0x684))->rva006C1850((unsigned int)block, &out) && out) {
+			char *bytes = *(char **)out;
+			unsigned short len = *(unsigned short *)bytes;
+			if (len)
+				result = rva006C1FE0(bytes + 2, len - 2, outBody);
+		}
+	}
+	if (lock)
+		Rva00030DF0Release(lock);
+	return result;
 }
