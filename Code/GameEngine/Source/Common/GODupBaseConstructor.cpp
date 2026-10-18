@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 
 // Open-BFME5: GODupBase's constructor, retail 0x001B0D20, 85 bytes. The body
 // carried only a machine byte-dump row; reverse/reloc_names.csv holds the name
@@ -13,11 +13,15 @@
 // The frame carries one unwind state, for the root base, because the
 // SubsystemInterface constructor is a call that can throw.
 
+// Retail ctor 0x00306782 unwinds through 0x00779B36 to the
+// canonical Snapshot destructor at 0x0049B47C.
+#include "Common/Snapshot.h"
+
 class BfmeSnapshotBase
 {
 public:
 	virtual void bfmeSlot0(void);
-	~BfmeSnapshotBase();
+	~BfmeSnapshotBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h

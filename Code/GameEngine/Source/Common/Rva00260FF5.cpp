@@ -43,11 +43,19 @@ public:
 	Rva00260FF5Module *m_body254;
 };
 
+// The native unwind at 0x00772D57 calls the rowed filter destructor
+// at 0x0049C38A, which restores the partition-filter base vptr.
+class PartitionFilterRejectByKindOf
+{
+public:
+	virtual ~PartitionFilterRejectByKindOf();
+};
+
 class Rva00260FF5Base
 {
 public:
 	Rva00260FF5Base() : m_unmodelled_04(0) {}
-	~Rva00260FF5Base();
+	~Rva00260FF5Base() { reinterpret_cast<PartitionFilterRejectByKindOf *>(this)->PartitionFilterRejectByKindOf::~PartitionFilterRejectByKindOf(); }
 
 protected:
 	const void *const *m_vftable;

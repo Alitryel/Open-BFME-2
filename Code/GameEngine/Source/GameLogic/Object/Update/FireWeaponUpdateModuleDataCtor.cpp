@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG /Ireference/shims/moduledata
 //
 // ??0FireWeaponUpdateModuleData@@QAE@XZ, retail 0x0048BC03, 67 bytes.
 // Target identity: ModuleFactory registers data factory 0x24CF56 for
@@ -47,10 +47,14 @@ private:
 
 }
 
+// Retail unwind 0x0078C551 tail-calls the Snapshot destructor at
+// 0x0049B47C. Use the canonical body, as FloodUpdateModuleData does.
+#include "Common/Snapshot.h"
+
 class Rva0048BC03BaseBase
 {
 public:
-	~Rva0048BC03BaseBase();
+	~Rva0048BC03BaseBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class FireWeaponUpdateModuleData : public Rva0048BC03BaseBase

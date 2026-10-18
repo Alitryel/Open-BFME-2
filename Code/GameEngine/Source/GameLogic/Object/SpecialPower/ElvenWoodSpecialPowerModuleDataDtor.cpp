@@ -33,7 +33,9 @@ struct RvaPair004C3D4C
 {
 	AsciiString m_key;
 	int m_value;
-	~RvaPair004C3D4C();
+	// The retail 0x0032C0CA loop destroys only the key at each 8-byte stride.
+	// Let member destruction bind to the rowed AsciiString destructor.
+	~RvaPair004C3D4C() {}
 };
 
 class SpecialPowerModuleData
