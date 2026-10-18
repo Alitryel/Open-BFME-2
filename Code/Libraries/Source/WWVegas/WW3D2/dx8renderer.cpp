@@ -635,6 +635,13 @@ void DX8FVFCategoryContainer::Change_Polygon_Renderer_Texture(
 struct RetailMeshModelFlagView { char _pad[0x18]; int Flags; char SortLevel; };
 struct RetailMeshMatDescView { char _pad[0x10]; void * UV[8]; };
 struct RetailMeshModelLayoutView { char _pad[0x94]; RetailMeshMatDescView * CurMatDesc; };
+// Retail MeshClass::Peek_Model (decalmsh.cpp's 7 B row) loads Model at
+// mesh+0x94; this TU's ZH header places Model at +0xC4, so the inline body it
+// would emit is a stale view that would take the name from decalmsh. Read the
+// pointer here instead of emitting that copy.
+struct RetailMeshClassView { char _pad[0x94]; MeshModelClass * Model; };
+static MeshModelClass * RetailMeshClass_Peek_Model(MeshClass * mesh)
+{ return ((RetailMeshClassView *)mesh)->Model; }
 static int RetailMeshModel_Get_Flag(const MeshModelClass * mmc,int flag)
 { return ((const RetailMeshModelFlagView *)mmc)->Flags & flag; }
 static int RetailMeshModel_Get_UV_Array_Count(const MeshModelClass * mmc)
@@ -864,41 +871,14 @@ public:
 		return mmc->Peek_Single_Texture(pass,stage);
 	}
 
-	VertexMaterialClass* Peek_Material(unsigned idx,unsigned pass)
-	{
-		if (mmc->Has_Material_Array(pass)) {
-			if (idx>=unsigned(mmc->Get_Polygon_Count())) {
-				WWASSERT(mmc->Get_Gap_Filler());
-				return mmc->Get_Gap_Filler()->Get_Material_Array(pass)[idx-mmc->Get_Polygon_Count()];
-			}
-			return mmc->Peek_Material(mmc->Get_Polygon_Array()[idx][0],pass);
-		}
-		return mmc->Peek_Single_Material(pass);
-	}
+	// Retail bodies live in other units (Peek_Material: the 70 B row in
+	// DX8GenerateTextureCategoriesBFME2.cpp; Peek_Shader: the 131 B row in
+	// VertexSplitTablePeekShader.cpp). Declared only: the emitter's versions
+	// were stale non-retail bodies that, sitting at this unit's early link
+	// position, became the definition the link kept and blocked those owners.
+	VertexMaterialClass* Peek_Material(unsigned idx,unsigned pass);
 
-	ShaderClass Peek_Shader(unsigned idx,unsigned pass)
-	{
-		if (mmc->Has_Shader_Array(pass)) {
-			ShaderClass shader;
-			
-			if (idx>=unsigned(mmc->Get_Polygon_Count())) {
-				WWASSERT(mmc->Get_Gap_Filler());
-				shader=mmc->Get_Gap_Filler()->Get_Shader_Array(pass)[idx-mmc->Get_Polygon_Count()];
-			}
-			else shader=mmc->Get_Shader(idx,pass);
-
-			if (npatch_enable) {
-				shader.Set_NPatch_Enable(ShaderClass::NPATCH_ENABLE);
-			}
-
-			return shader;
-		}
-		if (!npatch_enable) return mmc->Get_Single_Shader(pass);
-		ShaderClass shader=mmc->Get_Single_Shader(pass);
-		shader.Set_NPatch_Enable(ShaderClass::NPATCH_ENABLE);
-		return shader;
-
-	}
+	ShaderClass Peek_Shader(unsigned idx,unsigned pass);
 
 	MeshModelClass* Get_Mesh_Model_Class()
 	{
@@ -911,6 +891,23 @@ public:
 	}
 };
 
+// The split-table views above no longer instantiate the mesh-model accessors
+// inline, but two kinds of copies this unit must keep emitting would then be
+// lost, so take their addresses (the inline-anchor pattern):
+//   - the 11 B GapFillerClass getters, this unit's own matched rows;
+//   - the MeshModelClass/MeshMatDescClass accessors below. This unit emits the
+//     first copy in link order (position ~1402) and holds retail's body;
+//     dynamesh.obj/shattersystem.obj carry stale copies later, so dropping
+//     these here would hand those names to a non-retail definition and block
+//     the units that link against them (MeshModelClassGetSortFlagsPass,
+//     MeshModelMaterialAccessors).
+extern VertexMaterialClass** (GapFillerClass::*const _bfmeGapFillerMaterialArray)(int) const = &GapFillerClass::Get_Material_Array;
+extern ShaderClass* (GapFillerClass::*const _bfmeGapFillerShaderArray)(int) const = &GapFillerClass::Get_Shader_Array;
+extern ShaderClass (MeshModelClass::*const _bfmeShieldMmcSingleShader)(int) const = &MeshModelClass::Get_Single_Shader;
+extern ShaderClass (MeshMatDescClass::*const _bfmeShieldMmdSingleShader)(int) const = &MeshMatDescClass::Get_Single_Shader;
+extern bool (MeshModelClass::*const _bfmeShieldHasMaterialArray)(int) const = &MeshModelClass::Has_Material_Array;
+extern bool (MeshModelClass::*const _bfmeShieldHasShaderArray)(int) const = &MeshModelClass::Has_Shader_Array;
+
 // ----------------------------------------------------------------------------
 
 // ?Add_Mesh@DX8RigidFVFCategoryContainer@@ present-unmatched
@@ -920,6 +917,15 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
 
 	Vertex_Split_Table split_table(mmc_);
 	int needed_vertices=split_table.Get_Vertex_Count();
+
+	// Peek_Shader's `ShaderClass shader;` local was this unit's direct use of
+	// ShaderClass's default ctor, giving it retail's inlined-Reset body; with
+	// Peek_Shader declaration-only, the booking struct's ShaderClass array
+	// below emits the call-through-Reset form instead. Keep a direct use here
+	// (observed through a volatile read, so it cannot be eliminated) so this
+	// unit's copy stays retail's.
+	ShaderClass shader_anchor;
+	*(volatile int*)&shader_anchor;
 
 	/*
 	** This FVFCategoryContainer doesn't have a vertex buffer yet so allocate one big
@@ -1196,7 +1202,7 @@ void DX8SkinFVFCategoryContainer::Render(void)
 
 			while (mesh != NULL) {
 
-				MeshModelClass * mmc = mesh->Peek_Model();
+				MeshModelClass * mmc = RetailMeshClass_Peek_Model(mesh);
 				int mesh_vertex_count=mmc->Get_Vertex_Count();
 				//'Generals' mod to deal with cases where not all meshes fit in VB.
 				if (vertex_offset+mesh_vertex_count > maxVertexCount || remainingMesh)
