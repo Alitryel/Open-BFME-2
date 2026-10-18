@@ -87,10 +87,17 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+// ProductionUpdate's UpdateModuleInterface table (0x00C514F4): update and the
+// getDisabledTypesToProcess override, then UpdateModule's 0x0044DF8D.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template <int NUM_BITS> class BitFlags { unsigned int m_bits[(NUM_BITS + 31) / 32]; };
+typedef BitFlags<11> DisabledMaskType;
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual DisabledMaskType getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -98,6 +105,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 private:
 	unsigned m_nextCallFrameAndPhase;
 	int m_indexInLogic;
@@ -146,6 +154,8 @@ class ProductionUpdate : public UpdateModule, public Rva0049E03AIface20, public 
 public:
 	~ProductionUpdate();	// rowed out of line; this view must not emit its own
 	ProductionUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual UpdateSleepTime update();
+	virtual DisabledMaskType getDisabledTypesToProcess() const;
 
 private:
 	int m_28;

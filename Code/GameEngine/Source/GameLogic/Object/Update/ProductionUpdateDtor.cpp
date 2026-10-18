@@ -64,11 +64,15 @@ public:
 	~PrimaryP() {}
 };
 
+// ProductionUpdate's UpdateModuleInterface table (0x00C514F4): update and the
+// getDisabledTypesToProcess override, then UpdateModule's 0x0044DF8D.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 class Rva0024A797_B2
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
 	virtual DisabledMaskType getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime sleep) = 0;
 	int m_pad2[3];
 };
 
@@ -76,6 +80,7 @@ class UpdateModule : public PrimaryP, public Rva0024A797_B2
 {
 public:
 	virtual ~UpdateModule();
+	virtual void rva0044DF8D(UpdateSleepTime sleep);
 };
 
 class Iface20
@@ -120,6 +125,7 @@ class ProductionUpdate : public UpdateModule, public Iface20, public Iface24
 {
 public:
 	virtual ~ProductionUpdate();
+	virtual UpdateSleepTime update();
 	virtual DisabledMaskType getDisabledTypesToProcess() const;
 private:
 	const ProductionUpdateModuleData *getProductionUpdateModuleData() const
