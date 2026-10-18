@@ -1,23 +1,21 @@
 // _LoopDeringBlock
-// partial score=0.949618 date=2026-10-15
+// partial score=0.9908396946564886 date=2026-10-18
 // Clean-Room: reverse/vp6_cleanroom/specs/001d8b40.md
-// Whole current LoopFilter.cpp plus the complete spec-based LoopDeringBlock.
-// Current target 0x001D8B40..0x001D8DCF: 655B, no relocations or callees.
-// This bank emits655B with33 fixed-offset differing bytes (622/655 equal).
-// Removed the former bank's uninitialized threshold conditional, redundant
-// equal-arm expressions and compiler barriers. Retail separately reads the
-// horizontal center byte; the volatile lvalue preserves that observed read.
-// Its selected threshold is spilled then reloaded before the signed range add;
-// the local volatile read expresses this without an uninitialized value.
-// Remaining differences: threshold reuses the context argument stack slot
-// (+44 versus retail+14), rotating row/pointer/counter homes, plus short
-// threshold-update instruction scheduling. Both filter-loop instruction
-// sequences agree after accounting for those stack slots.
-// 209 deterministic emulator cases (seed1D8B40) agree with retail and an
-// independent spec model: zero dimensions,1..16 widths/heights, row pitches,
-// flat/random bytes and threshold tables; full buffer/context and cdecl
-// callee-saved registers/stack preserved. This is NOT byte-exact recovery.
-// cl: /O2 /DNDEBUG /MD
+// Spec and retail only; no external decoder source was consulted.
+// Complete native 001D8B40..001D8DCF: 655 bytes and no relocations/callees.
+// This body emits655 bytes with649 fixed-offset bytes equal to retail.
+// The remaining six bytes are three instructions: the threshold adjustment
+// accumulates into EAX instead of EDX, so the final threshold store and buffer
+// reload are scheduled in the opposite order. Both filtering loops are exact.
+// Reusing the expired instance argument as the row/current-pixel cursor gives
+// the native stack homes. An explicit width guard gives the native empty-row
+// branch. The signed span and unsigned wrapping addition define every table
+// value; observed center and selected-level reads remain explicit.
+// 353 seeded retail/candidate/independent-spec cases agree on the whole pixel
+// buffer, unchanged context, native stack/argument bytes, cdecl ESP and saved
+// registers: every0..16 dimension, varied pitches and full32-bit thresholds.
+// This is a banked partial, not byte-exact recovery.
+// cl: -O2 -DNDEBUG -MD
 // Clean room: reverse/vp6_cleanroom/specs/001c0af0.md and
 // reverse/vp6_cleanroom/specs/001c1120.md plus retail only.
 // No decoder source was consulted.
@@ -371,7 +369,7 @@ extern "C" void __cdecl LoopFilter(Vp6LoopFilterInstance *ctx, int frameQIndex,
 
 #include <stdlib.h>
 #include <string.h>
-extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *buffer,unsigned int stride,unsigned int width,unsigned int height)
+extern "C" void LoopDeringBlock(void *instance,unsigned char *buffer,unsigned int stride,unsigned int width,unsigned int height)
 {
     unsigned int x,y;
     unsigned char minimum=255,maximum=0;
@@ -379,7 +377,7 @@ extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *bu
     unsigned int high;
     int threshold;
     unsigned char temp[16];
-    unsigned char *row;
+
     for (y=0;y<height;++y) {
         for (x=0;x<width;++x) {
             unsigned char pixel=*scan;
@@ -389,16 +387,18 @@ extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *bu
         }
         scan+=stride-width;
     }
+    Vp6LoopFilterInstance *context=static_cast<Vp6LoopFilterInstance *>(instance);
     high=context->deringThreshold[maximum];
     threshold=(int)context->deringThreshold[255-minimum];
     if((unsigned int)threshold<=high)threshold=(int)high;
-    threshold=*(volatile int *)&threshold;
-    threshold+=((maximum-minimum)>>5);
+    int range=maximum-minimum;
+    threshold=(int)((unsigned int)*(volatile int *)&threshold+(unsigned int)(range>>5));
 
-    row=buffer;
+    instance=buffer;
     for (y=0;y<height;++y) {
 
-        unsigned char *current=row;
+        if (width>0) {
+        unsigned char *current=static_cast<unsigned char *>(instance);
         for (x=0;x<width;++x) {
             int diffRight=abs(current[0]-current[1]);
             int diffLeft=abs(current[0]-current[-1]);
@@ -408,23 +408,24 @@ extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *bu
             temp[x]=(unsigned char)((sum+2)>>2);
             ++current;
         }
-        memcpy(row,temp,width);
-        row+=stride;
+        }
+        memcpy(instance,temp,width);
+        instance=static_cast<unsigned char *>(instance)+stride;
     }
     for (x=0;x<width;++x) {
-        unsigned char *current=buffer+x;
-        unsigned char *above=current-stride;
-        unsigned char *below=current+stride;
+        instance=buffer+x;
+        unsigned char *above=static_cast<unsigned char *>(instance)-stride;
+        unsigned char *below=static_cast<unsigned char *>(instance)+stride;
         unsigned char *destination;
         for (y=0;y<height;++y) {
-            int diffBottom=abs(*current-*below);
-            int diffTop=abs(*current-*above);
-            int sum=2*(*current);
-            if(diffTop<=threshold)sum+=*above; else sum+=*current;
-            if(diffBottom<=threshold)sum+=*below; else sum+=*current;
+            int diffBottom=abs(*static_cast<unsigned char *>(instance)-*below);
+            int diffTop=abs(*static_cast<unsigned char *>(instance)-*above);
+            int sum=2*(*static_cast<unsigned char *>(instance));
+            if(diffTop<=threshold)sum+=*above; else sum+=*static_cast<unsigned char *>(instance);
+            if(diffBottom<=threshold)sum+=*below; else sum+=*static_cast<unsigned char *>(instance);
             temp[y]=(unsigned char)((sum+2)>>2);
             above+=stride;
-            current+=stride;
+            instance=static_cast<unsigned char *>(instance)+stride;
             below+=stride;
         }
         destination=buffer+x;
