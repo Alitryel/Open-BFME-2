@@ -143,7 +143,8 @@ void UpgradeCenter::linkUpgrade(UpgradeTemplate *upgrade)
 // temporary 0x9C-byte template. These are target-specific adaptations.
 // Keep the matched lookup visible: it preserves EDX across the lookup,
 // reproducing the parser's cached-centre register without a duplicate TU.
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 enum INILoadType
 {
@@ -198,7 +199,53 @@ private:
 };
 
 extern UpgradeCenter *TheUpgradeCenter;
-extern const FieldParse g_00BFA6E8[];
+struct LookupListRec { const char *name; int value; };
+// The retail lookup list at RVA 0x009BB588 (1 names and the null terminator).
+extern const LookupListRec g_00DBB588[2] = { { "PLAYER", 12561024 }, { 0, 0 } };
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseStringAsNameKeyType@NameKeyGenerator@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva004DBFF1Parse@@YAXPAVINI@@PAX1PBX@Z")();
+}
+// The retail table at 0x007FA6E8: 26 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00BFA6E8[27] = {
+	{ "DisplayName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
+	{ "Tooltip", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x2C },
+	{ "Type", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBB588, 0x4 },
+	{ "BuildTime", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x30 },
+	{ "BuildCost", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x34 },
+	{ "ButtonImage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x6C },
+	{ "ResearchSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x40 },
+	{ "ResearchCompleteEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x44 },
+	{ "UnitSpecificSound", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x48 },
+	{ "UpgradeFX", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x3C },
+	{ "LocalPlayerGainsUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4C },
+	{ "AlliedPlayerGainsUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x50 },
+	{ "EnemyPlayerGainsUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x54 },
+	{ "LocalPlayerLosesUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x58 },
+	{ "AlliedPlayerLosesUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x5C },
+	{ "EnemyPlayerLosesUpgradeEvaEvent", (FieldParseProc)&__identifier("?Rva001DEE74Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x60 },
+	{ "Cursor", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x74 },
+	{ "PersistsInCampaign", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x78 },
+	{ "NoUpgradeDiscount", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x79 },
+	{ "SubUpgradeTemplateNames", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "UseObjectTemplateForCostDiscount", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x7C },
+	{ "RequiredObjectFilter", (FieldParseProc)&__identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x80 },
+	{ "GroupName", (FieldParseProc)&__identifier("?parseStringAsNameKeyType@NameKeyGenerator@@SAXPAVINI@@PAX1PBX@Z"), 0, 0x84 },
+	{ "GroupOrder", (FieldParseProc)&__identifier("?parseUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x88 },
+	{ "StrategicIcon", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8C },
+	{ "SkirmishAIHeuristic", (FieldParseProc)&__identifier("?Rva004DBFF1Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x98 },
+	{ 0, 0, 0, 0 }
+};
 
 static const INILoadType INI_LOAD_BFME_TYPE_5 = (INILoadType)5;
 
