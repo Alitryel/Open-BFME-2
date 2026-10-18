@@ -37,18 +37,6 @@ PUBLIC ?rva0075D660@@YAXXZ
     ret
 ?rva0075D660@@YAXXZ ENDP
 
-; Unwind@00b5e987: 22-byte masked-add funclet with add 0C8h tail-jumps to EmissionVelocityInfo dtor.
-PUBLIC ?rva0075E987@@YAXXZ
-?rva0075E987@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-20]
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 0C8h
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1EmissionVelocityInfo@FXParticleSystem@@UAE@XZ
-?rva0075E987@@YAXXZ ENDP
-
 ; Unwind@00b5fb4f: 255 20-byte elements at [ebp-0x10] + 0x2c.
 PUBLIC ?rva0075FB4F@@YAXXZ
 ?rva0075FB4F@@YAXXZ PROC

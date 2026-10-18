@@ -491,18 +491,6 @@ cleanup_done_007695F4:
     ret
 ?rva007695F4@@YAXXZ ENDP
 
-; Unwind@00b69a4e: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
-PUBLIC ?rva00769A4E@@YAXXZ
-?rva00769A4E@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Gen_uw_0049b47c@@QAE@XZ
-?rva00769A4E@@YAXXZ ENDP
-
 ; Unwind@00b69dec: state bit 1 at [ebp-16]; cleanup transfer at [ebp-20].
 PUBLIC ?rva00769DEC@@YAXXZ
 ?rva00769DEC@@YAXXZ PROC
