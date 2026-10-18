@@ -260,10 +260,6 @@ private:
 	Real m_mapMaxZ;										// +0x1920
 };
 
-Rva00062A7EProduct::Rva00062A7EProduct() : m_mapMinZ(0), m_mapMaxZ(1)
-{
-	m_18 = 0;
-}
 
 // Native getWaypointByID28333F and xfer identify the +56C waypoint-ID cache.
 // Its ctor chain is 33C432 -> 1F068F -> 1F0534; retain the typed providers
