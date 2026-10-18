@@ -1,11 +1,13 @@
 // cl: /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// BFME2 retail's Render2D layout uses an STLport vector of 0x74-byte ProxyClass
-// records. The live 1.06.2429.30210 snapshot has the same .text as the audited
-// image; Ghidra shows Reset clearing Batches at +0x34, appending one initialized
-// ProxyClass, then selecting CurrentBatch from Texture at +0x40.
+// BFME2 retail's Render2D layout uses an STLport vector of 0x74-byte BfmeRender2DBatch
+// records. BfmeRender2DBatch is a descriptive name: retail stride and fields
+// establish the batch layout, not the former ProxyClass name shared with
+// unrelated WW3D types. The live 1.06.2429.30210 snapshot has the same .text
+// as the audited image; Ghidra shows Reset clearing Batches at +0x34, appending one initialized
+// BfmeRender2DBatch, then selecting CurrentBatch from Texture at +0x40.
 //
-// Reset (0x00119F00) and the vector<ProxyClass> machinery it instantiates sit
+// Reset (0x00119F00) and the vector<BfmeRender2DBatch> machinery it instantiates sit
 // together at 0x00118E00..0x0011A040, and every caller of them is in this
 // Render2D unit (0x00118800..0x0011C1C0): push_back 0x00119EC0 and its
 // _M_insert_overflow 0x00119D80, clear 0x00119D70 / _M_clear 0x00119CC0,
@@ -118,11 +120,11 @@ public:
 // One 0x74-byte texture batch: the texture handle and four seven-entry
 // ranges. Retail copy-constructs it member by member (0x00119A80: the handle,
 // then one rep movsd per range).
-class ProxyClass
+class BfmeRender2DBatch
 {
 public:
-	ProxyClass() {}
-	ProxyClass &operator=(ProxyClass const &other);
+	BfmeRender2DBatch() {}
+	BfmeRender2DBatch &operator=(BfmeRender2DBatch const &other);
 
 	RefCountPtr<TextureBaseClass> Texture;
 	int RangeA[7];
@@ -131,7 +133,7 @@ public:
 	int RangeD[7];
 };
 
-inline ProxyClass &ProxyClass::operator=(ProxyClass const &other)
+inline BfmeRender2DBatch &BfmeRender2DBatch::operator=(BfmeRender2DBatch const &other)
 {
 	Texture = other.Texture;
 	for (int i = 0; i < 7; ++i)
@@ -241,7 +243,7 @@ private:
 	float CoordinateOffset[2];
 	Render2DRawArray ArrayA;
 	Render2DIndexArray ArrayB;
-	std::vector<ProxyClass> Batches;
+	std::vector<BfmeRender2DBatch> Batches;
 	RefCountPtr<TextureBaseClass> Texture;
 	int CurrentBatch;
 	bool IsDirty;
@@ -253,7 +255,7 @@ void Render2DClass::Reset()
 	ArrayA.Reset_Active();
 	ArrayB.Reset_Active();
 	Batches.clear();
-	ProxyClass batch;
+	BfmeRender2DBatch batch;
 	for (int i = 0; i < 7; ++i) {
 		batch.RangeB[i] = -1;
 		batch.RangeC[i] = -1;
@@ -265,22 +267,22 @@ void Render2DClass::Reset()
 	CurrentBatch = Texture.Referent ? -1 : 0;
 }
 
-template void std::_Destroy<ProxyClass *>(ProxyClass *, ProxyClass *);
-template void std::vector<ProxyClass>::push_back(const ProxyClass &);
-template void std::vector<ProxyClass>::clear();
-template std::vector<ProxyClass>::~vector();
-template ProxyClass &std::vector<ProxyClass>::operator[](unsigned int);
-template ProxyClass *std::__uninitialized_fill_n(ProxyClass *, unsigned int, const ProxyClass &, const std::__false_type &);
-template ProxyClass *std::__uninitialized_copy(ProxyClass *, ProxyClass *, ProxyClass *, const std::__false_type &);
-template class std::allocator<ProxyClass>;
+template void std::_Destroy<BfmeRender2DBatch *>(BfmeRender2DBatch *, BfmeRender2DBatch *);
+template void std::vector<BfmeRender2DBatch>::push_back(const BfmeRender2DBatch &);
+template void std::vector<BfmeRender2DBatch>::clear();
+template std::vector<BfmeRender2DBatch>::~vector();
+template BfmeRender2DBatch &std::vector<BfmeRender2DBatch>::operator[](unsigned int);
+template BfmeRender2DBatch *std::__uninitialized_fill_n(BfmeRender2DBatch *, unsigned int, const BfmeRender2DBatch &, const std::__false_type &);
+template BfmeRender2DBatch *std::__uninitialized_copy(BfmeRender2DBatch *, BfmeRender2DBatch *, BfmeRender2DBatch *, const std::__false_type &);
+template class std::allocator<BfmeRender2DBatch>;
 
-// ProxyClass's assignment operator is a header inline in copier units. This
+// BfmeRender2DBatch's assignment operator is a header inline in copier units. This
 // anchor retains its matched row body here, but the anchor is not retail code.
 #pragma inline_depth(0)
-// ?_bfmeProxyClassAssignInlineAnchor@@YAXPAVProxyClass@@@Z absent-from-retail
-void _bfmeProxyClassAssignInlineAnchor(ProxyClass *proxy)
+// ?_bfmeBfmeRender2DBatchAssignInlineAnchor@@YAXPAVBfmeRender2DBatch@@@Z absent-from-retail
+void _bfmeBfmeRender2DBatchAssignInlineAnchor(BfmeRender2DBatch *proxy)
 {
-	proxy->ProxyClass::operator=(*proxy);
+	proxy->BfmeRender2DBatch::operator=(*proxy);
 }
 #pragma inline_depth()
 
@@ -305,7 +307,7 @@ BfmeRenderVertex *Render2DClass::allocateGeometry006e(
 				break;
 		}
 		if (i == Batches.size()) {
-			ProxyClass batch;
+			BfmeRender2DBatch batch;
 			batch.Texture = Texture;
 			for (int k = 0; k < 7; ++k) {
 				batch.RangeB[k] = -1;
@@ -317,7 +319,7 @@ BfmeRenderVertex *Render2DClass::allocateGeometry006e(
 		}
 		CurrentBatch = i;
 	}
-	ProxyClass &batch = Batches[(IsDirty && Texture.Referent) ? CurrentBatch : 0];
+	BfmeRender2DBatch &batch = Batches[(IsDirty && Texture.Referent) ? CurrentBatch : 0];
 	BfmeRenderVertex *vertices = (BfmeRenderVertex *)ArrayA.rva00118CC0(vertexCount);
 	*indices = (BfmeUInt32 *)ArrayB.Add(indexCount);
 	batch.RangeD[Shader] += indexCount;

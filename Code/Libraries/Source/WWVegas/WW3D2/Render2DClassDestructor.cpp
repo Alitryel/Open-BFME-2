@@ -3,7 +3,7 @@
 // ~Render2DClass, retail 0x00119D00 (101 bytes), the destructor matching the
 // constructor at 0x0011C0F0 (Rva0011C0F0Finish.cpp). Layout as that file and
 // Render2DClassReset.cpp prove it: two 16-byte raw arrays at +0x14 and +0x24,
-// the vector<ProxyClass> batch list at +0x34 and the texture handle at +0x40.
+// the vector<BfmeRender2DBatch> batch list at +0x34 and the texture handle at +0x40.
 //
 // The member destructors run in reverse: the texture handle releases through
 // 0x0061ED10 under EH state 2, the batch vector's out-of-line destructor
@@ -46,10 +46,10 @@ public:
 	int GrowthStep;
 };
 
-class ProxyClass
+class BfmeRender2DBatch
 {
 public:
-	~ProxyClass();
+	~BfmeRender2DBatch();
 
 	RefCountPtr<TextureBaseClass> Texture;
 	int RangeA[7];
@@ -60,7 +60,7 @@ public:
 
 // Use the verified /GX vector destructor from Render2DClassReset.cpp.
 // This /EHsc caller must not instantiate another cleanup implementation.
-template<> std::vector<ProxyClass>::~vector();
+template<> std::vector<BfmeRender2DBatch>::~vector();
 
 class Render2DClass
 {
@@ -73,7 +73,7 @@ private:
 	float CoordinateOffset[2];
 	Render2DRawArray ArrayA;
 	Render2DRawArray ArrayB;
-	std::vector<ProxyClass> Batches;
+	std::vector<BfmeRender2DBatch> Batches;
 	RefCountPtr<TextureBaseClass> Texture;
 	int CurrentBatch;
 	bool IsDirty;
