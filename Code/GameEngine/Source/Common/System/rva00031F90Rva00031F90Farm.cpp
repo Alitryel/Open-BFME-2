@@ -1,7 +1,6 @@
+// cl: /O2
 // ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEHPAX@Z
-// partial score=0.9468 date=2026-10-16
 // ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEHPAX@Z
-// partial score=0.92 date=2026-10-16
 // BFME 2's memory-pool entry points. `namespace MemoryPool` is retail's own
 // name: every `_`-prefixed function here is exported under it
 // (reverse/exports.csv), and 0x00030730 resolves each export back out of the
@@ -470,8 +469,12 @@ int GeneralAllocator::rva00031F90(void *block)
 		}
 		if (next == *(char **)((char *)this + 0x440))
 		{
-			unsigned int topSize = ((unsigned int *)next)[1] & 0x7FFFFFF8;
-			result += ((unsigned char)~*((unsigned char *)next + 4)) & 1 && 1;
+			unsigned char topByte = *(volatile unsigned char *)(next + 4);
+			result += ((unsigned char)~topByte) & 1 && 1;
+			
+			unsigned int *pTopWord = (unsigned int *)(next + 4);
+			unsigned int topWord = *pTopWord;
+			unsigned int topSize = topWord & 0x7FFFFFF8;
 			result += (topSize < 0x10) && 1;
 		}
 	}
