@@ -230,7 +230,7 @@ struct DifficultyView{char pad[0x1a4c4];int value;};class ScriptEngine;extern Sc
 struct Rva004DFC20{void clear();};
 struct RegionManagerView{void*getCurrent();};
 class Rva0020E6B7RegionManager{public:class LivingWorldBattle*rva0020E6B7();};
-class LivingWorldBattle{public:char pad[0x24];class LivingWorldRegion*region;void*rva003F4D09();};
+class LivingWorldBattle{public:char pad[0x24];class LivingWorldRegion*region;void*rva003F4DA9();};
 class RegionOwner{public:char pad[0x14];int index;};class CreateAHeroData;
 class LivingWorldRegion{public:char pad[0x11c];bool flag;int rva003F0614(CreateAHeroData*)const;};
 struct CampaignView{char pad[0xb0];Rva0020E6B7RegionManager*regions;bool active;};
@@ -305,6 +305,6 @@ void Player::initFromDict(const Dict*d){
  text74C=d->getAsciiString(TheKey_playerFactionIcon.get(),&exists);int ri=d->getInt(TheKey_livingWorldPlayerID.get(),&exists);if(exists)unknown3AC=ri;
  if(((LogicModeView*)TheGameLogic)->mode!=3 && ((CampaignView*)TheLivingWorldLogic)->active){
   LivingWorldBattle*cur=((CampaignView*)TheLivingWorldLogic)->regions->rva0020E6B7();
-  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4D09();LivingWorldRegion*r;if(owner && unknown3AC==*(volatile int*)&owner->index && ((r=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || r->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
+  if(cur){RegionOwner*owner=(RegionOwner*)cur->rva003F4DA9();LivingWorldRegion*r;if(owner && unknown3AC==*(volatile int*)&owner->index && ((r=cur->region)->rva003F0614((CreateAHeroData*)1)>=1 || r->flag))money.rva003B0D7C(TheLivingWorldLogic->rva002B47B1(),(Rva0039B7AD*)&score,false);else money.rva003B0D7C(TheLivingWorldLogic->rva002B479F(),(Rva0039B7AD*)&score,false);}
  }
 }
