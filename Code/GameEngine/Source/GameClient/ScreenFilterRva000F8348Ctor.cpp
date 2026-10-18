@@ -49,3 +49,8 @@ Rva000F8348::Rva000F8348() :
 	m_38(0), m_3C(0), m_40(0), m_44(0)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?init@Rva000F8348@@UAEHXZ=?rva000F6D4F@Rva000F6D4F@@QAEHXZ")

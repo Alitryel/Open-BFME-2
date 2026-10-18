@@ -64,3 +64,12 @@ Rva00203EFD::Rva00203EFD()
 	m_04 = 0;
 	m_08 = false;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot00@Rva00203EFD@@UAEXPBDABVParticleSystemTemplate@FXParticleSystem@@@Z=?rva00204316@Rva00204316@@QAEXPBDABVParticleSystemTemplate@FXParticleSystem@@@Z")
+#pragma comment(linker, "/alternatename:?slot04@Rva00203EFD@@UAEXXZ=?Rva00204386Get@@YGPAVParticleSystemTemplate@@PBD@Z")
+#pragma comment(linker, "/alternatename:?slot08@Rva00203EFD@@UAEXXZ=?rva00204C21@Rva00204C21@@QAEXPBD@Z")
+#pragma comment(linker, "/alternatename:?slot0C@Rva00203EFD@@UAEXXZ=?Rva00206DA4Enumerate@@YGXPAVRva002082F1Visitor@@@Z")
+#pragma comment(linker, "/alternatename:?slot10@Rva00203EFD@@UAEXXZ=?Rva002082F1Enumerate@@YGXPAVRva002082F1Visitor@@@Z")

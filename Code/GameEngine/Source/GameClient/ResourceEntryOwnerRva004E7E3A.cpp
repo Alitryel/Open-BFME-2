@@ -135,3 +135,9 @@ void Rva004E7F22Owner::rva004E7F22()
 {
 	m_owner00->rva004E7E3A();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?cb@Cb00359D42@@UAEXHMD@Z=__purecall")
+#pragma comment(linker, "/alternatename:?cb@Rva004E7E3AClaimantCallback@@UAEXHMD@Z=?rva004E81DE@Rva004E81DE@@UAEXPAXM_N@Z")
