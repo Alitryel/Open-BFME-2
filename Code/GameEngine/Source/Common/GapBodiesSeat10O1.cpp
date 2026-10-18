@@ -304,10 +304,7 @@ public:
 private:
 	Rva00525ABF *m_00;
 };
-void Rva00525E00::rva00525E00(Xfer *xfer)
-{
-	m_00->rva00525ABF(xfer);
-}
+
 
 // ?rva0050EE1C@Rva0050EE1C@@QBEHXZ @0x0050EE1C 7B: the rowed
 // AsciiStringPlusString::length 0x002198C8 of this object plus one.
@@ -1189,10 +1186,7 @@ public:
 private:
 	_STL::vector<BfmePod8> m_vector;
 };
-void Rva005B1903::rva005B1903(BfmePod8 *position, unsigned int count, const BfmePod8 &value)
-{
-	m_vector._M_fill_insert(position, count, value);
-}
+
 
 // ?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z @0x005B1908 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005B1748.
 struct BfmePod20;
@@ -1203,10 +1197,7 @@ public:
 private:
 	_STL::vector<BfmePod20> m_vector;
 };
-void Rva005B1908::rva005B1908(BfmePod20 *position, unsigned int count, const BfmePod20 &value)
-{
-	m_vector._M_fill_insert(position, count, value);
-}
+
 
 // ?rva005EE00F@Rva005EE00F@@QAEXPAUBfmeStringRecord005ED5F3@@IABU2@@Z @0x005EE00F 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005EDEF3.
 struct BfmeStringRecord005ED5F3;
@@ -1336,10 +1327,7 @@ public:
 private:
 	Rva005CABBBTree m_tree;
 };
-unsigned int Rva005CABBB::rva005CABBB(const AsciiString &key)
-{
-	return m_tree.erase(key);
-}
+
 
 // ?rva00549420@Rva00549420@@QBEHABV1@@Z @0x00549420 5B and
 // ?rva00584D50@Rva00584D50@@QBEHABV1@@Z @0x00584D50 5B: deque iterator

@@ -90261,7 +90261,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ??1Rva00551983@@QAE@XZ,,0x00551983,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,dtor tail jump to deque member rowed dtor 0x00551868; unwind-funclet reached
 ??1Rva005E4920@@QAE@XZ,,0x005E4920,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,dtor tail jump to tree member rowed dtor 0x005E4670; unwind-funclet reached
 ??1Rva0060D0AE@@QAE@XZ,,0x0060D0AE,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,dtor tail jump to member rowed dtor 0x0060D031; unwind-funclet reached
-?rva00525E00@Rva00525E00@@QAEXPAVXfer@@@Z,,0x00525E00,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,forward Xfer to rowed 0x00525ABF on object held at +0
+?rva00525E00@Rva00525E00@@QAEXPAVXfer@@@Z,,0x00525E00,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1_Rva00525E00.cpp,matched,forward Xfer to rowed 0x00525ABF on object held at +0
 ?rva0066CA80@Rva0066CA80@@QAEXXZ,,0x0066CA80,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,clear chain member at +0 via rowed 0x0066C970
 ?rva007B02A6@@YAXXZ,,0x007B02A6,29,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,deque global initializer via allocator temp ctor 0x002F0BE0 then atexit 0x007B82C9
 ?rva007AE5DA@@YAXXZ,,0x007AE5DA,29,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,list Coord3D global initializer via allocator temp ctor 0x0073F451 then atexit 0x007B7A87
@@ -90343,8 +90343,8 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva005F6014@Rva005F600D@@QAEXH@Z,,0x005F6014,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,set +35 flag byte unused argument
 ?rva005F8F80@Rva005F8F80@@QAEXH@Z,,0x005F8F80,11,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear owned handle +2C via rowed 0x000AD6F4 unused argument
 ?rva005F8F8B@Rva005F8F80@@QAEXH@Z,,0x005F8F8B,11,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear owned handle +3C via rowed 0x000AD6F4 unused argument
-?rva005B1903@Rva005B1903@@QAEXPAUBfmePod8@@IABU2@@Z,,0x005B1903,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x000B02B6
-?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z,,0x005B1908,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005B1748
+?rva005B1903@Rva005B1903@@QAEXPAUBfmePod8@@IABU2@@Z,,0x005B1903,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1_Rva00525E00.cpp,matched,tail jump to rowed vector _M_fill_insert 0x000B02B6
+?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z,,0x005B1908,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1_Rva00525E00.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005B1748
 ?rva005EE00F@Rva005EE00F@@QAEXPAUBfmeStringRecord005ED5F3@@IABU2@@Z,,0x005EE00F,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EDEF3
 ?rva005EFD8A@Rva005EFD8A@@QAEXPAURva005EFD53Element@@IABU2@@Z,,0x005EFD8A,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EFC30
 ?rva0060F120@Rva0060F120@@QBEPAXXZ,,0x0060F120,6,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,+0 pointer 8 bytes back
@@ -90369,7 +90369,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?resize@BfmeVec60@@QAEXI@Z,,0x006BFE60,63,Code/GameEngine/Source/Common/System/GeometryParseType.cpp,matched,one-argument resize building default BfmeElem60 in argument slot then rowed resize 0x006BFCB0
 ?rva005FF9C5@Rva005FF9C5@@QAEXI@Z,,0x005FF9C5,19,Code/Libraries/Source/WWVegas/WWLib/stlport_pod8_resize_byvalue.cpp,matched,one-argument resize with default pod 0 -1 forwarding to rowed by-value resize 0x005FF96A
 ?rva005C6D48@Rva005C6D48@@QAEIABURva0027EA49@@@Z,,0x005C6D48,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed set tree erase key 0x005C6C2D
-?rva005CABBB@Rva005CABBB@@QAEIABVAsciiString@@@Z,,0x005CABBB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed AsciiString set tree erase key 0x005CA950
+?rva005CABBB@Rva005CABBB@@QAEIABVAsciiString@@@Z,,0x005CABBB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1_Rva00525E00.cpp,matched,tail jump to rowed AsciiString set tree erase key 0x005CA950
 ?rva00549420@Rva00549420@@QBEHABV1@@Z,,0x00549420,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,deque iterator difference via rowed _M_subtract 0x00549001
 ?rva00584D50@Rva00584D50@@QBEHABV1@@Z,,0x00584D50,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,deque iterator difference via rowed _M_subtract 0x004218A5
 ?rva005D7357@Rva005D7357@@QBEIXZ,,0x005D7357,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed hash_map int int bucket_count 0x002BEDAB
