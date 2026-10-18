@@ -6,8 +6,8 @@
 // "%s %d/%d frames(%.1fs), AnimMode:%s, BlendTime:%d" and the release
 // notice): slot 12 of the +0x0C interface tables (0x00BCBB78 and siblings).
 // After the rowed animation refresh 0x000C0386 it describes playing slot
-// index (0..2, 0x1C-byte records at +0x110) with Zero Hour's
-// TheAnimModeNames.
+// index (0..2, 0x1C-byte records at +0x110) using the canonical
+// native BfmeAnimationModeNames table at VA DB4E44.
 // 504 bytes (pinned placeholder ?bfmeFinishYS@Gen_00755E70@@QAEXXZ).
 // Identity: the six W3DScriptedModelDraw-family vftables hold it in the Module
 // slot after getModuleNameKey (0x000C1201) and the empty onObjectCreated,
@@ -134,10 +134,6 @@ public:
 class ThingTemplate
 {
 public:
-	__forceinline bool isKindOf(int kind) const
-	{
-		return (m_kindOf[(unsigned int)kind >> 5] & (1 << (kind & 31))) != 0;
-	}
 	unsigned char m_pad000[0x108];
 	unsigned int m_kindOf[14];
 };
@@ -174,7 +170,7 @@ public:
 };
 
 class Rva000BFDFE { public: void rva000C0386(); };
-extern const char *TheAnimModeNames[];
+extern const char *BfmeAnimationModeNames[];
 
 // The playing animation's slot views: name (2), frame count (5), total
 // seconds (7).
@@ -293,7 +289,7 @@ void W3DScriptedModelDraw::onDrawableBoundToObject()
 	}
 
 	Object *obj = getDrawable()->m_object;
-	if (obj && obj->getTemplate()->isKindOf(28))
+	if (obj && (obj->getTemplate()->m_kindOf[0] & (1u << 28)) != 0)
 	{
 		Player *player = obj->getControllingPlayer();
 		if (player && !player->m_33b)
@@ -314,7 +310,7 @@ void W3DScriptedModelDraw::buildPlayingAnimationStringInfo(int index, AsciiStrin
 		int numFrames = m_playing[index].m_anim->getNumFrames();
 		int frame = (int)m_playing[index].m_frame;
 		int blendTime = (int)m_playing[index].m_blendTime;
-		AsciiString mode(TheAnimModeNames[m_playing[index].m_mode]);
+		AsciiString mode(BfmeAnimationModeNames[m_playing[index].m_mode]);
 		animInfo->format("%s %d/%d frames(%.1fs), AnimMode:%s, BlendTime:%d", m_playing[index].m_anim->getName(),
 			frame + 1, numFrames, (double)totalTime, mode.str(), blendTime);
 	}
