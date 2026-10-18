@@ -6,10 +6,12 @@
 // the 0xC-byte error object (already rowed as ??0FunctorNotSet@@QAE@XZ), and
 // 0x00629094 is retail's _CxxThrowException, already pinned for the CRT throw.
 
+class FunctorNotSet { public: FunctorNotSet(); };
 class BfmeErr1042
 {
 public:
-	BfmeErr1042();
+	// Construction is the rowed ??0FunctorNotSet, reached by a qualified call.
+	__declspec(dllimport) __forceinline BfmeErr1042() { ((FunctorNotSet *)this)->FunctorNotSet::FunctorNotSet(); }
 
 	char m_bfmePad[0xc];
 };
