@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc
-// Split from AptHeroPowerText.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// Ticker and spell-button display functions; the GameSpy response pump is
+// isolated in AptTickerGameSpyUpdate.cpp until its shared handler is matched.
 // Hero power panel texts. Each builds a UnicodeString through a formatter
 // and hands it to the rowed bfmeSetText. Both formatters return a
 // UnicodeString by value through a hidden pointer; 0x005B2376 and
@@ -30,7 +30,8 @@ class Rva00222A8BTarget
 public:
 	void invoke(void *owner, const char *name, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4);
 };
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+#define TheRva00222A8BTarget ((Rva00222A8BTarget *)g_bfmeAptWindowManager)
 
 UnicodeString __cdecl Rva005B2376Describe(void *power, const AsciiString &unused, const AsciiString &fallback);
 UnicodeString __cdecl Rva005B2446Describe(void *power);
@@ -106,7 +107,11 @@ public:
 extern GameTextInterface *TheGameText;
 
 
-extern const char *g_00DD3B90[];
+// Six ticker labels precede the separate SIDE label table at VA DD3BA8.
+const char *g_00DD3B90[6] = {
+    "APT:Date", "APT:Time", "APT:1v1RankLabel", "APT:2v2RankLabel",
+    "APT:PlayersOnline", "APT:GamesInProgress"
+};
 extern const unsigned short g_Va007C9260[];
 
 class Rva005B9378
@@ -138,108 +143,6 @@ void Rva005B9378::rva005B942A(int index, int value)
 	UnicodeString text;
 	text.format(g_Va007C9260, value);
 	rva005B9378(index, text);
-}
-
-// ?rva005BA02B@Rva005B9378@@QAEXXZ @0x005BA02B 466B: the ticker screen's
-// GameSpy update, Zero Hour's WOLGameSetupMenuUpdate response pump: buddy and
-// persistent-storage responses first (pinned 0x00416C69, 0x005BDAC1), then up
-// to TheGameSpyInfo's per-update budget (slot 93) of peer responses, each
-// passed to the shared hook 0x005AF12F. A disconnect shows
-// GUI:GSDisconReason%d under GUI:GSErrorTitle after closing the overlays,
-// pops the shell and tears GameSpy down; response 21 updates ticker rows 5
-// (payload word 6) and 4 (word 7, at least 1).
-class PeerResponse
-{
-public:
-	PeerResponse();
-	~PeerResponse();
-	int peerResponseType;
-	unsigned char m_04[0x10C - 4];
-	int words[143];
-};
-typedef char TickerPeerResponseSize[sizeof(PeerResponse) == 0x348 ? 1 : -1];
-class GameSpyPeerMessageQueueInterface
-{
-public:
-	virtual ~GameSpyPeerMessageQueueInterface();
-	virtual void startThread(void);
-	virtual void endThread(void);
-	virtual bool isThreadRunning(void);
-	virtual bool isConnected(void);
-	virtual bool isConnecting(void);
-	virtual void addRequest(const void *req);
-	virtual bool getRequest(void *req);
-	virtual void addResponse(const PeerResponse &resp);
-	virtual bool getResponse(PeerResponse &resp);
-};
-extern GameSpyPeerMessageQueueInterface *TheGameSpyPeerMessageQueue;
-class GameSpyInfoInterface
-{
-public:
-#define TICKER_SLOT(n) virtual void slot##n();
-	TICKER_SLOT(00) TICKER_SLOT(01) TICKER_SLOT(02) TICKER_SLOT(03) TICKER_SLOT(04) TICKER_SLOT(05) TICKER_SLOT(06) TICKER_SLOT(07) TICKER_SLOT(08) TICKER_SLOT(09)
-	TICKER_SLOT(10) TICKER_SLOT(11) TICKER_SLOT(12) TICKER_SLOT(13) TICKER_SLOT(14) TICKER_SLOT(15) TICKER_SLOT(16) TICKER_SLOT(17) TICKER_SLOT(18) TICKER_SLOT(19)
-	TICKER_SLOT(20) TICKER_SLOT(21) TICKER_SLOT(22) TICKER_SLOT(23) TICKER_SLOT(24) TICKER_SLOT(25) TICKER_SLOT(26) TICKER_SLOT(27) TICKER_SLOT(28) TICKER_SLOT(29)
-	TICKER_SLOT(30) TICKER_SLOT(31) TICKER_SLOT(32) TICKER_SLOT(33) TICKER_SLOT(34) TICKER_SLOT(35) TICKER_SLOT(36) TICKER_SLOT(37) TICKER_SLOT(38) TICKER_SLOT(39)
-	TICKER_SLOT(40) TICKER_SLOT(41) TICKER_SLOT(42) TICKER_SLOT(43) TICKER_SLOT(44) TICKER_SLOT(45) TICKER_SLOT(46) TICKER_SLOT(47) TICKER_SLOT(48) TICKER_SLOT(49)
-	TICKER_SLOT(50) TICKER_SLOT(51) TICKER_SLOT(52) TICKER_SLOT(53) TICKER_SLOT(54) TICKER_SLOT(55) TICKER_SLOT(56) TICKER_SLOT(57) TICKER_SLOT(58) TICKER_SLOT(59)
-	TICKER_SLOT(60) TICKER_SLOT(61) TICKER_SLOT(62) TICKER_SLOT(63) TICKER_SLOT(64) TICKER_SLOT(65) TICKER_SLOT(66) TICKER_SLOT(67) TICKER_SLOT(68) TICKER_SLOT(69)
-	TICKER_SLOT(70) TICKER_SLOT(71) TICKER_SLOT(72) TICKER_SLOT(73) TICKER_SLOT(74) TICKER_SLOT(75) TICKER_SLOT(76) TICKER_SLOT(77) TICKER_SLOT(78) TICKER_SLOT(79)
-	TICKER_SLOT(80) TICKER_SLOT(81) TICKER_SLOT(82) TICKER_SLOT(83) TICKER_SLOT(84) TICKER_SLOT(85) TICKER_SLOT(86) TICKER_SLOT(87) TICKER_SLOT(88) TICKER_SLOT(89)
-	TICKER_SLOT(90) TICKER_SLOT(91) TICKER_SLOT(92)
-#undef TICKER_SLOT
-	virtual int getMaxMessagesPerUpdate(void);
-};
-extern GameSpyInfoInterface *TheGameSpyInfo;
-class Shell
-{
-public:
-	void rva0035BEC7();	// ZH Shell::pop
-};
-extern Shell *TheShell;
-void HandleBuddyResponses();			// ZH HandleBuddyResponses (pinned)
-void HandlePersistentStorageResponses();			// ZH HandlePersistentStorageResponses (pinned)
-void rva005AF12F(void *resp);	// shared peer-response hook (pinned)
-void Rva00548C1ACleanup();	// ZH GameSpyCloseAllOverlays
-void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
-void TearDownGameSpy();
-
-void Rva005B9378::rva005BA02B()
-{
-	if (!TheGameSpyPeerMessageQueue)
-		return;
-
-	HandleBuddyResponses();
-	HandlePersistentStorageResponses();
-
-	int allowedMessages = TheGameSpyInfo->getMaxMessagesPerUpdate();
-	bool sawImportantMessage = false;
-	PeerResponse resp;
-	while (allowedMessages-- && !sawImportantMessage && TheGameSpyPeerMessageQueue->getResponse(resp))
-	{
-		rva005AF12F(&resp);
-		switch (resp.peerResponseType)
-		{
-		case 1:	// PEERRESPONSE_DISCONNECT
-			{
-				sawImportantMessage = true;
-				UnicodeString title, body;
-				AsciiString disconMunkee;
-				disconMunkee.format("GUI:GSDisconReason%d", resp.words[0]);
-				title = TheGameText->fetch("GUI:GSErrorTitle");
-				body = TheGameText->fetch(disconMunkee);
-				Rva00548C1ACleanup();
-				GSMessageBoxOk(title, body, 0);
-				TheShell->rva0035BEC7();
-				TearDownGameSpy();
-			}
-			break;
-		case 21:
-			rva005B942A(5, resp.words[6]);
-			rva005B942A(4, resp.words[7] < 1 ? 1 : resp.words[7]);
-			break;
-		}
-	}
 }
 
 // ?rva00513497@Rva00513497@@QAEXHVUnicodeString@@@Z @0x00513497 193B: the
@@ -346,7 +249,11 @@ private:
 // window. The number buffer reuses the index parameter's slot, as in retail.
 class GameWindow;
 class AptPlayer { public: static int GetLevelIndex(GameWindow *window); };
-extern const char *g_00C3D700[];
+// Retail spell-button state names, VA C3D700 through C3D717.
+const char *g_00C3D700[6] = {
+    "_unused", "_disabled", "_disabled_level", "_already_purchased",
+    "_purchased", "_active"
+};
 
 class Rva0043C8E4
 {
