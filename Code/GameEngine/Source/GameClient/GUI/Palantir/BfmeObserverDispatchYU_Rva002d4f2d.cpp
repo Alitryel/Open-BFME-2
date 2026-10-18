@@ -61,3 +61,13 @@ void __stdcall bfmeApplyYU(int unused)
 	if (entry != 0)
 		reinterpret_cast<BfmeRegistryYU *>(TheControlBar)->bfmeUseYU(0, entry);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0AsciiStringYU@@QAE@PBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
+#pragma comment(linker, "/alternatename:??1AsciiStringYU@@QAE@XZ=??1?$list@URva0036ADF9Element@@V?$allocator@URva0036ADF9Element@@@_STL@@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?bfmeActiveYU@BfmeObserverYU@@QAE_NXZ=?isInMultiplayerGame@GameLogic@@QAE_NXZ")
+#pragma comment(linker, "/alternatename:?bfmeFindYU@BfmeRegistryYU@@QAEPAXABVAsciiStringYU@@@Z=?findCommandButton@ControlBar@@QAEPBVCommandButton@@ABVAsciiString@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeUseYU@BfmeRegistryYU@@QAEXHPAX@Z=?rva004C1B60@ControlBar@@QAEXPAVGameWindow@@PAX@Z")

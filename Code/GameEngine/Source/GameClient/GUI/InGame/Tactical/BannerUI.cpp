@@ -650,3 +650,11 @@ BannerUI::BannerUI()
 		reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->AddOverButtonHandler(path, AptRef<AptOverButtonHandler>(BannerSlotDesc(this, slot)));
 	}
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0?$Rva00211E58VectorBase@UBfmePod28@@V?$allocator@UBfmePod28@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmePod28@@@1@@Z=??0?$_Vector_base@HV?$allocator@H@_STL@@@_STL@@QAE@ABV?$allocator@H@1@@Z")
+#pragma comment(linker, "/alternatename:??0Rva00056F61@@QAE@XZ=??0?$hash_map@HURva002171F2Element@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva002171F2Element@@@_STL@@@3@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?rva0020E6B7@Rva0020E6B7RegionManager@@QAEPAVLivingWorldBattle@@XZ=?rva0020E6B7@Rva0020E6B7RegionManager@@QAEPAVRva003F468D@@XZ")

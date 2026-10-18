@@ -92,3 +92,10 @@ Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
  scaleA0=ThreeFloatBlock(1.f,1.f,1.f);
  rva003FC82C(m_ac->getAngle()*0.017453292f);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?derivedSlot@Rva005C4B56@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?rva003FCCC9@Rva003FB65C@@QAEXE@Z=?rva003FCCC9@LivingWorldVisual@@QAEX_N@Z")

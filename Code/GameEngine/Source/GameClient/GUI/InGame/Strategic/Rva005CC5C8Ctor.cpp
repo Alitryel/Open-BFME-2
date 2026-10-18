@@ -85,3 +85,9 @@ Rva005CC5C8::Rva005CC5C8(int owner, int level, const AsciiString &name, int *reg
 	if (regionOwner != ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66())
 		((Rva005E3049 *)this)->rva005E3049(2, 0);
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1RegionDetailsMovieClip@StrategicHUD@@QAE@XZ=??3@YAXPAX@Z")

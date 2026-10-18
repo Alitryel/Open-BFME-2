@@ -71,3 +71,15 @@ AptWindowLayout::AptWindowLayout(void *info) : BfmeQuickMatchScreenBase(info)
  if(static_cast<unsigned>(level)>=14) return;
  *reinterpret_cast<int *>(reinterpret_cast<char *>(m_gameWindow)+0x274)=level;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1BfmeQuickMatchScreenBase@@QAE@XZ=??3@YAXPAX@Z")
+#pragma comment(linker, "/alternatename:?addWindow@BfmeQuickMatchScreenBase@@UAEXPAVGameWindow@@@Z=?addWindow@WindowLayout@@UAEXPAVGameWindow@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot0@AptWindowLayout@@UAEXXZ=?rva0040FB9C@AptWindowLayout@@UAEXPAX@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot1@AptWindowLayout@@UAEXXZ=??_GRva0040FB4A@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot2@AptWindowLayout@@UAEXXZ=?guard@Rva0040FC79Host@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot3@AptWindowLayout@@UAEXXZ=?rva0040FCC0@Rva0040FCC0@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?bringForward@BfmeQuickMatchScreenBase@@UAEXXZ=?bringForward@WindowLayout@@UAEXXZ")

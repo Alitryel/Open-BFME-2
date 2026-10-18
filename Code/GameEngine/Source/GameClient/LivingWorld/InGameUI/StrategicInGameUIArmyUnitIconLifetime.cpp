@@ -68,3 +68,11 @@ StrategicInGameUI::ArmyUnitIcon::ArmyUnitIcon(void *owner,void *clip,UnitView *u
  :Rva005F4179(clip),m_owner(owner),m_unit(unit){}
 StrategicInGameUI::ArmyUnitIcon::~ArmyUnitIcon(){}
 typedef char ArmyUnitIconHas44Bytes[sizeof(StrategicInGameUI::ArmyUnitIcon)==44 ? 1 : -1];
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot05@Rva005F4179@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot06@Rva005F4179@@UAEXXZ=?rva005F3FF4@Rva005F3FF4@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot07@Rva005F4179@@UAEXXZ=?rva005F3F6B@Rva005F3F6B@@QAEXXZ")
