@@ -7,12 +7,6 @@ extern int BfmeLogicFramesPerSecond;
 
 // 0x004F46A9 is rowed as the protected AIPlayer::queueUnits
 // (AIPlayerTeamBuild.cpp); this unit's carrier reaches it on the same this.
-class AIPlayer
-{
-	friend class Rva004F07E6;
-protected:
-	void queueUnits();
-};
 
 struct Rva004F48D8Sub
 {
@@ -20,10 +14,12 @@ struct Rva004F48D8Sub
 	unsigned char m_338;
 };
 
-class Rva004F07E6
+class AIPlayer
 {
 public:
 	virtual void rva004F48D8();
+protected:
+	void queueUnits();
 private:
 	char m_pad4[8];
 	Rva004F48D8Sub *m_sub;
@@ -66,7 +62,7 @@ public:
 	virtual void v26();
 };
 
-void Rva004F07E6::rva004F48D8()
+void AIPlayer::rva004F48D8()
 {
 	if (m_sub->m_338 == 0)
 		return;

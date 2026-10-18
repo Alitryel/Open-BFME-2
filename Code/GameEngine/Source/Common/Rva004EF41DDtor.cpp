@@ -4,14 +4,10 @@
 class AIPlayer
 {
 public:
+	virtual ~AIPlayer();
 	void clearTeamsInQueue();
 };
-class Rva004F07E6
-{
-public:
-	virtual ~Rva004F07E6();
-};
-class AISkirmishPlayer : public Rva004F07E6
+class AISkirmishPlayer : public AIPlayer
 {
 public:
 	virtual ~AISkirmishPlayer();
