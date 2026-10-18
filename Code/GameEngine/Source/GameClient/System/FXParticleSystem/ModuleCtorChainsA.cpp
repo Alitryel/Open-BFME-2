@@ -275,7 +275,33 @@ extern const void *const g_00C1CDCC[5] = {
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$00@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6BDefaultModuleHeadBase_3AEE16@@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$07$E?LIFE_EVENT_MODULE_KEY@FXParticleSystem@@3QBDB$E?LIFE_EVENT_MODULE_NAME@2@3QBDBVLifeEventModule@2@VLifeEventModuleTemplate@2@VParticleLifeEventModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
-extern const void *const g_00C1CF38[];
+// The retail table at RVA 0x0081CF38: 12 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?clone@Rva003AEF6E@@QBEPAV1@XZ")();
+void __identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z")();
+void __identifier("?get@Rva003EE704LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ")();
+void __identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ")();
+void __identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ")();
+}
+extern const void *const g_00C1CF38[12] = {
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?clone@Rva003AEF6E@@QBEPAV1@XZ"), // slot 2 0x003AEF34
+	(const void *)&__identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z"), // slot 3 0x00562233
+	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 4 0x003EE704
+	(const void *)&__identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ"), // slot 5 0x0030BBA5
+	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 6 0x00308156
+	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 7 0x003ABE71
+	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 8 0x003ABE78
+	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 9 0x00308156
+	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 10 0x003ABE71
+	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 11 0x003ABE78
+};
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Gen005ED0D0@@6BDefaultModuleHeadBase_3AEE16@@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$07$E?TERRAIN_COLLISION_MODULE_KEY@FXParticleSystem@@3QBDB$E?TERRAIN_COLLISION_MODULE_NAME@2@3QBDBVTerrainCollisionModule@2@VTerrainCollisionModuleTemplate@2@VParticleTerrainCollisionModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
