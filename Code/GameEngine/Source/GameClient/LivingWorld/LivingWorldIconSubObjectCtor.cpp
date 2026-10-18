@@ -24,12 +24,17 @@ AsciiStringPlusText operator+(const AsciiString &,const char *);
 Rva005F17C6S16 Rva005F17C6Build(const Rva005F17C6S12 &,int);
 class RenderObjClass;
 class HTreeClass;
-class Rva003FB65C {public:HTreeClass *rva003FC780(const AsciiString *,int);void rva003FCCC9(unsigned char);};
+class Rva003FB65C {public:HTreeClass *rva003FC780(const AsciiString *,int);};
 class LivingWorldVisual {public:
  RenderObjClass *createRenderObject(const AsciiString &,const std::vector<AsciiString> &,int,const int *);
  RenderObjClass *createPickboxObject(const AsciiString *);
  void rva003FC291(float);
+ void rva003FCCC9(bool);
 };
+// 0x003FCCC9 is rowed as LivingWorldVisual::rva003FCCC9(bool); the incoming
+// unsigned-char predicate result keeps its byte spelling through a
+// member-pointer cast (same binding as Rva005C4B96.cpp / Rva003FCD58Method.cpp).
+typedef void (LivingWorldVisual::*LivingWorldVisualUcharShape)(unsigned char);
 void rva0010E4F6(void *,bool);
 struct SubAC005C4B56 {
  char pad00[4]; AsciiString name04; std::vector<AsciiString> names08;
@@ -70,7 +75,9 @@ class LivingWorld;
 extern LivingWorld *TheLivingWorld;
 class Rva005C4B56 : public Rva003FD14DBase {public:
  Rva005C4B56(const Helper005C4D4B &,bool,const int *);
- virtual void derivedSlot();
+ // 0x005C4B56 is rowed as Rva005C4B56::rva005C4B56(int,int,int); the phantom
+ // derivedSlot slot that named nothing is rebound to that rowed member.
+ void rva005C4B56(int,int,int);
  SubAC005C4B56 *m_ac; int m_b0; float m_b4; int m_b8;
 };
 Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
@@ -87,7 +94,7 @@ Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
  reinterpret_cast<Rva003FB65C *>(this)->rva003FC780(&animation,m_ac->getAnimationMode());
  reinterpret_cast<Rva002D3627Host *>(TheLivingWorld)->insert(getRenderObject());
  if (!enabled)
-  reinterpret_cast<Rva003FB65C *>(this)->rva003FCCC9(reinterpret_cast<Rva005C41C9 *>(this)->rva005C4B26());
+  (reinterpret_cast<LivingWorldVisual *>(this)->*reinterpret_cast<LivingWorldVisualUcharShape>(&LivingWorldVisual::rva003FCCC9))(reinterpret_cast<Rva005C41C9 *>(this)->rva005C4B26());
  value30=m_ac->getValue30();
  scaleA0=ThreeFloatBlock(1.f,1.f,1.f);
  rva003FC82C(m_ac->getAngle()*0.017453292f);
