@@ -453,23 +453,6 @@ int AptMyHero::rva005B0A95(int,int){
  return TheTacticalView->slot78()?2:1;
 }
 
-// AptMyHero::~AptMyHero, retail 0x005B190D..0x005B1A07 (250 bytes): drops
-// the Base/Cur/Max attribute keys of five slots from the +0x140 holder's
-// +0x228 registry, clears the Cah::Portrait image key, runs 0x005B1830,
-// then the members (two bling vectors at +0x174, the location map at
-// +0x15C) and the CreateAHeroData base are destroyed.
-AptMyHero::~AptMyHero(){
- for(int i=0;i<5;++i){
-  reinterpret_cast<Rva005241DF *>((char *)holder140+0x228)->rva005241DF(*(const StringBase<char> *)&rva005B0A53("Base",i));
-  reinterpret_cast<Rva005241DF *>((char *)holder140+0x228)->rva005241DF(*(const StringBase<char> *)&rva005B0A53("Cur",i));
-  reinterpret_cast<Rva005241DF *>((char *)holder140+0x228)->rva005241DF(*(const StringBase<char> *)&rva005B0A53("Max",i));
- }
- {
-  AsciiString key("Cah::Portrait");
-  reinterpret_cast<Rva00223A94 *>(g_bfmeAptWindowManager)->rva00223A94(&key);
- }
- reinterpret_cast<Rva005B1830 *>(this)->rva005B1830();
-}
 
 // FrameUpdate: WB AptMyHero::FrameUpdate names the transition polling, the
 // DIK arrow-key handlers and the MyHeroName/Class/Type text refresh. Helper
@@ -485,49 +468,6 @@ class Rva0023C565 {
 public: Rva0023C565(){if(TheTransitionHandler)reinterpret_cast<Rva001DBAA4L *>(TheTransitionHandler)->lock();}
  __forceinline ~Rva0023C565(){if(TheTransitionHandler)reinterpret_cast<Rva001DBAA4 *>(TheTransitionHandler)->unlock();}
 };
-void AptMyHero::FrameUpdate() {
- bool changed=false;
- switch(field14C) {
- case 1:
-  if(TheTransitionHandler->isFinished()) {
-   if(!field18C)SwitchToPendingHero();
-   else if((unsigned)field18C >= (unsigned)(BfmeLogicFramesPerSecond+2)) {
-    Rva0023C565 guard;
-    const AsciiString &group=TheCreateAHeroManager->field1EC;
-    if(!reinterpret_cast<const StringBase<char> &>(group).isEmpty()) {
-     TheTransitionHandler->reverse(group);
-     reinterpret_cast<Rva001DBB82OneSetter *>(TheTransitionHandler)->enable();
-     TheWindowManager->slot28();
-    }
-    field14C=2;
-   }
-   ++field18C;
-  }
-  break;
- case 2:
-  if(TheTransitionHandler->isFinished()) {
-   TheTransitionHandler->slot24();TheWindowManager->slot28();field14C=0;TheDisplay->field141=false;
-  }
-  break;
- }
- if(TheKeyboard->rva00232643(0xCB)){reinterpret_cast<Rva005B02B5 *>(this)->rva005B0249();changed=true;}
- if(TheKeyboard->rva00232643(0xCD)){reinterpret_cast<Rva005B02B5 *>(this)->rva005B027F();changed=true;}
- if(TheKeyboard->rva00232643(0xC8)){reinterpret_cast<Rva005B02B5 *>(this)->rva005B02B5();changed=true;}
- if(TheKeyboard->rva00232643(0xD0)){reinterpret_cast<Rva005B02B5 *>(this)->rva005B02FD();changed=true;}
- if(changed)rva005B1019();
- if(flag150) {
-  rva005B0446();
-  if(!TheCreateAHeroManager)return;
-  unsigned classIndex=field0C;unsigned subclassIndex=field10;
-  {AsciiString key("APT:MyHeroName");g_bfmeAptWindowManager->bfmeSetText(key,heroName08,true);}
-  {AsciiString key("APT:MyHeroClass");g_bfmeAptWindowManager->bfmeSetText(key,TheGameText->fetch(TheCreateAHeroManager->GetClassNameTag(classIndex)),true);}
-  {AsciiString key("APT:MyHeroType");g_bfmeAptWindowManager->bfmeSetText(key,TheGameText->fetch(TheCreateAHeroManager->GetSubClassNameTag(classIndex,subclassIndex)),true);}
-
-  flag150=false;flag151=true;
- }
- flag151=true;
- flag151=!rva005B0725();
-}
 
 // AptMyHero::BuildBlingData, retail 0x005B1B5E..0x005B1E71 (787 bytes, EH).
 // WorldBuilder names it; its asserts (!binder, a slot already used,
