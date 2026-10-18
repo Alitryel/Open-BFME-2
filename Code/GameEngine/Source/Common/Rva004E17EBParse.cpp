@@ -5,7 +5,8 @@
 // Evidence: table slot 0x0086CD94 neighbour SpawnBuilding plus string ParseSpawnBuilding plus vtable
 // 0x00C61B78 plus dtor 0x004E179A plus DoXfer pattern.
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -25,7 +26,18 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-extern const FieldParse g_00C61BE0;
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00861BE0: 4 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C61BE0[5] = {
+	{ "Player", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "Building", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ "Region", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC },
+	{ "InstantCreate", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 
 #include "ascii_string.h"
 
@@ -57,7 +69,7 @@ void Rva004E17EBParse(INI *ini, void *instance, void *, const void *)
 	if (ini && instance)
 	{
 		Rva004E179A record;
-		ini->initFromINI(&record, &g_00C61BE0);
+		ini->initFromINI(&record, g_00C61BE0);
 		((Rva0056653FOwner *)instance)->append(*(const Rva0052BE33 *)&record);
 	}
 	else
