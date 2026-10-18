@@ -49,3 +49,13 @@ bool Rva005426DB::rva005426DB(unsigned char *out)
 	}
 	return false;
 }
+
+// Native RVA 0x009D1E74: exactly five eight-byte records, as bounded by
+// the decoder above. Retail stores zero in all three padding bytes.
+extern const EntityEntry g_00DD1E74[] = {
+    { "lt", '<', { 0, 0, 0 } },
+    { "gt", '>', { 0, 0, 0 } },
+    { "amp", '&', { 0, 0, 0 } },
+    { "quot", '"', { 0, 0, 0 } },
+    { "apos", '\'', { 0, 0, 0 } }
+};

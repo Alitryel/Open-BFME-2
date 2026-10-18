@@ -28,3 +28,9 @@ or closed-strict gain was measured. `data_check` debt is compared before/after;
 existing address-identity findings remain separately recorded by the proof.
 No verification runner or census was launched. Baseline snapshots and the
 frozen-index digest are under `build/missing-constant-link-20261018/`.
+
+The commit hook reports existing code-identity shadow debt in the constructor
+cleanup funclet `rva00797832`: its `VBase00C6EE28` destructor binding at
+0x0057A243 is wrong. The retained-object proof includes the complete funclet
+and its symbolic relocation, so this change preserves that finding. This is
+another reason the legacy prediction does not establish closed-strict closure.
