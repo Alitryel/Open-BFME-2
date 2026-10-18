@@ -1,9 +1,5 @@
-// ?rva005F9053@Rva005F8FEE@@QAEXPBD@Z
-// partial score=0.9 date=2026-10-15
-// ?rva005F9053@Rva005F8FEE@@QAEXPBD@Z
-// partial score=0.5 date=2026-10-10
 // cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc
-// ??1Rva005F8FEE@@UAE@XZ @0x005F8FEE 101B: virtual dtor with derived vtable 0x00879D20 then base 0x007C6F20. Evidence: EH_prolog scopetable 0x007A5AC0; callees rowed ReleaseTreeHintRef 0x0007DEEF twice plus Rva0052413E dtor 0x0052413E plus releaseBuffer 0x00036410 via AsciiString; callers 0x005F9431 thunk 0x005FA141; siblings Rva005F8FCC Rva005F918D.
+// StrategicHUD::PlayerPageFrame (dtor 0x005F8FEE, rowed in StrategicHUDBattlePromptMovieClip.cpp): virtual dtor with derived vtable 0x00879D20 then base 0x007C6F20. Evidence: EH_prolog scopetable 0x007A5AC0; callees rowed ReleaseTreeHintRef 0x0007DEEF twice plus Rva0052413E dtor 0x0052413E plus releaseBuffer 0x00036410 via AsciiString; callers 0x005F9431 thunk 0x005FA141; siblings Rva005F8FCC Rva005F918D.
 #include "ascii_string.h"
 struct TargetRef00217D4C
 {
@@ -32,11 +28,12 @@ public:
 	virtual ~Rva005F8FEEBase() {}
 };
 struct TreeHintRef00217D4C {TargetRef00217D4C*ptr;TreeHintRef00217D4C(const TreeHintRef00217D4C&r):ptr(r.ptr){if(ptr)++ptr->references;}TreeHintRef00217D4C&operator=(const TreeHintRef00217D4C&);~TreeHintRef00217D4C(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}};
-class Rva005F8FEE : public Rva005F8FEEBase
+namespace StrategicHUD {
+class PlayerPageFrame : public Rva005F8FEEBase
 {
 public:
-	virtual ~Rva005F8FEE();
-	void rva005F9053(const char*);
+	virtual ~PlayerPageFrame();
+	void OnPageLoaded(const char*);
 private:
 	int m_04;
 	int m_08;
@@ -48,19 +45,18 @@ private:
 	int m_28;
 	TreeHintRef00217D4C m_holder2C;
 };
-Rva005F8FEE::~Rva005F8FEE()
-{
 }
 
+// OnPageLoaded (symbols.csv pin; the PageLoaded delegate the ctor 0x005F9DCB binds).
 // Native 005F9053: loaded28/replacement2C guard, held factory18,
 // SkipLevelN/path string and LevelIndexFromTarget, then owning reference
 // assignment and clear. Factory type relationship remains neutral.
 class Rva005FEAAFHost {public:TreeHintRef00217D4C create(int,const AsciiString&);};
 namespace AptUtils {const char*SkipLevelN(const char*);int LevelIndexFromTarget(const char*);}
 class Rva002BED91 {public:void clear();};
-void Rva005F8FEE::rva005F9053(const char*path){
- if(!m_28&&!m_holder2C.ptr&&m_holder18.m_ptr){
-  {AsciiString suffix(AptUtils::SkipLevelN(path));Rva005FEAAFHost*factory=reinterpret_cast<Rva005FEAAFHost*>(m_holder18.m_ptr);m_holder2C=factory->create(AptUtils::LevelIndexFromTarget(path),suffix);}
+void StrategicHUD::PlayerPageFrame::OnPageLoaded(const char*path){
+ switch(m_28){case 0: if(!m_holder2C.ptr&&m_holder18.m_ptr){
+  { AsciiString suffix(AptUtils::SkipLevelN(path));Rva005FEAAFHost*factory=reinterpret_cast<Rva005FEAAFHost*>(m_holder18.m_ptr);m_holder2C=factory->create(AptUtils::LevelIndexFromTarget(path),suffix); }
   reinterpret_cast<Rva002BED91*>(&m_holder18)->clear();m_28=1;
- }
+ } break; default: break;}
 }
