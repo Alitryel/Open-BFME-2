@@ -7,8 +7,9 @@
 // is this: getNextToken with the result unused, initFromINI into stack space,
 // and two UnicodeString destructors on the way out.
 //
-// Field names and offsets are the retail table at 0x0110E570
-// (docs/ini_schema.md). Nothing writes 0x00-0x07, so that stays a pad.
+// Field names and offsets are the retail table at VA 0x00BDAD98
+// Nothing writes 0x00-0x07, so that stays a pad. The complete table is owned
+// by MetaMapParseMetaMap.cpp; both callbacks refer to the same native datum.
 #include "PreRTS.h"
 #include "Common/INI.h"
 

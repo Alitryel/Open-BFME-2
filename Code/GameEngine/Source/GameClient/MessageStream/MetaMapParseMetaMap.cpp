@@ -54,7 +54,13 @@ void __identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseAndTranslateLabel@INI@@SAXPAV1@PAX1PBX@Z")();
 }
 // The retail table at 0x007DAD98: 7 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00BDAD98[8] = {
+// DebugCommandMap and MetaMap share this one native table. Give its existing
+// owner the consumer's established name rather than defining a second datum.
+struct DebugCommandMapEntry
+{
+    static const FieldParse m_fieldParseTable[8];
+};
+const FieldParse DebugCommandMapEntry::m_fieldParseTable[8] = {
 	{ "Key", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00BDAA78, 0x8 },
 	{ "Transition", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00BDAD30, 0xC },
 	{ "Modifiers", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00BDAD50, 0x10 },
@@ -93,5 +99,5 @@ void MetaMap::parseMetaMap(INI *ini)
 		INIException e(3, "Meta map entry for '%s' not found", token);
 		_CxxThrowException(&e, (const _s__ThrowInfo *)&parseMetaMapThrowInfoAnchor); __assume(0);
 	}
-	ini->initFromINI(map, g_00BDAD98);
+	ini->initFromINI(map, DebugCommandMapEntry::m_fieldParseTable);
 }
