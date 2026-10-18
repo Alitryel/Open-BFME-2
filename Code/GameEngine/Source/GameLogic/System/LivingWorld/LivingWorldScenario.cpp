@@ -200,13 +200,45 @@ bool LivingWorldScenario::TeamDefeatCondition::isTeamDefeated(int team)
     return true;
 }
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 class INI { public: void initFromINI(void *what, const FieldParse *parseTable); };
 #include "../../../../../../reference/shims/iniexception/Common/INIException.h"
 // The scenario object ParseINI allocates (0xB0 bytes); its constructor keeps
 // the address-derived name of the banked 0x004FD0DA attempt.
 class Rva004FD1BC { public: Rva004FD1BC(); private: char unknown00[0xB0]; };
-extern const FieldParse g_00C63870[];
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva004FD719Parse@@YAXPAVINI@@PAVRva004FD37F@@@Z")();
+void __identifier("?Rva004FD77CParse@@YAXPAVINI@@PAVScenario@LivingWorldScenario@@@Z")();
+void __identifier("?Rva004FD7FBParse@@YAXPAVINI@@PAVRva004FD448@@@Z")();
+void __identifier("?Rva0059E6D3Parse@@YAXPAVINI@@PAVRva004FD4AE@@@Z")();
+void __identifier("?ParseINI@StartingRestriction@@SAXPAVINI@@PAX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00863870: 18 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C63870[19] = {
+	{ "DisplayName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "DisplayDescription", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ "DisplayFiction", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC },
+	{ "DisplayObjectives", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "DisplayGameType", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "DisplayVictoriousText", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ "DisplayDefeatedText", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1C },
+	{ "RegionCampaign", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
+	{ "DisableRegions", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x2C },
+	{ "DisallowStartInRegions", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x38 },
+	{ "DefaultStartSpots", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x44 },
+	{ "PlayerDefeatCondition", (FieldParseProc)&__identifier("?Rva004FD719Parse@@YAXPAVINI@@PAVRva004FD37F@@@Z"), 0, 0x0 },
+	{ "TeamDefeatCondition", (FieldParseProc)&__identifier("?Rva004FD77CParse@@YAXPAVINI@@PAVScenario@LivingWorldScenario@@@Z"), 0, 0x0 },
+	{ "TeamVictoryCondition", (FieldParseProc)&__identifier("?Rva004FD7FBParse@@YAXPAVINI@@PAVRva004FD448@@@Z"), 0, 0x0 },
+	{ "OwnershipSet", (FieldParseProc)&__identifier("?Rva0059E6D3Parse@@YAXPAVINI@@PAVRva004FD4AE@@@Z"), 0, 0x0 },
+	{ "StartingRestriction", (FieldParseProc)&__identifier("?ParseINI@StartingRestriction@@SAXPAVINI@@PAX@Z"), 0, 0x0 },
+	{ "MaxPlayers", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ "MinPlayers", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x24 },
+	{ 0, 0, 0, 0 }
+};
 
 class LivingWorldScenario::Scenario {
 public:
