@@ -103,12 +103,23 @@ typedef _STL::hashtable<
 	ArmorEqual003A393A,
 	ArmorAlloc003A393A> ArmorHashtable003A393A;
 
+// Retail calls 0x003A37FA, the rowed int-keyed hashtable ctor (StlSweepW5Rva003A37FA.cpp's
+// hash_map<int,Rva003A37FAElement>), not the ArmorTemplate one at 0x00360B59: the member is that table.
+struct Rva003A37FAElement {Rva003A37FAElement();Rva003A37FAElement(const Rva003A37FAElement&);Rva003A37FAElement&operator=(const Rva003A37FAElement&);~Rva003A37FAElement(){}char bytes[8]; bool operator==(const Rva003A37FAElement&)const;};
+typedef _STL::hash_map<int, Rva003A37FAElement> Rva003A37FAMap;
+typedef _STL::hashtable<Rva003A37FAMap::value_type, int, Rva003A37FAMap::hasher,
+	_STL::_Select1st<Rva003A37FAMap::value_type>, Rva003A37FAMap::key_equal, Rva003A37FAMap::allocator_type> Rva003A37FATable;
+
 class Rva003A393A
 {
 public:
 	Rva003A393A();
 private:
-	ArmorHashtable003A393A m_table;
+	Rva003A37FATable m_table;
 };
 
-Rva003A393A::Rva003A393A() : m_table(100, ArmorHasher003A393A(), ArmorEqual003A393A(), ArmorAlloc003A393A()) {}
+Rva003A393A::Rva003A393A()
+	: m_table(100,
+		Rva003A37FAMap::hasher(),
+		Rva003A37FAMap::key_equal(),
+		Rva003A37FAMap::allocator_type()) {}
