@@ -37,3 +37,8 @@ void Rva004C193COwner::attemptDamage(DamageInfo *info)
     }
     ((ActiveBody *)this)->ActiveBody::attemptDamage(info);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?attemptDamage@ActiveBody@@UAEXPAVDamageInfo@@@Z=??_GActiveBody@@UAEPAXI@Z")

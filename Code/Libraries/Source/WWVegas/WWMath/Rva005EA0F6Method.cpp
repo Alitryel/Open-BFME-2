@@ -65,3 +65,15 @@ void Rva005EA183::rva005EA0F6()
 	m_holder.rva00575674((Object *)state);
 	return m_holder.m_ptr->f1();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot00@Rva005EA0F6StateBase@@UAEPAXI@Z=??_GRva005EA2AB@@QAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?slot04@Rva005EA0F6State@@UAEXXZ=?Startup@ClosingStateHandler@Impl@DynamicAutoResolveDialog@StrategicInGameUI@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot08@Rva005EA0F6StateBase@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot0C@Rva005EA0F6StateBase@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot10@Rva005EA0F6StateBase@@UAEXPAX0@Z=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?slot14@Rva005EA0F6StateBase@@UAEXPAX0@Z=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?slot18@Rva005EA0F6StateBase@@UAEXPAX0@Z=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?slot1C@Rva005EA0F6StateBase@@UAE_NXZ=?IsCRC@Xfer@@UBE_NXZ")

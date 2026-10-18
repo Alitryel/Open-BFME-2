@@ -700,3 +700,8 @@ StateReturnType AIGuardRetaliateAttackAggressorState::update( void )
 	}
 	return m_attackState->update();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?onExit@State@@UAEXH@Z=?onExit@AIGuardAttackAggressorState@@UAEXW4StateExitType@@@Z")

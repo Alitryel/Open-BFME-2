@@ -76,3 +76,8 @@ AITNGuardInnerState::AITNGuardInnerState(StateMachine *machine)
 	m_exitConditions.m_attackGiveUpFrame = 0;
 	m_exitConditions.m_vptr = __identifier("??_7Rva00545D43@@6B@");
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?update@State@@UAE?AW4StateReturnType@@XZ=?update@AITNGuardInnerState@@UAE?AW4StateReturnType@@XZ")
