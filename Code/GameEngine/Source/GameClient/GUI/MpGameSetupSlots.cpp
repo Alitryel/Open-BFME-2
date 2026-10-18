@@ -493,11 +493,12 @@ public:
 };
 
 // The member at +0x244 (rowed under its address name).
+class AptMpChat { public: void OnInit(); };
 class Rva0057FD6E
 {
 public:
 	// Unrowed 0x0057FFB9 (411 bytes; its Apt callback registration), pinned.
-	void rva0057FFB9();
+	/* the rowed AptMpChat::OnInit */ __declspec(dllimport) __forceinline void rva0057FFB9() { ((AptMpChat *)this)->OnInit(); }
 	void rva0057FD6E();
 	void rva0057FD94();
 	// Unrowed 0x0057FDB0 (15 bytes; hands the flag to its +0x64 member),
