@@ -131,6 +131,19 @@ namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clea
 namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::clear(); }
 namespace _STL { template <> _List_iterator<Coord3D, _Nonconst_traits<Coord3D> > list<Coord3D, allocator<Coord3D> >::insert(_List_iterator<Coord3D, _Nonconst_traits<Coord3D> >, Coord3D const &); }
 namespace _STL { template <> void list<Coord3D, allocator<Coord3D> >::push_back(Coord3D const &); }
+// The canonical map lookup is already emitted by GameEngineInit and the
+// matched map-cache consumers. Do not offer this TU's shorter wrapper.
+namespace _STL {
+typedef _Rb_tree<AsciiString, pair<const AsciiString, MapMetaData>,
+    _Select1st<pair<const AsciiString, MapMetaData> >, less<AsciiString>,
+    allocator<pair<const AsciiString, MapMetaData> > > MapUtilMetadataTree;
+template <> template <>
+__declspec(dllimport) __forceinline
+MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const AsciiString &key)
+{
+    return iterator(_M_find(key));
+}
+}
 // bfme link decl-only end
 
 #ifdef _INTERNAL
