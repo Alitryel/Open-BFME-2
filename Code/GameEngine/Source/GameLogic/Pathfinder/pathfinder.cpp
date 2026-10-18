@@ -3013,7 +3013,7 @@ private:
 };
 class HierarchicalPath { public: Int lookUpPositionOnPath(const Coord3D *); };
 struct PathfinderCellLimitView { char pad[0x1210]; unsigned int maxCells; };
-extern Int PathfinderSearchCellsVisited;	// 0x00DFF0CC, also cleared by FindSafePath
+extern unsigned int PathfinderSearchCellsVisited;	// 0x00DFF0CC, also cleared by FindSafePath
 // A cell centre temporary passed on by address.
 static __forceinline Coord3D *cellPointArg(const PathfinderCellPoint &p) { return (Coord3D *)&p; }
 // A Bool argument travels as its whole stack dword (push dword ptr [bool]).

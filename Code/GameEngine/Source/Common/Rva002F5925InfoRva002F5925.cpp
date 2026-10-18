@@ -126,9 +126,10 @@ struct TCheckMovementInfo {ICoord2D cell;PathfindLayerEnum layer;int radius;bool
 class Rva002E6FDF {public:Rva002E6FDF *rva002E6FDF();};
 class GlobalData {public:char pad[0x121C];unsigned callbackLimit;};
 extern GlobalData *TheWritableGlobalData;
-// Original spelling is unknown. Native9FF0CC is a four-byte BSS counter,
-// independently read/incremented against the config limit at121C.
-static unsigned cellsExamined;
+// Original spelling is unknown. Native9FF0CC is the four-byte BSS counter
+// cleared by the search entry points and incremented against the limit at121C.
+// All users share this owner; its unsigned view preserves the native comparison.
+unsigned int PathfinderSearchCellsVisited;
 int Rva002E6E6CGet(int);
 class PathfindZoneManager {public:unsigned char IsPassable(int,int);};
 class Rva002E6DC4 {public:bool rva002E6DC4(void*,void*);};
@@ -148,8 +149,8 @@ struct Rva002F5925Info {
 };
 int Rva002F5925Info::cellCallback(PathfindCell *from,PathfindCell *to,int x,int y)
 {
- if(cellsExamined>TheWritableGlobalData->callbackLimit)return 1;
- ++cellsExamined;
+ if(PathfinderSearchCellsVisited>TheWritableGlobalData->callbackLimit)return 1;
+ ++PathfinderSearchCellsVisited;
  if(range>0){int dx=x-goal->m_info->x;int dy=y-goal->m_info->y;if((dx*dx+dy*dy)*100<range*range)return 1;}
  Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);
  if(TheTriggerManager->isBurning(point))return 1;
