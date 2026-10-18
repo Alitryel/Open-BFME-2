@@ -157,40 +157,7 @@ public:
 // WB debug max selects one of two integer lvalues; a reference-returning
 // maximum preserves their lifetimes and the native LEA selection.
 inline const int&timelineMaximum(const int&a,const int&b){return a<b?b:a;}
-// WB13DBAA0 AptTimeLine.cpp455 is unnamed; retail5_1E511..5_1E664 whole339B
-// samples this same24B graph, clamps to the available series frames and
-// sends lines through the established Add_Line and flush bindings. Native
-// flushes after1001 pending segments, restores shader0 and clears flag48.
-void Rva0051E354::rva0051E511(TimelineSeries*series,float step,float lineWidth,unsigned long color) {
- Render2DClass*render=reinterpret_cast<Rva0051E511DisplayView*>(TheDisplay)->renderer();
- if(!render)return;
- render->flag=false;
- unsigned previousShader=render->shader;
- render->shader=2;
- int pending=0;
- Vector2 previous(x-step,-1.0f);
- bool last=false;
- while(previous.X<x+width) {
-  if(last)break;
-  Vector2 next;
-  next.X=previous.X+step;
-  int frame=int((float(frames)/width)*(next.X-x));
-  int zero=0;
-  int index=timelineMaximum(frame,zero);
-  if(index>=series->count()) {index=series->count()-1;last=true;}
-  next.Y=rva0051E354(series,index).Y;
-  if(previous.Y>0.0f) {
-   render->Add_Line(previous,next,lineWidth,color);
-   if(++pending>1000) {
-    reinterpret_cast<Rva0011A040Target*>(render)->rva0011A040();
-    pending=0;
-   }
-  }
-  previous=next;
- }
- if(pending>0)reinterpret_cast<Rva0011A040Target*>(render)->rva0011A040();
- render->shader=previousShader;
-}
+
 
 struct Rva0051E96BRecord
 {
