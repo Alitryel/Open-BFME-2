@@ -19,7 +19,7 @@ extern void *g_00DE0408;
 extern void *g_00DE0400;
 extern void *g_00DE03F8;
 extern void *g_00DE03F4;
-extern void *g_00DE03F0;
+void * g_00DE03F0;	// retail RVA 0x009E03F0 (.bss), defined here
 extern void *g_00DE03EC;
 extern void *g_00DE03E4;
 void * g_00DE03E0;	// retail RVA 0x009E03E0 (.bss), defined here
