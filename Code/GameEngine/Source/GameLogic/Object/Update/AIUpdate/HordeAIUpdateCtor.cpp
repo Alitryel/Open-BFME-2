@@ -41,7 +41,45 @@ extern "C" const void *const vtbl_00C505F8[];  // ??_7Rva0049A64B@@6BRva0026E836
 #pragma comment(linker, "/alternatename:_vtbl_00C505F8=??_7Rva0049A64B@@6BRva0026E836_Root@@@")
 extern "C" const void *const vtbl_00C52EE8[];  // ??_7DockUpdateInterface@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C52EE8=??_7DockUpdateInterface@@6B@")
-extern const void *const g_00C50868[];
+// Retail VA C50868: 20-slot secondary-interface table. Both constructors
+// install it at +3E4. The next table starts at C508B8 (worker +20 table).
+// Entries bind directly to existing code owners; no new function aliases.
+extern "C" {
+void __identifier("?rva0049A880@Rva0049A64B@@UAE_NH@Z")();
+void __identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z")();
+void __identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z")();
+void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
+void __identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z")();
+void __identifier("?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z")();
+void __identifier("??_9@$BBE@AE")();
+void __identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")();
+void __identifier("?rva0049A973@HordeAIUpdate@@UAE_NPAVObject@@H@Z")();
+void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
+void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
+void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
+}
+extern const void *const HordeAIUpdateInterface3E4Table[20] = {
+	(const void *)&__identifier("?rva0049A880@Rva0049A64B@@UAE_NH@Z"), // 0 0x0089A880
+	(const void *)&__identifier("?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z"), // 1 0x0089A8A1
+	(const void *)&__identifier("?rva0049A6D7@Rva0049A6D7@@QAE_NHHH@Z"), // 2 0x0089A6D7
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // 3 0x009CB9FA
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // 4 0x0090B5F1
+	(const void *)&__identifier("?rva0049A8FA@Rva0049A64B@@UAEXHPAUCoord3D@@@Z"), // 5 0x0089A8FA
+	(const void *)&__identifier("??_9@$BBE@AE"), // 6 0x009CB26F
+	(const void *)&__identifier("??_9@$BBE@AE"), // 7 0x009CB26F
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 8 0x0087A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 9 0x0087A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 10 0x0087A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 11 0x0087A69C
+	(const void *)&__identifier("?rva0049A973@HordeAIUpdate@@UAE_NPAVObject@@H@Z"), // 12 0x0089A973
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 13 0x0087A69C
+	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // 14 0x0090B5C6
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 15 0x0087A69C
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // 16 0x009CB9FF
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // 17 0x0087A69C
+	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // 18 0x0090B5C6
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // 19 0x0087A699
+};
 
 class Thing;
 class ModuleData;
@@ -93,6 +131,6 @@ HordeAIUpdate::HordeAIUpdate(Thing *thing, const ModuleData *moduleData)
 	m_p10 = (const void *)((unsigned int)vtbl_00C5052C);
 	m_p20 = (const void *)((unsigned int)vtbl_00C50528);
 	m_p24 = (const void *)((unsigned int)vtbl_00C52F88);
-	m_p3E4 = (const void *)g_00C50868;
+	m_p3E4 = (const void *)HordeAIUpdateInterface3E4Table;
 	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }

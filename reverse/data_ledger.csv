@@ -11034,7 +11034,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x0085052C,12,.rdata,vtable,??_7Rva0049A64B@@6BRva0026E836_B2@@@,,literal,??_7Rva0049A64B@@6BRva0026E836_B2@@@;_vtbl_00C5052C,0,2
 0x00850538,192,.rdata,vtable,??_7HordeWorkerAIUpdate@@6BDBaseM1@@@,,literal,??_7HordeWorkerAIUpdate@@6BDBaseM1@@@;??_7Rva0049A64B@@6BRva0026E836_M1@@@;_vtbl_00C50538,0,4
 0x008505F8,624,.rdata,vtable,??_7Rva0049A64B@@6BRva0026E836_Root@@@,,literal,??_7Rva0049A64B@@6BRva0026E836_Root@@@;_vtbl_00C505F8,0,2
-0x00850868,80,.rdata,global,?g_00C50868@@3QBQBXB,,unowned,,0,2
+0x00850868,80,.rdata,global,?HordeAIUpdateInterface3E4Table@@3QBQBXB,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/HordeAIUpdateCtor.cpp,owned,,1,2
 0x008508B8,4,.rdata,vtable,??_7HordeWorkerAIUpdate@@6BDBaseM3@@@,,literal,??_7HordeWorkerAIUpdate@@6BDBaseM3@@@;_vtbl_00C508B8,0,2
 0x008508BC,12,.rdata,vtable,??_7HordeWorkerAIUpdate@@6BDBaseB2@@@,,literal,??_7HordeWorkerAIUpdate@@6BDBaseB2@@@;_vtbl_00C508BC,0,2
 0x008508C8,620,.rdata,vtable,??_7HordeWorkerAIUpdate@@6BDBaseRoot@@@,,literal,??_7HordeWorkerAIUpdate@@6BDBaseRoot@@@;_vtbl_00C508C8,0,2

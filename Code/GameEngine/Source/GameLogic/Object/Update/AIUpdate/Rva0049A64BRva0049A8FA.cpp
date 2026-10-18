@@ -98,6 +98,19 @@ public:
 	virtual bool rva0049A8A1(int a, Coord3D *pos, int *out);
 	virtual void rva0049A8FA(int a, Coord3D *out);
 };
+// Native 0049A880..0049A8A1, slot 0 of the same +3E4 interface.
+// The matched slots below establish the complete-object/secondary-this
+// relationship: Object +8 is read at this-3DC, then contain +250 slot 31.
+// This slot returns false without a provider, otherwise tail-calls its
+// slot 6 with the original argument. The application operation is unknown.
+bool Rva0049A64B::rva0049A880(int a)
+{
+	Rva0049A8FAProvider *p = m_object->m_250->rva7C();
+	if (!p)
+		return false;
+	return p->rva18(a);
+}
+
 void Rva0049A64B::rva0049A8FA(int a, Coord3D *out)
 {
 	int extra;
