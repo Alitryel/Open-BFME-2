@@ -1,13 +1,7 @@
 // ?updateInterestZones@TacticalAI@@QAEXXZ
-// partial score=0.879 date=2026-10-17
 // ?updateInterestZones@TacticalAI@@QAEXXZ
-// partial score=0.939 date=2026-10-15
 // ?updateInterestZones@TacticalAI@@QAEXXZ
-// partial score=0.90125 date=2026-10-14
 // ?updateInterestZones@TacticalAI@@QAEXXZ
-// partial score=0.91 date=2026-10-13
-// ?updateInterestZones@TacticalAI@@QAEXXZ
-// partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /GX /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/open-bfme-1/inputs/reference/shims/objectdlink
 // stlport
 // Target 0x002C63A1..0x002C64D0, 303 bytes. WB TacticalAI::DoXfer name lead
@@ -278,18 +272,18 @@ void TacticalAI::updateInterestZones() {
  }
  typedef _STL::list<TeamPrototype *> PrototypeList;
  PrototypeList &prototypes=((Rva002C6607PlayerView*)player)->prototypes;
- PrototypeList::iterator begin=prototypes.begin();
- _ReadWriteBarrier();
  PrototypeList::iterator end=prototypes.end();
+ PrototypeList::iterator begin=prototypes.begin();
  PrototypeList::iterator p=begin;
  for(;p!=end;++p) {
-  for(DLINK_ITERATOR<Team> teams=((*p ? *p : *p))->iterate_TeamInstanceList();!teams.done();teams.advance()) {
+  for(DLINK_ITERATOR<Team> teams=(*(TeamPrototype * volatile *)&*p)->iterate_TeamInstanceList();!teams.done();(player ? teams.advance() : teams.advance())) {
    Team *team=teams.cur();
    if(team==((Rva002C6607PlayerView*)player)->excluded) continue;
    volatile bool found = false;
    DLINK_ITERATOR<Object> objects=team->iterate_TeamMemberList();
-   for(;!objects.done() && !found;objects.advance()) {
-    Rva002C6607ObjectView *obj=(Rva002C6607ObjectView*)objects.cur();
+   Rva002C6607ObjectView *obj;
+   for(;(obj=(Rva002C6607ObjectView*)objects.cur())!=0 && !found;objects.advance()) {
+    _ReadWriteBarrier();
     if(((unsigned char)obj->tmpl[0x108]&8) || ((unsigned char)obj->tmpl[0x113]&4)) {
     	_ReadWriteBarrier();
      Object *victim=obj->ai ? obj->ai->getCurrentVictim() : 0;
