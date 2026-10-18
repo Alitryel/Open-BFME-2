@@ -1,15 +1,11 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.9846 date=2026-10-18
-// ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.99 date=2026-10-14
-// ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.97 date=2026-10-14
-// ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.93 date=2026-10-13
-// ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.93 date=2026-10-08
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// partial score=0.999 date=2026-10-18
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
+// W10-c2f: /D_CRTIMP= (vector<long> dtor calls the rowed game _free 0x30830 directly, not the CRT import) and a named
+// rules-mode local (retail mov esi,[esi+0x304] before the lea/push) leave ONE instruction: retail inits index with
+// and [ebp-0x14],0 (index starts 0, not -1); every index=0 spelling (decl/late/mid/enum/false/volatile/memset) makes the
+// zero constant a separate web and flips the zero register edi->ebx (nd 220+).
 //
 // BFME2's skirmish screen Apt callbacks, 0x00521741 onward, bound by these
 // names ("AptSkirmish::OnInitialized" ...) as member pointers by the
@@ -725,7 +721,7 @@ bool AptSkirmish::InitTheGame() {
     ((SkirmishScenarioView *)((char *)this+0x27c))->select((enemy ? (((SkirmishGameView *)TheSkirmishGameInfo)->scenario) : (((SkirmishGameView *)TheSkirmishGameInfo)->scenario)));
    }
   }
-  char rules[0x28];MpGameRules::GetDefaults(*(int *)((char *)this+0x304),rules);
+  char rules[0x28];int rmode=*(int *)((char *)this+0x304);MpGameRules::GetDefaults(rmode,rules);
   memcpy(((SkirmishGameView *)TheSkirmishGameInfo)->rules,rules,0x28);
  }
  TheSkirmishGameInfo->setSeed(GetTickCount());

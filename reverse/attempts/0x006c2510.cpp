@@ -129,8 +129,6 @@ private:
 
 class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
 
-unsigned int __stdcall Rva006C1FE0(char *base, int length, char **bodyOut);
-
 class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
@@ -352,13 +350,4 @@ unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **ou
  if(lock)Rva00030DF0Release(lock);
  return result;
 }
-
-// The native 006C2510 caller supplies this for the otherwise this-unused
-// 006C1FE0 trailer reader; this typed ABI form is a full byte/relocation twin
-// of the existing stdcall reader, not new unique retail bytes.
-unsigned int GeneralAllocatorDebug::rva006C1FE0(char *base, int length, char **bodyOut)
-{
- unsigned short bodySize=*(unsigned short *)(base+length-2);
- if(bodyOut)*bodyOut=base+length-2-bodySize;
- return bodySize+2;
-}
+// 0x006C1FE0 is rowed as ?rva006C1FE0@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z in Rva006C1790Cluster.cpp (W10-c2f).
