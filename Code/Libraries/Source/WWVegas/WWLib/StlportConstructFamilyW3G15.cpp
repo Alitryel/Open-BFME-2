@@ -36,10 +36,18 @@
 // declared specialised so _Construct calls the rowed out-of-line bodies.
 #include <memory>
 
+struct Rva002B72C9;
+struct Rva004220CDRecord;
+namespace _STL {
+template <class T, class A> class vector;
+template <> class vector<Rva002B72C9, allocator<Rva002B72C9> > { public: vector(const vector &); };
+template <> class vector<Rva004220CDRecord, allocator<Rva004220CDRecord> > { public: vector(const vector &); };
+}
+namespace FXShaderParameterSourceNamespaceSAS { struct SourceNamespace_Shadow { SourceNamespace_Shadow(const SourceNamespace_Shadow &); }; }
 struct Rva0014F647Element
 {
 	int a;
-	Rva0014F647Element(const Rva0014F647Element &that);
+	__declspec(dllimport) __forceinline Rva0014F647Element(const Rva0014F647Element &that) { typedef FXShaderParameterSourceNamespaceSAS::SourceNamespace_Shadow T; ((T *)this)->T::SourceNamespace_Shadow(*(const T *)&that); }
 };
 
 struct Rva002B91EDElement
@@ -48,16 +56,17 @@ struct Rva002B91EDElement
 	Rva002B91EDElement(const Rva002B91EDElement &that);
 };
 
+class UnitRevivalEntry { public: UnitRevivalEntry(const UnitRevivalEntry &); };
 struct Rva002E160FElement
 {
 	int a;
-	Rva002E160FElement(const Rva002E160FElement &that);
+	__declspec(dllimport) __forceinline Rva002E160FElement(const Rva002E160FElement &that) { ((UnitRevivalEntry *)this)->UnitRevivalEntry::UnitRevivalEntry(*(const UnitRevivalEntry *)&that); }
 };
 
 struct Rva00423648Element
 {
 	int a;
-	Rva00423648Element(const Rva00423648Element &that);
+	__declspec(dllimport) __forceinline Rva00423648Element(const Rva00423648Element &that) { typedef _STL::vector<Rva004220CDRecord, _STL::allocator<Rva004220CDRecord> > V; ((V *)this)->V::vector(*(const V *)&that); }
 };
 
 struct Rva004C734DElement
@@ -105,7 +114,7 @@ struct Rva00600F9CElement
 struct Rva002BAE2AElement
 {
 	int a;
-	Rva002BAE2AElement(const Rva002BAE2AElement &that);
+	__declspec(dllimport) __forceinline Rva002BAE2AElement(const Rva002BAE2AElement &that) { typedef _STL::vector<Rva002B72C9, _STL::allocator<Rva002B72C9> > V; ((V *)this)->V::vector(*(const V *)&that); }
 };
 
 template void _STL::_Construct<Rva0014F647Element, Rva0014F647Element>(Rva0014F647Element *, const Rva0014F647Element &);
