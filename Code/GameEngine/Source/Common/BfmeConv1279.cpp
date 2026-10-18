@@ -24,7 +24,7 @@ public:
 class BfmeQ1279;
 
 // g_bfmeStr1279A was the retail address alias (RVA 0x0086AC00) of the constant "ticket"; the literal is the source.
-extern char g_bfmeStr1279B[];
+// Retail RVA 0x0086ABF4 holds the complete "challenge" string.
 
 class BfmeA1279
 {
@@ -39,5 +39,5 @@ BfmeA1279::BfmeA1279(BfmeQ1279 *a)
 {
 	m_bfme00 = a;
 	reinterpret_cast< BfmeThingUPB * >( a )->bfmeGoUPB("ticket", m_bfme04, (void *)0x100);
-	reinterpret_cast< BfmeThingUPB * >( m_bfme00 )->bfmeGoUPB(g_bfmeStr1279B, m_bfme104, (void *)0x100);
+	reinterpret_cast< BfmeThingUPB * >( m_bfme00 )->bfmeGoUPB("challenge", m_bfme104, (void *)0x100);
 }
