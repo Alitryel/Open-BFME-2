@@ -469,38 +469,6 @@ void TransportContain::letRidersUpgradeWeaponSet()
 		self->clearWeaponSetFlag(BFME_WEAPONSET_5);
 }
 
-// ?rva0046740C@TransportContain@@MAEXXZ @0x0046740C
-// Throws every passenger out at ThrowOutPassengersVelocity (taken into the
-// transport's frame) with ThrowOutPassengersLandingWarhead.
-void TransportContain::rva0046740C()
-{
-	UnsignedInt count = getContainCount(0);
-	if (count > 0)
-	{
-		const TransportContainModuleData *d = getTransportContainModuleData();
-		Object *me = getObject();
-		const Matrix3D *mtx = me->getTransformMatrix();
-		Coord3D velocity;
-		velocity.x = 0.0f;
-		velocity.y = 0.0f;
-		velocity.z = 0.0f;
-		Vector3 in(d->m_throwOutPassengersVelocity.x, d->m_throwOutPassengersVelocity.y, d->m_throwOutPassengersVelocity.z);
-		Vector3 v = *mtx * in;
-		v -= getTranslation(*mtx);
-		setCoord(&velocity, v.X, v.Y, v.Z);
-		for (UnsignedInt i = 0; i < count; ++i)
-		{
-			Object *rider = rvaSlot79(0);
-			PhysicsBehavior *physics = rider->getPhysics();
-			if (physics)
-			{
-				((Rva003909FAObj *)physics)->consume(&velocity, (int)me, (int)d->m_throwOutPassengersLandingWarhead);
-				physics->rva00390629(TRUE);
-				rider->setModelConditionState(BFME_MODELCONDITION_7F);
-			}
-		}
-	}
-}
 
 // Secondary contain interface receiver, as shown by the -0x1C module-data
 // and -0x18 owner loads. Retail calls slot 60 before checking the three
