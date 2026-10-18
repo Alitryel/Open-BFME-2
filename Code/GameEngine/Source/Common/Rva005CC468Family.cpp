@@ -16,11 +16,14 @@ public:
 	Rva005E1753Result GetResult();
 };
 
-extern Rva005E1753Class g_00E06620;
-extern Rva005E1753Class g_00E0675C;
-extern Rva005E1753Class g_00E068EC;
-extern Rva005E1753Class g_00E06900;
-extern Rva005E1753Class g_00E06918;
+// One storage owner per retail address. Keep the getter's established view
+// only at the call, rather than introducing another datum with its class name.
+extern unsigned g_Va00E06620;
+class Rva005E16DA;
+extern Rva005E16DA g_rva00E0675C;
+extern Rva005E16DA g_rva00E068EC;
+extern Rva005E16DA g_rva00E06900;
+extern Rva005E16DA g_rva00E06918;
 
 class Rva005CC37C
 {
@@ -54,25 +57,25 @@ public:
 
 Rva005E1753Result Rva005CC37C::rva005CC468()
 {
-	return g_00E06620.GetResult();
+	return ((Rva005E1753Class *)&g_Va00E06620)->GetResult();
 }
 
 Rva005E1753Result Rva005E9295::rva005E9295()
 {
-	return g_00E0675C.GetResult();
+	return ((Rva005E1753Class *)&g_rva00E0675C)->GetResult();
 }
 
 Rva005E1753Result Rva005F5694::rva005F5694()
 {
-	return g_00E068EC.GetResult();
+	return ((Rva005E1753Class *)&g_rva00E068EC)->GetResult();
 }
 
 Rva005E1753Result Rva005F594C::rva005F594C()
 {
-	return g_00E06900.GetResult();
+	return ((Rva005E1753Class *)&g_rva00E06900)->GetResult();
 }
 
 Rva005E1753Result Rva005F5D25::rva005F5D25()
 {
-	return g_00E06918.GetResult();
+	return ((Rva005E1753Class *)&g_rva00E06918)->GetResult();
 }

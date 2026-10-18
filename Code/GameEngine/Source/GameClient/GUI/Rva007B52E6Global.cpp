@@ -87,3 +87,13 @@ void rva007B5134()
     }
     atexit(rva007B998D);
 }
+
+// Retail gives these objects zero-filled static storage; the four rowed
+// startup functions above explicitly construct them and register destruction.
+// Use their existing decorated names for storage, without a second C++ dynamic
+// initializer. The typed extern declarations above describe their live view.
+struct GuiButtonStaticStorage { unsigned int words[5]; };
+extern "C" GuiButtonStaticStorage __identifier("?g_rva00E0675C@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_rva00E068EC@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_rva00E06900@@3VRva005E16DA@@A") = {};
+extern "C" GuiButtonStaticStorage __identifier("?g_rva00E06918@@3VRva005E16DA@@A") = {};
