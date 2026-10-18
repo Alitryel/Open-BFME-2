@@ -98,7 +98,7 @@ unsigned g_Va00DF708C;	// retail RVA 0x009F708C (.bss), defined here
 // static-init time; defined here, its initializer's unit, so the burning-death
 // state (AIBurningDeathStateUpdate.cpp) that passes it on resolves it.
 unsigned g_Va00E01E08;
-extern unsigned g_Va00E02D64;
+unsigned g_Va00E02D64;	// retail RVA 0x00A02D64 (.bss), defined here
 // The two GameSpy rank-weight tables this unit's arg-ctor bodies build and the
 // default rank table beside them. Retail's storage for all three is the zero
 // tail of .data, so the file holds zeros and these constructors fill it in at
