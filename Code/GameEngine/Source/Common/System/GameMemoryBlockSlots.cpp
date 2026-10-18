@@ -49,7 +49,7 @@ bool rva00030850(void *block, unsigned int heap)
 // (?_GetHeapAllocator@MemoryPool@@YAPAVGeneralAllocator@Allocator@EA@@I@Z),
 // unreferenced.
 namespace EA { namespace Allocator { class GeneralAllocator; } }
-extern void *g_00DE03E4;
+void * g_00DE03E4;	// retail RVA 0x009E03E4 (.bss), defined here
 
 EA::Allocator::GeneralAllocator *rva000308F0(unsigned int id)
 {
