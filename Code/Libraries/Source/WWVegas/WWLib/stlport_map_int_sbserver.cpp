@@ -19,9 +19,9 @@ struct SBServer
     // body comes first in link order, so it is the copy the link keeps).
     inline __declspec(noinline) SBServer(const SBServer &src);
     inline __declspec(noinline) ~SBServer();
-    SBServer &operator=(const SBServer &src);
-    void Rva005E3B9E();
-    void Rva005E3E8A(void *newHandle);
+    inline __declspec(noinline) SBServer &operator=(const SBServer &src);
+    inline __declspec(noinline) void Rva005E3B9E();
+    inline __declspec(noinline) void Rva005E3E8A(void *newHandle);
 };
 
 inline __declspec(noinline) SBServer::SBServer(const SBServer &src)
@@ -71,7 +71,7 @@ inline __declspec(noinline) SBServer::~SBServer()
     }
 }
 
-void SBServer::Rva005E3B9E()
+inline __declspec(noinline) void SBServer::Rva005E3B9E()
 {
     void *handle = m_handle;
     if (handle != 0) {
@@ -82,7 +82,7 @@ void SBServer::Rva005E3B9E()
     }
 }
 
-void SBServer::Rva005E3E8A(void *newHandle)
+inline __declspec(noinline) void SBServer::Rva005E3E8A(void *newHandle)
 {
     if (newHandle != m_handle) {
         Rva005E3B9E();
@@ -95,7 +95,7 @@ void SBServer::Rva005E3E8A(void *newHandle)
     }
 }
 
-SBServer &SBServer::operator=(const SBServer &src)
+inline __declspec(noinline) SBServer &SBServer::operator=(const SBServer &src)
 {
     if (this != &src) {
         void *shandle = src.m_handle;
@@ -173,4 +173,15 @@ public:
 int Rva005E69D0::rva005E415F()
 {
     return implementation->rva005E4116();
+}
+
+// StrategicInGameUIArmyDetailsCreateIcon.cpp emits select-any copies of the
+// same three SBServer bodies; defining them inline-noinline here keeps one body
+// under each name. The anchor keeps this unit's copies emitted.
+// ?bfmeAnchorSBServer absent-from-retail
+void bfmeAnchorSBServer(SBServer *a, const SBServer *b, void *h)
+{
+    *a = *b;
+    a->Rva005E3B9E();
+    a->Rva005E3E8A(h);
 }
