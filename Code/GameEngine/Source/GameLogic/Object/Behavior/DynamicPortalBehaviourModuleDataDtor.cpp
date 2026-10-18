@@ -27,6 +27,7 @@
 class Rva00253487Base
 {
 public:
+	Rva00253487Base(); // rowed base constructor; also used by the vtable anchor
 	virtual ~Rva00253487Base() {}
 
 private:
