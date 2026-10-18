@@ -1,7 +1,15 @@
 // ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
+// partial score=0.996 date=2026-10-18
+// ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
 // partial score=0.996 date=2026-10-16
 // ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
 // partial score=0.996 date=2026-10-16
+// W10-c4 2026-10-18: clamp<float> (row 0x575A, PreRTS.h body) defined visibly in the TU: retail's
+// cross-TU knowledge that clamp writes no memory is what hoists the damage128/info loads above the
+// call; WB statement shape (sqrt distance, clamp, ratio, amount). nd4: info load before fstp [esp+4],
+// and post-call fld max before add esp,0xc. Storing the clamp result in a named variable fixes the
+// post-call pair but flips the commutative operand order at the min/bonus/multiplier *=, += sites
+// (anti-correlated; reference-alias spellings move the flip around, never all three).
 // W9-O3 2026-10-16: both stale callees fixed: distSq via its row view Rva000CBA20::distSq, rva0028C15E row is (int,float*,int,int) -> called through a bool-last member-pointer view (retail pushes the bool param slot [ebp+0x18] as the dword: an int signature adds movzx). Size exact nd 4 = two x87-window swaps only: retail loads info into EDI before 'fstp [esp+4]' and fld maxRadius130 before the post-clamp 'add esp,0xc'. Inert: IR-load-count snippets at 4 sites, info/amount aliases, clamp result local (+40 B), barrier moves (the barrier after distance is load-bearing).
 // cl: /O1 /DNDEBUG /MD /I. /ICode/Libraries/Include /ICode/Libraries/Include/Lib /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfmelist
 // stlport
@@ -132,7 +140,15 @@ struct Rva00508120Scalar
  Rva2225E0Filter filter;
  float factor;
 };
-template <class T> T clamp(T lo, T value, T hi);
+template <class T> T clamp(T lo, T value, T hi)
+{
+ if (value < lo)
+  return lo;
+ else if (value > hi)
+  return hi;
+ else
+  return value;
+}
 class Rva00507823
 {
 public:
@@ -191,8 +207,9 @@ bool Made002CC5E1::rva00508120(void *weapon, Object *target, DamageInfo *info, b
  {
   float distance = (float)sqrt(((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)position));
 _ReadWriteBarrier();
+  float ratio = (clamp(minRadius134, distance, maxRadius130) - minRadius134) / (maxRadius130 - minRadius134);
   float damage = damage128;
-  info->amount20 = damage - (damage - minDamage12C) * ((clamp(minRadius134, distance, maxRadius130) - minRadius134) / (maxRadius130 - minRadius134));
+  info->amount20 = damage - (damage - minDamage12C) * ratio;
  }
  else
   info->amount20 = damage128;

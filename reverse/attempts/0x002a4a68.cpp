@@ -1,18 +1,28 @@
-// ?rva002A4A68@Rva002A4A68@@QAEXXZ
-// partial score=0.946 date=2026-10-17
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.995 date=2026-10-18
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.927 date=2026-10-15
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.91 date=2026-10-13
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.8952 date=2026-10-13
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.8952 date=2026-10-13
+// ?rva002A4A68@InGameUI@@QAEXXZ
+// partial score=0.8919 date=2026-10-05
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /arch:SSE
 // stlport
-// ?rva002A4A68@Rva002A4A68@@QAEXXZ @0x002A4A68 404B
+// ?rva002A4A68@InGameUI@@QAEXXZ @0x002A4A68 404B
 // evidence: unlock lane, caller 0x0004A462, callees all rowed, globals TheGameLogic TheGameClient TheWritableGlobalData
 #include <list>
 
 template<typename T> class StringBase
 {
-	friend class Rva002A4A68;
+	friend class InGameUI;
 	void validate() const;
 };
 
-class Rva002A4A68;
+class InGameUI;
 
 class GameLogic {
 public:
@@ -59,8 +69,7 @@ extern ClientFrameSubsystem *TheGameClient;
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
-extern int g_00DFEE08;
-extern float g_Va007C26F0;
+extern unsigned int g_00DFEE08;
 
 class GameClientRandomVariable {
 public:
@@ -103,76 +112,53 @@ struct Payload {
     int m_20;
 };
 
-class Rva002A4A68 {
+class InGameUI {
 public:
     void rva002A4A68();
     char _pad[0x910];
 };
 
 template<> __declspec(noinline) void StringBase<unsigned short>::validate() const { (void)*(volatile char *)this; }
-// ?rva002A4A68@Rva002A4A68@@QAEXXZ present-unmatched
-void Rva002A4A68::rva002A4A68()
+// ?rva002A4A68@InGameUI@@QAEXXZ present-unmatched
+void InGameUI::rva002A4A68()
 {
     ((const StringBase<unsigned short> *)((const char *)this + 0x8d4))->validate();
-    _STL::list<int> *lst = (_STL::list<int> *)((char *)this + 0x8d0);
-    void *headNext = *(void * *)lst;
-    void *cur = *(void * *)headNext;
-    if (cur == headNext)
-        goto count;
-    while (1) {
-        Payload *p = *(Payload **)((char *)cur + 8);
+    _STL::list<int> &lst = *(_STL::list<int> *)((char *)this + 0x8d0);
+    _STL::list<int>::iterator it = lst.begin();
+    while (it != lst.end()) {
+        Payload *p = (Payload *)*it;
         if (!TheGameLogic->isGamePaused()) {
-            int frame = TheGameClient->getFrame();
-            if ((unsigned)frame >= (unsigned)p->m_c)
-                goto del;
-            if (!(p->m_10 & 2))
-                goto update;
-            if (!(p->m_obj->m_flag10 & 4))
-                goto update;
-del:;
-            Rva002D7127 *o = p->m_obj;
-            void *ret = 0;
-            if (o)
-                ret = o->first(0);
-            ::operator delete(ret);
-            ::operator delete(p);
-            _STL::list<int>::iterator it;
-            *(void * *)&it = cur;
-            _STL::list<int>::iterator nxt = (1 ? (lst->erase(it)) : (lst->erase(it)));
-            cur = *(void * *)&nxt;
-            if (cur != *(void * *)lst)
+            unsigned frame = TheGameClient->getFrame();
+            if (frame >= (unsigned)p->m_c || ((p->m_10 & 2) && (p->m_obj->m_flag10 & 4))) {
+                Rva002D7127 *o = p->m_obj;
+                ::operator delete(o ? o->first(0) : 0);
+                ::operator delete(p);
+                it = (p ? lst.erase(it) : lst.erase(it));
                 continue;
-            break;
+            }
         }
-update:;
         p->m_4 += p->m_14;
         p->m_14 *= p->m_1c;
         p->m_8 += p->m_18;
         p->m_18 *= p->m_1c;
         if (p->m_10 & 1) {
-            int cur2 = p->m_c - TheGameClient->getFrame();
-            if ((unsigned)cur2 < (unsigned)g_00DFEE08) {
-                float f = (float)(unsigned)cur2 / (float)(unsigned)g_00DFEE08;
-                p->m_obj->m_1c = f;
+            unsigned remaining = p->m_c - TheGameClient->getFrame();
+            if (remaining < g_00DFEE08) {
+                p->m_obj->m_1c = (float)remaining / (float)g_00DFEE08;
             }
         }
         int v;
         if (TheWritableGlobalData->m_db0)
-            v = (int)(TheWritableGlobalData->m_rand.getValue() + g_Va007C26F0);
+            v = (int)(TheWritableGlobalData->m_rand.getValue() + 0.5f);
         else
             v = p->m_20;
         Rva002D7127 *o2 = p->m_obj;
         o2->m_2c = v;
         o2->m_30 = v;
         p->m_obj->rva002D6F80(p->m_4, p->m_8, TheWritableGlobalData->m_db4);
-        cur = *(void * *)cur;
-        if (cur != *(void * *)lst)
-            continue;
-        break;
+        ++it;
     }
-count:;
-    // list::size() walks from the sentinel; the farm bank dereferenced the head twice
-    if (lst->size() == 0) {
+    if (lst.size() == 0) {
         *(int *)((char *)this + 0x908) = -1;
         *(int *)((char *)this + 0x90c) = -1;
     }
