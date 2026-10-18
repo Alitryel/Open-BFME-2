@@ -27,6 +27,8 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include "ascii_string.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned short>::operator()(unsigned short const &x,unsigned short const &y)const  { return x < y; } }
 
 // The progress-map subscript at 004DD277 is emitted by this real caller.
 // Its ushort key and integer progress value are independently carried by the

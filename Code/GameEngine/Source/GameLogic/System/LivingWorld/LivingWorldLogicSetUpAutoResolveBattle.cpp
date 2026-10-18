@@ -12,6 +12,8 @@
 #include <map>
 #include <vector>
 #include "ascii_string.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 // bfme link decl-only begin
 namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
 // bfme link decl-only end

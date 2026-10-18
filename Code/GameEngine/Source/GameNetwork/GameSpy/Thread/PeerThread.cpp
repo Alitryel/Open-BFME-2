@@ -121,6 +121,8 @@ PEERBool peerParseQuery(PEER peer, char *data, int len, struct sockaddr *from) t
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

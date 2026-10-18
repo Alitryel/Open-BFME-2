@@ -7,6 +7,10 @@
 // callees deleteOverrides 0x001E35ED erase 0x0031BD55 dup-assign 0x0026F4F4 and
 // validate 0x000B3FD0; caller 0x0020DFD3; neighbours SubsystemNameGetters/next Rva0020DFFBRegister.
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 
 class Overridable {
 public:

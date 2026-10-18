@@ -97,6 +97,8 @@ class AudioFileCache {public:Rva00690FF0Handle requestFile(const BfmePoolRef10&,
 struct AudioSettings {char pad0[0x74];int globalRange;char pad78[0x3c];int cacheThreshold;};
 extern float g_00DBA4FC;
 #include <limits>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 // bfme link decl-only begin
 namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }

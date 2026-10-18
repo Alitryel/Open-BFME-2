@@ -11,6 +11,8 @@
 // require their own full relocation proof before any alias/admission.
 // Native create_node34 at2D464E is already the proper UIntBool specialization.
 #include <map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 typedef _STL::pair<const unsigned,void*> NativeLowerPair;
 typedef _STL::_Rb_tree<unsigned,NativeLowerPair,_STL::_Select1st<NativeLowerPair>,_STL::less<unsigned>,_STL::allocator<NativeLowerPair> > NativeUnsignedLower;
 namespace _STL{template<>NativeUnsignedLower::_Link_type NativeUnsignedLower::_M_lower_bound(const unsigned&)const;}

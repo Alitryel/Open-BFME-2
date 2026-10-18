@@ -10,6 +10,10 @@
 // the logic in ECX. Fields are named by offset: only retail's accesses are
 // modelled.
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 
 struct Gen_p12pod { int m_a, m_b, m_c; };
 // Use the byte-verified out-of-line erase owner at 0x002A133B.

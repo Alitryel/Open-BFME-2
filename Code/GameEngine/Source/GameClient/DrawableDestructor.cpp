@@ -186,6 +186,10 @@ struct DrawableICoord2D { int x, y; };
 
 #include "../../../Libraries/Include/Lib/RGBColor.h"
 
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 // Rowed release worker 0x00050ED3 (the tail jump of retail's 0x0010F149).
 class OpaqueRefCounted
 {

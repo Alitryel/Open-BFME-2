@@ -93,6 +93,8 @@ class LivingWorldAIArmyMover {public:void DefendHomeTerritory(_STL::vector<BfmeP
 struct SetupPlayer;struct SetupArmy;struct SetupRecord52;struct SetupSimulation44;
 class LivingWorldLogic {public:void SetUpAutoResolveBattle(const _STL::vector<SetupPlayer*>*,SetupPlayer*,const _STL::vector<SetupArmy*>*,void*,_STL::vector<SetupRecord52>*,_STL::vector<SetupSimulation44>*);};
 #include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 struct Rva002BBB96Element {char gap00[0x18];float weapon,armor,experience;void*science;void*simulation;int side,playerID;~Rva002BBB96Element();};
 typedef _STL::vector<Rva002BBB96Element> BattlePlayers;
 namespace _STL {

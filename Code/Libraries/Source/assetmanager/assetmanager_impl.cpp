@@ -605,6 +605,8 @@ void BfmeP1024::bfmeReg1024(BfmeE1024 *item)
 extern void __cdecl Rva00030830FreeAllocation(void *);
 #include <set>
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 
 // Retail clears EH state before the opaque buffer release at 0x30830.
 // The allocator<unsigned> and proxy members are imported force-inline: every

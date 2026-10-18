@@ -13,6 +13,10 @@
 #include "Common/Snapshot.h"
 
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 // bfme link decl-only begin
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::erase(void **, void **); }
 // bfme link decl-only end

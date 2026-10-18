@@ -11,6 +11,10 @@
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _Vector_base<BfmeE16,allocator<BfmeE16> >::~_Vector_base(); }
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }

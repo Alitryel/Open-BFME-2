@@ -1084,6 +1084,14 @@ class Rva006ABC60 { public: Rva006ABC60(); ~Rva006ABC60(); int m_myViewFocus; pr
 // The manager's mutex at +0x9D4, built by the rowed Mutex(1, 0, 0) 0x00040F1E.
 // Its virtual destructor is the rowed 0x00040EDB (address-named class there).
 #include "../../../GameEngine/Include/Common/Rva00041004Lock.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 class Mutex : public Rva0040EDB { public: Mutex(int, const char *, void *); };
 // Objects the constructor allocates: 0x204-byte settings (ctor 0x00041589)
 // and the 0xF4-byte record at +0x14 (ctor 0x001ED70C).

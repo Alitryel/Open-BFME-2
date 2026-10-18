@@ -3,6 +3,10 @@
 #include <list>
 #include <vector>
 #include "ascii_string.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 // ?rva0023ABDD@Rva0023ABDD@@QAEXXZ @0x0023ABDD 89B: audio-notify clear of two vectors at +0x120/+0x12c.
 // Evidence: TheAudio VA 0x009FE6E8 mangled ?TheAudio@@3PAVAudioManager@@A; loop calls virtual slot 0x6c per void* element then erases via rowed 0x0031BD55 and 0x00239EA5; contiguous after 0x0023AB78; callers 0x0023AE08 0x0023B509.
 class AudioManager

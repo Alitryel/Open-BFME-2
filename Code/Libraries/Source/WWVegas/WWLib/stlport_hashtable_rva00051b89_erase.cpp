@@ -15,6 +15,8 @@
 // from the former ArmorHashMapErase.cpp row that byte-matched here.
 #include <hash_set>
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 // bfme link decl-only end

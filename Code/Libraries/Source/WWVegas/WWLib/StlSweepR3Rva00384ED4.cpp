@@ -17,6 +17,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <map>
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> bool less<int>::operator()(int const &,int const &)const ; }
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class

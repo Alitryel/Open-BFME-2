@@ -9,6 +9,8 @@
 // transitions-array setter; 40+ callers at 0x003431CA 0x00343204 0x003433FA; layout from
 // StateMachineGoal.cpp (+0x08 map +0x1C default) and StateCtor.cpp (+0x04/+0x08/+0x0C/+0x1C).
 #include <map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 
 typedef unsigned int UnsignedInt;
 typedef unsigned int StateID;

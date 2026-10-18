@@ -69,6 +69,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>
 // COMDAT; a file-static overload takes those calls instead.
 #include <new>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 // bfme link decl-only begin
 namespace _STL { template <> _List_base<AsciiString, allocator<AsciiString> >::~_List_base(); }
 namespace _STL { template <> void _List_base<AsciiString, allocator<AsciiString> >::clear(); }

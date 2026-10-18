@@ -4,6 +4,10 @@
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #include <hash_map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 
 struct Rva002E037FElement {Rva002E037FElement();Rva002E037FElement(const Rva002E037FElement&);Rva002E037FElement&operator=(const Rva002E037FElement&);~Rva002E037FElement(){}char bytes[72]; bool operator==(const Rva002E037FElement&)const;};
 

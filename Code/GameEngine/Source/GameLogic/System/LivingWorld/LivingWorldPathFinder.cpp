@@ -40,6 +40,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 class LivingWorldLogic;extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002E2903Player;
 class Rva002BA8F1Logic{public:Rva002E2903Player *find(int,unsigned*);};

@@ -33,6 +33,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include <map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 // Keep the typed tree comparison local, as in W3DShroudInterpolate.cpp.
 // Its unused external base wrapper differs from the selected provider.
 namespace _STL {
