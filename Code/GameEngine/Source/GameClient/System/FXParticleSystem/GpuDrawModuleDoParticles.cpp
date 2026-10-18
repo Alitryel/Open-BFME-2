@@ -84,8 +84,11 @@ public:
 	const RenderingMethodStackType &Get_Rendering_Method_Stack(void) const;
 };
 
-void Rva001688FF(const RefCountPtr<FXShader::RenderingMethod> *methods, Int count);
-void Rva00168952(const RefCountPtr<FXShader::RenderingMethod> *methods, Int count);
+// The rendering-method walkers are rowed as Rva001688FFShift 0x001688FF and
+// Rva00168952Clear 0x00168952 (pointer-sized elements); calls bind there.
+class Rva001688FFElement;
+void Rva001688FFShift(Rva001688FFElement **methods, Int count);
+void Rva00168952Clear(Rva001688FFElement **methods, Int count);
 
 #define PAD_STDCALL10(p) \
 	virtual void __stdcall p##0() = 0; virtual void __stdcall p##1() = 0; virtual void __stdcall p##2() = 0; \
@@ -200,7 +203,7 @@ public:
 	static void Apply_Render_State_Changes(void);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 
-	static __forceinline void Set_Transform(int transform, const Matrix3D &m)
+	__declspec(dllimport) static __forceinline void Set_Transform(int transform, const Matrix3D &m)
 	{
 		Matrix4 m2(m);
 		switch (transform)
@@ -316,7 +319,7 @@ Int GpuDrawModule::doParticles(RenderInfoClass &rinfo, void *unused, Int *partic
 	DX8Wrapper::Apply_Render_State_Changes();
 
 	rinfo.Push_Rendering_Method(shader);
-	Rva001688FF(rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
+	Rva001688FFShift((Rva001688FFElement **)rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
 	RefCountPtr<FXShader::RenderingMethod> current = rinfo.Get_Rendering_Method_Stack()[0];
 	Int passes;
 	if (current->Begin(&passes, 0xffff))
@@ -329,7 +332,7 @@ Int GpuDrawModule::doParticles(RenderInfoClass &rinfo, void *unused, Int *partic
 		}
 		current->End();
 	}
-	Rva00168952(rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
+	Rva00168952Clear((Rva001688FFElement **)rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
 	rinfo.Pop_Rendering_Method();
 	DX8Wrapper::Set_Vertex_Shader(0);
 	DX8Wrapper::Set_Pixel_Shader(0);
