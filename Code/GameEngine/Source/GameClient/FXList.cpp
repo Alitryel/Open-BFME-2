@@ -176,6 +176,8 @@ public:
 
 private:
 	AsciiString		m_soundName;
+public:
+	SoundFXNugget();
 };  
 EMPTY_DTOR(SoundFXNugget)
 
