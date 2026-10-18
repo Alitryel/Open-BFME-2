@@ -125,6 +125,7 @@ template<> vector<BfmeVectorRecord00319C84>::~vector();
 }
 
 // WorldBuilder's LivingWorldArmyMoveQueue (0x00538E43 is its PopFront).
+class Rva00538CEF { public: void rva00538D3B(int); };
 struct Rva00538E22
 {
 	_STL::vector<BfmeVectorRecord00319C84> m_vec;
@@ -133,7 +134,7 @@ struct Rva00538E22
 	~Rva00538E22();
 	void rva00538ED1(int value);
 	void rva00538F10(const _STL::vector<BfmeE16> &source, int value);
-	void rva00538D3B(int value);
+	/* the rowed Rva00538CEF::rva00538D3B */ __declspec(dllimport) __forceinline void rva00538D3B(int p0) { ((Rva00538CEF *)this)->rva00538D3B(p0); }
 	Rva00318B5C rva00538E43();
 };
 
