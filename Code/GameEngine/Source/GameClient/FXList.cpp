@@ -474,9 +474,7 @@ class TerrainScorchFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(TerrainScorchFXNugget, "TerrainScorchFXNugget")		
 public:
 
-	TerrainScorchFXNugget() : m_scorch(-1), m_radius(0)
-	{
-	}
+	TerrainScorchFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
