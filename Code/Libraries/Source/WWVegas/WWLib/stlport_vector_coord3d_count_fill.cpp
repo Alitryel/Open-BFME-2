@@ -10,4 +10,6 @@
 namespace _STL { template <> _Vector_base<Coord3D,allocator<Coord3D> >::~_Vector_base(); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(nothrow) void _Construct<Coord3D,Coord3D>(Coord3D *,Coord3D const &); }
+// Bind to the first copy in link order instead of emitting this unit's own.
+namespace _STL { template <> Coord3D *_STLP_alloc_proxy<Coord3D *,Coord3D,allocator<Coord3D> >::allocate(size_t); }
 template _STL::vector<Coord3D>::vector(unsigned int, const Coord3D&, const _STL::allocator<Coord3D>&);
