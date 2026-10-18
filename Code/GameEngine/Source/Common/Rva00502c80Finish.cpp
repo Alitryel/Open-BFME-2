@@ -1,4 +1,4 @@
-// cl: /EHsc /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// cl: /EHs /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0Rva00502C80@@QAE@XZ @ 0x00502C80 (121B).
@@ -26,8 +26,9 @@ public:
 	class ModuleTemplate
 	{
 	public:
-		ModuleTemplate();
-		~ModuleTemplate();
+		void *m_createProc;
+		void *m_createDataProc;
+		int m_whichInterfaces;
 	};
 };
 

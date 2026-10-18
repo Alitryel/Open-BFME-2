@@ -1,4 +1,4 @@
-// cl: /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /EHs /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0Rva00414093@@QAE@ABV0@@Z, retail 0x00414093, 61 bytes. Dedicated TU.
@@ -35,6 +35,10 @@ typedef _STL::_Select1st<ModuleFactoryMapValue14093> ModuleFactoryMapKeyOf14093;
 typedef _STL::less<NameKeyType> ModuleFactoryMapCompare14093;
 typedef _STL::allocator<ModuleFactoryMapValue14093> ModuleFactoryMapAlloc14093;
 typedef _STL::_Rb_tree<NameKeyType, ModuleFactoryMapValue14093, ModuleFactoryMapKeyOf14093, ModuleFactoryMapCompare14093, ModuleFactoryMapAlloc14093> ModuleFactoryMapTree14093;
+
+namespace _STL {
+template <> ModuleFactoryMapTree14093::_Rb_tree(const ModuleFactoryMapTree14093 &);
+}
 
 class Rva00414093
 {

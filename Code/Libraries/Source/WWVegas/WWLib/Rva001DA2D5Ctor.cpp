@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva001DA2D5@@QAE@XZ, retail 0x001DA19E..0x001DA2D5 (311 bytes, no EH
 // frame, ret 0): the default constructor of the 0xC4-byte class whose dtor
@@ -15,7 +15,7 @@
 #include <vector>
 #include "ascii_string.h"
 
-class AudioInfoRefCountBase { public: AudioInfoRefCountBase() : m_04(0) {} virtual ~AudioInfoRefCountBase(); int m_04; };
+class __declspec(novtable) AudioInfoRefCountBase { public: AudioInfoRefCountBase() : m_04(0) {} virtual ~AudioInfoRefCountBase(); int m_04; };
 struct AudioInfoRange { float lo, hi; AudioInfoRange() : lo(0), hi(0) {} };
 struct AudioInfoDelay { int lo, hi; AudioInfoDelay() : lo(0), hi(0) {} };
 struct RvaPair001D9F62 { AsciiString m_key; int m_value; ~RvaPair001D9F62(); };

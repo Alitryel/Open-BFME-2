@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHs /DNDEBUG /MD /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0TransportAIUpdateModuleData@@QAE@XZ, retail 0x0026E5D7, 166 bytes.
@@ -39,8 +39,9 @@ public:
 	class ModuleTemplate
 	{
 	public:
-		ModuleTemplate();
-		~ModuleTemplate();
+		void *m_createProc;
+		void *m_createDataProc;
+		int m_whichInterfaces;
 	};
 };
 
