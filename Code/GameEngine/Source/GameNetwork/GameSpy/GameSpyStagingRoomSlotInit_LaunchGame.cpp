@@ -407,12 +407,13 @@ extern GameSpyInfoInterface *TheGameSpyInfo;
 extern GameSpyStagingRoom *TheGameSpyGame;
 
 // The global in Zero Hour's TheNAT position (0x00E063F8).
+class NAT { public: void rva005A6A4C(); };
 class Rva005A6D47
 {
 public:
 	virtual ~Rva005A6D47();
 	UnsignedShort rva005A684F(Int slot);
-	void rva005A6A4C(void);
+	/* the rowed NAT::rva005A6A4C */ __declspec(dllimport) __forceinline void rva005A6A4C() { ((NAT *)this)->rva005A6A4C(); }
 	Transport *rva005801F2(void);
 };
 // Bind the existing NAT datum; retain this unit's access view at use sites.
