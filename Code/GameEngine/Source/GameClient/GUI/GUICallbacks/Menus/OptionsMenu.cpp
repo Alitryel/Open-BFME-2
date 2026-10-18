@@ -77,7 +77,31 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "GameClient/ShellHooks.h"
 #include "GameClient/GUICallbacks.h"
 #include "GameNetwork/FirewallHelper.h"
-#include "GameNetwork/IPEnumeration.h"
+// BFME2 drops EnumeratedIP's donor MemoryPoolObject base: the rowed ctor
+// and getAddresses allocation establish the 12-byte layout (string/IP/next).
+// Keep the accessor on that same layout so its shared copy is retail's +0
+// AsciiString getter, rather than Zero Hour's +4 getter.
+class EnumeratedIP
+{
+public:
+	AsciiString getIPstring() { return m_IPstring; }
+	UnsignedInt getIP() { return m_IP; }
+	EnumeratedIP *getNext() { return m_next; }
+private:
+	AsciiString m_IPstring;
+	UnsignedInt m_IP;
+	EnumeratedIP *m_next;
+};
+class IPEnumeration
+{
+public:
+	IPEnumeration();
+	~IPEnumeration();
+	EnumeratedIP *getAddresses();
+private:
+	EnumeratedIP *m_IPlist;
+	Bool m_isWinsockInitialized;
+};
 #include "GameNetwork/GameSpyOverlay.h"
 #include "GameNetwork/GameSpy/PeerDefs.h"
 #include "GameLogic/GameLogic.h"
