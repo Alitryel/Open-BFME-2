@@ -71,8 +71,8 @@ groups in increasing original line order. Source comments retain those original
 relative line numbers alongside the actual cases and literals.
 
 This ordering is necessary evidence. Sorting numerically gave the same semantics
-but a different shared-tail instruction and return-block order. Grouping all
-identical descriptions also merged unrelated original source groups. Preliminary
+but a different shared-tail instruction and return-block order. Simply grouping
+identical descriptions retained the wrong numeric-first-appearance group order. Preliminary
 `explain_mismatch.py` comparisons masked the relocation sites and therefore
 could report an exact match while the full gate correctly refused jump-table
 targets and literal locations. The COFF-line reconstruction fixes the source
