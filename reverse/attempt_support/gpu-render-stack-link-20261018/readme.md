@@ -27,3 +27,8 @@ Closed-strict closure and a new census are not measured; authored C++ coverage
 is unchanged. proof.py requires the local baseline object under
 build/link-seat-20261018b/gpu-before; proof.json records the paired results
 and object/index hashes.
+
+The commit hook's shadow identity check still reports the pre-existing
+divergent RefCountPtr<FXShader::RenderingMethod> copy constructor. The paired
+object proof includes that retained helper unchanged; this repair does not
+claim to resolve its separate identity diagnostic.

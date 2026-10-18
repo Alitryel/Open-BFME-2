@@ -26,3 +26,8 @@ BFME 1 linking repairs through official master e813ba2a were reviewed.
 06a23066's StringBase-backed string-destructor repair applies to a different
 cause. The verified donor checkout remains 64d369b9: another seat owns the
 reference pointer, so no update or successful freshness stamp is claimed.
+
+The commit hook's shadow identity check still reports the pre-existing
+GetBounds call binding to AptBasePtrStack::At at the wrong candidate address
+0x006FE580. The paired object proof leaves that call and its relocation
+unchanged; the inherited-slot repair does not claim to resolve it.
