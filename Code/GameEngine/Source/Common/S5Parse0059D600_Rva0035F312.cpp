@@ -46,21 +46,7 @@ struct S5Built0059D600 : public Rva00489210
 	int m_28;
 	int m_2C;
 
-	S5Built0059D600()
-	{
-		m_14 = 30;
-		m_00 = (volatile int *)&__identifier("??_7Rva0059D400MultiTailDtor@@6BRva0001AA9BMultiBase@@@");
-		m_10 = 0;
-		m_18 = 0;
-		m_1C = 0;
-		m_20 = 0;
-		m_24 = 0;
-		m_28 = 0;
-		m_2C = -1;
-		m_04 = m_14;
-		m_0C = 0;
-		m_09 = 1;
-	}
+	S5Built0059D600();
 };
 
 void s5parse0059D600( INI *ini, Gen_00489270 *sink )
