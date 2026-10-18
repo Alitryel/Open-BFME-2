@@ -110,14 +110,3 @@ void InstantDeathBehaviorModuleData::parseWeapon(INI *ini, void *instance, void 
 	}
 }
 
-// ?Rva0045D2F6Parse@@YAXPAVINI@@PAX1PBX@Z
-void Rva0045D2F6Parse(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
-{
-	InstantDeathBehaviorModuleData *self = (InstantDeathBehaviorModuleData *)instance;
-	for (const char *token = ini->getNextToken(); token != NULL; token = ini->getNextTokenOrNull())
-	{
-		Rva0045D2F6SoundRef sound;
-		Rva00339184(token, &sound);
-		self->m_sounds.push_back(*(const Rva0005A084Element *)&sound);
-	}
-}
