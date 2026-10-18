@@ -31,9 +31,11 @@
 class Thing;
 class ModuleData;
 class ObjectCreationList;
+class BfmeStringRecord000B94D2 { public: ~BfmeStringRecord000B94D2(); };
 struct Rva00B6CF1 
 {
- ~Rva00B6CF1();
+ // Destruction is the rowed ??1BfmeStringRecord000B94D2, reached by a qualified call.
+ __declspec(dllimport) __forceinline ~Rva00B6CF1() { ((BfmeStringRecord000B94D2 *)this)->BfmeStringRecord000B94D2::~BfmeStringRecord000B94D2(); }
  
 }
 ;
