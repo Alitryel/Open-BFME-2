@@ -29,7 +29,7 @@ class Rva00222A8BTarget : public Rva00223A94
 
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 extern int g_Va00E06480;
-extern const char *g_00DD3BC0;
+const char * g_00DD3BC0 = "OnlineHome/Gadgets/Image";	// retail RVA 0x009D3BC0 (.data), defined here
 extern const char *g_00DD3BC4;
 
 class Rva005248D0
