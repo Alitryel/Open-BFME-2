@@ -1,7 +1,7 @@
 // _DeringBlockStrong_C
-// partial score=0.09 date=2026-10-13
+// partial score=0.261011 date=2026-10-18
 // _DeringBlockStrong_C
-// partial score=0.09 date=2026-10-13
+// _DeringBlockStrong_C
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001c1ad0.md plus retail only.
 // No decoder source was consulted.
@@ -12,85 +12,207 @@ extern "C" void __cdecl DeringBlockStrong_C(void *instance, const unsigned char 
 {
 	int quality = scaleTable[qIndex];
 	int sharpen = Vp6FilterEdgeTagTable[qIndex];
+	const unsigned char *above = source - pitch;
+	const unsigned char *below = source + pitch;
 	int cap = 3 * quality;
 	short vertical[72];
 	short horizontal[72];
 	int r;
-	int c;
+	unsigned int c;
 
 	if (cap > 32)
 		cap = 32;
 
-	for (r = 0; r < 9; r++) {
-		const unsigned char *pair = source + (r - 1) * pitch;
-		short *weights = vertical + r * 8;
-		for (c = 0; c < 8; c += 4) {
-			int w0, w1, w2, w3;
-			int d0 = pair[c + pitch] - pair[c];
-			int d1 = pair[c + 1 + pitch] - pair[c + 1];
-			int d2 = pair[c + 2 + pitch] - pair[c + 2];
-			int d3 = pair[c + 3 + pitch] - pair[c + 3];
-			if (d0 <= 0) d0 = pair[c] - pair[c + pitch];
-			if (d1 <= 0) d1 = pair[c + 1] - pair[c + 1 + pitch];
-			if (d2 <= 0) d2 = pair[c + 2] - pair[c + 2 + pitch];
-			if (d3 <= 0) d3 = pair[c + 3] - pair[c + 3 + pitch];
-			w0 = quality + 32 - d0;
-			w1 = quality + 32 - d1;
-			w2 = quality + 32 - d2;
-			w3 = quality + 32 - d3;
-			if (w0 < -64) w0 = sharpen; else if (w0 < 0) w0 = 0; else if (w0 > cap) w0 = cap;
-			if (w1 < -64) w1 = sharpen; else if (w1 < 0) w1 = 0; else if (w1 > cap) w1 = cap;
-			if (w2 < -64) w2 = sharpen; else if (w2 < 0) w2 = 0; else if (w2 > cap) w2 = cap;
-			if (w3 < -64) w3 = sharpen; else if (w3 < 0) w3 = 0; else if (w3 > cap) w3 = cap;
-			weights[c] = (short)w0;
-			weights[c + 1] = (short)w1;
-			weights[c + 2] = (short)w2;
-			weights[c + 3] = (short)w3;
+	// Retail processes four vertical pairs per group, two groups per row.
+	const unsigned char *verticalTop = above;
+	const unsigned char *verticalBottom = source;
+	short *verticalWeights = vertical;
+	for (r = 9; r != 0; --r) {
+		const unsigned char *pair = verticalTop;
+		const unsigned char *lower = verticalBottom;
+		short *weights = verticalWeights;
+		for (c = 2; c != 0; --c) {
+			{
+				int difference = lower[0] - pair[0];
+				if (difference <= 0) difference = pair[0] - lower[0];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				weights[0] = (short)weight;
+			}
+			{
+				int difference = lower[1] - pair[1];
+				if (difference <= 0) difference = pair[1] - lower[1];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				weights[1] = (short)weight;
+			}
+			{
+				int difference = lower[2] - pair[2];
+				if (difference <= 0) difference = pair[2] - lower[2];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				weights[2] = (short)weight;
+			}
+			{
+				int difference = lower[3] - pair[3];
+				if (difference <= 0) difference = pair[3] - lower[3];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				weights[3] = (short)weight;
+			}
+			pair += 4;
+			lower += 4;
+			weights += 4;
 		}
+		verticalTop += pitch;
+		verticalBottom += pitch;
+		verticalWeights += 8;
 	}
 
 	const unsigned char *hrow = source;
 	short *hweight = horizontal;
 	for (r = 8; r != 0; --r) {
 		for (c = 0; c < 9; c += 3) {
-			int w0, w1, w2;
-			int d0 = hrow[c] - hrow[c - 1];
-			int d1 = hrow[c + 1] - hrow[c];
-			int d2 = hrow[c + 2] - hrow[c + 1];
-			if (d0 <= 0) d0 = hrow[c - 1] - hrow[c];
-			if (d1 <= 0) d1 = hrow[c] - hrow[c + 1];
-			if (d2 <= 0) d2 = hrow[c + 1] - hrow[c + 2];
-			w0 = quality + 32 - d0;
-			w1 = quality + 32 - d1;
-			w2 = quality + 32 - d2;
-			if (w0 < -64) w0 = sharpen; else if (w0 < 0) w0 = 0; else if (w0 > cap) w0 = cap;
-			if (w1 < -64) w1 = sharpen; else if (w1 < 0) w1 = 0; else if (w1 > cap) w1 = cap;
-			if (w2 < -64) w2 = sharpen; else if (w2 < 0) w2 = 0; else if (w2 > cap) w2 = cap;
-			hweight[c] = (short)w0;
-			hweight[c + 1] = (short)w1;
-			hweight[c + 2] = (short)w2;
+			{
+				int difference = hrow[c] - hrow[c - 1];
+				if (difference <= 0) difference = hrow[c - 1] - hrow[c];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				hweight[c] = (short)weight;
+			}
+			{
+				int difference = hrow[c + 1] - hrow[c];
+				if (difference <= 0) difference = hrow[c] - hrow[c + 1];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				hweight[c + 1] = (short)weight;
+			}
+			{
+				int difference = hrow[c + 2] - hrow[c + 1];
+				if (difference <= 0) difference = hrow[c + 1] - hrow[c + 2];
+				int weight = quality - difference + 32;
+				if (weight < -64) weight = sharpen; else if (weight < 0) weight = 0; else if (weight > cap) weight = cap;
+				hweight[c + 2] = (short)weight;
+			}
 		}
 		hrow += pitch;
 		hweight += 9;
 	}
 
-	const unsigned char *above = source - pitch;
-	const unsigned char *below = source + pitch;
+	// Keep all eight outputs separate until the entire source row is read.
 	for (r = 0; r < 8; r++) {
 		int temp[8];
-		for (c = 0; c < 8; c++) {
-			int up = vertical[r * 8 + c];
-			int down = vertical[r * 8 + c + 8];
-			int left = horizontal[r * 9 + c];
-			int right = horizontal[r * 9 + c + 1];
-			int value = ((128 - right - down - up - left) * source[r * pitch + c]
-				+ down * below[r * pitch + c] + left * source[r * pitch + c - 1]
-				+ right * source[r * pitch + c + 1] + up * above[r * pitch + c] + 64) >> 7;
-			if (value < 0)
-				value = 0;
-			else if (value > 255)
-				value = 255;
-			temp[c] = value;
+		{
+			int centerPixel = source[r * pitch + 0];
+			int rightPixel = source[r * pitch + 0 + 1];
+			int right = horizontal[r * 9 + 0 + 1];
+			int left = horizontal[r * 9 + 0];
+			int down = vertical[r * 8 + 0 + 8];
+			int up = vertical[r * 8 + 0];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 0] + left * source[r * pitch + 0 - 1]
+				+ up * above[r * pitch + 0] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[0] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 1];
+			int rightPixel = source[r * pitch + 1 + 1];
+			int right = horizontal[r * 9 + 1 + 1];
+			int left = horizontal[r * 9 + 1];
+			int down = vertical[r * 8 + 1 + 8];
+			int up = vertical[r * 8 + 1];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 1] + left * source[r * pitch + 1 - 1]
+				+ up * above[r * pitch + 1] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[1] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 2];
+			int rightPixel = source[r * pitch + 2 + 1];
+			int right = horizontal[r * 9 + 2 + 1];
+			int left = horizontal[r * 9 + 2];
+			int down = vertical[r * 8 + 2 + 8];
+			int up = vertical[r * 8 + 2];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 2] + left * source[r * pitch + 2 - 1]
+				+ up * above[r * pitch + 2] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[2] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 3];
+			int rightPixel = source[r * pitch + 3 + 1];
+			int right = horizontal[r * 9 + 3 + 1];
+			int left = horizontal[r * 9 + 3];
+			int down = vertical[r * 8 + 3 + 8];
+			int up = vertical[r * 8 + 3];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 3] + left * source[r * pitch + 3 - 1]
+				+ up * above[r * pitch + 3] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[3] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 4];
+			int rightPixel = source[r * pitch + 4 + 1];
+			int right = horizontal[r * 9 + 4 + 1];
+			int left = horizontal[r * 9 + 4];
+			int down = vertical[r * 8 + 4 + 8];
+			int up = vertical[r * 8 + 4];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 4] + left * source[r * pitch + 4 - 1]
+				+ up * above[r * pitch + 4] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[4] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 5];
+			int rightPixel = source[r * pitch + 5 + 1];
+			int right = horizontal[r * 9 + 5 + 1];
+			int left = horizontal[r * 9 + 5];
+			int down = vertical[r * 8 + 5 + 8];
+			int up = vertical[r * 8 + 5];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 5] + left * source[r * pitch + 5 - 1]
+				+ up * above[r * pitch + 5] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[5] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 6];
+			int rightPixel = source[r * pitch + 6 + 1];
+			int right = horizontal[r * 9 + 6 + 1];
+			int left = horizontal[r * 9 + 6];
+			int down = vertical[r * 8 + 6 + 8];
+			int up = vertical[r * 8 + 6];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 6] + left * source[r * pitch + 6 - 1]
+				+ up * above[r * pitch + 6] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[6] = value;
+		}
+		{
+			int centerPixel = source[r * pitch + 7];
+			int rightPixel = source[r * pitch + 7 + 1];
+			int right = horizontal[r * 9 + 7 + 1];
+			int left = horizontal[r * 9 + 7];
+			int down = vertical[r * 8 + 7 + 8];
+			int up = vertical[r * 8 + 7];
+			int value = ((128 - right - down - up - left) * centerPixel
+				+ down * below[r * pitch + 7] + left * source[r * pitch + 7 - 1]
+				+ up * above[r * pitch + 7] + right * rightPixel + 64) >> 7;
+			if (value < 0) value = 0;
+			else if (value > 255) value = 255;
+			temp[7] = value;
 		}
 		for (c = 0; c < 8; c++)
 			destination[r * pitch + c] = (unsigned char)temp[c];
