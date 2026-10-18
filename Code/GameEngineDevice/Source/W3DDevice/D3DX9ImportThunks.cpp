@@ -214,4 +214,11 @@ extern PFN_D3DXMatrixRotationY __identifier("_imp__D3DXMatrixRotationY@8");
 D3DXMATRIX* __stdcall D3DXMatrixRotationY(D3DXMATRIX *pOut, FLOAT Angle) {
  return __identifier("_imp__D3DXMatrixRotationY@8")(pOut, Angle);
 }
+
+// _D3DXMatrixRotationX@8
+typedef D3DXMATRIX* (__stdcall *PFN_D3DXMatrixRotationX)(D3DXMATRIX *, FLOAT);
+extern PFN_D3DXMatrixRotationX __identifier("_imp__D3DXMatrixRotationX@8");
+D3DXMATRIX* __stdcall D3DXMatrixRotationX(D3DXMATRIX *pOut, FLOAT Angle) {
+ return __identifier("_imp__D3DXMatrixRotationX@8")(pOut, Angle);
+}
 }
