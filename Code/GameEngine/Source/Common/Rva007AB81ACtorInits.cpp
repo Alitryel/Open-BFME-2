@@ -218,12 +218,6 @@ void Rva007AB81ACtorInits::rva007ACC00()
 	atexit( rva007B6FC0 );
 }
 
-// ?rva007ACC20@Rva007AB81ACtorInits@@SAXXZ @ 0x007ACC20 (22B): ??0SortingRenderStateStruct@@QAE@XZ on VA 0x00DEE5D8, atexit(0x007B6FD0)
-void Rva007AB81ACtorInits::rva007ACC20()
-{
-	( (SortingRenderStateStruct *)&g_Va00DEE5D8 )->SortingRenderStateStruct::SortingRenderStateStruct();
-	atexit( rva007B6FD0 );
-}
 
 // ?rva007ACE30@Rva007AB81ACtorInits@@SAXXZ @ 0x007ACE30 (22B): ??0SegLineRendererClass@@QAE@XZ on VA 0x00DF6F30, atexit(0x007B71C0)
 void Rva007AB81ACtorInits::rva007ACE30()
@@ -232,12 +226,6 @@ void Rva007AB81ACtorInits::rva007ACE30()
 	atexit( rva007B71C0 );
 }
 
-// ?rva007AD7DD@Rva007AB81ACtorInits@@SAXXZ @ 0x007AD7DD (22B): ??0BfmeDualVtableReleaseDtor@@QAE@XZ on VA 0x00DFE180, atexit(0x007B75E2)
-void Rva007AB81ACtorInits::rva007AD7DD()
-{
-	( (BfmeDualVtableReleaseDtor *)&g_Va00DFE180 )->BfmeDualVtableReleaseDtor::BfmeDualVtableReleaseDtor();
-	atexit( rva007B75E2 );
-}
 
 // ?rva007AD9BC@Rva007AB81ACtorInits@@SAXXZ @ 0x007AD9BC (22B): ??0Rva00214E02@@QAE@XZ on TheCloudEffectSettingsSaved (VA 0x00DFE1E8), atexit(0x007B763C)
 void Rva007AB81ACtorInits::rva007AD9BC()
@@ -288,33 +276,9 @@ void Rva007AB81ACtorInits::rva007B4C22()
 	atexit( rva007B9825 );
 }
 
-// ?rva007B4C38@Rva007AB81ACtorInits@@SAXXZ @ 0x007B4C38 (22B): ??0_Loc_init@ios_base@_STL@@QAE@XZ on VA 0x00E06665, atexit(0x007B9806)
-void Rva007AB81ACtorInits::rva007B4C38()
-{
-	( (_STL::ios_base::_Loc_init *)&g_Va00E06665 )->_STL::ios_base::_Loc_init::_Loc_init();
-	atexit( rva007B9806 );
-}
 
-// ?rva007B4C4E@Rva007AB81ACtorInits@@SAXXZ @ 0x007B4C4E (22B): ??0Init@ios_base@_STL@@QAE@XZ on VA 0x00E06664, atexit(0x007B9810)
-void Rva007AB81ACtorInits::rva007B4C4E()
-{
-	( (_STL::ios_base::Init *)&g_Va00E06664 )->_STL::ios_base::Init::Init();
-	atexit( rva007B9810 );
-}
 
-// ?rva007B506A@Rva007AB81ACtorInits@@SAXXZ @ 0x007B506A (22B): ??0Rva005E74CF@@QAE@XZ on VA 0x00E06724, atexit(0x007B9965)
-void Rva007AB81ACtorInits::rva007B506A()
-{
-	( (Rva005E74CF *)&g_Va00E06724 )->Rva005E74CF::Rva005E74CF();
-	atexit( rva007B9965 );
-}
 
-// ?rva007B54F0@Rva007AB81ACtorInits@@SAXXZ @ 0x007B54F0 (22B): ??0SimpleFileFactoryClass@@QAE@XZ on VA 0x00E08D48, atexit(0x007B9AB0)
-void Rva007AB81ACtorInits::rva007B54F0()
-{
-	( (SimpleFileFactoryClass *)&g_Va00E08D48 )->SimpleFileFactoryClass::SimpleFileFactoryClass();
-	atexit( rva007B9AB0 );
-}
 
 // ?rva007B5558@Rva007AB81ACtorInits@@SAXXZ @ 0x007B5558 (22B): ??0CAtlWinModule@ATL@@QAE@XZ on VA 0x00DDE0AC, atexit(0x007B9B00)
 void Rva007AB81ACtorInits::rva007B5558()
