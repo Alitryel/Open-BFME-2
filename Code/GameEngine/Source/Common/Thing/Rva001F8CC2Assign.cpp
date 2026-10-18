@@ -25,6 +25,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+
+// Keep the native accessor expressions inline while binding external calls
+// to the existing retail pointer-vector owners.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::end() const { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::size_type vector<void *>::size() const { return size_type(this->_M_finish - this->_M_start); }
+}
+
 #undef free
 #include "Code/Libraries/Include/Lib/BfmeE16.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
