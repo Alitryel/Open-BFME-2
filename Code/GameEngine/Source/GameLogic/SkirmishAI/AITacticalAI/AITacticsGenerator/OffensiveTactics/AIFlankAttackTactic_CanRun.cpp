@@ -179,20 +179,5 @@ bool AIFlankAttackTactic::canRun(void *request)
 	return false;
 }
 
-void AIFlankAttackTactic::run()
-{
-	Team *team = rva004ECECD(0);
-	if (team) {
-		Coord3D from;
-		team->rva0039DA2A(&from);
-		Coord3D to;
-		to.x = m_record->m_point0C.x;
-		to.y = m_record->m_point0C.y;
-		to.z = m_record->m_point0C.z;
-		m_route->rva005AA2D9(m_record, &from, &to);
-	} else {
-		end(0, 0);
-	}
-}
 
 
