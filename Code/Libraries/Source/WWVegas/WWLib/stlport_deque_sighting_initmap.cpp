@@ -14,7 +14,17 @@
 #include <deque>
 // bfme link decl-only begin
 namespace _STL { template <> void deque<int, allocator<int> >::_M_reallocate_map(unsigned int, bool); }
-namespace _STL { template <> int * allocator<int>::allocate(unsigned int, void const *) const; }
+// Preserve the allocator header's inline operations without emitting separate
+// int allocator copies. The initializer passes bytes to the shared allocator;
+// deallocation remains the same null-guarded free.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+int *allocator<int>::allocate(size_t n, const void *) const
+{ return n != 0 ? reinterpret_cast<int *>(allocator<char>::allocate(n * sizeof(int), 0)) : 0; }
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int *p, size_t) const
+{ if (p != 0) ::free((void *)p); }
+}
 // bfme link decl-only end
 class SightingInfo;
 template class _STL::deque<SightingInfo*, _STL::allocator<SightingInfo* > >;
@@ -24,4 +34,7 @@ template class _STL::deque<SightingInfo*, _STL::allocator<SightingInfo* > >;
 // under the same established no-exception settings. The constructor and map
 // initializer may share the SightingInfo* owners only after pin_admission's
 // full-body and relocation fold proof; the element spelling is an ABI view.
-template class _STL::deque<int, _STL::allocator<int> >;
+// Emit only the shared initializer and the default allocator constructor;
+// the other int-deque members are owned by their existing provider units.
+template void _STL::_Deque_base<int, _STL::allocator<int> >::_M_initialize_map(size_t);
+template _STL::deque<int, _STL::allocator<int> >::deque(const _STL::allocator<int> &);
