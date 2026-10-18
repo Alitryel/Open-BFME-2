@@ -63,7 +63,7 @@ public:
     virtual const Vector3 &Get_Fog_Color();
     virtual void Set_Fog_Range(float start, float end);
     // ABI declarations follow donor scene.h; target vtable supplies the extra slots.
-    virtual void Get_Fog_Range(float *start, float *end) { *start = FogStart; *end = FogEnd; }
+    virtual void Get_Fog_Range(float *start, float *end);
     // scene.h RegType. Only the parameter type reaches the mangled name
     // (W4RegType@SceneClass@@); retail's switch has five cases, upstream three.
     enum RegType
