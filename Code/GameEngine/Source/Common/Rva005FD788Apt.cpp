@@ -246,40 +246,7 @@ public:
 	bool m_4e;
 };
 
-void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetSlotString(int index, const char *suffix, const UnicodeString &text)
-{
-	const char *table = g_Va0087A290[index];
-	AsciiString key;
-	Rva005FD788Inner *inner = *(Rva005FD788Inner **)&m_name;
-	const char *mid = inner ? inner->m_name : "";
-	key.format("APT:_level%u.%s_%s%s", m_level4, mid, table, suffix);
-	g_bfmeAptWindowManager->bfmeSetText(key, text, true);
-}
 
-StrategicHUD::ArmyUnitSwapperMovieClip::Impl::Impl(ArmyUnitSwapperMovieClip *owner, int level, const AsciiString &name, const TreeHintRef00217D4C &top, const TreeHintRef00217D4C &bottom)
-	: m_owner(owner), m_level4(level), m_name(name), m_state(0), m_4c(false), m_4d(false), m_4e(false)
-{
-	m_slots[0].m_ref = top;
-	m_slots[1].m_ref = bottom;
-
-	AsciiString prefix;
-	prefix.format("_level%u.", m_level4);
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnOpen", DelegateDesc(this, &Impl::OnOpen));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnClosed", DelegateDesc(this, &Impl::OnClosed));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnExitButtonClicked", DelegateDesc(this, &Impl::OnExitButtonClicked));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnMoveDownButtonClicked", DelegateDesc(this, &Impl::OnMoveDownButtonClicked));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnMoveUpButtonClicked", DelegateDesc(this, &Impl::OnMoveUpButtonClicked));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnSwapButtonClicked", DelegateDesc(this, &Impl::OnSwapButtonClicked));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnTopPanelLoaded", DelegateDesc(this, &Impl::OnTopPanelLoaded));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnBottomPanelLoaded", DelegateDesc(this, &Impl::OnBottomPanelLoaded));
-
-	for (int slot = 0; slot < 2; ++slot)
-	{
-		SetSlotString(slot, "RegionName", UnicodeString::TheEmptyString);
-		SetSlotString(slot, "ArmyName", UnicodeString::TheEmptyString);
-		SetSlotString(slot, "CP", UnicodeString::TheEmptyString);
-	}
-}
 
 void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::OnOpen(const char *path)
 {
@@ -362,11 +329,5 @@ void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::OnPanelLoaded(int which, cons
 	}
 }
 
-// The owner's ctor 0x005FDE24 (ret 0x10): vtable 0x0087A2E8 and its Impl
-// (new 0x50) built with this and the four arguments.
-StrategicHUD::ArmyUnitSwapperMovieClip::ArmyUnitSwapperMovieClip(int level, const AsciiString &name, const TreeHintRef00217D4C &top, const TreeHintRef00217D4C &bottom)
-	: m_impl(new Impl(this, level, name, top, bottom))
-{
-}
 
 StrategicHUD::ArmyUnitSwapperMovieClip::Impl::~Impl() {}
