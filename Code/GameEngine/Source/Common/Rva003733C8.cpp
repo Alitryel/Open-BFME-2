@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // ??0Rva0037381C@@QAE@XZ @0x003733C8 (73B).
@@ -8,6 +8,7 @@
 // 0x00C17E04 via gate. Evidence: vtable stores, callees rowed, dtor rowed
 // 0x0037381C, caller 0x0022F8CB.
 #include <map>
+#include "Common/Snapshot.h"
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pair<int const, void *> > >::_Rb_tree_base(allocator<pair<int const, void *> > const &); }
 // bfme link decl-only end
@@ -24,8 +25,6 @@ template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
-
-extern const void *const g_00BBB554[];
 
 class BFME2NativeNetwork
 {
@@ -48,14 +47,7 @@ private:
 	int m_value;
 };
 
-class __declspec(novtable) Rva003733C8Secondary
-{
-public:
-	__forceinline Rva003733C8Secondary() { *(const void **)this = g_00BBB554; }
-	virtual ~Rva003733C8Secondary();
-};
-
-class Rva0037381C : public Rva003733C8Primary, public Rva003733C8Secondary
+class Rva0037381C : public Rva003733C8Primary, public Snapshot
 {
 public:
 	Rva0037381C();
