@@ -72,12 +72,8 @@ public:
 private:
 	int m_04;
 };
-class Rva005CE4FABase8
-{
-public:
-	virtual ~Rva005CE4FABase8() {}
-};
-class Rva005CE4FA : public Rva005E67FE, public Rva005CE4FABase8
+#include "../../Include/Common/Rva0057605DSecond.h"
+class Rva005CE4FA : public Rva005E67FE, public Rva0057605DSecond
 {
 public:
 	virtual ~Rva005CE4FA();
@@ -93,7 +89,7 @@ Rva005CE4FA::~Rva005CE4FA()
 {
 	if (m_18->rva004E0625())
 	{
-		((Rva005CE4FATarget *)m_18)->m_holder.rva002B7250((CreateAHeroData *)static_cast<Rva005CE4FABase8 *>(this));
+		((Rva005CE4FATarget *)m_18)->m_holder.rva002B7250((CreateAHeroData *)static_cast<Rva0057605DSecond *>(this));
 		VirtObj005CE4FA *o = (VirtObj005CE4FA *)m_10->get();
 		if (o)
 			o->f4();

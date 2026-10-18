@@ -17,7 +17,7 @@
 //   0x005CCF2B  0x005CCDDD  0x00C74F44#0
 //   0x005CDB43  0x005CDA3D  0x00C75038#0
 //   0x005CDF2D  0x005CDDA4  0x00C750BC#0
-//   0x005CE7A3  0x005CE4FA  0x00C75158#0
+//   Rva005CE4FA wrapper rehomed to its real lifetime unit.
 //   0x005CE8C0  0x005CE874  0x00C75184#0
 //   0x005CF062  0x005CEE07  0x00C75214#0
 //   0x005CF1F4  0x005CEE9F  0x00C7522C#0
@@ -31,7 +31,7 @@
 //   0x005CFEC3  0x005CFEDF  0x00C752E4#0
 //   0x005CFF9C  0x005CFFB8  0x00C752EC#0
 //   0x005D08E1  0x005D0643  0x00C75538#0
-//   0x005D0A67  0x005D06CB  0x00C75554#0
+//   Rva005D06CB wrappers rehomed to the complete MI lifetime unit.
 //   0x005D0A83  0x005D073A  0x00C75568#0
 
 struct EmitVtableTag;
@@ -88,18 +88,7 @@ Rva005CDDA4::Rva005CDDA4(EmitVtableTag *)
 {
 }
 
-class Rva005CE4FA
-{
-public:
-	Rva005CE4FA(EmitVtableTag *);
-public:
-	virtual ~Rva005CE4FA();
-};
-
-// ?<Rva005CE4FA::Rva005CE4FA> absent-from-retail
-Rva005CE4FA::Rva005CE4FA(EmitVtableTag *)
-{
-}
+// Rva005CE4FA now emits its deleting wrapper from its real MI lifetime unit.
 
 class Rva005CE874
 {
@@ -257,25 +246,8 @@ Rva005CFFB8::Rva005CFFB8(EmitVtableTag *)
 {
 }
 
-// Rva005D06CB's three tables (data ledger), placed by its rowed destructor's
-// vptr stores: Rva005D06CBB1 at +0, Rva005D06CBB2 at +0x8, Rva005EB753 at
-// +0xC, whose slot 0 is a this-adjusting (sub ecx, 0xC) deleting-destructor
-// thunk -- target evidence for that base and offset.
-class Rva005D06CBB1 { public: virtual ~Rva005D06CBB1(); private: char m_unmodelled04[4]; };
-class Rva005D06CBB2 { public: __declspec(dllimport) __forceinline Rva005D06CBB2() {} virtual void slot0(); };
-class Rva005EB753 { public: virtual ~Rva005EB753(); };
-class Rva005D06CB : public Rva005D06CBB1, public Rva005D06CBB2, public Rva005EB753
-{
-public:
-	Rva005D06CB(EmitVtableTag *);
-public:
-	virtual ~Rva005D06CB();
-};
-
-// ?<Rva005D06CB::Rva005D06CB> absent-from-retail
-Rva005D06CB::Rva005D06CB(EmitVtableTag *)
-{
-}
+// Rva005D06CB and its+C deleting adjustment now emit from the verified
+// complete103B destructor unit; its synthetic base declarations are retired.
 
 class Rva005D073A
 {

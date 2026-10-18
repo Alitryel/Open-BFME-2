@@ -48,23 +48,14 @@ public:
 private:
 	char m_pad04[4];
 };
-class Base08_80FD
-{
-public:
-	virtual ~Base08_80FD() {}
-};
-class Base0C_80FD
-{
-public:
-	Base0C_80FD();
-	virtual ~Base0C_80FD() {}
-};
+#include "../../Include/Common/Rva0057605DSecond.h"
+#include "../../Include/Common/Base0C_80FD.h"
 // ??0Base0C_80FD@@QAE@XZ @0x0007E126 9B: the default constructor, storing the
 // class's own vtable (VA 0x00BC6F34) and returning this.
 Base0C_80FD::Base0C_80FD()
 {
 }
-class Rva005E80FD : public Rva005F830A, public Base08_80FD, public Base0C_80FD
+class Rva005E80FD : public Rva005F830A, public Rva0057605DSecond, public Base0C_80FD
 {
 public:
 	virtual ~Rva005E80FD();
@@ -78,5 +69,5 @@ private:
 Rva005E80FD::~Rva005E80FD()
 {
 	m_holder1C->m_erase.rva002B7250((CreateAHeroData *)(Base0C_80FD *)this);
-	m_holder18->m_erase.rva002B7250((CreateAHeroData *)(Base08_80FD *)this);
+	m_holder18->m_erase.rva002B7250((CreateAHeroData *)(Rva0057605DSecond *)this);
 }

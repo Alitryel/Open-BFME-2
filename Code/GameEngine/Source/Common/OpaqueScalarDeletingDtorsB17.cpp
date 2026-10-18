@@ -16,7 +16,7 @@
 //   0x005E3677  0x005E362F  0x00C77BD0#0
 //   0x005E5A66  0x00576FCE  0x00C6E3E8#0, 0x00C6E620#0, 0x00C6E8A8#0, 0x00C77D90#0
 //   0x005E67E2  0x005E66A4  0x00C77E04#0
-//   0x005E8240  0x005E80FD  0x00C77F54#0
+//   Rva005E80FD wrapper rehomed to its real lifetime unit.
 //   0x005E8E64  0x005E8D71  0x00C77F88#0
 //   0x005E9279  0x005E91A9  0x00C77FF0#0
 //   0x005E9F4D  0x005E9F3F  0x00C780A8#0
@@ -58,18 +58,7 @@ Rva00576FCE::Rva00576FCE(EmitVtableTag *)
 {
 }
 
-class Rva005E80FD
-{
-public:
-	Rva005E80FD(EmitVtableTag *);
-public:
-	virtual ~Rva005E80FD();
-};
-
-// ?<Rva005E80FD::Rva005E80FD> absent-from-retail
-Rva005E80FD::Rva005E80FD(EmitVtableTag *)
-{
-}
+// Rva005E80FD now emits its deleting wrapper from its real MI lifetime unit.
 
 // The secondary base at +0x8 of the five classes below: slot 0 of each
 // class's ??_7...@@6BRva005E12D1@@@ table is a this-adjusting (sub ecx, 8)

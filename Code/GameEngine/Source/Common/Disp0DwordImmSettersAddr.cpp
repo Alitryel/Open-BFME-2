@@ -224,8 +224,8 @@ extern "C" const void *const vtbl_00C77E28[];  // ??_7Rva005E67FE@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C77E28=??_7Rva005E67FE@@6B@")
 extern "C" const void *const vtbl_00C77E7C[];  // ??_7Rva005CCC07Base@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C77E7C=??_7Rva005CCC07Base@@6B@")
-extern "C" const void *const vtbl_00C77F44[];  // ??_7Rva002BA8F1Listener@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C77F44=??_7Rva002BA8F1Listener@@6B@")
+extern "C" const void *const vtbl_00C77F44[];  // ??_7Rva0057605DSecond@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C77F44=??_7Rva0057605DSecond@@6B@")
 extern "C" const void *const vtbl_00C79544[];  // ??_7Rva005E4AE2Listener@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C79544=??_7Rva005E4AE2Listener@@6B@")
 extern "C" const void *const vtbl_00C7B6AC[];  // ??_7ThreadClass@@6B@

@@ -16,14 +16,9 @@
 // Rva002BA8F1Listener interface whose native table is C3702C.
 struct Rva002BA8F1Listener; // Existing list-provider argument spelling.
 struct Parent0057605D;
-class Rva0057605DSecond
-{
-public:
-    __declspec(dllimport) __forceinline Rva0057605DSecond() {}
-    virtual ~Rva0057605DSecond() {}
-protected:
-    Parent0057605D *m_parentC; // Secondary +4, complete object +C.
-};
+#include "../../Include/Common/Rva0057605DSecond.h"
+// Preserve the existing inlined native constructor path.
+__forceinline Rva0057605DSecond::Rva0057605DSecond() {}
 class Rva005A0B4CList
 {
 public:
@@ -47,6 +42,8 @@ class Rva0057605D : public Rva0057605DBase, public Rva0057605DSecond
 public:
 	Rva0057605D(int a, Parent0057605D *b);
 	virtual ~Rva0057605D();
+private:
+	Parent0057605D *m_parentC;
 };
 Rva0057605D::Rva0057605D(int a, Parent0057605D *b)
 	: Rva0057605DBase(a)
