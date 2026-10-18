@@ -84,3 +84,10 @@ void ParseForceBattle( INI *ini, void *instance, void *, const void * )
 	else
 		throw INIException( 3, "ParseForceBattle::Invalid data passed in." );
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?append@Rva0056652FOwner@@QAEXPAVRva004E16D9Record@@@Z=?rva0056652F@Rva0056652FOwner@@QAEXABUBfmePod40@@@Z")
+#pragma comment(linker, "/alternatename:?g_00C61AE8@@3UFieldParse@@B=?g_00C61AE8@@3QBUFieldParse@@B")

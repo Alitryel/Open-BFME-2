@@ -75,3 +75,10 @@ void ParseEyeTowerPointData( INI *ini, void *instance, void *, const void * )
 	else
 		throw INIException( 3, "ParseEyeTowerPointData::Invalid data passed in." );
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?append@Rva005669B7Owner@@QAEXPAVRva004E364F@@@Z=?rva005669B7@Rva005669B7Owner@@QAEXABURva005668E9Element@@@Z")
+#pragma comment(linker, "/alternatename:?g_00C62034@@3UFieldParse@@B=?g_00C62034@@3QBUFieldParse@@B")
