@@ -137,4 +137,11 @@ extern PFN_D3DXLoadVolumeFromFileInMemory __identifier("_imp__D3DXLoadVolumeFrom
 HRESULT __stdcall D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume, const PALETTEENTRY *pDestPalette, const D3DBOX *pDestBox, LPCVOID pSrcData, UINT SrcDataSize, const D3DBOX *pSrcBox, DWORD Filter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo) {
  return __identifier("_imp__D3DXLoadVolumeFromFileInMemory@36")(pDestVolume, pDestPalette, pDestBox, pSrcData, SrcDataSize, pSrcBox, Filter, ColorKey, pSrcInfo);
 }
+
+// _D3DXCreateVolumeTexture@36
+typedef HRESULT (__stdcall *PFN_D3DXCreateVolumeTexture)(LPDIRECT3DDEVICE9, UINT, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, LPDIRECT3DVOLUMETEXTURE9 *);
+extern PFN_D3DXCreateVolumeTexture __identifier("_imp__D3DXCreateVolumeTexture@36");
+HRESULT __stdcall D3DXCreateVolumeTexture(LPDIRECT3DDEVICE9 pDevice, UINT Width, UINT Height, UINT Depth, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, LPDIRECT3DVOLUMETEXTURE9 *ppVolumeTexture) {
+ return __identifier("_imp__D3DXCreateVolumeTexture@36")(pDevice, Width, Height, Depth, MipLevels, Usage, Format, Pool, ppVolumeTexture);
+}
 }
