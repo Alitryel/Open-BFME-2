@@ -23,11 +23,12 @@ class Rva00174A57
 public:
     void rva00174A57();
 };
+class Rva001748B3 { public: void rva001748B3(); };
 class Rva00DF6F94GapFillerContext
 {
 public:
     void rva174ba6();
-    void rva001748B3();
+    /* the rowed Rva001748B3::rva001748B3 */ __declspec(dllimport) __forceinline void rva001748B3() { ((Rva001748B3 *)this)->rva001748B3(); }
     void rva001748E8();
 private:
     void *first0, *last0, *limit0;
