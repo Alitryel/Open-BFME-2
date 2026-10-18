@@ -476,12 +476,13 @@ struct Rva002F35AFHop
 };
 // The 0x14-byte hierarchical path (rowed constructor 0x005348AD); 0x00534557
 // adds a cell and 0x00534AAE finishes it (WorldBuilder: computeOrderMap).
+class Rva00534AAE { public: void rva00534AAE(); };
 class Rva005348AD
 {
 public:
 	Rva005348AD();
 	void rva00534557(Rva002F35AFCell *cell);
-	void rva00534AAE();
+	/* the rowed Rva00534AAE::rva00534AAE */ __declspec(dllimport) __forceinline void rva00534AAE() { ((Rva00534AAE *)this)->rva00534AAE(); }
 private:
 	char m_pad[0x14];
 };
