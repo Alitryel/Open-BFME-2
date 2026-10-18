@@ -1,60 +1,43 @@
-# Preserved link-repair recovery
+# Preparation recovery, 2026-10-18
 
-Recovered the preparation rebase onto `384cb143adcfeab2a92f5995f6b2a627069a85b8`.
-The original two key-cache repair commits remain separate. GameLogicInit keeps
-upstream's multiplayerIsLocal binding and the incoming team/player cache
-bindings together. No source reconstruction, new identity or compiler setting
-was introduced during recovery.
+Recovered the five saved commits from preparation head 210a112eff onto
+c206b2a7e0. Both rebase stops were in dx8renderer.cpp. Upstream 9338f64595
+already owns the shader repair and accessor anchors: keep that declaration-only
+implementation and omit duplicate anchors. Its 131 B gain is not counted again.
+Retain the saved trial logs. No commit was skipped or rebase aborted here.
 
-Upstream `1ff2c94b14474aeeef34933c6684a120bb802723` moved PlayerList::newGame
-from the deleted PlayerListRva002A8008.cpp to PlayerList_getNthPlayer.cpp. The
-new home already contains the incoming multiplayerIsLocal fix, so the deleted
-file stays deleted. Upstream also already owns multiplayerIsLocal's data row;
-the duplicate incoming row was removed, leaving seven additional data rows
-(56 bytes) from the preserved repair.
+The ordinary dry-run push completed 96,642/96,642 function rows, 960/960 data
+rows, 30,809 string literals, 2,138 empty strings, 8,081 float literals and
+6,182 imports. It failed solely on the pre-existing root vtable identity:
+??_7Rva0007DF07@@6B@ resolves to BC6F20 and C7A630. The six witness Common
+sources and Rva0007DF07.h are unchanged by this batch. See full-gate.log and
+the existing vector-range-destroy-link-20261018 publication evidence. This
+is a failed full acceptance result, not a false-reject or permission to
+weaken the verifier.
 
-Skipped `c97d06464cedb8dfd023ab8e0516927512bbc29a`: upstream
-`e6908df8b3aca60c002fedd08c8328e8c154e767` already repairs the same unused
-DrawableXfer max COMDAT and retains its paired verification evidence. Its
-verified dllimport/forceinline specialization is preserved. The skipped local
-overload and its evidence remain in the backup ref, rather than replacing the
-upstream repair or its evidence files.
+The narrow-string repair requires that full gate because its file lives under
+Code/stlport. Restore only that source exactly to upstream in a new commit;
+retain its complete replayable change in deferred-narrow-size.patch and its
+original proof in ../narrow-size-link-20261018/. Its paired local LEGACY
+preview rechecks 207 -> 84 B after deferral (-123 B), and the restored source
+passes both byte rows. Resume the patch after the unrelated native vtable
+identity prerequisite is resolved. No new pin, baseline or verifier change.
 
-Applied stash `e25361ef013322e556e9c253700424c743d86424` with --index. Its
-tracked and staged diffs are empty. All 31 untracked dumps/sweep files restored
-with their original blob hashes; saved-work.json accounts for each. They remain
-untracked and are not submitted as new source. The stash and preparation backup
-ref are retained. No saved change remains unresolved.
+For the remaining six changed units, rerun the same twelve-provider cohort
+against the fixed c206b2a7e0 source baseline and the recovered source. Both
+source configurations pass 108/108 byte rows, one string and 15 float refs.
+Paired LEGACY preview: 3/12 -> 9/12 clean, 1,081 -> 3,277 B (+2,196 B).
+The retained gains are the cleanup constructors (953 B), category owner
+(878 B) and range destruction family (365 B). The shader's 131 B already
+links in the baseline. Renderer, shatter and vector-dtor-family witnesses
+retain independent blockers; their unchanged failures make both cohort
+commands exit 1. No self-strict/closed-strict LINK gain or census update is
+claimed. No new authored C++ coverage.
 
-## Verification against the recovered tree
-
-- check_csv: 96,517 function rows, 16,000 symbol rows, 895 data rows, no errors.
-- Normal byte gate and bounded --prepare-current over GameLogicInit,
-  PlayerList_getNthPlayer and WorldHeightMap: 115/115 function rows, 13 data
-  rows, 70 literals, ten empty-string references, six floats and ten imports
-  pass. All three objects have strict reusable receipts (current-objects.json).
-- EH: 29 EXACT, zero exceptions or missing objects. Frozen-definition, class,
-  pin consistency and whitespace checks pass.
-- Enforced converged data: nine protected addresses, zero second names or
-  unjudged rows. General data_check --enforce returns 1 for five pre-existing
-  wrong-name findings; all five occur verbatim in the preserved player-key
-  repair's final-data.txt. No baseline or checker was changed to excuse them.
-- New-variant admission passes for the edited GameLogicInit unit. Including
-  the unchanged provider reports its existing setFlipState/vftable differences
-  against the old index; provider-new-variants.txt preserves both findings.
-- Local link_check refreshes the explicit objects in memory, without a global
-  refresh or census run. It returns 1 for retained unresolved/duplicate/COMDAT/
-  selected-provider debt; all three sources remain locally unlinked. The index
-  is measurement ac77c85054 (2026-10-15 14:25) and predates retail-truth-2's
-  reference graph. Its hash and metadata are in saved-work.json. This is a
-  legacy projection, with self-strict current objects, not closed-strict proof.
-
-The original paired before/after key-binding proofs remain historical evidence
-at their documented revisions. Recovery claims no additional authored C++ or
-linked bytes. BFME1's current committed pointer and clean checkout both remain
-64d369b90170b7e9ec917d646f020b11f13eb0d5; no reference update or successful
-freshness check is claimed. No maintainer-only runner was started.
-
-Publication is subject to the normal outgoing hook dry run and runner
-publisher; final command results are recorded in the session handoff. Ignored
-build/preparation-recovery-20261018 holds the gate and publisher logs.
+The preparation record names no stash or resyncStash. The older unrelated
+stash@{0} is untouched. refs/runner/preparation/1792343424550161659 remains
+intact; upstream source and tooling additions relative to that older backup
+were retained. Temporary paired-measurement source backups remain in
+build/preparation-recovery-source-backup. All tracked saved changes are
+accounted for by the recovered commits, upstream shader repair and deferred
+narrow-string patch. The original preparation record is left for the runner.
