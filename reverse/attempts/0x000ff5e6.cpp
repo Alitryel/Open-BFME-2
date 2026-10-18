@@ -1,9 +1,5 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
-// partial score=0.944 date=2026-10-17
-// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
-// partial score=0.93 date=2026-10-14
-// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
-// partial score=0.78 date=2026-10-13
+// partial score=0.95 date=2026-10-18
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -47,13 +43,13 @@ struct AssetList00208F90
 	AssetList00208F90 &operator<<(const AsciiString &name);
 };
 class Rva009EB960;extern Rva009EB960 *Rva0134FAA0;
-void Rva009EBAC0(int);
+void bfmeMergeReceiverKeys(int);
 
 class Rva0030C94ADwordField {public:int get()const;};
 class Rva0030C91AIntGetter {public:int get()const;};
 class Rva0030C890IntGetter {public:int get()const;};
 class Rva0030C896DwordField {public:int get()const;};
-class Rva000B28F2LeaGetter {public:AsciiString *get()const;};
+class Rva000B28F2LeaGetter {public:void *get()const;};
 struct Rva0007E394Element {char unknown00[0x38];Vector2 *begin,*end,*capacity;};
 namespace _STL {
 template <class T1, class T2> struct pair { T1 first; T2 second; pair(const T1 &a, const T2 &b) : first(a), second(b) {} };
@@ -96,7 +92,6 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
   for(IndexPair it=collection->begin(),last=collection->end();it!=last;advance(it),last.second=reinterpret_cast<Rva0007E394Element*>(collection->size())) {
    const_cast<unsigned&>(last.first)=reinterpret_cast<unsigned>(collection);
    Rva0007E394Element *record=collection->at(it);
-   _ReadWriteBarrier();
    if(reinterpret_cast<Rva0030C94ADwordField*>(record)->get())continue;
    int count=record->end-record->begin;
    if(count<2)continue;
@@ -107,19 +102,20 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
     Vector2 midpoint=start+dir*0.5f;
     endPos=midpoint;
     Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
-    startPos=(1 ? midpoint+perp : midpoint+perp);
-    if((1 ? reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&endPos.X,&startPos.X,1) : 0))continue;
+    startPos=midpoint;
+    startPos+=perp;
+    if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&endPos.X,&startPos.X,1))continue;
     WaterTracksObj *track=TheWaterTracksRenderSystem->bindTrack(WaveTypeOcean);
     if(track) {
      float fraction=GetGameClientRandomValueReal(0.0f,1.0f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Water\\W3DWaterTracks.cpp",1141);
      int offset=fraction*reinterpret_cast<Rva0030C91AIntGetter*>(record)->get();
      flipU^=1;
-     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),startPos,endPos,const_cast<char*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get()->str()),offset,record);
-     assets<<*reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get();
+     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),startPos,endPos,const_cast<char*>(static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get())->str()),offset,record);
+     assets<<*static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get());
      track->flipU=flipU;
     }
    }
   }
-  if(Rva0134FAA0)Rva009EBAC0(reinterpret_cast<int>(&assets));
+  if(Rva0134FAA0)bfmeMergeReceiverKeys(reinterpret_cast<int>(&assets));
  }
 }
