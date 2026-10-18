@@ -22,10 +22,14 @@ public:
 	~VBase00C6EE28() {}
 };
 
+// The slot-0 virtual of the primary base: retail's table holds this owner's
+// destructor there (0x00C088FC slot 0 is the rowed ??_G), so declare the root's
+// phantom slot as its destructor instead of the undefined placeholder s1;
+// Rva0053805DBase then overrides it, and the unresolved name disappears.
 class Rva00538133Root
 {
 public:
-	virtual void s1();
+	virtual ~Rva00538133Root();
 private:
 	unsigned char m_pad04[0x18 - 4];
 };
@@ -69,7 +73,11 @@ class Rva0030C1FCOwner : public Rva0053805DBase, public Rva0030C185List
 {
 public:
 	virtual ~Rva0030C1FCOwner();
-	virtual void s0();
+	// 0x0030C1FC is rowed as Rva0030C1FCOwner::rva0030C1FC
+	// (Rva0030C1FCNotifiers.cpp, the vcall-thunk broadcast slot): the placeholder
+	// virtual-base override s0 is that row's call, so bind it to the rowed name.
+	virtual void s0() { rva0030C1FC(); }
+	void rva0030C1FC();
 private:
 	AsciiString m_records[4];		// +0x40
 	unsigned char m_pad50[0x68 - 0x50];
