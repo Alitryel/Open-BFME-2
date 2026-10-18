@@ -281,11 +281,6 @@ void AptTimeLine::rva0051E3C3(const char *unused)
 	Rva00433D3CClear();
 }
 
-// Retail 0x0051F6D7, 8 bytes: "AptTimeLine::OnButtonContinue".
-void AptTimeLine::OnButtonContinue(const char *unused)
-{
-	rva0051ED7E();
-}
 
 // Retail 0x0051EA7A, 86 bytes: "TimeLine:GraphFocus:%d" for each player,
 // an Apt variable Apt writes: the value (a percentage) becomes the player's
@@ -330,32 +325,6 @@ void AptTimeLine::PlayerFaction(int index, char *value, bool set)
 		strcpy(value, m_players[index].m_faction.str());
 }
 
-// Retail 0x0051EAD3, 350 bytes: "AptTimeLine::CaHAwardNumber" shows the
-// given (1-based) earned award's name, description and image.
-void AptTimeLine::CaHAwardNumber(const char *value)
-{
-	unsigned int index = atoi(value) - 1;
-	if (index >= g_Va00E04920.size())
-		return;
-	BfmePod40 *award = g_Va00E02F74->rva0040AAD5(g_Va00E04920[index]);
-	if (!award)
-		return;
-	if (((StringBase<char> *)&award->m_name)->isEmpty())
-		return;
-	{
-		AsciiString name("APT:CaH_AwardEarned_Name");
-		g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch(award->m_name), false);
-	}
-	{
-		AsciiString name("APT:CaH_AwardDescription");
-		g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch(award->m_description), false);
-	}
-	if (TheMappedImageCollection)
-	{
-		const Image *image = TheMappedImageCollection->findImageByName(award->m_image);
-		m_images.rva00524725(AsciiString("TimeLine::CahAwardImage"), image);
-	}
-}
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
@@ -381,55 +350,6 @@ void AptTimeLine::CollectAllPlayerData() {
  }
 }
 
-// Retail 0x0051ED7E..0x0051EED7, 345 bytes. WB 0x013DB7C0 supplies
-// the menu/transition/score-mode structure; retail decides branch polarity.
-// Keep both Living World predicates positive and the enable calls in their
-// own branches: MSVC shares the early enable block before the transition.
-void AptTimeLine::rva0051ED7E()
-{
-    if (Rva005202C8::s_instance)
-    {
-        ((AptTimeLineAudioView *)TheAudio)->stopAudio(2, 1, 0);
-        if (((AptTimeLineScoreScreen *)Rva005202C8::s_instance)->m_mode == 8)
-        {
-            if (((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B3740())
-            {
-                if (g_Va00E048DC)
-                    ((AptMainMenu *)g_Va00E048DC)->rva005158A7();
-                ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
-            }
-            else
-            {
-                if ((char)((Rva002B3753 *)TheLivingWorldLogic)->rva002B3753())
-                {
-                    ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
-                }
-                else
-                {
-                    TheGameLogic->TransitionFromLivingWorldTacticalBattle();
-                    ((AptTimeLineShell *)TheShell)->m_54 = true;
-                    ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
-                    TheMouse->commitPendingCursor();
-                    ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(true);
-                    int callback = (int)Rva003FEC05FadeScreenRegionToMapBlack;
-                    Rva003FE7E6(Rva00211E75Callback(&callback), &g_00E02EC4);
-                }
-            }
-        }
-        else if (((AptTimeLineScoreScreen *)Rva005202C8::s_instance)->m_mode == 1)
-        {
-            ((AptTimeLineShell *)TheShell)->m_54 = true;
-            ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
-        }
-        else
-        {
-            BfmeAudioEventPrefix136 click(((AptTimeLineAudioView *)TheAudio)->getMiscAudio()->m_continue, 2);
-            ((Weapon *)&click)->setLeechRangeActive(true);
-            ((AptTimeLineAudioView *)TheAudio)->addAudioEvent(&click);
-            ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
-        }
-    }
-}
 
 // AptTimeLine::OpenScreen (WB 0x013DB420, AptTimeLine.cpp; static bool),
 // retail 0x00520F7D (367 bytes), kept under the address name the rowed caller
@@ -472,41 +392,3 @@ class Shell { public: void push(AsciiString name, bool flag); };
 
 class AptTimeLineScreen { public: void rva00520CD1(); };
 
-bool rva00520F7D()
-{
-	if (!Rva005202C8::s_instance)
-	{
-		int mode;
-		if (TheRecorder && TheRecorder->getMode() == RECORDERMODETYPE_PLAYBACK)
-			mode = 5;
-		else if (((Rva0023C666 *)TheGameLogic)->rva0023C666())
-			mode = 1;
-		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_gameType != 3
-			&& !((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
-			mode = 8;
-		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_gameType == 0
-			&& ((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
-			mode = 6;
-		else if (((Rva00210C66CmpBoolField *)TheGameLogic)->get()
-			&& ((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
-			mode = 7;
-		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 5)
-			mode = 4;
-		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 1)
-			mode = 3;
-		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 2)
-			mode = 2;
-		else
-			return false;
-
-		BfmeAudioEventPrefix136 sound(((AptTimeLineAudioView *)TheAudio)->getMiscAudio()->m_open, 2);
-		((Weapon *)&sound)->setLeechRangeActive(true);
-		((AptTimeLineAudioView *)TheAudio)->addAudioEvent(&sound);
-		TheShell->push(AsciiString("TimeLine.apt"), false);
-		if (!Rva005202C8::s_instance)
-			return false;
-		((AptTimeLineScoreScreen *)Rva005202C8::s_instance)->m_mode = mode;
-		((AptTimeLineScreen *)Rva005202C8::s_instance)->rva00520CD1();
-	}
-	return true;
-}
