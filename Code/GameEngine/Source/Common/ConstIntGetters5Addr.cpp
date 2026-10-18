@@ -13,23 +13,6 @@
 // the frameless 6-byte shape).
 
 
-// These declarations name existing field tables without asserting instance
-// layouts. Native six-byte getters independently supply each table address.
-struct FieldParse;
-class LivingWorldRegionEffectsManager {
-public:
-    static FieldParse s_parseTable[];
-};
-class RingEffect {
-public:
-    static const FieldParse m_fieldParseTable[];
-};
-class CreditsManager {
-public:
-    static const FieldParse m_creditsFieldParseTable[];
-};
-extern const FieldParse AIDozerAssignmentFields[];
-
 // ?Rva001DB686Get@@YAHXZ @ 0x001db686 (6B): returns 0x00c0cd88.
 // Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
@@ -54,13 +37,7 @@ int Rva003B0FA0Get(void)
 	return 0x00dc0e78;
 }
 
-// ?Rva003EE72EGet@@YAHXZ @ 0x003ee72e (6B): returns 0x00dc14c8.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva003EE72EGet(void)
-{
-	return reinterpret_cast<int>(LivingWorldRegionEffectsManager::s_parseTable);
-}
+
 
 // ?Rva0041E6B8Get@@YAHXZ @ 0x0041e6b8 (6B): returns 0x00c3af18.
 // Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
@@ -78,29 +55,11 @@ int Rva0041F310Get(void)
 	return 0x00c3b050;
 }
 
-// ?Rva004FF2EEGet@@YAHXZ @ 0x004ff2ee (6B): returns 0x00e04544.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva004FF2EEGet(void)
-{
-	return 0x00e04544;
-}
 
-// ?Rva002A88C1Get@@YAHXZ @ 0x002a88c1 (6B): returns 0x00bfd7c0.
-// Abuts the twin getter above and the CombatChainEntry ctor at 0x002a88c7.
-// Opaque address-derived name. The constant is a sub-table VA in the same
-// 0xBFD7xx family as the tuning table.
-int Rva002A88C1Get(void)
-{
-	return reinterpret_cast<int>(AIDozerAssignmentFields);
-}
 
-// ?Rva00016AC0Get@@YAHXZ @ 0x00016ac0 (6B): returns 0x00bbbddc.
-// int3-padded both sides, no direct callers. Opaque address-derived name.
-int Rva00016AC0Get(void)
-{
-	return (int)" ";
-}
+
+
+
 
 
 // ?Rva0011C460Get@@YAHXZ @ 0x0011c460 (6B): returns 0x00dec5e8.
@@ -166,12 +125,7 @@ int Rva002009F5Get(void)
 	return 0x00c0c3a8;
 }
 
-// ?Rva00201992Get@@YAHXZ @ 0x00201992 (6B): returns 0x00be3098.
-// Preceded by int3 padding. No direct callers. Opaque address-derived name.
-int Rva00201992Get(void)
-{
-	return 0x00be3098;
-}
+
 
 // ?Rva0020E2F2Get@@YAHXZ @ 0x0020e2f2 (6B): returns 0x00be4120.
 // Follows an al-returner tail. No direct callers. Opaque
@@ -181,21 +135,9 @@ int Rva0020E2F2Get(void)
 	return 0x00be4120;
 }
 
-// ?Rva00215C48Get@@YAHXZ @ 0x00215c48 (6B): returns 0x00c387c0.
-// Follows a call plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00215C48Get(void)
-{
-	return 0x00c387c0;
-}
 
-// ?Rva00215C4EGet@@YAHXZ @ 0x00215c4e (6B): returns 0x00c38760.
-// Abuts the twin getter above. No direct callers. Opaque
-// address-derived name.
-int Rva00215C4EGet(void)
-{
-	return 0x00c38760;
-}
+
+
 
 
 // ?Rva002C8E5AGet@@YAHXZ @ 0x002c8e5a (6B): returns 0x00c00b48.
@@ -222,13 +164,7 @@ int Rva00309E1EGet(void)
 	return 0x00c08350;
 }
 
-// ?Rva00309E24Get@@YAHXZ @ 0x00309e24 (6B): returns 0x00c08400.
-// Abuts the twin getter above. No direct callers. Opaque
-// address-derived name.
-int Rva00309E24Get(void)
-{
-	return reinterpret_cast<int>(RingEffect::m_fieldParseTable);
-}
+
 
 // ?Rva0033A507Get@@YAHXZ @ 0x0033a507 (6B): returns 0x00c1045c.
 // Follows an or-store plus ret tail. No direct callers. Opaque
@@ -299,13 +235,7 @@ int Rva0041F71AGet(void)
 }
 
 
-// ?Rva005B729FGet@@YAHXZ @ 0x005b729f (6B): returns 0x00c737e8.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva005B729FGet(void)
-{
-	return reinterpret_cast<int>(CreditsManager::m_creditsFieldParseTable);
-}
+
 
 // ?Rva00611030Get@@YAHXZ @ 0x00611030 (6B): returns 0x00e08c58.
 // int3-padded both sides, no direct callers. Opaque address-derived name.

@@ -1,3 +1,4 @@
+// stlport
 // Cold-slice B8-imm32 const-int returners without vtable carriage (twin-free TU).
 //
 // Same 6-byte shape as ConstIntGetters4.cpp (mov eax,<IMM32> / ret) but for
@@ -468,4 +469,98 @@ public:
 int Rva001DAEB2Get(void)
 {
 	return (int)TerrainRoadType::m_terrainBridgeFieldParseTable;
+}
+
+// Named address targets let these getters rejoin their linking family.
+// These declarations name existing field tables without asserting instance
+// layouts. Native six-byte getters independently supply each table address.
+struct FieldParse;
+class LivingWorldRegionEffectsManager {
+public:
+    static FieldParse s_parseTable[];
+};
+class RingEffect {
+public:
+    static const FieldParse m_fieldParseTable[];
+};
+class CreditsManager {
+public:
+    static const FieldParse m_creditsFieldParseTable[];
+};
+extern const FieldParse AIDozerAssignmentFields[];
+
+#include "../GameClient/GUI/HeaderTemplateView.h"
+extern unsigned int g_Va00E04544;
+extern "C" const FieldParse VictorySystemFieldParse[];
+extern "C" const FieldParse FactionVictoryFieldParse[];
+
+// ?Rva00016AC0Get@@YAHXZ @ 0x00016ac0 (6B): returns 0x00bbbddc.
+// int3-padded both sides, no direct callers. Opaque address-derived name.
+int Rva00016AC0Get(void)
+{
+	return (int)" ";
+}
+
+// ?Rva003EE72EGet@@YAHXZ @ 0x003ee72e (6B): returns 0x00dc14c8.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva003EE72EGet(void)
+{
+	return reinterpret_cast<int>(LivingWorldRegionEffectsManager::s_parseTable);
+}
+
+// ?Rva00309E24Get@@YAHXZ @ 0x00309e24 (6B): returns 0x00c08400.
+// Abuts the twin getter above. No direct callers. Opaque
+// address-derived name.
+int Rva00309E24Get(void)
+{
+	return reinterpret_cast<int>(RingEffect::m_fieldParseTable);
+}
+
+// ?Rva005B729FGet@@YAHXZ @ 0x005b729f (6B): returns 0x00c737e8.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva005B729FGet(void)
+{
+	return reinterpret_cast<int>(CreditsManager::m_creditsFieldParseTable);
+}
+
+// ?Rva002A88C1Get@@YAHXZ @ 0x002a88c1 (6B): returns 0x00bfd7c0.
+// Abuts the twin getter above and the CombatChainEntry ctor at 0x002a88c7.
+// Opaque address-derived name. The constant is a sub-table VA in the same
+// 0xBFD7xx family as the tuning table.
+int Rva002A88C1Get(void)
+{
+	return reinterpret_cast<int>(AIDozerAssignmentFields);
+}
+
+// ?Rva004FF2EEGet@@YAHXZ @ 0x004ff2ee (6B): returns 0x00e04544.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva004FF2EEGet(void)
+{
+	return reinterpret_cast<int>(&g_Va00E04544);
+}
+
+// ?Rva00201992Get@@YAHXZ @ 0x00201992 (6B): returns 0x00be3098.
+// Preceded by int3 padding. No direct callers. Opaque address-derived name.
+int Rva00201992Get(void)
+{
+	return reinterpret_cast<int>(HeaderTemplateManager::m_headerFieldParseTable);
+}
+
+// ?Rva00215C48Get@@YAHXZ @ 0x00215c48 (6B): returns 0x00c387c0.
+// Follows a call plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00215C48Get(void)
+{
+	return reinterpret_cast<int>(VictorySystemFieldParse);
+}
+
+// ?Rva00215C4EGet@@YAHXZ @ 0x00215c4e (6B): returns 0x00c38760.
+// Abuts the twin getter above. No direct callers. Opaque
+// address-derived name.
+int Rva00215C4EGet(void)
+{
+	return reinterpret_cast<int>(FactionVictoryFieldParse);
 }

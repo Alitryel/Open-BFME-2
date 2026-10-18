@@ -157,21 +157,9 @@ int Rva005088C8Get(void)
 
 
 
-// ?Rva00668100Get@@YAHXZ @ 0x00668100 (6B): returns 0x00DD8314.
-// CC-island (10xCC after) following a call/leave/ret tail. 1 direct E8
-// caller (0x657A78), Ghidra-6, no branch sources. Opaque name.
-int Rva00668100Get(void)
-{
-	return 0x00DD8314;
-}
 
-// ?Rva00669530Get@@YAHXZ @ 0x00669530 (6B): returns 0x00DD83B4.
-// CC-island (10xCC after) following a call/leave/ret tail. 1 direct E8
-// caller (0x657B48), Ghidra-6, no branch sources. Opaque name.
-int Rva00669530Get(void)
-{
-	return 0x00DD83B4;
-}
+
+
 
 // ?Rva003EE6F7Get@@YAHXZ @ 0x003EE6F7 (6B): returns 0x00C36290.
 // Follows a leave/ret (0x3EE6F5-56) with a mov-style function after.
@@ -200,23 +188,9 @@ int Rva0056A983Get(void)
 	return 0x00C6CFD0;
 }
 
-// ?Rva003ABD55Get@@YAHXZ @ 0x003ABD55 (6B): returns 0x00C1C59C.
-// Follows a ret (0x3ABD54) with a sub/cmp-style function after. Carried
-// at 0x81CE5C and 0x81D680, no direct callers, no branch sources.
-// Opaque address-derived name.
-int Rva003ABD55Get(void)
-{
-	return (int)"DefaultModule<CAT_PHYSICS>";
-}
 
-// ?Rva003AC9A1Get@@YAHXZ @ 0x003AC9A1 (6B): returns 0x00C1C96C.
-// Follows a ret (0x3AC9A0) with a sub/cmp-style function after. Carried
-// at 0x81C948 and 0x81D19C, no direct callers, no branch sources.
-// Opaque address-derived name.
-int Rva003AC9A1Get(void)
-{
-	return (int)"DefaultParticleModule<CAT_COLOR>";
-}
+
+
 
 // ?Rva0008EFCCGet@@YAHXZ @ 0x0008EFCC (6B): returns 0x00BFC338.
 // Follows a ret (0x8EFCB) with a B8-imm getter after. Carried at 0x7C7C08
@@ -281,14 +255,7 @@ int Rva000EF29AGet(void)
 	return 0x00544558;
 }
 
-// ?Rva00342868Get@@YAHXZ @ 0x00342868 (6B): returns 0x00C12520.
-// Follows a ret-4 (0x342865-67) with a push/call-style function after.
-// Carried by 4 .rdata slots, no direct callers, no branch sources.
-// Opaque address-derived name.
-int Rva00342868Get(void)
-{
-	return (int)"AIMoveAndTightenState";
-}
+
 
 // ?Rva000907A1Get@@YAHXZ @ 0x000907A1 (6B): returns 0x00CE4818.
 // Follows a ret-12 (0x9079E-A0) with a push-style function after.
@@ -353,14 +320,9 @@ int Rva005C9880Get(void)
 	return 0x009C9886;
 }
 
-// ?Rva004EE155Get@@YAHXZ @ 0x004EE155 (6B): returns 0x00C62A38.
-// Follows a mov-word/ret (0x4EE14F-54) with a frame-style function
-// after. Carried at 0x862A30, no direct callers, no branch sources.
-// Opaque address-derived name.
-int Rva004EE155Get(void)
-{
-	return (int)"LivingWorldScoreKeeper::PerTurnStats";
-}
+
+
+
 
 // ?Rva00655114Get@@YAHXZ @ 0x00655114 (6B): returns 1. Follows a
 // pop-ebp/ret (0x65510F-13) with a mov-style function after. Carried
@@ -400,21 +362,6 @@ int Rva00337055Get(void)
 	return 0x0073705B;
 }
 
-
-// The LivingWorldObject parser at 0x0021376B supplies its object in ECX;
-// WorldBuilder's twin also calls this through the object. Keep the method ABI
-// and the field-table pointer return; the original method name is unknown.
-struct FieldParse;
-extern const FieldParse LivingWorldObjectFields[];
-class Rva003FA776
-{
-public:
-	const FieldParse *rva003FA6FF();
-};
-const FieldParse *Rva003FA776::rva003FA6FF()
-{
-	return LivingWorldObjectFields;
-}
 
 // ?Rva0041A967Get@@YAHXZ @ 0x0041A967 (6B): returns 0x0081A8B1.
 int Rva0041A967Get(void)

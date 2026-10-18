@@ -344,3 +344,76 @@ int Rva006655E0Get(void)
 {
 	return (int)&g_Va00DD828C;
 }
+
+// Named address targets let these getters rejoin their linking family.
+extern unsigned int g_Va00DD8314;
+extern unsigned int g_Va00DD83B4;
+
+// ?Rva003ABD55Get@@YAHXZ @ 0x003ABD55 (6B): returns 0x00C1C59C.
+// Follows a ret (0x3ABD54) with a sub/cmp-style function after. Carried
+// at 0x81CE5C and 0x81D680, no direct callers, no branch sources.
+// Opaque address-derived name.
+int Rva003ABD55Get(void)
+{
+	return (int)"DefaultModule<CAT_PHYSICS>";
+}
+
+// ?Rva003AC9A1Get@@YAHXZ @ 0x003AC9A1 (6B): returns 0x00C1C96C.
+// Follows a ret (0x3AC9A0) with a sub/cmp-style function after. Carried
+// at 0x81C948 and 0x81D19C, no direct callers, no branch sources.
+// Opaque address-derived name.
+int Rva003AC9A1Get(void)
+{
+	return (int)"DefaultParticleModule<CAT_COLOR>";
+}
+
+// ?Rva00342868Get@@YAHXZ @ 0x00342868 (6B): returns 0x00C12520.
+// Follows a ret-4 (0x342865-67) with a push/call-style function after.
+// Carried by 4 .rdata slots, no direct callers, no branch sources.
+// Opaque address-derived name.
+int Rva00342868Get(void)
+{
+	return (int)"AIMoveAndTightenState";
+}
+
+// ?Rva004EE155Get@@YAHXZ @ 0x004EE155 (6B): returns 0x00C62A38.
+// Follows a mov-word/ret (0x4EE14F-54) with a frame-style function
+// after. Carried at 0x862A30, no direct callers, no branch sources.
+// Opaque address-derived name.
+int Rva004EE155Get(void)
+{
+	return (int)"LivingWorldScoreKeeper::PerTurnStats";
+}
+
+
+
+// ?Rva00668100Get@@YAHXZ @ 0x00668100 (6B): returns 0x00DD8314.
+// CC-island (10xCC after) following a call/leave/ret tail. 1 direct E8
+// caller (0x657A78), Ghidra-6, no branch sources. Opaque name.
+int Rva00668100Get(void)
+{
+	return reinterpret_cast<int>(&g_Va00DD8314);
+}
+
+// ?Rva00669530Get@@YAHXZ @ 0x00669530 (6B): returns 0x00DD83B4.
+// CC-island (10xCC after) following a call/leave/ret tail. 1 direct E8
+// caller (0x657B48), Ghidra-6, no branch sources. Opaque name.
+int Rva00669530Get(void)
+{
+	return reinterpret_cast<int>(&g_Va00DD83B4);
+}
+
+// The LivingWorldObject parser at 0x0021376B supplies its object in ECX;
+// WorldBuilder's twin also calls this through the object. Keep the method ABI
+// and the field-table pointer return; the original method name is unknown.
+struct FieldParse;
+extern const FieldParse LivingWorldObjectFields[];
+class Rva003FA776
+{
+public:
+	const FieldParse *rva003FA6FF();
+};
+const FieldParse *Rva003FA776::rva003FA6FF()
+{
+	return LivingWorldObjectFields;
+}
