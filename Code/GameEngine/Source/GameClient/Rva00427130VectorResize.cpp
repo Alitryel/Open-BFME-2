@@ -46,11 +46,7 @@ struct BfmeItemERF
 	UnsignedInt m_head3;
 	BfmeSubERF m_bfmeSubERF;
 
-	BfmeItemERF()
-		: m_head0( 0x4e20 ), m_head1( 0x5dc ), m_head2( 0 ), m_head3( 5 ),
-		  m_bfmeSubERF()
-	{
-	}
+	BfmeItemERF();
 	BfmeItemERF( const BfmeItemERF &that );
 	~BfmeItemERF();
 };
