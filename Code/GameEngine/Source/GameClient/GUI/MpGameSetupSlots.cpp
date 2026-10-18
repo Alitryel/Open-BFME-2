@@ -475,12 +475,12 @@ public:
 };
 
 // The member at +0x190's base (Rva004421E1Dtor.cpp's Rva0057F2DE).
-class AptMpClans { public: void OnGameInfoChange(); };
+class AptMpClans { public: void OnGameInfoChange(); public: void rva0057FAB0(); };
 class Rva0057F2DE
 {
 public:
 	// Unrowed 0x0057FAB0 (453 bytes; its Apt callback registration), pinned.
-	void rva0057FAB0();
+	/* the rowed AptMpClans::rva0057FAB0 */ __declspec(dllimport) __forceinline void rva0057FAB0() { ((AptMpClans *)this)->rva0057FAB0(); }
 	// Unrowed 0x0057F3A9 (113 bytes; the text of its +0xA0 combo box, or a
 	// global empty string without one), pinned by address.
 	UnicodeString rva0057F3A9();
