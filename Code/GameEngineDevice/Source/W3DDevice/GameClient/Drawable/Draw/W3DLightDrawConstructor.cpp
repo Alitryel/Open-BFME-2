@@ -121,13 +121,15 @@ protected:
 	void *m_drawable; // +0x08
 };
 
+// Use the existing base destructor instead of emitting a private empty copy
+// and its incomplete vtable from this constructor unit.
 class DrawModule : public DrawableModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
 
 protected:
-	virtual ~DrawModule() {}
+	virtual ~DrawModule();
 };
 
 class W3DLightDrawModuleData
