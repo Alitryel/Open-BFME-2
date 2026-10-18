@@ -68,7 +68,8 @@ public:
 struct Rva005F5C77Base0
 {
 	Rva005F5C77Base0() : m_04(0) {}
-	virtual ~Rva005F5C77Base0() {}
+	// The complete base teardown is provided by Rva005E91A9Dtor.cpp.
+	virtual ~Rva005F5C77Base0();
 	int m_04;
 };
 

@@ -21,7 +21,7 @@ public:
 };
 class Rva005E16DA;
 extern Rva005E16DA g_rva00E0675C;
-class __declspec(novtable) Rva005E91A9Base
+class Rva005E91A9Base
 {
 public:
     __declspec(dllimport) __forceinline Rva005E91A9Base() : m_04(0) {}

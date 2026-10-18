@@ -18,7 +18,7 @@
 //   0x005E67E2  0x005E66A4  0x00C77E04#0
 //   Rva005E80FD wrapper rehomed to its real lifetime unit.
 //   0x005E8E64  0x005E8D71  0x00C77F88#0
-//   0x005E9279  0x005E91A9  0x00C77FF0#0
+//   Rva005E91A9 wrappers rehomed to their complete lifetime unit.
 //   0x005E9F4D  0x005E9F3F  0x00C780A8#0
 //   0x005EA68B  0x005E9F7B  0x00C75374#0, 0x00C77AD8#0, 0x00C781B8#0
 //   0x005EA83E  0x005EA85A  0x00C781DC#0
@@ -80,20 +80,8 @@ Rva005E8D71::Rva005E8D71(EmitVtableTag *)
 {
 }
 
-// Primary base at +0 (vptr plus one word), named as its ??_7Rva005E91A9@@6BRva005E91A9Base@@@ table.
-class Rva005E91A9Base { public: virtual ~Rva005E91A9Base(); private: char m_unmodelled04[4]; };
-class Rva005E91A9 : public Rva005E91A9Base, public Rva005E12D1
-{
-public:
-	Rva005E91A9(EmitVtableTag *);
-public:
-	virtual ~Rva005E91A9();
-};
-
-// ?<Rva005E91A9::Rva005E91A9> absent-from-retail
-Rva005E91A9::Rva005E91A9(EmitVtableTag *)
-{
-}
+// Rva005E91A9 emits its native deleting wrapper and adjusting thunk
+// from the complete lifetime unit Rva005E91A9Dtor.cpp.
 
 class Rva005E9F3F
 {
