@@ -57,10 +57,10 @@ public:
     Rva006D6500(int a0);
     virtual ~Rva006D6500();
 };
-Rva006D6360::Rva006D6360(int type, int size) : BfmeAptValue006DCD20(type), m_hash(size)
+inline Rva006D6360::Rva006D6360(int type, int size) : BfmeAptValue006DCD20(type), m_hash(size)
 {
 }
-Rva006D6470Owner::Rva006D6470Owner(int a0, int a1) : Rva006D6360(a0, a1)
+inline Rva006D6470Owner::Rva006D6470Owner(int a0, int a1) : Rva006D6360(a0, a1)
 {
     *(unsigned char *)&m_bits = 0;
     m_bits &= 0xFFFFFCFF;
@@ -70,4 +70,14 @@ Rva006D6500::Rva006D6500(int a0) : Rva006D6360(9, 8)
     *(unsigned char *)&m_bits = 0;
     m_bits &= 0xFFFFFCFF;
     m_arg = a0;
+}
+
+// Rva006ECFC0Siblings, Rva006EC730GetBounds, Rva006FC1D0Ctor and others define
+// these two constructors in-class, emitting select-any copies of the same
+// bodies; defining them inline here too keeps one body under each name. The
+// anchor keeps this unit's copies emitted.
+// ?bfmeAnchorRva006D6470Owner absent-from-retail
+void bfmeAnchorRva006D6470Owner(Rva006D6470Owner *p)
+{
+    p->Rva006D6470Owner::Rva006D6470Owner(0, 0);
 }
