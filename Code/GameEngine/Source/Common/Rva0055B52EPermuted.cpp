@@ -43,7 +43,24 @@ public:
 	void rva0055B39C();
 };
 
-extern const void *const g_00C1D11C[];
+// The retail table at RVA 0x0081D11C: 6 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ADFB2@@UAEPAXI@Z")();
+void __identifier("?rva0055B489@Rva0055B39C@@QAEXXZ")();
+int __cdecl _purecall(void);
+void __identifier("?xfer@Rva0055B3D9@@UAEXPAVXfer@@@Z")();
+void __identifier("?rva0055B417@Rva0055B417@@QBE_NH@Z")();
+void __identifier("?get@Rva0008BB58FloatField@@QBEMXZ")();
+}
+extern const void *const g_00C1D11C[6] = {
+	(const void *)&__identifier("??_GRva003ADFB2@@UAEPAXI@Z"), // slot 0 0x003AE270
+	(const void *)&__identifier("?rva0055B489@Rva0055B39C@@QAEXXZ"), // slot 1 0x0055B489
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("?xfer@Rva0055B3D9@@UAEXPAVXfer@@@Z"), // slot 3 0x0055B3D9
+	(const void *)&__identifier("?rva0055B417@Rva0055B417@@QBE_NH@Z"), // slot 4 0x0055B417
+	(const void *)&__identifier("?get@Rva0008BB58FloatField@@QBEMXZ"), // slot 5 0x0008BB58
+};
 extern "C" char s_slot3E4first;
 
 struct Rva0055B52ESrcElem
