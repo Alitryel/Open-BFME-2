@@ -1,6 +1,7 @@
 // cl: /DNDEBUG /MD
 //
-// ?get@Rva00148F5ECache@@QAE?AW4NameKeyType@@XZ, retail 0x00148F5E, 32 bytes.
+// The cache getter at 0x00148F5E is rowed in RTS/PlayerInitFromDict.cpp,
+// whose callers already emit the byte-exact inline definition.
 // Lazily-resolved NameKey cache: struct holds a key at +0 and a name string
 // at +4; when the key is 0 and TheNameKeyGenerator (global 0xDF36A4) exists,
 // resolve via the rowed nameToKey at 0x00148E1A and cache it. Evidence: body
@@ -29,16 +30,6 @@ private:
 	NameKeyType m_key;
 	const char *m_name;
 };
-
-NameKeyType Rva00148F5ECache::get()
-{
-	if (m_key == NAMEKEY_INVALID)
-	{
-		if (TheNameKeyGenerator != 0)
-			m_key = TheNameKeyGenerator->nameToKey(m_name);
-	}
-	return m_key;
-}
 
 // ?key@StaticNameKey@@QBE?AW4NameKeyType@@XZ
 // ICF twin of the rowed Rva00148F5ECache::get at 0x00148F5E: Zero Hour's
