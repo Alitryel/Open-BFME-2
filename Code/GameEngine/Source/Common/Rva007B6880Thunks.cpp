@@ -1095,7 +1095,7 @@ public:
 
 extern unsigned g_Va00DEC008;
 unsigned g_Va00DF2974;	// retail RVA 0x009F2974 (.bss), defined here
-extern unsigned g_Va00DF297C;
+unsigned g_Va00DF297C;	// retail RVA 0x009F297C (.bss), defined here
 
 // ?rva007B6E90@@YAXXZ @ 0x007B6E90 (10B). Global RefCountPtr<TextureClass> dtor thunk: ecx=&g_Va00DEC008 then tail-jmp to rowed ??1?$RefCountPtr@VTextureClass@@@@QAE@XZ (0x0017098D).
 void __cdecl rva007B6E90()
