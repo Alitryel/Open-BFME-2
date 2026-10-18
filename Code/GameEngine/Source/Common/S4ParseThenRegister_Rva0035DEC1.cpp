@@ -59,10 +59,12 @@ struct Gen_00489270
 	void m( int a );
 };
 
+class Rva001DBAA4 { public: Rva001DBAA4(); };
 class Rva00489210
 {
 public:
-	Rva00489210();
+	// Construction is the rowed ??0Rva001DBAA4, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva00489210() { ((Rva001DBAA4 *)this)->Rva001DBAA4::Rva001DBAA4(); }
 	int *volatile m_00;
 	int m_04;
 	char m_08, m_09, m_0A;
