@@ -62,9 +62,27 @@ struct BannerTypeIterator
 	void *m_node;
 	void *m_table;
 };
+// The +0x0C banner type table's 0x002171F2 constructor is the ledger row
+// ??0?$hash_map@HURva002171F2Element@@...@@QAE@XZ (owner
+// StlSweepW4Rva002171F2.cpp): an STLport hash_map specialization. The table's
+// lookup methods keep the address-derived Rva00056F61 spelling, so declare
+// that specialization as this view's storage base and construct through it.
+namespace _STL {
+template <class T> class allocator;
+template <class T> struct hash;
+template <class T> struct equal_to;
+template <class A, class B> struct pair;
+template <class K, class V, class H, class E, class A> class hash_map
+{
+public:
+	hash_map();	// 0x002171F2
+};
+}
+struct Rva002171F2Element;
+typedef _STL::hash_map<int, Rva002171F2Element, _STL::hash< int >, _STL::equal_to< int >,
+	_STL::allocator< _STL::pair< const int, Rva002171F2Element > > > Rva002171F2Table;
 class Rva00056F61 {
 public:
- Rva00056F61();	// 0x002171F2 (pinned): the type table's hash_map constructor
  BannerTypeIterator find(const AsciiString &name) {return BannerTypeIterator(rva00056F61(&name),this);}
  __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString *);
  __declspec(nothrow) void *rva00056F61(const AsciiString *);
@@ -75,7 +93,7 @@ public:
 // constructor2171F2 and FuncInfo913FFC state1 destroys it through216BF0.
 // Preserve lookup/constructor ABI names on the storage view while using
 // the existing destructor owner for this wrapper; original type unknown.
-class Rva00216BF0 : public Rva00056F61
+class Rva00216BF0 : public Rva002171F2Table, public Rva00056F61
 {
 public:
  Rva00216BF0() {}
@@ -102,25 +120,28 @@ struct BfmePod28
 	bool unknown18;
 };
 
+extern "C" void __cdecl free(void *memory);	// 0x00030830, the game free
 namespace _STL {
 template <class T> class allocator { public: allocator() {} };
-// The vector base's allocator constructor is retail's ICF-shared 29-byte body
-// at 0x00211E58 (pinned under this address-named spelling).
-template <class T, class A> class Rva00211E58VectorBase {
+// The 0x00211E58 vector-base constructor's ledger rows are real
+// _Vector_base<Element, allocator<Element> > instantiations (e.g. <int>,
+// owner AptMessenger.cpp); this view's banner storage binds the ledger's
+// <int> spelling, the element type being a neutral header view.
+template <class T, class A> class _Vector_base {
 public:
-	Rva00211E58VectorBase(const A &a) throw();
-protected:
+	_Vector_base(const A &a) throw();	// 0x00211E58
+	__declspec(dllimport) __forceinline ~_Vector_base() { if (_M_start) free(_M_start); }
 	T *_M_start;
 	T *_M_finish;
 	T *_M_end_of_storage;
 };
-template <class T, class A> class vector : public Rva00211E58VectorBase<T, A> {
+template <class T, class A> class vector : public _Vector_base<int, allocator<int> > {
 public:
 	typedef T *iterator;
-	vector(const A &a = A()) : Rva00211E58VectorBase<T, A>(a) {}
+	vector(const A &a = A()) : _Vector_base<int, allocator<int> >(allocator<int>()) {}
 	~vector();
-	iterator begin() { return this->_M_start; }
-	iterator end() { return this->_M_finish; }
+	iterator begin() { return reinterpret_cast<iterator>(this->_M_start); }
+	iterator end() { return reinterpret_cast<iterator>(this->_M_finish); }
 	void push_back(const T &value);	// 0x00216BB9
 };
 // STLport 4.5.3 for_each (stl/_algo.h). Over the banners with the collector
@@ -375,16 +396,7 @@ int BannerUI::CreateBanner(int bannerID)
 enum ScienceType {};
 // Use the owned game allocator provider for native30830 cleanup.
 void __cdecl Rva00030830GameFree(void *);
-extern "C" void __cdecl free(void *memory);	// 0x00030830, the game free
 namespace _STL {
-template <class T, class A> class _Vector_base {
-public:
-	_Vector_base(const A &a);	// 0x00211E58
-	__declspec(dllimport) __forceinline ~_Vector_base() { if (_M_start) free(_M_start); }
-	T *_M_start;
-	T *_M_finish;
-	T *_M_end_of_storage;
-};
 template <> class vector<ScienceType, allocator<ScienceType> > : public _Vector_base<ScienceType, allocator<ScienceType> > {
 public:
 	typedef ScienceType *iterator;
@@ -400,10 +412,13 @@ class LivingWorldBattle
 public:
 	void rva003F5BDB(void *army, _STL::vector<ScienceType, _STL::allocator<ScienceType> > *armyIDs);	// 0x003F5BDB
 };
+// The 0x0020E6B7 forwarder's ledger row is the Rva003F468D-returning twin
+// (owner Rva002B2DAD.cpp); declare that exact signature and cast the result.
+class Rva003F468D;
 class Rva0020E6B7RegionManager
 {
 public:
-	LivingWorldBattle *rva0020E6B7();	// 0x0020E6B7, the current battle
+	Rva003F468D *rva0020E6B7();	// 0x0020E6B7, the current battle
 };
 class BfmeSelectionState
 {
@@ -457,7 +472,7 @@ void BannerUI::OnAptMovieInitialized(const char *path)
 	LivingWorldLogic *logic = TheLivingWorldLogic;
 	if (logic && logic->isActive() && !((BfmeSelectionState *)logic)->isSelectionLocked())
 	{
-		LivingWorldBattle *battle = logic->getRegionManager()->rva0020E6B7();
+		LivingWorldBattle *battle = (LivingWorldBattle *)logic->getRegionManager()->rva0020E6B7();
 		if (battle)
 		{
 			Player *player = ThePlayerList->bannerLocalPlayer();
