@@ -877,6 +877,26 @@ void AIGuardAttackAggressorState::onExit( StateExitType status )
 	}
 }
 
+// Retail C69780 slot 5 shares 542C87 with the attack-aggressor state.
+// The ZH inner-state exit drops its enter-state branch in BFME 2; the
+// remaining attack lifetime and team-target reset are identical.
+void AIGuardInnerState::onExit( StateExitType status )
+{
+	Object *obj = getMachineOwner();
+	if (m_attackState)
+	{
+		m_attackState->onExit(status);
+		::delete m_attackState;
+		m_attackState = NULL;
+	}
+
+	if (obj->getTeam())
+	{
+		obj->getTeam()->setTeamTargetObject(NULL); // clear the target.
+	}
+}
+
+
 void AIGuardOuterState::onExit( StateExitType status )
 {
 	if (m_attackState)
