@@ -1,42 +1,33 @@
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z
-// partial score=0.99 date=2026-10-13
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z
-// partial score=0.99 date=2026-10-12
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z
-// partial score=0.99 date=2026-10-06
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z
-// partial score=0.99 date=2026-10-05
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z
-// cl: /O1 /arch:SSE /MD
+// cl: /I. /O1 /arch:SSE /MD
 // ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z @0x003FAAA1, 236B.
 // Overlap test via rowed Region3D copy 0x0009AC04 LineSeg ctor 0x000927F9 and Overlap_Test 0x00723870.
 // Evidence: retail calls 0x0009AC04 0x000927F9 0x00723870 plus virtuals at +0x108 and +0x34, data g_00DFEF18 g_00BC7000, caller 0x002BFE80.
 //
-// The field write ORDER is load-bearing and is not the natural spelling. Writing
-// p0 as Y,Z,X (not X,Y,Z) is what fixes the register assignment: it makes
-// xmm4=[ebp-0x14] and xmm5=[ebp-0x10] load in retail's order rather than
-// swapped, which in turn fixes the addss operands. Both are codegen devices.
-//
-// The p0.X restore is placed between the b1.X add and the b1.Y/b1.Z adds, which
-// is what pulls the [ebp-0x30]=xmm3 store forward in the final nine-store block.
-// Measured at 236B retail-exact size, interleaving the restore takes the real
-// diff from 12 bytes to 8: no interleave 12 (the sink store lands sixth, after
-// all three b1 writes), after the b1.X add 8, after the b1.Y add 10, after the
-// b1.Z add 12, and before the b1.X add 28. The residual 8 bytes are still that
-// one store's position, at +0xA4..+0xBE.
+// WB 1063140 twin: copy the object's bounding box, ask the global for a ray
+// (start, direction) through virtual +0x34, scale the direction by the global
+// float at 0x00BC7000, and test the box against the segment start..start+dir.
+// Retail inlines Zero Hour's Coord3D scale/add (Coord3DCtorView with
+// COORD3D_VIEW_INLINE): the scale read into a named float first, then the two
+// segment points built with Vector3's three-float constructor.
 class Vector3
 {
 public:
+	Vector3() {}
+	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
 	float X;
 	float Y;
 	float Z;
 };
+#define COORD3D_VIEW_INLINE
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
+
 class AABoxClass
 {
 public:
 	Vector3 Center;
 	Vector3 Extent;
 };
+// class-gate: allow Region3D codegen view declaring the rowed out-of-line copy constructor 0x0009AC04 (the canonical header has only the inline copy); retail copies the 24-byte box through that call and passes it to Overlap_Test as the AABox
 struct Region3D : public AABoxClass
 {
 	Region3D(Region3D const &);
@@ -98,7 +89,7 @@ public:
 	virtual void g00(); virtual void g01(); virtual void g02(); virtual void g03(); virtual void g04();
 	virtual void g05(); virtual void g06(); virtual void g07(); virtual void g08(); virtual void g09();
 	virtual void g10(); virtual void g11(); virtual void g12();
-	virtual void GetVectors(void *arg, Vector3 *a, Vector3 *b);
+	virtual void GetVectors(void *arg, Coord3D *a, Coord3D *b);
 };
 #define TheGlobal003FAAA1 (*(Global **)&g_00DFEF18)
 class Rva003FAAA1
@@ -111,7 +102,6 @@ private:
 	Inner1 *m_10;
 };
 
-// ?rva003FAAA1@Rva003FAAA1@@QAE_NPAX@Z present-unmatched
 bool Rva003FAAA1::rva003FAAA1(void *arg)
 {
 	Inner1 *a = m_10;
@@ -125,26 +115,14 @@ bool Rva003FAAA1::rva003FAAA1(void *arg)
 			return false;
 	}
 	Region3D box(*b->GetRegion());
-	Vector3 b2;
-	Vector3 b1;
-	TheGlobal003FAAA1->GetVectors(arg, &b1, &b2);
+	Coord3D start;
+	Coord3D dir;
+	TheGlobal003FAAA1->GetVectors(arg, &start, &dir);
 	float scale = g_00BC7000;
-	Vector3 p0;
-	p0.Y = b1.Y;
-	p0.Z = b1.Z;
-	p0.X = b1.X;
-	b2.X *= scale;
-	b2.Y *= scale;
-	b2.Z *= scale;
-	float sink = p0.X;
-	b1.X += b2.X;
-	p0.X = sink;
-	b1.Y += b2.Y;
-	b1.Z += b2.Z;
-	Vector3 p1;
-	p1.X = b1.X;
-	p1.Y = b1.Y;
-	p1.Z = b1.Z;
+	dir.scale(scale);
+	Vector3 p0(start.x, start.y, start.z);
+	start.add(&dir);
+	Vector3 p1(start.x, start.y, start.z);
 	LineSegClass seg(p0, p1);
 	if (CollisionMath::Overlap_Test(box, seg) == 1)
 		return false;
