@@ -2199,7 +2199,7 @@ extern GameLODManager *TheGameLODManager;
 extern int SavedClientFrame;
 extern unsigned char g_00DFF004;
 extern char g_00E09B08[];
-extern int g_00E09A00;
+int g_00E09A00;	// retail RVA 0x00A09A00 (.bss), defined here
 
 void GameLogic::rva00248558(bool loadingSaveGame)
 {
