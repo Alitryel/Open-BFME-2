@@ -18,17 +18,7 @@ extern "C" int __cdecl memcmp(const void *buf1, const void *buf2, unsigned int c
 class Rva004525B0String
 {
 public:
-	int compare(const Rva004525B0String &str) const
-	{
-		const int len = str.m_data ? str.m_data->length : 0;
-		const char *data = str.m_data ? &str.m_data->data[0] : "";
-		const int myLen = m_data ? m_data->length : 0;
-		const char *myData = m_data ? &m_data->data[0] : "";
-		const int result = memcmp(myData, data, myLen < len ? myLen : len);
-		if (result != 0)
-			return result;
-		return myLen - len;
-	}
+	int compare(const Rva004525B0String &str) const;
 
 private:
 	struct Header
