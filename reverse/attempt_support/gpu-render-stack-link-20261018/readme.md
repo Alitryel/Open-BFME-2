@@ -32,3 +32,10 @@ The commit hook's shadow identity check still reports the pre-existing
 divergent RefCountPtr<FXShader::RenderingMethod> copy constructor. The paired
 object proof includes that retained helper unchanged; this repair does not
 claim to resolve its separate identity diagnostic.
+
+## Preparation recovery
+
+Upstream 1d788bb5ef already contains the complete GPU helper binding and
+dllimport repair. Keep that source unchanged during rebase; the original
+787-byte proof is historical and contributes no additional recovery gain.
+The saved proof and blocker records remain useful evidence.

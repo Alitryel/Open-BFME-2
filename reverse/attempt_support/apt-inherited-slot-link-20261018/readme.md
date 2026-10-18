@@ -31,3 +31,21 @@ The commit hook's shadow identity check still reports the pre-existing
 GetBounds call binding to AptBasePtrStack::At at the wrong candidate address
 0x006FE580. The paired object proof leaves that call and its relocation
 unchanged; the inherited-slot repair does not claim to resolve it.
+
+## Preparation recovery
+
+Rebased the three saved commits from runner backup
+refs/runner/preparation/1792336210490284963 onto 10c08ed8ac.
+Upstream 8c32f9da1a already supplies the LadderPreferencesDtor and
+Rva006F1360Dtor repairs (228 bytes); retain its complete root destructor
+view. Only Rva006EC730GetBounds still changes relative to that upstream.
+The original 688-byte proof above is historical, not an additional gain.
+
+Rechecked the remaining source: all five rows pass the ordinary byte gate
+and strict reusable compiler receipts. A paired legacy preview using the
+saved before object, whose source equals origin/master exactly, improves
+0 -> 460 non-padding bytes. Every retained non-debug section and symbolic
+relocation is identical, excluding the changed vtables.
+recovery-proof.json records the paired results. Closed-strict gain remains
+unmeasured. The recovery has no stash or untracked edits to restore; the
+backup ref is retained.
