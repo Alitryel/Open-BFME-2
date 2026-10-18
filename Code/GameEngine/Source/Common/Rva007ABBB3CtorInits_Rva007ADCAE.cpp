@@ -117,10 +117,12 @@ public:
 	Rva000F9C3C();
 };
 
+class Rva0023C641 { public: Rva0023C641(); };
 class Rva0023DBF9
 {
 public:
-	Rva0023DBF9();
+	// Construction is the rowed ??0Rva0023C641, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva0023DBF9() { ((Rva0023C641 *)this)->Rva0023C641::Rva0023C641(); }
 };
 
 class Rva005EA635
