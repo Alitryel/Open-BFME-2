@@ -58,6 +58,10 @@ struct GeometryRecord
 	StringBase<char> m_name;
 };
 
+// The malloc-backed retail allocator release is rowed in GeometryInfoDtor.cpp.
+// Keep this unit from supplying the node-allocator implementation at that name.
+namespace _STL { template <> void allocator<GeometryRecord>::deallocate(GeometryRecord *, size_t) const; }
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
 class Xfer;
 

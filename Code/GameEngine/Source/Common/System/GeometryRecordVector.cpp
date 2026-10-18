@@ -32,4 +32,8 @@ struct GeometryRecord
 	AsciiString m_name;
 };
 
+// The malloc-backed retail allocator release is rowed in GeometryInfoDtor.cpp.
+// Keep this unit from supplying the node-allocator implementation at that name.
+namespace _STL { template <> void allocator<GeometryRecord>::deallocate(GeometryRecord *, size_t) const; }
+
 template class _STL::vector<GeometryRecord>;
