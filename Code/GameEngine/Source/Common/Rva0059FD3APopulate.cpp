@@ -100,7 +100,7 @@ public:
 // g_00E05FB4 is only an alias of the owned global TheGameSpyConfig (ledger names column); this unit reads the owner through its own view type.
 extern class GameSpyConfigInterface *TheGameSpyConfig;
 #define g_00E05FB4 (*(G00E05FB4Provider * *)&TheGameSpyConfig)
-extern int g_00DB91A0;
+int g_00DB91A0 = -1;	// retail RVA 0x009B91A0 (.data), defined here
 
 class AptOnlineCustomMatch
 {
