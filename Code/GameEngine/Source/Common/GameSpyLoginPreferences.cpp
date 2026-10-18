@@ -101,6 +101,8 @@ template <> inline _List_base<AsciiString, allocator<AsciiString> >::_List_base(
 
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+// Bind node erasure to the byte-verified retail provider at RVA 0x000BC67A.
+namespace _STL { template <> list<AsciiString, allocator<AsciiString> >::iterator list<AsciiString, allocator<AsciiString> >::erase(iterator); }
 namespace _STL { template <> _List_node<AsciiString> * allocator<_List_node<AsciiString> >::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> void allocator<_List_node<AsciiString> >::deallocate(_List_node<AsciiString> *, unsigned int) const; }
 namespace _STL { template <> _List_node<AsciiString> * _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::allocate(unsigned int); }
