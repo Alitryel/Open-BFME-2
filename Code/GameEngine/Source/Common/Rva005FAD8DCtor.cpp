@@ -189,4 +189,6 @@ Rva005FAD8D::Rva005FAD8D(void *owner, void *source)
 #pragma comment(linker, "/alternatename:?f0@Rva005FAD8D@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 #pragma comment(linker, "/alternatename:?f0@Rva00875284Base@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 #pragma comment(linker, "/alternatename:?f1@Rva005FAD8D@@UAEXXZ=?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z")
-#pragma comment(linker, "/alternatename:?f1@Rva00875284Base@@UAEXXZ=?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z")
+// Base C75284 slot 1 is the empty RET20 at 25EF04, not the derived
+// C79ED4 slot 1 swap callback. Both complete tables contain two entries.
+#pragma comment(linker, "/alternatename:?f1@Rva00875284Base@@UAEXXZ=?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@M0MM@Z")

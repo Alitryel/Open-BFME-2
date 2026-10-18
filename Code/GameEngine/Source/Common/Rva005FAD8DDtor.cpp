@@ -95,6 +95,10 @@ class Rva005FAD8D : public Rva00875284Base
 {
 public:
 	~Rva005FAD8D();
+	// The complete two-slot table at C79ED4 overrides both callbacks;
+	// C79EDC starts the next class's table. Match the constructor's view.
+	virtual void f0();
+	virtual void f1();
 private:
 	Rva005FAD8DMid *m_04;
 	int m_08;
