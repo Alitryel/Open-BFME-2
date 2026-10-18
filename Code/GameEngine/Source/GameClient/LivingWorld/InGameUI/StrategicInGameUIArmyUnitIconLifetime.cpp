@@ -25,6 +25,8 @@ struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C;
 class AptMovieClipFrame;
+class Rva005F3F9A { public: void rva005F3F9A(); };
+class Rva005F3F14 { public: void rva005F3F14(); };
 class Rva005F4179 {
 public:
  Rva005F4179(void *);
@@ -33,9 +35,12 @@ public:
  virtual TreeHintRef00217D4C CreateMovieClip(AptMovieClipFrame *)=0;
  virtual TreeHintRef00217D4C rva005F4710();
  virtual void DoUpdate();
- virtual void slot05();
- virtual void slot06();
- virtual void slot07();
+ // Slots 5-7 of retail's table 0x00C794AC: the shared empty body 0x000B3FD0
+ // and the two +8 forwarders 0x005F3FF4 / 0x005F3F6B (rowed as
+ // Rva005F3FF4::rva005F3FF4 and Rva005F3F6B::rva005F3F6B).
+ virtual void slot05() {}
+ virtual void slot06() { ((Rva005F3F9A *)leaf)->rva005F3F9A(); }
+ virtual void slot07() { ((Rva005F3F14 *)leaf)->rva005F3F14(); }
 private:int count;void *leaf;
 };
 struct ClipRef {
