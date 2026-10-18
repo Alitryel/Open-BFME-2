@@ -15,3 +15,17 @@ extern "C" int __cdecl atexit(_PVFV func)
 {
 	return (_onexit((_onexit_t)func) == 0) ? -1 : 0;
 }
+
+// Remaining native atonexit.obj body and both four-byte COMMON objects.
+// The table holds -1 for DLL-backed registration; otherwise __dllonexit grows it.
+// Define the real C globals once; startup and free adapters already declare them.
+extern "C" {
+_onexit_t *__onexitbegin=0;
+_onexit_t *__onexitend=0;
+extern _onexit_t (__cdecl *_imp___onexit)(_onexit_t);
+_onexit_t __cdecl __dllonexit(_onexit_t,_onexit_t **,_onexit_t **);
+_onexit_t __cdecl _onexit(_onexit_t callback) {
+ if(__onexitbegin==(_onexit_t *)-1)return _imp___onexit(callback);
+ return __dllonexit(callback,&__onexitbegin,&__onexitend);
+}
+}
