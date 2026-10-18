@@ -1,4 +1,4 @@
-// cl: /EHs /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /EHs /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /GF
 // stlport
 // ??0Rva0041386B@@QAE@XZ @0x0041386B 54B: thiscall ctor with vector at +0 and ModuleTemplateMap at +0xC.
 // Evidence: chain/unlock lane, EH prolog, rowed Vector_base BfmeE16 at 0x00211E58 and rowed map ctor at 0x00413727, caller at 0x00413B88.
@@ -34,7 +34,15 @@ public:
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _Rb_tree_base<pair<NameKeyType const ,ModuleFactory::ModuleTemplate>,allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > >::_Rb_tree_base(allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > const &); }
-struct FieldParse;
+struct FieldParse
+{
+ const char *name;
+ void (*parse)(class INI *, void *, void *, const void *);
+ const void *userData;
+ int offset;
+};
+void Rva002E2612Parse(INI *, void *, void *, const void *);
+void Rva004138C7Parse(INI *, void *, void *, const void *);
 
 class INI
 {
@@ -42,7 +50,14 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 };
 
-extern struct FieldParse g_00C39AF8;
+// Native table: two named fields and a complete null terminator. The
+// callbacks and their existing rowed consumers establish the vector at +0
+// and science-bonus map at +0x0C independently of this ctor's old class view.
+extern const FieldParse g_00C39AF8[3] = {
+ { "Sides", Rva002E2612Parse, 0, 0 },
+ { "Bonus", Rva004138C7Parse, 0, 0x0C },
+ { 0, 0, 0, 0 }
+};
 
 class Rva0041386B
 {
@@ -61,8 +76,8 @@ Rva0041386B::Rva0041386B()
 // forwarder. Caller 0x00413B95 passes ecx = Rva0041386B local and INI * in esi;
 // retail pushes the FieldParse table 0x00839AF8 then this, then calls rowed
 // INI::initFromINI 0x0002DE78 with ecx = INI *. Honest address name; table is
-// an unresolved g_ stopgap until its owner TU defines it.
+// owned above with both callbacks and its terminator.
 void Rva0041386B::rva0041393F(INI *ini)
 {
-	ini->initFromINI(this, &g_00C39AF8);
+	ini->initFromINI(this, g_00C39AF8);
 }
