@@ -150,48 +150,7 @@ private:
 	Rva0015334F *m_route;	// +0x58
 };
 
-bool AIFlankAttackTactic::canRun(void *request)
-{
-	Rva002C589B *target = (Rva002C589B *)request;
-	Object *obj = target->rva002C5DA6();
-	if (obj) {
-		GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)obj->getControllingPlayer());
-		if (slot) {
-			int start = slot->m_10;
-			AsciiString name;
-			name.format("Player_%d_Start", start + 1);
-			Waypoint *waypoint = Rva00506CC3FindWaypoint(name);
-			if (waypoint && waypoint->m_60 == 5)
-				return false;
-		}
-	}
-	Rva004EBF4B *record = (Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(m_owner);
-	Coord3D base = record->rva004EBF4B();
-	base.x -= target->m_0C.x;
-	base.y -= target->m_0C.y;
-	base.z -= target->m_0C.z;
-	if (base.x * base.x + base.y * base.y + base.z * base.z < 2000000.0f)
-		return false;
-	if (checkTarget(request))
-		return true;
-	return false;
-}
 
-void AIFlankAttackTactic::run()
-{
-	Team *team = rva004ECECD(0);
-	if (team) {
-		Coord3D from;
-		team->rva0039DA2A(&from);
-		Coord3D to;
-		to.x = m_record->m_point0C.x;
-		to.y = m_record->m_point0C.y;
-		to.z = m_record->m_point0C.z;
-		m_route->rva005AA2D9(m_record, &from, &to);
-	} else {
-		end(0, 0);
-	}
-}
 
 void AIFlankAttackTactic::xfer(Xfer *xfer)
 {
