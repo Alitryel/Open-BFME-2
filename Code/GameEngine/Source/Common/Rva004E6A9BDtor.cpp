@@ -20,7 +20,7 @@ extern DisplayStringManager *TheDisplayStringManager;
 class Rva004E6A1D
 {
 public:
-    ~Rva004E6A1D() { clear(); }
+    ~Rva004E6A1D();
     void clear();
     void *m_ptr;
 };
