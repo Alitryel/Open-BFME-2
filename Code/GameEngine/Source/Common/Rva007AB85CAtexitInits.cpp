@@ -52,7 +52,7 @@ unsigned g_Va00E02E70;
 unsigned g_Va00E02E74;
 unsigned g_Va00E04490;	// retail RVA 0x00A04490 (.bss), defined here
 unsigned g_Va00E063D4;	// retail RVA 0x00A063D4 (.bss), defined here
-extern unsigned g_Va00E06444;
+unsigned g_Va00E06444;	// retail RVA 0x00A06444 (.bss), defined here
 extern unsigned g_Va00E06448;
 
 struct Rva007AB85CAtexitInits
