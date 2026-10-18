@@ -126,8 +126,16 @@ public:
 	virtual ~Rva00574338();
 };
 
-Rva00574338::~Rva00574338()
+// Rva00574CC1Dtor.cpp emits a select-any copy of this same body; define it
+// inline here too so the name keeps one body (anchored below).
+inline Rva00574338::~Rva00574338()
 {
+}
+
+// ?bfmeAnchorRva00574338 absent-from-retail
+void bfmeAnchorRva00574338(Rva00574338 *p)
+{
+	p->Rva00574338::~Rva00574338();
 }
 
 class Rva005EE05E
