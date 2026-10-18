@@ -81,3 +81,8 @@ ReplenishUnitsBehavior::~ReplenishUnitsBehavior()
 #pragma comment(linker, "/alternatename:?slot00@SpawnBehaviorFourthBase@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")
 #pragma comment(linker, "/alternatename:?slot08@SpawnBehaviorFourthBase@@UAEXXZ=?rva004CE2B0@Rva004CE2B0@@QAE_NPAVRva00406F9C@@@Z")
 #pragma comment(linker, "/alternatename:?setReplenishing@SpawnBehaviorFourthBase@@UAEX_N@Z=?rva004CE342@Rva004CE342@@QAE_NPAVRva00406F9C@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot04@SpawnBehaviorFourthBase@@UAEXXZ=?attemptUpgrade@UpgradeMux@@UAE_NABV?$BitFlags@$0IA@@@@Z")

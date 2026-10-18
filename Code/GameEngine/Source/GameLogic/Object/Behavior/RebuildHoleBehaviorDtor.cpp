@@ -143,3 +143,8 @@ void RebuildHoleBehavior::startRebuildProcess(const ThingTemplate *rebuild, Obje
 #pragma comment(linker, "/alternatename:?getSpawnerID@RebuildHoleBehaviorInterface@@UAE?AW4ObjectID@@XZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
 #pragma comment(linker, "/alternatename:?getReconstructedBuildingID@RebuildHoleBehaviorInterface@@UAE?AW4ObjectID@@XZ=?getName@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBDXZ")
 #pragma comment(linker, "/alternatename:?getRebuildTemplate@RebuildHoleBehaviorInterface@@UBEPBVThingTemplate@@XZ=?get@Rva002A79A1DwordField@@QBEHXZ")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?onDie@DieModuleInterface@@UAEXXZ=?rva004835FB@Rva004835FB@@QAEXH@Z")
