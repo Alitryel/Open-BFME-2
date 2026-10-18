@@ -88,7 +88,11 @@ class Rva005CD018Obj;
 
 namespace _STL
 {
-template <class _Tp> class allocator { };
+// A user-provided default constructor keeps the allocator dummy argument
+// uninitialised, as STLport's does, so the compiler-emitted default-constructor
+// closure is the 13-byte push/lea/push/call/pop/ret shape shared with the
+// rowed closure at 0x004F87AA rather than a zero-filling frame.
+template <class _Tp> class allocator { public: allocator() {} };
 
 struct _List_node_base
 {
@@ -104,7 +108,13 @@ template <class _Tp> struct _List_node : public _List_node_base
 template <class _Tp, class _Alloc = allocator<_Tp> > class list
 {
 public:
-	list();
+	// STLport's defaulted-allocator constructor. Building the lists[8][2] array
+	// makes the EH vector constructor iterator take the address of this
+	// constructor's compiler-emitted default-constructor closure
+	// ??_F?$list@URva005F8F96@@...@QAEXXZ (ledger twin of 0x004F87AA), which
+	// forwards to the rowed allocator constructor emitted by
+	// stlport_list_rva005F8F96_clear.cpp.
+	list(const _Alloc &__a = _Alloc());
 	~list();
 	void push_back(const _Tp &x);
 	// The target lists file holders through the folded list<Rva005CD018Obj*>
@@ -135,13 +145,24 @@ public:
 	void pop();
 };
 
+// The queue's five-byte destructor at 0x004F87B7 is retail's incremental-link
+// thunk to the rowed STLport vector<Rva004F9018Element> destructor 0x004F81FC
+// (??1Rva004F81FC@@QAE@XZ, owner RvaVectorDtorFamily.cpp). The queue array's EH
+// vector destructor iterator takes that address, so bind the rowed owner and
+// make the queue destructor the same tail jump.
+class Rva004F81FC
+{
+public:
+	~Rva004F81FC();
+};
+
 // The 16-byte priority queue of attackers: vector of 12-byte holders plus the
 // comparator byte.
 class Rva00524306
 {
 public:
 	Rva00524306();
-	~Rva00524306();
+	~Rva00524306() { ((Rva004F81FC *)this)->~Rva004F81FC(); }
 
 	bool empty() const { return m_start == m_finish; }
 	const Rva004F6966 &top() const { return *m_start; }
