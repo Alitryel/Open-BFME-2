@@ -1,4 +1,6 @@
 // FadeInTextRender rendering, native 0x00596908..0x00596AE9.
+// BFME 1 cee35b7d8 FadeInTextRenderDraw004721F0 is the semantic guide;
+// target-specific bounds, frame phases and cloud animation are described below.
 // LoadAssets belongs to Rva0059675AInitialize.cpp; this unit only needs
 // its virtual declaration, not a second definition of the asset loader.
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
@@ -53,8 +55,8 @@ class FadeInTextRender {public:
  virtual ~FadeInTextRender();virtual void LoadAssets();virtual void rva00596908(Text004721F0*,const ICoord2D*,unsigned);
  GameFont*font;int minX,minY,maxX,maxY;unsigned effectColor;Anim2D*anim;float oldScale;AsciiString fontName;unsigned color;int delay;unsigned fontSize;unsigned starts[3],ends[3];int width,height;
 };
-// LoadAssets is defined and byte-verified in Rva0059675AInitialize.cpp.
-// This rendering unit uses the virtual declaration above.
+// LoadAssets is supplied by Rva0059675AInitialize.cpp at 0x005967B3.
+// Keep its virtual declaration; this draw unit must not emit a second owner.
 
 // Native596908..596AE9 is FadeInTextRender tableC70A70 slot2. BF1 cee35b7d8
 // FadeInTextRenderDraw004721F0 is the semantic guide; target bounds worker
