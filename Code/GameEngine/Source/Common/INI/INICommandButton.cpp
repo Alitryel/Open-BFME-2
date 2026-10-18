@@ -23,10 +23,11 @@ public:
  void initFromINI(void *,const FieldParse*);
  char pad[8]; int loadType;
 };
-class Rva0035BB4B { public: virtual ~Rva0035BB4B(); };
+class Rva0035BB4B { public: Rva0035BB4B(); virtual ~Rva0035BB4B(); };
 class Rva0031AB1ENode {
 public:
- Rva0031AB1ENode();
+ // Construction through the rowed CommandButton ctor 0x0035BB4B (??0Rva0035BB4B).
+ __declspec(dllimport) __forceinline Rva0031AB1ENode() { ((Rva0035BB4B*)this)->Rva0035BB4B::Rva0035BB4B(); }
  unsigned char bytes[0x2CC];
  // Cleanup through the existing owned CommandButton destructor ABI.
  ~Rva0031AB1ENode() { ((Rva0035BB4B*)this)->Rva0035BB4B::~Rva0035BB4B(); }
