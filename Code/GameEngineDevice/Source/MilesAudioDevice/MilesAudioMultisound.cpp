@@ -45,6 +45,8 @@ struct AudioEventInfo { virtual ~AudioEventInfo();virtual int getNameKey()const;
 
  const _STL::vector<BfmeStringTailRecord156>&getSubsoundVector()const;
  __forceinline int getSimultaneousLimit()const{return m_simultaneousLimit;}
+ __forceinline bool isTypeFive()const{return m_audioType==5;}
+ int getAudioType()const{return m_audioType;}
 };
 class AudioEventRTS { public:
  char pad0[8];AudioEventInfo *m_info;unsigned m_playingHandle;AudioEventRTS*m_multiSoundParent;int m_eventsBeforeReplay;
@@ -498,4 +500,100 @@ bool Rva0005E13CHost::helper(const Rva0005E13CInner1*input)
   return false;
  }
  return false;
+}
+
+// Retail 0x0005D734 (903 B, RET 0x14): MilesAudioManager::addOrResumeAudioEvent (WorldBuilder 0x00786F40,
+// MilesAudioManager.cpp asserts 4006..4225). The guard/early-return chain is the farm bank's (type 5 via
+// isTypeFive, type 3 re-read through getAudioEventInfo()->getAudioType(), a named const info for the
+// music test); the immediate-start search follows the WB debug body: bool retry loop around a reverse walk
+// `while (!retry && it != end)` with rend() taken once per pass, the file-wait arm sets retry, the
+// processRequest arm erases and returns. That loop shape keeps the found node (EAX) live into the
+// found block as retail does; the goto/break forms reload it.
+unsigned MilesAudioManager::addOrResumeAudioEvent(AudioEventRTS *event,int requestType,int resumeHandle,int allocateHandle,int append)
+
+{
+ MilesMutexGuard guard(&mutex,0);
+ if(requestType==2)return 0;
+ if(requestType==1 && (unsigned)resumeHandle>=5) 
+ {
+  ResumeHandles::iterator previous=resumeHandles.find(reinterpret_cast<const unsigned&>(resumeHandle));
+  if(previous!=resumeHandles.end())return reinterpret_cast<unsigned>(previous->second);
+  
+ }
+ if(!event->m_info)return 1;
+ if(!reinterpret_cast<Rva001D9A00*>(event->m_info)->rva001D9A00())return 1;
+ int view=event->m_viewType;
+ if(mutedNames[view].count(reinterpret_cast<AudioInfoNames*>(event->m_info)->getAudioName())>0)return 1;
+ if(event->m_info->isTypeFive())return addResumeOrPushMultisound(event,requestType,resumeHandle,1,allocateHandle,append);
+ if(event->getAudioEventInfo()->getAudioType()==3)return rva0005933D(event,allocateHandle);
+ if(!slot56(event->getSoundClass()))return 1;
+ if(event->m_info->m_audioType==1 && (activeViews&(1<<event->m_viewType)))return 1;
+ BfmePoolRef10 playing=rva0005286A(event,allocateHandle);
+ if(requestType==1) 
+ {
+  if(!(unsigned char)reinterpret_cast<Rva001D98BD*>(multisoundTarget(playing)->m_info)->rva001D9781())return 4;
+  if(multisoundTarget(playing)->m_nextPlayPortion==0)multisoundTarget(playing)->advanceNextPlayPortion();
+  if((unsigned)resumeHandle>=5) 
+  {
+   _STL::pair<ResumeHandles::iterator,bool> inserted=resumeHandles.insert(
+   ResumeHandles::value_type(reinterpret_cast<const unsigned&>(resumeHandle),reinterpret_cast<Image*>(multisoundTarget(playing)->m_playingHandle)));
+   if(!inserted.second)return reinterpret_cast<unsigned>(inserted.first->second);
+   
+  }
+  
+ }
+ rva000592B8(multisoundTarget(playing));
+ if(!multisoundTarget(playing)->m_localOverride && !shouldPlayLocally(multisoundTarget(playing)))return 3;
+ if(multisoundTarget(playing)->m_info->m_control&0x20)reinterpret_cast<Weapon*>(multisoundTarget(playing))->setLeechRangeActive(true);
+ bool added;
+ const AudioEventInfo *info=event->m_info;
+ if(info->m_audioType==0)added=addAudioEventMusic(playing,requestType,append);
+ else added=addAudioEventSound(playing,requestType,append);
+ if(added) 
+ {
+  unsigned handle=multisoundTarget(playing)->m_playingHandle;
+  if(multisoundTarget(playing)->m_immediate) 
+  {
+   bool retry=true;
+   while(retry) 
+   {
+    retry=false;
+    _STL::list<Rva00051107AudioRequest*>::reverse_iterator it=requests.rbegin();
+    _STL::list<Rva00051107AudioRequest*>::reverse_iterator end=requests.rend();
+    while(!retry && it!=end) 
+    {
+     if((*it)->kind==0 && multisoundTarget((*it)->event)==multisoundTarget(playing)) 
+     {
+      bool remove=true;
+      if((*it)->file.target) 
+      {
+       Rva00690FF0Handle file((*it)->file);
+       guard.rva00041055();
+       while(!file.isReady() && !file.hasFailed())Sleep(1);
+       guard.rva00041037(-1);
+       retry=true;
+      }
+      else 
+      {
+       processRequest(*it,&remove);
+       if(remove) 
+       {
+        Rva00051107AudioRequest *request=*it;
+        _STL::list<Rva00051107AudioRequest*>::iterator node=it.base();
+        --node;
+        requests.erase(node);
+        deleteAudioRequest(request);
+       }
+       return handle;
+      }
+     }
+     if(!retry)++it;
+    }
+   }
+  }
+  return handle;
+  
+ }
+ return 1;
+ 
 }
