@@ -66,12 +66,6 @@ private:
 	Bool m_isOptimized;
 };
 
-Rva003642DFResult Path::rva00364521(const Rva0008BB38FloatField *arg)
-{
-	if (arg)
-		return rva003642DF(arg->get());
-	return rva003642DF(40.0f);
-}
 
 void Path::rva003649B1(const PathNode *arg)
 {
