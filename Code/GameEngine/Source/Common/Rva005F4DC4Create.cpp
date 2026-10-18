@@ -146,11 +146,6 @@ public:
 	virtual ~Rva005F4EE8();	// rowed elsewhere; declared so this unit binds to it
 };
 
-Rva005F4EE8::Rva005F4EE8(Rva005F4EE8Source *source, int level, const AsciiString &name)
-	: StrategicHUD::ArmyUnitSwapperMovieClip(level, name, source->m_top0C->rva005F4DC4(), source->m_bottom10->rva005F4DC4()),
-	  m_source08(source)
-{
-}
 
 // ?notifyClosed@Rva005F4EE8@@UAEXXZ, retail 0x005F4B48..0x005F4B52 (10
 // bytes): slot 1 of vtable 0x00C794E4, the base's notifyClosed, forwarded to
