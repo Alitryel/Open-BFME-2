@@ -26,7 +26,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 class Rva0054103E
 {
 public:
-	Rva0054103E();
+	Rva0054103E() {}
 	Rva0054103E(const Rva0054103E &that);
 	Rva0054103E &operator=(const Rva0054103E &that);
 private:
