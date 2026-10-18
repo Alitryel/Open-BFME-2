@@ -13,7 +13,7 @@ typedef void *(__cdecl *GameAllocateFunction)(unsigned int, int, const void *);
 extern "C" GameFreeFunction __gameMemFreePtr;
 extern "C" GameAllocateFunction __gameMemAllocatePtr;
 extern void (__stdcall *g_Va00DE03E8)(unsigned int, unsigned int);
-extern void *g_00DE0410;
+void * g_00DE0410;	// retail RVA 0x009E0410 (.bss), defined here
 void * g_00DE040C;	// retail RVA 0x009E040C (.bss), defined here
 void * g_00DE0408;	// retail RVA 0x009E0408 (.bss), defined here
 void * g_00DE0400;	// retail RVA 0x009E0400 (.bss), defined here
