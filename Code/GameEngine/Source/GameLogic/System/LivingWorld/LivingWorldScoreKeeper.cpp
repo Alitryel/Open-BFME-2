@@ -40,7 +40,7 @@ class LivingWorldBuildingObserver {public: ~LivingWorldBuildingObserver(){} virt
 class LivingWorldAutoResolveEventObserver {public: ~LivingWorldAutoResolveEventObserver(){} virtual void event2_0(int,int,int){} virtual void event2_1(int,int,int){} virtual void event2_2(int,LivingWorldBattle*,void*){} };
 class LivingWorldRTSEventObserver {public: ~LivingWorldRTSEventObserver(){} virtual void event3_0(int,int){} virtual void event3_1(int,LivingWorldBattle*){} };
 class LivingWorldRegionObserver {public: ~LivingWorldRegionObserver(){} virtual void event4_0(int,int,int){} virtual void event4_1(int,int,int){} virtual void event4_2(int,int){} virtual void event4_3(int,int){} };
-class LivingWorldPlayerObserver {public: ~LivingWorldPlayerObserver(){} virtual void event5_0(Rva004EF2ABArg*){} virtual void event5_1(int,int,int){} virtual void event5_2(int,int,int){} virtual void event5_3(int){} };
+class LivingWorldPlayerObserver {public: ~LivingWorldPlayerObserver(); virtual void event5_0(Rva004EF2ABArg*){} virtual void event5_1(int,int,int){} virtual void event5_2(int,int,int){} virtual void event5_3(int){} };
 #include "../../../../Include/Common/LivingWorldLogicObserver.h"
 class LivingWorldBuildingNuggetSpawnArmyObserver {public: ~LivingWorldBuildingNuggetSpawnArmyObserver(){} virtual void event7_0(int){} virtual void event7_1(int,int){} virtual void event7_2(int,int){} virtual void event7_3(CountInputPrefix*,void*){} };
 
