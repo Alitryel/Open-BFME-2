@@ -95,9 +95,10 @@ the network layer exchanges them, and `GameLogic::processCommandList` hands
 each one to the logic's message dispatcher. `GameLogic::update` takes a
 phase number (1 to 6), and the engine derives the client frames per logic
 tick from the two timing globals (30 and 5 as shipped, per
-`docs/bfme2-network-timing-path.md`). BFME 1: `GameEngine`'s update passes
-one phase to the logic on each client frame; the BFME 2 caller is not yet
-reconstructed (\ref page_frame_loop).
+`docs/bfme2-network-timing-path.md`). `GameEngine::update`, like BFME 1's,
+hands the logic half one client-frame period value (1 to 6) on each client
+frame the script debugger has not paused; how the logic half turns these
+into `GameLogic::update` calls is described by contract (\ref page_frame_loop).
 
 Determinism is protected in three visible ways:
 
@@ -177,9 +178,9 @@ Determinism is protected in three visible ways:
 
 Every ledger row is byte-matched; what varies is naming and linking. The
 entry path (`WinMain`, `GameMain`, `GameEngine::init`) and the top-level
-`GameLogic::update` and `GameClient::update` are reconstructed, but
-`GameEngine::update` and `execute` are still active targets, so only their
-contracts are documented. Game logic, client and network code is largely
+`GameLogic::update` and `GameClient::update` are reconstructed;
+`GameEngine::execute` is documented by its contract only. Game logic,
+client and network code is largely
 named; the flat part of `Common/` is still mostly address-named; WWMath,
 Lua, compression and the `subsystem` library are almost fully named. Many
 classes exist only as per-file partial views, and not every unit links yet.
@@ -234,9 +235,11 @@ To refresh: `rg` a name in `reverse/functions.csv`, and read
 - **Win32.** `WinMain.cpp` owns the window and `WndProc`, splits the
   command line and handles the window options (`-win`, `-fullscreen`,
   `-xpos`, `-ypos`). `GameEngine::init` passes the whole argument list to
-  `parseCommandLine` right after creating the global data (its BFME 2 body
-  is not reconstructed; Zero Hour: it sets the other options in the global
-  data). The window is created with an 800 by 600 client area near the
+  `parseCommandLine` right after creating the global data. Its option
+  table's handlers set the other options, mostly in the global data; then
+  it loads a `-mod` archive or folder and stores a checksum of the option
+  flags in the global data (\ref grp_w1_commandline). The window is
+  created with an 800 by 600 client area near the
   screen centre, unless `-xpos`/`-ypos` are given, and is resized when the
   renderer initialises. `Win32GameEngine::update` idles while the window
   is minimised, except in LAN and online games. Keyboard input uses

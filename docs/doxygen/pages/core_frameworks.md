@@ -117,10 +117,11 @@ names each type, so it is the readable index of the enum.
 4. The network layer shares the list with the peers and returns it for its
    scheduled logic frame (\ref sub_network, \ref page_frame_loop).
 5. `GameLogic::update` calls `GameLogic::processCommandList`, which hands
-   each message to the logic's dispatcher (Zero Hour:
-   `GameLogic::logicMessageDispatcher`) and
-   resets the list. Zero Hour's version also compares CRC messages; BFME 2's
-   does not (\ref sub_save_load_crc).
+   each message to `GameLogic::logicMessageDispatcher` and resets the list.
+   Zero Hour's version also compares CRC messages; BFME 2's does not
+   (\ref sub_save_load_crc). The dispatcher passes one range of message
+   types to `LivingWorldLogic::logicMessageDispatcher`
+   (\ref sub_living_world).
 
 `GameClient/MessageStream/` holds Zero Hour's translators (meta events and
 key bindings, windows, selection, commands, hint spy). Key bindings come from

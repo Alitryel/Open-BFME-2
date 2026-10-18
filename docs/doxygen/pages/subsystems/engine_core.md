@@ -97,15 +97,15 @@ success. \ref page_startup gives the registration order.
 | `GameMain` | creates the engine with `CreateGameEngine`, then runs `init` and `execute` | matched |
 | `GameEngine::init` | creates and registers every subsystem | matched |
 | `GameEngine::execute` | the main loop; returns when the game quits | contract only |
-| `GameEngine::update` | one client frame, then any logic work due | contract only |
+| `GameEngine::update` | one client frame, then any logic work due | matched |
 | `Win32GameEngine::update` | `GameEngine::update` plus the message pump | matched |
 | `GameEngine::reset` | engine-wide reset of every subsystem | matched |
 | `SubsystemInterfaceList::initSubsystem` | registration and data loading for one subsystem | matched |
 
-The two contract-only functions, and the routine that schedules the logic
-phases, are active reverse-engineering targets: \ref page_frame_loop gives
-their contract and `docs/bfme2-network-timing-path.md` what is known of their
-arithmetic.
+\ref page_frame_loop describes `GameEngine::update` from its body and gives
+only the contract of `GameEngine::execute` and of the routine that schedules
+the logic phases; `docs/bfme2-network-timing-path.md` records what is known
+of their arithmetic.
 
 ## How it connects {#sub_engine_core_connects}
 
@@ -245,8 +245,8 @@ arithmetic.
 The startup path is largely matched and named: `WinMain`, `WndProc`,
 `GameMain`, `CreateGameEngine`, `GameEngine::init`, `GameEngine::reset`,
 `Win32GameEngine::update`, `SubsystemInterfaceList::initSubsystem` and the
-launcher code. The main loop (`GameEngine::execute`, `GameEngine::update`
-and the phase scheduler) is not yet reconstructed. Several engine helpers,
+launcher code. The main loop (`GameEngine::execute`) and the phase
+scheduler are described by contract only. Several engine helpers,
 the message pump, the factory overrides and many virtual slots still carry
 placeholder names. `GameEngine` has no shared class declaration yet: each
 source file declares only the members it uses (\ref page_reading_code).

@@ -80,8 +80,9 @@ The engine starts the way Zero Hour's does, and all of these are matched:
 - `GameEngine::init` creates and initialises the engine's subsystems, the
   global `TheX` singletons such as `TheGameLogic` and `TheGameClient`.
 
-The guide describes the main loop and its per-frame step (Zero Hour names
-them `GameEngine::execute` and `GameEngine::update`) by their contract only.
+The guide describes the main loop (Zero Hour names it `GameEngine::execute`)
+by its contract only, and its per-frame step, `GameEngine::update`, from the
+BFME 2 code.
 \ref page_startup and \ref page_frame_loop follow this path in detail, and
 \ref page_architecture shows how the singletons relate.
 

@@ -40,7 +40,7 @@ line and the INI files fill in.
 | 2 | `GameMain`: create, initialise and run the engine | matched |
 | 3 | `CreateGameEngine`: allocate a `Win32GameEngine` and pass it the window's focus state | matched |
 | 4 | `GameEngine::init`: core services, then about ninety subsystems in a fixed order | matched |
-| 5 | `GameEngine::execute`: the main loop; returns only when the game quits | not yet reconstructed |
+| 5 | `GameEngine::execute`: the main loop; returns only when the game quits | contract only (\ref page_frame_loop) |
 | 6 | back in `WinMain`: launcher cleanup and engine teardown | matched |
 
 Because steps 1 to 4 and 6 are byte-matched, the order described below is the
@@ -96,8 +96,9 @@ becomes the subsystem list's current xfer for the rest of the sequence
 
 **Then the subsystems.** `TheSubsystemLegend` is registered first and
 `Data\INI\Default\SubsystemLegend.ini` is loaded directly. Next comes
-`TheWritableGlobalData`, after which the command line is applied to it (see
-\ref page_startup_modding). Then a `GameLODManager` is created and `Water.ini`,
+`TheWritableGlobalData`, after which `parseCommandLine` applies the command
+line to it (see \ref page_startup_modding). Then a `GameLODManager` is
+created and `Water.ini`,
 `Fire.ini` and `Environment.ini` are loaded, each from `Data\INI\Default\`
 first and then from `Data\INI\`. After that the long registration chain runs,
 in this order (abridged; the names are the strings retail registers):
@@ -253,8 +254,8 @@ flag whose meaning is not yet known then picks one of two paths.
   - `-mod <folder or .big>` records a mod folder or archive path in the
     global data, provided the path exists (a relative path is resolved
     against a game folder), and sets the same flag as `-preferLocalFiles`
-    (after its switch loop the command-line dispatcher loads the recorded
-    archive or folder; see parseMod());
+    (after its switch loop `parseCommandLine` loads the recorded archive
+    or folder; see parseMod());
   - `-file <map or replay>` sets the initial file handled at the end of
     init (above); `-noshellmap` skips the menu background map;
   - `-xres` and `-yres` set the resolution and `-win` windowed mode;
@@ -297,11 +298,10 @@ flag whose meaning is not yet known then picks one of two paths.
 ## State of the reconstruction {#page_startup_state}
 
 The startup path is largely matched through `GameEngine::init`, including
-the command-line handlers and the launcher code. Still open: the main loop
-(`GameEngine::execute` and `GameEngine::update`, described only by contract
-on \ref page_frame_loop), the command-line dispatcher, and the identity
-of many registered BFME 2-only classes and of `Win32GameEngine`'s factory
-overrides. `GameEngine` has no shared header yet:
+the command-line handlers and the launcher code. `GameEngine::execute` is
+described only by contract (\ref page_frame_loop), and the identity of many
+registered BFME 2-only classes and of `Win32GameEngine`'s factory overrides
+is not established. `GameEngine` has no shared header yet:
 each source file declares only the members it uses (\ref page_reading_code).
 To refresh this picture, search `reverse/functions.csv` for the file names
 above.

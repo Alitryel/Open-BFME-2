@@ -64,7 +64,7 @@ function name rather than by file.
 - World systems: weather (`GlobalWeatherSystem`), fire spread
   (`FireLogicSystem`), crates (`CrateSystem`), ranks and experience levels
   (`RankInfoStore`, `TheExperienceLevelSystem`), attribute modifiers
-  (`AttributeModifierStore`), `DOTManager` (role not yet traced; the name
+  (`AttributeModifierStore`), `DOTManager` (role not established; the name
   suggests damage over time), terrain resources and crowd audio
   (`LargeGroupAudio`). Most are configured by INI blocks (see the
   modding notes).
@@ -121,7 +121,7 @@ players (\ref sub_living_world).
 | `GameLogic::reset` | clears objects and resets every logic service |
 | `GameLogic::update` | one phase of a logic frame |
 | `GameLogic::processCommandList` | dispatches and clears the command list |
-| `logicMessageDispatcher` | applies one command |
+| `GameLogic::logicMessageDispatcher` | applies one command; passes one range of message types to `LivingWorldLogic::logicMessageDispatcher` |
 | `TerrainLogic::loadMap`, `TerrainLogic::newMap` | map load into the logic |
 | `TerrainLogic::xfer`, `GameLogic::xferObjectTOC` | save and load |
 
@@ -171,7 +171,7 @@ its name.
 - **Map data.** A map can hold 20 sides and 20 skirmish sides (Zero Hour:
   16). The sides list also holds castle-template build lists and paths keyed
   by faction, and per-faction build lists, and a map can reference library maps, whose scripts and teams appear to be
-  merged in (not yet traced). Waypoints carry a type and a type option.
+  merged in (not established). Waypoints carry a type and a type option.
   Standing water comes in its own `StandingWaterAreas` chunk
   (Zero Hour marks water with flagged polygon triggers). Bridges may have an
   outline polygon (also in BFME 1), and several bridge-layer queries drop
@@ -247,9 +247,9 @@ comparison are matched; the CRC comparison's name is still an unverified
 WorldBuilder lead. `TerrainLogic`'s map load, bridge, waypoint and save code
 and much of `SidesList` are matched, largely from Zero Hour and BFME 1
 donors. Many matched bodies, and many helpers called from
-`GameLogic::update`, still carry placeholder names. `logicMessageDispatcher`
-is not reconstructed, the partition and shroud managers are mostly
-unrecovered, the game-start stage names are unconfirmed WorldBuilder leads,
+`GameLogic::update`, still carry placeholder names. The partition and
+shroud managers are mostly unrecovered, the game-start stage names are
+unconfirmed WorldBuilder leads,
 and the key units (`GameLogicInit.cpp`, the `TerrainLogic` and `SidesList`
 files) do not link yet. There is no complete shared declaration of
 `GameLogic` or `TerrainLogic` yet: most files declare a private view of the

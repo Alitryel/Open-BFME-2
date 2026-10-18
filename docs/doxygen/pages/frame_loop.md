@@ -10,8 +10,9 @@ two rates fit together and how input becomes a game action.
 Most of a frame's path is byte-matched: `Win32GameEngine::update`, the client
 half (under a placeholder name), `GameClient::update`,
 `MessageStream::propagateMessages`, `GameLogic::update`, `setFPMode` and the
-network's admission queries. For `GameEngine::execute`, `GameEngine::update`
-and the phase scheduler this page gives only the contract. `rg` a name in
+network's admission queries. `GameEngine::update` is described from its
+BFME 2 body; for `GameEngine::execute` and the phase scheduler this page
+gives only the contract. `rg` a name in
 `reverse/functions.csv` for status; many sources below are split units that
 `reverse/tu_map.csv` will merge, so search by name.
 
@@ -36,11 +37,25 @@ and the phase scheduler this page gives only the contract. `rg` a name in
   no known INI field. Phase 1 of `GameLogic::update` advances the logic frame
   counter when a still-unidentified check allows it and time is not frozen.
 - **Phases:** `GameLogic::update` takes a phase from 1 to 6, doing a different
-  share of the logic frame in each; the rate ratio is also six. BFME 1's
-  `GameEngine::update` passes its client-frame period (1 to 6) as the phase,
-  one per client frame; for BFME 2 this is unconfirmed.
+  share of the logic frame in each; the rate ratio is also six. On each
+  client frame the script debugger has not paused, `GameEngine::update`
+  adds one to a client-frame period kept on `GameEngine` and passes it to
+  the logic half, wrapping from 6 back to 1, as BFME 1's does.
+  If the client's time-running flag is clear after a call with 1, it undoes
+  the wrap, so the next frame passes 1 again. How the logic half turns these
+  values into `GameLogic::update` calls is given below by contract.
 - **Sub-frame position:** `GameEngine` keeps a 0..1 ratio, the client's
-  position between two logic frames; its readers are not yet traced.
+  position between two logic frames: the period divided by a client-frame
+  counter on `GameEngine`, clamped to 0..1. `GameEngine::reset` sets the
+  counter to the client frames per logic frame, the client half's skip test
+  can raise it while the period runs ahead of it, and `GameEngine::update`
+  restores it after a completed wrap (when the period next reaches 6);
+  `GameEngine::update` recomputes the ratio each time it changes the period.
+  Which code reads the ratio is not established.
+- **Rate sample:** on every 25th wrap, `GameEngine::update` also reads
+  `timeGetTime` and stores a measured rate on `GameEngine` (that counter
+  summed over those wraps, per elapsed second); its readers are not
+  established.
 
 ## One pass of the main loop {#page_frame_loop_pass}
 
@@ -53,26 +68,34 @@ and the phase scheduler this page gives only the contract. `rg` a name in
    pumping messages and updating `TheLAN`, until it is restored, the game
    quits, or the game is a LAN or online match. A minimised single-player game
    therefore stops; a network game keeps going.
-3. **`GameEngine::update`** (contract): the client half, then the logic half.
+3. **`GameEngine::update`** asks the script engine whether its debugger has
+   paused the game (true only while the script debug window library is
+   loaded and has not let the game continue; Zero Hour's counterpart is
+   `ScriptEngine::isTimeFrozenDebug`), then runs the client half whatever
+   the answer. When paused, it clears the client's time-running flag and
+   ends the frame. Otherwise it sets that flag, advances the client-frame
+   period and calls the logic half with it (\ref page_frame_loop_clocks).
+   It also makes a virtual call on one unidentified object and does some
+   debug bookkeeping.
 
 ## The client half {#page_frame_loop_client}
 
 A `GameEngine` virtual in `Common/GameEngineClientSubsystems.cpp` (its name is
-still a placeholder). In order, it:
+not established). In order, it:
 
 1. calls `GameLogic::deleteLoadScreen`, advances the `GameClient` frame number
    while a client flag says time is running, and updates the window manager.
-   `GameLogic::update` sets and clears that flag; BFME 1's
-   `GameEngine::update` also writes it, and whether BFME 2's does is not
-   established;
+   `GameLogic::update` sets and clears that flag, and `GameEngine::update`
+   writes it after the client half has run (above);
 2. when `TheNetwork` exists, **skips** the rest of the frame if
    `NetworkInterface::getFramePacingStatus` (for a client, the admitted logic
    frames not yet run) exceeds a fixed threshold (a lower one while the
    client-frame period kept on `GameEngine` is ahead of its counter). A global
    time scale below 1 or a period of 1 disables the test, which also adjusts
-   an adaptive limit on `GameEngine` whose consumer is not traced. A skipped
-   frame is counted and returns before `GameClient::update`: no radar, input,
-   drawing, message, audio or network work;
+   an adaptive limit on `GameEngine`; what uses that limit beyond this test is
+   not established. A skipped frame is counted and returns before
+   `GameClient::update`: no radar, input, drawing, message, audio or network
+   work;
 3. updates the radar, runs `GameClient::update` and moves this frame's messages
    on with `MessageStream::propagateMessages`;
 4. runs the timed-operation queue; while it holds input locked, `InGameUI`
@@ -124,9 +147,12 @@ reaches the simulation work runs `setFPMode` first, then:
 3. **Admission.** For a non-router client, `getFrameAdvanceCount` allows the
    next logic frame only when the connection manager reports that frame's
    commands complete; the packet router paces by timer. How received commands
-   reach the logic frame is not yet traced. Zero Hour: commands are exchanged
+   reach the logic frame is not established. Zero Hour: commands are exchanged
    per frame and run once all players' commands have arrived.
-4. **Execution.** Phase 1 of a later logic frame dispatches each command.
+4. **Execution.** Phase 1 of a later logic frame passes each command to
+   `GameLogic::logicMessageDispatcher`, which hands one range of message
+   types to `LivingWorldLogic::logicMessageDispatcher`
+   (\ref sub_living_world).
 
 ## How it fits {#page_frame_loop_fits}
 
@@ -169,8 +195,9 @@ frames; \ref sub_save_load_crc covers the CRC and recorder;
 - **Not data-driven:** the nominal rates, the duration scale, the six phases
   and their module lists. Many systems (objects, scripts, AI, network, some
   client code) read the logic rate from one global, but the duration scale is
-  separate and the frame gate and phase scheduler compare the rate ratio with a
-  literal 6 (timing note), so changing the global alone is inconsistent. Any
+  separate, the frame gate and phase scheduler compare the rate ratio with a
+  literal 6 (timing note), and `GameEngine::update` wraps its period at a
+  literal 6, so changing the global alone is inconsistent. Any
   change breaks play with unmodified clients and replays.
 - **Frame-rate cap.** Zero Hour reads it from `GameData.ini`
   (`FramesPerSecondLimit`, `UseFPSLimit`); BFME 2's field names are unconfirmed.
@@ -180,8 +207,10 @@ frames; \ref sub_save_load_crc covers the CRC and recorder;
 - **Render rate is coupled to logic scheduling.** Per the timing note, phases
   are handed out per client frame from the rate ratio. Open-BFME-1's mod notes
   report BFME 1's offline game speed as the frame rate divided by six, so
-  raising the cap alone speeds up a skirmish; for BFME 2 this awaits the
-  scheduler's reconstruction. Decoupling the rates means changing it.
+  raising the cap alone speeds up a skirmish. BFME 2's `GameEngine::update`
+  also hands the logic half one period value per client frame; whether an
+  offline game's speed follows the frame rate is not established for BFME 2.
+  Decoupling the rates means changing the scheduler.
 - **Floating point.** On each `GameLogic::update` that reaches the simulation
   work, `setFPMode` resets the x87 unit to 24-bit precision, round-to-nearest.
   Retail also has SSE code (the timing note records SSE maths in the
@@ -190,7 +219,8 @@ frames; \ref sub_save_load_crc covers the CRC and recorder;
 - **Platform seams.** A different window, renderer, audio or timer backend
   connects at the Windows pump in `Win32GameEngine::update`, the display's
   `drawViews` in `GameClient::update`, `TheAudio` in the client half, and
-  `timeGetTime` (`GameEngine::reset`, the network's stall timer) and
+  `timeGetTime` (`GameEngine::reset`, the rate sample in
+  `GameEngine::update`, the network's stall timer) and
   `QueryPerformanceCounter` (the packet router's pacing).
 
 ## Reading list {#page_frame_loop_reading}
