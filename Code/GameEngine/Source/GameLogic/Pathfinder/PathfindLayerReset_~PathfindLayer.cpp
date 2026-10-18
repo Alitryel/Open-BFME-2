@@ -76,6 +76,7 @@ public:
 class PathfindCell
 {
 public:
+	~PathfindCell();
 	void rva0052DED3();
 	void DoXfer(Xfer *xfer);
 public:
@@ -84,24 +85,6 @@ public:
 	unsigned short m_padding;
 	unsigned int m_flags;
 	bool SetType_Dirty(int);
-};
-
-// Reuse the established provider's linker spelling for the native 75-byte
-// vector destructor at 0x002E70E8 (16-byte elements, destructor 0x0052DD64).
-// This adapter asserts that measured destruction ABI, not that pathfinding
-// cells carry the provider's file-info payload identity.
-class MixFileInfoBuffer;
-class MixFileCreator
-{
-public:
-	struct FileInfoStruct
-	{
-		~FileInfoStruct();
-		MixFileInfoBuffer *m_buffer;
-		unsigned long m_crc;
-		unsigned long m_offset;
-		unsigned long m_size;
-	};
 };
 
 // Native vslot zero is called with flags zero; its returned pointer is
@@ -177,7 +160,7 @@ void PathfindLayer::rva003667D4()
 		m_layerCells = 0;
 	}
 	if (m_blockOfMapCells)
-		delete[] static_cast<MixFileCreator::FileInfoStruct *>(m_blockOfMapCells);
+		delete[] static_cast<PathfindCell *>(m_blockOfMapCells);
 	m_zone = -1;
 	m_blockOfMapCells = 0;
 	m_width = 0;

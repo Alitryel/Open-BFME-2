@@ -33,19 +33,10 @@ public:
 void __cdecl operator delete(void *p);
 void __cdecl operator delete[](void *p);
 
-class MixFileInfoBuffer;
-
-class MixFileCreator
-{
+class PathfindCell {
 public:
-	struct FileInfoStruct
-	{
-		~FileInfoStruct();
-		MixFileInfoBuffer *m_buffer;
-		unsigned long m_crc;
-		unsigned long m_offset;
-		unsigned long m_size;
-	};
+ ~PathfindCell();
+ unsigned char m_storage[16];
 };
 
 struct ListNode5C
@@ -72,7 +63,7 @@ private:
 	char m_pad00[0x8];
 	bool m_08;
 	char m_pad09[0x3];
-	MixFileCreator::FileInfoStruct *m_0C;
+	PathfindCell *m_0C;
 	char *m_10;
 	int m_14;
 	int m_18;

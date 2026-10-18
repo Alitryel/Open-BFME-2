@@ -36,6 +36,8 @@ struct Coord2DView
 #define PATHFIND_CELL_SIZE_F 10.0f
 
 void *__cdecl operator new[](unsigned int size);
+// The generated vector destructor releases the array cookie through delete[].
+void __cdecl operator delete[](void *pointer);
 
 // Inline-only wrappers: retail calls the CRT imports from allocateCells.
 __declspec(dllimport) __forceinline Real fast_float_floor(Real f)

@@ -38,6 +38,8 @@ typedef float Real;
 #define PATHFIND_CELL_SIZE_F 10.0f
 
 void *__cdecl operator new[](unsigned int size);
+// The generated vector destructor releases the array cookie through delete[].
+void __cdecl operator delete[](void *pointer);
 
 __forceinline long fast_float2long_round(Real f)
 {
