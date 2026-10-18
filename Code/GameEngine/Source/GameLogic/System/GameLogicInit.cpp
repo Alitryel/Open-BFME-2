@@ -1648,7 +1648,7 @@ public:
 	void rva0028B4CE(PathfindLayerEnum layer);
 	void rva00293E64(Dict *properties);
 	bool testStatus(ObjectStatusTypes bit) const;
-	bool isDisabled(void) const { return m_disabledMask.any(); }
+	bool isDisabled_(void) const { return m_disabledMask.any(); }
 	const DisabledMaskType &getDisabledFlags(void) const { return m_disabledMask; }
 	AIUpdateInterface *getAIUpdateInterface(void) const { return m_ai; }
 	void rva0023D3AF(void *frame);
@@ -4868,7 +4868,7 @@ void GameLogic::update(int phase)
 
 	if (first) {
 		for (Object *obj = m_objList; obj; obj = obj->getNextObject()) {
-			if (obj->isDisabled())
+			if (obj->isDisabled_())
 				obj->rva00290357();
 			if (obj->testStatus((ObjectStatusTypes)0x4a))
 				obj->rva002903C3();
