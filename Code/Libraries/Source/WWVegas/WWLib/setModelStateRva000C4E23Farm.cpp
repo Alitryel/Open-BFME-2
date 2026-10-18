@@ -3,7 +3,7 @@
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
 // W9-O1 bank r2: W3DScriptedModelDraw::setModelState 0xC4E23 (3553 B): 3550 B, nn 40/1110, EH table EXACT, all callees
-// resolve (rename row 0xB22B3 Rva000B22B3StateView::rva000B22B3 to bool QBE_NXZ when landing; caller tests AL).
+// resolve. The owned int-return 0/1 query is checked as unsigned char for retail AL tests; no return-type cast or owner rename is required.
 // Host: W3DScriptedModelDrawTurretNames.cpp (turretNamesDiffer private EDI/EBX ABI) replacing its source-only caller.
 // Sibling guide: W3DHordeModelDrawSetModelState.cpp (0x7A847 matched) - same source family.
 // Remaining residue (all register/scheduling): (1) md->m_record8C.text0 test: retail this-form add eax,0x8c (empty()),
@@ -667,9 +667,8 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 					m_shadow->enableShadowInvisible(m_49);
 					m_shadow->enableShadowRender(m_4A && !m_4B);
 					m_shadow->m_30 = 1;
-					typedef bool (Rva000B22B3StateView::*BoolQuery)() const;
 					typedef void (Rva00330A37::*FadeFrames)(UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt);
-					if ((((const Rva000B22B3StateView *)m_shadow)->*(BoolQuery)&Rva000B22B3StateView::rva000B22B3)())
+					if ((unsigned char)((const Rva000B22B3StateView*)m_shadow)->rva000B22B3())
 					{
 						m_shadow->setOpacity(newState->m_shadowE0);
 						(((Rva00330A37 *)m_shadow)->*(FadeFrames)&Rva00330A37::rva00330A37)(0, -1, newState->m_shadowE0,
@@ -711,9 +710,8 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				Real fadeOut;
 				Int last;
 				((Rva0033A5F4 *)tmpl)->rva0033A5F4(&opacity, &fadeIn, &opacity2, &fadeOut, &last);
-				typedef bool (Rva000B22B3StateView::*BoolQuery)() const;
 				typedef void (Rva00330A37::*FadeFrames)(UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt, UnsignedInt);
-				if ((((const Rva000B22B3StateView *)m_shadow)->*(BoolQuery)&Rva000B22B3StateView::rva000B22B3)())
+				if ((unsigned char)((const Rva000B22B3StateView*)m_shadow)->rva000B22B3())
 				{
 					m_shadow->setOpacity(opacity);
 					(((Rva00330A37 *)m_shadow)->*(FadeFrames)&Rva00330A37::rva00330A37)(0, -1, opacity, (UnsignedInt)(fadeIn * BfmeClientFramesPerMillisecond), opacity2, -1,
