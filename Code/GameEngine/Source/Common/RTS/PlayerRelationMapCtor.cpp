@@ -55,7 +55,9 @@ class PlayerRelationMap : public Snapshot
 {
 public:
 	PlayerRelationMap();
+protected:
 	virtual ~PlayerRelationMap();
+public:
 protected:
 	virtual void loadPostProcess();
 	virtual void crc(Xfer *xfer);
