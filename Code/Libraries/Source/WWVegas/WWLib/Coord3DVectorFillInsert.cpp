@@ -22,6 +22,16 @@ static inline const unsigned int &max(const unsigned int &a,const unsigned int &
 #include <vector>
 
 #include "../../../Include/Lib/Coord3D.h"
+
+// Call the canonical 12-byte allocator and keep only the inline proxy forwarding.
+namespace _STL {
+template <> Coord3D * allocator<Coord3D>::allocate(size_t, const void *) const;
+template <> __declspec(dllimport) __forceinline
+Coord3D * _STLP_alloc_proxy<Coord3D*,Coord3D,allocator<Coord3D> >::allocate(size_t count) {
+ return __stl_alloc_rebind(static_cast<allocator<Coord3D>&>(*this),(Coord3D*)0).allocate(count,0);
+}
+}
+
 namespace _STL {
 template<> void _Construct(Coord3D*,const Coord3D&);
 template<> void fill(Coord3D *dst,Coord3D *end,const Coord3D &value) {
