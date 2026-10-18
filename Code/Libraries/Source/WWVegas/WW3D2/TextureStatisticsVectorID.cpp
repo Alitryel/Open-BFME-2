@@ -82,6 +82,8 @@ struct TextureStatisticsStruct
 	{
 		return tex != other.tex;
 	}
+public:
+	~TextureStatisticsStruct();
 };
 
 template<class T>
