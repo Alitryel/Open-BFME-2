@@ -48,6 +48,7 @@ public:
 };
 
 #include "../../Include/Common/Rva0007DF07.h"
+#include "../../Include/Common/Rva00567960BaseMid.h"
 
 // Retail installs C7A630 before the holder can throw, but first-base
 // destruction ends at BC6F20. These are distinct lifetime levels, as in
