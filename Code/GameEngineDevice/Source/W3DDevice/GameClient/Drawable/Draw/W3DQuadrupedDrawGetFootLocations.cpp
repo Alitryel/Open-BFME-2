@@ -53,7 +53,7 @@ public:
 	Vector4 Row[3];
 
 	// does "this = A * B"
-	__forceinline void mul(const Matrix3D &A, const Matrix3D &B)
+	__declspec(dllimport) __forceinline void mul(const Matrix3D &A, const Matrix3D &B)
 	{
 		Real tmp1, tmp2, tmp3;
 
@@ -91,7 +91,7 @@ public:
 	}
 
 	// does "this = that * this"
-	__forceinline void preMul(const Matrix3D &that)
+	__declspec(dllimport) __forceinline void preMul(const Matrix3D &that)
 	{
 		this->mul(that, *this);
 	}

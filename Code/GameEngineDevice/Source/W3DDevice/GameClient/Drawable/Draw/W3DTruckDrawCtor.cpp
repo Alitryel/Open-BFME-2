@@ -54,7 +54,7 @@ private:
 // 0x002115C5; the bare 55-byte unlink at 0x0004CBC0 remains a separate body.
 struct RvaSmartPtr12
 {
-	RvaSmartPtr12(void *system) { m_system = system; m_next = 0; m_previous = 0; }
+	__declspec(dllimport) RvaSmartPtr12(void *system) { m_system = system; m_next = 0; m_previous = 0; }
 	~RvaSmartPtr12() throw();
 	void *m_system;
 	void *m_previous;
