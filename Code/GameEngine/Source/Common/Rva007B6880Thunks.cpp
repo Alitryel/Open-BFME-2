@@ -130,7 +130,7 @@ void __cdecl rva007B7060()
 
 extern unsigned g_Va00DE0878;
 extern AsciiString BfmeINICurrentFilename;
-extern unsigned g_Va00DEAF18;
+unsigned g_Va00DEAF18;	// retail RVA 0x009EAF18 (.bss), defined here
 
 // ?rva007B6A5A@@YAXXZ @ 0x007B6A5A (10B). Global AsciiString dtor thunk: ecx=&BfmeINICurrentFilename then tail-jmp to rowed ??1AsciiString@@QAE@XZ (0x0048BA39). No callers. Honest address name.
 void __cdecl rva007B6A5A()
