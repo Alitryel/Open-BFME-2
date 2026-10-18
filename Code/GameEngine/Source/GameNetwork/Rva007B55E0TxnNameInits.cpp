@@ -26,7 +26,7 @@ struct Rva007B55E0TxnName
 
 const char * g_Va00DD7F48 = "acct";	// retail RVA 0x009D7F48 (.data), defined here	// "acct"
 const char * g_Va00DD80AC = "blob";	// retail RVA 0x009D80AC (.data), defined here	// "blob"
-extern const char *g_Va00DD80DC;	// "fdbk"
+const char * g_Va00DD80DC = "fdbk";	// retail RVA 0x009D80DC (.data), defined here	// "fdbk"
 extern const char *g_Va00DD80EC;	// "rank"
 extern const char *g_Va00DD8120;	// "recp"
 extern const char *g_Va00DD8138;	// "club"
