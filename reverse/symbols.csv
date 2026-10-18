@@ -8843,7 +8843,6 @@ name,address,notes
 ?finish@XmlNameSlotList@@QAEHXZ,0x00542890,callee of ?rva002EC770ParseToken@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z at retail 0x003381E6 read from its REL32 displacement; Int-returning spelling of the 36B XmlNameSlotList finish body already pinned void as ?finish@XmlNameSlotList@@QAEXXZ at this address
 ?finish@XmlNameSlotList@@QAEXXZ,0x00542890,XmlNameSlotList finish 36B; advances past close markup; calls 0x542459
 ?first@Gen_00943CF0@@AAEXPAXPAH11@Z,0x00140FA0
-?first@Rva000427195@@QAEPAXPAVRva000411084@@@Z,0x00427195,Eva event-name table head fetch; thiscall on Eva+0x34 with the iterator home, returns the first node or null; nodes are {next+0 name+4 key+8}
 ?first@Rva0004378D@@QAEXXZ,0x0025C4F3,opaque first call of tail-pair 0x0004378D; identity unproven; address-derived name
 ?first@Rva005CDDF0@@QAEXXZ,0x005E590F,opaque first call of tail-pair 0x005CDDF0; identity unproven; address-derived name
 ?first@Rva005E5554@@QAEXXZ,0x005E549E,opaque first call of tail-pair 0x005E5554; identity unproven; address-derived name

@@ -138,13 +138,17 @@ private:
 // store through the node. The spellings follow the rowed bodies
 // (AudioFileCacheDestructor.cpp, EvaMessageName.cpp, EvaBucketAdvance.cpp).
 class Rva000411084;
+struct NameTimerNode;
 class Rva000427195
 {
 public:
 	__declspec(noinline) void *first(Rva000411084 *iter);
 	int bucketIndex(const AsciiString *name);
 	void *m_unused00;
-	_STL::vector<void *> m_buckets;
+	// Player timers have native {next, AsciiString, Int} bucket nodes.
+	// Use their actual pointer type so this helper sees its inline accessors
+	// without emitting competing vector<void *> definitions.
+	_STL::vector<NameTimerNode *> m_buckets;
 };
 class Rva000411084
 {
@@ -183,7 +187,6 @@ public:
 	}
 	void *current, *owner;
 };
-// ?Rva000427195::first present-unmatched (inline, emitted out of line; ICF-folded at 0x00427195; pinned)
 inline void *Rva000427195::first(Rva000411084 *iter)
 {
 	for (unsigned n = 0; n < m_buckets.size(); ++n)
