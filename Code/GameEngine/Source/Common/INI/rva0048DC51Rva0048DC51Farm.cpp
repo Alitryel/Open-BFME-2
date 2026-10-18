@@ -39,21 +39,10 @@ class ModuleData;
 class Team;
 class ThingTemplate;
 
-// class-gate: allow Coord3D BFME 2's Coord3D has the empty ctor/dtor (rowed folds 0x0047A6A9 / 0x000B3FD0) the control-point array's eh vector iterators take; the canonical data-only header cannot declare them; same three floats
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-	~Coord3D() {}
-	Real x;
-	Real y;
-	Real z;
-};
+// BFME 2's Coord3D with the empty ctor/dtor (rowed folds 0x0047A6A9 / 0x000B3FD0) that the
+// control-point array's eh vector iterators take.
+#define COORD3D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class WWMath
 {
