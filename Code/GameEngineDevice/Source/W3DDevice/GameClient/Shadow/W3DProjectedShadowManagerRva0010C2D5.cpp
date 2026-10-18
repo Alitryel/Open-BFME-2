@@ -253,3 +253,8 @@ W3DProjectedShadow *W3DProjectedShadowManager::rva0010C2D5(int id, RenderObjClas
 	}
 	return shadow;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot0@W3DProjectedShadow@@UAEXXZ=??_GRva001095B2@@UAEPAXI@Z")

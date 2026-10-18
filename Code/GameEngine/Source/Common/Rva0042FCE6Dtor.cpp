@@ -31,3 +31,8 @@ private:
 Rva0042FCE6::~Rva0042FCE6()
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rvaSlot0@Rva0042FCE6Base@@UAEXXZ=__purecall")

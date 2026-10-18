@@ -64,3 +64,9 @@ CommandButtonHuntUpdate::CommandButtonHuntUpdate(Thing *thing, const ModuleData 
 // The global(s) below are defined elsewhere under another name at the same
 // address (the census owner of that DIR32 target); bind this unit's spelling.
 #pragma comment(linker, "/alternatename:?TheEmptyString@AsciiString@@2V1@A=?TheEmptyString@AsciiString@@2V1@B")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@PB_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@PB_Iface2@@UAEXXZ=?rva004958AE@Rva004958AE@@QAEHXZ")

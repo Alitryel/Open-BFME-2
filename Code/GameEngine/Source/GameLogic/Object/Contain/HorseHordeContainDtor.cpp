@@ -55,3 +55,9 @@ HorseHordeContain::~HorseHordeContain()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?b6@B6@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?hfc@HFC@@UAEXXZ=?createPayloadMember@TransportContain@@UAEPAVObject@@PBVThingTemplate@@PAVPayloadContainView@@PAV2@PBDH@Z")
+#pragma comment(linker, "/alternatename:?hlc@HLC@@UAEXXZ=?rva00472329@HordeContain@@UAEXPBUCoord3D@@H@Z")
