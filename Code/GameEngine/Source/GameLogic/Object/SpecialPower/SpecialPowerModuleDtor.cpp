@@ -182,15 +182,6 @@ private:
 	unsigned int m_availableOnFrame;
 };
 
-SpecialPowerModule::~SpecialPowerModule()
-{
-	if (getSpecialPowerModuleData()->m_specialPowerTemplate->hasPublicTimer() &&
-			getObject()->getControllingPlayer())
-		TheInGameUI->removeSuperweapon(getObject()->getControllingPlayer()->getPlayerIndex(),
-										getPowerName(),
-										getObject()->getID(),
-										getSpecialPowerModuleData()->m_specialPowerTemplate);
-}
 
 AsciiString SpecialPowerModule::getPowerName() const
 {
