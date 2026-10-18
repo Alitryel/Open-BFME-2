@@ -23,7 +23,12 @@ class Rva0045EF37List
 {
 public:
 	void forEach(void (Rva0045EF37Listener::*notify)(void *), void *arg);
-	~Rva0045EF37List() throw()
+};
+
+class Rva00330757List
+{
+public:
+	~Rva00330757List() throw()
 	{
 		if (m_begin)
 			free(m_begin);
@@ -64,7 +69,7 @@ private:
 	char m_pad04[12];
 };
 
-class StancesBehavior : public UpdateModule, public StancesBehaviorInterfaceA, public StancesBehaviorInterfaceB, private Rva0045EF37List
+class StancesBehavior : public UpdateModule, public StancesBehaviorInterfaceA, public StancesBehaviorInterfaceB, private Rva00330757List
 {
 public:
 	virtual ~StancesBehavior();
@@ -76,7 +81,7 @@ private:
 
 StancesBehavior::~StancesBehavior()
 {
-	Rva0045EF37List::forEach((void (Rva0045EF37Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
+	((Rva0045EF37List *)static_cast<Rva00330757List *>(this))->forEach((void (Rva0045EF37Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
 }
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
