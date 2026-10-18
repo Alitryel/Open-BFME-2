@@ -2372,7 +2372,6 @@ alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C08
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C1980C	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C363B8	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C3702C	1
-alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C37298	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C3962C	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C42518	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp	_vtbl_00C4EF80	1
@@ -2470,7 +2469,6 @@ alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_0
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C1A074	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C363B8	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C3702C	1
-alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C37298	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C3962C	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C3C970	1
 alternatename	Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp	_vtbl_00C42518	1
@@ -19037,6 +19035,7 @@ object_symbol	reverse/functions.csv	0x0079A339	1
 object_symbol	reverse/functions.csv	0x0079A34B	1
 object_symbol	reverse/functions.csv	0x0079A36F	1
 object_symbol	reverse/functions.csv	0x0079A381	1
+object_symbol	reverse/functions.csv	0x0079A389	1	allow=374a434112da8b480daedfd13658844ad12cd93b
 object_symbol	reverse/functions.csv	0x0079A39D	1
 object_symbol	reverse/functions.csv	0x0079A3B2	1
 object_symbol	reverse/functions.csv	0x0079A3BA	1

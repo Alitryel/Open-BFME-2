@@ -36,7 +36,7 @@
 //   0x00381D78  0x00C19230  Rva00381D78
 //   0x0039AE75  0x00C1AD60  Rva0039AE75
 //   0x003EE711  0x00C363B8  Rva003EE711
-//   0x003F7BCC  0x00C37298  Rva003F7BCC
+//   C37298 lifetime now has its complete registry-base provider.
 
 struct EmitVtableTag;
 // This synthetic overload only emits this view's table. Its tag must not
@@ -534,17 +534,8 @@ Rva003EE711::Rva003EE711(EmitVtableTag *)
 {
 }
 
-class Rva003F7BCC
-{
-public:
-	Rva003F7BCC(EmitVtableTag *);
-	virtual ~Rva003F7BCC() {}
-};
-
-// ?<Rva003F7BCC::Rva003F7BCC> absent-from-retail
-Rva003F7BCC::Rva003F7BCC(EmitVtableTag *)
-{
-}
+// The complete native15-slot base and its29B deleting destructor now
+// belong to Rva0056AC26Base2 in the real registry lifetime unit.
 
 // Native constructors have byte-identical inline copies in their users.
 // Keep these providers select-any so those copies can merge.

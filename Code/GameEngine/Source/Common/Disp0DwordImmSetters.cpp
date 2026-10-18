@@ -33,8 +33,6 @@ extern "C" const void *const vtbl_00C078DC[];  // folded, 4 classes; via ??_7Bfm
 #pragma comment(linker, "/alternatename:_vtbl_00C078DC=??_7BfmeCtor001B3A20@@6BBfmeCtorVirtualBase001B3A20@@@")
 extern "C" const void *const vtbl_00C3702C[];  // folded, 4 classes; via ??_7LivingWorldBattleListener@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C3702C=??_7LivingWorldBattleListener@@6B@")
-extern "C" const void *const vtbl_00C37298[];  // folded, 2 classes; via ??_7Base003F8ED6@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C37298=??_7Base003F8ED6@@6B@")
 extern "C" const void *const vtbl_00C4EF80[];  // folded, 7 classes; via ??_7ContainIface34@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C4EF80=??_7ContainIface34@@6B@")
 extern "C" const void *const vtbl_00C60130[];  // folded, 2 classes; via ??_7MemoryPoolObject@@6B@
@@ -362,18 +360,8 @@ void Rva003F3F7CDwordImmSetter::apply()
 	m_value = ((unsigned int)vtbl_00C3702C);
 }
 
-class Rva003F7BC5DwordImmSetter
-{
-public:
-	void apply();
-
-	unsigned int m_value;
-};
-
-void Rva003F7BC5DwordImmSetter::apply()
-{
-	m_value = ((unsigned int)vtbl_00C37298);
-}
+// Native3F7BC5 is the registry base nondeleting destructor. Its full
+// interface now lives with Rva0056AC26Base2; no address-table alias is needed.
 
 class Rva004CEE78DwordImmSetter
 {

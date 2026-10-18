@@ -28,11 +28,7 @@ private:
 	int m_04;
 };
 
-class Rva0056AC26Base2
-{
-public:
-	virtual ~Rva0056AC26Base2() {}
-};
+#include "../../Include/Common/Rva0056AC26Base2.h"
 
 class Rva0056AC26 : public Rva0056AC26Base1, public Rva0056AC26Base2
 {

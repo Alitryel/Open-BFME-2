@@ -119,3 +119,4 @@ Rva005CCC07Base,Code/GameEngine/Include/Common/Rva005CCC07Base.h,native C77E7C s
 Rva0056B126B2,Code/GameEngine/Include/Common/Rva0056B126B2.h,complete native BFDF68 four-slot observer; explicit nonvirtual teardown and existing out-of-line constructor; 3/3 units verified and adopted
 Rva0056B126B1,Code/GameEngine/Include/Common/Rva0056B126B1.h,partial adjacent view; native destructor and false RET4 callback prefix; explicit novtable and opaque words; 2/2 units verified and adopted
 Rva0056B188Second,Code/GameEngine/Include/Common/Rva0056B188Second.h,complete native BC6F34 four-slot nonvirtual observer; optional owner pointer retained in minimal existing view; 2/2 units verified and adopted
+Rva0056AC26Base2,Code/GameEngine/Include/Common/Rva0056AC26Base2.h,native C37298 full15-slot virtual lifetime contract in a minimal view; explicit destructor-first declaration; 2/2 units verified and adopted
