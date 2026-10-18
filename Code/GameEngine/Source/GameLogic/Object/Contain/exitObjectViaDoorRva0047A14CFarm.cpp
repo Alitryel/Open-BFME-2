@@ -1,11 +1,7 @@
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.987633 date=2026-10-15
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.969 date=2026-10-15
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.97 date=2026-10-13
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.97 date=2026-10-09
 // cl: /I. /O1 /DNDEBUG /MD /EHsc /arch:SSE /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -22,7 +18,7 @@
 // WorldBuilder's twin (0x011A8120) is unnamed.
 
 #include <list>
-#include "Code/GameEngine/Include/GameLogic/ContainmentListView.h"
+#include "../../../../Include/GameLogic/ContainmentListView.h"
 
 typedef ContainmentList IntList;
 
@@ -115,24 +111,29 @@ public:
 void HordeGarrisonContain::exitObjectViaDoor(Object *exitObj, ExitDoorType exitDoor)
 {
 	Object *member;
-	const HordeGarrisonContainModuleData *data = m_moduleData;
 	Rva0047A14CBody *body = exitObj->m_body250;
 	if (body)
 	{
+		const HordeGarrisonContainModuleData *data = m_moduleData;
 		Rva0047A14CHorde *horde = body->slot7C();
 		if (horde)
 		{
 			IntList members = horde->slot108().rva0036AE51();
 			IntList::iterator it;
-			for (it = members.begin(); it != members.end(); ++it)
+			it = members.begin();
+			while (it != members.end())
 			{
 				member = (Object *)containmentFirstWord(*it);
 				if (member->m_454)
+				{
+					++it;
 					continue;
+				}
 				horde->slotA8(member);
 				GarrisonContain::exitObjectViaDoor(member, exitDoor);
 				if (data->m_exitDelayAC > 0)
 					return;
+				++it;
 			}
 			for (it = members.begin(); it != members.end(); ++it)
 			{
