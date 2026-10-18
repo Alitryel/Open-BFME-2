@@ -125,6 +125,9 @@ template <> struct less<AsciiString>
 // this TU emits no per-flag copy of it or of the tree internals it pulls in.
 namespace _STL {
 template <> AsciiString &map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<const AsciiString, AsciiString> > >::operator[](const AsciiString &);
+// The nick/clan map uses the rowed 0x5CAC49 subscript as well. Its generic
+// copy here pulls in non-retail node construction and insertion helpers.
+template <> list<AsciiString> &map<AsciiString, list<AsciiString>, less<AsciiString>, allocator<pair<const AsciiString, list<AsciiString> > > >::operator[](const AsciiString &);
 }
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 

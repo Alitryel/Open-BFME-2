@@ -36,6 +36,14 @@ typedef _STL::list<AsciiString> AsciiStringList;
 typedef _STL::pair<const AsciiString, AsciiStringList> ListPair;
 typedef _STL::map<AsciiString, AsciiStringList, _STL::less<AsciiString>, _STL::allocator<ListPair> > ListMap;
 
+// Use the canonical list-map node and insertion providers. Their generic
+// copies here differ from the retail specializations in the tree unit.
+typedef _STL::_Rb_tree<AsciiString, ListPair, _STL::_Select1st<ListPair>, _STL::less<AsciiString>, _STL::allocator<ListPair> > ListTree;
+namespace _STL {
+template <> ListTree::_Link_type ListTree::_M_create_node(const ListPair &);
+template <> pair<ListTree::iterator, bool> ListTree::insert_unique(const ListPair &);
+}
+
 // Retail 0x005CAC49: the list-map subscript used by the nick/clan load
 // helper 0x5CAEA3. Misses lower-bound through 0x221B8D, builds the
 // key-plus-default-list temporary through the pair ctor above, then
