@@ -1115,7 +1115,9 @@ extern int g_Va00DFECD0;
 extern GameLogic *TheGameLogic;
 int Rva002E9B31Get(void *);
 static const float PATHFINDER_CELL_INV=1.0f/10.0f;
-__declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
+// Keep the canonical helpers visible for caller codegen, with foldable
+// out-of-line copies. Their complete retail bodies are 162, 32 and 32 bytes.
+inline __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
 
 {
  int ix;
@@ -1137,14 +1139,14 @@ __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, boo
  return out;
  
 }
-__declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoord2D *out, void *p, const struct Coord3D *pos)
+inline __declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoord2D *out, void *p, const struct Coord3D *pos)
 
 {
  Rva002E7875WorldToCell(out, Rva002EBBFBIsOdd(p), pos);
  return out;
  
 }
-__declspec(noinline) void __cdecl Rva002EBCD6Split(void *p, int *outRest, int *outHalf)
+inline __declspec(noinline) void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
 
 {
  int v = Rva002E9B31Get(p);
