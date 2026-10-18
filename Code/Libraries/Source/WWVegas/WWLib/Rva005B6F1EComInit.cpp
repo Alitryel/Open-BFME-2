@@ -57,8 +57,10 @@ extern "C" __declspec(dllimport) unsigned short *__cdecl wcscpy(unsigned short *
 extern "C" __declspec(dllimport) HRESULT __stdcall CoCreateInstance(const GUID &clsid, void *outer, DWORD ctx, const GUID &iid, void **out);
 void *__cdecl operator new[](unsigned int size);
 
-extern "C" const GUID g_00C73770;
-extern "C" const GUID g_00C73780;
+// The class and interface ids at .rdata 0x00C73770 / 0x00C73780, read from
+// retail (their SDK names are not established); defined here, their reader.
+extern "C" const GUID g_00C73770 = { 0x304CE942, 0x6E39, 0x40D8, { 0x94, 0x3A, 0xB9, 0x13, 0xC4, 0x0C, 0x9C, 0xD4 } };
+extern "C" const GUID g_00C73780 = { 0xF7898AF5, 0xCAC4, 0x4632, { 0xA2, 0xEC, 0xDA, 0x06, 0xE5, 0x11, 0x1A, 0xF2 } };
 
 class Rva005B6F1E
 {

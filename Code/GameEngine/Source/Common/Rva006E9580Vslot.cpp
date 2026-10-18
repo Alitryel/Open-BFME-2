@@ -27,9 +27,7 @@ public:
 };
 
 void __cdecl Rva006CC110Log(int level, const char *fmt, ...);
-extern const char g_00CEC838[];
 extern const char g_00BBFDDC[];
-extern const char g_00CEC710[];
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
@@ -61,8 +59,8 @@ bool Rva006E9580::rva006E9580(int, EAStringC *pName, BfmeAptValue006DCD20 *pValu
 		return true;
 	}
 	if (pName->rva006D3510("message") || pName->rva006D3510("name")) {
-		Rva006CC110Log(3, g_00CEC838, pName->rva00620090());
-		g_bfmeAptAssertAtE17734(g_00BBFDDC, g_00CEC710, 0x518);
+		Rva006CC110Log(3, "AptError: Incorrect case for '%s'.\n", pName->rva00620090());
+		g_bfmeAptAssertAtE17734(g_00BBFDDC, "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMiscObjects.cpp", 0x518);
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
 			__debugbreak();
 	}

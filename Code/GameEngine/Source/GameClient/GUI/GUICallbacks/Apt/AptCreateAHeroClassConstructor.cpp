@@ -116,11 +116,13 @@ class Class : public Rva005B5420Base
 {
 public:
 	Class(Rva005B3676Owner *owner);
-	virtual ~Class();
+	virtual ~Class() {}
 	void rva005B59FD();
 	void rva005B5418(const char *);
 	void rva0047A69C(const char *);
-	void rva000D1407(const char *, void *, GameWindow *);
+	// The InitGadgets delegate target is retail's shared empty ret-0xC stub
+	// at RVA 0x000D1407.
+	void rva000D1407(const char *, void *, GameWindow *) {}
 	void ExternFunc(int, char *, bool);
 private:
 	char m_pad08[0x14 - 0x08];
