@@ -83,6 +83,32 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <list>
 
+// The Drawable list uses the native 12-byte node pool, not the generic
+// allocator. Keep these definitions visible: declaration-only trials enlarge
+// update's stack frame, while these provider definitions preserve its bytes.
+// Same providers as stlport_list_drawable_base_ctor.cpp and
+// AIUpdateInterface_voiceResponses_Rva0026B25A.cpp (0x00239BB0/0x00239BD8).
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> __declspec(noinline)
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &a)
+    : _M_node(a, (_List_node<Drawable *> *)0)
+{
+    _List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+    node->_M_next = node;
+    node->_M_prev = node;
+    _M_node._M_data = node;
+}
+template <> __declspec(noinline)
+_List_node<Drawable *> *list<Drawable *, allocator<Drawable *> >::_M_create_node(Drawable *const &value)
+{
+    _List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+    if (&node->_M_data != 0) node->_M_data = value;
+    return node;
+}
+}
+
 // Keep the inlined node comparison local, as in GameClientXfer.cpp, so
 // this unit does not emit an incompatible STLport base-iterator COMDAT.
 namespace _STL {
