@@ -1,13 +1,12 @@
-// ?checkTarget@AITacticOffensive@@QAEEPAX@Z
-// partial score=0.9167 date=2026-10-15
-// ?checkTarget@AITacticOffensive@@QAEEPAX@Z
-// partial score=0.75 date=2026-10-07
 // cl: /O1 /DNDEBUG /MD
 // ?checkTarget@AITacticOffensive@@QAEEPAX@Z retail 0x005DC763, 252 B: WB AITacticOffensive::checkTarget.
-// Bank: control flow, calls and offsets follow retail; cl keeps this in a
-// frame slot and the reach result in bl where retail keeps this in ebx and the
-// result in [ebp-1] (xor with the slot-10 answer). 0x002F4B33 needs a pin.
-struct Coord3D { float x, y, z; };
+// Picks the side's first unit of kind 3 (not kind 2), asks the pathfinder
+// whether it can reach the target (its structure when there is one, else the
+// target point) and returns false when that matches slot 10's answer; then
+// true unless the target is a live, reachable structure of kind 194 (WB
+// AITacticOffensive::checkTarget twin: the +0x16C record test guards the
+// structure checks, which all fall through to `return true`).
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 class Player;
 
 class ThingTemplate
@@ -118,37 +117,36 @@ private:
 unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 {
 	Rva002C589B *target = (Rva002C589B *)targetPtr;
-	Rva005DC763Units *units = *(Rva005DC763Units **)g_00DFEEF8->rva002A8F24(m_player);
+	Rva005DC763Units *units;
 	Object *obj = 0;
+	{
+		void *owner = g_00DFEEF8->rva002A8F24(m_player);
+		units = *(Rva005DC763Units **)owner;
+	}
 	for (unsigned int i = 0; i < units->bucket_count(); ++i)
 	{
 		obj = ((Rva0025BFF8 *)units)->rva0025BFF8(i);
 		if (obj && (obj->getTemplate()->m_kindOf108 & 8) && !(obj->getTemplate()->m_kindOf108 & 4))
 		{
-			bool canReach;
+			unsigned char canReach = 0;
 			Object *structure = target->rva002C5DA6();
 			if (structure)
 				canReach = ((TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
 			else
 				canReach = TheAI->pathfinder()->QuickDoesPathExist(obj, &obj->m_pos, &target->m_pos, 0);
-			if (slot10() == canReach)
+			if ((slot10() ^ canReach) == 0)
 				return false;
 			break;
 		}
 	}
-
-	if (obj == 0)
+	if (!obj)
 		return false;
-	if (g_00DFEEF8->rva002A8AB1(m_player)->m_16C != 0)
-		return true;
-	Object *structure = target->rva002C5DA6();
-	if (structure == 0)
-		return true;
-	if ((structure->getTemplate()->m_kindOf120 & 4) == 0)
-		return true;
-	if (structure->m_flags94 & 1)
-		return true;
-	if (structure->m_status438 & 1)
-		return true;
-	return false;
+	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_player);
+	if (rec->m_16C == 0)
+	{
+		Object *structure = target->rva002C5DA6();
+		if (structure && (structure->getTemplate()->m_kindOf120 & 4) && !(structure->m_flags94 & 1) && !(structure->m_status438 & 1))
+			return false;
+	}
+	return true;
 }
