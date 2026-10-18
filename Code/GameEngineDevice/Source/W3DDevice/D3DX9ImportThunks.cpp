@@ -165,4 +165,11 @@ extern PFN_D3DXGetImageInfoFromFileInMemory __identifier("_imp__D3DXGetImageInfo
 HRESULT __stdcall D3DXGetImageInfoFromFileInMemory(LPCVOID pSrcData, UINT SrcDataSize, D3DXIMAGE_INFO *pSrcInfo) {
  return __identifier("_imp__D3DXGetImageInfoFromFileInMemory@12")(pSrcData, SrcDataSize, pSrcInfo);
 }
+
+// _D3DXCreateEffectFromFileA@32
+typedef HRESULT (__stdcall *PFN_D3DXCreateEffectFromFileA)(LPDIRECT3DDEVICE9, LPCSTR, const D3DXMACRO *, LPD3DXINCLUDE, DWORD, LPD3DXEFFECTPOOL, LPD3DXEFFECT *, LPD3DXBUFFER *);
+extern PFN_D3DXCreateEffectFromFileA __identifier("_imp__D3DXCreateEffectFromFileA@32");
+HRESULT __stdcall D3DXCreateEffectFromFileA(LPDIRECT3DDEVICE9 pDevice, LPCSTR pSrcFile, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXEFFECTPOOL pPool, LPD3DXEFFECT *ppEffect, LPD3DXBUFFER *ppCompilationErrors) {
+ return __identifier("_imp__D3DXCreateEffectFromFileA@32")(pDevice, pSrcFile, pDefines, pInclude, Flags, pPool, ppEffect, ppCompilationErrors);
+}
 }
