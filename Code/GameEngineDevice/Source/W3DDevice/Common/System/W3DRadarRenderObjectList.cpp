@@ -21,6 +21,12 @@
 // Lock helpers: an early `if (!bits) return;` puts the EH lock object above
 // pitch in the frame (4DF6F/4F037/4F29B) and a block-scoped column variable
 // per half gives the lower-half column its own slot (4F037/4F29B).
+#include <stl/_algobase.h>
+// These comparisons stay inline; retail keeps its external max elsewhere.
+namespace _STL {
+static inline const int &max(const int &a, const int &b)
+{ return a < b ? b : a; }
+}
 #include <algorithm>
 #include "Coord3D.h"
 #include "ICoord2D.h"
@@ -181,8 +187,10 @@ inline Bool legalRadarPoint(Int px, Int py)
 extern UnsignedInt RadarEndpointColor;
 extern unsigned int g_Va00DE1D00;
 extern unsigned int g_Va00DE1D60;
-extern const UnsignedByte g_Va00BC4E84[];
-extern const unsigned char g_Va00BC4E80[][2];
+// Retail quarter masks: the private helpers reflect their 3x3 and 2x2
+// domains across both axes to draw the complete blips.
+extern const UnsignedByte g_Va00BC4E84[9] = { 3, 36, 69, 36, 79, 79, 69, 79, 79 };
+extern const unsigned char g_Va00BC4E80[2][2] = { { 0, 74 }, { 74, 255 } };
 
 __forceinline long fast_float2long_round(Real f)
 {
