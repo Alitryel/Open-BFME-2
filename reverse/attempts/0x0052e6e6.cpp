@@ -1,4 +1,6 @@
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
+// partial score=0.9795091524921802 date=2026-10-17
+// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.99 date=2026-10-17
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.9652564743478931 date=2026-10-14
@@ -13,13 +15,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern GameLogic *TheGameLogic;
 typedef bool Bool;
 typedef int Int;
-class ICoord3D 
-{
- public: Int x,y;
- unsigned char unused[4];
- 
-}
-;
+#include "Code/Libraries/Include/Lib/ICoord3D.h"
 class PolygonTrigger 
 {
  public: Bool pointInTrigger(const ICoord3D &);

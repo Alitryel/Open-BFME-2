@@ -112,6 +112,7 @@ public:
 	virtual void rva0009C4FC(int x, int y, int width, int height);
 	void rva0009BAA4();
 	virtual void rva0009C422(bool active);
+	virtual void rva0009BD98(const Vector2 *, float);
 
 private:
 	Rva0009D6FARef *m_C0;
@@ -542,4 +543,66 @@ void Rva0009D55BProduct::rva0009C422(bool active)
 	}
 	if (!active)
 		((Rva0009C422Slots *)this)->slot7();
+}
+
+// Native 0009BD98..0009BF33, RET8: camera pan and angle update at slot11
+// of BC89C8, installed by the owned397B constructor0009D55B. Native factory
+// 0004C8DD and the LivingWorld base establish the class relationship; the
+// original derived class and method names remain unknown. This extends the
+// bank's native/WB reconstruction using canonical Vector2 and ICoord3D.
+class Rva0009BD98Slots
+{
+public:
+	D55B_SLOTS16(s0) D55B_SLOTS4(s1) virtual void s20(); virtual void s21();
+	virtual void rva0009B023(const Vector3 *pos);	// slot 22
+};
+class Rva00213A85 { public: void rva00213B88(void *point); };
+// Native mutable tuning values DB4AB0/DB4AAC; original identifiers unknown.
+float BfmeCameraPanRotationRate = 1.0f;
+float BfmeCameraPanRotationLimit = 1.0f;
+
+
+// MSVC 7.1 evaluates Y before X in the returned Vector2 constructor;
+// retain that form and the X-then-Y position updates for native SSE ordering.
+struct PanRotation
+{
+    static __forceinline float sine(float a) { return sinf(a); }
+    static __forceinline float cosine(float a) { return cosf(a); }
+
+    static __forceinline Vector2 core(const Vector2 &p, float s, float c)
+    {
+        return Vector2(c * p.X - s * p.Y, c * p.Y + s * p.X);
+    }
+    static __forceinline Vector2 rotate(const Vector2 &p, float a)
+    {
+        return core(p, sine(a), cosine(a));
+    }
+};
+void Rva0009D55BProduct::rva0009BD98(const Vector2 *pan, float rotation)
+{
+	if (pan == 0)
+		return;
+	Vector2 step(pan->X * 0.5f, pan->Y * 0.5f);
+	if (step.X != 0.0f || step.Y != 0.0f)
+	{
+		Vector3 pos;
+		pos.X = m_F8.x;
+		pos.Y = m_F8.y;
+		pos.Z = m_F8.z;
+		step = PanRotation::rotate(step, -m_11C);
+		float scale = (m_134 * 4.0f + 1.0f) * 0.25f;
+		pos.X = step.X * scale + pos.X;
+		pos.Y = pos.Y - step.Y * scale;
+		((Rva0009BD98Slots *)this)->rva0009B023(&pos);
+		if (TheLivingWorldManager)
+		{
+			Vector2 point(pos.X, pos.Y);
+			((Rva00213A85 *)TheLivingWorldManager)->rva00213B88(&point);
+		}
+	}
+	m_11C = BfmeCameraPanRotationRate * rotation + m_11C;
+	if (-BfmeCameraPanRotationLimit > m_11C)
+		m_11C = -BfmeCameraPanRotationLimit;
+	if (m_11C > BfmeCameraPanRotationLimit)
+		m_11C = BfmeCameraPanRotationLimit;
 }
