@@ -118,11 +118,7 @@ struct Rva0023FD63Holder
 		_STL::allocator<_STL::pair<const int, int> > > m_tree;
 	bool m_dirty;
 };
-void Rva0023FD63Holder::reset()
-{
-	m_tree.clear();
-	m_dirty = true;
-}
+
 
 class PSPlayerAllStats
 {
