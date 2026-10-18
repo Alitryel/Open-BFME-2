@@ -76,7 +76,7 @@ extern Rva007B55E0TxnName g_Va00E0A0D8;
 extern Rva007B55E0TxnName g_Va00E0A09C;
 extern Rva007B55E0TxnName g_Va00E0A0C0;
 extern Rva007B55E0TxnName g_Va00E0A090;
-extern Rva007B55E0TxnName g_Va00E0A0B4;
+Rva007B55E0TxnName g_Va00E0A0B4;	// retail RVA 0x00A0A0B4 (.bss), defined here
 extern Rva007B55E0TxnName g_Va00E0A0E4;
 extern Rva007B55E0TxnName g_Va00E0A0F0;
 extern Rva007B55E0TxnName g_Va00E0A0FC;
