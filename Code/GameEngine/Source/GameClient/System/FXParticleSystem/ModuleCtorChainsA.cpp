@@ -139,7 +139,26 @@ extern "C" const void *const __identifier("??_7Rva003AE5F9@@6B@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$05$E?BUTTERFLY_DRAW_MODULE_KEY@FXParticleSystem@@3QBDB$E?BUTTERFLY_DRAW_MODULE_NAME@2@3QBDBVButterflyDrawModule@2@VButterflyDrawModuleTemplate@2@V?$DefaultParticleModule@$05@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003AE5F9@@6BModuleInfoHeadBase@@@")[];
 extern const void *const g_00C1CDE0[];
-extern const void *const g_00C1CDF0[];
+// The retail table at RVA 0x0081CDF0: 7 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?clone@Rva003AEADD@@QBEPAV1@XZ")();
+void __identifier("?rva0055B951@Rva0055B951@@UAEXPAVXfer@@@Z")();
+void __identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z")();
+void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
+void __identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ")();
+}
+extern const void *const g_00C1CDF0[7] = {
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?clone@Rva003AEADD@@QBEPAV1@XZ"), // slot 2 0x003AEAA3
+	(const void *)&__identifier("?rva0055B951@Rva0055B951@@UAEXPAVXfer@@@Z"), // slot 3 0x0055B951
+	(const void *)&__identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z"), // slot 4 0x003ABCE6
+	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
+	(const void *)&__identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ"), // slot 6 0x003ABD04
+};
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$02@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003ABD20@@6B@")[];
 extern const void *const g_00C1CE64[];
