@@ -181,7 +181,7 @@ unsigned g_Va00DFEDCC;	// retail RVA 0x009FEDCC (.bss), defined here
 unsigned g_Va00DFEDD8;	// retail RVA 0x009FEDD8 (.bss), defined here
 struct BfmeUiResourceEntryState;
 extern BfmeUiResourceEntryState BfmeUiResourceEntryCollectorState;
-extern unsigned g_Va00DFEE20;
+unsigned g_Va00DFEE20;	// retail RVA 0x009FEE20 (.bss), defined here
 extern unsigned g_Va00DFF030;
 extern unsigned g_Va00DFF044;
 extern unsigned g_Va00DFF048;
