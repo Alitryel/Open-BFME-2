@@ -67,6 +67,16 @@
 template <> ShareBufferClass<VertexMaterialClass *>::~ShareBufferClass(void);
 // Its copy constructor (0x0015AB50) too: rowed in ShareBufferClassVertexMaterialCopyCtor.cpp.
 template <> ShareBufferClass<VertexMaterialClass *>::ShareBufferClass(const ShareBufferClass<VertexMaterialClass *> &that);
+// The Vector2 and unsigned instantiations are retail's too: copy ctors 0x15CD00 and
+// 0x15B000, dtor pairs 0xD1DC8/0xD1E50 and 0xD1E6C/0xD1E88, rowed in
+// sharebuf_vector2_copy_ctor.cpp, sharebuf_unsigned_copy_ctor.cpp and
+// ShareBufferClassUnsignedCtor.cpp.  They must be declared before meshmatdesc.h (whose
+// inline members destroy the class) and before any use; this unit then stays a caller,
+// so no in-unit /O2 copy can shadow retail's kept bodies at link time.
+template <> ShareBufferClass<Vector2>::~ShareBufferClass(void);
+template <> ShareBufferClass<Vector2>::ShareBufferClass(const ShareBufferClass<Vector2> &that);
+template <> ShareBufferClass<unsigned>::~ShareBufferClass(void);
+template <> ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &that);
 #include "meshmatdesc.h"
 #include "texture.h"
 #include "vertmaterial.h"

@@ -5,7 +5,21 @@
 // The pointer constants or anchors below only make this TU emit the inline bodies out of line; they are not retail code or data.
 //
 
+// Retail's kept Vector2 destructor (0x000D1DC8, 26 bytes, vtable store 0xBCE328) is
+// emitted by sharebuf_vector2_ctor.cpp.  The sweep shim's own body is the GeneralsMD
+// shape (null test plus RawBuffer/Array clears), which retail's kept object does not
+// have, so this unit must only call it.  The declaration has to precede dynamesh.h,
+// whose inline UVBufferClass members instantiate the base class destructor.
+#include "sharebuf.h"
+class Vector2;
+template <> ShareBufferClass<Vector2>::~ShareBufferClass(void);
+
 // BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
+// The UVBufferClass bodies this unit hosts destroy the ShareBufferClass<Vector2>
+// buffer through the free below: it must be the nothrow form so the inlined
+// destructor comes out at retail's 26 bytes (0x000D1DC8, no EH frame) instead of
+// the 68-byte throwing shape.
+void __cdecl operator delete[](void *) throw();
 #include "always.h"
 #undef W3DMPO_GLUE
 #define W3DMPO_GLUE(ARGCLASS)
