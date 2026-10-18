@@ -79,4 +79,14 @@ namespace _STL { template <> void _Construct<BfmePod264, BfmePod264>(BfmePod264 
 inline bool operator==(const BfmePod264 &x, const BfmePod264 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod264 &x, const BfmePod264 &y) { return x.a[0] < y.a[0]; }
 
+// operator[] is rowed in stlport_hash_map_int_list_pod264_subscript.cpp;
+// this unit's copy is not retail's, so only declare it.
+namespace _STL { template <> list<BfmePod264> &hash_map<int, list<BfmePod264>, hash<int>, equal_to<int>, allocator<pair<const int, list<BfmePod264> > > >::operator[](const int &); }
 template class _STL::hash_map<int, _STL::list<BfmePod264>, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, _STL::list<BfmePod264> > > >;
+
+// The rows operator[] had instantiated here stay as explicit instantiations.
+typedef _STL::pair<const int, _STL::list<BfmePod264> > Pod264Pair;
+typedef _STL::hashtable<Pod264Pair, int, _STL::hash<int>, _STL::_Select1st<Pod264Pair>, _STL::equal_to<int>, _STL::allocator<Pod264Pair> > Pod264Table;
+template Pod264Table::reference Pod264Table::_M_insert(const Pod264Table::value_type &);
+template _STL::pair<const int, _STL::list<BfmePod264> >::pair(const int &, const _STL::list<BfmePod264> &);
+template _STL::list<BfmePod264>::list(const _STL::allocator<BfmePod264> &);
