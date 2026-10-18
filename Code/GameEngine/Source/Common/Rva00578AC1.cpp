@@ -320,7 +320,7 @@ public:
 // The constructor body is visible (noinline): cl then knows it writes only
 // the button subobject and drops the dead PalantirBase0 vptr store from the
 // Palantir constructor exactly as retail does.
-class Rva00578C2E : public Rva004FAC6BBase0
+class __declspec(novtable) Rva00578C2E : public Rva004FAC6BBase0
 {
 public:
 	__declspec(noinline) Rva00578C2E() {}

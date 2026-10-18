@@ -187,13 +187,13 @@ class Rva0005970E6DwordImmSetter {
 public:
  void apply();
 };
-class Rva005DAA48 : public Rva0059710EHelper {
+class __declspec(novtable) Rva005DAA48 : public Rva0059710EHelper {
 public:
  Rva005DAA48(void *held);
  ~Rva005DAA48() { reinterpret_cast<Rva0005970E6DwordImmSetter *>(this)->apply(); }
  void *held;
 };
-class Rva005DAA5A : public Rva0059710EHelper {
+class __declspec(novtable) Rva005DAA5A : public Rva0059710EHelper {
 public:
  Rva005DAA5A(void *held);
  ~Rva005DAA5A() { reinterpret_cast<Rva0005970E6DwordImmSetter *>(this)->apply(); }

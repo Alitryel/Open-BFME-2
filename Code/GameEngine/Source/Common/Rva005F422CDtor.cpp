@@ -26,7 +26,7 @@ struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C;
 class AptMovieClipFrame;
-class Rva005F4179 {
+class __declspec(novtable) Rva005F4179 {
 public:
  virtual ~Rva005F4179();
  virtual void slot01()=0;

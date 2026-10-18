@@ -48,7 +48,7 @@ struct Rva003B3536
 	AsciiString name;
 };
 
-class Script : public Snapshot
+class __declspec(novtable) Script : public Snapshot
 {
 public:
 	// Full interface per the ScriptWriteDataChunk.cpp view (Script(),

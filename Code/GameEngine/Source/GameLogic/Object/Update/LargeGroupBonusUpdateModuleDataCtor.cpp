@@ -25,7 +25,7 @@ public:
 private:
 	unsigned char m_data[4];
 };
-class UpdateModuleData
+class __declspec(novtable) UpdateModuleData
 {
 public:
 	UpdateModuleData() {}

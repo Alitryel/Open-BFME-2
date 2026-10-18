@@ -60,7 +60,7 @@ public:
 
 // Existing constructor view from Rva005CEB57Ctor.cpp: allocation 32, count +4,
 // six copied payload words at +8. The original factory class name is unknown.
-class Rva005E9742 {
+class __declspec(novtable) Rva005E9742 {
 public:
     struct Payload { int v[6]; };
     Rva005E9742(const Payload *) throw();

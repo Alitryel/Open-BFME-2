@@ -47,7 +47,7 @@ public:
     void allocateFloorBuffers();
 };
 
-class Rva000E59D3Base
+class __declspec(novtable) Rva000E59D3Base
 {
 public:
     Rva000E59D3Base() {}

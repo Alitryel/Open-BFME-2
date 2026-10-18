@@ -18,7 +18,7 @@ public:
 
 class SimpleSceneClass;
 
-class SimpleSceneIterator : public SceneIterator
+class __declspec(novtable) SimpleSceneIterator : public SceneIterator
 {
 public:
 	virtual ~SimpleSceneIterator() {}

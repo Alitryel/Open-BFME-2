@@ -84,7 +84,7 @@ public:
 	virtual void slot08(); virtual void slot09(); virtual void slot0A(); virtual void slot0B();
 	virtual void draw();
 };
-class MouseThreadClass : public ThreadClass
+class __declspec(novtable) MouseThreadClass : public ThreadClass
 {
 
 public:

@@ -68,7 +68,7 @@ public:
 	StringBase<char> m_0c;
 };
 
-class Rva002B30CA : public Rva002BB49CEvent
+class __declspec(novtable) Rva002B30CA : public Rva002BB49CEvent
 {
 public:
 	virtual ~Rva002B30CA();

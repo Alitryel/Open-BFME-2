@@ -42,7 +42,7 @@ struct _Rva005E4AE2In
 	int m_04;
 	Rva005E4AE2Holder *m_08;
 };
-class Rva005E4AE2Base
+class __declspec(novtable) Rva005E4AE2Base
 {
 public:
 	Rva005E4AE2Base() {}

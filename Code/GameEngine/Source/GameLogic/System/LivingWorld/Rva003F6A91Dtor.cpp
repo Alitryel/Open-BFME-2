@@ -74,7 +74,7 @@ public:
 	void rva003F498A(Rva003F498ACallback *cb);
 };
 
-class Rva003F424F : public Rva003F498ACallback
+class __declspec(novtable) Rva003F424F : public Rva003F498ACallback
 {
 public:
 	explicit Rva003F424F(Rva003F6A91 *owner) : m_owner(owner) {}

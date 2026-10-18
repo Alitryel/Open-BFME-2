@@ -130,7 +130,7 @@ void FXNugget::doFXObj(const Object* primary, const Object* secondary) const
 }
 
 //-------------------------------------------------------------------------------------------------
-class SoundFXNugget : public FXNugget
+class __declspec(novtable) SoundFXNugget : public FXNugget
 {
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(SoundFXNugget, "SoundFXNugget")		
 	
@@ -284,7 +284,7 @@ private:
 EMPTY_DTOR(TracerFXNugget)
 
 //-------------------------------------------------------------------------------------------------
-class RayEffectFXNugget : public FXNugget
+class __declspec(novtable) RayEffectFXNugget : public FXNugget
 {
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(RayEffectFXNugget, "RayEffectFXNugget")		
 public:

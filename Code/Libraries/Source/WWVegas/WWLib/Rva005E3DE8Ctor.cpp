@@ -2,7 +2,7 @@
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc
 #include "ascii_string.h"
 class Rva0022167C { public: ~Rva0022167C(); };
-class Rva00221635 {
+class __declspec(novtable) Rva00221635 {
 public: Rva00221635(int arg); ~Rva00221635() { ((Rva0022167C *)this)->Rva0022167C::~Rva0022167C(); } virtual void pure() = 0;
 private: void *ptr;
 };

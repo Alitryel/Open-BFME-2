@@ -9,7 +9,7 @@
 #include "ascii_string.h"
 extern "C" void *memset(void *,int,unsigned);
 extern int BfmeClientFramesPerSecond;
-class Rva0059675ABase {public:
+class __declspec(novtable) Rva0059675ABase {public:
 // ??1Rva0059675ABase@@UAE@XZ is rowed (its deleting dtor 0x005966C0) in
 // Rva0059675ADtor.cpp; the in-class body here was a duplicate COMDAT copy.
 virtual ~Rva0059675ABase();};

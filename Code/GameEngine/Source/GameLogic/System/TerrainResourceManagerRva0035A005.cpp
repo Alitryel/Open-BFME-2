@@ -37,7 +37,7 @@ class Rva000CBA20;
 class Rva0035A238 { public: void rva00359D99(Rva000CBA20 *center, float radius); };
 class TerrainResourceManager { public: void rva0035997F(int, int, int, void *); };
 
-class Rva00359853: public Rva0035A97EVisitor
+class __declspec(novtable) Rva00359853: public Rva0035A97EVisitor
 {
 public:
 	__declspec(dllimport) __forceinline Rva00359853(unsigned int field04, unsigned int field08)

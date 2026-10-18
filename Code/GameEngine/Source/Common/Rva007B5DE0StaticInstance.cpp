@@ -11,7 +11,7 @@
 // the ledger's address-derived name; the owning TU and object name are not
 // established.
 
-class Rva006655B0
+class __declspec(novtable) Rva006655B0
 {
 public:
 	__declspec(dllimport) __forceinline Rva006655B0() {}

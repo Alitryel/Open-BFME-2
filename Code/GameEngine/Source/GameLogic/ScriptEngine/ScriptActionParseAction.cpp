@@ -161,7 +161,7 @@ extern ScriptEngine *TheScriptEngine;
 
 enum { MAX_PARMS = 12 };
 
-class ScriptAction
+class __declspec(novtable) ScriptAction
 {
 public:
 	enum { NO_OP = 5, NUM_ITEMS = 0x21f };
