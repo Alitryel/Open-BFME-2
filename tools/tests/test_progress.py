@@ -22,6 +22,16 @@ def row(name, rva, size, source):
     return {(name, f"0x{rva:X}"): (size, source)}
 
 
+def test_compiled_sdk_source_is_cpp_with_vendored_provenance():
+    for source in (
+        "Code/Libraries/Source/DirectX/strsafe.cpp",
+        "Code/Libraries/Source/CRT/VS2003/security_cookie_report.cpp",
+    ):
+        assert progress.source_kind(source) == "cpp"
+        assert progress.source_lane(source, "", False) == "vendored"
+    assert progress.source_lane("Code/Libraries/Source/CRT/RtcStack.cpp", "", False) == "authored"
+
+
 def test_marker_delta_handles_legacy_source_encoding():
     with tempfile.TemporaryDirectory() as directory:
         repo = Path(directory)
