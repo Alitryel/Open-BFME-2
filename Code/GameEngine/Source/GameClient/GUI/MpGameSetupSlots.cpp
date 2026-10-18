@@ -455,11 +455,12 @@ public:
 
 // The member at +0xD0 (destroyed through ??1Rva0057EE5C); its 0x0057EA0F
 // (158 bytes) is unrowed and pinned.
+class AptMpGameRules { public: void rva0057F0AA(); };
 class Rva0057EE5C
 {
 public:
 	// Unrowed 0x0057F0AA (564 bytes; its Apt callback registration), pinned.
-	void rva0057F0AA();
+	/* the rowed AptMpGameRules::rva0057F0AA */ __declspec(dllimport) __forceinline void rva0057F0AA() { ((AptMpGameRules *)this)->rva0057F0AA(); }
 	void rva0057EA0F();
 	// And its unrowed 0x0057E6D8 (5 bytes, a jump to 0x0057E6C1), pinned.
 	void rva0057E6D8();
