@@ -999,7 +999,7 @@ void __cdecl rva007B6FAC()
 	p->rva001EAF7B();
 }
 
-extern unsigned g_Va00DEAF20;
+unsigned g_Va00DEAF20;	// retail RVA 0x009EAF20 (.bss), defined here
 extern unsigned BfmeLiveCameraModeNameStorage;
 extern unsigned g_Va00DEC3B8;
 extern unsigned g_Va00DEE93C;
