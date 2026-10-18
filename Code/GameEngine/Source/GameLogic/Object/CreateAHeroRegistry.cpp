@@ -9,12 +9,21 @@
 // shared ret; the WorldBuilder debug twin of the register (WB 0xB7E820) has
 // the same nop after its push_back, so it is a source-level statement carried
 // by both builds (spelled here as the __asm nop WWMath's matrix3d.cpp uses).
+#include <stl/_algobase.h>
+// Keep the native inline maximum without offering a second external copy.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
+}
 #include <vector>
 #include <algorithm>
 
 class CreateAHeroData;
 
-extern _STL::vector<CreateAHeroData *> g_CreateAHeroRegistry;
+// ScriptGlueRva003BE7ED.cpp owns the registry storage at VA 0x00DFE358.
+// Use that datum through the vector view proven by these retail bodies.
+extern unsigned int g_00DFE358;
+#define g_CreateAHeroRegistry (*reinterpret_cast<_STL::vector<CreateAHeroData *> *>(&g_00DFE358))
 
 void RegisterCreateAHeroAtRva0021D517(CreateAHeroData *hero)
 {
