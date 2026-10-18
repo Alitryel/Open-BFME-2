@@ -1032,7 +1032,7 @@ void __cdecl rva007B707A()
 	return p->~AsciiString();
 }
 
-extern unsigned g_Va00DEC390;
+unsigned g_Va00DEC390;	// retail RVA 0x009EC390 (.bss), defined here
 extern unsigned g_Va00DF2984;
 
 // ?rva007B6F8E@@YAXXZ @ 0x007B6F8E (10B). Global Rva00041004 dtor thunk: ecx=&g_Va00DEC390 then tail-jmp to rowed ??1Rva00041004@@UAE@XZ (0x00040FE5).
