@@ -419,3 +419,18 @@ Rva0045232D::~Rva0045232D()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?fe@Rva004AB246_E1@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?fe@Rva00452D52_E1@@UAEXXZ=?Rva00452D78Adjust@@YIPAXPAX@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva00459553_E1@@UAEXXZ=?get@Rva004543A9LeaNegSbbField@@WBE@BEHXZ")
+#pragma comment(linker, "/alternatename:?fe@Rva0047FE25_E1@@UAEXXZ=?rva00480093@ShareExperienceBehavior@@UAEXM@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva0048180C_E1@@UAEXXZ=?rva00481837@Rva00481837@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva004839D3_E1@@UAEXXZ=?rva00483B10@Rva00483B10@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva00499934_E1@@UAEXXZ=?rva00499D18@OneRingPenaltyUpdate@@UAEXPAX@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva004A4214_E1@@UAEXXZ=?onDie@StructureCollapseUpdate@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva004A4C19_E1@@UAEXXZ=?rva004A4D98@RubbleRiseUpdate@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva004A54A8_E1@@UAEXXZ=?onDie@StructureToppleUpdate@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?fe@Rva004A8091_E1@@UAEXXZ=?rva004A82F5@Rva004A82F5@@QAEXPAVObject@@HH@Z")
+#pragma comment(linker, "/alternatename:?ff@Rva004AB246_E2@@UAEXXZ=?rva004AB3AE@WallUpgradeUpdate@@UAE_NXZ")
