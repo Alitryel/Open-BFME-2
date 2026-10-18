@@ -96365,3 +96365,4 @@ $L3100,,0x00797053,25,Code/GameEngine/Source/Common/Rva0052B685Transfer.cpp,matc
 ?Rva005E6A23@StrategicInGameUI@@YA?AUTreeHintRef00217D4C@@PBURva005E4300Entry@@@Z,,0x005E6A23,122,Code/GameEngine/Source/Common/Rva005E6A23Rva005E6A23Farm.cpp,matched,
 ?update@ScriptActions@@UAEXXZ,,0x000B3FD0,1,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_ctor.cpp,matched,SubsystemInterface slot 10 of vtable 0x0081FE48; empty update as in ZH; the shared one-byte RET
 ?update@ScriptConditions@@UAEXXZ,,0x000B3FD0,1,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_evaluateTeamStateIs.cpp,matched,SubsystemInterface slot 10 of vtable 0x00835B38; empty update as in ZH; the shared one-byte RET
+?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z,,0x003642DF,578,Code/GameEngine/Source/GameLogic/Pathfinder/rva003642DFRva003642DFFarm.cpp,matched,

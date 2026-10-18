@@ -1,22 +1,9 @@
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.897 date=2026-10-17
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.93 date=2026-10-15
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.9031 date=2026-10-15
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.8817255179889107 date=2026-10-14
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.93 date=2026-10-13
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.9 date=2026-10-13
-// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
-// partial score=0.8836897052993261 date=2026-10-10
+// WorldBuilder twin 0xF1CA10 Path::PeekAlongPath (pathfinder_path.cpp); the 16-byte result is copied
+// out through the ICF-folded memberwise copy 0x0004254E (fold-proof pin) and default-built by 0x00326BE6.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-// ?rva003649B1@Path@@QAEXPBVPathNode@@@Z @0x003649B1 134B via Path append donor
-// Evidence: duplicate-position guard via ucomiss on +0xc/+0x10 vs tail; pool g_pathNodePool allocate plus rowed PathNode ctor with arg+0xc/layer+0x18 plus waypoint+0x20; linking head+4 tail+8 optimized+0xc matches PathAppendNode.
 #include <new>
 
 typedef int Int;
@@ -28,22 +15,17 @@ enum PathfindLayerEnum
 	LAYER_INVALID = 0,
 	LAYER_GROUND = 1
 };
-
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 struct Rva003642DFNode {
  Rva003642DFNode *next,*previous,*optimized;Coord3D position;int layer;bool canOptimize;int portal;
 };
-struct Region2D
-{
-	Region2D() {}
-	__declspec(noinline) Region2D(const Region2D &);
-	Rva003642DFNode *m_node;
-	Coord3D m_pos;
-};
-struct Rva003642DFResult : Region2D
+struct Rva003642DFResult
 {
 	Rva003642DFResult();
+	__declspec(noinline) Rva003642DFResult(const Rva003642DFResult &);
+	Rva003642DFNode *m_node;
+	Coord3D m_pos;
 };
 
 class Rva0008BB38FloatField
@@ -72,9 +54,6 @@ public:
 	void *rva002635C2() throw();
 };
 
-// g_pathNodePool: matched references place it at VA 0xe01e94 (zero-filled; a plain-data view).
-Rva00065964ObjectPool g_pathNodePool;
-
 class Path
 {
 public:
@@ -88,34 +67,6 @@ private:
 	PathNode *m_pathTail;
 	Bool m_isOptimized;char padD[3];Rva003642DFNode *current;float fraction;Coord3D last;
 };
-
-Rva003642DFResult Path::rva00364521(const Rva0008BB38FloatField *arg)
-{
-	if (arg)
-		return rva003642DF(arg->get());
-	return rva003642DF(40.0f);
-}
-
-void Path::rva003649B1(const PathNode *arg)
-{
-	if (m_isOptimized && m_pathTail) {
-		if (arg->m_position.x == m_pathTail->m_position.x && arg->m_position.y == m_pathTail->m_position.y)
-			return;
-	}
-	void *mem = g_pathNodePool.rva002635C2();
-	PathNode *node = mem ? new (mem) PathNode(&arg->m_position, arg->m_layer) : 0;
-	node->m_waypointID = arg->m_waypointID;
-	PathNode *tail = m_pathTail;
-	if (tail) {
-		tail->m_next = node;
-		node->m_previous = tail;
-	}
-	if (m_isOptimized && m_pathTail)
-		m_pathTail->m_nextOptimized = node;
-	m_pathTail = node;
-	if (m_path == 0)
-		m_path = node;
-}
 
 extern "C" double __cdecl fabs(double);
 double __cdecl Rva00363CF3Distance(const Coord3D *,const Coord3D *);
@@ -157,8 +108,9 @@ virtual void slot32();
 virtual void slot33();
 virtual void slot34();
 virtual PathPeekPortal *getPortal(int);};
-extern PathPeekTerrain *TheTerrainLogic;
-__declspec(noinline) Region2D::Region2D(const Region2D &v) { m_node=v.m_node;m_pos.x=v.m_pos.x;m_pos.y=v.m_pos.y;m_pos.z=v.m_pos.z; }
+class TerrainLogic;
+extern TerrainLogic *TheTerrainLogic;
+__declspec(noinline) Rva003642DFResult::Rva003642DFResult(const Rva003642DFResult &v) { m_node=v.m_node;m_pos.x=v.m_pos.x;m_pos.y=v.m_pos.y;m_pos.z=v.m_pos.z; }
 static __forceinline void peekSub(Coord3D &a,const Coord3D &b){a.x-=b.x;a.y-=b.y;a.z-=b.z;}
 static __forceinline void peekAdd(Coord3D &a,const Coord3D &b){a.x+=b.x;a.y+=b.y;a.z+=b.z;}
 static __forceinline void peekScale(Coord3D &a,float f){a.x*=f;a.y*=f;a.z*=f;}
@@ -175,11 +127,12 @@ Rva003642DFResult Path::rva003642DF(Real distance)
  if((1 ? result.m_node==0 : result.m_node==0))result.m_node=(Rva003642DFNode*)m_path;
  float t=fraction;
  Rva003642DFNode *next;
- while((next=result.m_node->optimized)!=0) {
+ next=result.m_node->optimized;
+ if(next!=0) do {
   float length=(float)Rva00363CF3Distance(&next->position,&result.m_node->position);
   float scale=1.0f;
   if(next->portal!=0x7fffffff) {
-   PathPeekPortal *portal=TheTerrainLogic->getPortal(next->portal);
+   PathPeekPortal *portal=((PathPeekTerrain *)TheTerrainLogic)->getPortal(next->portal);
    if(portal) {
     if(portal->type==1 && (1.0f-t)*length>=distance)length=distance/(1.0f-t)-0.1f;
     else if(portal->type==3) {
@@ -190,16 +143,15 @@ Rva003642DFResult Path::rva003642DF(Real distance)
    }
   }
   float remain=(1.0f-t)*length;
-  if(remain>=distance*scale) {
+  Rva003642DFNode *interpolationNode=result.m_node->optimized;
+  if(interpolationNode ? remain>=distance*scale : remain>=distance*scale) {
    scale=scale/length;scale*=distance;scale+=t;float f=scale;
-   { Rva003642DFNode *opt = result.m_node->optimized; _ReadWriteBarrier(); *(volatile Rva003642DFNode**)&opt = opt; result.m_node->optimized = opt; }
-   _ReadWriteBarrier();
-   Rva003642DFNode *node=(Rva003642DFNode*)*(volatile Rva003642DFNode**)&result.m_node->optimized;
-   Coord3D optPos;
-   { Coord3D *s=&node->position; Coord3D *d=&optPos; d->x=s->x; d->y=s->y; d->z=s->z; }
+   result.m_pos=interpolationNode->position;
    _ReadWriteBarrier();
    Coord3D delta;
-   delta.x=optPos.x-result.m_node->position.x;delta.y=optPos.y-result.m_node->position.y;delta.z=optPos.z-result.m_node->position.z;
+   delta.x=result.m_pos.x-result.m_node->position.x;
+   delta.y=result.m_pos.y-result.m_node->position.y;
+   delta.z=result.m_pos.z-result.m_node->position.z;
    delta.x*=f;delta.y*=f;delta.z*=f;
    result.m_pos.x=result.m_node->position.x+delta.x;
    result.m_pos.y=result.m_node->position.y+delta.y;
@@ -209,6 +161,7 @@ Rva003642DFResult Path::rva003642DF(Real distance)
    last=result.m_pos;return result;
   }
   distance-=remain/scale;t=0.0f;
- }
+  result.m_node=result.m_node->optimized;
+ } while((next=result.m_node->optimized)!=0);
  result.m_node=(Rva003642DFNode*)m_pathTail;result.m_pos=result.m_node->position;last=result.m_pos;return result;
 }
