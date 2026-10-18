@@ -92,35 +92,5 @@ class Rva0013331A {
  unsigned char prefix[8]; BfmeDeferredTexture *texture;
 public: void rva0013331A();
 };
-void Rva0013331A::rva0013331A() {
- if(!texture)return;
- if(Rva0134FAA0) {
-  ScopedCriticalSection guard(deferredDeviceMutex());
-  reinterpret_cast<Rva0020FB8BVec20 *>(&deferredDeviceQueue())->vecPushBack(reinterpret_cast<void *&>(texture));
- } else {
-  texture->Release();
- }
- texture=0;
-}
 
-// Native 0x00133283..0x0013331A (151 bytes); the corrected whole boundary
-// includes both guard lifetimes and the final EH epilogue. Callers include
-// the matched shadow-map update and game-start paths. The adjacent unload
-// body above enqueues pointers into this same three-pointer range at DF29A8
-// under the same critical section at DF2984. These are views of the existing
-// globals, with no additional data owner or donor class identity claimed.
-void bfmeReleaseQueuedDeviceInterfaces() {
- _STL::vector<void *> &queue=deferredDeviceQueue();
- if(queue.empty())return;
- BfmeFallbackTextureLock device;
- ScopedCriticalSection guard(deferredDeviceMutex());
- void **i=queue.begin();
- if(i!=queue.end()) {
-  do {
-   reinterpret_cast<BfmeDeferredTexture *>(*i)->Release();
-   ++i;
-  } while(i!=queue.end());
-  i=queue.begin();
- }
- queue.erase(i,queue.end());
-}
+
