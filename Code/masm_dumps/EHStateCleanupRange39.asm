@@ -520,17 +520,6 @@ cleanup_done_0079A0B9:
 
 ; Unwind@00b9a179 at RVA 0x0079A179; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-16], then loads the cleanup pointer from [ebp+8] and tail-jumps to matched Rva002E3A80Holder::call at 0x002E3A80.
-PUBLIC ?rva0079A179@@YAXXZ
-?rva0079A179@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_0079A179
-    and DWORD PTR [ebp-16], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ?call@Rva002E3A80Holder@@QAEXXZ
-cleanup_done_0079A179:
-    ret
-?rva0079A179@@YAXXZ ENDP
 
 ; Unwind@00b9a389 at RVA 0x0079A389; 20-byte masked-add cleanup adds 8 to [ebp-16] and tail-jumps to the dword imm-setter at 0x003F7BC5.
 PUBLIC ?rva0079A389@@YAXXZ
