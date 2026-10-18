@@ -452,7 +452,7 @@ private:
 class FXShaderParameterSourceNamespace
 {
 public:
-	virtual ~FXShaderParameterSourceNamespace();
+	virtual ~FXShaderParameterSourceNamespace() {}
 	virtual void ResolveBindings(const char *name, D3DXHANDLE parameter, FXShaderParameterBinder *binder) = 0;
 };
 

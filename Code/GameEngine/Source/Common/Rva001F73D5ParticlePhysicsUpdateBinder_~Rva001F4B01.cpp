@@ -242,15 +242,15 @@ struct Rva001530E9Path
 };
 
 // FX parameter binder base: vtable 0x00BC6F24 = { deleting dtor, __purecall }.
-class Base
+class FXShaderParameterSourceNamespace
 {
 public:
-	virtual ~Base() {}
+	virtual ~FXShaderParameterSourceNamespace() {}
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 };
 
 // Default binder (0x00153664).
-class FXShaderParameterSourceNamespace_Struct : public Base
+class FXShaderParameterSourceNamespace_Struct : public FXShaderParameterSourceNamespace
 {
 public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
@@ -286,7 +286,7 @@ struct ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw : public F
 
 // The "Particle" binder, vtable 0x00BE171C = { ??_G 0x001F4B47, select
 // 0x001F4A90 }, holding the three sub-binders at +4/+8/+0xC.
-class Rva001F4B01 : public Base
+class Rva001F4B01 : public FXShaderParameterSourceNamespace
 {
 public:
 	virtual ~Rva001F4B01();

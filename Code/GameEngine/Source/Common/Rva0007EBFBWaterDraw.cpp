@@ -160,15 +160,15 @@ struct Rva001530E9Path
 };
 
 // FX parameter binder base: vtable 0x00BC6F24 = { deleting dtor, __purecall }.
-class Base
+class FXShaderParameterSourceNamespace
 {
 public:
-	virtual ~Base() {}
+	virtual ~FXShaderParameterSourceNamespace() {}
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 };
 
 // Default binder (0x00153664); its implicit dtor leaves the base vtable.
-class FXShaderParameterSourceNamespace_Struct : public Base
+class FXShaderParameterSourceNamespace_Struct : public FXShaderParameterSourceNamespace
 {
 public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
@@ -186,7 +186,7 @@ struct Rva0007EBFB_Member1 : public FXShaderParameterSourceNamespace_Struct
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
-class WaterDrawFXShaderParameterSourceNamespace : public Base
+class WaterDrawFXShaderParameterSourceNamespace : public FXShaderParameterSourceNamespace
 {
 public:
 	WaterDrawFXShaderParameterSourceNamespace();
@@ -323,7 +323,7 @@ void WaterDrawFXShaderParameterSourceNamespace::ResolveBindings(const char *name
 		registry->AddBinding(Rva00080131MinWaterOpacity, handle);
 	else
 	{
-		Base *binder;
+		FXShaderParameterSourceNamespace *binder;
 		if (_strcmpi(path.m_name, "PCAWater") == 0)
 			binder = &m_04;
 		else if (_strcmpi(path.m_name, "PCAWater_M") == 0)

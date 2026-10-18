@@ -170,10 +170,10 @@ void Rva000E2D26Vector(ID3DXEffect *effect, D3DXHANDLE handle);
 void Rva000E2DA4Level(ID3DXEffect *effect, D3DXHANDLE handle);
 
 // FX parameter binder base: vtable 0x00BC6F24 = { deleting dtor, __purecall }.
-class Base
+class FXShaderParameterSourceNamespace
 {
 public:
-	virtual ~Base() {}
+	virtual ~FXShaderParameterSourceNamespace() {}
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 };
 
@@ -181,7 +181,7 @@ public:
 // 0x00153664 walks a struct parameter's members through this->ResolveBindings. Each
 // sub-binder calls it first, so they derive from it (their inline dtors
 // still reset straight to the base vtable, as retail's terrain dtor does).
-class FXShaderParameterSourceNamespace_Struct : public Base
+class FXShaderParameterSourceNamespace_Struct : public FXShaderParameterSourceNamespace
 {
 public:
 	~FXShaderParameterSourceNamespace_Struct() {}
@@ -205,7 +205,7 @@ Rva000E19A3Interface *g_00DEBC60;
 // WorldBuilder: TerrainFXShaderParameterSourceNamespace (FlatHeightMap.cpp;
 // ResolveBindings 0x000E1F42 is WB VA 0x007C0630, strings lead score 9.25).
 // Its five sub-binders are the SourceNamespace_* members below.
-class TerrainFXShaderParameterSourceNamespace : public Base, public Rva000E19A3Interface
+class TerrainFXShaderParameterSourceNamespace : public FXShaderParameterSourceNamespace, public Rva000E19A3Interface
 {
 public:
 	// The five sub-binders (vtables 0x00BCE4D0..0x00BCE4F0, each { 0x005F45C3,
