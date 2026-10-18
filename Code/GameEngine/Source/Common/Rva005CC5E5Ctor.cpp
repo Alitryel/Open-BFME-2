@@ -16,7 +16,9 @@ class Rva005CC5E5 : public virtual Rva0007DF07
 public:
 	Rva005CC5E5();
 	virtual void slot0();
-	virtual ~Rva005CC5E5();
+	// Keep the empty virtual-base teardown visible, as in the derived units.
+	// Its deleting wrapper must inline the complete-object helper.
+	virtual ~Rva005CC5E5() {}
 };
 
 Rva005CC5E5::Rva005CC5E5()
