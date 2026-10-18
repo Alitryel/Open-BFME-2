@@ -2,7 +2,7 @@
 // cl: /EHsc /Ireference/shims/moduledata /ICode/Libraries/Include/Lib
 // stlport
 // ??0Rva00538E22@@QAE@H@Z, retail 0x00538E22, 28 bytes.
-// Ctor: vector<BfmeE16> at +0 plus int at +0xc. Calls rowed _Vector_base ctor 0x00211E58 then stores arg.
+// Ctor: 16-byte record vector at +0 plus int at +0xc. Calls rowed _Vector_base ctor 0x00211E58 then stores arg.
 // Evidence: retail lea [ebp+0xb] allocator temp plus mov [esi+0xc] plus ret 4 plus returns this.
 #include <vector>
 #include "Coord2D.h"
@@ -115,11 +115,22 @@ struct Elem003AF9E0
 	Elem003AF9E0 &operator=(const Elem003AF9E0 &);
 };
 
+// The queue's sixteen-byte move records. Their vector destructor is the rowed
+// 0x00319B58 and the reserve 0x00319C84; both stay out of line, as retail
+// calls them.
+struct BfmeVectorRecord00319C84 { unsigned int words[4]; };
+namespace _STL {
+template<> void vector<BfmeVectorRecord00319C84>::reserve(unsigned int);
+template<> vector<BfmeVectorRecord00319C84>::~vector();
+}
+
+// WorldBuilder's LivingWorldArmyMoveQueue (0x00538E43 is its PopFront).
 struct Rva00538E22
 {
-	_STL::vector<BfmeE16> m_vec;
+	_STL::vector<BfmeVectorRecord00319C84> m_vec;
 	int m_val;
 	Rva00538E22(int v);
+	~Rva00538E22();
 	void rva00538ED1(int value);
 	void rva00538F10(const _STL::vector<BfmeE16> &source, int value);
 	void rva00538D3B(int value);
@@ -143,6 +154,13 @@ Rva00318B5C Rva00538E22::rva00538E43()
 }
 
 Rva00538E22::Rva00538E22(int v) : m_vec(), m_val(v)
+{
+}
+
+// Retail 0x00538E3E (5 bytes), right after the constructor: the tail jump to
+// the record vector's destructor 0x00319B58. LivingWorldArmyIcon's
+// constructor unwinds its +0x3C queue member through it (funclet 0x007846F5).
+Rva00538E22::~Rva00538E22()
 {
 }
 
@@ -251,10 +269,6 @@ struct XferException
 extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
 extern int g_rva008ffd18ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-struct BfmeVectorRecord00319C84 { unsigned int words[4]; };
-namespace _STL {
-template<> void vector<BfmeVectorRecord00319C84>::reserve(unsigned int);
-}
 
 Xfer *Rva0031A160Xfer(Xfer *xfer, _STL::vector<BfmeVectorRecord00319C84> *records)
 {
