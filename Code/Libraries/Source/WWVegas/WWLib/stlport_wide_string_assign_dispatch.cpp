@@ -58,7 +58,9 @@ public:
 	basic_string<CharT, Traits, Alloc> &append(InputIter first, InputIter last)
 	{
 		forward_iterator_tag tag;
-		return append(first, last, tag);
+		// The rowed append provider takes a read-only range; its body is the
+		// same retail 0x13160 copy called here, without a competing PAG copy.
+		return append((const CharT *)first, (const CharT *)last, tag);
 	}
 
 
