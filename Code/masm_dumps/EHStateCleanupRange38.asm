@@ -616,17 +616,6 @@ cleanup_done_00783ac1:
 
 ; Unwind@00b84220 at RVA 0x00784220; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps with [ebp-20] to the rowed UnicodeString thunk.
-PUBLIC ?rva00784220@@YAXXZ
-?rva00784220@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_00784220
-    and DWORD PTR [ebp-16], -2
-    lea ecx, [ebp-20]
-    jmp ??1Rva002606AFDtor@@QAE@XZ
-cleanup_done_00784220:
-    ret
-?rva00784220@@YAXXZ ENDP
 
 ; Unwind@00b84239 at RVA 0x00784239; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 1 at [ebp-16] and tail-jumps through [ebp+8] to the rowed UnicodeString thunk.
