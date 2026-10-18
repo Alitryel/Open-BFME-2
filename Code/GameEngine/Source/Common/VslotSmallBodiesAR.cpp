@@ -77,3 +77,17 @@ Rva004AF17D::~Rva004AF17D()
 {
     reinterpret_cast<UpdateModule *>(this)->UpdateModule::~UpdateModule();
 }
+
+// EnragedBehavior (ctor unit EnragedBehaviorCtor.cpp): its vtable 0x00C40FBC
+// slot 0 is the deleting dtor 0x004AF161, which calls 0x004AF17D above -- the
+// one JMP to ~UpdateModule. With no vptr store (novtable) its empty virtual
+// dtor emits those same 5 bytes and relocation.
+class __declspec(novtable) EnragedBehavior : public UpdateModule
+{
+public:
+	virtual ~EnragedBehavior();
+};
+
+EnragedBehavior::~EnragedBehavior()
+{
+}

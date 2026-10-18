@@ -468,6 +468,31 @@ Rva0023DAE8::~Rva0023DAE8()
 {
 }
 
+// Two more Rva0007DF07 subclasses whose vtables' slot 0 is the same ICF-shared
+// deleting dtor 0x005FAA31 (dtor 0x004E84A4): vtable VA 0xc7506c installed by
+// the Rva002D76A6 ctor (Rva0004EFE9Ctor.cpp unwinds through it) and vtable VA
+// 0xc7a630 of Rva00567960BaseMid (Rva00567CCDCtor.cpp). Their empty dtors fold
+// into the same restore (ICF alias rows).
+class Rva002D76A6 : public Rva0007DF07
+{
+public:
+	virtual ~Rva002D76A6();
+};
+
+Rva002D76A6::~Rva002D76A6()
+{
+}
+
+class Rva00567960BaseMid : public Rva0007DF07
+{
+public:
+	virtual ~Rva00567960BaseMid();
+};
+
+Rva00567960BaseMid::~Rva00567960BaseMid()
+{
+}
+
 // ??0Rva000A882D@@QAE@XZ @0x000A882D 13B, vtable VA 0xbc93a0
 class Rva000A882D : public RvaSmallVtableZeroBase
 {

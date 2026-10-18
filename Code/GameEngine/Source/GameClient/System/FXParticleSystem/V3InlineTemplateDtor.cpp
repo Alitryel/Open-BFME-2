@@ -33,6 +33,27 @@ Rva003AE13C::~Rva003AE13C()
     *(volatile unsigned int *)this = ((unsigned int)vtbl_00C1B320);
 }
 
+// Rva0055BCD2 (ctor 0x0055BCD2, unit Rva0055B52EPermuted.cpp): its vtable
+// 0x00C1D164 slot 0 is the same ??_G 0x003AE16E, so this 24B body is its
+// destructor too (ICF alias row); same two-table layout.
+class __declspec(novtable) Rva0055BCD2
+{
+public:
+    virtual ~Rva0055BCD2();
+private:
+    void *m_v0;
+    char m_pad04[4];
+    void *m_v8;
+    unsigned char m_flag0c;
+};
+
+Rva0055BCD2::~Rva0055BCD2()
+{
+    unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
+    *(volatile unsigned int *)b08 = ((unsigned int)vtbl_00C1C780);
+    *(volatile unsigned int *)this = ((unsigned int)vtbl_00C1B320);
+}
+
 // The primary eight bytes carry no resources; the parent below performs both
 // native vptr restorations. This local base view is structural inference.
 class __declspec(novtable) Rva003ADFDBPrimary {

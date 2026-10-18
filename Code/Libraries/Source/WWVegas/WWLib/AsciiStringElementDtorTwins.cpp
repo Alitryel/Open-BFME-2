@@ -39,3 +39,16 @@ struct Rva000BC67AElement
 Rva000BC67AElement::~Rva000BC67AElement()
 {
 }
+
+// SiegeEngineContainModuleData's +0x194 pair (SiegeEngineContainModuleDataCtor.cpp):
+// the ctor 0x0047C927's unwind state 2 destroys it through the same fold.
+struct SiegeStringIntPair
+{
+	AsciiString m_string;
+	int m_int198;
+	~SiegeStringIntPair();
+};
+
+SiegeStringIntPair::~SiegeStringIntPair()
+{
+}

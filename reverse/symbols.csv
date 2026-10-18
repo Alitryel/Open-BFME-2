@@ -4722,7 +4722,6 @@ name,address,notes
 ??1Rva0059A85C@@UAE@XZ,0x0059A40D,dtor installs its own vftable 0x00C70DE4 (bytes at ++20) and is the REL32 callee of the slot-0 ??_G at 0x0059A47D
 ??1Rva0059E242@@UAE@XZ,0x0059E242,opaque dtor called by the scalar deleting dtor at 0x0059E28F (vtable 0x00C70F88#0); identity unproven; address-derived name
 ??1Rva0059E5AE@@UAE@XZ,0x0059E5AE,opaque dtor called by the scalar deleting dtor at 0x0059E736 (vtable 0x00C71094#0); identity unproven; address-derived name
-??1Rva0059EA42@@UAE@XZ,0x0059EA42,opaque dtor called by the scalar deleting dtor at 0x0059EAA3 (vtable 0x00C71138#0); identity unproven; address-derived name
 ??1Rva005A0009@@UAE@XZ,0x005A0009,opaque dtor called by the scalar deleting dtor at 0x005A0B62 (vtable 0x00C71414#0); identity unproven; address-derived name
 ??1Rva005A9562@@QAE@XZ,0x000796BC,dtor of the 0x18-byte Rva005A9562 (folded vector-holder teardown); REL32 at 0x005054BD in the Rva0050542B dtor
 ??1Rva005AE30A@@UAE@XZ,0x005AE30A,opaque dtor called by the scalar deleting dtor at 0x005AE38A (vtable 0x00C726A0#0); identity unproven; address-derived name

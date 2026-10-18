@@ -1,8 +1,11 @@
-// ??1Rva003908C2@@UAE@XZ
+// ??1PhysicsBehavior@@UAE@XZ (was ??1Rva003908C2@@UAE@XZ)
 // partial score=0.96 date=2026-09-30
 // cl: /DNDEBUG /MD /EHs
 //
-// ??1Rva003908C2@@UAE@XZ, retail 0x003908C2, 79 bytes.
+// ??1PhysicsBehavior@@UAE@XZ, retail 0x003908C2, 79 bytes.
+// Identity: vtable 0x00C19F74 is installed by the rowed PhysicsBehavior ctor
+// 0x003907A6 and its slot 0 is this dtor's deleting dtor 0x003909DE; the
+// +0x20 free is the ctor's BfmeE16 vector.
 // Evidence: vtable 0x00819F74 plus s_secondary0C at +0x0C plus g_00C19F68
 // at +0x10 plus _free of +0x20 via rowed 0x00030830 plus base dtor
 // ??1Rva0024A797 rowed 0x0024A797; EH prolog 0x00629188; caller 0x003909DE.
@@ -29,16 +32,16 @@ public:
 	virtual void f2() = 0;
 };
 
-class Rva003908C2 : public UpdateModule, public MiBase1, public MiBase2
+class PhysicsBehavior : public UpdateModule, public MiBase1, public MiBase2
 {
 public:
-	virtual ~Rva003908C2();
+	virtual ~PhysicsBehavior();
 private:
 	char m_pad14[0x20 - 0x14];
 	void *m_p20;
 };
 
-Rva003908C2::~Rva003908C2()
+PhysicsBehavior::~PhysicsBehavior()
 {
 	if (m_p20)
 		free(m_p20);

@@ -435,6 +435,19 @@ Rva0055F98A::~Rva0055F98A()
 {
 }
 
+// Rva0055B5BF (ctor DefaultAlphaModuleConstructor.cpp): its vftable
+// 0x00C1D5E8 slot 0 is 0x003AEF18, the deleting dtor that calls 0x003A972D
+// above, so this same 5B jump is its destructor too.
+class __declspec(novtable) Rva0055B5BF : public Rva003AEEB3
+{
+public:
+	virtual ~Rva0055B5BF();
+};
+
+Rva0055B5BF::~Rva0055B5BF()
+{
+}
+
 namespace FXParticleSystem {
 class Rva005FEA50Base
 {
@@ -466,6 +479,19 @@ public:
 };
 
 Rva003ACB74::~Rva003ACB74()
+{
+}
+
+// Gen005ED0D0 (ctor 0x003AF049, Rva003AEE16CopyCtor.cpp): its vftable
+// 0x00C1CF68 slot 0 is 0x003AD413, the deleting dtor that calls 0x003ACB74
+// above, so this same 5B jump is its destructor too.
+class __declspec(novtable) Gen005ED0D0 : public Rva005E2D20
+{
+public:
+	virtual ~Gen005ED0D0();
+};
+
+Gen005ED0D0::~Gen005ED0D0()
 {
 }
 

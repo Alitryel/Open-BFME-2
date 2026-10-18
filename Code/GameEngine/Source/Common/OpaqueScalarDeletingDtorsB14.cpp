@@ -49,16 +49,16 @@ Rva0059E5AE::Rva0059E5AE(EmitVtableTag *)
 {
 }
 
-class Rva0059EA42
+class Rva0059E920
 {
 public:
-	Rva0059EA42(EmitVtableTag *);
+	Rva0059E920(EmitVtableTag *);
 public:
-	virtual ~Rva0059EA42();
+	virtual ~Rva0059E920();
 };
 
-// ?<Rva0059EA42::Rva0059EA42> absent-from-retail
-Rva0059EA42::Rva0059EA42(EmitVtableTag *)
+// ?<Rva0059E920::Rva0059E920> absent-from-retail
+Rva0059E920::Rva0059E920(EmitVtableTag *)
 {
 }
 

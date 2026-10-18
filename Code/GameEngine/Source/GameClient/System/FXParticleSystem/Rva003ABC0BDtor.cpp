@@ -24,3 +24,18 @@ FXParticleSystem::Rva005FEA50Base::~Rva005FEA50Base()
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
 	*(volatile unsigned int *)b1C = (unsigned int)g_00BBB554;
 }
+
+// Rva0055F9B4 (ctor 0x0055F9B4, Rva0055F9B4Ctor.cpp): its vtable 0x00C1D688 slot 0
+// is the same deleting dtor 0x003AEFF6, so this 22B body is its destructor too
+// (ICF alias row).
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
+class __declspec(novtable) Rva0055F9B4 : public Rva003AEEB3
+{
+public:
+	virtual ~Rva0055F9B4();
+};
+Rva0055F9B4::~Rva0055F9B4()
+{
+	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
+	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+}

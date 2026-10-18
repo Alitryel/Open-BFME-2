@@ -5,6 +5,8 @@
 // AsciiString set at record+0x08, rowed tree dtor 0x000589BE), then the
 // inline buffer member at +0x14 frees its block through the CRT, then the
 // AsciiString vector member at +0x08 runs the rowed dtor 0x0002CC70.
+// The class is Rva0059E920 (was named Rva0059EA42 here): its ctor 0x0059E920
+// (Rva0059E920Ctor.cpp) installs that same vtable 0x00C71138.
 class AsciiString;
 
 namespace _STL
@@ -49,17 +51,17 @@ struct Rva0059EA42Buffer
 	}
 };
 
-class Rva0059EA42
+class Rva0059E920
 {
 public:
-	virtual ~Rva0059EA42();
+	virtual ~Rva0059E920();
 
 	Rva0059EA42Record *m_record; // +0x04
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > m_names; // +0x08
 	Rva0059EA42Buffer m_buffer; // +0x14
 };
 
-Rva0059EA42::~Rva0059EA42()
+Rva0059E920::~Rva0059E920()
 {
 	if (m_record)
 		delete m_record;
