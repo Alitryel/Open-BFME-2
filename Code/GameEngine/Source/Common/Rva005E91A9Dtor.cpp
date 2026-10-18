@@ -42,12 +42,7 @@ public:
 private:
     unsigned int m_state;
 };
-Rva005E91A9::Rva005E91A9(unsigned int owner, void *record)
-    : Rva005E12D1((void *)owner, AsciiString("button"), *(void **)record)
-{
-    m_state = ((unsigned int *)record)[1];
-    reinterpret_cast<Rva005E1158 *>(static_cast<Rva005E12D1 *>(this))->rva005E1158(((Rva005E16B9 *)&g_rva00E0675C)->rva005E16B9());
-}
+
 Rva005E91A9::~Rva005E91A9()
 {
 }
