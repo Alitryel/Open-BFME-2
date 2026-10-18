@@ -106,3 +106,21 @@ Rva0053947D::Rva0053947D(void *arg1,const Vector3 *arg2) : Rva00330757Member(),m
 // The sixteen-slot declaration remains the existing destructor call view;
 // several slot providers still carry other partial owner views. No assertion
 // is made that this partial interface has completed link reconciliation.
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v01@Rva0053947D@@UAEXXZ=?rva005391A9@Rva005391A9@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v03@Rva0053947D@@UAEXXZ=?rva005391FD@Rva005391FD@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v04@Rva0053947D@@UAEXXZ=?rva00539227@Rva005391FD@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v05@Rva0053947D@@UAEXXZ=?rva00539316@Rva0053947D@@UAEXPBUVector3@@@Z")
+#pragma comment(linker, "/alternatename:?v06@Rva0053947D@@UAEXXZ=?rva00539251@Rva0053947D@@UAEXH@Z")
+#pragma comment(linker, "/alternatename:?v07@Rva0053947D@@UAEXXZ=?rva005392EC@Rva0053947D@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?v08@Rva0053947D@@UAEXXZ=?rva00539281@Rva00539281@@QAEXEH@Z")
+#pragma comment(linker, "/alternatename:?v09@Rva0053947D@@UAEXXZ=?rva003FE568@Rva003FE568@@QAEX_NH@Z")
+#pragma comment(linker, "/alternatename:?v10@Rva0053947D@@UAEXXZ=?get@Rva003FE57DByteField@@QBEEXZ")
+#pragma comment(linker, "/alternatename:?v11@Rva0053947D@@UAEXXZ=?get@Rva003FE581CmpBoolField@@QBE_NXZ")
+#pragma comment(linker, "/alternatename:?v12@Rva0053947D@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v13@Rva0053947D@@UAEHXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v14@Rva0053947D@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?v15@Rva0053947D@@UAEPAXH@Z=__purecall")

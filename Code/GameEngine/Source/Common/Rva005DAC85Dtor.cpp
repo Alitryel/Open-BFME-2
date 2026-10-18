@@ -64,3 +64,15 @@ Rva005DAC85::~Rva005DAC85()
 #pragma comment(linker, "/alternatename:?slot7@Rva0055B0CC@@UAEXXZ=?friend_setNext@Upgrade@@QAEXPAV1@@Z")
 #pragma comment(linker, "/alternatename:?slot11@Rva0055B0CC@@UAEXXZ=?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")
 #pragma comment(linker, "/alternatename:?Rva0055AED6@Rva0055B0CC@@UAEXPAX0@Z=?Rva0055AED6@Rva0055B0CC@@UAEXPAVXfer@@PAX@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?Slot6@Rva0055B0CC@@UAEXPAX_N@Z=?registerWithBuilder@AIBuildable@@UAEXPAX_N@Z")
+#pragma comment(linker, "/alternatename:?slot10@Rva0055B0CC@@UAEXXZ=?rva005DAF59@AIBuildableUnit@@QAEMPAVPlayer@@@Z")
+#pragma comment(linker, "/alternatename:?slot1@Rva0055B0CC@@UAEXXZ=?rva0055AFA3@Rva0055B0CC@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot2@Rva0055B0CC@@UAEXXZ=?rva0055B0B9@Rva0055B0B9@@QBEMXZ")
+#pragma comment(linker, "/alternatename:?slot3@Rva0055B0CC@@UAEXXZ=?addNeed@AIBuildableUnit@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?slot5@Rva0055B0CC@@UAEXXZ=?rva005DACC0@Rva005DAC85@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?slot8@Rva0055B0CC@@UAEXXZ=?rva003A36D3@Rva003A36D3@@UAEMH@Z")
+#pragma comment(linker, "/alternatename:?slot9@Rva0055B0CC@@UAEXXZ=?rva005DAEDF@AIBuildableUnit@@QAEMPAVPlayer@@@Z")

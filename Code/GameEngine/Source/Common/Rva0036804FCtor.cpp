@@ -101,3 +101,11 @@ int Rva0036804F::rva00368067()
 	}
 	return -1;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?onEnter@AIInternalMoveToState@@UAEHXZ=?rva00368067@Rva0036804F@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?onExit@AIInternalMoveToState@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?update@AIInternalMoveToState@@UAEHXZ=?rva00368095@Rva00368095@@QAE?AW4StateReturnType@@XZ")
+#pragma comment(linker, "/alternatename:?xfer@AIInternalMoveToState@@UAEXXZ=?xfer@Rva00342B87@@MAEXPAVXfer@@@Z")

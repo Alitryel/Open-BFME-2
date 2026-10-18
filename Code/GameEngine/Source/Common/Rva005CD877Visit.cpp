@@ -35,3 +35,8 @@ void __cdecl Rva005CD877Visit(void *p)
 	Rva005CD877Visitor v;
 	((Rva005CCD36 *)p)->rva005CCD36(&v);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?visit@Visitor005CCCD0@@UAE_NPAUTargetRef00217D4C@@@Z=?Rva005CD762Get@@YGEPAX@Z")

@@ -51,3 +51,11 @@ Rva00342843::Rva00342843(StateMachine *machine)
 	m_4C = 0;
 	m_50 = false;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?onEnter@AIInternalMoveToState@@UAEHXZ=?onEnter@AIMoveAndTightenState@@UAE?AW4StateReturnType@@XZ")
+#pragma comment(linker, "/alternatename:?onExit@AIInternalMoveToState@@UAEXXZ=?onExit@AIInternalMoveToState@@UAEXW4StateExitType@@@Z")
+#pragma comment(linker, "/alternatename:?update@AIInternalMoveToState@@UAEHXZ=?update@AIMoveAndTightenState@@UAE?AW4StateReturnType@@XZ")
+#pragma comment(linker, "/alternatename:?xfer@AIInternalMoveToState@@UAEXXZ=?xfer@Rva00340123@@MAEXPAVXfer@@@Z")

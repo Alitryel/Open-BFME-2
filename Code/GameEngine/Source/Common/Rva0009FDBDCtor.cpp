@@ -26,3 +26,13 @@ public:
 Rva0009FDBD::Rva0009FDBD(void *context) : Rva0009FD78(context)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?dispatch@Rva0009FDBD@@UAEHXZ=?rva0009FD78@GameWindow@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?slot0@Rva0009FDBD@@UAEXXZ=??_GRva0008FF3E@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?slot1@Rva0009FDBD@@UAEXXZ=?input@Rva000A086DWindow@@UAE?AW4WindowMsgHandledType@@III@Z")
+#pragma comment(linker, "/alternatename:?slot2@Rva0009FDBD@@UAEXXZ=?system@Rva000A086DWindow@@UAE?AW4WindowMsgHandledType@@III@Z")
+#pragma comment(linker, "/alternatename:?slot3@Rva0009FDBD@@UAEXXZ=?draw@Rva000A087FWindow@@UAEHPAVWinInstanceData@@@Z")
+#pragma comment(linker, "/alternatename:?slot4@Rva0009FDBD@@UAEXXZ=?bfmeDispatch@Gen_004655b0@@QAEHPAX0@Z")

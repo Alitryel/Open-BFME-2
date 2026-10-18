@@ -135,3 +135,8 @@ bool Rva0056ACFF::b1Slot1(Rva002B4BC9Arg *arg)
 {
 	return ((Rva002B4BC9 *)TheLivingWorldLogic)->rva002B4BC9(arg);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?ac26Slot1@Rva0056AC26@@UAE_NXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
