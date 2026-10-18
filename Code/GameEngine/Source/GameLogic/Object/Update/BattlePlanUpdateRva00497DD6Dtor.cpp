@@ -36,10 +36,10 @@ private:
 	OpaqueRefCounted *m_ptr;
 };
 
-class __declspec(novtable) Rva00497DD6 : public Snapshot
+class __declspec(novtable) BattlePlanUpdateModuleData : public Snapshot
 {
 public:
-	virtual ~Rva00497DD6();
+	virtual ~BattlePlanUpdateModuleData();
 private:
 	char m_pad04[0x18]; // +0x04..+0x1B
 	Holder00497DD6 m_1C; // +0x1C
@@ -59,6 +59,6 @@ private:
 	StringBase<char> m_A4; // +0xA4
 };
 
-Rva00497DD6::~Rva00497DD6()
+BattlePlanUpdateModuleData::~BattlePlanUpdateModuleData()
 {
 }

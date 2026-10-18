@@ -4,6 +4,6 @@
 // Evidence: chain lane after landing 0x00497DD6; retail push esi call ??1 test flag delete ret 4.
 struct EmitVtableTag;
 
-class Rva00497DD6 { public: Rva00497DD6(EmitVtableTag *); virtual ~Rva00497DD6(); };
-// ?<Rva00497DD6::Rva00497DD6> absent-from-retail
-Rva00497DD6::Rva00497DD6(EmitVtableTag *) {}
+class BattlePlanUpdateModuleData { public: BattlePlanUpdateModuleData(EmitVtableTag *); virtual ~BattlePlanUpdateModuleData(); };
+// ?<BattlePlanUpdateModuleData::BattlePlanUpdateModuleData> absent-from-retail
+BattlePlanUpdateModuleData::BattlePlanUpdateModuleData(EmitVtableTag *) {}
