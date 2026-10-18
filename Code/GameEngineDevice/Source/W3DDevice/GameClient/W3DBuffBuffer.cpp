@@ -69,28 +69,3 @@ int W3DBuffBuffer::addBuffType(const AsciiString &model, const BuffInfoView *inf
     return count - 1;
 }
 
-// Frame note: leaving out the named `pointer` local lets cl reuse both dead
-// parameter slots like retail ([ebp+0xC] for the new-expression temporary,
-// [ebp+8] for the insert argument); with the named local it takes a fresh slot.
-// WB 0x836DA0 names addBuff; retail D3B27..D3BFD uses 0x58-byte TBuff,
-// descriptors +18 and pointer sets +94 (12 bytes each), gate byte +10C.
-// The pointer set view reuses the existing rowed 80691 insert instantiation:
-// all consumed values are pointers and no target-object fields are accessed.
-TBuff *W3DBuffBuffer::addBuff(Drawable *drawable, const BuffInfoView *info) {
-    if (!drawable) return 0;
-    if (!enabled) return 0;
-    int index = -1;
-    for (int i = 0; i < count; ++i) {
-        if (types[i].name.compareNoCase(info->name) == 0) {
-            index = i;
-            break;
-        }
-    }
-    if (index < 0) index = addBuffType(info->name, info);
-    if (index < 0) return 0;
-    BuffPointerSetView *set = &buffs[index];
-    if (set->size() >= 1000) return 0;
-    TBuff *buff = new TBuff((const TBuffSource *)drawable, index);
-    set->insert(reinterpret_cast<Rva001408C0Target *>(buff));
-    return buff;
-}
