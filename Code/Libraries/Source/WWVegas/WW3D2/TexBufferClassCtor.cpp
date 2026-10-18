@@ -11,14 +11,21 @@
 inline void *operator new(unsigned int, void *p) { return p; }
 #include <string.h>
 
-class ShareBufferClassBase
+class RefCountClass
+{
+public:
+	virtual void Delete_This();
+protected:
+	int m_refCount;
+};
+
+class ShareBufferClassBase : public RefCountClass
 {
 public:
 	ShareBufferClassBase(int count, const char *name, int flags);
 	virtual ~ShareBufferClassBase();
 
 protected:
-	int m_refCount;
 	void *m_rawBuffer;
 	void *m_array;
 	int m_count;

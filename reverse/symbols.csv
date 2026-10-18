@@ -4252,7 +4252,6 @@ name,address,notes
 ??1Rva00156750Dtor@@UAE@XZ,0x00156750,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157110; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva00157390Dtor@@UAE@XZ,0x00157390,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157AB0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva00157C20Dtor@@UAE@XZ,0x00157C20,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157E60; address read from that body REL32; class identity unproven so the model is named for the call target
-??1Rva0015CC90@@UAE@XZ,0x0015CC90,opaque SEH base dtor; 11B derived dtor at 0x15D0E0 tail-calls it; identity unproven
 ??1Rva001684D6@@UAE@XZ,0x001684D6,"destructor the scalar deleting destructor 0x001684BA calls (REL32 at 0x001684BD; vtable 0x00BD41C8#1); opaque address name"
 ??1Rva001709F8@@QAE@XZ,0x0017098D,ICF twin of RefCountPtr TextureClass dtor proved by exact align_diff
 ??1Rva001732C6@@QAE@XZ,0x0018C57C,non-virtual dtor called directly by scalar deleting dtor 0x001732C6; owning class unproven

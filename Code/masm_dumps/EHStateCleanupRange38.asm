@@ -419,17 +419,6 @@ cleanup_done_00781eff:
 
 ; Unwind@00b8217e at RVA 0x0078217E; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-20] and tail-jumps through [ebp+8] to AsciiString dtor.
-PUBLIC ?rva0078217e@@YAXXZ
-?rva0078217e@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-20]
-    and eax, 1
-    jz NEAR PTR cleanup_done_0078217e
-    and DWORD PTR [ebp-20], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1AsciiString@@QAE@XZ
-cleanup_done_0078217e:
-    ret
-?rva0078217e@@YAXXZ ENDP
 
 ; Unwind@00b8228f at RVA 0x0078228F; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-28] and tail-jumps through [ebp+8] to the address-derived thunk.

@@ -1321,3 +1321,6 @@ __ehhandler$??1HelixContainModuleData@@UAE@XZ,0x00769CA1,"Renamed with its paren
 ??1FileInfoStruct@MixFileCreator@@QAE@XZ,0x0052DD64,Corrected refuted MixFileCreator identity to PathfindCell physical owner using independent shipped WB Info::Free assertion and native allocation/destruction callbacks
 ??_EFileInfoStruct@MixFileCreator@@QAEPAXI@Z,0x002E70E8,Corrected refuted MixFileCreator identity to PathfindCell physical owner using independent shipped WB Info::Free assertion and native allocation/destruction callbacks
 ?rva007A64A9@@YAXXZ,0x007A64A9,Natural C++ factory result lifetime now emits verified complete25B cleanup under its EXACT parent EH graph
+?rva0078217e@@YAXXZ,0x0078217E,Existing real boolAsStr C++ owning result lifetime emits the complete25B cleanup; EXACT parent EH graph binds local label with canonical AsciiString destructor
+??1Rva0015D0E0@@UAE@XZ,0x0015D0E0,Native TexBufferClass identity established by named constructors and shared BD3CF4 vtable; canonical owner replaces address placeholder
+??_GRva0015D0E0@@UAEPAXI@Z,0x0015D7E0,Native TexBufferClass deleting wrapper follows measured BD3CF4 slot1 and canonical destructor15D0E0
