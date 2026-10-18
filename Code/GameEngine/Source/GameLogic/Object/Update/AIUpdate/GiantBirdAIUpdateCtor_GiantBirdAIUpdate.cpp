@@ -109,10 +109,12 @@ public:
 	void aiIdle(CommandSourceType cmdSource);
 };
 
+// The +0x24 interface: GiantBirdAIUpdate's table 0x00C17A54 slot 0 is its
+// rowed onCollide 0x003698CD.
 class AIUpdateInterface24
 {
 public:
-	virtual void slot0();
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal) = 0;
 };
 
 class AIUpdateInterface : public UpdateModule, public AICommandInterface, public AIUpdateInterface24
@@ -130,7 +132,9 @@ private:
 class Rva0026AFDAMember
 {
 public:
-	Rva0026AFDAMember();
+	// The ctor 0x0026AFDA is rowed as initMember (returns this).
+	Rva0026AFDAMember *initMember();
+	__declspec(dllimport) __forceinline Rva0026AFDAMember() { initMember(); }
 	~Rva0026AFDAMember();
 private:
 	unsigned char m_pad[0xC4];
@@ -171,6 +175,7 @@ class GiantBirdAIUpdate : public AIUpdateInterface
 public:
 	GiantBirdAIUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual void rva0036B6B9();
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal);
 protected:
 	virtual ~GiantBirdAIUpdate();
 	virtual AIStateMachine *makeStateMachine();
