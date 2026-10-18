@@ -3880,7 +3880,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x0045CD6E,Rva004A78B8::rva0045CD6E,PIN_ONLY,,,2.0000,callgraph
 0x004EA046,,UNROWED,AIEconomyBuilder::needMoreFarms,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIEconomyBuilder\AIEconomyBuilder.cpp,2.0000,callgraph
 0x005774E3,,UNROWED,,,2.0000,callgraph
-0x005DCCFB,Rva005DCE08::rva005DCCFB,PIN_ONLY,BuildPhase::update,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIBaseBuilder\BuildPhase.cpp,1.0000,callgraph
+0x005DCCFB,BuildPhase::update,RESOLVED,BuildPhase::update,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIBaseBuilder\BuildPhase.cpp,1.0000,callgraph
 0x0032D8C7,,UNROWED,SidesList::removeSideAndTeams,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Map\SidesList.cpp,5.5000,align
 0x0040FB9C,,UNROWED,,,5.0000,callgraph
 0x005B922F,Rva005B922F::~Rva005B922F,PLACEHOLDER,AptOnlineHome::~AptOnlineHome,C:\Projects\bfme2\Code\GameEngine\Source\GameClient\Gui\GUICallbacks\Apt\AptOnlineHome.cpp,3.2500,callgraph

@@ -26,11 +26,14 @@ class Rva00573E7C {public:
  char pad55[3];unsigned deadline;unsigned attempts;
 };
 class Rva005AD9C0Hit;
-class Rva005DCE08 {public:
+class BuildPhase {public:
  bool complete,started,costsSet;_STL::vector<Rva00573E7C*> orders;int phase;void *player;
- void rva005DCCFB();Rva005AD9C0Hit*rva005DCC86(void*);
+ void update();
 };
-void Rva005DCE08::rva005DCCFB(){
+class Rva005DCE08 : public BuildPhase {public:
+ Rva005AD9C0Hit*rva005DCC86(void*);
+};
+void BuildPhase::update(){
  Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(player);
  if(phase>ai->phase)return;
  if(!started){((Rva005DCC60*)this)->rva005DCC60();started=true;}
