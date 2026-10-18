@@ -1,4 +1,6 @@
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
+// partial score=0.995 date=2026-10-18
+// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.9857064040652715 date=2026-10-13
 // W7-ASTRA r2: full extent1475 includes124-byte switch table; ends0x005944D8.
 // WB0x154E140: all three explicit early returns restore local frame packing.
@@ -22,8 +24,6 @@
 // The room checks read NetCommandRef's m_msg/m_relay directly: the inline
 // getters inline to the same bytes, but emitting them here adds COMDAT copies
 // that lose to ConnectionManager's and would stop this unit linking.
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
@@ -563,8 +563,14 @@ class NetAckBothCommandMsg
 {
 public:
 	NetAckBothCommandMsg();
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 	UnsignedInt get20() { return m_20; }
 	UnsignedInt get24() { return m_24; }
 private:
@@ -581,8 +587,14 @@ class NetAckStage1CommandMsg
 {
 public:
 	NetAckStage1CommandMsg();
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 private:
 	char m_pad[0x1C];
 public:
@@ -597,8 +609,14 @@ class NetAckStage2CommandMsg
 {
 public:
 	NetAckStage2CommandMsg();
+	UnsignedInt getX20() { return m_20; }
+	UnsignedInt getX24() { return m_24; }
+	void set20(UnsignedInt v) { m_20 = v; }
+	void set24(UnsignedInt v) { m_24 = v; }
 	UnsignedShort getCommandID();
 	UnsignedByte getOriginalPlayerID();
+	void setCommandID(UnsignedShort);
+	void setOriginalPlayerID(UnsignedByte);
 private:
 	char m_pad[0x1C];
 public:
@@ -818,33 +836,27 @@ NetCommandList *NetPacket::getCommandList()
 			++i;
 			memcpy(&commandType, m_packet + i, sizeof(UnsignedByte));
 			i += sizeof(UnsignedByte);
-			continue;
 		} else if (m_packet[i] == 'S') {
 			++i;
 			memcpy(&timestamp, m_packet + i, sizeof(UnsignedInt));
 			i += sizeof(UnsignedInt);
-			continue;
 		} else if (m_packet[i] == 'F') {
 			++i;
 			memcpy(&frame, m_packet + i, sizeof(UnsignedInt));
 			i += sizeof(UnsignedInt);
-			continue;
 		} else if (m_packet[i] == 'P') {
 			++i;
 			memcpy(&playerID, m_packet + i, sizeof(UnsignedByte));
 			i += sizeof(UnsignedByte);
-			continue;
 		} else if (m_packet[i] == 'R') {
 			++i;
 			memcpy(&relay, m_packet + i, sizeof(UnsignedByte));
 			i += sizeof(UnsignedByte);
-			continue;
 		} else if (m_packet[i] == 'C') {
 			++i;
 			memcpy(&commandID, m_packet + i, sizeof(UnsignedShort));
 			i += sizeof(UnsignedShort);
 			commandIDSet = true;
-			continue;
 		} else if (m_packet[i] == 'D') {
 			++i;
 			offset = i;
@@ -941,7 +953,9 @@ NetCommandList *NetPacket::getCommandList()
 			}
 
 			if (msg == 0) {
-				if (lastCommand != 0) {delete lastCommand; lastCommand = 0;} return retval;
+				delete lastCommand;
+				lastCommand = 0;
+				return retval;
 			}
 
 			msg->setTiming(timestamp, frame);
@@ -962,10 +976,13 @@ NetCommandList *NetPacket::getCommandList()
 
 			if (lastCommand != 0) {
 				delete lastCommand;
+				lastCommand = 0;
 			}
 			lastCommand = new NetCommandRef(msg);
 
 			msg->detach();
+			msg = 0;
+			i = offset;
 		} else if (m_packet[i] == 'Z') {
 			++i;
 			offset = i;
@@ -976,28 +993,30 @@ NetCommandList *NetPacket::getCommandList()
 			if (commandType == 1) {
 				msg = (NetCommandMsg *)new NetAckStage1CommandMsg();
 				NetAckStage1CommandMsg *last = (NetAckStage1CommandMsg *)ncrCommand(lastCommand);
-				((Rva004D59ACWordSlot *)msg)->set(((Rva004D5767WordField *)last)->get() + 1);
-				((Rva004D576CByteSlot *)msg)->set(((Rva004543C6ByteField *)last)->get());
-_ReadWriteBarrier();
-				((NetAckStage1CommandMsg *)msg)->m_20 = last->m_20;
-				((NetAckStage1CommandMsg *)msg)->m_24 = last->m_24;
+				((NetAckStage1CommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckStage1CommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckStage1CommandMsg *)msg)->set20(last->getX20());
+				((NetAckStage1CommandMsg *)msg)->set24(last->getX24());
 			} else if (commandType == 2) {
 				msg = (NetCommandMsg *)new NetAckStage2CommandMsg();
 				NetAckStage2CommandMsg *last = (NetAckStage2CommandMsg *)ncrCommand(lastCommand);
-				((Rva004D59ACWordSlot *)msg)->set(((Rva004D5767WordField *)last)->get() + 1);
-				((Rva004D576CByteSlot *)msg)->set(((Rva004543C6ByteField *)last)->get());
-				((NetAckStage2CommandMsg *)msg)->m_20 = last->m_20;
-				((NetAckStage2CommandMsg *)msg)->m_24 = last->m_24;
+				((NetAckStage2CommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckStage2CommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckStage2CommandMsg *)msg)->set20(last->getX20());
+				((NetAckStage2CommandMsg *)msg)->set24(last->getX24());
 			} else if (commandType == 0) {
 				msg = (NetCommandMsg *)new NetAckBothCommandMsg();
 				NetAckBothCommandMsg *last = (NetAckBothCommandMsg *)ncrCommand(lastCommand);
-				((Rva004D59ACWordSlot *)msg)->set(((Rva004D5767WordField *)last)->get() + 1);
-				((Rva004D576CByteSlot *)msg)->set(((Rva004543C6ByteField *)last)->get());
-				((NetAckBothCommandMsg *)msg)->m_20 = last->m_20;
-_ReadWriteBarrier();
-				((NetAckBothCommandMsg *)msg)->m_24 = last->m_24;
+				((NetAckBothCommandMsg *)msg)->setCommandID(last->getCommandID() + 1);
+				((NetAckBothCommandMsg *)msg)->setOriginalPlayerID(last->getOriginalPlayerID());
+				((NetAckBothCommandMsg *)msg)->set20(last->getX20());
+				((NetAckBothCommandMsg *)msg)->set24(last->getX24());
 			} else {
-				if (lastCommand != 0) {delete lastCommand; lastCommand = 0;} return retval;
+				if (lastCommand != 0) {
+					delete lastCommand;
+					lastCommand = 0;
+				}
+				return retval;
 			}
 
 			msg->setTiming(timestamp, frame);
@@ -1017,19 +1036,21 @@ _ReadWriteBarrier();
 			}
 
 			delete lastCommand;
+			lastCommand = 0;
 			lastCommand = new NetCommandRef(msg);
 
 			msg->detach();
+			msg = 0;
+			i = offset;
 		} else {
 			rva0058E57B();
 			++i;
-			continue;
 		}
-		i = offset;
 	}
 
 	if (lastCommand != 0) {
 		delete lastCommand;
+		lastCommand = 0;
 	}
 	return retval;
 }
