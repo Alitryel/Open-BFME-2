@@ -110,29 +110,11 @@ typedef char ScoreKeeperSize[sizeof(LivingWorldScoreKeeper)==0xFC?1:-1];
 
 #define LW_OBSERVERS(offset) ((Rva005A0B4CList *)((char *)TheLivingWorldLogic + (offset)))
 
-LivingWorldScoreKeeper::LivingWorldScoreKeeper(int playerIndex, LivingWorldPlayer *player) :
-	m_player(player), m_6C(0), m_startTime(time(0)), m_74(0), m_78(-1), m_7C(-1),
-	m_94(0), m_98(0), m_A8(0), m_AC(0), m_B0(0),
-	m_D8(0), m_DC(0), m_E0(0), m_E4(0), m_E8(0), m_EC(0), m_F0(0),
-	m_playerIndex(playerIndex), m_F8(false)
-{
-	for (int i = 0; i < 5; ++i)
-		m_80[i] = 0;
-	LW_OBSERVERS(0x1C)->append((Rva002BA8F1Listener *)(LivingWorldPhaseObserver *)this);
-	LW_OBSERVERS(0x2C)->append((Rva002BA8F1Listener *)(LivingWorldAutoResolveEventObserver *)this);
-	LW_OBSERVERS(0x3C)->append((Rva002BA8F1Listener *)(LivingWorldRTSEventObserver *)this);
-	LW_OBSERVERS(0x4C)->append((Rva002BA8F1Listener *)(LivingWorldLogicObserver *)this);
-	((Rva005A0B4CList *)&g_00E04424)->append((Rva002BA8F1Listener *)(LivingWorldBuildingObserver *)this);
-	((Rva005A0B4CList *)&g_registryAtE02E88)->append((Rva002BA8F1Listener *)(LivingWorldRegionObserver *)this);
-	((Rva005A0B4CList *)&g_00E044F0)->append((Rva002BA8F1Listener *)(LivingWorldBuildingNuggetSpawnArmyObserver *)this);
-	((Rva005A0B4CList *)m_player)->append((Rva002BA8F1Listener *)(LivingWorldPlayerObserver *)this);
-}
 
 class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
 void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(phase); }
 
 class Rva004EE5D2 {public:void rva004EE78A();void rva004EE5D2();};
-LivingWorldScoreKeeper::~LivingWorldScoreKeeper(){((Rva004EE5D2*)this)->rva004EE78A();}
 
 class ModuleData;
 struct Rva004EE79ESub {char pad[0x2c]; int m_2C;};
