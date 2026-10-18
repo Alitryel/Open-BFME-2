@@ -115,17 +115,7 @@ void Rva007AB85CAtexitInits::rva007ACCA6()
 	atexit( rva007B7024 );
 }
 
-// ?rva007ACD90@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACD90 (12B): atexit(0x007B7090)
-void Rva007AB85CAtexitInits::rva007ACD90()
-{
-	atexit( rva007B7090 );
-}
 
-// ?rva007ACDA0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACDA0 (12B): atexit(0x007B70A0)
-void Rva007AB85CAtexitInits::rva007ACDA0()
-{
-	atexit( rva007B70A0 );
-}
 
 // ?rva007ACE50@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE50 (12B): atexit(0x007B71D0)
 void Rva007AB85CAtexitInits::rva007ACE50()
@@ -139,11 +129,6 @@ void Rva007AB85CAtexitInits::rva007ACE60()
 	atexit( rva007B7200 );
 }
 
-// ?rva007ACE80@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE80 (12B): atexit(0x007B7270)
-void Rva007AB85CAtexitInits::rva007ACE80()
-{
-	atexit( rva007B7270 );
-}
 
 // ?rva007ACED0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACED0 (12B): atexit(0x007B7300)
 void Rva007AB85CAtexitInits::rva007ACED0()
@@ -175,11 +160,6 @@ void Rva007AB85CAtexitInits::rva007ADB61()
 	atexit( rva007B770E );
 }
 
-// ?rva007AE390@Rva007AB85CAtexitInits@@SAXXZ @ 0x007AE390 (12B): atexit(0x007B796E)
-void Rva007AB85CAtexitInits::rva007AE390()
-{
-	atexit( rva007B796E );
-}
 
 #pragma inline_depth( 0 )
 // ?rva007AE3AC@Rva007AB85CAtexitInits@@SAXXZ @ 0x007AE3AC (27B): AsciiString at VA 0x00DFF030 = literal at VA 0x00C031DC, then atexit(0x007B7979)
@@ -271,8 +251,4 @@ void Rva007AB85CAtexitInits::rva007B46C3()
 }
 #pragma inline_depth()
 
-// ?rva007B55D0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007B55D0 (12B): atexit(0x007B9B40)
-void Rva007AB85CAtexitInits::rva007B55D0()
-{
-	atexit( rva007B9B40 );
-}
+
