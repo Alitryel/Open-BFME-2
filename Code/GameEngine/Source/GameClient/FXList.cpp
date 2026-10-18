@@ -297,12 +297,7 @@ class __declspec(novtable) RayEffectFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(RayEffectFXNugget, "RayEffectFXNugget")		
 public:
 
-	RayEffectFXNugget()
-	{
-		m_templateName.clear();
-		m_primaryOffset.x = m_primaryOffset.y = m_primaryOffset.z = 0;
-		m_secondaryOffset.x = m_secondaryOffset.y = m_secondaryOffset.z = 0;
-	}
+	RayEffectFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * secondary, const Real /*overrideRadius*/ ) const
 	{
