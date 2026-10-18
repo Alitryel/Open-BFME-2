@@ -1,22 +1,12 @@
-// ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
-// partial score=0.996 date=2026-10-18
-// ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
-// partial score=0.996 date=2026-10-16
-// ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
-// partial score=0.996 date=2026-10-16
-// W10-c4 2026-10-18: clamp<float> (row 0x575A, PreRTS.h body) defined visibly in the TU: retail's
-// cross-TU knowledge that clamp writes no memory is what hoists the damage128/info loads above the
-// call; WB statement shape (sqrt distance, clamp, ratio, amount). nd4: info load before fstp [esp+4],
-// and post-call fld max before add esp,0xc. Storing the clamp result in a named variable fixes the
-// post-call pair but flips the commutative operand order at the min/bonus/multiplier *=, += sites
-// (anti-correlated; reference-alias spellings move the flip around, never all three).
-// W9-O3 2026-10-16: both stale callees fixed: distSq via its row view Rva000CBA20::distSq, rva0028C15E row is (int,float*,int,int) -> called through a bool-last member-pointer view (retail pushes the bool param slot [ebp+0x18] as the dword: an int signature adds movzx). Size exact nd 4 = two x87-window swaps only: retail loads info into EDI before 'fstp [esp+4]' and fld maxRadius130 before the post-clamp 'add esp,0xc'. Inert: IR-load-count snippets at 4 sites, info/amount aliases, clamp result local (+40 B), barrier moves (the barrier after distance is load-bearing).
 // cl: /O1 /DNDEBUG /MD /I. /ICode/Libraries/Include /ICode/Libraries/Include/Lib /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfmelist
 // stlport
 //
 // Retail 0x00508120 (988B): DamageNugget damage-info fill helper, called by
 // 0x005084FC (matched in Made002CC5E1Rva005084FC.cpp). Scoped view: emits the
-// helper body only, does not model the vtable.
+// helper body only, does not model the vtable. The distance goes through
+// math.h's inline sqrtf and the clamped distance is a named local; together
+// they give retail's info/damage load placement around the visible
+// PreRTS clamp<float> call (row 0x0000575A).
 #include <math.h>
 #include <list>
 #include <vector>
@@ -26,8 +16,7 @@ struct DamageOffset : Coord3D {
  void set(const Coord3D *other){ x=other->x; y=other->y; z=other->z; }
  void sub(const Coord3D *other){ x-=other->x; y-=other->y; z-=other->z; }
 };
-class Rva000CBA20Point;
-class Rva000CBA20 { public: float distSq(const Rva000CBA20Point *point); };
+#include "RTS/XYDistanceCallView.h"
 class DamageInfo
 {
 public:
@@ -93,12 +82,7 @@ public:
  unsigned char pad44[0x250 - 0x44];
  Rva00508120ContainView *contain250;
 };
-enum ObjectID { INVALID_ID = 0 };
-class GameLogic
-{
-public:
- Object *findObjectByID(ObjectID id);
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 struct Rva005084FCWeaponView
 {
@@ -157,7 +141,6 @@ public:
 class Made002CC5E1 : public Rva00507823
 {
 public:
- bool rva005084FC(void *weapon, Object *target, const Coord3D *position);
 private:
  bool rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
 private:
@@ -186,7 +169,7 @@ private:
 };
 
 // Retail 0x00508120 (988B, ret 0x14): the damage-info fill helper called only
-// by 0x005084FC above. WorldBuilder's debug build names it
+// by 0x005084FC. WorldBuilder's debug build names it
 // DamageNugget::generateDamageInfo (DamageNugget.cpp); BFME 1's matched
 // DamageNugget::generateDamageInfo (0x002DB880) is the donor for the flow
 // (contained-count scaling, filter scalars, attribute bonus/multiplier,
@@ -195,8 +178,6 @@ private:
 // distance +0x134..+0x130, the 0x0028F44C mutual bonus/scale block skipped by
 // the flag argument, the +0x19C filter that sets DamageInfo +0x24 and the
 // 32-bit player mask.
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 bool Made002CC5E1::rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position)
 {
  Rva00508120WeaponView *view = static_cast<Rva00508120WeaponView *>(weapon);
@@ -205,9 +186,9 @@ bool Made002CC5E1::rva00508120(void *weapon, Object *target, DamageInfo *info, b
   return false;
  if (minDamage12C != -1.0f && position)
  {
-  float distance = (float)sqrt(((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)position));
-_ReadWriteBarrier();
-  float ratio = (clamp(minRadius134, distance, maxRadius130) - minRadius134) / (maxRadius130 - minRadius134);
+  float distance = sqrtf(((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)position));
+  float clamped = clamp(minRadius134, distance, maxRadius130);
+  float ratio = (clamped - minRadius134) / (maxRadius130 - minRadius134);
   float damage = damage128;
   info->amount20 = damage - (damage - minDamage12C) * ratio;
  }
@@ -282,35 +263,9 @@ _ReadWriteBarrier();
  info->value1C = value15C;
  info->delay28 = delay;
  info->sourceID08 = view->sourceID08;
- info->playerMask0C = 1 << (this?source->getControllingPlayer():source->getControllingPlayer())->index54;
+ Player *player = source->getControllingPlayer();
+ info->playerMask0C = 1 << player->index54;
  info->value2C = view->template04->value10;
  info->flag25 = view->template04->flag16D;
  return true;
-}
-
-bool Made002CC5E1::rva005084FC(void *weapon, Object *target, const Coord3D *position)
-{
- DamageInfo info;
- if (rva00508120(weapon, target, &info, false, position) == true)
- {
-  if (info.damageType10 == 7)
-   target->attemptHealing(info.amount20, target);
-  else
-  {
-   target->attemptDamage(&info);
-   float factor = value198 * info.value70;
-   if (flag194)
-   {
-    if (factor != 0.0f)
-    {
-     Object *source = TheGameLogic->findObjectByID((ObjectID)static_cast<Rva005084FCWeaponView *>(weapon)->sourceID08);
-     if (source && !(source->module04->flags10B & 2))
-      source->attemptHealing(factor, 0);
-    }
-   }
-  }
- }
- if (info.value74 > 0.0f)
-  return true;
- return false;
 }
