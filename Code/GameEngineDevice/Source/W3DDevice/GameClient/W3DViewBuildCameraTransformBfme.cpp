@@ -36,7 +36,7 @@ struct CameraRealTriplet:Coord3D {CameraRealTriplet&operator=(const Coord3D&p){x
 class Matrix3D;
 // Native reads VA DB457C and DE2020 as float; semantic names unknown.
 extern Real g_Va00DB457C;
-extern Real g_Va00DE2020;
+Real g_Va00DE2020;	// retail RVA 0x009E2020 (.bss), defined here
 
 // Opaque ABI views of the two narrow StringBase<char> handles. The existing
 // whole-context destructor owns both releases; this view must not duplicate
