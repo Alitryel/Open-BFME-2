@@ -11643,7 +11643,6 @@ _assignment,0x007559C0,address read from the REL32 call at 0x00755EDE in the _na
 _atan,0x00629AE4,"atan double import thunk (gen-import row ji_00629ae4: msvcr71 slot 0x00BBA4A0 import atan); called by Rva004D6B6E 0x004D6B6E"
 _atan2,0x0062992E,atan2 double import thunk for float adapter 0x422A0
 _atan2f,0x000422CD,Statically linked CRT atan2f float adapter (fld/fst shuffle into the double atan2 import chain at 0x00422A0); 35+ float-atan2 callers; no atan2f import in the IAT
-_atexit,0x006291F8,CRT atexit - forwards to _onexit at 0x006291D2 and folds its return to 0 or -1; the local-static destructor thunks register through it
 _atoi,0x00629838,address read from the REL32 displacement in DirtySock Y2ProtoMangleHelpers at 0x006718B0; static CRT callee; body not yet converted
 _bfmeAppend,0x0060D5F2,callee of bfmeEmit (0x0060D7C0) at the site its BFME1 donor calls it; may be an ICF alias
 _bfmeArrayNew,0x0002FDE0,callee of 0INIException (0x0002F681) at the site its BFME1 donor calls it; may be an ICF alias
