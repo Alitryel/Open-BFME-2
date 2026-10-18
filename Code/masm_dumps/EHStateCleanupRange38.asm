@@ -215,21 +215,6 @@ PUBLIC ?rva0078190d@@YAXXZ
     ret
 ?rva0078190d@@YAXXZ ENDP
 
-; Unwind@00b819a3 at RVA 0x007819A3; 25-byte state-bit cleanup ends at RET.
-; Retail clears bit 0 at [ebp-16] and tail-jumps to [ebp-24] via AsciiString dtor.
-PUBLIC ?rva007819a3@@YAXXZ
-?rva007819a3@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_007819a3
-    and DWORD PTR [ebp-16], -2
-    lea ecx, [ebp-24]
-    jmp ??1AsciiString@@QAE@XZ
-cleanup_done_007819a3:
-    ret
-?rva007819a3@@YAXXZ ENDP
-
-; Unwind@00b819ce: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva007819ce@@YAXXZ
 ?rva007819ce@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
@@ -371,20 +356,6 @@ PUBLIC ?rva0078582c@@YAXXZ
     and ecx, eax
     jmp ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ
 ?rva0078582c@@YAXXZ ENDP
-
-; Unwind@00b85bee at RVA 0x00785BEE; 25-byte state-bit cleanup ends at RET.
-; Target clears bit 0 at [ebp-16] and tail-jumps through [ebp+8] to AsciiString dtor.
-PUBLIC ?rva00785bee@@YAXXZ
-?rva00785bee@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_00785bee
-    and DWORD PTR [ebp-16], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1AsciiString@@QAE@XZ
-cleanup_done_00785bee:
-    ret
-?rva00785bee@@YAXXZ ENDP
 
 ; Unwind@00b85e8a at RVA 0x00785E8A; 25-byte state-bit cleanup ends at RET.
 ; Target clears bit 0 at [ebp-16] and tail-jumps through [ebp+8] to AsciiString dtor.
