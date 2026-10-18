@@ -425,6 +425,7 @@ public:
 	PlaneClass Planes[6];                                                // +0x30
 };
 
+class Rva0023ABDD { public: void rva0023ABDD(); };
 class GameClient : public SubsystemInterface, public Snapshot
 {
 public:
@@ -490,7 +491,7 @@ public:
 	DrawableTOCEntry *findTOCEntryById(unsigned short id);
 	void addTOCEntry(AsciiString name, unsigned short id);
 	void xferDrawableTOC(Xfer *xfer);
-	void rva0023ABDD();
+	/* the rowed Rva0023ABDD::rva0023ABDD */ __declspec(dllimport) __forceinline void rva0023ABDD() { ((Rva0023ABDD *)this)->rva0023ABDD(); }
 	void rva00239759();
 	void rva0023B383(Dict *props, ThingTemplate *tmpl, const Coord3D *pos);
 
