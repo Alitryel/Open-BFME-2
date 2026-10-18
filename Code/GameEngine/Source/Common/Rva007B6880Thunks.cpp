@@ -65,7 +65,7 @@ public:
 	~MutexClass();
 };
 
-extern unsigned g_Va00DE5DA0;
+unsigned g_Va00DE5DA0;	// retail RVA 0x009E5DA0 (.bss), defined here
 
 // ?rva007B6C70@@YAXXZ @ 0x007B6C70 (10B). Global MutexClass dtor thunk: ecx=&g_Va00DE5DA0 then tail-jmp to rowed ??1MutexClass@@QAE@XZ (0x00613A20).
 void __cdecl rva007B6C70()
