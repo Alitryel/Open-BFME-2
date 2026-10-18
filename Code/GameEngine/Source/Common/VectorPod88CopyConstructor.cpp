@@ -26,4 +26,8 @@ struct BfmePod88
 // bfme link decl-only BfmePod88
 namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector(); }
 
+// Bind the outer clear to its existing retail 500EDC owner. This unit
+// otherwise emits an unrowed competing clear through its class instantiation.
+namespace _STL { template <> void vector<vector<BfmePod88> >::_M_clear(); }
+
 template class _STL::vector<_STL::vector<BfmePod88, _STL::allocator<BfmePod88> >, _STL::allocator<_STL::vector<BfmePod88, _STL::allocator<BfmePod88> > > >;
