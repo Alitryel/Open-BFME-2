@@ -50,7 +50,7 @@ public:
 	GeometryInfo(GeometryType, bool, float, float, float);
 	virtual ~GeometryInfo();
 };
-extern unsigned g_Va00E0C150;
+unsigned g_Va00E0C150;	// retail RVA 0x00A0C150 (.bss), defined here
 extern "C" void __cdecl rva007B9BF0(void);
 
 void Rva007B6640InitializeGeometry()
