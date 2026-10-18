@@ -29,7 +29,7 @@ typedef _STL::vector<unsigned int> Rva003F3277VectorValue;
 // the view records compiler/frame evidence, not an element layout.
 struct Rva003F35E3DispatchFrameSlot { char padding[35]; _STL::__false_type tag; };
 void __cdecl Rva00030830FreeAllocation(void *);
-struct Rva003F3277Record { Rva003F3277Record(); Rva003F3277Record(const Rva003F3277Record &); ~Rva003F3277Record(); Rva003F3277Record &operator=(const Rva003F3277Record &); private: char bytes[12]; };
+struct Rva003F3277Record { Rva003F3277Record(); Rva003F3277Record(const Rva003F3277Record &); __declspec(noinline) ~Rva003F3277Record() { ((Rva003F3277VectorValue *)this)->~Rva003F3277VectorValue(); } Rva003F3277Record &operator=(const Rva003F3277Record &); private: char bytes[12]; };
 
 void __cdecl Rva003F24D6CopyBackward(char *, char *, char *);
 void __cdecl Rva003F1ECEFill(char *, char *, char *);
@@ -95,3 +95,22 @@ void _bfmeStlportVectorRva003F35E3FillInsertAnchor()
 	vector->_M_fill_insert(position, 0, *value);
 }
 #pragma inline_depth()
+
+// The 12-byte element is retail's vector<unsigned int> element under an
+// address-derived label: its placement copy is the rowed _Construct 0x003F1A5F
+// (dup_003F1A5F, the alias of _Construct<vector<unsigned int>> rowed at
+// 0x000796E8), whose vector copy ctor is rowed at 0x002CFAB9, and whose
+// destructor is the rowed vector<unsigned int> destructor at 0x0007FAB3 (free
+// the start pointer). Reproduce the placement copy here and forward the
+// element's destructor to that rowed owner, so the vector helpers' calls
+// resolve instead of the undefined ??$_Construct@URva003F3277Record /
+// ??1Rva003F3277Record. The destructor stays noinline so the emitted _Destroy
+// helpers (shared, first-copy-in-link-order) keep calling it rather than
+// inlining an extra body.
+namespace _STL {
+template <> void _Construct<Rva003F3277Record, Rva003F3277Record>(
+	Rva003F3277Record *p, const Rva003F3277Record &value)
+{
+	_STLP_PLACEMENT_NEW ((void *)p) Rva003F3277VectorValue(*(const Rva003F3277VectorValue *)&value);
+}
+}
