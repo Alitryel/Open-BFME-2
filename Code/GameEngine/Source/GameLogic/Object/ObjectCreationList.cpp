@@ -204,12 +204,7 @@ class AttackNugget : public ObjectCreationNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(AttackNugget, "AttackNugget")		
 public:
 
-	AttackNugget() : 
-    m_numberOfShots(1),
-		m_weaponSlot(PRIMARY_WEAPON),
-		m_deliveryDecalRadius(0)
-	{
-	}
+	AttackNugget();
 
 	virtual Object* create( const Object* primaryObj, const Coord3D *primary, const Coord3D* secondary, Real angle, UnsignedInt lifetimeFrames = 0 ) const
 	{
