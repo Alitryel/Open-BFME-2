@@ -22,7 +22,7 @@ extern void *g_00DE03F4;
 extern void *g_00DE03F0;
 extern void *g_00DE03EC;
 extern void *g_00DE03E4;
-extern void *g_00DE03E0;
+void * g_00DE03E0;	// retail RVA 0x009E03E0 (.bss), defined here
 namespace MemoryPool
 {
 void InitFunctionPointers()
