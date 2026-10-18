@@ -4,6 +4,16 @@
 // Evidence: adjacent dtor ??1Rva003F610FElement@@QAE@XZ @0x003F535B and copy ctor ??0Rva003F610FElement@@QAE@ABU0@@Z @0x003F54DC prove class Rva003F610FElement layout; retail zeroes m_00 then constructs two vectors then zeroes tail.
 #include <vector>
 
+// Preserve inline initialization without emitting a competing vector ctor.
+namespace _STL {
+// Retail calls the independently rowed 29-byte vector-base constructor.
+template <> _Vector_base<unsigned int, allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &);
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &a)
+    : _Vector_base<unsigned int, allocator<unsigned int> >(a) {}
+}
+
+
 struct BfmePod104 { int a[26]; };
 
 struct RvaTail20 { int w[5]; };
