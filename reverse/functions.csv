@@ -7191,7 +7191,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1Rva004C227A@@UAE@XZ,,0x004C227A,25,Code/GameEngine/Source/GameLogic/Object/Die/DieModuleDerived.cpp,matched,opaque MI dtor three vptrs tail-jmp DieModule
 ??1Rva0025BFE3@@UAE@XZ,,0x0025BFE3,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
 ??1Rva0030F42E@@UAE@XZ,,0x0030F42E,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
-??1Rva004FCD14@@UAE@XZ,,0x004FCD14,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
+??1Rva004FD719Data@@UAE@XZ,,0x004FCD14,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
 ??1Rva004FCD49@@UAE@XZ,,0x004FCD49,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
 ??1Rva00578C2E@@UAE@XZ,,0x00578C0E,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
 ??1Rva0057BCEC@@UAE@XZ,,0x0057BCEC,21,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,opaque dtor null-checked free of member at plus 4
@@ -12142,7 +12142,7 @@ _luaX_lex,,0x00757C90,1324,Code/Libraries/Source/Lua/llex.c,matched,BFME1 byte-i
 ?Rva004C86DEGet@@YAHXZ,,0x004C86DE,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4544; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004C87EEGet@@YAHXZ,,0x004C87EE,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4528; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ??_GRva0030F42E@@UAEPAXI@Z,,0x0030F443,28,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x30F42E plus operator delete 0x2FD60; /O1 pop-ecx shape
-??_GRva004FCD14@@UAEPAXI@Z,,0x004FCD97,28,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x4FCD14 plus operator delete 0x2FD60; /O1 pop-ecx shape
+??_GRva004FD719Data@@UAEPAXI@Z,,0x004FCD97,28,Code/GameEngine/Source/Common/FreeMemberDeleters.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x4FCD14 plus operator delete 0x2FD60; /O1 pop-ecx shape
 ??_GRva00572C6E@@UAEPAXI@Z,,0x00572C79,28,Code/GameEngine/Source/Common/Rva005CB23CDerived.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x572C6E plus operator delete 0x2FD60; /O1 pop-ecx shape
 ??_GRva00572DE8@@UAEPAXI@Z,,0x00572DF3,28,Code/GameEngine/Source/Common/Rva005CB23CDerived.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x572DE8 plus operator delete 0x2FD60; /O1 pop-ecx shape
 ??_GRva00572ED8@@UAEPAXI@Z,,0x00572EE3,28,Code/GameEngine/Source/Common/Rva005CB23CDerived.cpp,matched,Scalar deleting dtor via ??_G harvest; calls rowed dtor 0x572ED8 plus operator delete 0x2FD60; /O1 pop-ecx shape

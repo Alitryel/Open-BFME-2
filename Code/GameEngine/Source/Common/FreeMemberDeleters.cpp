@@ -39,16 +39,16 @@ Rva0030F42E::~Rva0030F42E()
 		free(m_ptr04);
 }
 
-class Rva004FCD14
+class Rva004FD719Data
 {
 public:
-	virtual ~Rva004FCD14();
+	virtual ~Rva004FD719Data();
 
 private:
 	void *m_ptr04;
 };
 
-Rva004FCD14::~Rva004FCD14()
+Rva004FD719Data::~Rva004FD719Data()
 {
 	if (m_ptr04)
 		free(m_ptr04);
