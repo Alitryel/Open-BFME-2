@@ -38,9 +38,6 @@ public:
 	virtual ~Rva004C07B1();
 };
 
-Rva004C07B1::~Rva004C07B1()
-{
-}
 
 class Rva004C089E_B2
 {
@@ -54,9 +51,6 @@ public:
 	virtual ~Rva004C089E();
 };
 
-Rva004C089E::~Rva004C089E()
-{
-}
 
 class Rva004C0988_B2
 {
@@ -70,9 +64,6 @@ public:
 	virtual ~Rva004C0988();
 };
 
-Rva004C0988::~Rva004C0988()
-{
-}
 
 class Rva004C0A4C_B2
 {
@@ -102,9 +93,6 @@ public:
 	virtual ~Rva004C131B();
 };
 
-Rva004C131B::~Rva004C131B()
-{
-}
 
 class Rva004C1EF7_B2
 {
@@ -118,9 +106,6 @@ public:
 	virtual ~Rva004C1EF7();
 };
 
-Rva004C1EF7::~Rva004C1EF7()
-{
-}
 
 class Rva004C2016_B2
 {
@@ -134,9 +119,6 @@ public:
 	virtual ~Rva004C2016();
 };
 
-Rva004C2016::~Rva004C2016()
-{
-}
 
 class Rva004C1BAB_B2
 {
@@ -159,9 +141,6 @@ public:
 	virtual ~Rva004C1BAB();
 };
 
-Rva004C1BAB::~Rva004C1BAB()
-{
-}
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
