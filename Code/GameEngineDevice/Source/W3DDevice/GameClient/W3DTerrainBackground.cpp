@@ -572,6 +572,12 @@ void W3DTerrainBackground::allocateTerrainBuffers(WorldHeightMap *htMap, Int xOr
 // W3DTerrainBackground::renderTerrain
 //=============================================================================
 //=============================================================================
+// BFME2's DX8Wrapper draws a triangle list through the rowed 32-bit overload
+// DX8Wrapper::Draw_Triangles(unsigned x4) at 0x00120620; the Zero Hour header
+// here only declares the 16-bit one, which BFME2 does not have.
+extern "C" void __cdecl __identifier("?Draw_Triangles@DX8Wrapper@@SAXIIII@Z")(unsigned int, unsigned int, unsigned int, unsigned int);
+#define bfmeDrawTriangles __identifier("?Draw_Triangles@DX8Wrapper@@SAXIIII@Z")
+
 // ?W3DTerrainBackground::drawVisiblePolys present-unmatched
 void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disableTextures)
 {
@@ -594,7 +600,7 @@ void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disabl
 			DX8Wrapper::Set_Texture(1, m_terrainTexture);
 		}
 	}
-	DX8Wrapper::Draw_Triangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
+	bfmeDrawTriangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
 #else
 	if (m_curNumTerrainIndices == 0) {
 		return;
@@ -614,7 +620,7 @@ void W3DTerrainBackground::drawVisiblePolys(RenderInfoClass & rinfo, Bool disabl
 			DX8Wrapper::Set_Texture(0, m_terrainTexture);
 		}
 	}
-	DX8Wrapper::Draw_Triangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
+	bfmeDrawTriangles(	0, m_curNumTerrainIndices/3, 0,	m_curNumTerrainVertices);
 #endif
 }
 
