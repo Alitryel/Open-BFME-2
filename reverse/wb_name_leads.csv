@@ -5132,7 +5132,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x005E7B28,StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats,PIN_ONLY,StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats,C:\Projects\bfme2\Code\GameEngine\Source\GameClient\LivingWorld\InGameUI\StrategicInGameUIBuildQueueDetailsPanel.cpp,1.0000,callgraph
 0x0029E8FA,,UNROWED,,,33.0000,vtable
 0x00344EB2,rva00344EB2Gate,PIN_ONLY,,,8.0000,callgraph
-0x00334003,,UNROWED,LuaScriptEngine::PushObjectTable,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\ScriptEngine\LuaScriptEngine.cpp,7.0000,callgraph
+0x00334003,LuaScriptEngine::PushObjectTable,RESOLVED,LuaScriptEngine::PushObjectTable,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\ScriptEngine\LuaScriptEngine.cpp,7.0000,callgraph
 0x0053EFC7,Rva0053ED1A::rva0053EFC7,PLACEHOLDER,,,5.0000,callgraph
 0x00202244,Rva00DFE144Globals::rva00202244,PIN_ONLY,,,4.0000,callgraph
 0x0052A53B,,UNROWED,,,4.0000,callgraph
