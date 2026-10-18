@@ -63,7 +63,7 @@ public:
 	void append(Rva002BA8F1Listener *p);
 };
 
-#include "../../Include/Common/Rva005E394EPrimaryBase.h"
+#include "../../Include/Common/Rva0007DF07.h"
 
 class Rva005F5C77Holder : public Rva005E1158
 {
@@ -86,7 +86,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_rva00E06900;
 
-class Rva005F5C77 : public Rva005E394EPrimaryBase, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F5C77 : public Rva0007DF07, public Rva005F5C77Holder, public Rva005E4AE2Listener
 {
 public:
 	Rva005F5C77(void *a1, Rva005F5C77In *a2);
@@ -97,7 +97,7 @@ private:
 };
 
 Rva005F5C77::Rva005F5C77(void *a1, Rva005F5C77In *a2)
-	: Rva005E394EPrimaryBase()
+	: Rva0007DF07()
 	, Rva005F5C77Holder(a1, AsciiString("button"), a2->m_00)
 	, Rva005E4AE2Listener()
 {

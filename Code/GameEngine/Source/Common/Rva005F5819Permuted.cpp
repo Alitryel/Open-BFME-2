@@ -15,11 +15,11 @@ public:
     int m_pad[4];
 };
 
-#include "../../Include/Common/Rva005E394EPrimaryBase.h"
+#include "../../Include/Common/Rva0007DF07.h"
 
 #include "../../Include/Common/Rva005E4AE2Listener.h"
 
-class Rva005F5819 : public Rva005E394EPrimaryBase, public Rva005E12D1, public Rva005E4AE2Listener {
+class Rva005F5819 : public Rva0007DF07, public Rva005E12D1, public Rva005E4AE2Listener {
 public:
     virtual ~Rva005F5819();
     // Preserve the unread word+20 in the enclosing minimal view.

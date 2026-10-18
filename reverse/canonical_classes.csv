@@ -124,4 +124,4 @@ Rva0057605DSecond,Code/GameEngine/Include/Common/Rva0057605DSecond.h,complete na
 Base0C_80FD,Code/GameEngine/Include/Common/Base0C_80FD.h,complete native four-slot nonvirtual minimal observer view; explicit special lifetimes preserved; 1/1 units verified and adopted
 Rva005E4AE2Listener,Code/GameEngine/Include/Common/Rva005E4AE2Listener.h,complete native nonvirtual callback table and lifetime; minimal partial view; 8/8 units verified and adopted
 Rva005E4AE2Base,Code/GameEngine/Include/Common/Rva005E4AE2Base.h,complete native nonvirtual callback table and lifetime; minimal partial view; 2/2 units verified and adopted
-Rva005E394EPrimaryBase,Code/GameEngine/Include/Common/Rva005E394EPrimaryBase.h,complete native nonvirtual callback table and lifetime; minimal partial view; 6/6 units verified and adopted
+Rva0007DF07,Code/GameEngine/Include/Common/Rva0007DF07.h,native one-slot virtual lifetime and consumed 8B prefix; focused 7 units verified and adopted; remaining private views queued
