@@ -135,7 +135,7 @@ unsigned g_Va00E0660C;	// retail RVA 0x00A0660C (.bss), defined here
 unsigned g_Va00E06610;	// retail RVA 0x00A06610 (.bss), defined here
 unsigned g_Va00E06614;	// retail RVA 0x00A06614 (.bss), defined here
 unsigned g_Va00E06618;	// retail RVA 0x00A06618 (.bss), defined here
-extern unsigned g_Va00E0661C;
+unsigned g_Va00E0661C;	// retail RVA 0x00A0661C (.bss), defined here
 unsigned g_Va00DF2984;	// retail RVA 0x009F2984 (.bss), defined here
 unsigned g_Va00E00944;	// retail RVA 0x00A00944 (.bss), defined here
 // Owned by W3DFontCharsCache.cpp; the initializer uses the existing ABI view.
