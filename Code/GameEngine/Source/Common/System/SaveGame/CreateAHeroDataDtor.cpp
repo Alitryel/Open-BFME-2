@@ -24,7 +24,23 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 // bfme link decl-only begin
-namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// Native tree destruction calls clear21A917. The int/int clear name owns
+// 06AA1C; its older additive pin must not redirect the linked call. Use the
+// existing address-derived owner as a call-only view, preserving this tree's
+// established int/int layout and the complete native destructor body.
+struct Rva0021A917Element;
+namespace _STL {
+typedef _Rb_tree<Rva0021A917Element, pair<Rva0021A917Element const, int>,
+    _Select1st<pair<Rva0021A917Element const, int> >, less<Rva0021A917Element>,
+    allocator<pair<Rva0021A917Element const, int> > > HeroIntegerClearTree;
+template <> void HeroIntegerClearTree::clear();
+template <> __declspec(dllimport) __forceinline void
+_Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >,
+    less<int>, allocator<pair<int const, int> > >::clear()
+{
+    ((HeroIntegerClearTree *)this)->clear();
+}
+}
 // bfme link decl-only end
 typedef _STL::map<int,int> IntegerMap;
 struct TreeHintPayload001F8ACB { unsigned int value; };
