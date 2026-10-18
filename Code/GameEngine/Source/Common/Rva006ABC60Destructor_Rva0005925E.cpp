@@ -35,10 +35,12 @@ private:
 };
 }
 
+class Rva00056CF8 { public: ~Rva00056CF8(); };
 class Rva006ABC60TrailingMember
 {
 public:
-	~Rva006ABC60TrailingMember();
+	// Destruction is the rowed ??1Rva00056CF8, reached by a qualified call.
+	__declspec(dllimport) __forceinline ~Rva006ABC60TrailingMember() { ((Rva00056CF8 *)this)->Rva00056CF8::~Rva00056CF8(); }
 };
 
 class Rva006ABC60VectorElement
