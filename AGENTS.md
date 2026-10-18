@@ -130,6 +130,13 @@ byte-match queue does not exhaust reusable reference source. Regenerate with
 
 Finish or revert each body or homogeneous trivial batch before the next.
 
+**Stay with one substantive target.** After checking relevant reference leads
+and prior evidence, select one promising function or concrete prerequisite.
+Stay with it while testing new, evidence-backed hypotheses. Switch only when
+viable hypotheses are exhausted or a specific prerequisite prevents further
+progress; preserve findings for the next agent. The ~30-minute reassessment
+below is a review point, not an automatic stopping time.
+
 **Claim retail bodies before starting work:** `python3 tools/claims.py claim 0xRVA`
 (every RVA in a batch); `python3 tools/next_work.py --claim` and
 `python3 tools/list_naked_candidates.py Code --claim` claim while selecting and
