@@ -76,14 +76,6 @@ private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m_vec;
 };
 
-Rva002C60E4::Rva002C60E4(void *arg0, bool arg1)
-	: m_08(arg0), m_0C(0), m_14(0), m_18(0), m_1C(0)
-{
-	if (arg1)
-		m_0C = new AITargetChooser(arg0);
-	m_10 = new AITacticsGenerator(arg0);
-	m_1C = new Rva00506A34(arg0);
-}
 
 // ?rva002C61AF@Rva002C60E4@@QAEXXZ @0x002C61AF 133B: releases the three owned
 // members (each guarded, the pointer cleared only when it was set) and then
