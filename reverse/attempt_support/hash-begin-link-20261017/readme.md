@@ -16,3 +16,10 @@ Normal combined gate:281/281 bodies across17 affected sources;31 literals plus1 
 The complete351B Player::update and its EXACT EH graph bind the eight-byte copied-team-list cleanup to775AF8. Its actual five-byte list destructor is a complete relocation twin of existing pooled-list wrapper2AC007, which jumps to29B destroy2ABB44. Add the genuine emitted wrapper row, and rehome the generated frame-slot cleanup row to its real C++ parent. Keep the neutral existing cleanup name and parent-bound compiler-label metadata. The generated source is unmodified. Normal whole-file gate5/5, exact EH. This is8B of authored-parent recovery; since the old surrogate was already C++, it adds zero to the C++ versus ASM exact partition.
 
 The shadow identity detector reports existing pooled-list clear/destructor divergences. Preserved original object-store entries for the unchanged pre-edit source were compared with the repaired object: all42B clear and29B base destructor plus every relocation are identical. These are pre-existing source/provider issues, not introduced by the hash-begin repair. The scoped linker report already lists them as separate blockers.
+
+
+# Audio result-owner cleanup at76489F
+
+A follow-up scan of already rowed factory EH graphs identifies the complete25B result cleanup of114B Rva0010F760. Exact parent EH data independently maps $L440 to76489F. The native EBP-14 construction flag guards the hidden result at EBP+8; the cleanup destroys AudioEventInfoRef through its already independently rowed complete12B destructor10F149. This is the parent's genuine owning C++ lifetime, with no hand-written frame access. The source's address-derived factory identity and proven owning-reference semantics are unchanged.
+
+Replace the separate ASM-only row/PROC with that local C++ label and record the old name in deleted_rows.csv for union merges. No generated file was edited, no pin added, and the shared RET is part of this25B interval rather than a separate claimed body. Normal final combined gate40/40 across actual factory and remaining ASM inputs; parent EH EXACT; placement rescan0 bodies/0 pins. C++ versus ASM exact partition gains25B.
