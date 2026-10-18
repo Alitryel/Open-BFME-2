@@ -47964,7 +47964,7 @@ _Rva006FD040,,0x006FD040,26,Code/Libraries/Source/WWVegas/WWLib/Rva006FD040Sibli
 ?Rva0002AD20@Rva0002ACF0Thing@@QAEXPADPAX@Z,,0x0002AD20,42,Code/GameEngine/Source/Common/Rva0002ACC0Cluster.cpp,matched,length bridge over Rva0002ACF0Thing::bfmeDoPF; method name is the image address
 ?Rva006E97A0@@YAXXZ,,0x006E97A0,26,Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp,matched,singleton release with one slot-1 virtual call then pointer clear; identity unproven
 ?Rva006C1790@@YAIXZ,,0x006C1790,21,Code/GameEngine/Source/Common/Rva006C1790Cluster.cpp,matched,GetTickCount divided by 1000 via the 0x10624DD3 reciprocal; IAT pinned 0x00BBA294
-?Rva006C1FE0@@YGIPADHPAPAD@Z,,0x006C1FE0,45,Code/GameEngine/Source/Common/Rva006C1790Cluster.cpp,matched,trailing 16-bit length reader returning body size plus two; optional body pointer out
+?rva006C1FE0@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z,,0x006C1FE0,45,Code/GameEngine/Source/Common/Rva006C1790Cluster.cpp,matched,trailing 16-bit length reader returning body size plus two; optional body pointer out; thiscall member (caller 0x6C2510 passes this in ECX) that ignores this
 ??0Rva00689320@@QAE@HHH@Z,,0x00689320,41,Code/GameEngine/Source/Common/Rva00689320Cluster.cpp,matched,BFME2NativeNetwork-derived constructor with vptr store between member stores; address-derived
 ??0Rva00711380@@QAE@HH@Z,,0x00711380,45,Code/GameEngine/Source/Common/Rva00711380Cluster.cpp,matched,Apt base-derived ctor with bits clear at +0x1C and arg at +0x20
 ?Rva007113B0@@YG_NPAVBfmeAptValue006DCD20@@PBVEAStringC@@0@Z,,0x007113B0,91,Code/GameEngine/Source/Common/Rva00711380Cluster.cpp,matched,XML attributes writer via pinned Apt predicates and EAStringC accessors; always true

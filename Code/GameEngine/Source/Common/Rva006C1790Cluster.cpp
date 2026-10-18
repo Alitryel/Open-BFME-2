@@ -13,11 +13,20 @@ unsigned int Rva006C1790(void)
 	return GetTickCount() / 1000;
 }
 
-// ?Rva006C1FE0@@YGIPADHPAPAD@Z @ 0x006C1FE0 (45B)
+// ?rva006C1FE0@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z @ 0x006C1FE0 (45B)
 // Trailing 16-bit length reader: the size lives in the last two bytes of the
 // run, the body is that length plus the two-byte field, and the optional out
-// pointer receives where the body starts. stdcall (ret 0xC). Address-derived.
-unsigned int __stdcall Rva006C1FE0(char *base, int length, char **bodyOut)
+// pointer receives where the body starts. ret 0xC. Retail's only caller, the
+// debug allocator's trailer-length query 0x006C2510, passes its own this in
+// ECX (mov ecx,edi), so this is a GeneralAllocatorDebug member that does not
+// use this, not a stdcall free function. Address-derived name.
+class GeneralAllocatorDebug
+{
+public:
+	unsigned int rva006C1FE0(char *base, int length, char **bodyOut);
+};
+
+unsigned int GeneralAllocatorDebug::rva006C1FE0(char *base, int length, char **bodyOut)
 {
 	unsigned short bodySize = *reinterpret_cast<unsigned short *>(base + length - 2);
 

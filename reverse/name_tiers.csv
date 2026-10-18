@@ -21253,7 +21253,7 @@ _ghiResetBuffer,0x006BD2B0,evidence,vendored
 ?rva006C1E20@Rva006C1F60@@QAE_NPBXH@Z,0x006C1E20,address,placeholder
 ?rva006C1EB0@Rva006C1F60@@QAEXMII@Z,0x006C1EB0,address,placeholder
 ?rva006C1F60@Rva006C1F60@@QAEHI@Z,0x006C1F60,address,placeholder
-?Rva006C1FE0@@YGIPADHPAPAD@Z,0x006C1FE0,address,placeholder
+?rva006C1FE0@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z,0x006C1FE0,address,placeholder
 ?rva006C21B0@Rva006C17B0@@QAEXXZ,0x006C21B0,address,placeholder
 ?rva006C21C0@Rva006C17B0@@QAE_NIPAX@Z,0x006C21C0,address,placeholder
 ?rva006C2FB0@Rva006C2D20Sink@@QAEXPBD0@Z,0x006C2FB0,address,placeholder
