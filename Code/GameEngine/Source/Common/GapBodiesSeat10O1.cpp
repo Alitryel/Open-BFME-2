@@ -1403,10 +1403,7 @@ public:
 private:
 	XferSave m_xfer;
 };
-int Rva0052B488::rva0052B488(const char *name)
-{
-	return m_xfer.rva0060D435(name);
-}
+
 
 // ?Rva005676FB@@YAPAXPAVGameWindow@@@Z @0x005676FB 5B: cdecl forward to the
 // rowed GadgetButtonGetData 0x00327D56.
