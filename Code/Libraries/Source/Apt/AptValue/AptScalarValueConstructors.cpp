@@ -63,3 +63,10 @@ Rva006D84C0IntValue::Rva006D84C0IntValue(int value) : BfmeAptValue006DCD20(7)
 {
     m_value = value;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?vtableSlot0@Rva006D84C0IntValue@@UAEXXZ=?AddRef@AptValue@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?vtableSlot0@Rva006D86A0FloatValue@@UAEXXZ=?AddRef@AptValue@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?vtableSlot0@Rva006D8860BoolValue@@UAEXXZ=?AddRef@AptValue@@UAEXXZ")

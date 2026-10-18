@@ -40,3 +40,8 @@ void Rva00506B1B::rva00506B2F()
 		return;
 	v1();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v1@Rva00506B1B@@UAEXXZ=__purecall")

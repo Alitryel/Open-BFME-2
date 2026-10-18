@@ -110,3 +110,8 @@ void Rva004ADC88::rva004ADC88()
 	if (m_flag != 0 && ((StringBase<char> *)((char *)other + 0xD0))->isEmpty() == 0)
 		rva004AD9E0();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rva00451B92@SpecialAbilityUpdate@@UAEXXZ=??_GSpecialAbilityUpdate@@UAEPAXI@Z")

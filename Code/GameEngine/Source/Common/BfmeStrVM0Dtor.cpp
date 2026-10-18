@@ -458,3 +458,19 @@ void BfmeStrVM0::rva0025C238()
 	for (ListNode0025D9E3 *node = m_head1C; node != 0; node = node->getNext())
 		node->s095();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v02@BfmeStrVM0@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?v10@BfmeStrVM0@@UAEXXZ=?rva0025C4F3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v12@BfmeStrVM0@@UAEXXZ=?rva0025C25A@Rva0025C25AForwarder@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v18@BfmeStrVM0@@UAEXXZ=?set@Rva002B22A5DwordSlot@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?v20@BfmeStrVM0@@UAEXXZ=?set@Rva00049F2BByteSlot@@QAEXE@Z")
+#pragma comment(linker, "/alternatename:?v22@BfmeStrVM0@@UAEXXZ=?setDisplayMode@Display@@UAE_NIII_N@Z")
+#pragma comment(linker, "/alternatename:?v24@BfmeStrVM0@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
+#pragma comment(linker, "/alternatename:?v25@BfmeStrVM0@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
+#pragma comment(linker, "/alternatename:?v26@BfmeStrVM0@@UAEXXZ=?testMinSpecRequirements@Display@@UAE_NPA_N00PAW4StaticGameLODLevel@@PAM@Z")
+#pragma comment(linker, "/alternatename:?v37@BfmeStrVM0@@UAEXXZ=?rva00049F4F@W3DDisplay@@QAEHPAVRva00049F4FObject@@@Z")
+#pragma comment(linker, "/alternatename:?v66@BfmeStrVM0@@UAEXXZ=?rva0025C97E@Display@@UAE_NVAsciiString@@HHH@Z")
+#pragma comment(linker, "/alternatename:?v67@BfmeStrVM0@@UAEXXZ=?rva0025D6F5@W3DDisplay@@QAE_NVAsciiString@@_NH@Z")

@@ -38,3 +38,9 @@ public:
 Rva006D6320Value::Rva006D6320Value(int type) : BfmeAptValue006DCD20(type)
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?vtableSlot0@Rva006D6300Value@@UAEXXZ=?AddRef@AptValue@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?vtableSlot0@Rva006D6320Value@@UAEXXZ=?AddRef@AptValue@@UAEXXZ")

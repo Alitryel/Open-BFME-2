@@ -155,3 +155,13 @@ Rva005CF27A::Rva005CF27A(Rva005CF7BF *owner, int a2, int a3, int a4, int a5, int
 	if (TheLivingWorldManager->m_268)
 		TheLivingWorldManager->m_268->rva003EE91A(m_18);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?b0@Rva005CF27A@@UAEXXZ=?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@MH@Z")
+#pragma comment(linker, "/alternatename:?b0@Rva005CF27ABase@@UAEXXZ=?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@MH@Z")
+#pragma comment(linker, "/alternatename:?b1@Rva005CF27A@@UAEXXZ=?OnRegionChangingOwnership@Impl@PlanningPhaseRegionSelection@StrategicInGameUI@@UAEXPAXHH@Z")
+#pragma comment(linker, "/alternatename:?b1@Rva005CF27ABase@@UAEXXZ=?OnRegionChangingOwnership@Impl@PlanningPhaseRegionSelection@StrategicInGameUI@@UAEXPAXHH@Z")
+#pragma comment(linker, "/alternatename:?b2@Rva005CF27ABase@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?b3@Rva005CF27ABase@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")

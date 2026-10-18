@@ -182,3 +182,11 @@ Rva005FAD8D::Rva005FAD8D(void *owner, void *source)
 	}
 	((Rva005A0B4CList *)((char *)battle + 8))->append((Rva002BA8F1Listener *)this);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f0@Rva005FAD8D@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?f0@Rva00875284Base@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?f1@Rva005FAD8D@@UAEXXZ=?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z")
+#pragma comment(linker, "/alternatename:?f1@Rva00875284Base@@UAEXXZ=?rva005FA98CSwap@@YIXPAVRva005FA98C@@HHHHHH@Z")

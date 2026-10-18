@@ -62,3 +62,8 @@ BfmeThingSJ::BfmeThingSJ(int what)
 // Native765831: complete11B StringClass member+18 constructor cleanup.
 // Whole89B parent and complete EH graph bind the action to actual65F5B
 // destructor forwarding to pooled release; enclosing donor identity stays provisional.
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?handle@BfmeThingSJ@@UAEXXZ=?PreLoad@Factory@TextureAsset@@QAEXXZ")

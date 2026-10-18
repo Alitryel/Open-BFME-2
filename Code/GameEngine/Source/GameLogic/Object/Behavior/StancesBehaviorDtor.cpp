@@ -73,3 +73,9 @@ StancesBehavior::~StancesBehavior()
 {
 	m_listeners.forEach((void (Rva0045EF37Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?stancesInterfaceA@StancesBehavior@@UAEXXZ=?loadPostProcess@Rva00497805@@MAEXXZ")
+#pragma comment(linker, "/alternatename:?stancesInterfaceB@StancesBehavior@@UAEXXZ=?Rva0045EFB6Get@@YAHXZ")
