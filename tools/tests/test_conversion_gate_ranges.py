@@ -169,6 +169,43 @@ def test_clean_cpp_repointed_to_dump_remains_refused(repo, monkeypatch):
     assert check_main(monkeypatch, base, tip) == 1
 
 
+@pytest.mark.parametrize("staged", [False, True])
+@pytest.mark.parametrize("suffix", [".lib", ".LIB"])
+def test_prebuilt_archive_may_yield_to_assembly(repo, monkeypatch, staged, suffix):
+    git, write, commit, _ = repo
+    archive = "vendor/crt/runtime" + suffix
+    write(archive, "prebuilt archive fixture\n")
+    git("add", archive)
+    write("reverse/functions.csv", HEADER + REAL_ROW.replace("Code/Old.cpp", archive))
+    before = commit()
+    assembly = "Code/masm_dumps/CompilerHelper.asm"
+    write(assembly, ".386\n.model flat\nEND\n")
+    write("reverse/functions.csv", HEADER + REAL_ROW.replace("Code/Old.cpp", assembly))
+    if staged:
+        git("add", "Code", "reverse/functions.csv")
+        tip = ":"
+    else:
+        tip = commit()
+    assert gate.clean_coverage_lost(before, tip) == []
+    assert check_main(monkeypatch, before, tip) == 0
+
+
+@pytest.mark.parametrize("staged", [False, True])
+@pytest.mark.parametrize("suffix", [".lib", ".LIB", ".s"])
+def test_non_cpp_source_cannot_replace_clean_cpp(repo, monkeypatch, staged, suffix):
+    git, write, commit, before = repo
+    replacement = "Code/Replacement" + suffix
+    write(replacement, "non-C++ fixture\n")
+    write("reverse/functions.csv", HEADER + REAL_ROW.replace("Code/Old.cpp", replacement))
+    if staged:
+        git("add", "Code", "reverse/functions.csv")
+        tip = ":"
+    else:
+        tip = commit()
+    assert gate.clean_coverage_lost(before, tip)
+    assert check_main(monkeypatch, before, tip) == 1
+
+
 @pytest.fixture
 def imports(monkeypatch, tmp_path):
     import build

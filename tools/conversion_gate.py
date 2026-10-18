@@ -40,7 +40,7 @@ import sys
 from pathlib import Path
 
 from list_naked_candidates import NAKED_RE
-from progress import CPP_SUFFIXES, naked_cpp_rows
+from progress import CPP_SUFFIXES, naked_cpp_rows, source_kind
 
 LIFT_RE = re.compile(r"\b__?emit\b")
 LEDGER = "reverse/functions.csv"
@@ -252,11 +252,14 @@ def clean_coverage_lost(old, new):
         return source_text[key]
 
     def clean_sources(rev, rva, rows_by_rva, naked):
+        # Share progress.py's classification: prebuilt archives and both
+        # assembly suffixes own no clean C++ coverage. This also prevents a
+        # live C++ row from retaining Rule B coverage by moving into a .lib.
         # A generated, retail-proven FF25 import placeholder owns linker glue,
         # not recovered C++. Its real ABI stub may be assembly. Neither a tag
         # nor another generated C++ family grants this narrow exception.
         return sorted({r["source"] for r in rows_by_rva[rva]
-                       if not r["source"].endswith(".asm")
+                       if source_kind(r["source"]) == "cpp"
                        and (r["name"], r["target_rva"]) not in naked
                        and not pe_imports.generated_import_scaffold(
                            r, build.read_target_bytes, retail_imports,
