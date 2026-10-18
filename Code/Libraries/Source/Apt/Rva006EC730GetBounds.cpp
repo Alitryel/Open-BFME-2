@@ -33,7 +33,8 @@ extern AptValue *gpUndefinedValue;
 struct Rect {float left,top,right,bottom;};
 AptValue *Rva008A4EA0MakeFloat(float);
 class AptNativeHash {public:AptNativeHash(int);void Set(const EAStringC *const,AptValue *const);int m_size;void *m_data;AptValue *m_proto,*m_prototype;unsigned int m_events;};
-class BfmeAptValue006DCD20 {public:BfmeAptValue006DCD20(int);virtual ~BfmeAptValue006DCD20();unsigned int m_flags;};
+// Match the inherited slot preceding the destructor in the rowed constructors.
+class BfmeAptValue006DCD20 {virtual void vtableSlot0();public:BfmeAptValue006DCD20(int);virtual ~BfmeAptValue006DCD20();unsigned int m_flags;};
 class Rva006D2A60 {public:void *allocBlock(int);void freeBlock(void *,int);};
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 void Rva006F12F0Free(void *,int);
