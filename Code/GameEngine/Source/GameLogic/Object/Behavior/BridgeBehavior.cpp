@@ -183,44 +183,8 @@ inline /*static*/ void BridgeBehaviorModuleData::parseFX( INI *ini,
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void BridgeBehaviorModuleData::parseOCL( INI *ini, 
-																										void *instance,
-																										void *store, 
-																										const void *userData )
-{
-	const char *token;
-
-	// create item we will read into and push on list
-	BridgeOCLInfo item;
-	item.ocl = NULL;
-
-	// get list to store at
-	BridgeOCLList *bridgeOCLList = (BridgeOCLList *)store;
-
-	// fx list label
-	token = ini->getNextToken( ini->getSepsColon() );
-	if( stricmp( token, "OCL" ) != 0 )
-	{
-
-		DEBUG_CRASH(( "Expected 'OCL' token, found '%s'\n", token ));
-		throw INI_INVALID_DATA;
-
-	}  // end if
-
-	// fx list name and store as pointer
-	ObjectCreationList *ocl;
-	ini->parseObjectCreationList( ini, instance, &ocl, NULL );
-
-	// store ocl list to item
-	item.ocl = ocl;
-
-	// parse the timing and location info
-	parseTimeAndLocationInfo( ini, instance, &item.timeAndLocationInfo );
-
-	// put on list
-	bridgeOCLList->push_back( item );
-
-}  // end parseOCL
+// Retail parseOCL is owned by BridgeBehaviorParseOCL.cpp (RVA 0x00458153).
+// Use that byte-verified definition instead of emitting the Zero Hour copy.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
