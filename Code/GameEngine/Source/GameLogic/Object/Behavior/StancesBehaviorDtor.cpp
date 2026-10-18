@@ -4,8 +4,11 @@
 // the listener list at +0x20 broadcasts this object through the rowed forEach
 // 0x0045EF37 with a member-function pointer to the slot-0 forwarder 0x001FF3A9;
 // the list's inline dtor frees its block through the rowed CRT free, then the
-// rowed first-base dtor ??1UpdateModule@@UAE@XZ 0x0024A797 runs. The two
-// secondary bases are interface views without destructors (no restores).
+// rowed first-base dtor ??1UpdateModule@@UAE@XZ 0x0024A797 runs. Native20B
+// cleanup 78A729 null-adjusts this to the listener storage at+20: it is a
+// secondary base, not a direct member. Constructor45EF80 independently builds
+// its16B storage through330757. The two polymorphic secondary views have no
+// destructors (no restores); the ownership of opaque bytes14..1F is unknown.
 // Same recipe as Rva005C9B76Dtor.cpp; TU-local view of the class.
 
 extern "C" void __cdecl free(void *);
@@ -55,23 +58,25 @@ class StancesBehaviorInterfaceB
 {
 public:
 	virtual void stancesInterfaceB() = 0;
+private:
+	// Opaque prefix storage before the proven listener base at+20. This view
+	// does not establish the original interface's declared size or fields.
+	char m_pad04[12];
 };
 
-class StancesBehavior : public UpdateModule, public StancesBehaviorInterfaceA, public StancesBehaviorInterfaceB
+class StancesBehavior : public UpdateModule, public StancesBehaviorInterfaceA, public StancesBehaviorInterfaceB, private Rva0045EF37List
 {
 public:
 	virtual ~StancesBehavior();
 	virtual void stancesInterfaceA();
 	virtual void stancesInterfaceB();
 private:
-	char m_pad14[0x20 - 0x14];
-	Rva0045EF37List m_listeners; // +0x20
 	int m_30;
 };
 
 StancesBehavior::~StancesBehavior()
 {
-	m_listeners.forEach((void (Rva0045EF37Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
+	Rva0045EF37List::forEach((void (Rva0045EF37Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
 }
 
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
