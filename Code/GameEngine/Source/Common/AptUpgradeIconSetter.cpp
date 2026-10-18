@@ -287,20 +287,6 @@ void StrategicHUD::ArmyUnitIconMovieClip::OnUpgradeIconRollOut(const char *value
 	}
 }
 
-// Retail 0x005FD251 (ret 4; called from the army details panel): the
-// ArmyMemberIconMovieClip base with the "ArmyUnitIcon" content clip type
-// (retail string), vtable 0x0087A1F4, then binds the two upgrade-icon
-// roll-over callbacks through the 0x0057BC63 functor holder. The level and
-// name come from the base's rowed out-of-line getters.
-StrategicHUD::ArmyUnitIconMovieClip::ArmyUnitIconMovieClip(AptMovieClipFrame *frame)
-	: ArmyMemberIconMovieClip(frame, AsciiString("ArmyUnitIcon")), m_rank(0), m_upgradeOverlay(false), m_rankSent(true), m_upgradeOverlaySent(true), m_current(-1)
-{
-	memset(m_slot, 0, sizeof(m_slot));
-	AsciiString prefix;
-	prefix.format("_level%u.", ((const Rva005FC754PtrChaseField *)this)->get());
-	m_commandMaps.AddCommandMapBinding(prefix + *(const AsciiString *)((const Rva005FC75BAddDwordField *)this)->get() + "_OnUpgradeIconRollOver", FunctorBinding(this, &ArmyUnitIconMovieClip::OnUpgradeIconRollOver));
-	m_commandMaps.AddCommandMapBinding(prefix + *(const AsciiString *)((const Rva005FC75BAddDwordField *)this)->get() + "_OnUpgradeIconRollOut", FunctorBinding(this, &ArmyUnitIconMovieClip::OnUpgradeIconRollOut));
-}
 
 // Retail 0x005FD197 (vtable 0x0087A1F4 slot 1; WorldBuilder
 // StrategicHUD::ArmyUnitIconMovieClip::DoUpdate): the base update, then
