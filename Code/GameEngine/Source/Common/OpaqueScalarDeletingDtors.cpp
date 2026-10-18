@@ -70,21 +70,21 @@ Rva005333F::Rva005333F(EmitVtableTag *)
 {
 }
 
-class Rva00065288
+class W3DQuadrupedDrawModuleData
 {
 public:
-	explicit Rva00065288(int)
+	explicit W3DQuadrupedDrawModuleData(int)
 	{
 	}
 
-	virtual ~Rva00065288();	// row 0x00065288 in Rva00065288Destructor.cpp
+	virtual ~W3DQuadrupedDrawModuleData();	// row 0x00065288 in Rva00065288Destructor.cpp
 };
 
 // Anchor: the inline constructor stores the vftable, so this TU emits the
 // scalar deleting destructor; the destructor is only declared here.
-Rva00065288 *Rva0065288_Anchor(int)
+W3DQuadrupedDrawModuleData *Rva0065288_Anchor(int)
 {
-	return new Rva00065288(0);
+	return new W3DQuadrupedDrawModuleData(0);
 }
 
 // ??_GRva00751EF@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00751EFDtor.cpp.

@@ -14,14 +14,14 @@ private:
 	char m_pad04[0x188 - 4];
 };
 
-class __declspec(novtable) Rva00065288 : public W3DModelDrawModuleData
+class __declspec(novtable) W3DQuadrupedDrawModuleData : public W3DModelDrawModuleData
 {
 public:
-	virtual ~Rva00065288();
+	virtual ~W3DQuadrupedDrawModuleData();
 private:
 	AsciiString m_names[4]; // +0x188
 };
 
-Rva00065288::~Rva00065288()
+W3DQuadrupedDrawModuleData::~W3DQuadrupedDrawModuleData()
 {
 }
