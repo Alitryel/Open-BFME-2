@@ -29,13 +29,6 @@ struct Rva0039A48EElement
 	int a[2];
 };
 
-struct TreeKey00242F5E
-{
-public:
-	TreeKey00242F5E();
-	TreeKey00242F5E(const TreeKey00242F5E &other);
-	char m_body[8];
-};
 
 struct BfmeStringRecord005DDD40
 {
@@ -155,7 +148,6 @@ public:
 };
 
 namespace _STL {
-template<> void _Construct<TreeKey00242F5E, TreeKey00242F5E>(TreeKey00242F5E *, const TreeKey00242F5E &);
 template<> void _Construct<CopyNoCasePair, CopyNoCasePair>(CopyNoCasePair *, const CopyNoCasePair &);
 template<> __declspec(nothrow) void _Construct<Rva0039A48EElement, Rva0039A48EElement>(Rva0039A48EElement *, const Rva0039A48EElement &);
 template<> void _Construct<CopyPairC, CopyPairC>(CopyPairC *, const CopyPairC &);
@@ -180,7 +172,6 @@ template<> BfmeStringRecord005F93E3 *allocator<BfmeStringRecord005F93E3>::alloca
 template<> BfmeStringRecord00219A68 *allocator<BfmeStringRecord00219A68>::allocate(unsigned int, const void *) const;
 }
 
-template _STL::vector<TreeKey00242F5E, _STL::allocator<TreeKey00242F5E> >::vector(const _STL::vector<TreeKey00242F5E, _STL::allocator<TreeKey00242F5E> > &);
 template _STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> >::vector(const _STL::vector<CopyNoCasePair, _STL::allocator<CopyNoCasePair> > &);
 template _STL::vector<CopyPairC, _STL::allocator<CopyPairC> >::vector(const _STL::vector<CopyPairC, _STL::allocator<CopyPairC> > &);
 template _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::vector(const _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > &);
