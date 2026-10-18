@@ -23734,7 +23734,7 @@ pin	reverse/symbols.csv	0x0007EAA7	1
 pin	reverse/symbols.csv	0x0007EB6E	1
 pin	reverse/symbols.csv	0x0007EBB1	1
 pin	reverse/symbols.csv	0x0007F87C	1
-pin	reverse/symbols.csv	0x0007FAB3	27
+pin	reverse/symbols.csv	0x0007FAB3	28	allow=a9bd7fdbc9542ace804055a4c64541c1f251ec3a
 pin	reverse/symbols.csv	0x0007FF18	1
 pin	reverse/symbols.csv	0x00080221	1
 pin	reverse/symbols.csv	0x0008103A	1
@@ -25600,7 +25600,7 @@ pin	reverse/symbols.csv	0x002104B6	1
 pin	reverse/symbols.csv	0x00210566	1
 pin	reverse/symbols.csv	0x00210830	1
 pin	reverse/symbols.csv	0x00210C87	1
-pin	reverse/symbols.csv	0x00210CC5	2
+pin	reverse/symbols.csv	0x00210CC5	3	allow=a9bd7fdbc9542ace804055a4c64541c1f251ec3a
 pin	reverse/symbols.csv	0x00210D1D	1
 pin	reverse/symbols.csv	0x00210DC9	1
 pin	reverse/symbols.csv	0x00210E5B	1
@@ -30258,7 +30258,7 @@ pin	reverse/symbols.csv	0x004EDCE9	1
 pin	reverse/symbols.csv	0x004EDF03	1
 pin	reverse/symbols.csv	0x004EDFF8	1
 pin	reverse/symbols.csv	0x004EDFFF	1
-pin	reverse/symbols.csv	0x004EE006	1
+pin	reverse/symbols.csv	0x004EE006	2	allow=a9bd7fdbc9542ace804055a4c64541c1f251ec3a
 pin	reverse/symbols.csv	0x004EE1A9	1
 pin	reverse/symbols.csv	0x004EE1E2	2
 pin	reverse/symbols.csv	0x004EE233	2
@@ -31768,7 +31768,7 @@ pin	reverse/symbols.csv	0x005D23FE	1
 pin	reverse/symbols.csv	0x005D2405	1
 pin	reverse/symbols.csv	0x005D2A53	2
 pin	reverse/symbols.csv	0x005D2BD4	1
-pin	reverse/symbols.csv	0x005D2EA1	2
+pin	reverse/symbols.csv	0x005D2EA1	3	allow=a9bd7fdbc9542ace804055a4c64541c1f251ec3a
 pin	reverse/symbols.csv	0x005D2F7E	1
 pin	reverse/symbols.csv	0x005D2F84	1
 pin	reverse/symbols.csv	0x005D2F8A	1
@@ -33252,7 +33252,7 @@ pin	reverse/symbols.csv	0x006ED150	2
 pin	reverse/symbols.csv	0x006ED390	1
 pin	reverse/symbols.csv	0x006EE6C0	2
 pin	reverse/symbols.csv	0x006EFBC0	1
-pin	reverse/symbols.csv	0x006F12F0	1
+pin	reverse/symbols.csv	0x006F12F0	3	allow=a9bd7fdbc9542ace804055a4c64541c1f251ec3a
 pin	reverse/symbols.csv	0x006F1310	1
 pin	reverse/symbols.csv	0x006F1360	1
 pin	reverse/symbols.csv	0x006F2640	1
