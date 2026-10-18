@@ -830,30 +830,6 @@ Bool ScriptGroup::ParseGroupDataChunk(DataChunkInput &file, DataChunkInfo *info,
   Dtor - The condition and action deletes the rest of the list, but we have to loop & delete
 	all the scripts in out list.
 */
-// ??1Script@@MAE@XZ present-unmatched
-Script::~Script(void) 
-{
-	if (m_nextScript) {
-		Script *cur = m_nextScript;
-		Script *next;
-		while (cur) {
-			next = cur->getNext();
-			cur->setNextScript(NULL); // prevents recursion. 
-			cur->deleteInstance();
-			cur = next; 
-		}
-	}
-	if (m_condition) {
-		m_condition->deleteInstance();
-	}
-	if (m_action) {
-		m_action->deleteInstance();
-	}
-
-	if (m_actionFalse) {
-		m_actionFalse->deleteInstance();
-	}
-}
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
