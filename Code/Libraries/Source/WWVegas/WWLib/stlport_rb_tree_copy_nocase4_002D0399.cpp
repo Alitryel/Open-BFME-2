@@ -22,6 +22,9 @@ struct BfmeStringNoCaseLess
 {
 	bool operator()(const AsciiString &left, const AsciiString &right) const;
 };
+// Bind to the kept retail copies instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_iterator<pair<AsciiString const ,NoCaseTreeValue4>,_Nonconst_traits<pair<AsciiString const ,NoCaseTreeValue4> > > _Rb_tree<AsciiString,pair<AsciiString const ,NoCaseTreeValue4>,_Select1st<pair<AsciiString const ,NoCaseTreeValue4> >,BfmeStringNoCaseLess,allocator<pair<AsciiString const ,NoCaseTreeValue4> > >::_M_insert(_Rb_tree_node_base *,_Rb_tree_node_base *,pair<AsciiString const ,NoCaseTreeValue4> const &,_Rb_tree_node_base *); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const ,NoCaseTreeValue4>,_Nonconst_traits<pair<AsciiString const ,NoCaseTreeValue4> > >,bool> _Rb_tree<AsciiString,pair<AsciiString const ,NoCaseTreeValue4>,_Select1st<pair<AsciiString const ,NoCaseTreeValue4> >,BfmeStringNoCaseLess,allocator<pair<AsciiString const ,NoCaseTreeValue4> > >::insert_unique(pair<AsciiString const ,NoCaseTreeValue4> const &); }
 // Use the complete value-copy provider at retail 0x00466EA7.
 // A trivial local AsciiString view must not supply the selected pair copy.
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NoCasePairCopy;
