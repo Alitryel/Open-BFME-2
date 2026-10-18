@@ -1487,11 +1487,12 @@ public:
 	int rva0043DA65();
 };
 
+class AptMapPreview { public: void UpdateStrategicStartSpots(); };
 class Rva0057DFFB
 {
 public:
 	bool rva0057DFFB(bool onLoadScreen);
-	void rva0057DB97();
+	/* the rowed AptMapPreview::UpdateStrategicStartSpots */ __declspec(dllimport) __forceinline void rva0057DB97() { ((AptMapPreview *)this)->UpdateStrategicStartSpots(); }
 
 private:
 	unsigned char m_pad00[0x18];
