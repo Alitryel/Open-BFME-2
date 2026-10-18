@@ -485,18 +485,6 @@ cleanup_done_0079B88E:
     ret
 ?rva0079B88E@@YAXXZ ENDP
 
-; Unwind@00b9b8df at RVA 0x0079B8DF; 20-byte funclet adds 18h to [ebp-10h] (zero stays zero) and tail-jumps to dtor at 0x00578C23.
-PUBLIC ?rva0079B8DF@@YAXXZ
-?rva0079B8DF@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 18h
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Rva00578C23@@UAE@XZ
-?rva0079B8DF@@YAXXZ ENDP
-
 ; Unwind@00b9bb1f at RVA 0x0079BB1F; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-28], then loads the cleanup pointer from [ebp+8] and tail-jumps to UnicodeString at 0x005B804E.
 PUBLIC ?rva0079BB1F@@YAXXZ

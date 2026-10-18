@@ -383,21 +383,6 @@ PUBLIC ?rva007860ce@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva007860ce@@YAXXZ ENDP
 
-; Unwind@00b86c39 at RVA 0x00786C39; 25-byte state-bit cleanup ends at RET.
-; Target clears bit 2 at [ebp-16] and tail-jumps with [ebp-44] to the existing rowed 0x000796BC provider.
-PUBLIC ?rva00786c39@@YAXXZ
-?rva00786c39@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 4
-    jz NEAR PTR cleanup_done_00786c39
-    and DWORD PTR [ebp-16], -5
-    lea ecx, [ebp-44]
-    jmp ??1Rva005A9562@@QAE@XZ
-cleanup_done_00786c39:
-    ret
-?rva00786c39@@YAXXZ ENDP
-
-; Unwind@00b86f3c: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva00786f3c@@YAXXZ
 ?rva00786f3c@@YAXXZ PROC
     mov ecx, DWORD PTR [ebp-16]
