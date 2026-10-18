@@ -109,34 +109,3 @@ Bool Player::allowedToBuild(const ThingTemplate *tmplate) const
 	return _STL::find(m_templateIdList_700.begin(), m_templateIdList_700.end(), tmplate->getTemplateID()) == m_templateIdList_700.end();
 }
 
-Bool Player::canBuild(const ThingTemplate *tmplate) const
-{
-	if (!tmplate)
-		return false;
-
-	if (!allowedToBuild(tmplate))
-		return false;
-
-	if (tmplate->getBuildable() == BSTATUS_NO)
-		return false;
-
-	if (tmplate->getBuildable() == BSTATUS_IGNORE_PREREQUISITES)
-		return true;
-
-	if (tmplate->getBuildable() == BSTATUS_ONLY_BY_AI && getPlayerType() != PLAYER_COMPUTER)
-		return false;
-
-	// we must satisfy all of the prereqs
-	Bool prereqsOK = true;
-	for (Int i = 0; i < tmplate->getPrereqCount(); i++)
-	{
-		const ProductionPrerequisite *pre = tmplate->getNthPrereq(i);
-		if (pre->isSatisfied(this) == false)
-			prereqsOK = false;
-	}
-
-	if (!prereqsOK)
-		return false;
-
-	return true;
-}
