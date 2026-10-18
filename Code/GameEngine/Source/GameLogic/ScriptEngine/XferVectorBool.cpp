@@ -21,7 +21,11 @@ void _Bvector_base<allocator<bool> >::_M_deallocate()
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> copy<_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *> >(_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>); }
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
 namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsigned int); }
+// Use the rowed insertion provider rather than emitting its unused helpers.
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_insert_aux(_Bit_iterator, bool); }
 // bfme link decl-only end
+// Preserve this unit's rowed iterator body after suppressing unused insert helpers.
+template _STL::_Bit_iterator _STL::_Bit_iter<_STL::_Bit_reference, _STL::_Bit_reference *>::operator++(int);
 
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
