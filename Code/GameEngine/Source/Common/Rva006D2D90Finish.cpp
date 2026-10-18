@@ -31,7 +31,7 @@
 //    clamp into minVal itself (`if (minVal < 12) minVal = 12;`) is
 //    byte-identical to this form.
 extern unsigned char g_00E177E0;
-extern unsigned char g_00E177E1;
+unsigned char g_00E177E1;	// retail RVA 0x00A177E1 (.bss), defined here
 extern unsigned char g_00E177E2;
 extern int g_00E177E4;
 extern unsigned char g_00E177E8;
