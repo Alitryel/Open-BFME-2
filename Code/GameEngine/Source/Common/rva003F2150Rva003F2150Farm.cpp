@@ -1,8 +1,4 @@
 // ?rva003F2150@LivingWorldRegion@@QAEXPAVRva003F7BB4@@@Z
-// partial score=0.91 date=2026-10-16
-// farm best: 16 instruction differences (retail 480 B); key bdcde0046bf4e2bff30b
-// ?rva003F2150@LivingWorldRegion@@QAEXPAVRva003F7BB4@@@Z
-// partial score=0.866 date=2026-10-15
 // ?rva003F2150@LivingWorldRegion@@QAEXPAVRva003F7BB4@@@Z
 // Whole home TU Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldRegion.cpp with the body appended.
 // cl: /O1 /EHsc /MD /arch:SSE /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
@@ -833,19 +829,26 @@ static __forceinline void Rva003F2150ScanPlots(BuildPlotVector &plots, Rva003F7B
 }
 void LivingWorldRegion::rva003F2150(Rva003F7BB4 *bonus)
 {
-	Rva004E0809 *bonusSink = (Rva004E0809 *)bonus;
-	LivingWorldBuildPlot **plotBegin = m_buildPlots.begin();
-	LivingWorldBuildPlot **plotEnd = m_buildPlots.end();
-	for (LivingWorldBuildPlot **plotIt = plotBegin; plotIt != plotEnd; ++plotIt) {
-		LivingWorldBuildPlot *plot = *plotIt;
+	bonus = *(Rva003F7BB4 * volatile *)&bonus;
+	for (BuildPlotVector::iterator it = m_buildPlots.begin(); it != m_buildPlots.end(); ++it) {
+		LivingWorldBuildPlot *plot = *it;
 		if (plot->HasBuilding())
 			((Rva004E0809 *)plot->m_building)->rva004E0860(bonus);
 	}
 	if (bonus->m_region != this || bonus->m_player->m_playerID != m_ownerPlayerID)
 		return;
-	float scale9C = 1.0f + (float)getBonusPercent9C() * 0.01f;
-	float scaleA0 = 1.0f + (float)getBonusPercentA0() * 0.01f;
-	float scaleA4 = 1.0f + (float)getBonusPercentA4() * 0.01f;
+	float p9c = (float)getBonusPercent9C();
+	p9c *= 0.01f;
+	p9c += 1.0f;
+	float pA0 = (float)getBonusPercentA0();
+	pA0 *= 0.01f;
+	pA0 += 1.0f;
+	float pA4 = (float)getBonusPercentA4();
+	pA4 *= 0.01f;
+	pA4 += 1.0f;
+	float scale9C = p9c;
+	float scaleA0 = pA0;
+	float scaleA4 = pA4;
 	((Rva003F7478 *)bonus)->rva003F7465(scale9C);
 	((Rva003F7478 *)bonus)->rva003F7478(scaleA0);
 	((Rva003F74A0 *)bonus)->rva003F74A0(scaleA4);
