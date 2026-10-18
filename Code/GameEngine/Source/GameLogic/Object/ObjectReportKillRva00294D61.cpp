@@ -116,7 +116,7 @@ public:
 	void report(Object *victim, int arg1);
 };
 
-extern void *g_00E032F8;
+void * g_00E032F8;	// retail RVA 0x00A032F8 (.bss), defined here
 class CreateAHeroData;
 class CreateAHeroManager {public: CreateAHeroData *rva002197A6(int);};
 extern CreateAHeroManager *TheCreateAHeroManager;
