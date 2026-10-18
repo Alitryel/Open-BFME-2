@@ -59,13 +59,15 @@ class Rva00221C15Empty
 {
 public:
 	Rva00221C15Empty() {}
-	~Rva00221C15Empty();
+	~Rva00221C15Empty() {}
 };
 
 class Rva00221C15Base : public Rva00221C15Empty
 {
 public:
 	Rva00221C15Base() : m_04(0) { *(volatile const void **)&m_vtable = __identifier("??_7Secondary005E7ED7@@6B@"); }
+	// As in Rva00221C15Dtor.cpp: retail's teardown 0x00221C78 restores the vptr inline.
+	~Rva00221C15Base() { *(const void **)&m_vtable = __identifier("??_7Secondary005E7ED7@@6B@"); }
 protected:
 	const void *m_vtable;
 	int m_04;

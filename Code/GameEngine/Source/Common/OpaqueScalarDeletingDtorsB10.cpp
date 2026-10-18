@@ -146,7 +146,7 @@ Rva0041F94A::Rva0041F94A(EmitVtableTag *)
 // subsystem/SubsystemInterface.cpp. Declare it rather than emitting the
 // implicit constructor for this bounded 12-byte deleting-destructor view.
 
-class Rva00426745SnapshotBase { public: virtual ~Rva00426745SnapshotBase(); };
+class Rva00426745SnapshotBase { public: virtual ~Rva00426745SnapshotBase() {} };
 class Rva00426745 : public SubsystemInterface, public Rva00426745SnapshotBase
 {
 public:

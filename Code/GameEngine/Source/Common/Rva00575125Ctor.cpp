@@ -36,7 +36,7 @@ public:
 class Rva00575125Second
 {
 public:
-	virtual ~Rva00575125Second();
+	virtual ~Rva00575125Second() {}	// inline, as in Rva00575125Dtor.cpp
 };
 
 class Rva00575125 : public Rva005746AF, public Rva00575125Second

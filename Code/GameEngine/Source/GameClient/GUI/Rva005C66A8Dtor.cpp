@@ -10,15 +10,15 @@
 void __cdecl Rva003FED32DeleteButtonFlash(void **pp);
 extern "C" const unsigned char __identifier("??_7Secondary005E7ED7@@6B@")[];
 
-class __declspec(novtable) RvaBase
+class __declspec(novtable) Rva005C663CBase
 {
 public:
-	RvaBase() : m_4(0) {}
-	virtual ~RvaBase() { *(const void **)this = __identifier("??_7Secondary005E7ED7@@6B@"); }
+	Rva005C663CBase() : m_4(0) {}
+	virtual ~Rva005C663CBase() { *(const void **)this = __identifier("??_7Secondary005E7ED7@@6B@"); }
 	int m_4;
 };
 
-class Rva005C663C : public RvaBase
+class Rva005C663C : public Rva005C663CBase
 {
 public:
 	virtual ~Rva005C663C();

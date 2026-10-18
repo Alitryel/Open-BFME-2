@@ -29,7 +29,7 @@ struct TargetRefHolder1C
 	void *m_ptr;
 };
 
-struct __declspec(novtable) Base003F8ED6
+struct Base003F8ED6
 {
 	virtual ~Base003F8ED6() {}
 	Base003F8ED6(int x) : m_04(x) {}
