@@ -57,14 +57,6 @@ void Rva0007E971::rva0007FB07(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x00082536 73B: erase(const int &) over rva0007FB07
-unsigned int Rva0007E971::rva00082536(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva0007FB07(p.first, p.second);
-	return n;
-}
 
 class Rva000D20A9
 {
@@ -85,14 +77,6 @@ void Rva000D20A9::rva000D22BD(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x000D3BFD 73B: erase(const int &) over rva000D22BD
-unsigned int Rva000D20A9::rva000D3BFD(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva000D22BD(p.first, p.second);
-	return n;
-}
 
 class Rva00388EAE
 {
@@ -225,14 +209,6 @@ void Rva00362AB5::rva00362ADE(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x00362B89 73B: erase(const int &) over rva00362ADE
-unsigned int Rva00362AB5::rva00362B89(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva00362ADE(p.first, p.second);
-	return n;
-}
 
 // Other units call this body (pinned at its address) under the spelling(s)
 // below, with the same calling convention and stack arguments; bind them.
