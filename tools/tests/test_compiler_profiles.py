@@ -14,6 +14,7 @@ import compiler_profiles
 @pytest.fixture
 def profile(tmp_path, monkeypatch):
     monkeypatch.setattr(compiler_profiles, "ROOT", tmp_path)
+    monkeypatch.setattr(build, "wine_path", lambda path: str(path))
     directory = tmp_path / "vendor/vc71-sp1/bin"
     directory.mkdir(parents=True)
     hashes = {}
@@ -27,7 +28,8 @@ def profile(tmp_path, monkeypatch):
     return tmp_path, directory, source
 
 
-def test_no_profile_preserves_compiler_environment_and_fingerprint(tmp_path):
+def test_no_profile_preserves_compiler_environment_and_fingerprint(tmp_path, monkeypatch):
+    monkeypatch.setattr(build, "wine_path", lambda path: str(path))
     source = tmp_path / "default.cpp"
     source.write_text("int f() { return 1; }\n")
     env = {"INCLUDE": "original", "PATH": "existing"}
