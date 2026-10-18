@@ -1,13 +1,3 @@
-// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
-// partial score=0.9795091524921802 date=2026-10-17
-// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
-// partial score=0.99 date=2026-10-17
-// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
-// partial score=0.9652564743478931 date=2026-10-14
-// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
-// partial score=0.9652564743478931 date=2026-10-14
-// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
-// partial score=0.9556259426847662 date=2026-10-10
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -105,6 +95,9 @@ class Pathfinder
 // word is copied but never observed. Layer-height comparison at1BE78+4*layer,
 // zones460, cell flags0C and owner-ID atinfo+28 are native facts.
 // Original BFME2 method and the purpose of flag17 remain uncertain.
+// The covered==4 arm ORs the two bitfield setters in one condition as the WB
+// twin does; a separate flag variable makes cl keep a zero register live into
+// the following SetType_Dirty / rva0052E001 calls (push edi for push 0).
 Bool Pathfinder::rva0052E6E6(Int x,Int y,PathfindCell *cell,PolygonTrigger *polygon,Int layer,Bool insert)
 
 {
@@ -151,10 +144,7 @@ Bool Pathfinder::rva0052E6E6(Int x,Int y,PathfindCell *cell,PolygonTrigger *poly
  {
   if(covered==4)
   {
-   Bool changed=reinterpret_cast<Rva00366500 *>(cell)->rva00366500(1);
-   changed|=reinterpret_cast<Rva00366500 *>(cell)->rva0036652D(0);
-   _ReadWriteBarrier();
-   if(changed)zones.MarkDirty(x,y);
+   if(reinterpret_cast<Rva00366500 *>(cell)->rva00366500(1)|reinterpret_cast<Rva00366500 *>(cell)->rva0036652D(0))zones.MarkDirty(x,y);
    if(cell->type()!=4&&cell->SetType_Dirty(0))zones.MarkDirty(x,y);
    
   }
