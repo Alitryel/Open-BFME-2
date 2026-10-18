@@ -43,6 +43,8 @@ public:
 extern "C" {
 void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
 }
 // The retail table at 0x009B9D48: 23 entries and the null terminator; every parser is a rowed code owner.
 extern const FieldParse g_00DB9D48[24] = {
@@ -75,6 +77,56 @@ extern const FieldParse g_00C3B050[];
 extern const FieldParse g_00C1045C[];
 extern const FieldParse g_00C10C0C[];
 extern const FieldParse g_00C3D3A8[];
+
+
+// Retail's packed pointer-list region at VA DC8C3C. The three table views
+// begin at element 0 (InvisibilityType), 2 (ForbiddenConditions), and 12
+// (Options). Keep the physical suffix through its first null; these names
+// describe retail data, not inferred enum bounds.
+const char *INIInvisibilityNameLists[] = {
+    "STEALTH", "CAMOUFLAGE", "AWAY_FROM_TREES", "MOVING",
+    "FIRING_PRIMARY", "FIRING_SECONDARY", "FIRING_TERTIARY",
+    "FIRING_QUATERNARY", "FIRING_QUINARY", "FIRING_ANY",
+    "TAKING_DAMAGE", "USING_ABILITY", "ALLOW_NEAR_TREES",
+    "DETECTED_BY_FRIENDLIES", "DISCONTINUE_WHEN_REVEALED",
+    "UNTOGGLE_HIDDEN_WHEN_LEAVING_STEALTH", "NONE", "HOLD", "KILL", "SPAWN", 0
+};
+
+extern "C" {
+void __identifier("?Rva004E8E57_ParseAIKindOf@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseArbitraryFXIntoMap@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
+void __identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z")();
+}
+
+// These two retail tables occupy exactly one 16-byte entry: the next
+// bytes are string/float data, not an invented null entry.
+extern const FieldParse g_00C1045C[] = {
+    { "AIKindOf", (FieldParseProc)&__identifier("?Rva004E8E57_ParseAIKindOf@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0 }
+};
+extern const FieldParse g_00C3B050[] = {
+    { "TemplateName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0 }
+};
+// Null-token default callback followed by the retail null terminator.
+extern const FieldParse g_00C10C0C[] = {
+    { 0, (FieldParseProc)&__identifier("?parseArbitraryFXIntoMap@@YAXPAVINI@@PAX1PBX@Z"), 0, 0 },
+    { 0, 0, 0, 0 }
+};
+extern const FieldParse g_00C3D3A8[] = {
+    { "ForbiddenConditions", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), INIInvisibilityNameLists + 2, 0 },
+    { "ForbiddenWeaponConditions", (FieldParseProc)&__identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 4 },
+    { "DetectionRange", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+    { "InvisibilityType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), INIInvisibilityNameLists, 0x18 },
+    { "IgnoreTreeCheckUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x1C },
+    { "Options", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), INIInvisibilityNameLists + 12, 0x9C },
+    { "BecomeStealthedFX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA0 },
+    { "ExitStealthFX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA4 },
+    { "HintDetectableConditions", (FieldParseProc)&__identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z"), 0, 0xA8 },
+    { 0, 0, 0, 0 }
+};
 
 class Rva002D02FD
 {

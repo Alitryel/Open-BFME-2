@@ -440,7 +440,8 @@ void ThingTemplate::parsePrerequisites( INI* ini, void *instance, void *store, c
 }
 
 //-------------------------------------------------------------------------------------------Static
-static void parseArbitraryFXIntoMap( INI* ini, void *instance, void* /* store */, const void* userData )
+// The rowed native callback also belongs to the external UnitSpecificFX table.
+void parseArbitraryFXIntoMap( INI* ini, void *instance, void* /* store */, const void* userData )
 {
 	PerUnitFXMap* mapFX = (PerUnitFXMap*)instance;
 	const char* name = (const char*)userData;
