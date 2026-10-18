@@ -128,7 +128,7 @@ private:
 	basic_string<CharT, Traits, Alloc> &rva001EF83A(ForwardIter first, ForwardIter last,
 			const forward_iterator_tag &);
 
-	void _M_construct_null(pointer p) { *p = CharT(); }
+	__declspec(dllimport) __forceinline void _M_construct_null(pointer p) { *p = CharT(); }
 	void _M_deallocate_block()
 	{
 		_M_end_of_storage.deallocate(_M_start,

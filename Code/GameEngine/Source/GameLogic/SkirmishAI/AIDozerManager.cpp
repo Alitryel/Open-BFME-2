@@ -77,6 +77,9 @@ struct Rva00599435Compare
 {
 	bool operator()(const Rva00599435Keyframe &a, const Rva00599435Keyframe &b) const { return a.m_value > b.m_value; }
 };
+// The sort chain is rowed in stlport_rva00599435keyframe_linear_insert.cpp;
+// call that copy rather than emitting this unit's own.
+namespace _STL { template <> void sort<Rva00599435Keyframe *, Rva00599435Compare>(Rva00599435Keyframe *, Rva00599435Keyframe *, Rva00599435Compare); }
 
 // Coord3D::sub and Coord3D::GetLengthSqrd2D as the WB twin calls them;
 // retail inlines both.

@@ -26,6 +26,7 @@ struct BfmeStringRecord00426A5B
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> BfmeStringRecord00426A5B * vector<BfmeStringRecord00426A5B,allocator<BfmeStringRecord00426A5B> >::erase(BfmeStringRecord00426A5B *,BfmeStringRecord00426A5B *); }
+namespace _STL { template <> void _Destroy<BfmeStringRecord00426A5B *>(BfmeStringRecord00426A5B *, BfmeStringRecord00426A5B *); }
 
 class INI
 {
@@ -103,3 +104,6 @@ void Rva00426EB0::xfer(Xfer *xfer)
 	Rva00426F17Xfer(xfer, &m_vec);
 }
 
+// _Destroy is declared only above (its retail copy is rowed elsewhere); keep
+// the range-destroy row it instantiated here.
+template void _STL::__destroy_aux<BfmeStringRecord00426A5B *>(BfmeStringRecord00426A5B *, BfmeStringRecord00426A5B *, const _STL::__false_type &);

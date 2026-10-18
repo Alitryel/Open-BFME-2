@@ -26,6 +26,9 @@ struct Rva0048130E
 	unsigned char m_data[8];
 };
 
+// The element copy-construct is rowed in stlport_vector_rva0048130e_construct.cpp.
+namespace _STL { template <> void _Construct<Rva0048130E, Rva0048130E>(Rva0048130E *, const Rva0048130E &); }
+
 template void _STL::_Destroy<Rva0048130E *>(Rva0048130E *, Rva0048130E *);
 
 // vector<Rva0048130E> growth path: _M_insert_overflow (retail 0x0048160B),

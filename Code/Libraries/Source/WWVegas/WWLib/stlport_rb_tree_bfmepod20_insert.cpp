@@ -28,6 +28,9 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 struct BfmePod20 { unsigned a[5]; };
 inline bool operator<(const BfmePod20 &x, const BfmePod20 &y) { return x.a[0] < y.a[0]; }
 typedef _STL::_Rb_tree<BfmePod20, BfmePod20, _STL::_Identity<BfmePod20>, _STL::less<BfmePod20>, _STL::allocator<BfmePod20> > UBfmePod20SetTree;
+// _M_insert calls the rowed node builder 0x004AF2BC (stlport_rb_tree_create_nodes);
+// declare it so this unit does not emit its own non-retail copy.
+template <> UBfmePod20SetTree::_Link_type UBfmePod20SetTree::_M_create_node(const BfmePod20 &);
 namespace _STL {
 template <> class allocator<char> {
 public:
