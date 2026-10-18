@@ -6685,3 +6685,39 @@ MilesAudioManager::~MilesAudioManager()
         m_subTitleWindow = 0;
     }
 }
+
+// Retail 0x00055E6C (350 B, RET 0x10): is a stream named `name` already playing for (viewType, musicSystem)?
+// WorldBuilder 0x00798510 gives both walks: the playing-stream list (info type 0, view, music system, event
+// name, then the +0xC handle test) and the music stack deque of that view/system (same tests without the
+// music-system compare). The second walk's handle call keeps the event pointer live through an equal-arm
+// conditional, which reproduces retail's register choice for the stack end pointer (lea esi,[eax+0x10])
+// and emits no code of its own.
+static __forceinline bool rva00055E6CNameMatches(AudioEventRTS *event, const AsciiString &name)
+{
+    const AsciiString *eventName = reinterpret_cast<const AsciiString *>(reinterpret_cast<Rva002D9AC3 *>(event)->rva002D9AC3());
+    return eventName->compare(name) == 0;
+}
+
+bool MilesAudioManager::rva00055E6C(const AsciiString &name, int streamArg, int viewType, int musicSystem)
+{
+    MilesMutexGuard guard(&m_mutex, 0);
+    PlayingAudioRef playing;
+    for (PlayingAudioList::iterator it = m_playingStreams.begin(); it != m_playingStreams.end(); ++it) {
+        playing = *it;
+        if (playing.get() && playing->m_event->m_info->m_atB0 == 0 && playing->m_event->m_viewType == viewType
+            && playing->m_event->m_musicSystem == musicSystem
+            && rva00055E6CNameMatches(playing->m_event.get(), name)
+            && reinterpret_cast<Rva000A8B59 *>(&playing->m_at0C)->rva000A8B59(streamArg))
+            return true;
+    }
+    MusicStack &stack = m_musicStack[viewType][musicSystem];
+    for (MusicStack::iterator music = stack.begin(); music != stack.end(); ++music) {
+        playing = *reinterpret_cast<const PlayingAudioRef *>(&*music);
+        if (playing.get() && playing->m_event->m_info->m_atB0 == 0 && playing->m_event->m_viewType == viewType
+            && rva00055E6CNameMatches(playing->m_event.get(), name)
+            && reinterpret_cast<Rva000A8B59 *>((playing->m_event.get() ? &playing->m_at0C : &playing->m_at0C))->rva000A8B59(streamArg))
+            return true;
+    }
+    return false;
+}
+
