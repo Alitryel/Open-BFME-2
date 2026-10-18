@@ -44,7 +44,7 @@ public:
 };
 extern DisplayStringManager *TheDisplayStringManager;
 
-extern void *g_00DE1ED0;
+void * g_00DE1ED0;	// retail RVA 0x009E1ED0 (.bss), defined here
 
 class Rva00751EF : public Rva00074626
 {
