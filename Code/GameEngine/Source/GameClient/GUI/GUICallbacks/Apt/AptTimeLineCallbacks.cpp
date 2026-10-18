@@ -41,7 +41,8 @@ extern class Rva0040AAD5 *g_00E02F74;
 #define g_Va00E02F74 (*(Rva0040AAD5 * *)&g_00E02F74)
 
 // The ids of the awards earned this game (0x00E04920).
-extern _STL::vector<int> g_Va00E04920;
+// Use the ledger owner for the twelve-byte award vector at VA 0x00E04920.
+extern unsigned int g_Va00E04920;
 
 class GameTextInterface
 {
@@ -325,6 +326,33 @@ void AptTimeLine::PlayerFaction(int index, char *value, bool set)
 		strcpy(value, m_players[index].m_faction.str());
 }
 
+
+// Retail 0x0051EAD3, 350 bytes: "AptTimeLine::CaHAwardNumber" shows the
+// given (1-based) earned award's name, description and image.
+void AptTimeLine::CaHAwardNumber(const char *value)
+{
+	unsigned int index = atoi(value) - 1;
+	if (index >= ((_STL::vector<int> *)&g_Va00E04920)->size())
+		return;
+	BfmePod40 *award = g_Va00E02F74->rva0040AAD5((*(_STL::vector<int> *)&g_Va00E04920)[index]);
+	if (!award)
+		return;
+	if (((StringBase<char> *)&award->m_name)->isEmpty())
+		return;
+	{
+		AsciiString name("APT:CaH_AwardEarned_Name");
+		g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch(award->m_name), false);
+	}
+	{
+		AsciiString name("APT:CaH_AwardDescription");
+		g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch(award->m_description), false);
+	}
+	if (TheMappedImageCollection)
+	{
+		const Image *image = TheMappedImageCollection->findImageByName(award->m_image);
+		m_images.rva00524725(AsciiString("TimeLine::CahAwardImage"), image);
+	}
+}
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
