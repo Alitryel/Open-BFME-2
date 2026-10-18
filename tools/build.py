@@ -17,6 +17,7 @@ import time
 from pathlib import Path
 
 import flag_defaults
+import compiler_profiles
 import ledger_io
 import stlport_folds
 from coffar import RELOC_WIDTH, read_archive
@@ -238,8 +239,8 @@ def bfme1_path(kind, *parts):
     return BFME1_ROOT.joinpath(bfme1_subtree(kind), *parts)
 
 
-# The MSVC 7.1 toolchain ships in the Open-BFME-1 submodule; this repo does not
-# duplicate it. A missing path here means `git submodule update --init`.
+# The default MSVC 7.1 toolchain and headers ship in Open-BFME-1. Explicit
+# source compiler profiles may select a pinned service-pack compiler only.
 DEFAULT_VC71_ROOT = bfme1_path(
     "toolchains", "vs2003", "Program Files", "Microsoft Visual Studio .NET 2003")
 _WINE_PATH_CACHE = {}
@@ -1098,7 +1099,8 @@ def compiler_command(source, output):
         ]
         return command, compiler_environment(root, source)
 
-    compiler = root / "Vc7" / "bin" / "cl.exe"
+    compiler, environment = compiler_profiles.select(
+        source, root / "Vc7" / "bin" / "cl.exe", compiler_environment(root, source))
     command += [
         str(compiler),
         "-nologo",
@@ -1112,7 +1114,7 @@ def compiler_command(source, output):
         f"-Fo{output_arg}",
         source_arg,
     ]
-    return command, compiler_environment(root, source)
+    return command, environment
 
 
 def _host_path(text):
@@ -1554,6 +1556,8 @@ def _portable(text):
 
 def _cmd_fingerprint(command, env):
     payload = [[_portable(part) for part in command], _portable(env.get("INCLUDE", ""))]
+    if env.get("BFME_COMPILER_PROFILE"):
+        payload.append(env["BFME_COMPILER_PROFILE"])
     return hashlib.md5(json.dumps(payload).encode()).hexdigest()
 
 
@@ -1600,6 +1604,15 @@ def _write_deps_sidecar(source, output, fingerprint, stdout_text, is_cl,
         head = source.read_text(encoding="utf-8", errors="replace")
         if re.search(r"^\s*include\s", head, re.IGNORECASE | re.MULTILINE):
             problems.append("(.asm uses an include directive; deps unknown)")
+    if env and env.get("BFME_COMPILER_INPUTS"):
+        for relative, expected in json.loads(env["BFME_COMPILER_INPUTS"]).items():
+            path = ROOT / relative
+            try:
+                if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                    problems.append(f"(compiler input changed during compile: {relative})")
+                deps[relative] = _hash_file(str(path))
+            except OSError:
+                problems.append(f"(compiler input disappeared during compile: {relative})")
     if problems:
         print(f"deps-cache: not caching {source.relative_to(ROOT)} — {problems[:3]}",
               file=sys.stderr)
