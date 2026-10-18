@@ -11,7 +11,18 @@ struct Rva00260FF5Result
 	void *m_value;
 };
 
-extern const void *const g_00BF8FD8[];
+// The retail table at RVA 0x007F8FD8: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GPartitionFilterRejectByKindOf@@UAEPAXI@Z")();
+void __identifier("?eq@Rva001DCB90@@QBEHPBVObj001DCB90@@@Z")();
+void __identifier("?Get_File_Handle@FileClass@@UAEPAXXZ")();
+}
+extern const void *const g_00BF8FD8[3] = {
+	(const void *)&__identifier("??_GPartitionFilterRejectByKindOf@@UAEPAXI@Z"), // slot 0 0x00395A19
+	(const void *)&__identifier("?eq@Rva001DCB90@@QBEHPBVObj001DCB90@@@Z"), // slot 1 0x00261046
+	(const void *)&__identifier("?Get_File_Handle@FileClass@@UAEPAXXZ"), // slot 2 0x0036CC7A
+};
 
 class Rva00260FF5Module
 {
