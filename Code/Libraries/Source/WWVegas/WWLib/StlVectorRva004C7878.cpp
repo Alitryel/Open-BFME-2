@@ -20,5 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva004C7878Record { Rva004C7878Record(); Rva004C7878Record(const Rva004C7878Record&); ~Rva004C7878Record(); Rva004C7878Record&operator=(const Rva004C7878Record&); private: char bytes[16]; };
-namespace _STL {template<> void _Construct<Rva004C7878Record,Rva004C7878Record>(Rva004C7878Record*,const Rva004C7878Record&);}
+// Retail's helpers call the 45B _Construct at 0x004C734D, rowed under its twin
+// element name (StlportConstructFamilyW3G15.cpp): forward to it.
+struct Rva004C734DElement;
+namespace _STL {
+template<> void _Construct<Rva004C734DElement,Rva004C734DElement>(Rva004C734DElement*,const Rva004C734DElement&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva004C7878Record,Rva004C7878Record>(Rva004C7878Record*p,const Rva004C7878Record&v)
+{ _Construct(reinterpret_cast<Rva004C734DElement*>(p),reinterpret_cast<const Rva004C734DElement&>(v)); }
+}
 template void _STL::vector<Rva004C7878Record>::push_back(const Rva004C7878Record&);

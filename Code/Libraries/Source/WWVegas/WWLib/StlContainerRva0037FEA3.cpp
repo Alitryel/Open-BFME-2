@@ -19,5 +19,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva0037FEA3Record { Rva0037FEA3Record(const Rva0037FEA3Record&); private: char bytes[72]; };
-namespace _STL {template<> void _Construct<Rva0037FEA3Record,Rva0037FEA3Record>(Rva0037FEA3Record*,const Rva0037FEA3Record&);}
+// Retail's copy loop calls the 18B null-guarded construct at 0x0037F71F, rowed
+// as Rva0037F71FCopy (Rva0037F551.cpp): forward to it.
+class Rva0037F551;
+void Rva0037F71FCopy(Rva0037F551 *p, const Rva0037F551 &v);
+namespace _STL {template<> __declspec(dllimport) __forceinline void _Construct<Rva0037FEA3Record,Rva0037FEA3Record>(Rva0037FEA3Record*p,const Rva0037FEA3Record&v)
+{ Rva0037F71FCopy(reinterpret_cast<Rva0037F551*>(p),reinterpret_cast<const Rva0037F551&>(v)); }}
 template void _STL::vector<Rva0037FEA3Record>::reserve(unsigned int);
