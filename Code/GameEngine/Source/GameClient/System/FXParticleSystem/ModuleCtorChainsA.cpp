@@ -186,7 +186,36 @@ extern const void *const g_00C1CE64[9] = {
 	(const void *)&__identifier("?get@Rva003ABD51ByteField@@QBEEXZ"), // slot 8 0x003ABD51
 };
 extern "C" const void *const __identifier("??_7Rva003ABD81@@6B@")[];
-extern const void *const g_00C1CE98[];
+// The retail table at RVA 0x0081CE98: 12 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?clone@Rva003AEC5E@@QBEPAV1@XZ")();
+void __identifier("?rva0055F710@Rva0055F710@@UAEXPAVXfer@@@Z")();
+void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
+void __identifier("?getSolution@PartitionSolver@@QBEABV?$vector@U?$pair@W4ObjectID@@W41@@_STL@@V?$allocator@U?$pair@W4ObjectID@@W41@@_STL@@@2@@_STL@@XZ")();
+void __identifier("?getAttackSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ")();
+void __identifier("?get@Rva003F3FE4LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva0008BCC8LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva0053998CLeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva003EE704LeaField@@QBEPAXXZ")();
+void __identifier("?getSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ")();
+}
+extern const void *const g_00C1CE98[12] = {
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?clone@Rva003AEC5E@@QBEPAV1@XZ"), // slot 2 0x003AEC24
+	(const void *)&__identifier("?rva0055F710@Rva0055F710@@UAEXPAVXfer@@@Z"), // slot 3 0x0055F710
+	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 4 0x004F5FA3
+	(const void *)&__identifier("?getSolution@PartitionSolver@@QBEABV?$vector@U?$pair@W4ObjectID@@W41@@_STL@@V?$allocator@U?$pair@W4ObjectID@@W41@@_STL@@@2@@_STL@@XZ"), // slot 5 0x002A9808
+	(const void *)&__identifier("?getAttackSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ"), // slot 6 0x001D96F0
+	(const void *)&__identifier("?get@Rva003F3FE4LeaField@@QBEPAXXZ"), // slot 7 0x003F3FE4
+	(const void *)&__identifier("?get@Rva0008BCC8LeaField@@QBEPAXXZ"), // slot 8 0x0008BCC8
+	(const void *)&__identifier("?get@Rva0053998CLeaField@@QBEPAXXZ"), // slot 9 0x0053998C
+	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 10 0x003EE704
+	(const void *)&__identifier("?getSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ"), // slot 11 0x001D96EC
+};
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot3@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6B@")[];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot0@@@")[];
