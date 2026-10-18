@@ -42,7 +42,7 @@ private:
 	Rva0036CA00Str **_M_map;
 	unsigned int _M_map_size;
 };
-void Rva0005800A::rva0005800A(const Rva0036CA00Str &t)
+inline __declspec(noinline) void Rva0005800A::rva0005800A(const Rva0036CA00Str &t)
 {
 	Rva0036CA00Str tCopy = t;
 	((_STL::deque<void *, _STL::allocator<void *> > *)this)->_M_reserve_map_at_back(1);
@@ -50,4 +50,12 @@ void Rva0005800A::rva0005800A(const Rva0036CA00Str &t)
 	new (_M_finish._M_cur) Rva0036CA00Str(tCopy);
 	_M_finish._M_set_node(_M_finish._M_node + 1);
 	_M_finish._M_cur = _M_finish._M_first;
+}
+
+// MilesAudioManager.cpp emits a select-any copy of the same body; defining it
+// inline-noinline here keeps one body under the name. The anchor keeps it emitted.
+// ?bfmeAnchorRva0005800A absent-from-retail
+void bfmeAnchorRva0005800A(Rva0005800A *p, const Rva0036CA00Str &t)
+{
+	p->rva0005800A(t);
 }
