@@ -1,16 +1,19 @@
 // ?rva00364551@Path@@QAEXPAVObject@@HHPBUCoord3D@@@Z
-// partial score=0.991 date=2026-10-15
-// ?rva00364551@Path@@QAEXPAVObject@@HHPBUCoord3D@@@Z
-// partial score=0.9603 date=2026-10-11
 // cl: /I. /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
-// seat2 2026-10-15: probe loop as for(steps<=3){if(!probe)break;...} closes the guard; volatile inv takes the native [ebp-0x14] home; residue: native loads delta.y before the inv fstp and multiplies by [inv].
-// portal exclusions, template108 flag, and optional tail-direction constraint.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+// Path optimize pass (WorldBuilder Path::optimize sibling, MathCoord2D.h Coord2D::GetLength/Normalize inlined):
+// portal exclusions, template108 ground-only flag, and an optional tail-direction constraint (|dot| < 0.9).
+// The direction check is Coord2D delta(dx, dy); delta.Normalize(); fabs(delta.Dot(*input)): the WB debug body
+// shows GetLength (sqrt) then 1.0f / len and x *= inv, y *= inv; retail inlines both (forced here).
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include <stdlib.h>
-struct PathAngle2D {float x,y;void normalize(){float inv=1.0f/(float)sqrt(x*x+y*y);x*=inv;y*=inv;}};
+struct PathAngle2D {
+ float x,y;
+ PathAngle2D(float ax,float ay):x(ax),y(ay){}
+ __forceinline float length()const{return (float)sqrt(x*x+y*y);}
+ __forceinline void normalize(){float len=length();float inv=1.0f/len;x*=inv;y*=inv;}
+ float dot(const Coord3D *c)const{return x*c->x+y*c->y;}
+};
 struct PathTemplateView {char pad[0x108];unsigned flags108;};
 class Object {public:void *vtable;PathTemplateView *templ;};
 class PathNode {public:PathNode *next,*previous,*nextOptimized;Coord3D pos;int layer;bool canOptimize;char pad1D[3];int portalID;bool hasPortal()const{return portalID!=0x7fffffff;}};
@@ -53,9 +56,8 @@ void Path::rva00364551(Object *obj,int surfaces,int blocked,const Coord3D *input
     curLayer=node->layer;
     if(passable) {
      if(anchor==last && distance>50) {
-      PathAngle2D delta;delta.x=node->pos.x-anchor->pos.x;delta.y=node->pos.y-anchor->pos.y;
-_ReadWriteBarrier();
-volatile float inv=1.0f/(float)sqrt(delta.x*delta.x+delta.y*delta.y);delta.y*=inv;delta.x*=inv;float dot=input->x*delta.x+input->y*delta.y;
+      PathAngle2D delta(node->pos.x-anchor->pos.x,node->pos.y-anchor->pos.y);
+      delta.normalize();float dot=delta.dot(input);
       if(fabs(dot)<0.9f)passable=false;
      }
      if(passable && node->canOptimize) {node->nextOptimized=anchor;continue;}
