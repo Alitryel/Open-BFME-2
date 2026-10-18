@@ -68,16 +68,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 template <> bool VectorClass<ShaderClass>::Resize(int, ShaderClass const *);
 // bfme link decl-only end
 
-// ??0MaterialInfoClass@@ present-unmatched
-MaterialInfoClass::MaterialInfoClass(void)
-{
-}
-
-// ??1MaterialInfoClass@@UAE@XZ present-unmatched
-MaterialInfoClass::~MaterialInfoClass(void)
-{
-	Free();
-}
+// MaterialInfoClass's constructor and destructor are rowed in
+// MaterialInfoClassCtor.cpp (0x001708D0) and MaterialInfoDtor.cpp (0x00170130).
 
 
 // ?Clone@MaterialInfoClass@@QBEPAV1@XZ present-unmatched
