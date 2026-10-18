@@ -87,9 +87,8 @@ public:
 };
 
 
-// Matched DIR32 references place this static object at VA 0x00DE0878. Its
-// four retail bytes are zero, the null StringBase buffer of an empty string.
-const AsciiString AsciiString::TheEmptyString;
+// The shared empty-string object is defined in Rva00380200Getter.cpp.
+// This split unit uses the declaration in ascii_string.h.
 
 struct Rva002000D7Config
 {
