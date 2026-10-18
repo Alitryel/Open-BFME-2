@@ -79,6 +79,13 @@ inline void _Destroy(AsciiString * __first, AsciiString * __last)
 { for (; __first != __last; ++__first) __first->~AsciiString(); }
 }
 
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+}
+
 #include "Common/CRCDebug.h"
 #include "Common/Player.h"
 #include "Common/Team.h" 

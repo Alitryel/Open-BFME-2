@@ -67,6 +67,13 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
                               const _List_iterator<T, RightTraits>& b)
 { return a._M_node != b._M_node; }
 }
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+}
+
 #include "Common/CRCDebug.h"
 #include "Common/Xfer.h"
 #include "Common/ThingTemplate.h"

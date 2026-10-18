@@ -73,6 +73,15 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 
+#include <vector>
+// Bind assignment to the complete rowed provider at 0x002CD098.
+namespace _STL {
+template <> vector<Coord3D, allocator<Coord3D> > &
+vector<Coord3D, allocator<Coord3D> >::operator=(const vector<Coord3D, allocator<Coord3D> > &);
+// Retain this unit's rowed capacity helper after assignment becomes external.
+template unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const;
+}
+
 #include "Common/BitFlagsIO.h"
 #include "Common/GameAudio.h"
 #include "Common/GameState.h"
