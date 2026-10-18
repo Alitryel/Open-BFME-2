@@ -77,12 +77,7 @@ private:
 	static const FieldParse s_fieldParseTable[];
 };
 
-const FieldParse Rva005742A1::s_fieldParseTable[] =
-{
-	{ "Title", INI::parseAsciiString, 0, 0x08 },
-	{ "Help", INI::parseAsciiString, 0, 0x0C },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 
 class Rva0057A260
@@ -93,15 +88,7 @@ private:
 	static const FieldParse s_fieldParseTable[];
 };
 
-const FieldParse Rva0057A260::s_fieldParseTable[] =
-{
-	{ "ItemFont", GlobalLanguage::parseFontDesc, 0, 0x08 },
-	{ "ItemNormalColor", INI::parseColorInt, 0, 0x14 },
-	{ "ItemImportantColor", INI::parseColorInt, 0, 0x18 },
-	{ "ItemNewColor", INI::parseColorInt, 0, 0x1C },
-	{ "ItemVerticalSpacing", INI::parseReal, 0, 0x20 },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 
 // --- 0x004E12C4 / 0x004E12EF / 0x004E1342 (19B each): field-parse callbacks
@@ -138,16 +125,7 @@ private:
 	static const FieldParse s_fieldParseTable[];
 };
 
-const FieldParse Rva005CB288::s_fieldParseTable[] =
-{
-	{ "BuildPlotsTitle", INI::parseAsciiString, 0, 0x08 },
-	{ "BuildPlotsHelp", INI::parseAsciiString, 0, 0x0C },
-	{ "ArmoryPointsTitle", INI::parseAsciiString, 0, 0x10 },
-	{ "ArmoryPointsHelp", INI::parseAsciiString, 0, 0x14 },
-	{ "CommandPointsTitle", INI::parseAsciiString, 0, 0x18 },
-	{ "CommandPointsHelp", INI::parseAsciiString, 0, 0x1C },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 
 class Rva005E3955
@@ -158,11 +136,7 @@ private:
 	static const FieldParse s_fieldParseTable[];
 };
 
-const FieldParse Rva005E3955::s_fieldParseTable[] =
-{
-	{ "BackButtonTooltip", INI::parseAsciiString, 0, 0x08 },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 
 class Rva005E9F80
@@ -173,11 +147,7 @@ private:
 	static const FieldParse s_fieldParseTable[];
 };
 
-const FieldParse Rva005E9F80::s_fieldParseTable[] =
-{
-	{ "BattleRoundsPerStep", INI::parseInt, 0, 0x08 },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 
 // --- 0x003F9CD2 (54B): the pupil / eye-decal anim-object block: build a
@@ -193,14 +163,7 @@ private:
 	char m_pad[0x74];
 };
 
-const FieldParse Rva003F9C11::s_fieldParseTable[] =
-{
-	{ "PupilAnimObject", INI::parseAsciiString, 0, 0x04 },
-	{ "PupilBeamAnimObject", INI::parseAsciiString, 0, 0x08 },
-	{ "EyeDecalAnimObject", INI::parseAsciiString, 0, 0x0C },
-	{ "EyeDecalBeamAnimObject", INI::parseAsciiString, 0, 0x10 },
-	{ 0, 0, 0, 0 }
-};
+// The table definition is owned by GapBodiesS3E.cpp.
 
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;

@@ -25,24 +25,9 @@
 //               or the owner's base
 #include "ascii_string.h"
 
-// Retail's initializer calls AsciiString's out-of-line const char * ctor
-// (0x0000654A) rather than expanding it, so inline expansion is off here.
-#pragma inline_depth(0)
-AsciiString AIReturnTheRingTactic_IsRunning("AIReturnTheRingTactic_IsRunning");
-#pragma inline_depth()
-
-extern int BfmeClientFramesPerSecond;
-
-// Half of BfmeClientFramesPerSecond, computed at startup (0x007B457D); no retail code reads
-// it back.
-int g_00E06414 = BfmeClientFramesPerSecond / 2;
-
-// .data 0x009BC1B8: a NULL-terminated name list {"TARGETLESS", NULL}. The
-// ring-team creation here (0x005AB4B9) and two sibling tactics (0x004ED955,
-// 0x005ABAF6) push its first entry into a team-name format (0x00C62A08);
-// no code reads past it. The NULL-terminated lists that follow it in .data
-// (NONE/HOLD/KILL/SPAWN, ...) are separate tables nothing here references.
-const char *g_009BC1B8[] = { "TARGETLESS", 0 };
+// Rva005AB309Tactic.cpp owns the retail key at VA 0x00E06410,
+// its startup/atexit functions, and the startup counter/name-list data.
+extern AsciiString AIReturnTheRingTactic_IsRunning;
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../Libraries/Include/Lib/Coord3DBase.h"

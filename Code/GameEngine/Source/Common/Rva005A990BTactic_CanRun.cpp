@@ -23,35 +23,9 @@
 //               0x004ED169 says so or the +0x20 record is flagged at +0x18
 #include "ascii_string.h"
 
-// Retail's initializer calls AsciiString's out-of-line const char * ctor
-// (0x0000654A) rather than expanding it, so inline expansion is off here.
-#pragma inline_depth(0)
-AsciiString AIBasePenetrationTroopsTactic_IsRunning("AIBasePenetrationTroopsTactic_IsRunning");
-#pragma inline_depth()
-
-// The engine's float helpers (fast_float_floor / fast_float2long_round).
-extern "C" __declspec(dllimport) double __cdecl floor(double);
-
-static __forceinline float fast_floor(float f)
-{
-	return (float)floor((double)f);
-}
-
-static __forceinline int fast_round(float f)
-{
-	int i;
-	__asm {
-		fld [f]
-		fistp [i]
-	}
-	return i;
-}
-
-extern float g_secondsPerLogicFrame;
-
-// A frame count this unit computes at startup (0x007B44AE); no retail code
-// reads it back.
-int g_00E06408 = fast_round(fast_floor(g_secondsPerLogicFrame * 20.0f));
+// The key and its startup/atexit functions are owned by Rva005A990BTactic.cpp.
+// This split consumer refers to that same retail object at VA 0x00E06404.
+extern AsciiString AIBasePenetrationTroopsTactic_IsRunning;
 
 struct Rva005A990BRecord
 {
