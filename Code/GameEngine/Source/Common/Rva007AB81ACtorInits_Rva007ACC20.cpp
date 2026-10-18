@@ -130,7 +130,7 @@ extern unsigned int g_00DDE0AC;
 extern unsigned g_Va00DDEB24;
 extern unsigned g_Va00DE4878;
 extern unsigned g_Va00DEDC80;
-extern unsigned g_Va00DEE5D8;
+unsigned g_Va00DEE5D8;	// retail RVA 0x009EE5D8 (.bss), defined here
 extern unsigned int g_Va009F6F30;
 extern unsigned g_Va00DFE180;
 extern Rva0030ADED TheFireSettings;			// 0x00DFF4F8 (Rva007B6880Thunks.cpp)
