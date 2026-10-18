@@ -7,4 +7,27 @@
 // Address-derived codegen view; only the 12-byte stride is witnessed.
 struct Rva00390729Element { int opaque[3]; };
 
-template void _STL::vector<Rva00390729Element, _STL::allocator<Rva00390729Element> >::reserve(unsigned int);
+// Call the owned allocate/copy operation, not another template copy.
+struct BfmeE12;
+struct Coord3D;
+class Rva000E016A {
+public:
+    BfmeE12 *rva000E016A(unsigned int, Coord3D *, Coord3D *);
+};
+// STLport reserve with the native allocate/copy provider at 0xE016A.
+template <>
+void _STL::vector<Rva00390729Element>::reserve(unsigned int n)
+{
+    if (capacity() < n) {
+        const size_type old_size = size();
+        pointer tmp;
+        if (this->_M_start) {
+            tmp = (pointer)((Rva000E016A *)this)->rva000E016A(n,
+                (Coord3D *)this->_M_start, (Coord3D *)this->_M_finish);
+            _M_clear();
+        } else {
+            tmp = this->_M_end_of_storage.allocate(n);
+        }
+        _M_set(tmp, tmp + old_size, tmp + n);
+    }
+}
