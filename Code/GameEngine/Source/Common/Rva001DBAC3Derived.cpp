@@ -1,10 +1,10 @@
 // cl: /MD
 //
-// Opaque single-inheritance destructors tail-calling Rva001DBAC3::~
-// Rva001DBAC3 at 0x001DBAC3 (pinned opaque leaf base dtor: vtable store
+// Opaque single-inheritance destructors tail-calling the base destructor
+// at 0x001DBAC3 (rowed as ~Rva001DBAA4: vtable store
 // plus ret; identity unproven). Each class below stores its own vtable
 // (DIR32 auto-patches) and tail-calls the base destructor; the base itself
-// is only declared here (defined nowhere -- it resolves via the pin),
+// is only declared here (defined in Rva001DBAA4Ctor.cpp),
 // because a same-TU definition would capture the call locally instead of at
 // the ledger address. Owner identities are unproven (opaque Rva names). One
 // ledger row per destructor, landed one commit at a time.
@@ -14,13 +14,16 @@
 // 0x35D2B2/0x35D1C6/0x35D1E7; INI StartFrame +0x10 EndFrame +0x14
 // ViewsToFade +0x18 LeaveSilent +0x1C; float 1.0f at 0x00BBB8D8.
 
-class Rva001DBAC3
+// The base destructor at 0x001DBAC3 is rowed as ~Rva001DBAA4
+// (Rva001DBAA4Ctor.cpp, the base whose ctor 0x001DBAA4 installs the same
+// vtable); bind the derived dtors' tail calls to that name.
+class Rva001DBAA4
 {
 public:
-	virtual ~Rva001DBAC3();
+	virtual ~Rva001DBAA4();
 };
 
-class Rva0035D0D1 : public Rva001DBAC3
+class Rva0035D0D1 : public Rva001DBAA4
 {
 public:
 	virtual ~Rva0035D0D1();
@@ -51,7 +54,7 @@ void Rva0035D0D1::Rva0035D1C6()
 	m_24 = true;
 }
 
-class Rva0035D352 : public Rva001DBAC3
+class Rva0035D352 : public Rva001DBAA4
 {
 public:
 	virtual ~Rva0035D352();

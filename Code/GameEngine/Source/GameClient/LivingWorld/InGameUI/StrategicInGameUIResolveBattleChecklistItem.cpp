@@ -28,7 +28,8 @@ class Rva005CCB7B {public:void rva005CCB7B(bool);};
 class Rva005CCB83 {public:void rva005CCB83(void*);};
 class Rva005CCB90 {public:void rva005CCB90(const void*);};
 class LivingWorldRegionManager {public:bool GetRegionCenterPoint(Rva0020E89C*,Coord2D*);};
-class Rva002BF5B0Maker {public:void rva002BF5B0(void*,void*);};
+class Vector3;
+class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3*,Vector3*);}; // rowed 0x002BF5B0 (Rva002BF4F3.cpp)
 class LivingWorldLogic;extern LivingWorldLogic*TheLivingWorldLogic;
 class LivingWorld;extern LivingWorld*TheLivingWorld;
 struct RetreatWorldView {char unknown[0xb0];LivingWorldRegionManager*regions;};
@@ -52,7 +53,7 @@ Rva005D1D38::Rva005D1D38(void*p,void*a):planner(p),battle(a) {
  ((Rva005CCB7B*)this)->rva005CCB7B(false);
  ((Rva005CCB83*)this)->rva005CCB83((void*)18);
  ChecklistMarkerPosition position(input->point.x,input->point.y,0);
- ((Rva002BF5B0Maker*)TheLivingWorld)->rva002BF5B0(&input->point,&position);
+ ((Rva002BF4F3*)TheLivingWorld)->rva002BF5B0((const Vector3*)&input->point,(Vector3*)&position);
  ((Rva005CCB90*)this)->rva005CCB90(&position);
 }
 
@@ -66,6 +67,6 @@ void Rva005D1D38::clickSlot08() {
  ((Rva005CCB5B*)this)->rva005CCB5B();
  const Coord2D&src=((ChecklistBattleView*)battle)->point;Coord2D point;point.x=src.x;point.y=src.y;
  Coord3D position;position.x=point.x;position.y=point.y;position.z=0;
- ((Rva002BF5B0Maker*)planner)->rva002BF5B0(&point,&position);
+ ((Rva002BF4F3*)planner)->rva002BF5B0((const Vector3*)&point,(Vector3*)&position);
  ((Rva002D3627Host*)planner)->rva002BF09E(&position);
 }

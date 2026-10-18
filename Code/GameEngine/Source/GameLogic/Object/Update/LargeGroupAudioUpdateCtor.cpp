@@ -48,8 +48,15 @@ template<> bitset<128> &bitset<128>::reset();
 
 struct CondStore
 {
-	void init();
 	unsigned char m_data[0x4C];
+};
+
+// The +0x30 store is initialised by the rowed 0x00042526 zeroing
+// constructor (LargeGroupAudioAudioMap.cpp's Rva0042526Member).
+class Rva0042526Member
+{
+public:
+	Rva0042526Member();
 };
 
 class Thing;
@@ -111,7 +118,7 @@ LargeGroupAudioUpdate::LargeGroupAudioUpdate(Thing *thing, const ModuleData *mod
 	m_state28 = fzero;
 	m_state2C = fzero;
 	CondStore *cond30 = &m_condition30;
-	cond30->init();
+	((Rva0042526Member *)cond30)->Rva0042526Member::Rva0042526Member();
 	((_STL::bitset<128> *)m_flags7C)->reset();
 	m_state90 |= -1;
 	m_flag8C = false;

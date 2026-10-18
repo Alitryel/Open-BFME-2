@@ -30,7 +30,8 @@ class Rva005CCB7B {public:void rva005CCB7B(bool);};
 class Rva005CCB83 {public:void rva005CCB83(void*);};
 class Rva005CCB90 {public:void rva005CCB90(const void*);};
 class LivingWorldRegionManager {public:bool GetRegionCenterPoint(Rva0020E89C*,Coord2D*);};
-class Rva002BF5B0Maker {public:void rva002BF5B0(void*,void*);};
+class Vector3;
+class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3*,Vector3*);}; // rowed 0x002BF5B0 (Rva002BF4F3.cpp)
 class LivingWorldLogic;extern LivingWorldLogic*TheLivingWorldLogic;
 class LivingWorld;extern LivingWorld*TheLivingWorld;
 struct RetreatWorldView {char unknown[0xb0];LivingWorldRegionManager*regions;};
@@ -56,6 +57,6 @@ Rva005D2111::Rva005D2111(void*p,void*a):planner(p),army(a) {
  LivingWorldRegionManager *manager=((RetreatWorldView*)TheLivingWorldLogic)->regions;
  manager->GetRegionCenterPoint(region,&center);
  Coord3D position;position.x=center.x;position.y=center.y;position.z=0;
- ((Rva002BF5B0Maker*)TheLivingWorld)->rva002BF5B0(&center,&position);
+ ((Rva002BF4F3*)TheLivingWorld)->rva002BF5B0((const Vector3*)&center,(Vector3*)&position);
  ((Rva005CCB90*)this)->rva005CCB90(&position);
 }

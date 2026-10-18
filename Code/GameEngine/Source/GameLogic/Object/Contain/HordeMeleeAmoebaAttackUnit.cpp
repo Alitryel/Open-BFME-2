@@ -108,7 +108,7 @@ void HordeMeleeAmoeba::AttackUnit(Object *attacker, Object *victim)
 // The original wrapper and pathfinder-member names remain unknown.
 class Pathfinder {
 public:
- Object *Rva002F14F9(Object *unit,Object *current);
+ Object *rva002F14F9(Object *unit,Object *current);
 };
 class AI {
  char m_pad[0x10]; Pathfinder *m_pathfinder;
@@ -118,6 +118,6 @@ public:
 extern AI *TheAI;
 Object *Rva0058723D(Object *unit,Object *current)
 {
- return TheAI->getPathfinder()->Rva002F14F9(unit,current);
+ return TheAI->getPathfinder()->rva002F14F9(unit,current);
 }
 

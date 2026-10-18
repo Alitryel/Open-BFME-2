@@ -9297,7 +9297,6 @@ name,address,notes
 ?increment@Rva00894D80Accessor@@SAIPAI@Z,0x006CFDE0
 ?init@?$basic_ios@DV?$char_traits@D@_STL@@@_STL@@IAEXPAV?$basic_streambuf@DV?$char_traits@D@_STL@@@2@@Z,0x000162F0,harvested from retail REL32 displacement at 0x0001C5C0
 ?init@CPUDetectInitThunk@@QAEXXZ,0x006130C0,init-alias for the rowed CPUDetectInitClass ctor; the Rva007B6880Thunks.cpp construction thunk 0x007B54E0 reproduces its compiler-generated dynamic initializer through it
-?init@CondStore@@QAEXXZ,0x00042526,TU-spelling alias for the opaque 0x4C condition member init called twice by ModelConditionUpgradeModuleData ctor plus GenericObjectCreationNugget ctor
 ?init@CustomAsciiStringShim@@QAEXPBD@Z,0x00037BA0,AsciiString init from chars for the volume-key temp; aliases the StringBase ctor row at the same address
 ?init@FrameData@@QAEXXZ,0x005DA4F9,BFME2 frame-ring entry initialization called by FrameDataManager::reset
 ?init@FrustumInitThunk@@QAEXXZ,0x000F0F5B,init-alias for the rowed FrustumClass ctor; the Rva007B6880Thunks.cpp construction thunk 0x007AC7F5 reproduces its compiler-generated dynamic initializer through it
@@ -13494,8 +13493,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva00318FA1@Rva00318FA1MainOwner@@QAEHXZ,0x00318FA1,banked wheel resolver reused by gate 0x003195C9; address from its REL32 displacement
 ?rva00318B83Free@@YGPBUTWheelInfo@@PAX@Z,0x00318B83,callee-cleanup free-form entry to the 17B getter taking the pushed arg without this (stale ecx at gate 0x00319831); same address as rowed getWheelInfo
 ?rva00538ED1@Rva00538ED1@@QAEXXZ,0x00538ED1,unrowed dense-wheel worker reading owner from stale stack slot in gate 0x00319831 (declared taking only this); callee read from its REL32 displacement; address name
-?rva002BF5B0@Rva002BF5B0Maker@@QAEXPAX0@Z,0x002BF5B0,unrowed float-record maker on the 0x009FEF18 global in handoff 0x00319AA0 (as referenced by MSVC mangling); callee read from its REL32 displacement; address name
-??0Rva0031AB1ENode@@QAE@XZ,0x0035B8AA,unrowed ctor on the 0x2CC list node in prepend gate 0x0031AB1E; callee read from its REL32 displacement; address name
 ?rva003FB793@Rva003F936EHost@@QAEXPAUVec3@@@Z,0x003FB793,callee of 0x003F936E in same TU; body banked near-miss (partial 0.7)
 ?rva003F2F24@Rva003F3F03@@QAEXXZ,0x003F2F24,no-arg member called by 0x003F3F03 after initFromINI; body unclaimed
 ?rva003F3B4F@Rva003F3F03@@QAEXXZ,0x003F3B4F,dump range 19 target called by 0x003F3F03; 176B body unclaimed
@@ -15008,7 +15005,6 @@ _D3DXMatrixMultiply@12,0x0062AF26,First named PE import thunk: FF25 IAT00BBA9B4 
 _D3DXMatrixScaling@16,0x0062AF2C,First named PE import thunk: FF25 IAT00BBA9B8 independently declares d3dx9_27.dll!D3DXMatrixScaling; native setShroudTex arguments agree with stdcall SDK ABI
 _D3DXMatrixTranslation@16,0x0062AF32,First named PE import thunk: FF25 IAT00BBA9BC independently declares d3dx9_27.dll!D3DXMatrixTranslation; native setShroudTex arguments agree with stdcall SDK ABI
 ?drawHiliteBar@@YAXPBVImage@@00HHHH@Z,0x000A273F,ZH drawHiliteBar three-image BFME2 variant; native caller A283D at A29D1 passes bar geometry in the TU-private ABI; complete 254B retail span and image tiling plus clipping slots A8/B0 establish identity
-?rva000AE37E@Rva000ABD19@@QAE_NHH@Z,0x000AE37E,height-map cell test returning bool through sete; caller the cell flip 0x000AF841
 ?PopulateComboBoxes@AptMpGameRules@@QAEXXZ,0x0057EAAD,"auto-pin (permute --pins): REL32 call target read from retail in 0x0057ed2b, whose banked body is byte-exact once this call resolves"
 ?PopulateCheckBoxes@AptMpGameRules@@QAEXXZ,0x0057E7A1,"auto-pin (permute --pins): REL32 call target read from retail in 0x0057ed2b, whose banked body is byte-exact once this call resolves"
 ??A?$map@I_NU?$less@I@_STL@@V?$allocator@U?$pair@$$CBI_N@_STL@@@2@@_STL@@QAEAA_NABI@Z,0x00407FB2,"auto-pin (permute --pins): REL32 call target read from retail in 0x00408150, whose banked body is byte-exact once this call resolves"
