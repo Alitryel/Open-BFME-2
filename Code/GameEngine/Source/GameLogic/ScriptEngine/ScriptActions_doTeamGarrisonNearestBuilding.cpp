@@ -161,7 +161,7 @@ public:
 	AICommandInterface m_commands;	// +0x20
 };
 
-void __cdecl __stl_throw_out_of_range(const char *msg);
+namespace _STL { void __cdecl __stl_throw_out_of_range(const char *msg); }
 
 struct BfmeKindOfBits
 {
@@ -172,7 +172,7 @@ struct BfmeKindOfBits
 	__forceinline bool test(unsigned int pos) const
 	{
 		if (pos >= 224)
-			__stl_throw_out_of_range("bitset");
+			_STL::__stl_throw_out_of_range("bitset");
 		return (getword(pos) & maskbit(pos)) != (unsigned long)0;
 	}
 	unsigned long m_w[7];

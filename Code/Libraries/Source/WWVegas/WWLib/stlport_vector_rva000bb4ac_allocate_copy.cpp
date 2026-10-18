@@ -27,4 +27,13 @@ private:
 namespace _STL { template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> > & vector<Rva000BB4AC, allocator<Rva000BB4AC> >::operator=(vector<Rva000BB4AC, allocator<Rva000BB4AC> > const &); }
 namespace _STL { template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *, Rva000BB4AC *); }
 // bfme link decl-only end
+// No row here needs the four members that build a T() (the element's
+// default ctor is unrowed): declare them specialized so the class-wide
+// instantiation does not emit them.
+namespace _STL {
+template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> >::vector(size_t);
+template <> void vector<Rva000BB4AC, allocator<Rva000BB4AC> >::push_back();
+template <> Rva000BB4AC *vector<Rva000BB4AC, allocator<Rva000BB4AC> >::insert(Rva000BB4AC *);
+template <> void vector<Rva000BB4AC, allocator<Rva000BB4AC> >::resize(size_t);
+}
 template class _STL::vector<Rva000BB4AC, _STL::allocator<Rva000BB4AC> >;

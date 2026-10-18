@@ -9,11 +9,19 @@ struct Rva00431F61Helper
 	void *m_parent;
 };
 
+// Retail's unwind of this base subobject calls the rowed 0x00429191
+// translator base destructor (??1Rva0042CBB6).
+class Rva0042CBB6
+{
+public:
+	virtual ~Rva0042CBB6();
+};
+
 class EmptyBase00431F61
 {
 public:
 	EmptyBase00431F61() {}
-	~EmptyBase00431F61();
+	~EmptyBase00431F61() { ((Rva0042CBB6 *)this)->Rva0042CBB6::~Rva0042CBB6(); }
 };
 
 class FormationTranslator : public EmptyBase00431F61

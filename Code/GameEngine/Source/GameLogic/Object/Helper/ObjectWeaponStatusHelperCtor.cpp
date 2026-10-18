@@ -35,13 +35,21 @@ protected:
 	Object *m_object;
 };
 
+// Retail's unwind of the ObjectHelper base calls the rowed 0x004DF7C2
+// destructor (??1Rva004DF7C2).
+class Rva004DF7C2
+{
+public:
+	virtual ~Rva004DF7C2();
+};
+
 // Opaque ObjectHelper base (0x20 bytes); 2-arg ctor resolves to its row, the
-// declared-only dtor arms the EH frame with no emitted code.
+// dtor arms the EH frame and forwards to the rowed body.
 class ObjectHelper : public UpdateModule
 {
 public:
 	ObjectHelper(Thing *thing, const ModuleData *moduleData);
-	~ObjectHelper();
+	~ObjectHelper() { ((Rva004DF7C2 *)this)->Rva004DF7C2::~Rva004DF7C2(); }
 
 protected:
 	const void *m_p0C;

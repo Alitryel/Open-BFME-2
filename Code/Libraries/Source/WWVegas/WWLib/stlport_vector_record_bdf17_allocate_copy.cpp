@@ -42,4 +42,13 @@ struct BfmeVectorRecord000BDF17 {
 namespace _STL {
 template <> void _Construct<BfmeVectorRecord000BDF17, BfmeVectorRecord000BDF17>(BfmeVectorRecord000BDF17 *, const BfmeVectorRecord000BDF17 &);
 }
+// No row here needs the four members that build a T() (the element's
+// default ctor is unrowed): declare them specialized so the class-wide
+// instantiation does not emit them.
+namespace _STL {
+template <> vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::vector(size_t);
+template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::push_back();
+template <> BfmeVectorRecord000BDF17 *vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::insert(BfmeVectorRecord000BDF17 *);
+template <> void vector<BfmeVectorRecord000BDF17, allocator<BfmeVectorRecord000BDF17> >::resize(size_t);
+}
 template class _STL::vector<BfmeVectorRecord000BDF17, _STL::allocator<BfmeVectorRecord000BDF17> >;

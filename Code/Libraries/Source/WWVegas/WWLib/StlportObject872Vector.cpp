@@ -21,6 +21,15 @@ namespace _STL {
 template <> vector<BfmeObject872, allocator<BfmeObject872> > &
 vector<BfmeObject872, allocator<BfmeObject872> >::operator=(const vector<BfmeObject872, allocator<BfmeObject872> > &);
 }
+// No row here needs the four members that build a T() (the element's
+// default ctor is unrowed): declare them specialized so the class-wide
+// instantiation does not emit them.
+namespace _STL {
+template <> vector<BfmeObject872, allocator<BfmeObject872> >::vector(size_t);
+template <> void vector<BfmeObject872, allocator<BfmeObject872> >::push_back();
+template <> BfmeObject872 *vector<BfmeObject872, allocator<BfmeObject872> >::insert(BfmeObject872 *);
+template <> void vector<BfmeObject872, allocator<BfmeObject872> >::resize(size_t);
+}
 template class _STL::vector<BfmeObject872, _STL::allocator<BfmeObject872> >;
 // operator= was the only user of the const-pointer _M_allocate_and_copy row.
 template BfmeObject872 *_STL::vector<BfmeObject872, _STL::allocator<BfmeObject872> >::_M_allocate_and_copy<const BfmeObject872 *>(size_t, const BfmeObject872 *, const BfmeObject872 *);

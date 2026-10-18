@@ -63,11 +63,19 @@ protected:
 	int m_b;
 };
 
+// The destructor body is rowed as ~Rva001EBFE5 at 0x001EBFE5: this class's
+// vtable 0x00BDF168 slot 0 is that body's deleting dtor 0x001EBFC9.
+class Rva001EBFE5
+{
+public:
+	virtual ~Rva001EBFE5();
+};
+
 class Rva001EBAEA : public Rva001EBAEABase
 {
 public:
 	Rva001EBAEA(int a, int b);
-	virtual ~Rva001EBAEA();
+	virtual ~Rva001EBAEA() { ((Rva001EBFE5 *)this)->Rva001EBFE5::~Rva001EBFE5(); }
 
 private:
 	int m_c;

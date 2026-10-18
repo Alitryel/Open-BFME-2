@@ -29,11 +29,19 @@ extern "C" const void *const vtbl_00C42720[];  // ??_7UpgradeModule@@6BUpgradeMu
 class Thing;
 class ModuleData;
 
+// Retail's unwind of the BehaviorModule base calls the rowed 0x004607E1
+// destructor (??1Rva004607E1).
+class Rva004607E1
+{
+public:
+	virtual ~Rva004607E1();
+};
+
 class BehaviorModule
 {
 public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
-	~BehaviorModule();
+	~BehaviorModule() { ((Rva004607E1 *)this)->Rva004607E1::~Rva004607E1(); }
 
 private:
 	unsigned char m_data[0x10];

@@ -56,11 +56,19 @@ public:
 
 extern WeaponStore *TheWeaponStore;
 
+// Retail's unwind of the base subobject calls the rowed
+// ~SpecialAbilityUpdate 0x00451F45 (the dtor of the 0x0044EF5E base).
+class SpecialAbilityUpdate
+{
+public:
+	virtual ~SpecialAbilityUpdate();
+};
+
 class Rva0044EF5E
 {
 public:
 	Rva0044EF5E(Thing *thing, const ModuleData *moduleData);
-	~Rva0044EF5E();
+	~Rva0044EF5E() { ((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::~SpecialAbilityUpdate(); }
 
 protected:
 	const void *m_vtable;

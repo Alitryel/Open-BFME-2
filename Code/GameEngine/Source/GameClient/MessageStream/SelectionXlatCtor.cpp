@@ -20,6 +20,14 @@ template<class T> __forceinline volatile T &r1_vwrite(T &value)
 extern "C" const void *const __identifier("??_7Rva0042FCE6@@6B@")[];
 class SelectionTranslator;
 extern SelectionTranslator *TheSelectionTranslator;
+// Retail's unwind of this base subobject calls the rowed 0x00429191
+// translator base destructor (??1Rva0042CBB6).
+class Rva0042CBB6
+{
+public:
+	virtual ~Rva0042CBB6();
+};
+
 class EmptyBase0042FD9E
 
 {
@@ -29,7 +37,7 @@ class EmptyBase0042FD9E
  {
   
  }
- ~EmptyBase0042FD9E();
+ ~EmptyBase0042FD9E() { ((Rva0042CBB6 *)this)->Rva0042CBB6::~Rva0042CBB6(); }
  
 }
 ;
