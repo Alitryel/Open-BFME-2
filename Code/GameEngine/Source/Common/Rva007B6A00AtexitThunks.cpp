@@ -184,7 +184,7 @@ extern BfmeUiResourceEntryState BfmeUiResourceEntryCollectorState;
 unsigned g_Va00DFEE20;	// retail RVA 0x009FEE20 (.bss), defined here
 extern unsigned g_Va00DFF030;
 unsigned g_Va00DFF044;	// retail RVA 0x009FF044 (.bss), defined here
-extern unsigned g_Va00DFF048;
+unsigned g_Va00DFF048;	// retail RVA 0x009FF048 (.bss), defined here
 extern unsigned g_Va00DFF050;
 extern unsigned g_Va00DFF054;
 extern unsigned g_Va00DFF05C;
