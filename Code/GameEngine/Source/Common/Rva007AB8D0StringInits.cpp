@@ -52,7 +52,7 @@ void __cdecl rva007B6A40();
 // initializer below: storage only here, so no compiler initializer is emitted.
 namespace _STL { basic_string<char> _Nameless; }
 extern unsigned g_Va00DDEF08;
-extern unsigned g_Va00DDEEFC;
+unsigned g_Va00DDEEFC;	// retail RVA 0x009DEEFC (.bss), defined here
 extern unsigned g_Va00DDEF14;
 extern unsigned char g_009DEEF0Static[12];
 extern unsigned char g_00DDEF20Static[12];
