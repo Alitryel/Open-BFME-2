@@ -3808,7 +3808,7 @@ extern Rva00148F5ECache TheKey_playerEnemies;
 extern Rva00148F5ECache TheKey_playerColor;
 extern Rva00148F5ECache TheKey_playerNightColor;
 extern Rva00148F5ECache TheKey_multiplayerStartIndex;
-extern Rva00148F5ECache TheKey_multiplayerIsLocal;
+extern const StaticNameKey TheKey_multiplayerIsLocal;
 extern Rva00148F5ECache TheKey_teamName;
 extern Rva00148F5ECache TheKey_teamOwner;
 extern Rva00148F5ECache TheKey_teamIsSingleton;
@@ -3835,7 +3835,7 @@ void GameLogic::rva0023E0C7(void)
 	d.setInt(TheKey_playerColor.get(), TheMultiplayerSettings->getColor(0)->getColor());
 	d.setInt(TheKey_playerNightColor.get(), TheMultiplayerSettings->getColor(0)->getNightColor());
 	d.setInt(TheKey_multiplayerStartIndex.get(), 0);
-	d.setBool(TheKey_multiplayerIsLocal.get(), false);
+	d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), false);
 
 	TheSidesList->addSide(&d);
 	d.clear();
@@ -3991,7 +3991,7 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 		d.setInt(TheKey_playerColor.get(), TheMultiplayerSettings->getColor(slot->getColor())->getColor());
 		d.setInt(TheKey_playerNightColor.get(), TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
 		d.setInt(TheKey_multiplayerStartIndex.get(), slot->getStartPos());
-		d.setBool(TheKey_multiplayerIsLocal.get(), slot->isHuman() &&
+		d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), slot->isHuman() &&
 			slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr()) == 0);
 
 		if (game->m_54 >= 0)
@@ -4979,7 +4979,7 @@ void GameLogic::CreateWOTRMPPlayers()
   d.setInt(TheKey_playerSlot20.get(),slot->m_bfme20);
   d.setInt(TheKey_playerColor.get(),TheMultiplayerSettings->getColor(slot->getColor())->getColor());
   d.setInt(TheKey_playerNightColor.get(),TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
-  d.setBool(TheKey_multiplayerIsLocal.get(),slot->isHuman()&&slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr())==0);
+  d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(),slot->isHuman()&&slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr())==0);
   d.setInt(((Rva00148F5ECache*)&TheKey_livingWorldPlayerID)->get(),slot->m_livingWorldPlayerID);
   TheSidesList->findSideInfo(name);
   TheSidesList->addSide(&d);

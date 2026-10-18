@@ -93,7 +93,7 @@ extern const StaticNameKey TheKey_playerName;
 extern Rva00148F5ECache TheKey_playerIsHuman;
 extern Rva00148F5ECache TheKey_playerEnemies;
 extern Rva00148F5ECache TheKey_playerAllies;
-extern Rva00148F5ECache TheKey_multiplayerIsLocal;
+extern const StaticNameKey TheKey_multiplayerIsLocal;
 
 class PlayerSub60
 {
@@ -355,7 +355,7 @@ void PlayerList::newGame()
 
 		// Multiplayer override
 		Bool exists;	// throwaway, since we don't care if it exists
-		if (d->getBool(TheKey_multiplayerIsLocal.get(), &exists))
+		if (d->getBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), &exists))
 		{
 			setLocalPlayer(p);
 			setLocal = true;
