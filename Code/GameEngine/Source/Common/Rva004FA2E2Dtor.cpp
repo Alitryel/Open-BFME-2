@@ -27,15 +27,19 @@ struct Rva002BBD4D
 	_STL::vector<Rva002BBB96Element> m_elements;
 };
 
-struct Rva004F7D7FRecord
-{
-	~Rva004F7D7FRecord();
-	unsigned char m_data[0xC];
-};
+// The +0xC pair is two vectors whose destructor is the rowed
+// vector<Rva004F7D7FRecord> 0x004F7D7F; the +0x24 pair is the 12-byte map
+// whose destructor is rowed as ~Rva004FA168Map 0x004F9630.
+struct Rva004F7D7FRecord;
+namespace _STL {
+template<> vector<Rva004F7D7FRecord, allocator<Rva004F7D7FRecord> >::~vector();
+}
 
-struct Rva004F9630Record
+class Rva004FA168Map
 {
-	~Rva004F9630Record();
+public:
+	~Rva004FA168Map();
+private:
 	unsigned char m_data[0xC];
 };
 
@@ -53,20 +57,17 @@ public:
 	virtual ~Rva004FA2E2Owned();
 };
 
-// vector<void *>::erase(first, last), rowed 0x0031BD55, under an existing
-// pin spelling.
-class BfmeSlotVecG
-{
-public:
-	void bfmeErase(void **first, void **last);
-};
+// vector<void *>::erase(first, last), rowed 0x0031BD55 (stlport_vector_voidptr_opt.cpp).
+namespace _STL {
+template<> void **vector<void *, allocator<void *> >::erase(void **first, void **last);
+}
 
 struct Gen_uw_0007fab3
 {
 	~Gen_uw_0007fab3() { if (m_begin) Rva00030830GameFree(m_begin); }
 	void **begin() { return (void **)m_begin; }
 	void **end() { return (void **)m_end; }
-	void clear() { reinterpret_cast<BfmeSlotVecG *>(this)->bfmeErase(begin(), end()); }
+	void clear() { reinterpret_cast<_STL::vector<void *> *>(this)->erase(begin(), end()); }
 	Rva004FA2E2Owned **m_begin;
 	Rva004FA2E2Owned **m_end;
 	Rva004FA2E2Owned **m_capacity;
@@ -78,8 +79,8 @@ public:
 	~Rva004FA2E2();
 private:
 	Rva002BBD4D m_00;
-	Rva004F7D7FRecord m_0C[2];
-	Rva004F9630Record m_24[2];
+	_STL::vector<Rva004F7D7FRecord> m_0C[2];
+	Rva004FA168Map m_24[2];
 	Rva004F87F3 m_3C;
 	Gen_uw_0007fab3 m_48;
 	Gen_uw_0007fab3 m_54;
