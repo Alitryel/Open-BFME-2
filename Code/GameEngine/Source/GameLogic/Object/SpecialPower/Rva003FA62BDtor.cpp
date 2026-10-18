@@ -59,3 +59,9 @@ Rva003FA62B::~Rva003FA62B()
 	m_owner10->m_listeners1C.rva002B7250((CreateAHeroData *)this);
 	reinterpret_cast<Rva003FA5B9 *>(this)->clear();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?b0@Rva003FA62BBase@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+#pragma comment(linker, "/alternatename:?b1@Rva003FA62BBase@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")

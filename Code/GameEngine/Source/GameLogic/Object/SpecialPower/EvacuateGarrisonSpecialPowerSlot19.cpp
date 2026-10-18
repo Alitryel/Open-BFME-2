@@ -92,3 +92,8 @@ void EvacuateGarrisonSpecialPower::rva00451B92()
 	self->setStatus(OBJECT_STATUS_5D, true);
 	ai->getCommandInterface()->rva0036EBB8(target, ai->rvaSlot143());
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rva00451B92@SpecialAbilityUpdate@@UAEXXZ=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")

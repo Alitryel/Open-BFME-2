@@ -33,3 +33,11 @@ public:
 BFMECRCWriter::BFMECRCWriter( bool full ) : full( full ), crc( 0 )
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot1@XferSave@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
+#pragma comment(linker, "/alternatename:?slot2@XferSave@@UAEXXZ=?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")
+#pragma comment(linker, "/alternatename:?slot3@XferSave@@UAEXXZ=?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")
+#pragma comment(linker, "/alternatename:?slot4@XferSave@@UAEXXZ=?get@Rva00225A4CByteField@@QBEEXZ")
