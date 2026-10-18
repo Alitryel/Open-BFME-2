@@ -37,6 +37,7 @@ const char *g_012A718C[] =
 	"HOLD", "EXTRAPOLATE", "CYCLE", "CYCLE_OFFSET", "MIRROR", 0
 };
 
+class Rva00504F09FunctionCurve { public: void finish(); };
 class Rva0006AB90FunctionCurve
 {
 public:
@@ -50,8 +51,7 @@ public:
 		m_haveInTangent( false ),
 		m_haveOutTangent( false )
 	{
-	}
-	void finish();
+	}/* the rowed Rva00504F09FunctionCurve::finish */ __declspec(dllimport) __forceinline void finish() { ((Rva00504F09FunctionCurve *)this)->finish(); }
 
 private:
 	Rva0006AB10Curve *m_curve;
