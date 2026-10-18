@@ -284,6 +284,10 @@ public:
 	unsigned rva005D8F0F(Object *source);
 	unsigned rva005D9721(Object *source);
 	unsigned rva005D91D2(Object *source);
+	bool rva005D9471(Object *target);
+	// Read through a getter: `m_10 * 2.0f` written directly folds into x87
+	// fadd st,st where retail (0x005D9471) multiplies the returned float in SSE.
+	float getRadius() const { return m_10; }
 private:
 	char m_pad00[0x10];
 	float m_10;		// +0x10
@@ -446,6 +450,28 @@ unsigned Rva005EE816::rva005D91D2(Object *source)
 			best = count;
 	}
 	return best;
+}
+
+// 0x005D9471: the first alive object allied to the target's player (flags 4)
+// within twice the +0x10 radius of the target; when it stands at least 0.8 of
+// that radius away, whether 0x005EE8DD accepts its position.
+bool Rva005EE816::rva005D9471(Object *target)
+{
+	float radius = getRadius() * 2.0f;
+	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(target->getPosition(), radius, 0,
+		Rva0026119DFilter().link(&Rva00261409Filter(target->getControllingPlayer(), true, 4)), 1);
+	Object *other = hits.next();
+	if (other != 0) {
+		const Coord3D *pos = target->getPosition();
+		const Coord3D *otherPos = other->getPosition();
+		Coord3D delta = *otherPos;
+		delta.sub(pos);
+		float distSqr = delta.lengthSqr();
+		float threshold = radius * 0.8f;
+		if (distSqr >= threshold * threshold)
+			return rva005EE8DD(otherPos, target);
+	}
+	return false;
 }
 
 // Retail tests only AL after this call; the row 0x0058AE1E returns the
