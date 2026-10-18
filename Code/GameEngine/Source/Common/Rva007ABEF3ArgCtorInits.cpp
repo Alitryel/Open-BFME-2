@@ -89,7 +89,7 @@ void __cdecl rva007B7B14();
 void __cdecl rva007B6C2A();
 
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
-extern unsigned g_Va00DEBE0C;
+unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
 extern unsigned g_Va00DEBE24;
 extern unsigned g_Va00DF94D0;
 extern unsigned g_Va00DF94B0;
