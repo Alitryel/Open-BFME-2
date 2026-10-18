@@ -470,10 +470,7 @@ class Rva00034D00 : public Rva006C1F60
 public:
 	bool rva00034D00();
 };
-bool Rva00034D00::rva00034D00()
-{
-	return Rva006C1F60::rva00033D50();
-}
+
 
 // 0x00041A06: tail jump to Rva001EDDBBForwarder::rva001EDDBB.
 class Rva00041A06 : public Rva001EDDBBForwarder
@@ -923,10 +920,7 @@ class Rva00494E21 : public SpecialAbilityUpdate
 public:
 	bool rva00494E21();
 };
-bool Rva00494E21::rva00494E21()
-{
-	return SpecialAbilityUpdate::rva0044FC52();
-}
+
 
 // 0x00494E48: tail jump to SpecialAbilityUpdate::startUnpacking.
 class Rva00494E48 : public SpecialAbilityUpdate
@@ -945,10 +939,7 @@ class Rva00494E4D : public SpecialAbilityUpdate
 public:
 	void rva00494E4D(bool a, bool b);
 };
-void Rva00494E4D::rva00494E4D(bool a, bool b)
-{
-	SpecialAbilityUpdate::onExit(a, b);
-}
+
 
 // 0x00494E52: tail jump to SpecialAbilityUpdate::update.
 class Rva00494E52 : public SpecialAbilityUpdate
@@ -1310,10 +1301,7 @@ class Rva0004E3A1 : public Rva002D7DD5
 public:
 	void rva0004E3A1();
 };
-void Rva0004E3A1::rva0004E3A1()
-{
-	rva002D7DD5();
-}
+
 
 class LargeGroupAudioKeyMap;
 class Rva002862C9
@@ -1366,10 +1354,7 @@ class Rva00287010 : public Rva00286CC4
 public:
 	void rva00287010();
 };
-void Rva00287010::rva00287010()
-{
-	rva00286CC4();
-}
+
 
 class Rva003412DB
 {
@@ -1381,10 +1366,7 @@ class Rva00341339 : public Rva003412DB
 public:
 	void rva00341339();
 };
-void Rva00341339::rva00341339()
-{
-	rva003412DB();
-}
+
 
 class Rva00349013
 {
@@ -1396,10 +1378,7 @@ class Rva00349217 : public Rva00349013
 public:
 	void rva00349217();
 };
-void Rva00349217::rva00349217()
-{
-	rva00349013();
-}
+
 
 // Native slot3497C2 forwards the StateReturnType result of the recovered
 // 433B internal update. Bind the call to its real provider instead of the
@@ -1429,10 +1408,7 @@ class Rva0034DC00 : public Rva0034D98B
 public:
 	void rva0034DC00();
 };
-void Rva0034DC00::rva0034DC00()
-{
-	rva0034D98B();
-}
+
 
 class Rva0035066B
 {
@@ -1444,10 +1420,7 @@ class Rva003508C0 : public Rva0035066B
 public:
 	void rva003508C0();
 };
-void Rva003508C0::rva003508C0()
-{
-	rva0035066B();
-}
+
 
 // Native 00404B03..00404B6C: two owned pointers at +12C/+130,
 // an embedded 168-byte float-pair table at +78, and trailing state fields.
@@ -1525,10 +1498,7 @@ class Rva0047E32B : public Rva0047BBA7
 public:
 	void rva0047E32B();
 };
-void Rva0047E32B::rva0047E32B()
-{
-	rva0047BBA7();
-}
+
 
 class Rva00467F3B
 {
@@ -1540,10 +1510,7 @@ class Rva0047E330 : public Rva00467F3B
 public:
 	void rva0047E330();
 };
-void Rva0047E330::rva0047E330()
-{
-	rva00467F3B();
-}
+
 
 class Rva004BF40F
 {
@@ -1573,10 +1540,7 @@ private:
 	char m_pad00[0x0C];
 	Rva005C674A m_0C;
 };
-void Rva0053EC3A::rva0053EC3A()
-{
-	m_0C.rva005C674A();
-}
+
 
 class Rva005680D6
 {
@@ -1604,10 +1568,7 @@ private:
 	char m_pad00[0x48];
 	Rva005D2F7E *m_48;
 };
-void Rva0057862E::rva0057862E()
-{
-	m_48->rva005D2F7E();
-}
+
 
 class Rva005D2F84
 {
@@ -1622,10 +1583,7 @@ private:
 	char m_pad00[0x48];
 	Rva005D2F84 *m_48;
 };
-void Rva00578636::rva00578636()
-{
-	m_48->rva005D2F84();
-}
+
 
 class Rva005D2F8A
 {
@@ -1640,10 +1598,7 @@ private:
 	char m_pad00[0x48];
 	Rva005D2F8A *m_48;
 };
-void Rva0057863E::rva0057863E()
-{
-	m_48->rva005D2F8A();
-}
+
 
 class AptStats
 {
@@ -1676,10 +1631,7 @@ private:
 	char m_pad00[0x60];
 	Rva005DD06D m_60;
 };
-void Rva005B8002::rva005B8002()
-{
-	m_60.rva005DD06D();
-}
+
 
 class Rva00517EA2
 {
@@ -1727,10 +1679,7 @@ private:
 	char m_pad00[0x3C];
 	Rva005F963A *m_3C;
 };
-void Rva005F97AC::rva005F97AC(Int a)
-{
-	m_3C->rva005F963A(a);
-}
+
 
 class Rva005F9687
 {
@@ -1745,10 +1694,7 @@ private:
 	char m_pad00[0x38];
 	Rva005F9687 *m_38;
 };
-void Rva005F97B4::rva005F97B4(Int a)
-{
-	m_38->rva005F9687(a);
-}
+
 
 // ?rva0030BCB2@Rva0030BCB2@@QAEMXZ @0x0030BCB2 8B
 // Adjustor tail-jmp to Rva0053863ESub::rva00538661 with this-0x28.
