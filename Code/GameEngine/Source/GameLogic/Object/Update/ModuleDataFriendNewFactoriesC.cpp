@@ -37,7 +37,8 @@
 class ModuleData;
 class INI;
 class MultiIniFieldParse;
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -53,7 +54,16 @@ public:
 
 int Rva004CE52EGet(void);
 
-extern const FieldParse g_00BF08E0[];	// FXListDie's own table
+extern "C" {
+void __identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x007F08E0: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00BF08E0[3] = {
+	{ "DeathFX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x38 },
+	{ "OrientToObject", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x3C },
+	{ 0, 0, 0, 0 }
+};
 
 // ---- the DieModuleData-shaped pair ------------------------------------------
 
