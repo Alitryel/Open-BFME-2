@@ -29,6 +29,8 @@ public:
 		int m_whichInterfaces;
 	};
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<NameKeyType,pair<NameKeyType const ,ModuleFactory::ModuleTemplate>,_Select1st<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> >,less<NameKeyType>,allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > >::_Rb_tree(_Rb_tree<NameKeyType,pair<NameKeyType const ,ModuleFactory::ModuleTemplate>,_Select1st<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> >,less<NameKeyType>,allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > > const &); }
 
 typedef _STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate> ModuleFactoryMapValue14093;
 typedef _STL::_Select1st<ModuleFactoryMapValue14093> ModuleFactoryMapKeyOf14093;

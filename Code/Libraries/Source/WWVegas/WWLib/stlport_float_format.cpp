@@ -169,6 +169,8 @@ typedef long double max_double_type;
 #ifndef _STLP_INTERNAL_OSTREAM_H
 #include <stl/_ostream.h>
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

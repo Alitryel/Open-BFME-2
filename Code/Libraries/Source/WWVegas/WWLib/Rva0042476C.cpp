@@ -13,6 +13,8 @@ struct Rva00423A4A
 	~Rva00423A4A();
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<Rva00423A4A,allocator<Rva00423A4A> >::vector(vector<Rva00423A4A,allocator<Rva00423A4A> > const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva00423A4A,Rva00423A4A>(Rva00423A4A *p,Rva00423A4A const &v) { new (p) Rva00423A4A(v); } }
 
 class Rva0042476C

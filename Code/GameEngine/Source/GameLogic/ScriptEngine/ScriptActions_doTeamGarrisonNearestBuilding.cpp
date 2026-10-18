@@ -180,7 +180,7 @@ struct BfmeKindOfBits
 
 struct ThingTemplate
 {
-	__forceinline bool isKindOf(int t) const { return m_kindOf.test(t); }
+	__declspec(dllimport) __forceinline bool isKindOf(int t) const { return m_kindOf.test(t); }
 	char m_pad000[0x100];
 	BfmeKindOfBits m_kindOf;	// +0x100
 };
@@ -216,7 +216,7 @@ class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
 	public BfmeObjectDlinkPad, public BfmeObjectVbptrCarrier
 {
 public:
-	__forceinline bool isKindOf(int bit) const { return m_template->isKindOf(bit); }
+	__declspec(dllimport) __forceinline bool isKindOf(int bit) const { return m_template->isKindOf(bit); }
 	// Retail inlines this +0x258 load; suppress the surplus external copy.
 	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	ContainModuleInterface *getContain() const { return m_contain; }

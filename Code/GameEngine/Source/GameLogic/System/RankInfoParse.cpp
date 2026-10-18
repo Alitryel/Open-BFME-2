@@ -58,7 +58,7 @@ public:
 	const char *getNextToken(const char *seps);
 	int scanInt(const char *token);
 	void initFromINI(void *what, const FieldParse *table);
-	INILoadType getLoadType() const { return m_loadType; }
+	__declspec(dllimport) INILoadType getLoadType() const { return m_loadType; }
 
 private:
 	unsigned char m_pad[8];

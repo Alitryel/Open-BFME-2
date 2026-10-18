@@ -4,6 +4,8 @@
 #include <fstream>
 
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _String_base<char,allocator<char> >::_M_deallocate_block(); }
 // bfme link decl-only begin
 namespace _STL { template <> basic_ifstream<unsigned short, char_traits<unsigned short> >::basic_ifstream(char const *, int); }
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }

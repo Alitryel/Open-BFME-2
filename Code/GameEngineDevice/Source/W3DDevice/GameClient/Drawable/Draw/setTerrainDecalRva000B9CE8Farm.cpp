@@ -113,10 +113,10 @@ extern AudioManager0029E159 *g_00DEC2D4;
 class ThingTemplate
 {
 public:
-	Real getShadowSizeX() const { return m_shadowSizeX; }
-	Real getShadowSizeY() const { return m_shadowSizeY; }
-	Real getShadowOffsetX() const { return m_shadowOffsetX; }
-	Real getShadowOffsetY() const { return m_shadowOffsetY; }
+	__declspec(dllimport) Real getShadowSizeX() const { return m_shadowSizeX; }
+	__declspec(dllimport) Real getShadowSizeY() const { return m_shadowSizeY; }
+	__declspec(dllimport) Real getShadowOffsetX() const { return m_shadowOffsetX; }
+	__declspec(dllimport) Real getShadowOffsetY() const { return m_shadowOffsetY; }
 private:
 	unsigned char m_pad00[0x4E8];
 	Real m_shadowSizeX; // +0x4E8

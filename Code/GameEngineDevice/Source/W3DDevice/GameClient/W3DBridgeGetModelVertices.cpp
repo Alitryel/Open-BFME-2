@@ -160,7 +160,7 @@ private:
 class MeshModelClass : public MeshGeometryClass
 {
 public:
-	__forceinline const Vector2 *Get_UV_Array_By_Index(Int index) { return CurMatDesc->Get_UV_Array_By_Index(index, false); }
+	__declspec(dllimport) __forceinline const Vector2 *Get_UV_Array_By_Index(Int index) { return CurMatDesc->Get_UV_Array_By_Index(index, false); }
 private:
 	char m_pad34[0x94 - 0x34];
 	MeshMatDescClass *CurMatDesc;		// +0x94

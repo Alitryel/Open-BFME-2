@@ -59,7 +59,7 @@ class Object
 {
 public:
 	const Coord3D *getPosition() const { return &m_pos; }
-	bool isDestroyed() const { return (m_status438 & 1) != 0; }
+	__declspec(dllimport) bool isDestroyed() const { return (m_status438 & 1) != 0; }
 private:
 	char m_pad000[0x38];
 	Coord3D m_pos;

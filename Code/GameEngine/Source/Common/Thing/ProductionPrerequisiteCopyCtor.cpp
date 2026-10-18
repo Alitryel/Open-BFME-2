@@ -18,6 +18,8 @@ struct PrereqUnitRec
 {
 	unsigned int m_data[3];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<PrereqUnitRec,allocator<PrereqUnitRec> >::vector(vector<PrereqUnitRec,allocator<PrereqUnitRec> > const &); }
 
 enum ScienceType
 {

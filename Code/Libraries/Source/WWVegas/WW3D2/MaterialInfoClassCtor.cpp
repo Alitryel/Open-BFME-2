@@ -67,7 +67,7 @@ private:
 class TextureVector : public TextureVectorBaseCtorShim
 {
 public:
-	__forceinline TextureVector()
+	__declspec(dllimport) __forceinline TextureVector()
 		: TextureVectorBaseCtorShim(0, 0)
 	{
 		*(unsigned int *)((unsigned char *)this + 0x10) = 0;
