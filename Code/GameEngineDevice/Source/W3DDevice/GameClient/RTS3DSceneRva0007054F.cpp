@@ -10,7 +10,7 @@
 // donor null-adjustment shape; common mode7/mode0 call must follow both guards.
 // Render helper 0x0006FB59 is RTS3DScene::renderOneObject (2550 B, ZH donor
 // name), four stack arguments; its fourth argument is unused in retail.
-class Vector3{public:float X,Y,Z;Vector3(){}Vector3(const Vector3&v):X(v.X),Y(v.Y),Z(v.Z){}Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;}};
+class Vector3{public:float X,Y,Z;Vector3(){}Vector3(const Vector3&v):X(v.X),Y(v.Y),Z(v.Z){}__declspec(dllimport) __forceinline Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;}};
 class RenderObjClass;
 class RenderInfoClass{public:RenderObjClass*camera;char gap4[4];Vector3 FogColor;char gap14[0x14];void*light_environment;};
 class RefCountClass{public:virtual ~RefCountClass();int refs;};class MultiListObjectClass{public:struct MultiListNodeClass*node;};
@@ -140,8 +140,9 @@ class PlayerList;extern PlayerList*ThePlayerList;struct ScenePlayerView{char gap
 class TerrainLogic;extern TerrainLogic*TheTerrainLogic;struct SceneTerrainView{char gap[0x1914];bool preview;};
 class GlobalData;extern GlobalData*TheWritableGlobalData;struct SceneGlobalView{char gap[0xd34];bool modeD34;char gapD35[15];bool skipTerrain;};
 class DX8Wrapper{public:__declspec(dllimport) __forceinline static bool Get_Fog_Enable() { return FogEnable; } protected:static bool FogEnable;}; // FogEnable: dx8wrapper.cpp's protected static (@@1)
-extern bool bfmeCameraProjectionOverride,bfmeOnlyEmissiveDraws;// Neutral modeling name for the unowned bool at native DE1EB8; original identity unknown.
-extern bool SceneModeOverride;
+extern bool bfmeCameraProjectionOverride,bfmeOnlyEmissiveDraws;
+// Native zero-initialized byte at VA 0x00DE1EB8; neutral name, identity unknown.
+bool SceneModeOverride = false;
 class WW3D{static bool IsCurrentlyRenderingShadowMap;public:static bool Is_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}};
 extern int Rva00309E4BGet();struct SceneWaterView{char gap[0x20];bool active;};
 class W3DShadowManager;extern W3DShadowManager*TheW3DShadowManager;
