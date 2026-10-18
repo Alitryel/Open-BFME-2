@@ -486,43 +486,6 @@ int GeneralAllocator::rva00031F90(void *block)
 	return result;
 }
 
-// ?rva00032160@GeneralAllocator@Allocator@EA@@QAEIPAX@Z @0x00032160 137B
-// Under the +0x4E4 lock: the 0x31D00 result, plus the inverted bit1 of the
-// block's second dword, plus one when the block's (address - first dword) key is
-// not found among the +0x49C list entries. The equal-arm on the membership
-// compare is a scheduling lever (retail keeps the sentinel test in its own branch).
-unsigned int GeneralAllocator::rva00032160(void *block)
-{
-	Lock *lock = m_4E4;
-	if (lock != 0)
-	{
-		EnterCriticalSection(lock);
-		++lock->m_count;
-	}
-
-	unsigned int result = rva00031D00(block);
-	result += ((unsigned char)~(((unsigned int *)block)[1] >> 1)) & 1 && 1;
-	RegionLink *sentinel = &m_regions;
-	RegionLink *cur = m_regions.m_next;
-	if (cur != sentinel)
-	{
-		unsigned int key = (unsigned int)block - *(unsigned int *)block;
-		do
-		{
-			if ((unsigned int)cur - *(unsigned int *)cur == key)
-				break;
-			cur = cur->m_next;
-		} while (cur != sentinel);
-	}
-	unsigned int total = result + ((block ? (cur == sentinel) : (cur == sentinel)));
-	if (lock != 0)
-	{
-		--lock->m_count;
-		LeaveCriticalSection(lock);
-	}
-	return total;
-}
-
 // ?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z @0x000320E0 128B
 // Under the +0x4E4 lock: the 0x32050 count for the chunk, plus one when the
 // following chunk's in-use bit is clear (this chunk is free), plus one more
