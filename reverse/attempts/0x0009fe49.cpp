@@ -1,4 +1,6 @@
 // ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
+// partial score=0.999 date=2026-10-19
+// ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
 // partial score=0.9906556336734523 date=2026-10-14
 // ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
 // partial score=0.9829879260533392 date=2026-10-14
@@ -18,8 +20,6 @@
 // emits no instruction. Together these improve compiler scheduling, but the
 // first endpoint reload and selection x register lifetime still differ.
 // Keep outside Code/ until the full byte/identity/class gates pass.
-extern "C" void _WriteBarrier(void);
-#pragma intrinsic(_WriteBarrier)
 #include "unicode_string.h"
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -473,10 +473,10 @@ Int x, Int y )
  if( e->secretText )
  text = e->sText;
 // make sure our font is the same as our parents
- if( text->getFont() != window->winGetFont() )
+ if( (x ? text->getFont() : text->getFont()) != window->winGetFont() )
  text->setFont( window->winGetFont() );
  if( e->constructText->getFont() != window->winGetFont() )
- e->constructText->setFont( (x ? (window->winGetFont()) : (window->winGetFont())) );
+ e->constructText->setFont( window->winGetFont() );
 // clip the text to the edit window
  window->winGetScreenPosition( &origin.x, &origin.y );
  window->winGetSize( &size.x, &size.y );
@@ -488,7 +488,7 @@ Int x, Int y )
  Int textWidth = text->getWidth( e->charPos );
 // scroll the text so the first character in view starts the entry
  x += 2 - text->getWidth( e->scrollPos );
- *(volatile Int*)&cursorPos = x;
+ cursorPos = x;
  UnsignedInt selectPos = e->selectPos;
  UnsignedInt charPos = e->charPos;
  UnsignedInt selStart = min( selectPos, charPos );
@@ -499,13 +499,12 @@ Int x, Int y )
  
  {
   Int width = text->getWidth( selStart );
-  Int nextX = x + width;
-  region.hi.x = min( clipRegion.hi.x, nextX );
+  region.hi.x = min( clipRegion.hi.x, x + width );
   text->setClipRegion( &region );
   text->setTextColor( textColor, textDropColor );
   text->draw( x, y, 1, 1 );
+  x += width;
   cursorPos += width;
-  x = nextX;
   
  }
 // draw the composition at the cursor
@@ -547,7 +546,6 @@ Int x, Int y )
   text->setTextColor( 0xFF000000, Rva0009FE01Get( textDropColor ) );
   text->drawAt( x - text->getWidth( selStart ), y );
   x += width;
-  _WriteBarrier();
 // the cursor sits at the end of the selection
   if( selEnd == charPos )
   
@@ -558,7 +556,7 @@ Int x, Int y )
    {
     Int compositeWidth = e->constructText->getWidth( compositeCursorPos );
     e->constructText->setTextColor( compositeColor, compositeDropColor );
-    e->constructText->draw( *(const volatile Int*)&x, y, 1, 1 );
+    e->constructText->draw( x, y, 1, 1 );
     cursorPos += e->constructText->getWidth( compositeCursorPos );
     x += e->constructText->getWidth();
     
