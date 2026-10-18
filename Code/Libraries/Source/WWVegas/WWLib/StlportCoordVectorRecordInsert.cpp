@@ -11,7 +11,8 @@
 // hierarchy claim. Existing copy source independently proves20B stride.
 void __cdecl free(void*);
 struct ICoord2DBase {int x,y;};
-struct ICoord2D:ICoord2DBase {__forceinline ICoord2D(){x=y=0;}bool operator==(const ICoord2DBase&)const;};
+// Keep the zero initializer inline without offering a conflicting COMDAT copy.
+struct ICoord2D:ICoord2DBase {__declspec(dllimport) __forceinline ICoord2D(){x=y=0;}bool operator==(const ICoord2DBase&)const;};
 class ModuleData;
 namespace _STL {
 template<class T>class allocator{public:allocator(){}~allocator(){}};
