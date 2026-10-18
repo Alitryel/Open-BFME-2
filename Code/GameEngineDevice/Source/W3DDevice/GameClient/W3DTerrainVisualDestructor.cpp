@@ -15,16 +15,18 @@
 // virtual destructor, and the water global keeps its ledger spelling
 // (W3DGCData00DE2000 at 0x00DE2000).
 
+// Rva002DAB18's bases: the Snapshot table 0x00BBB554 (slots 1-3 __purecall)
+// and the SubsystemInterface table 0x00C039A0.
 class Rva002DAB18Primary
 {
 public:
-	virtual void s0();
+	virtual void loadPostProcess() = 0;
 };
 
 class Rva002DAB18Secondary
 {
 public:
-	virtual void s0();
+	virtual void init() = 0;
 private:
 	int m_04;
 	int m_08;
@@ -81,10 +83,19 @@ public:
 	~Rva00084CEF();
 };
 
+class Rva009A500
+{
+public:
+	virtual ~Rva009A500();
+};
+
+// The shadow manager's destructor 0x0009A500 is rowed virtual as
+// Rva009A500; the delete below calls it directly.
 class Rva0009A500
 {
 public:
-	~Rva0009A500();
+	__declspec(dllimport) __forceinline ~Rva0009A500()
+	{ reinterpret_cast<Rva009A500 *>(this)->Rva009A500::~Rva009A500(); }
 };
 
 class BfmeB991
@@ -103,6 +114,10 @@ class W3DTerrainVisual : public Rva002DAB18
 {
 public:
 	virtual ~W3DTerrainVisual();
+	// Tables 0x00BC80A0 slot 1 is the empty body 0x000B3FD0 and 0x00BC8068
+	// slot 1 the rowed init 0x00091AEA.
+	virtual void loadPostProcess() {}
+	virtual void init();
 
 private:
 	BaseHeightMapRenderObjClass *m_terrainRenderObject;	// +0x14

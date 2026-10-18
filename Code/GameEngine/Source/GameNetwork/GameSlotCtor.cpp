@@ -19,9 +19,10 @@ class Rva0022CE19SnapshotBase
 {
 public:
 	inline virtual ~Rva0022CE19SnapshotBase() {}
-	virtual void loadPostProcess();
-	virtual const char *typeName() const;
-	virtual void xfer(Xfer *);
+	// Retail's base table 0x00BBB554 holds __purecall in slots 1-3.
+	virtual void loadPostProcess() = 0;
+	virtual const char *typeName() const = 0;
+	virtual void xfer(Xfer *) = 0;
 };
 
 class CreateAHeroData : public Rva0022CE19SnapshotBase
@@ -33,6 +34,9 @@ public:
 		const UnicodeString &name = UnicodeString::TheEmptyString,
 		int d = -1, int color = 0xFF707070, int e = -1);
 	virtual ~CreateAHeroData();
+	virtual void loadPostProcess();
+	virtual const char *typeName() const;
+	virtual void xfer(Xfer *);
 	CreateAHeroData &operator=(const CreateAHeroData &that);
 };
 
@@ -49,6 +53,10 @@ class GameSlot : public Rva0022CE19SnapshotBase
 {
 public:
 	GameSlot();
+	// Table 0x00BE7420 slot 2 is the literal getter 0x002296E6, slot 3 the
+	// rowed xfer 0x003FF616.
+	virtual const char *typeName() const { return "GameSlot"; }
+	virtual void xfer(Xfer *);
 	virtual void reset();
 
 protected:

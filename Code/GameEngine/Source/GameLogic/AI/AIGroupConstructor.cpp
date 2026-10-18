@@ -56,8 +56,11 @@ public:
 protected:
  virtual ~AIGroup();
 public:
- virtual void loadPostProcess();
- virtual const char *GetSnapshotName() const;
+ // Retail vtable C17D00: slot 1 is the empty body 0x000B3FD0, slot 2 the
+ // literal getter 0x0036E55E ("AIGroup"); xfer 0x0036E3C6 is protected.
+ virtual void loadPostProcess() {}
+ virtual const char *GetSnapshotName() const { return "AIGroup"; }
+protected:
  virtual void xfer(Xfer *);
 
 private:
