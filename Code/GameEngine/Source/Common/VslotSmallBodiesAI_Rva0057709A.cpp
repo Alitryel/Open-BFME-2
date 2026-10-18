@@ -679,7 +679,41 @@ public:
 	__declspec(nothrow) BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &);
 };
 extern BfmeFixedStorage002CF0F0 g_00E0660C;
-extern const void *const g_00C6E8A8[];
+// The retail table at RVA 0x0086E8A8: 19 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00576FCE@@UAEPAXI@Z")();
+void __identifier("?b1Anchor@Rva0056B126B1@@UAE_NH@Z")();
+void __identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")();
+void __identifier("?rva0057548A@Rva0057548A@@UAEHPAUParent00575E4E@@@Z")();
+void __identifier("?rva005CBA3D@Rva005CBA3D@@QAEHI@Z")();
+void __identifier("?rva005770CB@Rva005770CB@@QAEXXZ")();
+void __identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")();
+void __identifier("?rva005775C1@Rva0057709A@@QAEXH@Z")();
+void __identifier("??_ERva005770F7@@W3AEPAXI@Z")();
+void __identifier("?rva00576FFE@Rva00576FFE@@QAEHXZ")();
+}
+extern const void *const g_00C6E8A8[19] = {
+	(const void *)&__identifier("??_GRva00576FCE@@UAEPAXI@Z"), // slot 0 0x005E5A66
+	(const void *)&__identifier("?b1Anchor@Rva0056B126B1@@UAE_NH@Z"), // slot 1 0x005CB9FF
+	(const void *)&__identifier("?b1Anchor@Rva0056B126B1@@UAE_NH@Z"), // slot 2 0x005CB9FF
+	(const void *)&__identifier("?b1Anchor@Rva0056B126B1@@UAE_NH@Z"), // slot 3 0x005CB9FF
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 4 0x005CB9FA
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 5 0x005CB9FA
+	(const void *)&__identifier("?rva0057548A@Rva0057548A@@UAEHPAUParent00575E4E@@@Z"), // slot 6 0x0057548A
+	(const void *)&__identifier("?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z"), // slot 7 0x005CB9FA
+	(const void *)&__identifier("?rva005CBA3D@Rva005CBA3D@@QAEHI@Z"), // slot 8 0x005CBA3D
+	(const void *)&__identifier("?rva005770CB@Rva005770CB@@QAEXXZ"), // slot 9 0x005770CB
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 10 0x0047A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 11 0x0047A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 12 0x0047A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 13 0x0047A69C
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 14 0x0047A69C
+	(const void *)&__identifier("?rva005775C1@Rva0057709A@@QAEXH@Z"), // slot 15 0x005775C1
+	(const void *)&__identifier("?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z"), // slot 16 0x0047A69C
+	(const void *)&__identifier("??_ERva005770F7@@W3AEPAXI@Z"), // slot 17 0x00577185
+	(const void *)&__identifier("?rva00576FFE@Rva00576FFE@@QAEHXZ"), // slot 18 0x00576FFE
+};
 
 class Rva005CBA04
 {
