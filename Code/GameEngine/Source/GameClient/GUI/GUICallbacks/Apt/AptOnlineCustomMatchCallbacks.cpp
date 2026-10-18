@@ -1494,7 +1494,7 @@ void AptOnlineCustomMatch::FillGameNameTextEntry(bool flag)
  GadgetTextEntrySetText(m_createDialog, secondText);
 }
 
-extern int g_Va00E063F0;
+int g_Va00E063F0;	// retail RVA 0x00A063F0 (.bss), defined here
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 void __cdecl Rva00381C2DClear(unsigned int value);
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
