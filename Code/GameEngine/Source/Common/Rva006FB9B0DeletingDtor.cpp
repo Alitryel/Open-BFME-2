@@ -12,7 +12,7 @@
 // mov ecx,[pool] + push 0xC + push this + call shape (SizedDeleteDestructors
 // precedent); the dtor stays empty so the local ??1 copy remains 11B.
 
-class Rva006DE350
+class __declspec(novtable) Rva006DE350
 {
 public:
 	virtual ~Rva006DE350();

@@ -24,7 +24,9 @@
 // 0x006F15D0 (Rva006F1360Dtor.cpp), 0x006FBC60 (Rva006FBC90OwnerDtor.cpp),
 // 0x00711350 (Rva00711330Dtor.cpp).
 
-class Rva006DE350
+// Abstract base here: the retail deleting destructor 0x006DE820 is its own
+// unit's (Rva006DE350Dtor.cpp); novtable keeps this unit from emitting a copy.
+class __declspec(novtable) Rva006DE350
 {
 public:
 	virtual ~Rva006DE350();
