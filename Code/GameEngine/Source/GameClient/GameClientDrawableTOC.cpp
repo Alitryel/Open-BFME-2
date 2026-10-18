@@ -2166,6 +2166,28 @@ private:
 	char bytes[4];
 };
 
+// Retail's _Construct<Rva0023AD91Record> is the 18-byte frameless nothrow
+// placement copy rowed at 0x002393AA (folded with _Construct<Rva0036CA00Str>);
+// this TU's private EH-frame copy and its 250-byte inline-overflow copy are not
+// retail's bodies. Emit the nothrow placement copy (inline, so it stays a
+// foldable COMDAT like the other units'; an anchor below forces it out) and take
+// push_back's overflow/copy/fill helpers out of line, so the link keeps retail's
+// bodies instead of this TU's private copies.
+namespace _STL {
+template <> inline void _Construct<Rva0023AD91Record, Rva0023AD91Record>(Rva0023AD91Record *__p, const Rva0023AD91Record &__val) throw()
+{
+	new (__p) Rva0023AD91Record(__val);
+}
+template <> void vector<Rva0023AD91Record, allocator<Rva0023AD91Record> >::push_back(const Rva0023AD91Record &);
+}
+
+// Anchor only: makes this unit emit its nothrow _Construct COMDAT for the
+// 0x002393AA row. Not retail code.
+void bfmeEmitGameClientDrawableTOCConstruct(Rva0023AD91Record *__p, const Rva0023AD91Record &__val)
+{
+	_STL::_Construct(__p, __val);
+}
+
 void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *soundOff,
 	Rva000A8C9B *customInfo, bool *soundEnabled);
 
