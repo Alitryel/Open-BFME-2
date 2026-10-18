@@ -188,13 +188,14 @@ public:
 
 extern GameLogic *TheGameLogic;
 
+class MineshaftPortalBehaviour { public: void createWaypoint(); };
 class Rva0037343B : public UpdateModule, public MineshaftPortalInterfaceA, public MineshaftPortalInterfaceB
 {
 public:
 	Rva0037343B(Thing *thing, const ModuleData *moduleData);
  virtual ~Rva0037343B();
 	virtual UpdateSleepTime update();
-	void createWaypoint();
+	/* the rowed MineshaftPortalBehaviour::createWaypoint */ __declspec(dllimport) __forceinline void createWaypoint() { ((MineshaftPortalBehaviour *)this)->createWaypoint(); }
 
 private:
 	_STL::vector<ObjectID> m_items28;
