@@ -39,7 +39,8 @@ template<> void BfmeLocomotorTemplateVector::push_back(const value_type&);
 // Target adaptation: stored name+18, set-name+1C and speed+20, method(INI*,ThingTemplate*).
 // Original receiver and method names unknown. Prefix is only a measured ABI view.
 #include "ascii_string.h"
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 class INI {
 public: void initFromINI(void *, const FieldParse *);
  int scanIndexList(const char *, const char *const *);
@@ -47,7 +48,17 @@ public: void initFromINI(void *, const FieldParse *);
 private: char unknown00[8]; int loadType;
 };
 // FieldParse table for the LocomotorDefinition parse, read from retail at 0x00BDEA60.
-extern const FieldParse g_00BDEA60[];
+extern "C" {
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x007DEA60: 3 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00BDEA60[4] = {
+	{ "Speed", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ "Condition", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1C },
+	{ "Locomotor", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ 0, 0, 0, 0 }
+};
 class AIUpdateModuleData {
 public: char unknown00[8]; BfmeLocomotorSetMap templates;
 };
