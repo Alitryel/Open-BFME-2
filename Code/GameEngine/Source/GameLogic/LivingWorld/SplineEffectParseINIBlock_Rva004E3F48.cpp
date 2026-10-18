@@ -29,18 +29,22 @@ class INIException
 public:
 	INIException( Int code, const char *msg, ... );
 	INIException( const INIException &other );
+	~INIException();
 
 private:
+	char *m_msg;
 	Int m_code;
-	const char *m_msg;
 };
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void parseReal(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
 };
 
 class AsciiString;
@@ -48,16 +52,34 @@ class AsciiString;
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 
-class Rva003BB730Record
+// Native 4E3F8B calls the already rowed 40-byte record constructor.
+class Rva004E3CD0
 {
 public:
-	Rva003BB730Record();
+	Rva004E3CD0();
 
 private:
 	char m_body[ 0x28 ];
 };
 
-extern const FieldParse Rva003BB730RecordFieldParseTable[];
+void Rva0050407AParseColorControlPointBlock(INI *, void *, void *, const void *);
+class Rva00064680 { public: static void parseControlPointBlock(INI *, void *, void *, const void *); };
+void SplineEffectParseGeometryName(INI *, void *, void *, const void *);
+class Rva003B7140Owner;
+class GenForwardedArg;
+void Rva003B7140(Rva003B7140Owner *, GenForwardedArg *);
+
+// Native table C62148: five fields and the null terminator. Both control
+// point parsers receive the rowed +4-subobject forwarding callback 4E14BC.
+extern const FieldParse Rva003BB730RecordFieldParseTable[] = {
+    { "Opacity", INI::parseReal, 0, 0x24 },
+    { "ColorIntensityControlPoint", Rva0050407AParseColorControlPointBlock, (const void *)Rva003B7140, 0 },
+    { "ControlPoint", Rva00064680::parseControlPointBlock, (const void *)Rva003B7140, 0 },
+    { "Geometry", SplineEffectParseGeometryName, 0, 0 },
+    { "LoadInShell", INI::parseBool, 0, 0x22 },
+    { 0, 0, 0, 0 }
+};
+class Rva003BB730Record;
 
 class Rva003BB730Owner
 {
@@ -71,9 +93,9 @@ void SplineEffectParseINIBlock( INI *ini, void *instance, void *, const char *na
 	if( ini && instance && name )
 	{
 		AsciiString token( name );
-		Rva003BB730Record *record = new Rva003BB730Record();
+		Rva004E3CD0 *record = new Rva004E3CD0();
 		ini->initFromINI( record, Rva003BB730RecordFieldParseTable );
-		( (Rva003BB730Owner *)instance )->addEffect( token, record );
+		( (Rva003BB730Owner *)instance )->addEffect( token, (Rva003BB730Record *)record );
 	}
 	else
 		throw INIException( 3, "SplineEffect::ParseINIBlock::Invalid data passed in." );
