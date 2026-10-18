@@ -18,8 +18,19 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 
-struct Rva001DEF89Record { Rva001DEF89Record(); Rva001DEF89Record(const Rva001DEF89Record&); ~Rva001DEF89Record(); Rva001DEF89Record&operator=(const Rva001DEF89Record&); char bytes[48]; };
-namespace _STL {template<> void _Construct<Rva001DEF89Record,Rva001DEF89Record>(Rva001DEF89Record*,const Rva001DEF89Record&);}
+// Retail's helpers reach the element through rowed twins: _Construct 0x001DEDA7 (_Construct<Rva001DF3F1Element>), ~ 0x001DDEC3 (~Rva00414BDBElement) and operator= 0x001DE727 (Rva001DE727::operator=, via the copy dispatch 0x001DE906): forward to them.
+struct Rva001DF3F1Element;
+struct Rva00414BDBElement { ~Rva00414BDBElement(); };
+class Rva001DE727 { public: Rva001DE727&operator=(const Rva001DE727&); };
+struct Rva001DEF89Record { Rva001DEF89Record(); Rva001DEF89Record(const Rva001DEF89Record&);
+ __declspec(dllimport) __forceinline ~Rva001DEF89Record() { reinterpret_cast<Rva00414BDBElement*>(this)->~Rva00414BDBElement(); }
+ __declspec(dllimport) __forceinline Rva001DEF89Record&operator=(const Rva001DEF89Record&x) { reinterpret_cast<Rva001DE727*>(this)->operator=(reinterpret_cast<const Rva001DE727&>(x)); return *this; }
+ char bytes[48]; };
+namespace _STL {
+template<> void _Construct<Rva001DF3F1Element,Rva001DF3F1Element>(Rva001DF3F1Element*,const Rva001DF3F1Element&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva001DEF89Record,Rva001DEF89Record>(Rva001DEF89Record*p,const Rva001DEF89Record&v)
+{ _Construct(reinterpret_cast<Rva001DF3F1Element*>(p),reinterpret_cast<const Rva001DF3F1Element&>(v)); }
+}
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
