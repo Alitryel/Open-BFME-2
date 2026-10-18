@@ -41,7 +41,7 @@ FactionStatBlock g_Va00E064A4;	// retail RVA 0x00A064A4 (.bss), defined here
 FactionStatBlock g_Va00E064C4;	// retail RVA 0x00A064C4 (.bss), defined here
 FactionStatBlock g_Va00E064E4;	// retail RVA 0x00A064E4 (.bss), defined here
 FactionStatBlock g_Va00E06504;	// retail RVA 0x00A06504 (.bss), defined here
-extern FactionStatBlock g_Va00E06524;
+FactionStatBlock g_Va00E06524;	// retail RVA 0x00A06524 (.bss), defined here
 
 template<class T> inline const T &onlineHomeMax(const T &a, const T &b)
 {
