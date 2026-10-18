@@ -26,10 +26,12 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// Only derived lists are constructed here; their native constructors install
+// the derived vptr. Keep the base table and its SEH deleting dtor external.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
-	GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
+	__declspec(dllimport) __forceinline GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 	bool Is_Empty()
@@ -70,6 +72,15 @@ BfmeNonRefSceneList::~BfmeNonRefSceneList()
 // ??0BfmeNonRefSceneList@@QAE@XZ, retail 0x001410B0 (39 bytes): the constructor, the
 // multilist.h inline chain (the node constructor clears all five words, the
 // list constructor points the head at itself) under this class's vtable.
-BfmeNonRefSceneList::BfmeNonRefSceneList()
+inline BfmeNonRefSceneList::BfmeNonRefSceneList()
 {
+}
+
+// Emit the native inline constructor with the same COMDAT linkage as its consumers.
+inline void *operator new(unsigned int, void *where) { return where; }
+
+// ?bfmeAnchorBfmeNonRefSceneListCtor absent-from-retail
+void *bfmeAnchorBfmeNonRefSceneListCtor(void *where)
+{
+	return ::new (where) BfmeNonRefSceneList();
 }

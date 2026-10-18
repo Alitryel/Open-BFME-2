@@ -31,12 +31,14 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// Only derived lists are constructed here; their native constructors install
+// the derived vptr. Keep the base table and its SEH deleting dtor external.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
 	MultiListNodeClass Head;
 
-	GenericMultiListClass(void) { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
+	__declspec(dllimport) __forceinline GenericMultiListClass(void) { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 protected:
@@ -64,7 +66,7 @@ FVFCategoryList::~FVFCategoryList()
 // ??0FVFCategoryList@@QAE@XZ at retail 0x00143D90 (39B): the constructor, the Zero
 // Hour multilist node and list-head constructors inlined (an empty circular
 // head) before the vtable store. No direct caller remains in retail.
-FVFCategoryList::FVFCategoryList(void)
+inline FVFCategoryList::FVFCategoryList(void)
 {
 }
 
@@ -83,4 +85,13 @@ bool FVFCategoryList::rva00143E40(MultiListObjectClass *obj)
 MultiListObjectClass *FVFCategoryList::rva00143E50()
 {
 	return Internal_Remove_List_Head();
+}
+
+// Emit the native inline constructor with the same COMDAT linkage as its consumers.
+inline void *operator new(unsigned int, void *where) { return where; }
+
+// ?bfmeAnchorFVFCategoryListCtor absent-from-retail
+void *bfmeAnchorFVFCategoryListCtor(void *where)
+{
+	return ::new (where) FVFCategoryList();
 }

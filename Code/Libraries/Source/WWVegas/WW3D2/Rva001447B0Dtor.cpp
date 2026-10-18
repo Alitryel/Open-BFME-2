@@ -32,12 +32,14 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// Only derived lists are constructed here; their native constructors install
+// the derived vptr. Keep the base table and its SEH deleting dtor external.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
 	MultiListNodeClass Head;
 
-	GenericMultiListClass(void) { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
+	__declspec(dllimport) __forceinline GenericMultiListClass(void) { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 protected:
@@ -62,6 +64,15 @@ Rva001447B0::~Rva001447B0()
 // ??0Rva001447B0@@QAE@XZ at retail 0x00143DF0 (39B): the constructor, the Zero
 // Hour multilist node and list-head constructors inlined (an empty circular
 // head) before the vtable store. No direct caller remains in retail.
-Rva001447B0::Rva001447B0(void)
+inline Rva001447B0::Rva001447B0(void)
 {
+}
+
+// Emit the native inline constructor with the same COMDAT linkage as its consumers.
+inline void *operator new(unsigned int, void *where) { return where; }
+
+// ?bfmeAnchorRva001447B0Ctor absent-from-retail
+void *bfmeAnchorRva001447B0Ctor(void *where)
+{
+	return ::new (where) Rva001447B0();
 }

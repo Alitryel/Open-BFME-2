@@ -34,12 +34,15 @@ public:
 	void *List;
 };
 
-class GenericMultiListClass
+// This unit constructs only the derived list. Its native constructor installs
+// the derived vptr; the base view must not emit a competing base vtable or
+// scalar deleting destructor under this unit's SEH compiler settings.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
 	MultiListNodeClass Head;
 
-	GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
+	__declspec(dllimport) __forceinline GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = 0; Head.NextList = 0; }
 	virtual ~GenericMultiListClass();
 
 protected:

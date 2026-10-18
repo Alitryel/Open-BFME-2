@@ -58,10 +58,12 @@ private:
 	MultiListNodeClass *ListNode;
 };
 
-class GenericMultiListClass
+// The derived list owns the native vptr; its base's emitted table and deleting
+// destructor belong to the retail provider, not this local layout view.
+class __declspec(novtable) GenericMultiListClass
 {
 public:
-	GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = NULL; Head.NextList = NULL; }
+	__declspec(dllimport) __forceinline GenericMultiListClass() { Head.Next = Head.Prev = &Head; Head.Object = NULL; Head.NextList = NULL; }
 	virtual ~GenericMultiListClass();
 
 	MultiListNodeClass Head;
@@ -110,7 +112,7 @@ public:
 	MeshGeometryClass();
 	virtual ~MeshGeometryClass();
 
-	void Set_Flag(FlagsType flag, bool onoff) { if (onoff) { Flags |= flag; } else { Flags &= ~flag; } }
+	__declspec(dllimport) __forceinline void Set_Flag(FlagsType flag, bool onoff) { if (onoff) { Flags |= flag; } else { Flags &= ~flag; } }
 
 private:
 	char m_pad10[0x18 - sizeof(RefCountClass) - sizeof(MultiListObjectClass)];
