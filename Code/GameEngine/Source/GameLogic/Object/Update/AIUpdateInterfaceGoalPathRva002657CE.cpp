@@ -42,7 +42,7 @@ public:
 	Path();
 	~Path();
 	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
-	void rva00364551(Object *obj, int surfaces, Bool flag, const float *extra);
+	void rva00364551(Object *obj, int surfaces, int flag, const Coord3D *extra);
 	void rva00365E98(Object *obj, const Coord3D *dir, int surfaces, Bool flag);
 private:
 	unsigned char m_pad00[0x28];
@@ -111,6 +111,9 @@ struct GoalPathVector
 	Coord3D *_M_end_of_storage;
 };
 
+// Rowed goal-path accessor 0x00346FA5 (its pin names AIStateMachine::getGoalPathPosition).
+class Rva00346FA5 { public: void *rva00346FA5(Int index) const; };
+
 class AIStateMachine
 {
 public:
@@ -178,11 +181,11 @@ void AIUpdateInterface::rva002657CE()
 	}
 	m_path = new Path;
 	m_path->rva002655E3(obj->getPosition(), LAYER_GROUND, 0x7FFFFFFF);
-	m_path->rva00364551(obj, locomotor->m_template->m_surfaces, false, 0);
+	m_path->rva00364551(obj, locomotor->m_template->m_surfaces, 0, 0);
 	for (Int i = 0; i < m_stateMachine->getNumGoalPathPositions(); i++)
 	{
 		Coord3D pos;
-		const Coord3D *goal = m_stateMachine->getGoalPathPosition(i);
+		const Coord3D *goal = (const Coord3D *)((const Rva00346FA5 *)m_stateMachine)->rva00346FA5(i);
 		pos.x = goal->x;
 		pos.y = goal->y;
 		pos.z = goal->z;
