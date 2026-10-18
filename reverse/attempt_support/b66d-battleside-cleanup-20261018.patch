@@ -1,0 +1,65 @@
+--- Code/Libraries/Source/WWVegas/WWLib/OuterRecordCtorRva003F64B2.cpp
++++ Code/Libraries/Source/WWVegas/WWLib/OuterRecordCtorRva003F64B2.cpp
+@@ -31,14 +31,15 @@
+ template <> _Vector_base<int, allocator<int> >::~_Vector_base();
+ }
+ struct Rva003F64B2Input {char pad[0x34];int key;};
+-struct Rva003F64B2Element {
++struct Rva003F610FElement {
+  char consumed[48];
+- Rva003F64B2Element(int); Rva003F64B2Element(int,const void*);
+- ~Rva003F64B2Element();
++ Rva003F610FElement(int); Rva003F610FElement(int,const void*);
++ ~Rva003F610FElement();
+ };
+ namespace _STL {
+-template<> void vector<Rva003F64B2Element>::reserve(unsigned);
+-template<> void vector<Rva003F64B2Element>::push_back(const Rva003F64B2Element&);
++template<> vector<Rva003F610FElement>::~vector();
++template<> void vector<Rva003F610FElement>::reserve(unsigned);
++template<> void vector<Rva003F610FElement>::push_back(const Rva003F610FElement&);
+ }
+ // ?_ClearNumObjBelow-style family note: the WorldBuilder twin names
+ // LivingWorldBattle::BattleSide at EA's own LivingWorldBattle.cpp
+@@ -47,24 +48,21 @@
+ class LivingWorldBattle::BattleSide {
+ public:
+  int key;
+- _STL::vector<Rva003F64B2Element> elements;
++ _STL::vector<Rva003F610FElement> elements;
+  _STL::vector<int> words;
+  BattleSide(Rva003F64B2Input*); BattleSide(Rva003F64B2Input*,const void*);
+ };
+ LivingWorldBattle::BattleSide::BattleSide(Rva003F64B2Input *p)
+- :key(p->key),elements(_STL::allocator<Rva003F64B2Element>()),words(_STL::allocator<int>()) {
++ :key(p->key),elements(_STL::allocator<Rva003F610FElement>()),words(_STL::allocator<int>()) {
+  elements.reserve(6);
+- elements.push_back(Rva003F64B2Element(reinterpret_cast<int>(p)));
++ elements.push_back(Rva003F610FElement(reinterpret_cast<int>(p)));
+ }
+ 
+ 
+-#pragma comment(linker, "/alternatename:??0Rva003F64B2Element@@QAE@H@Z=??0Rva003F610FElement@@QAE@H@Z")
+ 
+-#pragma comment(linker, "/alternatename:??1Rva003F64B2Element@@QAE@XZ=??1Rva003F610FElement@@QAE@XZ")
+ 
+-#pragma comment(linker, "/alternatename:?push_back@?$vector@URva003F64B2Element@@V?$allocator@URva003F64B2Element@@@_STL@@@_STL@@QAEXABURva003F64B2Element@@@Z=?push_back@?$vector@UBfmePod48@@V?$allocator@UBfmePod48@@@_STL@@@_STL@@QAEXABUBfmePod48@@@Z")
++#pragma comment(linker, "/alternatename:?push_back@?$vector@URva003F610FElement@@V?$allocator@URva003F610FElement@@@_STL@@@_STL@@QAEXABURva003F610FElement@@@Z=?push_back@?$vector@UBfmePod48@@V?$allocator@UBfmePod48@@@_STL@@@_STL@@QAEXABUBfmePod48@@@Z")
+ 
+-#pragma comment(linker, "/alternatename:?reserve@?$vector@URva003F64B2Element@@V?$allocator@URva003F64B2Element@@@_STL@@@_STL@@QAEXI@Z=?reserve@?$vector@URva003F610FElement@@V?$allocator@URva003F610FElement@@@_STL@@@_STL@@QAEXI@Z")
+ 
+ // Target Ghidra [3F652E,3F65AD),127B; RET8. Same target outer28B
+ // construction as3F64B2 but forwards the second argument unchanged to
+@@ -72,9 +70,9 @@
+ // its ModuleData spelling is a linker identity rather than an assertion
+ // about the original application payload type at this caller.
+ LivingWorldBattle::BattleSide::BattleSide(Rva003F64B2Input *p,const void *payload)
+- :key(p->key),elements(_STL::allocator<Rva003F64B2Element>()),words(_STL::allocator<int>()) {
++ :key(p->key),elements(_STL::allocator<Rva003F610FElement>()),words(_STL::allocator<int>()) {
+  elements.reserve(6);
+- elements.push_back(Rva003F64B2Element(reinterpret_cast<int>(p),payload));
++ elements.push_back(Rva003F610FElement(reinterpret_cast<int>(p),payload));
+ }
+ 
+-#pragma comment(linker, "/alternatename:??0Rva003F64B2Element@@QAE@HPBX@Z=??0Rva003F5970@@QAE@HPBVModuleData@@@Z")
++#pragma comment(linker, "/alternatename:??0Rva003F610FElement@@QAE@HPBX@Z=??0Rva003F5970@@QAE@HPBVModuleData@@@Z")
