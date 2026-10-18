@@ -50,7 +50,7 @@ public:
 class AptBoolean { public: static void ClearPool(); };
 class AptInteger { public: static void ClearPool(); };
 class AptFloat { public: static void ClearPool(); };
-class StringPool { public: static void ClearTemporaryPool(); };
+void Rva0070B590Drain();
 void __cdecl Rva006CD330();
 void __cdecl Rva006CC110Log(int code, const char *format, ...);
 extern AptValueVector *g_releaseVectorAtE17710;
@@ -58,7 +58,6 @@ extern class Rva006D2A60 *g_pChainBlockAllocatorF4;
 // g_00E180EC is only an alias of the owned global g_aptReleaseGateAtE180EC (ledger names column); this unit reads the owner through its own view type.
 extern bool g_aptReleaseGateAtE180EC;
 #define g_00E180EC (*(unsigned char *)&g_aptReleaseGateAtE180EC)
-extern const char g_00CEC468[];
 void __cdecl Rva006E6E20Collect()
 {
     int cleaned = 0;
@@ -104,9 +103,10 @@ void __cdecl Rva006E6E20Collect()
     }
     g_releaseVectorAtE17710->ReleaseValues();
     if (cleaned)
-        Rva006CC110Log(4, g_00CEC468, cleaned);
+        Rva006CC110Log(4, "Apt-GC---------------------- Sweeping of %d objects\n", cleaned);
     AptBoolean::ClearPool();
     AptInteger::ClearPool();
     AptFloat::ClearPool();
-    StringPool::ClearTemporaryPool();
+    // StringPool::ClearTemporaryPool is the rowed Rva0070B590Drain 0x0070B590.
+    Rva0070B590Drain();
 }

@@ -91,6 +91,14 @@ public:
 
 extern BfmeMapObjectListHolder *BfmeTheMapObjectListHolder;	// retail [0x00E00940]
 
+// The three MapObject getters' retail bodies are rowed under address names
+// (BfmeConv932.cpp 0x0030D833, Rva0030D748Method.cpp, Rva0030D808Method.cpp);
+// WorldHeightMap.cpp's same-name copies are not retail's, so calls bind to the rows.
+struct BfmeSlotJA;
+class BfmeThing932A { public: BfmeSlotJA *bfmeGo932A(); };
+class Rva0030D748 { public: AsciiString rva0030D748(); };
+class Rva0030D808 { public: AsciiString rva0030D808(); };
+
 class MapObject
 {
 public:
@@ -143,12 +151,12 @@ void MapObject::fastAssignAllUniqueIDs()
 		MapObject *obj = reinterpret_cast<MapObject *>(objStack.top().address);
 
 		const char *thingName;
-		if (obj->getThingTemplate()) {
-			thingName = obj->getThingTemplate()->getName().str();
+		if (((const ThingTemplate *)((BfmeThing932A *)obj)->bfmeGo932A())) {
+			thingName = ((const ThingTemplate *)((BfmeThing932A *)obj)->bfmeGo932A())->getName().str();
 		} else if (obj->isWaypoint()) {
-			thingName = obj->getWaypointName().str();
+			thingName = ((Rva0030D748 *)obj)->rva0030D748().str();
 		} else if (obj->isGenericAIObject()) {
-			thingName = obj->getGenericAIObjectName().str();
+			thingName = ((Rva0030D808 *)obj)->rva0030D808().str();
 		} else {
 			thingName = obj->getName().str();
 		}

@@ -70,6 +70,14 @@ class ThingTemplate : public ThingTemplateHead, public ThingTemplateName
 {
 };
 
+// The three MapObject getters' retail bodies are rowed under address names
+// (BfmeConv932.cpp 0x0030D833, Rva0030D748Method.cpp, Rva0030D808Method.cpp);
+// WorldHeightMap.cpp's same-name copies are not retail's, so calls bind to the rows.
+struct BfmeSlotJA;
+class BfmeThing932A { public: BfmeSlotJA *bfmeGo932A(); };
+class Rva0030D748 { public: AsciiString rva0030D748(); };
+class Rva0030D808 { public: AsciiString rva0030D808(); };
+
 class MapObject
 {
 public:
@@ -161,12 +169,12 @@ void MapObject::verifyValidUniqueID()
 	int indexOfThisObject = highestIndex + 1;
 
 	const char *thingName;
-	if (getThingTemplate()) {
-		thingName = getThingTemplate()->getName().str();
+	if (((const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A())) {
+		thingName = ((const ThingTemplate *)((BfmeThing932A *)this)->bfmeGo932A())->getName().str();
 	} else if (isWaypoint()) {
-		thingName = getWaypointName().str();
+		thingName = ((Rva0030D748 *)this)->rva0030D748().str();
 	} else if (isGenericAIObject()) {
-		thingName = getGenericAIObjectName().str();
+		thingName = ((Rva0030D808 *)this)->rva0030D808().str();
 	} else {
 		thingName = getName().str();
 	}
