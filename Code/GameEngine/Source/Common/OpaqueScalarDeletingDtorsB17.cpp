@@ -66,7 +66,7 @@ Rva00576FCE::Rva00576FCE(EmitVtableTag *)
 class Rva005E12D1 { public: virtual ~Rva005E12D1(); };
 
 // Primary base at +0 (vptr plus one word), named as its ??_7Rva005E8D71@@6BRva005E8D71Base@@@ table.
-class Rva005E8D71Base { public: virtual ~Rva005E8D71Base(); private: char m_unmodelled04[4]; };
+class Rva005E8D71Base { public: virtual ~Rva005E8D71Base() {} private: char m_unmodelled04[4]; };
 class Rva005E8D71 : public Rva005E8D71Base, public Rva005E12D1
 {
 public:
