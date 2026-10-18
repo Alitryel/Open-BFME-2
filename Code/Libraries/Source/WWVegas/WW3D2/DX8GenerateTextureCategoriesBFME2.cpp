@@ -56,7 +56,8 @@ public:
  unsigned Get_Pass_Count() const {return passes;} VertexMaterialClass *single[16]; void *arrays[4];
  VertexMaterialClass *Peek_Material(int,int) const;
  bool Has_Material_Array(int p) const { return arrays[p]!=0; }
- VertexMaterialClass *Peek_Single_Material(int p) const {return single[p];}
+ // Inline for this body; the outlined retail accessor is owned by dynamesh.cpp.
+ __declspec(dllimport) __forceinline VertexMaterialClass *Peek_Single_Material(int p) const {return single[p];}
 };
 class MeshModelClass {
 public:

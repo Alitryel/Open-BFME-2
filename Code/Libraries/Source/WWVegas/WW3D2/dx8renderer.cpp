@@ -1067,53 +1067,9 @@ struct Textures_Material_And_Shader_Booking_Struct
 	}
 };
 
-// ?Generate_Texture_Categories@DX8FVFCategoryContainer@@ present-unmatched
-void DX8FVFCategoryContainer::Generate_Texture_Categories(Vertex_Split_Table& split_table,unsigned vertex_offset)
-{
-	int polygon_count=split_table.Get_Polygon_Count();
-	int index_count=polygon_count*3*split_table.Get_Pass_Count(); 
-
-	/*
-	** If we don't have an index buffer yet, allocate one.  Make it hold at least 12000 entries,
-	** more if the mesh requires it.  
-	*/
-	if (!index_buffer) {
-		int ib_size=12000;  
-		if (ib_size<index_count) ib_size=index_count;
-		if (sorting) {
-			index_buffer=NEW_REF(SortingIndexBufferClass,(ib_size));
-		}
-		else {
-			index_buffer=NEW_REF(DX8IndexBufferClass,(
-				ib_size,
-				(DX8Wrapper::Get_Current_Caps()->Support_NPatches() && WW3D::Get_NPatches_Level()>1) ? DX8IndexBufferClass::USAGE_NPATCHES : DX8IndexBufferClass::USAGE_DEFAULT));
-		}
-	}
-
-	for (unsigned pass=0;pass<split_table.Get_Pass_Count();++pass) {
-		Textures_Material_And_Shader_Booking_Struct textures_material_and_shader_booking;
-
-		unsigned old_used_indices=used_indices;
-
-		for (int i=0;i<polygon_count;++i) {
-			TextureClass* textures[MeshMatDescClass::MAX_TEX_STAGES];
-			// disabled this assert as MAX_TEXTURE_STAGES is now 8, but legacy MeshMat::MAX_TEX_STAGES is still 2
-	//		WWASSERT(MAX_TEXTURE_STAGES==MeshMatDescClass::MAX_TEX_STAGES);
-			for (int stage=0;stage<MeshMatDescClass::MAX_TEX_STAGES;stage++) 
-			{
-				textures[stage]=split_table.Peek_Texture(i,pass,stage);
-			}
-			VertexMaterialClass* mat=split_table.Peek_Material(i,pass);
-			ShaderClass shader=split_table.Peek_Shader(i,pass);
-			if (!textures_material_and_shader_booking.Add_Textures_Material_And_Shader(textures,mat,shader)) continue;
-
-			Insert_To_Texture_Category(split_table,textures,mat,shader,pass,vertex_offset);
-		}
-
-		int new_inds=used_indices-old_used_indices;
-		WWASSERT(new_inds<=polygon_count*3);
-	}
-}
+// The retail Generate_Texture_Categories body and its split-table material
+// helper are owned by DX8GenerateTextureCategoriesBFME2.cpp (0x00146BA0).
+// Keep the class declaration; the older Zero Hour definition duplicated it.
 
 // ----------------------------------------------------------------------------
 
