@@ -38,17 +38,7 @@ extern const FieldParse g_00C61884[3] = {
 	{ 0, 0, 0, 0 }
 };
 
-#include "ascii_string.h"
-
-class Rva004E1B72
-{
-public:
-	Rva004E1B72() : m_bool08(false) {}
-	virtual ~Rva004E1B72();
-private:
-	AsciiString m_str04;
-	bool m_bool08;
-};
+#include "Rva004E1B72.h"
 
 class Rva0052BEF0
 {

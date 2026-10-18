@@ -17,7 +17,7 @@
 
 // Fold-shared string member teardown (never defined; resolves through the
 // symbols.csv pin at 0x00036410).
-#include "ascii_string.h"
+#include "Rva004E1B72.h"
 
 class UnicodeString;
 class PooledString;
@@ -101,22 +101,6 @@ public:
 	unsigned char m_minimum;
 };
 
-class Rva004E1B72Base
-{
-public:
-	virtual ~Rva004E1B72Base() {}
-};
-
-class Rva004E1B72 : public Rva004E1B72Base
-{
-public:
-	virtual ~Rva004E1B72();
-	virtual void DoXfer(Xfer &xfer);
-
-	AsciiString m_member04;
-	bool m_bool08;
-};
-
 Rva004E1B72::~Rva004E1B72()
 {
 }
@@ -127,4 +111,11 @@ void Rva004E1B72::DoXfer(Xfer &xfer)
 	xfer == version;
 	xfer == m_member04;
 	xfer == m_bool08;
+}
+
+// C61DC4 slots 1 and 2 point to B3FD0 and 4E1392 respectively.
+void Rva004E1B72::LoadPostProcess() {}
+const char *Rva004E1B72::GetSnapshotName()
+{
+ return "SetPlayerControlOfArmy";
 }
