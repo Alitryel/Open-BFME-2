@@ -17,6 +17,10 @@
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_EXTERN_DTOR
 #include "../../../Include/Lib/Coord3DCtorView.h"
+// Bind the list clear to the rowed retail copy (MapMetaDataCopy) instead of
+// emitting this unit's own; the element destroy it instantiated stays.
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
+template void _STL::_Destroy<Coord3D>(Coord3D *);
 
 struct PlayerPosition
 {
