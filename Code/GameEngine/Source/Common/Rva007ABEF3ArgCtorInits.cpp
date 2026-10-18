@@ -132,7 +132,7 @@ unsigned g_Va00E06034;	// retail RVA 0x00A06034 (.bss), defined here
 // serves the `char *` reader, the `char []` reader and this constructor.
 char *g_rva005C1A8DDefault = 0;
 unsigned g_Va00E0660C;	// retail RVA 0x00A0660C (.bss), defined here
-extern unsigned g_Va00E06610;
+unsigned g_Va00E06610;	// retail RVA 0x00A06610 (.bss), defined here
 extern unsigned g_Va00E06614;
 extern unsigned g_Va00E06618;
 extern unsigned g_Va00E0661C;
