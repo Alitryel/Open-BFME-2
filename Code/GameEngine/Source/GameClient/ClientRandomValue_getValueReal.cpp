@@ -6,7 +6,9 @@
 typedef float Real;
 typedef unsigned int UnsignedInt;
 
-static const Real theMultFactor = 1.0f / 4294967295.0f;
+// Sole storage for the native shared multiplier at VA 0x00DFE738.
+// RandomValueMultFactorInit.cpp initializes it before the three readers run.
+extern "C" { Real theMultFactor; }
 
 static UnsignedInt theGameClientSeed[6] =
 {

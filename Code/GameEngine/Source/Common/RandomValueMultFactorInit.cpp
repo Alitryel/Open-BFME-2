@@ -13,6 +13,8 @@ typedef unsigned int UnsignedInt;
 extern "C" float __cdecl powf(float x, float y);
 inline Real Rva007ADBFFPow(Real x, Real y) { return powf(x, y); }
 
+// The native initializer and three real-value readers share this writable
+// float at VA 0x00DFE738. The image starts it at zero before initialization.
 extern "C" Real theMultFactor;
 
 struct RandomValueMultFactorInit

@@ -7,7 +7,8 @@
 typedef float Real;
 typedef unsigned int UnsignedInt;
 
-static const Real theMultFactor = 1.0f / 4294967295.0f;
+// Shared writable multiplier initialized by RandomValueMultFactorInit.cpp.
+extern "C" Real theMultFactor;
 
 static UnsignedInt theGameAudioSeed[6] =
 {
