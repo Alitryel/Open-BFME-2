@@ -67,7 +67,9 @@ public:
 #define V(n) virtual void slot##n();
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
     V10(0) V10(1) V10(2) V10(3) V10(4)
-    V(50) virtual LANGameInfoView *GetGames(); /* +CC */ V(52) V(53) V(54) V(55) V(56) V(57) V(58)
+    V(50) virtual LANGameInfoView *GetGames(); /* +CC */ V(52) V(53) V(54) V(55)
+    virtual GameInfo *GetCurrentGame(); // +E0, used by native 5D56D0
+    V(57) V(58)
     virtual LANPlayer *GetLobbyPlayers(); // +EC
     V(60) V(61) V(62) V(63)
     virtual const BfmeNetAddress *GetLocalAddress(); // +100
@@ -90,6 +92,7 @@ class ChatWindowsLan {
 public:
     void GetLobbyPlayers(_STL::vector<BfmeStringRecord005D511F> *);
     bool PopulatePlayerList(_STL::vector<BfmeStringRecord005D511F>*);
+    bool rva005D56D0();
     bool rva005D574C();
     // 0x005D5648 (StringRecordVectorFill005D5648.cpp): a member that never
     // reads ECX; this caller sets ECX=this for it (retail hoists that into the
@@ -198,5 +201,24 @@ bool ChatWindowsLan::rva005D574C()
     GetLobbyPlayers(&players);
     for (LANGameInfoView *game = TheLAN->GetGames(); game; game = game->next)
         rva005D5648(&players, reinterpret_cast<GameInfo *>(game));
+    return PopulatePlayerList(&players);
+}
+
+// Native 5D56D0..5D574C is a complete 124-byte EH-framed function.
+// The LAN slot at E0 supplies the current GameInfo. The independently
+// rowed game/lobby collectors and PopulatePlayerList establish the same
+// ChatWindowsLan receiver and string-record vector as rva005D574C above.
+// This refresh chooses the current game's players, falling back to the
+// lobby while no game is selected. Its original method name is unknown.
+bool ChatWindowsLan::rva005D56D0()
+{
+    if (!TheLAN)
+        return false;
+    GameInfo *game = TheLAN->GetCurrentGame();
+    _STL::vector<BfmeStringRecord005D511F> players;
+    if (game)
+        rva005D5648(&players, game);
+    else
+        GetLobbyPlayers(&players);
     return PopulatePlayerList(&players);
 }
