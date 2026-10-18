@@ -37,7 +37,7 @@ class Overridable
 {
 public:
 	Overridable() : m_nextOverride(0), m_isAllocatedOverride(0), m_extra0C(-1) {}
-	virtual void overridableAnchor();
+	virtual ~Overridable();
 	Overridable &operator=(const Overridable &that);
 
 private:
@@ -61,6 +61,7 @@ class RankInfo : public Overridable
 {
 public:
 	RankInfo();
+	virtual ~RankInfo();
 	RankInfo &operator=(const RankInfo &that);
 
 private:

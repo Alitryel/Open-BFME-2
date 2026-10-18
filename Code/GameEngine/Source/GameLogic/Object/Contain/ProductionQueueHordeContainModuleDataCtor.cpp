@@ -55,7 +55,7 @@ class HordeGarrisonContainModuleData
 {
 public:
 	HordeGarrisonContainModuleData();
-	virtual void unused();
+	virtual ~HordeGarrisonContainModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 protected:
@@ -67,6 +67,7 @@ class ProductionQueueHordeContainModuleData : public HordeGarrisonContainModuleD
 {
 public:
 	ProductionQueueHordeContainModuleData();
+	virtual ~ProductionQueueHordeContainModuleData();
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 private:
@@ -101,4 +102,3 @@ void ProductionQueueHordeContainModuleData::buildFieldParse(MultiIniFieldParse &
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?unused@HordeGarrisonContainModuleData@@UAEXXZ=??_GProductionQueueHordeContainModuleData@@UAEPAXI@Z")

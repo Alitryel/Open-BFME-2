@@ -203,6 +203,10 @@ class Rva003B00D6
 {
 public:
 	virtual ~Rva003B00D6();
+	// Pure in every copy of the 0x003B00D6 family's vtables (Rva003BCtors0083.cpp).
+	virtual void bfmeVtSlot1() = 0;
+	virtual void bfmeVtSlot2() = 0;
+	virtual void bfmeVtSlot3() = 0;
 };
 
 class Rva003B0152 : public Rva003B00D6
