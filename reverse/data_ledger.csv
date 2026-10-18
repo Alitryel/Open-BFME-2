@@ -19645,7 +19645,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A02EE0,4,.data,global,?s_key@?1??Rva003FF02EPowerCap@@YAXH@Z@4VAsciiString@@A,Code/GameEngine/Source/Common/Rva003FF02EPowerCap.cpp,owned,,1,2
 0x00A02EE4,4,.data,global,?g_Va00E02EE4@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Exx.cpp,provisional,?$S1@?1??Rva003FF02EPowerCap@@YAXH@Z@4IA@Code/GameEngine/Source/Common/Rva003FF02EPowerCap.cpp;?g_Va00E02EE4@@3IA,2,4
 0x00A02EE8,4,.data,global,_s_rva007AFCF8,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x00A02EEC,4,.data,global,?TheGameInfo@@3PAVGameInfo@@A,Code/GameEngine/Source/GameNetwork/GameInfo_Rva003FF374.cpp,provisional,?TheGameInfo@@3PAVGameInfo@@A;?g_00E02EEC@@3PAVRva00E02EECObj@@A;?g_Rva0023D30FFlag@@3HA;?g_Rva00E02EEC@@3PAULANGameInfo@@A;?g_Rva00E02EEC@@3PAVLANGameInfo@@A,1,127
+0x00A02EEC,4,.data,global,?TheGameInfo@@3PAVGameInfo@@A,Code/GameEngine/Source/GameNetwork/GameSlotApparent.cpp,provisional,?TheGameInfo@@3PAVGameInfo@@A;?g_00E02EEC@@3PAVRva00E02EECObj@@A;?g_Rva0023D30FFlag@@3HA;?g_Rva00E02EEC@@3PAULANGameInfo@@A;?g_Rva00E02EEC@@3PAVLANGameInfo@@A,1,127
 0x00A02EF0,8,.data,global,?TheSkirmishGameInfo@@3PAVGameInfo@@A,Code/GameEngine/Source/Common/System/RecorderIsMultiplayer.cpp,provisional,?TheSkirmishGameInfo@@3PAVGameInfo@@A;?TheSkirmishGameInfo@@3PAVSkirmishGameInfo@@A,2,57
 0x00A02EF8,4,.data,global,_s_rva007AFD22,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A02EFC,4,.data,global,?textID@?BP@??ControlBarSystem@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z@4W4NameKeyType@@A,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/ControlBarSystem.cpp,owned,,1,2
