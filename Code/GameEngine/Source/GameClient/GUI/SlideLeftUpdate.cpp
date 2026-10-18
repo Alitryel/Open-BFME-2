@@ -57,3 +57,44 @@ bool ProcessAnimateWindowSlideFromLeft::updateAnimateWindow(AnimateWindow *a)
  a->setVel(outgoing);
  return false;
 }
+
+// Retail 0x005C54BC (233 B, ret 4): Left reverse, directly after the update above. X mirror of
+// the TopFast reverse (SlideTopUpdate.cpp) with GeneralsMD's clamp (vel.x < -maxVel.x); closed by
+// the same two equal-arm schedule levers: the finish-branch winSetPosition duplicated on curX and
+// the slowed value selected as (curX ? v*speedRatio : v*speedRatio).
+bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow(AnimateWindow *a)
+{
+ if(!a) return true;
+ if(a->finished) return true;
+ unsigned startTime=a->startTime;
+ if(timeGetTime()<startTime) return false;
+ GameWindow *win=a->window;
+ if(!win) return true;
+ union { ICoord2D position; RvaLeftVelocity velocity; } scratch;
+ ICoord2D startPos=a->start;
+ int curX=a->current.x;
+ int curY=a->current.y;
+ typedef void (AnimateWindow::*VelocityOutput)(RvaLeftVelocity*);
+ (a->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
+ curX+=(int)scratch.velocity.x;
+ if(curX<startPos.x) {
+  a->finished=true;
+  if (curX) { win->winSetPosition(startPos.x,curY); } else { win->winSetPosition(startPos.x,curY); }
+  return true;
+ }
+ win->winSetPosition(curX,curY);
+ a->current.x=curX; a->current.y=curY;
+ ICoord2D endPos=a->end;
+ float slowed;
+ if(endPos.x-curX<=slowThreshold)
+  slowed=(curX ? (scratch.velocity.x*speedRatio) : (scratch.velocity.x*speedRatio));
+ else
+  slowed=-maxVel.x;
+ if(slowed<-maxVel.x)
+  slowed=-maxVel.x;
+ RvaLeftVelocity out;
+ out.x=slowed;
+ out.y=scratch.velocity.y;
+ a->setVel(out);
+ return false;
+}
