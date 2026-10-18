@@ -31,12 +31,13 @@ public:
 	void releaseBuffer();
 };
 
+class Rva001EB329 { public: void rva001EB329(INI *); };
 struct BfmeRecord001ECAF9
 {
 	char m_pad[36];
 	BfmeRecord001ECAF9(const StringBase<char> &s);
 	~BfmeRecord001ECAF9();
-	void rva001EB329(INI *ini);
+	/* the rowed Rva001EB329::rva001EB329 */ __declspec(dllimport) __forceinline void rva001EB329(INI * p0) { ((Rva001EB329 *)this)->rva001EB329(p0); }
 };
 
 void Rva001ED2C5Parse(INI *ini, void *unused, _STL::vector<BfmeRecord001ECAF9> *vec)
