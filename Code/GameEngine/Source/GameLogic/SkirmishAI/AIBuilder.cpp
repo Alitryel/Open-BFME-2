@@ -77,14 +77,14 @@ virtual Xfer &xferBool(bool *);
 };
 
 
+// Use STLport 4.5.3's actual list layout. Keep the already-owned lifetime and
+// append members out of line, as they were with the old declaration-only view.
+class ModuleData;
+#include <list>
 namespace _STL {
-template <class T, class A> class _List_base
-{
-public:
-    void clear();
-    ~_List_base();
-    void *head;
-};
+template <> void _List_base<int, allocator<int> >::clear();
+template <> _List_base<int, allocator<int> >::~_List_base();
+template <> void list<int, allocator<int> >::push_back(const int &);
 }
 void __cdecl Rva00030830FreeAllocation(void *);
 // Existing RvaVector is a four-byte-element vector ABI view with a link
@@ -293,12 +293,14 @@ struct AIBuilderOrderNode
     AIBuilderOrderNode *prev;
     AIBuilderOrder *order;
 };
+class AIBuildable;
 class AIBuilder {
 public: ~AIBuilder(); void DoXfer(Xfer*); void moneySaverUpdate(); void checkForNewUpgrades();
     _STL::vector<unsigned>rva004EC66A(float);
     void rva004EC700();
     void unRegisterProducedObject(Object *);
     void notifyDozerDead(Rva005996FFArg *);
+    void registerBuildable(AIBuildable *);
     void rva004EC51F();
 private:
     Player *owner00;
@@ -382,7 +384,7 @@ void AIBuilder::unRegisterProducedObject(Object *object)
             Object *producer = TheGameLogic->findObjectByID(object->producer78);
             if (producer && (producer->template04->kindOf109 & 0x40) && !(producer->flags438 & 1))
                 reinterpret_cast<AIDozerManager *>(reinterpret_cast<unsigned char *>(this) + 0x140)->rva00599825(producer->id74);
-            AIBuilderOrderNode *end = static_cast<AIBuilderOrderNode *>(orders13c.head);
+            AIBuilderOrderNode *end = *reinterpret_cast<AIBuilderOrderNode **>(&orders13c);
             for (AIBuilderOrderNode *it = end->next; it != end; it = it->next)
             {
                 AIBuilderOrder *order = it->order;
@@ -507,4 +509,22 @@ void AIBuilder::rva004EC700(){
   entry=(Rva004EC66AEntry*)((Rva004EC16E*)this)->rva004EC16E(entry->value());
  }
  *reinterpret_cast<_STL::vector<unsigned>*>(&entries130)=out;
+}
+
+// Native4EC83F..4EC869 RET4 and WB136F590 identify registerBuildable.
+// The independently rowed AIBuildable::registerWithBuilder passes its this
+// pointer and clears +10 for the first path. Native appends that same pointer
+// at +130 or +13C according to +10. The existing ModuleData-pointer vector and
+// int-list entry points are four-byte storage views only, not payload identities.
+struct AIBuildableRegistrationView
+{
+    unsigned char opaque00[0x10];
+    unsigned int currentlyBuilding10;
+};
+void AIBuilder::registerBuildable(AIBuildable *buildable)
+{
+    if (reinterpret_cast<AIBuildableRegistrationView *>(buildable)->currentlyBuilding10 == 0)
+        reinterpret_cast<_STL::vector<const ModuleData *> *>(&entries130)->push_back((const ModuleData *&)buildable);
+    else
+        reinterpret_cast<_STL::list<int> *>(&orders13c)->push_back((int &)buildable);
 }

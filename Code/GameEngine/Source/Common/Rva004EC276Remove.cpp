@@ -75,13 +75,10 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 
-class ModuleData;
-
 class Rva004EC276
 {
 public:
 	void rva004EC276(void *value);
-	void registerBuildable(void *p);
 	char m_pad[0x130];
 	_STL::vector<void *, _STL::allocator<void *> > m_vec;
 	_STL::list<int, _STL::allocator<int> > m_list;
@@ -103,18 +100,4 @@ void Rva004EC276::rva004EC276(void *value)
 		else
 			++jt;
 	}
-}
-
-// ?registerBuildable@Rva004EC276@@QAEXPAX@Z @ 0x004EC83F, 42 bytes.
-// Pushes p onto vector at +0x130 when p->+0x10==0 else onto list at +0x13C.
-// Evidence: rowed vector<ModuleData*>::push_back 0x004DFCB0 and rowed
-// list<int>::push_back 0x0005548F share one lea-push of &p; cmp [eax+0x10],0
-// matches Rva004ECDC8 m_unk10 and caller 0x0055AD91 and-ing [esi+0x10]; same
-// Rva004EC276 class as rva004EC276 (same +0x130/+0x13C).
-void Rva004EC276::registerBuildable(void *p)
-{
-	if (*(int *)((char *)p + 0x10) == 0)
-		((_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > &)m_vec).push_back((const ModuleData *&)p);
-	else
-		m_list.push_back((int &)p);
 }
