@@ -42,10 +42,8 @@ class DefaultParticleModule
 	  public ParticleModuleSnapshotSlice
 {
 public:
-	DefaultParticleModule( void *system, void *module_template )
-		: T1A1_005DD290( system, module_template )
-	{
-	}
+	// Defined in ModuleCtorChainsB.cpp (0x003ABF54); the derived ctor calls it.
+	DefaultParticleModule( void *system, void *module_template );
 };
 
 class EmissionVolumeInfo

@@ -3,6 +3,13 @@
 // Constructor-only slices preserve the retail multiple-inheritance layout
 // without exposing it through the shared particle-system header.
 
+// The shared base with FXParticleSystem.cpp's slot spellings.
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 class T1A1_005DD290
 {
 public:
@@ -42,23 +49,28 @@ class DefaultParticleModule
 	  public ParticleModuleSnapshotSlice
 {
 public:
-	DefaultParticleModule( void *system, void *module_template )
-		: T1A1_005DD290( system, module_template )
-	{
-	}
+	// Defined in ModuleCtorChainsB.cpp (0x003ABF54); the derived ctor calls it.
+	DefaultParticleModule( void *system, void *module_template );
 };
 
-class EmissionVolumeInfo
+// FXParticleSystem.cpp's view: the copy constructor below installs the
+// vtable that unit emits first, so this one must emit the same four slots.
+class EmissionVolumeInfo : public ::Snapshot
 {
 public:
 	EmissionVolumeInfo( const EmissionVolumeInfo &that )
 		: m_flag( that.m_flag )
 	{
 	}
-	virtual void unusedVirtual() = 0;
 
-private:
+	// Out of line in FXParticleSystem.cpp (0x0049B47C), whose /O1 deleting
+	// destructor calls it rather than inlining it.
+	virtual ~EmissionVolumeInfo();
+	virtual void LoadPostProcess();
+
 	bool m_flag;
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer( ::Xfer & );
 };
 
 class ModuleTemplateSlice
