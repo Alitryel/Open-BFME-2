@@ -1,6 +1,6 @@
 char g_00BE2870;
 
-// cl: /Oy- /DNDEBUG /MD /GX- /Oi-
+// cl: /Oy- /DNDEBUG /MD /GX- /Oi- /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
 // ?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z,
@@ -19,10 +19,17 @@ char g_00BE2870;
 // (m_nextOverride +0x04, m_isAllocatedOverride +0x08); the three string
 // literals and the field-table address are retail-measured.
 
-// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
-// overload takes the call instead, so this TU emits no external max COMDAT.
+// Use the CRT placement operations inline without exporting this optimized
+// copy over retail's separately compiled provider. No placement cleanup
+// import is referenced: this unit disables C++ EH.
+#define __PLACEMENT_NEW_INLINE
+__declspec(dllimport) __forceinline void *operator new(unsigned int, void *where) throw() { return where; }
+__declspec(dllimport) __forceinline void operator delete(void *, void *) throw() {}
+
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
 {
