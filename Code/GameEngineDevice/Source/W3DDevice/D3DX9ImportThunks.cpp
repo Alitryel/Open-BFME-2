@@ -151,4 +151,11 @@ extern PFN_D3DXCreateVolumeTextureFromFileInMemoryEx __identifier("_imp__D3DXCre
 HRESULT __stdcall D3DXCreateVolumeTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Width, UINT Height, UINT Depth, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo, PALETTEENTRY *pPalette, LPDIRECT3DVOLUMETEXTURE9 *ppVolumeTexture) {
  return __identifier("_imp__D3DXCreateVolumeTextureFromFileInMemoryEx@64")(pDevice, pSrcData, SrcDataSize, Width, Height, Depth, MipLevels, Usage, Format, Pool, Filter, MipFilter, ColorKey, pSrcInfo, pPalette, ppVolumeTexture);
 }
+
+// _D3DXCreateCubeTextureFromFileInMemoryEx@56
+typedef HRESULT (__stdcall *PFN_D3DXCreateCubeTextureFromFileInMemoryEx)(LPDIRECT3DDEVICE9, LPCVOID, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, DWORD, DWORD, D3DCOLOR, D3DXIMAGE_INFO *, PALETTEENTRY *, LPDIRECT3DCUBETEXTURE9 *);
+extern PFN_D3DXCreateCubeTextureFromFileInMemoryEx __identifier("_imp__D3DXCreateCubeTextureFromFileInMemoryEx@56");
+HRESULT __stdcall D3DXCreateCubeTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Size, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo, PALETTEENTRY *pPalette, LPDIRECT3DCUBETEXTURE9 *ppCubeTexture) {
+ return __identifier("_imp__D3DXCreateCubeTextureFromFileInMemoryEx@56")(pDevice, pSrcData, SrcDataSize, Size, MipLevels, Usage, Format, Pool, Filter, MipFilter, ColorKey, pSrcInfo, pPalette, ppCubeTexture);
+}
 }
