@@ -186,7 +186,7 @@ class Rva0025558E
 {
 public:
 	Rva0025558E();
-	virtual ~Rva0025558E();
+	virtual ~Rva0025558E() {}
 private:
 	char m_pad04[4];
 	AsciiString m_member08;
@@ -198,7 +198,7 @@ class Rva0025559B
 {
 public:
 	Rva0025559B();
-	virtual ~Rva0025559B();
+	virtual ~Rva0025559B() {}
 private:
 	char m_pad04[4];
 	AsciiString m_member08;

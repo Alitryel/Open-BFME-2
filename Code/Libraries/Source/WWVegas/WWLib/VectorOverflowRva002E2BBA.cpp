@@ -21,5 +21,17 @@ struct Rva002E2BBARecord {
  Rva002E2BBARecord(); Rva002E2BBARecord(const Rva002E2BBARecord&); ~Rva002E2BBARecord(); Rva002E2BBARecord&operator=(const Rva002E2BBARecord&);
 private: char bytes[216];
 };
-namespace _STL { template<> void _Construct<Rva002E2BBARecord,Rva002E2BBARecord>(Rva002E2BBARecord*,const Rva002E2BBARecord&); }
+// Retail's helpers construct through the 45B _Construct 0x002E160F and
+// _M_clear (0x002E26C3) destroys through the _Destroy forwarder 0x002AF4ED,
+// both rowed under twin element names: forward to them.
+struct Rva002E160FElement;
+struct Rva002E2690Element;
+namespace _STL {
+template<> void _Construct<Rva002E160FElement,Rva002E160FElement>(Rva002E160FElement*,const Rva002E160FElement&);
+template<> void _Destroy<Rva002E2690Element*>(Rva002E2690Element*,Rva002E2690Element*);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva002E2BBARecord,Rva002E2BBARecord>(Rva002E2BBARecord*p,const Rva002E2BBARecord&v)
+{ _Construct(reinterpret_cast<Rva002E160FElement*>(p),reinterpret_cast<const Rva002E160FElement&>(v)); }
+template<> __declspec(dllimport) __forceinline void _Destroy<Rva002E2BBARecord*>(Rva002E2BBARecord*first,Rva002E2BBARecord*last)
+{ _Destroy(reinterpret_cast<Rva002E2690Element*>(first),reinterpret_cast<Rva002E2690Element*>(last)); }
+}
 template void _STL::vector<Rva002E2BBARecord>::_M_insert_overflow(Rva002E2BBARecord*,const Rva002E2BBARecord&,const _STL::__false_type&,unsigned int,bool);
