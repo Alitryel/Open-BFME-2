@@ -24,7 +24,7 @@ struct Rva007B55E0TxnName
 	int m_reserved;
 };
 
-extern const char *g_Va00DD7F48;	// "acct"
+const char * g_Va00DD7F48 = "acct";	// retail RVA 0x009D7F48 (.data), defined here	// "acct"
 extern const char *g_Va00DD80AC;	// "blob"
 extern const char *g_Va00DD80DC;	// "fdbk"
 extern const char *g_Va00DD80EC;	// "rank"
