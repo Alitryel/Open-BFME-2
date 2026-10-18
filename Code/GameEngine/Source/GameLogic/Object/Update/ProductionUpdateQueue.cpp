@@ -8,7 +8,7 @@
 // +0x20 (after UpdateModule), so these members get `this` at +0x20: the
 // object is at [this-0x18] and the module data at [this-0x1C]. Slots 0-22
 // are rowed here, except:
-// - slot 8 (queueCreateUnit), slot 16 and slot 17 (getProductionCount);
+// - slot 16 and slot 17 (getProductionCount);
 // - slot 10 cancelUnitCreate (0x0049DC50) and slot 12 (0x0049CCF0);
 // - slot 15 cancelAndRefundAllProduction (ProductionUpdate.cpp);
 // - slot 21 firstProduction, folded into a shared getter.
@@ -43,6 +43,8 @@
 // hand-written list view puts the dummy list's allocator temporary in a new
 // frame slot, where retail reuses the dead parameter slot.
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Lib/Coord3D.h"
@@ -276,10 +278,13 @@ public:
 	Bool m_isOverride;
 };
 
+class Image;
 class ThingTemplate : public Rva001E35DFView
 {
 public:
 	Int rva0033A69A(const Player *,int,int) const;
+	const Image *getButtonImage();
+	UnsignedInt productionCostFlags() const { return m_kindFlags[4]; }
 	Bool isEquivalentTo(const ThingTemplate *tt) const;
 	const AsciiString &getName() const { return m_name; }
 	UnsignedInt getProductionPriorityKind() const { return m_kindFlags[0] & (1 << 14); }
@@ -369,6 +374,7 @@ class Rva0039B7AD;
 class Rva003B0D7C
 {
 public:
+	UnsignedInt countMoney() const { return *reinterpret_cast<const UnsignedInt *>(m_unknown00+4); }
 	UnsignedInt withdraw(UnsignedInt amount, Rva0039B795 *tracker, bool flag); // withdraw
 	void rva003B0D7C(Int amount, Rva0039B7AD *tracker, bool flag); // deposit
 
@@ -559,7 +565,7 @@ public:
 	ExitDoorType m_exitDoor; // +0x2C
 	Int m_bfme30; // +0x30
 	Bool m_bfme34; // +0x34
-	Int m_bfme38; // +0x38
+	union { Int m_bfme38; const Image *m_buttonImage; }; // +0x38
 	Int m_bfme3C; // +0x3C
 	AsciiString m_name; // +40
 	Bool m_slave; // +44
@@ -569,6 +575,7 @@ public:
 	char m_unknown50[0x54 - 0x50];
 };
 
+struct QuantityModifier { AsciiString m_templateName; Int m_quantity; };
 class ProductionUpdateModuleData
 {
 public:
@@ -576,7 +583,7 @@ public:
 	Int m_numDoorAnimations;
 	char m_unknown0C[0x18-0xc];
 	UnsignedInt m_constructionCompleteDuration;
-	char m_unknown1C[0x28-0x1c];
+	_STL::vector<QuantityModifier> m_quantityModifiers; // +0x1C
 	UnsignedInt m_maxQueueEntries; // +0x28
 	char m_unknown2C[4]; bool m_noExperience; char m_unknown31[3];
 	unsigned m_specialDuration; unsigned m_completeDuration; char m_unknown3C[4];
@@ -651,6 +658,23 @@ protected:
 	int m_bfmeReserved;
 };
 
+// BuildAssistant: the observed canMakeUnit slot (+0x60, slot 24) over the real global.
+class BuildAssistant;
+extern BuildAssistant *TheBuildAssistant;
+class BuildAssistantView
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual void s20(); virtual void s21(); virtual void s22(); virtual void s23();
+	virtual CanMakeType canMakeUnit(Object *builder, const ThingTemplate *whatToBuild, Int revivalIndex) const;
+};
+
+struct Rva0039BAD2Input;
+class Rva0039BAD2 { public: void rva0039BAD2(Rva0039BAD2Input *,Int); };
 class ProductionUpdateInterface
 {
 public:
@@ -662,7 +686,7 @@ public:
 	virtual void rva0049CC9D(const ThingTemplate *unitType, Bool five);
 	virtual Bool isUpgradeInQueue(const UpgradeTemplate *upgrade) const;
 	virtual UnsignedInt countUnitTypeInQueue(const ThingTemplate *unitType) const;
-	virtual void i08();
+	virtual Bool queueCreateUnit(const ThingTemplate *,Int,ProductionID,Int,Bool,const AsciiString &,Bool);
 	virtual Bool rva0049CC36(ProductionID productionID) const;
 	virtual void cancelUnitCreate(ProductionID productionID);
 	virtual void rva0049CC61(const ThingTemplate *unitType);
@@ -716,10 +740,10 @@ class Rva002AE98B { public: float rva002AE98B(const AsciiString *); };
 class Rva0049D3BC { public: void rva0049D3BC(); };
 struct Rva002A7557In;
 class Rva002A7461 { public: bool rva002A7557(Rva002A7557In *,int); };
-class Rva0037E6E8 { public: float rva0037E815(int,Object *); };
-class Rva0037E421 { public: void *rva0037E451(int); void *rva0037E421(int); };
+class Rva0037E6E8 { public: int rva0037E649(int,Object *); float rva0037E815(int,Object *); };
+class Rva0037E421 { public: void *rva0037E7A5(int); void *rva0037E451(int); void *rva0037E421(int); };
 struct ProductionRevivalCount { char m_pad[0x98]; int m_98; };
-class UnitRevivalTracker { public: Object *productionSystemNewObject(unsigned int,const Coord3D *); };
+class UnitRevivalTracker { public: bool productionSystemQueueCreateUnit(int,int,const Image **); Object *productionSystemNewObject(unsigned int,const Coord3D *); };
 class Rva0039ADF3 { public: bool rva0039AE04() const; };
 class ExperienceTracker { public: void rva0039B315(float,bool,bool,bool,bool); };
 struct ProductionExperienceView { char pad[0x24]; int level; int next; };
@@ -1185,6 +1209,7 @@ class ProductionUpdate : public UpdateModule, public ProductionUpdateInterface, 
 {
 public:
  virtual UpdateSleepTime update();
+ virtual Bool queueCreateUnit(const ThingTemplate *,Int,ProductionID,Int,Bool,const AsciiString &,Bool);
  void rva0049E368(); void rva0049CF25();
  void rva0049DF81(Rva0049DF81Input *,Object *);
  Int calcTotalProductionFrames(Rva0049CD4FArg *);
@@ -2092,3 +2117,107 @@ UpdateSleepTime ProductionUpdate::update()
  }
  return UPDATE_SLEEP_NONE;
 }
+
+// Native 0x0049DA34..0x0049DC50 (RET28); WB 0x01202B70 identifies queueCreateUnit.
+// ZH provides the queue/quantity structure; BFME2 bytes and WB establish the
+// revival path, five-entry loop, tracker calls, and cached Money pointer.
+// Native 0x0049DAA9 tests template +0x11B bit 5 (KindOf index 157), leaving
+// cost zero when set. The older bank omitted that branch entirely.
+// Donor context: open-bfme-1 64d369b90170b7e9ec917d646f020b11f13eb0d5,
+// inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD ProductionUpdate.cpp.
+Bool ProductionUpdate::queueCreateUnit( const ThingTemplate *unitType, Int revivalIndex, ProductionID productionID,
+		Int slot, Bool five, const AsciiString &name, Bool flag )
+{
+	const ProductionUpdateModuleData *data = getProductionUpdateModuleData();
+	Bool revival = revivalIndex != -1;
+	if( revival )
+		unitType = NULL;
+
+	// if we can't create the unit do nothing
+	if( ((BuildAssistantView *)TheBuildAssistant)->canMakeUnit( getObject(), unitType, revivalIndex ) != CANMAKE_OK )
+		return FALSE;
+
+	if (m_productionCount >= getProductionUpdateModuleData()->m_maxQueueEntries)
+		return FALSE;
+
+	UnsignedInt cost = 0;
+	Player *player = getObject()->getControllingPlayer();
+	Bool isRevival = revival;
+	if( isRevival )
+		cost = reinterpret_cast<Rva0037E6E8 *>(&player->m_revivalTracker)->rva0037E649( revivalIndex, getObject() );
+	else if (!(unitType->productionCostFlags() & 0x20000000))
+		cost = unitType->rva0033A69A( player, reinterpret_cast<Int>(getObject()), -1 );
+
+	Rva003B0D7C *money = player->getMoney();
+	Int count = five ? 5 : 1;
+	Bool first = TRUE;
+	while (count)
+	{
+		if (m_productionCount >= getProductionUpdateModuleData()->m_maxQueueEntries)
+			break;
+
+		// take the cost for the build away from the player
+		money->withdraw( cost, &player->m_tracker, true );
+		((Rva0039BAD2 *)&player->m_tracker)->rva0039BAD2( (Rva0039BAD2Input *)unitType, cost );
+
+		// allocate a new production entry
+		Rva0049D1B1 *production = new Rva0049D1B1;
+
+		ProductionID id;
+		if( first )
+		{
+			id = productionID;
+			first = FALSE;
+		}
+		else
+			id = requestUniqueUnitID();
+
+		production->m_productionQuantityProduced = 0;
+		production->m_productionID = id;
+		production->m_productionQuantityTotal = 1;
+		if( !revival )
+		{
+			for( _STL::vector<QuantityModifier>::const_iterator it = data->m_quantityModifiers.begin(); it != data->m_quantityModifiers.end(); ++it )
+			{
+				const ThingTemplate* productionTemplate = TheThingFactory->findTemplate( it->m_templateName );
+				if( productionTemplate && productionTemplate->isEquivalentTo( unitType ) )
+				{
+					production->m_productionQuantityTotal = it->m_quantity;
+					break;
+				}
+			}
+			production->m_type = PRODUCTION_UNIT;
+			production->m_objectToProduce = unitType;
+			production->m_buttonImage = ((ThingTemplate *)unitType)->getButtonImage();
+		}
+		else
+		{
+			// Preserve retail's reload of the stored ID before the revival call.
+			_ReadWriteBarrier();
+			production->m_type = PRODUCTION_HORDE_UNIT;
+			if( !reinterpret_cast<UnitRevivalTracker *>(&player->m_revivalTracker)->productionSystemQueueCreateUnit( revivalIndex, production->m_productionID, &production->m_buttonImage ) )
+			{
+				::delete production;
+				return FALSE;
+			}
+			production->m_objectToProduce = (const ThingTemplate *)((Rva0037E421 *)&player->m_revivalTracker)->rva0037E7A5( revivalIndex );
+		}
+
+		production->m_exitDoor = (ExitDoorType)-1;
+		production->m_bfme30 = slot;
+		production->m_cost = cost;
+		production->m_name = name;
+		production->m_slave = flag;
+
+		// tie to the end of the production queue
+		addToProductionQueue( production );
+
+		--count;
+		if( money->countMoney() < cost )
+			break;
+	}
+
+	return TRUE;  // unit queued
+
+}  // end queueCreateUnit
+
