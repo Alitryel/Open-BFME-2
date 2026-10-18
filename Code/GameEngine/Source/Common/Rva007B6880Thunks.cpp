@@ -2159,7 +2159,7 @@ void __cdecl rva007B76DC()
 	return p->_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::~basic_string();
 }
 
-extern unsigned g_00DFEA44;
+unsigned g_00DFEA44;	// retail RVA 0x009FEA44 (.bss), defined here
 // g_00DFEA44: packet annotates VA 0x00DFEA44 (data RVA 0x009FEA44), no name yet.
 
 // ?rva007B77B9@@YAXXZ @ 0x007B77B9 (10B). Global basic_string<char> dtor thunk: ecx=&g_00DFEA44 then tail-jmp to rowed BasicStringCharDtor_dup (0x0007FAB3 object ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ). No callers. Between 0x007B77AE and 0x007B77C3. Honest address name.
