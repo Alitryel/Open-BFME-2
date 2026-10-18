@@ -178,7 +178,7 @@ class Rva002B7250;
 extern Rva002B7250 g_registryAtE02E88; // 0x00E02E88, Rva003EF14ADtor.cpp
 extern unsigned g_Va00E03020;
 unsigned g_Va00E032E8;	// retail RVA 0x00A032E8 (.bss), defined here
-extern unsigned g_Va00E04424;
+unsigned g_Va00E04424;	// retail RVA 0x00A04424 (.bss), defined here
 extern unsigned g_Va00E0447C;
 extern unsigned g_Va00E044F0;
 extern unsigned g_Va00E048C4;
