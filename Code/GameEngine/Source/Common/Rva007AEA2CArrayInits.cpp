@@ -17,8 +17,8 @@
 //   0x007AC207 / 0x007B6C84  the cursorTextures table at VA 0x00DE4B40
 //                            (0x498 4-byte texture handles; ctor 0x00326BE6,
 //                            dtor 0x0017098D)
-//   0x007B6BB9               cleanup of 8 4-byte texture handles at VA 0x00DE1F8C
-//                            (dtor 0x0017098D)
+//   0x007ABF7B / 0x007B6BB9  8 x 4-byte texture handles at VA 0x00DE1F8C
+//                            (ctor 0x00326BE6, dtor 0x0017098D)
 //   0x007B93EC               cleanup of the function-local static array of 30
 //                            12-byte points at VA 0x00E060B8 that the unrowed
 //                            body around 0x0055DDF8 builds under guard bit
@@ -81,6 +81,7 @@ struct Rva007AEA2CArrayInits
 	static void rva007AEA2C();
 	static void rva007AF10C();
 	static void rva007AC207();
+	static void rva007ABF7B();
 };
 
 void Rva007AEA2CArrayInits::rva007AEA2C()
@@ -99,4 +100,10 @@ void Rva007AEA2CArrayInits::rva007AC207()
 {
 	rva00906340VecCtor(cursorTextures, 4, 0x498, Rva00326BE6NullFirstWordCtor, Rva0017098DTextureHandleDtor);
 	atexit(rva007B6C84);
+}
+
+void Rva007AEA2CArrayInits::rva007ABF7B()
+{
+	rva00906340VecCtor(g_Va00DE1F8C, 4, 8, Rva00326BE6NullFirstWordCtor, Rva0017098DTextureHandleDtor);
+	atexit(rva007B6BB9);
 }
