@@ -18,6 +18,9 @@ public:
  Rva000AD6F4(): m_ptr(0) {}
  ~Rva000AD6F4();
  void clear();
+ // WB13C8B90 reads the slot's owning frame. Keep this pure access visible:
+ // the native new-expression evaluates it as the constructor argument.
+ void *get() const { return m_ptr; }
  void *m_ptr;
 };
 class Rva00528309 { public: void rva005283E3(); };
@@ -98,6 +101,7 @@ public:
   Impl(AptInGameSideCommandBar *owner, int levelIndex);
   ~Impl();
   void Update();
+  bool UpdateButtonVisiblity(Object *object);
   void OnButtonFrameLoaded(const char *params);
   void OnButtonFrameUnloaded(const char *params);
   void HideButtons(int);
@@ -214,3 +218,71 @@ AptInGameSideCommandBar::Impl::Impl(AptInGameSideCommandBar *owner, int levelInd
 // then maps8, exactly the member ownership established by constructor5288C4.
 // The owning-pointer reset5287D0 reaches this destructor.
 AptInGameSideCommandBar::Impl::~Impl() {}
+
+// Native5285EF..528738 RET4 and WB13C80F0 establish the visibility pass.
+// ControlBar's 32 button pointers start at DC; native CommandButton+101 is
+// its display bit. Impl's existing ctor and update prove 15 twelve-byte
+// slots at24, countD8, level4, prefix18 and displayed object20.
+class GameWindow;
+void *GadgetButtonGetData(GameWindow *);
+struct SideBarControlBarView { char m_prefix[0xdc]; GameWindow *m_buttons[32]; };
+class ControlBar;
+extern ControlBar *TheControlBar;
+struct SideBarCommandButtonView { char m_prefix[0x101]; bool m_display; };
+// The independently rowed constructor5C3697 establishes the twelve-byte
+// polymorphic owner, with reference count4 and implementation pointer8.
+class Rva005C3549 {
+public:
+ Rva005C3549(void *, void *, void *);
+ virtual ~Rva005C3549();
+private:
+ int m_referenceCount;
+ void *m_implementation;
+};
+struct Rva002BED91 { void *m_ptr; void set(TargetRef00217D4C *); };
+class Rva005CCB83 { public: void rva005CCB83(void *); };
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+
+// Keep the actual104B Apt helper visible but out of line, as in its owner
+// InGameHeroSelectInterface.cpp. It reads the index without modifying or
+// retaining its address. That visibility gives the parent native's register
+// counter and short-lived argument home, which new later reuses.
+AsciiString __cdecl Rva00222834Get(int);
+class Rva00222A8BTarget {
+public:
+ int rva00222B19(void *, const char *, const char *, int, const char *, void *, void *, void *, void *);
+};
+static __forceinline const char *sideBarGetStr(const AsciiString &s) {
+ char *text = *(char **)(void *)&s;
+ return text ? text + 8 : "";
+}
+__declspec(noinline) inline int __cdecl Rva00525338Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, void *a6) {
+ return ((Rva00222A8BTarget *)a1)->rva00222B19(a2, a3, a4, 2, sideBarGetStr(Rva00222834Get(*a5)), a6, 0, 0, 0);
+}
+
+bool AptInGameSideCommandBar::Impl::UpdateButtonVisiblity(Object *)
+{
+ int slotNum = 0;
+ for (int i = 0; i < 32 && slotNum < 15; ++i) {
+  GameWindow *window = ((SideBarControlBarView *)TheControlBar)->m_buttons[i];
+  if (!window) continue;
+  SideBarCommandButtonView *button = (SideBarCommandButtonView *)GadgetButtonGetData(window);
+  if (!button || !button->m_display) continue;
+  if (!m_buttons[slotNum].m_button.m_ptr) break;
+  if (slotNum < m_count && m_buttons[slotNum].m_key != i) HideButtons(slotNum);
+  SideBarSlot &slot = m_buttons[slotNum];
+  if (slotNum >= m_count) {
+   Rva00525338Fire(g_bfmeAptWindowManager, (void *)m_level, m_prefixString.str(), "SetButtonState", &slotNum, (void *)"_show");
+   Rva005C3549 *updater = new Rva005C3549(slot.m_button.get(), window, (void *)m_displayedObject);
+   ((Rva002BED91 *)&slot.m_updater)->set((TargetRef00217D4C *)updater);
+   slot.m_key = i;
+   m_count = slotNum + 1;
+  } else {
+   ((Rva005CCB83 *)slot.m_updater.m_ptr)->rva005CCB83((void *)m_displayedObject);
+  }
+  ++slotNum;
+ }
+ HideButtons(slotNum);
+ return slotNum > 0;
+}
