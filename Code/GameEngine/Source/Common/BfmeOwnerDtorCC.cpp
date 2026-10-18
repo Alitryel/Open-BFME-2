@@ -20,10 +20,18 @@ public:
 	void rva00072583();
 };
 
+// The element destructor retail hands the EH vector iterator (0x0007251F)
+// is rowed as ~Rva00739C70.
+class Rva00739C70
+{
+public:
+	~Rva00739C70();
+};
+
 class BfmeElemCC
 {
 public:
-	~BfmeElemCC(void);
+	~BfmeElemCC(void) { ((Rva00739C70 *)this)->Rva00739C70::~Rva00739C70(); }
 
 	char m_bfmePadECC[0x14];
 };

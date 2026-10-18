@@ -29,11 +29,19 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
 }
 
+// Retail's copy-ctor unwind (state 0) destroys the +8 subobject through the
+// rowed ~PSPlayerAllStats 0x00385371.
+class PSPlayerAllStats
+{
+public:
+	~PSPlayerAllStats();
+};
+
 struct Rva005564EBSub
 {
 	char m_body[0x548];
 	Rva005564EBSub(const Rva005564EBSub &o);
-	~Rva005564EBSub();
+	~Rva005564EBSub() { ((PSPlayerAllStats *)this)->PSPlayerAllStats::~PSPlayerAllStats(); }
 };
 
 struct BfmeOpaqueOwnedRecord1432

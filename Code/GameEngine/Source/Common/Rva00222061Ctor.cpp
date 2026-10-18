@@ -34,11 +34,19 @@ private:
 	int m_value;
 };
 
+// Retail's ctor unwind (state 1) destroys the +0xC member through the rowed
+// ~Open2Dtor4793C0 0x002218D0.
+class Open2Dtor4793C0
+{
+public:
+	~Open2Dtor4793C0();
+};
+
 class Rva0022181D
 {
 public:
 	Rva0022181D();
-	~Rva0022181D();
+	~Rva0022181D() { ((Open2Dtor4793C0 *)this)->Open2Dtor4793C0::~Open2Dtor4793C0(); }
 private:
 	char m_pad[0x1C];
 };

@@ -21,9 +21,17 @@ private:
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > m_00;
 };
 
+// The element destructor retail hands the vector iterator is the rowed
+// 8-byte forwarder 0x0050EB02 (RvaEmbeddedMemberForwarders.cpp).
+class Rva0050EB02
+{
+public:
+	void rva0050EB02();
+};
+
 struct Rva0050ED58Elem
 {
-	~Rva0050ED58Elem();
+	~Rva0050ED58Elem() { ((Rva0050EB02 *)this)->rva0050EB02(); }
 	char m_data[8];
 };
 

@@ -15,11 +15,19 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 
+// Retail destroys these elements through the rowed ~Rva004E1A04 (called by the
+// range destroy 0x0052CEDD that the vector clear 0x0056612F uses).
+class Rva004E1A04
+{
+public:
+	~Rva004E1A04();
+};
+
 struct Rva0056644EElement {
 	char opaque[16];
 	Rva0056644EElement(const Rva0056644EElement &);
 	Rva0056644EElement &operator=(const Rva0056644EElement &);
-	~Rva0056644EElement();
+	~Rva0056644EElement() { ((Rva004E1A04 *)this)->Rva004E1A04::~Rva004E1A04(); }
 };
 
 namespace _STL {
