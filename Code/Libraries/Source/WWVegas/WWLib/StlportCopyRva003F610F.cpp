@@ -5,6 +5,8 @@
 #include <vector>
 
 struct BfmePod104 { int a[26]; };
+// Native calls the non-trivial copy helper owned at RVA 003B8AD8.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod104, BfmePod104>(BfmePod104 *, const BfmePod104 &); }
 
 struct RvaTail20 { int w[5]; };
 

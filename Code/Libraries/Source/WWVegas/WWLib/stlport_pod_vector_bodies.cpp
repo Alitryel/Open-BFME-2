@@ -170,6 +170,8 @@ inline bool operator<(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] 
 // (0x000C78F3); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod248, BfmePod248>(BfmePod248 *__p, const BfmePod248 &__val); }
 struct BfmePod252 { int a[63]; };
+// Native calls bind the non-trivial copy helper owned at RVA 000C3717.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod252, BfmePod252>(BfmePod252 *, const BfmePod252 &); }
 namespace _STL {template<> vector<BfmePod252,allocator<BfmePod252> >::~vector();}
 inline bool operator==(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] < y.a[0]; }
