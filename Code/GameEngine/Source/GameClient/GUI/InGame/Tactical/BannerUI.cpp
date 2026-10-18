@@ -13,7 +13,8 @@
 #include "unicode_string.h"
 #include "../../../../Common/GameLogicObjectLookupView.h"
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -42,7 +43,16 @@ private:
 class BannerUI;
 BannerUI *TheBannerUI = 0;
 
-extern const FieldParse g_00BE5A50[];
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x007E5A50: 3 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00BE5A50[4] = {
+	{ "FlagObj", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x0 },
+	{ "GlowObj", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "Icon", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 
 
 struct Rva0041534BIter {void *m_node;void *m_table;};
