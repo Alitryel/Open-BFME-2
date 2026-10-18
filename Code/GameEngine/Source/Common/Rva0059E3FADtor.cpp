@@ -18,16 +18,16 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
-class Rva0059E3FA
+class Rva0059E436Data
 {
 public:
-	virtual ~Rva0059E3FA();
+	virtual ~Rva0059E436Data();
 private:
 	_STL::vector<AsciiString> m_vec04;
 	AsciiString m_str10;
 };
 
-Rva0059E3FA::~Rva0059E3FA()
+Rva0059E436Data::~Rva0059E436Data()
 {
 }
 
@@ -35,15 +35,15 @@ Rva0059E3FA::~Rva0059E3FA()
 // 0x0059E3FA with vtable 0x0087102C. Evidence: identical retail vtable store
 // plus releaseBuffer plus vector-dtor EH sequence, neighbours Rva0059E436Parse
 // plus Rva0059E511Parse same page, caller 0x0059E4BC.
-class Rva0059E4D5
+class Rva0059E511Data
 {
 public:
-	virtual ~Rva0059E4D5();
+	virtual ~Rva0059E511Data();
 private:
 	_STL::vector<AsciiString> m_vec04;
 	AsciiString m_str10;
 };
 
-Rva0059E4D5::~Rva0059E4D5()
+Rva0059E511Data::~Rva0059E511Data()
 {
 }
