@@ -1110,6 +1110,7 @@ struct Rva00053DC5Less : public _STL::less<unsigned int> {};
 typedef _STL::map<unsigned int, Image *, Rva00053DC5Less> Rva00053DC5Map;
 extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *);
 
+class Rva00057151 { public: void rva00057151(int, int, int); };
 class MilesAudioManager : public AudioManager {
 public:
     MilesAudioManager();
@@ -1275,7 +1276,7 @@ public:
     bool processFade(PlayingAudioRef &playing);
     void openDevice(void);
     void removeCurrentlyPlayingMusic(int viewType, int arg);
-    void rva00057151(int viewType, int musicSystem, int resume);
+    /* the rowed Rva00057151::rva00057151 */ __declspec(dllimport) __forceinline void rva00057151(int p0, int p1, int p2) { ((Rva00057151 *)this)->rva00057151(p0, p1, p2); }
     void moveDownMusicSystems(int viewType, MusicSystem newMusicSystem, int arg, int resume);
     void rva0005774F(int viewType, int musicSystem, int arg);
     void rva0005876E(int viewType, int musicSystem, int arg, int resume);
