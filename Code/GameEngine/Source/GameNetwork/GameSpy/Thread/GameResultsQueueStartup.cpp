@@ -233,10 +233,6 @@ private:
 	Rva0009990D m_threadLock;			// +0x80
 };
 
-GameResultsInterface *Rva0041AA6FCreateGameResults()
-{
-	return new Rva0041A644;
-}
 
 
 
