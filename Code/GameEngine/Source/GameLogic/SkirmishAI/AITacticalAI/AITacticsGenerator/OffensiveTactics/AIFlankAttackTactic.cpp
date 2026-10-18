@@ -94,11 +94,12 @@ struct Rva005AA55DRecord
 	bool m_18;		// +0x18
 };
 
+class AIFlankAttackTacticImp { public: void DoXfer(Xfer *); };
 class Rva0015334F
 {
 public:
 	void rva005AA2D9(Rva005AA55DRecord *record, const Coord3D *from, const Coord3D *to);
-	void xfer(Xfer *xfer);
+	/* the rowed AIFlankAttackTacticImp::DoXfer */ __declspec(dllimport) __forceinline void xfer(Xfer * p0) { ((AIFlankAttackTacticImp *)this)->DoXfer(p0); }
 	bool done() const { return m_next == m_points.end()-m_points.begin(); }
 	Coord3D *next() { int n=m_next++; return &(this ? m_points : m_points)[n]; }
 	int m_next;			// +0x00
