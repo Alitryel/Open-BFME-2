@@ -203,9 +203,14 @@ protected:
 		const Matrix3D &mtx, MeshClass *pMesh, RefRenderObjListIterator *pLightsIterator);
 
 	Vector3 m_start;			// +0x00
+
+	friend void _bfmeW3DBridgeGetModelVerticesAnchor();
 };
 
-Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
+// W3DBridgeGetModelVerticesFixed.cpp keeps a visible copy of this body for
+// its caller's register allocation; both are select-any so the link keeps
+// this one (first in link order).
+inline __declspec(noinline) Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
 																Vector3 &vec, Vector3 &vecNormal, Vector3 &vecZ, Vector3 &offset,
 																const Matrix3D &mtx,
 																MeshClass *pMesh, RefRenderObjListIterator *pLightsIterator)
@@ -277,4 +282,12 @@ Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVer
 		curVb++;
 	}
 	return(numVertex);
+}
+
+// Emits the select-any body above; not retail code.
+// ?_bfmeW3DBridgeGetModelVerticesAnchor@@YAXXZ absent-from-retail
+void _bfmeW3DBridgeGetModelVerticesAnchor()
+{
+	((W3DBridge *)0)->getModelVertices(0, 0, 0.0f, *(Vector3 *)0, *(Vector3 *)0, *(Vector3 *)0,
+		*(Vector3 *)0, *(const Matrix3D *)0, 0, 0);
 }
