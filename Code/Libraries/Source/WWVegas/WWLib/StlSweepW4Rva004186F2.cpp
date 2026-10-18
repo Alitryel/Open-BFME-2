@@ -17,9 +17,10 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 { return a._M_node != b._M_node; }
 }
 struct Rva004186F2Element {
- Rva004186F2Element(); Rva004186F2Element(const Rva004186F2Element&);
- ~Rva004186F2Element(); Rva004186F2Element&operator=(const Rva004186F2Element&);
  char bytes[8];
 };
-bool operator<(const Rva004186F2Element&,const Rva004186F2Element&);
-template class _STL::set<Rva004186F2Element>;
+// Retail's copy reaches its own 115B _M_copy 0x0041848D (the pair<const int,int>
+// tree's shape): the element copies memberwise. Instantiate only the two
+// rowed copy constructors.
+template _STL::_Rb_tree<Rva004186F2Element,Rva004186F2Element,_STL::_Identity<Rva004186F2Element>,_STL::less<Rva004186F2Element>,_STL::allocator<Rva004186F2Element> >::_Rb_tree(const _STL::_Rb_tree<Rva004186F2Element,Rva004186F2Element,_STL::_Identity<Rva004186F2Element>,_STL::less<Rva004186F2Element>,_STL::allocator<Rva004186F2Element> >&);
+template _STL::set<Rva004186F2Element>::set(const _STL::set<Rva004186F2Element>&);
