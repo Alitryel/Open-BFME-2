@@ -172,4 +172,11 @@ extern PFN_D3DXCreateEffectFromFileA __identifier("_imp__D3DXCreateEffectFromFil
 HRESULT __stdcall D3DXCreateEffectFromFileA(LPDIRECT3DDEVICE9 pDevice, LPCSTR pSrcFile, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXEFFECTPOOL pPool, LPD3DXEFFECT *ppEffect, LPD3DXBUFFER *ppCompilationErrors) {
  return __identifier("_imp__D3DXCreateEffectFromFileA@32")(pDevice, pSrcFile, pDefines, pInclude, Flags, pPool, ppEffect, ppCompilationErrors);
 }
+
+// _D3DXCreateEffect@36
+typedef HRESULT (__stdcall *PFN_D3DXCreateEffect)(LPDIRECT3DDEVICE9, LPCVOID, UINT, const D3DXMACRO *, LPD3DXINCLUDE, DWORD, LPD3DXEFFECTPOOL, LPD3DXEFFECT *, LPD3DXBUFFER *);
+extern PFN_D3DXCreateEffect __identifier("_imp__D3DXCreateEffect@36");
+HRESULT __stdcall D3DXCreateEffect(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataLen, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXEFFECTPOOL pPool, LPD3DXEFFECT *ppEffect, LPD3DXBUFFER *ppCompilationErrors) {
+ return __identifier("_imp__D3DXCreateEffect@36")(pDevice, pSrcData, SrcDataLen, pDefines, pInclude, Flags, pPool, ppEffect, ppCompilationErrors);
+}
 }
