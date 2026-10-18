@@ -797,7 +797,18 @@ class Rva006ED2A0 {public:Rva006ED2A0();char storage[0x78];POOL_NEW POOL_DELETE}
 // and zeros at +0xC +0x10 +0x14. Sole callers are the type-10/1 and type-8
 // paths of instantiateCharacter (pool sizes 0x18 and 0x1C); retail keeps
 // them out of line.
-extern const void *const g_00CED358[];
+// The retail table at RVA 0x008ED358: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?ReportError@@YAXPADH@Z")();
+void __identifier("??_GRva006F8460@@UAEPAXI@Z")();
+void __identifier("?go@Rva008A2C60@@QAEXXZ")();
+}
+extern const void *const g_00CED358[3] = {
+	(const void *)&__identifier("?ReportError@@YAXPADH@Z"), // slot 0 0x0069E440
+	(const void *)&__identifier("??_GRva006F8460@@UAEPAXI@Z"), // slot 1 0x006F8490
+	(const void *)&__identifier("?go@Rva008A2C60@@QAEXXZ"), // slot 2 0x006E5FD0
+};
 extern const void *const g_00CED364[];
 class Rva006F7D80
 {
