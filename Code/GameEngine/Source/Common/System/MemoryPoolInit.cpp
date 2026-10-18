@@ -18,7 +18,7 @@ extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void *, const char *,
 extern "C" __declspec(dllimport) void *__stdcall HeapCreate(unsigned long, unsigned int, unsigned int);
 extern "C" __declspec(dllimport) void *__stdcall HeapAlloc(void *, unsigned long, unsigned int);
 extern "C" __declspec(dllimport) unsigned long __stdcall TlsAlloc();
-void Rva002253C2Init();
+void Rva0000179A();
 // ?MemoryPoolAllocatorAssertion present-unmatched
 // Empty callback: native pointer VA00A9E440 is the shared ICF RET.
 static void MemoryPoolAllocatorAssertion() {}
@@ -26,7 +26,7 @@ namespace EA { namespace Allocator {
 class GeneralAllocator
 {
 public: void SetAssertionFailureFunction(void *, void *);
- bool rva000332D0(int, int, int, int, int, int);
+ bool rva000332D0(void *, unsigned int, bool, bool, void *, void *);
 };
 }}
 // Native ctor33B90 zeroes these member blocks separately. The template
@@ -191,7 +191,7 @@ bool Rva00033B90Allocator::rva00033700(void *a, unsigned int size, bool b,
 tail:
     if (a != 0 || size != 0)
         ((EA::Allocator::GeneralAllocator *)this)->rva000332D0(
-            (int)a, (int)size, *(int *)&b, (int)c, (int)d, (int)e);
+            a, size, b, *(bool *)&c, d, e);
     return true;
 }
 
@@ -243,7 +243,7 @@ void _Init()
         MessageBoxA(0, "Waiting...", "Paused", 0);
 
     g_heaps.m_addingHeaps = true;
-    Rva002253C2Init();
+    Rva0000179A();
     g_heaps.m_addingHeaps = false;
     ++g_heaps.m_initCount;
 
