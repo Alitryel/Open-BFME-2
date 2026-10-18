@@ -8,7 +8,8 @@
 // 0x004E1302 with GetSnapshotName MoveArmy. Record uses the rowed names so the vptr store and the dtor
 // call resolve by address. Minimal local view: vptr plus two strings is all this body touches.
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -28,7 +29,15 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-extern const FieldParse g_00C61830;
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00861830: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C61830[3] = {
+	{ "ArmyScriptingName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "TargetRegionName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 
 #include "ascii_string.h"
 
@@ -59,7 +68,7 @@ void Rva004E1BFCParse(INI *ini, void *instance, void *, const void *)
 	if (ini && instance)
 	{
 		TracerFXNugget record;
-		ini->initFromINI(&record, &g_00C61830);
+		ini->initFromINI(&record, g_00C61830);
 		((Rva00566537Owner *)instance)->append(*(const Rva0052BDE6 *)&record);
 	}
 	else
