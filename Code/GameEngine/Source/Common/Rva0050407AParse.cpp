@@ -8,7 +8,7 @@
 // Rva002BE7DB, triplicate its first float to all three, copy back, then hand
 // the record with the instance to the userData callback. Evidence: single
 // chain caller context (prev 0x0050406E), string literal, FieldParse table,
-// Scale pin, Rva002BE7DB row, callback shape.
+// Rowed frame rescale, Rva002BE7DB row, callback shape.
 typedef int Int;
 typedef float Real;
 
@@ -20,9 +20,12 @@ class INIException
 public:
 	INIException(Int code, const char *msg, ...);
 	INIException(const INIException &other);
+	~INIException();
 private:
+	// Retail's copy constructor and destructor own the message at +0;
+	// its throw information names the destructor at RVA 0x0002BD30.
+	char *m_msg;
 	Int m_code;
-	const char *m_msg;
 };
 
 class INI
@@ -80,9 +83,12 @@ extern const FieldParse g_00C63CE8[5] = {
 	{ 0, 0, 0, 0 }
 };
 
-static unsigned int rva003BB860Scale(unsigned int value)
+// Same file-static helper as the ControlPoint parser: retail uses the
+// writable frame-rate global, rather than a fixed 30 Hz scale.
+extern int BfmeClientFramesPerSecond;
+static unsigned int msecToFramesRva00503E4F(unsigned int value)
 {
-	return (unsigned int)((float)value * 0.03f);
+	return (unsigned int)((Real)BfmeClientFramesPerSecond * (Real)value * 0.001f);
 }
 
 typedef void (*Rva0050407ACallback)(void *instance, Rva0050406E *record);
@@ -99,7 +105,7 @@ void Rva0050407AParseColorControlPointBlock(INI *ini, void *instance, void *, co
 	if (ini && instance) {
 		Rva0050406E record;
 		ini->initFromINI(&record, g_00C63CE8);
-		record.m_base.m_18 = rva003BB860Scale(record.m_base.m_18);
+		record.m_base.m_18 = msecToFramesRva00503E4F(record.m_base.m_18);
 		Rva002BE7DBValue tmp;
 		Rva002BE7DBValue &rv = ((Rva002BE7DB *)&record)->rva002BE7DB(tmp);
 		float v = rv.x;

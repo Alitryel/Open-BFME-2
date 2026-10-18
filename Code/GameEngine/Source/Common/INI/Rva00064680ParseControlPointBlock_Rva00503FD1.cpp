@@ -13,23 +13,29 @@
 typedef int Int;
 typedef float Real;
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INIException
 {
 public:
 	INIException( Int code, const char *msg, ... );
 	INIException( const INIException &other );
+	~INIException();
 
 private:
+	// The rowed copy constructor and destructor own the message at +0.
+	char *m_msg;
 	Int m_code;
-	const char *m_msg;
 };
 
 class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void parseCoord3D(INI *, void *, void *, const void *);
+	static void parseReal(INI *, void *, void *, const void *);
+	static void dup_002F0F7(INI *, void *, void *, const void *);
 };
 
 class Rva00064390
@@ -41,7 +47,16 @@ public:
 	unsigned int m_18;
 };
 
-extern const FieldParse Rva00064680FieldParseTable[];
+// Retail RVA 0x00863C48: five fields followed by the null terminator.
+// Each callback is the existing row owner of the pointer stored in retail.
+extern const FieldParse Rva00064680FieldParseTable[] = {
+	{ "Position", INI::parseCoord3D, 0, 0x00 },
+	{ "Angle", INI::parseReal, 0, 0x0C },
+	{ "Time", INI::dup_002F0F7, 0, 0x18 },
+	{ "EaseIn", INI::parseReal, 0, 0x10 },
+	{ "EaseOut", INI::parseReal, 0, 0x14 },
+	{ 0, 0, 0, 0 }
+};
 extern const Real Rva00064680NegativeScale;
 
 // Retail 0x00503E4F (39 bytes): the millisecond-to-frame rescale as its own
