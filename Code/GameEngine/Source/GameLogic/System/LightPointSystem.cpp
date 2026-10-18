@@ -43,8 +43,18 @@ class Rva004214C3 { public: void rva004214C3(const ModuleData *); };
 class Rva00421520;
 extern Rva00421520 *g_00E03158;
 class Overridable { public: Overridable *friend_getFinalOverride(); };
-struct FieldParse;
-extern const FieldParse g_00C3BE74[];
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
+extern "C" {
+void __identifier("?parseAndTranslateLabel@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00339B50_ParseSpecialAbilities@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x0083BE74: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C3BE74[3] = {
+	{ "Name", (FieldParseProc)&__identifier("?parseAndTranslateLabel@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "SpecialAbilities", (FieldParseProc)&__identifier("?Rva00339B50_ParseSpecialAbilities@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x18 },
+	{ 0, 0, 0, 0 }
+};
 class INI
 {
 public:
