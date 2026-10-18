@@ -14,6 +14,9 @@ class LargeGroupAudioSoundKeyPair{public:int getGrid(int);char unknown[0x3c];Gri
 struct GridRadiusView{char unknown[0x10];float radius;};
 class TargetObj005C8DBF{public:void method_005C902A(float);};
 struct PrereqUnitRec{union{unsigned m_data[3];float m_float[3];};~PrereqUnitRec(){}};
+// Declaration-only: bind to the rowed retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<PrereqUnitRec, allocator<PrereqUnitRec> >::_M_insert_overflow(PrereqUnitRec *, const PrereqUnitRec &, const __false_type &, size_t, bool); }
+namespace _STL { template <> void vector<PrereqUnitRec, allocator<PrereqUnitRec> >::push_back(const PrereqUnitRec &); }
 struct AudioCellVector:public _STL::vector<PrereqUnitRec>{using _STL::vector<PrereqUnitRec>::_M_start;using _STL::vector<PrereqUnitRec>::_M_finish;};
 struct Rva005C847BRecord{float x,y;unsigned active;char unknown[0x2c];AudioCellVector entries;unsigned flags;void method_005C9311(int,int,float);};
 void Rva005C847BRecord::method_005C9311(int a,int b,float weight){
