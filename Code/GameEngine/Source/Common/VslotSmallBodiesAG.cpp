@@ -34,20 +34,8 @@ private:
 	char m_pad00[0x14];
 	Rva00131CF2Info *m_14;
 };
-bool Rva00131CF2::rva00131CF2()
-{
-	Rva00131CF2Info *info = m_14;
-	if (info && info->m_08)
-		return true;
-	return rva00130FCE();
-}
-bool Rva00131CF2::rva00151415()
-{
-	Rva00131CF2Info *info = m_14;
-	if (info && info->m_04)
-		return true;
-	return rva00130FCE();
-}
+
+
 
 // 0x0057B97C: 1 when the +0x34 object exists and the rowed 0x005D4E6F
 // holds for it, else 0.
@@ -64,12 +52,7 @@ private:
 	char m_pad00[0x34];
 	Rva005D4E6F *m_34;
 };
-Int Rva0057B97C::rva0057B97C()
-{
-	if (m_34 && m_34->rva005D4E6F())
-		return 1;
-	return 0;
-}
+
 
 // 0x003FF312: false while +0x10 is clear, else the rowed GameSlot
 // 0x003FF145 of the +0x18 slot for the +0x38 address.
@@ -91,12 +74,7 @@ private:
 	char m_pad1C[0x1C];
 	Int m_38;
 };
-bool Rva003FF312::rva003FF312()
-{
-	if (!m_10)
-		return false;
-	return m_18->rva003FF145((const BfmeNetAddress *)&m_38);
-}
+
 
 // 0x0023DAF7: the rowed 0x0023C7F5 with both arguments on the +0x08
 // member.
@@ -114,10 +92,7 @@ private:
 	Int m_04;
 	Rva0023C7F5 m_08;
 };
-void Rva0023DAF7::rva0023DAF7(Real a, Int b)
-{
-	m_08.rva0023C7F5(a, b);
-}
+
 
 // 0x005FEEC7 and 0x005FEEE6 (adjacent slots of table VA 0x00C7A454): each
 // first runs the shared empty base slot 0x0047A69C (pinned there as
@@ -146,17 +121,8 @@ private:
 	Int m_04;
 	Rva005FEEC7Info *m_08;
 };
-void Rva005FEEC7::rva005FEEC7(Int index)
-{
-	m(index);
-	m_08->m_24 = m_08->m_18[index];
-}
-void Rva005FEEC7::rva005FEEE6(Int index)
-{
-	m(index);
-	if (m_08->m_24 == m_08->m_18[index])
-		m_08->m_24 = 7;
-}
+
+
 
 // 0x005C4352 and 0x005C4553 (tables VA 0x00C745E0/0x00C746D8): field-parse
 // builders: the shared empty base slot 0x0047A69C (alias-pinned here as a
@@ -183,22 +149,9 @@ public:
 	void rva005C4553(MultiIniFieldParse &p);
 	void rva005C47A8(MultiIniFieldParse &p);
 };
-void Rva005C4352::rva005C4352(MultiIniFieldParse &p)
-{
-	buildFieldParse(p);
-	p.add(g_rva005C4352FieldParse, 0);
-}
-void Rva005C4352::rva005C4553(MultiIniFieldParse &p)
-{
-	buildFieldParse(p);
-	p.add(g_rva005C4553FieldParse, 0);
-}
-// 0x005C47A8: the same builder over the table at VA 0x00C74704.
-void Rva005C4352::rva005C47A8(MultiIniFieldParse &p)
-{
-	buildFieldParse(p);
-	p.add(g_rva005C47A8FieldParse, 0);
-}
+
+
+
 
 // 0x00576FFE (table VA 0x00C6E8F0): the dword the rowed getter 0x0042D697
 // reads through the object the rowed getter 0x00328A83 (alias-pinned with
@@ -227,10 +180,7 @@ private:
 	Int m_04;
 	Rva00576FFEInfo *m_08;
 };
-Int Rva00576FFE::rva00576FFE()
-{
-	return m_08->m_04->rva00328A83()->get();
-}
+
 
 // 0x00251C24, 0x004624E3, 0x00466E0A and 0x004BC51B: interface overrides
 // (interface at +0x0C, +0x20, +0x34 resp. +0x10) that only dispatch to
