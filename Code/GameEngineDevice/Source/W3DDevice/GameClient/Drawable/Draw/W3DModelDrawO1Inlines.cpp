@@ -44,6 +44,10 @@
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
 
+// Use the rowed 104-bit comparator at 0x0033AD13. Its source in
+// SparseMatchFinderModelConditionCompare117.cpp owns the out-of-line copy.
+template<> bool SparseMatchFinder<ModelConditionInfo, ModelConditionFlags>::MapHelper::operator()(const ModelConditionFlags &, const ModelConditionFlags &) const;
+
 // Use the rowed four-word SWAR intersection counters from
 // BitFlags117CountInverseIntersection.cpp (inverse: 0x0033AE53), not ZH COMDATs.
 template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const;

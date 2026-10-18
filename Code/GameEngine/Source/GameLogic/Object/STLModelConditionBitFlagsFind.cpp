@@ -18,7 +18,7 @@ template <int Bits>
 class BitFlags
 {
 public:
-	unsigned int m_bits;
+	unsigned int m_flagWords[(Bits + 31) / 32];
 };
 
 template <class Set, class Flags>
@@ -27,9 +27,23 @@ class SparseMatchFinder
 public:
 	struct MapHelper
 	{
+		// Match the rowed comparator while retaining its read-only body
+		// visibility: an opaque declaration changes _M_find register allocation.
 		__declspec(noinline) bool operator()(const Flags &a, const Flags &b) const
 		{
-			return a.m_bits < b.m_bits;
+			for (int i = 0; i < 104; ++i)
+			{
+				bool aBit = (a.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				bool bBit = (b.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				if (aBit && bBit)
+					continue;
+				if (!aBit && !bBit)
+					continue;
+				if (!aBit)
+					return true;
+				return false;
+			}
+			return false;
 		}
 	};
 };
