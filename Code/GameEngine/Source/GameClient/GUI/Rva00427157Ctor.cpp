@@ -59,7 +59,8 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class Rva00427157
 {
@@ -85,7 +86,14 @@ public:
 };
 
 extern ConstCharPtr g_00DC85C4[];
-extern const FieldParse g_00C3C614[];
+extern "C" {
+void __identifier("?Rva00427114Parse@@YAXPAVINI@@PAVRva00427157@@@Z")();
+}
+// The retail table at 0x0083C614: 1 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C3C614[2] = {
+	{ "Armor", (FieldParseProc)&__identifier("?Rva00427114Parse@@YAXPAVINI@@PAVRva00427157@@@Z"), 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 Rva00427157::Rva00427157(const AsciiString &name, const Rva00427157 *src) : m_name(name)
 {
