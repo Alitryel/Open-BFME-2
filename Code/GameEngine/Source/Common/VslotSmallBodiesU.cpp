@@ -121,6 +121,9 @@ public:
 	}
 	UpgradeMaskType m_activationUpgradeNames;
 	UpgradeMaskType m_conflictingUpgradeNames;
+	char m_pad100[0x10C - 0x100];
+	bool m_requiresAllTriggers; // +0x10C, INI RequiresAllTriggers
+	bool m_requiresAllConflictingTriggers; // +0x10D, INI RequiresAllConflictingTriggers
 };
 struct Rva00452460Data
 {
@@ -137,6 +140,8 @@ class Rva00452460Iface
 public:
 	virtual void getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const = 0;
 	virtual void performUpgradeFX() = 0;
+	virtual bool requiresAllActivationUpgrades() const = 0;
+	virtual bool requiresAllConflictingUpgrades() const = 0;
 };
 class Rva00452460 : public Rva00452EDDPrimary<0x20>, public Rva00452460Iface
 {
@@ -152,12 +157,18 @@ void Rva00452460::getUpgradeActivationMasks(UpgradeMaskType &activation, Upgrade
 // 12 of ??_7UpgradeModule@@6BUpgradeMux@@@ (0x00842720), inherited unchanged
 // by the UpgradeMux table of every UpgradeModule subclass that does not
 // override them (ArmorUpgrade, AttributeModifierUpgrade, ... 32 tables).
-// Donor ZH UpgradeModule.h inlines; BFME 1 names the same pair.
+// Donor ZH UpgradeModule.h inlines; BFME 1 names the same pair. Slots 13 and
+// 14 hand out the two RequiresAll flags (UpgradeMuxData field table at VA
+// 0x00C5FE50: +0x10C RequiresAllTriggers, +0x10D RequiresAllConflictingTriggers)
+// that the rowed wouldUpgrade 0x004CE2B0 reads through +0x34 and +0x38; slot 13
+// is ZH's requiresAllActivationUpgrades, slot 14's spelling follows its INI key.
 class UpgradeModule : public Rva00452EDDPrimary<0x10>, public Rva00452460Iface
 {
 protected:
 	void getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const;
 	void performUpgradeFX();
+	bool requiresAllActivationUpgrades() const;
+	bool requiresAllConflictingUpgrades() const;
 };
 void UpgradeModule::getUpgradeActivationMasks(UpgradeMaskType &activation, UpgradeMaskType &conflicting) const
 {
@@ -166,6 +177,14 @@ void UpgradeModule::getUpgradeActivationMasks(UpgradeMaskType &activation, Upgra
 void UpgradeModule::performUpgradeFX()
 {
 	((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.performUpgradeFX(m_object);
+}
+bool UpgradeModule::requiresAllActivationUpgrades() const
+{
+	return ((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.m_requiresAllTriggers;
+}
+bool UpgradeModule::requiresAllConflictingUpgrades() const
+{
+	return ((const Rva00452460Data *)m_moduleData)->m_upgradeMuxData.m_requiresAllConflictingTriggers;
 }
 class Rva0045F46A : public Rva00452EDDPrimary<0x30>, public Rva00452460Iface
 {
