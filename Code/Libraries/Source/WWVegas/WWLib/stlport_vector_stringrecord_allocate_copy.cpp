@@ -17,8 +17,7 @@ struct BfmeStringRecord00063BE4 {
     AsciiString text;
     unsigned char tail0, tail1;
     BfmeStringRecord00063BE4();
-    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &o)
-      : word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3), word4(o.word4), word5(o.word5), word6(o.word6), text(o.text), tail0(o.tail0), tail1(o.tail1) {}
+    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &o);
 };
 #include <memory>
 template void _STL::_Construct<BfmeStringRecord00063BE4,BfmeStringRecord00063BE4>(BfmeStringRecord00063BE4*,const BfmeStringRecord00063BE4&);
