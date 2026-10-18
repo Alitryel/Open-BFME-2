@@ -124,7 +124,7 @@ public:
 // reads their weights), and a second definition of the same symbol is a duplicate.
 extern Rva00559D0CRankWeights g_00E05FCC;
 extern Rva00559D0CRankWeights g_00E06000;
-extern unsigned g_Va00E06034;
+unsigned g_Va00E06034;	// retail RVA 0x00A06034 (.bss), defined here
 // g_rva005C1A8DDefault is the VA 0x00E06060 table: the getter at retail RVA
 // 0x005C1A8D returns it as the default ("Default") when a slot has no override,
 // and its two readers take its address or return it as a char*. An array and a
