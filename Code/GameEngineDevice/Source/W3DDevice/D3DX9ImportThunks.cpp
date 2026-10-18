@@ -95,4 +95,11 @@ extern PFN_D3DXLoadSurfaceFromMemory __identifier("_imp__D3DXLoadSurfaceFromMemo
 HRESULT __stdcall D3DXLoadSurfaceFromMemory(LPDIRECT3DSURFACE9 pDestSurface, const PALETTEENTRY *pDestPalette, const RECT *pDestRect, LPCVOID pSrcMemory, D3DFORMAT SrcFormat, UINT SrcPitch, const PALETTEENTRY *pSrcPalette, const RECT *pSrcRect, DWORD Filter, D3DCOLOR ColorKey) {
  return __identifier("_imp__D3DXLoadSurfaceFromMemory@40")(pDestSurface, pDestPalette, pDestRect, pSrcMemory, SrcFormat, SrcPitch, pSrcPalette, pSrcRect, Filter, ColorKey);
 }
+
+// _D3DXVec3TransformCoordArray@24
+typedef D3DXVECTOR3* (__stdcall *PFN_D3DXVec3TransformCoordArray)(D3DXVECTOR3 *, UINT, const D3DXVECTOR3 *, UINT, const D3DXMATRIX *, UINT);
+extern PFN_D3DXVec3TransformCoordArray __identifier("_imp__D3DXVec3TransformCoordArray@24");
+D3DXVECTOR3* __stdcall D3DXVec3TransformCoordArray(D3DXVECTOR3 *pOut, UINT OutStride, const D3DXVECTOR3 *pV, UINT VStride, const D3DXMATRIX *pM, UINT n) {
+ return __identifier("_imp__D3DXVec3TransformCoordArray@24")(pOut, OutStride, pV, VStride, pM, n);
+}
 }
