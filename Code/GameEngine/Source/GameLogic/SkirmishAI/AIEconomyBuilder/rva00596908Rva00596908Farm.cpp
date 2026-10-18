@@ -1,9 +1,6 @@
 // ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// partial score=0.97 date=2026-10-14
 // ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// partial score=0.9305 date=2026-10-13
 // ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
-// partial score=0.9 date=2026-10-13
 // Target Ghidra5967B3+341; same 54-byte owner as constructor/dtor5966DD/59675A.
 // BF1 9cbfb551fe20 FadeInTextRender.cpp initialize is the primary source lead:
 // font scaling plus TextElvenClouds allocation. Target uses one animation and three phases.
@@ -89,17 +86,18 @@ void FadeInTextRender::rva00596908(Text004721F0* text, const ICoord2D* pos, unsi
  text->size(&w, &h);
  UnicodeString s = text->getText();
  const ICoord2D &point = *pos;
- volatile int y=point.y-(height-h)/2;
- _ReadWriteBarrier();
+ int y=point.y-(height-h)/2;
  int x = point.x;
  int width = 0;
  text->size(&width, 0);
- int bottom = y + (width ? height : height);
+ int bottom = y + height;
 
  ((Gen_00470870*)this)->bfmeExtend(x,y,(x + width),bottom);
- for(int i=0;i<3;++i) {
+ int i;
+ i=0;
+ for(;i<3;++i) {
   unsigned start=starts[i], end=ends[i];
-  if(frame>=start && frame<=end) {
+  if(*(volatile unsigned*)&frame>=start && frame<=end) {
    float progress=float(frame-start)/float(end-start);
    switch(i) {
    case 0: {
