@@ -1,4 +1,6 @@
 // ?_com_invoke_helper@@YAJPAUIDispatch@@JGGPAXPBGPADPAPAUIErrorInfo@@@Z
+// partial score=0.9 date=2026-10-18
+// ?_com_invoke_helper@@YAJPAUIDispatch@@JGGPAXPBGPADPAPAUIErrorInfo@@@Z
 // partial score=0.75 date=2026-10-17
 // cl: /O2 /G6 /Ob2 /EHsc /GR /DNDEBUG /MD /I"reference/open-bfme-1/inputs/toolchains/vs2003/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Include"
 // Authored from retail INVKPRXY code, native symbols and SDK declarations only.
@@ -11,7 +13,7 @@ long __stdcall _com_handle_excepinfo(EXCEPINFO&,IErrorInfo**);
 long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags,unsigned short retType,void *result,const unsigned short *types,char *args,IErrorInfo **out) {
  if(!dispatch)return E_POINTER;
  if(out)*out=0;
- DISPPARAMS dp={0};
+ DISPPARAMS dp;memset(&dp,0,sizeof(dp));
  if(types)dp.cArgs=lstrlenW((LPCWSTR)types);
  DISPID named=DISPID_PROPERTYPUT;
  if(flags & (DISPATCH_PROPERTYPUT|DISPATCH_PROPERTYPUTREF)) {
@@ -71,7 +73,7 @@ long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags
   }
  }
  VARIANT value;VariantInit(&value);
- EXCEPINFO ex={0};unsigned argerr=-1;
+ EXCEPINFO ex;memset(&ex,0,sizeof(ex));unsigned argerr=-1;
  long hr=dispatch->Invoke(id,__uuidof(NullDispatchIID),0,flags,&dp,retType?&value:0,&ex,&argerr);
  if(hr<0) {
   VariantClear(&value);
@@ -84,16 +86,21 @@ long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags
    if(hr<0) {VariantClear(&value);return hr;}
   }
   switch(retType) {
-  case VT_I2: case VT_UI2: *(short*)result=value.iVal;break;
-  case VT_I4: case VT_ERROR: case VT_UI4: case VT_HRESULT: *(long*)result=value.lVal;break;
+  case VT_I2: *(short*)result=value.iVal;break;
+  case VT_UI2: *(unsigned short*)result=value.uiVal;break;
+  case VT_I4: *(long*)result=value.lVal;break;
+  case VT_ERROR: *(SCODE*)result=value.scode;break;
+  case VT_UI4: *(unsigned long*)result=value.ulVal;break;
+  case VT_HRESULT: *(HRESULT*)result=value.lVal;break;
   case VT_R4: *(float*)result=value.fltVal;break;
   case VT_BSTR: *(BSTR*)result=value.bstrVal;break;
   case VT_INT: *(int*)result=value.intVal;break;
   case VT_DISPATCH: *(IDispatch**)result=value.pdispVal;break;
   case VT_UNKNOWN: *(IUnknown**)result=value.punkVal;break;
   case VT_UINT: *(unsigned*)result=value.uintVal;break;
-  case VT_RECORD: *(void**)result=value.byref;break;
-  case VT_R8: case VT_DATE: *(double*)result=value.dblVal;break;
+  case VT_RECORD: *(void**)result=value.pvRecord;break;
+  case VT_R8: *(double*)result=value.dblVal;break;
+  case VT_DATE: *(DATE*)result=value.date;break;
   case VT_BOOL: *(VARIANT_BOOL*)result=value.boolVal;break;
   case VT_VARIANT: *(VARIANT*)result=value;break;
   case VT_DECIMAL: *(DECIMAL*)result=value.decVal;break;
