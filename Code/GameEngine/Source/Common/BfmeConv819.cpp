@@ -1,3 +1,4 @@
+// cl: /GF
 // Open-BFME5 conversions (trimmed to the placed EMC body; the other seven are
 // declared-only here).
 
@@ -14,7 +15,9 @@ public:
 	void bfmeCallEMC(void *x, void *b, void *c);
 };
 
-extern void *g_bfmeXEMC;
+// Native VA 00DD8284 points at the complete "localizedMessage" key
+// at 00CE3148. The rowed getString callee reads this exact key.
+void *g_bfmeXEMC = (void *)"localizedMessage";
 
 // ?bfmeGoEMC@@YGXPAVBfmeObjEMC@@PAX1@Z
 void __stdcall bfmeGoEMC(BfmeObjEMC *o, void *b, void *c)
