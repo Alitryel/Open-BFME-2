@@ -48,6 +48,10 @@ class CommandButtonHuntUpdate : public UpdateModule
 public:
     CommandButtonHuntUpdate(Thing *, const ModuleData *);
 
+protected:
+    // Use the rowed destructor's access and symbol in the primary vtable.
+    virtual ~CommandButtonHuntUpdate();
+
 private:
     AsciiString m_commandButtonName;
     const void *m_commandButton;

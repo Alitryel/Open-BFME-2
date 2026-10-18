@@ -18,19 +18,18 @@ class BFME2NativeNetwork
 public:
 };
 
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
-
-class __declspec(novtable) Rva004209CCBase
+// Rowed SubsystemInterface ctor/dtor; the destructor view has this same
+// twelve-byte base and a single virtual destructor slot.
+class SubsystemInterface
 {
 public:
-	Rva004209CCBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
-	char m_flag;
-	int m_value;
+	SubsystemInterface();
+	virtual ~SubsystemInterface();
+private:
+	char m_pad04[8];
 };
 
-class Rva004209CC : public Rva004209CCBase
+class Rva004209CC : public SubsystemInterface
 {
 public:
 	Rva004209CC();
@@ -47,7 +46,3 @@ Rva004209CC::Rva004209CC()
 {
 }
 
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?unused@Rva004209CCBase@@UAEXXZ=??_GRva004209CC@@UAEPAXI@Z")
