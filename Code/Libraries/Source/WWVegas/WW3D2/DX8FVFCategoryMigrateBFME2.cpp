@@ -34,6 +34,13 @@ public:
 	bool operator!=(const RefCountPtr& o) const { return p != o.p; }
 };
 
+// Retail array initialization takes this address; preserve its six-byte
+// size-optimized callback (326BE6) rather than the general /O2 template copy.
+#pragma optimize("s", on)
+#pragma optimize("t", off)
+template<> inline RefCountPtr<TextureClass>::RefCountPtr() : p(0) {}
+#pragma optimize("", on)
+
 class BfmeHandleCX
 {
 public:
