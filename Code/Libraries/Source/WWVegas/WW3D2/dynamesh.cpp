@@ -68,6 +68,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 #include "matinfo.h" // load the declaration-only TU shim before sibling includes
 #include "dx8wrapper.h" // the bfmestages shim has to win the include guard over the ZH sibling
+// Keep the native shader accessor at 0x00143370: its Shader array is
+// +0x98, whereas this legacy donor view places it at +0x94.
+#define BFME_MESHMATDESC_SINGLE_SHADER_EXTERNAL
 // Preserve this TU's ZH layout while binding color-array calls to the native owner.
 #include "../../../../../reference/shims/dynamesh_color_link/meshmatdesc.h"
 // Retail's RenderObjClass::Set_Force_Visible is BFME's out-of-line body

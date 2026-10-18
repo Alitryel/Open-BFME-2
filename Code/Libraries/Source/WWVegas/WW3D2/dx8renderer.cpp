@@ -40,6 +40,9 @@ template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array
 #define W3DMPO_GLUE(ARGCLASS)
 #include "dx8wrapper.h"	// first, so the bfmestages copy (sixteen texture stages) wins
 				// DX8_WRAPPER_H before a vendored header's quoted include does
+// Reuse the verified BFME2 base layout so emitted MeshModelClass
+// helpers read CurMatDesc at +0x94, as their retail providers do.
+#include "../../../../../reference/shims/meshgeom/meshgeometry.h"
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "../../../../../reference/shims/meshmatdesclayout/meshmatdesc.h"	// BFME2 MeshMatDescClass layout wins the include guard (TextureArray +0xC8)
 /*

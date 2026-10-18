@@ -454,10 +454,12 @@ inline TextureClass * MeshMatDescClass::Peek_Single_Texture(int pass,int stage) 
 	return Texture[pass][stage];
 }
 
+#ifndef BFME_MESHMATDESC_SINGLE_SHADER_EXTERNAL
 inline ShaderClass MeshMatDescClass::Get_Single_Shader(int pass) const
 {
 	return Shader[pass];
 }
+#endif
 
 inline bool MeshMatDescClass::Has_Material_Array(int pass) const
 {

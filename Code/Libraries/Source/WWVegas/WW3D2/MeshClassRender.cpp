@@ -114,6 +114,17 @@ class RenderingMethod : public RefCountClass
 };
 }
 
+// Match the size-optimized destructor used by the native EH cleanups, as
+// in rinfo.cpp; ordinary template instantiation inherits this TU's /O2.
+#pragma optimize("s", on)
+template <> inline RefCountPtr<FXShader::RenderingMethod>::~RefCountPtr(void)
+{
+    if (Referent) {
+        Referent->Release_Ref();
+    }
+}
+#pragma optimize("", on)
+
 class FXShaderSetup : public FXShader::RenderingMethod
 {
 };
