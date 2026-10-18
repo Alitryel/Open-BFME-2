@@ -399,9 +399,6 @@ public:
 	virtual ~Rva002563CE();
 };
 
-Rva002563CE::~Rva002563CE()
-{
-}
 
 class Rva00131BE5
 {
