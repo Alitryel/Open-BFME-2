@@ -173,11 +173,7 @@ class Object : public Thing, public Snapshot
  }
  void updateObjValuesFromMapProperties(Dict* properties);
 ///< Brings in properties set in the editor.
- ObjectID getID() const 
- {
-  return m_id;
-  
- }
+ ObjectID getID();
 ///< this object's unique ID
  void friend_bindToDrawable( Drawable *draw );
 ///< set drawable association. for use ONLY by GameLogic!
