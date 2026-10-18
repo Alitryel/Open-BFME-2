@@ -98,38 +98,6 @@ public:
  virtual bool slot3()=0;
 };
 class CastleBehavior : public FoundationAIUpdate, public CastleBehaviorInterface { public: virtual void rva00395DAC(); void rva0039865E(PolygonTrigger*); Object* buildCastleStructure(BuildListInfo*,bool); void* GetArmyIDFromClosestObject(); Object* createOwnedObject(void*); void rva003993F2(bool); void teleportStragglersFromWallToGround(bool); void registerOwnedObject(Object*); bool checkForAutoPack(); bool checkForInstantUnPack(); void rva00397B03(ObjectStatusTypes,bool); virtual void DoXfer(Xfer*); void rva00399370(); void rva0039792B(); void initiateUnpack(bool,const ThingTemplate*); };
-void CastleBehavior::registerOwnedObject(Object* object) {
- void* data=field<void*>(this,4);
- Object* owner=field<Object*>(this,8);
- if(!object) return;
- static NameKeyType key=TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
- Module* member=object->findModule(key);
- ObjectID id;
- if(member) field<ObjectID>(member,0x18)=objectID(owner);
- if(field<unsigned char>(objectTemplate(object),0x11e)&4) object->setStatus(OBJECT_STATUS_79,true);
- if(field<unsigned char>(objectTemplate(object),0x10b)&0x10) {
-  if(!field<ObjectID>(this,0x38)) {
-   field<ObjectID>(this,0x38)=objectID(object);
-   if(field<float>(object,0x324)==0.0f && field<float>(this,0x4c)!=0.0f) {
-    field<float>(object,0x324)=field<float>(this,0x4c);
-    field<float>(this,0x4c)=0.0f;
-   }
-   if(member) { field<bool>(member,0x24)=true; field<ObjectID>(member,0x14)=field<ObjectID>(this,0x38); }
-   ((FoundationAIUpdate*)this)->rva0045527A(field<ObjectID>(this,0x38));
-  } else TheGameLogic->destroyObject(object);
- } else if(field<unsigned>(objectTemplate(object),0x118)&0x2000000) {
-  id=objectID(object); ((_STL::vector<ObjectID>*)((char*)this+0x74))->push_back(id);
- } else if((field<unsigned char>(objectTemplate(object),0x115)&1) || (field<unsigned>(objectTemplate(object),0x118)&0x400000)) {
-  id=objectID(object); ((_STL::vector<ObjectID>*)((char*)this+0x50))->push_back(id);
-  if(field<unsigned>(objectTemplate(object),0x118)&0x400000) object->setStatus(OBJECT_STATUS_5,false);
- } else if(((Rva2225E0Filter*)((char*)data+0x34))->accepts(object,owner->getControllingPlayer()) && ((Rva2225E0Filter*)((char*)data+0x30))->accepts(object,owner->getControllingPlayer())) {
-  id=objectID(object); ((_STL::vector<ObjectID>*)((char*)this+0x68))->push_back(id);
-  ((Rva00395F0B*)this)->rva00395F0B(object);
- } else {
-  id=objectID(object); ((_STL::vector<ObjectID>*)((char*)this+0x5c))->push_back(id);
- }
- TheGameLogic->rva0023D0C2(object,field<int>(this,0x9c));
-}
 
 // Native 0x003974CE..0x003975B7, 233B. CastleSystem auto-pack 0x003975B7
 // passes two native callbacks with an opaque zero context. The helper visits
@@ -363,63 +331,6 @@ enum ScienceType { SCIENCE_0=0 };
 Xfer* Rva00398280Xfer(Xfer*,_STL::vector<ScienceType>*);
 void XferObjectID(Xfer*,ObjectID*);
 void XferLivingWorldArmyID(Xfer*,int*);
-void CastleBehavior::DoXfer(Xfer* xfer) {
- CastleXferVersion version(1,2);
- ObjectID id;
- xfer->version(version);
- xfer->raw(&field<int>(this,0x34),4);
- XferObjectID(xfer,&field<ObjectID>(this,0x38));
- xfer->boolean(field<bool>(this,0x3c));
- xfer->boolean(field<bool>(this,0x3d));
- xfer->real28(field<float>(this,0x40));
- Rva00398280Xfer(xfer,&field<_STL::vector<ScienceType> >(this,0x50));
- XferLivingWorldArmyID(xfer,&field<int>(this,0x9c));
- unsigned countA=field<_STL::vector<ObjectID> >(this,0x50).size();
- xfer->signedInt((int&)countA);
- if(xfer->isSaving()) {
-  for(_STL::vector<ObjectID>::iterator it=field<_STL::vector<ObjectID> >(this,0x50).begin();it!=field<_STL::vector<ObjectID> >(this,0x50).end();++it) {
-   id=*it;
-   XferObjectID(xfer,&id);
-  }
- } else {
-  _STL::vector<ObjectID>& foundations=field<_STL::vector<ObjectID> >(this,0x50);
-  foundations.erase(foundations.begin(),foundations.end());
-  for(unsigned i=0;i<countA;++i) { XferObjectID(xfer,&id); field<_STL::vector<ObjectID> >(this,0x50).push_back(id); }
- }
- unsigned countB=field<_STL::vector<ObjectID> >(this,0x5c).size();
- xfer->signedInt((int&)countB);
- if(xfer->isSaving()) {
-  for(_STL::vector<ObjectID>::iterator it=field<_STL::vector<ObjectID> >(this,0x5c).begin();it!=field<_STL::vector<ObjectID> >(this,0x5c).end();++it) {
-   id=*it; XferObjectID(xfer,&id);
-  }
- } else {
-  for(unsigned i=0;i<countB;++i) { XferObjectID(xfer,&id); field<_STL::vector<ObjectID> >(this,0x5c).push_back(id); }
- }
- Rva00398280Xfer(xfer,&field<_STL::vector<ScienceType> >(this,0x68));
- xfer->unsignedInt(field<unsigned>(this,0x48));
- if(version.second>=2) xfer->boolean(field<bool>(this,0x44));
- if(xfer->isLoading() && field<int>(this,0x34)!=0) rva00399370();
- ((FoundationAIUpdate*)this)->FoundationAIUpdate::xfer(xfer);
- Rva00398280Xfer(xfer,&field<_STL::vector<ScienceType> >(this,0x74));
- xfer->xferAsciiString(field<AsciiString>(this,0x98));
- if(xfer->isSaving()) {
-  unsigned count=field<_STL::map<int,int> >(this,0xa0).size();
-  xfer->signedInt((int&)count);
-  for(_STL::map<int,int>::iterator it=field<_STL::map<int,int> >(this,0xa0).begin();it!=field<_STL::map<int,int> >(this,0xa0).end();++it) {
-   int key=it->first; xfer->signedInt(key);
-   unsigned value=it->second; xfer->unsignedInt(value);
-  }
- } else {
-  unsigned count;
-  xfer->signedInt((int&)count);
-  while(count) {
-   int key; unsigned value;
-   xfer->signedInt(key); xfer->unsignedInt(value);
-   field<_STL::map<int,int> >(this,0xa0).insert(_STL::pair<const int,int>(key,value));
-   --count;
-  }
- }
-}
 
 // Native RVA00396BC5,126B, shared by unpack for vectors +0x50/+0x5C/+0x74.
 // WB leaves the free function unnamed. Native initializes the module key
@@ -489,45 +400,6 @@ static __forceinline void castleSetCondition(Object* owner,int bit) {
   view->conditions.set(bit);
   owner->rva0028AE6D();
  }
-}
-bool CastleBehavior::checkForInstantUnPack() {
- if(field<bool>(this,0x3c)) {
- Object* owner=field<Object*>(this,8);
- void* data=field<void*>(this,4);
- AsciiString& name=field<AsciiString>(data,0x10);
- Player* player=0;
- if(((StringBase<char>*)&name)->isEmpty()) player=owner->getControllingPlayer();
- else {
-  for(int i=0;i<field<int>(ThePlayerList,0x14);++i) {
-   Player* candidate=ThePlayerList->getNthPlayer(i);
-   if(candidate && ((StringBase<char>*)((char*)candidate+0x4c))->compare(*(const StringBase<char>*)&name)==0) {
-    player=candidate;
-    break;
-   }
-  }
- }
- if(player) {
-  Team* team=field<Team*>(player,0x2ec);
-  if(team) {
-   owner->setTeam(team);
-   owner->rva0028BAC0();
-   owner->rva0028DCC4();
-   owner->rva0028D253();
-   ((Rva00399959*)this)->unpack(true);
-   int count=(field<BfmeAsciiScalarValue8*>(data,0x54)-field<BfmeAsciiScalarValue8*>(data,0x50));
-   for(int i=0;i<count;++i) {
-    BfmeAsciiScalarValue8 entry(field<BfmeAsciiScalarValue8*>(data,0x50)[i]);
-    const ThingTemplate* type=TheThingFactory->findTemplate(entry.first);
-    if(type) ((Rva003980BF*)this)->rva003980BF((void*)type,entry.second,1);
-   }
-  }
- }
- field<bool>(this,0x3c)=false;
- castleSetCondition(owner,218);
- rva00397B03(OBJECT_STATUS_79,false);
- return true;
- }
- return false;
 }
 
 // Native 0x003988BF..0x00398BC7,776B; WB 0x00EBEC10 names
@@ -794,12 +666,6 @@ private: unsigned char storage[124];
 class SidesList { public: bool rva0032BD64(NameKeyType,int,PolygonTrigger*); bool rva0032BD25(NameKeyType,int,BuildListInfo*); };
 extern SidesList* TheSidesList;
 class Rva00396B0D { public: int rva00396B0D(); };
-void CastleBehavior::rva003993F2(bool instant) {
- NameKeyType key=(NameKeyType)((Rva00396B0D*)this)->rva00396B0D();
- int index=0;
- BuildListInfo info;
- while(TheSidesList->rva0032BD25(key,index++,&info)) registerOwnedObject(buildCastleStructure(&info,instant));
-}
 
 // Native 00399C6C..00399D54 (232B), WB 00EB9B60. The native trace
 // names initiateUnpack; the BFME 1 ba7ddda7 donor at
@@ -855,18 +721,6 @@ public:
 private: char nativePrefix[0x54];
 };
 typedef char PolygonTriggerExtentCheck[sizeof(PolygonTrigger)==100?1:-1];
-void CastleBehavior::rva00399370() {
- NameKeyType key=(NameKeyType)((Rva00396B0D*)this)->rva00396B0D();
- int index=0;
- PolygonTrigger* polygon;
- for(;;) {
-  polygon=new PolygonTrigger(1);
-  if(!TheSidesList->rva0032BD64(key,index,polygon)) break;
-  rva0039865E(polygon);
-  ++index;
- }
- ::operator delete(polygon?polygon->deleteInstance(0):0);
-}
 
 // Native0039865E..003986EF,145B; WB00EB9380 unnamed CastleSystem helper.
 // WB/native establish callback+context, owner's transform at+8, pointer vector
