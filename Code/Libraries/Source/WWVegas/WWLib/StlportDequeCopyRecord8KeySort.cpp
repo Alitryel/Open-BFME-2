@@ -41,6 +41,11 @@ struct BfmeCopyRecord8KeyDescending
 {
 	bool operator()(const BfmeCopyRecord8 &x, const BfmeCopyRecord8 &y) const;
 };
+// Bind to the kept retail copies instead of emitting this unit's own.
+namespace _STL { template <> void __linear_insert<_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,BfmeCopyRecord8,BfmeCopyRecord8KeyAscending>(_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,BfmeCopyRecord8,BfmeCopyRecord8KeyAscending); }
+namespace _STL { template <> void __linear_insert<_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,BfmeCopyRecord8,BfmeCopyRecord8KeyDescending>(_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,BfmeCopyRecord8,BfmeCopyRecord8KeyDescending); }
+namespace _STL { template <> void __push_heap<_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,int,BfmeCopyRecord8,BfmeCopyRecord8KeyAscending>(_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,int,int,BfmeCopyRecord8,BfmeCopyRecord8KeyAscending); }
+namespace _STL { template <> void __push_heap<_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,int,BfmeCopyRecord8,BfmeCopyRecord8KeyDescending>(_Deque_iterator<BfmeCopyRecord8,_Nonconst_traits<BfmeCopyRecord8> >,int,int,BfmeCopyRecord8,BfmeCopyRecord8KeyDescending); }
 
 typedef _STL::_Deque_iterator<BfmeCopyRecord8, _STL::_Nonconst_traits<BfmeCopyRecord8> > CopyRecord8Iterator;
 

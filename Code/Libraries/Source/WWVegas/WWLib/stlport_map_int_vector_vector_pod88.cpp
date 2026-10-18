@@ -31,6 +31,9 @@ struct BfmePod88
 {
 	char m_body[88];
 };
+// Bind to the kept retail copies instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<BfmePod88,BfmePod88>(BfmePod88 *,BfmePod88 const &); }
+namespace _STL { template <> vector<BfmePod88,allocator<BfmePod88> >::vector(vector<BfmePod88,allocator<BfmePod88> > const &); }
 // bfme link decl-only BfmePod88
 namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector(); }
 
