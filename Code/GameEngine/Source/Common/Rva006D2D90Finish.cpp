@@ -33,7 +33,7 @@
 extern unsigned char g_00E177E0;
 unsigned char g_00E177E1;	// retail RVA 0x00A177E1 (.bss), defined here
 unsigned char g_00E177E2;	// retail RVA 0x00A177E2 (.bss), defined here
-extern int g_00E177E4;
+int g_00E177E4;	// retail RVA 0x00A177E4 (.bss), defined here
 extern unsigned char g_00E177E8;
 extern volatile unsigned char g_00CE8B70[];
 
