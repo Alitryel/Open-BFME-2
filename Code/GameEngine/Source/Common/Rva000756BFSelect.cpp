@@ -8,12 +8,13 @@ public:
 	virtual bool Slot2(int a1, int a2);
 };
 
-extern Rva000756BFItem * volatile g_00DE1F2C[];
+class W3DFilterInterface;
+extern W3DFilterInterface *W3DFilters[];
 int g_00DE1F5C;	// retail RVA 0x009E1F5C (.bss), defined here
 
 bool __cdecl Rva000756BFSelect(int index, int a1, int a2)
 {
-	Rva000756BFItem * volatile *slot = &g_00DE1F2C[index];
+	Rva000756BFItem * volatile *slot = (Rva000756BFItem * volatile *)&W3DFilters[index];
 	if (*slot != 0) {
 		bool ok = (*slot)->Slot2(a1, a2);
 		if (ok)

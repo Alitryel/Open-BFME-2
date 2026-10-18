@@ -9,12 +9,13 @@ public:
 	virtual bool Slot3(int a1, int a2, int a3, int a4);
 };
 
-extern Rva000756F1Item * volatile g_00DE1F2C[];
+class W3DFilterInterface;
+extern W3DFilterInterface *W3DFilters[];
 extern int g_00DE1F5C;
 
 bool __cdecl Rva000756F1Dispatch(int index, int a1, int a2, int a3, int a4)
 {
-	Rva000756F1Item * volatile *slot = &g_00DE1F2C[index];
+	Rva000756F1Item * volatile *slot = (Rva000756F1Item * volatile *)&W3DFilters[index];
 	if (*slot != 0)
 		return (*slot)->Slot3(a1, a2, a3, a4);
 	g_00DE1F5C &= 0;

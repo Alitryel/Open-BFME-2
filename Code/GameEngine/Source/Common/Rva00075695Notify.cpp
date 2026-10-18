@@ -7,13 +7,14 @@ public:
 	virtual void f1();
 };
 
-extern Rva00075695Item * volatile g_00DE1F24[];
+class ShaderInterface;
+extern ShaderInterface *W3DShaders[];
 extern int g_00DE1F54;
 
 void __cdecl Rva00075695Notify(int index)
 {
 	if (g_00DE1F54 != 0) {
-		Rva00075695Item * volatile *slot = &g_00DE1F24[index];
+		Rva00075695Item * volatile *slot = (Rva00075695Item * volatile *)&W3DShaders[index];
 		if (*slot != 0)
 			(*slot)->f1();
 		g_00DE1F54 = 0;
