@@ -13,6 +13,10 @@
 // auto-patches. Owner identities are unproven (opaque Rva names). One ledger
 // row per destructor, landed one commit at a time.
 
+// Same complete secondary-interface table installed by both Horde constructors.
+// The existing data-row owner supplies its twenty verified function entries.
+extern const void *const g_00C50868[];
+
 class Rva0026E836_Root
 {
 public:
@@ -122,12 +126,12 @@ public:
 
 private:
 	char m_pad0028[0x3E4 - 0x28];
-	int m_extra03E4;
+	const void *m_extra03E4;
 };
 
 Rva0049A64B::~Rva0049A64B()
 {
-	m_extra03E4 = 0xC50868;
+	m_extra03E4 = g_00C50868;
 }
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds

@@ -8,6 +8,10 @@
 // ??1Rva0049A64B@@UAE@XZ at 0x0049A64B. Sole caller is the scalar-deleting
 // dtor at 0x0049AD9B.
 
+// Same complete secondary-interface table installed by both Horde constructors.
+// The existing data-row owner supplies its twenty verified function entries.
+extern const void *const g_00C50868[];
+
 class Thing;
 class ModuleData;
 
@@ -60,7 +64,7 @@ public:
 
 protected:
 	char m_pad0028[0x3E4 - 0x28];
-	int m_extra03E4;
+	const void *m_extra03E4;
 };
 
 class HordeWorkerAIUpdate : public Rva0049A64B
@@ -71,7 +75,7 @@ public:
 
 HordeWorkerAIUpdate::~HordeWorkerAIUpdate()
 {
-	m_extra03E4 = 0x00C50868;
+	m_extra03E4 = g_00C50868;
 }
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
