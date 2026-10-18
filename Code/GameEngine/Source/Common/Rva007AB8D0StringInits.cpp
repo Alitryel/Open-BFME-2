@@ -56,7 +56,7 @@ extern unsigned g_Va00DDEEFC;
 extern unsigned g_Va00DDEF14;
 extern unsigned char g_009DEEF0Static[12];
 extern unsigned char g_00DDEF20Static[12];
-extern unsigned g_Va00DDEEE4;
+unsigned g_Va00DDEEE4;	// retail RVA 0x009DEEE4 (.bss), defined here
 extern unsigned g_Va00DDEF38;
 extern unsigned g_Va00DDEF2C;
 
