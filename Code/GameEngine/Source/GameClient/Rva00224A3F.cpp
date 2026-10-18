@@ -39,7 +39,7 @@ struct BlockParse
 };
 
 extern BlockParse theAptButtonTooltipMapBlockParse;
-extern int g_00DFE6D8;
+int g_00DFE6D8;	// retail RVA 0x009FE6D8 (.bss), defined here
 
 class INI
 {
