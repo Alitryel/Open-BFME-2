@@ -7,7 +7,7 @@
 // address-derived; the shapes come from the retail bytes.
 
 extern void *g_00DE03F4;
-extern void *g_00DE03EC;
+void * g_00DE03EC;	// retail RVA 0x009E03EC (.bss), defined here
 
 typedef unsigned int (__cdecl *GetBlockSizeFunction)(void *, unsigned int);
 typedef void (__cdecl *VerifyIntegrityFunction)(void);
