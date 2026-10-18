@@ -3,8 +3,6 @@
 #include <map>
 #include "ascii_string.h"
 class NamedTimerInfo;
-// Bind cleanup to the existing retail tree provider.
-namespace _STL { template <> _Rb_tree<AsciiString, pair<const AsciiString, NamedTimerInfo *>, _Select1st<pair<const AsciiString, NamedTimerInfo *> >, less<AsciiString>, allocator<pair<const AsciiString, NamedTimerInfo *> > >::~_Rb_tree(); }
 typedef _STL::map<AsciiString,NamedTimerInfo *> EmptyMapView;
 // ??1Rva00359290@@UAE@XZ @0x00359290 85B.
 // Virtual scalar dtor (vptr 0xC15398): vptr store, three member-dtor calls
