@@ -35,7 +35,9 @@ class Rva004209CC : public Rva004209CCBase
 public:
 	Rva004209CC();
 protected:
+public:
 	virtual ~Rva004209CC();
+protected:
 private:
 	_STL::vector<BfmeE16> m_vec;
 };
