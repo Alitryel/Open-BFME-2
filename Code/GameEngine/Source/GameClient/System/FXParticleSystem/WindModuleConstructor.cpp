@@ -138,3 +138,11 @@ Rva005FEAD0DefaultModule7::Rva005FEAD0DefaultModule7(
 }
 
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?name@Rva005FEA50WindInfoBase@FXParticleSystem@@UBEPBDXZ=?Rva003A59ADGet@@YAHXZ")
+#pragma comment(linker, "/alternatename:?noOp@Rva005FEA50WindInfoBase@FXParticleSystem@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?refresh@Rva005FEAD0DefaultModule7@FXParticleSystem@@UAEXPAVBfmeFlagTarget@2@@Z=?rva003A5757@Rva003A5757@@UAEXPAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?update@Rva005FEAD0DefaultModule7@FXParticleSystem@@UAEXXZ=?Rva003A5572@Rva003AED3E@@UAEXXZ")

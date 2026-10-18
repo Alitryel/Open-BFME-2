@@ -1040,3 +1040,15 @@ Int Rva000FC5B7Filter::init()
 	m_fadeTexture = TextureAsset::Get("circleFade.tga", 0, 0);
 	return true;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?init@Rva000FC63DFilter@@UAEHXZ=?init@Rva000FC5B7Filter@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?preRender@Rva000FC63DFilter@@UAE_NAA_NAAH@Z=?rva000FBA0F@Rva000FBA0F@@QAE_NPA_NH@Z")
+#pragma comment(linker, "/alternatename:?preRender@Rva000FCF54Filter@@UAE_NAA_NAAH@Z=?rva000FBA0F@Rva000FBA0F@@QAE_NPA_NH@Z")
+#pragma comment(linker, "/alternatename:?reset@Rva000FCF54Filter@@MAEXXZ=?reset@Rva000FBA4ASecondary@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?setup@Rva000FC63DFilter@@UAE_NW4FilterModes@@@Z=?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")
+#pragma comment(linker, "/alternatename:?setup@Rva000FCF54Filter@@UAE_NW4FilterModes@@@Z=?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")
+#pragma comment(linker, "/alternatename:?shutdown@Rva000FC63DFilter@@UAEHXZ=?bfmeDropDF@BfmeThingDF@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?shutdown@Rva000FCF54Filter@@UAEHXZ=?Create@GameFileClass@@UAEHXZ")

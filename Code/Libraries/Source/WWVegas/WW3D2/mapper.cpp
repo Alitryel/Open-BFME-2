@@ -586,3 +586,9 @@ GridWSEnvironmentMapperClass::GridWSEnvironmentMapperClass(const GridWSEnvMapper
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?bfmeBaseF1050@BfmeF1050@@QAEXHHH@Z=??0GridTextureMapperClass@@QAE@ABVINIClass@@PBDI@Z")
 #pragma comment(linker, "/alternatename:?bfmeInit1039@BfmeC1039@@QAEXPAVBfmeD1039@@@Z=??0GridWSEnvMapperClass@@QAE@ABV0@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z=?rva00187AD0@GridTextureMapperClass@@UAE_NPAVRva00082EB8@@@Z")
+#pragma comment(linker, "/alternatename:?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z=?_bfme_mapper_v8@TextureMapperClass@@UAE_NH@Z")
