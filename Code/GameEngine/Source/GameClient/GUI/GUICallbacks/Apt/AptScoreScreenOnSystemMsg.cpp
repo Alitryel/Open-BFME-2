@@ -1,22 +1,13 @@
-// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.995 date=2026-10-18
-// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.9528538495088165 date=2026-10-15
-// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.90708 date=2026-10-14
-// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
-// partial score=0.96 date=2026-10-07
-// W10-c5: callee resolved to the rowed ThingFactory::findTemplate(const AsciiString&) (0x002D06CA) on the real TheThingFactory global; barrier/dead-block/customName ternary hacks removed (WB 0x145f4d0 statement shape). Remaining 1 site: retail add ebx,0x30; push ebx for &tmpl->displayName (ours lea eax,[ebx+0x30]; push eax) - only the equal-arm ternary / reference forms keep the rest exact.
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
+//
+// AptScoreScreen::OnSystemMsg (WB 0x145F4D0) at 0x0051C452: the template lookup is the rowed ThingFactory::findTemplate (0x002D06CA) on the real TheThingFactory global, reached as in WB 0x145F4D0 through an inline forwarder; with it the register allocation keeps the template in ebx (add ebx,0x30; push ebx) and the equal-arm ternaries, barrier and goto are gone.
 //
 // BFME2's score screen Apt callbacks, 0x0051BF75 onward, bound by these
 // names ("AptScoreScreen::OnInitialized" ...) as member pointers by the
 // screen's registration; that binding is their only reference. The class
 // is named for the strings' prefix. +0x27C is the screen's state.
 #include <vector>
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "unicode_string.h"
 extern "C" int __cdecl strcmp(const char *left, const char *right);
@@ -118,13 +109,7 @@ class GameTextInterface
 ;
 extern GameTextInterface *TheGameText;
 // TheMouse's rowed tooltip setter 0x001EEA6D (MouseRva001EEA6D.cpp).
-struct RGBColor
-
-{
- float red, green, blue;
- 
-}
-;
+#include "../../../../../../Libraries/Include/Lib/RGBColor.h"
 class Mouse
 
 {
@@ -153,6 +138,9 @@ class ThingFactory
 {
 public:
  const ThingTemplate *findTemplate(const AsciiString &name);
+ // WB 0x145F4D0 reaches the lookup through an inline forwarder (WB names the
+ // out-of-line body findTemplateInternal; the ledger rows it findTemplate).
+ const ThingTemplate *findTemplateInline(const AsciiString &name) { return findTemplate(name); }
 };
 extern ThingFactory *TheThingFactory;
 // A persistent unit's list box item data: its template name at +4 and the
@@ -378,24 +366,18 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
      {
       Rva002D06CATemplate *unitTemplate = 0;
       if (TheThingFactory)
-      
+       unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplateInline(m_renaming->m_templateName);
+      if (unitTemplate && (unitTemplate->m_113 & 4))
       {
-       unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplate(m_renaming->m_templateName);
-       if (unitTemplate && (unitTemplate->m_113 & 4))
-       
-       {
-        label = "TOOLTIP:YouMayNotRenameAHero";
-        TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
-        goto done_hover;
-       
-       }
-       
+       label = "TOOLTIP:YouMayNotRenameAHero";
+       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
       }
-      label = (1 ? "TOOLTIP:ClickToRenameThisUnit" : "TOOLTIP:ClickToRenameThisUnit");
-      TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
-      
+      else
+      {
+       label = "TOOLTIP:ClickToRenameThisUnit";
+       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
+      }
      }
-     done_hover:
      m_tooltip = label;
      
     }
@@ -425,16 +407,13 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
    if (TheThingFactory)
    
    {
-    unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplate(m_renaming->m_templateName);
-    if (unitTemplate && (unitTemplate->m_113 & 4))
-    
-    {
-     m_renameIndex = -1;
-     m_renaming = 0;
-     break;
-     
-    }
-    
+    unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplateInline(m_renaming->m_templateName);
+   }
+   if (unitTemplate && (unitTemplate->m_113 & 4))
+   {
+    m_renaming = 0;
+    m_renameIndex = -1;
+    break;
    }
    UnicodeString name;
    AptScorePersistentUnit *renaming = m_renaming;
@@ -443,14 +422,13 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
     name = customName;
    else if (unitTemplate)
    {
-    name = (1 ? unitTemplate->m_displayName : unitTemplate->m_displayName);
+    name = unitTemplate->m_displayName;
    }
    GadgetTextEntrySetText(m_rename, name);
    TheWindowManager->winSetFocus(m_rename);
    m_units->winEnable(false);
    void *movie = m_movie;
-   void *movieCopy = movie;
-   TheRva00222A8BTarget->invoke(movieCopy, "openRenamePersistentUnit", 0, 0, 0, 0, 0, 0);
+   TheRva00222A8BTarget->invoke(movie, "openRenamePersistentUnit", 0, 0, 0, 0, 0, 0);
    break;
    
   }
@@ -482,5 +460,3 @@ void AptScoreScreen::heroVetUpgrade(int index, char *result, bool skip)
  sprintf(result, "%d", m_heroUpgrades[index] ? 1 : 0);
  
 }
-// Retail's strcpy call lands on the import thunk rowed as ji_00629176.
-#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
