@@ -50,7 +50,7 @@ public:
 	~CriticalSectionClass();
 };
 
-extern unsigned g_Va00DE4B34;
+unsigned g_Va00DE4B34;	// retail RVA 0x009E4B34 (.bss), defined here
 
 // ?rva007B6C66@@YAXXZ @ 0x007B6C66 (10B). Global CriticalSectionClass dtor thunk: ecx=&g_Va00DE4B34 then tail-jmp to rowed ??1CriticalSectionClass@@QAE@XZ (0x00613B10).
 void __cdecl rva007B6C66()
