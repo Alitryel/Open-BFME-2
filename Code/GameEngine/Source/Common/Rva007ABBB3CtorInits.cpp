@@ -437,9 +437,3 @@ void Rva007ABBB3CtorInits::rva007AC8E0()
 	atexit( rva007B6EC2 );
 }
 
-// 0x007ADCAE (22B): unrowed zeroing ctor 0x0023DBF9 (pinned) on VA 0x00DFE7A8, atexit(0x007B7786 -> 0x0023DBC3)
-void Rva007ABBB3CtorInits::rva007ADCAE()
-{
-	( (Rva0023DBF9 *)&g_Va00DFE7A8 )->Rva0023DBF9::Rva0023DBF9();
-	atexit( rva007B7786 );
-}
