@@ -1,4 +1,6 @@
 // ?gatherDebugStats@W3DDisplay@@UAEXXZ
+// partial score=0.989 date=2026-10-18
+// ?gatherDebugStats@W3DDisplay@@UAEXXZ
 // partial score=0.98689 date=2026-10-13
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 // W3DDisplay::gatherDebugStats, retail 0x0004826C..0x00049271 (4101 bytes).
@@ -657,7 +659,8 @@ int __cdecl Rva00078BEEGet();
 int __cdecl Rva00078BF4Get();
 __int64 __cdecl Rva00043024Get();
 __int64 __cdecl Rva0004300DGet();
-Rva006C1F60 *__cdecl Rva0065CE90Heap(int index);
+namespace EA { namespace Allocator { class GeneralAllocator; } }
+namespace MemoryPool { EA::Allocator::GeneralAllocator *GetHeapAllocatorByIndex(unsigned int index); }
 
 extern GlobalLanguage *TheGlobalLanguageData;
 extern FontLibrary *TheFontLibrary;
@@ -818,12 +821,12 @@ void W3DDisplay::gatherDebugStats(void)
 		m_displayStrings[14]->setText(unibuffer);
 
 		unibuffer.format(W("Video RAM: %d"), Debug_Statistics::Get_Record_Texture_Size());
-		if (Rva0065CE90Heap(0))
+		if (MemoryPool::GetHeapAllocatorByIndex(0))
 		{
 			unsigned int used = 0;
 			unsigned int peak = 0;
 			Rva006C1F60 *heap;
-			for (int i = 0; (heap = Rva0065CE90Heap(i)) != 0; i++)
+			for (int i = 0; (heap = (Rva006C1F60 *)MemoryPool::GetHeapAllocatorByIndex(i)) != 0; i++)
 			{
 				Slot64 *slot = heap->rva006C1AA0(3);
 				used += slot->m_used;
@@ -967,13 +970,9 @@ void W3DDisplay::gatherDebugStats(void)
 			void *body = selObj->m_body;
 			PathfindLayerEnum layer = TheTerrainLogic->getHighestLayerForDestination(&selPos, false);
 			float groundZ = TheTerrainLogic->getLayerHeight(selPos.x, selPos.y, layer, 0, true);
-			int id = draw->m_object ? draw->m_object->m_id : 0;
-			const char *nameStr = name.str();
-			const char *templateName = ((Object *)draw)->m_template->getNameText();
-			const Coord3D *p = draw->getPosition();
 			unibuffer.format(W("Select Info: '%S'(%S)[%d][%d] at (%.3f,%.3f,%.3f) groundZ@pos: %.3f Health: %.3f"),
-				templateName, nameStr, ((Rva0055A88BDwordField *)draw)->get(), id,
-				p->x, draw->getPosition()->y, draw->getPosition()->z, groundZ,
+				((Object *)draw)->m_template->getNameText(), name.str(), ((Rva0055A88BDwordField *)draw)->get(), draw->m_object ? draw->m_object->m_id : 0,
+				draw->getPosition()->x, draw->getPosition()->y, draw->getPosition()->z, groundZ,
 				((BodyView *)body)->getHealth());
 
 			unibuffer.concat(W("\nModelFlags: "));
@@ -1042,11 +1041,15 @@ void W3DDisplay::gatherDebugStats(void)
 				}
 			}
 
-			unibuffer.concat(W("\nAIStateType: "));
-			if (selObj->m_ai)
+			if (selObj)
 			{
-				unibuffer2.format(W("%d \n"), selObj->m_ai->getCurrentStateID());
-				unibuffer.concat(unibuffer2);
+				unibuffer.concat(W("\nAIStateType: "));
+				AIUpdateInterface *ai = selObj->m_ai;
+				if (ai)
+				{
+					unibuffer2.format(W("%d \n"), ai->getCurrentStateID());
+					unibuffer.concat(unibuffer2);
+				}
 			}
 		}
 		m_displayStrings[10]->setText(unibuffer);
