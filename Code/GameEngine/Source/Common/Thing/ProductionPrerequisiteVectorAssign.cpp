@@ -55,6 +55,14 @@ private:
 };
 }
 
+// Inline the stock size calculation and bind out-of-line uses to the retail owner.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size_type
+vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size() const
+{ return size_type(m_finish - m_start); }
+}
+
 typedef void (__cdecl *PrereqDestroyFn)(ProductionPrerequisite *, ProductionPrerequisite *);
 typedef ProductionPrerequisite *(__cdecl *PrereqUninitFn)(ProductionPrerequisite *, ProductionPrerequisite *, ProductionPrerequisite *, const _STL::__false_type &);
 

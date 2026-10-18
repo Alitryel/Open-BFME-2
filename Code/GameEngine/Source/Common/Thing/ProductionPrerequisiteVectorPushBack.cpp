@@ -48,7 +48,18 @@ namespace _STL {
 template <> vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &
 vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::operator=(const vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &);
 }
-template class _STL::vector<ProductionPrerequisite>;
+// Inline the stock size calculation and bind out-of-line uses to the retail owner.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size_type
+vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+}
+
+// Emit only the recovered members. The former whole-class instantiation
+// also supplied an unrowed non-retail copy worker to other units.
+template void _STL::vector<ProductionPrerequisite>::push_back(const ProductionPrerequisite &);
+template ProductionPrerequisite *_STL::__uninitialized_fill_n(ProductionPrerequisite *, unsigned int, const ProductionPrerequisite &, const _STL::__false_type &);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
