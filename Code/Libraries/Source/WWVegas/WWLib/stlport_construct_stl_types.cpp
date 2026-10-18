@@ -59,6 +59,20 @@ template <> ConstructProbePairC::pair(const ConstructProbePairC &);
 }
 
 
+// Native 0x396170 is called through the eight-byte element view used by
+// vector::push_back at 0x39A48E and both uninitialized workers. Its complete
+// construction delegates to the existing pair copy at 0x466EA7. Preserve
+// that witnessed storage operation without asserting an application identity.
+struct Rva0039A48EElement { int a[2]; };
+namespace _STL {
+template <> void _Construct<Rva0039A48EElement, Rva0039A48EElement>(
+    Rva0039A48EElement *__p, const Rva0039A48EElement &__val)
+{
+    ::new ((void *)__p) ConstructProbePair(
+        *reinterpret_cast<const ConstructProbePair *>(&__val));
+}
+}
+
 template void _STL::_Construct<ConstructProbeVec, ConstructProbeVec>(ConstructProbeVec *, const ConstructProbeVec &);
 template void _STL::_Construct<ConstructProbePair, ConstructProbePair>(ConstructProbePair *, const ConstructProbePair &);
 template void _STL::_Construct<ConstructProbePairIV, ConstructProbePairIV>(ConstructProbePairIV *, const ConstructProbePairIV &);
