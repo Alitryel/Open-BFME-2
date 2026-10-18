@@ -218,12 +218,6 @@ void callbackWrapper( GPConnection *con, void *arg, void *param )
 
 //-------------------------------------------------------------------------
 
-// byte-exact reconstruction: game/GameEngine/Source/GameNetwork/GameSpy/Thread/GameSpyBuddyMessageQueueCtorThunk.cpp
-GameSpyBuddyMessageQueue::GameSpyBuddyMessageQueue()
-{
-	m_bfme_lock70.m_ptr = 0;
-	m_thread = NULL;
-}
 
 
 Bool GameSpyBuddyMessageQueue::getRequest( BuddyRequest& req )
@@ -249,29 +243,7 @@ void GameSpyBuddyMessageQueue::addRequest( const BuddyRequest& req )
 }
 
 
-// Retail 0x00551BA7, 77 bytes: vtable 0x00C6B020 slot 5, between addRequest
-// (slot 3) and getResponse (slot 6); the response mutex and queue push.
-void GameSpyBuddyMessageQueue::addResponse( const BuddyResponse& resp )
-{
-	MutexClass::LockClass m(m_responseMutex);
-	if (m.Failed())
-		return;
 
-	m_responses.push(resp);
-}
-
-Bool GameSpyBuddyMessageQueue::getResponse( BuddyResponse& resp )
-{
-	MutexClass::LockClass m(m_responseMutex, 0);
-	if (m.Failed())
-		return false;
-
-	if (m_responses.empty())
-		return false;
-	resp = m_responses.front();
-	m_responses.pop();
-	return true;
-}
 
 
 //-------------------------------------------------------------------------
@@ -403,8 +375,3 @@ void BuddyThreadClass::errorCallback( GPConnection *con, GPErrorArg *errorArg )
 	}
 }
 
-// Native551988..551A06 follows PeerThread cleanup order; target member
-// offsets and the already recovered shutdown distinguish the Buddy owner.
-GameSpyBuddyMessageQueue::~GameSpyBuddyMessageQueue(){
- ((Rva00550B4C*)this)->rva00550B4C();
-}
