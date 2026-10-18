@@ -327,6 +327,8 @@ public:
 	bool m_hiddenByScience;					// +0x21
 	bool m_ready;							// +0x22
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > >,pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > >(pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > *,pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > const &); }
 
 enum { MAX_PLAYER_COUNT = 20 };
 

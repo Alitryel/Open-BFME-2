@@ -40,6 +40,8 @@ struct S4Cmp002E1690
 		return left.m_bfmeA < right.m_bfmeA;
 	}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void __linear_insert<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690); }
 
 void Rva002E00E0Swap(S4SortElem12 &left, S4SortElem12 &right);
 

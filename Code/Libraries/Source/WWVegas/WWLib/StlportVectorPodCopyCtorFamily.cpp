@@ -28,12 +28,16 @@ class Rva0040CB11Entry
 public:
 	unsigned int m_data[2];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) void _Construct<Rva0040CB11Entry,Rva0040CB11Entry>(Rva0040CB11Entry *,Rva0040CB11Entry const &); }
 
 class Rva0054103E
 {
 public:
 	unsigned int m_data[5];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) void _Construct<Rva0054103E,Rva0054103E>(Rva0054103E *,Rva0054103E const &); }
 
 template _STL::vector<Rva00153A27Element>::vector(const _STL::vector<Rva00153A27Element> &);
 template _STL::vector<Rva0040CB11Entry>::vector(const _STL::vector<Rva0040CB11Entry> &);

@@ -24,6 +24,8 @@ struct BfmeVectorRecord0002154F3 {
     BfmeVectorRecord0002154F3(const BfmeVectorRecord0002154F3 &);
     BfmeVectorRecord0002154F3 &operator=(const BfmeVectorRecord0002154F3 &);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> BfmeVectorRecord0002154F3 * vector<BfmeVectorRecord0002154F3,allocator<BfmeVectorRecord0002154F3> >::erase(BfmeVectorRecord0002154F3 *,BfmeVectorRecord0002154F3 *); }
 namespace _STL {
 template <> void _Construct<BfmeVectorRecord0002154F3, BfmeVectorRecord0002154F3>(BfmeVectorRecord0002154F3 *, const BfmeVectorRecord0002154F3 &);
 }

@@ -15,5 +15,7 @@ struct Rva001D28F0Element
 	~Rva001D28F0Element();
 	Rva001D28F0Element &operator=(const Rva001D28F0Element &other);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<Rva001D28F0Element,allocator<Rva001D28F0Element> >::~vector(); }
 
 template class _STL::vector<Rva001D28F0Element>;

@@ -6,4 +6,6 @@
 // Chain lane: caller of just-landed Coord3D fill_n wrapper 0xCA1D3. Callers at 0x7CED5 0x7CFF6 0x7D00E in FUN_0047c8ae. /Ob0 preserves out-of-line wrapper call per FillInsert precedent. throw() on copy removes EH per 4.1-4.2.
 #include <vector>
 #include "../../../Include/Lib/Coord3D.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) void _Construct<Coord3D,Coord3D>(Coord3D *,Coord3D const &); }
 template _STL::vector<Coord3D>::vector(unsigned int, const Coord3D&, const _STL::allocator<Coord3D>&);

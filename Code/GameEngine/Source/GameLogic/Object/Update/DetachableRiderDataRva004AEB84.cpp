@@ -67,6 +67,8 @@ public:
 	UnsignedInt m_animTime;
 	const void *m_ocl;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) void _Construct<WeaponTemplateSet,WeaponTemplateSet>(WeaponTemplateSet *,WeaponTemplateSet const &); }
 
 // ?Rva004AEB84Parse@@YAXPAVINI@@PAX1PBX@Z
 void Rva004AEB84Parse(INI *ini, void *instance, void *store, const void *)

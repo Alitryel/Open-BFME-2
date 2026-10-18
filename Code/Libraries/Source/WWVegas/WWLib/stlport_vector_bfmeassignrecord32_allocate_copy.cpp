@@ -26,6 +26,8 @@ struct BfmeAssignRecord32 {
 	BfmeAssignRecord32(const BfmeAssignRecord32 &other);
 	char m_body[0x20];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<BfmeAssignRecord32,allocator<BfmeAssignRecord32> >::~vector(); }
 namespace _STL {
 template <> void _Construct<BfmeAssignRecord32, BfmeAssignRecord32>(BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
 }

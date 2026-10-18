@@ -127,6 +127,8 @@ struct Rva005F8F96
 	void *m_00;
 	int m_04;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<Rva005F8F96,allocator<Rva005F8F96> > & vector<Rva005F8F96,allocator<Rva005F8F96> >::operator=(vector<Rva005F8F96,allocator<Rva005F8F96> > const &); }
 
 // One per technique, 0x4C bytes: the handle and six binding vectors.
 struct Rva00153729
@@ -137,6 +139,8 @@ struct Rva00153729
 	D3DXHANDLE m_technique;			// +0
 	_STL::vector<Rva005F8F96> m_04[6];	// +4
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<Rva00153729,allocator<Rva00153729> >::_M_fill_insert(Rva00153729 *,unsigned int,Rva00153729 const &); }
 
 class FXShaderParameterBinder;
 

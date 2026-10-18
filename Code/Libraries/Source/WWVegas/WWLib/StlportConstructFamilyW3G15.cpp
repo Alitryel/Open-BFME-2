@@ -127,11 +127,19 @@ struct BfmeOpaqueOwnedRecord1432
 {
 	~BfmeOpaqueOwnedRecord1432();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Deque_iterator_base<BfmeOpaqueOwnedRecord1432>::_M_increment(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Deque_base<BfmeOpaqueOwnedRecord1432,allocator<BfmeOpaqueOwnedRecord1432> >::~_Deque_base(); }
 
 struct BfmeOpaqueOwnedRecord1408
 {
 	~BfmeOpaqueOwnedRecord1408();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Deque_iterator_base<BfmeOpaqueOwnedRecord1408>::_M_increment(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Deque_base<BfmeOpaqueOwnedRecord1408,allocator<BfmeOpaqueOwnedRecord1408> >::~_Deque_base(); }
 
 class Rva00557CBD
 {

@@ -13,6 +13,8 @@
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
 #include <cstddef>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> basic_ostream<char,char_traits<char> > & basic_ostream<char,char_traits<char> >::operator<<(int); }
 // bfme link decl-only begin
 namespace _STL { template <> bool _M_init<char, char_traits<char> >(basic_ostream<char, char_traits<char> > &); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & _M_put_num<char, char_traits<char>, long>(basic_ostream<char, char_traits<char> > &, long); }

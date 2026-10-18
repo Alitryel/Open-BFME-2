@@ -56,6 +56,8 @@ struct Rva004F87BCElement {
  Rva004F87BCElement(const Rva004F87BCElement &p):m_ptr(p.m_ptr) {if(m_ptr) ++m_ptr->references;}
  ~Rva004F87BCElement() {if(m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);}
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva004F87BCElement * copy<Rva004F87BCElement *,Rva004F87BCElement *>(Rva004F87BCElement *,Rva004F87BCElement *,Rva004F87BCElement *); }
 typedef _STL::vector<Rva004F87BCElement> UnitVector;
 template void UnitVector::insert<Rva004F87BCElement *>(Rva004F87BCElement *,Rva004F87BCElement *,Rva004F87BCElement *);
 

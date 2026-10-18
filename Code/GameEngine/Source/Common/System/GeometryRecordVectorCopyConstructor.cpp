@@ -33,5 +33,7 @@ struct GeometryRecord
 	int m_third;
 	AsciiString m_name;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<GeometryRecord,allocator<GeometryRecord> >::~vector(); }
 
 template class _STL::vector<GeometryRecord>;
