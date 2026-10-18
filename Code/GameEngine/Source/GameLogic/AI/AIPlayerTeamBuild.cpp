@@ -772,6 +772,7 @@ struct TCreateUnitsInfo
 	Int m_14;			// +0x14
 };
 
+class Rva0039D761DwordClearer { public: void clear(); };
 class TeamPrototype
 {
 public:
@@ -779,7 +780,7 @@ public:
 	Int countTeamInstances();
 	const AsciiString &getName() const { return m_name; }
 	Bool getIsSingleton() const { return (m_flags & 1) != 0; }
-	void rva0039D761();		// clears m_numUnitsInfo
+	/* the rowed Rva0039D761DwordClearer::clear */ __declspec(dllimport) __forceinline void rva0039D761() { ((Rva0039D761DwordClearer *)this)->clear(); }		// clears m_numUnitsInfo
 
 	const AsciiString &getOwnerName() const { return m_owner; }
 	const AsciiString &getProductionCondition() const { return m_productionCondition; }
