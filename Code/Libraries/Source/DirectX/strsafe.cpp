@@ -1,11 +1,18 @@
-// ?StringCopyWorkerA@@YGJPADIPBD@Z
-// partial score=0.9672131148 date=2026-10-18
-// cl: /I. /O1 /G7 /MD /DNDEBUG
-// Compile the supplied VS2003 Platform SDK's pristine safe-string definitions.
+// Microsoft Platform SDK strsafe.h supplied with Visual Studio .NET 2003.
+// Copyright (c) Microsoft Corp. All rights reserved; definitions remain in
+// the pristine SDK header pinned by Open-BFME-1 revision
+// 64d369b90170b7e9ec917d646f020b11f13eb0d5.
+// compiler: vc71-sp1
+// cl: /I. /O1 /G7 /MT /DNDEBUG /hotpatch /Oy-
+// Identity: the August 2005 DXErr archive names these exact COMDATs and its
+// relocations bind the A/W wrappers to their respective workers in retail.
+#include <stdio.h>
+// Retail's PE import at IAT BBA5AC names this bounded C++ CRT export.
+// Select that existing stdio.h overload without editing SDK definitions.
+#define _vsnwprintf vswprintf
 #define STRSAFE_NO_DEPRECATE
 #include "reference/open-bfme-1/inputs/toolchains/vs2003/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Include/strsafe.h"
-// The header discourages direct worker calls with post-definition macros.
-// Taking their addresses here retains the archive's independently named bodies.
+#undef _vsnwprintf
 #undef StringCopyWorkerA
 #undef StringCopyWorkerW
 #undef StringVPrintfWorkerA
@@ -14,6 +21,7 @@
 #undef StringLengthWorkerW
 
 typedef void (__cdecl *StrSafeEmissionTarget)();
+// Synthetic emission helper; this function has no retail identity or row.
 // ?strSafeEmissionTarget absent-from-retail
 StrSafeEmissionTarget strSafeEmissionTarget(unsigned index)
 {
