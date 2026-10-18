@@ -20,7 +20,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva00759B40Record {  char bytes[1]; };
-template class _STL::map<int,Rva00759B40Record>;
+// The owned cleanup below instantiates the tree destructor. Retail evidence
+// does not require the rest of map's methods in this unit.
 
 // Native759D20..759D25 JMP759B40 with INT3 boundary padding. Only
 // unadjusted thiscall tree cleanup is established; original wrapper name

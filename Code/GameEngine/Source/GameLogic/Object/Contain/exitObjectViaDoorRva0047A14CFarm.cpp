@@ -24,6 +24,13 @@ typedef ContainmentList IntList;
 
 namespace _STL
 {
+// Compare typed nodes directly, as the retail loop does, without emitting the
+// non-retail out-of-line _List_iterator_base comparison.
+template<class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+
 template<> _List_base<Rva0036ADF9Element, allocator<Rva0036ADF9Element> >::~_List_base();
 }
 
