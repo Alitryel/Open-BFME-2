@@ -141,7 +141,7 @@ void __cdecl rva007B8233();
 
 struct BfmeAptScreenRefStorage;
 extern BfmeAptScreenRefStorage g_aptScreenReferences;
-extern unsigned g_Va00E02FE4;
+unsigned g_Va00E02FE4;	// retail RVA 0x00A02FE4 (.bss), defined here
 extern unsigned g_Va00E02FF8;
 struct Rva00411112GlobalTable;
 extern Rva00411112GlobalTable g_Va00E0300C;
