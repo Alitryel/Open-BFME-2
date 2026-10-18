@@ -10,5 +10,6 @@ namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_i
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 // bfme link decl-only end
 template _STL::vector<bool>::vector(unsigned, bool, _STL::allocator<bool> const &);

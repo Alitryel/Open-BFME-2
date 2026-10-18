@@ -38,6 +38,7 @@ namespace _STL { template <> void vector<bool, allocator<bool> >::insert(_Bit_it
 namespace _STL { template <> void vector<bool, allocator<bool> >::push_back(bool); }
 namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsigned int); }
 namespace _STL { template <> void vector<bool, allocator<bool> >::resize(unsigned int, bool); }
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 // bfme link decl-only end
 #pragma optimize("", on)
 

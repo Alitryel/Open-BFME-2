@@ -9,6 +9,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <vector>
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 class Rva004211CA;
 class LightPointOverrideFields
 {

@@ -6,6 +6,7 @@
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 class GameWindow;
 class Image {public:char prefix[0x24];int width;};
 class ImageCollection {public:const Image *findImageByName(const AsciiString &);};
