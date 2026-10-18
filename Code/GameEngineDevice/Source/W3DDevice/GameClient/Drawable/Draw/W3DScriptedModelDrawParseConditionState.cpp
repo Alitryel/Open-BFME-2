@@ -28,14 +28,41 @@ namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
 	const char *getNextTokenOrNull(const char *seps);			// 0x0002DEED
 	void initFromINI(void *what, const FieldParse *parseTable);	// 0x0002DE78
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C2B23_ParseModelName(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B6E5A_ParseLowercasedString(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C3824_ParseTexturePair(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C3AB3Parse(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B9AFF_ParseShadowEvent(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B2D93_ParseShadowReal(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B2DBB_ParseShadowAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B2DE3_ParseShadowBool(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C2C5FParseBoneRecord(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B6E9E_ParseTurretArtAngle(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C2CA4ParseTurretPitch(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000B6EBE_ParseTurretArtPitch(INI *ini, void *instance, void *store, const void *userData);
 };
+
+void ParseScriptedModelParticleSysBone(INI *ini, void *instance, void *store, const void *userData);
+void rva000C4B61(INI *ini, void *instance, void *store, const void *userData);
 
 class INIException
 {
@@ -47,8 +74,68 @@ public:
 	~INIException();
 };
 
-// The condition-state field table (Model, Skeleton, ..., TurretArtPitch).
-extern const FieldParse TheScriptedModelConditionStateFieldParse[];
+// Retail VA 0x00DB4E00 (.data): the shadow type names Shadow parses
+// against, 16 names and the null terminator, read from retail.
+extern const char *TheShadowNames[] =
+{
+	"SHADOW_DECAL",
+	"SHADOW_VOLUME",
+	"SHADOW_VOLUME_NEW",
+	"SHADOW_DYNAMIC_PROJECTION",
+	"SHADOW_DIRECTIONAL_PROJECTION",
+	"SHADOW_ALPHA_DECAL",
+	"SHADOW_ADDITIVE_DECAL",
+	"SHADOW_VOLUME_NON_SELF_1",
+	"SHADOW_VOLUME_NON_SELF_2",
+	"SHADOW_VOLUME_NON_SELF_3",
+	"SHADOW_ALPHA_DECAL_DYNAMIC",
+	"SHADOW_ADDITIVE_DECAL_DYNAMIC",
+	"SHADOW_MERGE_DECAL",
+	"SHADOW_DECAL_TERRAIN_CLAIM",
+	"SHADOW_VOLUME_OR_DECAL",
+	"SHADOW_VOLUME_NEW_OR_DECAL",
+	NULL
+};
+
+// The condition-state field table at retail VA 0x00BCAB20 (.rdata): 32
+// fields and the zero sentinel; tokens, callbacks, user data and offsets are
+// read from that retail table.
+extern const FieldParse TheScriptedModelConditionStateFieldParse[] =
+{
+	{ "Model", &INI::Rva000C2B23_ParseModelName, 0, 0x0 },
+	{ "Skeleton", &INI::Rva000B6E5A_ParseLowercasedString, 0, 0x58 },
+	{ "ModelAnimationPrefix", &INI::parseAsciiString, 0, 0x70 },
+	{ "Texture", &INI::Rva000C3824_ParseTexturePair, 0, 0x64 },
+	{ "PortraitImageName", &INI::parseAsciiString, 0, 0x60 },
+	{ "ButtonImageName", &INI::parseAsciiString, 0, 0x5C },
+	{ "WeaponFireFXBone", &INI::Rva000C3AB3Parse, 0, 0x84 },
+	{ "WeaponLaunchBone", &INI::Rva000C3AB3Parse, 0, 0xA8 },
+	{ "WeaponRecoilBone", &INI::Rva000C3AB3Parse, 0, 0x90 },
+	{ "WeaponMuzzleFlash", &INI::Rva000C3AB3Parse, 0, 0x9C },
+	{ "ParticleSysBone", &ParseScriptedModelParticleSysBone, 0, 0x0 },
+	{ "OverrideTooltip", &INI::parseAsciiString, 0, 0x74 },
+	{ "FXEvent", &rva000C4B61, 0, 0x0 },
+	{ "RetainSubObjects", &INI::parseBool, 0, 0xF4 },
+	{ "Shadow", &INI::Rva000B9AFF_ParseShadowEvent, TheShadowNames, 0x0 },
+	{ "ShadowSizeX", &INI::Rva000B2D93_ParseShadowReal, 0, 0xC },
+	{ "ShadowSizeY", &INI::Rva000B2D93_ParseShadowReal, 0, 0x10 },
+	{ "ShadowOffsetX", &INI::Rva000B2D93_ParseShadowReal, 0, 0x14 },
+	{ "ShadowOffsetY", &INI::Rva000B2D93_ParseShadowReal, 0, 0x18 },
+	{ "ShadowSunAngle", &INI::Rva000B2D93_ParseShadowReal, 0, 0x1C },
+	{ "ShadowTexture", &INI::Rva000B2DBB_ParseShadowAsciiString, 0, 0x0 },
+	{ "ShadowMaxHeight", &INI::Rva000B2D93_ParseShadowReal, 0, 0x20 },
+	{ "ShadowOverrideLODVisibility", &INI::Rva000B2DE3_ParseShadowBool, 0, 0x24 },
+	{ "ShadowOpacityStart", &INI::parseUnsignedInt, 0, 0xE0 },
+	{ "ShadowOpacityFadeInTime", &INI::parseReal, 0, 0xE4 },
+	{ "ShadowOpacityPeak", &INI::parseUnsignedInt, 0, 0xE8 },
+	{ "ShadowOpacityFadeOutTime", &INI::parseReal, 0, 0xEC },
+	{ "ShadowOpacityEnd", &INI::parseUnsignedInt, 0, 0xF0 },
+	{ "Turret", &INI::Rva000C2C5FParseBoneRecord, 0, 0x0 },
+	{ "TurretArtAngle", &INI::Rva000B6E9E_ParseTurretArtAngle, 0, 0x0 },
+	{ "TurretPitch", &INI::Rva000C2CA4ParseTurretPitch, 0, 0x0 },
+	{ "TurretArtPitch", &INI::Rva000B6EBE_ParseTurretArtPitch, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 // The 0x4C-byte condition bit set.
 class Rva000B937E { public: void rva000B937E(INI *ini, void *description); };

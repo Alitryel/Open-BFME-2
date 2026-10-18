@@ -400,7 +400,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
 	// Keep the rowed destructor, not the unrelated ZH Worker INI parser.
 	(void)new WorkerAIUpdateModuleData;
-	*parsers++ = &UpgradeModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
 	BFME_EMIT_MODULE_INSTANCE( LockWeaponCreate );
 	BFME_EMIT_MODULE_INSTANCE( PreorderCreate );

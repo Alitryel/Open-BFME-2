@@ -29,12 +29,9 @@ char g_00C4BE20;
 char g_00C4C210;
 char g_00C4C600;
 char g_00C4C7A4;
-char g_00C4C9A8;
 char g_00C4CFC8;
 char g_00C4D1A8;
 char g_00C4DA00;
-char g_00C4DC48;
-char g_00C4DE90;
 char g_00C4EC68;
 char g_00C4EEC8;
 char g_00C4F4B8;
@@ -53,7 +50,6 @@ char g_00C54B00;
 char g_00C54D28;
 char g_00C54DD8;
 char g_00C55638;
-char g_00C564D4;
 char g_00C56858;
 char g_00C56A98;
 char g_00C56ED8;
@@ -97,7 +93,80 @@ char g_00BEFCD4;
 
 class MultiIniFieldParse;
 
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAngleReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseFXList(INI *ini, void *instance, void *store, const void *userData);
+};
+
+class Rva003B1017
+{
+public:
+	static void parseFromINI(INI *ini, void *instance, void *store, const void *userData);
+};
+
+void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
+void Rva001DEE74Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva0048E022Parse(INI *ini, void *instance, void *store, const void *userData);
+
+// Retail FieldParse tables of four procs below; tokens, callbacks and offsets
+// are read from the retail tables. The global names are descriptive; their
+// original spellings are unknown.
+
+// Retail VA 0x00C4DE90: 4 fields and the zero sentinel.
+extern const FieldParse BfmePickupStuffUpdateFields[] = {
+	{ "SkirmishAIOnly", &INI::parseBool, 0, 0x8 },
+	{ "ScanRange", &INI::parseReal, 0, 0xC },
+	{ "StuffToPickUp", &iniParseObjectFilter, 0, 0x10 },
+	{ "ScanIntervalSeconds", &INI::parseReal, 0, 0x14 },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C564D4: 2 fields and the zero sentinel.
+extern const FieldParse BfmeAIGateUpdateFields[] = {
+	{ "TriggerWidthX", &INI::parseReal, 0, 0x8 },
+	{ "TriggerWidthY", &INI::parseReal, 0, 0xC },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C4DC48: 12 fields and the zero sentinel (retail spells
+// ParentEnemyDiedtEvaEvent).
+extern const FieldParse BfmeAttachUpdateFields[] = {
+	{ "ObjectFilter", &iniParseObjectFilter, 0, 0x8 },
+	{ "ScanRange", &INI::parseReal, 0, 0x1C },
+	{ "ParentStatus", &Rva003B1017::parseFromINI, 0, 0xC },
+	{ "AlwaysTeleport", &INI::parseBool, 0, 0x20 },
+	{ "AnchorToTopOfGeometry", &INI::parseBool, 0, 0x21 },
+	{ "ParentOwnerAttachmentEvaEvent", &Rva001DEE74Parse, 0, 0x24 },
+	{ "ParentAllyAttachmentEvaEvent", &Rva001DEE74Parse, 0, 0x28 },
+	{ "ParentEnemyAttachmentEvaEvent", &Rva001DEE74Parse, 0, 0x2C },
+	{ "AttachFX", &INI::parseFXList, 0, 0x30 },
+	{ "ParentOwnerDiedEvaEvent", &Rva001DEE74Parse, 0, 0x34 },
+	{ "ParentAllyDiedEvaEvent", &Rva001DEE74Parse, 0, 0x38 },
+	{ "ParentEnemyDiedtEvaEvent", &Rva001DEE74Parse, 0, 0x3C },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C4C9A8: 3 fields and the zero sentinel.
+extern const FieldParse BfmeFloodUpdateFields[] = {
+	{ "FloodMember", &Rva0048E022Parse, 0, 0x0 },
+	{ "AngleOfFlow", &INI::parseAngleReal, 0, 0xC },
+	{ "DirectionIsRelative", &INI::parseBool, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 extern const int g_emptyFieldParseTable[4];
 
 class MultiIniFieldParse
@@ -186,7 +255,7 @@ FIELD_PROC(StancesBehaviorModuleData, (unsigned int)&g_00C424B0, StanceTemplate)
 FIELD_PROC(DestroyEnvironmentUpdateModuleData, (unsigned int)&g_00C54D28, StartTime)
 FIELD_PROC(ExperienceLevelCreateModuleData, (unsigned int)&g_00C595B4, LevelToGrant)
 FIELD_PROC(InheritUpgradeCreateModuleData, (unsigned int)&g_00C59728, Radius)
-FIELD_PROC(AIGateUpdateModuleData, (unsigned int)&g_00C564D4, TriggerWidthX)
+FIELD_PROC(AIGateUpdateModuleData, BfmeAIGateUpdateFields, TriggerWidthX)
 FIELD_PROC(RainOfFireUpdateModuleData, (unsigned int)&g_00C54B00, StartRainTime)
 FIELD_PROC(SpecialEnemySenseUpdateModuleData, (unsigned int)&g_00BF1B88, SpecialEnemyFilter)
 FIELD_PROC(OneRingPenaltyUpdateModuleData, (unsigned int)&g_00C503B0, RingTable)
@@ -205,8 +274,8 @@ FIELD_PROC(FireSpreadUpdateModuleData, 0x00C4C000, FireSpreadTable)
 FIELD_PROC_WITH_DIE_BASE(SlowDeathBehaviorModuleData, (unsigned int)&g_00C42290)
 FIELD_PROC(TerrainResourceBehaviorModuleData, (unsigned int)&g_00C494F0, IncomeTable)
 FIELD_PROC(MonitorConditionUpdateModuleData, (unsigned int)&g_00C4DA00, ModelConditionTable)
-FIELD_PROC(AttachUpdateModuleData, (unsigned int)&g_00C4DC48, AttachTable)
-FIELD_PROC(PickupStuffUpdateModuleData, (unsigned int)&g_00C4DE90, PickupStuffTable)
+FIELD_PROC(AttachUpdateModuleData, BfmeAttachUpdateFields, AttachTable)
+FIELD_PROC(PickupStuffUpdateModuleData, BfmePickupStuffUpdateFields, PickupStuffTable)
 FIELD_PROC(HeightDieUpdateModuleData, (unsigned int)&g_00C4CFC8, HeightTable)
 FIELD_PROC(FloatUpdateModuleData, (unsigned int)&g_00C4C7A4, EnabledTable)
 FIELD_PROC(AutoAbilityBehaviorModuleData, (unsigned int)&g_00C41690, ScanTable)
@@ -216,7 +285,7 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 FIELD_PROC(AutoFindHealingUpdateModuleData, (unsigned int)&g_00C4EC68, HealScanTable)
-FIELD_PROC(FloodUpdateModuleData, (unsigned int)&g_00C4C9A8, FloodTable)
+FIELD_PROC(FloodUpdateModuleData, BfmeFloodUpdateFields, FloodTable)
 FIELD_PROC(StrafeAreaUpdateModuleData, (unsigned int)&g_00C1B1F8, StrafeTable)
 FIELD_PROC(LaserUpdateModuleData, (unsigned int)&g_00C17208, LaserTable)
 FIELD_PROC(PassiveAreaEffectBehaviorModuleData, (unsigned int)&g_00C4A388, PassiveAreaEffectTable)

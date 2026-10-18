@@ -65,14 +65,20 @@ enum
 	MAX_ADJUST_RADIUS = 500
 };
 
-static const char* TheOCLCreateLocTypeNames[] =
+// BFME 2's list (retail VA 0x00DCDFD0, .data, read from retail): the
+// CreateLocation parseIndexList names of OCLSpecialPowerModuleData's table,
+// Zero Hour's six plus three BFME 2 placements.
+const char* TheOCLCreateLocTypeNames[] =
 {
 	"CREATE_AT_EDGE_NEAR_SOURCE",
 	"CREATE_AT_EDGE_NEAR_TARGET",
+	"CREATE_AT_EDGE_NEAR_TARGET_AND_MOVE_TO_LOCATION",
 	"CREATE_AT_LOCATION",
 	"USE_OWNER_OBJECT",
 	"CREATE_ABOVE_LOCATION",
 	"CREATE_AT_EDGE_FARTHEST_FROM_TARGET",
+	"CREATE_CLOSEST_TO_SPAWN_POINT",
+	"USE_SECONDARY_OBJECT_LOCATION",
 	NULL
 };
 
