@@ -149,7 +149,7 @@ public:
 	virtual void s08(void);
 	virtual void s09(void);
 	virtual void reset(void);
-	static void operator delete(void *p) { ::operator delete(p); }
+	// Failed construction uses the global delete at native RVA 0x0002FD60.
 	void cleanUpSlotPointers(void);
 	Int getID(void) const { return m_id; }
 	unsigned char m_pad0004[0xC8];		// +0x04..+0xCB
