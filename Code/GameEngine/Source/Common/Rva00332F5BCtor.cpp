@@ -23,7 +23,7 @@ class Rva00332F5B
 {
 public:
 	Rva00332F5B(const WeaponTemplateSetHead &a, const WeaponTemplateSetHead &b);
-	int rva00332F81(const Rva00332F5B &other) const;
+	bool rva00332F81(const Rva00332F5B &other) const;
 private:
 	UnicodeString m_uni;
 	WeaponTemplateSetHead m_a;
@@ -36,15 +36,9 @@ Rva00332F5B::Rva00332F5B(const WeaponTemplateSetHead &a, const WeaponTemplateSet
 
 bool __cdecl Rva00045473Equal(const void *a, const void *b);
 
-int Rva00332F5B::rva00332F81(const Rva00332F5B &other) const
+// Returns bool: the result is the && chain's 1/0 in EAX (xor eax,eax; inc eax),
+// and the WorldBuilder debug twin 0xC00C20 returns mov al,[local].
+bool Rva00332F5B::rva00332F81(const Rva00332F5B &other) const
 {
-	if (m_uni.m_text == other.m_uni.m_text)
-	{
-		if (Rva00045473Equal(&m_a, &other.m_a))
-		{
-			if (Rva00045473Equal(&m_b, &other.m_b))
-				return true;
-		}
-	}
-	return false;
+	return m_uni.m_text == other.m_uni.m_text && Rva00045473Equal(&m_a, &other.m_a) && Rva00045473Equal(&m_b, &other.m_b);
 }

@@ -8034,7 +8034,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?dup_00332ef3@@YAXXZ,0x00332EF3,address,placeholder
 ?dup_00332f29@@YAXXZ,0x00332F29,address,placeholder
 ??0Rva00332F5B@@QAE@ABVWeaponTemplateSetHead@@0@Z,0x00332F5B,address,placeholder
-?rva00332F81@Rva00332F5B@@QBEHABV1@@Z,0x00332F81,address,placeholder
+?rva00332F81@Rva00332F5B@@QBE_NABV1@@Z,0x00332F81,address,placeholder
 ??0Rva00332FC1@@QAE@ABVBfmeObject872Header@@0@Z,0x00332FC1,address,placeholder
 ?rva00332FE7@Rva00332FC1@@QBEHABV1@@Z,0x00332FE7,address,placeholder
 ?rva0033321B@Rva00332E60@@QAEPAXH@Z,0x0033321B,address,placeholder
