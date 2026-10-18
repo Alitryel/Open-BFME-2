@@ -158,7 +158,7 @@ public:
 };
 
 extern unsigned int g_00DDE0AC;
-extern unsigned g_Va00DE1DC0;
+unsigned g_Va00DE1DC0;	// retail RVA 0x009E1DC0 (.bss), defined here
 extern unsigned g_Va00DEBC64;
 extern unsigned g_Va00DEBCA0;
 extern unsigned g_Va00DFE3E8;
