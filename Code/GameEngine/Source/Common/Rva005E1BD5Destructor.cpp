@@ -42,3 +42,13 @@ class Rva005A0B4CList {public:void append(Rva002BA8F1Listener*);};
 Rva005E1BD5::Rva005E1BD5(Rva005E1BD5Owner *page,void *object):owner(page),army(object),slot(0),active(false){
  ((Rva005A0B4CList*)((char*)army+8))->append((Rva002BA8F1Listener*)(Rva0083702CObserver*)this);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?callback0@Rva005E1BD5@@UAEXH@Z=?OnDestroyingRegionDetailsArmiesIconSlot@ArmyIcon@Impl@RegionDetailsArmiesPage@StrategicInGameUI@@UAEXAAVRva005EEF2F@@@Z")
+#pragma comment(linker, "/alternatename:?callback1@Rva005E1BD5@@UAEXH@Z=?OnRegionDetailsArmiesIconSlotLeftClicked@ArmyIcon@Impl@RegionDetailsArmiesPage@StrategicInGameUI@@UAEXAAVRva005EEF2F@@@Z")
+#pragma comment(linker, "/alternatename:?callback2@Rva005E1BD5@@UAEXH@Z=?OnRegionDetailsArmiesIconSlotRightClicked@ArmyIcon@Impl@RegionDetailsArmiesPage@StrategicInGameUI@@UAEXAAVRva005EEF2F@@@Z")
+#pragma comment(linker, "/alternatename:?callback3@Rva005E1BD5@@UAEXH@Z=?OnRegionDetailsArmiesIconSlotRollOut@ArmyIcon@Impl@RegionDetailsArmiesPage@StrategicInGameUI@@UAEXAAVRva005EEF2F@@@Z")
+#pragma comment(linker, "/alternatename:?callback4@Rva005E1BD5@@UAEXH@Z=?OnRegionDetailsArmiesIconSlotRollOver@ArmyIcon@Impl@RegionDetailsArmiesPage@StrategicInGameUI@@UAEXAAVRva005EEF2F@@@Z")
+#pragma comment(linker, "/alternatename:?observer0@Rva005E1BD5@@UAEXH@Z=?rva005E1CF8@Rva005E1CF8@@UAEXH@Z")

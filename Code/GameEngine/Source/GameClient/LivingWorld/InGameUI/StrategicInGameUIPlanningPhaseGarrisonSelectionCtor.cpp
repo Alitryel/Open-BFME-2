@@ -135,3 +135,9 @@ Rva005CD9C0::Rva005CD9C0(int level, const AsciiString &name, void *phase)
         }
     }
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot0@Rva005E4F6D@@UAEXXZ=?step@Rva005E5554@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?slot1@Rva005E4F6D@@UAEXXZ=?rva005E415F@Rva005E69D0@@QAEHXZ")
