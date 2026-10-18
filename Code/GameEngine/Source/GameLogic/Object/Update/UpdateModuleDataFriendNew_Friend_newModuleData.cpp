@@ -371,14 +371,6 @@ private:
 	unsigned char m_pad[0x94 - 4];
 };
 
-// ?friend_newModuleData@WorkerAIUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *WorkerAIUpdateModuleData::friend_newModuleData(INI *ini)
-{
-	WorkerAIUpdateModuleData *data = new WorkerAIUpdateModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, WorkerAIUpdateModuleData::buildFieldParse);
-	return reinterpret_cast<ModuleData *>(data);
-}
 
 class RespawnUpdateModuleData
 {
