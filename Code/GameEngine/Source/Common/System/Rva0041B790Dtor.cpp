@@ -17,13 +17,14 @@ private:
 
 #include "Common/Snapshot.h"
 
+class GameStateMap { public: void clearScratchPadMaps(); };
 class Rva0041B790 : public SubsystemInterface, public Snapshot
 {
 public:
     virtual ~Rva0041B790();
     // Target call at 0x0041B7B5: ECX=this, no arguments, callee RET.
     // Its original name and purpose remain unresolved.
-    void rva0041B603();
+    /* the rowed GameStateMap::clearScratchPadMaps */ __declspec(dllimport) __forceinline void rva0041B603() { ((GameStateMap *)this)->clearScratchPadMaps(); }
 };
 
 Rva0041B790::~Rva0041B790()
