@@ -77,7 +77,7 @@ void INI::Rva0033940F_Parse(INI *ini, void *, void *store, const void *)
 		_bfme_debugRecordCallsite(1);
 		theDebug->SkipNext();
 		Debug &dbg = theDebug->CrashBegin(0, 0, 0);
-		dbg << Debug::Format(g_00C0EA88, token);
+		dbg << Debug::Format("ThingTemplate %s not found!\n", token);
 		dbg.CrashDone(2);
 	}
 	*(void **)store = result;
