@@ -61,6 +61,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Inline the header arithmetic without emitting competing Vector3 COMDATs.
+class __declspec(dllimport) Vector3;
+#include "vector3.h"
+
 #include "layer.h"
 #include "scene.h"
 #include "camera.h"

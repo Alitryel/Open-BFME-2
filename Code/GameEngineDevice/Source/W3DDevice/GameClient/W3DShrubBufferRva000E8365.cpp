@@ -18,6 +18,8 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+// Inline the header arithmetic without emitting competing Vector3 COMDATs.
+class __declspec(dllimport) Vector3;
 #include "vector3.h"
 #include "matrix3d.h"
 
