@@ -405,10 +405,6 @@ private:
 	ParticleFXShaderParameterSourceNamespace::SourceNamespace_Update m_0C;
 };
 
-Rva001F4B01::~Rva001F4B01()
-{
-	Rva001532E1Erase("Particle");
-}
 
 void ParticleFXShaderParameterSourceNamespace::SourceNamespace_Physics::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
