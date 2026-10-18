@@ -1257,22 +1257,6 @@ Condition *OrCondition::findPreviousCondition( Condition *curCond )
 //-------------------------------------------------------------------------------------------------
 // ******************************** class  Condition *********************************************
 //-------------------------------------------------------------------------------------------------
-// ??0Condition@@IAE@XZ present-unmatched
-Condition::Condition():
-m_conditionType(CONDITION_FALSE),
-m_hasWarnings(false),
-m_customData(0),
-m_customFrame(0),
-m_numParms(0),
-m_nextAndCondition(NULL)
-{
-	Int i;
-	for (i = 0; i < MAX_PARMS; i++) 
-	{
-		m_parms[i] = NULL;
-	}
-}
-
 // Owned by ConditionCtor.cpp.
 
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/ScriptEngine/Condition_setConditionType_Thunk.cpp
@@ -1406,18 +1390,6 @@ void Parameter::qualify(const AsciiString& qualifier,
 //-------------------------------------------------------------------------------------------------
 // ******************************** class ScriptAction ***********************************************
 //-------------------------------------------------------------------------------------------------
-// ??0ScriptAction@@ present-unmatched
-ScriptAction::ScriptAction():
-m_actionType(NO_OP),
-m_hasWarnings(false),
-m_numParms(0),
-//Added By Sadullah Nader
-//Initializations inserted
-m_nextAction(NULL)
-//
-{
-}
-
 // Owned by ScriptActionCtor.cpp.
 
 // ScriptAction::setActionType: defined in Rva003b6d92Finish.cpp (its row's unit).
@@ -1452,27 +1424,7 @@ ScriptAction *ScriptAction::duplicateAndQualify(const AsciiString& qualifier,
 	return pNew;
 }
 
-// ??1ScriptAction@@MAE@XZ present-unmatched
-ScriptAction::~ScriptAction(void) 
-{
-	Int i;
-	for (i=0; i<m_numParms; i++) {
-		m_parms[i]->deleteInstance();
-		m_parms[i] = NULL;
-	}
-	if (m_nextAction) {
-		ScriptAction *cur = m_nextAction;
-		ScriptAction *next;
-		while (cur) {
-			next = cur->getNext();
-			cur->setNextAction(NULL); // prevents recursion. 
-			cur->deleteInstance();
-			cur = next; 
-		}
-	}
-}
-
-
+// ScriptAction::~ScriptAction is owned by ScriptConditionActionDtors.cpp.
 
 // ScriptAction::getUiStrings: defined in ScriptActionGetUiStrings.cpp (its row's unit).
 

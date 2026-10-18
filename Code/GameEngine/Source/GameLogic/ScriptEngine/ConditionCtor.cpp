@@ -2,7 +2,8 @@
 // ??0Condition@@QAE@XZ 0x003B26DF 48B
 // Evidence: vtable 0x81F3F8 (Condition sibling of ScriptAction 0x81F3FC);
 // zero type/parms/next, rep-stosd parms (/Oi), trailing ints and flags;
-// caller 0x003B6D92.
+// caller 0x003B6D92. Retail vftable 0x81F3F8 has only the deleting
+// destructor; the next word belongs to ScriptAction's separate vftable.
 #include <string.h>
 
 typedef bool Bool;
@@ -14,14 +15,10 @@ class Parameter
 {
 };
 
-class MemoryPool;
-
 class Condition
 {
 protected:
 	virtual ~Condition();
-private:
-	virtual MemoryPool *getObjectMemoryPool();
 public:
 	enum ConditionType { CONDITION_FALSE = 0 };
 	Condition();
