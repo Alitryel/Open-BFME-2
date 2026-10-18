@@ -242,15 +242,7 @@ struct BFMEStateMachineFields
 class BFMEObjectLookup
 {
 public:
-	__declspec(noinline) Object *findObjectByID( ObjectID id )
-	{
-		if (id == INVALID_ID)
-			return NULL;
-		ObjectHash::iterator it = m_objHash.find((int)id);
-		if (it == m_objHash.end())
-			return NULL;
-		return (*it).second;
-	}
+	__declspec(noinline) Object *findObjectByID( ObjectID id );
 
 private:
 	typedef _STL::hash_map<int, Object *, _STL::hash<int>, _STL::equal_to<int> > ObjectHash;
