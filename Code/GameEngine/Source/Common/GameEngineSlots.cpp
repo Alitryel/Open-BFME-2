@@ -24,12 +24,12 @@ public:
 	Bool m_bfmeFlag11C9;						// +0x11C9, unnamed
 };
 
+class Rva001B5140 { public: Bool rva001B5140(); };
 class SubsystemInterfaceList
 {
 public:
 	// Returns a byte its caller normalises to Bool (test al, al; setne al).
-	unsigned char rva001B505F();
-	Bool rva001B5140();
+	unsigned char rva001B505F();/* the rowed Rva001B5140::rva001B5140 */ __declspec(dllimport) __forceinline Bool rva001B5140() { return ((Rva001B5140 *)this)->rva001B5140(); }
 	void rva001B4FE9();
 };
 
