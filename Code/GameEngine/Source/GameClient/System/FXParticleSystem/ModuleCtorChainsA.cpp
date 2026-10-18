@@ -113,7 +113,33 @@ extern "C" const void *const __identifier("??_7Rva003AF47D@@6BModuleInfoHeadBase
 extern "C" const void *const __identifier("??_7Rva003AF57F@@6BModuleInfoHeadBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B00@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B18@@@")[];
-extern const void *const g_00C1C444[];
+// The retail table at RVA 0x0081C444: 11 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACED6@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+int __cdecl _purecall(void);
+void __identifier("?rva00562945@Rva00562945@@UAEXPAVXfer@@@Z")();
+void __identifier("?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z")();
+void __identifier("?rva00562BF7@Rva00562BF7Owner@@QAE?AVAsciiString@@XZ")();
+void __identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ")();
+void __identifier("?get@Rva003F3FCEDwordField@@QBEHXZ")();
+void __identifier("?Create@GameFileClass@@UAEHXZ")();
+void __identifier("?Rva004647D1Get@@YAMXZ")();
+}
+extern const void *const g_00C1C444[11] = {
+	(const void *)&__identifier("??_GRva003ACED6@@UAEPAXI@Z"), // slot 0 0x003ACEBA
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("?rva00562945@Rva00562945@@UAEXPAVXfer@@@Z"), // slot 3 0x00562945
+	(const void *)&__identifier("?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x00562DDB
+	(const void *)&__identifier("?rva00562BF7@Rva00562BF7Owner@@QAE?AVAsciiString@@XZ"), // slot 5 0x00562BF7
+	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
+	(const void *)&__identifier("?get@Rva003F3FCEDwordField@@QBEHXZ"), // slot 7 0x003F3FCE
+	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
+	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
+	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
+};
 extern "C" const void *const __identifier("??_7Rva003AE683@@6B@")[];
 extern const void *const g_00C1C620[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6BDefaultModuleSecondBase_3AEE16@@@")[];
