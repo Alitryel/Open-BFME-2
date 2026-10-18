@@ -13,7 +13,39 @@
 
 extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
-extern const void *const g_00C5F378[];
+// The retail table at RVA 0x0085F378: 19 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00252B68@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Rva004CBCA7Get@@YAHXZ")();
+void __identifier("?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z")();
+void __identifier("?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+void __identifier("?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@MH@Z")();
+void __identifier("?get@Rva000CA841MovLeaNegSbbField@@QBEHXZ")();
+}
+extern const void *const g_00C5F378[19] = {
+	(const void *)&__identifier("??_GRva00252B68@@UAEPAXI@Z"), // slot 0 0x00254C2F
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?Rva004CBCA7Get@@YAHXZ"), // slot 2 0x004CBCA7
+	(const void *)&__identifier("?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z"), // slot 3 0x004CBD7C
+	(const void *)&__identifier("?rva0004CBCAD@RandomSoundSelectorClientBehavior@@SA?AW4NameKeyType@@XZ"), // slot 4 0x004CBCAD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 9 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?Set_Animation@RenderObjClass@@UAEXPAVHAnimClass@@MH@Z"), // slot 11 0x000D1407
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 12 0x000D43D0
+	(const void *)&__identifier("?get@Rva000CA841MovLeaNegSbbField@@QBEHXZ"), // slot 13 0x000CA841
+	(const void *)&__identifier("?get@Rva000CA841MovLeaNegSbbField@@QBEHXZ"), // slot 14 0x000CA841
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 15 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 16 0x000D43D0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 17 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 18 0x000B3FD0
+};
 // The retail table at RVA 0x0085F368: 3 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
