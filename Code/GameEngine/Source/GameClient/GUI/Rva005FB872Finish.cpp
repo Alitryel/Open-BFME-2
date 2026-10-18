@@ -12,7 +12,6 @@
 // The callee is the rowed ?Rva0052519DFire@@YAHPAX0PBD1PAH@Z at 0x0052519D:
 // (int *, void *, char const *, char const *, int const *).
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char g_bfmeAptDefaultTeamName[1];
 struct Rva005FB872Team
 {
     char m_pad[8];
@@ -54,7 +53,7 @@ void StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl::rva005FB872(int
     if (m_team)
         team = (const char *)((char *)m_team + 8);
     else
-        team = g_bfmeAptDefaultTeamName;
+        team = "";
     Rva0052519DFire((*(void **)&g_bfmeAptWindowManager), (void *)m_level, team,
                     "SetPlayerColor", &color);
     m_cachedColor = c;
