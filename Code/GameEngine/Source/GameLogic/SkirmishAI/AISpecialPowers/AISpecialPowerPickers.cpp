@@ -285,6 +285,7 @@ public:
 	unsigned rva005D9721(Object *source);
 	unsigned rva005D91D2(Object *source);
 	bool rva005D9471(Object *target);
+	bool rva005D95CF(Object *target);
 	// Read through a getter: `m_10 * 2.0f` written directly folds into x87
 	// fadd st,st where retail (0x005D9471) multiplies the returned float in SSE.
 	float getRadius() const { return m_10; }
@@ -707,4 +708,30 @@ bool AISpecialPowerSelfBuff::shouldActivate(Object *source)
 		}
 	}
 	return false;
+}
+
+// Native5D95CF..5D96E8 RET4: first alive allied hit within the picker radius;
+// try its position only at squared distance at least (radius*0.8)^2.
+// Unlike the rowed doubled-radius sibling5D9471, this body rereads radius10
+// for the threshold. Reuse that sibling's actual Coord3D copy/sub/lengthSqr
+// expressions: their native load and sum order is exact without barriers.
+// The rowed ctor5D9596 installs vtableC762C0; slot6 points here.
+// Rva005EE816 remains the existing shared layout view, not an EA class name.
+
+bool Rva005EE816::rva005D95CF(Object *target)
+{
+    BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(target->getPosition(), getRadius(), 0,
+        Rva0026119DFilter().link(&Rva00261409Filter(target->getControllingPlayer(), true, 4)), 1);
+    Object *other = hits.next();
+    if (other != 0) {
+        const Coord3D *pos = target->getPosition();
+        const Coord3D *otherPos = other->getPosition();
+        Coord3D delta = *otherPos;
+        delta.sub(pos);
+        float distSqr = delta.lengthSqr();
+        float threshold = getRadius() * 0.8f;
+        if (distSqr >= threshold * threshold)
+            return rva005EE8DD(otherPos, target);
+    }
+    return false;
 }
