@@ -92,23 +92,8 @@ private:
 	_STL::deque<BfmeTrivialDequeElement8> m_deque;
 };
 
-SimpleObjectIterator::SimpleObjectIterator() {}
 
-// Native 54B81A..54B850: the deque cleanup at +14 and the base-vtable
-// restoration independently establish the two destructor stages. The named
-// insert, constructor call sites and the three-slot vtable establish this
-// class; Zero Hour's ObjectIter.h supplies the empty-base destructor lead.
-SimpleObjectIterator::~SimpleObjectIterator() {}
 
-void SimpleObjectIterator::insert(int a, float b)
-{
-	BfmeE8 tmp;
-	tmp.a = a;
-	tmp.b = b;
-	// Preserve the existing provider's typed ABI view over the proven 8-byte
-	// deque storage. The original record type remains unrecovered.
-	reinterpret_cast<_STL::deque<BfmeE8> &>(m_deque).push_back(tmp);
-}
 
 void SimpleObjectIterator::rva0054B414()
 {
