@@ -1916,17 +1916,6 @@ cleanup_done_007A2001:
 
 ; Unwind@00ba20e3 at RVA 0x007A20E3; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20], then loads the cleanup pointer from [ebp+8] and tail-jumps to UnicodeString at 0x005B804E.
-PUBLIC ?rva007A20E3@@YAXXZ
-?rva007A20E3@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-20]
-    and eax, 1
-    jz NEAR PTR cleanup_done_007A20E3
-    and DWORD PTR [ebp-20], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1UnicodeString@@QAE@XZ
-cleanup_done_007A20E3:
-    ret
-?rva007A20E3@@YAXXZ ENDP
 
 ; Unwind@00ba214b at RVA 0x007A214B; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20], then loads the cleanup pointer from [ebp+8] and tail-jumps to AsciiString at 0x0048BA39.
