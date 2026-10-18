@@ -80,6 +80,8 @@ public:
     virtual ~CreateAHeroData();
     virtual void crc(Xfer *xfer);
     virtual void xfer(Xfer *xfer);
+protected:
     virtual void loadPostProcess();
+public:
 };
 template void _STL::_Construct<CreateAHeroData,CreateAHeroData>(CreateAHeroData *,const CreateAHeroData &);
