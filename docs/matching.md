@@ -123,6 +123,42 @@ with the surrounding IL: reading a member directly instead of through an inline 
 to a local reference before an inline call (the plane clip at 0x00100362) flipped the operands
 where no spelling of the product did.
 
+**What decides it** (controlled `/FAsc` trials, identical at `/O1` and `/O2` with `/G7
+/arch:SSE`). For `x = A op B` with both operands in memory, one is loaded (`movss xmm,A`) and
+the other folded (`mulss xmm,B`). Within one expression tree, source order is irrelevant for
+operands reached through a pointer: `a*b`, `b*a`, inline `mul(a,b)`/`mul(b,a)` and even
+`x+y+z` against `z+y+x` (cl re-associates float chains) compile identically. Only operand
+identity decides, in this order:
+
+1. An operand that is the assignment's own destination (`v->x += f->x`, `a->x = a->x * b->y`)
+   is folded. This beats every rule below.
+2. A pointer dereference is loaded before a global, and a global before a stack parameter or
+   spilled local. Two plain globals are never swapped: the right operand is loaded.
+3. Between dereferences, the deeper address is loaded (`p->q->x` before `p->x`), then a base
+   plus displacement before a bare `[reg]` (displacement 0 behaves like a leaf).
+4. Same base: the higher displacement is loaded.
+5. Different bases: locals rank above parameters. Among locals, the variable **first assigned**
+   later is loaded first. Declaration order and later reassignments do not count. Parameters
+   rank by position, the first parameter highest. `this` ranks below a stack parameter.
+
+So flipping one site means changing which variable the address hangs off. A pointer cached in
+a local (first assigned before or after another), a different base for one row, or reading
+through the destination all work; respelling the arithmetic does not. Copies that CSE folds
+back into an address expression (`V *p = a->n`, `Coord3D *f = &m_p->force`, inline-function
+parameters) create no new variable and change nothing. The ranks are numbered per function, so
+unrelated locals can move them: HordeContain 0x0046BEAC's first centre add (retail loads the
+stack accumulator and folds the member, against rule 2) flipped only when the `pos`/`delta`
+locals of two later loops were declared once and shared.
+
+**Across statements there is no canonicalization.** Separate statements keep their order, so
+writing per-element updates in retail's element order is a real lever. Whether `m.X += t`
+folds `m.X` (`addss t,[m.X]`) or loads it (`movss r,[m.X]; addss r,t`) depends on how `t`
+was produced, not on operand order. `t` = a product written in the same statement folds; `t`
+= an element of a scalar-replaced local (`last *= u; m += last`) loads, unless the allocator
+coalesces. In Calculate_Texture_Matrix (0x00186380) retail folds row 0 in Y,Z,W,X order,
+which the per-element `m[0].Y += last.Y * u; ... X last` form reproduces; Zero Hour's
+`last *= u; m[0] += last` does not.
+
 A ninth: **retail's `pop esi; mov fs:[0],ecx; pop ebx` epilogue (the SEH restore between the
 last two pops) means the function passes an object of a class with a user-written copy constructor
 by value**; without one, cl sinks the restore below the last pop. Building the argument in place (an
