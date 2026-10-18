@@ -1326,3 +1326,4 @@ __ehhandler$??1HelixContainModuleData@@UAE@XZ,0x00769CA1,"Renamed with its paren
 ??_GRva0015D0E0@@UAEPAXI@Z,0x0015D7E0,Native TexBufferClass deleting wrapper follows measured BD3CF4 slot1 and canonical destructor15D0E0
 uw_007630e7,0x007630E7,Natural C++ renderTerrain lifetime owns this complete8B cleanup; EXACT parent EH graph independently identifies compiler-local body and canonical native destructor callee. Generated source left untouched.
 uw_007630ef,0x007630EF,Natural C++ renderTerrain lifetime owns this complete8B cleanup; EXACT parent EH graph independently identifies compiler-local body and canonical native destructor callee. Generated source left untouched.
+?rva00766758@@YAXXZ,0x00766758,Existing Create_Peek C++ result lifetime emits this complete25B state-bit cleanup; independently EXACT parent EH graph binds native address and canonical destructor. Standalone MASM body retired.
