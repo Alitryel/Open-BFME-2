@@ -130,12 +130,6 @@ public:
 extern unsigned g_Va00DEBC64;
 void __cdecl rva007B6DFA();
 
-// ?rva007AC6DD@@YAXXZ @0x007AC6DD 22B: ctor 0x000E188F on &g_Va00DEBC64, atexit(0x007B6DFA).
-void rva007AC6DD()
-{
-	new (&g_Va00DEBC64) TerrainFXShaderParameterSourceNamespace;
-	atexit(rva007B6DFA);
-}
 
 extern unsigned g_Va00DEBC98;
 void __cdecl rva007B6E18();
@@ -180,12 +174,6 @@ void rva007AE097()
 extern unsigned g_00E01E41;
 void __cdecl rva007B7C72();
 
-// ?rva007AEC8E@@YAXXZ @0x007AEC8E 22B: ctor 0x0000F740 on &g_00E01E41, atexit(0x007B7C72).
-void rva007AEC8E()
-{
-	new (&g_00E01E41) _STL::ios_base::_Loc_init;
-	atexit(rva007B7C72);
-}
 
 extern unsigned g_Va00E03CE0;
 void __cdecl rva007B89C1();
@@ -300,12 +288,6 @@ void rva007B4100()
 extern unsigned g_Va00E06360;
 void __cdecl rva007B94D2();
 
-// ?rva007B4116@@YAXXZ @0x007B4116 22B: ctor 0x0057AA45 on &g_Va00E06360, atexit(0x007B94D2).
-void rva007B4116()
-{
-	new (&g_Va00E06360) Rva0057A4E7;
-	atexit(rva007B94D2);
-}
 
 // Atexit-only initializers: a file-scope object whose constructor is trivial
 // but whose destructor is not compiles to just atexit(cleanup thunk).
@@ -441,13 +423,6 @@ class PointGroupClass
 };
 void __cdecl Rva007B73C0();
 
-// ?rva007ACF00@@YAXXZ @0x007ACF00 26B: VectorClass<Vector3>(0, 0) on
-// PointGroupClass::transformed_loc, atexit(0x007B73C0).
-void rva007ACF00()
-{
-	new (&PointGroupClass::transformed_loc) VectorClass<Vector3>(0, 0);
-	atexit(Rva007B73C0);
-}
 
 // ?rva007AE7FB@@YAXXZ @0x007AE7FB 11B: the initializer after
 // Rva007AE7EFStaticInstance.cpp's 0x007AE7EF in the same unit stores the

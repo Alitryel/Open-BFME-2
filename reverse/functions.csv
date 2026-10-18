@@ -89437,12 +89437,12 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??_GRva005E3AE1@@UAEPAXI@Z,,0x005E3E60,42,Code/GameEngine/Source/Common/Rva005E3AE1.cpp,matched,Native42B scalar deleting destructor in vftable C77C70 slot0 which rowed dtor 5F4AA3 restores; vbase bias8 entry calls 5F4AA3 then inline vbase dtor; twin of 5CC90C
 ?rva006D0410@Rva006D0410Table@@QAE_NXZ,,0x006D0410,44,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,all entry kinds 3 or 2 scan via checked iterator range twin of Rva006CEB10Playback ready 0x006CE7A0
 ??0Rva005BA28E@@QAE@H@Z,,0x005BA28E,55,Code/GameEngine/Source/Common/Rva005BA1FDCtor.cpp,matched,composing ctor base (arg 1) three tables publishes E06548 instance cleared by rowed dtor 5BA2CB; twin of AptOnlineOpenPlay ctor 5BA1FD
-?rva007AC6DD@@YAXXZ,,0x007AC6DD,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000E188F cb 007B6DFA atexit
+?rva007AC6DD@@YAXXZ,,0x007AC6DD,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits_Rva007AC6DD.cpp,matched,global initializer ctor 0x000E188F cb 007B6DFA atexit
 ?rva007AC747@@YAXXZ,,0x007AC747,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000E6350 cb 007B6E18 atexit
 ?rva007AC910@@YAXXZ,,0x007AC910,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer init 0x000FA83B cb 007B6ED6 atexit
 ?rva007AD50B@@YAXXZ,,0x007AD50B,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x001F4A40 cb 007B7588 atexit
 ?rva007AE097@@YAXXZ,,0x007AE097,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x004E5610 cb 007B789C atexit
-?rva007AEC8E@@YAXXZ,,0x007AEC8E,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x0000F740 cb 007B7C72 atexit
+?rva007AEC8E@@YAXXZ,,0x007AEC8E,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits_Rva007AC6DD.cpp,matched,global initializer ctor 0x0000F740 cb 007B7C72 atexit
 ?rva007B1CDC@@YAXXZ,,0x007B1CDC,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x004ABDC3 cb 007B89C1 atexit
 ?rva007B342C@@YAXXZ,,0x007B342C,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x00502EC6 cb 007B9049 atexit
 ?rva007B4FDA@@YAXXZ,,0x007B4FDA,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x005E2237 cb 007B993D atexit
@@ -89541,7 +89541,7 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007AC940@@YAXXZ,,0x007AC940,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000FB87B cb 007B6EEA atexit
 ?rva007AC956@@YAXXZ,,0x007AC956,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000FB8B6 cb 007B6EF4 atexit
 ?rva007B4100@@YAXXZ,,0x007B4100,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x00579C52 cb 007B94C8 atexit
-?rva007B4116@@YAXXZ,,0x007B4116,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x0057AA45 cb 007B94D2 atexit
+?rva007B4116@@YAXXZ,,0x007B4116,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits_Rva007AC6DD.cpp,matched,global initializer ctor 0x0057AA45 cb 007B94D2 atexit
 ?rva007AB8C0@@YAXXZ,,0x007AB8C0,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup Rva007B6890
 ?rva007ABE93@@YAXXZ,,0x007ABE93,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B6B73
 ?rva007ACC9A@@YAXXZ,,0x007ACC9A,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B700A
@@ -89556,7 +89556,7 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007B6630@@YAXXZ,,0x007B6630,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9BD0
 ?rva007B6670@@YAXXZ,,0x007B6670,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9BE0
 ?rva007B6680@@YAXXZ,,0x007B6680,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9C00
-?rva007ACF00@@YAXXZ,,0x007ACF00,26,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,PointGroupClass transformed_loc initializer VectorClass Vector3 ctor 0 0 then atexit 0x007B73C0
+?rva007ACF00@@YAXXZ,,0x007ACF00,26,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits_Rva007AC6DD.cpp,matched,PointGroupClass transformed_loc initializer VectorClass Vector3 ctor 0 0 then atexit 0x007B73C0
 ??0Rva00073320Method@@QAE@PAVW3DShroud@@@Z,,0x00072B55,29,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMethodCtor.cpp,matched,out-of-line ctor of W3DShroud's counted method object (vtable 0x00BC6568; count 1 at +4; owner at +0xC); unreferenced
 ??0W3DShaderManager@@QAE@XZ,,0x00075480,94,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShaderManager.cpp,matched,ZH W3DShaderManager ctor on BFME2 statics: shader -1 filter 0 surfaces flag glow handles vb quad index then pass-count/shader/filter tables
 ?rva00079186@W3DHordeModelDrawModuleData@@QAEHH@Z,,0x00079186,59,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DHordeModelDraw.cpp,matched,client random pick in 0..count-1 scaled by current LOD entry percentage at +0x10; forwarder 0x000791E5
