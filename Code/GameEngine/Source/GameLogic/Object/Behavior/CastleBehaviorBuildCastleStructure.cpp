@@ -1,27 +1,10 @@
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.997 date=2026-10-15
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.997219 date=2026-10-15
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.998 date=2026-10-14
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.9972188802775525 date=2026-10-14
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.9972188802775525 date=2026-10-14
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.994893 date=2026-10-14
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.87 date=2026-10-13
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.86 date=2026-10-09
-// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
-// partial score=0.85 date=2026-10-08
-// Native 00396311..00396722, 1041B; WB ebc8c0 names CastleBehavior::buildCastleStructure.
-// Semantic matrix lead: Open-BFME-1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f WWMath matrix3d.h Transform_Vector.
-// Trial emits1036B; by-value angle access and a sequential += recover the native SSE spill. Stack A0 vs retail A4 and type/created register lifetimes remain.
-// All direct callees resolved after the separately verified 3955AF return/receiver ABI correction.
-// No production construction body or ledger row has been added. Damage field names beyond established source/type/death/amount remain opaque.
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /I. /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// CastleBehavior::buildCastleStructure, native 0x00396311..0x00396722 (1041B);
+// WB 0xEBC8C0 names it. Its three KindOf checks go through BitFlags<218>::test
+// on the template flags at +0x108 (bits 100/60/17, opaque names here) as in WB;
+// the word-read/mask spelling is what gives retail's type spill and 0xA4 frame.
+// Matrix lead: Open-BFME-1 ba7ddda7 WWMath matrix3d.h Transform_Vector.
+// Damage field names beyond source/type/death/amount remain opaque.
 // stlport
 #include <ascii_string.h>
 #include <math.h>
@@ -29,7 +12,13 @@
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 template<class T> inline T& field(void* p,int n) { return *(T*)((char*)p+n); }
 class BuildListInfo { public: float angle() const { return *(const float*)((const char*)this+0x20); } AsciiString getTemplateName() const; };
-class ThingTemplate { public: bool kind10A() const { return *((const unsigned char*)this+0x10a)&2; } };
+// KindOf bits (opaque names; numbered as retail tests them): WB EBC8C0 calls
+// BitFlags<218,KindOfType>::test(type+0x108, 100 / 60 / 17) for all three.
+enum KindOfType { KINDOF_17=17, KINDOF_60=60, KINDOF_100=100 };
+template<int NUMBITS> class BitFlags { public: unsigned long m_words[(NUMBITS+31)/32];
+ __forceinline bool test(size_t pos) const { return (m_words[pos/32] & (1UL<<(pos%32)))!=0; } };
+class ThingTemplate { public: char pad[0x108]; BitFlags<218> m_kindof;
+ __forceinline bool isKindOf(KindOfType t) const { return m_kindof.test(t); } };
 class ThingFactory { public: const ThingTemplate* findTemplate(const AsciiString&); };
 extern ThingFactory* TheThingFactory;
 class Player;
@@ -79,19 +68,20 @@ extern ScriptEngine* TheScriptEngine;
 extern int g_009BA4E8;
 float normalizeAngle(float);
 class Rva003955AFData { public: int query(int,int,float,int,int); };
+struct CastleBehaviorModuleData { char pad[0x30]; ObjectFilter m_filter; char p2[0x44]; bool m_flag75; };
 class CastleBehavior { public: Object* getOwner() const { return *(Object*const*)((const char*)this+8); }
  void* getData() const { return *(void*const*)((const char*)this+4); } Object* buildCastleStructure(BuildListInfo*,bool); };
 Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant) {
  Object* created=0;
- void* data=field<void*>(this,4);
+ CastleBehaviorModuleData* data=field<CastleBehaviorModuleData*>(this,4);
  AsciiString name=record->getTemplateName();
  if(name.isEmpty()) return created;
  const ThingTemplate* type=TheThingFactory->findTemplate(name);
  if(!type) return 0;
- if(field<unsigned char>((void*)type,0x114)&0x10) return 0;
- if(field<unsigned char>((void*)type,0x10f)&0x10) field<bool>(this,0x44)=true;
+ if(type->isKindOf(KINDOF_100)) return 0;
+ if(type->isKindOf(KINDOF_60)) field<bool>(this,0x44)=true;
  Player* player=getOwner()->getControllingPlayer();
- if(!((record ? ((ObjectFilter*)((char*)data+0x30)) : ((ObjectFilter*)((char*)data+0x30))))->testTemplate(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
+ if(!data->m_filter.testTemplate(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
  if(!player) return 0;
  Object* owner=getOwner();
  Vector3 p(field<float>(record,0xc),field<float>(record,0x10),field<float>(record,0x14));
@@ -99,11 +89,11 @@ Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant)
  Coord3D pos;
  pos.x=p.X; pos.y=p.Y; pos.z=p.Z;
  float angle=owner->orientation(); angle+=record->angle();
- angle=(record ? (normalizeAngle(angle)) : (normalizeAngle(angle)));
- if(!(type->kind10A()) && ((Rva003955AFData*)getData())->query((int)&pos,(int)type,angle,5,(int)getOwner())) return 0;
+ angle=normalizeAngle(angle);
+ if(!type->isKindOf(KINDOF_17) && ((Rva003955AFData*)getData())->query((int)&pos,(int)type,angle,5,(int)getOwner())) return 0;
  created=((CastleFactoryView*)((char*)this+0x20))->create(getOwner(),type,&pos,angle,player,instant);
  if(created) {
-  if((type->kind10A()) && field<bool>(data,0x75) && getOwner()) {
+  if(type->isKindOf(KINDOF_17) && data->m_flag75 && getOwner()) {
    CastleBodyView* from=getOwner()->body();
    CastleBodyView* to=created->body();
    if(from && to) {
