@@ -35,10 +35,7 @@ class DieModule : public ObjectModule,
 	public DieModuleInterface
 {
 public:
-	DieModule( Thing *thing, const ModuleData *moduleData )
-		: ObjectModule( thing, moduleData )
-	{
-	}
+	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/FXListDie.h
