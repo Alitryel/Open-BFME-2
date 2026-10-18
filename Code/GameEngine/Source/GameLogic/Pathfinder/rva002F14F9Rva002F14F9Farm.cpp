@@ -1,11 +1,6 @@
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
-// partial score=0.913 date=2026-10-17
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
-// partial score=0.896 date=2026-10-15
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
-// partial score=0.8938 date=2026-10-14
-// ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
-// partial score=0.884140089824434 date=2026-10-10
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
 // cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
@@ -23,7 +18,7 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include <new>
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 typedef bool Bool;
 typedef int Int;
 enum PathfindLayerEnum
@@ -145,7 +140,8 @@ class Object
  
 }
 ;
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Libraries/Include/Lib/ICoord2DBase.h"
 class Thing
 
 {
@@ -882,12 +878,6 @@ class GeometryInfo
  
 }
 ;
-struct ICoord2DBase 
-{
- int x,y;
- 
-}
-;
 class Rva002E9D09 
 {
  public: int rva002E9D09(Object *,int,int);
@@ -935,12 +925,6 @@ struct PathfinderLogFile;
 extern "C" int __cdecl fprintf(PathfinderLogFile *,const char *,...);
 extern unsigned char g_00E03745;
 extern void *g_00DFEFF0;
-struct ICoord2D 
-{
- Int x,y;
- 
-}
-;
 class Rva002F6F90Context 
 {
  public: Bool rva002F6F90(unsigned int,Int);
@@ -1160,7 +1144,7 @@ __declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoord2D *o
  return out;
  
 }
-__declspec(noinline) void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
+__declspec(noinline) void __cdecl Rva002EBCD6Split(void *p, int *outRest, int *outHalf)
 
 {
  int v = Rva002E9B31Get(p);
@@ -1198,13 +1182,15 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
   
  }
  ICoord2D cell;
- int above;
- int below;
+ int extent;
  Rva002EBC14Cell(&cell,obj,(const Coord3D *)obj->position);
- Rva002EBCD6Split(obj,&above,&below);
- int extent=below+above;
- cell.x-=below;
- cell.y-=below;
+ {
+  int above;
+  Rva002EBCD6Split(obj,&extent,(obj ? &above : &above));
+  cell.x-=extent;
+  cell.y-=extent;
+  extent+=above;
+ }
  int layers[2];
  layers[0]=obj->rva0028B511();
  int layerCount=1;
@@ -1218,15 +1204,18 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
  const Weapon *weapon=obj->getCurrentWeapon(0);
  if(!weapon || !weapon->m_definition->get())return 0;
  int relatedID=0;
- if(obj->testStatus((ObjectStatusTypes)65)) 
+ bool status65=obj->testStatus((ObjectStatusTypes)65);
+ if(obj ? status65 : status65) 
  {
   void *contain=obj->rva002931F5(false)->rva0028C1A9();
   if(contain)relatedID=((PathfinderAttackContainView *)contain)->slot18();
   
  }
- volatile int range = realToIntFloor((float)((double)weapon->getAttackRange(obj)*(double)0.1f)+(float)(double)0.1f);
- Object *best=0;
+ float attackRange=weapon->getAttackRange(obj);
+ float scaledRange=attackRange*0.1f;
+ int range = realToIntFloor(scaledRange+0.1f);
  _ReadWriteBarrier();
+ Object *best=0;
  float bestDistance=1e10f;
  while (range-- >= 0)
  {
@@ -1317,8 +1306,7 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
    }
    
   }
-  int t1_copy_extent_1309 = extent;
-  t1_copy_extent_1309 += 2;
+  extent += 2;
   --cell.x;
   --cell.y;
   
