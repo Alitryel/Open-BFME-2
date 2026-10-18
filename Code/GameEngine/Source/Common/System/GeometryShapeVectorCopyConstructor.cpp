@@ -42,6 +42,8 @@ struct GeometryShape
 	GeometryShape();
 	~GeometryShape();
 	GeometryShape(const GeometryShape &other);
+public:
+	GeometryShape &operator=(const GeometryShape &);
 };
 
 template class _STL::vector<GeometryShape>;
