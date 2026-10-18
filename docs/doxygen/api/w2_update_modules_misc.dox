@@ -326,8 +326,9 @@
 /// has finished. Idle, unpacking and packing all read as PLANSTATUS_NONE.
 /// Zero Hour: ControlBar::getCommandAvailability uses it to disable
 /// (restrict) a stop button that has OPTION_ONE set unless Bombardment is
-/// the active plan. In BFME 2 its one direct caller looks up the object's
-/// module registered as "BattlePlanUpdate" and compares the result with
+/// the active plan. In BFME 2 its one direct caller is
+/// ControlBar::getCommandAvailability, which looks up the object's module
+/// registered as "BattlePlanUpdate" and compares the result with
 /// Bombardment, the same test as Zero Hour's stop-button check.
 ///
 /// \return PLANSTATUS_BOMBARDMENT, PLANSTATUS_HOLDTHELINE or

@@ -189,15 +189,18 @@
 ///       pattern. BFME 2's `add` command lowercases every pattern it
 ///       stores, so together the two make range matching case-insensitive
 ///       for ASCII letters.
-/// \note Zero Hour also has AppendRange, IsEnabled, ClearTotals and a
+/// \note Retail BFME 2 also keeps three more of Zero Hour's Profile
+///       functions: Profile::AppendRange (with Profile::StartRange's BFME 2
+///       changes but no frame budget; see Profile::StopRange),
+///       Profile::IsEnabled (true while any range is recording) and
+///       Profile::ClearTotals. Zero Hour also has a
 ///       Profile::AddResultFunction that forwards to
-///       ProfileCmdInterface::AddResultFunction. Retail BFME 2 contains a
-///       body shaped like AppendRange next to Profile::StartRange (see
-///       Profile::StopRange), and a one-instruction forwarder to
-///       ProfileCmdInterface::AddResultFunction next to
+///       ProfileCmdInterface::AddResultFunction, and retail BFME 2 contains
+///       a one-instruction forwarder to it next to
 ///       Profile::GetClockCyclesPerSecond, where Zero Hour defines
-///       Profile::AddResultFunction. No call or address reference to either
-///       was found, so neither appears to be used.
+///       Profile::AddResultFunction. No call or address reference to
+///       AppendRange or the forwarder was found, so neither appears to be
+///       used, and no named caller of IsEnabled or ClearTotals is known.
 ///
 /// \see ProfileCmdInterface, \ref grp_w1_profile_lib
 
@@ -276,8 +279,8 @@
 ///   frame list (Profile::GetFrameName). In append mode, with a previous
 ///   frame to append to, the measurements are merged into that frame
 ///   instead. In Zero Hour, append mode is set only by AppendRange. Retail
-///   BFME 2 contains a body of that shape next to Profile::StartRange, but
-///   no call or address reference to it was found, so append mode appears
+///   BFME 2 keeps Profile::AppendRange, which sets it the same way, but no
+///   call or address reference to it was found, so append mode appears
 ///   never to be entered.
 /// - ProfileId::FrameEnd closes the high-level frame. Then
 ///   ProfileFuncLevelTracer::FrameEnd, which in BFME 2 only calls an

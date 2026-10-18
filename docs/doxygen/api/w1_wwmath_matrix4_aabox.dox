@@ -57,8 +57,10 @@
 ///   simulation. Several functions here still have no named caller; re-check
 ///   this as more callers are named.
 /// - Retail also contains a 4x4 matrix inverse that calls D3DXMatrixInverse
-///   from D3DX 9; its identity is not yet confirmed. A port without D3DX
-///   needs a replacement for it.
+///   from D3DX 9. The ledger calls it Matrix4::Get_Inverse, after the
+///   D3DX-backed Matrix3D::Get_Inverse; neither Zero Hour's nor BFME 1's
+///   matrix4.h declares it, so that name is not established. A port without
+///   D3DX needs a replacement for it.
 
 
 /// \file WWMath/matrix4.cpp
@@ -149,8 +151,11 @@
 /// and Init_Perspective, Transpose, the arithmetic operators and Inverse.
 /// Inverse is a Gauss-Jordan elimination with partial pivoting built on the
 /// Vector4 row operations, so it inherits the Vector4 operator-= quirk
-/// described on the Vector4 page. Whether retail BFME 2 reaches that inline
-/// has not been established.
+/// described on the Vector4 page. BFME 2 retail holds the same elimination
+/// as an out-of-line Matrix4::Inverse placed with the matrix4.cpp code. It
+/// writes the inverse through an output pointer instead of returning a
+/// Matrix4, and a Matrix3D inverse routine whose name is not established
+/// calls it; BFME 1 inlines the elimination into that routine.
 ///
 /// \par Name
 /// The BFME 1 headers this project compiles call the class Matrix4, the
@@ -197,12 +202,13 @@
 ///
 /// Used to put an ordinary transform in front of a projection without
 /// first widening it to a Matrix4. In BFME 2 the shadow-map code (a routine
-/// still named by its address) builds its world-to-shadow-texture matrix
+/// whose name is not established) builds its world-to-shadow-texture matrix
 /// this way: a Matrix3D that scales and offsets clip coordinates into
-/// texture coordinates, times a camera matrix from a CameraClass method that
-/// is not yet identified. The reconstruction's comment reads that matrix as
-/// the camera's Direct3D projection combined with its view transform; that
-/// is not yet verified. The result goes to
+/// texture coordinates, times a camera matrix from a CameraClass method
+/// whose name is not established. That method multiplies the camera's
+/// CameraClass::Get_D3D_Projection_Matrix result by the camera's inverse
+/// transform, so the matrix is the camera's Direct3D projection combined
+/// with its view transform. The result goes to
 /// FXShaderParameterSourceNamespaceSAS::SetShadowMapInfo.
 ///
 /// \par Implementation
@@ -278,7 +284,7 @@
 ///
 /// \warning In vector4.h, as compiled here and as in Zero Hour, operator-=
 ///          subtracts X, Y and Z but adds W. The binary operator- is
-///          correct. Code that uses -= on a Vector4, such as the inline
+///          correct. Code that uses -= on a Vector4, such as
 ///          Matrix4::Inverse, inherits this.
 /// \see Matrix4
 
@@ -286,8 +292,8 @@
 /// \fn Vector4 & Vector4::operator/=(float k)
 /// \brief Divides all four components by k, by multiplying them by 1/k.
 ///
-/// An inline in vector4.h. The header's Matrix4::Inverse uses it to scale
-/// each pivot row. Retail holds one out-of-line copy of it at the start of
+/// An inline in vector4.h. Matrix4::Inverse uses it to scale each pivot
+/// row. Retail holds one out-of-line copy of it at the start of
 /// the matrix4.cpp code, and no retail call reaches that copy.
 /// matrix4.cpp reproduces it.
 ///
@@ -304,8 +310,8 @@
 /// \fn void Swap(Vector4 &a, Vector4 &b)
 /// \brief Exchanges the contents of two vectors through a temporary copy.
 ///
-/// An inline free function in vector4.h. The header's Matrix4::Inverse uses
-/// it to swap the pivot row into place. As with Vector4::operator/=, retail
+/// An inline free function in vector4.h. Matrix4::Inverse uses it to swap
+/// the pivot row into place. As with Vector4::operator/=, retail
 /// holds one out-of-line copy at the start of the matrix4.cpp code that no
 /// retail call reaches, and matrix4.cpp reproduces it.
 ///

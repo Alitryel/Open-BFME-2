@@ -380,10 +380,12 @@
 /// It is only a fallback. getUserDataLeafName (wide) and
 /// getUserDataLeafNameAscii (narrow) first ask the registry for a
 /// `UserDataLeafName` value under GetRegistryGameRegPath and use this
-/// value when none exists. Which BFME 2 code joins the leaf name to a
-/// parent folder is not traced here. BFME 1:
-/// GlobalData::parseGameDataDefinition appends the leaf name to the user's
-/// Application Data folder and creates that folder.
+/// value when none exists. GlobalData::parseGameDataDefinition takes the
+/// leaf name from getUserDataLeafName (falling back to a global data field
+/// when it is empty), appends it to the user's Application Data folder,
+/// creates that folder and keeps the path in the global data; one INI load
+/// type returns before this step. BFME 1 does the same; Zero Hour uses the
+/// user's My Documents folder instead.
 /// \return A pointer into the loaded block, valid until exit, or
 ///         `GI.DAT ERROR` when the file or key is missing.
 /// \see GetRegistryGameRegPath, LoadRegistryValues

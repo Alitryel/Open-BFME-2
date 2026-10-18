@@ -116,9 +116,9 @@
 /// sets its default font and links it into the manager's list with
 /// DisplayStringManager::link. Zero Hour's free method unlinks the string,
 /// clears the manager's update checkpoint if it pointed there, and deletes
-/// it; BFME 2's has no matched row yet. The list links belong to the
-/// manager; the string never touches them itself. The font is borrowed
-/// from the font library and is not freed with the string.
+/// it; whether BFME 2's does the same is not established. The list links
+/// belong to the manager; the string never touches them itself. The font
+/// is borrowed from the font library and is not freed with the string.
 ///
 /// \par The change notification
 /// Every member that changes the text (DisplayString::setText,
@@ -174,9 +174,9 @@
 ///
 /// The destructor does not unlink the string from the manager's list.
 /// Strings must be freed through the display string manager; in Zero Hour
-/// its free unlinks the string first (BFME 2's free has no matched row
-/// yet). Deleting one directly would leave a dangling pointer in the list
-/// that W3DDisplayStringManager::update walks.
+/// its free unlinks the string first (whether BFME 2's does is not
+/// established). Deleting one directly would leave a dangling pointer in
+/// the list that W3DDisplayStringManager::update walks.
 ///
 /// \note Zero Hour declares its destructor through the memory pool glue;
 ///       BFME 2 has an ordinary virtual destructor in the first virtual
