@@ -114,10 +114,7 @@ ArmorStore::ArmorStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-ArmorStore::~ArmorStore()
-{
-	m_armorTemplates.clear();
-}
+// ??1ArmorStore@@UAE@XZ is rowed in its own unit; this copy collided with it.
 
 //-------------------------------------------------------------------------------------------------
 // ArmorStore::findArmorTemplate is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/ArmorStoreCtor.cpp (0x00360966).

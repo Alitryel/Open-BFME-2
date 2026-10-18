@@ -1369,17 +1369,7 @@ void RTS3DScene::draw( )
 //=============================================================================
 /** */
 //=============================================================================
-// ?RTS2DScene::RTS2DScene present-unmatched
-RTS2DScene::RTS2DScene()
-{
-	// BFME2's SubsystemInterface::setName (retail 0x0006F3CC, rowed in
-	// SubsystemInterfaceSetName.cpp) keeps m_name at +0x08; this Zero Hour
-	// view has it at +0x04, so calling it emitted a wrong out-of-line copy
-	// that the link kept first. The BFME2 ctor is rowed in RTS2DSceneCtor.cpp.
-	m_name = AsciiString("RTS2DScene");
-	m_status = NEW_REF( W3DStatusCircle, () );
-	Add_Render_Object( m_status );
-}  // end RTS2DScene
+// ??0RTS2DScene@@QAE@XZ is rowed in its own unit; this copy collided with it.  // end RTS2DScene
 
 //=============================================================================
 // RTS2DScene::~RTS2DScene

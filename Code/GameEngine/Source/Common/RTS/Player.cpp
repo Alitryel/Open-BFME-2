@@ -446,41 +446,7 @@ void PlayerRelationMap::loadPostProcess( void )
 //=============================================================================
 // ?Player::Player present-unmatched
 //=============================================================================
-// ??1Player@@UAE@XZ present-unmatched
-Player::~Player()
-{
-	m_defaultTeam = NULL;
-	m_playerTemplate = NULL;
-
-	for( PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it)
-	{
-		(*it)->friend_setOwningPlayer(NULL);
-	}
-	m_playerTeamPrototypes.clear();	// empty, but don't free the contents
-
-	// delete the relation maps (the destructor clears the actual map if any data is present)
-	m_teamRelations->deleteInstance();
-	m_playerRelations->deleteInstance();
-
-	for (Int i = 0; i < NUM_HOTKEY_SQUADS; ++i) {
-		if (m_squads[i] != NULL) {
-			m_squads[i]->deleteInstance();
-			m_squads[i] = NULL;
-		}
-	}
-
-	if (m_currentSelection != NULL) {
-		m_currentSelection->deleteInstance();
-		m_currentSelection = NULL;
-	}
-
-	if( m_battlePlanBonuses )
-	{
-		m_battlePlanBonuses->deleteInstance();
-		m_battlePlanBonuses = NULL;
-	}
-}
+// ??1Player@@UAE@XZ is rowed in its own unit; this copy collided with it.
 
 //=============================================================================
 // BFME's relation maps carry one base vtable pointer where MemoryPoolObject

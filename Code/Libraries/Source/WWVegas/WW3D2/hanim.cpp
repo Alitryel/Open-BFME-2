@@ -113,29 +113,7 @@ void NamedPivotMapClass::Add(const char *Name, float Weight)
 }
 
 // configure the base pivot map using the specified tree
-void NamedPivotMapClass::Update_Pivot_Map(const HTreeClass *Tree)
-{
-	// first, resize the base pivot map to fit the tree
-	int numPivots = Tree->Num_Pivots();
-
-	Resize(numPivots);
-	ActiveCount = numPivots;
-
-	// first, reset all weights to 1 (the default)
-	while(numPivots--) {
-		(*this)[numPivots] = 1.0f;
-	}
-
-	// for each named pivot, find the correct index and set the weight if the indicated bone is present
-	// note: there is no check for redundant names
-	int count = WeightInfo.Count();
-	while(count--) {
-		int actualPivot = Tree->Get_Bone_Index(WeightInfo[count].Name);
-		if(actualPivot != -1) {
-			(*this)[actualPivot] = WeightInfo[count].Weight;
-		} 
-	}
-}
+// ?Update_Pivot_Map@NamedPivotMapClass@@QAEXPBVHTreeClass@@@Z is rowed in its own unit; this copy collided with it.
 
 /*
 **
@@ -152,25 +130,10 @@ HAnimClass::~HAnimClass(void)
 // the body visible to inline it into HAnimComboClass::HAnimComboClass(int).
 
 
-// ?HAnimComboDataClass::HAnimComboDataClass present-unmatched
-HAnimComboDataClass::HAnimComboDataClass(const HAnimComboDataClass &src)
-:	PivotMap(src.Get_Pivot_Map()),
-	HAnim(src.Get_HAnim())
-{
-	Shared = src.Is_Shared();
-	Frame = src.Get_Frame();
-	Weight = src.Get_Weight();
-}
+// ??0HAnimComboDataClass@@QAE@ABV0@@Z is rowed in its own unit; this copy collided with it.
 
 
-// ?HAnimComboDataClass::~HAnimComboDataClass present-unmatched
-HAnimComboDataClass::~HAnimComboDataClass(void)
-{
-	if(HAnim) 
-		HAnim->Release_Ref();
-	if(PivotMap)
-		PivotMap->Release_Ref();
-}
+// ??1HAnimComboDataClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
 __declspec(noinline) inline void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
@@ -231,11 +194,7 @@ HAnimComboClass::HAnimComboClass(void)
 // without it (Set_HAnim needs inc). See hanim_weight_vector_add.cpp.
 
 
-// ?HAnimComboClass::~HAnimComboClass present-unmatched
-HAnimComboClass::~HAnimComboClass(void)
-{
-	Reset();
-}
+// ??1HAnimComboClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
 
@@ -310,13 +269,7 @@ PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
 	return data->Peek_Pivot_Map();
 }
 
-void HAnimComboClass::Append_Anim_Combo_Data(HAnimComboDataClass * Data)
-{
-	HAnimComboData.Add(Data);
-}
+// ?Append_Anim_Combo_Data@HAnimComboClass@@QAEXPAVHAnimComboDataClass@@@Z is rowed in its own unit; this copy collided with it.
 
-void HAnimComboClass::Remove_Anim_Combo_Data(HAnimComboDataClass * Data)
-{
-	HAnimComboData.Delete(Data);
-}
+// ?Remove_Anim_Combo_Data@HAnimComboClass@@QAEXPAVHAnimComboDataClass@@@Z is rowed in its own unit; this copy collided with it.
 

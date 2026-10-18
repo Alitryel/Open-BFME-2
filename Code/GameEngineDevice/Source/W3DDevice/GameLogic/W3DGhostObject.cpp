@@ -90,37 +90,7 @@ static RenderObjClass::Material_Override animationDisableOverride;
 
 //Helper function used to disable all UV mapper animations on a given model.
 //Also use this pass to disable muzzle effects.
-void disableUVAnimations(RenderObjClass *robj)
-{
-	if (robj && robj->Class_ID() == RenderObjClass::CLASSID_HLOD)
-	{
-		//Also disable any animations that may be playing using mappers (texture scrolling)
-		for (Int i=0; i < robj->Get_Num_Sub_Objects(); i++)
-		{
-			RenderObjClass *subObj=robj->Get_Sub_Object(i);
-			if (subObj && subObj->Class_ID() == RenderObjClass::CLASSID_MESH)
-			{	//check if sub-object has the correct material to do texture scrolling.
-				MaterialInfoClass *mat=subObj->Get_Material_Info();
-				if (mat)
-				{	for (Int j=0; j<mat->Vertex_Material_Count(); j++)
-					{
-						VertexMaterialClass *vmaterial=mat->Peek_Vertex_Material(j);
-						LinearOffsetTextureMapperClass *mapper=(LinearOffsetTextureMapperClass *)vmaterial->Peek_Mapper();
-						if (mapper && mapper->Mapper_ID() == TextureMapperClass::MAPPER_ID_LINEAR_OFFSET)
-						{	
-							subObj->Set_User_Data(&animationDisableOverride);	//tell W3D about custom material settings
-						}
-					}
-					REF_PTR_RELEASE(mat);
-				}
-				//We don't want muzzle flashes visible inside fog, so turn them off.
-				if (subObj->Get_Name() && strstr(subObj->Get_Name(),"MUZZLEFX"))
-					subObj->Set_Hidden(true);
-			}
-			REF_PTR_RELEASE(subObj);
-		}
-	}
-}
+// ?disableUVAnimations@@YAXPAVRenderObjClass@@@Z is rowed in its own unit; this copy collided with it.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -135,14 +105,7 @@ void W3DRenderObjectSnapshot::addToScene(void)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DRenderObjectSnapshot::W3DRenderObjectSnapshot present-unmatched
-W3DRenderObjectSnapshot::W3DRenderObjectSnapshot(RenderObjClass *robj, DrawableInfo *drawInfo,
-																								 Bool cloneParentRobj)
-{
-	m_robj=NULL;
-	m_next=NULL;
-	update(robj, drawInfo, cloneParentRobj);
-}
+// ??0W3DRenderObjectSnapshot@@AAE@PAVRenderObjClass@@PAUDrawableInfo@@_N@Z is rowed in its own unit; this copy collided with it.
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
@@ -268,37 +231,11 @@ void W3DRenderObjectSnapshot::loadPostProcess( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DGhostObject::W3DGhostObject present-unmatched
-W3DGhostObject::W3DGhostObject()
-{
-
-	for (Int i=0; i< MAX_PLAYER_COUNT; i++) 
-		m_parentSnapshots[i]=NULL;
-
-	m_drawableInfo.m_drawable = NULL;
-	m_drawableInfo.m_flags = 0;
-	m_drawableInfo.m_ghostObject = NULL;
-	m_drawableInfo.m_shroudStatusObjectID = INVALID_ID;
-
-	m_nextSystem = NULL;
-	m_prevSystem = NULL;
-
-}
+// ??0W3DGhostObject@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DGhostObject::~W3DGhostObject present-unmatched
-W3DGhostObject::~W3DGhostObject()
-{
-#ifdef DEBUG_FOG_MEMORY
-	for (Int i=0; i<MAX_PLAYER_COUNT; i++)
-	{
-		DEBUG_ASSERTCRASH(m_parentSnapshots[i] == NULL, ("Delete of non-empty GhostObject"));
-	}
-#else
-	DEBUG_ASSERTCRASH(m_parentSnapshots[TheGhostObjectManager->getLocalPlayerIndex()] == NULL, ("Delete of non-empty GhostObject"));
-#endif
-}
+// ??1W3DGhostObject@@UAE@XZ is rowed in its own unit; this copy collided with it.
 
 // ------------------------------------------------------------------------------------------------
 /** Record the current state of the renderobjects used by this parent object
@@ -409,21 +346,7 @@ W3DGhostObjectManager::W3DGhostObjectManager(void)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DGhostObjectManager::~W3DGhostObjectManager present-unmatched
-W3DGhostObjectManager::~W3DGhostObjectManager()
-{
-	reset();	//make sure it's empty
-	
-	W3DGhostObject *mod = m_freeModules;
-	W3DGhostObject *nextmod;
-
-	while (mod)
-	{
-		nextmod=mod->m_nextSystem;
-		delete mod;
-		mod=nextmod;
-	}
-}
+// ??1W3DGhostObjectManager@@UAE@XZ is rowed in its own unit; this copy collided with it.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

@@ -68,8 +68,7 @@ typedef char NativeVictorySize[sizeof(VictoryConditions)==0x94 ? 1 : -1];
 // remain unknown. Native factory allocation and field extent prove size94.
 
 class VictoryConditionsInterface;
-VictoryConditionsInterface *Rva00420353CreateVictoryConditions()
-{ return (VictoryConditionsInterface *)new VictoryConditions; }
+// ?Rva00420353CreateVictoryConditions@@YAPAVVictoryConditionsInterface@@XZ is rowed in its own unit; this copy collided with it.
 
 class BfmeAptWindowManager {public:void bfmeSetText(const AsciiString &,const UnicodeString &,bool);};
 class Rva00222A8BTarget {public:int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);};

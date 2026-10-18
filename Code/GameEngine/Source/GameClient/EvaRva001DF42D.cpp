@@ -741,12 +741,7 @@ struct Rva001DDBF3
 }
 ;
 typedef char Rva001DDBF3Extent[(sizeof(Rva001DDBF3)==20)?1:-1];
-Rva001DDBF3::~Rva001DDBF3()
-
-{
- ((Rva000427195 *)this)->rva003A2A41();
- 
-}
+// ??1Rva001DDBF3@@QAE@XZ is rowed in its own unit; this copy collided with it.
 // Eva::iniParsePredefinedEvaEvent, retail 0x001DEA96 (244 bytes with the
 // int3 after the final throw); WorldBuilder twin 0x00AC9620 (Eva.cpp). The
 // name must be a predefined event (Eva.ini name map, id below 0x16); a map

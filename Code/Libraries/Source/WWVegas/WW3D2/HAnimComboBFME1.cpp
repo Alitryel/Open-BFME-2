@@ -281,11 +281,7 @@ HAnimComboClass::HAnimComboClass( int num_animations )
 }
 
 
-// ??1HAnimComboClass@@ present-unmatched
-HAnimComboClass::~HAnimComboClass(void)
-{
-	Reset();
-}
+// ??1HAnimComboClass@@QAE@XZ is rowed in its own unit; this copy collided with it.
 
 
 // ?HAnimComboClass::Clear present-unmatched

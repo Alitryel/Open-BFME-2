@@ -367,29 +367,7 @@ will be processed when we get to the front of the pathfind queue. jba */
 // AIUpdateInterface::onObjectCreated is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateCommands.cpp (0x002625C8).
 
 //-------------------------------------------------------------------------------------------------
-// ??1AIUpdateInterface@@ present-unmatched
-AIUpdateInterface::~AIUpdateInterface( void )
-{
-	m_locomotorSet.clear();
-	m_curLocomotor = NULL;
-
-	if( m_stateMachine ) {
-		m_stateMachine->halt();
-		m_stateMachine->deleteInstance();
-	}
-
-	for (int i = 0; i < MAX_TURRETS; i++)
-	{
-		if (m_turretAI[i])
-			m_turretAI[i]->deleteInstance();
-		m_turretAI[i] = NULL;
-	}
-	m_stateMachine = NULL;
-
-	// destroy the current path. (destroyPath is NULL savvy)
-	destroyPath();
-
-}
+// ??1AIUpdateInterface@@MAE@XZ is rowed in its own unit; this copy collided with it.
 
 //=============================================================================
 // AIUpdateInterface::setTurretTargetObject: defined in AIUpdateInterface_setTurretTargetObject.cpp (its row's unit).
@@ -1190,60 +1168,7 @@ static BfmeAIUpdateIter bfmeAIUpdateMembers(const Team *team)
 	Object *head = *(Object *const *)((const char *)team + 0x10);
 	return BfmeAIUpdateIter(head, &Object::dlink_next_TeamMemberList);
 }
-void AIUpdateInterface::joinTeam( void )
-{
-	// the dead don't listen very well
-	if (isAiInDeadState())
-		return;
-
-	if (getObject()->isMobile() == FALSE)
-		return;
-
-	chooseLocomotorSet(LOCOMOTORSET_NORMAL);
-	getStateMachine()->clear();
-	getStateMachine()->setGoalWaypoint(NULL);
-	Object *obj = getObject();
-	Object *other = NULL;
-	Team *team = obj->getTeam();
-	for (BfmeAIUpdateIter iter = bfmeAIUpdateMembers(team); !iter.done(); iter.advance())
-	{
-		Object *anObj = iter.cur();
-		if (!anObj) 
-		{
-			continue;
-		}
-		if (obj == anObj) 
-		{
-			// it's us.
-			continue;
-		}	
-		else if (anObj->getAI()) 
-		{
-			if( !anObj->isDisabledByType( DISABLED_HELD ) ) 
-			{
-				other = anObj;
-				break;
-			}
-		}
-	}
-	if (other) {
-		AIUpdateInterface* ai = other->getAI();
-		if (ai->isIdle()) {
-			aiMoveToPosition(other->getPosition(), CMD_FROM_AI);
-			return;
-		}
-		if (ai->getGoalObject()) {
-			getStateMachine()->setGoalObject(ai->getGoalObject());
-		} else {
-			getStateMachine()->setGoalPosition(ai->getGoalPosition());
-		}
-		StateID	state = getCurrentStateID();
-		setLastCommandSource( CMD_FROM_AI );
-		// Match the state.
-		getStateMachine()->setState( state );
-	}
-
-}  // end joinTeam
+// ?joinTeam@AIUpdateInterface@@UAEXXZ is rowed in its own unit; this copy collided with it.  // end joinTeam
 
 //-------------------------------------------------------------------------------------------------
 // ?isAllowedToRespondToAiCommands@AIUpdateInterface@@ present-unmatched
