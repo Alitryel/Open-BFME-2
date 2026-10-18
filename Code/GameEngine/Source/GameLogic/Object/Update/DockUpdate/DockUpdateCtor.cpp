@@ -52,6 +52,7 @@ namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned
 namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert(_Bit_iterator, unsigned int, bool); }
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, unsigned int) const; }
+namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
 // bfme link decl-only end
 
 // BFME's resize overload passes its fill value by value. The vendored STLport
