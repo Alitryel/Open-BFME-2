@@ -44,16 +44,16 @@ public:
 	void forEach(void (Rva003F86B6Listener::*notify)(void *), void *arg);
 };
 
-class Rva003F8E20 : public Gen_uwm_003f7bc5, public _STL::vector<ObjectID>
+class Rva003F9258Data : public Gen_uwm_003f7bc5, public _STL::vector<ObjectID>
 {
 public:
-	virtual ~Rva003F8E20();
+	virtual ~Rva003F9258Data();
 private:
 	int m_index; // +0x10
 	_STL::vector<ObjectID> m_files; // +0x14
 };
 
-Rva003F8E20::~Rva003F8E20()
+Rva003F9258Data::~Rva003F9258Data()
 {
 	((Rva003F86B6List *)static_cast<_STL::vector<ObjectID> *>(this))->forEach(&Rva003F86B6Listener::notify, this);
 	Rva0059E2DCBox box = Rva0059E2DCBox();

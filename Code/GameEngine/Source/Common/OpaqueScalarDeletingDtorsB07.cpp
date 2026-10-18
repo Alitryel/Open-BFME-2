@@ -504,16 +504,16 @@ Rva003F87A9::Rva003F87A9(EmitVtableTag *)
 {
 }
 
-class Rva003F8E20
+class Rva003F9258Data
 {
 public:
-	Rva003F8E20(EmitVtableTag *);
+	Rva003F9258Data(EmitVtableTag *);
 public:
-	virtual ~Rva003F8E20();
+	virtual ~Rva003F9258Data();
 };
 
-// ?<Rva003F8E20::Rva003F8E20> absent-from-retail
-Rva003F8E20::Rva003F8E20(EmitVtableTag *)
+// ?<Rva003F9258Data::Rva003F9258Data> absent-from-retail
+Rva003F9258Data::Rva003F9258Data(EmitVtableTag *)
 {
 }
 

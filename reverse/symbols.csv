@@ -4532,7 +4532,7 @@ name,address,notes
 ??1Rva003F6EA1Record@@QAE@XZ,0x003F60C8,native108 by-value cleanup; full60B destructor verified; opaque28B record and address-derived ABI view
 ??1Rva003F8728@@UAE@XZ,0x003F8728,"destructor the scalar deleting destructor 0x003F8DC0 calls (REL32 at 0x003F8DC3; vtable 0x00C37314#0); opaque address name"
 ??1Rva003F87A9@@UAE@XZ,0x003F87A9,"destructor the scalar deleting destructor 0x003F8DDC calls (REL32 at 0x003F8DDF; vtable 0x00C37318#0); opaque address name"
-??1Rva003F8E20@@UAE@XZ,0x003F8E20,"destructor the scalar deleting destructor 0x003F901B calls (REL32 at 0x003F901E; vtable 0x00C3731C#0); opaque address name"
+??1Rva003F9258Data@@UAE@XZ,0x003F8E20,"destructor the scalar deleting destructor 0x003F901B calls (REL32 at 0x003F901E; vtable 0x00C3731C#0); opaque address name"
 ??1Rva003F9D08@@UAE@XZ,0x003F9D08,"destructor the scalar deleting destructor 0x003F9DBE calls (REL32 at 0x003F9DC1; vtable 0x00C375F0#0); opaque address name"
 ??1Rva003FCE38@@UAE@XZ,0x003FCE38,opaque SEH dtor (mov-eax-cookie prologue); tail-called by single-inheritance dtor at 0x5C4B1B (plus 3 SEH base-callers); identity unproven, address-derived name
 ??1Rva003FE58A@@UAE@XZ,0x003FE58A,"destructor the scalar deleting destructor 0x003FE5F3 calls (REL32 at 0x003FE5F6; vtable 0x00C37E48#0); opaque address name"
