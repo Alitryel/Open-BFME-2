@@ -23,4 +23,21 @@ public:
     Rva0008DE1CElement(const Rva0008DE1CElement &that);
 };
 
+// The element copy-construct is retail's guarded copy through the 0x00089822
+// copy constructor (0x0008A173, rowed as Rva0008A173Copy); this unit is the
+// first in link order to emit _Construct for the element, so spell it so.
+class Rva00089822
+{
+public:
+	Rva00089822(const Rva00089822 &that) throw();
+};
+namespace _STL
+{
+template <> inline void _Construct<Rva0008DE1CElement, Rva0008DE1CElement>(Rva0008DE1CElement *p, const Rva0008DE1CElement &v)
+{
+	if (p != 0)
+		new (p) Rva00089822(reinterpret_cast<const Rva00089822 &>(v));
+}
+}
+
 template void _STL::vector<Rva0008DE1CElement>::reserve(unsigned int);
