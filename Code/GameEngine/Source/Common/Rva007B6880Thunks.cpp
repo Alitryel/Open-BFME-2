@@ -2077,7 +2077,7 @@ public:
 	virtual ~BfmeDualVtableReleaseDtor();
 };
 
-extern unsigned g_00DFE180;
+unsigned g_00DFE180;	// retail RVA 0x009FE180 (.bss), defined here
 // g_00DFE180: packet annotates VA 0x009FE180 (data), no name yet.
 
 // ?rva007B75E2@@YAXXZ @ 0x007B75E2 (10B). Global BfmeDualVtableReleaseDtor dtor thunk: ecx=&g_00DFE180 then tail-jmp to rowed ??1BfmeDualVtableReleaseDtor@@UAE@XZ (0x00203629). No callers. Between 0x007B75D8 and 0x007B75EC. Honest address name.
