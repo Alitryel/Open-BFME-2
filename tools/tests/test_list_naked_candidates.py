@@ -135,3 +135,70 @@ def test_add_match_clears_the_stash_only_on_success(tmp_path):
                      encoding="utf-8")
     add_match.remove_stash(0x000C8220, tmp_path)
     assert other.exists(), "removed a stash belonging to a different address"
+
+
+def test_gen_asm_procs_skip_landed_owner_bodies(tmp_path, monkeypatch):
+    """Before the fix the .asm branch lacked the .cpp branch's already-matched
+    tripwire, so gen-asm PROCs whose exact bytes live in a matched row's body
+    (or whose name owns a matched row) were served again as candidates."""
+    index = {b"\x90\x90\x90\x90": {"name": "row", "source": "home.cpp"}}
+    own = [{"status": "matched"}]
+    other_files = [{"status": "matched"}]
+    unmatched = [{"status": "queued"}]
+
+    # landed: same-file matched row
+    assert queue.asm_already_matched(own, [], b"\x90\x90\x90\x90", index)
+    # landed: name matched under another source
+    assert queue.asm_already_matched([], other_files, b"\x90\x90\x90\x90", index)
+    # landed: exact bytes in the matched body index
+    assert queue.asm_already_matched([], [], b"\x90\x90\x90\x90", index)
+    # still a candidate: unrowed body with no matched owner
+    assert not queue.asm_already_matched(unmatched, unmatched,
+                                         b"\x90\x90\x90\x90", {b"\xAA": None})
+
+
+def test_gen_asm_procs_skip_bodies_inside_matched_ranges():
+    """A dump PROC that is only a prefix of a matched row at its own RVA --
+    the common EH-prologue stub of a rowed parent -- shares no exact-bytes
+    index entry, so the range index must catch it."""
+    ranges = queue.matched_row_ranges({"home.cpp": [
+        {"status": "matched", "target_rva": "0x00006B09", "target_size": "285"},
+        {"status": "queued", "target_rva": "0x00008000", "target_size": "40"},
+    ]})
+    assert ranges == [(0x6B09, 0x6B09 + 285)]  # the queued row is excluded
+
+    # the 10-byte prologue stub of the rowed 285-byte parent
+    assert queue.asm_rva_contained(ranges, 0x6B09, 10)
+    assert queue.asm_rva_contained(ranges, 0x6B09, 285)
+    # a body overhanging the parent's end is not owned
+    assert not queue.asm_rva_contained(ranges, 0x6C1E, 10)
+    # no ghidra comment -> no rva -> undecidable, kept as a candidate
+    assert not queue.asm_rva_contained(ranges, None, 10)
+
+
+def test_ghidra_rva_comment_is_read_above_the_proc():
+    """The PROC's retail rva comes from the ghidra comment above it, across
+    the `public` line between them."""
+    lines = [
+        "; ghidra: FUN_00406b09  retail @ 0x00006B09 size 10",
+        "public ?d_00006b09@@YAXXZ",
+        "?d_00006b09@@YAXXZ PROC",
+        "    db 0B8h, 0DCh",
+        "?d_00006b09@@YAXXZ ENDP",
+    ]
+    assert queue.asm_proc_blocks(lines) == [
+        ("?d_00006b09@@YAXXZ", b"\xb8\xdc", 2, 4, 0x6B09)]
+
+
+def test_gen_asm_branch_uses_the_tripwire():
+    """Lock the wiring: main()'s .asm branch must consult asm_already_matched,
+    not just the pytest above, or a refedit could drop the call again."""
+    import inspect
+
+    source = inspect.getsource(queue.main)
+    assert "asm_already_matched(own" in source, (
+        "main()'s .asm branch stopped consulting the already-matched filter; "
+        "landed gen-asm PROCs will be served as fresh candidates again")
+    assert "asm_rva_contained(body_ranges" in source, (
+        "main()'s .asm branch stopped consulting the matched-range filter; "
+        "prologue stubs of rowed parents will be served as fresh candidates")
