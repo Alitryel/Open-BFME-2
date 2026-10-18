@@ -326,7 +326,9 @@ public:
 	virtual void slot();
 	virtual void base06CSlot0();
 	virtual void base070Slot0();
+protected:
 	virtual ~Object();
+public:
 
 protected:
 	void setID(ObjectID id);
