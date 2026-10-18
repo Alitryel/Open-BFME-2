@@ -53,7 +53,7 @@ class Rva0043A340 : public Rva0043A340Base
 {
 public:
 	Rva0043A340() : m_08(0) {}
-	virtual ~Rva0043A340() {}
+	virtual ~Rva0043A340();
 	Int m_08;			// +0x08
 };
 
