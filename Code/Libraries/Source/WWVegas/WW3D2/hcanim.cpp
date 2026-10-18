@@ -10,13 +10,12 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 // Native Hashable ctor EF9C2 is the 13B size copy; the /O2 default emits
 // a conflicting 16B provider. Use this existing scope for the base header.
+#include "hash.h"
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // RefCountClass's inline members and deleting destructor are retail's
 // size-optimised bodies: compile them for size, as hlod.cpp does.
 #pragma optimize("s", on)
 #include "refcount.h"
-#pragma optimize("", on)
-#include "hash.h"
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #define Matrix4x4 Matrix4
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
