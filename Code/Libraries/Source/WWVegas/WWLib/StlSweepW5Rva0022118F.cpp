@@ -4,7 +4,10 @@
 // stlport
 #include <vector>
 
-struct Rva0022118FElement {Rva0022118FElement();Rva0022118FElement(const Rva0022118FElement&);Rva0022118FElement&operator=(const Rva0022118FElement&);~Rva0022118FElement(){}char bytes[16]; bool operator==(const Rva0022118FElement&)const;};
+// The copy is trivial: retail's element construct (the BfmeE16 _Construct
+// 0x0059CE9E reached through 0x000ADE67) is four movsd, so no copy ctor is
+// declared.
+struct Rva0022118FElement {Rva0022118FElement();Rva0022118FElement&operator=(const Rva0022118FElement&);~Rva0022118FElement(){}char bytes[16]; bool operator==(const Rva0022118FElement&)const;};
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva0022118FElement, _STL::allocator<Rva0022118FElement> >::reserve(unsigned int);
