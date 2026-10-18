@@ -32,6 +32,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 ** You should have received a copy of the GNU General Public License
 ** along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+// Keep the visible identity constructor inline, binding calls to its retail owner.
+#include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
 #include "rendobj.h"
 #include "vector3.h"
 #include "vector4.h"
