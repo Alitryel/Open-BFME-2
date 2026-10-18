@@ -1,7 +1,7 @@
 // cl: /MD /DNDEBUG /EHsc
 // ?rva047E59E@Rva047E59E@@QAEXXZ @0x0047E59E 54B: when the owner's +0x130 counter is set and
 // the global table's +0x40 limit is not exceeded, kill the object at this-8 with (8, 6); then tail
-// into the shared member 0x00468749 with this.
+// into TransportContain::update (0x00468749) with this.
 enum DamageType
 {
 	Rva047E59EDamage8 = 8
@@ -18,6 +18,15 @@ public:
 	void kill(DamageType d, DeathType t);
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+
+// The update interface this receiver shares (0x00468749).
+class TransportContain
+{
+public:
+	virtual UpdateSleepTime update();
+};
+
 class GameLogic;
 extern GameLogic *TheGameLogic;
 
@@ -25,7 +34,6 @@ class Rva047E59E
 {
 public:
 	void rva047E59E();
-	void rva00468749();
 
 private:
 	char m_pad00[0x130];
@@ -45,5 +53,5 @@ void Rva047E59E::rva047E59E()
 			obj->kill(Rva047E59EDamage8, Rva047E59EDeath6);
 		}
 	}
-	rva00468749();
+	((TransportContain *)this)->TransportContain::update();
 }

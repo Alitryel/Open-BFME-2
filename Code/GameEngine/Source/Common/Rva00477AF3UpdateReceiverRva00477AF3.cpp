@@ -7,7 +7,8 @@
 // Primary maintenance members are banked, not recovered providers.
 int GetGameLogicRandomValue(int,int,char *,int);
 class HordeTransportContain {public:void rva004779F9();void rva0047748E();};
-class Rva047E59E {public:void rva00468749();};
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+class TransportContain {public:virtual UpdateSleepTime update();};
 class Rva00477AF3UpdateReceiver {
 public:void rva00477AF3();
 private:char head[0x110];int frames;unsigned char enabled;
@@ -25,5 +26,5 @@ void Rva00477AF3UpdateReceiver::rva00477AF3()
         }
         --frames;
     }
-    ((Rva047E59E*)this)->rva00468749();
+    ((TransportContain*)this)->TransportContain::update();
 }

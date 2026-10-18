@@ -13937,7 +13937,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?rva00107961@Rva00107E76Elem@@QAEXXZ,0x00107961,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
 ?rva00107A50@Rva00107E76Elem@@QAEXPAX@Z,0x00107A50,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
 ?rva00107B41@Rva00107E76Elem@@QAEXPAVVector3@@FPAGABV2@@Z,0x00107B41,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
-?rva00468749@Rva047E59E@@QAEXXZ,0x00468749,callee of ?rva047E59E@Rva047E59E@@QAEXXZ
 ?rva003B9132@Rva003B92A2@@QAEXXZ,0x003B9132,unrowed member callee of 0x3B92A2 (retail 0x3B9132)
 ?rva002BEBE3@Rva002C021A@@QAEXXZ,0x002BEBE3,unrowed thiscall callees of 0x2C021A
 ?rva00329339@@YAXPAURva003294B3Obj@@H@Z,0x00329339,callee of ?rva003294B3@@YAXPAURva003294B3Obj@@HH@Z
