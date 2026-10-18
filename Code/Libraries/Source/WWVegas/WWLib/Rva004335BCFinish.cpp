@@ -14,6 +14,9 @@
 #include "ascii_string.h"
 
 struct TreeKey00242F5E { int m_a; int m_b; };
+// Its range destroy is rowed with the TreeKey vector growth path
+// (TreeKey00242F5EVectorOverflow); this unit's copy is not retail's.
+namespace _STL { template <> void _Destroy<TreeKey00242F5E *>(TreeKey00242F5E *, TreeKey00242F5E *); }
 class BfmeStringTailRecord156 { public: char m_pad[156]; };
 struct BfmeE8 { int m_a; int m_b; };
 
