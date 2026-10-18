@@ -130,4 +130,11 @@ extern PFN_D3DXCheckTextureRequirements __identifier("_imp__D3DXCheckTextureRequ
 HRESULT __stdcall D3DXCheckTextureRequirements(LPDIRECT3DDEVICE9 pDevice, UINT *pWidth, UINT *pHeight, UINT *pNumMipLevels, DWORD Usage, D3DFORMAT *pFormat, D3DPOOL Pool) {
  return __identifier("_imp__D3DXCheckTextureRequirements@28")(pDevice, pWidth, pHeight, pNumMipLevels, Usage, pFormat, Pool);
 }
+
+// _D3DXLoadVolumeFromFileInMemory@36
+typedef HRESULT (__stdcall *PFN_D3DXLoadVolumeFromFileInMemory)(LPDIRECT3DVOLUME9, const PALETTEENTRY *, const D3DBOX *, LPCVOID, UINT, const D3DBOX *, DWORD, D3DCOLOR, D3DXIMAGE_INFO *);
+extern PFN_D3DXLoadVolumeFromFileInMemory __identifier("_imp__D3DXLoadVolumeFromFileInMemory@36");
+HRESULT __stdcall D3DXLoadVolumeFromFileInMemory(LPDIRECT3DVOLUME9 pDestVolume, const PALETTEENTRY *pDestPalette, const D3DBOX *pDestBox, LPCVOID pSrcData, UINT SrcDataSize, const D3DBOX *pSrcBox, DWORD Filter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo) {
+ return __identifier("_imp__D3DXLoadVolumeFromFileInMemory@36")(pDestVolume, pDestPalette, pDestBox, pSrcData, SrcDataSize, pSrcBox, Filter, ColorKey, pSrcInfo);
+}
 }
