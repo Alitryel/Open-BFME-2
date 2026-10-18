@@ -358,9 +358,9 @@ class Image;
 const Image *__cdecl getButtonImage(ThingTemplate *, Object *);
 void __cdecl GadgetButtonSetEnabledImage_Rva002C0433(GameWindow *, const Image *);
 struct ControlBarInventoryEntry { GameWindow *window; int objectID; };
-// Native32-slot window/ObjectID array atVA E05E20; zero-filled image storage.
-// Shared by population, construction update, lookup, command processing and reset.
-ControlBarInventoryEntry ControlBarInventoryEntries[32];
+// The shared inventory table is defined with its population callback in
+// ControlBarCommand.cpp; this split unit must not allocate a second copy.
+extern ControlBarInventoryEntry ControlBarInventoryEntries[32];
 
 
 // Native53D9DC's local window-pointer vector is constructed through211E58.
