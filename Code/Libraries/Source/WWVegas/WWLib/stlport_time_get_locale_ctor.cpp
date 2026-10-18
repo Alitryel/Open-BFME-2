@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /ICode/Libraries/Source/WWVegas/WWLib/TimeInfoLink /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 // Instantiate the protected locale-time overload directly from STLport 4.5.3
 // stl/_time_facets.h. Vtables BBBBC0 (narrow) and BBBBEC (wide) are independently
