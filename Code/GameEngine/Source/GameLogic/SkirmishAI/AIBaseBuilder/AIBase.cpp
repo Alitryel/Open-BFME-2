@@ -432,21 +432,6 @@ Rva005AD9C0Hit *AIBase::rva005AD9C0(void *arg)
 	return hit;
 }
 
-void AIBase::rva005ADC63()
-{
-	Rva00573E7C *owned = m_owned;
-	if (owned) {
-		if (((Rva004E9378 *)owned)->rva004E9378()) {
-			((Rva00506FE9Hit *)owned)->unRegisterWithBuilder(m_owner);
-			::delete m_owned;
-			m_owned = 0;
-		}
-	} else {
-		buildFortressIfNeeded();
-	}
-	for (Rva005DCE08 **it = m_items.begin(); it != m_items.end(); ++it)
-		(*it)->rva005DCCFB();
-}
 
 bool AIBase::rva005AD964()
 {
@@ -463,88 +448,8 @@ bool AIBase::rva005AD964()
 	return true;
 }
 
-void AIBase::DoXfer(Xfer *xfer)
-{
-	Xfer::Version version(1, 1);
-	*xfer == version;
-	*xfer == m_index;
-	*xfer == m_point;
-	*xfer == m_angle;
-	AsciiString name;
-	if (xfer->IsStoring() && m_10)
-		name = TheNameKeyGenerator->keyToName(TheBaseTemplateLibrary->rva0041E971(m_10));
-	*xfer == name;
-	if (xfer->IsLoading() && name != AsciiString::TheEmptyString)
-		m_10 = TheBaseTemplateLibrary->rva0041E764(TheNameKeyGenerator->nameToKey(name));
-	unsigned int count = m_items.size();
-	*xfer == count;
-	if (xfer->IsLoading()) {
-		for (unsigned int i = 0; i < count; ++i)
-			m_items.push_back((Rva005DCE08 *)new Rva005DCDD9(i, (int)m_owner));
-	}
-	Rva005DCE08 **end = m_items.end();
-	for (Rva005DCE08 **it = m_items.begin(); it != end; ++it)
-		(*it)->rva005DCEAD(xfer);
-	bool hasOwned = m_owned != 0;
-	*xfer == hasOwned;
-	if (hasOwned) {
-		if (xfer->IsLoading())
-			m_owned = new Rva00573E7C;
-		m_owned->xfer(xfer, m_owner);
-	}
-}
 
-Rva0041E912Template *AIBase::rva005ADCBE(int notFirst, const _STL::vector<Rva0041E912Template *> &list)
-{
-	Rva0041E912Template *chosen = 0;
-	const MapMetaData *map = TheMapCache->findMap(TheWritableGlobalData->m_mapName);
-	if (map) {
-		bool open = rva005AD964();
-		_STL::vector<Rva0041E912Template *> candidates;
-		AsciiString mapName = ((MapMetaData *)map)->rva00300D0E();
-		for (Rva0041E912Template *const *it = list.begin(); it != list.end(); ++it) {
-			Rva0041E912Template *tmpl = *it;
-			if (tmpl->m_name.compare(mapName) != 0) {
-				if (!open || tmpl->m_name.compare(g_00E06448) != 0)
-					continue;
-			}
-			if (tmpl->m_starts.begin() == tmpl->m_starts.end()) {
-				candidates.push_back(tmpl);
-			} else {
-				int start = Rva00506C82Find((const Rva00506C82Arg *)m_owner)->m_10 + 1;
-				int *end = tmpl->m_starts.end();
-				if (_STL::find(tmpl->m_starts.begin(), end, start) != end)
-					candidates.push_back(tmpl);
-			}
-		}
-		if (!candidates.empty()) {
-			unsigned int count = candidates.size();
-			if (count > 1)
-				chosen = candidates[GetGameLogicRandomValue(0, count - 1,
-					"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AIBaseBuilder\\AIBase.cpp",
-					211)];
-			else
-				chosen = candidates[0];
-		}
-	}
-	return chosen;
-}
 
-void AIBase::loadBestFitTemplate(Coord3D *point, float angle, int notFirst)
-{
-	_STL::vector<Rva0041E912Template *> templates;
-	if (TheBaseTemplateLibrary->rva0041E912(((Rva005AE26AOwner *)m_owner)->m_58, templates)) {
-		Rva0041E912Template *chosen = rva005ADCBE(notFirst, templates);
-		if (chosen) {
-			m_10 = chosen;
-			m_point = *point;
-			if (chosen->m_18)
-				m_angle = angle;
-			parseTemplateIntoPhases(&m_point, m_angle, chosen);
-			return;
-		}
-	}
-}
 
 // Coord3D from a WWMath vector (retail copies the returned temporary).
 static inline void copyVector(Coord3D *dst, const Vector3 &v)
@@ -580,47 +485,4 @@ void AIBase::parseTemplateIntoPhases(const Coord3D *point, float angle, Rva0041E
 // The held pointer and fence preserve the native load before the branch;
 // visibility of the rowed terrain setter preserves scheduling around zero.
 __forceinline Rva00573E7C*heldOwned(Rva00573E7C*const&p){Rva00573E7C*q=p;_ReadWriteBarrier();return q;}
-void AIBase::buildFortressIfNeeded()
-{
-	GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)m_owner);
-	const AsciiString &side = ThePlayerTemplateStore->getNthPlayerTemplate(slot->m_18)->m_side;
-	const ThingTemplate *tmpl = TheThingFactory->findTemplate(side);
-	if (!((Player *)m_owner)->canBuild(tmpl))
-		return;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
-	int count = record->m_16C;
-	if (count < 1)
-		return;
-	if (record->m_140.rva005AD9E6() <= 0)
-		return;
-	if (m_owned && !((Rva004E9378 *)m_owned)->rva004E9378())
-		return;
-	bool clear = true;
-	_STL::list<ObjectID>::iterator end = record->m_144.end();
-	for (_STL::list<ObjectID>::iterator it = record->m_144.begin(); it != end; ++it) {
-		if (!clear)
-			break;
-		Object *obj = TheGameLogic->findObjectByID(*it);
-		if (obj) {
-			float dx = m_point.x - obj->m_pos.x;
-			float dy = m_point.y - obj->m_pos.y;
-			if (dx * dx + dy * dy <= 350.0f * 350.0f)
-				clear = false;
-		}
-	}
-	if (!clear)
-		return;
-	if (!heldOwned(m_owned)) {
-		m_owned = new Rva00573E7C;
-		m_owned->m_point = m_point;
-		Coord3D zero;
-		zero.zero();
-		((Rva00573A00 *)m_owned)->rva00573A00(&zero);
-		m_owned->m_04 = record->m_160->m_20;
-		m_owned->m_angle = m_angle;
-		m_owned->m_name = side;
-		m_owned->m_21 = true;
-	}
-	m_owned->run(0);
-	m_owned->start(m_owner, 0);
-}
+
