@@ -457,11 +457,7 @@ class Object : public Thing, public Snapshot
  }
  void getHealthBoxPosition(Coord3D& pos) const;
  Bool getHealthBoxDimensions(Real &healthBoxHeight, Real &healthBoxWidth) const;
- inline Bool isEffectivelyDead() const 
- {
-  return (m_privateStatus & EFFECTIVELY_DEAD) != 0;
-  
- }
+ Bool isEffectivelyDead();
  void setEffectivelyDead(Bool dead);
  void markSingleUseCommandUsed() 
  {
