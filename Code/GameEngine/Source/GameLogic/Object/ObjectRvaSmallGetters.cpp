@@ -31,7 +31,7 @@ public:
 	void rva004DDD6E();
 	bool rva004DD80A(Coord3D *out);
 	float rva004DD843();
-	void rva004DE2ED();
+	bool rva004DE2ED();	// returns bool, as rowed
 	void rva004DDD92();
 	bool rva004DD84D(Coord3D *out);
 	bool rva004DD637();
