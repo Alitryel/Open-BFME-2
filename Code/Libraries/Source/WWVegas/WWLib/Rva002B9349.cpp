@@ -21,6 +21,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct BfmeE8 {
 	int a, b;
 };
+// The rowed retail copy (stlport_vector_e8_allocate_copy.cpp, 0x00057C80) serves the link.
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, const BfmeE8 &, const __false_type &, unsigned int, bool); } namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(const BfmeE8 &); }
 
 class Rva002B9349
 {

@@ -313,6 +313,8 @@ class Rva0053B914 { public: void rva0053B914(); };
 class Rva0031B60DOut { public: int start,count; };
 class Rva0031B60DOwner { public: Rva0031B60DOut *rva0031B60D(Rva0031B60DOut *); };
 struct BfmeE8 { int x,y; };
+// The rowed retail copy (stlport_vector_e8_allocate_copy.cpp, 0x00057C80) serves the link.
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, const BfmeE8 &, const __false_type &, unsigned int, bool); } namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(const BfmeE8 &); }
 struct TemplateCountKey { const ThingTemplate *pointer;
  __forceinline TemplateCountKey() {} __forceinline TemplateCountKey(const ThingTemplate *p):pointer(p){}
  __forceinline bool operator<(const TemplateCountKey &other)const{return pointer<other.pointer;} };
