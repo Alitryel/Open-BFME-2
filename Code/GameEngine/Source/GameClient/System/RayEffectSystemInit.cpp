@@ -37,7 +37,9 @@ class RayEffectSystem : public SubsystemInterface
 {
 public:
     RayEffectSystem();
-    virtual ~RayEffectSystem();
+    // Compiler-generated destruction (members, then the rowed base dtor), the
+    // body retail's vtable slot 0 reaches.
+    virtual ~RayEffectSystem() {}
     virtual __declspec(noinline) void init();
 
 private:

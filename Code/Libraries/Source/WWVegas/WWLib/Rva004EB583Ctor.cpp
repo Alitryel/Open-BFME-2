@@ -14,7 +14,9 @@ class Rva004EB583
 public:
 	Rva004EB583(int v);
 protected:
-	virtual ~Rva004EB583();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~Rva004EB583() {}
 private:
 	int m_04;
 	_STL::vector<BfmeE16> m_vec08;

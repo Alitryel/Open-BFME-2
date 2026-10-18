@@ -58,7 +58,9 @@ class Rva006CBDE0 : public BfmeAptValue006DCD20
 	unsigned int m_5c;
 public:
 	Rva006CBDE0(int type, void *p1, AptValue *p2);
-	virtual ~Rva006CBDE0();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~Rva006CBDE0() {}
 };
 
 Rva006CBDE0::Rva006CBDE0(int type, void *p1, AptValue *p2) : BfmeAptValue006DCD20(type, 0)

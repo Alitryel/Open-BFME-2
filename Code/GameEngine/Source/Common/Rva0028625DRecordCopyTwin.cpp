@@ -33,7 +33,9 @@ struct Rva0028625DRecord : public Rva00285BECBase, public Rva00285BECSnapshotBas
 		Pair080C() {}
 	};
 	Rva0028625DRecord(const Rva0028625DRecord &src);
-	virtual ~Rva0028625DRecord();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~Rva0028625DRecord() {}
 
 	Pair080C m_08;
 	int m_10;

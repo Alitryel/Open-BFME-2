@@ -35,7 +35,9 @@ class Rva0056B7E4
 {
 public:
 	Rva0056B7E4(const AsciiString &name);
-	virtual ~Rva0056B7E4();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~Rva0056B7E4() {}
 
 private:
 	AsciiString m_4;         // +0x04, default-constructed

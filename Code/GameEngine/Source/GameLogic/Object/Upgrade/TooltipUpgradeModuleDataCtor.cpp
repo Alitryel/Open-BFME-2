@@ -29,7 +29,9 @@ class TooltipUpgradeModuleData : public Rva00253487Base
 {
 public:
 	TooltipUpgradeModuleData();
-	virtual ~TooltipUpgradeModuleData();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~TooltipUpgradeModuleData() {}
 
 private:
 	AsciiString m_displayName; // +0x118

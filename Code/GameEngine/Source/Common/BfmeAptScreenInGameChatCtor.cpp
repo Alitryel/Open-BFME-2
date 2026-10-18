@@ -92,7 +92,9 @@ class BfmeAptScreenInGameChat : public _bfme_AptGameWindow
 {
 public:
 	BfmeAptScreenInGameChat(void *context);
-	virtual ~BfmeAptScreenInGameChat();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~BfmeAptScreenInGameChat() {}
 private:
 	char m_pad274[8];
 	Rva005C9B76 m_member27C;

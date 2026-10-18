@@ -13,7 +13,9 @@
 struct Rva002DA651
 {
 	Rva002DA651(const OpaqueRefElement4 &, int);
-	virtual ~Rva002DA651();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~Rva002DA651() {}
 	AsciiString m_string04;
 	BfmePoolRef08 m_pool08;
 	int m_int0C;

@@ -55,7 +55,9 @@ class Rva006D6500 : public Rva006D6360
     int m_arg;
 public:
     Rva006D6500(int a0);
-    virtual ~Rva006D6500();
+    // Compiler-generated destruction (members, then the rowed base dtor), the
+    // body retail's vtable slot 0 reaches.
+    virtual ~Rva006D6500() {}
 };
 inline Rva006D6360::Rva006D6360(int type, int size) : BfmeAptValue006DCD20(type), m_hash(size)
 {

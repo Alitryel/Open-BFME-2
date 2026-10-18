@@ -47,7 +47,9 @@ class W3DStatusCircle : public RenderObjClass
 {
 public:
 	W3DStatusCircle();
-	virtual ~W3DStatusCircle();
+	// Compiler-generated destruction (members, then the rowed base dtor), the
+	// body retail's vtable slot 0 reaches.
+	virtual ~W3DStatusCircle() {}
 
 private:
 	int m_numTriangles;
