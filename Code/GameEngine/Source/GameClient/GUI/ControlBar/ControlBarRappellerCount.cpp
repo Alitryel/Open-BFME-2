@@ -79,13 +79,12 @@ class UpgradeTemplate { public: Int m_pad0; Int m_upgradeType; };
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *name); };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class Rva0033A632 { public: Int rva0033A632(); };
-
 class ThingTemplate {
 public:
+	BuildableStatus getBuildable() const;
 	bool isKindOf43() const { return (m_kindOf[5] & 8) != 0; }
 	__forceinline UnsignedInt commandKindOfMask(int bit) const { return ((const UnsignedInt *)m_kindOf)[bit >> 5] & (1 << (bit & 31)); }
-	__forceinline BuildableStatus commandBuildableStatus() const { return (BuildableStatus)((Rva0033A632 *)this)->rva0033A632(); }
+	__forceinline BuildableStatus commandBuildableStatus() const { return getBuildable(); }
 	char m_pad000[0x108];
 	unsigned char m_kindOf[32];
 };

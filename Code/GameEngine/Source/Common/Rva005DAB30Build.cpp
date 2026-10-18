@@ -81,7 +81,6 @@ private:
 };
 
 enum BuildableStatus { BSTATUS_YES, BSTATUS_IGNORE_PREREQUISITES, BSTATUS_NO, BSTATUS_ONLY_BY_AI };
-class Rva0033A632 { public: int rva0033A632(); };
 class ThingTemplate { public: BuildableStatus getBuildable() const; };
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); };
 class CommandButton { public: const ThingTemplate *rva0035B570() const; };
@@ -103,7 +102,7 @@ int Rva005DAAB6::rva005DAB30(Player *player)
  const ThingTemplate *objectTemplate = TheThingFactory->findTemplate(m_0C);
  Object *object = TheGameLogic->findObjectByID(m_08);
  if (objectTemplate && object && player->allowedToBuild(objectTemplate)) {
-  BuildableStatus status = (BuildableStatus)((Rva0033A632 *)m_command->rva0035B570())->rva0033A632();
+  BuildableStatus status = m_command->rva0035B570()->getBuildable();
   if (status == BSTATUS_NO || (status == BSTATUS_ONLY_BY_AI && object->getControllingPlayer()->type != 1)) return 9;
   Rva005DAB30Production *production = (Rva005DAB30Production *)object->rva0028BCF4();
   if (production && !production->busy() && player->canBuild(objectTemplate))

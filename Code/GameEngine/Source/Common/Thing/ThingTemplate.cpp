@@ -888,15 +888,7 @@ Int ThingTemplate::getSkillPointValue(Int level) const
 // ThingTemplate::getBuildFacilityTemplate is defined with its retail-matched body in Code/GameEngine/Source/Common/ThingTemplateBuildFacility.cpp (0x0033A97F).
 
 //-------------------------------------------------------------------------------------------------
-// ?ThingTemplate::getBuildable present-unmatched
-BuildableStatus ThingTemplate::getBuildable() const 
-{ 
-	BuildableStatus bs;
-	if (TheGameLogic && TheGameLogic->findBuildableStatusOverride(this, bs))
-		return bs;
-
-	return (BuildableStatus)m_buildable; 
-}
+// Target getBuildable is defined by the verified owner in Rva0033A632.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // ?ThingTemplate::getPerUnitFX present-unmatched

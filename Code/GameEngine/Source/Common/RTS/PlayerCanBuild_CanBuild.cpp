@@ -61,6 +61,14 @@ private:
 	char m_unmodelled[0x24];
 };
 
+// Preserve inline size arithmetic without a second out-of-line copy.
+// ThingFactory.cpp owns the verified vector size at 00626DF0.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+vector<ProductionPrerequisite>::size_type vector<ProductionPrerequisite>::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+}
+
 // ThingTemplate::getBuildable is out of line in BFME 2 (0x0033A632).
 class ThingTemplate
 {
