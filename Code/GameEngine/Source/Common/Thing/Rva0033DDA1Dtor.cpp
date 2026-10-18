@@ -1,4 +1,4 @@
-// cl: /EHs /MD
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /EHs /MD
 // ??1ThingTemplate@@UAE@XZ @0x0033DDA1 713B.
 // Virtual scalar destructor of the large ThingTemplate-side record holder:
 // vptr store, 20 member-dtor calls in reverse order, three ehvec array
@@ -8,6 +8,44 @@
 // inline (free 0x00030830). Member order and sizes mirror the banked 0.99
 // layout (+0x364 is the Rva0033BD50 holder, not a CD02Vec).
 extern "C" void free(void *block);
+
+#include "ascii_string.h"
+
+// The member containers are STLport instantiations whose out-of-line
+// destructors are rowed (vector<Rva002DFC30> 0x0033D4AB,
+// vector<BfmeStringRecord002CF4C6> 0x0033CD02, vector<ProductionPrerequisite>
+// 0x0033CA81, the BfmeStringRecord002CF550 set tree 0x0025742C and the
+// no-case AsciiString map tree 0x0033D00A). Declaration-only views of those
+// templates keep each call a direct call to its rowed body.
+namespace _STL
+{
+template <class T> class allocator;
+template <class T> struct less;
+template <class T> struct _Identity;
+template <class P> struct _Select1st;
+template <class A, class B> struct pair;
+template <class T, class A = allocator<T> > class vector
+{
+public:
+	~vector();
+private:
+	void *m_v[3];
+};
+template <class K, class V, class KoV, class C, class A> class _Rb_tree
+{
+public:
+	~_Rb_tree();
+private:
+	void *m_t[3];
+};
+}
+class Rva002DFC30;
+class ProductionPrerequisite;
+struct BfmeStringRecord002CF4C6;
+struct BfmeStringRecord002CF550;
+struct NoCaseTreeValue4;
+struct BfmeStringNoCaseLess;
+typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NoCasePair4;
 
 struct PtrHolder
 {
@@ -35,15 +73,6 @@ public:
 
 private:
 	char m_wide_narrow[8];
-};
-
-class Rva0033DDA1E4
-{
-public:
-	~Rva0033DDA1E4();
-
-private:
-	char m[4];
 };
 
 // The +0x124 field is the existing 56-record array holder: its cleanup
@@ -86,24 +115,6 @@ struct Rva0033C3F3
 	~Rva0033C3F3();
 };
 
-class Rva0033CD02Vec
-{
-public:
-	~Rva0033CD02Vec();
-
-private:
-	void *m_v[3];
-};
-
-class Rva0033CA81Vec
-{
-public:
-	~Rva0033CA81Vec();
-
-private:
-	void *m_v[3];
-};
-
 class RvaVecAscii
 {
 public:
@@ -120,38 +131,11 @@ struct Rva0033BD50
 	~Rva0033BD50();
 };
 
-class Rva0033D4ABVec
-{
-public:
-	~Rva0033D4ABVec();
-
-private:
-	void *m_v[3];
-};
-
 struct Rva0033BD88
 {
 	void *m_begin;
 	void *m_end;
 	~Rva0033BD88();
-};
-
-class Rva0025742CTree
-{
-public:
-	~Rva0025742CTree();
-
-private:
-	void *m_t[3];
-};
-
-class Rva0033D00ATree
-{
-public:
-	~Rva0033D00ATree();
-
-private:
-	void *m_t[3];
 };
 
 struct Rva0033BDC0
@@ -209,7 +193,7 @@ private:
 	Rva0033B84ETok m_s70; // +0x70
 	Rva0033B84ETok m_s74; // +0x74
 	Rva0033B84ETok m_s78; // +0x78
-	Rva0033DDA1E4 m_e7c[5]; // +0x7c
+	AsciiString m_e7c[5]; // +0x7c
 	Rva0033B84ETok m_s90; // +0x90
 	Rva0033B84ETok m_s94; // +0x94
 	Rva0033B84ETok m_s98; // +0x98
@@ -219,12 +203,12 @@ private:
 	Rva0033C3F3 m_cFC; // +0xfc
 	char m_pad104[0x124 - 0x104];
 	Rva00254B72 m_e124; // +0x124, 56 records of 8 bytes
-	Rva0033CD02Vec m_v2e4; // +0x2e4
-	Rva0033CD02Vec m_v2f0; // +0x2f0
-	Rva0033CD02Vec m_v2fc; // +0x2fc
-	Rva0033CD02Vec m_v308; // +0x308
+	_STL::vector<BfmeStringRecord002CF4C6> m_v2e4; // +0x2e4
+	_STL::vector<BfmeStringRecord002CF4C6> m_v2f0; // +0x2f0
+	_STL::vector<BfmeStringRecord002CF4C6> m_v2fc; // +0x2fc
+	_STL::vector<BfmeStringRecord002CF4C6> m_v308; // +0x308
 	char m_pad314[0x324 - 0x314];
-	Rva0033CA81Vec m_v324; // +0x324
+	_STL::vector<ProductionPrerequisite> m_v324; // +0x324
 	RvaVecAscii m_a330; // +0x330
 	RvaVecAscii m_a33c; // +0x33c
 	RvaVecAscii m_a348; // +0x348
@@ -232,10 +216,10 @@ private:
 	PtrHolder m_h358; // +0x358
 	char m_pad35C[0x364 - 0x35c];
 	ArmorSetFinderView m_d364; // +0x364
-	Rva0033D4ABVec m_v370; // +0x370
+	_STL::vector<Rva002DFC30> m_v370; // +0x370
 	WeaponSetFinderView m_d37c; // +0x37c
-	Rva0025742CTree m_t388; // +0x388
-	Rva0033D00ATree m_t394; // +0x394
+	_STL::_Rb_tree<BfmeStringRecord002CF550, BfmeStringRecord002CF550, _STL::_Identity<BfmeStringRecord002CF550>, _STL::less<BfmeStringRecord002CF550>, _STL::allocator<BfmeStringRecord002CF550> > m_t388; // +0x388
+	_STL::_Rb_tree<AsciiString, NoCasePair4, _STL::_Select1st<NoCasePair4>, BfmeStringNoCaseLess, _STL::allocator<NoCasePair4> > m_t394; // +0x394
 	TemplateNameMapView m_d3a0; // +0x3a0
 	Rva0026E1A6 m_m3ac; // +0x3ac
 	PtrHolder m_h3b8; // +0x3b8
