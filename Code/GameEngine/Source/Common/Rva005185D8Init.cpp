@@ -66,14 +66,4 @@ class AptScoreScreen
 public:
 	static bool OpenScreen(int a1, int a2);
 };
-// WorldBuilder AptScoreScreen::OpenScreen, WB VA 0x0145FCE0 (strings lead, score 1.0).
-bool AptScoreScreen::OpenScreen(int a1, int a2)
-{
-	if (g_00E04914 != 0)
-		return true;
-	((Shell *)(*(GlobalA01E48 **)&TheShell))->push(AsciiString("ScoreScreen.apt"), false);
-	((State0051E262 *)g_00E04914)->m_280 = a1;
-	((State0051E262 *)g_00E04914)->m_288 = a2;
-	((State0051E262 *)g_00E04914)->rva0051DE3D();
-	return true;
-}
+

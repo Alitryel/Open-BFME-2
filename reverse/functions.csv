@@ -62535,7 +62535,7 @@ _rva005DE059,,0x005DE059,47,Code/GameEngine/Source/Common/Rva005DE059Loop.cpp,ma
 ?rva0020F77C@Rva0020F77C@@QAEXPAVObjectCreationNugget@@@Z,,0x0020F77C,25,Code/GameEngine/Source/Common/Rva0020F77CPush.cpp,matched,
 ??1VegetationFXShaderParameterSourceNamespace@@UAE@XZ,,0x000E6387,57,Code/GameEngine/Source/Common/Rva000E6387VegetationBinderDtor.cpp,matched,Vegetation FX binder dtor erases its registration via rowed 0x1532E1 like the Terrain binder
 ??1Rva001095B2@@UAE@XZ,,0x001095B2,94,Code/GameEngine/Source/Common/Rva001095B2Dtor.cpp,matched,derived dtor deletes owned objects at +0x58/+0x5C then restores base vtable 0x7CEFA0
-?OpenScreen@AptScoreScreen@@SA_NHH@Z,,0x0051E262,85,Code/GameEngine/Source/Common/Rva005185D8Init.cpp,matched,
+?OpenScreen@AptScoreScreen@@SA_NHH@Z,,0x0051E262,85,Code/GameEngine/Source/Common/Rva005185D8Init_OpenScreen.cpp,matched,
 ?Rva005235A5@@YGHHEH@Z,,0x005235A5,48,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp,matched,
 ?rva0052A22C@Holder0052A22C@@QAEXPAUObj0052A22C@@@Z,,0x0052A22C,24,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,matched,
 ?Rva005243FA@@YAHHHH@Z,,0x005243FA,27,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,matched,
