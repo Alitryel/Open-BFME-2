@@ -57,7 +57,7 @@ unsigned g_Va00DDEF14;	// retail RVA 0x009DEF14 (.bss), defined here
 extern unsigned char g_009DEEF0Static[12];
 extern unsigned char g_00DDEF20Static[12];
 unsigned g_Va00DDEEE4;	// retail RVA 0x009DEEE4 (.bss), defined here
-extern unsigned g_Va00DDEF38;
+unsigned g_Va00DDEF38;	// retail RVA 0x009DEF38 (.bss), defined here
 unsigned g_Va00DDEF2C;	// retail RVA 0x009DEF2C (.bss), defined here
 
 struct Rva007AB8D0StringInits
