@@ -49,3 +49,9 @@ Rva00406BB0::Rva00406BB0(const Rva00406BB0 &other)
 	: Rva00406BB0Base(other), m_str04(other.m_str04), m_08(other.m_08)
 {
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva00406BB0Base@@UAE@XZ=??3@YAXPAX@Z")

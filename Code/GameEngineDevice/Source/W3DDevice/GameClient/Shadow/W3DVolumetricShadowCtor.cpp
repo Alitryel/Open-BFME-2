@@ -166,3 +166,9 @@ W3DVolumetricShadow::W3DVolumetricShadow( void )
 	}  // end for i
 
 }  // end W3DVolumetricShadow
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva000F0F2B@@UAE@XZ=??3@YAXPAX@Z")
