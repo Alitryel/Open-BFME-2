@@ -45,6 +45,9 @@ struct BfmePod32 { int a[8]; };
 namespace _STL { template <> vector<BfmePod32, allocator<BfmePod32> >::~vector(); }
 inline bool operator==(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod32> has its own pin; declare that specialization so
+// this unit calls it rather than emitting a second, non-retail copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod32, BfmePod32>(BfmePod32 *__p, const BfmePod32 &__val); }
 struct BfmePod36 { int a[9]; };
 inline bool operator==(const BfmePod36 &x, const BfmePod36 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod36 &x, const BfmePod36 &y) { return x.a[0] < y.a[0]; }
@@ -55,18 +58,30 @@ namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >
 namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *, BfmePod40 *); }
 inline bool operator==(const BfmePod40 &x, const BfmePod40 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod40 &x, const BfmePod40 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod40> is pinned elsewhere; declare that
+// specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod40, BfmePod40>(BfmePod40 *__p, const BfmePod40 &__val); }
 struct BfmePod44 { int a[11]; };
 inline bool operator==(const BfmePod44 &x, const BfmePod44 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod44 &x, const BfmePod44 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod48 { int a[12]; };
 inline bool operator==(const BfmePod48 &x, const BfmePod48 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod48 &x, const BfmePod48 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod48> is pinned elsewhere; declare that
+// specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod48, BfmePod48>(BfmePod48 *__p, const BfmePod48 &__val); }
 struct BfmePod52 { int a[13]; };
 inline bool operator==(const BfmePod52 &x, const BfmePod52 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod52 &x, const BfmePod52 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod52> is rowed in stlport_construct_pod52_rva.cpp
+// (0x001DD2DC); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod52, BfmePod52>(BfmePod52 *__p, const BfmePod52 &__val); }
 struct BfmePod60 { int a[15]; };
 inline bool operator==(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod60> is pinned elsewhere; declare that
+// specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod60, BfmePod60>(BfmePod60 *__p, const BfmePod60 &__val); }
 struct BfmePod68 { int a[17]; };
 // bfme link decl-only BfmePod68
 namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *, BfmePod68 *); }
@@ -80,6 +95,9 @@ inline bool operator<(const BfmePod76 &x, const BfmePod76 &y) { return x.a[0] < 
 struct BfmePod80 { int a[20]; };
 inline bool operator==(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod80> is rowed in stlport_construct_pod80_rva.cpp
+// (0x0051F920); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod80, BfmePod80>(BfmePod80 *__p, const BfmePod80 &__val); }
 struct BfmePod88 { int a[22]; };
 // bfme link decl-only BfmePod88
 namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector(); }
@@ -95,9 +113,15 @@ namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod92, Bfme
 struct BfmePod104 { int a[26]; };
 inline bool operator==(const BfmePod104 &x, const BfmePod104 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod104 &x, const BfmePod104 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod104> is rowed in StlportConstructFamily.cpp
+// (0x003B8AD8); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod104, BfmePod104>(BfmePod104 *__p, const BfmePod104 &__val); }
 struct BfmePod128 { int a[32]; };
 inline bool operator==(const BfmePod128 &x, const BfmePod128 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod128 &x, const BfmePod128 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod128> is pinned elsewhere; declare that
+// specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod128, BfmePod128>(BfmePod128 *__p, const BfmePod128 &__val); }
 struct BfmePod144 { int a[36]; };
 inline bool operator==(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod144 &x, const BfmePod144 &y) { return x.a[0] < y.a[0]; }
@@ -133,22 +157,34 @@ public:
     class CreateAHeroSubClass { public: int a[54]; };
 };
 namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubClass *); }
+// Retail's _Construct<CreateAHeroSubClass> is rowed in stlport_construct_pod216.cpp
+// (0x0021EF66); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<CreateAHeroManager::CreateAHeroSubClass, CreateAHeroManager::CreateAHeroSubClass>(CreateAHeroManager::CreateAHeroSubClass *__p, const CreateAHeroManager::CreateAHeroSubClass &__val); }
 inline bool operator==(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] < y.a[0]; }
 struct BfmePod248 { int a[62]; };
 namespace _STL {template<> vector<BfmePod248,allocator<BfmePod248> >::~vector();}
 inline bool operator==(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod248> is rowed in StlportConstructFamily.cpp
+// (0x000C78F3); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod248, BfmePod248>(BfmePod248 *__p, const BfmePod248 &__val); }
 struct BfmePod252 { int a[63]; };
 namespace _STL {template<> vector<BfmePod252,allocator<BfmePod252> >::~vector();}
 inline bool operator==(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod252> is rowed in StlportConstructFamily.cpp
+// (0x000C3717); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod252, BfmePod252>(BfmePod252 *__p, const BfmePod252 &__val); }
 struct BfmePod260 { int a[65]; };
 inline bool operator==(const BfmePod260 &x, const BfmePod260 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod260 &x, const BfmePod260 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod340 { int a[85]; };
 inline bool operator==(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] < y.a[0]; }
+// Retail's _Construct<BfmePod340> is rowed in StlportConstructFamily.cpp
+// (0x004D9B98); declare that specialization so this unit emits no competing copy.
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod340, BfmePod340>(BfmePod340 *__p, const BfmePod340 &__val); }
 
 // Target boundary 0x0007EA1F/136 is vector<char>::_M_insert_overflow for the
 // true_type path: matched _M_fill_insert at 0x0007FE65 calls it with the five
