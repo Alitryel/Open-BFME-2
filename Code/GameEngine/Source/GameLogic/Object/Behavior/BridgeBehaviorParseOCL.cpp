@@ -54,11 +54,17 @@ public:
 
 class ObjectCreationList;
 
+// Use the same retail 0x154300 constructor as the FX callback view.
+#pragma optimize("s", off)
+#pragma optimize("t", on)
 struct TimeAndLocationInfo
 {
 	UnsignedInt delay;
 	AsciiString boneName;
+	TimeAndLocationInfo() {}
+	~TimeAndLocationInfo() {}
 };
+#pragma optimize("", on)
 
 class BridgeBehaviorModuleData
 {
@@ -74,13 +80,24 @@ struct BridgeOCLInfo
 
 #include <list>
 
+struct BridgeBehaviorListValue12;
+
 namespace _STL
 {
 // BFME1 donor detail only: BridgeBehaviorParseFX.cpp records an out-of-line
 // _Construct call through donor ILT 0x00007C84 and donor body RVA 0x001F32A0.
 // BFME2 copy semantics are independently traced through 0x4570DD -> 0x456E70
 // -> 0x000CF475 -> 0x000365F0; do not interpret the donor addresses as target RVAs.
-template <> void _Construct<BridgeOCLInfo, BridgeOCLInfo>(BridgeOCLInfo *, const BridgeOCLInfo &);
+// The target's shared copy helper is already rowed under this neutral view.
+// Both callback payloads have pointer/delay/string at offsets 0/4/8.
+template <> void _Construct<BridgeBehaviorListValue12, BridgeBehaviorListValue12>(
+    BridgeBehaviorListValue12 *, const BridgeBehaviorListValue12 &);
+template <> __forceinline void _Construct<BridgeOCLInfo, BridgeOCLInfo>(
+    BridgeOCLInfo *destination, const BridgeOCLInfo &source)
+{
+    _Construct(reinterpret_cast<BridgeBehaviorListValue12 *>(destination),
+        reinterpret_cast<const BridgeBehaviorListValue12 &>(source));
+}
 }
 
 struct BoneNameSlot
