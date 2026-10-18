@@ -100,6 +100,49 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail keeps WW3D2's ProxyClass special members (default ctor, dtor and
+// assignment) in the Render2D vector<ProxyClass> units. This unit's select-any
+// copies came first in link order and are not retail's, so define the class
+// here (as HLodGetProxy.cpp does) with those three declared only: the link
+// then keeps retail's owners. The remaining members are the ZH proxy.h ones;
+// Get_Proxy and DynamicVectorClass<ProxyClass>::Add call the declared names.
+#define __PROXY_H
+#include "wwstring.h"
+class ProxyClass
+{
+public:
+
+	ProxyClass (void);
+	ProxyClass (const char *name, const Matrix3D &tm) :
+		Name (name),
+		Transform (tm) { }
+	~ProxyClass (void);
+	ProxyClass & operator = (const ProxyClass &src);
+
+	bool operator== (const ProxyClass &src)	{ return ((Name == src.Name) && (Transform == src.Transform)); }
+	bool operator!= (const ProxyClass &src)	{ return ((Name != src.Name) || (Transform != src.Transform)); }
+
+	const char *			Get_Name (void) const					{ return Name; }
+	void						Set_Name (const char *name)			{ Name = name; }
+
+	const Matrix3D &		Get_Transform (void) const				{ return Transform; }
+	void						Set_Transform (const Matrix3D &tm)	{ Transform = tm; }
+
+private:
+
+	StringClass				Name;
+	Matrix3D					Transform;
+};
+
+// Retail's SphereClass::Add_Sphere body is SphereClassAddSphere.cpp; this
+// unit's select-any copy came first in link order and is not retail's. Compile
+// this unit's sphere.h with the inline members imported (dllimport __forceinline,
+// the vector3 link-view idiom) so no competing copy is emitted, then restore
+// inline for the rest of the unit.
+#define inline __declspec(dllimport) __forceinline
+#include "sphere.h"
+#undef inline
+
 // Retail's RenderObjClass::Set_Force_Visible is BFME's out-of-line body
 // (0x0013B720, RenderObjSetForceVisible.cpp). The ZH rendobj.h this header
 // pulls in defines it inline, and the vtables this unit emits would make that
@@ -121,6 +164,17 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
 template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
 template <> VectorClass<ProxyClass> & VectorClass<ProxyClass>::operator=(VectorClass<ProxyClass> const &);
+// Retail keeps the VectorClass<ProxyClass> virtual set in the Render2D
+// vector<ProxyClass> units; this unit only lists them in ProxyList's vtable,
+// and its copies, first in link order, are not retail's.
+template <> bool VectorClass<ProxyClass>::operator==(VectorClass<ProxyClass> const &) const;
+template <> bool VectorClass<ProxyClass>::Resize(int, ProxyClass const *);
+template <> void VectorClass<ProxyClass>::Clear();
+template <> int VectorClass<ProxyClass>::ID(ProxyClass const &);
+template <> int VectorClass<ProxyClass>::ID(ProxyClass const *);
+// Declaring the dtor only also stops cl synthesizing this unit's non-retail
+// scalar deleting destructor copy, ??_G?$VectorClass@VProxyClass@@@@UAEPAXI@Z.
+template <> VectorClass<ProxyClass>::~VectorClass();
 // bfme link decl-only end
 //#include "sr.hpp"
 
