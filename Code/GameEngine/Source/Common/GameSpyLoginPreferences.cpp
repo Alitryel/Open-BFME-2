@@ -75,6 +75,24 @@ template <typename T> struct BfmeStringData
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Retail 4EC36C allocates the 12-byte sentinel through the shared byte
+// allocator. Keep the constructor visible so caller stack homes stay exact.
+class BucketAlloc
+{
+public:
+    static void *allocate(unsigned int bytes, const void *hint);
+};
+namespace _STL {
+template <> inline _List_base<AsciiString, allocator<AsciiString> >::_List_base(const allocator_type &a)
+    : _M_node(_STLP_CONVERT_ALLOCATOR(a, _Node), (_Node *)0)
+{
+    _Node *node = static_cast<_Node *>(BucketAlloc::allocate(sizeof(_Node), 0));
+    node->_M_next = node;
+    node->_M_prev = node;
+    _M_node._M_data = node;
+}
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 namespace _STL { template <> _List_node<AsciiString> * allocator<_List_node<AsciiString> >::allocate(unsigned int, void const *) const; }

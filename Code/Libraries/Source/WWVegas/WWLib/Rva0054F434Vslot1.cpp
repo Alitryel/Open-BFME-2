@@ -20,6 +20,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 
 #include "ascii_string.h"
+// Use the existing retail list-base constructor at 4EC36C.
+namespace _STL { template <> _List_base<AsciiString, allocator<AsciiString> >::_List_base(const allocator_type &); }
+
 // bfme link decl-only begin
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
