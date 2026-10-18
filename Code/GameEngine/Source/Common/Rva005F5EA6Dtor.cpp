@@ -13,21 +13,15 @@ public:
     int m_pad[4];
 };
 
-class Rva005F5EA6Base0 {
-public:
-    virtual ~Rva005F5EA6Base0() {}
-    int m_b;
-};
+#include "../../Include/Common/Rva005E394EPrimaryBase.h"
 
-class Rva005F5EA6Mid {
-public:
-    virtual ~Rva005F5EA6Mid() {}
-    int m_c;
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
 
-class Rva005F5EA6 : public Rva005F5EA6Base0, public Rva005E12D1, public Rva005F5EA6Mid {
+class Rva005F5EA6 : public Rva005E394EPrimaryBase, public Rva005E12D1, public Rva005E4AE2Listener {
 public:
     virtual ~Rva005F5EA6();
+    // Preserve the unread word at+20 outside the minimal interface.
+    int m_c;
     Rva002B7250 *m_list;
 };
 

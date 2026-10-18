@@ -15,21 +15,15 @@ public:
     int m_pad[4];
 };
 
-class Rva005F5819Base0 {
-public:
-    virtual ~Rva005F5819Base0() {}
-    int m_b;
-};
+#include "../../Include/Common/Rva005E394EPrimaryBase.h"
 
-class Rva005F5819Mid {
-public:
-    virtual ~Rva005F5819Mid() {}
-    int m_c;
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
 
-class Rva005F5819 : public Rva005F5819Base0, public Rva005E12D1, public Rva005F5819Mid {
+class Rva005F5819 : public Rva005E394EPrimaryBase, public Rva005E12D1, public Rva005E4AE2Listener {
 public:
     virtual ~Rva005F5819();
+    // Preserve the unread word+20 in the enclosing minimal view.
+    int m_c;
     Rva002B7250 *m_list;
 };
 

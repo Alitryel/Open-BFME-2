@@ -53,25 +53,17 @@ public:
 // (Rva0057605DCtor.cpp, vtbl_00C77F44), so the list's pointer type is only
 // declared here and the base is cast to it, as Rva005E4AE2Ctor.cpp does.
 struct Rva002BA8F1Listener;
-struct Rva005E4AE2Listener
-{
-	__declspec(dllimport) __forceinline Rva005E4AE2Listener() {}
-	virtual ~Rva005E4AE2Listener();
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
 
+// Preserve the original forced-inline construction path.
+__forceinline Rva005E4AE2Listener::Rva005E4AE2Listener() {}
 class Rva005A0B4CList
 {
 public:
 	void append(Rva002BA8F1Listener *p);
 };
 
-struct Rva005F5C77Base0
-{
-	Rva005F5C77Base0() : m_04(0) {}
-	// The complete base teardown is provided by Rva005E91A9Dtor.cpp.
-	virtual ~Rva005F5C77Base0();
-	int m_04;
-};
+#include "../../Include/Common/Rva005E394EPrimaryBase.h"
 
 class Rva005F5C77Holder : public Rva005E1158
 {
@@ -94,7 +86,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_rva00E06900;
 
-class Rva005F5C77 : public Rva005F5C77Base0, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F5C77 : public Rva005E394EPrimaryBase, public Rva005F5C77Holder, public Rva005E4AE2Listener
 {
 public:
 	Rva005F5C77(void *a1, Rva005F5C77In *a2);
@@ -105,7 +97,7 @@ private:
 };
 
 Rva005F5C77::Rva005F5C77(void *a1, Rva005F5C77In *a2)
-	: Rva005F5C77Base0()
+	: Rva005E394EPrimaryBase()
 	, Rva005F5C77Holder(a1, AsciiString("button"), a2->m_00)
 	, Rva005E4AE2Listener()
 {

@@ -40,11 +40,7 @@ struct Rva005E4AE2Owner
 	char m_pad[0x78];
 	Rva005E4AE2Obj78 *m_78;
 };
-struct Rva005E4AE2Listener
-{
-	Rva005E4AE2Listener();
-	virtual ~Rva005E4AE2Listener() {}
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
 // ??0Rva005E4AE2Listener@@QAE@XZ @0x005E399D 9B: the default constructor, storing the
 // class's own vtable (VA 0x00C79544) and returning this.
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
@@ -59,12 +55,7 @@ void *bfmeAnchorRva005E4AE2Listener(void *where)
 	return new (where) Rva005E4AE2Listener();
 }
 
-class Rva005E4AE2Base
-{
-public:
-	Rva005E4AE2Base() {}
-	virtual ~Rva005E4AE2Base() {}
-};
+#include "../../Include/Common/Rva005E4AE2Base.h"
 class Rva005E4AE2 : public Rva005E4AE2Base, public Rva005E4AE2Listener
 {
 public:

@@ -18,11 +18,9 @@ namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<p
 namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::_M_erase(_Rb_tree_node<pair<int const, void *> > *); }
 // bfme link decl-only end
 struct Rva002BA8F1Listener;
-struct Rva005E4AE2Listener
-{
-	__declspec(dllimport) __forceinline Rva005E4AE2Listener() {}
-	virtual ~Rva005E4AE2Listener();
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
+// Preserve the original forced-inline construction path.
+__forceinline Rva005E4AE2Listener::Rva005E4AE2Listener() {}
 class Rva005A0B4CList
 {
 public:
@@ -42,12 +40,7 @@ struct _Rva005E4AE2In
 	int m_04;
 	Rva005E4AE2Holder *m_08;
 };
-class __declspec(novtable) Rva005E4AE2Base
-{
-public:
-	Rva005E4AE2Base() {}
-	virtual ~Rva005E4AE2Base();
-};
+#include "../../Include/Common/Rva005E4AE2Base.h"
 class Rva005E4AE2 : public Rva005E4AE2Base, public Rva005E4AE2Listener
 {
 public:

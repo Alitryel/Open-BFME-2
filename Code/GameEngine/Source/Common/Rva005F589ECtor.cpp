@@ -7,7 +7,7 @@
 // via rowed 0x005E16B9 and unlocked via rowed 0x005E1158, listener registered
 // through rowed append 0x005A0B4C. Evidence: EH_prolog cookie 0xBA5425; vtables
 // 0x00C79570/0x00C79550/0x00C79544; caller at 0x005E5D27; prev 0x005F5882 next 0x005F594C.
-// Reuses Rva005F5C77Base0/Rva005F5C77Holder names to call the existing pin at 0x005E1680.
+// Reuses Rva005E394EPrimaryBase/Rva005F5C77Holder names to call the existing pin at 0x005E1680.
 #include "ascii_string.h"
 
 class Image;
@@ -37,25 +37,17 @@ public:
 };
 
 struct Rva002BA8F1Listener;
-struct Rva005E4AE2Listener
-{
-	__declspec(dllimport) __forceinline Rva005E4AE2Listener() {}
-	virtual ~Rva005E4AE2Listener();
-};
+#include "../../Include/Common/Rva005E4AE2Listener.h"
 
+// Preserve the original forced-inline construction path.
+__forceinline Rva005E4AE2Listener::Rva005E4AE2Listener() {}
 class Rva005A0B4CList
 {
 public:
 	void append(Rva002BA8F1Listener *p);
 };
 
-struct Rva005F5C77Base0
-{
-	Rva005F5C77Base0() : m_04(0) {}
-	// The complete base teardown is provided by Rva005E91A9Dtor.cpp.
-	virtual ~Rva005F5C77Base0();
-	int m_04;
-};
+#include "../../Include/Common/Rva005E394EPrimaryBase.h"
 
 class Rva005F5C77Holder : public Rva005E1158
 {
@@ -78,7 +70,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_00E068EC;
 
-class Rva005F589E : public Rva005F5C77Base0, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F589E : public Rva005E394EPrimaryBase, public Rva005F5C77Holder, public Rva005E4AE2Listener
 {
 public:
 	Rva005F589E(int a1, void *a2);
@@ -89,7 +81,7 @@ private:
 };
 
 Rva005F589E::Rva005F589E(int a1, void *a2raw)
-	: Rva005F5C77Base0()
+	: Rva005E394EPrimaryBase()
 	, Rva005F5C77Holder((void *)a1, AsciiString("button"), ((Rva005F589EIn *)a2raw)->m_00)
 	, Rva005E4AE2Listener()
 {
