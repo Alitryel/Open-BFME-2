@@ -19,6 +19,16 @@ extern void __cdecl Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
 #include <set>
 #include <vector>
+// Keep the header's three inline stores, without emitting an optimized
+// out-of-line copy of the /Od provider at retail 0x00023C80.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int>::_M_set(unsigned int *s, unsigned int *f, unsigned int *e) {
+    this->_M_start = s;
+    this->_M_finish = f;
+    this->_M_end_of_storage._M_data = e;
+}
+}
 struct Rva0061F910Key {unsigned int a;};
 inline bool operator<(const Rva0061F910Key&a,const Rva0061F910Key&b){return a.a<b.a;}
 typedef _STL::_Rb_tree<Rva0061F910Key,Rva0061F910Key,_STL::_Identity<Rva0061F910Key>,_STL::less<Rva0061F910Key>,_STL::allocator<Rva0061F910Key> > NativeTree;
