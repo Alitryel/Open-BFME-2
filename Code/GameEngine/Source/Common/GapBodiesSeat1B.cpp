@@ -700,8 +700,10 @@ float Rva002FD661::rva002FD661()
 	return m_04->getProjectileNuggetRadiusIfAlliesAffected(this);
 }
 
-// --- 0x002FD7DC (19B): the +0x10 pathfinder's rowed 0x002F0F07, then
-// ThePlayerList's slot 10.
+// --- 0x002FD7DC (19B): AI::update, SubsystemInterface slot 10 of AI's table
+// 0x00C073D0 (slot 9 is the rowed AI::reset): the +0x10 pathfinder's rowed
+// ProcessPathfindQueue 0x002F0F07, then ThePlayerList's update (slot 10), as
+// in ZH AI::update.
 class Pathfinder
 {
 public:
@@ -718,16 +720,16 @@ public:
 	virtual void slot10();
 };
 
-class Rva002FD7DC
+class AI
 {
 public:
-	void rva002FD7DC();
+	virtual void update();
 private:
-	char m_pad00[0x10];
+	char m_pad04[0x10 - 0x04];
 	Pathfinder *m_10;
 };
 
-void Rva002FD7DC::rva002FD7DC()
+void AI::update()
 {
 	m_10->ProcessPathfindQueue();
 	((Rva002FD7DCPlayerListView *)ThePlayerList)->slot10();

@@ -44,7 +44,8 @@ public:
 	virtual void slot06() = 0;
 	virtual void slot07() = 0;
 	virtual void slot08() = 0;
-	virtual void Rva003BA8AC() = 0;
+	virtual void reset();
+	virtual void update();
 
 private:
 	bool m_suppressNewWindows; // +0x0C
@@ -64,18 +65,21 @@ ScriptActions::ScriptActions()
 }
 
 // ??1ScriptActions@@UAE@XZ, retail 0x003BD582, 22 bytes. Dtor calls the
-// rowed Rva003BA8AC clear then tail-jmps to the pinned SubsystemInterface
+// rowed reset (slot 9) then tail-jmps to the pinned SubsystemInterface
 // base dtor at 0x1B4E74; compiler emits the derived 0xC1FE48 plus base
 // 0xC1FD98 vtable stores. Donor is BFME1 ScriptActionsDestructor.cpp.
 // Caller is the slot-0 ??_G at 0x3BE5AD (vtable 0x81FE48).
 
 ScriptActions::~ScriptActions()
 {
-	Rva003BA8AC();
+	reset();
 	*(const void **)this = reinterpret_cast<const void *>(((unsigned int)vtbl_00C1FD98));
 }
 
-void ScriptActions::Rva003BA8AC()
+// ScriptActions::reset, SubsystemInterface slot 9 of 0x00C1FE48 (retail
+// 0x003BA8AC, 24 bytes): ZH clears m_suppressNewWindows and calls
+// closeWindows(FALSE), which BFME2 inlines as the +0x1914 flag clear.
+void ScriptActions::reset()
 {
 	m_suppressNewWindows = false;
 	if (Rva00DFEC50 != 0)
@@ -83,6 +87,12 @@ void ScriptActions::Rva003BA8AC()
 		reinterpret_cast<Rva00DFEC50Obj *>(Rva00DFEC50)->m_flag1914 = false;
 	}
 	m_suppressNewWindows = false;
+}
+
+// ScriptActions::update, slot 10 of 0x00C1FE48: empty as in ZH; retail
+// folds it onto the shared one-byte RET at 0x000B3FD0.
+void ScriptActions::update()
+{
 }
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds

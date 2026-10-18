@@ -1,7 +1,8 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva002DBCCA@Rva002DBCCAOwner@@QAEXPAX@Z @0x002DBCCA 31B: virtual-slot
-// forwarder (thiscall, void* arg, void). Retail calls the pinned 0x00053EE
+// ?xfer@GameState@@MAEXPAVXfer@@@Z @0x002DBCCA 31B: GameState::xfer, slot 3
+// (Snapshot xfer) of ??_7GameState@@6BRva002DE58DBaseC@@@ 0x0080401C, the only
+// table that holds it (this is that Snapshot subobject). Retail calls the pinned 0x00053EE
 // on the arg, then invokes vtable slot 12 of the arg with this+0x18. The
 // arg class is carried as 12 pure-virtual fillers plus the slot-12 view so
 // no dummy definitions are emitted. Honest address-derived names.
@@ -32,15 +33,15 @@ public:
 	virtual void vf12(void *x);
 };
 
-class Rva002DBCCAOwner
+class GameState
 {
-public:
-	void rva002DBCCA(void *a);
+protected:
+	virtual void xfer(Xfer *xfer);
 };
 
-// ?rva002DBCCA@Rva002DBCCAOwner@@QAEXPAX@Z
-void Rva002DBCCAOwner::rva002DBCCA(void *a)
+// ?xfer@GameState@@MAEXPAVXfer@@@Z
+void GameState::xfer(Xfer *xfer)
 {
-	((Xfer *)a)->Version1();
-	((Rva002DBCCAArg *)a)->vf12((char *)this + 0x18);
+	xfer->Version1();
+	((Rva002DBCCAArg *)xfer)->vf12((char *)this + 0x18);
 }

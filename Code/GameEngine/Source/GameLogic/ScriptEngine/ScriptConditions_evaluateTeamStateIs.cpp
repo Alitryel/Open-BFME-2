@@ -975,6 +975,9 @@ extern ScriptEngine *TheScriptEngine;
 
 class ScriptConditions
 {
+public:
+	virtual void reset();
+	virtual void update();
 protected:
 	bool evaluateHasUnits(Parameter *);
 	bool evaluateNamedAttackedByType(Parameter *, Parameter *);
@@ -1546,20 +1549,27 @@ static TransportStatus *s_transportStatuses;
 // VA 0x00E02E00, call virtual slot zero with deleting-destructor flags zero,
 // pass its returned storage to operator delete at 0x0002FD60, then clear it.
 // evaluateUnitHasEmptied independently identifies the same head and 0x14-byte
-// TransportStatus nodes. This view describes the consumed slot ABI; the
-// original cleanup function's name is not established.
+// TransportStatus nodes. This view describes the consumed slot ABI. The body
+// is ScriptConditions::reset: SubsystemInterface slot 9 of 0x00C35B38, as in
+// ZH (s_transportStatuses->deleteInstance(); s_transportStatuses = NULL).
 class Rva003E3C66StatusSlot
 {
 public:
 	virtual void *destroy(unsigned int flags) throw();
 };
 
-void Rva003E3C66TransportCleanup()
+void ScriptConditions::reset()
 {
 	Rva003E3C66StatusSlot *status = reinterpret_cast<Rva003E3C66StatusSlot *>(s_transportStatuses);
 	void *storage = status ? status->destroy(0) : 0;
 	::operator delete(storage);
 	s_transportStatuses = 0;
+}
+
+// ScriptConditions::update, slot 10 of 0x00C35B38: empty as in ZH; retail
+// folds it onto the shared one-byte RET at 0x000B3FD0.
+void ScriptConditions::update()
+{
 }
 
 bool ScriptConditions::evaluateUnitHasEmptied(Parameter *pUnitParm)

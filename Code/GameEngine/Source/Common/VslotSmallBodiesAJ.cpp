@@ -1501,14 +1501,17 @@ void Rva00404B03::rva00404B03()
     table78.rva0040475C();
     flag134 = false;
 }
-class Rva00404B6C : public Rva00404B03
+// VictorySystem::reset: SubsystemInterface slot 9 of VictorySystem's table
+// 0x008388D4 (installed by the rowed VictorySystem ctor 0x004054E1); it
+// tail-jumps to the clear body 0x00404B03 above.
+class VictorySystem
 {
 public:
-	void rva00404B6C();
+	virtual void reset();
 };
-void Rva00404B6C::rva00404B6C()
+void VictorySystem::reset()
 {
-	rva00404B03();
+	((Rva00404B03 *)this)->rva00404B03();
 }
 
 class Rva0047BBA7

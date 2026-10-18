@@ -9950,7 +9950,6 @@ name,address,notes
 ?reset@Rva007E8810Message@@QAEXXZ,0x00655B50
 ?reset@Rva00800290Buffer@@QAEXXZ,0x0066C730
 ?reset@Rva00802290Owner@@QAEXXZ,0x0066E520
-?reset@ScriptActions@@UAEXXZ,0x000D1743,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?reset@ScriptEngine@@UAEXXZ,0x00209ABE,retail REL32 from ~ScriptEngine 0x20A35F; ScriptEngine vtable 0x7E3D70 slot 9 (the virtual init calls last as reset)
 ?reset@Win32Mouse@@UAEXXZ,0x000419F5,target call from W3DMouse::reset at 0x990CF; Ghidra boundary 17B; body invokes Mouse reset then sets Win32Mouse byte +0x4F9C to 1
 ?resetAccepted@GameInfo@@UAEXXZ,0x003FF9B4,virtual name of the rowed ?resetAccepted@GameInfo@@QAEXXZ (slot 14 of the GameInfo vtable 0x00C187C0); REL32 base call from GameSpyStagingRoom::resetAccepted 0x004FDA65 as in Zero Hour
