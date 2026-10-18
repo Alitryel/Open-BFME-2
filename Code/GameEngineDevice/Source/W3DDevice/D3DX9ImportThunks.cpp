@@ -123,4 +123,11 @@ extern PFN_D3DXLoadSurfaceFromFileInMemory __identifier("_imp__D3DXLoadSurfaceFr
 HRESULT __stdcall D3DXLoadSurfaceFromFileInMemory(LPDIRECT3DSURFACE9 pDestSurface, const PALETTEENTRY *pDestPalette, const RECT *pDestRect, LPCVOID pSrcData, UINT SrcData, const RECT *pSrcRect, DWORD Filter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo) {
  return __identifier("_imp__D3DXLoadSurfaceFromFileInMemory@36")(pDestSurface, pDestPalette, pDestRect, pSrcData, SrcData, pSrcRect, Filter, ColorKey, pSrcInfo);
 }
+
+// _D3DXCheckTextureRequirements@28
+typedef HRESULT (__stdcall *PFN_D3DXCheckTextureRequirements)(LPDIRECT3DDEVICE9, UINT *, UINT *, UINT *, DWORD, D3DFORMAT *, D3DPOOL);
+extern PFN_D3DXCheckTextureRequirements __identifier("_imp__D3DXCheckTextureRequirements@28");
+HRESULT __stdcall D3DXCheckTextureRequirements(LPDIRECT3DDEVICE9 pDevice, UINT *pWidth, UINT *pHeight, UINT *pNumMipLevels, DWORD Usage, D3DFORMAT *pFormat, D3DPOOL Pool) {
+ return __identifier("_imp__D3DXCheckTextureRequirements@28")(pDevice, pWidth, pHeight, pNumMipLevels, Usage, pFormat, Pool);
+}
 }
