@@ -45,13 +45,16 @@ struct Elem36Tail
 	}
 };
 
+struct Rva00161050 { Rva00161050(const Rva00161050 &); };
+
 struct Elem36
 {
 	int m_word00;
 	Elem36Tail m_tail;
 	bool m_flag20;
 
-	Elem36(const Elem36 &other);
+	// The copy is the rowed ??0Rva00161050 (same 0x24-byte record), reached by a qualified call.
+	__declspec(dllimport) __forceinline Elem36(const Elem36 &other) { ((Rva00161050 *)this)->Rva00161050::Rva00161050(*(const Rva00161050 *)&other); }
 	Elem36 &operator=(const Elem36 &other)
 	{
 		m_word00 = other.m_word00;
