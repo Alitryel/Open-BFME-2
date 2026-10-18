@@ -580,6 +580,7 @@ public:
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Object.h
+class Rva0028B525DwordSlot { public: void set(Int); };
 class Object : public Thing
 {
 public:
@@ -611,7 +612,7 @@ public:
 	Int rva0028B511() const;
 	void rva0028ACEE(int pos, Int value);
 	void rva0028AD7C();
-	void rva0028B525(Int value);
+	/* the rowed Rva0028B525DwordSlot::set */ __declspec(dllimport) __forceinline void rva0028B525(Int p0) { ((Rva0028B525DwordSlot *)this)->set(p0); }
 	AIUpdateInterface *getAI() const { return m_ai; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	void rva0028AE6D();							///< matched 0x0028AE6D, the model-condition notifier
