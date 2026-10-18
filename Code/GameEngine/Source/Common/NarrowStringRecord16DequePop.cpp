@@ -9,6 +9,9 @@
 // 0x0041A4A7. Sibling of 28B pop_aux 0x0041A3C4 in NarrowStringRecordDequePop.
 #include <memory>
 #include <string>
+// Bind the narrow-string destructor to its verified free-bodied provider.
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
+
 void __cdecl free(void *);
 #include "BfmeNarrowRecord0041A617.h"
 #include <cstddef>
