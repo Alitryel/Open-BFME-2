@@ -66,13 +66,11 @@ struct S12
 // 0x0030AE42 reads), field table VA 0x00C08708, manager TheFireManager
 // (0x00DFF4B4). The copy is Rva0030ADED's implicit operator= (0x0030ADED,
 // 85B): two AsciiString sets, then the plain members.
-struct RGBColor
-{
-	RGBColor(float r, float g, float b) : red(r), green(g), blue(b) {}
+#include "../../../../Libraries/Include/Lib/RGBColor.h"
 
-	float red;
-	float green;
-	float blue;
+struct RvaFireColor : RGBColor
+{
+	RvaFireColor(float r, float g, float b) { red = r; green = g; blue = b; }
 };
 
 // The client random variable (rowed setRange 0x002341E7); its inline
@@ -99,8 +97,8 @@ public:
 
 	AsciiString m_00;
 	AsciiString m_04;
-	RGBColor m_08;
-	RGBColor m_14;
+	RvaFireColor m_08;
+	RvaFireColor m_14;
 	bool m_20;
 	GameClientRandomVariable m_24;
 	GameClientRandomVariable m_30;

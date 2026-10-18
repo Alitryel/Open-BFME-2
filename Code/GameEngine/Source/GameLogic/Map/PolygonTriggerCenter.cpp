@@ -23,10 +23,7 @@ typedef float Real;
 typedef int Int;
 #define NULL 0
 
-struct Coord2D
-{
-	Real x, y;
-};
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class TerrainLogic

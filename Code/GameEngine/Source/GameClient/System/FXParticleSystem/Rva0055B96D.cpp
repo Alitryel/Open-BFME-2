@@ -18,7 +18,7 @@ class ICoord2D;
 class Region2D;
 class IRegion2D;
 class RealRange;
-class RGBColor;
+struct RGBColor;
 class RGBAColorReal;
 class RGBAColorInt;
 class Snapshot;
@@ -78,16 +78,11 @@ protected:
 	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
 
-class RGBColor
-{
-public:
-	int m_color;
-};
+#include "../../../../../Libraries/Include/Lib/RGBColor.h"
 
 struct Rva0055BC8BElem
 {
 	RGBColor m_a;
-	char m_pad[8];
 	unsigned int m_b;
 };
 

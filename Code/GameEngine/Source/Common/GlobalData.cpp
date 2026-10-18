@@ -67,7 +67,7 @@ struct MultiPlayMults { char words[480]; MultiPlayMults() throw(); };
 struct RvaGDNoCleanupCoord { float x,y,z; RvaGDNoCleanupCoord() {} };
 struct RvaGDConst3 { float x,y,z; RvaGDConst3(float v):x(v),y(v),z(v){} };
 struct RvaGDConst2 { float x,y; RvaGDConst2(float v):x(v),y(v){} };
-struct RGBColor { float red,green,blue; void setFromInt(int) throw(); };
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 // Inline-constructed subobjects of the constructor (retail: lea this, then the
 // member stores). +D54 and +D68..+DA4 are {int 0, float 0, float 0}, the shape
 // of BFME1's GameClientRandomVariable; +DB8..+DC8, +DEC/+DF4 and +E04..+E7C are

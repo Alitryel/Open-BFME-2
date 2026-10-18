@@ -31,7 +31,7 @@ public:
 };
 class ModuleData { public: char data00[0x2C]; Real radius; };
 #include "RTS/XYDistanceCallView.h"
-struct Region2D { Coord2D lo,hi; };
+#include "../../../Libraries/Include/Lib/Region2D.h"
 class Rva000062FDRegion { public: bool rva000062FD(const Coord2D&,const Coord2D&) const; };
 class Rva0087E370 { public: void method(const Coord3D&,Real,Region2D&) const; };
 template<int N> class FilterSlots : public FilterSlots<N-1> {

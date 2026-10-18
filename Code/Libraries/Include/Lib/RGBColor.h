@@ -9,8 +9,8 @@ struct RGBColor {
     float green;
     float blue;
     // Byte-verified owners in color.cpp (0x4EDF/76 and 0x4EA7/56).
-    void setFromInt(int value);
-    int getAsInt() const;
+    void setFromInt(int value) throw();
+    int getAsInt() const throw();
 };
 
 #endif // CANONICAL_RGBCOLOR_H

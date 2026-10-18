@@ -16,12 +16,7 @@ inline void *operator new(unsigned int, void *where)
 extern "C" int __cdecl atexit(void (__cdecl *callback)());
 
 #include "../../../Libraries/Include/Lib/Coord2D.h"
-
-// class-gate: allow Region2D the canonical header does not declare the rowed two-endpoint ctor 0x00004C06 that retail calls here; this view adds only that declaration
-struct Region2D
-{
-	Region2D(const Coord2D &lower_left, const Coord2D &upper_right);
-};
+#include "../../../Libraries/Include/Lib/Region2D.h"
 
 extern Region2D g_00E02EAC;
 

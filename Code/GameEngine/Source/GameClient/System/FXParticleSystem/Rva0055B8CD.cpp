@@ -18,7 +18,7 @@ class ICoord2D;
 class Region2D;
 class IRegion2D;
 class RealRange;
-class RGBColor;
+struct RGBColor;
 class RGBAColorReal;
 class RGBAColorInt;
 class Snapshot;
@@ -88,16 +88,11 @@ public:
 
 Xfer &xferRandomVariable(Xfer &xfer, GameClientRandomVariable &var);
 
-class RGBColor
-{
-public:
-	int m_color;
-};
+#include "../../../../../Libraries/Include/Lib/RGBColor.h"
 
 struct Rva0055B8CDElem
 {
 	RGBColor m_a;
-	char m_pad[8];
 	unsigned int m_b;
 };
 

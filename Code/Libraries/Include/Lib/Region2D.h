@@ -10,7 +10,8 @@ struct Region2D {
     Coord2D lo;
     Coord2D hi;
     Region2D() {}
-    Region2D(const Region2D &that);
+    Region2D(const Region2D &that) throw();
+    Region2D(const Coord2D &lower_left, const Coord2D &upper_right);
 };
 
 #endif // CANONICAL_REGION2D_H

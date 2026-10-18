@@ -5028,7 +5028,6 @@ name,address,notes
 ??1StatusBitsUpgrade@@UAE@XZ,0x004B48D3,twin of rowed Rva004B48D3 dtor for StatusBitsUpgradeIfEldestKindof base call
 ??1StatusBitsUpgradeIfEldestKindof@@UAE@XZ,0x004B4AFA,"dtor called by audited wrapper RVA 0x004B4ADE; retail slot 4 -> RVA 0x004B4A99 uses class-name string ""StatusBitsUpgradeIfEldestKindof"""
 ??1StrategicStatsPreferences@@UAE@XZ,0x00535776,ICF twin of rowed Rva00535776 dtor via Strategic construction at 0x0043C612
-??1StringBase@@QAE@XZ,0x00036410
 ??1SubObjectsUpgradeModuleData@@UAE@XZ,0x004B5214,dtor called by audited wrapper RVA 0x002577F0; retail registration SubObjectsUpgrade -> data factory RVA 0x0025780C -> ctor RVA 0x00257768; primary vptr store RVA 0x0025777E
 ??1SubsystemInterface@@UAE@XZ,0x001B4E74
 ??1SupplyTruckAIUpdate@@UAE@XZ,0x004A69BF,dtor installs its own vftable 0x00C52FB0 (bytes at +19) and is the REL32 callee of the slot-0 ??_G at 0x004A6E72

@@ -1,18 +1,10 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 
 // Open-BFME5: SList<TagBlockIndex>::Remove_All retail bucket cleanup.
 
-// Retail's Node dtor adjusts to this StringBase<char> at +8 then tail-calls
-// the rowed releaseBuffer entry at 0x00036410.
-#pragma comment(linker, "/alternatename:??1StringBase@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
+#include "ascii_string.h"
 
 class TagBlockIndex;
-
-class StringBase
-{
-public:
-	~StringBase();
-};
 
 template <class T>
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/SLIST.H
@@ -27,7 +19,7 @@ private:
 	{
 		Node *next;
 		int m_index;
-		StringBase m_name;
+		AsciiString m_name;
 		~Node();
 	};
 
