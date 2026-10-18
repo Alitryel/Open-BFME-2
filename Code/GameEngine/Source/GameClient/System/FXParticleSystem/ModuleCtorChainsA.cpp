@@ -161,7 +161,30 @@ extern const void *const g_00C1CDF0[7] = {
 };
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$02@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003ABD20@@6B@")[];
-extern const void *const g_00C1CE64[];
+// The retail table at RVA 0x0081CE64: 9 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?clone@Rva003AEB9C@@QBEPAV1@XZ")();
+void __identifier("?xfer@Rva0055EF39@@UAEXPAVXfer@@@Z")();
+void __identifier("?get@Rva00094A9CFloatField@@QBEMXZ")();
+void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
+void __identifier("?rva003ABD6B@Rva003ABD6B@@QAE?AURva00SlotFloat2@@XZ")();
+void __identifier("?get@Rva0045310DByteField@@QBEEXZ")();
+void __identifier("?get@Rva003ABD51ByteField@@QBEEXZ")();
+}
+extern const void *const g_00C1CE64[9] = {
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?clone@Rva003AEB9C@@QBEPAV1@XZ"), // slot 2 0x003AEB65
+	(const void *)&__identifier("?xfer@Rva0055EF39@@UAEXPAVXfer@@@Z"), // slot 3 0x0055EF39
+	(const void *)&__identifier("?get@Rva00094A9CFloatField@@QBEMXZ"), // slot 4 0x00094A9C
+	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
+	(const void *)&__identifier("?rva003ABD6B@Rva003ABD6B@@QAE?AURva00SlotFloat2@@XZ"), // slot 6 0x003ABD6B
+	(const void *)&__identifier("?get@Rva0045310DByteField@@QBEEXZ"), // slot 7 0x0045310D
+	(const void *)&__identifier("?get@Rva003ABD51ByteField@@QBEEXZ"), // slot 8 0x003ABD51
+};
 extern "C" const void *const __identifier("??_7Rva003ABD81@@6B@")[];
 extern const void *const g_00C1CE98[];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot3@@@")[];
