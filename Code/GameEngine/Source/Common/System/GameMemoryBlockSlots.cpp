@@ -38,7 +38,7 @@ void rva00031420(const char *text)
 
 // --- 0x00030850 (6B): tail-jump into the block-validity slot VA 0x00DE03F8
 // (?_IsValidBlock@MemoryPool@@YA_NPAXI@Z), unreferenced.
-extern void *g_00DE03F8;
+void * g_00DE03F8;	// retail RVA 0x009E03F8 (.bss), defined here
 
 bool rva00030850(void *block, unsigned int heap)
 {
