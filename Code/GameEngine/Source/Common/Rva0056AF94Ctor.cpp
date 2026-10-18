@@ -11,7 +11,34 @@ public:
 };
 
 extern "C" const void *const vtbl_00C6D19C[];
-extern "C" const void *const vtbl_00C6D160[];
+// The retail table at RVA 0x0086D160: 15 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_ERva0056ACFF@@W7AEPAXI@Z")();
+void __identifier("?b1Slot1@Rva0056ACFF@@UAE_NPAURva002B4BC9Arg@@@Z")();
+void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
+void __identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z")();
+void __identifier("?rva0056ABD6@Rva0056ABD6@@QAE_NPAULivingWorldArmy@@PAVRva00318C32Ret@@@Z")();
+void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
+void __identifier("?Remove_Sub_Object@RenderObjClass@@UAEHPAV1@@Z")();
+}
+extern "C" const void *const vtbl_00C6D160[15] = {
+	(const void *)&__identifier("??_ERva0056ACFF@@W7AEPAXI@Z"), // slot 0 0x0056AD11
+	(const void *)&__identifier("?b1Slot1@Rva0056ACFF@@UAE_NPAURva002B4BC9Arg@@@Z"), // slot 1 0x0056ABCB
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 2 0x005CB9FF
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 3 0x0050B5F1
+	(const void *)&__identifier("?rva0056ABD6@Rva0056ABD6@@QAE_NPAULivingWorldArmy@@PAVRva00318C32Ret@@@Z"), // slot 4 0x0056ABD6
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 5 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 6 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 7 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 8 0x005CB9FF
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 9 0x0050B5F1
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 10 0x0050B5F1
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 11 0x0050B5F1
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 12 0x005CB9FF
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 13 0x0047A699
+	(const void *)&__identifier("?Remove_Sub_Object@RenderObjClass@@UAEHPAV1@@Z"), // slot 14 0x005DAA6C
+};
 
 class Rva0056AF94
 {
