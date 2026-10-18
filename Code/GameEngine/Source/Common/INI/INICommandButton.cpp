@@ -15,7 +15,8 @@
 // its member contents are not reconstructed or claimed here.
 
 #include "ascii_string.h"
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 class INI {
 public:
  const char *getNextToken(const char *separators=0);
@@ -53,7 +54,93 @@ public:
  void rva0031AB77SetFlag();
 };
 extern ControlBar *TheControlBar;
-extern const FieldParse g_00C15468[];
+struct LookupListRec { const char *name; int value; };
+// The retail lookup list at RVA 0x009BFB68 (16 names and the null terminator).
+extern const LookupListRec g_00DBFB68[17] = { { "NEED_TARGET_ENEMY_OBJECT", 12673396 }, { "NEED_TARGET_ALLY_OBJECT", 12673324 }, { "ALLOW_SHRUBBERY_TARGET", 12673284 }, { "NEED_UPGRADE", 12673240 }, { "OK_FOR_MULTI_SELECT", 12673200 }, { "CHECK_LIKE", 12673180 }, { "ATTACK_OBJECTS_POSITION", 12673144 }, { "OPTION_TWO", 12673116 }, { "NOT_QUEUEABLE", 12673080 }, { "---DO-NOT-USE---", 12673048 }, { "OK_FOR_MULTI_EXECUTE", 12673004 }, { "HIDE_WHILE_DISABLED", 12672960 }, { "TOGGLE_IMAGE_ON_WEAPONSET", 12672904 }, { "MOUNTED_ONLY", 12672872 }, { "NONPRESSABLE", 12672832 }, { "ON_GROUND_ONLY", 12672804 }, { 0, 0 } };
+extern const LookupListRec g_00C00698[];
+// The retail lookup list at RVA 0x00815430 (6 names and the null terminator).
+extern const LookupListRec g_00C15430[7] = { { "NONE", 0 }, { "BUILD", 1 }, { "UPGRADE", 2 }, { "ACTION", 3 }, { "SYSTEM", 4 }, { "ALTERED", 5 }, { 0, 0 } };
+extern "C" {
+void __identifier("?parseCommand@CommandButton@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseUpgradeTemplate@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00339A13_ParseUpgradeKeyList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseSpecialPowerTemplate@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?rva0035AED4@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva0035AECFParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0035B864Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
+}
+// The retail table at 0x00815468: 54 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C15468[55] = {
+	{ "Command", (FieldParseProc)&__identifier("?parseCommand@CommandButton@@SAXPAVINI@@PAX1PBX@Z"), 0, 0x14 },
+	{ "Options", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBFB68, 0x1C },
+	{ "Object", (FieldParseProc)&__identifier("?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ "Upgrade", (FieldParseProc)&__identifier("?parseUpgradeTemplate@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x24 },
+	{ "NeededUpgrade", (FieldParseProc)&__identifier("?Rva00339A13_ParseUpgradeKeyList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
+	{ "NeededUpgradeAny", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x34 },
+	{ "BuildUpgrades", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x38 },
+	{ "WeaponSlot", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x80 },
+	{ "WeaponSlotToggle1", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x84 },
+	{ "WeaponSlotToggle2", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x88 },
+	{ "WeaponSlotToggle3", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x8C },
+	{ "FlagsUsedForToggle", (FieldParseProc)&__identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x90 },
+	{ "MaxShotsToFire", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA0 },
+	{ "Science", (FieldParseProc)&__identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA4 },
+	{ "SpecialPower", (FieldParseProc)&__identifier("?parseSpecialPowerTemplate@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x44 },
+	{ "ToggleButtonName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x48 },
+	{ "TextLabel", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x58 },
+	{ "DescriptLabel", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x64 },
+	{ "PurchasedLabel", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x70 },
+	{ "ConflictingLabel", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x74 },
+	{ "LacksPrerequisiteLabel", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x78 },
+	{ "ButtonImage", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xB4 },
+	{ "CursorName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x50 },
+	{ "InvalidCursorName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x54 },
+	{ "ButtonBorderType", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C15430, 0xB0 },
+	{ "RadiusCursorType", (FieldParseProc)&__identifier("?rva0035AED4@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4C },
+	{ "UnitSpecificSound", (FieldParseProc)&__identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC8 },
+	{ "SetAutoAbilityUnitSound", (FieldParseProc)&__identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xD4 },
+	{ "UnsetAutoAbilityUnitSound", (FieldParseProc)&__identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xE0 },
+	{ "DoubleClick", (FieldParseProc)&__identifier("?Rva0035AECFParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x100 },
+	{ "Radial", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x101 },
+	{ "ShowProductionCount", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x104 },
+	{ "InPalantir", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x102 },
+	{ "IsClickable", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x105 },
+	{ "ShowButton", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x106 },
+	{ "RequireLevel", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x108 },
+	{ "RequiresValidContainer", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x107 },
+	{ "AutoAbility", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10C },
+	{ "AffectsKindOf", (FieldParseProc)&__identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x110 },
+	{ "TriggerWhenReady", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x12C },
+	{ "PresetRange", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x130 },
+	{ "AutoDelay", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x134 },
+	{ "NeedDamagedTarget", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x138 },
+	{ "AutoAbilityDisallowedOnModelCondition", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x13C },
+	{ "CommandTrigger", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x188 },
+	{ "EnableOnModelCondition", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x194 },
+	{ "DisableOnModelCondition", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1E0 },
+	{ "CommandRangeStart", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x22C },
+	{ "CommandRangeCount", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x230 },
+	{ "Stances", (FieldParseProc)&__identifier("?Rva0035B864Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x234 },
+	{ "CreateAHeroUIPrerequisiteButtonName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x240 },
+	{ "CreateAHeroUIMinimumLevel", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x244 },
+	{ "CreateAHeroUIIconImageName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x248 },
+	{ "CreateAHeroUIAllowableUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x24C },
+	{ 0, 0, 0, 0 }
+};
 void ControlBar::parseCommandButtonDefinition(INI *ini) {
  AsciiString name(ini->getNextToken());
  Rva0031AB1ENode *button=(Rva0031AB1ENode*)((Rva0031BE07*)TheControlBar)->rva0031BE07(*(StringBase<char>*)&name);
