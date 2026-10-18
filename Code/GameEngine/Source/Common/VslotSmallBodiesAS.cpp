@@ -23,11 +23,11 @@
 // Dtors rowed at their addresses under other names (a virtual dtor, an ICF-folded
 // setter, a dup_ body): forward through imported inlines so each deleting dtor
 // calls the rowed symbol directly and no stray dtor copy is emitted.
-void dup_0044be85();
 class BfmeParserBindingBaseVE { public: virtual ~BfmeParserBindingBaseVE(); };
 class Rva0005D10D6DwordImmSetter { public: void apply(); };
 
-class Rva0044BE85 { public: __declspec(dllimport) __forceinline ~Rva0044BE85() { dup_0044be85(); } };
+// ~Rva0044BE85 is defined beside its twin ~Rva00517397 (Rva00517397Dtor.cpp).
+class Rva0044BE85 { public: ~Rva0044BE85(); };
 class Rva005EB095 { public: ~Rva005EB095(); };
 class Rva003B241AOwner { public: __declspec(dllimport) __forceinline ~Rva003B241AOwner() { reinterpret_cast<BfmeParserBindingBaseVE *>(this)->BfmeParserBindingBaseVE::~BfmeParserBindingBaseVE(); } };
 class Rva005D10D6 { public: __declspec(dllimport) __forceinline ~Rva005D10D6() { reinterpret_cast<Rva0005D10D6DwordImmSetter *>(this)->apply(); } };

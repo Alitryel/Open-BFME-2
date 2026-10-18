@@ -38,3 +38,21 @@ private:
 Rva00517397::~Rva00517397()
 {
 }
+
+// ??1Rva0044BE85@@QAE@XZ @0x0044BE85 52B: byte-identical to ~Rva00517397 above
+// except its own EH handler (formerly the alias dup_0044be85). Its 28B scalar
+// deleting dtor 0x0044BE69 (VslotSmallBodiesAS.cpp, vtable 0xC3EDF4) calls it
+// directly, so the destructor is non-virtual here; same layout.
+class __declspec(novtable) Rva0044BE85 : public Rva00517397Base
+{
+public:
+	~Rva0044BE85();
+
+private:
+	int m_pad04;
+	Rva00517397Holder08 m_08;
+};
+
+Rva0044BE85::~Rva0044BE85()
+{
+}

@@ -4575,7 +4575,6 @@ name,address,notes
 ??1Rva0043A351@@UAE@XZ,0x0043A351,opaque dtor called by the scalar deleting dtor at 0x0043AE0C (vtable 0x00C3D478#0); identity unproven; address-derived name
 ??1Rva0043B660@@UAE@XZ,0x0043B660,opaque dtor called by the scalar deleting dtor at 0x0043B709 (vtable 0x00C3D5F0#0); identity unproven; address-derived name
 ??1Rva0043D1C9@@UAE@XZ,0x0043D1C9,opaque dtor called by the scalar deleting dtor at 0x0043D3BE (vtable 0x00C3D7F8#0); identity unproven; address-derived name
-??1Rva0044BE85@@QAE@XZ,0x0044BE85,destructor called by the vtable-referenced scalar deleting dtor 0x0044BE69 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva0044ECCE@@UAE@XZ,0x0044ECCE,opaque module-data base dtor; target call and 0xC8 prefix verified in callers; former DamageModuleBase was a TU-local stand-in and supplied no class identity
 ??1Rva0044EF5E@@UAE@XZ,0x00451F45,Rva0044EF5E intermediate base dtor: derived module dtors (OCLUpdate 0x4CD3DB, SpawnPoint 0x4CCDB6, SupplyCenterDock 0x4CDC33) re-store vtable plus consts then tail-jump here; vtable and consts match the 0x44EF5E ctor body; same SEH cookie; distinct from the co-pinned opaque Rva00451F45 name for the same address
 ??1Rva00451F45@@UAE@XZ,0x00451F45,opaque SEH base dtor (4 vptrs +0/+0xC/+0x10/+0x20, calls middle 0x24A797 and member helpers); 6 derived 32B dtors tail-call it; identity unproven
