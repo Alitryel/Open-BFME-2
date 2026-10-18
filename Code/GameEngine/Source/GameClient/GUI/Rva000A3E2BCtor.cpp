@@ -9,7 +9,7 @@ public:
 // The retail table at RVA 0x007C9180: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A4328Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A4328Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A433AWindow@@UAEHPAVWinInstanceData@@@Z")();
@@ -22,7 +22,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC9180[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A4328Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A3DFB
 	(const void *)&__identifier("?system@Rva000A4328Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A3E13
 	(const void *)&__identifier("?draw@Rva000A433AWindow@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A433A

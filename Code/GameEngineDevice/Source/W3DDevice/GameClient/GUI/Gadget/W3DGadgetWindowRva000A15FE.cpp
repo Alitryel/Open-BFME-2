@@ -14,7 +14,7 @@ public:
 // The retail table at RVA 0x007C8DB4: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A1CFBWindow@@UAEHPAVWinInstanceData@@@Z")();
@@ -27,7 +27,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8DB4[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A1616
 	(const void *)&__identifier("?system@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A162E
 	(const void *)&__identifier("?draw@Rva000A1CFBWindow@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A1CFB
@@ -55,7 +55,7 @@ Rva000A15FE::Rva000A15FE(void *context)
 // The retail table at RVA 0x007C8DE0: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A1D0DWindow@@UAEHPAVWinInstanceData@@@Z")();
@@ -68,7 +68,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8DE0[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A1616
 	(const void *)&__identifier("?system@Rva000A1616Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A162E
 	(const void *)&__identifier("?draw@Rva000A1D0DWindow@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A1D0D
@@ -96,7 +96,7 @@ Rva000A1646::Rva000A1646(void *context)
 // The retail table at RVA 0x007C8D5C: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A1CFBWindow@@UAEHPAVWinInstanceData@@@Z")();
@@ -109,7 +109,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8D5C[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A1316
 	(const void *)&__identifier("?system@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A132E
 	(const void *)&__identifier("?draw@Rva000A1CFBWindow@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A1CFB
@@ -137,7 +137,7 @@ Rva000A12FE::Rva000A12FE(void *context)
 // The retail table at RVA 0x007C8D88: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A15ECWindow@@UAEHPAVWinInstanceData@@@Z")();
@@ -150,7 +150,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8D88[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A1316
 	(const void *)&__identifier("?system@Rva000A1CFBWindow@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A132E
 	(const void *)&__identifier("?draw@Rva000A15ECWindow@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A15EC
@@ -178,7 +178,7 @@ Rva000A1346::Rva000A1346(void *context)
 // The retail table at RVA 0x007C91AC: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A4783Window@@UAEHPAVWinInstanceData@@@Z")();
@@ -191,7 +191,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC91AC[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A4374
 	(const void *)&__identifier("?system@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A438C
 	(const void *)&__identifier("?draw@Rva000A4783Window@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A4783
@@ -219,7 +219,7 @@ Rva000A435C::Rva000A435C(void *context)
 // The retail table at RVA 0x007C91D8: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A4795Window@@UAEHPAVWinInstanceData@@@Z")();
@@ -232,7 +232,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC91D8[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A4374
 	(const void *)&__identifier("?system@Rva000A4783Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A438C
 	(const void *)&__identifier("?draw@Rva000A4795Window@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A4795
@@ -260,7 +260,7 @@ Rva000A43A4::Rva000A43A4(void *context)
 // The retail table at RVA 0x007C8CAC: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A0C42Window@@UAEHPAVWinInstanceData@@@Z")();
@@ -273,7 +273,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8CAC[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A08A9
 	(const void *)&__identifier("?system@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A08C1
 	(const void *)&__identifier("?draw@Rva000A0C42Window@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A0C42
@@ -301,7 +301,7 @@ Rva000A0891::Rva000A0891(void *context)
 // The retail table at RVA 0x007C8CD8: 11 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
-void __identifier("??_GRva000A43C8@@UAEPAXI@Z")();
+void __identifier("??_GRva0008FF3E@@UAEPAXI@Z")();
 void __identifier("?input@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?system@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z")();
 void __identifier("?draw@Rva000A0C54Window@@UAEHPAVWinInstanceData@@@Z")();
@@ -314,7 +314,7 @@ void __identifier("?get@Rva0008FF78CmpBoolField@@QBE_NXZ")();
 void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
 }
 extern const void *const g_00BC8CD8[11] = {
-	(const void *)&__identifier("??_GRva000A43C8@@UAEPAXI@Z"), // slot 0 0x0008FFC4
+	(const void *)&__identifier("??_GRva0008FF3E@@UAEPAXI@Z"), // slot 0 0x0008FFC4
 	(const void *)&__identifier("?input@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 1 0x000A08A9
 	(const void *)&__identifier("?system@Rva000A0C42Window@@UAE?AW4WindowMsgHandledType@@III@Z"), // slot 2 0x000A08C1
 	(const void *)&__identifier("?draw@Rva000A0C54Window@@UAEHPAVWinInstanceData@@@Z"), // slot 3 0x000A0C54

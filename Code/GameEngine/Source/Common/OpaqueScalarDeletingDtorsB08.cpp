@@ -24,16 +24,16 @@
 
 struct EmitVtableTag;
 
-class Rva000A43C8
+class Rva0008FF3E
 {
 public:
-	Rva000A43C8(EmitVtableTag *);
+	Rva0008FF3E(EmitVtableTag *);
 public:
-	virtual ~Rva000A43C8();
+	virtual ~Rva0008FF3E();
 };
 
-// ?<Rva000A43C8::Rva000A43C8> absent-from-retail
-Rva000A43C8::Rva000A43C8(EmitVtableTag *)
+// ?<Rva0008FF3E::Rva0008FF3E> absent-from-retail
+Rva0008FF3E::Rva0008FF3E(EmitVtableTag *)
 {
 }
 
