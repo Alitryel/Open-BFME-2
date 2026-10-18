@@ -102,4 +102,11 @@ extern PFN_D3DXVec3TransformCoordArray __identifier("_imp__D3DXVec3TransformCoor
 D3DXVECTOR3* __stdcall D3DXVec3TransformCoordArray(D3DXVECTOR3 *pOut, UINT OutStride, const D3DXVECTOR3 *pV, UINT VStride, const D3DXMATRIX *pM, UINT n) {
  return __identifier("_imp__D3DXVec3TransformCoordArray@24")(pOut, OutStride, pV, VStride, pM, n);
 }
+
+// _D3DXCreateTexture@32
+typedef HRESULT (__stdcall *PFN_D3DXCreateTexture)(LPDIRECT3DDEVICE9, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, LPDIRECT3DTEXTURE9 *);
+extern PFN_D3DXCreateTexture __identifier("_imp__D3DXCreateTexture@32");
+HRESULT __stdcall D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice, UINT Width, UINT Height, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, LPDIRECT3DTEXTURE9 *ppTexture) {
+ return __identifier("_imp__D3DXCreateTexture@32")(pDevice, Width, Height, MipLevels, Usage, Format, Pool, ppTexture);
+}
 }
