@@ -2,8 +2,8 @@
 // Level-stepped UI tables at retail 0x0052A295..0x0052A34D (names
 // address-derived; the tables' meaning is not established):
 //  - two static step tables: five {x0, x1, threshold} records at VA
-//    0x00C68440 (thresholds 7, 9, 18, 20) and three {value, threshold}
-//    records at VA 0x00C6847C (thresholds 7, 18);
+//    0x00C68440 (thresholds 7, 9, 18, 20) and two {value, threshold}
+//    pairs at VA 0x00C6847C (thresholds 7, 18), then a final float;
 //  - 0x0052A295 (34B): the first record whose threshold exceeds the level
 //    (the last one past them all);
 //  - 0x0052A2B7 (75B): with a banner UI (VA 0x00DFE32C), set its two slot
@@ -13,21 +13,28 @@
 //    Rva0029A767FloatField::set 0x0029A767) to the second table's value
 //    for the level.
 // The second table's own standalone lookup 0x0052A302 returns its float in
-// xmm0 (a private convention) and is not claimed here.
+// xmm0 (a private convention); its emitted static body is also rowed.
 struct Rva0052A295Step
 {
 	float x[2];
 	int threshold;
 };
 
+// The scale table is five words: two {float, threshold} pairs followed
+// by a final float. A third threshold would overlap the following string.
 struct Rva0052A321Step
 {
-	float value;
-	int threshold;
+    union { unsigned int bits; float value; int threshold; };
 };
 
-extern const Rva0052A295Step g_Va00C68440[5];
-extern const Rva0052A321Step g_Va00C6847C[3];
+extern const Rva0052A295Step g_Va00C68440[5] = {
+    {{0.0f, 0.0f}, 7}, {{0.0f, 60.0f}, 9},
+    {{60.0f, 60.0f}, 18}, {{60.0f, 102.0f}, 20},
+    {{102.0f, 102.0f}, 0}
+};
+extern const Rva0052A321Step g_Va00C6847C[5] = {
+    {0x00000000}, {7}, {0x3D700000}, {18}, {0x3DCC0000}
+};
 
 class BannerUI
 {
@@ -60,10 +67,10 @@ static inline float findScaleStep(int level)
 	unsigned int i;
 	for (i = 0; i < 2; ++i)
 	{
-		if (level < g_Va00C6847C[i].threshold)
+		if (level < g_Va00C6847C[2 * i + 1].threshold)
 			break;
 	}
-	return g_Va00C6847C[i].value;
+	return g_Va00C6847C[2 * i].value;
 }
 
 const Rva0052A295Step *Rva0052A295(int level)
