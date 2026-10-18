@@ -27,4 +27,9 @@ public:
 };
 
 // ??$sort@PAHVRva00204BB8@@@_STL@@YAXPAH0VRva00204BB8@@@Z @0x0020CE84 and its callees
+// __partial_sort is rowed in stlport_partial_sort_rva00204bb8.cpp (0x00209A62);
+// this TU's select-any copy, earlier in link order, differs.
+namespace _STL { template <> void __partial_sort<int *, int, Rva00204BB8>(int *, int *, int *, int *, Rva00204BB8); }
 template void _STL::sort<int *, Rva00204BB8>(int *, int *, Rva00204BB8);
+// The heap pop rows partial_sort used to instantiate here.
+template void _STL::pop_heap<int *, Rva00204BB8>(int *, int *, Rva00204BB8);

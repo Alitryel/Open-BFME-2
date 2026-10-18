@@ -92,6 +92,11 @@ private: Rva001EBAEA *pointer;
 // forward with the record's field table) is rowed under a fourth. The view
 // chains them so one temporary reaches each row as retail's does.
 class Rva001ED03C { public: unsigned char data[0x24]; };
+// Element construction is rowed in stlport_construct_rva001ED03C.cpp (0x001ED1F1);
+// this TU's select-any copy, first in link order, is not retail's.
+namespace _STL { template <> void _Construct<Rva001ED03C, Rva001ED03C>(Rva001ED03C *, const Rva001ED03C &); }
+// So are the vector growth and clear paths (StlportVectorInsertOverflowRva001ED03C.cpp).
+namespace _STL { template <> void vector<Rva001ED03C, allocator<Rva001ED03C> >::_M_insert_overflow(Rva001ED03C *, const Rva001ED03C &, const __false_type &, size_t, bool); template <> void vector<Rva001ED03C, allocator<Rva001ED03C> >::_M_clear(); template <> void vector<Rva001ED03C, allocator<Rva001ED03C> >::push_back(const Rva001ED03C &); }
 class Rva001ED0DE : public Rva001ED03C { public: ~Rva001ED0DE(); };
 class Rva001ED0A9 : public Rva001ED0DE { public: Rva001ED0A9(const AsciiString &name); };
 class Rva001ED338 { public: void rva001ED338(void *ini); };
