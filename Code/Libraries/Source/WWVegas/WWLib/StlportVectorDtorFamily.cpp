@@ -165,6 +165,9 @@ template _STL::vector<BfmeStringHeadRecord184>::~vector();
 // DamageNugget "DamageScalar" entries (Made002CC5E1DamageScalar.cpp); the
 // nugget dtor at 0x00508684 calls this for its +0x168 member.
 struct Made002CC5E1DamageScalar { public: ~Made002CC5E1DamageScalar(); };
+// The range destroy over the real 8-byte element is the held unit's; this
+// size view would build a wrong stride, so only declare it.
+namespace _STL { template <> void _Destroy<Made002CC5E1DamageScalar *>(Made002CC5E1DamageScalar *, Made002CC5E1DamageScalar *); }
 template _STL::vector<Made002CC5E1DamageScalar>::~vector();
 
 // ??1?$vector@VCreateAHeroSubClass@CreateAHeroManager@@V?$allocator@VCreateAHeroSubClass@CreateAHeroManager@@@_STL@@@_STL@@QAE@XZ @0x0021F7A7 63B.
