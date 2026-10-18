@@ -46,16 +46,23 @@ template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag);
 
-template <class InputIter, class OutputIter>
-OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
-	const __false_type *tag, int extra);
+struct random_access_iterator_tag
+{
+};
 
+// The rowed __copy 0x00204170 (stlport_vector_stringrecord_00204a30_allocate_copy.cpp).
+template <class RandomAccessIter, class OutputIter, class Distance>
+OutputIter __copy(RandomAccessIter first, RandomAccessIter last, OutputIter result,
+	const random_access_iterator_tag &tag, Distance *distance);
+
+// STLport's non-trivial __copy_ptrs: forward to __copy, as retail's 29B body
+// 0x00204A13 does.
 template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag)
 {
-	__false_type local;
-	return __copy_ptrs(first, last, result, &local, 0);
+	random_access_iterator_tag category;
+	return __copy(first, last, result, category, (int *)0);
 }
 
 template <class ForwardIter>
