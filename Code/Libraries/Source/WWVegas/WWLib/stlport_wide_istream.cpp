@@ -1,6 +1,27 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 
+// Share the retail locale-copy operation with stlport_locale.cpp before
+// ios_base::getloc is defined, so its return-value copy inlines here too.
+#include <stl/_locale.h>
+namespace _STL {
+class _Locale_impl
+{
+public:
+    virtual ~_Locale_impl();
+    virtual void _M_incr();
+    virtual void _M_decr();
+    locale::facet **_M_facets;
+    unsigned int _M_count;
+};
+inline locale::locale(const locale &that) _STLP_NOTHROW
+{
+    _M_impl = 0;
+    _Locale_impl *impl = that._M_impl;
+    impl->_M_incr();
+    _M_impl = impl;
+}
+}
 #include <istream>
 
 #include <cstddef>
