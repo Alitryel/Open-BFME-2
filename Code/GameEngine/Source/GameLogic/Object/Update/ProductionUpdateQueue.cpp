@@ -227,7 +227,7 @@ public:
 extern AudioManager *TheAudio;
 
 // ModelConditionFlags-sized bit set (0x4C bytes) with the rowed member xfer.
-class Rva000BB710
+template<int NUMBITS> class BitFlags
 {
 public:
 	void xfer(Xfer *xfer);
@@ -235,7 +235,7 @@ public:
  void clear() { memset(m_words,0,sizeof(m_words)); }
  void set(unsigned bit,bool value=true) { if(value) m_words[bit>>5] |= 1u << (bit&31); else m_words[bit>>5] &= ~(1u << (bit&31)); }
 private:
-	unsigned int m_words[19];
+	unsigned int m_words[(NUMBITS+31)/32];
 };
 
 enum CanMakeType
@@ -337,7 +337,7 @@ class UpgradeTemplate
 {
 public:
 	UpgradeType getUpgradeType() const { return m_type; }
-	UnsignedInt rva0026EF50(Player *player, Object *obj) const; // calcCostToBuild
+	UnsignedInt calcCostToBuild(Player *player, UnsignedInt requester) const;
 
 	const AsciiString &getUpgradeName() const { return m_name; }
 
@@ -389,7 +389,6 @@ class Rva0037EE4C
 {
 public:
 	Int rva0037EE4C(const ThingTemplate *, Int, Int);
-	Real rva0037E815(Int, Object *);
 	char m_unknown00[0x14];
 };
 
@@ -498,7 +497,7 @@ public:
  char m_unknown08[0x38-8]; Coord3D m_position;
  char m_unknown44[0x74-0x44]; ObjectID m_id; ObjectID m_containerID;
  char m_unknown7C[0x88-0x7c]; AsciiString m_name;
- char m_unknown8C[0x10c-0x8c]; Rva000BB710 m_modelConditionFlags;
+ char m_unknown8C[0x10c-0x8c]; BitFlags<591> m_modelConditionFlags;
  char m_unknown158[0x244-0x158];
  BehaviorModule **m_behaviors; // +0x244, null-terminated
 	char m_unknown248[8]; ProductionContainView *m_contain;
@@ -1258,8 +1257,8 @@ protected:
 	UnsignedInt m_productionCount; // +0x34
 	UnsignedInt m_constructionCompleteFrame; // +0x38
 	DoorInfo m_doors[DOOR_COUNT_MAX]; // +0x3C
-	Rva000BB710 m_clearFlags; // +0x7C
-	Rva000BB710 m_setFlags; // +0xC8
+	BitFlags<591> m_clearFlags; // +0x7C
+	BitFlags<591> m_setFlags; // +0xC8
 	Bool m_flagsDirty; // +0x114
 	UnsignedInt m_bfme118; // +0x118
 	Bool m_bfme11C; // +0x11C
@@ -1290,7 +1289,7 @@ const Rva0049D1B1 *ProductionUpdate::GetEntryToProcess()
 			Rva0037EE4C *tracker = &getObject()->getControllingPlayer()->m_revivalTracker;
 			Int productionID = entry->m_productionID;
 			Int index = tracker->rva0037EE4C(entry->getProductionObject(), productionID, 0);
-			if (tracker->rva0037E815(index, getObject()) >= 1.0f)
+			if (reinterpret_cast<Rva0037E6E8 *>(tracker)->rva0037E815(index, getObject()) >= 1.0f)
 				return entry;
 		}
 	}
@@ -1342,7 +1341,7 @@ Bool ProductionUpdate::queueUpgrade( const UpgradeTemplate *upgrade )
 	production->m_bfme38 = upgrade->m_bfme70;
 
 	// take the cost for the build away from the player
-	production->m_cost = upgrade->rva0026EF50( player, getObject() );
+	production->m_cost = upgrade->calcCostToBuild( player, reinterpret_cast<UnsignedInt>(getObject()) );
 	player->getMoney()->withdraw( production->m_cost, &player->m_tracker, true );
 
 	Object *obj = getObject();
@@ -2091,7 +2090,7 @@ UpdateSleepTime ProductionUpdate::update()
  }
  case PRODUCTION_UPGRADE: {
   const UpgradeTemplate *upgrade=production->m_upgradeToResearch;
-  if(experience && !d->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) { int cost=upgrade->rva0026EF50(0,0); if(cost>0) ((ExperienceTracker *)experience)->rva0039B315((float)cost,true,true,true,false); }
+  if(experience && !d->m_noExperience && ((Rva0039ADF3 *)experience)->rva0039AE04()) { int cost=upgrade->calcCostToBuild(0,0); if(cost>0) ((ExperienceTracker *)experience)->rva0039B315((float)cost,true,true,true,false); }
   ObjectID producerID=us->m_id;
   int producerPlayer=us->getControllingPlayer()->m_playerIndex;
   TheScriptEngine->rva00357F11(producerPlayer,upgrade->getUpgradeName(),producerID);
