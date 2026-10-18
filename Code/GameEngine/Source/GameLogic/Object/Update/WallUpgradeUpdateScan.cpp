@@ -94,19 +94,23 @@ public:
 };
 
 // A 128-bit ObjectStatusMaskType; 0x0023DA79 clears it and sets one bit.
+// Use the existing Rva0023DA79Bitset.cpp provider and its two-int ABI;
+// the obsolete ObjectStatusMask spelling was only a pin, with no definition.
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_3B = 0x3B
 };
 
-struct ObjectStatusMask
+class Rva0023DA79
 {
-	ObjectStatusMask() {}
-	ObjectStatusMask *Rva0023DA79(int reserved, ObjectStatusTypes bit) throw();	// 0x0023DA79
+public:
+	Rva0023DA79() {}
+	Rva0023DA79 *rva0023DA79(int reserved, int bit) throw();	// 0x0023DA79
+private:
 	unsigned int m_bits[4];
 };
 
-struct ObjectStatusMaskNone : ObjectStatusMask
+struct ObjectStatusMaskNone : Rva0023DA79
 {
 	ObjectStatusMaskNone() { memset(this, 0, sizeof(*this)); }
 };
@@ -120,8 +124,8 @@ class Rva002FDF1C : public Rva000421C8
 public:
 	Rva002FDF1C(const BfmeObject872Header &a, const BfmeObject872Header &b) throw();	// 0x002FDF1C
 	virtual bool allow(Object *obj);
-	ObjectStatusMask m_08;
-	ObjectStatusMask m_18;
+	Rva0023DA79 m_08;
+	Rva0023DA79 m_18;
 };
 
 // vftable 0x00C07190, allow 0x002614DF.
@@ -259,7 +263,7 @@ void WallUpgradeUpdate::rva004AB57E()
 	center.z = us->m_pos.z;
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&center, radius, 0,
 		Rva002614DFFilter(us).link(&Rva0026119DFilter())->link(&Rva0026118BFilter())
-			->link(&Rva002FDF1C(*(BfmeObject872Header *)ObjectStatusMask().Rva0023DA79(0, OBJECT_STATUS_3B),
+			->link(&Rva002FDF1C(*(BfmeObject872Header *)Rva0023DA79().rva0023DA79(0, OBJECT_STATUS_3B),
 				*(BfmeObject872Header *)&ObjectStatusMaskNone()))
 			->link(&Rva002611BFFilter(us))
 			->link(&Rva0004584D(*(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype,
