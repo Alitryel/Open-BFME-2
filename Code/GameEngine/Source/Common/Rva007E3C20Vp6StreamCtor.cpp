@@ -24,11 +24,19 @@
 // chain reload past them exactly as retail does; the reordered or volatile
 // spellings of earlier attempts did not.
 
+// Retail's ctor unwind destroys this base through 0x0068A110 (restore
+// 0xCE4A10, release +0xC), rowed as BfmeThingUC::bfmeResetUC.
+class BfmeThingUC
+{
+public:
+    void bfmeResetUC();
+};
+
 class Gen_0081E480
 {
 public:
     Gen_0081E480(int first, int second);
-    virtual ~Gen_0081E480(void);
+    virtual ~Gen_0081E480(void) { ((BfmeThingUC *)this)->bfmeResetUC(); }
     int m_count; int m_first; int m_second; int m_flags;
 };
 

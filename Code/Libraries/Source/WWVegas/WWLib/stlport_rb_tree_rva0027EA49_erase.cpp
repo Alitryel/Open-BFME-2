@@ -23,7 +23,9 @@ struct Rva0027EA49 {
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _Rb_tree_node<Rva0027EA49> * _Rb_tree<Rva0027EA49,Rva0027EA49,_Identity<Rva0027EA49>,less<Rva0027EA49>,allocator<Rva0027EA49> >::_M_create_node(Rva0027EA49 const &); }
-bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b);
+// Retail's erase(key) 0x005C6C2D calls 0x006F1C89, the equal_range ICF-shared
+// with map<int, int>'s: elements order by the int at +0.
+inline bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b) { return a.m_00 < b.m_00; }
 typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > Rva0027EA49Tree;
 
 template void Rva0027EA49Tree::_M_erase(Rva0027EA49Tree::_Link_type);
