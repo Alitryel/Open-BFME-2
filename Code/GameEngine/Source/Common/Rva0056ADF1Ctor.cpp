@@ -15,7 +15,32 @@ public:
 };
 
 extern "C" const void *const vtbl_00C6D23C[];
-extern "C" const void *const vtbl_00C6D200[];
+// The retail table at RVA 0x0086D200: 15 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_ERva0056AE4A@@W7AEPAXI@Z")();
+void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
+void __identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z")();
+void __identifier("?IsCRC@Xfer@@UBE_NXZ")();
+void __identifier("?Remove_Sub_Object@RenderObjClass@@UAEHPAV1@@Z")();
+}
+extern "C" const void *const vtbl_00C6D200[15] = {
+	(const void *)&__identifier("??_ERva0056AE4A@@W7AEPAXI@Z"), // slot 0 0x0056AE26
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 1 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 2 0x005CB9FF
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 3 0x0050B5F1
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 4 0x0050B5F1
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 5 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 6 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 7 0x005CB9FF
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 8 0x005CB9FF
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 9 0x0050B5F1
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 10 0x0050B5F1
+	(const void *)&__identifier("?rva0050B5F1@Rva0050B5F1@@QAE_NHH@Z"), // slot 11 0x0050B5F1
+	(const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 12 0x005CB9FF
+	(const void *)&__identifier("?IsCRC@Xfer@@UBE_NXZ"), // slot 13 0x0047A699
+	(const void *)&__identifier("?Remove_Sub_Object@RenderObjClass@@UAEHPAV1@@Z"), // slot 14 0x005DAA6C
+};
 
 struct Rva0056ADF1Glob
 {
