@@ -1,0 +1,74 @@
+{
+ "name": "?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z",
+ "rva": "0x00336C5D",
+ "size": 595,
+ "source": "reverse/attempts/0x00336c5d.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 24,
+  "pin": 3,
+  "import-thunk": 4,
+  "copied": 3,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 64,
+   "type": 20,
+   "symbol": "_strcmp",
+   "source": "import-thunk",
+   "target": "0x0E101A50",
+   "retail": "0x00A291C6"
+  },
+  {
+   "offset": 133,
+   "type": 20,
+   "symbol": "_strcmp",
+   "source": "import-thunk",
+   "target": "0x0E101A50",
+   "retail": "0x00A291C6"
+  },
+  {
+   "offset": 205,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 217,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 528,
+   "type": 6,
+   "symbol": "$L5208",
+   "source": "ledger",
+   "target": "0x00B64A05",
+   "retail": "0x00736E78"
+  },
+  {
+   "offset": 534,
+   "type": 6,
+   "symbol": "$L5208",
+   "source": "ledger",
+   "target": "0x00B64A05",
+   "retail": "0x00736E78"
+  }
+ ],
+ "ms": 161.6,
+ "rebuilt_size": 595
+}

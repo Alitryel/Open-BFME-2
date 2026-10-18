@@ -1,0 +1,21 @@
+{
+ "name": "?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z",
+ "rva": "0x001854E0",
+ "size": 1174,
+ "source": "reverse/attempts/0x001854e0.cpp",
+ "sites": {
+  "content": 2,
+  "copied": 10
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 47.1,
+ "rebuilt_size": 1172
+}

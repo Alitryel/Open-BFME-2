@@ -1,0 +1,878 @@
+{
+  "status": "PASS",
+  "method": "Straight-line SSE symbolic tracing",
+  "first_pair_commutation_allowed": true,
+  "addition_reassociation_allowed": false,
+  "scope": "12 modelview outputs; finite arithmetic association only",
+  "trace_module_sha256": "764b3a0dc90282b61733dd4c41f25fe0f50fd11ea41bec2feb953f331be4ecc6",
+  "outputs": [
+    {
+      "row": 0,
+      "column": 0,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][0]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][0]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][0]"
+        ]
+      ]
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][1]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][1]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][1]"
+        ]
+      ]
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][2]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][2]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[0][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[0][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[0][0]",
+          "B[0][2]"
+        ]
+      ]
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "match": true,
+      "expected": [
+        "addss",
+        "A[0][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[0][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[0][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[0][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "native": [
+        "addss",
+        "A[0][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[0][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[0][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[0][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "candidate": [
+        "addss",
+        "A[0][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[0][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[0][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[0][0]",
+            "B[0][3]"
+          ]
+        ]
+      ]
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][0]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][0]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][0]"
+        ]
+      ]
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][1]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][1]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][1]"
+        ]
+      ]
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][2]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][2]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[1][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[1][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[1][0]",
+          "B[0][2]"
+        ]
+      ]
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "match": true,
+      "expected": [
+        "addss",
+        "A[1][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[1][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[1][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[1][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "native": [
+        "addss",
+        "A[1][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[1][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[1][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[1][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "candidate": [
+        "addss",
+        "A[1][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[1][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[1][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[1][0]",
+            "B[0][3]"
+          ]
+        ]
+      ]
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][0]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][0]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][0]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][0]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][0]"
+        ]
+      ]
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][1]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][1]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][1]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][1]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][1]"
+        ]
+      ]
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "match": true,
+      "expected": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][2]"
+        ]
+      ],
+      "native": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][2]"
+        ]
+      ],
+      "candidate": [
+        "addss",
+        [
+          "addss",
+          [
+            "mulss",
+            "A[2][1]",
+            "B[1][2]"
+          ],
+          [
+            "mulss",
+            "A[2][2]",
+            "B[2][2]"
+          ]
+        ],
+        [
+          "mulss",
+          "A[2][0]",
+          "B[0][2]"
+        ]
+      ]
+    },
+    {
+      "row": 2,
+      "column": 3,
+      "match": true,
+      "expected": [
+        "addss",
+        "A[2][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[2][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[2][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[2][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "native": [
+        "addss",
+        "A[2][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[2][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[2][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[2][0]",
+            "B[0][3]"
+          ]
+        ]
+      ],
+      "candidate": [
+        "addss",
+        "A[2][3]",
+        [
+          "addss",
+          [
+            "addss",
+            [
+              "mulss",
+              "A[2][1]",
+              "B[1][3]"
+            ],
+            [
+              "mulss",
+              "A[2][2]",
+              "B[2][3]"
+            ]
+          ],
+          [
+            "mulss",
+            "A[2][0]",
+            "B[0][3]"
+          ]
+        ]
+      ]
+    }
+  ],
+  "native": {
+    "body_sha256": "53564736c6abef0f3e72dfc9224f892f624c31409edb50340aa99ee015fb924e",
+    "entry_rva": "0x1920ac",
+    "stop_before_call_rva": "0x19236d",
+    "A_xyz_frame_start": -364,
+    "B_pointer_source": "[ebp+0x0C]",
+    "C_frame_start": -812
+  },
+  "candidate": {
+    "body_sha256": "0c3ee0f415721321b2bd7632a4fb80d73f0462fde7632e0700673b63e0003187",
+    "entry_rva": "0x1920a8",
+    "stop_before_call_rva": "0x19236b",
+    "A_xyz_frame_start": -340,
+    "B_pointer_source": "[ebp+0x0C]",
+    "C_frame_start": -812
+  }
+}

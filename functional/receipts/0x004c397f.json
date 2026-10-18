@@ -1,0 +1,32 @@
+{
+ "name": "?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z",
+ "rva": "0x004C397F",
+ "size": 288,
+ "source": "reverse/attempts/0x004c397f.cpp",
+ "sites": {
+  "copied": 3,
+  "ledger": 7,
+  "import-thunk": 1,
+  "content": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 61,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  }
+ ],
+ "ms": 38.4,
+ "rebuilt_size": 288
+}

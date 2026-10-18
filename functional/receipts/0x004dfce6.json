@@ -1,0 +1,30 @@
+{
+ "name": "?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z",
+ "rva": "0x004DFCE6",
+ "size": 361,
+ "source": "reverse/attempts/0x004dfce6.cpp",
+ "sites": {
+  "ledger": 4,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 267,
+   "type": 6,
+   "symbol": "__real@3f000000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x590FF3F8"
+  }
+ ],
+ "ms": 28.5,
+ "rebuilt_size": 361
+}

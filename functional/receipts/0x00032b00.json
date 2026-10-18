@@ -1,0 +1,20 @@
+{
+ "name": "?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z",
+ "rva": "0x00032B00",
+ "size": 343,
+ "source": "reverse/attempts/0x00032b00.cpp",
+ "sites": {
+  "import": 3
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 77.7,
+ "rebuilt_size": 341
+}

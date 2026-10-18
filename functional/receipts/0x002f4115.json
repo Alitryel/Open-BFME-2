@@ -1,0 +1,89 @@
+{
+ "name": "?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z",
+ "rva": "0x002F4115",
+ "size": 602,
+ "source": "reverse/attempts/0x002f4115.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 27,
+  "copied": 3,
+  "pin-unmatched-body": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 24,
+   "type": 20,
+   "symbol": "?get@Rva0028B984ByteField@@QBEEXZ",
+   "source": "ledger",
+   "target": "0x0068B984",
+   "retail": "0xF9E79419"
+  },
+  {
+   "offset": 101,
+   "type": 20,
+   "symbol": "?rva0028AC62@Object@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0068AC62",
+   "retail": "0x0BB4CA49"
+  },
+  {
+   "offset": 111,
+   "type": 20,
+   "symbol": "?rva0028AFBB@Object@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0068AFBB",
+   "retail": "0x886F5905"
+  },
+  {
+   "offset": 157,
+   "type": 20,
+   "symbol": "??0?$set@URva002F307AElement@@U?$less@URva002F307AElement@@@_STL@@V?$allocator@URva002F307AElement@@@3@@_STL@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x006F307A",
+   "retail": "0xE05B91C3"
+  },
+  {
+   "offset": 186,
+   "type": 20,
+   "symbol": "?get@Rva002E6ECA@@QBEHXZ",
+   "source": "ledger",
+   "target": "0x006E6ECA",
+   "retail": "0x53D7B693"
+  },
+  {
+   "offset": 198,
+   "type": 20,
+   "symbol": "?isValidUnitType@Waypoint@@QAE_NPAVObject@@@Z",
+   "source": "ledger",
+   "target": "0x00681AED",
+   "retail": "0x8BCBB69F"
+  },
+  {
+   "offset": 220,
+   "type": 20,
+   "symbol": "?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x006802FE",
+   "retail": "0x8BC03272"
+  },
+  {
+   "offset": 231,
+   "type": 20,
+   "symbol": "?rva001E3647Pos@Pathfinder@@QAEPAXHPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x005E3647",
+   "retail": "0x66AAB6C0"
+  }
+ ],
+ "ms": 262.2,
+ "rebuilt_size": 610
+}

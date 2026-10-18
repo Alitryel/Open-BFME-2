@@ -1,0 +1,29 @@
+{
+ "name": "?rva00473F81@Rva00473F81@@QAEAAVRva00469155@@ABH@Z",
+ "rva": "0x00473F81",
+ "size": 83,
+ "source": "reverse/attempts/0x00473f81.cpp",
+ "sites": {
+  "ledger": 4
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 64,
+   "type": 20,
+   "symbol": "?insert@?$map@HURva00470205Record@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHURva00470205Record@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHURva00470205Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00470205Record@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHURva00470205Record@@@2@@Z",
+   "source": "ledger",
+   "target": "0x00870205",
+   "retail": "0x3E700F50"
+  }
+ ],
+ "ms": 21.1,
+ "rebuilt_size": 80
+}

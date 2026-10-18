@@ -1,0 +1,1762 @@
+{
+  "diagnostic_only": true,
+  "acceptance_gate": false,
+  "native_renderer_bytes_modified": false,
+  "probe_script_sha256": "c36fed3f3f70512f23c8260f83abba6ac3bfbc29a3960bc056d23c8a562b6325",
+  "native_image_sha256": "f008b587570bad693981dc7218588c81d192a1e064b0f7f861539c51156a7640",
+  "native_render_sha256": "53564736c6abef0f3e72dfc9224f892f624c31409edb50340aa99ee015fb924e",
+  "unicorn_version": "2.1.4",
+  "candidate_link": {
+    "object": "/tmp/segline-delivery-probe.obj",
+    "object_sha256": "240de546cdcb231676c548b111602979ef37e3c072675a7095739bd9efe66877",
+    "raw_render_sha256": "0c3ee0f415721321b2bd7632a4fb80d73f0462fde7632e0700673b63e0003187",
+    "linked_render_sha256": "472225cc89d10480dd329d3ae8a6900d2d89e3f238dc66466bed0e9a64236992",
+    "byte_count": 15940,
+    "relocation_count": 158,
+    "same_offset_retail_operand_copying": false,
+    "bindings": {
+      "??0DynamicIBAccessClass@@QAE@GG@Z": {
+        "address": "0x00539240",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0DynamicVBAccessClass@@QAE@IIGI@Z": {
+        "address": "0x0053B040",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0SegMatrixRow@@QAE@XZ": {
+        "address": "0x0087A6A9",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "??0WriteLock@DynamicVBAccessClass@@QAE@PAV1@@Z": {
+        "address": "0x0053AA00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0WriteLockClass@DynamicIBAccessClass@@QAE@PAV1@@Z": {
+        "address": "0x00538CA0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1DynamicIBAccessClass@@QAE@XZ": {
+        "address": "0x00538BE0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1DynamicVBAccessClass@@QAE@XZ": {
+        "address": "0x0053A780",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1WriteLock@DynamicVBAccessClass@@QAE@XZ": {
+        "address": "0x0053AB00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1WriteLockClass@DynamicIBAccessClass@@QAE@XZ": {
+        "address": "0x00538D80",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_H@YGXPAXIHP6EPAX0@Z@Z": {
+        "address": "0x00401423",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_U@YAPAXI@Z": {
+        "address": "0x0042FDE0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_V@YAXPAX@Z": {
+        "address": "0x0042FD80",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?BFME2Set_Texture@@YAXIABUBFME2TextureRef@@@Z": {
+        "address": "0x0051F4B0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Draw_Triangles@DX8Wrapper@@SAXIIII@Z": {
+        "address": "0x00520620",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Free_String@StringClass@@AAEXXZ": {
+        "address": "0x00A10A40",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Get_Preset@VertexMaterialClass@@SAPAV1@W4PresetType@1@@Z": {
+        "address": "0x0053D230",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Get_String@StringClass@@AAEXH_N@Z": {
+        "address": "0x00A10B00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Insert@BfmeSortingDispatchAt0012FE00@@SAXABUTargetCenter3@@IIII@Z": {
+        "address": "0x0052FE00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Inv_Sqrt@WWMath@@SIMM@Z": {
+        "address": "0x0044233A",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Set_Index_Buffer@DX8Wrapper@@SAXABVDynamicIBAccessClass@@G@Z": {
+        "address": "0x0051D690",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Set_Vertex_Buffer@DX8Wrapper@@SAXABVDynamicVBAccessClass@@@Z": {
+        "address": "0x0051D5C0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?ShaderDirty@ShaderClass@@1_NA": {
+        "address": "0x00DB621C",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?SyncTime@WW3D@@0IA": {
+        "address": "0x00DEC3CC",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?Transform@VectorProcessorClass@@SAXPAVVector3@@PBV2@ABVMatrix3D@@H@Z": {
+        "address": "0x00B1CE10",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?m_EmptyString@StringClass@@0PADA": {
+        "address": "0x00DD528C",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?m_NullChar@StringClass@@0DA": {
+        "address": "0x00E08C18",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?render_state@DX8Wrapper@@1URenderStateStruct@@A": {
+        "address": "0x00DEE5D8",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?render_state_changed@DX8Wrapper@@1IA": {
+        "address": "0x00DEC4F4",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?subdivision_util@SegLineRendererClass@@AAEXIPBVVector3@@PBMPAIPAV2@PAMPAVVector4@@5@Z": {
+        "address": "0x00591480",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "__chkstk": {
+        "address": "0x00A29000",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "__ehhandler$?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z": {
+        "address": "0x00B68996",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__except_list": {
+        "address": "0x00000000",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__imp__floor": {
+        "address": "0x00BBA570",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__real@38d1b717": {
+        "address": "0x31000010",
+        "evidence": "COFF literal bytes",
+        "bytes": "17b7d138"
+      },
+      "__real@3a83126f": {
+        "address": "0x31000014",
+        "evidence": "COFF literal bytes",
+        "bytes": "6f12833a"
+      },
+      "__real@3f000000": {
+        "address": "0x3100000C",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000003f"
+      },
+      "__real@3f666666": {
+        "address": "0x31000018",
+        "evidence": "COFF literal bytes",
+        "bytes": "6666663f"
+      },
+      "__real@3f800000": {
+        "address": "0x31000000",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000803f"
+      },
+      "__real@437f0000": {
+        "address": "0x31000008",
+        "evidence": "COFF literal bytes",
+        "bytes": "00007f43"
+      },
+      "__real@4f800000": {
+        "address": "0x31000004",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000804f"
+      }
+    }
+  },
+  "contracts": {
+    "executed_native_helpers": [
+      "WWMath::Inv_Sqrt",
+      "__chkstk",
+      "vector constructor iterator",
+      "neutral row constructor"
+    ],
+    "floor_stub": "Finite double floor with x87 result; identical for both runs.",
+    "Transform_stub": "Record all incoming matrix/point bits, then row-wise rounded float32 XYZ products/sums plus translation.",
+    "subdivision_stub": "Default: level-zero copy contract. Cases with native_subdivision=true execute original subdivision, Random3 ctor/operator and SolidBox ctor/Get_Vector with zero noise; both inputs and output bytes are recorded.",
+    "graphics_stubs": "Dynamic buffers use XYZ/diffuse/UV stride24; record every written byte, indices, draw parameters, state and buffer metadata.",
+    "allocation_stubs": "Deterministic mapped memory allocation; no OS heap or graphics device.",
+    "exceptions": "No exceptions raised. FS chain restored; native EH pointer used only as dormant identity, candidate EH not evaluated.",
+    "floating_point": "MXCSR=0x1F80, default x87 control=0x027F. No host GPU or game boot is executed."
+  },
+  "cases": [
+    {
+      "input": {
+        "name": "nearest_dot_two_point_vertex_difference",
+        "points": [
+          [
+            -15.330248832702637,
+            -5.3587493896484375,
+            91.61286926269531
+          ],
+          [
+            -1.913433313369751,
+            -27.61533546447754,
+            20.241031646728516
+          ]
+        ]
+      },
+      "comparison": {
+        "equal": true,
+        "mismatched_outputs": [],
+        "first_event_difference": null
+      },
+      "native": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 2510,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 2,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "b34875c1e07aabc0ca39b74262ebf4bf35ecdcc1a2eda141"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 2,
+            "points": "b34875c1e07aabc0ca39b74262ebf4bf35ecdcc1a2eda141",
+            "tex": "0000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448321b8"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448329b7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448329b8"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4607419b"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "46074199"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "38f224a7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4492f6f5"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4492f6f4"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3a5ecfad"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              4,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 4
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 6
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000600000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000400000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x00591E85",
+          "0x00591F91",
+          "0x00591FAC",
+          "0x00592372",
+          "0x0059248A",
+          "0x005925DB",
+          "0x005926F0",
+          "0x00592842",
+          "0x00592946",
+          "0x00592F83",
+          "0x005930B3",
+          "0x0059319E",
+          "0x00593275",
+          "0x0059357E",
+          "0x005936BC",
+          "0x005937B1",
+          "0x0059387C",
+          "0x00595704",
+          "0x0059573F",
+          "0x00595758",
+          "0x005957CC",
+          "0x005957EA",
+          "0x00595800",
+          "0x00595842",
+          "0x00595850",
+          "0x0059585C",
+          "0x0059589A",
+          "0x005958D5",
+          "0x005958E8",
+          "0x00595913",
+          "0x00595935",
+          "0x00595947",
+          "0x0059597F"
+        ],
+        "vertices": [
+          "14287dc1401facc0a20db7423f7fffbf2731883eb29def3e77696dc1d15daac09763b7423f7fffbf4a0ca23fb29def3e3ff319c04e15ddc1053da1413f7fffbf2731883eb29def3e8af1b5bff3a4dcc1d494a2413f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      },
+      "candidate": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 2510,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 2,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "b34875c1e07aabc0ca39b74262ebf4bf35ecdcc1a2eda141"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 2,
+            "points": "b34875c1e07aabc0ca39b74262ebf4bf35ecdcc1a2eda141",
+            "tex": "0000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448321b8"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448329b7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "448329b8"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4607419b"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "46074199"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "38f224a7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4492f6f5"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4492f6f4"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b44a74"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3a5ecfad"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              4,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 4
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 6
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000600000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000400000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x30000275",
+          "0x3000037D",
+          "0x30000398",
+          "0x30000760",
+          "0x3000086B",
+          "0x300009BB",
+          "0x30000ACD",
+          "0x30000C1B",
+          "0x30000D20",
+          "0x30001314",
+          "0x30001449",
+          "0x30001534",
+          "0x3000160B",
+          "0x30001914",
+          "0x30001A4B",
+          "0x30001B40",
+          "0x30001C0B",
+          "0x30003AAB",
+          "0x30003AE6",
+          "0x30003AFF",
+          "0x30003B6E",
+          "0x30003B8C",
+          "0x30003BA2",
+          "0x30003BE4",
+          "0x30003BF2",
+          "0x30003BFE",
+          "0x30003C3C",
+          "0x30003C77",
+          "0x30003C8A",
+          "0x30003CB5",
+          "0x30003CD7",
+          "0x30003CE9",
+          "0x30003D21"
+        ],
+        "vertices": [
+          "14287dc1401facc0a20db7423f7fffbf2731883eb29def3e77696dc1d15daac09763b7423f7fffbf4a0ca23fb29def3e3ff319c04e15ddc1053da1413f7fffbf2731883eb29def3e8af1b5bff3a4dcc1d494a2413f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      }
+    },
+    {
+      "input": {
+        "name": "parallel_top_direction_three_points",
+        "points": [
+          [
+            28.119430541992188,
+            -27.15869903564453,
+            84.28857421875
+          ],
+          [
+            6.514256954193115,
+            24.173051834106445,
+            2.9058966636657715
+          ],
+          [
+            0.6166583895683289,
+            7.6849541664123535,
+            77.30404663085938
+          ]
+        ]
+      },
+      "comparison": {
+        "equal": true,
+        "mismatched_outputs": [],
+        "first_event_difference": null
+      },
+      "native": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 3851,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 3,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "98f4e0410445d9c1c093a842cb74d0406962c14136fa394053dd1d3f25ebf540ac9b9a42"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 3,
+            "points": "98f4e0410445d9c1c093a842cb74d0406962c14136fa394053dd1d3f25ebf540ac9b9a42",
+            "tex": "000000000000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4617f37c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440ba17d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440bb17e"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440bb17c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b68dca"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cb7be"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cc7c0"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cc7c1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4aa5c21f"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4a5f82e1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4606e271"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4606e272"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4617f37c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "38f2b65a"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45bc98d7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45bc98d7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b68dca"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "392d99ae"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4075c4f6"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441ebd2d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4076455c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441ebd37"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3ad6873c"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              6,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 6
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              12
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 12
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000c00000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000600000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              4,
+              0,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x00591E85",
+          "0x00591F91",
+          "0x00591FAC",
+          "0x00592372",
+          "0x0059248A",
+          "0x005925DB",
+          "0x005926F0",
+          "0x00592842",
+          "0x00592946",
+          "0x005925DB",
+          "0x005926F0",
+          "0x00592842",
+          "0x00592946",
+          "0x00592A7F",
+          "0x00592B97",
+          "0x00592F83",
+          "0x005930B3",
+          "0x0059319E",
+          "0x00593275",
+          "0x0059357E",
+          "0x005936BC",
+          "0x005937B1",
+          "0x0059387C",
+          "0x00593BF8",
+          "0x00593CD3",
+          "0x00593EAD",
+          "0x00593F8C",
+          "0x00594038",
+          "0x00595704",
+          "0x0059573F",
+          "0x00595758",
+          "0x005957CC",
+          "0x005957EA",
+          "0x00595800",
+          "0x00595842",
+          "0x00595850",
+          "0x0059585C",
+          "0x0059589A",
+          "0x005958D5",
+          "0x005958E8",
+          "0x00595913",
+          "0x00595935",
+          "0x00595947",
+          "0x0059597F"
+        ],
+        "vertices": [
+          "5f8ee4414124dac16033a8423f7fffbf2731883eb29def3e5d4bdd41ba89d8c17cefa8423f7fffbf4a0ca23fb29def3ec7f3df405958c041dfee33403f7fffbf2731883eb29def3e67c8c0404245c2415e8e3f403f7fffbf4a0ca23fb29def3e05568c3fa16cf140359f9a423f7fffbf2731883eb29def3e8517073ed7cff940cd959a423f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200020003000400030005000400"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              4,
+              0,
+              6
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      },
+      "candidate": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 3839,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 3,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "98f4e0410445d9c1c093a842cb74d0406962c14136fa394053dd1d3f25ebf540ac9b9a42"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 3,
+            "points": "98f4e0410445d9c1c093a842cb74d0406962c14136fa394053dd1d3f25ebf540ac9b9a42",
+            "tex": "000000000000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4617f37c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440ba17d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440bb17e"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "440bb17c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b68dca"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cb7be"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cc7c0"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441cc7c1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4aa5c21f"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4a5f82e1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4606e271"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4606e272"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4617f37c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "38f2b65a"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45bc98d7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45bc98d7"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45b68dca"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "392d99ae"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4075c4f6"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441ebd2d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4076455c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "441ebd37"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3ad6873c"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              6,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 6
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              12
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 12
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000c00000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000600000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              4,
+              0,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x30000275",
+          "0x3000037D",
+          "0x30000398",
+          "0x30000760",
+          "0x3000086B",
+          "0x300009BB",
+          "0x30000ACD",
+          "0x30000C1B",
+          "0x30000D20",
+          "0x300009BB",
+          "0x30000ACD",
+          "0x30000C1B",
+          "0x30000D20",
+          "0x30000E35",
+          "0x30000F38",
+          "0x30001314",
+          "0x30001449",
+          "0x30001534",
+          "0x3000160B",
+          "0x30001914",
+          "0x30001A4B",
+          "0x30001B40",
+          "0x30001C0B",
+          "0x30001F89",
+          "0x30002062",
+          "0x3000223C",
+          "0x3000231B",
+          "0x300023C7",
+          "0x30003AAB",
+          "0x30003AE6",
+          "0x30003AFF",
+          "0x30003B6E",
+          "0x30003B8C",
+          "0x30003BA2",
+          "0x30003BE4",
+          "0x30003BF2",
+          "0x30003BFE",
+          "0x30003C3C",
+          "0x30003C77",
+          "0x30003C8A",
+          "0x30003CB5",
+          "0x30003CD7",
+          "0x30003CE9",
+          "0x30003D21"
+        ],
+        "vertices": [
+          "5f8ee4414124dac16033a8423f7fffbf2731883eb29def3e5d4bdd41ba89d8c17cefa8423f7fffbf4a0ca23fb29def3ec7f3df405958c041dfee33403f7fffbf2731883eb29def3e67c8c0404245c2415e8e3f403f7fffbf4a0ca23fb29def3e05568c3fa16cf140359f9a423f7fffbf2731883eb29def3e8517073ed7cff940cd959a423f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200020003000400030005000400"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              4,
+              0,
+              6
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      }
+    },
+    {
+      "input": {
+        "name": "endpoint_projection_two_points",
+        "points": [
+          [
+            3.5675926208496094,
+            -20.39509391784668,
+            31.51541519165039
+          ],
+          [
+            -9.693400382995605,
+            22.09829330444336,
+            12.518928527832031
+          ]
+        ]
+      },
+      "comparison": {
+        "equal": true,
+        "mismatched_outputs": [],
+        "first_event_difference": null
+      },
+      "native": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 2510,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 2,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "705364402729a3c1921ffc412b181bc14ec9b041884d4841"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 2,
+            "points": "705364402729a3c1921ffc412b181bc14ec9b041884d4841",
+            "tex": "0000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43de8bb1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43deabb0"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43deabb1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "44b1b517"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "44b1b518"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3a38274c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4438b14d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4438b14c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3ab12927"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              4,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 4
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 6
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000600000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000400000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x00591E85",
+          "0x00591F91",
+          "0x00591FAC",
+          "0x00592372",
+          "0x0059248A",
+          "0x005925DB",
+          "0x005926F0",
+          "0x00592842",
+          "0x00592946",
+          "0x00592F83",
+          "0x005930B3",
+          "0x0059319E",
+          "0x00593275",
+          "0x0059357E",
+          "0x005936BC",
+          "0x005937B1",
+          "0x0059387C",
+          "0x00595704",
+          "0x0059573F",
+          "0x00595758",
+          "0x005957CC",
+          "0x005957EA",
+          "0x00595800",
+          "0x00595842",
+          "0x00595850",
+          "0x0059585C",
+          "0x0059589A",
+          "0x005958D5",
+          "0x005958E8",
+          "0x00595913",
+          "0x00595935",
+          "0x00595947",
+          "0x0059597F"
+        ],
+        "vertices": [
+          "842881404bd2a1c19380fc413f7fffbf2731883eb29def3ebeb146403890a4c15192fb413f7fffbf4a0ca23fb29def3ec49813c12b20b2418a0f49413f7fffbf2731883eb29def3e998022c13f62af41023347413f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      },
+      "candidate": {
+        "error": null,
+        "finished": true,
+        "instruction_count": 2510,
+        "events": [
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "000000e02406d13f"
+          },
+          {
+            "call": "floor/stub",
+            "argument": "00000040b6f3dd3f"
+          },
+          {
+            "call": "Transform/stub",
+            "count": 2,
+            "matrix": "0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f00000000",
+            "points": "705364402729a3c1921ffc412b181bc14ec9b041884d4841"
+          },
+          {
+            "call": "subdivision_util/stub",
+            "count": 2,
+            "points": "705364402729a3c1921ffc412b181bc14ec9b041884d4841",
+            "tex": "0000000000000000",
+            "rgba": "0000803f0000003f0000803e0000403f0000803f0000003f0000803e0000403f",
+            "has_input_rgba": true
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43de8bb1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43deabb0"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "43deabb1"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "44b1b517"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "44b1b518"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3a38274c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4438b14d"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "4438b14c"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "45126688"
+          },
+          {
+            "call": "Inv_Sqrt/native",
+            "argument_bits": "3ab12927"
+          },
+          {
+            "call": "Get_Preset/stub",
+            "preset": 0
+          },
+          {
+            "call": "DynamicVB/ctor_stub",
+            "arguments": [
+              2,
+              5,
+              4,
+              0
+            ]
+          },
+          {
+            "call": "DynamicVB/lock_stub"
+          },
+          {
+            "call": "DynamicVB/unlock_stub",
+            "vertex_count": 4
+          },
+          {
+            "call": "DynamicIB/ctor_stub",
+            "arguments": [
+              2,
+              6
+            ]
+          },
+          {
+            "call": "DynamicIB/lock_stub"
+          },
+          {
+            "call": "DynamicIB/unlock_stub",
+            "index_count": 6
+          },
+          {
+            "call": "Set_Index_Buffer/stub",
+            "base": 0,
+            "buffer": "020000000600000000000000"
+          },
+          {
+            "call": "Set_Vertex_Buffer/stub",
+            "buffer": "004000200200000005000000000000000400000000000000"
+          },
+          {
+            "call": "Set_Texture/stub",
+            "stage": 0,
+            "texture": 0
+          },
+          {
+            "call": "String/Get_String_stub",
+            "arguments": [
+              0,
+              0
+            ]
+          },
+          {
+            "call": "String/Free_String_stub"
+          },
+          {
+            "call": "Draw_Triangles/stub",
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          },
+          {
+            "call": "DynamicIB/dtor_stub"
+          },
+          {
+            "call": "DynamicVB/dtor_stub"
+          },
+          {
+            "call": "array_ctor/native",
+            "stride": 16,
+            "count": 4,
+            "callback": "0087a6a9"
+          }
+        ],
+        "event_return_sites": [
+          "0x30000275",
+          "0x3000037D",
+          "0x30000398",
+          "0x30000760",
+          "0x3000086B",
+          "0x300009BB",
+          "0x30000ACD",
+          "0x30000C1B",
+          "0x30000D20",
+          "0x30001314",
+          "0x30001449",
+          "0x30001534",
+          "0x3000160B",
+          "0x30001914",
+          "0x30001A4B",
+          "0x30001B40",
+          "0x30001C0B",
+          "0x30003AAB",
+          "0x30003AE6",
+          "0x30003AFF",
+          "0x30003B6E",
+          "0x30003B8C",
+          "0x30003BA2",
+          "0x30003BE4",
+          "0x30003BF2",
+          "0x30003BFE",
+          "0x30003C3C",
+          "0x30003C77",
+          "0x30003C8A",
+          "0x30003CB5",
+          "0x30003CD7",
+          "0x30003CE9",
+          "0x30003D21"
+        ],
+        "vertices": [
+          "842881404bd2a1c19380fc413f7fffbf2731883eb29def3ebeb146403890a4c15192fb413f7fffbf4a0ca23fb29def3ec49813c12b20b2418a0f49413f7fffbf2731883eb29def3e998022c13f62af41023347413f7fffbf4a0ca23fb29def3e"
+        ],
+        "indices": [
+          "000001000200010003000200"
+        ],
+        "draws": [
+          {
+            "sorting": false,
+            "arguments": [
+              0,
+              2,
+              0,
+              4
+            ]
+          }
+        ],
+        "subdivision_outputs": [],
+        "subdivision_random_state": "0000000000000000",
+        "receiver": "00000000000000000000803f0000803f0000803f0000803f0000803f0000000000000000000000000000c03f0000803f740000002731883eb29def3e6f12833a6f1203bb040000000004000000000120",
+        "render_state": "0018000000410020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f000000000000000000000000000000000000803f0000000000000000000000000000000000000000",
+        "render_state_changed": "03c00000",
+        "shader_dirty": "00",
+        "material_refcount": 2,
+        "fs_chain": 4294967295,
+        "return_sp": 268562460,
+        "preserved_registers": [
+          305419896,
+          591751049,
+          878082202,
+          268566272
+        ]
+      }
+    }
+  ],
+  "random_seed": 1645584,
+  "case_count": 3,
+  "equal_case_count": 3
+}

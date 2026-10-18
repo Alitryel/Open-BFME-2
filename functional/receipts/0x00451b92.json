@@ -1,0 +1,89 @@
+{
+ "name": "?finishAbility@SpecialAbilityUpdate@@UAEXXZ",
+ "rva": "0x00451B92",
+ "size": 794,
+ "source": "reverse/attempts/0x00451b92.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 17,
+  "pin": 4,
+  "copied": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 581,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xDFE78C0D"
+  },
+  {
+   "offset": 586,
+   "type": 20,
+   "symbol": "?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z",
+   "source": "ledger",
+   "target": "0x00449DC5",
+   "retail": "0xC00502C8"
+  },
+  {
+   "offset": 599,
+   "type": 20,
+   "symbol": "?ignoreObstacle@AIUpdateInterface@@QAEXPBVObject@@@Z",
+   "source": "ledger",
+   "target": "0x00668D88",
+   "retail": "0xE1F4B8D5"
+  },
+  {
+   "offset": 616,
+   "type": 20,
+   "symbol": "?aiMoveToPosition@AICommandInterface@@QAEXPBUCoord3D@@W4CommandSourceType@@@Z",
+   "source": "ledger",
+   "target": "0x0066C26D",
+   "retail": "0xE2298CE6"
+  },
+  {
+   "offset": 634,
+   "type": 20,
+   "symbol": "?isEmpty@?$StringBase@D@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x00401E2F",
+   "retail": "0xBB853CF8"
+  },
+  {
+   "offset": 644,
+   "type": 6,
+   "symbol": "?TheControlBar@@3PAVControlBar@@A",
+   "source": "pin",
+   "target": "0x00E01CFC",
+   "retail": "0xE01CFC0D"
+  },
+  {
+   "offset": 650,
+   "type": 20,
+   "symbol": "?findCommandButton@ControlBar@@QAEPBVCommandButton@@ABVAsciiString@@@Z",
+   "source": "ledger",
+   "target": "0x0071BE3C",
+   "retail": "0xED253A08"
+  },
+  {
+   "offset": 679,
+   "type": 20,
+   "symbol": "?getControllingPlayer@Object@@QBEPAVPlayer@@XZ",
+   "source": "ledger",
+   "target": "0x0068AFA9",
+   "retail": "0xE4168A25"
+  }
+ ],
+ "ms": 116.1,
+ "rebuilt_size": 793
+}

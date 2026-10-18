@@ -1,0 +1,90 @@
+{
+ "name": "?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z",
+ "rva": "0x0008B1E5",
+ "size": 651,
+ "source": "reverse/attempts/0x0008b1e5.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 17,
+  "copied": 6,
+  "pin": 2,
+  "content-mismatch": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 58,
+   "type": 20,
+   "symbol": "?rva00085124@GameLogic@@QAE_NXZ",
+   "source": "ledger",
+   "target": "0x00485124",
+   "retail": "0xE85226EE"
+  },
+  {
+   "offset": 87,
+   "type": 20,
+   "symbol": "?winGetStatus@GameWindow@@QAEIXZ",
+   "source": "ledger",
+   "target": "0x0070F45F",
+   "retail": "0xE9173D59"
+  },
+  {
+   "offset": 105,
+   "type": 20,
+   "symbol": "?winGetParent@GameWindow@@QAEPAV1@XZ",
+   "source": "ledger",
+   "target": "0x007140A4",
+   "retail": "0xE9173D52"
+  },
+  {
+   "offset": 128,
+   "type": 20,
+   "symbol": "?getPickRay@W3DView@@AAEXPBUICoord2D@@PAVVector3@@1@Z",
+   "source": "ledger",
+   "target": "0x00489658",
+   "retail": "0xE8A00315"
+  },
+  {
+   "offset": 147,
+   "type": 20,
+   "symbol": "?Set@LineSegClass@@QAEXABVVector3@@0@Z",
+   "source": "ledger",
+   "target": "0x0046BEF9",
+   "retail": "0xE948B27B"
+  },
+  {
+   "offset": 158,
+   "type": 6,
+   "symbol": "__real@3f800000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x05100FF3"
+  },
+  {
+   "offset": 239,
+   "type": 20,
+   "symbol": "??0RayCollisionTestClass@@QAE@ABVLineSegClass@@PAUCastResultStruct@@H_N2@Z",
+   "source": "ledger",
+   "target": "0x0046F1A6",
+   "retail": "0xE948B2D7"
+  },
+  {
+   "offset": 259,
+   "type": 20,
+   "symbol": "??0Rva004DD206TreeView@@QAE@XZ",
+   "source": "pin",
+   "target": "0x0073C432",
+   "retail": "0xE84A47BA"
+  }
+ ],
+ "ms": 120.5,
+ "rebuilt_size": 651
+}

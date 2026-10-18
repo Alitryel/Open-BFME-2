@@ -1,0 +1,87 @@
+{
+ "name": "?update@DeployStyleAIUpdate@@UAE?AW4UpdateSleepTime@@XZ",
+ "rva": "0x0048EE8C",
+ "size": 1228,
+ "source": "reverse/attempts/0x0048ee8c.cpp",
+ "sites": {
+  "ledger": 29,
+  "copied": 1,
+  "pin": 3
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 476,
+   "type": 20,
+   "symbol": "?isMoving@AIUpdateInterface@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x00664688",
+   "retail": "0x56A3D95C"
+  },
+  {
+   "offset": 566,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0x8B00DFE7"
+  },
+  {
+   "offset": 618,
+   "type": 20,
+   "symbol": "?getWhichTurretForCurWeapon@AIUpdateInterface@@QBE?AW4WhichTurretType@@XZ",
+   "source": "ledger",
+   "target": "0x0066275E",
+   "retail": "0xF90CF0D7"
+  },
+  {
+   "offset": 635,
+   "type": 20,
+   "symbol": "?isTurretInNaturalPosition@AIUpdateInterface@@QBE_NW4WhichTurretType@@@Z",
+   "source": "ledger",
+   "target": "0x0066269C",
+   "retail": "0xC10DF0E8"
+  },
+  {
+   "offset": 651,
+   "type": 20,
+   "symbol": "?rva0048EB53@DeployStyleAIUpdate@@QAEXW4DeployStateTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0088EB53",
+   "retail": "0xEA88F115"
+  },
+  {
+   "offset": 749,
+   "type": 20,
+   "symbol": "?getWhichTurretForCurWeapon@AIUpdateInterface@@QBE?AW4WhichTurretType@@XZ",
+   "source": "ledger",
+   "target": "0x0066275E",
+   "retail": "0x0081757C"
+  },
+  {
+   "offset": 775,
+   "type": 20,
+   "symbol": "?rva0048EB53@DeployStyleAIUpdate@@QAEXW4DeployStateTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0088EB53",
+   "retail": "0x8F13F196"
+  },
+  {
+   "offset": 880,
+   "type": 20,
+   "symbol": "?reset@DeployStyleAIUpdate@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0088E65B",
+   "retail": "0x0672F1FF"
+  }
+ ],
+ "ms": 24.7,
+ "rebuilt_size": 1230
+}

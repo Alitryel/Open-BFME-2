@@ -1,0 +1,92 @@
+{
+ "name": "?Thread_Function@BuddyThreadClass@@MAEXXZ",
+ "rva": "0x00552027",
+ "size": 2987,
+ "source": "reverse/attempts/0x00552027.cpp",
+ "sites": {
+  "content": 8,
+  "ledger": 103,
+  "pin": 1,
+  "copied": 34,
+  "import": 5,
+  "absolute": 1,
+  "self": 12,
+  "content-mismatch": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 570,
+   "type": 6,
+   "symbol": "$L10349",
+   "source": "self",
+   "target": "0x00952BDB",
+   "retail": "0x00952BD8"
+  },
+  {
+   "offset": 2684,
+   "type": 20,
+   "symbol": "_gpSetInfoMask",
+   "source": "ledger",
+   "target": "0x00B2C530",
+   "retail": "0xC6EE83A7"
+  },
+  {
+   "offset": 2722,
+   "type": 20,
+   "symbol": "_gpInvitePlayerA",
+   "source": "ledger",
+   "target": "0x00B2D070",
+   "retail": "0x1159ADCD"
+  },
+  {
+   "offset": 2749,
+   "type": 20,
+   "symbol": "?WideCharStringToMultiByte@@YA?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PBG@Z",
+   "source": "ledger",
+   "target": "0x007289AC",
+   "retail": "0xFFEE84E7"
+  },
+  {
+   "offset": 2772,
+   "type": 20,
+   "symbol": "_gpSendBuddyRequestA",
+   "source": "ledger",
+   "target": "0x00B2C580",
+   "retail": "0x0D59ADFF"
+  },
+  {
+   "offset": 2813,
+   "type": 20,
+   "symbol": "_gpDeleteBuddy",
+   "source": "ledger",
+   "target": "0x00B2C990",
+   "retail": "0xFFB61628"
+  },
+  {
+   "offset": 2830,
+   "type": 20,
+   "symbol": "_gpAuthBuddyRequest",
+   "source": "ledger",
+   "target": "0x00B2C6A0",
+   "retail": "0xFFA51639"
+  },
+  {
+   "offset": 2847,
+   "type": 20,
+   "symbol": "_gpDenyBuddyRequest",
+   "source": "ledger",
+   "target": "0x00B2C6F0",
+   "retail": "0xEBEE844A"
+  }
+ ],
+ "ms": 161.2,
+ "rebuilt_size": 3044
+}

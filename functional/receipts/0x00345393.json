@@ -1,0 +1,90 @@
+{
+ "name": "?computePath@AIAttackMeleeApproachState@@MAE_NXZ",
+ "rva": "0x00345393",
+ "size": 1049,
+ "source": "reverse/attempts/0x00345393.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 21,
+  "copied": 5,
+  "pin": 6,
+  "content-mismatch": 9,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 30,
+   "type": 6,
+   "symbol": "?g_00DFEFF0@@3PAXA",
+   "source": "pin",
+   "target": "0x00DFEFF0",
+   "retail": "0x8500DFEF"
+  },
+  {
+   "offset": 39,
+   "type": 6,
+   "symbol": "??_C@_0BN@NKPPOAIL@CritterDesync?3?5ComputePath18?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x5000C133"
+  },
+  {
+   "offset": 45,
+   "type": 20,
+   "symbol": "_fprintf",
+   "source": "ledger",
+   "target": "0x006CEC42",
+   "retail": "0x5A744C5C"
+  },
+  {
+   "offset": 101,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0x158BD285"
+  },
+  {
+   "offset": 144,
+   "type": 20,
+   "symbol": "?getGoalObject@StateMachine@@QAEPAVObject@@XZ",
+   "source": "pin",
+   "target": "0x008D7726",
+   "retail": "0x1034D927"
+  },
+  {
+   "offset": 166,
+   "type": 20,
+   "symbol": "?getGoalObject@StateMachine@@QAEPAVObject@@XZ",
+   "source": "pin",
+   "target": "0x008D7726",
+   "retail": "0xE75C6FB2"
+  },
+  {
+   "offset": 194,
+   "type": 20,
+   "symbol": "?isSamePosition@@YA_NPBUCoord3D@@00@Z",
+   "source": "ledger",
+   "target": "0x0073FA8E",
+   "retail": "0x8B74BE59"
+  },
+  {
+   "offset": 207,
+   "type": 20,
+   "symbol": "?getCurrentWeapon@Object@@QBEPBVWeapon@@PAW4WeaponSlotType@@@Z",
+   "source": "ledger",
+   "target": "0x0068AEBD",
+   "retail": "0x0075DAEA"
+  }
+ ],
+ "ms": 161.0,
+ "rebuilt_size": 1031
+}

@@ -1,0 +1,34 @@
+{
+ "name": "?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z",
+ "rva": "0x001EFD9C",
+ "size": 554,
+ "source": "reverse/attempts/0x001efd9c.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 12,
+  "pin": 3,
+  "data-ledger": 1,
+  "copied": 6,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 504,
+   "type": 20,
+   "symbol": "?releaseBuffer@?$StringBase@D@@AAEXXZ",
+   "source": "ledger",
+   "target": "0x00436410",
+   "retail": "0xDB9117E8"
+  }
+ ],
+ "ms": 188.4,
+ "rebuilt_size": 554
+}

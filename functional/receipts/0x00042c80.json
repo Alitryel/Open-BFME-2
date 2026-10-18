@@ -1,0 +1,22 @@
+{
+ "name": "?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z",
+ "rva": "0x00042C80",
+ "size": 573,
+ "source": "reverse/attempts/0x00042c80.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 2,
+  "copied": 6
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 56.0,
+ "rebuilt_size": 573
+}

@@ -1,0 +1,40 @@
+{
+ "name": "?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ",
+ "rva": "0x0029D9F9",
+ "size": 360,
+ "source": "reverse/attempts/0x0029d9f9.cpp",
+ "sites": {
+  "data-ledger": 2,
+  "import-thunk": 1,
+  "content": 1,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 242,
+   "type": 20,
+   "symbol": "_sqrt",
+   "source": "import-thunk",
+   "target": "0x0E101A00",
+   "retail": "0x00A2921C"
+  },
+  {
+   "offset": 266,
+   "type": 6,
+   "symbol": "__real@3f000000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x590FF32C"
+  }
+ ],
+ "ms": 64.8,
+ "rebuilt_size": 355
+}

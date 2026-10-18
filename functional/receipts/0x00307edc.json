@@ -1,0 +1,57 @@
+{
+ "name": "?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z",
+ "rva": "0x00307EDC",
+ "size": 372,
+ "source": "reverse/attempts/0x00307edc.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 13,
+  "copied": 1,
+  "copied-unmatched-body": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 291,
+   "type": 20,
+   "symbol": "?decompressData@CompressionManager@@SAHPBXHPAXH@Z",
+   "source": "ledger",
+   "target": "0x00A8A4E0",
+   "retail": "0x45FD8C78"
+  },
+  {
+   "offset": 328,
+   "type": 20,
+   "symbol": "_free",
+   "source": "ledger",
+   "target": "0x00430830",
+   "retail": "0xE8C1686D"
+  },
+  {
+   "offset": 359,
+   "type": 20,
+   "symbol": "_free",
+   "source": "ledger",
+   "target": "0x00430830",
+   "retail": "0x5BCF7494"
+  },
+  {
+   "offset": 375,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0x2EE800B7"
+  }
+ ],
+ "ms": 127.4,
+ "rebuilt_size": 381
+}

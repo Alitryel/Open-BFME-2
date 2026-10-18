@@ -1,0 +1,65 @@
+{
+ "name": "?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z",
+ "rva": "0x0004776F",
+ "size": 1105,
+ "source": "reverse/attempts/0x0004776f.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 5,
+  "copied": 2,
+  "content-mismatch": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 490,
+   "type": 6,
+   "symbol": "__real@3f800000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xF3DE5C0F"
+  },
+  {
+   "offset": 776,
+   "type": 20,
+   "symbol": "?Add_Tri@Render2DClass@@QAEXABVVector2@@00000K@Z",
+   "source": "ledger",
+   "target": "0x00445708",
+   "retail": "0x0FFCC78C"
+  },
+  {
+   "offset": 814,
+   "type": 20,
+   "symbol": "?Add_Tri@Render2DClass@@QAEXABVVector2@@00000K@Z",
+   "source": "ledger",
+   "target": "0x00445708",
+   "retail": "0x8D955EE6"
+  },
+  {
+   "offset": 836,
+   "type": 20,
+   "symbol": "?Add_Quad@Render2DClass@@QAEXABVRectClass@@0KKKK@Z",
+   "source": "ledger",
+   "target": "0x00442719",
+   "retail": "0x103846FC"
+  },
+  {
+   "offset": 864,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0xEC55110F"
+  }
+ ],
+ "ms": 114.0,
+ "rebuilt_size": 872
+}

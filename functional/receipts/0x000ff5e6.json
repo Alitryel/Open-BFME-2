@@ -1,0 +1,25 @@
+{
+ "name": "?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z",
+ "rva": "0x000FF5E6",
+ "size": 788,
+ "source": "reverse/attempts/0x000ff5e6.cpp",
+ "sites": {
+  "content": 6,
+  "ledger": 20,
+  "pin": 1,
+  "copied": 1,
+  "data-ledger": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 123.1,
+ "rebuilt_size": 788
+}

@@ -1,0 +1,49 @@
+{
+ "name": "?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z",
+ "rva": "0x002F83F5",
+ "size": 1803,
+ "source": "reverse/attempts/0x002f83f5.cpp",
+ "sites": {
+  "ledger": 24,
+  "content": 7,
+  "copied": 9,
+  "import-thunk": 3,
+  "import": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1065,
+   "type": 20,
+   "symbol": "_abs",
+   "source": "import-thunk",
+   "target": "0x0E101520",
+   "retail": "0x00A29952"
+  },
+  {
+   "offset": 1102,
+   "type": 20,
+   "symbol": "_abs",
+   "source": "import-thunk",
+   "target": "0x0E101520",
+   "retail": "0x00A29952"
+  },
+  {
+   "offset": 1249,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  }
+ ],
+ "ms": 82.4,
+ "rebuilt_size": 1803
+}

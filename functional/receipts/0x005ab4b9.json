@@ -1,0 +1,41 @@
+{
+ "name": "?rva005AB4B9@Rva005AB309@@QAE_NXZ",
+ "rva": "0x005AB4B9",
+ "size": 254,
+ "source": "reverse/attempts/0x005ab4b9.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 4,
+  "pin": 1,
+  "copied": 8,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 220,
+   "type": 20,
+   "symbol": "?releaseBuffer@?$StringBase@D@@AAEXXZ",
+   "source": "ledger",
+   "target": "0x00436410",
+   "retail": "0x5F9C6698"
+  },
+  {
+   "offset": 238,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0x4D8BC032"
+  }
+ ],
+ "ms": 152.4,
+ "rebuilt_size": 244
+}

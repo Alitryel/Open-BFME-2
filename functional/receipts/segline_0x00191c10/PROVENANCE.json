@@ -1,0 +1,44 @@
+{
+  "title": "Open-BFME-2 SegLineRenderer reconstruction",
+  "created_utc": "2026-10-18",
+  "main_revision": "b99fc2f9233a861ab6bdb27b3490f93ea6f2c048",
+  "donor_revision": "64d369b90170b7e9ec917d646f020b11f13eb0d5",
+  "target": {
+    "rva": "0x00191C10",
+    "retail_extent": 16018,
+    "candidate_extent": 15940,
+    "byte_exact": false,
+    "status": "bounded behavior verified; binary matching incomplete"
+  },
+  "results": {
+    "full_renderer_scenarios": 83,
+    "full_renderer_equal": 83,
+    "x87_boundary_cases": 66,
+    "x87_boundary_equal": 66,
+    "abort_vector_threshold_cases": 1582,
+    "abort_machine_block_executions": 6332,
+    "original_semantic_block_cases": 16414,
+    "normalization_groups": 25,
+    "dot_groups_and_units": 30,
+    "modelview_outputs": 12
+  },
+  "source_sha256": "d7b15abb458d5001895fd5aaebb15ca9712c6e3d5668b689b3ec85e8764a8d13",
+  "raw_render_sha256": "0c3ee0f415721321b2bd7632a4fb80d73f0462fde7632e0700673b63e0003187",
+  "retail_image_sha256": "f008b587570bad693981dc7218588c81d192a1e064b0f7f861539c51156a7640",
+  "compiler_version": "MSVC 13.10.3077",
+  "compiler_sha256": "2ecf86a3edfd3deae498e08298e210e984537ce9e11759930561e43f40bd2515",
+  "integrated_into_Code": false,
+  "matching_ledger_changed": false,
+  "parallel_checkpoints": {
+    "StreakRenderer": "25/30/12 static arithmetic checks; no full-renderer dynamic verification; strict match false",
+    "PointGroup": "role identification and source-shape trial; strict match false"
+  },
+  "excluded": [
+    "retail game executable",
+    "WorldBuilder executable",
+    "compiler/runtime binaries",
+    "compiled objects",
+    "raw native code dumps"
+  ],
+  "review": "Independent package review completed; documented patch applicability and source/relocation reproduction verified."
+}

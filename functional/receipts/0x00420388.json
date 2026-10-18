@@ -1,0 +1,90 @@
+{
+ "name": "?update@VictoryConditions@@UAEXXZ",
+ "rva": "0x00420388",
+ "size": 1100,
+ "source": "reverse/attempts/0x00420388.cpp",
+ "sites": {
+  "content": 8,
+  "ledger": 29,
+  "pin": 10,
+  "copied": 13,
+  "data-ledger": 3,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 748,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0x05ECE800"
+  },
+  {
+   "offset": 753,
+   "type": 20,
+   "symbol": "?get@Rva00210C66CmpBoolField@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x00610C66",
+   "retail": "0x10428B7C"
+  },
+  {
+   "offset": 768,
+   "type": 20,
+   "symbol": "?isSkirmishAIPlayer@Player@@QAE_NXZ",
+   "source": "ledger",
+   "target": "0x006A9B7B",
+   "retail": "0xC1070674"
+  },
+  {
+   "offset": 803,
+   "type": 20,
+   "symbol": "?isSkirmishAIPlayer@Player@@QAE_NXZ",
+   "source": "ledger",
+   "target": "0x006A9B7B",
+   "retail": "0xE916D297"
+  },
+  {
+   "offset": 828,
+   "type": 20,
+   "symbol": "?find@Rva002BA8F1Logic@@QAEPAVRva002E2903Player@@HPAI@Z",
+   "source": "ledger",
+   "target": "0x006B51F8",
+   "retail": "0x4BB0EF18"
+  },
+  {
+   "offset": 840,
+   "type": 20,
+   "symbol": "?getRelationship@Player@@QBE?AW4Relationship@@PBV1@@Z",
+   "source": "ledger",
+   "target": "0x006AC3E0",
+   "retail": "0xBD8CEFAC"
+  },
+  {
+   "offset": 909,
+   "type": 20,
+   "symbol": "?isSkirmishAIPlayer@Player@@QAE_NXZ",
+   "source": "ledger",
+   "target": "0x006A9B7B",
+   "retail": "0x606A218D"
+  },
+  {
+   "offset": 927,
+   "type": 20,
+   "symbol": "?rva002AB44A@Rva002AB5C7Player@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x006AB44A",
+   "retail": "0x8B897C2B"
+  }
+ ],
+ "ms": 134.5,
+ "rebuilt_size": 1091
+}

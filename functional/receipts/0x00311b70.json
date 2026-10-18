@@ -1,0 +1,20 @@
+{
+ "name": "?rva00311B70@Rva00311B70@@QAEXXZ",
+ "rva": "0x00311B70",
+ "size": 617,
+ "source": "reverse/attempts/0x00311b70.cpp",
+ "sites": {
+  "ledger": 4
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 41.4,
+ "rebuilt_size": 617
+}

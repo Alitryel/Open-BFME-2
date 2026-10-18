@@ -1,0 +1,57 @@
+{
+  "status": "native-block differential probes passed; whole function remains unverified",
+  "unicorn_version": "2.1.4",
+  "target": "baselines/bfme2/workshop-vanilla-1.06/files/game.dat",
+  "target_file_sha256": "f008b587570bad693981dc7218588c81d192a1e064b0f7f861539c51156a7640",
+  "renderer_sha256": "53564736c6abef0f3e72dfc9224f892f624c31409edb50340aa99ee015fb924e",
+  "seed": "0x191C10",
+  "input_domain": "Deterministic boundary cases plus randomized finite float32 values; no GPU calls or renderer stack integration tested.",
+  "timer": {
+    "native_start_va": "0x00591F2A",
+    "native_stop_va_exclusive": "0x00591F50",
+    "sha256": "1555855bdffb808cfe9b5fc86c552c9a130c61ae4832fc66fc51c13e44c3ac63",
+    "byte_count": 38,
+    "bytes_modified": false,
+    "callee_stubs": false,
+    "cases": 4108,
+    "failures": 0,
+    "signed_cast_disagreements": 2026,
+    "coverage": "Complete unsigned timer conversion, including modulo subtraction and high-bit correction."
+  },
+  "expansion": {
+    "native_start_va": "0x00594FF3",
+    "native_stop_va_exclusive": "0x0059508C",
+    "sha256": "1e3d20b94edea6bdacc3c5b06f596d1ee2f577e025c60b1f9e8648f60d7fdefc",
+    "byte_count": 153,
+    "bytes_modified": false,
+    "callee_stubs": false,
+    "cases": 4105,
+    "failures": 0,
+    "positive_factor_cases": 2068,
+    "nonpositive_factor_cases": 2037,
+    "coverage": "Native factor comparison and both expansion branches; all six output scalar bit patterns."
+  },
+  "parallel_direction": {
+    "native_start_va": "0x00594634",
+    "native_stop_va_exclusive": "0x00594683",
+    "sha256": "1caa6ee59f25e368170afea0ad453ec93d1a2cd190a8ec6be165609ff2caebec",
+    "byte_count": 79,
+    "bytes_modified": false,
+    "callee_stubs": false,
+    "cases": 4099,
+    "failures": 0,
+    "coverage": "Projection before Normalize; confirms source direction and scalar operation order. Normalize/callees excluded."
+  },
+  "shader_gradient": {
+    "native_start_va": "0x005956F1",
+    "native_stop_va_exclusive": "0x005956FD",
+    "sha256": "765d89d73a5621cf0de2d4e4c9c8ac9c839f1a3a2a6a6c8084f92cdaacdfda2d",
+    "byte_count": 12,
+    "bytes_modified": false,
+    "callee_stubs": false,
+    "cases": 4102,
+    "failures": 0,
+    "coverage": "Exact integer replacement of primary-gradient field with value 6; every other bit preserved."
+  },
+  "total_cases": 16414
+}

@@ -1,0 +1,22 @@
+{
+ "name": "?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z",
+ "rva": "0x002AF33B",
+ "size": 253,
+ "source": "reverse/attempts/0x002af33b.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 7,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 119.1,
+ "rebuilt_size": 253
+}

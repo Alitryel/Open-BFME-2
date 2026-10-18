@@ -1,0 +1,24 @@
+{
+ "name": "?Rva0060DFB5@@YA_NPAVFile@@0@Z",
+ "rva": "0x0060DFB5",
+ "size": 4377,
+ "source": "reverse/attempts/0x0060dfb5.cpp",
+ "sites": {
+  "content": 101,
+  "ledger": 21,
+  "pin": 3,
+  "data-ledger": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 157.5,
+ "rebuilt_size": 4377
+}

@@ -1,0 +1,78 @@
+{
+ "name": "?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ",
+ "rva": "0x0034F62A",
+ "size": 274,
+ "source": "reverse/attempts/0x0034f62a.cpp",
+ "sites": {
+  "ledger": 10,
+  "copied-unmatched-body": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 155,
+   "type": 20,
+   "symbol": "?isWithinAttackRange@Weapon@@QBEDPAVObject@@PAXMH@Z",
+   "source": "ledger",
+   "target": "0x006CB902",
+   "retail": "0x8B6D4454"
+  },
+  {
+   "offset": 165,
+   "type": 20,
+   "symbol": "?getWhichTurretForCurWeapon@AIUpdateInterface@@QBE?AW4WhichTurretType@@XZ",
+   "source": "ledger",
+   "target": "0x0066275E",
+   "retail": "0x7574EF56"
+  },
+  {
+   "offset": 186,
+   "type": 20,
+   "symbol": "?setTurretTargetPosition@AIUpdateInterface@@QAEXW4WhichTurretType@@PBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x00662636",
+   "retail": "0x46001DD3"
+  },
+  {
+   "offset": 199,
+   "type": 20,
+   "symbol": "?isContactWeapon@WeaponTemplate@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0087A699",
+   "retail": "0x04E9B779"
+  },
+  {
+   "offset": 218,
+   "type": 20,
+   "symbol": "?get@Rva002C9400ByteField@@QBEEXZ",
+   "source": "ledger",
+   "target": "0x006C9400",
+   "retail": "0x04E9B78C"
+  },
+  {
+   "offset": 235,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0x05E9B79D"
+  },
+  {
+   "offset": 250,
+   "type": 20,
+   "symbol": "?setStatus@Object@@QAEXW4ObjectStatusTypes@@_N@Z",
+   "source": "ledger",
+   "target": "0x0063DB0E",
+   "retail": "0xEF58DD10"
+  }
+ ],
+ "ms": 60.7,
+ "rebuilt_size": 273
+}

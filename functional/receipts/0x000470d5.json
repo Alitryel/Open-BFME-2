@@ -1,0 +1,55 @@
+{
+ "name": "?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z",
+ "rva": "0x000470D5",
+ "size": 216,
+ "source": "reverse/attempts/0x000470d5.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 8,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 55,
+   "type": 20,
+   "symbol": "?getFilter@ShroudTexture@@QAEPAVShroudFilter@@XZ",
+   "source": "ledger",
+   "target": "0x00532856",
+   "retail": "0x442D6D85"
+  },
+  {
+   "offset": 66,
+   "type": 20,
+   "symbol": "?getFilter@ShroudTexture@@QAEPAVShroudFilter@@XZ",
+   "source": "ledger",
+   "target": "0x00532856",
+   "retail": "0x392C818B"
+  },
+  {
+   "offset": 199,
+   "type": 20,
+   "symbol": "?Release_Ref@TextureClass@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x00A1ED10",
+   "retail": "0xF491FCA0"
+  },
+  {
+   "offset": 213,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0xB8C3C900"
+  }
+ ],
+ "ms": 133.6,
+ "rebuilt_size": 219
+}

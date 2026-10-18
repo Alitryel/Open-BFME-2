@@ -1,0 +1,20 @@
+{
+ "name": "?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z",
+ "rva": "0x00160CB0",
+ "size": 770,
+ "source": "reverse/attempts/0x00160cb0.cpp",
+ "sites": {
+  "ledger": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 28.5,
+ "rebuilt_size": 792
+}

@@ -1,0 +1,82 @@
+{
+ "name": "?rva002AD25B@Player@@QAEXABVAsciiString@@@Z",
+ "rva": "0x002AD25B",
+ "size": 657,
+ "source": "reverse/attempts/0x002ad25b.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 33,
+  "copied": 12,
+  "pin": 3,
+  "content-mismatch": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 255,
+   "type": 20,
+   "symbol": "?compare@AsciiString@@QBEHABV1@@Z",
+   "source": "pin",
+   "target": "0x004069D6",
+   "retail": "0x96E1BC26"
+  },
+  {
+   "offset": 271,
+   "type": 20,
+   "symbol": "?releaseBuffer@?$StringBase@D@@AAEXXZ",
+   "source": "ledger",
+   "target": "0x00436410",
+   "retail": "0x910BBC31"
+  },
+  {
+   "offset": 322,
+   "type": 20,
+   "symbol": "?get@Rva00148F5ECache@@QAE?AW4NameKeyType@@XZ",
+   "source": "ledger",
+   "target": "0x00548F5E",
+   "retail": "0xBC26BBA3"
+  },
+  {
+   "offset": 335,
+   "type": 20,
+   "symbol": "?getAsciiString@Dict@@QBE?AVAsciiString@@HPA_N@Z",
+   "source": "ledger",
+   "target": "0x0071359F",
+   "retail": "0x625ABC9A"
+  },
+  {
+   "offset": 345,
+   "type": 6,
+   "symbol": "?teamPrefix@?M@??rva002AD25B@Player@@QAEXABVAsciiString@@@Z@4PBDB",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x68B4458D"
+  },
+  {
+   "offset": 358,
+   "type": 20,
+   "symbol": "??H@YA?AURva002226E5TextPlusString@@PBDABVAsciiString@@@Z",
+   "source": "ledger",
+   "target": "0x006226E5",
+   "retail": "0xF7BDF3AD"
+  },
+  {
+   "offset": 368,
+   "type": 20,
+   "symbol": "?Rva002ACFC1Equal@@YA_NHH@Z",
+   "source": "ledger",
+   "target": "0x006ACFC1",
+   "retail": "0x0066C5B7"
+  }
+ ],
+ "ms": 169.7,
+ "rebuilt_size": 657
+}

@@ -1,0 +1,25 @@
+{
+ "name": "?preprocessMacro@INI@@SAPBDPBD@Z",
+ "rva": "0x0002D0A9",
+ "size": 156,
+ "source": "reverse/attempts/0x0002d0a9.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 3,
+  "data-ledger": 3,
+  "pin": 2,
+  "copied": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 362.7,
+ "rebuilt_size": 156
+}

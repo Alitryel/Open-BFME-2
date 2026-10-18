@@ -1,0 +1,89 @@
+{
+ "name": "?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z",
+ "rva": "0x003B5EA5",
+ "size": 1818,
+ "source": "reverse/attempts/0x003b5ea5.cpp",
+ "sites": {
+  "ledger": 62,
+  "copied": 3,
+  "content": 3,
+  "pin": 2,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 531,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0x6A7B60C0"
+  },
+  {
+   "offset": 547,
+   "type": 20,
+   "symbol": "??0Parameter@@QAE@W4ParameterType@0@H@Z",
+   "source": "ledger",
+   "target": "0x007B333A",
+   "retail": "0x5A3BE6CB"
+  },
+  {
+   "offset": 561,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0xEC7B60AC"
+  },
+  {
+   "offset": 602,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0x0283DF86"
+  },
+  {
+   "offset": 618,
+   "type": 20,
+   "symbol": "??0Parameter@@QAE@W4ParameterType@0@H@Z",
+   "source": "ledger",
+   "target": "0x007B333A",
+   "retail": "0x0508E622"
+  },
+  {
+   "offset": 632,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0x0DEFBAE1"
+  },
+  {
+   "offset": 685,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0x01CFE565"
+  },
+  {
+   "offset": 787,
+   "type": 20,
+   "symbol": "??2@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDA0",
+   "retail": "0x007B612E"
+  }
+ ],
+ "ms": 56.6,
+ "rebuilt_size": 1822
+}

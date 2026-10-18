@@ -1,0 +1,25 @@
+{
+ "name": "?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z",
+ "rva": "0x002FAD13",
+ "size": 2117,
+ "source": "reverse/attempts/0x002fad13.cpp",
+ "sites": {
+  "content": 8,
+  "ledger": 59,
+  "copied": 10,
+  "pin": 2,
+  "pin-unmatched-body": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 152.1,
+ "rebuilt_size": 2117
+}

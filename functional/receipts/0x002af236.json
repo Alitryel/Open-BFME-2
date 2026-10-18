@@ -1,0 +1,23 @@
+{
+ "name": "?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z",
+ "rva": "0x002AF236",
+ "size": 261,
+ "source": "reverse/attempts/0x002af236.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 5,
+  "pin": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 188.1,
+ "rebuilt_size": 261
+}

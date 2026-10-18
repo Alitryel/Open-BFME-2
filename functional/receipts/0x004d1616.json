@@ -1,0 +1,26 @@
+{
+ "name": "?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z",
+ "rva": "0x004D1616",
+ "size": 431,
+ "source": "reverse/attempts/0x004d1616.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 15,
+  "copied": 1,
+  "data-ledger": 2,
+  "pin": 1,
+  "import": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 112.9,
+ "rebuilt_size": 431
+}

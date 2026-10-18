@@ -1,0 +1,73 @@
+{
+ "name": "?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z",
+ "rva": "0x006F9410",
+ "size": 921,
+ "source": "reverse/attempts/0x006f9410.cpp",
+ "sites": {
+  "copied": 18,
+  "pin": 2,
+  "content": 2,
+  "ledger": 6,
+  "content-mismatch": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 427,
+   "type": 20,
+   "symbol": "?bfmeUnpackTwoColors1280@@YAXPAMPBI@Z",
+   "source": "ledger",
+   "target": "0x00AF7160",
+   "retail": "0xDC4F7E0F"
+  },
+  {
+   "offset": 581,
+   "type": 20,
+   "symbol": "?removeObject@AptDisplayList@@QAEXPAVAptCIH@@@Z",
+   "source": "pin",
+   "target": "0x00AF7230",
+   "retail": "0xE97B21B0"
+  },
+  {
+   "offset": 709,
+   "type": 20,
+   "symbol": "?IsEmpty@EAStringC@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x00AD2F30",
+   "retail": "0xC13496D6"
+  },
+  {
+   "offset": 820,
+   "type": 20,
+   "symbol": "?AddToDisplayList@AptDisplayList@@QAEPAVAptCIH@@PAVAptNativeHash@@PAUAptPseudoCIH_t@@PAV2@@Z",
+   "source": "ledger",
+   "target": "0x00AF92D0",
+   "retail": "0x00AB1F30"
+  },
+  {
+   "offset": 841,
+   "type": 6,
+   "symbol": "??_C@_0EN@IININHNI@C?3?2projects?2bfme2patch103?2bfme2?2@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x06C76800"
+  },
+  {
+   "offset": 846,
+   "type": 6,
+   "symbol": "??_C@_0BE@CBHKCHGD@pNewControl?5?$DN?$DN?5NULL?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0xD1B06800"
+  }
+ ],
+ "ms": 50.3,
+ "rebuilt_size": 921
+}

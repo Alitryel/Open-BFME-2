@@ -1,0 +1,95 @@
+{
+ "name": "?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z",
+ "rva": "0x0052F63F",
+ "size": 3027,
+ "source": "reverse/attempts/0x0052f63f.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 50,
+  "pin": 4,
+  "copied": 9,
+  "import-thunk": 1,
+  "data-ledger": 2,
+  "content-mismatch": 10,
+  "import": 8,
+  "pin-unmatched-body": 3,
+  "self": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 154,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 829,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "pin",
+   "target": "0x00A29210",
+   "retail": "0xE8B7165D"
+  },
+  {
+   "offset": 976,
+   "type": 6,
+   "symbol": "??_C@_00CNPNBAHC@?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xFF505050"
+  },
+  {
+   "offset": 1038,
+   "type": 6,
+   "symbol": "??_C@_0BH@LPIDMECD@?5has?5a?5wall?5height?5of?5?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0x68108B20"
+  },
+  {
+   "offset": 1064,
+   "type": 6,
+   "symbol": "??_C@_0CO@FEELKJFE@?5but?5there?8s?5already?5a?5wall?5with@",
+   "source": "content-mismatch",
+   "target": "0x0E402000",
+   "retail": "0x52FF241C"
+  },
+  {
+   "offset": 1094,
+   "type": 6,
+   "symbol": "??_C@_0N@HENLCHDL@?5defined?5by?5?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E403000",
+   "retail": "0xBA05EB08"
+  },
+  {
+   "offset": 1116,
+   "type": 6,
+   "symbol": "??_C@_0BH@PANOFOCE@?$DL?5separation?5required?5?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E404000",
+   "retail": "0x4868108B"
+  },
+  {
+   "offset": 1127,
+   "type": 6,
+   "symbol": "?tolerance@?3??rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z@4MD",
+   "source": "content-mismatch",
+   "target": "0x0E405000",
+   "retail": "0xDC05D938"
+  }
+ ],
+ "ms": 129.5,
+ "rebuilt_size": 3036
+}

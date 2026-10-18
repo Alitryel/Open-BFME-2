@@ -1,0 +1,55 @@
+{
+ "name": "?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z",
+ "rva": "0x00294C1A",
+ "size": 305,
+ "source": "reverse/attempts/0x00294c1a.cpp",
+ "sites": {
+  "ledger": 10,
+  "content": 1,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 193,
+   "type": 20,
+   "symbol": "?rva0039AF9B@Rva0039AF9B@@QAEMM@Z",
+   "source": "ledger",
+   "target": "0x0079AF9B",
+   "retail": "0x63243503"
+  },
+  {
+   "offset": 240,
+   "type": 20,
+   "symbol": "?rva0039B315@ExperienceTracker@@QAEXM_N000@Z",
+   "source": "ledger",
+   "target": "0x0079B315",
+   "retail": "0x666F3532"
+  },
+  {
+   "offset": 252,
+   "type": 6,
+   "symbol": "__real@00000000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xAEAC052F"
+  },
+  {
+   "offset": 275,
+   "type": 20,
+   "symbol": "?Rva0047FDFEGet@@YAHPAX@Z",
+   "source": "ledger",
+   "target": "0x0087FDFE",
+   "retail": "0xB1353587"
+  }
+ ],
+ "ms": 50.6,
+ "rebuilt_size": 303
+}

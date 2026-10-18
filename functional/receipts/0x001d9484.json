@@ -1,0 +1,24 @@
+{
+ "name": "?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z",
+ "rva": "0x001D9484",
+ "size": 397,
+ "source": "reverse/attempts/0x001d9484.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 17,
+  "copied": 4,
+  "pin-unmatched-body": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 150.1,
+ "rebuilt_size": 397
+}

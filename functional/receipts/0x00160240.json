@@ -1,0 +1,29 @@
+{
+ "name": "?evaluate@Rva00160150@@QAEXAAURva00160240Pose@@MAAMMPAPAE@Z",
+ "rva": "0x00160240",
+ "size": 1184,
+ "source": "reverse/attempts/0x00160240.cpp",
+ "sites": {
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1171,
+   "type": 6,
+   "symbol": "__real@3f800000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x0C50FF53"
+  }
+ ],
+ "ms": 82.1,
+ "rebuilt_size": 1188
+}

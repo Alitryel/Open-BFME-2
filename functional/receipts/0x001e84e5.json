@@ -1,0 +1,87 @@
+{
+ "name": "?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z",
+ "rva": "0x001E84E5",
+ "size": 491,
+ "source": "reverse/attempts/0x001e84e5.cpp",
+ "sites": {
+  "ledger": 14,
+  "self": 7,
+  "pin": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 254,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x84475372"
+  },
+  {
+   "offset": 277,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x6D475389"
+  },
+  {
+   "offset": 300,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x564753A0"
+  },
+  {
+   "offset": 323,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x04D3862C"
+  },
+  {
+   "offset": 346,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x0F5EE4C9"
+  },
+  {
+   "offset": 369,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x0F88715A"
+  },
+  {
+   "offset": 392,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x561EDD80"
+  },
+  {
+   "offset": 434,
+   "type": 6,
+   "symbol": "$L485",
+   "source": "self",
+   "target": "0x005E8705",
+   "retail": "0x082474FF"
+  }
+ ],
+ "ms": 28.8,
+ "rebuilt_size": 580
+}

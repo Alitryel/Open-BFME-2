@@ -1,0 +1,91 @@
+{
+ "name": "?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z",
+ "rva": "0x0047C4F2",
+ "size": 1077,
+ "source": "reverse/attempts/0x0047c4f2.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 32,
+  "copied": 14,
+  "pin": 6,
+  "content-mismatch": 3,
+  "pin-unmatched-body": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 475,
+   "type": 20,
+   "symbol": "?get@Rva004C5772CmpBoolField@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x008C5772",
+   "retail": "0xD8FE51D1"
+  },
+  {
+   "offset": 532,
+   "type": 6,
+   "symbol": "??_C@_08NOCIBIJA@Ladder04?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xCB8BFE00"
+  },
+  {
+   "offset": 539,
+   "type": 20,
+   "symbol": "?getSingleLogicalBonePosition@Object@@QBE_NPBDPAUCoord3D@@PAVMatrix3D@@@Z",
+   "source": "ledger",
+   "target": "0x0068BEE0",
+   "retail": "0x4615C6F1"
+  },
+  {
+   "offset": 562,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x0167B820"
+  },
+  {
+   "offset": 573,
+   "type": 20,
+   "symbol": "?rva0028D412@Object@@QAEXPBVMatrix3D@@@Z",
+   "source": "ledger",
+   "target": "0x0068D412",
+   "retail": "0xE8DAC733"
+  },
+  {
+   "offset": 582,
+   "type": 20,
+   "symbol": "?rva0028B4CE@Object@@QAEXW4PathfindLayerEnum@@@Z",
+   "source": "ledger",
+   "target": "0x0068B4CE",
+   "retail": "0xD80BD732"
+  },
+  {
+   "offset": 602,
+   "type": 20,
+   "symbol": "?AddObjectToPathfindMap@Pathfinder@@QAEXPAVObject@@@Z",
+   "source": "ledger",
+   "target": "0x006E7178",
+   "retail": "0xCF12C7BA"
+  },
+  {
+   "offset": 617,
+   "type": 20,
+   "symbol": "?getControllingPlayer@Object@@QBEPAVPlayer@@XZ",
+   "source": "ledger",
+   "target": "0x0068AFA9",
+   "retail": "0x006AE657"
+  }
+ ],
+ "ms": 147.5,
+ "rebuilt_size": 1102
+}

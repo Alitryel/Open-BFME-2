@@ -1,0 +1,89 @@
+{
+ "name": "?rva00520CD1@AptTimeLine@@QAEXXZ",
+ "rva": "0x00520CD1",
+ "size": 684,
+ "source": "reverse/attempts/0x00520cd1.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 28,
+  "copied": 12,
+  "pin": 4,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 467,
+   "type": 20,
+   "symbol": "?getSlot@GameInfo@@QAEPAVGameSlot@@H@Z",
+   "source": "ledger",
+   "target": "0x007FF29F",
+   "retail": "0xF57A6698"
+  },
+  {
+   "offset": 476,
+   "type": 6,
+   "symbol": "?g_rva0059EB6FFlag@@3HA",
+   "source": "pin",
+   "target": "0x00E02324",
+   "retail": "0x23243D83"
+  },
+  {
+   "offset": 486,
+   "type": 20,
+   "symbol": "?rva002E0687@Rva002E0687@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x006E0687",
+   "retail": "0xF85CF786"
+  },
+  {
+   "offset": 514,
+   "type": 20,
+   "symbol": "??0?$StringBase@D@@AAE@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004365F0",
+   "retail": "0x8C91C02E"
+  },
+  {
+   "offset": 533,
+   "type": 20,
+   "symbol": "?nameToKey@NameKeyGenerator@@QAE?AW4NameKeyType@@ABVAsciiString@@@Z",
+   "source": "ledger",
+   "target": "0x0049FA65",
+   "retail": "0x8C91C6D5"
+  },
+  {
+   "offset": 545,
+   "type": 20,
+   "symbol": "?findPlayerWithNameKey@PlayerList@@QAEPAVPlayer@@W4NameKeyType@@@Z",
+   "source": "ledger",
+   "target": "0x006A7A41",
+   "retail": "0x8C91E761"
+  },
+  {
+   "offset": 568,
+   "type": 20,
+   "symbol": "?ProcessOnlineGameResults@StatsReporter@@SAXPAVPlayer@@@Z",
+   "source": "ledger",
+   "target": "0x009C062E",
+   "retail": "0xF7B1F7F1"
+  },
+  {
+   "offset": 581,
+   "type": 20,
+   "symbol": "?releaseBuffer@?$StringBase@D@@AAEXXZ",
+   "source": "ledger",
+   "target": "0x00436410",
+   "retail": "0x5586F802"
+  }
+ ],
+ "ms": 124.5,
+ "rebuilt_size": 684
+}

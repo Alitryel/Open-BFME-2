@@ -1,0 +1,22 @@
+{
+ "name": "?addEdgeToTrack@Rva00084206Track@@QAEXMM@Z",
+ "rva": "0x0008458A",
+ "size": 1422,
+ "source": "reverse/attempts/0x0008458a.cpp",
+ "sites": {
+  "ledger": 4,
+  "copied": 5,
+  "content": 11
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 28.7,
+ "rebuilt_size": 1422
+}

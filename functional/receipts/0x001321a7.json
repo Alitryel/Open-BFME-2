@@ -1,0 +1,88 @@
+{
+ "name": "?rva001321A7@BfmeThing937B@@QAEXPAX@Z",
+ "rva": "0x001321A7",
+ "size": 1347,
+ "source": "reverse/attempts/0x001321a7.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 13,
+  "pin": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 249,
+   "type": 20,
+   "symbol": "??_U@YAPAXI@Z",
+   "source": "ledger",
+   "target": "0x0042FDE0",
+   "retail": "0x4602325C"
+  },
+  {
+   "offset": 299,
+   "type": 20,
+   "symbol": "_memcpy",
+   "source": "pin",
+   "target": "0x00A291A8",
+   "retail": "0x46570F1B"
+  },
+  {
+   "offset": 320,
+   "type": 20,
+   "symbol": "?clear@Member0C00739C70@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x00516760",
+   "retail": "0x461A1338"
+  },
+  {
+   "offset": 332,
+   "type": 20,
+   "symbol": "??1W3DRadarResetSurface@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x00576CB0",
+   "retail": "0x8E531F44"
+  },
+  {
+   "offset": 389,
+   "type": 20,
+   "symbol": "?clear@Member0C00739C70@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x00516760",
+   "retail": "0x7E0232E4"
+  },
+  {
+   "offset": 437,
+   "type": 20,
+   "symbol": "?rva000B4653@Rva000B4653@@QAEPAXH@Z",
+   "source": "ledger",
+   "target": "0x004B4653",
+   "retail": "0x004D4048"
+  },
+  {
+   "offset": 445,
+   "type": 20,
+   "symbol": "?rva00131D7D@Rva00131D7D@@QAEXI@Z",
+   "source": "ledger",
+   "target": "0x00531D7D",
+   "retail": "0x758E6974"
+  },
+  {
+   "offset": 1301,
+   "type": 20,
+   "symbol": "?clear@Member0C00739C70@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x00516760",
+   "retail": "0x6A67674B"
+  }
+ ],
+ "ms": 109.1,
+ "rebuilt_size": 1354
+}

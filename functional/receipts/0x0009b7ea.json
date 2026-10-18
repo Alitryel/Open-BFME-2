@@ -1,0 +1,21 @@
+{
+ "name": "?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z",
+ "rva": "0x0009B7EA",
+ "size": 698,
+ "source": "reverse/attempts/0x0009b7ea.cpp",
+ "sites": {
+  "ledger": 5,
+  "content": 4
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 88.1,
+ "rebuilt_size": 698
+}

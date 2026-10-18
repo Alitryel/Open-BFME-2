@@ -1,0 +1,90 @@
+{
+ "name": "?parseCastleTemplateMaps@SidesList@@QAEXXZ",
+ "rva": "0x0032F84F",
+ "size": 439,
+ "source": "reverse/attempts/0x0032f84f.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 23,
+  "pin": 4,
+  "content-mismatch": 3,
+  "data-ledger": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 156,
+   "type": 20,
+   "symbol": "?set@?$StringBase@D@@QAEXABV1@@Z",
+   "source": "ledger",
+   "target": "0x004366F0",
+   "retail": "0xF17A09D7"
+  },
+  {
+   "offset": 164,
+   "type": 20,
+   "symbol": "??0Rva00240000@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x00640000",
+   "retail": "0xE0D882DF"
+  },
+  {
+   "offset": 183,
+   "type": 20,
+   "symbol": "??0?$StringBase@D@@AAE@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004365F0",
+   "retail": "0xFDFA3EF2"
+  },
+  {
+   "offset": 191,
+   "type": 20,
+   "symbol": "?rva00308050@Rva00240000@@QAE_NVAsciiString@@@Z",
+   "source": "ledger",
+   "target": "0x00708050",
+   "retail": "0x00738096"
+  },
+  {
+   "offset": 211,
+   "type": 20,
+   "symbol": "??0DataChunkInput@@QAE@PAVChunkInputStream@@@Z",
+   "source": "ledger",
+   "target": "0x00707316",
+   "retail": "0x4DFFF9E6"
+  },
+  {
+   "offset": 216,
+   "type": 6,
+   "symbol": "??_C@_0BA@HLBFPBKH@CastleTemplates?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x04FC45C6"
+  },
+  {
+   "offset": 228,
+   "type": 20,
+   "symbol": "??0?$StringBase@D@@AAE@PBD@Z",
+   "source": "ledger",
+   "target": "0x00437BA0",
+   "retail": "0x55FFFA15"
+  },
+  {
+   "offset": 233,
+   "type": 6,
+   "symbol": "?TheEmptyString@AsciiString@@2V1@B",
+   "source": "data-ledger",
+   "target": "0x00DE0878",
+   "retail": "0x80558D52"
+  }
+ ],
+ "ms": 132.1,
+ "rebuilt_size": 446
+}

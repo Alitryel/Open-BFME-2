@@ -1,0 +1,31 @@
+{
+ "name": "?update@AIRingHeroTactic@@UAEXXZ",
+ "rva": "0x005ACBFF",
+ "size": 229,
+ "source": "reverse/attempts/0x005acbff.cpp",
+ "sites": {
+  "pin": 2,
+  "ledger": 7,
+  "data-ledger": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 17,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xDFE78C0D"
+  }
+ ],
+ "ms": 79.3,
+ "rebuilt_size": 229
+}

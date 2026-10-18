@@ -1,0 +1,21 @@
+{
+ "name": "?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z",
+ "rva": "0x002E3AA8",
+ "size": 723,
+ "source": "reverse/attempts/0x002e3aa8.cpp",
+ "sites": {
+  "ledger": 11,
+  "content": 6
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 81.5,
+ "rebuilt_size": 723
+}

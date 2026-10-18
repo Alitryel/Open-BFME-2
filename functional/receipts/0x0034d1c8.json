@@ -1,0 +1,23 @@
+{
+ "name": "?onEnter@AIAttackMeleeHordeApproachTargetState@@UAE?AW4StateReturnType@@XZ",
+ "rva": "0x0034D1C8",
+ "size": 381,
+ "source": "reverse/attempts/0x0034d1c8.cpp",
+ "sites": {
+  "ledger": 11,
+  "pin": 5,
+  "copied": 3,
+  "content": 3
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 36.3,
+ "rebuilt_size": 381
+}

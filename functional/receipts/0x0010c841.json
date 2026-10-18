@@ -1,0 +1,92 @@
+{
+ "name": "?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z",
+ "rva": "0x0010C841",
+ "size": 4656,
+ "source": "reverse/attempts/0x0010c841.cpp",
+ "sites": {
+  "content": 2,
+  "ledger": 36,
+  "import-thunk": 2,
+  "pin": 6,
+  "copied": 11,
+  "content-mismatch": 21,
+  "import": 6,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 454,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  },
+  {
+   "offset": 468,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 600,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xDFE78CA1"
+  },
+  {
+   "offset": 636,
+   "type": 20,
+   "symbol": "?Rva000930C0@@YAMMM@Z",
+   "source": "ledger",
+   "target": "0x004930C0",
+   "retail": "0xF8B6C9A9"
+  },
+  {
+   "offset": 660,
+   "type": 20,
+   "symbol": "?Rva000930C0@@YAMMM@Z",
+   "source": "ledger",
+   "target": "0x004930C0",
+   "retail": "0xF8B6B1C1"
+  },
+  {
+   "offset": 687,
+   "type": 6,
+   "symbol": "__real@c2c80000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xBCF9B005"
+  },
+  {
+   "offset": 783,
+   "type": 6,
+   "symbol": "__real@3f800000",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0xBBB8D805"
+  },
+  {
+   "offset": 859,
+   "type": 20,
+   "symbol": "?decalAxesRva00108E7A@@YAXABVRva00108E7AMatrix@@AAVRva00108E7AVector@@1@Z",
+   "source": "ledger",
+   "target": "0x00508E7A",
+   "retail": "0x0013A588"
+  }
+ ],
+ "ms": 152.9,
+ "rebuilt_size": 4650
+}

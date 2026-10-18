@@ -1,0 +1,62 @@
+{
+ "name": "?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z",
+ "rva": "0x002ECC0D",
+ "size": 342,
+ "source": "reverse/attempts/0x002ecc0d.cpp",
+ "sites": {
+  "ledger": 10,
+  "pin": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 178,
+   "type": 20,
+   "symbol": "?getCell@Pathfinder@@QAEPAVPathfindCell@@W4PathfindLayerEnum@@HH@Z",
+   "source": "ledger",
+   "target": "0x006E6D62",
+   "retail": "0x000F6BAB"
+  },
+  {
+   "offset": 195,
+   "type": 20,
+   "symbol": "?rva002E6DC4@Rva002E6DC4@@QAE_NPAX0@Z",
+   "source": "ledger",
+   "target": "0x006E6DC4",
+   "retail": "0x000FBCBC"
+  },
+  {
+   "offset": 263,
+   "type": 20,
+   "symbol": "?getIgnoredObstacleID@AIUpdateInterface@@QBE?AW4ObjectID@@XZ",
+   "source": "pin",
+   "target": "0x0046E009",
+   "retail": "0xD881BE00"
+  },
+  {
+   "offset": 284,
+   "type": 20,
+   "symbol": "?checkForMovement@Pathfinder@@QAE_NPAVObject@@AAUTCheckMovementInfo@@@Z",
+   "source": "ledger",
+   "target": "0x006EA34A",
+   "retail": "0x0044EA15"
+  },
+  {
+   "offset": 325,
+   "type": 20,
+   "symbol": "?CalcCollisionFreeExtraCosts@Pathfinder@@QAEHPAVObject@@PAVPathfindCell@@PAURva002EBC7FPair@@W4PathfindLayerEnum@@HH_N@Z",
+   "source": "ledger",
+   "target": "0x006EC0A2",
+   "retail": "0x0062193E"
+  }
+ ],
+ "ms": 74.0,
+ "rebuilt_size": 341
+}

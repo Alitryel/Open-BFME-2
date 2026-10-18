@@ -1,0 +1,22 @@
+{
+ "name": "??0Rva00212ED3@@QAE@XZ",
+ "rva": "0x00212AEF",
+ "size": 996,
+ "source": "reverse/attempts/0x00212aef.cpp",
+ "sites": {
+  "content": 25,
+  "ledger": 3,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 167.1,
+ "rebuilt_size": 996
+}

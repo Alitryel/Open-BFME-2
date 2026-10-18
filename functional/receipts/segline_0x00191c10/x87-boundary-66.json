@@ -1,0 +1,2251 @@
+{
+  "diagnostic_only": true,
+  "native_renderer_bytes_modified": false,
+  "callee_stubs": false,
+  "probe_script_sha256": "9045a57c601039ec5503a3cabfa4262311038cce5ea831fb4053283de3a7a699",
+  "candidate_link": {
+    "object": "/tmp/segline-delivery-probe.obj",
+    "object_sha256": "240de546cdcb231676c548b111602979ef37e3c072675a7095739bd9efe66877",
+    "raw_render_sha256": "0c3ee0f415721321b2bd7632a4fb80d73f0462fde7632e0700673b63e0003187",
+    "linked_render_sha256": "472225cc89d10480dd329d3ae8a6900d2d89e3f238dc66466bed0e9a64236992",
+    "byte_count": 15940,
+    "relocation_count": 158,
+    "same_offset_retail_operand_copying": false,
+    "bindings": {
+      "??0DynamicIBAccessClass@@QAE@GG@Z": {
+        "address": "0x00539240",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0DynamicVBAccessClass@@QAE@IIGI@Z": {
+        "address": "0x0053B040",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0SegMatrixRow@@QAE@XZ": {
+        "address": "0x0087A6A9",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "??0WriteLock@DynamicVBAccessClass@@QAE@PAV1@@Z": {
+        "address": "0x0053AA00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??0WriteLockClass@DynamicIBAccessClass@@QAE@PAV1@@Z": {
+        "address": "0x00538CA0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1DynamicIBAccessClass@@QAE@XZ": {
+        "address": "0x00538BE0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1DynamicVBAccessClass@@QAE@XZ": {
+        "address": "0x0053A780",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1WriteLock@DynamicVBAccessClass@@QAE@XZ": {
+        "address": "0x0053AB00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??1WriteLockClass@DynamicIBAccessClass@@QAE@XZ": {
+        "address": "0x00538D80",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_H@YGXPAXIHP6EPAX0@Z@Z": {
+        "address": "0x00401423",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_U@YAPAXI@Z": {
+        "address": "0x0042FDE0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "??_V@YAXPAX@Z": {
+        "address": "0x0042FD80",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?BFME2Set_Texture@@YAXIABUBFME2TextureRef@@@Z": {
+        "address": "0x0051F4B0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Draw_Triangles@DX8Wrapper@@SAXIIII@Z": {
+        "address": "0x00520620",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Free_String@StringClass@@AAEXXZ": {
+        "address": "0x00A10A40",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Get_Preset@VertexMaterialClass@@SAPAV1@W4PresetType@1@@Z": {
+        "address": "0x0053D230",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Get_String@StringClass@@AAEXH_N@Z": {
+        "address": "0x00A10B00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Insert@BfmeSortingDispatchAt0012FE00@@SAXABUTargetCenter3@@IIII@Z": {
+        "address": "0x0052FE00",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Inv_Sqrt@WWMath@@SIMM@Z": {
+        "address": "0x0044233A",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Set_Index_Buffer@DX8Wrapper@@SAXABVDynamicIBAccessClass@@G@Z": {
+        "address": "0x0051D690",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?Set_Vertex_Buffer@DX8Wrapper@@SAXABVDynamicVBAccessClass@@@Z": {
+        "address": "0x0051D5C0",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?ShaderDirty@ShaderClass@@1_NA": {
+        "address": "0x00DB621C",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?SyncTime@WW3D@@0IA": {
+        "address": "0x00DEC3CC",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?Transform@VectorProcessorClass@@SAXPAVVector3@@PBV2@ABVMatrix3D@@H@Z": {
+        "address": "0x00B1CE10",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "?m_EmptyString@StringClass@@0PADA": {
+        "address": "0x00DD528C",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?m_NullChar@StringClass@@0DA": {
+        "address": "0x00E08C18",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?render_state@DX8Wrapper@@1URenderStateStruct@@A": {
+        "address": "0x00DEE5D8",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?render_state_changed@DX8Wrapper@@1IA": {
+        "address": "0x00DEC4F4",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "?subdivision_util@SegLineRendererClass@@AAEXIPBVVector3@@PBMPAIPAV2@PAMPAVVector4@@5@Z": {
+        "address": "0x00591480",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "__chkstk": {
+        "address": "0x00A29000",
+        "evidence": "repository symbol identity and unique native call target"
+      },
+      "__ehhandler$?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z": {
+        "address": "0x00B68996",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__except_list": {
+        "address": "0x00000000",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__imp__floor": {
+        "address": "0x00BBA570",
+        "evidence": "independently audited native symbol/layout"
+      },
+      "__real@38d1b717": {
+        "address": "0x31000010",
+        "evidence": "COFF literal bytes",
+        "bytes": "17b7d138"
+      },
+      "__real@3a83126f": {
+        "address": "0x31000014",
+        "evidence": "COFF literal bytes",
+        "bytes": "6f12833a"
+      },
+      "__real@3f000000": {
+        "address": "0x3100000C",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000003f"
+      },
+      "__real@3f666666": {
+        "address": "0x31000018",
+        "evidence": "COFF literal bytes",
+        "bytes": "6666663f"
+      },
+      "__real@3f800000": {
+        "address": "0x31000000",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000803f"
+      },
+      "__real@437f0000": {
+        "address": "0x31000008",
+        "evidence": "COFF literal bytes",
+        "bytes": "00007f43"
+      },
+      "__real@4f800000": {
+        "address": "0x31000004",
+        "evidence": "COFF literal bytes",
+        "bytes": "0000804f"
+      }
+    }
+  },
+  "floating_point_control": "x87 0x027F; MXCSR 0x1F80",
+  "purpose": "Preserve the extended dot across FST float32, then compare FABS before rounding. No gameplay/GPU/exception proof.",
+  "blocks": [
+    {
+      "role": "interior_TOP",
+      "native": {
+        "start": 5847480,
+        "fallthrough": 5847647,
+        "taken": 5847909,
+        "end": 5847647,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -32
+        ],
+        "vectors": [
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            -4
+          ],
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            32
+          ]
+        ],
+        "fabs": 5847556,
+        "sha256": "1503ba8d172f810dbb5f11802448ad0fe1507b168f6806b6fb7201831f52358d"
+      },
+      "candidate": {
+        "start": 805313863,
+        "fallthrough": 805314030,
+        "taken": 805314293,
+        "end": 805314030,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -28
+        ],
+        "vectors": [
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            -4
+          ],
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            32
+          ]
+        ],
+        "fabs": 805313997,
+        "sha256": "12402d88339fa824f43a77cd26c9780a237992e7410f3aebc29000476b682360"
+      },
+      "cases": [
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        }
+      ],
+      "equal_cases": 22,
+      "early_float_rounding_changes_branch": 10
+    },
+    {
+      "role": "interior_BOTTOM",
+      "native": {
+        "start": 5848302,
+        "fallthrough": 5848350,
+        "taken": 5848615,
+        "end": 5848350,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -32
+        ],
+        "vectors": [
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            8
+          ],
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            44
+          ]
+        ],
+        "fabs": 5848332,
+        "sha256": "b551f2cd27de27b8ec6bcf91ef3cd76b459234cb6f0cf016696d3619544a0a5c"
+      },
+      "candidate": {
+        "start": 805314685,
+        "fallthrough": 805314733,
+        "taken": 805314998,
+        "end": 805314733,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -28
+        ],
+        "vectors": [
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            8
+          ],
+          [
+            [
+              "edi",
+              null,
+              1
+            ],
+            44
+          ]
+        ],
+        "fabs": 805314715,
+        "sha256": "98760b37ea4b65025e565d268d7b6181121817988405ecde79b4b59f61e0637a"
+      },
+      "cases": [
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        }
+      ],
+      "equal_cases": 22,
+      "early_float_rounding_changes_branch": 10
+    },
+    {
+      "role": "merge",
+      "native": {
+        "start": 5849834,
+        "fallthrough": 5850136,
+        "taken": 5850423,
+        "end": 5850136,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -32
+        ],
+        "vectors": [
+          [
+            [
+              "eax",
+              "edi",
+              1
+            ],
+            12
+          ],
+          [
+            [
+              "edx",
+              "edi",
+              1
+            ],
+            12
+          ]
+        ],
+        "fabs": 5849940,
+        "sha256": "18e8f50ff8d2b2aa42316ff6c58b2b9b3529e14cc7cd93c793e664dce92d3ef4"
+      },
+      "candidate": {
+        "start": 805316206,
+        "fallthrough": 805316497,
+        "taken": 805316784,
+        "end": 805316497,
+        "fst": [
+          "ebp",
+          null,
+          1,
+          -28
+        ],
+        "vectors": [
+          [
+            [
+              "eax",
+              "edi",
+              1
+            ],
+            12
+          ],
+          [
+            [
+              "edx",
+              "edi",
+              1
+            ],
+            12
+          ]
+        ],
+        "fabs": 805316384,
+        "sha256": "d0b03251f200e62043440c8c542e3bec74180540d60b341feaaacf9f241f1380"
+      },
+      "cases": [
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "6666663f",
+            "stored_float": 0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4901161193847656e-08,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-26"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              3.725290298461914e-09,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-28"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              9.313225746154785e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-30"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              2.3283064365386963e-10,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-32"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              -1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=-1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              1.4551915228366852e-11,
+              0.0
+            ],
+            "description": "sign=-1, delta=1*2^-36"
+          },
+          "native": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": true,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        },
+        {
+          "input": {
+            "a": [
+              -0.8999999761581421,
+              0.4358898997306824,
+              0.0
+            ],
+            "b": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "description": "exact threshold"
+          },
+          "native": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "candidate": {
+            "nonparallel_branch": false,
+            "stored_float_bits": "666666bf",
+            "stored_float": -0.8999999761581421,
+            "rounded_float_counterfactual_nonparallel": false
+          },
+          "equal": true
+        }
+      ],
+      "equal_cases": 22,
+      "early_float_rounding_changes_branch": 10
+    }
+  ],
+  "case_count": 66,
+  "equal_case_count": 66
+}

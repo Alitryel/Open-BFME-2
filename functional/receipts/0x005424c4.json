@@ -1,0 +1,86 @@
+{
+ "name": "?rva005424C4@XmlNameSlotList@@QAEHXZ",
+ "rva": "0x005424C4",
+ "size": 535,
+ "source": "reverse/attempts/0x005424c4.cpp",
+ "sites": {
+  "ledger": 10,
+  "import": 3
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 91,
+   "type": 20,
+   "symbol": "?Rva00542425Skip@@YAPADPAD@Z",
+   "source": "ledger",
+   "target": "0x00942425",
+   "retail": "0x8C942522"
+  },
+  {
+   "offset": 116,
+   "type": 20,
+   "symbol": "?rva005423F0@Rva005423F0@@QAEPADPAD@Z",
+   "source": "ledger",
+   "target": "0x009423F0",
+   "retail": "0x0095BD25"
+  },
+  {
+   "offset": 160,
+   "type": 20,
+   "symbol": "?Rva00542425Skip@@YAPADPAD@Z",
+   "source": "ledger",
+   "target": "0x00942425",
+   "retail": "0x01CEAA77"
+  },
+  {
+   "offset": 182,
+   "type": 20,
+   "symbol": "?rva005423F0@Rva005423F0@@QAEPADPAD@Z",
+   "source": "ledger",
+   "target": "0x009423F0",
+   "retail": "0x00942425"
+  },
+  {
+   "offset": 223,
+   "type": 20,
+   "symbol": "?rva005423F0@Rva005423F0@@QAEPADPAD@Z",
+   "source": "ledger",
+   "target": "0x009423F0",
+   "retail": "0x85A3F432"
+  },
+  {
+   "offset": 310,
+   "type": 20,
+   "symbol": "?rva005423F0@Rva005423F0@@QAEPADPAD@Z",
+   "source": "ledger",
+   "target": "0x009423F0",
+   "retail": "0x1062B0FE"
+  },
+  {
+   "offset": 359,
+   "type": 6,
+   "symbol": "__imp__strncpy",
+   "source": "import",
+   "target": "0x00BBA620",
+   "retail": "0x000045C6"
+  },
+  {
+   "offset": 401,
+   "type": 6,
+   "symbol": "__imp__strncpy",
+   "source": "import",
+   "target": "0x00BBA620",
+   "retail": "0x0007C61F"
+  }
+ ],
+ "ms": 43.1,
+ "rebuilt_size": 522
+}

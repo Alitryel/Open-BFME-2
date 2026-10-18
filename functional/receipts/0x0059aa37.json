@@ -1,0 +1,41 @@
+{
+ "name": "?checkIdleTeams@AITeamBuilder@@QAEXXZ",
+ "rva": "0x0059AA37",
+ "size": 402,
+ "source": "reverse/attempts/0x0059aa37.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 10,
+  "data-ledger": 3,
+  "pin": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 384,
+   "type": 20,
+   "symbol": "?free@_STL@@YAXPAX@Z",
+   "source": "pin",
+   "target": "0x00430830",
+   "retail": "0x5A995517"
+  },
+  {
+   "offset": 397,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0xC9000000"
+  }
+ ],
+ "ms": 127.2,
+ "rebuilt_size": 403
+}

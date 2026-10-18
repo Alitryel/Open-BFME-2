@@ -1,0 +1,25 @@
+{
+ "name": "?gatherDebugStats@W3DDisplay@@UAEXXZ",
+ "rva": "0x0004826C",
+ "size": 4101,
+ "source": "reverse/attempts/0x0004826c.cpp",
+ "sites": {
+  "content": 74,
+  "ledger": 154,
+  "copied": 66,
+  "pin": 2,
+  "data-ledger": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 113.9,
+ "rebuilt_size": 4101
+}

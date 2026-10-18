@@ -1,0 +1,90 @@
+{
+ "name": "?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z",
+ "rva": "0x00392DC0",
+ "size": 1116,
+ "source": "reverse/attempts/0x00392dc0.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 40,
+  "copied": 3,
+  "content-mismatch": 1,
+  "pin": 4,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 303,
+   "type": 20,
+   "symbol": "?rva00392CC5@Rva0039205C@@QAEPAXI@Z",
+   "source": "ledger",
+   "target": "0x00792CC5",
+   "retail": "0xFE4A17C3"
+  },
+  {
+   "offset": 311,
+   "type": 20,
+   "symbol": "?isEquivalentTo@ThingTemplate@@QBE_NPBV1@@Z",
+   "source": "ledger",
+   "target": "0x0073BB04",
+   "retail": "0x8C8117CA"
+  },
+  {
+   "offset": 326,
+   "type": 20,
+   "symbol": "?rva0028BD17@Object@@QBEPAXXZ",
+   "source": "ledger",
+   "target": "0x0068BD17",
+   "retail": "0x8E8517D8"
+  },
+  {
+   "offset": 359,
+   "type": 20,
+   "symbol": "?rva00392D1D@Rva0039205C@@QAEMI@Z",
+   "source": "ledger",
+   "target": "0x00792D1D",
+   "retail": "0xFE6A1782"
+  },
+  {
+   "offset": 372,
+   "type": 20,
+   "symbol": "?rva00392CF9@Rva0039205C@@QAEPAVRva004D9A3C@@I@Z",
+   "source": "ledger",
+   "target": "0x00792CF9",
+   "retail": "0xFE391808"
+  },
+  {
+   "offset": 382,
+   "type": 20,
+   "symbol": "?rva00392CC5@Rva0039205C@@QAEPAXI@Z",
+   "source": "ledger",
+   "target": "0x00792CC5",
+   "retail": "0xFDFB1812"
+  },
+  {
+   "offset": 431,
+   "type": 20,
+   "symbol": "?insert@?$list@HV?$allocator@H@_STL@@@_STL@@QAE?AU?$_List_iterator@HU?$_Nonconst_traits@H@_STL@@@2@U32@ABH@Z",
+   "source": "ledger",
+   "target": "0x009925E2",
+   "retail": "0xF6E71783"
+  },
+  {
+   "offset": 441,
+   "type": 20,
+   "symbol": "?rva0028AFE7@Object@@QAEXPAV1@@Z",
+   "source": "ledger",
+   "target": "0x0068AFE7",
+   "retail": "0x80E2184B"
+  }
+ ],
+ "ms": 157.6,
+ "rebuilt_size": 1112
+}

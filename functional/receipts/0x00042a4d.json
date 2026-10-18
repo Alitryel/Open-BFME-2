@@ -1,0 +1,22 @@
+{
+ "name": "?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z",
+ "rva": "0x00042A4D",
+ "size": 563,
+ "source": "reverse/attempts/0x00042a4d.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 2,
+  "copied": 5
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 47.2,
+ "rebuilt_size": 563
+}

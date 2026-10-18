@@ -1,0 +1,88 @@
+{
+ "name": "?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z",
+ "rva": "0x00030250",
+ "size": 605,
+ "source": "reverse/attempts/0x00030250.cpp",
+ "sites": {
+  "import": 4,
+  "content-mismatch": 3,
+  "content": 4,
+  "ledger": 4
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 4391946, 'Unhandled CPU except",
+  "('fault', 4391946, 'Unhandled CPU except",
+  "('fault', 4391946, 'Unhandled CPU except"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 12,
+   "type": 6,
+   "symbol": "__imp__fprintf",
+   "source": "import",
+   "target": "0x00BBA5C4",
+   "retail": "0x5634246C"
+  },
+  {
+   "offset": 26,
+   "type": 6,
+   "symbol": "??_C@_04NIDJFNBE@info?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x6800BBA5"
+  },
+  {
+   "offset": 101,
+   "type": 6,
+   "symbol": "__imp__fprintf",
+   "source": "import",
+   "target": "0x00BBA5C4",
+   "retail": "0xBBE4DCBA"
+  },
+  {
+   "offset": 108,
+   "type": 6,
+   "symbol": "??_C@_03BHEEIFFN@def?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0x00BBA5C4"
+  },
+  {
+   "offset": 237,
+   "type": 20,
+   "symbol": "?rva000353B0@GeneralAllocator@Allocator@EA@@QAEPAXPAXH_N0I@Z",
+   "source": "ledger",
+   "target": "0x004353B0",
+   "retail": "0x6D2B5765"
+  },
+  {
+   "offset": 252,
+   "type": 20,
+   "symbol": "?rva00032F60@GeneralAllocator@Allocator@EA@@QAEPBUBlockInfo@23@PAXH@Z",
+   "source": "ledger",
+   "target": "0x00432F60",
+   "retail": "0x0E2B3774"
+  },
+  {
+   "offset": 544,
+   "type": 6,
+   "symbol": "__imp__fprintf",
+   "source": "import",
+   "target": "0x00BBA5C4",
+   "retail": "0x5500BBE4"
+  },
+  {
+   "offset": 549,
+   "type": 6,
+   "symbol": "??_C@_01EEMJAFIK@?6?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E402000",
+   "retail": "0xBBA5C415"
+  }
+ ],
+ "ms": 354.4,
+ "rebuilt_size": 607
+}

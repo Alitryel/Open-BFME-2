@@ -1,0 +1,90 @@
+{
+ "name": "?rva00398E9A@CastleBehavior@@QAEXXZ",
+ "rva": "0x00398E9A",
+ "size": 715,
+ "source": "reverse/attempts/0x00398e9a.cpp",
+ "sites": {
+  "content": 6,
+  "ledger": 23,
+  "copied": 5,
+  "import-thunk": 1,
+  "pin": 3,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 145,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 488,
+   "type": 20,
+   "symbol": "?next@BfmeWideResult@@QAEPAVObject@@XZ",
+   "source": "ledger",
+   "target": "0x00445623",
+   "retail": "0xC615796E"
+  },
+  {
+   "offset": 544,
+   "type": 20,
+   "symbol": "?getNthPlayer@PlayerList@@QAEPAVPlayer@@H@Z",
+   "source": "ledger",
+   "target": "0x006A7A29",
+   "retail": "0xF162FBA6"
+  },
+  {
+   "offset": 578,
+   "type": 20,
+   "symbol": "?isPlayerAllowedToCapture@Rva00397EAC@@QAE_NPAVPlayer@@H@Z",
+   "source": "ledger",
+   "target": "0x00797EAC",
+   "retail": "0x00675CC8"
+  },
+  {
+   "offset": 590,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xDFE78CA1"
+  },
+  {
+   "offset": 610,
+   "type": 20,
+   "symbol": "?getControllingPlayer@Object@@QBEPAVPlayer@@XZ",
+   "source": "ledger",
+   "target": "0x0068AFA9",
+   "retail": "0xEF9839E8"
+  },
+  {
+   "offset": 632,
+   "type": 20,
+   "symbol": "?setTeam@Object@@QAEXPAVTeam@@@Z",
+   "source": "ledger",
+   "target": "0x00698AE4",
+   "retail": "0xF0735EFE"
+  },
+  {
+   "offset": 639,
+   "type": 20,
+   "symbol": "?rva0028BAC0@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068BAC0",
+   "retail": "0xEFA33405"
+  }
+ ],
+ "ms": 113.8,
+ "rebuilt_size": 710
+}

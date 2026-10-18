@@ -1,0 +1,57 @@
+{
+ "name": "?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z",
+ "rva": "0x0009FE49",
+ "size": 1398,
+ "source": "reverse/attempts/0x0009fe49.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 19,
+  "copied": 11,
+  "import": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 337,
+   "type": 20,
+   "symbol": "?winGetFont@GameWindow@@QAEPAVGameFont@@XZ",
+   "source": "ledger",
+   "target": "0x00713D6C",
+   "retail": "0xCED53829"
+  },
+  {
+   "offset": 361,
+   "type": 20,
+   "symbol": "?winGetScreenPosition@GameWindow@@QAEHPAH0@Z",
+   "source": "ledger",
+   "target": "0x00713B3C",
+   "retail": "0x8432CE41"
+  },
+  {
+   "offset": 376,
+   "type": 20,
+   "symbol": "?winGetSize@GameWindow@@QAEHPAH0@Z",
+   "source": "ledger",
+   "target": "0x00713BC6",
+   "retail": "0xFF32CE50"
+  },
+  {
+   "offset": 516,
+   "type": 20,
+   "symbol": "?winGetFont@GameWindow@@QAEPAVGameFont@@XZ",
+   "source": "ledger",
+   "target": "0x00713D6C",
+   "retail": "0x1932D896"
+  }
+ ],
+ "ms": 162.7,
+ "rebuilt_size": 1398
+}

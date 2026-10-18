@@ -1,0 +1,89 @@
+{
+ "name": "?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z",
+ "rva": "0x0046EA94",
+ "size": 488,
+ "source": "reverse/attempts/0x0046ea94.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 16,
+  "copied-unmatched-body": 1,
+  "pin": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 315,
+   "type": 20,
+   "symbol": "?compare@AsciiString@@QBEHABV1@@Z",
+   "source": "pin",
+   "target": "0x004069D6",
+   "retail": "0x011B70E2"
+  },
+  {
+   "offset": 365,
+   "type": 20,
+   "symbol": "?set@?$StringBase@D@@QAEXABV1@@Z",
+   "source": "ledger",
+   "target": "0x004366F0",
+   "retail": "0x6610D84A"
+  },
+  {
+   "offset": 380,
+   "type": 20,
+   "symbol": "??0?$StringBase@D@@AAE@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004365F0",
+   "retail": "0x0086EAF8"
+  },
+  {
+   "offset": 387,
+   "type": 20,
+   "symbol": "?rva0046D158@HordeContain@@QAEPAURva0046D158Record@@VAsciiString@@@Z",
+   "source": "ledger",
+   "target": "0x0086D158",
+   "retail": "0xC3C2EC1A"
+  },
+  {
+   "offset": 404,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0xC10BEBE9"
+  },
+  {
+   "offset": 417,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0xC10BEBF6"
+  },
+  {
+   "offset": 431,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0xC10BEC04"
+  },
+  {
+   "offset": 445,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0xC10BEC12"
+  }
+ ],
+ "ms": 125.0,
+ "rebuilt_size": 490
+}

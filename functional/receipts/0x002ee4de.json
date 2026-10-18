@@ -1,0 +1,78 @@
+{
+ "name": "?AdjustFlingDestination@Pathfinder@@QAEXPAVObject@@PBUCoord3D@@PAU3@@Z",
+ "rva": "0x002EE4DE",
+ "size": 364,
+ "source": "reverse/attempts/0x002ee4de.cpp",
+ "sites": {
+  "ledger": 6,
+  "content-mismatch": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 75,
+   "type": 6,
+   "symbol": "__real@40a00000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x0FF300BC"
+  },
+  {
+   "offset": 131,
+   "type": 20,
+   "symbol": "?rva0028AC4E@Object@@QBEPBURva0028AC4EEntry@@XZ",
+   "source": "ledger",
+   "target": "0x0068AC4E",
+   "retail": "0x0070E1AA"
+  },
+  {
+   "offset": 173,
+   "type": 20,
+   "symbol": "?rva0028AC62@Object@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0068AC62",
+   "retail": "0x8A6B2B1A"
+  },
+  {
+   "offset": 197,
+   "type": 20,
+   "symbol": "?rva0028AFBB@Object@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0068AFBB",
+   "retail": "0x9EF9D1EC"
+  },
+  {
+   "offset": 270,
+   "type": 20,
+   "symbol": "?rva0028B511@Object@@QBEHXZ",
+   "source": "ledger",
+   "target": "0x0068B511",
+   "retail": "0x8E272B79"
+  },
+  {
+   "offset": 308,
+   "type": 20,
+   "symbol": "?rva002EB4A0@Pathfinder@@QAEHPBUCoord3D@@0W4PathfindLayerEnum@@PAX@Z",
+   "source": "ledger",
+   "target": "0x006EB4A0",
+   "retail": "0xE0E4731E"
+  },
+  {
+   "offset": 338,
+   "type": 6,
+   "symbol": "__real@40a00000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x110FF3C8"
+  }
+ ],
+ "ms": 67.8,
+ "rebuilt_size": 371
+}

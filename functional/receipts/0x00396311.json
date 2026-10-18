@@ -1,0 +1,42 @@
+{
+ "name": "?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z",
+ "rva": "0x00396311",
+ "size": 1041,
+ "source": "reverse/attempts/0x00396311.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 22,
+  "copied": 6,
+  "pin": 4,
+  "import-thunk": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 873,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 898,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  }
+ ],
+ "ms": 159.9,
+ "rebuilt_size": 1041
+}

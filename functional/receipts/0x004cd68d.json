@@ -1,0 +1,91 @@
+{
+ "name": "?triggerAbilityEffect@TeleportToCasterSpecialPower@@UAEXXZ",
+ "rva": "0x004CD68D",
+ "size": 622,
+ "source": "reverse/attempts/0x004cd68d.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 21,
+  "content-mismatch": 8,
+  "copied": 2,
+  "pin": 7,
+  "pin-unmatched-body": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 110,
+   "type": 6,
+   "symbol": "?what@@3PBXB",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x53FFFFFF"
+  },
+  {
+   "offset": 174,
+   "type": 6,
+   "symbol": "?what@@3PBXB",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x8445C788"
+  },
+  {
+   "offset": 184,
+   "type": 6,
+   "symbol": "??_7Rva002614ECFilter@@6B@",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0x9045898C"
+  },
+  {
+   "offset": 204,
+   "type": 6,
+   "symbol": "??_7Rva002611BFFilter@@6B@",
+   "source": "content-mismatch",
+   "target": "0x0E402000",
+   "retail": "0x9C5D89C0"
+  },
+  {
+   "offset": 217,
+   "type": 6,
+   "symbol": "??_7Rva00260EB1Filter@@6B@",
+   "source": "content-mismatch",
+   "target": "0x0E403000",
+   "retail": "0xA445C7A0"
+  },
+  {
+   "offset": 254,
+   "type": 20,
+   "symbol": "??0Rva0006EE7A@@QAE@HHH@Z",
+   "source": "ledger",
+   "target": "0x0046EE7A",
+   "retail": "0x008BB81C"
+  },
+  {
+   "offset": 266,
+   "type": 20,
+   "symbol": "??0PartitionFilterRejectByKindOf@@QAE@ABVBfmeFixedStorage0004543D@@0@Z",
+   "source": "ledger",
+   "target": "0x00795A35",
+   "retail": "0xD4EA6187"
+  },
+  {
+   "offset": 279,
+   "type": 6,
+   "symbol": "??_7Rva0026119DFilter@@6B@",
+   "source": "content-mismatch",
+   "target": "0x0E404000",
+   "retail": "0xC445C7C8"
+  }
+ ],
+ "ms": 120.0,
+ "rebuilt_size": 622
+}

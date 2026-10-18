@@ -1,0 +1,89 @@
+{
+ "name": "?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ",
+ "rva": "0x0034E5B5",
+ "size": 1481,
+ "source": "reverse/attempts/0x0034e5b5.cpp",
+ "sites": {
+  "pin": 4,
+  "ledger": 28,
+  "content": 1,
+  "content-mismatch": 8,
+  "copied": 8
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 371,
+   "type": 20,
+   "symbol": "?setOrientation@Thing@@QAEXM@Z",
+   "source": "ledger",
+   "target": "0x0070AB9D",
+   "retail": "0xE944722C"
+  },
+  {
+   "offset": 421,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x7BF5DBAB"
+  },
+  {
+   "offset": 473,
+   "type": 20,
+   "symbol": "?rva00346FA5@Rva00346FA5@@QBEPAXH@Z",
+   "source": "ledger",
+   "target": "0x00746FA5",
+   "retail": "0x75746D8A"
+  },
+  {
+   "offset": 486,
+   "type": 20,
+   "symbol": "?rva00340E5E@Rva00340E5E@@QBEMXZ",
+   "source": "ledger",
+   "target": "0x00740E5E",
+   "retail": "0x0700DBFC"
+  },
+  {
+   "offset": 517,
+   "type": 20,
+   "symbol": "?setDesiredSpeed@AIUpdateInterface@@QAEXM@Z",
+   "source": "pin",
+   "target": "0x006628F9",
+   "retail": "0xE8CCE00B"
+  },
+  {
+   "offset": 526,
+   "type": 20,
+   "symbol": "?GetRelativeAngle@Object@@QBEMPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x004B4542",
+   "retail": "0x4600DC24"
+  },
+  {
+   "offset": 553,
+   "type": 20,
+   "symbol": "?normalizeAngle@@YAMM@Z",
+   "source": "ledger",
+   "target": "0x00638954",
+   "retail": "0x07000BFE"
+  },
+  {
+   "offset": 599,
+   "type": 20,
+   "symbol": "?canMoveToNextFormationPathPoint@AIFollowPathAsTeamState@@AAE_NXZ",
+   "source": "ledger",
+   "target": "0x00749E74",
+   "retail": "0x5FF8F7D0"
+  }
+ ],
+ "ms": 51.7,
+ "rebuilt_size": 1486
+}

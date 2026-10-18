@@ -1,0 +1,22 @@
+{
+ "name": "?rva006F83F0@Gen_uw_000e5033@@QAEHPAXH00@Z",
+ "rva": "0x000E5406",
+ "size": 660,
+ "source": "reverse/attempts/0x000e5406.cpp",
+ "sites": {
+  "ledger": 6,
+  "content": 3,
+  "copied": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 63.6,
+ "rebuilt_size": 660
+}

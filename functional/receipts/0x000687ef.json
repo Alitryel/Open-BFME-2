@@ -1,0 +1,90 @@
+{
+ "name": "?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ",
+ "rva": "0x000687EF",
+ "size": 1364,
+ "source": "reverse/attempts/0x000687ef.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 8,
+  "copied": 1,
+  "content-mismatch": 12,
+  "import": 4,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 183,
+   "type": 20,
+   "symbol": "?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z",
+   "source": "ledger",
+   "target": "0x004EAFA4",
+   "retail": "0x049D0CB9"
+  },
+  {
+   "offset": 205,
+   "type": 6,
+   "symbol": "__real@3dcccccd",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x7015FF24"
+  },
+  {
+   "offset": 214,
+   "type": 6,
+   "symbol": "__imp__floor",
+   "source": "import",
+   "target": "0x00BBA570",
+   "retail": "0xD959E05D"
+  },
+  {
+   "offset": 229,
+   "type": 6,
+   "symbol": "__real@3dcccccd",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x8BF065D8"
+  },
+  {
+   "offset": 238,
+   "type": 6,
+   "symbol": "__imp__floor",
+   "source": "import",
+   "target": "0x00BBA570",
+   "retail": "0x0DD85151"
+  },
+  {
+   "offset": 312,
+   "type": 6,
+   "symbol": "__real@3dcccccd",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x1CDD00BC"
+  },
+  {
+   "offset": 321,
+   "type": 6,
+   "symbol": "__imp__ceil",
+   "source": "import",
+   "target": "0x00BBA578",
+   "retail": "0xD95900BB"
+  },
+  {
+   "offset": 355,
+   "type": 6,
+   "symbol": "__real@3dcccccd",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x895100BC"
+  }
+ ],
+ "ms": 135.7,
+ "rebuilt_size": 1348
+}

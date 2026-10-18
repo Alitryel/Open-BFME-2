@@ -1,0 +1,31 @@
+{
+ "name": "?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z",
+ "rva": "0x00186F10",
+ "size": 1166,
+ "source": "reverse/attempts/0x00186f10.cpp",
+ "sites": {
+  "content": 4,
+  "copied": 11,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "('fault', 5795805, 'Unhandled CPU except",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1135,
+   "type": 6,
+   "symbol": "__real@3f800000",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xF3702444"
+  }
+ ],
+ "ms": 33.0,
+ "rebuilt_size": 1166
+}

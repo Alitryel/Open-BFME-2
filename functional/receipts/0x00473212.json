@@ -1,0 +1,91 @@
+{
+ "name": "?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z",
+ "rva": "0x00473212",
+ "size": 1415,
+ "source": "reverse/attempts/0x00473212.cpp",
+ "sites": {
+  "content": 3,
+  "ledger": 30,
+  "pin": 10,
+  "copied": 8,
+  "import-thunk": 1,
+  "content-mismatch": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 401,
+   "type": 20,
+   "symbol": "?rva0028BC58@Object@@QAEPAXH@Z",
+   "source": "ledger",
+   "target": "0x0068BC58",
+   "retail": "0x754E6FA6"
+  },
+  {
+   "offset": 420,
+   "type": 20,
+   "symbol": "?rva0028BC58@Object@@QAEPAXH@Z",
+   "source": "ledger",
+   "target": "0x0068BC58",
+   "retail": "0x754E6FB9"
+  },
+  {
+   "offset": 453,
+   "type": 20,
+   "symbol": "?init@Rva001EB984Member@@QAEPAXPAX@Z",
+   "source": "ledger",
+   "target": "0x005EB984",
+   "retail": "0x8D8DBFDA"
+  },
+  {
+   "offset": 480,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0x69CDE800"
+  },
+  {
+   "offset": 485,
+   "type": 20,
+   "symbol": "?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z",
+   "source": "ledger",
+   "target": "0x00449DC5",
+   "retail": "0x8A4E6FFA"
+  },
+  {
+   "offset": 836,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 1105,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0x9FE80C45"
+  },
+  {
+   "offset": 1110,
+   "type": 20,
+   "symbol": "?destroyObject@GameLogic@@QAEXPAVObject@@@Z",
+   "source": "ledger",
+   "target": "0x00642C09",
+   "retail": "0x25733648"
+  }
+ ],
+ "ms": 154.4,
+ "rebuilt_size": 1425
+}

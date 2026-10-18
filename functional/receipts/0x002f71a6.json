@@ -1,0 +1,88 @@
+{
+ "name": "?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z",
+ "rva": "0x002F71A6",
+ "size": 4605,
+ "source": "reverse/attempts/0x002f71a6.cpp",
+ "sites": {
+  "ledger": 138,
+  "copied": 24,
+  "pin": 1,
+  "content-mismatch": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 252,
+   "type": 20,
+   "symbol": "?get@Rva002E6ECA@@QBEHXZ",
+   "source": "ledger",
+   "target": "0x006E6ECA",
+   "retail": "0xCFFA72A6"
+  },
+  {
+   "offset": 271,
+   "type": 20,
+   "symbol": "?isValidUnitType@Waypoint@@QAE_NPAVObject@@@Z",
+   "source": "ledger",
+   "target": "0x00681AED",
+   "retail": "0xE93EFE21"
+  },
+  {
+   "offset": 300,
+   "type": 20,
+   "symbol": "?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x006802FE",
+   "retail": "0xF8FF9ABE"
+  },
+  {
+   "offset": 308,
+   "type": 20,
+   "symbol": "?rva001E3647Pos@Pathfinder@@QAEPAXHPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x005E3647",
+   "retail": "0xEF32DBC6"
+  },
+  {
+   "offset": 533,
+   "type": 20,
+   "symbol": "?QuickDoesPathExist@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@1H@Z",
+   "source": "ledger",
+   "target": "0x006F477E",
+   "retail": "0xD42D5C27"
+  },
+  {
+   "offset": 562,
+   "type": 20,
+   "symbol": "?QuickDoesPathExist@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@1H@Z",
+   "source": "ledger",
+   "target": "0x006F477E",
+   "retail": "0x856F73AF"
+  },
+  {
+   "offset": 600,
+   "type": 20,
+   "symbol": "?rva002E75A3@Pathfinder@@QAEXPAUCoord3D@@0@Z",
+   "source": "ledger",
+   "target": "0x006E75A3",
+   "retail": "0xEC6F7303"
+  },
+  {
+   "offset": 636,
+   "type": 20,
+   "symbol": "?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x006802FE",
+   "retail": "0x8E600025"
+  }
+ ],
+ "ms": 32.0,
+ "rebuilt_size": 4613
+}

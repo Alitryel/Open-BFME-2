@@ -1,0 +1,30 @@
+{
+ "name": "?rva002829BD@Rva002829BD@@QAEXPBVModuleData@@PAX@Z",
+ "rva": "0x002829BD",
+ "size": 361,
+ "source": "reverse/attempts/0x002829bd.cpp",
+ "sites": {
+  "ledger": 4,
+  "content": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 341,
+   "type": 20,
+   "symbol": "?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z",
+   "source": "ledger",
+   "target": "0x008DFCB0",
+   "retail": "0x45F6278B"
+  }
+ ],
+ "ms": 128.0,
+ "rebuilt_size": 352
+}

@@ -1,0 +1,21 @@
+{
+ "name": "?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z",
+ "rva": "0x006C26F0",
+ "size": 934,
+ "source": "reverse/attempts/0x006c26f0.cpp",
+ "sites": {
+  "ledger": 1,
+  "import": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 109.0,
+ "rebuilt_size": 934
+}

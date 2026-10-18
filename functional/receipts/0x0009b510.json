@@ -1,0 +1,55 @@
+{
+ "name": "?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z",
+ "rva": "0x0009B510",
+ "size": 730,
+ "source": "reverse/attempts/0x0009b510.cpp",
+ "sites": {
+  "import-thunk": 4,
+  "content": 6,
+  "ledger": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 19,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 33,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  },
+  {
+   "offset": 525,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 539,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  }
+ ],
+ "ms": 60.6,
+ "rebuilt_size": 730
+}

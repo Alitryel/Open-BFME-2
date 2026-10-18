@@ -1,0 +1,91 @@
+{
+ "name": "?update@Rva001FAB59@@QAE_NH@Z",
+ "rva": "0x001FAB59",
+ "size": 1704,
+ "source": "reverse/attempts/0x001fab59.cpp",
+ "sites": {
+  "copied": 5,
+  "import": 3,
+  "ledger": 13,
+  "content": 2,
+  "pin": 1,
+  "pin-unmatched-body": 1,
+  "content-mismatch": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1005,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xE4EE7AE8"
+  },
+  {
+   "offset": 1011,
+   "type": 20,
+   "symbol": "?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z",
+   "source": "ledger",
+   "target": "0x00449DC5",
+   "retail": "0x105F3548"
+  },
+  {
+   "offset": 1031,
+   "type": 20,
+   "symbol": "?getShroudStatusForPlayer@Object@@QBE?AW4CellShroudStatus@@H@Z",
+   "source": "ledger",
+   "target": "0x0068D2A2",
+   "retail": "0xCFEAB35C"
+  },
+  {
+   "offset": 1045,
+   "type": 20,
+   "symbol": "?getDrawable@Thing@@QBEPAVDrawable@@XZ",
+   "source": "ledger",
+   "target": "0x009508E2",
+   "retail": "0xF8A53932"
+  },
+  {
+   "offset": 1072,
+   "type": 20,
+   "symbol": "?getTransformMatrix@Drawable@@QBEPBVMatrix3D@@XZ",
+   "source": "ledger",
+   "target": "0x0067628E",
+   "retail": "0x00606840"
+  },
+  {
+   "offset": 1088,
+   "type": 20,
+   "symbol": "?isEmpty@AsciiString@@QBE_NXZ",
+   "source": "pin-unmatched-body",
+   "target": "0x00401E2F",
+   "retail": "0x8B98255D"
+  },
+  {
+   "offset": 1106,
+   "type": 6,
+   "symbol": "??_C@_00CNPNBAHC@?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xB04D8D01"
+  },
+  {
+   "offset": 1125,
+   "type": 20,
+   "symbol": "?getCurrentClientBonePositions@Drawable@@QBEHPBDHPAUCoord3D@@PAVMatrix3D@@H@Z",
+   "source": "ledger",
+   "target": "0x006727C8",
+   "retail": "0x8D732482"
+  }
+ ],
+ "ms": 19.4,
+ "rebuilt_size": 1709
+}

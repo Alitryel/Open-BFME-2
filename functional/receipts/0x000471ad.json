@@ -1,0 +1,89 @@
+{
+ "name": "?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z",
+ "rva": "0x000471AD",
+ "size": 1474,
+ "source": "reverse/attempts/0x000471ad.cpp",
+ "sites": {
+  "content": 11,
+  "ledger": 9,
+  "copied": 19,
+  "import-thunk": 8,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 548,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 732,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 771,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 955,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 994,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 1178,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 1217,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  },
+  {
+   "offset": 1390,
+   "type": 20,
+   "symbol": "_tan",
+   "source": "import-thunk",
+   "target": "0x0E101560",
+   "retail": "0x00A2993A"
+  }
+ ],
+ "ms": 107.6,
+ "rebuilt_size": 1474
+}

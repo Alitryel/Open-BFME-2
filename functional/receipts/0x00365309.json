@@ -1,0 +1,90 @@
+{
+ "name": "?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z",
+ "rva": "0x00365309",
+ "size": 2177,
+ "source": "reverse/attempts/0x00365309.cpp",
+ "sites": {
+  "ledger": 21,
+  "content": 16,
+  "import-thunk": 8,
+  "copied": 3,
+  "content-mismatch": 1,
+  "pin": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 629,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 643,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  },
+  {
+   "offset": 826,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 840,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  },
+  {
+   "offset": 1459,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 1473,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  },
+  {
+   "offset": 1713,
+   "type": 20,
+   "symbol": "_sin",
+   "source": "import-thunk",
+   "target": "0x0E101A10",
+   "retail": "0x00A29216"
+  },
+  {
+   "offset": 1727,
+   "type": 20,
+   "symbol": "_cos",
+   "source": "import-thunk",
+   "target": "0x0E101A30",
+   "retail": "0x00A2920A"
+  }
+ ],
+ "ms": 65.0,
+ "rebuilt_size": 2177
+}

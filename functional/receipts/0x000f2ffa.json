@@ -1,0 +1,88 @@
+{
+ "name": "?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z",
+ "rva": "0x000F2FFA",
+ "size": 3369,
+ "source": "reverse/attempts/0x000f2ffa.cpp",
+ "sites": {
+  "ledger": 17,
+  "content": 11,
+  "import-thunk": 10,
+  "copied": 6
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 273,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 323,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 373,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 510,
+   "type": 20,
+   "symbol": "_sqrt",
+   "source": "import-thunk",
+   "target": "0x0E101A00",
+   "retail": "0x00A2921C"
+  },
+  {
+   "offset": 915,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 1463,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 1677,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  },
+  {
+   "offset": 1902,
+   "type": 20,
+   "symbol": "_fabs",
+   "source": "import-thunk",
+   "target": "0x0E101A20",
+   "retail": "0x00A29210"
+  }
+ ],
+ "ms": 55.5,
+ "rebuilt_size": 3369
+}

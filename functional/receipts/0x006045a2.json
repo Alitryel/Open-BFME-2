@@ -1,0 +1,23 @@
+{
+ "name": "?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z",
+ "rva": "0x006045A2",
+ "size": 270,
+ "source": "reverse/attempts/0x006045a2.cpp",
+ "sites": {
+  "content": 12,
+  "ledger": 3,
+  "copied": 1,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 254.0,
+ "rebuilt_size": 270
+}

@@ -1,0 +1,89 @@
+{
+ "name": "?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z",
+ "rva": "0x0052E914",
+ "size": 1120,
+ "source": "reverse/attempts/0x0052e914.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 35,
+  "pin": 5,
+  "copied": 3,
+  "content-mismatch": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 92,
+   "type": 20,
+   "symbol": "?isPointOnBridge@Bridge@@QAE_NPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x0067EEAD",
+   "retail": "0x377BD1B9"
+  },
+  {
+   "offset": 134,
+   "type": 20,
+   "symbol": "?isPointOnBridge@Bridge@@QAE_NPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x0067EEAD",
+   "retail": "0x0D7BC1E3"
+  },
+  {
+   "offset": 153,
+   "type": 20,
+   "symbol": "?isPointOnBridge@Bridge@@QAE_NPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x0067EEAD",
+   "retail": "0xFA7B3A91"
+  },
+  {
+   "offset": 191,
+   "type": 20,
+   "symbol": "?isPointOnBridge@Bridge@@QAE_NPBUCoord3D@@@Z",
+   "source": "ledger",
+   "target": "0x0067EEAD",
+   "retail": "0xD47BBE1C"
+  },
+  {
+   "offset": 255,
+   "type": 6,
+   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
+   "source": "pin",
+   "target": "0x00DFE78C",
+   "retail": "0xFFB1B3AE"
+  },
+  {
+   "offset": 261,
+   "type": 20,
+   "symbol": "?findObjectByID@GameLogic@@QAEPAVObject@@H@Z",
+   "source": "pin",
+   "target": "0x00449DC5",
+   "retail": "0x8BE30391"
+  },
+  {
+   "offset": 287,
+   "type": 20,
+   "symbol": "?MarkDirty@PathfindZoneManager@@QAEXHH@Z",
+   "source": "ledger",
+   "target": "0x00931431",
+   "retail": "0xFD102337"
+  },
+  {
+   "offset": 301,
+   "type": 20,
+   "symbol": "?rva0052E001@Rva0052E001@@QAE_N_N@Z",
+   "source": "ledger",
+   "target": "0x0092E001",
+   "retail": "0x75536F44"
+  }
+ ],
+ "ms": 29.3,
+ "rebuilt_size": 1107
+}

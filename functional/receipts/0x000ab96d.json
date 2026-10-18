@@ -1,0 +1,55 @@
+{
+ "name": "?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z",
+ "rva": "0x000AB96D",
+ "size": 194,
+ "source": "reverse/attempts/0x000ab96d.cpp",
+ "sites": {
+  "ledger": 12,
+  "content": 1,
+  "copied": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 160,
+   "type": 20,
+   "symbol": "??0BfmeRefVGO@@QAE@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004A9806",
+   "retail": "0xF3330B05"
+  },
+  {
+   "offset": 165,
+   "type": 20,
+   "symbol": "?Rva00893030@@YAXVRva006D07E0Key@@PAX11@Z",
+   "source": "ledger",
+   "target": "0x00ACE080",
+   "retail": "0x6833BA15"
+  },
+  {
+   "offset": 176,
+   "type": 20,
+   "symbol": "??1AsciiString@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x0088BA39",
+   "retail": "0x1633B66E"
+  },
+  {
+   "offset": 184,
+   "type": 20,
+   "symbol": "??1BfmeRefVGO@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x004A9822",
+   "retail": "0xF732C676"
+  }
+ ],
+ "ms": 44.4,
+ "rebuilt_size": 191
+}

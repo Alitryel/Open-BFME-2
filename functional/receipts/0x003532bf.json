@@ -1,0 +1,62 @@
+{
+ "name": "?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z",
+ "rva": "0x003532BF",
+ "size": 256,
+ "source": "reverse/attempts/0x003532bf.cpp",
+ "sites": {
+  "copied": 1,
+  "ledger": 5
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 63,
+   "type": 20,
+   "symbol": "?getClosestPointOnLand@Pathfinder@@QAE_NPBUCoord3D@@PAVObject@@PAU2@@Z",
+   "source": "ledger",
+   "target": "0x006EE7EE",
+   "retail": "0xFA2A1EEA"
+  },
+  {
+   "offset": 116,
+   "type": 20,
+   "symbol": "?ignoreObstacle@AIUpdateInterface@@QAEXPBVObject@@@Z",
+   "source": "ledger",
+   "target": "0x00668D88",
+   "retail": "0xF1CF841F"
+  },
+  {
+   "offset": 204,
+   "type": 20,
+   "symbol": "?rva003531DB@Rva00352F9D@@QAEXPBXABUCoord3D@@W4CommandSourceType@@@Z",
+   "source": "ledger",
+   "target": "0x007531DB",
+   "retail": "0x00737F77"
+  },
+  {
+   "offset": 211,
+   "type": 20,
+   "symbol": "?rva003530F3@Rva00352F9D@@QAEXPBXABUCoord3D@@W4CommandSourceType@@@Z",
+   "source": "ledger",
+   "target": "0x007530F3",
+   "retail": "0x0072907E"
+  },
+  {
+   "offset": 233,
+   "type": 20,
+   "symbol": "?rva0035300B@Rva00352F9D@@QAEXPBXABUCoord3D@@W4CommandSourceType@@@Z",
+   "source": "ledger",
+   "target": "0x0075300B",
+   "retail": "0x00719294"
+  }
+ ],
+ "ms": 59.0,
+ "rebuilt_size": 255
+}

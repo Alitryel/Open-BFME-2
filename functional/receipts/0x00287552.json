@@ -1,0 +1,22 @@
+{
+ "name": "?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z",
+ "rva": "0x00287552",
+ "size": 1496,
+ "source": "reverse/attempts/0x00287552.cpp",
+ "sites": {
+  "ledger": 10,
+  "content": 22,
+  "import": 8
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 35.3,
+ "rebuilt_size": 1496
+}

@@ -1,0 +1,29 @@
+{
+ "name": "??MS4SortElem8@@QBE_NABU0@@Z",
+ "rva": "0x005EC52E",
+ "size": 102,
+ "source": "reverse/attempts/0x005ec52e.cpp",
+ "sites": {
+  "ledger": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 92,
+   "type": 20,
+   "symbol": "??M@YA_NABVAsciiString@@0@Z",
+   "source": "ledger",
+   "target": "0x0045598C",
+   "retail": "0x5A9E6C21"
+  }
+ ],
+ "ms": 46.9,
+ "rebuilt_size": 103
+}

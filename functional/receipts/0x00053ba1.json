@@ -1,0 +1,88 @@
+{
+ "name": "?shouldPlayLocally@MilesAudioManager@@QAE_NPBVAudioEventRTS@@@Z",
+ "rva": "0x00053BA1",
+ "size": 320,
+ "source": "reverse/attempts/0x00053ba1.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 11,
+  "copied": 4,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 23,
+   "type": 20,
+   "symbol": "??0Rva0036CA00Str@@QAE@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004A8C7C",
+   "retail": "0x0595FBA4"
+  },
+  {
+   "offset": 98,
+   "type": 20,
+   "symbol": "?bfmePickRV@BfmeThingRV@@QAEPAVBfmeMemberRV@@XZ",
+   "source": "ledger",
+   "target": "0x006A7E14",
+   "retail": "0xB9C94BD0"
+  },
+  {
+   "offset": 107,
+   "type": 20,
+   "symbol": "?rva002DA414@Rva002DA414@@QAEPAXXZ",
+   "source": "ledger",
+   "target": "0x006DA414",
+   "retail": "0x8B456152"
+  },
+  {
+   "offset": 119,
+   "type": 20,
+   "symbol": "?getNthPlayer@PlayerList@@QAEPAVPlayer@@H@Z",
+   "source": "ledger",
+   "target": "0x006A7A29",
+   "retail": "0xEF2D49A7"
+  },
+  {
+   "offset": 149,
+   "type": 20,
+   "symbol": "?Release_Ref@OpaqueRefCounted@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x00450ED3",
+   "retail": "0xFC92BF3B"
+  },
+  {
+   "offset": 195,
+   "type": 20,
+   "symbol": "?getRelationship@Player@@QBE?AW4Relationship@@PBVTeam@@@Z",
+   "source": "ledger",
+   "target": "0x006AD0C6",
+   "retail": "0xE3C54253"
+  },
+  {
+   "offset": 221,
+   "type": 20,
+   "symbol": "?rva002D9C7A@Rva002D9C7A@@QAEHXZ",
+   "source": "ledger",
+   "target": "0x006D9C7A",
+   "retail": "0xF8C9236D"
+  },
+  {
+   "offset": 234,
+   "type": 20,
+   "symbol": "?rva002B2B66@Rva002B2B66@@QAEHXZ",
+   "source": "ledger",
+   "target": "0x006B2B66",
+   "retail": "0x1052C78F"
+  }
+ ],
+ "ms": 160.7,
+ "rebuilt_size": 317
+}

@@ -1,0 +1,33 @@
+{
+ "name": "?rva00491AD0@AttachUpdate@@QAEXXZ",
+ "rva": "0x00491AD0",
+ "size": 436,
+ "source": "reverse/attempts/0x00491ad0.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 10,
+  "pin": 3,
+  "copied": 7,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 429,
+   "type": 6,
+   "symbol": "__except_list",
+   "source": "absolute",
+   "target": "0x00000000",
+   "retail": "0x0000000D"
+  }
+ ],
+ "ms": 118.5,
+ "rebuilt_size": 435
+}

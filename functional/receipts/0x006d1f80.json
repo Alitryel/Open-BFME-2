@@ -1,0 +1,23 @@
+{
+ "name": "?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z",
+ "rva": "0x006D1F80",
+ "size": 1525,
+ "source": "reverse/attempts/0x006d1f80.cpp",
+ "sites": {
+  "content": 9,
+  "absolute": 3,
+  "ledger": 51,
+  "copied": 20
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "('fault', 11345960, 'Unhandled CPU excep"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 35.4,
+ "rebuilt_size": 1525
+}

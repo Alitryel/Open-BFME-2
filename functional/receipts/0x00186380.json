@@ -1,0 +1,22 @@
+{
+ "name": "?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z",
+ "rva": "0x00186380",
+ "size": 823,
+ "source": "reverse/attempts/0x00186380.cpp",
+ "sites": {
+  "copied": 18,
+  "content": 1,
+  "import": 2
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 51.2,
+ "rebuilt_size": 836
+}

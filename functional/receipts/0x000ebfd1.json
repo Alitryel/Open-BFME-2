@@ -1,0 +1,31 @@
+{
+ "name": "?rva000EBFD1@Rva000EC9C6@@QAEXXZ",
+ "rva": "0x000EBFD1",
+ "size": 1710,
+ "source": "reverse/attempts/0x000ebfd1.cpp",
+ "sites": {
+  "ledger": 2,
+  "copied": 1,
+  "content": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1673,
+   "type": 20,
+   "symbol": "??1WriteLockClass@VertexBufferClass@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x00539530",
+   "retail": "0x8E4EC657"
+  }
+ ],
+ "ms": 271.6,
+ "rebuilt_size": 1703
+}

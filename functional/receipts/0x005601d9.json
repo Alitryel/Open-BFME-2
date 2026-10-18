@@ -1,0 +1,91 @@
+{
+ "name": "?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z",
+ "rva": "0x005601D9",
+ "size": 2114,
+ "source": "reverse/attempts/0x005601d9.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 22,
+  "data-ledger": 1,
+  "copied": 33,
+  "content-mismatch": 2,
+  "pin": 2,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 1675,
+   "type": 20,
+   "symbol": "?get@Rva001F4E1BSlot@@QBEPBURGBColor@@XZ",
+   "source": "ledger",
+   "target": "0x005F4E1B",
+   "retail": "0xC119152B"
+  },
+  {
+   "offset": 1684,
+   "type": 20,
+   "symbol": "?rva001F4DF9@Rva001F4DF9@@QAEMXZ",
+   "source": "ledger",
+   "target": "0x005F4DF9",
+   "retail": "0x8C960870"
+  },
+  {
+   "offset": 1837,
+   "type": 20,
+   "symbol": "?Make001FCBD7@@YAPAVParticleSystem@@XZ",
+   "source": "ledger",
+   "target": "0x005FCBD7",
+   "retail": "0xFB2418F6"
+  },
+  {
+   "offset": 1854,
+   "type": 6,
+   "symbol": "??_C@_00CNPNBAHC@?$AA@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0x408BFFC9"
+  },
+  {
+   "offset": 1897,
+   "type": 20,
+   "symbol": "??4?$RefCountPtr@VTextureClass@@@@QAEABV0@ABV0@@Z",
+   "source": "ledger",
+   "target": "0x004424D0",
+   "retail": "0xAF1A1942"
+  },
+  {
+   "offset": 1902,
+   "type": 6,
+   "symbol": "?_PresetAdditiveSpriteShader@ShaderClass@@2V1@A",
+   "source": "pin",
+   "target": "0x00DB624C",
+   "retail": "0x4D8D0000"
+  },
+  {
+   "offset": 1917,
+   "type": 20,
+   "symbol": "?Make001FCBD7@@YAPAVParticleSystem@@XZ",
+   "source": "ledger",
+   "target": "0x005FCBD7",
+   "retail": "0x62E2AB59"
+  },
+  {
+   "offset": 1972,
+   "type": 6,
+   "symbol": "?_PresetAlphaSpriteShader@ShaderClass@@2V1@A",
+   "source": "pin",
+   "target": "0x00DB6254",
+   "retail": "0x80A11AEB"
+  }
+ ],
+ "ms": 119.8,
+ "rebuilt_size": 2097
+}

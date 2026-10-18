@@ -1,0 +1,89 @@
+{
+ "name": "?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z",
+ "rva": "0x004DCC84",
+ "size": 461,
+ "source": "reverse/attempts/0x004dcc84.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 19,
+  "pin": 1,
+  "copied": 3,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 114,
+   "type": 20,
+   "symbol": "?rva0029439D@Object@@QAEPAXXZ",
+   "source": "ledger",
+   "target": "0x0069439D",
+   "retail": "0x868DA870"
+  },
+  {
+   "offset": 147,
+   "type": 20,
+   "symbol": "?doFXObj@FXList@@SAXPBV1@PBVObject@@1@Z",
+   "source": "ledger",
+   "target": "0x004B2235",
+   "retail": "0x848D8A70"
+  },
+  {
+   "offset": 195,
+   "type": 20,
+   "symbol": "?SetEmotionState@AIUpdateInterface@@MAEXHPAVObject@@@Z",
+   "source": "ledger",
+   "target": "0x0066320D",
+   "retail": "0x8C8DA5AF"
+  },
+  {
+   "offset": 221,
+   "type": 20,
+   "symbol": "?rva0029439D@Object@@QAEPAXXZ",
+   "source": "ledger",
+   "target": "0x0069439D",
+   "retail": "0x868DA8DB"
+  },
+  {
+   "offset": 245,
+   "type": 20,
+   "symbol": "?clearAndSetModelConditionFlagsForHorde@Object@@QAEXPBH0@Z",
+   "source": "ledger",
+   "target": "0x00693C77",
+   "retail": "0xEC8DA8EB"
+  },
+  {
+   "offset": 258,
+   "type": 20,
+   "symbol": "?rva0028CFB2@Object@@QAEXPBH0@Z",
+   "source": "ledger",
+   "target": "0x0068CFB2",
+   "retail": "0x868DA88C"
+  },
+  {
+   "offset": 269,
+   "type": 20,
+   "symbol": "?isSignificantlyAboveTerrain@Object@@QBE_NXZ",
+   "source": "ledger",
+   "target": "0x0070ADDC",
+   "retail": "0x858DB075"
+  },
+  {
+   "offset": 299,
+   "type": 20,
+   "symbol": "?rva0028AE6D@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068AE6D",
+   "retail": "0x8C8DA893"
+  }
+ ],
+ "ms": 168.1,
+ "rebuilt_size": 462
+}

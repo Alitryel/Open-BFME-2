@@ -1,0 +1,24 @@
+{
+ "name": "?defineUnitsNormal_old@AITeamBuilder@@QAE_NPAVTeamPrototype@@@Z",
+ "rva": "0x0059A2BE",
+ "size": 335,
+ "source": "reverse/attempts/0x0059a2be.cpp",
+ "sites": {
+  "content": 1,
+  "ledger": 12,
+  "data-ledger": 1,
+  "pin": 4,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 170.8,
+ "rebuilt_size": 335
+}

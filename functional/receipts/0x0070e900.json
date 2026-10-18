@@ -1,0 +1,90 @@
+{
+ "name": "?rva0070E900@Rva0070E900@@QAEXPAX00@Z",
+ "rva": "0x0070E900",
+ "size": 1208,
+ "source": "reverse/attempts/0x0070e900.cpp",
+ "sites": {
+  "absolute": 3,
+  "content": 13,
+  "copied": 23,
+  "ledger": 14,
+  "self": 4,
+  "content-mismatch": 10
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 11594053, 'Unhandled CPU excep",
+  "('fault', 11594053, 'Unhandled CPU excep",
+  "('fault', 11594053, 'Unhandled CPU excep"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 373,
+   "type": 6,
+   "symbol": "$L693",
+   "source": "self",
+   "target": "0x00B0EDA0",
+   "retail": "0x9524FF00"
+  },
+  {
+   "offset": 392,
+   "type": 6,
+   "symbol": "??_C@_0EH@BAKMLHHF@C?3?2projects?2bfme2patch103?2bfme2?2@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xCEF77868"
+  },
+  {
+   "offset": 397,
+   "type": 6,
+   "symbol": "??_C@_0EL@ILIKKLOE@?$CIunsigned?$CJaFrames?$FLi?$FN?4apControls?$FL@",
+   "source": "content-mismatch",
+   "target": "0x0E401000",
+   "retail": "0xCEF6A868"
+  },
+  {
+   "offset": 475,
+   "type": 20,
+   "symbol": "?Rva006FD060Forward@@YAXPAX000@Z",
+   "source": "ledger",
+   "target": "0x00AFD060",
+   "retail": "0xFF966BC7"
+  },
+  {
+   "offset": 499,
+   "type": 6,
+   "symbol": "??_C@_0EH@BAKMLHHF@C?3?2projects?2bfme2patch103?2bfme2?2@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xCEF77868"
+  },
+  {
+   "offset": 504,
+   "type": 6,
+   "symbol": "??_C@_0EP@GAKADENC@?$CIunsigned?$CJaFrames?$FLi?$FN?4apControls?$FL@",
+   "source": "content-mismatch",
+   "target": "0x0E402000",
+   "retail": "0xCEF65868"
+  },
+  {
+   "offset": 582,
+   "type": 20,
+   "symbol": "?Rva006FD060Forward@@YAXPAX000@Z",
+   "source": "ledger",
+   "target": "0x00AFD060",
+   "retail": "0xFF960132"
+  },
+  {
+   "offset": 606,
+   "type": 6,
+   "symbol": "??_C@_0EH@BAKMLHHF@C?3?2projects?2bfme2patch103?2bfme2?2@",
+   "source": "content-mismatch",
+   "target": "0x0E400000",
+   "retail": "0xCEF77868"
+  }
+ ],
+ "ms": 63.4,
+ "rebuilt_size": 1216
+}

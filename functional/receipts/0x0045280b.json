@@ -1,0 +1,91 @@
+{
+ "name": "?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ",
+ "rva": "0x0045280B",
+ "size": 1342,
+ "source": "reverse/attempts/0x0045280b.cpp",
+ "sites": {
+  "content": 5,
+  "ledger": 29,
+  "data-ledger": 1,
+  "import-thunk": 2,
+  "pin": 6,
+  "copied": 5,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 189,
+   "type": 20,
+   "symbol": "??0?$_List_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVObject@@@1@@Z",
+   "source": "ledger",
+   "target": "0x008EC36C",
+   "retail": "0x005EB984"
+  },
+  {
+   "offset": 222,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 335,
+   "type": 20,
+   "symbol": "?clear@?$_List_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0063DAA5",
+   "retail": "0x005EB130"
+  },
+  {
+   "offset": 349,
+   "type": 20,
+   "symbol": "??1?$_List_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x008EC395",
+   "retail": "0x005EB769"
+  },
+  {
+   "offset": 419,
+   "type": 20,
+   "symbol": "??0?$_List_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVObject@@@1@@Z",
+   "source": "ledger",
+   "target": "0x008EC36C",
+   "retail": "0x005EB984"
+  },
+  {
+   "offset": 512,
+   "type": 20,
+   "symbol": "??1?$_List_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ",
+   "source": "ledger",
+   "target": "0x008EC395",
+   "retail": "0x005EB769"
+  },
+  {
+   "offset": 843,
+   "type": 20,
+   "symbol": "_memset",
+   "source": "import-thunk",
+   "target": "0x0E101A90",
+   "retail": "0x00A291AE"
+  },
+  {
+   "offset": 1229,
+   "type": 20,
+   "symbol": "?updateShroudNow@Object@@QAEXXZ",
+   "source": "ledger",
+   "target": "0x0068C11A",
+   "retail": "0x0086855F"
+  }
+ ],
+ "ms": 131.4,
+ "rebuilt_size": 1347
+}

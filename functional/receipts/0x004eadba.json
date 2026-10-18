@@ -1,0 +1,16 @@
+{
+ "name": "?distanceSq@Polyline@@UBEMPBUCoord2D@@@Z",
+ "rva": "0x004EADBA",
+ "size": 227,
+ "source": "reverse/attempts/0x004eadba.cpp",
+ "sites": {
+  "content": 2,
+  "copied-unmatched-body": 1
+ },
+ "bytes_equal": true,
+ "verdict": "none",
+ "reason": "identical after linker resolution",
+ "divergent_sites": [],
+ "ms": 0.0,
+ "rebuilt_size": 227
+}

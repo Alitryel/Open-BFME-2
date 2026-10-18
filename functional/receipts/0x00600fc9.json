@@ -1,0 +1,25 @@
+{
+ "name": "?getFileListInDirectory@FileSystem@@QBEXABVAsciiString@@0AAV?$set@VAsciiString@@UBfmeStringNoCaseLess@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z",
+ "rva": "0x00600FC9",
+ "size": 676,
+ "source": "reverse/attempts/0x00600fc9.cpp",
+ "sites": {
+  "content": 4,
+  "ledger": 17,
+  "copied": 11,
+  "import": 1,
+  "data-ledger": 11,
+  "absolute": 1
+ },
+ "bytes_equal": false,
+ "ends": [
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')",
+  "('fault', 'stack', 'addr:0x00000000')"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 175.2,
+ "rebuilt_size": 676
+}

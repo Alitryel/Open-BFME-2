@@ -1,0 +1,88 @@
+{
+ "name": "?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z",
+ "rva": "0x005881DB",
+ "size": 2199,
+ "source": "reverse/attempts/0x005881db.cpp",
+ "sites": {
+  "ledger": 29,
+  "content-mismatch": 10,
+  "copied": 1,
+  "pin": 7
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [
+  {
+   "offset": 184,
+   "type": 20,
+   "symbol": "?rva0046ACF6@Rva0046ACF6@@QAEHH@Z",
+   "source": "ledger",
+   "target": "0x0086ACF6",
+   "retail": "0x5D8086E5"
+  },
+  {
+   "offset": 265,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0x4C815273"
+  },
+  {
+   "offset": 278,
+   "type": 20,
+   "symbol": "?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z",
+   "source": "ledger",
+   "target": "0x0044E536",
+   "retail": "0x3F815280"
+  },
+  {
+   "offset": 310,
+   "type": 20,
+   "symbol": "?aiIdle@AICommandInterface@@QAEXW4CommandSourceType@@@Z",
+   "source": "ledger",
+   "target": "0x005E8A38",
+   "retail": "0x2180A3D6"
+  },
+  {
+   "offset": 366,
+   "type": 20,
+   "symbol": "?rva002C97E8@Object@@QBEMPBUCoord3D@@0@Z",
+   "source": "ledger",
+   "target": "0x006C97E8",
+   "retail": "0x998152D8"
+  },
+  {
+   "offset": 427,
+   "type": 20,
+   "symbol": "??$sort@PAURva00588195Elem@@@_STL@@YAXPAURva00588195Elem@@0@Z",
+   "source": "ledger",
+   "target": "0x00988195",
+   "retail": "0x0980D489"
+  },
+  {
+   "offset": 488,
+   "type": 20,
+   "symbol": "?Rva0058723D@@YAPAVObject@@PAV1@0@Z",
+   "source": "ledger",
+   "target": "0x0098723D",
+   "retail": "0x7480D844"
+  },
+  {
+   "offset": 530,
+   "type": 20,
+   "symbol": "?rva001E42F2@Rva001E42F2@@QAEXPBH@Z",
+   "source": "ledger",
+   "target": "0x005E42F2",
+   "retail": "0xFF81537C"
+  }
+ ],
+ "ms": 26.5,
+ "rebuilt_size": 2196
+}

@@ -1,0 +1,24 @@
+{
+ "name": "?Update_Obj_Space_Bounding_Volumes@HLodClass@@MAEXXZ",
+ "rva": "0x0019DB50",
+ "size": 2501,
+ "source": "reverse/attempts/0x0019db50.cpp",
+ "sites": {
+  "import": 1,
+  "content": 9,
+  "copied": 1,
+  "pin": 1,
+  "ledger": 3
+ },
+ "bytes_equal": false,
+ "ends": [
+  "return",
+  "return",
+  "return"
+ ],
+ "verdict": "regalloc-only",
+ "reason": "",
+ "divergent_sites": [],
+ "ms": 52.4,
+ "rebuilt_size": 2501
+}
