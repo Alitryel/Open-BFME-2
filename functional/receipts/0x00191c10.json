@@ -1,0 +1,40 @@
+{
+ "name": "?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z",
+ "rva": "0x00191C10",
+ "size": 16018,
+ "extent": 16018,
+ "source": "reverse/attempts/0x00191c10.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 99,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 119,
+ "verdict": "regalloc-only",
+ "coverage": 0.474,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v13: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: v14",
+  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 5,
+ "prefix_vectors": 11,
+ "reason": "zeros",
+ "ms": 24466.1,
+ "rebuilt_size": 15940
+}

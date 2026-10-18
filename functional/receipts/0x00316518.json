@@ -2,91 +2,33 @@
  "name": "?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z",
  "rva": "0x00316518",
  "size": 1722,
+ "extent": 1724,
  "source": "reverse/attempts/0x00316518.cpp",
- "sites": {
-  "content": 6,
-  "ledger": 46,
-  "pin": 9,
-  "copied": 46,
-  "content-mismatch": 8,
-  "import": 1,
-  "import-thunk": 6,
-  "absolute": 1
+ "vectors": 12,
+ "bindings": {
+  "aligned": 54,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
- ],
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 41,
-   "type": 20,
-   "symbol": "_strcmp",
-   "source": "pin",
-   "target": "0x00A291C6",
-   "retail": "0x85719671"
-  },
-  {
-   "offset": 86,
-   "type": 6,
-   "symbol": "??_C@_0O@ODJJCOPK@COMMANDBUTTON?$AA@",
-   "source": "content-mismatch",
-   "target": "0x0E400000",
-   "retail": "0xFF00C0C2"
-  },
-  {
-   "offset": 94,
-   "type": 20,
-   "symbol": "_strcmp",
-   "source": "pin",
-   "target": "0x00A291C6",
-   "retail": "0x857196A6"
-  },
-  {
-   "offset": 139,
-   "type": 6,
-   "symbol": "??_C@_0M@EFGGFNHH@RADIOBUTTON?$AA@",
-   "source": "content-mismatch",
-   "target": "0x0E401000",
-   "retail": "0xFF00C0C0"
-  },
-  {
-   "offset": 147,
-   "type": 20,
-   "symbol": "_strcmp",
-   "source": "pin",
-   "target": "0x00A291C6",
-   "retail": "0x857196DB"
-  },
-  {
-   "offset": 181,
-   "type": 6,
-   "symbol": "??_C@_00CNPNBAHC@?$AA@",
-   "source": "content-mismatch",
-   "target": "0x0E402000",
-   "retail": "0x5000BBAC"
-  },
-  {
-   "offset": 191,
-   "type": 20,
-   "symbol": "__mbscpy",
-   "source": "pin",
-   "target": "0x00A29176",
-   "retail": "0x8D719706"
-  },
-  {
-   "offset": 203,
-   "type": 6,
-   "symbol": "__imp__strchr",
-   "source": "import",
-   "target": "0x00BBA618",
-   "retail": "0x8300BBA6"
-  }
+ "coverage": 0.167,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11"
  ],
- "ms": 123.5,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 12,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 350.1,
  "rebuilt_size": 1724
 }

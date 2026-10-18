@@ -2,33 +2,33 @@
  "name": "?InitTheGame@AptSkirmish@@QAE_NXZ",
  "rva": "0x00521EDA",
  "size": 868,
+ "extent": 868,
  "source": "reverse/attempts/0x00521eda.cpp",
- "sites": {
-  "content": 3,
-  "ledger": 42,
-  "copied": 29,
-  "import-thunk": 1,
-  "import": 1,
-  "absolute": 1
+ "vectors": 12,
+ "bindings": {
+  "aligned": 29,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
- ],
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 666,
-   "type": 20,
-   "symbol": "_memcpy",
-   "source": "import-thunk",
-   "target": "0x0E101AA0",
-   "retail": "0x00A291A8"
-  }
+ "coverage": 0.411,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11"
  ],
- "ms": 155.9,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 12,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 537.6,
  "rebuilt_size": 868
 }

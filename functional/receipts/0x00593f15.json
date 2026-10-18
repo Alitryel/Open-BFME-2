@@ -1,0 +1,34 @@
+{
+ "name": "?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ",
+ "rva": "0x00593F15",
+ "size": 1475,
+ "extent": 1475,
+ "source": "reverse/attempts/0x00593f15.cpp",
+ "vectors": 12,
+ "bindings": {
+  "aligned": 0,
+  "weak_left": 0
+ },
+ "verdict": "regalloc-only",
+ "coverage": 0.138,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "prefix-equal: ints: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v3: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v4: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: v5",
+  "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: v7",
+  "prefix-equal: v8: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v9: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v10: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v11: limit cut (retail instructions and rebuilt instructions): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 4,
+ "prefix_vectors": 8,
+ "reason": "objects",
+ "ms": 17479.6,
+ "rebuilt_size": 1475
+}

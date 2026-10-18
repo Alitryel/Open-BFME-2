@@ -2,24 +2,39 @@
  "name": "?gatherDebugStats@W3DDisplay@@UAEXXZ",
  "rva": "0x0004826C",
  "size": 4101,
+ "extent": 4101,
  "source": "reverse/attempts/0x0004826c.cpp",
- "sites": {
-  "content": 74,
-  "ledger": 154,
-  "copied": 66,
-  "pin": 2,
-  "data-ledger": 1,
-  "absolute": 1
+ "vectors": 16,
+ "bindings": {
+  "aligned": 66,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
- ],
+ "isomorphic": true,
+ "iso_delta": 0,
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [],
- "ms": 113.9,
+ "coverage": 0.695,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 16,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 640.9,
  "rebuilt_size": 4101
 }

@@ -2,91 +2,33 @@
  "name": "?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z",
  "rva": "0x006EFBC0",
  "size": 5936,
+ "extent": 5936,
  "source": "reverse/attempts/0x006efbc0.cpp",
- "sites": {
-  "absolute": 60,
-  "content": 3,
-  "pin": 23,
-  "copied": 169,
-  "ledger": 208,
-  "self": 36,
-  "content-mismatch": 10,
-  "data-ledger": 1
+ "vectors": 12,
+ "bindings": {
+  "aligned": 174,
+  "weak_left": 5
  },
- "bytes_equal": false,
- "ends": [
-  "return",
-  "return",
-  "return"
- ],
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 175,
-   "type": 6,
-   "symbol": "$L1738",
-   "source": "ledger",
-   "target": "0x00BA275B",
-   "retail": "0x00AF1140"
-  },
-  {
-   "offset": 197,
-   "type": 6,
-   "symbol": "$L1739",
-   "source": "self",
-   "target": "0x00AF1180",
-   "retail": "0x00AF1194"
-  },
-  {
-   "offset": 468,
-   "type": 20,
-   "symbol": "?c_cih@AptValue@@QAEPAVAptCIH@@_N@Z",
-   "source": "pin",
-   "target": "0x00ADCF60",
-   "retail": "0x8A131DBC"
-  },
-  {
-   "offset": 481,
-   "type": 20,
-   "symbol": "?c_cih@AptValue@@QAEPAVAptCIH@@_N@Z",
-   "source": "pin",
-   "target": "0x00ADCF60",
-   "retail": "0x051B449B"
-  },
-  {
-   "offset": 488,
-   "type": 20,
-   "symbol": "?call@Rva006E1260@@QAEXPAX@Z",
-   "source": "ledger",
-   "target": "0x00AE1260",
-   "retail": "0xE97E88AC"
-  },
-  {
-   "offset": 497,
-   "type": 20,
-   "symbol": "?Create@AptInteger@@SAPAVAptValue@@H@Z",
-   "source": "ledger",
-   "target": "0x00AD8520",
-   "retail": "0x6B0045FD"
-  },
-  {
-   "offset": 515,
-   "type": 6,
-   "symbol": "__except_list",
-   "source": "absolute",
-   "target": "0x00000000",
-   "retail": "0x28568BFF"
-  },
-  {
-   "offset": 538,
-   "type": 20,
-   "symbol": "?Create@AptBoolean@@SAPAVAptValue@@_N@Z",
-   "source": "ledger",
-   "target": "0x00AD88C0",
-   "retail": "0x00AEFDEB"
-  }
+ "coverage": 0.031,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11"
  ],
- "ms": 61.1,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 12,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 475.8,
  "rebuilt_size": 5915
 }

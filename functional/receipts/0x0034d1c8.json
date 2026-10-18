@@ -2,22 +2,33 @@
  "name": "?onEnter@AIAttackMeleeHordeApproachTargetState@@UAE?AW4StateReturnType@@XZ",
  "rva": "0x0034D1C8",
  "size": 381,
+ "extent": 381,
  "source": "reverse/attempts/0x0034d1c8.cpp",
- "sites": {
-  "ledger": 11,
-  "pin": 5,
-  "copied": 3,
-  "content": 3
+ "vectors": 12,
+ "bindings": {
+  "aligned": 3,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "return",
-  "return",
-  "return"
- ],
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [],
- "ms": 36.3,
+ "coverage": 0.236,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 12,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 286.8,
  "rebuilt_size": 381
 }

@@ -1,0 +1,40 @@
+{
+ "name": "?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z",
+ "rva": "0x00364AA2",
+ "size": 2029,
+ "extent": 2033,
+ "source": "reverse/attempts/0x00364aa2.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 11,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 6,
+ "verdict": "regalloc-only",
+ "coverage": 0.262,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 16,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 685.1,
+ "rebuilt_size": 2033
+}

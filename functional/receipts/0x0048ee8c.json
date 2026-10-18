@@ -2,86 +2,71 @@
  "name": "?update@DeployStyleAIUpdate@@UAE?AW4UpdateSleepTime@@XZ",
  "rva": "0x0048EE8C",
  "size": 1228,
+ "extent": 1230,
  "source": "reverse/attempts/0x0048ee8c.cpp",
- "sites": {
-  "ledger": 29,
-  "copied": 1,
-  "pin": 3
+ "vectors": 48,
+ "bindings": {
+  "aligned": 1,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "return",
-  "return",
-  "return"
- ],
+ "isomorphic": false,
+ "iso_delta": 31,
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 476,
-   "type": 20,
-   "symbol": "?isMoving@AIUpdateInterface@@QBE_NXZ",
-   "source": "ledger",
-   "target": "0x00664688",
-   "retail": "0x56A3D95C"
-  },
-  {
-   "offset": 566,
-   "type": 6,
-   "symbol": "?TheGameLogic@@3PAVGameLogic@@A",
-   "source": "pin",
-   "target": "0x00DFE78C",
-   "retail": "0x8B00DFE7"
-  },
-  {
-   "offset": 618,
-   "type": 20,
-   "symbol": "?getWhichTurretForCurWeapon@AIUpdateInterface@@QBE?AW4WhichTurretType@@XZ",
-   "source": "ledger",
-   "target": "0x0066275E",
-   "retail": "0xF90CF0D7"
-  },
-  {
-   "offset": 635,
-   "type": 20,
-   "symbol": "?isTurretInNaturalPosition@AIUpdateInterface@@QBE_NW4WhichTurretType@@@Z",
-   "source": "ledger",
-   "target": "0x0066269C",
-   "retail": "0xC10DF0E8"
-  },
-  {
-   "offset": 651,
-   "type": 20,
-   "symbol": "?rva0048EB53@DeployStyleAIUpdate@@QAEXW4DeployStateTypes@@@Z",
-   "source": "ledger",
-   "target": "0x0088EB53",
-   "retail": "0xEA88F115"
-  },
-  {
-   "offset": 749,
-   "type": 20,
-   "symbol": "?getWhichTurretForCurWeapon@AIUpdateInterface@@QBE?AW4WhichTurretType@@XZ",
-   "source": "ledger",
-   "target": "0x0066275E",
-   "retail": "0x0081757C"
-  },
-  {
-   "offset": 775,
-   "type": 20,
-   "symbol": "?rva0048EB53@DeployStyleAIUpdate@@QAEXW4DeployStateTypes@@@Z",
-   "source": "ledger",
-   "target": "0x0088EB53",
-   "retail": "0x8F13F196"
-  },
-  {
-   "offset": 880,
-   "type": 20,
-   "symbol": "?reset@DeployStyleAIUpdate@@QAEXXZ",
-   "source": "ledger",
-   "target": "0x0088E65B",
-   "retail": "0x0672F1FF"
-  }
+ "coverage": 0.622,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15",
+  "regalloc-only: v16",
+  "regalloc-only: v17",
+  "regalloc-only: v18",
+  "regalloc-only: v19",
+  "regalloc-only: v20",
+  "regalloc-only: v21",
+  "regalloc-only: v22",
+  "regalloc-only: v23",
+  "regalloc-only: v24",
+  "regalloc-only: v25",
+  "regalloc-only: v26",
+  "regalloc-only: v27",
+  "regalloc-only: v28",
+  "regalloc-only: v29",
+  "regalloc-only: v30",
+  "regalloc-only: v31",
+  "regalloc-only: v32",
+  "regalloc-only: v33",
+  "regalloc-only: v34",
+  "regalloc-only: v35",
+  "regalloc-only: v36",
+  "regalloc-only: v37",
+  "regalloc-only: v38",
+  "regalloc-only: v39",
+  "regalloc-only: v40",
+  "regalloc-only: v41",
+  "regalloc-only: v42",
+  "regalloc-only: v43",
+  "regalloc-only: v44",
+  "regalloc-only: v45",
+  "regalloc-only: v46",
+  "regalloc-only: v47"
  ],
- "ms": 24.7,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 48,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 1102.2,
  "rebuilt_size": 1230
 }

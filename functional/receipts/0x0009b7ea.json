@@ -2,20 +2,33 @@
  "name": "?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z",
  "rva": "0x0009B7EA",
  "size": 698,
+ "extent": 698,
  "source": "reverse/attempts/0x0009b7ea.cpp",
- "sites": {
-  "ledger": 5,
-  "content": 4
+ "vectors": 12,
+ "bindings": {
+  "aligned": 0,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "return",
-  "return",
-  "return"
- ],
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [],
- "ms": 88.1,
+ "coverage": 1.0,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 12,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 365.0,
  "rebuilt_size": 698
 }

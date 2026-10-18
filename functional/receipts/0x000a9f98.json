@@ -1,0 +1,34 @@
+{
+ "name": "?render@AptShapeContainer@@QAEXXZ",
+ "rva": "0x000A9F98",
+ "size": 1471,
+ "extent": 1471,
+ "source": "reverse/attempts/0x000a9f98.cpp",
+ "vectors": 12,
+ "bindings": {
+  "aligned": 3,
+  "weak_left": 0
+ },
+ "verdict": "regalloc-only",
+ "coverage": 0.667,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "prefix-equal: ints: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v3",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v5",
+  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v8",
+  "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 5,
+ "prefix_vectors": 7,
+ "reason": "objects",
+ "ms": 9023.1,
+ "rebuilt_size": 1471
+}

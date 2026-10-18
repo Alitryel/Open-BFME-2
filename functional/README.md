@@ -55,7 +55,24 @@ A row passes with verdict:
 
 ## Workstreams (in priority order)
 
-**F0 — verifier hardening** (before trusting large numbers)
+**F0 — verifier hardening** — DONE (first round), `functional/tools/fn_exec.py`:
+- 128/48/16 input vectors by body size (diffexec: 3), seeded rich heaps (pointers, small ints,
+  random words, normal-range floats), float bit patterns in arguments, stub return values varied
+  per vector; run caps 3M instructions / 50k events; vectors cut at the cap on both sides with an
+  identical prefix count as `prefix-equal` (never as complete).
+- Leaf callees (matched rows ≤ 512 B without calls/out-jumps) execute for real on both sides:
+  "retail inlined X, we call X" no longer reads as `binding`.
+- Aligned binding: globals, float constants and TU-local helpers that no ledger names are bound to
+  the address retail uses at the aligned instruction (SegLine: 99 sites, 0 left unbound).
+- Coverage receipt (share of retail's body the vectors executed) and a static isomorphism check
+  (same operations up to registers, stack slots, jump targets and moves).
+- Mutation test (`fn_verify.py --mutate N`): 25 passing rows × 7 operators, 71 mutants compiled.
+  Dynamic check alone caught 34/71 (48%), 20/29 (69%) on rows with ≥ 50% coverage — not enough.
+  Dynamic + static isomorphism caught all 71. **Counting rule since then: dynamic pass AND static
+  isomorphism, or a `tested` harness.** Non-isomorphic dynamic passes (restructured bodies like
+  SegLine's) are shown as PROBABLE and need a dedicated harness or review.
+
+Still open in F0:
 1. Inlining-aware call comparison: run a callee that is a matched ledger row *for real*
    (its retail bytes) instead of stubbing it, so "retail inlined X, we call X" stops reading
    as `binding` (first seen on SegLine: `WWMath::Inv_Sqrt`).

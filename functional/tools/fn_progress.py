@@ -45,6 +45,23 @@ import progress  # noqa: E402
 
 LEDGER = ROOT / "functional" / "ledger.csv"
 PASS = {"none", "regalloc-only", "tested"}
+COVERAGE_MIN = 0.5      # a pass counts in the headline only when the vectors executed >= half of retail's body
+
+
+def strong(row):
+    """Counted: a dedicated harness (`tested`), or the dynamic pass PLUS static isomorphism (same
+    operations up to registers, stack slots and jump targets). F0's mutation test: the dynamic
+    check alone caught ~70% of mutants on well-covered rows; with isomorphism, all of them."""
+    if row["verdict"] == "tested":
+        return True
+    return row["verdict"] in PASS and row.get("isomorphic") == "True"
+
+
+def probable(row):
+    try:
+        return row["verdict"] in PASS and float(row.get("coverage") or 0) >= COVERAGE_MIN
+    except ValueError:
+        return False
 
 
 def functional_rows():
@@ -96,19 +113,24 @@ def main():
         s, e = max(int(rva, 16), text_start), min(int(rva, 16) + size, text_end)
         if s < e:
             exact.append((s, e))
-    passed, claimed = [], []
+    passed, weak, claimed, probable_iv = [], [], [], []
     for row in functional_rows():
         s = int(row["target_rva"], 16)
         iv = (max(s, text_start), min(s + int(row["target_size"]), text_end))
-        (passed if row["verdict"] in PASS else claimed).append(iv)
+        if row["verdict"] in PASS:
+            (passed if strong(row) else weak if not probable(row) else probable_iv).append(iv)
+        else:
+            claimed.append(iv)
 
     exact_b = real_bytes(exact, image_start, image)
     behaviour_b = real_bytes(exact + passed, image_start, image)
-    claimed_b = real_bytes(exact + passed + claimed, image_start, image) - behaviour_b
+    prob_b = real_bytes(exact + passed + probable_iv, image_start, image) - behaviour_b
+    weak_b = real_bytes(exact + passed + probable_iv + weak, image_start, image) - behaviour_b - prob_b
+    claimed_b = real_bytes(exact + passed + probable_iv + weak + claimed, image_start, image) - behaviour_b - prob_b - weak_b
     fn_link, master_link, matched_total = functional_linking()
 
     fig = dict(denominator=denominator, behaviour_verified=behaviour_b, byte_exact=exact_b,
-               functional_only=behaviour_b - exact_b, claimed=claimed_b,
+               functional_only=behaviour_b - exact_b, probable=prob_b, weak=weak_b, weak_rows=len(weak), claimed=claimed_b,
                functional_rows=len(passed), claimed_rows=len(claimed),
                functional_linking=fn_link, master_linking=master_link, matched_total=matched_total)
     if a.json:
@@ -120,7 +142,11 @@ def main():
     print(f"  BYTE-EXACT        {exact_b:>10,} bytes ({pct(exact_b, denominator):6.2f}%)"
           f"  <- master's ledger")
     print(f"  FUNCTIONAL-ONLY   {behaviour_b - exact_b:>10,} bytes ({pct(behaviour_b - exact_b, denominator):6.2f}%)"
-          f"  <- {len(passed)} row(s) in functional/ledger.csv with a passing verdict")
+          f"  <- {len(passed)} row(s): dynamic pass + static isomorphism, or a tested harness")
+    print(f"  PROBABLE          {prob_b:>10,} bytes ({pct(prob_b, denominator):6.2f}%)"
+          f"  <- {len(probable_iv)} dynamic pass(es), coverage >= {COVERAGE_MIN:.0%}, not isomorphic (needs a harness or review; not counted)")
+    print(f"  WEAK PASS         {weak_b:>10,} bytes ({pct(weak_b, denominator):6.2f}%)"
+          f"  <- {len(weak)} passing row(s) with retail coverage < {COVERAGE_MIN:.0%} (not counted)")
     print(f"  CLAIMED           {claimed_b:>10,} bytes ({pct(claimed_b, denominator):6.2f}%)"
           f"  <- {len(claimed)} row(s) without a passing verdict (not counted)")
     print(f"  remaining         {denominator - behaviour_b:>10,} bytes ({pct(denominator - behaviour_b, denominator):6.2f}%)")

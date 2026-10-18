@@ -2,92 +2,39 @@
  "name": "?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ",
  "rva": "0x0007C8AE",
  "size": 4176,
+ "extent": 4176,
  "source": "reverse/attempts/0x0007c8ae.cpp",
- "sites": {
-  "content": 5,
-  "ledger": 26,
-  "copied": 4,
-  "import": 1,
-  "data-ledger": 4,
-  "pin-unmatched-body": 2,
-  "content-mismatch": 9,
-  "pin": 8,
-  "absolute": 1
+ "vectors": 16,
+ "bindings": {
+  "aligned": 13,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
- ],
+ "isomorphic": false,
+ "iso_delta": 29,
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 1231,
-   "type": 20,
-   "symbol": "?Set_Clip_Planes@CameraClass@@QAEXMM@Z",
-   "source": "ledger",
-   "target": "0x00533D00",
-   "retail": "0x00464A06"
-  },
-  {
-   "offset": 1443,
-   "type": 20,
-   "symbol": "??0?$_Vector_base@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmeE8@@@1@@Z",
-   "source": "pin-unmatched-body",
-   "target": "0x00611E58",
-   "retail": "0xFEBC6BE2"
-  },
-  {
-   "offset": 1487,
-   "type": 20,
-   "symbol": "?push_back@?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAEXABUBfmeE8@@@Z",
-   "source": "ledger",
-   "target": "0x00939A2E",
-   "retail": "0x45D5A6F6"
-  },
-  {
-   "offset": 1508,
-   "type": 20,
-   "symbol": "??0?$_Vector_base@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmeE8@@@1@@Z",
-   "source": "pin-unmatched-body",
-   "target": "0x00611E58",
-   "retail": "0x8D98CF51"
-  },
-  {
-   "offset": 1514,
-   "type": 6,
-   "symbol": "__real@38d1b717",
-   "source": "content-mismatch",
-   "target": "0x0E400000",
-   "retail": "0xD9FFFFFE"
-  },
-  {
-   "offset": 1541,
-   "type": 20,
-   "symbol": "?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z",
-   "source": "ledger",
-   "target": "0x0047C637",
-   "retail": "0xB5D3CEB6"
-  },
-  {
-   "offset": 1584,
-   "type": 20,
-   "symbol": "??0?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAE@IABUCoord3D@@ABV?$allocator@UCoord3D@@@1@@Z",
-   "source": "ledger",
-   "target": "0x0047C2AC",
-   "retail": "0x034414A8"
-  },
-  {
-   "offset": 1873,
-   "type": 20,
-   "symbol": "??0?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAE@IABUCoord3D@@ABV?$allocator@UCoord3D@@@1@@Z",
-   "source": "ledger",
-   "target": "0x0047C2AC",
-   "retail": "0xFF805590"
-  }
+ "coverage": 0.011,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
  ],
- "ms": 166.7,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 16,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 588.2,
  "rebuilt_size": 4173
 }

@@ -2,90 +2,39 @@
  "name": "?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z",
  "rva": "0x0041D60B",
  "size": 3709,
+ "extent": 3709,
  "source": "reverse/attempts/0x0041d60b.cpp",
- "sites": {
-  "content": 13,
-  "ledger": 81,
-  "pin": 4,
-  "copied": 43,
-  "absolute": 1,
-  "self": 7,
-  "content-mismatch": 9
+ "vectors": 16,
+ "bindings": {
+  "aligned": 52,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
- ],
+ "isomorphic": false,
+ "iso_delta": 29,
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 1826,
-   "type": 20,
-   "symbol": "??0Rva0004584D@@QAE@ABVBfmeFixedStorage0004543D@@0@Z",
-   "source": "ledger",
-   "target": "0x0044584D",
-   "retail": "0xDCDF6730"
-  },
-  {
-   "offset": 1836,
-   "type": 6,
-   "symbol": "??_7Rva0026119DFilter@@6B@",
-   "source": "content-mismatch",
-   "target": "0x0E400000",
-   "retail": "0x4D8D5300"
-  },
-  {
-   "offset": 1854,
-   "type": 20,
-   "symbol": "?link@Rva000421C8@@QAEPAV1@PAV1@@Z",
-   "source": "pin",
-   "target": "0x00A25790",
-   "retail": "0xE94A684D"
-  },
-  {
-   "offset": 1861,
-   "type": 20,
-   "symbol": "?link@Rva000421C8@@QAEPAV1@PAV1@@Z",
-   "source": "pin",
-   "target": "0x00A25790",
-   "retail": "0x2A91D054"
-  },
-  {
-   "offset": 1890,
-   "type": 20,
-   "symbol": "?iterateObjectsInRange@PartitionManager@@QAE?AUBfmeWideResult@@PBUCoord3D@@MHPAVRva000421C8@@H@Z",
-   "source": "ledger",
-   "target": "0x00A25610",
-   "retail": "0x27629571"
-  },
-  {
-   "offset": 1895,
-   "type": 6,
-   "symbol": "??_7Rva000421C8@@6B@",
-   "source": "content-mismatch",
-   "target": "0x0E401000",
-   "retail": "0xD8458900"
-  },
-  {
-   "offset": 1928,
-   "type": 6,
-   "symbol": "__real@00000000",
-   "source": "content-mismatch",
-   "target": "0x0E402000",
-   "retail": "0xF30D7200"
-  },
-  {
-   "offset": 1938,
-   "type": 6,
-   "symbol": "__real@42c60000",
-   "source": "content-mismatch",
-   "target": "0x0E403000",
-   "retail": "0xC82F0F00"
-  }
+ "coverage": 0.044,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
  ],
- "ms": 131.0,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 16,
+ "prefix_vectors": 0,
+ "reason": "objects",
+ "ms": 1014.7,
  "rebuilt_size": 3709
 }

@@ -1,0 +1,40 @@
+{
+ "name": "?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z",
+ "rva": "0x00177F82",
+ "size": 3781,
+ "extent": 3781,
+ "source": "reverse/attempts/0x00177f82.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 125,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 34,
+ "verdict": "regalloc-only",
+ "coverage": 0.836,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: zeros: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: ints: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v7",
+  "prefix-equal: v8: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 5,
+ "prefix_vectors": 11,
+ "reason": "v7",
+ "ms": 45524.7,
+ "rebuilt_size": 3781
+}

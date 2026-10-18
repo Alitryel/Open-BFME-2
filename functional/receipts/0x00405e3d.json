@@ -1,0 +1,40 @@
+{
+ "name": "?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ",
+ "rva": "0x00405E3D",
+ "size": 3287,
+ "extent": 3292,
+ "source": "reverse/attempts/0x00405e3d.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 62,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 4,
+ "verdict": "regalloc-only",
+ "coverage": 0.368,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 15,
+ "prefix_vectors": 1,
+ "reason": "objects",
+ "ms": 3217.5,
+ "rebuilt_size": 3292
+}

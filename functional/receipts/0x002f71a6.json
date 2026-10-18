@@ -2,87 +2,39 @@
  "name": "?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z",
  "rva": "0x002F71A6",
  "size": 4605,
+ "extent": 4613,
  "source": "reverse/attempts/0x002f71a6.cpp",
- "sites": {
-  "ledger": 138,
-  "copied": 24,
-  "pin": 1,
-  "content-mismatch": 1
+ "vectors": 16,
+ "bindings": {
+  "aligned": 25,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "return",
-  "return",
-  "return"
- ],
+ "isomorphic": false,
+ "iso_delta": 24,
  "verdict": "regalloc-only",
- "reason": "",
- "divergent_sites": [
-  {
-   "offset": 252,
-   "type": 20,
-   "symbol": "?get@Rva002E6ECA@@QBEHXZ",
-   "source": "ledger",
-   "target": "0x006E6ECA",
-   "retail": "0xCFFA72A6"
-  },
-  {
-   "offset": 271,
-   "type": 20,
-   "symbol": "?isValidUnitType@Waypoint@@QAE_NPAVObject@@@Z",
-   "source": "ledger",
-   "target": "0x00681AED",
-   "retail": "0xE93EFE21"
-  },
-  {
-   "offset": 300,
-   "type": 20,
-   "symbol": "?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z",
-   "source": "ledger",
-   "target": "0x006802FE",
-   "retail": "0xF8FF9ABE"
-  },
-  {
-   "offset": 308,
-   "type": 20,
-   "symbol": "?rva001E3647Pos@Pathfinder@@QAEPAXHPBUCoord3D@@@Z",
-   "source": "ledger",
-   "target": "0x005E3647",
-   "retail": "0xEF32DBC6"
-  },
-  {
-   "offset": 533,
-   "type": 20,
-   "symbol": "?QuickDoesPathExist@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@1H@Z",
-   "source": "ledger",
-   "target": "0x006F477E",
-   "retail": "0xD42D5C27"
-  },
-  {
-   "offset": 562,
-   "type": 20,
-   "symbol": "?QuickDoesPathExist@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@1H@Z",
-   "source": "ledger",
-   "target": "0x006F477E",
-   "retail": "0x856F73AF"
-  },
-  {
-   "offset": 600,
-   "type": 20,
-   "symbol": "?rva002E75A3@Pathfinder@@QAEXPAUCoord3D@@0@Z",
-   "source": "ledger",
-   "target": "0x006E75A3",
-   "retail": "0xEC6F7303"
-  },
-  {
-   "offset": 636,
-   "type": 20,
-   "symbol": "?getLayerForDestination@TerrainLogic@@QAE?AW4PathfindLayerEnum@@PAVObject@@PBUCoord3D@@@Z",
-   "source": "ledger",
-   "target": "0x006802FE",
-   "retail": "0x8E600025"
-  }
+ "coverage": 0.591,
+ "per_vector": [
+  "regalloc-only: objects",
+  "regalloc-only: zeros",
+  "regalloc-only: ints",
+  "regalloc-only: v3",
+  "regalloc-only: v4",
+  "regalloc-only: v5",
+  "regalloc-only: v6",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "prefix-equal: v9: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
  ],
- "ms": 32.0,
+ "inconclusive_vectors": 0,
+ "complete_vectors": 15,
+ "prefix_vectors": 1,
+ "reason": "objects",
+ "ms": 2935.1,
  "rebuilt_size": 4613
 }
