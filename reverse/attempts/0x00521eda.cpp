@@ -1,7 +1,5 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.98 date=2026-10-17
-// ?InitTheGame@AptSkirmish@@QAE_NXZ
-// partial score=0.985 date=2026-10-17
+// partial score=0.9846 date=2026-10-18
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.99 date=2026-10-14
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
@@ -24,12 +22,9 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "unicode_string.h"
 #include "ascii_string.h"
-#include <stdlib.h>
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
+
 #include <list>
 #include <vector>
-#undef free
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
@@ -259,7 +254,7 @@ public:
 	GameSlot *getSlot(int index);
  virtual void gi1(); virtual void gi2(); virtual void gi3(); virtual void gi4();
  virtual void gi5(); virtual void gi6(); virtual void gi7(); virtual void gi8(); virtual void gi9(); virtual void gi10();
- void endGame(); void clearSlotList();void enterGame(); void setSeed(int);void setMap(AsciiString);AsciiString getMap() const;void setMapCRC(unsigned);void setMapSize(unsigned);void init();
+ void init(); void endGame(); void clearSlotList();void enterGame(); void setSeed(int);void setMap(AsciiString);AsciiString getMap() const;void setMapCRC(unsigned);void setMapSize(unsigned);
 };
 extern GameInfo *TheSkirmishGameInfo;
 extern int g_Va00E0333C;
@@ -684,7 +679,6 @@ int AptSkirmish::OnUpdateData() {
 class SkirmishGameInfo : public GameInfo { public: SkirmishGameInfo();char tail[0xe3c-4]; };
 struct SkirmishGameView { char pad[0x10];bool inGame;char pad11[0x38-0x11];unsigned word38,word3c;char pad40[0x58-0x40];long scenario;char pad5c[4];char rules[0x28]; };
 struct SkirmishSlotView { void *v;int state;int u8;int team;char pad[0x38-0x10];unsigned word38,word3c; };
-
 class PlayerTemplateStore {public:bool rva001FD367(int,int *) const;};extern PlayerTemplateStore *ThePlayerTemplateStore;
 class Rva003B8BAA {public:void rva003B930D(_STL::vector<long> *);};extern Rva003B8BAA *g_00E02D6C;
 class SkirmishScenarioView {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void select(long);};

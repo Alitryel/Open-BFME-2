@@ -1,5 +1,5 @@
 // ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
-// partial score=0.948 date=2026-10-17
+// partial score=0.9851 date=2026-10-18
 // ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
 // partial score=0.9124 date=2026-10-14
 // ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
@@ -32,8 +32,9 @@ void AITargetHeuristicEnemyStructure::findBestTarget(AITarget *target,Player *at
  IdRange *structures=(IdRange*)b->structures->get();
  _STL::map<int,int> counts;
  for(ObjectID *it=units->begin();it!=units->end();++it){
-  int best=0;
+  int best;
   Object *unit=TheGameLogic->findObjectByID(*it);
+  best=0;
   if(!unit)continue;
   float bestDistance=-1.0f;
   ObjectID *s=structures->begin();
@@ -44,16 +45,18 @@ void AITargetHeuristicEnemyStructure::findBestTarget(AITarget *target,Player *at
    if(obj && (unsigned char)isValidTarget((Thing*)obj,attacker)){
     float dx=obj->pos.x-unit->pos.x;float dy=obj->pos.y-unit->pos.y;
     float distance=dx*dx+dy*dy;
-    if(bestDistance<0.0f || bestDistance>distance){bestDistance=distance;best=obj->id;}
+    float previousDistance=*(volatile float *)&bestDistance;
+    if(previousDistance<0.0f || previousDistance>distance){bestDistance=distance;best=obj->id;}
    }
   }
   if(best){_STL::map<int,int>::iterator i=counts.find(best);if(i!=counts.end())++i->second;else counts[best]=1;}
  }
- int maximum=0;
- if(!(counts.begin()==counts.end())){
-  _ReadWriteBarrier();
-  int best=0;
-  for(_STL::map<int,int>::iterator i=counts.begin();i!=counts.end();++i){if(i->second>maximum){best=i->first;maximum=i->second;}}
-  target->setTarget(TheGameLogic->findObjectByID((ObjectID)best),g_tacticalAIRegistry->fallbackWeight);
+ if(!counts.empty()){
+  int bestId=0;
+  int maximum=0;
+  for(_STL::map<int,int>::iterator i=counts.begin();i!=counts.end();++i){
+   if(i->second>maximum){bestId=i->first;maximum=i->second;}
+  }
+  target->setTarget(TheGameLogic->findObjectByID((ObjectID)bestId),g_tacticalAIRegistry->fallbackWeight);
  }
 }

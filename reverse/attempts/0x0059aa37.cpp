@@ -1,5 +1,5 @@
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
-// partial score=0.969 date=2026-10-17
+// partial score=0.9606 date=2026-10-18
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
@@ -180,7 +180,7 @@ void AITeamBuilder::checkIdleTeams() {
    }
   }
   IdleTargetList* list=g_00DFEEF8->rva002A8AB1(owner14)->targetList;
-  if(*(volatile Object**)idle.end() != *(volatile Object**)idle.begin() && !list->points.empty()) {
+  if(idle.end() != idle.begin() && !list->points.empty()) {
    Object** idleBegin=&idle[0];
    int idx=GetGameLogicRandomValue(0,idle.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITeamBuilder\\AITeamBuilder.cpp",0x251);
    Object* obj=idleBegin[idx];

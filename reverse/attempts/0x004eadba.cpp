@@ -1,4 +1,6 @@
 // ?distanceSq@Polyline@@UBEMPBUCoord2D@@@Z
+// partial score=0.998 date=2026-10-18
+// ?distanceSq@Polyline@@UBEMPBUCoord2D@@@Z
 // partial score=0.97 date=2026-10-16
 // W9-O1 joint bank for 0x4EADBA (227 B caller, virtual polyline min distance, RET 4) + 0x4EACF5 (197 B file-static helper).
 // The caller compiles EXACT apart from the helper argument registers (retail lea edx,cur / lea eax,prev / lea ecx,p;
@@ -17,7 +19,7 @@ public:
 	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11(); virtual void s12();
 	virtual Coord3D getPosition() const;	// +0x34
 };
-static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2D *b, const Coord2D *p)
+static __declspec(noinline) float distSqToSegment(const Coord2D *b, const Coord2D *a, const Coord2D *p)
 {
 	float dx = b->x;
 	float dy = b->y;
@@ -70,7 +72,7 @@ float Polyline::distanceSq(const Coord2D *pt) const
 	for (PointSource **it = m_begin; it != end; ++it)
 	{
 		Coord2D cur((*it)->getPosition().x, (*it)->getPosition().y);
-		float d = distSqToSegment(&prev, &cur, &p);
+		float d = distSqToSegment(&p, &prev, &cur);
 		if (best < 1.0f || d < best)
 			best = d;
 		prev = cur;

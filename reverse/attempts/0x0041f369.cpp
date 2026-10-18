@@ -1,4 +1,6 @@
 // ?rva0041F369@ArmyDefinition@@QAEXXZ
+// partial score=0.9231 date=2026-10-18
+// ?rva0041F369@ArmyDefinition@@QAEXXZ
 // partial score=0.93 date=2026-10-13
 // ?rva0041F369@Rva0041F760@@QAEXXZ
 // partial score=0.93 date=2026-09-29

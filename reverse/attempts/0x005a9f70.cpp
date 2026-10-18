@@ -1,4 +1,6 @@
 // ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
+// partial score=0.9706 date=2026-10-18
+// ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
 // partial score=0.99 date=2026-10-16
 // ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
 // partial score=0.99 date=2026-10-16

@@ -1,5 +1,5 @@
 // ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z
-// partial score=0.922 date=2026-10-17
+// partial score=0.972 date=2026-10-18
 // ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z
 // partial score=0.692 date=2026-10-14
 // ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z
@@ -335,8 +335,10 @@ unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **ou
   unsigned int size;
   if(!(h&2))size=(h&0x7FFFFFF8)+4;
   else size=h&0x7FFFFFF8;
-  unsigned short bodySize=*(unsigned short*)(block+size-10);
-  char *body=block+size-10-bodySize;
+  unsigned int savedBase=(unsigned int)block;
+  unsigned int base=*(volatile unsigned int *)&savedBase;
+  unsigned short bodySize=*(unsigned short*)(size+base-10);
+  char *body=(char *)((size-bodySize)+base-10);
   if(outBody)*outBody=body;
   result=bodySize+2;
  } else if(*(bool *)((char *)this+0x680)) {

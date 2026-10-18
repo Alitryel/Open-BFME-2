@@ -1,5 +1,5 @@
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
-// partial score=0.98 date=2026-10-15
+// partial score=0.8174 date=2026-10-18
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.93 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/Common
@@ -114,36 +114,7 @@ class GameLogic
  
 }
 ;
-extern GameLogic*TheGameLogic;
-// d3 seat1: the ObjectIdMap::find / GameLogic::findObjectByID chain (0x002888D4 /
-// 0x00049DC5) visible in the unit, as in GarrisonContainRemoveInvalidObjects.cpp,
-// makes the body size-exact (755B) and fixes the attacker test; the sole residue
-// is retail loading templ=data (mov esi,[esi+4]) between the amount comiss and
-// its jbe, where cl sinks it to the report block.
-struct VisLookupNode { VisLookupNode *next; ObjectID key; Object *object; };
-struct VisLookupBuckets {
- VisLookupNode **begin,**end,**capacity;
- unsigned int size() const { return end-begin; }
- VisLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
-};
-struct VisLookupMap { unsigned char hashEqual[4]; VisLookupBuckets buckets;
- VisLookupNode *find(const ObjectID &id);
-};
-inline VisLookupNode *VisLookupMap::find(const ObjectID &id) {
- unsigned int bucket=(unsigned int)id % buckets.size();
- VisLookupNode *node;
- for(node=buckets[bucket];node && node->key!=id;node=node->next) {}
- return node;
-}
-inline Object *GameLogic::findObjectByID(ObjectID id)
-{
-	if (id == 0)
-		return 0;
-	VisLookupNode *node = ((VisLookupMap *)((char *)this + 0xB4))->find(id);
-	if (node == 0)
-		return 0;
-	return node->object;
-}
+extern GameLogic *TheGameLogic;
 class Rva002D3756
 {
  public:void rva002D3756(void*);
@@ -224,9 +195,8 @@ void Drawable::rva0027B18C(DamageInfo*damage)
  if(!obj)return;
  if((obj->data->flag10e&0x40)&&(obj->data->flag118&0x40))return;
  Player*player=obj->getControllingPlayer();
- const BfmeDamageTemplate*templ;
+ const BfmeDamageTemplate*templ=data;
  if(!(damage->amount>0.0f)||damage->damageType==10||damage->damageType==7||damage->p1c==22||damage->p18==2||(damage->playerMask&(1<<player->index))||!player->isLocalPlayer())return;
- templ=data;
  if(damage->report)
  {
   if(obj->radarInfo)TheRadar->tryUnderAttackEvent(obj);
@@ -259,9 +229,10 @@ void Drawable::rva0027B18C(DamageInfo*damage)
    }
    if(event!=-1)
    {
-    unsigned now=TheGameLogic->frame;
-    if(nextFrame<=now&&(TheEva->isEventBlockedByTimeout((EvaEventID)event)||TheEva->isEventAboutToPlay((EvaEventID)event))&&other!=-1)TheEva->reportEvaEvent((EvaEventID)other,&obj->position,0);
-    else TheEva->reportEvaEvent((EvaEventID)event,&obj->position,0);
+   GameLogic* gl=TheGameLogic;
+   unsigned now=gl->frame;
+   if(nextFrame<=now&&((1 ? TheEva : TheEva)->isEventBlockedByTimeout((EvaEventID)event)||(1 ? TheEva : TheEva)->isEventAboutToPlay((EvaEventID)event))&&other!=-1)(1 ? TheEva : TheEva)->reportEvaEvent((EvaEventID)other,&obj->position,0);
+   else (1 ? TheEva : TheEva)->reportEvaEvent((EvaEventID)event,&obj->position,0);
     float range=templ->range;
     if(range<=0.0f||templ->event580==-1)((Rva00271B03*)this)->rva00271B03();
     else
