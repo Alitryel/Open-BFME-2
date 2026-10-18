@@ -87,6 +87,8 @@ class Rva00260F77Filter : public Rva000421C8
 {
 public:
 	Rva00260F77Filter(void *what, bool match) : m_what(what), m_match(match) {}
+	// Match the shared filter provider's explicit virtual destructor slot.
+	virtual ~Rva00260F77Filter() {}
 	virtual bool allow(Object *obj);
 	void *m_what;
 	bool m_match;

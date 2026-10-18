@@ -1,0 +1,7 @@
+# Partition filter destructor reconciliation
+
+BFME 2 at dcb96da46e, published census c2c5ac8c27 (2026-10-18 11:36). Before/after current-object checks show ReplenishUnitsBehaviorUpdate.cpp newly linking 677 matched bytes; BfmeConv1739.cpp stays at 68 linked bytes. Local legacy predictions with self-strict row-byte verification; no closed-strict or runtime claim.
+
+BfmeConv1739.cpp explicitly declares the virtual Rva00260F77Filter destructor. The update view previously relied on an implicit destructor. Adding an explicit empty inline destructor preserves the derived/base teardown instructions and aligns the vtable deletion entry's weak-name form with the provider. The table is three pointers (deletion, allow, inherited getPlayerMask), as documented from C49F14 and rowed constructor 484144. The inline definition is necessary: a declaration-only trial adds an unresolved destructor call and changes the update body. That trial was discarded. All eight existing rows, including four EH actions, match; normal string, float and import checks pass.
+
+Reviewed BFME 1 donor64d369b9 BfmeConv1739.cpp and target provider for the class relationship; the destructor shape and acceptance are verified against BFME 2. Other partition-filter views were searched. Rva002611F2Ctor.cpp has a distinct virtual predicate-slot mismatch, not this missing explicit destructor, and is below the standalone 100-byte repair threshold. No speculative edit retained there. Remaining private views need separate evidence.
