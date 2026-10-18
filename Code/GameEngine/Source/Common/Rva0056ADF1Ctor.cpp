@@ -8,10 +8,11 @@
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-class Rva0056AD80
+class Rva0056AC26Owner;
+class Rva0056AC26
 {
 public:
-	void rva0056AD80(void *arg);
+	Rva0056AC26(Rva0056AC26Owner *owner);
 };
 
 // The retail table at RVA 0x0086D23C: 5 slots, each a rowed code owner (the next
@@ -70,7 +71,7 @@ public:
 
 Rva0056ADF1::Rva0056ADF1(void *arg1, int arg2)
 {
-	((Rva0056AD80 *)this)->rva0056AD80(arg1);
+	((Rva0056AC26 *)this)->Rva0056AC26::Rva0056AC26((Rva0056AC26Owner *)arg1);
 	*(int *)((char *)this + 0x14) = 0;
 	*(unsigned int *)this = ((unsigned int)vtbl_00C6D23C);
 	*(unsigned int *)((char *)this + 8) = ((unsigned int)vtbl_00C6D200);

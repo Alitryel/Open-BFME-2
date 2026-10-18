@@ -6,10 +6,11 @@ class Rva003F7954
 public:
 	void rva003F7954();
 };
-class Rva003F2150
+class Rva003F7BB4;
+class LivingWorldRegion
 {
 public:
-	void rva003F2150(int v);
+	void rva003F2150(Rva003F7BB4 *v);
 };
 struct Rva0020EB4EInner
 {
@@ -51,6 +52,6 @@ void Rva0020EB4EOuter::rva0020EB4E(void *argRaw)
 		Rva0020EB4EElem *e = (Rva0020EB4EElem *)bounds[0][i];
 		if (e->m_13C != arg->m_04->m_14)
 			continue;
-		((Rva003F2150 *)e)->rva003F2150((int)arg);
+		((LivingWorldRegion *)e)->rva003F2150((Rva003F7BB4 *)arg);
 	}
 }

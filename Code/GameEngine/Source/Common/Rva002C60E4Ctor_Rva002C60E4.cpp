@@ -33,26 +33,20 @@ public:
 	char m_pad[0x20];
 };
 
-class AITacticsGenerator
+class Rva00506909
 {
 public:
-	AITacticsGenerator(void *p);
+	Rva00506909(void *p);
+	~Rva00506909();
 	char m_pad[0x64];
 };
+typedef Rva00506909 AITacticsGenerator;
 
 class Rva00506A34
 {
 public:
 	Rva00506A34(void *p);
 	char m_pad[0x10];
-};
-
-// Rowed non-virtual destructors reached through views: 0x00505BBA (the generator
-// member at +0x10) and the ICF-folded 15-byte pair destructor 0x000796BC (+0x1C).
-class Rva00506909
-{
-public:
-	~Rva00506909();
 };
 
 class Rva000C24EA

@@ -81,9 +81,10 @@ public:
  INIException(const INIException&);
  ~INIException();
 };
+class LocomotorSet { public: void setLocomotorAndBaseSpeed(INI *ini, ThingTemplate *instance); };
 class Rva001EA2CFLocomotorDefinition {
-public: void rva001EA2CF(INI *ini, ThingTemplate *instance);
- void rva001EA3AE(INI *ini, ThingTemplate *instance);
+public:
+	void rva001EA3AE(INI *ini, ThingTemplate *instance);
 private: char unknown00[0x18]; AsciiString name; AsciiString setName; float speed;
 };
 // Native 1EA3AE/70 confirms measured receiver members and forward signature.
@@ -93,5 +94,5 @@ void Rva001EA2CFLocomotorDefinition::rva001EA3AE(INI *ini, ThingTemplate *instan
  setName.set("");
  speed=0.0f;
  ini->initFromINI(this, g_00BDEA60);
- rva001EA2CF(ini,instance);
+ ((LocomotorSet *)this)->setLocomotorAndBaseSpeed(ini, instance);
 }

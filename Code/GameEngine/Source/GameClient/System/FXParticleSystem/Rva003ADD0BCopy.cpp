@@ -1,12 +1,13 @@
 // cl: /EHs-c-
 // ??0Rva003ADD0B@@QAE@ABV0@@Z @0x003ADD0B 38B copy ctor via rowed base 0x003ADD31 with three derived stores. Evidence: callee rowed; caller 0x003ADD00; chain from just-landed 0x003ADD31.
-class Rva003ADD31
+class Rva005EA590
 {
 public:
-	Rva003ADD31(const Rva003ADD31 &other);
+	Rva005EA590(const Rva005EA590 &other);
 private:
 	char m_pad[176];
 };
+typedef Rva005EA590 Rva003ADD31;
 // The retail table at RVA 0x0081C954: 6 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {

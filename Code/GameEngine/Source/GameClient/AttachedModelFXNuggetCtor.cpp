@@ -18,7 +18,7 @@ extern "C" void vfn_001E1709();
 extern "C" void vfn_001F01E8();
 #pragma comment(linker, "/alternatename:_vfn_001DFF5D=?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
 #pragma comment(linker, "/alternatename:_vfn_001E0878=?doFXObj@AttachedModelFXNugget@@UBEXPBVObject@@0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E1152=??_GHelixContainModuleData@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:_vfn_001E1152=??_GCursorParticleSystemFXNugget@@UAEPAXI@Z")
 #pragma comment(linker, "/alternatename:_vfn_001E1709=?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z")
 #pragma comment(linker, "/alternatename:_vfn_001F01E8=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
 extern "C" const void *const vtbl_00BDD814[] = {
