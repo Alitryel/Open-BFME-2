@@ -1615,15 +1615,6 @@ void AptActionInterpreter::_FunctionAptActionSetTarget(AptActionInterpreter *con
     }
 }
 
-void AptActionInterpreter::_FunctionAptActionCloneSprite(AptActionInterpreter *const p, LocalContextT *const c)
-{
-    AptValue *depth=p->stack.At(0);
-    AptValue *target=p->stack.At(1);
-    AptValue *source=p->stack.At(2);
-    int n=depth->toInteger();
-    p->rva007092F0(c->pCurrentContext,c->pCurWith,source,target,n,0);
-    p->stack.Pop(3);
-}
 
 // Native type IDs19 (level) and1/42 (strings) come from the target branches
 // and switch table; donor enum numbering differs. Native comparison is float.
@@ -1821,22 +1812,6 @@ void    AptActionInterpreter::_FunctionAptActionEquals2(AptActionInterpreter * c
 class Rva8D0D80String;
 class Rva8D0D80Value;
 class Rva8D0D80Table { public: void add(Rva8D0D80String *,Rva8D0D80Value *); };
-void AptActionInterpreter::_FunctionAptActionInitObject(AptActionInterpreter *const p, LocalContextT *const c)
-{
-    int n=p->stack.At(0)->toInteger();
-    p->stack.Pop();
-    AptValue *object=(AptValue *)p->_createObject((AptValue *)c->pCurrentContext,c->pCurWith,Rva0070B4F0GetString(0x64),0,true);
-    if(object) {
-        for(int i=0,reg=0;i<n;++i,reg+=2) {
-            AptValue *value=p->stack.At(reg);
-            AptValue *name=p->stack.At(reg+1);
-            EAStringC text;name->toString(text);
-            ((Rva8D0D80Table *)((char *)object+8))->add((Rva8D0D80String *)&text,(Rva8D0D80Value *)value);
-        }
-        p->stack.rva006E3AA0(2*n);
-        p->stack.Push(object);object->Release();
-    } else {p->stack.rva006FE050(2*n);p->stack.Push(gpUndefinedValue);}
-}
 
 // Native static helper uses pB in EBX and pA on the stack. MSVC chooses
 // that internal ABI from real C++; branch-local destination binding retains
@@ -1889,35 +1864,7 @@ void AptActionInterpreter::_FunctionAptActionAdd2(AptActionInterpreter *const p,
     }
 }
 
-void AptActionInterpreter::_FunctionAptActionNewObject(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    AptValue *name=p->stack.At(0);
-    AptValue *params=p->stack.At(1);
-    EAStringC objectName;
-    name->toString(objectName);
-    int nParams=params->toInteger();
-    p->stack.Pop(2);
-    AptValue *object=(AptValue *)p->_createObject((AptValue *)c->pCurrentContext,c->pCurWith,&objectName,nParams,true);
-    if(object) { p->stack.Push(object); object->Release(); }
-    else p->stack.Push(gpUndefinedValue);
-}
 
-void AptActionInterpreter::_FunctionAptActionNewMethod(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    AptValue *name=p->stack.At(0);
-    AptValue *context=p->stack.At(1);
-    AptValue *params=p->stack.At(2);
-    EAStringC objectName;
-    name->toString(objectName);
-    int nParams=params->toInteger();
-    p->stack.Pop();
-    p->stack.PopNoDec();
-    p->stack.Pop();
-    AptValue *object=(AptValue *)p->_createObject(context,c->pCurWith,&objectName,nParams,true);
-    context->Release();
-    if(object) { p->stack.Push(object); object->Release(); }
-    else p->stack.Push(gpUndefinedValue);
-}
 
 class AptNativeHash { public: void Set(const EAStringC *const,AptValue *const); int mnTotalSize; void *mpData; AptValue *mp__proto__; AptValue *mpPrototype; unsigned int nEventHandlers; __forceinline AptValue *Get__Proto__() const { return mp__proto__; } __forceinline AptValue *GetPrototype() const { return mpPrototype; } __forceinline void SetPrototype(AptValue *p) { if(p) p->AddRef(); if(mpPrototype) mpPrototype->Release(); mpPrototype=p; } __forceinline void Set__Proto__(AptValue *p) { if(p) p->AddRef(); if(mp__proto__) mp__proto__->Release(); mp__proto__=p; } };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
@@ -2286,60 +2233,6 @@ void AptActionInterpreter::_FunctionAptActionInstanceOf(AptActionInterpreter *co
     p->stack.PopAndPush(2,AptBoolean::Create(result));
 }
 
-
-// Native 6FDA40..6FDC29; buffer capacity260 inferred from frame allocation,
-// exact declared source bound within alignment padding is not independently known.
-// Load6D1F80 has native-supported original MAP ABI but remains a link backlog.
-extern "C" char *__cdecl strcpy(char *,const char *);
-#pragma intrinsic(strcpy)
-static __forceinline bool bfmeIsFSCommand(const char *s) { return strncmp(s,g_bfmeAptFSCommandAtDDC920,strlen(g_bfmeAptFSCommandAtDDC920))==0; }
-class AptLinker { public: void Load(const EAStringC &,EAStringC); };
-extern AptLinker *g_bfmeAptLinkerAtE176F8;
-void AptActionInterpreter::_FunctionAptActionGetUrl(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    struct Data { const char *szUrl,*szWin; };
-    const Data *data=(const Data *)c->pInstruction;
-    c->pInstruction+=sizeof(Data);
-    if (bfmeIsFSCommand(data->szUrl)) p->doFSCommand(data->szUrl,data->szWin);
-    else {
-        char buffer[260];
-        strcpy(buffer,data->szUrl);
-        int nLength=strlen(buffer);
-        if ((buffer[nLength-1]=='f' || buffer[nLength-1]=='F') &&
-            (buffer[nLength-2]=='w' || buffer[nLength-2]=='W') &&
-            (buffer[nLength-3]=='s' || buffer[nLength-3]=='S') && buffer[nLength-4]=='.') {
-            buffer[nLength-4]=0;
-            g_bfmeAptLinkerAtE176F8->Load(EAStringC(buffer),EAStringC(data->szWin));
-        } else if (nLength==0) g_bfmeAptLinkerAtE176F8->Load(EAStringC(""),EAStringC(data->szWin));
-        else Rva006CC110Log(4,"not loading non-swf file: '%s'\n",buffer);
-    }
-}
-
-// Native877B through708FAC. Retail tests uppercase W/S at n-1 as written;
-// later donor fixed this suffix bug. loadVariables706370 remains unrowed.
-void AptActionInterpreter::_FunctionAptActionGetUrl2(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    AptValue *a=p->stack.At(0),*b=p->stack.At(1);
-    EAStringC sa,sb;
-    b->toString(sb);
-    if(bfmeIsFSCommand(sb.rva00620090())) { a->toString(sa);p->doFSCommand(sb.rva00620090(),sa.rva00620090()); }
-    else {
-        int n=sb.rva006D3750();EAStringC buf;AptValue *context=0;
-        if(n==0 || ((sb.GetAt(n-1)=='f'||sb.GetAt(n-1)=='F') && (sb.GetAt(n-2)=='w'||sb.GetAt(n-1)=='W') && (sb.GetAt(n-3)=='s'||sb.GetAt(n-1)=='S') && sb.GetAt(n-4)=='.')) {
-            a->toString(sa);buf=sb;
-            if((int)buf.rva006D3750()>=4) buf.rva006D54B0(buf.rva006D3750()-4,4);
-            AptValue *v=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,&sa);
-            if(v->isCIH()) getName(v->c_cih(),sa);
-            p->stack.Pop(2);g_bfmeAptLinkerAtE176F8->Load(buf,sa);return;
-        } else {
-            if(a->isString()) context=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,a->c_string()->GetInternalString(),1);
-            else context=a;
-            p->loadVariables(context,c->pCurWith,&sb);
-        }
-    }
-    p->stack.Pop(2);
-}
 
 #pragma comment(linker, "/alternatename:?c_cih@AptValue@@QBEPAVAptCIH@@_N@Z=?rva006DCF60@BfmeAptValue006DCD20@@QAEPAV1@_N@Z")
 #pragma comment(linker, "/alternatename:?getName@AptActionInterpreter@@SAXPAVAptCIH@@AAVEAStringC@@@Z=?rva006ffce0@@YAXPAVAptValue@@AAVEAStringC@@@Z")
