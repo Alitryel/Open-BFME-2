@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0BridgeBehaviorModuleData@@QAE@XZ, retail 0x00457FF1 (89 bytes).
@@ -18,6 +18,7 @@
 extern "C" const void *const vtbl_00C40A10[];  // ??_7BridgeBehaviorModuleData@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C40A10=??_7BridgeBehaviorModuleData@@6B@")
 
+// Match the rowed Coord3D sentinel constructor's BFME allocator ABI.
 #include <list>
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
