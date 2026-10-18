@@ -1,53 +1,46 @@
-// ??MS4SortElem8@@QBE_NABU0@@Z
-// partial score=0.97 date=2026-10-18
-// ??MS4SortElem8@@QBE_NABU0@@Z
-// partial score=0.88 date=2026-10-14
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
-// Bank for 0x005EC52E; append to Code/GameEngine/Source/GameClient/GUI/ScoreRowSort.cpp (S4SortElem8 declared there).
-// S4SortElem8::operator<, retail 0x005EC52E (102B, the pin above): entries
-// whose +4 template has flag bit 26 set sort first; then the higher +0x9C
-// value of the +0 record; then that record's +4 name (the rowed
-// AsciiString operator< 0x0005598C). Field meanings are not recovered.
+// ?BfmeLess00574AA0@S4SortElem8@@QBE_NABU1@@Z
+// partial score=0.9 date=2026-10-18
+// cl: /DNDEBUG /MD /EHsc
+// candidate M: both sides read a by-value copy of the flags word
 class AsciiString;
-bool operator<(const AsciiString &a, const AsciiString &b);	// 0x0005598C
+bool __cdecl operator<(const AsciiString &left, const AsciiString &right);
+
+struct RvaBits
+{
+	unsigned int m_bits;
+	bool test( int bit ) const { return ( m_bits & ( 1 << bit ) ) != 0; }
+};
+
+struct S4SortElem8Army
+{
+	char m_padToKey[ 0x9c ];
+	int m_key;
+};
+
+class S4SortElem8Record
+{
+public:
+	RvaBits getFlags() const { return m_flags; }
+
+	char m_pad00[ 0x110 ];
+	RvaBits m_flags;
+};
 
 struct S4SortElem8
 {
-	const void *m_bfmeFirst;
-	const void *m_bfmeSecond;
-	bool operator<(const S4SortElem8 &other) const;
+	S4SortElem8Army *m_army;
+	S4SortElem8Record *m_record;
+	bool BfmeLess00574AA0( const S4SortElem8 &other ) const;
 };
 
-struct S4SortRecord
+bool S4SortElem8::BfmeLess00574AA0( const S4SortElem8 &other ) const
 {
-	int m_00;
-	char m_name[4];		// +0x04 AsciiString
-	char m_pad08[0x9C - 0x08];
-	int m_9C;
-};
-
-struct S4SortTemplate
-{
-	char m_pad000[0x110];
-	unsigned int m_low : 26;
-	unsigned int m_first : 1;
-};
-
-bool S4SortElem8::operator<(const S4SortElem8 &other) const
-{
-	const S4SortTemplate *mine = (const S4SortTemplate *)m_bfmeSecond;
-	unsigned int mineW = *(volatile unsigned int *)((const char *)mine + 0x110);
-	const S4SortTemplate *theirs = (const S4SortTemplate *)other.m_bfmeSecond;
-	unsigned int theirsW = *(const unsigned int *)((const char *)theirs + 0x110);
-	unsigned int mineF = mineW & 0x4000000;
-	unsigned int theirsF = (theirsW >> 26) & 1;
-	bool first = mineF != 0;
-	bool otherFirst = theirsF != 0;
-	if (first != otherFirst)
-		return mineF != 0;
-	const S4SortRecord *a = (const S4SortRecord *)m_bfmeFirst;
-	const S4SortRecord *b = (const S4SortRecord *)other.m_bfmeFirst;
-	if (a->m_9C != b->m_9C)
-		return a->m_9C > b->m_9C;
-	return *(const AsciiString *)a->m_name < *(const AsciiString *)b->m_name;
+	if ( m_record->getFlags().test( 26 ) != other.m_record->getFlags().test( 26 ) )
+		return m_record->getFlags().test( 26 );
+	int leftKey = m_army->m_key;
+	int rightKey = other.m_army->m_key;
+	if ( leftKey != rightKey )
+		return leftKey > rightKey;
+	return operator<( *(const AsciiString *)( (const char *)m_army + 4 ),
+		*(const AsciiString *)( (const char *)other.m_army + 4 ) );
 }
