@@ -7087,10 +7087,12 @@ void __cdecl rva007B6ED6()
 	return p->~Rva000FA7E8Dtor();
 }
 
+class Rva000FB85D { public: ~Rva000FB85D(); };
 class Rva000FB85DDtor
 {
 public:
-	~Rva000FB85DDtor();
+	// Destruction is the rowed ??1Rva000FB85D, reached by a qualified call.
+	__declspec(dllimport) __forceinline ~Rva000FB85DDtor() { ((Rva000FB85D *)this)->Rva000FB85D::~Rva000FB85D(); }
 };
 
 extern unsigned g_Va00DEC140;
