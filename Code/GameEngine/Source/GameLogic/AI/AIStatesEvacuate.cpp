@@ -163,20 +163,6 @@ void AIMoveToAndEvacuateState::onExit(StateExitType status)
 	Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
 }
 
-StateReturnType AIMoveToAndEvacuateState::update()
-{
-	StateReturnType status = AIMoveToState::update();
-	Object *owner = getMachineOwner();
-	if (owner->getAI()->getPath() != 0)
-	{
-		Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8() * 0.9f);
-		if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-			status = STATE_SUCCESS;
-	}
-	if (status == STATE_SUCCESS)
-		rva003532BF(owner, getMachine(), rva00354B2ESlot18());
-	return status;
-}
 
 class AIMoveForBoarding : public AIMoveToAndEvacuateState
 {
@@ -191,18 +177,6 @@ StateReturnType AIMoveForBoarding::onEnter()
 	return AIMoveToState::onEnter();
 }
 
-StateReturnType AIMoveForBoarding::update()
-{
-	StateReturnType status = AIMoveToState::update();
-	Object *owner = getMachineOwner();
-	if (owner->getAI()->getPath() != 0)
-	{
-		Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8());
-		if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-			status = STATE_SUCCESS;
-	}
-	return status;
-}
 
 class AIFollowPathState : public AIInternalMoveToState
 {
