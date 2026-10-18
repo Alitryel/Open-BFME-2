@@ -13,7 +13,7 @@
 
 extern "C" int __cdecl abs(int value);
 
-extern float g_00DB4D40;
+float g_00DB4D40 = 0.00390625f;	// retail RVA 0x009B4D40 (.data), defined here
 float g_00DB4D3C = 0.5f;	// retail RVA 0x009B4D3C (.data), defined here
 
 class Rva000ABD19
