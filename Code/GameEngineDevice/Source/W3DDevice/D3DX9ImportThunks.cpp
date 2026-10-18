@@ -179,4 +179,11 @@ extern PFN_D3DXCreateEffect __identifier("_imp__D3DXCreateEffect@36");
 HRESULT __stdcall D3DXCreateEffect(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataLen, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXEFFECTPOOL pPool, LPD3DXEFFECT *ppEffect, LPD3DXBUFFER *ppCompilationErrors) {
  return __identifier("_imp__D3DXCreateEffect@36")(pDevice, pSrcData, SrcDataLen, pDefines, pInclude, Flags, pPool, ppEffect, ppCompilationErrors);
 }
+
+// _D3DXLoadSurfaceFromSurface@32
+typedef HRESULT (__stdcall *PFN_D3DXLoadSurfaceFromSurface)(LPDIRECT3DSURFACE9, const PALETTEENTRY *, const RECT *, LPDIRECT3DSURFACE9, const PALETTEENTRY *, const RECT *, DWORD, D3DCOLOR);
+extern PFN_D3DXLoadSurfaceFromSurface __identifier("_imp__D3DXLoadSurfaceFromSurface@32");
+HRESULT __stdcall D3DXLoadSurfaceFromSurface(LPDIRECT3DSURFACE9 pDestSurface, const PALETTEENTRY *pDestPalette, const RECT *pDestRect, LPDIRECT3DSURFACE9 pSrcSurface, const PALETTEENTRY *pSrcPalette, const RECT *pSrcRect, DWORD Filter, D3DCOLOR ColorKey) {
+ return __identifier("_imp__D3DXLoadSurfaceFromSurface@32")(pDestSurface, pDestPalette, pDestRect, pSrcSurface, pSrcPalette, pSrcRect, Filter, ColorKey);
+}
 }
