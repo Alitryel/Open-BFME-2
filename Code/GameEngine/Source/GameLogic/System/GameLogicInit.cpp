@@ -712,6 +712,7 @@ template<> inline void vector<Rva0024622FEntry>::_M_insert_overflow(
 }
 }
 
+class Rva00240E18 { public: void rva00240E18(bool); };
 class GameLogic : public SubsystemInterface, public Snapshot
 {
 public:
@@ -726,7 +727,7 @@ public:
 
 	virtual void reset(void);
 
-	void rva00240E18(bool loadingSaveGame);
+	/* the rowed Rva00240E18::rva00240E18 */ __declspec(dllimport) __forceinline void rva00240E18(bool p0) { ((Rva00240E18 *)this)->rva00240E18(p0); }
 	void rva0023D17D(void);
 	void destroyAllObjectsImmediate(void);
 	void rva00376D49(void);
