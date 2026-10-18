@@ -355,22 +355,7 @@ public:
 
 	LightPulseFXNugget();
 
-	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const
-	{
-		if (primary)
-		{
-			Real radius = m_radius;
-
-			if (m_boundingCirclePct > 0)
-				radius = (primary->getGeometryInfo().getBoundingCircleRadius() * m_boundingCirclePct);
-
-			TheDisplay->createLightPulse(primary->getPosition(), &m_color, 1, radius, m_increaseFrames, m_decreaseFrames);
-		}
-		else
-		{
-			DEBUG_CRASH(("You must have a primary source for this effect"));
-		}
-	}
+	virtual void doFXObj(const Object* primary, const Object* /*secondary*/);
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
