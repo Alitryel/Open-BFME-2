@@ -39,6 +39,12 @@ enum ObjectID
 };
 
 #include <stl/_bvector.h>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<bool,allocator<bool> >::~vector(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<Coord3D,allocator<Coord3D> >::~_Vector_base(); }
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
