@@ -474,6 +474,7 @@ public:
 };
 
 // The member at +0x190's base (Rva004421E1Dtor.cpp's Rva0057F2DE).
+class AptMpClans { public: void OnGameInfoChange(); };
 class Rva0057F2DE
 {
 public:
@@ -484,7 +485,7 @@ public:
 	UnicodeString rva0057F3A9();
 	// Unrowed 0x0057F5ED (447 bytes; refills its +0xA4 window), pinned by
 	// address.
-	void OnGameInfoChange();
+	/* the rowed AptMpClans::OnGameInfoChange */ __declspec(dllimport) __forceinline void OnGameInfoChange() { ((AptMpClans *)this)->OnGameInfoChange(); }
 	// Unrowed 0x0057FC75 (234 bytes; ret 0xC, its window messages), pinned
 	// by address.
 	bool rva0057FC75(unsigned int msg, unsigned int data1, unsigned int data2);
