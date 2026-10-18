@@ -17,7 +17,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#include <functional>
+// Retail's out-of-line less<int>::operator() is the speed-form copy stlport_list_int.cpp emits;
+// this /O1 unit inlines it but, imported, emits no copy of its own.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &x, const int &y) const { return x < y; }
+}
 #include <vector>
+
 #include <map>
 #include <list>
 // Keep the inlined node comparison local; this unit's incidental
