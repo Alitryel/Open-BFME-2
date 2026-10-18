@@ -2076,6 +2076,7 @@ Bool LivingWorldLogic::rva002B5CBB(const Rva002B4C35Player *player)
 // and OnBattleComplete (0x002BAF7E) are pinned under their WorldBuilder
 // names.
 class Rva003F468D;
+class Rva003F4ABBOwner { public: void * indexedCall(Int, Int); };
 class LivingWorldBattle
 {
 public:
@@ -2087,7 +2088,7 @@ void RetreatArmiesForPlayer(void*);bool rva003F4538();int rva003F45DF();void rva
 	Int GetRetreatedPlayerID(Int side, Int index);		// 0x003F46C1
 	Int rva003F47E6(Int side);				// 0x003F47E6
 	Int rva003F459A();					// 0x003F459A, total army count (pinned)
-	void *rva003F4ABB(Int side, Int army);			// 0x003F4ABB, the army object or null (pinned)
+	/* the rowed Rva003F4ABBOwner::indexedCall */ __declspec(dllimport) __forceinline void * rva003F4ABB(Int p0, Int p1) { return ((Rva003F4ABBOwner *)this)->indexedCall(p0, p1); }			// 0x003F4ABB, the army object or null (pinned)
 	void AddArmy(Int player, void *army);			// 0x003F6DF9 (WorldBuilder name, pinned)
 	void *rva003F4D09();					// 0x003F4D09
 
