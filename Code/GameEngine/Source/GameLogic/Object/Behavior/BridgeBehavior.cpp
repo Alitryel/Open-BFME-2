@@ -142,7 +142,7 @@ static void parseTimeAndLocationInfo( INI *ini, void *instance,
 
 //-------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-/*static*/ void BridgeBehaviorModuleData::parseFX( INI *ini, 
+inline /*static*/ void BridgeBehaviorModuleData::parseFX( INI *ini, 
 											 														 void *instance, 
 																									 void *store, 
 																									 const void *userData )
