@@ -116,3 +116,10 @@ CastleBehavior::~CastleBehavior()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f1@Rva0024A797_Mid@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva0024A797_B2@@UAEXXZ=?update@CastleBehavior@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f30@CastleBehavior_30@@UAEXXZ=?rva0039A245@Rva0039A245@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?fe@Rva00455050_E1@@UAEXXZ=?Rva00452D78Adjust@@YIPAXPAX@Z")

@@ -80,3 +80,10 @@ Rva008F00D::~Rva008F00D()
 	REF_PTR_RELEASE(m_buildingPlacementAnchor);
 	REF_PTR_RELEASE(m_buildingPlacementArrow);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?s0@InGameUIPrimary@@UAEXXZ=??_GRva008F00D@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?s0@InGameUISecond@@UAEXXZ=??_ERva008F00D@@WM@AEPAXI@Z")
+#pragma comment(linker, "/alternatename:?s0@InGameUIThird@@UAEXXZ=?rva0029B558@Rva0029B558@@UAEXXZ")

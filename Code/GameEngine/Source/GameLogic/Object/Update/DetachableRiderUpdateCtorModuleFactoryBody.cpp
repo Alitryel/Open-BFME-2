@@ -70,3 +70,9 @@ void DetachableRiderUpdate::rva004AE8FA()
     m_flag20 = false;
     setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@DRU_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@DRU_Iface2@@UAEXXZ=?update@DetachableRiderUpdateUpdateReceiver@@QAE?AW4UpdateSleepTime@@XZ")

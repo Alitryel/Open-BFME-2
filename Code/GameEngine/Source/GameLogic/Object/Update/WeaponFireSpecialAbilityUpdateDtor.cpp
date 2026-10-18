@@ -84,3 +84,9 @@ WeaponFireSpecialAbilityUpdate::~WeaponFireSpecialAbilityUpdate()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?slot@WFS_Iface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@WFS_Iface2@@UAEXXZ=?rva00492BEB@SpecialAbilityUpdate@@QAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?slot@WFS_Iface3@@UAEXXZ=?initiateIntentToDoSpecialPower@SpecialAbilityUpdate@@UAEXPBVSpecialPowerTemplate@@PBVObject@@PBUCoord3D@@IPBVWaypoint@@@Z")

@@ -74,3 +74,10 @@ ShareExperienceBehavior::ShareExperienceBehavior(Thing *thing, const ModuleData 
 {
     setWakeFrame(getObject(), (UpdateSleepTime)0x3fffffff);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot@ShareExperienceBehaviorIface1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?slot@ShareExperienceBehaviorIface2@@UAEXXZ=?update@ShareExperienceBehavior@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?slot@ShareExperienceBehaviorInterface@@UAEXXZ=?rva00480093@ShareExperienceBehavior@@UAEXM@Z")
