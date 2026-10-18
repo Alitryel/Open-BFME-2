@@ -71,17 +71,4 @@ void XferSave::rva0060D2E9(const char *name) {
  }
 }
 
-int XferSave::rva0060D435(const char *name) {
- if(!stream) return 0;
- int marker=0x424c4f4b;
- if(stream->write(&marker,4)!=4) throw XferException(1,0);
- if(flag) rva0060D2E9(name);
- int position=stream->skip(0,1);
- if(position==-1) throw XferException(1,0);
- name=(const char*)position;
- ((_STL::vector<const ModuleData*>*)positions)->push_back(*(const ModuleData *const*)&name);
- int placeholder=0;
- if(stream->write(&placeholder,4)!=4) throw XferException(1,0);
- return 0;
-}
 
