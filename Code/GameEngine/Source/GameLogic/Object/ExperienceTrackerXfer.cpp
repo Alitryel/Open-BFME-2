@@ -230,22 +230,6 @@ private:
 	char m_unrecovered04[ 0x14 - 0x04 ];	// full layout in SnapshotXfersBfme.cpp
 };
 
-ExperienceTracker::ExperienceTracker( const ThingTemplate *thingTemplate ) :
-	m_04( thingTemplate ),
-	m_0C( (NameKeyType)0 ),
-	m_10( 0.0f ),
-	m_14( 0 ),
-	m_18( -1 ),
-	m_1C( 1.0f ),
-	m_20( false ),
-	m_24( 0 ),
-	m_28( 0 ),
-	m_2C( 0 ),
-	m_30( (NameKeyType)0 )
-{
-	m_30 = TheNameKeyGenerator->nameToKey( ((const ExperienceTrackerParentView *)thingTemplate)->m_64 );
-	m_2C = (ExperienceTrackerSnapshot *)new Rva0039AE75( (Rva0039AE75Owner *)this );
-}
 
 // ?rva0039AC0C@ExperienceTracker@@QBE?AUExperienceLevelHandle@@XZ @0x0039AC0C
 // 23B (pinned name): the tracker's current level from the rowed
@@ -394,18 +378,6 @@ private:
 	bool m_3C;
 };
 
-// ??0Rva0039ADF3@@QAE@PAVObject@@@Z @0x0039B0C9 40B: builds the tracker on the
-// Object's raw template pointer (rowed ctor 0x0039AEBC), keeps the Object at
-// +0x34, clears the ObjectID +0x38, sets the bool +0x3C and stores vftable
-// 0x0081AD34. Caller 0x00299BA8 (BFME 2's Object constructor region; the
-// tracker Object +0x264 holds).
-Rva0039ADF3::Rva0039ADF3( Object *object ) :
-	ExperienceTracker( object->rawTemplate() ),
-	m_34( object ),
-	m_38( INVALID_ID ),
-	m_3C( true )
-{
-}
 
 // ?rva0039AE04@Rva0039ADF3@@QBE_NXZ @0x0039AE04 44B: false while the Object
 // has status bit 0x3E; else the inlined isTrainable or a nonzero ObjectID
