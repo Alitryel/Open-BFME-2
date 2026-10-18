@@ -125,7 +125,7 @@ private:
 };
 extern Rva0022AD10Subsystem *TheFormationAssistant;
 extern int g_Va00E04450;
-bool Rva0056815A(void);
+bool Rva0056815AAny(void);
 
 bool __stdcall Rva003E41CBGet(Parameter *);
 int __cdecl Rva003E468FCheck(void);
@@ -709,7 +709,7 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 195:
 		return this->evaluateHasDelayedCarryoverUnitOfType(*c->getParameter(0)->getString(), c->getParameter(1));
 	case 196:
-		return Rva0056815A();
+		return Rva0056815AAny();
 	case 197:
 		return ((bool (__cdecl *)(void))Rva0043C99AGet)();
 	case 198:
