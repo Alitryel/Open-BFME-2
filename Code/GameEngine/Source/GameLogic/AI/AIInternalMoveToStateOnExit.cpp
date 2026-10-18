@@ -200,20 +200,7 @@ private:
 	Bool m_tryOneMoreRepath; // +0x4A
 	bool m_4B; // +0x4B
 };
-AIInternalMoveToState::AIInternalMoveToState(StateMachine *machine, unsigned int hash)
-	: State(machine, hash)
-{
-	m_goalPosition.zero();
-	m_goalLayer = LAYER_INVALID;
-	m_2C = 0.0f;
-	m_pathGoalPosition.zero();
-	m_pathTimestamp = 0;
-	m_waitingForPath = false;
-	m_tryOneMoreRepath = false;
-	m_4B = false;
-	m_ambientPlayingHandle = 1;
-	m_adjustDestinations = true;
-}
+
 struct FprintfTarget
 {
 	char m_pad[4];
