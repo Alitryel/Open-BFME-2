@@ -363,59 +363,8 @@ void drawAudioLocations( Drawable *draw, void *userData );
 #endif
 
 
-//-------------------------------------------------------------------------------------------------
-/** Sets the height of the viewport, while maintaining original camera perspective. */
-//-------------------------------------------------------------------------------------------------
-void W3DView::setHeight(Int height)
-{
-	BfmeW3DViewViewportFields *fields = (BfmeW3DViewViewportFields *)this;
-	BfmeW3DViewViewportVtable *view = (BfmeW3DViewViewportVtable *)this;
-	fields->m_height = height;
 
-	Vector2 vMin,vMax;
-	fields->m_3DCamera->Set_Aspect_Ratio((Real)view->getWidth()/(Real)height);
-	fields->m_3DCamera->Get_Viewport(vMin,vMax);
-	vMax.Y=(Real)(fields->m_originY+height)/(Real)((BfmeDisplayViewportVtable *)TheDisplay)->getHeight();
-	fields->m_3DCamera->Set_Viewport(vMin,vMax);
-}
 
-//-------------------------------------------------------------------------------------------------
-/** Sets the width of the viewport, while maintaining original camera perspective. */
-//-------------------------------------------------------------------------------------------------
-void W3DView::setWidth(Int width)
-{
-	BfmeW3DViewViewportFields *fields = (BfmeW3DViewViewportFields *)this;
-	BfmeW3DViewViewportVtable *view = (BfmeW3DViewViewportVtable *)this;
-	fields->m_width = width;
-
-	Vector2 vMin,vMax;
-	fields->m_3DCamera->Set_Aspect_Ratio((Real)width/(Real)view->getHeight());
-	fields->m_3DCamera->Get_Viewport(vMin,vMax);
-	vMax.X=(Real)(fields->m_originX+width)/(Real)((BfmeDisplayViewportVtable *)TheDisplay)->getWidth();
-	fields->m_3DCamera->Set_Viewport(vMin,vMax);
-	fields->m_3DCamera->Set_View_Plane((Real)width/(Real)((BfmeDisplayViewportVtable *)TheDisplay)->getWidth()*DEG_TO_RADF(50.0f),-1);
-}
-
-//-------------------------------------------------------------------------------------------------
-/** Sets location of top-left view corner on display */
-//-------------------------------------------------------------------------------------------------
-void W3DView::setOrigin( Int x, Int y)
-{
-	BfmeW3DViewViewportFields *fields = (BfmeW3DViewViewportFields *)this;
-	BfmeW3DViewViewportVtable *view = (BfmeW3DViewViewportVtable *)this;
-	fields->m_originX = x;
-	fields->m_originY = y;
-
-	Vector2 vMin,vMax;
-
-	fields->m_3DCamera->Get_Viewport(vMin,vMax);
-	vMin.X=(Real)x/(Real)((BfmeDisplayViewportVtable *)TheDisplay)->getWidth();
-	vMin.Y=(Real)y/(Real)((BfmeDisplayViewportVtable *)TheDisplay)->getHeight();
-	fields->m_3DCamera->Set_Viewport(vMin,vMax);
-
-	view->setWidth(fields->m_width);
-	view->setHeight(fields->m_height);
-}
 
 //-------------------------------------------------------------------------------------------------
 /** Rotate the view around the horizontal (X) axis to the given angle. */
@@ -625,24 +574,3 @@ public:
 	virtual void setControl(unsigned int value) = 0;
 };
 
-void W3DView::moveCameraOrLocatorAlongSplinePathInit(Waypoint *way, Int duration, Int,
-	Real easeIn, Real easeOut, Real extra, Bool locator)
-{
-	if (way == 0 || *(int *)((char *)way + 0x60) != 6)
-		return;
-	Rva00312C95 *path = locator ? (Rva00312C95 *)((char *)this + 0x2368)
-		: (Rva00312C95 *)((char *)this + 0x22F4);
-	path->setWaypoint(way);
-	path->initialize(*(int *)((char *)this + 0x23D4), duration, easeIn, easeOut, (int)extra, 1);
-	if (locator)
-		*(bool *)((char *)this + 0x23C8) = true;
-	else {
-		*(int *)((char *)this + 0x2354) = 2;
-		unsigned int count = path->m_nodes.size();
-		if (count > 3)
-			((Bfme89E2AViewVtable *)this)->setControl(path->m_nodes[1].m_control);
-		else
-			((Bfme89E2AViewVtable *)this)->setControl(0);
-	}
-	path->rva00312118();
-}
