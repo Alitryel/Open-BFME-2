@@ -8,12 +8,20 @@
 // literal and the call shapes are target facts.
 #include "ascii_string.h"
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+    const char *token;
+    void (*parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    int offset;
+};
 
 class INI
 {
 public:
 	void initFromINI(void *chunk, const FieldParse *parse);
+	static void parseAsciiString(INI *, void *, void *, const void *);
 	unsigned char m_pad[8];
 	int m_08;
 };
@@ -22,7 +30,14 @@ public:
 extern unsigned int g_Va00E01CF0;
 // Bind to the existing data-ledger owner; keep the retail access view local.
 extern unsigned int g_Va00E01CF4;
-extern const FieldParse TheRva00318ABBSunbeam;
+// Complete native table C0C78C..C0C7AC: the named string field and terminator.
+// The dispatcher and table establish this shared string role; no object layout
+// beyond the parsed offset zero is inferred from its address-derived name.
+extern const FieldParse TheRva00318ABBSunbeam[] =
+{
+    {"SunbeamObject", INI::parseAsciiString, 0, 0},
+    {0, 0, 0, 0}
+};
 
 class Rva00318ABBTarget
 {
@@ -43,7 +58,7 @@ extern CloudBreakEffectManager *TheCloudBreakEffectManager;
 void rva00318ABB(INI *ini)
 {
 	(*(AsciiString *)&g_Va00E01CF4) = (*(AsciiString *)&g_Va00E01CF0);
-	ini->initFromINI(&(*(AsciiString *)&g_Va00E01CF4), &TheRva00318ABBSunbeam);
+	ini->initFromINI(&(*(AsciiString *)&g_Va00E01CF4), TheRva00318ABBSunbeam);
 	if (ini->m_08 != 2 && ini->m_08 != 4)
 		(*(AsciiString *)&g_Va00E01CF0) = (*(AsciiString *)&g_Va00E01CF4);
 	if (TheCloudBreakEffectManager != 0)

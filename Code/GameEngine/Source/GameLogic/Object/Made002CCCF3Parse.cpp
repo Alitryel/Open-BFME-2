@@ -8,8 +8,15 @@
 
 class Made002CCCF3;
 
-struct FieldParse;
-extern const FieldParse FireLogicFieldTable;
+class INI;
+struct FieldParse
+{
+    const char *token;
+    void (*parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    int offset;
+};
+extern const FieldParse FireLogicFieldTable[];
 
 class MultiIniFieldParse
 {
@@ -30,12 +37,36 @@ class INI
 {
 public:
     void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+    static void parseIndexList(INI *, void *, void *, const void *);
+    static void parseInt(INI *, void *, void *, const void *);
 };
 
 void q4Notify002CCCF3(void *ini, Made002CCCF3 *m, int c, int d)
 {
     MultiIniFieldParse tmp;
     Rva005088CE::buildFieldParse(tmp);
-    tmp.add(&FireLogicFieldTable, 0);
+    tmp.add(FireLogicFieldTable, 0);
     ((INI *)ini)->initFromINIMulti(m, tmp);
 }
+
+// Native C65068..C650B8: all four fields and the full terminating row.
+// DD125C..DD1274 is the complete index-name list consumed by LogicType.
+// The field offsets and token/callback associations are target data; the
+// existing FireLogicFieldTable name is descriptive, not a class-layout claim.
+const char *FireLogicTypeNames[] =
+{
+    "INCREASE_BURN_RATE",
+    "DECREASE_BURN_RATE",
+    "INCREASE_FUEL",
+    "INCREASE_BURN_RATE_ON_EXISTING_FIRE",
+    "INCREASE_FUEL_ON_EXISTING_FIRE",
+    0
+};
+extern const FieldParse FireLogicFieldTable[] =
+{
+    {"LogicType", INI::parseIndexList, FireLogicTypeNames, 0x1A4},
+    {"MinMaxBurnRate", INI::parseInt, 0, 0x1A8},
+    {"MinDecay", INI::parseInt, 0, 0x1AC},
+    {"MaxResistance", INI::parseInt, 0, 0x1B0},
+    {0, 0, 0, 0}
+};
