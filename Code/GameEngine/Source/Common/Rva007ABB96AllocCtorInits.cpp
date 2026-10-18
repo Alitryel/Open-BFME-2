@@ -108,12 +108,6 @@ struct Rva007ABB96AllocCtorInits
 	static void rva007B0D55();
 };
 
-// 0x007ABB96 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DDF580, atexit(0x007B6A64 -> 0x0007FAB3)
-void Rva007ABB96AllocCtorInits::rva007ABB96()
-{
-	( (E16Vector *)&g_Va00DDF580 )->E16Vector::vector();
-	atexit( rva007B6A64 );
-}
 
 // 0x007ACDC4 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DF29A8, atexit(0x007B70C9 -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007ACDC4()
@@ -122,33 +116,9 @@ void Rva007ABB96AllocCtorInits::rva007ACDC4()
 	atexit( rva007B70C9 );
 }
 
-// 0x007AD7C0 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFE174, atexit(0x007B75F6 -> 0x0002CC70)
-void Rva007ABB96AllocCtorInits::rva007AD7C0()
-{
-	( (E16Vector *)&g_Va00DFE174 )->E16Vector::vector();
-	atexit( rva007B75F6 );
-}
 
-// 0x007AD899 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFE1AC, atexit(0x007B760A -> 0x0007FAB3)
-void Rva007ABB96AllocCtorInits::rva007AD899()
-{
-	( (E16Vector *)&g_Va00DFE1AC )->E16Vector::vector();
-	atexit( rva007B760A );
-}
 
-// 0x007ADAB5 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFE358, atexit(0x007B76DC -> 0x0007FAB3)
-void Rva007ABB96AllocCtorInits::rva007ADAB5()
-{
-	( (E16Vector *)&g_Va00DFE358 )->E16Vector::vector();
-	atexit( rva007B76DC );
-}
 
-// 0x007ADE2F (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFEA44, atexit(0x007B77B9 -> 0x0007FAB3)
-void Rva007ABB96AllocCtorInits::rva007ADE2F()
-{
-	( (E16Vector *)&g_Va00DFEA44 )->E16Vector::vector();
-	atexit( rva007B77B9 );
-}
 
 // 0x007AE5A5 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFF134, atexit(0x007B7A7D -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007AE5A5()
@@ -164,12 +134,6 @@ void Rva007ABB96AllocCtorInits::rva007B02D9()
 	atexit( rva007B82E7 );
 }
 
-// 0x007B31A8 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E04484, atexit(0x007B8F9F -> 0x0007FAB3)
-void Rva007ABB96AllocCtorInits::rva007B31A8()
-{
-	( (E16Vector *)&g_Va00E04484 )->E16Vector::vector();
-	atexit( rva007B8F9F );
-}
 
 // 0x007B31FA (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E04494, atexit(0x007B8FBD -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007B31FA()
@@ -213,12 +177,6 @@ void Rva007ABB96AllocCtorInits::rva007AC2FA()
 	atexit( rva007B6CE1 );
 }
 
-// 0x007AED2A (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E01E68, atexit(0x007B7CAF -> 0x003615E5)
-void Rva007ABB96AllocCtorInits::rva007AED2A()
-{
-	( (E16Vector *)&g_Va00E01E68 )->E16Vector::vector();
-	atexit( rva007B7CAF );
-}
 
 // 0x007B05DE (29B): list<int> allocator ctor 0x002C5309 on VA 0x00E032DC, atexit(0x007B839B -> 0x002B905D)
 void Rva007ABB96AllocCtorInits::rva007B05DE()
