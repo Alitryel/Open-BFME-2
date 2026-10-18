@@ -13,7 +13,14 @@
 // texture refresh after an override parse is gone.
 #include "ascii_string.h"
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (__cdecl *parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 class INIException
 {
@@ -41,6 +48,11 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 
 	static void parseWaterTransparencyDefinition(INI *ini);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord2D(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	int m_00;
@@ -90,17 +102,45 @@ private:
 	const T *m_overridable;
 };
 
+// The copy 0x00200CB1 is rowed as Rva00200CB1::operator=; call it.
+class Rva00200CB1
+{
+public:
+	Rva00200CB1 &operator=(const Rva00200CB1 &that);
+};
+
 class WaterTransparencySetting : public Overridable
 {
 public:
 	WaterTransparencySetting();
-	WaterTransparencySetting &operator=(const WaterTransparencySetting &that);
+	__declspec(dllimport) __forceinline WaterTransparencySetting &operator=(const WaterTransparencySetting &that)
+	{
+		reinterpret_cast<Rva00200CB1 *>(this)->operator=(reinterpret_cast<const Rva00200CB1 &>(that));
+		return *this;
+	}
 
 	const FieldParse *getFieldParse(void) const { return m_waterTransparencySettingFieldParseTable; }
 	static const FieldParse m_waterTransparencySettingFieldParseTable[];
 
 private:
 	char m_pad10[0x5C - 0x10];
+};
+
+// The setting's field-parse table, .rdata 0x00C080B0 (ZH Water.cpp's
+// entries; offsets are retail's).
+const FieldParse WaterTransparencySetting::m_waterTransparencySettingFieldParseTable[] =
+{
+	{ "TransparentWaterDepth", INI::parseReal, 0, 0x18 },
+	{ "TransparentWaterMinOpacity", INI::parseReal, 0, 0x1C },
+	{ "StandingWaterColor", INI::parseRGBColor, 0, 0x20 },
+	{ "StandingWaterTexture", INI::parseAsciiString, 0, 0x3C },
+	{ "AdditiveBlending", INI::parseBool, 0, 0x38 },
+	{ "RadarWaterColor", INI::parseRGBColor, 0, 0x2C },
+	{ "RiverTransparencyMultiplier", INI::parseReal, 0, 0x40 },
+	{ "ReflectionPlaneZ", INI::parseReal, 0, 0x4C },
+	{ "ReflectionOn", INI::parseBool, 0, 0x50 },
+	{ "ReflectionGuard", INI::parseCoord2D, 0, 0x54 },
+	{ 0, 0, 0, 0 }
 };
 
 extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
