@@ -52,10 +52,7 @@ public:
     Rva003ED658(const Rva003ED658 &other);
     // The native returned aggregate is destroyed through this existing
     // tree-cleanup owner; no second destructor pin is introduced.
-    __forceinline ~Rva003ED658()
-    {
-        ((Rva003ED94FDtor *)this)->Rva003ED94FDtor::~Rva003ED94FDtor();
-    }
+    __forceinline ~Rva003ED658();
     char m_storage[12];
 };
 
