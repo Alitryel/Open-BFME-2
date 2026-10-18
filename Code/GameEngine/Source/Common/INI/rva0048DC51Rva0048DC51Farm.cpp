@@ -1,5 +1,6 @@
 // ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
-// partial score=0.8804 date=2026-10-17
+// ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
+// ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
 // stlport
 //
@@ -108,10 +109,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_NONE = 1
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../GameLogicObjectLookupView.h"
 
 enum DamageType
 {
@@ -154,12 +152,6 @@ private:
 	ObjectID m_id; // +0x74
 	char m_unknown78[0x304 - 0x78];
 	Team *m_team; // +0x304
-};
-
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 
 extern GameLogic *TheGameLogic;
@@ -270,7 +262,7 @@ __forceinline void placeControlPoint(Coord3D &out, const Coord3D &offset, Real a
 	Real y = offset.y;
 	Coord3D pt;
 	pt.x = offset.x;
-	Real s = (float)sin((double)(angle));
+	Real s = (Real)sin((double)angle);
 	Real c = (Real)cos(angle);
 	Real x = pt.x;
 	Real rx = c * x;
@@ -291,10 +283,11 @@ void FloodUpdate::rva0048DC51(const FloodMember *member, Rva0048E16C *record)
 	const FloodUpdateModuleData *data = getFloodUpdateModuleData();
 	Real angle = data->m_angleOfFlow;
 	if (data->m_directionIsRelative)
+	{
 		angle = (1 ? normalizeAngle(getObject()->getOrientation() + angle) : normalizeAngle(0.0f));
 		_ReadWriteBarrier();
 		_ReadWriteBarrier();
-		_ReadWriteBarrier();
+	}
 
 	Coord3D points[4];
 	Coord3D pos = *getObject()->getPosition();
