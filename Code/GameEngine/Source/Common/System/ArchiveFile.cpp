@@ -60,6 +60,67 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node == b._M_node; }
 }
 
+// Same archive views as ArchiveDirInfoO1.cpp (ZH ArchiveFileSystem.h layout).
+// Declare the directory teardown so this TU binds to the rowed /O1 body
+// instead of emitting its competing implicit destructor.
+#define __ARCHIVEFILESYSTEM_H_
+#include <map>
+#include "Lib/BaseType.h"
+#include "Common/SubsystemInterface.h"
+#include "Common/FileSystem.h"
+#include "Common/STLTypedefs.h"
+class ArchivedDirectoryInfo;
+class DetailedArchivedDirectoryInfo;
+class ArchivedFileInfo;
+class ArchiveFile;
+typedef std::map<AsciiString, DetailedArchivedDirectoryInfo> DetailedArchivedDirectoryInfoMap;
+typedef std::map<AsciiString, ArchivedDirectoryInfo> ArchivedDirectoryInfoMap;
+typedef std::map<AsciiString, ArchivedFileInfo> ArchivedFileInfoMap;
+typedef std::map<AsciiString, ArchiveFile *> ArchiveFileMap;
+typedef std::map<AsciiString, AsciiString> ArchivedFileLocationMap;
+class ArchivedDirectoryInfo
+{
+public:
+	AsciiString m_directoryName;
+	ArchivedDirectoryInfoMap m_directories;
+	ArchivedFileLocationMap m_files;
+	void clear()
+	{
+		m_directoryName.clear();
+		m_directories.clear();
+		m_files.clear();
+	}
+};
+class DetailedArchivedDirectoryInfo
+{
+public:
+	~DetailedArchivedDirectoryInfo(); // rowed /O1 teardown at 0x00224252
+	AsciiString m_directoryName;
+	DetailedArchivedDirectoryInfoMap m_directories;
+	ArchivedFileInfoMap m_files;
+	void clear()
+	{
+		m_directoryName.clear();
+		m_directories.clear();
+		m_files.clear();
+	}
+};
+class ArchivedFileInfo
+{
+public:
+	AsciiString m_filename;
+	AsciiString m_archiveFilename;
+	UnsignedInt m_offset;
+	UnsignedInt m_size;
+	ArchivedFileInfo() { clear(); }
+	void clear()
+	{
+		m_filename.clear();
+		m_archiveFilename.clear();
+		m_offset = 0;
+		m_size = 0;
+	}
+};
 #include "Common/ArchiveFile.h"
 #include "Common/ArchiveFileSystem.h"
 #include "Common/File.h"
