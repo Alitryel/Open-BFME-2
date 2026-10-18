@@ -14,7 +14,18 @@
 extern "C" const void *const vtbl_00BE2B78[];  // folded, 9 classes; via ??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BE2B78=??_7ClearanceTestingSlowDeathBehaviorIface5@@6B@")
 extern const void *const g_00C5F378[];
-extern const void *const g_00C5F368[];
+// The retail table at RVA 0x0085F368: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva004CBDCF@Rva004CBDCF@@QAE_NHPAURva002C99FB@@@Z")();
+void __identifier("?rva004CBE31@Rva004CBE31@@QAE_NABVAsciiString@@PAURva002C99FB@@@Z")();
+void __identifier("?getSelectedValue@RandomSoundSelectorClientBehavior@@UAE_NPAI@Z")();
+}
+extern const void *const g_00C5F368[3] = {
+	(const void *)&__identifier("?rva004CBDCF@Rva004CBDCF@@QAE_NHPAURva002C99FB@@@Z"), // slot 0 0x004CBDCF
+	(const void *)&__identifier("?rva004CBE31@Rva004CBE31@@QAE_NABVAsciiString@@PAURva002C99FB@@@Z"), // slot 1 0x004CBE31
+	(const void *)&__identifier("?getSelectedValue@RandomSoundSelectorClientBehavior@@UAE_NPAI@Z"), // slot 2 0x004CBD44
+};
 
 class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 
