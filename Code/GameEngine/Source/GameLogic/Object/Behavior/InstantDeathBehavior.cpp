@@ -55,6 +55,9 @@
 #include "GameLogic/ObjectCreationList.h"
 #include "GameLogic/Weapon.h"
 #include "GameClient/Drawable.h"
+// The FXList vector's proxy deallocate is rowed elsewhere (retail copies in
+// the slow-death parsers); this unit's copy is not retail's.
+namespace _STL { template <> void _STLP_alloc_proxy<const FXList **, const FXList *, allocator<const FXList *> >::deallocate(const FXList **, size_t); }
 
 // codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape
 // per TU flags); a file-static overload takes those calls instead so this

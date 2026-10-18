@@ -36,7 +36,7 @@ typedef _STL::hashtable<ArmorPair,NameKeyType,rts::hash<NameKeyType>,_STL::_Sele
 namespace _STL {template<> void ArmorTable::clear();}
 typedef _STL::pair<const int,Rva0014918DElement> ReversePair;
 typedef _STL::hashtable<ReversePair,int,_STL::hash<int>,_STL::_Select1st<ReversePair>,_STL::equal_to<int>,_STL::allocator<ReversePair> > ReverseTable;
-namespace _STL {template<> __declspec(noinline) inline ReverseTable::~hashtable(){reinterpret_cast<ArmorTable*>(this)->clear();}}
+namespace _STL {template<> ReverseTable::~hashtable();}
 struct UnlockGuard {
  Rva00041004 *ptr;
  __forceinline ~UnlockGuard() throw(){if(!ptr->m_flag)LeaveCriticalSection(&ptr->m_cs);}
