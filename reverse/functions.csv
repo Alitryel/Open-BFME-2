@@ -50943,8 +50943,8 @@ _Rva008143F0,,0x006802F0,5,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matc
 ?update@CitadelSlaughterHordeContain@@UAE?AW4UpdateSleepTime@@XZ,,0x00480FE2,107,Code/GameEngine/Source/GameLogic/Object/Contain/SlaughterHordeContainUpdate.cpp,matched,slot 0 of the +0x10 update vtable 0x00C48CB0; AI order for the 0x9EC object then SlaughterHordeContain update
 ?update@AIFaceState@@UAE?AW4StateReturnType@@XZ,,0x0035487E,199,Code/GameEngine/Source/GameLogic/AI/AIFaceStateUpdate.cpp,matched,ZH AIFaceState::update plus BFME2 mode-2 turn and AIIdleState::update tail; slot 6 of 0x00C12FA0
 ?rva0054C88A@Rva0054C88A@@QAE_NXZ,,0x0054C88A,14,Code/GameEngine/Source/Common/Rva0054C88APtrChase.cpp,matched,ptr-chase bool nonzero test via caller tail-jmp
-??1Rva0054C742@@UAE@XZ,,0x0054C742,18,Code/GameEngine/Source/Common/Rva0054C742Dtor.cpp,matched,vtable store zero global tail-jmp base dtor
-??_GRva0054C742@@UAEPAXI@Z,,0x0054C754,28,Code/GameEngine/Source/Common/Rva0054C742Dtor.cpp,matched,deleting dtor from own dtor unit
+??1AptStrategicMessageBox@@UAE@XZ,,0x0054C742,18,Code/GameEngine/Source/Common/Rva0054C742Dtor.cpp,matched,vtable store zero global tail-jmp base dtor
+??_GAptStrategicMessageBox@@UAEPAXI@Z,,0x0054C754,28,Code/GameEngine/Source/Common/Rva0054C742Dtor.cpp,matched,deleting dtor from own dtor unit
 ?rva0031FA8E@Rva0031FA8E@@QAEXXZ,,0x0031FA8E,12,Code/GameEngine/Source/Common/Rva0031FA8E.cpp,matched,null-checked forward to rowed ControlBarScheme update
 ??1Rva004EDCE9@@UAE@XZ,,0x004EDCE9,100,Code/GameEngine/Source/Common/Rva004EDCE9Dtor.cpp,matched,vtable 0x008629E4 stop 0x004ED748 AsciiString+0x2C frees+0x14+0x4 tail-called by 4 derived
 ??_GRva004EDCE9@@UAEPAXI@Z,,0x004EDEE7,28,Code/GameEngine/Source/Common/Rva004EDCE9Dtor.cpp,matched,deleting dtor tail of 0x004EDCE9 via same TU

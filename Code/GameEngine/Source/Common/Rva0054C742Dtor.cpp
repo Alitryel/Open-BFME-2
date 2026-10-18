@@ -6,13 +6,15 @@ class Rva0054D2CF
 public:
 	virtual ~Rva0054D2CF();
 };
-class Rva0054C742 : public Rva0054D2CF
+// The class its ctor (AptStrategicMessageBox.cpp) installs this vtable for.
+class AptStrategicMessageBox : public Rva0054D2CF
 {
 public:
-	virtual ~Rva0054C742();
+	virtual ~AptStrategicMessageBox();
+private:
+	static AptStrategicMessageBox *s_instance;
 };
-class AptStrategicMessageBox {private: static AptStrategicMessageBox *s_instance; friend class Rva0054C742;};
-Rva0054C742::~Rva0054C742()
+AptStrategicMessageBox::~AptStrategicMessageBox()
 {
-	AptStrategicMessageBox::s_instance = 0;
+	s_instance = 0;
 }
