@@ -131,7 +131,7 @@ unsigned g_Va00E06034;	// retail RVA 0x00A06034 (.bss), defined here
 // pointer mangle alike in MSVC (??@@3PADA either way), so the one spelling
 // serves the `char *` reader, the `char []` reader and this constructor.
 char *g_rva005C1A8DDefault = 0;
-extern unsigned g_Va00E0660C;
+unsigned g_Va00E0660C;	// retail RVA 0x00A0660C (.bss), defined here
 extern unsigned g_Va00E06610;
 extern unsigned g_Va00E06614;
 extern unsigned g_Va00E06618;
