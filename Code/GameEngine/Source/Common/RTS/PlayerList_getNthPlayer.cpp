@@ -1,40 +1,99 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
 //
-// ?getNthPlayer@PlayerList@@QAEPAVPlayer@@H@Z,
-// retail 0x002A7A29, 22 bytes,
-// ?getPlayerFromMask@PlayerList@@QAEPAVPlayer@@H@Z,
-// retail 0x002A7B91, 56 bytes, and
-// ?getEachPlayerFromMask@PlayerList@@QAEPAVPlayer@@AAH@Z,
-// retail 0x002A7BC9, 66 bytes.
+// ?newGame@PlayerList@@UAEXXZ, retail 0x002a8008, 766 bytes. Banked partial (score 1.0) closed by tools/permute.py;
+// the body is the banked one up to statement/operand order and local types.
+// PlayerList::newGame, retail 0x002A8008 (766 bytes).
 //
-// Battle for Middle-earth reference
-// (reference/open-bfme-1/Code/GameEngine/Source/Common/RTS/PlayerList.cpp,
-// PlayerList::getNthPlayer): bounds-checked indexed accessor over the player
-// array. Battle for Middle-earth 2 caps the index at 20 (retail cmp eax,0x14;
-// the five 0x2A7AB6-family loop bodies and the 0x2A79A9 init body all iterate
-// the same 0x14 count, and the count lives at +0x14 over the inline player
-// pointer array at +0x18 per the landed findPlayerWithNameKey row), where the
-// reference uses 32. Leaf, no pins.
-//
-// getPlayerFromMask: BFME1 reference PlayerList::getPlayerFromMask, zero
-// guard plus getNthPlayer loop over 20 slots comparing getPlayerMask.
-//
-// getEachPlayerFromMask: ZH donor GeneralsMD PlayerList.cpp. Target evidence:
-// thiscall ret 4 taking the mask by reference; walks getNthPlayer over the 20
-// slots, tests 1 << Player +0x54 (getPlayerMask) against the mask, clears
-// that bit and returns the player, else zeroes the mask and returns null.
-// Both loops keep a value in edx across the getNthPlayer call (the loop index
-// in getPlayerFromMask, the mask pointer here), which cl only does when the
-// callee was compiled earlier in the same TU, so the three bodies share this
-// file as they shared retail's PlayerList.cpp.
+// Zero Hour's PlayerList::newGame (GameEngine/Source/Common/RTS/
+// PlayerList.cpp) carried to BFME 2 over the views the body needs. Target
+// facts read from retail: PlayerList keeps the local player at +0x10, the
+// player count at +0x14 and the player array at +0x18 (slot 0 is the
+// neutral player); SidesList's side count is +0x3C; a SidesInfo is
+// { build list, Dict }; init() is virtual slot 1. Callees use the ledger's
+// names: the static name keys through Rva00148F5ECache::get, the build-list
+// setter Rva002A99D2 and the relationship setter Rva002ADF9C (whose rowed
+// view types the relationship argument as Object*). TeamFactory::clear,
+// TeamFactory::initFromSides and Player::initFromDict are pinned at their
+// unrowed bodies. PlayerList.cpp keeps the Zero Hour body, which does not
+// compile to this layout.
+#include "ascii_string.h"
 
+typedef bool Bool;
 typedef int Int;
-
-typedef int PlayerMaskType;
-
-#define NULL 0
 #define MAX_PLAYER_COUNT 20
 #define BitTest(x, i) (((x) & (i)) != 0)
+#define TRUE true
+#define FALSE false
+
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+enum Relationship { ENEMIES = 0, NEUTRAL = 1, ALLIES = 2 };
+enum PlayerType { PLAYER_HUMAN = 0, PLAYER_COMPUTER = 1 };
+
+class Object;
+class BuildListInfo;
+
+class Dict
+{
+public:
+	AsciiString getAsciiString(Int key, Bool *exists = 0) const;
+	Bool getBool(Int key, Bool *exists = 0) const;
+};
+
+class SidesInfo
+{
+public:
+	BuildListInfo *getBuildList() { return m_pBuildList; }
+	void releaseBuildList() { m_pBuildList = 0; }
+	Dict *getDict() { return &m_dict; }
+
+private:
+	BuildListInfo *m_pBuildList;	// +0x00
+	Dict m_dict; char m_tail[0x60-4-sizeof(Dict)];	// +0x04
+};
+
+class SidesList
+{
+public:
+	SidesInfo *getSideInfo(Int side);
+	Int getNumSides() const { return m_numSides; }
+
+private:
+	char m_pad[0x3C];
+	Int m_numSides; SidesInfo m_sides[1];	// +0x3C
+};
+extern SidesList *TheSidesList;
+
+class TeamFactory
+{
+public:
+	void clear();
+	void initFromSides(SidesList *sides);
+};
+extern TeamFactory *TheTeamFactory;
+
+class NetworkInterface;
+extern NetworkInterface *TheNetwork;
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const AsciiString &name);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+#define NAMEKEY(x) (TheNameKeyGenerator->nameToKey(x))
+
+// The rowed static-name-key cache: key() of TheKey_* is its get().
+class Rva00148F5ECache
+{
+public:
+	NameKeyType get();
+};
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;
+extern Rva00148F5ECache TheKey_playerIsHuman;
+extern Rva00148F5ECache TheKey_playerEnemies;
+extern Rva00148F5ECache TheKey_playerAllies;
+extern Rva00148F5ECache TheKey_multiplayerIsLocal;
 
 class PlayerSub60
 {
@@ -43,16 +102,8 @@ public:
 	Int m_18; // +0x18 (Player+0x78)
 	Int m_1C; // +0x1C (Player+0x7C)
 };
-
 class Team;
-
-enum Relationship
-{
-	ENEMIES = 0,
-	NEUTRAL,
-	ALLIES
-};
-
+typedef int PlayerMaskType;
 enum
 {
 	ALLOW_SAME_PLAYER = 0x01,
@@ -61,9 +112,13 @@ enum
 	ALLOW_NEUTRAL = 0x08
 };
 
+
 class Player
 {
 public:
+	void initFromDict(const Dict *d);
+	void setPlayerType(PlayerType t, Bool skirmish);
+	void setDefaultTeam();
 	PlayerMaskType getPlayerMask() const { return 1 << m_playerIndex; }
 	Relationship getRelationship(const Team *that) const;
 	Team *getDefaultTeam() const { return m_defaultTeam; }
@@ -77,22 +132,50 @@ public:
 	Team *m_defaultTeam; // +0x2EC
 };
 
+// Rowed receivers of the build-list and relationship setters.
+class Rva002A99D2
+{
+public:
+	void rva002A99D2(void *buildList);
+};
+class Rva002ADF9C
+{
+public:
+	void rva002ADF9C(const Player *that, Object *relationship);
+};
+static inline void setBuildList(Player *p, BuildListInfo *buildList)
+{
+	((Rva002A99D2 *)p)->rva002A99D2(buildList);
+}
+static inline void setPlayerRelationship(Player *p, const Player *that, Relationship r)
+{
+	((Rva002ADF9C *)p)->rva002ADF9C(that, (Object *)r);
+}
+
 class Rva002AA22AByteField
 {
 public:
 	unsigned char get() const;
 };
-
 class ParticleSystem
 {
 public:
 	bool isSaveable() const;
 };
-
 class PlayerList
 {
 public:
+	virtual ~PlayerList();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+	virtual void newGame();
+
 	Player *getNthPlayer(Int i);
+	Player *getNeutralPlayer() { return m_players[0]; }
+	Player *findPlayerWithNameKey(NameKeyType key);
+	void setLocalPlayer(Player *player);
+
 	Player *getPlayerFromMask(PlayerMaskType mask);
 	Player *getEachPlayerFromMask(PlayerMaskType &maskToAdjust);
 	int rva002A7C0B(bool flag);
@@ -100,11 +183,14 @@ public:
 	PlayerMaskType getPlayersWithRelationship(Int srcPlayerIndex, unsigned int allowedRelationships, bool reverse);
 
 private:
-	unsigned char m_pad[0x14];
-	Int m_playerCount; // +0x14
-	Player *m_players[1]; // +0x18
+	char m_pad04[0x10 - 4];
+	Player *m_local;	// +0x10
+	Int m_playerCount;	// +0x14
+	Player *m_players[20];	// +0x18
 };
 
+// Select-any copy of the body rowed in SidesList_getSideInfo.cpp.
+__declspec(noinline) inline SidesInfo *SidesList::getSideInfo(Int i){return(i>=0 && i<m_numSides)?&m_sides[i]:0;}
 // ?getNthPlayer@PlayerList@@QAEPAVPlayer@@H@Z
 Player *PlayerList::getNthPlayer(Int i)
 {
@@ -245,3 +331,102 @@ PlayerMaskType PlayerList::getPlayersWithRelationship(Int srcPlayerIndex, unsign
 
 	return retVal;
 }
+
+void PlayerList::newGame()
+{
+	Int i;
+
+	TheTeamFactory->clear(); // cleans up energy, among other things
+
+	// first, re-init ourselves.
+	init();
+
+	// ok, now create the rest of players we need.
+	Bool setLocal = false;
+	for( i = 0; i < TheSidesList->getNumSides(); i++)
+	{
+		Dict *d = TheSidesList->getSideInfo(i)->getDict();
+		AsciiString pname = d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
+		if (pname.isEmpty())
+			continue;	// it's neutral, which we've already done, so skip it.
+
+		Player* p = m_players[m_playerCount++];
+		p->initFromDict(d);
+
+		// Multiplayer override
+		Bool exists;	// throwaway, since we don't care if it exists
+		if (d->getBool(TheKey_multiplayerIsLocal.get(), &exists))
+		{
+			setLocalPlayer(p);
+			setLocal = true;
+		}
+
+		if (!setLocal && !TheNetwork && d->getBool(TheKey_playerIsHuman.get()))
+		{
+			setLocalPlayer(p);
+			setLocal = true;
+		}
+
+		// Set the build list.
+		setBuildList(p, TheSidesList->getSideInfo(i)->getBuildList());
+		// Build list is attached to player now, so release it from the side info.
+		TheSidesList->getSideInfo(i)->releaseBuildList();
+	}
+
+	if (!setLocal)
+	{
+		for( i = 0; i < TheSidesList->getNumSides(); i++)
+		{
+			Player* p = getNthPlayer(i);
+			if (p != getNeutralPlayer())
+			{
+				p->setPlayerType(PLAYER_HUMAN, false);
+				setLocalPlayer(p);
+				setLocal = true;
+				break;
+			}
+		}
+	}
+
+	// must reset teams *after* creating players.
+	TheTeamFactory->initFromSides(TheSidesList);
+
+	for( i = 0; i < TheSidesList->getNumSides(); i++)
+	{
+		Dict *d = TheSidesList->getSideInfo(i)->getDict();
+		Player* p = findPlayerWithNameKey(NAMEKEY(d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get())));
+
+		AsciiString tok;
+
+		AsciiString enemies = d->getAsciiString(TheKey_playerEnemies.get());
+		while (enemies.nextToken(&tok))
+		{
+			Player *p2 = findPlayerWithNameKey(NAMEKEY(tok));
+			if (p2)
+			{
+				setPlayerRelationship(p, p2, ENEMIES);
+			}
+		}
+
+		AsciiString allies = d->getAsciiString(TheKey_playerAllies.get());
+		while (allies.nextToken(&tok))
+		{
+			Player *p2 = findPlayerWithNameKey(NAMEKEY(tok));
+			if (p2)
+			{
+				setPlayerRelationship(p, p2, ALLIES);
+			}
+		}
+
+		// finally, make sure self & neutral are correct.
+		setPlayerRelationship(p, p, ALLIES);
+		if (p != getNeutralPlayer())
+			setPlayerRelationship(p, getNeutralPlayer(), NEUTRAL);
+
+		p->setDefaultTeam();
+	}
+
+}
+
+// ?bfmeAnchorGetSideInfoCopy@@YAXPAVSidesList@@@Z absent-from-retail
+void bfmeAnchorGetSideInfoCopy(SidesList *p) { p->getSideInfo(0); }
