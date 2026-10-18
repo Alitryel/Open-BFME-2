@@ -42,10 +42,17 @@ public:
 	Real m_amount; // +0x20
 };
 
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();	// 0x00263895
+};
 class DamageInfo
 {
 public:
-	DamageInfo();
+	__declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
 	DamageInfoInput in;
 	char m_pad24[0x7C - 0x24];
 };
@@ -106,11 +113,13 @@ extern GlobalData *TheWritableGlobalData; // 0x00DFE758
 
 // The contain list's append is the STLport four-byte list push_back body
 // 0x0005548F (ICF-shared with list<int>), not the separate list<Object*>
-// instance 0x001EC03C, so the list is modelled as its own class here.
+// instance 0x001EC03C, so the list is modelled as its own class here; the
+// append binds to the rowed list<int> body (stlport_list_int_o1.cpp).
+namespace _STL { template <> void list<int, allocator<int> >::push_back(const int &value); }
 class TunnelContainedItemsList
 {
 public:
-	void push_back(Object *const &obj);
+	__declspec(dllimport) __forceinline void push_back(Object *const &obj) { ((_STL::list<int> *)this)->push_back((const int &)obj); }
 private:
 	void *m_node;
 };

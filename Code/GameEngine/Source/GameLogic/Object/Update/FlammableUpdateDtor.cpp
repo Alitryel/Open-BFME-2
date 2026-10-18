@@ -102,10 +102,17 @@ enum UpdateSleepTime
 
 // The BFME 2 DamageInfo as these bodies reach it: the 0x7C-byte record the
 // rowed initializer 0x00263895 builds.
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();	// 0x00263895
+};
 class DamageInfo
 {
 public:
-	DamageInfo();
+	__declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
 	Int m_unknown00[2];
 	UnsignedInt m_sourceID; // +0x08
 	Int m_unknown0C;
@@ -544,12 +551,15 @@ public:
 // builds the same pair, also address-named). Retail copies it through the
 // folded {dword, AsciiString} copy constructor at 0x000CF475; the type's own
 // name is unknown.
-struct Rva000CF475FireFX
+// Spelled as the rowed twin TreeKey00242F5E (stlport_rb_tree_hint_00242f5e.cpp)
+// so the copy binds to that row.
+struct TreeKey00242F5E
 {
 	const FXList *fx;
 	AsciiString boneName;
-	Rva000CF475FireFX(const Rva000CF475FireFX &that);
+	TreeKey00242F5E(const TreeKey00242F5E &that);
 };
+typedef TreeKey00242F5E Rva000CF475FireFX;
 
 class FlammableUpdateModuleData
 {
