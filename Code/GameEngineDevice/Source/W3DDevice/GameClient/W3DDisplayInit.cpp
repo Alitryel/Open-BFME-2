@@ -157,11 +157,12 @@ public:
 
 enum StaticGameLODLevel { STATIC_GAME_LOD_UNKNOWN = -1 };
 
+class Rva00202739 { public: Bool rva00202739(Int); };
 class GameLODManager
 {
 public:
 	StaticGameLODLevel findStaticLODLevel();
-	Bool rva00202739(Int level);
+	/* the rowed Rva00202739::rva00202739 */ __declspec(dllimport) __forceinline Bool rva00202739(Int p0) { return ((Rva00202739 *)this)->rva00202739(p0); }
 	unsigned char m_pad00[0x1768];
 	Int m_staticLODLevel;			// +0x1768
 };
