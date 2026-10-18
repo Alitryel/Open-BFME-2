@@ -9,7 +9,7 @@ public:
 };
 
 extern Rva000756BFItem * volatile g_00DE1F2C[];
-extern int g_00DE1F5C;
+int g_00DE1F5C;	// retail RVA 0x009E1F5C (.bss), defined here
 
 bool __cdecl Rva000756BFSelect(int index, int a1, int a2)
 {
