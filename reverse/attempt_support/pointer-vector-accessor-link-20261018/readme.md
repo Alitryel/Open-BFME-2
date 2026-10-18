@@ -24,3 +24,10 @@ BFME1's verified reference revision remains 64d369b90170b7e9ec917d646f020b11f13e
 updating the pointer remains blocked by another seat's submodule claim.
 The source expressions come from the existing STLport header, with target
 byte and object evidence establishing this repair's applicability.
+
+The commit hook also reports an existing code-identity shadow finding in
+`LargeGroupAudio::removeOverrides`: its vector<unsigned> assignment binding at
+retail RVA 0x0026F4F4 does not reproduce that callee. The retained-section proof
+includes all caller bytes and symbolic relocations, so this repair preserves
+that debt. The +283 B result is the legacy index prediction; closed-strict
+closure remains unmeasured.
