@@ -153,31 +153,7 @@ private:
 	Rva0009D6FATexture m_1D0;
 };
 
-Rva0009D55BProduct::Rva0009D55BProduct()
-	: m_C0(0), m_C4(0), m_C8(0), m_CC(0), m_D0(0), m_D4(0),
-	  m_D8(1.0f), m_DC(1.0f),
-	  m_E0(0.0f), m_EC(0.9f), m_F8(0.0f), m_104(0.0f), m_110(0.0f),
-	  m_11C(0.0f), m_120(10.0f), m_134(1.0f), m_138(0.0f), m_13C(0.52359879f),
-	  m_188(0), m_18C(0), m_190(0), m_194(0), m_198(0.0f), m_19C(0), m_1AC(0.0f),
-	  m_1CC(0)
-{
-}
 
-Rva0009D55BProduct::~Rva0009D55BProduct()
-{
-	((Rva0009AB6B *)this)->rva0009AB85();
-	if (m_C8 && m_C4 && m_C8->isInScene())
-		m_C4->removeRenderObject(m_C8);
-	if (m_CC && m_C4 && m_CC->isInScene())
-		m_C4->removeRenderObject(m_CC);
-	if (m_D0 && m_C4 && m_D0->isInScene())
-		m_C4->removeRenderObject(m_D0);
-	D55B_REF_PTR_RELEASE(m_C0);
-	D55B_REF_PTR_RELEASE(m_C4);
-	D55B_REF_PTR_RELEASE(m_C8);
-	D55B_REF_PTR_RELEASE(m_CC);
-	D55B_REF_PTR_RELEASE(m_D0);
-}
 
 // ?rva0009C784@Rva0009D55BProduct@@UAEXII@Z retail 0x0009C784 (144 bytes,
 // ret 8; slot 19 of the product table 0x00BC89C8): after the rowed
@@ -229,19 +205,6 @@ class LightClass { public: enum LightType { POINT = 0, DIRECTIONAL = 1 }; LightC
 class Matrix3D;
 class Rva0009C134Host { public: void rva0009BAA4(); void rva0009CD9B(); void rva0009AACF(int obj, float opacity); void rva0009B510(Matrix3D &tm, float distance, float pitch); };
 
-void Rva0009D55BProduct::rva0009D862()
-{
-	((Rva0009AB6B *)this)->rva0009AB85();
-	m_C0 = (Rva0009D6FARef *)new CameraClass;
-	m_C4 = (Rva0009D6FAScene *)new Rva0009AA0F((int)this);
-	m_C8 = (Rva0009D6FARenderObj *)new LightClass(LightClass::DIRECTIONAL);
-	m_CC = (Rva0009D6FARenderObj *)new LightClass(LightClass::DIRECTIONAL);
-	m_D0 = (Rva0009D6FARenderObj *)new LightClass(LightClass::DIRECTIONAL);
-	m_134 = 1.0f;
-	m_F8 = m_104;
-	((Rva0009C134Host *)this)->rva0009BAA4();
-	((Rva0009C134Host *)this)->rva0009CD9B();
-}
 
 // ?rva0009DB5A@Rva0009D55BProduct@@UAEX_N@Z retail 0x0009DB5A (154 bytes,
 // ret 4): deactivation first resets the view (rowed 0x0009DA28); the
@@ -321,28 +284,6 @@ float g_Va00DB4AB4 = 0.6000000238418579f;	// retail RVA 0x009B4AB4 (.data), defi
 static inline float Rva0009BC17Lerp(float a, float b, float t) { return (b - a) * t + a; }
 struct Rva0009BC17GlobalView { unsigned char m_pad[0xD2E]; bool m_D2E; };
 
-void Rva0009D55BProduct::rva0009BC17()
-{
-	if (m_C4 == 0 || m_C0 == 0 || !((Rva0009DB5ALivingWorldView *)this)->m_active)
-		return;
-	ShaderOverbrightEnabled = true;
-	Vector3 black = { 0.0f, 0.0f, 0.0f };
-	DX8Wrapper::Clear(true, true, true, black, 0.0f, 1.0f, 0);
-	int row = 0;
-	if (TheWritableGlobalData && ((Rva0009BC17GlobalView *)TheWritableGlobalData)->m_D2E)
-		++row;
-	m_13C = Rva0009BC17Lerp(g_Va00DE5E38[row], g_Va00DE5E38[2], m_198);
-	m_D8 = Rva0009BC17Lerp(g_Va00DE5E2C[row], g_Va00DE5E2C[2], m_198);
-	if (m_18C)
-		((Rva0009C134Host *)this)->rva0009AACF(m_18C, 1.0f - m_134);
-	if (m_190)
-		((Rva0009C134Host *)this)->rva0009AACF(m_190, (m_134 - 0.5f) * 2.0);
-	if (m_194)
-		((Rva0009C134Host *)this)->rva0009AACF(m_194, (1.0f - g_Va00DB4AB4) * m_134 + g_Va00DB4AB4);
-	m_C4->slot6(m_E0);
-	((Rva0009C134Host *)this)->rva0009BAA4();
-	Rva00118660Call(m_C4, m_C0);
-}
 
 // ?rva0009BAA4@Rva0009D55BProduct@@QAEXXZ retail 0x0009BAA4 (371 bytes; the
 // refresh slots 8 and 9 and the setup 0x0009D862 run, pinned there as
@@ -388,37 +329,7 @@ float __cdecl Rva0009AAA8Get(float x);
 struct Rva0009BAA4HostView { unsigned char m_pad[0x38]; float m_38; };
 struct Rva0009BAA4LivingWorldView { unsigned char m_pad[0x19]; bool m_19; };
 
-void Rva0009D55BProduct::rva0009BAA4()
-{
-	Matrix3D tm(true);
-	float zoom = m_134;
-	float square = zoom * zoom;
-	float distance = Rva0009BC17Lerp(m_D8, m_DC, Rva0009AAA8Get((square + zoom) * 0.5f));
-	float pitch = Rva0009BC17Lerp(m_13C, 0.0f, Rva0009AAA8Get(m_134));
-	if (((Rva0009BAA4LivingWorldView *)this)->m_19)
-		pitch = ((Rva0009BAA4HostView *)TheLivingWorldManager)->m_38;
-	if (m_C0)
-	{
-		((CameraClass *)m_C0)->Set_Clip_Planes(10.0f, distance * 1.5f + 2000.0f);
-		((CameraClass *)m_C0)->Set_View_Plane(0.87266463f, -1.0f);
-		((Rva0009C134Host *)this)->rva0009B510(tm, distance, pitch);
-		((Rva0009BAA4CameraSlots *)m_C0)->Set_Transform(tm);
-		if (TheAudio)
-			((Rva0009BAA4AudioSlots *)TheAudio)->slot22();
-	}
-}
 
-// ?rva0009C144@Rva0009D55BProduct@@UAEXXZ retail 0x0009C144 (70 bytes; slot 7
-// of the product table): clears +0x11C and +0x138, sets the +0x134 zoom to 1,
-// copies the +0x104 vector to +0xF8 and tail-calls the camera refresh.
-void Rva0009D55BProduct::rva0009C144()
-{
-	m_11C = 0.0f;
-	m_134 = 1.0f;
-	m_138 = 0.0f;
-	m_F8 = m_104;
-	rva0009BAA4();
-}
 
 // ?rva0009C4FC@Rva0009D55BProduct@@UAEXHHHH@Z retail 0x0009C4FC (648 bytes,
 // ret 0x10; slot 9 of the product table): the viewport sibling of slot 8.
@@ -439,63 +350,6 @@ public:
 extern Display *TheDisplay;
 struct Rva0009C4FCLivingWorldView { unsigned char m_pad[0x18]; bool m_active; bool m_19; };
 
-void Rva0009D55BProduct::rva0009C4FC(int x, int y, int width, int height)
-{
-	if (m_C4 == 0 || m_C0 == 0 || !((Rva0009C4FCLivingWorldView *)this)->m_19 || !((Rva0009C4FCLivingWorldView *)this)->m_active)
-		return;
-	m_1B0.a = x;
-	m_1B0.b = y;
-	m_1B8.a = width;
-	m_1B8.b = height;
-	float w = (float)width;
-	float h = (float)height;
-	float invWidth, screenHeight;
-	{
-		Vector2 screen((float)TheDisplay->getWidth(), (float)TheDisplay->getHeight());
-		invWidth = 1.0f / screen.X;
-		screenHeight = screen.Y;
-	}
-	{
-		Vector2 vmin;
-		Vector2 vmax;
-		vmin.X = x * invWidth;
-		float invHeight = 1.0f / screenHeight;
-		vmin.Y = y * invHeight;
-		vmax.X = invWidth * w + vmin.X;
-		vmax.Y = invHeight * h + vmin.Y;
-		if (0.0f > vmin.X)
-			vmin.X = 0.0f;
-		if (0.0f > vmin.Y)
-			vmin.Y = 0.0f;
-		if (vmax.X > 1.0f)
-			vmax.X = 1.0f;
-		if (vmax.Y > 1.0f)
-			vmax.Y = 1.0f;
-		((CameraClass *)m_C0)->Set_Viewport(vmin, vmax);
-	}
-	((CameraClass *)m_C0)->Set_Aspect_Ratio(w / h);
-	ShaderOverbrightEnabled = true;
-	{
-		Vector3 black = { 0.0f, 0.0f, 0.0f };
-		DX8Wrapper::Clear(false, true, true, black, 0.0f, 1.0f, 0);
-	}
-	int row = 0;
-	if (TheWritableGlobalData && ((Rva0009BC17GlobalView *)TheWritableGlobalData)->m_D2E)
-		++row;
-	m_13C = Rva0009BC17Lerp(g_Va00DE5E38[row], g_Va00DE5E38[2], m_198);
-	m_D8 = Rva0009BC17Lerp(g_Va00DE5E2C[row], g_Va00DE5E2C[2], m_198);
-	if (((Rva0009C4FCLivingWorldView *)this)->m_19)
-		m_13C = ((Rva0009BAA4HostView *)TheLivingWorldManager)->m_38;
-	if (m_18C)
-		((Rva0009C134Host *)this)->rva0009AACF(m_18C, 0.0f);
-	if (m_190)
-		((Rva0009C134Host *)this)->rva0009AACF(m_190, 0.0f);
-	if (m_194)
-		((Rva0009C134Host *)this)->rva0009AACF(m_194, 0.8f);
-	m_C4->slot6(m_E0);
-	((Rva0009C134Host *)this)->rva0009BAA4();
-	Rva00118660Call(m_C4, m_C0);
-}
 
 // ?rva0009C422@Rva0009D55BProduct@@UAEX_N@Z retail 0x0009C422 (218 bytes,
 // ret 4; slot 20 of the product table): remembers the camera's aspect ratio
@@ -510,40 +364,6 @@ public:
 	virtual void slot7();
 };
 
-void Rva0009D55BProduct::rva0009C422(bool active)
-{
-	Rva0009DB5ALivingWorldView *state = (Rva0009DB5ALivingWorldView *)this;
-	if (m_1AC == 0.0f && m_C0)
-	{
-		if (state->m_viewMode)
-			return;
-		m_1AC = ((CameraClass *)m_C0)->Get_Aspect_Ratio();
-	}
-	state->m_viewMode = active;
-	if (!active)
-	{
-		if (m_C0)
-		{
-			Vector2 lo(0.0f, 0.0f);
-			Vector2 hi(1.0f, 1.0f);
-			((CameraClass *)m_C0)->Set_Viewport(lo, hi);
-			if (m_1AC == 0.0f)
-				return;
-			((CameraClass *)m_C0)->Set_Aspect_Ratio(m_1AC);
-		}
-	}
-	else
-	{
-		char *base = (char *)TheLivingWorldManager + 0x14;
-
-		m_134 = *(float *)(base + 0x20);
-		m_F8.x = *(float *)(base + 0x18);
-		m_F8.y = *(float *)(base + 0x1C);
-		((Rva0009C134Host *)this)->rva0009BAA4();
-	}
-	if (!active)
-		((Rva0009C422Slots *)this)->slot7();
-}
 
 // Native 0009BD98..0009BF33, RET8: camera pan and angle update at slot11
 // of BC89C8, installed by the owned397B constructor0009D55B. Native factory
