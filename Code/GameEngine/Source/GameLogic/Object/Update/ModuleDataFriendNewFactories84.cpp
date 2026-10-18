@@ -42,14 +42,6 @@ public:
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
-// ?friend_newModuleData@ScavengerSpecialPowerModuleData@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *ScavengerSpecialPowerModuleData::friend_newModuleData(INI *ini)
-{
-	DefectorSpecialPowerModuleData *data = new DefectorSpecialPowerModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, DefectorSpecialPowerModuleDataParse_251DCC);
-	return reinterpret_cast<ModuleData *>(data);
-}
 
 // 0x002531B0 / 0x0025327A: both news 0xC8 with the one folded ctor
 // ??0EvacuateGarrisonSpecialPowerModuleData (rowed 0x4CDFD9); parse procs
