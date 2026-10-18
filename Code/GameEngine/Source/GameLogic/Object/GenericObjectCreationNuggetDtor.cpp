@@ -123,6 +123,6 @@ void GenericObjectCreationNugget::bfmeEmitDtor(GenericObjectCreationNugget *p)
 
 // ??1ObjectCreationNugget@@UAE@XZ @0x001F0409 7B: the empty dtor, restoring the vtable (the
 // deleting dtor still expands it inline).
-ObjectCreationNugget::~ObjectCreationNugget()
+inline ObjectCreationNugget::~ObjectCreationNugget()
 {
 }

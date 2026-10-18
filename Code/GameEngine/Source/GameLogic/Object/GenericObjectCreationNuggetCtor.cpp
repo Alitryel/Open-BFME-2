@@ -32,12 +32,12 @@ template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
 struct AnimSet { AsciiString initial, flying, final; };
-extern const AsciiString TheEmptyString;
 
 class ObjectCreationNugget
 {
 public:
-	virtual ~ObjectCreationNugget();
+	// Retail 1F0409 is empty; its deleting wrapper expands this vptr restore.
+	virtual ~ObjectCreationNugget() {}
 };
 
 struct RetailCoord3D
@@ -140,9 +140,9 @@ private:
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline GenericObjectCreationNugget::GenericObjectCreationNugget()
-	: m_putInContainer(TheEmptyString)
+	: m_putInContainer(AsciiString::TheEmptyString)
 	, m_fxFinal(0)
-	, m_particleSysName(TheEmptyString)
+	, m_particleSysName(AsciiString::TheEmptyString)
 	, m_debrisToGenerate(1)
 	, m_mass(0.0f)
 	, m_extraBounciness(0.0f)
