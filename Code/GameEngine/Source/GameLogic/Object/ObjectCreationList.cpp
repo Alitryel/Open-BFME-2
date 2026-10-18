@@ -767,55 +767,7 @@ class GenericObjectCreationNugget : public ObjectCreationNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(GenericObjectCreationNugget, "GenericObjectCreationNugget")		
 public:
 
-	GenericObjectCreationNugget() : 
-		m_requiresLivePlayer(FALSE),
-		m_debrisToGenerate(1), 
-		m_mass(0), 
-		m_extraBounciness(0),
-		m_extraFriction(0),
-		m_disposition(ON_GROUND_ALIGNED),
-		m_dispositionIntensity(0.0f),
-		m_spinRate(-1.0f),
-		m_yawRate(-1.0f),
-		m_rollRate(-1.0f),
-		m_pitchRate(-1.0f),
-		m_nameAreObjects(true),
-		m_okToChangeModelColor(false),
-		m_minLODRequired(STATIC_GAME_LOD_LOW),
-		m_ignorePrimaryObstacle(false),
-		m_inheritsVeterancy(false),
-    m_diesOnBadLand(FALSE),
-		m_skipIfSignificantlyAirborne(false),
-		m_invulnerableTime(0),
-		m_containInsideSourceObject(FALSE),
-    m_minHealth(1.0f),
-		m_maxHealth(1.0f),
-		m_orientInForceDirection(false),
-		m_spreadFormation(false),
-		m_minDistanceAFormation(0.0f),
-		m_minDistanceBFormation(0.0f),
-		m_maxDistanceFormation(0.0f),
-		m_fadeIn(false),
-		m_fadeOut(false),
-		m_fadeFrames(0),
-		m_fadeSoundName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_particleSysName(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_putInContainer(AsciiString::TheEmptyString), // Added By Sadullah Nader
-		m_minMag(0.0f),
-		m_maxMag(0.0f),
-		m_minPitch(0.0f),
-		m_maxPitch(0.0f),
-		m_minFrames(0),
-		m_maxFrames(0),
-		m_shadowType(SHADOW_NONE),
-		m_fxFinal(NULL),
-		m_preserveLayer(true),
-		m_objectCount(0) // Added By Sadullah Nader
-	{
-		// Change Made by Sadullah Nader
-		// for init purposes, easier to read
-		m_offset.zero(); 
-	}
+	GenericObjectCreationNugget();	// rowed 0x001F0E32 (GenericObjectCreationNuggetCtor.cpp)
 
 	virtual Object* create(const Object* primary, const Object* secondary, UnsignedInt lifetimeFrames = 0 ) const
 	{
@@ -852,100 +804,11 @@ public:
 		return NULL;
 	}
 
-	static const FieldParse* getCommonFieldParse()
-	{
-		static const FieldParse commonFieldParse[] =
-		{
-			{ "PutInContainer", INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_putInContainer) },
-			{ "ParticleSystem",		INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_particleSysName) },
-			{ "Count",						INI::parseInt,						NULL, offsetof( GenericObjectCreationNugget, m_debrisToGenerate ) },
-			{ "IgnorePrimaryObstacle", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_ignorePrimaryObstacle) },
-			{ "OrientInForceDirection", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_orientInForceDirection) },
-			{ "ExtraBounciness",				INI::parseReal,						NULL, offsetof( GenericObjectCreationNugget, m_extraBounciness ) },
-			{ "ExtraFriction",				parseFrictionPerSec,						NULL, offsetof( GenericObjectCreationNugget, m_extraFriction ) },
-			{ "Offset",						INI::parseCoord3D,				NULL, offsetof( GenericObjectCreationNugget, m_offset ) },
-			{ "Disposition",			INI::parseBitString32,			DebrisDispositionNames, offsetof( GenericObjectCreationNugget, m_disposition ) },
-			{ "DispositionIntensity",	INI::parseReal,						NULL,	offsetof( GenericObjectCreationNugget, m_dispositionIntensity ) },
-			{ "SpinRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_spinRate) },
-			{ "YawRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_yawRate) },
-			{ "RollRate",					INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_rollRate) },
-			{ "PitchRate",				INI::parseAngularVelocityReal,	NULL, offsetof(GenericObjectCreationNugget, m_pitchRate) },
-			{ "MinForceMagnitude",	INI::parseReal,	NULL, offsetof(GenericObjectCreationNugget, m_minMag) },
-			{ "MaxForceMagnitude",	INI::parseReal,	NULL, offsetof(GenericObjectCreationNugget, m_maxMag) },
-			{ "MinForcePitch",	INI::parseAngleReal,	NULL, offsetof(GenericObjectCreationNugget, m_minPitch) },
-			{ "MaxForcePitch",	INI::parseAngleReal,	NULL, offsetof(GenericObjectCreationNugget, m_maxPitch) },
-			{ "MinLifetime",					INI::parseDurationUnsignedInt,		NULL, offsetof( GenericObjectCreationNugget, m_minFrames ) },
-			{ "MaxLifetime",					INI::parseDurationUnsignedInt,		NULL, offsetof( GenericObjectCreationNugget, m_maxFrames ) },
-			{ "SpreadFormation",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_spreadFormation) },
-			{ "MinDistanceAFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_minDistanceAFormation) },
-			{ "MinDistanceBFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_minDistanceBFormation) },
-			{ "MaxDistanceFormation",	INI::parseReal, NULL, offsetof(GenericObjectCreationNugget, m_maxDistanceFormation) },
-			{ "FadeIn",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_fadeIn) },
-			{ "FadeOut",			INI::parseBool,	NULL, offsetof(GenericObjectCreationNugget, m_fadeOut) },
-			{ "FadeTime",	INI::parseDurationUnsignedInt,	NULL, offsetof(GenericObjectCreationNugget, m_fadeFrames) },
-			{ "FadeSound", INI::parseAsciiString, NULL, offsetof( GenericObjectCreationNugget, m_fadeSoundName) },
-			{ "PreserveLayer", INI::parseBool, NULL, offsetof( GenericObjectCreationNugget, m_preserveLayer) },
-			{ "DiesOnBadLand",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_diesOnBadLand) },
-			{ 0, 0, 0, 0 }
-		};
-		return commonFieldParse;
-	}
+	static const FieldParse* getCommonFieldParse();	// rowed 0x001F01EB
 
-	static void parseObject(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "ContainInsideSourceObject", INI::parseBool, NULL, offsetof( GenericObjectCreationNugget, m_containInsideSourceObject) },
-			{ "ObjectNames",				parseDebrisObjectNames,		NULL, 0 },
-			{ "ObjectCount",				INI::parseInt,  NULL, offsetof(GenericObjectCreationNugget, m_objectCount) },
-			{ "InheritsVeterancy",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_inheritsVeterancy) },
-			{ "SkipIfSignificantlyAirborne", INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_skipIfSignificantlyAirborne) },
-			{ "InvulnerableTime",		INI::parseDurationUnsignedInt, NULL, offsetof(GenericObjectCreationNugget, m_invulnerableTime) },
-			{ "MinHealth",					INI::parsePercentToReal, NULL, offsetof(GenericObjectCreationNugget, m_minHealth) },
-			{ "MaxHealth",					INI::parsePercentToReal, NULL, offsetof(GenericObjectCreationNugget, m_maxHealth) },
-			{ "RequiresLivePlayer",	INI::parseBool, NULL, offsetof(GenericObjectCreationNugget, m_requiresLivePlayer) },
-			{ 0, 0, 0, 0 }
-		};
+	static void parseObject(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x001F311B
 
-		MultiIniFieldParse p;
-		p.add(getCommonFieldParse());
-		p.add(myFieldParse);
-
-		GenericObjectCreationNugget* nugget = newInstance(GenericObjectCreationNugget);
-		nugget->m_nameAreObjects = true;
-
-		ini->initFromINIMulti(nugget, p);
-
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
-
-	static void parseDebris(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
-	{
-		static const FieldParse myFieldParse[] = 
-		{
-			{ "ModelNames",							parseDebrisObjectNames,							NULL,					0 },
-			{ "Mass",										INI::parsePositiveNonZeroReal,			NULL,					offsetof( GenericObjectCreationNugget, m_mass ) },
-			{ "AnimationSet",						parseAnimSet,												NULL,					offsetof( GenericObjectCreationNugget, m_animSets) },
-			{ "FXFinal",								INI::parseFXList,										NULL,					offsetof( GenericObjectCreationNugget, m_fxFinal) },
-			{ "OkToChangeModelColor",		INI::parseBool,											NULL,					offsetof(GenericObjectCreationNugget, m_okToChangeModelColor) },
-			{ "MinLODRequired",					INI::parseStaticGameLODLevel,				NULL,					offsetof(GenericObjectCreationNugget, m_minLODRequired) },
-			{ "Shadow",									INI::parseBitString32,							TheShadowNames,	offsetof( GenericObjectCreationNugget, m_shadowType ) },
-			{ "BounceSound",						INI::parseAudioEventRTS,						NULL,					offsetof( GenericObjectCreationNugget, m_bounceSound) },
-			{ 0, 0, 0, 0 }
-		};
-
-		MultiIniFieldParse p;
-		p.add(getCommonFieldParse());
-		p.add(myFieldParse);
-
-		GenericObjectCreationNugget* nugget = newInstance(GenericObjectCreationNugget);
-		nugget->m_nameAreObjects = false;
-
-		ini->initFromINIMulti(nugget, p);
-
-		DEBUG_ASSERTCRASH(nugget->m_mass > 0.0f, ("Zero masses are not allowed for debris!\n"));
-		((ObjectCreationList*)instance)->addObjectCreationNugget(nugget);
-	}
+	static void parseDebris(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x001F340A
 
 	static void parseAnimSet(INI *ini, void * /*instance*/, void* store, const void* /*userData*/)
 	{
@@ -1729,3 +1592,12 @@ void ObjectCreationListStore::parseObjectCreationListDefinition(INI *ini)
 // Retain the already-rowed default constructor formerly emitted by the donor
 // parser's by-value map. Retail's replacement parser instead stores pointers.
 template ObjectCreationList& _STL::map<NameKeyType, ObjectCreationList>::operator[](const NameKeyType&);
+
+// parseObject/parseDebris are rowed in GenericObjectCreationNuggetParseObject.cpp;
+// parseDebris's table used to be what emitted this unit's rowed parseAnimSet
+// (and with it the AnimSet vector helpers), so reference it here.
+// ?bfmeAnchorParseAnimSet absent-from-retail
+void *bfmeAnchorParseAnimSet()
+{
+	return (void *)&GenericObjectCreationNugget::parseAnimSet;
+}
