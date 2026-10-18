@@ -1,45 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD
-// The shared headers declare these members with the access/virtual spelling
-// the referring objects use; this TU emits the paired definition spelling.
-// Same function, same address: bind the header spelling here.
-struct EmitVtableTag;
-
-#pragma comment(linker, "/alternatename:??1DockUpdate@@MAE@XZ=??1DockUpdate@@UAE@XZ")
-
-//
-// Scalar deleting-destructor wrappers with audited owner attributions.
-// Target facts: 28-byte flag-test wrappers, their call destinations, and the
-// vtable slot-0 links below. Owner evidence is stated per body; retail module
-// registrations and class-name strings are distinguished from donor-derived
-// class spellings. A named slot alone does not establish the complete owner.
-// See docs/reconstruction/deleting-destructor-identity-audit.md.
-//
-// These minimal declarations emit the wrappers, not complete class layouts.
-// No bases, member layout, or destructor implementation are claimed here.
-// The noinline empty destructor is an unmatched compilation scaffold; the
-// verified wrapper call resolves to the retail destructor through its pin.
-
-// ??_GAttributeModifierAuraUpdate@@UAEPAXI@Z @0x0049B884 28B: slot 0 of vtable 0x00C50D2C; calls ??1 at 0x0049B6DD.
-// Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x0049B5DC uses class-name string "AttributeModifierAuraUpdate".
-class AttributeModifierAuraUpdate { public: AttributeModifierAuraUpdate(EmitVtableTag *); virtual ~AttributeModifierAuraUpdate(); };
-// ?<AttributeModifierAuraUpdate::AttributeModifierAuraUpdate> absent-from-retail
-AttributeModifierAuraUpdate::AttributeModifierAuraUpdate(EmitVtableTag *) {}
-
-// ??_GProductionUpdate@@UAEPAXI@Z @0x0049E34C 28B: slot 0 of vtable 0x00C515BC; calls ??1 at 0x0049E1BF.
-// Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x0049E15E uses class-name string "ProductionUpdate".
-class ProductionUpdate { public: ProductionUpdate(EmitVtableTag *); virtual ~ProductionUpdate(); };
-// ?<ProductionUpdate::ProductionUpdate> absent-from-retail
-ProductionUpdate::ProductionUpdate(EmitVtableTag *) {}
-
-// ??_GEmotionTrackerUpdate@@UAEPAXI@Z @0x004B15CA 28B: slot 0 of vtable 0x00C5667C; calls ??1 at 0x004B1322.
-// Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x004B1393 uses class-name string "EmotionTrackerUpdate".
-class EmotionTrackerUpdate { public: EmotionTrackerUpdate(EmitVtableTag *); virtual ~EmotionTrackerUpdate(); };
-// ?<EmotionTrackerUpdate::EmotionTrackerUpdate> absent-from-retail
-EmotionTrackerUpdate::EmotionTrackerUpdate(EmitVtableTag *) {}
-
-// ??_GDockUpdate@@UAEPAXI@Z @0x0058A177 28B: slot 0 of vtable 0x00C70378; calls ??1 at 0x0058A0F4.
-// Owner evidence (audited 2026-09-26): donor ctor RVA 0x0058A290 stores this primary vptr at RVA 0x0058A2C5 and a separate interface vptr at +0x20; slot-3 xfer RVA 0x0058A410 corroborates the dock fields and member order.
-// Rowed in Rva0058A0F4Dtor.cpp, the unit of the destructor it calls.
+// The deleting destructors formerly scaffolded here are emitted by their
+// destructor units (AttributeModifierAuraUpdate, ProductionUpdate and
+// EmotionTrackerUpdate). Their rows live with those complete providers;
+// partial local vtables would compete with the real class views.
 
 #include "ascii_string.h"
 
