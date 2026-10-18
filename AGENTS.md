@@ -422,6 +422,16 @@ your model. Walled only by a missing function? Add `blocked-on=0x<rva>`: the que
 re-serves you as untried once it lands. `add_match` records `landed` and lists
 deferrals citing the body it landed — stage the log with your row.
 
+**Preserve substantial failed work.** Before retrying any function, read its
+attempt-log entries and linked evidence, regardless of how you selected it.
+For substantive attempts ending `blocked` or `partial`, commit a concise handoff
+under `reverse/attempt_support/` and cite its tracked path in the `re_log.py`
+evidence. Include hypotheses tested and ruled out, the exact remaining mismatch
+or prerequisite, the best candidate and useful diagnostic diffs, and relevant
+input revisions/compiler settings. Preserve better existing banks; retain only
+artifacts needed to resume (diagnostic source as patches or `.cpp.txt`). A simple
+blocker needs only a concise log entry.
+
 **Close, not exact? Bank the body:** `partial '<what is wrong>' --stash <your .cpp>
 --score <0..1>` keeps the candidate servable and starts the next agent from your
 body. Both flags are required (a `partial` without a banked body landed 5.1%
