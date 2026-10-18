@@ -399,11 +399,12 @@ enum TFade
 	FADE_NONE
 };
 
+class Rva00203B47Host { public: Bool rva00203B47(); };
 class ScriptEngine
 {
 public:
 	virtual void update();
-	Bool isTimeFast();					// 0x00203B47
+	/* the rowed Rva00203B47Host::rva00203B47 */ __declspec(dllimport) __forceinline Bool isTimeFast() { return ((Rva00203B47Host *)this)->rva00203B47(); }					// 0x00203B47
 	void rva0020A7C9();					// 0x0020A7C9
 	void rva00203BE9();					// 0x00203BE9, end game
 	void walkNamed(Rva00355950Arr *list, Rva003412E0Node *node, bool flag);	// 0x0020A775
