@@ -139,10 +139,12 @@ private:
 	void *m_08;
 };
 
+class Rva001FA440 { public: Rva001FA440(); };
 class Rva001F8D70Map
 {
 public:
-	Rva001F8D70Map();
+	// Construction is the rowed ??0Rva001FA440, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva001F8D70Map() { ((Rva001FA440 *)this)->Rva001FA440::Rva001FA440(); }
 	~Rva001F8D70Map();
 
 private:
