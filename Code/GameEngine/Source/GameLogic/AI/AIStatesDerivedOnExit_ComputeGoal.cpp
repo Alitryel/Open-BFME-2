@@ -111,6 +111,7 @@ enum
 {
 	AI_IDLE = 0
 };
+class Drawable { public: void rva000B3FD0(); };
 class Locomotor
 {
 public:
@@ -123,7 +124,7 @@ public:
 	__declspec(dllimport) __forceinline void setAllowInvalidPosition(bool allow) { setFlag(ALLOW_INVALID_POSITION, allow); }
 	float getCloseEnoughDist() const { return m_closeEnoughDist; }
 	// Zero Hour's startMove; empty in BFME 2 and folded onto the shared RET.
-	void rva000B3FD0();
+	/* the rowed Drawable::rva000B3FD0 */ __declspec(dllimport) __forceinline void rva000B3FD0() { ((Drawable *)this)->rva000B3FD0(); }
 private:
 	void setFlag(LocoFlag f, bool b)
 	{
