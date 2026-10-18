@@ -71,22 +71,18 @@ extern GameSpyInfoInterface *TheGameSpyInfo;
 class AptOnlineCustomMatch
 {
 public:
-	void PopulateGamesListBox();	// rowed 0x005A061B
-};
-
-struct Rva005A0D61
-{
 	char pad[0x450];
 	Rva00580172 m_450;
 	char pad2[0x4AC - 0x450 - 4];
 	int m_4AC;
 
-	void Run(int flag);
+	void rva005A0D61(bool flag);
+	void PopulateGamesListBox();	// rowed 0x005A061B
 };
 
-void Rva005A0D61::Run(int flag)
+void AptOnlineCustomMatch::rva005A0D61(bool flag)
 {
-	if (((unsigned char *)&flag)[0] != 0)
+	if (flag)
 		goto tail;
 	{
 		int *slot = &m_4AC;
@@ -101,9 +97,10 @@ void Rva005A0D61::Run(int flag)
 		}
 	}
 tail:
-	((AptOnlineCustomMatch *)this)->PopulateGamesListBox();
+	PopulateGamesListBox();
 	{
 		unsigned long t = timeGetTime();
 		m_4AC = (int)t;
 	}
 }
+
