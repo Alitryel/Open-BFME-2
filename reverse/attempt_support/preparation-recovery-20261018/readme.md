@@ -1,60 +1,48 @@
-# Preserved link-repair recovery
+# Preparation recovery, 2026-10-18
 
-Recovered the preparation rebase onto `384cb143adcfeab2a92f5995f6b2a627069a85b8`.
-The original two key-cache repair commits remain separate. GameLogicInit keeps
-upstream's multiplayerIsLocal binding and the incoming team/player cache
-bindings together. No source reconstruction, new identity or compiler setting
-was introduced during recovery.
+Recovered the six commits retained at
+refs/runner/preparation/1792330072884873616 (old tip 9e3e62eb33), rebasing onto
+8f3fc23feb. No commit was skipped and the rebase was not aborted.
 
-Upstream `1ff2c94b14474aeeef34933c6684a120bb802723` moved PlayerList::newGame
-from the deleted PlayerListRva002A8008.cpp to PlayerList_getNthPlayer.cpp. The
-new home already contains the incoming multiplayerIsLocal fix, so the deleted
-file stays deleted. Upstream also already owns multiplayerIsLocal's data row;
-the duplicate incoming row was removed, leaving seven additional data rows
-(56 bytes) from the preserved repair.
+Upstream cd40722ad8 already removed the duplicate FadeInTextRender asset loader.
+The conflict resolution retains its implementation and combines the provenance
+comments. The previous seat's measurement and evidence remain historical; this
+recovery does not claim its gain again.
 
-Skipped `c97d06464cedb8dfd023ab8e0516927512bbc29a`: upstream
-`e6908df8b3aca60c002fedd08c8328e8c154e767` already repairs the same unused
-DrawableXfer max COMDAT and retains its paired verification evidence. Its
-verified dllimport/forceinline specialization is preserved. The skipped local
-overload and its evidence remain in the backup ref, rather than replacing the
-upstream repair or its evidence files.
+Upstream 5f1c587026 already suppressed the two prerequisite vector size copies.
+The automatic merge inserted a second identical explicit specialization in
+ProductionPrerequisiteInsertOverflow.cpp. The first dry-run push hook correctly
+refused it (MSVC C2995). Restore both prerequisite units to upstream's exact
+8f3fc23feb blobs, retaining the upstream verified implementation. This is a
+necessary compilation repair for the recovered batch, not another +592 B gain.
 
-Applied stash `e25361ef013322e556e9c253700424c743d86424` with --index. Its
-tracked and staged diffs are empty. All 31 untracked dumps/sweep files restored
-with their original blob hashes; saved-work.json accounts for each. They remain
-untracked and are not submitted as new source. The stash and preparation backup
-ref are retained. No saved change remains unresolved.
+Applied stash 7cb6aae8e6141cd53fb5db298052d5d8ef571bf6 with --index after the
+rebase. It contained no tracked changes and six untracked reverse/zh_sweep files:
+drift_report.csv and packets 0076b6a3, 00796558, 007a4b17, 007a86af, 007a8d18.
+Every restored file's git hash-object equals its stash third-parent blob. These
+pre-existing generated leads remain untracked; the stash and backup ref remain.
+No saved edit was discarded and no new task was drawn.
 
-## Verification against the recovered tree
+Acceptance at recovered tip 99d351d8aa with the redundant specializations removed:
+- build.sh both prerequisite units: 9/9 matched, reference checks pass.
+- link_check.py --prepare-current on the nine touched units and four existing
+  providers: 89/89 rows exact across 13 units, one data row verified, eight
+  strings and fourteen compiler float literals verified; strict reusable
+  receipts, census/index/status unchanged.
+- eh_verify.py on the same 13 units: 14/14 EH rows EXACT, no debt or missing object.
+- link_check.py --new-variants on all 13 units: passes.
+- data_check.py --enforce on all 13 units: zero findings; --converged checks
+  all 13 units against nine addresses, zero second names or unjudged rows.
+- check_csv.py and data_rows.py --check: pass; frozen-file and whitespace
+  checks pass for the two reconciled prerequisite units.
 
-- check_csv: 96,517 function rows, 16,000 symbol rows, 895 data rows, no errors.
-- Normal byte gate and bounded --prepare-current over GameLogicInit,
-  PlayerList_getNthPlayer and WorldHeightMap: 115/115 function rows, 13 data
-  rows, 70 literals, ten empty-string references, six floats and ten imports
-  pass. All three objects have strict reusable receipts (current-objects.json).
-- EH: 29 EXACT, zero exceptions or missing objects. Frozen-definition, class,
-  pin consistency and whitespace checks pass.
-- Enforced converged data: nine protected addresses, zero second names or
-  unjudged rows. General data_check --enforce returns 1 for five pre-existing
-  wrong-name findings; all five occur verbatim in the preserved player-key
-  repair's final-data.txt. No baseline or checker was changed to excuse them.
-- New-variant admission passes for the edited GameLogicInit unit. Including
-  the unchanged provider reports its existing setFlipState/vftable differences
-  against the old index; provider-new-variants.txt preserves both findings.
-- Local link_check refreshes the explicit objects in memory, without a global
-  refresh or census run. It returns 1 for retained unresolved/duplicate/COMDAT/
-  selected-provider debt; all three sources remain locally unlinked. The index
-  is measurement ac77c85054 (2026-10-15 14:25) and predates retail-truth-2's
-  reference graph. Its hash and metadata are in saved-work.json. This is a
-  legacy projection, with self-strict current objects, not closed-strict proof.
-
-The original paired before/after key-binding proofs remain historical evidence
-at their documented revisions. Recovery claims no additional authored C++ or
-linked bytes. BFME1's current committed pointer and clean checkout both remain
-64d369b90170b7e9ec917d646f020b11f13eb0d5; no reference update or successful
-freshness check is claimed. No maintainer-only runner was started.
-
-Publication is subject to the normal outgoing hook dry run and runner
-publisher; final command results are recorded in the session handoff. Ignored
-build/preparation-recovery-20261018 holds the gate and publisher logs.
+Local link_check.py on all 13 objects predicts 11 clean, 8933 -> 11149 linked
+bytes against the unchanged published c2c5ac8c27 census. That total includes
+upstream repairs and is not attributable to this recovery. ThingTemplate.cpp
+and ThingFactory.cpp retain their broader unresolved/provider findings. No
+closed-strict, full link-cycle, runtime or census-history gain is claimed.
+The original independent link repair evidence is retained in the adjacent
+NullShader, getBuildable and rank parser directories. No verification rule,
+baseline, pin or dependency was weakened. Current dry-run push acceptance and
+publication are reported in the runner completion metadata; ignored detailed
+check logs are in build/recovery-*.
