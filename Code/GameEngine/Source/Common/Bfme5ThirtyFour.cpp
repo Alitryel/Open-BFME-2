@@ -281,7 +281,7 @@ struct Rva006D0280 {
  __forceinline int increaseCount(){return ++m_useCount;}
  __forceinline int decreaseCount(){int &p=m_useCount;return --p;}
  __forceinline static void*operator new(unsigned int n){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(n);}
- __forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
+ __forceinline static void operator delete(void*p,unsigned int n){((Rva006DB270*)g_pChainBlockAllocator)->freeBlock(p,n);}
  int m_useCount;
  int unknown4;
  EAStringC name8;
