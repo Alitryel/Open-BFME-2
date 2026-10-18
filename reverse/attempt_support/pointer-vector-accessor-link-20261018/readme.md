@@ -31,3 +31,5 @@ retail RVA 0x0026F4F4 does not reproduce that callee. The retained-section proof
 includes all caller bytes and symbolic relocations, so this repair preserves
 that debt. The +283 B result is the legacy index prediction; closed-strict
 closure remains unmeasured.
+
+Publication reconciliation: Upstream af6384ec15 independently landed equivalent specializations in both units. Publication reconciliation keeps upstream code verbatim; the historical +283 B is already upstream, not an additional gain.

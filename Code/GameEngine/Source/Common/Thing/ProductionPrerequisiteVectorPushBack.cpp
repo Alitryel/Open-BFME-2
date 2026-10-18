@@ -48,14 +48,6 @@ namespace _STL {
 template <> vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &
 vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::operator=(const vector<ProductionPrerequisite, allocator<ProductionPrerequisite> > &);
 }
-// Inline the stock size calculation and bind out-of-line uses to the retail owner.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size_type
-vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::size() const
-{ return size_type(this->_M_finish - this->_M_start); }
-}
-
 // Emit only the recovered members. The former whole-class instantiation
 // also supplied an unrowed non-retail copy worker to other units.
 template void _STL::vector<ProductionPrerequisite>::push_back(const ProductionPrerequisite &);

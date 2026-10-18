@@ -34,3 +34,9 @@ cleanup funclet `rva00797832`: its `VBase00C6EE28` destructor binding at
 0x0057A243 is wrong. The retained-object proof includes the complete funclet
 and its symbolic relocation, so this change preserves that finding. This is
 another reason the legacy prediction does not establish closed-strict closure.
+
+Publication reconciliation: upstream `2b105dafb9` independently defined both
+constants. Retain upstream's sources verbatim, including its 32-byte diagnostic
+storage (29 string bytes plus three padding zeros). The final row verifies all 32 bytes, including the 29-byte NUL-terminated
+diagnostic and padding, as required by the allocation-extent gate. The historical +385 B is already upstream;
+the new data rows provide exact data verification, not another link gain.

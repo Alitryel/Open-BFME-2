@@ -31,7 +31,11 @@ Class, declared-unmatched, data enforce, converged-data, new-variants,
 case-collision and diff checks pass. Separate blocked trial witnesses
 (narrow string teardown and stale filter census) are in re_attempts.log.
 
-On publication rebase, upstream already has the equivalent inline-only
-size specialization in the overflow unit. Retain that source verbatim; the
-paired +729 B above is the historical measurement, and upstream overlap
-must not be counted a second time. Assign and push-back adaptations remain.
+On publication rebase, upstream `5f1c587026` independently repaired size() in
+all three units, including the assign class's inline member declaration.
+Retain those upstream helper definitions and remove redundant local copies.
+The historical +729 B overlaps by 592 B (overflow 386 + assign 206).
+Push-back still fails on a selected non-retail __copy worker with upstream's
+whole-class instantiation. Retain the independently verified narrow recovered
+member instantiations; the final paired experiment measures its remaining
++137 B separately in `../link-reconciliation-20261018/`.

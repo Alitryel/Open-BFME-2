@@ -82,6 +82,3 @@ void INI::Rva0033940F_Parse(INI *ini, void *, void *store, const void *)
 	}
 	*(void **)store = result;
 }
-
-// Complete diagnostic including its native newline and terminating zero.
-extern const char g_00C0EA88[] = "ThingTemplate %s not found!\n";

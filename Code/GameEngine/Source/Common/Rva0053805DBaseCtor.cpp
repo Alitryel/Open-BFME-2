@@ -87,7 +87,3 @@ Rva0053805DBase::Rva0053805DBase()
 	: m_observers(_STL::allocator<Rva004FA1FObserver *>()), m_20(0), m_24(0), m_28(g_00C691E8), m_2C(false)
 {
 }
-
-// Retail RVA 0x008691E8 contains 0x3D75C290. Keep the definition after
-// the constructor so its existing external load remains in the native body.
-extern const float g_00C691E8 = 0.060000002384185791f;

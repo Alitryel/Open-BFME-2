@@ -12,16 +12,6 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
 
-// Keep the native accessor expressions inline while binding external calls
-// to the existing retail pointer-vector owners.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-vector<void *>::iterator vector<void *>::begin() { return this->_M_start; }
-template <> __declspec(dllimport) __forceinline
-vector<void *>::iterator vector<void *>::end() { return this->_M_finish; }
-}
-
-
 class Overridable {
 public:
     Overridable *deleteOverrides();

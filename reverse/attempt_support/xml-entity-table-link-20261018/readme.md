@@ -19,3 +19,5 @@ self-strict currency of these inputs does not establish closed-strict or
 full-game closure; this is a legacy index prediction. No census or full link
 runner was invoked. Local before objects and the index digest are kept under
 `build/xml-entity-table-link-20261018/`.
+
+Publication reconciliation: Upstream b24fdfd515 independently defined the same table. Publication reconciliation keeps upstream code verbatim and the new 40-byte data row. The historical +96 B is already upstream, not another link gain.
