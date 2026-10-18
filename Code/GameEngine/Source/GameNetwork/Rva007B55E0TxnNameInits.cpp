@@ -30,7 +30,7 @@ const char * g_Va00DD80DC = "fdbk";	// retail RVA 0x009D80DC (.data), defined he
 const char * g_Va00DD80EC = "rank";	// retail RVA 0x009D80EC (.data), defined here	// "rank"
 const char * g_Va00DD8120 = "recp";	// retail RVA 0x009D8120 (.data), defined here	// "recp"
 const char * g_Va00DD8138 = "club";	// retail RVA 0x009D8138 (.data), defined here	// "club"
-extern const char *g_Va00DD816C;	// "fsys"
+const char * g_Va00DD816C = "fsys";	// retail RVA 0x009D816C (.data), defined here	// "fsys"
 
 extern Rva007B55E0TxnName g_Va00E09F24;
 extern Rva007B55E0TxnName g_Va00E09F0C;
