@@ -483,7 +483,9 @@ class DrawModule:public DrawableModule
   return m_drawable;
   
  }
+protected:
  virtual void loadPostProcess();
+public:
  virtual void crc(Xfer*);
  virtual void xfer(Xfer*);
  
