@@ -27,7 +27,17 @@ public:
 
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;   // 0x00E176F4
 
-struct Rva006DE350
+// The AptValue root view the first-in-link-order vtable copy
+// (Rva006D6360Ctor.cpp) declares: its private slot 0 precedes the destructor.
+class BfmeAptValue006DCD20
+{
+    virtual void vtableSlot0();
+protected:
+    unsigned int m_flags04;
+public:
+    virtual ~BfmeAptValue006DCD20();
+};
+struct Rva006DE350 : public BfmeAptValue006DCD20
 {
 	virtual ~Rva006DE350();
 };
@@ -39,7 +49,6 @@ struct Rva0070A840
 
 struct Rva006D6470Owner : public Rva006DE350
 {
-	char m_pad[4]; // +0x04..0x07: base footprint is the vtable only
 	Rva0070A840 m_ladders; // +0x08: BFME1 keeps this map at +0x14
 	char m_rest[0x20 - 0x09]; // to the 0x20 bytes the pool release frees
 

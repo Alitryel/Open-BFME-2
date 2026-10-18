@@ -9,8 +9,18 @@ public:
   void freeBlock(void *, int);
 };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
-class Rva006D6360 {
-  char m_pad04[24];
+// The AptValue root view the first-in-link-order vtable copy
+// (Rva006D6360Ctor.cpp) declares: its private slot 0 precedes the destructor.
+class BfmeAptValue006DCD20
+{
+    virtual void vtableSlot0();
+protected:
+    unsigned int m_flags04;
+public:
+    virtual ~BfmeAptValue006DCD20();
+};
+class Rva006D6360 : public BfmeAptValue006DCD20 {
+  char m_pad08[20];
 
 public:
   Rva006D6360(int, int);
