@@ -91,16 +91,6 @@ private:
 	ProductionVeterancyMap m_productionVeterancyLevels;	// +0x114
 };
 
-// ?parseProductionCostChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z
-void PlayerTemplate::parseProductionCostChange(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
-{
-	PlayerTemplate *self = (PlayerTemplate *)instance;
-
-	int buildTemplateKey = TheNameKeyGenerator->nameToKey(ini->getNextToken());
-	Real percentChange = ini->dup_002EE10(ini->getNextToken());
-
-	self->m_productionCostChanges[buildTemplateKey] = percentChange;
-}
 
 // ?parseProductionTimeChange@PlayerTemplate@@KAXPAVINI@@PAX1PBX@Z
 void PlayerTemplate::parseProductionTimeChange(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
