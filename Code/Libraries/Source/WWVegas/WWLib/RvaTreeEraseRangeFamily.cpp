@@ -220,10 +220,6 @@ public:
 	unsigned int rva00082BE1(const int &x);
 };
 
-unsigned int Rva00082BE1::rva00082BE1(const int &x)
-{
-	return reinterpret_cast<Rva0007E971 *>(this)->rva00082536(x);
-}
 
 class Rva000D3C46
 {
@@ -231,10 +227,6 @@ public:
 	unsigned int rva000D3C46(const int &x);
 };
 
-unsigned int Rva000D3C46::rva000D3C46(const int &x)
-{
-	return reinterpret_cast<Rva000D20A9 *>(this)->rva000D3BFD(x);
-}
 
 class Rva001E7E78
 {
@@ -253,10 +245,6 @@ public:
 	unsigned int rva00362C9A(const int &x);
 };
 
-unsigned int Rva00362C9A::rva00362C9A(const int &x)
-{
-	return reinterpret_cast<Rva00362AB5 *>(this)->rva00362B89(x);
-}
 
 class Rva003899C4
 {
