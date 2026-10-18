@@ -26,6 +26,22 @@ extern "C" void _ReadWriteBarrier(void);
 #include <map>
 #include <vector>
 #include <new>
+
+// Preserve the existing inline allocator/compare operations without competing
+// external providers, as in the shared Image-map insertion unit.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const { return a < b; }
+template <> __declspec(dllimport) __forceinline
+void *__malloc_alloc<0>::allocate(size_t n)
+{ void *r = malloc(n); if (!r) r = _S_oom_malloc(n); return r; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *p, size_t) { free((char *)p); }
+typedef _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >,
+    less<int>, allocator<pair<const int, void *> > > HostReservedTree;
+template <> HostReservedTree::~_Rb_tree();
+}
+
 class GameSlot {public: bool isHuman() const; bool isObserver() const;
  char pad00[4]; int state; char pad08[4]; int color;};
 class GameInfo {public: GameSlot *getSlot(int);};
@@ -42,6 +58,11 @@ typedef _STL::map<unsigned, void *, _STL::less<unsigned>, _STL::allocator<_STL::
 class BFME2RespawnRuleTree {public:
 	void *sentinel;};
 typedef _STL::map<unsigned, Image *, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > > ImageNameMap;
+namespace _STL {
+typedef _Rb_tree<unsigned, pair<const unsigned, Image *>, _Select1st<pair<const unsigned, Image *> >,
+    less<unsigned>, allocator<pair<const unsigned, Image *> > > HostImageTree;
+template <> _Rb_tree_node<pair<const unsigned, Image *> > *HostImageTree::_M_create_node(const HostImageTree::value_type &);
+}
 class ImageSubscriptMap {public:
 	__declspec(noinline) Image *&operator[](const unsigned &key)
 	{
