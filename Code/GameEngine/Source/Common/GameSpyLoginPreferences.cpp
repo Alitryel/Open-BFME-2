@@ -75,6 +75,12 @@ template <typename T> struct BfmeStringData
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Reuse the retail list erase at 0x000BC67A. This unit's allocator view
+// otherwise emits a divergent copy that displaces the verified STL owner.
+namespace _STL {
+template <> list<AsciiString, allocator<AsciiString> >::iterator
+list<AsciiString, allocator<AsciiString> >::erase(iterator);
+}
 // Retail 4EC36C allocates the 12-byte sentinel through the shared byte
 // allocator. Keep the constructor visible so caller stack homes stay exact.
 class BucketAlloc
