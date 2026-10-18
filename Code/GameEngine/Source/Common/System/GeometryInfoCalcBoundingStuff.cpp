@@ -23,12 +23,17 @@
 #undef inline
 
 #include <vector>
-#include "coord.h"
-#include "string_base.h"
-// Preserve inlined null initialization without a competing external ctor.
-template <> __declspec(dllimport) __forceinline
-StringBase<char>::StringBase() : m_data(0) {}
-#include "ascii_string.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+typedef float Real;
+typedef bool Bool;
+// Preserve native inline clears using the canonical coordinate layout.
+static inline void zeroGeometryCoord(Coord3D &value)
+{
+	value.x = 0.0f;
+	value.y = 0.0f;
+	value.z = 0.0f;
+}
+#include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 #include "Common/Snapshot.h"
 
 enum GeometryType
@@ -182,7 +187,7 @@ void GeometryInfo::calcBoundingStuff()
 
 	Rva0087E650Bounds bounds;
 	rva0087E650(&bounds);
-	m_boundsCenter18.zero();
+	zeroGeometryCoord(m_boundsCenter18);
 	m_boundsCenter18.x = (bounds.hi.x + bounds.lo.x) * 0.5f;
 	m_boundsCenter18.y = (bounds.hi.y + bounds.lo.y) * 0.5f;
 	m_boundsCenter18.z = (bounds.hi.z + bounds.lo.z) * 0.5f;
@@ -197,11 +202,11 @@ void GeometryInfo::calcBoundingStuff()
 // BFME 1 GeometryInfoRva0087E650.cpp at 10af19f44a89ab7ecc23195bb9a842ceafbc02c9
 // supplies the min/max structure and scalar control flow. The BFME 1
 // address is folded, so it cannot establish an original method name.
-// Coord3D::zero on each half reproduces the native clear; full bytes match.
+// Component clears on each half reproduce the native stores; full bytes match.
 void GeometryInfo::rva0087E650(Rva0087E650Bounds *bounds)
 {
-	bounds->lo.zero();
-	bounds->hi.zero();
+	zeroGeometryCoord(bounds->lo);
+	zeroGeometryCoord(bounds->hi);
 
 	for (std::vector<GeometryShape>::const_iterator it = m_shapes.begin(); it != m_shapes.end(); ++it)
 	{
@@ -249,7 +254,6 @@ void GeometryInfo::rva0087E650(Rva0087E650Bounds *bounds)
 // double preserves native x87 reuse. After token parsing the incoming parser slot
 // is reused for the empty insertion trait; its provider consumes no tag payload.
 // Placement construction ends only the unused local pointer object's lifetime.
-#include "ascii_string.h"
 #include <new>
 extern const char *const GeometryNames[];
 class INI { public: const char *getNextToken(const char *);int scanIndexList(const char *,const char *const *); };
