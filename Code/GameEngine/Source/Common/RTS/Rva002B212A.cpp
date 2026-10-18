@@ -105,21 +105,4 @@ public:
 	char m_pad000[0x6f4];
 	_STL::list<Snapshot *> m_6F4;	// +0x6F4
 };
-void Player::rva002ADC03(Rva004B5A65Owner *owner, int value)
-{
-	_STL::list<Snapshot *> &entries = m_6F4;
-	_STL::list<Snapshot *>::iterator end = entries.end();
-	for (_STL::list<Snapshot *>::iterator it = entries.begin(); it != end; ++it)
-	{
-		Rva002ADC03Entry *entry = reinterpret_cast<Rva002ADC03Entry *>(*it);
-		if ((unsigned char)Rva002AAC9EEqual(&entry->m_range, &owner->m_range) &&
-			entry->m_ref->m_value == owner->m_118 && entry->m_value == value)
-		{
-			entries.erase(it);
-			reinterpret_cast<Rva002ADC03Pair *>(entry)->~Rva002ADC03Pair();
-			::operator delete(entry);
-			TheControlBar->m_dirty = true;
-			return;
-		}
-	}
-}
+
