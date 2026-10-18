@@ -19,7 +19,7 @@ void __cdecl rva007B9734();
 void __cdecl rva007B9979();
 void __cdecl rva007B9983();
 
-extern unsigned g_Va00E06620;
+unsigned g_Va00E06620;	// retail RVA 0x00A06620 (.bss), defined here
 extern unsigned g_Va00E06734;
 extern unsigned g_Va00E06748;
 
