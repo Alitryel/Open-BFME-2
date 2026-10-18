@@ -74,4 +74,11 @@ extern PFN_D3DXMatrixTranspose __identifier("_imp__D3DXMatrixTranspose@8");
 D3DXMATRIX* __stdcall D3DXMatrixTranspose(D3DXMATRIX *pOut, const D3DXMATRIX *pM) {
  return __identifier("_imp__D3DXMatrixTranspose@8")(pOut, pM);
 }
+
+// _D3DXMatrixRotationZ@8
+typedef D3DXMATRIX* (__stdcall *PFN_D3DXMatrixRotationZ)(D3DXMATRIX *, FLOAT);
+extern PFN_D3DXMatrixRotationZ __identifier("_imp__D3DXMatrixRotationZ@8");
+D3DXMATRIX* __stdcall D3DXMatrixRotationZ(D3DXMATRIX *pOut, FLOAT Angle) {
+ return __identifier("_imp__D3DXMatrixRotationZ@8")(pOut, Angle);
+}
 }
