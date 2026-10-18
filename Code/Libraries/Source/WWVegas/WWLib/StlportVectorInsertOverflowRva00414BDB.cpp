@@ -29,6 +29,9 @@ struct Rva00414BDBElement {
 };
 
 namespace _STL {
+// Use the rowed range-destroy wrapper rather than emitting another copy.
+template <> void _Destroy<Rva00414BDBElement *>(
+	Rva00414BDBElement *, Rva00414BDBElement *);
 template <> void _Construct<Rva00414BDBElement, Rva00414BDBElement>(
 	Rva00414BDBElement *, const Rva00414BDBElement &);
 }
@@ -36,3 +39,7 @@ template <> void _Construct<Rva00414BDBElement, Rva00414BDBElement>(
 template void _STL::vector<Rva00414BDBElement>::_M_insert_overflow(
 	Rva00414BDBElement *, const Rva00414BDBElement &,
 	const _STL::__false_type &, unsigned int, bool);
+
+// Retain the already rowed native loop and its element teardown emission.
+template void _STL::__destroy_aux<Rva00414BDBElement *>(
+    Rva00414BDBElement *, Rva00414BDBElement *, const _STL::__false_type &);
