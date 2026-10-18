@@ -67,4 +67,11 @@ extern PFN_D3DXAssembleShader __identifier("_imp__D3DXAssembleShader@28");
 HRESULT __stdcall D3DXAssembleShader(LPCSTR pSrcData, UINT SrcDataLen, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXBUFFER *ppShader, LPD3DXBUFFER *ppErrorMsgs) {
  return __identifier("_imp__D3DXAssembleShader@28")(pSrcData, SrcDataLen, pDefines, pInclude, Flags, ppShader, ppErrorMsgs);
 }
+
+// _D3DXMatrixTranspose@8
+typedef D3DXMATRIX* (__stdcall *PFN_D3DXMatrixTranspose)(D3DXMATRIX *, const D3DXMATRIX *);
+extern PFN_D3DXMatrixTranspose __identifier("_imp__D3DXMatrixTranspose@8");
+D3DXMATRIX* __stdcall D3DXMatrixTranspose(D3DXMATRIX *pOut, const D3DXMATRIX *pM) {
+ return __identifier("_imp__D3DXMatrixTranspose@8")(pOut, pM);
+}
 }
