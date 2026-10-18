@@ -44,6 +44,7 @@ struct BfmeHeroElement005C39DE
 	AsciiString text;
 	unsigned int word4, word8;
 	BfmeHeroElement005C39DE();								// 0x005C39DE
+	~BfmeHeroElement005C39DE();
 };
 
 class CreateAHeroData;
