@@ -131,6 +131,10 @@ template <> set<AsciiString, less<AsciiString>, allocator<AsciiString> >::set();
 #include "GameNetwork/GameSpy/GameResultsThread.h"
 
 #include "Common/Version.h"
+
+// Declaration-only: this TU's ZH MapMetaData view would emit a wrong ~MapMetaData
+// (first in link order); bind node destruction to the copy another unit keeps.
+namespace _STL { template <> void _Destroy(pair<const AsciiString, MapMetaData> *); }
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
 namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_erase(_Rb_tree_node<pair<AsciiString const, Coord3D> > *); }
