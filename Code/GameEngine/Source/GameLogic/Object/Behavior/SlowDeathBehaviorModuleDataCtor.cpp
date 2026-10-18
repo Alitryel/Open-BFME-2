@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG
+// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0SlowDeathBehaviorModuleData@@QAE@XZ, retail 0x0045E386, 287 bytes.
@@ -23,6 +23,11 @@
 // (friend_new 0x24B2C0 Ship 0x45E964 GiantBird 0x461F83 ClearanceTesting
 // 0x483E36).
 #include <bitset>
+#include <vector>
+
+class FXList;
+class ObjectCreationList;
+class WeaponTemplate;
 
 namespace _STL {
 template<> bitset<128> &bitset<128>::reset() throw();
@@ -37,35 +42,14 @@ private:
 	unsigned char m_bytes[0x30];
 };
 
-class SlowDeathFXVec
-{
-public:
-	SlowDeathFXVec();
-	~SlowDeathFXVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
-
-class SlowDeathOCLVec
-{
-public:
-	SlowDeathOCLVec();
-	~SlowDeathOCLVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
-
-class SlowDeathWeaponVec
-{
-public:
-	SlowDeathWeaponVec();
-	~SlowDeathWeaponVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
+// Native parsers 45E533/45E5A4/45E618 establish these pointer-vector members;
+// the same types appear in the ZH SlowDeathBehavior.h reference. Retail's
+// constructor and destructor EH graphs independently establish four headers
+// per array. Full callback bodies and relocations agree with the folded
+// constructor closure at 256646 and the destructor at 7FAB3.
+typedef _STL::vector<const FXList *> SlowDeathFXVec;
+typedef _STL::vector<const ObjectCreationList *> SlowDeathOCLVec;
+typedef _STL::vector<const WeaponTemplate *> SlowDeathWeaponVec;
 
 class SlowDeathSoundVec
 {
