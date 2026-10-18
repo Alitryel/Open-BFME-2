@@ -23,6 +23,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// The pointer-vector reserve folds to the rowed vector<const ModuleData *>
+// body 0x002B712E (ModuleFactoryVectorReserve.cpp); calls bind there.
+class ModuleData;
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::reserve(size_t n); }
 #include "Coord2D.h"
 class Vector3 {
 public:
@@ -30,10 +34,11 @@ public:
  Vector3(float x,float y,float z):X(x),Y(y),Z(z){}
  float X,Y,Z;
 };
-class Rva0053947D {public:virtual ~Rva0053947D();};
+class Rva0053947D {public:Rva0053947D(void *,const Vector3 *);virtual ~Rva0053947D();};
 class Rva00539411 {
 public:
- Rva00539411(void *,const int *);
+ // retail calls the rowed base constructor 0x00539411 (Rva0053947DDtor.cpp)
+ __declspec(dllimport) __forceinline Rva00539411(void *lookup,const int *pos) {((Rva0053947D *)this)->Rva0053947D::Rva0053947D(lookup,(const Vector3 *)pos);}
  __forceinline ~Rva00539411() {((Rva0053947D *)this)->Rva0053947D::~Rva0053947D();}
  unsigned m_vtable;
  char m_rest[0x28];
@@ -77,7 +82,7 @@ LivingWorldBuildPlotIcon::LivingWorldBuildPlotIcon(LivingWorldBuildPlotIconTempl
  *(Vector3 *)((char *)this+0x18)=position;
  IconTemplate *source=(IconTemplate *)lookup;
  if(source) {
-  items.reserve(source->items.size());
+  ((_STL::vector<const ModuleData *> *)&items)->reserve(source->items.size());
   IconSubTemplate **it=source->items.begin();
   IconSubTemplate **end=source->items.end();
   for(;it!=end;++it) {

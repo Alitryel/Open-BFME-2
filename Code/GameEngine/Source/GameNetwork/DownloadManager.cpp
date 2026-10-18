@@ -47,8 +47,85 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 // (framed SEH plus rep-stos versus frameless plus discrete stores), so this
 // TU's copy differs. Pre-include the header under speed flags so the copy
 // matches the kept one; the guards make the later transitive include a no-op.
+//
+// ~CDownload is the one header inline this TU must not emit: retail calls the
+// rowed out-of-line body 0x006C9730 (CDownloadDtor.cpp, an unfolded vf0(0) +
+// free shape the ZH inline `delete m_Ftp` does not compile to), and this TU's
+// select-any copy came first in link order. The class below is the ZH
+// WWDownload/download.h declaration verbatim except that the destructor is
+// declared only; its guard makes the later transitive include a no-op.
 #pragma optimize("ty", on)
-#include "WWDownload/download.h"
+#include "WWDownload/ftp.h"
+#include "WWDownload/downloaddefs.h"
+#define __DOWNLOAD_H_
+
+class IDownload
+{
+ public:
+	virtual HRESULT OnError( int error )=0;
+	virtual HRESULT OnEnd()=0;
+	virtual HRESULT OnQueryResume()=0;
+	virtual HRESULT OnProgressUpdate(int bytesread, int totalsize, int timetaken, int timeleft)=0;
+	virtual HRESULT OnStatusUpdate(int status)=0;
+};
+
+class CDownload
+{
+public:
+	CDownload(IDownload *listener) :
+		Listener(listener)
+	{
+		m_Status			= DOWNLOADSTATUS_NONE;
+		m_TimeStarted		= 0;
+		m_StartPosition		= 0;
+		m_FileSize			= 0;
+		m_BytesRead			= 0;
+		m_Server[ 0 ]		= '\0';
+		m_Login[ 0 ]		= '\0';
+		m_Password[ 0 ]		= '\0';
+		m_File[ 0 ]			= '\0';
+		m_LocalFile[ 0 ]	= '\0';
+		m_RegKey[ 0 ]		= '\0';
+		m_Ftp				= new( Cftp );
+		m_TryResume = false;
+
+		m_predictions = 0;
+		for (int i=0; i<8; ++i)
+		{
+			m_predictionTimes[i] = 0;
+		}
+	}
+	~CDownload();
+
+public:
+	virtual HRESULT PumpMessages();
+	virtual HRESULT Abort();
+	virtual HRESULT DownloadFile(LPCSTR server, LPCSTR username, LPCSTR password, LPCSTR file, LPCSTR localfile, LPCSTR regkey, bool tryresume=true);
+	virtual HRESULT GetLastLocalFile(char *local_file, int maxlen);
+
+private:
+	char m_Server[ 256 ];
+	char m_Login[ 64 ];
+	char m_Password[ 64 ];
+	char m_File[ 256 ];
+	char m_LocalFile[ 256 ];
+
+	char m_LastLocalFile[ 256 ];
+
+	char m_RegKey[ 256 ];
+	int  m_Status;
+	int  m_TimeStarted;
+	int  m_StartPosition;
+	int  m_FileSize;
+	int  m_BytesRead;
+	bool m_TryResume;
+
+	int m_predictions;
+	int m_predictionTimes[8];
+
+	Cftp			*m_Ftp;
+	IDownload	*Listener;
+};
 #pragma optimize("", on)
 
 #include "GameClient/GameText.h"
@@ -71,7 +148,9 @@ DownloadManager::DownloadManager()
 	
 	//
 
-	m_statusString = TheGameText->fetch("FTP:StatusIdle");
+	// Zero Hour's inline UnicodeString::operator= calls UnicodeString::set;
+	// retail's body is StringBase<unsigned short>::set 0x00037150, called here.
+	((StringBase<WideChar> &)m_statusString).set(*(const StringBase<WideChar> *)&TheGameText->fetch("FTP:StatusIdle"));
 
 	// ----- Initialize Winsock -----
 	m_winsockInit = true;
