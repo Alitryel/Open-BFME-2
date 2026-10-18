@@ -116,7 +116,7 @@ template <> template <> inline __declspec(noinline) void
 basic_string<char>::_M_range_initialize(char* first, char* last) {
   _M_range_initialize(first, last, forward_iterator_tag());
 }
-template <> template <> __declspec(noinline) void
+template <> template <> inline __declspec(noinline) void
 basic_string<char>::_M_range_initialize(const char* first, const char* last) {
   _M_range_initialize(first, last, forward_iterator_tag());
 }
