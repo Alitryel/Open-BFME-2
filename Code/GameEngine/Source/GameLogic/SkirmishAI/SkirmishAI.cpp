@@ -139,13 +139,6 @@ public:
 	unsigned char get() const;			// 0x002AA22A
 };
 
-class Rva005C4AF5DwordField
-{
-public:
-	int get() const;				// 0x005C4AF5
-};
-
-typedef int (Rva005C4AF5DwordField::*TeamNext)() const;
 
 template<int NUMBITS>
 class BitFlags
@@ -236,13 +229,16 @@ class Object;
 
 // Team view: transferKindOfUnitsTo is the rowed kind-filtered twin at
 // 0x0039E6D1 (TeamDidPartialEnter.cpp); the +0x40 next link is the rowed
-// Rva005C4AF5DwordField getter above, reached here through a member pointer
-// so the call stays indirect like retail's.
-class Team : public Rva005C4AF5DwordField
+// DLINK accessor Team::dlink_next_TeamInstanceList (0x005C4AF5), reached
+// through a member pointer as the DLINK iterator does, so the call stays
+// indirect like retail's.
+class Team
 {
 public:
 	void transferKindOfUnitsTo(Team *newTeam, const BitFlags<69> &kinds);	// 0x0039E6D1
+	Team *dlink_next_TeamInstanceList() const;	// 0x005C4AF5
 };
+typedef Team *(Team::*TeamNext)() const;
 
 // SkirmishAI's AIBuilder base sits at offset 0; its onUnitCreated (WB name,
 // unrowed 0x004EC3AC) takes the new unit, an object and a horde flag.
@@ -452,7 +448,7 @@ void SkirmishAI::transferUnitsToPlayer(Player *player)
 	ListNode *cur = head->m_next;
 	if (cur == head)
 		return;
-	TeamNext next = &Rva005C4AF5DwordField::get;
+	TeamNext next = &Team::dlink_next_TeamInstanceList;
 	do
 	{
 		TeamPrototype *proto = cur->m_value;
@@ -461,7 +457,7 @@ void SkirmishAI::transferUnitsToPlayer(Player *player)
 		{
 			team->transferKindOfUnitsTo(newTeam, kinds);
 			if (team != 0)
-				team = (Team *)(team->*next)();
+				team = (team->*next)();
 		}
 		cur = cur->m_next;
 	} while (cur != head);
