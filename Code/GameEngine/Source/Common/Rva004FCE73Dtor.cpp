@@ -20,15 +20,15 @@ struct Rva004FCE73Holder {
     ~Rva004FCE73Holder() { if (p) free(p); }
 };
 
-class Rva004FCE73 {
+class Rva004FD7FBData {
 public:
-    virtual ~Rva004FCE73();
+    virtual ~Rva004FD7FBData();
 private:
     Rva004FCE73Holder m_04;
     char pad08[0x14 - 0x08];
     _STL::vector<AsciiString> m_14;
 };
 
-Rva004FCE73::~Rva004FCE73()
+Rva004FD7FBData::~Rva004FD7FBData()
 {
 }
