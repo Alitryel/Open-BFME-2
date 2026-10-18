@@ -16619,7 +16619,6 @@ __SEH_epilog,,0x00628FDF,17,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-
 ??__C@YGXPAX0IHP6EX00@ZP6EX0@Z@Z,,0x006299C4,102,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\ehvccctr.obj;unique full-body placement in .text (relocations masked);same shape as the ??_L and ??_M siblings
 _report_failure,,0x00629B7A,49,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\secchk.obj;unique full-body placement in .text (relocations masked);static;ghidra 41 stops before the filter;ends at @__security_check_cookie@4
 ___security_init_cookie,,0x00629CA8,102,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\seccinit.obj;unique full-body placement in .text (relocations masked)
-__RTC_CheckEsp,,0x0075A5A2,35,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=..\build\intel\dll_obj\stack.obj;unique full-body placement in .text (relocations masked);ends at @_RTC_CheckStackVars@8
 ??0CInitGDIPlus@CImage@ATL@@QAE@XZ,,0x00628B5D,71,Code/Libraries/Source/ATL/atlimage.cpp,matched,vendored=atl-7.1;atlimage.h ctor verbatim;bytes equal atls.lib atlimage.obj COMDAT placed uniquely by lib_probe
 ??0CDCCache@CImage@ATL@@QAE@XZ,,0x00628BB8,13,Code/Libraries/Source/ATL/atlimage.cpp,matched,vendored=atl-7.1;atlimage.h ctor verbatim;bytes equal atls.lib atlimage.obj COMDAT placed uniquely by lib_probe
 ??1CInitGDIPlus@CImage@ATL@@QAE@XZ,,0x00628BA4,20,Code/Libraries/Source/ATL/atlimage.cpp,matched,vendored=atl-7.1;atlimage.h dtor verbatim;follows the ctor and ends at the CDCCache ctor
@@ -96503,3 +96502,4 @@ uw_007a3bb7,,0x007A3BB7,10,Code/GameEngine/Source/Common/Rva005E6A23Rva005E6A23F
 ?rva00477513@HordeTransportContain@@QAEXXZ,,0x00477513,234,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContain/HordeTransportContainRva00477513.cpp,matched,
 ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z,,0x0005D734,903,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioMultisound.cpp,matched,
 ?rva00055E6C@MilesAudioManager@@QAE_NABVAsciiString@@HHH@Z,,0x00055E6C,350,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp,matched,
+__RTC_CheckEsp,,0x0075A5A2,35,Code/masm_dumps/RTC_CheckEsp.asm,matched,Whole native stack.obj extraction paired with RtcStack.cpp; proven compiler machinery consumes caller ZF and preserves live EAX/EDX; complete35B native body and REL32 to _RTC_Failure; MASM remains assembly and adds zero C++ credit
