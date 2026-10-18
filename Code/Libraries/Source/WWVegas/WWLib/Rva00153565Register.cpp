@@ -23,6 +23,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #undef _strcmpi
 struct BfmePod68 { int a[17]; };
+// Retail calls the 0x001534D3 push_back owned by stlport_pod_vector_bodies.cpp.
+// Do not instantiate another push_back and its incompatible growth helper.
+namespace _STL { template <> void vector<BfmePod68>::push_back(BfmePod68 const &); }
 extern _STL::vector<BfmePod68> *g_Rva00153565Vec;
 // g_Rva00153565Vec: VA 0xdf6f20 (zero-filled .bss).
 _STL::vector<BfmePod68> * g_Rva00153565Vec;

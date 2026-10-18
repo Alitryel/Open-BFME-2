@@ -87,6 +87,9 @@ namespace _STL { template <> Rva00568A20 * __uninitialized_copy<Rva00568A20 *,Rv
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void _Construct<Rva00568A20,Rva00568A20>(Rva00568A20 *,Rva00568A20 const &); }
 
+// StlportVectorPushBackFamily.cpp owns the native 0x0056A32B append.
+namespace _STL { template <> void vector<Rva00568A20>::push_back(Rva00568A20 const &); }
+
 class Rva0056A3FF
 {
 public:

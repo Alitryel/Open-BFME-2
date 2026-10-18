@@ -32,6 +32,9 @@ namespace _STL { template <> ModuleData const * * allocator<ModuleData const *>:
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void vector<ModuleData const *,allocator<ModuleData const *> >::_M_clear(); }
 
+// Call the rowed 0x004DFCB0 append instead of instantiating a growth chain.
+namespace _STL { template <> void vector<ModuleData const *>::push_back(ModuleData const * const &); }
+
 class AudioManager
 {
 public:

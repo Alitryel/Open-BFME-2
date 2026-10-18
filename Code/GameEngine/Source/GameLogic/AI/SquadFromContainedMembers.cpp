@@ -23,6 +23,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // bfme link decl-only begin
 namespace _STL { template <> ObjectID * vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *, ObjectID *); }
+namespace _STL { template <> void vector<ObjectID>::push_back(ObjectID const &); }
 // bfme link decl-only end
 
 // _List_iterator comparisons otherwise instantiate the base-class
