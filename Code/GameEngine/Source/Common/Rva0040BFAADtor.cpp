@@ -21,6 +21,11 @@ class AwardSystemManager : public SubsystemInterface
 {
 public:
 	virtual ~AwardSystemManager();
+	// The overrides AwardSystemManager.cpp gives its vftable (slots 1, 2, 9, 10).
+	virtual void init();
+	virtual bool loadIniFilesFromLegend();
+	virtual void reset();
+	virtual void update();
 private:
 	Rva0040BEBA m_0C;
 	Rva0040B59F m_18;

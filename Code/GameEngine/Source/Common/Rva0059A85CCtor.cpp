@@ -61,6 +61,7 @@ private:
 	_STL::set<AsciiString, _STL::less<AsciiString>, _STL::allocator<AsciiString> > m_set;
 public:
 	virtual ~Rva0059A85C();	// rowed elsewhere; declared so this unit binds to it
+	virtual void v1();	// retail slot 2 (0x0059A46F, rowed in Rva0059A40DDtor.cpp)
 };
 // ??0Rva0059A85C@@QAE@PAX@Z @0x0059A85C
 Rva0059A85C::Rva0059A85C(void *outer) : m_vec(), m_outer(outer), m_set()
