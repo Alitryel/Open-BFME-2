@@ -83,10 +83,10 @@ private:
 	ImageNameMap m_map;
 };
 
-Image *&ImageSubscriptMap::operator[](const unsigned int &key)
-{
-	ImageNameMap::iterator i = m_map.lower_bound(key);
-	if (i == m_map.end() || m_map.key_comp()(key, (*i).first))
-		i = m_map.insert(i, ImageNameMap::value_type(key, (Image *)0));
-	return (*i).second;
-}
+// The rowed operator[] lives in HostValidateColorsRva004422DDFarm.cpp,
+// whose inline copy has the identical whole body and relocations. Keeping a
+// strong copy here conflicts with that required consumer definition.
+
+// This rowed helper used to be emitted through the subscript definition.
+// Keep its independent native body when that definition is rehomed.
+template TreeImage::iterator TreeImage::lower_bound(const unsigned int &);
