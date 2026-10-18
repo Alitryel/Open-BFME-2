@@ -10,7 +10,7 @@ struct Rva005E8DB5Param
 	unsigned char m_34;
 };
 
-extern int g_00E06734;
+int g_00E06734;	// retail RVA 0x00A06734 (.bss), defined here
 extern int g_00E06748;
 
 class Rva005E8DB5
