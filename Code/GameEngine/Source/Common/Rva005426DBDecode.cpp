@@ -13,7 +13,15 @@ struct EntityEntry {
 	char pad[3];
 };
 
-extern const EntityEntry g_00DD1E74[];
+// Retail VA 0x00DD1E74: all five entries consumed by the decoder.
+// String pointers, byte values and three padding bytes per entry are exact.
+extern const EntityEntry g_00DD1E74[5] = {
+    { "lt", '<', { 0, 0, 0 } },
+    { "gt", '>', { 0, 0, 0 } },
+    { "amp", '&', { 0, 0, 0 } },
+    { "quot", '"', { 0, 0, 0 } },
+    { "apos", '\'', { 0, 0, 0 } }
+};
 
 class Rva005426DB
 {
