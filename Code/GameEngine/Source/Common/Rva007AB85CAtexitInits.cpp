@@ -43,7 +43,7 @@ void __cdecl rva007B9B40();
 
 // VA 0x00DEC290: zero-initialized AsciiString storage, explicitly constructed below.
 unsigned BfmeLiveCameraModeNameStorage;
-extern unsigned g_Va00DEC3B8;
+unsigned g_Va00DEC3B8;	// retail RVA 0x009EC3B8 (.bss), defined here
 unsigned g_Va00DFF030;
 unsigned g_Va00E022E8;
 unsigned g_Va00E028C4;
