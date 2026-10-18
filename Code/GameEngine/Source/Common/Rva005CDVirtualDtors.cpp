@@ -64,12 +64,24 @@ private:
 // The constructor 5E6ED6 calls the 12-byte polymorphic base at 0 and
 // Rva005E4F6D at C. Its shared counted base moves to24; the second owned
 // pointer at20 is independently cleared in the native102-byte teardown.
-class Rva005F64F5
+class AsciiString;
+namespace StrategicHUD {
+class ArmyDetailsMovieClip {
+public:
+    ArmyDetailsMovieClip(int, const AsciiString &, int, bool);
+    virtual ~ArmyDetailsMovieClip();
+    virtual void notifyBackButtonClicked();
+    virtual void notifyIconListBackgroundClicked();
+private:
+    class Impl *m_impl;
+};
+}
+// Match the constructor-proven ArmyDetailsMovieClip interface and +8 owned member.
+class Rva005F64F5 : public StrategicHUD::ArmyDetailsMovieClip
 {
 public:
     virtual ~Rva005F64F5();
 private:
-    void *data4;
     void *owned8;
 };
 class Rva005E6D90
@@ -94,18 +106,6 @@ struct Rva005CDCEELink {char prefix[0x20];void *owner;};
 class Rva005CDCEE : public Rva005E6F9D {public:virtual ~Rva005CDCEE();private:Rva005CDCEELink *link24;};
 Rva005CDCEE::~Rva005CDCEE(){if(link24)link24->owner=0;}
 
-class AsciiString;
-namespace StrategicHUD {
-class ArmyDetailsMovieClip {
-public:
-    ArmyDetailsMovieClip(int, const AsciiString &, int, bool);
-    virtual ~ArmyDetailsMovieClip();
-    virtual void notifyBackButtonClicked();
-    virtual void notifyIconListBackgroundClicked();
-private:
-    class Impl *m_impl;
-};
-}
 class Rva005E54AE : public StrategicHUD::ArmyDetailsMovieClip {public:Rva005E54AE(int,const AsciiString &,bool);virtual ~Rva005E54AE(){}};
 class Rva005E54F7 : public Rva005E54AE,public Rva005E4F6D {public:Rva005E54F7(int,const AsciiString &,void *);virtual ~Rva005E54F7();};
 Rva005E54F7::~Rva005E54F7(){}
