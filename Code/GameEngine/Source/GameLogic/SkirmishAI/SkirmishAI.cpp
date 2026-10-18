@@ -320,16 +320,6 @@ private:
 	Map001F8ACB m_values17C;				// +0x17C (size at +0x180)
 };
 
-// WB E8A420 and native 2C6EE0 agree on base/player/master/first arguments.
-// Native constructor fixes all field initializers and the 0x2C allocation;
-// 2C717E and 2C7196 independently establish the string-to-int map at +17C.
-SkirmishAI::SkirmishAI(Player *player, void *master, bool first)
- : AIBuilder(player), m_player(player), m_specialMaster160(master),
-   m_tacticalAI(0), m_disabled168(false), m_difficulty16C(0), m_time170(0),
-   m_frame174(TheGameLogic->getFrame()), m_masterPlayerIndex(-1)
-{
- m_tacticalAI = reinterpret_cast<TacticalAI *>(new Rva002C60E4(player, first));
-}
 
 // WB E8A830 names update and its special slave/master paths. Native
 // 002C6BFF..002C6C8E fixes the 143-byte extent and the release-build shape:
