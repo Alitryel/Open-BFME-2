@@ -542,6 +542,7 @@ Code/Libraries/Source/Apt/Rva006E1260AptCihRefresh.cpp,-O2 -G6,1,1,region defaul
 Code/Libraries/Source/Apt/Rva006E3230Validate.cpp,-O2,6,2,region default loses rows
 Code/Libraries/Source/Apt/Rva006E4D50.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Apt/Rva006E4FF0Cluster.cpp,-O2,3,1,region default loses rows
+Code/Libraries/Source/Apt/Rva006F69D0DescriptorCtor.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Apt/Rva006F9EF0Cluster.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Benchmark/nbench0.cpp,-O2,4,1,region default loses rows
 Code/Libraries/Source/Benchmark/nbench1.cpp,-O2,62,11,region default loses rows
