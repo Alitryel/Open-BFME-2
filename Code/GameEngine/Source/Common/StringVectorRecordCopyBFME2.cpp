@@ -11,6 +11,12 @@
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<unsigned int,allocator<unsigned int> >::~vector(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(unsigned int,allocator<unsigned int> const &); }
 // bfme link decl-only begin
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }

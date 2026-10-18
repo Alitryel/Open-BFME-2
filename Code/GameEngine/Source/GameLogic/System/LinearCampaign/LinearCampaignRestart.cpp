@@ -11,6 +11,10 @@ struct BfmeAssignRecord172 {
     ~BfmeAssignRecord172();
     unsigned char bytes[172];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> BfmeAssignRecord172 * vector<BfmeAssignRecord172,allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *,BfmeAssignRecord172 *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> BfmeAssignRecord172 * __copy<BfmeAssignRecord172 *,BfmeAssignRecord172 *,int>(BfmeAssignRecord172 *,BfmeAssignRecord172 *,BfmeAssignRecord172 *,random_access_iterator_tag const &,int *); }
 class Rva001ECD19 : public _STL::vector<BfmeAssignRecord172> {
 public:
     void rva001ECD19(BfmeAssignRecord172 *, BfmeAssignRecord172 *, BfmeAssignRecord172 *);

@@ -15,6 +15,12 @@ struct Rva004F9185Cmp
 {
 	bool operator()(TreeHintRef00217D4C a, TreeHintRef00217D4C b) const;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void __pop_heap_aux<TreeHintRef00217D4C *,TreeHintRef00217D4C,Rva004F9185Cmp>(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,Rva004F9185Cmp); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void __pop_heap<TreeHintRef00217D4C *,TreeHintRef00217D4C,Rva004F9185Cmp,int>(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C,Rva004F9185Cmp,int *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void __adjust_heap<TreeHintRef00217D4C *,int,TreeHintRef00217D4C,Rva004F9185Cmp>(TreeHintRef00217D4C *,int,int,TreeHintRef00217D4C,Rva004F9185Cmp); }
 
 namespace _STL
 {

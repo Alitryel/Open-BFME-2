@@ -28,6 +28,10 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 }
 
 #include "../../../Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<BfmeE16,allocator<BfmeE16> >::_M_fill_insert(BfmeE16 *,unsigned int,BfmeE16 const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> BfmeE16 * __uninitialized_copy<BfmeE16 *,BfmeE16 *>(BfmeE16 *,BfmeE16 *,BfmeE16 *,__false_type const &); }
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_insert_overflow(BfmeE16 *, BfmeE16 const &, __false_type const &, unsigned int, bool); }

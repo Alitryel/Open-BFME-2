@@ -23,6 +23,8 @@ struct Rva00541021
 	Rva00541021();
 	Rva00541021(const Rva00541021 &other);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<Rva00541021,Rva00541021>(Rva00541021 *,Rva00541021 const &); }
 
 class Rva00540D67
 {

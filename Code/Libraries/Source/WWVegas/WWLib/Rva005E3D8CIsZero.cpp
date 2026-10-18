@@ -23,6 +23,8 @@ struct SBServer
 };
 
 #include <map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) void _Construct<pair<int const ,SBServer>,pair<int const ,SBServer> >(pair<int const ,SBServer> *,pair<int const ,SBServer> const &); }
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<pair<int const, SBServer>, pair<int const, SBServer> >(pair<int const, SBServer> *, pair<int const, SBServer> const &); }
 // bfme link decl-only end

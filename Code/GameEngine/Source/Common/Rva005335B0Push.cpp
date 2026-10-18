@@ -21,6 +21,14 @@ struct Rva005334A4Element
 	unsigned short x;
 	unsigned short y;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<Rva005334A4Element,allocator<Rva005334A4Element> >::push_back(Rva005334A4Element const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<Rva005334A4Element,allocator<Rva005334A4Element> >::_M_insert_overflow(Rva005334A4Element *,Rva005334A4Element const &,__false_type const &,unsigned int,bool); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva005334A4Element * __uninitialized_fill_n<Rva005334A4Element *,unsigned int,Rva005334A4Element>(Rva005334A4Element *,unsigned int,Rva005334A4Element const &,__false_type const &); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva005334A4Element * __uninitialized_copy<Rva005334A4Element *,Rva005334A4Element *>(Rva005334A4Element *,Rva005334A4Element *,Rva005334A4Element *,__false_type const &); }
 
 class Rva005335B0
 {

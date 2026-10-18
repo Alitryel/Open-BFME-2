@@ -14,6 +14,8 @@ struct BfmePod88
 {
 	char m_body[88];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<BfmePod88,BfmePod88>(BfmePod88 *,BfmePod88 const &); }
 
 typedef _STL::vector<BfmePod88, _STL::allocator<BfmePod88> > Pod88Vec;
 

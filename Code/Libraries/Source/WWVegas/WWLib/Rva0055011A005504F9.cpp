@@ -52,6 +52,8 @@ struct BfmeNarrowRecord0054FEF1
 	unsigned int word1;
 	BfmeNarrowRecord0054FEF1(const BfmeNarrowRecord0054FEF1 &o);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void deque<BfmeNarrowRecord0054FEF1,allocator<BfmeNarrowRecord0054FEF1> >::_M_push_back_aux_v(BfmeNarrowRecord0054FEF1 const &); }
 
 class MutexClass
 {

@@ -26,6 +26,8 @@ class Rva0054103E
 public:
 	unsigned int m_data[5];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<Rva0054103E,allocator<Rva0054103E> >::vector(vector<Rva0054103E,allocator<Rva0054103E> > const &); }
 
 class Rva00541A6E
 {
