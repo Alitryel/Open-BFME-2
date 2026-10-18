@@ -2181,6 +2181,20 @@ static GameWindow *createWindow( char *type,
 /** Parse window descriptions until an extra end is encountered indicating
 	* the end of this block of child window descriptions. */
 //=============================================================================
+// Retail's parser destroys children through the existing manager's slot 0x8C.
+// Keep this declaration-only view local: the donor manager header has slot 0x78.
+class ScriptChildWindowManagerSlots
+{
+public:
+#define SLOT(n) virtual void unusedSlot##n();
+	SLOT(0) SLOT(1) SLOT(2) SLOT(3) SLOT(4) SLOT(5) SLOT(6) SLOT(7) SLOT(8) SLOT(9)
+	SLOT(10) SLOT(11) SLOT(12) SLOT(13) SLOT(14) SLOT(15) SLOT(16) SLOT(17) SLOT(18) SLOT(19)
+	SLOT(20) SLOT(21) SLOT(22) SLOT(23) SLOT(24) SLOT(25) SLOT(26) SLOT(27) SLOT(28) SLOT(29)
+	SLOT(30) SLOT(31) SLOT(32) SLOT(33) SLOT(34)
+#undef SLOT
+	virtual Int winDestroy(GameWindow *window);
+};
+
 static Bool parseChildWindows( GameWindow *window, 
 															 File *inFile, 
 															 char *buffer )
@@ -2196,7 +2210,7 @@ static Bool parseChildWindows( GameWindow *window,
 		for( GameWindow *myChild = window->winGetChild(); myChild; myChild = nextWindow )
 		{
 			nextWindow = myChild->winGetNext();
-			TheWindowManager->winDestroy( myChild );
+			((ScriptChildWindowManagerSlots *)TheWindowManager)->winDestroy( myChild );
 		}
 	}
 		
@@ -2206,7 +2220,7 @@ static Bool parseChildWindows( GameWindow *window,
 	while( TRUE ) 
 	{
 
-		if (inFile->scanString(asciibuf) == FALSE) {
+		if (((GoalScriptFileSlots *)inFile)->scanString(asciibuf) == FALSE) {
 			break;
 		}
 
