@@ -24,6 +24,15 @@ namespace _STL { template <> void ***copy<void ***, void ***>(void ***, void ***
 namespace _STL { template <> unsigned int deque<void *, allocator<void *> >::max_size() const; }
 // bfme link decl-only end
 
+// Defer allocator workers to their existing providers; the local copies
+// compete with those selected by the link (allocate owns retail 0x00620180).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() _STLP_NOTHROW {}
+template <> __declspec(dllimport) __forceinline void **allocator<void *>::allocate(size_type __n, void const *) const {
+  return __n != 0 ? __REINTERPRET_CAST(value_type*, allocator<char>::allocate(__n * sizeof(value_type), 0)) : 0;
+}
+}
+
 // Native 0x0038938C: STLport4.5.3 pointer queue pop forwarding to its owned provider.
 #include <queue>
 template void _STL::queue<void*,_STL::deque<void*,_STL::allocator<void*> > >::pop();
