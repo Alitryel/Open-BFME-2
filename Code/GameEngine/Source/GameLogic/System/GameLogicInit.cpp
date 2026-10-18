@@ -1771,7 +1771,7 @@ void bfmeMergeReceiverKeys(int value);
 class MapObject
 {
 public:
-	MapObject *getNext(void) const { return m_next; }
+	MapObject *getNext_(void) const { return m_next; }
 	const Coord3D *getLocation(void);
 	float getAngle(void) const { return m_angle; }
 	int getFlags(void) const { return m_flags; }
@@ -1956,7 +1956,7 @@ void GameLogic::rva00246422(bool dontCreate)
 {
 	_STL::vector<Rva0024622FEntry> created;
 	if (dontCreate) {
-		for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext()) {
+		for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext_()) {
 			Rva0134FAA0->slot28();
 			bfmeReleaseQueuedDeviceInterfaces();
 			const ThingTemplate *tt = pMapObj->getThingTemplate();
@@ -5214,7 +5214,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 	}
 	AssetList assets;
 	int count = 0;
-	for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext()) {
+	for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext_()) {
 		Rva0134FAA0->slot28();
 		bfmeReleaseQueuedDeviceInterfaces();
 		if (pMapObj->getFlags() & 0x36)
@@ -5375,7 +5375,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 void GameLogic::rva0024622F(bool dontCreate)
 {
 	_STL::vector<Rva0024622FEntry> created;
-	for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext()) {
+	for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext_()) {
 		Rva0134FAA0->slot28();
 		bfmeReleaseQueuedDeviceInterfaces();
 
