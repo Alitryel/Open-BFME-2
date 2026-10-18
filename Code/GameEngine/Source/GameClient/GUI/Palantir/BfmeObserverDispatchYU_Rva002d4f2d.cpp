@@ -31,7 +31,10 @@ public:
 extern GameLogic *TheGameLogic;				// retail 0x012F0898
 extern ControlBar *TheControlBar;			// retail 0x012F33F8
 
-// ?bfmeApplyYU@@YGXH@Z
+// ?bfmeApplyYU@@YGXH@Z -- placeholder owner; WorldBuilder names the body
+// Palantir::Impl::HandleOverOptionsButton (WB va 0xf45eb0, assert line 1704).
+// The C++ below stays under the placeholder spelling until the rename commit
+// can prove a mangle; renaming changes only the linker label, not bytes.
 void __stdcall bfmeApplyYU(int unused)
 {
 	AsciiStringYU *name;
