@@ -109,4 +109,11 @@ extern PFN_D3DXCreateTexture __identifier("_imp__D3DXCreateTexture@32");
 HRESULT __stdcall D3DXCreateTexture(LPDIRECT3DDEVICE9 pDevice, UINT Width, UINT Height, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, LPDIRECT3DTEXTURE9 *ppTexture) {
  return __identifier("_imp__D3DXCreateTexture@32")(pDevice, Width, Height, MipLevels, Usage, Format, Pool, ppTexture);
 }
+
+// _D3DXCreateTextureFromFileInMemoryEx@60
+typedef HRESULT (__stdcall *PFN_D3DXCreateTextureFromFileInMemoryEx)(LPDIRECT3DDEVICE9, LPCVOID, UINT, UINT, UINT, UINT, DWORD, D3DFORMAT, D3DPOOL, DWORD, DWORD, D3DCOLOR, D3DXIMAGE_INFO *, PALETTEENTRY *, LPDIRECT3DTEXTURE9 *);
+extern PFN_D3DXCreateTextureFromFileInMemoryEx __identifier("_imp__D3DXCreateTextureFromFileInMemoryEx@60");
+HRESULT __stdcall D3DXCreateTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Width, UINT Height, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO *pSrcInfo, PALETTEENTRY *pPalette, LPDIRECT3DTEXTURE9 *ppTexture) {
+ return __identifier("_imp__D3DXCreateTextureFromFileInMemoryEx@60")(pDevice, pSrcData, SrcDataSize, Width, Height, MipLevels, Usage, Format, Pool, Filter, MipFilter, ColorKey, pSrcInfo, pPalette, ppTexture);
+}
 }
