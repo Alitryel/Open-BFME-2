@@ -83,7 +83,7 @@ class INI
 public:
     void initFromINI(void *what, const FieldParse *parseTable);
 };
-extern char g_00DFE4BC;
+char g_00DFE4BC;	// retail RVA 0x009FE4BC (.bss), defined here
 
 // WorldBuilder StrategicHUD::ParseSettings, WB VA 0x00B8C2B0 (callgraph lead, score 1.0).
 namespace StrategicHUD {
