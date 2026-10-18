@@ -81,4 +81,4 @@ AIAttackState::AIAttackState(StateMachine *machine, bool follow, bool attackingO
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?notifyFired@AIAttackState@@UAEXXZ=?_bfme_ro_v50@RenderObjClass@@UAE_NH@Z")
+#pragma comment(linker, "/alternatename:?notifyFired@AIAttackState@@UAEXXZ=??1Region2D@@QAE@XZ")

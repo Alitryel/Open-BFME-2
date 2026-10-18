@@ -78,4 +78,4 @@ StancesBehavior::~StancesBehavior()
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?stancesInterfaceA@StancesBehavior@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?stancesInterfaceB@StancesBehavior@@UAEXXZ=?rva0044DF8D@UpdateModule@@UAEXW4UpdateSleepTime@@@Z")
+#pragma comment(linker, "/alternatename:?stancesInterfaceB@StancesBehavior@@UAEXXZ=?update@StancesBehavior@@UAE?AW4UpdateSleepTime@@XZ")
