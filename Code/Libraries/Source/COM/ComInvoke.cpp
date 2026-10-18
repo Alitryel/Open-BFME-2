@@ -1,13 +1,14 @@
-// ?_com_invoke_helper@@YAJPAUIDispatch@@JGGPAXPBGPADPAPAUIErrorInfo@@@Z
-// partial score=0.9 date=2026-10-18
-// ?_com_invoke_helper@@YAJPAUIDispatch@@JGGPAXPBGPADPAPAUIErrorInfo@@@Z
-// partial score=0.75 date=2026-10-17
 // cl: /O2 /G6 /Ob2 /EHsc /GR /DNDEBUG /MD /I"reference/open-bfme-1/inputs/toolchains/vs2003/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Include"
-// Authored from retail INVKPRXY code, native symbols and SDK declarations only.
+// MSVC 7.1 INVKPRXY member, recovered as one unit from its retail bytes,
+// native COFF names and CodeView parameter/local types. SDK headers provide
+// declarations only; no Microsoft implementation source was used.
+// The whole helper, its switch tables and all three raw wrappers are verified.
+// See reverse/attempt_support/com-invoke-exact-20261018/receipt.json.
 #include <oaidl.h>
 #include <stdarg.h>
 #include <malloc.h>
 #include <string.h>
+// IDispatch::Invoke requires the all-zero riid; __uuidof emits those SDK GUID bytes.
 struct __declspec(uuid("00000000-0000-0000-0000-000000000000")) NullDispatchIID;
 long __stdcall _com_handle_excepinfo(EXCEPINFO&,IErrorInfo**);
 long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags,unsigned short retType,void *result,const unsigned short *types,char *args,IErrorInfo **out) {
@@ -85,46 +86,61 @@ long __cdecl _com_invoke_helper(IDispatch *dispatch,long id,unsigned short flags
    hr=VariantChangeType(&value,&value,0,retType);
    if(hr<0) {VariantClear(&value);return hr;}
   }
+  // Keep the native type-list order and one success exit. In particular,
+  // HRESULT is the SCODE copy, and RECORD plus its BYREF extension cases
+  // copy the opaque pointer bits. Retail's tables prove these shared paths.
   switch(retType) {
-  case VT_I2: *(short*)result=value.iVal;break;
-  case VT_UI2: *(unsigned short*)result=value.uiVal;break;
-  case VT_I4: *(long*)result=value.lVal;break;
-  case VT_ERROR: *(SCODE*)result=value.scode;break;
-  case VT_UI4: *(unsigned long*)result=value.ulVal;break;
-  case VT_HRESULT: *(HRESULT*)result=value.lVal;break;
-  case VT_R4: *(float*)result=value.fltVal;break;
-  case VT_BSTR: *(BSTR*)result=value.bstrVal;break;
-  case VT_INT: *(int*)result=value.intVal;break;
-  case VT_DISPATCH: *(IDispatch**)result=value.pdispVal;break;
-  case VT_UNKNOWN: *(IUnknown**)result=value.punkVal;break;
-  case VT_UINT: *(unsigned*)result=value.uintVal;break;
-  case VT_RECORD: *(void**)result=value.pvRecord;break;
-  case VT_R8: *(double*)result=value.dblVal;break;
-  case VT_DATE: *(DATE*)result=value.date;break;
-  case VT_BOOL: *(VARIANT_BOOL*)result=value.boolVal;break;
-  case VT_VARIANT: *(VARIANT*)result=value;break;
-  case VT_DECIMAL: *(DECIMAL*)result=value.decVal;break;
-  case VT_I1: *(char*)result=value.cVal;break;
-  case VT_UI1: *(BYTE*)result=value.bVal;break;
-  case VT_I8: *(LONGLONG*)result=value.llVal;break;
-  case VT_UI8: *(ULONGLONG*)result=value.ullVal;break;
-  case VT_CY: *(CY*)result=value.cyVal;break;
-#define REF(T,F,P) case VT_BYREF|T: *(P**)result=value.F;break;
-  REF(VT_I2,piVal,short) REF(VT_R8,pdblVal,double) REF(VT_BSTR,pbstrVal,BSTR)
-  REF(VT_BOOL,pboolVal,VARIANT_BOOL) REF(VT_DECIMAL,pdecVal,DECIMAL) REF(VT_UI2,puiVal,unsigned short)
+  case VT_I2: *(short*)result=value.iVal;goto done;
+  case VT_I4: *(long*)result=value.lVal;goto done;
+  case VT_R4: *(float*)result=value.fltVal;goto done;
+  case VT_R8: *(double*)result=value.dblVal;goto done;
+  case VT_DATE: *(DATE*)result=value.date;goto done;
+  case VT_CY: *(CY*)result=value.cyVal;goto done;
+  case VT_BSTR: *(BSTR*)result=value.bstrVal;goto done;
+  case VT_DISPATCH: *(IDispatch**)result=value.pdispVal;goto done;
+  case VT_HRESULT: case VT_ERROR: *(SCODE*)result=value.scode;goto done;
+  case VT_BOOL: *(VARIANT_BOOL*)result=value.boolVal;goto done;
+  case VT_VARIANT: *(VARIANT*)result=value;goto done;
+  case VT_UNKNOWN: *(IUnknown**)result=value.punkVal;goto done;
+  case VT_DECIMAL: *(DECIMAL*)result=value.decVal;goto done;
+  case VT_I1: *(char*)result=value.cVal;goto done;
+  case VT_UI1: *(BYTE*)result=value.bVal;goto done;
+  case VT_UI2: *(unsigned short*)result=value.uiVal;goto done;
+  case VT_UI4: *(unsigned long*)result=value.ulVal;goto done;
+  case VT_INT: *(int*)result=value.intVal;goto done;
+  case VT_UINT: *(unsigned*)result=value.uintVal;goto done;
+  case VT_I8: *(LONGLONG*)result=value.llVal;goto done;
+  case VT_UI8: *(ULONGLONG*)result=value.ullVal;goto done;
+  case VT_BYREF|VT_HRESULT: case VT_BYREF|VT_RECORD: case VT_RECORD: *(void**)result=value.pvRecord;goto done;
+#define REF(T,F,P) case VT_BYREF|T: *(P**)result=value.F;goto done;
+  REF(VT_I2,piVal,short)
+  REF(VT_I4,plVal,long)
+  REF(VT_R4,pfltVal,float)
+  REF(VT_R8,pdblVal,double)
+  REF(VT_DATE,pdate,DATE)
+  REF(VT_CY,pcyVal,CY)
+  REF(VT_BSTR,pbstrVal,BSTR)
+  REF(VT_DISPATCH,ppdispVal,IDispatch*)
+  REF(VT_ERROR,pscode,SCODE)
+  REF(VT_BOOL,pboolVal,VARIANT_BOOL)
+  REF(VT_VARIANT,pvarVal,VARIANT)
+  REF(VT_UNKNOWN,ppunkVal,IUnknown*)
+  REF(VT_DECIMAL,pdecVal,DECIMAL)
+  REF(VT_I1,pcVal,char)
+  REF(VT_UI1,pbVal,BYTE)
+  REF(VT_UI2,puiVal,unsigned short)
+  REF(VT_UI4,pulVal,unsigned long)
+  REF(VT_INT,pintVal,int)
   REF(VT_UINT,puintVal,unsigned)
-  REF(VT_I4,plVal,long) REF(VT_DATE,pdate,DATE) REF(VT_DISPATCH,ppdispVal,IDispatch*)
-  REF(VT_VARIANT,pvarVal,VARIANT) REF(VT_I1,pcVal,char) REF(VT_UI4,pulVal,unsigned long)
   REF(VT_I8,pllVal,LONGLONG)
-  REF(VT_R4,pfltVal,float) REF(VT_CY,pcyVal,CY) REF(VT_ERROR,pscode,SCODE)
-  REF(VT_UNKNOWN,ppunkVal,IUnknown*) REF(VT_UI1,pbVal,BYTE) REF(VT_UI8,pullVal,ULONGLONG)
-  REF(VT_INT,pintVal,int) REF(VT_HRESULT,plVal,long) REF(VT_RECORD,byref,void)
+  REF(VT_UI8,pullVal,ULONGLONG)
 #undef REF
   default:
    if(retType&VT_ARRAY)*(SAFEARRAY**)result=value.parray;
    else {VariantClear(&value);return E_INVALIDARG;}
   }
  }
+ done:
  return hr;
 }
 long __cdecl _com_dispatch_raw_method(IDispatch *dispatch,long id,unsigned short flags,unsigned short type,void *result,const unsigned short *types,...) {
