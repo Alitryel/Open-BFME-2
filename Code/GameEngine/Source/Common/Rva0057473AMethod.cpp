@@ -91,15 +91,3 @@ class Rva005CB260
 public:
 	void rva005CB260();
 };
-
-Rva005746AF::~Rva005746AF()
-{
-	if (m_hint.m_ptr == 0)
-		return;
-	int q = ((Rva0042D6B4PtrChaseField *)((Rva0057473AOuter *)m_04)->m_field20)->get();
-	if (q == 0)
-		return;
-	int held = (int)m_hint.m_ptr;
-	if (((Rva005CB265 *)q)->Rva005CB265::rva005CB265() == held)
-		((Rva005CB260 *)q)->rva005CB260();
-}
