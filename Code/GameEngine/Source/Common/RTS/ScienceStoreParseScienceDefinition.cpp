@@ -55,13 +55,17 @@ enum
 	INI_LOAD_RELOAD = 5
 };
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
 public:
 	const char *getNextToken(const char *seps = 0);
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
+	static void parseAndTranslateLabel(INI *, void *, void *, const void *);
 	int getLoadType() const { return m_loadType; }
 private:
 	char m_unmodelled00[8];
@@ -73,9 +77,10 @@ class INIException
 public:
 	INIException(int code, const char *format, ...);
 	INIException(const INIException &other);
+	~INIException();
 private:
+	char *m_msg;
 	int m_code;
-	const char *m_msg;
 };
 
 class NameKeyGenerator
@@ -89,27 +94,35 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 
 // Zero Hour's Overridable, with BFME 2's third word at +0x0C (-1 when new,
 // 0 for a reloaded info, 1 once retired by 0x001FFA5A).
+// The inline first step calls the existing named helper on the next node.
 class Overridable
 {
 public:
-	Overridable() : m_nextOverride(0), m_isOverride(false), m_reloadState(-1) {}
-	virtual ~Overridable();
-	Overridable *friend_getFinalOverride()
+	Overridable *friend_getFinalOverride();
+};
+// The native base vtable BDDC48 and destructor 1E3624 are already rowed
+// as Rva001E3624; use that owner for the donor Overridable view.
+class Rva001E3624
+{
+public:
+	Rva001E3624() : m_nextOverride(0), m_isOverride(false), m_reloadState(-1) {}
+	virtual ~Rva001E3624();
+	Rva001E3624 *friend_getFinalOverride()
 	{
 		if (m_nextOverride)
-			return m_nextOverride->friend_getFinalOverride();
+			return (Rva001E3624 *)((Overridable *)m_nextOverride)->friend_getFinalOverride();
 		return this;
 	}
-	void setNextOverride(Overridable *next) { m_nextOverride = next; }
+	void setNextOverride(Rva001E3624 *next) { m_nextOverride = next; }
 	void markAsOverride() { m_isOverride = true; }
 	void setReloadState(int state) { m_reloadState = state; }
 private:
-	Overridable *m_nextOverride;
+	Rva001E3624 *m_nextOverride;
 	bool m_isOverride;
 	int m_reloadState;
 };
 
-class Rva001FFE93 : public Overridable
+class Rva001FFE93 : public Rva001E3624
 {
 public:
 	Rva001FFE93();
@@ -159,7 +172,17 @@ private:
 };
 
 extern ScienceStore *TheScienceStore;
-extern const FieldParse TheScienceInfoFieldParse[];
+void iniParseScienceVectorVector(INI *, void *, void *, const void *);
+// Native RVA 7E2650: the six fields and null terminator used at 200071.
+extern const FieldParse TheScienceInfoFieldParse[] = {
+    { "PrerequisiteSciences", iniParseScienceVectorVector, 0, 0x1C },
+    { "SciencePurchasePointCost", INI::parseInt, 0, 0x28 },
+    { "SciencePurchasePointCostMP", INI::parseInt, 0, 0x2C },
+    { "IsGrantable", INI::parseBool, 0, 0x30 },
+    { "DisplayName", INI::parseAndTranslateLabel, 0, 0x14 },
+    { "Description", INI::parseAndTranslateLabel, 0, 0x18 },
+    { 0, 0, 0, 0 }
+};
 
 // ?friend_parseScienceDefinition@ScienceStore@@SAXPAVINI@@@Z, retail
 // 0x001FFF3A..0x00200084 (330B).
