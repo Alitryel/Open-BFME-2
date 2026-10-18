@@ -24857,7 +24857,6 @@ uw_007848f3,,0x007848F3,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;obje
 uw_007848fb,,0x007848FB,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
 uw_00784903,,0x00784903,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
 uw_0078490b,,0x0078490B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
-uw_00784928,,0x00784928,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6885
 uw_00784933,,0x00784933,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6867
 uw_0078493e,,0x0078493E,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6903
 uw_00784953,,0x00784953,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -96680,3 +96679,4 @@ __ehhandler$??1Rva002129DD@@QAE@XZ,,0x0076DE25,10,Code/GameEngine/Source/GameCli
 ?Rva0060DFB5@@YA_NPAVFile@@0@Z,,0x0060DFB5,4377,Code/GameEngine/Source/Common/System/XferSaveAsText.cpp,matched,Tagged binary Xfer stream to readable text dump; second loop UnsignedInt i declaration shifts qsort symbol count by 1 to swap -0x25/-0x28 byte slots
 __ehhandler$?Rva0060DFB5@@YA_NPAVFile@@0@Z,,0x007A6DCF,10,Code/GameEngine/Source/Common/System/XferSaveAsText.cpp,matched,Compiler-emitted C++ EH handler of 0x0060DFB5
 $L10450,,0x0078491D,11,Code/GameEngine/Source/GameNetwork/GameSlotApparent.cpp,matched,gen-funclet;parent=?adjustSlotsForMap@GameInfo@@UAEXXZ; Native complete599B parent and four-state EH graph bind this actual GameSlot stack lifetime to its11B cleanup. LEA uses the native parent frame displacement; tail call reaches existing verified GameSlot destructor2294FD. Natural compiler emission replaces anonymous generated scaffold. No new alias pin synthetic emitter or adjacency inference.
+$L10453,,0x00784928,11,Code/GameEngine/Source/GameNetwork/GameSlotApparent.cpp,matched,gen-funclet;parent=?adjustSlotsForMap@GameInfo@@UAEXXZ; Native complete599B parent and four-state EH graph bind this actual GameSlot stack lifetime to its11B cleanup. LEA uses the native parent frame displacement; tail call reaches existing verified GameSlot destructor2294FD. Natural compiler emission replaces anonymous generated scaffold. No new alias pin synthetic emitter or adjacency inference.
