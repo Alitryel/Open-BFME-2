@@ -393,21 +393,6 @@ private:
 	unsigned char m_flags; // +0x34
 };
 
-StrategicHUD::ArmyMemberIconMovieClip::Impl::Impl(ArmyMemberIconMovieClip *owner, AptMovieClipFrame *frame, const AsciiString &type)
-	: m_owner(owner), m_frame(frame), m_level(-1), m_portrait(0), m_typeImage(0), m_quantity(0), m_flags(0x70)
-{
-	m_frame->CreateContentMovieClip(type, AsciiString("icon"), &m_level, &m_name);
-
-	AsciiString prefix;
-	prefix.format("_level%u.", m_level);
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnInitialized", DelegateDesc(this, &Impl::OnInitialized));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnClicked", DelegateDesc(this, &Impl::OnClicked));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnRollOver", DelegateDesc(this, &Impl::OnRollOver));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnRollOut", DelegateDesc(this, &Impl::OnRollOut));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnTypeRollOver", DelegateDesc(this, &Impl::OnTypeRollOver));
-	m_commandMaps.AddCommandMapDelegate(prefix + m_name + "_OnTypeRollOut", DelegateDesc(this, &Impl::OnTypeRollOut));
-	g_bfmeAptWindowManager->bfmeSetText("APT:" + prefix + m_name + "_Quantity", UnicodeString::TheEmptyString, true);
-}
 
 void StrategicHUD::ArmyMemberIconMovieClip::Impl::OnClicked(const char *path)
 {
@@ -476,15 +461,7 @@ void StrategicHUD::ArmyMemberIconMovieClip::Impl::SetPortraitImage(const Image *
 		reinterpret_cast<Rva00524306 *>(&m_images)->rva00524306(*(const StringBase<char> *)&key);
 }
 
-StrategicHUD::ArmyMemberIconMovieClip::ArmyMemberIconMovieClip(AptMovieClipFrame *frame, const AsciiString &type)
-	: m_impl(new Impl(this, frame, type))
-{
-}
 
-StrategicHUD::ArmyHeroIconMovieClip::ArmyHeroIconMovieClip(AptMovieClipFrame *frame)
-	: ArmyMemberIconMovieClip(frame, AsciiString("ArmyHeroIcon"))
-{
-}
 
 void StrategicHUD::ArmyMemberIconMovieClip::rva005FC9E0(const Image *image)
 {
