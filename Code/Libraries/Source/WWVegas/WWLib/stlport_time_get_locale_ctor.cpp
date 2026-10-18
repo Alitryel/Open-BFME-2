@@ -4,6 +4,9 @@
 // stl/_time_facets.h. Vtables BBBBC0 (narrow) and BBBBEC (wide) are independently
 // established by the matched default constructors and destructors;
 // _Time_Info starts at +0xC in both facets.
+#include <string>
+// Use the rowed 14-byte string destructor at RVA 0x00142D70.
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
 // retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes

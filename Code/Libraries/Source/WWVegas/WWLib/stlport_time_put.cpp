@@ -1,6 +1,9 @@
 // cl: /ICode/Libraries/Source/WWVegas/WWLib/TimeInfoLink /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 
+#include <string>
+// Use the rowed 14-byte string destructor at RVA 0x00142D70.
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
 // retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes
