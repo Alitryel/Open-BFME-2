@@ -94,7 +94,7 @@ extern Rva007B55E0TxnName g_Va00E0A150;
 Rva007B55E0TxnName g_Va00E0A114;	// retail RVA 0x00A0A114 (.bss), defined here
 extern Rva007B55E0TxnName g_Va00E0A1A4;
 extern Rva007B55E0TxnName g_Va00E0A1BC;
-extern Rva007B55E0TxnName g_Va00E0A198;
+Rva007B55E0TxnName g_Va00E0A198;	// retail RVA 0x00A0A198 (.bss), defined here
 extern Rva007B55E0TxnName g_Va00E0A1B0;
 
 struct Rva007B55E0TxnInits
