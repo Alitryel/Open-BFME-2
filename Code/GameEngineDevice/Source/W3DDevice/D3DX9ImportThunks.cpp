@@ -60,4 +60,11 @@ extern PFN_D3DXMatrixTranslation __identifier("_imp__D3DXMatrixTranslation@16");
 D3DXMATRIX* __stdcall D3DXMatrixTranslation(D3DXMATRIX *pOut, FLOAT x, FLOAT y, FLOAT z) {
  return __identifier("_imp__D3DXMatrixTranslation@16")(pOut, x, y, z);
 }
+
+// _D3DXAssembleShader@28
+typedef HRESULT (__stdcall *PFN_D3DXAssembleShader)(LPCSTR, UINT, const D3DXMACRO *, LPD3DXINCLUDE, DWORD, LPD3DXBUFFER *, LPD3DXBUFFER *);
+extern PFN_D3DXAssembleShader __identifier("_imp__D3DXAssembleShader@28");
+HRESULT __stdcall D3DXAssembleShader(LPCSTR pSrcData, UINT SrcDataLen, const D3DXMACRO *pDefines, LPD3DXINCLUDE pInclude, DWORD Flags, LPD3DXBUFFER *ppShader, LPD3DXBUFFER *ppErrorMsgs) {
+ return __identifier("_imp__D3DXAssembleShader@28")(pSrcData, SrcDataLen, pDefines, pInclude, Flags, ppShader, ppErrorMsgs);
+}
 }
