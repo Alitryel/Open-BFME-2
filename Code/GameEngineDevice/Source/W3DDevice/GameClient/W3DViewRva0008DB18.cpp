@@ -59,7 +59,7 @@ struct BfmeFadeDrawable
 };
 static BfmeFadeDrawable *g_Va00DE2078;
 
-extern bool g_Va00DB4580;
+bool g_Va00DB4580 = true;	// retail RVA 0x009B4580 (.data), defined here
 extern bool g_bfmeFlagEC;
 extern Real g_Va00DB4540, g_Va00DB4544, g_Va00DB4548;
 extern Real g_Va00DB454C, g_Va00DB4550, g_Va00DB4560, g_Va00DB4564;
