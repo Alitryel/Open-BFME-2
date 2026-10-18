@@ -102,11 +102,12 @@ public:
 	void setDisconnectSlot(UnsignedByte slot);
 };
 
+class Rva004D57AE { public: void setPlayerIndex(UnsignedInt); };
 class NetDestroyPlayerCommandMsg : public NetCommandMsg
 {
 public:
 	NetDestroyPlayerCommandMsg();
-	void setPlayerIndex(UnsignedInt playerIndex);
+	/* the rowed Rva004D57AE::setPlayerIndex */ __declspec(dllimport) __forceinline void setPlayerIndex(UnsignedInt p0) { ((Rva004D57AE *)this)->setPlayerIndex(p0); }
 
 private:
 	UnsignedInt m_playerIndex;
