@@ -1,7 +1,5 @@
 // ?rva0060D2E9@XferSave@@QAEXPBD@Z
-// partial score=0.985 date=2026-10-15
 // ?rva0060D2E9@XferSave@@QAEXPBD@Z
-// partial score=0.95 date=2026-10-15
 // cl: /O1 /G6 /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_CSTD_FUNCTION_IMPORTS
 // stlport
 #define _STLP_NO_EXCEPTIONS 1
@@ -42,27 +40,29 @@ private:
  unsigned int previousNames;
 };
 
-struct Wmarker_4 { unsigned char v; unsigned char pad[3]; };
+struct Wmarker_4 { unsigned char pad[3]; unsigned char v; };
 void XferSave::rva0060D2E9(const char *name) {
  if(name==0 || *name==0) {
   unsigned char marker=0;
   if(stream->write(&marker,1)!=1) throw XferException(1,0);
  } else {
-  Rva0060CAEANode *found;
-  unsigned int length;
+  struct {
+   Rva0060CAEANode *found;
+   unsigned int length;
+  } lookup;
   {
    const _STL::string key(name);
-   found=((Rva0060CAEA*)names)->rva0060CAEA(key);
+   *(Rva0060CAEANode *volatile *)&lookup.found=((Rva0060CAEA*)names)->rva0060CAEA(key);
   }
-  if(found) {
+  if(lookup.found) {
    Wmarker_4 marker; marker.v = 0xff;
    if(stream->write(&marker.v,1)!=1) throw XferException(1,0);
-   if(stream->write(&found->value,4)!=4) throw XferException(1,0);
+   if(stream->write(&lookup.found->value,4)!=4) throw XferException(1,0);
   } else {
-   length=strlen(name);
-   if(length>0xfe) length=0xfe;
-   if(stream->write(&length,1)!=1) throw XferException(1,0);
-   if(stream->write(name,length)!=(int)length) throw XferException(1,0);
+   lookup.length=strlen(name);
+   if(lookup.length>0xfe) lookup.length=0xfe;
+   if(stream->write(&lookup.length,1)!=1) throw XferException(1,0);
+   if(stream->write(name,lookup.length)!=(int)lookup.length) throw XferException(1,0);
    const _STL::string key(name);
    const unsigned int auxCount=previousNames;
    const unsigned int nameCount=*(unsigned int*)(names+16);
