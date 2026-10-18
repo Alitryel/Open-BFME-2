@@ -11683,7 +11683,6 @@ __alldiv,,0x00629630,170,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt
 __aulldvrm,,0x006296E0,149,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\ulldvrm.obj;unique placement in .text;ghidra size agrees
 __allshl,,0x00629780,31,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\llshl.obj;unique placement in .text;ghidra size agrees
 __aullshr,,0x006297A0,31,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\ullshr.obj;unique placement in .text;ghidra size agrees
-@_RTC_CheckStackVars@8,,0x0075A5C5,90,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=..\build\intel\dll_obj\stack.obj;unique placement in .text;ghidra size agrees
 ?GetImageInfo@@YAPAUImageInfo@@K@Z,,0x0075ACEE,849,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=..\build\intel\dll_obj\pdblkup.obj;unique placement in .text;ghidra size agrees
 ?GetPdbDll@@YAPAUHINSTANCE__@@XZ,,0x0075B03F,312,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=..\build\intel\dll_obj\pdblkup.obj;unique placement in .text;ghidra size agrees
 ?_RTC_GetSrcLine@@YAHKPADHPAHPAPAD@Z,,0x0075B177,847,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=..\build\intel\dll_obj\pdblkup.obj;unique placement in .text;ghidra size agrees
@@ -96503,3 +96502,4 @@ uw_007a3bb7,,0x007A3BB7,10,Code/GameEngine/Source/Common/Rva005E6A23Rva005E6A23F
 ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z,,0x0005D734,903,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioMultisound.cpp,matched,
 ?rva00055E6C@MilesAudioManager@@QAE_NABVAsciiString@@HHH@Z,,0x00055E6C,350,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp,matched,
 __RTC_CheckEsp,,0x0075A5A2,35,Code/masm_dumps/RTC_CheckEsp.asm,matched,Whole native stack.obj extraction paired with RtcStack.cpp; proven compiler machinery consumes caller ZF and preserves live EAX/EDX; complete35B native body and REL32 to _RTC_Failure; MASM remains assembly and adds zero C++ credit
+@_RTC_CheckStackVars@8,,0x0075A5C5,90,Code/Libraries/Source/CRT/RtcStack.cpp,matched,Independent whole native stack.obj recovery from retail/native COFF and public rtcapi.h; fastcall two arguments and CodeView descriptor sizes8/12; explicit descriptor byte induction and unsigned frame arithmetic preserve native90B and REL32 to authored _RTC_StackFailure; original flag-dependent sibling moves to MASM with zero C++ credit; no Microsoft implementation source
