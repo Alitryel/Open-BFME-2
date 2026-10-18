@@ -64,13 +64,6 @@ private:
 	MultiListNodeClass Head;
 };
 
-template <class T> class MultiListClass : public GenericMultiListClass
-{
-public:
-	MultiListClass() {}
-	virtual ~MultiListClass();
-};
-
 class TextureClass
 {
 public:
@@ -84,7 +77,7 @@ public:
 template <class T> class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	RefCountPtr(); // The array callback uses the rowed six-byte constructor.
 	~RefCountPtr();
 	T *Referent;
 };

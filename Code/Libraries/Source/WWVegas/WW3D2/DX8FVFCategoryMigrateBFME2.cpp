@@ -28,7 +28,7 @@ public:
 	T* p;
  RefCountPtr &operator=(const BFME2TextureRef&);
  RefCountPtr &operator=(const RefCountPtr &x) {if(x.p)++x.p->NumRefs;if(p)p->Release_Ref();p=x.p;return *this;}
-	RefCountPtr() : p(0) {}
+	RefCountPtr(); // Array construction uses the rowed six-byte constructor.
 	~RefCountPtr() { if (p) p->Release_Ref(); }
 	bool operator==(const RefCountPtr& o) const { return p == o.p; }
 	bool operator!=(const RefCountPtr& o) const { return p != o.p; }
