@@ -70,7 +70,8 @@ public:
 
 	basic_string(const CharT *, size_type, const allocator_type &);
 
-private:
+// Bind the three-argument helper to its rowed retail provider at 0x78C0.
+public:
 	template <class InputIterator>
 	void _M_range_initialize(InputIterator, InputIterator, const forward_iterator_tag &);
 	__forceinline void _M_range_initialize(const CharT *first, const CharT *last)
