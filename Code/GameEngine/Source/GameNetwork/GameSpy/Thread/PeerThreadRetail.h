@@ -281,6 +281,8 @@ class PeerResponse
 public:
 	PeerResponse();
 	~PeerResponse();
+	// Out of line in retail (0x0038B383, PeerResponseAssign.cpp).
+	PeerResponse &operator=(const PeerResponse &that);
 	enum
 	{
 		PEERRESPONSE_LOGIN,
