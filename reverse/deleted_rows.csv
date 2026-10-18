@@ -1320,3 +1320,4 @@ __ehhandler$??1HelixContainModuleData@@UAE@XZ,0x00769CA1,"Renamed with its paren
 ?rva0076489F@@YAXXZ,0x0076489F,Real114B Rva0010F760 audio-ref factory and exact parent EH graph establish full25B native result-owner cleanup; recovered as its actual C++ compiler label $L440 in the parent source.
 ??1FileInfoStruct@MixFileCreator@@QAE@XZ,0x0052DD64,Corrected refuted MixFileCreator identity to PathfindCell physical owner using independent shipped WB Info::Free assertion and native allocation/destruction callbacks
 ??_EFileInfoStruct@MixFileCreator@@QAEPAXI@Z,0x002E70E8,Corrected refuted MixFileCreator identity to PathfindCell physical owner using independent shipped WB Info::Free assertion and native allocation/destruction callbacks
+?rva007A64A9@@YAXXZ,0x007A64A9,Natural C++ factory result lifetime now emits verified complete25B cleanup under its EXACT parent EH graph

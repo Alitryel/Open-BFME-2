@@ -2708,17 +2708,6 @@ cleanup_done_007A6486:
 
 ; Unwind@00ba64a9 at RVA 0x007A64A9; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-16], then loads the cleanup pointer from [ebp+8] and tail-jumps to matched Rva005F8F96 destructor at 0x005F8F96.
-PUBLIC ?rva007A64A9@@YAXXZ
-?rva007A64A9@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_007A64A9
-    and DWORD PTR [ebp-16], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1Rva005F8F96@@QAE@XZ
-cleanup_done_007A64A9:
-    ret
-?rva007A64A9@@YAXXZ ENDP
 
 ; Unwind@00ba65b4 at RVA 0x007A65B4; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20], then loads the cleanup pointer from [ebp+8] and tail-jumps to UnicodeString at 0x005B804E.
