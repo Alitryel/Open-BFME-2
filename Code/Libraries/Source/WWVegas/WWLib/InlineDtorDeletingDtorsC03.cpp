@@ -96,6 +96,9 @@ public:
 	StaticSortListClass();
 	StaticSortListClass(EmitVtableTag *);
 	virtual ~StaticSortListClass() {}
+	// Retail vftable 0x007D4E24 holds two pure slots after the deleting dtor.
+	virtual void Add_To_List(class RenderObjClass *robj, unsigned int sort_level) = 0;
+	virtual void Render_And_Clear(class RenderInfoClass &rinfo) = 0;
 };
 
 // ??0StaticSortListClass@@QAE@XZ @0x00176920 9B: the default constructor, storing the
@@ -109,7 +112,9 @@ __declspec(noinline) inline StaticSortListClass::StaticSortListClass()
 // ?bfmeAnchorStaticSortListClass absent-from-retail
 void *bfmeAnchorStaticSortListClass(void *where)
 {
-	return new (where) StaticSortListClass();
+	StaticSortListClass *p = (StaticSortListClass *)where;
+	p->StaticSortListClass::StaticSortListClass();
+	return p;
 }
 
 // ?<StaticSortListClass::StaticSortListClass> absent-from-retail
