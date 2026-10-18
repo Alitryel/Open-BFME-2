@@ -873,9 +873,11 @@ private:
 typedef MilesKeyAliases::iterator::_Node MilesAliasNode;
 typedef MilesKeyAliases::iterator::_Hashtable MilesAliasTable;
 namespace _STL {
+// Native 0x56B39 keeps an unwind state around clear(): C++ free may throw.
+// The C-linkage declaration lets cl elide that state and emits only 24/57 bytes.
 template<> __declspec(dllimport) __forceinline
 void allocator<MilesAliasNode>::deallocate(MilesAliasNode *p, size_t n) const
-{ if (p != 0) ::free((void *)p); }
+{ if (p != 0) _STL::free((void *)p); }
 template<> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<unsigned int, MilesAliasNode, allocator<MilesAliasNode> >::deallocate(MilesAliasNode *p, size_t n)
 { static_cast<allocator<MilesAliasNode>&>(*this).deallocate(p, n); }
