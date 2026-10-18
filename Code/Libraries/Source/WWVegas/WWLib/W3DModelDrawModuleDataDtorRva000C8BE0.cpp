@@ -46,10 +46,12 @@ struct Rva000C0495 : Rva00211E58VectorBase
 	~Rva000C0495();
 };
 
+class BfmeNarrowRecord00079C23 { public: BfmeNarrowRecord00079C23(); };
 struct Rva00079554Record
 {
 	unsigned char m_pad[0x2C];
-	Rva00079554Record();
+	// Construction is the rowed ??0BfmeNarrowRecord00079C23, reached by a qualified call.
+	__declspec(dllimport) __forceinline Rva00079554Record() { ((BfmeNarrowRecord00079C23 *)this)->BfmeNarrowRecord00079C23::BfmeNarrowRecord00079C23(); }
 	~Rva00079554Record();
 };
 
