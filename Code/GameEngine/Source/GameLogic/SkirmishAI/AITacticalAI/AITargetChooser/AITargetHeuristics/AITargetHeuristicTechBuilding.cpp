@@ -18,6 +18,14 @@ namespace _STL
  
 }
 #include <vector>
+
+// Copy the three-pointer header through the rowed four-byte enum provider.
+// The stored values remain ObjectIDs and are converted back at lookup.
+enum ScienceType { SCIENCE_NONE = 0 };
+namespace _STL {
+template<> vector<ScienceType, allocator<ScienceType> >::vector(const vector<ScienceType, allocator<ScienceType> > &);
+}
+
 enum Relationship
 
 {
@@ -68,7 +76,7 @@ class Rva002A8F24
  
 }
 ;
-extern Rva002A8F24 *g_tacticalAIRegistry;
+extern Rva002A8F24 *g_00DFEEF8;
 extern GameLogic *TheGameLogic;
 extern PartitionManager *ThePartitionManager;
 struct TemplateView
@@ -179,18 +187,18 @@ class AITargetHeuristicTechBuilding
 void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owner,Player *unused)
 
 {
- Rva002A8AB1Record *stats=g_tacticalAIRegistry->rva002A8AB1(((&(owner)) ? (owner) : (owner)));
+ Rva002A8AB1Record *stats=g_00DFEEF8->rva002A8AB1(((&(owner)) ? (owner) : (owner)));
  int value=stats->mode;
  bool mode=value!=0;
- _STL::vector<ObjectID> buildings=g_tacticalAIRegistry->techBuildings;
+ _STL::vector<ScienceType> buildings(*(const _STL::vector<ScienceType> *)&g_00DFEEF8->techBuildings);
  TacticalAI *tactics=stats->tactics;
  Coord3D center=stats->rva004EBF4B();
  Object *best=0;
  volatile float bestDistance = 0.0f;
- for(_STL::vector<ObjectID>::iterator i=buildings.begin();i!=buildings.end();++i)
+ for(_STL::vector<ScienceType>::iterator i=buildings.begin();i!=buildings.end();++i)
  
  {
-  Object *obj=((i != buildings.end()) ? TheGameLogic->findObjectByID(*i) : TheGameLogic->findObjectByID(*i));
+  Object *obj=((i != buildings.end()) ? TheGameLogic->findObjectByID((ObjectID)*i) : TheGameLogic->findObjectByID((ObjectID)*i));
   if(owner->getRelationship(obj)==2)continue;
   bool good=false;
   if(obj->type->flag121&0x10)
@@ -233,6 +241,6 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
   }
   
  }
- if(best)target->setTarget(best,(float)(double)g_tacticalAIRegistry->fallbackWeight);
+ if(best)target->setTarget(best,(float)(double)g_00DFEEF8->fallbackWeight);
  
 }
