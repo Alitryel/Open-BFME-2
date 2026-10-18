@@ -122,7 +122,7 @@ class RadarObject {
 public:
 	Object *friend_getObject() const { return m_object; }
 	RadarObject *friend_getNext() const { return m_next; }
-	Color getColor() const { return m_color; }
+	__declspec(dllimport) Color getColor() const { return m_color; }
 	char m_pad00[4];
 	Object *m_object;
 	RadarObject *m_next;
