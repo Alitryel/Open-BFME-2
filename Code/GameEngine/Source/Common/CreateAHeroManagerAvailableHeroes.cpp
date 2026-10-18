@@ -21,6 +21,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <map>
 #include <algorithm>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<unsigned int,allocator<unsigned int> >::push_back(unsigned int const &); }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.

@@ -140,6 +140,8 @@ struct Rva00153729
 	_STL::vector<Rva005F8F96> m_04[6];	// +4
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> Rva00153729 * vector<Rva00153729,allocator<Rva00153729> >::erase(Rva00153729 *,Rva00153729 *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void vector<Rva00153729,allocator<Rva00153729> >::_M_fill_insert(Rva00153729 *,unsigned int,Rva00153729 const &); }
 
 class FXShaderParameterBinder;

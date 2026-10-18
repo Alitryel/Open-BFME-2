@@ -40,6 +40,10 @@ class ModuleData
 public:
 	virtual ~ModuleData();
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> ModuleData const * * allocator<ModuleData const *>::allocate(unsigned int,void const *)const ; }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<ModuleData const *,allocator<ModuleData const *> >::_M_clear(); }
 
 class Rva003FD789 : public ModuleData
 {

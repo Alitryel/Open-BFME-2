@@ -44,6 +44,12 @@ struct OpaqueRefElement4
 {
 	void *m_ptr;
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> OpaqueRefElement4 * vector<OpaqueRefElement4,allocator<OpaqueRefElement4> >::erase(OpaqueRefElement4 *,OpaqueRefElement4 *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> OpaqueRefElement4 * __copy<OpaqueRefElement4 *,OpaqueRefElement4 *,int>(OpaqueRefElement4 *,OpaqueRefElement4 *,OpaqueRefElement4 *,random_access_iterator_tag const &,int *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Destroy<OpaqueRefElement4 *>(OpaqueRefElement4 *,OpaqueRefElement4 *); }
 
 class Rva0023ABDD
 {

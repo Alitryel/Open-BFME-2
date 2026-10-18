@@ -53,6 +53,8 @@ struct TreeHintRef0051030C {
         if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);
     }
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const ,TreeHintRef0051030C>,_Select1st<pair<AsciiString const ,TreeHintRef0051030C> >,less<AsciiString>,allocator<pair<AsciiString const ,TreeHintRef0051030C> > >::~_Rb_tree(); }
 
 typedef _STL::pair<const AsciiString, TreeHintRef0051030C> TreeHintPair0051030C;
 typedef _STL::_Rb_tree<AsciiString, TreeHintPair0051030C, _STL::_Select1st<TreeHintPair0051030C>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair0051030C> > TreeHint0051030C;

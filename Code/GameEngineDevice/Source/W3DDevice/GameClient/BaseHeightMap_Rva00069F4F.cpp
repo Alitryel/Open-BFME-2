@@ -48,6 +48,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> vector<bool,allocator<bool> >::~vector(); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Bvector_base<allocator<bool> >::_Bvector_base(allocator<bool> const &); }
 // bfme link decl-only begin
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
 namespace _STL { template <> vector<bool, allocator<bool> >::vector(allocator<bool> const &); }

@@ -30,6 +30,8 @@ public:
 };
 Rva004211CA::Rva004211CA() : m_name(), m_label(), m_values() {}
 #include "Common/INIException.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base(); }
 class ModuleData;
 struct Rva00421263Vec { const ModuleData **begin, **end; };
 class INI;

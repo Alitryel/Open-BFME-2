@@ -31,6 +31,8 @@ static inline const unsigned int &min(const unsigned int &a, const unsigned int 
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<basic_string<char,char_traits<char>,allocator<char> >,allocator<basic_string<char,char_traits<char>,allocator<char> > > >::push_back(basic_string<char,char_traits<char>,allocator<char> > const &); }
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > * __uninitialized_copy<basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *>(basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *, basic_string<char, char_traits<char>, allocator<char> > *, __false_type const &); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > * __uninitialized_fill_n<basic_string<char, char_traits<char>, allocator<char> > *, unsigned int, basic_string<char, char_traits<char>, allocator<char> > >(basic_string<char, char_traits<char>, allocator<char> > *, unsigned int, basic_string<char, char_traits<char>, allocator<char> > const &, __false_type const &); }

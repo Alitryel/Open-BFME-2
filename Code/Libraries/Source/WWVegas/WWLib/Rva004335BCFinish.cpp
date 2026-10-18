@@ -17,7 +17,7 @@ struct TreeKey00242F5E { int m_a; int m_b; };
 class BfmeStringTailRecord156 { public: char m_pad[156]; };
 struct BfmeE8 { int m_a; int m_b; };
 
-class Rva001DA2D5Base
+class __declspec(novtable) Rva001DA2D5Base
 {
 public:
 	virtual ~Rva001DA2D5Base();

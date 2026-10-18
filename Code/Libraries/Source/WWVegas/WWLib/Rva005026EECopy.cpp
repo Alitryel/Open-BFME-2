@@ -16,6 +16,10 @@ struct Rva00501E3FElement
 {
 	int a[5];
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_node<pair<int const ,Rva00501E3FElement> > * _Rb_tree<int,pair<int const ,Rva00501E3FElement>,_Select1st<pair<int const ,Rva00501E3FElement> >,less<int>,allocator<pair<int const ,Rva00501E3FElement> > >::_M_copy(_Rb_tree_node<pair<int const ,Rva00501E3FElement> > *,_Rb_tree_node<pair<int const ,Rva00501E3FElement> > *); }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<pair<int const ,Rva00501E3FElement>,pair<int const ,Rva00501E3FElement> >(pair<int const ,Rva00501E3FElement> *,pair<int const ,Rva00501E3FElement> const &); }
 
 struct Rva00501656
 {
