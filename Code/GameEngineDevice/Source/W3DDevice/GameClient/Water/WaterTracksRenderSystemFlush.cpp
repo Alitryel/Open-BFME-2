@@ -64,29 +64,7 @@ struct BfmeWaterTracksMaterialOps:DX8Wrapper {
   render_state_changed|=MATERIAL_CHANGED;
  }
 };
-void WaterTracksRenderSystem::flush(RenderInfoClass &rinfo)
-{
- if(reinterpret_cast<WaterTracksGlobalDataView *>(TheWritableGlobalData)->editor)
-  TestWaterUpdate();
- rva000FE1AC();
- rinfo.Camera.Apply();
- if(!used || ShaderClass::Is_Backface_Culling_Inverted() || DX8Wrapper::stats.m_disableWater)
-  return;
- batch=0xffff;
- Matrix3D tm(1);
- DX8Wrapper::Set_Transform(D3DTS_WORLD,tm);
- BfmeWaterTracksMaterialOps::Set_Material(material);
- DX8Wrapper::Set_Shader(shader);
- DX8Wrapper::Set_Vertex_Buffer(vertexBuffer);
- bfmeSetProjectionDepthBias(8.0f);
- WaterTracksObj *mod=used;
- while(mod) {
-  if(mod->type!=-1)BoxSetTexture(0,mod->texture);
-  batch=mod->render(vertexBuffer,batch,rinfo);
-  mod=mod->next;
- }
- bfmeSetProjectionDepthBias(0.0f);
-}
+
 
 // BFME1/ZH shutdown donor. Native FF448..FF4D6 clears used after moving
 // unbound nodes via the independently rowed releaseTrack FE001; node cleanup
