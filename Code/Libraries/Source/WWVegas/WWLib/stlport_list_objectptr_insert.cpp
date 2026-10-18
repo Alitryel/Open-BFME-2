@@ -6,6 +6,12 @@
 // at 0x5EB9AC), mirroring stlport_list_int_insert.cpp.
 #include <list>
 
+class Object;
+// Native Object-pointer nodes use the dedicated freelist provider.
+namespace _STL {
+template <> _List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &);
+}
+
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
 template <class T, class LeftTraits, class RightTraits>
