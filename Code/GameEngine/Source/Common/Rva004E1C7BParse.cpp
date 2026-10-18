@@ -6,7 +6,8 @@
 // SetPlayerControlOfArmy plus string ParseSetPlayerControlOfArmyBlock plus vtable 0x00C61DC4 plus DoXfer
 // 0x004E1355 with GetSnapshotName SetPlayerControlOfArmy.
 
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -26,7 +27,16 @@ struct _s__ThrowInfo;
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 
-extern const FieldParse g_00C61884;
+extern "C" {
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00861884: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C61884[3] = {
+	{ "ArmyScriptingName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "IsControllableByOwner", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 
 #include "ascii_string.h"
 
@@ -57,7 +67,7 @@ void Rva004E1C7BParse(INI *ini, void *instance, void *, const void *)
 	if (ini && instance)
 	{
 		Rva004E1B72 record;
-		ini->initFromINI(&record, &g_00C61884);
+		ini->initFromINI(&record, g_00C61884);
 		((Rva0056656AOwner *)instance)->append(*(const Rva0052BEF0 *)&record);
 	}
 	else
