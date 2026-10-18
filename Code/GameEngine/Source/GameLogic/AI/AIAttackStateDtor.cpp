@@ -50,6 +50,8 @@ class AIAttackState : public State, public NotifyWeaponFiredInterface
 {
 public:
 	virtual ~AIAttackState();
+	// Keep the constructor view's rowed virtual in this destructor view too.
+	virtual bool isAttack() const;
 	virtual void notifyFired();
 private:
 	StateMachine *m_attackMachine;
