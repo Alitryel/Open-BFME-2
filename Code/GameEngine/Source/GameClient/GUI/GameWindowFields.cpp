@@ -12,6 +12,7 @@
 // bounds check (0 <= index < MAX_DRAW_DATA = 9) returning -3, else 0.
 
 class Image;
+struct GameWindowEditData;
 
 struct WinDrawData
 {
@@ -22,7 +23,9 @@ struct WinDrawData
 
 struct WinInstanceData
 {
-	char m_pad[24];
+	char m_pad0[4];
+	int m_id;
+	char m_pad8[16];
 	WinDrawData m_enabledDrawData[9];
 	WinDrawData m_disabledDrawData[9];
 	WinDrawData m_hiliteDrawData[9];
@@ -41,13 +44,14 @@ public:
 	int winSetHiliteColor(int index, int color);
 	int winSetHiliteBorderColor(int index, int color);
 	void setRva003144FD(int value);
-	int getRva0031450A();
+	int winSetWindowId(int value);
+	GameWindowEditData *winGetEditData();
 
 private:
 	char m_pad[48];
 	WinInstanceData m_instData;
 	char m_pad2[136];
-	int m_unk214;
+	GameWindowEditData *m_editData;
 };
 
 int GameWindow::winSetEnabledImage(int index, const Image *image)
@@ -124,10 +128,18 @@ int GameWindow::winSetHiliteBorderColor(int index, int color)
 
 void GameWindow::setRva003144FD(int value)
 {
-	m_unk214 = value;
+	m_editData = (GameWindowEditData *)value;
 }
 
-int GameWindow::getRva0031450A()
+// The script factory and Apt component creation both set the instance ID at +0x34.
+int GameWindow::winSetWindowId(int value)
 {
-	return m_unk214;
+	m_instData.m_id = value;
+	return 0;
+}
+
+// Native createWindow uses this +0x214 pointer as the four callback-name strings.
+GameWindowEditData *GameWindow::winGetEditData()
+{
+	return m_editData;
 }

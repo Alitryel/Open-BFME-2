@@ -7790,7 +7790,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?winSetHiliteBorderColor@GameWindow@@QAEHHH@Z,,0x003144D8,37,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
 ??_GRva00494A97@@UAEPAXI@Z,,0x00494B9E,28,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x494A97; flag plus pinned operator delete
 ?setRva003144FD@GameWindow@@QAEXH@Z,,0x003144FD,13,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
-?getRva0031450A@GameWindow@@QAEHXZ,,0x0031450A,7,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
+?winGetEditData@GameWindow@@QAEPAUGameWindowEditData@@XZ,,0x0031450A,7,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,"Native7B getter at this+214; createWindow316BD2 dereferences the returned pointer as four callback-name strings, proving pointer return and edit-data purpose. Rename sole owner; no alias."
 ??1Rva004C1BAB@@UAE@XZ,,0x004C1BAB,35,Code/GameEngine/Source/Common/Rva004BF951Derived_Unresolved.cpp,matched,opaque 4-vptr MI dtor (+0/+0xC/+0x10/+0x100 + tail-jmp pinned base 0x4BF951); +0x100 proven by trailing store
 ??_GRva004C1BAB@@UAEPAXI@Z,,0x004C1CEF,28,Code/GameEngine/Source/Common/Rva004BF951Derived_Unresolved.cpp,matched,emitted scalar deleting dtor from the dtor home TU; dtor row at 0x4C1BAB; flag plus pinned operator delete
 ??1Rva00484F5D@@UAE@XZ,,0x00484F5D,25,Code/GameEngine/Source/Common/Rva0049B47CThreeVptrDerived.cpp,matched,opaque MI dtor (own 3 vptrs + tail-call pinned middle 0x484EF4)
@@ -39030,7 +39030,7 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?groupHunt@AIGroup@@QAEXW4CommandSourceType@@@Z,,0x0037008E,50,Code/GameEngine/Source/GameLogic/AI/AIGroupAttackTeam.cpp,matched,caller builds AIGroup plus ZH donor plus BFME1 groupHunt plus rowed aiHunt
 ?Rva00314AE0@@YGXPAVImage@@HHHHH@Z,,0x00314AE0,72,Code/GameEngine/Source/GameClient/GUI/GameWindowRva00314AE0.cpp,matched,Chain of 0x0004D6B3 int to float drawImage wrapper via TheDisplay
 ?Rva00314BC9@@YGXHMHHHH@Z,,0x00314BC9,74,Code/GameEngine/Source/GameClient/GUI/GameWindowRva00314AE0.cpp,matched,Chain of 0x0004D664 reordered int float wrapper via TheDisplay
-?rva0031404A@Rva0031404A@@QAEHH@Z,,0x0031404A,12,Code/GameEngine/Source/Common/Rva0031404ASetter.cpp,matched,Honest plus34 int setter returning zero with two callers
+?winSetWindowId@GameWindow@@QAEHH@Z,,0x0031404A,12,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,Native12B setter at this+34 returning0; script createWindow316BD2 and Apt4115A9 plus same-name donor method prove GameWindow instance ID. Rename sole address-derived owner; no alias.
 ?rva003140CF@Rva003140CF@@QAEHH@Z,,0x003140CF,21,Code/GameEngine/Source/Common/Rva0031404ASetter.cpp,matched,Null guarded self or arg setter at plus44 returning zero unlocking nine
 ?reserve@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXI@Z,,0x002B712E,110,Code/GameEngine/Source/Common/Thing/ModuleFactoryVectorReserve.cpp,matched,ModuleDataList reserve via rowed ModuleData pushback callers and BfmeE8 Science precedent
 ??0Rva002B72C9@@QAE@ABU0@@Z,,0x002B72C9,35,Code/GameEngine/Source/Common/Rva002B72C9Copy.cpp,matched,Rva copy via rowed unsigned vector copy and 20-byte stride callers

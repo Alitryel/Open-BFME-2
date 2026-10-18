@@ -28,6 +28,7 @@ class GameWindow
 public:
  GameWindow*winGetParent();
  int winEnable(bool);int winHide(bool);bool winIsHidden();unsigned int winGetStatus();int rva00314056(int);
+ int winSetWindowId(int);
 	int winGetPosition(int *x, int *y);
 	int winSetPosition(int x, int y);
 	int winSetSize(int w, int h);
@@ -110,7 +111,6 @@ extern unsigned int AptComponentWindowDataTableStorage[5];extern unsigned g_Va00
 class AptShutdownReceiverView;extern AptShutdownReceiverView*AptShutdownReceiverInstance;
 enum NameKeyType;
 class NameKeyGenerator {public:NameKeyType nameToKey(const char*);};extern NameKeyGenerator*TheNameKeyGenerator;
-class Rva0031404A{public:int rva0031404A(int);};
 void*__stdcall Rva00410223(void*);void*__stdcall createAptScreenInGameChat(void*);
 Rva004102C8Arg*Rva004115A9Create(const Coord2D*origin,const Coord2D*size,const char*path,const char*params,const AsciiString*name){
  int level=AptUtils::LevelIndexFromTarget(path);
@@ -138,7 +138,7 @@ Rva004102C8Arg*Rva004115A9Create(const Coord2D*origin,const Coord2D*size,const c
  info->m_10=window;*(int*)((char*)info+4)=level;
  ((StringBase<char>*)((char*)info+8))->set(path);
  window->winHide(false);*(int*)((char*)window+0x1F4)=0;
- ((Rva0031404A*)window)->rva0031404A((int)TheNameKeyGenerator->nameToKey(name->str()));
+ window->winSetWindowId((int)TheNameKeyGenerator->nameToKey(name->str()));
  Rva004102C8Update(info,(float*)origin,(float*)size);
  return info;
 }
