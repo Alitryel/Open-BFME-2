@@ -1,6 +1,13 @@
 // cl: /O1 /G6 /arch:SSE /MD /DNDEBUG /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
+// Preserve inline construction while binding any out-of-line call to the retail provider.
+namespace _STL {
+template <> _Vector_base<unsigned int, allocator<unsigned int> >::_Vector_base(const allocator<unsigned int>&);
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int>::vector(const allocator<unsigned int>& a)
+    : _Vector_base<unsigned int, allocator<unsigned int> >(a) {}
+}
 void Rva00030830GameFree(void *);
 namespace _STL {
 template <> inline void vector<unsigned int>::_M_clear() {
