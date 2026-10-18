@@ -15,6 +15,7 @@ struct BfmeAssignRecord104
 	int a[26];
 };
 
+class Rva003B9132 { public: void rva003B9132(); };
 class Rva003B92A2
 {
 	char m_pad[0x20];
@@ -22,7 +23,7 @@ class Rva003B92A2
 
 public:
 	void rva003B92A2();
-	void rva003B9132();
+	/* the rowed Rva003B9132::rva003B9132 */ __declspec(dllimport) __forceinline void rva003B9132() { ((Rva003B9132 *)this)->rva003B9132(); }
 };
 
 void Rva003B92A2::rva003B92A2()
