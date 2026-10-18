@@ -62,3 +62,10 @@ void rva002210CF()
 		s_setUp = true;
 	}
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva00221088@@UAE@XZ=??1?$list@URva0036ADF9Element@@V?$allocator@URva0036ADF9Element@@@_STL@@@_STL@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?rva001B5384@Rva00221088@@QAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")

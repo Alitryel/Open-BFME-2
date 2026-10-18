@@ -23,3 +23,9 @@ template Rva00601A3AElement *_STL::__uninitialized_fill_n<Rva00601A3AElement*,un
 template Rva00601A3AElement *_STL::allocator<Rva00601A3AElement>::allocate(unsigned int,const void*) const;
 
 #pragma comment(linker, "/alternatename:??$_Construct@URva00601A3AElement@@U1@@_STL@@YAXPAURva00601A3AElement@@ABU1@@Z=?Rva0060173ACopy@@YAXPAVCoord3D@@ABUCoord3DBase@@@Z")
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??$_Construct@URva00601A3AElement@@U1@@_STL@@YAXPAURva00601A3AElement@@ABU1@@Z=?Rva0060173ACopy@@YAXPAVCoord3D@@ABUCoord3DBase@@@Z")
