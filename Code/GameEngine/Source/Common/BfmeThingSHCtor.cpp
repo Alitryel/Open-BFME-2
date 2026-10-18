@@ -7,7 +7,8 @@
 // literal precedent; member offsets +0x30/+0x34/+0x38/+0x3c/+0x68-0x74/
 // +0x78-0xAC/+0xB0-0xB4 match FeNode usage in Rva000FE001Move and Find.
 
-extern "C" unsigned char bfmeVftSH[];
+typedef void (*BfmeWaterTrackSlot)();
+extern "C" BfmeWaterTrackSlot const bfmeVftSH[3];
 
 class BfmeSubSH
 {
@@ -21,7 +22,7 @@ public:
 	BfmeThingSH();
 
 private:
-	void *m_vft00;
+	const void *m_vft00;
 	BfmeSubSH *m_sub04;
 	unsigned char m_pad08[0x30 - 0x08];
 	int m_30;
