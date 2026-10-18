@@ -60,15 +60,6 @@ extern int G00DB5FBC;
 extern int G00DB5FC0;
 extern int G00DB5FC4;
 
-void rva001189C0()
-{
-	G00DEC4A8 = 0;
-	G00DEC4A4 = 0;
-	G00DEC4A0 = 1;
-	G00DB5FBC = 7;
-	G00DB5FC0 = 0;
-	G00DB5FC4 = 1;
-}
 
 // --- 0x0011C690 (28B): bounds-checked byte of the 0x76-entry +0x1B9 table.
 class Rva0011C690
@@ -144,13 +135,3 @@ public:
 
 void Rva00118530Start(const char *name, float rate, int a, bool b);
 
-bool rva00118610(const char *name, float rate, int a, bool b)
-{
-	if (WW3D::IsCapturing)
-	{
-		WW3D::Stop_Movie_Capture();
-		return false;
-	}
-	Rva00118530Start(name, rate, a, b);
-	return true;
-}
