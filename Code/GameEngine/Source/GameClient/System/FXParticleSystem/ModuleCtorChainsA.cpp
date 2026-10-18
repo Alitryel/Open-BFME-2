@@ -249,7 +249,35 @@ extern const void *const g_00C1C504[6] = {
 };
 extern const void *const g_00C1CDBC[];
 extern const void *const g_00C1C644[];
-extern const void *const g_00C1C640[];
+// The retail table at RVA 0x0081C640: 13 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva003ACA93@Rva003ACA93Host@@UAEPAVRva003ACA93Object@@I@Z")();
+void __identifier("??_GRva003ACB6F@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+int __cdecl _purecall(void);
+void __identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z")();
+void __identifier("?get@Rva003EE704LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ")();
+void __identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ")();
+void __identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ")();
+void __identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ")();
+}
+extern const void *const g_00C1C640[13] = {
+	(const void *)&__identifier("?rva003ACA93@Rva003ACA93Host@@UAEPAVRva003ACA93Object@@I@Z"), // slot 0 0x003ACA93
+	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 1 0x003AD3F7
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 2 0x000B3FD0
+	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
+	(const void *)&__identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z"), // slot 4 0x00562233
+	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 5 0x003EE704
+	(const void *)&__identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ"), // slot 6 0x0030BBA5
+	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 7 0x00308156
+	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 8 0x003ABE71
+	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 9 0x003ABE78
+	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 10 0x00308156
+	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 11 0x003ABE71
+	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 12 0x003ABE78
+};
 extern const void *const g_00C1CF28[];
 extern const void *const g_00C1C6A4[];
 extern "C" const void *const __identifier("??_7Gen005ED0D0@@6BDefaultModuleSecondBase_3AEE16@@@")[];
