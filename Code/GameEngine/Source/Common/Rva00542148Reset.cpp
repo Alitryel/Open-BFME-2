@@ -26,6 +26,8 @@ public:
 	Rva0054103E();
 	Rva0054103E(const Rva0054103E &other);
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void _Construct<Rva0054103E,Rva0054103E>(Rva0054103E *,Rva0054103E const &); }
 
 class Rva00540E82
 {

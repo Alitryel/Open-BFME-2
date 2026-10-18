@@ -12,6 +12,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include "../../../Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> void vector<BfmeE16,allocator<BfmeE16> >::_M_clear(); }
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 // bfme link decl-only end
