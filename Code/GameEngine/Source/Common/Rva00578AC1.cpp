@@ -90,13 +90,14 @@ public:
 	unsigned char m_pad[0x20];
 };
 
+class Rva005D3CA6 { public: void rva005D3CA6(void *); };
 class Rva005D3C2B
 {
 public:
 	Rva005D3C2B(int level, const AsciiString &path);
 	virtual ~Rva005D3C2B();
 	// Unrowed 0x005D3CA6 (hands it the selection), pinned by address.
-	void rva005D3CA6(void *selection);
+	/* the rowed Rva005D3CA6::rva005D3CA6 */ __declspec(dllimport) __forceinline void rva005D3CA6(void * p0) { ((Rva005D3CA6 *)this)->rva005D3CA6(p0); }
 
 	unsigned char m_pad[0x34-4]; // the rowed virtual destructor owns the vptr
 };
