@@ -35,30 +35,18 @@ public:
 
 extern PlayerAITypeSet *ThePlayerAITypeSet;
 
-void Rva00215C38Parse(INI *ini)
-{
-	ThePlayerAITypeSet->rva00215B14(ini);
-}
 
 // 0x00221012 (21B): "ArmySummaryDescription" (registration VA 0x00DBA184).
 // No null check: initFromINI the object at 0x00DFE490 against VA 0x00BE6B2C.
 extern void *g_00DFE490;
 extern const FieldParse ArmySummaryDescriptionFields[];
 
-void Rva00221012Parse(INI *ini)
-{
-	ini->initFromINI(g_00DFE490, ArmySummaryDescriptionFields);
-}
 
 // 0x0022232E (21B): "InGameNotificationBox" (registration VA 0x00DBA19C).
 // No null check: initFromINI the object at 0x00DFE4C4 against VA 0x00BE6CE0.
 extern void *g_00DFE4C4;
 extern const FieldParse InGameNotificationBoxFields[];
 
-void Rva0022232EParse(INI *ini)
-{
-	ini->initFromINI(g_00DFE4C4, InGameNotificationBoxFields);
-}
 
 // 0x002859A8 (25B): "FireLogicSystem" (registration VA 0x00DBB758). Skips
 // when the singleton at 0x00DFEC68 is null, else initFromINI it against
@@ -67,11 +55,6 @@ class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 extern const FieldParse FireLogicSystemFields[];
 
-void Rva002859A8Parse(INI *ini)
-{
-	if (TheTriggerManager)
-		ini->initFromINI(TheTriggerManager, FireLogicSystemFields);
-}
 
 // 0x002A8A31 (24B): "SkirmishAIData" (registration VA 0x00DBBC28). No null
 // check: initFromINI the +0x10 member of the singleton at 0x00DFEEF8 against
@@ -86,10 +69,6 @@ public:
 extern Rva002A8F24 *g_00DFEEF8;
 extern const FieldParse SkirmishAIDataFields[];
 
-void Rva002A8A31Parse(INI *ini)
-{
-	ini->initFromINI(g_00DFEEF8->m_skirmishAIData, SkirmishAIDataFields);
-}
 
 // 0x00210F64 (40B): "LivingWorldMapInfo" (registration VA 0x00DB9A2C). Skips
 // without TheLivingWorldManager, else initFromINI its +0x14 member against
@@ -105,14 +84,6 @@ public:
 extern LivingWorldManager *TheLivingWorldManager;
 extern const FieldParse LivingWorldMapInfoFields[];
 
-void Rva00210F64Parse(INI *ini)
-{
-	if (TheLivingWorldManager)
-	{
-		ini->initFromINI(TheLivingWorldManager->m_mapInfo, LivingWorldMapInfoFields);
-		TheLivingWorldManager->m_mapInfoParsed = true;
-	}
-}
 
 // 0x00417A94 (36B): "HouseColor" (registration VA 0x00DC822C). Skips without
 // TheHouseColorSystem (0x00E030A0), else initFromINI it against VA 0x00C3A600
@@ -141,14 +112,6 @@ void HouseColorSystem::rva00417A6B()
 extern HouseColorSystem *TheHouseColorSystem;
 extern const FieldParse HouseColorFields[];
 
-void Rva00417A94Parse(INI *ini)
-{
-	if (TheHouseColorSystem)
-	{
-		ini->initFromINI(TheHouseColorSystem, HouseColorFields);
-		TheHouseColorSystem->rva00417A6B();
-	}
-}
 
 // 0x00289265 (136B): "ExperienceScalarTable" (registration VA 0x00DBB898).
 // Skips without TheExperienceLevelSystem (0x00DFECC4), else reads the table
@@ -177,16 +140,6 @@ class ExperienceLevelSystem;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 extern const FieldParse ExperienceScalarTableFields[];
 
-void Rva00289265Parse(INI *ini)
-{
-	if (TheExperienceLevelSystem == 0)
-		return;
-
-	AsciiString name(ini->getNextToken(0));
-	Rva00288BBA *table = new Rva00288BBA(name);
-	ini->initFromINI(table, ExperienceScalarTableFields);
-	((Rva00289218 *)TheExperienceLevelSystem)->rva00289218((const ModuleData *)table);
-}
 
 // 0x00200FE3 (129B): "AerialPathfindNoFlyZone" (registration VA 0x00DB9558).
 // Reads "TriggerArea" and looks the area up through TheTerrainLogic's
@@ -236,11 +189,6 @@ class Rva0040AAD5;
 extern Rva0040AAD5 *g_00E02F74;
 extern const FieldParse AwardSystemFields[];
 
-void Rva0040C32BParse(INI *ini)
-{
-	if (g_00E02F74)
-		ini->initFromINI(g_00E02F74, AwardSystemFields);
-}
 
 // 0x0040F0F0 (31B): "LivingWorldPlayerArmy" (registration VA 0x00DC1F68).
 // Skips without TheCampaignManager (0x00E02D6C), else initFromINI the entry
@@ -257,11 +205,3 @@ class Rva00E02D6C;
 extern Rva00E02D6C *TheCampaignManager;
 extern const FieldParse LivingWorldPlayerArmyFields[];
 
-void Rva0040F0F0Parse(INI *ini)
-{
-	if (TheCampaignManager)
-	{
-		BfmePod104 *army = ((Rva003B93BC *)TheCampaignManager)->rva003B93BC();
-		ini->initFromINI(army, LivingWorldPlayerArmyFields);
-	}
-}
