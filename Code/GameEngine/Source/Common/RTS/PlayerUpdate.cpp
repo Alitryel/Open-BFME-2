@@ -53,7 +53,19 @@ struct Rva002AE577PointerTarget;
 // destructor with no EH state transition before it (see AIPlayerTeamBuild.cpp).
 struct PoolNode002ABAC0;
 extern PoolNode002ABAC0 *g_00DBBD34;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool009BBD2C;
 namespace _STL {
+// The copied team list has the same sentinel pool as its native owner
+// Rva002AC026Member::init, not STLport's general-purpose node allocator.
+template <> inline _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::_List_base(const allocator<Rva002AE577PointerTarget *> &a)
+    : _M_node(_Node_allocator_type(a), (_Node *)0)
+{
+    _Node *node = (_Node *)g_freelistPool009BBD2C.pop();
+    node->_M_next = node;
+    node->_M_prev = node;
+    _M_node._M_data = node;
+}
 template <> inline void _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::clear()
 {
 	void *head = _M_node._M_data;

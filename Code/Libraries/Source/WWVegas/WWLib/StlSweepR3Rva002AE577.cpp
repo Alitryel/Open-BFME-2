@@ -30,4 +30,20 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 struct Rva002AE577PointerTarget;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool009BBD2C;
+namespace _STL {
+// Native copy construction uses the pooled sentinel initializer 2AC026.
+// The complete clear/destructor pool providers are emitted by PlayerUpdate.
+template <> inline _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::_List_base(const allocator<Rva002AE577PointerTarget *> &a)
+    : _M_node(_Node_allocator_type(a), (_Node *)0)
+{
+    _Node *node = (_Node *)g_freelistPool009BBD2C.pop();
+    node->_M_next = node;
+    node->_M_prev = node;
+    _M_node._M_data = node;
+}
+template <> void _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::clear();
+template <> _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::~_List_base() throw();
+}
 template class _STL::list<Rva002AE577PointerTarget*>;
