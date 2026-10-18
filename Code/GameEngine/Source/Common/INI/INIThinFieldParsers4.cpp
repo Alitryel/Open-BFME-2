@@ -68,39 +68,9 @@ private:
 };
 }
 
-// ?Rva001DFBC7Parse@@YAXPAVINI@@PAX1PBX@Z
-void Rva001DFBC7Parse(INI *ini, void *, void *store, const void *)
-{
-	*(int *)store = ini->scanLookupList(ini->getNextToken(), g_00BDD0B4);
-}
 
-// ?Rva001DFC09Parse@@YAXPAVINI@@PAX1PBX@Z
-void Rva001DFC09Parse(INI *ini, void *, void *store, const void *)
-{
-	*(int *)store = ini->scanLookupList(ini->getNextToken(), g_00BDD1D0);
-}
 
-// ?Rva00492F6AParse@@YAXPAVINI@@PAX1PBX@Z
-void Rva00492F6AParse(INI *ini, void *, void *store, const void *)
-{
-	int weather = ini->scanIndexList(ini->getNextToken(), g_00DCAE84);
-	*(int *)store = weather;
-	if (weather < 0 || weather > 5)
-		throw INIException(3, "Invalid Weather setting: '%s'.", store);
-}
 
-// ?Rva0035B864Parse@@YAXPAVINI@@PAX1PBX@Z
-void Rva0035B864Parse(INI *ini, void *, void *store, const void *)
-{
-	const char *token = ini->getNextToken();
-	while (token)
-	{
-		StanceType stance = (StanceType)ini->scanIndexList(token, TheStanceNames);
-		if (stance >= 0 && stance < 6)
-			((_STL::vector<StanceType, _STL::allocator<StanceType> > *)store)->push_back(stance);
-		token = ini->getNextTokenOrNull();
-	}
-}
 
 // ?Rva0035AECFParse@@YAXPAVINI@@PAX1PBX@Z
 void Rva0035AECFParse(INI *ini, void *instance, void *store, const void *userData)
