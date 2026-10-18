@@ -261,3 +261,10 @@ StateReturnType GiantBirdGuardReturnState::onEnter()
 	getMachine()->setGoalPosition(&m_goalPosition);
 	return GiantBirdNormalFlightState::onEnter();
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?slot01@State@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot02@State@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?slot03@State@@UAEXXZ=__purecall")

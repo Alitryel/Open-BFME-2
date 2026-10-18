@@ -29,3 +29,9 @@ Rva003FD14D::Rva003FD14D(int arg) : Rva003FD14DBase(arg)
 {
 	m_ac = 0;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?vbfunc@Rva003FD14DBase@@UAEXXZ=??_GRva003FCE38@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?vfunc@Rva003FD14D@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
