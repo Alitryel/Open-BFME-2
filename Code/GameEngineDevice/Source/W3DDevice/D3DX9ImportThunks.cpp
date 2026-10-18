@@ -193,4 +193,11 @@ extern PFN_D3DXGetFVFVertexSize __identifier("_imp__D3DXGetFVFVertexSize@4");
 UINT __stdcall D3DXGetFVFVertexSize(DWORD FVF) {
  return __identifier("_imp__D3DXGetFVFVertexSize@4")(FVF);
 }
+
+// _D3DXGetShaderInputSemantics@12
+typedef HRESULT (__stdcall *PFN_D3DXGetShaderInputSemantics)(const DWORD *, D3DXSEMANTIC *, UINT *);
+extern PFN_D3DXGetShaderInputSemantics __identifier("_imp__D3DXGetShaderInputSemantics@12");
+HRESULT __stdcall D3DXGetShaderInputSemantics(const DWORD *pFunction, D3DXSEMANTIC *pSemantics, UINT *pCount) {
+ return __identifier("_imp__D3DXGetShaderInputSemantics@12")(pFunction, pSemantics, pCount);
+}
 }
