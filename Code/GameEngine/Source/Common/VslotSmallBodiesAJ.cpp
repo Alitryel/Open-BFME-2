@@ -1452,11 +1452,12 @@ void Rva003508C0::rva003508C0()
 // Native 00404B03..00404B6C: two owned pointers at +12C/+130,
 // an embedded 168-byte float-pair table at +78, and trailing state fields.
 // The rowed +404B6C forwarder proves the receiver ABI. Original names unknown.
+class CellGrid { public: void rva0056C065(); };
 class Rva0056C3E5
 {
 public:
     ~Rva0056C3E5();
-    void rva0056C065();
+    /* the rowed CellGrid::rva0056C065 */ __declspec(dllimport) __forceinline void rva0056C065() { ((CellGrid *)this)->rva0056C065(); }
 };
 class Rva00404781
 {
