@@ -434,7 +434,7 @@ extern void (__cdecl *g_AptBindTexture)(void*,int,void*);
 struct AptMatrix;
 extern void (__cdecl *g_bfmeAptMatrixCallbackAtE177A0)(AptMatrix*);
 extern "C" void (__cdecl *bfmeNotify1209Callback)(void*);
-void Rva006CF852FoldedEmptyInit();
+void DX8_Assert();
 void Rva006D37E0Set(int);
 void Rva0070B670Initialize(int);
 AptValueVector *g_aptOptionalValueVector=0;
@@ -506,7 +506,7 @@ void Rva006CF230Initialize(const Rva00222343 *input) {
  CHECK(g_aptCustomControlRenderSlot,"gAptFuncs.pfnCustomControlRender",410);
  CHECK(g_aptGetStageHeightSlot,"gAptFuncs.pfnGetStageHeight",411);
  CHECK(g_aptGetStageWidthSlot,"gAptFuncs.pfnGetStageWidth",412);
- Rva006CF852FoldedEmptyInit();
+ DX8_Assert();
  Rva006D37E0Set((int)&g_bfmeAptAllocAtE17728);
  Rva0070B670Initialize(parms->fields[11]);
  g_releaseVectorAtE17710=new AptValueVector(parms->fields[10]);
