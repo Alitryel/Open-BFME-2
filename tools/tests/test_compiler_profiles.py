@@ -76,6 +76,26 @@ def test_missing_compiler_refuses_without_fallback(profile):
         compiler_profiles.select(source, Path("old/cl.exe"), {})
 
 
+def test_ddk_uses_its_own_files_and_cannot_reuse_an_sp1_receipt(profile, monkeypatch):
+    root, directory, source = profile
+    _, sp1 = compiler_profiles.select(source, Path("old/cl.exe"), {})
+    ddk = root / "vendor/vc71-ddk-4035/bin"
+    ddk.mkdir(parents=True)
+    hashes = {}
+    for name in compiler_profiles.SP1_FILES:
+        data = ("DDK compiler " + name).encode()
+        (ddk / name).write_bytes(data)
+        hashes[name] = hashlib.sha256(data).hexdigest()
+    monkeypatch.setattr(compiler_profiles, "DDK4035_FILES", hashes)
+    source.write_text("// compiler: vc71-ddk-4035\n")
+    compiler, env = compiler_profiles.select(source, Path("old/cl.exe"), {})
+    assert compiler == ddk / "cl.exe"
+    assert build._cmd_fingerprint(["cl"], env) != build._cmd_fingerprint(["cl"], sp1)
+    (ddk / "c2.dll").write_bytes((directory / "c2.dll").read_bytes())
+    with pytest.raises(SystemExit, match="SHA256 mismatch"):
+        compiler_profiles.select(source, Path("old/cl.exe"), {})
+
+
 def test_receipt_tracks_binaries_and_does_not_hide_missing_includes(profile, monkeypatch):
     root, _, source = profile
     monkeypatch.setattr(build, "ROOT", root)
