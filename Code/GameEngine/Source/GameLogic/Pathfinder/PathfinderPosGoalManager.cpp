@@ -67,6 +67,7 @@ public:
     void SetGoal(int position, float angle, int layer);
     void rva004DDF51(Rva004DD843Slot *slot);
     bool rva004DE2ED();
+    void rva004DE24B(int position);
     Object *m_object;
     Rva004DD843Slot m_position;
     Rva004DD843Slot m_goal;
@@ -194,8 +195,10 @@ class AIUpdateInterface : public NativeSlots<137> { public: virtual bool isDoing
 class NativeGoalContain : public NativeSlots<50> { public: virtual void slot50()=0; };
 struct NativeGoalTemplate { char pad[0x114]; union { unsigned flags114; struct {unsigned char kind114,kind115,kind116,kind117;}; }; char gap[4]; union { unsigned kind11C; unsigned char kindBytes[4]; }; };
 enum PathfindLayerEnum { PATHFIND_LAYER_GROUND=0 };
+enum ObjectStatusTypes { OBJECT_STATUS_NATIVE_38=38 };
 class Object { public:
  int rva0028B511() const;
+ bool testStatus(ObjectStatusTypes) const;
  void rva0028B4CE(PathfindLayerEnum);
  void *rva0028C197() const;
  char prefix[4]; NativeGoalTemplate *m_template;
@@ -270,7 +273,7 @@ private:
     unsigned char pad00[8]; bool m_enabled;
 };
 class AI { public: char pad[16]; Pathfinder *map; }; extern AI *TheAI;
-class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object *,int)=0; }; extern TerrainLogic *TheTerrainLogic;
+class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object *,int)=0; PathfindLayerEnum getLayerForDestination(Object *,const Coord3D *); }; extern TerrainLogic *TheTerrainLogic;
 float __cdecl Rva004DD722Get(int);
 int __cdecl Rva002E9B31Get(void *);
 int __cdecl Rva002E6E6CGet(int);
@@ -395,6 +398,38 @@ int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diame
 // through 0x001E3647 and 0x0028B4CE; otherwise ground movers re-register their
 // position slot when cell, angle bin or layer changed. Pathfinder byte +08 gates
 // the update; AI slot 138 is an opaque native virtual. Offsets are target facts.
+// Native 0x004DE24B..0x004DE2ED (162 B, RET4): re-registers the third slot
+// (+0x34) when the object's cell or destination layer changed; drops the slot
+// when the object is held (+0x438 bit 0) or lacks status 38. Target facts:
+// offsets, sentinel -666666, list kind 1 and the callees; the copy of the cell
+// through the slot address (edi) and the final &m_other argument fix the
+// retail store schedule.
+void Rva004DD843::rva004DE24B(int position)
+{
+ Object *obj=m_object;
+ if (obj->m_status & 1)
+ {
+  if(m_other.m_value!=-666666) rva004DD8FA(&m_other);
+  return;
+ }
+ if (!obj->testStatus(OBJECT_STATUS_NATIVE_38))
+ {
+  if(m_other.m_value!=-666666) rva004DD8FA(&m_other);
+  return;
+ }
+ ICoord2D cell;
+ Rva002EBC14Cell(&cell,obj,(const Coord3D *)position);
+ PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(m_object,(const Coord3D *)position);
+ Rva004DD843Slot *other=&m_other;
+ if (!(cell==*(ICoord2DBase *)other) || layer!=m_other.m_pathLayer)
+ {
+  if(other->m_value!=-666666) rva004DD8FA(other);
+  *(ICoord2D *)&m_other=cell;
+  m_other.m_pathLayer=layer;
+  m_other.m_listKind=1;
+  rva004DDF51(&m_other);
+ }
+}
 int Rva002E6E8AGet(int);
 bool Rva004DD843::rva004DE2ED()
 {
