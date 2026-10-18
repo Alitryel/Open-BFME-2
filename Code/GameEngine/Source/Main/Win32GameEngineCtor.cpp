@@ -98,8 +98,8 @@ Win32GameEngine::~Win32GameEngine()
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?m_unknown02@GameEngine@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
-#pragma comment(linker, "/alternatename:?m_unknown09@GameEngine@@UAEXXZ=?reset@Win32GameEngine@@UAEXXZ")
-#pragma comment(linker, "/alternatename:?m_unknown10@GameEngine@@UAEXXZ=?update@Win32GameEngine@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?m_unknown09@GameEngine@@UAEXXZ=?reset@GameEngine@@UAEXXZ")
+#pragma comment(linker, "/alternatename:?m_unknown10@GameEngine@@UAEXXZ=?update@GameEngine@@UAEXXZ")
 #pragma comment(linker, "/alternatename:?m_unknown14@GameEngine@@UAEXXZ=?init@GameEngine@@UAEXHQAPAD@Z")
 #pragma comment(linker, "/alternatename:?m_unknown15@GameEngine@@UAEXXZ=?rva0022D290@GameEngine@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?m_unknown16@GameEngine@@UAEXXZ=?rva00225AD5@GameEngine@@UAE_NXZ")

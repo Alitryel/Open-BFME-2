@@ -394,4 +394,4 @@ void AIFollowWaypointPathExactState::xfer(Xfer *xfer)
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?slot01@State@@UAEXXZ=??1Region2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?slot02@State@@UAEXXZ=?name@Rva0033F2F7Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?slot02@State@@UAEXXZ=__purecall")

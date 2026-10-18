@@ -75,6 +75,6 @@ AITNGuardAttackAggressorState::AITNGuardAttackAggressorState(StateMachine *machi
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?slot01@State@@UAEXXZ=?rva005CB26A@Rva005CB26A@@QAEHXZ")
-#pragma comment(linker, "/alternatename:?slot02@State@@UAEXXZ=?Rva00545EACGet@@YAHXZ")
-#pragma comment(linker, "/alternatename:?slot03@State@@UAEXXZ=?Rva00306A9BDoXfer@@YGXPAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?slot01@State@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?slot02@State@@UAEXXZ=__purecall")
+#pragma comment(linker, "/alternatename:?slot03@State@@UAEXXZ=__purecall")
