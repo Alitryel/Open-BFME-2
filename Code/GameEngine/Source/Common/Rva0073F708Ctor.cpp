@@ -1,8 +1,8 @@
 // cl: /MD /EHsc
 // ??0Rva0073F708@@QAE@PAXH@Z @0x0073F708 112B.
 // Stores the first argument, allocates an 8-byte thread object (vtable
-// 0x007C93A0, handle nulled before the vtable store, so the handle lives in
-// a base without a vtable) into an owning holder at +4, builds the rowed
+// 0x007C93A0, its handle nulled before the vtable store) into an owning
+// holder at +4, builds the rowed
 // event Rva0040F9D at +8 with (1, 0, 0, 0), then starts the thread through
 // the rowed Rva0073F778::rva0073F778 with start routine 0x0073F6FC, this,
 // resume 1, default stack and the given priority.
@@ -10,18 +10,16 @@
 // holder clear, folded with the holder's dtor) and +8 in state 1 through
 // the event dtor thunk 0x000411BC. The banked 0.96 attempt held both as
 // plain pointers and had no EH states.
-struct Rva0073F778Base
-{
-	Rva0073F778Base() : m_handle(0) {}
-	void *m_handle;
-};
+// The 8-byte object's table 0x007C93A0 is the Rva00514E6B handle table
+// {0x00040EF8 wait; 0x0050B5C6 predicate; scalar destructor}; retail folds
+// that descendant table across the classes that share it. The class view
+// derives from that base instead of re-declaring its virtuals as unnamed
+// placeholders, so every slot binds to the rowed function retail holds.
+#include "../../Include/Common/Rva00041004Lock.h"
 
-class Rva0073F778 : public Rva0073F778Base
+class Rva0073F778 : public Rva00514E6B
 {
 public:
-	virtual void v0();
-	virtual bool v1();
-	virtual ~Rva0073F778();
 	bool rva0073F778(unsigned (__stdcall *start)(void *), void *arglist, int resume, unsigned stackSize, int priority, void *security);
 };
 
@@ -61,11 +59,6 @@ Rva0073F708::Rva0073F708(void *a1, int priority)
 {
 	m_thread.get()->rva0073F778(Rva0073F6FCCb, this, 1, 0, priority, 0);
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?v1@Rva0073F778@@UAE_NXZ=?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")
 
 // ??0Rva000A8893Worker@@QAE@PAXH@Z @0x000A8893 112B: byte-identical to Rva0073F708's constructor
 // above except its own EH handler (formerly matched as the alias dup_000a8893); Rva00A897DDtor.cpp
