@@ -40,5 +40,5 @@ Rva000647B5::Rva000647B5()
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?bfmeSlot0@BfmeSnapshotBase@@UAEXXZ=??_ERva000647D4@@W3AEPAXI@Z")
-#pragma comment(linker, "/alternatename:?bfmeSlot0@SubsystemInterface@@UAEXXZ=??_GSubsystemInterface@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot0@BfmeSnapshotBase@@UAEXXZ=??_GRva000647D4@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?bfmeSlot0@SubsystemInterface@@UAEXXZ=??_ERva000647D4@@W3AEPAXI@Z")

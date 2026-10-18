@@ -103,5 +103,5 @@ W3DTankDraw::W3DTankDraw(Thing *thing, const ModuleData *moduleData)
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?a@W3DTankDraw@@UAEXXZ=?loadPostProcess@W3DTankDraw@@MAEXXZ")
-#pragma comment(linker, "/alternatename:?b@W3DTankDraw@@UAEXXZ=?name@Rva000CEA33Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?a@W3DTankDraw@@UAEXXZ=?rva000B356F@Rva000B356F@@QAE_NPAVOBBoxClass@@@Z")
+#pragma comment(linker, "/alternatename:?b@W3DTankDraw@@UAEXXZ=?rva000B3A2D@Rva000B3A2D@@QAEXXZ")

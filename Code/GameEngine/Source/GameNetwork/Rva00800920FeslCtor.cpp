@@ -157,4 +157,4 @@ int vftable_0112B89C = 4438032;
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?v0@Rva00800920Primary@@UAEXXZ=??_GBfmeMsgVJH@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?v0@Rva00800920Primary@@UAEXXZ=?DX8_Assert@@YAXXZ")
