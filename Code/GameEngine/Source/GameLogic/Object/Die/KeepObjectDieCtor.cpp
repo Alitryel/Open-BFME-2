@@ -154,7 +154,9 @@ class DieModule : public ObjectModule,
 {
 public:
 	DieModule(Thing *thing, const ModuleData *moduleData);
+protected:
 	virtual ~DieModule();
+public:
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/KeepObjectDie.h
