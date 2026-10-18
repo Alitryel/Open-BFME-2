@@ -76,7 +76,7 @@ Int W3DBridge::getModelVerticesFixed(VertexFormatXYZNDUV1 *destination_vb, Int c
 //=============================================================================
 /** Gets the vertex values for a section of a bridge.  */
 //=============================================================================
-inline __declspec(noinline) Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
+inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
 																Vector3 &vec, Vector3 &vecNormal, Vector3 &vecZ, Vector3 &offset, 
 																const Matrix3D &mtx, 
 																MeshClass *pMesh, RefRenderObjListIterator *pLightsIterator)

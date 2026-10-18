@@ -207,10 +207,10 @@ protected:
 	friend void _bfmeW3DBridgeGetModelVerticesAnchor();
 };
 
-// W3DBridgeGetModelVerticesFixed.cpp keeps a visible copy of this body for
-// its caller's register allocation; both are select-any so the link keeps
-// this one (first in link order).
-inline __declspec(noinline) Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
+// The fixed-bridge unit needs its donor body visible for caller codegen.
+// Keep this retail provider inline so its out-of-line copy can fold; MSVC
+// 7.1 makes an inline function with __declspec(noinline) NODUPLICATES.
+inline Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVertex, Real xOffset,
 																Vector3 &vec, Vector3 &vecNormal, Vector3 &vecZ, Vector3 &offset,
 																const Matrix3D &mtx,
 																MeshClass *pMesh, RefRenderObjListIterator *pLightsIterator)
