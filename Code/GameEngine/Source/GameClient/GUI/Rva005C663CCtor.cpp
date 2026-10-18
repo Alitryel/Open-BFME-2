@@ -11,7 +11,7 @@
 
 void __cdecl Rva003FECFECreateButtonFlash(void **pp);
 void __cdecl Rva003FEDDBShowButtonFlash(void **pp);
-extern int g_00E065C0;
+int g_00E065C0;	// retail RVA 0x00A065C0 (.bss), defined here
 
 class RvaBase
 {
