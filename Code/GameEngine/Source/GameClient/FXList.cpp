@@ -356,10 +356,7 @@ class LightPulseFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(LightPulseFXNugget, "LightPulseFXNugget")		
 public:
 
-	LightPulseFXNugget() : m_radius(0), m_increaseFrames(0), m_decreaseFrames(0), m_boundingCirclePct(0)
-	{
-		m_color.red = m_color.green = m_color.blue = 0;
-	}
+	LightPulseFXNugget();
 
 	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const
 	{
