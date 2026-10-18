@@ -37,6 +37,11 @@ struct BurningSoundHolder
 
 // 8-byte element with a destructor (StlportVectorDtorChains.cpp).
 class CameraMarker { public: ~CameraMarker(); char m_pad[8]; };
+// Bind the outlined vector cleanup to the matched retail provider.
+namespace _STL {
+template<> vector<CameraMarker>::~vector();
+template<> _Vector_base<CameraMarker, allocator<CameraMarker> >::~_Vector_base();
+}
 struct CameraMarkerVec : public _STL::vector<CameraMarker>
 {
 	__forceinline CameraMarkerVec() {}

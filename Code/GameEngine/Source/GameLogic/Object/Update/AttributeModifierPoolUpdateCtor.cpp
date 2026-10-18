@@ -49,6 +49,9 @@ private:
 };
 
 namespace _STL {
+// Bind the outlined vector cleanup to the matched retail provider.
+template<> vector<Rva00297360Element>::~vector();
+template<> _Vector_base<Rva00297360Element, allocator<Rva00297360Element> >::~_Vector_base();
 // The modifier vector is 16B elements. Its base builds through the
 // ICF-folded ctor at 0x211E58 (same 29B as the matched BfmeE16 row;
 // twin-pinned Rva spelling, BannerCarrier precedent) and its dtor is
