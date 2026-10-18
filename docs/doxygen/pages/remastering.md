@@ -7,7 +7,7 @@ with the original game, watch its replays and load its saves.
 
 Matched functions reproduce the retail 32-bit Windows build byte for byte,
 so every seam below is the original one, not a redesign. "Zero Hour:"
-marks facts from the ancestor source that are not yet confirmed for
+marks facts from the ancestor source that are not confirmed for
 BFME 2. Several subsystem pages carry their own remastering notes with more
 detail (for example
 \ref sub_w3d_rendering_remastering "rendering",
@@ -99,7 +99,7 @@ archives. An optional path filter can refuse a name before either back end
 is tried.
 
 `parseMod` also records the mod path in the global data, as a mod directory
-or a mod `.big` file. How that path is then used is not yet documented.
+or a mod `.big` file. How that path is then used is not established.
 
 The archive back end mounts the `.big` archives in this order:
 
@@ -177,9 +177,11 @@ table, not only the effect loader (\ref sub_w3d_rendering_remastering).
   the cursor is clipped to the window. The 2D renderer's coordinate range is
   the screen size in pixels.
 - Device creation, and much other device-layer code, runs under a recursive
-  device lock that one thread owns at a time. Which threads contend for it
-  is not yet traced; a replacement must keep that serialisation or show it is
-  not needed.
+  device lock that one thread owns at a time. `W3DDisplay::init` holds it
+  in a scoped guard around device creation, so the throw when the 800x600
+  retry also fails releases it. Which threads contend for it is not
+  established; a replacement must keep that serialisation or show it is not
+  needed.
 
 There are two levels at which a new renderer can attach: below `DX8Wrapper`
 (keep W3D, translate its Direct3D 9 and D3DX calls), or at `Display` and the
@@ -191,8 +193,11 @@ draw modules that `W3DModuleFactory` registers.
 `TheAudio` is a `MilesAudioManager`. Its `init` sets the system volumes,
 allocates the loop buffers and starts a worker thread for them, opens the
 device and installs the file callbacks. `MilesAudioManager::openDevice`
-points Miles at the `MSS\` directory and starts it. A replacement implements
-`AudioManager`; the sound definitions are INI data (\ref sub_audio).
+points Miles at the `MSS\` directory and starts it. The destructor sets the
+flag that ends the loop-buffer thread's loop, waits for the thread to exit,
+and clears `TheAudio` if it still points at the manager. A replacement
+implements `AudioManager`; the sound definitions are INI data
+(\ref sub_audio).
 
 Movies: `VideoPlayer::init` reads `Video.ini` from `Data\INI\Default\` and
 then `Data\INI\`. Frames are decoded by an On2 VP6 decoder compiled into
@@ -233,17 +238,26 @@ stretch on screens that are not 4:3. `Drawable::drawVeterancy` and
 from 800x600. `GlobalLanguage::adjustFontSize` scales font sizes by
 width / 1024 only, so on a wide screen text grows relative to the screen
 height. Window layouts are scaled the same way (\ref sub_gui_apt_remastering).
-How the Apt player fits a movie's stage to the screen has not been traced
-yet; do not assume it is resolution-independent.
+How the Apt player fits a movie's stage to the screen is not established;
+do not assume it is resolution-independent.
 
 **Logic rate and render rate.** The logic runs at a nominal 5 ticks a second
 and the client at 30 frames a second. Both are built into `game.dat` with no
 known INI field. `GameLogic::update` runs a logic frame in six phases, and
-the rate ratio is also six. In BFME 1, `GameEngine::update` hands out one
-phase per client frame. The timing note (`docs/bfme2-network-timing-path.md`)
-records a BFME 2 loop whose work is bounded by the same ratio, but how BFME 2
-schedules the phases is unconfirmed. Do not assume a higher frame rate is a
-client-only setting; see \ref page_frame_loop_remastering.
+the rate ratio is also six. As in BFME 1, `GameEngine::update` hands out one
+phase per client frame: it advances a client-frame period on each call that
+a script-engine check does not skip, starts a new logic frame after six (a
+literal, not the ratio), and passes the period as the phase to a
+`GameEngine` logic step that calls `GameLogic::update`. That step runs the
+following phases in the same call only when the rate ratio is below six. If
+phase 1 does not go ahead (for example, with no network running, while the
+game is paused; in a network game, while the network has no frame to
+advance), the period is held and phase 1 is tried again on the next client
+frame. At a ratio of six or more, then, a logic frame takes at least six
+client frames, and where nothing skips a client frame or holds phase 1 back
+the simulation runs at one sixth of the real client frame rate. A higher
+frame rate is not a client-only setting; see
+\ref page_frame_loop_remastering.
 
 **Floating point.** `setFPMode` resets the x87 unit and sets 24-bit
 precision with round-to-nearest. Its callers include `GameLogic::init`,
@@ -278,14 +292,14 @@ the allocator means replacing that API as a whole (\ref sub_memory).
 
 | To keep working with | What must stay identical |
 |---|---|
-| Retail players (LAN and online) | Everything `GameLogic` computes: objects and their modules, AI, scripts, the logic random stream, the float mode, the logic rate and phase layout. The command encoding and packet format (\ref sub_network_remastering). The values sent on joining: `LANAPI::RequestGameJoin` puts the executable identifier, the INI CRC, a further BFME-specific CRC from the global data (meaning not yet documented) and the registry serial in the join request. Whether the LAN host compares them is not yet known; in Zero Hour's source the comparison is commented out (\ref sub_network). The GameSpy code registers `exeCRC`, `iniCRC`, `cmdCRC` and `gCRC` keys for its staging rooms, and the online custom-match screen refuses to join a room whose executable identifier, INI CRC or that further CRC differs from the player's own. |
+| Retail players (LAN and online) | Everything `GameLogic` computes: objects and their modules, AI, scripts, the logic random stream, the float mode, the logic rate and phase layout. The command encoding and packet format (\ref sub_network_remastering). The values sent on joining: `LANAPI::RequestGameJoin` puts the executable identifier, the INI CRC, a further BFME-specific CRC from the global data (its meaning is not established) and the registry serial in the join request. Whether the LAN host compares them is not established; in Zero Hour's source the comparison is commented out (\ref sub_network). The GameSpy code registers `exeCRC`, `iniCRC`, `cmdCRC` and `gCRC` keys for its staging rooms, and the online custom-match screen refuses to join a room whose executable identifier, INI CRC or that further CRC differs from the player's own. |
 | Desync detection | `GameLogic::getCRC`, which runs the logic state through the CRC form of `Xfer`. In multiplayer, each machine sends the value as a message every N logic frames, where N is the CRC interval stored in the game's settings (\ref sub_save_load_crc_crc). |
 | Retail replays | The `BFME2RPL` format: the header that `RecorderClass::startRecording` writes (it includes the signature, version strings, the INI CRC, the player slots and any custom heroes; \ref sub_save_load_crc_replays lists the rest), then the commands that `RecorderClass::writeToFile` appends. On playback, `RecorderClass::playbackFile` reads the header and `RecorderClass::appendNextCommand` feeds the commands back through the same logic (\ref sub_save_load_crc_replays). |
 | Retail saves | Each object's `xfer` order and version (`Xfer::Version`), and the named blocks that `GameState::init` registers (`CHUNK_GameState`, `CHUNK_Campaign` and others). `CHUNK_Audio` is the audio manager, so a replacement audio backend must still read and write it (\ref sub_save_load_crc). |
 
 Saves store map paths in a portable form
 (`GameState::realMapPathToPortableMapPath`), not tied to the install
-directory. How the executable identifier is computed is not yet documented.
+directory. How the executable identifier is computed is not established.
 A remaster that changes any logic-side behaviour, including a bug fix,
 cannot stay compatible with retail multiplayer or retail replays. It can
 keep loading retail saves only by reading the old versions.
@@ -299,7 +313,7 @@ keep loading retail saves only by reading the old versions.
 - Anything that changes logic results breaks play with unmodified clients
   and existing replays. Changing INI data that the INI CRC covers also
   changes the INI CRC, even when the logic is unaffected. The INI CRC is
-  sent with LAN join requests (whether the host checks it is not yet known;
+  sent with LAN join requests (whether the host checks it is not established;
   \ref sub_network), checked by the online custom-match join, and recorded
   in replays. `GameEngine::init` computes that CRC with a CRC `Xfer` that
   it gives to the subsystem list and to its loads of `Water.ini`, `Fire.ini`
