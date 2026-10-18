@@ -135,10 +135,7 @@ class DieModule : public ObjectModule,
 	public DieModuleInterface
 {
 public:
-	DieModule( Thing *thing, const ModuleData *moduleData )
-		: ObjectModule( thing, moduleData )
-	{
-	}
+	DieModule( Thing *thing, const ModuleData *moduleData );
 };
 
 // ?rva000486B75@UpgradeDie@@SA?AW4NameKeyType@@XZ @0x486b75
