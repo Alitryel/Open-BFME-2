@@ -42,7 +42,8 @@ public:
 	const_pointer begin() const { return m_start; }
 	pointer end() { return m_finish; }
 	const_pointer end() const { return m_finish; }
-	__declspec(dllimport) size_type size() const { return size_type(m_finish - m_start); }	// inlined; no out-of-line copy
+	// Out-of-line size is owned by the rowed ThingFactory.cpp instantiation.
+	__declspec(dllimport) __forceinline size_type size() const { return size_type(m_finish - m_start); }
 	size_type capacity() const { return size_type(m_endOfStorage - m_start); }
 protected:
 	template <class ForwardIter>

@@ -40,6 +40,13 @@ private:
 namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
 typedef char ProductionPrerequisiteSizeCheck[sizeof(ProductionPrerequisite) == 0x24 ? 1 : -1];
 
+// Keep inlined size arithmetic; the rowed out-of-line owner is ThingFactory.cpp.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+vector<ProductionPrerequisite>::size_type vector<ProductionPrerequisite>::size() const
+{ return size_type(this->_M_finish - this->_M_start); }
+}
+
 template void _STL::vector<ProductionPrerequisite>::_M_clear();
 
 template void _STL::vector<ProductionPrerequisite>::_M_insert_overflow(
