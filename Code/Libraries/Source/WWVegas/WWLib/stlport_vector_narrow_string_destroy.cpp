@@ -29,6 +29,10 @@ private:
 // whole-class instantiation also emits copying/growth with implicit byte copies,
 // which must instead resolve to the existing verified string-vector providers.
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > NarrowString;
+namespace _STL {
+// This view supplies teardown; range erase belongs to its rowed provider.
+template <> NarrowString *vector<NarrowString, allocator<NarrowString> >::erase(NarrowString *, NarrowString *);
+}
 template _STL::vector<NarrowString>::~vector();
 template void _STL::vector<NarrowString>::_M_clear();
 template void _STL::vector<NarrowString>::clear();

@@ -20,6 +20,8 @@
 // clear plus int zero). BFME1 OCLSpecialPower.cpp proves the BFME1
 // member names and the m_defaultOCL-clear-m_createLoc body order.
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN
+#include "../../../../../../vendor/stlport/stl/_algobase.h"
 #include <bitset>
 #include <vector>
 #include <string.h>

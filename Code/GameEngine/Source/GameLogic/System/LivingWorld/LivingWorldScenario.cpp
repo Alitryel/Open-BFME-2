@@ -10,6 +10,10 @@
 // every retail owner by pin_admission. The native allocation/copy helper is
 // the 40-byte form without the STLport catch wrapper; ordinary C++ EH remains
 // enabled for this predicate's temporary-vector destruction on every return.
+// The enum range-erase fold uses the original const-reference tag dispatch.
+// Keep the trivial-copy helper bound to its existing retail provider.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN
+#include "../../../../../../vendor/stlport/stl/_algobase.h"
 #include "../../../../../../reference/shims/bfme_stlport_unsigned_max_link/unsigned_max.h"
 #include <vector>
 #include <map>

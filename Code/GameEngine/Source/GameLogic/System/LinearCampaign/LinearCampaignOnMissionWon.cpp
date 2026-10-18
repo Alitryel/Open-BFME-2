@@ -33,7 +33,13 @@ namespace _STL { template <> BfmeAssignRecord172 * vector<BfmeAssignRecord172, a
 // bfme link decl-only end
 extern GameLogic*TheGameLogic;
 enum ScienceType {SCIENCE_INVALID=-1};
-namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::reserve(unsigned int); }
+// Calls in the matched parent use the rowed ScienceType providers.
+namespace _STL {
+template <> void vector<ScienceType, allocator<ScienceType> >::reserve(unsigned int);
+template <> void vector<ScienceType, allocator<ScienceType> >::push_back(const ScienceType &);
+template <> ScienceType *vector<ScienceType, allocator<ScienceType> >::erase(ScienceType *, ScienceType *);
+template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(ScienceType *, const ScienceType &, const __false_type &, unsigned int, bool);
+}
 
 struct Bits1024 {unsigned int words[32];__forceinline bool test(unsigned n)const {return (words[n/32] & (1U<<(n%32)))!=0;} __forceinline void set(unsigned n){words[n/32] |= 1U<<(n%32);} };
 class Player {public:char p0[0x14];int value14;char p18[0x5c-0x18];int value5C;char p60[0x13c-0x60];Bits1024 upgrades;char p1BC[0x2f0-0x1bc];_STL::vector<ScienceType>sciences;char p2FC[0x314-0x2fc];float value314;char p318[0x738-0x318];Rva0037E421 revival;};
