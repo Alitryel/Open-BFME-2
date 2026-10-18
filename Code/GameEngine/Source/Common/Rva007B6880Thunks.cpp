@@ -2169,23 +2169,23 @@ void __cdecl rva007B77B9()
 	return p->_STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::~basic_string();
 }
 
-extern unsigned g_00E01CF4;
+extern unsigned int g_Va00E01CF4;
 // g_00E01CF4: packet annotates VA 0x00E01CF4 (data RVA 0x00A01CF4), no name yet.
 
 // ?rva007B7B82@@YAXXZ @ 0x007B7B82 (10B). Global StringBase<char> clear thunk: ecx=&g_00E01CF4 then tail-jmp to rowed ?clear@?$StringBase@D@@QAEXXZ (0x0048BA39). No callers. Between 0x007B7B78 and 0x007B7B96. Honest address name.
 void __cdecl rva007B7B82()
 {
-	StringBase<char> *p = (StringBase<char> *)&g_00E01CF4;
+	StringBase<char> *p = (StringBase<char> *)&g_Va00E01CF4;
 	return p->clear();
 }
 
-extern unsigned g_00E01CF0;
+extern unsigned int g_Va00E01CF0;
 // g_00E01CF0: packet annotates VA 0x00E01CF0 (data RVA 0x00A01CF0), no name yet.
 
 // ?rva007B7B8C@@YAXXZ @ 0x007B7B8C (10B). Global StringBase<char> clear thunk: ecx=&g_00E01CF0 then tail-jmp to rowed ?clear@?$StringBase@D@@QAEXXZ (0x0048BA39). No callers. Between 0x007B7B82 and 0x007B7B96. Honest address name.
 void __cdecl rva007B7B8C()
 {
-	StringBase<char> *p = (StringBase<char> *)&g_00E01CF0;
+	StringBase<char> *p = (StringBase<char> *)&g_Va00E01CF0;
 	return p->clear();
 }
 
@@ -5296,23 +5296,23 @@ void __cdecl rva007B9676()
 	p->rva001EAF7B();
 }
 
-extern unsigned g_00E06444;
+extern unsigned int g_Va00E06444;
 // g_00E06444: packet annotates VA 0x00E06444 (data RVA 0x00A06444), no name yet.
 
 // ?rva007B9680@@YAXXZ @ 0x007B9680 (10B). Global StringBase<char> clear thunk: ecx=&g_00E06444 then tail-jmp to rowed ?clear@?$StringBase@D@@QAEXXZ (0x0048BA39). No callers. Between 0x007B9676 and 0x007B9694. Honest address name.
 void __cdecl rva007B9680()
 {
-	StringBase<char> *p = (StringBase<char> *)&g_00E06444;
+	StringBase<char> *p = (StringBase<char> *)&g_Va00E06444;
 	return p->clear();
 }
 
-extern unsigned g_00E06448;
+extern unsigned int g_Va00E06448;
 // g_00E06448: packet annotates VA 0x00E06448 (data RVA 0x00A06448), no name yet.
 
 // ?rva007B968A@@YAXXZ @ 0x007B968A (10B). Global StringBase<char> clear thunk: ecx=&g_00E06448 then tail-jmp to rowed ?clear@?$StringBase@D@@QAEXXZ (0x0048BA39). No callers. Between 0x007B9680 and 0x007B9694. Honest address name.
 void __cdecl rva007B968A()
 {
-	StringBase<char> *p = (StringBase<char> *)&g_00E06448;
+	StringBase<char> *p = (StringBase<char> *)&g_Va00E06448;
 	return p->clear();
 }
 
@@ -5397,13 +5397,13 @@ public:
 	virtual ~Rva005E9F7B();
 };
 
-extern unsigned g_00E06634;
+extern unsigned int g_Va00E06634;
 // g_00E06634: packet annotates VA 0x00E06634 (data), no name yet.
 
 // ?rva007B9748@@YAXXZ @ 0x007B9748 (10B). Global Rva005E9F7B dtor thunk: ecx=&g_00E06634 then tail-jmp to pinned ??1Rva005E9F7B@@UAE@XZ (0x005E9F7B). No callers. Between 0x007B973E and 0x007B9752. Honest address name.
 void __cdecl rva007B9748()
 {
-	Rva005E9F7B *p = (Rva005E9F7B *)&g_00E06634;
+	Rva005E9F7B *p = (Rva005E9F7B *)&g_Va00E06634;
 	return p->Rva005E9F7B::~Rva005E9F7B();
 }
 

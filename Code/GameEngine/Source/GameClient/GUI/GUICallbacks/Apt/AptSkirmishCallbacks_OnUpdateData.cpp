@@ -83,7 +83,7 @@ public:
 extern int g_00E04930;
 
 class Rva00222A8BTarget;
-extern class Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 // MpGameSetupSlots.cpp's 0x0043DB23 runs an Apt function on a movie.
 int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
@@ -354,12 +354,12 @@ int AptSkirmish::OnUpdateData() {
  if(m_6c1) {reinterpret_cast<Rva0043DB47DoubleSetter*>((char*)this+0x288)->enable();m_6c1=false;}
  switch(m_state) {
  case 1:
-  TheRva00222A8BTarget->invoke(m_274,"ShowMain",0,0,0,0,0,0);
+  (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->invoke(m_274,"ShowMain",0,0,0,0,0,0);
   m_state=5;
   return OnUpdateData();
  case 5:
   if(!reinterpret_cast<SkirmishPreferences*>((char*)this+0x698)->Rva0043B9E8()) {
-   TheRva00222A8BTarget->invoke(m_274,"ShowAddProfile",0,0,0,0,0,0);
+   (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->invoke(m_274,"ShowAddProfile",0,0,0,0,0,0);
   } else {
    reinterpret_cast<AptMpGameSetupUpdateView*>((char*)this+0x288)->slot1();
    if(InitTheGame()) {m_state=6;return OnUpdateData();}
@@ -371,9 +371,9 @@ int AptSkirmish::OnUpdateData() {
  case 8: m_state=9;break;
  case 10:
   if(reinterpret_cast<AptMpGameSetup*>((char*)this+0x288)->OnHostStartGame(0)) {
-   TheRva00222A8BTarget->invoke(m_274,"CloseMain",0,0,0,0,0,0);m_state=11;
+   (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->invoke(m_274,"CloseMain",0,0,0,0,0,0);m_state=11;
   } else {
-   TheRva00222A8BTarget->invoke(m_274,"ButtonReset",0,0,0,0,0,0);m_state=7;
+   (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->invoke(m_274,"ButtonReset",0,0,0,0,0,0);m_state=7;
   }
   break;
  }

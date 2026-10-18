@@ -19,9 +19,9 @@ public:
 };
 
 // Bind to the existing data-ledger owner; keep the retail access view local.
-extern unsigned int g_00E01CF0;
+extern unsigned int g_Va00E01CF0;
 // Bind to the existing data-ledger owner; keep the retail access view local.
-extern unsigned int g_00E01CF4;
+extern unsigned int g_Va00E01CF4;
 extern const FieldParse TheRva00318ABBSunbeam;
 
 class Rva00318ABBTarget
@@ -42,10 +42,10 @@ extern CloudBreakEffectManager *TheCloudBreakEffectManager;
 
 void rva00318ABB(INI *ini)
 {
-	(*(AsciiString *)&g_00E01CF4) = (*(AsciiString *)&g_00E01CF0);
-	ini->initFromINI(&(*(AsciiString *)&g_00E01CF4), &TheRva00318ABBSunbeam);
+	(*(AsciiString *)&g_Va00E01CF4) = (*(AsciiString *)&g_Va00E01CF0);
+	ini->initFromINI(&(*(AsciiString *)&g_Va00E01CF4), &TheRva00318ABBSunbeam);
 	if (ini->m_08 != 2 && ini->m_08 != 4)
-		(*(AsciiString *)&g_00E01CF0) = (*(AsciiString *)&g_00E01CF4);
+		(*(AsciiString *)&g_Va00E01CF0) = (*(AsciiString *)&g_Va00E01CF4);
 	if (TheCloudBreakEffectManager != 0)
 		return ((Rva00318ABBTarget *)TheCloudBreakEffectManager)->t14();
 }
@@ -61,6 +61,6 @@ private:
 
 void Rva00318A87::rva00318A87()
 {
-	m_0C = *(AsciiString *)&g_00E01CF4;
+	m_0C = *(AsciiString *)&g_Va00E01CF4;
 }
 
