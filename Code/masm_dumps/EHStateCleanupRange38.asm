@@ -761,21 +761,6 @@ cleanup_done_0079504c:
     ret
 ?rva0079504c@@YAXXZ ENDP
 
-; Unwind@00b95d0d at RVA 0x00795D0D; 25-byte state-bit cleanup ends at RET.
-; Retail tests and clears bit 0 at [ebp-32]; uses MOV from [ebp+8] only when set.
-; The tail-jump target is a matched function at RVA 0x0048BA39; parent identity/layout remain unproven.
-PUBLIC ?rva00795d0d@@YAXXZ
-?rva00795d0d@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-32]
-    and eax, 1
-    jz NEAR PTR cleanup_done_00795d0d
-    and DWORD PTR [ebp-32], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1AsciiString@@QAE@XZ
-cleanup_done_00795d0d:
-    ret
-?rva00795d0d@@YAXXZ ENDP
-
 ; Unwind@00b962c3 at RVA 0x007962C3; 22-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva007962c3@@YAXXZ
 ?rva007962c3@@YAXXZ PROC
