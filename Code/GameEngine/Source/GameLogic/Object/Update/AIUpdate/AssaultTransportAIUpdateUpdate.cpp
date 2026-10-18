@@ -6,8 +6,8 @@
 //
 // Target facts. update is reached through the UpdateModuleInterface at +0x10
 // and ends in AIUpdateInterface::update (0x0026E267). The ZH-port unit
-// AssaultTransportAIUpdate.cpp builds against the ZH layout and keeps its copy
-// present-unmatched. Fields (full object): member IDs +0x3E8 (10), healing
+// AssaultTransportAIUpdate.cpp builds against the ZH layout and declares this
+// method; this unit owns its BFME 2 definition. Fields (full object): member IDs +0x3E8 (10), healing
 // flags +0x410, new-member flags +0x41A, attack-move goal +0x424, designated
 // target +0x430, member count +0x43C, attack-move flag +0x440, attack-object
 // flag +0x441, new-occupants flag +0x442 (as the rowed helpers 0x0048F6EE and
