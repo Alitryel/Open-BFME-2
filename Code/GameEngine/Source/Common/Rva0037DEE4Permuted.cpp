@@ -20,3 +20,10 @@ class Rva001EB05E{public:~Rva001EB05E();private:char bytes[0x20];};
 class Xfer;
 class CarryoverUnit:public Snapshot{public:virtual ~CarryoverUnit();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);private:AsciiString name;char fields08[0x94-8];Rva001EB05E member;};
 CarryoverUnit::~CarryoverUnit(){}
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?GetSnapshotName@CarryoverUnit@@UBEPBDXZ=?name@Rva0037DC84Named@@QBEPBDXZ")
+#pragma comment(linker, "/alternatename:?loadPostProcess@CarryoverUnit@@UAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?xfer@CarryoverUnit@@UAEXPAVXfer@@@Z=?xfer@CarryoverUnit@@MAEXPAVXfer@@@Z")

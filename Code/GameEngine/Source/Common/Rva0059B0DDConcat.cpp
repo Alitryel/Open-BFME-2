@@ -45,3 +45,8 @@ StringBase<char> *__cdecl Rva0059B0DDConcat(StringBase<char> *dst, const char *s
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?getChars@NarrowStrSource0059B0DD@@UBEHPAD@Z=?rva0059B3C1@Rva0059B3C1@@QAEHPAD@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?getLength@NarrowStrSource0059B0DD@@UBEHXZ=?rva0059B19A@Rva0059B19A@@QBEHXZ")

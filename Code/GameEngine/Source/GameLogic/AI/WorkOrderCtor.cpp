@@ -64,3 +64,10 @@ WorkOrder::WorkOrder() :
 	m_bfmeFlag28 = false;
 	m_bfmeFlag29 = false;
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?v00@WorkOrder@@MAEXXZ=??_GRva004F1B56@@UAEPAXI@Z")
+#pragma comment(linker, "/alternatename:?v01@WorkOrder@@MAEXXZ=??1Region2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v02@WorkOrder@@MAEXXZ=?name@Rva004F1116Named@@QBEPBDXZ")

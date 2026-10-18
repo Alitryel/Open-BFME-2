@@ -34,3 +34,8 @@ private:
 Rva008B77D::~Rva008B77D()
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?rva00047A69C@Rva008B77D@@UAEXH@Z=?rva00312EDA@Rva008B77D@@UAEXPBURva00311431Arg@@@Z")
