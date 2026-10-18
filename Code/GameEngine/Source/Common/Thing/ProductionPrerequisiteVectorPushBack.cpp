@@ -34,6 +34,9 @@ public:
 private:
 	void *m_unreconstructed[9];
 };
+// Inlined in every row; imported so no non-retail out-of-line copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
+
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::~vector(); }
 

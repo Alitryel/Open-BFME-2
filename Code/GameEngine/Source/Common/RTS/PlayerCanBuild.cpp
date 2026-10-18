@@ -58,6 +58,9 @@ public:
 private:
 	char m_unmodelled[0x24];
 };
+// Inlined in every row; imported so no non-retail out-of-line copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
+
 
 // ThingTemplate::getBuildable is out of line in BFME 2 (0x0033A632).
 class ThingTemplate

@@ -36,6 +36,8 @@ private:
 	void *m_unreconstructed[9];
 };
 
+// Inlined in every row; imported so no non-retail out-of-line copy is emitted.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<ProductionPrerequisite,allocator<ProductionPrerequisite> >::size() const { return (unsigned int)(this->_M_finish - this->_M_start); } }
 typedef char ProductionPrerequisiteSizeCheck[sizeof(ProductionPrerequisite) == 0x24 ? 1 : -1];
 
 template void _STL::vector<ProductionPrerequisite>::_M_clear();
