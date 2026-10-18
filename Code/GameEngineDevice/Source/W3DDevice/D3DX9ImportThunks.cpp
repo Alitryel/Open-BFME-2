@@ -200,4 +200,11 @@ extern PFN_D3DXGetShaderInputSemantics __identifier("_imp__D3DXGetShaderInputSem
 HRESULT __stdcall D3DXGetShaderInputSemantics(const DWORD *pFunction, D3DXSEMANTIC *pSemantics, UINT *pCount) {
  return __identifier("_imp__D3DXGetShaderInputSemantics@12")(pFunction, pSemantics, pCount);
 }
+
+// _D3DXMatrixRotationAxis@12
+typedef D3DXMATRIX* (__stdcall *PFN_D3DXMatrixRotationAxis)(D3DXMATRIX *, const D3DXVECTOR3 *, FLOAT);
+extern PFN_D3DXMatrixRotationAxis __identifier("_imp__D3DXMatrixRotationAxis@12");
+D3DXMATRIX* __stdcall D3DXMatrixRotationAxis(D3DXMATRIX *pOut, const D3DXVECTOR3 *pV, FLOAT Angle) {
+ return __identifier("_imp__D3DXMatrixRotationAxis@12")(pOut, pV, Angle);
+}
 }
