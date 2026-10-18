@@ -61,7 +61,7 @@ public:
 	HordeContain(Thing *thing, const ModuleData *moduleData);
 	~HordeContain();
 	void rva00470DC1();
-};
+public: void rva0047A413(); };
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
@@ -143,7 +143,7 @@ public:
 	int rva0047A6ED() const;
 	void rva0047A729(const Float3 *position);
 	void rva0047A77E();
-	void rva0047A413();
+	/* the rowed HordeContain::rva0047A413 */ __declspec(dllimport) __forceinline void rva0047A413() { ((HordeContain *)this)->rva0047A413(); }
 	virtual void f00();
 	virtual void f20();
 	virtual void f11C();
