@@ -198,50 +198,7 @@ private:
 	Bool m_578; // +0x578
 };
 
-GiantBirdAIUpdate::GiantBirdAIUpdate(Thing *thing, const ModuleData *moduleData)
-	: AIUpdateInterface(thing, moduleData),
-	  m_4C4(0)
-{
-	m_4B8 = 0;
-	m_528 = 0;
-	m_534 = false;
-	m_52C = 0.0f;
-	m_530 = 0.0f;
-	m_4BC = 0.0f;
-	m_538 = 0.0f;
-	m_53C = 0.0f;
-	m_540 = 0.0f;
-	zeroCoord(m_544);
-	m_550 = false;
 
-	UnsignedInt mask = maskWord(g_00E01EC0) | 0x28;
-	maskWord(g_00E01ECC) |= mask;
-	maskWord(g_00E01EC4) |= mask;
-	maskWord(g_00E01EC8) |= mask;
-	maskWord(g_00E01ECC) |= 4;
-	maskWord(g_00E01EC8) |= 2;
-	maskWord(g_00E01ECC) |= 2;
-	maskWord(g_00E01EC4) |= 4;
-	maskWord(g_00E01ED0) |= 0x88;
-	maskWord(g_00E01EC0) = mask;
-
-	m_554 = 0;
-	m_558 = false;
-	m_55C = 2;
-	zeroCoord(m_3E4);
-	m_4C0 = 0;
-	zeroCoord(m_560);
-	zeroCoord(m_56C);
-	m_578 = false;
-}
-
-// ??1GiantBirdAIUpdate@@MAE@XZ, retail 0x0036B8E6, 123 bytes: the destructor
-// body (EH): the five vtables are restored, then the +0x4C8 member, the +0x4B4
-// list and the +0x3F0 member are destroyed in reverse construction order and
-// the AIUpdateInterface base destructor (pinned 0x0026E836) runs last.
-GiantBirdAIUpdate::~GiantBirdAIUpdate()
-{
-}
 
 // ?rva0036B6B9@GiantBirdAIUpdate@@UAEXXZ, retail 0x0036B6B9, 94 bytes: primary
 // vtable slot 89 (0x00817BE4; AIUpdateInterface's own slot is empty),
