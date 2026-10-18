@@ -73,7 +73,7 @@ class TrackingPtr
 class Rva003AA228Slice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class Rva003AA228 : public DefaultModuleHeadBase, public Rva003AA228Slice
@@ -91,7 +91,7 @@ Rva003AA228::Rva003AA228( void *system, void *module_template )
 class DefaultParticleModuleSnapshotSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 template <int Category>
@@ -125,7 +125,7 @@ DefaultParticleModule<5>::DefaultParticleModule( void *system, void *module_temp
 class EmissionVolumeInfo
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 
 private:
 	bool m_flag;
@@ -155,7 +155,7 @@ public:
 class EmissionVelocityInfo
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class OrthoEmissionVelocityInfo : public EmissionVelocityInfo
@@ -179,13 +179,13 @@ public:
 class ModuleTemplateSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class CategoryModuleTemplateInfoSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class CategoryModuleTemplateSlice

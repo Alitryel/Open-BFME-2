@@ -80,6 +80,8 @@ void ParticleSystemTemplate::setUV(const Region2D *region)
 
 // ModuleTemplate holds nothing but its vtable (0x00BBB52C): the constructors
 // install it and the destructor restores it, with no member traffic at all.
+// That table is one slot, the deleting destructor: every other unit's view
+// emits it so, and a second pure slot here made all of them lose the COMDAT.
 class ModuleTemplate
 {
 public:
@@ -87,7 +89,6 @@ public:
     ModuleTemplate(const ModuleTemplate &that);
 
     virtual ~ModuleTemplate();
-    virtual void v1() = 0;
 };
 
 inline ModuleTemplate::ModuleTemplate()

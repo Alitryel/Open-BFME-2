@@ -15,7 +15,7 @@ template <int Category>
 class CategoryModuleInfo
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 template <int Category>

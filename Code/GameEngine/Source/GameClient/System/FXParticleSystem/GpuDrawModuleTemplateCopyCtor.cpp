@@ -30,7 +30,7 @@ class CategoryModuleInfo
 {
 public:
 	CategoryModuleInfo() {}
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 
 protected:
 	~CategoryModuleInfo() {}

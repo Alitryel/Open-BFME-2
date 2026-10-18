@@ -7,7 +7,7 @@ class T1A1_005DD290
 {
 public:
 	T1A1_005DD290( void *system, void *module_template );
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 
 private:
 	unsigned int m_storage[ 4 ];
@@ -26,13 +26,13 @@ class TrackingPtr
 class ParticleModuleCategorySlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class ParticleModuleSnapshotSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 template <int Category>
@@ -51,7 +51,7 @@ public:
 class EmissionVolumeInfo
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 
 private:
 	unsigned int m_storage;
@@ -72,13 +72,13 @@ struct LightningEmissionRecord
 class ModuleTemplateSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class CategoryModuleTemplateInfoSlice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class CategoryModuleTemplateSlice

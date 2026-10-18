@@ -17,7 +17,7 @@ namespace FXParticleSystem
 class Rva003AA228Slice
 {
 public:
-	virtual void unusedVirtual();
+	virtual void unusedVirtual() = 0;
 };
 
 class Rva003AA228 : public DefaultModuleHeadBase, public Rva003AA228Slice

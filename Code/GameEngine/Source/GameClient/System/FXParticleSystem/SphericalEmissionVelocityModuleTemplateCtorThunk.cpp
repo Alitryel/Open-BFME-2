@@ -17,7 +17,7 @@ class CategoryModuleInfo
 {
 public:
     CategoryModuleInfo() {}
-    virtual void unusedVirtual();
+    virtual void unusedVirtual() = 0;
 
 protected:
     ~CategoryModuleInfo() {}
@@ -37,7 +37,7 @@ class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
 {
 public:
     __declspec(dllimport) __forceinline CategoryModuleTemplate() {}
-    virtual ~CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate();
 };
 
 class SphericalEmissionVelocityInfo
@@ -55,6 +55,7 @@ class SphericalEmissionVelocityModuleTemplate : public CategoryModuleTemplate<4>
 {
 public:
     SphericalEmissionVelocityModuleTemplate();
+    virtual ~SphericalEmissionVelocityModuleTemplate();
 };
 
 // ??0SphericalEmissionVelocityModuleTemplate@FXParticleSystem@@QAE@XZ

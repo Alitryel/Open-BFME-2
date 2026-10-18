@@ -17,7 +17,7 @@ class CategoryModuleInfo
 {
 public:
     CategoryModuleInfo() {}
-    virtual void unusedVirtual();
+    virtual void unusedVirtual() = 0;
 
 protected:
     ~CategoryModuleInfo() {}
@@ -37,7 +37,7 @@ class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
 {
 public:
     __declspec(dllimport) __forceinline CategoryModuleTemplate() {}
-    virtual ~CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate();
 };
 
 class DefaultPhysicsModuleInfo
@@ -56,6 +56,7 @@ class DefaultModuleTemplate : public CategoryModuleTemplate<Category>,
 {
 public:
     DefaultModuleTemplate();
+    virtual ~DefaultModuleTemplate();
 };
 
 // MSVC mangles DefaultModuleTemplate<3> as @$02
