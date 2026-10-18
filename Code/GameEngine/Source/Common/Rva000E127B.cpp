@@ -10,11 +10,11 @@ struct Rva000E15D1Rec
 	int m_d;
 };
 
+class Rva00112259 { public: void rva00112259(); };
 class Rva00115044El
 {
 public:
-	void rva00115044(Rva000E15D1Rec *rec, int value, int mode, unsigned char flag);
-	void rva00112259();
+	void rva00115044(Rva000E15D1Rec *rec, int value, int mode, unsigned char flag);/* the rowed Rva00112259::rva00112259 */ __declspec(dllimport) __forceinline void rva00112259() { ((Rva00112259 *)this)->rva00112259(); }
 };
 
 class Rva00068441
