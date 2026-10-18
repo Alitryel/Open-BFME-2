@@ -49,6 +49,8 @@ struct AsciiUnicodePair
 	int m_e;
 	int m_f;
 	AsciiUnicodePair(const AsciiUnicodePair &other);
+	// Use the retail 53B teardown shared with BfmeMappedValueEBD.
+	~AsciiUnicodePair();
 };
 
 struct MapNode
