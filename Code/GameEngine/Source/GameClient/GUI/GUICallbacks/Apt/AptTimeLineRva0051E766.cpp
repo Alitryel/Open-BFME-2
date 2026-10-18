@@ -17,7 +17,9 @@ extern "C" char *__cdecl strcpy(char *dst, const char *src);
 #include <stdio.h>
 
 enum ScienceType { SCIENCE_INVALID = -1 };
-extern _STL::vector<ScienceType> g_00E04920;
+// The vector at 0x00E04920 is owned as g_Va00E04920 (Rva007B6880Thunks.cpp).
+extern unsigned int g_Va00E04920;
+#define g_00E04920 (*(_STL::vector<ScienceType> *)&g_Va00E04920)
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;

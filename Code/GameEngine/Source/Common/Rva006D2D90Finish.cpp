@@ -35,7 +35,9 @@ unsigned char g_00E177E1;	// retail RVA 0x00A177E1 (.bss), defined here
 unsigned char g_00E177E2;	// retail RVA 0x00A177E2 (.bss), defined here
 int g_00E177E4;	// retail RVA 0x00A177E4 (.bss), defined here
 unsigned char g_00E177E8;	// retail RVA 0x00A177E8 (.bss), defined here
-extern volatile unsigned char g_00CE8B70[];
+// The byte table is owned as unsigned char g_00CE8B70[47] (Rva006CD3F0Get.cpp);
+// this body reads it through a volatile view.
+extern unsigned char g_00CE8B70[];
 
 // ?Rva006D2D90Init@@YAXXZ present-unmatched
 void __cdecl rva006D2D90()
@@ -46,7 +48,7 @@ void __cdecl rva006D2D90()
 	int maxVal = 0;
 	unsigned int minVal = 1000000;
 	for (int i = 1; i < 0x2f; ++i) {
-		unsigned int v = g_00CE8B70[i];
+		unsigned int v = ((volatile unsigned char *)g_00CE8B70)[i];
 		if (v > (unsigned int)maxVal)
 			maxVal = (int)v;
 		if (v < minVal)

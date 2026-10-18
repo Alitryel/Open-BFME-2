@@ -38,7 +38,9 @@ inline bool operator==(const UnicodeString &a, const UnicodeString &b)
 }
 
 typedef _STL::list<UnicodeString, _STL::allocator<UnicodeString> > Rva00433C18List;
-extern Rva00433C18List Rva00433C18Pool;
+// The list object at 0x00E032DC is owned as g_Va00E032DC (Rva007B6880Thunks.cpp).
+extern unsigned int g_Va00E032DC;
+#define Rva00433C18Pool (*(Rva00433C18List *)&g_Va00E032DC)
 
 void Rva00433C18(const UnicodeString &value, bool clearFirst)
 {

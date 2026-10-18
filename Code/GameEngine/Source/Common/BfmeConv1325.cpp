@@ -5,7 +5,8 @@
 
 extern void *g_bfmeVftATWA[];
 extern void *g_bfmeVftBTWA[];
-extern void *g_bfmeVftCTWA[];
+// 0xCE30A8, the vtable already emitted as ??_7Rva00665030@@6B@ (data ledger).
+extern "C" void *__identifier("??_7Rva00665030@@6B@")[];
 
 class BfmeStrTWA
 {
@@ -33,7 +34,7 @@ void *BfmeThingTWA::bfmeDelTWA(unsigned char flags)
 	m_bfmeVft1 = g_bfmeVftBTWA;
 	bfmeStepTWA();
 	m_bfmeStr.bfmeDtorTWA();
-	m_bfmeVft0 = g_bfmeVftCTWA;
+	m_bfmeVft0 = __identifier("??_7Rva00665030@@6B@");
 	if (flags & 1)
 		bfmeFreeTWA(this, 0x30);
 	return this;

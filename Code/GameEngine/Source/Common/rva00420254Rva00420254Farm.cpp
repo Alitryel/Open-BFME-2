@@ -72,7 +72,10 @@ class VictoryConditionsInterface;
 
 class BfmeAptWindowManager {public:void bfmeSetText(const AsciiString &,const UnicodeString &,bool);};
 class Rva00222A8BTarget {public:int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);};
-extern "C" void *g_pRva00224BC9;
+// g_pRva00224BC9 is only an alias of the owned g_bfmeAptWindowManager (ledger
+// names column); read the owner through this unit's view.
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+#define g_pRva00224BC9 (*(void **)&g_bfmeAptWindowManager)
 class GameTextInterface;extern GameTextInterface *TheGameText;
 class VictoryTextPrefix {public:
  virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();

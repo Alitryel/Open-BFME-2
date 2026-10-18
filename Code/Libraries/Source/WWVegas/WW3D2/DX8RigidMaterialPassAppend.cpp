@@ -35,7 +35,10 @@ class MeshClass { public: int vptr; int references; void Add_Ref() { ++reference
 	void bfme_add_ref_rmpa() { ++references; } };
 struct MatPassTaskClass;
 class MatPassTaskPoolClass { public: MatPassTaskClass *Allocate_Object_Memory(); };
-extern MatPassTaskPoolClass MatPassTaskPool;
+// The pool is AutoPoolClass<MatPassTaskClass,256>::Allocator, owned by
+// dx8renderer.cpp; this unit reads it through its pool view.
+extern "C" char __identifier("?Allocator@?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@0V?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@A")[];
+#define MatPassTaskPool (*(MatPassTaskPoolClass *)__identifier("?Allocator@?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@0V?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@A"))
 
 struct MatPassTaskClass
 {
