@@ -29,6 +29,9 @@ size_t vector<void*>::size() const
 template <> __declspec(dllimport) __forceinline
 void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const
+{ return *(begin() + __n); }
 }
 
 struct Rva0005A084Element { int m_value; };
