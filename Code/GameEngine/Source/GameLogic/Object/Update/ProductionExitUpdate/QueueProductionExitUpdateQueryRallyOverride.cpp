@@ -152,3 +152,10 @@ Object *bfmeQueryRallyOverride(Object *obj, const Coord3D *pos)
 	}
 	return 0;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??0Rva00045411BitSet@@QAE@HHH@Z=??0Rva0006EE7A@@QAE@HHH@Z")
+#pragma comment(linker, "/alternatename:?allow@Rva00265150RJFilter@@UAE_NPAVObject@@@Z=?allow@Rva002614ECFilter@@UAE_NPAVObject@@@Z")

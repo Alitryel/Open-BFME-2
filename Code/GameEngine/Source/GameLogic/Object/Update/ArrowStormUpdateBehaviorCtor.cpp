@@ -74,3 +74,9 @@ ArrowStormUpdate::ArrowStormUpdate(Thing *thing, const ModuleData *moduleData) :
 	m_94 = 0;
 	m_98 = 0;
 }
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva0044EF5E@@QAE@XZ=??1Rva00383D71@@QAE@XZ")

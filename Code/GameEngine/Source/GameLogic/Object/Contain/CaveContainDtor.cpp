@@ -56,3 +56,10 @@ CaveContain::~CaveContain()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?b6@B6@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva00039D6AFlatBase@@UAE@XZ=??1OpenContain@@UAE@XZ")
+#pragma comment(linker, "/alternatename:?caveExtra@CaveExtra@@UAEXXZ=?tryToSetCaveIndex@CaveContain@@UAEXH@Z")

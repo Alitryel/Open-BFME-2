@@ -142,3 +142,15 @@ WorkerAIUpdate::~WorkerAIUpdate()
 }
 
 #pragma comment(linker, "/alternatename:?f1@DBaseM1@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Placeholder names this unit's own object settles.  In retail each one holds
+// what the unit's matched code references or installs: the rowed function of
+// the vftable slot it occupies, or the function or datum the instruction
+// reaches, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:??1Rva0026E836@@UAE@XZ=??1AIUpdateInterface@@MAE@XZ")
+#pragma comment(linker, "/alternatename:?f2@DBaseB2@@UAEXXZ=?update@WorkerAIUpdate@@UAE?AW4UpdateSleepTime@@XZ")
+#pragma comment(linker, "/alternatename:?f3@DBaseM3@@UAEXXZ=?aiDoCommand@WorkerAIUpdate@@UAEXPBUAICommandParms@@@Z")
+#pragma comment(linker, "/alternatename:?f4@DBaseM4@@UAEXXZ=?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z")
+#pragma comment(linker, "/alternatename:?wt0@Tail3e4@@UAEXXZ=?onDelete@WorkerAIUpdate@@WDOE@AEXXZ")
+#pragma comment(linker, "/alternatename:?wt1@Tail3e8@@UAEXXZ=?get@Rva0023C513DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?wt2@Tail3ec@@UAEXXZ=?rva004AAD69@Rva004AAD69@@QAEXXZ")
