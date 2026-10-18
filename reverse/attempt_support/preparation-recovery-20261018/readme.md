@@ -41,3 +41,15 @@ were retained. Temporary paired-measurement source backups remain in
 build/preparation-recovery-source-backup. All tracked saved changes are
 accounted for by the recovered commits, upstream shader repair and deferred
 narrow-string patch. The original preparation record is left for the runner.
+
+Final publication rebase: upstream e410d2a614 independently landed the
+Made002CC5E1Ctor destructor binding (+463 B) while publication waited for
+the shared slot. Resolve that conflict by keeping upstream's equivalent
+declarations, without skipping or aborting any saved commit.
+Remeasure the remaining five source changes against 97ebdc982eae39eee95d26a535d7a3b76c39cad8:
+both configurations pass 101/101 byte rows, one string and 11 float refs.
+The same twelve-provider LEGACY preview is now 4/12 -> 9/12 clean,
+1,544 -> 3,277 B (+1,733 B): cleanup 490 B, category 878 B, range 365 B.
+The earlier +2,196 B comparison remains historical evidence against c206;
+it includes the 463 B now owned by upstream. No closed-strict gain claimed.
+See final-before/after-gate.log and final-before/after-link.log.
