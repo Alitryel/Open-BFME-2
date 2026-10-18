@@ -65,13 +65,6 @@ private:
 	Rva002235F3 m_table90;
 };
 
-void Rva002239B2::rva002239B2(const void *key, Rva001408C0Target *value)
-{
-	void *record = m_table70.rva002235F3(key);
-	*(void **)record = value;
-	m_set84.insert(value);
-}
-
 void Rva002239B2::rva002239E2(const AsciiString &key, const Image *image)
 {
 	void *record = m_table90.rva002235F3(&key);
