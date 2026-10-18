@@ -48,7 +48,7 @@ class Rva0056224F
 {
 public:
 	Rva0056224F();
-	virtual ~Rva0056224F();
+	virtual ~Rva0056224F() {}
 
 protected:
 	float m_04;
@@ -146,7 +146,7 @@ class Rva00562366 : public Rva003ADFDB, public Rva0056224F
 {
 public:
 	Rva00562366(unsigned int a, Src00562366 &src);
-	virtual ~Rva00562366();
+	virtual ~Rva00562366() {}
 	virtual void slot00();
 };
 
