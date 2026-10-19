@@ -76,6 +76,12 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
 { allocator<char>::deallocate(__p, __n); }
 }
+// Keep _String_base<char>::~_String_base inline-only: no call here leaves it out
+// of line, and this TU's frameless COMDAT copy is not retail's 0x0000B3C0 body.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+}
 // Same seven donor enum values, without unrelated PeerDefs inline bodies.
 enum GameSpyBuddyStatus { BUDDY_OFFLINE, BUDDY_ONLINE, BUDDY_LOBBY,
     BUDDY_STAGING, BUDDY_LOADING, BUDDY_PLAYING, BUDDY_MATCHING, BUDDY_MAX };
