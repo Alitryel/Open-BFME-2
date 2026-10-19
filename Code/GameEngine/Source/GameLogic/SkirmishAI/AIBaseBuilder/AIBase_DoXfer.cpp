@@ -175,7 +175,6 @@ class Rva005DCE08 : public BuildPhase
 public:
 	~Rva005DCE08();
 	Rva005AD9C0Hit *rva005DCC86(void *arg);
-	void rva005DCEAD(Xfer *xfer);
 	void rva005DCE62(Rva00573E7C *order);
 };
 
@@ -294,7 +293,7 @@ public:
 class Rva005AD9E6
 {
 public:
-	unsigned int rva005AD9E6();
+	int rva005AD9E6();
 private:
 	void *m_head;
 };
@@ -371,7 +370,7 @@ public:
 extern class GlobalData *TheWritableGlobalData;
 
 // A file-level AsciiString in .bss that a template name may also match.
-extern const AsciiString g_00E06448;
+extern unsigned int g_Va00E06448;	// the "<ANY>" AsciiString at RVA 0x00A06448 (data-rowed in Rva007AB85CAtexitInits.cpp)
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
@@ -380,10 +379,32 @@ class Rva0022BD9ASubsystem
 {
 public:
 	bool rva0041E912(const AsciiString &side, _STL::vector<Rva0041E912Template *> &out);
-	Rva0041E912Template *rva0041E764(NameKeyType key);
-	NameKeyType rva0041E971(Rva0041E912Template *tmpl);
 };
 extern Rva0022BD9ASubsystem *TheBaseTemplateLibrary;
+
+// The library's key->template find (0x0041E764) and template->key reverse
+// lookup (0x0041E971) are ICF-folded onto these rowed bodies (same hashtable
+// shapes): call them under their row names.
+class ArmorTemplate;
+class Rva0041E764
+{
+public:
+	ArmorTemplate *rva0041E764(NameKeyType key);
+};
+class GameWindow;
+class WindowVideo;
+class Rva0041E971
+{
+public:
+	GameWindow *rva0041E971(WindowVideo *video);
+};
+// The per-item xfer 0x005DCEAD is rowed under the Rva005DCE72 view of the item.
+class Rva005DCEB7Arg;
+class Rva005DCE72
+{
+public:
+	void rva005DCEB7(Rva005DCEB7Arg *xfer);
+};
 
 class AIBase
 {
@@ -437,10 +458,10 @@ void AIBase::DoXfer(Xfer *xfer)
 	*xfer == m_angle;
 	AsciiString name;
 	if (xfer->IsStoring() && m_10)
-		name = TheNameKeyGenerator->keyToName(TheBaseTemplateLibrary->rva0041E971(m_10));
+		name = TheNameKeyGenerator->keyToName((NameKeyType)(int)((Rva0041E971 *)TheBaseTemplateLibrary)->rva0041E971((WindowVideo *)m_10));
 	*xfer == name;
 	if (xfer->IsLoading() && name != AsciiString::TheEmptyString)
-		m_10 = TheBaseTemplateLibrary->rva0041E764(TheNameKeyGenerator->nameToKey(name));
+		m_10 = (Rva0041E912Template *)((Rva0041E764 *)TheBaseTemplateLibrary)->rva0041E764(TheNameKeyGenerator->nameToKey(name));
 	unsigned int count = m_items.size();
 	*xfer == count;
 	if (xfer->IsLoading()) {
@@ -449,7 +470,7 @@ void AIBase::DoXfer(Xfer *xfer)
 	}
 	Rva005DCE08 **end = m_items.end();
 	for (Rva005DCE08 **it = m_items.begin(); it != end; ++it)
-		(*it)->rva005DCEAD(xfer);
+		((Rva005DCE72 *)*it)->rva005DCEB7((Rva005DCEB7Arg *)xfer);
 	bool hasOwned = m_owned != 0;
 	*xfer == hasOwned;
 	if (hasOwned) {
@@ -470,7 +491,7 @@ Rva0041E912Template *AIBase::rva005ADCBE(int notFirst, const _STL::vector<Rva004
 		for (Rva0041E912Template *const *it = list.begin(); it != list.end(); ++it) {
 			Rva0041E912Template *tmpl = *it;
 			if (tmpl->m_name.compare(mapName) != 0) {
-				if (!open || tmpl->m_name.compare(g_00E06448) != 0)
+				if (!open || tmpl->m_name.compare(*(const AsciiString *)&g_Va00E06448) != 0)
 					continue;
 			}
 			if (tmpl->m_starts.begin() == tmpl->m_starts.end()) {
@@ -535,7 +556,7 @@ void AIBase::buildFortressIfNeeded()
 	int count = record->m_16C;
 	if (count < 1)
 		return;
-	if (record->m_140.rva005AD9E6() <= 0)
+	if ((unsigned int)record->m_140.rva005AD9E6() <= 0)
 		return;
 	if (m_owned && !((Rva004E9378 *)m_owned)->rva004E9378())
 		return;
