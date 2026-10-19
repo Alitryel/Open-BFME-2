@@ -173,6 +173,16 @@ public:
 	virtual void addToContain(Object *obj) = 0; // +0x9C
 };
 
+// Coord3D::scale is retail's out-of-line 0x000036D1 (region.cpp); this body
+// inlines it. Scaling through this TU-local helper keeps the inline expansion
+// without emitting a non-retail ?scale@Coord3D COMDAT copy.
+static inline void scaleInPlace(Coord3D &c, float s)
+{
+	c.x *= s;
+	c.y *= s;
+	c.z *= s;
+}
+
 // The physics force consumer (0x003909FA): (force, 0, 0).
 class Rva003909FAObj
 {
@@ -636,7 +646,7 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 	{
 		Coord3D dir;
 		sourceObj->getUnitDirectionVector3D(dir);
-		dir.scale(sourceObj->rva0028AC7D());
+		scaleInPlace(dir, sourceObj->rva0028AC7D());
 		totalForce.add(&dir);
 	}
 
@@ -644,7 +654,7 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 	{
 		Coord3D dir;
 		sourceObj->getUnitDirectionVector3D(dir);
-		dir.scale(sourceObj->rva0028AC7D() * m_forceScale);
+		scaleInPlace(dir, sourceObj->rva0028AC7D() * m_forceScale);
 		((Rva003909FAObj *)physics)->consume(&dir, 0, 0);
 	}
 
@@ -652,7 +662,7 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 	{
 		Coord3D dir;
 		sourceObj->getUnitDirectionVector3D(dir);
-		dir.scale(sourceObj->rva0028AC7D() * m_forceScale * -1.0f);
+		scaleInPlace(dir, sourceObj->rva0028AC7D() * m_forceScale * -1.0f);
 		((Rva003909FAObj *)physics)->consume(&dir, 0, 0);
 	}
 
@@ -661,7 +671,7 @@ void GenericObjectCreationNugget::doStuffToObj(Object *obj, const AsciiString &m
 		Coord3D dir = offset;
 		dir.z = 0.0f;
 		dir.normalize();
-		dir.scale(m_dispositionIntensity * m_forceScale);
+		scaleInPlace(dir, m_dispositionIntensity * m_forceScale);
 		((Rva003909FAObj *)physics)->consume(&dir, 0, 0);
 	}
 
