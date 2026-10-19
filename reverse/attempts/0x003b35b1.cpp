@@ -1,3 +1,5 @@
+// ??1Script@@MAE@XZ
+// partial score=0.966 date=2026-10-19
 // ??1Rva003B35B1@@UAE@XZ
 // partial score=0.9661 date=2026-10-18
 // ??1Rva003B35B1@@UAE@XZ
@@ -12,10 +14,19 @@
 // placed at +0x10 (dtor folds with GeometryRecord's 0x0004F82B), string at
 // +0x44. Owned pointers at +0x30 and +0x34[2] are released through slot 0
 // with flag 0, then operator delete (also for null).
-// NEAR MISS: EH states, frame and first release exact; the loop body reads
-// `cmp [edi],0; je; mov ecx,[edi]` where retail loads ecx first and tests
-// it (1 byte longer). Local-variable, if/else, ::delete and inline-helper
-// bodies move the counter into ebx instead.
+// NEAR MISS (2026-10-19 seat5): `::delete` through a real virtual dtor is the
+// honest spelling of the slot-0(0)+operator-delete shape (same bytes as the
+// old v0(0) model). Two 177B families each leave 10 differing bytes:
+//  (a) THIS BODY: pp declared/initialised before the m_30 release. The loop
+//      is byte-exact to retail (memory counter [ebp-0x10], unmerged zero,
+//      late add edi,4); only `lea edi,[esi+0x34]` is hoisted into the first
+//      release block (before its je) instead of after its pop ecx.
+//  (b) pp declared after the release and read as `*pp++`: lea placed right
+//      but add edi,4 hoisted before the null test.
+// Every other shape (index form, ++pp as its own statement, while/do/for,
+// countdown, inline helpers, accessors, references, braces, decl position,
+// 13 flag sets) emits 166B: ebx counter + xor eax/cmp ecx,eax merged zero
+// in both releases. Handoff: reverse/attempt_support/script-dtor-loop-shapes-20261019.md
 template <typename T> class StringBase
 {
 public:
@@ -37,9 +48,8 @@ public:
 class Rva003B35B1Owned
 {
 public:
-	virtual void *v0(int x);
+	virtual ~Rva003B35B1Owned();
 };
-void __cdecl operator delete(void *p);
 
 struct Rva003B35B1Record
 {
@@ -67,11 +77,11 @@ private:
 
 Rva003B35B1::~Rva003B35B1()
 {
-	::operator delete(m_30 ? m_30->v0(0) : 0);
 	Rva003B35B1Owned **pp = m_34;
+	::delete m_30;
 	for (int i = 0; i < 2; ++i)
 	{
-		Rva003B35B1Owned *p = *pp++;
-		::operator delete(p ? p->v0(0) : 0);
+		::delete *pp;
+		++pp;
 	}
 }
