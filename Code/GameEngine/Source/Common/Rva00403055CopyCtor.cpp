@@ -53,8 +53,11 @@ public:
 class Rva003F9FE6
 {
 public:
-	virtual void v00() = 0;
 	Rva003F9FE6(const Rva003F9FE6 &src);
+protected:
+	// vftable 0x00837898 (??_7Rva003F9FE6), stored by the ctors below.
+	const void *const *m_vtbl;
+public:
 private:
 	AsciiString m_04;
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > m_08;
@@ -84,10 +87,14 @@ public:
 	~Rva003F9FE6();
 };
 
+// Retail's item table 0x00837898 is the data ledger's ??_7Rva003F9FE6 (the same
+// table under the item's name). The views carry the vptr as a plain member so
+// this unit emits no table with placeholder slots; the copy ctor stores the
+// base table symbol the data ledger names.
+extern "C" const void *const __identifier("??_7Rva003F9FE6@@6B@")[];
 class Rva00402F28Item : public Rva003F9FE6
 {
 public:
-	virtual void v00();
 	Rva00402F28Item(const Rva00402F28Item &other);
 	~Rva00402F28Item();
 private:
@@ -145,6 +152,7 @@ void Rva00403055::clearItems()
 Rva00402F28Item::Rva00402F28Item(const Rva00402F28Item &other)
 	: Rva003F9FE6(other)
 {
+	m_vtbl = __identifier("??_7Rva003F9FE6@@6B@");
 	m_58 = other.m_58;
 	m_59 = other.m_59;
 	m_5A = other.m_5A;
@@ -155,8 +163,10 @@ Rva00403055 &Rva00403055::operator=(const Rva00403055 &other)
 	if (this != &other)
 	{
 		m_name = other.m_name;
-		m_at10 = other.m_at10;
-		m_at14 = other.m_at14;
+		// Retail calls the rowed OpaqueRefElement4::operator= 0x00239099 for both
+		// members (not the 0x000366F0 the ??4Rva0036CA00Str pin names).
+		m_at10.OpaqueRefElement4::operator=(other.m_at10);
+		m_at14.OpaqueRefElement4::operator=(other.m_at14);
 		copyItems(other);
 	}
 	return *this;
