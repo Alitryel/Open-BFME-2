@@ -9999,7 +9999,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00839A78,64,.rdata,global,?g_00839A78@@3UFieldParse@@B,,unowned,,0,1
 0x00839AB8,48,.rdata,string,??_C@_0CO@CDANKOKI@Duplicate?5MinSciencePurchasePoin@,,literal,,0,1
 0x00839AE8,16,.rdata,string,??_C@_05JKBOBFBJ@Bonus?$AA@,,literal,,0,1
-0x00839AF8,48,.rdata,global,?g_00C39AF8@@3UFieldParse@@A,,unowned,,0,1
+0x00839AF8,48,.rdata,global,?g_00C39AF8@@3QBUFieldParse@@B,Code/GameEngine/Source/Common/Thing/ModuleFactoryCtor.cpp,owned,,1,1
 0x00839B28,152,.rdata,string,??_C@_0GC@OGAOCGEA@Cannot?5define?5LivingWorldAutoRes@,,literal,,0,1
 0x00839BC0,72,.rdata,string,??_C@_0EG@OHPKGJMH@AutoResolveReinforcementSchedule@,,literal,,0,1
 0x00839C08,80,.rdata,string,??_C@_0EM@FIKHMNA@Unacceptable?5army?5index?5?$CFd?5in?5Au@,,literal,,0,1
