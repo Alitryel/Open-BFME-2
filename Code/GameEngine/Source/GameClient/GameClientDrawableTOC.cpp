@@ -851,6 +851,9 @@ public:
 	virtual void vf68();
 	virtual bool isMoviePlaying();                                      // +0x114
 
+	void SetStaticImage(int image, int arg, float x0, float y0, float x1, float y1);
+	void rva0025C776(int image, float x0, float y0, float x1, float y1, int a, int b);
+
 	unsigned char m_pad0C[0x114 - 0x0C];
 	bool m_byte114;                                                     // +0x114
 };
@@ -859,13 +862,6 @@ class W3DDisplay : public Display
 {
 public:
 	void rva0025D2F6();
-};
-
-class BfmeStrVM0
-{
-public:
-	void SetStaticImage(int image, int arg, float x0, float y0, float x1, float y1);
-	void rva0025C776(int image, float x0, float y0, float x1, float y1, int a, int b);
 };
 class LanguageFilter : public SubsystemInterface { public: virtual ~LanguageFilter(); };
 class VideoPlayerInterface : public SubsystemInterface { public: virtual ~VideoPlayerInterface(); };
@@ -2258,7 +2254,7 @@ int rva0023958B(void *, bool allowLegal)
 		const Image *image = TheMappedImageCollection->findImageByName(name);
 		if (image)
 		{
-			((BfmeStrVM0 *)TheDisplay)->SetStaticImage((int)image, 2, 0.0f, 0.0f, 1.0f, 1.0f);
+			TheDisplay->SetStaticImage((int)image, 2, 0.0f, 0.0f, 1.0f, 1.0f);
 			TheTransitionHandler->reverse(AsciiString("FadeInGameMovie"));
 			TheTransitionHandler->rva001DC5EC();
 			int beginTime = timeGetTime();
@@ -2275,7 +2271,7 @@ int rva0023958B(void *, bool allowLegal)
 			if (TheWritableGlobalData->m_shellMapOn)
 			{
 				((W3DDisplay *)TheDisplay)->rva0025D2F6();
-				((BfmeStrVM0 *)TheDisplay)->rva0025C776((int)image, 0.0f, 0.0f, 1.0f, 1.0f, 10, 0x2d);
+				TheDisplay->rva0025C776((int)image, 0.0f, 0.0f, 1.0f, 1.0f, 10, 0x2d);
 			}
 			else
 			{

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// ?rva0025D358@BfmeStrVM0@@QAEXVUnicodeString@@MMHHH@Z, retail 0x0025D358, 112 bytes.
+// ?rva0025D358@Display@@QAEXVUnicodeString@@MMHHH@Z, retail 0x0025D358, 112 bytes.
 // Sets the +0xB0 display block: Unicode string via set plus ints at +0xB4/+0xB8/+0xBC
 // and floats at +0xC0/+0xC4; the by-value string is released at the end.
 // Evidence: same +0xB0/+0xD0/+0xF0 layout as the dtor 0x0025D686 (BfmeStrVM0Dtor.cpp)
@@ -39,7 +39,7 @@ public:
 };
 extern DisplayStringManager *TheDisplayStringManager;
 
-class BfmeStrVM0
+class Display
 {
 public:
 	void rva0025D358(UnicodeString s, float fC0, float fC4, int iB4, int iB8, int iBC);
@@ -62,7 +62,7 @@ private:
 	float m_fCC;
 };
 
-void BfmeStrVM0::rva0025D358(UnicodeString s, float fC0, float fC4, int iB4, int iB8, int iBC)
+void Display::rva0025D358(UnicodeString s, float fC0, float fC4, int iB4, int iB8, int iBC)
 {
 	StringBase<unsigned short> &dst = m_sB0;
 	dst.set(s);
@@ -78,7 +78,7 @@ void BfmeStrVM0::rva0025D358(UnicodeString s, float fC0, float fC4, int iB4, int
 // and the +0xB8/+0xBC pair, after which +0xC8 holds half the unsigned width
 // left over beside it (this slot 0x40 minus the string's width) and +0xCC the
 // unsigned slot 0x44 value scaled by +0xC4. Returns the display string.
-DisplayString *BfmeStrVM0::rva0025D3C8()
+DisplayString *Display::rva0025D3C8()
 {
 	if (m_sB0.isEmpty())
 		return 0;

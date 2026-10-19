@@ -1,8 +1,8 @@
 // cl: /Ob0
 // Near-miss donor from Open-BFME-1 BfmeConv1435.cpp
-// (?bfmeTickVM0@BfmeStrVM0@@QAEXXZ @0x0040FE40):
+// (?bfmeTickVM0@Display@@QAEXXZ @0x0040FE40):
 // retail predicate virtual is at slot +0x114 (not +0xF0).
-// ?StartRenderThread@BfmeStrVM0@@QAEXH@Z @0x0025D904 (199B):
+// ?StartRenderThread@Display@@QAEXH@Z @0x0025D904 (199B):
 // BFME2-only watchdog arming. A 64-bit timing base is divided by
 // (timer - 2) through __alldiv and a frequency ratio is scaled on the x87
 // unit; then two mutexes plus a worker thread are created and the first
@@ -47,7 +47,7 @@ public:
 	virtual int readTickCounter();
 };
 
-class BfmeStrVM0
+class Display
 {
 public:
 	virtual int v0();
@@ -149,7 +149,7 @@ public:
 // and then idles at 100ms.
 unsigned long __cdecl bfmeVM0WorkerThread(void *param)
 {
-	BfmeStrVM0 *self = (BfmeStrVM0 *)param;
+	Display *self = (Display *)param;
 	bool probing = true;
 	WaitForSingleObject(self->m_firstMutex, (unsigned long)-1);
 	do {
@@ -172,14 +172,14 @@ unsigned long __cdecl bfmeVM0WorkerThread(void *param)
 	return 0;
 }
 
-void BfmeStrVM0::bfmeTickVM0()
+void Display::bfmeTickVM0()
 {
 	if (bfmePredVM0())
 		StartRenderThread(3);
 }
 
-// ?StartRenderThread@BfmeStrVM0@@QAEXH@Z
-void BfmeStrVM0::StartRenderThread(int mode)
+// ?StartRenderThread@Display@@QAEXH@Z
+void Display::StartRenderThread(int mode)
 {
 	if (m_firstMutex == 0 && m_secondMutex == 0) {
 		if (mode != 5) {
@@ -206,10 +206,10 @@ void BfmeStrVM0::StartRenderThread(int mode)
 }
 
 //
-// ?rva0025C46E@BfmeStrVM0@@QAEXXZ retail 0x0025C46E 54B.
-// Mutex release via m_firstMutex +0x40 and m_secondMutex +0x44 tail of BfmeStrVM0.
+// ?rva0025C46E@Display@@QAEXXZ retail 0x0025C46E 54B.
+// Mutex release via m_firstMutex +0x40 and m_secondMutex +0x44 tail of Display.
 // Evidence: retail cmp [esi+0x44] 0 je then ReleaseMutex WaitForSingleObject ReleaseMutex and zero both; callers 0x0025D9DB 0x0025D121 with no stack pushes and same this.
-void BfmeStrVM0::rva0025C46E()
+void Display::rva0025C46E()
 {
 	if (m_secondMutex != 0) {
 		ReleaseMutex(m_secondMutex);
@@ -220,10 +220,10 @@ void BfmeStrVM0::rva0025C46E()
 	}
 }
 
-// ?rva0025D9CB@BfmeStrVM0@@QAEX_N@Z retail 0x0025D9CB 24B.
+// ?rva0025D9CB@Display@@QAEX_N@Z retail 0x0025D9CB 24B.
 // Flag selects watchdog arm (StartRenderThread mode 5) versus mutex release
 // (rva0025C46E), forwarding this. Callers at 0x0043A30B/0x0043A326 push 0/1.
-void BfmeStrVM0::rva0025D9CB(bool flag)
+void Display::rva0025D9CB(bool flag)
 {
 	if (flag)
 		StartRenderThread(5);
@@ -231,10 +231,10 @@ void BfmeStrVM0::rva0025D9CB(bool flag)
 		rva0025C46E();
 }
 
-// ?rva0025D10F@BfmeStrVM0@@QAEXXZ retail 0x0025D10F 25B.
+// ?rva0025D10F@Display@@QAEXXZ retail 0x0025D10F 25B.
 // Predicate-guarded mutex release: tail-jumps to rva0025C46E when the slot
 // 0x114 predicate (bfmePredVM0) is true. Caller at 0x0025D1B3, same class.
-void BfmeStrVM0::rva0025D10F()
+void Display::rva0025D10F()
 {
 	if (bfmePredVM0())
 		rva0025C46E();

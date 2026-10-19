@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
-// ?rva0025D19E@BfmeStrVM0@@QAEXXZ, retail 0x0025D19E, 103 bytes.
-// Field reset of BfmeStrVM0: clears flags at +0x64/+0x10C, and when a timer is
+// ?rva0025D19E@Display@@QAEXXZ, retail 0x0025D19E, 103 bytes.
+// Field reset of Display: clears flags at +0x64/+0x10C, and when a timer is
 // present runs the predicate-guarded release (rowed rva0025D10F), polls the
 // timer slot-7 virtual and drops it; zeroes the +0xC8/+0xCC floats, resets a
 // non-empty name at +0xD0 to the exported AsciiString::TheEmptyString
@@ -23,7 +23,7 @@ public:
 	virtual int v7();
 };
 
-class BfmeStrVM0
+class Display
 {
 public:
 	void rva0025D10F();
@@ -44,7 +44,7 @@ private:
 	bool m_b10C;
 };
 
-void BfmeStrVM0::rva0025D19E()
+void Display::rva0025D19E()
 {
 	m_b10C = false;
 	m_b64 = false;

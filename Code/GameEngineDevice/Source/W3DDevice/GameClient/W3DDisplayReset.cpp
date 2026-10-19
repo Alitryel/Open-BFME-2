@@ -80,7 +80,7 @@ public:
 	virtual void Destroy_Iterator(SceneIterator *it);		// +0x14
 };
 
-class BfmeStrVM0
+class Display
 {
 public:
 	void rva0025D9E3();
@@ -104,7 +104,7 @@ private:
 
 void W3DDisplay::reset()
 {
-	((BfmeStrVM0 *)this)->rva0025D9E3();
+	((Display *)this)->rva0025D9E3();
 	TheWritableGlobalData->m_flagBBD = false;
 
 	SceneIterator *sceneIter = m_3DScene->Create_Iterator();

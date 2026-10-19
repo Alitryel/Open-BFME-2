@@ -29,9 +29,9 @@ class SceneClass {public:virtual void destroy();int refs;void Release_Ref(){if(-
 class RTS3DScene:public SceneClass{};class RTS2DScene:public SceneClass{};class RTS3DInterfaceScene:public SceneClass{};
 class LightClass {public:virtual void destroy();int refs;void Release_Ref(){if(--refs==0)destroy();}};
 class Rva0025C0FF {public:void rva0025C0FF();};
-class BfmeStrVM0 {public:virtual ~BfmeStrVM0();char unknown04[0x28];DebugDisplayInterface *debugDisplay;char unknown30[0x114];};
+class Display {public:virtual ~Display();char unknown04[0x28];DebugDisplayInterface *debugDisplay;char unknown30[0x114];};
 struct DisplayAllocation {void *data;~DisplayAllocation(){if(data)free(data);}};
-class W3DDisplay:public BfmeStrVM0 {public:virtual ~W3DDisplay();
+class W3DDisplay:public Display {public:virtual ~W3DDisplay();
  static RTS3DScene *m_3DScene;static RTS2DScene *m_2DScene;static RTS3DInterfaceScene *m_3DInterfaceScene;
  char unknown144[4];LightClass *lights[4];LightClass *lights2[4];Render2DClass *renderer;
  char unknown16C[0x20];DisplayString *strings16[16];char unknown1CC[4];DisplayString *strings25[25];DisplayString *strings17[17];char unknown278[0x2c];DisplayAllocation allocation;

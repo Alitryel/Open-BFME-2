@@ -234,7 +234,7 @@ public:
 	const Image *findImageByName(const AsciiString &name);
 };
 extern ImageCollection *TheMappedImageCollection;
-class BfmeStrVM0
+class Display
 {
 public:
 	void SetStaticImage(int image, int arg, float x0, float y0, float x1, float y1);
@@ -306,7 +306,7 @@ void Shell::update()
 		if( image )
 		{
 			((ShellDisplayView *)TheDisplay)->m_byte114 = true;
-			((BfmeStrVM0 *)TheDisplay)->SetStaticImage( (int)image, 0, 0.0f, 0.0f, 1.0f, 1.0f );
+			TheDisplay->SetStaticImage( (int)image, 0, 0.0f, 0.0f, 1.0f, 1.0f );
 			TheTransitionHandler->reverse( AsciiString( "FadeInGameMovie_NoAudio" ) );
 			TheTransitionHandler->slot0A();
 		}

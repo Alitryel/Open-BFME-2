@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /EHsc
 // ?rva0043A28A@Rva0043A278@@UAEXH@Z @0x0043A28A 148B
-// Evidence: vslot 2 offset 0x8 of vtable 0x0083D478; rowed ctor 0x002D97D6 (BfmeAudioEventPrefix136 ref+2 hoisted push 2) plus rowed Weapon::setLeechRangeActive 0x002D95FE plus rowed dtor 0x002D9A43 plus TheAudio 0x009FE6E8 slots 0x64/0xa4/0x138 plus BfmeStrVM0::rva0025D9CB 0x0025D9CB via TheDisplay; precedent Rva00323E1CMethod/Gadget slot78 getMisc plus GlobalWeatherSystemAudio slot25 addAudioEvent plus Rva003FAB93 Weapon-cast setLeech.
+// Evidence: vslot 2 offset 0x8 of vtable 0x0083D478; rowed ctor 0x002D97D6 (BfmeAudioEventPrefix136 ref+2 hoisted push 2) plus rowed Weapon::setLeechRangeActive 0x002D95FE plus rowed dtor 0x002D9A43 plus TheAudio 0x009FE6E8 slots 0x64/0xa4/0x138 plus Display::rva0025D9CB 0x0025D9CB via TheDisplay; precedent Rva00323E1CMethod/Gadget slot78 getMisc plus GlobalWeatherSystemAudio slot25 addAudioEvent plus Rva003FAB93 Weapon-cast setLeech.
 #include "Common/BfmeAudioEventPrefix136.h"
 
 class AudioManager;
@@ -103,7 +103,7 @@ public:
 	void setLeechRangeActive(bool);
 };
 
-class BfmeStrVM0
+class Display
 {
 public:
 	void rva0025D9CB(bool flag);
@@ -133,5 +133,5 @@ void Rva0043A278::rva0043A28A(int dummy)
 		evt.m_b52 = 1;
 		reinterpret_cast<Rva0043A28AAudioView *>(TheAudio)->addAudioEvent(&evt);
 	}
-	reinterpret_cast<BfmeStrVM0 *>(TheDisplay)->rva0025D9CB(true);
+	TheDisplay->rva0025D9CB(true);
 }

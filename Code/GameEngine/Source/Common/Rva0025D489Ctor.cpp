@@ -1,8 +1,8 @@
-// ??0BfmeStrVM0@@QAE@XZ
+// ??0Display@@QAE@XZ
 // partial score=1.0 date=2026-10-13
-// ??0BfmeStrVM0@@QAE@XZ
+// ??0Display@@QAE@XZ
 // partial score=0.9919880250725045 date=2026-10-13
-// ??0BfmeStrVM0@@QAE@XZ
+// ??0Display@@QAE@XZ
 // partial score=0.9919880250725045 date=2026-10-10
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it; retail links the
@@ -14,11 +14,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
-// ??0BfmeStrVM0@@QAE@XZ
+// ??0Display@@QAE@XZ
 // partial score=0.925 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /I. /Oy- /DNDEBUG /MD /GX /O1 /G7 /arch:SSE
-// ??1BfmeStrVM0@@UAE@XZ, retail 0x0025D686, 111 bytes.
-// Destructor of BfmeStrVM0: stores vtable 0x7F5DA0 then runs the field-reset
+// ??1Display@@UAE@XZ, retail 0x0025D686, 111 bytes.
+// Destructor of Display: stores vtable 0x7F5DA0 then runs the field-reset
 // helper rva0025D19E and the list-clear rva0025C0FF on the same this, then
 // destroys AsciiString at +0xF0/+0xD0 and Unicode string at +0xB0 in reverse
 // order, then the GameEngineDeletingBase base dtor.
@@ -246,12 +246,12 @@ struct DisplayTextF0 {
  float f11c,m_f120;
  __forceinline DisplayTextF0():wordF4((_ReadWriteBarrier(),0)),wordF8(0),fFC(0),f100(0),f104(0),f108(0),flag10c(false),word110(0),m_b114(false),flag115(false),word118(0),f11c(1.0f),m_f120(0){}
 };
-class BfmeStrVM0 : public GameEngineDeletingBase
+class Display : public GameEngineDeletingBase
 {
 public:
-	BfmeStrVM0();
+	Display();
  __forceinline int resetVideoPointers(){pointer2c=0;pointer30=0;pointer34=0;pointer38=0;return 0;}
- virtual ~BfmeStrVM0();
+ virtual ~Display();
 	virtual void v01();
 	virtual void v02();
 	virtual void v03();
@@ -340,33 +340,33 @@ int widthC,height10,bitDepth14; bool window18; char gap19[3];
  int word138,word13c;bool flag140,flag141;char gap142[2];
 };
 
-#pragma comment(linker, "/alternatename:?v01@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v03@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v04@BfmeStrVM0@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?v05@BfmeStrVM0@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
-#pragma comment(linker, "/alternatename:?v06@BfmeStrVM0@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?v08@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v09@BfmeStrVM0@@UAEXXZ=?rva0025D9E3@BfmeStrVM0@@QAEXXZ")
-#pragma comment(linker, "/alternatename:?v11@BfmeStrVM0@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?v14@BfmeStrVM0@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
-#pragma comment(linker, "/alternatename:?v15@BfmeStrVM0@@UAEXXZ=?setWidth@Display@@UAEXI@Z")
-#pragma comment(linker, "/alternatename:?v16@BfmeStrVM0@@UAEXXZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
-#pragma comment(linker, "/alternatename:?v17@BfmeStrVM0@@UAEXXZ=?get@Rva001DB09DDwordField@@QBEHXZ")
-#pragma comment(linker, "/alternatename:?v19@BfmeStrVM0@@UAEXXZ=?get@Rva0057E556DwordField@@QBEHXZ")
-#pragma comment(linker, "/alternatename:?v21@BfmeStrVM0@@UAEXXZ=?get@Rva004C9990ByteField@@QBEEXZ")
-#pragma comment(linker, "/alternatename:?v23@BfmeStrVM0@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?v30@BfmeStrVM0@@UAEXXZ=?Set_Fog_Color@SceneClass@@UAEXABVVector3@@@Z")
-#pragma comment(linker, "/alternatename:?v35@BfmeStrVM0@@UAEXXZ=?rva0025C134@BfmeStrVM0@@UAEXPAV1@@Z")
-#pragma comment(linker, "/alternatename:?v36@BfmeStrVM0@@UAEXXZ=?getData@NetWrapperCommandMsg@@QAEPAEXZ")
-#pragma comment(linker, "/alternatename:?v68@BfmeStrVM0@@UAEXXZ=?rva0025D19E@BfmeStrVM0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v01@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v03@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v04@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?v05@Display@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
+#pragma comment(linker, "/alternatename:?v06@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?v08@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?rva0025D9E3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v11@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?v14@Display@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
+#pragma comment(linker, "/alternatename:?v15@Display@@UAEXXZ=?setWidth@Display@@UAEXI@Z")
+#pragma comment(linker, "/alternatename:?v16@Display@@UAEXXZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
+#pragma comment(linker, "/alternatename:?v17@Display@@UAEXXZ=?get@Rva001DB09DDwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?v19@Display@@UAEXXZ=?get@Rva0057E556DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?v21@Display@@UAEXXZ=?get@Rva004C9990ByteField@@QBEEXZ")
+#pragma comment(linker, "/alternatename:?v23@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?v30@Display@@UAEXXZ=?Set_Fog_Color@SceneClass@@UAEXABVVector3@@@Z")
+#pragma comment(linker, "/alternatename:?v35@Display@@UAEXXZ=?rva0025C134@Display@@UAEXPAV1@@Z")
+#pragma comment(linker, "/alternatename:?v36@Display@@UAEXXZ=?getData@NetWrapperCommandMsg@@QAEPAEXZ")
+#pragma comment(linker, "/alternatename:?v68@Display@@UAEXXZ=?rva0025D19E@Display@@QAEXXZ")
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?v07@BfmeStrVM0@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
-#pragma comment(linker, "/alternatename:?v13@BfmeStrVM0@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?v07@Display@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?v13@Display@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 
-BfmeStrVM0::BfmeStrVM0(): widthC(0),height10(0),bitDepth14(0),window18(false),m_head1C(0),
+Display::Display(): widthC(0),height10(0),bitDepth14(0),window18(false),m_head1C(0),
  x20(0),y24(0),z28(0),word4c(resetVideoPointers()),
  m_iB4(0),m_iB8(0),m_iBC(0),m_fC0(0),m_fC4(0),m_fC8(0),m_fCC(0),
  wordE0(-1),wordE4(-1),m_fD4(0),m_bD8(false),wordDC(0),wordE8(0),wordEC(0),

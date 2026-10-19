@@ -35,6 +35,8 @@ public:
 	virtual void slot72(AsciiString name, int flags);
 	virtual void slot73(int value);
 	void rva002B2466(float x0, float y0, float x1, float y1);
+	void SetMovieImage(int image, int layer, float x0, float y0, float x1, float y1);
+	void rva0025D358(UnicodeString text, float x, float y, int font, int color, int flags);
 };
 class W3DDisplay
 {
@@ -66,13 +68,6 @@ public:
 	virtual UnicodeString fetch(const AsciiString &label, bool *exists);
 };
 extern GameTextInterface *TheGameText;
-// TheDisplay's W3DDisplay members (rowed under this opaque class name).
-class BfmeStrVM0
-{
-public:
-	void SetMovieImage(int image, int layer, float x0, float y0, float x1, float y1);
-	void rva0025D358(UnicodeString text, float x, float y, int font, int color, int flags);
-};
 class GlobalData
 {
 public:
@@ -213,12 +208,12 @@ void Rva003561BE::rva00356889(GameInfo *)
 	AsciiString foregroundName("LoadScreenForeground");
 	const Image *foreground = TheMappedImageCollection->findImageByName(foregroundName);
 	if (foreground)
-		((BfmeStrVM0 *)TheDisplay)->SetMovieImage((int)foreground, 2, 0.0f, 0.0f, 1.0f, 1.0f);
+		TheDisplay->SetMovieImage((int)foreground, 2, 0.0f, 0.0f, 1.0f, 1.0f);
 	if (!((const StringBase<char> *)&m_image)->isEmpty())
 	{
 		const Image *image = TheMappedImageCollection->findImageByName(m_image);
 		if (image)
-			((BfmeStrVM0 *)TheDisplay)->SetMovieImage((int)image, 0, 0.0f, 0.1640625f, 1.0f,
+			TheDisplay->SetMovieImage((int)image, 0, 0.0f, 0.1640625f, 1.0f,
 				image->m_28 / 768.0f + 0.1640625f);
 	}
 	setGameLogicFlag78();
@@ -238,7 +233,7 @@ void Rva003561BE::rva00356889(GameInfo *)
 	bool exists = false;
 	GameFont *font = TheFontLibrary->getFont(&AsciiString("SachaWynter"), 18.0f, false);
 	UnicodeString text = TheGameText->fetch(AsciiString("GUI:Loading"), &exists);
-	((BfmeStrVM0 *)TheDisplay)->rva0025D358(text, 0.5f, 0.03125f, (int)font, -10924, 0);
+	TheDisplay->rva0025D358(text, 0.5f, 0.03125f, (int)font, -10924, 0);
 }
 
 // ?rva00356724@Rva003560ED@@UAEXPAVGameInfo@@@Z @0x00356724 329B
@@ -258,7 +253,7 @@ void Rva003560ED::rva00356724(GameInfo *)
 		TheAudio->slot10();
 	}
 	if (!((const StringBase<char> *)&m_image)->isEmpty())
-		((BfmeStrVM0 *)TheDisplay)->SetMovieImage((int)TheMappedImageCollection->findImageByName(m_image), 2, 0.0f, 0.0f, 1.0f, 1.0f);
+		TheDisplay->SetMovieImage((int)TheMappedImageCollection->findImageByName(m_image), 2, 0.0f, 0.0f, 1.0f, 1.0f);
 	setGameLogicFlag78();
 	if (!((const StringBase<char> *)&m_movieOverlay)->isEmpty())
 	{

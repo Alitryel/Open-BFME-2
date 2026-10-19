@@ -7,7 +7,7 @@ template<class T> __forceinline volatile T &r1_vwrite(T &value) { return *(volat
 // W3DDisplay constructor (ZH W3DDisplay::W3DDisplay twin). Identity: stores vtable 0x7C3C80 whose
 // init is the W3DDisplay::init at 0x00046A50 (same +0x144 initialized byte, +0x148/+0x158 light
 // arrays, +0x168 Render2D, +0x27C debug display and the three scene globals it fills), and zeroes
-// those globals. Base constructor 0x0025D489 is the BfmeStrVM0 ctor (see W3DDisplayRva0025D2F6.cpp).
+// those globals. Base constructor 0x0025D489 is the Display ctor (see W3DDisplayRva0025D2F6.cpp).
 // Layout beyond the stores below is unmeasured and left as padding.
 namespace _STL
 
@@ -85,12 +85,12 @@ struct GlobalDataView
  
 }
 ;
-class BfmeStrVM0
+class Display
 
 {
  public:
- BfmeStrVM0();
- virtual ~BfmeStrVM0();
+ Display();
+ virtual ~Display();
  virtual void slot04();
  char data[0x13c];
  char pad140[4];
@@ -100,7 +100,7 @@ class BfmeStrVM0
 class RTS3DScene;
 class RTS2DScene;
 class RTS3DInterfaceScene;
-class W3DDisplay : public BfmeStrVM0
+class W3DDisplay : public Display
 
 {
  public:

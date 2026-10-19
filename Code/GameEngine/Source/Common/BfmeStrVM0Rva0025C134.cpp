@@ -1,8 +1,8 @@
 // cl: /MD
-// ?rva0025C134@BfmeStrVM0@@UAEXPAV1@@Z @0x0025C134 25B vslot 35 of 0x007F5DA0
+// ?rva0025C134@Display@@UAEXPAV1@@Z @0x0025C134 25B vslot 35 of 0x007F5DA0
 // Forwards member +0x1c through slot 0x25c of the argument and stores it back.
 // Callees all rowed or pinned. Neighbour Rva0025C0FFClear.cpp uses /O1 /MD.
-class BfmeStrVM0
+class Display
 {
 public:
 	virtual int v000();
@@ -40,7 +40,7 @@ public:
 	virtual int v032();
 	virtual int v033();
 	virtual int v034();
-	virtual void rva0025C134(BfmeStrVM0 *arg);
+	virtual void rva0025C134(Display *arg);
 	virtual int v036();
 	virtual int v037();
 	virtual int v038();
@@ -163,7 +163,7 @@ private:
 	int m_1c;
 };
 
-void BfmeStrVM0::rva0025C134(BfmeStrVM0 *arg)
+void Display::rva0025C134(Display *arg)
 {
 	m_1c = arg->v151(m_1c);
 }

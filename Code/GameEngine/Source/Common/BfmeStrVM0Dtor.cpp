@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??1BfmeStrVM0@@UAE@XZ, retail 0x0025D686, 111 bytes.
-// Destructor of BfmeStrVM0: stores vtable 0x7F5DA0 then runs the field-reset
+// ??1Display@@UAE@XZ, retail 0x0025D686, 111 bytes.
+// Destructor of Display: stores vtable 0x7F5DA0 then runs the field-reset
 // helper rva0025D19E and the list-clear rva0025C0FF on the same this, then
 // destroys AsciiString at +0xF0/+0xD0 and Unicode string at +0xB0 in reverse
 // order, then the SubsystemInterface base dtor.
@@ -218,10 +218,10 @@ struct Rva0025C18BCoord
 	float y;
 };
 
-class BfmeStrVM0 : public SubsystemInterface
+class Display : public SubsystemInterface
 {
 public:
-	virtual ~BfmeStrVM0();
+	virtual ~Display();
 	virtual void v01();
 	virtual void v02();
 	virtual void v03();
@@ -318,7 +318,7 @@ private:
 	char m_tail[0x22];
 };
 
-BfmeStrVM0::~BfmeStrVM0()
+Display::~Display()
 {
 	rva0025D19E();
 	((Rva0025C0FF *)this)->rva0025C0FF();
@@ -327,15 +327,15 @@ BfmeStrVM0::~BfmeStrVM0()
 // ?rva0025D358 (0x0025D358, the UnicodeString setter of the +0xB0 block) lives in
 // BfmeStrVM0SetText.cpp, which includes the canonical unicode_string.h.
 
-// ?rva0025D9E3@BfmeStrVM0@@QAEXXZ, retail 0x0025D9E3, 116 bytes.
-// Slot-9 virtual of BfmeStrVM0: when +0x114 is clear, zeroes +0xD4/+0xD8, runs
+// ?rva0025D9E3@Display@@QAEXXZ, retail 0x0025D9E3, 116 bytes.
+// Slot-9 virtual of Display: when +0x114 is clear, zeroes +0xD4/+0xD8, runs
 // the slot-68 virtual plus the W3DDisplay clear helper; then always clears
 // +0x114/+0x120, walks the +0x1C list via slot-5 plus getNext, and zeroes
 // +0xC8/+0xCC.
 // Evidence: vtable slot 9 of 0x7F5DA0; same +0xB0/+0xC8/+0xD0/+0x114/+0x120
 // layout as this TU and ctor 0x0025D489; callees slot-68 plus rowed
 // rva0025D2F6 plus node slots 5/152; caller 0x00043427.
-void BfmeStrVM0::rva0025D9E3()
+void Display::rva0025D9E3()
 {
 	if (m_b114 == 0)
 	{
@@ -361,14 +361,14 @@ void BfmeStrVM0::rva0025D9E3()
 	m_fCC = 0.0f;
 }
 
-// ?rva0025C14D@BfmeStrVM0@@UAEXXZ, retail 0x0025C14D, 62 bytes.
-// Slot-38 virtual of BfmeStrVM0: unless the GameLogic mode predicate says
+// ?rva0025C14D@Display@@UAEXXZ, retail 0x0025C14D, 62 bytes.
+// Slot-38 virtual of Display: unless the GameLogic mode predicate says
 // otherwise with the global 0xA01E48 byte at +0x5D set, walks the +0x1C
 // node list calling slot-94 on each node and advancing via getNext.
 // Evidence: vtable slot 38 of 0x7F5DA0; same +0x1C list as rva0025D9E3 and
 // rva0025C18B in this TU; callees rowed rva00085124 0x00085124 plus node
 // slots 94/152 predeclared in this TU; no callers.
-void BfmeStrVM0::rva0025C14D()
+void Display::rva0025C14D()
 {
 	if (TheGameLogic->rva00085124())
 	{
@@ -383,14 +383,14 @@ void BfmeStrVM0::rva0025C14D()
 	}
 }
 
-// ?rva0025C18B@BfmeStrVM0@@UAEXPAURva0025C18BCoord@@0@Z, retail 0x0025C18B, 173 bytes.
-// Slot-39 virtual of BfmeStrVM0: walks the +0x1C node list; per node it takes
+// ?rva0025C18B@Display@@UAEXPAURva0025C18BCoord@@0@Z, retail 0x0025C18B, 173 bytes.
+// Slot-39 virtual of Display: walks the +0x1C node list; per node it takes
 // two no-arg ints plus an out-pair, converts both float args to int for the
 // first round of node slots, then replays the saved values through the same
 // slots and advances via getNext.
 // Evidence: vtable slot 39 of 0x7F5DA0; same +0x1C list as rva0025D9E3 in this
 // TU; node slots 14-19/94/152 predeclared in this TU; no callers.
-void BfmeStrVM0::rva0025C18B(Rva0025C18BCoord *a, Rva0025C18BCoord *b)
+void Display::rva0025C18B(Rva0025C18BCoord *a, Rva0025C18BCoord *b)
 {
 	ListNode0025D9E3 *node = m_head1C;
 	while (node != 0)
@@ -411,12 +411,12 @@ void BfmeStrVM0::rva0025C18B(Rva0025C18BCoord *a, Rva0025C18BCoord *b)
 	}
 }
 
-// ?rva00049F94@BfmeStrVM0@@QAEXVAsciiString@@@Z, retail 0x00049F94, 55 bytes.
-// Slot-89 virtual of BfmeStrVM0: sets the +0xF0 AsciiString from a by-value
+// ?rva00049F94@Display@@QAEXVAsciiString@@@Z, retail 0x00049F94, 55 bytes.
+// Slot-89 virtual of Display: sets the +0xF0 AsciiString from a by-value
 // string arg; the by-value temp is released at the end under EH.
 // Evidence: vtable slot 89 of 0x7F5DA0; same +0xF0 layout as the dtor in this
 // TU; callees AsciiString::operator= 0x000366F0 plus releaseBuffer 0x00036410.
-void BfmeStrVM0::rva00049F94(AsciiString s)
+void Display::rva00049F94(AsciiString s)
 {
 	AsciiString &dst = *(AsciiString *)&m_sF0;
 	dst = s;
@@ -425,35 +425,35 @@ void BfmeStrVM0::rva00049F94(AsciiString s)
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?v01@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v03@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v04@BfmeStrVM0@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?v05@BfmeStrVM0@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
-#pragma comment(linker, "/alternatename:?v06@BfmeStrVM0@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?v08@BfmeStrVM0@@UAEXXZ=??1Coord2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v09@BfmeStrVM0@@UAEXXZ=?rva0025D9E3@BfmeStrVM0@@QAEXXZ")
-#pragma comment(linker, "/alternatename:?v11@BfmeStrVM0@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
-#pragma comment(linker, "/alternatename:?v14@BfmeStrVM0@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
-#pragma comment(linker, "/alternatename:?v15@BfmeStrVM0@@UAEXXZ=?setWidth@Display@@UAEXI@Z")
-#pragma comment(linker, "/alternatename:?v16@BfmeStrVM0@@UAEXXZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
-#pragma comment(linker, "/alternatename:?v17@BfmeStrVM0@@UAEXXZ=?get@Rva001DB09DDwordField@@QBEHXZ")
-#pragma comment(linker, "/alternatename:?v19@BfmeStrVM0@@UAEXXZ=?get@Rva0057E556DwordField@@QBEHXZ")
-#pragma comment(linker, "/alternatename:?v21@BfmeStrVM0@@UAEXXZ=?get@Rva004C9990ByteField@@QBEEXZ")
-#pragma comment(linker, "/alternatename:?v23@BfmeStrVM0@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
-#pragma comment(linker, "/alternatename:?v30@BfmeStrVM0@@UAEXXZ=?Set_Fog_Color@SceneClass@@UAEXABVVector3@@@Z")
-#pragma comment(linker, "/alternatename:?v35@BfmeStrVM0@@UAEXXZ=?rva0025C134@BfmeStrVM0@@UAEXPAV1@@Z")
-#pragma comment(linker, "/alternatename:?v36@BfmeStrVM0@@UAEXXZ=?getData@NetWrapperCommandMsg@@QAEPAEXZ")
-#pragma comment(linker, "/alternatename:?v68@BfmeStrVM0@@UAEXXZ=?rva0025D19E@BfmeStrVM0@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v01@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v03@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v04@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?v05@Display@@UAEXXZ=?IsCRC@Xfer@@UBE_NXZ")
+#pragma comment(linker, "/alternatename:?v06@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?v08@Display@@UAEXXZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?v09@Display@@UAEXXZ=?rva0025D9E3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v11@Display@@UAEXXZ=?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")
+#pragma comment(linker, "/alternatename:?v14@Display@@UAEXXZ=?setHeight@Display@@UAEXI@Z")
+#pragma comment(linker, "/alternatename:?v15@Display@@UAEXXZ=?setWidth@Display@@UAEXI@Z")
+#pragma comment(linker, "/alternatename:?v16@Display@@UAEXXZ=?getNext@?$CategoryModuleClass@$0A@@FXParticleSystem@@QBEPBV12@XZ")
+#pragma comment(linker, "/alternatename:?v17@Display@@UAEXXZ=?get@Rva001DB09DDwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?v19@Display@@UAEXXZ=?get@Rva0057E556DwordField@@QBEHXZ")
+#pragma comment(linker, "/alternatename:?v21@Display@@UAEXXZ=?get@Rva004C9990ByteField@@QBEEXZ")
+#pragma comment(linker, "/alternatename:?v23@Display@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+#pragma comment(linker, "/alternatename:?v30@Display@@UAEXXZ=?Set_Fog_Color@SceneClass@@UAEXABVVector3@@@Z")
+#pragma comment(linker, "/alternatename:?v35@Display@@UAEXXZ=?rva0025C134@Display@@UAEXPAV1@@Z")
+#pragma comment(linker, "/alternatename:?v36@Display@@UAEXXZ=?getData@NetWrapperCommandMsg@@QAEPAEXZ")
+#pragma comment(linker, "/alternatename:?v68@Display@@UAEXXZ=?rva0025D19E@Display@@QAEXXZ")
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?v07@BfmeStrVM0@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
-#pragma comment(linker, "/alternatename:?v13@BfmeStrVM0@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?v07@Display@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+#pragma comment(linker, "/alternatename:?v13@Display@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
 
-// ?rva0025C238@BfmeStrVM0@@UAEXXZ, retail 0x0025C238 (34 bytes), slot 40 next to the slot-38
+// ?rva0025C238@Display@@UAEXXZ, retail 0x0025C238 (34 bytes), slot 40 next to the slot-38
 // walker above: every node of the +0x1C list gets its slot-95 step, unconditionally.
-void BfmeStrVM0::rva0025C238()
+void Display::rva0025C238()
 {
 	for (ListNode0025D9E3 *node = m_head1C; node != 0; node = node->getNext())
 		node->s095();
@@ -462,15 +462,15 @@ void BfmeStrVM0::rva0025C238()
 // Placeholder virtuals this unit's vftables hold.  In retail each such slot
 // holds a rowed function; the vftable's address is proven by the vptr stores in
 // the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?v02@BfmeStrVM0@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
-#pragma comment(linker, "/alternatename:?v10@BfmeStrVM0@@UAEXXZ=?rva0025C4F3@Display@@QAEXXZ")
-#pragma comment(linker, "/alternatename:?v12@BfmeStrVM0@@UAEXXZ=?rva0025C25A@Rva0025C25AForwarder@@QAEXXZ")
-#pragma comment(linker, "/alternatename:?v18@BfmeStrVM0@@UAEXXZ=?set@Rva002B22A5DwordSlot@@QAEXH@Z")
-#pragma comment(linker, "/alternatename:?v20@BfmeStrVM0@@UAEXXZ=?set@Rva00049F2BByteSlot@@QAEXE@Z")
-#pragma comment(linker, "/alternatename:?v22@BfmeStrVM0@@UAEXXZ=?setDisplayMode@Display@@UAE_NIII_N@Z")
-#pragma comment(linker, "/alternatename:?v24@BfmeStrVM0@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
-#pragma comment(linker, "/alternatename:?v25@BfmeStrVM0@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
-#pragma comment(linker, "/alternatename:?v26@BfmeStrVM0@@UAEXXZ=?testMinSpecRequirements@Display@@UAE_NPA_N00PAW4StaticGameLODLevel@@PAM@Z")
-#pragma comment(linker, "/alternatename:?v37@BfmeStrVM0@@UAEXXZ=?rva00049F4F@W3DDisplay@@QAEHPAVRva00049F4FObject@@@Z")
-#pragma comment(linker, "/alternatename:?v66@BfmeStrVM0@@UAEXXZ=?rva0025C97E@Display@@UAE_NVAsciiString@@HHH@Z")
-#pragma comment(linker, "/alternatename:?v67@BfmeStrVM0@@UAEXXZ=?rva0025D6F5@W3DDisplay@@QAE_NVAsciiString@@_NH@Z")
+#pragma comment(linker, "/alternatename:?v02@Display@@UAEXXZ=?loadIniFilesFromLegend@SubsystemInterface@@UAE_NXZ")
+#pragma comment(linker, "/alternatename:?v10@Display@@UAEXXZ=?rva0025C4F3@Display@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v12@Display@@UAEXXZ=?rva0025C25A@Rva0025C25AForwarder@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?v18@Display@@UAEXXZ=?set@Rva002B22A5DwordSlot@@QAEXH@Z")
+#pragma comment(linker, "/alternatename:?v20@Display@@UAEXXZ=?set@Rva00049F2BByteSlot@@QAEXE@Z")
+#pragma comment(linker, "/alternatename:?v22@Display@@UAEXXZ=?setDisplayMode@Display@@UAE_NIII_N@Z")
+#pragma comment(linker, "/alternatename:?v24@Display@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
+#pragma comment(linker, "/alternatename:?v25@Display@@UAEXXZ=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
+#pragma comment(linker, "/alternatename:?v26@Display@@UAEXXZ=?testMinSpecRequirements@Display@@UAE_NPA_N00PAW4StaticGameLODLevel@@PAM@Z")
+#pragma comment(linker, "/alternatename:?v37@Display@@UAEXXZ=?rva00049F4F@W3DDisplay@@QAEHPAVRva00049F4FObject@@@Z")
+#pragma comment(linker, "/alternatename:?v66@Display@@UAEXXZ=?rva0025C97E@Display@@UAE_NVAsciiString@@HHH@Z")
+#pragma comment(linker, "/alternatename:?v67@Display@@UAEXXZ=?rva0025D6F5@W3DDisplay@@QAE_NVAsciiString@@_NH@Z")

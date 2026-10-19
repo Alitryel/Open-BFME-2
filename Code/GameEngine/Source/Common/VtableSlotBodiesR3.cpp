@@ -83,7 +83,7 @@ bool Rva000F6335::rva000F6335(int, int, int, int)
 	return false;
 }
 
-// 0x00049F35 (slot 26 of BfmeStrVM0's table): sets three bool outputs
+// 0x00049F35 (slot 26 of Display's table): sets three bool outputs
 // (third first) and answers true; two further arguments unused.
 class Rva00049F35
 {

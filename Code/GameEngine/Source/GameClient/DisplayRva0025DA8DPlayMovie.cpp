@@ -1,16 +1,15 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-// ?rva0025DA8D@BfmeStrVM0@@UAE_NVAsciiString@@H@Z, retail 0x0025DA8D (160 bytes, EH, RET 8),
+// ?rva0025DA8D@Display@@UAE_NVAsciiString@@H@Z, retail 0x0025DA8D (160 bytes, EH, RET 8),
 // display vtable slot 72 (W3DDisplay table 0x007C3C80). Refuses on Windows 9x
 // (GetVersionExA platform 1); otherwise hands a copy of the movie name, the flags without
 // bit 3 and two -1 limits to slot 66 (+0x108) and, when that starts, runs the rowed
-// bfmeTickVM0 step and reports success. BfmeStrVM0 is this tree's address name for Display;
-// the slot's own name is not recovered.
+// bfmeTickVM0 step and reports success. The slot's own name is not recovered.
 #include <windows.h>
 #include <string.h>
 
 #include "ascii_string.h"
 
-class BfmeStrVM0
+class Display
 {
 public:
 	virtual void s000(); virtual void s001(); virtual void s002(); virtual void s003();
@@ -37,7 +36,7 @@ public:
 	void bfmeTickVM0();
 };
 
-bool BfmeStrVM0::rva0025DA8D(AsciiString movieName, int flags)
+bool Display::rva0025DA8D(AsciiString movieName, int flags)
 {
 	OSVERSIONINFOA info;
 	memset(&info, 0, sizeof(info));

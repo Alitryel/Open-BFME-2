@@ -2,18 +2,17 @@
 // ?Rva0043A31ECleanup@@YAXXZ, retail 0x0043A31E, 34 bytes.
 // Free cleanup: release Bfme VM0 mutexes via rva0025D9CB(false), then
 // TheAudio slot 0x8c with (2, 1, 0).
-// Evidence: rowed callee 0x0025D9CB (BfmeStrVM0::rva0025D9CB bool) with push 0;
+// Evidence: rowed callee 0x0025D9CB (Display::rva0025D9CB bool) with push 0;
 // TheAudio data 0x009FE6E8 precedent Rva0033FF2BDtor slot 0x6c; first global
 // 0x009FE9D8; caller 0x0043A351 ctor calls here; chain lane.
 extern class Display *TheDisplay;
 
-class BfmeStrVM0
+class Display
 {
 public:
 	void rva0025D9CB(bool flag);
 };
 
-#define g_bfmeVM0 (*(BfmeStrVM0 **)&TheDisplay)
 
 class AudioManager
 {
@@ -60,6 +59,6 @@ extern AudioManager *TheAudio;
 
 void __cdecl Rva0043A31ECleanup(void)
 {
-	g_bfmeVM0->rva0025D9CB(false);
+	TheDisplay->rva0025D9CB(false);
 	TheAudio->audioSlot8c(2, 1, 0);
 }
