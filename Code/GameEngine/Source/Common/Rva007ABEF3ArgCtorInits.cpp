@@ -115,7 +115,8 @@ public:
 // reads their weights), and a second definition of the same symbol is a duplicate.
 extern Rva00559D0CRankWeights g_00E05FCC;
 extern Rva00559D0CRankWeights g_00E06000;
-unsigned g_Va00E06034;	// retail RVA 0x00A06034 (.bss), defined here
+// VA 0x00E06034: Rva005C18F0Ctor.cpp defines this storage (char[100]).
+extern char g_00E06034[100];
 // g_rva005C1A8DDefault is the VA 0x00E06060 table: the getter at retail RVA
 // 0x005C1A8D returns it as the default ("Default") when a slot has no override,
 // and its two readers take its address or return it as a char*. An array and a
@@ -128,7 +129,8 @@ unsigned g_Va00E06614;	// retail RVA 0x00A06614 (.bss), defined here
 unsigned g_Va00E06618;	// retail RVA 0x00A06618 (.bss), defined here
 unsigned g_Va00E0661C;	// retail RVA 0x00A0661C (.bss), defined here
 unsigned g_Va00DF2984;	// retail RVA 0x009F2984 (.bss), defined here
-unsigned g_Va00E00944;	// retail RVA 0x00A00944 (.bss), defined here
+// VA 0x00E00944: the Dict that Rva003B242CGet.cpp defines (8 bytes).
+extern Dict g_Va00E00944;
 // Owned by W3DFontCharsCache.cpp; the initializer uses the existing ABI view.
 class FontCharsClass;
 extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
@@ -244,7 +246,7 @@ void Rva007ABEF3ArgCtorInits::rva007B3DC5()
 // 0x007B3DD2 (13B): 0x00559A76(1) on VA 0x00E06034
 void Rva007ABEF3ArgCtorInits::rva007B3DD2()
 {
-	( (Rva00559AC1 *)&g_Va00E06034 )->rva00559A76( 1 );
+	( (Rva00559AC1 *)g_00E06034 )->rva00559A76( 1 );
 }
 
 // 0x007B3DDF (13B): 0x00559A76(0) on VA 0x00E06060, i.e. g_rva005C1A8DDefault
@@ -293,7 +295,7 @@ void Rva007ABEF3ArgCtorInits::rva007ACDAC()
 // 0x007AE806 (24B): Dict(0) on VA 0x00E00944, atexit(0x007B7B14 -> Dict releaseData)
 void Rva007ABEF3ArgCtorInits::rva007AE806()
 {
-	( (Dict *)&g_Va00E00944 )->Dict::Dict( 0 );
+	( &g_Va00E00944 )->Dict::Dict( 0 );
 	atexit( rva007B7B14 );
 }
 
