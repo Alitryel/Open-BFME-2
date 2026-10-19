@@ -1,6 +1,16 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
+// partial score=0.985 date=2026-10-19
+// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
 // partial score=0.9787234042553191 date=2026-10-19
 // cl: /O1 /DNDEBUG /MD /GX /arch:SSE /G7 /I.
+// 0x00490AC5 bank 2026-10-19 (claude-opus-5-5): hack-free 470/470, 7 differing bytes, all frame offsets
+// (module-data spill -0x20 vs retail -0x1c, ID slot -0x1c vs -0x20); the old bank had 10 bytes and six
+// equal-arm ternaries. Levers: BitFlags<218> m_kindof with forceinline test/isKindOf returning unsigned
+// long (a bool return breaks codegen); WB twin 0x11DD160 order (Object *obj before data) and tail shape.
+// Retail uses two separate ID temporaries (WB local_64/local_68) that share one slot; ours only shares
+// them in straight-line code. Lead: the two lists are different real STLport types (the +0x88 list's
+// push_back is out of line at 0x2A1B6F, the local list inlines insert(end(),x) -> 0x2A1316).
+// Home: new Code/GameEngine/Source/GameLogic/Object/Update/ArrowStormUpdate.cpp. Scratch: build/nbr/r4/490ac5/.
 // stlport
 // Notes kept from the earlier banks of this body:
 // W9-O3 2026-10-16: both list calls now resolve: push_back -> the pinned BridgeBehaviorObjectIDList::push_back (0x2A1B6F) view, the inline insert -> the pinned private Rva002A1B6FNativeList::insert (0x2A1316, member/aggregate-result ABI) through a friend view (no alternatename). Size exact nd 19: (1) three 4-byte frame homes rotated (retail data -0x1c, extra -0x18, id temp -0x20; ours -0x20/-0x1c/-0x18); (2) size() walks keep head in ECX/cursor EAX where retail has EAX/ECX. Inert/worse: p != m_node, first/last distance forms, iterator pair.
@@ -70,28 +80,26 @@ enum ObjectID
 	INVALID_ID = 0
 };
 
+template<int NUMBITS> class BitFlags
+{
+public:
+	unsigned long m_words[(NUMBITS + 31) / 32];
+	__forceinline unsigned long test(unsigned pos) const { return m_words[pos / 32] & (1UL << (pos % 32)); }
+};
+
 class ThingTemplate
 {
 public:
-	union
-	{
-		struct
-		{
-			char m_pad000[0x109];
-			unsigned char m_109;
-			char m_pad10A[0x10D - 0x10A];
-			unsigned char m_10D;
-			char m_pad10E[0x118 - 0x10E];
-			unsigned char m_118;
-		} b;
-		unsigned w[0x11C / 4];
-	};
+	char m_pad000[0x108];
+	BitFlags<218> m_kindof;	// +0x108
+	__forceinline unsigned long isKindOf(unsigned t) const { return m_kindof.test(t); }
 };
 
 class Object
 {
 public:
 	ObjectID getID() const { return m_id; }
+	const ThingTemplate *getTemplate() const { return m_template; }
 	char m_pad000[0x04];
 	const ThingTemplate *m_template;	// +0x04
 	char m_pad008[0x74 - 0x08];
@@ -185,36 +193,37 @@ private:
 
 void ArrowStormUpdate::rva00490AC5()
 {
-	const ArrowStormUpdateModuleData *data = (const ArrowStormUpdateModuleData *)m_moduleData;
 	Object *obj = m_object;
+	const ArrowStormUpdateModuleData *data = (const ArrowStormUpdateModuleData *)m_moduleData;
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_CC, 0,
 		Rva00260EB1Filter(obj, 1, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))), 1);
 	Rva0029FB3BMember extra;
 	Object *other;
-	while (0 != (other = hits.next())) {
-		const ThingTemplate *tmpl = other->m_template;
-		if (((tmpl ? tmpl : tmpl)->w[0x114 / 4] & 0x100) || ((tmpl ? tmpl : tmpl)->w[0x110 / 4] & 0x02000000)
-				|| ((tmpl ? tmpl : tmpl)->b.m_10D & 0x80) || ((tmpl ? tmpl : tmpl)->w[0x118 / 4] & 0x400000)
-				|| ((tmpl ? tmpl : tmpl)->w[0x10C / 4] & 0x400000) || ((tmpl ? tmpl : tmpl)->b.m_118 & 0x40))
+	while ((other = hits.next()) != 0) {
+		if (other->getTemplate()->isKindOf(104) || other->getTemplate()->isKindOf(89)
+				|| other->getTemplate()->isKindOf(47) || other->getTemplate()->isKindOf(150)
+				|| other->getTemplate()->isKindOf(54) || other->getTemplate()->isKindOf(134))
 			continue;
 		ObjectID id = other->getID();
 		m_88.push_back(id);
-		if (other->m_template->b.m_109 & 4) {
+		if (other->getTemplate()->isKindOf(10)) {
 			id = other->getID();
 			extra.pushBackInline(id);
 		}
 	}
-	if (m_88.size() != 0) {
-		if (m_88.size() < data->m_D8) {
-			Rva0029FB3BMember &source = extra.empty() ? m_88 : extra;
-			Rva0029FB3BNode *it = source.m_node->m_next;
-			while (m_88.size() < data->m_D8) {
-				m_88.push_back(it->m_value);
-				it = it->m_next;
-				if (it == source.m_node)
-					it = source.m_node->m_next;
-			}
+	if (m_88.size() == 0)
+		return;
+	if (m_88.size() < data->m_D8) {
+		Rva0029FB3BMember *source = &m_88;
+		if (!extra.empty())
+			source = &extra;
+		Rva0029FB3BNode *it = source->m_node->m_next;
+		while (m_88.size() < data->m_D8) {
+			m_88.push_back(it->m_value);
+			it = it->m_next;
+			if (it == source->m_node)
+				it = source->m_node->m_next;
 		}
-		extra.reset();
 	}
+	extra.reset();
 }
