@@ -23384,7 +23384,6 @@ uw_0077e179,,0x0077E179,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;obj
 uw_0077e18e,,0x0077E18E,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L8650
 uw_0077e1a3,,0x0077E1A3,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_0077e1b5,,0x0077E1B5,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
-uw_0077e214,,0x0077E214,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0077e23c,,0x0077E23C,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L12082
 uw_0077e265,,0x0077E265,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0077e26d,,0x0077E26D,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2882
@@ -96942,3 +96941,4 @@ __ehhandler$?rva0033C965@Rva0033C965@@QAEXHH@Z,,0x0077CB8E,10,Code/GameEngine/So
 ?LoadPostProcess@BuffManager@@MAEXXZ,,0x000B3FD0,1,Code/GameEngine/Source/Common/Rva00362E1CDtor.cpp,matched,gen-alias; native BuffManager table C17088 slot1 is shared empty RET B3FD0; complete emitted body and empty relocation set agree with owner
 uw_0077e1e5,,0x0077E1E5,8,Code/GameEngine/Source/Common/Rva00362D6CDtor.cpp,matched,gen-funclet;parent=??1GlowMaterial@@UAE@XZ;object-symbol=$L486;Native parent00362CF2 and EXACT EH graph bind this whole8B cleanup through handler0077E1ED. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
 uw_0077e1f7,,0x0077E1F7,8,Code/GameEngine/Source/Common/Rva00362D6CDtor.cpp,matched,gen-funclet;parent=??1BuffInstance@@UAE@XZ;object-symbol=$L506;Native parent00362D6C and EXACT EH graph bind this whole8B cleanup through handler0077E20A. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
+uw_0077e214,,0x0077E214,8,Code/GameEngine/Source/Common/Rva00362DBDCtor.cpp,matched,gen-funclet;parent=??0BuffManager@@QAE@H@Z;object-symbol=$L479;Native parent00362DBD and EXACT EH graph bind this whole8B cleanup through handler0077E232. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
