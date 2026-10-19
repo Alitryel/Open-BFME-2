@@ -170,13 +170,7 @@ OpenContain::~OpenContain()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// our object changed position... react as appropriate.
-// ?OpenContain::containReactToTransformChange present-unmatched
-void OpenContain::containReactToTransformChange()
-{
-	// Our transform changed, which means our bones moved, and we keep people positioned on bones.
-	redeployOccupants();
-}
+// containReactToTransformChange: OpenContainReactToTransformChange.cpp (retail 0x004624E3).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
