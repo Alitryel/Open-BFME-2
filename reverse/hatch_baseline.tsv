@@ -3212,10 +3212,7 @@ alternatename	Code/GameEngine/Source/GameClient/InGameUIResourceEntries.cpp	?cle
 alternatename	Code/GameEngine/Source/GameClient/InGameUI_selectMatchingAcrossScreen.cpp	?TheTacticalView@@3PAVTacticalView@@A	2
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??1Rva00078460Elem@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/Open2Twins006.cpp	??0ShroudManagerImpl008FBA40CtorView@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00085947Method.cpp	_atexit	1
-alternatename	Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp	?PreviousSyncTime@WW3D@@2IA	1
-alternatename	Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp	?SyncTime@WW3D@@2IA	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp	?TheWeatherSetting@@3V?$OVERRIDE@VWeatherSetting@@@@A	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00222A8BAptCallLevel.cpp	?invoke@Rva00222A8BTarget@@QAEXPAXPBDH10000@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp	?rva00222B19@Rva00222A8BTarget@@QAEHPAXPBD1H10000@Z	1
@@ -3307,7 +3304,6 @@ alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/QuadDraw
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/RenderObjectDrawModuleInfoDtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/RenderObjectUpdateModuleTemplateCopyCtorThunk.cpp	_RenderObjectUpdateModuleTemplate_cvtbl4	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A53C4Finish.cpp	_vtbl_00BE15A4	1
-alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A5572Update.cpp	?g_Va00BC26F0@@3MA	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ADDCDCopy.cpp	_s_slot3E4first	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ADFB2Dtor.cpp	?g_00C1B320@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AE358Dtor.cpp	?g_00C1B320@@3QBQBXB	1

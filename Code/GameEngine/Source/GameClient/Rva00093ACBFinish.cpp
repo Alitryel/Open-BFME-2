@@ -90,8 +90,12 @@ private:
 typedef char SnowBaseExtent[sizeof(SnowManager) == 0x74 ? 1 : -1];
 typedef char W3DSnowExtent[sizeof(W3DSnowManager) == 0xB0 ? 1 : -1];
 
+// WW3D keeps its sync clock private (?SyncTime@WW3D@@0IA); its public
+// Get_Frame_Time() inline reorders this body's float temporaries, so the
+// update reads the two statics directly.
 class WW3D {
-public:
+    friend class W3DSnowManager;
+private:
     static unsigned int SyncTime;
     static unsigned int PreviousSyncTime;
 };
@@ -160,6 +164,4 @@ void W3DSnowManager::updateIniSettings()
 
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?SyncTime@WW3D@@2IA=?SyncTime@WW3D@@0IA")
-#pragma comment(linker, "/alternatename:?PreviousSyncTime@WW3D@@2IA=?PreviousSyncTime@WW3D@@0IA")
 #pragma comment(linker, "/alternatename:?TheWeatherSetting@@3V?$OVERRIDE@VWeatherSetting@@@@A=?g_Va00DFE118@@3PAVWeatherSetting@@A")

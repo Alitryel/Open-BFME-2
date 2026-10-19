@@ -157,14 +157,13 @@ Open2Store8F75D0::~Open2Store8F75D0()
 // introducing a second class for the same target. The legacy destructor's map
 // pointer spelling is retained as a teardown ABI view; the constructor does
 // not assert that the allocated implementation is that STL map type.
-class ShroudManagerImpl008FBA40CtorView {
-public: ShroudManagerImpl008FBA40CtorView();
+class ShroudManagerImpl {
+public: ShroudManagerImpl();
 private: unsigned char storage[0x70];
 };
-#pragma comment(linker, "/alternatename:??0ShroudManagerImpl008FBA40CtorView@@QAE@XZ=??0ShroudManagerImpl@@QAE@XZ")
 Open2Store8F75D0::Open2Store8F75D0()
 {
- m_map = reinterpret_cast<Open2Map8F75D0 *>(new ShroudManagerImpl008FBA40CtorView);
+ m_map = reinterpret_cast<Open2Map8F75D0 *>(new ShroudManagerImpl);
 }
 
 class BfmeSinkB
