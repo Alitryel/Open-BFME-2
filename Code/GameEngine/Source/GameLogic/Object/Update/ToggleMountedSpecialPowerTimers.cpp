@@ -22,12 +22,12 @@ struct MountedPowerNames {
     bool empty() const { return begin==end; }
 };
 struct MountedTimerModuleDataView { char pad[0xD4]; MountedPowerNames names; };
-class Rva004ADCE8 {
+class ToggleMountedSpecialAbilityUpdate {
 public:
     int opaque; MountedTimerModuleDataView *data; Object *owner;
     void rva004ADCE8(const Object *replacement);
 };
-void Rva004ADCE8::rva004ADCE8(const Object *replacement)
+void ToggleMountedSpecialAbilityUpdate::rva004ADCE8(const Object *replacement)
 {
     MountedTimerModuleDataView *moduleData=data;
     if (moduleData->names.empty()) return;

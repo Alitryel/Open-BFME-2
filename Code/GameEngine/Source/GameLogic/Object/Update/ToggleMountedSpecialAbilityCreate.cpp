@@ -69,8 +69,7 @@ class InGameUI : public MountedCreateSlots<66> {public:virtual void slot66(Drawa
 class GameMessage {public:void appendBooleanArgument(bool);void appendObjectIDArgument(ObjectID);};
 class MessageStream : public MountedCreateSlots<18> {public:virtual GameMessage *appendMessage(int)=0;};extern MessageStream *TheMessageStream;
 struct MountedCreateData {char pad[0xD0];AsciiString mountedTemplate;};
-class Rva004ADCE8 {public:void rva004ADCE8(const Object*);};
-class ToggleMountedSpecialAbilityUpdate {public:void createMountedTemplate();int opaque;MountedCreateData *data;Object *owner;char padC[0x8C-0xC];bool changed;};
+class ToggleMountedSpecialAbilityUpdate {public:void createMountedTemplate();void rva004ADCE8(const Object*);int opaque;MountedCreateData *data;Object *owner;char padC[0x8C-0xC];bool changed;};
 void ToggleMountedSpecialAbilityUpdate::createMountedTemplate(){
  const ThingTemplate *what=TheThingFactory->findTemplate(data->mountedTemplate);
  if(!what)return;
@@ -96,6 +95,6 @@ void ToggleMountedSpecialAbilityUpdate::createMountedTemplate(){
  message->appendObjectIDArgument(replacement->id);
  TheInGameUI->slot66(replacement->getDrawable());
  }
- ((Rva004ADCE8*)this)->rva004ADCE8(replacement);
+ rva004ADCE8(replacement);
  changed=true;
 }
