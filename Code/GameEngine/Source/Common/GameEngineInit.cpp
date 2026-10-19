@@ -253,7 +253,7 @@ extern MultiplayerSettings *TheMultiplayerSettings;
 extern TerrainTypeCollection *TheTerrainTypes;
 extern TerrainRoadCollection *TheTerrainRoads;
 extern GlobalWeatherSystem *TheGlobalWeatherSystem;
-extern class Rva00DFF024Registry *TheRva00DFF024Registry;
+extern class FunctionLexicon *TheFunctionLexicon;
 extern ModuleFactory *TheModuleFactory;
 extern class MessageStream *TheMessageStream;
 extern SidesList *TheSidesList;
@@ -825,7 +825,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheTerrainTypes, "TheTerrainTypes", new TerrainTypeCollection, (Xfer *)&xferCRC);
 		initSubsystem(TheTerrainRoads, "TheTerrainRoads", new TerrainRoadCollection, (Xfer *)&xferCRC);
 		initSubsystem(TheGlobalWeatherSystem, "TheGlobalWeatherSystem", new GlobalWeatherSystem, 0);
-		initSubsystem((reinterpret_cast<FunctionLexicon *&>(TheRva00DFF024Registry)), "TheFunctionLexicon", createFunctionLexicon(), 0);
+		initSubsystem(TheFunctionLexicon, "TheFunctionLexicon", createFunctionLexicon(), 0);
 		initSubsystem(TheModuleFactory, "TheModuleFactory", createModuleFactory(), 0);
 		initSubsystem(TheMessageStream, "TheMessageStream", createMessageStream(), 0);
 		initSubsystem(TheSidesList, "TheSidesList", new SidesList, 0);

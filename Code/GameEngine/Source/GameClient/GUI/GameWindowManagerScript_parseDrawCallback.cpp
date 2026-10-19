@@ -53,9 +53,10 @@ public:
 	void *lookup56(int key, int index);
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
-// TheRva00DFF024Registry: matched references place it at VA 0xdff024 (zero-filled .bss).
-Rva00DFF024Registry * TheRva00DFF024Registry;
+// TheFunctionLexicon (GameEngine::init registers it under that name): matched
+// references place it at VA 0xdff024 (zero-filled .bss). Read through the
+// registry view.
+FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_drawCallbackName;
 #include "WindowScriptCreateRecord.h"
 
@@ -77,7 +78,7 @@ Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buffer, voi
 	g_drawCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_drawCallbackName);
-	g_windowScriptCreateRecord.draw = TheRva00DFF024Registry->lookup34(key, -1);
+	g_windowScriptCreateRecord.draw = ((Rva00DFF024Registry *)TheFunctionLexicon)->lookup34(key, -1);
 
 	return true;
 }

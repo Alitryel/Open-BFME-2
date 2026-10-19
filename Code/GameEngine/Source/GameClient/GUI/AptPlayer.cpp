@@ -545,7 +545,7 @@ public: enum TableIndex {TABLE_ANY=-1,TABLE_MAIN_WINDOW=11};
 protected: void *findFunction(NameKeyType,TableIndex);
 friend class AptPlayer;
 };
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+extern FunctionLexicon *TheFunctionLexicon;
 
 class AptWindowSendView {
 public:
@@ -582,7 +582,7 @@ GameWindow *AptPlayer::WinCreate(const AsciiString *name,AptLayoutInfoView *layo
  GadgetCreateView view;
  const AsciiString *originalName=name;
  view.status=0x08000001;
- view.unknown24=TheRva00DFF024Registry->lookup56(TheNameKeyGenerator->nameToKey(*originalName),-1);
+ view.unknown24=((Rva00DFF024Registry *)TheFunctionLexicon)->lookup56(TheNameKeyGenerator->nameToKey(*originalName),-1);
  if(!view.unknown24) return 0;
  GameWindow *window=reinterpret_cast<TabWindowManagerView *>(TheWindowManager)->createFromView(&view);
  window->m_field1f4=0;
@@ -602,7 +602,7 @@ GameWindow *AptPlayer::WinCreate(const AsciiString *name,AptLayoutInfoView *layo
   // the same four-byte pointer word. No application type is reclassified.
   reinterpret_cast<NativePointerList *>(&layout->windows)->push_back(reinterpret_cast<ObjectSellInfo *const &>(window));
   NameKeyType key=TheNameKeyGenerator->nameToKey(*originalName);
-  layout->callback=reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->findFunction(key,FunctionLexicon::TABLE_MAIN_WINDOW);
+  layout->callback=TheFunctionLexicon->findFunction(key,FunctionLexicon::TABLE_MAIN_WINDOW);
   if(!layout->callback) layout->callback=reinterpret_cast<void *>(&Rva002223FECreateLayout);
  }
  return found;

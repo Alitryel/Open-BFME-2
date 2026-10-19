@@ -52,7 +52,8 @@ public:
 	__forceinline void *bfme_lookup_7fde7(int key, int index) { return ((FunctionLexicon *)(void *)this)->findFunction((NameKeyType)key, (FunctionLexicon::TableIndex)index); }
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+class FunctionLexicon;
+extern FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_tooltipCallbackName;
 #include "WindowScriptCreateRecord.h"
 
@@ -74,7 +75,7 @@ Bool parseTooltipCallback(char *token, WinInstanceData *instData, char *buffer, 
 	g_tooltipCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_tooltipCallbackName);
-	g_windowScriptCreateRecord.tooltip = TheRva00DFF024Registry->bfme_lookup_7fde7(key, 2);
+	g_windowScriptCreateRecord.tooltip = ((Rva00DFF024Registry *)TheFunctionLexicon)->bfme_lookup_7fde7(key, 2);
 
 	return true;
 }

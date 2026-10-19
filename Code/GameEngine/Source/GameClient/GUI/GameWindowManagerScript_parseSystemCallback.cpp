@@ -75,7 +75,8 @@ public:
 	void *lookup56(int key, int index);
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+class FunctionLexicon;
+extern FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_systemCallbackName;
 #include "WindowScriptCreateRecord.h"
 
@@ -98,7 +99,7 @@ Bool parseSystemCallback(char *token, WinInstanceData *instData, char *buffer, v
 	g_systemCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_systemCallbackName);
-	g_windowScriptCreateRecord.system = TheRva00DFF024Registry->bfme_lookup_4742d(key, 0);
+	g_windowScriptCreateRecord.system = ((Rva00DFF024Registry *)TheFunctionLexicon)->bfme_lookup_4742d(key, 0);
 
 	return true;
 }

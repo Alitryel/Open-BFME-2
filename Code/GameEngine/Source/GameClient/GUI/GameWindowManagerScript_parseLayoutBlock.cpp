@@ -200,13 +200,12 @@ struct BfmeLayoutInfoPrefix
     AsciiString className;
 };
 class Rva00DFF024Registry;
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
 
 Bool parseInit(char *, char *buffer, UnsignedInt, WindowLayoutInfo *info)
 {
     BfmeLayoutInfoPrefix *layout = reinterpret_cast<BfmeLayoutInfoPrefix *>(info);
     layout->initName = strtok(buffer, " \n\r\t");
-    layout->init = reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->winLayoutInitFunc(
+    layout->init = TheFunctionLexicon->winLayoutInitFunc(
         TheNameKeyGenerator->nameToKey(layout->initName));
     return TRUE;
 }
@@ -214,7 +213,7 @@ Bool parseUpdate(char *, char *buffer, UnsignedInt, WindowLayoutInfo *info)
 {
     BfmeLayoutInfoPrefix *layout = reinterpret_cast<BfmeLayoutInfoPrefix *>(info);
     layout->updateName = strtok(buffer, " \n\r\t");
-    layout->update = reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->winLayoutUpdateFunc(
+    layout->update = TheFunctionLexicon->winLayoutUpdateFunc(
         TheNameKeyGenerator->nameToKey(layout->updateName));
     return TRUE;
 }
@@ -222,7 +221,7 @@ Bool parseShutdown(char *, char *buffer, UnsignedInt, WindowLayoutInfo *info)
 {
     BfmeLayoutInfoPrefix *layout = reinterpret_cast<BfmeLayoutInfoPrefix *>(info);
     layout->shutdownName = strtok(buffer, " \n\r\t");
-    layout->shutdown = reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->winLayoutShutdownFunc(
+    layout->shutdown = TheFunctionLexicon->winLayoutShutdownFunc(
         TheNameKeyGenerator->nameToKey(layout->shutdownName));
     return TRUE;
 }
@@ -233,7 +232,7 @@ Bool parseLayoutClassRva003172E9(char *, char *buffer, UnsignedInt, WindowLayout
     // The shared inline getter only forwards to findFunction. Explicit slot
     // 11 preserves this lookup while the returned callback's type is unknown.
     layout->classCallback = reinterpret_cast<void *>(
-        reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->winLayoutShutdownFunc(
+        TheFunctionLexicon->winLayoutShutdownFunc(
             TheNameKeyGenerator->nameToKey(layout->className), FunctionLexicon::TABLE_BFME_UNIDENTIFIED_11));
     return TRUE;
 }

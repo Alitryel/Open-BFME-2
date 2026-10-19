@@ -52,7 +52,8 @@ public:
 	__forceinline void *bfme_lookup_c3028(int key, int index) { return ((FunctionLexicon *)(void *)this)->findFunction((NameKeyType)key, (FunctionLexicon::TableIndex)index); }
 };
 
-extern Rva00DFF024Registry *TheRva00DFF024Registry;
+class FunctionLexicon;
+extern FunctionLexicon *TheFunctionLexicon;
 extern AsciiString g_inputCallbackName;
 #include "WindowScriptCreateRecord.h"
 
@@ -74,7 +75,7 @@ Bool parseInputCallback(char *token, WinInstanceData *instData, char *buffer, vo
 	g_inputCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_inputCallbackName);
-	g_windowScriptCreateRecord.input = TheRva00DFF024Registry->bfme_lookup_c3028(key, 1);
+	g_windowScriptCreateRecord.input = ((Rva00DFF024Registry *)TheFunctionLexicon)->bfme_lookup_c3028(key, 1);
 
 	return true;
 }
