@@ -1,7 +1,7 @@
 // cl: /O1
 // RTS/Energy.cpp: the two power-bonus dispatchers retail links from this TU
 // (tu_map approved), folded from two split units with these exact flags. They
-// share the rowed power-add callee views.
+// share the rowed power-add callees, Energy methods on the same this.
 // ?objectEnteringInfluence@Energy@@QAEXPAVObject@@@Z @ 0x004DF207 (42B)
 // WorldBuilder names 0x004DF207/0x004DF231 Energy::objectEnteringInfluence and
 // objectLeavingInfluence (Energy.cpp:105/131), the ZH pair: the Object's
@@ -11,18 +11,6 @@
 // Retail negs before 0x004DF1AF (v<0 -> -v) and passes v straight to 0x004DF18D (v>0).
 // Evidence: caller 0x0028D9D5 in 0x0028D99A (same as twin); callee rows 0x004DF1AF 0x004DF18D;
 // twin Code/GameEngine/Source/Common/Rva004DF231Power.cpp // cl: /O1 reused.
-class Rva004DF1AF
-{
-public:
-	void rva004DF1AF(int delta);
-};
-
-class Rva004DF18D
-{
-public:
-	void rva004DF18D(int delta);
-};
-
 struct Rva004DF207Inner
 {
 	char m_pad[0x548];
@@ -45,6 +33,8 @@ public:
 	void objectLeavingInfluence(Object *obj);
 	void rva004DF25B(Rva004DF207Outer *arg);
 	void rva004DF274(Rva004DF207Outer *arg);
+	void rva004DF18D(int delta); // production add (pinned addProduction)
+	void rva004DF1AF(int delta); // consumption add (pinned addConsumption)
 };
 
 void Energy::objectEnteringInfluence(Object *obj)
@@ -54,9 +44,9 @@ void Energy::objectEnteringInfluence(Object *obj)
 	Rva004DF207Outer *o = (Rva004DF207Outer *)obj;
 	int v = o->m_ptr->m_val;
 	if (v < 0)
-		((Rva004DF1AF *)this)->rva004DF1AF(-v);
+		rva004DF1AF(-v);
 	else if (v > 0)
-		((Rva004DF18D *)this)->rva004DF18D(v);
+		rva004DF18D(v);
 }
 
 // ?objectLeavingInfluence@Energy@@QAEXPAVObject@@@Z RVA 0x004DF231 size 42
@@ -82,22 +72,22 @@ void Energy::objectLeavingInfluence(Object *obj)
 	Rva004DF231Outer *o = (Rva004DF231Outer *)obj;
 	int v = o->m_ptr->m_val;
 	if (v < 0)
-		((Rva004DF1AF *)this)->rva004DF1AF(v);
+		rva004DF1AF(v);
 	else if (v > 0)
-		((Rva004DF18D *)this)->rva004DF18D(-v);
+		rva004DF18D(-v);
 }
 
 // ?rva004DF25B@Energy@@QAEXPAURva004DF207Outer@@@Z @ 0x004DF25B (25B)
 void Energy::rva004DF25B(Rva004DF207Outer *arg)
 {
 	if (arg)
-		((Rva004DF18D *)this)->rva004DF18D(arg->m_ptr->m_54C);
+		rva004DF18D(arg->m_ptr->m_54C);
 }
 
 // ?rva004DF274@Energy@@QAEXPAURva004DF207Outer@@@Z @ 0x004DF274 (28B)
 void Energy::rva004DF274(Rva004DF207Outer *arg)
 {
 	if (arg)
-		((Rva004DF18D *)this)->rva004DF18D(-arg->m_ptr->m_54C);
+		rva004DF18D(-arg->m_ptr->m_54C);
 }
 

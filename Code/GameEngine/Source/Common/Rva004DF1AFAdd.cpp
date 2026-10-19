@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva004DF1AF@Rva004DF1AF@@QAEXH@Z, RVA 0x004DF1AF, 34 bytes.
+// ?rva004DF1AF@Energy@@QAEXH@Z, RVA 0x004DF1AF, 34 bytes.
 // Adds delta to m_08 then if m_0C Player non-null calls
 // rowed Player::onPowerBrownOutChange 0x002AB8D0 with (m_04 < m_08).
 // Evidence: callers 0x004DF1FF 0x004DF21F 0x004DF247;
@@ -10,7 +10,7 @@ public:
 	void onPowerBrownOutChange(bool brownOut);
 };
 
-class Rva004DF1AF
+class Energy
 {
 public:
 	void rva004DF1AF(int delta);
@@ -21,7 +21,7 @@ private:
 	Player *m_0C;
 };
 
-void Rva004DF1AF::rva004DF1AF(int delta)
+void Energy::rva004DF1AF(int delta)
 {
 	m_08 += delta;
 	if (m_0C)
