@@ -6,8 +6,6 @@ class DataChunkInput;
 struct DataChunkInfo;
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Scripts.h
-struct Rva003B65Header;
-int rva003B5EA5(int, int, Rva003B65Header *);
 
 class ScriptAction
 {
@@ -19,8 +17,8 @@ public:
 	void setNextAction(ScriptAction *pAct) { m_nextAction = pAct; }
 
 protected:
-	// Defined elsewhere; retail reaches it through the link thunk at 0x0001720B.
-	static ScriptAction *ParseAction(DataChunkInput &file, DataChunkInfo *info, void *userData) { return (ScriptAction *)rva003B5EA5((int)&file, (int)info, (Rva003B65Header *)userData); }
+	// Rowed at 0x003B5EA5 (Rva003b6d92Finish.cpp).
+	static ScriptAction *ParseAction(DataChunkInput &file, DataChunkInfo *info, void *userData);
 
 private:
 	unsigned char _bfme_head[0x3C];
