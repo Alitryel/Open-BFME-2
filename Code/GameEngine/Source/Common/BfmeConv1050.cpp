@@ -104,24 +104,5 @@ void BfmeC1050::bfmeGo009F26D0(int a, int b, int c, int d)
 	m_bfmeP->GetClosestObject(a, *(const float *)&c, b, d, 0);
 }
 
-extern "C" void *bfmeVft1050F[];
-
-class BfmeF1050
-{
-public:
-	BfmeF1050 *bfmeGo1050F(int a, int b, int c);
-	void bfmeBaseF1050(int a, int b, int c);
-
-	void *m_bfmeVfptr;
-};
-
-BfmeF1050 *BfmeF1050::bfmeGo1050F(int a, int b, int c)
-{
-	bfmeBaseF1050(a, b, c);
-	m_bfmeVfptr = bfmeVft1050F;
-	return this;
-}
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:_bfmeVft1050F=??_7GridEnvironmentMapperClass@@6B@")
+// 0x0013C740 is GridEnvironmentMapperClass(const INIClass &, const char *, unsigned),
+// rowed from vertmaterial.cpp, whose inline ctor copy is retail's.

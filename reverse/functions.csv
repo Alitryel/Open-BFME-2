@@ -15787,7 +15787,7 @@ _rva0060E7F0,,0x00211245,100,Code/GameEngine/Source/GameLogic/Rva0060E7F0BattleM
 ??0Rva0043FC20@@QAE@ABV0@@Z,,0x0029D81D,39,Code/GameEngine/Source/Common/Rva0043FC20Copy.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ?bfmeKillUD@BfmeThingUD@@QAEPAXH@Z,,0x000F1CF7,34,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyFive.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls
 ??1Rva00220240FlatDtor@@UAE@XZ,,0x00466B45,67,Code/GameEngine/Source/Common/FlatMultiVptrDestructors.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls
-?bfmeGo1050F@BfmeF1050@@QAEPAV1@HHH@Z,,0x0013C740,37,Code/GameEngine/Source/Common/BfmeConv1050.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls
+??0GridEnvironmentMapperClass@@QAE@ABVINIClass@@PBDI@Z,,0x0013C740,37,Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp,matched,GridEnvironmentMapperClass(ini; section; stage) inline ctor: base GridTextureMapperClass ctor 0x00184350 then vptr ??_7GridEnvironmentMapperClass 0x007D3260; constructed by Parse_Mapping_Args 0x0013DD10 (+0x516 and +0xA2C) for the GRID_ENVIRONMENT mappings; was the placeholder BfmeF1050::bfmeGo1050F
 ??1Gen_dtor_00972460@@UAE@XZ,,0x00180734,68,Code/Libraries/Source/WWVegas/WW3D2/Gen_dtor_00972460.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0Rva0034C5E0@@QAE@XZ,,0x00356FDC,67,Code/GameEngine/Source/Common/Rva0034C5E0.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0Rva005EA430@@QAE@ABV0@@Z,,0x003ADDEC,41,Code/GameEngine/Source/Common/V3InlineTwoBaseCopyCtors.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
