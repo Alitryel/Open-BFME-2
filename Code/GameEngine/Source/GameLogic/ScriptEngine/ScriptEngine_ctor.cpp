@@ -40,6 +40,16 @@ class Rva00207630Map:public MapHeaderB {public:__forceinline Rva00207630Map(){}~
 class Rva0020766DMap:public MapHeaderB {public:__forceinline Rva0020766DMap(){}~Rva0020766DMap();};
 class Rva002076AAMap:public MapHeaderB {public:__forceinline Rva002076AAMap(){}~Rva002076AAMap();};
 class Rva002076E7Map:public MapHeaderC {public:__forceinline Rva002076E7Map(){}~Rva002076E7Map();};
+// playerMaps[20] element: retail's eh vector constructor call (0x002084A1)
+// passes the shared 25-byte empty-tree constructor 0x0033C432 and the 5-byte
+// destructor 0x00205AF8 (rowed ??1Rva00205AF8, a jump to the tree destructor
+// ??1Rva00204136 at 0x002055E4), so the element is not map<int,void*>, whose
+// destructor is 0x00286921. Key and payload are unresolved: the tree type
+// below only spells the ICF-shared tree constructor (0x001F068F), as
+// ThingTemplate's map views do.
+typedef _STL::pair<const int,void*> PlayerMapValue;
+typedef _STL::_Rb_tree<int,PlayerMapValue,_STL::_Select1st<PlayerMapValue>,_STL::less<int>,_STL::allocator<PlayerMapValue> > PlayerMapTree;
+struct Rva00205AF8 {PlayerMapTree tree;Rva00205AF8():tree(_STL::less<int>(),PlayerMapTree::allocator_type()){}~Rva00205AF8();};
 class Rva00207724Map:public MapHeaderB {public:__forceinline Rva00207724Map(){}~Rva00207724Map();};
 class Rva00207761Map:public MapHeaderB {public:__forceinline Rva00207761Map(){}~Rva00207761Map();};
 class Rva0020779EMap:public MapHeaderB {public:__forceinline Rva0020779EMap(){}~Rva0020779EMap();};
@@ -61,7 +71,7 @@ Rva0034C5E0 attack[256];
 int a100,a104,a108;AsciiString string1A10C;int a110,a114,a118,a11C;
 _STL::vector<RvaPair00207E26> records;
 bool a12C;int a130,a134,a138;bool a13C;float a140,a144,a148;int a14C,a150,a154,a158,a15C,a160;
-MapHeaderC playerMaps[20];
+Rva00205AF8 playerMaps[20];
 _STL::list<int> list254;_STL::list<BfmePod8> list258,list25C;_STL::list<int> list260,list264;
 _STL::list<SnapshotBlock> lists268[20],lists2B8[20],lists308[20],lists358[20];
 _STL::vector<Rva00390729Element> vectors[20];
