@@ -13,21 +13,22 @@
 // for the growth index; explicit snapshots and guards preserve that order.
 // STLport vector access is the clean source guide for the record array;
 // layout and GUI semantics come from target instructions and literals.
-// All calls and globals use real link providers; scoped ABI aliases below
-// do not assert equivalence of original application type names.
+// All calls and globals use real link providers; the icon collection and
+// record vector are spelled as their providers' ledger classes (Rva00524306,
+// Rva005EE06CVector), which are placeholders, not original type names.
 #include "ascii_string.h"
 #include "unicode_string.h"
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 int __cdecl Rva0052519DFire(void*,void*,const char*,const char*,int*);
 struct Rva005EE11ERecord {UnicodeString text;unsigned word0,word1,word2,word3;};
-class Rva005EE11ERecords {public:
+class Rva005EE06CVector {public:
  unsigned size()const{return finish-start;}
  Rva005EE11ERecord &operator[](unsigned i){return start[i];}
  void resize(unsigned);
 private:Rva005EE11ERecord *start,*finish,*limit;
 };
-class Rva005EE11EIcons {public:void remove(const AsciiString&);private:void*words[3];};
+class Rva00524306 {public:void rva00524306(const StringBase<char>&);private:void*words[3];};
 namespace StrategicHUD {
 class RegionAwardMovieClip
 {
@@ -42,8 +43,8 @@ class StrategicHUD::RegionAwardMovieClip::Impl
  void SetPlayerString(int,const char*,const UnicodeString&);
 private:
  unsigned word0;int level;AsciiString name;
- char pad0c[0xc];Rva005EE11EIcons icons;char pad24[0x20];
- Rva005EE11ERecords records;
+ char pad0c[0xc];Rva00524306 icons;char pad24[0x20];
+ Rva005EE06CVector records;
 };
 void StrategicHUD::RegionAwardMovieClip::Impl::SetPlayerCount(int count){
  int desired=count;
@@ -55,7 +56,7 @@ void StrategicHUD::RegionAwardMovieClip::Impl::SetPlayerCount(int count){
   if(record.word1){
    AsciiString key;
    key.format("_level%u.%s_PlayerIcon%d",level,name.str(),i);
-   icons.remove(key);
+   icons.rva00524306(*(const StringBase<char> *)&key);
   }
  }
  desired=count;
@@ -68,8 +69,3 @@ void StrategicHUD::RegionAwardMovieClip::Impl::SetPlayerCount(int count){
  }
 }
 }
-
-#pragma comment(linker, "/alternatename:?remove@Rva005EE11EIcons@@QAEXABVAsciiString@@@Z=?rva00524306@Rva00524306@@QAEXABV?$StringBase@D@@@Z")
-
-
-#pragma comment(linker, "/alternatename:?resize@Rva005EE11ERecords@@QAEXI@Z=?resize@Rva005EE06CVector@@QAEXI@Z")
