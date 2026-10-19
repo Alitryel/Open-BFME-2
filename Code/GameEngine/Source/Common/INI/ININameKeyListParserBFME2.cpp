@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /EHsc /D_CRTIMP= /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /MD /EHsc /D_CRTIMP= /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Native 0x149002..0x149101 and WB 0x728720 establish the NameKey list
 // parser, its optional uniqueness flag, macro splitting and cleanup lifetimes.

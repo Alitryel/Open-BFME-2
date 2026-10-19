@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception
+// cl: /O1 /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // BFME1 9cbfb55 INILightPointLevel.cpp supplies the semantic class guide.
 // WB 0x010EE1D0 and retail 0x004212E4..0x00421312 prove initialization of
