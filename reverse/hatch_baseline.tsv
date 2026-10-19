@@ -1523,7 +1523,6 @@ address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A5572Update.cpp	g_Va00BC26F0	1
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AFB2A.cpp	g_Va007C26F0	4
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AFB2A.cpp	g_Va00BBB8D8	4
-address_global	Code/GameEngine/Source/GameClient/System/Rva002115D0String.cpp	g_Rva0107301CEmptyString	2
 address_global	Code/GameEngine/Source/GameLogic/AI/AIGroupChain00472B54.cpp	g_Va009FF0F8	4
 address_global	Code/GameEngine/Source/GameLogic/AI/AIMeleeReAcquireStateOnEnter.cpp	g_Va00DBA4E4	2
 address_global	Code/GameEngine/Source/GameLogic/AI/AIPlayerTeamBuild.cpp	g_Va00DBA4E4	2

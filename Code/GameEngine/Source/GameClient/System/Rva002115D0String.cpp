@@ -7,7 +7,6 @@
 // name and raw argument spelling retain that uncertainty.
 #include "ascii_string.h"
 
-extern const char g_Rva0107301CEmptyString[];
 
 class Rva002115D0
 {
@@ -17,5 +16,5 @@ public:
 
 AsciiString Rva002115D0::rva002115D0(unsigned int)
 {
-	return AsciiString(g_Rva0107301CEmptyString);
+	return AsciiString("");
 }
