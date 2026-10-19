@@ -19,15 +19,15 @@ public:
     Rva00432F23Node *m_prev;
 };
 
-class Rva00432F23
+class AnimationSoundModuleManager
 {
 public:
     void remove(Rva00432F23Node *node);
 };
 
-extern Rva00432F23 *g_004C9DC9Container;
+extern AnimationSoundModuleManager *g_004C9DC9Container;
 // g_004C9DC9Container: VA 0xe032d0 (zero-filled .bss).
-Rva00432F23 * g_004C9DC9Container;
+AnimationSoundModuleManager * g_004C9DC9Container;
 
 class Rva0049B47C
 {

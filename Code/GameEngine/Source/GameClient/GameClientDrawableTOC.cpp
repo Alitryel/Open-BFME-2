@@ -780,14 +780,13 @@ public:
 	void rva000B3FD0();
 };
 
-// TheAnimationSoundModuleManager: Rva00432F23 and AnimationSoundModuleManager (the 0x2C-byte
-// ctor) are two placeholder names of the one class.
-class Rva00432F23 : public SubsystemInterface { public: virtual ~Rva00432F23(); };
-
+// TheAnimationSoundModuleManager (the 0x2C-byte ctor; its list helpers are
+// rowed in Rva00432F23Remove.cpp).
 class AnimationSoundModuleManager : public SubsystemInterface
 {
 public:
 	AnimationSoundModuleManager();
+	virtual ~AnimationSoundModuleManager();
 	virtual void init();
 	virtual void reset();
 	virtual void update();
@@ -1278,7 +1277,7 @@ extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern GameWindowManager *TheWindowManager;
 extern FontLibrary *TheFontLibrary;
 extern Mouse *TheMouse;
-extern Rva00432F23 *g_004C9DC9Container;               // TheAnimationSoundModuleManager
+extern AnimationSoundModuleManager *g_004C9DC9Container;               // TheAnimationSoundModuleManager
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 extern G00DFF080Obj *g_00DFF080;                        // TheTerrainVisual
 extern Display *TheDisplay;
@@ -1509,7 +1508,7 @@ void GameClient::init()
 	TheAnim2DCollection->init();
 	TheAnim2DCollection->setName(AsciiString("TheAnim2DCollection"));
 
-	g_004C9DC9Container = (Rva00432F23 *)new AnimationSoundModuleManager;
+	g_004C9DC9Container = new AnimationSoundModuleManager;
 	g_004C9DC9Container->init();
 	g_004C9DC9Container->setName(AsciiString("TheAnimationSoundModuleManager"));
 

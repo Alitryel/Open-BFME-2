@@ -61,14 +61,14 @@ public:
 	void noteOwner( U4Owner00604C00 *o );
 };
 
-// LINK: the assign notification is rowed as Rva00432F23::rva00432E5D (0x00432E5D).
+// LINK: the assign notification is rowed as AnimationSoundModuleManager::rva00432E5D (0x00432E5D).
 class Rva00432F23Node;
-class Rva00432F23
+class AnimationSoundModuleManager
 {
 public:
 	void rva00432E5D( Rva00432F23Node *node );
 };
-extern class Rva00432F23 *g_004C9DC9Container;
+extern class AnimationSoundModuleManager *g_004C9DC9Container;
 
 // ---------------------------------------------------------------- 0x006057C0
 
@@ -91,7 +91,7 @@ U4Assign006057C0 &U4Assign006057C0::operator=( const U4Assign006057C0 &other )
 		m_f08 = other.m_f08;
 		m_f10 = other.m_f10;
 		if ( (*(U4Notify **)&g_004C9DC9Container) != 0 )
-			(*(Rva00432F23 **)&g_004C9DC9Container)->rva00432E5D( (Rva00432F23Node *)this );
+			(*(AnimationSoundModuleManager **)&g_004C9DC9Container)->rva00432E5D( (Rva00432F23Node *)this );
 	}
 	return *this;
 }

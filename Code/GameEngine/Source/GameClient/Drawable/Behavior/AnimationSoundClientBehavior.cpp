@@ -36,8 +36,8 @@ class AnimationSoundTree { public: AnimationSoundTreeNode *rva004C9FE0(const voi
 struct ModuleData { void*vptr; int unknown04; AnimationSoundTree tree; float cap; };
 class Rva001DFE56 { public: bool rva001DFE56(const void*,const void*) const; };
 class Rva00432F23Node;
-class Rva00432F23 { public: void rva00432EC0(Rva00432F23Node*); };
-extern Rva00432F23 *g_004C9DC9Container;
+class AnimationSoundModuleManager { public: void rva00432EC0(Rva00432F23Node*); };
+extern AnimationSoundModuleManager *g_004C9DC9Container;
 class ObjectDrawInterface { public:
  virtual void slot0()=0;
  virtual void slot1()=0;

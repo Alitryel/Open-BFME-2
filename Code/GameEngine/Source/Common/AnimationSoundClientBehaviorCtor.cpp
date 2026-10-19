@@ -74,13 +74,13 @@ public:
 	Rva00432F23Node *m_prev;
 };
 
-class Rva00432F23
+class AnimationSoundModuleManager
 {
 public:
 	void rva00432F7D(Rva00432F23Node *node);
 };
 
-extern Rva00432F23 *g_004C9DC9Container;
+extern AnimationSoundModuleManager *g_004C9DC9Container;
 
 class AudioManager;
 extern AudioManager *TheAudio;

@@ -15,14 +15,14 @@
 
 class Rva00432F23Node;
 
-class Rva00432F23
+class AnimationSoundModuleManager
 {
 public:
 	void rva00432EC0(Rva00432F23Node *node);
 	void rva00432E5D(Rva00432F23Node *node);
 };
 
-extern Rva00432F23 *g_004C9DC9Container;
+extern AnimationSoundModuleManager *g_004C9DC9Container;
 
 template <int N> class Rva004C9E1FSlots : public Rva004C9E1FSlots<N - 1>
 {

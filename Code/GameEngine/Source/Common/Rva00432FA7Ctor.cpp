@@ -21,9 +21,9 @@ private:
 
 extern const void *const g_00C3CA30[];
 class AnimationSoundModuleManager;
-// ?g_00E032D0@@3PAVAnimationSoundModuleManager@@A: the global at this VA is ?g_004C9DC9Container@@3PAVRva00432F23@@A; this name is an alias for it.
-extern class Rva00432F23 *g_004C9DC9Container;
-#pragma comment(linker, "/alternatename:?g_00E032D0@@3PAVAnimationSoundModuleManager@@A=?g_004C9DC9Container@@3PAVRva00432F23@@A")
+// ?g_00E032D0@@3PAVAnimationSoundModuleManager@@A: the global at this VA is ?g_004C9DC9Container@@3PAVAnimationSoundModuleManager@@A; this name is an alias for it.
+extern class AnimationSoundModuleManager *g_004C9DC9Container;
+#pragma comment(linker, "/alternatename:?g_00E032D0@@3PAVAnimationSoundModuleManager@@A=?g_004C9DC9Container@@3PAVAnimationSoundModuleManager@@A")
 
 class AnimationSoundModuleManager : public SubsystemInterface
 {
@@ -50,8 +50,8 @@ AnimationSoundModuleManager::AnimationSoundModuleManager()
 	m_20 = FLT_MAX;
 	m_24 = FLT_MAX;
 	m_28 = FLT_MAX;
-	if ((*(AnimationSoundModuleManager **)&g_004C9DC9Container) == 0)
-		(*(AnimationSoundModuleManager **)&g_004C9DC9Container) = this;
+	if (g_004C9DC9Container == 0)
+		g_004C9DC9Container = this;
 }
 
 // Retail's data references in this unit's matched rows land on globals defined
