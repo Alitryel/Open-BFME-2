@@ -1,7 +1,7 @@
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ?rva00598CBC@Rva00598CBC@@QAEXXZ @0x00598CBC 65B via vector-assign plus slot-gated push_back
-// Evidence: chain from 0x00598007; caller 0x004EBFC2; vector at +0x4C like Rva00598B2A; m_30 at +0x30 like Rva00598007; rowed vector assign 0x000BDB46 and push_back 0x0002DBE6 and Find 0x00506C82; global g_00E063D4
+// Evidence: chain from 0x00598007; caller 0x004EBFC2; vector at +0x4C like Rva00598B2A; m_30 at +0x30 like AIUnitBuilder; rowed vector assign 0x000BDB46 and push_back 0x0002DBE6 and Find 0x00506C82; global g_00E063D4
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 #include <stl/_algobase.h>
@@ -39,7 +39,7 @@ struct Rva002A8AB1Record
 	MidVecHolder *m_160;
 };
 
-class Rva00598007
+class AIUnitBuilder
 {
 public:
 	Rva002A8AB1Record *getAI();
@@ -76,7 +76,7 @@ private:
 
 void Rva00598CBC::rva00598CBC()
 {
-	Rva002A8AB1Record *rec = ((Rva00598007 *)this)->getAI();
+	Rva002A8AB1Record *rec = ((AIUnitBuilder *)this)->getAI();
 	_STL::vector<AsciiString> &src = rec->m_160->m_vec;
 	m_vec = src;
 	GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)m_30);

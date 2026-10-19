@@ -1,5 +1,5 @@
 // cl: /MD
-// ?getAI@Rva00598007@@QAEPAURva002A8AB1Record@@XZ @0x00598007 15B
+// ?getAI@AIUnitBuilder@@QAEPAURva002A8AB1Record@@XZ @0x00598007 15B
 // Evidence: leaf lookup via global and rowed Rva002A8F24 rva002A8AB1 on member at +0x30; ready caller 0x00598CBC uses eax as pointer plus 0x160.
 struct Rva002A8AB1Record
 {
@@ -15,7 +15,7 @@ public:
 
 extern Rva002A8F24 *g_00DFEEF8;
 
-class Rva00598007
+class AIUnitBuilder
 {
 public:
 	Rva002A8AB1Record *getAI();
@@ -25,13 +25,13 @@ private:
 	void *m_30;
 };
 
-Rva002A8AB1Record *Rva00598007::getAI()
+Rva002A8AB1Record *AIUnitBuilder::getAI()
 {
 	Rva002A8AB1Record *p = g_00DFEEF8->rva002A8AB1(m_30);
 	return p;
 }
 
-bool Rva00598007::rva0059802E()
+bool AIUnitBuilder::rva0059802E()
 {
 	Rva002A8AB1Record *p = g_00DFEEF8->rva002A8AB1(m_30);
 	return p->m_16c == 0;
