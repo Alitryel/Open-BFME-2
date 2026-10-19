@@ -24,6 +24,18 @@
 // operator* (WB 0x0071C0E0). cl orders the products' commutative operands
 // by its own temporaries, so the accessor call and the verbatim WWMath
 // operator* grouping are both needed for retail's operand order.
+//
+// 0x001622B0 (1335 bytes): HTreeClass::Capture_Update(pivot_index), BFME 2's
+// captured-pivot step, named after its pin; WorldBuilder calls it
+// HTreeClass::UpdateCapturedPivotAndAdvance (0x00A18C60, htree.cpp:1676-1682,
+// whose asserts name CapturedPivots and PivotIndex). It finds pivot_index in
+// the sorted capture records ({PivotIndex, CompactTransform, world-space
+// flag}), post-multiplies the pivot's transform by the captured one (WB
+// 0x00A16A90: rotate the captured translation, add it, then quat.h's
+// Quaternion::PostMultiply, WB 0x00A16AE0), or for a world-space capture by
+// a rotation-only CompactTransform(Q, Vector3(0,0,0)) followed by adding the
+// translation unrotated, and returns the next captured pivot index or -1.
+// Retail inlines every helper, as WWINLINE's __forceinline does.
 #include <vector>
 
 class Vector3
@@ -31,7 +43,9 @@ class Vector3
 public:
 	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	Vector3(const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; }
 	Vector3 & operator = (const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Vector3 & operator += (const Vector3 & v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
 	float X, Y, Z;
 };
 inline Vector3 operator + (const Vector3 & a, const Vector3 & b)
@@ -48,6 +62,14 @@ public:
 	const float & operator [](int i) const { return (&X)[i]; }
 	Quaternion & operator = (const Quaternion & source) { X = source[0]; Y = source[1]; Z = source[2]; W = source[3]; return *this; }
 	void Rotate_Vector(const Vector3 & v, Vector3 * result) const;
+	__forceinline void PostMultiply(const Quaternion & q)
+	{
+		Quaternion a = *this;
+		X = a.W*q.X + a.X*q.W + (a.Y*q.Z - a.Z*q.Y);
+		Y = a.W*q.Y + a.Y*q.W - (a.X*q.Z - a.Z*q.X);
+		Z = a.W*q.Z + a.Z*q.W + (a.X*q.Y - a.Y*q.X);
+		W = a.W*q.W - (a.X*q.X + a.Y*q.Y + a.Z*q.Z);
+	}
 	float X, Y, Z, W;
 };
 
@@ -85,6 +107,8 @@ Quaternion Build_Quaternion(const Matrix3D & mat);
 class CompactTransform
 {
 public:
+	CompactTransform() {}
+	CompactTransform(const Quaternion & q, const Vector3 & p) : Q(q), Position(p) {}
 	CompactTransform & operator = (const Matrix3D & m)
 	{
 		Q = Build_Quaternion(m);
@@ -97,6 +121,13 @@ public:
 		a.Q.Rotate_Vector(b.Position, &tmp);
 		res->Position = tmp + a.Position;
 		res->Q = a.Q * b.Q;
+	}
+	__forceinline void PostMul(const CompactTransform & b)
+	{
+		Vector3 tmp;
+		Q.Rotate_Vector(b.Position, &tmp);
+		Position += tmp;
+		Q.PostMultiply(b.Q);
 	}
 	Quaternion Q;
 	Vector3 Position;
@@ -120,19 +151,19 @@ public:
 	int Capture_Update(int pivot_index);
 	void Base_Update(const Matrix3D & root);
 private:
-	struct CapturedBone { int Index; Quaternion Rotation; Vector3 Translation; bool WorldSpaceTranslation; };
+	struct CapturedPivot { int PivotIndex; CompactTransform Transform; bool WorldSpaceTranslation; };
 	char Name[16];
 	int NumPivots;
 	PivotClass *Pivot;
 	float ScaleFactor;
-	std::vector<CapturedBone> Captured;
+	std::vector<CapturedPivot> CapturedPivots;
 };
 
 int HTreeClass::rva00162290() const
 {
-	if (Captured.empty())
+	if (CapturedPivots.empty())
 		return -1;
-	return Captured.front().Index;
+	return CapturedPivots.front().PivotIndex;
 }
 
 void HTreeClass::Base_Update(const Matrix3D & root)
@@ -155,4 +186,27 @@ void HTreeClass::Base_Update(const Matrix3D & root)
 
 		if (piv_idx == captured) captured = Capture_Update(captured);
 	}
+}
+
+int HTreeClass::Capture_Update(int pivot_index)
+{
+	std::vector<CapturedPivot>::iterator i;
+	for (i = CapturedPivots.begin(); i != CapturedPivots.end() && i->PivotIndex < pivot_index; ++i) {
+	}
+
+	if (i == CapturedPivots.end() || i->PivotIndex != pivot_index)
+		return -1;
+
+	if (i->WorldSpaceTranslation) {
+		CompactTransform rotation(i->Transform.Q, Vector3(0, 0, 0));
+		Pivot[pivot_index].Transform.PostMul(rotation);
+		Pivot[pivot_index].Transform.Position += i->Transform.Position;
+	} else {
+		Pivot[pivot_index].Transform.PostMul(i->Transform);
+	}
+
+	++i;
+	if (i == CapturedPivots.end())
+		return -1;
+	return i->PivotIndex;
 }
