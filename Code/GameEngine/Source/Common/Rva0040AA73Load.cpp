@@ -4,7 +4,7 @@
 // (SubsystemInterface::init) of the manager's vftable 0x00C392E0.
 // Free AwardSystem INI loader via temp INI plus rowed ctor 0x2CDB0 plus
 // StringBase ctor 0x37BA0 plus pinned loadFile 0x2DC75 plus rowed dtor
-// 0x2CE5B when g_00E02F78 set with literal Data\INI\AwardSystem.ini.
+// 0x2CE5B when BfmeAwardSystemManagerInstance (0x00E02F78) set with literal Data\INI\AwardSystem.ini.
 // Evidence: rowed INI ctor/dtor plus set plus vtable 0x008392E0 slot 1.
 #include "ascii_string.h"
 
@@ -27,18 +27,18 @@ private:
 	char m_pad[0x87C];
 };
 
-extern int g_00E02F78;
-// g_00E02F78: matched references place it at VA 0xe02f78 (zero-filled .bss).
-int g_00E02F78;
-
 class AwardSystemManager
 {
 public:
 	virtual void init();
 };
+
+// VA 0x00E02F78 is the instance pointer AwardSystemManager.cpp defines (its
+// ctor stores `this` there); data row owner.
+extern AwardSystemManager *BfmeAwardSystemManagerInstance;
 void AwardSystemManager::init()
 {
-	if (g_00E02F78 == 0) {
+	if (BfmeAwardSystemManagerInstance == 0) {
 		return;
 	}
 	INI ini;
