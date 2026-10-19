@@ -48,9 +48,9 @@ int g_rva01143064[155] = {
 	-1, -1, -1, -1, -1, -1, -1, -1,
 	-1, -1, 0,
 };
-// g_rva01142c68: matched references place it at VA 0xbd8dc8; retail contents, sized to the
+// g_bfmeProbCost: matched references place it at VA 0xbd8dc8; retail contents, sized to the
 // 0x3fc-byte gap before the next known global there.
-int g_rva01142c68[255] = {
+int g_bfmeProbCost[255] = {
 	2047, 2047, 1791, 1641, 1535, 1452, 1385, 1328,
 	1279, 1235, 1196, 1161, 1129, 1099, 1072, 1046,
 	1023, 1000, 979, 959, 940, 922, 905, 889,
@@ -91,5 +91,5 @@ extern "C" void __cdecl VP6_EncodeBool2(BoolCoder *coder, int bit, int prob)
 	if (bit)
 		coder->bits += g_rva01143064[-prob];
 	else
-		coder->bits += g_rva01142c68[prob];
+		coder->bits += g_bfmeProbCost[prob];
 }

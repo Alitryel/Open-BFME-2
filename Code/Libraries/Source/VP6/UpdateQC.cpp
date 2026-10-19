@@ -15,7 +15,7 @@ extern "C" void __cdecl VP6_init_quantizer(Rva009A6780State *, int); // 0x001B71
 extern "C" void __cdecl VP6_init_dequantizer(BfmeS1040 *, int);  // 0x001B70A0
 
 extern unsigned int vp6DequantIndex[64]; // retail 0x00BD8460 zig-zag order
-extern int g_rva01142408[]; // retail 0x00BD8560 identity index
+extern int g_bfmeIdentityIndex[]; // retail 0x00BD8560 identity index
 
 static __forceinline unsigned codecWord(const char *p)
 {
@@ -26,7 +26,7 @@ static __forceinline unsigned codecWord(const char *p)
 
 static __forceinline void resetInverseMap(char *bytes)
 {
-	int *table = g_rva01142408;
+	int *table = g_bfmeIdentityIndex;
 	memcpy(bytes + 0x13c, &table, 4);
 	for (int i = 0; i < 64; ++i)
 		bytes[0x140 + vp6DequantIndex[i]] = (char)i;

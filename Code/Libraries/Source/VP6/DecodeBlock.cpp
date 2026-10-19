@@ -39,7 +39,7 @@ struct PB_INSTANCE
 
 typedef void (__cdecl *Vp6InverseTransform)(unsigned char *, short *, short *);
 
-extern unsigned char g_Rva01142608[];
+extern unsigned char g_bfmePlaneSelector[];
 extern int g_bfmeVp6SelectorMapDw[];
 extern Vp6InverseTransform g_Vp6IdctTable[];
 extern "C" unsigned char __cdecl VP6_ReadHuffTokens(PB_INSTANCE *, unsigned char *, int);
@@ -62,17 +62,17 @@ extern "C" void __cdecl VP6_DecodeBlock(PB_INSTANCE *pbi, int row, int column, i
 	pbi->left->frame = (short)g_bfmeVp6SelectorMapDw[pbi->mode];
 	pbi->above->frame = pbi->left->frame;
 	if ((int)count <= 1) {
-		g_Vp6IdctTable[1](VP6_COEFS, pbi->quantizer->dequant[g_Rva01142608[position]], pbi->reconstruction);
+		g_Vp6IdctTable[1](VP6_COEFS, pbi->quantizer->dequant[g_bfmePlaneSelector[position]], pbi->reconstruction);
 		*(short *)VP6_COEFS = 0;
 	} else if ((int)count <= 10) {
-		g_Vp6IdctTable[9](VP6_COEFS, pbi->quantizer->dequant[g_Rva01142608[position]], pbi->reconstruction);
+		g_Vp6IdctTable[9](VP6_COEFS, pbi->quantizer->dequant[g_bfmePlaneSelector[position]], pbi->reconstruction);
 		memset(VP6_COEFS, 0, 16);
 		memset(VP6_COEFS + 0x10, 0, 8);
 		memset(VP6_COEFS + 0x20, 0, 8);
 		memset(VP6_COEFS + 0x30, 0, 8);
 		*(short *)(VP6_COEFS + 0x40) = 0;
 	} else {
-		g_Vp6IdctTable[63](VP6_COEFS, pbi->quantizer->dequant[g_Rva01142608[position]], pbi->reconstruction);
+		g_Vp6IdctTable[63](VP6_COEFS, pbi->quantizer->dequant[g_bfmePlaneSelector[position]], pbi->reconstruction);
 		memset(VP6_COEFS, 0, 128);
 	}
 	VP6_ReconstructBlock((Rva009B5830State *)pbi, position);

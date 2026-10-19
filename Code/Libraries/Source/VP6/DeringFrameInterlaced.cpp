@@ -61,14 +61,14 @@ extern void *g_bfmeSlotB44;
 extern int g_bfmeDeringModifiers[64];
 
 // The quantiser tables, read from BFME 2 .data 0x00DB7828 and 0x00DB7928.
-int g_rva012D7F58[64] =
+int g_bfmeDeringScaleV2[64] =
 {
 	9, 9, 8, 8, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6,
 	6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5,
 	5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4,
 	4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2
 };
-int g_rva012D8058[64] =
+int g_bfmeDeringScaleV5[64] =
 {
 	9, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 7, 7, 7, 7,
 	6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
@@ -111,9 +111,9 @@ extern "C" void __cdecl DeringFrameInterlaced(Rva009A6130Context *ctx, unsigned 
 	}
 
 	if (ctx->m_mode >= 5)
-		table = g_rva012D8058;
+		table = g_bfmeDeringScaleV5;
 	else if (ctx->m_mode >= 2)
-		table = g_rva012D7F58;
+		table = g_bfmeDeringScaleV2;
 	else
 		table = g_bfmeDeringModifiers;
 

@@ -5,8 +5,8 @@ struct BfmeS1040;
 extern "C" void __cdecl VP6_init_dequantizer(BfmeS1040 *s, int version); // 0x001B70A0
 extern void (__cdecl *g_bfmeQuantIndexBuilder)(BfmeS1040 *s);   // 0x00E22F74, InitLibrary.cpp
 
-// 0x007D8560 identity index (ledger g_rva01142408), 0x007D8460 zig-zag order.
-extern int g_rva01142408[];
+// 0x007D8560 identity index (ledger g_bfmeIdentityIndex), 0x007D8460 zig-zag order.
+extern int g_bfmeIdentityIndex[];
 extern unsigned int vp6DequantIndex[64];
 
 // Retail .data tables, contents cited in specs 001c4740/001c47c0:
@@ -45,7 +45,7 @@ struct Quantizer
 // RVA 0x001B7070
 extern "C" void __cdecl VP6_BuildQuantIndex_Generic(Quantizer *q)
 {
-	q->index = g_rva01142408;
+	q->index = g_bfmeIdentityIndex;
 	for (int i = 0; i < 64; ++i)
 		q->inverse[vp6DequantIndex[i]] = (unsigned char)i;
 }

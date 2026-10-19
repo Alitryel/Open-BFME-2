@@ -19,8 +19,8 @@ extern "C" void __cdecl ChangePostProcConfiguration(void*,void*);
 extern "C" int VP6_AllocateFragmentInfo(void*);
 extern "C" int __cdecl VP6_AllocateFrameInfo(Rva009A8910Context*,int);
 extern "C" void __cdecl VP6_DeleteFragmentInfo(void*);
-// g_Rva01142620: matched references place it at VA 0xbd8778 (retail .rdata contents).
-int g_Rva01142620[24] = {
+// g_bfmeNeighbourOffsets: matched references place it at VA 0xbd8778 (retail .rdata contents).
+int g_bfmeNeighbourOffsets[24] = {
 	-1, 0, 0, -1, -1, -1, -1, 1, -2, 0, 0, -2, -1, -2, -2, -1, -2, 1, -1, 2, -2, -2, -2, 2
 };
 struct CodecState {
@@ -88,12 +88,12 @@ extern "C" int __cdecl VP6_InitFrameDetails(CodecState* s)
     int* out=(int*)((unsigned char*)s+0x6ac);
     unsigned offset=0;
     do {
-        out[-1]=*(int*)((char*)g_Rva01142620+offset)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+4);
-        out[0]=*(int*)((char*)g_Rva01142620+offset+8)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+12);
-        out[1]=*(int*)((char*)g_Rva01142620+offset+16)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+20);
-        out[2]=*(int*)((char*)g_Rva01142620+offset+24)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+28);
-        out[3]=*(int*)((char*)g_Rva01142620+offset+32)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+36);
-        out[4]=*(int*)((char*)g_Rva01142620+offset+40)*(int)s->at0230+*(int*)((char*)g_Rva01142620+offset+44);
+        out[-1]=*(int*)((char*)g_bfmeNeighbourOffsets+offset)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+4);
+        out[0]=*(int*)((char*)g_bfmeNeighbourOffsets+offset+8)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+12);
+        out[1]=*(int*)((char*)g_bfmeNeighbourOffsets+offset+16)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+20);
+        out[2]=*(int*)((char*)g_bfmeNeighbourOffsets+offset+24)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+28);
+        out[3]=*(int*)((char*)g_bfmeNeighbourOffsets+offset+32)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+36);
+        out[4]=*(int*)((char*)g_bfmeNeighbourOffsets+offset+40)*(int)s->at0230+*(int*)((char*)g_bfmeNeighbourOffsets+offset+44);
         offset+=48; out+=6;
     }while(offset<96);
     void* cfg=(unsigned char*)s+0x1b0;

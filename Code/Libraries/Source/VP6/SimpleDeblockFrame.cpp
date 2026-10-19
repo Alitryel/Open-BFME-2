@@ -38,9 +38,9 @@ typedef void (__cdecl *Rva009B3800Filter)(
 	Rva009B3800Context *, unsigned char *, unsigned int, int *);
 
 extern int *g_bfmeDeblockLimit;
-// g_rva011428E8: matched references place it at VA 0xbd8a48; retail contents, sized to the
+// g_bfmeDeblockLimitV1: matched references place it at VA 0xbd8a48; retail contents, sized to the
 // 0x238-byte gap before the next known global there.
-int g_rva011428E8[142] = {
+int g_bfmeDeblockLimitV1[142] = {
 	30, 25, 20, 20, 15, 15, 14, 14,
 	13, 13, 12, 12, 11, 11, 10, 10,
 	9, 9, 8, 8, 7, 7, 7, 7,
@@ -91,7 +91,7 @@ extern "C" void __cdecl SimpleDeblockFrame(
 	if (mode >= 2)
 		selector = g_bfmeDeblockLimit[tableIndex];
 	else
-		selector = g_rva011428E8[tableIndex];
+		selector = g_bfmeDeblockLimitV1[tableIndex];
 
 	bounding = (int *)g_slotSetupDeblockValues((Rva009ACC40State *)ctx, selector);
 

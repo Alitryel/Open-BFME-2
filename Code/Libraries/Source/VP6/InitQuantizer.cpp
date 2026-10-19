@@ -114,9 +114,9 @@ int g_bfmeZeroRunCorrection[64] = {
 extern double g_Rva01142610;
 // g_Rva01142610: matched references place it at VA 0xbd8768 (retail .rdata value 65536.0).
 double g_Rva01142610 = 65536.0;
-// g_Rva01142608: matched references place it at VA 0xbd8760; retail contents, sized to the
+// g_bfmePlaneSelector: matched references place it at VA 0xbd8760; retail contents, sized to the
 // 0x8-byte gap before the next known global there.
-unsigned char g_Rva01142608[8] = {
+unsigned char g_bfmePlaneSelector[8] = {
 	0, 0, 0, 0, 1, 1, 0, 0,
 };
 // vp6DequantIndex: the zig-zag scan order (transmission index -> raster

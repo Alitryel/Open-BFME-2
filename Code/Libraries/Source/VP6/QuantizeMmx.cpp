@@ -7,7 +7,7 @@
 // Debug info (/Z7) selects retail's return-address-copying realign prologue.
 #include <stdlib.h>
 
-extern unsigned char g_Rva01142608[8];
+extern unsigned char g_bfmePlaneSelector[8];
 extern int g_Rva009B7B28[64];
 
 struct Vp6Quantizer
@@ -35,7 +35,7 @@ struct Vp6QuantRow
 extern "C" void __cdecl VP6_quantize_mmx(Vp6Quantizer *q, short *coeffs, short *out, unsigned char position)
 {
 	__declspec(align(16)) unsigned short candidate[64];
-	int plane = g_Rva01142608[position];
+	int plane = g_bfmePlaneSelector[position];
 	Vp6QuantRow *row = (Vp6QuantRow *)((char *)q + plane * 256);
 	int dcMul = ((int *)((char *)q + 0x190))[plane * 64];
 	int run;

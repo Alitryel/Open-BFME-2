@@ -8,7 +8,7 @@
 // 0x00BD8760) and the scan order (64 dwords at 0x00BD8460) are retail data.
 #include <string.h>
 
-extern unsigned char g_Rva01142608[];
+extern unsigned char g_bfmePlaneSelector[];
 extern unsigned int vp6DequantIndex[64];
 
 struct Rva009A6780State {
@@ -21,7 +21,7 @@ struct Rva009A6780State {
 extern "C" void __cdecl VP6_quantize_c(Rva009A6780State* s,const short* src,short* dst,unsigned char mode)
 {
     unsigned char run=0;
-    int bank=g_Rva01142608[mode];
+    int bank=g_bfmePlaneSelector[mode];
     int* multipliers=s->at0190[bank];
     int* offsets=s->at0390[bank];
     int* thresholds=s->at0590[bank];

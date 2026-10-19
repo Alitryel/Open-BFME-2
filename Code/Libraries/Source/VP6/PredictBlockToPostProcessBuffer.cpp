@@ -21,7 +21,7 @@ struct Rva009B5830State;
 extern void *g_bfmeSlotD84;
 extern void *g_bfmeSlotD88;
 extern void *g_bfmeSlotD8C;
-extern int g_rva00ED7770Vp6ModeDispatch[];
+extern int g_bfmeModeUsesMotion[];
 
 typedef void (__cdecl *Rva009AAD20CallD84)(
 	void *, unsigned char *, unsigned char *, void *, int);
@@ -43,7 +43,7 @@ extern "C" void __cdecl VP6_PredictBlockToPostProcessBuffer(Rva009AAD20State *st
 			state->m_25c + state->m_70,
 			state->m_254 + state->m_70,
 			state->m_270, state->m_74);
-	} else if (g_rva00ED7770Vp6ModeDispatch[state->m_08] != 0) {
+	} else if (g_bfmeModeUsesMotion[state->m_08] != 0) {
 		Rva009B5530Prepare((Rva009B5830State*)state, state->m_284, block);
 		((Rva009AAD20CallD88)g_bfmeSlotD88)(state->m_284,
 			state->m_270, state->m_25c + state->m_70,

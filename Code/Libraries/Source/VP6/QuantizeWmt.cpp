@@ -7,7 +7,7 @@
 // Debug info (/Z7) selects retail's return-address-copying realign prologue.
 #include <stdlib.h>
 
-extern unsigned char g_Rva01142608[8];
+extern unsigned char g_bfmePlaneSelector[8];
 // g_Rva009B7B28: the VP6 forward-quantisation scan order, read at VA 0x00DB7B28
 // (RVA 0x9B7B28) by both the WMT and the MMX quantiser bodies, which bake the
 // address into their instructions (mov ecx,[eax+0x00DB7B28]). One copy serves
@@ -48,7 +48,7 @@ struct Vp6QuantRow
 extern "C" void __cdecl VP6_quantize_wmt(Vp6Quantizer *q, short *coeffs, short *out, unsigned char position)
 {
 	__declspec(align(16)) unsigned short candidate[64];
-	int plane = g_Rva01142608[position];
+	int plane = g_bfmePlaneSelector[position];
 	Vp6QuantRow *row = (Vp6QuantRow *)((char *)q + plane * 256);
 	int dcMul = ((int *)((char *)q + 0x190))[plane * 64];
 	int run;

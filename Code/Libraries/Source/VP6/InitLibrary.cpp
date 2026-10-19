@@ -25,7 +25,7 @@ extern int g_bfmeSharedJX;                                   // 0x00E23300 proce
 
 // Retail 0x00BD8560: identity index 0..63 followed by the zig-zag inverse
 // map, sized to the 0x200-byte gap before the next known global there.
-int g_rva01142408[128] = {
+int g_bfmeIdentityIndex[128] = {
 	0, 1, 2, 3, 4, 5, 6, 7,
 	8, 9, 10, 11, 12, 13, 14, 15,
 	16, 17, 18, 19, 20, 21, 22, 23,

@@ -31,9 +31,9 @@ struct Rva009B5830State
 extern void *g_bfmeSlotD84;
 extern void *g_bfmeSlotD88;
 extern void *g_bfmeSlotD8C;
-// g_rva00ED7770Vp6ModeDispatch: matched references place it at VA 0xdb7040; retail contents, sized to the
+// g_bfmeModeUsesMotion: matched references place it at VA 0xdb7040; retail contents, sized to the
 // 0xe8-byte gap before the next known global there.
-int g_rva00ED7770Vp6ModeDispatch[58] = {
+int g_bfmeModeUsesMotion[58] = {
 	0, 0, 1, 1, 1, 0, 1, 1,
 	1, 1, 0, 128, 0, 0, -4, 118,
 	16, -2, -7, 106, 34, -5, -8, 90,
@@ -63,7 +63,7 @@ extern "C" void __cdecl VP6_ReconstructBlock(Rva009B5830State *state, int block)
 			state->predictionA + state->baseOffset,
 			state->predictionC + state->baseOffset,
 			state->pitch, state->stride);
-	} else if (g_rva00ED7770Vp6ModeDispatch[state->mode] != 0) {
+	} else if (g_bfmeModeUsesMotion[state->mode] != 0) {
 		Rva009B5530Prepare(state, state->coefficients, block);
 		((Rva009B5830ReconD88)g_bfmeSlotD88)(state->coefficients,
 			state->pitch, state->predictionA + state->baseOffset,

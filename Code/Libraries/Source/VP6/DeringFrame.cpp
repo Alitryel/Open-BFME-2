@@ -55,8 +55,8 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_slotDeringWeak (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[16])
 extern void *g_bfmeSlotB44;
 extern int g_bfmeDeringModifiers[64];
-extern int g_rva012D7F58[64];
-extern int g_rva012D8058[64];
+extern int g_bfmeDeringScaleV2[64];
+extern int g_bfmeDeringScaleV5[64];
 
 #define BLOCK_SRC (srcPtr + 8 * col)
 #define BLOCK_DST (srcPtr + 8 * col + (dstPtr - srcPtr))
@@ -92,9 +92,9 @@ extern "C" void __cdecl DeringFrame(Rva009A6130Context *ctx, unsigned char *src,
 	}
 
 	if (ctx->m_mode >= 5)
-		table = g_rva012D8058;
+		table = g_bfmeDeringScaleV5;
 	else if (ctx->m_mode >= 2)
-		table = g_rva012D7F58;
+		table = g_bfmeDeringScaleV2;
 	else
 		table = g_bfmeDeringModifiers;
 
