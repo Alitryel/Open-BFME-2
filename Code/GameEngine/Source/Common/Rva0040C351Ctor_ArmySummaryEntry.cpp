@@ -17,20 +17,8 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 extern "C" const void *const vtbl_00BC6F20[];  // folded, 7 classes; via ??_7Rva0007DF07@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BC6F20=??_7Rva0007DF07@@6B@")
-// The retail table at RVA 0x0083944C: 4 slots, each a rowed code owner (the next
-// word is not a code address or starts another ledger datum).
-extern "C" {
-void __identifier("??_GRva0040C39E@@QAEPAXI@Z")();
-void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
-void __identifier("?Rva0040C586Get@@YAHXZ")();
-void __identifier("?xfer@ArmySummaryEntry@@MAEXPAVXfer@@@Z")();
-}
-extern const void *const g_00C3944C[4] = {
-	(const void *)&__identifier("??_GRva0040C39E@@QAEPAXI@Z"), // slot 0 0x0040C5DE
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?Rva0040C586Get@@YAHXZ"), // slot 2 0x0040C586
-	(const void *)&__identifier("?xfer@ArmySummaryEntry@@MAEXPAVXfer@@@Z"), // slot 3 0x0040C4FE
-};
+// The 4-slot table at RVA 0x0083944C is defined (and data-rowed) in Rva0040C351Ctor.cpp.
+extern const void *const g_00C3944C[];
 extern const void *const g_00C3945C[];
 
 class Player;
@@ -71,24 +59,6 @@ private:
 };
 typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
 struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
-extern "C" {
-void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
-}
-// The retail table at 0x00839474: 1 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00C39474[2] = {
-	{ "Default", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC5 },
-	{ 0, 0, 0, 0 }
-};
-extern "C" {
-void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
-void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
-}
-// The retail table at 0x00818D18: 2 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00C18D18[3] = {
-	{ "ThingTemplate", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
-	{ "Quantity", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x90 },
-	{ 0, 0, 0, 0 }
-};
 class MultiIniFieldParse
 {
 public:
