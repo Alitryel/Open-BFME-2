@@ -1,14 +1,13 @@
 // cl: /O1 /MD /EHsc /DNDEBUG /G7 /arch:SSE
 // Native108D33 constructor and10C785 destructor share table7CF9C4;
 // WB777D40 parent construction identifies the projected-shadow-manager role.
-// Address owner retained until legacy W3DProjectedShadowManager views reconcile.
 // Base table7CF994 has destructor108475 plus five pure entries; its native
 // destructor10846E is empty. Derived table has seven entries:10C825,10BE72,
 // 10C065,10C145,108790,1087A6,10C2D5. RET boundaries and the two existing
 // forwarding bodies establish the declarations below; method-purpose names
 // other than the owned forwarding bodies are not asserted. These declarations
 // model observed dispatch ABI; this change does not assert provider linking.
-// Constructor108D33 is now owned upstream by Rva00108DBC; this TU emits only the destructor.
+// Constructor108D33 is defined in Rva00108DBCCtor.cpp with this same virtual view; this TU emits only the destructor.
 // Native ctor13F410 at member24 plus paired dtor69E440 and228 extent establish
 // LightEnvironmentClass. Native dtor109BEB owns the two-pointer texture table,
 // not the old bank's virtual destructor. Full bodies and EH graphs verified.

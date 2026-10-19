@@ -13,7 +13,6 @@ class Rva000F1A32 {public:Rva000F1A32();private:char body[12];};
 class Rva005D2575 {
 public:Rva005D2575();private:char body[0x1c];
 };
-class Rva00108DBC {public:Rva00108DBC();bool rva00108DBC();private:char body[0x274];};
 class Rva0007C50B {public:Rva0007C50B();private:char body[0x2c];};
 class W3DVolumetricShadowManager;
 class W3DProjectedShadowManager;
@@ -53,8 +52,12 @@ class RenderInfoClass;
 class W3DProjectedShadowManager
 {
 public:
+	W3DProjectedShadowManager();
+	bool rva00108DBC();
 	Bool ReAcquireResources();
 	int rva0010DF33(RenderInfoClass &rinfo);
+private:
+	char body[0x274];
 };
 
 class Rva00108660ResourceManager
@@ -118,7 +121,7 @@ W3DShadowManager::W3DShadowManager() {
  // not the historical class spellings, identify each submanager here.
  TheW3DVolumetricShadowManager=(W3DVolumetricShadowManager*)new Rva000F1A32;
  TheW3DProjectedShadowManager=(W3DProjectedShadowManager*)new Rva005D2575;
- Rva00108DBC *projected=new Rva00108DBC;
+ W3DProjectedShadowManager *projected=new W3DProjectedShadowManager;
  Rva00DEC2D8Manager=(Rva00108660ResourceManager*)projected;
  g_00DEC2D4=(AudioManager0029E159*)projected;
  Rva00DE1FF8Manager=(Rva0007DA23ResourceManager*)new Rva0007C50B;
@@ -140,7 +143,7 @@ Bool W3DShadowManager::rva0009A254()
 		result = false;
 	if (TheW3DProjectedShadowManager && !((Rva001076EE *)TheW3DProjectedShadowManager)->rva001076EE())
 		result = false;
-	if (Rva00DEC2D8Manager && ((Rva00108DBC *)Rva00DEC2D8Manager)->rva00108DBC() && !Rva00DEC2D8Manager->ReAcquireResources())
+	if (Rva00DEC2D8Manager && ((W3DProjectedShadowManager *)Rva00DEC2D8Manager)->rva00108DBC() && !Rva00DEC2D8Manager->ReAcquireResources())
 		result = false;
 	if (Rva00DE1FF8Manager && !((Rva0007B6EC *)Rva00DE1FF8Manager)->rva0007B6EC())
 		result = false;
