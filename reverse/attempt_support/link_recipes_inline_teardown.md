@@ -82,3 +82,26 @@ of *your* rows:
 
   So a duplicate whose symbol is your own row cannot be folded by declaration
   tricks; one of the two units has to stop claiming the body.
+
+## 4. Open lead: generated `??_E` copies that differ only by teardown visibility
+
+`Code/Libraries/Source/WWVegas/WW3D2/hlod_read_header.cpp` (232 B) has exactly
+two blockers, both compiler-generated vector deleting destructors:
+
+    ??_ESubObjectArrayClass@HLodDefClass@@QAEPAXI@Z
+    ??_EWeightInfoStruct@NamedPivotMapClass@@QAEPAXI@Z
+
+Both differ because this TU only *declares* `~SubObjectArrayClass()` (the
+definition lives in `hlod.cpp` as `{ Reset(); }`), so our `??_E` emits a call
+where retail inlined `Reset()`. Neither suppression recipe applies: the class is
+private nested in the read-only reference `hlod.h`, `inline` on the duplicate is
+the wrong direction (the definition is not ours to make), and `#define private
+public` around the include is not viable because the header pulls standard
+headers.
+
+The way in is a local view class: same `HLodDefClass` layout, with the nested
+`SubObjectArrayClass` carrying an inline `~SubObjectArrayClass() { Reset(); }`.
+`read_header`'s mangled name depends only on the outer class name, and the
+nested `??_E` keeps its name, so both the row and the COMDAT stay addressable.
+That is a ~30-line rewrite rather than a declaration tweak, which is why it is
+written down here instead of landed.
