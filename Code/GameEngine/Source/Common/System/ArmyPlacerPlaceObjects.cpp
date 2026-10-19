@@ -130,7 +130,7 @@ class Rva0022AD10Subsystem;extern Rva0022AD10Subsystem*TheFormationAssistant;
 namespace _STL{template<class T>class char_traits;template<class T>class allocator;template<class T,class C,class A>class basic_string;}
 class Rva00423FBDThis {public:void Delete(_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >*);};
 class Rva0036CB94 {public:Rva0036CB94(int,int,int,int,bool);int position;unsigned char waypoint;int ignore,target,facing,formation,player;bool attack;};
-double Rva000422A0Atan2(float,float);
+extern "C" float __cdecl atan2f(float y, float x);	// math.h's atan2f body, retail 0x000422A0
 class Rva0037FE3D {public:void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);};
 void Rva0037FE3D::rva0037FAC6(const Rva0037FE3DList&objects,const Coord3D*start,const Coord3D*goal,Player*player,bool walkOn) {
  AIGroup*group=TheAI->createGroup();
@@ -140,7 +140,7 @@ void Rva0037FE3D::rva0037FAC6(const Rva0037FE3DList&objects,const Coord3D*start,
  static NameKeyType templateKey=TheNameKeyGenerator->nameToKey(templateName);
  int formationType=((FormationAssistant*)TheFormationAssistant)->rva00422D1C(templateKey);
  if(formationType!=-1){
-  float angle=(float)Rva000422A0Atan2(goal->y-start->y,goal->x-start->x);
+  float angle=atan2f(goal->y-start->y,goal->x-start->x);
   Formation*formation=((FormationAssistant*)TheFormationAssistant)->rva00424E77(formationType,(Rva001EB130Holder*)&objects,start);
   if(formation){
    formation->rva0042245F(angle);

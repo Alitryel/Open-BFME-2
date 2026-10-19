@@ -19,7 +19,6 @@ struct FindPositionOptions{
  FindPositionOptions():flags(0),minRadius(0),maxRadius(0),startAngle(-99999.9f),maxZDelta(1e10f),ignoreObject(0),sourceToPathToDest(0),relationshipObject(0){}
  unsigned flags;float minRadius,maxRadius,startAngle,maxZDelta;const Object *ignoreObject,*sourceToPathToDest,*relationshipObject;
 };
-double __cdecl Rva000422A0Atan2(float,float);
 class TeleportToCasterSpecialPower{public:char pad[4];const TeleportData *data;void teleportList(const _STL::vector<ObjectID>*,const Coord3D*);};
 void TeleportToCasterSpecialPower::teleportList(const _STL::vector<ObjectID>*ids,const Coord3D*center){
  const TeleportData *moduleData=data;
@@ -30,7 +29,7 @@ void TeleportToCasterSpecialPower::teleportList(const _STL::vector<ObjectID>*ids
   if(object){
    ((Rva004CD4DC*)this)->rva004CD4DC(object);
    float orientation=object->orientation;options.startAngle=angle;Coord3D position;
-   if(PartitionManager::findPositionAround(center,&options,&position)){double dx=(double)position.x-center->x;float dy=(float)((double)position.y-center->y);orientation=(float)Rva000422A0Atan2(dy,(float)dx);}
+   if(PartitionManager::findPositionAround(center,&options,&position)){double dx=(double)position.x-center->x;float dy=(float)((double)position.y-center->y);orientation=atan2f(dy,(float)dx);}
    else position=*center;
    if(object->ai)object->ai->commands.aiIdle(COMMANDSOURCE_SCRIPT);
    ((Thing*)object)->setOrientation(orientation);object->teleportTo(&position,false);

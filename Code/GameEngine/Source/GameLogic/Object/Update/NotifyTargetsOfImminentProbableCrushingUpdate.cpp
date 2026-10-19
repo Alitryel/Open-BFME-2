@@ -58,7 +58,7 @@ struct NotifyRegion3D{NotifyCoord lo,hi;};
 class BfmeWideForwardB{public:BfmeWideResult bfmeForwardWideB(int,int,int,int);};
 extern PartitionManager *ThePartitionManager;
 int GetGameLogicRandomValue(int,int,char*,int);
-double __cdecl Rva000422A0Atan2(float,float);
+extern "C" float __cdecl atan2f(float y, float x);	// math.h's atan2f body, retail 0x000422A0
 enum UpdateSleepTime{UPDATE_SLEEP_NONE=1};
 class Rva004CE700Notifier{public:bool rva004CE700(Object*,const int*,UpdateSleepTime*);};
 template<class T>inline const T& nmin(const T&a,const T&b){return a<b?a:b;}
@@ -73,7 +73,7 @@ bool Rva004CE700Notifier::rva004CE700(Object*object,const int*data,UpdateSleepTi
  if(velocity.estimate()<1.0f)return false;
  NotifyCoord position(object->position),end(position);end.add(velocity);
  NotifyCoord center(position);center.add(end);center.scale(0.5f);
- float angle=(float)Rva000422A0Atan2(velocity.y,velocity.x);
+ float angle=atan2f(velocity.y,velocity.x);
  float height=((const float*)settings)[2];if(height<=0.0f)height=object->geometry.getMaxHeightAbovePosition()*3.0f;
  center.z-=height/3.0f;
  float width=((const float*)settings)[3];Rva0087E650Bounds bounds;object->geometry.rva0087E650(&bounds);
