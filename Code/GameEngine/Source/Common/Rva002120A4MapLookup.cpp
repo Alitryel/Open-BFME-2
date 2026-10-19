@@ -13,15 +13,13 @@
 #define private public
 #include <hash_map>
 #include <cstddef>
-// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+// _M_find (retail's 47-byte body at 0x002888D4) inlines the key hash, the bucket
+// count and the bucket read; declaration-only forms of those made this TU's copy
+// call them. Bind to the kept retail copies instead of emitting them.
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+// Suppress this TU's non-retail non-const vector<void*> begin/end copies.
 namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
-}
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
@@ -43,6 +41,8 @@ template <class T> struct hash
 	size_t operator()(const T &value) const;
 };
 }
+// Identity hash (row 0x00169440); inlined into _M_find as retail does.
+namespace rts { template <> __declspec(dllimport) __forceinline size_t hash<NameKeyType>::operator()(const NameKeyType &value) const { return (size_t)value; } }
 
 typedef _STL::hash_map<NameKeyType, int, rts::hash<NameKeyType>, _STL::equal_to<NameKeyType> > NameKeyIntMap;
 
