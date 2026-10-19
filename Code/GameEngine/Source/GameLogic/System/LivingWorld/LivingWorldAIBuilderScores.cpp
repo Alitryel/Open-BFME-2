@@ -259,6 +259,30 @@ float LivingWorldAIBuilder::rva0059D1C3(int playerId, int count,
 // The push_back instantiates here, ahead of its caller, as in retail.
 struct BfmePod16 { int a[4]; };
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// push_back's overflow is stlport_vector_e16_noexc.cpp's row 0x005B3970, an
+// exception-free body; the stock one wraps the element copies in an /EHs
+// region, so it is spelled here without _STLP_TRY, as that unit compiles it.
+namespace _STL {
+template <> inline void vector<BfmeE16, allocator<BfmeE16> >::_M_insert_overflow(
+	BfmeE16 *__position, const BfmeE16 &__x, const __false_type &,
+	size_type __fill_len, bool __atend)
+{
+	const size_type __old_size = size();
+	const size_type __len = __old_size + (max)(__old_size, __fill_len);
+
+	BfmeE16 *__new_start = this->_M_end_of_storage.allocate(__len);
+	BfmeE16 *__new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+	if (__fill_len == 1) {
+		_Construct(__new_finish, __x);
+		++__new_finish;
+	} else
+		__new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+	if (!__atend)
+		__new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+	_M_clear();
+	_M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 template <> BfmePod16 *_STL::vector<BfmePod16, _STL::allocator<BfmePod16> >::erase(BfmePod16 *first, BfmePod16 *last);
 
 // 16-byte order: remove flag, region id, template key, object id.

@@ -22,5 +22,32 @@ namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE1
 namespace _STL {
 template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
 }
+// _M_insert_overflow is stlport_vector_e16_noexc.cpp's row 0x005B3970, whose
+// body inlines size(), max, the proxy allocate, _M_clear and _M_set. /Ob0 keeps
+// those calls out of line, so the stock body is spelled with them expanded.
+namespace _STL {
+template <> inline void vector<BfmeE16, allocator<BfmeE16> >::_M_insert_overflow(
+	BfmeE16 *__position, const BfmeE16 &__x, const __false_type &,
+	size_type __fill_len, bool __atend)
+{
+	const size_type __old_size = this->_M_finish - this->_M_start;
+	const size_type __len = __old_size + *(__old_size < __fill_len ? &__fill_len : &__old_size);
+
+	BfmeE16 *__new_start = this->_M_end_of_storage.allocator<BfmeE16>::allocate(__len, 0);
+	BfmeE16 *__new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+	if (__fill_len == 1) {
+		_Construct(__new_finish, __x);
+		++__new_finish;
+	} else
+		__new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+	if (!__atend)
+		__new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+	if (this->_M_start != 0)
+		::free((void *)this->_M_start);
+	this->_M_start = __new_start;
+	this->_M_finish = __new_finish;
+	this->_M_end_of_storage._M_data = __new_start + __len;
+}
+}
 template void _STL::vector<BfmeE16>::_M_fill_insert(
 	BfmeE16 *, unsigned int, const BfmeE16 &);
