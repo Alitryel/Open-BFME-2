@@ -115,6 +115,7 @@ struct SideIndexInfo
 };
 
 HashTemplateClass<Vector3, unsigned> LocationHash;
+HashTemplateClass<Vector3, unsigned> DuplicateLocationHash;
 HashTemplateClass<TriangleSide,SideIndexInfo> SideHash;
 
 // Member-wise rather than whole-class: HashTemplateClass::Remove and the

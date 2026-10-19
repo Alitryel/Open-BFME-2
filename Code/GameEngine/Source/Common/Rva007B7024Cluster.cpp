@@ -75,6 +75,7 @@ public:
 	unsigned int Size;
 };
 extern HashTemplateClass<Vector3, unsigned> LocationHash;
+extern HashTemplateClass<Vector3, unsigned> DuplicateLocationHash;
 extern HashTemplateClass<TriangleSide, SideIndexInfo> SideHash;
 
 void __cdecl rva007B71D0()
@@ -85,16 +86,15 @@ void __cdecl rva007B71D0()
 		operator delete[](LocationHash.Table);
 }
 
-// g_Va00DB6354 / g_Va00DB6358: global pointer pair at VA 0x00DB6354/58.
-void *g_Va00DB6354;
-void *g_Va00DB6358;
+// VA 0x00DB6354/58: the Hash/Table pair of meshmdl_sidehash.cpp's
+// DuplicateLocationHash, between LocationHash and SideHash.
 
 void __cdecl rva007B7200()
 {
-	if (g_Va00DB6354 != 0)
-		operator delete[](g_Va00DB6354);
-	if (g_Va00DB6358 != 0)
-		operator delete[](g_Va00DB6358);
+	if (DuplicateLocationHash.Hash != 0)
+		operator delete[](DuplicateLocationHash.Hash);
+	if (DuplicateLocationHash.Table != 0)
+		operator delete[](DuplicateLocationHash.Table);
 }
 // 0x007B7230 (35B): the same teardown over SideHash's Hash/Table pair at
 // VA 0x00DB6364/0x00DB6368.
