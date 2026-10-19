@@ -45,7 +45,7 @@ struct Rva009ACC40State;
 extern "C" int *__cdecl SetupBoundingValueArray_Generic(Rva009AF490Context *, int); // 0x001BFE80
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *, int); // 0x001BD590
 extern int *g_bfmeFilterLimit;   // 0x00E22CE0 loop-filter limit table pointer
-extern int *g_rva01356A9C;       // 0x00E22CEC deblock limit table pointer
+extern int *g_bfmeDeblockLimit;       // 0x00E22CEC deblock limit table pointer
 // The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
 // and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that
 // PostProcMachineSpecificConfig (PostProcMachineSpecificConfig.cpp) defines
@@ -117,12 +117,12 @@ extern "C" void __cdecl SetupDeblocker(POSTPROC_INSTANCE *ppi)
 	POSTPROC_VERSIONED *p = (POSTPROC_VERSIONED *)ppi;
 	if (p->version >= 2)
 	{
-		int limit = g_rva01356A9C[p->frameQIndex];
+		int limit = g_bfmeDeblockLimit[p->frameQIndex];
 		p->deblockValues = SetupDeblockValueArray_Generic((Rva009ACBA0Context *)p, limit);
 	}
 	else
 	{
-		int limit = g_rva01356A9C[p->frameQIndex];
+		int limit = g_bfmeDeblockLimit[p->frameQIndex];
 		p->deblockValues = (int *)g_rva01356E64((Rva009ACC40State *)p, limit);
 	}
 }

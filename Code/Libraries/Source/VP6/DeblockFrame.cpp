@@ -14,7 +14,7 @@ extern "C" void * __cdecl memset(void *, int, unsigned int);
 struct Rva009ACBA0Context;
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *ctx, int flimit);
 
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 extern const unsigned int *g_rva01356AA0;
 extern const unsigned int *g_rva01356A98;
 
@@ -50,7 +50,7 @@ extern "C" void __cdecl DeblockFrame(Rva009AF200Context *ctx, int x, int y)
 	memset(ctx->m_scratch, 0, ctx->m_scratchCount * 4);
 
 	if (ctx->m_mode >= 2) {
-		int value = g_rva01356A9C[ctx->m_tableIndex];
+		int value = g_bfmeDeblockLimit[ctx->m_tableIndex];
 		ctx->m_bounding = SetupDeblockValueArray_Generic(
 			(Rva009ACBA0Context *)ctx, value);
 	}

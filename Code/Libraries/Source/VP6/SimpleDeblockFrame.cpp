@@ -37,7 +37,7 @@ struct Rva009B3800Context
 typedef void (__cdecl *Rva009B3800Filter)(
 	Rva009B3800Context *, unsigned char *, unsigned int, int *);
 
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 // g_rva011428E8: matched references place it at VA 0xbd8a48; retail contents, sized to the
 // 0x238-byte gap before the next known global there.
 int g_rva011428E8[142] = {
@@ -89,7 +89,7 @@ extern "C" void __cdecl SimpleDeblockFrame(
 	int selector;
 
 	if (mode >= 2)
-		selector = g_rva01356A9C[tableIndex];
+		selector = g_bfmeDeblockLimit[tableIndex];
 	else
 		selector = g_rva011428E8[tableIndex];
 

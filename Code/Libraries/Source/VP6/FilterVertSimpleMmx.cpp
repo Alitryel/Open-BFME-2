@@ -5,7 +5,7 @@
 // FilterVert_Simple_MMX (retail 0x001D2A70, 424 bytes): MMX loop filter
 // across one horizontal block edge, writing the four rows y-2..y+1. The
 // instance's frame q index (+0xC) selects the deblock limit through the
-// table pointer g_rva01356A9C (data RVA 0x00A22CEC, owned here); the fourth
+// table pointer g_bfmeDeblockLimit (data RVA 0x00A22CEC, InitPostProcessing.cpp); the fourth
 // argument is not read. The constant vectors are the retail constants at
 // image 0x00BD99C0.. read straight from the shared pool.
 
@@ -15,9 +15,7 @@ struct Rva009C2170Ctx
 	int m_tableIndex;
 };
 
-extern int *g_rva01356A9C;
-// g_rva01356A9C: matched references place it at VA 0xe22cec (zero-filled .bss).
-int * g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 
 extern const unsigned char Rva01143860Mask[8];		// retail 0x01143860 ({0xFF} x8)
 extern const unsigned short Rva01143870Round[4];	// retail 0x01143870 ({4} x4)
@@ -27,7 +25,7 @@ extern const unsigned char Rva011438B0Bias[8];		// retail 0x011438B0 ({0x80} x8)
 
 extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char *row, int stride, const void *bounding)
 {
-	ctx = (Rva009C2170Ctx *)g_rva01356A9C[ctx->m_tableIndex];
+	ctx = (Rva009C2170Ctx *)g_bfmeDeblockLimit[ctx->m_tableIndex];
 
 	__asm
 	{

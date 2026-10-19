@@ -4,7 +4,7 @@
 //
 // FilterHoriz_Simple_MMX (retail 0x001D27D0, 659 bytes): simple-profile
 // deblocking filter across one vertical block edge, eight lines, MMX; the
-// limit is entry [q index] of the table pointed to by g_rva01356A9C. The
+// limit is entry [q index] of the table pointed to by g_bfmeDeblockLimit. The
 // fourth argument is ignored. Leaves MMX state in use.
 
 struct Rva009C2170Ctx
@@ -13,7 +13,7 @@ struct Rva009C2170Ctx
 	int m_tableIndex;
 };
 
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 
 // Retail .rdata vectors; typed values come from the image bytes. Each extent
 // is bounded by the next witnessed vector's address where one follows.
@@ -37,7 +37,7 @@ extern const unsigned char Rva011438B0Bias[8] = {
 
 extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, int stride, const void *unusedBound)
 {
-	Rva009C2170Ctx *base = (Rva009C2170Ctx *)g_rva01356A9C[ctx->m_tableIndex];
+	Rva009C2170Ctx *base = (Rva009C2170Ctx *)g_bfmeDeblockLimit[ctx->m_tableIndex];
 	__declspec(align(16)) unsigned short work[16];
 
 	__asm

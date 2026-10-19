@@ -11,7 +11,7 @@
 // accumulator is a structural inference from the surrounding VP6 family,
 // target context accesses, and the donor correspondence.
 
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 
 // Vp6WideAccumConst86D0: matched references place it at VA 0xdb7fa0 (retail .data contents).
 extern "C" unsigned char Vp6WideAccumConst86D0[8] = {
@@ -105,7 +105,7 @@ extern "C" void __cdecl Rva001CA000Vp6WideAccum(
 		mov word ptr brdA[2], cx
 		mov word ptr brdA[4], cx
 		mov word ptr brdA[6], cx
-		mov ecx, g_rva01356A9C
+		mov ecx, g_bfmeDeblockLimit
 		mov eax, dword ptr [eax + ecx]
 		mov word ptr brdB[0], ax
 		mov word ptr brdB[2], ax

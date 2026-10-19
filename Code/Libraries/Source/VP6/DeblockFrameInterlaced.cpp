@@ -15,7 +15,7 @@ extern "C" void * __cdecl memset(void *, int, unsigned int);
 struct Rva009ACBA0Context;
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *ctx, int flimit);
 
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 struct Rva009ACC40State;
 // The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
 // and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that
@@ -60,11 +60,11 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 {
 	int *bound;
 	if (ctx->m_mode >= 2) {
-		int value = g_rva01356A9C[ctx->m_tableIndex];
+		int value = g_bfmeDeblockLimit[ctx->m_tableIndex];
 		bound = SetupDeblockValueArray_Generic(
 			(Rva009ACBA0Context *)ctx, value);
 	} else {
-		int value = g_rva01356A9C[ctx->m_tableIndex];
+		int value = g_bfmeDeblockLimit[ctx->m_tableIndex];
 		bound = (int *)g_rva01356E64(
 			(Rva009ACC40State *)ctx, value);
 	}

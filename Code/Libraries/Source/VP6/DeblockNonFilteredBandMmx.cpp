@@ -20,7 +20,7 @@ extern "C" unsigned char Vp6WideAccumConst86D0[8];
 extern "C" unsigned char Vp6WideAccumConst86E0[8];
 
 // Deblock loop limit table selected by the post-processor setup.
-extern int *g_rva01356A9C;
+extern int *g_bfmeDeblockLimit;
 
 // Post-processor instance view: frame q index, per-block q index and
 // variance arrays.
@@ -61,7 +61,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 
 	index = first;
 	p1 = stride;
-	limit = g_rva01356A9C[ctx->m_frameQ];
+	limit = g_bfmeDeblockLimit[ctx->m_frameQ];
 	loopLimit[0] = (unsigned short)limit;
 	loopLimit[1] = (unsigned short)limit;
 	loopLimit[2] = (unsigned short)limit;

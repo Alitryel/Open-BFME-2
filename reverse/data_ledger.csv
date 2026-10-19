@@ -21860,7 +21860,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A22CE0,4,.data,global,?g_bfmeFilterLimit@@3PAHA,,unowned,?Rva009C0D10Src@@3PAGA;?g_bfmeFilterLimit@@3PAHA,1,9
 0x00A22CE4,4,.data,global,?g_rva01356A88@@3PBXB,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
 0x00A22CE8,4,.data,global,?g_rva01356A98@@3PBIB,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,5
-0x00A22CEC,4,.data,global,?g_rva01356A9C@@3PAHA,Code/Libraries/Source/VP6/FilterVertSimpleMmx.cpp,owned,,1,12
+0x00A22CEC,4,.data,global,?g_bfmeDeblockLimit@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,12
 0x00A22CF0,16,.data,global,?g_rva01356AA0@@3PBIB,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,4
 0x00A22D00,8,.data,global,?g_bfmeSlotABC@@3PAXA,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp,owned,,1,3
 0x00A22D08,4,.data,global,?g_bfmeSlotB40@@3PAXA,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp,provisional,?g_bfmeSlotB40@@3PAXA;?g_rva01356B40@@3P6AXPAX0HH@ZA,1,4
