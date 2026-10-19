@@ -47,7 +47,9 @@ public:
 			Referent->Release_Ref();
 		}
 	}
-	RefCountPtr const &operator=(RefCountPtr const &other)
+	// Inlined at every use here; the out-of-line copy is TextureStatisticsVector.cpp's
+	// row (0x000424D0, built without /G7), so this unit must not emit its own.
+	__declspec(dllimport) __forceinline RefCountPtr const &operator=(RefCountPtr const &other)
 	{
 		if (other.Referent != 0)
 			++*(unsigned short *)((char *)other.Referent + 4);
