@@ -1,11 +1,16 @@
-// cl: /MD
+// cl: /MD /Ireference/shims/moduledata
 // ??0Rva005C436E@@QAE@II@Z retail 0x005C4403 32B
 // Evidence: vtable 0x008745A8 plus base ??0Rva0059B7CB@@QAE@II@Z plus byte +0xC plus caller 0x005C4507 unblocks 0x005C44DF
-class Rva0059B7CB
+// Snapshot-derived: retail table 0x008745A8 holds the deleting dtor, then the
+// Snapshot slots (empty loadPostProcess, name getter, xfer); the dispatch unit
+// Rva005C436EDispatch.cpp (first in link order) spells the same table.
+#include "Common/Snapshot.h"
+
+class Rva0059B7CB : public Snapshot
 {
 public:
 	Rva0059B7CB(unsigned int field04, unsigned int field08);
-	virtual void slot00();
+	virtual ~Rva0059B7CB();
 private:
 	unsigned int m_field04;
 	unsigned int m_field08;
@@ -15,6 +20,7 @@ class Rva005C436E : public Rva0059B7CB
 {
 public:
 	Rva005C436E(unsigned int a, unsigned int b);
+	virtual ~Rva005C436E();
 private:
 	bool m_0C;
 };
