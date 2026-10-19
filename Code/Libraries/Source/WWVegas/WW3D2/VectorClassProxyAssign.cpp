@@ -58,6 +58,7 @@ inline ProxyClass::~ProxyClass()
 	}
 }
 
+// ?ProxyClass::operator= present-unmatched (inlined into the matched VectorClass<ProxyClass>::operator=)
 inline ProxyClass &ProxyClass::operator=(ProxyClass const &src)
 {
 	if (src.m_Data != 0) {
@@ -157,4 +158,6 @@ int VectorClass<T>::ID(T const &)
 	return 0;
 }
 
-template class VectorClass<ProxyClass>;
+// Instantiate only the recovered member: a whole-class instantiation also emits
+// the vtable's scalar deleting dtor, a copy that differs from the kept one.
+template VectorClass<ProxyClass> &VectorClass<ProxyClass>::operator=(VectorClass<ProxyClass> const &vec);
