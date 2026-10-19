@@ -2211,7 +2211,6 @@ name,address,notes
 ??0Rva00136001@@QAE@ABVHierarchyPrototypeRef@@@Z,0x00136001,4-byte SEH owner copy ctor (same shape, own delegate); called from factory 0x136068
 ??0Rva0013A820@@QAE@XZ,0x0050C4C6,callee of 0BfmeD1191 (0x0050C62D) at the site its BFME1 donor calls it; may be an ICF alias
 ??0Rva001408C0Target@@QAE@ABU0@@Z,0x004ABCE6,polymorphic base copy constructor REL32 callee at 0x004ABF5D in Rva004ABFD9 copy 0x004ABF47 (base at offset 0 is the key that object registers in 0x00E03CE0); identity unproven
-??0Rva00142960Base@@QAE@XZ,0x00142960,base ctor called from derived ctor 0x0009AA0F (vtable 0x00BC8900 family, 563B EH body); original name unknown
 ??0Rva0014DB9F@@QAE@XZ,0x0014DB9F,"default ctor: EH-prolog, installs vtable 0xBD386C, inits +4/-1 and +8 floats via 0x401423; sole proven caller 0x150C74 builds a 76B scratch element with it"
 ??0Rva0014F480@@QAE@ABV0@@Z,0x0014F480,copy ctor
 ??0Rva0014F4A1@@QAE@ABV0@@Z,0x0014F4A1,copy ctor

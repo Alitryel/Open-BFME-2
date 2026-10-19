@@ -14,7 +14,7 @@
 // pointer set containing the "palantir" receiver and hand it to the rowed
 // bfmeMarkReceiverPayloads; then create the "palantir" render object
 // (Create_Render_Obj), give it the identity transform (RenderObjClass slot
-// 21), allocate the 0x108-byte scene 0x001040D5 (base pin 0x00142960, vtable
+// 21), allocate the 0x108-byte scene 0x001040D5 (base SimpleSceneClass 0x00142960, vtable
 // 0x00BCF6F0), set its ambient light (SceneClass slot 6, rowed 0x0006E265) and
 // add the model (SimpleSceneClass slot 2, rowed 0x001413A0), allocate the
 // 0x3FC-byte CameraClass (rowed ctor 0x00134AB0) and set its clip/view planes
@@ -94,14 +94,14 @@ public:
 
 RenderObjClass *Create_Render_Obj(const char *name);
 
-class Rva00142960Base
+class SimpleSceneClass
 {
 public:
-	Rva00142960Base();
-	virtual ~Rva00142960Base();
+	SimpleSceneClass();
+	virtual ~SimpleSceneClass();
 };
 
-class Rva001040D5 : public Rva00142960Base
+class Rva001040D5 : public SimpleSceneClass
 {
 public:
 	Rva001040D5() {}
