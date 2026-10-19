@@ -16948,7 +16948,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0026156C,18,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesAD.cpp
 0x0026157E,66,code,,,-,,Code/GameEngine/Source/Common/Rva0026157ETestMasks.cpp
 0x002615C0,35,code,,,-,,Code/GameEngine/Source/Common/BitFlags69Test.cpp
-0x002615E3,32,code,,,-,,Code/GameEngine/Source/Common/Rva000CBA20DistSq.cpp
+0x002615E3,32,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AnimalAIUpdate.cpp
 0x0026163A,151,code,,,-,,Code/GameEngine/Source/Common/Rva0026163A.cpp
 0x002616D1,26,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp
 0x002616EB,31,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp

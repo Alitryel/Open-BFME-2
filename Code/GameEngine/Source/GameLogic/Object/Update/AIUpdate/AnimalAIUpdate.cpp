@@ -412,7 +412,7 @@ Coord3D destination;
 					destination.x += Cos(angle);destination.y += Sin(angle);
 					float distance = (float)GetGameLogicRandomValue(0,
 						data->m_maxWanderDistance, (char *)kAnimalSource, 0xbf);
-					destination.scale(distance);
+					destination.scaleInlined(distance);
 					destination.x += animalPosition(animal)->x;destination.y += animalPosition(animal)->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{
@@ -467,7 +467,7 @@ Coord3D destination;
 					destination.x += Cos(angle);destination.y += Sin(angle);
 					float distance = (float)GetGameLogicRandomValue(0,
 						data->m_maxWanderDistance, (char *)kAnimalSource, 0xf5);
-					destination.scale(distance);
+					destination.scaleInlined(distance);
 					destination.x += animalPosition(animal)->x;destination.y += animalPosition(animal)->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{

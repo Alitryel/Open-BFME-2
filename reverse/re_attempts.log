@@ -69825,3 +69825,4 @@ $L2679	0x0078799E	8	landed	add_match verified Code/GameEngine/Source/Common/Stra
 $L2681	0x007879A6	8	landed	add_match verified Code/GameEngine/Source/Common/StrategicHUD.cpp 8B; gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 $L2683	0x007879AE	8	landed	add_match verified Code/GameEngine/Source/Common/StrategicHUD.cpp 8B; gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 ?Apply@NodeCompressedMotionStruct@@QAEXAAVCompactTransform@@MPAMMPAPAE@Z	0x00160240	1184	landed	add_match verified Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp 1184B
+?distSq@Rva000CBA20@@QAEMPBVRva000CBA20Point@@@Z	0x002615E3	32	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AnimalAIUpdate.cpp 32B

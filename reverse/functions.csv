@@ -5235,7 +5235,6 @@ _Rva008143A0,,0x006802A0,38,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,mat
 ?set@Rva0073DAB0@@QAEAAV1@PBURva0073DAB0Blk@@@Z,,0x00087A74,31,Code/GameEngine/Source/Common/Rva0073DAB0Set.cpp,matched,
 ?set@Rva00468520@@QAEPAV1@PBV1@@Z,,0x004F62FE,26,Code/GameEngine/Source/Common/Rva00468520Set.cpp,matched,
 ?isLeapYear@@YG_NH@Z,,0x006F4080,65,Code/GameEngine/Source/Common/LeapYearPredicateThunk.cpp,matched,
-?distSq@Rva000CBA20@@QAEMPBVRva000CBA20Point@@@Z,,0x002615E3,32,Code/GameEngine/Source/Common/Rva000CBA20DistSq.cpp,matched,
 ?set@Rva002337F0@@QAEAAV1@PBURva002337F0Blk@@@Z,,0x00583A1E,49,Code/GameEngine/Source/Common/Rva002337F0Set.cpp,matched,
 ?set@Rva0036BDD0@@QAEAAV1@PBURva0036BDD0Vec@@0@Z,,0x003958F6,50,Code/GameEngine/Source/Common/Rva0036BDD0Set.cpp,matched,
 ?setByte@Rva0082BDA0@@QAEPAXE@Z,,0x000247E0,24,Code/GameEngine/Source/Common/Bfme/Rva0082BDA0_setByte.cpp,matched,
@@ -97201,3 +97200,4 @@ $L2679,,0x0078799E,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-
 $L2681,,0x007879A6,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 $L2683,,0x007879AE,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 ?Apply@NodeCompressedMotionStruct@@QAEXAAVCompactTransform@@MPAMMPAPAE@Z,,0x00160240,1184,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp,matched,
+?distSq@Rva000CBA20@@QAEMPBVRva000CBA20Point@@@Z,,0x002615E3,32,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AnimalAIUpdate.cpp,matched,
