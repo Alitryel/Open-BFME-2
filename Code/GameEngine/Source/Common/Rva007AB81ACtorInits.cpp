@@ -128,9 +128,7 @@ extern unsigned int g_00DDE0AC;
 extern unsigned g_Va00DDEB24;
 extern unsigned g_Va00DE4878;
 extern unsigned g_Va00DEDC80;
-extern unsigned g_Va00DEE5D8;
 extern unsigned int g_Va009F6F30;
-extern unsigned g_Va00DFE180;
 extern Rva0030ADED TheFireSettings;			// 0x00DFF4F8 (Rva007B6880Thunks.cpp)
 extern Rva0030ADED TheFireSettingsSaved;		// 0x00DFF4B8
 extern Rva00214E02 TheCloudEffectSettings;		// 0x00DFE280 (Rva007B6880Thunks.cpp)

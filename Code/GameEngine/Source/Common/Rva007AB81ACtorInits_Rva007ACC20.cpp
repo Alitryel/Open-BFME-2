@@ -130,9 +130,19 @@ extern unsigned int g_00DDE0AC;
 extern unsigned g_Va00DDEB24;
 extern unsigned g_Va00DE4878;
 extern unsigned g_Va00DEDC80;
-unsigned g_Va00DEE5D8;	// retail RVA 0x009EE5D8 (.bss), defined here
+// VA 0x00DEE5D8 is dx8wrapper.cpp's protected
+// ?render_state@DX8Wrapper@@1URenderStateStruct@@A, reached through a TU-scoped
+// friend view instead of a second datum at its address.
+struct RenderStateStruct;
+class DX8Wrapper
+{
+	friend struct Rva007AB81ACtorInits;
+protected:
+	static RenderStateStruct render_state;
+};
 extern unsigned int g_Va009F6F30;
-extern unsigned g_Va00DFE180;
+// VA 0x00DFE180 is ScriptEngine_init.cpp's TheFXParticleEditor.
+extern BfmeDualVtableReleaseDtor TheFXParticleEditor;
 extern Rva0030ADED TheFireSettings;			// 0x00DFF4F8 (Rva007B6880Thunks.cpp)
 extern Rva0030ADED TheFireSettingsSaved;		// 0x00DFF4B8
 extern Rva00214E02 TheCloudEffectSettings;		// 0x00DFE280 (Rva007B6880Thunks.cpp)
@@ -181,7 +191,7 @@ struct Rva007AB81ACtorInits
 // ?rva007ACC20@Rva007AB81ACtorInits@@SAXXZ @ 0x007ACC20 (22B): ??0SortingRenderStateStruct@@QAE@XZ on VA 0x00DEE5D8, atexit(0x007B6FD0)
 void Rva007AB81ACtorInits::rva007ACC20()
 {
-	( (SortingRenderStateStruct *)&g_Va00DEE5D8 )->SortingRenderStateStruct::SortingRenderStateStruct();
+	( (SortingRenderStateStruct *)&DX8Wrapper::render_state )->SortingRenderStateStruct::SortingRenderStateStruct();
 	atexit( rva007B6FD0 );
 }
 
@@ -189,7 +199,7 @@ void Rva007AB81ACtorInits::rva007ACC20()
 // ?rva007AD7DD@Rva007AB81ACtorInits@@SAXXZ @ 0x007AD7DD (22B): ??0BfmeDualVtableReleaseDtor@@QAE@XZ on VA 0x00DFE180, atexit(0x007B75E2)
 void Rva007AB81ACtorInits::rva007AD7DD()
 {
-	( (BfmeDualVtableReleaseDtor *)&g_Va00DFE180 )->BfmeDualVtableReleaseDtor::BfmeDualVtableReleaseDtor();
+	( &TheFXParticleEditor )->BfmeDualVtableReleaseDtor::BfmeDualVtableReleaseDtor();
 	atexit( rva007B75E2 );
 }
 
