@@ -61328,7 +61328,7 @@ _FilterBlockBil_8_mmx,,0x001D7200,204,Code/Libraries/Source/VP6/FilterBlockBil8M
 ?OnHelpBoxUnloaded@Impl@HUD@StrategicHUD@@QAEXPBD@Z,,0x0042DBD9,43,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,_level%u_OnHelpBoxUnloaded callback bound by StrategicHUD ctor 0x0042E014 (method 0x0042DBD9); clears the +0x18 help box and tells the palantir and stats display; was run@Rva0042DBD9Host
 ?rva0044D986@GameModePreferences@@QAE?AVAsciiString@@XZ,,0x0044D986,290,Code/GameEngine/Source/Common/GameModePreferences.cpp,matched,
 ?rva007B700A@@YAXXZ,,0x007B700A,26,Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp,matched,
-?rva007B7230@@YAXXZ,,0x007B7230,35,Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp,matched,
+_$E9,,0x007B7230,35,Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp,matched,compiler-emitted atexit destructor of SideHash (inlined ~HashTemplateClass: guarded delete[] of Hash then Table); registered by _$E8 0x7ACE70; was rva007B7230
 ?getContentsAsAsciiString@NetGameCommandMsg@@UAE?AVAsciiString@@XZ,,0x004D5D55,154,Code/GameEngine/Source/GameNetwork/NetGameCommandMsgContents.cpp,matched,"vtable slot 3 NetGameCommandMsg format with GameMessage type name; spelled as the getContentsAsAsciiString override: slot 3 of the 4-slot vftable 0x00C601E4 that NetGameCommandMsg's own ctor installs; retail never calls it directly; slot 3 is getContentsAsAsciiString in NetCommandMsg's table 0x00C60130 (the base body 0x004D5B4C these call first, Zero Hour's NetCommandMsg virtual order dtor/getObjectMemoryPool/getSortNumber/getContentsAsAsciiString) and the body formats the message's fields as Zero Hour's overrides do"
 ?rva003EEF13@Rva003EEF13@@QAEXH@Z,,0x003EEF13,37,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,chain via 0x003EE7CA and 0x003EEBC4 same TU as prev next
 ?rva003EE8D8@Rva003EE8D8@@QAEXH@Z,,0x003EE8D8,40,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,chain via 0x003EE7CA and 0x003EE89E same TU as prev next
@@ -88304,7 +88304,7 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007AB8C0@@YAXXZ,,0x007AB8C0,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup Rva007B6890
 ?rva007ABE93@@YAXXZ,,0x007ABE93,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B6B73
 ?rva007ACC9A@@YAXXZ,,0x007ACC9A,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B700A
-?rva007ACE70@@YAXXZ,,0x007ACE70,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B7230
+_$E8,,0x007ACE70,12,Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp,matched,compiler-emitted dynamic initializer of SideHash: atexit(_$E9 0x7B7230); was rva007ACE70
 ?rva007ADFB2@@YAXXZ,,0x007ADFB2,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B781A
 ?rva007ADFBE@@YAXXZ,,0x007ADFBE,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B7824
 ?rva007AEDCB@@YAXXZ,,0x007AEDCB,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B7CD7

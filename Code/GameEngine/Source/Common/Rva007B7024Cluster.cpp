@@ -46,8 +46,8 @@ void __cdecl rva007B700A()
 Rva007B7024Object *g_Va00DEE86C;
 
 // Retail's release thunk uses the /O1 memory read-modify-write counter shape
-// (dec [counter] / cmp [counter],0) while the two delete[] bodies below need
-// the /O2 cleanup schedule, so this one body is pinned to favor-size.
+// (dec [counter] / cmp [counter],0) while the unit builds /O2, so this one
+// body is pinned to favor-size.
 #pragma optimize("s", on)
 void __cdecl rva007B7024()
 {
@@ -56,36 +56,7 @@ void __cdecl rva007B7024()
 }
 #pragma optimize("", on)
 
-void operator delete[](void *p);
-
-// VA 0x00DB6344 and 0x00DB6364 start meshmdl_sidehash.cpp's LocationHash and
-// SideHash (16-byte HashTemplateClass objects: Hash, Table, First, Size); the
-// two pointer pairs these bodies free are their Hash/Table members, the
-// ~HashTemplateClass teardown. A layout-only view reaches the defined
-// objects instead of second datums at their addresses.
-class Vector3;
-struct TriangleSide;
-struct SideIndexInfo;
-template <class KeyType, class ValueType> class HashTemplateClass
-{
-public:
-	int *Hash;
-	void *Table;
-	int First;
-	unsigned int Size;
-};
-extern HashTemplateClass<TriangleSide, SideIndexInfo> SideHash;
-
-// 0x007B71D0 and 0x007B7200 (35B each) are meshmdl_sidehash.cpp's compiler-
-// emitted atexit destructors _$E3 / _$E6 for LocationHash and
-// DuplicateLocationHash (the inlined ~HashTemplateClass); they are rowed there.
-
-// 0x007B7230 (35B): the same teardown over SideHash's Hash/Table pair at
-// VA 0x00DB6364/0x00DB6368.
-void __cdecl rva007B7230()
-{
-	if (SideHash.Hash != 0)
-		operator delete[](SideHash.Hash);
-	if (SideHash.Table != 0)
-		operator delete[](SideHash.Table);
-}
+// 0x007B71D0, 0x007B7200 and 0x007B7230 (35B each) are meshmdl_sidehash.cpp's
+// compiler-emitted atexit destructors _$E3 / _$E6 / _$E9 for LocationHash,
+// DuplicateLocationHash and SideHash (the inlined ~HashTemplateClass); they
+// are rowed there.

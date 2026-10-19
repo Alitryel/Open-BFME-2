@@ -306,13 +306,8 @@ void rva007ACC9A()
 	atexit(rva007B700A);
 }
 
-void __cdecl rva007B7230();
-
-// ?rva007ACE70@@YAXXZ @0x007ACE70 12B: atexit(0x007B7230).
-void rva007ACE70()
-{
-	atexit(rva007B7230);
-}
+// 0x007ACE70 (12B, atexit of 0x007B7230) is meshmdl_sidehash.cpp's
+// compiler-emitted _$E8, SideHash's dynamic initializer; rowed there.
 
 void __cdecl rva007B781A();
 
