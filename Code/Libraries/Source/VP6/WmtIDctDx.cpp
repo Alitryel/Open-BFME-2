@@ -9,15 +9,15 @@
 // four-bit arithmetic shift. The cosine and rounding tables are defined here.
 // The body is carried unchanged from the byte-identical Open-BFME-1 donor.
 
-extern const unsigned short kRva012D8F40[56];
-extern const unsigned short kRva012D8F20[8];
+extern const unsigned short kVp6WmtIdctCosines[56];
+extern const unsigned short kVp6WmtIdctRound[8];
 
-// kRva012D8F20: VA 0x00DB8800 (.data), eight retail words. The next known
+// kVp6WmtIdctRound: VA 0x00DB8800 (.data), eight retail words. The next known
 // table starts at VA 0x00DB8820, so this declared extent stays before it.
-const unsigned short kRva012D8F20[8] = { 8, 8, 8, 8, 8, 8, 8, 8 };
-// kRva012D8F40: VA 0x00DB8820 (.data), the declared and indexed 7x8 words;
+const unsigned short kVp6WmtIdctRound[8] = { 8, 8, 8, 8, 8, 8, 8, 8 };
+// kVp6WmtIdctCosines: VA 0x00DB8820 (.data), the declared and indexed 7x8 words;
 // the initializer is the retail 112-byte sequence.
-const unsigned short kRva012D8F40[56] = {
+const unsigned short kVp6WmtIdctCosines[56] = {
 	0xFB15, 0xFB15, 0xFB15, 0xFB15, 0xFB15, 0xFB15, 0xFB15, 0xFB15,
 	0xEC83, 0xEC83, 0xEC83, 0xEC83, 0xEC83, 0xEC83, 0xEC83, 0xEC83,
 	0xD4DB, 0xD4DB, 0xD4DB, 0xD4DB, 0xD4DB, 0xD4DB, 0xD4DB, 0xD4DB,
@@ -36,7 +36,7 @@ extern "C" void __cdecl Wmt_IDct_Dx(const void *coefficients, const void *multip
         mov eax, dword ptr [esp + 0ch]
         mov ebx, dword ptr [esp + 010h]
         mov edx, dword ptr [esp + 014h]
-        lea ecx, kRva012D8F40
+        lea ecx, kVp6WmtIdctCosines
         // Multiply all eight rows, retaining the low word of each product.
         movdqa xmm0, xmmword ptr [eax]
         movdqa xmm1, xmmword ptr [eax + 010h]
@@ -291,7 +291,7 @@ extern "C" void __cdecl Wmt_IDct_Dx(const void *coefficients, const void *multip
         paddw xmm4, xmm3
         psubsw xmm2, xmm1
         // Round and scale the final signed words.
-        paddsw xmm2, xmmword ptr [kRva012D8F20]
+        paddsw xmm2, xmmword ptr [kVp6WmtIdctRound]
         paddsw xmm1, xmm1
         paddsw xmm1, xmm2
         psraw xmm2, 4
@@ -303,13 +303,13 @@ extern "C" void __cdecl Wmt_IDct_Dx(const void *coefficients, const void *multip
         paddsw xmm7, xmm4
         movdqa xmmword ptr [edx + 010h], xmm1
         psubsw xmm4, xmm3
-        paddsw xmm4, xmmword ptr [kRva012D8F20]
+        paddsw xmm4, xmmword ptr [kVp6WmtIdctRound]
         paddsw xmm3, xmm3
         paddsw xmm3, xmm4
         psraw xmm4, 4
         psubsw xmm6, xmm5
         psraw xmm3, 4
-        paddsw xmm6, xmmword ptr [kRva012D8F20]
+        paddsw xmm6, xmmword ptr [kVp6WmtIdctRound]
         paddsw xmm5, xmm5
         paddsw xmm5, xmm6
         psraw xmm6, 4
@@ -317,7 +317,7 @@ extern "C" void __cdecl Wmt_IDct_Dx(const void *coefficients, const void *multip
         psraw xmm5, 4
         movdqa xmmword ptr [edx + 030h], xmm3
         psubsw xmm7, xmm0
-        paddsw xmm7, xmmword ptr [kRva012D8F20]
+        paddsw xmm7, xmmword ptr [kVp6WmtIdctRound]
         paddsw xmm0, xmm0
         paddsw xmm0, xmm7
         psraw xmm7, 4

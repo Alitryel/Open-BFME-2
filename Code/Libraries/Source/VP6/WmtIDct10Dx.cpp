@@ -8,8 +8,8 @@
 // cosine table, transposes in place and runs the butterfly again. The tables
 // are those defined by Wmt_IDct_Dx (WmtIDctDx.cpp).
 
-extern const unsigned short kRva012D8F40[56];	// retail 0x012D8F40, 7 rows x 8 words
-extern const unsigned short kRva012D8F20[8];	// retail 0x012D8F20, round constant
+extern const unsigned short kVp6WmtIdctCosines[56];	// retail 0x012D8F40, 7 rows x 8 words
+extern const unsigned short kVp6WmtIdctRound[8];	// retail 0x012D8F20, round constant
 
 extern "C" void __cdecl Wmt_IDct10_Dx(const void *p1, const void *p2, void *p3)
 {
@@ -19,7 +19,7 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *p1, const void *p2, void *p3)
 		mov eax, dword ptr [esp + 0Ch]
 		mov ebx, dword ptr [esp + 10h]
 		mov edx, dword ptr [esp + 14h]
-		lea ecx, kRva012D8F40
+		lea ecx, kVp6WmtIdctCosines
 		movdqa xmm0, xmmword ptr [eax]
 		movdqa xmm1, xmmword ptr [eax + 10h]
 		pmullw xmm0, xmmword ptr [ebx]
@@ -213,7 +213,7 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *p1, const void *p2, void *p3)
 		movdqa xmm0, xmmword ptr [edx + 10h]
 		paddsw xmm2, xmm6
 		psubsw xmm2, xmm1
-		paddsw xmm2, xmmword ptr [kRva012D8F20]
+		paddsw xmm2, xmmword ptr [kVp6WmtIdctRound]
 		paddsw xmm1, xmm1
 		paddsw xmm1, xmm2
 		psraw xmm2, 4
@@ -225,13 +225,13 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *p1, const void *p2, void *p3)
 		paddsw xmm7, xmm4
 		movdqa xmmword ptr [edx + 10h], xmm1
 		psubsw xmm4, xmm3
-		paddsw xmm4, xmmword ptr [kRva012D8F20]
+		paddsw xmm4, xmmword ptr [kVp6WmtIdctRound]
 		paddsw xmm3, xmm3
 		paddsw xmm3, xmm4
 		psraw xmm4, 4
 		psubsw xmm6, xmm5
 		psraw xmm3, 4
-		paddsw xmm6, xmmword ptr [kRva012D8F20]
+		paddsw xmm6, xmmword ptr [kVp6WmtIdctRound]
 		paddsw xmm5, xmm5
 		paddsw xmm5, xmm6
 		psraw xmm6, 4
@@ -239,7 +239,7 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *p1, const void *p2, void *p3)
 		psraw xmm5, 4
 		movdqa xmmword ptr [edx + 30h], xmm3
 		psubsw xmm7, xmm0
-		paddsw xmm7, xmmword ptr [kRva012D8F20]
+		paddsw xmm7, xmmword ptr [kVp6WmtIdctRound]
 		paddsw xmm0, xmm0
 		paddsw xmm0, xmm7
 		psraw xmm7, 4

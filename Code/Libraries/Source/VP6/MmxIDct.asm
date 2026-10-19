@@ -15,7 +15,7 @@
 ; cosine multipliers and the rounding word. MMX_idct1 (retail 0x001D45F0,
 ; between MMX_idct10 and MMX_idct_DX) is C++ in AverageBlockMmx.cpp.
 
-EXTERN ?Rva009B3A00Table@@3PAGA:WORD     ; retail 0x00E22980
+EXTERN ?g_vp6IdctConstantBlock@@3PAGA:WORD     ; retail 0x00E22980
 
 _TEXT SEGMENT
 
@@ -44,7 +44,7 @@ _MMX_idct PROC
     mov ecx, dword ptr [edx + 70h]
     mov ebx, dword ptr [edx + 7Ch]
     mov ebx, dword ptr [esp + 14h]
-    lea ecx, ?Rva009B3A00Table@@3PAGA
+    lea ecx, ?g_vp6IdctConstantBlock@@3PAGA
 
     ; dequantise in transmission order and scatter through the lane masks
     ; into the quadrant-transposed internal layout
@@ -774,7 +774,7 @@ _MMX_idct10 PROC
     mov ecx, dword ptr [edx + 70h]
     mov ebx, dword ptr [edx + 7Ch]
     mov ebx, dword ptr [esp + 14h]
-    lea ecx, ?Rva009B3A00Table@@3PAGA
+    lea ecx, ?g_vp6IdctConstantBlock@@3PAGA
 
     ; dequantise all 64 words and scatter them as MMX_idct does
     movq mm0, qword ptr [eax]
@@ -1308,7 +1308,7 @@ _MMX_idct_DX PROC
     mov ecx, dword ptr [edx + 70h]
     mov ebx, dword ptr [edx + 7Ch]
     mov ebx, dword ptr [esp + 14h]
-    lea ecx, ?Rva009B3A00Table@@3PAGA
+    lea ecx, ?g_vp6IdctConstantBlock@@3PAGA
 
     ; dequantise straight into the internal layout
     movq mm0, qword ptr [eax]
@@ -1859,7 +1859,7 @@ _MMX_idct10_DX PROC
     mov ecx, dword ptr [edx + 70h]
     mov ebx, dword ptr [edx + 7Ch]
     mov ebx, dword ptr [esp + 14h]
-    lea ecx, ?Rva009B3A00Table@@3PAGA
+    lea ecx, ?g_vp6IdctConstantBlock@@3PAGA
     movq mm0, qword ptr [eax]
     pmullw mm0, qword ptr [ebx]
     movq mm1, qword ptr [eax + 10h]
@@ -2188,7 +2188,7 @@ _MMX_idct3 PROC
     mov ebx, dword ptr [edx + 54h]
     mov ecx, dword ptr [edx + 70h]
     mov ebx, dword ptr [edx + 7Ch]
-    lea ecx, ?Rva009B3A00Table@@3PAGA
+    lea ecx, ?g_vp6IdctConstantBlock@@3PAGA
     movq mm0, qword ptr [eax]
     pxor mm1, mm1
     movq mm2, qword ptr [ecx]

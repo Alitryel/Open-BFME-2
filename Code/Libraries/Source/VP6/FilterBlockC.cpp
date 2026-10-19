@@ -8,12 +8,12 @@
 // or a pitch and the two-dimensional pass for pitch -1 or pitch +1. The
 // weight tables are defined here.
 
-extern const int g_012D7798[8][4] =
+extern const int g_vp6BicubicTaps[8][4] =
 {
 	{ 0, 128, 0, 0 }, { -4, 118, 16, -2 }, { -7, 106, 34, -5 }, { -8, 90, 53, -7 },
 	{ -8, 72, 72, -8 }, { -7, 53, 90, -8 }, { -5, 34, 106, -7 }, { -2, 16, 118, -4 }
 };
-extern const int g_012D7818[8][2] =
+extern const int g_vp6BilinearWeights[8][2] =
 {
 	{ 128, 0 }, { 112, 16 }, { 96, 32 }, { 80, 48 },
 	{ 64, 64 }, { 48, 80 }, { 32, 96 }, { 16, 112 }
@@ -71,31 +71,31 @@ extern "C" void __cdecl FilterBlock_C(
 	if (diff == 1)
 	{
 		if (useBicubic)
-			FilterBlock1d(source1, destination, sourcePitch, 1, 8, 8, g_012D7798[modeX]);
+			FilterBlock1d(source1, destination, sourcePitch, 1, 8, 8, g_vp6BicubicTaps[modeX]);
 		else
-			TwoTapFilter(source1, destination, sourcePitch, 1, 8, 8, g_012D7818[modeX]);
+			TwoTapFilter(source1, destination, sourcePitch, 1, 8, 8, g_vp6BilinearWeights[modeX]);
 	}
 	else if (diff == (int)sourcePitch)
 	{
 		if (useBicubic)
-			FilterBlock1d(source1, destination, sourcePitch, sourcePitch, 8, 8, g_012D7798[modeY]);
+			FilterBlock1d(source1, destination, sourcePitch, sourcePitch, 8, 8, g_vp6BicubicTaps[modeY]);
 		else
-			TwoTapFilter(source1, destination, sourcePitch, sourcePitch, 8, 8, g_012D7818[modeY]);
+			TwoTapFilter(source1, destination, sourcePitch, sourcePitch, 8, 8, g_vp6BilinearWeights[modeY]);
 	}
 	else if (diff == (int)(sourcePitch - 1))
 	{
 		if (useBicubic)
 			FilterBlock2d((void *)(source1 - 1), destination, (void *)sourcePitch,
-				(void *)g_012D7798[modeX], (void *)g_012D7798[modeY]);
+				(void *)g_vp6BicubicTaps[modeX], (void *)g_vp6BicubicTaps[modeY]);
 		else
-			FilterBlock2dBil(source1 - 1, destination, sourcePitch, g_012D7818[modeX], g_012D7818[modeY]);
+			FilterBlock2dBil(source1 - 1, destination, sourcePitch, g_vp6BilinearWeights[modeX], g_vp6BilinearWeights[modeY]);
 	}
 	else if (diff == (int)(sourcePitch + 1))
 	{
 		if (useBicubic)
 			FilterBlock2d((void *)source1, destination, (void *)sourcePitch,
-				(void *)g_012D7798[modeX], (void *)g_012D7798[modeY]);
+				(void *)g_vp6BicubicTaps[modeX], (void *)g_vp6BicubicTaps[modeY]);
 		else
-			FilterBlock2dBil(source1, destination, sourcePitch, g_012D7818[modeX], g_012D7818[modeY]);
+			FilterBlock2dBil(source1, destination, sourcePitch, g_vp6BilinearWeights[modeX], g_vp6BilinearWeights[modeY]);
 	}
 }

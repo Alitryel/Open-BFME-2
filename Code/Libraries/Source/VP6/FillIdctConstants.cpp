@@ -6,9 +6,9 @@
 // retail 0x00DB8188.
 
 // Retail 0x00E22980: the zero-filled 48-word constant block.
-unsigned short Rva009B3A00Table[48] = { 0 };
+unsigned short g_vp6IdctConstantBlock[48] = { 0 };
 // Retail 0x00DB8188: the seven IDCT cosine constants (retail .data contents).
-unsigned short Rva009B3A00Source[7] = {
+unsigned short g_vp6IdctCosines[7] = {
 	0xfb15u, 0xec83u, 0xd4dbu, 0xb505u, 0x8e3au, 0x61f8u, 0x31f1u
 };
 
@@ -16,7 +16,7 @@ struct FourWords { unsigned short a, b, c, d; };
 
 extern "C" void __cdecl fillidctconstants(void)
 {
-	unsigned short *table = Rva009B3A00Table;
+	unsigned short *table = g_vp6IdctConstantBlock;
 	unsigned short *clear = table + 16;
 	while (clear != table)
 	{
@@ -35,7 +35,7 @@ extern "C" void __cdecl fillidctconstants(void)
 	int sourceIndex = 0;
 	do
 	{
-		unsigned short value = Rva009B3A00Source[sourceIndex];
+		unsigned short value = g_vp6IdctCosines[sourceIndex];
 		destination->d = value;
 		destination->c = value;
 		destination->b = value;
