@@ -17,8 +17,7 @@ class Object;
 class Rva001E46E1 {public:void rva001E53D8(float,Object*);};
 struct Rva0028AC4EEntry;
 class Module;
-class DynamicPortalBehaviour {public:static Module *rva004608E0(Object*);};
-class Rva00460F90 {public:void rva00460F90();};
+class DynamicPortalBehaviour {public:static Module *rva004608E0(Object*);void rva00460F90();};
 class AICommandInterface {public:void aiEvacuate(bool,CommandSourceType);void aiExit(Object*,CommandSourceType);};
 class SiegePhaseAIHead {unsigned char pad[0x20];};
 class AIUpdateInterface : public SiegePhaseAIHead,public AICommandInterface {public:AttitudeType getAttitude()const;void rva0026DE3B(int);};
@@ -60,7 +59,7 @@ void SiegeDeploySpecialPower::setPhase(int next)
   obj->setStatus((ObjectStatusTypes)59,true);
   if(!obj->conditions.test(100)){obj->conditions.set(100);obj->rva0028AE6D();}
   if(obj->conditions.test(61)){obj->conditions.clear(61);obj->rva0028AE6D();}
-  {Module *portal=DynamicPortalBehaviour::rva004608E0(obj);if(portal)((Rva00460F90*)portal)->rva00460F90();}
+  {Module *portal=DynamicPortalBehaviour::rva004608E0(obj);if(portal)((DynamicPortalBehaviour*)portal)->rva00460F90();}
   if(data->evacuate){AIUpdateInterface *ai=obj->ai;if(ai)ai->aiEvacuate(0,(CommandSourceType)2);}
   if(data->exit){SiegePhaseContain *contain=object->contain;if(contain){ContainmentList list=contain->slot71().rva0036AE51();for(ContainmentList::iterator it=list.begin();it!=list.end();++it){Object *child=(Object*)containmentFirstWord(*it);AIUpdateInterface *ai=child->ai;if(ai){ai->rva0026DE3B((object->ai?object->ai:object->ai)->getAttitude());Object *owner=object;(child->ai?child->ai:child->ai)->aiExit(owner,(CommandSourceType)2);}}}}
   break;

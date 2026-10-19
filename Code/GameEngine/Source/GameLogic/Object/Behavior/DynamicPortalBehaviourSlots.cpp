@@ -72,6 +72,7 @@ public:
 class DynamicPortalBehaviour : public UpgradeModule
 {
 public:
+	void rva00460F90();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
 	virtual void rva00461284(int a1);
 	virtual void rva0046129A();
 	virtual void rva0046132F();
@@ -101,17 +102,11 @@ void DynamicPortalBehaviour::rva0046132F()
 // member bytes +0x3D and +0x3C plus the module-data byte +0x13C, then tail-jumps
 // to the address-derived 0x00460F90 callee. The behavior identity comes from
 // its vtable callers; the helper's identity and semantics remain unknown.
-class Rva00460F90
-{
-public:
-	void rva00460F90();
-};
-
 void DynamicPortalBehaviour::rva00461257()
 {
 	const unsigned char *moduleData = (const unsigned char *)m_moduleData;
 	if (!m_3D && (moduleData[0x13C] != 0 || m_3C))
-		reinterpret_cast<Rva00460F90 *>(this)->rva00460F90();
+		rva00460F90();
 }
 
 // The target Ghidra boundary at 0x00460872 is 43B. It loads the pointer at
@@ -203,7 +198,7 @@ void DynamicPortalBehaviour::rva0046129A()
             TheAI->pathfinder->AddObjectToPathfindMap(object);
         }
     }
-    ((Rva00460F90 *)this)->rva00460F90();
+    rva00460F90();
     if (object->ai)
     {
         Rva0046129AExit *exit = (Rva0046129AExit *)object->rva0028BCF4();

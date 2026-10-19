@@ -106,7 +106,7 @@ struct Rva00460F90Data
 	int m_timeout; // +0x158
 };
 
-class Rva00460F90
+class DynamicPortalBehaviour
 {
 public:
 	void rva00460F90();
@@ -120,7 +120,7 @@ private:
 	bool m_created; // +0x3C
 };
 
-void Rva00460F90::rva00460F90()
+void DynamicPortalBehaviour::rva00460F90()
 {
 	Coord3D locations[16];
 	Object *obj = (*(Object * volatile *)&(m_object));
