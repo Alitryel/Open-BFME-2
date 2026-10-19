@@ -8,7 +8,7 @@
 #pragma comment(linker, "/alternatename:?spin@LockClass@FastCriticalSectionClass@@CIXPAI@Z=?Lock@BFMEPoolCriticalSection@@QAEXXZ")
 #include "bfme_pool_critical_section.h"
 
-void BFMEPoolYield();
+class ThreadClass { public: static void Switch_Thread(); };
 
 void BFMEPoolCriticalSection::Lock()
 {
@@ -18,7 +18,7 @@ void BFMEPoolCriticalSection::Lock()
     __asm jc retry
     __asm jmp acquired
 retry:
-    BFMEPoolYield();
+    ThreadClass::Switch_Thread();
     __asm mov ebx, lockWord
     __asm lock bts dword ptr [ebx], 0
     __asm jc retry

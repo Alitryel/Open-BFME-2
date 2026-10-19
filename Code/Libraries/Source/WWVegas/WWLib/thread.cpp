@@ -75,17 +75,7 @@ void ThreadClass::Sleep_Ms(unsigned ms)
 HANDLE test_event = ::CreateEvent (NULL, FALSE, FALSE, "");
 #endif
 
-// ?Switch_Thread@ThreadClass@@ present-unmatched
-void ThreadClass::Switch_Thread()
-{
-	#ifdef _UNIX
-		return;
-	#else
-		//	::SwitchToThread ();
-		::WaitForSingleObject (test_event, 1);
-		//	Sleep(1);	// Note! Parameter can not be 0 (or the thread switch doesn't occur)
-	#endif
-}
+// ?Switch_Thread@ThreadClass@@SAXXZ: defined in BFMEPoolYield.cpp (its row's unit).
 
 // Return calling thread's unique thread id. At 0x006105D0 it compiles to a
 // lone tail jump through the GetCurrentThreadId import, between Stop and

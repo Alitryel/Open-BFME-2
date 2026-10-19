@@ -14,7 +14,16 @@ __forceinline void *loadPoolYieldEvent()
     __asm mov eax, test_event
 }
 
-void BFMEPoolYield()
+// ThreadClass::Switch_Thread (ZH thread.cpp: WaitForSingleObject(test_event, 1)) at
+// 0x006105C0, between the rowed ThreadClass::Stop 0x00610510 and
+// _Get_Current_Thread_ID 0x006105D0; the pool lock and PeerThread call it.
+class ThreadClass
+{
+public:
+    static void Switch_Thread();
+};
+
+void ThreadClass::Switch_Thread()
 {
     WaitForSingleObject(loadPoolYieldEvent(), 1);
 }
