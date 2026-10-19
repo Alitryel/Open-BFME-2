@@ -16,6 +16,11 @@
 // (declaration order decides both the xmm coloring and cl's association of
 // u*2 + scrollX + spread).
 #include <math.h>
+// <math.h>'s sin(float) under its own name: this /O1 unit's copy of
+// ?sin@@YAMM@Z calls _sin and would compete with retail's intrinsic body at
+// 0x0002FBB0. Keep it extern: a static copy reschedules the grid helper's pops.
+inline float __cdecl waveSin(float _X)
+        {return (sinf(_X)); }
 #include <string.h>
 #include "Lib/Coord2D.h"
 #include "Lib/RGBColor.h"
@@ -29,6 +34,8 @@ struct D3DXVECTOR4
 	D3DXVECTOR4() {}
 	D3DXVECTOR4(float xValue, float yValue, float zValue, float wValue) : x(xValue), y(yValue), z(zValue), w(wValue) {}
 };
+
+class Vector4 { public: float X, Y, Z, W; };
 
 struct IDirect3DSurface8;
 struct IDirect3DTexture8;
@@ -111,6 +118,11 @@ public:
 	}
 	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, unsigned long state, unsigned value)
 	{
+		if (stage >= 16) {
+			_Get_D3D_Device8()->SetTextureStageState(stage, state, value);
+			number_of_DX8_calls++;
+			return;
+		}
 		if (TextureStageStates[stage][state] == value)
 			return;
 		if (WW3D::Is_Snapshot_Activated()) {
@@ -173,7 +185,8 @@ protected:
 	static unsigned render_state_changes;
 	static unsigned texture_stage_state_changes;
 	static unsigned texture_changes;
-	static D3DXVECTOR4 Pixel_Shader_Constants[8];
+	// dx8wrapper.cpp's Vector4 array at 0x009EDF10
+	static Vector4 Pixel_Shader_Constants[8];
 };
 
 class TextureBaseClass
@@ -473,6 +486,7 @@ static float GridPhase0, GridPhase1;
 static float GridWave0Amplitude = 0.2f, GridWave0Frequency = 12.566370964f, GridWave0Phase = 2.0f;
 static float GridWave1Amplitude = 0.5f, GridWave1Frequency = 12.566370964f, GridWave1Phase = 2.0f;
 
+
 // Grid update called by postRender: rebuilds the strip indices and the
 // wave-displaced vertices. The (float) rounding of each 0.5f*sin(...) term
 // and the trailing ++p give retail's loop-tail schedule.
@@ -511,8 +525,8 @@ void Rva007DB820::rva000F83FA(DynamicIBAccessClass *ib, int a, DynamicVBAccessCl
 				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
 				float u1 = p->u1; float v1 = p->v1;
 				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
-				p->u3 = (0.5f - (float)(0.5f * sin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase))) * GridWave0Amplitude;
-				float wave = (0.5f - (float)(0.5f * sin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase))) * GridWave1Amplitude;
+				p->u3 = (0.5f - (float)(0.5f * waveSin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase))) * GridWave0Amplitude;
+				float wave = (0.5f - (float)(0.5f * waveSin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase))) * GridWave1Amplitude;
 				p->v3 = 0;
 				p->u1 += wave; p->u2 += wave;
 				++p;
