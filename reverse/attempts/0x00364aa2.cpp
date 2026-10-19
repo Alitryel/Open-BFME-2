@@ -1,4 +1,6 @@
 // ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
+// partial score=0.6981127453099645 date=2026-10-19
+// ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
 // partial score=0.6606047434 date=2026-10-16
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
 
@@ -132,6 +134,7 @@ void Rva00365304::rva00365304()
 	((Rva00364A60 *)this)->~Rva00364A60();
 }
 
+// Normal copies expire after the angle query; tail locals use a sibling scope.
 void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius)
 {
 	Coord3D prevPos(*prev->getPosition());
@@ -172,48 +175,53 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 	v2.Rotate_Z(-1.5707963705062866f);
 	LineSegClass off1(Vector3(a.x, a.y, 0) + v1, Vector3(curPos.x, curPos.y, 0) + v1);
 	LineSegClass off2(Vector3(curPos.x, curPos.y, 0) + v2, Vector3(d.x, d.y, 0) + v2);
-	Vector3 n1 = v1;
-	n1.Normalize();
-	Vector3 n2 = v2;
-	n2.Normalize();
-	float arc = rva00363B4BAngle((const Rva00363B4BVector *)&n1, (const Rva00363B4BVector *)&n2);
-	int count = rva003641AE(arc, radius);
-	if (count < 2) {
-		rva003649B1(cur);
-		return;
+	float arc;
+	{
+		Vector3 n1 = v1;
+		Vector3 n2 = v2;
+		n1.Normalize();
+		n2.Normalize();
+		arc = rva00363B4BAngle((const Rva00363B4BVector *)&n1, (const Rva00363B4BVector *)&n2);
 	}
-	float step = arc / count;
-	Vector3 center;
-	Vector3 other;
-	float fraction;
-	if (!off1.Find_Intersection(off2, &center, &fraction, &other, &fraction))
-		return;
-	Coord3D pt;
-	if (turnLeft) {
-		pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
-		rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
-		v1 *= -1.0f;
-		for (int i = 1; i < count; ++i) {
-			Vector3 q = center + v1;
-			v1.Rotate_Z(-step);
-			pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
-			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+	{
+		int count = rva003641AE(arc, radius);
+		if (count < 2) {
+			rva003649B1(cur);
+			return;
 		}
-		pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
-		rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
-		cur->setPosition(&pt);
-	} else {
-		pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
-		rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
-		v2 *= -1.0f;
-		for (int i = 1; i < count; ++i) {
-			v2.Rotate_Z(step);
-			Vector3 q = center + v2;
-			pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
+		float step = arc / count;
+		Vector3 center;
+		Vector3 other;
+		float fraction;
+		if (!off1.Find_Intersection(off2, &center, &fraction, &other, &fraction))
+			return;
+		Coord3D pt;
+		if (turnLeft) {
+			pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
 			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			v1 *= -1.0f;
+			for (int i = 1; i < count; ++i) {
+				Vector3 q = center + v1;
+				v1.Rotate_Z(-step);
+				pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
+				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			}
+			pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
+			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			cur->setPosition(&pt);
+		} else {
+			pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
+			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			v2 *= -1.0f;
+			for (int i = 1; i < count; ++i) {
+				v2.Rotate_Z(step);
+				Vector3 q = center + v2;
+				pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
+				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			}
+			pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
+			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			cur->setPosition(&pt);
 		}
-		pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
-		rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
-		cur->setPosition(&pt);
 	}
 }
