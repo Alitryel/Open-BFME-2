@@ -6,11 +6,11 @@
 // filter of FilteringHoriz_8_MMX applied to twelve lines (two strips, the
 // row pointer advancing by four lines partway). Leaves MMX state in use.
 
-extern unsigned short Rva009C0D10Table[];		// retail 0x013566C0
+extern unsigned short g_bfmeFilterLimitMmx[];		// retail 0x013566C0
 
 extern "C" void __cdecl FilteringHoriz_12_MMX(int index, void *row, int stride)
 {
-	const unsigned short *coef = Rva009C0D10Table + index * 4;
+	const unsigned short *coef = g_bfmeFilterLimitMmx + index * 4;
 	__declspec(align(16)) unsigned short four[4] = { 4, 4, 4, 4 };
 	__declspec(align(16)) unsigned short one[4] = { 1, 1, 1, 1 };
 	__declspec(align(16)) unsigned short work[16];

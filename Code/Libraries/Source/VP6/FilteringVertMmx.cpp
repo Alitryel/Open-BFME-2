@@ -7,11 +7,11 @@
 // edge over an 8 or 12 pixel wide strip, four columns per step. The limit is
 // read from the replicated table filled by FillLoopFilterLimitValues_MMX.
 
-extern unsigned short Rva009C0D10Table[];		// retail 0x00E229E0
+extern unsigned short g_bfmeFilterLimitMmx[];		// retail 0x00E229E0
 
 extern "C" void __cdecl FilteringVert_8_MMX(unsigned int index, unsigned char *row, int stride)
 {
-	const unsigned short *coef = Rva009C0D10Table + index * 4;
+	const unsigned short *coef = g_bfmeFilterLimitMmx + index * 4;
 	__declspec(align(16)) unsigned short four[4] = { 4, 4, 4, 4 };
 	__declspec(align(16)) unsigned short one[4] = { 1, 1, 1, 1 };
 
@@ -104,7 +104,7 @@ extern "C" void __cdecl FilteringVert_8_MMX(unsigned int index, unsigned char *r
 
 extern "C" void __cdecl FilteringVert_12_MMX(unsigned int index, unsigned char *row, int stride)
 {
-	const unsigned short *coef = Rva009C0D10Table + index * 4;
+	const unsigned short *coef = g_bfmeFilterLimitMmx + index * 4;
 	__declspec(align(16)) unsigned short four[4] = { 4, 4, 4, 4 };
 	__declspec(align(16)) unsigned short one[4] = { 1, 1, 1, 1 };
 

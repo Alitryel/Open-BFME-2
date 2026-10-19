@@ -2945,11 +2945,11 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D9990,16,.rdata,global,_g_bfmeTailMask,Code/Libraries/Source/VP6/HorizontalLine45ScaleMmx.cpp,owned,,1,1
 0x007D99A0,16,.rdata,global,_g_bfmeW3B,Code/Libraries/Source/VP6/HorizontalLine35ScaleMmx.cpp,owned,,1,1
 0x007D99B0,16,.rdata,global,_g_bfmeW3A,Code/Libraries/Source/VP6/HorizontalLine35ScaleMmx.cpp,owned,,1,1
-0x007D99C0,16,.rdata,global,?Rva01143860Mask@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
-0x007D99D0,16,.rdata,global,?Rva01143870Round@@3QBGB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
-0x007D99E0,32,.rdata,global,?Rva01143880Half@@3QBGB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
-0x007D9A00,16,.rdata,global,?Rva011438A0Limit@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,2
-0x007D9A10,8,.rdata,global,?Rva011438B0Bias@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
+0x007D99C0,16,.rdata,global,?g_vp6MmxAllOnes@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
+0x007D99D0,16,.rdata,global,?g_vp6MmxWordFours@@3QBGB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
+0x007D99E0,32,.rdata,global,?g_vp6MmxWordOnes@@3QBGB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
+0x007D9A00,16,.rdata,global,?g_vp6MmxByteOnes@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,2
+0x007D9A10,8,.rdata,global,?g_vp6MmxByteBias80@@3QBEB,Code/Libraries/Source/VP6/FilterHorizSimpleMmx.cpp,owned,,1,4
 0x007D9A18,16,.rdata,string,??_C@_0N@FFJGBINN@AuthenticAMD?$AA@,,literal,,0,2
 0x007D9A28,328,.rdata,string,??_C@_0N@BDDFKIGD@GenuineIntel?$AA@,,literal,,0,2
 0x007D9B70,280,.rdata,string,??_C@_06IOJAGNKJ@NORMAL?$AA@,,literal,,0,1
@@ -21860,7 +21860,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A22968,4,.data,global,_ghiProxyPort,,unowned,,0,3
 0x00A2296C,20,.data,global,_ghiProxyAddress,,unowned,,0,8
 0x00A22980,96,.data,global,?Rva009B3A00Table@@3PAGA,Code/Libraries/Source/VP6/FillIdctConstants.cpp,owned,,1,12
-0x00A229E0,512,.data,global,?Rva009C0D10Table@@3PAGA,Code/Libraries/Source/VP6/FillLoopFilterLimitValuesMmx.cpp,owned,,1,6
+0x00A229E0,512,.data,global,?g_bfmeFilterLimitMmx@@3PAGA,Code/Libraries/Source/VP6/FillLoopFilterLimitValuesMmx.cpp,owned,,1,6
 0x00A22BE0,256,.data,global,?g_bfmeDeringModifiers@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,3
 0x00A22CE0,4,.data,global,?g_bfmeFilterLimit@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,9
 0x00A22CE4,4,.data,global,?g_bfmeScaleTableV1@@3PBXB,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1

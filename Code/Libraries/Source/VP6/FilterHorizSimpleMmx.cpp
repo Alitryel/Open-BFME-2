@@ -18,20 +18,20 @@ extern int *g_bfmeDeblockLimit;
 // Retail .rdata vectors; typed values come from the image bytes. Each extent
 // is bounded by the next witnessed vector's address where one follows.
 // VA 0x00BD99C0, eight bytes, ending before Round at VA 0x00BD99D0.
-extern const unsigned char Rva01143860Mask[8] = {
+extern const unsigned char g_vp6MmxAllOnes[8] = {
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 };
 // VA 0x00BD99D0, four words/eight bytes, ending before Half at VA 0x00BD99E0.
-extern const unsigned short Rva01143870Round[4] = { 4, 4, 4, 4 };
+extern const unsigned short g_vp6MmxWordFours[4] = { 4, 4, 4, 4 };
 // VA 0x00BD99E0, four words/eight bytes, ending before Limit at VA 0x00BD9A00.
-extern const unsigned short Rva01143880Half[4] = { 1, 1, 1, 1 };
+extern const unsigned short g_vp6MmxWordOnes[4] = { 1, 1, 1, 1 };
 // VA 0x00BD9A00, eight bytes, ending before Bias at VA 0x00BD9A10.
-extern const unsigned char Rva011438A0Limit[8] = {
+extern const unsigned char g_vp6MmxByteOnes[8] = {
 	1, 1, 1, 1, 1, 1, 1, 1,
 };
 // VA 0x00BD9A10, eight-byte vector through RVA 0x007D9A18; no closer known
 // data symbol is recorded in reverse/symbols.csv.
-extern const unsigned char Rva011438B0Bias[8] = {
+extern const unsigned char g_vp6MmxByteBias80[8] = {
 	0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
 };
 
@@ -91,12 +91,12 @@ extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, i
 		punpckhdq mm7, mm3
 		movq mm6, mm2
 		movq qword ptr [edi + 18h], mm7
-		movq mm1, qword ptr Rva01143860Mask
+		movq mm1, qword ptr g_vp6MmxAllOnes
 		psubb mm0, mm5
-		movq mm7, qword ptr Rva011438A0Limit
+		movq mm7, qword ptr g_vp6MmxByteOnes
 		pcmpgtb mm1, mm0
 		pcmpgtb mm0, mm7
-		movq mm3, qword ptr Rva01143860Mask
+		movq mm3, qword ptr g_vp6MmxAllOnes
 		por mm0, mm1
 		movq mm1, mm7
 		movq mm7, qword ptr [edi + 18h]
@@ -104,7 +104,7 @@ extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, i
 		pcmpgtb mm3, mm2
 		pcmpgtb mm2, mm1
 		por mm2, mm3
-		movq mm3, qword ptr Rva011438B0Bias
+		movq mm3, qword ptr g_vp6MmxByteBias80
 		por mm0, mm2
 		pxor mm1, mm1
 		movq mm2, mm5
@@ -138,9 +138,9 @@ extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, i
 		pand mm4, mm7
 		paddw mm2, mm3
 		paddw mm4, mm5
-		paddw mm2, qword ptr Rva01143870Round
+		paddw mm2, qword ptr g_vp6MmxWordFours
 		movd mm1, eax
-		paddw mm4, qword ptr Rva01143870Round
+		paddw mm4, qword ptr g_vp6MmxWordFours
 		psraw mm2, 3
 		psraw mm4, 3
 		movq mm3, mm2
@@ -154,8 +154,8 @@ extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, i
 		psubsw mm3, mm2
 		pxor mm5, mm4
 		psubsw mm5, mm4
-		por mm2, qword ptr Rva01143880Half
-		por mm4, qword ptr Rva01143880Half
+		por mm2, qword ptr g_vp6MmxWordOnes
+		por mm4, qword ptr g_vp6MmxWordOnes
 		movq mm6, mm1
 		psubusw mm1, mm3
 		psubusw mm3, mm6
@@ -173,7 +173,7 @@ extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *ctx, void *row, i
 		movq mm2, mm4
 		movq mm5, qword ptr [edi + 8]
 		movq mm3, mm1
-		movq mm4, qword ptr Rva011438B0Bias
+		movq mm4, qword ptr g_vp6MmxByteBias80
 		packsswb mm1, mm2
 		movq mm6, qword ptr [edi + 10h]
 		psubb mm5, mm4

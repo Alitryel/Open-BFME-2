@@ -17,11 +17,11 @@ struct Rva009C2170Ctx
 
 extern int *g_bfmeDeblockLimit;
 
-extern const unsigned char Rva01143860Mask[8];		// retail 0x01143860 ({0xFF} x8)
-extern const unsigned short Rva01143870Round[4];	// retail 0x01143870 ({4} x4)
-extern const unsigned short Rva01143880Half[4];	// retail 0x01143880 ({1} x4)
-extern const unsigned char Rva011438A0Limit[8];	// retail 0x011438A0 ({1} x8)
-extern const unsigned char Rva011438B0Bias[8];		// retail 0x011438B0 ({0x80} x8)
+extern const unsigned char g_vp6MmxAllOnes[8];		// retail 0x01143860 ({0xFF} x8)
+extern const unsigned short g_vp6MmxWordFours[4];	// retail 0x01143870 ({4} x4)
+extern const unsigned short g_vp6MmxWordOnes[4];	// retail 0x01143880 ({1} x4)
+extern const unsigned char g_vp6MmxByteOnes[8];	// retail 0x011438A0 ({1} x8)
+extern const unsigned char g_vp6MmxByteBias80[8];		// retail 0x011438B0 ({0x80} x8)
 
 extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char *row, int stride, const void *bounding)
 {
@@ -35,16 +35,16 @@ extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char
 		mov esi, row
 		sub ecx, edx
 		movq mm2, qword ptr [esi]
-		movq mm7, qword ptr Rva011438A0Limit
+		movq mm7, qword ptr g_vp6MmxByteOnes
 		movq mm0, qword ptr [esi + ecx*2]
 		movq mm6, mm2
 		movq mm5, qword ptr [esi + ecx]
 		movq mm4, mm0
-		movq mm1, qword ptr Rva01143860Mask
+		movq mm1, qword ptr g_vp6MmxAllOnes
 		psubb mm0, mm5
 		pcmpgtb mm1, mm0
 		pcmpgtb mm0, mm7
-		movq mm3, qword ptr Rva01143860Mask
+		movq mm3, qword ptr g_vp6MmxAllOnes
 		por mm0, mm1
 		movq mm1, mm7
 		movq mm7, qword ptr [esi + edx]
@@ -52,7 +52,7 @@ extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char
 		pcmpgtb mm3, mm2
 		pcmpgtb mm2, mm1
 		por mm2, mm3
-		movq mm3, qword ptr Rva011438B0Bias
+		movq mm3, qword ptr g_vp6MmxByteBias80
 		por mm0, mm2
 		pxor mm1, mm1
 		movq mm2, mm5
@@ -86,8 +86,8 @@ extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char
 		pand mm4, mm7
 		paddw mm2, mm3
 		paddw mm4, mm5
-		paddw mm2, qword ptr Rva01143870Round
-		paddw mm4, qword ptr Rva01143870Round
+		paddw mm2, qword ptr g_vp6MmxWordFours
+		paddw mm4, qword ptr g_vp6MmxWordFours
 		movd mm1, eax
 		psraw mm2, 3
 		psraw mm4, 3
@@ -102,8 +102,8 @@ extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char
 		psubsw mm3, mm2
 		pxor mm5, mm4
 		psubsw mm5, mm4
-		por mm2, qword ptr Rva01143880Half
-		por mm4, qword ptr Rva01143880Half
+		por mm2, qword ptr g_vp6MmxWordOnes
+		por mm4, qword ptr g_vp6MmxWordOnes
 		movq mm6, mm1
 		psubusw mm1, mm3
 		psubusw mm3, mm6
@@ -120,7 +120,7 @@ extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *ctx, unsigned char
 		pmullw mm4, mm3
 		movq mm5, qword ptr [esi + ecx]
 		movq mm1, mm2
-		movq mm7, qword ptr Rva011438B0Bias
+		movq mm7, qword ptr g_vp6MmxByteBias80
 		packsswb mm2, mm4
 		movq mm6, qword ptr [esi]
 		psubb mm5, mm7

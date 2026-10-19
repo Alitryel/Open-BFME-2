@@ -12,15 +12,15 @@ extern int *g_bfmeFilterLimit;
 // The expanded table this routine fills: 256 16-bit entries (four per limit),
 // .bss VA 0x00E229E0; the next referenced datum starts 0x200 bytes later.
 // Owned here since the placeholder unit that defined it was retired.
-unsigned short Rva009C0D10Table[0x100];
+unsigned short g_bfmeFilterLimitMmx[0x100];
 
 extern "C" void __cdecl FillLoopFilterLimitValues_MMX()
 {
 	const int *limits = g_bfmeFilterLimit;
 	for (int i = 0; i < 64; ++i) {
-		Rva009C0D10Table[4 * i] = (unsigned short)limits[i];
-		Rva009C0D10Table[4 * i + 1] = (unsigned short)limits[i];
-		Rva009C0D10Table[4 * i + 2] = (unsigned short)limits[i];
-		Rva009C0D10Table[4 * i + 3] = (unsigned short)limits[i];
+		g_bfmeFilterLimitMmx[4 * i] = (unsigned short)limits[i];
+		g_bfmeFilterLimitMmx[4 * i + 1] = (unsigned short)limits[i];
+		g_bfmeFilterLimitMmx[4 * i + 2] = (unsigned short)limits[i];
+		g_bfmeFilterLimitMmx[4 * i + 3] = (unsigned short)limits[i];
 	}
 }
