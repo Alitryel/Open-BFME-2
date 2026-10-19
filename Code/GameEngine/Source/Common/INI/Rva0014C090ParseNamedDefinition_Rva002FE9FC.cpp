@@ -20,7 +20,20 @@ private:
 	char m_unreconstructed[ 12 ];
 };
 
-extern const FieldParse Rva0014C090FieldParseTable[];
+// The field table (retail .rdata 0x008073A0, 32 bytes): Zero Hour AI.cpp's
+// parseBuildList table, one Structure field through the rowed
+// BuildListInfo::parseStructure (0x0032A942), then the terminator.
+class BuildListInfo
+{
+public:
+	static void parseStructure( INI *ini, void *instance, void *store, const void *userData );
+};
+
+extern const FieldParse Rva0014C090FieldParseTable[] =
+{
+	{ "Structure", BuildListInfo::parseStructure, NULL, 0 },
+	{ NULL, NULL, NULL, 0 }
+};
 
 // The instance's add (call target 0x002FE8CC) is the rowed
 // TAiData::addFactionBuildList (AIConstructor.cpp).

@@ -122,14 +122,37 @@ private:
 
 // 0x005E16A7 and 0x005E2126: the pinned INI::initFromINI on this object with
 // the field table at VA 0x00C779F0 (resp. 0x00C77A98).
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseColorInt(INI *ini, void *instance, void *store, const void *userData);
 };
-extern const FieldParse g_rva005E16A7FieldParse[];
-extern const FieldParse g_rva005E2126FieldParse[];
+// The two tables (retail .rdata): Image/Title/Help strings at +8/+0xC/+0x10
+// through the rowed INI::parseAsciiString (0x0002F11E), and
+// ProgressOverlayColor at +8 through the rowed INI::parseColorInt (0x0002F3FE),
+// each closed by a null entry.
+extern const FieldParse g_rva005E16A7FieldParse[] =
+{
+	{ "Image", INI::parseAsciiString, 0, 0x8 },
+	{ "Title", INI::parseAsciiString, 0, 0xC },
+	{ "Help", INI::parseAsciiString, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
+extern const FieldParse g_rva005E2126FieldParse[] =
+{
+	{ "ProgressOverlayColor", INI::parseColorInt, 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 class Rva005E16A7
 {
 public:
