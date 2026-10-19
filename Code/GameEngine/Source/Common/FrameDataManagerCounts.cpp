@@ -27,6 +27,11 @@ private:
 // FRAME_DATA_LENGTH: VA 0x00DD2DB8 (.data); retail initial value is 258.
 // Target callers use it to size/index the frame-data ring; Open-BFME-1's
 // NetworkUtil.cpp defines the same runtime global at its BFME1 address.
+// Its Zero Hour NetworkUtil.cpp neighbours, in the same order: MAX_FRAMES_AHEAD at
+// VA 0x00DD2DB0 (128) and MIN_RUNAHEAD at 0x00DD2DB4 (BFME 2's value is 100;
+// Zero Hour's is 10). FRAMES_TO_KEEP (65) follows at 0x00DD2DBC.
+int MAX_FRAMES_AHEAD = 128;
+int MIN_RUNAHEAD = 100;
 int FRAME_DATA_LENGTH = 258;
 
 void FrameData::zeroFrame() {
