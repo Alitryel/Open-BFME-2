@@ -26,7 +26,9 @@ class Rva0054F93F : public ThreadClass
 {
 public:
 	Rva0054F93F(int val);
-	virtual ~Rva0054F93F();
+	// Empty: retail's vtable 0x0086AB40 slot 0 0x00419E1C calls 0x00419E38,
+	// one jump to the base dtor 0x00610480.
+	virtual ~Rva0054F93F() {}
 
 private:
 	int m_val50;

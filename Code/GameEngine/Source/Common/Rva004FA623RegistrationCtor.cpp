@@ -15,14 +15,17 @@ class Rva0052B894Registration
 {
 public:
 	Rva0052B894Registration(const AsciiString &name);
-	virtual ~Rva0052B894Registration();
+	// Empty: retail's 0x0052B588 only stores this class's vtable.
+	virtual ~Rva0052B894Registration() {}
 };
 
 class Rva004FA623 : public Rva0052B894Registration
 {
 public:
 	Rva004FA623(const AsciiString &name);
-	virtual ~Rva004FA623();
+	// Empty: retail's vtable 0x00863398 slot 0 0x005C43E7 calls 0x005C47A3,
+	// one jump to the base dtor 0x0052B588.
+	virtual ~Rva004FA623() {}
 };
 
 Rva004FA623::Rva004FA623(const AsciiString &name)
