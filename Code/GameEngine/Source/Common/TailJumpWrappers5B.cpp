@@ -1101,11 +1101,15 @@ int Rva00620DA0::forward()
 	return ((Gen_009EBB60Target *)this)->bfmeForward();
 }
 
-void Rva00174F20Set(int value);
+class BoxRenderObjClass
+{
+public:
+	static void Set_Box_Display_Mask(int mask);
+};
 
 void Rva001174D0(int value)
 {
-	Rva00174F20Set(value);
+	BoxRenderObjClass::Set_Box_Display_Mask(value);
 }
 
 // ??1W3DSailModelDraw@@UAE@XZ @0x000D08BE (5B): the sail draw module's

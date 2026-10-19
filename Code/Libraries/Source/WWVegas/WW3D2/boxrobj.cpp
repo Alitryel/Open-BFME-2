@@ -461,7 +461,6 @@ void BoxRenderObjClass::Set_Color(const Vector3 & color)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?BoxRenderObjClass::Set_Box_Display_Mask present-unmatched
 void BoxRenderObjClass::Set_Box_Display_Mask(int mask)
 {
 	DisplayMask = mask;
@@ -480,7 +479,6 @@ void BoxRenderObjClass::Set_Box_Display_Mask(int mask)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?BoxRenderObjClass::Get_Box_Display_Mask present-unmatched
 int BoxRenderObjClass::Get_Box_Display_Mask(void)
 {
 	return DisplayMask;

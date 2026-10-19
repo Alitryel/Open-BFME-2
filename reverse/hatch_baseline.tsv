@@ -34,7 +34,6 @@ address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00A0
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DB47EC	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DBB708	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DBD0F0	3
-address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DF6FD0	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DFE348	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DFEFD8	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E032C8	3
@@ -54,7 +53,6 @@ address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E0
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E06548	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E06550	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E0ABB0	4
-address_global	Code/GameEngine/Source/Common/ColdGlobalDwordSetters.cpp	g_Va00DF6FD0	2
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordSetters.cpp	g_Va00E17724	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordSetters.cpp	g_Va00E177EC	4
 address_global	Code/GameEngine/Source/Common/ConstIntGetters5.cpp	g_Va00DD263CNames	2
@@ -39626,10 +39624,7 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxPrototypeCl
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxPrototypeClass::Create	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxPrototypeClass::Get_Class_ID	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxPrototypeClass::Get_Name	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::Get_Box_Display_Mask	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::Get_Name	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::Get_Num_Polys	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::Set_Box_Display_Mask	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::Set_Color	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	BoxRenderObjClass::vis_render_box	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/boxrobj.cpp	OBBoxRenderObjClass::Cast_AABox	1

@@ -880,7 +880,6 @@ public:
 };
 
 
-void Rva00174F20Set(int value);
 void Rva001174D0(int value);
 
 

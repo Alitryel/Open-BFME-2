@@ -72,11 +72,3 @@ void Rva006D37F0Clear()
 {
 	g_Va00E177EC = 0;
 }
-extern int g_Va00DF6FD0;
-
-// ?Rva00174F20Set@@YAXH@Z @ 0x00174f20 (10B) over 0x00DF6FD0.
-// Prev Shutdown @0x00174EF0 same data cluster; pairs with rowed getter Rva00174F30Get over same global; jmp caller at 0x001174D0. Opaque address-derived name.
-void Rva00174F20Set(int value)
-{
-	g_Va00DF6FD0 = value;
-}

@@ -395,17 +395,6 @@ int Rva006F5100Get(void)
 	return (*(int *)&gpUndefinedValue);
 }
 
-extern int g_Va00DF6FD0;
-// g_Va00DF6FD0: matched references place it at VA 0xdf6fd0 (zero-filled .bss).
-int g_Va00DF6FD0;
-
-// ?Rva00174F30Get@@YAHXZ @ 0x00174f30 (6B) over 0x00DF6FD0.
-// Follows padding (prev CC), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva00174F30Get(void)
-{
-	return g_Va00DF6FD0;
-}
 
 class BfmeObjELB;
 extern BfmeObjELB *g_bfmeObjELB;
