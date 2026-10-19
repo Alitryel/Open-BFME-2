@@ -1,46 +1,8 @@
-// ?ProcessGameSpyResponse@AptMessengerOnline@@SA_NPAX@Z
-// partial score=0.95 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_STLP_NO_EXCEPTIONS
 // stlport
-// ?ProcessGameSpyResponse@AptMessengerOnline@@QAE_NPAX@Z
-// partial score=0.132 date=2026-10-17
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
-// Small table-reached forwarders from .text gaps no ledger row covers
-// (seat-3 batch D; see GapBodiesS3A.cpp). Each body is reached only through a
-// retail table in .rdata; retail bytes establish every shape. The unrowed
-// callees are pinned under address-derived names with the argument counts
-// their own `ret` immediates prove.
-// --- 0x0035A97E (22B): both arguments and the +0x08 word to the +0x04
-// object's 0x0035A8D7 (ret 0xC).
-/* Original bank declarations carrying inline comments:
-	void rva0035A8D7(void *a, void *b, void *c);			// 0x0035A8D7
-	Rva0035A8D7 *m_target;									// +0x04
-	void *m_08;												// +0x08
-	int m_type; // +0
-	int m_04; // +4
-	int m_08; // +8
-	int m_0c; // +c
-	int m_10; // +10
-	int m_28; // +28
-	int m_4c; // +4c
-	int m_58; // +58
-	int m_64; // +64
-	int m_70; // +70
-	int m_74; // +74
-	int m_78; // +78
-	int m_7c; // +7c
-	int m_88; // +88
-	int m_10c; // +10c
-	int m_110; // +110
-	int m_114; // +114
-	int m_118; // +118
-	int m_11c; // +11c
-	int m_120; // +120
-	int m_144; // +144
-	int m_134; // +spare
-*/
-// The earlier header above is retained evidence; the callback is static cdecl.
-// Retail and WB establish this response switch; template induction still differs.
+// AptMessengerOnline::ProcessGameSpyResponse (0x005AF12F): the Apt online
+// GameSpy response dispatcher, shaped after ZH WOLLobbyMenu's handlers.
+// Retail and WB establish the response switch and the record offsets.
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -84,6 +46,7 @@ struct AsciiUnicodePair
     UnicodeString m_translatedName;
     int m_groupID, m_numWaiting, m_maxWaiting, m_numGames, m_numPlaying, m_roomType;
     AsciiUnicodePair(const AsciiUnicodePair &other);
+    ~AsciiUnicodePair();
 };
 class GameSpyGroupRoom : public AsciiUnicodePair
 {
@@ -113,6 +76,8 @@ class GameSlot
 public:
     virtual void v00();
     void setPlayerTemplate(int value);
+    void setColor(int color) { m_color = color; }
+    void setHandicap(int handicap) { m_handicap = handicap; }
     void setState(SlotState state, UnicodeString name = UnicodeString::TheEmptyString, const GameSlotConnectInfo *connect = &GameSlotConnectInfo());
     char m_04[8];
     int m_color;
@@ -127,6 +92,9 @@ public:
     char m_1b0[0x10];
     int m_wins, m_losses;
     char m_1c8[0x18];
+    void setProfileID(int id) { m_profileID = id; }
+    void setWins(int wins) { m_wins = wins; }
+    void setLosses(int losses) { m_losses = losses; }
 };
 
 struct Rva005AE5EEQuad { int value[4]; };
@@ -223,7 +191,7 @@ public:
 #define V(n) virtual void slot##n();
     V(0) V(1) V(2)
     virtual GroupRoomMap *getGroupRoomList();
-    virtual void addGroupRoom(GameSpyGroupRoom value);
+    virtual void addGroupRoom(AsciiUnicodePair value);
     V(5) V(6) V(7) V(8)
     virtual void joinBestGroupRoom(int type);
     V(10)
@@ -271,7 +239,7 @@ public:
 extern GameTextInterface *TheGameText;
 class GameState { public: AsciiString portableMapPathToRealMapPath(const AsciiString &path) const; };
 extern GameState *TheGameState;
-extern int g_Va00DD3938;
+extern int g_lastJoinedGroupRoomID; // 0x00DD3938: -1 after leaving, 0 in a staging room
 extern int GameSpyColor[2];
 void Rva00381C2DClear(unsigned int index);
 void Rva00381C82AddChatText(int index, const UnicodeString &text, int color);
@@ -304,18 +272,19 @@ bool AptMessengerOnline::ProcessGameSpyResponse(void *p)
     case 0:
     case 1:
         g_bfmeAptWindowManager->bfmeSetText(AsciiString("APT:CurrentLobbyName"), UnicodeString((const unsigned short *)L" "), false);
-        g_Va00DD3938 = -1;
+        g_lastJoinedGroupRoomID = -1;
         Rva00381C2DClear(1);
         break;
     case 8:
     case 9:
-        g_Va00DD3938 = 0;
+        g_lastJoinedGroupRoomID = 0;
         g_bfmeAptWindowManager->rva00225375("APT:CurrentLobbyName", TheGameSpyInfo->getLocalName(), false);
         Rva00381C2DClear(1);
         break;
     case 20:
         TheGameSpyInfo->addText(UnicodeString((const unsigned short *)resp->text.c_str()), GameSpyColor[0]);
-        break;    case 7:
+        break;
+    case 7:
         if (resp->joinGroupRoom.ok)
         {
             //buttonPushed = true;
@@ -328,10 +297,10 @@ bool AptMessengerOnline::ProcessGameSpyResponse(void *p)
                 const GameSpyGroupRoom &room = it->second;
                 UnicodeString msg;
                 msg.format(TheGameText->fetchFormat("GUI:LobbyJoined"), room.m_translatedName.str());
-                if (g_Va00DD3938 != resp->joinGroupRoom.id)
+                if (g_lastJoinedGroupRoomID != resp->joinGroupRoom.id)
                 {
                     Rva00381C82AddChatText(1, msg, GameSpyColor[1]);
-                    g_Va00DD3938 = resp->joinGroupRoom.id;
+                    g_lastJoinedGroupRoomID = resp->joinGroupRoom.id;
                 }
                 g_bfmeAptWindowManager->bfmeSetText("APT:CurrentLobbyName", room.m_translatedName, false);
             }
@@ -352,10 +321,6 @@ bool AptMessengerOnline::ProcessGameSpyResponse(void *p)
             ((GameSpyInfo *)TheGameSpyInfo)->rva00382D39((Rva00382D39Input *)resp, AsciiString::TheEmptyString);
         return true;
     case 14:
-        if ((resp->player.roomType == 1 && !TheGameSpyInfo->rva00381DC4()) ||
-            (resp->player.roomType == 2 && TheGameSpyInfo->rva00381DC4()))
-            ((GameSpyInfo *)TheGameSpyInfo)->rva00382D39((Rva00382D39Input *)resp, AsciiString::TheEmptyString);
-        return true;
     case 22:
         if ((resp->player.roomType == 1 && !TheGameSpyInfo->rva00381DC4()) ||
             (resp->player.roomType == 2 && TheGameSpyInfo->rva00381DC4()))
@@ -436,25 +401,24 @@ bool AptMessengerOnline::ProcessGameSpyResponse(void *p)
                         ((StringBase<char> *)&mapName)->concat('\\');
                 }
                 room.setMap(TheGameState->portableMapPathToRealMapPath(mapName));
-                int (&profileIDs)[8] = resp->stagingRoom.profileID;
                 for (i = 0; i < 8; ++i)
                 {
                     GameSpyGameSlot *slot = room.getGameSpySlot(i);
                     if (slot)
                     {
-                        slot->m_wins = resp->stagingRoom.wins[i];
-                        slot->m_losses = resp->stagingRoom.losses[i];
-                        slot->m_profileID = profileIDs[i];
+                        slot->setWins(resp->stagingRoom.wins[i]);
+                        slot->setLosses(resp->stagingRoom.losses[i]);
+                        slot->setProfileID(resp->stagingRoom.profileID[i]);
                         slot->setPlayerTemplate(resp->stagingRoom.faction[i]);
-                        slot->m_color = resp->stagingRoom.color[i];
-                        slot->m_handicap = resp->stagingRoom.handicap[i];
-                        if (profileIDs[i] == SLOT_EASY_AI)
+                        slot->setColor(resp->stagingRoom.color[i]);
+                        slot->setHandicap(resp->stagingRoom.handicap[i]);
+                        if (resp->stagingRoom.profileID[i] == SLOT_EASY_AI)
                             slot->setState(SLOT_EASY_AI);
-                        else if (profileIDs[i] == SLOT_MED_AI)
+                        else if (resp->stagingRoom.profileID[i] == SLOT_MED_AI)
                             slot->setState(SLOT_MED_AI);
-                        else if (profileIDs[i] == SLOT_BRUTAL_AI)
+                        else if (resp->stagingRoom.profileID[i] == SLOT_BRUTAL_AI)
                             slot->setState(SLOT_BRUTAL_AI);
-                        else if (profileIDs[i] == SLOT_AI_5)
+                        else if (resp->stagingRoom.profileID[i] == SLOT_AI_5)
                             slot->setState(SLOT_AI_5);
                         else if (resp->stagingRoomPlayerNames[i].length())
                         {
