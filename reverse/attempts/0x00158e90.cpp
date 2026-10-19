@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.8622483746829656 date=2026-10-19
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.728 date=2026-10-17
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.7874684447557369 date=2026-10-14
@@ -223,8 +225,8 @@ static __forceinline unsigned short NextGlyphIndex(unsigned short *&glyph) {
 // 156540 are read from native calls. Real STLport word vector uses rowed resize824F9.
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z present-unmatched
 Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,int *hkY,bool justCalcExtents) {
-    int hotKeyPosX=0,hotKeyPosY=0;
     float maxX=0;
+    int hotKeyPosX=0,hotKeyPosY=0;
     bool calcHotKeyX=false;
     int length=(int)wcslen(text);
     BfmeWordVec glyphs;
@@ -238,12 +240,14 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
     Vector2 extent;
     W3DRadarResetSurface *cur=&CurSurface;
     glyph[length]=0xFFFF;
+    // Ensure we have a surface to start with
     if ((1 ? (!cur->m_surface) : (!cur->m_surface))) Rva00158990(active,text,glyph,justCalcExtents);
         TextureOffset.Set(2,0);
         TextureStartX=2;
         unsigned short *locked=0;
         int stride=0;
         { }
+        // Ensure the surface is locked
         if (!justCalcExtents) {
             locked=(unsigned short *)reinterpret_cast<Rva00116680 *>(cur)->rva00116680(&stride,false);
             if (!locked) return Vector2(0,0);
@@ -251,6 +255,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
         float char_height=active->Get_Char_Height();
         unsigned short *glyphPtr=glyph;
         unsigned short *curGlyph=glyph;
+        // Loop over all the characters in the string
         while(text) {
             unsigned short ch=*text++;
             unsigned short glyphCh=*glyphPtr;
@@ -262,6 +267,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
             do {
                 retry=false;
                 dontBlit=false;
+                // Determine how much horizontal space this character requires
                 if (ParseHotKey && ch=='&' && *text!=0 && *text>' ' && *text!='\n' && *text!=0x95) {
                     hotKeyPosY=(int)Cursor.Y;
                     if (calcHotKeyX) hotKeyPosX=0;
@@ -274,13 +280,18 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 char_spacing=(float)active->Get_Glyph_Advance(glyphCh);
                 bool encountered_break_char=(ch==' ' || ch=='\n' || ch==0x95 || ch==0);
                 bool wordBiggerThenLine=useHardWordWrap && WrapWidth!=0 && (Cursor.X+TextureOffset.I-TextureStartX+char_spacing)>=WrapWidth;
+                // Do we need to record this portion of the sentence to its own chunk?
                 if (encountered_break_char || wordBiggerThenLine) {
                     if (!justCalcExtents) rva00156540(reinterpret_cast<const Rva00156540Param *>(active));
+                    // Adjust the positions
                     Cursor.X += TextureOffset.I-TextureStartX;
                     maxX=max(maxX,Cursor.X);
                     TextureStartX=TextureOffset.I;
+                    // Adjust the output coordinates
                     if (ch==' ' || ch==0x95) {
+                        // Check to see if we need to wrap on this word-break
                         if (WrapWidth>0) {
+                            // Find the length of the next word
                             const unsigned short *word=text;
                             const unsigned short *wordGlyph=glyphPtr;
                             float word_width=char_spacing;
@@ -289,6 +300,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                                 word_width+=active->Get_Glyph_Advance(*wordGlyph++);
                                 ++word;
                             }
+                            // Should we wrap the next word?
                             if (Cursor.X+word_width>=WrapWidth) {
                                 Cursor.X=0;
                                 Cursor.Y+=char_height;
@@ -306,7 +318,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                         Cursor.Y+=char_height;
                         do {ch=*text++;glyphCh=*glyphPtr;++glyphPtr;} while(ch==' ');
                         retry=true;
-                    } else if (wordBiggerThenLine && ch!=0) {
+                    } else if (wordBiggerThenLine) {
                         Cursor.X=0;
                         Cursor.Y+=char_height;
                     }
@@ -314,6 +326,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 if (!ch) break;
             } while(retry);
             if (!ch) break;
+            // Did the text extend past the edge of the texture?
             if (TextureOffset.I+char_spacing>=CurrTextureSize) {
                 if (!justCalcExtents) rva00156540(reinterpret_cast<const Rva00156540Param *>(active));
                 Cursor.X+=TextureOffset.I-TextureStartX;
@@ -322,6 +335,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 TextureStartX=2;
                 TextureOffset.I=2-adjustment;
                 TextureOffset.J+=char_height;
+                // Did the text extent completely off the texture?
                 if (TextureOffset.J+char_height>=CurrTextureSize) {
                     if (locked) {
                         reinterpret_cast<Member0C00739C70 *>(&CurSurface)->clear();
@@ -334,32 +348,35 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                     }
                 }
             }
+            // Blit the character to the surface
             if (!justCalcExtents && !dontBlit) active->rva001588A0(glyphCh,locked,stride,TextureOffset.I,TextureOffset.J);
             TextureOffset.I+=char_spacing;
         }
         if (locked) reinterpret_cast<Member0C00739C70 *>(&CurSurface)->clear();
         extent.X=maxX+active->Get_Extra_Overlap();
         extent.Y=Cursor.Y+active->Get_Char_Height();
-        if (!justCalcExtents && Centered && sentence_data.Count()>0) {
-            int start=0;
-            float left=sentence_data[0].screen_left;
-            float top=sentence_data[0].screen_top;
-            float right=sentence_data[0].screen_right;
-            for (int i=1;i<=sentence_data.Count();++i) {
-                if (i<sentence_data.Count() && sentence_data[i].screen_top==top) {
-                    right=sentence_data[i].screen_right;
-                    continue;
-                }
-                float shift=(float)floor((extent.X-(active->Get_Extra_Overlap()*0.5+right-left))*0.5-left+0.5);
-                for (int j=start;j<i;++j) {
-                    sentence_data[j].screen_left+=shift;
-                    sentence_data[j].screen_right+=shift;
-                }
-                if (i<sentence_data.Count()) {
-                    start=i;
-                    left=sentence_data[i].screen_left;
-                    top=sentence_data[i].screen_top;
-                    right=sentence_data[i].screen_right;
+        if (!justCalcExtents && Centered) {
+            const int count=sentence_data.Count();
+            if (count>0) {
+                int start=0;
+                float left=sentence_data[0].screen_left;
+                float top=sentence_data[0].screen_top;
+                float right=sentence_data[0].screen_right;
+                for (int i=1;;++i) {
+                    if (i>=count || sentence_data[i].screen_top!=top) {
+                        float shift=(float)floor((extent.X-(active->Get_Extra_Overlap()*0.5+right-left))*0.5-left+0.5);
+                        for (int j=start;j<i;++j) {
+                            sentence_data[j].screen_left+=shift;
+                            sentence_data[j].screen_right+=shift;
+                        }
+                        if (i>=count) break;
+                        start=i;
+                        left=sentence_data[i].screen_left;
+                        top=sentence_data[i].screen_top;
+                        right=sentence_data[i].screen_right;
+                    } else {
+                        right=sentence_data[i].screen_right;
+                    }
                 }
             }
         }
@@ -367,3 +384,6 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
     if (hkX) {*hkX=hotKeyPosX;*hkY=hotKeyPosY;}
     return extent;
 }
+
+// The centering pass snapshots the record count and exits after its final group.
+// A hard-width break updates the cursor before the terminating-zero check.
