@@ -352,7 +352,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateParseLocomotorSet.cpp	?pa
 Code/GameEngine/Source/GameLogic/Object/Update/ArrowStormUpdateSlots.cpp	?rva00450D9A@ArrowStormUpdate@@UAEXXZ	?rva00490AC5@ArrowStormUpdate@@AAEXXZ	0x00490AC5	unowned
 Code/GameEngine/Source/GameLogic/Object/Update/BoneFXUpdateXfer.cpp	?xfer@BoneFXUpdate@@MAEXPAVXfer@@@Z	?push_back@?$vector@W4ParticleSystemID@@V?$allocator@W4ParticleSystemID@@@_STL@@@_STL@@QAEXABW4ParticleSystemID@@@Z	0x002E01C6	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/CritterEmitterUpdateConstructorThunk.cpp	??0CritterEmitterUpdate@@QAE@PAVThing@@PBVModuleData@@@Z	??0CritterEmitterUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z	0x00253390	wrong
-Code/GameEngine/Source/GameLogic/Object/Update/DelayedWeaponSetUpgradeUpdateCtorModuleFactory.cpp	??0DelayedWeaponSetUpgradeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z	??0DWSU_UpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z	0x00253390	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/ModuleUpdateDtors2.cpp	??_GRva004907C0@@UAEPAXI@Z	??1Rva004907C0@@UAE@XZ	0x004907C0	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/Rva002B7000Dtor.cpp	??1?$vector@URva002B7000Element@@V?$allocator@URva002B7000Element@@@_STL@@@_STL@@QAE@XZ	??$_Destroy@PAURva002B7000Element@@@_STL@@YAXPAURva002B7000Element@@0@Z	0x005F97BC	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D1B1.cpp	??1Rva0049D1B1@@UAE@XZ	??1AsciiString@@QAE@XZ	0x00036410	divergent

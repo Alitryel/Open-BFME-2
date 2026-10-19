@@ -1874,7 +1874,6 @@ name,address,notes
 ??0CylindricalEmissionVelocityInfo@FXParticleSystem@@QAE@XZ,0x003A7489,callee of CylindricalEmissionVelocityModuleTemplate (0x003A757D) at the matching structural site; BFME2 folds the outward info body here too (cf folded assignments at 0x3A765F)
 ??0CylindricalEmissionVelocityModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z,0x003A75D4,BFME2 export; the module template constructor the ConcreteModuleTemplate wrapper calls
 ??0CylindricalEmissionVelocityModuleTemplate@FXParticleSystem@@QAE@XZ,0x003A757D,BFME2 export; the module template constructor the ConcreteModuleTemplate wrapper calls
-??0DWSU_UpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00253390,callee of 0DelayedWeaponSetUpgradeUpdate (0x004882E4) at the site its BFME1 donor calls it; may be an ICF alias
 ??0DX8MeshRendererClass@@QAE@XZ,0x00145AA0,BFME2 DX8MeshRendererClass ctor; 0x4C operator-new site in Do_Onetime with Init following (BFME1 m_body 0x4C parallel); frameless body installs vtables 0xBD34FC/0xBD34E4/0xBD34E8 with list self-links
 ??0DX8TextureCategoryClass@@QAE@PAVDX8FVFCategoryContainer@@PAPAVTextureClass@@VShaderClass@@PAVVertexMaterialClass@@H@Z,0x00144A00,Insert call146AA7; target constructor stores pass8 texturesC/10 shader14 material18 container34; vptrBD3508 dtor-only; ret14 at144ADE; donor role with target container-first ABI
 ??0DX8VertexBufferClass@@QAE@IGW4UsageType@0@I@Z,0x0013AC00,callee of allocateSlotStorage (0x0011615B) at the site its BFME1 donor calls it; may be an ICF alias

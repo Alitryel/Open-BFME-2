@@ -3,52 +3,70 @@
 // registration string and 0x24-byte allocation identify the retail-only
 // DelayedWeaponSetUpgradeUpdate class.
 //
-// Two rounds of vftable stores: the UpdateModule base is inline, so its own
-// +0x0C/+0x10 stores and its three member inits come first, then the fourth
-// interface base stores +0x20, then the most-derived class overwrites all
-// four slots.
+// The base constructor call is retail's UpdateModule::UpdateModule at
+// 0x00253390 (its own row in UpdateModuleCtor.cpp), so UpdateModule's
+// constructor and destructor are declared, never defined here. The class
+// view is the one DelayedWeaponSetUpgradeUpdateDtor.cpp uses: the
+// UpdateModule middle slots at +0x0C/+0x10 and the
+// DelayedUpgradeUpdateInterface slot at +0x20, then the most-derived class
+// overwrites all four vftable slots.
 
 class Thing;
 class ModuleData;
-class Object;
 
-class DWSU_DeepBase
+class Module
 {
 public:
-    DWSU_DeepBase(Thing *, const ModuleData *);
-    virtual ~DWSU_DeepBase();
-
-protected:
-    const ModuleData *m_moduleData;
-    Object *m_object;
-};
-
-class DWSU_Iface1 { public: virtual void slot(); };
-class DWSU_Iface2 { public: virtual void slot(); };
-
-class DWSU_UpdateModule : public DWSU_DeepBase, public DWSU_Iface1, public DWSU_Iface2
-{
-public:
-    DWSU_UpdateModule(Thing *thing, const ModuleData *moduleData)
-        : DWSU_DeepBase(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
+	virtual ~Module();
 
 private:
-    unsigned int m_f14;
-    int m_f18;
-    int m_f1c;
+	unsigned int m_storage[2];
 };
 
-class DWSU_Iface3 { public: virtual void slot(); };
-
-class DelayedWeaponSetUpgradeUpdate : public DWSU_UpdateModule, public DWSU_Iface3
+class BehaviorModuleInterface
 {
 public:
-    DelayedWeaponSetUpgradeUpdate(Thing *, const ModuleData *);
+	virtual void anchor();
+};
+
+class BehaviorModule : public Module, public BehaviorModuleInterface
+{
+};
+
+class UpdateModuleInterface
+{
+public:
+	virtual void anchor();
+};
+
+class UpdateModule : public BehaviorModule, public UpdateModuleInterface
+{
+public:
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~UpdateModule();
+
+private:
+	unsigned int m_storage[3];
+};
+
+class DelayedUpgradeUpdateInterface
+{
+public:
+	virtual void setDelay();
+};
+
+class DelayedWeaponSetUpgradeUpdate : public UpdateModule, public DelayedUpgradeUpdateInterface
+{
+public:
+	DelayedWeaponSetUpgradeUpdate(Thing *, const ModuleData *);
+
+protected:
+	virtual ~DelayedWeaponSetUpgradeUpdate();
 };
 
 // ??0DelayedWeaponSetUpgradeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
 DelayedWeaponSetUpgradeUpdate::DelayedWeaponSetUpgradeUpdate(
-    Thing *thing, const ModuleData *moduleData)
-    : DWSU_UpdateModule(thing, moduleData)
+	Thing *thing, const ModuleData *moduleData)
+	: UpdateModule(thing, moduleData)
 {
 }
