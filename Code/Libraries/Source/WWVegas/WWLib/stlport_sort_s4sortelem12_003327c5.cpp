@@ -42,16 +42,19 @@ struct S4Cmp002E1690
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void __linear_insert<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690); }
+// The rowed copies live in StringRecordCopyBFME2.cpp (0x00331A46) and
+// Rva002E0BC0PopHeap12_Rva00331dae.cpp (0x00331DAE); bind to them.
+namespace _STL { template <> void __unguarded_linear_insert<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12,S4Cmp002E1690); }
+namespace _STL { template <> void __pop_heap<S4SortElem12 *,S4SortElem12,S4Cmp002E1690,int>(S4SortElem12 *,S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690,int *); }
+namespace _STL { template <> S4SortElem12 *__unguarded_partition<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690); }
 
 void Rva002E00E0Swap(S4SortElem12 &left, S4SortElem12 &right);
 
 namespace _STL
 {
 
-void iter_swap(S4SortElem12 *left, S4SortElem12 *right)
-{
-	Rva002E00E0Swap(*left, *right);
-}
+// Rowed in stlport_introsort_loop_s4sortelem12_002e1b60.cpp (0x00331BD2).
+void iter_swap(S4SortElem12 *left, S4SortElem12 *right);
 
 template void sort<S4SortElem12 *, S4Cmp002E1690>(S4SortElem12 *, S4SortElem12 *, S4Cmp002E1690);
 
