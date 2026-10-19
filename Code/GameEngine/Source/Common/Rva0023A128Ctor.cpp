@@ -179,6 +179,25 @@ public:
 Rva0023A128Link::Rva0023A128Link()
 {
 }
+
+// Both base tables are VA 0x00BED658 in retail (the Link ctor above and
+// ~Rva0023A128 0x00239D7A store it for either base): its two slots are the
+// shared empty RET 4 at 0x0047A69C (ICF fold).
+void Rva0023A128Link::rva00239B94(int)
+{
+}
+
+void Rva0023A128Link::v01(int)
+{
+}
+
+void Rva0023A128Listener::rva0023A1AA(int)
+{
+}
+
+void Rva0023A128Listener::rva00239B7E(int)
+{
+}
 class Rva0023A039
 {
 public:
