@@ -29,3 +29,15 @@ The remaining blocker is native frame/register/loop scheduling: the candidate us
 Before and after align probes pass as measurements while confirming a byte mismatch; raw outputs are before-align.log and after-align.log. Native trace after passes; before fails as expected. Run raw probes with BFME_OBJSTORE=off. The full scratch commands and raw compiler/linker receipts remain in build/worker-73bfe0/. The trace harness links the already measured candidate object, executes the complete native body locally, and patches only its two updater calls to the recorder. The code and raw native bytes are local; no service was contacted.
 
 Repository check_csv passed before and after banking (build/worker-73bfe0/check-csv-before.log and check-csv-after.log); pin_consistency --check passed with no new findings (pin-consistency.log). The final git diff --check passed (diff-check.log). Mixed CRLF/LF from Windows text I/O was normalized only in the edited bank and new support files; a fresh object preserves the same measured result. Handoff checks pass for original-comment retention, measured-source identity and traced-object equivalence (handoff-check.log). Final check results and raw paths are included in the chat handoff. No Code file changed, so find_declared_unmatched and build.sh were not applicable; add_match was not invoked. No forbidden runner, network operation, claim, git write, subagent or screen capture was used.
+
+## Opus r (2026-10-19): field-array edge lever
+
+field-array-pr5.cpp.txt (now the bank) reaches 33 regions with memory residue 46 / register 45 (previous bank: 33, 66/46), +32 B.
+Lever: MSVC 7.1 scalar-replaces edge struct fields into registers (struct, edges[2] and ctor forms all 41-45 regions);
+an `int f[3]` member array with `#define value f[0]` etc. keeps value/step/remaining memory-homed like retail.
+Retail frame (0x2c): y 0x10, top*4 0x14, min-loop i 0x18, L value/step/remaining 0x1c/0x20/0x24, left index 0x28,
+R 0x2c/0x30/0x34 (R.value cached in esi), right index in edi only, n in its own arg slot.
+Remaining: left/right register roles swapped (ours esi caches L.value, edi=left), frame slot order, min-loop IV shape.
+Ruled out: declaration order of edges/indices (no effect), x=xs[from] hoist before remaining (39) or after (34, -5 B),
+left index as f[3] of the left edge (42), 4-field struct with index (42).
+Not native-traced; written from the retail decode (xs arg0 in ebp, ys arg1 in ebx, left walks PREV, right NEXT).
