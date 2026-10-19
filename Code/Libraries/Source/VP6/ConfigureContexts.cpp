@@ -17,7 +17,9 @@ struct Rva009B64A0Coef
 };
 
 extern Rva009B64A0Coef g_bfmeToneCoef[15];		// image 0x00BD9430
-extern void (__cdecl *g_bfmeToneReady)();		// image 0x00E22D10
+// The CPU-state clear slot (VA 0x00E22D10) that UtilMachineSpecificConfig
+// fills with ClearMmx or the empty generic routine.
+extern void *g_bfmeSlotB48;
 
 // g_bfmeToneCoef: sole definition so this file links (no other TU defines it).
 Rva009B64A0Coef g_bfmeToneCoef[15];
@@ -36,7 +38,7 @@ Rva009B64A0Coef g_bfmeToneCoef[15];
 // RVA 0x001C6DA0
 extern "C" void __cdecl VP6_ConfigureContexts(unsigned char *pbi)
 {
-	g_bfmeToneReady();
+	((void (__cdecl *)())g_bfmeSlotB48)();
 
 	unsigned char *dst = pbi + 0x543;
 	unsigned char *src = pbi + 0x3A1;

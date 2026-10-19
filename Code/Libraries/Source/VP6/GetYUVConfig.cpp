@@ -42,8 +42,9 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 typedef void (__cdecl *VP6ClampLevelsFn)(void *post, int black, int white, unsigned char *source, unsigned char *dest);
 #define CLAMP_LEVELS ((VP6ClampLevelsFn)g_bfmeCodecDispatch.slot[19])
 
-// The system-state clear routine pointer at VA 0x00E22D10.
-extern void (__cdecl *g_bfmeToneReady)();
+// The CPU-state clear slot (VA 0x00E22D10) that UtilMachineSpecificConfig
+// fills with ClearMmx or the empty generic routine.
+extern void *g_bfmeSlotB48;
 
 struct VP6YUVConfig
 {
@@ -206,7 +207,7 @@ extern "C" void __cdecl VP6_GetYUVConfig(VP6Instance *instance, VP6YUVConfig *co
 		config->uvHeight = instance->outputHeight >> 1;
 	}
 
-	g_bfmeToneReady();
+	((void (__cdecl *)())g_bfmeSlotB48)();
 
 	unsigned int duration = (end - start) / instance->processorFrequency;
 	if (instance->averagePostTime[instance->level % 10] == 0)

@@ -249,9 +249,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 	}
 }
 
-// ?g_bfmeSlotB40@@3PAXA: matched references place it at VA 0xe22d08; also referenced as ?g_rva01356B40@@3P6AXPAX0HH@ZA.
+// g_bfmeSlotB40: VA 0xe22d08, the 12x12 block copy slot.
 void * g_bfmeSlotB40 = 0;
-#pragma comment(linker, "/alternatename:?g_rva01356B40@@3P6AXPAX0HH@ZA=?g_bfmeSlotB40@@3PAXA")
-// ?g_bfmeSlotB48@@3PAXA: matched references place it at VA 0xe22d10; also referenced as ?g_bfmeToneReady@@3P6AXXZA.
+// g_bfmeSlotB48: VA 0xe22d10, the CPU-state clear slot (ClearMmx or empty).
 void * g_bfmeSlotB48 = 0;
-#pragma comment(linker, "/alternatename:?g_bfmeToneReady@@3P6AXXZA=?g_bfmeSlotB48@@3PAXA")
