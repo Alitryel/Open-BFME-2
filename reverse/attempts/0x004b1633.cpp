@@ -1,11 +1,5 @@
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.93495 date=2026-10-19
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.93495 date=2026-10-19
-// partial score=0.86233 date=2026-10-19
-// partial score=0.083 date=2026-10-17
-// partial score=0.33 date=2026-10-14
-// partial score=0.33 date=2026-10-14
+// partial score=0.99 date=2026-10-19
 // Bank draft of the EmotionTrackerUpdate per-frame step at 0x004B1633 (2200B).
 // WB 0x1230DD0 (EmotionTrackerUpdate::update) + retail. `this` is the module
 // object; the owning Thing is at +4, the tracked Object at +8. The body walks
@@ -17,7 +11,8 @@
 // The inherited description above describes the earlier draft, not a proven layout.
 // Native ECX is root+0x10; module data/object are at ECX-0xC/-8.
 // Native scans EmotionSystem ObjectIDs before nested module-nugget eligibility scans.
-// Current evidence and unresolved codegen: reverse/attempt_support/0x004b1633-20261019-w6/readme.md
+// Current evidence and unresolved codegen: reverse/attempt_support/0x004b1633-20261019-claude2.md
+// (earlier: reverse/attempt_support/0x004b1633-20261019-w6/readme.md)
 /* Inherited draft field annotations, retained as unverified evidence.
     unsigned int m_frame;			// +0x40
     void *m_274;				// +0x274
@@ -55,6 +50,33 @@
 #include <vector>
 #include "../../Code/Libraries/Include/Lib/Coord3D.h"
 #include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+
+// The lookup bodies are visible so the compiler knows they only read the map
+// and keeps the closest ID and the active nugget across the lookups.
+struct EmotionLookupNode { EmotionLookupNode *next; ObjectID key; Object *object; };
+struct EmotionLookupBuckets {
+ EmotionLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ EmotionLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct EmotionLookupMap { unsigned char hashEqual[4]; EmotionLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ EmotionLookupMap *map=(EmotionLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ EmotionLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1, UPDATE_SLEEP_FOREVER = 0x3fffffff };
 enum ObjectStatusTypes {};
@@ -119,6 +141,7 @@ class EmotionTrackerUpdate {
 public:
     class TauntPointFilter;
     virtual UpdateSleepTime update();
+    Object *getObject() const { return *(Object **)((char *)this-8); }
     void PulseEmotion(int,void *,int);
     char pad4[0x14-4];
     bool flags[12];
@@ -255,10 +278,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         if(player) {
             unsigned allies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),3,false);
             unsigned enemies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);
-            const BfmePointFD *p=(const BfmePointFD *)(*(Object **)((char *)this-8))->getPosition();
-            enemyCount=((Rva00739830 *)TheShroudManager)->rva00739830(p,1,enemies);
+            enemyCount=((Rva00739830 *)TheShroudManager)->rva00739830(
+                (const BfmePointFD *)getObject()->getPosition(),1,enemies);
             allyCount=((Rva00739830 *)TheShroudManager)->rva00739830(
-                (const BfmePointFD *)(*(Object **)((char *)this-8))->getPosition(),1,allies);
+                (const BfmePointFD *)getObject()->getPosition(),1,allies);
         }
         float shroudRange=obj->getShroudClearingRange();
         float shroudDist=shroudRange*shroudRange;
@@ -278,7 +301,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                    (data->filter14.accepts(other,0) || data->filter18.accepts(other,0)) &&
                    ((Rva0028F326Owner *)obj)->rva0028F326((unsigned int)other,data->range24)) {
                     if(other->status6() ||
-                       (*(Object **)((char *)this-8))->rva0028B511()==other->rva0028B511()) {
+                       getObject()->rva0028B511()==other->rva0028B511()) {
                         EmotionNugget **n=begin;
                         while(n!=end && ((*n)->entry->kind!=4 ||
                               !(*n)->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other))) ++n;
@@ -299,7 +322,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                         closest=other;
                         closestDist=dist;
                         if(other->status6() ||
-                           other->rva0028B511()==(*(Object **)((char *)this-8))->rva0028B511()) {
+                           getObject()->rva0028B511()==other->rva0028B511()) {
                             flags[0]=false;
                             flags[3]=true;
                         } else {
@@ -339,15 +362,13 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         ((EmotionTrackerUpdate *)((char *)this-0x10))->PulseEmotion(8,0,1);
     EmotionNugget *selected=((Rva004B13D8 *)((char *)this-0x10))->rva004B13D8();
     bool changed=false;
-    if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3)) {
-        ObjectID id=closest->getID();
-        if(id!=targetID[selected->entry->kind]) {
+    if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3) &&
+       closest->getID()!=targetID[selected->entry->kind]) {
         Object *oldObj=TheGameLogic->findObjectByID(targetID[selected->entry->kind]);
-        Object *newObj=TheGameLogic->findObjectByID(id);
+        Object *newObj=TheGameLogic->findObjectByID(closest->getID());
         if(oldObj && oldObj->m_274) oldObj=oldObj->m_274;
         if(newObj && newObj->m_274) newObj=newObj->m_274;
         if(oldObj!=newObj) changed=true;
-        }
     }
     if(selected==active && !changed) {
         if(active && !((Emotion *)active)->rva004DCEC4()) {
@@ -368,10 +389,8 @@ UpdateSleepTime EmotionTrackerUpdate::update()
             }
             if(forcedFrames>0)
                 ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(forcedTarget),forcedFrames);
-            else {
-                EmotionNugget *a=active;
-                ((Rva004DCC84 *)a)->rva004DCC84(TheGameLogic->findObjectByID(targetID[a->entry->kind]),0);
-            }
+            else
+                ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(targetID[active->entry->kind]),0);
         }
     }
     for(int i=0;i<12;++i) {
