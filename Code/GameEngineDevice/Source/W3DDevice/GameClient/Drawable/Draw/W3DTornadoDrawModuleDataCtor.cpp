@@ -50,7 +50,7 @@ private:
 };
 
 // Retail VA 0x00BCE150 (.rdata): 3 field records and a zero sentinel.
-extern const FieldParse g_00BCE150[] = {
+extern const FieldParse BfmeW3DTornadoDrawFields[] = {
 	{ "DecalTemplate", &RadiusDecalTemplate::parseRadiusDecalTemplate, 0, 0x8 },
 	{ "DecalCount", &INI::parseUnsignedInt, 0, 0x3C },
 	{ "DecalMaxRadius", &INI::parseReal, 0, 0x40 },
@@ -102,5 +102,5 @@ W3DTornadoDrawModuleData::W3DTornadoDrawModuleData()
 // ?buildFieldParse@W3DTornadoDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x000D16A3
 void W3DTornadoDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(g_00BCE150, 0);
+	parse.add(BfmeW3DTornadoDrawFields, 0);
 }

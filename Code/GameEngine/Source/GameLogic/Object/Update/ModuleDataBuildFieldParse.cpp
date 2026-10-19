@@ -11,8 +11,6 @@ char g_00C17208;
 char g_00C18210;
 char g_00C1B00C;
 char g_00C1B0F0;
-char g_00C1B1F8;
-char g_00C35FE0;
 char g_00C3F120;
 char g_00C413E4;
 char g_00C41690;
@@ -38,7 +36,6 @@ char g_00C4F4B8;
 char g_00C4F618;
 char g_00C4F9E8;
 char g_00C503B0;
-char g_00C50BA8;
 char g_00C517F0;
 char g_00C51964;
 char g_00C52188;
@@ -53,7 +50,6 @@ char g_00C55638;
 char g_00C56858;
 char g_00C56A98;
 char g_00C56ED8;
-char g_00C59238;
 char g_00C59338;
 char g_00C595B4;
 char g_00C59728;
@@ -62,10 +58,8 @@ char g_00C59DD0;
 char g_00C5A190;
 char g_00C5AB48;
 char g_00C5B228;
-char g_00C5EA10;
 char g_00C5EB94;
 char g_00C5ECB8;
-char g_00C5ED98;
 char g_00C5F150;
 char g_00C5F2DC;
 char g_00C5F574;
@@ -110,6 +104,11 @@ public:
 	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
 	static void parseAngleReal(INI *ini, void *instance, void *store, const void *userData);
 	static void parseFXList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseObjectCreationList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva004C8F94_ParseSpawnObject(INI *ini, void *instance, void *store, const void *userData);
 };
 
 class Rva003B1017
@@ -121,6 +120,7 @@ public:
 void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
 void Rva001DEE74Parse(INI *ini, void *instance, void *store, const void *userData);
 void Rva0048E022Parse(INI *ini, void *instance, void *store, const void *userData);
+void iniParseFXListVec(INI *ini, void *instance, void *store, const void *userData);
 
 // Retail FieldParse tables of four procs below; tokens, callbacks and offsets
 // are read from the retail tables. The global names are descriptive; their
@@ -165,6 +165,55 @@ extern const FieldParse BfmeFloodUpdateFields[] = {
 	{ "FloodMember", &Rva0048E022Parse, 0, 0x0 },
 	{ "AngleOfFlow", &INI::parseAngleReal, 0, 0xC },
 	{ "DirectionIsRelative", &INI::parseBool, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
+// Retail VA 0x00C50BA8: 5 fields and the zero sentinel.
+extern const FieldParse BfmeOCLUpdateFields[] = {
+	{ "OCL", &INI::parseObjectCreationList, 0, 0x8 },
+	{ "MinDelay", &INI::parseDurationUnsignedInt, 0, 0xC },
+	{ "MaxDelay", &INI::parseDurationUnsignedInt, 0, 0x10 },
+	{ "CreateAtEdge", &INI::parseBool, 0, 0x18 },
+	{ "Amount", &INI::parseInt, 0, 0x14 },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C59238: 3 fields and the zero sentinel.
+extern const FieldParse BfmeSpawnUnitBehaviorFields[] = {
+	{ "UnitName", &INI::parseAsciiString, 0, 0x8 },
+	{ "UnitCommand", &INI::parseAsciiString, 0, 0xC },
+	{ "SpawnOnce", &INI::parseBool, 0, 0x1C },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C5EA10: 3 fields and the zero sentinel.
+extern const FieldParse BfmeCritterEmitterUpdateFields[] = {
+	{ "FX", &iniParseFXListVec, 0, 0x8 },
+	{ "ReloadTime", &INI::parseDurationUnsignedInt, 0, 0x20 },
+	{ "SpawnObject", &INI::Rva004C8F94_ParseSpawnObject, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C1B1F8: 6 fields and the zero sentinel (retail spells
+// Sweepfrequency).
+extern const FieldParse BfmeStrafeAreaUpdateFields[] = {
+	{ "WeaponName", &INI::parseAsciiString, 0, 0x8 },
+	{ "StrafeAreaRadius", &INI::parseReal, 0, 0xC },
+	{ "Sweepfrequency", &INI::parseReal, 0, 0x10 },
+	{ "SweepAmplitude", &INI::parseReal, 0, 0x14 },
+	{ "Slope", &INI::parseReal, 0, 0x18 },
+	{ "InitialSweepPhase", &INI::parseReal, 0, 0x1C },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C35FE0: 1 field and the zero sentinel.
+extern const FieldParse BfmeThreatFinderUpdateFields[] = {
+	{ "DefaultRadius", &INI::parseReal, 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
+
+// Retail VA 0x00C5ED98: 1 field and the zero sentinel.
+extern const FieldParse BfmeRadarMarkerClientUpdateFields[] = {
+	{ "MarkerType", &INI::parseAsciiString, 0, 0x8 },
 	{ 0, 0, 0, 0 }
 };
 extern const int g_emptyFieldParseTable[4];
@@ -216,7 +265,7 @@ void cls::buildFieldParse(MultiIniFieldParse &parse) \
 
 FIELD_PROC(BeaconClientUpdateModuleData, (unsigned int)&g_00C5EB94, RadarPulseFrequency)
 FIELD_PROC(EvaAnnounceClientCreateModuleData, (unsigned int)&g_00C5ECB8, AnnouncementEventEnemy)
-FIELD_PROC(CritterEmitterUpdateModuleData, (unsigned int)&g_00C5EA10, FX)
+FIELD_PROC(CritterEmitterUpdateModuleData, BfmeCritterEmitterUpdateFields, FX)
 FIELD_PROC(UpgradeSoundSelectorClientBehaviorModuleData, (unsigned int)&g_00C5F2DC, SoundUpgrade)
 FIELD_PROC(ModelConditionAudioLoopClientBehaviorModuleData, (unsigned int)&g_00C5F574, ModelCondition)
 FIELD_PROC_INLINE(LifetimeUpdateModuleData, (unsigned int)&g_00C1B0F0, LifetimeUpdateTable)
@@ -224,7 +273,7 @@ FIELD_PROC(SpawnedModelConditionCreateModuleData, (unsigned int)&g_00C1B00C, Spa
 FIELD_PROC(FlammableUpdateModuleData, (unsigned int)&g_00C4C600, SalvageCrateTable)
 FIELD_PROC(DetachableRiderUpdateModuleData, (unsigned int)&g_00C55638, PropagandaTowerTable)
 FIELD_PROC(CivilianSpawnCollideModuleData, (unsigned int)&g_00C5AB48, SteeringTable)
-FIELD_PROC(OCLUpdateModuleData, (unsigned int)&g_00C50BA8, OCLTable)
+FIELD_PROC(OCLUpdateModuleData, BfmeOCLUpdateFields, OCLTable)
 FIELD_PROC(AutoPickUpUpdateModuleData, (unsigned int)&g_00C4F4B8, EatObjectTable)
 FIELD_PROC(ProductionUpdateModuleData, (unsigned int)&g_00C517F0, DoorTable)
 FIELD_PROC(ProneUpdateModuleData, (unsigned int)&g_00C51964, ProneTable)
@@ -249,7 +298,7 @@ FIELD_PROC(ReflectDamageModuleData, (unsigned int)&g_00C59C70, ReflectDamageTabl
 FIELD_PROC(AISpecialPowerUpdateModuleData, (unsigned int)&g_00C56ED8, SpecialPowerAITable)
 FIELD_PROC(EntEnragedUpdateModuleData, (unsigned int)&g_00C56A98, EnragedTable)
 FIELD_PROC(EvacuateDamageModuleData, (unsigned int)&g_00C59DD0, PanicTable)
-FIELD_PROC(RadarMarkerClientUpdateModuleData, (unsigned int)&g_00C5ED98, MarkerType)
+FIELD_PROC(RadarMarkerClientUpdateModuleData, BfmeRadarMarkerClientUpdateFields, MarkerType)
 FIELD_PROC(LockWeaponCreateModuleData, (unsigned int)&g_00C59338, SlotToLock)
 FIELD_PROC(StancesBehaviorModuleData, (unsigned int)&g_00C424B0, StanceTemplate)
 FIELD_PROC(DestroyEnvironmentUpdateModuleData, (unsigned int)&g_00C54D28, StartTime)
@@ -259,11 +308,11 @@ FIELD_PROC(AIGateUpdateModuleData, BfmeAIGateUpdateFields, TriggerWidthX)
 FIELD_PROC(RainOfFireUpdateModuleData, (unsigned int)&g_00C54B00, StartRainTime)
 FIELD_PROC(SpecialEnemySenseUpdateModuleData, (unsigned int)&g_00BF1B88, SpecialEnemyFilter)
 FIELD_PROC(OneRingPenaltyUpdateModuleData, (unsigned int)&g_00C503B0, RingTable)
-FIELD_PROC(ThreatFinderUpdateModuleData, (unsigned int)&g_00C35FE0, DefaultRadius)
+FIELD_PROC(ThreatFinderUpdateModuleData, BfmeThreatFinderUpdateFields, DefaultRadius)
 FIELD_PROC(SiegeDockingBehaviorModuleData, (unsigned int)&g_00C413E4, DUMMY)
 FIELD_PROC_INLINE(AutoDepositUpdateModuleData, (unsigned int)&g_00BF1CC8, DepositTable)
 FIELD_PROC(AssistedTargetingUpdateModuleData, (unsigned int)&g_00C4AFE8, AssistedTargetingTable)
-FIELD_PROC(SpawnUnitBehaviorModuleData, (unsigned int)&g_00C59238, SpawnUnitTable)
+FIELD_PROC(SpawnUnitBehaviorModuleData, BfmeSpawnUnitBehaviorFields, SpawnUnitTable)
 FIELD_PROC(EmotionTrackerUpdateModuleData, (unsigned int)&g_00C56858, TauntAndPointDistance)
 FIELD_PROC(PartTheHeavensUpdateModuleData, (unsigned int)&g_00C54DD8, Texture)
 FIELD_PROC(InvisibilityUpdateModuleData, (unsigned int)&g_00C52468, InvisibilityNugget)
@@ -286,7 +335,7 @@ public:
 };
 FIELD_PROC(AutoFindHealingUpdateModuleData, (unsigned int)&g_00C4EC68, HealScanTable)
 FIELD_PROC(FloodUpdateModuleData, BfmeFloodUpdateFields, FloodTable)
-FIELD_PROC(StrafeAreaUpdateModuleData, (unsigned int)&g_00C1B1F8, StrafeTable)
+FIELD_PROC(StrafeAreaUpdateModuleData, BfmeStrafeAreaUpdateFields, StrafeTable)
 FIELD_PROC(LaserUpdateModuleData, (unsigned int)&g_00C17208, LaserTable)
 FIELD_PROC(PassiveAreaEffectBehaviorModuleData, (unsigned int)&g_00C4A388, PassiveAreaEffectTable)
 FIELD_PROC(DynamicShroudClearingRangeUpdateModuleData, (unsigned int)&g_00C4BE20, DynamicShroudTable)
