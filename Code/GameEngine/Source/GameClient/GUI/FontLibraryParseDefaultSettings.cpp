@@ -2,11 +2,22 @@
 // stlport
 #include "ascii_string.h"
 #include <map>
-struct FieldParse;
-extern const FieldParse FontDefaultSettingsFieldParse[];
-extern const void *FontDefaultSettingsVtable[];
+class INI;
+typedef void (*FieldParseProc)(INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
+// The settings object is Rva00217497 (ctor 0x00217497, RvaSmallVtableCtors.cpp):
+// the inline ctor stores that class's vftable 0x007E5AA8 (data ledger
+// ??_7Rva00217497) and clears the count, as the rowed ctor does.
+extern "C" const void *const __identifier("??_7Rva00217497@@6B@")[];
 class INIException {public:INIException(int,const char*,...);INIException(const INIException&);~INIException();private:char *message;int count;};
-class INI {public:AsciiString getNextQuotedAsciiString();const char*getNextTokenOrNull(const char*);void initFromINI(void*,const FieldParse*);};
+class INI {public:AsciiString getNextQuotedAsciiString();const char*getNextTokenOrNull(const char*);void initFromINI(void*,const FieldParse*);static void parseBool(INI*,void*,void*,const void*);};
+// Retail's one-entry table at 0x007E5B30 (VA 0x00BE5B30) passed to initFromINI:
+// "Antialiased" -> INI::parseBool (rowed 0x0002E850) at +8, then the null
+// terminator.
+extern const FieldParse FontDefaultSettingsFieldParse[2] = {
+	{ "Antialiased", &INI::parseBool, 0, 8 },
+	{ 0, 0, 0, 0 },
+};
 extern "C" double (__cdecl * const _imp__atof)(const char*);
 struct TargetRef00217D4C {virtual void *destroy(unsigned);int references;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
@@ -16,7 +27,7 @@ struct TreeHintRef00218787 {TargetRef00217D4C *m_ptr;};
 namespace _STL {template<> TreeHintRef00217D4C &map<AsciiString,TreeHintRef00217D4C>::operator[](const AsciiString&);template<> TreeHintRef00218787 &map<int,TreeHintRef00218787>::operator[](const int&);}
 struct Rva002BED91 {TargetRef00217D4C *m_ptr;void set(TargetRef00217D4C*);};
 class Rva002186EB {public:Rva002186EB();const void *vtable;int references;TreeHintRef00218787 defaults;_STL::map<int,TreeHintRef00218787> sizes;};
-struct FontDefaultSettings {const void *vtable;int references;bool antialiased;FontDefaultSettings():references(0){vtable=FontDefaultSettingsVtable;}};
+struct FontDefaultSettings {const void *vtable;int references;bool antialiased;FontDefaultSettings():references(0){vtable=__identifier("??_7Rva00217497@@6B@");}};
 class FontLibrary {public:static void ParseFontDefaultSettings(INI*);char prefix[0x14];_STL::map<AsciiString,TreeHintRef00217D4C> names;};
 extern FontLibrary *TheFontLibrary;
 void FontLibrary::ParseFontDefaultSettings(INI *ini)
