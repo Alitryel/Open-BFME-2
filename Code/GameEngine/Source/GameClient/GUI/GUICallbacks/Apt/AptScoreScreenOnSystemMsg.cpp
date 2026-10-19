@@ -158,7 +158,7 @@ struct AptScorePersistentUnit
 }
 ;
 // The Apt screen base's rowed window message handler 0x0051274F.
-class Rva005126F5
+class _bfme_AptGameWindow
 
 {
  public:
@@ -233,93 +233,6 @@ class AptScoreScreen
  
 }
 ;
-// Retail 0x0051BF75, 38 bytes: "AptScoreScreen::OnInitialized" focuses
-// the screen's window unless a restart is pending.
-void AptScoreScreen::OnInitialized(const char *unused)
-
-{
- if (m_state != 3)
- 
- {
-  TheWindowManager->winSetFocus((GameWindow *)this);
-  m_state = 1;
-  
- }
- 
-}
-// Retail 0x0051BF9B, 14 bytes: "AptScoreScreen::Timeline".
-void AptScoreScreen::Timeline(const char *unused)
-
-{
- ((Rva00222479ByteOneSetter *)TheRva00222A8BTarget)->enable();
- 
-}
-// Retail 0x0051BFA9, 13 bytes: "AptScoreScreen::RestartGame".
-void AptScoreScreen::RestartGame(const char *unused)
-
-{
- m_state = 3;
- 
-}
-// Retail 0x0051BFB6, 28 bytes: "AptScoreScreen::Continue".
-void AptScoreScreen::Continue(const char *unused)
-
-{
- ((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B3740();
- m_state = 3;
- 
-}
-// Retail 0x0051C7CC, 124 bytes: "AptScoreScreen::InitGadgets" keeps the
-// "PersistentUnitsListBox" (flagging its data's +0x12) and the emptied
-// "RenameUnitsTextEntry" (at most 20 characters).
-void AptScoreScreen::InitGadgets(const char *name, void *argument, GameWindow *window)
-
-{
- if (!window)
- return;
- if (strcmp(name, "PersistentUnitsListBox") == 0)
- 
- {
-  m_units = window;
-  AptScoreListData *data = (AptScoreListData *)window->winGetUserData();
-  data->m_12 = true;
-  window->winSetUserData(data);
-  
- }
- else if (strcmp(name, "RenameUnitsTextEntry") == 0)
- 
- {
-  m_rename = window;
-  GadgetTextEntrySetText(window, UnicodeString::TheEmptyString);
-  GadgetTextEntrySetMaxChars((BfmeKeyLC *)window, 20);
-  
- }
- 
-}
-// Retail 0x0051BFD2, 34 bytes: "AptScoreScreen::RenameCancel" drops the
-// rename and enables the units list again.
-void AptScoreScreen::RenameCancel(const char *unused)
-
-{
- m_renaming = 0;
- m_renameIndex = -1;
- if (m_units)
- m_units->winEnable(true);
- 
-}
-// Retail 0x0051BFF4, 86 bytes: "objectiveChecked%d" for each objective,
-// an Apt query answering whether it was checked off.
-void AptScoreScreen::objectiveChecked(int index, char *result, bool skip)
-
-{
- if (skip)
- return;
- strcpy(result, "0");
- AptScoreObjectives *objectives = m_objectives;
- if (objectives && index >= 0 && index < objectives->m_count && index < 8)
- sprintf(result, "%d", objectives->m_checked[index] != 0);
- 
-}
 // Retail 0x0051C452, 890 bytes: the score screen's window messages (its
 // vftable slot at 0x00C663B4) ahead of the Apt screen base 0x0051274F.
 // Resting the mouse on a persistent unit for ten frames shows whether it
@@ -443,21 +356,13 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
   }
   break;
   default:
-  return ((Rva005126F5 *)this)->rva0051274F(message, wParam, lParam);
+  return ((_bfme_AptGameWindow *)this)->rva0051274F(message, wParam, lParam);
   
  }
  return 1;
  
 }
-// Retail 0x0051C992, 122 bytes: "heroVetUpgrade%d" for each of twelve
-// heroes, an Apt query answering whether the hero's veterancy upgraded.
-void AptScoreScreen::heroVetUpgrade(int index, char *result, bool skip)
 
-{
- if (skip)
- return;
- strcpy(result, "0");
- if (index >= 0 && (unsigned int)index < m_heroUpgrades.size() && index < 12)
- sprintf(result, "%d", m_heroUpgrades[index] ? 1 : 0);
- 
-}
+// OnInitialized, Timeline, RestartGame, Continue, InitGadgets, RenameCancel,
+// objectiveChecked and heroVetUpgrade are defined with their rows in
+// AptScoreScreenCallbacks.cpp.
