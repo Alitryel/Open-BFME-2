@@ -1,4 +1,6 @@
 // ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
+// partial score=0.9891304347826086 date=2026-10-19
+// ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
 // partial score=0.916 date=2026-10-17
 // ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
 // partial score=0.87235 date=2026-10-14
@@ -12,7 +14,7 @@ class Vector3 {public: Vector3(){} Vector3(float x,float y,float z):X(x),Y(y),Z(
 class Matrix3D {public: float m[3][4]; Vector3 Get_Translation()const{return Vector3(m[0][3],m[1][3],m[2][3]);}};
 inline void *operator new(unsigned int,void*p)throw(){return p;}
 class AABoxClass {public: AABoxClass(){} Vector3 Center,Extent; void Translate(const Vector3&v){Center+=v;}};
-class SphereClass {public: SphereClass(){} Vector3 Center;float Radius;};
+class SphereClass {public: SphereClass(){} __forceinline SphereClass&operator=(const SphereClass&v){Center=v.Center;Radius=v.Radius;return *this;} Vector3 Center;float Radius;};
 struct Region3D {Region3D(const Region3D&);float x,y,z,a,b,c;};
 class FrustumClass;
 class CollisionMath {public:enum OverlapType {OUTSIDE=1,INSIDE=2,OVERLAPPED=8};static OverlapType Overlap_Test(const FrustumClass&,const SphereClass&);static OverlapType Overlap_Test(const FrustumClass&,const AABoxClass&);};
@@ -181,25 +183,96 @@ __forceinline W3DRenderTask&task(int j){return *(W3DRenderTask*)((unsigned int)t
 void updateVolumes(float);void updateMeshVolume(int,int,const Matrix3D*,const AABoxClass&,float);
 char pad[0x6c];W3DShadowGeometry*geometry;RenderObjClass*robj;char pad74[0xc];Geometry*volumes[160];VBSlot*vbs[160];char pad580[0x280];W3DRenderTask tasks[160];
 };
-void W3DVolumetricShadow::updateVolumes(float zoffset){
-int j;RenderObjClass *hlod=robj;MeshClass*mesh;static AABoxClass aaBox;static SphereClass sphere;int meshIndex;
-bool parentVis=robj->Is_Really_Visible()!=0;
-volatile int recordOffset=0;Vector3 t;for(j=0;j<geometry->count;j++,recordOffset+=0x34){
-meshIndex=((MeshRecord*)((char*)geometry+0x14+*(volatile int*)&recordOffset))->index;
-if(meshIndex>=0)mesh=hlod->Peek_Lod_Model(0,meshIndex);else mesh=(MeshClass*)robj;
-if((mesh ? 1 : 1)){if(!mesh->Is_Not_Hidden_At_All())continue;
-MeshRecord *info=(MeshRecord*)((char*)geometry+0x14+recordOffset);mesh->Validate_Transform();const Matrix3D*meshXform=&mesh->transform;float extraZ=0;
-if(info->deformed&&mesh->Class_ID()==0){
-if(g_Va00DEBE0C.capacity<info->count)g_Va00DEBE0C.DynamicVectorClass<TCBSpline3DClass::TCBClass>::Resize(info->count,0);
-mesh->Get_Mesh()->Get_Deformed_Vertices(g_Va00DEBE0C.vector);Vector3 *vertices=g_Va00DEBE0C.vector;info->dirty=0;info->verts=vertices;meshXform=&Rva00DDD9D0Identity;extraZ=100.0f;
-}
-int currentIndex=*(volatile int*)&j;updateMeshVolume(currentIndex,0,meshXform,mesh->Get_Bounding_Box(),robj->Get_Position().Z-(extraZ+zoffset));
-if(volume(currentIndex)){
-if(volume(currentIndex)->state==8){if(parentVis)volume(currentIndex)->state=2;else{
-sphere.Center=volume(currentIndex)->sphere.Center;sphere.Radius=volume(currentIndex)->sphere.Radius;t=meshXform->Get_Translation();sphere.Center.X=t.X+sphere.Center.X;sphere.Center.Y=t.Y+sphere.Center.Y;sphere.Center.Z=t.Z+sphere.Center.Z;CollisionMath::OverlapType result=CollisionMath::Overlap_Test(g_Va00DEBD00,sphere);
-if(result==8){aaBox=*(const AABoxClass*)&volume(currentIndex)->box;t=meshXform->Get_Translation();aaBox.Center.X=t.X+aaBox.Center.X;aaBox.Center.Y=t.Y+aaBox.Center.Y;aaBox.Center.Z=t.Z+aaBox.Center.Z;if(CollisionMath::Overlap_Test(g_Va00DEBD00,aaBox)!=1)volume(currentIndex)->state=2;else volume(currentIndex)->state=1;}else volume(currentIndex)->state=result;
-}}
-if(volume(currentIndex)->state==2){int taskIndex=*(int*)&j;VBSlot*vbSlot=vb(taskIndex);if(vbSlot){W3DRenderTask*old=vbSlot->vb->head;vbSlot->vb->head=&task(taskIndex);vbSlot->vb->head->next=old;}else TheW3DVolumetricShadowManager->addDynamicShadowTask(&task(taskIndex));}
-}
-}}
+// Native null guard and nested light loop restored; no volatile access remains in this body.
+// Handoff: reverse/attempt_support/updatevolumes-f3d23-20261019-w2.md.
+/** Update shadow volumes belonging to all meshes of this shadow caster.
+*	Use zoffset to extend shadows below object's base by given amount.
+*/
+void W3DVolumetricShadow::updateVolumes(float zoffset)
+{
+    int j;
+    RenderObjClass *hlod = robj;
+    MeshClass *mesh;
+    static AABoxClass aaBox;
+    static SphereClass sphere;
+    int meshIndex;
+    bool parentVis = robj->Is_Really_Visible() != 0;
+    Vector3 t;
+    for (int i = 0; i < 1; i++) {
+        for (j = 0; j < geometry->count; j++) {
+            meshIndex = geometry->meshes[j].index;
+            if (meshIndex >= 0)
+                mesh = hlod->Peek_Lod_Model(0, meshIndex);
+            else
+                mesh = (MeshClass *)robj;
+            if (mesh) {
+                if (!mesh->Is_Not_Hidden_At_All())
+                    continue;
+                /**@todo: Getting the transform of the mesh may be forcing a full hierarchy evaluation.
+                    Expensive for off-screen models... do we really need this? */
+                MeshRecord *info = &geometry->meshes[j];
+                mesh->Validate_Transform();
+                const Matrix3D *meshXform = &mesh->transform;
+                float extraZ = 0;
+                if (info->deformed && mesh->Class_ID() == 0) {
+                    if (g_Va00DEBE0C.capacity < info->count)
+                        g_Va00DEBE0C.DynamicVectorClass<TCBSpline3DClass::TCBClass>::Resize(info->count, 0);
+                    mesh->Get_Mesh()->Get_Deformed_Vertices(g_Va00DEBE0C.vector);
+                    Vector3 *vertices = g_Va00DEBE0C.vector;
+                    info->dirty = 0;
+                    info->verts = vertices;
+                    meshXform = &Rva00DDD9D0Identity;
+                    extraZ = 100.0f;
+                }
+                //Extend floor of model by 'zoffset' to compensate for flying units.
+                int currentIndex = j;
+                updateMeshVolume(currentIndex, i, meshXform, mesh->Get_Bounding_Box(), robj->Get_Position().Z - (extraZ + zoffset));
+                //update visibility if not set yet
+                if (volume(i * 160 + currentIndex)) {
+                    if (volume(i * 160 + currentIndex)->state == 8) {
+                        //Updating the mesh volume didn't update the visibility, must do it here.
+                        //First check against bounding sphere
+                        if (parentVis)
+                            //parent is visible so most likely all sub_objects are also visible so probably all shadows also visible.
+                            //skip additional visibility tests
+                            volume(i * 160 + currentIndex)->state = 2;
+                        else {
+                            sphere = volume(i * 160 + currentIndex)->sphere;
+                            t = meshXform->Get_Translation();
+                            sphere.Center.X = t.X + sphere.Center.X;
+                            sphere.Center.Y = t.Y + sphere.Center.Y;
+                            sphere.Center.Z = t.Z + sphere.Center.Z;
+                            CollisionMath::OverlapType result = CollisionMath::Overlap_Test(g_Va00DEBD00, sphere);
+                            if (result == 8) {
+                                //do a more accurate test against bounding box.
+                                aaBox = *(const AABoxClass *)&volume(i * 160 + currentIndex)->box;
+                                t = meshXform->Get_Translation();
+                                //translate bounding box to world space.
+                                aaBox.Center.X = t.X + aaBox.Center.X;
+                                aaBox.Center.Y = t.Y + aaBox.Center.Y;
+                                aaBox.Center.Z = t.Z + aaBox.Center.Z;
+                                if (CollisionMath::Overlap_Test(g_Va00DEBD00, aaBox) != 1)
+                                    volume(i * 160 + currentIndex)->state = 2;
+                                else
+                                    volume(i * 160 + currentIndex)->state = 1;
+                            } else
+                                volume(i * 160 + currentIndex)->state = result;
+                        }
+                    }
+                    if (volume(i * 160 + currentIndex)->state == 2) {
+                        //shadow volume is visible.  Add it to list of rendertasks.
+                        int taskIndex = j;
+                        VBSlot *vbSlot = vb(i * 160 + taskIndex);
+                        if (vbSlot) {
+                            //add to static mesh volume list.
+                            W3DRenderTask *old = vbSlot->vb->head;
+                            vbSlot->vb->head = &task(i * 160 + taskIndex);
+                            vbSlot->vb->head->next = old;
+                        } else
+                            TheW3DVolumetricShadowManager->addDynamicShadowTask(&task(i * 160 + taskIndex));
+                    }
+                }
+            }
+        } // end for j
+    } // end for, i
 }
