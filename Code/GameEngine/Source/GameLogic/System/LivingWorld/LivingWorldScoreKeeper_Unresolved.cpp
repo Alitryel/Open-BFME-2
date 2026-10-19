@@ -82,6 +82,8 @@ class LivingWorldScoreKeeper : public Snapshot,
 public:
 	LivingWorldScoreKeeper(int playerIndex, LivingWorldPlayer *player);
 	virtual ~LivingWorldScoreKeeper();
+	void rva004EE5D2();
+	void rva004EE78A();
  virtual void event0_1(int,int);
 virtual void event1_0(Rva004E06FBPtrChase32Field*);virtual void event1_3(const Rva004E06FBPtrChase32Field*,int);
 virtual void event2_2(int,LivingWorldBattle*,void*);virtual void event3_0(int,int);virtual void event3_1(int,LivingWorldBattle*);
@@ -132,5 +134,4 @@ LivingWorldScoreKeeper::LivingWorldScoreKeeper(int playerIndex, LivingWorldPlaye
 
 class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
 
-class Rva004EE5D2 {public:void rva004EE78A();void rva004EE5D2();};
-LivingWorldScoreKeeper::~LivingWorldScoreKeeper(){((Rva004EE5D2*)this)->rva004EE78A();}
+LivingWorldScoreKeeper::~LivingWorldScoreKeeper(){rva004EE78A();}

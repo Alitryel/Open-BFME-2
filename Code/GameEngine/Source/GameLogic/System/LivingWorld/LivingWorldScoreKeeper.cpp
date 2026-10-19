@@ -80,6 +80,8 @@ class LivingWorldScoreKeeper : public Snapshot,
 public:
 	LivingWorldScoreKeeper(int playerIndex, LivingWorldPlayer *player);
 	virtual ~LivingWorldScoreKeeper();
+	void rva004EE5D2();
+	void rva004EE78A();
  virtual void event0_1(int,int);
 virtual void event1_0(Rva004E06FBPtrChase32Field*);virtual void event1_3(const Rva004E06FBPtrChase32Field*,int);
 virtual void event2_2(int,LivingWorldBattle*,void*);virtual void event3_0(int,int);virtual void event3_1(int,LivingWorldBattle*);
@@ -114,7 +116,6 @@ typedef char ScoreKeeperSize[sizeof(LivingWorldScoreKeeper)==0xFC?1:-1];
 class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
 void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(phase); }
 
-class Rva004EE5D2 {public:void rva004EE78A();void rva004EE5D2();};
 
 class ModuleData;
 struct Rva004EE79ESub {char pad[0x2c]; int m_2C;};
@@ -142,12 +143,12 @@ void LivingWorldScoreKeeper::event1_0(Rva004E06FBPtrChase32Field*a) {
 }
 void LivingWorldScoreKeeper::loadPostProcess() {
  if(TheLivingWorldLogic && ((BfmeSelectionState*)TheLivingWorldLogic)->isSelectionLocked()!=0)m_startTime=time(0);else m_startTime=0;
- if(m_F8!=0)return ((Rva004EE5D2*)this)->rva004EE5D2();
+ if(m_F8!=0)return rva004EE5D2();
 }
 void LivingWorldScoreKeeper::event5_0(Rva004EF2ABArg*arg) {
  if(arg->m_14==m_playerIndex){if(m_startTime!=0){m_6C+=time(0)-m_startTime;m_startTime=0;}
  int turn=(int)TheLivingWorldLogic->m_FC;m_78=turn;
- ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(turn);((Rva004EE5D2*)this)->rva004EE78A();}
+ ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(turn);rva004EE78A();}
 }
 void LivingWorldScoreKeeper::event6_1(LivingWorldLogic*logic) {
  ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats((int)logic->m_FC);

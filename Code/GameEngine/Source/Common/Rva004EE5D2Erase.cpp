@@ -1,9 +1,11 @@
 // cl: /MD
 //
-// ?rva004EE5D2@Rva004EE5D2@@QAEXXZ @0x004EE5D2 195B
+// ?rva004EE5D2@LivingWorldScoreKeeper@@QAEXXZ @0x004EE5D2 195B
 // Removes 8 embedded entries via rowed ?rva002B7250@Rva002B7250@@QAEXPAVCreateAHeroData@@@Z:
 // 4 from Rva002BA8F1Logic members, 3 from globals, 1 from member pointer.
 // Evidence: packet disassembly order and offsets, callers 0x004EE695/0x004EE78A.
+// +0x04..+0x20 are LivingWorldScoreKeeper's eight observer bases after
+// Snapshot (hence the this-null checks) and +0xF8 its once-only flag.
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
@@ -33,7 +35,7 @@ public:
 
 extern "C" __declspec(dllimport) long __cdecl time(long *t);
 
-class Rva004EE5D2
+class LivingWorldScoreKeeper
 {
 public:
 	void rva004EE5D2();
@@ -56,7 +58,7 @@ private:
 	unsigned char m_f8;
 };
 
-void Rva004EE5D2::rva004EE5D2()
+void LivingWorldScoreKeeper::rva004EE5D2()
 {
 	((Rva002B7250 *)((char *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic) + 0x1c))->rva002B7250(this ? &m_4 : (CreateAHeroData *)0);
 	((Rva002B7250 *)((char *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic) + 0x2c))->rva002B7250(this ? &m_c : (CreateAHeroData *)0);
@@ -70,7 +72,7 @@ void Rva004EE5D2::rva004EE5D2()
 
 
 
-void Rva004EE5D2::rva004EE78A()
+void LivingWorldScoreKeeper::rva004EE78A()
 {
 	if (m_f8 != 0)
 		return;
