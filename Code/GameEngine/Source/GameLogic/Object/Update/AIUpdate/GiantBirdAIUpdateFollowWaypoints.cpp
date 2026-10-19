@@ -70,15 +70,11 @@ struct Rva0036BA77Speed
 	float getSpeed() const { return m_speed; }
 };
 
-class Rva003697F9
-{
-public:
-	void rva003697F9(const Rva0035149F &path, const Object *object, const Waypoint *goal, int flag);
-};
-
 class GiantBirdAIUpdate
 {
 public:
+	// 0x003697F9 (Rva003697F9.cpp): follow the built point path.
+	void rva003697F9(const Rva0035149F &path, const Object *object, const Waypoint *goal, int flag);
 	void rva0036BA77(const Waypoint *way, const Waypoint *goal);
 private:
 	char m_unrecovered000[0x1F0];
@@ -111,5 +107,5 @@ void GiantBirdAIUpdate::rva0036BA77(const Waypoint *way, const Waypoint *goal)
 			break;
 		}
 	}
-	((Rva003697F9 *)this)->rva003697F9(*(const Rva0035149F *)&path, NULL, goal, 0);
+	rva003697F9(*(const Rva0035149F *)&path, NULL, goal, 0);
 }
