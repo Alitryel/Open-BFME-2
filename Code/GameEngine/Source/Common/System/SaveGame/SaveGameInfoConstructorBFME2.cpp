@@ -18,6 +18,13 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 // SaveGameInfo's name getter at 0x22CEF1 identifies this class. Its destructor
 // at 0x2DD1E9 restores Snapshot's established vtable (VA 0xBBB554), proving
