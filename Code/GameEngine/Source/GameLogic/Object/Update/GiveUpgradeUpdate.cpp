@@ -1,19 +1,8 @@
-// ?rva0049C93F@Rva0049C93F@@QAEHXZ
-// partial score=0.8917 date=2026-10-15
-// ?rva0049C93F@Rva0049C93F@@QAEHXZ
-// partial score=0.5 date=2026-10-14
-// ?rva0049C93F@Rva0049C93F@@QAEHXZ
-// partial score=0.9 date=2026-10-07
-// ?rva0049C93F@Rva0049C93F@@QAEHXZ @0x0049C93F 240B.
+// cl: /O1 /arch:SSE /G7 /MD /DNDEBUG
 // Slot 0 of the vtable stored at GiveUpgradeUpdate+0x10 (VA 0x00C51214).
 // ecx arrives already adjusted. Parent fields sit at negative offsets.
-// State 2 keeps the delivery; any other state clears +0x89 and forwards
-// slot 0x34. The +0x88 countdown subtracts the +0x04 object's +0xDC.
 
-enum ObjectID
-{
-	INVALID_OBJECTID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 enum CommandSourceType
 {
@@ -69,15 +58,9 @@ public:
 	unsigned char m_b438;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void destroyObject(Object *object);
-};
-
 extern GameLogic *TheGameLogic;
 
+// The timer is the float at parent+0x8c; parent+0x88 is its active flag.
 class Rva0049C93FClock
 {
 public:
@@ -103,11 +86,21 @@ public:
 	bool rva0049C6E1(Object *object);
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1
+};
+
+class SpecialAbilityUpdate
+{
+public:
+	virtual UpdateSleepTime update();
+};
+
 class Rva0049C93F
 {
 public:
 	int rva0049C93F();
-	int rva00451FA2();
 
 private:
 	char m_pad00[0x30];
@@ -123,53 +116,49 @@ static GiveUpgradeUpdate *parentOf(Rva0049C93F *self)
 	return (GiveUpgradeUpdate *)((char *)self - 0x10);
 }
 
+// State 2 keeps the delivery; any other state clears +0x89 and forwards
+// slot 0x34. The +0x88 countdown subtracts the +0x04 object's +0xDC.
 int Rva0049C93F::rva0049C93F()
 {
 	Object *owner = *(Object **)((char *)this - 8);
 	AIUpdate *ai = owner->m_ai;
 	int state = ai->state143();
-	int code = rva00451FA2();
+	int code = ((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::update();
 	if (state != 2)
 	{
 		m_flag89 = false;
-		((((Rva0044E6AE *)parentOf(this))))->rva0044E6AE();
+		((Rva0044E6AE *)parentOf(this))->rva0044E6AE();
 		return code;
 	}
 
 	if (m_flag89)
 		parentOf(this)->GetDeliveryTarget();
 
+	if (!m_flag88)
+	{
+		Object *found = TheGameLogic->findObjectByID(m_id);
+		if (!found || (found->m_b438 & 1) != 0 ||
+			!((Rva0049C6E1 *)parentOf(this))->rva0049C6E1(found))
+		{
+			m_flag89 = false;
+			((Rva0044E6AE *)parentOf(this))->rva0044E6AE();
+			ai->m_commands.aiIdle(CMD_FROM_AI);
+			return code;
+		}
+	}
+
 	if (m_flag88)
-		goto timer;
-
-	if (Object *found = TheGameLogic->findObjectByID(m_id))
 	{
-		if ((found->m_b438 & 1) == 0 &&
-			((Rva0049C6E1 *)parentOf(this))->rva0049C6E1(found))
-			goto recheck;
+		m_value -= (*(Rva0049C93FClock **)((char *)this - 0xc))->m_delta;
+		owner = *(Object **)((char *)this - 8);
+		if (m_value < 0.0f)
+		{
+			TheGameLogic->destroyObject(owner);
+			m_flag88 = false;
+			m_value = 0.0f;
+		}
+		else if (Drawable *drawable = owner->getDrawable())
+			drawable->m_bitsB0 = *(int *)&m_value;
 	}
-
-	m_flag89 = false;
-	((Rva0044E6AE *)parentOf(this))->rva0044E6AE();
-	ai->m_commands.aiIdle(CMD_FROM_AI);
-	return code;
-
-recheck:
-	if (((!m_flag88)))
-		goto done;
-timer:
-	m_value -= (*(Rva0049C93FClock **)((char *)this - 0xc))->m_delta;
-	owner = *(Object **)((char *)this - 8);
-	if (m_value < 0.0f)
-	{
-		TheGameLogic->destroyObject(owner);
-		m_flag88 = false;
-		m_value = 0.0f;
-	}
-	else if (Drawable *drawable = owner->getDrawable())
-		drawable->m_bitsB0 = *(int *)&m_value;
-done:
-	if (!m_flag89)
-		return code;
-	return 1;
+	return m_flag89 ? 1 : code;
 }
