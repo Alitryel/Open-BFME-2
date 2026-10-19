@@ -297,6 +297,9 @@ template <> _STL::_Vector_base<char, _STL::allocator<char> >::_Vector_base(unsig
 template <> void _STL::vector<char, _STL::allocator<char> >::resize(size_type);
 
 namespace _STL { template <> BfmePod52 *vector<BfmePod52, allocator<BfmePod52> >::erase(BfmePod52 *, BfmePod52 *); }
+// insert/resize call _M_fill_insert out of line: bind it to the rowed retail copy
+// (0x005B1748, StlportVectorFillInsertRva005B1748.cpp) instead of emitting this unit's own.
+namespace _STL { template <> void vector<BfmePod20, allocator<BfmePod20> >::_M_fill_insert(BfmePod20 *, size_t, const BfmePod20 &); }
 template class _STL::vector<unsigned char, _STL::allocator<unsigned char> >;
 template class _STL::vector<char, _STL::allocator<char > >;
 template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20 > >;
