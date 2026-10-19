@@ -12,17 +12,18 @@
 extern "C" void __cdecl PostProcMachineSpecificConfig(int version);
 
 extern const unsigned char g_bfmeClampTable[];	// retail 0x01356FE0 (zero point)
-extern const unsigned int *g_rva01356AA0;
-// g_rva01356AA0: matched references place it at VA 0xe22cf0 (zero-filled .bss).
-const unsigned int * g_rva01356AA0;
-extern const unsigned int *g_rva01356A98;
-// g_rva01356A98: matched references place it at VA 0xe22ce8 (zero-filled .bss).
-const unsigned int * g_rva01356A98;
-extern const void *g_rva01356A88;
-// g_rva01356A88: matched references place it at VA 0xe22ce4 (zero-filled .bss).
-const void * g_rva01356A88;
-// g_rva01356940: matched references place it at VA 0xe22be0 (zero-filled).
-int g_rva01356940[64] = { 0 };
+extern const unsigned int *g_bfmeScaleTableV2;
+// g_bfmeScaleTableV2: the V2 DC-quant scale table pointer (VA 0xe22cf0, zero-filled .bss), set here.
+const unsigned int * g_bfmeScaleTableV2;
+extern const unsigned int *g_bfmeScaleTableUV;
+// g_bfmeScaleTableUV: the UV scale table pointer (VA 0xe22ce8, zero-filled .bss), set here.
+const unsigned int * g_bfmeScaleTableUV;
+extern const void *g_bfmeScaleTableV1;
+// g_bfmeScaleTableV1: the V1 scale table pointer (VA 0xe22ce4, zero-filled .bss), set here.
+const void * g_bfmeScaleTableV1;
+// g_bfmeDeringModifiers: the dering modifier table (VA 0xe22be0, zero-filled),
+// a copy of the V1 table made here.
+int g_bfmeDeringModifiers[64] = { 0 };
 // g_bfmeFilterLimit: the loop-filter limit table pointer (VA 0x00E22CE0,
 // zero-filled .bss); InitPostProcessing stores the version's table in it.
 int *g_bfmeFilterLimit;
@@ -139,11 +140,11 @@ extern "C" void __cdecl InitPostProcessing(void *firstTable, void *secondTable, 
 		clamp[i] = (unsigned char)value;
 	}
 
-	g_rva01356AA0 = (const unsigned int *)firstTable;
-	g_rva01356A98 = (const unsigned int *)secondTable;
-	g_rva01356A88 = sourceTable;
+	g_bfmeScaleTableV2 = (const unsigned int *)firstTable;
+	g_bfmeScaleTableUV = (const unsigned int *)secondTable;
+	g_bfmeScaleTableV1 = sourceTable;
 	for (i = 0; i < 64; ++i)
-		g_rva01356940[i] = ((const int *)sourceTable)[i];
+		g_bfmeDeringModifiers[i] = ((const int *)sourceTable)[i];
 
 	if ((unsigned)tier >= 6)
 	{

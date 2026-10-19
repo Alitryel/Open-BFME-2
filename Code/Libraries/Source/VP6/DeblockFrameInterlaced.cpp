@@ -28,8 +28,8 @@ struct BfmeCodecDispatchTable
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
-extern const unsigned int *g_rva01356AA0;
-extern const unsigned int *g_rva01356A98;
+extern const unsigned int *g_bfmeScaleTableV2;
+extern const unsigned int *g_bfmeScaleTableUV;
 
 struct Rva009AF320Context;
 extern "C" void __cdecl DeblockPlaneNew(Rva009AF320Context *, unsigned, int, unsigned, unsigned, unsigned char *, unsigned char *, const unsigned int *);
@@ -82,7 +82,7 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 		ctx->m_height >> 1,
 		ctx->m_planeY + aa,
 		ctx->m_planeY + b,
-		g_rva01356AA0);
+		g_bfmeScaleTableV2);
 
 	{
 		unsigned h = ctx->m_height;
@@ -101,7 +101,7 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 		ctx->m_height >> 1,
 		ctx->m_planeY + ctx->m_strideY + aa,
 		ctx->m_planeY + ctx->m_strideY + b,
-		g_rva01356AA0);
+		g_bfmeScaleTableV2);
 
 	ctx->m_scratch = saved;
 
@@ -113,7 +113,7 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 		ctx->m_height >> 1,
 		ctx->m_planeU + aa,
 		ctx->m_planeU + b,
-		g_rva01356A98);
+		g_bfmeScaleTableUV);
 
 	DeblockPlaneNew(
 		ctx,
@@ -123,5 +123,5 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 		ctx->m_height >> 1,
 		ctx->m_planeV + aa,
 		ctx->m_planeV + b,
-		g_rva01356A98);
+		g_bfmeScaleTableUV);
 }

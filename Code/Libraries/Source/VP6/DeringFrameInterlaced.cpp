@@ -46,7 +46,7 @@ typedef void (__cdecl *Rva009B2A50Copy)(unsigned char *, unsigned char *, int);
 Rva009B2A50Dering g_rva01356EC0;
 Rva009B2A50Dering g_rva01356EA0;
 extern void *g_bfmeSlotB44;
-extern int g_rva01356940[64];
+extern int g_bfmeDeringModifiers[64];
 
 // The quantiser tables, read from BFME 2 .data 0x00DB7828 and 0x00DB7928.
 int g_rva012D7F58[64] =
@@ -103,7 +103,7 @@ extern "C" void __cdecl DeringFrameInterlaced(Rva009A6130Context *ctx, unsigned 
 	else if (ctx->m_mode >= 2)
 		table = g_rva012D7F58;
 	else
-		table = g_rva01356940;
+		table = g_bfmeDeringModifiers;
 
 	// Y plane, first field.
 	blocksAcross = ctx->m_width;

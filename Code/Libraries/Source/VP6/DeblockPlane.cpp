@@ -45,9 +45,9 @@ extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBand(Rva009AD750Context
 
 extern DeblockPlaneBand g_00E22FA4;
 extern DeblockPlaneBand g_00E22FB0;
-extern const unsigned int *g_rva01356AA0;
-extern const unsigned int *g_rva01356A98;
-extern const void *g_rva01356A88;
+extern const unsigned int *g_bfmeScaleTableV2;
+extern const unsigned int *g_bfmeScaleTableUV;
+extern const void *g_bfmeScaleTableV1;
 
 extern "C" void __cdecl DeblockPlane(Rva009AF200Context *ctx, int sourceOffset, int destinationOffset, int channel)
 {
@@ -101,15 +101,15 @@ extern "C" void __cdecl DeblockPlane(Rva009AF200Context *ctx, int sourceOffset, 
 	if (ctx->m_mode >= 2) {
 		switch ((unsigned int)channel) {
 		case 0:
-			scale = g_rva01356AA0;
+			scale = g_bfmeScaleTableV2;
 			break;
 		case 1:
 		case 2:
-			scale = g_rva01356A98;
+			scale = g_bfmeScaleTableUV;
 			break;
 		}
 	} else {
-		scale = (const unsigned int *)g_rva01356A88;
+		scale = (const unsigned int *)g_bfmeScaleTableV1;
 	}
 
 	for (row = 0; row < 4; row++)

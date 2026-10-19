@@ -15,8 +15,8 @@ struct Rva009ACBA0Context;
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *ctx, int flimit);
 
 extern int *g_bfmeDeblockLimit;
-extern const unsigned int *g_rva01356AA0;
-extern const unsigned int *g_rva01356A98;
+extern const unsigned int *g_bfmeScaleTableV2;
+extern const unsigned int *g_bfmeScaleTableUV;
 
 struct Rva009AF200Context;
 extern "C" void __cdecl DeblockPlaneNew(Rva009AF200Context *, unsigned, int, unsigned, unsigned, unsigned char *, unsigned char *, const unsigned int *);
@@ -64,7 +64,7 @@ extern "C" void __cdecl DeblockFrame(Rva009AF200Context *ctx, int x, int y)
 			ctx->m_height,
 			ctx->m_planeY + x,
 			ctx->m_planeY + y,
-			g_rva01356AA0);
+			g_bfmeScaleTableV2);
 		DeblockPlaneNew(
 			ctx,
 			ctx->m_strideUV,
@@ -73,7 +73,7 @@ extern "C" void __cdecl DeblockFrame(Rva009AF200Context *ctx, int x, int y)
 			ctx->m_height >> 1,
 			ctx->m_planeU + x,
 			ctx->m_planeU + y,
-			g_rva01356A98);
+			g_bfmeScaleTableUV);
 		DeblockPlaneNew(
 			ctx,
 			ctx->m_strideUV,
@@ -82,7 +82,7 @@ extern "C" void __cdecl DeblockFrame(Rva009AF200Context *ctx, int x, int y)
 			ctx->m_height >> 1,
 			ctx->m_planeV + x,
 			ctx->m_planeV + y,
-			g_rva01356A98);
+			g_bfmeScaleTableUV);
 	} else {
 		DeblockPlane(ctx, x, y, 0);
 		DeblockPlane(ctx, x, y, 1);

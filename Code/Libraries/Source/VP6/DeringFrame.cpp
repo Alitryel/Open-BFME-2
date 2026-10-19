@@ -54,7 +54,7 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_rva01356EC0 (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[24])
 #define g_rva01356EA0 (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[16])
 extern void *g_bfmeSlotB44;
-extern int g_rva01356940[64];
+extern int g_bfmeDeringModifiers[64];
 extern int g_rva012D7F58[64];
 extern int g_rva012D8058[64];
 
@@ -96,7 +96,7 @@ extern "C" void __cdecl DeringFrame(Rva009A6130Context *ctx, unsigned char *src,
 	else if (ctx->m_mode >= 2)
 		table = g_rva012D7F58;
 	else
-		table = g_rva01356940;
+		table = g_bfmeDeringModifiers;
 
 	// Y plane.
 	blocksAcross = ctx->m_width;
