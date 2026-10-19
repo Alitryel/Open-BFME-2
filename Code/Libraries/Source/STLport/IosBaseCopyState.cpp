@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <stdio.h>
 
 namespace _STL
 {
@@ -33,8 +34,8 @@ struct U2Elem8
 
 extern void *Rva0083F3B0Duplicate(const U2Elem8 *src, int count);
 
-extern void *g_global;						// BFME1 0x013592F0
-extern void (__cdecl *g_call)(void *, void *);		// BFME1 0x013593C8
+// The donor's g_call/g_global stand-ins are the CRT imports retail reads:
+// __imp__fputs (0x00BBA660) and __imp___iob (0x00BBA67C, +0x40 = stderr).
 
 namespace _STL
 {
@@ -57,10 +58,10 @@ public:
 protected:
 	void _M_copy_state(const ios_base &x);
 	void _M_setstate_nothrow(int state) { _M_iostate |= state; }
-	void _M_check_exception_mask()
+	__declspec(dllimport) __forceinline void _M_check_exception_mask()
 	{
 		if (_M_iostate & _M_exception_mask)
-			g_call((void *)"ios failure", (char *)g_global + 0x40);
+			fputs("ios failure", stderr);
 	}
 
 public:
