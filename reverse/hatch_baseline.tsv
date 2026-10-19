@@ -743,12 +743,8 @@ address_global	Code/GameEngine/Source/Common/GlobalFlagClearers_E06x.cpp	g_Va00E
 address_global	Code/GameEngine/Source/Common/GlobalFlagClearers_E06x.cpp	g_Va00E06930	3
 address_global	Code/GameEngine/Source/Common/GlobalFlagClearers_E06x.cpp	g_Va00E06938	3
 address_global	Code/GameEngine/Source/Common/GlobalFlagClearers_E1F4E0.cpp	g_Va00E1F4E0	3
-address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BBDA2C	2
-address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BBDA30	2
 address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BC93F0	3
 address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BC93F4	3
-address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BD2F58	3
-address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00BD2F5C	3
 address_global	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	g_Va00DEDA2C	3
 address_global	Code/GameEngine/Source/Common/GlobalGetterSingles.cpp	g_Va00A03314	1
 address_global	Code/GameEngine/Source/Common/GlobalGetterSingles.cpp	g_Va00DA7188	3
@@ -793,8 +789,6 @@ address_global	Code/GameEngine/Source/Common/ReloadIniFileNotices.cpp	g_Va00DFE1
 address_global	Code/GameEngine/Source/Common/ReloadIniFileNotices.cpp	g_Va00DFEB64	5
 address_global	Code/GameEngine/Source/Common/ReloadIniFileNotices.cpp	g_Va00DFEFE0	5
 address_global	Code/GameEngine/Source/Common/Rva000308E0AddHeap.cpp	g_Va00DE03E8	2
-address_global	Code/GameEngine/Source/Common/Rva00042F67Get.cpp	g_Va00DEDA34	3
-address_global	Code/GameEngine/Source/Common/Rva00042F6DGet.cpp	g_Va00DEDA7C	3
 address_global	Code/GameEngine/Source/Common/Rva00062B17Init.cpp	g_Va00BBB8D8	2
 address_global	Code/GameEngine/Source/Common/Rva00075E36Getters.cpp	g_Va001FDE58	3
 address_global	Code/GameEngine/Source/Common/Rva00075E36Getters.cpp	g_Va001FDE68	3
@@ -2513,8 +2507,6 @@ alternatename	Code/GameEngine/Source/Common/GameModePreferences.cpp	?g_00A022F4@
 alternatename	Code/GameEngine/Source/Common/Gen009F5040Handle.cpp	?bfmeLinkEQR@BfmeHostEQR@@QAEXPAVBfmeRecEQR@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Gen_00942BC0.cpp	?bfmeSet1042@BfmeSub1042@@QAEXPADHH@Z	1
 alternatename	Code/GameEngine/Source/Common/GeometryInfoCalcPitches.cpp	?getCenterPosition@GeometryInfo@@QBEXABUCoord3D@@AAU2@@Z	1
-alternatename	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	?g_Va00BD2F58@@3MA	1
-alternatename	Code/GameEngine/Source/Common/GlobalFloatGetters.cpp	?g_Va00BD2F5C@@3MA	1
 alternatename	Code/GameEngine/Source/Common/GlobalGetterSingles.cpp	?g_Va00E03314@@3HA	1
 alternatename	Code/GameEngine/Source/Common/GlobalGetterSingles.cpp	?g_Va00E09FA4@@3HA	1
 alternatename	Code/GameEngine/Source/Common/INI/FormationSelectionCriteriaRva00424185.cpp	?append@Rva00424185Deque@@QAEXABURva00424185Criteria@@@Z	1
@@ -2601,8 +2593,6 @@ alternatename	Code/GameEngine/Source/Common/RTS/ShroudManagerImpl008FBA40.cpp	?r
 alternatename	Code/GameEngine/Source/Common/Rva00028B90Siblings.cpp	?bfmeDoPF@Rva00028B90Thing@@QAEXPADPAXH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00028B90Siblings.cpp	?bfmeDoPF@Rva0002A270Thing@@QAEXPADPAXH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00028B90Siblings.cpp	?bfmeDoPF@Rva0002ACF0Thing@@QAEXPADPAXH@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva00042F67Get.cpp	?g_Va00DEDA34@@3HA	1
-alternatename	Code/GameEngine/Source/Common/Rva00042F6DGet.cpp	?g_Va00DEDA7C@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva0004CB5FSet.cpp	?TheParticleSystemManager@@3PAVParticleSystemManager002B@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva000518E0Thunk.cpp	?handle@Gen0003AC38@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva000685E2Reset.cpp	?g_d3dCallCount@@3IA	1

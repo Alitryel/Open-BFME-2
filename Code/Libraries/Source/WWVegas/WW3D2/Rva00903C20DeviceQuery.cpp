@@ -15,13 +15,19 @@ struct Rva00903C20Device
 	Rva00903C20Vtable *m_vtable;
 };
 
-extern int g_Va00DEDA34;
-// ?g_Va00DEDA34@@3HA: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA34@@3HA=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
+// dx8wrapper.cpp's protected ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A, read through a
+// TU-scoped friend view (real decoration, no alias).
+struct IDirect3DDevice8;
+class DX8Wrapper
+{
+	friend bool rva00903C20DeviceQuery();
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+};
 
 bool rva00903C20DeviceQuery()
 {
 	unsigned result = 0;
-	Rva00903C20Device *device = reinterpret_cast<Rva00903C20Device *>(g_Va00DEDA34);
+	Rva00903C20Device *device = reinterpret_cast<Rva00903C20Device *>(DX8Wrapper::D3DDevice);
 	return device->m_vtable->m_slot70(device, &result) == 0;
 }

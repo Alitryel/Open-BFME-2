@@ -24,28 +24,30 @@ float Rva004647D1Get(void)
 	return 1.0f;
 }
 
-extern float g_Va00BD2F58;
-// ?g_Va00BD2F58@@3MA: the global at this VA is ?AT_MIN_LOD@RenderObjClass@@2MB; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00BD2F58@@3MA=?AT_MIN_LOD@RenderObjClass@@2MB")
+// RenderObjClass's public ?AT_MIN_LOD@RenderObjClass@@2MB (FLT_MAX) and
+// ?AT_MAX_LOD@RenderObjClass@@2MB (-1.0f), declared through a minimal view.
+class RenderObjClass
+{
+public:
+	static const float AT_MIN_LOD;
+	static const float AT_MAX_LOD;
+};
 
 // ?Rva00167F59Get@@YAMXZ @ 0x00167f59 (7B) over 0x00BD2F58 (FLT_MAX).
 // Follows a ret (prev C3); carried by 19 .rdata vtable slots, adjacent to
 // Rva00167F60Get below, no branch sources. Opaque address-derived name.
 float Rva00167F59Get(void)
 {
-	return g_Va00BD2F58;
+	return RenderObjClass::AT_MIN_LOD;
 }
 
-extern float g_Va00BD2F5C;
-// ?g_Va00BD2F5C@@3MA: the global at this VA is ?AT_MAX_LOD@RenderObjClass@@2MB; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00BD2F5C@@3MA=?AT_MAX_LOD@RenderObjClass@@2MB")
 
 // ?Rva00167F60Get@@YAMXZ @ 0x00167f60 (7B) over 0x00BD2F5C (-1.0f).
 // Adjacent after Rva00167F59Get (pair proves both boundaries); carried by
 // 19 .rdata vtable slots, no branch sources. Opaque address-derived name.
 float Rva00167F60Get(void)
 {
-	return g_Va00BD2F5C;
+	return RenderObjClass::AT_MAX_LOD;
 }
 
 extern float g_Va00BC93F0;
