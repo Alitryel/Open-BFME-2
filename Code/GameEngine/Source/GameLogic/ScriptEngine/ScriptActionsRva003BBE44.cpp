@@ -57,18 +57,18 @@ public:
 	virtual void s47(int v);
 	virtual void s48(int a, int b);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 void ScriptActions::Rva003BBE44Set(bool flag, int v)
 {
 	if (flag)
 	{
-		TheTacticalView->s45(1);
-		TheTacticalView->s47(1);
-		TheTacticalView->s48(v, 1);
+		((TacticalView *)TheTacticalView)->s45(1);
+		((TacticalView *)TheTacticalView)->s47(1);
+		((TacticalView *)TheTacticalView)->s48(v, 1);
 	}
 	else
 	{
-		if (TheTacticalView->s44() == 1)
-			TheTacticalView->s48(v, -1);
+		if (((TacticalView *)TheTacticalView)->s44() == 1)
+			((TacticalView *)TheTacticalView)->s48(v, -1);
 	}
 }

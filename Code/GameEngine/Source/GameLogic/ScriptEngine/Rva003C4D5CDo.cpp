@@ -52,7 +52,7 @@ public:
 	virtual void t36();
 	virtual void s37(const Coord3D *pos);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003C4D5CDo(const AsciiString *name)
 {
@@ -68,5 +68,5 @@ found:
 	pos.x = node->m_pos.x;
 	pos.y = node->m_pos.y;
 	pos.z = node->m_pos.z;
-	TheTacticalView->s37(&pos);
+	((TacticalView *)TheTacticalView)->s37(&pos);
 }

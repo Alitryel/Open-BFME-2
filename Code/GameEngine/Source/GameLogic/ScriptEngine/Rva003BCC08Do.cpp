@@ -125,12 +125,12 @@ public:
     virtual void s110();
     virtual void slot111(const Vec2_003BCC08 *p);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BCC08Do(float a, float b)
 {
 	Vec2_003BCC08 v;
 	v.x = a;
 	v.y = b;
-	TheTacticalView->slot111(&v);
+	((TacticalView *)TheTacticalView)->slot111(&v);
 }

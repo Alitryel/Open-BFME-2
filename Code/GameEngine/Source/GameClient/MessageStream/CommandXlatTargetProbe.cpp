@@ -33,7 +33,7 @@ class TacticalView {public:
  virtual void s04();virtual void s05();virtual void s06();virtual void s07();
  virtual void s08();virtual Drawable*pickDrawable(const ICoord2D*,bool,int);
 };
-extern InGameUI*TheInGameUI;extern TacticalView*TheTacticalView;extern GameLogic*TheGameLogic;
+extern InGameUI*TheInGameUI;extern class View*TheTacticalView;extern GameLogic*TheGameLogic;
 class ControlBar {public:int rva005399D0Check(Object*);};
 extern ControlBar*TheControlBar;
 // Native82B3EA pushes msg then MOV ECX,EDI (CommandTranslator receiver);
@@ -44,7 +44,7 @@ void CommandTranslator::rva0042AF97(GameMessage*msg){
  if(TheInGameUI->forceAttack)return;
  const IRegion2D&r=msg->getArgument(0)->pixelRegion;
  if(r.height()!=0||r.width()!=0)return;
- Drawable*draw=TheTacticalView->pickDrawable(&r.lo,false,4);
+ Drawable*draw=((TacticalView*)TheTacticalView)->pickDrawable(&r.lo,false,4);
  if(!draw)return;
  Object*obj=draw->object;if(!obj)return;
  if(obj->testStatus((ObjectStatusTypes)38)){

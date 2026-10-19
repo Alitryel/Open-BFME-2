@@ -62,11 +62,11 @@ private:
 	const char *m_data;
 };
 
-extern AssetRegistry *g_theAssetRegistry;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 AssetReference Rva009EBEC0( const AssetName &name )
 {
-	return g_theAssetRegistry
-		? g_theAssetRegistry->Find_Asset( name.Peek_Buffer() )
+	return ((AssetRegistry *)TheQ1Receiver)
+		? ((AssetRegistry *)TheQ1Receiver)->Find_Asset( name.Peek_Buffer() )
 		: AssetReference();
 }

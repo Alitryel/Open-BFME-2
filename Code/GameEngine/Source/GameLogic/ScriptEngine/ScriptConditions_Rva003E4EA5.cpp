@@ -25,14 +25,14 @@ public:
 	virtual void _e21(), _e22(), _e23(), _e24(), _e25(), _e26();
 	virtual bool slot6C(int arg);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 bool __stdcall Rva003E4EA5Get(Parameter *p)
 {
 	void *cell = TheTerrainLogic->slot88((void *)((char *)p + 0x10));
 	if (cell) {
 		int val = *(int *)((char *)cell + 4);
-		return TheTacticalView->slot6C(val);
+		return ((TacticalView *)TheTacticalView)->slot6C(val);
 	}
 	return false;
 }

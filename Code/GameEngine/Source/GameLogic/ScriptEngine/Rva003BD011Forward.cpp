@@ -159,9 +159,9 @@ public:
 	virtual void s149();
 	virtual void s150(bool value);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BD011Forward(bool value)
 {
-	TheTacticalView->s150(value);
+	((TacticalView *)TheTacticalView)->s150(value);
 }

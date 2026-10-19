@@ -153,7 +153,7 @@ public:
 	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, bool clamp);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Thing
 {
@@ -315,7 +315,7 @@ int __cdecl doGuardCommand(void *command, int guardMode, ICoord2D *mouse)
 		Coord3D world;
 		if (cmd->m_options & 0x20)
 		{
-			TheTacticalView->screenToTerrain(mouse, &world, false);
+			((TacticalView *)TheTacticalView)->screenToTerrain(mouse, &world, false);
 		}
 		else
 		{

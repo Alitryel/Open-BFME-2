@@ -18,7 +18,7 @@ public:
 	virtual void drawBox(const MiniBox *a, const MiniBox *b, int color);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Rva0055CFF0
 {
@@ -41,14 +41,14 @@ void Rva0055CFF0::rva0055CFF0(float x, float y, float z)
 	b2.x = x + m_24;
 	b2.y = y + m_28;
 	b2.z = z - m_2C;
-	TheTacticalView->drawBox(&b1, &b2, color);
+	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
 	b1.x = x - m_24;
 	b2.x = x - m_24;
-	TheTacticalView->drawBox(&b1, &b2, color);
+	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
 	b1.y = y - m_28;
 	b2.y = y - m_28;
-	TheTacticalView->drawBox(&b1, &b2, color);
+	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
 	b1.x = x + m_24;
 	b2.x = x + m_24;
-	TheTacticalView->drawBox(&b1, &b2, color);
+	((TacticalView *)TheTacticalView)->drawBox(&b1, &b2, color);
 }

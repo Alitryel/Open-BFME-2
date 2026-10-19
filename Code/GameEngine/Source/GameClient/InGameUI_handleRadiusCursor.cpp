@@ -153,7 +153,7 @@ public:
 	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, bool clamp);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 enum CellShroudStatus
 {
@@ -209,13 +209,13 @@ void InGameUI::handleRadiusCursor()
 
 	if (!radarOn || !TheRadar->screenPixelToWorld(mousePos, &pos))
 	{
-		TheTacticalView->screenToTerrain(mousePos, &pos, false);
+		((TacticalView *)TheTacticalView)->screenToTerrain(mousePos, &pos, false);
 
 		if (TheShroudManager && ThePlayerList)
 		{
 			int playerIndex = ThePlayerList->m_localPlayer->m_playerIndex;
 			if (TheShroudManager->getShroudStatusForPlayer(playerIndex, &pos) != CELLSHROUD_CLEAR)
-				TheTacticalView->screenToTerrain(mousePos, &pos, true);
+				((TacticalView *)TheTacticalView)->screenToTerrain(mousePos, &pos, true);
 		}
 	}
 

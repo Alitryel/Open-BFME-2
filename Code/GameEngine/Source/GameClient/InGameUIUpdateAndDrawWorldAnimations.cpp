@@ -188,7 +188,7 @@ public:
 	virtual Int worldToScreen(const Coord3D *world, ICoord2D *screen);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Anim2D
 {
@@ -281,12 +281,12 @@ void InGameUI::updateAndDrawWorldAnimations()
 		}
 
 		ICoord2D screen;
-		if (!TheTacticalView->worldToScreen(&wad->m_worldPos, &screen))
+		if (!((TacticalView *)TheTacticalView)->worldToScreen(&wad->m_worldPos, &screen))
 		{
 			UnsignedInt width = wad->m_anim->getCurrentFrameWidth();
 			UnsignedInt height = wad->m_anim->getCurrentFrameHeight();
 
-			Real zoomScale = TheTacticalView->getMaxZoom() / TheTacticalView->getZoom();
+			Real zoomScale = ((TacticalView *)TheTacticalView)->getMaxZoom() / ((TacticalView *)TheTacticalView)->getZoom();
 			width = (UnsignedInt)(width * zoomScale);
 			height = (UnsignedInt)(height * zoomScale);
 

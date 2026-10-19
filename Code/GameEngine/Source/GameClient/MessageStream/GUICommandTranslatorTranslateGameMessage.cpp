@@ -184,7 +184,7 @@ public:
 	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, bool clamp);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Thing
 {
@@ -367,7 +367,7 @@ static int doFireWeaponCommand(const CommandButton *command, ICoord2D *mouse)
 	if (command->m_options & 0x20)
 	{
 		Coord3D world;
-		TheTacticalView->screenToTerrain(mouse, &world, false);
+		((TacticalView *)TheTacticalView)->screenToTerrain(mouse, &world, false);
 		GameMessage *msg = TheMessageStream->createMessage(0x40E);
 		msg->appendIntegerArgument(command->m_weaponSlot);
 		msg->appendLocationArgument(world);
@@ -526,7 +526,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		if (command->m_options & 0x20)
 		{
 			Coord3D world;
-			TheTacticalView->screenToTerrain(&mouse, &world, false);
+			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x455);
 			m->appendLocationArgument(world);
 			PickAndPlayInfo info;
@@ -539,7 +539,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		if (command->m_options & 0x20)
 		{
 			Coord3D world;
-			TheTacticalView->screenToTerrain(&mouse, &world, false);
+			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x41E);
 			m->appendLocationArgument(world);
 			PickAndPlayInfo info;
@@ -552,7 +552,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		if (command->m_options & 0x20)
 		{
 			Coord3D world;
-			TheTacticalView->screenToTerrain(&mouse, &world, false);
+			((TacticalView *)TheTacticalView)->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x41F);
 			m->appendLocationArgument(world);
 			PickAndPlayInfo info;

@@ -228,11 +228,11 @@ public:
 	unsigned char m_flagsAt0C;
 };
 
-extern BfmeKeyboardModifiers *TheBfmeKeyboardModifiers;
+extern class Keyboard *TheKeyboard;
 
 static Bool bfmeShiftHeld( void )
 {
-	return BitTest( TheBfmeKeyboardModifiers->m_flagsAt0C, 0x10 );
+	return BitTest( ((BfmeKeyboardModifiers *)TheKeyboard)->m_flagsAt0C, 0x10 );
 }
 
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////
@@ -563,8 +563,4 @@ void GadgetRadioSetSelection( GameWindow *g, Bool sendMsg )
 
 }  // end GadgetRadioSetText
 
-// ?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A: the global at this VA is ?TheKeyboard@@3PAVKeyboard@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A=?TheKeyboard@@3PAVKeyboard@@A")
 #pragma comment(linker, "/alternatename:?InputLockSubsystem@@3PAVClientSubsystem@@A=?TheKeyboard@@3PAVKeyboard@@A")
-// ?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A: the global at VA 0xdfe720 is ?TheKeyboard@@3PAVKeyboard@@A.
-#pragma comment(linker, "/alternatename:?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A=?TheKeyboard@@3PAVKeyboard@@A")

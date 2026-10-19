@@ -37,7 +37,7 @@ public:
     virtual void s65(); virtual void s66(); virtual void s67(); virtual void s68(); virtual void s69();
     virtual void getPos(float *out);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 class PolygonTrigger
 {
 public:
@@ -50,7 +50,7 @@ bool __stdcall Rva003E7FD5Get(Parameter *p)
     if (trig)
     {
         float f[3];
-        TheTacticalView->getPos(f);
+        ((TacticalView *)TheTacticalView)->getPos(f);
         ICoord3D pt;
         pt.x = (int)f[0];
         pt.y = (int)f[1];

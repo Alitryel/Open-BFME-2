@@ -30,7 +30,7 @@ public:
 };
 
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 extern const char g_00C39070[] = "Unknown command '%s' found in command set. File: %s Line: %d\n";
 
 class INIException
@@ -56,7 +56,7 @@ void CommandSet::parseCommandButton(INI *ini, void *unused, const CommandButton 
     const CommandButton *found;
     {
         AsciiString tmp(token);
-        found = ((ControlBar *)(void *)g_bfmeWorldRV)->findCommandButton(tmp);
+        found = ((ControlBar *)(void *)((BfmeWorldRV *)TheControlBar))->findCommandButton(tmp);
     }
     if (found == 0) {
         throw INIException(3, g_00C39070, token, ini->getFilename().str(), ini->getLineNum());

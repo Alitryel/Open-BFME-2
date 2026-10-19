@@ -91,7 +91,7 @@ public:
 	virtual void slot12(const Coord3D *center, float radius, unsigned int color);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Rva0055D3F5
 {
@@ -120,7 +120,7 @@ void Rva0055D3F5::rva0055D3F5(Xfer *xfer)
 void Rva0055D3F5::rva0055D422(Coord3D pos)
 {
 	pos.z -= m_24 * 0.5f;
-	TheTacticalView->slot12(&pos, m_24, 0xCCAAFFFF);
+	((TacticalView *)TheTacticalView)->slot12(&pos, m_24, 0xCCAAFFFF);
 	pos.z += m_24;
-	TheTacticalView->slot12(&pos, m_24, 0xCCAAFFFF);
+	((TacticalView *)TheTacticalView)->slot12(&pos, m_24, 0xCCAAFFFF);
 }

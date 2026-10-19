@@ -319,7 +319,7 @@ public:
  virtual void t125();
  virtual float t126();
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Mouse
 {
@@ -414,7 +414,7 @@ void BfmeOwnVVD::rva0042E804()
  m_1c = 0;
  TheInGameUI->i41(0);
  if (m_39 == 0)
-  TheTacticalView->t105(0);
+  ((TacticalView *)TheTacticalView)->t105(0);
  TheMouse->m19(g_00DC8874);
  m_148 = 0;
  if (g_00E032F8 == 0)
@@ -429,7 +429,7 @@ void BfmeOwnVVD::rva0042E75F(unsigned int arg)
   return;
  if (TheInGameUI->m_16 == 0)
   return;
- if (TheTacticalView->t115())
+ if (((TacticalView *)TheTacticalView)->t115())
   return;
  if (((ClientFrameSubsystem *)TheGameClient)->m_c0 != 0)
   return;
@@ -438,7 +438,7 @@ void BfmeOwnVVD::rva0042E75F(unsigned int arg)
  g_00DC8874 = tmp;
  TheInGameUI->i41(1);
  if (m_39 == 0)
-  TheTacticalView->t105(1);
+  ((TacticalView *)TheTacticalView)->t105(1);
  if (arg != m_148)
  {
   m_148 = arg;
@@ -558,16 +558,16 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
   const Rva001EDD80Pair &b=msg->getArgument(0)->pixel; m_28=b.x; m_2c=b.y;
   const Rva001EDD80Pair &c=msg->getArgument(0)->pixel; m_30=c.x; m_34=c.y;
   m_40=TheGameClient->c31();
-  if(!m_38) TheTacticalView->t105(1);
+  if(!m_38) ((TacticalView *)TheTacticalView)->t105(1);
   break;
  }
  case 12: {
-  if(m_39 && !m_38) TheTacticalView->t105(0);
+  if(m_39 && !m_38) ((TacticalView *)TheTacticalView)->t105(0);
   m_150=TheGameLogic->getFrame(); m_39=0;
   int dx=m_30-m_28; if(dx<0) dx=-dx;
   int dy=m_34-m_2c;
   bool moved=(unsigned int)dx>5 || (unsigned int)dy>5;
-  if(!moved && TheGameClient->c31()-m_40<5) TheTacticalView->t50(0,0,0,0);
+  if(!moved && TheGameClient->c31()-m_40<5) ((TacticalView *)TheTacticalView)->t50(0,0,0,0);
   break;
  }
  case 3: {
@@ -575,7 +575,7 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
    Rva001EDD80Pair p=msg->getArgument(0)->pixel;
    if(TheMouse->rva001EDD80((const Rva001EDD80Pair *)&m_04,&p)) rva0042E75F(1);
   }
-  if(!TheTacticalView->t115()) {
+  if(!((TacticalView *)TheTacticalView)->t115()) {
    if(m_14!=msg->getArgument(0)->pixel.x || m_18!=msg->getArgument(0)->pixel.y)
     m_150=TheGameLogic->getFrame();
    if(m_39) {
@@ -599,7 +599,7 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
    }
    if(m_39) {
     float angle=.005f*(m_30-m_20);
-    TheTacticalView->t63(TheTacticalView->t64()+angle);
+    ((TacticalView *)TheTacticalView)->t63(((TacticalView *)TheTacticalView)->t64()+angle);
     const Rva001EDD80Pair &p=msg->getArgument(0)->pixel;m_20=p.x;m_24=p.y;
    }
   } else {
@@ -607,24 +607,24 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
    Coord2D mouse;mouse.x=(float)TheMouse->m_status.x;mouse.y=(float)TheMouse->m_status.y;
    r.lo.x+=15; r.hi.x-=15; r.lo.y+=15; r.hi.y-=15;
    bool rotated=false;
-   if(mouse.x<=r.lo.x) {TheTacticalView->t63(TheTacticalView->t64()+.046f);rotated=true;}
-   else if(mouse.x>=r.hi.x) {TheTacticalView->t63(TheTacticalView->t64()-.046f);rotated=true;}
+   if(mouse.x<=r.lo.x) {((TacticalView *)TheTacticalView)->t63(((TacticalView *)TheTacticalView)->t64()+.046f);rotated=true;}
+   else if(mouse.x>=r.hi.x) {((TacticalView *)TheTacticalView)->t63(((TacticalView *)TheTacticalView)->t64()-.046f);rotated=true;}
    if(rotated) {
     float factor=.03f;
     float height=r.hi.y-r.lo.y;
     mouse.y-=height*.5f;
     factor=(mouse.y/height+mouse.y/height)*factor;
-    TheTacticalView->t124(TheTacticalView->t126()+factor);
-   } else if(mouse.y<=r.lo.y) TheTacticalView->t124(TheTacticalView->t126()-.02f);
-   else if(mouse.y>=r.hi.y) TheTacticalView->t124(TheTacticalView->t126()+.02f);
+    ((TacticalView *)TheTacticalView)->t124(((TacticalView *)TheTacticalView)->t126()+factor);
+   } else if(mouse.y<=r.lo.y) ((TacticalView *)TheTacticalView)->t124(((TacticalView *)TheTacticalView)->t126()-.02f);
+   else if(mouse.y>=r.hi.y) ((TacticalView *)TheTacticalView)->t124(((TacticalView *)TheTacticalView)->t126()+.02f);
    if(m_39) {
     float angle=.001f*(m_30-m_20);
-    TheTacticalView->t63(TheTacticalView->t64()+angle);
+    ((TacticalView *)TheTacticalView)->t63(((TacticalView *)TheTacticalView)->t64()+angle);
     const Rva001EDD80Pair &p=msg->getArgument(0)->pixel; m_20=p.x; m_24=p.y;
    }
    if(m_3b) {
     float angle=.01f*(m_18-m_08);
-    TheTacticalView->t65(TheTacticalView->t66()+angle);
+    ((TacticalView *)TheTacticalView)->t65(((TacticalView *)TheTacticalView)->t66()+angle);
     const Rva001EDD80Pair &p=msg->getArgument(0)->pixel; m_04=p.x; m_08=p.y;
    }
 
@@ -634,15 +634,15 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
  case 19: {
   m_150=TheGameLogic->getFrame();
   int spin=msg->getArgument(1)->integer;
-  if(spin>0) {for(;spin>0;--spin) TheTacticalView->t77();}
-  else {for(;spin<0;++spin) TheTacticalView->t78();}
+  if(spin>0) {for(;spin>0;--spin) ((TacticalView *)TheTacticalView)->t77();}
+  else {for(;spin<0;++spin) ((TacticalView *)TheTacticalView)->t78();}
   break;
  }
  case 112:rva0042E804();break;
  case 36:case 37:case 38:case 39:case 40:case 41:case 42:case 43: {
   int slot=t-35;
   if(slot>0 && slot<=8) {
-   TheTacticalView->t92(&m_bfme48[slot-1]);
+   ((TacticalView *)TheTacticalView)->t92(&m_bfme48[slot-1]);
    UnicodeString text;text.format(TheGameText->fetchPtr("GUI:BookmarkXSet",0),slot);
    TheInGameUI->i16(text);
   }
@@ -651,10 +651,10 @@ int BfmeOwnVVD::rva0042E9EC(const GameMessage *msg)
  case 44:case 45:case 46:case 47:case 48:case 49:case 50:case 51: {
   if(TheInGameUI->getInputEnabled()==false) break;
   int slot=t-43;
-  if(slot>0 && slot<=8) TheTacticalView->t93(&m_bfme48[slot-1]);
+  if(slot>0 && slot<=8) ((TacticalView *)TheTacticalView)->t93(&m_bfme48[slot-1]);
   disp=1;break;
  }
- case 1106:{int mode=msg->getArgument(0)->integer;TheTacticalView->t29(mode);break;}
+ case 1106:{int mode=msg->getArgument(0)->integer;((TacticalView *)TheTacticalView)->t29(mode);break;}
  }
  return disp;
 }

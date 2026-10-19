@@ -147,7 +147,7 @@ public:
 	virtual void slot138();
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Rva00239A40
 {
@@ -161,7 +161,7 @@ void Rva00239A40::rva00239A40(AsciiString arg)
 {
 	((StringBase<char> &)m_str).set(*(const StringBase<char> *)&arg);
 	if (((const StringBase<char> &)m_str).isEmpty() == 0)
-		TheTacticalView->slot137(m_str);
+		((TacticalView *)TheTacticalView)->slot137(m_str);
 	else
-		TheTacticalView->slot138();
+		((TacticalView *)TheTacticalView)->slot138();
 }

@@ -50,9 +50,9 @@ public:
 	virtual void s40();
 	virtual void s41();
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BCAE8Forward()
 {
-	TheTacticalView->s41();
+	((TacticalView *)TheTacticalView)->s41();
 }

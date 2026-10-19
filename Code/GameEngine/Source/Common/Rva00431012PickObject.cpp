@@ -45,13 +45,13 @@ public:
 	Player *m_localPlayer;
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 extern PlayerList *ThePlayerList;
 
 Object *__cdecl Rva00431012PickObject(ICoord2D *pixel, Rva0035AFE4 *mask, int pickType)
 {
 	Object *obj = 0;
-	Drawable *d = TheTacticalView->pickDrawable(pixel, false, pickType);
+	Drawable *d = ((TacticalView *)TheTacticalView)->pickDrawable(pixel, false, pickType);
 	if (d != 0 && d->m_object != 0)
 	{
 		Player *local = ThePlayerList->m_localPlayer;

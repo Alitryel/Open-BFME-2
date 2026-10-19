@@ -129,7 +129,7 @@ public:
 	virtual int worldToScreen(const Coord3D *world, ICoord2D *screen);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 enum CellShroudStatus
 {
@@ -217,7 +217,7 @@ void InGameUI::drawFloatingText()
 
 		int playerIndex = ThePlayerList->m_localPlayer->m_playerIndex;
 
-		if (!TheTacticalView->worldToScreen(&ftd->m_pos3D, &pos) &&
+		if (!((TacticalView *)TheTacticalView)->worldToScreen(&ftd->m_pos3D, &pos) &&
 			ftd->m_dString &&
 			TheShroudManager->getShroudStatusForPlayer(playerIndex, &ftd->m_pos3D) == CELLSHROUD_CLEAR)
 		{

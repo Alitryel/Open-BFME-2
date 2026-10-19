@@ -132,14 +132,14 @@ public:
 	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, bool clamp);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 int __cdecl Rva004312E5Emit(void *a, ICoord2D *b)
 {
 	if (a == 0 || b == 0)
 		return 1;
 	Coord3D pos;
-	TheTacticalView->screenToTerrain(b, &pos, false);
+	((TacticalView *)TheTacticalView)->screenToTerrain(b, &pos, false);
 	GameMessage *msg = TheMessageStream->createMessage(0x444);
 	msg->appendLocationArgument(pos);
 	return 1;

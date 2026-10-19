@@ -89,16 +89,16 @@ public:
 	virtual void s63();
 	virtual float s64();
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BAF1D(float a0, float a1, float a2, float a3)
 {
-	float base = TheTacticalView->s64();
+	float base = ((TacticalView *)TheTacticalView)->s64();
 	float f3 = a3 * 1000.0f;
 	float f2 = a2 * 1000.0f;
 	int i1 = (int)(a1 * 1000.0f);
 	float k = normalizeAngle(a0 * 0.017453292f - base) * 0.15915494f;
-	TheTacticalView->s51(k, i1, 0, f2, f3);
+	((TacticalView *)TheTacticalView)->s51(k, i1, 0, f2, f3);
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

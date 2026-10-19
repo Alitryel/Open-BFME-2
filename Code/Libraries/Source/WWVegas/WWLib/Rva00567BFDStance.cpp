@@ -16,7 +16,7 @@ public:
 };
 
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 struct StanceEntry
 {
@@ -49,6 +49,6 @@ const CommandButton *GetSetStanceCommandButton(int stance)
 	return 0;
 found:;
 	AsciiString s(g_00E062BC[i].name);
-	const CommandButton *btn = ((ControlBar *)(void *)g_bfmeWorldRV)->findCommandButton(s);
+	const CommandButton *btn = ((ControlBar *)(void *)((BfmeWorldRV *)TheControlBar))->findCommandButton(s);
 	return btn;
 }

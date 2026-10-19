@@ -134,10 +134,10 @@ class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 extern ClientSubsystem *WindowManagerSubsystem;
 extern RadarSubsystem *Radar;
 extern MessageStream *TheMessageStream;	// 0x00A00950, MessageStream.cpp's global
-extern ClientSubsystem *InputLockSubsystem;
+extern class Keyboard *TheKeyboard;
 extern class InGameUI *TheInGameUI;
 extern class Mouse *TheMouse;
-extern ClientSubsystem *AudioSubsystem;
+extern class AudioManager *TheAudio;
 extern NetworkInterface *TheNetwork;
 // TheNetwork: matched references place it at VA 0xdfea28 (zero-filled .bss).
 NetworkInterface * TheNetwork;
@@ -192,7 +192,7 @@ void GameEngine::_bfme_updateClientSubsystems(void)
     int inputLocked = timedOps & 1;
     if (inputLocked)
     {
-        InputLockSubsystem->update();
+        ((ClientSubsystem *)TheKeyboard)->update();
     }
 
     if (inputLocked != TimedOpInputLocked)
@@ -210,7 +210,7 @@ void GameEngine::_bfme_updateClientSubsystems(void)
         }
     }
 
-    ClientSubsystem *audio = AudioSubsystem;
+    ClientSubsystem *audio = ((ClientSubsystem *)TheAudio);
     ClientSubsystemVtable *audioVtable = *(ClientSubsystemVtable **)audio;
     TimedOpInputLocked = inputLocked;
     audioVtable->update(audio);
@@ -218,17 +218,11 @@ void GameEngine::_bfme_updateClientSubsystems(void)
         TheNetwork->liteupdate(0);
 }
 
-// ?AudioSubsystem@@3PAVClientSubsystem@@A: the global at this VA is ?TheAudio@@3PAVAudioManager@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?AudioSubsystem@@3PAVClientSubsystem@@A=?TheAudio@@3PAVAudioManager@@A")
 #pragma comment(linker, "/alternatename:?TheAudio@@3PAVBfmeAudioVtblIndexed@@A=?TheAudio@@3PAVAudioManager@@A")
 // ?Radar@@3PAVRadarSubsystem@@A: the global at this VA is ?TheRadar@@3PAVRadar@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?Radar@@3PAVRadarSubsystem@@A=?TheRadar@@3PAVRadar@@A")
 #pragma comment(linker, "/alternatename:?TheRadar@@3PAVPartitionManager@@A=?TheRadar@@3PAVRadar@@A")
 // ?WindowManagerSubsystem@@3PAVClientSubsystem@@A: the global at VA 0xdfe4cc is ?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A.
 #pragma comment(linker, "/alternatename:?WindowManagerSubsystem@@3PAVClientSubsystem@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
-// ?AudioSubsystem@@3PAVClientSubsystem@@A: the global at VA 0xdfe6e8 is ?TheAudio@@3PAVAudioManager@@A.
-#pragma comment(linker, "/alternatename:?AudioSubsystem@@3PAVClientSubsystem@@A=?TheAudio@@3PAVAudioManager@@A")
 // ?Radar@@3PAVRadarSubsystem@@A: the global at VA 0xdff070 is ?TheRadar@@3PAVRadar@@A.
 #pragma comment(linker, "/alternatename:?Radar@@3PAVRadarSubsystem@@A=?TheRadar@@3PAVRadar@@A")
-// ?InputLockSubsystem@@3PAVClientSubsystem@@A: the global at VA 0xdfe720 is ?TheKeyboard@@3PAVKeyboard@@A.
-#pragma comment(linker, "/alternatename:?InputLockSubsystem@@3PAVClientSubsystem@@A=?TheKeyboard@@3PAVKeyboard@@A")

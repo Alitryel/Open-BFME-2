@@ -446,8 +446,7 @@ public:
 
 // The global at this VA is TheAudio; this name aliases it rather than
 // defining a second variable the rest of the game never sees.
-extern BfmeDfe6e8 *theBfmeDfe6e8;
-#pragma comment(linker, "/alternatename:?theBfmeDfe6e8@@3PAVBfmeDfe6e8@@A=?TheAudio@@3PAVAudioManager@@A")
+extern class AudioManager *TheAudio;
 
 class BfmeDfe6e4
 {
@@ -598,16 +597,16 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					if( TheWin32Mouse )
 						TheWin32Mouse->setCursor( TheWin32Mouse->getMouseCursor() );
 
-					if( theBfmeDfe6e8 )
-						theBfmeDfe6e8->_M_slot_4c();
+					if( ((BfmeDfe6e8 *)TheAudio) )
+						((BfmeDfe6e8 *)TheAudio)->_M_slot_4c();
 
 					if( theBfmeDfe6e4 )
 						theBfmeDfe6e4->_M_rva00625699();
 				}
 				else
 				{
-					if( theBfmeDfe6e8 )
-						theBfmeDfe6e8->_M_slot_48();
+					if( ((BfmeDfe6e8 *)TheAudio) )
+						((BfmeDfe6e8 *)TheAudio)->_M_slot_48();
 
 					if( theBfmeDfe6e4 )
 						theBfmeDfe6e4->_M_rva00625476();
@@ -1424,11 +1423,11 @@ extern "C" int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		else
 		{
 			shutdownRenderDevice();
-			BfmeDfe6e8Owner *owner = (BfmeDfe6e8Owner *)theBfmeDfe6e8;
+			BfmeDfe6e8Owner *owner = (BfmeDfe6e8Owner *)((BfmeDfe6e8 *)TheAudio);
 			if (owner)
 			{
 				::delete owner;
-				theBfmeDfe6e8 = 0;
+				(*(BfmeDfe6e8 **)&TheAudio) = 0;
 			}
 		}
 	}

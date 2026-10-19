@@ -89,7 +89,7 @@ public:
 	virtual void slot12(const Coord3D *center, float radius, unsigned int color);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Rva003AF7FE : public Rva003AF7FEHeadView, public Rva003AF7FEInfoView
 {
@@ -147,7 +147,7 @@ Rva003AF7FE::Rva003AF7FE(EmitVtableTag *)
 void Rva003AF7FE::rva0055D6D7(Coord3D pos)
 {
 	pos.z -= m_real2C * 0.5f;
-	TheTacticalView->slot12(&pos, m_real24, 0xCCAAFFFF);
+	((TacticalView *)TheTacticalView)->slot12(&pos, m_real24, 0xCCAAFFFF);
 	pos.z += m_real2C;
-	TheTacticalView->slot12(&pos, m_real24, 0xCCAAFFFF);
+	((TacticalView *)TheTacticalView)->slot12(&pos, m_real24, 0xCCAAFFFF);
 }

@@ -117,13 +117,13 @@ private:
 	NameKeyGenerator *m_nameTable; // +0x1F8
 };
 
-extern BfmeResourceEnumerator *TheResourceEnumerator;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 // ?Add_Prototype@@YAXPAX@Z
 void Add_Prototype(void *prototype)
 {
-	if (TheResourceEnumerator)
-		TheResourceEnumerator->Add_Prototype_Impl(prototype);
+	if (((BfmeResourceEnumerator *)TheQ1Receiver))
+		((BfmeResourceEnumerator *)TheQ1Receiver)->Add_Prototype_Impl(prototype);
 }
 
 void BfmeResourceEnumerator::Begin(unsigned tag)

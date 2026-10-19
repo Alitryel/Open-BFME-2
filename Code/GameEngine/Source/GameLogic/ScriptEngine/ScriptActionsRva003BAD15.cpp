@@ -94,7 +94,7 @@ public:
 	virtual void s36();
 	virtual void s37(Coord3D *p);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BAD15(const AsciiString &n0, float f1, float f2, const AsciiString &n3)
 {
@@ -112,8 +112,8 @@ void ScriptActions::Rva003BAD15(const AsciiString &n0, float f1, float f2, const
 	cb.x = b->m_pos.x;
 	cb.y = b->m_pos.y;
 	cb.z = b->m_pos.z;
-	TheTacticalView->s24(&ca, 0, 0, 1, 0.0f, 0.0f);
-	TheTacticalView->s37(&cb);
-	TheTacticalView->s34(f2, 0.0f, 0.0f);
-	TheTacticalView->s31(f1, 0.0f, 0.0f);
+	((TacticalView *)TheTacticalView)->s24(&ca, 0, 0, 1, 0.0f, 0.0f);
+	((TacticalView *)TheTacticalView)->s37(&cb);
+	((TacticalView *)TheTacticalView)->s34(f2, 0.0f, 0.0f);
+	((TacticalView *)TheTacticalView)->s31(f1, 0.0f, 0.0f);
 }

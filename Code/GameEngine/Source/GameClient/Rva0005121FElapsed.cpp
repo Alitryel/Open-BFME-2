@@ -33,7 +33,7 @@ public:
 	virtual void slot18(); virtual void slot19(); virtual void slot1A(); virtual void slot1B();
 	virtual void slot1C(); virtual void slot1D(); virtual void slot1E(); virtual unsigned int slot1F();
 };
-#define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
+#define TheRva00DFE77C ((Rva00DFE77CHolder *)TheGameClient)
 // g_00DBA4FC: matched references place it at VA 0xdba4fc (retail .data initial
 // bytes 55 55 05 42, or 33.333332f: one client frame at 30fps in milliseconds).
 // Eva::update also subtracts this mutable timestep from both countdowns.
@@ -135,7 +135,7 @@ public:
 	virtual void _v087();
 	virtual int slot160(const Coord3D *pos, ICoord2D *screen);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 class Rva00DFEF18View
 {
 public:
@@ -210,8 +210,8 @@ void Rva0005121F::rva000511C3(Coord3D *out)
 {
 	switch (m_678) {
 	case 0:
-		if (TheTacticalView) {
-			*out = *TheTacticalView->slot11C();
+		if (((TacticalView *)TheTacticalView)) {
+			*out = *((TacticalView *)TheTacticalView)->slot11C();
 			return;
 		}
 		break;
@@ -232,8 +232,8 @@ bool Rva0005121F::rva000516EF(const Coord3D *pos)
 	ICoord2D screen;
 	switch (m_678) {
 	case 0:
-		if (TheTacticalView)
-			return TheTacticalView->slot160(pos, &screen) == 0;
+		if (((TacticalView *)TheTacticalView))
+			return ((TacticalView *)TheTacticalView)->slot160(pos, &screen) == 0;
 		break;
 	case 1:
 		if (((Rva002D3627Host *)TheLivingWorld))

@@ -15,7 +15,7 @@ public:
 };
 
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class GameWindow;
 class CommandButton;
@@ -45,15 +45,15 @@ void Rva002D3AB5Target::rva002D3AB5(int)
 	if (m_state->m_index < 0)
 		return;
 	const char *text;
-	if ((*(Rva002BA8F1Logic **)&TheLivingWorldLogic) != 0 && ((BfmeSelectionState *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic))->isSelectionLocked() != 0)
+	if (((Rva002BA8F1Logic *)TheLivingWorldLogic) != 0 && ((BfmeSelectionState *)((Rva002BA8F1Logic *)TheLivingWorldLogic))->isSelectionLocked() != 0)
 		text = "NonCommand_CommandPointsLivingWorld";
 	else
 		text = "NonCommand_CommandPoints";
 	const CommandButton *button;
 	{
 		AsciiString name(text);
-		button = ((ControlBar *)g_bfmeWorldRV)->findCommandButton(name);
+		button = TheControlBar->findCommandButton(name);
 	}
 	if (button != 0)
-		((ControlBar *)g_bfmeWorldRV)->rva004C1B60(0, (void *)button);
+		TheControlBar->rva004C1B60(0, (void *)button);
 }

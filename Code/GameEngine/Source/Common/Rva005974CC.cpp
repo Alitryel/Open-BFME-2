@@ -24,7 +24,7 @@ public:
 extern GameLogic *TheGameLogic;
 
 struct BfmeWorldRV;
-extern BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class Rva0031D5F8
 {
@@ -142,7 +142,7 @@ void AIUpgrade::DoXfer(Xfer *x, void *p)
 	if (obj == 0)
 		return;
 	const AsciiString *name = obj->rva00290E67();
-	void *world = ((Rva0031D5F8 *)g_bfmeWorldRV)->rva0031D5F8(name);
+	void *world = ((Rva0031D5F8 *)((BfmeWorldRV *)TheControlBar))->rva0031D5F8(name);
 	for (int i = 0; i < 0x20; ++i)
 	{
 		if (m_30 != 0)

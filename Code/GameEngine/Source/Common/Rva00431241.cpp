@@ -59,7 +59,7 @@ public:
 	virtual void screenToTerrain(const ICoord2D *pixel, Coord3D *world, bool clamp);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 struct Sub741
 {
@@ -119,7 +119,7 @@ int __cdecl doSetRallyPointCommand(void *a, ICoord2D *b)
 	if (ret->m_fc == 0)
 		return 1;
 	Coord3D pos;
-	TheTacticalView->screenToTerrain(b, &pos, false);
+	((TacticalView *)TheTacticalView)->screenToTerrain(b, &pos, false);
 	GameMessage *msg = TheMessageStream->createMessage(0x413);
 	msg->appendObjectIDArgument(ret->m_fc->m_id);
 	msg->appendLocationArgument(pos);

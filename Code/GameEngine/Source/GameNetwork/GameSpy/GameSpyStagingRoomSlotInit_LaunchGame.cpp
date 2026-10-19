@@ -418,7 +418,7 @@ public:
 };
 // Bind the existing NAT datum; retain this unit's access view at use sites.
 struct NAT;
-extern NAT *TheNAT;
+extern struct NAT *TheNAT;
 
 // The object at 0x00E063EC, cleared through the rowed 0x0059EE7F.
 class Rva0059EE7FDwordClearer
@@ -555,13 +555,13 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 
 	CreateTheNetwork();
 	BfmeNetAddress localAddress = m_localAddress;
-	if (TheNAT)
-		localAddress.m_port = ((Rva005A6D47 *)TheNAT)->rva005A684F(getLocalSlotNum());
+	if (((NAT *)TheNAT))
+		localAddress.m_port = ((Rva005A6D47 *)((NAT *)TheNAT))->rva005A684F(getLocalSlotNum());
 	TheNetwork->setLocalAddress(&localAddress);
-	if (TheNAT)
+	if (((NAT *)TheNAT))
 	{
-		((Rva005A6D47 *)TheNAT)->rva005A6A4C();
-		TheNetwork->attachTransport(((Rva005A6D47 *)TheNAT)->rva005801F2());
+		((Rva005A6D47 *)((NAT *)TheNAT))->rva005A6A4C();
+		TheNetwork->attachTransport(((Rva005A6D47 *)((NAT *)TheNAT))->rva005801F2());
 	}
 	else
 	{
@@ -600,10 +600,10 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 	updateBuddyStatus(GAMESPY_BUDDY_STATUS_4, 0,
 		WideCharStringToMultiByte(((Rva0022C4DF *)TheGameSpyGame)->rva0022C4DF().str()));
 
-	if (TheNAT)
+	if (((NAT *)TheNAT))
 	{
-		::delete (Rva005A6D47 *)TheNAT;
-		TheNAT = 0;
+		::delete (Rva005A6D47 *)((NAT *)TheNAT);
+		(*(NAT **)&TheNAT) = 0;
 	}
 }
 
@@ -651,13 +651,13 @@ void GameSpyStagingRoom::launchGame(void)
 
 	CreateTheNetwork();
 	BfmeNetAddress localAddress = m_localAddress;
-	if (TheNAT)
-		localAddress.m_port = ((Rva005A6D47 *)TheNAT)->rva005A684F(getLocalSlotNum());
+	if (((NAT *)TheNAT))
+		localAddress.m_port = ((Rva005A6D47 *)((NAT *)TheNAT))->rva005A684F(getLocalSlotNum());
 	TheNetwork->setLocalAddress(&localAddress);
-	if (TheNAT)
+	if (((NAT *)TheNAT))
 	{
-		((Rva005A6D47 *)TheNAT)->rva005A6A4C();
-		TheNetwork->attachTransport(((Rva005A6D47 *)TheNAT)->rva005801F2());
+		((Rva005A6D47 *)((NAT *)TheNAT))->rva005A6A4C();
+		TheNetwork->attachTransport(((Rva005A6D47 *)((NAT *)TheNAT))->rva005801F2());
 	}
 	else
 	{
@@ -706,10 +706,10 @@ void GameSpyStagingRoom::launchGame(void)
 	updateBuddyStatus(GAMESPY_BUDDY_STATUS_4, 0,
 		WideCharStringToMultiByte(((Rva0022C4DF *)TheGameSpyGame)->rva0022C4DF().str()));
 
-	if (TheNAT)
+	if (((NAT *)TheNAT))
 	{
-		::delete (Rva005A6D47 *)TheNAT;
-		TheNAT = 0;
+		::delete (Rva005A6D47 *)((NAT *)TheNAT);
+		(*(NAT **)&TheNAT) = 0;
 	}
 
 	if (m_isQM)

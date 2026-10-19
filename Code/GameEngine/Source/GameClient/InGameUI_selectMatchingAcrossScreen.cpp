@@ -84,7 +84,7 @@ public:
 	virtual void getOrigin(int *x, int *y);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 // BFME2 selection-state guard: two flag bytes at +0xB4/+0xB5, tested by the
 // outlined thiscall at 0x0042253A (returns true only if both non-zero).
@@ -239,16 +239,16 @@ extern InGameUI *TheInGameUI;
 // ?selectMatchingAcrossScreen@InGameUI@@UAEHXZ
 int InGameUI::selectMatchingAcrossScreen()
 {
-	BfmeSelectionState *state = (*(BfmeSelectionState **)&TheLivingWorldLogic);
+	BfmeSelectionState *state = ((BfmeSelectionState *)TheLivingWorldLogic);
 	if (state != 0 && state->isSelectionLocked() != 0)
 		return 0;
 
 	ICoord2D origin;
 	ICoord2D size;
 	IRegion2D region;
-	TheTacticalView->getOrigin(&origin.x, &origin.y);
-	size.x = TheTacticalView->getWidth();
-	size.y = TheTacticalView->getHeight();
+	((TacticalView *)TheTacticalView)->getOrigin(&origin.x, &origin.y);
+	size.x = ((TacticalView *)TheTacticalView)->getWidth();
+	size.y = ((TacticalView *)TheTacticalView)->getHeight();
 	buildRegion(&origin, &size, &region);
 	Int numSelected = selectMatchingAcrossRegion(&region);
 	if (numSelected == -1)
@@ -264,10 +264,6 @@ int InGameUI::selectMatchingAcrossScreen()
 	return numSelected;
 }
 
-// ?TheTacticalView@@3PAVTacticalView@@A: the global at this VA is ?TheTacticalView@@3PAVView@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?TheTacticalView@@3PAVTacticalView@@A=?TheTacticalView@@3PAVView@@A")
-// ?TheTacticalView@@3PAVTacticalView@@A: the global at VA 0xdfea3c is ?TheTacticalView@@3PAVView@@A.
-#pragma comment(linker, "/alternatename:?TheTacticalView@@3PAVTacticalView@@A=?TheTacticalView@@3PAVView@@A")
 
 // BFME1 ba7ddda7 InGameUI.cpp supplies the source algorithm. Independent
 // target corroboration: 29CBA6..29CC19 complete RET12 plus internal return

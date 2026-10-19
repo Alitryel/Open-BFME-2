@@ -116,13 +116,13 @@ public:
     virtual void s106();
     virtual void slot107(const float *pos, int val);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BC47ADo(int val)
 {
 	float buf[3];
-	TheTacticalView->getPos(buf);
-	TheTacticalView->slot107(buf, val);
+	((TacticalView *)TheTacticalView)->getPos(buf);
+	((TacticalView *)TheTacticalView)->slot107(buf, val);
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

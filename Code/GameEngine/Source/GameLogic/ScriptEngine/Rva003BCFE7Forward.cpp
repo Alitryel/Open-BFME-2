@@ -156,9 +156,9 @@ public:
     virtual void s146();
     virtual void s147(bool value);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BCFE7Forward(bool value)
 {
-	TheTacticalView->s147(value);
+	((TacticalView *)TheTacticalView)->s147(value);
 }

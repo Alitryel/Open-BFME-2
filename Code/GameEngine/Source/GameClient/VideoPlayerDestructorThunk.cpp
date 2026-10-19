@@ -23,7 +23,7 @@ public:
 	virtual ~VideoPlayer();
 };
 
-extern VideoPlayer *TheVideoPlayer;
+extern class VideoPlayerInterface *TheVideoPlayer;
 
 // empty intermediate so MSVC emits its vtbl store then jumps to SubsystemInterface
 // ??1VideoPlayerBase@@ present-unmatched
@@ -34,8 +34,8 @@ VideoPlayerBase::~VideoPlayerBase()
 // ??1VideoPlayer@@UAE@XZ
 inline VideoPlayer::~VideoPlayer()
 {
-	if (this == TheVideoPlayer)
-		TheVideoPlayer = 0;
+	if (this == ((VideoPlayer *)TheVideoPlayer))
+		(*(VideoPlayer **)&TheVideoPlayer) = 0;
 }
 
 // Header inlines that the units including the header emit as select-any

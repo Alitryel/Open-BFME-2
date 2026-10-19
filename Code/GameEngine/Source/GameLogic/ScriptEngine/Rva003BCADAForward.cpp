@@ -49,9 +49,9 @@ public:
 	virtual void s39();
 	virtual void s40(const AsciiString &a, const AsciiString &b);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BCADAForward(const AsciiString &a, const AsciiString &b)
 {
-	TheTacticalView->s40(a,b);
+	((TacticalView *)TheTacticalView)->s40(a,b);
 }

@@ -65,7 +65,7 @@ public:
 	virtual bool setViewFilter(int filter);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 typedef int Int;typedef float Real;typedef bool Bool;
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
@@ -285,7 +285,7 @@ public:
 
 // Preserve the existing TheTacticalView binding at native DFEA3C; this
 // accessed-slot view is used only for origin and dimensions.
-static inline BfmeTacticalView *tacticalView() { return (BfmeTacticalView *)TheTacticalView; }
+static inline BfmeTacticalView *tacticalView() { return (BfmeTacticalView *)((TacticalView *)TheTacticalView); }
 
 
 
@@ -363,8 +363,8 @@ bool ScreenCrossFadeFilter::updateFadeLevel()
 		else
 		{
 			g_00DEBFF4 = 0.0f;
-			TheTacticalView->setViewFilterMode(0);
-			TheTacticalView->setViewFilter(0);
+			((TacticalView *)TheTacticalView)->setViewFilterMode(0);
+			((TacticalView *)TheTacticalView)->setViewFilter(0);
 			g_00DEC000 = 0;
 			g_00DEBFF8 = 0;
 			return false;

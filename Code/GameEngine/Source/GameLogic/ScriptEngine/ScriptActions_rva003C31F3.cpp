@@ -20,7 +20,7 @@ public:
 	const CommandButton *findCommandButton(const AsciiString &name);
 };
 struct BfmeWorldRV;
-extern BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 class Object
 {
 protected:
@@ -67,12 +67,12 @@ void ScriptActions::Rva003C31F3Do(const AsciiString &unitName, const AsciiString
 	Module *module = obj->findModule(autoKey);
 	if (module == 0)
 		return;
-	const CommandButton *button = ((ControlBar *)g_bfmeWorldRV)->findCommandButton(buttonName);
+	const CommandButton *button = TheControlBar->findCommandButton(buttonName);
 	if (button == 0)
 		return;
 	if (button->m_10c == 0)
 		return;
-	void *cmdSet = ((Rva0031D5F8 *)g_bfmeWorldRV)->rva0031D5F8(obj->rva00290E67());
+	void *cmdSet = ((Rva0031D5F8 *)((BfmeWorldRV *)TheControlBar))->rva0031D5F8(obj->rva00290E67());
 	if (cmdSet == 0)
 		return;
 	for (int i = 0; i < 0x20; ++i) {

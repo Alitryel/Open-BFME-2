@@ -34,7 +34,7 @@ public:
 	virtual void notifyVideoPlayerOfNewProvider(Bool available);
 };
 
-extern VideoPlayer *TheVideoPlayer;
+extern class VideoPlayerInterface *TheVideoPlayer;
 
 struct MilesProviderInfo
 {
@@ -69,7 +69,7 @@ void MilesAudioManager::unselectProvider(void)
 	if (m_selectedProvider >= m_providerCount)
 		return;
 
-	VideoPlayer *player = TheVideoPlayer;
+	VideoPlayer *player = ((VideoPlayer *)TheVideoPlayer);
 	if (player)
 		player->notifyVideoPlayerOfNewProvider(0);
 
@@ -82,5 +82,3 @@ void MilesAudioManager::unselectProvider(void)
 	AIL_close_3D_provider(m_provider3D[m_selectedProvider].id);
 	m_selectedProvider = 0xffffffff;
 }
-// ?TheVideoPlayer@@3PAVVideoPlayer@@A: the global at VA 0xe0aba8 is ?TheVideoPlayer@@3PAVVideoPlayerInterface@@A.
-#pragma comment(linker, "/alternatename:?TheVideoPlayer@@3PAVVideoPlayer@@A=?TheVideoPlayer@@3PAVVideoPlayerInterface@@A")

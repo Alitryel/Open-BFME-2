@@ -610,7 +610,7 @@ public:
 	virtual ~GameInfo();
 };
 extern GameInfo *TheGameInfo;
-extern GameInfo *TheSkirmishGameInfo;
+extern class GameInfo *TheSkirmishGameInfo;
 
 // TheGameText's vslot 15 fetch (Rva00515C64's view).
 class GameTextInterface
@@ -705,10 +705,10 @@ struct Rva00514DDAWide : public Rva00514DDA, public FunctorBinding {};
 void AptMainMenu::rva00515980()
 {
 	TheGameInfo = 0;
-	if (TheSkirmishGameInfo)
+	if (((GameInfo *)TheSkirmishGameInfo))
 	{
-		::delete TheSkirmishGameInfo;
-		TheSkirmishGameInfo = 0;
+		::delete ((GameInfo *)TheSkirmishGameInfo);
+		(*(GameInfo **)&TheSkirmishGameInfo) = 0;
 	}
 	if (m_2a4.compare("CreditsMenu") != 0)
 	{

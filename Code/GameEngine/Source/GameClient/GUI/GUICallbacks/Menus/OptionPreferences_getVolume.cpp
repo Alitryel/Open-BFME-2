@@ -152,7 +152,7 @@ public:
 	virtual const BfmeAudioSettings *getAudioSettings() = 0;
 };
 
-extern BfmeAudioVtblIndexed *TheAudio;
+extern class AudioManager *TheAudio;
 
 class OptionPreferences
 {
@@ -188,5 +188,3 @@ Real OptionPreferences::getVolume(Int index)
 	}
 	return volume;
 }
-// ?TheAudio@@3PAVBfmeAudioVtblIndexed@@A: the global at VA 0xdfe6e8 is ?TheAudio@@3PAVAudioManager@@A.
-#pragma comment(linker, "/alternatename:?TheAudio@@3PAVBfmeAudioVtblIndexed@@A=?TheAudio@@3PAVAudioManager@@A")

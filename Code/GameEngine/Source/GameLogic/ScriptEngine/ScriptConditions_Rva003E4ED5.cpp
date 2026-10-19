@@ -173,24 +173,24 @@ public:
 	virtual float slot244();
 	virtual bool slot248();
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 // ?Rva003E4ED5Get@@YG_NPAVParameter@@@Z @0x003E4ED5 48B
 bool __stdcall Rva003E4ED5Get(Parameter *p)
 {
-	return TheTacticalView->slot23C() > p->getReal();
+	return ((TacticalView *)TheTacticalView)->slot23C() > p->getReal();
 }
 
 // ?Rva003E4F05Get@@YG_NPAVParameter@@@Z @0x003E4F05 54B
 bool __stdcall Rva003E4F05Get(Parameter *p)
 {
-	return TheTacticalView->slot240() > p->getReal() * 0.017453292f;
+	return ((TacticalView *)TheTacticalView)->slot240() > p->getReal() * 0.017453292f;
 }
 
 // ?Rva003E4F3BGet@@YG_NPAVParameter@@@Z @0x003E4F3B 48B
 bool __stdcall Rva003E4F3BGet(Parameter *p)
 {
-	return TheTacticalView->slot244() > p->getReal();
+	return ((TacticalView *)TheTacticalView)->slot244() > p->getReal();
 }
 
 // ?Rva003E4F6BGet@@YG_NXZ @0x003E4F6B 14B
@@ -198,5 +198,5 @@ bool __stdcall Rva003E4F3BGet(Parameter *p)
 // TheTacticalView's bool slot 146 (+0x248) directly, as a tail jump.
 bool __stdcall Rva003E4F6BGet()
 {
-	return TheTacticalView->slot248();
+	return ((TacticalView *)TheTacticalView)->slot248();
 }

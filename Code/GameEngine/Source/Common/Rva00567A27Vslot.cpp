@@ -15,7 +15,7 @@ struct BfmeMsgDN
 };
 
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class BfmeThingGX;
 class Rva00405A50
@@ -43,5 +43,5 @@ private:
 void Rva00567960::OnMouseOver()
 {
 	BfmeMsgDN msg(m_08->m_14, m_0c);
-	((Rva00405A50 *)g_bfmeWorldRV)->rva00405C04((BfmeThingGX *)&msg);
+	((Rva00405A50 *)((BfmeWorldRV *)TheControlBar))->rva00405C04((BfmeThingGX *)&msg);
 }

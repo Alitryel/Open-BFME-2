@@ -53,7 +53,7 @@ struct BfmeWorldRV
  
 }
 ;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 struct DataBody
 
 {
@@ -96,7 +96,7 @@ void Rva0052936C::rva005294FC(int index)
  e->m_10 = 0;
  if (!e->m_00)
  return;
- BfmeWorldRV *world = g_bfmeWorldRV;
+ BfmeWorldRV *world = ((BfmeWorldRV *)TheControlBar);
  GameWindow *win = world->m_windows[index];
  if (!win)
  return;

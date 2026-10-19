@@ -3,7 +3,7 @@
 // Object provider-gated global flag set: prov = rva0028C197(); if prov and slot60 and slot23 then call slot24 and set holder+0x28.
 // Evidence: rowed rva0028C197 plus virtual slots 0xF0 0x5C 0x60 and VA 0x00E01CFC+0x28; callers 0x0028DF48 0x0028E01F 0x0028E0F9 0x0028E151;
 // neighbours ObjectRva0028C264 and ObjectRva0028C4ED give TU and flags.
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class Rva0028C4B6Provider
 {
@@ -34,7 +34,7 @@ struct BfmeHolder0028C4B6
 	unsigned char m_28; // +0x28
 };
 
-#define BfmeHolder0028C4B6Ptr (*(BfmeHolder0028C4B6 **)&g_bfmeWorldRV)
+#define BfmeHolder0028C4B6Ptr (*(BfmeHolder0028C4B6 **)&TheControlBar)
 
 class Object
 {

@@ -34,13 +34,13 @@ public:
     const CommandButton *findCommandButton(const AsciiString &name);
 };
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 void Rva00409FFA::refreshIfStale()
 {
     for (int i = 0; i < 0x20; ++i) {
         unsigned int entry = arr14[i];
         if (entry != 0 && *(int *)(entry + 0xC) >= 1)
-            arr14[i] = (unsigned int)((ControlBar *)(void *)g_bfmeWorldRV)->findCommandButton(*(const AsciiString *)(entry + 0x10));
+            arr14[i] = (unsigned int)((ControlBar *)(void *)((BfmeWorldRV *)TheControlBar))->findCommandButton(*(const AsciiString *)(entry + 0x10));
     }
 }
 

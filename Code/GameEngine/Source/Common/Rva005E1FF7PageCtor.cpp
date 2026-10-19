@@ -24,10 +24,10 @@ class StrategicInGameUI::RegionDetailsArmiesPage::Impl {public:Impl(void*,void*,
 struct Rva005E19CAEntry {char unknown00[0x14];void *army;};
 struct Rva005E1FF7ColorOwner {char unknown00[0x184];RGBColor color;const RGBColor &getColor()const{return color;}};
 struct Rva0059E647World {char unknown00[0x98];Rva005E1FF7ColorOwner *player;};
-extern Rva0059E647World *g_rva0059E647World;
+extern class LivingWorldLogic *TheLivingWorldLogic;
 
 StrategicInGameUI::RegionDetailsArmiesPage::Impl::Impl(void *page,void *level,void *name,const PageContext &context)
-:ui((Rva005E19CAInterface*)page),region(context.region),owner(context.owner),clip((unsigned)level,name,__vref(g_rva0059E647World->player)->getColor().getAsInt()|0xff000000),dirty(false),selected(0),pending(0){
+:ui((Rva005E19CAInterface*)page),region(context.region),owner(context.owner),clip((unsigned)level,name,__vref(((Rva0059E647World *)TheLivingWorldLogic)->player)->getColor().getAsInt()|0xff000000),dirty(false),selected(0),pending(0){
  CreateArmyIcons();
  void *army=context.page;
  if(army){

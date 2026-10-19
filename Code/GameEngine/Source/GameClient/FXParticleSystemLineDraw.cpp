@@ -26,7 +26,7 @@ public:
 	virtual void slot11(const Rva0055CD70Vec *a, const Rva0055CD70Vec *b, unsigned int color);
 };
 
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 class Rva0055CD70
 {
@@ -52,5 +52,5 @@ void Rva0055CD70::rva0055CD70(float x, float y, float z)
 	b.x = m_b0 + x;
 	b.y = m_b1 + y;
 	b.z = m_b2 + z;
-	TheTacticalView->slot11(&a, &b, 0xccaaffff);
+	((TacticalView *)TheTacticalView)->slot11(&a, &b, 0xccaaffff);
 }

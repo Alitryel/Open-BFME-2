@@ -295,7 +295,7 @@ struct Rva009FDD04ManagerView
 	char m_pad[0x50];
 	int m_value; // +0x50
 };
-extern Rva009FDD04ManagerView *TheParticleSystemManager;
+extern class ParticleSystemManager *TheParticleSystemManager;
 class ScriptEngine;
 extern ScriptEngine *TheScriptEngine;
 
@@ -378,6 +378,6 @@ void ScriptEngine::particleEditorUpdate()
 		TheDebugWindowHolder = holder;
 		TheFXParticleEditor.target()->hostSlot3(holder);
 	}
-	TheFXParticleEditor.target()->hostSlot2(TheParticleSystemManager->m_value);
+	TheFXParticleEditor.target()->hostSlot2(((Rva009FDD04ManagerView *)TheParticleSystemManager)->m_value);
 	return TheFXParticleEditor.target()->hostSlot4();
 }

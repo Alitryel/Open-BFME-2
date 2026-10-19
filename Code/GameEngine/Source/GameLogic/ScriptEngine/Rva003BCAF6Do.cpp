@@ -96,10 +96,10 @@ public:
 	virtual void t41();
 	virtual void t42(void *a, float b, float c, float d);
 };
-extern TacticalView *TheTacticalView;
+extern class View *TheTacticalView;
 
 void ScriptActions::Rva003BCAF6Do(Parameter *param, float f2, float f3, float f4)
 {
 	void *res = TheTerrainLogic->s34(param);
-	TheTacticalView->t42((char *)res + 12, f4, f3, f2);
+	((TacticalView *)TheTacticalView)->t42((char *)res + 12, f4, f3, f2);
 }
