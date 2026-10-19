@@ -118,7 +118,15 @@ class Rva005FA0C9;
 struct Rva005FA197Element {Rva005FA0C9*ptr;Rva005FA197Element(const Rva005FA197Element&);~Rva005FA197Element();};
 class Rva005FA0F7;
 struct Rva005FA1CEElement {Rva005FA0F7*ptr;Rva005FA1CEElement(const Rva005FA1CEElement&);~Rva005FA1CEElement();};
+void Rva00030830FreeAllocation(void*);
 namespace _STL {
+// The handle vectors free through the rowed game-memory free wrapper, as in
+// BattlePromptConstructorLifetimes.cpp, so both units emit one _Vector_base
+// destructor body.
+template<> __declspec(dllimport) __forceinline void allocator<Rva005FA197Element>::deallocate(Rva005FA197Element*p,size_t)const{if(p)::Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva005FA197Element*,Rva005FA197Element,allocator<Rva005FA197Element> >::deallocate(Rva005FA197Element*p,size_t n){__stl_alloc_rebind(static_cast<allocator<Rva005FA197Element>&>(*this),(Rva005FA197Element*)0).deallocate(p,n);}
+template<> __declspec(dllimport) __forceinline void allocator<Rva005FA1CEElement>::deallocate(Rva005FA1CEElement*p,size_t)const{if(p)::Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva005FA1CEElement*,Rva005FA1CEElement,allocator<Rva005FA1CEElement> >::deallocate(Rva005FA1CEElement*p,size_t n){__stl_alloc_rebind(static_cast<allocator<Rva005FA1CEElement>&>(*this),(Rva005FA1CEElement*)0).deallocate(p,n);}
 template<> vector<BfmeStringRecord005F93E3>::~vector();
 template<> vector<Rva005FA197Element>::~vector();
 template<> vector<Rva005FA1CEElement>::~vector();

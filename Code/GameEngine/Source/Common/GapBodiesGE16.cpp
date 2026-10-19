@@ -8,9 +8,13 @@
 class Object;
 struct Coord3D;
 
-// --- 0x005F8E7D..0x005F8ECA: a state word (+0x18) gating the +0x00
-// listener's virtual slots (0 -> 1 with slot 1; 2 -> 3 with slot 0; state 1
-// with slots 2, 3 and 4); the argument is unused.
+// --- 0x005F8E7D..0x005F8ECA: StrategicHUD::BattlePromptMovieClip::Impl's Apt
+// command callbacks. Its constructor 0x005FA3B1 binds them, in this order, to
+// "<level>.<name>_OnOpen", "_OnClosed", "_OnAutoResolveButtonClicked",
+// "_OnRealTimeButtonClicked" and "_OnRetreatButtonClicked"
+// (StrategicHUDBattlePromptMovieClipConstructor.cpp). A state word (+0x18)
+// gates the +0x00 listener's virtual slots (0 -> 1 with slot 1; 2 -> 3 with
+// slot 0; state 1 with slots 2, 3 and 4); the command argument is unused.
 class Rva005F8E7DListener
 {
 public:
@@ -21,21 +25,30 @@ public:
 	virtual void s4();
 };
 
-class Rva005F8E7D
+namespace StrategicHUD
+{
+class BattlePromptMovieClip
 {
 public:
-	void rva005F8E7D(int unused);
-	void rva005F8E94(int unused);
-	void rva005F8EAA(int unused);
-	void rva005F8EBA(int unused);
-	void rva005F8ECA(int unused);
+	class Impl;
+};
+}
+
+class StrategicHUD::BattlePromptMovieClip::Impl
+{
+public:
+	void OnOpen(const char *unused);
+	void OnClosed(const char *unused);
+	void OnAutoResolveButtonClicked(const char *unused);
+	void OnRealTimeButtonClicked(const char *unused);
+	void OnRetreatButtonClicked(const char *unused);
 private:
 	Rva005F8E7DListener *m_listener;
 	char m_pad04[0x18 - 4];
 	int m_state;											// +0x18
 };
 
-void Rva005F8E7D::rva005F8E7D(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnOpen(const char *)
 {
 	if (m_state == 0)
 	{
@@ -44,7 +57,7 @@ void Rva005F8E7D::rva005F8E7D(int)
 	}
 }
 
-void Rva005F8E7D::rva005F8E94(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnClosed(const char *)
 {
 	if (m_state == 2)
 	{
@@ -53,19 +66,19 @@ void Rva005F8E7D::rva005F8E94(int)
 	}
 }
 
-void Rva005F8E7D::rva005F8EAA(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnAutoResolveButtonClicked(const char *)
 {
 	if (m_state == 1)
 		m_listener->s2();
 }
 
-void Rva005F8E7D::rva005F8EBA(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnRealTimeButtonClicked(const char *)
 {
 	if (m_state == 1)
 		m_listener->s3();
 }
 
-void Rva005F8E7D::rva005F8ECA(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnRetreatButtonClicked(const char *)
 {
 	if (m_state == 1)
 		m_listener->s4();

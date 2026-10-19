@@ -1146,9 +1146,11 @@ void Rva005F600D::rva005F6014(int)
 	m_35 = true;
 }
 
-// ?rva005F8F80@Rva005F8F80@@QAEXH@Z @0x005F8F80 12B and
-// ?rva005F8F8B@Rva005F8F80@@QAEXH@Z @0x005F8F8B 11B: clear the owned handle at
-// +0x2C / +0x3C through the rowed Rva000AD6F4::clear 0x000AD6F4; the word
+// StrategicHUD::BattlePromptMovieClip::Impl::OnAllyTabsUnloaded @0x005F8F80 12B and
+// OnEnemyTabsUnloaded @0x005F8F8B 11B (bound to "_OnAllyTabsUnloaded" /
+// "_OnEnemyTabsUnloaded" by the Impl constructor 0x005FA3B1, after the rowed
+// OnAllyTabsLoaded/OnEnemyTabsLoaded): clear the owned handle at +0x2C /
+// +0x3C through the rowed Rva000AD6F4::clear 0x000AD6F4; the command
 // argument is unused.
 class Rva000AD6F4
 {
@@ -1157,22 +1159,30 @@ public:
 private:
 	void *m_pointer;
 };
-class Rva005F8F80
+namespace StrategicHUD
+{
+class BattlePromptMovieClip
 {
 public:
-	void rva005F8F80(int unused);
-	void rva005F8F8B(int unused);
+	class Impl;
+};
+}
+class StrategicHUD::BattlePromptMovieClip::Impl
+{
+public:
+	void OnAllyTabsUnloaded(const char *unused);
+	void OnEnemyTabsUnloaded(const char *unused);
 private:
 	char m_pad[0x2c];
 	Rva000AD6F4 m_2c;
 	char m_pad30[0x3c - 0x30];
 	Rva000AD6F4 m_3c;
 };
-void Rva005F8F80::rva005F8F80(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnAllyTabsUnloaded(const char *)
 {
 	m_2c.clear();
 }
-void Rva005F8F80::rva005F8F8B(int)
+void StrategicHUD::BattlePromptMovieClip::Impl::OnEnemyTabsUnloaded(const char *)
 {
 	m_3c.clear();
 }
