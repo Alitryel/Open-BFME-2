@@ -12863,7 +12863,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x0086D420,20,.rdata,vtable,??_7Rva0056B2DD@@6BRva0056B2DDB2@@@,,literal,,0,1
 0x0086D434,60,.rdata,vtable,??_7Rva0056B2DD@@6BRva0056B2DDB1@@@,,literal,,0,1
 0x0086D470,96,.rdata,vtable,??_7Rva0056B2DD@@6BRva0056AC26@@@,,literal,,0,1
-0x0086D4D0,80,.rdata,global,?g_00C6D4D0@@3QBUFieldParse@@B,,unowned,,0,1
+0x0086D4D0,80,.rdata,global,?g_00C6D4D0@@3QBUFieldParse@@B,Code/GameEngine/Source/Common/Rva0056B668Parse.cpp,owned,,1,1
 0x0086D520,752,.rdata,string,??_C@_0DN@HJINFGFP@Reload?5of?5LivingWorldArmyIconSub@,,literal,,0,1
 0x0086D810,232,.rdata,vtable,??_7LivingWorldArmyIconSubObject@@6B@,,literal,??_7LivingWorldArmyIconSubObject@@6B@;??_7Rva0056B9A2@@6B@,0,2
 0x0086D8F8,112,.rdata,global,?g_00C6D8F8@@3QBUFieldParse@@B,,unowned,,0,1

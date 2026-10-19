@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc /O1 /arch:SSE /G7
+// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG
 // stlport
 #include "ascii_string.h"
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -49,6 +49,8 @@ class INI
 public:
 	const char *getNextToken(const char *separators);
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parse);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);			// 0x0002E850
+	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);	// 0x0002EB38
 
 	int m_00;
 	int m_04;
@@ -79,7 +81,21 @@ struct Rva004DFCB0Element
 };
 
 int Rva0056B7DEGet(void);
-extern const FieldParse g_00C6D4D0[];
+typedef void (__cdecl *FieldParseFn)(void *ini, void *instance, void *store, const void *userData);
+
+// Retail VA 0x00C39498 (.rdata): the VisibleArmySizes bit names, four entries
+// directly followed by the "HERO_ONLY" literal (no separate sentinel word).
+extern const char *const g_00C39498[] = { "HERO_ONLY", "SMALL", "MEDIUM", "LARGE" };
+
+// Retail VA 0x00C6D4D0 (.rdata): this object template's own field table, four
+// records and a zero sentinel, chained after the base table (Rva0056B7DEGet).
+extern const FieldParse g_00C6D4D0[] = {
+	{ "VisibleArmySizes", (FieldParseFn)&INI::parseBitString32, g_00C39498, 0x58 },
+	{ "Clickable", (FieldParseFn)&INI::parseBool, 0, 0x5C },
+	{ "DisplayAtRallyPoint", (FieldParseFn)&INI::parseBool, 0, 0x5D },
+	{ "ShowOnlyAfterMoveOrder", (FieldParseFn)&INI::parseBool, 0, 0x5E },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva0056B668Parse(INI *ini, void *instance, void *store, const void *userData)
 {
