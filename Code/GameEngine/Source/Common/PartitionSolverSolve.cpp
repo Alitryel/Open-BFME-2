@@ -60,6 +60,8 @@ template<> inline void vector<BfmeE8>::_M_insert_overflow(
 }
 }
 struct BfmePod8 { int a[2]; };
+// erase(first, last) is retail's __copy_ptrs body (stlport_pod_vector_malloc_bodies.cpp); bind to it.
+namespace _STL { template <> BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *, BfmePod8 *); }
 typedef _STL::vector<BfmeE8, _STL::allocator<BfmeE8> > SolverStorage;
 typedef _STL::vector<BfmePod8, _STL::allocator<BfmePod8> > SolverEraseStorage;
 bool Rva00566EDDCompareSecondWords(PairObjectIDAndUInt,PairObjectIDAndUInt);
