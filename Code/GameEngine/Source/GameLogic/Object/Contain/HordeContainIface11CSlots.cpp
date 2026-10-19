@@ -1290,6 +1290,7 @@ public:
 	virtual void startMeleeAttack(Object *target);
 	virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup);
 	virtual bool rva0046EA94(Object *obj);
+	virtual void rva0046C4C0();
 	virtual float rva0046B850();
 	virtual void rva0046D1F7(_STL::list<const Object *> &out);
 	virtual void rva0046E253();
@@ -2350,6 +2351,65 @@ void HordeContain::rva0046ECDE(const Coord3D *a1, const Coord3D *a2, int a3, Pat
 			}
 			((Rva0046E6EA *)(UpdateModule *)this)->rva0046E6EA((Rva0046E6EAObject *)obj, (const Rva0046E6EACoord *)&pos, (Rva0046E6EACoord *)*(Object *volatile *)&self, false);
 			ai->moveThroughPortalWithMicropath(a1, a2, a3, layer, &dest, &pos);
+		}
+	}
+}
+
+// The model-condition flag set at Object +0x10C (591 bits), with the
+// ClearBit WB's Object::clearModelConditionState inlines.
+template <> class BitFlags<591>
+{
+public:
+	void clear(int bit) { m_bits[bit >> 5] &= ~(1U << (bit & 31)); }
+private:
+	unsigned int m_bits[19];
+};
+// Object::clearModelConditionState (Object.h), inlined as in WB: when the flag
+// is up, clear it and notify the drawable (rowed 0x0028AE6D).
+static __forceinline void clearModelConditionState(Object *obj, ModelConditionFlagType flag)
+{
+	if (obj->testCondition(flag))
+	{
+		((BitFlags<591> *)obj->m_conditionWords)->clear(flag);
+		obj->rva0028AE6D();
+	}
+}
+
+// ?rva0046C4C0@HordeContain@@UAEXXZ
+// Retail 0x0046C4C0 (279 bytes), slot 55 of the +0x11C interface. Follows its
+// WorldBuilder twin 0x010C3E30: stores our AI's rowed rva00260DED at +0x19C,
+// then for every contained Object and every live Object of a +0x170 key that
+// the rowed Object rva00290FBB accepts: unless its AI is moving, clears model
+// condition 61 when +0x110 bit 29 is up, then hands it to primary slot 32.
+void HordeContain::rva0046C4C0()
+{
+	m_19C = getObject()->m_ai->rva00260DED();
+	Rva0046247DPair p;
+	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(p);
+	for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); ++it)
+	{
+		Object *obj = *it;
+		if (obj)
+		{
+			if (obj->rva00290FBB())
+			{
+				if (!obj->m_ai->isMoving() && obj->test110(29))
+					clearModelConditionState(obj, (ModelConditionFlagType)61);
+				slot32(obj);
+			}
+		}
+	}
+	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+	{
+		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
+		if (obj)
+		{
+			if (obj->rva00290FBB())
+			{
+				if (!obj->m_ai->isMoving() && obj->test110(29))
+					clearModelConditionState(obj, (ModelConditionFlagType)61);
+				slot32(obj);
+			}
 		}
 	}
 }
