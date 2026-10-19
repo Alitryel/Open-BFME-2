@@ -1,11 +1,13 @@
 // cl: /O1 /GX /DNDEBUG /MD
-// Heap factories in this unit: 66B @0x005D4FBA and 64B @0x005EC832.
+// Heap factories in this unit: 66B @0x005D4FBA (the Rva005D4FFC ctor) and 64B @0x005EC832.
 // Each allocates its product, stores it at +0, and returns the owner.
 // Operator new and __EH_prolog resolve via their rows; the product ctors
 // are declared-only at the addresses established by each retail REL32.
 
-class Rva005D4FBAOwner;
+class AsciiString;
 
+// The product's ctor 0x005D4EA8 is pinned as (int, int); its second argument is
+// the path reference this ctor forwards.
 class Rva005D4EA8
 {
 public:
@@ -15,19 +17,20 @@ private:
 	char m_pad[0x10];
 };
 
-class Rva005D4FBAOwner
+// 0x005D4FBA is a constructor: AptWotrPanelCallbacks.cpp builds its panel frame
+// with `new Rva005D4FFC(level, path)` and retail calls this body there.
+class Rva005D4FFC
 {
 public:
-	Rva005D4FBAOwner *rva005D4FBA(int x, int y);
+	Rva005D4FFC(int level, const AsciiString &path);
 
 private:
 	Rva005D4EA8 *m_product;
 };
 
-Rva005D4FBAOwner *Rva005D4FBAOwner::rva005D4FBA(int x, int y)
+Rva005D4FFC::Rva005D4FFC(int level, const AsciiString &path)
 {
-	m_product = new Rva005D4EA8(x, y);
-	return this;
+	m_product = new Rva005D4EA8(level, reinterpret_cast<int>(&path));
 }
 
 class Rva005EC832Owner;
