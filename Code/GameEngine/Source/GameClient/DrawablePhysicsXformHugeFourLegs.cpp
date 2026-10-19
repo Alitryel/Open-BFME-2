@@ -220,7 +220,7 @@ Real dx=frontX-backX,dy=frontY-backY;
 
 Real dist=(Real)sqrt(dx*dx+dy*dy);
 
-Real pitch=atan2f(back-front,dist);
+Real pitch=atan2(back-front,dist);
 
 m_locoInfo->m_pitchRate+=(-PITCH_STIFFNESS*(m_locoInfo->m_pitch-pitch))+(-PITCH_DAMPING*m_locoInfo->m_pitchRate);
 

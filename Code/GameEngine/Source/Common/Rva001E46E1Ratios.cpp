@@ -14,19 +14,16 @@
 //               clamp it to [0, worker]
 // Retail compares with fcompi, which MSVC 7.1 emits only under /arch:SSE.
 // The other member names are unknown, hence address-derived.
-// LINK: hide math.h's inline atan2f (the MouseCursorDirection recipe): under
-// /Oi- this unit emitted an _atan2f copy that loses to the retail one
-// (Rva000422A0's adapter shape); the bodies call _atan2f out of line, so the
-// calls keep their bytes and bind the kept copy. The float trig calls below
+// Retail calls math.h's float atan2 overload 0x000422CD out of line; this unit's
+// math.h copies of it and of atan2f (0x000422A0) are retail's bodies.
+// The float trig calls below
 // spell cosf/sinf, which is what math.h's cos(float)/sin(float) return, so
 // the unit no longer emits those overloads (their retail copies are
 // fcos/fsin, not this /Oi- shape).
-#define atan2f bfme_hidden_atan2f
 #include <math.h>
-#undef atan2f
 #include "Lib/Coord3D.h"
 #include "matrix3d.h"
-extern "C" float atan2f(float,float);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 class Rva001E43CF {public: void rva001E43CF(void*);};
 class Object;
 class GameLogic;
@@ -563,7 +560,7 @@ void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,
         turnPos.y+=dir->y*turnPointOffset;
         float dx=goal->x-turnPos.x,dy=goal->y-turnPos.y;
         if(fabs(dx)<0.1f && fabs(dy)<0.1f)return;
-        float amount=normalizeAngle(atan2f(dy,dx)-angle);
+        float amount=normalizeAngle(atan2(dy,dx)-angle);
         if(value.output)*value.output=amount;
         if(amount>0.0f) {
             if(amount>m_data->m_3C)m_A8=1;
@@ -586,7 +583,7 @@ void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,
         turnPos.x+=dir->x*turnPointOffset;turnPos.y+=dir->y*turnPointOffset;
         float dx=goal->x-turnPos.x,dy=goal->y-turnPos.y;
         if(fabs(dx)<0.1f && fabs(dy)<0.1f)return;
-        float amount=normalizeAngle(atan2f(dy,dx)-angle);
+        float amount=normalizeAngle(atan2(dy,dx)-angle);
         if(value.output)*value.output=amount;
         if(amount>0.0f){if(amount>turnRate)m_A8=1;if(amount>maxTurnRate)amount=maxTurnRate;}
         else {if(amount< -turnRate)m_A8=-1;if(amount< -maxTurnRate)amount=-maxTurnRate;}

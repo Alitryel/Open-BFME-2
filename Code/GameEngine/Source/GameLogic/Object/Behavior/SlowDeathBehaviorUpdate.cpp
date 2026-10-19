@@ -210,7 +210,7 @@ public:
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 void calcRandomForceRva0045D636(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D *force);
 // Logic frames per second.
 extern int BfmeLogicFramesPerSecond;
@@ -831,7 +831,7 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 				calcRandomForceRva0045D636(d->m_flingForce, d->m_flingForce + d->m_flingForceVariance,
 					d->m_flingPitch, d->m_flingPitch + d->m_flingPitchVariance, &force);
 				((Rva003909FAObj *)physics)->consume(&force, 0, 0);
-				Real orientation = atan2f(force.y, force.x);
+				Real orientation = atan2(force.y, force.x);
 				obj->setOrientation(orientation);
 				obj->setModelConditionState(MODELCONDITION_EXPLODED_FLAILING);
 				m_flags |= (1 << FLUNG_INTO_AIR);

@@ -2,19 +2,20 @@
 // BF1 ToppleUpdateApplyTopplingForce.cpp9cbfb551 and ZH ToppleUpdate.cpp
 // guide purpose/control flow; target4A83D7..4A86E7 supplies784B and all
 // BFME2 layouts/model masks. Target ctor4A8201/xfer4A86E7 prove58B module.
-// Keep MSVC's float math overloads local. Retail calls the external atan2f
-// provider, so give only the header's unused inline helper a private name.
+// Keep MSVC's float math overloads local. Retail calls math.h's external float
+// atan2 overload (0x000422CD), so give the header's copies a private name.
 #define inline static inline
-#define atan2f toppleInlineAtan2f
+#define atan2 toppleInlineAtan2
 #include <math.h>
-#undef atan2f
+#undef atan2
 #undef inline
+extern "C" double __cdecl atan2(double, double);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 #include "ascii_string.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../../reference/shims/bfme_matrix3d_copy_link/matrix3d_copy_link.h"
 #pragma function(memset)
 extern "C" void *memset(void *,int,unsigned);
-extern "C" float atan2f(float,float);
 float normalizeAngle(float);float Cos(float);float Sin(float);
 static const float PI=3.14159265359f;
 static const float ANGULAR_LIMIT=PI/2-PI/64;
@@ -77,7 +78,7 @@ void ToppleUpdate::applyTopplingForce(const Coord3D *toppleDirection,float toppl
  ClientUpdateModule **modules=draw->modules;
  if(modules){while(*modules){if((*modules)->getModuleNameKey()==sway)(*modules)->sway=0;++modules;}}
  float currentAngle=normalizeAngle(object->angle);
- float toppleAngle=normalizeAngle(atan2f(direction.y,direction.x));
+ float toppleAngle=normalizeAngle(atan2(direction.y,direction.x));
  if(d->leftRight){toppleAngle=angleClosestTo(currentAngle+PI/2,currentAngle-PI/2,toppleAngle);direction.x=Cos(toppleAngle);direction.y=Sin(toppleAngle);TheAI->pathfinder->RemoveObjectFromPathfindMap(object);}
  float desiredAngle=angleClosestTo(toppleAngle+PI/2,toppleAngle-PI/2,currentAngle);
  countDelta=REAL_TO_INT_FLOOR(ANGULAR_LIMIT/(velocity*(float)2));

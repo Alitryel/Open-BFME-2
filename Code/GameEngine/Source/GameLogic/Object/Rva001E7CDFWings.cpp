@@ -7,7 +7,7 @@
 class Thing { public: bool isAboveTerrain() const; };
 class Object;
 int __cdecl Rva001E3896Check(float);
-extern "C" float __cdecl atan2f(float,float);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 float Cos(float); float Sin(float);
 struct Rva001E3F08Arg;
 class Rva001E3F08 { public: float rva001E3F08(Rva001E3F08Arg *); };
@@ -30,7 +30,7 @@ void Locomotor::maintainCurrentPositionWings(Object *obj) {
   WingsObjectView *object=(WingsObjectView *)obj;
   float dx=maintainPos.x-object->getPosition()->x;
   float dy=maintainPos.y-object->getPosition()->y;
-  float angle=((unsigned char)Rva001E3896Check(dx) && (unsigned char)Rva001E3896Check(dy)) ? object->getOrientation() : atan2f(dy,dx);
+  float angle=((unsigned char)Rva001E3896Check(dx) && (unsigned char)Rva001E3896Check(dy)) ? object->getOrientation() : atan2(dy,dx);
   float aimDir=(3.14159265358979323846f-3.14159265358979323846f/8);
   if(radius<0) { radius=-radius;aimDir=-aimDir; }
   angle+=aimDir;

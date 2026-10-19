@@ -35,7 +35,7 @@ private:
 extern GameLogic *TheGameLogic;
 struct DamageInput { char pad0[8]; ObjectID source; char pad0C[0x1C-0x0C]; int deathType; float amount; };
 class DamageInfo { public: DamageInput in; };
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 extern "C" double __cdecl fabs(double x);
 float normalizeAngle(float a);
 
@@ -89,7 +89,7 @@ bool DieMuxData::isDieApplicable(const Object *obj, const DamageInfo *damageInfo
   Coord3D direction;
   obj->getPlanarDirectionTo(&direction, source);
   float orientation = obj->getOrientation();
-  float sourceAngle = atan2f(direction.y, direction.x);
+  float sourceAngle = atan2(direction.y, direction.x);
   float angle = normalizeAngle(orientation - sourceAngle);
   float midpoint = (*(const volatile float*)&m_angleMax + m_angleMin) * 0.5f;
   float halfRange = m_angleMax - midpoint;

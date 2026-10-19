@@ -57,7 +57,7 @@ public:
 	Real X, Y, Z;
 };
 
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 Real Cos(Real x);
 Real Sin(Real x);
 Real GetGameLogicRandomValueReal(Real lo, Real hi, char *file, Int line);
@@ -196,7 +196,7 @@ Coord3D WeaponTemplate::bfmeCalcScatterTargetPos(const Object *source, const Obj
 		Vector3 dir(source->getPosition()->x - victim->getPosition()->x,
 			source->getPosition()->y - victim->getPosition()->y, 0.0f);
 		dir.Normalize();
-		Real dirAngle = atan2f(dir.Y, dir.X);
+		Real dirAngle = atan2(dir.Y, dir.X);
 		angle = GetGameLogicRandomValueReal(dirAngle - 1.5707964f, dirAngle + 1.5707964f, WEAPON_CPP, 0x667);
 	}
 	else

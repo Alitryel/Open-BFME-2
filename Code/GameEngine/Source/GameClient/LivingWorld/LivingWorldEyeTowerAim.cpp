@@ -10,16 +10,9 @@
 // No assembly, new pins or invented original method identity.
 #include "Coord3D.h"
 
-// Keep MSVC's float overloads local. Retail calls the external atan2f adapter;
-// give only the header's unused inline helper a private name.
-#pragma push_macro("inline")
-#pragma push_macro("atan2f")
-#define inline static inline
-#define atan2f eyeTowerInlineAtan2f
+// Retail calls math.h's float atan2 overload (0x000422CD) out of line.
 #include <math.h>
-#pragma pop_macro("atan2f")
-#pragma pop_macro("inline")
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 
 class Rva003F962FVector3
 {
@@ -173,7 +166,7 @@ void LivingWorldEyeTower::rva003F962F()
 		dir.z = 0.0f;
 		len = dir.length();
 	}
-	float pitch = atan2f(-z, len);
+	float pitch = atan2(-z, len);
 	Matrix3 m(true);
 	m.Rotate_YAccumulated(pitch);
 	float yaw;
@@ -182,14 +175,14 @@ void LivingWorldEyeTower::rva003F962F()
 		delta.x -= m_target.x;
 		delta.y -= m_target.y;
 		delta.z -= m_target.z;
-		yaw = atan2f(delta.x, -delta.y);
+		yaw = atan2(delta.x, -delta.y);
 	}
 	yaw -= 1.5707964f;
 	Matrix3 rz = Create_Z_Rotation_Matrix3(yaw);
 	Matrix3 res;
 	Matrix3::Multiply(rz, m, &res);
 	rva003F935A(m_firstHost, &res);
-	pitch = atan2f(z, len);
+	pitch = atan2(z, len);
 	m = Matrix3::Identity;
 	m.Rotate_Y(pitch);
 	yaw -= 3.1415927f;

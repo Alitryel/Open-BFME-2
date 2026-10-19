@@ -24,12 +24,9 @@
 // which loads all three components before the differences are stored.
 
 #include "Lib/Region3D.h"
-// math.h's x86 plain-inline atan2f would emit a TU-local _atan2f COMDAT that
-// loses to the retail home copy (Rva000422A0.cpp owns _atan2f, 0x000422CD).
-// Rename it away so the out-of-line calls bind the home copy.
-#define atan2f bfmeMathUnusedAtan2f
+// Retail calls math.h's float atan2 overload 0x000422CD out of line; this unit's
+// math.h copies of it and of atan2f (0x000422A0) are retail's bodies.
 #include <math.h>
-#undef atan2f
 
 typedef float Real;
 typedef int Int;
@@ -55,7 +52,7 @@ inline void Coord3D::normalize()
 	}
 }
 
-extern "C" float __cdecl atan2f(float, float);	///< retail 0x000422CD
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 Real Cos(Real);									///< retail 0x0002FBC0
 Real Sin(Real);									///< retail 0x0002FBB0
 
@@ -230,7 +227,7 @@ Bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 		if (source->isAboveTerrain())
 		{
 			// Don't do a 180 degree turn.
-			Real angle = atan2f(-dir.y, -dir.x);
+			Real angle = atan2(-dir.y, -dir.x);
 			Real relAngle = source->getOrientation() - angle;
 			if (relAngle > 2*PI) relAngle -= 2*PI;
 			if (relAngle < -2*PI) relAngle += 2*PI;
@@ -243,7 +240,7 @@ Bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 
 		if (angleOffset != 0.0f)
 		{
-			Real angle = atan2f(dir.y, dir.x);
+			Real angle = atan2(dir.y, dir.x);
 			dir.x = Cos(angle + angleOffset);
 			dir.y = Sin(angle + angleOffset);
 		}
@@ -282,7 +279,7 @@ Bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 
 	if (angleOffset != 0.0f)
 	{
-		Real angle = atan2f(dir.y, dir.x);
+		Real angle = atan2(dir.y, dir.x);
 		dir.x = Cos(angle + angleOffset);
 		dir.y = Sin(angle + angleOffset);
 	}

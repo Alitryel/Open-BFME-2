@@ -39427,7 +39427,7 @@ uw_0076443a,,0x0076443A,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DD
 ?rva000421FD@Rva000421FD@@QAEXXZ,,0x000421FD,21,Code/GameEngine/Source/Common/Rva000421FD.cpp,matched,unlock counter with setFPMode for 2 callers
 ?rva0004224C@Rva0004224C@@QAEPAV1@XZ,,0x0004224C,22,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayGatherAnimationDebuggingInfo.cpp,matched,chain calls 421FD returns this
 ?Rva000422A0Atan2@@YANMM@Z,,0x000422A0,27,Code/GameEngine/Source/Common/Rva000422A0.cpp,matched,unlock float atan2 adapter for atan2f
-_atan2f,,0x000422CD,25,Code/GameEngine/Source/Common/Rva000422A0.cpp,matched,chain atan2f wrapper calls 422A0
+?atan2@@YAMMM@Z,,0x000422CD,25,Code/GameEngine/Source/Common/Rva000422A0.cpp,matched,math.h float atan2(float x) overload calling the atan2f body 422A0; byte-identical to the overload Weapon.cpp and JetAIUpdate.cpp compile; 35 retail call sites
 ?rva000425CB@Rva000425CB@@QAEMXZ,,0x000425CB,58,Code/GameEngine/Source/Common/Rva000425CB.cpp,matched,unlock virtual gate unsigned division
 ?rva00042605@Rva000425CB@@QAEMXZ,,0x00042605,58,Code/GameEngine/Source/Common/Rva000425CB.cpp,matched,unlock sibling division uses 0x10 0x18
 ?Rva000422BBCeil@@YANM@Z,,0x000422BB,18,Code/GameEngine/Source/Common/Rva000422A0.cpp,matched,gap ceil adapter between 422A0 and atan2f

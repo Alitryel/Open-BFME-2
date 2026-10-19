@@ -11,7 +11,7 @@
 // [slopeMin, slopeMax] or *slopeIn is cleared. Both flags start true.
 // The debug body shows the float CRT overloads: the atan2 result and the fabs
 // argument and result pass through float, and RAD_TO_DEGF multiplies by 180
-// and divides by WWMATH_PI. Retail calls the statically linked _atan2f
+// and divides by WWMATH_PI. Retail calls math.h's float atan2 overload
 // (0x000422CD) and the double fabs (0x00629210); the float fabs overload is
 // MSVC 7.1 <math.h>'s, kept TU-local like the getHeightMapHeight sibling's
 // float CRT wrapper.
@@ -21,7 +21,7 @@ typedef int Int;
 typedef float Real;
 typedef bool Bool;
 
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 extern "C" double __cdecl fabs(double x);
 inline float __cdecl fabs(float _X) { return ((float)fabs((double)_X)); }
 
@@ -63,8 +63,8 @@ void BaseHeightMapRenderObjClass::CheckCorners(Int x, Int y, Int heightMax, Int 
 	Int height = (Int)getHeightMapHeight(px, py, &normal);
 	if (height < heightMin || height > heightMax)
 		*heightIn = false;
-	Real slopeX = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.x)));
-	Real slopeY = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.y)));
+	Real slopeX = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.x)));
+	Real slopeY = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.y)));
 	if (slopeMin > slopeX || slopeX > slopeMax || slopeMin > slopeY || slopeY > slopeMax)
 		*slopeIn = false;
 
@@ -73,8 +73,8 @@ void BaseHeightMapRenderObjClass::CheckCorners(Int x, Int y, Int heightMax, Int 
 	height = (Int)getHeightMapHeight(px2, py, &normal);
 	if (height < heightMin || height > heightMax)
 		*heightIn = false;
-	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.x)));
-	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.y)));
+	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.x)));
+	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.y)));
 	if (slopeMin > slopeX || slopeX > slopeMax || slopeMin > slopeY || slopeY > slopeMax)
 		*slopeIn = false;
 
@@ -83,16 +83,16 @@ void BaseHeightMapRenderObjClass::CheckCorners(Int x, Int y, Int heightMax, Int 
 	height = (Int)getHeightMapHeight(px2, py2, &normal);
 	if (height < heightMin || height > heightMax)
 		*heightIn = false;
-	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.x)));
-	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.y)));
+	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.x)));
+	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.y)));
 	if (slopeMin > slopeX || slopeX > slopeMax || slopeMin > slopeY || slopeY > slopeMax)
 		*slopeIn = false;
 
 	height = (Int)getHeightMapHeight(px, py2, &normal);
 	if (height < heightMin || height > heightMax)
 		*heightIn = false;
-	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.x)));
-	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2f(normal.z, normal.y)));
+	slopeX = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.x)));
+	slopeY = fabs(90.0f - RAD_TO_DEGF(atan2(normal.z, normal.y)));
 	if (slopeMin > slopeX || slopeX > slopeMax || slopeMin > slopeY || slopeY > slopeMax)
 		*slopeIn = false;
 }

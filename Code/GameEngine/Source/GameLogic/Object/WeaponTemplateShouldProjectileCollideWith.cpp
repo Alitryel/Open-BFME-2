@@ -100,7 +100,7 @@ enum WeaponCollideMaskType
 class Player;
 class Object;
 class FXList;
-extern "C" float atan2f(float, float);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 float GetGameLogicRandomValueReal(float, float, char *, int);
 class Drawable
 {
@@ -698,7 +698,7 @@ void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word
         float heading;
         if(pitch != 0.f)
         {
-            heading=(victim ? (atan2f(position->y - source->pos.y, position->x - source->pos.x)) : (atan2f(position->y - source->pos.y, position->x - source->pos.x)));
+            heading=(victim ? (atan2(position->y - source->pos.y, position->x - source->pos.x)) : (atan2(position->y - source->pos.y, position->x - source->pos.x)));
         }
         else
             heading=0.f;

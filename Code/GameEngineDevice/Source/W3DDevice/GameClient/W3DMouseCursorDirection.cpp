@@ -12,14 +12,11 @@
 // indexes cursorResources with. m_currentCursor is +0x4FA4 as in
 // Mouse::setCursor 0x001EEFD2.
 
-// math.h's x86 plain-inline float wrappers would emit a TU-local _atan2f
-// COMDAT that loses to the retail home copy (Rva000422A0 owns _atan2f).
-// Rename it away so this TU's out-of-line call binds the home copy.
-#define atan2f bfmeMathUnusedAtan2f
+// Retail calls math.h's float atan2 overload 0x000422CD out of line; this unit's
+// math.h copies of it and of atan2f (0x000422A0) are retail's bodies.
 #include <math.h>
-#undef atan2f
 
-extern "C" float __cdecl atan2f( float y, float x );
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 
 typedef int Int;
 typedef float Real;
@@ -100,7 +97,7 @@ void W3DMouse::setCursorDirection(MouseCursor cursor)
 		if (offset.x || offset.y)
 		{
 			offset.normalize();
-			Real theta = atan2f(offset.y, offset.x);
+			Real theta = atan2(offset.y, offset.x);
 			theta = fmod(theta+M_PI*2,M_PI*2);
 			Int numDirections=m_cursorInfo[m_currentCursor].numDirections;
 			//Figure out which of our predrawn cursor orientations best matches the

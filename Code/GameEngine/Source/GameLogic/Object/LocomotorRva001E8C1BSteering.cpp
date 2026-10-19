@@ -25,7 +25,7 @@ extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 
 struct SteeringCoord:Coord3D { SteeringCoord(){} void copy(const Coord3D&r){x=r.x;y=r.y;z=r.z;} SteeringCoord(const Coord3D&r){copy(r);} void subtract(const Coord3D&r){x-=r.x;y-=r.y;z-=r.z;} };
-extern "C" float __cdecl atan2f(float y, float x);
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 #include <math.h>
 Real normalizeAngle(Real angle);
 Real Cos(Real angle);
@@ -131,7 +131,7 @@ void Rva001E8C1B::rva001E8C1B(int objArg, int goalArg, Real onPathDistToGoal, Re
 
 	Real angle = obj->m_orientation;
 	SteeringCoord target;
- Real desiredAngle = atan2f(goalPos->y - obj->m_pos.y, goalPos->x - obj->m_pos.x);
+ Real desiredAngle = atan2(goalPos->y - obj->m_pos.y, goalPos->x - obj->m_pos.x);
 	Real relAngle = normalizeAngle(desiredAngle - angle);
 
 	Bool reverse = m_template->m_canReverse != 0;

@@ -119,7 +119,7 @@ public:
 
 extern "C" double __cdecl cos( double x );
 extern "C" double __cdecl sin( double x );
-extern "C" float __cdecl atan2f( float y, float x );
+float __cdecl atan2(float y, float x);	// math.h's float overload, retail 0x000422CD
 inline float __cdecl cosf( float _X ) { return ((float)cos((double)_X)); }
 inline float __cdecl sinf( float _X ) { return ((float)sin((double)_X)); }
 
@@ -867,7 +867,7 @@ void W3DMouse::draw(void)
 					Coord2D offset;
 					copyScroll(offset, TheInGameUI->getScrollAmount());
 					offset.normalize();
-					Real theta = atan2f(-offset.y, offset.x);
+					Real theta = atan2(-offset.y, offset.x);
 					theta -= (Real)M_PI/2;
 					tm.Rotate_Z(theta);
 				}
