@@ -127,7 +127,7 @@ public:
 };
 class Rva002C589B;
 class AITargetChooser { public: void xfer(Xfer *); void rva00505911(); Rva002C589B *getBestTarget(); };
-class Rva00506909
+class AITacticsGenerator
 {
 public:
     void DoXfer(Xfer *);
@@ -153,7 +153,7 @@ private:
     char prefix00[8];
     Player *player;
     AITargetChooser *chooser;
-    Rva00506909 *generator;
+    AITacticsGenerator *generator;
     Rva002C589B *target;
     Rva002C589B *fallback;
     Rva00506A52 *tail;

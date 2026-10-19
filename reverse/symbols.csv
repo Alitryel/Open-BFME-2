@@ -1486,7 +1486,7 @@ name,address,notes
 ??0?$_Vector_base@PAUBfmeExpLevelDraw@@V?$allocator@PAUBfmeExpLevelDraw@@@_STL@@@_STL@@QAE@ABV?$allocator@PAUBfmeExpLevelDraw@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor (same 29B as matched BfmeE16 row); BannerCarrierUpdateModuleData TU vector<BfmeExpLevelDraw*> member; bodies identical
 ??0?$_Vector_base@PAUBfmeMorphCondition@@V?$allocator@PAUBfmeMorphCondition@@@_STL@@@_STL@@QAE@ABV?$allocator@PAUBfmeMorphCondition@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor (same 29B as matched BfmeE16 row); BannerCarrierUpdateModuleData TU vector<BfmeMorphCondition*> member; bodies identical
 ??0?$_Vector_base@PAURva0050542BOther@@V?$allocator@PAURva0050542BOther@@@_STL@@@_STL@@QAE@ABV?$allocator@PAURva0050542BOther@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor; REL32 at 0x0050545D for the +0x14 vector in the Rva0050542B ctor
-??0?$_Vector_base@PAURva00506909Gen@@V?$allocator@PAURva00506909Gen@@@_STL@@@_STL@@QAE@ABV?$allocator@PAURva00506909Gen@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor; REL32 at 0x00506926 for the +0x04 vector in the Rva00506909 ctor
+??0?$_Vector_base@PAURva00506909Gen@@V?$allocator@PAURva00506909Gen@@@_STL@@@_STL@@QAE@ABV?$allocator@PAURva00506909Gen@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor; REL32 at 0x00506926 for the +0x04 vector in the AITacticsGenerator ctor
 ??0?$_Vector_base@PAVChainVictim005C92F0@@V?$allocator@PAVChainVictim005C92F0@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVChainVictim005C92F0@@@1@@Z,0x00211E58,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0?$_Vector_base@PAVCrateTemplate@@V?$allocator@PAVCrateTemplate@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVCrateTemplate@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor called by the CrateSystem ctor 0x0035CAD6 for its template vector at +0x0C
 ??0?$_Vector_base@PAVMapMetaData@@V?$allocator@PAVMapMetaData@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVMapMetaData@@@1@@Z,0x00211E58,retail REL32 callee at 0x0030587F; vector<MapMetaData*> instantiation inferred from the caller and its 12-byte local; 29-byte empty vector-base body rowed at this address
@@ -9769,8 +9769,8 @@ name,address,notes
 ?push_back@?$list@VQueuedDownload@@V?$allocator@VQueuedDownload@@@_STL@@@_STL@@QAEXABVQueuedDownload@@@Z,0x005BD060,address read from the REL32 displacement at a placed body
 ?push_back@?$list@VRva004530ED@@V?$allocator@VRva004530ED@@@_STL@@@_STL@@QAEXABVRva004530ED@@@Z,0x00453B06,"STLport list push_back for the GettingBuiltBehavior work-list entry (end() by value then insert 0x00453AB8); slot 18 0x00453B20 calls it (REL32 at 0x00453B6F); body unrowed"
 ?push_back@?$vector@PAURva0050542BOther@@V?$allocator@PAURva0050542BOther@@@_STL@@@_STL@@QAEXABQAURva0050542BOther@@@Z,0x004DFCB0,pointer-vector push_back fold; REL32 at 0x0050568C
-?push_back@?$vector@PAURva00506909Gen@@V?$allocator@PAURva00506909Gen@@@_STL@@@_STL@@QAEXABQAURva00506909Gen@@@Z,0x004DFCB0,pointer-vector push_back fold; five REL32s in Rva00506909::rva00505E5D
-?push_back@?$vector@PAURva00506909Item@@V?$allocator@PAURva00506909Item@@@_STL@@@_STL@@QAEXABQAURva00506909Item@@@Z,0x004DFCB0,pointer-vector push_back fold; REL32s in the three Rva00506909 pickers (first at 0x0050622C)
+?push_back@?$vector@PAURva00506909Gen@@V?$allocator@PAURva00506909Gen@@@_STL@@@_STL@@QAEXABQAURva00506909Gen@@@Z,0x004DFCB0,pointer-vector push_back fold; five REL32s in AITacticsGenerator::rva00505E5D
+?push_back@?$vector@PAURva00506909Item@@V?$allocator@PAURva00506909Item@@@_STL@@@_STL@@QAEXABQAURva00506909Item@@@Z,0x004DFCB0,pointer-vector push_back fold; REL32s in the three AITacticsGenerator pickers (first at 0x0050622C)
 ?push_back@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAEXABQAVObject@@@Z,0x001F211B,callee of ?liveObjects@Rva0018BB10Roster@@QAEABV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@XZ at retail 0x004D6CF7 read from its REL32 displacement at call 0x004D6D2E; body unrowed
 ?push_back@?$vector@PAVRva00222CCB@@V?$allocator@PAVRva00222CCB@@@_STL@@@_STL@@QAEXABQAVRva00222CCB@@@Z,0x004DFCB0,pointer-vector push_back fold; REL32 at 0x002252B7 in rva00225299
 ?push_back@?$vector@PAVRva002C589B@@V?$allocator@PAVRva002C589B@@@_STL@@@_STL@@QAEXABQAVRva002C589B@@@Z,0x004DFCB0,pointer-vector push_back fold; REL32 at 0x005055BE
@@ -10684,13 +10684,13 @@ name,address,notes
 ?rva004FBB25@Rva004FBB25Sub@@QAEXH@Z,0x004FBB25,thiscall with 1 int arg; head null-guards then 0x4FB382 probe; Ghidra FUN_008fbb25 198B
 ?rva004FD37F@Rva004FD37F@@QAEXPBVModuleData@@@Z,0x004FD37F,"holder append reached by Rva004FD719Parse at 0x004FD719; abuts rowed Rva004FD448 0x004FD448"
 ?DoXfer@ControlPointBlock@@QAEXPAVXfer@@@Z,0x005045E0,address-derived callee of matched slot 0x003FD321; retail REL32 targets 0x005045E0; Ghidra FUN bounds 162 bytes; thiscall on the +0x0C member (Xfer*) ret 4; callee body remains unclaimed; no named identity inferred
-?rva00505E5D@Rva00506909@@AAEXXZ,0x00505E5D,first setup member called by the Rva00506909 ctor (REL32 at 0x00506989)
-?rva00505F80@Rva00506909@@AAEXXZ,0x00505F80,second setup member called by the Rva00506909 ctor (REL32 at 0x00506990)
-?rva00505FD0@Rva00506909@@AAEXXZ,0x00505FD0,third setup member called by the Rva00506909 ctor (REL32 at 0x00506997)
-?rva00506020@Rva00506909@@AAEXXZ,0x00506020,fourth setup member called by the Rva00506909 ctor (REL32 at 0x0050699E)
-?rva00506178@Rva00506909@@AAE_NPAURva00506909Request@@PAX@Z,0x00506178,kind 0 and 2 handler of Rva00506909::rva005069CE (REL32 at 0x00506A04)
-?rva00506265@Rva00506909@@AAE_NPAURva00506909Request@@PAX@Z,0x00506265,kind 1 handler of Rva00506909::rva005069CE (REL32 at 0x005069F8)
-?rva0050633B@Rva00506909@@AAE_NPAURva00506909Request@@PAX@Z,0x0050633B,kind 3 handler of Rva00506909::rva005069CE (REL32 at 0x005069EC)
+?rva00505E5D@AITacticsGenerator@@AAEXXZ,0x00505E5D,first setup member called by the AITacticsGenerator ctor (REL32 at 0x00506989)
+?rva00505F80@AITacticsGenerator@@AAEXXZ,0x00505F80,second setup member called by the AITacticsGenerator ctor (REL32 at 0x00506990)
+?rva00505FD0@AITacticsGenerator@@AAEXXZ,0x00505FD0,third setup member called by the AITacticsGenerator ctor (REL32 at 0x00506997)
+?rva00506020@AITacticsGenerator@@AAEXXZ,0x00506020,fourth setup member called by the AITacticsGenerator ctor (REL32 at 0x0050699E)
+?rva00506178@AITacticsGenerator@@AAE_NPAURva00506909Request@@PAX@Z,0x00506178,kind 0 and 2 handler of AITacticsGenerator::rva005069CE (REL32 at 0x00506A04)
+?rva00506265@AITacticsGenerator@@AAE_NPAURva00506909Request@@PAX@Z,0x00506265,kind 1 handler of AITacticsGenerator::rva005069CE (REL32 at 0x005069F8)
+?rva0050633B@AITacticsGenerator@@AAE_NPAURva00506909Request@@PAX@Z,0x0050633B,kind 3 handler of AITacticsGenerator::rva005069CE (REL32 at 0x005069EC)
 ?rva005075D6@Rva00508925@@QAEEHH@Z,0x005075D6,address-derived callee of matched slot 0x00508925; retail REL32 targets 0x005075D6; Ghidra FUN bounds 372 bytes; thiscall on the caller object two args ret 8; caller tests al; callee body remains unclaimed; no named identity inferred
 ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z,0x00508120,"Native nonvirtual member on same Made002CC5E1 receiver: REL32 at508523 in186B slot14 wrapper5084FC; helper boundary508120..5084FC988B RET20; reads weapon+8 target viaECX2615E3 DamageInfo thirdarg bool fourtharg and coordinate-pointer fiftharg; original method name unknown."
 ?rva00511CE6@AptMessenger@@QAEXXZ,0x00511CE6,unrowed thiscall (Ghidra FUN_00911CE6; plain ret) on the messenger screen; REL32 read in the AptMessenger::OnBttn_0/OnBttn_1 callbacks (0x005AEF16/0x005AEF32) with ECX=this; address name
@@ -11957,7 +11957,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?QuickDoesPathExist@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@1H@Z,0x002F477E,"TheAI +0x10 (the pathfinder) member: ret 0x10 with (object, from, to, 0) returning a bool path test; REL32 in ScriptConditions 0x003E5D7F (the unit, its position, the found object's position, 0) and in ActionManager 0x0041C9F0; identity not recovered"
 ?GetHordeUnitPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@@Z,0x002F6075,"TheAI +0x10 (the pathfinder) member (owner, destination) returning the Path stored at AIUpdate+0x140; REL32 in AIUpdate slot 139 0x00264154; identity not recovered"
 ?switchToContext@ControlBar@@QAEXHPAX@Z,0x0031BF64,ControlBar context switch callee of reset at 0x0031E09E; honest address-derived name
-?disband@Team@@QAEXXZ,0x0039E9E0,fallback when no item claims the unit; REL32 at 0x00505A43 in Rva00506909::rva005059A1; WB Team::disband: retail body calls rowed Team::transferUnitsTo 0x0039E660 as WB's does
+?disband@Team@@QAEXXZ,0x0039E9E0,fallback when no item claims the unit; REL32 at 0x00505A43 in AITacticsGenerator::rva005059A1; WB Team::disband: retail body calls rowed Team::transferUnitsTo 0x0039E660 as WB's does
 ?rva0043DC40@AptMpGameSetup@@QAEXH@Z,0x0043DC40,unrowed 53B thiscall (ret 4) on the MpGameSetup panel picking the games list sort column (+0x3AC; same column again moves to the next value and the old one is kept at +0x3B0); called by the OnSortName/OnSortPlayers/OnSortIcons callbacks 0x0043DC77/81/8B with 0/2/4; address name
 ?rva0043DF22@AptMpGameSetup@@QAEIXZ,0x0043DF22,unrowed thiscall on the LAN lobby MpGameSetup panel counting accepted seated humans (banked near miss); the countdown 0x0044130E compares it unsigned with +0x3A8; address name
 ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z,0x0043F244,unrowed 575B thiscall (Ghidra FUN_0083f244; ret 8; second argument tested as a byte) on the LAN lobby MpGameSetup panel; 0x004427D8 calls it with the slot and 0; address name
@@ -11972,7 +11972,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva00442C9C@AptMpGameSetup@@QAE_NXZ,0x00442C9C,unrowed 23B thiscall (Ghidra FUN_00842c9c; returns al; false unless +0x7C or +0x394 is set then tail-jumps to 0x00442BCC) on the LAN lobby MpGameSetup panel; called from 0x00442FA7 and 0x004467C7; address name
 ?rva00443538@AptMpGameSetup@@QAEXH@Z,0x00443538,unrowed 1723B thiscall (Ghidra FUN_00843538; ret 4; argument tested as a flag mask e.g. 0x40) on the LAN lobby MpGameSetup panel; called from 0x00443C14 with 0x1B; address name
 ?rva0057B16D@ChecklistUIImpl@StrategicHUD@@QAEXXZ,0x0057B16D,unrowed 170B thiscall (Ghidra FUN_0097b16d) on the WOTR panel built by 0x0057B5AA; REL32 read at its _OnScrollBarLoaded 0x0057B595 with ECX=the panel; address name
-?allowOffensiveTactic@AIDifficulty@@QAE_NPAVRva002A9BF2@@@Z,0x0058AFB3,accept test on the object 0x0058AEB6 returns; REL32 at 0x00506193 in Rva00506909::rva00506178
+?allowOffensiveTactic@AIDifficulty@@QAE_NPAVRva002A9BF2@@@Z,0x0058AFB3,accept test on the object 0x0058AEB6 returns; REL32 at 0x00506193 in AITacticsGenerator::rva00506178
 ?rva00599870@AIDozerManager@@QAEPAXABUCoord3D@@H@Z,0x00599870,owner-record +0x140 object list: entry near a point; REL32 at 0x005AC079 in the StructureCreep slot 1
 ?SetupMovieClipRegionBonuses@Impl@RegionAwardDialog@StrategicInGameUI@@QAEXXZ,0x005D1527,address-derived thiscall helper on the same object as 0x005D17B2; Ghidra FUN_009d1527 is 651B and ends at 0x005D17B2; call at 0x005D182A passes ECX=this with no stack arguments; original identity unknown
 ?unlinkChain@CollisionManagerImpl@@QAEXPAVRva009A36F0Thing@@@Z,0x00759220,BFME1 Rva009A36F0Owner donor unlinker; sole E8 caller is apply at 0x007592E0
@@ -12168,7 +12168,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva002B7BBB@Rva002B5B55@@QAEXXZ,0x002B7BBB,alias pin: same body as ?processArmyDestroyList@LivingWorldLogic@@QAEXXZ (both trees claimed this address; upstream_squash kept one row and pins this name here so its callers resolve)
 ?searchListForRadarLocationMatch@Radar@@QAEPAVObject@@PAVRadarObject@@PAUICoord2D@@@Z,0x002D78A4,callee pin carried for RadarRva002D834E.cpp: identity from the solo fork Radar.cpp row (held back with Radar.cpp); upstream rows the address as placeholder rva002D78A4
 ?isQuickPathAvailable@AIUpdateInterface@@QBE_NPBUCoord3D@@@Z,0x00264274,callee pin carried for Rva0029DE76Method.cpp: identity from the solo fork AIUpdateInterface_isQuickPathAvailable.cpp row (held back); upstream rows the address as placeholder rva00264274
-??0AITacticsGenerator@@QAE@PAX@Z,0x00506909,callee pin carried for Rva002C60E4Ctor.cpp: identity from the solo fork AITacticsGenerator.cpp row (held back); upstream rows the address as placeholder Rva00506909
 ?postInit@AIBaseBuilder@@QAEXXZ,0x00507522,callee pin carried for Rva004EBF93Refresh.cpp: identity from the solo fork Rva00506B74Tactic.cpp row (held back); upstream rows the address as placeholder rva00507522
 ?amIHost@LANGameInfo@@QBE_NXZ,0x004477C7,callee pin carried for the AptLanLobby callers: identity from the solo fork LANGameInfoSlots.cpp row (held back); upstream rows the address as placeholder rva004477C7
 ?rva0050722A@AIBaseBuilder@@QAEXPAUCoord3D@@@Z,0x0050722A,callee pin carried for AISimpleExpansionTactic.cpp: class spelling from the solo fork Rva00506B74Tactic.cpp row (held back); upstream rows the address under placeholder class Rva00506B74
@@ -13705,8 +13704,8 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?rva004F571B@TunnelTracker@@QAE_NPAVObject@@@Z,0x004F571B,callee of ?rva0047DF81@TunnelContain@@QAEXXZ
 ?rva0029041B@Object@@QAEXPAVPlayer@@@Z,0x0029041B,REL32 at GameLogic::selectObject 0x0023C9E2 (object plus each player); sibling of rva00290496: when that player controls the object it sets +0x120 bit 0x400 and calls 0x0028AE6D then notifies the +0x250 contain slot 53
 ?rva0039B315@ExperienceTracker@@QAEXM_N000@Z,0x0039B315,"grant member of the tracker at Object +0x264: float amount then 1 1 1 0 (beside ExperienceTracker xfer 0x0039AFC8); REL32 in LevelGrantSpecialPower 0x004C2BA3; fifth parameter is bool (the body stores a byte to it at 0x0039B341)"
-?NotifyTeamCreated@AITactic@@QAEXPAVTeam@@@Z,0x004ED6D2,item takes the unit; REL32 at 0x00505A4F in Rva00506909::rva005059A1; WB AITactic::NotifyTeamCreated (callee 0x004ECDA7 agrees)
-?preUpdate@AITactic@@QAEXXZ,0x004EDF03,first per-item call of the Rva00506909 0x00505924 pass (REL32 at 0x00505932); WB AITactic::preUpdate (0x0039F761 then Team::hasAnyObjects agree)
+?NotifyTeamCreated@AITactic@@QAEXPAVTeam@@@Z,0x004ED6D2,item takes the unit; REL32 at 0x00505A4F in AITacticsGenerator::rva005059A1; WB AITactic::NotifyTeamCreated (callee 0x004ECDA7 agrees)
+?preUpdate@AITactic@@QAEXXZ,0x004EDF03,first per-item call of the AITacticsGenerator 0x00505924 pass (REL32 at 0x00505932); WB AITactic::preUpdate (0x0039F761 then Team::hasAnyObjects agree)
 ?setDestroyed@PathfindLayer@@QAE_N_N@Z,0x0036736E,retail REL32 at 0x002E722A from SetBridgeStateRepaired; GeneralsMD selected-layer method identity
 ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z,0x002F71A6,callee pin: wb_show maps the wrapper's 8-argument call to Pathfinder::internal_findHierarchicalPath at 0x002F71A6; target bytes confirm the call displacement
 ?getPathLabel1@Waypoint@@QBE?AVAsciiString@@XZ,0x0027F5A6,Waypoint +0x50 by-value label getter (rowed Rva0027F5A6); retail REL32s in TerrainLogic path queries 0x002812BF 0x002813EA 0x00281D92

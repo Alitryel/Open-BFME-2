@@ -35,6 +35,7 @@ class AITacticsGenerator
 {
 public:
 	AITacticsGenerator(void *p);
+	~AITacticsGenerator();
 	char m_pad[0x64];
 };
 
@@ -45,14 +46,8 @@ public:
 	char m_pad[0x10];
 };
 
-// Rowed non-virtual destructors reached through views: 0x00505BBA (the generator
-// member at +0x10) and the ICF-folded 15-byte pair destructor 0x000796BC (+0x1C).
-class Rva00506909
-{
-public:
-	~Rva00506909();
-};
-
+// The +0x1C member is deleted through this view: retail calls the rowed,
+// ICF-folded 15-byte pair destructor 0x000796BC.
 class Rva000C24EA
 {
 public:
@@ -85,7 +80,7 @@ private:
 // 0x000796BC; the vector erase is the ICF'd void* erase 0x0031BD55.
 void Rva002C60E4::rva002C61AF()
 {
-	if (m_10) { delete (Rva00506909 *)m_10; m_10 = 0; }
+	if (m_10) { delete m_10; m_10 = 0; }
 	if (m_0C) { delete m_0C; m_0C = 0; }
 	if (m_1C != 0) { delete (Rva000C24EA *)m_1C; m_1C = 0; }
 	void ***vec = (void ***)&m_vec;

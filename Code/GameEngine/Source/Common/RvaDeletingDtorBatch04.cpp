@@ -31,8 +31,8 @@ void Rva002D339F_DeleteAnchor(Rva002D339F *p) { delete p; }
 // address keeps one definition and the unit links.
 //   0x002BF0D6 reads ??1?$pair@$$CBVAsciiString@@UTreeHintRef002BF0D6@@@_STL@@QAE@XZ
 #pragma comment(linker, "/alternatename:??1Rva002BF17C@@QAE@XZ=??1?$pair@$$CBVAsciiString@@UTreeHintRef002BF0D6@@@_STL@@QAE@XZ")
-//   0x00505BBA reads ??1Rva00506909@@QAE@XZ
-#pragma comment(linker, "/alternatename:??1Rva002C5F72@@QAE@XZ=??1Rva00506909@@QAE@XZ")
+//   0x00505BBA reads ??1AITacticsGenerator@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002C5F72@@QAE@XZ=??1AITacticsGenerator@@QAE@XZ")
 //   0x0050549A reads ??1AITargetChooser@@QAE@XZ
 #pragma comment(linker, "/alternatename:??1Rva002C5F8E@@QAE@XZ=??1AITargetChooser@@QAE@XZ")
 //   0x002D284F reads ??1?$DLNodeClass@USmudge@@@@QAE@XZ

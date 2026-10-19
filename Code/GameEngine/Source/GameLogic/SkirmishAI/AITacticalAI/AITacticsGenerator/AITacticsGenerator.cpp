@@ -2,8 +2,9 @@
 // stlport
 //
 // The skirmish-AI object built at 0x00506909 (caller 0x002C616A), in the
-// range whose asserts name AITacticsGenerator.cpp (0x005061FD..). No RTTI or
-// donor, so it keeps an address-derived name.
+// range whose asserts name AITacticsGenerator.cpp (0x005061FD..). WorldBuilder
+// places five of its methods in AITacticsGenerator (Register, UnRegister,
+// updateTactics, activateTactic, DoXfer), so the class takes that name.
 //
 // Target evidence:
 //   0x00506909  ctor: owner at +0x00, eight empty vectors at +0x04..+0x58
@@ -210,13 +211,13 @@ public:
 	Rva005059A1Team *m_team;	// +0x30
 };
 
-class Rva00506909
+class AITacticsGenerator
 {
 public:
 	void Register(Team *unit);
 	void UnRegister(Team *unit);
-	Rva00506909(void *owner);
-	~Rva00506909();
+	AITacticsGenerator(void *owner);
+	~AITacticsGenerator();
 	void DoXfer(Xfer *xfer);
 	void rva005069B4();
 	bool activateTactic(Rva00506909Request *request, void *arg);
@@ -247,7 +248,7 @@ private:
 	_STL::vector<Rva00506909Item *> m_58;
 };
 
-Rva00506909::Rva00506909(void *owner)
+AITacticsGenerator::AITacticsGenerator(void *owner)
 	: m_owner(owner)
 {
 	rva00505E5D();
@@ -256,14 +257,14 @@ Rva00506909::Rva00506909(void *owner)
 	rva00506020();
 }
 
-void Rva00506909::rva005069B4()
+void AITacticsGenerator::rva005069B4()
 {
 	rva00505AF1();
 	updateTactics();
 	rva00506411(m_owner);
 }
 
-bool Rva00506909::activateTactic(Rva00506909Request *request, void *arg)
+bool AITacticsGenerator::activateTactic(Rva00506909Request *request, void *arg)
 {
 	switch (request->m_kind) {
 	case 0:
@@ -277,7 +278,7 @@ bool Rva00506909::activateTactic(Rva00506909Request *request, void *arg)
 	return false;
 }
 
-void Rva00506909::updateTactics()
+void AITacticsGenerator::updateTactics()
 {
 	Rva00506909Item **it;
 	for (it = m_10.begin(); it != m_10.end(); ++it) {
@@ -302,19 +303,19 @@ void Rva00506909::updateTactics()
 	}
 }
 
-void Rva00506909::rva00505F80()
+void AITacticsGenerator::rva00505F80()
 {
 	if (m_1C.empty())
 		m_1C.push_back(new Rva005AA735);
 }
 
-void Rva00506909::rva00505FD0()
+void AITacticsGenerator::rva00505FD0()
 {
 	if (m_34.empty())
 		m_34.push_back(new AISimpleExpansionTactic);
 }
 
-void Rva00506909::rva00505E5D()
+void AITacticsGenerator::rva00505E5D()
 {
 	if (m_04.empty()) {
 		m_04.push_back(new AISimpleAttackTactic);
@@ -325,7 +326,7 @@ void Rva00506909::rva00505E5D()
 	}
 }
 
-void Rva00506909::rva00506020()
+void AITacticsGenerator::rva00506020()
 {
 	if (m_4C.empty()) {
 		m_4C.push_back(new AIFarmKillSquad);
@@ -350,7 +351,7 @@ public:
 	bool allowOffensiveTactic(class Rva002A9BF2 *arg);
 };
 
-bool Rva00506909::rva00506178(Rva00506909Request *request, void *arg)
+bool AITacticsGenerator::rva00506178(Rva00506909Request *request, void *arg)
 {
 	if (((AIDifficulty *)Rva0058AEB6Get())->allowOffensiveTactic((Rva002A9BF2 *)arg)) {
 		_STL::vector<Rva00506909Gen *> candidates;
@@ -372,7 +373,7 @@ bool Rva00506909::rva00506178(Rva00506909Request *request, void *arg)
 	return false;
 }
 
-bool Rva00506909::rva00506265(Rva00506909Request *request, void *arg)
+bool AITacticsGenerator::rva00506265(Rva00506909Request *request, void *arg)
 {
 	_STL::vector<Rva00506909Gen *> candidates;
 	for (Rva00506909Gen **it = m_1C.begin(); it != m_1C.end(); ++it) {
@@ -392,7 +393,7 @@ bool Rva00506909::rva00506265(Rva00506909Request *request, void *arg)
 	return false;
 }
 
-bool Rva00506909::rva0050633B(Rva00506909Request *request, void *arg)
+bool AITacticsGenerator::rva0050633B(Rva00506909Request *request, void *arg)
 {
 	_STL::vector<Rva00506909Gen *> candidates;
 	for (Rva00506909Gen **it = m_34.begin(); it != m_34.end(); ++it) {
@@ -416,7 +417,7 @@ bool Rva00506909::rva0050633B(Rva00506909Request *request, void *arg)
 // (slot 10) or joins the optional pool, one of which is drawn at random
 // (line 426); each chosen generator's new item is set up for the owner and
 // pushed to +0x58. True when anything was chosen.
-bool Rva00506909::rva00506411(void *owner)
+bool AITacticsGenerator::rva00506411(void *owner)
 {
 	_STL::vector<Rva00506909Gen *> optional;
 	_STL::vector<Rva00506909Gen *> chosen;
@@ -443,7 +444,7 @@ bool Rva00506909::rva00506411(void *owner)
 
 // 0x005059A1 / 0x00505A56: hand the unit to the item, in any of the four
 // item lists, that belongs to its team.
-void Rva00506909::Register(Team *unit)
+void AITacticsGenerator::Register(Team *unit)
 {
 	if (unit == unit->getControllingPlayer()->m_unit)
 		return;
@@ -479,7 +480,7 @@ void Rva00506909::Register(Team *unit)
 	unit->disband();
 }
 
-void Rva00506909::UnRegister(Team *unit)
+void AITacticsGenerator::UnRegister(Team *unit)
 {
 	Rva00506909Item **it;
 	for (it = m_10.begin(); it != m_10.end(); ++it) {
@@ -513,7 +514,7 @@ void Rva00506909::UnRegister(Team *unit)
 }
 
 // 0x00505BBA: delete every generator, then every item, then the lists.
-Rva00506909::~Rva00506909()
+AITacticsGenerator::~AITacticsGenerator()
 {
 	Rva00506909Gen **gen;
 	for (gen = m_04.begin(); gen != m_04.end(); ++gen)
@@ -538,7 +539,7 @@ Rva00506909::~Rva00506909()
 // 0x0050652D: Version(1, 1), the four generator-pool sizes, then each item
 // list: its count, then every item's name followed by the item itself;
 // loading rebuilds each item from its name (0x00505D91).
-void Rva00506909::DoXfer(Xfer *xfer)
+void AITacticsGenerator::DoXfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 1);
 	*xfer == version;
@@ -629,7 +630,7 @@ void Rva00506909::DoXfer(Xfer *xfer)
 // 0x00505DC4 / 0x00505DF7 / 0x00505E2A: the item the +0x1C / +0x34 / +0x4C
 // generator of this name builds, else null (0x00505D91 is the +0x04 one,
 // rowed in Rva00505D91Find.cpp).
-Rva00506909Item *Rva00506909::rva00505DC4(const AsciiString &name)
+Rva00506909Item *AITacticsGenerator::rva00505DC4(const AsciiString &name)
 {
 	Rva00506909Gen **end = m_1C.end();
 	for (Rva00506909Gen **it = m_1C.begin(); it != end; ++it)
@@ -638,7 +639,7 @@ Rva00506909Item *Rva00506909::rva00505DC4(const AsciiString &name)
 	return 0;
 }
 
-Rva00506909Item *Rva00506909::rva00505DF7(const AsciiString &name)
+Rva00506909Item *AITacticsGenerator::rva00505DF7(const AsciiString &name)
 {
 	Rva00506909Gen **end = m_34.end();
 	for (Rva00506909Gen **it = m_34.begin(); it != end; ++it)
@@ -647,7 +648,7 @@ Rva00506909Item *Rva00506909::rva00505DF7(const AsciiString &name)
 	return 0;
 }
 
-Rva00506909Item *Rva00506909::rva00505E2A(const AsciiString &name)
+Rva00506909Item *AITacticsGenerator::rva00505E2A(const AsciiString &name)
 {
 	Rva00506909Gen **end = m_4C.end();
 	for (Rva00506909Gen **it = m_4C.begin(); it != end; ++it)

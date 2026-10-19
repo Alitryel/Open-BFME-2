@@ -1,7 +1,7 @@
 // cl: /MD /GX /DNDEBUG
 //
 // Slot 9 ("create": a fresh tactic of the same kind) of the skirmish-AI
-// tactic prototypes the Rva00506909 generator pools hold. Every body is the
+// tactic prototypes the AITacticsGenerator generator pools hold. Every body is the
 // same new-and-construct shape; only the size and the constructor differ.
 // The classes keep the address-derived names of their rowed destructors
 // (Rva005DC73CDerived.cpp and siblings); sizes are the allocation sizes,

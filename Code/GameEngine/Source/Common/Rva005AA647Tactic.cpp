@@ -2,7 +2,7 @@
 //
 // The "SimpleAttack" skirmish-AI tactic (vtable 0x00871F80; its destructor
 // 0x005AA647 and ??_G are rowed in Rva005DC73CDerived.cpp). One of the
-// prototypes the Rva00506909 generator seeds its +0x04 pool with
+// prototypes the AITacticsGenerator generator seeds its +0x04 pool with
 // (0x00505E5D news 0x58 bytes and runs the ctor below), and slot 9 clones
 // it. Base chain, all address-derived: AITacticOffensive (ctor 0x005DC722, dtor
 // 0x005DC73C) over the AITactic.cpp object AITactic.

@@ -33,14 +33,14 @@ public:
 	char m_pad[0x20];
 };
 
-class Rva00506909
+class AITacticsGenerator
 {
 public:
-	Rva00506909(void *p);
-	~Rva00506909();
+	AITacticsGenerator(void *p);
+	~AITacticsGenerator();
 	char m_pad[0x64];
 };
-typedef Rva00506909 AITacticsGenerator;
+typedef AITacticsGenerator AITacticsGenerator;
 
 class Rva00506A34
 {

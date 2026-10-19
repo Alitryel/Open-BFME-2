@@ -384,7 +384,7 @@ private:
  unsigned m_10; float m_14,m_18; unsigned m_1C;
 };
 class AITargetChooser { public: void xfer(Xfer *); };
-class Rva00506909 { public: void DoXfer(Xfer *); };
+class AITacticsGenerator { public: void DoXfer(Xfer *); };
 class ModuleData;
 struct Rva002C6354Buffer
 {
@@ -413,7 +413,7 @@ public:
 private:
     unsigned m_08;
     AITargetChooser *m_0C;
-    Rva00506909 *m_10;
+    AITacticsGenerator *m_10;
     char m_unmodelled14[12];
     Rva002C6354Buffer m_buffer;
 };

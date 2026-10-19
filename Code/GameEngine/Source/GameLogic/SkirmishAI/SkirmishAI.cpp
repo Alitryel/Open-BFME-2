@@ -265,7 +265,7 @@ class Rva00506B1B { public: void rva00506B2F(); };
 
 // Native TacticalAI +0x10 is the tactics generator. WB names the two
 // forwarding members; their retail tails reach its established Team methods.
-class Rva00506909
+class AITacticsGenerator
 {
 public:
     void Register(Team *team);
@@ -280,7 +280,7 @@ public:
     void DoXfer(Xfer *xfer);					// 0x002C63A1
 private:
     unsigned char m_pad00[0x10];
-    Rva00506909 *m_generator;
+    AITacticsGenerator *m_generator;
 };
 
 class Rva002C60E4 {
