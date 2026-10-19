@@ -22,10 +22,12 @@ private:
 
 extern const FieldParse Rva0014C090FieldParseTable[];
 
-class Rva0014C090Store
+// The instance's add (call target 0x002FE8CC) is the rowed
+// TAiData::addFactionBuildList (AIConstructor.cpp).
+class TAiData
 {
 public:
-	void add( Gen0014AE40 *definition );
+	void addFactionBuildList( Gen0014AE40 *definition );
 };
 
 class Rva0014C090
@@ -40,5 +42,5 @@ void Rva0014C090::parseDefinition( INI *ini, void *instance, void *, const void 
 	AsciiString name = ini->getNextToken();
 	Gen0014AE40 *definition = new Gen0014AE40( name );
 	ini->initFromINI( definition, Rva0014C090FieldParseTable );
-	((Rva0014C090Store *)instance)->add( definition );
+	((TAiData *)instance)->addFactionBuildList( definition );
 }
