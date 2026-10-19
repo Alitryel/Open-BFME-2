@@ -46,7 +46,10 @@ reassigned after it (cl drops the dead store); `pp = &m_30` covering both
 releases (168 B); a pointer-range loop (168 B); an inline element destructor.
 Flags: /O2 (200 B), /Oy-, /Og /Os /Oy /Ob1 /Gs /GF /Gy, /G5, /G6, /G7,
 /arch:SSE, /GS, /GX, /EHs, /Oa, /Ow, /Op, /Oi-, /GR, /Zi, /Ob0, /Ob2, /Ox /Os
-give the same split.
+give the same split, as do /Oy-, /GF /Gy, /Gr and /Ob1 /GS- on the index form.
+Distinct element classes (OrCondition / ScriptAction deriving from a
+MemoryPoolObject with a protected virtual dtor and class operator delete) do not
+change the index form either (166 B).
 The real `ScriptDtor.cpp` context (real AsciiString and Snapshot headers) with
 `__declspec(novtable)` removed shows the same split: the WB-shaped index loop
 with `int i;` at the top emits 166 B, and form (a) emits 177 B with the same
@@ -58,6 +61,5 @@ Retail has the def-after-release `lea` together with the allocation that our
 compiles get only when the pointer is live across the first call (a) or
 post-incremented in the operand (b). The real string and Snapshot headers do not change this, so
 the remaining candidates are the unit's other code (cl allocates per function,
-but /O1 COMDAT and inlining state differ per TU), the element class
-declarations (OrCondition/ScriptAction with their real bases), or a compiler
+but /O1 COMDAT and inlining state differ per TU), or a compiler
 build outside the three supported profiles. Do not try more loop spellings.
