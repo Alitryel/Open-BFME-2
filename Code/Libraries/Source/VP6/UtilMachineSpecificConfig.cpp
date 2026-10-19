@@ -92,7 +92,7 @@ extern "C" void __cdecl Wmt_IDct10_Dx(const void *, const void *, void *);
 extern "C" void __cdecl FilterBlockBil_8_wmt(void);
 extern "C" void __cdecl FilterBlockBil_8_mmx(void);
 extern "C" void __cdecl FilterBlockBil_8_C(void);	// rowed C body (was address-named Rva009A8110)
-extern void __cdecl Rva009A74D0(void);
+extern "C" void __cdecl CopyBlock(void);	// rowed C body (was address-named Rva009A74D0)
 extern "C" void __cdecl ClearMmx(void);	// rowed C body (was address-named Rva009C6D20)
 extern void __cdecl Rva009A7030(void);
 extern "C" void __cdecl AverageBlock_C(void);
@@ -109,7 +109,7 @@ extern "C" void __cdecl MMX_idct(void);
 extern "C" void __cdecl MMX_idct1(void);
 extern "C" void __cdecl MMX_idct10_DX(void);
 extern "C" void __cdecl MMX_idct_DX(void);
-extern void __cdecl Rva009C6360(void);
+extern "C" void __cdecl IDct1(void);	// rowed C body (was address-named Rva009C6360)
 extern "C" void __cdecl IDct10(void);	// rowed C body (was address-named Rva009C5D60)
 extern void __cdecl Rva009C5890(void);
 
@@ -207,7 +207,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 	}
 
 	{
-		BfmeSpreadFn low = (BfmeSpreadFn)&Rva009C6360;
+		BfmeSpreadFn low = (BfmeSpreadFn)&IDct1;
 		BfmeSpreadFn mid = (BfmeSpreadFn)&IDct10;
 		BfmeSpreadFn tail = (BfmeSpreadFn)&Rva009C5890;
 		BfmeSpreadFn *cell;
@@ -242,7 +242,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 		g_bfmeSlotB50 = (void *)&UnpackBlock_C;
 		g_bfmeSlotD88 = (void *)&ReconBlock_C;
 		g_bfmeSlotB5C = (void *)&SubtractBlock_C;
-		g_bfmeSlotB44 = (void *)&Rva009A74D0;
+		g_bfmeSlotB44 = (void *)&CopyBlock;
 		g_bfmeSlotABC = (void *)&FilterBlockBil_8_C;
 		g_bfmeSlotB54 = (void *)&FilterBlock_C;
 		g_bfmeSlotB40 = (void *)&Copy12x12_MMX;

@@ -37,7 +37,3 @@ void CopyBlock(unsigned char *src, unsigned char *dest, unsigned int srcstride)
 		d += stride;
 	}
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?Rva009A74D0@@YAXXZ=_CopyBlock")

@@ -37,7 +37,3 @@ void IDct1(Q_LIST_ENTRY *InputData, ogg_int16_t *QuantMatrix,
 	for (loop = 0; loop < 64; loop++)
 		OutputData[loop] = OutD;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?Rva009C6360@@YAXXZ=_IDct1")
