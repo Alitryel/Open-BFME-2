@@ -32,10 +32,8 @@ extern LivingWorldLogic* TheLivingWorldLogic;
 class GameSlot { public: unsigned char opaque[0x4c]; int playerId; };
 class GameInfo { public: const GameSlot* getConstSlot(int) const; };
 extern GameInfo* TheGameInfo;
-// The local player lookup (rowed 0x002B2B66) and the dispute's flag setter
-// (rowed 0x004FBDB0), viewed under their row spellings.
+// The local player lookup (rowed 0x002B2B66), viewed under its row spelling.
 class Rva002B2B66 { public: int rva002B2B66(); };
-class Rva004FBDB0 { public: void rva004FBDB0(bool flag); };
 class RegionAwardDispute {
     unsigned char opaque[8];
     _STL::vector<Rva002E2903Player*> records;
@@ -43,6 +41,7 @@ public:
     int rva004FBE7A();
     int GetResolvableBy();
     void rva004FC0AD(const Rva002E2903Player *player);
+    void rva004FBDB0(bool flag);	// rowed 0x004FBDB0
 };
 int RegionAwardDispute::rva004FBE7A() {
     int result = 0;
@@ -79,5 +78,5 @@ int RegionAwardDispute::GetResolvableBy() {
 void RegionAwardDispute::rva004FC0AD(const Rva002E2903Player *player) {
     records.push_back((Rva002E2903Player *)player);
     int local = reinterpret_cast<Rva002B2B66 *>(TheLivingWorldLogic)->rva002B2B66();
-    reinterpret_cast<Rva004FBDB0 *>(this)->rva004FBDB0(local == GetResolvableBy());
+    rva004FBDB0(local == GetResolvableBy());
 }

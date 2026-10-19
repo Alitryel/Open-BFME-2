@@ -39,17 +39,12 @@ public:
 };
 extern LivingWorldManager *TheLivingWorldManager;
 
-class Rva004FBDB0
-{
-public:
-	void rva004FBDB0(bool resolvable);	// 0x004FBDB0
-};
-
 class RegionAwardDispute
 {
 public:
 	void rva004FBF8E();
 	int GetResolvableBy();	// 0x004FBED6
+	void rva004FBDB0(bool resolvable);	// 0x004FBDB0
 
 	void *m_vptr00;
 	int m_region04;	// +0x04
@@ -69,6 +64,6 @@ void RegionAwardDispute::rva004FBF8E()
 		m_beaconId18 = id;
 		TheLivingWorldManager->CreateBeaconObject(id, &pos, 1);
 		int resolvableBy = GetResolvableBy();
-		reinterpret_cast<Rva004FBDB0 *>(this)->rva004FBDB0(reinterpret_cast<Rva002B2B66 *>(TheLivingWorldLogic)->rva002B2B66() == resolvableBy);
+		rva004FBDB0(reinterpret_cast<Rva002B2B66 *>(TheLivingWorldLogic)->rva002B2B66() == resolvableBy);
 	}
 }

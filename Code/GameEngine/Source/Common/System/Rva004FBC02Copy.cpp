@@ -95,7 +95,7 @@ void Rva004FBC02::rva004FBD3A()
 	}
 }
 
-// ?rva004FBDB0@Rva004FBDB0@@QAEX_N@Z 0x004FBDB0 28: forwards its flag to slot-12
+// ?rva004FBDB0@RegionAwardDispute@@QAEX_N@Z 0x004FBDB0 28: forwards its flag to slot-12
 // virtual on the object looked up by this+0x18 key in the global map at 0x009FE1C8
 // via rowed Rva002120A4::rva002120A4; returns on miss. Evidence: callers 0x004FBFF4
 // and 0x004FC0E2 (in 0x004FC0AD) pass 0/1; the latter pushes a sete result
@@ -126,7 +126,7 @@ public:
 	virtual void slot12(bool arg);
 };
 
-class Rva004FBDB0
+class RegionAwardDispute
 {
 private:
 	char m_pad[0x18];
@@ -135,7 +135,7 @@ public:
 	void rva004FBDB0(bool arg);
 };
 
-void Rva004FBDB0::rva004FBDB0(bool arg)
+void RegionAwardDispute::rva004FBDB0(bool arg)
 {
 	int found = ((Rva002120A4 *)TheLivingWorldManager)->rva002120A4(m_key);
 	if (found == 0)

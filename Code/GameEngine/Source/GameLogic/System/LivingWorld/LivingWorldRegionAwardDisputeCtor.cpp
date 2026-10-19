@@ -49,6 +49,7 @@ public:
 	void rva004FBF8E();
 	int GetResolvableBy();			// 0x004FBED6
 	void rva004FC0ED(const _STL::vector<int> &players);
+	void rva004FBDB0(bool local);		// rowed 0x004FBDB0
 private:
 	int m_region;				// +0x04
 	_STL::vector<unsigned int> m_players;	// +0x08
@@ -67,7 +68,6 @@ RegionAwardDispute::RegionAwardDispute(int region, const _STL::vector<unsigned i
 }
 
 class Rva002B2B66 { public: int rva002B2B66(); };	// rowed 0x002B2B66, the local player's id
-class Rva004FBDB0 { public: void rva004FBDB0(bool local); };	// rowed 0x004FBDB0
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 
@@ -83,5 +83,5 @@ void RegionAwardDispute::rva004FC0ED(const _STL::vector<int> &players)
 			m_players.push_back(*(const unsigned int *)&players[i]);
 	}
 	int local = ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66();
-	((Rva004FBDB0 *)this)->rva004FBDB0(local == GetResolvableBy());
+	rva004FBDB0(local == GetResolvableBy());
 }
