@@ -16,7 +16,7 @@ extern GameLogic *TheGameLogic;
 struct VictoryDeathInfo { char pad[8]; ObjectID killer; };
 struct Vec3 { float x,y,z; };
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
-class Rva00404781 { public: void rva00404781(float,int,int); int rva00404CF5(bool); float a[20],b[20]; unsigned int masks[2]; };
+class Rva00404781 { public: void AddDeath(float,int,int); int rva00404CF5(bool); float a[20],b[20]; unsigned int masks[2]; };
 class Rva0056C4D3 { public: void rva0056C4D3(void*,float,int,int); };
 class Rva0056C0F0 { public: void rva0056C0F0(unsigned int,Vec3*); };
 class Rva004051BC { public: void rva004051BC(int,const Coord3D*); };
@@ -73,7 +73,7 @@ void VictorySystemGridUpdateView::rva004050CE(Object *victim,const VictoryDeathI
  float weight;
  if ((victim->tmpl->flags109 & 4) || (victim->tmpl->flags113 & 4)) weight=parameter->weight;
  else weight=1.0f;
- root.rva00404781(weight,victimIndex,killerPlayer->index);
+ root.AddDeath(weight,victimIndex,killerPlayer->index);
  for (unsigned i=0;i<2;++i) {
   if (grids[i]) ((Rva0056C4D3*)grids[i])->rva0056C4D3(victim,weight,victimPlayer->index,killerPlayer->index);
  }

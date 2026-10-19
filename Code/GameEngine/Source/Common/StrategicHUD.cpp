@@ -225,7 +225,7 @@ public:
 class Rva005796B3
 {
 public:
-	void rva005796B3(void *newObj);
+	void SetHelpBox(void *newObj);
 };
 
 // The slot holders. Each one's destructor is its rowed clear, which the
@@ -603,7 +603,7 @@ void StrategicHUD::HUD::Impl::OnHelpBoxLoaded(const char *name)
 		if (m_palantir.m_ptr != 0)
 			((StrategicHUD::Palantir *)m_palantir.m_ptr)->rva005785A2(m_helpBox.m_ptr);
 		if (m_statsDisplay.m_ptr != 0)
-			((Rva005796B3 *)m_statsDisplay.m_ptr)->rva005796B3(m_helpBox.m_ptr);
+			((Rva005796B3 *)m_statsDisplay.m_ptr)->SetHelpBox(m_helpBox.m_ptr);
 	}
 }
 
@@ -614,7 +614,7 @@ void StrategicHUD::HUD::Impl::OnHelpBoxUnloaded(const char *name)
 	if (m_palantir.m_ptr != 0)
 		((StrategicHUD::Palantir *)m_palantir.m_ptr)->rva005785A2(0);
 	if (m_statsDisplay.m_ptr != 0)
-		((Rva005796B3 *)m_statsDisplay.m_ptr)->rva005796B3(0);
+		((Rva005796B3 *)m_statsDisplay.m_ptr)->SetHelpBox(0);
 }
 
 // Retail 0x0042DC04, 148 bytes: bound as "_level%u_OnLoadDialogFrameLoaded".
@@ -689,7 +689,7 @@ void StrategicHUD::HUD::Impl::OnStatsDisplayLoaded(const char *name)
 	{
 		m_statsDisplay.rva0042D7E0(new StrategicHUD::StatsDisplayImpl(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 		if (m_helpBox.m_ptr != 0)
-			((Rva005796B3 *)m_statsDisplay.m_ptr)->rva005796B3(m_helpBox.m_ptr);
+			((Rva005796B3 *)m_statsDisplay.m_ptr)->SetHelpBox(m_helpBox.m_ptr);
 	}
 }
 

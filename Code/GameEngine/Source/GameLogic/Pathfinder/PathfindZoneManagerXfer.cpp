@@ -77,7 +77,7 @@ public:
  Rva00531A44 &rva00531A44(unsigned short);
 	void rva00531BA7(Xfer *);
  __declspec(nothrow) void rva00531A93();
-	void rva00531ABB(unsigned short);
+	void MakeSet(unsigned short);
 	unsigned short capacity, first;
 	unsigned short *parents;
  unsigned char *ranks;
@@ -251,7 +251,7 @@ class Rva00531720 {
 public: unsigned char rva00531720(unsigned variant, unsigned zone);
 };
 class Rva00532165 {
-public: void rva00532431(unsigned short first, unsigned short second);
+public: void LinkSets(unsigned short first, unsigned short second);
 };
 // WB12D0FB0 names the entire native251B532708..532803 routine.
 // Existing transfer bodies establish end+6 and unions1B594[8][7].
@@ -262,7 +262,7 @@ public: void rva00532431(unsigned short first, unsigned short second);
 void PathfindZoneManager::CreateEquivalencySet(unsigned variant, unsigned equivalent) {
  unions[variant][equivalent].first=0;
  for (unsigned i=0; i<end; ++i)
-  unions[variant][equivalent].rva00531ABB((unsigned short)i);
+  unions[variant][equivalent].MakeSet((unsigned short)i);
  for (unsigned zone=0; zone<end; ++zone) {
   if (!((Rva00531720 *)this)->rva00531720(variant,zone)) continue;
   if (!CouldBeInEquivSet(equivalent,zone)) continue;
@@ -271,7 +271,7 @@ void PathfindZoneManager::CreateEquivalencySet(unsigned variant, unsigned equiva
    unsigned short other=range.begin->zone;
    if (!((Rva00531720 *)this)->rva00531720(variant,other)) continue;
    if (!InEquivSet(equivalent,zone,other)) continue;
-   ((Rva00532165 *)&unions[variant][equivalent])->rva00532431((unsigned short)zone,other);
+   ((Rva00532165 *)&unions[variant][equivalent])->LinkSets((unsigned short)zone,other);
   }
  }
 }
@@ -397,7 +397,7 @@ void Rva00531C5A::rva00531C8C(unsigned short n) {
  } while (true);
 }
 
-class Rva005321D1 { public: void rva00532455(unsigned short,unsigned short); };
+class Rva005321D1 { public: void LinkSets(unsigned short,unsigned short); };
 
 // Full native560B5324D8..532708 and WB12D0B40 establish the typed
 // cell-pair masks and eight-by-seven union dispatch. Incremental is tested
@@ -415,25 +415,25 @@ void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short f
   bool joined=false;
   if(a->type==b->type && (a->id==b->id || a->id==b->secondary || a->secondary==b->id || (a->secondary==16 && b->secondary==16))) {
    joined=true;
-   ((Rva00532165 *)&unions[variant][0])->rva00532431(first,second);
+   ((Rva00532165 *)&unions[variant][0])->LinkSets(first,second);
   }
   if(a->id==b->id || joined) {
-   if(!(mask & ~5u)) ((Rva00532165 *)&unions[variant][1])->rva00532431(first,second);
-   if(!(mask & ~3u)) ((Rva00532165 *)&unions[variant][2])->rva00532431(first,second);
-   if(!(mask & ~0x81u)) ((Rva00532165 *)&unions[variant][2])->rva00532431(first,second);
-   if(!(mask & ~0x82u)) ((Rva00532165 *)&unions[variant][2])->rva00532431(first,second);
-   if(!(mask & ~0x82u)) ((Rva00532165 *)&unions[variant][4])->rva00532431(first,second);
+   if(!(mask & ~5u)) ((Rva00532165 *)&unions[variant][1])->LinkSets(first,second);
+   if(!(mask & ~3u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
+   if(!(mask & ~0x81u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
+   if(!(mask & ~0x82u)) ((Rva00532165 *)&unions[variant][2])->LinkSets(first,second);
+   if(!(mask & ~0x82u)) ((Rva00532165 *)&unions[variant][4])->LinkSets(first,second);
    if(!(mask & ~9u)) {
-    ((Rva00532165 *)&unions[variant][3])->rva00532431(first,second);
-    ((Rva00532165 *)&unions[variant][6])->rva00532431(first,second);
+    ((Rva00532165 *)&unions[variant][3])->LinkSets(first,second);
+    ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
    }
    if(!(mask & ~0x11u) && (a->type!=4 || a->bridge) && (b->type!=4 || b->bridge))
-    ((Rva00532165 *)&unions[variant][6])->rva00532431(first,second);
+    ((Rva00532165 *)&unions[variant][6])->LinkSets(first,second);
   }
-  if(mask==4) ((Rva00532165 *)&unions[variant][5])->rva00532431(first,second);
+  if(mask==4) ((Rva00532165 *)&unions[variant][5])->LinkSets(first,second);
  }
  if(incremental && a->id==b->id && !(mask & ~0x11u))
-  ((Rva005321D1 *)&finalUnion)->rva00532455(first,second);
+  ((Rva005321D1 *)&finalUnion)->LinkSets(first,second);
 }
 
 class PathfindCell {
@@ -525,8 +525,8 @@ void PathfindZoneManager::rva005329C8(PathfindCell **map,const IRegion2D &region
   changed.SetBit(mappedID[n]);
   for(int variant=0;variant<8;variant+=2)
    for(int equivalent=0;equivalent<7;++equivalent)
-    unions[variant][equivalent].rva00531ABB(mappedID[n]);
-  finalUnion.rva00531ABB(mappedID[n]);
+    unions[variant][equivalent].MakeSet(mappedID[n]);
+  finalUnion.MakeSet(mappedID[n]);
  }
  for(x=region.lo.x;x<=region.hi.x;++x) {
   for(int y=region.lo.y;y<=region.hi.y;++y) {
@@ -821,12 +821,12 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
    ((Rva0036667B *)&layers[layer])->rva0036667B(zone);
   }
   for(v=0; v<8; v+=2) for(int e=0;e<7;++e) for(unsigned k=0;k<14;++k)
-   unions[v][e].rva00531ABB((unsigned short)k);
+   unions[v][e].MakeSet((unsigned short)k);
   finalUnion.first=0;
-  for(k=0;k<end;++k) finalUnion.rva00531ABB((unsigned short)k);
+  for(k=0;k<end;++k) finalUnion.MakeSet((unsigned short)k);
   for(v=1;v<8;v+=2) for(int e=0;e<7;++e) {
    unions[v][e].first=0;
-   for(unsigned k=0;k<end;++k) unions[v][e].rva00531ABB((unsigned short)k);
+   for(unsigned k=0;k<end;++k) unions[v][e].MakeSet((unsigned short)k);
   }
   for(x=0;x<dimensions.x;++x) {
    IRegion2D region;
@@ -856,10 +856,10 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
   }
   for(v=1;v<8;v+=2) for(int e=0;e<7;++e) {
    unions[v][e].first=0;
-   for(unsigned k=0;k<end;++k)unions[v][e].rva00531ABB((unsigned short)k);
+   for(unsigned k=0;k<end;++k)unions[v][e].MakeSet((unsigned short)k);
   }
   finalUnion.first=0;
-  for(k=0;k<end;++k)finalUnion.rva00531ABB((unsigned short)k);
+  for(k=0;k<end;++k)finalUnion.MakeSet((unsigned short)k);
   for(k=0;k<end;++k) {
    ZoneAdjacencyRange range=((ZoneAdjacencyTable *)((char *)this+0x1770C))->rva00532104((unsigned short)k);
    for(;range.begin!=range.end;++range.begin) rva005324D8(1,(unsigned short)k,range.begin->zone);
@@ -900,7 +900,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
       member=next;
      }
      unions[v][e].rva00531B3A((unsigned short)n);
-    } else {unions[v][e].rva00531ABB((unsigned short)n);affected.SetBit(n);}
+    } else {unions[v][e].MakeSet((unsigned short)n);affected.SetBit(n);}
    }
    }
    affected.ResetEnum();
@@ -914,7 +914,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
      unsigned short other=range.begin->zone;
      if(!((Rva00531720 *)this)->rva00531720(v,other))continue;
      if(!InEquivSet(e,zone,other))continue;
-     ((Rva00532165 *)&unions[v][e])->rva00532431((unsigned short)zone,other);
+     ((Rva00532165 *)&unions[v][e])->LinkSets((unsigned short)zone,other);
     }
    }
    }
@@ -933,7 +933,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
      member=next;
     }
     ((Rva00531C5A *)&finalUnion)->rva00531C8C((unsigned short)n);
-   } else {finalUnion.rva00531ABB((unsigned short)n);affected.SetBit(n);}
+   } else {finalUnion.MakeSet((unsigned short)n);affected.SetBit(n);}
   }
   }
   affected.ResetEnum();
@@ -948,7 +948,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
     CellType &target=reinterpret_cast<CellType *>(unknown0C)[other];
     if(cell.id!=target.id)continue;
     if(target.type!=0 && target.type!=4)continue;
-    ((Rva005321D1 *)&finalUnion)->rva00532455((unsigned short)zone,other);
+    ((Rva005321D1 *)&finalUnion)->LinkSets((unsigned short)zone,other);
    }
   }
   }

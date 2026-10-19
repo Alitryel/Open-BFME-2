@@ -418,7 +418,7 @@ extern MessageStream *TheMessageStream;
 
 
 class Rva0004582DSarAvgField {public:int get() const;};
-class Rva003B8BAA {public:void *rva003B8BF9(int);};extern class Rva00E02D6C *TheCampaignManager;
+class Rva003B8BAA {public:void *GetCampaign(int);};extern class Rva00E02D6C *TheCampaignManager;
 #define g_00E02D6C (*(Rva003B8BAA * *)&TheCampaignManager)
 // ^ g_00E02D6C is only an alias of the owned global TheCampaignManager (ledger names column).
 class Rva003B8B2A {public:int rva003B8B2A();};

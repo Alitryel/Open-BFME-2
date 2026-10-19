@@ -55,7 +55,7 @@ extern "C" void __cdecl free(void *) throw(...);
 struct BfmePod8 {int a;float b;};
 // The rowed by-value resize 0x005FF96A is spelled on this vector view.
 class BfmePod8Vector {public: ~BfmePod8Vector(){if(first)free(first);}void resize(unsigned int,BfmePod8);unsigned int size() const {return last-first;}BfmePod8 *first,*last,*capacity;};
-class Rva005B0E9F {public: BfmePod8 *rva005B0E9F(int);};
+class Rva005B0E9F {public: BfmePod8 *GetObjectInfo(int);};
 class Rva00406E47 {public: bool rva00406E47(int);};
 struct Rva005B0473View {char opaque[0x60];float field60;int field64,field68;};
 struct CreateAHeroClassRecord {char opaque[0x20];};
@@ -230,7 +230,7 @@ private:
 void AptMyHero::SwitchToPendingHero(){
  if(pending144 != reinterpret_cast<CreateAHeroData *>(this) && pending144)
   *reinterpret_cast<CreateAHeroData *>(this) = *pending144;
- ((Rva00406E47 *)this)->rva00406E47(((Rva005B0E9F *)this)->rva005B0E9F(rva005B0473()->field68)->a);
+ ((Rva00406E47 *)this)->rva00406E47(((Rva005B0E9F *)this)->GetObjectInfo(rva005B0473()->field68)->a);
  BuildBlingData();
  slot14();
  rva005B0487();

@@ -87,7 +87,7 @@ class INIException {public:
  INIException(const INIException &);
  ~INIException();
 };
-class Rva0040A7D5 {public:int rva0040A7D5(int) const;};
+class Rva0040A7D5 {public:int GetStatNameKey(int) const;};
 namespace _STL {template<class I> void sort(I,I);}
 struct Rva0040C0C7Element {char bytes[40];};
 class Rva0040AF66 {char bytes[104];};
@@ -131,7 +131,7 @@ void AwardSystemManager::parseTrigger(INI *ini,void *instance,void *,const void 
   throw INIException(3,"Duplicate trigger in the %s award.",reinterpret_cast<const StringBase<char> *>(&name)->str());
  }
  for(unsigned i=0;i<trigger.keys.size();++i) {
-  NameKeyType key=static_cast<NameKeyType>(reinterpret_cast<const Rva0040A7D5 *>(&trigger)->rva0040A7D5(i));
+  NameKeyType key=static_cast<NameKeyType>(reinterpret_cast<const Rva0040A7D5 *>(&trigger)->GetStatNameKey(i));
   static NameKeyType noneKey=TheNameKeyGenerator->nameToKey("None");
   static NameKeyType emptyKey=TheNameKeyGenerator->nameToKey("");
   if(key==NAMEKEY_INVALID || key==noneKey || key==emptyKey)

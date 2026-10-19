@@ -37,7 +37,7 @@ class Rva003B8BAA
 public:
 	void *rva003B8BAA();
 	bool rva003B8B85();
-	void *rva003B8BF9(int index);
+	void *GetCampaign(int index);
 };
 
 struct Rva00DFEF10Global
@@ -67,10 +67,10 @@ bool Rva003B8BAA::rva003B8B85()
 	return elem->m_ptr20 != 0;
 }
 
-// ?rva003B8BF9@Rva003B8BAA@@QAEPAXH@Z @0x003B8BF9 13B.
+// ?GetCampaign@Rva003B8BAA@@QAEPAXH@Z @0x003B8BF9 13B.
 // Index-arg array fetch from the same +0x14 array: mov eax,[ecx+0x14]; mov ecx,[esp+4];
 // mov eax,[eax+ecx*4]; ret 4. Callers at 0x00522434 0x0056DB3B 0x0057D286.
-void *Rva003B8BAA::rva003B8BF9(int index)
+void *Rva003B8BAA::GetCampaign(int index)
 {
 	return m_array14[index];
 }

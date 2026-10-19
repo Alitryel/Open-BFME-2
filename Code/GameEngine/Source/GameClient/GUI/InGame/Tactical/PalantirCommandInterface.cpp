@@ -41,7 +41,7 @@ namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
 // and lifetime as CommandUIImpl::OnToggleFlashLoaded. Target-specific
 // parsers are rowed; six slots are 0x14 bytes from +0x64, holder +8.
 // The owning UI class has not been established from target evidence.
-bool __cdecl Rva00529628Get(const char *path, int *slot);
+bool __cdecl ParseButtonSlotIndex(const char *path, int *slot);
 bool __cdecl ParseClipName(const char *path, AsciiString &name);
 class Rva0052991E
 {
@@ -64,7 +64,7 @@ void Rva0052991E::OnToggleFlashLoaded(const char *path)
 	Slot *button;
 	{
 		int slot;
-		if (!Rva00529628Get(path, &slot))
+		if (!ParseButtonSlotIndex(path, &slot))
 			return;
 		if (!ParseClipName(path, name))
 			return;
@@ -84,7 +84,7 @@ void Rva0052991E::OnSubMenuLoaded(const char *path)
 	Slot *button;
 	{
 		int slot;
-		if (!Rva00529628Get(path, &slot))
+		if (!ParseButtonSlotIndex(path, &slot))
 			return;
 		if (!ParseClipName(path, name))
 			return;

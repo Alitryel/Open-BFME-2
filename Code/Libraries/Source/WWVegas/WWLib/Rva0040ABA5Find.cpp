@@ -4,7 +4,7 @@
 class Rva0040A7D5
 {
 public:
-	int rva0040A7D5(int index) const;
+	int GetStatNameKey(int index) const;
 private:
 	const int *m_begin;
 	const int *m_end;

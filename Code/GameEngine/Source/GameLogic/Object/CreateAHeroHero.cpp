@@ -176,7 +176,7 @@ extern InGameUI *TheInGameUI;
 // label is provisional: this call's word is the rowed GetAwardNameKey result,
 // not independent evidence that award keys are science identifiers.
 enum ScienceType { SCIENCE_FIRST = 0, SCIENCE_FORCE_LONG = 0x7fffffff };
-void Rva005200C5Add(void *, ScienceType);
+void NotifyHeroEarnedAward(void *, ScienceType);
 
 // The twelve-byte per-level button record (CreateAHeroElementCopy.cpp's
 // BfmeHeroElement005C39DE): the button name, its experience level and a
@@ -504,7 +504,7 @@ void CreateAHeroHero::UpdateAwardEarnedFlags()
 			m_awardEarnedFlags[i] = true;
 			if (TheInGameUI)
 				TheInGameUI->notifyHeroEarnedAward(this, key);
-			Rva005200C5Add(this, (ScienceType)key);
+			NotifyHeroEarnedAward(this, (ScienceType)key);
 		}
 	}
 }

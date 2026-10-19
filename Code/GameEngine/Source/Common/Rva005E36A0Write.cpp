@@ -46,7 +46,7 @@ int Rva005E36A0::rva005E36A0(char *dst)
 }
 
 //
-// ?rva005E36C5@Rva005E36C5@@QAEHPAD@Z retail 0x005E36C5 37B.
+// ?copyToBuffer@Rva005E36C5@@QAEHPAD@Z retail 0x005E36C5 37B.
 // Two-part write: Rva005E36A0 head at +0 then Rva000B3F84Pair at +0x18,
 // each via rowed write 0x005E36A0 0x000B44F0, sum lengths, ret 4.
 // Evidence: retail mov esi ecx lea ecx [esi+0x18] calls; caller 0x005E36EA;
@@ -54,13 +54,13 @@ int Rva005E36A0::rva005E36A0(char *dst)
 class Rva005E36C5
 {
 public:
-	int rva005E36C5(char *dst);
+	int copyToBuffer(char *dst);
 private:
 	Rva005E36A0 m_head;
 	Rva000B3F84Pair m_tail;
 };
 
-int Rva005E36C5::rva005E36C5(char *dst)
+int Rva005E36C5::copyToBuffer(char *dst)
 {
 	int n1 = m_head.rva005E36A0(dst);
 	int n2 = m_tail.write(dst + n1);

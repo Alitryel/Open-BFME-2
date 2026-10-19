@@ -6,7 +6,7 @@
 // preserve the existing AsciiString lookup and StringBase selection views
 // independently. No fuller campaign class layout or original enum is claimed.
 #include "ascii_string.h"
-class Rva003B8BAA { public: void *rva003B8BF9(int index); };
+class Rva003B8BAA { public: void *GetCampaign(int index); };
 class Rva0052BAB2 { public: int rva0052BAB2() const; };
 class Rva0020F442 { public: AsciiString *rva0020F442(const AsciiString &name); };
 class LivingWorldRegionManager {public: void SelectCampaign(const StringBase<char>& name);};
@@ -22,7 +22,7 @@ void AptLivingWorldWindow::SelectCampaign(int index) {
  if(!TheCampaignManager) return;
  if(index<0) {campaign=0;return;}
  campaign = reinterpret_cast<Rva0052C036 *>(
-     reinterpret_cast<Rva003B8BAA *>(TheCampaignManager)->rva003B8BF9(index));
+     reinterpret_cast<Rva003B8BAA *>(TheCampaignManager)->GetCampaign(index));
  LivingWorldRegionManager *regions=reinterpret_cast<Rva0056DB19World*>(TheLivingWorldLogic)->regions;
  if(!regions) return;
  if (!reinterpret_cast<Rva0020F442 *>(regions)->rva0020F442(

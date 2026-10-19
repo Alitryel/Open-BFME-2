@@ -33,7 +33,7 @@ class Rva005E16B9
 	char m_pad[8];
 	AsciiString m_8;
 public:
-	const Image *rva005E16B9();
+	const Image *GetImage();
 };
 
 struct Rva002BA8F1Listener;
@@ -95,7 +95,7 @@ Rva005F589E::Rva005F589E(int a1, void *a2raw)
 	Rva005F589EIn *a2 = (Rva005F589EIn *)a2raw;
 	m_20 = a2->m_04;
 	m_24 = a2->m_08;
-	const Image *img = ((Rva005E16B9 *)&g_00E068EC)->rva005E16B9();
+	const Image *img = ((Rva005E16B9 *)&g_00E068EC)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 	m_24->append((Rva002BA8F1Listener *)static_cast<Rva005E4AE2Listener *>(this));
 }

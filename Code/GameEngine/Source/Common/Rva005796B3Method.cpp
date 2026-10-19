@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005796B3@Rva005796B3@@QAEXPAX@Z @0x005796B3 73B
+// ?SetHelpBox@Rva005796B3@@QAEXPAX@Z @0x005796B3 73B
 // Thiscall setter for +0x18 pointer with +0x1C flag: if new==old return; if
 // old!=0 and flag!=0 and old virtual int getter == flag then old slot1
 // forwarder; store new; if new!=0 and flag!=0 then new virtual with &flag.
@@ -28,14 +28,14 @@ public:
 class Rva005796B3
 {
 public:
-	void rva005796B3(void *newObj);
+	void SetHelpBox(void *newObj);
 private:
 	char m_00[0x18];
 	void *m_18;
 	int m_1C;
 };
 
-void Rva005796B3::rva005796B3(void *newObj)
+void Rva005796B3::SetHelpBox(void *newObj)
 {
 	if (newObj == m_18)
 		return;

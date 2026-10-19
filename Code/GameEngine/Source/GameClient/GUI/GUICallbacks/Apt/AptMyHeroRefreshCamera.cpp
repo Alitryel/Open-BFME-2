@@ -27,7 +27,7 @@ class Rva004076EE {
 };
 class Rva005B0E9F {
 	public:
-	BfmePod8 *rva005B0E9F(int);
+	BfmePod8 *GetObjectInfo(int);
 };
 struct Rva005B0473View {
 	char pad[0x68];
@@ -154,7 +154,7 @@ void AptMyHero::rva005B1019(){
 	if(!object)return;
 	Rva005B0473View *firstView=rva005B0473();
 	int firstIndex=firstView->field68;
-	BfmePod8 *info=((Rva005B0E9F *)this)->rva005B0E9F(firstIndex);
+	BfmePod8 *info=((Rva005B0E9F *)this)->GetObjectInfo(firstIndex);
 	object->setOrientation(field168+info->b);
 	int b=field10;
 	int a=field0C;

@@ -320,7 +320,7 @@ class Rva003B8BAA
 {
 public:
 	void rva003B92B9(_STL::vector<const ModuleData *> *out);
-	void *rva003B8BF9(int index);	// the campaign at an index
+	void *GetCampaign(int index);	// the campaign at an index
 };
 
 class Image;
@@ -1329,7 +1329,7 @@ void AptMapPreview::rva0057D19A(MapMetaData *map)
 			Int campaignIndex = info->m_campaign;
 			if (campaignIndex >= 0)
 			{
-				Rva0057D4F3CampaignInfo *campaign = ((Rva0057D4F3Campaign *)((Rva003B8BAA *)TheCampaignManager)->rva003B8BF9(campaignIndex))->m_info;
+				Rva0057D4F3CampaignInfo *campaign = ((Rva0057D4F3Campaign *)((Rva003B8BAA *)TheCampaignManager)->GetCampaign(campaignIndex))->m_info;
 				UnicodeString name;
 				UnicodeString description;
 				if (campaign != 0)

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc
-// ?rva005D0602@Rva005D0602@@QAEHPAG@Z, retail 0x005D0602, 28 bytes.
+// ?copyToBuffer@Rva005D0602@@QAEHPAG@Z, retail 0x005D0602, 28 bytes.
 // Ref-plus-char copy: copies BFME2WideStringRef payload via rowed
 // copyPayloadTo then appends word at this+4 and returns len+1.
 // Evidence: callee rowed 0x0021AC32; caller 0x005D061E passes this with
@@ -15,13 +15,13 @@ struct BFME2WideStringRef
 class Rva005D0602
 {
 public:
-	int rva005D0602(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	BFME2WideStringRef m_ref;
 	unsigned short m_extra;
 };
 
-int Rva005D0602::rva005D0602(unsigned short *dst)
+int Rva005D0602::copyToBuffer(unsigned short *dst)
 {
 	int len = m_ref.copyPayloadTo(dst);
 	dst[len] = m_extra;

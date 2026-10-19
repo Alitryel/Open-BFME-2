@@ -14,7 +14,7 @@ struct BFME2WideStringRef
 class Rva005D0602
 {
 public:
-	int rva005D0602(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	BFME2WideStringRef m_ref;
 	unsigned short m_extra;
@@ -31,7 +31,7 @@ private:
 
 int Rva005D061E::copyToBuffer(unsigned short *dst)
 {
-	int first = m_first.rva005D0602(dst);
+	int first = m_first.copyToBuffer(dst);
 	int second = m_second.copyPayloadTo(dst + first);
 	return first + second;
 }

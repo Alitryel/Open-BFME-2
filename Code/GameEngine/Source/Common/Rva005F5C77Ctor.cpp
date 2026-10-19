@@ -45,7 +45,7 @@ class Rva005E16B9
 	char m_pad[8];
 	AsciiString m_8;
 public:
-	const Image *rva005E16B9();
+	const Image *GetImage();
 };
 
 // The listener base's vptr is 0x00C79544, the listener vtable Rva005E4AE2Ctor.cpp
@@ -110,7 +110,7 @@ Rva005F5C77::Rva005F5C77(void *a1, Rva005F5C77In *a2)
 {
 	m_20 = a2->m_04;
 	m_24 = a2->m_08;
-	const Image *img = ((Rva005E16B9 *)&g_rva00E06900)->rva005E16B9();
+	const Image *img = ((Rva005E16B9 *)&g_rva00E06900)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 	m_24->append((Rva002BA8F1Listener *)static_cast<Rva005E4AE2Listener *>(this));
 }

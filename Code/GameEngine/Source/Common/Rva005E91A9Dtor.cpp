@@ -17,7 +17,7 @@ public:
 class Rva005E16B9
 {
 public:
-    const Image *rva005E16B9();
+    const Image *GetImage();
 };
 class Rva005E16DA;
 extern Rva005E16DA g_rva00E0675C;

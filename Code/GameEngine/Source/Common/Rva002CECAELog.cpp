@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /GX
 //
-// Rva002CECAEAppend, retail 0x002CECAE, 120 bytes.
+// AppendInLogicUpdateOnly, retail 0x002CECAE, 120 bytes.
 //
 // Guarded format-and-append sibling of _fprintf in FprintfAppendLine.cpp:
 // when the TheGameLogic byte at +0x70 is set and format is non-null, the
@@ -67,7 +67,7 @@ struct Rva002CECAETarget
 	BfmeVector<AsciiString> m_lines;
 };
 
-void Rva002CECAEAppend(Rva002CECAETarget *target, const char *format, ...)
+void AppendInLogicUpdateOnly(Rva002CECAETarget *target, const char *format, ...)
 {
 	bool enabled = TheGameLogic->m_logEnabled;
 	if (enabled && format != 0)

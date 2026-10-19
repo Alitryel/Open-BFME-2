@@ -19,7 +19,7 @@ public:
 class Rva005E16B9
 {
 public:
-    const Image *rva005E16B9();
+    const Image *GetImage();
 };
 class Rva005E16DA;
 extern Rva005E16DA g_rva00E0675C;
@@ -48,6 +48,6 @@ Rva005E91A9::Rva005E91A9(unsigned int owner, void *record)
     : Rva005E12D1((void *)owner, AsciiString("button"), *(void **)record)
 {
     m_state = ((unsigned int *)record)[1];
-    reinterpret_cast<Rva005E1158 *>(static_cast<Rva005E12D1 *>(this))->rva005E1158(((Rva005E16B9 *)&g_rva00E0675C)->rva005E16B9());
+    reinterpret_cast<Rva005E1158 *>(static_cast<Rva005E12D1 *>(this))->rva005E1158(((Rva005E16B9 *)&g_rva00E0675C)->GetImage());
 }
 

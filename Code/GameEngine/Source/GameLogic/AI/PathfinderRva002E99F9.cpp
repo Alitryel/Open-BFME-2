@@ -40,7 +40,7 @@ public:
 	void rva00531A93();
 	unsigned short FindSet(unsigned short idx);
 	unsigned short rva00531B20(unsigned short idx);
-	void rva00531ABB(unsigned short idx);
+	void MakeSet(unsigned short idx);
 private:
 	unsigned short m_count;
 	unsigned short m_zero;

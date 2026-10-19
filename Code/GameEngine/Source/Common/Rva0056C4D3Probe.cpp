@@ -16,7 +16,7 @@ public:
 class Rva00404781
 {
 public:
-	void rva00404781(float v, int i, int j);
+	void AddDeath(float v, int i, int j);
 };
 
 class Rva0056C4D3
@@ -33,5 +33,5 @@ void Rva0056C4D3::rva0056C4D3(void *a, float f, int i1, int i2)
 	int idx = ((CellGrid *)this)->rva0056C0A5(*(const CellPoint *)((char *)a + 0x38));
 	if (idx == 0x7FFFFFFF)
 		return;
-	((Rva00404781 *)((char *)m_14 + idx * 0xA8))->rva00404781(f, i1, i2);
+	((Rva00404781 *)((char *)m_14 + idx * 0xA8))->AddDeath(f, i1, i2);
 }

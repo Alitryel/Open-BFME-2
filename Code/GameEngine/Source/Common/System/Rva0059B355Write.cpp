@@ -29,7 +29,7 @@ class Rva0059B1C7
     : public AsciiStringPlusText
 {
 public:
-	int rva0059B1C7(char *dst);
+	int copyToBuffer(char *dst);
 protected:
 	char m_pad[12];
 	int m_first;
@@ -50,6 +50,6 @@ StringBase<char> Rva0059B355::rva0059B355()
 	int len = length() + first;
 	len += m_second;
 	char *buffer = result.getBufferForRead(len);
-	rva0059B1C7(buffer);
+	copyToBuffer(buffer);
 	return result;
 }

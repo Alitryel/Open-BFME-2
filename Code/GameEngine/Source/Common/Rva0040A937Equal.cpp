@@ -4,7 +4,7 @@
 class Rva0040A7D5
 {
 public:
-	int rva0040A7D5(int index) const;
+	int GetStatNameKey(int index) const;
 	friend bool Rva0040A937Equal(const Rva0040A7D5 *, const Rva0040A7D5 *);
 private:
 	const int *m_begin;
@@ -20,7 +20,7 @@ bool Rva0040A937Equal(const Rva0040A7D5 *a, const Rva0040A7D5 *b)
 	if (na == 0)
 		return false;
 	for (unsigned int i = 0; i < na; ++i) {
-		if (a->rva0040A7D5((int)i) != b->rva0040A7D5((int)i))
+		if (a->GetStatNameKey((int)i) != b->GetStatNameKey((int)i))
 			return false;
 	}
 	return true;

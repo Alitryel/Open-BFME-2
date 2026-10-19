@@ -2803,31 +2803,31 @@ int Pathfinder::_GetAdjacentUnits(Object *object,const Coord3D *position,int *ou
 // priority, surface override, complete diagnostics and waypoint-zone fallback
 // are reconstructed independently from this target. Caller ABI/pin retained.
 struct Rva002CECAETarget;
-void Rva002CECAEAppend(Rva002CECAETarget *,const char *,...);
+void AppendInLogicUpdateOnly(Rva002CECAETarget *,const char *,...);
 class Rva0028B984ByteField {public:unsigned char get()const;};
 Bool Pathfinder::QuickDoesPathExist(Object *obj,const Coord3D *from,const Coord3D *to,Int overrideSet)
 {
- if(g_00E03745 && g_00DFEFF0) Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,
+ if(g_00E03745 && g_00DFEFF0) AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,
   "\t\t  Pathfinder::QuickDoesPathExist() called with: obj=%s(%d), from=%g,%g,%g, to=%g,%g,%g",
   ((const AsciiString *)((const char *)obj->m_template+0x64))->str(),obj->getID(),from->x,from->y,from->z,to->x,to->y,to->z);
  if(obj->testStatus(QuickStatus49)) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 1");return false;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 1");return false;
  }
  if(((Rva0028B984ByteField *)obj)->get()==1) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Success 1");return true;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Success 1");return true;
  }
  LocomotorSet *set;
  char *ai=obj->m_258;
-if(!overrideSet && !ai) {if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 2");return false;} if(overrideSet)set=(LocomotorSet *)overrideSet;else set=(LocomotorSet *)(ai+0x1CC);
+if(!overrideSet && !ai) {if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 2");return false;} if(overrideSet)set=(LocomotorSet *)overrideSet;else set=(LocomotorSet *)(ai+0x1CC);
  if(!(set->getValidSurfaces()&0x8F)) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 3");return false;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 3");return false;
  }
  PathfindLayerEnum destinationLayer=TheTerrainLogic->getLayerForDestination(obj,to);
  PathfindLayerEnum fromLayer=TheTerrainLogic->getLayerForDestination(obj,from);
  PathfindCell *parent=rva002E8BF8(fromLayer,from);
  PathfindCell *goal=rva002E8BF8(destinationLayer,to);
  if(goal->getType()==2) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 4");return false;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 4");return false;
  }
  Bool terrain=false;Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;
  Rva002E8BCF info((const Rva002E8BCFSrc *)set,!flag,priority-1,obj->rva0028AFBB());
@@ -2845,12 +2845,12 @@ if(!overrideSet && !ai) {if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CE
   zone2=zones->rva00531FD4(&info,(unsigned short)zone2);
  }
  if(!IsValidMovementPositionForObject(to,destinationLayer,set->getValidSurfaces(),obj)) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 5");return false;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Failure 5");return false;
  }
  if(zone1==zone2) {
-  if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Success 2");return true;
+  if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Success 2");return true;
  }
- if(g_00E03745 && g_00DFEFF0)Rva002CECAEAppend((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Default Exit");
+ if(g_00E03745 && g_00DFEFF0)AppendInLogicUpdateOnly((Rva002CECAETarget *)g_00DFEFF0,"\t\t  Pathfinder::QuickDoesPathExist() Default Exit");
  return rva002F4115(obj,zone1,zone2,(LocomotorSet *)overrideSet);
 }
 

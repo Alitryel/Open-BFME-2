@@ -37,7 +37,7 @@ private:
 	Rva00529698Elem m_elems[6];
 };
 
-bool __cdecl Rva00529628Get(const char *section, int *out);
+bool __cdecl ParseButtonSlotIndex(const char *section, int *out);
 bool __cdecl ParseClipName(const char *section, AsciiString &out);
 namespace AptUtils { const char *__cdecl SkipLevelN(const char *s); }
 namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *s); }
@@ -81,7 +81,7 @@ void Rva0052936C::OnButtonFrameLoaded(const char *section)
 	Rva00529698Elem *e;
 	{
 		int idx;
-		if (!Rva00529628Get(section, &idx) || !ParseClipName(section, val))
+		if (!ParseButtonSlotIndex(section, &idx) || !ParseClipName(section, val))
 			return;
 		e = &m_elems[idx];
 		if (e->m_holder.m_ptr != 0)

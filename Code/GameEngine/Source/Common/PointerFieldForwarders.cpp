@@ -6,13 +6,13 @@
 // call is not inlined as it would be beside their definitions. Owners are
 // unknown; names are address-derived and no referencing site was found for
 // these in this pass.
-class Rva0030812E { public: void *rva0030812E(int i); };
+class Rva0030812E { public: void *getTextureName(int i); };
 class Rva002C9400ByteField { public: unsigned char get() const; };
 class Rva002C9407ByteField { public: unsigned char get() const; };
 class Rva005E3266 { public: void rva005E3266(); };
 class Rva0013EDC0DwordField { public: int get() const; };
 
-// 0x0007E0C6: [ecx+0x40] -> Rva0030812E::rva0030812E(int)
+// 0x0007E0C6: [ecx+0x40] -> Rva0030812E::getTextureName(int)
 class Rva0007E0C6Owner
 {
 public:
@@ -21,7 +21,7 @@ private:
 	char m_pad00[0x40];
 	Rva0030812E *m_target;
 };
-void *Rva0007E0C6Owner::rva0007E0C6(int i) { return m_target->rva0030812E(i); }
+void *Rva0007E0C6Owner::rva0007E0C6(int i) { return m_target->getTextureName(i); }
 
 // 0x0026237F: [ecx+4] -> Rva002C9400ByteField::get
 class Rva0026237FOwner

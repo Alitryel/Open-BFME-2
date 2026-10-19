@@ -1,6 +1,6 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva005B2DDF@Rva005B2DDF@@QAEPAXII@Z @0x005B2DDF 42B
+// ?GetPowerData@Rva005B2DDF@@QAEPAXII@Z @0x005B2DDF 42B
 // Unlock lane: bounds-checked 2D grid lookup over a vector of 16-byte rows at +0x14.
 // count = (finish-start)/16 via vector<BfmeE16>::size(); if a>=count return 0;
 // if b>=4 return 0; else return ((void**)row)[a*4+b]. Callers 0x005B2E09/0x005B2E35
@@ -15,11 +15,11 @@ class Rva005B2DDF {
   char m_00[0x14];
   _STL::vector<BfmeE16> m_14;
 public:
-  void* rva005B2DDF(unsigned a, unsigned b);
+  void* GetPowerData(unsigned a, unsigned b);
   void* rva005B2E09(Rva005B2E09Cell* c);
   void* rva005B2E35(Rva005B2E09Cell* c);
 };
-void* Rva005B2DDF::rva005B2DDF(unsigned a, unsigned b)
+void* Rva005B2DDF::GetPowerData(unsigned a, unsigned b)
 {
   if (a >= m_14.size())
     return 0;
@@ -30,7 +30,7 @@ void* Rva005B2DDF::rva005B2DDF(unsigned a, unsigned b)
 void* Rva005B2DDF::rva005B2E09(Rva005B2E09Cell* c)
 {
   for (int cur = c->m_08 - 1; cur >= 0; ) {
-    void* r = rva005B2DDF(c->m_04, cur);
+    void* r = GetPowerData(c->m_04, cur);
     --cur;
     if (r != 0)
       return r;
@@ -40,7 +40,7 @@ void* Rva005B2DDF::rva005B2E09(Rva005B2E09Cell* c)
 void* Rva005B2DDF::rva005B2E35(Rva005B2E09Cell* c)
 {
   for (int cur = c->m_08 + 1; cur < 4; ) {
-    void* r = rva005B2DDF(c->m_04, cur);
+    void* r = GetPowerData(c->m_04, cur);
     ++cur;
     if (r != 0)
       return r;

@@ -1,7 +1,7 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva005B0E9F@Rva005B0E9F@@QAEPAUBfmePod8@@H@Z @0x005B0E9F 71B
+// ?GetObjectInfo@Rva005B0E9F@@QAEPAUBfmePod8@@H@Z @0x005B0E9F 71B
 // Evidence: callers 0x005B1046 (uses +4 as float for setOrientation) and
 // 0x005B1E95 (uses +0 as int arg) prove 8-byte element {int; float}.
 // Vector at +0x15c (start/finish diff sar 3 = /8). Static empty zero
@@ -21,10 +21,10 @@ class Rva005B0E9F {
     char _pad[0x15c];
     _STL::vector<BfmePod8> _vec;
 public:
-    BfmePod8 *rva005B0E9F(int idx);
+    BfmePod8 *GetObjectInfo(int idx);
 };
 
-BfmePod8 *Rva005B0E9F::rva005B0E9F(int idx)
+BfmePod8 *Rva005B0E9F::GetObjectInfo(int idx)
 {
     if (!(g_00E06468 & 1)) {
         g_00E06468 |= 1;

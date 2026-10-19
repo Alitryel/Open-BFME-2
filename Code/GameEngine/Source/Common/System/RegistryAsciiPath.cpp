@@ -786,7 +786,7 @@ AsciiString Rva000BDC6D::rva000BDC6D()
 
 class Rva0059B1A2 {
 public:
-	int rva0059B1A2(char *dst);
+	int copyToBuffer(char *dst);
 };
 // operator AsciiString(): the matched caller 0x0059B5A3 copy-initialises its
 // string from this node and only a conversion function reproduces retail's
@@ -801,7 +801,7 @@ Rva0059B2EC::operator AsciiString()
 {
 	AsciiString tmp;
 	int extra = m_extra10;
-	((Rva0059B1A2 *)this)->rva0059B1A2(tmp.getBufferForRead(extra + ((AsciiStringPlusText *)this)->length()));
+	((Rva0059B1A2 *)this)->copyToBuffer(tmp.getBufferForRead(extra + ((AsciiStringPlusText *)this)->length()));
 	return tmp;
 }
 

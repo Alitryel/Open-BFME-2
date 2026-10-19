@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /arch:SSE
-// StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl @0x00579AB7 96B: virtual dtor with AsciiString at +8 plus Rva0052413E at +0xC plus TargetRef at +0x1C plus rva005796B3 clear.
-// Evidence: deleting-dtor callers 0x0042D507 0x0042D7E0 0x0042D803 plus rowed rva005796B3 0x005796B3 plus rowed Release 0x0007DEEF plus rowed 0x0052413E plus rowed releaseBuffer 0x00036410 plus vtables 0x00C6ED64 0x00BFBC9C; sibling Rva005794EDDtor.
+// StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl @0x00579AB7 96B: virtual dtor with AsciiString at +8 plus Rva0052413E at +0xC plus TargetRef at +0x1C plus SetHelpBox clear.
+// Evidence: deleting-dtor callers 0x0042D507 0x0042D7E0 0x0042D803 plus rowed SetHelpBox 0x005796B3 plus rowed Release 0x0007DEEF plus rowed 0x0052413E plus rowed releaseBuffer 0x00036410 plus vtables 0x00C6ED64 0x00BFBC9C; sibling Rva005794EDDtor.
 //
 // The class is StrategicHUD's stats display (its slot setter 0x0042D7E0).
 // Its constructor 0x00579E82 binds OnStatRollOver/OnStatRollOut
@@ -144,7 +144,7 @@ UnicodeString FormatBonusText(int bonus); // 0x00579900
 class Rva005796B3
 {
 public:
-	void rva005796B3(void *newObj);
+	void SetHelpBox(void *newObj);
 };
 
 extern "C" const void *const __identifier("??_7Rva005EEF2FBase0@@6B@")[];
@@ -235,7 +235,7 @@ StrategicHUD::StatsDisplayImpl::StatsDisplayImpl(int level, const AsciiString &n
 
 StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl()
 {
-	((Rva005796B3 *)this)->rva005796B3(0);
+	((Rva005796B3 *)this)->SetHelpBox(0);
 }
 
 // ?OnStatRollOut@StatsDisplayImpl@StrategicHUD@@QAEXPBD@Z @0x00579C00 82B:

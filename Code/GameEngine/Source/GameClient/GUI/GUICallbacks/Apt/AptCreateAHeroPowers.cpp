@@ -135,7 +135,7 @@ class Rva005B2DDF
 {
 public:
 	void *rva005B2E09(Rva005B2E09Cell *cell);
-	void *rva005B2DDF(unsigned int row, unsigned int column);
+	void *GetPowerData(unsigned int row, unsigned int column);
     void *rva005B2E35(Rva005B2E09Cell *);
 };
 
@@ -379,7 +379,7 @@ void AptCreateAHero::Powers::MatrixToolTip(const char *path)
 		return;
 	--row;
 	--column;
-	Rva005B2E09Cell *cell = (Rva005B2E09Cell *)((Rva005B2DDF *)this)->rva005B2DDF(row, column);
+	Rva005B2E09Cell *cell = (Rva005B2E09Cell *)((Rva005B2DDF *)this)->GetPowerData(row, column);
 	if (cell)
 		m_name = Rva005B2376Describe(cell->m_button, AsciiString::TheEmptyString, AsciiString::TheEmptyString);
 	else
@@ -655,7 +655,7 @@ void AptCreateAHero::Powers::OnPowerSelect(const char *path)
 {
  int row,column;
  if (sscanf(path,"%d,%d",&row,&column)!=2) return;
- Rva005B2E09Cell *cell=(Rva005B2E09Cell*)((Rva005B2DDF*)this)->rva005B2DDF(row-1,column-1);
+ Rva005B2E09Cell *cell=(Rva005B2E09Cell*)((Rva005B2DDF*)this)->GetPowerData(row-1,column-1);
  if (!cell) return;
  switch (cell->m_word18) {
  case 1:m_groupCurrent=cell;break;

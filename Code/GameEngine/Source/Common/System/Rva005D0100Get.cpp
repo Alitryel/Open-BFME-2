@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc
-// ?Rva005D0100Get@@YA?AVUnicodeString@@H@Z @0x005D0100 46B: battle message fetch.
+// ?GetBattleTypeSelectedMessage@@YA?AVUnicodeString@@H@Z @0x005D0100 46B: battle message fetch.
 // Evidence: selects STRATEGICHUD SelectedAutoResolve vs SelectedRTS by flag==1 then rowed TheGameText fetch slot 0x3C with 0 exists; sret via hidden out pointer; callers in 0x005D015C 0x005D08FD.
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -26,7 +26,7 @@ public:
 };
 extern GameTextInterface *TheGameText;
 
-UnicodeString Rva005D0100Get(int autoResolve)
+UnicodeString GetBattleTypeSelectedMessage(int autoResolve)
 {
 	const char *msg = "STRATEGICHUD:SelectedAutoResolveBattleMessage";
 	if (autoResolve != 1)

@@ -12,7 +12,7 @@ class Rva00532165
 {
 public:
     void rva00532165(unsigned short a, unsigned short b);
-    void rva00532431(unsigned short a, unsigned short b);
+    void LinkSets(unsigned short a, unsigned short b);
 private:
     int m_00;
     unsigned short *m_map;
@@ -44,9 +44,9 @@ void Rva00532165::rva00532165(unsigned short a, unsigned short b)
         return;
     m_counts[b]++;
 }
-// ?rva00532431@Rva00532165@@QAEXGG@Z @ 0x00532431 (36B): __thiscall unite via Find on both args then Union.
+// ?LinkSets@Rva00532165@@QAEXGG@Z @ 0x00532431 (36B): __thiscall unite via Find on both args then Union.
 // Evidence: same this calls rowed Find 0x531AEE twice plus rowed Union 0x532165 plus callers in 0x5324D8 0x532708 0x533BEC.
-void Rva00532165::rva00532431(unsigned short a, unsigned short b)
+void Rva00532165::LinkSets(unsigned short a, unsigned short b)
 {
     Rva00531A44 *self = (Rva00531A44 *)this;
     rva00532165(self->FindSet(a), self->FindSet(b));

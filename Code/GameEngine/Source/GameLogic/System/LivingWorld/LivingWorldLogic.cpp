@@ -3171,7 +3171,7 @@ class Rva0020E89C {public:
 class Rva0020EAF6View {public:Rva0020E89C *rva0020EAF6(int);};
 class Rva00318C8DOwner {public:Rva0020E89C *rva00318C8D();};
 class Rva003195C9Owner {public:void rva00319E7C();void rva00319831(void*);};
-class Rva00319159 {public:UnicodeString rva0031964D();};
+class Rva00319159 {public:UnicodeString GetHeroDisplayName();};
 class Rva002E0687 {public:bool rva002E0687()const;};
 class Rva002B2702 {public:void rva002B2702(void*,void*,int);};
 struct Rva003F7198Node {int key;};
@@ -3253,9 +3253,9 @@ void LivingWorldLogic::PrepareRetreats(){
     }
     if(((Rva002E0687*)player)->rva002E0687() && destination){
      UnicodeString text=TheGameText->fetch(destination==home?"LW:HeroCutOffTextHomeBase":"LW:HeroCutOffTextNearest");
-     text.format(&text,((Rva00319159*)army)->rva0031964D().str(),destination->rva0020E89C().str());
+     text.format(&text,((Rva00319159*)army)->GetHeroDisplayName().str(),destination->rva0020E89C().str());
      UnicodeString title=TheGameText->fetch("LW:HeroCutOffTitle");
-     title.format(&title,((Rva00319159*)army)->rva0031964D().str());
+     title.format(&title,((Rva00319159*)army)->GetHeroDisplayName().str());
      Rva004FBCBE *object=new Rva004FBCBE(title,text,0);
      Rva002B9062Element hint(object);
      object->message=message;
@@ -3585,7 +3585,7 @@ void LivingWorldLogic::CheckHeadToHeadBattles(){
    Rva0020E89C *region=(Rva0020E89C*)((Rva00318C79Owner*)army)->rva00318C32();
    if(region){
     UnicodeString item=TheGameText->fetch("LW:AttackRepelledItemText");
-    item.format(&item,((Rva00319159*)army)->rva0031964D().str(),region->rva0020E89C().str());
+    item.format(&item,((Rva00319159*)army)->GetHeroDisplayName().str(),region->rva0020E89C().str());
     summary.concat(item);
    }
   }

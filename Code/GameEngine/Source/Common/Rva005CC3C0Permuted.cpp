@@ -26,7 +26,7 @@ class Rva005E16B9
 	char m_pad[8];
 	AsciiString m_8;
 public:
-	const Image *rva005E16B9();
+	const Image *GetImage();
 };
 
 struct Rva005F5C77Base0
@@ -73,6 +73,6 @@ Rva005CC37C::Rva005CC37C(void *a1, Rva005CC3C0In *a2)
 	, Rva005CC37CHolder(a1, AsciiString("button"), a2->m_00)
 {
 	m_1C = a2->m_04;
-	const Image *img = ((Rva005E16B9 *)&g_00E06620)->rva005E16B9();
+	const Image *img = ((Rva005E16B9 *)&g_00E06620)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 }

@@ -38,12 +38,12 @@ private:
 	Rva005297A0Elem m_elems[6];
 };
 
-bool __cdecl Rva00529628Get(const char *section, int *out);
+bool __cdecl ParseButtonSlotIndex(const char *section, int *out);
 
 void Rva0052936C::OnButtonFrameUnloaded(const char *section)
 {
 	int index;
-	if (!Rva00529628Get(section, &index))
+	if (!ParseButtonSlotIndex(section, &index))
 		return;
 	Rva005297A0Elem &e = m_elems[index];
 	e.m_b.clear();
@@ -54,7 +54,7 @@ void Rva0052936C::OnButtonFrameUnloaded(const char *section)
 void Rva0052936C::OnSubMenuUnloaded(const char *section)
 {
 	int index;
-	if (!Rva00529628Get(section, &index))
+	if (!ParseButtonSlotIndex(section, &index))
 		return;
 	Rva005297A0Elem &e = m_elems[index];
 	e.m_b.clear();
@@ -65,7 +65,7 @@ void Rva0052936C::OnSubMenuUnloaded(const char *section)
 void Rva0052936C::OnToggleFlashUnloaded(const char *section)
 {
 	int index;
-	if (!Rva00529628Get(section, &index))
+	if (!ParseButtonSlotIndex(section, &index))
 		return;
 	Rva005297A0Elem &e = m_elems[index];
 	e.m_b.clear();

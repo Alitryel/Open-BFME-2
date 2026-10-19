@@ -114,7 +114,7 @@ Rva005CFA87::Rva005CFA87(void*o,bool change):Rva005CF872(o),m_08(timeGetTime()),
 
 class LivingWorldLogic;extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002BA8F1Logic {public:int rva002B5256(bool);};
-UnicodeString Rva005D0100Get(int);
+UnicodeString GetBattleTypeSelectedMessage(int);
 namespace StrategicInGameUI { UnicodeString GetDefaultStartingBattleMessage(int); }
 // WB15B8920 names GetStartingBattleMessage. Native354B5D015C through5D02BE
 // keeps two user inputs in ECX/EDX and hidden Unicode output on the stack.
@@ -128,7 +128,7 @@ static UnicodeString GetStartingBattleMessage(int opponent,int chosen) {
  if(!exists)return StrategicInGameUI::GetDefaultStartingBattleMessage(chosen);
  UnicodeString priority=TheGameText->fetch(chosen==1?"STRATEGICHUD:BattlePriorityAutoResolve":"STRATEGICHUD:BattlePriorityRTS",0);
  UnicodeString result;
- result.format(mismatch.str(),Rva005D0100Get(opponent).str(),priority.str(),StrategicInGameUI::GetDefaultStartingBattleMessage(chosen).str());
+ result.format(mismatch.str(),GetBattleTypeSelectedMessage(opponent).str(),priority.str(),StrategicInGameUI::GetDefaultStartingBattleMessage(chosen).str());
  return result;
 }
 }

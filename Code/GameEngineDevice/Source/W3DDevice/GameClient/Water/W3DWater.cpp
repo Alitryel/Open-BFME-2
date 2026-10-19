@@ -8,7 +8,7 @@
 // StringBase<char>'s canonical header owns isEmpty; the native string
 // prefix read proves its shared-buffer data starts eight bytes later.
 #include "string_base.h"
-class Rva0030812E { public: void *rva0030812E(int index); };
+class Rva0030812E { public: void *getTextureName(int index); };
 enum WW3DFormat { WW3D_FORMAT_UNKNOWN = 0 };
 class W3DRadarFormatCaps { public: bool supportTextureFormat(WW3DFormat format); };
 class DX8Caps;
@@ -64,7 +64,7 @@ private:
  BFME2ParticleTextureHandle m_textures[4];
 };
 void RenderableStandingWaterArea::createTexture(int index) {
- StringBase<char> *s=(StringBase<char>*)m_area->rva0030812E(index);
+ StringBase<char> *s=(StringBase<char>*)m_area->getTextureName(index);
  if (!s->isEmpty()) {
   if (index == 0) {
    int format=0;

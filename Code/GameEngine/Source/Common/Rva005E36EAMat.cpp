@@ -76,7 +76,7 @@ private:
 class Rva005E36C5
 {
 public:
-	int rva005E36C5(char *dst);
+	int copyToBuffer(char *dst);
 	operator StringBase<char>();
 private:
 	Rva005E36A0 m_head;
@@ -95,6 +95,6 @@ Rva005E36C5::operator StringBase<char>()
 {
 	StringBase<char> tmp;
 	int extra = m_tail.m_len;
-	rva005E36C5(tmp.getBufferForRead(((const Rva00513E03 *)this)->length() + extra));
+	copyToBuffer(tmp.getBufferForRead(((const Rva00513E03 *)this)->length() + extra));
 	return tmp;
 }

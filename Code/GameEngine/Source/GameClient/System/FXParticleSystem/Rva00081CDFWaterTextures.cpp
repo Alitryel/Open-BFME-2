@@ -120,7 +120,7 @@ public:
 class Rva0030812E
 {
 public:
-	void *rva0030812E(int index);
+	void *getTextureName(int index);
 };
 
 void bfmeMergeReceiverKeys(int value);
@@ -165,7 +165,7 @@ void Rva00081CDF::rva00081CDF()
 
 	for (int i = 0; i < 2; ++i) {
 		((RenderableStandingWaterArea *)(char *)this)->createTexture(i);
-		assets << *(const AsciiString *)m_holder40->rva0030812E(i);
+		assets << *(const AsciiString *)m_holder40->getTextureName(i);
 	}
 
 	bfmeMergeReceiverKeys((int)&assets);

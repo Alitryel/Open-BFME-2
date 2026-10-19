@@ -24,7 +24,7 @@ virtual~GameTextInterface();
 V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13)
 #undef V
 virtual UnicodeString fetch(const char*,bool* =0);};extern GameTextInterface*TheGameText;
-UnicodeString Rva005D0100Get(int);
+UnicodeString GetBattleTypeSelectedMessage(int);
 struct WideStringRef{const UnicodeString*text;};struct WideStringChar:WideStringRef{unsigned short ch;};
 class Rva005D087F:public WideStringChar{public:const UnicodeString*right;operator UnicodeString();};
 static __forceinline WideStringChar operator+(const UnicodeString&a,unsigned short ch){WideStringChar out;out.text=&a;out.ch=ch;return out;}
@@ -49,7 +49,7 @@ if(((WaitOwnerView*)owner)->resolver->rva0056A989()){
  AptStrategicMessageBox*prompt=AptStrategicMessageBox::s_instance;
  if(prompt&&timeGetTime()-startTime>=200){
   UnicodeString wait=TheGameText->fetch("STRATEGICHUD:WaitMessage",0);
-  ((Rva0054D2DDTarget*)prompt)->method(4,UnicodeString(L" "),(Rva005D0100Get(selected)+(unsigned short)'\n'+wait));
+  ((Rva0054D2DDTarget*)prompt)->method(4,UnicodeString(L" "),(GetBattleTypeSelectedMessage(selected)+(unsigned short)'\n'+wait));
   shown=true;
  }
 }
