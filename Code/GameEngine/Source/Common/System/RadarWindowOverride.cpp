@@ -20,7 +20,7 @@ void setHideScroll();
 // The target's 0x002D4240 body calls vtable offset +0x24 on this object.
 // GeneralsMD names the analogous AptPalantirAnimation slot "stop"; only the
 // BFME2 slot offset and this object's +0x24 flags byte are target evidence.
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 	virtual void v00();
@@ -34,6 +34,8 @@ public:
 	virtual void v20();
 	virtual void stop();
 	void Rva00524A65(int arg);
+	// The open call binds the rowed 0x00524D01 (Rva00524B7ACtor.cpp).
+	void OpenMovie(const AsciiString &, int);
 
 private:
 	char m_pad04[0x20];
@@ -150,7 +152,7 @@ struct RadarWindowOverrideInner
 	char m_pad61[ 3 ];
 	GameWindow *m_window;
 	char m_pad68[ 0x10 ];
-	Rva00524A4C *m_78;
+	MovieWindowPlayback *m_78;
 	bool m_7C;
 	char m_pad7D[ 0x0F ];
 	Rva00528FD9Owner m_8C;
@@ -196,7 +198,7 @@ bool RadarWindowOverrideSource::rva002D35E6( void ) const
 
 void RadarWindowOverrideSource::rva002D35F2( void )
 {
-	Rva00524A4C *p = m_inner->m_78;
+	MovieWindowPlayback *p = m_inner->m_78;
 	if (p->m_flags & 1)
 		p->Rva00524A65(500);
 }
@@ -252,7 +254,7 @@ void RadarWindowOverrideSource::rva002D4240(bool immediate)
 			m_inner->m_flags |= 2;
 		}
 
-		Rva00524A4C *animation = m_inner->m_78;
+		MovieWindowPlayback *animation = m_inner->m_78;
 		if (animation)
 			animation->stop();
 
@@ -290,8 +292,6 @@ public:
  virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void stop();
  void rva00524D01(const AsciiString &,int);
 };
-// LINK: the open call binds the rowed owner at 0x00524D01 (MovieWindowPlayback::OpenMovie, Rva00524B7ACtor.cpp).
-class MovieWindowPlayback { public: void OpenMovie(const AsciiString &,int); };
 struct AlertInner {
  char unknown00[0x60]; unsigned char flags;
  char unknown61[0x17]; Rva005C96A9 *playback;

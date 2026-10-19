@@ -836,7 +836,7 @@ template <> bool &map<int, bool, less<int>, allocator<pair<const int, bool> > >:
 // imported specialization keeps this TU from emitting its own copy.
 template <> __declspec(dllimport) __forceinline bool _STL::less<int>::operator()(const int &left, const int &right) const { return left < right; }
 
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 #define V(n) virtual void unusedSlot##n();
@@ -981,7 +981,7 @@ void AptPalantir::update()
 	}
 
 	bool showMovie = false;
-	Rva00524A4C *playback = reinterpret_cast<Rva00524A4C *>(m_moviePlayback);
+	MovieWindowPlayback *playback = reinterpret_cast<MovieWindowPlayback *>(m_moviePlayback);
 	if (playback->m_b0)
 	{
 		if (static_cast<unsigned char>(reinterpret_cast<Rva005248D0 *>(playback)->rva002D2C21()))
@@ -991,7 +991,7 @@ void AptPalantir::update()
 		else
 		{
 			playback->advance();
-			if (!reinterpret_cast<Rva00524A4C *>(m_moviePlayback)->m_b2 && reinterpret_cast<Rva00524A4C *>(m_moviePlayback)->rva00524A84() > 0.5f)
+			if (!reinterpret_cast<MovieWindowPlayback *>(m_moviePlayback)->m_b2 && reinterpret_cast<MovieWindowPlayback *>(m_moviePlayback)->rva00524A84() > 0.5f)
 				showMovie = true;
 			else
 				showMovie = false;

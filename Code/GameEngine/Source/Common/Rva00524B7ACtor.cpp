@@ -11,7 +11,6 @@ extern Display *TheDisplay;
 class BfmeSelectionState {public:bool isSelectionLocked()const;};
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-class Rva00524A4C {public:void clear();};
 class Object;
 class ObjectLookupMap {public:Object **findSlot(int*);};
 extern unsigned g_Va00E04938;
@@ -42,6 +41,7 @@ class MovieWindowPlayback
 public:
 	MovieWindowPlayback();
  void OpenMovie(const AsciiString &,int);
+ void clear(); // 0x00524A4C (Rva00524A4CClear.cpp)
 
 private:
 	void *m_vtable;
@@ -94,7 +94,7 @@ void MovieWindowPlayback::OpenMovie(const AsciiString &name,int value){
   TheDisplay->drawSubtitle(m_0C->subtitles->font,(float)y,(float)w,x,MovieSubtitleDrawWord0,MovieSubtitleDrawWord1,MovieSubtitleDrawWord2);
  }
  MovieStream *playing=m_0C;
- if(!playing->start(TheDisplay->buffer((value&0x40)!=0))){((Rva00524A4C*)this)->clear();return;}
+ if(!playing->start(TheDisplay->buffer((value&0x40)!=0))){clear();return;}
  value=(int)m_0C;
  *((ObjectLookupMap*)&g_Va00E04938)->findSlot(&value)=(Object*)this;
  m_0C->callback=Rva00524CC6;

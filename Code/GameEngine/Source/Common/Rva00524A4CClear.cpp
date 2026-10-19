@@ -1,12 +1,12 @@
 // cl: /MD
-// ?clear@Rva00524A4C@@QAEXXZ @0x00524A4C (25B): clears the +0x0C interface
+// ?clear@MovieWindowPlayback@@QAEXXZ @0x00524A4C (25B): clears the +0x0C interface
 // pointer through its slot-7 virtual then clears the low two flag bits at
 // +0x24. Called by the dtor at 0x00524BB4 and by 0x00524D01 plus a jmp from
 // 0x00524A84; vtable 0x00867DFC family. No donor name claimed so the name
 // keeps the address token with an honest Rva owner.
-// ?Rva00524A65@Rva00524A4C@@QAEXH@Z @0x00524A65 (31B): stores the int arg at
+// ?Rva00524A65@MovieWindowPlayback@@QAEXH@Z @0x00524A65 (31B): stores the int arg at
 // +0x2C, sets flag bit2 at +0x24 and -1 at +0x28, then stamps timeGetTime at
-// +0x30. Same Rva00524A4C owner proven by shared +0x24/+0x28/+0x2C/+0x30
+// +0x30. Same MovieWindowPlayback owner proven by shared +0x24/+0x28/+0x2C/+0x30
 // offsets with the ctor/dtor family; caller 0x002D3603. Honest address method.
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 extern const float BfmeZeroRange;
@@ -32,7 +32,7 @@ public:
 	virtual int slot16();
 };
 
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 	void clear();
@@ -50,7 +50,7 @@ private:
 	int m_30;
 };
 
-void Rva00524A4C::clear()
+void MovieWindowPlayback::clear()
 {
 	if (m_ptr) {
 		m_ptr->slot7();
@@ -59,7 +59,7 @@ void Rva00524A4C::clear()
 	m_flags &= 0xFC;
 }
 
-void Rva00524A4C::Rva00524A65(int arg)
+void MovieWindowPlayback::Rva00524A65(int arg)
 {
 	m_flags |= 4;
 	m_2C = arg;
@@ -68,12 +68,12 @@ void Rva00524A4C::Rva00524A65(int arg)
 	m_30 = (int)t;
 }
 
-// ?rva00524A84@Rva00524A4C@@QAEMXZ @0x00524A84 (94B): while flag bit0 is set and
+// ?rva00524A84@MovieWindowPlayback@@QAEMXZ @0x00524A84 (94B): while flag bit0 is set and
 // the +0x0C interface exists and its slot-13 predicate is false, the progress
 // ratio (slot9 - slot8) / slot16 as float; otherwise the zero range literal.
 // Codegen: the interface pointer is read through the member at each use (no named
 // local), which keeps retail's reload after the slot-8 call.
-float Rva00524A4C::rva00524A84()
+float MovieWindowPlayback::rva00524A84()
 {
 	if ((m_flags & 1) != 0 && m_ptr != 0 && !m_ptr->slot13()) {
 		int diff = (m_ptr)->slot9() - (m_ptr)->slot8();

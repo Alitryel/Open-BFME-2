@@ -349,7 +349,7 @@ public:
 	int rva0051274F(int a, unsigned int b, unsigned int c);
 };
 
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 	void clear();
@@ -859,8 +859,8 @@ public:
 };
 
 
-// 0x00524AE2: tail jump to Rva00524A4C::clear.
-class Rva00524AE2 : public Rva00524A4C
+// 0x00524AE2: tail jump to MovieWindowPlayback::clear.
+class Rva00524AE2 : public MovieWindowPlayback
 {
 public:
 	void rva00524AE2();

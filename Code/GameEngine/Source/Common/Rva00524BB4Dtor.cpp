@@ -1,7 +1,7 @@
 // cl: /MD /EHsc
 // ??1Rva00524BB4@@UAE@XZ retail 0x00524BB4 75B
 // Own vptr C67DFC; under EH state 1 the body empties the object through the
-// rowed ?clear@Rva00524A4C 0x00524A4C; the ref holder at +0x34 is released
+// rowed ?clear@MovieWindowPlayback 0x00524A4C; the ref holder at +0x34 is released
 // through the rowed fastcall ReleaseTreeHintRef00217D4C 0x0007DEEF when set
 // (state 0); then the rowed base dtor ??1GameEngineDeletingBase@@UAE@XZ
 // 0x001B4E74. Names address-derived.
@@ -18,7 +18,7 @@ private:
 	char m_pad04[8];
 };
 
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 	void clear();
@@ -48,5 +48,5 @@ private:
 
 Rva00524BB4::~Rva00524BB4()
 {
-	((Rva00524A4C *)this)->clear();
+	((MovieWindowPlayback *)this)->clear();
 }

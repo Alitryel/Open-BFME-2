@@ -373,7 +373,7 @@ public:
 	int rva0051274F(int a, unsigned int b, unsigned int c);
 };
 
-class Rva00524A4C
+class MovieWindowPlayback
 {
 public:
 	void clear();
@@ -1018,15 +1018,15 @@ int Rva00521111::rva00521111(int a, unsigned int b, unsigned int c)
 	return _bfme_AptGameWindow::rva0051274F(a, b, c);
 }
 
-// 0x00524AE2: tail jump to Rva00524A4C::clear.
-class Rva00524AE2 : public Rva00524A4C
+// 0x00524AE2: tail jump to MovieWindowPlayback::clear.
+class Rva00524AE2 : public MovieWindowPlayback
 {
 public:
 	void rva00524AE2();
 };
 void Rva00524AE2::rva00524AE2()
 {
-	Rva00524A4C::clear();
+	MovieWindowPlayback::clear();
 }
 
 // 0x0052B48D: tail jump to XferSave::endBlock.
