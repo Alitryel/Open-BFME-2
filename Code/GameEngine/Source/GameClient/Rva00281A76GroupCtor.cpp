@@ -18,6 +18,13 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 class Object;
+namespace _STL {
+// The vector member's base dtor (constructor EH cleanup) likewise stays inline without
+// an unreferenced out-of-line copy that differs from the kept one.
+template <> __declspec(dllimport) __forceinline
+_Vector_base<Object *, allocator<Object *> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 // Complete native [281A76,281AB7) allocates a 40-byte group.
 // Callers establish active00 and selected18 byte flags plus a pointer vector1C.
 // The field subobject describes the observed initialization footprint; its
