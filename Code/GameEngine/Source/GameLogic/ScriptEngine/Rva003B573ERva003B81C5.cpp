@@ -31,7 +31,7 @@ class Rva003B573E
 {
 public:
 	int rva003B7C47(const StringBase<char> &key);
-	void rva003B66D8(int index);
+	void deallocateEntry(int index);
 	int rva003B81C5(int index, const StringBase<char> &key);
 
 private:
@@ -52,6 +52,6 @@ int Rva003B573E::rva003B81C5(int index, const StringBase<char> &key)
 	Rva003B675BRecord *target = &m_records[destination];
 	node->m_next = (BfmeNodeZ *)target->m_nodes;
 	target->m_nodes = node;
-	rva003B66D8(index);
+	deallocateEntry(index);
 	return destination;
 }

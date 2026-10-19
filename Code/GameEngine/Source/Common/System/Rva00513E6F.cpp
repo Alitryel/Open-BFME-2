@@ -18,7 +18,7 @@ struct Rva00513E03
 class Rva00513E4A
 {
 public:
-	int rva00513E4A(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 };
 class Rva00513E6F
 {
@@ -28,6 +28,6 @@ public:
 UnicodeString Rva00513E6F::rva00513E6F()
 {
 	UnicodeString tmp;
-	((Rva00513E4A *)this)->rva00513E4A(tmp.getBufferForRead(((const Rva00513E03 *)this)->length()));
+	((Rva00513E4A *)this)->copyToBuffer(tmp.getBufferForRead(((const Rva00513E03 *)this)->length()));
 	return tmp;
 }

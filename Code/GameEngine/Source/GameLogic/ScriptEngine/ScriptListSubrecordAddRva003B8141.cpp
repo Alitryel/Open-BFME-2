@@ -8,7 +8,7 @@
 // (rva003B7C47), a 0x58-byte new-expression whose node clears +0 inline and
 // default-constructs the payload at +4 through the pinned 0x003B417E, pushed
 // onto the record's node list at +0x10; the catch funclet drops the
-// reference (rva003B66D8) and rethrows. The method sits on the pinned class
+// reference (deallocateEntry) and rethrows. The method sits on the pinned class
 // Rva003BRefSubrecord, modelled as deriving the lookup/release owner
 // Rva003B573E (base layout identical). Names are address-derived.
 #include "ascii_string.h"
@@ -45,7 +45,7 @@ struct Rva003B675BRecord
 class Rva003B573E
 {
 public:
-	void rva003B66D8(int index);
+	void deallocateEntry(int index);
 	int rva003B7C47(const StringBase<char> &key);
 
 protected:
@@ -74,7 +74,7 @@ int Rva003BRefSubrecord::rva003B8141(const StringBase<char> &key)
 		}
 		catch (...)
 		{
-			rva003B66D8(index);
+			deallocateEntry(index);
 			throw;
 		}
 	}

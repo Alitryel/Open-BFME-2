@@ -8,7 +8,7 @@
 // with an int* payload: key lookup (rva003B7C47), a 0x58-byte new-expression
 // built by the rowed 0x003B770B constructor (int* argument), pushed onto the
 // record's node list at +0x10; the catch funclet drops the reference again
-// (rva003B66D8) and rethrows. Structural twin only; the class and the node
+// (deallocateEntry) and rethrows. Structural twin only; the class and the node
 // type name are address-derived.
 #include "ascii_string.h"
 
@@ -37,7 +37,7 @@ struct Rva003B675BRecord
 class Rva003B573E
 {
 public:
-	void rva003B66D8(int index);
+	void deallocateEntry(int index);
 	int rva003B7C47(const StringBase<char> &key);
 	int rva003B80B8(const StringBase<char> &key, int *value);
 
@@ -61,7 +61,7 @@ int Rva003B573E::rva003B80B8(const StringBase<char> &key, int *value)
 		}
 		catch (...)
 		{
-			rva003B66D8(index);
+			deallocateEntry(index);
 			throw;
 		}
 	}

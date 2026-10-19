@@ -164,7 +164,7 @@ public:
 	void rva006F6FB0(int key, AptCIH *pNewItem);
 	AptCIH *rva006F6ED0(int key,int type,void*pData);
 	void rva006F7030(int key, AptCIH *pNewItem, AptCIH *pPrev, AptCIH *pItemAtDepth);
-	AptCIH *rva006F6D60(AptCIH *pOldItem, AptCIH *pNewItem);
+	AptCIH *insert(AptCIH *pOldItem, AptCIH *pNewItem);
 
 	static void *operator new(unsigned int size)
 	{
@@ -373,8 +373,8 @@ static __forceinline int rva006F6D60IsType14(const AptCIH *pNewItem)
 	return 0;
 }
 
-// ?rva006F6D60@@YGPAVAptCIH@@PAV1@0@Z @0x006F6D60 159B
-AptCIH *BfmeQuery1279::rva006F6D60(AptCIH *pOldItem, AptCIH *pNewItem)
+// ?insert@@YGPAVAptCIH@@PAV1@0@Z @0x006F6D60 159B
+AptCIH *BfmeQuery1279::insert(AptCIH *pOldItem, AptCIH *pNewItem)
 {
 	if (pNewItem->rva006CFCD0() || rva006F6D60IsType14(pNewItem)) {
 		if (pNewItem->pData == 0) {
@@ -405,7 +405,7 @@ void BfmeQuery1279::rva006F6FB0(int key, AptCIH *pNewItem)
 		if (g_bfmeAptBreakOnAssertAtDDC01C)
 			__debugbreak();
 	}
-	AptCIH *node = rva006F6D60((AptCIH *)pPrev, pNewItem);
+	AptCIH *node = insert((AptCIH *)pPrev, pNewItem);
 	node->m_key = node->m_key ^ ((node->m_key ^ (unsigned int)key) & 0x1FFFFu);
 }
 
@@ -682,7 +682,7 @@ void BfmeQuery1279::rva006F7030(int key, AptCIH *pNewItem, AptCIH *pPrev,
         if (g_bfmeAptBreakOnAssertAtDDC01C)
             __debugbreak();
     }
-    AptCIH *node = rva006F6D60(pPrev, pNewItem);
+    AptCIH *node = insert(pPrev, pNewItem);
     node->m_key = node->m_key ^ ((node->m_key ^ (unsigned int)key) & 0x1FFFFu);
 }
 
@@ -762,7 +762,7 @@ AptCIH *BfmeQuery1279::rva006F6ED0(int key, int type, void *pData)
 	}
 	node->m_58 = node->m_58 ^ ((node->m_58 ^ (unsigned int)key) & 0x1FFFFu);
 	node->m4C = pData;
-	return rva006F6D60((AptCIH *)pPrev, (AptCIH *)node);
+	return insert((AptCIH *)pPrev, (AptCIH *)node);
 }
 
 // ?instantiateCharacter@AptDisplayList@@QAEXHPAUAptCharacter@@PAVEAStringC@@PAVAptCIH@@HHPAPAV4@PAH@Z

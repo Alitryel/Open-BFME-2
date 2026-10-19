@@ -146,7 +146,7 @@ public:
 class BfmeThingCGD
 {
 public:
-	void bfmeGoCGD();
+	void Update();
 };
 class Rva007581E0
 {
@@ -159,7 +159,7 @@ private:
 void Rva007581E0::rva007581E0()
 {
 	Profile::StartRange("collision");
-	m_10->bfmeGoCGD();
+	m_10->Update();
 	Profile::StopRange("collision");
 }
 

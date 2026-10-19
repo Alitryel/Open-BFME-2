@@ -29,7 +29,7 @@ class BfmeThingEQ;
 class Rva009F2AB0Mask { public: int getMask(); };
 class BfmeHostER { public: unsigned bfmeIndexER(float); };
 class BfmeHostES { public: unsigned bfmeIndexES(float); };
-class BfmeThingVJX { public: void bfmeGoVJX(int); };
+class BfmeThingVJX { public: void Sort(int); };
 typedef float (__cdecl *Rva009F4130Distance)(void *,void *,float);
 // The target's mutable five-entry callback table at VA DD7EC0. These
 // declarations retain each provider's rowed ABI; the common pointer view is
@@ -81,6 +81,6 @@ Rva009F39F0Result PartitionManagerImpl::GetObjectsInRange(const float *position,
     for (int remaining=21;remaining;--remaining,++tree,mask>>=1) {
         if (mask&1) _GetObjectsInRange((Rva009F39F0Result *)&result,tree->begin(),trees[0].size()/4,xmin,ymin,xmax,ymax,0,0,size,(void *)position,radius,bounds,g_partitionDistance[distanceType],(BfmeThingEQ *)filter);
     }
-    if (sort) ((BfmeThingVJX *)&result)->bfmeGoVJX(sort);
+    if (sort) ((BfmeThingVJX *)&result)->Sort(sort);
     return result;
 }

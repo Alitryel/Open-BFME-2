@@ -136,7 +136,7 @@ struct AsciiStringRefWithChar : AsciiStringRef
 class Rva002DCD9A
 {
 public:
-	int rva002dcd9a(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 };
 
 struct AsciiStringPlusText : AsciiStringRef
@@ -255,7 +255,7 @@ AsciiStringPlusText::operator UnicodeString()
 {
 	UnicodeString tmp;
 	Rva002DCD9A *pair = (Rva002DCD9A *)this;
-	pair->rva002dcd9a(tmp.getBufferForRead(length()));
+	pair->copyToBuffer(tmp.getBufferForRead(length()));
 	return tmp;
 }
 

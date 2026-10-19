@@ -19,7 +19,7 @@ public:
 class Rva005D061E
 {
 public:
-	int rva005D061E(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 };
 
 class Rva005D087F
@@ -33,6 +33,6 @@ Rva005D087F::operator UnicodeString()
 	UnicodeString tmp;
 	int len = ((Rva005D0507 *)this)->rva005D0507();
 	unsigned short *buf = ((StringBase<unsigned short> *)&tmp)->getBufferForRead(len);
-	((Rva005D061E *)this)->rva005D061E(buf);
+	((Rva005D061E *)this)->copyToBuffer(buf);
 	return tmp;
 }

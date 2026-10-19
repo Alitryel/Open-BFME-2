@@ -3,7 +3,7 @@
 // BFME1 donor reference/open-bfme-1/game/GameEngine/Source/Common/BfmeOwnerCDECount.cpp
 // getCDECount via rowed GeometryInfo::rva006BD9C0 0x006BD9C0 plus rowed bfmeStepsEU 0x0073B750.
 // BFME2 deltas: theDebug stream with 3 args plus float 1.0 via g_Va00BBB8D8 and AsciiString temps.
-// Caller at 0x0073D4B2 in rva008fa850. Prev stlport_deque / next BfmeOwnerCDECreate. LINK BONUS name.
+// Caller at 0x0073D4B2 in RegisterObject. Prev stlport_deque / next BfmeOwnerCDECreate. LINK BONUS name.
 #include "ascii_string.h"
 
 class Debug;

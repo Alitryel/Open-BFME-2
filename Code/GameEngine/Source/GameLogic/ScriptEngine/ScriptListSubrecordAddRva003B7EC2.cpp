@@ -6,7 +6,7 @@
 // Sibling of Rva003BRefSubrecord::rva003B8141 with the 0x14-byte node whose
 // payload at +4 is the rowed default ctor 0x003B40DF (Rva00352900): key
 // lookup (rva003B7C47), new node pushed onto the record's list at +0x10,
-// catch funclet releases the reference (rva003B66D8) and rethrows. The pin
+// catch funclet releases the reference (deallocateEntry) and rethrows. The pin
 // spells the parameter as int; retail passes the incoming argument slot
 // straight to the lookup (a reference there), so it is forwarded as such.
 // Names are address-derived.
@@ -60,7 +60,7 @@ struct Rva003B675BRecord
 class Rva003B573E
 {
 public:
-	void rva003B66D8(int index);
+	void deallocateEntry(int index);
 	int rva003B7C47(const StringBase<char> &key);
 
 protected:
@@ -89,7 +89,7 @@ int Rva003B7EC2View::rva003B7EC2(int key)
 		}
 		catch (...)
 		{
-			rva003B66D8(index);
+			deallocateEntry(index);
 			throw;
 		}
 	}

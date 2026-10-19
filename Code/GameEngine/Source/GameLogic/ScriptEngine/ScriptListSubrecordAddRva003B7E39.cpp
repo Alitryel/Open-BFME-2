@@ -7,7 +7,7 @@
 // Looks up or allocates the 0x14-stride record for the key (rva003B7C47),
 // then pushes a new 0x14-byte list node holding a copy of the payload onto
 // the record's node list at +0x10. If building the node throws, the record
-// reference is dropped again (rva003B66D8) and the exception is rethrown.
+// reference is dropped again (deallocateEntry) and the exception is rethrown.
 // Returns the record index or -1.
 //
 // Evidence (target): callees read at the retail REL32s: 0x003B7C47 (pinned
@@ -15,9 +15,9 @@
 // constructor 0x003B44C7 (its only caller is this new-expression: tmp kept at
 // [ebp-0x18] under EH state 1 and the ctor's eax result used as the node) and
 // in the catch funclet 0x003B66D8
-// (rowed rva003B66D8, ScriptListSubrecordRemove.cpp) followed by
+// (rowed deallocateEntry, ScriptListSubrecordRemove.cpp) followed by
 // _CxxThrowException(0 0). Record layout (+0x10 node head) as rowed by
-// rva003B66D8 and rva003B7F8E. WorldBuilder twin 0xAB2080 (score 0.5)
+// deallocateEntry and rva003B7F8E. WorldBuilder twin 0xAB2080 (score 0.5)
 // names the key lookup ScriptSetBase<ScriptGroup>::allocateEntry and builds
 // the node in place (Rva003529B0 copy at node +4). The method name stays
 // address-derived.
@@ -49,7 +49,7 @@ struct Rva003B675BRecord
 class Rva003B573E
 {
 public:
-	void rva003B66D8(int index);
+	void deallocateEntry(int index);
 	int rva003B7C47(const StringBase<char> &key);
 	int rva003B7E39(const StringBase<char> &key, const Rva003529B0 *value);
 
@@ -73,7 +73,7 @@ int Rva003B573E::rva003B7E39(const StringBase<char> &key, const Rva003529B0 *val
 		}
 		catch (...)
 		{
-			rva003B66D8(index);
+			deallocateEntry(index);
 			throw;
 		}
 	}

@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005FA91C@Rva005FA91C@@QAEXH@Z, RVA 0x005FA91C, 96 bytes.
+// ?OnSwapButtonLeftClicked@Rva005FA91C@@QAEXH@Z, RVA 0x005FA91C, 96 bytes.
 // Builds GameMessage type 0x6B4 via MessageStreamSubsystem slot 0x48 and
 // appends five ints: [[this+4]+0x14]+0x34, [this+4]+0x18, [this+4]+0x1C,
 // entries[idx].key at this+idx*8+0x34, entries[idx+1].key at this+idx*8+0x3C.
@@ -39,9 +39,9 @@ struct Rva005FA91C {
     char m_pad8[0x2C];
     Rva005FA91CEntry m_entries[3];
     int m_count;
-    void rva005FA91C(int idx);
+    void OnSwapButtonLeftClicked(int idx);
 };
-void Rva005FA91C::rva005FA91C(int idx)
+void Rva005FA91C::OnSwapButtonLeftClicked(int idx)
 {
     GameMessage *msg = TheMessageStream->createMessage(0x6B4);
     msg->appendIntegerArgument(m_ptr4->m_ptr14->m_val34);

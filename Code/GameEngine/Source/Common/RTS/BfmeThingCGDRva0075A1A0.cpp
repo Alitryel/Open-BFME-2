@@ -2,7 +2,7 @@
 // cl: /O2 /G6 /MD /EHs /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Retail 0x0075A1A0..0x0075A48E (750 B; Ghidra's 747 cut the add esp,0x18 / ret epilogue), thiscall, EH.
-// Sited just before the rowed bfmeGoCGD driver 0x0075A490 (BfmeConv597.cpp); the object is the 0xC070-byte
+// Sited just before the rowed Update driver 0x0075A490 (BfmeConv597.cpp); the object is the 0xC070-byte
 // collision data the constructor 0x0075A000 builds (RetailCollisionManagerDataCtorRva0075A000.cpp): two
 // bucket tables (0x2B7B and 0x493 buckets) with their active/index/cursor words. WorldBuilder twin
 // 0x018062E0 is the same walk with "collisionmanager_stat" / "Contacts:" / "max on obj " debug output;
@@ -42,7 +42,7 @@ class BfmeThingCGD
 public:
 	void bfmeOneCGD();
 	void bfmeTwoCGD();
-	void bfmeGoCGD();
+	void Update();
 	void rva0075A1A0();
 	Rva009A2FE0Node *nextNode();
 	Rva009A2FE0Node *nextNode2();
@@ -63,7 +63,7 @@ public:
 void bfmeGlobalCGD();
 
 // Retail 0x0075A1A0 (747B, RET0 thiscall), sited just before the rowed
-// bfmeGoCGD driver 0x0075A490. WorldBuilder twin 0x018062E0 (1212B) is the
+// Update driver 0x0075A490. WorldBuilder twin 0x018062E0 (1212B) is the
 // same walk with "collisionmanager_stat" / "Contacts:" / "max on obj "
 // debug output; retail keeps only the counting. Target instruction facts:
 // both bucket tables are walked through their +0xC060/+0xC064 and

@@ -62,7 +62,7 @@ public:
 class BfmeQuery1279
 {
 public:
-	AptCIH *rva006F6D60(AptCIH *pOldItem, AptCIH *pNewItem);
+	AptCIH *insert(AptCIH *pOldItem, AptCIH *pNewItem);
 	AptCIH *rva006F6E00(int key, int type, void *p1, AptCIH *pOldItem, AptValue *pItemAtDepth);
 
 	Rva006CBDE0 *m_root;
@@ -80,5 +80,5 @@ AptCIH *BfmeQuery1279::rva006F6E00(int key, int type, void *p1, AptCIH *pOldItem
 
 	node->m4C = p1;
 	node->m_58 = node->m_58 ^ ((node->m_58 ^ (unsigned int)key) & 0x1FFFFu);
-	return rva006F6D60(pOldItem, (AptCIH *)node);
+	return insert(pOldItem, (AptCIH *)node);
 }

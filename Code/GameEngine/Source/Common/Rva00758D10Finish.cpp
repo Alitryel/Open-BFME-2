@@ -1,6 +1,6 @@
 // cl: /MD /EHsc
 // BfmeThingCGD::bfmeOneCGD, retail 0x00758D10, 193B. Sibling definition lives
-// in BfmeConv597.cpp, which already carries the rowed 41B bfmeGoCGD driver
+// in BfmeConv597.cpp, which already carries the rowed 41B Update driver
 // (0x0075A490) that calls this; the two units agree on one class layout.
 //
 // The class declares bfmeOneCGD and bfmeTwoCGD but defines neither. This file
@@ -50,7 +50,7 @@ class BfmeThingCGD
 public:
 	void bfmeOneCGD();
 	void bfmeTwoCGD();
-	void bfmeGoCGD();
+	void Update();
 	void *m_bfmeFirst;
 	unsigned char m_bfmeGap[0xae10 - 4];
 	Rva009A2FE0Node *m_buckets[0x493];

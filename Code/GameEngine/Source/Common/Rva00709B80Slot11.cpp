@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00709E00@Rva00709B80@@UAEXXZ @0x00709E00 68B
+// ?DestroyGCPointers@Rva00709B80@@UAEXXZ @0x00709E00 68B
 // Virtual slot 11 (offset 0x2C) of vtable 0x008EE8C8 (class of ??1Rva00709B80@@UAE@XZ).
 // Evidence: vtable slot annotation; tail-jmp to pinned ?rva0070DFE0@BfmeAptValue006DCD20@@QAEXXZ;
 // direct callee row ?rva006E0D40@Rva006E0D40@@QAEXXZ at 0x006E0D40.
@@ -32,7 +32,7 @@ public:
 class Rva00709B80 : public Rva006D6470Owner
 {
 public:
-	virtual void rva00709E00();
+	virtual void DestroyGCPointers();
 private:
 	char m_pad04[0x1C];
 	AptReleaseSlot *m_20;
@@ -40,7 +40,7 @@ private:
 	AptReleaseSlot *m_28;
 };
 
-void Rva00709B80::rva00709E00()
+void Rva00709B80::DestroyGCPointers()
 {
 	if (m_28)
 		m_28->release();

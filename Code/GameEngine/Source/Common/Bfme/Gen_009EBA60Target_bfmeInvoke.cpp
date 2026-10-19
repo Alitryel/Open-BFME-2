@@ -1,4 +1,4 @@
-// ?bfmeInvoke@Gen_009EBA60Target@@QAEXPAX0@Z
+// ?RegisterDependencies@Gen_009EBA60Target@@QAEXPAX0@Z
 // cl: /DNDEBUG /MD /EHsc /O2 /Ob2 /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -101,7 +101,7 @@ struct GenAssetRecord
 class Gen_009EBA60Target
 {
 public:
-	void bfmeInvoke(void *name, void *source);
+	void RegisterDependencies(void *name, void *source);
 
 private:
 	char m_prefix[0x34];
@@ -111,7 +111,7 @@ private:
 	NameKeyGenerator *m_hash_context;
 };
 
-void Gen_009EBA60Target::bfmeInvoke(void *name, void *source)
+void Gen_009EBA60Target::RegisterDependencies(void *name, void *source)
 {
 	if (name == 0)
 		return;

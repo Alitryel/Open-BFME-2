@@ -119,7 +119,7 @@ public:
 class Rva002DCD9A
 {
 public:
-	int rva002dcd9a(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	BFME2WideStringRef m_first;
 	Rva000B3F84Pair m_second;
@@ -127,7 +127,7 @@ private:
 
 // @0x002DCD9A (37B): copies two adjacent wide payloads. The retail call sites
 // identify the first as BFME2WideStringRef and the second as Rva000B3F84Pair.
-int Rva002DCD9A::rva002dcd9a(unsigned short *dst)
+int Rva002DCD9A::copyToBuffer(unsigned short *dst)
 {
 	int first = m_first.copyPayloadTo(dst);
 	int second = m_second.copyWchars(dst + first);

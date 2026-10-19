@@ -165,7 +165,7 @@ public:
 
 // Page name to slot (rowed table lookups 0x005E2CFA and 0x005E2D8A).
 void *__cdecl Rva005E2CFAGet(const char *name);
-void *__cdecl Rva005E2D8AGet(const char *name);
+void *__cdecl ParsePageSlot(const char *name);
 
 // BfmePathLeafAfterMarker.cpp's path helpers and the pinned Apt parameter
 // reader 0x004128F0.
@@ -282,7 +282,7 @@ void StrategicHUD::RegionDetailsMovieClip::Impl::OnTabClicked(const char *path)
 
 void StrategicHUD::RegionDetailsMovieClip::Impl::OnPageUnloaded(const char *path)
 {
-	int slot = (int)Rva005E2D8AGet(path);
+	int slot = (int)ParsePageSlot(path);
 	Rva005F8F96 &page = m_pages[slot];
 	if (page.m_ptr == 0)
 	{
@@ -296,7 +296,7 @@ void StrategicHUD::RegionDetailsMovieClip::Impl::OnPageUnloaded(const char *path
 
 void StrategicHUD::RegionDetailsMovieClip::Impl::OnPageLoaded(const char *path)
 {
-	int slot = (int)Rva005E2D8AGet(path);
+	int slot = (int)ParsePageSlot(path);
 	if (m_pages[slot].m_ptr != 0 || !m_pageEnabled[slot])
 		return;
 
@@ -400,7 +400,7 @@ void *Rva005E2CFAGet(const char *s)
 // Native5E2D8A97B RET: WB ParsePageSlot obtains the id parameter and maps
 // it through PageIDToSlot. Preserve the established address-derived ABI;
 // use the canonical string accessor rather than the old private-layout read.
-void *Rva005E2D8AGet(const char *p)
+void *ParsePageSlot(const char *p)
 {
 	AsciiString tmp;
 	if (!Rva004128F0GetParam(p, "id", tmp))

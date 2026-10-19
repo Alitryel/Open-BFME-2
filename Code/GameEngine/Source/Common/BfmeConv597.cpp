@@ -3,7 +3,7 @@ class BfmeThingCGD
 public:
 	void bfmeOneCGD();
 	void bfmeTwoCGD();
-	void bfmeGoCGD();
+	void Update();
 	void *m_bfmeFirst;
 	unsigned char m_bfmeGap[0xc069];
 	bool m_bfmeBusy;
@@ -11,7 +11,7 @@ public:
 
 void bfmeGlobalCGD();
 
-void BfmeThingCGD::bfmeGoCGD()
+void BfmeThingCGD::Update()
 {
 	if (m_bfmeFirst != 0)
 	{

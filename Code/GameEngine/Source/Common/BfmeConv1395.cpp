@@ -19,11 +19,11 @@ struct BfmeRangeVJX
 class BfmeThingVJX
 {
 public:
-	void bfmeGoVJX(int mode);
+	void Sort(int mode);
 	BfmeRangeVJX *m_bfme00;
 };
 
-void BfmeThingVJX::bfmeGoVJX(int mode)
+void BfmeThingVJX::Sort(int mode)
 {
 	BfmeCmpVJX c;
 	switch (mode)

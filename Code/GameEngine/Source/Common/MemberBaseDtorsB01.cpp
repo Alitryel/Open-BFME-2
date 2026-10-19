@@ -560,7 +560,7 @@ public:
 class Rva005FA91C
 {
 public:
-	void rva005FA91C(int value);
+	void OnSwapButtonLeftClicked(int value);
 };
 
 class Rva005FA97C
@@ -586,7 +586,7 @@ void Rva005FB1AD::rva005FAA90()
 void Rva005FB1AD::rva005FA9E0(int value)
 {
 	rva006003A5((Object *)value);
-	reinterpret_cast<Rva005FA91C *>(m_member.m_value)->rva005FA91C(value);
+	reinterpret_cast<Rva005FA91C *>(m_member.m_value)->OnSwapButtonLeftClicked(value);
 }
 
 // ?rva005FA9FC@Rva005FB1AD@@QAEXH@Z @0x005FA9FC 25B, slot 3.

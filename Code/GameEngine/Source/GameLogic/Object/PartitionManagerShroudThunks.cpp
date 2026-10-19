@@ -43,7 +43,7 @@ class ShroudManager
 public:
 	void revealMapForPlayerPermanently(int playerIndex);
 	void undoRevealMapForPlayerPermanently(int playerIndex);
-	void updatePlayerCells450_Rva0073D860(int playerIndex);
+	void ShroudMapForPlayer(int playerIndex);
 	CellShroudStatus getShroudStatusForPlayer(int playerIndex, const Coord3D *pos) const;
 	void setRegion(const Region3D *region, float cellSize);
 	// Opaque ShroudManager methods behind the 0x625300/10/20 run (targets
@@ -243,7 +243,7 @@ void Rva00739730::rva00739730(int a, int b)
 class BfmeOwnerCDE
 {
 public:
-	void rva008fa850(void *ptr);
+	void RegisterObject(void *ptr);
 	void bfmeOneCDE(void *ptr);
 };
 class Rva00739750
@@ -257,7 +257,7 @@ private:
 
 void Rva00739750::rva00739750(void *ptr)
 {
-	m_cell->rva008fa850(ptr);
+	m_cell->RegisterObject(ptr);
 }
 
 //
@@ -406,7 +406,7 @@ private:
 
 void Rva007397C0::rva007397C0(int playerIndex)
 {
-	m_cell->updatePlayerCells450_Rva0073D860(playerIndex);
+	m_cell->ShroudMapForPlayer(playerIndex);
 }
 
 //

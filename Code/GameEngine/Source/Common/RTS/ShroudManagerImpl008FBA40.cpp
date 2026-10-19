@@ -252,7 +252,7 @@ public:
 	// No nested Data size, inheritance, or field layout is assumed here.
 	class Data { public: void UpdateCellsTouched(); };
 	void undoRevealMapForPlayerPermanently(int playerIndex);
-	void updatePlayerCells450_Rva0073D860(int playerIndex);
+	void ShroudMapForPlayer(int playerIndex);
 };
 
 struct ShroudManagerImpl008FBA40ElementLayout
@@ -686,7 +686,7 @@ void ShroudManager::undoRevealMapForPlayerPermanently(int playerIndex)
 	}
 }
 
-void ShroudManager::updatePlayerCells450_Rva0073D860(int playerIndex)
+void ShroudManager::ShroudMapForPlayer(int playerIndex)
 {
 	if (playerIndex >= 0 && playerIndex < 20)
 	{

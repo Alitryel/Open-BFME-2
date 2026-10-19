@@ -36,12 +36,12 @@ int Rva00513D8F::copyToBuffer(unsigned short *dst)
 class Rva00513E25
 {
 public:
-	int rva00513E25(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	char m_pad00[12]; // +0..+B holds Rva00513D8F view; +0xC third pair view
 };
 
-int Rva00513E25::rva00513E25(unsigned short *dst)
+int Rva00513E25::copyToBuffer(unsigned short *dst)
 {
 	int first = ((Rva00513D8F *)this)->copyToBuffer(dst);
 	int second = ((Rva000B3F84Pair *)((char *)this + 12))->copyWchars(dst + first);
@@ -51,14 +51,14 @@ int Rva00513E25::rva00513E25(unsigned short *dst)
 class Rva00513E4A
 {
 public:
-	int rva00513E4A(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	char m_pad00[20]; // +0..+13 holds Rva00513E25 view; +0x14 ref view
 };
 
-int Rva00513E4A::rva00513E4A(unsigned short *dst)
+int Rva00513E4A::copyToBuffer(unsigned short *dst)
 {
-	int first = ((Rva00513E25 *)this)->rva00513E25(dst);
+	int first = ((Rva00513E25 *)this)->copyToBuffer(dst);
 	int second = ((const BFME2WideStringRef *)((const char *)this + 20))->copyPayloadTo(dst + first);
 	return first + second;
 }
