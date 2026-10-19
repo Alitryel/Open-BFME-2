@@ -23,6 +23,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 namespace _STL { template <> unsigned int hash_map<int, int, hash<int>, equal_to<int>, allocator<pair<int const, int> > >::bucket_count() const; }
 namespace _STL { template <> unsigned int hashtable<pair<int const, int>, int, hash<int>, _Select1st<pair<int const, int> >, equal_to<int>, allocator<pair<int const, int> > >::bucket_count() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> const ModuleData **_STLP_alloc_proxy<const ModuleData **, const ModuleData *, allocator<const ModuleData *> >::allocate(size_t); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
