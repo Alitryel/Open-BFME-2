@@ -42,21 +42,24 @@ public:
 	const char *m_name;
 };
 
-Rva00148F5ECache TheKey_objectName = { NAMEKEY_INVALID, "objectName" };	// RVA 0x009BDCC4
-Rva00148F5ECache TheKey_objectInitialHealth = { NAMEKEY_INVALID, "objectInitialHealth" };	// RVA 0x009BDCD4
+// Defined once by WorldHeightMap.cpp (INSTANTIATE_WELL_KNOWN_KEYS) as const
+// StaticNameKey records; this unit reads them through its Rva00148F5ECache view.
+class StaticNameKey;
+extern const StaticNameKey TheKey_objectName;	// RVA 0x009BDCC4
+extern const StaticNameKey TheKey_objectInitialHealth;	// RVA 0x009BDCD4
+extern const StaticNameKey TheKey_objectEnabled;	// RVA 0x009BDCEC
+extern const StaticNameKey TheKey_objectIndestructible;	// RVA 0x009BDCF4
+extern const StaticNameKey TheKey_objectUnsellable;	// RVA 0x009BDCFC
+extern const StaticNameKey TheKey_objectTargetable;	// RVA 0x009BDD04
+extern const StaticNameKey TheKey_objectPowered;	// RVA 0x009BDD1C
+extern const StaticNameKey TheKey_objectRecruitableAI;	// RVA 0x009BDD54
 Rva00148F5ECache TheKey_objectPrototypeScale = { NAMEKEY_INVALID, "objectPrototypeScale" };	// RVA 0x009BDCDC
 Rva00148F5ECache TheKey_objectMaxHPs = { NAMEKEY_INVALID, "objectMaxHPs" };	// RVA 0x009BDCE4
-Rva00148F5ECache TheKey_objectEnabled = { NAMEKEY_INVALID, "objectEnabled" };	// RVA 0x009BDCEC
-Rva00148F5ECache TheKey_objectIndestructible = { NAMEKEY_INVALID, "objectIndestructible" };	// RVA 0x009BDCF4
-Rva00148F5ECache TheKey_objectUnsellable = { NAMEKEY_INVALID, "objectUnsellable" };	// RVA 0x009BDCFC
-Rva00148F5ECache TheKey_objectTargetable = { NAMEKEY_INVALID, "objectTargetable" };	// RVA 0x009BDD04
-Rva00148F5ECache TheKey_objectPowered = { NAMEKEY_INVALID, "objectPowered" };	// RVA 0x009BDD1C
 Rva00148F5ECache TheKey_objectEventsList = { NAMEKEY_INVALID, "objectEventsList" };	// RVA 0x009BDD24
 Rva00148F5ECache TheKey_objectAggressiveness = { NAMEKEY_INVALID, "objectAggressiveness" };	// RVA 0x009BDD2C
 Rva00148F5ECache TheKey_objectInitialStance = { NAMEKEY_INVALID, "objectInitialStance" };	// RVA 0x009BDD34
 Rva00148F5ECache TheKey_objectVisualRange = { NAMEKEY_INVALID, "objectVisualRange" };	// RVA 0x009BDD3C
 Rva00148F5ECache TheKey_objectShroudClearingDistance = { NAMEKEY_INVALID, "objectShroudClearingDistance" };	// RVA 0x009BDD44
-Rva00148F5ECache TheKey_objectRecruitableAI = { NAMEKEY_INVALID, "objectRecruitableAI" };	// RVA 0x009BDD54
 Rva00148F5ECache TheKey_objectSelectable = { NAMEKEY_INVALID, "objectSelectable" };	// RVA 0x009BDD5C
 Rva00148F5ECache TheKey_objectTime = { NAMEKEY_INVALID, "objectTime" };	// RVA 0x009BDD6C
 Rva00148F5ECache TheKey_objectWeather = { NAMEKEY_INVALID, "objectWeather" };	// RVA 0x009BDD74
@@ -309,7 +312,7 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 	Int valInt = 0;
 	Real valReal = 0.0f;
 
-	valStr = properties->getAsciiString(TheKey_objectName.get(), &exists);
+	valStr = properties->getAsciiString(((Rva00148F5ECache &)TheKey_objectName).get(), &exists);
 	if (exists)
 		m_name = valStr;
 
@@ -324,11 +327,11 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 	HealthTarget *healthTarget = getHealthTarget();
 	if (healthTarget)
 	{
-		healthTarget->setInitialHealth(properties->getInt(TheKey_objectInitialHealth.get(), &exists));
+		healthTarget->setInitialHealth(properties->getInt(((Rva00148F5ECache &)TheKey_objectInitialHealth).get(), &exists));
 	}
 	else
 	{
-		valInt = properties->getInt(TheKey_objectInitialHealth.get(), &exists);
+		valInt = properties->getInt(((Rva00148F5ECache &)TheKey_objectInitialHealth).get(), &exists);
 		if (exists)
 		{
 			BodyModuleInterface *body = getBodyModule();
@@ -357,7 +360,7 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 			stances->changeStance(valInt);
 	}
 
-	valBool = properties->getBool(TheKey_objectRecruitableAI.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectRecruitableAI).get(), &exists);
 	if (exists)
 	{
 		if (getAIUpdateInterface())
@@ -381,15 +384,15 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 		}
 	}
 
-	valBool = properties->getBool(TheKey_objectEnabled.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectEnabled).get(), &exists);
 	if (exists)
 		setScriptStatus(OBJECT_STATUS_SCRIPT_DISABLED, !valBool);
 
-	valBool = properties->getBool(TheKey_objectPowered.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectPowered).get(), &exists);
 	if (exists)
 		setScriptStatus(OBJECT_STATUS_SCRIPT_UNPOWERED, !valBool);
 
-	valBool = properties->getBool(TheKey_objectIndestructible.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectIndestructible).get(), &exists);
 	if (exists)
 	{
 		BodyModuleInterface *body = getBodyModule();
@@ -397,11 +400,11 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 			body->setIndestructible(valBool);
 	}
 
-	valBool = properties->getBool(TheKey_objectUnsellable.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectUnsellable).get(), &exists);
 	if (exists)
 		setScriptStatus(OBJECT_STATUS_SCRIPT_UNSELLABLE, valBool);
 
-	valBool = properties->getBool(TheKey_objectTargetable.get(), &exists);
+	valBool = properties->getBool(((Rva00148F5ECache &)TheKey_objectTargetable).get(), &exists);
 	if (exists)
 	{
 		setScriptStatus(OBJECT_STATUS_SCRIPT_TARGETABLE, valBool);
