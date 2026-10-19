@@ -156,6 +156,8 @@ class CreateAHeroManager
 public:
     class CreateAHeroSubClass { public: int a[54]; };
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<CreateAHeroManager::CreateAHeroSubClass,allocator<CreateAHeroManager::CreateAHeroSubClass> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
 namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubClass *); }
 // Retail's _Construct<CreateAHeroSubClass> is rowed in stlport_construct_pod216.cpp
 // (0x0021EF66); declare that specialization so this unit emits no competing copy.
