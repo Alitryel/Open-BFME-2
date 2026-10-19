@@ -22705,7 +22705,6 @@ uw_0077a579,,0x0077A579,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obje
 uw_0077a581,,0x0077A581,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3488
 uw_0077a589,,0x0077A589,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3498
 uw_0077a591,,0x0077A591,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3507
-uw_0077a5a3,,0x0077A5A3,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L318
 uw_0077a5b5,,0x0077A5B5,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L8467
 uw_0077a5c0,,0x0077A5C0,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_0077a5d2,,0x0077A5D2,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -96764,3 +96763,4 @@ $L6433,,0x007A0E79,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,m
 $L6435,,0x007A0E8F,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,matched,gen-funclet;parent=??0Rva005C8624Element@@QAE@ABU0@@Z; Exact parent EH graph binds complete11B vector-member cleanup at+38; native7FAB3 callee independently whole-body and relocation fold-proven; replaces generated harness
 $L6434,,0x007A0E84,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,matched,gen-funclet;parent=??0Rva005C8624Element@@QAE@ABU0@@Z; Exact parent EH graph binds11B map-member cleanup at+2C; float key established independently by native5C8CA0 lookup; whole ctor and dtor provider graphs fold-proven; mapped value original type remains unknown
 __ehhandler$?parseFont@@YA_NPADPAVWinInstanceData@@0PAX@Z,,0x0077A5AB,10,Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript_parseFont.cpp,matched,gen-ehstub; Native parent315BF5 installs handler77A5AB and its exact EH graph points to FuncInfo923024; compiler emits complete10B MOV FuncInfo and JMP CxxFrameHandler; fully byte-verified with no masked or unresolved call and no overlap; no adjacency inference
+$L1207,,0x0077A5A3,8,Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript_parseFont.cpp,matched,gen-funclet;parent=?parseFont@@YA_NPADPAVWinInstanceData@@0PAX@Z; Exact native parent315BF5 EH graph binds local AsciiString cleanup; complete8B Ghidra tail-jump body ends at independent10B handler77A5AB; all relocations resolved; replaces anonymous generated harness
