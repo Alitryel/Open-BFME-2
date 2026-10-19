@@ -44,6 +44,9 @@ class PeerThreadClass { public:
  QMStatus getQMStatus() { return reinterpret_cast<BfmePeerQMState *>(this)->status; }
  void handleQMMatch(PEER, Int, Int, char *names[MAX_SLOTS], char *ips[MAX_SLOTS], char *sides[MAX_SLOTS], char *colors[MAX_SLOTS], char *nats[MAX_SLOTS], char *unknown[MAX_SLOTS]);
 };
+// The SDK is C and, with GSI_UNICODE off, its string-taking entry points are the
+// ANSI ones (rowed as _peerGetPlayerInfoNoWaitA in peer/peerMainBlockingOperations.c).
+extern "C" PEERBool peerGetPlayerInfoNoWaitA(PEER peer, const char *nick, unsigned int *IP, int *profileID);
 extern Int matchbotProfileID;
 void playerMessageCallback(PEER peer, const char * nick, const char * message, MessageType messageType, void * param)
 {
@@ -54,7 +57,7 @@ void playerMessageCallback(PEER peer, const char * nick, const char * message, M
 	resp.message.isPrivate = TRUE;
 	resp.message.isAction = (messageType == ActionMessage);
 	UnsignedInt IP;
-	peerGetPlayerInfoNoWait(peer, nick, &IP, &resp.message.profileID);
+	peerGetPlayerInfoNoWaitA(peer, nick, &IP, &resp.message.profileID);
 	TheGameSpyPeerMessageQueue->addResponse(resp);
 
 
