@@ -10,7 +10,8 @@
 // the matched callee does not read ECX.
 void Rva00411523CallAsFree();
 
-void rva006cc880();
+// Retail calls the rowed 5-byte Apt tail jump 0x006CC940, which jumps to 0x006CC880.
+void rva006cc940();
 void Rva0041154FHide();
 
 class Rva0022244D
@@ -42,6 +43,6 @@ void Rva0022244D::rva0022244D()
 		m_flag328 = 0;
 	}
 	Rva00411523CallAsFree();
-	rva006cc880();
+	rva006cc940();
 	Rva0041154FHide();
 }
