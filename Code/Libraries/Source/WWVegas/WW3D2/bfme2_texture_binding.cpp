@@ -17,11 +17,19 @@ struct BFME2TextureRef {
 
 // BFME2CurrentTextures: matched references place it at VA 0xdee5e0 (zero-filled).
 BFME2TextureResource *BFME2CurrentTextures[16] = { 0 };
-extern unsigned BFME2RenderStateChanged;
+struct BFME2TextureRef;
+void BFME2Set_Texture(unsigned stage,const BFME2TextureRef& texture);
+// The dirty mask at 0x00DEC4F4 is DX8Wrapper's protected render_state_changed
+// (defined in dx8wrapper.cpp); this view lets the setter mark its stage.
+class DX8Wrapper {
+ friend void BFME2Set_Texture(unsigned stage,const BFME2TextureRef& texture);
+protected:
+ static unsigned render_state_changed;
+};
 void BFME2Set_Texture(unsigned stage,const BFME2TextureRef& texture) {
  if(texture.Ptr==BFME2CurrentTextures[stage]) return;
  if(texture.Ptr) ++texture.Ptr->Refs;
  if(BFME2CurrentTextures[stage]) BFME2CurrentTextures[stage]->Release_Ref();
  BFME2CurrentTextures[stage]=texture.Ptr;
- BFME2RenderStateChanged|=0x40<<stage;
+ DX8Wrapper::render_state_changed|=0x40<<stage;
 }

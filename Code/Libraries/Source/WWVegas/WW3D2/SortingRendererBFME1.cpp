@@ -922,7 +922,6 @@ void SortingRendererClass::Insert_VolumeParticle(
 // ?TheBoxTextureDirtyMask@@3IA: the global at this VA is ?render_state_changed@DX8Wrapper@@1IA; this name is an alias for it.
 extern unsigned int TheBoxTextureDirtyMask;
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
-#pragma comment(linker, "/alternatename:?BFME2RenderStateChanged@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 #pragma comment(linker, "/alternatename:?g_bfmeCountTDB@@3HA=?number_of_DX8_calls@@3IA")
 // ?TheBoxTextureDirtyMask@@3IA: the global at VA 0xdec4f4 is ?render_state_changed@DX8Wrapper@@1IA.
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
