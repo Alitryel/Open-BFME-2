@@ -1,27 +1,13 @@
-// ?OnDeactivation@EmotionNugget@@QAEXXZ
-// partial score=0.93 date=2026-10-13
-// ?OnDeactivation@EmotionNugget@@QAEXXZ
-// partial score=0.93 date=2026-10-13
-// ?OnDeactivation@EmotionNugget@@QAEXXZ
-// partial score=0.9 date=2026-10-09
-// Retail/WB pass 2026-10-09: reconstructed from the complete target body
-// and WorldBuilder's EmotionNugget.cpp sibling. Member offsets, vtable slots,
-// frame comparisons, and call targets are retail evidence. Method identity is
-// the WB assertion/callgraph lead; the entry's original getter names remain
-// unresolved. The BFME 1 emotion unit at 0bef414b5 was compiled and placed no
-// new target bodies. This is a near match, not recovered coverage.
-// Real StringBase::isEmpty template definition from string_base.cpp makes
-// its nonthrowing implementation visible. Direct condition temporaries then
-// reproduce retail's cleanup-state pattern. The old bank's cached FX pointer,
-// unguarded null-AI tail, and signed expiry comparison were target divergences.
-// A word at Object+0x124 owns the cleared 0x100 model-condition mask.
-// ?rva004DD2C0@Emotion@@QAEXXZ
-// partial score=0.93 date=2026-10-04
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva004DD2C0@Emotion@@QAEXXZ @ 0x004DD2C0 (457B).
-// Emotion update: folds entry delays into local frames through TheGameLogic,
+// EmotionNugget::OnDeactivation @ 0x004DD2C0 (457B). Identity: WorldBuilder
+// EmotionNugget.cpp OnDeactivation (WB 0x010EAAC0, callgraph lead).
+// Model condition 200 is cleared through Object's ModelConditionFlags words at
+// +0x10C (WB inlines BitFlags::test/ClearBit; retail tests byte +0x125 bit 0).
+// The attribute gate reads TheGameLogic->getFrame() and the entry delay
+// through inline getters, as the WB body does (frame read first).
+// Deactivation: folds entry delays into local frames through TheGameLogic,
 // plays entry FX, nudges AI, applies weapon-set/condition changes and applies
 // the entry attribute modifier by name. Evidence: callers at 0x004B0E12,
 // 0x004B0EB2, 0x004B15F2, 0x004B1689 pass [EmotionTrackerUpdate+0x7c] as this;
@@ -43,23 +29,11 @@ inline bool StringBase<T>::isEmpty() const
 
 struct Gen_lt_00940b40 : public _STL::less<unsigned short> {};
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
-
 class Object;
 class FXList;
 class AIUpdateInterface;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-public:
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -104,6 +78,14 @@ public:
 	virtual Object *v19();
 };
 
+struct ModelConditionFlags
+{
+	unsigned int m_bits[19];
+	// Returns the masked word (WB's BitFlags::test compares it with zero).
+	unsigned int test(size_t pos) const { return m_bits[pos / 32] & (1UL << (pos % 32)); }
+	void clear(int bit) { m_bits[bit >> 5] &= ~(1 << (bit & 0x1f)); }
+};
+
 class Object
 {
 public:
@@ -113,9 +95,9 @@ public:
 	void rva0028AE6D();
 	bool addAttributeModifierToPool(const AsciiString &name, int value);
 public:
-	char m_pad00[0x124];
-	volatile unsigned int m_conditionWord124;
-	char m_pad128[0x258 - 0x128];
+	char m_pad00[0x10C];
+	ModelConditionFlags m_modelConditionFlags;
+	char m_pad158[0x258 - 0x158];
 	AIUpdateInterface *m_ai258;
 };
 
@@ -123,6 +105,7 @@ class Rva004DC8E7AsciiField
 {
 public:
 	AsciiString get() const;
+	int getDelay() const { return m_40; }
 public:
 	char m_pad00[0x10];
 	int m_10;
@@ -161,22 +144,21 @@ private:
 	unsigned int m_start30;
 };
 
-// ?rva004DD2C0@Emotion@@QAEXXZ present-unmatched
 void EmotionNugget::OnDeactivation()
 {
 	if (m_entry->m_10)
-		m_frame10 = (m_entry ? (TheGameLogic->m_frame) : (TheGameLogic->m_frame)) + m_entry->m_10;
+		m_frame10 = TheGameLogic->getFrame() + m_entry->m_10;
 	if (m_entry->m_14 && m_id08)
 	{
-		unsigned frame = TheGameLogic->m_frame;
+		unsigned frame = TheGameLogic->getFrame();
 		int duration = m_entry->m_14;
 		m_map14[m_id08] = frame + duration;
 	}
 	if (m_entry->m_18 && m_key0C)
 	{
+		unsigned int frame = TheGameLogic->getFrame();
 		int duration = m_entry->m_18;
-
-		m_map20[m_key0C] = ((m_object ? TheGameLogic->m_frame : TheGameLogic->m_frame)) + duration;
+		m_map20[m_key0C] = duration + frame;
 	}
 	if (m_entry->m_fx38)
 	{
@@ -210,15 +192,15 @@ void EmotionNugget::OnDeactivation()
 		else
 			m_object->rva0028CFB2(&m_entry->m_a0, &m_entry->m_138);
 		Object *object = m_object;
-		if (object->m_conditionWord124 & 0x100)
+		if (object->m_modelConditionFlags.test(200))
 		{
-			object->m_conditionWord124 &= ~0x100;
+			object->m_modelConditionFlags.clear(200);
 			object->rva0028AE6D();
 		}
 	}
-	if (!((const StringBase<char> &)(m_entry->get())).isEmpty() && TheGameLogic->m_frame >= m_start30 + m_entry->m_40 && m_entry->m_flag44)
+	if (!((const StringBase<char> &)(m_entry->get())).isEmpty() && TheGameLogic->getFrame() >= m_start30 + m_entry->getDelay() && m_entry->m_flag44)
 	{
-		m_object->addAttributeModifierToPool(m_entry->get(), (m_object ? m_entry : m_entry)->m_48);
+		m_object->addAttributeModifierToPool(m_entry->get(), m_entry->m_48);
 	}
 	}
 }
