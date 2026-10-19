@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD -EHs-c-
-// ??0Rva005EBD40@@QAE@ABV0@@Z @0x003AE7B8 285B
+// ??0Rva003ABA36@@QAE@ABV0@@Z @0x003AE7B8 285B
 // Compiler-generated copy ctor of the 0x8e4-byte particle object's base:
 // Rva003AF50D head (rowed 0x003AF50D, three vptr stores), the
 // LightningDrawModuleInfo copy at +0x18 (rowed 0x003A7DCA, neg/sbb/and null
@@ -8,6 +8,9 @@
 // the derived 0x003AE792 copy ctor below is its emitting user. Layout views
 // carry measured offsets and sizes only; element and triple meanings are open.
 // -EHs-c-: retail has no unwind frame here.
+// Class names follow the vtables this ctor stores: 0x00C1D520's deleting
+// dtor 0x003AE73C calls the rowed ~Rva003A97E0 (0x003A97E0) and 0x00C1D55C's
+// deleting dtor 0x003AE8D5 calls the rowed ~Rva003ABA36 (0x003ABA36).
 class RvaSmartPtr12_3AE7B8
 {
 public:
@@ -41,14 +44,14 @@ public:
 	Rva003AF50D(const Rva003AF50D &other);
 	virtual ~Rva003AF50D();
 };
-class Intermediate3AE7B8 : public Rva003AF50D
+class Rva003A97E0 : public Rva003AF50D
 {
 public:
-	__forceinline Intermediate3AE7B8(const Intermediate3AE7B8 &other)
+	__forceinline Rva003A97E0(const Rva003A97E0 &other)
 		: Rva003AF50D(other)
 	{
 	}
-	virtual ~Intermediate3AE7B8();
+	virtual ~Rva003A97E0();
 };
 namespace FXParticleSystem {
 class LightningDrawModuleInfo {
@@ -71,10 +74,10 @@ struct Triple3AE7B8
 	Triple3AE7B8(const Triple3AE7B8 &o) : x(o.x), y(o.y), z(o.z) {}
 	int x, y, z;
 };
-class Rva005EBD40 : public Intermediate3AE7B8, public FXParticleSystem::LightningDrawModuleInfo
+class Rva003ABA36 : public Rva003A97E0, public FXParticleSystem::LightningDrawModuleInfo
 {
 public:
-	virtual ~Rva005EBD40();
+	virtual ~Rva003ABA36();
 private:
 	Elem3AE7B8 m_first[90];
 	Elem3AE7B8 m_second[90];
@@ -82,12 +85,12 @@ private:
 	Triple3AE7B8 m_8bc, m_8c8, m_8d4;
 	int m_8e0;
 };
-class Rva005EBCC0Object : public Rva005EBD40
+class Rva005EBCC0Object : public Rva003ABA36
 {
 public:
 	Rva005EBCC0Object(const Rva005EBCC0Object &o);
 };
 Rva005EBCC0Object::Rva005EBCC0Object(const Rva005EBCC0Object &o)
-	: Rva005EBD40(o)
+	: Rva003ABA36(o)
 {
 }

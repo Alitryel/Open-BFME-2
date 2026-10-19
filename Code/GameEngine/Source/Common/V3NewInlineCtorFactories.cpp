@@ -89,13 +89,13 @@ V3_NEW_TWO_ARG_FACTORY( Rva005E7AD0, Rva006008D0, 0x44, Rva003AF076, (*(const Rv
 // The second clone form in the donor is not placed by this TU and its
 // declarations are omitted entirely.
 
-class Rva005EBD40 : public V3Slot0, public V3Slot1, public V3Slot2
+class Rva003ABA36 : public V3Slot0, public V3Slot1, public V3Slot2
 {
 public:
-	Rva005EBD40( const Rva005EBD40 & );
+	Rva003ABA36( const Rva003ABA36 & );
 };
 
-class Rva005EBCC0Object : public Rva005EBD40
+class Rva005EBCC0Object : public Rva003ABA36
 {
 public:
 	Rva005EBCC0Object( const Rva005EBCC0Object &o );

@@ -2463,7 +2463,7 @@ name,address,notes
 ??0Rva005EB090@@QAE@ABV0@@Z,0x003ADDEC,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva005EB190@@QAE@ABV0@@Z,0x003AE1A7,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva005EBCC0Object@@QAE@ABV0@@Z,0x003AE792,callee of ?clone@Rva005EBCC0Object@@QBEPAV1@XZ at retail 0x003AE758 read from its REL32 displacement; donor-carried name; body unrowed
-??0Rva005EBD40@@QAE@ABV0@@Z,0x003AE7B8,callee read from retail REL32 at 0x003AE799 in the Rva005EBCC0Object copy ctor 0x003AE792 (byte-exact modulo relocs as emitted by V3NewInlineCtorFactories.cpp): the out-of-line base copy ctor; donor-carried address name; body unrowed
+??0Rva003ABA36@@QAE@ABV0@@Z,0x003AE7B8,callee read from retail REL32 at 0x003AE799 in the Rva005EBCC0Object copy ctor 0x003AE792 (byte-exact modulo relocs as emitted by V3NewInlineCtorFactories.cpp): the out-of-line base copy ctor; donor-carried address name; body unrowed
 ??0Rva005EC160@@QAE@ABV0@@Z,0x003AEA15,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva005ECF60@@QAE@ABV0@@Z,0x003AEF6E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva005EDF60@@QAE@ABV0@@Z,0x003AF89A,"copy constructor called by ?clone@Rva005EDF60@@QBEPAV1@XZ at retail 0x003AF860 read from its REL32 displacement; donor-carried name; body unrowed"
