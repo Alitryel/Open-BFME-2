@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.9 date=2026-10-19
+// ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.92 date=2026-10-19
 // ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.8825 date=2026-10-14
