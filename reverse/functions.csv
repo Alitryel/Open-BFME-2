@@ -28381,28 +28381,8 @@ uw_00795ce3,,0x00795CE3,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;obje
 uw_00795cf5,,0x00795CF5,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
 uw_00795cfd,,0x00795CFD,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00795d05,,0x00795D05,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
-uw_00795d30,,0x00795D30,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L318
 uw_00795d42,,0x00795D42,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_00795d75,,0x00795D75,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2836
-uw_00795d83,,0x00795D83,14,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4481
-uw_00795d91,,0x00795D91,14,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4482
-uw_00795d9f,,0x00795D9F,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795da7,,0x00795DA7,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795daf,,0x00795DAF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795db7,,0x00795DB7,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795dbf,,0x00795DBF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795dc7,,0x00795DC7,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795dcf,,0x00795DCF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795dd7,,0x00795DD7,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
-uw_00795ddf,,0x00795DDF,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
-uw_00795de7,,0x00795DE7,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_00795df9,,0x00795DF9,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5951
-uw_00795e01,,0x00795E01,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5978
-uw_00795e09,,0x00795E09,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3498
-uw_00795e11,,0x00795E11,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L885
-uw_00795e19,,0x00795E19,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L894
-uw_00795e21,,0x00795E21,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L903
-uw_00795e29,,0x00795E29,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L912
 uw_00795e3b,,0x00795E3B,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00795e43,,0x00795E43,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3516
 uw_00795e4b,,0x00795E4B,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5897
@@ -97175,3 +97155,23 @@ __ehhandler$??$_Construct@U?$pair@HVAsciiString@@@_STL@@U12@@_STL@@YAXPAU?$pair@
 ?Build_Matrix3D@@YAAAVMatrix3D@@ABVQuaternion@@AAV1@@Z,,0x0053FCF8,238,Code/GameEngine/Source/Common/Rva00540888CameraTransform.cpp,matched,WWMath quat.h inline; this camera unit (0x540888 beside it) emits retail's copy; htree.cpp stopped emitting it when its ZH HRaw Anim_Update moved out
 ?Get_Translation@Matrix3D@@QBE?AVVector3@@XZ,,0x00083BD4,32,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp,matched,WWMath matrix3d.h inline; OpenContain.cpp emits retail's exact copy; htree.cpp stopped emitting it when its ZH HRaw Anim_Update moved out
 ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z,,0x0009FE49,1398,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/Gadget/W3DTextEntry.cpp,matched,ZH IME block plus BFME2 selection layout; caller args window/colours/x/y from 0xA03BF and 0xA0581; one equal-arm x read at the first font test keeps x in its argument home
+$L8419,,0x00795D83,14,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8420,,0x00795D91,14,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8421,,0x00795D9F,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8423,,0x00795DA7,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8425,,0x00795DAF,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8427,,0x00795DB7,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8429,,0x00795DBF,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8431,,0x00795DC7,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8433,,0x00795DCF,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8435,,0x00795DD7,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8437,,0x00795DDF,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8440,,0x00795DE7,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=??0AptScoreScreen@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8872,,0x00795DF9,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8873,,0x00795E01,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8874,,0x00795E09,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8877,,0x00795E11,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8879,,0x00795E19,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8881,,0x00795E21,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L8883,,0x00795E29,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?PopulatePersistentUnitsListbox@AptScoreScreen@@QAE_NXZ;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
+$L7860,,0x00795D30,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp,matched,gen-funclet;parent=?Externs@AptScoreScreen@@QAEXHPAD_N@Z;exact matched parent EH graph places this emitted label at the complete native action (evidence reverse/attempt_support/aptscorescreen-cleanups-20261018.json)
