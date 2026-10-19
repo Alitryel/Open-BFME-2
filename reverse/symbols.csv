@@ -1934,7 +1934,6 @@ name,address,notes
 ??0FakePathfindPortalBehaviourModuleData@@QAE@XZ,0x00372DB8,ctor call in the byte-true FakePathfindPortalBehaviour data factory (ModuleFactory registers it under "FakePathfindPortalBehaviour")
 ??0FellBeastSwoopPowerModuleData@@QAE@XZ,0x004923E2,ctor call in the byte-true FellBeastSwoopPower data factory (ModuleFactory registers it under "FellBeastSwoopPower")
 ??0FeslEchoMessage@@QAE@PADH@Z,0x00655900
-??0FileSystem@@QAE@XZ,0x00063517,callee of ?createFileSystem@GameEngine@@MAEPAVFileSystem@@XZ at retail 0x00042004 read from its REL32 displacement; ICF alias onto ??0W3DGhostObjectManager@@QAE@XZ (matched)
 ??0FireWeaponWhenDeadBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x00482D80,(Thing*;ModuleData*) ctor called by FireWeaponWhenDeadBehavior::friend_newModuleInstance (0x0024C333); class from the ModuleFactory registration literal
 ??0FlammableUpdateModuleData@@QAE@XZ,0x0048D541
 ??0FloodUpdateModuleData@@QAE@XZ,0x0048DF7A,Sole raw caller is factory 0x24D17A; poolkey 0x48E0FA cluster plus rowed proc 0x48E15B; Flood table 0xC4C9A8
