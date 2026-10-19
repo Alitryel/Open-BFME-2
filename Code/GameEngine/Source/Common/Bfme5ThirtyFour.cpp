@@ -565,7 +565,9 @@ void AptLinker::rva006D1450(Rva006D07E0Key key) {
 extern int g_bfmeAptFlagAtE176D4;
 class Rva006CEB10Playback;
 extern Rva006CEB10Playback *g_aptPlaybackCheckpoints;
-extern void *g_rva00A176CC;
+// 0x00E176CC is defined (as its manager pointer) by Rva00893030RefDispatch.cpp.
+class Rva00893030Manager;
+extern Rva00893030Manager *g_rva00893030Manager;
 // Diagnostics state (0x00E176F0, 0x00E17708, 0x00E17740, 0x00E17754).
 extern int g_rva00891FA0Value;
 extern int g_rva00891FA0Ready;
@@ -700,7 +702,9 @@ public:
 };
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *test, const char *file, int line);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-extern void *g_bfmeAptPtrAtE176D0;
+// Defined as Rva006E34D0 * by Rva006CC950Mouse.cpp; read here as the pool data.
+class Rva006E34D0;
+extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
 
 inline void rva006D17F0IteratorCheck(bool, const char *) {}
 
@@ -813,7 +817,7 @@ struct Rva006D17F0Record
 
 void AptLinker::rva006D17F0()
 {
-    ((Rva006D0A30List *)g_rva00A176CC)->rva006D1680();
+    ((Rva006D0A30List *)g_rva00893030Manager)->rva006D1680();
     if (g_bfmeAptFlagAtE176D4 &&
         !g_aptPlaybackCheckpoints->readyFor(3, 2)) return;
 

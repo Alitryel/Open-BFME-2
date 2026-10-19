@@ -454,6 +454,9 @@ class AptMath {public:static void ClipStackInit(unsigned);};
 void *g_aptLoadAnimationSlot=0; // Native00E17748; callback ABI unmodeled.
 void *g_aptFreeConstantTableSlot=0; // Native00E17750; callback ABI unmodeled.
 void *g_aptFreeAnimationSlot=0; // Native00E1774C; callback ABI unmodeled.
+// Native00E17754: the gAptFuncs slot after pfnFreeConstantTable that init does
+// not check; Bfme5ThirtyFour.cpp (6D1A54) calls it with two strings when set.
+void (__cdecl *g_rva00A17754)(const char *, const char *)=0;
 void *g_aptAllocateStringSlot=0; // Native00E17770; callback ABI unmodeled.
 void *g_aptDrawStringSlot=0; // Native00E17778; callback ABI unmodeled.
 void *g_aptLoadSoundSlot=0; // Native00E1777C; callback ABI unmodeled.
