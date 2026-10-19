@@ -169,10 +169,6 @@ public:
 	virtual void getMaximumPathfindExtent(Region3D *extent) const;
 };
 extern TerrainLogic *TheTerrainLogic;
-// Rotates a group offset into the frame of the from->to direction; cdecl
-// helper at 0x0036CBF9 (AIGroup code region, also called at 0x36D744 and
-// 0x3716C6/0x3717B0/0x3718AD). Pinned in symbols.csv; owner and name unproven.
-void Rva0036CBF9Rotate(const Coord3D *from, const Coord3D *to, Coord2D *offset);
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond; // LOGICFRAMES_PER_SECOND
 #define LOGICFRAMES_PER_SECOND BfmeLogicFramesPerSecond
@@ -229,6 +225,9 @@ class AIGroup
 {
 public:
 	Bool getCenter(Coord3D *center);
+	// Rotates a group offset into the frame of the from->to direction: the
+	// rowed static AIGroup::rotateOffset at 0x0036CBF9 (WB AIGroup::rotateOffset).
+	static void rotateOffset(const Coord3D *from, const Coord3D *to, Coord2D *offset);
 };
 // The rowed group member count runs on the AIGroup (address-derived name).
 class Rva0036E346
@@ -928,7 +927,7 @@ void AIFollowWaypointPathState::computeGoal(Bool useGroupOffsets)
 			farPoint = nearPoint;
 			nearPoint = *m_currentWaypoint->getLink(0)->getLocation();
 		}
-		Rva0036CBF9Rotate(&farPoint, &nearPoint, &groupOffset);
+		AIGroup::rotateOffset(&farPoint, &nearPoint, &groupOffset);
 	}
 
 	m_goalPosition = dest;

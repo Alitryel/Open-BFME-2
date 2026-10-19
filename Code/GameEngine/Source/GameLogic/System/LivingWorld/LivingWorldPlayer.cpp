@@ -87,9 +87,10 @@ struct LivingWorldRevivalUnitDataView {
 };
 class Rva002E0D93;
 class Rva002E204D { public: Rva002E0D93 *rva002E204D(Rva002E0D93 *); };
-// Existing opaque native predicate at 0x00318F42. Native and WB identify
-// the receiver as an element of m_armyVec; its original method is unknown.
-class Mbr002E0B30 { public: unsigned char pred(); };
+// The rowed predicate ?rva00318F42@Rva00318F42 at 0x00318F42. Native and WB
+// identify the receiver as an element of m_armyVec; its original method is
+// unknown.
+class Rva00318F42 { public: bool rva00318F42(); };
 // Three-word RGB copies are proven by the native color setter and the
 // recovered MultiplayerColorDefinition constructor. Reference getNumColors
 // supplies the lazy-count semantics; target settings fields are38 and40.
@@ -248,7 +249,7 @@ bool LivingWorldPlayer::rva002E0B30()
 {
  int *span=(int *)&m_armyVec;
  for(unsigned int i=0; i<(unsigned)((span[1]-span[0])>>2); ++i)
-  if (((Mbr002E0B30 *)m_armyVec[i])->pred()) return true;
+  if (((Rva00318F42 *)m_armyVec[i])->rva00318F42()) return true;
  return false;
 }
 
