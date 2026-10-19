@@ -29,6 +29,10 @@ class DrawModule : public DrawableModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+
+// Protected, as Zero Hour and W3DBoatWakeModelDrawDtor.cpp (first in link order)
+// declare it: the vtable slot names the protected scalar-deleting dtor.
+protected:
 	virtual ~DrawModule();
 };
 
