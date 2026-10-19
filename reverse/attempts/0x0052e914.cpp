@@ -1,4 +1,6 @@
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.9 date=2026-10-19
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.886 date=2026-10-19
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.886 date=2026-10-17
@@ -24,7 +26,7 @@
 // The height-tolerance datum preserves retail's four-byte float load.
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 static __forceinline float bridgeDelta(float a,float b){return (float)(a-b);}
-extern "C" double __cdecl fabs(double);
+#include <math.h>
 extern "C" __declspec(dllimport) double __cdecl floor(double);
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
 static __forceinline int float2long(float f){int i;__asm{fld f
@@ -95,7 +97,7 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 		float wallHeight=GetWallHeight((PathfindLayerEnum)cell->getLayer(),&topLeftCorner,0);
 		float bridgeHeight=theBridge->getBridgeHeight(&topLeftCorner,0);
 		if(theBridge->isCellOnEnd(&cellBounds)){
-			if(otherCell&&fabs(bridgeHeight-height)<bridgeHeightTolerance){
+			if(otherCell&&fabs(bridgeHeight-height)<15.0f){
 				{
 					bool changed=((Rva00366500*)cell)->rva0036652D(otherCell->getLayer());
 					changed|=((Rva0052E0A1*)cell)->rva0052E0A1(0);
@@ -107,7 +109,7 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 				otherCell->SetType_Dirty(0);
 				return;
 			}
-			if(fabs(wallHeight-bridgeHeight)<bridgeHeightTolerance){
+			if(fabs(wallHeight-bridgeHeight)<15.0f){
 				bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
 				changed|=((Rva00366500*)cell)->rva0036652D(0x10);
 				changed|=cell->SetType_Dirty(0);
