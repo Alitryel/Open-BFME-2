@@ -1,4 +1,4 @@
-// cl: /ICode/GameEngine/Include /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
+// cl: /ICode/GameEngine/Include /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC
 // stlport
 // ChatWindowsOnlineRoom::PopulatePlayerList is named by WB15CDA40
 // (ChatWindowsOnline.cpp:246..248). Native 5D6AA4..5D6C3C RET0: the room
@@ -91,10 +91,11 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
                               const _Rb_tree_iterator<_RbVal, _RbRight> &b)
 { return a._M_node != b._M_node; }
 }
-// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
-// shape); this TU's flags would emit a private copy.
+// Import-inline: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape, 0x00013740) and inlines it into vector growth; this TU's flags
+// would emit a private copy.
 namespace _STL {
-template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; }
 }
 class PlayerInfo { public:
  int unknown0; AsciiString name4; int unknown8,unknownC,unknown10;
