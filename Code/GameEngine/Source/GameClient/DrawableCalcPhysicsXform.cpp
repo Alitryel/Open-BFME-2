@@ -71,7 +71,7 @@ public:
     protected: void calcPhysicsXformWheels(const Locomotor *, PhysicsXformInfo &);public:
     protected: void calcPhysicsXformTreads(const Locomotor *, PhysicsXformInfo &);public:
     protected: void rva00270B0F(const Locomotor *, PhysicsXformInfo &);public:
-    protected: void calcPhysicsXformHugeFourLegs(const Locomotor *, PhysicsXformInfo &);public:
+    void calcPhysicsXformHugeFourLegs(const Locomotor *, PhysicsXformInfo &); // public, as its row declares it
     protected: void rva00272FB6(const Locomotor *, PhysicsXformInfo &);public:
     DrawablePhysicsObject *getObject() const { return object; }
 private:
