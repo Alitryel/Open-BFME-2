@@ -149,7 +149,13 @@ extern Rva00214E02 TheCloudEffectSettings;		// 0x00DFE280 (Rva007B6880Thunks.cpp
 extern Rva00214E02 TheCloudEffectSettingsSaved;	// 0x00DFE1E8
 extern unsigned g_Va00E065EC;
 extern unsigned int g_00E06664;
-extern unsigned g_Va00E06665;
+// VA 0x00E06665: the one-byte STLport `static ios_base::_Loc_init _LocInit;`
+// sentry that <fstream>/<iostream> declare per TU, beside the ios_base::Init
+// sentry g_00E06664 at 0x00E06664. Its home TU is a file-local static no other
+// unit can name, so the storage is defined here, in its initializer's unit,
+// under the ledger's spelling for the address (?g_00E06665@@3...); the
+// initializer below runs the rowed _Loc_init ctor on it.
+unsigned char g_00E06665;
 extern unsigned g_Va00E06724;
 extern unsigned g_Va00E08D48;
 
@@ -213,7 +219,7 @@ void Rva007AB81ACtorInits::rva007AD7DD()
 // ?rva007B4C38@Rva007AB81ACtorInits@@SAXXZ @ 0x007B4C38 (22B): ??0_Loc_init@ios_base@_STL@@QAE@XZ on VA 0x00E06665, atexit(0x007B9806)
 void Rva007AB81ACtorInits::rva007B4C38()
 {
-	( (_STL::ios_base::_Loc_init *)&g_Va00E06665 )->_STL::ios_base::_Loc_init::_Loc_init();
+	( (_STL::ios_base::_Loc_init *)&g_00E06665 )->_STL::ios_base::_Loc_init::_Loc_init();
 	atexit( rva007B9806 );
 }
 
