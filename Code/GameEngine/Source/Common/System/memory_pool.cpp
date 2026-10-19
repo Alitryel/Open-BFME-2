@@ -60,6 +60,8 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *secti
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *section);
 extern "C" __declspec(dllimport) int __stdcall VirtualFree(void *address, unsigned int size, unsigned int type);
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned int count, const char *format, ...);
+struct _iobuf;
+extern "C" __declspec(dllimport) int __cdecl fprintf(_iobuf *file, const char *format, ...);
 
 class MemoryPoolFactory;
 class Rva00031790;
@@ -1159,6 +1161,94 @@ void _Exit()
 		}
 		g_heaps.m_allocators[i]->rva00033E90(report);
 	}
+}
+
+void _DumpFragmentation(_iobuf *file, bool header, const char *label)
+{
+	if (header)
+	{
+		fprintf(file, "info");
+		for (int i = 0; i <= g_heaps.m_count; ++i)
+		{
+			char name[8];
+			char *p = &name[4];
+			*p = 0;
+			if (i != 0)
+			{
+				for (int shift = 0; shift < 32 && (g_heaps.m_records[i - 1].m_id >> shift) != 0; shift += 8)
+					*--p = (char)(g_heaps.m_records[i - 1].m_id >> shift);
+			}
+			else
+			{
+				p = "def";
+			}
+			fprintf(file, ",%s core,comm,res,blocks,mmap,bytes,slack,free,waste,percent", p);
+		}
+		fprintf(file, "\n");
+	}
+
+	fprintf(file, "%s", label);
+	for (int i = 0; i <= g_heaps.m_count; ++i)
+	{
+		unsigned int blockBytes = 0;
+		unsigned int dataBytes = 0;
+		unsigned int usedBytes = 0;
+		unsigned int blockCount = 0;
+		unsigned int mappedCount = 0;
+		unsigned int coreCount = 0;
+		unsigned int committed = 0;
+		unsigned int reserved = 0;
+		unsigned int freeCount = 0;
+		unsigned int wasted = 0;
+		unsigned int lastFree = 0;
+
+		void *report = g_heaps.m_allocators[i]->rva000353B0(0, 0x1f, true, 0, 0);
+		for (;;)
+		{
+			const EA::Allocator::BlockInfo *block = g_heaps.m_allocators[i]->rva00032F60(report, 0x1f);
+			if (block == 0)
+				break;
+			if (block->m_blockType == 2)
+			{
+				blockBytes += block->m_blockSize;
+				dataBytes += block->m_dataSize;
+				++blockCount;
+				if (block->m_mapped)
+					++mappedCount;
+				else
+					usedBytes += block->m_dataSize;
+				lastFree = 0;
+			}
+			else if (block->m_blockType == 8)
+			{
+				++coreCount;
+				committed += block->m_blockSize;
+				reserved += block->m_dataSize;
+				lastFree = 0;
+			}
+			else if (block->m_blockType == 4)
+			{
+				++freeCount;
+				wasted += block->m_blockSize;
+				lastFree = block->m_blockSize;
+			}
+			else
+			{
+				lastFree = 0;
+			}
+		}
+		if (lastFree != 0)
+		{
+			--freeCount;
+			wasted -= lastFree;
+		}
+
+		fprintf(file, ",%i,%i,%i,%i,%i,%i,%i,%i,%i,%i", coreCount, committed, reserved, blockCount,
+			mappedCount, dataBytes, blockBytes - dataBytes, freeCount, wasted,
+			(committed - usedBytes) / (committed / 100));
+		g_heaps.m_allocators[i]->rva00033E90(report);
+	}
+	fprintf(file, "\n");
 }
 
 }
