@@ -2,6 +2,32 @@
 // partial score=0.9747292418772563 date=2026-10-19
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /DNDEBUG
 // stlport
+// Notes kept from the earlier banks of this body:
+// w9-o3: farm best (nd 10) with the 1?: empty test replaced by message.isEmpty(); still needs the (ok ? end : end) read for retail regalloc; residue: retail constructs names after the sels test (inside the else) - inner scope moves zero reg to ebx and shrink-wraps esi/edi (nd 126)
+// farm best: 12 instruction differences (retail 554 B); key 2c169cb56a95a5104f6b
+// Banked GameSpyInfo::sendChat reconstruction, retail 0x001EFD9C..0x001EFFC6.
+// WB 0x00B01080 (Chat.cpp:166) and retail vtable VA0x00C19500 slot64 name
+// the body. BFME1 cee35b7d8ca077d7255f1c39cb69e9fd9627aa85 donor
+// game/GameEngine/Source/GameNetwork/GameSpy/GameSpyInfoSendChat.cpp was
+// compiled with BFME2 tools (zero placements). It supplies the chat flow;
+// BFME2 replaces its listbox with begin/end profile-ID pointers.
+// Retail and WB prove trim/empty return, request tags3/2, queue slot6,
+// GameSpy slots12/22/23/29 and the format/concat loop. Returned player
+// pointers are viewed only through their first AsciiString, not a full type.
+// PeerRequest's owned constructor/destructor are 0x1EF661/0x1EF723.
+// IMPORTANT corrections to the earlier bank: the vector<bool> ends at118;
+// the action byte is the FIRST byte of the union there (not eight later).
+// Reload message.str() AFTER PeerRequest construction: retail reloads the
+// by-value argument and retains its null fallback. The old cached pointer
+// incorrectly let the compiler eliminate that reload and fallback.
+// Current body:563B vs554, allREL32 calls resolved; fixed-offset byte
+// agreement only113/554 (0.204). No claim that the old0.65 score was exact
+// byte agreement. Retail promotes the third argument to EDI and reuses its
+// stack slot for string temporaries; this still spills it and reserves4
+// extra frame bytes. Early-return variant576B, vector variant571B; sibling
+// /G7 /arch:SSE flags do not help. Nothing integrated into Code/.
+// Begin/end int-pointer pair retail threads through the third slot.
+// Strict pointee type unproven; elements are consumed as Int profileIDs.
 #include <string>
 #include <vector>
 
