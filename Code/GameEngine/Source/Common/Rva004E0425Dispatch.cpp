@@ -39,12 +39,6 @@ public:
 
 // Rowed under their own address classes.
 class CreateAHeroData;
-class Rva004DFB7E
-{
-public:
-	bool rva004DFB7E(Object *holder);
-};
-
 class Rva004E02D7Owner
 {
 public:
@@ -55,12 +49,6 @@ class Rva004E00BAOwner
 {
 public:
 	void addObject(Object *holder);
-};
-
-class Rva004DF9B9
-{
-public:
-	void rva004DF9B9(void *holder, int mask);
 };
 
 class ObjectLookupMap
@@ -170,6 +158,8 @@ class AIStatCollector : private Rva004DF9E4
 public:
 	void Register(Object *holder);
 	void UnRegister(void *holder);
+	bool rva004DFB7E(Object *holder);		// name-list membership
+	void rva004DF9B9(void *holder, int mask);	// receiver notify
 
 private:
 	Rva0059614B *m_00;
@@ -197,21 +187,21 @@ void AIStatCollector::Register(Object *holder)
 	unsigned char any = 0;
 	if (((Rva0025C061 *)m_0C)->rva00596472(holder))
 	{
-		((Rva004DF9B9 *)this)->rva004DF9B9(holder, 2);
+		rva004DF9B9(holder, 2);
 		++any;
 		done = true;
 	}
 	if (m_08->Register(holder))
 	{
-		((Rva004DF9B9 *)this)->rva004DF9B9(holder, 1);
+		rva004DF9B9(holder, 1);
 		any = 1;
 		done = (any != 0);
 	}
-	if (any != 0 && !((Rva004DFB7E *)this)->rva004DFB7E((Object *)holder))
+	if (any != 0 && !rva004DFB7E((Object *)holder))
 		((Rva004E00BAOwner *)m_10)->addObject(holder);
 	if (((AIUnitStats *)m_00)->Register(holder) || ((Rva0025C061 *)m_04)->rva005960C1(holder))
 	{
-		((Rva004DF9B9 *)this)->rva004DF9B9(holder, 4);
+		rva004DF9B9(holder, 4);
 		done = true;
 	}
 	if (done)

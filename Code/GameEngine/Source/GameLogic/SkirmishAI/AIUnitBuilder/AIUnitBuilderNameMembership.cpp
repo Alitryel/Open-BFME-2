@@ -14,11 +14,11 @@ class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void*);};
 extern Rva002A8F24 *g_00DFEEF8;
 struct BuilderTemplate004DFB7E {unsigned char prefix[0x64];AsciiString name;};
 class Object {public:unsigned char prefix[4];BuilderTemplate004DFB7E *thingTemplate;};
-class Rva004DFB7E {
+class AIStatCollector {
 public:bool rva004DFB7E(Object*);
 private:unsigned char prefix[0x28];void *owner;
 };
-bool Rva004DFB7E::rva004DFB7E(Object *object)
+bool AIStatCollector::rva004DFB7E(Object *object)
 {
  Rva002A8AB1Record *record=g_00DFEEF8->rva002A8AB1(owner);
  if(record) {
