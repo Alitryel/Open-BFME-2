@@ -2428,7 +2428,6 @@ name,address,notes
 ??0Rva005BAB7E@@QAE@PAVAptOnline@@@Z,0x005BAB7E,unrowed thiscall constructor (ret 4) of the online shell's "OnlineQuickMatch" sub-screen taking the shell: REL32 at 0x00516E7D in its factory after a 0xA0-byte operator new (the shell screen table 0x00DD1568 entry); address name
 ??0Rva005C3549@@QAE@PAX00@Z,0x005C3697,base ctor called by Rva005685EE ctor 0x0056858C (byte-exact shape sibling); identity unproven; address-derived signature
 ??0Rva005C3A37Elem@@QAE@PAVRva005C3F02@@PAX1@Z,0x005C3F2C,Rva005C3A37Elem constructor called by Rva005C3F02::Rva005C3F02
-??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@HH@Z,0x005C4DE0,Rva005C4B56 constructor from Helper005C4D4B
 ??0Rva005C6D4D@@QAE@XZ,0x005C6D4D,address read from the REL32 displacement at byte-matched body 0x0053ED1A
 ??0Rva005C8624Element@@QAE@ABU0@@Z,0x005C9217,copy constructor read from retail REL32 in _Construct<Rva005C8624Element> 0x005C83CD (byte-exact modulo relocs in StlportConstructFamily.cpp); element identity unproven; address-derived name
 ??0Rva005CD257@@QAE@PAVRva005CD1A9@@PAX111@Z,0x005CD257,Rva005CD257 ctor (vtable 0x00C74F84) called at 0x005CD3DB

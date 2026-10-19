@@ -47,7 +47,7 @@ public:
 	int m_b4;
 	int m_b8;
 
-	Rva005C4B56(const Helper005C4D4B &, int, int);
+	Rva005C4B56(const Helper005C4D4B &, bool, const int *);
 };
 
 struct Rva004E06FBPtrChase32Field {
@@ -79,7 +79,7 @@ public:
 };
 
 Rva005C4230::Rva005C4230(void *arg0, Arg1Host005C4280 *arg1)
-	: Rva005C4B56(Helper005C4D4B(arg0), 1, 0)
+	: Rva005C4B56(Helper005C4D4B(arg0), true, 0)
 {
 	m_c0 = -1;
 	m_bc = arg1;
