@@ -22,6 +22,10 @@ class AptMath
 public:
 	struct ClipTransform_t { unsigned char unaccessed[96]; };
 	static ClipTransform_t *ClipStackPop();
+private:
+	// AptMathClipStack.cpp owns these private clip-stack counters; this
+	// shutdown path reads them through the inlined AptMath.h assert.
+	friend void rva006cc880();
 	static unsigned short m_nStackCapacity; // VA 0x00E180FC
 	static unsigned short m_nStackCount;    // VA 0x00E18100
 };
