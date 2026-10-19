@@ -3,7 +3,7 @@
 // If +0x3850 calls rowed rva000EA24D, if +0x3854 tail-jmps rowed rva000E7016.
 // Same +0x3850/+0x3854 members and flags as Rva000682B8 neighbour.
 // Evidence: callees rowed; chain from just-landed 0x000E7016.
-class Rva000EA24D
+class W3DTreeBuffer
 {
 public:
 	void rva000EA24D();
@@ -21,7 +21,7 @@ public:
 	void rva00068295();
 private:
 	unsigned char m_pad[0x3850];
-	Rva000EA24D *m_3850;
+	W3DTreeBuffer *m_3850;
 	Rva000E7016 *m_3854;
 };
 

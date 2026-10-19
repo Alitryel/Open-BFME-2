@@ -1,10 +1,12 @@
 // cl: /EHsc /MD
-// ?rva000EA24D@Rva000EA24D@@QAEXXZ 0x000EA24D 115B
+// ?rva000EA24D@W3DTreeBuffer@@QAEXXZ 0x000EA24D 115B
 // Reset after Rva000E6AC0::rva000E65B1: DX8 lock, zero count at +0x44540,
 // set dirty at +0x44544, release 0x40 RefItem array at +0x44558 stride 0x5C
 // (dec ref at +4, virtual Release on zero), zero tail at +0x45C58.
 // Evidence: calls rowed rva000E65B1; callees rowed; count/dirty offsets match
-// Rva000EA21A neighbour; callers at 0x000682A2 0x0006D5C0 0x000EDEBE.
+// Rva000EA21A neighbour; callers at 0x000682A2 0x0006D5C0 0x000EDEBE (the
+// W3DTreeBuffer ctor, on its own this; offsets match its +0x44540 count and
+// +0x44558 type array, past the Rva000E6AC0 base).
 
 void BFME_DX8_Thread_Lock(void);
 bool BFME_DX8_Thread_Assert(void);
@@ -28,7 +30,7 @@ struct ArrayElem
 	char m_pad[0x5C - 4];
 };
 
-class Rva000EA24D
+class W3DTreeBuffer
 {
 public:
 	void rva000EA24D();
@@ -47,7 +49,7 @@ struct DX8Guard
 	~DX8Guard() { BFME_DX8_Thread_Assert(); }
 };
 
-void Rva000EA24D::rva000EA24D()
+void W3DTreeBuffer::rva000EA24D()
 {
 	DX8Guard _guard;
 	((Rva000E6AC0 *)this)->rva000E65B1();

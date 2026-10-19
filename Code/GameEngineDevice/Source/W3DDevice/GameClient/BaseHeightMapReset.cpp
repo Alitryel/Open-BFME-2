@@ -16,7 +16,7 @@
 
 namespace _STL { template<> void vector<bool, allocator<bool> >::clear(); }
 
-class Rva000EA24D { public: void rva000EA24D(); };
+class W3DTreeBuffer { public: void rva000EA24D(); };
 class Rva000D3A17 { public: void rva000D3A17(); };
 class Rva000E7016 { public: void rva000E7016(); };
 class Rva000EE198Owner { public: void rva000EE198(); };
@@ -59,7 +59,7 @@ private:
 	BfmeResetTextureRef m_381C;
 	AsciiString m_3820;
 	char m_pad3824[0x3850 - 0x3824];
-	Rva000EA24D *m_treeBuffer;		// +0x3850
+	W3DTreeBuffer *m_treeBuffer;		// +0x3850
 	Rva000E7016 *m_shrubBuffer;		// +0x3854
 	Rva000EE198Owner *m_propBuffer;		// +0x3858
 	W3DBibBuffer *m_bibBuffer;		// +0x385C

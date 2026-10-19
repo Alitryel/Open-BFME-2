@@ -46,12 +46,6 @@ private:
 class Rva000EDA94Ref;
 #include "W3DTreeTypeRecord.h"
 
-class Rva000EA24D
-{
-public:
-	void rva000EA24D();
-};
-
 class Rva000E6FC8
 {
 public:
@@ -62,6 +56,7 @@ class W3DTreeBuffer : public Rva000E6AC0
 {
 public:
 	W3DTreeBuffer();
+	void rva000EA24D();
 private:
 	Rva000EDA94Record m_records[1200];		// +0x5C0
 	int m_count;				// +0x44540
@@ -87,7 +82,7 @@ W3DTreeBuffer::W3DTreeBuffer()
 	m_44546 = 0;
 	for (int i = 0; i < 64; ++i)
 		((int *)&m_types[i])[0] = 0;
-	((Rva000EA24D *)this)->rva000EA24D();
+	rva000EA24D();
 	m_44554 = 1;
 	memset(&m_records[0], 0, sizeof(m_records));
 	m_45c60 = 1;
