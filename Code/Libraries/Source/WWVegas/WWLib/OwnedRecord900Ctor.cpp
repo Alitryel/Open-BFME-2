@@ -54,6 +54,11 @@ struct BfmePod8
 {
 	int a[2];
 };
+// The map's tree destructor and base constructor are kept from other units
+// (the owner's destructor tears the map down, and TeamFactoryCtor holds the
+// base constructor the link keeps); declare them so this unit emits no copies.
+namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod8>, _Select1st<pair<const int, BfmePod8> >, less<int>, allocator<pair<const int, BfmePod8> > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_base<pair<const int, BfmePod8>, allocator<pair<const int, BfmePod8> > >::_Rb_tree_base(const allocator<pair<const int, BfmePod8> > &); }
 
 struct BfmeRecordOwner900
 {
