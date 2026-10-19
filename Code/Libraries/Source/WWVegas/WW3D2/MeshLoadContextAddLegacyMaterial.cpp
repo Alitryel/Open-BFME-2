@@ -1,4 +1,4 @@
-// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/Compression
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /DBFME_WWSTRING_NATIVE_CSTR_CONSTRUCTOR /DBFME_WWSTRING_INLINE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/Compression
 // Link view first: Vector3 operator== (and Length/Normalize/ctor/operator*) stay inline without emitting
 // COMDAT copies that disagree with the first copy in link order.
 #include "../../../../../reference/shims/bfme_vector3_eq_link/vector3_eq_link.h"
@@ -128,8 +128,10 @@ class BFME2ParticleTextureHandle {
 public:
     TextureClass *Ptr;
     StringClass Get_Texture_Name() const {
+        // The tagged constructor inlines like retail without emitting a
+        // second copy of the 0x000F0ED1 worker.
         const char *name = Ptr ? Ptr->Get_Name() : 0;
-        StringClass result(name);
+        StringClass result(name, false, StringClass::COPY_NATIVE);
         return result;
     }
     ~BFME2ParticleTextureHandle() {
@@ -143,32 +145,51 @@ public:
 	static BFME2ParticleTextureHandle Get(const char *name, int, int);
 };
 
-template<class T> class RefCountPtr;
+// The wrapper, its RefCountPtr assignment (0x000424D0) and the clear helper
+// below stay visible but noinline, favoring size like their retail copies (inc,
+// and-zero): this /O2 unit's own copies then match retail's and do not lose.
+template<class T> class RefCountPtr {
+public:
+    const RefCountPtr &operator=(const RefCountPtr &);
+    T *Referent;
+};
+#pragma optimize("s", on)
+template<> __declspec(noinline) inline const RefCountPtr<TextureClass> &
+RefCountPtr<TextureClass>::operator=(const RefCountPtr<TextureClass> &other)
+{
+    if (other.Referent != 0) other.Referent->Add_Ref();
+    if (Referent != 0) Referent->Release_Ref();
+    Referent = other.Referent;
+    return *this;
+}
+#pragma optimize("", on)
 
 // Owning-assignment wrapper matched at 0x00042707 (TextureHandleAssignment.cpp).
 // Defined here only so read_v3_materials can see it keeps no handle address.
+#pragma optimize("s", on)
 class BfmeTextureHandle {
 public:
-    TextureClass *Ptr;
-    BfmeTextureHandle &operator=(const BfmeTextureHandle &other) {
-        if (other.Ptr) other.Ptr->Add_Ref();
-        if (Ptr) Ptr->Release_Ref();
-        Ptr = other.Ptr;
+    RefCountPtr<TextureClass> Handle;
+    __declspec(noinline) BfmeTextureHandle &operator=(const BfmeTextureHandle &other) {
+        Handle = other.Handle;
         return *this;
     }
 };
+#pragma optimize("", on)
 
 // Release-and-clear helper matched at 0x0004D75B (BfmeResetTextureRefClear.cpp).
 // Defined here only so read_v3_materials can see it keeps no handle address.
+#pragma optimize("s", on)
 struct BfmeResetTextureRef {
     TextureClass *pointer;
-    void clear() {
+    __declspec(noinline) void clear() {
         if (pointer) {
             pointer->Release_Ref();
             pointer = 0;
         }
     }
 };
+#pragma optimize("", on)
 
 class MeshLoadContextClass {
     struct LegacyMaterialClass {
