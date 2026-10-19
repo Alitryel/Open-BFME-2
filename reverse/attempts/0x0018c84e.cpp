@@ -1,4 +1,6 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.99 date=2026-10-19
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.986 date=2026-10-18
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.986 date=2026-10-17
@@ -19,6 +21,14 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.95 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
+// 0x0018C84E bank 2026-10-19 (claude-opus-5-5): hack-free, EH EXACT, 2333/2333, 10 instruction diffs +
+// one unresolved call. The old dead `if(0){AsciiString...}` EH hack is replaced by the real inline
+// MeshMatDescClass::Get_Color_Array(0,false) (meshmatdesc.h; WB pushes 0,0), whose dead new gives
+// retail's no-action state 5. Unresolved: 0x211E58 is the short remap vector's _Vector_base ctor
+// (movsx proves short); ~90 names fold there but none for short, and a fold-proof pin is blocked by
+// the short alloc proxy pinned at 0x7410 vs 0x14F3C4 (ledger repair). Left: strength-reduced loop
+// operand orders (normal-X loads, links[1] before links[0], four movzx/fld base/index orders).
+// Home: FXShaderGeometry.cpp (needs /EHsc; 0x18C131 stays exact). Scratch: build/nbr/r10/18c84e/.
 // Native18C131..18C262 RET16. Original helper name unknown. FXShaderGeometry::Init supplies this + four
 // stack arguments: effect, technique handle, FVF output and basis flag.
 // D3DXGetShaderInputSemantics is the owned stdcall12 PE thunk 62AFC2.
@@ -211,13 +221,15 @@ public:
  Vector3 &operator=(const Vector3 &v) {X=v.X;Y=v.Y;Z=v.Z;return *this;}
 };
 struct TriIndex {unsigned short I,J,K;};
-template<class T> class ShareBufferClass {public:char m_pad00[0xC];T *Array;};
+template<class T> class ShareBufferClass {public:ShareBufferClass(int count,const char *msg,int alignment=0);T *Get_Array() {return Array;}char m_pad00[0xC];T *Array;};
 class MeshMatDescClass {
 public:
- unsigned *Get_Color_Array(int index) {if(ColorArray[index]) return ColorArray[index]->Array;return 0;}
+ unsigned *Get_Color_Array(int index,bool create);
  Vector2 *Get_UV_Array_By_Index(int,bool);
  Rva0007B9EE *Peek_FXShader(int pass) {return FXShader[pass];}
- char m_pad00[0x50];
+ int PassCount;	// +0x00
+ int VertexCount;	// +0x04
+ char m_pad08[0x50-0x08];
  ShareBufferClass<unsigned> *ColorArray[2];	// +0x50
  char m_pad58[0xA8-0x58];
  void *Material[4];	// +0xA8
@@ -225,6 +237,16 @@ public:
  char m_padC8[0xE8-0xC8];
  void *MaterialArray[4];	// +0xE8
 };
+inline unsigned *MeshMatDescClass::Get_Color_Array(int index,bool create)
+{
+ if(create && !ColorArray[index]) {
+  ColorArray[index]=new ShareBufferClass<unsigned>(VertexCount,"MeshMatDescClass::ColorArray");
+ }
+ if(ColorArray[index]) {
+  return ColorArray[index]->Get_Array();
+ }
+ return 0;
+}
 class MeshGeometryClass {
  friend class FXShaderGeometry;
 public:
@@ -436,13 +458,13 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
    m_VB=new BfmeDynamicNativeVB(0,(unsigned short)(m_Passes*mesh->Get_Vertex_Count()),0,desc.stride);
   }
   VertexBufferClass::WriteLockClass lock(m_VB,0);
- if(0){ AsciiString dead; if(0){ AsciiString inner; } }
+
   char *vertices=(char *)lock.Get_Vertex_Array();
   const Vector3 *positions[2]={mesh->Get_Vertex_Array(0),0};
   const Vector3 *normals[2]={mesh->Get_Vertex_Normal_Array(false),0};
   const Vector3 *tangents=mesh->rva0016ABC0();
   const Vector3 *binormals=mesh->rva0016ABE0();
-  const unsigned *colors=mesh->CurMatDesc->Get_Color_Array(0);
+  const unsigned *colors=mesh->CurMatDesc->Get_Color_Array(0,false);
   int textureCount=(m_FVF>>8)&0xF;
   const unsigned short *links[2]={mesh->get_bone_links(true),0};
   const unsigned short *weights[2]={0,0};
