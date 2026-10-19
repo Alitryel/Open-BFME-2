@@ -1,5 +1,5 @@
 // ?rva0029FEBB@Rva0029FEBB@@QAEXUICoord2D@@@Z
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/Libraries/Include /ICode/GameEngine/Source/Common
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/Libraries/Include /ICode/GameEngine/Source/Common /Ireference/shims/bfmealloc
 // stlport
 // ?rva0029FEBB@Rva0029FEBB@@QAEXUICoord2D@@@Z retail 0x0029FEBB 324B (RET 8)
 // d3 seat7 rebuild from WB twin 0xDB6240: by-value ICoord2D argument copied to a local pos (that alone fixes

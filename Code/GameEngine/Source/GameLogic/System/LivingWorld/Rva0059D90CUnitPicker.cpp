@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 // The explicit-specialization declaration of vector<BfmeE8>::push_back is dropped: with it cl cannot see the STLport body and keeps an extra temporary slot (spec sweep, see wave5/findings.log).
 // ?rva0059D90C@Rva0059D90C@@QAE_NPAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@PBURva0059D90CSource@@PAVRva004FF8DA@@HPAH@Z
