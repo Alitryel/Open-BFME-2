@@ -19222,7 +19222,6 @@ uw_0076a0da,,0x0076A0DA,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obj
 uw_0076a0e5,,0x0076A0E5,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2887
 uw_0076a0fa,,0x0076A0FA,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_0076a102,,0x0076A102,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_0076a114,,0x0076A114,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5926
 uw_0076a129,,0x0076A129,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_0076a13b,,0x0076A13B,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5021
 uw_0076a150,,0x0076A150,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5861
@@ -96863,3 +96862,4 @@ __ehhandler$??1Rva005CDDA4@@UAE@XZ,,0x007A15F5,10,Code/GameEngine/Source/Common/
 ?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z,,0x00042A4D,563,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassAddQuadColor.cpp,matched,ZH render2d.cpp Add_Line per the BFME2 WB twin 0x4D04D0: one reused len float and separate base/indices locals
 ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z,,0x00042C80,573,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassAddQuadColor.cpp,matched,two-colour Add_Line per WB twin 0x971330: same shape as 0x42A4D
 ??1AICommandParms@@QAE@XZ,,0x001E7E9F,15,Code/GameEngine/Source/GameLogic/AI/AICommandInterfaceAttackCommands.cpp,matched,Native complete15B AICommandParms coordinate-buffer destructor; real command-object lifetime tests buffer20 and releases through exact17B game _free30830; full emitted body and relocation exact. Direct source owner replaces obsolete self-alias metadata; evidence=reverse/attempt_support/aicommand-cleanup-ownership-20261019.md; model=gpt-6
+$L1075,,0x0076A114,11,Code/GameEngine/Source/GameLogic/AI/AICommandInterfaceAttackCommands.cpp,matched,gen-funclet;parent=?aiIdle@AICommandInterface@@QAEXW4CommandSourceType@@@Z; Native whole11B command-parameter cleanup: exact parent EH graph binds EBP-CC AICommandParms lifetime and tail jump to complete15B destructor1E7E9F. Replaces anonymous generator harness with actual C++ owner; shared native actions counted once; no new pin. evidence=reverse/attempt_support/aicommand-cleanup-ownership-20261019.md; model=gpt-6
