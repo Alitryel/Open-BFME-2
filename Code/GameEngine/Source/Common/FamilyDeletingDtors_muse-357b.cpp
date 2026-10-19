@@ -15,7 +15,21 @@ public:
 
 void CDownload_Delete(CDownload *p) { delete p; }
 
-class DownloadManager { public: DownloadManager(EmitVtableTag *); virtual ~DownloadManager(); };
+// The table as DownloadManager.cpp (first in link order) has it: the five
+// download-callback slots, the deleting dtor (slot 5), then downloadFile.
+class AsciiString;
+class DownloadManager
+{
+public:
+	DownloadManager(EmitVtableTag *);
+	virtual long OnError(int error);
+	virtual long OnEnd();
+	virtual long OnQueryResume();
+	virtual long OnProgressUpdate(int bytesread, int totalsize, int timetaken, int timeleft);
+	virtual long OnStatusUpdate(int status);
+	virtual ~DownloadManager();
+	virtual long downloadFile(AsciiString server, AsciiString username, AsciiString password, AsciiString file, AsciiString localfile, AsciiString regkey, bool tryResume);
+};
 // ?<DownloadManager::DownloadManager> absent-from-retail
 DownloadManager::DownloadManager(EmitVtableTag *) {}
 
