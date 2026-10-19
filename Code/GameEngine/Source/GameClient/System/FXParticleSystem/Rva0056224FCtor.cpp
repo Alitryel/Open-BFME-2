@@ -147,7 +147,7 @@ class Rva00562366 : public Rva003ADFDB, public Rva0056224F
 public:
 	Rva00562366(unsigned int a, Src00562366 &src);
 	virtual ~Rva00562366() {}
-	virtual void slot00();
+	virtual void slot00() = 0;
 };
 
 // The twelve floats and the int the ctor fills (+0x10..+0x40) are the
@@ -192,8 +192,3 @@ Rva00562366::Rva00562366(unsigned int a, Src00562366 &src)
 	m_30 = src.m_A4.getValue();
 	m_34 = src.m_B0;
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?slot00@Rva00562366@@UAEXXZ=__purecall")

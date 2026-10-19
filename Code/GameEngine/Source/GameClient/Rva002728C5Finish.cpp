@@ -3,10 +3,9 @@
 // ?rva002728C5@Drawable@@QAEXMM@Z, retail 0x002728C5, 71 bytes.
 // Drawable float forwarder plus average-half store: if the +0x14C list head
 // is present forward (a,b) to its slot 0x54 target, then store (a+b)*0.5
-// (half at 0x00BC26F0) to +0xAC. Evidence: unlock lane; same +0x14C head
+// (half: the __real@3f000000 literal at 0x00BC26F0) to +0xAC. Evidence: unlock lane; same +0x14C head
 // pattern as Drawable_rva00272835; slot 0x54 callee pops 8B (no add esp);
 // callers at 0x00485773; neighbours Drawable share flags.
-extern const float g_00BC26F0;
 
 class Rva002728C5Elem
 {
@@ -41,9 +40,5 @@ void Drawable::rva002728C5(float a, float b)
 	Rva002728C5Elem **head = m_list;
 	if (*head != 0)
 		(*head)->slot54(a, b);
-	m_unkAC = (a + b) * g_00BC26F0;
+	m_unkAC = (a + b) * 0.5f;
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00BC26F0@@3MB=?g_Va007C26F0@@3MA")

@@ -1507,7 +1507,6 @@ address_global	Code/GameEngine/Source/GameClient/GameClientDrawableTOC.cpp	g_Va0
 address_global	Code/GameEngine/Source/GameClient/InGameUIUpdateAndDrawWorldAnimations.cpp	g_Va00DBA4E4	2
 address_global	Code/GameEngine/Source/GameClient/Rva0005117BFraction.cpp	g_Va00BBB8D8	1
 address_global	Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp	g_Va00DFE118	1
-address_global	Code/GameEngine/Source/GameClient/Rva002728C5Finish.cpp	g_Va007C26F0	1
 address_global	Code/GameEngine/Source/GameClient/Rva00282500Dtor.cpp	g_Va00DBB708	8
 address_global	Code/GameEngine/Source/GameClient/Rva0040AD80ReferenceState_Rva00362c9f.cpp	g_Va00E01E7C	2
 address_global	Code/GameEngine/Source/GameClient/Rva004110DCGet.cpp	g_Va00E02FF8	2
@@ -3212,11 +3211,9 @@ alternatename	Code/GameEngine/Source/GameClient/Rva00222A8BAptCallLevel.cpp	?inv
 alternatename	Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp	?rva00222B19@Rva00222A8BTarget@@QAEHPAXPBD1H10000@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDDC@@3QBDB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDE0@@3QBDB	1
-alternatename	Code/GameEngine/Source/GameClient/Rva002728C5Finish.cpp	?g_00BC26F0@@3MB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0029B2E7Zero.cpp	??0BfmeElemVVD@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0029B816Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva002E5791Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/Rva002E66F2Dtor.cpp	?g_00804E90@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0030D773Method.cpp	?g_00DFF000@@3PAVRva002D06CA@@A	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	??_7Base00@@6B@	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	?g_Va007C9260@@3QBGB	1
@@ -3299,10 +3296,7 @@ alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/RenderOb
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/RenderObjectUpdateModuleTemplateCopyCtorThunk.cpp	_RenderObjectUpdateModuleTemplate_cvtbl4	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A53C4Finish.cpp	_vtbl_00BE15A4	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ADDCDCopy.cpp	_s_slot3E4first	1
-alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ADFB2Dtor.cpp	?g_00C1B320@@3QBQBXB	1
-alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AE358Dtor.cpp	?g_00C1B320@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055BCD2Ctor.cpp	_s_slot3E4first	1
-alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0056224FCtor.cpp	?slot00@Rva00562366@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva005635CDCtor.cpp	??1Rva005635CD@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva00563D2ECtor.cpp	??1Rva00563D2E@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva005646BC.cpp	_s_slot3E4first	1

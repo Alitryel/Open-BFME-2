@@ -32,12 +32,12 @@ private:
 	AsciiStringMember m_member08;
 };
 
-extern const void *const g_00804E90[];
+extern "C" const void *const __identifier("??_7Rva002E55D8@@6B@")[];
 
 class Rva002E66F2Mid : public SubsystemInterface
 {
 public:
-	virtual ~Rva002E66F2Mid() { *(const void **)this = g_00804E90; }
+	virtual ~Rva002E66F2Mid() { *(const void **)this = __identifier("??_7Rva002E55D8@@6B@"); }
 };
 
 class Rva002E6551
@@ -92,7 +92,3 @@ _STL::vector<AsciiString> &Rva002E66F2::rva002E67EA(const AsciiString &filter)
 		m_ptr30->rva002E674B(vec, filter);
 	return vec;
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_00804E90@@3QBQBXB=??_7Rva002E55D8@@6B@")
