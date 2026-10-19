@@ -112,30 +112,7 @@ ShellMenuSchemeImage::~ShellMenuSchemeImage( void )
 	m_image = NULL;
 }
 
-// byte-exact reconstruction: game/GameEngine/Source/Common/ShellMenuSchemeDestructor.cpp
-// ??1ShellMenuScheme@@QAE@XZ present-unmatched
-ShellMenuScheme::~ShellMenuScheme( void )
-{
-	ShellMenuSchemeImageListIt it = m_imageList.begin();
-	while(it != m_imageList.end())
-	{
-		ShellMenuSchemeImage *image = *it;
-		it = m_imageList.erase( it );
-		if(image)
-			delete image;
-	}
-
-	ShellMenuSchemeLineListIt lineIt = m_lineList.begin();
-	while(lineIt != m_lineList.end())
-	{
-		ShellMenuSchemeLine *line = *lineIt;
-		lineIt = m_lineList.erase( lineIt );
-		if(line)
-			delete line;
-	}
-
-	
-}
+// ??1ShellMenuScheme@@QAE@XZ: defined in ShellMenuSchemeDtor.cpp (its row's unit).
 
 // ?addLine@ShellMenuScheme@@QAEXPAVShellMenuSchemeLine@@@Z present-unmatched
 void ShellMenuScheme::addLine( ShellMenuSchemeLine* schemeLine )

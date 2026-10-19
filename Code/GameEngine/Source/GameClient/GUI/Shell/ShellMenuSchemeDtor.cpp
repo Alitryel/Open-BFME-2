@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfmelist /O1 /DNDEBUG /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??1Rva002006B0@@QAE@XZ @0x002006B0 196B.
+// ??1ShellMenuScheme@@QAE@XZ @0x002006B0 196B (was the placeholder Rva002006B0).
 // Two-list cleanup dtor with StringBase release. Evidence: EH prolog scope
 // 0x0076C38D; rowed list<int> erase 0x00438539 and list_base dtor 0x004EC395;
 // rowed StringBase<D> releaseBuffer 0x00036410 and delete 0x0002FD60;
@@ -41,16 +41,16 @@ public:
 	int m_14;
 };
 
-class Rva002006B0 : public StringBase<char>
+class ShellMenuScheme : public StringBase<char>
 {
 public:
-	~Rva002006B0();
+	~ShellMenuScheme();
 private:
 	_STL::list<int> m_4;
 	_STL::list<int> m_8;
 };
 
-Rva002006B0::~Rva002006B0()
+ShellMenuScheme::~ShellMenuScheme()
 {
 	for (_STL::list<int>::iterator it = m_4.begin(); it._M_node != m_4.end()._M_node; )
 	{
@@ -92,15 +92,15 @@ Rva002007D5::~Rva002007D5()
 	m_4 = 0;
 	for (_STL::list<int>::iterator it = m_0.begin(); it._M_node != m_0.end()._M_node; )
 	{
-		Rva002006B0 *p = (Rva002006B0 *)(int)*it;
+		ShellMenuScheme *p = (ShellMenuScheme *)(int)*it;
 		it = m_0.erase(it);
 		if (p != 0)
 			delete p;
 	}
 }
 
-// ?forceRva002006B0Delete@@YAXPAVRva002006B0@@@Z absent-from-retail
-void forceRva002006B0Delete(Rva002006B0 *p) { delete p; }
+// ?forceShellMenuSchemeDelete@@YAXPAVShellMenuScheme@@@Z absent-from-retail
+void forceShellMenuSchemeDelete(ShellMenuScheme *p) { delete p; }
 
 // ?forceRva002007D5Delete@@YAXPAVRva002007D5@@@Z absent-from-retail
 void forceRva002007D5Delete(Rva002007D5 *p) { delete p; }
