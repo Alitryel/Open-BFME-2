@@ -52,6 +52,10 @@ class LocomotorSetUpgrade : public UpgradeModule
 {
 public:
 	LocomotorSetUpgrade( Thing *thing, const ModuleData *moduleData );
+
+// Protected virtual, as UpgradeModuleTailDtors.cpp (row 0x004B3EA0) declares it.
+protected:
+	virtual ~LocomotorSetUpgrade();
 };
 
 // ??0LocomotorSetUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z
