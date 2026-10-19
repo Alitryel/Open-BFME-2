@@ -1,23 +1,19 @@
-// ??0ScriptEngine@@QAE@XZ
-// partial score=0.981 date=2026-10-17
-// ??0ScriptEngine@@QAE@XZ
-// partial score=0.983 date=2026-10-15
-// ??0ScriptEngine@@QAE@XZ
-// partial score=0.987 date=2026-10-13
-// ??0ScriptEngine@@QAE@XZ
-// partial score=0.9865894 date=2026-10-10
-// BANK ONLY: native208343..2086B7 and owned ScriptEngine destructor prove
-// the target offsets,20-player arrays,599/202 templates and256 attack slots.
-// BF1 575ba2b04 ScriptEngineRva00347E60 and ZH ScriptEngine.cpp guide purpose.
-// Default map constructors below borrow only existing empty-header ABIs;
-// their template payloads are not assertions of ScriptEngine map identities.
-// SnapshotBlock/upgradePair array callback spellings and terminal global
-// owners remain provisional and need independent owner/header reconciliation.
-// In particular9FE15C is already owned by g_00DFE15C;9FE15D is unowned;
-// st_CurrentFrame's ledger extent8 conflates scalar160 with unowned164.
-// No Code admission/pin/alias/full EH verification was performed for this bank.
-// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/moduledata /Oa
+// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/moduledata
 // stlport
+//
+// ??0ScriptEngine@@QAE@XZ, retail 0x00208343..0x002086B7 (884 B): the
+// ScriptEngine constructor. Native body plus the owned ScriptEngine destructor
+// prove the member offsets, the 20-player arrays, the 599/202 templates and
+// the 256 attack slots; ZH ScriptEngine.cpp and BFME1 ScriptEngineRva00347E60
+// guide the shape: ZH's initializer list literally, then the body in BFME1's
+// order (setGlobalDifficulty(1), the two continuation latches, the frames).
+// The frame and latch globals are file statics as in ZH ScriptEngine.cpp
+// (st_CurrentFrame / st_LastCurrentFrame / st_CanAppCont): retail schedules
+// their stores after the pops, which only non-aliased TU statics allow.
+// Built without /Oa, which moves pop edi. The default map/list constructors
+// below borrow existing empty-header ABIs; their template payloads are not
+// claims about ScriptEngine's map identities and need reconciling with the
+// owner headers. Which latch is 0x9FE15C and which 0x9FE15D is not proven.
 #include <map>
 #include <list>
 #include <vector>
@@ -74,9 +70,10 @@ char breeze[0x1C];int difficulty;
 _STL::vector<ObjectTypes*> allObjects;
 bool a4D4,a4D5,a4D6,a4D7,a4D8,a4D9,a4DA;
 double a4E0,a4E8,a4F0,a4F8;
+public: void setGlobalDifficulty(int d){difficulty=d;}
 };
-extern "C" int st_CurrentFrame;
-extern "C" int scriptLastFrame;
-extern unsigned char scriptLogicContinuationLatch;
-extern unsigned char scriptClientContinuationLatch;
-ScriptEngine::ScriptEngine():unknown1C(0),a100(0),a104(0),a108(0),a110(0),a114(0),a118(0),a11C(0),a12C(true),a130(0),a134(0),a138(0),a13C(false),a140(0),a144(0),a148(0),a14C(0),a150(0),a154(0),a158(0),a15C(0),a160(0),a4D4(false),a4D6(false),a4D7(false),a4D8(false),a4E0(0),a4E8(0),a4F0(0){(1 ? difficulty : difficulty)=1;st_CurrentFrame=scriptLastFrame=0;scriptLogicContinuationLatch=scriptClientContinuationLatch=true;*(volatile bool*)&a4D5=true;*(volatile bool*)&a4D9=true;*(volatile double*)&a4F8=0;*(volatile bool*)&a4DA=true;}
+static int st_CurrentFrame;
+static int scriptLastFrame;
+static unsigned char scriptLogicContinuationLatch;
+static unsigned char scriptClientContinuationLatch;
+ScriptEngine::ScriptEngine():unknown1C(0),a100(0),a104(0),a108(0),a110(0),a114(0),a118(0),a11C(0),a12C(true),a130(0),a134(0),a138(0),a13C(false),a140(0),a144(0),a148(0),a14C(0),a150(0),a154(0),a158(0),a15C(0),a160(0),a4D4(false),a4D5(true),a4D6(false),a4D7(false),a4D8(false),a4D9(true),a4DA(true),a4E0(0),a4E8(0),a4F0(0),a4F8(0){setGlobalDifficulty(1);scriptClientContinuationLatch=true;scriptLogicContinuationLatch=true;scriptLastFrame=st_CurrentFrame=0;}
