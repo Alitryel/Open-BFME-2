@@ -200,6 +200,14 @@ private:
 
 class Rva0017368AMesh : public MeshClass
 {
+public:
+    Rva0017368AMesh **Get_State() { return m_state; }
+    void Set_Offset(int offset) { m_vertexOffset = offset; }
+private:
+    char m_pad0C8[0x300 - 0xC8];
+    int m_vertexOffset;              // +0x300
+    char m_pad304[0x310 - 0x304];
+    Rva0017368AMesh **m_state;       // +0x310
 };
 
 namespace Debug_Statistics { void Record_DX8_Skin_Polys_And_Vertices(int polys, int verts); }
@@ -213,10 +221,65 @@ struct VertexFormatXYZNDUV2
     float u2, v2;
 };
 
+struct Rva0017368ATask
+{
+    Rva0017368AMesh *Get_Mesh() { return mesh; }
+    Rva0017368AMesh *mesh;
+    char unknown[28];
+};
+
+unsigned Rva001736A7Compare(const Rva0017368ATask &a, const Rva0017368ATask &b);
+void rva00174870(int begin, int end, int compare);
+
+class DynamicVBAccessClass
+{
+public:
+    DynamicVBAccessClass(unsigned type, unsigned format_index, unsigned short vertex_count, unsigned declaration);
+    ~DynamicVBAccessClass();
+
+    class WriteLock
+    {
+    public:
+        WriteLock(DynamicVBAccessClass *vb);
+        ~WriteLock();
+        VertexFormatXYZNDUV2 *Get_Formatted_Vertex_Array() { return (VertexFormatXYZNDUV2 *)m_data; }
+    private:
+        DynamicVBAccessClass *m_owner;
+        void *m_data;
+        int m_guard;
+    };
+
+private:
+    const void *m_format;
+    unsigned m_type, m_formatIndex, m_declaration;
+    unsigned short m_vertexCount, m_vertexOffset;
+    void *m_buffer;
+};
+
+class DX8Wrapper
+{
+public:
+    static void Set_Vertex_Buffer(const DynamicVBAccessClass &vb);
+};
+
+class Rva0017438B { public: void rva0017438B(int begin, int end); };
+class Rva00DF6F94GapFillerContext { public: void rva00174350(); };
+
 class FXShaderRenderer
 {
 public:
+    void FlushSoftwareSkinnedRenderingTasks();
     void rva00173C04(Rva0017368AMesh *mesh, void *dest_verts);
+private:
+    char m_pad00[0x0C];
+    struct TaskList
+    {
+        bool empty() const { return m_begin == m_end; }
+        Rva0017368ATask *begin() { return m_begin; }
+        Rva0017368ATask *end() { return m_end; }
+        Rva0017368ATask *m_begin;
+        Rva0017368ATask *m_end;
+    } m_tasks; // +0x0C
 };
 
 typedef char Rva00173C04CacheSize[(sizeof(DynamicVectorClass<Vector3>) == 24) ? 1 : -1];
@@ -278,4 +341,57 @@ void FXShaderRenderer::rva00173C04(Rva0017368AMesh *mesh, void *dest_verts)
         loc++;
         norm++;
     }
+}
+
+// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ @0x001748E8
+void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
+{
+    if (m_tasks.empty())
+        return;
+
+    rva00174870((int)m_tasks.begin(), (int)m_tasks.end(), (int)&Rva001736A7Compare);
+
+    int verticesToSkin = 0;
+    for (Rva0017368ATask *it = m_tasks.begin(); it != m_tasks.end(); ++it) {
+        Rva0017368AMesh *mesh = it->Get_Mesh();
+        if (mesh->Get_State()) {
+            if (*mesh->Get_State() == 0) {
+                *mesh->Get_State() = mesh;
+                verticesToSkin += mesh->Peek_Model()->Get_Vertex_Count();
+            }
+        } else {
+            verticesToSkin += mesh->Peek_Model()->Get_Vertex_Count();
+        }
+    }
+
+    Rva0017368ATask *batchStart = m_tasks.begin();
+    while (batchStart != m_tasks.end()) {
+        Rva0017368ATask *task = batchStart;
+        int budget = verticesToSkin;
+        if (budget > 0xFFFF)
+            budget = 0xFFFF;
+        DynamicVBAccessClass vb(2, 5, (unsigned short)budget, 0);
+        {
+            DynamicVBAccessClass::WriteLock lock(&vb);
+            VertexFormatXYZNDUV2 *verts = lock.Get_Formatted_Vertex_Array();
+            int used = 0;
+            int offset = 0;
+            for (; task != m_tasks.end(); ++task) {
+                Rva0017368AMesh *mesh = task->Get_Mesh();
+                if (!mesh->Get_State() || mesh == *mesh->Get_State()) {
+                    if (mesh->Peek_Model()->Get_Vertex_Count() + used > budget)
+                        break;
+                    rva00173C04(mesh, verts + used);
+                    offset = used;
+                    used += mesh->Peek_Model()->Get_Vertex_Count();
+                }
+                mesh->Set_Offset(offset);
+            }
+            verticesToSkin -= used;
+        }
+        DX8Wrapper::Set_Vertex_Buffer(vb);
+        ((Rva0017438B *)this)->rva0017438B((int)batchStart, (int)task);
+        batchStart = task;
+    }
+    ((Rva00DF6F94GapFillerContext *)this)->rva00174350();
 }
