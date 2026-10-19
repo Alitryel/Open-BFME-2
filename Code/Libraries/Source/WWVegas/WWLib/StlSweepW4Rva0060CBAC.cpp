@@ -14,6 +14,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV01@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::_STLP_alloc_proxy(const _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization
