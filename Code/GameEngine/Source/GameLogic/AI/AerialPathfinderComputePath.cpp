@@ -1,39 +1,40 @@
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.98 date=2026-10-19
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.9 date=2026-10-19
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.9 date=2026-10-19
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.236 date=2026-10-17
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.25 date=2026-10-14
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE1_N@Z
-// partial score=0.25 date=2026-10-14
-// Bank draft of the AerialPathfinder path build at 0x0037609C (2148B, RET18).
-// WB 0xF2A4B0 names it AerialPathfinder::computeAerialPath (match 7.567
-// consts+strings). Structure from the retail body: destination adjust, the
-// "setup" point/angle block, the 5x200 collision-test search with sin/cos
-// probes, and the ProfileHighLevel report tail.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
-// Native reconstruction restores block lifetimes, receiver roles and collision transitions.
-// 2026-10-19 seat12 (member-mutator lever, reverse/attempt_support/coord3d-member-mutator-lever-20261019.md):
-// center initialised and p += center written through the AerialCoord3D member view (WB 0x41F3B0
-// operator+=) closes the setup-z residue; the probe heading calls retail's C++ float overload
-// ?atan2@@YAMMM@Z (0x000422CD), not _atan2f. 2148/2148 B, 22 differing lines: only the two cos
-// arms remain (retail loads target.z right after `call cos` and delays fmul/fadd between the
-// argument pushes). Member set(x,y,z) for q is worse (2186/2160 B).
-// Then q.y = (float)(cos(a) * radius) + target.y (the float rounding cast; also
-// target.y + (float)(...)) moves the fadd after the first push: 22 -> 14 lines; only the fmul
-// still sits right after `call cos` (retail: after movss target.z / pops / mov ecx). Inert or
-// worse: float/double cy locals (2156 B), (float)cos(a)*r, split q.y +=, z before y (36),
-// a float y local stored after q.z (14).
-// The earlier draft description above is preserved as contributor evidence.
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/Libraries/Include/Lib/Coord3DBase.h"
-#include "../../reference/shims/bfme2_ascii/unicode_string.h"
-#include "../../Code/Libraries/Source/profile/profile_highlevel.h"
+//
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z retail
+// 0x0037609C, 2148 B, RET 0x18: the AerialPathfinder path build. WorldBuilder 0xF2A4B0 names
+// it AerialPathfinder::computeAerialPath (consts + strings, match 7.567); the generated owner
+// and method spelling is kept. Structure from the retail body: destination adjust, the
+// "setup" point/angle block (ProfileHighLevel "setup"), the 5x200 collision-test search with
+// sin/cos probes around the target, the repair loop and the report tail. Shape levers from
+// the WB twin: Coord3D mutations through member functions (AerialCoord3D view: center set,
+// p += center as WB's MathCoord3D operator+= 0x41F3B0), the C++ float atan2 overload
+// (0x000422CD, retail's call target), visible Coord3D length/normalize, and the probe
+// y written as a rounded float product. Offsets, slots and constants are target-measured;
+// helper and view names are address-derived.
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Libraries/Include/Lib/Coord3DBase.h"
+#include "../../../../../reference/shims/bfme2_ascii/unicode_string.h"
+#include "../../../../Libraries/Source/profile/profile_highlevel.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 
+#include <math.h>
+// coord3d.cpp's Coord3D::length (0x00003571) and ::normalize (0x000035B6), visible so cl
+// knows they keep no pointer to the local vectors (as AIAttackApproachComputePath.cpp).
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
 inline void Coord3D::scale(float s) { x *= s; y *= s; z *= s; }
 inline Coord3D &addCoord(Coord3D &p, const Coord3DBase &v) {
     p.x += v.x;
@@ -57,7 +58,6 @@ inline float capExtension(float value) {
     if (!(value > cap)) cap = value;
     return cap;
 }
-enum ObjectID {};
 class Object {
 public:
     void rva0028ACEE(int, int);
@@ -65,7 +65,6 @@ public:
     bool isSignificantlyAboveTerrain() const;
 };
 class LocomotorSet;
-class GameLogic { public: Object *findObjectByID(ObjectID); };
 class Pathfinder { public: bool AdjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *); };
 class AI;
 struct AerialAIView { char pad[0x10]; Pathfinder *pathfinder; };
@@ -215,7 +214,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                     if (tryPlus) {
                         float a = normalizeAngle(base + angle);
                         q.x = sin(a) * (float)radius + target.x;
-                        q.y = (float)(cos(a) * (float)radius) + target.y;
+                        q.y = cos(a) * (float)radius + target.y;
                         q.z = target.z;
                         if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a + 2 * step) * (float)radius + target.x;
@@ -233,7 +232,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                     if (tryMinus) {
                         float a = normalizeAngle(base - angle);
                         q.x = sin(a) * (float)radius + target.x;
-                        q.y = (float)(cos(a) * (float)radius) + target.y;
+                        q.y = cos(a) * (float)radius + target.y;
                         q.z = target.z;
                         if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a - 2 * step) * (float)radius + target.x;
@@ -301,7 +300,8 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                             ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
                             route->rva00312118();
                             ++repairs;
-                            ((AerialRouteCalls *)route)->time = *(float *)(self + 0xbc) + middle;
+                            float spacing = *(float *)(self + 0xbc);
+                            ((AerialRouteCalls *)route)->time = spacing + middle;
                         }
                     }
                 }
