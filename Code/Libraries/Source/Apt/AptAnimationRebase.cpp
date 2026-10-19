@@ -1,14 +1,9 @@
-// ?rva006E5940@Rva006E5940@@QAEXH@Z
-// partial score=0.95 date=2026-10-19
-// ?rva006E5940@Rva006E5940@@QAEXH@Z
-// partial score=0.947 date=2026-10-17
-// ?rva006E5940@Rva006E5940@@QAEXH@Z
-// partial score=0.9665 date=2026-10-14
-// ?rva006E5940@Rva006E5940@@QAEXH@Z
-// partial score=0.9509739928607854 date=2026-10-10
-// ?rva006E5940@Rva006E5940@@QAEXH@Z
-// partial score=0.949571647118817 date=2026-10-09
 // cl: /I. /O2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// AptAnimation.cpp (BFME 2 1.03 assert path): rebases a loaded animation's object,
+// import and link pointers by delta and rebinds imported character slots.
+// ?rva006E5940@Rva006E5940@@QAEXH@Z @0x006E5940 1480B (RET4; 1436B code plus the
+// ten-entry jump table). Case 2 ends in continue: retail shares its +0x38 slide
+// tail with case 4 at the earlier copy, which a break-terminated case 2 inverts.
 extern "C" void __cdecl Rva006FD040(void*,void*,void*);
 class Rva0070EDC0 
 {
@@ -229,9 +224,6 @@ void Rva006E5940::rva006E5940(int delta)
    }
    SLIDE(O->t4.records8);
    break;
-   case 2:SLIDE(O->t2.p34);
-   SLIDE(O->t2.p38);
-   break;
    case 3:SLIDE(O->t3.p8);
    for(int j=0;j<O->t3.count;++j)O->t3.indices[j]=INDEX(O->t3.indices[j]);
    SLIDE(O->t3.indices);
@@ -239,6 +231,9 @@ void Rva006E5940::rva006E5940(int delta)
    case 6:((void(__cdecl*)(int))g_aptFreeSoundSlot)(O->words[0]);
    O->words[0]=i;
    break;
+   case 2:SLIDE(O->t2.p34);
+   SLIDE(O->t2.p38);
+   continue;
    case 7:((void(__cdecl*)(int))g_aptFreeTextureSlot)(O->words[0]);
    O->words[0]=i;
    break;
