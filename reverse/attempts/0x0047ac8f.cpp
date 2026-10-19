@@ -1,4 +1,6 @@
 // ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
+// partial score=0.8579654510556622 date=2026-10-19
+// ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
 // partial score=0.8600036247786373 date=2026-10-16
 // ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
 // partial score=0.865 date=2026-10-14
@@ -13,6 +15,8 @@
 // WB1161040 names getUnitsIntendedPosition; original hidden-result shape is
 // represented explicitly to use canonical Coord3D without a private class.
 // Banked semantic reconstruction retained; physical fields are target accesses.
+// Spread scales both axes after the index term; forward/side scratch uses XY.
+// Evidence: reverse/attempt_support/0x0047ac8f-xy-scratch.md.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "Lib/Coord3D.h"
@@ -455,8 +459,8 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
   Coord2D spread = *rva0046A5B1(&temporary, index);
   spread.normalize();
   float s = md->m_2B4 * m_218;
-  spread.x *= s;
   s = (float)(index % 5) * md->m_2B8 * m_218 * 0.25f + s;
+  spread.x *= s;
   spread.y *= s;
   dir.x += spread.x;
   dir.y += spread.y;
@@ -502,10 +506,10 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
   r1_vwrite(delta.x) = pos.x - origin->x;
   delta.y = pos.y - origin->y;
   const Coord3D *facing = me->getUnitDirectionVector2D();
-  Coord3D forward;
+  Coord2D forward;
   forward.x=facing->x;
   forward.y=facing->y;
-  Coord3D side;
+  Coord2D side;
   r1_vwrite(side.x) = -forward.y;
   side.y = forward.x;
   float along = (float)fabs(delta.x * forward.x + delta.y * forward.y);
