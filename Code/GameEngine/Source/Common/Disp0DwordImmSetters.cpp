@@ -455,18 +455,8 @@ void Rva0006C5930DwordImmSetter::apply()
 	m_value = ((unsigned int)vtbl_00BBE7EC);
 }
 
-class Rva000610480DwordImmSetter
-{
-public:
-	__declspec(noinline) void apply();
-
-	unsigned int m_value;
-};
-
-void Rva000610480DwordImmSetter::apply()
-{
-	m_value = ((unsigned int)vtbl_00C7B6AC);
-}
+// 0x00610480 (vptr store of ??_7ThreadClass) is ThreadClass::~ThreadClass, rowed
+// from ThreadClassLifecycle.cpp.
 
 class Rva0005F686ADwordImmSetter
 {
@@ -724,6 +714,12 @@ void Rva00576456DwordImmSetter::apply()
 
 // Native419E38 tail JMP610480; scalar deleting419E1C and retail vtable
 // slots witness destruction. Pointer-only view: complete owner type unknown.
+class ThreadClass
+{
+public:
+    virtual ~ThreadClass();
+};
+
 class __declspec(novtable) Rva00419E38
 {
 public:
@@ -731,7 +727,7 @@ public:
 };
 Rva00419E38::~Rva00419E38()
 {
-    reinterpret_cast<Rva000610480DwordImmSetter *>(this)->apply();
+    reinterpret_cast<ThreadClass *>(this)->ThreadClass::~ThreadClass();
 }
 
 // Native567A69 tail JMP4E84A4; scalar deleting53DAE6 witnesses cleanup.

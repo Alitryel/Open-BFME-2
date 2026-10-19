@@ -36,7 +36,7 @@ void ThreadClass::Set_Priority(int priority)
         SetThreadPriority(m_handle, m_priority);
 }
 
-// ??1ThreadClass@@UAE@XZ present-unmatched
+// ??1ThreadClass@@UAE@XZ @0x00610480 7B: resets the vptr to ??_7ThreadClass (0x0087B6AC).
 ThreadClass::~ThreadClass()
 {
 }
