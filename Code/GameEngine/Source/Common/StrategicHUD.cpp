@@ -89,10 +89,18 @@ struct AsciiStringPlusText : AsciiStringRef
 AsciiStringPlusText __cdecl operator+(const AsciiString &left, const char *right);
 
 // The pointees, with their constructors' addresses.
+// The help-box pointee is built by the 0x00527C04 constructor rowed under
+// its class Rva00527827 (same 0x20 bytes); the owning-pointer reset row
+// spells the pointee Rva00527CCE, so the new pointer is cast for it.
 class Rva00527CCE
 {
+private:
+	unsigned char m_pad[0x20];
+};
+class Rva00527827
+{
 public:
-	Rva00527CCE(int level, const AsciiString &name); // 0x00527C04
+	Rva00527827(int level, const AsciiString &name); // 0x00527C04
 
 private:
 	unsigned char m_pad[0x20];
@@ -599,7 +607,7 @@ void StrategicHUD::HUD::Impl::OnHelpBoxLoaded(const char *name)
 {
 	if (m_helpBox.m_ptr == 0)
 	{
-		m_helpBox.reset(new Rva00527CCE(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		m_helpBox.reset((Rva00527CCE *)new Rva00527827(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
 		if (m_palantir.m_ptr != 0)
 			((StrategicHUD::Palantir *)m_palantir.m_ptr)->rva005785A2(m_helpBox.m_ptr);
 		if (m_statsDisplay.m_ptr != 0)

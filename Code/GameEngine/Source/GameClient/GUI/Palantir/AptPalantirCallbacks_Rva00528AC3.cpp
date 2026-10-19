@@ -28,10 +28,18 @@ private:
 	void *m_0;
 };
 
+// The help-box pointee is built by the 0x00527C04 constructor rowed under
+// its class Rva00527827 (same 0x20 bytes); the owning-pointer reset row
+// spells the pointee Rva00527CCE, so the new pointer is cast for it.
 class Rva00527CCE
 {
+private:
+	unsigned char m_pad00[0x20];
+};
+class Rva00527827
+{
 public:
-	Rva00527CCE(int level, const AsciiString &name);
+	Rva00527827(int level, const AsciiString &name);
 
 private:
 	unsigned char m_pad00[0x20];
@@ -418,7 +426,7 @@ void AptPalantir::OnBttnMessenger(const char *value)
 // help box panel for the loaded movie.
 void AptPalantir::OnHelpBoxLoaded(const char *path)
 {
-	((Rva002D38EB *)&m_helpBox)->reset(new Rva00527CCE(AptUtils::LevelIndexFromTarget(path), AsciiString(AptUtils::SkipLevelN(path))));
+	((Rva002D38EB *)&m_helpBox)->reset((Rva00527CCE *)new Rva00527827(AptUtils::LevelIndexFromTarget(path), AsciiString(AptUtils::SkipLevelN(path))));
 }
 
 
