@@ -11089,7 +11089,6 @@ name,address,notes
 ?setPeer@Rva007F9B80@@QAEXPAX@Z,0x00665600
 ?setPlayerIndex@NetDestroyPlayerCommandMsg@@QAEXI@Z,0x00318B09,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?setPlayerIndex@Rva004D57AE@@QAEXI@Z,0x00318B09,ICF twin of Set_Y_Translation via DestroyPlayer setter call 0x0058DE5B
-?setPosition@Mouse@@UAEXHH@Z,0x001EDE4C,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?setPosition@RadiusDecal@@QAEXABUCoord3D@@@Z,0x00330DFD,BFME1 RadiusDecal::setPosition matched 33B; adjacent to matched clear@0x330DBA on the same m_curRadiusCursor object (+0x88C); null-checks the +4 shadow pointer like BFME1
 ?setPrep@Dict@@AAEPAUDictPair@1@W4NameKeyType@@W4DataType@1@@Z,0x0031369D,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?setPriority@AttackPriorityInfo@@QAEXPBVThingTemplate@@H@Z,0x00358333,"AttackPriorityInfo::setPriority (lazy map then insert/override), rowed as rva00358333 on the honest class Rva0034C5E0 (the vftable whose name getter returns AttackPriorityInfo); AttackPriorityInfo::xfer load loop calls it (0x003584BC)"

@@ -129,19 +129,14 @@ static const FieldParse TheMouseFieldParseTable[] =
 //-------------------------------------------------------------------------------------------------
 /** Move the mouse in either relative or absolute coords */
 //-------------------------------------------------------------------------------------------------
-// BFME's Mouse puts the current position at this+0x4D10, the four clamp bounds
-// from +0x4D88 in min-then-max order per axis, and the input frame counter at
-// +0x4D98. The reference class lands all of them 0x354 earlier.
+// BFME 2's Mouse keeps m_currMouse (whose first field is the position) at
+// this+0x4F0C: retail setPosition (0x001EDE4C, a Mouse vftable slot that
+// DirectInputMouse::setPosition also calls directly) stores x/y there, and
+// MouseProcessEvents.cpp places m_currMouse at the same offset.
 struct BfmeMouseLayout
 {
-	UnsignedByte pad0[0x4d10];
-	ICoord2D currPos;									///< retail this+0x4D10
-	UnsignedByte pad1[0x4d88 - 0x4d18];
-	Int minX;											///< retail this+0x4D88
-	Int maxX;											///< retail this+0x4D8C
-	Int minY;											///< retail this+0x4D90
-	Int maxY;											///< retail this+0x4D94
-	UnsignedInt inputFrame;								///< retail this+0x4D98
+	UnsignedByte pad0[0x4f0c];
+	ICoord2D currPos;									///< retail this+0x4F0C
 };
 
 // Mouse::moveMouse is defined with its retail-matched body in MouseProcessEvents.cpp (0x001EDC41).
@@ -475,7 +470,6 @@ void Mouse::setMouseText( UnicodeString text,
 //-------------------------------------------------------------------------------------------------
 /** Move the mouse to the position */
 //-------------------------------------------------------------------------------------------------
-// ?setPosition@Mouse@@UAEXHH@Z present-unmatched
 void Mouse::setPosition( Int x, Int y )
 {
 	BfmeMouseLayout *self = (BfmeMouseLayout *)this;
