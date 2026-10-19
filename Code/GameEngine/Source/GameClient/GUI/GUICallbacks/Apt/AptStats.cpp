@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /EHsc /MD /DNDEBUG /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /EHsc /MD /DNDEBUG /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -58,7 +58,8 @@ class AptStats : public GameStats::Persistent {
 public:
  AptStats(void*host);
  virtual ~AptStats();
- virtual void*rankValues();virtual int rankPoints(int);
+ // Retail vtable 0x00C769B0 slots 1-2 are __purecall (VA 0x0043B810).
+ virtual void*rankValues()=0;virtual int rankPoints(int)=0;
  void ColorExtern(int,char*,bool);
  void NextRankExtern(int,char*,bool);
  void InitializeFactionVariables();
