@@ -175,7 +175,7 @@ inline Object *GameLogic::findObjectByID(ObjectID id)
 		return 0;
 	return node->object;
 }
-extern Int g_Va00DBA4E4;			// LOGICFRAMES_PER_SECOND
+extern int BfmeLogicFramesPerSecond;	// LOGICFRAMES_PER_SECOND
 
 int Rva002EDE5B(void *obj, Coord3D *pos);
 int Rva002E9B31Get(void *obj);
@@ -425,11 +425,11 @@ Bool HordeMeleeFormation::findMeleeAttackPosition(Object *obj, Coord3D *result, 
 	{
 		*result = best;
 		if (bestGain / bestOffset < closeRatio)
-			*frames = g_Va00DBA4E4 * 2;
+			*frames = BfmeLogicFramesPerSecond * 2;
 	}
 	else
 	{
-		*frames = g_Va00DBA4E4 * 4;
+		*frames = BfmeLogicFramesPerSecond * 4;
 	}
 	return found;
 }
@@ -531,7 +531,7 @@ void HordeMeleeFormation::updateMeleeAttack(Object *victim)
     entry.position=*(Coord3D *)((Rva00585257Iter *)&it)->rva00585257();
     held->active=true; entry.state=1; entry.nextFrame=0;
     unit->rva0028ACEE((int)&entry.position,unit->rva0028B511());
-   } else {entry.state=0; entry.nextFrame=now+g_Va00DBA4E4;}
+   } else {entry.state=0; entry.nextFrame=now+BfmeLogicFramesPerSecond;}
    entry.needsPosition=false;
    continue;
   }
@@ -556,7 +556,7 @@ void HordeMeleeFormation::updateMeleeAttack(Object *victim)
     position=nearest->m_position;
    }
   }
-  bool recent=entry.lastFrame+g_Va00DBA4E4>now;
+  bool recent=entry.lastFrame+BfmeLogicFramesPerSecond>now;
   int frames=0;
   bool found=findMeleeAttackPosition(unit,&entry.position,victim,&position,recent,&frames,true);
   if(frames) entry.nextFrame=now+frames; else entry.nextFrame=0;
