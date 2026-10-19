@@ -134,6 +134,8 @@ class LinearCampaign
 {
 public:
 	void restartCurrentCampaignMission();
+	void rva001EB6FE();
+	void rva001EB68A();
 };
 
 class Rva0023D607Holder
@@ -354,20 +356,13 @@ void Rva000A8C6E::rva000A8C6E(const Rva0010FFA2Packet *packet)
 		m_ptr->rva0010FFA2(packet);
 }
 
-class Rva001EB6FE
-{
-public:
-	void rva001EB6FE();
-	void rva001EB68A();
-};
-
 class Rva001EB72F
 {
 public:
 	void rva001EB72F();
 private:
 	unsigned char m_pad00[0x10];
-	Rva001EB6FE *m_10;
+	LinearCampaign *m_10;
 };
 
 void Rva001EB72F::rva001EB72F()
@@ -382,7 +377,7 @@ public:
 	void rva001EB75C();
 private:
 	unsigned char m_pad00[0x10];
-	Rva001EB6FE *m_10;
+	LinearCampaign *m_10;
 };
 
 void Rva001EB75C::rva001EB75C()

@@ -10158,7 +10158,7 @@ name,address,notes
 ?rva001EB3D1@Rva001EB3D1NullTarget@@QAEXXZ,0x001EB3D1,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva001EB456@Rva001EB456@@QAEXHH@Z,0x001EB456,thiscall (int;int); called from 0x1EB6FE with (1;1)
 ?rva001EB68A@Rva001EB68A@@QAEXXZ,0x001EB68A,tail-call target of the byte-verified Rva001EB72F::rva001EB72F 0x001EB72F on its +0x10 member read from its REL32 displacement; name unknown
-?rva001EB6FE@Rva001EB6FE@@QAEXXZ,0x001EB6FE,tail-call target of the byte-verified Rva001EB75C::rva001EB75C 0x001EB75C on its +0x10 member read from its REL32 displacement; name unknown
+?rva001EB6FE@LinearCampaign@@QAEXXZ,0x001EB6FE,tail-call target of the byte-verified Rva001EB75C::rva001EB75C 0x001EB75C on its +0x10 member read from its REL32 displacement; name unknown
 ?addCarryoverStuffToMap@LinearCampaign@@QAEXXZ,0x001EC63D,null-checked tail jmp target of forwarder 0x001EC98E; original name unknown
 ?rva001ECE98@Rva001ECE98@@QAEXXZ,0x001ECE98,tail-call target of the byte-verified Rva0023D607Holder::rva001ECEF6 0x001ECEF6 on its +0x10 member read from its REL32 displacement; name unknown
 ?rva001ECEF6@Rva0023D607Holder@@QAEXXZ,0x001ECEF6,unrowed 13B thiscall on TheLinearCampaignManager (g_Rva0023D607Holder 0x00DFDC8C): tail-jumps its +0x10 member's 0x001ECE98 when set; REL32 read at AptCampaignMenu::OnBttnLastMission 0x005211A9; address name

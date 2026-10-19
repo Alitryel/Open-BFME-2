@@ -19,11 +19,11 @@ class Rva001ECD19 : public _STL::vector<BfmeAssignRecord172> {
 public:
     void rva001ECD19(BfmeAssignRecord172 *, BfmeAssignRecord172 *, BfmeAssignRecord172 *);
 };
-class Rva001EB6FE { public: void rva001EB68A(); };
 class Rva001EB456 { public: void rva001EB456(int, int); };
 class LinearCampaign {
 public:
     void restartCurrentCampaignMission();
+    void rva001EB68A();     // 0x001EB68A, the completion path
 private:
     unsigned char unknown00[0xA4];
     Rva001ECD19 current;
@@ -38,5 +38,5 @@ switch(won || advanced) { case 0: {
     _STL::vector<BfmeAssignRecord172> *history=&previous;
     history->erase(history->begin(), history->end());
     reinterpret_cast<Rva001EB456 *>(this)->rva001EB456(1, 0);
-break; } default: reinterpret_cast<Rva001EB6FE *>(this)->rva001EB68A(); break; }
+break; } default: rva001EB68A(); break; }
 }
