@@ -49,6 +49,10 @@ inline bool operator<(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] < 
 struct BfmePod80 { int a[20]; };
 inline bool operator==(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] < y.a[0]; }
+// _Construct<BfmePod80> is rowed at 0x0051F920 (stlport_construct_pod80_rva.cpp,
+// a copy-ctor call); this TU's inline memberwise copy is not that body. The
+// calls here are out of line: declaration-only, so they bind the rowed copy.
+namespace _STL { template <> void _Construct<BfmePod80, BfmePod80>(BfmePod80 *, const BfmePod80 &); }
 struct BfmePod124 { int a[31]; };
 inline bool operator==(const BfmePod124 &x, const BfmePod124 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod124 &x, const BfmePod124 &y) { return x.a[0] < y.a[0]; }
