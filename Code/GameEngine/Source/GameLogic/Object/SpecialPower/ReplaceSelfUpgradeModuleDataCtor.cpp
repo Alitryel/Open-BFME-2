@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/moduledata /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0ReplaceSelfUpgradeModuleData@@QAE@XZ, retail 0x004B790B, 83 bytes.
@@ -26,11 +26,16 @@ template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
 }
 
+// The base dtor (rowed 0x0049B47C in CommandSetUpgradeModuleDataCtor.cpp) is
+// Snapshot's: it restores Snapshot's table 0x00BBB554. Spell it the same way so
+// this TU's inline copy is the retail one.
+#include "Common/Snapshot.h"
+
 class Rva00253487Base
 {
 public:
 	Rva00253487Base();
-	virtual ~Rva00253487Base() {}
+	virtual ~Rva00253487Base() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	char m_pad[0x118 - 4];

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // ??1DynamicPortalBehaviourModuleData@@UAE@XZ, retail 0x00461602 (120 bytes).
 // ??_GDynamicPortalBehaviourModuleData@@UAEPAXI@Z, retail 0x004615E6 (28 bytes).
@@ -24,11 +24,16 @@
 // retail does not have; UpgradeModuleDataDtor precedent) forced out by the
 // delete helper, which also emits the vtable and scalar-deleting dtor.
 
+// The base dtor (rowed 0x0049B47C in CommandSetUpgradeModuleDataCtor.cpp) is
+// Snapshot's: it restores Snapshot's table 0x00BBB554. Spell it the same way so
+// this TU's inline copy is the retail one.
+#include "Common/Snapshot.h"
+
 class Rva00253487Base
 {
 public:
 	Rva00253487Base(); // rowed base constructor; also used by the vtable anchor
-	virtual ~Rva00253487Base() {}
+	virtual ~Rva00253487Base() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	unsigned char m_pad[0x118 - 4]; // +0x04..+0x117
