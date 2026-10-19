@@ -90,19 +90,9 @@ static float ComputeRankProgress(const Rva005E4300Entry *entry) {
 }
 class Rva0037DCA5 {public:void *GetThingTemplate();};
 class InGameSimpleHelp {public:InGameSimpleHelp(const UnicodeString &,const UnicodeString &);private:char storage[12];};
-namespace StrategicInGameUI {
-TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry *entry) {
- const UnicodeString &title=Rva005E3967(entry)->titleText();
- if(!title.isEmpty()) {
-  Rva005E3967Template *t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->GetThingTemplate();
-  if(t) {
-   const UnicodeString &description=t->descriptionText();
-   return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(title,description));
-  }
- }
- return TreeHintRef00217D4C();
-}
-}
+// StrategicInGameUI::Rva005E6A23 is rowed in Common/Rva005E6A23Rva005E6A23Farm.cpp;
+// a copy here was linked in place of the retail one.
+namespace StrategicInGameUI {TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry *entry);}
 struct HeroDetailsPair {HeroDetailsPair(){} HeroDetailsPair(const HeroDetailsPair &p):count(p.count),entry(p.entry){} HeroDetailsPair(const int &c,Rva005E4300Entry *const &e):count(c),entry(e){} int count;Rva005E4300Entry *entry;};
 // Assigns a returned (id, entry) pair through references to two members, the
 // shape WB 0x01600AB0 shows (two member addresses taken before the call).
