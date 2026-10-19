@@ -628,7 +628,6 @@ Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsSkin.cpp,-O2 -G7,1,1,region d
 Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsSorting.cpp,-O2 -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/FXShaderStandardSemantics.cpp,-O1,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/HTreePrototypeOwnerAssign.cpp,-O1,1,1,region default loses rows
-Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassDeletingDestructor.cpp,,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassDestructor.cpp,-G7,2,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassRender.cpp,-O2 -arch:SSE -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassRva004334AF.cpp,-G7,1,1,region default loses rows
