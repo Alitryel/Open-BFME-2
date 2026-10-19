@@ -20,6 +20,18 @@
 // keeps the receiver base in EDX across it (cross-TU knowledge that the
 // callee preserves it) yet keeps the call; an empty body is elided by cl.
 #include <list>
+// Retail keeps one copy each of _List_iterator_base::operator!= (0x006CFE40)
+// and __malloc_alloc<0>::deallocate; this unit's /O1 /G7 copies differ. An
+// exact-match iterator overload and a dllimport+forceinline deallocate keep
+// both inline without emitting either.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits> &a, const _List_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 #include "../Common/GameLogicObjectLookupView.h"
 
 extern "C" void _ReadWriteBarrier(void);

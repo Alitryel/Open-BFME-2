@@ -27,6 +27,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // bfme link decl-only begin
 namespace _STL { template <> void vector<Object *, allocator<Object *> >::_M_insert_overflow(Object **, Object *const &, __true_type const &, unsigned int, bool); }
 namespace _STL { template <> void vector<Object *, allocator<Object *> >::push_back(Object *const &); }
+// Import-inline: this unit's bfmealloc _Vector_base<Object*> dtor copy is not
+// retail's; its uses here are all inlined.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
 // bfme link decl-only end
 class Object;
 template<int N> class ProductionTransferSlots : public ProductionTransferSlots<N-1> {public:virtual void gap(char(*)[N])=0;};template<> class ProductionTransferSlots<0>{};
