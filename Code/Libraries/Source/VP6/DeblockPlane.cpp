@@ -43,8 +43,18 @@ struct Rva009AD750Context;
 extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBand(Rva009AD750Context *,
 	unsigned char *, unsigned char *, unsigned int, unsigned int, int, const unsigned int *);
 
-extern DeblockPlaneBand g_00E22FA4;
-extern DeblockPlaneBand g_00E22FB0;
+// The loop-filtered and non-filtered band deblockers are slots 10 (VA
+// 0x00E22FA4) and 13 (VA 0x00E22FB0) of the codec dispatch table at VA
+// 0x00E22F7C that PostProcMachineSpecificConfig
+// (PostProcMachineSpecificConfig.cpp) defines and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_00E22FA4 (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[10])
+#define g_00E22FB0 (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[13])
 extern const unsigned int *g_bfmeScaleTableV2;
 extern const unsigned int *g_bfmeScaleTableUV;
 extern const void *g_bfmeScaleTableV1;
