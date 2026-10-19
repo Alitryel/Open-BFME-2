@@ -61,10 +61,20 @@ static BfmeFadeDrawable *g_Va00DE2078;
 
 bool g_Va00DB4580 = true;	// retail RVA 0x009B4580 (.data), defined here
 extern bool g_bfmeFlagEC;
-extern Real g_Va00DB4540, g_Va00DB4544, g_Va00DB4548;
-extern Real g_Va00DB454C, g_Va00DB4550, g_Va00DB4560, g_Va00DB4564;
-extern Real g_Va00DB4568, g_Va00DB456C;
-extern Real g_Va00DE2044, g_Va00DE2020, g_Va00DE2040;
+// Camera-tuning constants this body reads, defined at their retail .data
+// values (RVA 0x009B4540..0x009B456C), and two .bss accumulators (0x009E2040/44).
+Real g_Va00DB4540 = 0.1f;
+Real g_Va00DB4544 = 0.0002f;
+Real g_Va00DB4548 = 0.3f;
+Real g_Va00DB454C = 0.2f;
+Real g_Va00DB4550 = 0.2f;
+Real g_Va00DB4560 = 0.4f;
+Real g_Va00DB4564 = -0.1f;
+Real g_Va00DB4568 = 0.0004f;
+Real g_Va00DB456C = 0.4f;
+Real g_Va00DE2040;
+Real g_Va00DE2044;
+extern Real g_Va00DE2020;
 
 #pragma auto_inline(off)
 static void normAngle(Real &angle)
