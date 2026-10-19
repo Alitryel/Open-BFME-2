@@ -12,6 +12,12 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Ob
 #include <set>
 #include "Lib/Coord3D.h"
 #include "GameLogicObjectLookupView.h"
+// Import-inline: less<int> and _Construct<int,int> are inlined at every use here, and
+// this unit's out-of-line copies (referenced from .debug$F alone) are not retail's bodies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &__x, const int &__y) const { return __x < __y; }
+template <> __declspec(dllimport) __forceinline void _Construct(int *__p, const int &__val) { _STLP_PLACEMENT_NEW (__p) int(__val); }
+}
 // Import-inline: every _STL::max<unsigned int> use here is inlined, and this
 // unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
