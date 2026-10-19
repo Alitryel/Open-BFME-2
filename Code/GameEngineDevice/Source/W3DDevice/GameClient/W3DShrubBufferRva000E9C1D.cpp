@@ -50,12 +50,6 @@ private:
 	unsigned char m_storage[0x5C];
 };
 
-class Rva000E7016
-{
-public:
-	void rva000E7016();
-};
-
 class Rva00066A9ASub
 {
 public:
@@ -75,6 +69,7 @@ class W3DShrubBuffer : public Rva000E6AC0
 {
 public:
 	W3DShrubBuffer();
+	void rva000E7016();
 private:
 	unsigned char m_pad5c0[0x1958 - 0x5C0];
 	Rva000E9C1DRecord m_records[2000];	// +0x1958
@@ -97,7 +92,7 @@ W3DShrubBuffer::W3DShrubBuffer()
 	m_4fb5e = 0;
 	for (int i = 0; i < 64; ++i)
 		((int *)&m_types[i])[0] = 0;
-	((Rva000E7016 *)this)->rva000E7016();
+	rva000E7016();
 	m_4fb6c = 1;
 	m_51278 = (*(Rva00DFE758Holder **)&TheWritableGlobalData)->m_20;
 	((Rva00066A9ASub *)this)->tailB();

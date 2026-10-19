@@ -9,7 +9,7 @@ public:
 	void rva000EA24D();
 };
 
-class Rva000E7016
+class W3DShrubBuffer
 {
 public:
 	void rva000E7016();
@@ -22,7 +22,7 @@ public:
 private:
 	unsigned char m_pad[0x3850];
 	W3DTreeBuffer *m_3850;
-	Rva000E7016 *m_3854;
+	W3DShrubBuffer *m_3854;
 };
 
 void Rva00068295::rva00068295()

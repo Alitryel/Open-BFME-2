@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva000E7016@Rva000E7016@@QAEXXZ 0x000E7016 195B
+// ?rva000E7016@W3DShrubBuffer@@QAEXXZ 0x000E7016 195B
 // Reset after Rva000E6AC0::rva000E65B1: release FirstElem pair at +0x19EC/+0x19F0
 // stride 0xA0 bounded by count at +0x4FB58, zero floats at +0x1948/+0x194C,
 // reload floats at +0x1950/+0x1954 from g_Va00BBB8D8, clear count, set dirty
@@ -7,7 +7,9 @@
 // [0x5C0,0x1948), zero tail at +0x51270.
 // Evidence: calls rowed rva000E65B1; count/dirty/tail offsets match Rva000E6FE3
 // Rva000E76B8 neighbours and W3DTreeBuffer second-array pattern; callers at
-// 0x0006D5DE 0x000E9BCA 0x000E9CAD 0x000682B2.
+// 0x0006D5DE 0x000E9BCA 0x000E9CAD 0x000682B2. 0x000E9CAD is the W3DShrubBuffer
+// ctor on its own this; +0x4FB58/+0x4FB70/+0x51270 are its count, type array
+// and type count, past the Rva000E6AC0 base.
 
 class Rva000E6AC0
 {
@@ -40,7 +42,7 @@ struct SecondElem
 
 extern float g_Va00BBB8D8;
 
-class Rva000E7016
+class W3DShrubBuffer
 {
 public:
 	void rva000E7016();
@@ -61,7 +63,7 @@ private:
 	int m_tail;
 };
 
-void Rva000E7016::rva000E7016()
+void W3DShrubBuffer::rva000E7016()
 {
 	((Rva000E6AC0 *)this)->rva000E65B1();
 	for (int i = 0; i < m_count; ++i)

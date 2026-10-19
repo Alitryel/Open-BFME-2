@@ -2,7 +2,7 @@
 // ??1Rva000E9BAC@@UAE@XZ @0x000E9BAC 99B: virtual dtor with array plus member plus base.
 // Evidence: vptr g_00BCECB8 Reset row 0xE7016 array 0x40x0x5C dtor 0x4E86B8 member 0x8B470 base pin 0xE6C6F; caller deleting dtor.
 
-class Rva000E7016
+class W3DShrubBuffer
 {
 public:
 	void rva000E7016();
@@ -43,5 +43,5 @@ private:
 
 Rva000E9BAC::~Rva000E9BAC()
 {
-	((Rva000E7016 *)this)->rva000E7016();
+	((W3DShrubBuffer *)this)->rva000E7016();
 }
