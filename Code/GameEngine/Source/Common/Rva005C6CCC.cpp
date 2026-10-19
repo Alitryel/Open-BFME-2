@@ -1,8 +1,10 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 
+// Retail calls the float sin overload out of line (row 0x0002FBB0); <math.h>
+// would emit a non-retail inline copy of it here.
 #include <math.h>
-#include <mmsystem.h>
+extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 #define _STLP_BFME_TREE_NODE_BASE_O2  // emit retail's _Rb_tree_node_base::_S_minimum/_S_maximum (vendor/stlport/stl/_tree.h)
 #include <stl/_prolog.h>
 #include <stl/type_traits.h>
@@ -148,7 +150,9 @@ public:
 struct PauseView005C6D9C { char pad[0x5c]; bool paused; };
 class Shell;
 extern Shell *TheShell;
-extern float g_00E065C4;
+// Radial-flash end time (start + duration), a .bss float filled from radial.txt
+// (WorldBuilder twin 0x0147E1F0 reads the same tunable); retail VA 0x00E065C4.
+float TheRadialFlashEnd;
 static const float kFlashMaxScale = 1.1f;
 static const float kFlashStart = 0.0f;
 static const float kFlashDuration = 0.0f;
@@ -193,7 +197,7 @@ void Rva005C6D4D::rva005C6D9C()
         height = (int)(((DisplayView005C6D9C *)TheDisplay)->height() * (48.0f / 768.0f));
         if (count > 2) {
             float half = width * 0.5f;
-            radius = (unsigned)((half * 1.175f) / sin(3.1415927f / count));
+            radius = (unsigned)((half * 1.175f) / sinf(3.1415927f / count));
             radius = (unsigned)(((float)radius > width * 2.0f / 3.0f) ? (float)radius : width * 2.0f / 3.0f);
         } else {
             radius = (unsigned)(width * 2.0f / 3.0f);
@@ -211,7 +215,7 @@ void Rva005C6D4D::rva005C6D9C()
                 scale = (float)elapsed * (kFlashMaxScale / kFlashStart);
             else
                 scale = 1.0f;
-        } else if ((float)elapsed < g_00E065C4) {
+        } else if ((float)elapsed < TheRadialFlashEnd) {
             float t;
             if (kFlashStart != 0.0f)
                 t = ((float)elapsed - kFlashStart) / kFlashDuration;
