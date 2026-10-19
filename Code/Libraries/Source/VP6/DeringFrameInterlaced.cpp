@@ -41,10 +41,22 @@ typedef void (__cdecl *Rva009B2A50Dering)(Rva009A6130Context *, unsigned char *,
 	unsigned char *, int, int, const int *);
 typedef void (__cdecl *Rva009B2A50Copy)(unsigned char *, unsigned char *, int);
 
-// The two kernel slots are BFME 2 .bss 0x00E22FDC (strong) and 0x00E22FBC
-// (weak), filled at run time.
-Rva009B2A50Dering g_rva01356EC0;
-Rva009B2A50Dering g_rva01356EA0;
+// The strong and weak kernels are slots 24 (VA 0x00E22FDC) and 16 (VA
+// 0x00E22FBC) of the codec dispatch table at VA 0x00E22F7C that
+// PostProcMachineSpecificConfig (PostProcMachineSpecificConfig.cpp) defines
+// and fills; this unit's view names the two slots it reads.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot0[16];
+	Rva009B2A50Dering weakDering;		// slot 16
+	BfmeDispatchFn slot17[7];
+	Rva009B2A50Dering strongDering;		// slot 24
+	BfmeDispatchFn slot25;
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356EC0 g_bfmeCodecDispatch.strongDering
+#define g_rva01356EA0 g_bfmeCodecDispatch.weakDering
 extern void *g_bfmeSlotB44;
 extern int g_bfmeDeringModifiers[64];
 
