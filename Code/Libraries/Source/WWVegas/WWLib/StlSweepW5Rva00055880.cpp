@@ -4,6 +4,9 @@
 // stlport
 #include <deque>
 #include <string>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 
 struct Rva00055880Element { _STL::basic_string<wchar_t> strings[1]; bool operator<(const Rva00055880Element&)const; bool operator==(const Rva00055880Element&)const; };
 
