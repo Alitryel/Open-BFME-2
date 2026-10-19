@@ -19,6 +19,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
