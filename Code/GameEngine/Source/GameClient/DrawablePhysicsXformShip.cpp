@@ -1,5 +1,4 @@
 // ?rva00272FB6@Drawable@@IAEXPBVLocomotor@@AAUPhysicsXformInfo@1@@Z
-// partial score=0.99 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib
 //
 // ?rva00272FB6@Drawable@@IAEXPBVLocomotor@@AAUPhysicsXformInfo@1@@Z
@@ -17,14 +16,20 @@
 // object's +0x258/+0x25C pointers, the drawable's position history at
 // +0x40C/+0x418/+0x424 and its model-condition bits 0x85/0x86 at +0x258. The
 // spring/damper equations follow the matched sibling calcPhysicsXformTreads.
+// Reference guide: Open-BFME-1 b3cc6b1588f2fdd4d31ab65199945a837f1f6e9b,
+// game/GameEngine/Source/GameClient/Drawable.cpp, and the matched target
+// calcPhysicsXformTreads / calcPhysicsXform dispatcher. Exact target identity
+// and offsets are distinguished from the donor field meanings above.
 #include <math.h>
 #include "Coord3DInline.h"
 
+// ?length@Coord3D@@QBEMXZ
 inline float Coord3D::length() const
 {
 	return (float)sqrt(x * x + y * y + z * z);
 }
 
+// ?normalize@Coord3D@@QAEXXZ
 inline void Coord3D::normalize()
 {
 	float len = length();
@@ -45,6 +50,13 @@ class DrawableLocoInfo
 public:
 	virtual ~DrawableLocoInfo() {}
 	DrawableLocoInfo();
+	// Reconstruction helper shared by the four spring integrations below.
+	// Its name is local source structure, not a recovered retail method name.
+	__forceinline void springStep(Real &rate, Real position, Real stiffness, Real damping)
+	{
+		rate += (-stiffness * (position * (1.0f - damping))) + (-damping * rate);
+	}
+
 	Real m_pitch;
 	Real m_pitchRate;
 	Real m_roll;
@@ -243,14 +255,14 @@ void Drawable::rva00272FB6(const Locomotor *locomotor, PhysicsXformInfo &info)
 	vel.scale((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
 	accel.scale((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
 
-	m_locoInfo->m_pitchRate += (-PITCH_STIFFNESS * (m_locoInfo->m_pitch * (1.0f - PITCH_DAMPING))) + (-PITCH_DAMPING * m_locoInfo->m_pitchRate);
-	m_locoInfo->m_rollRate += (-ROLL_STIFFNESS * (m_locoInfo->m_roll * (1.0f - ROLL_DAMPING))) + (-ROLL_DAMPING * m_locoInfo->m_rollRate);
+	m_locoInfo->springStep(m_locoInfo->m_pitchRate, m_locoInfo->m_pitch, PITCH_STIFFNESS, PITCH_DAMPING);
+	m_locoInfo->springStep(m_locoInfo->m_rollRate, m_locoInfo->m_roll, ROLL_STIFFNESS, ROLL_DAMPING);
 	m_locoInfo->m_pitch += UNIFORM_AXIAL_DAMPING * m_locoInfo->m_pitchRate;
 	m_locoInfo->m_roll += UNIFORM_AXIAL_DAMPING * m_locoInfo->m_rollRate;
 
-	m_locoInfo->m_accelerationPitchRate += (-PITCH_STIFFNESS * (m_locoInfo->m_accelerationPitch * (1.0f - PITCH_DAMPING))) + (-PITCH_DAMPING * m_locoInfo->m_accelerationPitchRate);
+	m_locoInfo->springStep(m_locoInfo->m_accelerationPitchRate, m_locoInfo->m_accelerationPitch, PITCH_STIFFNESS, PITCH_DAMPING);
 	m_locoInfo->m_accelerationPitch += m_locoInfo->m_accelerationPitchRate;
-	m_locoInfo->m_accelerationRollRate += (-ROLL_STIFFNESS * (m_locoInfo->m_accelerationRoll * (1.0f - ROLL_DAMPING))) + (-ROLL_DAMPING * m_locoInfo->m_accelerationRollRate);
+	m_locoInfo->springStep(m_locoInfo->m_accelerationRollRate, m_locoInfo->m_accelerationRoll, ROLL_STIFFNESS, ROLL_DAMPING);
 	m_locoInfo->m_accelerationRoll += m_locoInfo->m_accelerationRollRate;
 
 	Real totalPitchRate = m_locoInfo->m_pitchRate + m_locoInfo->m_accelerationPitchRate;
