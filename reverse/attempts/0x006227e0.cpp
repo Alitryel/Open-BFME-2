@@ -1,55 +1,32 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.99 date=2026-10-19
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.993 date=2026-10-19
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.979 date=2026-10-16
+// partial score=0.9975339087546239 date=2026-10-19
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
-// 0x006227E0 bank 2026-10-19 (claude-opus-5-5): 3244/3244, frame 0xBC, nd 10 (8 instructions + 2 unresolved) with
-// two of the old three hacks gone (volatile m_word/m_bits00; the pass-loop queue update is the plain
-// bitfield form; q==0 indexes m_deques78[q] directly). Left: `volatile unsigned m_queue : 8` (retail
-// always touches it as a full dword and re-reads it with no store between; likely genuinely volatile in
-// EA's threaded asset manager - the landed AssetManagerImplUpdate.cpp carries the same), the +0x1E0/+0x1E4
-// start-term order (retail s2,s0,s1; ours s2,s1,s0; 36 term orders and 64 reference combos tried), and two
-// ledger calls: 0x759BC0 _M_insert needs a fold-proof pin as the multimap<unsigned,Rva009EDBE0Value> tree
-// (unsigned jae compares), 0x620A00 ~_Rb_tree owner row (StlSweepR3Rva00620A00.cpp, int key) should be
-// renamed to the unsigned-key tree (+ its _M_erase pin 0x620390). Scratch: build/nbr/r10/6227e0/.
 // stlport
+// Refresh at retail 006227E0..0062348C, 3244 bytes; banked, not matched.
+// 2026-10-19: complete3244B, frame0xBC and EH graph exact; actual ledger
+// bindings resolve every callee. Eight start-cursor displacement operands
+// differ in the two final count branches: native s2,s0,s1; ours s2,s1,s0.
+// See reverse/attempt_support/asset-refresh-parent-20261019/readme.md.
+// Pending key/payload are target-proven unsigned / element pointer; reuse
+// the corrected Rva00620A00Record and admitted insertion/copy identities.
+// Source type spelling remains neutral inference, not an original name.
+// The obsolete const_cast on the non-const second member is removed at parity.
 //
-// BFME 1 donor 0x009EFF50 (3186 B); BFME 2 retail 0x006227E0, 3244 B. Identity: the address pin
-// plus five matched callers (m009F0BD0, m009F0CC0, m009F19E0, m009F1A60 and
-// Gen009F1510::handle) call it as refresh on the g_theAssetRegistry receiver.
-// BFME 1 layout (BFME 2 shifts every field past +0x20 by 8, the __int64 pair): lock +0x60, hash_map<int,Element*> +0x44,
-// seven deque<Element*> from +0x78, four 0x14-byte set wrappers from +0x190.
+// BFME1 009EFF50 is the semantic guide. Five matched target callers and the
+// existing refresh pin establish this member's relationship to the asset
+// registry receiver. Legacy field labels retain donor offsets: native lock
+// is +68, hash map +4C, seven deques +80, set wrappers +198/+1AC/+1C0/+1D4,
+// and output counters +1E8/+1EC. Size200 is checked below.
+// The +20/+28 cost and budget are signed64: native adc/sbb0 of unsigned
+// slot38 cost, signed64 comparisons. Pending entries are key+pointer pairs.
 //
-// Body: under the +0x60 lock, normalise the +0x190/+0x1A4 wrappers through
-// m009EFD40; copy +0x190 (0x009EE8E0) and add +0x1B8 into a local key set;
-// sweep deques 0..6 marking bit 25 and moving entries whose key membership
-// disagrees with (q < 4): queue 3 entries (bit 26 clear) go into a multimap
-// keyed by the entry's +0x10 word, queue 4 entries go back to queue 3 (adding
-// their slot-0x38 cost to the __int64 at +0x20), queue 0 entries become queue
-// 7. Then evict multimap entries to queue 4 while cost >= the __int64 budget at
-// +0x28 or the budget is below 2, park the rest in queue 3,
-// and twice build a key set (pass 0: +0x1A4 then 0x009EC770 with +0x190 plus
-// +0x1B8; pass 1: +0x190 minus +0x1A4) whose queue-7 entries return to queue 0,
-// recording the deque 0..2 totals at +0x1E0 / +0x1E4.
-//
-// Codegen evidence: retail adds/subtracts the cost with adc/sbb 0 and compares
-// +0x20 against +0x28 as signed 64-bit values (as the matched Q1ReceiverDrain
-// and Rva0061EEE0Destructor layouts declare, class size 0x200); the q==3 test is one conjunction (a nested bit-26 test
-// makes MSVC spend its inline budget on queue 3 instead of queue 4, where
-// retail inlines _M_advance); the two size sums are separate expressions
-// (retail hoists only their node terms); pass 0 adds +0x1B8 through the
-// range insert, which MSVC inlines there (cached end, insert_unique(value)
-// per key) while the earlier local copy keeps the out-of-line 0x0003AFD0;
-// the +0x44 lookup result is a const_iterator (as in the matched
-// Queue_Keys_009EFBF0), which is what puts it in memory at retail's slot.
-//
-// Later evidence (0.979 bank): retail calls set (0x0006BF2A) and pending-tree
-// (0x00620A00, its int-key ICF twin) dtors out of line; pass 0 keeps +0x1A4
-// through Rva0061F910Set::retain (0x0061FAA0) and pass 1 subtracts through
-// 0x0061F910; the pending entry is pushed as an lvalue (reloaded in both
-// push_back paths); a right-associated s0 + (s1 + s2) size sum gets closest.
+// Under the lock, normalize/copy the known-key sets; sweep seven queues;
+// collect eligible queue3 entries in the pending multimap, move queue4
+// entries to3, and evict by cost/budget. Retain/subtract key-set passes
+// return queue7 entries to0 and record active deque0..2 totals.
+// The volatile eight-bit queue field remains supported by native full-word
+// accesses/reloads and the landed AssetManagerImplUpdate sibling. No new
+// compiler barrier, volatile local, naked body or inline assembly is used.
 
 #include <deque>
 #include <hash_map>
@@ -166,18 +143,18 @@ public:
 	unsigned int m_field10;
 };
 
-struct Rva009EDBE0Value
+struct Rva00620A00Record
 {
 	Rva009EF0D0Element *m_entry;
 };
 
-typedef _STL::multimap<unsigned int, Rva009EDBE0Value> Q1ReceiverPending;
+typedef _STL::multimap<unsigned int, Rva00620A00Record> Q1ReceiverPending;
 namespace _STL {
-template <> _Rb_tree<unsigned int, pair<const unsigned int, Rva009EDBE0Value>,
-	_Select1st<pair<const unsigned int, Rva009EDBE0Value> >, less<unsigned int>,
-	allocator<pair<const unsigned int, Rva009EDBE0Value> > >::~_Rb_tree();
+template <> _Rb_tree<unsigned int, pair<const unsigned int, Rva00620A00Record>,
+	_Select1st<pair<const unsigned int, Rva00620A00Record> >, less<unsigned int>,
+	allocator<pair<const unsigned int, Rva00620A00Record> > >::~_Rb_tree();
 }
-typedef _STL::pair<const unsigned int, Rva009EDBE0Value> Q1ReceiverPendingPair;
+typedef _STL::pair<const unsigned int, Rva00620A00Record> Q1ReceiverPendingPair;
 typedef _STL::hash_map<int, Rva009EF0D0Element *> Q1ReceiverAssetHash;
 typedef _STL::deque<int> Q1ReceiverQueue;
 
@@ -246,8 +223,8 @@ void Q1Receiver0134FAAC::refresh()
 			entry->m_bit25 = q > 3;
 			if (q == 3 && !entry->m_bit26)
 			{
-				Q1ReceiverPendingPair value(entry->m_field10, Rva009EDBE0Value());
-				const_cast<Rva009EDBE0Value &>(value.second).m_entry = entry;
+				Q1ReceiverPendingPair value(entry->m_field10, Rva00620A00Record());
+				value.second.m_entry = entry;
 				pending.insert(value);
 				Q1ReceiverQueue &q3 = m_deques78[3];
 				q3[i] = q3[q3.size() - 1];

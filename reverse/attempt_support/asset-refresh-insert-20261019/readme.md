@@ -12,7 +12,7 @@ Instantiate only the STLport 4.5.3 _M_insert member, preserving the parent's
 /O2 /G6 /arch:SSE /EHsc and bfmealloc settings. It emits a complete 180-byte
 body and its naturally required 23-byte _Construct pair copy. add_match.py
 admits the copy first and then insertion with --icf-owner, through normal
-verification. No symbol pins, aliases, compiler barriers or gate edits are
+verification. No symbol pins, alias directives, compiler barriers or gate edits are
 added. Both bodies already have canonical owners, so this is zero unique
 C++ bytes; its purpose is to resolve the actual caller's template identity.
 
