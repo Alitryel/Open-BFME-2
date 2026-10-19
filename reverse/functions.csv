@@ -39673,7 +39673,7 @@ _Rva000219C0LocaleName,,0x000219C0,23,Code/Libraries/Source/WWVegas/WWLib/stlpor
 ?Rva004F53A3Destroy@@YAXPAVObject@@@Z,,0x004F53A3,32,Code/GameEngine/Source/Common/Thing/Rva004F53A3.cpp,matched,chain via rva0028FB6F plus destroyObject
 ??0Rva0016E400@@QAE@XZ,,0x0016E400,72,Code/Libraries/Source/WWVegas/WWLib/Rva0016E400Ctor.cpp,matched,hash_map 100 buckets via rowed _M_initialize_buckets no vtable
 ??_GRva0040DB52@@UAEPAXI@Z,,0x0040E09B,28,Code/GameEngine/Source/Common/Rva0040DB52Dtor.cpp,matched,dtor deleting dtor via family pattern; rehomed from FamilyDeletingDtors_muse-10-40E09B.cpp: Rva0040DB52Dtor.cpp owns ~Rva0040DB52 and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
-?rva006C0DA0@Rva006C0DA0@@QAEXXZ,,0x006C0DA0,76,Code/GameEngine/Source/Common/Rva006C0DA0.cpp,matched,grid iterator width height 12B stride via uchar callback param
+?rva006C0DA0@TaintManagerImpl@@QAEXXZ,,0x006C0DA0,76,Code/GameEngine/Source/Common/Rva006C0DA0.cpp,matched,grid iterator width height 12B stride via uchar callback param
 ?rva006C0820@Rva006C0820@@QAEXXZ,,0x006C0820,8,Code/GameEngine/Source/Common/Rva006C0820.cpp,matched,tail jmp to rowed 0x006C0DA0 via ptr plus 0x10
 ?rva0037EB1D@Rva0037EB1D@@QAEXPAX@Z,,0x0037EB1D,31,Code/GameEngine/Source/Common/Rva0037EB1DCopy.cpp,matched,chain of rowed 0x0037EACC plus AC to C0
 ?rva00355EE1@Rva003563A7@@QAEXXZ,,0x00355EE1,27,Code/GameEngine/Source/Common/Rva00355D66Dtor.cpp,matched,vslot 3 of Rva003563A7 via Display slot68 plus clear

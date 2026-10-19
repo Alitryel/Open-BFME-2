@@ -90,7 +90,6 @@ virtual void slot33();
 virtual void byteValue(unsigned char*);
 };
 unsigned __cdecl ComputeCRC(const unsigned char*,unsigned,unsigned);
-class Rva006C0DA0 {public:void rva006C0DA0();};
 class BfmeCellFC
 {
 public:
@@ -122,6 +121,7 @@ class TaintManagerImpl
 public:
 	TaintManagerImpl();
  void rva006C0F50(GridXferView*);
+	void rva006C0DA0();
 	void bfmeConfigure(Region3D region, Real cellSize);
 	void bfmeGetCellRange(BfmeCellFC **first, BfmeCellFC **last,
 		int x1, int x2, int y);
@@ -527,5 +527,5 @@ void TaintManagerImpl::rva006C0F50(GridXferView*xfer){
    }
   xfer->uintValue(&checksum);
  }
- if(xfer->isLoading()) ((Rva006C0DA0*)this)->rva006C0DA0();
+ if(xfer->isLoading()) rva006C0DA0();
 }
