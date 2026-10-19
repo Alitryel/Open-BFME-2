@@ -41,6 +41,10 @@ Rva003F877E::Rva003F877E(int a, int b) : Base003F877E(a, b), m_0C()
 // Reconstructed from retail; canonical INIException copying gives native
 // direct exception construction. The EH and throw-data graphs are verified.
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeE16@@@_STL@@QBEXPAUBfmeE16@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> void allocator<BfmeE16>::deallocate(BfmeE16 *, size_t) const; }
 struct FieldParse;
 class INI {
 public:

@@ -11,6 +11,10 @@
 
 struct BfmeE12 { float x, y, z; };
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeE16@@@_STL@@QBEXPAUBfmeE16@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> void allocator<BfmeE16>::deallocate(BfmeE16 *, size_t) const; }
 void Rva00030830FreeAllocation(void *);
 namespace _STL {
  template<> inline void allocator<BfmeE12>::deallocate(BfmeE12 *p,size_type) const { if(p)Rva00030830FreeAllocation(p); }
