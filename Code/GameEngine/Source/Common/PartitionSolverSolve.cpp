@@ -31,6 +31,34 @@ template <> PairObjectIDAndUInt *_STLP_alloc_proxy<PairObjectIDAndUInt *, PairOb
 template <> void _STLP_alloc_proxy<PairObjectIDAndUInt *, PairObjectIDAndUInt, allocator<PairObjectIDAndUInt> >::deallocate(PairObjectIDAndUInt *, size_t);
 }
 struct BfmeE8 { int a, b; };
+// The overflow body is retail's no-EH 0x00057C80 (stlport_vector_e8_allocate_copy.cpp),
+// which inlines max(size(), n); the declaration-only max<unsigned> above would make
+// this TU's copy call it, so spell the inline form out here.
+static inline const unsigned int &e8OverflowMax(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+namespace _STL {
+template<> inline void vector<BfmeE8>::_M_insert_overflow(
+    pointer position, const BfmeE8 &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + e8OverflowMax(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = start;
+    finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    _M_clear();
+    _M_set(start, finish, start + length);
+}
+}
 struct BfmePod8 { int a[2]; };
 typedef _STL::vector<BfmeE8, _STL::allocator<BfmeE8> > SolverStorage;
 typedef _STL::vector<BfmePod8, _STL::allocator<BfmePod8> > SolverEraseStorage;
