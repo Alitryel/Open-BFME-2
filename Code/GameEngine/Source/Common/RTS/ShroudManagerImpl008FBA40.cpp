@@ -89,6 +89,66 @@ bool processShroudRevealCircle008F9A70(Int cellX, Int cellY, Int cellRadius,
 bool processShroudRevealCircle008F9B10(Int cellX, Int cellY, Int cellRadius,
 	ShroudManagerImpl *manager, Int playerMask);
 
+// Method-only view of the retail Xfer vtable (0x00BBB910): the slots this
+// unit calls, named as in Rva0073EBB0Cluster.cpp; Version1 is retail's
+// 0x000053EE (System/Xfer.cpp), inlined here as in the native body.
+class Xfer
+{
+public:
+	struct Version
+	{
+		Version(unsigned char current, unsigned char minimum)
+			: m_current(current), m_minimum(minimum) {}
+
+		unsigned char m_current;
+		unsigned char m_minimum;
+	};
+
+	void Version1()
+	{
+		Version version(1, 1);
+		xferVersion(&version);
+	}
+
+	virtual ~Xfer();
+	virtual bool isLoading();
+	virtual bool isSaving();
+	virtual bool isCRC();
+	virtual bool isLightCRC();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual Xfer &xferVersion(Version *version);
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual Xfer &xferRegion3D(Region3D *value);
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual Xfer &xferReal(Real *value);
+	virtual void slot29();
+	virtual Xfer &xferUnsignedInt(UnsignedInt *value);
+	virtual Xfer &xferInt(Int *value);
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual Xfer &xferBool(bool *value);
+};
+
 class ShroudManagerCell;
 
 struct ShroudManagerImpl008FBA40CellObject
@@ -163,6 +223,7 @@ class ShroudManagerCell
 public:
 	__declspec(noinline) ShroudManagerCell();
 	__declspec(noinline) ~ShroudManagerCell() {}
+	void xfer(Xfer *xfer);
 	void adjustPlayerCounter008FC1F0(int playerIndex, int counterIndex,
 		int amount);
 	void AddLooker(ShroudManagerImpl *manager,
@@ -192,6 +253,7 @@ class ShroudManagerImpl
 public:
 	ShroudManagerImpl();
 	~ShroudManagerImpl();
+	void rva0073D8B0(Xfer *xfer);
 	__declspec(noinline) CellShroudStatus GetShroudStatusForPlayer(
 		Int playerIndex, Int x, Int y) const;
 	CellShroudStatus GetShroudStatusForPlayer(
@@ -418,6 +480,94 @@ inline void ShroudManagerImpl::drainPending()
 	}
 
 	processPending(true);
+}
+
+// WorldBuilder's out-of-line twin (WB 0x017E1900) takes a buffer, a length and a
+// seed; retail inlines it at both call sites below.
+static UnsignedInt shroudCalcCRC(const void *buffer, UnsignedInt length,
+	UnsignedInt crc)
+{
+	if (buffer == 0)
+		return crc;
+	const unsigned char *data = (const unsigned char *)buffer;
+	for (UnsignedInt i = 0; i < length; ++i)
+	{
+		UnsignedInt hibit = crc >> 31;
+		crc <<= 1;
+		crc += *data;
+		++data;
+		crc += hibit;
+	}
+	return crc;
+}
+
+// Retail 0x0073D8B0 (818 B): the shroud manager's transfer. Statement order,
+// the drainPending pair (first call out of line, second inlined), the
+// element walk and the light-CRC checksum follow WorldBuilder's debug twin at
+// WB 0x017E6FC0 call for call.
+void ShroudManagerImpl::rva0073D8B0(Xfer *xfer)
+{
+	if (!xfer->isLightCRC())
+	{
+		drainPending();
+
+		for (BfmeThingCDE *node = reinterpret_cast<BfmeThingCDE *>(nodes);
+			node != 0; node = node->next)
+		{
+			node->d_008f7ec0();
+			node->d_008f7990();
+			reinterpret_cast<PartitionData *>(node)->makeDirty();
+		}
+
+		processPending(false);
+
+		xfer->Version1();
+		xfer->xferUnsignedInt((UnsignedInt *)&mode);
+		xfer->xferRegion3D(&region);
+		xfer->xferReal(&defaultCellSize);
+		xfer->xferReal(&inverseCellSize);
+		xfer->xferInt((Int *)&width);
+		xfer->xferInt((Int *)&height);
+		xfer->xferUnsignedInt((UnsignedInt *)&unknown38);
+		if (!xfer->isCRC())
+			xfer->xferInt(&unknown64);
+		xfer->xferBool(&enabled);
+
+		if (xfer->isLoading())
+		{
+			delete[] elements;
+			elements = new ShroudManagerCell[width * height];
+		}
+
+		ShroudManagerCell *cell = elements;
+		for (UnsignedInt y = 0; y < height; ++y)
+		{
+			for (UnsignedInt x = 0; x < width; ++x, ++cell)
+				cell->xfer(xfer);
+		}
+
+		if (xfer->isLoading())
+			notify();
+		else
+			drainPending();
+	}
+	else
+	{
+		UnsignedInt crc = 0;
+		ShroudManagerCell *cell = elements;
+		for (UnsignedInt y = 0; y < height; ++y)
+		{
+			for (UnsignedInt x = 0; x < width; ++x, ++cell)
+			{
+				for (UnsignedInt i = 0; i < 20; ++i)
+				{
+					crc += shroudCalcCRC(&cell->playerStates[i].status, 2, 0);
+					crc += shroudCalcCRC(&cell->playerStates[i].counters, 6, 0);
+				}
+			}
+		}
+		xfer->xferUnsignedInt(&crc);
+	}
 }
 
 // Transferred from BFME 1; the element is BFME 2's 20-player layout.
