@@ -18,6 +18,15 @@ public:
 	~Rva004A9DF3Element();
 };
 
-Rva004A9DF3Element::~Rva004A9DF3Element()
+// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
+// the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva004A9DF3Element::~Rva004A9DF3Element()
 {
 }
+
+// ?bfmeAnchorRva004A9DF3ElementDtor absent-from-retail
+void bfmeAnchorRva004A9DF3ElementDtor(Rva004A9DF3Element *p)
+{
+	p->Rva004A9DF3Element::~Rva004A9DF3Element();
+}
+
