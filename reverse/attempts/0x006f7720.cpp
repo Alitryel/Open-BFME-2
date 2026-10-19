@@ -1,4 +1,6 @@
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
+// partial score=0.989 date=2026-10-19
+// ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.779 date=2026-10-17
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.814 date=2026-10-15
@@ -19,7 +21,7 @@ extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 #define DISPLAY_ASSERT(test,text,line) if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
-unsigned int g_aptDisplayListRenderFlags;
+extern unsigned int g_bfmeExtra1282Flags;
 class BfmeAptValue006DCD20 {public:bool isUndefined()const;};
 class Rva006DBB30SarDwordField {public:int get()const;};
 struct AptMaskInfo {int unknown00;int clipDepth;};
@@ -31,8 +33,8 @@ public:
  ~Rva006F7600(){DISPLAY_ASSERT(count==0,"nElements == 0",0x537);}
  void rva006F7570(Rva006F7570Item*);
  void rva006F7600(int);
- AptDisplayNode *get(int i){DISPLAY_ASSERT(i>=0 && i<count,"i >= 0 && i < nElements",0x555);return items[i];}
- __forceinline void removeFront(){int i=0;int last=count-1;DISPLAY_ASSERT(count>0,"i >= 0 && i < nElements",0x54A);if(i<last){do{items[i]=items[i+1];++i;}while(i<count-1);}--count;}
+ AptDisplayNode *get(int i,int cachedCount){DISPLAY_ASSERT(i>=0 && i<cachedCount,"i >= 0 && i < nElements",0x555);return items[i];}
+ __forceinline int removeFront(int n){int i=0;DISPLAY_ASSERT(n>0,"i >= 0 && i < nElements",0x54A);for(;i<n-1;++i){items[i]=items[i+1];n=count;}count=--n;return n;}
  AptDisplayNode *items[32];int count;
 };
 void rva006F7330(void*,void*,int);
@@ -48,7 +50,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
  // Both visitors have the same native three-argument stack ABI; the clip
  // visitor's pointer result is discarded by this type-erased visitor API.
  AptDisplayVisitor visit;
- if(g_aptDisplayListRenderFlags&4)visit=(AptDisplayVisitor)rva006F73A0;else visit=rva006F7330;
+ if(g_bfmeExtra1282Flags&4)visit=(AptDisplayVisitor)rva006F73A0;else visit=rva006F7330;
  _ReadWriteBarrier();
  while(item){
   if(!((BfmeAptValue006DCD20*)item)->isUndefined()){
@@ -58,10 +60,9 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
     else {
      while(maskCount>0){
       int last=maskCount-1;
-      if(masks.get(last)->info->clipDepth>=item->depth)break;
-      visit(context,masks.get(last),-1);
+      if(masks.get(last,maskCount)->info->clipDepth>=item->depth)break;
+      visit(context,masks.get(last,maskCount),-1);
       masks.rva006F7600(last);maskCount=masks.count;
-      _ReadWriteBarrier();
      }
      visit(context,item,mode);
     }
@@ -69,5 +70,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
   }
   item=item->next;
  }
- while(maskCount>0){visit(context,masks.get(0),-1);masks.removeFront();maskCount=masks.count;}
+ while(maskCount>0){visit(context,masks.get(0,maskCount),-1);maskCount=masks.removeFront(maskCount);}
 }
+// Cached bounds follow retail EDI; front removal refreshes count in the shift loop.
+// Remaining destructor count reload: reverse/attempt_support/0x006f7720-20261019-w3/readme.md.
