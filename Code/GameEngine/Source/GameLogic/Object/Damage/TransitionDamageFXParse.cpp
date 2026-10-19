@@ -432,12 +432,6 @@ public:
 	FXDamageParticleSystemInfo m_particleSystem[BODYDAMAGETYPE_COUNT][DAMAGE_MODULE_MAX_FX];	// +0xA94
 };
 
-class BfmeThingFDE
-{
-public:
-	void bfmeUseFDE(void *state);
-};
-
 class TDFXModuleBase
 {
 public:
@@ -468,6 +462,7 @@ class TransitionDamageFX : public TDFXDamageModule
 public:
 	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);
 	void rva004B9DA9(bool applyTransition);
+	void bfmeUseFDE(void *state);
 
 protected:
 	TDFXObject *getObject() const { return m_object; }
@@ -503,7 +498,7 @@ void TransitionDamageFX::onBodyDamageStateChange(const DamageInfo *damageInfo, B
 		}
 	}
 
-	((BfmeThingFDE *)this)->bfmeUseFDE((void *)newState);
+	bfmeUseFDE((void *)newState);
 
 	if (newState > oldState)
 	{

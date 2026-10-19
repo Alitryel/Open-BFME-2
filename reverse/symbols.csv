@@ -8121,7 +8121,7 @@ name,address,notes
 ?bfmeUse1035@BfmeT1035@@QAEXPAVBfmeX1035@@H@Z,0x002842CD,use helper called by the placed ?bfmeGo1035C 0x0028447F; REL32 read off retail at 0x00284496
 ?bfmeUse1251@BfmeSub2_1251@@QAEXPAX@Z,0x006645D0
 ?bfmeUse975D@BfmeD975@@QAEDPAX@Z,0x0033BB04,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?bfmeUseFDE@BfmeThingFDE@@QAEXPAX@Z,0x004B9B99
+?bfmeUseFDE@TransitionDamageFX@@QAEXPAX@Z,0x004B9B99
 ?bfmeUseFGE@BfmeResFGE@@QAEXPAX0@Z,0x0023DB0E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeUseSB@BfmeSinkSB@@QAEXPAX0@Z,0x00675D00
 ?bfmeUseTFC@BfmeSinkTFC@@QAEXPAX0@Z,0x00663140

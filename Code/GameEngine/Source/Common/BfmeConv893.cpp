@@ -21,7 +21,7 @@ struct BfmeHeldFDE
 	BfmeSubFDE *m_bfmeS;
 };
 
-struct BfmeThingFDE
+struct TransitionDamageFX
 {
 	void bfmeGoFDE();
 	void bfmeUseFDE(void *r);
@@ -29,7 +29,7 @@ struct BfmeThingFDE
 	BfmeHeldFDE *m_bfmeP;
 };
 
-void BfmeThingFDE::bfmeGoFDE()
+void TransitionDamageFX::bfmeGoFDE()
 {
 	BfmeHeldFDE *h = m_bfmeP;
 	if (h)
