@@ -189,6 +189,10 @@ struct DrawableICoord2D { int x, y; };
 // bfme link decl-only begin
 namespace _STL { template <> void vector<ModuleData const *, allocator<ModuleData const *> >::_M_insert_overflow(ModuleData const **, ModuleData const *const &, __true_type const &, unsigned int, bool); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVModuleData@@@_STL@@QBEXPAPBVModuleData@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void allocator<const ModuleData *>::deallocate(const ModuleData **, size_t) const; }
 
 class Rva0010F149Handle
 {
