@@ -44,11 +44,56 @@ struct Vp6ProbUpdate {
 extern "C" void *memset(void *, int, unsigned);
 extern "C" void *memcpy(void *, const void *, unsigned);
 #pragma intrinsic(memset, memcpy)
-extern const unsigned char g_00BD9210[2][11];
-extern const unsigned char g_00BD9228[64];
-extern const unsigned char g_00BD9268[2][14];
-extern const unsigned char g_00BD9284[2][14];
-extern const unsigned char g_00BD92A0[3][2][6][11];
+// g_vp6DcUpdateProbs (VA 0x00BD9210, retail .rdata contents): the DC update probabilities, 2 planes of 11.
+extern const unsigned char g_vp6DcUpdateProbs[2][11] = {
+	146, 255, 181, 207, 232, 243, 238, 251, 244, 250, 249, 179, 255, 214, 240, 250,
+	255, 244, 255, 255, 255, 255,
+};
+// g_vp6ScanBandUpdateProbs (VA 0x00BD9228, retail .rdata contents): the scan-band update probabilities.
+extern const unsigned char g_vp6ScanBandUpdateProbs[64] = {
+	255, 132, 132, 159, 153, 151, 161, 170, 164, 162, 136, 110, 103, 114, 129, 118,
+	124, 125, 132, 136, 114, 110, 142, 135, 134, 123, 143, 126, 153, 183, 166, 161,
+	171, 180, 179, 164, 203, 218, 225, 217, 215, 206, 203, 217, 229, 241, 248, 243,
+	253, 255, 253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+};
+// g_vp6ZeroRunUpdateProbs (VA 0x00BD9268, retail .rdata contents): the zero-run update probabilities, 2 bands of 14.
+extern const unsigned char g_vp6ZeroRunUpdateProbs[2][14] = {
+	219, 246, 238, 249, 232, 239, 249, 255, 248, 253, 239, 244, 241, 248, 198, 232,
+	251, 253, 219, 241, 253, 255, 248, 249, 244, 238, 251, 255,
+};
+// g_vp6ZeroRunProbDefaults (VA 0x00BD9284, retail .rdata contents): the zero-run probability defaults, 2 bands of 14.
+extern const unsigned char g_vp6ZeroRunProbDefaults[2][14] = {
+	198, 197, 196, 146, 198, 204, 169, 142, 130, 136, 149, 149, 191, 249, 135, 201,
+	181, 154, 98, 117, 132, 126, 146, 169, 184, 240, 246, 254,
+};
+// g_vp6AcUpdateProbs (VA 0x00BD92A0, retail .rdata contents): the AC update probabilities by precedence, plane, band and node.
+extern const unsigned char g_vp6AcUpdateProbs[3][2][6][11] = {
+	227, 246, 230, 247, 244, 255, 255, 255, 255, 255, 255, 255, 255, 209, 231, 231,
+	249, 249, 253, 255, 255, 255, 255, 255, 225, 242, 241, 251, 253, 255, 255, 255,
+	255, 255, 255, 241, 253, 252, 255, 255, 255, 255, 255, 255, 255, 255, 248, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 240, 255, 248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 240,
+	253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 206, 203, 227, 239, 247, 255, 253, 255, 255, 255, 255, 207,
+	199, 220, 236, 243, 252, 252, 255, 255, 255, 255, 212, 219, 230, 243, 244, 253,
+	252, 255, 255, 255, 255, 236, 237, 247, 252, 253, 255, 255, 255, 255, 255, 255,
+	240, 240, 248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 230, 233, 249, 255, 255, 255, 255, 255, 255, 255,
+	255, 238, 238, 250, 255, 255, 255, 255, 255, 255, 255, 255, 248, 251, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 225, 239, 227, 231, 244, 253, 243, 255,
+	255, 253, 255, 232, 234, 224, 228, 242, 249, 242, 252, 251, 251, 255, 235, 249,
+	238, 240, 251, 255, 249, 255, 253, 253, 255, 249, 253, 251, 250, 255, 255, 255,
+	255, 255, 255, 255, 251, 250, 249, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 243, 244, 250, 250, 255, 255,
+	255, 255, 255, 255, 255, 249, 248, 250, 253, 255, 255, 255, 255, 255, 255, 255,
+	253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+};
 extern "C" void VP6_ConfigureEntropyDecoder(Vp6EntropyInstance *pbi, unsigned char frameType)
 {
 	unsigned char lastProb[11];
@@ -58,7 +103,7 @@ extern "C" void VP6_ConfigureEntropyDecoder(Vp6EntropyInstance *pbi, unsigned ch
 	memset(lastProb, 128, sizeof lastProb);
 	for (i = 0; i < 2; i++) {
 		for (j = 0; j < 11; j++) {
-			if (nDecodeBool((Rva009B4800State *)pbi->br, g_00BD9210[i][j])) {
+			if (nDecodeBool((Rva009B4800State *)pbi->br, g_vp6DcUpdateProbs[i][j])) {
 				unsigned char v = Vp6ProbUpdate::Read(pbi->br);
 				lastProb[j] = v;
 				pbi->DcProbs[i][j] = v;
@@ -68,17 +113,17 @@ extern "C" void VP6_ConfigureEntropyDecoder(Vp6EntropyInstance *pbi, unsigned ch
 		}
 	}
 	if (frameType == 0)
-		memcpy(pbi->ZeroRunProbs, g_00BD9284, sizeof pbi->ZeroRunProbs);
+		memcpy(pbi->ZeroRunProbs, g_vp6ZeroRunProbDefaults, sizeof pbi->ZeroRunProbs);
 	if (nDecodeBool((Rva009B4800State *)pbi->br, 128)) {
 		for (i = 1; i < 64; i++) {
-			if (nDecodeBool((Rva009B4800State *)pbi->br, g_00BD9228[i]))
+			if (nDecodeBool((Rva009B4800State *)pbi->br, g_vp6ScanBandUpdateProbs[i]))
 				pbi->ScanBands[i] = (unsigned char)VP6_bitread(pbi->br, 4);
 		}
 		BuildScanOrder((Rva009AAFE0Context *)pbi, pbi->ScanBands);
 	}
 	for (i = 0; i < 2; i++) {
 		for (j = 0; j < 14; j++) {
-			if (nDecodeBool((Rva009B4800State *)pbi->br, g_00BD9268[i][j])) {
+			if (nDecodeBool((Rva009B4800State *)pbi->br, g_vp6ZeroRunUpdateProbs[i][j])) {
 				unsigned char v = Vp6ProbUpdate::Read(pbi->br);
 				pbi->ZeroRunProbs[i][j] = v;
 			}
@@ -88,7 +133,7 @@ extern "C" void VP6_ConfigureEntropyDecoder(Vp6EntropyInstance *pbi, unsigned ch
 		for (plane = 0; plane < 2; plane++) {
 			for (j = 0; j < 6; j++) {
 				for (k = 0; k < 11; k++) {
-					if (nDecodeBool((Rva009B4800State *)pbi->br, g_00BD92A0[prec][plane][j][k])) {
+					if (nDecodeBool((Rva009B4800State *)pbi->br, g_vp6AcUpdateProbs[prec][plane][j][k])) {
 						unsigned char v = Vp6ProbUpdate::Read(pbi->br);
 						lastProb[k] = v;
 						pbi->AcProbs[plane][prec][j][k] = v;
