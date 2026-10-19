@@ -44,6 +44,9 @@ template <typename T> struct BfmeStringData
 #include "unicode_string.h"
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(char const *); }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<char*,char,allocator<char> >::deallocate(char *p,size_t n) { __stl_alloc_rebind(static_cast<allocator<char>&>(*this),(char*)0).deallocate(p,n); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _String_base<char,allocator<char> >::_M_deallocate_block() { _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline _String_base<char,allocator<char> >::~_String_base() { _M_deallocate_block(); } }
 // bfme link decl-only end
 
 namespace _STL
