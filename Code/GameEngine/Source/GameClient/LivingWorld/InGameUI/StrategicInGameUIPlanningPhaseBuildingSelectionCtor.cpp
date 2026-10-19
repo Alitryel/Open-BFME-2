@@ -272,6 +272,10 @@ namespace _STL { void __cdecl free(void *); }
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_insert_overflow(const ModuleData **, const ModuleData *const &, const __true_type &, size_t, bool); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
