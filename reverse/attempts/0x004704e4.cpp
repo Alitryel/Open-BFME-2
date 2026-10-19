@@ -1,8 +1,13 @@
 // ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
-// partial score=0.9734 date=2026-10-17
+// partial score=0.99 date=2026-10-19
+// ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
+// partial score=0.99 date=2026-10-19
+// 2026-10-19 (sonnet-5-5): slot-96 call now goes through a 96-virtual PrimarySlot96View cast of this; size-exact 563 B,
+// structural 0, only the call's receiver register differs (ours ebx = primary pointer, retail esi = incoming secondary
+// pointer: mov eax,[esi]; mov ecx,esi). Note the cl line carries /I. for scratch compiles from outside the repo root.
 // ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
 // partial score=0.8211008385075881 date=2026-10-16
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS /I.
 // Rebase merge 2026-10-17 (opus): a parallel bank (refreshDeathDrawable(Object*) helper taking the owner,
 // `UpdateModule *update` local, HordeDeathBody* body local, deathData local) compiles to the IDENTICAL 567 B
 // as this body: same lone residual (slot-96 call via lea ecx,[ebx+0x11c] instead of esi). Neither spelling helps.
@@ -1269,10 +1274,109 @@ class Eva {public:bool reportEvaEvent(EvaEventID,const Coord3D*,const Coord3D*);
 extern Eva *TheEva;
 class Rva00265254 { public: Rva00265254(unsigned, unsigned, unsigned, unsigned); int words[19]; };
 class Rva001E42F2 { public: void rva001E42F2(const int *); };
+class PrimarySlot96View{public:
+ virtual void s0();
+ virtual void s1();
+ virtual void s2();
+ virtual void s3();
+ virtual void s4();
+ virtual void s5();
+ virtual void s6();
+ virtual void s7();
+ virtual void s8();
+ virtual void s9();
+ virtual void s10();
+ virtual void s11();
+ virtual void s12();
+ virtual void s13();
+ virtual void s14();
+ virtual void s15();
+ virtual void s16();
+ virtual void s17();
+ virtual void s18();
+ virtual void s19();
+ virtual void s20();
+ virtual void s21();
+ virtual void s22();
+ virtual void s23();
+ virtual void s24();
+ virtual void s25();
+ virtual void s26();
+ virtual void s27();
+ virtual void s28();
+ virtual void s29();
+ virtual void s30();
+ virtual void s31();
+ virtual void s32();
+ virtual void s33();
+ virtual void s34();
+ virtual void s35();
+ virtual void s36();
+ virtual void s37();
+ virtual void s38();
+ virtual void s39();
+ virtual void s40();
+ virtual void s41();
+ virtual void s42();
+ virtual void s43();
+ virtual void s44();
+ virtual void s45();
+ virtual void s46();
+ virtual void s47();
+ virtual void s48();
+ virtual void s49();
+ virtual void s50();
+ virtual void s51();
+ virtual void s52();
+ virtual void s53();
+ virtual void s54();
+ virtual void s55();
+ virtual void s56();
+ virtual void s57();
+ virtual void s58();
+ virtual void s59();
+ virtual void s60();
+ virtual void s61();
+ virtual void s62();
+ virtual void s63();
+ virtual void s64();
+ virtual void s65();
+ virtual void s66();
+ virtual void s67();
+ virtual void s68();
+ virtual void s69();
+ virtual void s70();
+ virtual void s71();
+ virtual void s72();
+ virtual void s73();
+ virtual void s74();
+ virtual void s75();
+ virtual void s76();
+ virtual void s77();
+ virtual void s78();
+ virtual void s79();
+ virtual void s80();
+ virtual void s81();
+ virtual void s82();
+ virtual void s83();
+ virtual void s84();
+ virtual void s85();
+ virtual void s86();
+ virtual void s87();
+ virtual void s88();
+ virtual void s89();
+ virtual void s90();
+ virtual void s91();
+ virtual void s92();
+ virtual void s93();
+ virtual void s94();
+ virtual void s95();
+ virtual int slot96(void *filter);
+};
 __forceinline void HordeContain::refreshDrawable(Drawable *drawable)
 {
 	if (drawable && ((HordeDeathDrawable *)drawable)->refresh)
-		drawable->rva00272945(rva0046D3FC(0));
+		drawable->rva00272945(((PrimarySlot96View *)this)->slot96(0));
 }
 void HordeContain::notifyOfMemberDeath(Object *obj)
 {
