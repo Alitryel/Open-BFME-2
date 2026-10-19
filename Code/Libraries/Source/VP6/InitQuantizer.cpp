@@ -44,8 +44,62 @@ extern const unsigned short g_bfmeApplyTableD[64] = {
 	25, 25, 24, 24, 23, 23, 19, 19, 19, 19, 18, 18, 17, 16, 16, 16,
 	16, 16, 15, 11, 11, 11, 10, 10, 9, 8, 7, 5, 3, 3, 2, 2,
 };
-extern int g_Rva01142008[],g_Rva01141E08[],g_Rva01141B08[],g_Rva01141908[];
-extern int g_Rva01142108[],g_Rva01141F08[],g_Rva01141C08[],g_Rva01141A08[];
+// g_bfmeYAcZeroBin (VA 0x00BD7A60, retail .rdata contents): Y AC zero-bin sizes by Q index.
+extern const int g_bfmeYAcZeroBin[64] = {
+	330, 314, 298, 284, 264, 246, 228, 213, 201, 190, 178, 167, 156, 153, 149, 146,
+	144, 141, 138, 135, 132, 130, 127, 124, 121, 115, 110, 104, 99, 96, 94, 90,
+	85, 82, 79, 76, 74, 71, 69, 66, 63, 61, 58, 55, 53, 50, 47, 45,
+	43, 40, 38, 36, 33, 31, 28, 24, 21, 18, 16, 13, 10, 7, 4, 2,
+};
+// g_bfmeUvAcZeroBin (VA 0x00BD7B60, retail .rdata contents): UV AC zero-bin sizes by Q index.
+extern const int g_bfmeUvAcZeroBin[64] = {
+	330, 314, 298, 284, 264, 246, 228, 213, 201, 190, 178, 167, 156, 153, 149, 146,
+	144, 141, 138, 135, 132, 130, 127, 124, 121, 115, 110, 104, 99, 96, 94, 90,
+	85, 82, 79, 76, 74, 71, 69, 66, 63, 61, 58, 55, 53, 50, 47, 45,
+	43, 40, 38, 36, 33, 31, 28, 24, 21, 18, 16, 13, 10, 7, 4, 2,
+};
+// g_bfmeYAcRounding (VA 0x00BD7C60, retail .rdata contents): Y AC rounding values by Q index.
+extern const int g_bfmeYAcRounding[64] = {
+	48, 56, 64, 70, 78, 82, 86, 88, 91, 92, 94, 94, 99, 103, 102, 100,
+	99, 97, 95, 93, 91, 89, 87, 85, 83, 79, 77, 73, 71, 69, 67, 65,
+	64, 62, 60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34,
+	32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2,
+};
+// g_bfmeUvAcRounding (VA 0x00BD7D60, retail .rdata contents): UV AC rounding values by Q index.
+extern const int g_bfmeUvAcRounding[64] = {
+	48, 56, 64, 70, 78, 82, 86, 88, 91, 92, 94, 94, 99, 103, 102, 100,
+	99, 97, 95, 93, 91, 89, 87, 85, 83, 79, 77, 73, 71, 69, 67, 65,
+	64, 62, 60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34,
+	32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2,
+};
+// g_bfmeYDcZeroBin (VA 0x00BD7F60, retail .rdata contents): Y DC zero-bin sizes by Q index.
+extern const int g_bfmeYDcZeroBin[64] = {
+	170, 162, 152, 150, 140, 130, 125, 121, 121, 118, 113, 111, 110, 108, 108, 106,
+	105, 96, 93, 87, 86, 83, 83, 83, 83, 78, 78, 78, 66, 66, 63, 63,
+	61, 61, 58, 58, 56, 56, 46, 46, 46, 46, 43, 43, 41, 38, 38, 38,
+	38, 38, 35, 24, 24, 24, 23, 23, 20, 19, 16, 13, 6, 6, 4, 4,
+};
+// g_bfmeUvDcZeroBin (VA 0x00BD8060, retail .rdata contents): UV DC zero-bin sizes by Q index.
+extern const int g_bfmeUvDcZeroBin[64] = {
+	170, 162, 152, 150, 140, 130, 125, 121, 121, 118, 113, 111, 110, 108, 108, 106,
+	105, 96, 93, 87, 86, 83, 83, 83, 83, 78, 78, 78, 66, 66, 63, 63,
+	61, 61, 58, 58, 56, 56, 46, 46, 46, 46, 43, 43, 41, 38, 38, 38,
+	38, 38, 35, 24, 24, 24, 23, 23, 20, 19, 16, 13, 6, 6, 4, 4,
+};
+// g_bfmeYDcRounding (VA 0x00BD8160, retail .rdata contents): Y DC rounding values by Q index.
+extern const int g_bfmeYDcRounding[64] = {
+	20, 28, 38, 40, 44, 46, 50, 50, 51, 57, 59, 61, 62, 64, 66, 67,
+	67, 62, 63, 64, 64, 62, 62, 62, 62, 62, 62, 62, 54, 54, 52, 52,
+	50, 50, 48, 48, 46, 46, 38, 38, 38, 38, 36, 36, 34, 32, 32, 32,
+	32, 32, 30, 22, 22, 22, 20, 20, 18, 16, 14, 10, 6, 6, 4, 4,
+};
+// g_bfmeUvDcRounding (VA 0x00BD8260, retail .rdata contents): UV DC rounding values by Q index.
+extern const int g_bfmeUvDcRounding[64] = {
+	20, 30, 38, 40, 44, 46, 50, 50, 51, 57, 59, 61, 62, 64, 66, 67,
+	67, 62, 63, 64, 64, 62, 62, 62, 62, 62, 62, 62, 54, 54, 52, 52,
+	50, 50, 48, 48, 46, 46, 38, 38, 38, 38, 36, 36, 34, 32, 32, 32,
+	32, 32, 30, 22, 22, 22, 20, 20, 18, 16, 14, 10, 6, 6, 4, 4,
+};
 // g_Rva01142208: matched references place it at VA 0xbd8360 (retail .rdata contents).
 int g_Rva01142208[64] = {
 	-8, 0, 5, 0xa, 0xa, 0xa, 0xa, 0xa,
@@ -90,28 +144,28 @@ extern "C" void __cdecl VP6_init_quantizer(Rva009A6780State* s,int version)
     double reciprocal=1.0/(((const short *)g_bfmeApplyTableC)[index]*4);
     reciprocal*=g_Rva01142610;
     s->at0190[0][0]=(int)(reciprocal+0.5);
-    s->at0390[0][0]=g_Rva01142008[index];
-    s->at0590[0][0]=g_Rva01141E08[index];
+    s->at0390[0][0]=g_bfmeYDcRounding[index];
+    s->at0590[0][0]=g_bfmeYDcZeroBin[index];
     int i;
     for(i=1;i<64;++i) {
         reciprocal=1.0/(((const unsigned *)g_bfmeApplyTableA)[s->index]*4);
         reciprocal*=g_Rva01142610;
         s->at0190[0][i]=(int)(reciprocal+0.5);
-        s->at0390[0][i]=g_Rva01141B08[s->index];
-        s->at0590[0][i]=g_Rva01141908[s->index];
+        s->at0390[0][i]=g_bfmeYAcRounding[s->index];
+        s->at0590[0][i]=g_bfmeYAcZeroBin[s->index];
     }
     index=s->index;
     reciprocal=1.0/(((const short *)g_bfmeApplyTableD)[index]*4);
     reciprocal*=g_Rva01142610;
     s->at0190[1][0]=(int)(reciprocal+0.5);
-    s->at0390[1][0]=g_Rva01142108[index];
-    s->at0590[1][0]=g_Rva01141F08[index];
+    s->at0390[1][0]=g_bfmeUvDcRounding[index];
+    s->at0590[1][0]=g_bfmeUvDcZeroBin[index];
     for(i=1;i<64;++i) {
         reciprocal=1.0/(((const unsigned *)g_bfmeApplyTableB)[s->index]*4);
         reciprocal*=g_Rva01142610;
         s->at0190[1][i]=(int)(reciprocal+0.5);
-        s->at0390[1][i]=g_Rva01141C08[s->index];
-        s->at0590[1][i]=g_Rva01141A08[s->index];
+        s->at0390[1][i]=g_bfmeUvAcRounding[s->index];
+        s->at0590[1][i]=g_bfmeUvAcZeroBin[s->index];
     }
     for(i=0;i<8;++i) {
         s->at0008[i]=(short)s->at0390[0][1];
