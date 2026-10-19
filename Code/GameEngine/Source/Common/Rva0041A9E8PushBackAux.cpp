@@ -19,6 +19,13 @@
 extern "C" void __cdecl free(void *ptr);
 
 #include "BfmeNarrowRecord0041A617.h"
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 
 namespace _STL {
 template <class _Tp, class _Alloc> class deque {
