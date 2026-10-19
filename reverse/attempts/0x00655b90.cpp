@@ -1,6 +1,26 @@
-// ?d_007e8b00@@YAXXZ
-// partial score=0.3 date=2026-10-14
+// ?Rva007E8B00@@YAHPAEHPBD@Z
+// partial score=0.883 date=2026-10-19
 // cl: /GS
+// BANK (seat6 d8): FESL record-field replacer, retail 0x00655B90..0x00655DB5 (549B,
+// cdecl, 3 args: buffer, size, field; returns written length - 1). This is the
+// optimized FESL-TU copy of DirtySock's matched /Od C body _Rva007EC780
+// (Code/Libraries/Source/DirtySock/Y4TextToValue.c, 0x006596B0): the function
+// below is that body verbatim with the FESL tables substituted, the field index
+// cast to unsigned char (retail movzx edx,bl), compiled inside the owner unit
+// Rva007E8D30FeslSetField.cpp. 544B vs 549B; the whole control flow, loops,
+// inline memcmp/memcpy and memmove calls match. Remaining residue (only two):
+//  1. register roles: retail pValue=EBX (shares EBX with the *field byte BL) and
+//     the field length i=EBP pushed late at 0x00655CE7; cl gives i=EBX, pValue=EBP
+//     and pushes EBP in the prologue (+1 byte shift and every EBX/EBP operand).
+//  2. tail: retail cmp byte [sep],0Ah then reloads sep in the else arm; cl hoists
+//     one mov al,[sep] above the pValue[i]==0 branch.
+// Inert (all 544B, identical residue): separate length variable (int/unsigned,
+// first/last decl), pValue decl first/last, register keyword, pTail/pValue
+// assignment forms (4), static helper + direct call from Rva007E8D30, plain .c
+// compile (signed/unsigned index), /G5 /G6 /Ox /Ob1 /Oi /Ot, vc71-sp1 and
+// vc71-ddk-4035 profiles; /G7 555B, /O1|/Os 443B, /Oy- 579B; tail forms (unsigned
+// casts, inverted if, early return, ternary 548B, i-- first); permute.py 793
+// trials no gain. No volatile/barrier in this bank.
 // 0x007E8D30: the FESL message TU's private copy of the escaped string-field
 // writer (compare the DirtySock copy Rva007ECE60 at 0x007ECE60).  It is a
 // file-static helper whose only caller, 0x007E8EF0, hands it the field name in
@@ -120,42 +140,36 @@ extern "C" void * __cdecl memmove( void *dest, const void *src, unsigned int cou
 extern "C" int __cdecl memcmp( const void *left, const void *right, unsigned int count );
 extern "C" void * __cdecl memcpy( void *dest, const void *src, unsigned int count );
 
-// FESL record-field replacer, retail 0x00655B90 (549B). BFME1 0x007E8B00 is the
-// same 549B body and its bank supplies this C++; the class table and separator
-// are the two data rows just above. Register schedule (ESI/EDI shrink-wrap at
-// the field-scan branch, EBP delayed to the tail loop) is what the bank fights.
-int Rva00655B90Fesl( unsigned char *buffer, int size,
-	const char *field )
+int Rva007E8B00( unsigned char *buffer, int size, const char *field )
 {
+	int i;
 	int iDelta;
 	unsigned char *p;
+	unsigned char *pValue;
 	unsigned char *pTail;
-	register unsigned char *pValue;
 	unsigned char cClassBuffer;
 	unsigned char cClassField;
-	unsigned int i;
-	unsigned int iLength;
 	unsigned char *pBuffer;
 
 	pBuffer = buffer;
 
-	if( pBuffer == 0 )
+	if ( pBuffer == 0 )
 	{
 		return -1;
 	}
 
-	if( field == 0 || ( unsigned int )*field <= ' ' )
+	if ( field == 0 || (unsigned int)*field <= ' ' )
 	{
 		return -1;
 	}
 
-	if( *field == '~' )
+	if ( *field == '~' )
 	{
-		for( p = pBuffer; *p != 0; p++ )
+		for ( p = pBuffer; *p != 0; p++ )
 		{
 		}
 
-		if( p != pBuffer && p[ -1 ] >= ' '
+		if ( p != pBuffer && p[ -1 ] >= ' '
 			&& p[ -1 ] != g_bfmeFeslFieldSeparator
 			&& p < pBuffer + size - 1 )
 		{
@@ -171,11 +185,11 @@ int Rva00655B90Fesl( unsigned char *buffer, int size,
 	{
 		p = pBuffer;
 
-		for( ;; )
+		for ( ;; )
 		{
-			if( *p == 0 )
+			if ( *p == 0 )
 			{
-				if( p != pBuffer && p[ -1 ] >= ' '
+				if ( p != pBuffer && p[ -1 ] >= ' '
 					&& p[ -1 ] != g_bfmeFeslFieldSeparator
 					&& p < pBuffer + size - 1 )
 				{
@@ -189,40 +203,40 @@ int Rva00655B90Fesl( unsigned char *buffer, int size,
 				break;
 			}
 
-			if( *p <= ' ' )
+			if ( *p <= ' ' )
 			{
 				p++;
 				continue;
 			}
 
-			if( g_bfmeFeslFieldClassTable[ *p ] == 1 )
+			if ( g_bfmeFeslFieldClassTable[ *p ] == 1 )
 			{
 				pTail = p;
 				pValue = pTail;
 				break;
 			}
 
-			for( i = 0; ; i++ )
+			for ( i = 0; ; i++ )
 			{
 				cClassBuffer = g_bfmeFeslFieldClassTable[ p[ i ] ];
-				cClassField = g_bfmeFeslFieldClassTable[ ( unsigned char )field[ i ] ];
+				cClassField = g_bfmeFeslFieldClassTable[ (unsigned char)field[ i ] ];
 
-				if( cClassBuffer != cClassField || cClassBuffer < 2 )
+				if ( cClassBuffer != cClassField || cClassBuffer < 2 )
 				{
 					break;
 				}
 			}
 
-			if( cClassBuffer + cClassField == 2 )
+			if ( cClassBuffer + cClassField == 2 )
 			{
 				pTail = p;
 				pValue = pTail;
 
-				for( ; *pTail >= ' '; pTail++ )
+				for ( ; *pTail >= ' '; pTail++ )
 				{
 				}
 
-				if( *pTail > 0 )
+				if ( *pTail > 0 )
 				{
 					pTail++;
 				}
@@ -234,56 +248,56 @@ int Rva00655B90Fesl( unsigned char *buffer, int size,
 			{
 				p++;
 			}
-			while( *p >= ' ' );
+			while ( *p >= ' ' );
 		}
 	}
 
-	for( iLength = 0; ( unsigned int )field[ iLength ] >= ' '; iLength++ )
+	for ( i = 0; (unsigned int)field[ i ] >= ' '; i++ )
 	{
 	}
 
-	iLength++;
+	i++;
 
-	iDelta = iLength - ( pTail - pValue );
+	iDelta = i - ( pTail - pValue );
 
-	for( p = pTail; *p != 0; p++ )
+	for ( p = pTail; *p != 0; p++ )
 	{
 	}
 
 	p++;
 
-	if( iDelta > 0 && pBuffer + size - p < iDelta )
+	if ( iDelta > 0 && pBuffer + size - p < iDelta )
 	{
 		return -1;
 	}
 
-	if( iDelta == 0 && memcmp( pValue, field, iLength ) == 0 )
+	if ( iDelta == 0 && memcmp( pValue, field, i ) == 0 )
 	{
 		return 0;
 	}
 
-	if( iDelta > 0 )
+	if ( iDelta > 0 )
 	{
 		memmove( pTail + iDelta, pTail, p - pTail );
 	}
 
-	if( iDelta < 0 )
+	if ( iDelta < 0 )
 	{
 		memmove( pValue, pValue - iDelta, p - ( pValue - iDelta ) );
 	}
 
-	memcpy( pValue, field, iLength );
+	memcpy( pValue, field, i );
 
-	if( pValue[ iLength ] == 0 && *(volatile char *)&g_bfmeFeslFieldSeparator != '\n' )
+	if ( pValue[ i ] == 0 && g_bfmeFeslFieldSeparator != '\n' )
 	{
-		pValue[ iLength - 1 ] = 0;
+		pValue[ i - 1 ] = 0;
 	}
 	else
 	{
-		pValue[ iLength - 1 ] = g_bfmeFeslFieldSeparator;
+		pValue[ i - 1 ] = g_bfmeFeslFieldSeparator;
 	}
 
-	return iLength - 1;
+	return i - 1;
 }
 
 // The record's "name=" prefix, as the DirtySock copy's Rva007EC730 writes it:
