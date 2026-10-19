@@ -12,6 +12,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <stdlib.h>
 #include <vector>
+// Import-inline: this unit's bfmealloc _Vector_base<Object*> dtor copy is not retail's
+// EH-framed body (0x001F1609); its uses here are all inlined, so none is emitted.
+class Object;
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
 #include "ascii_string.h"
 #include "Coord3D.h"
 // Existing bfmealloc shim and no-exception STL configuration reproduce the
