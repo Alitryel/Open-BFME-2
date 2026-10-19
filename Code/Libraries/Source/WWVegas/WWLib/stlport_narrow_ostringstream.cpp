@@ -24,6 +24,10 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> locale basic_ios<char, char_traits<char> >::imbue(locale const &); }
 namespace _STL { template <> void basic_ios<char, char_traits<char> >::init(basic_streambuf<char, char_traits<char> > *); }
 namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
+// str() is rowed in stlport_narrow_ostringstream_dtor.cpp; this unit's copy (and
+// the stringbuf::str / _M_append_buffer / append chain it drags in) is not
+// retail's and sorts first in link order.
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_ostringstream<char, char_traits<char>, allocator<char> >::str() const; }
 // bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
