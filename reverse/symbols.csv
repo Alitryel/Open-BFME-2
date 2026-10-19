@@ -4213,7 +4213,7 @@ name,address,notes
 ??1Rva00108B4D@@UAE@XZ,0x00108B4D,"destructor the scalar deleting destructor 0x000EFAD2 calls (REL32 at 0x000EFAD5; vtable 0x00BCEFA0#0); opaque address name"
 ??1Rva001095B2@@UAE@XZ,0x001095B2,opaque dtor; call target of retail scalar-deleting-dtor at 0x10B9C9 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00109610@@UAE@XZ,0x00109610,opaque dtor; call target of retail scalar-deleting-dtor at 0x10BA83 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
-??1Rva0010C785@@UAE@XZ,0x0010C785,opaque dtor; call target of retail scalar-deleting-dtor at 0x10C825 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
+??1W3DProjectedShadowManager@@UAE@XZ,0x0010C785,dtor; call target of retail scalar-deleting-dtor at 0x10C825 (28B flag-test shape); Ghidra function start; restores the manager vtable 0x7CF9C4
 ??1Rva0010EFCD@@UAE@XZ,0x0010EFCD,"destructor the scalar deleting destructor 0x0010EFD4 calls (REL32 at 0x0010EFD7; vtable 0x00BCFAA4#0); opaque address name"
 ??1Rva0010F0C4@@UAE@XZ,0x0010F0C4,opaque dtor; call target of retail scalar-deleting-dtor at 0x10F6EE (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva0010F7EE@@UAE@XZ,0x0010F7EE,opaque dtor; call target of retail scalar-deleting-dtor at 0x10F7D2 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name

@@ -27,11 +27,11 @@ class BfmeThing928F {public:void bfmeOne928F();void bfmeTwo928F();};
 class Rva00109DCF {public:void rva00109DCF();};
 class BfmeSub928F {public: ~BfmeSub928F();};
 struct Rva0010C785Ref {virtual void Release();int m_ref;};
-class Rva0010C785 : public Rva00108475 {
+class W3DProjectedShadowManager : public Rva00108475 {
 public:
  
- Rva0010C785();
- __declspec(noinline) virtual ~Rva0010C785();
+ W3DProjectedShadowManager();
+ __declspec(noinline) virtual ~W3DProjectedShadowManager();
  virtual void rva0010BE72(); virtual void *rva0010C065(void *);
  virtual void *rva0010C145(void *,void *,bool,bool); virtual void forward(unsigned,unsigned,unsigned);
  virtual unsigned forwardIf(unsigned,void *,unsigned,unsigned);
@@ -43,7 +43,7 @@ private:
 };
 
 void operator delete(void *) throw();
-Rva0010C785::~Rva0010C785(){
+W3DProjectedShadowManager::~W3DProjectedShadowManager(){
 ((BfmeThing928F*)this)->bfmeOne928F();
 ((BfmeThing928F*)this)->bfmeTwo928F();
 ((Rva00109DCF*)this)->rva00109DCF();

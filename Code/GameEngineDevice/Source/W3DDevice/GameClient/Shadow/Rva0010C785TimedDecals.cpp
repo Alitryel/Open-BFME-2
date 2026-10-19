@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
-// ?rva0010BE72@Rva0010C785@@UAEXXZ @ 0x0010BE72 499B, ret
+// ?rva0010BE72@W3DProjectedShadowManager@@UAEXXZ @ 0x0010BE72 499B, ret
 //
 // Slot 1 of the projected-shadow manager vtable 0x007CF9C4 (see
 // Rva0010C785Lifecycle.cpp); nothing else reaches it. Once per call it walks
@@ -95,10 +95,10 @@ public:
 	W3DProjectedShadow *m_next;		// +0x114
 };
 
-class Rva0010C785
+class W3DProjectedShadowManager
 {
 public:
-	virtual ~Rva0010C785();
+	virtual ~W3DProjectedShadowManager();
 	virtual void rva0010BE72(void);
 
 private:
@@ -106,7 +106,7 @@ private:
 	W3DProjectedShadow *m_decalList;	// +0x08
 };
 
-void Rva0010C785::rva0010BE72(void)
+void W3DProjectedShadowManager::rva0010BE72(void)
 {
 	_STL::list<W3DProjectedShadow *> expired;
 	UnsignedInt frame = TheGameClient->getFrame();
