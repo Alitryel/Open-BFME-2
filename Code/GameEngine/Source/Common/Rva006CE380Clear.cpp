@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva006CE380@Rva006CE380@@QAEXXZ @0x006CE380 49B evidence chain via 0x006DB270 freeBlock plus pool 0x00A176E8 size 8 plus next-at-+4 list clear plus callers 0x006D10DD and 0x006CE560
+// ??1Rva006CE380@@QAE@XZ @0x006CE380 49B evidence chain via 0x006DB270 freeBlock plus pool 0x00A176E8 size 8 plus next-at-+4 list clear plus callers 0x006D10DD and 0x006CE560
 class Rva006DB270 {
 public:
     void freeBlock(void *p, int size);
@@ -9,11 +9,14 @@ struct Rva006CE380Node {
     int m00;
     Rva006CE380Node *m04;
 };
+// It is the list owner's destructor: Rva006D1090's destructor (0x006D1090)
+// ends by calling it on its base sub-object, and that destructor's unwind
+// funclet reaches it as the base cleanup.
 struct Rva006CE380 {
     Rva006CE380Node *m_head;
-    void rva006CE380();
+    ~Rva006CE380();
 };
-void Rva006CE380::rva006CE380()
+Rva006CE380::~Rva006CE380()
 {
     while (m_head != 0) {
         Rva006CE380Node *cur = m_head;
@@ -30,4 +33,4 @@ void Rva006CE380::rva006CE380()
 // Original wrapper name and complete receiver type remain unresolved.
 struct Rva006CE560 { void rva006CE560(); };
 void Rva006CE560::rva006CE560()
-{ reinterpret_cast<Rva006CE380*>(this)->rva006CE380(); }
+{ reinterpret_cast<Rva006CE380*>(this)->~Rva006CE380(); }

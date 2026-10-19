@@ -11,6 +11,10 @@
 // +0x2F4 emitter handles createEmitters fills), then tail-jumps to the
 // matched W3DTankDraw::createEmitters 0x000CE837 -- ZH's toss-and-recreate.
 
+// The base loadPostProcess at 0x000B3A2D is rowed under its address-derived
+// name (Rva000B3A2D.cpp); the call binds that row.
+class Rva000B3A2D { public: void rva000B3A2D(); };
+
 class W3DModelDraw
 {
 protected:
@@ -28,7 +32,7 @@ protected:
 void W3DTankDraw::loadPostProcess(void)
 {
 	// extend base class
-	W3DModelDraw::loadPostProcess();
+	reinterpret_cast<Rva000B3A2D *>(this)->rva000B3A2D();
 
 	// toss any existing ones and re-create 'em (since this module expects 'em to always be around)
 	tossEmitters();

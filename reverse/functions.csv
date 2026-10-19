@@ -42777,7 +42777,7 @@ _FilterBlock1dBil,,0x001B82D0,107,Code/Libraries/Source/VP6/FilterBlockBilWide.c
 ?rva005365D1@UserPreferences@@QAEXVAsciiString@@H@Z,,0x005365D1,71,Code/GameEngine/Source/Common/UserPreferencesRva00535CE4.cpp,matched,ResourcesGatheredRTS slot 0x2C v11 same TU
 ?rva00536662@UserPreferences@@QAEXVAsciiString@@H@Z,,0x00536662,71,Code/GameEngine/Source/Common/UserPreferencesRva00535CE4.cpp,matched,ResourcesSpentRTS slot 0x2C v11 same TU
 ??0Rva002DFA7A@@QAE@HABVAsciiString@@@Z,,0x002DFA7A,87,Code/GameEngine/Source/Common/Rva002DFA7ACtor.cpp,matched,unlock lane caller 0x002E048C LivingWorldBuilding parse precedent Rva001ED0A9Ctor
-?rva006CE380@Rva006CE380@@QAEXXZ,,0x006CE380,49,Code/GameEngine/Source/Common/Rva006CE380Clear.cpp,matched,chain via freeBlock pool 8B next-at-4 list clear
+??1Rva006CE380@@QAE@XZ,,0x006CE380,49,Code/GameEngine/Source/Common/Rva006CE380Clear.cpp,matched,chain via freeBlock pool 8B next-at-4 list clear
 ?rva001F64D2@Rva001F64D2@@QAEXXZ,,0x001F64D2,23,Code/GameEngine/Source/Common/Rva001F64D2.cpp,matched,chain null-checked slot4 at 0 then tail-jmp rowed 0x001F5D38
 ?linkWindow@GameWindowManager@@QAEXPAVGameWindow@@@Z,,0x002C0A89,136,Code/GameEngine/Source/GameClient/GUI/GameWindowManager_linkWindow.cpp,matched,neighbours GadgetButtonImageHelpers and GameWindowManager same flags plus GameWindow offsets plus list shape
 ?unlinkWindow@GameWindowManager@@QAEXPAVGameWindow@@@Z,,0x002C0B92,69,Code/GameEngine/Source/GameClient/GUI/GameWindowManager_linkWindow.cpp,matched,sibling 0x002C0A89 same TU flags plus GameWindow unlink shape
