@@ -29,7 +29,7 @@
 class TextureBaseClass
 {
 public:
-	void Add_Ref();
+	__declspec(dllimport) __forceinline void Add_Ref();
 	void Release_Ref();
 };
 
@@ -37,7 +37,7 @@ class TextureClass : public TextureBaseClass
 {
 };
 
-inline void TextureBaseClass::Add_Ref()
+__forceinline void TextureBaseClass::Add_Ref()
 {
 	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
 }
@@ -68,6 +68,7 @@ public:
 			Referent->Release_Ref();
 		}
 	}
+	__declspec(dllimport) __forceinline
 	RefCountPtr const &operator=(RefCountPtr const &other)
 	{
 		if (other.Referent != 0)
