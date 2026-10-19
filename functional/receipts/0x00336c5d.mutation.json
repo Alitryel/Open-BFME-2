@@ -1,0 +1,15 @@
+{
+ "rva": "0x00336C5D",
+ "name": "?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z",
+ "size": 595,
+ "source": "functional/src/0x00336c5d.cpp",
+ "source_sha1": "81c69cb082822cbbd82740843757c6f43ab21ee7",
+ "changed": 3,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

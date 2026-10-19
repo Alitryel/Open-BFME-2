@@ -1,0 +1,16 @@
+{
+ "rva": "0x006D0D70",
+ "name": "?rva006D0D70@Rva006D1090@@QAEXPAX@Z",
+ "size": 431,
+ "source": "functional/src/0x006d0d70.cpp",
+ "source_sha1": "4c1357f13b6ae511397ecb3a55024b903c9ea581",
+ "changed": 3,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

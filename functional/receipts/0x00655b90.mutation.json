@@ -1,0 +1,23 @@
+{
+ "rva": "0x00655B90",
+ "name": "?Rva00655B90Fesl@@YAHPAEHPBD@Z",
+ "size": 549,
+ "source": "functional/src/0x00655b90.cpp",
+ "source_sha1": "44e2d431497af79ac9a5183b13c07afdd8f761ad",
+ "changed": 37,
+ "killed": 11,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  "<=-><#0",
+  "<=-><#1",
+  ">=->>#0"
+ ],
+ "adequate": false
+}

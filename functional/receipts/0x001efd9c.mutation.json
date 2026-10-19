@@ -1,0 +1,12 @@
+{
+ "rva": "0x001EFD9C",
+ "name": "?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z",
+ "size": 554,
+ "source": "functional/src/0x001efd9c.cpp",
+ "source_sha1": "75f9f787d564915bb175c5c9c93990c23f73ec1e",
+ "changed": 6,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

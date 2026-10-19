@@ -1,0 +1,23 @@
+{
+ "rva": "0x0043003C",
+ "name": "?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z",
+ "size": 4054,
+ "changed": 36,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  ">->>=#3",
+  "<=-><#0",
+  ">=->>#0"
+ ],
+ "adequate": false,
+ "source": "reverse/attempts/0x0043003c.cpp",
+ "source_sha1": "55f6aa93aed3803222429c552bbf83ba303b8910"
+}

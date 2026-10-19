@@ -1,0 +1,23 @@
+{
+ "rva": "0x001C5E30",
+ "name": "?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z",
+ "size": 768,
+ "source": "functional/src/0x001c5e30.cpp",
+ "source_sha1": "94b89c0f8ad0760ef85d3241de6637cd5a18f405",
+ "changed": 27,
+ "killed": 10,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#3",
+  ">=->>#0",
+  "==->!=#0",
+  "==->!=#1",
+  "==->!=#2",
+  "+->-#0",
+  "+->-#1"
+ ],
+ "adequate": false
+}

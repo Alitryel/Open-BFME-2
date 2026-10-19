@@ -1,0 +1,21 @@
+{
+ "rva": "0x0051DE3D",
+ "name": "?rva0051DE3D@AptScoreScreen@@QAEXXZ",
+ "size": 1061,
+ "source": "functional/src/0x0051de3d.cpp",
+ "source_sha1": "bc28b81df4738d94f8f4bdcd917c4b94acdfd4ce",
+ "changed": 10,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  "<=-><#0",
+  "==->!=#0",
+  "+->-#0",
+  "&&->||#0",
+  "int+1#2"
+ ],
+ "adequate": false
+}

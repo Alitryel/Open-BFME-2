@@ -1,0 +1,23 @@
+{
+ "rva": "0x00507D84",
+ "name": "?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z",
+ "size": 924,
+ "source": "functional/src/0x00507d84.cpp",
+ "source_sha1": "e5a430c960dbbbf518770de7dd96ceb31ac1a237",
+ "changed": 19,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  ">->>=#3",
+  ">=->>#0",
+  ">=->>#1",
+  ">=->>#2",
+  "==->!=#0"
+ ],
+ "adequate": false
+}

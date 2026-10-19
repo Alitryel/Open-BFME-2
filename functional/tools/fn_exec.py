@@ -324,7 +324,7 @@ def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, bu
         rec.update(verdict="inconclusive", reason="; ".join(problems[:3]))
         return rec
     learned = learn_bindings(ctx, rva, retail_size, compiled, relocs)
-    for nm, addr in converged_globals().items():
+    for nm, addr in converged_globals(ctx.image).items():
         if any(s_["symbol"] == nm for s_ in sites):
             learned[nm] = addr
     code, nre = rebind(ctx, row, code, sites, compiled, learned)
@@ -457,8 +457,11 @@ def learn_bindings(ctx, rva, retail_size, compiled, relocs):
 _CONVERGED = None
 
 
-def converged_globals():
-    """{symbol name: VA} from reverse/data_converged.csv (one real global per converged address)."""
+def converged_globals(image):
+    """{symbol name: VA} from reverse/data_converged.csv (one real global per converged address).
+    The file holds retail RVAs (tools/data_check.py), a few rows VAs: an address inside the image's
+    extent is an RVA. (Testing against 0x400000 instead bound TheAI/TheThingFactory/TheGameLogic,
+    RVAs 0x9FExxx, to themselves as VAs: a false binding reject.)"""
     global _CONVERGED
     if _CONVERGED is None:
         import csv as _csv
@@ -472,7 +475,7 @@ def converged_globals():
                     a = int(addr, 16)
                 except ValueError:
                     continue
-                _CONVERGED[name] = a if a >= 0x400000 else a + 0x400000
+                _CONVERGED[name] = a + image.base if a < image.size else a
     return _CONVERGED
 
 

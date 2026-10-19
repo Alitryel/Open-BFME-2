@@ -1,0 +1,19 @@
+{
+ "rva": "0x00491AD0",
+ "name": "?rva00491AD0@AttachUpdate@@QAEXXZ",
+ "size": 436,
+ "source": "functional/src/0x00491ad0.cpp",
+ "source_sha1": "b33d2e131384860de6766a0b504450b6f6fcae17",
+ "changed": 7,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0",
+  "==->!=#1",
+  "&&->||#0",
+  "&&->||#1",
+  "&&->||#2",
+  "int+1#0"
+ ],
+ "adequate": false
+}

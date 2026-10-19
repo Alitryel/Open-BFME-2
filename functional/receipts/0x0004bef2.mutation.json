@@ -1,0 +1,16 @@
+{
+ "rva": "0x0004BEF2",
+ "name": "?draw@W3DDisplay@@UAEXXZ",
+ "size": 1254,
+ "source": "functional/src/0x0004bef2.cpp",
+ "source_sha1": "e0d167228cca3a41cc0b559a1396afbbd5117833",
+ "changed": 7,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#1",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

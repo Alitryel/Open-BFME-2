@@ -1,0 +1,23 @@
+{
+ "rva": "0x00364AA2",
+ "name": "?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z",
+ "size": 2029,
+ "changed": 20,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x00364aa2.cpp",
+ "source_sha1": "73e8e743cefa3ca9c7647fd04e1f8a6cdfc57d47"
+}

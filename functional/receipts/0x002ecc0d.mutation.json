@@ -1,0 +1,23 @@
+{
+ "rva": "0x002ECC0D",
+ "name": "?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z",
+ "size": 342,
+ "source": "functional/src/0x002ecc0d.cpp",
+ "source_sha1": "cb473bc69df452f2ce5e02c3560753a70fbb9275",
+ "changed": 12,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "==->!=#0",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#0",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

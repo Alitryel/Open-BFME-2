@@ -1,0 +1,15 @@
+{
+ "rva": "0x006C4730",
+ "name": "?rva006C4730@GeneralAllocatorDebug@@QAEPAXPAXIH@Z",
+ "size": 798,
+ "source": "reverse/attempts/0x006c4730.cpp",
+ "source_sha1": "4c8b359655f503559bd833a63e18f370538f155e",
+ "changed": 3,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#0",
+  "int+1#2"
+ ],
+ "adequate": false
+}

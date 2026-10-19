@@ -1,0 +1,23 @@
+{
+ "rva": "0x005B98E9",
+ "name": "?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ",
+ "size": 642,
+ "source": "functional/src/0x005b98e9.cpp",
+ "source_sha1": "4ac349e0813e55ecb1280d0c6072b2ff00dedeb5",
+ "changed": 11,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  ">->>=#0",
+  "==->!=#0",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#0",
+  "&&->||#1",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x00521EDA",
+ "name": "?InitTheGame@AptSkirmish@@QAE_NXZ",
+ "size": 868,
+ "source": "functional/src/0x00521eda.cpp",
+ "source_sha1": "1a901bf5eca15d12e717e1165db644cde099de73",
+ "changed": 6,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x0031D230",
+ "name": "?rva0031D230@ControlBar@@QAEXXZ",
+ "size": 968,
+ "source": "functional/src/0x0031d230.cpp",
+ "source_sha1": "59a0e47128efef48e20b38f09067490429ae438b",
+ "changed": 17,
+ "killed": 17,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

@@ -12,7 +12,11 @@ changed mutants is recorded as mutation-adequate (`mutation` column `killed/chan
 fn_progress.py counts it as strong even when it is not statically isomorphic (restructured but
 correct bodies). Rejected-as-`inconclusive` mutants count as NOT killed.
 
-usage (checkout root, Python with unicorn): functional/tools/fn_adequacy.py [--jobs 8] [--limit N] [--rva 0x...]
+Resumable: each result is written as soon as it is judged; rows that already have a `mutation`
+value are skipped (--redo re-judges them).
+
+usage (checkout root, Python with unicorn): functional/tools/fn_adequacy.py [--jobs 8] [--limit N] [--rva 0x...] [--redo]
+       functional/tools/fn_adequacy.py --seed results.jsonl
 """
 import argparse
 import concurrent.futures
@@ -66,7 +70,15 @@ def _init():
 
 
 def judge(row):
+    try:
+        return _judge(row)
+    except Exception as e:  # noqa: BLE001
+        return dict(rva=row["target_rva"], error=f"harness: {type(e).__name__}: {e}"[:200])
+
+
+def _judge(row):
     rva, name, size, source = int(row["target_rva"], 16), row["name"], int(row["target_size"]), row["source"]
+    sha = V.source_sha1(source)
     text = (ROOT / source).read_text(encoding="latin-1")
     try:
         base = V.compile_body(text, rva, name, size)[0]
@@ -90,9 +102,33 @@ def judge(row):
             if v == "inconclusive":
                 inconclusive += 1
             survivors.append(label)
-    return dict(rva=f"0x{rva:08X}", name=name, size=size, changed=changed, killed=killed,
-                inconclusive=inconclusive, survivors=survivors[:10],
+    return dict(rva=f"0x{rva:08X}", name=name, size=size, source=source, source_sha1=sha, changed=changed,
+                killed=killed, inconclusive=inconclusive, survivors=survivors[:10],
                 adequate=changed >= MIN_CHANGED and killed >= KILL_MIN * changed)
+
+
+def write_result(res):
+    """Record one judged row at once (main process only): the `mutation` column (killed/changed) and
+    its receipt. Re-reads the ledger under fn_verify's lock; never touches verdicts. A row whose
+    source changed since it was judged is left alone."""
+    if "changed" not in res:
+        return False
+    rva = int(res["rva"], 16)
+    with V.ledger_lock():
+        rows = list(csv.DictReader(V.LEDGER.open(encoding="utf-8")))
+        hit = [r for r in rows if int(r["target_rva"], 16) == rva]
+        if not hit or (res.get("source") and hit[0]["source"] != res["source"]):
+            return False
+        if res.get("source_sha1") and V.source_sha1(hit[0]["source"]) != res["source_sha1"]:
+            return False
+        hit[0]["mutation"] = f"{res['killed']}/{res['changed']}"
+        receipt = ROOT / "functional" / "receipts" / f"0x{rva:08x}.mutation.json"
+        receipt.write_text(json.dumps(res, indent=1))
+        with V.LEDGER.open("w", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, V.FIELDS, lineterminator="\n", extrasaction="ignore")
+            w.writeheader()
+            w.writerows(rows)
+    return True
 
 
 def main():
@@ -100,10 +136,28 @@ def main():
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--limit", type=int)
     ap.add_argument("--rva")
+    ap.add_argument("--redo", action="store_true", help="re-judge rows that already have a mutation value")
+    ap.add_argument("--seed", help="record earlier results (JSON lines from a previous run) and exit; "
+                                   "each is stamped with the current source's sha1")
     a = ap.parse_args()
     os.chdir(ROOT)
+    if a.seed:
+        led = {int(r["target_rva"], 16): r for r in csv.DictReader(V.LEDGER.open(encoding="utf-8"))}
+        n = 0
+        for line in Path(a.seed).read_text().splitlines():
+            res = json.loads(line)
+            r = led.get(int(res["rva"], 16))
+            if "changed" not in res or not r:
+                continue
+            res.setdefault("source", r["source"])
+            res.setdefault("source_sha1", V.source_sha1(res["source"]))
+            n += write_result(res)
+        print(f"seeded {n} rows", file=sys.stderr)
+        return
     rows = list(csv.DictReader(V.LEDGER.open(encoding="utf-8")))
     todo = [r for r in rows if r["verdict"] in ("none", "regalloc-only") and r.get("isomorphic") != "True"]
+    if not a.redo:
+        todo = [r for r in todo if not r.get("mutation")]
     if a.rva:
         todo = [r for r in todo if int(r["target_rva"], 16) == int(a.rva, 16)]
     todo.sort(key=lambda r: -int(r["target_size"]))
@@ -111,25 +165,16 @@ def main():
     print(f"{len(todo)} passing, non-isomorphic rows to judge", file=sys.stderr, flush=True)
     results = []
     with concurrent.futures.ProcessPoolExecutor(a.jobs, initializer=_init) as ex:
-        for res in ex.map(judge, todo):
+        futs = [ex.submit(judge, r) for r in todo]
+        for fu in concurrent.futures.as_completed(futs):
+            try:
+                res = fu.result()
+            except Exception as e:  # noqa: BLE001  (a dead worker breaks the pool: rerun resumes)
+                print(json.dumps(dict(error=f"{type(e).__name__}: {e}"[:200])), flush=True)
+                continue
+            res["recorded"] = write_result(res)
             print(json.dumps(res), flush=True)
             results.append(res)
-    # write the mutation column (killed/changed); never touches verdicts
-    by = {int(r["rva"], 16): r for r in results if "changed" in r}
-    fields = list(rows[0].keys())
-    if "mutation" not in fields:
-        fields.append("mutation")
-    for r in rows:
-        res = by.get(int(r["target_rva"], 16))
-        if res:
-            r["mutation"] = f"{res['killed']}/{res['changed']}"
-            receipt = ROOT / "functional" / "receipts" / f"0x{int(r['target_rva'], 16):08x}.mutation.json"
-            receipt.write_text(json.dumps(res, indent=1))
-        r.setdefault("mutation", r.get("mutation", ""))
-    with V.LEDGER.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fields, lineterminator="\n")
-        w.writeheader()
-        w.writerows(rows)
     ok = [r for r in results if r.get("adequate")]
     print(json.dumps(dict(judged=len(results), adequate=len(ok), adequate_bytes=sum(r["size"] for r in ok))), flush=True)
 

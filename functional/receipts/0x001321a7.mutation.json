@@ -1,0 +1,18 @@
+{
+ "rva": "0x001321A7",
+ "name": "?rva001321A7@BfmeThing937B@@QAEXPAX@Z",
+ "size": 1347,
+ "source": "functional/src/0x001321a7.cpp",
+ "source_sha1": "da78fcfac395c3288e2c552bed55dfb4971285b4",
+ "changed": 7,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "||->&&#2",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

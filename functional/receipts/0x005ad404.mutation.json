@@ -1,0 +1,20 @@
+{
+ "rva": "0x005AD404",
+ "name": "?rva005AD404@Rva005ACCE4@@QAEPAVObject@@PAVPlayer@@@Z",
+ "size": 473,
+ "source": "functional/src/0x005ad404.cpp",
+ "source_sha1": "d0f99bf2fb6cbc6e69d9c22d464a542f7805c66e",
+ "changed": 9,
+ "killed": 2,
+ "inconclusive": 1,
+ "survivors": [
+  ">->>=#0",
+  "!=->==#1",
+  "-->+#0",
+  "&&->||#0",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

@@ -1,0 +1,17 @@
+{
+ "rva": "0x000ABEA0",
+ "name": "?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z",
+ "size": 1014,
+ "source": "functional/src/0x000abea0.cpp",
+ "source_sha1": "4e948b2983d28e063de4fb6d9a65f701c5a89e2e",
+ "changed": 4,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

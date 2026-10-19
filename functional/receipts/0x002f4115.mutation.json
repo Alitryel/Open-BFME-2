@@ -1,0 +1,12 @@
+{
+ "rva": "0x002F4115",
+ "name": "?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z",
+ "size": 602,
+ "source": "functional/src/0x002f4115.cpp",
+ "source_sha1": "d623fd436729a48affcd25d8e6598b536f71db18",
+ "changed": 7,
+ "killed": 7,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

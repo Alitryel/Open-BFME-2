@@ -1,0 +1,23 @@
+{
+ "rva": "0x00451B92",
+ "name": "?finishAbility@SpecialAbilityUpdate@@UAEXXZ",
+ "size": 794,
+ "source": "functional/src/0x00451b92.cpp",
+ "source_sha1": "e76d80363e8cb26d88199cd029586b29efac6bbd",
+ "changed": 14,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0",
+  "!=->==#0",
+  "-->+#0",
+  "-->+#1",
+  "&&->||#1",
+  "&&->||#2",
+  "||->&&#0",
+  "||->&&#1",
+  "||->&&#2",
+  "||->&&#3"
+ ],
+ "adequate": false
+}

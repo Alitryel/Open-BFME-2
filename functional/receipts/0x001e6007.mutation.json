@@ -1,0 +1,14 @@
+{
+ "rva": "0x001E6007",
+ "name": "?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z",
+ "size": 1295,
+ "source": "functional/src/0x001e6007.cpp",
+ "source_sha1": "0a6ccb5caaf24bd7af13038320b1786b98e51f46",
+ "changed": 7,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#2"
+ ],
+ "adequate": false
+}

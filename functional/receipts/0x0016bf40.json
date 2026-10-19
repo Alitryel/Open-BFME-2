@@ -2,16 +2,16 @@
  "name": "?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z",
  "rva": "0x0016BF40",
  "size": 2960,
- "extent": 2992,
+ "extent": 2976,
  "source": "reverse/attempts/0x0016bf40.cpp",
  "vectors": 16,
  "bindings": {
-  "aligned": 6,
+  "aligned": 0,
   "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 62,
+ "iso_delta": 11,
  "verdict": "regalloc-only",
  "coverage": 0.356,
  "per_vector": [
@@ -36,6 +36,6 @@
  "complete_vectors": 5,
  "prefix_vectors": 11,
  "reason": "zeros",
- "ms": 23367.9,
- "rebuilt_size": 2992
+ "ms": 47436.5,
+ "rebuilt_size": 2976
 }

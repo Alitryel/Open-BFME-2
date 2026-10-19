@@ -2,11 +2,11 @@
  "name": "?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z",
  "rva": "0x004BBA65",
  "size": 1144,
- "extent": 1146,
+ "extent": 1150,
  "source": "reverse/attempts/0x004bba65.cpp",
  "vectors": 48,
  "bindings": {
-  "aligned": 16,
+  "aligned": 12,
   "by_value": 0,
   "weak_left": 0
  },
@@ -68,6 +68,6 @@
  "complete_vectors": 48,
  "prefix_vectors": 0,
  "reason": "objects",
- "ms": 708.8,
- "rebuilt_size": 1146
+ "ms": 2014.8,
+ "rebuilt_size": 1150
 }

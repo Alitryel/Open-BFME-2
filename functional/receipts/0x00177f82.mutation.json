@@ -1,0 +1,12 @@
+{
+ "rva": "0x00177F82",
+ "name": "?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z",
+ "size": 3781,
+ "changed": 6,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true,
+ "source": "functional/src/0x00177f82.cpp",
+ "source_sha1": "4781e244f2b7839930a0778a5c72b20f3d5de5ee"
+}

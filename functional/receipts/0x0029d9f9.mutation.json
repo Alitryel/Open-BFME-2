@@ -1,0 +1,17 @@
+{
+ "rva": "0x0029D9F9",
+ "name": "?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ",
+ "size": 360,
+ "source": "functional/src/0x0029d9f9.cpp",
+ "source_sha1": "249e7844b89cc11497b6c784cc7407218b2d1cef",
+ "changed": 6,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "!=->==#0",
+  "-->+#2",
+  "-->+#3"
+ ],
+ "adequate": false
+}

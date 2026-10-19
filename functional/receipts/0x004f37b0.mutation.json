@@ -1,0 +1,23 @@
+{
+ "rva": "0x004F37B0",
+ "name": "?queueSupplyTruck@AIPlayer@@IAEXXZ",
+ "size": 1537,
+ "source": "functional/src/0x004f37b0.cpp",
+ "source_sha1": "a0bdef60fdd84b4f510aa7461d96712912551fa2",
+ "changed": 12,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  ">=->>#0",
+  "==->!=#0",
+  "==->!=#1",
+  "==->!=#2",
+  "!=->==#0",
+  "!=->==#1",
+  "!=->==#2",
+  "+->-#0",
+  "||->&&#0",
+  "int+1#0"
+ ],
+ "adequate": false
+}

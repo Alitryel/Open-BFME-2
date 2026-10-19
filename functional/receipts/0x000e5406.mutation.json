@@ -1,0 +1,12 @@
+{
+ "rva": "0x000E5406",
+ "name": "?rva006F83F0@Gen_uw_000e5033@@QAEHPAXH00@Z",
+ "size": 660,
+ "source": "functional/src/0x000e5406.cpp",
+ "source_sha1": "7c0d3ba2440b0e3036c8c9a415aa173ac73e3b3a",
+ "changed": 3,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

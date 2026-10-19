@@ -1,0 +1,20 @@
+{
+ "rva": "0x0048EE8C",
+ "name": "?update@DeployStyleAIUpdate@@UAE?AW4UpdateSleepTime@@XZ",
+ "size": 1228,
+ "source": "functional/src/0x0048ee8c.cpp",
+ "source_sha1": "30629d6a7044b27266cc58374e20690959b859ec",
+ "changed": 11,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#2",
+  "||->&&#1",
+  "||->&&#2",
+  "||->&&#3",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

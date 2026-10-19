@@ -1,0 +1,15 @@
+{
+ "rva": "0x000EB6BB",
+ "name": "?rva000EB6BB@Rva000EC9C6@@QAEXXZ",
+ "size": 2326,
+ "changed": 3,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x000eb6bb.cpp",
+ "source_sha1": "7331d44456de6c0b8f2bfb668d798db282069307"
+}

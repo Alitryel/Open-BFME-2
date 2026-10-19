@@ -1,0 +1,15 @@
+{
+ "rva": "0x0070E900",
+ "name": "?rva0070E900@Rva0070E900@@QAEXPAX00@Z",
+ "size": 1208,
+ "source": "functional/src/0x0070e900.cpp",
+ "source_sha1": "88d1c468edf3e7db96e6d312722a0dd9a1ab22ca",
+ "changed": 2,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#0",
+  "int+1#2"
+ ],
+ "adequate": false
+}

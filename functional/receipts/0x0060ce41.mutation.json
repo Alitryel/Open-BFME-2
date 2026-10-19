@@ -1,0 +1,21 @@
+{
+ "rva": "0x0060CE41",
+ "name": "??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z",
+ "size": 281,
+ "source": "reverse/attempts/0x0060ce41.cpp",
+ "source_sha1": "c175ce9cdb871df7e692165e126822fb6f264c5c",
+ "changed": 13,
+ "killed": 5,
+ "inconclusive": 0,
+ "survivors": [
+  ">->>=#0",
+  "!=->==#1",
+  "!=->==#2",
+  "!=->==#3",
+  "+->-#0",
+  "||->&&#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

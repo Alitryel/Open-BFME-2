@@ -36,6 +36,6 @@
  "complete_vectors": 0,
  "prefix_vectors": 0,
  "reason": "objects: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x2E910 (before the limit cut: retail instructions)",
- "ms": 80852.7,
+ "ms": 92262.3,
  "rebuilt_size": 516
 }

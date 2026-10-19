@@ -1,0 +1,15 @@
+{
+ "rva": "0x005424C4",
+ "name": "?rva005424C4@XmlNameSlotList@@QAEHXZ",
+ "size": 535,
+ "source": "functional/src/0x005424c4.cpp",
+ "source_sha1": "5d9bfd4a595a01766c83ecfe094a62b0de8f1308",
+ "changed": 6,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1"
+ ],
+ "adequate": false
+}

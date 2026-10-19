@@ -68,6 +68,6 @@
  "complete_vectors": 43,
  "prefix_vectors": 0,
  "reason": "ints: 0 calls in retail, 6 rebuilt",
- "ms": 5315.9,
+ "ms": 10198.8,
  "rebuilt_size": 872
 }

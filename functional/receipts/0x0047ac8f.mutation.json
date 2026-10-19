@@ -1,0 +1,23 @@
+{
+ "rva": "0x0047AC8F",
+ "name": "?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z",
+ "size": 1563,
+ "source": "functional/src/0x0047ac8f.cpp",
+ "source_sha1": "09a470af7d98f721a6feaae76ce9c597b28fea8c",
+ "changed": 22,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  ">->>=#3",
+  ">=->>#0",
+  ">=->>#1"
+ ],
+ "adequate": false
+}

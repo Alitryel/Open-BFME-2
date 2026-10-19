@@ -1,0 +1,12 @@
+{
+ "rva": "0x00420388",
+ "name": "?update@VictoryConditions@@UAEXXZ",
+ "size": 1100,
+ "source": "functional/src/0x00420388.cpp",
+ "source_sha1": "a5e0586884950537fe1977a84d59464888270181",
+ "changed": 22,
+ "killed": 22,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

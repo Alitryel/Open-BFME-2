@@ -1,0 +1,17 @@
+{
+ "rva": "0x005AA2D9",
+ "name": "?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z",
+ "size": 488,
+ "source": "functional/src/0x005aa2d9.cpp",
+ "source_sha1": "404902f847d78023849262dd980a1e9bd82a7717",
+ "changed": 5,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x00030250",
+ "name": "?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z",
+ "size": 605,
+ "source": "functional/src/0x00030250.cpp",
+ "source_sha1": "eae9195ebe12571b173dd784ae7c484e39e1550c",
+ "changed": 0,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

@@ -1,0 +1,16 @@
+{
+ "rva": "0x006F7720",
+ "name": "?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z",
+ "size": 643,
+ "source": "reverse/attempts/0x006f7720.cpp",
+ "source_sha1": "622df42d4443d0aa8d877d4bd749fd111f7c75b1",
+ "changed": 4,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

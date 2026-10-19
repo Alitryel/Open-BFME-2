@@ -1,0 +1,23 @@
+{
+ "rva": "0x00053BA1",
+ "name": "?shouldPlayLocally@MilesAudioManager@@QAE_NPBVAudioEventRTS@@@Z",
+ "size": 320,
+ "source": "functional/src/0x00053ba1.cpp",
+ "source_sha1": "afbebd3798f51530aa2fe5a64017b19da616c5b3",
+ "changed": 14,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0",
+  "==->!=#1",
+  "==->!=#2",
+  "&&->||#0",
+  "&&->||#1",
+  "&&->||#2",
+  "||->&&#0",
+  "||->&&#1",
+  "||->&&#2",
+  "||->&&#3"
+ ],
+ "adequate": false
+}

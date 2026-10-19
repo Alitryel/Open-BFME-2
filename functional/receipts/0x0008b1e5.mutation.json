@@ -1,0 +1,12 @@
+{
+ "rva": "0x0008B1E5",
+ "name": "?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z",
+ "size": 651,
+ "source": "functional/src/0x0008b1e5.cpp",
+ "source_sha1": "c5ed2a142cb617c932c83572480b1d7c5986c381",
+ "changed": 13,
+ "killed": 13,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

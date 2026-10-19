@@ -1,0 +1,12 @@
+{
+ "rva": "0x006C26F0",
+ "name": "?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z",
+ "size": 934,
+ "source": "functional/src/0x006c26f0.cpp",
+ "source_sha1": "98c789c52166386a964ed00a3d94549937eaee2e",
+ "changed": 4,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

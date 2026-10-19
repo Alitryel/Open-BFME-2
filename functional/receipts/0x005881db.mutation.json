@@ -1,0 +1,23 @@
+{
+ "rva": "0x005881DB",
+ "name": "?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z",
+ "size": 2199,
+ "changed": 10,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1",
+  "&&->||#2",
+  "&&->||#3",
+  "||->&&#0",
+  "||->&&#1",
+  "||->&&#2",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x005881db.cpp",
+ "source_sha1": "b508e92e2509b20932b9882d2be3f6dd0e97e3bc"
+}

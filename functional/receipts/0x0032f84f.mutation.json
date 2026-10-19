@@ -1,0 +1,12 @@
+{
+ "rva": "0x0032F84F",
+ "name": "?parseCastleTemplateMaps@SidesList@@QAEXXZ",
+ "size": 439,
+ "source": "functional/src/0x0032f84f.cpp",
+ "source_sha1": "aebf07f8baad4170700070595cf189249bd3584d",
+ "changed": 1,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

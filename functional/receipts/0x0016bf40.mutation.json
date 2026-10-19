@@ -1,0 +1,17 @@
+{
+ "rva": "0x0016BF40",
+ "name": "?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z",
+ "size": 2960,
+ "changed": 4,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "reverse/attempts/0x0016bf40.cpp",
+ "source_sha1": "95d63a53b21bcded2862845f192086d3aeba747e"
+}

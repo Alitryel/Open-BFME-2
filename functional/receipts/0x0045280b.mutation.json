@@ -1,0 +1,23 @@
+{
+ "rva": "0x0045280B",
+ "name": "?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ",
+ "size": 1342,
+ "source": "functional/src/0x0045280b.cpp",
+ "source_sha1": "e1d0b36a5cd44ab8cbcb9de49399413a54676207",
+ "changed": 17,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  ">->>=#0",
+  "<=-><#0",
+  ">=->>#0",
+  "==->!=#0",
+  "!=->==#2",
+  "!=->==#3",
+  "+->-#0"
+ ],
+ "adequate": false
+}

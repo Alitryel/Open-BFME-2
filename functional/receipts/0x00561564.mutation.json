@@ -1,0 +1,17 @@
+{
+ "rva": "0x00561564",
+ "name": "?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z",
+ "size": 1744,
+ "changed": 6,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#1",
+  "&&->||#2",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x00561564.cpp",
+ "source_sha1": "ca17cf41fb425130d99b3b6bf24fb60054e7c884"
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x004DFCE6",
+ "name": "?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z",
+ "size": 361,
+ "source": "functional/src/0x004dfce6.cpp",
+ "source_sha1": "da28c96c1289d9e081dad33e1b13802771fbb96b",
+ "changed": 0,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

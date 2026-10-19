@@ -1,0 +1,12 @@
+{
+ "rva": "0x001F21E8",
+ "name": "?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z",
+ "size": 187,
+ "source": "reverse/attempts/0x001f21e8.cpp",
+ "source_sha1": "b981fa1dd86cd3dae38d8420b6bade48cdea9d93",
+ "changed": 2,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

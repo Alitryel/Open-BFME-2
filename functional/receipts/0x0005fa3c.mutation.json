@@ -1,0 +1,16 @@
+{
+ "rva": "0x0005FA3C",
+ "name": "?rva0005FA3C@MilesAudioManager@@QAEXI@Z",
+ "size": 910,
+ "source": "reverse/attempts/0x0005fa3c.cpp",
+ "source_sha1": "31d699ebf6aec3a8a89f97ed04af3bd2d1e1cfda",
+ "changed": 3,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

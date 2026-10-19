@@ -1,0 +1,12 @@
+{
+ "rva": "0x00520CD1",
+ "name": "?rva00520CD1@AptTimeLine@@QAEXXZ",
+ "size": 684,
+ "source": "functional/src/0x00520cd1.cpp",
+ "source_sha1": "7002cc58f0051c165e375b57c60db66676623701",
+ "changed": 8,
+ "killed": 8,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

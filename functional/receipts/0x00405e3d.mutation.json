@@ -1,0 +1,12 @@
+{
+ "rva": "0x00405E3D",
+ "name": "?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ",
+ "size": 3287,
+ "changed": 29,
+ "killed": 29,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true,
+ "source": "functional/src/0x00405e3d.cpp",
+ "source_sha1": "69f5c66c0d601c29a71a0f2ef176e5e2cbbe9c44"
+}

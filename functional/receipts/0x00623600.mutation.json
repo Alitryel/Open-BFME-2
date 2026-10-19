@@ -1,0 +1,23 @@
+{
+ "rva": "0x00623600",
+ "name": "?LoadAsset@AssetManagerImpl@@QAEXPAVAssetLoadEntry@@@Z",
+ "size": 2780,
+ "changed": 21,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#3",
+  "==->!=#2",
+  "==->!=#3",
+  "!=->==#0",
+  "!=->==#1",
+  "!=->==#2",
+  "-->+#0",
+  "-->+#1"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x00623600.cpp",
+ "source_sha1": "94054ead16705db0b2828273ade465b90828bf4b"
+}

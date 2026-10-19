@@ -22,8 +22,10 @@ usage (checkout root, a Python with `unicorn`):
 """
 import argparse
 import concurrent.futures
+import contextlib
 import csv
 import datetime
+import fcntl
 import json
 import os
 import re
@@ -94,7 +96,24 @@ def verify(ctx, name, rva, size, text, source, mutate=None):
     return rec
 
 
+@contextlib.contextmanager
+def ledger_lock():
+    """Serialise ledger read-modify-write across processes (fn_verify, fn_adequacy, scripts)."""
+    WORK.mkdir(parents=True, exist_ok=True)
+    with open(WORK / "ledger.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lk, fcntl.LOCK_UN)
+
+
 def unrecord(rva):
+    with ledger_lock():
+        _unrecord(rva)
+
+
+def _unrecord(rva):
     if not LEDGER.exists():
         return
     rows = list(csv.DictReader(LEDGER.open(encoding="utf-8")))
@@ -104,6 +123,11 @@ def unrecord(rva):
             w = csv.DictWriter(f, FIELDS, lineterminator="\n")
             w.writeheader()
             w.writerows(keep)
+
+
+def source_sha1(source):
+    import hashlib
+    return hashlib.sha1((ROOT / source).read_bytes()).hexdigest()
 
 
 def body_span(text, name):
@@ -163,10 +187,14 @@ def mutants(name):
 
 
 def record(rec):
+    with ledger_lock():
+        _record(rec)
+
+
+def _record(rec):
     RECEIPTS.mkdir(parents=True, exist_ok=True)
     rva = int(rec["rva"], 16)
     receipt = RECEIPTS / f"0x{rva:08x}.json"
-    receipt.write_text(json.dumps(rec, indent=1, default=str))
     rows = list(csv.DictReader(LEDGER.open(encoding="utf-8"))) if LEDGER.exists() else []
     def tier(v, iso, cov):
         if v == "tested":
@@ -183,12 +211,24 @@ def record(rec):
     for r in rows:
         if int(r["target_rva"], 16) == rva and tier(r["verdict"], r.get("isomorphic"), r.get("coverage")) > new_t:
             return                  # never replace a stronger result with a weaker one
+    receipt.write_text(json.dumps(rec, indent=1, default=str))
+    # a mutation-adequacy result (fn_adequacy.py) stays valid while the body it mutated is unchanged
+    old = [r for r in rows if int(r["target_rva"], 16) == rva]
+    mutation = ""
+    if old and old[0].get("mutation") and old[0]["source"] == rec["source"]:
+        mr = RECEIPTS / f"0x{rva:08x}.mutation.json"
+        try:
+            sha = json.loads(mr.read_text()).get("source_sha1")
+        except (OSError, ValueError):
+            sha = None
+        if sha and sha == source_sha1(rec["source"]):
+            mutation = old[0]["mutation"]
     rows = [r for r in rows if int(r["target_rva"], 16) != rva]
     rows.append(dict(name=rec["name"], target_rva=f"0x{rva:08X}", target_size=str(rec["size"]),
                      source=rec["source"], verdict=rec["verdict"], coverage=str(rec.get("coverage", "")),
                      isomorphic=str(rec.get("isomorphic", "")),
                      evidence=receipt.relative_to(ROOT).as_posix(),
-                     date=datetime.date.today().isoformat()))
+                     date=datetime.date.today().isoformat(), mutation=mutation))
     rows.sort(key=lambda r: int(r["target_rva"], 16))
     with LEDGER.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, FIELDS, lineterminator="\n")

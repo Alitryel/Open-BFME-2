@@ -1,0 +1,22 @@
+{
+ "rva": "0x00425842",
+ "name": "?rva00425842@@YAXPAVINI@@PAX1PBX@Z",
+ "size": 820,
+ "source": "functional/src/0x00425842.cpp",
+ "source_sha1": "dd842cbf05cc6641bf5e69e8e08717ef044b5790",
+ "changed": 10,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  ">=->>#0",
+  "==->!=#0",
+  "==->!=#1",
+  "!=->==#0",
+  "-->+#0",
+  "-->+#1",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

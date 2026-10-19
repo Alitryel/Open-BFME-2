@@ -1,0 +1,12 @@
+{
+ "rva": "0x00165820",
+ "name": "?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z",
+ "size": 2277,
+ "changed": 3,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false,
+ "source": "functional/src/0x00165820.cpp",
+ "source_sha1": "fb58baa2ddd6b8db53cbbcb50b5e56408b5b3976"
+}

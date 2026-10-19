@@ -1,0 +1,23 @@
+{
+ "rva": "0x0009FE49",
+ "name": "?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z",
+ "size": 1398,
+ "source": "functional/src/0x0009fe49.cpp",
+ "source_sha1": "c3113ada31cd1aa3fdc895f242e32c79a6744021",
+ "changed": 30,
+ "killed": 18,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  ">->>=#3",
+  "==->!=#3",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#1",
+  "-->+#3"
+ ],
+ "adequate": false
+}

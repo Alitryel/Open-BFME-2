@@ -1,0 +1,23 @@
+{
+ "rva": "0x0046EA94",
+ "name": "?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z",
+ "size": 488,
+ "source": "functional/src/0x0046ea94.cpp",
+ "source_sha1": "1efcd1ca05a6c5fb8b130310c52547a5b0686ddb",
+ "changed": 15,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "<=-><#0",
+  "==->!=#0",
+  "!=->==#1",
+  "+->-#0",
+  "+->-#1",
+  "-->+#1",
+  "&&->||#0",
+  "||->&&#1",
+  "||->&&#3",
+  "int+1#1"
+ ],
+ "adequate": false
+}

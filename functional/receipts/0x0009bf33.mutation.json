@@ -1,0 +1,12 @@
+{
+ "rva": "0x0009BF33",
+ "name": "?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z",
+ "size": 440,
+ "source": "functional/src/0x0009bf33.cpp",
+ "source_sha1": "3a33fa933aec985e0073a3b39a86125cabea914b",
+ "changed": 7,
+ "killed": 7,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

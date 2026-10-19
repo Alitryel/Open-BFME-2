@@ -1,0 +1,12 @@
+{
+ "rva": "0x003909FA",
+ "name": "?consume@Rva003909FAObj@@QAEXPAXHH@Z",
+ "size": 723,
+ "source": "functional/src/0x003909fa.cpp",
+ "source_sha1": "38f315b55d516b7e435e0733540331f7b5d74709",
+ "changed": 8,
+ "killed": 8,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

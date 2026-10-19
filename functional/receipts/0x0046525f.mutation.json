@@ -1,0 +1,12 @@
+{
+ "rva": "0x0046525F",
+ "name": "?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z",
+ "size": 1152,
+ "source": "functional/src/0x0046525f.cpp",
+ "source_sha1": "3a2012e901c8cbfcdea08de9d5e6652a63fbacc8",
+ "changed": 3,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

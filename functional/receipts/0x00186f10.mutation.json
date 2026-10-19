@@ -1,0 +1,17 @@
+{
+ "rva": "0x00186F10",
+ "name": "?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z",
+ "size": 1166,
+ "source": "functional/src/0x00186f10.cpp",
+ "source_sha1": "00675a726ec62a736f8f752d90337689b415bca1",
+ "changed": 6,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3"
+ ],
+ "adequate": false
+}

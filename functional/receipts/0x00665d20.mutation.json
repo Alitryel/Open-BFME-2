@@ -1,0 +1,18 @@
+{
+ "rva": "0x00665D20",
+ "name": "?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z",
+ "size": 414,
+ "source": "functional/src/0x00665d20.cpp",
+ "source_sha1": "d80e0c2a1644cb390ee2f5a9237c4c2ba4cd76b3",
+ "changed": 8,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

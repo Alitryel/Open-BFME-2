@@ -1,0 +1,22 @@
+{
+ "rva": "0x001606E0",
+ "name": "?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z",
+ "size": 1144,
+ "source": "functional/src/0x001606e0.cpp",
+ "source_sha1": "4180e12a9239e8900de20baa414241b41cb86489",
+ "changed": 15,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [
+  ">=->>#0",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#0",
+  "-->+#1",
+  "-->+#2",
+  "-->+#3"
+ ],
+ "adequate": false
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x00160240",
+ "name": "?evaluate@Rva00160150@@QAEXAAURva00160240Pose@@MAAMMPAPAE@Z",
+ "size": 1184,
+ "source": "functional/src/0x00160240.cpp",
+ "source_sha1": "60a601c40f88ebec076b83d4cf4f9c4c18addb14",
+ "changed": 0,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

@@ -1,0 +1,18 @@
+{
+ "rva": "0x0047C4F2",
+ "name": "?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z",
+ "size": 1077,
+ "source": "functional/src/0x0047c4f2.cpp",
+ "source_sha1": "0555695de0f2f0b63d9afe74fc89abcd6dd2ad2d",
+ "changed": 5,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

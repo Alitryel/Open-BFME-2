@@ -1,0 +1,19 @@
+{
+ "rva": "0x00365309",
+ "name": "?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z",
+ "size": 2177,
+ "changed": 7,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1",
+  "||->&&#1",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x00365309.cpp",
+ "source_sha1": "d8e411ab7cc891cf26b09b83209037dabef6a1c2"
+}

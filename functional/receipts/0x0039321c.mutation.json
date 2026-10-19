@@ -1,0 +1,23 @@
+{
+ "rva": "0x0039321C",
+ "name": "?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z",
+ "size": 1026,
+ "source": "functional/src/0x0039321c.cpp",
+ "source_sha1": "09006edf51f696c5baefb520c6cd21eec0239a20",
+ "changed": 25,
+ "killed": 5,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  ">->>=#1",
+  ">->>=#2",
+  "<=-><#0",
+  "<=-><#1",
+  ">=->>#0",
+  ">=->>#1",
+  "!=->==#0",
+  "!=->==#1",
+  "+->-#0"
+ ],
+ "adequate": false
+}

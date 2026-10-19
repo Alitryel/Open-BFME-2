@@ -10,8 +10,8 @@
   "by_value": 0,
   "weak_left": 0
  },
- "isomorphic": false,
- "iso_delta": 2,
+ "isomorphic": true,
+ "iso_delta": 0,
  "verdict": "inconclusive",
  "coverage": 0.4,
  "per_vector": [
@@ -36,6 +36,6 @@
  "complete_vectors": 2,
  "prefix_vectors": 14,
  "reason": "",
- "ms": 13895.3,
+ "ms": 26833.9,
  "rebuilt_size": 2117
 }

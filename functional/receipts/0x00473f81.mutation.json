@@ -1,0 +1,12 @@
+{
+ "rva": "0x00473F81",
+ "name": "?rva00473F81@Rva00473F81@@QAEAAVRva00469155@@ABH@Z",
+ "size": 83,
+ "source": "reverse/attempts/0x00473f81.cpp",
+ "source_sha1": "af6cdadc26b1a30c5b8dd6f9b846323114b10aef",
+ "changed": 3,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

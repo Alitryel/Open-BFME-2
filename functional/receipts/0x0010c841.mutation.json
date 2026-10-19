@@ -1,0 +1,23 @@
+{
+ "rva": "0x0010C841",
+ "name": "?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z",
+ "size": 4656,
+ "source": "reverse/attempts/0x0010c841.cpp",
+ "source_sha1": "64e0ff57953dd41ce5d35b62d363770d6457a394",
+ "changed": 37,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  ">->>=#3",
+  "<=-><#0",
+  "<=-><#1"
+ ],
+ "adequate": false
+}

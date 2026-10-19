@@ -1,0 +1,19 @@
+{
+ "rva": "0x0052F63F",
+ "name": "?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z",
+ "size": 3027,
+ "changed": 6,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1",
+  "&&->||#2",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x0052f63f.cpp",
+ "source_sha1": "58942baaae002058625c6cc2cf7c04c09bab961f"
+}

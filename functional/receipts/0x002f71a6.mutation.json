@@ -1,0 +1,12 @@
+{
+ "rva": "0x002F71A6",
+ "name": "?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z",
+ "size": 4605,
+ "changed": 10,
+ "killed": 10,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true,
+ "source": "functional/src/0x002f71a6.cpp",
+ "source_sha1": "4dfcf8652277bd39eea980fd158a226075a4a422"
+}

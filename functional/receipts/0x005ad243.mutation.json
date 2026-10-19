@@ -1,0 +1,21 @@
+{
+ "rva": "0x005AD243",
+ "name": "?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z",
+ "size": 449,
+ "source": "functional/src/0x005ad243.cpp",
+ "source_sha1": "5147c53cf9477357bc63b486bc6308bbd6b70f06",
+ "changed": 9,
+ "killed": 1,
+ "inconclusive": 1,
+ "survivors": [
+  "!=->==#1",
+  "!=->==#2",
+  "-->+#0",
+  "&&->||#0",
+  "&&->||#1",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

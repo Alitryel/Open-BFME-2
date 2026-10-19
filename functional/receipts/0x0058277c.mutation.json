@@ -1,0 +1,23 @@
+{
+ "rva": "0x0058277C",
+ "name": "?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z",
+ "size": 1844,
+ "changed": 17,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "==->!=#0",
+  "==->!=#1",
+  "==->!=#2",
+  "==->!=#3",
+  "&&->||#0",
+  "&&->||#1",
+  "&&->||#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x0058277c.cpp",
+ "source_sha1": "7291e3350924c3804879fae9df225472bccd244e"
+}

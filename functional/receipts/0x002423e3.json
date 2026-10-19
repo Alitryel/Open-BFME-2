@@ -68,6 +68,6 @@
  "complete_vectors": 0,
  "prefix_vectors": 0,
  "reason": "objects: 18 calls in retail, 1 rebuilt",
- "ms": 4761.3,
+ "ms": 9634.7,
  "rebuilt_size": 1247
 }

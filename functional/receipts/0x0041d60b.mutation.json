@@ -1,0 +1,19 @@
+{
+ "rva": "0x0041D60B",
+ "name": "?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z",
+ "size": 3709,
+ "changed": 7,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#1",
+  "&&->||#2",
+  "&&->||#3",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x0041d60b.cpp",
+ "source_sha1": "8ee6a87b9a6b45af11307d30a2674720f42ff988"
+}

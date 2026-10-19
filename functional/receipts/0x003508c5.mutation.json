@@ -1,0 +1,23 @@
+{
+ "rva": "0x003508C5",
+ "name": "?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z",
+ "size": 1104,
+ "source": "reverse/attempts/0x003508c5.cpp",
+ "source_sha1": "a66c1885815c577e1ff2602a904bd58ef640acde",
+ "changed": 22,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  "!=->==#0",
+  "+->-#0",
+  "-->+#0"
+ ],
+ "adequate": false
+}

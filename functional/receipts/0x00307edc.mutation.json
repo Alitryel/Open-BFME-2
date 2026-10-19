@@ -1,0 +1,15 @@
+{
+ "rva": "0x00307EDC",
+ "name": "?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z",
+ "size": 372,
+ "source": "functional/src/0x00307edc.cpp",
+ "source_sha1": "359f83d68a60e31c6e1f36a5ec245b9059a56204",
+ "changed": 5,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#1",
+  "==->!=#2"
+ ],
+ "adequate": false
+}

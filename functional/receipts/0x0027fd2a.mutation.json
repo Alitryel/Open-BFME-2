@@ -1,0 +1,23 @@
+{
+ "rva": "0x0027FD2A",
+ "name": "?getBridgeHeight@Bridge@@QAEMPBUCoord3D@@PAU2@@Z",
+ "size": 713,
+ "source": "functional/src/0x0027fd2a.cpp",
+ "source_sha1": "2a2de4d787539df8c20fdd427df5eabbb95d0b66",
+ "changed": 10,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  ">->>=#0",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#0",
+  "-->+#1",
+  "-->+#2",
+  "-->+#3"
+ ],
+ "adequate": false
+}

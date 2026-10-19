@@ -1,0 +1,12 @@
+{
+ "rva": "0x0008458A",
+ "name": "?addEdgeToTrack@Rva00084206Track@@QAEXMM@Z",
+ "size": 1422,
+ "source": "functional/src/0x0008458a.cpp",
+ "source_sha1": "0743c9677dd58ee5d0ee4327cddf750f8a18d737",
+ "changed": 17,
+ "killed": 17,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

@@ -36,6 +36,6 @@
  "complete_vectors": 0,
  "prefix_vectors": 0,
  "reason": "v7: 5 calls in retail, 4 rebuilt",
- "ms": 19586.7,
+ "ms": 27280.9,
  "rebuilt_size": 4565
 }

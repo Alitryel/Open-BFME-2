@@ -1,0 +1,14 @@
+{
+ "rva": "0x0009B510",
+ "name": "?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z",
+ "size": 730,
+ "source": "functional/src/0x0009b510.cpp",
+ "source_sha1": "6a6f1fc233006eb88b3ddbd9a41bfbab860d0572",
+ "changed": 2,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "-->+#0"
+ ],
+ "adequate": false
+}

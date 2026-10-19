@@ -1,0 +1,18 @@
+{
+ "rva": "0x004BBA65",
+ "name": "?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z",
+ "size": 1144,
+ "source": "reverse/attempts/0x004bba65.cpp",
+ "source_sha1": "a220606aa3d57f5732d19bc6dc65d0198fe34eb8",
+ "changed": 10,
+ "killed": 5,
+ "inconclusive": 0,
+ "survivors": [
+  "&&->||#0",
+  "&&->||#1",
+  "int+1#0",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false
+}

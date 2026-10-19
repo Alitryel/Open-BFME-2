@@ -36,6 +36,6 @@
  "complete_vectors": 8,
  "prefix_vectors": 4,
  "reason": "ints: 8 written byte(s) differ, first 0x30001060",
- "ms": 11928.1,
+ "ms": 21121.9,
  "rebuilt_size": 2147
 }

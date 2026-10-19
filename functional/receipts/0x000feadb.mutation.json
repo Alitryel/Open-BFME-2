@@ -1,0 +1,23 @@
+{
+ "rva": "0x000FEADB",
+ "name": "?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z",
+ "size": 2413,
+ "changed": 23,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  ">->>=#2",
+  ">->>=#3",
+  ">=->>#0",
+  "==->!=#0"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x000feadb.cpp",
+ "source_sha1": "f35f0a690ba0e8905fbbcf45f8b482ed2c63af68"
+}

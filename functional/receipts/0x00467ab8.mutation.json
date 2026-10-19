@@ -1,0 +1,14 @@
+{
+ "rva": "0x00467AB8",
+ "name": "?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z",
+ "size": 726,
+ "source": "functional/src/0x00467ab8.cpp",
+ "source_sha1": "ac5c96243e89209bbff29b6cfabc92f089024686",
+ "changed": 7,
+ "killed": 6,
+ "inconclusive": 0,
+ "survivors": [
+  "int+1#2"
+ ],
+ "adequate": false
+}

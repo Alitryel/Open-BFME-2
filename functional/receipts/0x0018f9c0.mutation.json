@@ -1,0 +1,12 @@
+{
+ "rva": "0x0018F9C0",
+ "name": "??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z",
+ "size": 222,
+ "source": "functional/src/0x0018f9c0.cpp",
+ "source_sha1": "e3ebb200c8dd1a82ba59f7a9091b2152aa42bd56",
+ "changed": 0,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

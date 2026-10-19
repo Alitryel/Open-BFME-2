@@ -36,6 +36,6 @@
  "complete_vectors": 4,
  "prefix_vectors": 0,
  "reason": "zeros: global reads differ",
- "ms": 1582.2,
+ "ms": 3221.9,
  "rebuilt_size": 2854
 }

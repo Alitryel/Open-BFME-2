@@ -1,0 +1,12 @@
+{
+ "rva": "0x00398E9A",
+ "name": "?rva00398E9A@CastleBehavior@@QAEXXZ",
+ "size": 715,
+ "source": "functional/src/0x00398e9a.cpp",
+ "source_sha1": "eb5fa97a89c1120dfbe83d1b146375aa25afc4a1",
+ "changed": 9,
+ "killed": 9,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": true
+}

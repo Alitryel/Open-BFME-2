@@ -36,6 +36,6 @@
  "complete_vectors": 1,
  "prefix_vectors": 2,
  "reason": "objects: call #6: retail rva:0x001622B0 rebuilt addr:0x00000004 (before the limit cut: retail events and rebuilt events)",
- "ms": 12694.7,
+ "ms": 26847.4,
  "rebuilt_size": 3783
 }

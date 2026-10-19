@@ -1,0 +1,21 @@
+{
+ "rva": "0x0009C18A",
+ "name": "?rva0009C18A@Rva0009D55BProduct@@QAEXXZ",
+ "size": 664,
+ "source": "functional/src/0x0009c18a.cpp",
+ "source_sha1": "a8d46a525b6f05f1bd10502635cfb0759d994d7b",
+ "changed": 12,
+ "killed": 4,
+ "inconclusive": 0,
+ "survivors": [
+  ">->>=#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3",
+  "-->+#2",
+  "-->+#3",
+  "int+1#0",
+  "int+1#2"
+ ],
+ "adequate": false
+}

@@ -1,0 +1,15 @@
+{
+ "rva": "0x005AB4B9",
+ "name": "?rva005AB4B9@Rva005AB309@@QAE_NXZ",
+ "size": 254,
+ "source": "reverse/attempts/0x005ab4b9.cpp",
+ "source_sha1": "525839e9b3feae9879f988020de86a826d8df953",
+ "changed": 9,
+ "killed": 7,
+ "inconclusive": 0,
+ "survivors": [
+  "+->-#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

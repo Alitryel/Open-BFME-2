@@ -18,7 +18,7 @@ template<class T> inline volatile T &__vref(T &x)
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
 //
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
-// retail 0x0009BF33..0x0009C0EB (440B, RET 12). Screen ray: takes the current
+// retail 0x0009BF33..0x0009C0EB (440B, RET 12; the queue/ledger extent 412 was short: retail ret 0xc at 0x9C0E8). Screen ray: takes the current
 // camera's view-plane corners and the screen point, maps it through the
 // camera basis, normalises the direction into the third argument and returns
 // the camera position in the second. Callees rowed: Coord3D::Normalize
@@ -55,17 +55,6 @@ class RenderObjClass
 
 {
  public:
- Vector3 Get_Position() const;
-// 0x0013B8A0
- private:
- char m_pad[0x14];
- 
-}
-;
-class CameraClass : public RenderObjClass
-
-{
- public:
  virtual void v00();
  virtual void v01();
  virtual void v02();
@@ -88,6 +77,17 @@ class CameraClass : public RenderObjClass
  virtual void v19();
  virtual void slot20();
 // +0x50
+ Vector3 Get_Position() const;
+// 0x0013B8A0
+ private:
+ char m_pad[0x14];
+ 
+}
+;
+class CameraClass : public RenderObjClass
+
+{
+ public:
  void Get_View_Plane(Vector2 &min, Vector2 &max) const;
 // 0x00134080
  private:
@@ -129,6 +129,7 @@ class DisplayClass
 }
 ;
 extern DisplayClass *TheDisplay;
+extern Real g_00BBB8D8;   // 0x00BBB8D8, 1.0f; retail multiplies by it (not folded)
 class Rva0009BF33Point
 
 {
@@ -165,11 +166,10 @@ class Rva0009BF33
 void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord3D *rayEnd)
 
 {
-	_ReadWriteBarrier();
  CameraClass *cam = m_camera;
  cam->slot20();
  Vector2 min, max;
- cam->Get_View_Plane(min, max);
+ m_camera->Get_View_Plane(min, max);
  Real dx = max.X - min.X;
  Real dy = max.Y - min.Y;
  Int px;
@@ -194,11 +194,11 @@ void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord
  Real t0 = ((Real)px / width - 0.5f) * dx;
  Real t2 = ((Real)py / height - 0.5f) * dy;
  Real t1 = 0.0f - t2;
- Real w = 1.0f;
+ Real w = g_00BBB8D8;
  rayEnd->x = cam->m_18 * t0 + cam->m_1c * t1 - cam->m_20 * w;
  rayEnd->y = cam->m_28 * t0 + cam->m_2c * t1 - cam->m_30 * w;
  rayEnd->z = cam->m_38 * t0 + cam->m_3c * t1 - cam->m_40 * w;
  rayEnd->Normalize();
- *rayStart = cam->Get_Position();
+ *rayStart = m_camera->Get_Position();
  
 }

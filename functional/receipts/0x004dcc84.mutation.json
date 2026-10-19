@@ -1,0 +1,16 @@
+{
+ "rva": "0x004DCC84",
+ "name": "?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z",
+ "size": 461,
+ "source": "functional/src/0x004dcc84.cpp",
+ "source_sha1": "f8db2caa155910b1c5c153cad1fe53b74f85cb72",
+ "changed": 12,
+ "killed": 9,
+ "inconclusive": 0,
+ "survivors": [
+  ">->>=#1",
+  "int+1#0",
+  "int+1#1"
+ ],
+ "adequate": false
+}

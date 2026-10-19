@@ -1,0 +1,12 @@
+{
+ "rva": "0x000AB96D",
+ "name": "?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z",
+ "size": 194,
+ "source": "reverse/attempts/0x000ab96d.cpp",
+ "source_sha1": "1b259282ffe310ae4fc9424cc44c2e808fe79904",
+ "changed": 2,
+ "killed": 2,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

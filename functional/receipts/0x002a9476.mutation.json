@@ -1,0 +1,12 @@
+{
+ "rva": "0x002A9476",
+ "name": "?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z",
+ "size": 323,
+ "source": "functional/src/0x002a9476.cpp",
+ "source_sha1": "0f2fd5b519a452e1ae788313897bd976e857bfed",
+ "changed": 1,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

@@ -1,0 +1,12 @@
+{
+ "rva": "0x000470D5",
+ "name": "?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z",
+ "size": 216,
+ "source": "reverse/attempts/0x000470d5.cpp",
+ "source_sha1": "55cbec757449a81c87f6c55ba6f31228219dbdfa",
+ "changed": 3,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

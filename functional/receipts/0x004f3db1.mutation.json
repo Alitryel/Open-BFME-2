@@ -1,0 +1,14 @@
+{
+ "rva": "0x004F3DB1",
+ "name": "?selectTeamToReinforce@AIPlayer@@MAE_NH@Z",
+ "size": 985,
+ "source": "reverse/attempts/0x004f3db1.cpp",
+ "source_sha1": "19400541599a25e2e9045b10bbb606565f9cf111",
+ "changed": 11,
+ "killed": 10,
+ "inconclusive": 0,
+ "survivors": [
+  "==->!=#0"
+ ],
+ "adequate": true
+}

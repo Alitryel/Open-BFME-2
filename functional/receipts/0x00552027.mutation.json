@@ -1,0 +1,18 @@
+{
+ "rva": "0x00552027",
+ "name": "?Thread_Function@BuddyThreadClass@@MAEXXZ",
+ "size": 2987,
+ "changed": 8,
+ "killed": 3,
+ "inconclusive": 0,
+ "survivors": [
+  ">->>=#0",
+  "&&->||#0",
+  "&&->||#1",
+  "int+1#1",
+  "int+1#2"
+ ],
+ "adequate": false,
+ "source": "functional/src/0x00552027.cpp",
+ "source_sha1": "8012ebc077a306d390d7ed9dbbfa5a65f48253a0"
+}

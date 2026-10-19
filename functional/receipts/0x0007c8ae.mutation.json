@@ -1,0 +1,23 @@
+{
+ "rva": "0x0007C8AE",
+ "name": "?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ",
+ "size": 4176,
+ "source": "functional/src/0x0007c8ae.cpp",
+ "source_sha1": "5d936458f17b573528eb73b8c1fdf1becfa9aa5d",
+ "changed": 16,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [
+  "<-><=#0",
+  "<-><=#1",
+  "<-><=#2",
+  "<-><=#3",
+  ">->>=#0",
+  ">->>=#1",
+  "+->-#0",
+  "+->-#1",
+  "+->-#2",
+  "+->-#3"
+ ],
+ "adequate": false
+}

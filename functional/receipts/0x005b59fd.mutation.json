@@ -1,0 +1,12 @@
+{
+ "rva": "0x005B59FD",
+ "name": "?rva005B59FD@Class@AptCreateAHero@@QAEXXZ",
+ "size": 178,
+ "source": "reverse/attempts/0x005b59fd.cpp",
+ "source_sha1": "d70742635797eeaf1882b2ef769705d888b0ae04",
+ "changed": 0,
+ "killed": 0,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}

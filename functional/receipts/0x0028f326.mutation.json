@@ -1,0 +1,12 @@
+{
+ "rva": "0x0028F326",
+ "name": "?rva0028F326@Rva0028F326Owner@@QAEEIM@Z",
+ "size": 294,
+ "source": "reverse/attempts/0x0028f326.cpp",
+ "source_sha1": "8fd1aa355453b1d2ae4b56dc40dd23d0ac9503d6",
+ "changed": 1,
+ "killed": 1,
+ "inconclusive": 0,
+ "survivors": [],
+ "adequate": false
+}
