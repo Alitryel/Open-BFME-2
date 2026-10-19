@@ -21,10 +21,10 @@ private:
 	int m_0;
 };
 
-// ?rva000B4653@Rva000B4653@@QAEPAXH@Z
-void *Rva000B4653::rva000B4653(int a)
+inline __declspec(noinline) void *Rva000B4653::rva000B4653(int a)
 {
 	if ((unsigned int)a < (unsigned int)(m_0 & 7))
 		return *(void**)(((Rva000B2361*)this)->rva000B2361(a));
 	return 0;
 }
+static void *(Rva000B4653::*s_anchor_000B4653)(int) = &Rva000B4653::rva000B4653;

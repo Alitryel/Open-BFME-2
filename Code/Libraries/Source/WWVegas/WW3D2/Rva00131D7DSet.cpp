@@ -12,9 +12,10 @@ public:
 	int m_08;
 };
 
-void Rva00131D7D::rva00131D7D(unsigned int c)
+inline __declspec(noinline) void Rva00131D7D::rva00131D7D(unsigned int c)
 {
 	m_00 = (c >> 16) & 0xFF;
 	m_04 = (c >> 8) & 0xFF;
 	m_08 = c & 0xFF;
 }
+static void (Rva00131D7D::*s_anchor_00131D7D)(unsigned int) = &Rva00131D7D::rva00131D7D;

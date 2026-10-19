@@ -2234,18 +2234,18 @@ static __forceinline const unsigned &TextureRecolorMin(const unsigned &a,const u
  return b<a?b:a;
 
 }
-void Rva00131D7D::rva00131D7D(unsigned c)
+inline __declspec(noinline) void Rva00131D7D::rva00131D7D(unsigned c)
 {
  red=(c>>16)&255;
  green=(c>>8)&255;
  blue=c&255;
 }
 class Rva000B2361 { public: int *rva000B2361(int); int m_00,m_04,m_08,m_0C; };
-int *Rva000B2361::rva000B2361(int which)
+inline __declspec(noinline) int *Rva000B2361::rva000B2361(int which)
 {
  switch(which) { case 0: return &m_04; case 1: return &m_08; case 2: return &m_0C; default: return &m_04; }
 }
-void *Rva000B4653::rva000B4653(int a)
+inline __declspec(noinline) void *Rva000B4653::rva000B4653(int a)
 {
  if((unsigned)a<flags.count())
   return *reinterpret_cast<void **>(reinterpret_cast<Rva000B2361 *>(this)->rva000B2361(a));

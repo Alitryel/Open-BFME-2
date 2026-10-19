@@ -13,7 +13,7 @@ public:
 	int m_0C;
 };
 
-int *Rva000B2361::rva000B2361(int which)
+inline __declspec(noinline) int *Rva000B2361::rva000B2361(int which)
 {
 	switch (which)
 	{
@@ -27,3 +27,4 @@ int *Rva000B2361::rva000B2361(int which)
 		return &m_04;
 	}
 }
+static int *(Rva000B2361::*s_anchor_000B2361)(int) = &Rva000B2361::rva000B2361;
