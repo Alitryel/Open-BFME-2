@@ -28839,7 +28839,6 @@ uw_00797cec,,0x00797CEC,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;obje
 uw_00797d10,,0x00797D10,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2596
 uw_00797d55,,0x00797D55,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_00797d71,,0x00797D71,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3154
-uw_00797d9c,,0x00797D9C,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2706
 uw_00797da4,,0x00797DA4,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2710
 uw_00797db9,,0x00797DB9,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5607
 uw_00797ddd,,0x00797DDD,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
@@ -96942,3 +96941,4 @@ __ehhandler$?rva0033C965@Rva0033C965@@QAEXHH@Z,,0x0077CB8E,10,Code/GameEngine/So
 uw_0077e1e5,,0x0077E1E5,8,Code/GameEngine/Source/Common/Rva00362D6CDtor.cpp,matched,gen-funclet;parent=??1GlowMaterial@@UAE@XZ;object-symbol=$L486;Native parent00362CF2 and EXACT EH graph bind this whole8B cleanup through handler0077E1ED. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
 uw_0077e1f7,,0x0077E1F7,8,Code/GameEngine/Source/Common/Rva00362D6CDtor.cpp,matched,gen-funclet;parent=??1BuffInstance@@UAE@XZ;object-symbol=$L506;Native parent00362D6C and EXACT EH graph bind this whole8B cleanup through handler0077E20A. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
 uw_0077e214,,0x0077E214,8,Code/GameEngine/Source/Common/Rva00362DBDCtor.cpp,matched,gen-funclet;parent=??0BuffManager@@QAE@H@Z;object-symbol=$L479;Native parent00362DBD and EXACT EH graph bind this whole8B cleanup through handler0077E232. Calls complete7B Snapshot destructor49B47C; both body and relocation verified. Canonical class lifetime replaces generator frame surrogate; no new pin.
+uw_00797d9c,,0x00797D9C,8,Code/GameEngine/Source/Common/Rva00540B03Ctors.cpp,matched,gen-funclet;parent=??0Rva00540B03@@QAE@XZ;object-symbol=$L5585;Whole byte-exact C++ parent00540B03 and EXACT associative EH graph place native cleanup00797D9C through handler00797DAF and FuncInfo0094BEF4. Actual C++ lifetime replaces generator frame surrogate; full bytes and resolved calls verified. No adjacency-derived ownership or new pin.
