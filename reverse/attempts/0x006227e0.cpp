@@ -1,4 +1,6 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
+// partial score=0.9975 date=2026-10-19
+// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
 // partial score=0.9975339087546239 date=2026-10-19
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
@@ -126,18 +128,11 @@ public:
 	virtual void slot34();
 	virtual int slot38();
 
-	union
-	{
-		unsigned int m_word;
-		struct
-		{
-			unsigned int m_bits00 : 16;
-			volatile unsigned int m_queue : 8;
-			unsigned int m_bit24 : 1;
-			unsigned int m_bit25 : 1;
-			unsigned int m_bit26 : 1;
-		};
-	};
+	volatile unsigned int m_bits00 : 16;
+	volatile unsigned int m_queue : 8;
+	unsigned int m_bit24 : 1;
+	unsigned int m_bit25 : 1;
+	unsigned int m_bit26 : 1;
 	int m_key08;
 	int m_field0c;
 	unsigned int m_field10;
