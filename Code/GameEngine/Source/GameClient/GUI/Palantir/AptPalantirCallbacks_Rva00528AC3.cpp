@@ -79,21 +79,27 @@ private:
 };
 
 // The next three wrappers allocate these payloads and forward their own
-// address plus one caller argument. Allocation sizes are target evidence;
-// payload field layouts and meanings remain unknown.
-class Rva005288C4Payload
+// address plus one caller argument. Allocation sizes are target evidence.
+// 0x005288C4 is rowed as AptInGameSideCommandBar::Impl's constructor
+// (AptInGameSideCommandBar.cpp) and 0x00529FC5 as Rva0052936C's
+// (PalantirCommandInterface.cpp); field layouts stay opaque here.
+class AptInGameSideCommandBar
 {
 public:
-	Rva005288C4Payload(void *owner, void *argument);
+	class Impl
+	{
+	public:
+		Impl(AptInGameSideCommandBar *owner, int argument);
 
-private:
-	unsigned char m_pad00[0xDC];
+	private:
+		unsigned char m_pad00[0xDC];
+	};
 };
 
-class Rva00529FC5Payload
+class Rva0052936C
 {
 public:
-	Rva00529FC5Payload(void *owner, void *argument);
+	Rva0052936C(void *owner, int argument);
 
 private:
 	unsigned char m_pad00[0xDC];
@@ -334,11 +340,11 @@ extern PlayerList *ThePlayerList;
 
 // Unrowed screen openers, pinned by address: 0x0051B8EA (a jump to
 // 0x0051B4F7), 0x0050EC24 and 0x004E41AB (objectives), 0x005117DF
-// (messenger; its argument is unused).
+// (messenger, rowed as AptMessenger::OnMessengerBttn; its argument is unused).
 void Rva0051B8EA();
 class AptPlayerTribute { public: static void OpenScreen(); };
 void Rva004E41AB();
-void __cdecl Rva005117DF(const char *unused);
+class AptMessenger { public: static void OnMessengerBttn(const char *unused); };
 
 class AptPalantir
 {
@@ -408,7 +414,7 @@ void AptPalantir::OnBttnObservePriorPlayer(const char *unused)
 // Retail 0x002D3118, 13 bytes: "AptPalantir::OnBttnMessenger".
 void AptPalantir::OnBttnMessenger(const char *value)
 {
-	Rva005117DF(value);
+	AptMessenger::OnMessengerBttn(value);
 }
 
 
@@ -436,7 +442,7 @@ void AptPalantir::OnHelpBoxLoaded(const char *path)
 // at caller this+0x90. It allocates 0xDC bytes and forwards this plus the
 // caller's EDI argument to 0x005288C4. Payload semantics are unknown.
 Rva00528AC3::Rva00528AC3(void *argument)
-	: m_0(new Rva005288C4Payload(this, argument))
+	: m_0(new AptInGameSideCommandBar::Impl((AptInGameSideCommandBar *)this, (int)argument))
 {
 }
 
@@ -444,7 +450,7 @@ Rva00528AC3::Rva00528AC3(void *argument)
 // at caller this+0x8C. It allocates 0xDC bytes and forwards this plus the
 // caller's EDI argument to 0x00529FC5. Payload semantics are unknown.
 Rva0052A244::Rva0052A244(void *argument)
-	: m_0(new Rva00529FC5Payload(this, argument))
+	: m_0(new Rva0052936C(this, (int)argument))
 {
 }
 
