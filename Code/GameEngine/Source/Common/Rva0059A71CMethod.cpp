@@ -26,6 +26,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVModuleData@@@_STL@@QBEXPAPBVModuleData@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
