@@ -450,7 +450,7 @@ public:
 	int addSide(const Dict *dict);		// 0x0032D076
 	SidesInfo *getSideInfo(int side);	// 0x002035BA
 	void swap(SidesList *other);		// 0x0032B690
-	void rva0032E02B();					// 0x0032E02B, WB validateSides
+	bool validateSides();				// 0x0032E02B
 	void rva0032ED61();					// 0x0032ED61, castle template map clear
 	void parseCastleTemplateMaps();		// 0x0032F84F
 	bool parseCastleTemplateDataChunk(DataChunkInput &file, DataChunkInfo *info);
@@ -605,7 +605,7 @@ bool SidesList::parseBuildListDataChunk(DataChunkInput &file, DataChunkInfo *inf
 // are folded bodies called under their pinned spellings.
 void SidesList::writeSidesDataChunk(DataChunkOutput &chunkWriter)
 {
-	rva0032E02B();
+	validateSides();
 	chunkWriter.openDataChunk("SidesList", 6);
 	chunkWriter.writeByte(m_cleared);
 	chunkWriter.writeInt(m_numSides);

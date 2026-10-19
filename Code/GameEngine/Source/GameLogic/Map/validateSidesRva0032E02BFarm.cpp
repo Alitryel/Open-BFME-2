@@ -479,7 +479,6 @@ public:
 	SidesInfo *findSideInfo(AsciiString name, int *index = 0);
 	bool validateAllyEnemyList(const AsciiString &name, AsciiString &list);
 	int rva0032DE04(const AsciiString &playerTemplate);
-	void rva0032E02B();					// 0x0032E02B, WB validateSides
 	void rva0032ED61();					// 0x0032ED61, castle template map clear
 	void parseCastleTemplateMaps();		// 0x0032F84F
 	bool parseCastleTemplateDataChunk(DataChunkInput &file, DataChunkInfo *info);
@@ -633,7 +632,7 @@ bool SidesList::parseBuildListDataChunk(DataChunkInput &file, DataChunkInfo *inf
 // are folded bodies called under their pinned spellings.
 void SidesList::writeSidesDataChunk(DataChunkOutput &chunkWriter)
 {
-	rva0032E02B();
+	validateSides();
 	chunkWriter.openDataChunk("SidesList", 6);
 	chunkWriter.writeByte(m_cleared);
 	chunkWriter.writeInt(m_numSides);

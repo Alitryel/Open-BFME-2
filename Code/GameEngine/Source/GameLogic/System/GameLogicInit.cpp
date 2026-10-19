@@ -532,7 +532,7 @@ public:
 	int addSide(const Dict *d);
 	SidesInfo *findSideInfo(AsciiString name, int *index = 0);
 	void addTeam(const Dict *d) { m_teams.addTeam(d); }
-	void rva0032E02B(void);
+	bool validateSides(void);
 	int getNumSides(void) const { return m_numSides; }
 	// The header body the compiler sees but does not inline (retail calls the
 	// 0x002035BA copy): knowing it stores nothing, SetUpCampaignPlayers keeps
@@ -3845,7 +3845,7 @@ void GameLogic::rva0023E0C7(void)
 	d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamOwner)->get(), "ReplayObserver");
 	d.setBool(TheKey_teamIsSingleton.get(), true);
 	TheSidesList->addTeam(&d);
-	TheSidesList->rva0032E02B();
+	TheSidesList->validateSides();
 }
 
 // ---------------------------------------------------------------------------

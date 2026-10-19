@@ -114,7 +114,7 @@ class SidesList
 {
 public:
 	void emptySides();
-	void rva0032E02B();
+	bool validateSides();
 	void rva0032FEF5();
 	Bool rva0032F0AA(DataChunkInput &file, void *info);
 	Bool parseSidesDataChunk(DataChunkInput &file, DataChunkInfo *info);
@@ -293,6 +293,6 @@ void WorldHeightMap::parse(DataChunkInput &file, void *polygonOwner, void *owner
 		m_drawWidthX = m_width;
 	if (m_drawHeightY > m_height)
 		m_drawHeightY = m_height;
-	TheSidesList->rva0032E02B();
+	TheSidesList->validateSides();
 	Rva000AC6F9SetupAlphaTiles();
 }
