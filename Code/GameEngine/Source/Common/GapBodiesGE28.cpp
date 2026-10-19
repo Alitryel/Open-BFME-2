@@ -271,15 +271,17 @@ struct Rva00527D8FList
 	Rva00527D8FPlayer *m_local;
 };
 
-class Rva00527D8F
+// Rva00527FA7's ctor (0x00527FA7) binds "_OnCancel", "_OnDeleteAction" and
+// "_OnExecute" to these three bodies.
+class Rva00527FA7
 {
 public:
-	void rva00527D8F(int unused);
-	void rva00527DDD(int unused);
-	void rva00527E05(int unused);
+	void OnCancel(const char *unused);
+	void OnDeleteAction(const char *unused);
+	void OnExecute(const char *unused);
 };
 
-void Rva00527D8F::rva00527D8F(int unused)
+void Rva00527FA7::OnCancel(const char *unused)
 {
 	Rva00527D8FPlayer *player = ((Rva00527D8FList *)ThePlayerList)->m_local;
 	if (player && player->m_state == 2)
@@ -291,14 +293,14 @@ void Rva00527D8F::rva00527D8F(int unused)
 	}
 }
 
-void Rva00527D8F::rva00527DDD(int unused)
+void Rva00527FA7::OnDeleteAction(const char *unused)
 {
 	Rva00527D8FPlayer *player = ((Rva00527D8FList *)ThePlayerList)->m_local;
 	if (player && player->m_state == 2)
 		TheMessageStream->appendMessage(0x46D);
 }
 
-void Rva00527D8F::rva00527E05(int unused)
+void Rva00527FA7::OnExecute(const char *unused)
 {
 	Rva00527D8FPlayer *player = ((Rva00527D8FList *)ThePlayerList)->m_local;
 	if (player && player->m_state == 2)

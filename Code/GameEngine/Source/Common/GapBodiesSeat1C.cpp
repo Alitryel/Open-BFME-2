@@ -1220,11 +1220,22 @@ struct Rva0056DC7EInner
 	int m_274;
 };
 
+// Rva00527FA7's ctor (0x00527FA7) binds "_OnOpened" to 0x00527D7E and
+// "_OnClosed" to 0x00527D88.
+class Rva00527FA7
+{
+public:
+	void OnOpened(const char *unused);
+	void OnClosed(const char *unused);
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+};
+
 class Rva00527D7E
 {
 public:
-	void rva00527D7E(int unused);
-	void rva00527D88(int unused);
 	void rva00531101(bool value);
 	int rva0056DC7E() const;
 private:
@@ -1237,12 +1248,12 @@ private:
 	Rva0056DC7EInner *m_58;
 };
 
-void Rva00527D7E::rva00527D7E(int)
+void Rva00527FA7::OnOpened(const char *)
 {
 	m_08 = 2;
 }
 
-void Rva00527D7E::rva00527D88(int)
+void Rva00527FA7::OnClosed(const char *)
 {
 	m_08 &= 0;
 }

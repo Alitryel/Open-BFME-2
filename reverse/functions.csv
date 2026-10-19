@@ -82496,9 +82496,9 @@ __ehhandler$?rva0057FAB0@AptMpClans@@QAEXXZ,,0x0079C6F7,10,Code/GameEngine/Sourc
 ?rva005233FC@Rva005233FC@@QBEHXZ,,0x005233FC,17,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: +0x184 colour with full alpha via rowed RGBColor::getAsInt
 ?rva005260B1@Rva005260B1@@QAEPAVObject@@XZ,,0x005260B1,75,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: first local-player object of the +0x10 record id list
 ?rva005279C7@Rva005279C7@@QBEHXZ,,0x005279C7,22,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: one more than the nested 16-bit count
-?rva00527D8F@Rva00527D8F@@QAEXH@Z,,0x00527D8F,78,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46B and 0x469(0;2)
-?rva00527DDD@Rva00527D8F@@QAEXH@Z,,0x00527DDD,40,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46D
-?rva00527E05@Rva00527D8F@@QAEXH@Z,,0x00527E05,78,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46A and 0x469(0;2)
+?OnCancel@Rva00527FA7@@QAEXPBD@Z,,0x00527D8F,78,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46B and 0x469(0;2)
+?OnDeleteAction@Rva00527FA7@@QAEXPBD@Z,,0x00527DDD,40,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46D
+?OnExecute@Rva00527FA7@@QAEXPBD@Z,,0x00527E05,78,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: local-player state-2 callback queueing 0x46A and 0x469(0;2)
 ?rva00528232@Rva00528232@@QBEHH@Z,,0x00528232,14,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: indexed +0xDC word
 ?rva00531CF9@Rva00531CF9@@QBEGG@Z,,0x00531CF9,15,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: indexed +0x0C 16-bit entry
 ?rva00531D40@Rva00531D40@@QAEXXZ,,0x00531D40,18,Code/GameEngine/Source/Common/GapBodiesGE28.cpp,matched,Ghidra-unlisted gap body; shape from retail bytes; address-derived identity: restart the 16-bit cursor
@@ -83484,7 +83484,7 @@ uw_007aa060,,0x007AA060,15,Code/Libraries/Source/Apt/Rva006F6A50Cluster.cpp,matc
 ?rva004D99F4@Rva004D99F4@@QAEPAV1@XZ,,0x004D99F4,11,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?Rva004F5F80@@YA_NH@Z,,0x004F5F80,10,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?rva004FB577@Rva005B129FVector@@QAEXXZ,,0x004FB577,11,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
-?rva00527D7E@Rva00527D7E@@QAEXH@Z,,0x00527D7E,10,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
+?OnOpened@Rva00527FA7@@QAEXPBD@Z,,0x00527D7E,10,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?rva00531101@Rva00527D7E@@QAEX_N@Z,,0x00531101,10,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?rva00565A89@Rva00565898@@QAEXXZ,,0x00565A89,11,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?rva00566BEB@Rva00566B81Vector@@QAEXXZ,,0x00566BEB,11,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
@@ -95547,7 +95547,7 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?set@Rva001513E5@@QAEXXZ,,0x001513E5,5,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva001513E5 sets bit 2 of byte at +7
 ?get@Rva0018C0F9@@QBEHXZ,,0x0018C0F9,5,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva0018C0F9 returns dword at +0 minus 2
 ?Rva0045B49BScale@@YAMM@Z,,0x0045B49B,11,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Rva0045B49BScale scales float by BfmeClientFramesPerMillisecond
-?rva00527D88@Rva00527D7E@@QAEXH@Z,,0x00527D88,7,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
+?OnClosed@Rva00527FA7@@QAEXPBD@Z,,0x00527D88,7,Code/GameEngine/Source/Common/GapBodiesSeat1C.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?get@Rva0036CC89CmpBoolField@@QBE_NXZ,,0x0036CC89,11,Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp,matched,gap body; shape from retail bytes; address-derived identity
 ?Get_Obj_Space_Bounding_Box@WaterTracksObj@@UBEXAAURegion3D@@@Z,,0x000FE369,16,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracks.cpp,matched,Zero Hour WaterTracksObj bounds getter; Region3D copy of plus0x18 through folded 0x0009AC04 copy ctor
 ?GetCommandPointsAtIndex@StrategicInGameUI@@YAHPAVRva005E72B4Queue@@H@Z,,0x005E75E1,38,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIBuildQueueIconSelect.cpp,matched,WorldBuilder StrategicInGameUI::GetCommandPointsAtIndex (StrategicInGameUIBuildQueueDetailsPanel.cpp:199); 38B exact
