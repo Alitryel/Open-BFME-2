@@ -1,9 +1,5 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
-// partial score=0.6630094043887147 date=2026-10-19
-// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
-// partial score=0.301 date=2026-10-17
-// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
-// partial score=0.447 date=2026-10-09
+// partial score=0.663 date=2026-10-19
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 // ZH meshgeometry.cpp get_deformed_vertices guides the run-based transforms.
 // Target extends it with two bind-position streams, planar bone/percent-weight

@@ -1,7 +1,5 @@
 // ?updateFormationPreview@InGameUI@@QAEXXZ
-// partial score=0.7090909090909091 date=2026-10-19
-// ?updateFormationPreview@InGameUI@@QAEXXZ
-// partial score=0.057 date=2026-10-17
+// partial score=0.84 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // stlport
 // Native 002A4E1F..002A57BD and WB 00DC0B00 establish the complete preview flow.
@@ -165,12 +163,13 @@ void InGameUI::updateFormationPreview() {
  active=true;
  char allocator;
  SelectedIDs ids(allocator);
- reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->getValidSelectedObjectsForPlayer(ThePlayerList->localPlayer,&ids);
+ Player *player=ThePlayerList->localPlayer;
+ reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->getValidSelectedObjectsForPlayer(player,&ids);
  ObjectList objects(allocator);
  int hash=0;
  for(IdNode *it=ids.head->next;it!=ids.head;it=it->next) {
   int id=it->id;
-  hash=((hash&0xF8000000)>>27)^(hash<<5)^id;
+  unsigned hi=hash&0xF8000000;hash=(hash<<5)^(hi>>27)^id;
   Object *obj=TheGameLogic->findObjectByID(id);
   if(obj && !(obj->flags&1))objects.push_back(obj);
  }
@@ -194,8 +193,8 @@ void InGameUI::updateFormationPreview() {
   float angle=facing.toAngle();
   PreviewMatrix matrix(angle+1.5707964f);
   for(BfmeE12View *it=first;it!=last;++it) {
-   float x,y;matrix.transform((float)it->x,(float)it->y,x,y);
-   Coord3D pos={start.x+x,start.y+y,start.z};
+   float fy=(float)it->y,fx=(float)it->x;float x,y;matrix.transform(fx,fy,x,y);
+   Coord3D pos;pos.x=x;pos.y=y;pos.z=0.0f;pos.x+=start.x;pos.y+=start.y;pos.z=start.z;
    Drawable *d=it->pool?it->pool->drawable:0;
    if(d){d->setPosition(&pos);reinterpret_cast<Thing*>(d)->setOrientation(angle);}
    Rva0029A469 *decal=it->pool?it->pool->decal:0;
@@ -209,8 +208,8 @@ void InGameUI::updateFormationPreview() {
   float arrowWidth=0.0f,lineWidth=0.0f;
   if(arrows[2] && arrows[2]->decal)arrowWidth=arrows[2]->decal->width();
   if(arrows[1] && arrows[1]->decal)lineWidth=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->templates[1]->width;
-  Coord2D unit(facing);double unitInverse=1.0f/sqrt((double)facingSq);unit.x=(float)(facing.x*unitInverse);unit.y=(float)(facing.y*unitInverse);
-  Coord2D side(-facing.y,facing.x);
+  float unitInverse=1.0f/(float)sqrt((double)facingSq);Coord2D unit(facing.x*unitInverse,facing.y*unitInverse);
+  Coord2D side;side.x=-facing.y;side.y=facing.x;
   float minimum=(lineWidth+arrowWidth)*0.5f;
   float sideSq=lengthSq(side);
   if((float)sqrt((double)sideSq)<minimum){float inverse=1.0f/(float)sqrt((double)sideSq);side.x*=inverse;side.y*=inverse;scale(side,minimum);}

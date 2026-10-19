@@ -25,3 +25,24 @@ Input revision: `b65794c66d4aa9aa20756625c1405954c1f8a889`. Inspected BFME 1 ref
 `verification.txt` records comment preservation and body/relocation equivalence. `layout-align.txt` records a successful compile with 24 native layout assertions. `provider-boundaries.txt`, `prior-verdicts.txt`, `destination.txt`, `native-wb.txt`, the extracted WB text, every trial source, and the object/disassembly logs remain under `build/formation-preview-w6/`. The destination tool proposes `Code/GameEngine/Source/GameClient/InGameUISuperweapons.cpp` only by neighbour heuristic and says there is no usable approved TU (TU map proposes `InGameUI.cpp`); no production source was edited. CSV and pin checks are recorded in the same scratch directory. No exact-result source gate was claimed, no git write or network operation was performed, and no background process was started. Model: gpt-6.1-sol.
 
 Final delivery checks passed: `call-proof.txt` compares every direct callee destination and count, every virtual slot and count, final body/relocations against the retained trial, and all original comment lines. `bank-final-align.txt` and `bank-final-object.txt` are fresh measurements from the bank after deleting its object and dependency receipt. `check-csv-after.txt` and `pin-check-after.txt` are successful hygiene checks. The first diff check reported CRLF as trailing whitespace because Python's Windows text output had mixed with re_log's LF metadata; only the two own delivery files were normalized to LF, and the fresh bank measurement is unchanged. `diff-check-final.txt` records the passing final diff check. No source-level exact-byte gate was run because no matching production row was added.
+
+## Round r (claude-opus-5-5, 2026-10-19): 45 -> 24 regions
+
+Levers that helped, each measured with `build/try.sh` on a fresh object:
+- Hash: `unsigned hi=hash&0xF8000000;hash=(hash<<5)^(hi>>27)^id;` keeps retail's explicit `and 0xf8000000`.
+- `Player *player=ThePlayerList->localPlayer;` hoisted after `SelectedIDs ids(allocator);`, passed to `getValidSelectedObjectsForPlayer`.
+- Side vector member-wise: `Coord2D side;side.x=-facing.y;side.y=facing.x;`.
+- Unit vector: `float unitInverse=1.0f/(float)sqrt((double)facingSq);` gives retail's `fdivr dword` + x87 multiplies.
+- Loop body: `(float)it->y` evaluated before `(float)it->x`; `Coord3D pos` built x/y/0 then `+=start` (start.x lands in a register as retail).
+
+Disproven (do not repeat): hash commutation variants and an unsigned hash; dropping COORD2D_VIEW_DTOR; non-const,
+assigned or parenthesised facing init; explicit facing.x^2 in sideSq/facingSq; `normalize(unit)` (32 regions, +42 B);
+`*=` unit (44); `1.0f/distance` (37); recomputed length(facing) for the inverse; `pos=start` copy (32); member-wise
+start then += (29); `x+start.x` (28); y-first pos (29); a transform taking Coord2D (29); do/while preview loop (33);
+`it=it+1` (no change).
+
+Residue at 24 regions (ours 2469 B vs 2462): retail keeps facingSq in two homes (-0x30/-0x28) plus an x*x CSE at -0x38
+and stores `fstp [ebp-0x20]` after the pops; hash `mov edx,ecx` register choice; matrix sine result stored late
+(`fstp [ebp-0x28]` just before `movss xmm2`) where ours stores right after the call; preview-loop iterator held in esi
+(`mov esi,[it]; add esi,0xc; cmp; mov [it],esi`) where ours does `add [it],0xc`; side/unit scheduling around +0x5e3;
+arrows[1]->decal loads at +0x767; frame 0x74 vs 0x78.
