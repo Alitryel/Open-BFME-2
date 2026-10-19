@@ -33,3 +33,21 @@ Set `BFME_OBJSTORE=off`. Delete the source's object and dependency receipt befor
 Raw comparison logs are `build/selection43003c-compact-w8/before.align.log`, `retained.align.log`, `bank-final.align.log`, `before.explain.log` and `h5.explain.log`. Final raw gate results are `check-csv-final.log`, `pin-consistency.log`, `diff-check-final.log`, `bank-audit-final.log` and `record.log` in that folder. All pass. The earlier `diff-check.log` fails because the first package used CRLF; replacing CRLF with LF fixes it without changing the compiled parent. Final source size comes from `run-receipt.json` and is below the 65536-byte limit. All source comment content is preserved. `h1.align.log` and the initial lexical `verify.log` are retained failed probes, followed by the passing corrected checks. `run-receipt.json` records command exit statuses, the final bank size and elapsed clock time. `add_match.py`, `build.sh` and `find_declared_unmatched.py` are not applicable to this unrowed partial; no Code source or production ledger row changed. No network, claim, writing git operation or background task was started.
 
 Changed review paths are the bank, the append-only attempt log and this handoff. Scratch sources, scripts and raw logs are under `build/selection43003c-compact-w8/`. Measurement also regenerates the corresponding object and dependency caches under `build/match/`; `artifacts.json` enumerates them. No process was left running.
+
+## Follow-up: exception model and refuted reload trials (2026-10-19, claude-opus-5-5)
+
+The bank's first `// cl:` line now uses `/GX` where it had `/EHsc`. build.py passes `-EHsc-` before the source flags, so `/GX` leaves `c` off: the compiler must assume `extern "C"` `free` can throw, and it keeps the `or dword ptr [ebp-4],-1` state store before the `_free` call. Under the bank's flags, `hashtable<pair<const int,bool>>::~hashtable` now compiles to exactly retail `0x0042FD1C`: 57 B, 0 structural regions. Under `/EHsc` it is 53 B. The parent's bytes and its four regions are unchanged.
+
+A minimal matrix showed that `/EHsc` against `/GX` (or `/EHs`) is the only switch that decides this. `/G7 /arch:SSE`, bfmealloc, `BFME_STLP_NODE_ALLOC`, `_STLP_USE_MALLOC` and `_STLP_NO_EXCEPTIONS` each still give 57 B under `/GX`. The dtor sits between SelectionXlat bodies in retail (0x42F9DA..0x43003C), which suggests SelectionXlat's own retail TU used this exception model. Only the dtor is evidence for that, not the parent.
+
+ArmorStoreCtor's cached 57 B object was built from an older revision of that file (88922693b5). It is not evidence for the current source, which compiles to an 82 B esp-frame dtor at `-O2`.
+
+Refuted register trials:
+- v10 calls `deselectAll()` in the select-team else arm: it is emitted as a call (-25 B).
+- v11 calls a `__forceinline` copy of deselectAll there: no change.
+- v12 replaces the BFME2 hotkey-group validity block with a `__forceinline` early-return helper: it adds a `mov eax,[ebx+0xc]` region.
+- v13 and v14 express the containedBy template test (`[tmpl+0x10E]&0x80`) as an inline kindof-bit helper (bit 55): no change.
+
+v1 through v9 are listed in the section above. The two register walls (contained-object eax/ecx and the hoisted group reload into esi) still stand.
+
+Landing still needs the five callee names. The dtor can now rename the `dup_0042fd1c` gen-alias row (currently `object-symbol=` the ArmorTemplate dtor in ArmorStoreCtor.cpp). That rename must be done carefully under the pin and alias admission rules.
