@@ -11410,8 +11410,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001C4300,140,code,,,-,,Code/Libraries/Source/VP6/FillIdctConstants.cpp
 0x001C4390,169,code,,,-,,Code/Libraries/Source/VP6/GetProcessorFlags.cpp
 0x001C4440,766,code,,,-,,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp
-0x001C4740,125,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp
-0x001C47C0,125,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp
+0x001C4740,125,code,,,-,,Code/Libraries/Source/VP6/QuantIndex.cpp
+0x001C47C0,125,code,,,-,,Code/Libraries/Source/VP6/QuantIndex.cpp
 0x001C4C90,607,code-unledgered,,,-,,
 0x001C4F00,114,code,,,-,,Code/Libraries/Source/VP6/DecodeBool.cpp
 0x001C4F80,93,code,,,-,,Code/Libraries/Source/VP6/DecodeBool128.cpp

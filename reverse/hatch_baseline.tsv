@@ -1432,16 +1432,6 @@ address_global	Code/GameEngine/Source/Common/RvaGlobalThisFwds.cpp	g_pRva003BD42
 address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva00224BC9	2
 address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva0039ABFF	2
 address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva00437E9C	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp	g_Rva009B3E40Arr0	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp	g_Rva009B3E40Arr1	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp	g_Rva009B3E40Arr2	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp	g_Rva009B3E40Arr3	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp	g_Rva009B3E40Blocks	6
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr0	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr1	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr2	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr3	2
-address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3EC0Blocks	6
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoCtor.cpp	g_Va00BC2424	1
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoRva006BD9C0.cpp	g_Va00BBAEAC	1
 address_global	Code/GameEngine/Source/Common/System/INI_VeterancyLevelToken.cpp	g_Va00DC17CCNames	4

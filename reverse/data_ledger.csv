@@ -16916,12 +16916,9 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009B7828,256,.data,global,?g_rva012D7F58@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,1
 0x009B7928,256,.data,global,?g_rva012D8058@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,1
 0x009B7A28,512,.data,global,_Vp6FilterEdgeTagTable,Code/GameEngine/Source/Common/BfmeConv9BE180.cpp,owned,,1,4
-0x009B7C28,4,.data,global,?g_Rva009B3E40Arr0@@3PAHA,Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp,provisional,,2,2
-0x009B7C2C,4,.data,global,?g_Rva009B3E40Arr1@@3PAHA,Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp,owned,,1,2
-0x009B7C30,4,.data,global,?g_Rva009B3E40Arr2@@3PAHA,Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp,owned,,1,2
-0x009B7C34,244,.data,global,?g_Rva009B3E40Arr3@@3PAHA,Code/GameEngine/Source/Common/SmallGaps/Rva009B3E40Init.cpp,owned,,1,2
-0x009B7D28,256,.data,global,?g_Rva009B3E40Blocks@@3PAPAXA,,unowned,,0,5
-0x009B7E28,376,.data,global,?g_Rva009B3EC0Blocks@@3PAPAXA,,unowned,,0,5
+0x009B7C28,256,.data,global,?vp6MmxZigzag@@3PAHA,Code/Libraries/Source/VP6/QuantIndex.cpp,owned,,1,8
+0x009B7D28,256,.data,global,?vp6MmxTransposeIndex@@3PAHA,Code/Libraries/Source/VP6/QuantIndex.cpp,owned,,1,5
+0x009B7E28,376,.data,global,?vp6WmtTransposeIndex@@3PAHA,Code/Libraries/Source/VP6/QuantIndex.cpp,owned,,1,5
 0x009B7FA0,16,.data,global,_Vp6WideAccumConst86D0,Code/GameEngine/Source/Common/Rva001CA000Vp6WideAccum.cpp,owned,,1,8
 0x009B7FB0,16,.data,global,_Vp6WideAccumConst86E0,Code/GameEngine/Source/Common/Rva001CA000Vp6WideAccum.cpp,owned,,1,4
 0x009B7FC0,16,.data,global,_Vp6WideAccumConst86F0,Code/GameEngine/Source/Common/Rva001CA000Vp6WideAccum.cpp,owned,,1,10
