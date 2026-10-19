@@ -1,5 +1,6 @@
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
-// partial score=0.95 date=2026-10-19
+// partial score=0.96 date=2026-10-19
+// r3 (claude-opus-5.5, 2026-10-19): bank 0.95 + explicit WB-order inline transform (aliasing tmp copy, row-wise X/Y/Z sums) -> Y/Z term order exact; align 4/58/2 (was 4/66/2), 4655/4656. Residue: m_type EAX load, src/bridge/terrainHeight slot cycle, caster/terrain lock cleanup cross-jump order. Handoff reverse/attempt_support/rva0010c841-20261019.md
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
 // partial score=0.63 date=2026-10-16
 // W9-O1 bank r2: W3DProjectedShadowManager single-decal queue 0x10C841 (4656 B) as a full helpers-TU variant
@@ -401,7 +402,8 @@ class WorldHeightMap
 public:
 	UnsignedShort getHeight(Int x, Int y) { return ((BoundedShortGrid *)this)->rva00062A58(x, y); }
 	Real getDisplayHeight(Int x, Int y) { return getHeight(x, y) * MAP_HEIGHT_SCALE; }
-	Bool getFlipState(Int x, Int y) const { return ((const Gen_0074B410 *)this)->bfmeBitA(x, y); }
+	// getFlipState is the bounds-checked bit-plane body rowed at 0x000ADF41
+	// (Gen_0074B410::bfmeBitA); retail's decal batch calls it directly.
 	char m_pad00[0x10];
 	Int m_borderSize;					// +0x10
 };
@@ -654,7 +656,7 @@ void W3DProjectedShadowManager::queueDualDecal(W3DDualProjectedShadow *shadow)
 	{
 		for (Int i = rowStart, k = startX; k < endX; i++, k++)
 		{
-			if (hmap->getFlipState(k, j))
+			if (((const Gen_0074B410 *)hmap)->bfmeBitA(k, j))
 			{
 				pvIndices[0] = i + 1 + m_numDecalVertsInBatch;
 				pvIndices[1] = i + vertsPerRow + m_numDecalVertsInBatch;
@@ -1052,7 +1054,12 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 						{
 							const Vector3 &sourceVertex = *src;
 							const Matrix3D &transform = casterObj->Get_Transform();
-							Matrix3D::Transform_Vector(transform, sourceVertex, &vertex);
+							Vector3 tmp;
+							const Vector3 *v;
+							if (&vertex == &sourceVertex) { tmp = sourceVertex; v = &tmp; } else v = &sourceVertex;
+							vertex.X = (transform[0][0] * v->X + transform[0][1] * v->Y + transform[0][2] * v->Z + transform[0][3]);
+							vertex.Y = (transform[1][0] * v->X + transform[1][1] * v->Y + transform[1][2] * v->Z + transform[1][3]);
+							vertex.Z = (transform[2][0] * v->X + transform[2][1] * v->Y + transform[2][2] * v->Z + transform[2][3]);
 						}
 						vertex.Z += 0.0f;
 						decalVertex = vertex - objPos;
@@ -1224,7 +1231,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 		for (Int i = rowStart, k = startX; k < endX; i++, k++)
 		{
 			///@todo: fix the winding order in heightmap to be in strip order like above!
-			if (hmap->getFlipState(k, j))
+			if (((const Gen_0074B410 *)hmap)->bfmeBitA(k, j))
 			{
 				pvIndices[0] = i + 1 + m_numDecalVertsInBatch;
 				pvIndices[1] = i + vertsPerRow + m_numDecalVertsInBatch;
