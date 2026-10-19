@@ -300,6 +300,7 @@ BfmeHolderDB Gen_00895650::bfmeGet(void) const
 	return m_bfmeHolder;
 }
 
+struct Rva006D0660Table;
 class Rva006D07E0Key {
 public:
  Rva006D07E0Key(Rva006D0280 *p=0):m_object(p) {
@@ -317,6 +318,8 @@ public:
   }
  }
  Rva006D0280 *m_object;
+ Rva006D0660Table *getTable()const{return (Rva006D0660Table*)m_object->object14;}
+ bool isNull()const{return m_object==0;}
 };
 struct Rva006D07E0Entry { int unknown0; Rva006D0280 *key4; };
 struct Rva006D07E0Node { Rva006D07E0Entry *entry; Rva006D07E0Node *next; };
@@ -327,6 +330,7 @@ struct Rva006D07E0Iterator {
 class Rva006D07E0List {
 public:
  Rva006D07E0Iterator find(Rva006D07E0Key key);
+ int contains(Rva006D07E0Key key);
  Rva006D07E0Node *head;
 };
 Rva006D07E0Iterator Rva006D07E0List::find(Rva006D07E0Key key) {
@@ -876,3 +880,41 @@ void AptLinker::rva006D17F0()
 
 // Checked iterators preserve range expressions; owners release on both restart and normal exit.
 // Native caller, layouts and full boundary: reverse/attempt_support/aptlinker-006d17f0-w2.md.
+
+// Native6D0D70..6D0F1F RET4 431B; WB1752640 supplies the resource
+// release graph and nested handle/string lifetimes. Target proves states
+// 1/2/3/4/5, cancel slotE1774C, table14 count28/record2C stride16 and
+// named-string recursive release. Lookups82B and contains203B are owned.
+// Both explicit reference release and scope teardown are present in native.
+// Original resource/container names remain unknown; layouts are narrow
+// target views.
+class Rva006D1090 {
+public:
+ void rva006D0D70(void *name);
+};
+extern AptLinker *g_bfmeAptLinkerAtE176F8;
+extern void *g_aptFreeAnimationSlot;
+
+void Rva006D1090::rva006D0D70(void *name) {
+ Rva006D07E0Key key=((Rva006D0A30List*)this)->find((const EAStringC*)name);
+ if(key.isNull())return;
+ int type=key.m_object->typeC;
+ if(type==1){}
+ else if(type==2){
+  if(key.m_object->buffer18)
+   ((void(__cdecl*)(void*))g_aptFreeAnimationSlot)(key.m_object->buffer18);
+ }else if(type==3||type==4||type==5){
+  for(int i=0;i<key.getTable()->count28;++i){
+   Rva006D07E0Key dependent=((Rva006D0A30List*)this)->find(
+    &EAStringC(key.getTable()->records2c[i].text));
+   if(!dependent.isNull() && !((Rva006D07E0List*)g_bfmeAptLinkerAtE176F8)->contains(dependent))
+    rva006D0D70(&EAStringC(key.getTable()->records2c[i].text));
+  }
+ }
+ Rva006D0280 *rel=key.m_object;
+ int count=rel->decreaseCount();
+ if(count==0){
+  rel->~Rva006D0280();
+  g_pChainBlockAllocator->freeBlock(rel,0x1c);
+ }
+}
