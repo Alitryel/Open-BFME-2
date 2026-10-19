@@ -16,12 +16,16 @@
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
+// 0x001B4E63 is the rowed SubsystemInterface ctor (BFME2NativeNetwork's
+// former baseConstruct spelling had no definition); same base view as
+// Rva001FDB55Ctor.cpp, so the inline base ctor copies agree.
+class SubsystemInterface { public: SubsystemInterface(); };
+
 class __declspec(novtable) BFME2NativeNetwork
 {
 public:
 	BFME2NativeNetwork();
 	virtual ~BFME2NativeNetwork();
-	void baseConstruct() throw();
 private:
 	virtual void unused() = 0;
 	char m_flag;
@@ -31,7 +35,7 @@ private:
 // ??0BFME2NativeNetwork@@QAE@XZ present-unmatched
 __forceinline BFME2NativeNetwork::BFME2NativeNetwork()
 {
-	baseConstruct();
+	reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface();
 }
 
 class Rva0041497D : public BFME2NativeNetwork, public Snapshot
