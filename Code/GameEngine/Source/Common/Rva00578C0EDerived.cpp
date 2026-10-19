@@ -13,7 +13,10 @@ class Rva00578C2E
 {
 public:
 	Rva00578C2E();
-	virtual ~Rva00578C2E();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	~Rva00578C2E();
 
 private:
 	void *m_ptr04;

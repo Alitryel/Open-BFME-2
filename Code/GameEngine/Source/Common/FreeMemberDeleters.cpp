@@ -70,11 +70,15 @@ Rva004FCD49::~Rva004FCD49()
 }
 
 // The class whose constructor 0x00578C2E stores the vtable this destructor
-// restores; rowed under that constructor's name.
+// restores; rowed under that constructor's name. That vtable (0x00BE2B78)
+// holds three __purecall slots and no destructor: the destructor is not virtual.
 class Rva00578C2E
 {
 public:
-	virtual ~Rva00578C2E();
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	~Rva00578C2E();
 
 private:
 	void *m_ptr04;

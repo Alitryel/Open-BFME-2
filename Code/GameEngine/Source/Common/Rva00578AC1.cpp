@@ -18,21 +18,6 @@ public:
 	virtual void notify(void *);
 };
 
-class Rva00578A60List
-{
-public:
-	// The Observable list ctor (an empty vector and index -1, 0x00330757);
-	// visible here so that cl knows the button-base ctor writes only its
-	// own subobject (see Rva00578C2E below).
-	Rva00578A60List() : m_begin(0), m_end(0), m_capacity(0), m_index(0xFFFFFFFF) {}
-	void forEach(void (Rva00578A60Listener::*notify)(void *), void *arg);
-private:
-	Rva00578A60Listener **m_begin;
-	Rva00578A60Listener **m_end;
-	Rva00578A60Listener **m_capacity;
-	unsigned int m_index;
-};
-
 class AnimateWindow;
 class ProcessAnimateWindowSlideFromBottomTimed
 {
@@ -237,6 +222,59 @@ protected:
 };
 }
 
+struct BfmeE16;
+
+// The Observable list's storage spelled out to the leaf (STLport 4.5.3
+// _Vector_base and _STLP_alloc_proxy), so that every body under the
+// button-base ctor is visible: the rowed 0x00211E58 and 0x0014F3C4 folds.
+namespace _STL {
+template <class V, class T, class A> class _STLP_alloc_proxy : public A
+{
+public:
+	__declspec(noinline) _STLP_alloc_proxy(const A &a, V p) : A(a), _M_data(p) {}
+	V _M_data;
+};
+
+template <> class _Vector_base<BfmeE16, allocator<BfmeE16> >
+{
+public:
+	__declspec(noinline) _Vector_base(const allocator<BfmeE16> &a)
+		: _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {}
+
+protected:
+	BfmeE16 *_M_start;
+	BfmeE16 *_M_finish;
+	_STLP_alloc_proxy<BfmeE16 *, BfmeE16, allocator<BfmeE16> > _M_end_of_storage;
+};
+}
+
+// The Observable list: an empty vector and index -1, constructed out of
+// line by the rowed 0x00330757 (Rva00330757Member.cpp). Its body is visible
+// here so that cl knows the button-base ctor writes only its own subobject
+// (see Rva00578C2E below).
+class Rva00330757Member
+{
+public:
+	__declspec(noinline) Rva00330757Member();
+	~Rva00330757Member();
+
+private:
+	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_items; // +0
+	int m_flags; // +0xC
+};
+
+inline Rva00330757Member::Rva00330757Member()
+	: m_items(_STL::allocator<BfmeE16>())
+{
+	m_flags |= -1;
+}
+
+class Rva00578A60List : public Rva00330757Member
+{
+public:
+	void forEach(void (Rva00578A60Listener::*notify)(void *), void *arg);
+};
+
 // The 12-byte command-map name list (vector<AsciiString>): AddCommandMap
 // 0x0052458E, dtor 0x0052413E (pinned). Its ctor is defined below; /OPT:ICF
 // folded it onto the identical vector default ctor at 0x001F81BF.
@@ -315,22 +353,24 @@ inline AsciiStringPlusStringText operator+(const AsciiStringPlusString &left, co
 class __declspec(novtable) Rva004FAC6BBase0
 {
 public:
-	virtual void base0();
+	virtual void base0() = 0;
 };
 
 // Retail vtable 0x00BE2B78 holds only three __purecall slots: the base's
 // destructor (0x00578C0E) is not virtual. Both its constructor (0x00578C2E)
 // and its destructor are out-of-line copies emitted in this unit's range.
-// The constructor body is visible (noinline): cl then knows it writes only
+// The listener list at +4 is a base, not a member: retail's constructor calls
+// the list constructor before it stores the vptr. The constructor body and
+// every body under it are visible (noinline): cl then knows it writes only
 // the button subobject and drops the dead PalantirBase0 vptr store from the
 // Palantir constructor exactly as retail does.
-class __declspec(novtable) Rva00578C2E : public Rva004FAC6BBase0
+class Rva00578C2E : public Rva004FAC6BBase0, public Rva00578A60List
 {
 public:
 	__declspec(noinline) Rva00578C2E() {}
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
 	~Rva00578C2E();
-
-	Rva00578A60List m_listeners; // +0x04
 };
 
 template <int N> class PalantirButton : public Rva00578C2E
@@ -463,7 +503,7 @@ void StrategicHUD::Palantir::rva00578AC1(void *unused)
 {
 	(void)unused;
 	m_flag54 = false;
-	PalantirButton<0>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::updateAnimateWindow), &static_cast<PalantirButton<0> &>(*this));
+	PalantirButton<0>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::updateAnimateWindow), &static_cast<PalantirButton<0> &>(*this));
 }
 
 // ?rva00578B4C@Palantir@StrategicHUD@@QAEXPAX@Z, retail 0x00578B4C, 24 bytes.
@@ -473,7 +513,7 @@ void StrategicHUD::Palantir::rva00578B4C(void *unused)
 {
 	(void)unused;
 	m_flag56 = true;
-	PalantirButton<1>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow), &static_cast<PalantirButton<1> &>(*this));
+	PalantirButton<1>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow), &static_cast<PalantirButton<1> &>(*this));
 }
 
 // Retail 0x005785A2, 25 bytes. Name unknown. Keeps the selection and hands
@@ -573,9 +613,9 @@ void StrategicHUD::Palantir::OnOptionsButtonClicked(const char *unused)
 {
 	int mode = ((Rva00578A7EAptMode *)TheRva00222A8BTarget)->m_mode;
 	if (mode == 0)
-		PalantirButton<0>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initAnimateWindow), static_cast<PalantirButton<0> *>(this));
+		PalantirButton<0>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initAnimateWindow), static_cast<PalantirButton<0> *>(this));
 	else if (mode == 2)
-		PalantirButton<0>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initReverseAnimateWindow), static_cast<PalantirButton<0> *>(this));
+		PalantirButton<0>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initReverseAnimateWindow), static_cast<PalantirButton<0> *>(this));
 }
 
 // Retail 0x00578AD9, 24 bytes: bound as "<movie>_OnOptionsButtonRollOver"
@@ -583,7 +623,7 @@ void StrategicHUD::Palantir::OnOptionsButtonClicked(const char *unused)
 void StrategicHUD::Palantir::OnOptionsButtonRollOver(const char *unused)
 {
 	m_flag54 = true;
-	PalantirButton<0>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow), &static_cast<PalantirButton<0> &>(*this));
+	PalantirButton<0>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow), &static_cast<PalantirButton<0> &>(*this));
 }
 
 // Retail 0x00578AF1, 67 bytes: bound as "<movie>_OnObjectivesButtonClicked".
@@ -591,9 +631,9 @@ void StrategicHUD::Palantir::OnObjectivesButtonClicked(const char *unused)
 {
 	int mode = ((Rva00578A7EAptMode *)TheRva00222A8BTarget)->m_mode;
 	if (mode == 0)
-		PalantirButton<1>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initAnimateWindow), static_cast<PalantirButton<1> *>(this));
+		PalantirButton<1>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initAnimateWindow), static_cast<PalantirButton<1> *>(this));
 	else if (mode == 2)
-		PalantirButton<1>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initReverseAnimateWindow), static_cast<PalantirButton<1> *>(this));
+		PalantirButton<1>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::initReverseAnimateWindow), static_cast<PalantirButton<1> *>(this));
 }
 
 // Retail 0x00578B34, 24 bytes: bound as "<movie>_OnObjectivesButtonRollOut"
@@ -601,7 +641,7 @@ void StrategicHUD::Palantir::OnObjectivesButtonClicked(const char *unused)
 void StrategicHUD::Palantir::OnObjectivesButtonRollOut(const char *unused)
 {
 	m_flag56 = false;
-	PalantirButton<1>::m_listeners.forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::updateAnimateWindow), &static_cast<PalantirButton<1> &>(*this));
+	PalantirButton<1>::forEach(reinterpret_cast<void (Rva00578A60Listener::*)(void *)>(&ProcessAnimateWindowSlideFromBottomTimed::updateAnimateWindow), &static_cast<PalantirButton<1> &>(*this));
 }
 
 // RVA 0x005CB265 is the 5-byte slot-3 dispatch (jmp [vptr+0x0C]);
@@ -678,8 +718,8 @@ void StrategicHUD::Palantir::rva0057864E(bool visible)
 // destructor 0x00578C0E) and the primary interface vtable 0x00C79760.
 StrategicHUD::Palantir::~Palantir()
 {
-	PalantirButton<1>::m_listeners.forEach(&Rva00578A60Listener::notify, static_cast<PalantirButton<1> *>(this));
-	PalantirButton<0>::m_listeners.forEach(&Rva00578A60Listener::notify, static_cast<PalantirButton<0> *>(this));
+	PalantirButton<1>::forEach(&Rva00578A60Listener::notify, static_cast<PalantirButton<1> *>(this));
+	PalantirButton<0>::forEach(&Rva00578A60Listener::notify, static_cast<PalantirButton<0> *>(this));
 }
 
 // Native owning-pointer clear: null before explicit destruction and deallocation.
