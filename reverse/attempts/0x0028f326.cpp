@@ -1,9 +1,20 @@
 // ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
+// partial score=0.97 date=2026-10-19
+// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
 // partial score=0.9438 date=2026-10-18
 // ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
 // partial score=0.9432 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // Native 28F326..28F44C 294B RET8; complete WB CE75F0 twin.
+// 2026-10-19 seat12: WB's MathCoord3D.h calls (copy-constructed delta,
+// operator-= 0x41F630, dot 0x41FB90 = x*r.x+y*r.y+z*r.z) via
+// Lib/Coord3DCtorView.h + an inline Coord3D::operator*(Coord3DBase): 294B,
+// 8 -> 3 differing lines; only retail's visionAngle movss sits after the
+// first dot fmul (ours before it). Inert: visionAngle local before/after
+// the dot, 3.141f/360 form, Bool result, dot operand orders, /G5-/G7,
+// 3-arg or set() facing (worse), data-> re-read (worse).
+#define COORD3D_VIEW_INLINE
+#include "Coord3DCtorView.h"
 #include "Coord3DBase.h"
 #include <math.h>
 __declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }
@@ -24,6 +35,7 @@ __declspec(noinline) inline float Coord3D::Normalize()
 	return len;
 }
 
+inline float Coord3D::operator*(const Coord3DBase &r) const { return x*r.x+y*r.y+z*r.z; }
 struct Vec2 {float x,y;};
 extern bool Rva004DF8D8Test(const Vec2*,const Vec2*,const Vec2*,float,float,float,float);
 extern float Cos(float),Sin(float);
@@ -45,17 +57,14 @@ unsigned char Rva0028F326Owner::rva0028F326(unsigned targetWord,float range)
  if(!Rva004DF8D8Test((const Vec2*)targetPos,(const Vec2*)sourcePos,
     (const Vec2*)((const Thing*)this)->getUnitDirectionVector2D(),range,1.0f,1.0f,sourceRadius+targetRadius))return 0;
  if(type->visionAngle>=360.0f)return 1;
- Coord3D delta;delta.x=targetPos->x;delta.y=targetPos->y;delta.z=targetPos->z;delta.x-=sourcePos->x;delta.y-=sourcePos->y;delta.z-=sourcePos->z;delta.z=0.0f;
+ Coord3D delta=*targetPos;
+ delta-=*sourcePos;
+ delta.z=0.0f;
  delta.Normalize();
- FacingVector facing;
+ Coord3D facing;
  facing.x=Cos(angle);
  facing.y=Sin(angle);
  facing.z=0.0f;
- float dx=delta.x,dy=delta.y,dz=delta.z;
- float fx=facing.x,fy=facing.y,fz=facing.z;
- float dot=dx*fx;
- dot=dy*fy+dot;
- dot=dz*fz+dot;
- range=dot;
+ range=delta*asBase(facing);
  return range>=Cos(type->visionAngle*0.008725001f);
 }

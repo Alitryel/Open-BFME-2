@@ -1,5 +1,15 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.93 date=2026-10-19
+// partial score=0.97 date=2026-10-19
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.9 date=2026-10-19
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.9 date=2026-10-19
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.236 date=2026-10-17
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.25 date=2026-10-14
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE1_N@Z
+// partial score=0.25 date=2026-10-14
 // Bank draft of the AerialPathfinder path build at 0x0037609C (2148B, RET18).
 // WB 0xF2A4B0 names it AerialPathfinder::computeAerialPath (match 7.567
 // consts+strings). Structure from the retail body: destination adjust, the
@@ -7,6 +17,12 @@
 // probes, and the ProfileHighLevel report tail.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 // Native reconstruction restores block lifetimes, receiver roles and collision transitions.
+// 2026-10-19 seat12 (member-mutator lever, reverse/attempt_support/coord3d-member-mutator-lever-20261019.md):
+// center initialised and p += center written through the AerialCoord3D member view (WB 0x41F3B0
+// operator+=) closes the setup-z residue; the probe heading calls retail's C++ float overload
+// ?atan2@@YAMMM@Z (0x000422CD), not _atan2f. 2148/2148 B, 22 differing lines: only the two cos
+// arms remain (retail loads target.z right after `call cos` and delays fmul/fadd between the
+// argument pushes). Member set(x,y,z) for q is worse (2186/2160 B).
 // The earlier draft description above is preserved as contributor evidence.
 #include "../../Code/Libraries/Include/Lib/Coord3D.h"
 #include "../../Code/Libraries/Include/Lib/Coord3DBase.h"
@@ -20,6 +36,11 @@ inline Coord3D &addCoord(Coord3D &p, const Coord3DBase &v) {
     p.z += v.z;
     return p;
 }
+struct AerialCoord3D : public Coord3D
+{
+    AerialCoord3D &operator+=(const Coord3D &o) { x += o.x; y += o.y; z += o.z; return *this; }
+    void set(const Coord3D *o) { x = o->x; y = o->y; z = o->z; }
+};
 inline void Coord3D::set(const Coord3DBase *v) {
     x = v->x;
     y = v->y;
@@ -92,6 +113,7 @@ public:
     virtual void __cdecl message(UnicodeString);
 };
 extern "C" float __cdecl atan2f(float, float);
+float atan2(float, float);
 extern "C" double __cdecl sin(double);
 extern "C" double __cdecl cos(double);
 extern "C" int __cdecl strcmp(const char *, const char *);
@@ -102,8 +124,6 @@ struct AerialShapeBits {
     bool test(unsigned bit) const { return (data & (1U << bit)) != 0; }
 };
 
-// WB copies the speed field to a getter temp; the inline getter makes /O1 load it first.
-inline float aerialSpeed(const unsigned char *self) { return *(const float *)(self + 0xbc); }
 class Rva0037609C {
 private:
     unsigned char m_pad0[0x258];
@@ -136,9 +156,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             obj->rva0028ACEE((int)&target, 1);
         }
         Coord3D center;
-        center.x = *(float *)(self + 0x38);
-        center.y = *(float *)(self + 0x3c);
-        center.z = *(float *)(self + 0x40);
+        static_cast<AerialCoord3D &>(center).set((const Coord3D *)(self + 0x38));
         Coord3D delta;
         ((Object *)thing)->Get2DCenterVectorTo(&delta, &target);
         float distance = delta.length();
@@ -150,7 +168,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             ((Thing *)thing)->getUnitDirectionVector3D(p);
             extension = distance * 3.0f;
             p.scale(-(extension > 1500.0f ? 1500.0f : extension));
-            addCoord(p, asBase(center));
+            static_cast<AerialCoord3D &>(p) += center;
             bool above = ((Object *)thing)->isSignificantlyAboveTerrain();
             if (((const AerialShapeBits *)label)->test(2) && above)
                 p.z -= capExtension(extension);
@@ -180,7 +198,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             addCoord(probe, asBase(target));
             bool collides = ((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &probe, &push) != 0;
             if (collides) {
-                float base = atan2f(delta.x, delta.y);
+                float base = atan2(delta.x, delta.y);
                 Coord3D &q = delta;
                 Coord3D second;
                 bool tryPlus = true;
@@ -247,7 +265,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             int steps = 0;
             while (repairs < 5) {
                 float closest = 999999.0f;
-                ((AerialRouteCalls *)route)->time += aerialSpeed(self) * 0.5f;
+                ((AerialRouteCalls *)route)->time += *(float *)(self + 0xbc) * 0.5f;
                 if (!TheSplineService->rva00311974((SplineState *)route, false, 0))
                     break;
                 if (++steps > 200)
@@ -272,13 +290,13 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                             p.x += push.x;
                             p.y += push.y;
                             p.z += push.z;
-                            if (!((Rva00311F46 *)route)->find(p, aerialSpeed(self)))
+                            if (!((Rva00311F46 *)route)->find(p, *(float *)(self + 0xbc)))
                                 ((AerialRouteCalls *)route)->insert(&p);
                             ((Rva00311DD9 *)route)->rva00311B70();
                             ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
                             route->rva00312118();
                             ++repairs;
-                            ((AerialRouteCalls *)route)->time = middle + aerialSpeed(self);
+                            ((AerialRouteCalls *)route)->time = *(float *)(self + 0xbc) + middle;
                         }
                     }
                 }
