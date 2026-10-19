@@ -148,8 +148,7 @@ class Rva0055076F
 {
 public:
 	Rva0055076F() : m_member() {}
-	~Rva0055076F() { rva0055076F(); }
-	void rva0055076F();
+	~Rva0055076F();
 
 private:
 	Rva005CC61E m_member;

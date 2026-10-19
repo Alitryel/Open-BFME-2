@@ -17,7 +17,9 @@
 // from there on; gpInitialize/gpSetCallback take &gpCon directly. Declaring
 // it earlier overlaps callbackWrapper's EDI and evicts the EBX zero; case-4
 // scope or &gpCon everywhere loses the EDI copy across connect/info-mask.
-// EH graph and class/provider linkage still require verification on landing.
+// Callback ownership is the native clearing-and-delete lifetime at55076F;
+// the existing provider is reconciled as its real destructor rather than
+// std::auto_ptr. Original holder type name remains unknown.
 #define __PLACEMENT_VEC_NEW_INLINE
 #include <stdlib.h>
 void Rva00030830GameFree(void*);
@@ -32,6 +34,19 @@ namespace _STL { template<> void vector<AsciiString>::push_back(const AsciiStrin
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
+
+// The native cleanup at 0x0055076F clears its one owned word before
+// ordinary scalar delete; it is the same owned-pointer lifetime already viewed
+// by Rva00575F38Dtor.cpp, rather than std::auto_ptr's non-clearing destructor.
+class Rva0055076F
+{
+public:
+    explicit Rva0055076F(void *value) : m_owned(value) {}
+    ~Rva0055076F() { void *owned = m_owned; m_owned = 0; ::operator delete(owned); }
+    void *get() const { return m_owned; }
+private:
+    void *m_owned;
+};
 
 class GPConnection { public: void *m_handle; };  // GameSpy GP connection handle (a class, as BuddyThread.cpp and the callbackWrapper row)
 typedef void (*Rva00438CD0Callback)(GPConnection *,void *,void *);
@@ -103,7 +118,7 @@ public:
 };
 extern GameSpyBuddyMessageQueueInterface *TheGameSpyBuddyMessageQueue;
 
-class Rva00550918 { public: virtual void rva00550921(int,unsigned int,const int*); };
+class Rva00550918 { public: Rva00550918() {} virtual void rva00550921(int,unsigned int,const int*); };
 class Rva007E8810Message { public: bool hasError(); int getError(); };
 class BfmeMsgVJH { char opaque[0x30]; public:
  BfmeMsgVJH(char*,int); virtual ~BfmeMsgVJH();
@@ -206,7 +221,7 @@ private:
 void BuddyThreadClass::Thread_Function()
 {
     m_ownedLock.clearLock();
-    std::auto_ptr<Rva00550918> callback(new Rva00550918);
+    Rva0055076F callback(new Rva00550918);
     if (g_buddyFeslService == 0)
     {
         createServiceHubImpl((void*)"bfme2-retail",(void*)"15123",(void*)"en_US",(void*)"1.0",0,0);

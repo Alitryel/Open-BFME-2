@@ -39,3 +39,10 @@ No source or row is admitted under Code, and no pin, alias, header, compiler or
 verifier edit is included. Preserve this stronger complete bank and resume from
 remaining.diff rather than repeating the exhausted lifetime/array hypotheses.
 Model: gpt-6.1-sol.
+
+Follow-up at 28b1b5c69e: three genuine inline-helper forms do not improve the
+bank. Extracting only the repeated weight clamp reproduces the same 1526-byte
+body and 250 fixed differences. Factoring the complete pair-to-weight operation
+with int or short returns emits 1552 bytes and lowers ordered alignment to 953.
+No source, bank or row change; no new behavior verification is claimed for the
+rejected helper forms. Raw diagnostics: build/weak-dering-helper-oct19.

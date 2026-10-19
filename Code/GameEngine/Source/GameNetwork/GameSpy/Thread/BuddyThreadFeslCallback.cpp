@@ -61,7 +61,6 @@ void Rva00550918::rva00550921(int event, unsigned int opaque, const int *error)
  }
 }
 
-// Existing9B constructor moved from the small-constructor collection so its
-// emitted one-slot vtable contains the proven event callback above. The old
-// empty virtual-destructor view put an unrelated deleting destructor there.
-Rva00550918::Rva00550918() {}
+// The existing9B constructor is emitted by BuddyThreadClassThreadFunction.cpp
+// from this same one-slot listener view. Keep its sole real callback here;
+// the owner unit supplies the byte-and-relocation-identical constructor copy.
