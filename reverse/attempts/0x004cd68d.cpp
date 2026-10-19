@@ -1,26 +1,16 @@
 // ?triggerAbilityEffect@TeleportToCasterSpecialPower@@UAEXXZ
-// partial score=0.62 date=2026-10-14
-// ?triggerAbilityEffect@TeleportToCasterSpecialPower@@UAEXXZ
-// partial score=0.8494083737864078 date=2026-10-09
-// cl: /O1 /G7 /O2 /Os /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Include /I.
+// partial score=0.7 date=2026-10-19
+// cl: /O1 /G7 /Oi /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Include /I. /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // TeleportToCasterSpecialPower::teleportList: WB12777E0 assertion84 establishes name; native4CD51B..4CD68D RET8 establishes extent370 and layout/calls.
 // No applicable clean BF1/ZH TeleportToCaster source at readonly9cbfb551. Data+CC/D0 ring radii, Object44 orientation/258 AI; native vector element IDs use shared lookup enum.
 #include <vector>
 #include <string.h>
 #include <math.h>
+
 #include "Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
-namespace _STL 
-{
- template<> __forceinline _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base() 
- {
-  if(_M_start!=0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);
-  
- }
- 
-}
 extern GameLogic *TheGameLogic;
 enum CommandSourceType
 {
@@ -328,7 +318,7 @@ class Rva00260EB1Filter:public Rva000421C8
  virtual bool allow(Object*);
  virtual int getPlayerMask();
  Object*m_object;
- volatile int m_flags;
+ int m_flags;
  bool m_inverse;
  
 }
@@ -413,7 +403,6 @@ class FXList
 }
 ;
 extern PartitionManager *ThePartitionManager;
-	const void * what = 0;
 void TeleportToCasterSpecialPower::triggerAbilityEffect()
 {
  ((SpecialAbilityUpdate*)this)->SpecialAbilityUpdate::triggerAbilityEffect();
@@ -429,7 +418,7 @@ void TeleportToCasterSpecialPower::triggerAbilityEffect()
  else
  {
   const Overridable *power=((TeleportPowerInterface*)((Rva0044E633*)this)->rva0044E633())->getTemplate()->friend_getFinalOverride();
-  what = (owner ? ((const char*)power+0x60) : ((const char*)power+0x60));
+  const void *what = (const char*)power+0x60;
   Rva0023DA79 statusMask;
   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&targetPosition,moduleData->radius,0,
   Rva002614DFFilter(object).link(Rva0026119DFilter().link(PartitionFilterRejectByKindOf(*(const BfmeFixedStorage0004543D*)&Rva0006EE7A(0,7,0x86),*(const BfmeFixedStorage0004543D*)&KINDOFMASK_NONE).link(
