@@ -182,9 +182,9 @@ private:
 };
 
 
-// 0x00251C24, 0x004624E3, 0x00466E0A and 0x004BC51B: interface overrides
-// (interface at +0x0C, +0x20, +0x34 resp. +0x10) that only dispatch to
-// virtual slot 12, 18, 28 resp. 13 of the complete object.
+// 0x00251C24, 0x00466E0A and 0x004BC51B: interface overrides
+// (interface at +0x0C, +0x34 resp. +0x10) that only dispatch to
+// virtual slot 12, 28 resp. 13 of the complete object.
 // 0x00251C11 (the slot just before 0x00251C24 in the same vtable, at
 // 0x007EFDA4): hands its float to virtual slot 15 of the object at +0x04.
 class Rva00251C11Primary
@@ -253,15 +253,6 @@ public:
 	void forward();
 };
 void Rva00251C24::forward()
-{
-	target();
-}
-class Rva004624E3 : public Rva00251C24Primary<18, 0x20>, public Rva00251C24Iface
-{
-public:
-	void forward();
-};
-void Rva004624E3::forward()
 {
 	target();
 }
