@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // ?rva0059BB50@Rva0059BB50@@QAEXHHHH@Z
@@ -55,10 +55,14 @@ _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > 
 }
 }
 #include <vector>
-// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
-// shape); this TU's flags would emit a private copy.
+// Retail's vector<BfmePod20>::_M_insert_overflow 0x0059B809 inlines max
+// (StlportVectorInsertOverflowRva0059B809.cpp); a non-template overload
+// keeps this unit from emitting or calling max<unsigned int>.
 namespace _STL {
-template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
 }
 
 namespace _STL {
@@ -134,6 +138,8 @@ struct Rva00501E3FElement
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *p) { typedef Rva00501E3FElement BfmeDestroyT; p->~BfmeDestroyT(); } }
+// This view's element destructs trivially; retail's range copy 0x00500CB8 loops over a real dtor.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement *>(Rva00501E3FElement *, Rva00501E3FElement *) {} }
 typedef _STL::vector<Rva00501E3FElement> Rva0059BB50Records;
 
 namespace _STL {
@@ -217,10 +223,16 @@ struct Rva004FFB00Hero
 	int m_id;
 };
 
+// The row's spelling of 0x00500659's return vector (an int-sized enum).
+enum ObjectID
+{
+	INVALID_ID = 0
+};
+
 class Rva0059CFAACallee
 {
 public:
-	_STL::vector<int> rva00500659(int playerId, int *territory, int *count);
+	_STL::vector<ObjectID> rva00500659(int playerId, int *territory, int *count);
 	Rva004FFB00Hero *rva004FFB00(int playerId, int *territory, int *distance);
 };
 

@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // ?DefendHomeTerritory@LivingWorldAIArmyMover@@QAEXPAV?$vector@UBfmePod20@@V?$allocator@UBfmePod20@@@_STL@@@_STL@@HHPAVRva0059CFAACallee@@@Z
@@ -103,10 +103,16 @@ struct Rva004FFB00Hero
 	int *m_region;
 };
 
+// The row's spelling of 0x00500659's return vector (an int-sized enum).
+enum ObjectID
+{
+	INVALID_ID = 0
+};
+
 class Rva0059CFAACallee
 {
 public:
-	_STL::vector<int> rva00500659(int playerId, int *territory, int *count);
+	_STL::vector<ObjectID> rva00500659(int playerId, int *territory, int *count);
 	Rva004FFB00Hero *rva004FFB00(int playerId, int *territory, int *distance);
 };
 
