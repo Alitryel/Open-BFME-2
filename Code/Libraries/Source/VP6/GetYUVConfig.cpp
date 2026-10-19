@@ -10,10 +10,10 @@ struct Rva009AAC80Context;
 struct Rva009AABB0Context;
 struct Rva009AA8F0Context;
 struct Rva009AA8F0Block;
-struct BfmeVp6Context;
 
 extern "C" void __cdecl VP6_readTSC(unsigned int *result);
-extern "C" int __cdecl bfmeVp6ThresholdSelect(BfmeVp6Context *ctx);
+struct VP6Instance;
+extern "C" int __cdecl VP6_PickPostProcessingLevel(VP6Instance *pbi);
 extern "C" int __cdecl AllocatePostProcBuffers(Rva009A5C40Context *post);
 extern "C" void __cdecl PostProcess(Rva009A6130Context *post, int version, int frameType, int level,
 	int frameQ, unsigned char *source, unsigned char *dest, unsigned char *fragInfo, int elementSize, int codedMask);
@@ -111,7 +111,7 @@ extern "C" void __cdecl VP6_GetYUVConfig(VP6Instance *instance, VP6YUVConfig *co
 	unsigned int start;
 
 	VP6_readTSC(&start);
-	instance->level = bfmeVp6ThresholdSelect((BfmeVp6Context *)instance);
+	instance->level = VP6_PickPostProcessingLevel(instance);
 
 	if (instance->level || (instance->interlaced && instance->deinterlaceMode))
 	{
