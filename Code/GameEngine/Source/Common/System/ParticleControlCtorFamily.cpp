@@ -22,6 +22,13 @@ inline Coord3D::~Coord3D() {}
 inline Coord3D::Coord3D(float xv,float yv,float zv) {x=xv;y=yv;z=zv;}
 template<class T> struct StringInlineData { int m_refCount,m_length;T m_text[1]; };
 #include "ascii_string.h"
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 namespace _STL {
 template<> vector<AsciiString>::~vector();
 template<> __declspec(noinline) _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(const allocator<AsciiString> &a) : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
