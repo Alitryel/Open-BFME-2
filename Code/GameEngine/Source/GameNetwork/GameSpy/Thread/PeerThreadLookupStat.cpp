@@ -16,6 +16,10 @@ void Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
 #include <string>
 #include <map>
+// Inline _String_base<char>'s dtor everywhere so this unit emits no copy of
+// its own; the kept retail copy serves any out-of-line call.
+namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); } }
 // Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
 // out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
 namespace _STL {
