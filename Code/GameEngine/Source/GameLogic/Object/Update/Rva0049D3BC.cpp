@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva0049D3BC@Rva0049D3BC@@QAEXXZ retail 0x0049D3BC 362B
+// ?rva0049D3BC@ProductionUpdate@@QAEXXZ retail 0x0049D3BC 362B
 // Expiry sweep over 4 entries at +0x3C with timeouts from +0x04 data (+0xC/+0x10/+0x14)
 // and Disability-style bit tables at 0x00C51304/0x00C51314/0x00C51324 driving
 // +0x7C set and +0xC8 clear/set plus +0x114 dirty flag. Evidence: TheGameLogic
@@ -51,7 +51,7 @@ unsigned int ProductionDoorWaitingOpenFlags[4] = {
 	0x17, 0x1b, 0x1f, 0x23,
 };
 
-class Rva0049D3BC
+class ProductionUpdate
 {
 public:
 	void rva0049D3BC();
@@ -66,7 +66,7 @@ private:
 	unsigned char m_114;
 };
 
-void Rva0049D3BC::rva0049D3BC()
+void ProductionUpdate::rva0049D3BC()
 {
 	Rva0049D3BCData *data = m_data;
 	unsigned int cur = TheGameLogic->m_40;

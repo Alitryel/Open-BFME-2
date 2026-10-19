@@ -762,7 +762,6 @@ namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_L
 class Rva002D9531 { public: void rva002D9531(int); };
 class Rva0033F15DDwordSlot { public: void set(int); };
 class Rva002AE98B { public: float rva002AE98B(const AsciiString *); };
-class Rva0049D3BC { public: void rva0049D3BC(); };
 struct Rva002A7557In;
 class Rva002A7461 { public: bool rva002A7557(Rva002A7557In *,int); };
 class Rva0037E6E8 { public: int rva0037E649(int,Object *); float rva0037E815(int,Object *); };
@@ -794,7 +793,6 @@ class Drawable { public:
 class Rva002707FA { public: void rva002707FA(unsigned char); };
 class Rva0028CBFD { public: void rva0028CBFD(); };
 class SlaveWatcherBehavior { public: void rva00484869(int); };
-class Rva0049CD24 { public: void rva0049CD24(Object *); };
 struct CreateMask { unsigned int bits[4]; CreateMask() { memset(bits,0,sizeof(bits)); } };
 struct ProductionPlayerListView { char pad[0x10]; Player *localPlayer; };
 class PlayerList; extern PlayerList *ThePlayerList;
@@ -1234,6 +1232,7 @@ class ProductionUpdate : public UpdateModule, public ProductionUpdateInterface, 
 {
 public:
  virtual UpdateSleepTime update();
+ void rva0049D3BC(); void rva0049CD24(Object *);
  virtual Bool queueCreateUnit(const ThingTemplate *,Int,ProductionID,Int,Bool,const AsciiString &,Bool);
  void rva0049E368(); void rva0049CF25();
  void rva0049DF81(Rva0049DF81Input *,Object *);
@@ -1915,7 +1914,7 @@ UpdateSleepTime ProductionUpdate::update()
    } else { ((ProductionAudioView *)TheAudio)->stopEvent(m_bfme12C); m_bfme12C=1; }
   }
  }
- if(d->m_numDoorAnimations>0) ((Rva0049D3BC *)this)->rva0049D3BC();
+ if(d->m_numDoorAnimations>0) rva0049D3BC();
  if(m_bfme128>0) --m_bfme128;
  if(m_constructionCompleteFrame && now-m_constructionCompleteFrame>d->m_constructionCompleteDuration) {
   m_constructionCompleteFrame=0;
@@ -2013,7 +2012,7 @@ UpdateSleepTime ProductionUpdate::update()
        if(slave && getObject()) slave->setMaster(getObject());
       }
      }
-     ((Rva0049CD24 *)this)->rva0049CD24(newObj);
+     rva0049CD24(newObj);
      if(d->m_specialDuration>0) newObj->setSpecialModelConditionState((ModelConditionFlagType)0x14a,d->m_specialDuration);
      newObj->m_bfme324=(float)production->m_cost;
      TheGameLogic->rva0023D0C2(newObj,us->m_handle45C);
@@ -2066,7 +2065,7 @@ UpdateSleepTime ProductionUpdate::update()
       const ThingTemplate *extraTemplate=TheThingFactory->findTemplate(*it); if(!extraTemplate) continue;
       Team *team=us->getControllingPlayer()->m_defaultTeam;
       Object *extra=TheThingFactory->newObject(extraTemplate,team,&mask,false);
-      ((Rva0049CD24 *)this)->rva0049CD24(extra);
+      rva0049CD24(extra);
       if(exitInterface->getExitPosition(&pos,&angle)) { ((Thing *)extra)->setPosition(&pos); ((Thing *)extra)->setOrientation(angle); }
       ((Thing *)extra)->getDrawable()->setDrawableHidden(true);
       if(!extra->m_modelConditionFlags.test(218)) { extra->m_modelConditionFlags.set(218); extra->rva0028AE6D(); }

@@ -42143,7 +42143,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ?rva006003AD@Rva006003FC@@QAEXXZ,,0x006003AD,8,Code/GameEngine/Source/Common/Rva006003AD.cpp,matched,vslot tail-forward via member at +8 to rowed callee
 ?rva0049D526@Rva0049D526@@QAEXPAX@Z,,0x0049D526,89,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,matched,copy ctor row 0x00045455 list link plus flag bits
 ?rva0049D67F@Rva0049D67F@@QAE_NPBDPA_N1@Z,,0x0049D67F,308,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D67F.cpp,matched,Disability bitstring worker via Veterancy sibling transfer
-?rva0049D3BC@Rva0049D3BC@@QAEXXZ,,0x0049D3BC,362,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D3BC.cpp,matched,TheGameLogic frame plus entry timeouts and bit tables
+?rva0049D3BC@ProductionUpdate@@QAEXXZ,,0x0049D3BC,362,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D3BC.cpp,matched,TheGameLogic frame plus entry timeouts and bit tables
 ?rva0029F8B8@Rva0029F8B8@@QAE?AVRva0043FC20@@XZ,,0x0029F8B8,130,Code/GameEngine/Source/Common/Rva0029F8B8.cpp,matched,GlobalLanguage override plus copy ctor pair
 ?rva0029F4AB@Rva0029F4AB@@QAEXXZ,,0x0029F4AB,133,Code/GameEngine/Source/Common/Rva0029F4AB.cpp,matched,window lookup plus partition clear and peer release
 ??0Rva002E0A0A@@QAE@ABV0@@Z,,0x002E0A0A,149,Code/GameEngine/Source/Common/Rva002E0A0ACopyCtor.cpp,matched,copy ctor vptr plus wide and 4 narrow StringBase via wrappers
@@ -72682,7 +72682,7 @@ _Wmt_idct1,,0x001D89C0,98,Code/Libraries/Source/VP6/Idct1Wmt.cpp,matched,Clean-r
 ?rva0049A8A1@Rva0049A64B@@UAE_NHPAUCoord3D@@PAH@Z,,0x0049A8A1,89,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,matched,slot 1 of the +0x3E4 table 0x00C50868: provider from Object +0x250 vslot 0x7C; asks or hands it the argument then slot 5 position and clears the out word
 ?rva0049A973@HordeAIUpdate@@UAE_NPAVObject@@H@Z,,0x0049A973,54,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/HordeAIUpdatePrivateCommands.cpp,matched,HordeAIUpdate +0x3E4 secondary interface slot 0 (0x00850898) setting status 0x26 on arg1 and forwarding to horde contain slot 8
 ?rva0049C8E9@GiveUpgradeUpdate@@QAEEXZ,,0x0049C8E9,19,Code/GameEngine/Source/GameLogic/Object/Update/GiveUpgradeUpdateRva0049C8E9.cpp,matched,banked partial closed by tools/permute.py; identity carried from the banked attempt
-?rva0049CD24@Rva0049CD24@@QAEXPAVObject@@@Z,,0x0049CD24,43,Code/GameEngine/Source/Common/Rva0049CD24Apply.cpp,matched,forward nonzero holder handle through GameLogic
+?rva0049CD24@ProductionUpdate@@QAEXPAVObject@@@Z,,0x0049CD24,43,Code/GameEngine/Source/Common/Rva0049CD24Apply.cpp,matched,forward nonzero holder handle through GameLogic
 ?rva004A4580@Rva004A4580@@QAEPAXPAX@Z,,0x004A4580,27,Code/GameEngine/Source/Common/Rva004A4580Mark.cpp,matched,memset 4 bytes then set bit 1
 ?rva004A646B@StructureToppleUpdateModuleData@@SAXPAVINI@@PAX1PBX@Z,,0x004A646B,98,Code/GameEngine/Source/GameLogic/Object/Update/StructurePhaseListParsers.cpp,matched,StructureToppleUpdate FieldParse OCL 0x00C52CC8 (BFME2 addition); phase-indexed OCL vectors at +0x70; name address-derived
 ?rva004A7003@Rva004A7003@@QAEIXZ,,0x004A7003,13,Code/GameEngine/Source/Common/VslotSmallBodiesX.cpp,matched,Installed-table pointer load at receiver-3E0 then pointed field+80; observed native unsigned int ABI view. Original owner interface relationship and semantic type unknown. Defined32-bit receiver-address subtraction; no invented bases or complete-object extent. Complete independent native13B boundary; no pin or alias.

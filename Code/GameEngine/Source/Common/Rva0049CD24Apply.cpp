@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0049CD24@Rva0049CD24@@QAEXPAVObject@@@Z @0x0049CD24 43B.
+// ?rva0049CD24@ProductionUpdate@@QAEXPAVObject@@@Z @0x0049CD24 43B.
 // When the argument, the pointer at this+8, and the dword at that
 // object's +0x45C are all nonzero, forwards them to GameLogic::rva0023D0C2.
 // TheGameLogic is the global at VA 0x00DFE78C.
@@ -22,7 +22,7 @@ public:
 
 extern GameLogic *TheGameLogic;
 
-class Rva0049CD24
+class ProductionUpdate
 {
 public:
 	void rva0049CD24(Object *obj);
@@ -32,7 +32,7 @@ private:
 	Holder *m_holder;
 };
 
-void Rva0049CD24::rva0049CD24(Object *obj)
+void ProductionUpdate::rva0049CD24(Object *obj)
 {
 	if (obj == 0)
 		return;
