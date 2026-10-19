@@ -1,8 +1,8 @@
 // cl: /GX-
 // Global byte getters, each `mov al,[mem]; ret` (6B), ported from Open-BFME-1
 // (same shape as its GlobalDwordGetters file, byte-width). Each reads one
-// .data byte global into AL; identity unrecoverable, so globals and functions
-// are address-derived (g_Va<VA> / Rva<RVA>GetByte). One shared TU, one row
+// .data byte global into AL; identity unrecoverable, so functions are
+// address-derived (g_Va<VA> / Rva<RVA>GetByte). One shared TU, one row
 // per body.
 
 // ?Rva0004CAB1GetByte@@YAEXZ @ 0x0004CAB1 (6B) over 0x00DB5F7D.
@@ -18,68 +18,68 @@ unsigned char Rva0004CAB1GetByte(void)
 
 // ?Rva0004CAB7GetByte@@YAEXZ @ 0x0004CAB7 (6B) over 0x00DEC3D9.
 
-extern unsigned char g_Va00DEC3D9;
-// ?g_Va00DEC3D9@@3EA: the global at this VA is ?AreStaticSortListsEnabled@WW3D@@0_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEC3D9@@3EA=?AreStaticSortListsEnabled@WW3D@@0_NA")
+// Reuse ww3d.cpp's and dx8wrapper.cpp's private/protected static bytes through
+// TU-scoped friend views: the friends keep each member's real decoration
+// (?X@WW3D@@0_NA, ?X@DX8Wrapper@@1_NA) without a second datum or an alias.
+class WW3D
+{
+	friend unsigned char Rva0004CAB7GetByte(void);
+	friend unsigned char Rva00131062GetByte(void);
+	friend unsigned char Rva00110094GetByte(void);
+	friend unsigned char Rva00171670GetByte(void);
+	static bool AreStaticSortListsEnabled;
+	static bool IsTexturingEnabled;
+	static bool IsScreenUVBiased;
+	static bool MungeSortOnLoad;
+};
+
+class DX8Wrapper
+{
+	friend unsigned char Rva00131068GetByte(void);
+	friend unsigned char Rva0006E19BGetByte(void);
+	friend unsigned char Rva00116F70GetByte(void);
+protected:
+	static bool IsInitted;
+	static bool _EnableTriangleDraw;
+	static bool IsWindowed;
+};
+
+extern bool bfmeCameraProjectionOverride;
 
 unsigned char Rva0004CAB7GetByte(void)
 {
-	return g_Va00DEC3D9;
+	return WW3D::AreStaticSortListsEnabled;
 }
 
 // ?Rva00131062GetByte@@YAEXZ @ 0x00131062 (6B) over 0x00DB5F98.
 
-extern unsigned char g_Va00DB5F98;
-// ?g_Va00DB5F98@@3EA: the global at this VA is ?IsTexturingEnabled@WW3D@@0_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DB5F98@@3EA=?IsTexturingEnabled@WW3D@@0_NA")
-
 unsigned char Rva00131062GetByte(void)
 {
-	return g_Va00DB5F98;
+	return WW3D::IsTexturingEnabled;
 }
 
 // ?Rva00131068GetByte@@YAEXZ @ 0x00131068 (6B) over 0x00DEDA04.
 
-extern unsigned char g_Va00DEDA04;
-// ?g_Va00DEDA04@@3EA: the global at this VA is ?IsInitted@DX8Wrapper@@1_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA04@@3EA=?IsInitted@DX8Wrapper@@1_NA")
-
 unsigned char Rva00131068GetByte(void)
 {
-	return g_Va00DEDA04;
+	return DX8Wrapper::IsInitted;
 }
 
 // ?Rva0006E19BGetByte@@YAEXZ @ 0x0006E19B (6B) over 0x00DB5FCD.
 
-extern unsigned char g_Va00DB5FCD;
-// ?g_Va00DB5FCD@@3EA: the global at this VA is ?_EnableTriangleDraw@DX8Wrapper@@1_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DB5FCD@@3EA=?_EnableTriangleDraw@DX8Wrapper@@1_NA")
-
 unsigned char Rva0006E19BGetByte(void)
 {
-	return g_Va00DB5FCD;
+	return DX8Wrapper::_EnableTriangleDraw;
 }
 
 // ?Rva0006E1A1GetByte@@YAEXZ @ 0x0006E1A1 (6B) over 0x00DEDA05.
 
-extern unsigned char g_Va00DEDA05;
-// ?g_Va00DEDA05@@3EA: the global at this VA is ?bfmeCameraProjectionOverride@@3_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA05@@3EA=?bfmeCameraProjectionOverride@@3_NA")
-
 unsigned char Rva0006E1A1GetByte(void)
 {
-	return g_Va00DEDA05;
+	return bfmeCameraProjectionOverride;
 }
 
 // ?Rva00110094GetByte@@YAEXZ @ 0x00110094 (6B) over 0x00DEC3D7.
-
-// Reuse ww3d.cpp's private static byte at VA 0x00DEC3D7. The friend
-// keeps its existing private-member decoration without a second datum.
-class WW3D
-{
-	friend unsigned char Rva00110094GetByte(void);
-	static bool IsScreenUVBiased;
-};
 
 unsigned char Rva00110094GetByte(void)
 {
@@ -109,11 +109,9 @@ unsigned char Rva000308D0GetByte(void)
 
 // ?Rva00116F70GetByte@@YAEXZ @ 0x00116F70 (6B) over 0x00DEDA06.
 
-extern unsigned char g_Va00DEDA06;
-
 unsigned char Rva00116F70GetByte(void)
 {
-	return g_Va00DEDA06;
+	return DX8Wrapper::IsWindowed;
 }
 
 // ?Rva00171650GetByte@@YAEXZ @ 0x00171650 (6B) over 0x00DEC410.
@@ -129,13 +127,7 @@ unsigned char Rva00171650GetByte(void)
 
 // ?Rva00171670GetByte@@YAEXZ @ 0x00171670 (6B) over 0x00DEC3DA.
 
-extern unsigned char g_Va00DEC3DA;
-// ?g_Va00DEC3DA@@3EA: the global at this VA is ?MungeSortOnLoad@WW3D@@0_NA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEC3DA@@3EA=?MungeSortOnLoad@WW3D@@0_NA")
-
 unsigned char Rva00171670GetByte(void)
 {
-	return g_Va00DEC3DA;
+	return WW3D::MungeSortOnLoad;
 }
-// ?g_Va00DEDA06@@3EA: the global at VA 0xdeda06 is ?IsWindowed@DX8Wrapper@@1_NA.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA06@@3EA=?IsWindowed@DX8Wrapper@@1_NA")
