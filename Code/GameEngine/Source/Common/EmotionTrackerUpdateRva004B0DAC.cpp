@@ -21,10 +21,10 @@ __forceinline long fast_float2long_round(float f)
 	return i;
 }
 
-class Rva004DD2C0
+class EmotionNugget
 {
 public:
-	void rva004DD2C0();
+	void OnDeactivation();
 };
 
 struct Rva004B0DACArg
@@ -39,7 +39,7 @@ public:
 	void ForceEmotion(int index, float value, int arg);
 private:
 	char m_pad00[0x9C];
-	Rva004DD2C0 *m_9C;
+	EmotionNugget *m_9C;
 	char m_padA0[0xB0 - 0xA0];
 	int m_B0;
 	int m_B4;
@@ -57,10 +57,10 @@ void EmotionTrackerUpdate::ForceEmotion(int index, float value, int arg)
 	m_B4 = fast_float2long_round(tmp);
 	int v = (arg != 0) ? ((Rva004B0DACArg *)arg)->m_74 : 0;
 	m_B8 = v;
-	Rva004DD2C0 **slotp = &m_9C;
-	Rva004DD2C0 *slot = *slotp;
+	EmotionNugget **slotp = &m_9C;
+	EmotionNugget *slot = *slotp;
 	if (slot != 0) {
-		slot->rva004DD2C0();
+		slot->OnDeactivation();
 		*slotp = 0;
 	}
 }

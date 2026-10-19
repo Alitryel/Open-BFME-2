@@ -11,12 +11,12 @@ public:
 	int m_field;
 };
 
-class Rva004DD2C0
+class EmotionNugget
 {
 public:
 	char m_pad[4];
 	Rva004DD2C0Inner *m_inner;
-	void rva004DD2C0();
+	void OnDeactivation();
 };
 
 class Rva004B0E9C
@@ -26,15 +26,15 @@ public:
 
 private:
 	char m_pad[0x9C];
-	Rva004DD2C0 *m_slot;
+	EmotionNugget *m_slot;
 };
 
 void Rva004B0E9C::rva004B0E9C()
 {
-	Rva004DD2C0 *slot = m_slot;
+	EmotionNugget *slot = m_slot;
 	if (slot != 0 && slot->m_inner->m_field != -1)
 	{
-		slot->rva004DD2C0();
+		slot->OnDeactivation();
 		m_slot = 0;
 	}
 }

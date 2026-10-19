@@ -24,10 +24,10 @@ public:
 };
 }
 
-class Rva004DD2C0
+class EmotionNugget
 {
 public:
-	void rva004DD2C0();
+	void OnDeactivation();
 };
 
 class Rva004DCE8E
@@ -44,15 +44,15 @@ public:
 private:
 	char m_pad[0x70];
 	_STL::vector<void *, _STL::allocator<void *> > m_vec;
-	Rva004DD2C0 *m_slot;
+	EmotionNugget *m_slot;
 };
 
 void Rva004B15E6::rva004B15E6()
 {
-	Rva004DD2C0 *slot = m_slot;
+	EmotionNugget *slot = m_slot;
 	if (slot != 0)
 	{
-		slot->rva004DD2C0();
+		slot->OnDeactivation();
 		m_slot = 0;
 	}
 	_STL::vector<void *, _STL::allocator<void *> > *vec = &m_vec;

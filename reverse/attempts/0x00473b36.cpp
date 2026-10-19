@@ -1,6 +1,9 @@
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
-// partial score=0.8 date=2026-10-17
+// partial score=0.9 date=2026-10-19
+// ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z, retail
@@ -89,26 +92,20 @@ private:
 
 void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, QuarrelPacket packetB)
 {
-	// Native ctor46F543 models this same field (+24C = secondary+130)
-	// through the existing int/pointer tree view. The native call is286656,
-	// not the int/int clear21A917. Use that verified trivial-value clear;
-	// the timer's observed scalar bits do not establish its original C++ type.
-	((_STL::map<int, void *> *)&m_timers)->clear();
+	m_timers.clear();
 	Rva0046247DPair outer;
 	UpdateModule *update = (UpdateModule *)((char *)this - 0x11C);
 	((Rva0046247D *)update)->rva0046247D(outer);
-	ContainmentList &members = *outer.objects;
-	ContainmentList::iterator first = members.begin();
-	int count = (int)members.size();
+	int count = (int)outer.objects->size();
 	if (count < 2)
 		return;
-
+	float best = 10000.0f;
 	int closest = -1;
+	int index = 1;
 	QuarrelVector center;
 	center.zero();
-	float best = 10000.0f;
-	int index = 1;
-	for (ContainmentList::iterator it = first; it != members.end(); ++it) {
+	ContainmentList::iterator it;
+	for (it = outer.objects->begin(); it != outer.objects->end(); ++it) {
 		QuarrelMember *member = *(QuarrelMember **)&*it;
 		if (!member) {
 			slot107();
@@ -116,8 +113,8 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 		}
 		center.add(&member->position);
 	}
-	center.scale(1.0f / (float)count);
-	for (ContainmentList::iterator it = first; it != members.end(); ++it, ++index) {
+	center.scale(1.0f / count);
+	for (it = outer.objects->begin(); it != outer.objects->end(); ++it, ++index) {
 		QuarrelMember *member = *(QuarrelMember **)&*it;
 		if (!member) {
 			slot107();
@@ -128,8 +125,8 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 		diff.sub(&center);
 		float distance = diff.x * diff.x + diff.y * diff.y;
 		if (distance < best) {
-			closest = index;
 			best = distance;
+			closest = index;
 		}
 	}
 	int leader = closest;
@@ -141,7 +138,7 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 	m_packetB98 = packetB;
 	m_packetAE4 = packetA;
 	index = 1;
-	for (ContainmentList::iterator it = first; it != members.end(); ++it, ++index) {
+	for (it = outer.objects->begin(); it != outer.objects->end(); ++it, ++index) {
 		QuarrelMember *member = *(QuarrelMember **)&*it;
 		if (!member) {
 			slot107();
@@ -152,8 +149,9 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 		else if (index == leader)
 			m_second94 = member->id;
 		else {
-			int &timer = m_timers[member->id];
-			timer = (int)GetGameLogicRandomValueReal((float)low, (float)high, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeContain.cpp", 8162);
+			int id = member->id;
+			int &value = m_timers[id];
+			value = (int)GetGameLogicRandomValueReal((float)low, (float)high, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeContain.cpp", 8162);
 		}
 	}
 	update->wake(*(Object **)((char *)this - 0x114), 1);
