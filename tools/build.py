@@ -3264,12 +3264,20 @@ def compile_rows(rows, sources, *, input_proof=None, strict=False):
     return source_outputs
 
 
-def verify_functions(only=None):
-    rows = load_function_rows()
+def _function_scope(rows, only=None, exact_sources=None):
+    if exact_sources is not None:
+        return [row for row in rows if row["source"] in exact_sources]
     if only:
-        rows = [row for row in rows if any(sel in row["source"] or sel in row["name"] for sel in only)]
+        return [row for row in rows
+                if any(sel in row["source"] or sel in row["name"] for sel in only)]
+    return rows
+
+
+def verify_functions(only=None, *, exact_sources=None):
+    rows = _function_scope(load_function_rows(), only, exact_sources)
+    if only or exact_sources is not None:
         if not rows:
-            raise SystemExit("no functions match: " + ", ".join(only))
+            raise SystemExit("no functions match: " + ", ".join(only or sorted(exact_sources)))
     total = len(rows)
     symbol_map = load_symbol_map()
 
@@ -3376,7 +3384,7 @@ def verify_functions(only=None):
 
     # Only a full gate may rewrite the derived file: a scoped run proves a
     # handful of rows and would silently publish that handful as the whole set.
-    if not only:
+    if not only and exact_sources is None:
         write_reloc_names(patches)
 
     return patches
@@ -3787,7 +3795,7 @@ def load_unclaimed_sources():
     }
 
 
-def verify_source_claims(only=None):
+def verify_source_claims(only=None, *, exact_sources=None):
     """Progress is matched rows, nothing else: every .cpp under Code/ must own at
     least one byte-verified matched row (a function row, or a data_rows.csv row
     for a data-only TU), and no marker may contradict the ledger
@@ -3822,7 +3830,9 @@ def verify_source_claims(only=None):
     whitelisted = load_unclaimed_sources()
     problems = []
     sources = sorted((ROOT / "Code").rglob("*.cpp"))
-    if only:
+    if exact_sources is not None:
+        sources = [p for p in sources if p.relative_to(ROOT).as_posix() in exact_sources]
+    elif only:
         sources = [p for p in sources
                    if any(sel in p.relative_to(ROOT).as_posix() for sel in only)]
     for path in sources:
@@ -3850,7 +3860,7 @@ def verify_source_claims(only=None):
         for problem in problems[:20]:
             print(f"    {problem}")
         raise SystemExit(1)
-    scope = "scoped" if only else "all"
+    scope = "scoped" if only or exact_sources is not None else "all"
     print(f"Source claims: OK ({len(sources)} sources, {scope} byte-verified)")
 
 
@@ -3907,18 +3917,23 @@ def cross_source_checks():
     compiled = [s for s in sources if s.suffix.lower() != LIB_SUFFIX]
     outputs = {s: obj_path(s) for s in compiled}
     rebuilt = stale_sources(compiled, outputs, _pool_size())
-    compile_rows(rows, sources)
+    # Do not repair a source that became stale after this snapshot without also
+    # byte-verifying it. Initially current sources stay untouched here; the final
+    # all-source currency check refuses if any of their inputs moved meanwhile.
+    compile_rows(rows, rebuilt)
     stale = stale_sources(rebuilt, outputs, _pool_size())
     if stale:
         print(f"cross-source checks: {len(stale)} object(s) not current, e.g. {stale[0].relative_to(ROOT)}")
         return 1
     # An object rebuilt here was not verified by the carried push: its inputs moved
     # outside git (a toolchain path, an ignored header) or it was never built in
-    # this worktree. Byte-verify it like any other; past --limit-sized scopes, all.
+    # this worktree. Byte-verify every initially stale source. This is an internal
+    # Python call, so command-line length limits do not require a full-tree pass.
+    # Exact membership keeps selection linear and cannot select a name substring.
     if rebuilt:
         print(f"cross-source checks: {len(rebuilt):,} object(s) were not current; byte-verifying them")
         try:
-            main(None if len(rebuilt) > 1024 else [s.relative_to(ROOT).as_posix() for s in rebuilt])
+            main(exact_sources={s.relative_to(ROOT).as_posix() for s in rebuilt})
         except SystemExit as exc:
             if exc.code:
                 return 1
@@ -3931,16 +3946,26 @@ def cross_source_checks():
             if exc.code:
                 print(f"{label}: FAIL")
                 failed = 1
+    stale = stale_sources(compiled, outputs, _pool_size())
+    if stale:
+        print(f"cross-source checks: {len(stale)} object(s) became stale, e.g. {stale[0].relative_to(ROOT)}")
+        failed = 1
     return failed
 
 
-def main(only=None):
+def main(only=None, *, exact_sources=None):
     # Sources include some sweep headers under two case spellings; only the
     # canonical one is committed (case-only-colliding paths break Windows/macOS
     # checkout). Regenerate the alternate spelling here before any compile.
     ensure_case_shims()
     ensure_reference_current()
-    if only:
+    if only and exact_sources is not None:
+        raise ValueError("selectors and exact source scope are mutually exclusive")
+    if exact_sources is not None:
+        exact_sources = frozenset(exact_sources)
+        if not exact_sources:
+            raise SystemExit("empty exact source scope")
+    if only or exact_sources is not None:
         # Fast path: compile and byte-compare only the matching sources/functions
         # (a few seconds), skipping the baseline hash and no-op patch. Use this to
         # iterate; run with no arguments for the full check before committing.
@@ -3948,24 +3973,23 @@ def main(only=None):
         # Claims first: verify_functions exits with "no functions match" when the
         # selector names a source that owns no rows, which is exactly the case the
         # zero-row check exists to catch, so it has to run before that exit.
-        verify_source_claims(only)
+        verify_source_claims(only, exact_sources=exact_sources)
         # data rows of the named sources: byte-verified whether or not the
         # source also owns functions (a data-only TU owns nothing else)
         import data_rows
         data_sources = {row["source"] for row in data_rows.load()
-                        if any(sel in row["source"] for sel in only)}
+                        if (row["source"] in exact_sources if exact_sources is not None
+                            else any(sel in row["source"] for sel in only))}
+        rows = _function_scope(load_function_rows(), only, exact_sources)
         if data_sources:
             data_rows.verify(sources=sorted(data_sources))
-            if not any(sel in row["source"] or sel in row["name"]
-                       for row in load_function_rows() for sel in only):
+            if not rows:
                 return  # the selectors named data-only sources, verified above
-        verify_functions(only)
+        verify_functions(only, exact_sources=exact_sources)
         # String-ref verify scoped to the same rows: function bytes alone cannot
         # tell identical-twin stubs apart (their string pointer is a masked
         # DIR32) — three wrong-twin claims survived per-file verification and
         # reached master before the full gate caught them.
-        rows = [row for row in load_function_rows()
-                if any(sel in row["source"] or sel in row["name"] for sel in only)]
         verify_string_refs(rows)
         verify_float_refs(rows)
         verify_import_refs(rows)
