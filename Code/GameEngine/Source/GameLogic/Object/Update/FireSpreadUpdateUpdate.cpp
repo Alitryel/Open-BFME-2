@@ -200,13 +200,11 @@ protected:
 	int m_bfmeReserved;
 };
 
-// 0x0048B7D9 (calcNextSpreadDelay), rowed as Rva0048B7D9::rva0048B7D9.
-class Rva0048B7D9 { public: UnsignedInt rva0048B7D9(); };
-
 class FireSpreadUpdate : public UpdateModule
 {
 public:
 	virtual UpdateSleepTime update();
+	UnsignedInt rva0048B7D9();	// 0x0048B7D9 (calcNextSpreadDelay)
 
 protected:
 	const FireSpreadUpdateModuleData *getFireSpreadUpdateModuleData() const
@@ -249,6 +247,6 @@ UpdateSleepTime FireSpreadUpdate::update( void )
 			}
 		}
 
-		return UPDATE_SLEEP(((Rva0048B7D9 *)this)->rva0048B7D9());
+		return UPDATE_SLEEP(rva0048B7D9());
 	}
 }

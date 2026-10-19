@@ -539,9 +539,9 @@ public:
 
 // FireSpreadUpdate, looked up by its module key below. Its startFireSpreading
 // (Zero Hour tryToIgnite makes the same call) is rowed at 0x0048B938 under
-// the address-named view Rva0048B7D9, whose calcNextSpreadDelay sibling
+// an address-derived method name, and its calcNextSpreadDelay sibling
 // carries the FireSpreadUpdate.cpp file literal.
-class Rva0048B7D9
+class FireSpreadUpdate
 {
 public:
 	void rva0048B938();
@@ -764,7 +764,7 @@ void FlammableUpdate::tryToIgnite()
 		rva0048C7BF();
 
 		static const NameKeyType key_FireSpreadUpdate = TheNameKeyGenerator->nameToKey("FireSpreadUpdate");
-		Rva0048B7D9 *fu = (Rva0048B7D9 *)getObject()->findModule(key_FireSpreadUpdate);
+		FireSpreadUpdate *fu = (FireSpreadUpdate *)getObject()->findModule(key_FireSpreadUpdate);
 		if (fu != 0)
 			fu->rva0048B938();
 
