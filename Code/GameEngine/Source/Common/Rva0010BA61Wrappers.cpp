@@ -262,7 +262,9 @@ public:
 	void rva005E6B3E();
 };
 
-class Rva005F327ARun
+// Retail 0x005E6B8F calls 0x005F604C, the rowed 5-byte forward to
+// Rva005F327ARun::run (TailJumpWrappers5B.cpp); the call names that row.
+class Rva005F604C
 {
 public:
 	void run();
@@ -280,7 +282,7 @@ private:
 void Rva005E6B8F::rva005E6B8F()
 {
 	m_14->rva005E6B3E();
-	((Rva005F327ARun *)((char *)this - 0x0C))->run();
+	((Rva005F604C *)((char *)this - 0x0C))->run();
 }
 
 // Native 0x005E5920..0x005E5942, 34B.  A qualified call to the rowed
