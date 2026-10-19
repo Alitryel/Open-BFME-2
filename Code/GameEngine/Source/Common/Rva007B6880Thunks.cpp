@@ -50,12 +50,14 @@ public:
 	~CriticalSectionClass();
 };
 
-unsigned g_Va00DE4B34;	// retail RVA 0x009E4B34 (.bss), defined here
+// W3DMouse's file-scope CriticalSectionClass (Zero Hour W3DMouse.cpp `mutex`); the split
+// W3DMouse units name it with C linkage.
+extern "C" { unsigned mutex; }	// retail RVA 0x009E4B34 (.bss), defined here
 
-// ?rva007B6C66@@YAXXZ @ 0x007B6C66 (10B). Global CriticalSectionClass dtor thunk: ecx=&g_Va00DE4B34 then tail-jmp to rowed ??1CriticalSectionClass@@QAE@XZ (0x00613B10).
+// ?rva007B6C66@@YAXXZ @ 0x007B6C66 (10B). Global CriticalSectionClass dtor thunk: ecx=&mutex then tail-jmp to rowed ??1CriticalSectionClass@@QAE@XZ (0x00613B10).
 void __cdecl rva007B6C66()
 {
-	CriticalSectionClass *p = (CriticalSectionClass *)&g_Va00DE4B34;
+	CriticalSectionClass *p = (CriticalSectionClass *)&mutex;
 	return p->~CriticalSectionClass();
 }
 
@@ -65,12 +67,14 @@ public:
 	~MutexClass();
 };
 
-unsigned g_Va00DE5DA0;	// retail RVA 0x009E5DA0 (.bss), defined here
+// W3DMouse's file-scope MutexClass (Zero Hour W3DMouse.cpp `threadMutex`); the split
+// W3DMouse units name it with C linkage.
+extern "C" { unsigned threadMutex; }	// retail RVA 0x009E5DA0 (.bss), defined here
 
-// ?rva007B6C70@@YAXXZ @ 0x007B6C70 (10B). Global MutexClass dtor thunk: ecx=&g_Va00DE5DA0 then tail-jmp to rowed ??1MutexClass@@QAE@XZ (0x00613A20).
+// ?rva007B6C70@@YAXXZ @ 0x007B6C70 (10B). Global MutexClass dtor thunk: ecx=&threadMutex then tail-jmp to rowed ??1MutexClass@@QAE@XZ (0x00613A20).
 void __cdecl rva007B6C70()
 {
-	MutexClass *p = (MutexClass *)&g_Va00DE5DA0;
+	MutexClass *p = (MutexClass *)&threadMutex;
 	return p->~MutexClass();
 }
 

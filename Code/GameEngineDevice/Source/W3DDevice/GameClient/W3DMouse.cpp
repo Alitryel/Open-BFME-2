@@ -62,11 +62,14 @@
 // thread and the world-cursor tables, so those have C linkage here.
 static CriticalSectionClass mutex;
 static MutexClass threadMutex;
+// isThread stays file-static: retail W3DMouse::reset stores it after the redraw-mode
+// compare, which the compiler only schedules so for a static. W3DMouseInitW3DAssets.cpp
+// defines the C name its body reads.
 static Bool isThread;
 static TextureClass *cursorTextures[Mouse::NUM_MOUSE_CURSORS][MAX_2D_CURSOR_ANIM_FRAMES];	///<Textures for each cursor type
 // Native image table spans DE4A50..DE4B30: 56 pointers, not the donor enum count.
 enum { RETAIL_WORLD_CURSOR_COUNT = 56 };
-static const Image *cursorImages[RETAIL_WORLD_CURSOR_COUNT];			///<Images for use with the RM_POLYGON method.
+extern "C" { const Image *cursorImages[RETAIL_WORLD_CURSOR_COUNT]; }			///<Images for use with the RM_POLYGON method.
 // Retail freeW3DAssets traverses 0xE0 bytes in each of these tables.
 extern "C" { RenderObjClass *cursorModels[RETAIL_WORLD_CURSOR_COUNT]; }	///< W3D models for each cursor type
 extern "C" { HAnimClass			*cursorAnims[RETAIL_WORLD_CURSOR_COUNT]; }		///< W3D animations for each cursor type

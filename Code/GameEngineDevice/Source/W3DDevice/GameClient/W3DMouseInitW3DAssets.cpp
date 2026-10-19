@@ -537,7 +537,9 @@ extern unsigned int g_Va009E5DF8;
 extern "C" CriticalSectionClass mutex;
 extern "C" MutexClass threadMutex;
 extern "C" ThreadClass thread;
-extern "C" Bool isThread;
+// The mouse-thread flag (retail 0x009E4B30, .bss). W3DMouse.cpp keeps its own copy
+// file-static (see there), so the C name this body reads is defined here.
+extern "C" { Bool isThread; }
 extern "C" RenderObjClass *cursorModels[Mouse::NUM_MOUSE_CURSORS];
 extern "C" HAnimClass *cursorAnims[Mouse::NUM_MOUSE_CURSORS];
 
