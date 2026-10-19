@@ -14,20 +14,17 @@ public:
 	virtual ~Rva00600084();
 };
 
-class Rva006003FCBase
-{
-public:
-	__forceinline ~Rva006003FCBase() {}
-	virtual void keep() {}
-};
+// The base is the canonical Rva0007DF07 (table 0x007C6F20), as the ctor's unit
+// Rva00600352.cpp spells it: its empty inline dtor is the inline base-table store,
+// and the derived table's first slot is this class's own deleting dtor.
+#include "../../Include/Common/Rva0007DF07.h"
 
-class Rva006003FC : public Rva006003FCBase
+class Rva006003FC : public Rva0007DF07
 {
 public:
 	virtual ~Rva006003FC();
 
 private:
-	int m_pad04;
 	Rva00600084 m_member08;
 };
 
