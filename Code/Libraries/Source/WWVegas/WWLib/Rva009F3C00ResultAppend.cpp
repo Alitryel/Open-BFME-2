@@ -43,6 +43,13 @@ __declspec(noinline) void Rva009F39F0Result::append(int first, int second)
 // BfmeWideResult view (m_value at +0, rva00626630 declared) is canonical in
 // PartitionRangeQueryCallView.h; the twin below reuses this TU's payload.
 #include "../../../../GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+// Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
+// and this TU's COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 
 // ICF-folded twin of append above (same 103 bytes at 0x00626630): the
 // BfmeWideResult (Object *, float) spelling stores the same two 4-byte
