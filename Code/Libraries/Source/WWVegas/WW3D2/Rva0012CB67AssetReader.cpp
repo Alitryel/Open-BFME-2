@@ -98,8 +98,8 @@ bool Rva0012CB67(_iobuf *file,bool skipTextures)
     case 0x414E494D: Register_Aggregate_Prototype(assetName,asset.firstOffset,nameLen);break;
     case 0x41474752: Rva00180C6FCreate(assetName,asset.firstOffset,nameLen);break;
     case 0x46585348: FXShaderAsset::Register(assetName);break;
-    case 5522776: if(skipTextures)break;TextureAsset::Register(assetName);break;
-    case 4345688: Rva001809EACreate(assetName,asset.firstOffset,nameLen);break;
+    case 0x544558: if(skipTextures)break;TextureAsset::Register(assetName);break;
+    case 0x424F58: Rva001809EACreate(assetName,asset.firstOffset,nameLen);break;
     case 0x50415254: Rva001806D8Create(assetName,asset.firstOffset,nameLen);break;
     case 0x4D455348: Rva001804CBCreate(assetName,asset.firstOffset,nameLen);break;
     case 0x484C4F44: Rva001800B2Create(assetName,asset.firstOffset,nameLen);break;

@@ -18,6 +18,6 @@ struct FadeInTextRender:Rva0059675ABase {
  FadeInTextRender();virtual ~FadeInTextRender();virtual void LoadAssets();
  char pad04[0x18];Anim2D *anim;float scale;AsciiString fontName;unsigned color;int delay;unsigned fontSize;unsigned starts[3],ends[3];int width,height;
 };
-FadeInTextRender::FadeInTextRender():anim(0),scale(0.0f),fontName("SachaWynter"),color(14479610),delay(BfmeClientFramesPerSecond/4+1),fontSize(14) {
+FadeInTextRender::FadeInTextRender():anim(0),scale(0.0f),fontName("SachaWynter"),color(0xDCF0FA),delay(BfmeClientFramesPerSecond/4+1),fontSize(14) {
  memset(starts,0,sizeof(starts));memset(ends,0,sizeof(ends));
 }
