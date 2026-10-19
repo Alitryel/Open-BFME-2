@@ -214,16 +214,25 @@ Rva005FCFEA::Rva005FCFEA(EmitVtableTag *)
 {
 }
 
-class Rva005FD9FF
+// StrategicHUD::ArmyUnitSwapperMovieClip (vtable 0x00C7A2E8: the deleting dtor
+// 0x005FDA1D, then the five notify* slots).
+namespace StrategicHUD {
+class ArmyUnitSwapperMovieClip
 {
 public:
-	Rva005FD9FF(EmitVtableTag *);
+	ArmyUnitSwapperMovieClip(EmitVtableTag *);
 public:
-	virtual ~Rva005FD9FF();
+	virtual ~ArmyUnitSwapperMovieClip();
+	virtual void notifyClosed();
+	virtual void notifyExit();
+	virtual void notifyMoveDown();
+	virtual void notifyMoveUp();
+	virtual void notifySwap();
 };
+}
 
-// ?<Rva005FD9FF::Rva005FD9FF> absent-from-retail
-Rva005FD9FF::Rva005FD9FF(EmitVtableTag *)
+// ?<StrategicHUD::ArmyUnitSwapperMovieClip::ArmyUnitSwapperMovieClip> absent-from-retail
+StrategicHUD::ArmyUnitSwapperMovieClip::ArmyUnitSwapperMovieClip(EmitVtableTag *)
 {
 }
 

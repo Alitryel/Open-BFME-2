@@ -208,7 +208,7 @@ Rva005CC656::~Rva005CC656()
 //   0x0057682F  0x005D1ADE  Rva0057682F -> Rva005D1ADE
 //   0x005770F2  0x005D2111  Rva005770F2 -> Rva005D2111
 //   0x005CD3A5  0x005CCDDD  Rva005CD3A5 -> Rva005CCDDD
-//   0x005F4EE8  0x005FD9FF  Rva005F4EE8 -> Rva005FD9FF
+//   0x005F4EE8  0x005FD9FF  Rva005F4EE8 -> StrategicHUD::ArmyUnitSwapperMovieClip
 //   0x006F7DF0  0x006ED150  Rva006F7DC0 -> Rva006ED150
 //   0x00740555  0x00141DF0  Rva00740555 -> SimpleSceneClass
 class Rva0033FF2B
@@ -767,13 +767,15 @@ Rva005CD3A5::~Rva005CD3A5()
 {
 }
 
-class Rva005FD9FF
+namespace StrategicHUD {
+class ArmyUnitSwapperMovieClip
 {
 public:
-	virtual ~Rva005FD9FF();
+	virtual ~ArmyUnitSwapperMovieClip();
 };
+}
 
-class __declspec(novtable) Rva005F4EE8 : public Rva005FD9FF
+class __declspec(novtable) Rva005F4EE8 : public StrategicHUD::ArmyUnitSwapperMovieClip
 {
 public:
 	virtual ~Rva005F4EE8();
