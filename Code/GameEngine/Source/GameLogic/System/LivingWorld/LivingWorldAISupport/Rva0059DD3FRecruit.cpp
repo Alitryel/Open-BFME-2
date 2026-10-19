@@ -1,5 +1,5 @@
 // ?rva0059DD3F@Rva0059DD3F@@QAEXPAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@HPAVRva004FF8DA@@PAVRva004FF5B7@@HPAHH@Z
-// cl: /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Native 0x0059DD3F..0x0059DF60: 545 bytes, RET 0x1C.
 // WB 0x014FEB80 and caller 0x004FB27E establish eight weighted type
@@ -21,10 +21,11 @@ template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
 { return a < b; }
 }
-// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
-// shape); this TU's flags would emit a private copy.
+// Import-inline: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape, 0x00013740) and inlines it into vector growth; this TU's flags
+// would emit a private copy.
 namespace _STL {
-template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; }
 }
 class Rva00319CED;
 struct BfmeE8 {int id;Rva00319CED*unit;};
