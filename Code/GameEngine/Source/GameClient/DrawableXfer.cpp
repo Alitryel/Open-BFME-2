@@ -1,3 +1,4 @@
+#include "BuffManager.h"
 // cl: /I. /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 // Drawable::createEmbeddedPortals (0x0027A018) against the Drawable view this
@@ -106,6 +107,7 @@ public:
 	unsigned char m_version;
 };
 
+#define BFME_SNAPSHOT_NAME_SLOT
 #define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "reference/shims/moduledata/Common/Snapshot.h"
 
@@ -354,15 +356,7 @@ class Rva002716Holder { public: void rva00271547(); };
 class Rva0027974B { public: void rva0027974B(); };
 class Rva00279354Host { public: void rva00279354(bool); };
 
-class BuffManager : public Snapshot
-{
-public:
-	BuffManager(int drawable);
-	virtual void crc(Xfer *xfer);
-	virtual void DoXfer(Xfer *xfer);
-	virtual void LoadPostProcess();
-	char m_bytes[0x26c - 4];
-};
+
 
 class ThingTemplate
 {

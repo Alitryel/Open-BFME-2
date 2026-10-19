@@ -44,22 +44,9 @@ extern "C" void __cdecl free(void *);
 
 struct EmitVtableTag;
 
-class Rva00362E1C
-{
-public:
-	Rva00362E1C(EmitVtableTag *);
-public:
-	virtual ~Rva00362E1C();
-public:
-	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
-	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
-	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
-};
 
-// ?<Rva00362E1C::Rva00362E1C> absent-from-retail
-Rva00362E1C::Rva00362E1C(EmitVtableTag *)
-{
-}
+
+// Deleting destructor now emitted by its complete class constructor.
 
 class Rva00367E26
 {

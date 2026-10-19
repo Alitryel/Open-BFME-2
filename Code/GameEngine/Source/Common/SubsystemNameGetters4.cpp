@@ -1,3 +1,4 @@
+#include "../GameClient/BuffManager.h"
 // Subsystem literal name getters, fourth unit: six-byte const members with one
 // shape (mov eax,<offset string literal> / ret). Split to keep concurrent
 // contributors conflict-free; the BFME_LITERAL_NAME_GETTER macro is verbatim.
@@ -30,8 +31,8 @@ BFME_LITERAL_NAME_GETTER(Rva0034B172Named, "AIAttackState")
 BFME_LITERAL_NAME_GETTER(Rva00354EF6Named, "AiOrdersManager")
 BFME_LITERAL_NAME_GETTER(Rva0035701FNamed, "AttackPriorityInfo")
 BFME_LITERAL_NAME_GETTER(Rva00359E8DNamed, "TerrainResourceManager")
-BFME_LITERAL_NAME_GETTER(Rva00362493Named, "GlowMaterial")
-BFME_LITERAL_NAME_GETTER(Rva00362D66Named, "BuffInstance")
+const char *GlowMaterial::GetSnapshotName() const { return "GlowMaterial"; }
+const char *BuffInstance::GetSnapshotName() const { return "BuffInstance"; }
 BFME_LITERAL_NAME_GETTER(Rva00367929Named, "GiantBirdDieState")
 BFME_LITERAL_NAME_GETTER(Rva0036B8E0Named, "GiantBirdAIUpdate")
 BFME_LITERAL_NAME_GETTER(Rva0036E55ENamed, "AIGroup")

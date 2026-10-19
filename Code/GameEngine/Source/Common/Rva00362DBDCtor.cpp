@@ -1,31 +1,18 @@
+#include "../GameClient/BuffManager.h"
+class ModuleData;
 // cl: /DNDEBUG /MD /GX
-// ?rva00362DBD@BuffManager@@QAEXH@Z @0x00362DBD 89B: ModuleData-like ctor with 9x0x44 array at +8 then register via TheGameClient; callers 0x00271B8C and 0x0027B08C
-class __declspec(novtable) ModuleData {
-public:
-    virtual ~ModuleData();
-};
-class Rva00362D6C {
-public:
-    Rva00362D6C();
-    // The element owns a vptr; native array cleanup uses its rowed virtual destructor.
-    virtual ~Rva00362D6C();
-private:
-    char m_pad[0x44 - 4];
-};
+// BuffManager constructor 362DBD: native Snapshot table C17088 and nine
+// complete BuffInstance elements at08, then GameClient registration.
+
+
 class Rva00239FE4 {
 public:
     void rva00239FE4(const ModuleData *p);
 };
 class ClientFrameSubsystem;
 class ClientFrameSubsystem; extern class GameClient *TheGameClient;
-class BuffManager : public ModuleData {
-public:
-    BuffManager(int v);
-private:
-    int m_val04;
-    Rva00362D6C m_arr08[9];
-};
-BuffManager::BuffManager(int v) : m_val04(v)
+
+BuffManager::BuffManager(int v) : m_drawable((void *)v)
 {
     ((Rva00239FE4 *)((ClientFrameSubsystem *)TheGameClient))->rva00239FE4((const ModuleData *)this);
 }

@@ -301,19 +301,20 @@ void Drawable::removeFromList(Drawable **pListHead)
 //-------------------------------------------------------------------------------------------------
 // TintEnvelope bodies live together in Drawable_rva0027541E.cpp.
 
+#pragma push_macro("Snapshot")
+#pragma push_macro("__SNAPSHOT_H_")
+#undef Snapshot
+#undef __SNAPSHOT_H_
+#include "BuffManager.h"
+#pragma pop_macro("__SNAPSHOT_H_")
+#pragma pop_macro("Snapshot")
+
 // Native 00271B5C..00271BCC lazily allocates the 0x26C-byte manager
 // at Drawable +0x450 then forwards five arguments to 003627F9. WB names
 // the wrapper TurnOnBuff; the target parameter enum/name remain unproven.
 // This field view uses only the measured offset. BuffManager constructor
 // and TurnOnBuff declarations preserve their existing verified spellings.
-class BuffManager
-{
-public:
-    BuffManager(int drawable);
-    void TurnOnBuff(int type, void *thingTemplate, int duration, int color, float intensity);
-private:
-    unsigned char storage[0x26C];
-};
+
 class Rva00271B5C
 {
 public:

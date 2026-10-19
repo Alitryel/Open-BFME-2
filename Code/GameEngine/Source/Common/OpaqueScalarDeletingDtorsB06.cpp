@@ -394,31 +394,13 @@ Rva003603D4::Rva003603D4(EmitVtableTag *)
 {
 }
 
-class Rva00362CF2
-{
-public:
-	Rva00362CF2(EmitVtableTag *);
-public:
-	virtual ~Rva00362CF2();
-};
 
-// ?<Rva00362CF2::Rva00362CF2> absent-from-retail
-Rva00362CF2::Rva00362CF2(EmitVtableTag *)
-{
-}
 
-class Rva00362D6C
-{
-public:
-	Rva00362D6C(EmitVtableTag *);
-public:
-	virtual ~Rva00362D6C();
-};
+// Deleting destructor now emitted by its complete class constructor.
 
-// ?<Rva00362D6C::Rva00362D6C> absent-from-retail
-Rva00362D6C::Rva00362D6C(EmitVtableTag *)
-{
-}
+
+
+// Deleting destructor now emitted by its complete class constructor.
 
 // AI::reset at 0x002FEB3A..0x002FEBB7. Source lead: GeneralsMD
 // GameLogic/AI/AI.cpp at BFME1 donor revision 34f59164f6d1efd413c5fd37f4894ec834c3c0fe.

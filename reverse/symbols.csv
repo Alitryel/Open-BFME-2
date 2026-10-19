@@ -4431,9 +4431,9 @@ name,address,notes
 ??1Rva003623E5Filter@@QAE@XZ,0x00360D26,Filter member teardown folding with the opaque pool-aware dtors at this address per the DynamicPortalBehaviourModuleData dtor call site
 ??1Rva003623E5Member@@QAE@XZ,0x00360D26,twin of pool-aware member dtor for DamageFieldUpdateModuleData dtor 0x0049116A filter call
 ??1Rva00362B5ADtor@@QAE@XZ,0x00362B5A,dtor thunk stub at 0x00362B5A to 0x00362B22 (target of thunk 0x007B7CC3)
-??1Rva00362CF2@@UAE@XZ,0x00362CF2,"destructor the scalar deleting destructor 0x00362E73 calls (REL32 at 0x00362E76; vtable 0x00C16FE8#0); opaque address name"
-??1Rva00362D6C@@UAE@XZ,0x00362D6C,"destructor the scalar deleting destructor 0x00362E8F calls (REL32 at 0x00362E92; vtable 0x00C17068#0); opaque address name"
-??1Rva00362E1C@@UAE@XZ,0x00362E1C,"destructor the scalar deleting destructor 0x00362EAB calls (REL32 at 0x00362EAE; vtable 0x00C17088#0); opaque address name"
+??1GlowMaterial@@UAE@XZ,0x00362CF2,"destructor the scalar deleting destructor 0x00362E73 calls (REL32 at 0x00362E76; vtable 0x00C16FE8#0); native named four-slot table identifies real class; sole-owner rename"
+??1BuffInstance@@UAE@XZ,0x00362D6C,"destructor the scalar deleting destructor 0x00362E8F calls (REL32 at 0x00362E92; vtable 0x00C17068#0); native named four-slot table identifies real class; sole-owner rename"
+??1BuffManager@@UAE@XZ,0x00362E1C,"destructor the scalar deleting destructor 0x00362EAB calls (REL32 at 0x00362EAE; vtable 0x00C17088#0); native named four-slot table identifies real class; sole-owner rename"
 ??1Rva00367E26@@UAE@XZ,0x00367E26,"destructor the scalar deleting destructor 0x00367E0A calls (REL32 at 0x00367E0D; vtable 0x00C17600#0); opaque address name"
 ??1Rva0036B8E6@@UAE@XZ,0x0036B8E6,"destructor the scalar deleting destructor 0x0036C693 calls (REL32 at 0x0036C696; vtable 0x00C17A80#0); opaque address name"
 ??1Rva0037343B@@UAE@XZ,0x0037343B,"destructor the scalar deleting destructor 0x00373800 calls (REL32 at 0x00373803; vtable 0x00C17DD0#0); opaque address name"

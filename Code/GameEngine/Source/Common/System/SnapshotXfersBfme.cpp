@@ -1,3 +1,4 @@
+#include "../../GameClient/BuffManager.h"
 // cl: /DNDEBUG /MD /GX /Ireference/shims/bfme2_ascii
 //
 // Snapshot xfer methods (slot 3) of four BFME 2 snapshot classes, each named
@@ -215,36 +216,14 @@ private:
 };
 
 // The 0x44-byte BuffManager entries: only the slot-3 xfer is used.
-class Rva00362702Entry : public SnapshotBase
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-	friend class BuffManager;
-private:
-	char m_unrecovered04[ 0x44 - 0x04 ];
-};
+
 
 // g_Va00E01E74: VA 0x00E01E74 (.bss); retail initial bytes 00 00 00 00.
 void *g_Va00E01E74;
 
-class BuffManager : public SnapshotBase
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-private:
-	void *m_bfmeOwner04;																											///< 0x04
-	Rva00362702Entry m_entries[ 9 ];																					///< 0x08
-};
 
-class GlowMaterial : public SnapshotBase
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-private:
-	char m_unrecovered04[ 0x0C - 0x04 ];
-	UnsignedInt m_bfmeValue0C;																								///< 0x0C
-	UnsignedInt m_bfmeValue10;																								///< 0x10
-};
+
+
 
 class TScorch : public SnapshotBase
 {
@@ -412,12 +391,12 @@ private:
 // ------------------------------------------------------------------------------------------------
 /** Xfer method */
 // ------------------------------------------------------------------------------------------------
-void GlowMaterial::xfer( Xfer *xfer )
+void GlowMaterial::DoXfer( Xfer *xfer )
 {
 	Xfer::Version version( 1, 1 );
 	*xfer == version;
-	*xfer == m_bfmeValue0C;
-	*xfer == m_bfmeValue10;
+	*xfer == m_0C;
+	*xfer == m_10;
 }  // end xfer
 
 // ------------------------------------------------------------------------------------------------
@@ -625,7 +604,7 @@ Real Rva0039AE75::bfmeAt( Int value ) const
 // ------------------------------------------------------------------------------------------------
 /** Xfer method */
 // ------------------------------------------------------------------------------------------------
-void BuffManager::xfer( Xfer *xfer )
+void BuffManager::DoXfer( Xfer *xfer )
 {
 	Xfer::Version version( 1, 1 );
 	*xfer == version;
@@ -633,11 +612,11 @@ void BuffManager::xfer( Xfer *xfer )
 		return;
 	Int count = 9;
 	*xfer == count;
-	g_Va00E01E74 = m_bfmeOwner04;
+	g_Va00E01E74 = m_drawable;
 	for( Int i = 0; i < count; ++i )
 	{
-		Rva00362702Entry *entry = &m_entries[ i ];
-		entry->xfer( xfer );
+		BuffInstance *entry = &m_buffs[ i ];
+		entry->DoXfer( xfer );
 	}
 	g_Va00E01E74 = 0;
 }  // end xfer

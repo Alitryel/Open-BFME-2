@@ -1,3 +1,4 @@
+#include "../../GameClient/BuffManager.h"
 // cl: /DNDEBUG /MD
 //
 // ?rva00362862@Rva00362862Item@@QAEXHH@Z retail 0x00362862 68 bytes:
@@ -32,12 +33,7 @@ public:
 	void rva003626EA(const Block3 &block);
 };
 
-class BuffInstance
-{
-	unsigned char m_data[0x44];
-public:
-	void Update(unsigned int frame);
-};
+
 
 class Rva0036276F
 {

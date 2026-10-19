@@ -1,9 +1,10 @@
+#include "../../GameClient/BuffManager.h"
 // BF1 donor BuffTransfer0040A260.cpp at 9cbfb551fe20dae985f91f2319d8997287b6a705.
 // Donor carries control flow and snapshot semantics; target independently proves
 // version5 and TBUFF block plus the fields at04..30 and its template name at64.
 // BuffManager::xfer362702 iterates nine44B entries and publishes g_Va00E01E74;
-// target3628D3 is the entry transfer through that virtual slot. Owner name stays
-// address-derived. Existing rowed lookup2D06CA and BuffLogic::addBuff30682A
+// target3628D3 is BuffInstance transfer: native table C17068 slot2 names the
+// class and slot3 points at this whole body. Existing rowed lookup2D06CA and BuffLogic::addBuff30682A
 // resolve the target providers. The Xfer slot view follows SnapshotXfersBfme.
 // Full482B body and EH exact with BFME2's canonical AsciiString header.
 // cl: /MD /O1 /Oy- /EHs /Ireference/shims/bfme2_ascii
@@ -114,53 +115,48 @@ class BuffLogic {public:void *addBuff(void*,void*);};
 extern BuffLogic *TheBuffLogic;
 extern void *g_Va00E01E74;
 #include "../../../../Libraries/Include/Lib/RGBColor.h"
-struct BuffTransfer003628D3 {
- int field00; bool field04; char bytes05[3]; int field08,field0c,field10,field14;
- Snapshot003628D3 *field18; const ThingTemplate *field1c; RGBColor field20; float field2c;
- Snapshot003628D3 field30;
- void transfer(Xfer*);
-};
+
 struct VersionStorage { Xfer::Version value; unsigned short padding; };
-void BuffTransfer003628D3::transfer(Xfer *xfer) {
+void BuffInstance::DoXfer(Xfer *xfer) {
  { VersionStorage storage; Xfer::Version &version=storage.value; version.m_current=1; version.m_minimum=5;
  *xfer == version;
  if(xfer->IsCRC()) return;
  if(version.m_minimum<5) throw XferException(2,0); }
- *xfer == field04;
- xfer->XferRawBytes(&field08,4);
- xfer->XferRawBytes(&field0c,4);
- *xfer == field10; *xfer == field14;
- bool hasTemplate=field1c!=0;
+ *xfer == m_active;
+ xfer->XferRawBytes(&m_type,4);
+ xfer->XferRawBytes(&m_subType,4);
+ *xfer == m_duration; *xfer == reinterpret_cast<int &>(m_frameLimit);
+ bool hasTemplate=m_thing!=0;
  *xfer == hasTemplate;
  AsciiString name;
  if(xfer->IsLoading()) {
   if(hasTemplate) {
    *xfer == name;
-   field1c=TheThingFactory->findTemplate(name);
-   if(!field1c) throw XferException(4,0);
-  } else field1c=0;
+   m_thing=TheThingFactory->findTemplate(name);
+   if(!m_thing) throw XferException(4,0);
+  } else m_thing=0;
  } else if(hasTemplate) {
-  name=*(const AsciiString*)((const char*)field1c+0x64);
+  name=*(const AsciiString*)((const char*)m_thing+0x64);
   *xfer == name;
  }
- bool hasEffect=field18!=0;
+ bool hasEffect=m_glow!=0;
  *xfer == hasEffect;
  if(xfer->IsLoading()) {
   if(hasEffect) {
-   if(field1c && g_Va00E01E74) {
-    field18=(Snapshot003628D3*)TheBuffLogic->addBuff((void*)field1c,g_Va00E01E74);
+   if(m_thing && g_Va00E01E74) {
+    m_glow=(Rva00419BA5*)TheBuffLogic->addBuff((void*)m_thing,g_Va00E01E74);
     ((BlockView003628D3*)xfer)->begin("TBUFF");
-    field18->transfer(xfer);
+    ((Snapshot003628D3*)m_glow)->transfer(xfer);
     ((BlockView003628D3*)xfer)->end();
    } else ((BlockView003628D3*)xfer)->skip("TBUFF");
-  } else field18=0;
+  } else m_glow=0;
  } else if(hasEffect) {
   ((BlockView003628D3*)xfer)->begin("TBUFF");
-    field18->transfer(xfer);
+    ((Snapshot003628D3*)m_glow)->transfer(xfer);
     ((BlockView003628D3*)xfer)->end();
  }
 
- *xfer == field20;
- *xfer == field2c;
- field30.transfer(xfer);
+ *xfer == m_color;
+ *xfer == m_intensity;
+ m_material.DoXfer(xfer);
 }

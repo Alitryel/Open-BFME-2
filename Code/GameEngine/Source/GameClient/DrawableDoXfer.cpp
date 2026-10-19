@@ -1,3 +1,4 @@
+#include "BuffManager.h"
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /ICode/Libraries/Include/Lib
 // stlport
 // ?DoXfer@Drawable@@UAEXPAVXfer@@@Z retail 0x0027A219..0x0027B18C (3955 bytes) RET 4.
@@ -33,6 +34,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <string.h>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "Common/Snapshot.h"
 
@@ -201,16 +203,7 @@ public:
 	int m_50, m_54;
 };
 
-class BuffManager
-{
-public:
-	BuffManager(int owner);
-	virtual void s00();
-	virtual void s01();
-	virtual void s02();
-	virtual void DoXfer(Xfer *xfer);			// +0x0C
-	unsigned char m_data[0x26C - 4];
-};
+
 
 class OpaqueRefCounted
 {
@@ -330,7 +323,7 @@ class Drawable : public Thing, public Snapshot
 public:
 	virtual ~Drawable();
 	virtual void LoadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer);
 
 	const Matrix3D *getTransformMatrix() const;

@@ -1,3 +1,4 @@
+#include "BuffManager.h"
 // cl: /O1 /Ob0 /DNDEBUG /MD /EHsc
 //
 // BuffManager / BuffInstance (WorldBuilder GameClient/BuffManager.cpp).
@@ -21,49 +22,11 @@ public:
 
 // Native embedded material prefix. The first word is the existing snapshot
 // vptr; only the two pointer fields are inspected by IsActive.
-class GlowMaterial
-{
-public:
-	unsigned char __declspec(noinline) IsActive();
-private:
-	char m_00[4];
-	void *m_04;
-	void *m_08;
-	unsigned int m_0C;
-	unsigned int m_10;
-};
 
-class BuffInstance
-{
-public:
-	void TurnOff(bool immediate);
-	void Update(unsigned int frame);
-	bool MakeNormalBuff(int type, int subtype, void *thingTemplate, void *drawable, int duration);
-	bool MakeGlowOutlineBuff(int type, int subtype, void *drawable, int duration, int color, float intensity);
 
-private:
-	char m_pad00[0x04];
-	bool m_active; // +0x04
-	char m_pad05[0x0C - 0x05];
-	int m_subType; // +0x0C
-	char m_pad10[4];
-	unsigned int m_frameLimit; // +0x14, unsigned comparison in retail
-	Rva00419BA5 *m_glow; // +0x18
-	char m_pad1C[0x30 - 0x1C];
-	GlowMaterial m_material; // +0x30, 0x14 bytes
-};
 
-class BuffManager
-{
-public:
-	void TurnOffBuff(int type, bool immediate);
-	void TurnOnBuff(int type, void *thingTemplate, int duration, int color, float intensity);
 
-private:
-	char m_pad00[0x04];
-	void *m_drawable;
-	BuffInstance m_buffs[9]; // +0x08, by buff type (1..8)
-};
+
 
 void BuffInstance::TurnOff(bool immediate)
 {
@@ -272,7 +235,6 @@ class Rva00362499
 {
 public:
     unsigned int rva003624A8();
-    void rva003624FE();
 private:
 	char m_00[4];
 	void *m_04;
@@ -305,9 +267,9 @@ unsigned int Rva00362499::rva003624A8()
 }
 
 // ?rva003624FE@Rva00362499@@QAEXXZ @0x003624FE (26B)
-void Rva00362499::rva003624FE()
+void GlowMaterial::LoadPostProcess()
 {
-    if (((GlowMaterial *)this)->IsActive())
+    if (IsActive())
     {
         Rva003624A8StatePrefix *s = static_cast<Rva003624A8StatePrefix *>(m_04);
         if (s)

@@ -1,3 +1,4 @@
+#include "../GameClient/BuffManager.h"
 // cl: /DNDEBUG /MD
 //
 // Member forwarders, address-named except where an existing pin already
@@ -27,7 +28,7 @@ class Rva003626ADNullTarget
 {
 };
 // 0x003626AD is rowed as BuffManager::TurnOffBuff(int, bool).
-class BuffManager { public: void TurnOffBuff(Int a0, bool a1); };
+
 
 class Rva00271BCC
 {
