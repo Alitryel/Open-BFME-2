@@ -29,7 +29,7 @@ extern void *g_bfmeSlotB48;
 typedef void (__cdecl *ClearSysStateFn)();
 
 // Global decoded-frame counter (VA 0x00DFDA50, zero-filled .bss).
-int g_0134C7D8;
+int g_vp6FrameCounter;
 
 extern "C" void *__cdecl memcpy(void *dest, const void *source, unsigned int count);
 #pragma intrinsic(memcpy)
@@ -138,11 +138,11 @@ static int Rva001B60E0DecodeFrameToYUV(PB_INSTANCE *pbi, unsigned char *buffer, 
 	if (pbi->boolBytePosition > pbi->frameSize)
 	{
 		FILE *f = fopen("badframes.stt", "a");
-		fprintf(f, "%8d %8d %8d \n", g_0134C7D8, pbi->boolBytePosition, pbi->frameSize);
+		fprintf(f, "%8d %8d %8d \n", g_vp6FrameCounter, pbi->boolBytePosition, pbi->frameSize);
 		fclose(f);
 	}
 
-	++g_0134C7D8;
+	++g_vp6FrameCounter;
 	return 0;
 }
 
