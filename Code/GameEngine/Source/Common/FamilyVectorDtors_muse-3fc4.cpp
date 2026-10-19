@@ -5,5 +5,6 @@
 // Same EH shape (and/or -1 states) as BfmeStringRecord00111ACF vector dtor @0x003F6936 and Prereq vector dtor @0x002D040C.
 // Callers 0x005D56D0 and 0x005D574C.
 #include <vector>
-struct BfmeStringRecord005D511F { ~BfmeStringRecord005D511F(); };
+// 0x14-byte record (the rowed _Destroy loop steps by 0x14), as the other views lay it out.
+struct BfmeStringRecord005D511F { ~BfmeStringRecord005D511F(); char m_pad[0x14]; };
 template _STL::vector<BfmeStringRecord005D511F>::~vector();
