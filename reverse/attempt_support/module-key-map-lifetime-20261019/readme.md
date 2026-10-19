@@ -42,3 +42,31 @@ pragma, artificial cleanup, assembly or new pin is involved.
 This retirement and the following recovery form one publication batch.
 The existing56 parent bytes and folded14 storage bytes receive no new
 unique-byte credit. Pinned BFME1 cf0a80c228; target-led reconstruction.
+
+## Verified recovery
+
+The dedicated source owns the real56-byte tree destructor, its naturally
+emitted10-byte handler78E2BC and actual8-byte cleanup78E2B4. The cleanup
+label and following named handler independently establish the8-byte
+boundary; together they cover the entire18-byte text section. Rehome the
+old generated action through normal add_match_batch without editing its
+generated source. Admit the actual14-byte owning-header destructor as a
+whole-byte-and-free-relocation gen-alias twin through add_match --icf-owner.
+The former parent and action object-symbol annotations are gone.
+
+The new unit uses normal CRT declarations with explicit/D_CRTIMP= so its
+real free call binds the existing30830 wrapper, as the target requires.
+No bespoke standard-library declarations or shared headers are introduced.
+All4 whole bodies and the full parent EH graph verify; actual clear/free
+bindings are resolved and the strict dependency receipt is current.
+Frozen-file validation passes and place_bodies finds0 additional bodies/pins.
+proof.json records all bytes, relocations, native caller/header evidence,
+compiler flags, source/object hashes and cleanup ownership.
+
+The enforced new-variants admission passes. The full link preview cannot
+measure this new file because census8eecc93d07 does not contain it; no LINKS
+or global linked-byte claim is made, and no maintained census runner was
+started. The dedicated home preserves the unrelated OpenContain unit.
+Strict unique C++ recovery is10 bytes. No compiler gate, baseline, source
+surrogate, alias directive or new pin is added. About twelve minutes;
+gpt-6.1-sol.
