@@ -1,15 +1,7 @@
-// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
-// partial score=0.995475113122172 date=2026-10-19
-// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
-// partial score=0.973 date=2026-10-17
-// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
-// partial score=0.9575 date=2026-10-14
-// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
-// partial score=0.92 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
 //
-// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z, retail 0x0008B1E5..0x0008B472 (651B), thiscall RET 0xC.
+// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z, retail 0x0008B1E5..0x0008B470 (651B), thiscall RET 0xC.
 // BFME 2 W3DView::pickDrawable (TheTacticalView slot 9; the screen-pick helper Rva00431012PickObject calls it as
 // pickDrawable(pixel, false, pickType)). Donor (Zero Hour W3DView.cpp pickDrawable, read as a guide, facts carried from
 // the donor): the opaque-window early out, getPickRay + LineSegClass, CastResultStruct with ComputeContactPoint = forceAttack,
@@ -24,7 +16,8 @@
 #include <map>
 #include "Coord3D.h"
 
-struct ICoord2D { int x; int y; };
+#include "ICoord2D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Vector3
 {
@@ -164,11 +157,7 @@ public:
 	virtual GameWindow *getWindowUnderCursor(int x, int y, bool ignoreEnabled);
 };
 
-class GameLogic
-{
-public:
-	bool rva00085124();
-};
+
 
 class GameClient
 {
@@ -238,7 +227,7 @@ private:
 
 Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pickType)
 {
-	Drawable *volatile draw = 0;
+	Drawable *draw = 0;
 
 	if (screen == 0)
 		return 0;
@@ -325,34 +314,37 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 				if (other)
 					draw = other;
 				if (draw)
-					return draw;
+					goto pickedDone;
 			}
 afterHit:;
 		}
 	}
 
-	Coord3D terrain;
-	screenToTerrainSlot90(screen, &terrain, false);
-	PickedGhostView *ghost = (PickedGhostView *)((BfmeThingCME *)TheTerrainLogic)->bfmeGoCME(&terrain);
-	if (!ghost)
-		return draw;
+	{
+		Coord3D terrain;
+		screenToTerrainSlot90(screen, &terrain, false);
+		PickedGhostView *ghost = (PickedGhostView *)((BfmeThingCME *)TheTerrainLogic)->bfmeGoCME(&terrain);
+		if (!ghost)
+			goto pickedDone;
 
-	if (((Rva00739800 *)TheShroudManager)->rva00739800(ThePlayerList ? *(int *)(ThePlayerList->m_localPlayer + 0x54) : 0, (const Coord3D *)ghost) == OBJECTSHROUD_INVALID)
-		return 0;
+		if (((Rva00739800 *)TheShroudManager)->rva00739800(ThePlayerList ? *(int *)(ThePlayerList->m_localPlayer + 0x54) : 0, (const Coord3D *)ghost) == OBJECTSHROUD_INVALID)
+			return 0;
 
-	if (ghost->m_field0C == 0)
-		return draw;
+		if (ghost->m_field0C == 0)
+			goto pickedDone;
 
-	if (ghost->m_flagA && ghost->m_flagB)
-		draw = TheGameClient->findDrawableByID(0x5F5E0FF);
-	else if (ghost->m_flagA && !ghost->m_flagB)
-		draw = TheGameClient->findDrawableByID(0x5F5E0FC);
-	else if (!ghost->m_flagA && ghost->m_flagB)
-		draw = TheGameClient->findDrawableByID(0x5F5E0FD);
-	else
-		draw = TheGameClient->findDrawableByID(0x5F5E0FE);
+		if (ghost->m_flagA && ghost->m_flagB)
+			draw = TheGameClient->findDrawableByID(0x5F5E0FF);
+		else if (ghost->m_flagA && !ghost->m_flagB)
+			draw = TheGameClient->findDrawableByID(0x5F5E0FC);
+		else if (!ghost->m_flagA && ghost->m_flagB)
+			draw = TheGameClient->findDrawableByID(0x5F5E0FD);
+		else
+			draw = TheGameClient->findDrawableByID(0x5F5E0FE);
+	}
+pickedDone:
 	return draw;
 }
 
 // Retail extent ends at 0x8B470; the GameLogic mode call has a null receiver guard.
-// Remaining receiver reload uses draw on the stack instead of EAX.
+// One common result exit keeps the retail EAX receiver without volatile locals.

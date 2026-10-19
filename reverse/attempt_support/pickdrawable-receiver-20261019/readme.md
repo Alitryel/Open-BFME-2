@@ -1,6 +1,6 @@
 # W3DView::pickDrawable: receiver-access investigation
 
-Result: blocked, original bank unchanged. Target `?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z`, RVA `0x0008B1E5`, actual whole extent 651 bytes (end0x8B470). No Code, ledger, pins or verifier changes. This records a failed planned approach; no exact match or improved bank is claimed.
+Initial checkpoint: blocked, original bank unchanged. **Resolved in the subsequent lifetime investigation**: see the recovery section below. The earlier experiments and their refutations remain valid historical evidence. Target `?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z`, RVA `0x0008B1E5`, actual whole extent 651 bytes (end0x8B470). No Code, ledger, pins or verifier changes. This records a failed planned approach; no exact match or improved bank is claimed.
 
 ## Starting evidence and reproduction
 
@@ -37,3 +37,13 @@ The best existing bank remains unchanged at reverse/attempts/0x0008b1e5.cpp. The
 All generated trial sources and generation drivers remain in ignored build/pickdrawable-handoff-20261019 and build/pick_*_trials.py in the isolated checkout bf2-bank-sway-20261015. The included results plus representative source are sufficient to reject the current handoff without preserving every failed variant. Do not modify the game source or call add_match for these nonmatching probes. Normal check_csv and commit hooks verify this evidence-only change; no full build, census or runtime comparison is claimed.
 
 Measured session was approximately9minutes to the result timestamp (2026-10-19T20:25:11Z), excluding final evidence publication. model=GPT-6-Codex.
+
+## Recovery: shared result lifetime
+
+The next independent hypothesis concerned result lifetime and use counts rather than the receiver expression. Keep an ordinary nonvolatile `Drawable *draw`, keep the native search/call/terrain behavior, and route the successful picked result and terrain early-out result paths to one `pickedDone: return draw;` after a scope containing terrain locals. This is an ordinary control-flow refactor: it adds no dummy operations and avoids entering the scope of uninitialized locals. The invalid-shroud branch still returns null, and the hit map still receives exactly one destructor call on every path after its construction. The trailing unconditional goto was removed as unnecessary.
+
+This emitted exactly651B, all relocations resolved, zero differing bytes. Normal `explain_mismatch.py` independently reports exact. The source then adopted the canonical `ICoord2D.h` and `GameLogicObjectLookupView.h` without changing emitted bytes. It is installed at `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DViewPickDrawable.cpp`. `add_match.py` verified the whole body, recorded landed and removed the old bank. A scoped `eh_verify.py` reports the parent EH data EXACT (1/1). `find_declared_unmatched.py` reports all defined functions already matched; the class gate passes. No new symbol pin, assembly, volatile access or shared-header edit was required.
+
+The result supports a source lifetime/use-count explanation for the EAX-to-ECX move. The compiler's internal register-allocation cause was not reverse engineered, so that explanation remains an inference. The concrete verified recipe is the common result exit and ordinary pointer.
+
+A scoped ordinary link preview cannot assess this newly introduced source because it is absent from the current census index807ae26368. The new-variants COMDAT check is run separately before commit; it is narrower than proving the unit links. No census or link-cycle run was started.
