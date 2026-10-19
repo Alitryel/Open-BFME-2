@@ -92,7 +92,7 @@ public:
 	virtual const Coord3D *getRallyPoint() const = 0;
 	virtual bool useSpawnRallyPoint() const { return false; }
 	virtual bool getNaturalRallyPoint(Coord3D &rallyPoint, bool offset) const = 0;
-	virtual bool getExitPosition(Coord3D &exitPosition) const = 0;
+	virtual bool getExitPosition(Coord3D &exitPosition, float &exitAngle) const = 0;
 };
 
 class QueueProductionExitUpdate : public UpdateModule, public ExitInterface
@@ -112,7 +112,7 @@ public:
 	virtual void setRallyPoint(const Coord3D *pos);
 	virtual const Coord3D *getRallyPoint() const;
 	virtual bool getNaturalRallyPoint(Coord3D &rallyPoint, bool offset) const;
-	virtual bool getExitPosition(Coord3D &exitPosition) const;
+	virtual bool getExitPosition(Coord3D &exitPosition, float &exitAngle) const;
 };
 
 QueueProductionExitUpdate::~QueueProductionExitUpdate()
