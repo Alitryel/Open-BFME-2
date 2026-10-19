@@ -140,12 +140,6 @@ struct Rva004FA83EData
 	unsigned int m_maxQueue;	// +0x14
 };
 
-class Rva004FA659
-{
-public:
-	void rva004FA659();
-};
-
 class Rva004FA953Listener
 {
 public:
@@ -201,6 +195,7 @@ public:
 	virtual void runProductionPhase();
 	virtual bool canQueueUnit(ObjectID id);
 	Rva002E2903Player *getOwningPlayer();
+	void rva004FA659();
 };
 
 void LivingWorldBuildingNuggetSpawnArmy::runProductionPhase()
@@ -242,7 +237,7 @@ void LivingWorldBuildingNuggetSpawnArmy::runProductionPhase()
 			m_count = 0;
 		}
 	}
-	((Rva004FA659 *)this)->rva004FA659();
+	rva004FA659();
 }
 
 

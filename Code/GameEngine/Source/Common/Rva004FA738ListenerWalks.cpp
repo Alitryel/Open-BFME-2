@@ -214,11 +214,6 @@ class LivingWorldBuildingNuggetSpawnArmy
 {
 public:
 	Rva002E2903Player *getOwningPlayer();
-};
-
-class Rva004FA659
-{
-public:
 	void rva004FA659();
 };
 
@@ -388,7 +383,7 @@ void Rva004FA992Owner::rva004FA9B1(int index)
 			((LivingWorldPlayer *)player)->OnUnitDequeued((Rva00319CED *)&tmp);
 	}
 	m_ids.erase(elem);
-	((Rva004FA659 *)((char *)this - 12))->rva004FA659();
+	((LivingWorldBuildingNuggetSpawnArmy *)((char *)this - 12))->rva004FA659();
 	((Rva004FA992 *)this)->rva004FA992(notify, ((char *)this - 12) ? this : 0, index);
 }
 
@@ -423,7 +418,7 @@ bool Rva004FA992Owner::rva004FAEAA(ScienceType p)
 	Rva004FAEAASeen *seen = *(Rva004FAEAASeen **)((char *)this - 4);
 	((_STL::vector<ScienceType> *)ids)->reserve(seen->count);
 	((_STL::vector<ScienceType> *)ids)->push_back(p);
-	((Rva004FA659 *)((char *)this - 12))->rva004FA659();
+	((LivingWorldBuildingNuggetSpawnArmy *)((char *)this - 12))->rva004FA659();
 	((Rva004FA992 *)this)->rva004FA992(notify, ((char *)this - 12) ? this : 0, m_ids.size() - 1);
 	Rva002E2903Player *player = ((LivingWorldBuildingNuggetSpawnArmy *)((char *)this - 12))->getOwningPlayer();
 	if (player)

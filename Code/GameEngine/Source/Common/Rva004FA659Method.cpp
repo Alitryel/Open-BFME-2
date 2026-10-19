@@ -1,8 +1,9 @@
 // cl: /MD
-// ?rva004FA659@Rva004FA659@@QAEXXZ @0x004FA659 19B: thiscall, compares dwords
+// ?rva004FA659@LivingWorldBuildingNuggetSpawnArmy@@QAEXXZ @0x004FA659 19B: thiscall, compares dwords
 // at +0x20/+0x24, forwards (m_20 != m_24) as unsigned char to member at +4
 // via rowed LivingWorldBuilding::rva004E060C. Callers at 0x004FAA52/0x004FABC2/
-// 0x004FAEF7 unclaimed so owner is honest-address Rva004FA659. Neighbour
+// 0x004FAEF7; runProductionPhase (0x004FAA81) calls it on its own this, and
+// +4/+0x20/+0x24 are the nugget's building and m_queue begin/end. Neighbour
 // Rva004FA830Ctor.cpp carries // cl: /O1 /MD.
 class LivingWorldBuilding
 {
@@ -10,7 +11,7 @@ public:
 	void rva004E060C(unsigned char v);
 };
 
-class Rva004FA659
+class LivingWorldBuildingNuggetSpawnArmy
 {
 public:
 	void rva004FA659();
@@ -23,7 +24,7 @@ private:
 	int m_24;
 };
 
-void Rva004FA659::rva004FA659()
+void LivingWorldBuildingNuggetSpawnArmy::rva004FA659()
 {
 	m_4->rva004E060C(m_20 != m_24);
 }
