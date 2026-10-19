@@ -1,4 +1,4 @@
-// cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
 // BuildCovexHull2D (sic), with point de-duplication and a stable orientation
@@ -8,9 +8,9 @@
 #include <algorithm>
 #define _OPERATOR_NEW_DEFINED_
 #include "wwmath.h"
-// bfme link decl-only begin
-namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
-// bfme link decl-only end
+// LINK: max<unsigned> stays inline in _M_insert_overflow as in the retail
+// copies; its .debug$F-only copy is suppressed with dllimport forceinline.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int const & max<unsigned int>(unsigned int const &__a, unsigned int const &__b) { return __a < __b ? __b : __a; } }
 struct BfmeE8 {float X,Y; BfmeE8(){} BfmeE8(float x,float y):X(x),Y(y){}};
 void Rva00030830FreeAllocation(void*);
 namespace _STL {template<> inline void allocator<BfmeE8>::deallocate(BfmeE8*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}template<> inline void allocator<int>::deallocate(int*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}}
