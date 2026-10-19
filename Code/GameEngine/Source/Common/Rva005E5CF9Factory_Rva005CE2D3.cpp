@@ -48,11 +48,16 @@ struct Rva005E5CF9
 // context pointer at receiver +8. Constructor arguments are opaque words:
 // target callees forward them without interpreting them here. These names
 // and storage-only views do not claim an application class or enum identity.
-class Rva005E8DCF
+// The constructor at 0x005E8DCF is rowed as Rva005E8D71's
+// (Rva005E8D71Ctor.cpp); the one at 0x006004C1 as Rva00600505's
+// (Rva00600505Dtor.cpp). Each view declares that row's signature; the
+// factories pass the same words.
+struct Rva005E8DCFIn;
+class Rva005E8D71
 {
 	char m_pad[0x24];
 public:
-	Rva005E8DCF(unsigned int argument, void *context);
+	Rva005E8D71(void *frame, Rva005E8DCFIn *in);
 };
 class Rva005E91A9
 {
@@ -60,11 +65,12 @@ class Rva005E91A9
 public:
 	Rva005E91A9(unsigned int argument, void *context);
 };
-class Rva006004C1
+struct Rva005FEF11Input;
+class Rva00600505
 {
 	char m_pad[0x28];
 public:
-	Rva006004C1(unsigned int first, unsigned int second, void *context);
+	Rva00600505(int a, int b, const Rva005FEF11Input **inputs);
 };
 struct Rva005CE2D3
 {
@@ -87,12 +93,13 @@ struct Rva005FB418
 
 RvaF1Handle Rva005CE2D3::rva005CE2D3(unsigned int argument)
 {
-	return RvaF1Handle(new Rva005E8DCF(argument, &m_context));
+	return RvaF1Handle(new Rva005E8D71((void *)argument, (Rva005E8DCFIn *)&m_context));
 }
 
 RvaF1Handle Rva005FB418::rva005FB418(unsigned int first, unsigned int second)
 {
-	return RvaF1Handle(new Rva006004C1(first, second, &m_context));
+	return RvaF1Handle(new Rva00600505((int)first, (int)second,
+		(const Rva005FEF11Input **)&m_context));
 }
 
 // Native 005E5D4D..005E5DA1 and 005E5DA1..005E5DF5 each return a
@@ -210,12 +217,13 @@ struct Rva00567F3D
 // receiver+8 forwarded to rowed-by-address constructors 0x005FB14E (0x24-byte object), 0x005FB30A and 0x005FB4DF
 // (0x20-byte objects). Target evidence: retail bodies and constructor REL32s read byte for byte; constructor
 // identities and argument meanings are unresolved and the names are address-derived.
-// Constructor-only view of Rva005FB14E: opaque storage view of a constructor-only callee
-class Rva005FB14E
+// Constructor-only view of the 0x005FB14E constructor, rowed as Rva005FB1AD's
+// (Rva005FB1ADCtor.cpp) with that row's signature.
+class Rva005FB1AD
 {
 	char m_pad[0x24];
 public:
-	Rva005FB14E(unsigned int first, unsigned int second, void *context);
+	Rva005FB1AD(void *a, void *b, void *c);
 };
 // Constructor-only storage view of the owner whose 207-byte constructor is
 // verified in Rva005FB204Ctor.cpp; allocation and three arguments are unchanged.
@@ -253,7 +261,7 @@ struct Rva005E9849
 
 RvaF1Handle Rva005E9761::rva005E9761(unsigned int first, unsigned int second)
 {
-	return RvaF1Handle(new Rva005FB14E(first, second, &m_context));
+	return RvaF1Handle(new Rva005FB1AD((void *)first, (void *)second, &m_context));
 }
 
 
