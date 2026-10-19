@@ -15919,7 +15919,7 @@ _wcslen,0x006291CC,PE-proven msvcr71.dll wcslen import tail FF25 at6291CC throug
 ??1Rva00330C50Interface@@QAE@XZ,0x0057A243,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/Common/Rva00330C50Ctor.cpp
 ??1Rva003ED658@@QAE@XZ,0x003ED94F,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 ??1Rva00468520@@QAE@XZ,0x005F8F96,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/GameClient/Rva002237C7.cpp
-??1Rva0022307F@@QAE@XZ,0x00222C5A,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/GameClient/Rva002237C7.cpp
+??1Rva0022307F@@QAE@XZ,0x00222C5A,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00222C5A.cpp
 ??1RadarEventRefSlot@@QAE@XZ,0x0004E4BD,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/Common/RadarWindowOverrideCreatePing.cpp
 ??1Rva002E3E2AOut@@QAE@XZ,0x002E3A80,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/GameLogic/Map/PolygonTrigger.cpp
 ??1RvaF6Ret@@QAE@XZ,0x005F8F96,ICF fold of this destructor: retail unwind funclets of matched parents reach it at this address; fold-proof=Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUICreateHelpFor.cpp

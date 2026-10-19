@@ -30,3 +30,20 @@ public:
 };
 }
 template void _STL::_Destroy<TreeHintPair00222C5A>(TreeHintPair00222C5A *);
+
+// ??1Rva0022307F@@QAE@XZ folds onto 0x00222C5A: Rva002237C7.cpp's
+// Rva0022402A::rva0022402A destroys its 12-byte {key, reference, index}
+// insert record there (the index needs no cleanup), so its destructor is this
+// pair destructor's body under the record's own name.
+class Rva0022307F {
+    AsciiString m_key;
+    TreeHintRef00222C5A m_ref;
+    int m_index;
+public:
+    ~Rva0022307F();
+};
+
+// ?Rva0022307F::~Rva0022307F present-unmatched (ICF-folded at 0x00222C5A; pinned)
+Rva0022307F::~Rva0022307F()
+{
+}
