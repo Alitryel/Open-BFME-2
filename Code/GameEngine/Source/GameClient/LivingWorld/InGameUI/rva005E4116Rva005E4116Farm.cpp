@@ -51,20 +51,8 @@ public:
  char operator()(int,int) const;
 private: Rva005E4300Context *m_context;
 };
-char Rva005E4300Cmp::operator()(int keyA,int keyB) const
-{
- const Rva005E4300Entry *a=(const Rva005E4300Entry *)m_context->index->get(keyA);
- if(a->name.compare(m_context->selectedName)==0)return true;
- int rawB=m_context->index->get(keyB);
- const AsciiString *selected=&m_context->selectedName;
- const Rva005E4300Entry *b=(const Rva005E4300Entry *)rawB;
- if(b->name.compare(*selected)==0)goto no;
- {int ga=a->group,gb=b->group;
- if(ga!=gb) {if(ga==0)return true; if(gb==0)goto no; return ga<gb;}
- return StrategicInGameUI::Rva005E3FE6(a,b,keyA,keyB);}
- no:return false;
-}
-
+// Rva005E4300Cmp::operator() is rowed in StrategicInGameUIHeroComparator.cpp;
+// this copy was a duplicate definition.
 class Rva005E549E {public:virtual void rva005E549E();};
 class Rva005F6022ByteChaseField {public:unsigned char get()const;};
 namespace StrategicInGameUI {UnicodeString GetTooltipText(int);}
@@ -100,20 +88,8 @@ struct HeroDetailsPair {
  HeroDetailsPair(const int &c,Rva005E4300Entry *const &e):count(c),entry(e){}
  int count;Rva005E4300Entry *entry;
 };
-namespace StrategicInGameUI {
-HeroDetailsPair Rva005E6CA1(Rva005E4300Context *context) {
- HeroDetailsArmySummary *summary=(HeroDetailsArmySummary*)context->index;
- int count=summary->end-summary->begin;
- int i=0;
- Rva005E4300Entry *entry;
- for(;i<count;++i) {
-  entry=(Rva005E4300Entry *)((Rva0040CB2CIndexedField *)summary)->get(i);
-  if(entry->name==context->selectedName)goto found;
- }
- if(i>=count)return HeroDetailsPair(0,0);
- found:return HeroDetailsPair(((Rva0040CC0EIndexedField *)summary)->get(i),entry);
-}
-}
+// StrategicInGameUI::Rva005E6CA1 is rowed in StrategicInGameUIHeroComparator.cpp;
+// this copy was a duplicate definition.
 
 
 // Native5E3F0A..5E3FE6: ESI entry / XMM0 result, kept by the real update below.
