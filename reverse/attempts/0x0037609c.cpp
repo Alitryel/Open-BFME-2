@@ -1,13 +1,5 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.9 date=2026-10-19
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.9 date=2026-10-19
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.236 date=2026-10-17
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.25 date=2026-10-14
-// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE1_N@Z
-// partial score=0.25 date=2026-10-14
+// partial score=0.93 date=2026-10-19
 // Bank draft of the AerialPathfinder path build at 0x0037609C (2148B, RET18).
 // WB 0xF2A4B0 names it AerialPathfinder::computeAerialPath (match 7.567
 // consts+strings). Structure from the retail body: destination adjust, the
@@ -110,6 +102,8 @@ struct AerialShapeBits {
     bool test(unsigned bit) const { return (data & (1U << bit)) != 0; }
 };
 
+// WB copies the speed field to a getter temp; the inline getter makes /O1 load it first.
+inline float aerialSpeed(const unsigned char *self) { return *(const float *)(self + 0xbc); }
 class Rva0037609C {
 private:
     unsigned char m_pad0[0x258];
@@ -253,7 +247,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
             int steps = 0;
             while (repairs < 5) {
                 float closest = 999999.0f;
-                ((AerialRouteCalls *)route)->time += *(float *)(self + 0xbc) * 0.5f;
+                ((AerialRouteCalls *)route)->time += aerialSpeed(self) * 0.5f;
                 if (!TheSplineService->rva00311974((SplineState *)route, false, 0))
                     break;
                 if (++steps > 200)
@@ -278,13 +272,13 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                             p.x += push.x;
                             p.y += push.y;
                             p.z += push.z;
-                            if (!((Rva00311F46 *)route)->find(p, *(float *)(self + 0xbc)))
+                            if (!((Rva00311F46 *)route)->find(p, aerialSpeed(self)))
                                 ((AerialRouteCalls *)route)->insert(&p);
                             ((Rva00311DD9 *)route)->rva00311B70();
                             ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
                             route->rva00312118();
                             ++repairs;
-                            ((AerialRouteCalls *)route)->time = *(float *)(self + 0xbc) + middle;
+                            ((AerialRouteCalls *)route)->time = middle + aerialSpeed(self);
                         }
                     }
                 }
