@@ -10,7 +10,8 @@
 typedef int Int;
 typedef bool Bool;
 
-class Rva00330995NullTarget
+// rowed as ?rva00330995@Shadow@@QAEXH@Z (Shadow_setOpacity.cpp)
+class Shadow
 {
 public:
 	void rva00330995(Int a0);
@@ -22,7 +23,7 @@ public:
 	void rva000B31B9(Int a0);
 private:
 	char m_lead[0x1D4];
-	Rva00330995NullTarget *m_member;
+	Shadow *m_member;
 };
 
 // vtable 0x00BCBC40#26
@@ -282,10 +283,11 @@ Int Rva0018036CNullForwarder::rva0018036C()
 	return 0;
 }
 
-class Rva001A3930NullTarget
+// rowed as ?rva001A3930@AggregateDefClass@@QBEHXZ (AggregateDefRva001A3930.cpp)
+class AggregateDefClass
 {
 public:
-	Int rva001A3930();
+	Int rva001A3930() const;
 };
 
 class Rva00180AA6NullForwarder
@@ -294,7 +296,7 @@ public:
 	Int rva00180AA6();
 private:
 	char m_lead[0x14];
-	Rva001A3930NullTarget *m_member;
+	AggregateDefClass *m_member;
 };
 
 // vtable 0x00BD5050#14
@@ -376,10 +378,18 @@ class Rva004D1616NullTarget
 public:
 	void rva004D1616(Int a0);
 };
+// ConnectionManager methods rowed under their real names (ConnectionManager*.cpp,
+// ConnectionManagerLocalSlot.cpp) that the Network forwarders below reach.
 class ConnectionManager
 {
 public:
 	void initTransport();
+	unsigned int getPacketRouterSlot();	// 0x004CF3B2
+	unsigned int getLocalPlayerID();	// 0x004CF906
+	Int getNumPlayers();	// 0x004CF926
+	void updateLoadProgress(Int progress);	// 0x004CF940
+	void loadProgressComplete();	// 0x004D02F6
+	void rva004D00BB(Int a0);	// 0x004D00BB
 };
 class Rva004CF113NullTarget
 {
@@ -448,33 +458,21 @@ Int Rva0025DC17NullForwarder::rva0025DC17()
 	return 0;
 }
 
-class Rva004CF940NullTarget
-{
-public:
-	void rva004CF940(Int a0);
-};
-
 class Rva0025DC5ENullForwarder
 {
 public:
 	void rva0025DC5E(Int a0);
 private:
 	char m_lead[0xC];
-	Rva004CF940NullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#35
 void Rva0025DC5ENullForwarder::rva0025DC5E(Int a0)
 {
 	if (m_member)
-		m_member->rva004CF940(a0);
+		m_member->updateLoadProgress(a0);
 }
-
-class Rva004D02F6NullTarget
-{
-public:
-	void rva004D02F6();
-};
 
 class Rva0025DC6DNullForwarder
 {
@@ -482,21 +480,15 @@ public:
 	void rva0025DC6D();
 private:
 	char m_lead[0xC];
-	Rva004D02F6NullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#36
 void Rva0025DC6DNullForwarder::rva0025DC6D()
 {
 	if (m_member)
-		m_member->rva004D02F6();
+		m_member->loadProgressComplete();
 }
-
-class Rva004CF3B2NullTarget
-{
-public:
-	Int rva004CF3B2();
-};
 
 class Rva0025DCE2NullForwarder
 {
@@ -504,22 +496,16 @@ public:
 	Int rva0025DCE2();
 private:
 	char m_lead[0xC];
-	Rva004CF3B2NullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#44
 Int Rva0025DCE2NullForwarder::rva0025DCE2()
 {
 	if (m_member)
-		return m_member->rva004CF3B2();
+		return m_member->getPacketRouterSlot();
 	return 0;
 }
-
-class Rva004CF926NullTarget
-{
-public:
-	Int rva004CF926();
-};
 
 class Rva0025DCF1NullForwarder
 {
@@ -527,22 +513,16 @@ public:
 	Int rva0025DCF1();
 private:
 	char m_lead[0xC];
-	Rva004CF926NullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#45
 Int Rva0025DCF1NullForwarder::rva0025DCF1()
 {
 	if (m_member)
-		return m_member->rva004CF926();
+		return m_member->getNumPlayers();
 	return -1;
 }
-
-class Rva004CF906NullTarget
-{
-public:
-	Int rva004CF906();
-};
 
 class Rva0025DD01NullForwarder
 {
@@ -550,14 +530,14 @@ public:
 	Int rva0025DD01();
 private:
 	char m_lead[0xC];
-	Rva004CF906NullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#46
 Int Rva0025DD01NullForwarder::rva0025DD01()
 {
 	if (m_member)
-		return m_member->rva004CF906();
+		return m_member->getLocalPlayerID();
 	return 0x31;
 }
 
@@ -607,19 +587,13 @@ Bool Rva0025DECCNullForwarder::rva0025DECC(Int a0)
 	return false;
 }
 
-class Rva004D00BBNullTarget
-{
-public:
-	void rva004D00BB(Int a0);
-};
-
 class Rva0025E27FNullForwarder
 {
 public:
 	void rva0025E27F(Int a0);
 private:
 	char m_lead[0xC];
-	Rva004D00BBNullTarget *m_member;
+	ConnectionManager *m_member;
 };
 
 // vtable 0x00BF6040#39
