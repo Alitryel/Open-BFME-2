@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??1Rva004978A3@@UAE@XZ retail 0x004978A3 114B
+// ??1BattlePlanUpdate@@UAE@XZ retail 0x004978A3 114B (was rowed as the opaque ??1Rva004978A3)
+// Identity: ??0BattlePlanUpdate 0x00497ED0 installs 0x0084FBAC/+0xC 0x0084D640/+0x10 0x0084FBA0/+0x20 0x0084FB7C,
+// the set this destructor restores; 0x0084FBAC is the only vtable holding its deleting dtor 0x00497FD7.
 // Evidence: unlock lane stores vtable 0x0084FBAC; base dtor 0x0024A797 rowed MI 0x20 with order +0x10/+0/+0xC; second base at +0x20 vtable 0x0084FB7C; array 4x0x10 at +0x44 with element dtor pin 0x0010F149 via EH vector dtor; virtual slot 0x6c on global 0x009FE6E8 with arg +0x84; neighbours BattlePlanUpdate TUs
 extern class AudioManager *TheAudio;
 
@@ -88,16 +90,16 @@ public:
 
 #define TheGlobalMgr004978A3 (*(GlobalMgr004978A3 **)&TheAudio)
 
-class Rva004978A3 : public UpdateModule, public SecondBase004978A3
+class BattlePlanUpdate : public UpdateModule, public SecondBase004978A3
 {
 public:
-	virtual ~Rva004978A3();
+	virtual ~BattlePlanUpdate();
 private:
 	BfmeStringTailRecord156 m_arr44[0x10];
 	int m_84;
 };
 
-Rva004978A3::~Rva004978A3()
+BattlePlanUpdate::~BattlePlanUpdate()
 {
 	TheGlobalMgr004978A3->f27(m_84);
 }
