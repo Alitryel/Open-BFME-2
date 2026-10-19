@@ -271,7 +271,7 @@ class Rva004502CE
 public:
 	void rva004502CE(Int a, Int b);
 };
-class Rva004CDF00 : public Rva004502CE
+class ActivateModuleSpecialPower : public Rva004502CE
 {
 public:
 	void rva004CDF00(Int a, Int b);
@@ -282,7 +282,7 @@ private:
 	Int m_04;
 	Int m_08;
 };
-void Rva004CDF00::rva004CDF00(Int a, Int b)
+void ActivateModuleSpecialPower::rva004CDF00(Int a, Int b)
 {
 	rva004502CE(a, b);
 	rva004CDDBA(1);

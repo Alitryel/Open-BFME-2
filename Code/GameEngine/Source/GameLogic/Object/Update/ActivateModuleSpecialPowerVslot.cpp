@@ -1,6 +1,6 @@
 // Native004CDDBA..004CDEED RET4 and WB1278F70 identify the implementation
-// as ActivateModuleSpecialPower::SetWakeState. Retain the established
-// address-derived call view, shared with the already-matched slot wrappers.
+// as ActivateModuleSpecialPower::SetWakeState; the slot wrappers in
+// VslotSmallBodiesAD*.cpp call it through their own views of the class.
 // Module data4/owner8, target44, entriesC8 of eight bytes and module interface
 // at0C are independent native reads. The class/role is established by the
 // existing ActivateModule constructor, wrapper and WB assertion.
@@ -26,8 +26,8 @@ struct ThingTemplate{char pad[0x64];AsciiString name;};
 class Object{public:BehaviorModule*rva0028F2C4(int)const;char p0[4];const ThingTemplate*tmpl;char p8[0x38-8];Coord3D position;};
 struct WakeEntry{int key,mode;};struct WakeVector{WakeEntry*begin,*end,*capacity;};struct WakeData{char p[0xc8];WakeVector entries;};
 class SpecialAbilityUpdate{public:virtual void triggerAbilityEffect();};
-class Rva004CDF00:public SpecialAbilityUpdate{public:void rva004CDDBA(int);const WakeData*data;Object*object;char pc[0x44-12];Coord3D target;};
-void Rva004CDF00::rva004CDDBA(int state)
+class ActivateModuleSpecialPower:public SpecialAbilityUpdate{public:void rva004CDDBA(int);virtual void rva004CDEED();const WakeData*data;Object*object;char pc[0x44-12];Coord3D target;};
+void ActivateModuleSpecialPower::rva004CDDBA(int state)
 {
  Object*obj=object;
  const WakeVector&v=data->entries;
@@ -51,12 +51,9 @@ void Rva004CDF00::rva004CDDBA(int state)
  }
 }
 
-class ActivateModuleSpecialPower:public Rva004CDF00
-{public:virtual void rva004CDEED();};
-
-// Existing19B slot17 still calls the base and then this helper with state0.
+// Existing19B slot17 calls the base and then SetWakeState with state0.
 void ActivateModuleSpecialPower::rva004CDEED()
 {
  SpecialAbilityUpdate::triggerAbilityEffect();
- Rva004CDF00::rva004CDDBA(0);
+ rva004CDDBA(0);
 }
