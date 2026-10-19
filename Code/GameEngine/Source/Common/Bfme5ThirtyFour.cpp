@@ -640,7 +640,7 @@ class AptCIH
 {
 public:
 	void ClearCIH(int clear);
-	void *rva006CFF40() const;
+	__declspec(dllimport) void *rva006CFF40() const;
 	void rva006E2D60();
 };
 
