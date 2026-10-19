@@ -200,7 +200,24 @@ BFME_TWO_CALLS(Rva003FDD05Host, rva003FDD05, rva003FDAEB, rva000B3FD0)	// vtable
 BFME_TWO_CALLS(Rva00062908Host, rva00062908, rva000A98BA, rva0022274A)	// vtable 0x00BC57E0 slot 14
 BFME_TWO_CALLS(Rva00062918Host, rva00062918, rva000ABA2F, rva00224296)	// vtable 0x00BC57E0 slot 1
 BFME_TWO_CALLS(Rva0008FF12Host, rva0008FF12, rva00118A90, rva002C108F)	// vtable 0x00BC7C90 slot 41
-BFME_TWO_CALLS(Rva0009C134Host, rva0009C134, rva000B3FD0, rva0009BAA4)	// vtable 0x00BC89C8 slot 1
+// vtable 0x00BC89C8 slot 1: the tail jump goes to the rowed
+// Rva0009D55BProduct::rva0009BAA4 (0x0009BAA4), called by its row name.
+class Rva0009D55BProduct
+{
+public:
+	void rva0009BAA4();
+};
+class Rva0009C134Host
+{
+public:
+	void rva0009C134();
+	void rva000B3FD0();
+};
+void Rva0009C134Host::rva0009C134()
+{
+	rva000B3FD0();
+	((Rva0009D55BProduct *)this)->rva0009BAA4();
+}
 BFME_TWO_CALLS(Rva003FE402Host, rva003FE402, rva003FE342, rva005392EC)	// vtable 0x00C37E48 slot 7
 
 // ?rva003FDD15@Rva003FDD15Host@@QAEXXZ @0x003FDD15 16B: chain after 0x003FDC46;

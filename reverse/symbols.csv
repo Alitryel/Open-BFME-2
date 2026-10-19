@@ -10051,7 +10051,6 @@ name,address,notes
 ?rva0007F87C@Rva0007F92AHost@@QAEXHH@Z,0x0007F87C,tail-call target of guard wrapper 0x0007F92A; address-view alias
 ?rva00082D6A@Rva00082D6A@@QAEXXZ,0x00082D6A,address-derived callee of matched slot 0x00082E12 (ECX=complete object; this-8); retail REL32 targets 0x00082D6A; Ghidra FUN bounds 168 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva00085124@GameLogic@@QAE_NXZ,0x00085124,opaque GameLogic predicate (mode at +0x110 is 4 or 7); called by RecorderClass::isMultiplayer as reject gate; identity unproven
-?rva0009BAA4@Rva0009C134Host@@QAEXXZ,0x0009BAA4,"member vtable slot 0x0009C134 tail-jumps to; opaque address name"
 ?rva0009DC32@GameWindow@@QAEHPAVWinInstanceData@@@Z,0x0009DC32,callee of W3DGadgetTabControlDraw (0x000A3373) at the site its BFME1 donor calls or inlines it
 ?rva000A7976@Rva000427195@@QAEPAXPBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,0x000A7976,ICF twin of free Rva000A7976Create for table insert call with this at 0x000A7A63; same 12B node and pair copy
 ?rva000A8AC0@MilesStreamRef@@QAEXXZ,0x000A8AC0,Address-derived stream-holder method; 12B null guard then tail-call 0x10FB64; called by stopAudio

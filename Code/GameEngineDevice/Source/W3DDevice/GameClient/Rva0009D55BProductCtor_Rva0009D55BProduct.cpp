@@ -211,7 +211,7 @@ class CameraClass { public: CameraClass(); void Set_Clip_Planes(float znear, flo
 class Rva0009AA0F { public: Rva0009AA0F(int owner); char m_data[0x10C]; };
 class LightClass { public: enum LightType { POINT = 0, DIRECTIONAL = 1 }; LightClass(LightType type); char m_data[0x120]; };
 class Matrix3D;
-class Rva0009C134Host { public: void rva0009BAA4(); void rva0009CD9B(); void rva0009AACF(int obj, float opacity); void rva0009B510(Matrix3D &tm, float distance, float pitch); };
+class Rva0009C134Host { public: void rva0009CD9B(); void rva0009AACF(int obj, float opacity); void rva0009B510(Matrix3D &tm, float distance, float pitch); };
 
 void Rva0009D55BProduct::rva0009D862()
 {
@@ -223,7 +223,7 @@ void Rva0009D55BProduct::rva0009D862()
 	m_D0 = (Rva0009D6FARenderObj *)new LightClass(LightClass::DIRECTIONAL);
 	m_134 = 1.0f;
 	m_F8 = m_104;
-	((Rva0009C134Host *)this)->rva0009BAA4();
+	rva0009BAA4();
 	((Rva0009C134Host *)this)->rva0009CD9B();
 }
 
@@ -298,7 +298,7 @@ void Rva0009D55BProduct::rva0009BC17()
 	if (m_194)
 		((Rva0009C134Host *)this)->rva0009AACF(m_194, (1.0f - g_Va00DB4AB4) * m_134 + g_Va00DB4AB4);
 	m_C4->slot6(m_E0);
-	((Rva0009C134Host *)this)->rva0009BAA4();
+	rva0009BAA4();
 	Rva00118660Call(m_C4, m_C0);
 }
 
@@ -451,7 +451,7 @@ void Rva0009D55BProduct::rva0009C4FC(int x, int y, int width, int height)
 	if (m_194)
 		((Rva0009C134Host *)this)->rva0009AACF(m_194, 0.8f);
 	m_C4->slot6(m_E0);
-	((Rva0009C134Host *)this)->rva0009BAA4();
+	rva0009BAA4();
 	Rva00118660Call(m_C4, m_C0);
 }
 
@@ -497,7 +497,7 @@ void Rva0009D55BProduct::rva0009C422(bool active)
 		m_134 = *(float *)(base + 0x20);
 		m_F8.x = *(float *)(base + 0x18);
 		m_F8.y = *(float *)(base + 0x1C);
-		((Rva0009C134Host *)this)->rva0009BAA4();
+		rva0009BAA4();
 	}
 	if (!active)
 		((Rva0009C422Slots *)this)->slot7();
