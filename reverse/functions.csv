@@ -19709,7 +19709,6 @@ uw_0076e7ea,,0x0076E7EA,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;obje
 uw_0076e7f2,,0x0076E7F2,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
 uw_0076e7fa,,0x0076E7FA,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
 uw_0076e825,,0x0076E825,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3488
-uw_0076e87e,,0x0076E87E,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2706
 uw_0076e8aa,,0x0076E8AA,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_0076e8b2,,0x0076E8B2,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_0076e8ba,,0x0076E8BA,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -97235,3 +97234,4 @@ $L2055,,0x007AA741,15,Code/Libraries/Source/Apt/AptActionInterpreter.cpp,matched
 ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z,,0x000471AD,1474,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassAddTri.cpp,matched,clock/radial image draw; BFME1 RadialImage006F1AC0Draw guide; Render2DClass::Add_Tri compiled in the same unit (it receives the six Vector2 locals' addresses) gives retail's 0x4C frame without any lever
 __ehhandler$?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z,,0x0075D0CE,10,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassAddTri.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 __ehhandler$?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z,,0x0075D0BC,10,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassAddTri.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
+$L7126,,0x0076E87E,8,Code/Libraries/Source/WWVegas/WWLib/stlport_hero_integer_vector_tree.cpp,matched,gen-funclet;parent=??0?$_Rb_tree@HU?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@U?$_Select1st@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@@2@@_STL@@QAE@ABV01@@Z; Native21E146 complete EH graph and all relocation targets EXACT; evidence=reverse/attempt_support/hero-integer-vector-tree-eh-20261019.md
