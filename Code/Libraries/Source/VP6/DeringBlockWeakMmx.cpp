@@ -20,9 +20,10 @@
 // into the final pixels. Mechanically transcribed from the retail bytes;
 // see reverse/re_attempts.log for the derivation notes.
 
-// Vp6FilterEdgeTagTable: matched references place it at VA 0xdb7a28; retail contents, sized to the
-// 0x200-byte gap before the next known global there.
-extern "C" int Vp6FilterEdgeTagTable[128] = {
+// g_vp6SharpenModifier: the dering sharpen modifier by block q index (VA
+// 0xdb7a28, 64 dwords, retail contents; specs 001ce050 / 001cea80). The
+// zig-zag order that follows it at 0xdb7b28 is QuantizeWmt.cpp's g_vp6ZigzagSimd.
+extern "C" int g_vp6SharpenModifier[64] = {
 	-12, -11, -10, -10, -9, -9, -9, -9,
 	-6, -6, -6, -6, -6, -6, -6, -6,
 	-4, -4, -4, -4, -4, -4, -4, -4,
@@ -31,14 +32,6 @@ extern "C" int Vp6FilterEdgeTagTable[128] = {
 	0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0,
-	0, 1, 8, 16, 9, 2, 3, 10,
-	17, 24, 32, 25, 18, 11, 4, 5,
-	12, 19, 26, 33, 40, 48, 41, 34,
-	27, 20, 13, 6, 7, 14, 21, 28,
-	35, 42, 49, 56, 57, 50, 43, 36,
-	29, 22, 15, 23, 30, 37, 44, 51,
-	58, 59, 52, 45, 38, 31, 39, 46,
-	53, 60, 61, 54, 47, 55, 62, 63,
 };
 // g_vp6DeringMmxWord128: matched references place it at VA 0xdb7ff0; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
@@ -95,7 +88,7 @@ extern "C" void __cdecl DeringBlockWeak_MMX(
 	short *bufV = &vertical[0][0];
 	short *bufH = &horiz[0][0];
 	int selectorWeight = filterTable[selector];
-	int edgeTag = Vp6FilterEdgeTagTable[selector];
+	int edgeTag = g_vp6SharpenModifier[selector];
 
 	__asm {
 		push esi

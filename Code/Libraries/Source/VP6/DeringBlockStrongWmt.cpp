@@ -23,7 +23,7 @@
 // scratch register, confirmed empirically). The second loop folds the two
 // planes into the eight-row reconstruction and writes the output rows.
 
-extern "C" int Vp6FilterEdgeTagTable[];
+extern "C" int g_vp6SharpenModifier[];
 // g_vp6DeringWmtWord128: matched references place it at VA 0xdb8110; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
 extern "C" unsigned char g_vp6DeringWmtWord128[16] = {
@@ -54,7 +54,7 @@ extern "C" void __cdecl DeringBlockStrong_WMT(
 	short *bufV = &vertical[0][0];
 	short *bufH = &horiz[0][0];
 	int selectorWeight = filterTable[selector];
-	int edgeTag = Vp6FilterEdgeTagTable[selector];
+	int edgeTag = g_vp6SharpenModifier[selector];
 
 	__asm {
 		push esi

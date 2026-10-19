@@ -20,7 +20,7 @@
 // into the final pixels. Mechanically transcribed from the retail bytes;
 // see reverse/re_attempts.log for the derivation notes.
 
-extern "C" int Vp6FilterEdgeTagTable[];
+extern "C" int g_vp6SharpenModifier[];
 extern "C" unsigned char g_vp6DeringMmxWord128[];
 extern "C" unsigned char g_vp6DeringMmxWord64[];
 extern "C" unsigned char g_vp6DeringMmxByte64[];
@@ -46,7 +46,7 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 	short *bufV = &vertical[0][0];
 	short *bufH = &horiz[0][0];
 	int selectorWeight = filterTable[selector];
-	int edgeTag = Vp6FilterEdgeTagTable[selector];
+	int edgeTag = g_vp6SharpenModifier[selector];
 
 	__asm {
 		push esi

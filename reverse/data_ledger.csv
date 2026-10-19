@@ -16925,7 +16925,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009B7728,256,.data,global,?g_bfmeFilterLimitV6@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
 0x009B7828,256,.data,global,?g_bfmeDeringScaleV2@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,2
 0x009B7928,256,.data,global,?g_bfmeDeringScaleV5@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,2
-0x009B7A28,256,.data,global,_Vp6FilterEdgeTagTable,Code/Libraries/Source/VP6/DeringBlockWeakMmx.cpp,owned,,1,5
+0x009B7A28,256,.data,global,_g_vp6SharpenModifier,Code/Libraries/Source/VP6/DeringBlockWeakMmx.cpp,owned,,1,5
 0x009B7B28,256,.data,global,?g_vp6ZigzagSimd@@3PAHA,Code/Libraries/Source/VP6/QuantizeWmt.cpp,owned,,1,6
 0x009B7C28,256,.data,global,?vp6MmxZigzag@@3PAHA,Code/Libraries/Source/VP6/QuantIndex.cpp,owned,,1,8
 0x009B7D28,256,.data,global,?vp6MmxTransposeIndex@@3PAHA,Code/Libraries/Source/VP6/QuantIndex.cpp,owned,,1,5

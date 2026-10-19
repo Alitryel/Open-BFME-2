@@ -8,7 +8,7 @@
 // in retail references it. The spec supplies the identity; the body is the
 // previously matched placeholder body (BFME1 byte-identical donor b1
 // 0x009B1ED0), renamed.
-extern "C" int Vp6FilterEdgeTagTable[64];
+extern "C" int g_vp6SharpenModifier[64];
 
 struct Rva009B1ED0Info
 {
@@ -23,7 +23,7 @@ extern "C" void __cdecl DeringBlock(const Rva009B1ED0Info *info, const void *sou
     unsigned char *dest = (unsigned char *)destinationArgument;
     int strength = thresholds[selector];
     int slope = 4;
-    int edgeTag = Vp6FilterEdgeTagTable[selector];
+    int edgeTag = g_vp6SharpenModifier[selector];
     if (info->field08 > 100)
         strength = info->field08 - 100;
     if (variance > 32768)
