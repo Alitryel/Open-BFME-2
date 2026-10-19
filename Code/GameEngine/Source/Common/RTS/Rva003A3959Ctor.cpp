@@ -71,6 +71,8 @@ public:
 	Rva003A393A();
 private:
 	ArmorHashtable003A3959 m_table;
+public:
+	~Rva003A393A();
 };
 
 extern "C" const void *const __identifier("??_7TeamRelationMap@@6B@")[];

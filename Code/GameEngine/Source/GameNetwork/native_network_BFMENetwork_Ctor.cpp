@@ -176,20 +176,7 @@ private:
 class BFMENetworkQueue
 {
 public:
-	BFMENetworkQueue()
-	{
-		m_begin = 0;
-		m_04 = 0;
-		m_08 = 0;
-		m_0c = 0;
-		m_end = 0;
-		m_14 = 0;
-		m_storageEnd = 0;
-		m_1c = 0;
-		m_20 = 0;
-		m_24 = 0;
-		finishConstruct(0);
-	}
+	BFMENetworkQueue();
 	~BFMENetworkQueue();
 
 	Bool empty() const { return m_end == m_begin; }

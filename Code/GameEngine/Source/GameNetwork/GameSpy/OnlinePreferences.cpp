@@ -316,15 +316,7 @@ private:
 	LadderPrefMap m_ladders;
 };
 
-// ??0LadderPreferences@@QAE@XZ @0x5DFFD3
-LadderPreferences::LadderPreferences()
-{
-}
 
-// ??1LadderPreferences@@UAE@XZ @0x5DFF7B
-LadderPreferences::~LadderPreferences()
-{
-}
 
 // ??1LadderPref@@QAE@XZ @0x5BA3C0
 inline LadderPref::~LadderPref()
@@ -335,79 +327,7 @@ inline LadderPref::LadderPref()
 {
 }
 
-// ?write@LadderPreferences@@UAE_NXZ @0x5E0026
-Bool LadderPreferences::write(void)
-{
-	clear();
 
-	static const Int MAX_LADDERS = 5;
-	LadderPrefMap::iterator lpIt;
-	Int count;
-	for (lpIt = m_ladders.begin(), count = 0;
-		lpIt != m_ladders.end() && count < MAX_LADDERS;
-		++lpIt, ++count)
-	{
-		LadderPref p = lpIt->second;
-		AsciiString ladName;
-		AsciiString ladData;
-		ladName.format("%s:%d", AsciiStringToQuotedPrintable(p.address).str(), p.port);
-		ladData.format("%s:%d", UnicodeStringToQuotedPrintable(p.name).str(), p.lastPlayDate);
-		AsciiString &slot = (*this)[ladName];
-		slot = ladData;
-	}
-
-	return UserPreferences::write();
-}
-
-// ?loadProfile@LadderPreferences@@QAE_NH@Z @0x005E0201 501B
-// BFME2 port of ZH LadderPreferences::loadProfile: Online Files root,
-// parses base map entries into m_ladders via QP decoders. Evidence: rowed
-// load slot 0x005E0026 neighbours, strings Online Files plus %s\Ladders%d.ini,
-// rowed clear/format/atoi/QP/map ops, caller at 0x005BC3B1.
-Bool LadderPreferences::loadProfile(Int profileID)
-{
-	clear();
-	m_ladders.clear();
-	AsciiString userPrefFilename;
-	userPrefFilename.format("%s\\Ladders%d.ini", "Online Files", profileID);
-	Bool success = load(userPrefFilename);
-	if (!success)
-		return success;
-
-	for (LadderPreferences::iterator it = begin(); it != end(); ++it)
-	{
-		LadderPref p;
-		AsciiString ladName = it->first;
-		AsciiString ladData = it->second;
-
-		const char *ptr = ((const StringBase<char> &)(ladName)).reverseFind(':');
-		if (!ptr)
-			continue;
-
-		p.port = (UnsignedShort)atoi(ptr + 1);
-		Int i;
-		for (i = 0; i < strlen(ptr); ++i)
-		{
-			ladName.removeLastChar();
-		}
-		p.address = QuotedPrintableToAsciiString(ladName);
-
-		ptr = ((const StringBase<char> &)(ladData)).reverseFind(':');
-		if (!ptr)
-			continue;
-
-		p.lastPlayDate = atoi(ptr + 1);
-		for (i = 0; i < strlen(ptr); ++i)
-		{
-			ladData.removeLastChar();
-		}
-		p.name = QuotedPrintableToUnicodeString(ladData);
-
-		m_ladders[p.lastPlayDate] = p;
-	}
-
-	return true;
-}
 
 // ?Rva0055A087Format@@YAXPAHPAVAsciiString@@@Z @0x0055A087 (86B): formats ten
 // ints from the array as "%d " into a temp then concats into the output.

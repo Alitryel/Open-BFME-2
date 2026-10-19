@@ -176,6 +176,8 @@ public:
 
 private:
 	AsciiString		m_soundName;
+public:
+	SoundFXNugget();
 };  
 EMPTY_DTOR(SoundFXNugget)
 
@@ -297,12 +299,7 @@ class __declspec(novtable) RayEffectFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(RayEffectFXNugget, "RayEffectFXNugget")		
 public:
 
-	RayEffectFXNugget()
-	{
-		m_templateName.clear();
-		m_primaryOffset.x = m_primaryOffset.y = m_primaryOffset.z = 0;
-		m_secondaryOffset.x = m_secondaryOffset.y = m_secondaryOffset.z = 0;
-	}
+	RayEffectFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * secondary, const Real /*overrideRadius*/ ) const
 	{
@@ -356,27 +353,9 @@ class LightPulseFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(LightPulseFXNugget, "LightPulseFXNugget")		
 public:
 
-	LightPulseFXNugget() : m_radius(0), m_increaseFrames(0), m_decreaseFrames(0), m_boundingCirclePct(0)
-	{
-		m_color.red = m_color.green = m_color.blue = 0;
-	}
+	LightPulseFXNugget();
 
-	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const
-	{
-		if (primary)
-		{
-			Real radius = m_radius;
-
-			if (m_boundingCirclePct > 0)
-				radius = (primary->getGeometryInfo().getBoundingCircleRadius() * m_boundingCirclePct);
-
-			TheDisplay->createLightPulse(primary->getPosition(), &m_color, 1, radius, m_increaseFrames, m_decreaseFrames);
-		}
-		else
-		{
-			DEBUG_CRASH(("You must have a primary source for this effect"));
-		}
-	}
+	virtual void doFXObj(const Object* primary, const Object* /*secondary*/);
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
@@ -422,9 +401,7 @@ class ViewShakeFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(ViewShakeFXNugget, "ViewShakeFXNugget")		
 public:
 
-	ViewShakeFXNugget() : m_shake(View::SHAKE_NORMAL)
-	{
-	}
+	ViewShakeFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{
@@ -480,9 +457,7 @@ class TerrainScorchFXNugget : public FXNugget
 	MEMORY_POOL_GLUE_WITH_USERLOOKUP_CREATE(TerrainScorchFXNugget, "TerrainScorchFXNugget")		
 public:
 
-	TerrainScorchFXNugget() : m_scorch(-1), m_radius(0)
-	{
-	}
+	TerrainScorchFXNugget();
 
 	virtual void doFXPos(const Coord3D *primary, const Matrix3D* /*primaryMtx*/, const Real /*primarySpeed*/, const Coord3D * /*secondary*/, const Real /*overrideRadius*/ ) const
 	{

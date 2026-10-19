@@ -31,6 +31,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<BfmeE16,allocator<BfmeE16> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<int,allocator<int> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
 // bfme link decl-only begin
 namespace _STL { template <> vector<int, allocator<int> >::~vector(); }
 // bfme link decl-only end

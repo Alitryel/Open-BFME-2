@@ -1,341 +1,224 @@
+// ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
+// partial score=0.45 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // ?rva0007F0FB@Rva0007F0FB@@QAEXXZ
 // partial score=0.05 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-#include "ascii_string.h"
 // BFME1 donor 0bef414b52a39a3ab1ec98dca60d8a214de4260e; native BFME2 7EF35..7F0F9.
+ // ?rva0007F0FB@Rva0007F0FB@@QAEXXZ
+// Native camera preparation uses CameraClass* and bool, with the counted camera pointer at owner+0xFC.
+// The donor provenance note above describes the preceding loadSetting body; reflection is only a donor algorithm lead.
+// Native-derived reconstruction; remaining code generation and declaration-binding evidence is in reverse/attempt_support/0007f0fb-20261019.md.
 #include <float.h>
-#define __thiscall __stdcall
-struct Matrix4;
-Matrix4 *__stdcall D3DXMatrixInverse(Matrix4 *, unsigned *, Matrix4 *);
-float *__stdcall D3DXVec4Transform(float *, float *, Matrix4 *);
-struct Matrix4 *__stdcall D3DXMatrixTranspose(struct Matrix4 *, struct Matrix4 *);
+#include "vector3.h"
+#include "vector4.h"
 
-typedef int Int;
-typedef unsigned int UnsignedInt;
-typedef float Real;
-
-class WaterSetting;
-extern WaterSetting WaterSettings[];
-
-class TextureClass
-{
-public:
-	void Release_Ref(void);
+class Matrix3D;
+struct Matrix4 {
+ float m[4][4];
+ Matrix4(){}
+ __forceinline Matrix4(const Matrix3D &s);
 };
-
-class TextureBaseClass
-{
+class Matrix3D {
 public:
-	void Release_Ref(void);
+ float m[3][4];
+ Matrix3D() {}
+ __forceinline Matrix3D(
+  const Vector3 &x, // x-axis unit vector
+  const Vector3 &y, // y-axis unit vector
+  const Vector3 &z, // z-axis unit vector
+  const Vector3 &pos) // position
+ {
+  m[0][0]=x.X; m[0][1]=y.X; m[0][2]=z.X; m[0][3]=pos.X;
+  m[1][0]=x.Y; m[1][1]=y.Y; m[1][2]=z.Y; m[1][3]=pos.Y;
+  m[2][0]=x.Z; m[2][1]=y.Z; m[2][2]=z.Z; m[2][3]=pos.Z;
+ }
+ __forceinline Matrix3D(const Matrix3D &s) {
+  m[0][0]=s.m[0][0]; m[0][1]=s.m[0][1]; m[0][2]=s.m[0][2]; m[0][3]=s.m[0][3];
+  m[1][0]=s.m[1][0]; m[1][1]=s.m[1][1]; m[1][2]=s.m[1][2]; m[1][3]=s.m[1][3];
+  m[2][0]=s.m[2][0]; m[2][1]=s.m[2][1]; m[2][2]=s.m[2][2]; m[2][3]=s.m[2][3];
+ }
 };
-
-class BFME2ParticleTextureHandle {
-public:
- TextureBaseClass *Ptr;
- ~BFME2ParticleTextureHandle() { if (Ptr) Ptr->Release_Ref(); }
-};
-class TextureAsset
-{
-public:
-	static BFME2ParticleTextureHandle Get(const char *,int,int);
-};
-class W3DRadarResetSurface;
-class CursorTextureSlot {
-public:
- TextureBaseClass *Ptr;
- ~CursorTextureSlot() { if (Ptr) reinterpret_cast<TextureClass *>(Ptr)->Release_Ref(); }
- void operator=(const BFME2ParticleTextureHandle &);
- W3DRadarResetSurface Get_Surface_Level();
-};
-
-class SurfaceClass
-{
-public:
-	struct SurfaceDescription
-	{
-		UnsignedInt Format;
-		UnsignedInt Width;
-		UnsignedInt Height;
-	};
-	void Get_Description(SurfaceDescription &surfaceDesc);
-};
-
-class SurfaceResource
-{
-public:
-	virtual void slot00(void);
-	virtual unsigned long __stdcall addRef(void);
-	virtual unsigned long __stdcall release(void);
-};
-
-class W3DRadarResetSurface : public SurfaceClass
-{
-public:
-	W3DRadarResetSurface(void) : m_surface(0) {}
-	W3DRadarResetSurface(SurfaceResource *surface);
-	__forceinline W3DRadarResetSurface(const W3DRadarResetSurface &other) :
-		m_surface(other.m_surface)
-	{
-		if (m_surface)
-			m_surface->addRef();
-	}
-	~W3DRadarResetSurface(void);
-private:
-	SurfaceResource *m_surface;
-};
-
-class WaterSettingColorView
-{
-public:
-	UnsignedInt red;
-	UnsignedInt green;
-	UnsignedInt blue;
-	UnsignedInt alpha;
-};
-
-class WaterSettingLoadView
-{
-public:
-	virtual ~WaterSettingLoadView(void);
-	AsciiString m_skyTextureFile;
-	AsciiString m_waterTextureFile;
-	Int m_waterRepeatCount;
-	Real m_skyTexelsPerUnit;
-	WaterSettingColorView m_vertex00Diffuse;
-	WaterSettingColorView m_vertex10Diffuse;
-	WaterSettingColorView m_vertex11Diffuse;
-	WaterSettingColorView m_vertex01Diffuse;
-	WaterSettingColorView m_waterDiffuseColor;
-	WaterSettingColorView m_transparentWaterDiffuse;
-	Real m_uScrollPerMs;
-	Real m_vScrollPerMs;
-};
-
-enum TimeOfDay;
-
-class WaterRenderObjClass
-{
-public:
-	struct Setting
-	{
-		Setting();
-		~Setting();
-		CursorTextureSlot skyTexture;
-		CursorTextureSlot waterTexture;
-		Int waterRepeatCount;
-		Real skyTexelsPerUnit;
-		UnsignedInt vertex00Diffuse;
-		UnsignedInt vertex10Diffuse;
-		UnsignedInt vertex11Diffuse;
-		UnsignedInt vertex01Diffuse;
-		UnsignedInt waterDiffuse;
-		UnsignedInt transparentWaterDiffuse;
-		Real uScrollPerMs;
-		Real vScrollPerMs;
-	};
-protected:
-	void loadSetting(Setting *setting, TimeOfDay timeOfDay);
-};
-
-void WaterRenderObjClass::loadSetting(
-	Setting *setting, TimeOfDay timeOfDay)
-{
- setting->skyTexture = TextureAsset::Get(((WaterSettingLoadView *)WaterSettings)[(unsigned)timeOfDay].m_skyTextureFile.str(),0,0);
- setting->waterTexture = TextureAsset::Get(((WaterSettingLoadView *)WaterSettings)[(unsigned)timeOfDay].m_waterTextureFile.str(),0,0);
-	setting->skyTexelsPerUnit = ((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_skyTexelsPerUnit;
-	SurfaceClass::SurfaceDescription surfaceDesc;
-	setting->waterTexture.Get_Surface_Level().Get_Description(surfaceDesc);
-	setting->skyTexelsPerUnit /= (Real)surfaceDesc.Width;
-	setting->waterRepeatCount = ((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_waterRepeatCount;
-	setting->uScrollPerMs = ((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_uScrollPerMs;
-	setting->vScrollPerMs = ((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vScrollPerMs;
-	setting->vertex00Diffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex00Diffuse.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex00Diffuse.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex00Diffuse.blue;
-	setting->vertex01Diffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex01Diffuse.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex01Diffuse.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex01Diffuse.blue;
-	setting->vertex10Diffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex10Diffuse.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex10Diffuse.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex10Diffuse.blue;
-	setting->vertex11Diffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex11Diffuse.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex11Diffuse.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_vertex11Diffuse.blue;
-	setting->waterDiffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_waterDiffuseColor.alpha << 24) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_waterDiffuseColor.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_waterDiffuseColor.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_waterDiffuseColor.blue;
-	setting->transparentWaterDiffuse =
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_transparentWaterDiffuse.alpha << 24) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_transparentWaterDiffuse.red << 16) |
-		(((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_transparentWaterDiffuse.green << 8) |
-		((WaterSettingLoadView *)WaterSettings)[(unsigned int)timeOfDay].m_transparentWaterDiffuse.blue;
+__forceinline Matrix4::Matrix4(const Matrix3D &s) {
+ m[0][0]=s.m[0][0];
+ m[0][1]=s.m[0][1];
+ m[0][2]=s.m[0][2];
+ m[0][3]=s.m[0][3];
+ m[1][0]=s.m[1][0];
+ m[1][1]=s.m[1][1];
+ m[1][2]=s.m[1][2];
+ m[1][3]=s.m[1][3];
+ m[2][0]=s.m[2][0];
+ m[2][1]=s.m[2][1];
+ m[2][2]=s.m[2][2];
+ m[2][3]=s.m[2][3];
+ m[3][0]=0.0f; m[3][1]=0.0f; m[3][2]=0.0f; m[3][3]=1.0f;
 }
-
-WaterRenderObjClass::Setting::~Setting() {}
-
-template <class T>
-class SimpleDynVecClass
-{
-public:
-	virtual ~SimpleDynVecClass();
-};
-
-class Vector3;
-
-class Rva0007E7DD
-{
-public:
-	void rva0007E7DD();
-};
-
-struct Matrix4 { float M[4][4]; };
-struct Vector2 { float X,Y; };
+class Vector2 { public: float X,Y; };
 class CameraClass {
 public:
-	CameraClass & operator=(const CameraClass &);
-	void Set_Viewport(const Vector2 &, const Vector2 &);
-	void Apply();
-	void Set_Reflected_Projection_Matrix(const Matrix4 &);
-	void Get_Clip_Planes(Matrix4 *,Matrix4 *,Matrix4 *,Matrix4 *) const;
+ virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+ virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+ virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
+ virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c();
+ virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c();
+ virtual void Validate_Transform() const;
+ virtual void Set_Transform(const Matrix3D &);
+ char gap[0x14];
+ Matrix3D transform;
+ CameraClass &operator=(const CameraClass &);
+ void Set_Viewport(const Vector2 &,const Vector2 &);
+ void Apply();
+ void Set_Reflected_Projection_Matrix(const Matrix4 &);
+ const Matrix3D &Get_Transform() const { Validate_Transform();return transform; }
 };
-void __cdecl BFME_DX8_Thread_Lock();
-bool __cdecl BFME_DX8_Thread_Assert();
-class Overridable { public: Overridable *friend_getFinalOverride(); };
+class Overridable {
+public:
+ void *vtable;
+ Overridable *next;
+ Overridable *friend_getFinalOverride();
+};
+// recursively ask if there is a next override, and if not, return this.
+static __forceinline Overridable *finalSetting(Overridable *setting) {
+ if(!setting)return 0;
+ if(setting->next)return setting->next->friend_getFinalOverride();
+ return setting;
+}
+class WaterTransparencySetting;
+template<class T> class OVERRIDE {public:T *ptr;};
+extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
+class StringClass {
+ char *buffer;
+public:
+ StringClass(int,bool);
+ ~StringClass(){Free_String();}
+private:
+ void Free_String();
+};
+struct IDirect3DDevice8;
+struct RenderStateStruct { char gap[0x22c]; Matrix4 view; };
 class DX8Wrapper {
 public:
-	static void Apply_Render_State_Changes();
-	static void Get_DX8_Render_State_Value_Name(AsciiString &,UnsignedInt,Int);
+ static void Apply_Render_State_Changes();
+ static void Get_DX8_Render_State_Value_Name(StringClass &,unsigned long,unsigned);
+ static Matrix4 Projection() { return DeviceProjectionMatrix; }
+protected:
+ static RenderStateStruct render_state;
+ static unsigned render_state_changed;
+ static unsigned RenderStates[256];
+ static IDirect3DDevice8 *D3DDevice;
+ static unsigned render_state_changes;
+ static Matrix4 DeviceProjectionMatrix;
+ friend class Rva0007F0FBOwner;
 };
-
-class Rva0007F0FB {
+class WW3D {
+ static bool SnapshotActivated;
+ friend class Rva0007F0FBOwner;
+};
+extern unsigned number_of_DX8_calls;
+extern bool bfmeCameraProjectionOverride;
+extern "C" Matrix4 *__stdcall D3DXMatrixInverse(Matrix4 *,float *,const Matrix4 *);
+extern "C" Matrix4 *__stdcall D3DXMatrixTranspose(Matrix4 *,const Matrix4 *);
+extern "C" Vector4 *__stdcall rva0062AF4AD3DXVec4Transform(Vector4 *,const Vector4 *,const Matrix4 *);
+void BFME_DX8_Thread_Lock();
+void BFME_DX8_Thread_Assert();
+struct DeviceLock {
+ DeviceLock(){BFME_DX8_Thread_Lock();}
+ ~DeviceLock(){BFME_DX8_Thread_Assert();}
+};
+class Rva0007F0FBOwner {
+ char gap[0xfc];
+ CameraClass *camera;
 public:
-	void rva0007F0FB();
+ void rva0007F0FB(CameraClass *,bool);
 };
 
- // ?rva0007F0FB@Rva0007F0FB@@QAEXXZ
-void Rva0007F0FB::rva0007F0FB()
+void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
 {
-	BFME_DX8_Thread_Lock();
-	CameraClass *src = *(CameraClass **)((char *)&src + 4);
-	CameraClass *srcCopy = (1 ? src : src);
-	int flag = *(int *)((char *)&srcCopy + 8);
-	((void(__thiscall *)(void *,unsigned))(*(unsigned **)srcCopy)[0x50/4])((void *)srcCopy, 0);
-	if (!_finite((double)*(float *)((char *)src + 0x18)))
-		return;
-	CameraClass *cam = (CameraClass *)((char *)this + 0xfc);
-	{
-		float *d = (float *)cam;
-		float *s = (float *)src;
-		d[0]=s[0]; d[1]=s[1]; d[2]=s[2]; d[3]=s[3]; d[4]=s[4]; d[5]=s[5]; d[6]=s[6]; d[7]=s[7];
-		d[8]=s[8]; d[9]=s[9]; d[10]=s[10]; d[11]=s[11]; d[12]=s[12]; d[13]=s[13]; d[14]=s[14]; d[15]=s[15];
-	}
-	Matrix4 a,b,c,d;
-	{
-	W3DRadarResetSurface tmp1;
-	W3DRadarResetSurface tmp2;
-	cam->Get_Clip_Planes(&a,&b,&c,&d);
-	}
-	Overridable *ov = *(Overridable **)0xdff488;
-	float over = 0.0f;
-	if (ov) {
-		if (*(int *)((char *)ov + 4))
-			ov = ov->friend_getFinalOverride();
-		over = *(float *)((char *)ov + 0x4c);
-	}
-	float k1 = *(float *)0xbc28f4;
-	float k2 = *(float *)0xbbb8d8;
-	float m00 = a.M[0][0]+b.M[0][0];
-	float m10 = a.M[1][0]+b.M[1][0];
-	float m20 = a.M[2][0]+b.M[2][0];
-	float m30 = a.M[3][0]+b.M[3][0];
-	float t0 = (m00*0.0f+m30)*k1;
-	float r0x = t0*0.0f;
-	float cx = m00-r0x;
-	float wx = m30-t0;
-	float qx = b.M[0][0]-r0x;
-	float m01 = a.M[0][1]+b.M[0][1];
-	float m11 = m10;
-	float m31 = b.M[3][1]+a.M[3][1];
-	(void)m11;
-	float t1 = (m01*0.0f+m31)*k1;
-	float r1 = t1*0.0f;
-	float cy = b.M[0][1]-r1;
-	float t1b = m10-r1;
-	float wy = m31-t1;
-	float qy = m01-t1;
-	float m02 = a.M[0][2]+b.M[0][2];
-	float m32 = a.M[3][2]+c.M[3][2];
-	float t2 = (m02*0.0f+m32)*k1;
-	float w2 = m32-t2;
-	float r2 = t2*0.0f;
-	float cz = m02-r2;
-	float qz = w2;
-	float m03 = a.M[0][3]+b.M[0][3];
-	float m33 = d.M[3][3]+c.M[3][3];
-	float t3 = ((m03*0.0f+m33)-over)*k1;
-	float w3 = m33-t3;
-	float r3 = t3*0.0f;
-	float cw = m03-r3;
-	float qw = w3;
-	Matrix4 clip;
-	clip.M[0][0]=cx; clip.M[0][1]=cy; clip.M[0][2]=cz; clip.M[0][3]=cw;
-	clip.M[1][0]=qx; clip.M[1][1]=qy; clip.M[1][2]=qz; clip.M[1][3]=qw;
-	clip.M[2][0]=wx; clip.M[2][1]=wy; clip.M[2][2]=w2; clip.M[2][3]=w3;
-	clip.M[3][0]=0.0f; clip.M[3][1]=0.0f; clip.M[3][2]=0.0f; clip.M[3][3]=0.0f;
-	((void(__thiscall *)(void *,void *))(*(unsigned **)cam)[0x54/4])((void *)cam,(void *)&clip);
-	Vector2 v0; Vector2 v1;
-	v0.X=v0.Y=v1.X=v1.Y=k2;
-	v1.X=0.0f; v1.Y=0.0f;
-	cam->Set_Viewport(v0,v1);
-	cam->Apply();
-	DX8Wrapper::Apply_Render_State_Changes();
-	Matrix4 inv;
-	if (*(unsigned char *)0xdec4f6 & 8) {
-		inv.M[0][0]=k2; inv.M[0][1]=0; inv.M[0][2]=0; inv.M[0][3]=0;
-		inv.M[1][0]=0; inv.M[1][1]=k2; inv.M[1][2]=0; inv.M[1][3]=0;
-		inv.M[2][0]=0; inv.M[2][1]=0; inv.M[2][2]=k2; inv.M[2][3]=0;
-		inv.M[3][0]=0; inv.M[3][1]=0; inv.M[3][2]=0; inv.M[3][3]=k2;
-	} else {
-		inv = *(Matrix4 *)0xdee804;
-	}
-	Matrix4 tmp;
-	D3DXMatrixInverse((Matrix4 *)&tmp,0,(Matrix4 *)&inv);
-	float v[4]; v[0]=0; v[1]=0; v[2]=k2; v[3]=0.0f-over;
-	float out[4];
-	D3DXVec4Transform((float *)&out,(float *)&v,(Matrix4 *)&tmp);
-	Matrix4 src2 = *(Matrix4 *)0xdedbf0;
-	Matrix4 tr;
-	D3DXMatrixTranspose(&tr,&src2);
-	float px = out[0];
-	float py = out[1];
-	float pz = out[2];
-	float pw = out[3];
-	float sx = px>=0.0f ? k2 : (0.0f>px ? 0.0f : *(float *)0xbbb9ac);
-	float sy = py>=0.0f ? k2 : (0.0f>py ? 0.0f : *(float *)0xbbb9ac);
-	float szx = 0.0f;
-	float inv2 = 1.0f/(px*sx+py*sy+pz*szx+pw);
-	(void)inv2;
-	cam->Set_Reflected_Projection_Matrix(tr);
-	if (*(int *)0xded858) {
-		if (!*(unsigned char *)0xdec3fd) {
-			AsciiString s((const char *)0x98,false);
-			DX8Wrapper::Get_DX8_Render_State_Value_Name(s,0x98,0);
-		}
-		unsigned *p = *(unsigned **)0xdeda34;
-		*(int *)0xded858 = 0;
-		((void(__thiscall *)(void *,int,int))(*(unsigned **)p)[0xe4/4])((void *)p,0,0x98);
-		(*(int *)0xdeda98)++;
-		(*(int *)0xdeda64)++;
-	}
-	*(unsigned char *)0xdeda05 = 1;
-	cam->Apply();
-	if (flag)
-		*(unsigned char *)0xdeda05 = 0;
-	BFME_DX8_Thread_Assert();
+ DeviceLock guard;
+ Vector2 minimum,maximum;
+ Matrix4 inverse,projection;
+ Vector4 clip;
+ if (!_finite(source->Get_Transform().m[0][0]))return;
+ *camera=*source;
+ Matrix4 old(source->Get_Transform());
+ Overridable *setting=(Overridable*)TheWaterTransparency.ptr;
+ setting=finalSetting(setting);
+ float level=*(float*)((char*)setting+0x4c);
+
+ Matrix4 full;
+ full.m[0][0]=old.m[0][0];
+ full.m[0][1]=old.m[1][0];
+ full.m[0][2]=old.m[2][0];
+ full.m[1][0]=old.m[0][1];
+ full.m[1][1]=old.m[1][1];
+ full.m[1][2]=old.m[2][1];
+ full.m[2][0]=old.m[0][2];
+ full.m[2][1]=old.m[1][2];
+ full.m[2][2]=old.m[2][2];
+ full.m[3][0]=old.m[0][3];
+ full.m[3][1]=old.m[1][3];
+ full.m[3][2]=old.m[2][3];
+ Vector3 waterNormal(0,0,1);
+ Vector3 rRight,rUp,rN,rPos;
+ float axis_distance=Vector3::Dot_Product((Vector3&)full.m[0],waterNormal);
+ rRight=(Vector3&)full.m[0]-(2.0f*axis_distance*waterNormal);
+ axis_distance=Vector3::Dot_Product((Vector3&)full.m[1],waterNormal);
+ rUp=(Vector3&)full.m[1]-(2.0f*axis_distance*waterNormal);
+ axis_distance=Vector3::Dot_Product((Vector3&)full.m[2],waterNormal);
+ rN=(Vector3&)full.m[2]-(2.0f*axis_distance*waterNormal);
+ axis_distance=Vector3::Dot_Product((Vector3&)full.m[3],waterNormal);
+ axis_distance-=level;
+ rPos=(Vector3&)full.m[3]-(2.0f*axis_distance*waterNormal);
+ Matrix3D reflected(rRight,-rUp,rN,rPos);
+ camera->Set_Transform(reflected);
+ maximum.X=maximum.Y=1.0f;
+ minimum.X=minimum.Y=0.0f;
+ camera->Set_Viewport(minimum,maximum);
+ camera->Apply();
+ DX8Wrapper::Apply_Render_State_Changes();
+ if(DX8Wrapper::render_state_changed&0x80000) {
+  inverse.m[0][0]=1.0f; inverse.m[0][1]=0.0f; inverse.m[0][2]=0.0f; inverse.m[0][3]=0.0f;
+  inverse.m[1][0]=0.0f; inverse.m[1][1]=1.0f; inverse.m[1][2]=0.0f; inverse.m[1][3]=0.0f;
+  inverse.m[2][0]=0.0f; inverse.m[2][1]=0.0f; inverse.m[2][2]=1.0f; inverse.m[2][3]=0.0f;
+  inverse.m[3][0]=0.0f; inverse.m[3][1]=0.0f; inverse.m[3][2]=0.0f; inverse.m[3][3]=1.0f;
+ } else {
+  inverse.m[0][0]=DX8Wrapper::render_state.view.m[0][0]; inverse.m[0][1]=DX8Wrapper::render_state.view.m[1][0]; inverse.m[0][2]=DX8Wrapper::render_state.view.m[2][0]; inverse.m[0][3]=DX8Wrapper::render_state.view.m[3][0];
+  inverse.m[1][0]=DX8Wrapper::render_state.view.m[0][1]; inverse.m[1][1]=DX8Wrapper::render_state.view.m[1][1]; inverse.m[1][2]=DX8Wrapper::render_state.view.m[2][1]; inverse.m[1][3]=DX8Wrapper::render_state.view.m[3][1];
+  inverse.m[2][0]=DX8Wrapper::render_state.view.m[0][2]; inverse.m[2][1]=DX8Wrapper::render_state.view.m[1][2]; inverse.m[2][2]=DX8Wrapper::render_state.view.m[2][2]; inverse.m[2][3]=DX8Wrapper::render_state.view.m[3][2];
+  inverse.m[3][0]=DX8Wrapper::render_state.view.m[0][3]; inverse.m[3][1]=DX8Wrapper::render_state.view.m[1][3]; inverse.m[3][2]=DX8Wrapper::render_state.view.m[2][3]; inverse.m[3][3]=DX8Wrapper::render_state.view.m[3][3];
+ }
+ D3DXMatrixInverse(&inverse,0,&inverse);
+ Vector4 plane(0.0f,0.0f,1.0f,0.0f-level);
+ rva0062AF4AD3DXVec4Transform(&clip,&plane,&inverse);
+ projection.m[0][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][0]; projection.m[0][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][0]; projection.m[0][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][0]; projection.m[0][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][0];
+ projection.m[1][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][1]; projection.m[1][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][1]; projection.m[1][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][1]; projection.m[1][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][1];
+ projection.m[2][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][2]; projection.m[2][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][2]; projection.m[2][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][2]; projection.m[2][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][2];
+ projection.m[3][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][3]; projection.m[3][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][3]; projection.m[3][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][3]; projection.m[3][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][3];
+ D3DXMatrixTranspose(&projection,&projection);
+ Vector4 q;
+ q.X=((clip.X>0.0f ? 1.0f : (clip.X<0.0f ? -1.0f : 0.0f))-projection.m[2][0])/projection.m[0][0];
+ q.Y=((clip.Y>0.0f ? 1.0f : (clip.Y<0.0f ? -1.0f : 0.0f))-projection.m[2][1])/projection.m[1][1];
+ q.Z=1.0f;
+ q.W=(1.0f-projection.m[2][2])/projection.m[3][2];
+ Vector4 c=clip*(1.0f/Vector4::Dot_Product(clip,q));
+ projection.m[0][2]=c.X;
+ projection.m[1][2]=c.Y;
+ projection.m[2][2]=c.Z;
+ projection.m[3][2]=c.W;
+ camera->Set_Reflected_Projection_Matrix(projection);
+ if(DX8Wrapper::RenderStates[152]!=0) {
+  if(WW3D::SnapshotActivated) {
+   StringClass value(0,true);
+   DX8Wrapper::Get_DX8_Render_State_Value_Name(value,152,0);
+  }
+  DX8Wrapper::RenderStates[152]=0;
+  typedef long (__stdcall *SetRenderState)(IDirect3DDevice8*,unsigned long,unsigned long);
+  ((SetRenderState*)*(void**)DX8Wrapper::D3DDevice)[0xe4/4](DX8Wrapper::D3DDevice,152,0);
+  ++number_of_DX8_calls;
+  ++DX8Wrapper::render_state_changes;
+ }
+ bfmeCameraProjectionOverride=true;
+ camera->Apply();
+ if(clearOverride)bfmeCameraProjectionOverride=false;
 }

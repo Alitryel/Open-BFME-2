@@ -1,10 +1,11 @@
-// cl: /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
+// cl: /Ireference/shims/bfme2renderobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/shims/sweep
 // line3d.cpp: Line3DClass::Clone and the copy constructor it calls, which
 // retail links from this TU (tu_map approved), folded from two split units
 // with these exact flags. Clone comes first so its constructor call stays a call.
 // Donor implementation: Open-BFME-1 WW3D2/line3d.cpp, GPL-3.0-or-later,
 // Copyright 2025 Electronic Arts Inc. Target layout below is independently
-// constrained by BFME2 vtables and member accesses; opaque tail is not named.
+// constrained by BFME2 vtables and member accesses. The full BFME2 RenderObj
+// view below also agrees with the endpoint constructor's virtual slots.
 // Vtable 0xBD3FA8 links Clone at 0x166E00 back to this constructor and
 // Class_ID at 0x166C10 returns CLASSID_LINE3D (6). Members start at +0xC4.
 // The compiler-generated vector constructor iterator (??_H) takes the
@@ -18,6 +19,9 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
 #define Matrix4x4 Matrix4
 #include "winbase_shim.h"
 #include "always.h"
@@ -25,31 +29,19 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "vector4.h"
 #include "shader.h"
 
-class RefCountClass {
-public:
-    virtual ~RefCountClass();
-    int NumRefs;
-};
-class MultiListObjectClass {
-public:
-    virtual ~MultiListObjectClass();
-private:
-    void *ListNode;
-};
-class RenderObjClass : public RefCountClass, public MultiListObjectClass {
-    unsigned char opaque_target_base_state[0xB4];
-public:
-    RenderObjClass(const RenderObjClass &);
-    virtual ~RenderObjClass();
-    RenderObjClass &operator=(const RenderObjClass &);
-};
+#include "rendobj.h"
+
 class Line3DClass : public W3DMPO, public RenderObjClass {
 public:
     Line3DClass(const Line3DClass &);
     Line3DClass &operator=(const Line3DClass &);
-    virtual ~Line3DClass();
     virtual RenderObjClass *Clone(void) const;
     virtual int Class_ID(void) const;
+    virtual void Render(RenderInfoClass&);
+    virtual void Scale(float, float, float);
+    virtual void Scale(float);
+    virtual void Get_Obj_Space_Bounding_Sphere(SphereClass&) const;
+    virtual void Get_Obj_Space_Bounding_Box(AABoxClass&) const;
     float Length;
     float Width;
     ShaderClass Shader;

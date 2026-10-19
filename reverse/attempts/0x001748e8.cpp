@@ -1,4 +1,6 @@
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
+// partial score=0.9836512261580381 date=2026-10-19
+// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
 // partial score=0.895 date=2026-10-17
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
 // partial score=0.82 date=2026-10-15
@@ -29,8 +31,9 @@ struct Rva0017368AMeshCounts
 	int m_vertexCount; // +0x28
 };
 
-struct Rva0017368AMesh
+class Rva0017368AMesh
 {
+public:
 	char m_pad000[0xC4];
 	Rva0017368AMeshCounts *m_counts; // +0xC4
 	char m_pad0C8[0x300 - 0xC8];
@@ -110,14 +113,16 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 
 	int remaining = 0;
 	Rva0017368ATask *it = m_tasks.begin();
+	if (it != m_tasks.end())
 	do
 	{
 		Rva0017368AMesh *mesh = it->mesh;
-		Rva0017368AMesh **state = (1 ? mesh->m_state : mesh->m_state);
-		if (!state || !*state)
+		Rva0017368AMesh **state = mesh->m_state;
+		if (!state)
+			remaining += mesh->m_counts->m_vertexCount;
+		else if (!*state)
 		{
-			if (state)
-				*state = mesh;
+			*state = mesh;
 			remaining += mesh->m_counts->m_vertexCount;
 		}
 		++it;
@@ -131,19 +136,19 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 		if (budget > 0xFFFF)
 			budget = 0xFFFF;
 
-		int used = 0;
+		int used;
 		DynamicVBAccessClass vb(2, 5, (unsigned short)budget, 0);
-		used = 0;
 		{
 			DynamicVBAccessClass::WriteLock lock(&vb);
 			char *vertices = (char *)lock.Get_Data();
+			used = 0;
 			int offset = 0;
-			for (; m_tasks.end() != task; ++task)
+			if (task != m_tasks.end())
+			for (; task != m_tasks.end(); )
 			{
 				Rva0017368AMesh *mesh = task->mesh;
-				Rva0017368AMesh **state = (1 ? mesh->m_state : mesh->m_state);
-				Rva0017368AMesh *claimed = (state != 0 ? *state : *state);
-				if (mesh == claimed)
+				Rva0017368AMesh **state = mesh->m_state;
+				if (!state || mesh == *state)
 				{
 					if (mesh->m_counts->m_vertexCount + used > budget)
 						break;
@@ -151,6 +156,7 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 					offset = used;
 					used += mesh->m_counts->m_vertexCount;
 				}
+				++task;
 				mesh->m_vertexOffset = offset;
 			}
 			remaining = *(volatile int *)&remaining - used;
@@ -161,3 +167,6 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 	}
 	((Rva00DF6F94GapFillerContext *)this)->rva00174350();
 }
+
+// Native null-state branches and prechecked loops are restored.
+// Remaining shape and ABI evidence: reverse/attempt_support/001748e8-20261019-w5.md.

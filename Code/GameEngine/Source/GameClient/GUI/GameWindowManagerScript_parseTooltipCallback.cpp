@@ -54,16 +54,14 @@ public:
 
 extern Rva00DFF024Registry *TheRva00DFF024Registry;
 extern AsciiString g_tooltipCallbackName;
-extern void *g_tooltipCallback;
-// g_tooltipCallback: matched references place it at VA 0xe012fc (zero-filled .bss).
-void * g_tooltipCallback;
+#include "WindowScriptCreateRecord.h"
 
 class WinInstanceData;
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
 
 // ?parseTooltipCallback@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseTooltipCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseTooltipCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *stringSeps = "\"";
@@ -76,7 +74,7 @@ static Bool parseTooltipCallback(char *token, WinInstanceData *instData, char *b
 	g_tooltipCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_tooltipCallbackName);
-	g_tooltipCallback = TheRva00DFF024Registry->bfme_lookup_7fde7(key, 2);
+	g_windowScriptCreateRecord.tooltip = TheRva00DFF024Registry->bfme_lookup_7fde7(key, 2);
 
 	return true;
 }

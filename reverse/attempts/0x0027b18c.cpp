@@ -1,4 +1,6 @@
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
+// partial score=0.98 date=2026-10-19
+// ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.8174 date=2026-10-18
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.93 date=2026-10-15
@@ -6,23 +8,19 @@
 // Native 27B18C..27B47F RET4; unnamed WB CB7E40 supplies damage/EVA control flow.
 // BF1 f989 / ZH Drawable lack this BF2 notification method; existing partition
 // filter callers guide filter lifetime, while target vftables prove the slots.
+// The shared lookup declarations keep the converged GameLogic global consistent.
+// Visible lookup bodies describe the native read-only map operation.
+// stlport
+#include <vector>
+#include "GameLogicObjectLookupView.h"
 #include "PartitionRangeQueryCallView.h"
-struct Coord3D 
-{
- float x,y,z;
- 
-}
-;
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
 enum KindOfType 
 {
  RvaKind0=0
 }
 ;
-enum ObjectID 
-{
- INVALID_ID=0
-}
-;
+
 class Player
 {
  public:char pad[0x54];
@@ -106,14 +104,6 @@ class Radar
 }
 ;
 extern Radar*TheRadar;
-class GameLogic
-{
- public:char pad[0x40];
- unsigned frame;
- Object*findObjectByID(ObjectID);
- 
-}
-;
 extern GameLogic *TheGameLogic;
 class Rva002D3756
 {
@@ -189,14 +179,34 @@ class Drawable
  
 }
 ;
+struct DamageLookupNodeView { DamageLookupNodeView *next; ObjectID key; Object *object; };
+struct DamageLookupMapView { unsigned count; _STL::vector<DamageLookupNodeView*> buckets; };
+ObjectIdNode *ObjectIdMap::find(const ObjectID &id)
+{
+ DamageLookupMapView *map = (DamageLookupMapView *)this;
+ unsigned bucket = (unsigned)id % map->buckets.size();
+ DamageLookupNodeView *node = map->buckets[bucket];
+ while(node) {
+  if(node->key == id) break;
+  node = node->next;
+ }
+ return (ObjectIdNode *)node;
+}
+Object *GameLogic::findObjectByID(ObjectID id)
+{
+ if(id == INVALID_OBJECT_ID) return 0;
+ ObjectIdNode *node = m_map.find(id);
+ if(!node) return 0;
+ return node->object;
+}
 void Drawable::rva0027B18C(DamageInfo*damage)
 {
  Object*obj=object;
  if(!obj)return;
  if((obj->data->flag10e&0x40)&&(obj->data->flag118&0x40))return;
  Player*player=obj->getControllingPlayer();
- const BfmeDamageTemplate*templ=data;
  if(!(damage->amount>0.0f)||damage->damageType==10||damage->damageType==7||damage->p1c==22||damage->p18==2||(damage->playerMask&(1<<player->index))||!player->isLocalPlayer())return;
+ const BfmeDamageTemplate*templ=data;
  if(damage->report)
  {
   if(obj->radarInfo)TheRadar->tryUnderAttackEvent(obj);
@@ -230,9 +240,9 @@ void Drawable::rva0027B18C(DamageInfo*damage)
    if(event!=-1)
    {
    GameLogic* gl=TheGameLogic;
-   unsigned now=gl->frame;
-   if(nextFrame<=now&&((1 ? TheEva : TheEva)->isEventBlockedByTimeout((EvaEventID)event)||(1 ? TheEva : TheEva)->isEventAboutToPlay((EvaEventID)event))&&other!=-1)(1 ? TheEva : TheEva)->reportEvaEvent((EvaEventID)other,&obj->position,0);
-   else (1 ? TheEva : TheEva)->reportEvaEvent((EvaEventID)event,&obj->position,0);
+   unsigned now=gl->getFrame();
+   if(nextFrame<=now&&(TheEva->isEventBlockedByTimeout((EvaEventID)event)||TheEva->isEventAboutToPlay((EvaEventID)event))&&other!=-1)TheEva->reportEvaEvent((EvaEventID)other,&obj->position,0);
+   else TheEva->reportEvaEvent((EvaEventID)event,&obj->position,0);
     float range=templ->range;
     if(range<=0.0f||templ->event580==-1)((Rva00271B03*)this)->rva00271B03();
     else

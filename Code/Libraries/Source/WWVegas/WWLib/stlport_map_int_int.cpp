@@ -85,6 +85,23 @@ template <> inline IntMapTree::size_type IntMapTree::erase(const int &key)
 	return count;
 }
 
+// The size-profile providers own retail clear (0x6AA1C), tree assignment
+// (0x2CF742), and map assignment (0x2CF9CA). Do not emit speed-profile copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void IntMapTree::clear()
+{
+    if (_M_node_count != 0) {
+        _M_erase(_M_root());
+        _M_leftmost() = _M_header._M_data;
+        _M_root() = 0;
+        _M_rightmost() = _M_header._M_data;
+        _M_node_count = 0;
+    }
+}
+template <> IntMapTree &IntMapTree::operator=(const IntMapTree &);
+template <> map<int, int> &map<int, int>::operator=(const map<int, int> &);
+}
+
 template class _STL::map<int, int, _STL::less<int>, _STL::allocator<_STL::pair<const int, int> > >;
 
 // Unsigned four-byte key view used by the asset-manager set operations at

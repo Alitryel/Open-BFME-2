@@ -85,26 +85,6 @@ typedef char SnowManagerSizeCheck[sizeof(SnowManager) == 0x74 ? 1 : -1];
 
 extern SnowManager *TheSnowManager;
 
-SnowManager::SnowManager()
-    : SubsystemInterface(),
-      m_startingHeights(0), m_time(0.0f), m_velocity(1.0f),
-      m_fullTimePeriod(0.0f), m_frequencyScaleX(0.0f),
-      m_frequencyScaleY(0.0f), m_amplitude(0.0f), m_pointSize(0.0f),
-      m_maxPointSize(0.0f), m_minPointSize(0.0f), m_quadSize(0.0f),
-      m_boxDimensions(0.0f), m_emitterSpacing(0.0f), m_isVisible(1),
-      m_targetFlag41(0), m_targetDword44(0),
-      m_targetFlag50(0), m_targetDword54(0),
-      m_targetDword58(0)
-{
-    m_targetFloat5C = 0.0f;
-    m_targetFloat60 = 0.0f;
-    m_targetFloat64 = 0.0f;
-    m_targetFloat68 = 0.0f;
-    m_targetFloat6C = 0.0f;
-    m_targetFloat70 = 0.0f;
-    m_targetPair48.a = 0.0f;
-    m_targetPair48.b = 0.0f;
-}
 
 extern void * __cdecl operator new[](unsigned int);
 
@@ -214,15 +194,6 @@ WeatherSetting *SnowManager::rva00201153()
     return static_cast<WeatherSetting *>(setting->friend_getFinalOverride());
 }
 
-SnowManager::~SnowManager()
-{
-    delete [] m_startingHeights;
-    m_startingHeights = 0;
-    if (TheWeatherSetting) {
-        ::delete TheWeatherSetting;
-        TheWeatherSetting = static_cast<const WeatherSetting *>(0);
-    }
-}
 
 void SnowManager::reset()
 {

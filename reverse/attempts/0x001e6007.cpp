@@ -1,4 +1,6 @@
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
+// partial score=0.98 date=2026-10-19
+// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.95 date=2026-10-16
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.8721671640448934 date=2026-10-14
@@ -31,6 +33,7 @@ extern "C" void _ReadWriteBarrier(void);
 #include "matrix3d.h"
 extern "C" float atan2f(float,float);
 class Object;
+class Locomotor { public: float getMaxSpeed(Object*)const; };
 class GameLogic;
 extern GameLogic *TheGameLogic;
 extern float g_secondsPerLogicFrame;
@@ -565,10 +568,10 @@ static __forceinline float rva6007SlowDown(float speed,float minSpeed,float brak
  const float fudge=1.05f;
  return dist*fudge;
 }
-static __forceinline void rva6007SetNextPosition(Object *obj,const Coord3D *pos){obj->m_198=*pos;obj->m_1A6=true;}
+static __forceinline void rva6007SetNextPosition(Object *obj,const Coord3D *pos){obj->m_1A6=true;obj->m_198=*pos;}
 void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,float desiredSpeed)
 {
- float maxSpeed=rva001E46E1(obj);
+ float maxSpeed=((const Locomotor*)this)->getMaxSpeed(obj);
  if(desiredSpeed>maxSpeed)desiredSpeed=maxSpeed;
  float goalSpeed=desiredSpeed;
  float actualSpeed=m_40;
@@ -633,3 +636,6 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   }
  }
 }
+
+// Retail next-position flag order and named speed callee are reproduced by this bank.
+// Remaining coordinate-copy evidence: reverse/attempt_support/001e6007-20261019-w5.md.

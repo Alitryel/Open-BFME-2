@@ -27,7 +27,10 @@ class Rva005D06CBB2
 {
 public:
 	Rva005D06CBB2();
-	virtual ~Rva005D06CBB2() {}
+	~Rva005D06CBB2() {}
+	virtual void s0() {}
+	virtual void s1() {}
+	virtual void s2() {}
 };
 // ??0Rva005D06CBB2@@QAE@XZ @0x004EE00D 9B: the default constructor, storing the
 // class's own vtable (VA 0x00C62A14) and returning this.

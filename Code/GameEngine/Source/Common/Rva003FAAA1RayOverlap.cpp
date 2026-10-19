@@ -19,7 +19,10 @@ public:
 	float Z;
 };
 #define COORD3D_VIEW_INLINE
+// Retain native inline scale while binding out-of-line uses to the retail copy.
+#define scale(args) __declspec(dllimport) __forceinline scale(args)
 #include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
+#undef scale
 
 class AABoxClass
 {

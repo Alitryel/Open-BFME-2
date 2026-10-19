@@ -1,4 +1,7 @@
 // cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /DWIN32 /D_WINDOWS /DBFME_MODULE_NO_MPO /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// This donor Object view does not use native disabled-mask +0x1C8.
+// Keep its unrecovered callers separate from native Object::isDisabled.
+#define isDisabled oCLSpecialPowerDonorIsDisabled
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -62,14 +65,20 @@ enum
 	MAX_ADJUST_RADIUS = 500
 };
 
-static const char* TheOCLCreateLocTypeNames[] =
+// BFME 2's list (retail VA 0x00DCDFD0, .data, read from retail): the
+// CreateLocation parseIndexList names of OCLSpecialPowerModuleData's table,
+// Zero Hour's six plus three BFME 2 placements.
+const char* TheOCLCreateLocTypeNames[] =
 {
 	"CREATE_AT_EDGE_NEAR_SOURCE",
 	"CREATE_AT_EDGE_NEAR_TARGET",
+	"CREATE_AT_EDGE_NEAR_TARGET_AND_MOVE_TO_LOCATION",
 	"CREATE_AT_LOCATION",
 	"USE_OWNER_OBJECT",
 	"CREATE_ABOVE_LOCATION",
 	"CREATE_AT_EDGE_FARTHEST_FROM_TARGET",
+	"CREATE_CLOSEST_TO_SPAWN_POINT",
+	"USE_SECONDARY_OBJECT_LOCATION",
 	NULL
 };
 

@@ -24,6 +24,7 @@ struct EmitVtableTag;
 class Rva0039EA9C
 {
 public:
+	Rva0039EA9C();
 	~Rva0039EA9C();
 private:
 	int m_00, m_04, m_08;

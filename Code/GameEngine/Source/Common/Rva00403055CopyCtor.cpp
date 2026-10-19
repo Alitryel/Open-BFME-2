@@ -80,6 +80,8 @@ private:
 	unsigned char m_54;
 	unsigned char m_55;
 	unsigned char m_56;
+public:
+	~Rva003F9FE6();
 };
 
 class Rva00402F28Item : public Rva003F9FE6

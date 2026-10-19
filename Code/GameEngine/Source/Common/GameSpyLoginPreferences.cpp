@@ -125,7 +125,28 @@ template <> struct less<AsciiString>
 // this TU emits no per-flag copy of it or of the tree internals it pulls in.
 namespace _STL {
 template <> AsciiString &map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<const AsciiString, AsciiString> > >::operator[](const AsciiString &);
+// The nick/clan map uses the rowed 0x5CAC49 subscript as well. Its generic
+// copy here pulls in non-retail node construction and insertion helpers.
+template <> list<AsciiString> &map<AsciiString, list<AsciiString>, less<AsciiString>, allocator<pair<const AsciiString, list<AsciiString> > > >::operator[](const AsciiString &);
 }
+
+// bfme link decl-only begin
+// The list-valued nick/clan map internals (tree destructor and base
+// destructor, map::operator[], _M_erase, the node allocator's deallocate,
+// tree erase(iterator) and list erase(iterator)) are owned out of line by the
+// stlport_string_list_* providers. Declaring them here suppresses this TU's
+// per-TU copies, which would otherwise win link order ahead of retail's
+// byte-owned copies; the same recipe as the map<AsciiString,AsciiString>
+// operator[] above (the kept copies' bodies are byte-identical).
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Select1st<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > >,less<AsciiString>,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::~_Rb_tree_base(); }
+namespace _STL { template <> list<AsciiString,allocator<AsciiString> > & map<AsciiString,list<AsciiString,allocator<AsciiString> >,less<AsciiString>,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::operator[](AsciiString const &); }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Select1st<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > >,less<AsciiString>,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::_M_erase(_Rb_tree_node<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > *); }
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::deallocate(_Rb_tree_node<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > *,unsigned int) const; }
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Select1st<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > >,less<AsciiString>,allocator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >::erase(_Rb_tree_iterator<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > >,_Nonconst_traits<pair<AsciiString const,list<AsciiString,allocator<AsciiString> > > > >); }
+namespace _STL { template <> _List_iterator<AsciiString,_Nonconst_traits<AsciiString> > list<AsciiString,allocator<AsciiString> >::erase(_List_iterator<AsciiString,_Nonconst_traits<AsciiString> >); }
+// bfme link decl-only end
+
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
@@ -161,6 +182,14 @@ typedef _STL::map<AsciiString, _STL::list<AsciiString, _STL::allocator<AsciiStri
 typedef _STL::map<AsciiString, _STL::list<AsciiString, _STL::allocator<AsciiString> > > ClanMap;
 // Reuse the native list-base destructor shared by the existing list providers.
 extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::~_List_base();
+
+// The list-pair teardown chain was instantiated here only as a side effect of
+// the list-tree destructor declared-only above; keep the rows this TU owns
+// (pair dtor 0x5C9ED3, its deleting dtor 0x5C9F6B and _Destroy 0x5CA16A) with
+// explicit instantiations.
+typedef _STL::pair<AsciiString const, _STL::list<AsciiString, _STL::allocator<AsciiString> > > NickPair;
+template NickPair::~pair();
+template void _STL::_Destroy(NickPair *);
 
 
 AsciiString AsciiStringToQuotedPrintable(AsciiString original);

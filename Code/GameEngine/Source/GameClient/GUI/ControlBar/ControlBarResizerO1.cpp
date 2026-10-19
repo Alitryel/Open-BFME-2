@@ -86,22 +86,6 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameClient/Display.h"
 
 
-ControlBarResizer::~ControlBarResizer( void )
-{
-	ResizerWindowList::iterator it = m_resizerWindowsList.begin();
-	while (it != m_resizerWindowsList.end())
-	{
-		ResizerWindow *rWin = *it;
-		if( !rWin )
-		{
-			it = m_resizerWindowsList.erase(it);
-			continue;
-		}
-		delete rWin;
-		it = m_resizerWindowsList.erase(it);
-	}
-	m_resizerWindowsList.clear();
-}
 	
 	
 ResizerWindow *ControlBarResizer::findResizerWindow( AsciiString name )

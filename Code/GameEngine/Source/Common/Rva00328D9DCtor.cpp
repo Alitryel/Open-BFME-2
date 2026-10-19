@@ -38,7 +38,10 @@ class Rva00328D9D : public Rva00328A75
 {
 public:
 	Rva00328D9D(int a, int b, BfmeParserRegistryVE *registry, const AsciiString *label);
-	virtual ~Rva00328D9D();
+	// Derived dtor left implicit: 0x00328D9D is the rowed ctor row and there is
+	// no dtor row for this class, so an explicit declaration only yields the
+	// undefined ??1Rva00328D9D@@UAE@XZ; the implicit virtual dtor is emitted with
+	// the vtable 0x0080D8F0 and calls the rowed base dtor.
 };
 
 Rva00328D9D::Rva00328D9D(int a, int b, BfmeParserRegistryVE *registry, const AsciiString *label)

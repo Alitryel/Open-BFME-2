@@ -30,21 +30,17 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
-extern const void *const g_00BBB554[];
+// Retail 0x49B47C is the 7-byte store of retail's own table 0xBBB554 at +0 of
+// the embedded Snapshot. novtable keeps this TU from emitting its own
+// ??_7Snapshot@@6B@ COMDAT (whose slots would be this view's, not retail's), so
+// the store names the row owner's table and the two copies agree.
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 
-class Snapshot
+class __declspec(novtable) Rva002105A6Snapshot
 {
 public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual void loadPostProcess();
-	virtual void xfer();
+	virtual ~Rva002105A6Snapshot() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 };
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = g_00BBB554;
-}
 
 struct FreedPtr
 {
@@ -61,7 +57,7 @@ public:
 	~Rva002105A6();
 private:
 	int m_id;
-	Snapshot m_snap;
+	Rva002105A6Snapshot m_snap;
 	int m_08;
 	int m_0C;
 	int m_10;

@@ -163,10 +163,17 @@ refer to by name; \ref page_core_frameworks introduces them and
 
 **Command sets.** `CommandButton` and `CommandSet` definitions connect the
 interface to logic commands. A command set holds 32 button slots, and
-`CommandSet::getCommandButton` does not check the index. BFME 2 adds a run-time
-substitution: before using a slot, it asks the game logic whether a
-replacement button is registered for that set name and slot. Where those
-replacements come from is not yet established.
+`CommandSet::getCommandButton` does not check the index. As in Zero Hour,
+`CommandSet::getCommandButton` first asks the game logic whether an override
+button is recorded for that set name and slot. Map-script actions record
+overrides through `GameLogic::setControlBarOverride`:
+`ScriptActions::doRemoveCommandBarButton` records a null override in every
+slot that holds the named button, both in the object type's own command set
+and in the command set named by each of its `CommandSetUpgrade` modules
+(identified by the module data field the action reads), so the sets an
+upgrade switches to lose the button too. A second script action records a
+button. An override is keyed by set name, so it applies to every
+object type that uses the set.
 
 ## Map scripts and Lua {#page_modding_scripts}
 

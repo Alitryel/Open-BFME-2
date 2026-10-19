@@ -35,7 +35,7 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 struct CommandHistory
 {
 	unsigned int words[0x800];
-	CommandHistory() { memset(words, 0, sizeof(words)); words[0] = 0; }
+	CommandHistory();
 };
 
 class Connection;

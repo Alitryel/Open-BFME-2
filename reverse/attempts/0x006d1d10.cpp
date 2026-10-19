@@ -1,9 +1,13 @@
 // ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
+// partial score=0.7318181818181818 date=2026-10-19
+// ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
 // partial score=0.727 date=2026-10-17
 // ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
 // partial score=0.8380635624538064 date=2026-10-10
 // ?update@Rva006D1D10@@QAEXVRva006D07E0Key@@0@Z
 // partial score=0.8380635624538064 date=2026-10-09
+// Both record constructors copy second; native loads [esp+0x38] after two pushes.
+// The 615-byte body retains the original ownership operations and all prior comments.
 // cl: /MD /EHsc
 class Rva006DB270 {public:void freeBlock(void*,int);};
 class Rva006DB160 {public:void *allocBlock(int);};
@@ -30,7 +34,7 @@ class BfmeNodeVMU {public:Rva006D0790 *entry;BfmeNodeVMU *next;};
 class BfmeListVMU {public:void bfmeEraseVMU(BfmeNodeVMU**);BfmeNodeVMU*head;};
 struct Rva006D07E0Iterator {Rva006D07E0Iterator(BfmeNodeVMU*p):node(p){} BfmeNodeVMU*node;};
 class Rva006D07E0List {public:Rva006D07E0Iterator find(Rva006D07E0Key);BfmeNodeVMU*head;};
-class Rva006D1450 {public:void intern(Rva006D07E0Key);};
+class AptLinker {public:void rva006D1450(Rva006D07E0Key);};
 struct Rva006D1D10Node: BfmeNodeVMU {Rva006D1D10Node(const Rva006D0790Ref&r){entry=r.ptr;if(entry)++entry->count;next=0;}
  static void*operator new(unsigned size){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(size);}
  static void operator delete(void*p){g_pChainBlockAllocator->freeBlock(p,8);}
@@ -41,12 +45,12 @@ class Rva006D1D10 {public:
  void update(Rva006D07E0Key first,Rva006D07E0Key second);
 };
 void Rva006D1D10::update(Rva006D07E0Key first,Rva006D07E0Key second){
- ((Rva006D1450*)this)->intern(second);
+ ((AptLinker*)this)->rva006D1450(second);
  Rva006D0790*entry=((Rva006D07E0List*)this)->find(first).node->entry;
  Rva006D0790Ref found(entry);
  void*name=entry->name;
  BfmeNodeVMU*node=head;
  while(node){if(node->entry->name==name)break;node=node->next;}
- if(!node){Rva006D0790Ref item(new Rva006D0790(first,name));prepend(item);}
- else{BfmeNodeVMU*erase=node;((BfmeListVMU*)this)->bfmeEraseVMU(&erase);Rva006D0790Ref item(new Rva006D0790(first,name));prepend(item);}
+ if(!node){Rva006D0790Ref item(new Rva006D0790(second,name));prepend(item);}
+ else{BfmeNodeVMU*erase=node;((BfmeListVMU*)this)->bfmeEraseVMU(&erase);Rva006D0790Ref item(new Rva006D0790(second,name));prepend(item);}
 }

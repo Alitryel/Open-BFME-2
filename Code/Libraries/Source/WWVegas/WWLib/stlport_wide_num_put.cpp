@@ -2,12 +2,9 @@
 // stlport
 
 #include <stl/_alloc.h>
-// Public malloc release uses retail's unoptimized import entry; callers keep the header inline body.
-namespace _STL {
-#pragma optimize("", off)
-template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { free((char *)p); }
-#pragma optimize("", on)
-}
+// The 18-byte malloc release is owned by STLMallocAlloc0Deallocate.cpp; this
+// unit's copy is not retail's, so declare the instantiation only.
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
@@ -24,6 +21,7 @@ namespace _STL { template <> char * __write_decimal_backward<unsigned __int64>(c
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > _M_do_put_float<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, double>(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, double); }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > _M_do_put_float<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, long double>(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, long double); }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_float_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, unsigned short const *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_integer<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, int, unsigned short); }
 namespace _STL { template <> char * __write_decimal_backward<long>(char *, long, int, __true_type const &); }
@@ -35,6 +33,7 @@ namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, void const *) const; }
+namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > num_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, bool) const; }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __copy_integer_and_fill<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(unsigned short const *, int, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, int, int, unsigned short, unsigned short, unsigned short); }
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > __put_float<ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >(char *, char *, ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, unsigned short, unsigned short, unsigned short, basic_string<char, char_traits<char>, allocator<char> > const &); }

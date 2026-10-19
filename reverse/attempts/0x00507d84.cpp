@@ -1,5 +1,5 @@
 // ?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z
-// partial score=0.902559092512687 date=2026-10-16
+// partial score=0.9404761904761905 date=2026-10-19
 // cl: /O1 /arch:SSE /ICode/GameEngine/Source/Common /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 // stlport
 //
@@ -342,7 +342,8 @@ void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 		{
 			Real sourceZ = source->getPosition()->z;
 
-			if ((obj->getPosition()->z - sourceZ) > m_140)
+			Real objectZ = obj->getPosition()->z;
+			if ((objectZ - sourceZ) > m_140)
 				continue;
 		}
 		if (m_144 != -1.0f)

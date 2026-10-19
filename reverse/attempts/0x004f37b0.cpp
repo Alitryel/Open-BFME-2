@@ -1,4 +1,6 @@
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
+// partial score=0.7733333333333333 date=2026-10-19
+// ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.756 date=2026-10-17
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.8516 date=2026-10-14
@@ -1121,6 +1123,7 @@ class PartitionManager{public:Object *getClosestObject(const Coord3D *,float,int
 class Module{public:virtual ~Module();};
 class SupplyWarehouseDockUpdate:public Module{public:char m_pad04[0x88-4];int m_boxesStored;int getBoxesStored()const{return m_boxesStored;}};
 
+/** Queue up a supply truck to be built. */
 void AIPlayer::queueSupplyTruck( void )
 {			
 	Bool truckInQueue;
@@ -1172,9 +1175,8 @@ void AIPlayer::queueSupplyTruck( void )
 	for( BuildListInfo *info = m_player->getBuildList(); (info ? info : info); info = info->getNext() )
 	{
 		if (info->isSupplyBuilding() == false) continue;
-		Int curGatherers = info->getCurrentGatherers();
 		Int desiredGatherers = info->getDesiredGatherers();
-		_ReadWriteBarrier();
+		Int curGatherers = info->getCurrentGatherers();
 
 		if (curGatherers>=desiredGatherers) {
 			// Check & see if any have died.
@@ -1189,7 +1191,7 @@ void AIPlayer::queueSupplyTruck( void )
 				Real radius = 200.0f + supplyCenter->m_geometryRadius;
 
 				Object *supplySource;
-                {Rva002611DDFilter map;Rva0026137EFilter player(m_player,false);
+                {Rva002611DDFilter map;Rva0026137EFilter player(m_player,false); // Only find other.
                 supplySource=(ThePartitionManager?ThePartitionManager:ThePartitionManager)->getClosestObject(&center,radius,1,
                  Rva0004584D(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0,86),
                  *(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype).link(player.link(&map)));}

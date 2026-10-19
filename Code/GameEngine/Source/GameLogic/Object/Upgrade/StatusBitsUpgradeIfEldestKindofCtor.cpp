@@ -15,6 +15,32 @@
 // so no vtable is emitted here; the vtable stores go through sourced-before
 // address-take pointers. Row supersedes the ctor pin.
 
+// The retail table at RVA 0x00857ADC: 12 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GStatusBitsUpgradeIfEldestKindof@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@Rva00497805@@MAEXXZ")();
+void __identifier("?Rva004B4A86Get@@YAHXZ")();
+void __identifier("?xfer@StatusBitsUpgradeIfEldestKindof@@MAEXPAVXfer@@@Z")();
+void __identifier("?rva0004B4A99@StatusBitsUpgradeIfEldestKindof@@SA?AW4NameKeyType@@XZ")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+}
+extern "C" const void *const vtbl_00C57ADC[12] = {
+	(const void *)&__identifier("??_GStatusBitsUpgradeIfEldestKindof@@UAEPAXI@Z"), // slot 0 0x004B4ADE
+	(const void *)&__identifier("?loadPostProcess@Rva00497805@@MAEXXZ"), // slot 1 0x00497805
+	(const void *)&__identifier("?Rva004B4A86Get@@YAHXZ"), // slot 2 0x004B4A86
+	(const void *)&__identifier("?xfer@StatusBitsUpgradeIfEldestKindof@@MAEXPAVXfer@@@Z"), // slot 3 0x004B4B7C
+	(const void *)&__identifier("?rva0004B4A99@StatusBitsUpgradeIfEldestKindof@@SA?AW4NameKeyType@@XZ"), // slot 4 0x004B4A99
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+};
 extern "C" const void *const vtbl_00C58790[];  // folded, 55 classes; via ??_7AODHordeContain@@6BIface2C@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C58790=??_7AODHordeContain@@6BIface2C@@@")
 
@@ -59,7 +85,7 @@ StatusBitsUpgradeIfEldestKindof::StatusBitsUpgradeIfEldestKindof(Thing *thing, c
 {
 	m_eldestFrame.cacheGameLogicFrame();
 	int *vtab = (int *)&m_vtable;
-	*vtab = (int)0x00C57ADC;
+	*vtab = ((unsigned int)vtbl_00C57ADC);
 	int *sec0C = (int *)&m_secondary0C;
 	*sec0C = (int)0x00C57A20;
 	int *sec10 = (int *)&m_secondary10;

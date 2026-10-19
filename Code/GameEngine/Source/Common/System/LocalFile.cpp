@@ -303,53 +303,9 @@ LocalFile::~LocalFile()
 
 }
 
-// ??0RAMFile@@QAE@XZ, retail 0x006054E7, 29 bytes. Calls the rowed File ctor
-// 0x006024FD, zeroes m_data/m_pos/m_size at +0x14/+0x18/+0x1C and stores
-// RAMFile's vtable 0x0087AA00 (slot 0 ??_GRAMFile, slots 2/3/5/6 the rowed
-// RAMFile close/read/seek/nextLine). ZH RAMFile::RAMFile. Callers are
-// LocalFile::convertToRAMFile (new RAMFile) and the StreamingArchiveFile ctor
-// 0x00605A28. Previously rowed as DieModuleData's ctor in its own unit.
-RAMFile::RAMFile()
-	: m_data(0), m_pos(0), m_size(0)
-{
-}
 
-// ??1RAMFile@@UAE@XZ, retail 0x00605504, 67 bytes. RAMFile destructor: stores
-// vtable 0x0087AA00, array-deletes m_data at +0x14 via rowed ??_V 0x0002FD80,
-// calls rowed File::close 0x0060259A, then the rowed File dtor 0x006025CE.
-// Vtable slots prove RAMFile (slot 2 is rowed RAMFile::close 0x00605547, slot 3
-// is 0x00605564 read, slot 5 seek, slot 6 nextLine); donor is BFME1
-// RAMFileDestructorThunk (protected spelling) but File-family dtors here are
-// public UAE like LocalFile/File, and the ctor at 0x006054E7 is public QAE.
-RAMFile::~RAMFile()
-{
-	::operator delete[](m_data);
-	File::close();
-}
 
-// ??0StreamingArchiveFile@@QAE@XZ, retail 0x00605A28, 29 bytes. Calls the
-// RAMFile ctor 0x006054E7, zeroes m_file/m_startingPos/m_curPos at
-// +0x20/+0x24/+0x28 and stores StreamingArchiveFile's vtable 0x0087AA50.
-// ZH StreamingArchiveFile::StreamingArchiveFile. Previously rowed as
-// EjectPilotDieModuleData's ctor, a whole-.text placement of a body whose
-// bytes happen to agree; a ModuleData cannot have a RAMFile base.
-StreamingArchiveFile::StreamingArchiveFile()
-	: m_file(0), m_startingPos(0), m_curPos(0)
-{
-}
 
-// ??1StreamingArchiveFile@@UAE@XZ, retail 0x00605A45, 56 bytes.
-// StreamingArchiveFile dtor (vtable 0x0087AA50): stores its vtable, calls rowed
-// File::close 0x0060259A, then the rowed RAMFile dtor 0x00605504 as base.
-// The ctor at 0x00605A28 (mislabeled EjectPilotDieModuleData) calls the RAMFile
-// ctor and zeroes +0x20/+0x24/+0x28 (m_file/startingPos/size), matching BFME1
-// StreamingArchiveFile layout; slot 3 read at 0x00605A82 uses +0x20 File*.
-// Packet class EjectPilotDieModuleData is a ledger mislabel: that ModuleData
-// cannot call File::close or a RAMFile base.
-StreamingArchiveFile::~StreamingArchiveFile()
-{
-	File::close();
-}
 
 // Closes the current file if it is open. Must be called once per successful
 // LocalFile::open.
@@ -788,64 +744,6 @@ bool RAMFile::copyDataToFile( File *file )
 	return true;
 }
 
-// ?openFromArchive@StreamingArchiveFile@@UAE_NPAVFile@@ABVAsciiString@@HH@Z @ 0x00605B68 (240B)
-// Slot 18 (offset 0x48) of vtable 0x0087AA50. BFME1 StreamingArchiveFile::openFromArchive
-// with the BFME2 compressed-archive guard: stores m_file/m_startingPos/RAMFile m_size/m_curPos,
-// verifies seek(offset)+seek(size) bracket, rewinds, reads the 2-byte compression marker at
-// [ebp+8] (reused dead arg slot), reports 0x15fb through theDebug SkipNext/CrashBegin/operator<</
-// CrashDone plus _bfme_debugRecordCallsite(1), rewinds, assigns the name, returns true.
-// Donor: reference/open-bfme-1/Code/Libraries/Source/file/StreamingArchiveFile.cpp
-// (File::open READ|BINARY|STREAMING, seek START/CURRENT, read 2, 0x15fb, debug, seek, assign).
-// Vtable 0x0087AA50 and neighbours ??_GStreamingArchiveFile 0x00605B1A / dtor 0x00605A45 prove
-// StreamingArchiveFile; string 0x00C7AAA0 and theDebug 0x00DE0880 are DIR32-filled.
-bool StreamingArchiveFile::openFromArchive( File *archiveFile, const AsciiString &filename, int offset, int size )
-{
-	if( archiveFile == NULL )
-	{
-		return false;
-	}
-
-	if( File::open( filename.str(), File::READ | File::BINARY | File::STREAMING ) == false )
-	{
-		return false;
-	}
-
-	m_file = archiveFile;
-	m_startingPos = offset;
-	RAMFile::m_size = size;
-	m_curPos = 0;
-
-	if( m_file->seek( offset, File::START ) != offset )
-	{
-		return false;
-	}
-
-	if( m_file->seek( size, File::CURRENT ) != m_startingPos + size )
-	{
-		return false;
-	}
-
-	m_file->seek( offset, File::START );
-
-	unsigned short compressionMarker = 0;
-	if( m_file->read( &compressionMarker, 2 ) != 2 )
-	{
-		return false;
-	}
-
-	if( compressionMarker == 0x15fb )
-	{
-		_bfme_debugRecordCallsite( 1 );
-		theDebug->SkipNext();
-		( theDebug->CrashBegin( 0, 0, 0 ) << "Streaming from a compressed archive file is not supported" ).CrashDone( 1 );
-	}
-
-	m_file->seek( offset, File::START );
-
-	*(AsciiString *)( &m_nameStr ) = filename;
-
-	return true;
-}
 
 // ?read@StreamingArchiveFile@@UAEHPAXH@Z @ 0x00605A82 (91B)
 // Slot 3 (offset 0xC) of vtable 0x0087AA50. ZH StreamingArchiveFile::read plus

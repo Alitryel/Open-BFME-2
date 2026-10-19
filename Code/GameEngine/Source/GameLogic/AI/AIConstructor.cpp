@@ -113,80 +113,6 @@ private:
 	unsigned int m_unknown104[4];
 };
 
-TAiData::TAiData() :
-	m_structureSeconds( 0.0f ),
-	m_teamSeconds( 0.0f ),
-	m_resourcesWealthy( 0 ),
-	m_resourcesPoor( 0 ),
-	m_forceIdleFramesCount( 1 ),
-	m_structuresWealthyMod( 0.0f ),
-	m_teamWealthyMod( 0.0f ),
-	m_structuresPoorMod( 0.0f ),
-	m_teamPoorMod( 0.0f ),
-	m_teamResourcesToBuild( 0.0f ),
-	m_guardInnerModifierAI( 0.0f ),
-	m_guardOuterModifierAI( 0.0f ),
-	m_guardInnerModifierHuman( 0.0f ),
-	m_guardOuterModifierHuman( 0.0f ),
-	m_guardChaseUnitFrames( 0 ),
-	m_guardEnemyScanRate( BfmeLogicFramesPerSecond / 2 ),
-	m_guardEnemyReturnScanRate( BfmeLogicFramesPerSecond ),
-	m_wallHeight( 0.0f ),
-	m_alertRangeModifier( 0.0f ),
-	m_aggressiveRangeModifier( 0.0f ),
-	m_attackPriorityDistanceModifier( 0.0f ),
-	m_maxRecruitDistance( 0.0f ),
-	m_skirmishBaseDefenseExtraDistance( 0.0f ),
-	m_repulsedDistance( 0.0f ),
-	m_enableRepulsors( 0 ),
-	m_forceSkirmishAI( 0 ),
-	m_rotateSkirmishBases( 0 ),
-	m_attackUsesLineOfSight( 1 ),
-	m_attackIgnoreInsignificantBuildings( 0 ),
-	m_minDistanceForGroup( 100.0f ),
-	m_distanceRequiresGroup( 600.0f ),
-	m_minClumpDensity( 0.5f ),
-	m_infantryPathfindDiameter( 6 ),
-	m_vehiclePathfindDiameter( 6 ),
-	m_rebuildDelaySeconds( 10 ),
-	m_supplyCenterSafeRadius( 250.0f ),
-	m_aiDozerBoredRadiusModifier( 2.0f ),
-	m_aiCrushesInfantry( 1 ),
-	m_meleeApproachTolerance( 20.0f ),
-	m_meleeApproachDist( 60.0f ),
-	m_meleeAcquireLimitDist( 5.0f ),
-	m_wadeWaterDepth( 50.0f ),
-	m_formationColumnWidth( 65.0f ),
-	m_formationRowDepth( 65.0f ),
-	m_formationSquadSpacing( 30.0f ),
-	m_narrowPassageScale( 1.0f ),
-	m_unknownB0( 3.4028234663852886e+38f ),
-	m_formationColumns( 2 ),
-	m_waitForOthers( 0 ),
-	m_hordesWaitForHordes( 1 ),
-	m_attackMoveUsesFormations( 1 ),
-	m_forceHordesToLowLOD( 1 ),
-	m_allowForestFires( 0 ),
-	m_useFormations( 1 ),
-	m_altCameraZoomOverride( 1.4f ),
-	m_altCameraPitchOverride( 0.5f ),
-	m_maxRetaliateDistance( 200.0f ),
-	m_retaliateFriendsRadius( 120.0f ),
-	m_chaseFromBehindLimit( 50.0f ),
-	m_castleSiegeStandBackDistance( 100.0f ),
-	m_useLowLODTrees( 0 ),
-	m_lowLodTreeName( "TreeF03" ),
-	m_lowLodTreeNameNoGrab( "TreeF02" ),
-	m_lowLodTreeNameNoHarvest( "PTStump02" ),
-	m_lowLodTreeScale( 0.55f ),
-	m_disableTrees( 0 ),
-	m_sideInfo( 0 ),
-	m_sideBuildLists( 0 ),
-	m_namedLists( 0 ),
-	m_next( 0 )
-{
-	m_unknownF0 = 1.0f;
-}
 
 #include "subsystem_interface.h"
 #include <list>
@@ -223,11 +149,6 @@ private:
  TAiData *m_aiData;
  int m_nextGroupID,m_nextFormationID;
 };
-AI::AI():m_nextGroupID(0),m_nextFormationID(0)
-{
- m_aiData=new TAiData;
- m_pathfinder=new Pathfinder;
-}
 
 TAiData&TAiData::operator=(const TAiData&other){
  m_structureSeconds=other.m_structureSeconds;
@@ -337,32 +258,6 @@ class Rva002FE620{public:Rva002FE620();virtual~Rva002FE620();unsigned char body[
 class Rva0014A470{public:Rva0014A470&operator=(const Rva0014A470&);};
 struct Rva002FFC74Record{unsigned char bytes[8];};
 class Rva002FED8D{public:Rva002FED8D(AsciiString);virtual~Rva002FED8D();AsciiString name;unsigned int value;_STL::list<Rva002FFC74Record>tail;Rva002FED8D*next;};
-void AI::newOverride(){
- TAiData*cur=m_aiData;
- m_aiData=new TAiData;
- *m_aiData=*cur;
- m_aiData->m_sideInfo=0;
- for(Rva002FE620*info=cur->m_sideInfo;info;info=info->next){
-  Rva002FE620*newInfo=new Rva002FE620;
-  *(Rva0014A470*)newInfo=*(Rva0014A470*)info;
-  newInfo->next=0;
-  addSideInfo(newInfo);
- }
- m_aiData->m_sideBuildLists=0;
- for(Gen0014AE40*build=cur->m_sideBuildLists;build;build=build->next){
-  Gen0014AE40*node=new Gen0014AE40(build->side);
-  node->next=0;
-  if(build->build)node->build=build->build->duplicate();
-  m_aiData->addFactionBuildList(node);
- }
- m_aiData->m_namedLists=0;
- for(Rva002FED8D*named=cur->m_namedLists;named;named=named->next){
-  Rva002FED8D*node=new Rva002FED8D(named->name);
-  node->tail=named->tail;node->value=named->value;
-  m_aiData->addNamedList(node);
- }
- m_aiData->m_next=cur;
-}
 
 void AI::addSideInfo(Rva002FE620*info){TAiData*link=m_aiData;Rva002FE620*previous=link->m_sideInfo;info->next=previous;link->m_sideInfo=info;}
 
@@ -373,20 +268,6 @@ inline void TAiData::addNamedList(Rva002FED8D*node){node->next=m_namedLists;m_na
 // side-info1C0/name-list14/side-build10, and every listed constructor/assignment.
 // Existing25B AI addSideInfo provider is reconciled here from its private view.
 
-// Native2FEBB7..2FEC4A RET0; namedAI vtables and constructor identify owner.
-// BF1 AI destructor supplies the pointer deletion semantics. The native
-// EH state1 before list cleanup requires an out-of-line list destructor:
-// its definition in this TU would prove it nonthrowing and erase that store.
-AI::~AI()
-{
- if(m_pathfinder)::delete m_pathfinder;
- m_pathfinder=0;
- while(m_aiData) {
-  TAiData *current=m_aiData;
-  m_aiData=m_aiData->next();
-  ::delete current;
- }
-}
 
 struct FieldParse;
 class INI
@@ -401,13 +282,4 @@ private:
 extern AI *TheAI;
 extern const FieldParse s_aiDataFieldParseTable[];
 
-void AI::parseAiDataDefinition(INI *ini)
-{
- if (TheAI)
- {
-  if (ini->getLoadType() == 2)
-   TheAI->newOverride();
-  ini->initFromINI(TheAI->m_aiData, s_aiDataFieldParseTable);
- }
-}
 

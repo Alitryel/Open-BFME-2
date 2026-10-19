@@ -29,6 +29,11 @@ struct Rva00B9AC2 {
 class Rva000BB4AC : public Rva00B9AC2 {
 public:
  Rva000BB4AC(const Rva000BB4AC &);
+ // Declared, not generated: the implicit destructor this view would emit is an
+ // empty COMDAT that differs from retail's out-of-line teardown row at
+ // 0x000B9AC2 (Rva000B9AC2Dtor.cpp), which the census then holds against both
+ // units. Binding to the rowed definition keeps this unit's link clean.
+ ~Rva000BB4AC();
 };
 struct BfmePod32 {
  AsciiString bone;int a,b,c;void *object;int id;void *particleTemplate;char flag;char pad[3];

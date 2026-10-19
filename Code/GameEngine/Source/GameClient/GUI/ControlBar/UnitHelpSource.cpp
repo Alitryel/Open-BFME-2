@@ -16,10 +16,14 @@
 // Retail keeps the title buffer in EDI across the owner-name isEmpty call
 // (0x00035740) in rva004E7506: cl saw that body. The same body as the row in
 // string_base_inline.cpp, visible here so the call is known not to touch title.
+// The native wide helper is speed-optimized (string_base_inline.cpp).
+// Keep that body visible for the caller while matching its external copy.
+#pragma optimize("t", on)
 template <> inline __declspec(noinline) bool StringBase<unsigned short>::isEmpty() const throw()
 {
     return m_data == 0 || m_data->length == 0;
 }
+#pragma optimize("", on)
 #include "GameLogicObjectLookupView.h"
 #include <bitset>
 typedef int Int;

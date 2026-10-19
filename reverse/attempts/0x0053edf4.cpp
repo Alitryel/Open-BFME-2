@@ -1,5 +1,5 @@
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
-// partial score=0.865 date=2026-10-17
+// partial score=0.865 date=2026-10-19
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
 // partial score=0.75 date=2026-10-14
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
@@ -121,11 +121,8 @@ ICoord2D Rva0053ED1A::rva0053EDF4()
     contact.x-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.x;
     contact.z-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.z;
     contact.y-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.y;
-    *(volatile float*)&contact.x=contact.x;
-    *(volatile float*)&contact.z=contact.z;
-    *(volatile float*)&contact.y=contact.y;
     world.x+=contact.x;
-    world.z=contact.z;
+    world.z+=contact.z;
     world.y+=contact.y;
   }
   else world.z+=reinterpret_cast<Rva0053EDF4Object*>(obj)->geometry.getMaxHeightAbovePosition()*0.5f;

@@ -16,6 +16,7 @@
 // one reciprocal), the two function-scope D3DXVECTOR4 constants come from a
 // by-value RGBColor helper (their temps share the vertex-temp slot),
 // Set_Pixel_Shader is an inline wrapper, and u = m_scrollX + (u*2 + m_spread).
+#include <math.h>
 #include <string.h>
 #include "Lib/Coord2D.h"
 #include "Lib/RGBColor.h"
@@ -451,4 +452,57 @@ Bool Rva007D6B70::postRender(FilterModes mode, Coord2D &scrollDelta, Bool &doExt
 	}
 	reset();
 	return true;
+}
+
+// The grid wave state for the update below (file statics in the original).
+static float GridPhase0, GridPhase1;
+static float GridWave0Amplitude = 0.2f, GridWave0Frequency = 12.566370964f, GridWave0Phase = 2.0f;
+static float GridWave1Amplitude = 0.5f, GridWave1Frequency = 12.566370964f, GridWave1Phase = 2.0f;
+
+// Grid update called by postRender: rebuilds the strip indices and the
+// wave-displaced vertices. The (float) rounding of each 0.5f*sin(...) term
+// and the trailing ++p give retail's loop-tail schedule.
+void Rva007D6B70::rva000F6DB0(DynamicIBAccessClass *ib, int a, DynamicVBAccessClass *vb, int b, int columns, int rows,
+	float left, float top, float width, float height, Coord2D *dims)
+{
+	++columns; ++rows;
+	float scale = g_Va00DB457C * 0.0125f;
+	if (scale > 6.0f) scale = 6.0f;
+	if (scale < 0.6f) scale = 0.6f;
+	float amplitude = scale * filterSettings()->m_54;
+	{
+		DynamicIBAccessClass::WriteLockClass lock(ib);
+		unsigned short *p = lock.Get_Index_Array();
+		for (int y = 0; y < rows - 1; ++y) {
+			for (int x = 0; x < columns - 1; ++x) {
+				p[0] = y * columns + x; p[1] = (y + 1) * columns + x + 1; p[2] = (y + 1) * columns + x;
+				p[3] = y * columns + x; p[4] = y * columns + x + 1; p[5] = (y + 1) * columns + x + 1;
+				p += 6;
+			}
+		}
+	}
+	GridPhase0 += 0.05f; GridPhase1 += 0.05f;
+	{
+		DynamicVBAccessClass::WriteLock lock(vb);
+		VertexFormatXYZRHWDUV4 *p = lock.Get_Formatted_Vertex_Array();
+		float invRows = 1.0f / (rows - 1);
+		float invColumns = 1.0f / (columns - 1);
+		for (int y = 0; y < rows; ++y) {
+			float fy = y * invRows;
+			float screenY = (fy * height + top) - 0.5f;
+			for (int x = 0; x < columns; ++x) {
+				float fx = x * invColumns;
+				p->x = fx * width + left - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
+				p->u0 = (fx * width + left) / dims->x; p->v0 = (fy * height + top) / dims->y;
+				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
+				float u1 = p->u1; float v1 = p->v1;
+				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
+				p->u3 = (0.5f - (float)(0.5f * sin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase))) * GridWave0Amplitude;
+				float wave = (0.5f - (float)(0.5f * sin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase))) * GridWave1Amplitude;
+				p->v3 = 0;
+				p->u1 += wave; p->u2 += wave;
+				++p;
+			}
+		}
+	}
 }

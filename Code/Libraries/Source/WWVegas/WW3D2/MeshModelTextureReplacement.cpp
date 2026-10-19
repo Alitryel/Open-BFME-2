@@ -61,8 +61,13 @@ public:
     int Get_Pass_Count() const { return CurMatDesc->PassCount; }
     int Get_Polygon_Count() const { return PolygonCount; }
     bool Has_Texture_Array(int pass,int stage) const { return CurMatDesc->TextureArray[pass][stage]!=0; }
-    void Set_Texture(int i,const RefCountPtr<TextureClass>& texture,int pass,int stage) { CurMatDesc->Set_Texture(i,texture,pass,stage); }
-    void Set_Single_Texture(const RefCountPtr<TextureClass>& texture,int pass,int stage) { CurMatDesc->Set_Single_Texture(texture,pass,stage); }
+    // dllimport + forceinline: retail's own out-of-line copies of these five
+    // forwarders live in MeshModelMatDescForwarders.cpp (rows 0x00143550,
+    // 0x00149510, 0x00171680, 0x00171690, 0x001716A0). The flag keeps the call
+    // sites below inlined (retail inlines them: these bodies do not call the
+    // forwarders) while suppressing this unit's duplicate COMDAT copies.
+    __declspec(dllimport) __forceinline void Set_Texture(int i,const RefCountPtr<TextureClass>& texture,int pass,int stage) { CurMatDesc->Set_Texture(i,texture,pass,stage); }
+    __declspec(dllimport) __forceinline void Set_Single_Texture(const RefCountPtr<TextureClass>& texture,int pass,int stage) { CurMatDesc->Set_Single_Texture(texture,pass,stage); }
     DX8FVFCategoryContainer *Peek_FVF_Category_Container() {
         if(PolygonRendererList.Is_Empty()) return 0;
         DX8PolygonRendererClass *polygon_renderer=PolygonRendererList.Get_Head();
@@ -72,10 +77,10 @@ public:
     void Replace_Texture(const RefCountPtr<TextureClass>&,const RefCountPtr<TextureClass>&);
     int Get_Vertex_Count() const { return VertexCount; }
     bool Has_Material_Array(int pass) const { return CurMatDesc->MaterialArray[pass]!=0; }
-    VertexMaterialClass *Peek_Material(int i,int pass) const { return CurMatDesc->Peek_Material(i,pass); }
+    __declspec(dllimport) __forceinline VertexMaterialClass *Peek_Material(int i,int pass) const { return CurMatDesc->Peek_Material(i,pass); }
     VertexMaterialClass *Peek_Single_Material(int pass) const { return CurMatDesc->Material[pass]; }
-    void Set_Material(int i,VertexMaterialClass *v,int pass) { CurMatDesc->Set_Material(i,v,pass); }
-    void Set_Single_Material(VertexMaterialClass *v,int pass) { CurMatDesc->Set_Single_Material(v,pass); }
+    __declspec(dllimport) __forceinline void Set_Material(int i,VertexMaterialClass *v,int pass) { CurMatDesc->Set_Material(i,v,pass); }
+    __declspec(dllimport) __forceinline void Set_Single_Material(VertexMaterialClass *v,int pass) { CurMatDesc->Set_Single_Material(v,pass); }
     void Replace_VertexMaterial(VertexMaterialClass*,VertexMaterialClass*);
 };
 // Zero Hour GeneralsMD meshmdl.cpp Replace_Texture, adapted to owning handles.

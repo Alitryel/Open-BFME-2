@@ -30,6 +30,7 @@
 namespace _STL {
 template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::const_iterator vector<void *, allocator<void *> >::begin() const { return this->_M_start; }
 template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::size_type vector<void *, allocator<void *> >::size() const { return size_type(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(begin() + __n); }
 }
 // Call view for the existing folded fld [ecx+0x14]; ret provider at 0x0049CB57.
 class TerrainRoadType

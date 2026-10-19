@@ -1,4 +1,6 @@
 // ?update@FireLogicSystem@@UAEXXZ
+// partial score=0.9683544303797469 date=2026-10-19
+// ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.937 date=2026-10-17
 // ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.9107 date=2026-10-14
@@ -7,8 +9,6 @@
 // ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.85 date=2026-10-08
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // FireLogicSystem's registration of a placed object (0x00286373): the id is
@@ -48,7 +48,7 @@ extern "C" void _ReadWriteBarrier(void);
 // Thing+0x04 under a template flag test.
 #include <map>
 #include <vector>
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
 
 typedef int Int;
 
@@ -74,7 +74,7 @@ extern Rva00065964ObjectPool g_pool00286136;
 extern Rva00065964ObjectPool g_pool00286116;
 void Rva00286116Free(void *node);
 
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class ThingTemplate;
@@ -183,15 +183,23 @@ public:
 	SubsystemInterface();
 	virtual ~SubsystemInterface();
 	virtual void init();
+	virtual bool loadIniFilesFromLegend();
 	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual int vslot06();
+	virtual void vslot07(int);
+	virtual void vslot08();
 	virtual void reset();
 	virtual void update();
-	virtual void draw();
+	virtual bool vslot11(int);
+	virtual void vslot12();
+	virtual void vslot13(int);
 
 private:
 	char m_pad[8];
 };
-#include "reference/shims/moduledata/Common/Snapshot.h"
+#include "../../reference/shims/moduledata/Common/Snapshot.h"
 
 // A material entry (0x18 bytes): the array constructor zeroes all six
 // dwords (0x00286297) and the destructor releases the string at +4
@@ -848,8 +856,7 @@ void FireLogicSystem::update()
 				}
 				cell->m_field30 = 0;
 				cell->m_check = 0;
-				_ReadWriteBarrier();
-				if (*(volatile float*)&cell->m_fuel > 0.0f)
+				if ((float)cell->m_fuel > 0.0f)
 				{
 					cell->m_type = 2;
 					m_9C(worldX, worldY);
@@ -1027,3 +1034,6 @@ void FireLogicSystem::update()
 			((Rva002856CFHost *)&n->m_pad0C[4])->rva002856CF();
 	}
 }
+
+// The primary retail vtable at VA 0x00BFB7BC dispatches update through slot 10.
+// Target fuel comparison at 0x002880CE converts the unsigned-short value to float.

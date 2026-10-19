@@ -1307,3 +1307,44 @@ StateReturnType AIAttackFireWeaponState::onEnter()
 		getMachine()->setGoalPosition(victim->getPosition());
 	return STATE_CONTINUE;
 }
+
+StateReturnType AIAttackPositionAimAtTargetState::onEnter()
+{
+	// contained by AIAttackState, so no separate timer
+	Object *source = getMachineOwner();
+	Weapon *weapon = source->getCurrentWeapon();
+	const Coord3D *targetPos = getMachineGoalPosition();
+	AIUpdateInterface *sourceAI = source->getObservedAI();
+	Locomotor *curLoco = sourceAI->getCurLocomotor();
+	m_setLocomotor = false;
+	m_canTurnInPlace = curLoco ? ((Rva001E3F08 *)curLoco)->rva001E3F08((Rva001E3F08Arg *)source) == 0.0f : false;
+	source->rva0028CDB6();
+
+	char inFiringRange;
+	Object *containedBy = source->m_containedBy;
+	if (containedBy && weapon)
+		inFiringRange = ((ContainFirePointView *)containedBy->m_contain)->attemptBestFirePointPosition(source, weapon, targetPos);
+	else if (weapon)
+		inFiringRange = weapon->isWithinAttackRange(source, (void *)targetPos, 0.0f, 1);
+	else
+		return STATE_FAILURE;
+
+	WhichTurretType tur = sourceAI->getWhichTurretForCurWeapon();
+	if (tur != TURRET_INVALID)
+	{
+		//Order specific turret to attack.
+		sourceAI->setTurretTargetPosition(tur, getMachineGoalPosition());
+	}
+	else
+	{
+		// Contact weapons don't aim.  They just go boom.  jba.
+		if (weapon->getTemplate()->isContactWeapon() && inFiringRange)
+			return STATE_SUCCESS;
+		if (((const Rva002C9400ByteField *)weapon->getTemplate())->get() && !inFiringRange)
+			return STATE_FAILURE;
+	}
+	if (source->testStatus(OBJECT_STATUS_4B))
+		return STATE_SUCCESS;
+	source->setStatus(OBJECT_STATUS_19, true);
+	return updateInternal(true);
+}

@@ -23,7 +23,6 @@ struct __declspec(novtable) Rva00150C97Entry:public Rva00BC6F2CBase {
 public:
  // ?Rva00150C97Entry::Rva00150C97Entry present-unmatched
  Rva00150C97Entry() { *(const void**)this=__identifier("??_7Rva0014F480@@6B@"); }
- // ?Rva00150C97Entry::~Rva00150C97Entry present-unmatched
  virtual ~Rva00150C97Entry() { *(const void**)this=__identifier("??_7Rva0014F480@@6B@"); }
 };
 class Rva00150BF9Vector {

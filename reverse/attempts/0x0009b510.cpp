@@ -1,4 +1,6 @@
 // ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z
+// partial score=0.98 date=2026-10-19
+// ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z
 // partial score=0.85 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z retail 0x0009B510..0x0009B7EA
@@ -18,6 +20,8 @@
 // [edi] at 0x0009B623; ours loads m_110.X and adds [ebp-0x10]. A separate
 // eye variable for Look_At, a temporary, member-wise construction and
 // Vector3 ctor spellings do not move it.
+// Static Add keeps the original operand relationship across the member interpolation.
+// Continuation evidence: reverse/attempt_support/0x0009b510-20261019.md (model=gpt-6.1-sol).
 #include <math.h>
 
 class Vector3
@@ -26,6 +30,7 @@ public:
     float X, Y, Z;
     Vector3() {}
     Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+    __forceinline static void Add(const Vector3 &a, const Vector3 &b, Vector3 *r) { r->X = a.X + b.X; r->Y = a.Y + b.Y; r->Z = a.Z + b.Z; }
     __forceinline Vector3 &operator+=(const Vector3 &v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
     __forceinline Vector3 &operator-=(const Vector3 &v) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
     __forceinline void Rotate_Z(float s, float c)
@@ -113,7 +118,7 @@ void Rva0009C134Host::rva0009B510(Matrix3D &tm, float distance, float pitch)
     Vector3::Lerp(m_F8, m_104, ease, &m_110);
     m_110.X = Rva0009B510Lerp(m_110.X, m_1C, m_198);
     m_110.Y = Rva0009B510Lerp(m_110.Y, m_20, m_198);
-    offset += m_110;
+    Vector3::Add(m_110, offset, &offset);
     if (m_188)
     {
         Matrix3D translate(true);

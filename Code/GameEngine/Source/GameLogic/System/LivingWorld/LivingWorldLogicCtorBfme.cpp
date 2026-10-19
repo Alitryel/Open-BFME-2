@@ -26,7 +26,7 @@ namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<p
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 class Rva00330757Member {public:Rva00330757Member() throw();~Rva00330757Member() throw();char storage[16];};
 class Rva002B2294DwordImmSetter{public:void apply();};class Rva0002B221ADwordImmSetter{public:void apply();};class Rva002B228DDwordImmSetter{public:void apply();};
-class LivingWorldBuildingObserver {public:~LivingWorldBuildingObserver(){((Rva002B2294DwordImmSetter*)this)->apply();}virtual void slot0(void*);virtual void slot1(void*);virtual void slot2(void*);virtual void slot3(void*,void*);};
+class LivingWorldBuildingObserver {public:~LivingWorldBuildingObserver();virtual void slot0(void*);virtual void slot1(void*);virtual void slot2(void*);virtual void slot3(void*,void*);};
 class LivingWorldRegionObserver {public:~LivingWorldRegionObserver(){((Rva0002B221ADwordImmSetter*)this)->apply();}virtual void slot0(void*,int,int);virtual void slot1(void*,int,int);virtual void slot2(void*,void*);virtual void slot3(void*,void*);};
 class LivingWorldPlayerObserver {public:~LivingWorldPlayerObserver(){((Rva002B228DDwordImmSetter*)this)->apply();}virtual void slot0(void*);virtual void slot1(void*);virtual void slot2(void*,void*,void*);virtual void slot3(void*);};
 struct BfmeStringRecord002B4DC1{UnicodeString text;int a,b;BfmeStringRecord002B4DC1():a(0),b(3){}~BfmeStringRecord002B4DC1(){}};

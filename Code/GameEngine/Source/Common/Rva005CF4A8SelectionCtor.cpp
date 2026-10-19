@@ -124,7 +124,7 @@ struct Rva005E8FECSource;
 class Rva005E90EC {public:Rva005E90EC(void*,int,void*,Rva005E8FECOwner*,Rva005E8FECSource*);void *pointer;};
 class Rva005CEA51 {public:
  Rva005CEA51():pointer(0){}
- ~Rva005CEA51(){rva005CE7EA();}
+ ~Rva005CEA51();
  void rva005CEA51(Rva005E8F50*);
  void rva005CE7EA();
  Rva005E8F50 *pointer;

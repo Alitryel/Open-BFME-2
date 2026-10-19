@@ -6,15 +6,28 @@ class Rva0043283CBase
 public:
 	Rva0043283CBase() { }
 	~Rva0043283CBase() { }
-	virtual void rva0043283CSlot0();
+	// The base table 0x00BDBA74 (the folded 8-byte translator base) starts
+	// with __purecall 0x0003B810 (rowed in debug_purecall.cpp) and ends with a
+	// deleting destructor; slot 0 is abstract, so declare it pure. The
+	// placeholder body was never retail's and left the two vftables
+	// referencing the undefined ?rva0043283CSlot0@Rva0043283CBase@@UAEXXZ.
+	virtual void rva0043283CSlot0() = 0;
 };
 
 // The 0x18-byte entries the constructor builds through the vector constructor
 // iterator; their constructor is 0x00432976 (rowed under the fold name
-// Rva005A6560::reset): bit 0 of +0x14 and +0x00/+0x0C/+0x10 cleared.
+// Rva005A6560::reset): bit 0 of +0x14 and +0x00/+0x0C/+0x10 cleared. Emitting
+// that same reset body as the entry constructor lets it fold onto the rowed
+// twin and defines ??0Rva0043283CEntry@@QAE@XZ that the iterator's push names.
 struct Rva0043283CEntry
 {
-	Rva0043283CEntry();
+	Rva0043283CEntry()
+	{
+		m_00 = 0;
+		m_0C = 0;
+		m_10 = 0;
+		m_flag14 = 0;
+	}
 	int m_00;
 	int m_04;
 	int m_08;

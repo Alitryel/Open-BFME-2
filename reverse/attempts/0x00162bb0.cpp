@@ -1,4 +1,6 @@
 // ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
+// partial score=0.43240399789584427 date=2026-10-19
+// ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
 // partial score=0.564596189995357 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -37,16 +39,32 @@ public:
 	Quaternion() {}
 	Quaternion(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
 
+	template<int Path> __forceinline void Multiply(const Quaternion &b) {
+		Quaternion a = *this;
+		if(Path==0) {
+		 float x=a.Y*b.Z-b.Y*a.Z; x+=a.W*b.X; x+=b.W*a.X; X=x;
+		} else {
+		 X=a.Y*b.Z-b.Y*a.Z; X+=b.W*a.X; X+=a.W*b.X;
+		}
+		Y = a.W*b.Y + b.W*a.Y - (a.X*b.Z - b.X*a.Z);
+		float z=a.X*b.Y-b.X*a.Y; z+=b.W*a.Z; z+=a.W*b.Z; Z=z;
+		if(Path==0) W=a.W*b.W-((a.X*b.X+a.Z*b.Z)+a.Y*b.Y);
+		else W=a.W*b.W-((a.Y*b.Y+a.Z*b.Z)+a.X*b.X);
+	}
 	Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;}
  float X, Y, Z, W;
 };
 
-__forceinline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
+template<int Order> __forceinline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
 {
 	float x = (v.Z*q.Y - q.Z*v.Y) + q.W*v.X;
 	float y = q.W*v.Y - (v.Z*q.X - q.Z*v.X);
 	float z = (q.X*v.Y - v.X*q.Y) + v.Z*q.W;
-	float w = -((v.X*q.X + v.Z*q.Z) + v.Y*q.Y);
+	float w;
+	if(Order==0) { w=v.X*q.X; w+=v.Z*q.Z; w+=v.Y*q.Y; }
+	else if(Order==1) { w=v.Y*q.Y; w+=v.Z*q.Z; w+=v.X*q.X; }
+	else { w=v.X*q.X; w+=v.Y*q.Y; w+=v.Z*q.Z; }
+	w=0.0f-w;
 
 	return Vector3
 	(
@@ -57,15 +75,15 @@ __forceinline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
 }
 
 
-__forceinline Quaternion operator * (const Quaternion &a, const Quaternion &b)
+template<int Path> __forceinline Quaternion Product(const Quaternion &a, const Quaternion &b)
 {
-	return Quaternion
-	(
-		a.W*b.X + b.W*a.X + (a.Y*b.Z - b.Y*a.Z),
-		a.W*b.Y + b.W*a.Y - (a.X*b.Z - b.X*a.Z),
-		a.W*b.Z + b.W*a.Z + (a.X*b.Y - b.X*a.Y),
-		a.W*b.W - (a.X*b.X + a.Y*b.Y + a.Z*b.Z)
-	);
+ float x=a.Y*b.Z-b.Y*a.Z; x+=a.W*b.X; x+=b.W*a.X;
+ float y=a.W*b.Y+b.W*a.Y-(a.X*b.Z-b.X*a.Z);
+ float z=a.X*b.Y-b.X*a.Y; z+=b.W*a.Z; z+=a.W*b.Z;
+ float w=a.W*b.W;
+ if(Path==0) w-=((a.X*b.X+a.Z*b.Z)+a.Y*b.Y);
+ else w-=((a.X*b.X+a.Y*b.Y)+a.Z*b.Z);
+ return Quaternion(x,y,z,w);
 }
 
 Quaternion Build_Quaternion(const Matrix3D &mat);
@@ -73,6 +91,7 @@ Quaternion Build_Quaternion(const Matrix3D &mat);
 // BFME 2 pivot transform: rotation quaternion plus translation.
 struct PivotTransform
 {
+ PivotTransform() {}
 	Quaternion Rotation;
 	Vector3 Translation;
 };
@@ -80,8 +99,8 @@ struct PivotTransform
 __forceinline PivotTransform operator * (const PivotTransform &parent, const PivotTransform &child)
 {
 	PivotTransform result;
-	result.Translation = Rotate_Vector(child.Translation, parent.Rotation) + parent.Translation;
-	result.Rotation = parent.Rotation * child.Rotation;
+	result.Translation = Rotate_Vector<0>(child.Translation, parent.Rotation) + parent.Translation;
+	result.Rotation = Product<0>(parent.Rotation, child.Rotation);
 	return result;
 }
 
@@ -126,6 +145,7 @@ class Rva00160FC0 {public:void rva00160FC0(Rva00160FC0Input*);};
 class HTreeClass {
 public:
  void Anim_Update(const Matrix3D &,HAnimClass *,float);
+ __forceinline void Cached_Anim_Update(const Matrix3D &,HAnimClass *,float);
  int Capture_Update(int);
  char Name[16];int NumPivots;PivotClass *Pivot;float ScaleFactor;
  struct CapturedBone{int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
@@ -134,8 +154,7 @@ public:
 };
 
 
-void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame) {
- if(motion->Get_Class_ID()==1 && motion->Nodes) {
+__forceinline void HTreeClass::Cached_Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame) {
   BlendNodeMotion *nodes=motion->Nodes;
   ((Rva00160FC0*)this)->rva00160FC0((Rva00160FC0Input*)motion);
   PivotTransform &initial=Pivot[0].Transform;
@@ -143,36 +162,56 @@ void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame
   initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
   Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
   unsigned char *cache=ChannelCache;
-  int captured=CapturedBegin==CapturedEnd?-1:CapturedBegin->Index;
   int count=motion->Get_Num_Pivots();
+  int captured=CapturedBegin==CapturedEnd?-1:(_ReadWriteBarrier(),CapturedBegin->Index);
   BlendNodeMotion *node=nodes+1;
   for(int piv_idx=1;piv_idx<NumPivots;++piv_idx,++node) {
    PivotClass *pivot=&Pivot[piv_idx];
-   _ReadWriteBarrier();
+   // base pose
    const PivotTransform &parent=pivot->Parent->Transform;
-   pivot->Transform.Translation=parent.Translation+Rotate_Vector(pivot->BaseTransform.Translation,parent.Rotation);
-   pivot->Transform.Rotation=parent.Rotation*pivot->BaseTransform.Rotation;
+   PivotTransform &current=pivot->Transform;
+   current.Translation=parent.Translation+Rotate_Vector<0>(pivot->BaseTransform.Translation,parent.Rotation);
+   current.Rotation=Product<0>(parent.Rotation,pivot->BaseTransform.Rotation);
+   // Don't update this pivot if the HTree doesn't have animation data for it...
    if(piv_idx<count) {
+    // animation
     const float scale=ScaleFactor;
-    Vector3 trans;
-    if(node->X)__vref(node->X)->UnknownSlot3(frame,&trans.X,&cache);else trans.X=0;
+    PivotTransform anim; Vector3 &trans=anim.Translation;
+    if(node->X)node->X->UnknownSlot3(frame,&trans.X,&cache);else trans.X=0;
     if(node->Y)node->Y->UnknownSlot3(frame,&trans.Y,&cache);else trans.Y=0;
     if(node->Z)node->Z->UnknownSlot3(frame,&trans.Z,&cache);else trans.Z=0;
     trans.X*=scale;trans.Y*=scale;trans.Z*=scale;
-    Quaternion rotation;
-    bool gotRotation=node->Q!=0;
-    if(gotRotation)node->Q->UnknownSlot5(frame,&rotation,&cache);
-    if(gotRotation) {
-     pivot->Transform.Translation=Rotate_Vector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
-     pivot->Transform.Rotation=pivot->Transform.Rotation*rotation;
+    Quaternion &rotation=anim.Rotation;
+    if(node->Q) {
+     node->Q->UnknownSlot5(frame,&rotation,&cache);
+     current.Translation=Rotate_Vector<2>(trans,current.Rotation)+current.Translation;
+     current.Rotation.Multiply<0>(rotation);
     } else {
-     pivot->Transform.Translation=Rotate_Vector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
+     current.Translation=Rotate_Vector<2>(trans,current.Rotation)+current.Translation;
     }
+    // visibility
     if(node->Fade)node->Fade->UnknownSlot3(frame,&pivot->m_bfme54,&cache);else pivot->m_bfme54=1.0f;
     pivot->IsVisible=node->Vis?node->Vis->Get_Bit((int)frame)!=0:true;
    }
-   if(piv_idx==captured)captured=Capture_Update(piv_idx);
+   if(piv_idx==captured)captured=Capture_Update(captured);
   }
+}
+
+/***********************************************************************************************
+ * HTreeClass::Anim_Update -- Computes the transform for each pivot with motion                *
+ *                                                                                             *
+ * INPUT:                                                                                      *
+ *                                                                                             *
+ * OUTPUT:                                                                                     *
+ *                                                                                             *
+ * WARNINGS:                                                                                   *
+ *                                                                                             *
+ * HISTORY:                                                                                    *
+ *   08/11/1997 GH  : Created.                                                                 *
+ *=============================================================================================*/
+void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame) {
+ if(motion->Get_Class_ID()==1 && motion->Nodes) {
+  Cached_Anim_Update(root,motion,frame);
  } else {
   CachedMotion=0;
   PivotTransform &initial=Pivot[0].Transform;
@@ -180,27 +219,33 @@ void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame
   initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
   Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
   int count=motion->Get_Num_Pivots();
-  int captured=CapturedBegin==CapturedEnd?-1:CapturedBegin->Index;
+  int captured=CapturedBegin==CapturedEnd?-1:(_ReadWriteBarrier(),CapturedBegin->Index);
   for(int piv_idx=1;piv_idx<NumPivots;++piv_idx) {
    PivotClass *pivot=&Pivot[piv_idx];
+   // base pose
    const PivotTransform &parent=pivot->Parent->Transform;
-   pivot->Transform.Translation=parent.Translation+Rotate_Vector(pivot->BaseTransform.Translation,parent.Rotation);
-   pivot->Transform.Rotation=parent.Rotation*pivot->BaseTransform.Rotation;
+   pivot->Transform.Translation=parent.Translation+Rotate_Vector<1>(pivot->BaseTransform.Translation,parent.Rotation);
+   pivot->Transform.Rotation=Product<1>(parent.Rotation,pivot->BaseTransform.Rotation);
+   // Don't update this pivot if the HTree doesn't have animation data for it...
    if(piv_idx<count) {
-    Vector3 trans; motion->Get_Translation(trans,piv_idx,frame);
+    // animation
+    PivotTransform anim; Vector3 &trans=anim.Translation; motion->Get_Translation(trans,piv_idx,frame);
     if(ScaleFactor!=1.0f){trans.X*=ScaleFactor;trans.Y*=ScaleFactor;trans.Z*=ScaleFactor;}
-    Quaternion rotation;
+    Quaternion &rotation=anim.Rotation;
     bool gotRotation=motion->Get_Orientation(rotation,piv_idx,frame);
     if(gotRotation) {
-     pivot->Transform.Translation=Rotate_Vector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
-     pivot->Transform.Rotation=pivot->Transform.Rotation*rotation;
+     pivot->Transform.Translation=Rotate_Vector<2>(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
+     pivot->Transform.Rotation.Multiply<1>(rotation);
     } else {
-     pivot->Transform.Translation=Rotate_Vector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
+     pivot->Transform.Translation=Rotate_Vector<0>(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
     }
+    // visibility
     pivot->IsVisible=motion->Get_Visibility(piv_idx,frame);
     pivot->m_bfme54=motion->Get_Fade(piv_idx,frame);
    }
-   if(piv_idx==captured)captured=Capture_Update(piv_idx);
+   if(piv_idx==captured)captured=Capture_Update(captured);
   }
  }
 }
+
+// Target arithmetic and comparison evidence: reverse/attempt_support/anim-update-162bb0-20261019-w7.md.

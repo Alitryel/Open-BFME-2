@@ -357,8 +357,8 @@ public:
 	// "ObserverStuff/PriorPlayerBttn", "messengerButton/") rather than
 	// method names, so they keep their addresses.
 	void rva002D3D61(const char *unused);
-	void rva002D4DD0(const char *unused);
-	void rva002D4E71(const char *unused);
+	void HandleOverSpellStoreButton(const char *unused);
+	void HandleOverObjectivesButton(const char *unused);
 	void rva002D3E29(const char *unused);
 	void rva002D3E84(const char *unused);
 

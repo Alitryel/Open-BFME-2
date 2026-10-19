@@ -101,6 +101,10 @@ bool HTreeClass::read_pivots(ChunkLoadClass &cload, bool pre30)
 struct S2CompactTransform {
  Quaternion Q; Vector3 Position;
  S2CompactTransform(){}
+ __forceinline explicit S2CompactTransform(const Matrix3D &m) {
+  Q=Build_Quaternion(m);
+  m.Get_Translation(&Position);
+ }
  explicit S2CompactTransform(bool init):Q(init),Position(0.0f,0.0f,0.0f){}
 };
 struct S2PivotView {
@@ -168,4 +172,37 @@ bool HTreeClass::Simple_Evaluate_Pivot(HAnimClass *motion,int pivot_index,float 
  S2PivotMatrix(total.Q,total,*end_tm);
  end_tm->preMul(obj_tm);
  return true;
+}
+
+// Rebase the completed source pose through the root transform.
+static __forceinline void SlaveProduct(const Quaternion &a,const Quaternion &b,Quaternion &out) {
+ Quaternion q;
+ q.X=a.Y*b.Z-b.Y*a.Z;
+ q.X+=a.W*b.X;
+ q.X+=b.W*a.X;
+ q.Y=(a.W*b.Y+b.W*a.Y)-(a.X*b.Z-b.X*a.Z);
+ q.Z=a.X*b.Y-b.X*a.Y;
+ q.Z+=a.W*b.Z;
+ q.Z+=b.W*a.Z;
+ q.W=a.W*b.W-(a.X*b.X+a.Y*b.Y+a.Z*b.Z);
+ out=q;
+}
+static __forceinline void SlaveCompose(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate(a.Q,b.Position,&r);result.Position=r+a.Position;
+ SlaveProduct(a.Q,b.Q,result.Q);
+}
+
+// Copies another tree's finished pose, rebased through root (a BFME addition, as in BFME 1's htree.cpp).
+// A pivot-count mismatch does nothing; it is the only check retail makes.
+void HTreeClass::Slave_Update(const HTreeClass *src,const Matrix3D &root) {
+ if(!src)return;
+ if(NumPivots!=src->NumPivots)return;
+ S2CompactTransform rootxf(root);
+ for(int i=0;i<NumPivots;i++){
+  const S2PivotView &s=reinterpret_cast<const S2PivotView *>(src->Pivot)[i];
+  S2PivotView &d=reinterpret_cast<S2PivotView *>(Pivot)[i];
+  d.visible=s.visible;
+  d.factor=s.factor;
+  SlaveCompose(rootxf,s.Current,d.Current);
+ }
 }

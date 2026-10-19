@@ -67,6 +67,7 @@ template <> __declspec(dllimport) __forceinline void *const *vector<void *>::beg
 template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return this->_M_finish; }
 template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const { return (unsigned int)(this->_M_finish - this->_M_start); }
 template <> __declspec(dllimport) __forceinline void vector<void *>::clear() { erase(begin(), end()); }
+template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(begin() + __n); }
 }
 
 class ArmorTemplate

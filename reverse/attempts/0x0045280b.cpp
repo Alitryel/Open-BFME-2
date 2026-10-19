@@ -1,4 +1,6 @@
 // ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9378185524974516 date=2026-10-19
+// ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9174716944687991 date=2026-10-16
 // ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.936512486917015 date=2026-10-14
@@ -56,6 +58,13 @@ typedef float Real;
 #include "PartitionRangeQueryCallView.h"
 #include "ascii_string.h"
 #include <string.h>
+
+template <typename CHAR>
+bool StringBase<CHAR>::isEmpty() const throw()
+{
+    return m_data == 0 || m_data->length == 0;
+}
+
 class Thing;
 class ModuleData;
 class Matrix3D;
@@ -954,15 +963,15 @@ UpdateSleepTime AutoHealBehavior::update()
      
      {
       rva004526C6(other, true);
-      Anim2DCollection *collection;
-      if (d->m_singleBurst && TheGameLogic->getDrawIconUI() && (collection = TheAnim2DCollection) != NULL)
-      
+      if (d->m_singleBurst && TheGameLogic->getDrawIconUI())
       {
+       if (TheAnim2DCollection)
+       {
        const AsciiString &animName = TheGlobalData->m_getHealedAnimationName;
        if (!((const StringBase<char> *)&animName)->isEmpty())
        
        {
-        Anim2DTemplate *animTemplate = collection->findTemplate(animName);
+        Anim2DTemplate *animTemplate = TheAnim2DCollection->findTemplate(animName);
         if (animTemplate)
         
         {
@@ -977,6 +986,7 @@ UpdateSleepTime AutoHealBehavior::update()
         
        }
        
+      }
       }
       
      }
@@ -1014,3 +1024,6 @@ UpdateSleepTime AutoHealBehavior::update()
  return d->m_singleBurst ? UPDATE_SLEEP_FOREVER : (UpdateSleepTime)d->m_healingDelay;
  
 }
+
+// The visible string predicate and nested icon guards reproduce the retail icon register roles.
+// Remaining horde and frame differences: reverse/attempt_support/autoheal-0045280b-20261019.md.

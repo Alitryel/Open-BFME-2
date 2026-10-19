@@ -54,16 +54,14 @@ public:
 
 extern Rva00DFF024Registry *TheRva00DFF024Registry;
 extern AsciiString g_inputCallbackName;
-extern void *g_inputCallback;
-// g_inputCallback: matched references place it at VA 0xe012f4 (zero-filled .bss).
-void * g_inputCallback;
+#include "WindowScriptCreateRecord.h"
 
 class WinInstanceData;
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
 
 // ?parseInputCallback@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseInputCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseInputCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *stringSeps = "\"";
@@ -76,7 +74,7 @@ static Bool parseInputCallback(char *token, WinInstanceData *instData, char *buf
 	g_inputCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_inputCallbackName);
-	g_inputCallback = TheRva00DFF024Registry->bfme_lookup_c3028(key, 1);
+	g_windowScriptCreateRecord.input = TheRva00DFF024Registry->bfme_lookup_c3028(key, 1);
 
 	return true;
 }

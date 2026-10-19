@@ -188,7 +188,8 @@ frames; \ref sub_save_load_crc covers the CRC and recorder;
   machine or the periodic CRC exposes a mismatch. Zero Hour: replays are
   re-simulated from recorded commands, so logic changes alter existing replays.
 - **Durations become logic frames.** INI durations are in milliseconds; the
-  parsers multiply by a fixed 0.005 (frames per millisecond at 5 Hz) and round
+  parsers multiply by a writable factor initialised to 0.005 (frames per
+  millisecond at 5 Hz) and round
   integer durations up. Map-script timers in seconds use the same scale, and a
   randomised timer draws from the logic random generator. Update modules sleep
   in whole logic frames; scripts, Lua and commands run once per logic frame.

@@ -36,6 +36,11 @@ class Rva0032A082 : public Rva003B3417
 {
 public:
 	Rva0032A082(void *unk, BfmeParserRegistryVE *registry, const AsciiString *label);
+	// Declared, not generated: the implicit teardown this view would emit calls
+	// this view's base name and so differs from the copy the other views emit
+	// (SidesListDataChunks.cpp derives from Rva0032989F). Binding to the kept
+	// copy instead of emitting our own clears the link blocker.
+	virtual ~Rva0032A082();
 private:
 	void *m_unk14; // +0x14
 	void *m_items[20]; // +0x18 (0x50 bytes to +0x68)

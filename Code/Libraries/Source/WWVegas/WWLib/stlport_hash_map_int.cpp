@@ -74,6 +74,15 @@ vector<void*, allocator<void*> >::operator[](
 }
 
 template <>
+__declspec(dllimport) __forceinline
+vector<void*, allocator<void*> >::const_reference
+vector<void*, allocator<void*> >::operator[](
+        vector<void*, allocator<void*> >::size_type n) const
+{
+    return *(begin() + n);
+}
+
+template <>
 vector<void*, allocator<void*> >::allocator_type
 vector<void*, allocator<void*> >::get_allocator() const;
 

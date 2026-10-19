@@ -1,4 +1,6 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
+// partial score=0.9637305699481865 date=2026-10-19
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.917 date=2026-10-17
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.879 date=2026-10-15
@@ -128,8 +130,7 @@ void HTreeClass::Base_Update(const Matrix3D &root)
 
 	int *pCapEnd = CapturedEnd;
 	int *pCapBegin = CapturedBegin;
-	_ReadWriteBarrier();
-	int captured = (pCapBegin == pCapEnd) ? -1 : *pCapBegin;
+	int captured = (pCapBegin == CapturedEnd) ? -1 : (_ReadWriteBarrier(), *CapturedBegin);
 	{
 		/* single reload to mirror retail's duplicated load */
 		int *pCli = pCapBegin;
@@ -142,15 +143,23 @@ void HTreeClass::Base_Update(const Matrix3D &root)
 		Vector3 rotated = Rotate_Vector(pivot->BaseTransform.Translation, parent->Rotation);
 		rotated = parent->Translation + rotated;
 		pivot->Transform.Translation = rotated;
-		float rx = parent->Rotation.W * pivot->BaseTransform.Rotation.X + parent->Rotation.X * pivot->BaseTransform.Rotation.W + (parent->Rotation.Y * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.Y);
+		float rx = parent->Rotation.Y * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.Y;
+		rx += parent->Rotation.W * pivot->BaseTransform.Rotation.X;
+		rx += pivot->BaseTransform.Rotation.W * parent->Rotation.X;
 		float ry = parent->Rotation.W * pivot->BaseTransform.Rotation.Y + parent->Rotation.Y * pivot->BaseTransform.Rotation.W - (parent->Rotation.X * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.X);
-		float rz = parent->Rotation.W * pivot->BaseTransform.Rotation.Z + parent->Rotation.Z * pivot->BaseTransform.Rotation.W + (parent->Rotation.X * pivot->BaseTransform.Rotation.Y - parent->Rotation.Y * pivot->BaseTransform.Rotation.X);
-		float rw = parent->Rotation.W * pivot->BaseTransform.Rotation.W - ((parent->Rotation.X * pivot->BaseTransform.Rotation.X + parent->Rotation.Y * pivot->BaseTransform.Rotation.Y) + parent->Rotation.Z * pivot->BaseTransform.Rotation.Z);
+		float rz = parent->Rotation.X * pivot->BaseTransform.Rotation.Y - parent->Rotation.Y * pivot->BaseTransform.Rotation.X;
+		rz += parent->Rotation.Z * pivot->BaseTransform.Rotation.W;
+		rz += parent->Rotation.W * pivot->BaseTransform.Rotation.Z;
+		float rw = parent->Rotation.W;
+		rw *= pivot->BaseTransform.Rotation.W;
+		rw -= (parent->Rotation.X * pivot->BaseTransform.Rotation.X + parent->Rotation.Y * pivot->BaseTransform.Rotation.Y) + parent->Rotation.Z * pivot->BaseTransform.Rotation.Z;
 		pivot->Transform.Rotation = Quaternion(rx, ry, rz, rw);
 		pivot->IsVisible = true;
 		pivot->m_bfme54 = 1.0f;
 
 		if (piv_idx == captured)
-			captured = Capture_Update(piv_idx);
+			captured = Capture_Update(captured);
 	}
 }
+
+// Target evidence and trial conclusions: reverse/attempt_support/htree-base-update-20261019-w4.md.

@@ -149,27 +149,4 @@ private:
     TreeHintRef00217D4C m_at6c;
 };
 
-// Native 005749B7..00574A19 and 00574A19..00574A7B: 98-byte callers
-// of the recovered help factory. Each target independently proves its
-// receiver offsets, global source, getter, assignment and virtual forwarder.
-// ret 4 proves one ignored stack word; its meaning remains unknown.
-// Assignment destroys the factory temporary before notifying the target.
-void Rva005749B7::rva005749B7(int)
-{
-    Rva001FF3A9 *target = (Rva001FF3A9 *)m_at18->get();
-    if (target != 0)
-    {
-        m_at68 = ((Rva00574499 *)&g_Va00E062FC)->rva005744DD();
-        target->rva001FF3A9(m_at68);
-    }
-}
 
-void Rva00574A19::rva00574A19(int)
-{
-    Rva001FF3A9 *target = (Rva001FF3A9 *)m_at14->get();
-    if (target != 0)
-    {
-        m_at6c = ((Rva00574499 *)&g_Va00E0630C)->rva005744DD();
-        target->rva001FF3A9(m_at6c);
-    }
-}

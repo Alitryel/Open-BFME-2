@@ -1,83 +1,45 @@
-# Outlined STL vector cleanup ownership
+# Empty-vector constructor link repair
 
-At BFME 2 ca289991a6 with census c2c5ac8c27 (2026-10-18 11:36),
-three callers emitted non-retail vector/base destructor copies and allocator
-cleanup. Explicit specialization declarations bind their existing outlined
-calls to the ledger's providers instead of emitting those copies. The retained
-COMDAT bodies and relocations are unchanged; no aliases, pins or definitions
-were added. Native caller bytes, target call relocations and EH establish the
-required ownership, independently of donor names/layouts.
+`StlportRva003F610FDefaultCtor.cpp` gains **57 authored retail bytes in the
+legacy link preview**. It formerly emitted a conflicting vector<unsigned int>
+allocator constructor. Retain the inline wrapper but declare its base constructor
+(the existing 29-byte owner at 00211E58) instead of instantiating another copy.
+The compiler emits exactly the original parent, including the allocator temporary
+and all three pointer stores performed by the existing callee. The existing
+_Vector_base<uint> pin supplies that address; no pin or alias is added.
 
-The same six current objects were checked before and after (three consumers,
-StlportVectorDtorFamily.cpp, StlportVectorDtorChains.cpp, and
-FamilyVectorDtors_CodexSep26.cpp):
+Paired five-unit previews use index 1a1c90e405 (2026-10-18 17:31): 0/5, 0 B
+before; 1/5, 57 B after. Four nonmatching members were restored. No census,
+index or link_status is changed. This is legacy evidence, not closed-strict
+provider resolution or a runtime test. The bounded current-object preparer is
+used only to create self-strict receipts for the changed unit.
 
-| Consumer | Before | After |
-| --- | ---: | ---: |
-| Made002CC5E1Ctor.cpp | 0 | 463 |
-| AttributeModifierPoolUpdateCtor.cpp | 0 | 278 |
-| FlammableUpdateModuleDataCtor.cpp | 0 | 212 |
-| Unchanged provider subtotal | 950 | 950 |
-| Total local LINKED preview | 950 | 1,903 |
+The larger sweep also tested GeometryUpgradeModuleDataCtor,
+stlport_list_create_node_vecuint, LightPointSystem and ProductionPrerequisiteCtor.
+Imported-inline vector construction alone expands the base; declaring the rowed
+base restores its call but changes EH states or allocator temporaries. Geometry
+uses two distinct temporary bytes plus an extra state store; Production adds a
+state store and its declaration-only copy dispatch initializes a formerly unused
+tag; list insert moves its locals four bytes; LightPoint gains an EH frame.
+All four original sources were restored after these two trials, and their
+claims released. No checker exemption is warranted. Resume only with independent
+compiler/EH evidence addressing these specific differences.
 
-This is **+953 B in the local legacy preview**, with clean units increasing
-from 2/6 to 5/6. It is not a self-strict or closed-strict LINK measurement.
-StlportVectorDtorFamily.cpp retains independent blockers; the two other provider
-units link before and after. The published census/status were not rewritten.
-The 212 B Flammable count is the checker's unique byte count, not a sum of
-possibly overlapping row extents.
+## Certified base provider
 
-Acceptance:
+The first legacy-clean consumer exposed a shadow identity warning: its base
+constructor name had a pin but no certified row, and the kept COMDAT differed.
+Explicitly instantiate the unsigned base in the existing E16 owner unit and
+register its complete 29-byte body as a gen-alias with fold-proof. Every byte
+and owner relocation verifies, including allocator-proxy construction. This
+certifies an existing ICF identity, adds zero coverage and is a required provider
+for the 57-byte repair. `allowed_symbols.py --source` then reports two references
+(one owner, one fold), zero rows with a wrong binding. No pin was added.
 
-- `./build.sh` for all three consumers: all 14 rows exact.
-- `python3 tools/link_check.py --prepare-current` on all six explicit units:
-  83/83 rows pass strict reusable receipt verification, seven float literals
-  verified, no string/import findings. This prepares providers; it does not
-  establish LINK closure.
-- Paired `python3 tools/link_check.py` on the six-unit cohort: logs attached.
-- `python3 tools/link_check.py --new-variants` on the consumers: no new variants.
-- `python3 tools/eh_verify.py` on the consumers: 5/5 EXACT.
-- `data_check.py --enforce`: one existing baselined finding, zero new findings.
-  `--converged`: nine addresses, no second names or unjudged rows.
-- `class_gate.py`, `find_declared_unmatched.py`, `check_csv.py`, and
-  `git diff --check`: pass.
-- COMDAT proof attached: 49 retained copies unchanged, 32 removed, none added.
-
-Donor review: official BFME 1 master 67f4eab2437e8a7ab3f22d3b3f9bf1eac91e081b
-was reviewed for linking repairs (including 67f4eab2, 81dc7af4, c42f040f,
-97a7c973, 95ca17f1, 06a23066 and 4b285d7b). Declaration-only cleanup ownership
-is applicable where BFME 2's own bytes and relocations support it. No donor
-layout was imported. The verified BFME 1 pointer remains 64d369b90170 because
-its documented DIR32 vtable freshness blocker remains unresolved.
-
-A separate three-caller Locomotor pair-destructor declaration trial passed all
-three byte rows but removed no COMDAT copies and freed no bytes. It was fully
-reverted and recorded with `re_log.py`; its claims were released. The next
-repair needs evidence for the pair/vector cleanup ownership, rather than a
-repeat of the ineffective declaration.
-
-The shadow code-identity hook reports two findings (CameraMarker base-ctor
-binding and duplicate Flammable ctor). A read-only comparison using the saved
-pre-edit objects establishes both were already present; three divergent
-cleanup-copy findings disappear. `identity-comparison.json` records 5 -> 2.
-No shared cache object was replaced to perform this comparison.
-
-Follow-up inline-cleanup sweep: Rva003F6A91Dtor.cpp (146 B in the legacy
-preview) and Rva00148B84ReverseIndexDtor.cpp (62 B) each inline guarded free
-in their matched destructor. The current void-pointer provider itself links
-3,902 B; both callers remain blocked on incompatible emitted cleanup copies.
-An extern-template vector/base destructor trial uninlined that cleanup and
-failed two of six byte rows. A visible dllimport/forceinline specialization
-trial also changed those two rows, including EH state/cleanup placement. After
-these two attempts both files were restored, the full six-row gate passed,
-blockers were recorded, and all eight claims were released. Attached logs
-preserve the findings; no gain is claimed for this follow-up. Do not repeat the
-same suppression trials without new compiler/EH evidence.
-
-Rebase verification: upstream advanced to 327ed4930f0ae568c5f2f9d4c08833da54deff28 during this session.
-The three consumers were rebuilt from that exact parent for a fresh before
-measurement, then restored and byte-verified with all three current providers.
-The paired result remains 950 -> 1,903 B and 2/6 -> 5/6 clean; all 14 baseline
-consumer rows and all 83 final cohort rows pass. The changed upstream
-StlportVectorDtorFamily provider retains independent blockers. Rebased logs
-are attached.
+The provider unit still has pre-existing allocator/dispatch/assignment conflicts.
+A trial restricting its whole-class instantiation to rowed members and declaring
+the const uninitialized-copy helper changes the matched 52CE20 copy constructor:
+the compiler initializes an otherwise unused tag and expands its frame. Restored
+that trial; the committed provider unit differs only by the certified unsigned
+base instantiation. Thus the consumer is self-strict and legacy-clean, while its
+provider closure is still unmeasured/incomplete. No closed-strict gain is claimed.

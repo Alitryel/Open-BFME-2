@@ -57,9 +57,16 @@ namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int
 namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
 namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D *, unsigned int, Coord3D const &); }
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
-namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
 namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::resize(unsigned int); }
 // bfme link decl-only end
+// Native xfer calls erase at 0x2A133B and reserve at 0x390729.
+// Their rowed element names describe 12-byte-stride views; the other callers
+// do not establish a Coord3D identity for either shared provider.
+struct Gen_p12pod { int a[3]; };
+namespace _STL { template <> Gen_p12pod *vector<Gen_p12pod>::erase(Gen_p12pod *, Gen_p12pod *); }
+namespace _STL { template <> void vector<Coord3D>::push_back(Coord3D const &); }
+struct Rva00390729Element { int opaque[3]; };
+namespace _STL { template <> void vector<Rva00390729Element>::reserve(unsigned int); }
 
 inline Coord3D operator-(const Coord3D &a, const Coord3D &b)
 {
@@ -328,8 +335,8 @@ void OilSpillUpdate::xfer(Xfer *xfer)
 	*xfer == count;
 	if (xfer->IsLoading())
 	{
-		crumbs.erase(crumbs.begin(), crumbs.end());
-		crumbs.reserve(count);
+		((_STL::vector<Gen_p12pod> *)&crumbs)->erase((Gen_p12pod *)crumbs.begin(), (Gen_p12pod *)crumbs.end());
+		((_STL::vector<Rva00390729Element> *)&crumbs)->reserve(count);
 		crumbs.resize(count);
 	}
 	for (Int i = 0; i < count; ++i)

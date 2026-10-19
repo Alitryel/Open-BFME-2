@@ -1,9 +1,9 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
+// partial score=0.804 date=2026-10-19
+// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.0 date=2026-10-17
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.381 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.38 date=2026-10-14
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
@@ -23,7 +23,7 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *cs);
 struct Rva000321F0Lock
 {
     unsigned char m_cs[0x18];
-    int m_ref;
+    volatile int m_ref;
 };
 
 struct Rva000321F0Chunk
@@ -37,7 +37,8 @@ struct Rva000321F0Chunk
 struct Rva000321F0Region
 {
     unsigned int m_base;		// +0x00
-    unsigned int m_pad[2];
+    unsigned int m_size;
+    unsigned int m_pad;
     Rva000321F0Region *m_next;	// +0x0c
 };
 
@@ -56,6 +57,19 @@ struct Rva000321F0Sentinel
     Rva000321F0Sentinel *m_prev;	// +0x1c
 };
 
+inline int Rva000321F0Missing(Rva000321F0Chunk *c,
+    Rva000321F0Sentinel *s, Rva000321F0Sentinel *end)
+{
+    while (s != end)
+    {
+        if ((unsigned int)c >= (unsigned int)s &&
+            (unsigned int)c < (unsigned int)s + s->m_size)
+            return 0;
+        s = s->m_next;
+    }
+    return 1;
+}
+
 namespace EA { namespace Allocator {
 
 class GeneralAllocator
@@ -65,214 +79,222 @@ public:
     int rva00031D00(void *chunk);
     int rva00031E60(void *chunk);
     int rva00031F90(void *chunk);
-    int rva00032160(void *chunk);
+    unsigned int rva00032160(void *chunk);
 
 private:
     unsigned int m_0;			// +0x00
     unsigned int m_flags4;		// +0x04
     Rva000321F0Chunk *m_fastBins[10];	// +0x08
-    Rva000321F0Chunk *m_binLinks[128];	// +0x30
+    Rva000321F0Chunk *m_binLinks[256];	// +0x30
     unsigned int m_binmap[4];		// +0x430
     Rva000321F0Chunk *m_top;		// +0x440
     unsigned char m_pad444[0x448 - 0x444];
     Rva000321F0Sentinel m_sentinel;	// +0x448
+    unsigned char m_pad468[0x488 - 0x468];
     unsigned int m_488, m_48c, m_490, m_494;
     unsigned char m_pad498[0x49c - 0x498];
     Rva000321F0Region m_regions;	// +0x49c
-    unsigned char m_pad4a8[0x4e4 - 0x4a8];
+    unsigned char m_pad4ac[0x4cc - 0x4ac];
+    unsigned int m_4cc, m_4d0, m_4d4;
+    unsigned char m_pad4d8[0x4e4 - 0x4d8];
     Rva000321F0Lock *m_lock;		// +0x4e4
 };
 
+// Retail offsets and loop boundaries corrected from the complete native body.
 int GeneralAllocator::rva000321F0(int level)
 {
     int errors = 0;
+    int index;
     Rva000321F0Lock *lock = m_lock;
-    if ((lock != 0) ? lock != 0 : lock != 0)
+    if (lock != 0)
     {
         EnterCriticalSection(lock);
-        int ref = *(volatile int*)&lock->m_ref;
-        *(volatile int*)&lock->m_ref = ref + 1;
+        ++lock->m_ref;
     }
 
-    if (level < 1)
-        goto unlock_return;
-
+    if (level >= 1)
     {
-        Rva000321F0Chunk *top = m_top;
-        if (top == 0)
-            goto unlock_return;
-        if (top == (Rva000321F0Chunk *)((char *)this + 0x30))
-            goto unlock_return;
+        unsigned int totalFast = 0;
+        if (m_top == 0 || m_top == (Rva000321F0Chunk *)m_binLinks)
+        {
+            if (lock != 0)
+            {
+                --lock->m_ref;
+                LeaveCriticalSection(lock);
+            }
+            return 0;
+        }
         unsigned int maxFast = m_flags4;
-        errors += (maxFast >= 0x50) ? 1 : 0;
-
+        errors += (maxFast >= 0x50) && 1;
         if (level >= 2)
         {
             // Fast-bin chains: each node must live inside a sentinel region and
             // carry the expected size flags.
-            for (int i = 0; i < 10; ++i)
+            Rva000321F0Chunk **slot = m_fastBins;
+            for (index = 10; index != 0; --index, ++slot)
             {
-                Rva000321F0Chunk *c = m_fastBins[i];
+                Rva000321F0Chunk *c = *slot;
                 int guard = 0;
                 while (c != 0)
                 {
                     if (guard >= 0x1e8480)
                         break;
-                    Rva000321F0Sentinel *s = m_sentinel.m_next;
-                    Rva000321F0Sentinel *end = &m_sentinel;
-                    int found = 1;
-                    while (s != end)
-                    {
-                        if ((unsigned int)c >= (unsigned int)s &&
-                            (unsigned int)c < (unsigned int)s + s->m_size)
-                        {
-                            found = 0;
-                            break;
-                        }
-                        s = s->m_next;
-                    }
-                    errors += found;
-
+                    errors += Rva000321F0Missing(c, m_sentinel.m_next, &m_sentinel);
                     unsigned int size = c->m_size;
                     c = c->m_prev;
-                    errors += (size & 0x80000000u) ? 1 : 0;
-                    errors += (~(size >> 2) & 1);
+                    errors += ((size & 0x80000000u) == 0) && 1;
+                    errors += (((unsigned char)~(size >> 2)) & 1) && 1;
                     ++guard;
-                    errors += (guard >= 0x1e8480) ? 1 : 0;
+                    errors += (guard >= 0x1e8480) && 1;
                 }
             }
 
+            Rva000321F0Chunk **link = m_binLinks;
+            for (index = 0; index < 0x100; index += 2, link += 2)
+            {
+                Rva000321F0Chunk *c = *link;
+                if (index < 2)
+                    errors += (c != 0) && 1;
+                else
+                {
+                    errors += (c == 0) && 1;
+                    Rva000321F0Chunk *p = c->m_prev;
+                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)(link - 2);
+                    int count = 0;
+                    if (p == head)
+                        count = 1;
+                    while (p != c)
+                    {
+                        if (p == head)
+                            ++count;
+                        else
+                        {
+                            errors += Rva000321F0Missing(p, m_sentinel.m_next, &m_sentinel);
+                        }
+                        p = p->m_prev;
+                    }
+                    errors += (count == 0) && 1;
+                }
+            }
+
+            unsigned int control = m_4cc;
+            unsigned int divisor = m_4d0;
+            unsigned int page = m_4d4;
+            errors += (control >= 0x186a0) && 1;
+            errors += (divisor == 0) && 1;
+            errors += ((page & (page - 1)) != 0) && 1;
+            maxFast &= ~1u;
+            int maxFastIndex = (maxFast >> 3) - 2;
+            errors += (maxFast > 0x58) && 1;
+            slot = m_fastBins;
+            for (index = 0; index < 10; ++index, ++slot)
+            {
+                Rva000321F0Chunk *c = *slot;
+                if (index > maxFastIndex)
+                    errors += (c != 0) && 1;
+                while (c != 0)
+                {
+                    unsigned int size = c->m_size;
+                    c = c->m_prev;
+                    totalFast += size & 0x7ffffff8u;
+                    errors += (((size >> 3) & 0x0fffffffu) - 2 != (unsigned int)index) && 1;
+                }
+            }
+            if (totalFast != 0)
+                errors += ((unsigned char)~m_flags4 & 1) && 1;
+
             // Bin heads and the binmap must agree, and every bin list node
             // must be a valid chunk of its bin's size class.
-            for (unsigned int i = 2; i < 0x100; i += 2)
+            Rva000321F0Chunk *head = (Rva000321F0Chunk *)m_binLinks;
+            for (index = 1; index < 0x80; ++index, head = (Rva000321F0Chunk *)((char *)head + 8))
             {
-                Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)this + 0x30 + 8 * i - 8);
-                int bitSet = (m_binmap[i >> 5] & (1u << (i & 0x1f))) != 0;
-                int listSet = (head->m_next != head);
-                if (bitSet)
-                    errors += 0;
-                else
-                    errors += listSet ? 1 : 0;
-
+                if (index >= 2)
+                {
+                    bool bitSet = (m_binmap[index >> 5] & (1u << (index & 0x1f))) != 0;
+                    bool listSet = head->m_next != head;
+                    if (!bitSet)
+                        errors += listSet && 1;
+                }
                 Rva000321F0Chunk *c = head->m_next;
-                if (c == head)
-                    goto next_bin;
                 while (c != head)
                 {
                     errors += rva00031E60(c);
                     unsigned int size = c->m_size & 0x7ffffff8u;
-                    unsigned int idx;
-                    if (i >= 2)
+                    if (index >= 2)
                     {
+                        unsigned int idx;
                         if (size < 0x200)
                             idx = size >> 3;
+                        else if ((size >> 6) <= 0x20)
+                            idx = (size >> 6) + 0x38;
+                        else if ((size >> 9) <= 0x14)
+                            idx = (size >> 9) + 0x5b;
+                        else if ((size >> 12) <= 0x0a)
+                            idx = (size >> 12) + 0x6e;
+                        else if ((size >> 15) <= 4)
+                            idx = (size >> 15) + 0x77;
+                        else if ((size >> 18) <= 2)
+                            idx = (size >> 18) + 0x7c;
                         else
-                        {
-                            idx = size >> 6;
-                            if (idx <= 0x20)
-                                idx += 0x38;
-                            else
-                            {
-                                idx = size >> 9;
-                                if (idx <= 0x14)
-                                    idx += 0x5B;
-                                else
-                                {
-                                    idx = size >> 12;
-                                    if (idx <= 0x0A)
-                                        idx += 0x6E;
-                                    else
-                                    {
-                                        idx = size >> 15;
-                                        if (idx <= 4)
-                                            idx += 0x77;
-                                        else
-                                        {
-                                            idx = size >> 18;
-                                            idx = (idx <= 2) ? idx + 0x7C : 0x7E;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        errors += (idx != i) ? 1 : 0;
+                            idx = 0x7e;
+                        errors += (idx != (unsigned int)index) && 1;
                         if (size >= 0x200)
                         {
                             Rva000321F0Chunk *next = c->m_next;
-                            if (next != head && (next->m_size & 0x7ffffff8u) < size)
-                                errors += 1;
+                            int outOfOrder;
+                            if (next == head || (next->m_size & 0x7ffffff8u) >= size)
+                                outOfOrder = 0;
+                            else
+                                outOfOrder = 1;
+                            errors += outOfOrder;
                         }
                     }
-                    c = c->m_next;
-                }
-            next_bin:
-                ;
-            }
 
-            // Walk the chunk run behind every bin node.
-            for (unsigned int i = 2; i < 0x100; i += 2)
-            {
-                Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)this + 0x30 + 8 * i - 8);
-                Rva000321F0Chunk *c = head->m_next;
-                if (c == head)
-                    continue;
-                do
-                {
-                    unsigned int size = c->m_size & 0x7ffffff8u;
-                    while (size >= 0x10)
+                    // Walk the chunk run behind every bin node.
+                    Rva000321F0Chunk *run = (Rva000321F0Chunk *)((char *)c + size);
+                    for (;;)
                     {
-                        Rva000321F0Sentinel *s = m_sentinel.m_next;
-                        Rva000321F0Sentinel *end = &m_sentinel;
-                        int inside = 0;
-                        while (s != end)
+                        unsigned int runSize = run->m_size & 0x7ffffff8u;
+                        if (runSize < 0x10)
                         {
-                            if ((unsigned int)c >= (unsigned int)s &&
-                                (unsigned int)c < (unsigned int)s + s->m_size)
+                            Rva000321F0Sentinel *s = m_sentinel.m_next;
+                            Rva000321F0Sentinel *end = &m_sentinel;
+                            while (s != end)
                             {
-                                inside = 1;
-                                break;
+                                if ((unsigned int)run >= (unsigned int)s &&
+                                    (unsigned int)run < (unsigned int)s + s->m_size)
+                                    break;
+                                s = s->m_next;
                             }
-                            s = s->m_next;
+                            if (s != end && (unsigned int)run >= (unsigned int)s + s->m_size - 0x10)
+                                break;
                         }
-                        if (inside && (unsigned int)c + size >= (unsigned int)s + s->m_size - 0x10)
+                        if ((*(unsigned char *)((char *)run + runSize + 4) & 1) == 0 || runSize < 0x10)
                             break;
-                        if ((*(unsigned int *)((char *)c + size + 4) & 1) != 0 &&
-                            size >= 0x10)
-                        {
-                            errors += rva00031F90(c);
-                            c = (Rva000321F0Chunk *)((char *)c + size);
-                            size = c->m_size & 0x7ffffff8u;
-                            continue;
-                        }
-                        _ReadWriteBarrier();
-                        break;
+                        errors += rva00031F90(run);
+                        run = (Rva000321F0Chunk *)((char *)run + (run->m_size & 0x7ffffff8u));
                     }
                     c = c->m_next;
                 }
-                while (c != head);
             }
-        }
 
-        // Sentinel region counters.
-        {
-            Rva000321F0Sentinel *s = m_sentinel.m_next;
-            Rva000321F0Sentinel *end = &m_sentinel;
-            while (s != end)
+            // Sentinel region counters.
+            Rva000321F0Region *r = m_regions.m_next;
+            Rva000321F0Region *rend = &m_regions;
+            while (r != rend)
             {
-                errors += (~(s->m_size >> 1) & 1);
-                Rva000321F0Sentinel *prev = (Rva000321F0Sentinel *)((char *)s - s->m_unknown0);
-                errors += (~(prev->m_size >> 1) & 1);
-                s = s->m_next;
+                errors += (((unsigned char)~(r->m_size >> 1)) & 1) && 1;
+                unsigned int base = r->m_base;
+                Rva000321F0Chunk *prev = (Rva000321F0Chunk *)((char *)r - base);
+                r = r->m_next;
+                errors += (((unsigned char)~(prev->m_size >> 1)) & 1) && 1;
             }
         }
-
         errors += rva00031D00(m_top);
-        {
-            int a = (int)m_488;
-            int b = (int)m_490;
-            errors += (a < 0) ? 1 : 0;
-            errors += (a > b) ? 1 : 0;
-        }
+        int a = (int)m_488;
+        int b = (int)m_490;
+        errors += (a < 0) && 1;
+        errors += (a > b) && 1;
     }
 
     if (level >= 3)
@@ -292,7 +314,7 @@ int GeneralAllocator::rva000321F0(int level)
         while (s != end)
         {
             unsigned int size = s->m_size;
-            Rva000321F0Chunk *c = (Rva000321F0Chunk *)((char *)s + 0);
+            Rva000321F0Chunk *c = (Rva000321F0Chunk *)s->m_unknown0;
             unsigned int endAddr = (unsigned int)s + size - 0x10;
             while ((unsigned int)c < endAddr)
             {
@@ -301,23 +323,25 @@ int GeneralAllocator::rva000321F0(int level)
                 if (inUse)
                     errors += rva00031F90(c);
                 else
+                {
                     errors += rva00031E60(c);
-                c = (Rva000321F0Chunk *)((char *)c + csize);
+                    if (c == c->m_prev)
+                    {
+                        errors += (c != m_top) && 1;
+                        break;
+                    }
+                }
+                c = (Rva000321F0Chunk *)((char *)c + (c->m_size & 0x7ffffff8u));
             }
-            if ((Rva000321F0Chunk *)s == m_top)
-                errors += (s == m_sentinel.m_prev) ? 1 : 0;
             s = s->m_prev;
         }
     }
 
-unlock_return:
     if (lock != 0)
     {
-        *(volatile int*)&lock->m_ref = lock->m_ref - 1;
+        --lock->m_ref;
         LeaveCriticalSection(lock);
     }
-    _ReadWriteBarrier();
-    _ReadWriteBarrier();
     return errors;
 }
 

@@ -1,9 +1,12 @@
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
+// partial score=0.6210526315789474 date=2026-10-19
+// ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.537 date=2026-10-17
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.7563 date=2026-10-14
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.924901 date=2026-10-09
+// cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // cl: /O2 /G7 /DNDEBUG /MD /EHsc
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -12,6 +15,8 @@ extern "C" void _ReadWriteBarrier(void);
 // WB 009F1BD0 supplies the named glyph-index rasterization and averaging loop.
 // ZH Store_GDI_Char supplies the parent buffer/copy/CharData semantics only;
 // target bytes establish the Thai path, scale, map, DC and 12-byte record.
+// SSE enables retail's CMOVG; the retained SIZE padding only shapes stack allocation.
+// Quotient recomputation and the loop/frame mismatch remain documented in attempt_support.
 #include <windows.h>
 #include <map>
 #include <string.h>
@@ -103,7 +108,7 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
  if(!::GetCharABCWidthsI(g_fontCharsGdiState->dc,glyph,1,0,&abc)) {
   abc.abcA=0;abc.abcB=1;abc.abcC=0;
  } else {
-  unsigned int width=*(volatile unsigned int*)&abc.abcB;
+  unsigned int width=abc.abcB;
   if(abc.abcC>0) width+=abc.abcC;
   if(abc.abcA>0) width+=abc.abcA;
   else origin=-abc.abcA;
@@ -111,6 +116,9 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
  }
  int width=(Scale+charSize.cx-1)/Scale;
  int height=(Scale+charSize.cy-1)/Scale;
+ //
+ // Get a pointer to the surface that this character should use
+ //
  Update_Current_Buffer(width);
  unsigned short *start=BufferList[BufferList.Count()-1]->Buffer+CurrPixelOffset;
  int top=ExtraHeight/2;
@@ -120,8 +128,14 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
  memset(pixels+width*height,0,bottom*width*2);
  int tilesX=(width+tileX-1)/tileX;
  int tilesY=(height+tileY-1)/tileY;
+ //
+ // Copy the BMP contents to the buffer
+ //
  for(int ty=0;ty<tilesY;++ty) {
   for(int tx=0;tx<tilesX;++tx) {
+   //
+   // Draw the character into the memory DC
+   //
    RECT rect={0,0,tileWidth,tileHeight};
    int sx=tx*tileWidth,sy=ty*tileHeight;
    ::ExtTextOutW(g_fontCharsGdiState->dc,origin-sx,-sy,0x12,&rect,&glyph,1,0);
@@ -140,25 +154,44 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
      int x1=x0+Scale;
      if(x1>charSize.cx) x1=charSize.cx;
      for(int row=y0;row<y1;++row) {
+      //
+      // Compute the indices into the BMP and surface
+      //
       int index=(row-sy)*192+(x0-sx)*3;
+      //
+      // Loop over each column
+      //
       for(int col=x0;col<x1;++col) {
+       //
+       // Get the pixel color at this location
+       //
        unsigned char sample=g_fontCharsGdiState->bits[index];
        index+=3;
        intensity+=(sample>>4)&15;
       }
      }
+     //
+     // Convert the pixel intensity from 8bit to 4bit and
+     // store it in our buffer
+     //
      unsigned short alpha=(intensity+halfArea)/area;
      *dest++=0xfff|(alpha<<12);
     }
    }
   }
  }
+ //
+ // Save information about this character in our list
+ //
  FontCharsClassCharDataStruct *data=new FontCharsClassCharDataStruct;
  data->Value=glyph;
  data->Width=width;
  data->Bearing=(1-Scale-origin)/Scale;
  data->Buffer=BufferList[BufferList.Count()-1]->Buffer+CurrPixelOffset;
  glyphs[glyph]=reinterpret_cast<int>(data);
+ //
+ // Advance the character position
+ //
  CurrPixelOffset+=CharHeight*width;
  return data;
 }

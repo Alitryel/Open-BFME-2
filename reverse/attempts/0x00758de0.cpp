@@ -1,10 +1,14 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
+// partial score=0.5915915915915916 date=2026-10-19
+// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.7809467362098941 date=2026-10-15
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.783 date=2026-10-15
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.5916 date=2026-10-08
 // cl: /O2 /MD /EHsc /I.
+// Keep the saved node while advancing the shared cursor.
+// Prepare each response with the two sources of that saved node.
 struct ContactVector { float x,y,z; };
 struct ContactSource {
  virtual void slot0()=0;
@@ -47,12 +51,12 @@ void BfmeThingCGD::bfmeTwoCGD() {
   }
   ContactNode *node=current;
   current=current->next;
-  if(current==0) return;
+  if(node==0) return;
   if(node->first->source==0 || node->second->source==0) continue;
   if(node->state==0)
-   node->state=node->first->source->test((1 ? (node->second->source->prepare(&node->point,&node->normal)) : (node->second->source->prepare(&node->point,&node->normal))))?1:2;
+   node->state=node->first->source->test(node->second->source->prepare(&node->point,&node->normal))?1:2;
   if(node->state==2) continue;
-  node->first->source->respond(current->second->source->prepare(&node->point,&node->normal));
+  node->first->source->respond(node->second->source->prepare(&node->point,&node->normal));
   if(node->first->source==0 || node->second->source==0) continue;
   ContactVector reverse;
   reverse.x=-node->normal.x;

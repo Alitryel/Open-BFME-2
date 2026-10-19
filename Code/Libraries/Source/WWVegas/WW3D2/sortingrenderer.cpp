@@ -145,6 +145,10 @@ public:
 	unsigned short polygon_count;			// Polygon count to process (3 indices = one polygon)
 	unsigned short min_vertex_index;		// First index used in the vb
 	unsigned short vertex_count;			// Number of vertices used in vb
+public:
+	SortingNodeStruct();
+public:
+	~SortingNodeStruct();
 };
 
 static DLListClass<SortingNodeStruct> sorted_list;

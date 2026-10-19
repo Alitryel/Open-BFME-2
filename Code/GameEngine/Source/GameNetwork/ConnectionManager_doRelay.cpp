@@ -102,12 +102,13 @@ public:
 	void setDisconnectSlot(UnsignedByte slot);
 };
 
-class Rva004D57AE { public: void setPlayerIndex(UnsignedInt); };
-class NetDestroyPlayerCommandMsg : public NetCommandMsg
+// The existing native type-11 constructor and +0x1C setter are both
+// owned under Rva004D57AE. Use that same identity for this relay view.
+class Rva004D57AE : public NetCommandMsg
 {
 public:
-	NetDestroyPlayerCommandMsg();
-	/* the rowed Rva004D57AE::setPlayerIndex */ __declspec(dllimport) __forceinline void setPlayerIndex(UnsignedInt p0) { ((Rva004D57AE *)this)->setPlayerIndex(p0); }
+	Rva004D57AE();
+	void setPlayerIndex(UnsignedInt playerIndex);
 
 private:
 	UnsignedInt m_playerIndex;
@@ -267,7 +268,7 @@ void ConnectionManager::doRelay()
 			leave->detach();
 			if (m_playerLeaveValue[i] == 0)
 			{
-				NetDestroyPlayerCommandMsg *destroy = new NetDestroyPlayerCommandMsg;
+				Rva004D57AE *destroy = new Rva004D57AE;
 				if (DoesCommandRequireACommandID(destroy->getNetCommandType()))
 					destroy->setID(GenerateNextCommandID());
 				destroy->setPlayerID(m_localSlot);

@@ -8,6 +8,7 @@
 // Evidence: ret 8 two args; and [esi+4] 0; StringBase 0x37BA0 plus
 // releaseBuffer 0x36410 around the +8 base call; Get 0x567BFD.
 #include "ascii_string.h"
+#include "../../Include/Common/Rva0007DF07.h"
 
 class CommandButton
 {
@@ -18,19 +19,8 @@ const CommandButton *GetSetStanceCommandButton(int stance);
 // Two levels at +0: the ctor installs vtable 0x00C7A630 while the dtor's final store is
 // 0x00BC6F20 (Rva00567960Dtor.cpp), so they are two classes; each inline ctor/dtor's store
 // of the other level is dead and dropped. One name per vtable keeps DIR32 consistent.
-class Rva00567960Base
-{
-public:
-	virtual ~Rva00567960Base();
-	int m_4;
-};
 
-class Rva00567960BaseMid : public Rva00567960Base
-{
-public:
-	virtual ~Rva00567960BaseMid();
-	Rva00567960BaseMid() { m_4 = 0; }
-};
+#include "../../Include/Common/Rva00567960BaseMid.h"
 
 class Rva005C802B
 {

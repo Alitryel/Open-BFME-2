@@ -1,4 +1,6 @@
 // ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
+// partial score=0.995475113122172 date=2026-10-19
+// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
 // partial score=0.973 date=2026-10-17
 // ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
 // partial score=0.9575 date=2026-10-14
@@ -243,7 +245,7 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 
 	GameWindow *window = 0;
 	GameWindowManager *windowManager = TheWindowManager;
-	if (windowManager && !(TheGameLogic->rva00085124()))
+	if (windowManager && (!TheGameLogic || !TheGameLogic->rva00085124()))
 		window = windowManager->getWindowUnderCursor(screen->x, screen->y, false);
 
 	while (window)
@@ -319,7 +321,7 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 				goto afterHit;
 			{
 				Drawable *other = (Drawable *)((Rva0025DE76Slot *)draw)->rva000D43D0();
-				Rva0025DE76Slot *slot = (Rva0025DE76Slot*)draw;
+
 				if (other)
 					draw = other;
 				if (draw)
@@ -351,3 +353,6 @@ afterHit:;
 		draw = TheGameClient->findDrawableByID(0x5F5E0FE);
 	return draw;
 }
+
+// Retail extent ends at 0x8B470; the GameLogic mode call has a null receiver guard.
+// Remaining receiver reload uses draw on the stack instead of EAX.

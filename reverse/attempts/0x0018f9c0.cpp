@@ -1,4 +1,6 @@
 // ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
+// partial score=0.733 date=2026-10-19
+// ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
 // partial score=0.733 date=2026-10-17
 // ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
 // partial score=0.8378 date=2026-10-14
@@ -397,7 +399,6 @@ private:
  *=============================================================================================*/
 // ??$decompress@$00@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
 
-extern float filtertable[256];
 
 template <>
 void AdaptiveDeltaMotionChannelClass::decompress<4>(uint32 src_idx, float *srcdata, uint32 frame_idx, float *outdata)
@@ -426,7 +427,7 @@ void AdaptiveDeltaMotionChannelClass::decompress<4>(uint32 src_idx, float *srcda
 			int fi = start & 0xF;
 			uint32 frame = start;
 			do {
-			float filter = filtertable[*pPacket] * Scale;
+			float filter = bfme2AdaptiveDeltaFilterTable[*pPacket] * Scale;
 			pPacket++;
 			do {
 				int factor = pPacket[fi >> 1] << 24;
@@ -446,3 +447,6 @@ void AdaptiveDeltaMotionChannelClass::decompress<4>(uint32 src_idx, float *srcda
 		outdata[vi] = last_value;
 	}
 }
+
+// The decoder reads the adaptive table owned at VA 0x00DB67D8.
+// The stream table named filtertable is separate storage at VA 0x00DB6C28.

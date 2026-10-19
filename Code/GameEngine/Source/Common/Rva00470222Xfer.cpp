@@ -5,6 +5,18 @@
 // 0x0024250 with per-item Rva00469124Xfer 0x00469124; load throws "Map must be empty on load" via bfmeFormatText
 // 0x0060C36E then per-item operator[] 0x0028932C; caller 0x00473F81.
 #include <map>
+
+// Preserve STLport's inlined walk without emitting a competing size-profile
+// wrapper. stlport_map_int_int.cpp owns the complete retail entry at 0x169ED0.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{
+    _M_node = _Rb_global_inst::_M_increment(_M_node);
+    return *this;
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }

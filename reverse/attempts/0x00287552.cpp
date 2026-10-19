@@ -1,4 +1,6 @@
 // ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
+// partial score=0.9325 date=2026-10-19
+// ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
 // partial score=0.783 date=2026-10-17
 // ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
 // partial score=0.921 date=2026-10-15
@@ -13,8 +15,6 @@
 // ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
 // partial score=0.96 date=2026-10-08
 // cl: /O1 /arch:SSE /G6 /DNDEBUG /MD /GX /ICode/Libraries/Include /I.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 //
 // FireLogicSystem's registration of a placed object (0x00286373): the id is
 // filed in the grid cell under its world position and the cell takes the
@@ -994,9 +994,9 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
  Int count = 0;
  float angle = obj->m_angle;
  BfmeVecVNB pos;
+ pos.x = obj->m_pos.x;
  pos.y = obj->m_pos.y;
  pos.z = obj->m_pos.z;
- pos.x = obj->m_pos.x;
  for (Int i = 0; i < obj->m_geometry.m_finish - obj->m_geometry.m_start; i++)
  
  {
@@ -1006,10 +1006,10 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
   if (shape->m_offset[2] > 10.0f)
   continue;
   BfmeVecVNB p;
-  p.z = pos.z;
-  p.y = pos.y;
   p.x = pos.x;
-  const float c = Cos(obj->m_angle);
+  p.y = pos.y;
+  p.z = pos.z;
+  const float c = Cos(angle);
   float s = Sin(angle);
   shape->bfmeApplyVNB(&p, angle);
   switch (shape->m_type)
@@ -1054,7 +1054,7 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
       
      }
      rowX += rowStepX;
-     (*(float volatile *)&sy) += rowStepY;
+     rowY += rowStepY;
      
     }
     break;
@@ -1066,7 +1066,6 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
    {
     float radius = shape->m_major;
     float fx = (p.x - radius) * 0.1f + 0.5f;
-    _ReadWriteBarrier();
     Int xMin = FloatToLong((float)floor(fx)) - 1;
     float fy = (p.y - radius) * 0.1f + 0.5f;
     Int yMin = FloatToLong((float)floor(fy)) - 1;
@@ -1257,3 +1256,6 @@ FireLogicSystem::~FireLogicSystem()
  Rva0020DAE0(&theFireLogicSystemParseRegistration);
  
 }
+
+// Retail advances the persistent rowY before the next box row.
+// Both trigonometric calls consume the angle cached before the shape loop.

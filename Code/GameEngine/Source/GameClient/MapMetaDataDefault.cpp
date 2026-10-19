@@ -11,8 +11,8 @@
 #include "unicode_string.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../Libraries/Include/Lib/Region3D.h"
-class Rva0029B63A {public:Rva0029B63A();private:char header[12];};
-class WaypointMap:private Rva0029B63A {public:
+class LocomotorMapView {public:LocomotorMapView();private:char header[12];};
+class WaypointMap:private LocomotorMapView {public:
  __declspec(dllimport) __forceinline WaypointMap():numStartSpots(0){}
  ~WaypointMap();int numStartSpots;
 };

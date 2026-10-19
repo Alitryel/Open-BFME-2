@@ -82,6 +82,10 @@ struct TextureStatisticsStruct
 	{
 		return tex != other.tex;
 	}
+public:
+	~TextureStatisticsStruct();
+public:
+	TextureStatisticsStruct &operator=(const TextureStatisticsStruct &);
 };
 
 template<class T>

@@ -483,11 +483,7 @@ Rva002D76A6::~Rva002D76A6()
 {
 }
 
-class Rva00567960BaseMid : public Rva0007DF07
-{
-public:
-	virtual ~Rva00567960BaseMid();
-};
+#include "../../Include/Common/Rva00567960BaseMid.h"
 
 Rva00567960BaseMid::~Rva00567960BaseMid()
 {

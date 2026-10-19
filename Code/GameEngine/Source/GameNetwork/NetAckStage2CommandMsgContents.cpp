@@ -52,6 +52,9 @@ public:
 	// Slot 3 of this class's vftable, where NetCommandMsg declares
 	// getContentsAsAsciiString: the override.
 	virtual AsciiString getContentsAsAsciiString();
+	// ICF-folded with every same-shape setter (0x004D59AC / 0x004D576C).
+	void setCommandID(UnsignedShort commandID);
+	void setOriginalPlayerID(UnsignedByte originalPlayerID);
 private:
 	UnsignedShort m_commandID;
 	UnsignedByte m_originalPlayerID;
@@ -65,4 +68,14 @@ AsciiString NetAckStage2CommandMsg::getContentsAsAsciiString()
 	AsciiString result;
 	result.format("%s, commandID=%d, originalPlayer=%d, origExeSID=%d, originalExecFrame=%d", GetStr004D5F1D(((NetCommandMsg *)this)->rva004D5B4C()), m_commandID, m_originalPlayerID, m_20, m_24);
 	return result;
+}
+
+void NetAckStage2CommandMsg::setCommandID(UnsignedShort commandID)
+{
+	m_commandID = commandID;
+}
+
+void NetAckStage2CommandMsg::setOriginalPlayerID(UnsignedByte originalPlayerID)
+{
+	m_originalPlayerID = originalPlayerID;
 }

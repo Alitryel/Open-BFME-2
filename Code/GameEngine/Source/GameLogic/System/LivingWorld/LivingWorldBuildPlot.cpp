@@ -251,16 +251,3 @@ public:
     void append(Rva002BA8F1Listener *listener);
 };
 
-LivingWorldBuildPlot::LivingWorldBuildPlot(int id, LivingWorldRegion *region,
-                                         const Coord2D &position)
-    : m_id(id), m_region(region), m_position(position), m_buildFrames(0),
-      m_hidden(false), m_unrecovered35(false)
-{
-    int owner = m_region->m_owner;
-    Rva002E2903Player *player = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(
-        owner, 0);
-    if (player)
-        CreateIcon(player->m_template->m_iconName);
-    ((Rva005A0B4CList *)((char *)TheLivingWorldLogic + 0x1C))->append(
-        (Rva002BA8F1Listener *)(LivingWorldPhaseObserver *)this);
-}

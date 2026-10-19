@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /arch:SSE
+// cl: /O1 /EHsc /MD /arch:SSE /Ireference/shims/bfme2_ascii
 // VictoryConditions.cpp -- VictoryConditions members recovered from
 // WorldBuilder leads (reverse/wb_name_leads.csv): WB's debug build names the
 // function (vtable pairing); retail supplies the bytes. The body is Zero
@@ -10,8 +10,12 @@
 // m_singleAllianceRemaining at +0x85, m_isObserver at +0x86, an int at +0x88.
 // hasBeenDefeated is vtable slot 15 (+0x3C).
 
+#include "ascii_string.h"
+#include "../../Common/GameLogicObjectLookupView.h"
+#include "../../Common/PartitionRangeQueryCallView.h"
 typedef bool Bool;
 typedef int Int;
+typedef unsigned int UnsignedInt;
 
 class PlayerTemplate;
 class Team;
@@ -46,12 +50,20 @@ public:
  Bool rva002AB341(BfmeFixedStorage0004543D mask, BfmeFixedStorage0004543D exclude) const;
  Bool rva002AB390(BfmeTab1026 *tab) const;
  Bool hasAnyObjects(Bool flag) const;
+ Relationship getRelationship(const Player *that) const;
+ Bool isSkirmishAIPlayer();
  Relationship getRelationship(const Team *that) const;
  Team *getDefaultTeam() const { return defaultTeam; }
  char prefix[0x34]; const PlayerTemplate *playerTemplate;
- char pad38[0x2EC - 0x38]; Team *defaultTeam; // +0x2EC
+ const unsigned short *m_displayName;	// +0x38, the display UnicodeString's buffer
+ char pad3C[0x50 - 0x3C]; Int m_playerNameKey;	// +0x50
+ Int m_playerIndex;			// +0x54
+ char pad58[0x2EC - 0x58]; Team *defaultTeam; // +0x2EC
+ char pad2F0[0x3AC - 0x2F0]; Int m_id;	// +0x3AC
+ char pad3B0[0x4AC - 0x3B0]; UnsignedInt m_defeatFrame;	// +0x4AC
+ const unsigned short *getDisplayNameStr() const { return m_displayName ? m_displayName + 4 : L""; }
 };
-class Rva0023D229 {public:void rva0023D24C(Int slot);};
+class Rva0023D229 {public:void rva0023D24C(Int slot);void Set(Int slot);};
 class GameLogic;
 extern GameLogic *TheGameLogic;
 // Fields testDefeat reads: TheGameLogic +0x110 (game mode, 9 refuses any
@@ -76,10 +88,10 @@ private:
 	unsigned char m_first;
 	unsigned char m_second;
 };
-class PlayerList {public:char prefix[0x18];Player *neutralPlayer;};
+class PlayerList {public:char prefix[0x10];Player *m_local;char pad14[0x18-0x14];Player *neutralPlayer;};
 extern PlayerList *ThePlayerList;
 enum NameKeyType { NAMEKEY_INVALID=0 };
-class NameKeyGenerator {public:NameKeyType nameToKey(const char *);};
+class NameKeyGenerator {public:NameKeyType nameToKey(const char *);NameKeyType nameToKey(const AsciiString &);};
 extern NameKeyGenerator *TheNameKeyGenerator;
 class PlayerTemplateStore {public:const PlayerTemplate *findPlayerTemplate(NameKeyType)const;};
 extern PlayerTemplateStore *ThePlayerTemplateStore;
@@ -92,7 +104,7 @@ class VictoryConditions
 public:
 	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
 	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
-	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot08(); virtual void slot09(); virtual void update(); virtual void slot11();
 	virtual void slot12(); virtual void slot13();
 	virtual Bool hasAchievedVictory(Player *player);	// +0x38
 	virtual Bool hasBeenDefeated(Player *player);		// +0x3C
@@ -100,10 +112,12 @@ public:
  virtual void slot17();virtual void slot18();
 	virtual Bool isLocalAlliedDefeat();			// +0x4C
  virtual void slot20();virtual void slot21();virtual void slot22();
- virtual void slot23();virtual void slot24();virtual void slot25();
+ virtual void showEndGame(const AsciiString &apt, Bool flag, const AsciiString &gui, const AsciiString &extra);virtual void slot24();virtual void slot25();
  virtual Bool rva00420017(Player *player);
  virtual void slot27(); virtual void slot28();
 	virtual Bool slot29();					// +0x74 (rowed byte getter +0x90)
+	virtual void slot30();
+	virtual void updateEndGame();				// +0x7C
 
 	Bool testDefeat(Player *player);			// 0x004207D4
 
@@ -114,7 +128,9 @@ private:
 	unsigned char m_pad10[0x18 - 0x10];
 	Player *m_players[MAX_PLAYER_COUNT];		// +0x18
 	Int m_localSlotNum;				// +0x68
-	unsigned char m_pad6C[0x85 - 0x6c];
+	UnsignedInt m_endFrame;				// +0x6C
+	Bool m_isDefeated[MAX_PLAYER_COUNT];		// +0x70
+	unsigned char m_pad84[0x85 - 0x84];
 	Bool m_singleAllianceRemaining;			// +0x85
 	Bool m_isObserver;				// +0x86
 	Int m_field88;					// +0x88
@@ -178,6 +194,184 @@ Bool VictoryConditions::hasBeenDefeated(Player *player)
 		return true;
 
 	return false;
+}
+
+
+struct VictoryUpdateGameLogicView { char m_pad[0x40]; UnsignedInt m_frame; char pad44[0x98 - 0x44]; Bool m_isScoringEnabled; char pad99[0x110 - 0x99]; Int m_mode; Int m_network; };
+struct Rva00420388GlobalData { char pad[0x110C]; float m_110C; };
+extern int BfmeLogicFramesPerSecond;
+class RecorderClass { public: Bool isMultiplayer(); };
+extern RecorderClass *TheRecorder;
+class Rva0023C6A4 { public: Bool rva00200084(); };
+class Rva0023C666 { public: bool rva0023C666(); };
+class Rva00210C66CmpBoolField { public: Bool get() const; };
+class PlayerTemplate { public: char pad[0x1BC]; Bool m_1bc; };
+class GameSlot { public: Bool isAI() const; char pad34[0x34]; AsciiString m_name; char pad38[0x44 - 0x38]; UnsignedInt m_frame; };
+class GameInfo {
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual Bool slot20();	// +0x50
+	GameSlot *getSlot(Int slot);
+};
+extern GameInfo *TheGameInfo;
+class InGameUI {
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14();
+	virtual void message(AsciiString text, ...);	// +0x3C
+	virtual void s16(); virtual void s17();
+	virtual void messageArg(AsciiString text, ...);	// +0x48
+};
+extern InGameUI *TheInGameUI;
+struct Coord3D;
+enum EvaEventID { EVA_EVENT_0 = 0 };
+class Eva { public: Bool reportEvaEvent(EvaEventID event, const Coord3D *position, const Coord3D *secondPosition); };
+extern Eva *TheEva;
+class BfmeAptWindowManager; extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+extern PartitionManager *TheShroudManager;
+class Rva002E2903Player { public: char pad[0x3C4]; Bool m_3c4; };
+class Rva002AB5C7Player { public: void rva002AB44A(); };
+class Rva002BA8F1Logic { public: Rva002E2903Player *find(Int id, unsigned *flag); };
+inline __declspec(noinline) bool GameLogic::isInMultiplayerGame() { int m = ((VictoryUpdateGameLogicView *)this)->m_mode; return m == 1 || m == 5; }
+void VictoryConditions::update()
+{
+	Int scan;
+	UnsignedInt frame = ((VictoryUpdateGameLogicView *)TheGameLogic)->m_frame;
+	updateEndGame();
+	UnsignedInt delay = (UnsignedInt)(TheWritableGlobalData
+		? ((Rva00420388GlobalData *)TheWritableGlobalData)->m_110C * BfmeLogicFramesPerSecond
+		: 25.0f);
+	if (!TheRecorder->isMultiplayer())
+		return;
+	if (m_localSlotNum == -1 && !m_isObserver)
+		return;
+	if (frame < delay)
+		return;
+
+	// Check for a single winning alliance
+	if (!m_singleAllianceRemaining)
+	{
+		Bool multipleAlliances = false;
+		Player *alive = NULL;
+		Player *player;
+		for (scan = 0; scan < MAX_PLAYER_COUNT; ++scan)
+		{
+			player = m_players[scan];
+			if (player && !hasSinglePlayerBeenDefeated(player))
+			{
+				if (alive)
+				{
+					// check to verify they are on the same team
+					if (!areAllies(alive, player))
+					{
+						multipleAlliances = true;
+						break;
+					}
+				}
+				else
+					alive = player; // save this pointer to check against
+			}
+		}
+		if (!multipleAlliances)
+		{
+			m_singleAllianceRemaining = true; // don't check again
+			m_endFrame = frame;
+			if (!TheGameInfo->slot20())
+				((VictoryUpdateGameLogicView *)TheGameLogic)->m_isScoringEnabled = false;
+		}
+	}
+
+	// check for player eliminations
+	for (Int i = 0; i < MAX_PLAYER_COUNT; ++i)
+	{
+		Player *p = m_players[i];
+		if (!p || m_isDefeated[i] || !hasSinglePlayerBeenDefeated(p))
+			continue;
+		m_isDefeated[i] = true;
+		((Rva0023D229 *)TheGameLogic)->Set(i);
+		p->m_defeatFrame = frame;
+		if (frame > 1)
+		{
+			TheShroudManager->revealMapForPlayerPermanently(p->m_playerIndex);
+			if ((((Rva0023C6A4 *)TheGameLogic)->rva00200084() || ((VictoryUpdateGameLogicView *)TheGameLogic)->m_network == 0)
+				&& p->isLocalPlayer())
+				TheInGameUI->message(AsciiString("GUI:YouHaveBeenDefeated"));
+			else if (!((Rva0023C666 *)TheGameLogic)->rva0023C666() && ((VictoryUpdateGameLogicView *)TheGameLogic)->m_network != 0)
+				TheInGameUI->messageArg(AsciiString("GUI:PlayerHasBeenDefeated"), p->getDisplayNameStr());
+
+			if ((TheGameLogic->isInMultiplayerGame() || ((VictoryUpdateGameLogicView *)TheGameLogic)->m_mode == 2)
+				&& ThePlayerList && TheEva && p->getDefaultTeam())
+			{
+				Player *local = ThePlayerList->m_local;
+				if (local->getRelationship(p->getDefaultTeam()) == ALLIES)
+				{
+					if (local != p)
+						TheEva->reportEvaEvent((EvaEventID)6, NULL, NULL);
+					else if (g_bfmeAptWindowManager)
+					{
+						Player *localPlayer = ThePlayerList->m_local;
+						if (localPlayer)
+						{
+							AsciiString gui("Gui_DefeatScreen");
+							AsciiString apt("APT:EndDefeat");
+							showEndGame(apt, localPlayer->playerTemplate ? localPlayer->playerTemplate->m_1bc : false,
+								gui, AsciiString::TheEmptyString);
+						}
+					}
+				}
+				else
+					TheEva->reportEvaEvent((EvaEventID)7, NULL, NULL);
+			}
+
+			if (((Rva00210C66CmpBoolField *)TheGameLogic)->get() && !p->isSkirmishAIPlayer())
+			{
+				Bool anyAlive = false;
+				Bool anyOther = false;
+				for (scan = 0; scan < MAX_PLAYER_COUNT; ++scan)
+				{
+					if (scan == i || !m_players[scan] || m_players[scan]->isSkirmishAIPlayer())
+						continue;
+					Int id = m_players[scan]->m_id;
+					Rva002E2903Player *record = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(id, 0);
+					if (m_players[scan]->getRelationship(p) == ENEMIES && !record->m_3c4)
+						anyOther = true;
+					if (!m_isDefeated[scan])
+						anyAlive = true;
+				}
+				if (anyOther && !anyAlive)
+				{
+					for (scan = 0; scan < MAX_PLAYER_COUNT; ++scan)
+					{
+						if (m_players[scan] && m_players[scan]->isSkirmishAIPlayer() && !m_isDefeated[scan])
+							((Rva002AB5C7Player *)m_players[scan])->rva002AB44A();
+					}
+				}
+			}
+		}
+
+		for (scan = 0; scan < 8; ++scan)
+		{
+			AsciiString name;
+			Int key = p->m_playerNameKey;
+			if (key == TheNameKeyGenerator->nameToKey(name))
+			{
+				GameSlot *slot = TheGameInfo ? TheGameInfo->getSlot(scan) : NULL;
+				if (slot && slot->isAI())
+				{
+					name = slot->m_name;
+					slot->m_frame = frame;
+				}
+			}
+		}
+		// destroy any remaining units (infantry if its a short game, for example)
+		((Rva002AB5C7Player *)p)->rva002AB44A();
+	}
 }
 
 // VictoryConditions::testDefeat, retail 0x004207D4 (312 bytes), named by its

@@ -190,6 +190,8 @@ public:
  FormationSquad();
  FormationDimensions rva00549425();
  void rva00549345(const Coord2D*origin,int formationId);
+ void SetSquadWidth(int width);
+ void AddUnit(Mid005490D2 *item);
 
  int rows,width;
  Rva0015A390Bucket rowStorage[10];
@@ -292,53 +294,33 @@ class Object { public: const Rva0028AC4EEntry *rva0028AC4E() const; };
 #include "../../Common/RTS/XYDistanceCallView.h"
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 
-// Capped 36-item list at 0x00548FD4 (45 bytes, ghidra FUN_00948fd4).
-// Leaf thiscall: clears the item's state word, appends the item while fewer
-// than 36 are stored, then marks the list dirty. Retail emits `and [esi+0x410],0`
-// (not a folded mov) plus `lea eax,[ecx+0x120]` for the count access, which is
-// the /O1 shape; /O2 folds the AND and re-derives the count address directly.
-
-struct Rva00548FD4Item
+// FormationSquad::AddUnit @ 0x00548FD4 (45B)
+// WorldBuilder lead: FormationSquad::AddUnit
+// Capped 36-item list leaf thiscall: clears the item's formationId word,
+// appends the item while fewer than 36 are stored, then marks the squad dirty.
+// Retail emits `and [esi+0x410],0` (not a folded mov) plus `lea eax,[ecx+0x120]`
+// for the count access under /O1.
+void FormationSquad::AddUnit(Mid005490D2 *item)
 {
-	char m_pad[0x410];				// +0x000..+0x410 unknown
-	int m_state;					// +0x410 cleared on insert
-};
+	item->formationId &= 0;
 
-class Rva00548FD4ItemList
-{
-public:
-	void add(Rva00548FD4Item *item);
-
-private:
-	char m_pad0[0x120];				// +0x000..+0x120 unknown
-	int m_count;					// +0x120
-	Rva00548FD4Item *m_items[36];	// +0x124
-	char m_pad1[4];					// +0x1B4..+0x1B8 unknown
-	bool m_dirty;					// +0x1B8
-};
-
-// ?add@Rva00548FD4ItemList@@QAEXPAURva00548FD4Item@@@Z
-void Rva00548FD4ItemList::add(Rva00548FD4Item *item)
-{
-	item->m_state &= 0;
-
-	if (m_count < 36)
+	if (unitCount < 36)
 	{
-		m_items[m_count] = item;
-		++m_count;
+		units[unitCount] = item;
+		++unitCount;
 	}
 
-	m_dirty = false;
+	ready = false;
 }
 
 // Visible leaf from the verified549237 provider: the parent relies on ECX
 // surviving this integer-only setter before advancing its squad pointer.
-class Rva00549237Setter {
-public:
- void set(int value);
- int unused,width;
-};
-void Rva00549237Setter::set(int value) {
+// FormationSquad::SetSquadWidth @ 0x00549237 (27B)
+// WorldBuilder lead: FormationSquad::SetSquadWidth
+// Clamps width to [2, 6] at +4.
+//
+//
+void FormationSquad::SetSquadWidth(int value) {
  if(value<2)value=2;
  else if(value>6)value=6;
  width=value;
@@ -413,7 +395,7 @@ void AIGroup::createFormation(int unused0,int unused1)
  bool forceTwoSquads=false;
  int squadCapacity=squadWidth*6;
  FormationSquad squads[12];
- for(int i=0;i<12;++i)((Rva00549237Setter *)&squads[i])->set(squadWidth);
+ for(int i=0;i<12;++i)squads[i].SetSquadWidth(squadWidth);
  int area=0;
  int specialCount=0;
  for(FormationMemberNode *node=members->next;node!=members;node=node->next) {
@@ -440,7 +422,7 @@ void AIGroup::createFormation(int unused0,int unused1)
  for(int kind=0;kind<13;++kind) {
   for(Mid005490D2 *unit=(Mid005490D2 *)ordered->first();unit;unit=(Mid005490D2 *)ordered->next()) {
    if(unit->gate && unit->gate->update && unit->gate->update->data->kind==kind) {
-    ((Rva00548FD4ItemList *)&squads[squadIndex])->add((Rva00548FD4Item *)unit);
+    squads[squadIndex].AddUnit(unit);
     if(++squadIndex>=squadCount)squadIndex=0;
    }
   }

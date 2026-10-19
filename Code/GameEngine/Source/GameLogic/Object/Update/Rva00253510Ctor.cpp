@@ -1,6 +1,6 @@
 // PC identity update: the registered DestroyDie data factory 0x254E7D calls
 // this constructor. Derived callers share this data base at offset zero.
-// cl: /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG /Ireference/shims/moduledata
 //
 // ??0DestroyDieModuleData@@QAE@XZ at retail 0x00253510 (50B). Opaque intermediate
 // base ctor (EH leaf: explicit vtable 0x00C4ED70 plus DieMuxData member at
@@ -12,6 +12,10 @@
 // installed by DeletionUpdate/SlotToLock/ReflectDamage), so the install
 // proves linkage, not class. Pin-to-row upgrade; identity still unproven.
 
+// Native constructor unwind action 0x00771C42 cleans this+0 through
+// Snapshot::~Snapshot (0x0049B47C), rather than destroying DieMuxData.
+#include "Common/Snapshot.h"
+
 extern "C" const void *const vtbl_00C4ED70[];  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
@@ -19,19 +23,17 @@ class DieMuxData
 {
 public:
 	DieMuxData *init();
-	~DieMuxData();
 
 private:
 	unsigned char m_bytes[0x30];
 };
 
-class __declspec(novtable) DestroyDieModuleData
+class __declspec(novtable) DestroyDieModuleData : public Snapshot
 {
 public:
 	DestroyDieModuleData();
 
 private:
-	unsigned int m_vtable; // +0, explicit install (fold 0x00C4ED70)
 	unsigned int m_unused04; // +4
 	DieMuxData m_dieMux; // +8
 };

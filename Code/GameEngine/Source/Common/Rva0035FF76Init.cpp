@@ -13,13 +13,20 @@
 
 class GameWindow;
 
-class Rva001DBAC3Base
+// Same 16-byte base view as Rva001DBAA4Ctor.cpp and the destructor family.
+class Rva001DBAA4
 {
 public:
-	virtual ~Rva001DBAC3Base();
+    virtual ~Rva001DBAA4();
+    Rva001DBAA4();
+    int m_4;
+    bool m_8;
+    bool m_9;
+    bool m_A;
+    GameWindow *m_C; // +0x0C: shared window slot, used by the derived transitions.
 };
 
-class Rva0035FF76 : public Rva001DBAC3Base
+class Rva0035FF76 : public Rva001DBAA4
 {
 public:
 	virtual ~Rva0035FF76();
@@ -31,12 +38,6 @@ public:
 	virtual bool isFinished();
 	virtual int getFrameLength();
 
-	int m_frameLength;		// +0x04
-	bool m_isFinished;		// +0x08
-	bool m_isForward;		// +0x09
-	bool m_isReversed;		// +0x0A
-	unsigned char m_pad0B;		// +0x0B
-	GameWindow *m_win;		// +0x0C
 	int m_startFrame;		// +0x10
 	int m_endFrame;			// +0x14
 	int m_posX;			// +0x18
@@ -55,10 +56,10 @@ public:
 
 void Rva0035FF76::init(GameWindow *)
 {
-	m_isForward = false;
+	m_9 = false;
 	update(m_startFrame);
-	m_isFinished = false;
-	m_isForward = true;
+	m_8 = false;
+	m_9 = true;
 	m_percent = 1.0f / (m_endFrame - 1);
 	float scaled = m_fadeRed;
 	scaled *= 255.0f;

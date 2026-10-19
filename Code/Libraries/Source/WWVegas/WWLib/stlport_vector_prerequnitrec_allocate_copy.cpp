@@ -27,6 +27,12 @@ struct PrereqUnitRec
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<PrereqUnitRec,allocator<PrereqUnitRec> >::vector(vector<PrereqUnitRec,allocator<PrereqUnitRec> > const &); }
+// The const-iterator __uninitialized_copy this unit compiles is the 42B trivial
+// copy (retail's is the 38B elementwise _Construct body pinned at 0x004F5097);
+// suppress it, and the operator= that carries the only in-TU reference to it,
+// so the unit neither emits nor references this non-retail copy.
+namespace _STL { template <> PrereqUnitRec * __uninitialized_copy<PrereqUnitRec const *,PrereqUnitRec *>(PrereqUnitRec const *,PrereqUnitRec const *,PrereqUnitRec *,__false_type const &); }
+namespace _STL { template <> vector<PrereqUnitRec,allocator<PrereqUnitRec> > &vector<PrereqUnitRec,allocator<PrereqUnitRec> >::operator=(const vector<PrereqUnitRec,allocator<PrereqUnitRec> > &); }
 template class _STL::vector<PrereqUnitRec, _STL::allocator<PrereqUnitRec> >;
 
 // Reference the count-taking _Vector_base so the object emits it: retail

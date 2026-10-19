@@ -1,11 +1,17 @@
 // ?FindCollisionFreeQuickPath@Pathfinder@@UAEPAVPath@@PAVObject@@PBUCoord3D@@PAVPathNode@@@Z
+// partial score=0.7902476780185759 date=2026-10-19
+// ?FindCollisionFreeQuickPath@Pathfinder@@UAEPAVPath@@PAVObject@@PBUCoord3D@@PAVPathNode@@@Z
 // partial score=0.6684385564 date=2026-10-16
 // Owner patch for Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp; apply diff before compiling.
 // Existing83 owner rows verified, including vptr/field layout preservation.
+// Current candidate: 2026-10-19; model=gpt-6.1-sol. The preceding score and owner-row count are preserved historical evidence.
+// Current owner patch follows. Evidence: reverse/attempt_support/0x002f64dd-20261019-w5.md.
+// align_diff: 48 structural / 70 memory / 65 register -> 3 / 7 / 0; all seven remaining memory differences are DIR32 relocations.
+// Emitted 1298 versus retail 1286 bytes; frame 0xB0 exact; remaining mismatch is shared return-block placement.
 #if 0
 --- a/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
 +++ b/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
-@@ -620,6 +620,17 @@
+@@ -631,6 +631,17 @@
  class Pathfinder
  {
  public:
@@ -20,10 +26,10 @@
 +virtual void QuickPathReserved8()=0;
 +virtual void QuickPathReserved9()=0;
 +virtual Path *FindCollisionFreeQuickPath(Object *,const Coord3D *,PathNode *);
+  Bool rva002F07F5(Object *,const Coord3D *);
+  Bool IsValidHordeMemberRegularMovement(Object *,const Coord3D *,const Coord3D *,const Coord3D *);
   Bool AdjustToNearestValidCell(Coord3D *);
-  Bool AdjustToNearestGroundCell(Coord3D *);
- bool rva002ED313(Object*);
-@@ -718,7 +729,7 @@
+@@ -736,7 +747,7 @@
  		Coord3D *adjustedTo);
  private:
  	Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,Rva002E7261Info *);
@@ -32,9 +38,9 @@
  	int m_unknown10;
  	ICoord2D m_clampLo, m_clampHi;	// +0x14 cell extent the 0x002E7917 clamp uses
      Int m_extentLowX,m_extentLowY,m_extentHighX,m_extentHighY;
-@@ -4837,3 +4848,133 @@
- 	*dest = adjustCellCenter(center, (Rva002E8C23Pair *)&info.targetCell, (PathfindLayerEnum)target->rva0028B511());
- 	return false;
+@@ -5304,3 +5315,129 @@
+ }
+ return cellCount;
  }
 +
 +Path *Pathfinder::FindCollisionFreeQuickPath(Object *obj, const Coord3D *to, PathNode *nodes)
@@ -56,14 +62,16 @@
 +		return 0;
 +	Int priority = obj->m_template->priority;
 +	Bool flag = obj->m_template->flag;
-+	Rva002E8BCF info((const Rva002E8BCFSrc *)(obj->m_258+0x1cc), !flag, priority - 1, obj->rva0028AFBB());
++	char *ai = obj->m_258;
++	Rva002E8BCF info((const Rva002E8BCFSrc *)(ai+0x1cc), !flag, priority - 1, obj->rva0028AFBB());
 +	PathfindLayerEnum goalLayer = TheTerrainLogic->getLayerForDestination(obj, to);
 +	PathfindCell *goals[20];
 +	goals[0] = getCell(goalLayer, goalCell.x, goalCell.y);
 +	Int numGoals = 1;
 +	if (!goals[0] || !((Rva002E6DC4 *)this)->rva002E6DC4(&info, goals[0]))
 +		return 0;
-+	PathfindCell *parent = rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(), &from);
++	PathfindLayerEnum fromLayer = (PathfindLayerEnum)obj->rva0028B511();
++	PathfindCell *parent = rva002E8BF8(fromLayer, &from);
 +	if (!parent)
 +		return 0;
 +	goals[0]->allocateInfo((In002E6BA1 *)&goalCell);
@@ -77,7 +85,8 @@
 +		nodes = nodes->next;
 +		if (nodes)
 +		{
-+			goals[numGoals] = (PathfindCell *)rva001E3647Pos(nodes->layer, &nodes->position);
++			PathfindLayerEnum nodeLayer = nodes->layer;
++			goals[numGoals] = (PathfindCell *)rva001E3647Pos(nodeLayer, &nodes->position);
 +			if (goals[numGoals])
 +				++numGoals;
 +		}
@@ -114,21 +123,14 @@
 +				continue;
 +			if ((unsigned char)((Rva002E6AF3 *)neighbor)->get())
 +				continue;
-+			Int neighborLayer = (neighbor->m_info >> 4) & 0x3f;
-+			Int parentLayer = (parent->m_info >> 4) & 0x3f;
-+			if (neighborLayer != parentLayer)
-+			{
-+				Int parentConnect = (parent->m_info >> 10) & 0x3f;
-+				if (neighborLayer != parentConnect)
-+				{
-+					Int neighborConnect = (neighbor->m_info >> 10) & 0x3f;
-+					if (neighborConnect != parentLayer && (parentConnect != 0x10 || neighborConnect != 0x10))
-+						continue;
-+				}
-+			}
++			if (neighbor->getLayer() != parent->getLayer()
++				&& neighbor->getLayer() != parent->getConnectLayer()
++				&& neighbor->getConnectLayer() != parent->getLayer()
++				&& !(parent->getConnectLayer() == 16 && neighbor->getConnectLayer() == parent->getConnectLayer()))
++				continue;
 +			if (i >= 4 && !neighborFlags[adjacent[i - 4]] && !neighborFlags[adjacent[i - 3]])
 +				continue;
-+			Int extra = CalcCollisionFreeExtraCosts(obj, parent, (Rva002EBC7FPair *)&next, (PathfindLayerEnum)neighborLayer, radius, radius + (center ? 1 : 0), true);
++			Int extra = CalcCollisionFreeExtraCosts(obj, parent, (Rva002EBC7FPair *)&next, (PathfindLayerEnum)neighbor->getLayer(), radius, radius + (center ? 1 : 0), true);
 +			if (extra < 0 || !((Rva002E6DC4 *)this)->rva002E6DC4(&info, neighbor))
 +			{
 +				neighbor->allocateInfo((In002E6BA1 *)&next);
@@ -146,8 +148,8 @@
 +			else
 +				neighbor->m_pathInfo->parentWaypoint = 0;
 +			Int cost = neighbor->CalcCostSoFar((const Rva002E6C79 *)parent);
-+			Int dx = abs(next.x - goals[0]->m_pathInfo->position.x);
-+			Int dy = abs(next.y - goals[0]->m_pathInfo->position.y);
++			Int dx = abs(coords.x - goals[0]->getXIndex());
++			Int dy = abs(coords.y - goals[0]->getYIndex());
 +			if ((neighbor->m_info & 0x10000) && dx + dy > 3)
 +				cost += 10;
 +			neighbor->m_pathInfo->flags &= ~1U;
@@ -186,14 +188,16 @@ Path *Pathfinder::FindCollisionFreeQuickPath(Object *obj, const Coord3D *to, Pat
 		return 0;
 	Int priority = obj->m_template->priority;
 	Bool flag = obj->m_template->flag;
-	Rva002E8BCF info((const Rva002E8BCFSrc *)(obj->m_258+0x1cc), !flag, priority - 1, obj->rva0028AFBB());
+	char *ai = obj->m_258;
+	Rva002E8BCF info((const Rva002E8BCFSrc *)(ai+0x1cc), !flag, priority - 1, obj->rva0028AFBB());
 	PathfindLayerEnum goalLayer = TheTerrainLogic->getLayerForDestination(obj, to);
 	PathfindCell *goals[20];
 	goals[0] = getCell(goalLayer, goalCell.x, goalCell.y);
 	Int numGoals = 1;
 	if (!goals[0] || !((Rva002E6DC4 *)this)->rva002E6DC4(&info, goals[0]))
 		return 0;
-	PathfindCell *parent = rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(), &from);
+	PathfindLayerEnum fromLayer = (PathfindLayerEnum)obj->rva0028B511();
+	PathfindCell *parent = rva002E8BF8(fromLayer, &from);
 	if (!parent)
 		return 0;
 	goals[0]->allocateInfo((In002E6BA1 *)&goalCell);
@@ -207,7 +211,8 @@ Path *Pathfinder::FindCollisionFreeQuickPath(Object *obj, const Coord3D *to, Pat
 		nodes = nodes->next;
 		if (nodes)
 		{
-			goals[numGoals] = (PathfindCell *)rva001E3647Pos(nodes->layer, &nodes->position);
+			PathfindLayerEnum nodeLayer = nodes->layer;
+			goals[numGoals] = (PathfindCell *)rva001E3647Pos(nodeLayer, &nodes->position);
 			if (goals[numGoals])
 				++numGoals;
 		}
@@ -244,21 +249,14 @@ Path *Pathfinder::FindCollisionFreeQuickPath(Object *obj, const Coord3D *to, Pat
 				continue;
 			if ((unsigned char)((Rva002E6AF3 *)neighbor)->get())
 				continue;
-			Int neighborLayer = (neighbor->m_info >> 4) & 0x3f;
-			Int parentLayer = (parent->m_info >> 4) & 0x3f;
-			if (neighborLayer != parentLayer)
-			{
-				Int parentConnect = (parent->m_info >> 10) & 0x3f;
-				if (neighborLayer != parentConnect)
-				{
-					Int neighborConnect = (neighbor->m_info >> 10) & 0x3f;
-					if (neighborConnect != parentLayer && (parentConnect != 0x10 || neighborConnect != 0x10))
-						continue;
-				}
-			}
+			if (neighbor->getLayer() != parent->getLayer()
+				&& neighbor->getLayer() != parent->getConnectLayer()
+				&& neighbor->getConnectLayer() != parent->getLayer()
+				&& !(parent->getConnectLayer() == 16 && neighbor->getConnectLayer() == parent->getConnectLayer()))
+				continue;
 			if (i >= 4 && !neighborFlags[adjacent[i - 4]] && !neighborFlags[adjacent[i - 3]])
 				continue;
-			Int extra = CalcCollisionFreeExtraCosts(obj, parent, (Rva002EBC7FPair *)&next, (PathfindLayerEnum)neighborLayer, radius, radius + (center ? 1 : 0), true);
+			Int extra = CalcCollisionFreeExtraCosts(obj, parent, (Rva002EBC7FPair *)&next, (PathfindLayerEnum)neighbor->getLayer(), radius, radius + (center ? 1 : 0), true);
 			if (extra < 0 || !((Rva002E6DC4 *)this)->rva002E6DC4(&info, neighbor))
 			{
 				neighbor->allocateInfo((In002E6BA1 *)&next);
@@ -276,8 +274,8 @@ Path *Pathfinder::FindCollisionFreeQuickPath(Object *obj, const Coord3D *to, Pat
 			else
 				neighbor->m_pathInfo->parentWaypoint = 0;
 			Int cost = neighbor->CalcCostSoFar((const Rva002E6C79 *)parent);
-			Int dx = abs(next.x - goals[0]->m_pathInfo->position.x);
-			Int dy = abs(next.y - goals[0]->m_pathInfo->position.y);
+			Int dx = abs(coords.x - goals[0]->getXIndex());
+			Int dy = abs(coords.y - goals[0]->getYIndex());
 			if ((neighbor->m_info & 0x10000) && dx + dy > 3)
 				cost += 10;
 			neighbor->m_pathInfo->flags &= ~1U;

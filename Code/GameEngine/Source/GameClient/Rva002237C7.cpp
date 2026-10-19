@@ -71,7 +71,7 @@ class Rva0022307F {
     union { unsigned int m_align; unsigned char m_native[12]; };
 public:
     Rva0022307F(const AsciiString &,const Rva00468520 &);
-    __forceinline ~Rva0022307F() { ((NativeCleanupPair *)this)->~NativeCleanupPair(); }
+    __forceinline ~Rva0022307F();
 };
 
 class Rva0022402A { public: Rva00468520 &rva0022402A(const AsciiString &); };

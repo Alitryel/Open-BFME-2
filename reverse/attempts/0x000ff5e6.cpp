@@ -1,8 +1,8 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
+// partial score=0.95 date=2026-10-19
+// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.95 date=2026-10-18
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 #include "ascii_string.h"
 #define _OPERATOR_NEW_DEFINED_
@@ -51,21 +51,23 @@ class Rva0030C890IntGetter {public:int get()const;};
 class Rva0030C896DwordField {public:int get()const;};
 class Rva000B28F2LeaGetter {public:void *get()const;};
 struct Rva0007E394Element {char unknown00[0x38];Vector2 *begin,*end,*capacity;};
-namespace _STL {
-template <class T1, class T2> struct pair { T1 first; T2 second; pair(const T1 &a, const T2 &b) : first(a), second(b) {} };
-template <class T1, class T2> bool operator==(const pair<T1,T2>&, const pair<T1,T2>&);
-}
-typedef _STL::pair<const unsigned,Rva0007E394Element*> IndexPair;
+struct TrackCollection;
+// Native cursor storage is an owner pointer followed by a record ordinal.
+struct Rva000FF5E6Cursor {
+ TrackCollection *first;int second;
+ Rva000FF5E6Cursor(TrackCollection *owner,int index):first(owner),second(index){}
+};
+extern "C" bool __cdecl rva0007E394CursorEqual(const Rva000FF5E6Cursor &,const Rva000FF5E6Cursor &);
 struct MapEntry {unsigned key;Rva0007E394Element *value;};
 struct TrackCollection {
  char unknown00[0x14];MapEntry *m_begin,*m_end,*m_capacity;
  int size()const {return m_end-m_begin;}
- IndexPair begin(){return IndexPair(reinterpret_cast<unsigned>(this),0);}
- IndexPair end(){return IndexPair(reinterpret_cast<unsigned>(this),reinterpret_cast<Rva0007E394Element*>(size()));}
- Rva0007E394Element *at(const IndexPair &it)const {return m_begin[reinterpret_cast<int>(it.second)].value;}
+ Rva000FF5E6Cursor begin(){return Rva000FF5E6Cursor(this,0);}
+ Rva000FF5E6Cursor end(){return Rva000FF5E6Cursor(this,size());}
+ Rva0007E394Element *at(const Rva000FF5E6Cursor &it)const {return m_begin[it.second].value;}
 };
-inline bool operator!=(const IndexPair &a,const IndexPair &b){return !(a==b);}
-inline void advance(IndexPair &it){it.second=reinterpret_cast<Rva0007E394Element*>(reinterpret_cast<int>(it.second)+1);}
+inline bool operator!=(const Rva000FF5E6Cursor &a,const Rva000FF5E6Cursor &b){return !rva0007E394CursorEqual(a,b);}
+inline void advance(Rva000FF5E6Cursor &it){++it.second;}
 struct WaterMapView {char unknown00[0x124];TrackCollection *tracks;};
 extern void *W3DGCData00DE2000;
 struct FeNode;
@@ -86,11 +88,13 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  file=*reinterpret_cast<const AsciiString*>(filename);
  reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE188();
  if(0){EliminatedLifetime e0;EliminatedLifetime e1;eliminatedSink(&e0,&e1);}
- int flipU=0;Vector2 startPos,endPos;AssetList00208F90 assets;
+ struct SegmentEndpoints {Vector2 midpoint,shifted;};
+ SegmentEndpoints guide;Vector2 &endPos=guide.midpoint;Vector2 &startPos=guide.shifted;
+ int flipU=0;AssetList00208F90 assets;
  if(W3DGCData00DE2000) {
   TrackCollection *collection=reinterpret_cast<WaterMapView*>(W3DGCData00DE2000)->tracks;
-  for(IndexPair it=collection->begin(),last=collection->end();it!=last;advance(it),last.second=reinterpret_cast<Rva0007E394Element*>(collection->size())) {
-   const_cast<unsigned&>(last.first)=reinterpret_cast<unsigned>(collection);
+  for(Rva000FF5E6Cursor it=collection->begin(),last=collection->end();it!=last;advance(it),last.second=collection->size()) {
+   last.first=collection;
    Rva0007E394Element *record=collection->at(it);
    if(reinterpret_cast<Rva0030C94ADwordField*>(record)->get())continue;
    int count=record->end-record->begin;
@@ -104,13 +108,15 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
     Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
     startPos=midpoint;
     startPos+=perp;
+    //Check if this track already exists.
     if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&endPos.X,&startPos.X,1))continue;
     WaterTracksObj *track=TheWaterTracksRenderSystem->bindTrack(WaveTypeOcean);
     if(track) {
      float fraction=GetGameClientRandomValueReal(0.0f,1.0f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Water\\W3DWaterTracks.cpp",1141);
      int offset=fraction*reinterpret_cast<Rva0030C91AIntGetter*>(record)->get();
-     flipU^=1;
-     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),startPos,endPos,const_cast<char*>(static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get())->str()),offset,record);
+     flipU^=1;	//toggle flip state
+     // Retail uses the same midpoint and shifted midpoint order as findTrack.
+     track->init(float(reinterpret_cast<Rva0030C896DwordField*>(record)->get()),float(reinterpret_cast<Rva0030C890IntGetter*>(record)->get()),endPos,startPos,const_cast<char*>(static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get())->str()),offset,record);
      assets<<*static_cast<AsciiString*>(reinterpret_cast<Rva000B28F2LeaGetter*>(record)->get());
      track->flipU=flipU;
     }

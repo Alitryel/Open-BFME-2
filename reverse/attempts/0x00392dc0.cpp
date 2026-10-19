@@ -1,4 +1,6 @@
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
+// partial score=0.93 date=2026-10-19
+// ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.932 date=2026-10-17
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.918203 date=2026-10-14
@@ -24,6 +26,7 @@
 // stlport
 #include <list>
 namespace _STL {
+template<> _List_base<int,allocator<int> >::~_List_base();
 template<> list<int>::iterator list<int>::insert(list<int>::iterator,const int&);
 template<class T,class Traits> static inline bool operator!=(const _List_iterator<T,Traits>&a,const _List_iterator<T,Traits>&b){return a._M_node!=b._M_node;}
 }
@@ -32,7 +35,7 @@ template<class T,class Traits> static inline bool operator!=(const _List_iterato
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 class Player; class ThingTemplate;
 struct Rva0039BAD2Input;class Rva0039B795;
-class Rva003B0D7C {public:unsigned rva003B0CB3(unsigned,Rva0039B795*,bool);};
+class Rva003B0D7C {public:unsigned withdraw(unsigned,Rva0039B795*,bool);};
 class Rva0039BAD2 {public:void rva0039BAD2(Rva0039BAD2Input*,int);};
 struct NativeBuildPlayerView {char head[0x94];unsigned money;};
 struct NativeBuildTemplateView {char head[0x11B];unsigned char flag11B;char rest[0xC8-0x11C+0x100];};
@@ -67,11 +70,9 @@ extern PartitionManager *ThePartitionManager;
 // manager (ECX=ThePartitionManager). Declaring it here keeps the shared
 // PartitionRangeQueryCallView.h untouched (its addition swaps guard369FDF
 // spill homes); the mangled callee name is irrelevant to the byte gate.
-class PartitionRangeQueryCallView : public PartitionManager
-{
-public:
-	Object *rva00625340(const Coord3D *pos, float radius, int distType);
-};
+// The shared header now declares rva00625340; a fresh build of all 102 includers keeps 681/681 rows exact.
+// Retail passes 1.0f minus the slot-0x10 float result to slot 0x80.
+// Native list destruction sets EH state zero before its base destructor call.
 class BuildAssistant {public:
  virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();
  virtual Object *buildObjectNow(Object*,const ThingTemplate*,const Coord3D*,float,Player*);
@@ -89,8 +90,8 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
  for(unsigned i=0;i<tiles.count;++i) {
   if(tiles.rva00392D71(i)==10) {
    float radius=tiles.rva00392CC5(i)?((NativeBuildRadiusView*)tiles.rva00392CC5(i))->radius:20.0f;
-   Object *old=((PartitionRangeQueryCallView*)ThePartitionManager)->rva00625340((const Coord3D*)tiles.rva00392CF9(i),radius*0.25f,1);
-   if(old && (*(volatile unsigned char*)&((NativeBuildObjectView*)old)->dead & 1)) {
+   Object *old=ThePartitionManager->rva00625340((const Coord3D*)tiles.rva00392CF9(i),radius*0.25f,1);
+   if(old && (((NativeBuildObjectView*)old)->dead & 1)) {
     const ThingTemplate *oldTemplate=((NativeBuildObjectView*)old)->thing;
     if(oldTemplate->isEquivalentTo((const ThingTemplate*)tiles.rva00392CC5(i))) {
      NativeBuildBehavior *behavior=(NativeBuildBehavior*)old->rva0028BD17();if(behavior)behavior->s4(0);
@@ -103,11 +104,11 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
    created.push_back(id);
    made->rva0028AFE7(builder);
    if(tiles.rva00392D49(i))made->teleportTo((const Coord3D*)tiles.rva00392CF9(i),false);
-   NativeBuildBody *body=((NativeBuildObjectView*)made)->body;if(body)body->s32((-(-1.0f) - (-body->s4(false))));
+   NativeBuildBody *body=((NativeBuildObjectView*)made)->body;if(body)body->s32((1.0f - body->s4(false)));
    NativeBuildBehavior *behavior=(NativeBuildBehavior*)made->rva0028BD17();
    NativeBuildBehavior *producer=(NativeBuildBehavior*)((Rva00293330*)builder)->rva00293330(kind);
    const NativeBuildTemplateView *madeTpl=(const NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing;
-   if(behavior&&producer&&!(madeTpl->flag11B&0x10)&&(tiles.status!=10)){int mult=(int)(producer->s14()*(int)*(volatile unsigned *)&i);behavior->s17(mult);}
+   if(behavior&&producer&&!(madeTpl->flag11B&0x10)&&(tiles.status!=10)){int mult=(int)(producer->s14()*(int)i);behavior->s17(mult);}
    ((NativeBuildObjectView*)made)->construction=0.0f;
    made->setStatus(NATIVE_STATUS57,false);made->setStatus(NATIVE_STATUS2,true);
    Rva001E4912 mask;((Rva001E431E*)made)->rva001E431E((const int*)mask.rva001E4912(0,0x44,0x45));
@@ -138,7 +139,7 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
   }
   NativeBuildBehavior *producer=(NativeBuildBehavior*)builder->rva0028BD17();if(producer)producer->s18(made);
  }
- ((Rva003B0D7C*)((char*)player+0x90))->rva003B0CB3(tiles.cost,(Rva0039B795*)((char*)player+0x3BC),true);
+ ((Rva003B0D7C*)((char*)player+0x90))->withdraw(tiles.cost,(Rva0039B795*)((char*)player+0x3BC),true);
  ((Rva0039BAD2*)((char*)player+0x3BC))->rva0039BAD2((Rva0039BAD2Input*)tiles.rva00392CC5(0),tiles.cost);
  return true;
 }

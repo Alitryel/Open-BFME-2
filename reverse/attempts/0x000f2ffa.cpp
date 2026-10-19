@@ -1,4 +1,8 @@
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
+// partial score=0.991 date=2026-10-19
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
+// partial score=0.9902048085485308 date=2026-10-19
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.894 date=2026-10-17
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.969603329480937 date=2026-10-14
@@ -453,12 +457,14 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	Vector3 objectCenter;
 	Vector3 toLight;
 	Vector3 toPrevLight;
+	Vector3 prevPosToLight;
 	Vector3 lightPosWorld;
-	Real length;
+	Vector3 prevObjPosition;
 	//Figuring out if mesh has rotated is cheaper (no normalization) than figuring out if light angle has changed.
 	//So we divide the 2 tests.  Also, our light (sun) almost never moves so no second test needed at all.
 	Bool isMeshRotating = false;	//flag if mesh has rotated since last update. Translation doesn't matter for infinite light source.
 	Bool isLightMoving = false;	//flag if light has moved since last update.
+	Int allocationFlags = 0;
 
 	Matrix4x4 objectToWorld(*meshXform);
 	Matrix4x4 *prevXForm=&m_objectXformHistory[ lightIndex ][meshIndex];
@@ -475,13 +481,12 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	};
 	Rva007BE000GeometryView *geometryView = (Rva007BE000GeometryView *)
 		((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry;
-	Int allocationFlags = 0;
 	if (*(unsigned char *)(meshIndex * sizeof(Rva007BE000MeshRecordView) + (unsigned int)geometryView + 0x44))
 	{
-		allocationFlags = 1;
 		isMeshRotating = true;
+		allocationFlags = 1;
 	}
-	else
+	if (!isMeshRotating)
 	{
 
 	//
@@ -537,9 +542,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	//change much based on object position.  Only the orientation to light matters.
 	Real cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](0)),(Vector3 &)(objectToWorld.operator [](0))));
 	if (cosAngle >= cosAngleToCare)
-	{	const Vector3 &rPa = (Vector3 &)(prevXForm->operator [](1));
-		const Vector3 &rOb = (Vector3 &)(objectToWorld.operator [](1));
-		cosAngle = fabs ((rPa.Y*rOb.Y + rPa.X*rOb.X) + rPa.Z*rOb.Z);
+	{	cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](1)),(Vector3 &)(objectToWorld.operator [](1))));
 		if (cosAngle >= cosAngleToCare)
 		{
 			cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](2)),(Vector3 &)(objectToWorld.operator [](2))));
@@ -582,7 +585,8 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		toLight.Normalize();
 
 		// compute vector from the previous light to the object position
-		toPrevLight = objectCenter - m_lightPosHistory[ lightIndex ][meshIndex];
+		Vector3::Subtract(objectCenter, m_lightPosHistory[ lightIndex ][meshIndex], &lightPosObject);
+		toPrevLight = lightPosObject;
 		toPrevLight.Normalize();
 
 		Real cosAngle = fabs (Vector3::Dot_Product(toLight,toPrevLight));
@@ -611,15 +615,15 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		//Updating shadow volumes is expensive, so verify that this volume is even visible.
 
 		//Generate bounding box around shadow volume by extruding AABB corners
-		Region3D boxCopy(*(const Region3D *)&meshBox);
-		AABoxClass &box = *(AABoxClass *)&boxCopy;	//copy current mesh bounding box (will be smaller than shadow box).
+		AABoxClass box(meshBox);	//copy current mesh bounding box (will be smaller than shadow box).
 		SphereClass sphere;			//rough bounding sphere of shadow volume - based on box.
 		Vector3 Corners[8];
 		Vector3 lightRay;
 		Real vectorScale,vectorScaleTemp, vectorScaleMax;
+		Real length;
 
 		//Get vertices of top of bounding box
-		Corners[0]=(meshIndex?(box.Center):(box.Center))+box.Extent;	//top right corner
+		Corners[0]=box.Center+box.Extent;	//top right corner
 		Corners[1]=Corners[0];
 		Corners[1].X -= 2.0f*box.Extent.X;		//top left corner
 		Corners[2]=Corners[1];
@@ -635,7 +639,6 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		Corners[4]=Corners[0]+lightRay*vectorScale;
 		vectorScaleMax *= length;
 
-		Corners[4] = (1 ? Corners[4] : Corners[4]);
 		lightRay = Corners[1] - lightPosWorld;	//vector light to corner
 		length= 1.0f/lightRay.Length();
 		lightRay *= length;
@@ -772,3 +775,26 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 // need evaluation-order flip (its homes/temps follow); rows 0/2 must NOT be touched. Candidate:
 // rewrite row 1's Dot_Product(prev[1],obj[1]) as manual Y-then-X partial sums, or swap its two
 // product statements if already manual. t=15 model=muse-spark.
+
+// Shared light-vector scratch is reused before the object-space transform.
+// Storage and identity evidence: reverse/attempt_support/update-mesh-volume-20261019.md.
+
+// ---- b1 WB-literal pass (2026-10-19, claude-opus-5-5) ----
+// WB twin of updateMeshVolume is wb 0x806A80 (wb_show labels it Vector3::Dot_Product; called from
+// updateVolumes wb 0x805CA0 -> gd 0xF2FFA). Its debug ctor/init order confirms the BF1/ZH donor
+// function-scope list verbatim: lightPosObject, worldToObject(Matrix4x4), objectCenter, toLight,
+// toPrevLight, prevPosToLight(dead), lightPosWorld, prevObjPosition(dead), then
+// isMeshRotating=false, isLightMoving=false, Int allocationFlags=0, objectToWorld(*meshXform),
+// prevXForm; the mesh flag sets isMeshRotating before allocationFlags and the row test is a
+// separate if(!isMeshRotating). Real length lives in the reconstruct block (WB local_164 next to
+// lightRay/vectorScaleMax). WB toPrevLight is the plain donor `objectCenter - history` temp,
+// rows 0..2 all plain Dot_Product, and `AABoxClass box(meshBox)` calls the AABox copy ctor.
+// All of those are byte-neutral here except the box: plain AABoxClass box(meshBox) closes the
+// Corner0 ADDSS commute (f3494) and needs the ICF fold pin ??0AABoxClass@@QAE@ABV0@@Z -> 0x9AC04
+// (this TU emits that COMDAT byte-identical to retail 0x9AC04, 43 B, no relocs).
+// Function-scope and block declaration order is fully ignored by the frame packer (12 random
+// permutations byte-identical); packing is liveness-based (toLight's slot is reused by
+// reconstruct-block values), so the T/lightPosObject sharing in retail is a greedy-order effect.
+// Plain toPrevLight (true WB form) puts the operator- temp at +0x30 (shared with sphere) instead
+// of retail's lightPosObject slot -0x1C; scope variants (toLight/toPrevLight in-block, det/sphere/
+// Corners/lightRay at function scope, named delta) do not move it.

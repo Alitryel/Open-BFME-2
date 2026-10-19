@@ -75,7 +75,8 @@ extern unsigned g_Va00DF29A8;
 extern unsigned int g_00DFE174;
 extern unsigned int g_00DFE1AC;
 unsigned g_Va00DFE358;	// retail RVA 0x009FE358 (.bss), defined here
-extern unsigned g_Va00DFEA44;
+class BfmeItemKA;
+extern BfmeItemKA **g_bfmeBegKA;
 extern unsigned g_Va00DFF134;
 extern unsigned g_Va00E031A8;
 unsigned g_Va00E04484;	// retail RVA 0x00A04484 (.bss), defined here
@@ -142,7 +143,7 @@ void Rva007ABB96AllocCtorInits::rva007ADAB5()
 // 0x007ADE2F (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DFEA44, atexit(0x007B77B9 -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007ADE2F()
 {
-	( (E16Vector *)&g_Va00DFEA44 )->E16Vector::vector();
+	( (E16Vector *)&g_bfmeBegKA )->E16Vector::vector();
 	atexit( rva007B77B9 );
 }
 

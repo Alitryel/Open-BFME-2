@@ -79,6 +79,20 @@ CComCritSecLock<TLock>::~CComCritSecLock() throw()
 		Unlock();
 }
 
+// Keep the constructor visible for the constant-false initial-lock argument,
+// while leaving its external body to the retail ATL provider.
+template <> __declspec(dllimport) __forceinline
+CComCritSecLock<CComCriticalSection>::CComCritSecLock(CComCriticalSection& cs, bool bInitialLock)
+	: m_cs(cs), m_bLocked(false)
+{
+	if (bInitialLock)
+	{
+		HRESULT hr = Lock();
+		if (FAILED(hr))
+			AtlThrow(hr);
+	}
+}
+
 template <class T>
 class CSimpleArrayEqualHelper
 {

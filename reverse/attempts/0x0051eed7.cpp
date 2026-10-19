@@ -1,4 +1,6 @@
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
+// partial score=0.96484375 date=2026-10-19
+// ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.914 date=2026-10-17
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.97 date=2026-10-15
@@ -9,8 +11,6 @@
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.78 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
@@ -36,6 +36,7 @@ extern "C" void _ReadWriteBarrier(void);
 #include "ascii_string.h"
 #include "unicode_string.h"
 
+// This pair uses the matched setup provider's scalar storage view.
 struct Pair0051E31A
 {
 	int word;
@@ -192,17 +193,11 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 	_STL::vector<AptTimeLinePlayer>::iterator player;
 	for (player = m_players.begin(); player != m_players.end(); ++player)
 	{
-		int count;
-		_ReadWriteBarrier();
-		_ReadWriteBarrier();
-		*(volatile TimelineSeries **)&series = series;
 		series->m_player = player;
-		count = series->count();
+		int count = series->count();
 		maxFrames = _STL::max(maxFrames, count);
-		int n;
-		int i = 0;
-		n = (1 ? series->count() : series->count());
-		for (; i < n; ++i)
+		// Recheck the series length after each sample.
+		for (int i = 0; i < series->count(); ++i)
 		{
 			float value = series->value(i);
 			maximum = _STL::max(maximum, value);
@@ -297,7 +292,6 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 				UnicodeString piece;
 				for (int j = 0; j < format.getLength(); ++j)
 				{
-					_ReadWriteBarrier();
 					const WideStringView &view = *(const WideStringView *)&format;
 					if (view.charAt(j) == 's')
 					{

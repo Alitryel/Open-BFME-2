@@ -42,6 +42,10 @@ class BfmeThingSJ : public GenBase009EB7D0
 public:
 	BfmeThingSJ(int what);
 	virtual void handle();
+	// Declared, not generated: the implicit teardown this view emits calls its
+	// own base name, so it differs from the copy BfmeThreeHundredThirtyEight_
+	// Rva001320D0.cpp emits; bind to that kept copy instead of emitting ours.
+	virtual ~BfmeThingSJ();
 	int m_bfme14;
 	StringClass m_bfmeName;
 	Gen_00920A20 m_bfmeData;

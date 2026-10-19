@@ -1,12 +1,9 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.96 date=2026-10-16
-// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.96 date=2026-10-16
+// partial score=0.9787234042553191 date=2026-10-19
+// cl: /O1 /DNDEBUG /MD /GX /arch:SSE /G7 /I.
+// stlport
+// Notes kept from the earlier banks of this body:
 // W9-O3 2026-10-16: both list calls now resolve: push_back -> the pinned BridgeBehaviorObjectIDList::push_back (0x2A1B6F) view, the inline insert -> the pinned private Rva002A1B6FNativeList::insert (0x2A1316, member/aggregate-result ABI) through a friend view (no alternatename). Size exact nd 19: (1) three 4-byte frame homes rotated (retail data -0x1c, extra -0x18, id temp -0x20; ours -0x20/-0x1c/-0x18); (2) size() walks keep head in ECX/cursor EAX where retail has EAX/ECX. Inert/worse: p != m_node, first/last distance forms, iterator pair.
-// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.94 date=2026-10-15
-// cl: /O1 /DNDEBUG /MD /GX /arch:SSE /I.
-//
 // ArrowStormUpdate's target gathering 0x00490AC5, tail-called by its slot-15
 // override 0x00490D0A after the +0x88 list is reset (ArrowStormUpdateSlots.cpp).
 // Every alive object other than this one that 0x00260EB1 accepts with flags
@@ -17,6 +14,8 @@
 // non-empty +0x88 list short of the data's +0xD8 count is then topped up by
 // cycling through the local list (or through itself when the local list is
 // empty).
+#include <list>
+
 class Object;
 
 class Rva000421C8
@@ -146,10 +145,7 @@ public:
 	bool empty() const { return m_node->m_next == m_node; }
 	unsigned size() const
 	{
-		unsigned n = 0;
-		for (Rva0029FB3BNode *p = m_node->m_next; m_node != p; p = p->m_next)
-			++n;
-		return n;
+		return ((_STL::list<ObjectID> const *)this)->size();
 	}
 	Rva0029FB3BIter end() { return Rva0029FB3BIter(m_node); }
 	__forceinline void push_back(const ObjectID &id) { ((BridgeBehaviorObjectIDList *)this)->push_back(id); }

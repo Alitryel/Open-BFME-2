@@ -606,6 +606,8 @@ extern void __cdecl Rva00030830FreeAllocation(void *);
 #include <set>
 #include <vector>
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(allocator<unsigned int> const &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {} }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 
 // Retail clears EH state before the opaque buffer release at 0x30830.

@@ -1,4 +1,6 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.9 date=2026-10-19
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.236 date=2026-10-17
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.25 date=2026-10-14
@@ -10,366 +12,290 @@
 // "setup" point/angle block, the 5x200 collision-test search with sin/cos
 // probes, and the ProfileHighLevel report tail.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include <new>
+// Native reconstruction restores block lifetimes, receiver roles and collision transitions.
+// The earlier draft description above is preserved as contributor evidence.
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/Coord3DBase.h"
+#include "../../reference/shims/bfme2_ascii/unicode_string.h"
+#include "../../Code/Libraries/Source/profile/profile_highlevel.h"
 
-struct Coord3D
-{
-    float X, Y, Z;
-    float length() const;
-    void normalize();
-};
-enum ObjectID { };
-class Object
-{
+inline void Coord3D::scale(float s) { x *= s; y *= s; z *= s; }
+inline Coord3D &addCoord(Coord3D &p, const Coord3DBase &v) {
+    p.x += v.x;
+    p.y += v.y;
+    p.z += v.z;
+    return p;
+}
+inline void Coord3D::set(const Coord3DBase *v) {
+    x = v->x;
+    y = v->y;
+    z = v->z;
+}
+
+inline float capExtension(float value) {
+    float cap = 1500.0f;
+    if (!(value > cap)) cap = value;
+    return cap;
+}
+enum ObjectID {};
+class Object {
 public:
     void rva0028ACEE(int, int);
-    void rva0028ACEE(const Coord3D *, int);
     void Get2DCenterVectorTo(Coord3D *, const Coord3D *) const;
     bool isSignificantlyAboveTerrain() const;
 };
 class LocomotorSet;
-class SplineState;
-class AerialPathfinder
-{
-public:
-    int rva00375ED7(Object *, const Coord3D *, Coord3D *);
-};
-class Rva00312C95
-{
-public:
-    void rva00312118();
-};
-class Rva0037609CRoute
-{
-public:
-    virtual void r0();
-    virtual void r1();
-    virtual void r2(int, int, int, int, int, float, float, int);
-    virtual void r3();
-    virtual void r4(Coord3D *);
-    virtual void r5();
-    virtual void r6(Coord3D *);
-    virtual void r7();
-    virtual void r8();
-    virtual void r9();
-    virtual void r10();
-    virtual void r11();
-    virtual void r12();
-    virtual void r13();
-    virtual void r14();
-    virtual void r15();
-    virtual void r16(int);
-};
-class ProfileHighLevel
-{
-public:
-    class Id
-    {
-    public:
-        const char *GetUnit() const;
-        const char *GetCurrentValue() const;
-        const char *GetDescr() const;
-    };
-    static bool EnumProfile(unsigned int, Id &);
-};
-class Rva006C65F0
-{
+class GameLogic { public: Object *findObjectByID(ObjectID); };
+class Pathfinder { public: bool AdjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *); };
+class AI;
+struct AerialAIView { char pad[0x10]; Pathfinder *pathfinder; };
+class GlobalData;
+class InGameUI;
+extern AI *TheAI;
+extern GameLogic *TheGameLogic;
+extern GlobalData *TheWritableGlobalData;
+extern InGameUI *TheInGameUI;
+class Thing { public: void getUnitDirectionVector3D(Coord3D &) const; };
+class Rva006C65F0 {
 public:
     Rva006C65F0(const char *, const char *, bool);
     ~Rva006C65F0();
+private:
+    ProfileHighLevel::Id id;
+    __int64 start;
+    Rva006C65F0 *previous;
 };
-class Rva0022B3F6Subsystem
-{
+class AerialPathfinder { public: int rva00375ED7(Object *, const Coord3D *, Coord3D *); };
+class Rva00311B70 { public: void rva00311B70(); };
+class Rva00311F46 { public: bool find(const Coord3D &, float); };
+class Rva00312C95 {
 public:
-    bool rva00311974(SplineState *, bool, float *);
+    void rva00312118();
 };
-class Rva00311F46
-{
+struct SplineState;
+class Rva0022B3F6Subsystem { public: bool rva00311974(SplineState *, bool, float *); };
+extern Rva0022B3F6Subsystem *TheSplineService;
+class AerialRouteCalls {
 public:
-    bool find(const Coord3D &, float);
+    virtual void slot0();
+    virtual void slot4();
+    virtual void prepare(int, int, float, float, int, int);
+    virtual void clear();
+    virtual void insert(Coord3D *);
+    virtual void slot14();
+    virtual void append(Coord3D *);
+    char pad04[0x14];
+    float time;
+    char pad1c[0x2c];
+    Coord3D result;
 };
-class GameLogic { public: Object *findObjectByID(ObjectID); };
-class Pathfinder { public: bool AdjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *); };
-class Thing
-{
+class AerialUIMessageCalls {
 public:
-    void getUnitDirectionVector3D(Coord3D &) const;
+    virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0c();
+    virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1c();
+    virtual void slot20(); virtual void slot24(); virtual void slot28(); virtual void slot2c();
+    virtual void slot30(); virtual void slot34(); virtual void slot38(); virtual void slot3c();
+    virtual void __cdecl message(UnicodeString);
 };
-
 extern "C" float __cdecl atan2f(float, float);
-float normalizeAngle(float);
 extern "C" double __cdecl sin(double);
 extern "C" double __cdecl cos(double);
-extern "C" int __cdecl _ftol2(float);
 extern "C" int __cdecl strcmp(const char *, const char *);
-class UnicodeString { public: void format(const unsigned short *, ...); };
-class Rva0037609C;
-template<class T> class StringBase
-{
-    friend class Rva0037609C;
-private:
-    StringBase(const StringBase &);
-    void releaseBuffer();
-    void *m_data;
+float normalizeAngle(float);
+
+struct AerialShapeBits {
+    unsigned data;
+    bool test(unsigned bit) const { return (data & (1U << bit)) != 0; }
 };
 
-extern void *g_rva00DFE758;
-extern void *g_rva00DFEDF0;
-extern Rva0022B3F6Subsystem *g_rva00E0095C;
-extern Object *g_rva00DFE78C;
-
-class Rva0037609C
-{
-public:
-    bool rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
-        const unsigned char *label, const unsigned char *firstPoint, bool adjust);
-
+class Rva0037609C {
 private:
     unsigned char m_pad0[0x258];
     void *m_258;			// +0x258
+public:
+    bool rva0037609C(void *, const Coord3D *, Rva00312C95 *, const unsigned char *, const unsigned char *, bool);
 };
 
 bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *route,
     const unsigned char *label, const unsigned char *firstPointRaw, bool adjust)
 {
-    unsigned char *self = (unsigned char *)thing;
-    Rva006C65F0 whole("computeAerialPath", "The whole thing.", true);
-    Coord3D target = { 0 };
-    target.X = dest->X;
-    target.Y = dest->Y;
-    target.Z = dest->Z;
-    void *pathfinder = *(void **)(self + 0x258);
-    if (pathfinder == 0)
     {
-        whole.~Rva006C65F0();
-        return false;
-    }
-    if (adjust)
-    {
-        Object *obj = ((GameLogic *)g_rva00DFE78C)->findObjectByID((ObjectID)*(unsigned int *)(self + 0x74));
-        if (obj == 0)
-        {
-            whole.~Rva006C65F0();
+        Rva006C65F0 whole("computeAerialPath", "The whole thing.", true);
+        unsigned char *self = (unsigned char *)thing;
+        void *ai = *(void **)(self + 0x258);
+        if (!ai)
             return false;
+        Coord3D target;
+        target.x = dest->x;
+        target.y = dest->y;
+        target.z = dest->z;
+        if (adjust) {
+            Object *obj = TheGameLogic->findObjectByID((ObjectID)*(unsigned *)(self + 0x74));
+            if (!obj)
+                return false;
+            Pathfinder *pf = ((AerialAIView *)TheAI)->pathfinder;
+            float z = target.z;
+            pf->AdjustDestination(obj, *(const LocomotorSet *)((char *)ai + 0x1cc), &target, 0);
+            target.z = z;
+            obj->rva0028ACEE((int)&target, 1);
         }
-        const LocomotorSet *ls = *(const LocomotorSet *const *)((unsigned char *)pathfinder + 0x1cc);
-        ((Pathfinder *)pathfinder)->AdjustDestination(obj, *ls, &target, 0);
-        ((Object *)obj)->rva0028ACEE(&target, 1);
-    }
-
-    Coord3D center;
-    ((Object *)self)->Get2DCenterVectorTo(&center, &target);
-    float distance;
-    {
-        distance = center.length();
-    }
-
-    {
-        Rva006C65F0 setup("setup", "setting up first points", true);
-        Coord3D dir;
-        dir.X = 0.0f; dir.Y = 0.0f; dir.Z = 0.0f;
-        ((Thing *)self)->getUnitDirectionVector3D(dir);
-        float radius = distance * 3.0f;
-        if (radius > 1500.0f)
-            radius = 1500.0f;
-        float step = -radius;
-        float px = step * dir.X + *(float *)(self + 0x38);
-        float py = step * dir.Y + *(float *)(self + 0x3c);
-        float pz = step * dir.Z + *(float *)(self + 0x40);
-        if (*(unsigned int *)(self + 0xbc), ((Object *)self)->isSignificantlyAboveTerrain())
+        Coord3D center;
+        center.x = *(float *)(self + 0x38);
+        center.y = *(float *)(self + 0x3c);
+        center.z = *(float *)(self + 0x40);
+        Coord3D delta;
+        ((Object *)thing)->Get2DCenterVectorTo(&delta, &target);
+        float distance = delta.length();
+        float extension;
+        Coord3D push;
         {
-            if (radius <= 1500.0f)
-                pz -= radius;
+            Rva006C65F0 setup("setup", "setting up first points", true);
+            Coord3D p;
+            ((Thing *)thing)->getUnitDirectionVector3D(p);
+            extension = distance * 3.0f;
+            p.scale(-(extension > 1500.0f ? 1500.0f : extension));
+            addCoord(p, asBase(center));
+            bool above = ((Object *)thing)->isSignificantlyAboveTerrain();
+            if (((const AerialShapeBits *)label)->test(2) && above)
+                p.z -= capExtension(extension);
+            else if (((const AerialShapeBits *)label)->test(7)) {
+                p.z = 1000.0f;
+                p.x = center.x;
+                p.y = center.y;
+            }
+            ((AerialRouteCalls *)route)->clear();
+            ((AerialRouteCalls *)route)->append(&p);
+            ((AerialRouteCalls *)route)->append(&center);
+            if (firstPointRaw) {
+                ((AerialRouteCalls *)route)->append(&target);
+                target = *(const Coord3D *)firstPointRaw;
+            }
         }
-        else if (*(unsigned int *)label & 0x80)
-        {
-            pz = 1000.0f;
-            px = *(float *)(self + 0x38);
-            py = *(float *)(self + 0x3c);
-        }
-        Coord3D p;
-        p.X = px; p.Y = py; p.Z = pz;
-
-        ((Rva0037609CRoute *)route)->r3();
-        ((Rva0037609CRoute *)route)->r6(&p);
-        ((Rva0037609CRoute *)route)->r6(&center);
-        if (firstPointRaw != 0)
-        {
-            ((Rva0037609CRoute *)route)->r6((Coord3D *)firstPointRaw);
-            center = *(const Coord3D *)firstPointRaw;
-        }
-        setup.~Rva006C65F0();
-    }
-
-    if (*(unsigned int *)label & 1)
-    {
-        ((Rva0037609CRoute *)route)->r6(&center);
-        ((Rva0037609CRoute *)route)->r6(&target);
-    }
-    else
-    {
-        Rva006C65F0 terminal("terminal points", "calc terminal points", true);
-        float d = *(float *)((char *)&target + 0) - center.X;
-        float v = *(float *)((char *)&target + 0);
-        (void)v;
-        float scaled = 0.0f;
-        {
-            float tmp = d * 0.25f;
-            if (tmp <= 50.0f)
-                scaled = tmp < 50.0f ? 50.0f : tmp;
-            else
-                scaled = tmp > 150.0f ? 150.0f : tmp;
-        }
-        int steps = _ftol2(scaled);
-        Coord3D probe;
-        probe = center;
-        probe.normalize();
-        float r = (float)steps;
-        probe.X = probe.X * r + center.X;
-        probe.Y = probe.Y * r + center.Y;
-        probe.Z = probe.Z * r + center.Z;
-        float radius = r;
-        {
-            Coord3D out;
-            if (((AerialPathfinder *)route)->rva00375ED7((Object *)thing, &probe, &out))
-            {
-                float base = atan2f(center.Y, center.X);
+        if (((const AerialShapeBits *)label)->test(0)) {
+            ((AerialRouteCalls *)route)->append(&center);
+            ((AerialRouteCalls *)route)->append(&target);
+        } else {
+            Rva006C65F0 terminal("calc terminal points", "calc terminal points", true);
+            int radius = (int)(50.0 > (distance * 0.25 > 150.0 ? 150.0 : distance * 0.25) ? 50.0 : (distance * 0.25 > 150.0 ? 150.0 : distance * 0.25));
+            Coord3D probe;
+            probe.set(&asBase(delta));
+            probe.normalize();
+            probe.scale((float)radius);
+            addCoord(probe, asBase(target));
+            bool collides = ((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &probe, &push) != 0;
+            if (collides) {
+                float base = atan2f(delta.x, delta.y);
+                Coord3D &q = delta;
+                Coord3D second;
                 bool tryPlus = true;
                 bool tryMinus = true;
                 bool havePoint = false;
-                float angle = 0.0f;
-                float best = 0.0f;
-                (void)best;
-                for (;;)
-                {
-                    if (tryPlus)
-                    {
-                        float a = normalizeAngle(angle + base);
-                        Coord3D q;
-                        q.X = sin(a) * radius + center.X;
-                        q.Y = cos(a) * radius + center.Y;
-                        q.Z = probe.Z;
-                        if (!((AerialPathfinder *)route)->rva00375ED7((Object *)thing, &q, &out))
-                        {
-                            if (!havePoint)
-                            {
-                                center = q;
-                                havePoint = true;
-                            }
+                bool haveSecond = false;
+                float step = 0.2f;
+                for (float angle = 0; angle < 3.1415927f; angle += step) {
+                    if (tryPlus) {
+                        float a = normalizeAngle(base + angle);
+                        q.x = sin(a) * (float)radius + target.x;
+                        q.y = cos(a) * (float)radius + target.y;
+                        q.z = target.z;
+                        if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
+                            q.x = sin(a + 2 * step) * (float)radius + target.x;
+                            q.y = cos(a + 2 * step) * (float)radius + target.y;
                             tryPlus = false;
-                        }
-                        else
-                        {
-                            float a2 = normalizeAngle(angle + base + 0.4f);
-                            Coord3D q2;
-                            q2.X = sin(a2) * radius + center.X;
-                            q2.Y = cos(a2) * radius + center.Y;
-                            _ReadWriteBarrier();
-                            q2.Z = probe.Z;
-                            if (!havePoint)
-                            {
-                                center = q2;
-                                havePoint = true;
+                            if (havePoint) {
+                                haveSecond = true;
+                                second = q;
+                                break;
                             }
-                            tryPlus = false;
+                            havePoint = true;
+                            probe = q;
                         }
                     }
-                    if (tryMinus)
-                    {
+                    if (tryMinus) {
                         float a = normalizeAngle(base - angle);
-                        Coord3D q;
-                        q.X = sin(a) * radius + center.X;
-                        q.Y = cos(a) * radius + center.Y;
-                        q.Z = probe.Z;
-                        if (!((AerialPathfinder *)route)->rva00375ED7((Object *)thing, &q, &out))
-                        {
-                            if (!havePoint)
-                            {
-                                center = q;
-                                havePoint = true;
-                            }
+                        q.x = sin(a) * (float)radius + target.x;
+                        q.y = cos(a) * (float)radius + target.y;
+                        q.z = target.z;
+                        if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
+                            q.x = sin(a - 2 * step) * (float)radius + target.x;
+                            q.y = cos(a - 2 * step) * (float)radius + target.y;
                             tryMinus = false;
-                        }
-                        else
-                        {
-                            float a2 = normalizeAngle(base - angle - 0.4f);
-                            Coord3D q2;
-                            q2.X = sin(a2) * radius + center.X;
-                            q2.Y = cos(a2) * radius + center.Y;
-                            q2.Z = probe.Z;
-                            if (!havePoint)
-                            {
-                                center = q2;
-                                havePoint = true;
+                            if (havePoint) {
+                                haveSecond = true;
+                                second = q;
+                                break;
                             }
-                            tryMinus = false;
+                            havePoint = true;
+                            probe = q;
                         }
                     }
-                    angle += 0.2f;
-                    if (angle >= 3.1415927f)
-                        break;
+                }
+                if (haveSecond)
+                    ((AerialRouteCalls *)route)->append(&second);
+            }
+            if (((const AerialShapeBits *)label)->test(1))
+                probe.z -= capExtension(extension);
+            ((AerialRouteCalls *)route)->append(&target);
+            ((AerialRouteCalls *)route)->append(&probe);
+        }
+        {
+            Rva006C65F0 collision("collision", "Collision test for terrain and objects", true);
+            ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
+            route->rva00312118();
+            int repairs = 0;
+            ((AerialRouteCalls *)route)->time = 0;
+            int inside = 0;
+            float start = 0;
+            float finish = 0;
+            push.x = push.y = push.z = 0;
+            int steps = 0;
+            while (repairs < 5) {
+                float closest = 999999.0f;
+                ((AerialRouteCalls *)route)->time += *(float *)(self + 0xbc) * 0.5f;
+                if (!TheSplineService->rva00311974((SplineState *)route, false, 0))
+                    break;
+                if (++steps > 200)
+                    break;
+                Coord3D *result = &((AerialRouteCalls *)route)->result;
+                bool hit = ((AerialPathfinder *)this)->rva00375ED7((Object *)thing, result, &push) != 0;
+                if (hit && inside == 0) {
+                    inside = 1;
+                    start = ((AerialRouteCalls *)route)->time;
+                }
+                if (inside && !hit) {
+                    inside = 0;
+                    finish = ((AerialRouteCalls *)route)->time;
+                    float middle = (finish + start) * 0.5f;
+                    ((AerialRouteCalls *)route)->time = middle;
+                    if (TheSplineService->rva00311974((SplineState *)route, false, &closest)) {
+                        Coord3D p;
+                        p.x = result->x;
+                        p.y = result->y;
+                        p.z = result->z;
+                        if (((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &p, &push)) {
+                            p.x += push.x;
+                            p.y += push.y;
+                            p.z += push.z;
+                            if (!((Rva00311F46 *)route)->find(p, *(float *)(self + 0xbc)))
+                                ((AerialRouteCalls *)route)->insert(&p);
+                            ((Rva00311B70 *)route)->rva00311B70();
+                            ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
+                            route->rva00312118();
+                            ++repairs;
+                            ((AerialRouteCalls *)route)->time = middle + *(float *)(self + 0xbc);
+                        }
+                    }
                 }
             }
         }
-        if (*(unsigned int *)label & 2)
-        {
-            if (radius > 1500.0f)
-                radius = 1500.0f;
-            probe.Z -= radius;
-        }
-        ((Rva0037609CRoute *)route)->r6(&target);
-        ((Rva0037609CRoute *)route)->r6(&center);
-        terminal.~Rva006C65F0();
     }
-
-    {
-        Rva006C65F0 collision("collision", "Collision test for terrain and objects", true);
-        ((Rva0037609CRoute *)route)->r2(1, 0xfa0, 0, 0, 0, 1000.0f, 1000.0f, 0);
-        ((Rva00312C95 *)route)->rva00312118();
-        float best = 0.0f;
-        (void)best;
-        int steps = 0;
-        for (int outer = 0; outer < 5; ++outer)
-        {
-            float closest = 999999.0f;
-            float radius = *(float *)(self + 0xbc) * 0.5f + *(float *)((char *)route + 0x18);
-            *(float *)((char *)route + 0x18) = radius;
-            if (!g_rva00E0095C->rva00311974((SplineState *)route, false, &closest))
-                break;
-            if (++steps > 200)
-                break;
-            Coord3D p;
-            if (((AerialPathfinder *)route)->rva00375ED7((Object *)thing, &target, &p))
-            {
-                if (!*(int *)label)
-                    *(float *)((char *)route + 0x18) = radius;
-            }
-            if (!((Rva00311F46 *)route)->find(p, 0.0f))
-            {
-                ((Rva0037609CRoute *)route)->r4(&p);
-            }
-            (void)steps;
-        }
-        collision.~Rva006C65F0();
-    }
-
-    if (*(int *)((char *)g_rva00DFE758 + 0x9b8) == 5)
-    {
+    if (*(int *)((char *)TheWritableGlobalData + 0x9b8) == 5) {
         ProfileHighLevel::Id id;
-        for (unsigned int i = 0; ProfileHighLevel::EnumProfile(i, id); ++i)
-        {
-            char text[32];
+        for (unsigned i = 0; ProfileHighLevel::EnumProfile(i, id); ++i) {
             UnicodeString str;
-            str.format((const unsigned short *)L"%S took %S %S.",
-                text, id.GetDescr(), id.GetCurrentValue(), id.GetUnit());
-            if (strcmp("calls", id.GetUnit()) != 0)
-            {
-                StringBase<unsigned short> copy(*(StringBase<unsigned short> *)&str);
-                ((void (__fastcall *)(void *, int))((*(void ***)g_rva00DFEDF0)[0x40 / 4]))(g_rva00DFEDF0, 1);
-                copy.releaseBuffer();
-            }
+            str.format((const unsigned short *)L"%S took %S %S.", id.GetDescr(), id.GetCurrentValue(), id.GetUnit());
+            if (strcmp(id.GetUnit(), "calls") != 0)
+                ((AerialUIMessageCalls *)TheInGameUI)->message(str);
         }
     }
     return true;

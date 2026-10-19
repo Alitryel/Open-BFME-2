@@ -35,10 +35,8 @@ private:
 	BitFlags<11> m_disabledMask; // +0x1C8
 };
 
-bool Object::isDisabled() const
-{
-	return m_disabledMask.any();
-}
+// Object::isDisabled is rowed at its identical inline copy in
+// ControlBarRappellerCount.cpp; retaining a strong copy here conflicts with it.
 
 bool Object::rva0023D39F() const
 {

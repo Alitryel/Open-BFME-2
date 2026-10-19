@@ -1,4 +1,5 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /Ireference/shims/subsystem_bfme2
+// stlport
 // ??1GameState@@UAE@XZ @0x002DE58D 180B: GameState destructor (was ??1Rva002DE58D). Identity: vtable
 // 0x00C0402C#0 (scalar deleting dtor at 0x002DF2DA calls it), member offsets shared
 // with Rva002DEE9AOwner (E0C/E10/E14/E18 in Rva002DEE9AClear.cpp), save-info member
@@ -14,13 +15,15 @@
 // SnapshotBlock list specialization already rowed by GameStateConstructor.
 struct CameraMarker;
 
+// Use the constructor-proven fourteen-slot subsystem view and four-slot
+// Snapshot name interface. The +0xC Snapshot adjustment is unchanged.
+typedef bool Bool;
+#include "subsystem_interface.h"
+#define BFME_SNAPSHOT_NAME_SLOT
+#include "Common/Snapshot.h"
+
 namespace _STL
 {
-template <class _Tp>
-class allocator
-{
-};
-
 template <class _Tp, class _Alloc>
 class _List_base
 {
@@ -49,17 +52,6 @@ private:
 	char m_pad[0xDE8 - 4];
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad[0xC - 4];
-};
-
-// Native secondary-base vptr BBB554 and +0xC adjustment identify Snapshot.
-#include "Common/Snapshot.h"
-
 class Rva002DE311Owner
 {
 public:
@@ -70,14 +62,25 @@ class GameState : public SubsystemInterface, public Snapshot
 {
 public:
 	virtual ~GameState();
+	virtual void init();
+	virtual void reset();
+	virtual void update();
+protected:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 private:
 	_STL::list<CameraMarker, _STL::allocator<CameraMarker> > m_cameraLists[5];
 	BfmeSubobject0022CE19 m_saveInfo;
 	_STL::_List_base<int, _STL::allocator<int> > m_intListA;
 	_STL::_List_base<int, _STL::allocator<int> > m_intListB;
+	unsigned m_wordE14; // Native constructor stores at +0xE14.
+	bool m_flagE18; // Native constructor stores at +0xE18.
 };
 
 typedef char GameStateListExtent[sizeof(_STL::list<CameraMarker, _STL::allocator<CameraMarker> >)==4 ? 1 : -1];
+
+typedef char GameStateExtent[sizeof(GameState) == 0xE1C ? 1 : -1];
 
 // ??1GameState@@UAE@XZ
 GameState::~GameState()

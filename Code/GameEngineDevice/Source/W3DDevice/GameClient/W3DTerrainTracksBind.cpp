@@ -12,6 +12,7 @@
 #include "wwmath.h"
 #include "vector2.h"
 #include "vector3.h"
+#include "matrix3d.h"
 #include "Lib/Coord3D.h"
 __declspec(dllimport) __forceinline void trackCrossProduct(const Vector3 &a,const Vector3 &b,Vector3 *out) { assert(out != &a); out->X=a.Y*b.Z-a.Z*b.Y; out->Y=a.Z*b.X-a.X*b.Z; out->Z=a.X*b.Y-a.Y*b.X; }
 struct TrackVector { float x,y,z;
@@ -94,7 +95,7 @@ public:
 	static BFME2ParticleTextureHandle Get(const char *,int,int);
 };
 
-class Object { public: int rva0028B511() const; };
+class Object { public: int rva0028B511() const; char prefix00[8]; Matrix3D transform; };
 class Drawable { public: char prefix00[0xFC]; Object *m_object; };
 class TerrainLogic {
 public:
@@ -116,13 +117,14 @@ class Rva0084096 { public: Rva0084096(); char storage[0x1328]; };
 class Rva00084206Track {
 public:
  Rva00084206Track();
- char pad0[8]; TrackVector endpoints[2]; char pad20[0xc];
+ char pad0[8]; Vector3 endpoints[2]; char pad20[0xc];
  BFME2ParticleTextureHandle texture; int activeEdgeCount, totalEdgesAdded; Drawable *owner;
  TrackEdge edges[100]; Vector3 lastAnchor;
  int bottomIndex, topIndex; bool haveAnchor, bound; char pad1312[2]; float width,length; bool airborne,haveCap; char pad131e[2];
  Rva00084206Track *next,*prev;
  void init(float,float,const char*);
  void addCapEdgeToTrack(float,float);
+ void addEdgeToTrack(float,float);
 };
 static __declspec(noinline) float computeTrackSpacing(Rva00084B18RenderObj *obj,TrackVector *ends,const char *left,const char *right) {
  float spacing=14.0f;
@@ -176,7 +178,7 @@ Rva00084206Track *Rva00084C05System::bind(Rva00084B18RenderObj *obj,float length
   mod->prev=0; mod->next=used;
   if(used) used->prev=mod;
   used=mod;
-  mod->init(computeTrackSpacing(obj,mod->endpoints,left,right),length,texture);
+  mod->init(computeTrackSpacing(obj,(TrackVector *)mod->endpoints,left,right),length,texture);
   mod->bound=true;
  }
  return mod;
@@ -471,4 +473,123 @@ void Rva00091A80::rva00092014()
 {
 	if (TheTerrainTracksRenderObjClassSystem)
 		((Rva00084C05System *)TheTerrainTracksRenderObjClassSystem)->setDetail();
+}
+
+// Native 8458A..84B18 RET8. WorldBuilder twin 8BC5E0 (debug, same assert names)
+// shows the BFME2 body: owner/object guard, the BFME1 anchor branch, the two
+// endpoint vectors run through Matrix3D::mulVector3 against the object
+// transform (+8), their sum /= 2.0f, a ground-height normal copied into vZ with
+// Set, vDir = vPos - lastAnchor, and a short-distance rewrite of the previous
+// edge. Semantic donor: BFME1 TerrainTracksBfmeAddCap.cpp (9cbfb551).
+void Rva00084206Track::addEdgeToTrack(float x, float y)
+{
+	if (owner && !owner->m_object) return;
+	if (!haveAnchor)
+	{
+		int objectLayer;
+		if (owner && (objectLayer = owner->m_object->rva0028B511()) != 1)
+			lastAnchor = Vector3(x, y, TheTerrainLogic->getLayerHeight(x, y, objectLayer) + 0.25f);
+		else
+			lastAnchor = Vector3(x, y, TheTerrainLogic->getGroundHeight(x, y));
+
+		haveAnchor = true;
+		airborne = true;
+		haveCap = true;
+		return;
+	}
+
+	haveCap = false;
+
+	int objectLayer;
+	if (owner && (objectLayer = owner->m_object->rva0028B511()) != 1)
+		return;
+
+	Vector3 transformed[2];
+	const Matrix3D *tm = &owner->m_object->transform;
+	tm->mulVector3(endpoints[0],transformed[0]);
+	tm->mulVector3(endpoints[1],transformed[1]);
+	Vector3 vPos=transformed[0]+transformed[1];
+	vPos/=2.0f;
+	Coord3D vZTmp;
+	float eHeight = TheTerrainLogic->getGroundHeight(vPos.X, vPos.Y, &vZTmp);
+	Vector3 vZ;
+	vZ.Set(vZTmp.x,vZTmp.y,vZTmp.z);
+	vPos.Z=eHeight;
+	Vector3 vDir = vPos-lastAnchor;
+	if (vDir.Length2() < sqr(length))
+	{
+		if (activeEdgeCount > 0) {
+			int lastAddedEdge=topIndex-1;
+			if(lastAddedEdge<0) lastAddedEdge=activeEdgeCount-1;
+			vDir.Z=0;vDir.Normalize();
+			Vector3 vX;trackCrossProduct(vDir,vZ,&vX);
+			TrackEdge &lastEdge=edges[lastAddedEdge];
+			lastEdge.endPointPos[0]=vPos-(width*0.5f*vX);
+			lastEdge.endPointPos[0].Z+=2.0f;
+			lastEdge.endPointPos[1]=vPos+(width*0.5f*vX);
+			lastEdge.endPointPos[1].Z+=2.0f;
+		}
+		return;
+	}
+
+	int maxEdgeCount = TheTerrainTracksRenderObjClassSystem->m_maxTankTrackEdges;
+
+	if (activeEdgeCount >= maxEdgeCount)
+	{
+		bottomIndex++;
+		activeEdgeCount--;
+
+		if (bottomIndex >= maxEdgeCount)
+			bottomIndex = 0;
+	}
+
+	if (topIndex >= maxEdgeCount)
+		topIndex = 0;
+
+	vDir.Z = 0;
+	vDir.Normalize();
+
+	Vector3 vX;
+	trackCrossProduct(vDir, vZ, &vX);
+
+	TrackEdge &topEdge = edges[topIndex];
+
+	topEdge.endPointPos[0] = vPos - (width * 0.5f * vX);
+	topEdge.endPointPos[0].Z += 2.0f;
+
+	if (totalEdgesAdded & 1)
+	{
+		topEdge.endPointUV[0].X = 0.0f;
+		topEdge.endPointUV[0].Y = 0.0f;
+	}
+	else
+	{
+		topEdge.endPointUV[0].X = 0.0f;
+		topEdge.endPointUV[0].Y = 1.0f;
+	}
+
+	topEdge.endPointPos[1] = vPos + (width * 0.5f * vX);
+	topEdge.endPointPos[1].Z += 2.0f;
+
+	if (totalEdgesAdded & 1)
+	{
+		topEdge.endPointUV[1].X = 1.0f;
+		topEdge.endPointUV[1].Y = 0.0f;
+	}
+	else
+	{
+		topEdge.endPointUV[1].X = 1.0f;
+		topEdge.endPointUV[1].Y = 1.0f;
+	}
+
+	topEdge.timeAdded = WW3D::Get_Sync_Time();
+	topEdge.alpha = 1.0f;
+	if (airborne || activeEdgeCount <= 1)
+		topEdge.alpha = 0.0f;
+	airborne = false;
+
+	lastAnchor = vPos;
+	activeEdgeCount++;
+	totalEdgesAdded++;
+	topIndex++;
 }

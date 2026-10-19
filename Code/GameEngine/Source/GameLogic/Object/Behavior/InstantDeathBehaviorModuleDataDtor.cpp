@@ -3,12 +3,15 @@
 // ??1InstantDeathBehaviorModuleData@@UAE@XZ @0x0045D28D 105B via 3 inline vector frees plus rowed vector dtor, novtable restores g_00BBB554
 #include <vector>
 
-extern const void *const g_00BBB554[];
+// Retail's own table symbol: an address-named alias (g_00BBB554) emits identical
+// bytes but relocates to a different name, so the census kept this unit's copy
+// as a loser against the row owner's.
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 
-class DestroyDieModuleData
+class Rva0045D28DBase
 {
 public:
-	virtual ~DestroyDieModuleData() { *(const void **)this = g_00BBB554; }
+	virtual ~Rva0045D28DBase() { *(const void *const **)this = __identifier("??_7Snapshot@@6B@"); }
 	virtual void DestroyDieModuleData_virt00();
 private:
 	unsigned char m_pad[0x38 - 4];
@@ -22,7 +25,7 @@ struct Rva0045D137
 	~Rva0045D137();
 };
 
-class __declspec(novtable) InstantDeathBehaviorModuleData : public DestroyDieModuleData
+class __declspec(novtable) InstantDeathBehaviorModuleData : public Rva0045D28DBase
 {
 public:
 	virtual ~InstantDeathBehaviorModuleData();

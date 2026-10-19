@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.8871513595518731 date=2026-10-19
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.862 date=2026-10-17
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.8044951179662893 date=2026-10-14
@@ -425,6 +427,7 @@ void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *vi
 // original entry-point/descriptor names are not independently established.
 __forceinline float cameraMin(float a,float b) {return a<b?a:b;}
 __forceinline float cameraMax(float a,float b) {return a>b?a:b;}
+/** @todo This is inefficient. We should construct the matrix directly using vectors. */
 void W3DCamTransform::rva00102F83(CameraTransformInput *v)
 {
     Vector3 sourcePos,targetPos;
@@ -436,6 +439,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         }
         v->mode=0;
     }
+    // add in the camera shake, if any
     v->pos.x+=v->shakeX;v->pos.y+=v->shakeY;
     if(v->mode==2) {
         sourcePos=v->pos;
@@ -449,6 +453,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         v->pos.y=cameraMax(v->minY,v->pos.y);
         v->pos.y=cameraMin(v->maxY,v->pos.y);
     }
+    // set position of camera itself
     if(v->realZoom) {
         sourcePos=v->offset;
         float capped=v->zoom;
@@ -462,33 +467,44 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
             if(object) sourcePos.Z=(v->offset.Z+object->getPosition()->z)*v->zoom;
         }
     }
+    // camera looking at origin
     targetPos.Set(0,0,0);
     float factor=1.0-(v->groundLevel/sourcePos.Z);
+    // construct a matrix to rotate around the up vector by the given angle
     Matrix3D angleTransform(Vector3(0,0,1),v->angle);
+    // construct a matrix to rotate around the horizontal vector by the given angle
     Matrix3D pitchTransform(Vector3(1,0,0),v->pitch);
+    // rotate camera position (pitch, then angle)
     pitchTransform.mulVector3(sourcePos); angleTransform.mulVector3(sourcePos);
     sourcePos.X*=factor;sourcePos.Y*=factor;sourcePos.Z*=factor;
+    // translate to current XY position
     sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;
     targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;
     Object *object=v->liveCamera?TheGameLogic->findObjectByID(v->lock):0;
+    float targetHeight;
     if(v->liveCamera && (!object || (object->cameraKindFlags()&0x10))) {
         Matrix3D angleTransform2(Vector3(0,0,1),v->angle);
         Matrix3D pitchTransform2(Vector3(1,0,0),v->pitch);
         pitchTransform2.mulVector3(sourcePos);angleTransform2.mulVector3(sourcePos);
-        targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;targetPos.Z+=v->pos.z+v->targetZAdjustment;
+        targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;targetHeight=v->pos.z+v->targetZAdjustment;
         sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;sourcePos.Z+=v->pos.z;
     } else {
         sourcePos.Z+=v->groundLevel;
-        targetPos.Z+=v->groundLevel+v->targetZAdjustment;
+        targetHeight=v->groundLevel+v->targetZAdjustment;
     }
+    targetPos.Z+=targetHeight;
+    // The following code moves camera down and pitch up when player zooms in.
+    // Use scripts to switch to useRealZoomCam
     if(v->realZoom) {
         float pitchAdjust=1.0f;
         if(!TheDisplay->isLetterBoxed()) {
             float capped=v->zoom;
             if(capped>1.0f)capped=1.0f;
             if(capped<0.5f)capped=0.5f;
-            sourcePos.Z*=capped*0.75f+0.25f; pitchAdjust=capped;
+            sourcePos.Z*=capped*0.75f+0.25f; // move camera down physically
+            pitchAdjust=capped; // adjust camera to pitch up
         }
+        // do fxPitch adjustment
         v->fxPitch=1.0f*(0.25f+pitchAdjust*0.75f);
         float inversePitch=1.0f/v->fxPitch;
         sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
@@ -523,8 +539,10 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     v->distance=WWMath::Sqrt(dx*dx+dz*dz+dy*dy);
     if(!v->special) transitionLiveMode(&sourcePos,&targetPos,(View*)v);
     if(v->explicitTarget.lengthSqr()>0)targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
+    // build new camera transform
     v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll);
     if(!v->special) {
+        //WST 11/12/2002 New camera shaker system
         CameraShakeSystemClass *system=*(CameraShakeSystemClass**)&CameraShakerSystem;
         ((Rva0065CA4 *)system)->rva00065E3C(1.0f/30.0f);
         system->Update_Camera_Shaker(sourcePos,&v->shakerAngles);
@@ -532,16 +550,22 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         v->transform->Rotate_Y(v->shakerAngles.Y);
         v->transform->Rotate_Z(v->shakerAngles.Z);
     }
+    // (gth) check if the camera is being controlled by an animation
     if(v->slaved) {
+        // find object named m_cameraSlaveObjectName
         Object *slave=((Rva00358752Opaque*)TheScriptEngine)->lookupUnitByValue(v->slaveName);
         if(slave) {
+            // dig out the drawable
             Drawable *draw=((Thing*)slave)->getDrawable();
             if(draw) {
+                // dig out the first draw module with an ObjectDrawInterface
                 DrawModule **modules=(DrawModule**)((Rva002B224BDwordField*)draw)->get();
                 for(;*modules;++modules) {
                     const ObjectDrawInterface *di=(*modules)->getObjectDrawInterface();
                     if(di) {
+                        // Ok, slam it into the camera!
                         Matrix3D tm(false);di->boneTransform(v->boneName,&tm);*v->transform=tm;
+                        // WST 10.22.2002. Update the Listener positions used by audio system
                         Coord3D origin; origin.x=v->transform->Row[0][3]; origin.y=v->transform->Row[1][3]; origin.z=v->transform->Row[2][3]; v->previousPos=origin; break;
                     }
                 }
@@ -556,3 +580,6 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         v->source=sourcePos;v->target=targetPos;
     }
 }
+
+// Target-height join follows native +0x7B5..+0x7EF; evidence: reverse/attempt_support/camera-transform-00102f83-20261019.md.
+// Alignment and remaining compiler-shape differences are recorded with the handoff.

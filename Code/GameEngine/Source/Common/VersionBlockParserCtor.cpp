@@ -32,7 +32,9 @@ public:
 private:
 	int m_unk0;
 	_STL::vector<VersionBlockEntry> m_records;
-	void parse(const char *versionBlock);
+	// The rowed parser at 0x004289B8 returns success in AL; this caller
+	// intentionally discards it. Keep the declaration identical to its owner.
+	bool parse(const char *versionBlock);
 };
 
 VersionBlockParser::VersionBlockParser(const char *versionBlock)

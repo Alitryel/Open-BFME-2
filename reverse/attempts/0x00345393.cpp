@@ -1,4 +1,6 @@
 // ?computePath@AIAttackMeleeApproachState@@MAE_NXZ
+// partial score=0.678808 date=2026-10-19
+// ?computePath@AIAttackMeleeApproachState@@MAE_NXZ
 // partial score=0.556 date=2026-10-17
 // ?computePath@AIAttackMeleeApproachState@@MAE_NXZ
 // partial score=0.69971 date=2026-10-13
@@ -754,7 +756,7 @@ public:
 		Coord3D *dest);
 };
 
-class AIData {public: unsigned char pad[0x90]; Real m_bfme90,m_bfme94;};
+class AIData {public: unsigned char pad[0x90]; volatile Real m_bfme90; Real m_bfme94;};
 
 class AI
 {
@@ -994,29 +996,32 @@ Bool AIAttackMeleeApproachState::computePath()
 	critterDesyncLog("CritterDesync: ComputePath18");
 	Bool forceRepath = false;
 	AIUpdateInterface *ai = getMachineOwner()->getAI();
-	if (*(volatile int*)&ai->m_bfmeBlocked16C > 0)
+	if (ai->m_bfmeBlocked16C > 0)
 		return false;
 
 	if (m_waitingForPath)
 		return true;
-	Path *path = ai->getPath();
-	unsigned int frame = TheGameLogic->getFrame();
-	if (!path && !ai->isWaitingForPath())
+	GameLogic *logic = TheGameLogic;
+	if (!ai->getPath() && !ai->isWaitingForPath())
 		forceRepath = true;
-	else if ((frame - m_approachTimestamp < g_009BA4E4))
+	// force minimum time between recomputation
+	/// @todo Unify recomputation conditions & account for obj ID so everyone doesnt compute on the same frame (MSB)
+	else if ((logic->getFrame() - m_approachTimestamp < g_009BA4E4))
 		return true;
-	m_approachTimestamp = frame;
+	m_approachTimestamp = logic->getFrame();
 	Object *goalObject = getMachine()->getGoalObject();
 	if (goalObject)
 	{
 		Object *source = getMachineOwner();
-		Object *victim = (1 ? getMachine()->getGoalObject() : getMachine()->getGoalObject());
+		Object *victim = getMachine()->getGoalObject();
 		Coord3D *prevPos = &m_prevVictimPos;
+		// if our victim's position hasn't changed, don't re-path
 		if (!forceRepath && isSamePosition(source->getPosition(), prevPos,
 				victim->getPosition()))
 			return true;
 		if (!source->getCurrentWeapon())
 			return false;
+		// remember where we think our victim is, so if it moves, we can re-path
 		*prevPos = *victim->getPosition();
 		if (source->rva0029493F(victim, 2))
 		{
@@ -1025,8 +1030,10 @@ Bool AIAttackMeleeApproachState::computePath()
 			return true;
 		}
 		Coord3D delta;
-		delta.x = source->getPosition()->x - prevPos->x;
-		delta.y = source->getPosition()->y - prevPos->y;
+		Real dx = source->getPosition()->x - prevPos->x;
+		Real dy = source->getPosition()->y - prevPos->y;
+		delta.x = dx;
+		delta.y = dy;
 		delta.z = 0.0f;
 		delta.length();
 		const AIData *data = TheAI->getAiData();
@@ -1092,3 +1099,6 @@ Bool AIAttackMeleeApproachState::computePath()
 	}
 	return false;
 }
+
+// AIData +0x90 uses an access view for native FLD90/FADD94 scheduling.
+// Evidence: reverse/attempt_support/melee345393-w4-20261019.md.

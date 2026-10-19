@@ -333,22 +333,8 @@ template CW2AEX<128>::CW2AEX(LPCWSTR psz);
 
 }
 
-class W3DRadarResetSurface
-{
-public:
-	~W3DRadarResetSurface();
-};
-
-class Rva00001DACClass
-{
-public:
-	void dtor();
-};
-
-void Rva00001DACClass::dtor()
-{
-	reinterpret_cast<W3DRadarResetSurface *>(this)->~W3DRadarResetSurface();
-}
+// Native1DAC is the sentence geometry record destructor. Its implicit C++
+// definition is owned by Render2DSentenceClassRva00156540.cpp.
 
 // ATL 7.1 atlbase.h's x86 InterlockedExchangePointer (retail 0x00001079, 6B,
 // unreferenced): the pointer exchange through the kernel32 InterlockedExchange

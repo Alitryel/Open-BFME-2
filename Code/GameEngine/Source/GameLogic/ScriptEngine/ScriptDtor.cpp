@@ -80,17 +80,3 @@ const char *Script::GetSnapshotName() const
 	return "Script";
 }
 
-// ??1Script@@MAE@XZ present-unmatched
-Script::~Script()
-{
-	::operator delete(m_condition ? m_condition->v0(0) : 0);
-	Rva003B35B1Owned **pp = m_actions;
-	int i = 2;
-	int *pi = &i;
-	(void)pi;
-	do {
-		Rva003B35B1Owned *p = *pp;
-		::operator delete(p ? p->v0(0) : 0);
-		++pp;
-	} while (--i);
-}

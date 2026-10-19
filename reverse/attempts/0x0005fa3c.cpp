@@ -1,4 +1,6 @@
 // ?rva0005FA3C@MilesAudioManager@@QAEXI@Z
+// partial score=0.99 date=2026-10-19
+// ?rva0005FA3C@MilesAudioManager@@QAEXI@Z
 // partial score=0.976 date=2026-10-17
 // ?rva0005FA3C@MilesAudioManager@@QAEXI@Z
 // partial score=0.895969955969956 date=2026-10-09
@@ -18,9 +20,9 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
   PlayingAudioRef audio=*it;
   if(!audio.get())continue;
   if(audio->m_event->m_playingHandle==handle) {
-   *(volatile int*)&audio->m_event->m_at80;
    --audio->m_event->m_at80;
-   if(audio->m_event->m_at80<=0) {
+   bool stopped = audio->m_event->m_at80<=0;
+   if(stopped) {
     audio->m_event->m_at4C=true;
     if(!(audio->m_event->m_info->m_control&0x10))processAudioCompletion(audio);
     break;
@@ -79,7 +81,7 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
  {
   Rva00054EBETable::iterator found=reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
   if(found._M_cur) {
-   Rva00051107AudioRequest *request;
+   Rva00051107AudioRequest *request = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
    --request->m_pendingEvent->m_at80;
    if(request->m_pendingEvent->m_at80>0)return;
    Rva00054EBETable::iterator copy=found;
@@ -103,3 +105,30 @@ void MilesAudioManager::rva0005FA3C(unsigned int handle)
   ++it;
  }
 }
+
+class __declspec(novtable) Rva00A86CE
+{
+public:
+    virtual ~Rva00A86CE();
+    int m_04;
+    unsigned int m_08;
+    int m_0C;
+    int m_10;
+    int m_14;
+};
+
+class __declspec(novtable) Rva000A8684 : public Rva00A86CE
+{
+public:
+    Rva000A8684();
+};
+
+Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
+{
+    Rva000A8684 request;
+    request.m_08 = handle;
+    return reinterpret_cast<Rva00054EBETable *>(this)->find(reinterpret_cast<int>(&request));
+}
+
+// model=gpt-6.1-sol; restores the request lookup and removes the extra volatile read.
+// See reverse/attempt_support/miles-stop-5fa3c-20261019.md for the remaining +0xBD mismatch.

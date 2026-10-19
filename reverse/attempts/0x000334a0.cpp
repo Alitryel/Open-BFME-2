@@ -1,10 +1,20 @@
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
-// partial score=0.952117507216845 date=2026-10-15
-// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
-// partial score=0.887 date=2026-10-15
-// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
-// partial score=0.938 date=2026-10-15
+// partial score=0.9693877551020408 date=2026-10-19
+// cl: /O2
+// Notes kept from the earlier banks of this body:
 // ?rva00031010@Rva00031010@@QAEXPAURva00031010Node@@_N@Z @0x00031010 66B evidence EA GeneralAllocator large-bin insert beside GetLargeBinIndex plus caller 0x000333ED plus head at +0x440 plus bin at +0x30
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z @0x000334A0 604B
+// Core growth for a size (PPMalloc ExtendCore-like), caller 0x00034244: finds
+// the first core (list after the sentinel at this+0x448, next +0x18) whose
+// reserved-minus-committed span (+0x08 - +0x04) fits, commits max(size,
+// +0x4DC granularity) capped to that span with VirtualAlloc (on failure the
+// reserve is dropped to the committed size), then grows the chunk ending at
+// the core's trailing fencepost (merging a free predecessor, which may be the
+// top chunk) or lays out a fresh first chunk and makes it the top through the
+// 0x00031010 insert above. Without such a core, and unless +0x4AC forbids
+// it, a new core from 0x00032B00 becomes the top. A chunk larger than the
+// request is split; the remainder becomes the top or heads the bin at +0x30.
+// Target bytes supply offsets and flow; field labels are descriptive.
 struct Rva00031010Node
 {
     unsigned char m_pad[8];
@@ -44,18 +54,6 @@ void Rva00031010::rva00031010(Rva00031010Node *node, bool flag)
     after->m_link8 = old;
 }
 
-// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z @0x000334A0 604B
-// Core growth for a size (PPMalloc ExtendCore-like), caller 0x00034244: finds
-// the first core (list after the sentinel at this+0x448, next +0x18) whose
-// reserved-minus-committed span (+0x08 - +0x04) fits, commits max(size,
-// +0x4DC granularity) capped to that span with VirtualAlloc (on failure the
-// reserve is dropped to the committed size), then grows the chunk ending at
-// the core's trailing fencepost (merging a free predecessor, which may be the
-// top chunk) or lays out a fresh first chunk and makes it the top through the
-// 0x00031010 insert above. Without such a core, and unless +0x4AC forbids
-// it, a new core from 0x00032B00 becomes the top. A chunk larger than the
-// request is split; the remainder becomes the top or heads the bin at +0x30.
-// Target bytes supply offsets and flow; field labels are descriptive.
 extern "C" __declspec(dllimport) void *__stdcall VirtualAlloc(void *address, unsigned int size, unsigned long type, unsigned long protect);
 
 namespace EA
@@ -66,7 +64,7 @@ class GeneralAllocator
 {
 public:
 	Rva00031010Node *rva000334A0(unsigned int size);
-	Rva00031010Node *rva00032B00(unsigned int size);
+	void *rva00032B00(unsigned int size);
 
 private:
 	struct Chunk
@@ -126,16 +124,16 @@ Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 		{
 			Chunk *fencepost = (Chunk *)((char *)core + core->m_size - 0x10);
 			chunk = fencepost;
-			if (!(fencepost->m_size & 1)) {
+			if (fencepost->m_size & 1) {
+				chunkSize = extend;
+				fencepost->m_size = extend | 1;
+			} else {
 				chunk = (Chunk *)((char *)chunk - fencepost->m_priorSize);
 				chunk->m_prev->m_next = chunk->m_next;
 				chunk->m_next->m_prev = chunk->m_prev;
 				chunkSize = fencepost->m_priorSize + extend;
 				chunk->m_size = chunkSize | 1;
 				newTop = chunk == m_top;
-			} else {
-				chunkSize = extend;
-				fencepost->m_size = extend | 1;
 			}
 			Chunk *end = (Chunk *)((char *)chunk + chunkSize);
 			end->m_priorSize = chunkSize;
@@ -171,7 +169,20 @@ Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 			chunk = (Chunk *)rva00032B00(size);
 			if (chunk)
 			{
-				((Rva00031010 *)this)->rva00031010((Rva00031010Node *)chunk, true);
+				Chunk *old = m_top;
+                m_top = chunk;
+                chunk->m_next = chunk;
+                Chunk *node = m_top;
+                node->m_prev = node->m_next;
+                Chunk *bin = &m_bin;
+                if (old != bin)
+                {
+                    Chunk *after = bin->m_next;
+                    old->m_prev = bin;
+                    old->m_next = after;
+                    bin->m_next = old;
+                    after->m_prev = old;
+                }
 				newTop = true;
 				chunkSize = chunk->m_size & 0x7FFFFFF8;
 			}

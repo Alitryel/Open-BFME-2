@@ -37,6 +37,22 @@ void Rva00423A68::rva00423A68(const ModuleData *p)
 #include <list>
 
 class Object;
+// Native Object-pointer nodes use the dedicated freelist provider
+// (retail 0x001EB9AC), not the header's generic allocator; emit that body so
+// this TU's copy is identical to the one Player.cpp provides.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DB8FEC;
+namespace _STL {
+template <> inline __declspec(noinline)
+_List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &value)
+{
+    _List_node<Object *> *node = (_List_node<Object *> *)g_freelistPool00DB8FEC.pop();
+    Object **valuePtr = (Object **)((char *)node + 8);
+    if (valuePtr)
+        *valuePtr = value;
+    return node;
+}
+}
 class Player;
 class BfmeTab1026;
 class Rva001EB130Holder;

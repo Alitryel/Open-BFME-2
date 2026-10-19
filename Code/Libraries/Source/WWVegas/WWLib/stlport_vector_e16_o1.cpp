@@ -36,3 +36,8 @@ template class _STL::vector<BfmeE16, _STL::allocator<BfmeE16 > >;
 #pragma comment(linker, "/alternatename:??0?$_Vector_base@PAUBfmeExpLevelDraw@@V?$allocator@PAUBfmeExpLevelDraw@@@_STL@@@_STL@@QAE@ABV?$allocator@PAUBfmeExpLevelDraw@@@1@@Z=??0?$_Vector_base@UBfmeE16@@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmeE16@@@1@@Z")
 #pragma comment(linker, "/alternatename:??0?$_Vector_base@PAUBfmeMorphCondition@@V?$allocator@PAUBfmeMorphCondition@@@_STL@@@_STL@@QAE@ABV?$allocator@PAUBfmeMorphCondition@@@1@@Z=??0?$_Vector_base@UBfmeE16@@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmeE16@@@1@@Z")
 #pragma comment(linker, "/alternatename:??0AICommandCoordVector@@QAE@ABUAICommandCoordAlloc@@@Z=??0?$_Vector_base@UBfmeE16@@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAE@ABV?$allocator@UBfmeE16@@@1@@Z")
+
+// Existing uint consumers call the same empty-base fold at 00211E58. Emit
+// its complete native body here so link selection has a certified provider.
+template _STL::_Vector_base<unsigned int, _STL::allocator<unsigned int> >::_Vector_base(
+    const _STL::allocator<unsigned int> &);

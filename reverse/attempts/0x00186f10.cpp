@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.9897084048027445 date=2026-10-19
+// ?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.542 date=2026-10-17
 // ?Calculate_Texture_Matrix@GridWSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.5463121784 date=2026-09-27
@@ -56,104 +58,87 @@ void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	// multiply by inverse of view transform	
 	Matrix4x4 mat;	
 	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);		
-	Matrix4x4 mv;
-	float zero = (float)(double)0.0f;
-	float one = (float)(double)1.0f;
-	mv[0].X = (1 ? (mat[0].X) : (mat[0].X));
-	mv[0].Y = mat[1].X;
-	mv[0].Z = mat[2].X;
-	mv[1].X = mat[0].Y;
-	mv[1].Y = mat[1].Y;
-	mv[1].Z = mat[2].Y;
-	mv[2].X = mat[0].Z;
-	mv[2].Y = mat[1].Z;
-	mv[2].Z = mat[2].Z;
-	mv[0].W = zero;
-	mv[1].W = zero;
-	mv[2].W = zero;
-	mv[3].X = zero;
-	mv[3].Y = zero;
-	mv[3].Z = zero;
-	mv[3].W = one;	
+	Matrix4x4 mv(
+        Vector4(mat[0].X, mat[1].X, mat[2].X, 0.0f),
+        Vector4(mat[0].Y, mat[1].Y, mat[2].Y, 0.0f),
+        Vector4(mat[0].Z, mat[1].Z, mat[2].Z, 0.0f),
+        Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 
 	update_temporal_state();
 
 	float u_offset, v_offset;
 	calculate_uv_offset(&u_offset, &v_offset);
 
-	struct { float v; unsigned char pad[12]; } del_pad;
-	del_pad.v = (float)(double)(0.5f * OOGridWidth);
-	float del = del_pad.v;
+	float del = 0.5f * OOGridWidth;
 	// Set up the offset matrix		
 	Matrix4x4 md;	
 
 	switch (Axis) {
 		case AXISTYPE_X:
-				md[0].X = 0.0f;
-	md[0].Y = del;
-	md[0].Z = 0.0f;
-	md[0].W = u_offset + del;
-	md[1].X = 0.0f;
-	md[1].Y = 0.0f;
-	md[1].Z = del;
-	md[1].W = v_offset + del;
-	md[2].X = 0.0f;
-	md[2].Y = 0.0f;
-	md[2].Z = 1.0f;
-	md[2].W = 0.0f;
-	md[3].X = 0.0f;
-	md[3].Y = 0.0f;
-	md[3].Z = 0.0f;
-	md[3].W = 1.0f;
+			md[0].X = 0.0f;
+			md[0].Y = del;
+			md[0].Z = 0.0f;
+			md[0].W = u_offset + del;
+			md[1].X = 0.0f;
+			md[1].Y = 0.0f;
+			md[1].Z = del;
+			md[1].W = v_offset + del;
+			md[2].X = 0.0f;
+			md[2].Y = 0.0f;
+			md[2].Z = 1.0f;
+			md[2].W = 0.0f;
+			md[3].X = 0.0f;
+			md[3].Y = 0.0f;
+			md[3].Z = 0.0f;
+			md[3].W = 1.0f;
 			break;
 		case AXISTYPE_Y:
-				md[0].X = del;
-	md[0].Y = 0.0f;
-	md[0].Z = 0.0f;
-	md[0].W = u_offset + del;
-	md[1].X = 0.0f;
-	md[1].Y = 0.0f;
-	md[1].Z = del;
-	md[1].W = v_offset + del;
-	md[2].X = 0.0f;
-	md[2].Y = 0.0f;
-	md[2].Z = 1.0f;
-	md[2].W = 0.0f;
-	md[3].X = 0.0f;
-	md[3].Y = 0.0f;
-	md[3].Z = 0.0f;
-	md[3].W = 1.0f;
+			md[0].Y = 0.0f;
+			md[0].X = del;
+			md[0].Z = 0.0f;
+			md[0].W = u_offset + del;
+			md[1].X = 0.0f;
+			md[1].Y = 0.0f;
+			md[1].Z = del;
+			md[1].W = v_offset + del;
+			md[2].X = 0.0f;
+			md[2].Y = 0.0f;
+			md[2].Z = 1.0f;
+			md[2].W = 0.0f;
+			md[3].X = 0.0f;
+			md[3].Y = 0.0f;
+			md[3].Z = 0.0f;
+			md[3].W = 1.0f;
 			break;
 		case AXISTYPE_Z:
 		default:
-				md[0].X = del;
-	md[0].Y = 0.0f;
-	md[0].Z = 0.0f;
-	md[0].W = u_offset + del;
-	md[1].X = 0.0f;
-	md[1].Y = del;
-	md[1].Z = 0.0f;
-	md[1].W = v_offset + del;
-	md[2].X = 0.0f;
-	md[2].Y = 0.0f;
-	md[2].Z = 1.0f;
-	md[2].W = 0.0f;
-	md[3].X = 0.0f;
-	md[3].Y = 0.0f;
-	md[3].Z = 0.0f;
-	md[3].W = 1.0f;			
+			md[0].Y = 0.0f;
+			md[0].X = del;
+			md[0].Z = 0.0f;
+			md[0].W = u_offset + del;
+			md[1].X = 0.0f;
+			md[1].Y = del;
+			md[1].Z = 0.0f;
+			md[1].W = v_offset + del;
+			md[2].X = 0.0f;
+			md[2].Y = 0.0f;
+			md[2].Z = 1.0f;
+			md[2].W = 0.0f;
+			md[3].X = 0.0f;
+			md[3].Y = 0.0f;
+			md[3].Z = 0.0f;
+			md[3].W = 1.0f;
 			break;
 	}	
 	// multiply by inverse of view transform, then
 	// change the world space reflection vector to a UV coordinate
 	// then offset by the grid coordinate
 
-	{
-	float del_copy = del;
 	tex_matrix = md * mv;
-	*(volatile float*)&del = del_copy;
-	}
 }
 
 // Resume: scalar-Init and product-temporary variants did not match. Use
 // bfmestages first: verified render-state has 16 textures and view at +22C.
+
+// Resume 2026-10-19: native Vector4 inverse-view rows remove the farm levers.
+// Only the shared Y/default copy/store order differs; see the accompanying handoff.

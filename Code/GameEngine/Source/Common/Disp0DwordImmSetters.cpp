@@ -413,18 +413,8 @@ void Rva00019EC0DwordImmSetter::apply()
 	m_value = ((unsigned int)vtbl_00BBC8D4);
 }
 
-class Rva00035780DwordImmSetter
-{
-public:
-	void apply();
-
-	unsigned int m_value;
-};
-
-void Rva00035780DwordImmSetter::apply()
-{
-	m_value = ((unsigned int)vtbl_00BE2B78);
-}
+// Native35780 is the scoped WideStrLenSource destructor; its complete C++
+// definition now owns the row in StringBaseWideStrLenSet.cpp.
 
 class Rva0005CF86BDwordImmSetter
 {

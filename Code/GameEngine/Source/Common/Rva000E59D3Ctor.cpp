@@ -54,11 +54,18 @@ public:
     virtual ~Rva000E59D3Base();
 };
 
+class TextureClass
+{
+public:
+    void Release_Ref();
+};
+
+// Same one-word owning texture handle as the paired native destructor.
 class Rva000E59D3Holder14
 {
 public:
     Rva000E59D3Holder14(int v) : m_ptr((void *)v) {}
-    ~Rva000E59D3Holder14();
+    ~Rva000E59D3Holder14() { if (m_ptr) ((TextureClass *)m_ptr)->Release_Ref(); }
 private:
     void *m_ptr;
 };
