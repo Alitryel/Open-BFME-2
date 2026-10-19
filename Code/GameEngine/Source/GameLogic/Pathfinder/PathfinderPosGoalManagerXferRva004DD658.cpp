@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
-// ?rva004DD658@Rva004DD843@@QAEXPAVXfer@@@Z
+// ?rva004DD658@PathfinderPosGoalManager@@QAEXPAVXfer@@@Z
 // Retail 0x004DD658 90 bytes RET4. PathfinderPosGoalManager (the 0x4C-byte
 // object Object::DoXfer 0x00297684 allocates at Object+0x44 through ctor
 // 0x004DD7E3 and serializes with this call; WB twin 0x01286B40). Version 1
@@ -137,7 +137,7 @@ struct Rva004DD843Slot
 	PathfindCell *m_pathCell;
 };
 
-class Rva004DD843
+class PathfinderPosGoalManager
 {
 public:
 	void rva004DD658(Xfer *xfer);
@@ -148,7 +148,7 @@ public:
 	Rva004DD843Slot m_other;
 };
 
-void Rva004DD843::rva004DD658(Xfer *xfer)
+void PathfinderPosGoalManager::rva004DD658(Xfer *xfer)
 {
 	xfer->Version1();
 	Xfer *next = XferPathfindLayerEnum(
@@ -163,7 +163,7 @@ void Rva004DD843::rva004DD658(Xfer *xfer)
 // member above (its only callee) and returns the Xfer, the stream-operator
 // shape (twin skeleton of the STLport ostream operator<< at 0x001F65F4).
 // The original spelling (operator or helper) is unknown; address-named.
-Xfer *__cdecl rva0028A818(Xfer *xfer, Rva004DD843 *manager)
+Xfer *__cdecl rva0028A818(Xfer *xfer, PathfinderPosGoalManager *manager)
 {
 	manager->rva004DD658(xfer);
 	return xfer;

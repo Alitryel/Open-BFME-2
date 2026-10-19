@@ -134,7 +134,7 @@ public:
 	void rva0039D8BA(Object *obj);	// 0x0039D8BA setEnteredExited
 };
 
-class Rva004DD843
+class PathfinderPosGoalManager
 {
 public:
 	bool rva004DE2ED();	// 0x004DE2ED
@@ -193,7 +193,7 @@ private:
 	Real m_y;	// +0x3C
 	Real m_z;	// +0x40
 	char m_pad044[0xA4 - 0x44];
-	Rva004DD843 *m_a4;	// +0xA4
+	PathfinderPosGoalManager *m_a4;	// +0xA4
 	char m_pad0A8[0x1C4 - 0xA8];
 	Real m_averageGroundHeight;	// +0x1C4
 	char m_pad1C8[0x304 - 0x1C8];

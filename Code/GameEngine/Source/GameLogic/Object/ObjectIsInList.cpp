@@ -39,7 +39,7 @@ public:
 extern TerrainLogic *TheTerrainLogic;
 
 // The object at Object+0xA4 (see ObjectRvaSmallGetters.cpp).
-class Rva004DD843
+class PathfinderPosGoalManager
 {
 public:
 	bool rva004DE2ED();	// rowed 0x004DE2ED returns bool; this caller ignores it
@@ -57,7 +57,7 @@ private:
 	Object *m_next; // +0x8C
 	Object *m_prev; // +0x90
 	unsigned char m_pad94[0xA4 - 0x94];
-	Rva004DD843 *m_a4; // +0xA4
+	PathfinderPosGoalManager *m_a4; // +0xA4
 	unsigned char m_padA8[0x40C - 0xA8];
 	PathfindLayerEnum m_layer; // +0x40C
 };

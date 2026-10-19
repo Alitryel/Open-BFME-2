@@ -31,7 +31,7 @@ extern GameLogic*TheGameLogic;
 enum ObjectStatusTypes{STATUS_51=51};
 struct LoadTemplate{char pad[0x10f];unsigned char kind10F;char pad110[15];unsigned char kind11F;};
 class Object{public:bool testStatus(ObjectStatusTypes)const;void tempRemoveObjectFromWorld();int rva0028B511()const;char pad[4];LoadTemplate*templ;};
-class Rva004DD843{public:void LoadPostProcess();};
+class PathfinderPosGoalManager{public:void LoadPostProcess();};
 struct CameraMarker{~CameraMarker();CameraMarker*index;AsciiString name;};
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
@@ -73,7 +73,7 @@ struct LoadScoringView{char pad[0x98];bool enabled;};
 struct LoadXPView{char pad[16];float points;};
 struct LoadBinding{void*region;int opaque;};
 class Rva00293EFFLoadView{public:virtual~Rva00293EFFLoadView();virtual void LoadPostProcess();
-char pad04[0x40];Rva004DD843*goal;char pad48[0x204-0x48];void*xp;char pad208[12];Object*contained;ObjectID containedId;char pad21C[8];_STL::_Base_bitset<32>mask;char pad2A4[0x2d0-0x2a4];WeaponSet weapons;char pad2D1[0x360-0x2d1];LoadBinding binding[9];_STL::list<CameraMarker>names;
+char pad04[0x40];PathfinderPosGoalManager*goal;char pad48[0x204-0x48];void*xp;char pad208[12];Object*contained;ObjectID containedId;char pad21C[8];_STL::_Base_bitset<32>mask;char pad2A4[0x2d0-0x2a4];WeaponSet weapons;char pad2D1[0x360-0x2d1];LoadBinding binding[9];_STL::list<CameraMarker>names;
 __forceinline Object*original(){return(Object*)((char*)this-0x60);}
 };
 void Rva00293EFFLoadView::LoadPostProcess(){

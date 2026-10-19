@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /DNDEBUG /MD
 // Native4DE47E..4DE4E2/100B; WB1286BF0 explicitly names
 // PathfinderPosGoalManager::LoadPostProcess. Existing Object+A4
-// forwarders and the three18B slot flushes own Rva004DD843 and its
+// forwarders and the three18B slot flushes own PathfinderPosGoalManager and its
 // three24B slots. Retail reads owner0/template4/flags114/AI258;
 // AI virtual224 returns AL. Original predicate and slot state names unknown.
 struct Rva004DD843Slot{int value;char pad04[12];int state;int auxiliary;};
@@ -28,8 +28,8 @@ virtual void slot136();
 virtual bool slot137();
 };
 struct GoalOwner{char pad00[4];GoalTemplate*templ;char pad08[0x258-8];GoalAIInterface*ai;};
-class Rva004DD843{public:void LoadPostProcess();void rva004DDF51(Rva004DD843Slot*);GoalOwner*owner;Rva004DD843Slot slot04,slot1C,slot34;};
-void Rva004DD843::LoadPostProcess(){
+class PathfinderPosGoalManager{public:void LoadPostProcess();void rva004DDF51(Rva004DD843Slot*);GoalOwner*owner;Rva004DD843Slot slot04,slot1C,slot34;};
+void PathfinderPosGoalManager::LoadPostProcess(){
  if(slot04.value!=-666666){slot04.state=owner->templ->flags&0x2000?4:3;rva004DDF51(&slot04);}
  if(slot1C.value!=-666666){slot1C.state=owner->ai->slot137()?0:2;rva004DDF51(&slot1C);}
 }

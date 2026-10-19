@@ -20,7 +20,7 @@ void *__cdecl rva002EBC7F(void *out, void *owner, Rva002EBC7FPair *position, int
 // The object at Object+0xA4. Its float getter at 0x004DD843 is rowed under
 // this address-derived class name, so the forwarders below reuse it; the
 // remaining methods are pinned from the forwarders' own REL32 targets.
-class Rva004DD843
+class PathfinderPosGoalManager
 {
 public:
 	void rva004DE24B(int arg);
@@ -86,7 +86,7 @@ class Object
 	char m_pad3C[0x44 - 0x3C];		// +0x03C..+0x044 unknown
 	float m_44;						// +0x044
 	char m_pad48[0xA4 - 0x48];		// +0x048..+0x0A4 unknown
-	Rva004DD843 *m_sub;				// +0x0A4
+	PathfinderPosGoalManager *m_sub;				// +0x0A4
 	char m_pad1[0x240 - 0xA4 - 4];	// +0x0A8..+0x240 unknown
 	Rva0028AF76Sub *m_sub240;		// +0x240
 	char m_pad2[0x358 - 0x244];		// +0x244..+0x358 unknown
@@ -132,7 +132,7 @@ public:
 // rva002EBC7F, copies its 12-byte result to the output, and returns true.
 // The method names and owner layout remain address-derived; the wrappers
 // support the goal/pathfinder roles and the pair offsets below.
-bool Rva004DD843::rva004DD80A(Coord3D *out)
+bool PathfinderPosGoalManager::rva004DD80A(Coord3D *out)
 {
 	Rva002EBC7FPair *position = (Rva002EBC7FPair *)((char *)this + 0x1c);
 	if (position->x == -666666)
@@ -143,7 +143,7 @@ bool Rva004DD843::rva004DD80A(Coord3D *out)
 	return true;
 }
 
-bool Rva004DD843::rva004DD84D(Coord3D *out)
+bool PathfinderPosGoalManager::rva004DD84D(Coord3D *out)
 {
 	Rva002EBC7FPair *position = (Rva002EBC7FPair *)((char *)this + 4);
 	if (position->x == -666666)
@@ -213,7 +213,7 @@ float Object::GetGoalAngle() const
 
 int Object::GetGoalLayer() const
 {
-	const Rva004DD843 *sub = m_sub;
+	const PathfinderPosGoalManager *sub = m_sub;
 	if (sub == 0)
 		return 1;
 	return sub->m_value;
@@ -245,12 +245,12 @@ bool Object::IsAtGoalPosition() const
 	return m_sub->rva004DD637();
 }
 
-// ?rva004DD637@Rva004DD843@@QAE_NXZ @ 0x004DD637 (33B). The exact body
+// ?rva004DD637@PathfinderPosGoalManager@@QAE_NXZ @ 0x004DD637 (33B). The exact body
 // rejects -666666 at this+0x1C, then calls rowed ICoord2D::operator== at
 // 0x00004CAD with this+0x1C as its receiver and this+4 as its argument.
 // Object::IsAtGoalPosition above forwards here through Object+0xA4; the owner
 // class and method identity remain address-derived.
-bool Rva004DD843::rva004DD637()
+bool PathfinderPosGoalManager::rva004DD637()
 {
 	const ICoord2D *position = (const ICoord2D *)((const char *)this + 0x1c);
 	return position->x != -666666 &&
@@ -319,7 +319,7 @@ int Object::rva0028B511() const
 }
 
 // ?rva0028CDB6@Object@@QAEXXZ, retail 0x0028CDB6, 53 bytes.
-// Null-checked forwarder through Object+0xA4 (Rva004DD843): int from
+// Null-checked forwarder through Object+0xA4 (PathfinderPosGoalManager): int from
 // Object::rva0028B511 plus float at +0x44 and address of +0x38 into
 // 0x004DE109, then address of +0x38 into 0x004DE24B. Evidence: callees all
 // rowed or pinned; callers at 0x00295C62 0x0034F681 0x00587289 0x0058808F;
@@ -327,7 +327,7 @@ int Object::rva0028B511() const
 // rva0028B511 keeps sub in edx with no extra push.
 void Object::rva0028CDB6()
 {
-	Rva004DD843 *sub = m_sub;
+	PathfinderPosGoalManager *sub = m_sub;
 	if (sub != 0) {
 		int *p = &m_38;
 		int v = rva0028B511();

@@ -446,7 +446,7 @@ public:
 	int m_value;
 };
 
-class Rva004DD843
+class PathfinderPosGoalManager
 {
 public:
 	void rva004DD658(Xfer *xfer);
@@ -499,7 +499,7 @@ public:
 	AsciiString m_name; // +0x088
 	char m_pad08C[0x8];
 	BitFlags<101> m_status; // +0x094
-	Rva004DD843 *m_posGoal; // +0x0A4
+	PathfinderPosGoalManager *m_posGoal; // +0x0A4
 	GeometryInfo m_geometryInfo; // +0x0A8
 	BitFlags<591> m_modelConditionFlags; // +0x10C
 	char m_pad158[0x54];
@@ -978,7 +978,7 @@ void Object::xfer(Xfer *xfer)
 			if (xfer->IsLoading())
 			{
 				delete (Rva004DDF3A *)m_posGoal;
-				m_posGoal = (Rva004DD843 *)new Rva004DD7E3((int)this);
+				m_posGoal = (PathfinderPosGoalManager *)new Rva004DD7E3((int)this);
 			}
 			m_posGoal->rva004DD658(xfer);
 		}

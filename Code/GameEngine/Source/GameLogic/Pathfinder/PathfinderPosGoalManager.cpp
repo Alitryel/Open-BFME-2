@@ -6,7 +6,7 @@
 // then sixteen 40-byte layers at +60. All offsets and extents are target facts.
 // WB 01286E90 calls this operation PathfinderPosGoalManager::RemoveObjPtr and
 // corroborates its loops, failure fallback, ReleaseInfo, and -666666 reset.
-// Preserve the existing receiver/slot names; the original slot and node type
+// Preserve the existing slot names; the original slot and node type
 // names are unknown. BFME1 ba7ddda and ZH provide no clean class implementation.
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Oy- /Ireference/shims/bfme2_ascii
 class Object;
@@ -61,7 +61,7 @@ struct Rva004DD8FAAIView {
 };
 class AI;
 extern AI *TheAI;
-class Rva004DD843 {
+class PathfinderPosGoalManager {
 public:
     void rva004DD8FA(Rva004DD843Slot *slot);
     void SetGoal(int position, float angle, int layer);
@@ -73,7 +73,7 @@ public:
     Rva004DD843Slot m_goal;
     Rva004DD843Slot m_other;
 };
-void Rva004DD843::rva004DD8FA(Rva004DD843Slot *slot)
+void PathfinderPosGoalManager::rva004DD8FA(Rva004DD843Slot *slot)
 {
     PathfindCell *cur = slot->m_cell;
     while (cur) {
@@ -209,7 +209,7 @@ class Object { public:
 };
 
 ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *,void *,const Coord3D *);
-void Rva004DD843::SetGoal(int position,float angle,int layer)
+void PathfinderPosGoalManager::SetGoal(int position,float angle,int layer)
 {
  int bin;
  if (!(m_object->m_template->kind11C & 0x4000000)) bin=0; else bin=Rva004DD6CFGet(angle);
@@ -277,7 +277,7 @@ class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object
 float __cdecl Rva004DD722Get(int);
 int __cdecl Rva002E9B31Get(void *);
 int __cdecl Rva002E6E6CGet(int);
-void Rva004DD843::rva004DDF51(Rva004DD843Slot *slot)
+void PathfinderPosGoalManager::rva004DDF51(Rva004DD843Slot *slot)
 {
  ICoord2DBase diameter;
  Object *obj=m_object;
@@ -404,7 +404,7 @@ int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diame
 // offsets, sentinel -666666, list kind 1 and the callees; the copy of the cell
 // through the slot address (edi) and the final &m_other argument fix the
 // retail store schedule.
-void Rva004DD843::rva004DE24B(int position)
+void PathfinderPosGoalManager::rva004DE24B(int position)
 {
  Object *obj=m_object;
  if (obj->m_status & 1)
@@ -431,7 +431,7 @@ void Rva004DD843::rva004DE24B(int position)
  }
 }
 int Rva002E6E8AGet(int);
-bool Rva004DD843::rva004DE2ED()
+bool PathfinderPosGoalManager::rva004DE2ED()
 {
  int mode=(m_object->m_template->flags114 & 0x2000) ? 4 : 3;
  if (m_object->m_status & 1)
