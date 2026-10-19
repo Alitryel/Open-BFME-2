@@ -38,9 +38,10 @@ typedef void (__cdecl *Rva009B3800Filter)(
 	Rva009B3800Context *, unsigned char *, unsigned int, int *);
 
 extern int *g_bfmeDeblockLimit;
-// g_bfmeDeblockLimitV1: matched references place it at VA 0xbd8a48; retail contents, sized to the
-// 0x238-byte gap before the next known global there.
-int g_bfmeDeblockLimitV1[142] = {
+// g_bfmeDeblockLimitV1: the V1 deblock limits by Q index (VA 0xbd8a48, 64
+// dwords, retail contents; spec 001c4100). The token tables at 0xbd8b48 that
+// follow belong to HuffTokens.cpp.
+int g_bfmeDeblockLimitV1[64] = {
 	30, 25, 20, 20, 15, 15, 14, 14,
 	13, 13, 12, 12, 11, 11, 10, 10,
 	9, 9, 8, 8, 7, 7, 7, 7,
@@ -49,16 +50,6 @@ int g_bfmeDeblockLimitV1[142] = {
 	2, 2, 2, 2, 2, 2, 2, 2,
 	0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0,
-	0, 1, 2, 3, 4, 5, 7, 11,
-	19, 35, 67, 0, -1, 0, 1, 1,
-	1, 2, 2, 2, 2, 2, 2, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 3, 3, 0,
 };
 struct Rva009ACC40State;
 // The two filters are slots 9 (VA 0x00E22FA0) and 25 (VA 0x00E22FE0) of the
