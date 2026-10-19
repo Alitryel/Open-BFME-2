@@ -55,7 +55,24 @@ public:
 		SurfaceResource *destination, const BfmeRect *destinationRect, Int mode);
 };
 
-extern BfmeD3DDevice *g_bfmeD3DDevice;
+// The device at 0x00DEDA34 is DX8Wrapper's protected D3DDevice (defined in
+// dx8wrapper.cpp), read through its public inline accessor.
+struct IDirect3DDevice8;
+
+class DX8Wrapper
+{
+public:
+	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
+
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+};
+
+// This unit's view of that device.
+static __forceinline BfmeD3DDevice *backBufferDevice()
+{
+	return (BfmeD3DDevice *)DX8Wrapper::_Get_D3D_Device8();
+}
 extern unsigned number_of_DX8_calls;
 
 class W3DRadarResetSurface
@@ -84,7 +101,7 @@ private:
 W3DRadarResetSurface getBackBufferSurface006e(Int index)
 {
 	SurfaceResource *surface = 0;
-	g_bfmeD3DDevice->getBackBuffer(0, index, 0, &surface);
+	backBufferDevice()->getBackBuffer(0, index, 0, &surface);
 	++number_of_DX8_calls;
 
 	if (surface)
@@ -101,9 +118,7 @@ W3DRadarResetSurface getBackBufferSurface006e(Int index)
 void copySurfaceRects006e(W3DRadarResetSurface source, const BfmeRect *sourceRect,
 	W3DRadarResetSurface destination, const BfmeRect *destinationRect, Int mode)
 {
-	g_bfmeD3DDevice->copySurfaceRects(
+	backBufferDevice()->copySurfaceRects(
 		source.getSurface(), sourceRect, destination.getSurface(), destinationRect, mode);
 	++number_of_DX8_calls;
 }
-// ?g_bfmeD3DDevice@@3PAVBfmeD3DDevice@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
-#pragma comment(linker, "/alternatename:?g_bfmeD3DDevice@@3PAVBfmeD3DDevice@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
