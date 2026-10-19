@@ -154,7 +154,8 @@ struct Rva004110DCGlobalTable;
 struct Rva004114EFGlobalTable;
 extern Rva00411112GlobalTable g_Va00E0300C;
 extern Rva004110DCGlobalTable g_Va00E02FF8;
-extern Rva004114EFGlobalTable g_Va00E02FE4;
+// VA 0x00E02FE4: the component-window table AptComponentWindowLookup.cpp owns.
+extern unsigned int AptComponentWindowDataTableStorage[5];
 extern unsigned int g_rva00E02FC0Bits;
 void Rva00411336(void *slot, void *owner, char *out);
 
@@ -171,7 +172,7 @@ void Rva00411E80(int value)
     void *owner = reinterpret_cast<void *>(value);
     Rva00411336(&g_Va00E0300C, owner, &v);
     Rva00411336(&g_Va00E02FF8, owner, &v);
-    bfmeLoadSJA(&g_Va00E02FE4, owner, &v);
+    bfmeLoadSJA(AptComponentWindowDataTableStorage, owner, &v);
     g_rva00E02FC0Bits &= ~1;
 }
 

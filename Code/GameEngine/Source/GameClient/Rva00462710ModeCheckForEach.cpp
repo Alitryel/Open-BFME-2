@@ -110,8 +110,8 @@ template Rva0045F0A0 _STL::for_each<Rva0045F0A0Table::iterator,
 // retail's shared 0x00427195; with none it clears or sets bit 0 of
 // 0x00E02FC0 (Bfme5SmallTests.cpp's g_rva00E02FC0Bits), and the disable path
 // also drops TheWindowManager's focus (slot 0xC4, winSetFocus).
-extern Rva0045F0A0Table g_Va00E02FE4ComponentTable;
-#pragma comment(linker, "/alternatename:?g_Va00E02FE4ComponentTable@@3V?$hashtable@URva0045F0A0Input@@VAsciiString@@U?$hash@VAsciiString@@@rts@@URva0045F0A0ExtractKey@@U?$equal_to@VAsciiString@@@_STL@@V?$allocator@URva0045F0A0Input@@@7@@_STL@@A=?g_Va00E02FE4@@3URva004114EFGlobalTable@@A")
+// The component table at VA 0x00E02FE4 is AptComponentWindowLookup.cpp's owned storage.
+extern unsigned int AptComponentWindowDataTableStorage[5];
 extern unsigned int g_rva00E02FC0Bits;
 
 class GameWindow;
@@ -137,7 +137,7 @@ void EnableComponents(const char *name)
 {
 	if (name != 0 && *name != 0)
 	{
-		Rva0045F0A0Table &table = g_Va00E02FE4ComponentTable;
+		Rva0045F0A0Table &table = *(Rva0045F0A0Table *)AptComponentWindowDataTableStorage;
 		_STL::for_each(table.begin(), table.end(), Rva0045F0A0(true, name));
 	}
 	else
@@ -150,7 +150,7 @@ void DisableComponents(const char *name)
 {
 	if (name != 0 && *name != 0)
 	{
-		Rva0045F0A0Table &table = g_Va00E02FE4ComponentTable;
+		Rva0045F0A0Table &table = *(Rva0045F0A0Table *)AptComponentWindowDataTableStorage;
 		_STL::for_each(table.begin(), table.end(), Rva0045F0A0(false, name));
 	}
 	else

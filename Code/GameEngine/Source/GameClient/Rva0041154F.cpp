@@ -18,7 +18,8 @@ public:
 	void *first(Rva000411084 *iter);
 };
 
-extern Rva000427195 g_00E02FE4;
+// VA 0x00E02FE4: the component-window table AptComponentWindowLookup.cpp owns.
+extern unsigned int AptComponentWindowDataTableStorage[5];
 
 class GameWindow
 {
@@ -39,7 +40,7 @@ struct Rva0041154FNode
 void Rva0041154FHide()
 {
 	Rva000411084 iter;
-	g_00E02FE4.first(&iter);
+	reinterpret_cast<Rva000427195 *>(AptComponentWindowDataTableStorage)->first(&iter);
 	while (iter.m_current != 0) {
 		Rva0041154FNode *node = (Rva0041154FNode *)iter.m_current;
 		if (node->m_2C == 0) {
@@ -57,4 +58,3 @@ void Rva0041154FHide()
 
 // The global(s) below are defined elsewhere under another name at the same
 // address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00E02FE4@@3VRva000427195@@A=?g_Va00E02FE4@@3URva004114EFGlobalTable@@A")

@@ -28,7 +28,8 @@ struct Rva004114EFGlobalTable
 	unsigned int m_numElements;
 };
 
-extern Rva004114EFGlobalTable g_Va00E02FE4;
+// VA 0x00E02FE4: the component-window table AptComponentWindowLookup.cpp owns.
+extern unsigned int AptComponentWindowDataTableStorage[5];
 
 struct Rva00411523Node
 {
@@ -45,7 +46,7 @@ public:
 void Rva00411523::rva00411523()
 {
 	Rva000411084 iter;
-	reinterpret_cast<Rva000427195 *>(&g_Va00E02FE4)->first(&iter);
+	reinterpret_cast<Rva000427195 *>(AptComponentWindowDataTableStorage)->first(&iter);
 	while (iter.m_current != 0) {
 		((Rva00411523Node *)iter.m_current)->m_flag2C = 0;
 		iter.next();

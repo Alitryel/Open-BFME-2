@@ -141,7 +141,8 @@ void __cdecl rva007B8233();
 
 struct BfmeAptScreenRefStorage;
 extern BfmeAptScreenRefStorage g_aptScreenReferences;
-unsigned g_Va00E02FE4;	// retail RVA 0x00A02FE4 (.bss), defined here
+// RVA 0x00A02FE4 is AptComponentWindowLookup.cpp's owned component-window table.
+extern unsigned int AptComponentWindowDataTableStorage[5];
 unsigned g_Va00E02FF8;	// retail RVA 0x00A02FF8 (.bss), defined here
 struct Rva00411112GlobalTable;
 extern Rva00411112GlobalTable g_Va00E0300C;
@@ -164,7 +165,7 @@ void Rva004121B2HashMapInits::rva007AFF1A()
 // 0x007AFF30 (22B): Rva004121B2() on VA 0x00E02FE4, atexit(0x007B821F -> hashtable dtor 0x00410C42)
 void Rva004121B2HashMapInits::rva007AFF30()
 {
-	( (Rva004121B2 *)&g_Va00E02FE4 )->Rva004121B2::Rva004121B2();
+	( (Rva004121B2 *)AptComponentWindowDataTableStorage )->Rva004121B2::Rva004121B2();
 	atexit( rva007B821F );
 }
 
