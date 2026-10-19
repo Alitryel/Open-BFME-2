@@ -42,7 +42,8 @@ class UnitCrateCollideModuleData : public CrateCollideModuleData
 {
 public:
 	UnitCrateCollideModuleData();
-	virtual ~UnitCrateCollideModuleData();
+	// Implicit destructor, as in ZH's UnitCrateCollide.h: retail folds it with
+	// GrantScienceUpgradeModuleData's (0x0025637D, ??_G 0x00256361 in slot 0).
 
 private:
 	unsigned int m_unitCount;			// +0x5C
