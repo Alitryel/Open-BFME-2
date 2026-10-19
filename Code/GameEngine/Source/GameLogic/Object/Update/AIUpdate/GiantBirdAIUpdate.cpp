@@ -369,7 +369,8 @@ public:
 	virtual void gap08(); virtual void gap09(); virtual void gap10(); virtual void gap11();
 	virtual void gap12(); virtual void gap13();
 	virtual void slot14(void *arg) = 0; // +0x38
-	StateID getCurrentStateID() const { return m_currentState ? m_currentState->getID() : INVALID_STATE_ID; }
+	// Inlined at every call; dllimport keeps this view from emitting its own copy.
+	__declspec(dllimport) __forceinline StateID getCurrentStateID() const { return m_currentState ? m_currentState->getID() : INVALID_STATE_ID; }
 private:
 	State *m_currentState; // +0x04
 };
@@ -507,7 +508,7 @@ void GiantBirdAIUpdate::rva0036AE79()
 		{
 			clearFlag(6);
 			ContainmentList riders = contain->getContainedItemsView().rva0036AE51();
-			for (ContainmentList::iterator it = riders.begin(); it != riders.end(); )
+			for (ContainmentList::iterator it = riders.begin(); it._M_node != riders.end()._M_node; )
 			{
 				Object *rider = (Object *)containmentFirstWord(*it);
 				++it;
