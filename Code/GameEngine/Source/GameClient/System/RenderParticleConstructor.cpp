@@ -1,5 +1,5 @@
 // stlport
-// cl: /O1 /MD /arch:SSE /G7 /EHsc /Ireference/shims/bfme2_ascii
+// cl: /O1 /MD /arch:SSE /G7 /EHs /Ireference/shims/bfme2_ascii /D_CRTIMP= /Ireference/shims/bfmealloc
 // Native1FC49D..1FC701 (612B), reference source and native caller/callee evidence.
 // Existing target vtable and136B destructor supply Rva001FC0F1 owner;
 // recovered base1F4B63 supplies88B receiver prefix; heap caller1FCC73
@@ -137,37 +137,7 @@ class RenderObjClass;
 class HTreeClass;
 RenderObjClass*Create_Render_Obj(const char*);
 #include "../../../../Libraries/Source/WWVegas/WW3D2/AnimationAssetBFME2.h"
-// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
-// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
-{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
-}
-// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
-namespace _STL { template <> _Rb_tree_base<Rva001408C0Target *, allocator<Rva001408C0Target *> >::~_Rb_tree_base(); }
-// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> _Rb_tree_base<Rva001408C0Target *, allocator<Rva001408C0Target *> >::_Rb_tree_base(const allocator<Rva001408C0Target *> &); }
-// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@PAURva001408C0Target@@PAU1@U?$_Identity@PAURva001408C0Target@@@_STL@@:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> void _Rb_tree<Rva001408C0Target *, Rva001408C0Target *, _Identity<Rva001408C0Target *>, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::_M_erase(_Rb_tree_node<Rva001408C0Target *> *); }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@@_STL@@QBEXPAU?$_Rb_:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> void allocator<_Rb_tree_node<Rva001408C0Target *> >::deallocate(_Rb_tree_node<Rva001408C0Target *> *, size_t) const; }
-// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@@_STL@@QBEPAU?$_Rb_tre:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_tree_node<Rva001408C0Target *> >::allocate(size_t, const void *) const; }
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-struct Rva001408C0Target;
-namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 void rva0010E4F6(void*,bool);
 class ParticleModelModule621 {public:virtual void v00();virtual void v04();virtual void v08();virtual void v0C();virtual void v10();virtual AsciiString modelName();virtual void v18();virtual int modelValue();};
 struct ParticleSystemModel621 {char unknown00[0xC];int kind;char unknown10[0x1B4];ParticleModelModule621*module;};
