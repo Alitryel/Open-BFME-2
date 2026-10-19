@@ -1,4 +1,4 @@
-// cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // Native 0021FFEE..00220105 (279B), vtable BE648C slot0's complete dtor.
 // Target offsets and EH states establish the member destruction order below.
@@ -9,14 +9,10 @@
 #include <map>
 #include "ascii_string.h"
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	AsciiString m_name;
-};
+// SubsystemInterface's fourteen-slot BFME2 view, shared with the constructor
+// unit so both emit one CreateAHeroManager vftable (0x00BE648C).
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 class CreateAHeroData
 {
@@ -37,18 +33,6 @@ public:
 };
 template <> _STL::vector<Rva0021F876>::~vector();
 template <> void _STL::vector<Rva0021F876>::push_back(const Rva0021F876 &);
-
-// The named, independently rowed 00219C1F accessor views the same 32B class
-// record and its 216B subclass range. Keep the existing container spelling.
-class CreateAHeroManager
-{
-public:
-	class CreateAHeroClass
-	{
-	public:
-		int GetAwardCount(unsigned int subClassIndex);
-	};
-};
 
 struct Rva0021DA18
 {
@@ -76,10 +60,30 @@ public:
 	void rva0040A59B();
 };
 
-class Rva0021FFEE : public SubsystemInterface
+// CreateAHeroManager (formerly the Rva0021FFEE placeholder): its constructor
+// 0x0021FE49 installs vftable 0x00BE648C, whose slot 0 is this destructor's
+// scalar deleting destructor 0x002201B9. Retail slots: 1 init, 2 a `return
+// true` loadIniFilesFromLegend (0x0050B5C6), 9 reset and 10 update both the
+// folded empty body 0x000B3FD0; the other slots keep the base's.
+class CreateAHeroManager : public SubsystemInterface
 {
 public:
-	virtual ~Rva0021FFEE();
+	// The named, independently rowed 00219C1F accessor views the same 32B class
+	// record and its 216B subclass range. Keep the existing container spelling.
+	class CreateAHeroClass
+	{
+	public:
+		int GetAwardCount(unsigned int subClassIndex);
+	};
+
+	virtual ~CreateAHeroManager();
+	virtual void init();
+	// ?loadIniFilesFromLegend@CreateAHeroManager present-unmatched
+	virtual Bool loadIniFilesFromLegend() { return true; }
+	// ?reset@CreateAHeroManager present-unmatched
+	virtual void reset() {}
+	// ?update@CreateAHeroManager present-unmatched
+	virtual void update() {}
 	Rva0021F876 *rva0022020C(Rva0021F876 &entry);
 private:
 	CreateAHeroData m_hero0C;
@@ -101,7 +105,7 @@ private:
 	AsciiString m_text1E8, m_text1EC;
 };
 
-Rva0021FFEE::~Rva0021FFEE()
+CreateAHeroManager::~CreateAHeroManager()
 {
 	m_state1E0 = 0;
 	reinterpret_cast<Rva0040A59B *>(&m_tree174)->rva0040A59B();
@@ -111,7 +115,7 @@ Rva0021FFEE::~Rva0021FFEE()
 // string, or append a copy and update the maximum subclass award count.
 // Binding the name to a reference first is what lets retail's index share
 // the dead argument slot (and its strength-reduced offset take [ebp-4]).
-Rva0021F876 *Rva0021FFEE::rva0022020C(Rva0021F876 &entry)
+Rva0021F876 *CreateAHeroManager::rva0022020C(Rva0021F876 &entry)
 {
 	const AsciiString &name = entry.m_strings[4];
 	for (int i = 0; i < m_vector14C.size(); ++i)

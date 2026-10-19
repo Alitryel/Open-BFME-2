@@ -3417,7 +3417,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007E62C8,232,.rdata,string,??_C@_0M@LCPPGFMG@MyHero?$CK?4cah?$AA@,,literal,,0,1
 0x007E63B0,56,.rdata,string,??_C@_0DF@EILALPF@Upgrade?5?$CFs?5not?5found?5while?5parsi@,,literal,,0,1
 0x007E63E8,164,.rdata,string,??_C@_0DN@KAIFHLGJ@A?5Create?9a?9Hero?5SubClass?5with?5th@,,literal,,0,1
-0x007E648C,560,.rdata,vtable,??_7Rva0021FFEE@@6B@,,literal,,0,1
+0x007E648C,560,.rdata,vtable,??_7Rva0021FFEE@@6B@,,literal,??_7Rva0021FFEE@@6B@;??_7CreateAHeroManager@@6B@,0,2
 0x007E66BC,60,.rdata,string,??_C@_0DJ@HDONFGDE@WeaponGroupName?5is?5not?5a?5valid?5i@,,literal,,0,1
 0x007E66F8,64,.rdata,string,??_C@_0DP@DNBALAMP@SelectedCheerAninName?5is?5not?5a?5v@,,literal,,0,1
 0x007E6738,64,.rdata,string,??_C@_0DP@PLNNIJJO@ExamineWeaponAninName?5is?5not?5a?5v@,,literal,,0,1
