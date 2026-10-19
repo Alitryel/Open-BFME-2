@@ -1,4 +1,6 @@
 // ?update@VictoryConditions@@UAEXXZ
+// partial score=0.985 date=2026-10-19
+// ?update@VictoryConditions@@UAEXXZ
 // partial score=0.87 date=2026-10-15
 // ?update@VictoryConditions@@UAEXXZ
 // d2w4 seat4 fresh rebuild in the current VictoryConditions.cpp (ZH update shape, no volatile/barrier): 1091/1100B.
@@ -109,8 +111,8 @@ class VictoryConditions
 {
 public:
 	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
-	virtual void slot04(); virtual void update(); virtual void slot06(); virtual void slot07();
-	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void update(); virtual void slot11();
 	virtual void slot12(); virtual void slot13();
 	virtual Bool hasAchievedVictory(Player *player);	// +0x38
 	virtual Bool hasBeenDefeated(Player *player);		// +0x3C
@@ -245,9 +247,10 @@ extern PartitionManager *TheShroudManager;
 class Rva002E2903Player { public: char pad[0x3C4]; Bool m_3c4; };
 class Rva002AB5C7Player { public: void rva002AB44A(); };
 class Rva002BA8F1Logic { public: Rva002E2903Player *find(Int id, unsigned *flag); };
-class Rva00042235GameLogicView { public: __declspec(noinline) bool isInMultiplayerGame() { int m = ((VictoryUpdateGameLogicView *)this)->m_mode; return m == 1 || m == 5; } };
+class GameLogic { public: __declspec(noinline) bool isInMultiplayerGame() { int m = ((VictoryUpdateGameLogicView *)this)->m_mode; return m == 1 || m == 5; } };
 void VictoryConditions::update()
 {
+	Int i;
 	UnsignedInt frame = ((VictoryUpdateGameLogicView *)TheGameLogic)->m_frame;
 	updateEndGame();
 	UnsignedInt delay = (UnsignedInt)(TheWritableGlobalData
@@ -265,7 +268,7 @@ void VictoryConditions::update()
 		Bool multipleAlliances = false;
 		Player *alive = NULL;
 		Player *player;
-		for (Int i = 0; i < MAX_PLAYER_COUNT; ++i)
+		for (i = 0; i < MAX_PLAYER_COUNT; ++i)
 		{
 			player = m_players[i];
 			if (player && !hasSinglePlayerBeenDefeated(player))
@@ -291,7 +294,7 @@ void VictoryConditions::update()
 		}
 	}
 
-	for (Int i = 0; i < MAX_PLAYER_COUNT; ++i)
+	for (i = 0; i < MAX_PLAYER_COUNT; ++i)
 	{
 		Player *p = m_players[i];
 		if (!p || m_isDefeated[i] || !hasSinglePlayerBeenDefeated(p))
@@ -308,7 +311,7 @@ void VictoryConditions::update()
 			else if (!((Rva0023C666 *)TheGameLogic)->rva0023C666() && ((VictoryUpdateGameLogicView *)TheGameLogic)->m_network != 0)
 				TheInGameUI->messageArg(AsciiString("GUI:PlayerHasBeenDefeated"), p->getDisplayNameStr());
 
-			if ((((Rva00042235GameLogicView *)TheGameLogic)->isInMultiplayerGame() || ((VictoryUpdateGameLogicView *)TheGameLogic)->m_mode == 2)
+			if ((TheGameLogic->isInMultiplayerGame() || ((VictoryUpdateGameLogicView *)TheGameLogic)->m_mode == 2)
 				&& ThePlayerList && TheEva && p->getDefaultTeam())
 			{
 				Player *local = ThePlayerList->m_local;
@@ -340,7 +343,8 @@ void VictoryConditions::update()
 				{
 					if (j == i || !m_players[j] || m_players[j]->isSkirmishAIPlayer())
 						continue;
-					Rva002E2903Player *record = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(m_players[j]->m_id, 0);
+					Int id = m_players[j]->m_id;
+					Rva002E2903Player *record = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(id, 0);
 					if (m_players[j]->getRelationship(p) == ENEMIES && !record->m_3c4)
 						anyOther = true;
 					if (!m_isDefeated[j])
@@ -468,3 +472,6 @@ Bool VictoryConditions::rva00420017(Player *player)
  }
  return false;
 }
+
+// 2026-10-19: shared outer index and explicit LivingWorld id local give retail instruction/register alignment.
+// Remaining: this/index EBP-0x18/-0x14 versus retail -0x14/-0x18; real GameLogic getter resolves without a pin.
