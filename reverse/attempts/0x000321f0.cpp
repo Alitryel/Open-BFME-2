@@ -1,13 +1,5 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.804 date=2026-10-19
-// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.0 date=2026-10-17
-// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.381 date=2026-10-15
-// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.38 date=2026-10-14
-// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.4 date=2026-10-14
+// partial score=0.86 date=2026-10-19
 // Bank draft of the GeneralAllocator heap validator at 0x000321F0 (1492B,
 // RET4, level argument). Decoded from the retail body with the memory_pool.cpp
 // GeneralAllocator view: sentinel region list at +0x448 (next +0x18/prev
@@ -56,6 +48,19 @@ struct Rva000321F0Sentinel
     Rva000321F0Sentinel *m_next;	// +0x18
     Rva000321F0Sentinel *m_prev;	// +0x1c
 };
+
+inline bool Rva000321F0AtRegionEnd(Rva000321F0Chunk *c,
+    Rva000321F0Sentinel *s, Rva000321F0Sentinel *end)
+{
+    while (s != end)
+    {
+        if ((unsigned int)c >= (unsigned int)s &&
+            (unsigned int)c < (unsigned int)s + s->m_size)
+            return (unsigned int)c >= (unsigned int)s + s->m_size - 0x10;
+        s = s->m_next;
+    }
+    return false;
+}
 
 inline int Rva000321F0Missing(Rva000321F0Chunk *c,
     Rva000321F0Sentinel *s, Rva000321F0Sentinel *end)
@@ -142,7 +147,7 @@ int GeneralAllocator::rva000321F0(int level)
                     errors += Rva000321F0Missing(c, m_sentinel.m_next, &m_sentinel);
                     unsigned int size = c->m_size;
                     c = c->m_prev;
-                    errors += ((size & 0x80000000u) == 0) && 1;
+                    errors += (((int)size & (int)0x80000000) == 0) && 1;
                     errors += (((unsigned char)~(size >> 2)) & 1) && 1;
                     ++guard;
                     errors += (guard >= 0x1e8480) && 1;
@@ -152,17 +157,15 @@ int GeneralAllocator::rva000321F0(int level)
             Rva000321F0Chunk **link = m_binLinks;
             for (index = 0; index < 0x100; index += 2, link += 2)
             {
-                Rva000321F0Chunk *c = *link;
+                Rva000321F0Chunk *c = m_binLinks[index];
                 if (index < 2)
                     errors += (c != 0) && 1;
                 else
                 {
                     errors += (c == 0) && 1;
                     Rva000321F0Chunk *p = c->m_prev;
-                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)(link - 2);
-                    int count = 0;
-                    if (p == head)
-                        count = 1;
+                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)link - 8);
+                    int count = p == head ? 1 : 0;
                     while (p != c)
                     {
                         if (p == head)
@@ -205,15 +208,17 @@ int GeneralAllocator::rva000321F0(int level)
 
             // Bin heads and the binmap must agree, and every bin list node
             // must be a valid chunk of its bin's size class.
-            Rva000321F0Chunk *head = (Rva000321F0Chunk *)m_binLinks;
-            for (index = 1; index < 0x80; ++index, head = (Rva000321F0Chunk *)((char *)head + 8))
+            for (index = 1; index < 0x80; ++index)
             {
+                Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)&m_binLinks[index << 1] - 8);
                 if (index >= 2)
                 {
-                    bool bitSet = (m_binmap[index >> 5] & (1u << (index & 0x1f))) != 0;
-                    bool listSet = head->m_next != head;
-                    if (!bitSet)
-                        errors += listSet && 1;
+                    bool binbit = (m_binmap[index >> 5] & (1u << (index & 0x1f))) != 0;
+                    bool nonEmpty = head != head->m_next;
+                    if (!binbit)
+                        errors += nonEmpty ? 1 : 0;
+                    else if (nonEmpty)
+                        errors += binbit ? 0 : 1;
                 }
                 Rva000321F0Chunk *c = head->m_next;
                 while (c != head)
@@ -241,12 +246,7 @@ int GeneralAllocator::rva000321F0(int level)
                         if (size >= 0x200)
                         {
                             Rva000321F0Chunk *next = c->m_next;
-                            int outOfOrder;
-                            if (next == head || (next->m_size & 0x7ffffff8u) >= size)
-                                outOfOrder = 0;
-                            else
-                                outOfOrder = 1;
-                            errors += outOfOrder;
+                            errors += (next != head && (next->m_size & 0x7ffffff8u) < size) ? 1 : 0;
                         }
                     }
 
@@ -258,22 +258,23 @@ int GeneralAllocator::rva000321F0(int level)
                         if (runSize < 0x10)
                         {
                             Rva000321F0Sentinel *s = m_sentinel.m_next;
-                            Rva000321F0Sentinel *end = &m_sentinel;
-                            while (s != end)
+                            for (; s != &m_sentinel; s = s->m_next)
                             {
                                 if ((unsigned int)run >= (unsigned int)s &&
                                     (unsigned int)run < (unsigned int)s + s->m_size)
+                                {
+                                    if ((unsigned int)run >= (unsigned int)s + s->m_size - 0x10)
+                                        goto runDone;
                                     break;
-                                s = s->m_next;
+                                }
                             }
-                            if (s != end && (unsigned int)run >= (unsigned int)s + s->m_size - 0x10)
-                                break;
                         }
                         if ((*(unsigned char *)((char *)run + runSize + 4) & 1) == 0 || runSize < 0x10)
                             break;
                         errors += rva00031F90(run);
                         run = (Rva000321F0Chunk *)((char *)run + (run->m_size & 0x7ffffff8u));
                     }
+runDone:
                     c = c->m_next;
                 }
             }
