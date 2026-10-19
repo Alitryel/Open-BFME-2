@@ -1,5 +1,7 @@
 // cl: /MD /EHsc
 //
+// ?slot1@Rva005D10F9@@UAEXXZ: slot 1 of Rva005D10F9's vftable 0x008755AC (whose
+// ctor 0x005D1064 installs it); rowed earlier as ?rva005D1129@Rva005D1129.
 // Target layout read from 0x005D1129: a next pointer at +4 and a one-pointer
 // wrapper at +8. Its constructor at 0x005D1175 confirms those offsets. The
 // 76-byte body calls the wrapper cleanup at 0x005EC4AF, tests it with the
@@ -47,7 +49,7 @@ private:
 	Object *m_ptr;
 };
 
-class Rva005D1129;
+class Rva005D10F9;
 
 class __declspec(novtable) Rva005D1129Base
 {
@@ -57,24 +59,24 @@ public:
 	virtual void slot2() = 0;
 
 protected:
-	Rva005D1129 *m_previous;
+	Rva005D10F9 *m_previous;
 };
 
 class Rva005D1064Node
 {
 public:
-	Rva005D1064Node(Rva005D1129 *owner, void *source);
+	Rva005D1064Node(Rva005D10F9 *owner, void *source);
 
 private:
 	void *m_vtable;
-	Rva005D1129 *m_previous;
+	Rva005D10F9 *m_previous;
 	Rva00575674 m_pointer;
 };
 
 struct Rva005D1129LinkNode
 {
 	unsigned int m_vtable;
-	Rva005D1129 *m_previous;
+	Rva005D10F9 *m_previous;
 };
 
 class Rva005D1129Dispatch
@@ -84,10 +86,10 @@ public:
 	virtual void slot1() = 0;
 };
 
-class __declspec(novtable) Rva005D1129 : public Rva005D1129Base
+class __declspec(novtable) Rva005D10F9 : public Rva005D1129Base
 {
 public:
-	void rva005D1129();
+	virtual void slot1();
 
 private:
 	Rva005D1129Pointer m_pointer;
@@ -95,13 +97,13 @@ private:
 
 void *__cdecl operator new(unsigned int size);
 
-void Rva005D1129::rva005D1129()
+void Rva005D10F9::slot1()
 {
 	m_pointer.~Rva005D1129Pointer();
 	if (((Rva005EB87A *)&m_pointer)->rva005EB87A())
 		return;
 
-	Rva005D1129 *previous = m_previous;
+	Rva005D10F9 *previous = m_previous;
 	Rva005D1129LinkNode *node = (Rva005D1129LinkNode *)::operator new(8);
 	if (node)
 	{

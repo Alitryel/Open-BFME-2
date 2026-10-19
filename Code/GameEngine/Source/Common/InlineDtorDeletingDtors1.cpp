@@ -317,6 +317,8 @@ class Rva005D1035
 public:
 	Rva005D1035(EmitVtableTag *);
 	virtual ~Rva005D1035() {}
+	// Slot 1 of retail's table 0x0087559C is __purecall.
+	virtual void slot1() = 0;
 };
 
 // ?<Rva005D1035::Rva005D1035> absent-from-retail

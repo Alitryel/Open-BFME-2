@@ -20,7 +20,11 @@ class Rva00575674{public:void rva00575674(Object*);};
 class Rva000AD6F4{public:Rva000AD6F4():ptr(0){}~Rva000AD6F4();void clear();void*ptr;};
 class Rva005D10B0State {public:virtual void slot0();virtual void slot1();};
 struct Rva005D10B0Owner{Rva005D10B0State*state;};
-class Rva005D10D6:public Rva005D1035{public:Rva005D10D6(void*p):Rva005D1035(p){}virtual ~Rva005D10D6();virtual void slot1();};
+class Rva0005D10D6DwordImmSetter{public:void apply();};
+// The 7-byte destructor body at 0x005D10D6 (rowed as the imm-setter apply) only
+// restores the base vftable; inline it as VslotSmallBodiesAS.cpp does, so this
+// unit's deleting dtor calls the rowed body and no unrowed ??1 is referenced.
+class Rva005D10D6:public Rva005D1035{public:Rva005D10D6(void*p):Rva005D1035(p){}virtual __forceinline ~Rva005D10D6(){((Rva0005D10D6DwordImmSetter*)this)->apply();}virtual void slot1();};
 namespace StrategicInGameUI{class TacticalBattleResolver{public:class Impl{public:Impl(void*);~Impl();void*owner;void*object;Rva000AD6F4 state;};};}
 // WB15BBB70 names this ctor StrategicInGameUI::TacticalBattleResolver::Impl::Impl (callgraph 1.0).
 StrategicInGameUI::TacticalBattleResolver::Impl::Impl(void*p):owner(p),object(0){
