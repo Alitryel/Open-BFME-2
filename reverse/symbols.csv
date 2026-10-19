@@ -5011,7 +5011,6 @@ name,address,notes
 ??1SlaveWatcherBehaviorModuleData@@UAE@XZ,0x004846FA,dtor called by audited wrapper RVA 0x004846DE; retail registration SlaveWatcherBehavior -> data factory RVA 0x0024C660 -> ctor RVA 0x004846C7; primary vptr store RVA 0x004846CB
 ??1SlavedUpdateModuleData@@UAE@XZ,0x00255FC1,dtor called by audited wrapper RVA 0x00255FA5; retail registration SlavedUpdate -> data factory RVA 0x00255340 -> ctor RVA 0x002552D7; primary vptr store RVA 0x002552DE
 ??1SmudgeManager@@UAE@XZ,0x002D29F7,dtor called by audited wrapper RVA 0x002D2A83; ctor RVA 0x002D25BA stores primary vptr at RVA 0x002D25BE and distinct list vptrs at +0x08/+0x14; reset RVA 0x002D27CC and dtor RVA 0x002D29F7 agree with donor used/free-list ownership
-??1Snapshot@@QAE@XZ,0x001B4E74
 ??1SortingNodeStruct@@QAE@XZ,0x0012FCA0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ??1SoundFXNugget@@UAE@XZ,0x001E0E07,dtor called by audited wrapper RVA 0x001E0DEB; retail Sound FXList parse entry -> parser RVA 0x001E1329 -> ctor RVA 0x001E00A3; primary vptr store RVA 0x001E00AB; SoundFXNugget spelling from donor
 ??1SpawnBehavior@@UAE@XZ,0x0045F6D3,"dtor called by audited wrapper RVA 0x004602D8; retail slot 4 -> RVA 0x0045F688 uses class-name string ""SpawnBehavior"""

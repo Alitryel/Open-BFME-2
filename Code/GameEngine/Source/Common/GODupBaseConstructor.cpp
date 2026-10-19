@@ -20,8 +20,7 @@
 class BfmeSnapshotBase
 {
 public:
-	virtual void bfmeSlot0(void);
-	~BfmeSnapshotBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
+	virtual ~BfmeSnapshotBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h
@@ -29,7 +28,7 @@ class SubsystemInterface
 {
 public:
 	SubsystemInterface();					// retail 0x009A1A30
-	virtual void bfmeSlot0(void);
+	virtual ~SubsystemInterface();			// retail 0x001B4E74
 
 private:
 	int m_bfmeState;
@@ -39,9 +38,18 @@ class GODupBase : public BfmeSnapshotBase, public SubsystemInterface
 {
 public:
 	GODupBase();
+	virtual ~GODupBase();
 };
 
 // ??0GODupBase@@QAE@XZ
 GODupBase::GODupBase()
+{
+}
+
+// ??1GODupBase@@UAE@XZ, retail 0x003067D2: both vtables, ~SubsystemInterface
+// on this + 4, then the Snapshot vtable inline. Its scalar deleting
+// destructor 0x0030680E is slot 0 of table 0x00807D2C, and the constructor's
+// EH handler 0x00779B3E serves this frame too.
+GODupBase::~GODupBase()
 {
 }

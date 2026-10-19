@@ -2,6 +2,13 @@
 
 #include "Common/Snapshot.h"
 
+// Zero Hour's Snapshot.h, which many ported units still include, declares the
+// destructor nonvirtual and out of line (??1Snapshot@@QAE@XZ). Retail has one
+// Snapshot destructor, the exported virtual ??1Snapshot@@UAE@XZ at 0x0049B47C
+// (a store of vtable 0x00BBB554); its derived destructors call it or inline
+// that store. The QAE spelling is that header's view of the same function.
+#pragma comment(linker, "/alternatename:??1Snapshot@@QAE@XZ=??1Snapshot@@UAE@XZ")
+
 // The generated assignment: nothing to copy, not even the vtable.
 typedef Snapshot &(Snapshot::*SnapshotAssign)(const Snapshot &);
 

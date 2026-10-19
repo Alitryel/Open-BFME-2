@@ -515,19 +515,18 @@ DEFINE_DTOR_THUNK(AptInGameChat, 0x218, public)
 // ?<LargeGroupAudioUpdate::LargeGroupAudioUpdate> absent-from-retail
 DEFINE_DTOR_THUNK(LargeGroupAudioUpdate, 0x24, public)
 
-// --- 0x003067CA (8B): Locomotor's protected destructor, slot 0 of table
-// 0x00C07D3C (the +4 Snapshot base) -> ??_G 0x0030680E.
-struct __declspec(novtable) Locomotor_DtorBaseA { virtual ~Locomotor_DtorBaseA(); };
-struct __declspec(novtable) Locomotor_DtorBaseB { virtual ~Locomotor_DtorBaseB(); };
-class Locomotor : public Locomotor_DtorBaseA, public Locomotor_DtorBaseB
+// --- 0x003067CA (8B): GODupBase's destructor, slot 0 of table 0x00C07D3C
+// (the +4 SubsystemInterface base) -> ??_G 0x0030680E.
+struct __declspec(novtable) GODupBase_DtorBaseA { virtual ~GODupBase_DtorBaseA(); };
+struct __declspec(novtable) GODupBase_DtorBaseB { virtual ~GODupBase_DtorBaseB(); };
+class GODupBase : public GODupBase_DtorBaseA, public GODupBase_DtorBaseB
 {
 public:
-	Locomotor(EmitVtableTag *);
-protected:
-	virtual ~Locomotor();
+	GODupBase(EmitVtableTag *);
+	virtual ~GODupBase();
 };
-// ?<Locomotor::Locomotor> absent-from-retail
-Locomotor::Locomotor(EmitVtableTag *) {}
+// ?<GODupBase::GODupBase> absent-from-retail
+GODupBase::GODupBase(EmitVtableTag *) {}
 
 class AptSkirmish { public: void InitCreateAHeroOnStartGame(); };
 class Rva00521B48 { public: void rva00521B48(int, int); };
