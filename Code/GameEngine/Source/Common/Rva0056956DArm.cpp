@@ -6,7 +6,7 @@
 // free __stdcall body ignores ecx) finds a Rva00569543 record, dedup-push
 // this (as ModuleData) via rowed 0x00569543, store the record at +0xC and
 // clear +0x10. If +0x10 is clear, +0xC non-null, and both the record and this
-// pass rowed Rva00568920::rva00568920, fan the record plus the +0x8 float out
+// pass rowed LargeGroupAudioSoundKeyPair::rva00568920, fan the record plus the +0x8 float out
 // the +0x2C slots via the verified HostClass005C815B::method_005C836F(int,float) at 0x005C836F and set +0x10.
 // The resolve guard is goto-spelled: a null key jumps forward to the arm
 // guard while a null lookup result jumps forward to the latch, an
@@ -23,11 +23,7 @@ public:
 	void rva00569543(const ModuleData *m);
 };
 
-class Rva00568920
-{
-public:
-	bool rva00568920() const;
-};
+class LargeGroupAudioSoundKeyPair;
 
 class HostClass005C815B
 {
@@ -47,6 +43,7 @@ struct Rva0056956DElem
 class LargeGroupAudioSoundKeyPair
 {
 public:
+	bool rva00568920() const;	// 0x00568920
 	void setupAllDuckingTargets();
 private:
 	char m_pad[0x14];
@@ -83,8 +80,8 @@ void LargeGroupAudioSoundKeyPair::setupAllDuckingTargets()
 		e->m_active = 0;
 	check_active:
 		if (e->m_active == 0 && e->m_key != 0
-			&& ((const Rva00568920 *)e->m_key)->rva00568920()
-			&& ((const Rva00568920 *)this)->rva00568920()) {
+			&& ((const LargeGroupAudioSoundKeyPair *)e->m_key)->rva00568920()
+			&& rva00568920()) {
 			HostClass005C815B **slot = m_slots;
 			int left = 4;
 			do {

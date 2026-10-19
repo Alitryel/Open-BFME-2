@@ -10720,7 +10720,7 @@ name,address,notes
 ?rva005659CA@Rva005659CA@@QAEXXZ,0x005659CA,shared clear for 8B virtual overflows
 ?rva00565A42@Rva00565A42@@QAEXXZ,0x00565A42,already rowed tidy
 ?rva00567A6E@Rva00525E55@@QAEXH@Z,0x00567A6E,address-derived callee of matched slot 0x00567D96; retail REL32 targets 0x00567A6E; Ghidra FUN bounds 162 bytes; thiscall one arg ret 4; callee body remains unclaimed; no named identity inferred
-?rva00568939@Rva00568920@@QAEXH@Z,0x00568939,keyed slot notify (banked partial 0x00568939.cpp); caller 0x00568C1A passes outer this as key
+?rva00568939@LargeGroupAudioSoundKeyPair@@QAEXH@Z,0x00568939,keyed slot notify (banked partial 0x00568939.cpp); caller 0x00568C1A passes outer this as key
 ?rva00569AA8@Rva00569AA8@@QAEXXZ,0x00569AA8,thiscall void(); element callee of dump-range-18 0x003EDC16 pointer-array walk
 ?rva00569F0C@Rva00569F0C@@QAEXHHPAD@Z,0x00569F0C,thiscall callee of the F22 ebp-frame forwarders; takes the wrapper's first two args plus (char*)&arg2+3 in a vestigial third slot; name unknown
 ?rva00569F0C@Rva00569F0CVec@@QAEXPAX0PA_N@Z,0x00569F0C,"thiscall (void*,void*,bool*) on the +0x14 12B vector-ish struct; RETAIL REL32 at 0x0056A3E3 (body 0x0056A378) targets this address; the body itself is blocked (_M_assign_aux codegen); honest caller-view spelling"

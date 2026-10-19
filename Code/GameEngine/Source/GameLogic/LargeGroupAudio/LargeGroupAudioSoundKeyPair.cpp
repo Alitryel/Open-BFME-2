@@ -136,12 +136,10 @@ struct Rva00568939Elem
 	char m_pad11[3];
 };
 
-class Rva00568920
+// Layout the two ducking helpers below read (+0x14/+0x18 element range,
+// four grid slots at +0x2C); a view of LargeGroupAudioSoundKeyPair's storage.
+struct LargeGroupAudioSoundKeyPairDuckingView
 {
-public:
-	bool rva00568920() const;
-	void rva00568939(int key);
-private:
 	char m_pad[0x14];
 	Rva00568939Elem *m_begin14;
 	Rva00568939Elem *m_end18;
@@ -272,6 +270,8 @@ class Rva005C81D8 {public: void rva005C81D8(Rva005C8176 *,Rva005C8176 *,Rva005C8
 class LargeGroupAudioSoundKeyPair
 {
 public:
+ bool rva00568920() const;	// 0x00568920
+ void rva00568939(int key);	// 0x00568939
  LargeGroupAudioSoundKeyPair(LargeGroupAudioAudioMap *owner, const char *name);
  ~LargeGroupAudioSoundKeyPair();
  void rva0056A378(Rva0056A378Source arg);
@@ -304,24 +304,26 @@ LargeGroupAudioSoundKeyPair::~LargeGroupAudioSoundKeyPair(){
  reinterpret_cast<Rva00569393 *>(this)->rva005694CD();
 }
 
-bool Rva00568920::rva00568920() const
+bool LargeGroupAudioSoundKeyPair::rva00568920() const
 {
+	const LargeGroupAudioSoundKeyPairDuckingView *v = (const LargeGroupAudioSoundKeyPairDuckingView *)this;
 	for (int i = 0; i < 4; ++i)
-		if (m_vals[i] == 0)
+		if (v->m_vals[i] == 0)
 			return false;
 	return true;
 }
 
-void Rva00568920::rva00568939(int key)
+void LargeGroupAudioSoundKeyPair::rva00568939(int key)
 {
+	LargeGroupAudioSoundKeyPairDuckingView *v = (LargeGroupAudioSoundKeyPairDuckingView *)this;
 	if (!rva00568920())
 		return;
-	for (Rva00568939Elem *e = m_begin14; e != m_end18; ++e) {
+	for (Rva00568939Elem *e = v->m_begin14; e != v->m_end18; ++e) {
 		if (e->m_0c != key)
 			continue;
 		if (e->m_10)
 			return;
-		HostClass005C815B **slot = m_slots;
+		HostClass005C815B **slot = v->m_slots;
 		for (int left = 4; left != 0; --left, ++slot) {
 			if (*slot != 0) {
 				float f = e->m_08;
@@ -342,7 +344,7 @@ void LargeGroupAudioSoundKeyPair::updateSubject(LargeGroupAudioSubject *subject)
 	if (oldPos.isExactlyEqualTo(newPos))
 		return;
 	unsigned short weight = subject->getWeight();
-	if (((Rva00568920 *)this)->rva00568920())
+	if (rva00568920())
 	{
 		for (int i = 0; i < 4; ++i)
 		{
@@ -425,7 +427,7 @@ void LargeGroupAudioSoundKeyPair::rva005697F7(LargeGroupAudioSubject *subject)
 	FloatPair pos = subject->getPosition();
 	unsigned short weight = subject->getWeight();
 	m_totalWeight += weight;
-	if (((Rva00568920 *)this)->rva00568920())
+	if (rva00568920())
 		rva0056979A(pos, weight);
 	else
 	{
@@ -441,7 +443,7 @@ void LargeGroupAudioSoundKeyPair::unregisterSubject(LargeGroupAudioSubject *subj
 	FloatPair pos = subject->getPreviousPosition();
 	unsigned short weight = subject->getWeight();
 	m_totalWeight -= weight;
-	if (((Rva00568920 *)this)->rva00568920())
+	if (rva00568920())
 	{
 		for (int i = 0; i < 4; ++i)
 		{
@@ -497,7 +499,7 @@ void LargeGroupAudioSoundKeyPair::rva00569BBC(Xfer *xfer, VersionPair *version)
 {
  if(version->current>=3)xfer->xferInt(&m_totalWeight);
  else if(xfer->IsLoading())m_totalWeight=300000;
- bool hasGrids=reinterpret_cast<Rva00568920 *>(this)->rva00568920();
+ bool hasGrids=rva00568920();
  if(version->current>=5){
   xfer->xferBool(&hasGrids);
   unsigned count=m_pendingAdds.size();
@@ -527,9 +529,9 @@ void LargeGroupAudioSoundKeyPair::rva00569BBC(Xfer *xfer, VersionPair *version)
   m_pendingAdds.clear();hasGrids=m_totalWeight>0;
  }
  if(!hasGrids){
-  if(xfer->IsLoading() && reinterpret_cast<Rva00568920 *>(this)->rva00568920())reinterpret_cast<Rva00569393 *>(this)->rva005694CD();
+  if(xfer->IsLoading() && rva00568920())reinterpret_cast<Rva00569393 *>(this)->rva005694CD();
  }else{
-  if(xfer->IsLoading() && !reinterpret_cast<Rva00568920 *>(this)->rva00568920())allocateGrids();
+  if(xfer->IsLoading() && !rva00568920())allocateGrids();
   for(int left=4,i=0;left;--left,++i)reinterpret_cast<HostClass005C815B *>(m_grids[i])->method_005C839B(reinterpret_cast<int>(xfer),reinterpret_cast<int>(version));
   xferGridCellVector(xfer,&m_v4C,version);
   xferGridCellVector(xfer,&m_v40,version);
@@ -659,14 +661,14 @@ template<> _Vector_base<int,allocator<int> >::_Vector_base(const allocator<int>&
 void LargeGroupAudioSoundKeyPair::update(bool *flag)
 {
  int startWeight=m_grid->startWeight,continueWeight=m_grid->continueWeight;
- if(!reinterpret_cast<Rva00568920*>(this)->rva00568920() && m_totalWeight>=startWeight){
+ if(!rva00568920() && m_totalWeight>=startWeight){
   if(!*flag || reinterpret_cast<LogicFrame*>(TheGameLogic)->frame<=1){
    reinterpret_cast<LargeGroupAudioSoundKeyPair*>(this)->allocateGrids();*flag=true;
   }
- }else if(reinterpret_cast<Rva00568920*>(this)->rva00568920() && m_totalWeight<=0){
+ }else if(rva00568920() && m_totalWeight<=0){
   reinterpret_cast<Rva00569393*>(this)->rva005694CD();
  }
- if(reinterpret_cast<Rva00568920*>(this)->rva00568920()){
+ if(rva00568920()){
   if(!m_v4C.empty()){
    _STL::vector<Rva00568A20> displaced;displaced.reserve(m_v40.size());
    for(unsigned i=0;i<m_v4C.size();++i){
