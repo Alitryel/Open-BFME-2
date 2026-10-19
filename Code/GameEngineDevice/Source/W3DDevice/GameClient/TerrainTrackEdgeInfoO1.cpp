@@ -77,7 +77,7 @@ class Rva00083CE9Host
 {
 public:
 	void releaseTrack(Rva00083CE9Node *p);
-	void rva00084002();
+	void Reset();
 	void rva00083E87();
 private:
 	Rva00083E87Ref *m_00;
@@ -88,7 +88,7 @@ private:
 	Rva00083CE9Node *m_14;
 };
 // Release provider (00083CE9) lives in W3DTerrainTracksBind.cpp.
-// ?rva00084002@Rva00083CE9Host@@QAEXXZ retail 0x00084002 34B drain m_10 list
+// ?Reset@Rva00083CE9Host@@QAEXXZ retail 0x00084002 34B drain m_10 list
 // via releaseTrack. Evidence: chain calls 0x00083CE9; caller at 0x00091CE6.
 // ?rva00083E87@Rva00083CE9Host@@QAEXXZ @0x00083E87 136B: unlink-walk m_10 calling
 // releaseTrack on flag-zero nodes, drain m_14 releasing each ref, then release
@@ -148,7 +148,7 @@ void Rva00083CE9Host::rva00083E87()
 	}
 }
 
-void Rva00083CE9Host::rva00084002()
+void Rva00083CE9Host::Reset()
 {
 	Rva00083CE9Node *cur = m_10;
 	while (cur != 0)

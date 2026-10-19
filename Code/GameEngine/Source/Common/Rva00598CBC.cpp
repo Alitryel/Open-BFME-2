@@ -42,7 +42,7 @@ struct Rva002A8AB1Record
 class Rva00598007
 {
 public:
-	Rva002A8AB1Record *rva00598007();
+	Rva002A8AB1Record *getAI();
 };
 
 struct Rva00506C82Arg
@@ -76,7 +76,7 @@ private:
 
 void Rva00598CBC::rva00598CBC()
 {
-	Rva002A8AB1Record *rec = ((Rva00598007 *)this)->rva00598007();
+	Rva002A8AB1Record *rec = ((Rva00598007 *)this)->getAI();
 	_STL::vector<AsciiString> &src = rec->m_160->m_vec;
 	m_vec = src;
 	GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)m_30);

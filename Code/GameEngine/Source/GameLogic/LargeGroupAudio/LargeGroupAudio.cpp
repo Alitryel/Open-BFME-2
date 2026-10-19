@@ -109,7 +109,7 @@ private:
 
 // Address-named workers on the audio maps and on LargeGroupAudio.
 class Rva003EDC16 { public: void rva003EDC16(); };
-class Rva003EDDD4 { public: void rva003EDDD4(int changed); };
+class Rva003EDDD4 { public: void update(int changed); };
 class Rva003EDDF5 { public: void rva003EDDF5(int arg); };
 class Rva0020DXXX { public: void rva0020D834(); };
 
@@ -237,7 +237,7 @@ void LargeGroupAudio::update()
 		((Rva0020DXXX *)this)->rva0020D834();
 	bool changed = false;
 	for (_STL::vector<LargeGroupAudioAudioMap *>::iterator it = m_audioMaps.begin(), end = m_audioMaps.end(); it != end; ++it)
-		((Rva003EDDD4 *)*it)->rva003EDDD4((int)&changed);
+		((Rva003EDDD4 *)*it)->update((int)&changed);
 }
 
 void LargeGroupAudio::parseLargeGroupAudioMapDefinition(INI *ini)

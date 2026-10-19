@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva005E2138@Rva005E2138@@QAEPAXXZ retail 0x005E2138 12B
+// ?GetBuildPlot@Rva005E2138@@QAEPAXXZ retail 0x005E2138 12B
 // Evidence: unlock lane; callee rva005F05E6 0x005F05E6; unblocks 0x005E2144 0x005E22A0 0x005E278E 0x005E270E 0x005E28FE; prev Disp0DwordImmSetters next Rva00513E03Length.
 class Rva005F05E6
 {
@@ -10,7 +10,7 @@ public:
 class Rva005E2138
 {
 public:
-	void *rva005E2138();
+	void *GetBuildPlot();
 	void rva005E2144(bool flag);
 private:
 	char m_pad00[0x10];
@@ -24,12 +24,12 @@ public:
 	virtual void p1();
 	virtual void vslot2(int mode);
 };
-void *Rva005E2138::rva005E2138()
+void *Rva005E2138::GetBuildPlot()
 {
 	return m_ptr10->rva005F05E6(m_int14);
 }
 void Rva005E2138::rva005E2144(bool flag)
 {
-	Rva005E2144Mgr *obj = (Rva005E2144Mgr *)rva005E2138();
+	Rva005E2144Mgr *obj = (Rva005E2144Mgr *)GetBuildPlot();
 	obj->vslot2(flag ? 2 : 1);
 }

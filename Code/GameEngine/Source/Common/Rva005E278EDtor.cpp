@@ -70,7 +70,7 @@ class Rva005E278E;
 class Rva005E2138
 {
 public:
-	void *rva005E2138();
+	void *GetBuildPlot();
 };
 
 class Rva005E278EBase0
@@ -102,7 +102,7 @@ Rva005E278E::~Rva005E278E()
 		if (m_10->m_10->Rva005CB265::rva005CB265() == (int)current)
 			((Rva005CB260 *)m_10->m_10)->rva005CB260();
 	}
-	((Rva005E278EPlot *)((Rva005E2138 *)this)->rva005E2138())->~Rva005E278EPlot();
+	((Rva005E278EPlot *)((Rva005E2138 *)this)->GetBuildPlot())->~Rva005E278EPlot();
 	Rva005E278EItem *item = m_10->m_0C->m_170[m_14];
 	item->m_holder.rva002B7250((CreateAHeroData *)static_cast<LivingWorldLogicObserver *>(this));
 }

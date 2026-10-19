@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /O1 /G7
 //
-// ?rva00106CF0@Rva00106CF0@@QAEXXZ at 0x00106CF0, 102 bytes. Target
+// ?UpdateSilhouetteLines@Rva00106CF0@@QAEXXZ at 0x00106CF0, 102 bytes. Target
 // evidence: clears the output count at +0x10, gets 16-byte records through
 // the address-derived source operation at the owner's +0xC4, and compares
 // the input bytes at each record's +8/+0xC indices. Unequal bytes emit the
@@ -38,10 +38,10 @@ class Rva00106CF0
 	int m_outputCount;
 
 public:
-	void rva00106CF0();
+	void UpdateSilhouetteLines();
 };
 
-void Rva00106CF0::rva00106CF0()
+void Rva00106CF0::UpdateSilhouetteLines()
 {
 	Rva00106CF0Owner *owner = m_owner;
 	m_outputCount = 0;

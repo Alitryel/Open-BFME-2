@@ -38,7 +38,7 @@ public: ~LivingWorldBuildPlotObserver(); virtual void OnBuildPlotBuildingChanged
 };
 class Mouse { public: void rva001EEA6D(UnicodeString, int, const RGBColor *, float); };
 extern Mouse *TheMouse;
-class Rva005E2138 { public: void *rva005E2138(); };
+class Rva005E2138 { public: void *GetBuildPlot(); };
 class Rva004FC21AOwner { public: int rva004FC207(); };
 namespace StrategicInGameUI {
 enum LivingWorldBuildingType { LIVING_WORLD_BUILDING_TYPE_COUNT = 5 };
@@ -80,7 +80,7 @@ namespace StrategicInGameUI {
 RegionDetailsStructuresPage::Impl::Icon::Icon(Impl &page, int slotIndex) : owner(&page), index(slotIndex), hovered(false) {
     BuildPlot &plot=*getBuildPlot();
     ((Rva005A0B4CList *)((char *)&plot+8))->append((Rva002BA8F1Listener *)(LivingWorldBuildPlotObserver *)this);
-    StructureIconSlot &clip=*(StructureIconSlot *)((Rva005E2138 *)this)->rva005E2138();
+    StructureIconSlot &clip=*(StructureIconSlot *)((Rva005E2138 *)this)->GetBuildPlot();
     clip.AddObserver(this);
     clip.SetImage(plot.building ? StrategicInGameUI::GetButtonImage(plot.building) : Rva005F0318Get(&plot));
     const Image *typeImage=Rva005F0220Get((Rva005F0220In *)&plot);

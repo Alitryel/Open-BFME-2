@@ -726,7 +726,7 @@ case ((GameMessage::Type)1067):
 			{
 				AIGroup* theGroup = TheAI->createGroup();
 				theGroup->add(source);
-				((Rva0036E1F7 *)theGroup)->rva0036E1F7((int)spType,(int)loc,0);
+				((Rva0036E1F7 *)theGroup)->groupOverrideSpecialPowerDestination((int)spType,(int)loc,0);
 				TheAI->destroyGroup(theGroup);
 			}
 			else
@@ -734,7 +734,7 @@ case ((GameMessage::Type)1067):
 				if( currentlySelectedGroup )
 				{
 					TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);
-                    ((Rva0036E1F7 *)currentlySelectedGroup)->rva0036E1F7((int)spType,(int)loc,0);
+                    ((Rva0036E1F7 *)currentlySelectedGroup)->groupOverrideSpecialPowerDestination((int)spType,(int)loc,0);
 				}
 			}
 		}

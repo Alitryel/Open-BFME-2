@@ -14,7 +14,7 @@ public:
 class Rva00106CF0
 {
 public:
-	void rva00106CF0();
+	void UpdateSilhouetteLines();
 };
 extern W3DProjectedShadowManager *TheW3DProjectedShadowManager;
 
@@ -206,7 +206,7 @@ void W3DVolumetricShadowV2::UpdateAndRender()
 		}
 		elem->rva00107961();
 		elem->rva00107A50((void *)m_90);
-		reinterpret_cast<Rva00106CF0 *>(elem)->rva00106CF0();
+		reinterpret_cast<Rva00106CF0 *>(elem)->UpdateSilhouetteLines();
 		int required = elem->m_10 * 6;
 		if (required > limit)
 			continue;
@@ -248,7 +248,7 @@ void W3DVolumetricShadowV2::UpdateAndRenderZfail()
 		}
 		elem->rva00107961();
 		elem->rva00107A50((void *)m_90);
-		reinterpret_cast<Rva00106CF0 *>(elem)->rva00106CF0();
+		reinterpret_cast<Rva00106CF0 *>(elem)->UpdateSilhouetteLines();
 		int edi = elem->m_obj->m_c4->m_24;
 		int eax = (edi + elem->m_10 * 2) * 3;
 		if (eax > limit)

@@ -1,6 +1,6 @@
 // cl: /MD /EHsc
 //
-// ?rva005FFC26@Rva005FFC26@@QAEXH@Z, retail 0x005FFC26 101 bytes.
+// ?SetLayout@Rva005FFC26@@QAEXH@Z, retail 0x005FFC26 101 bytes.
 // Unlock: missing callee of 0x005FFED5; landing makes it ready.
 // Evidence: AptCall row 0x0050E9FE with SetState literal and empty fallback
 // g_Rva0107301CEmptyString plus TheRva00222A8BTarget; caller jmp 0x005FFED8;
@@ -14,7 +14,7 @@ int __cdecl Rva0050E9FEAptCall(Rva00222A8BTarget *, void *, const char *, const 
 class Rva005FFC26
 {
 public:
-	void rva005FFC26(int arg);
+	void SetLayout(int arg);
 private:
 	char m_pad0[4];
 	void *m_4;
@@ -26,7 +26,7 @@ private:
 	int m_50;
 };
 
-void Rva005FFC26::rva005FFC26(int arg)
+void Rva005FFC26::SetLayout(int arg)
 {
 	if (arg == m_18)
 		return;

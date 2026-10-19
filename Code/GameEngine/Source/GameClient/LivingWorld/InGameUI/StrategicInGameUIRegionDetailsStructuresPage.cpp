@@ -41,7 +41,7 @@ public: virtual void OnBuildPlotBuildingChanged(LivingWorldBuildPlot &); virtual
 };
 class Mouse { public: void rva001EEA6D(UnicodeString, int, const RGBColor *, float); };
 extern Mouse *TheMouse;
-class Rva005E2138 { public: void *rva005E2138(); };
+class Rva005E2138 { public: void *GetBuildPlot(); };
 class Rva004FC21AOwner { public: int rva004FC207(); };
 namespace StrategicInGameUI {
 enum LivingWorldBuildingType { LIVING_WORLD_BUILDING_TYPE_COUNT = 5 };
@@ -117,7 +117,7 @@ private:
  BuildPlot *getBuildPlot() { return owner->region->plots[index]; }
 };
 void RegionDetailsStructuresPage::Impl::Icon::Update() {
- StructureIconSlot *clip=(StructureIconSlot *)((Rva005E2138 *)this)->rva005E2138();
+ StructureIconSlot *clip=(StructureIconSlot *)((Rva005E2138 *)this)->GetBuildPlot();
  BuildPlot *plot=getBuildPlot();
  if (plot->constructing && plot->building) {
   int total=plot->building->definition->totalBuildTime;
@@ -156,10 +156,10 @@ namespace StrategicInGameUI {
 void RegionDetailsStructuresPage::Impl::Icon::OnBuildPlotBuildingChanged(LivingWorldBuildPlot &buildPlot) {
     BuildPlot *plot=getBuildPlot();
     const Image *image=plot->building ? StrategicInGameUI::GetButtonImage(plot->building) : Rva005F0318Get(plot);
-    StructureIconSlot *clip=(StructureIconSlot *)((Rva005E2138 *)this)->rva005E2138();
+    StructureIconSlot *clip=(StructureIconSlot *)((Rva005E2138 *)this)->GetBuildPlot();
     clip->SetImage(image);
     const Image *typeImage=Rva005F0220Get((Rva005F0220In *)getBuildPlot());
-    clip=(StructureIconSlot *)((Rva005E2138 *)this)->rva005E2138();
+    clip=(StructureIconSlot *)((Rva005E2138 *)this)->GetBuildPlot();
     clip->SetBuildingTypeImage(typeImage);
     if(owner->selected==index) ((Rva005E261C *)owner)->rva005E261C();
 }

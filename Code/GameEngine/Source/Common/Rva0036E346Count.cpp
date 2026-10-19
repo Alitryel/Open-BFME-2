@@ -123,14 +123,14 @@ public:
 class Rva0036E1F7
 {
 public:
-	void rva0036E1F7(int a, int b, int c);
+	void groupOverrideSpecialPowerDestination(int a, int b, int c);
 
 private:
 	char m_pad0[4];
 	ListNode *m_head;
 };
 
-void Rva0036E1F7::rva0036E1F7(int a, int b, int c)
+void Rva0036E1F7::groupOverrideSpecialPowerDestination(int a, int b, int c)
 {
 	(void)c;
 	ListNode *cur = m_head->m_next;

@@ -82,7 +82,7 @@ public:
 	unsigned short *parents;
  unsigned char *ranks;
  unsigned short *next, *last;
- unsigned short rva00531AEE(unsigned short);
+ unsigned short FindSet(unsigned short);
  void rva00531B3A(unsigned short);
  unsigned short GetNextSetMember(unsigned short n) { return next[n]; }
 };
@@ -359,7 +359,7 @@ case 5:
 // narrows when advancing the16-bit member; this reproduces native peeling.
 // Original reset method name remains unknown; no getter identity inferred.
 void Rva00531A44::rva00531B3A(unsigned short n) {
- n = rva00531AEE(n);
+ n = FindSet(n);
  do {
   int following = next[n];
   last[n] = n;
@@ -892,7 +892,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
    int n;
    while(changed.DoEnum(&n)) {
     if((unsigned)n<oldEnd) {
-     unsigned short member=unions[v][e].rva00531AEE((unsigned short)n);
+     unsigned short member=unions[v][e].FindSet((unsigned short)n);
      for(;;) {
       affected.SetBit(member);
       unsigned short next=unions[v][e].GetNextSetMember(member);

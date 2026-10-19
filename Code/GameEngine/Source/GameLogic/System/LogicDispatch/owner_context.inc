@@ -612,7 +612,7 @@ class LivingWorld;
 // address-global ownership remains a dependency, not a new pin or alias.
 extern LivingWorld *TheLivingWorld;
 
-class Rva0036E1F7 { public: void rva0036E1F7(int,int,int); };
+class Rva0036E1F7 { public: void groupOverrideSpecialPowerDestination(int,int,int); };
 
 class LogicDispatchProductionInterface { public:
  virtual void s00(); virtual void s04(); virtual int nextId(); virtual void s0c(); virtual void s10();

@@ -136,7 +136,7 @@ public:
 	virtual void slot10();
 	virtual void slot14();
 	virtual bool slot18();
-	Player *rva004989D7() const;							// 0x004989D7
+	Player *getControllingPlayer() const;							// 0x004989D7
 	Relationship getRelationship(const Player *player) const;	// 0x004989DF
 };
 
@@ -171,7 +171,7 @@ bool Rva004E8F37::rva004E8F37(Player *player)
 	for (GateOpenAndCloseBehavior **it = m_begin; it != end; ++it)
 	{
 		GateOpenAndCloseBehavior *gate = *it;
-		if (gate->rva004989D7() == player && gate->slot18())
+		if (gate->getControllingPlayer() == player && gate->slot18())
 			return false;
 	}
 	return true;

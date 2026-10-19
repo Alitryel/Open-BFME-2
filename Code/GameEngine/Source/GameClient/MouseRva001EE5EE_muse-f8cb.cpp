@@ -2,12 +2,12 @@
 // ?rva001EE5EE@Mouse@@QAEXEPAE@Z @ 0x001EE5EE (66B): Mouse tooltip setter with Hide.
 // Retail stores byte arg into byte pointer arg then checks tooltip string at +0x12F8
 // via StringBase isEmpty (row 0x35740). If not empty and rva001EDE26 (row Mouse +0x4F9D
-// cursor check) is false it fires HideToolTip via Rva003807B7Hide (landed 60B) clears
+// cursor check) is false it fires HideToolTip via HideToolTip (landed 60B) clears
 // +0x12F8 via releaseBuffer (row 0x36E70) and clears dword +0x1304. Callers 0x00041B90.
 // Prev Mouse::setVisibility proves Mouse class; honest-address rva name per packet.
 #include "unicode_string.h"
 
-void Rva003807B7Hide();
+void HideToolTip();
 
 class Mouse
 {
@@ -27,7 +27,7 @@ void Mouse::rva001EE5EE(unsigned char a, unsigned char *b)
 	{
 		if (!rva001EDE26())
 		{
-			Rva003807B7Hide();
+			HideToolTip();
 			m_12F8.clear();
 			m_1304 = 0;
 		}

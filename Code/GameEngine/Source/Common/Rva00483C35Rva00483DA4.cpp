@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva00483DA4@Rva00483C35@@UAEXPAUCoord3D@@@Z @0x00483DA4 84B.
+// ?getClearanceTestGeometryCenter@Rva00483C35@@UAEXPAUCoord3D@@@Z @0x00483DA4 84B.
 // Target evidence: the only reference to this body is slot 1 of the vtable
 // 0x00C49D70 that the matched Rva00483C35 dtor 0x00483C35 installs at +0x50,
 // the last interface base of this behavior class (vptrs at +0, +0xC, +0x10,
@@ -34,14 +34,14 @@ class Iface50
 {
 public:
 	virtual void s00();
-	virtual void rva00483DA4(Coord3D *out) = 0;
+	virtual void getClearanceTestGeometryCenter(Coord3D *out) = 0;
 };
 class Rva00483C35 : public B00, public B0C, public B10, public B20, public B24, public Iface50
 {
 public:
-	virtual void rva00483DA4(Coord3D *out);
+	virtual void getClearanceTestGeometryCenter(Coord3D *out);
 };
-void Rva00483C35::rva00483DA4(Coord3D *out)
+void Rva00483C35::getClearanceTestGeometryCenter(Coord3D *out)
 {
 	const Rva00483C35ModuleData *md = m_moduleData;
 	Thing *obj = m_object;

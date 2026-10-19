@@ -56,7 +56,7 @@ void AISpecialPower::activate(Object *obj)
 class Rva005EE2CF
 {
 public:
-	void rva005EE2CF(Object *obj);
+	void activate(Object *obj);
 private:
 	Int m_00;
 	Int m_04;
@@ -64,7 +64,7 @@ private:
 	char m_pad0C[0x10];
 	Rva005EE2CFPos m_1C;
 };
-void Rva005EE2CF::rva005EE2CF(Object *obj)
+void Rva005EE2CF::activate(Object *obj)
 {
 	obj->doCommandButtonAtPosition(m_08, (const Coord3D *)&m_1C, 1, 0);
 }

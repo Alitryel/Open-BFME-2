@@ -65,7 +65,7 @@ public:
 public:
 	static void ShowToolTip(void *tipText, AsciiString *fontName, int fontSize, int fontBold, int color);
 };
-void Rva003807B7Hide();
+void HideToolTip();
 
 
 class Mouse
@@ -177,6 +177,6 @@ void Mouse::drawTooltip()
 		return;
 	if (--m_1304 > 0)
 		return;
-	Rva003807B7Hide();
+	HideToolTip();
 	m_12F8.clear();
 }

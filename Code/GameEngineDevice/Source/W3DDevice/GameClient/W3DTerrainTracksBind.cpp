@@ -273,7 +273,7 @@ class Rva00083CE9Host
 {
 public:
 	void releaseTrack(Rva00083CE9Node *p);
-	void rva00084002();
+	void Reset();
 	void rva00083E87();
 private:
 	Rva00083E87Ref *m_00;

@@ -7,7 +7,7 @@
 class Rva005FFC26
 {
 public:
-	void rva005FFC26(int state);
+	void SetLayout(int state);
 };
 
 class Rva005FFED5
@@ -21,5 +21,5 @@ private:
 
 void Rva005FFED5::rva005FFED5(int state)
 {
-	m_obj->rva005FFC26(state);
+	m_obj->SetLayout(state);
 }

@@ -52,7 +52,7 @@ private:
 class Rva005EE2CF
 {
 public:
-	void rva005EE2CF(Object *obj);
+	void activate(Object *obj);
 private:
 	Int m_00;
 	Int m_04;

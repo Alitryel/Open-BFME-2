@@ -195,7 +195,7 @@ public:
 class Rva00083CE9Host
 {
 public:
-	void rva00084002();
+	void Reset();
 };
 
 class Rva00082B08
@@ -278,7 +278,7 @@ void W3DTerrainVisual::reset()
 	if (g_bfmeB991)
 		((W3DSmudgeManager *)g_bfmeB991)->reset();
 	if (TheTerrainTracksRenderObjClassSystem)
-		((Rva00083CE9Host *)TheTerrainTracksRenderObjClassSystem)->rva00084002();
+		((Rva00083CE9Host *)TheTerrainTracksRenderObjClassSystem)->Reset();
 	if (m_waterRenderObject)
 		((Rva00082B08 *)m_waterRenderObject)->rva00082B08();
 	if (m_18)

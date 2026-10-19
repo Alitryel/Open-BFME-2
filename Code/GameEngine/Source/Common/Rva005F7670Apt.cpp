@@ -24,7 +24,7 @@ struct Rva005F7670Team
 
 struct Rva005F6F0C
 {
-	void rva005F6F0C();
+	void Update();
 };
 
 namespace StrategicHUD {
@@ -197,9 +197,9 @@ void StrategicHUD::BuildQueueDetailsMovieClip::Impl::ShowBuildTime(int val)
 // Evidence: 1 plus 7 loop over Rva005F6F0C pointers at +0x38 and +0x3C via rowed 0x005F6F0C; caller forwarder 0x005F749B; gap between rva005F7412 and rva005F7470
 void StrategicHUD::BuildQueueDetailsMovieClip::Impl::rva005F744E()
 {
-	m_tip38->rva005F6F0C();
+	m_tip38->Update();
 	for (int i = 0; i < 7; i++)
-		m_tips3C[i]->rva005F6F0C();
+		m_tips3C[i]->Update();
 }
 
 // ?rva005F7478@Rva005F7478@@QAEXH@Z @0x005F7478 8B member forwarder to rowed

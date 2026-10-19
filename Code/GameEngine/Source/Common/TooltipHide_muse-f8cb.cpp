@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?Rva003807B7Hide@@YAXXZ @ 0x003807B7 (60B): HideToolTip firer plus tooltip DisplayString free.
+// ?HideToolTip@@YAXXZ @ 0x003807B7 (60B): HideToolTip firer plus tooltip DisplayString free.
 // Retail fires "HideToolTip" through Rva00222A8BTarget invoker with owner in ecx pattern
 // matching Code/GameEngine/Source/GameClient/UiCallbackFirers.cpp hideSpellBook (6x push 0
 // plus name plus owner). Then frees global DisplayString at 0x00A022E4 through
@@ -44,7 +44,7 @@ extern DisplayString *TheTooltipString;
 // TheTooltipString: matched references place it at VA 0xe022e4 (zero-filled .bss).
 DisplayString * TheTooltipString;
 
-void Rva003807B7Hide()
+void HideToolTip()
 {
 	(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->invoke(TheRva00222A8BOwner, "HideToolTip", 0, 0, 0, 0, 0, 0);
 	if (TheTooltipString != 0)

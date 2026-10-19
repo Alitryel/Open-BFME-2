@@ -295,7 +295,7 @@ class Rva004CDF00 : public Rva004502CE
 {
 public:
 	void rva004CDF00(Int a, Int b);
-	void rva004CDF1D();
+	void onObjectCreated();
 	void rva004CDDBA(Int a);
 private:
 	Int m_00;
@@ -303,7 +303,7 @@ private:
 	Int m_08;
 };
 
-void Rva004CDF00::rva004CDF1D()
+void Rva004CDF00::onObjectCreated()
 {
 	if (m_08)
 		rva004CDDBA(1);

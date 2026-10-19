@@ -12,7 +12,7 @@ class Rva00531A44
 public:
 	Rva00531A44 &rva00531A44(unsigned short count);
 	void rva00531A93();
-	unsigned short rva00531AEE(unsigned short idx);
+	unsigned short FindSet(unsigned short idx);
 	unsigned short rva00531B20(unsigned short idx);
 	void rva00531ABB(unsigned short idx);
 private:
@@ -49,10 +49,10 @@ unsigned short Rva00531A44::rva00531B20(unsigned short idx)
 		cur = p[cur];
 	return cur;
 }
-unsigned short Rva00531A44::rva00531AEE(unsigned short idx)
+unsigned short Rva00531A44::FindSet(unsigned short idx)
 {
 	if (idx != m_p4[idx])
-		m_p4[idx] = rva00531AEE(m_p4[idx]);
+		m_p4[idx] = FindSet(m_p4[idx]);
 	return m_p4[idx];
 }
 void Rva00531A44::rva00531ABB(unsigned short idx)

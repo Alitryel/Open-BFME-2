@@ -6,7 +6,7 @@
 // method gets its own honest opaque owner class (the Rva002D352C-family
 // idiom); no shared-class claim is made.
 //
-// ?rva003EDDD4@Rva003EDDD4@@QAEXH@Z @0x003EDDD4: callee 0x0056A4AA (pinned).
+// ?update@Rva003EDDD4@@QAEXH@Z @0x003EDDD4: callee 0x0056A4AA (pinned).
 // ?rva003EDDF5@Rva003EDDF5@@QAEXH@Z @0x003EDDF5: callee 0x00569373 (pinned).
 class Rva0056A4AA;
 // Row 0x0056A4AA is LargeGroupAudioSoundKeyPair::update(bool *).
@@ -19,14 +19,14 @@ public:
 class Rva003EDDD4
 {
 public:
-	void rva003EDDD4(int arg);
+	void update(int arg);
 private:
 	char m_pad[0x1C];
 	Rva0056A4AA **m_first1C;
 	Rva0056A4AA **m_end20;
 };
 
-void Rva003EDDD4::rva003EDDD4(int arg)
+void Rva003EDDD4::update(int arg)
 {
 	for (Rva0056A4AA **pp = m_first1C; pp != m_end20; ++pp)
 		((LargeGroupAudioSoundKeyPair *)*pp)->update((bool *)arg);

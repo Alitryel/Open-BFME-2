@@ -6,7 +6,7 @@
 class Rva00531A44
 {
 public:
-    unsigned short rva00531AEE(unsigned short idx);
+    unsigned short FindSet(unsigned short idx);
 };
 class Rva00532165
 {
@@ -49,5 +49,5 @@ void Rva00532165::rva00532165(unsigned short a, unsigned short b)
 void Rva00532165::rva00532431(unsigned short a, unsigned short b)
 {
     Rva00531A44 *self = (Rva00531A44 *)this;
-    rva00532165(self->rva00531AEE(a), self->rva00531AEE(b));
+    rva00532165(self->FindSet(a), self->FindSet(b));
 }

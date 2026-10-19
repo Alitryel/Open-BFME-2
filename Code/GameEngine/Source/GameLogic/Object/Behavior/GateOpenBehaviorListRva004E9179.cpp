@@ -9,7 +9,7 @@
 // Chain-ready via 0x004989D7. Recipe is closest-scan with pos copy plus
 // best/bestDist plus finish.
 
-// ?rva004989D7@Rva004989D7@@QBEPAVPlayer@@XZ
+// ?getControllingPlayer@Rva004989D7@@QBEPAVPlayer@@XZ
 // ?get@Rva004989EEAddDwordField@@QBEHXZ
 
 class Player;
@@ -18,7 +18,7 @@ class Player;
 class Rva004989D7
 {
 public:
-	Player *rva004989D7() const;
+	Player *getControllingPlayer() const;
 };
 
 class Rva004989EEAddDwordField
@@ -45,7 +45,7 @@ void *GateOpenBehaviorList::rva004E9179(const Coord3D *pos, const Player *player
 	for (void **cur = m_begin; cur != finish; ++cur)
 	{
 		Rva004989D7 *obj = (Rva004989D7 *)*cur;
-		if (obj->rva004989D7() != player)
+		if (obj->getControllingPlayer() != player)
 			continue;
 		float vals[3];
 		vals[0] = pos->x;

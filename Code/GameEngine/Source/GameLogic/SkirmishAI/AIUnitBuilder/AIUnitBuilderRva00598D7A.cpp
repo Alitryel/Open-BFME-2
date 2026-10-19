@@ -83,7 +83,7 @@ struct Rva00598052Entry {char unknown00[0x78]; Rva00598052Metadata *metadata;};
 
 struct Rva00598961Config {char pad00[4]; _STL::vector<AsciiString *> unitNames; char pad10[0x1C-0x10];float field1C;};
 struct Rva002A8AB1Record {char pad00[0x160];Rva00598961Config *config160;};
-class Rva00598007 {public:Rva002A8AB1Record *rva00598007();bool rva0059802E();};
+class Rva00598007 {public:Rva002A8AB1Record *getAI();bool rva0059802E();};
 class Player;
 class ThingTemplate {public:int rva0033A69A(const Player*,int,int)const;};
 class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString &name);};
@@ -264,7 +264,7 @@ void AIUnitBuilder::manageConstructingList()
   case 0:
    if (!Rva005982EA(&item->name0C,0,true)) item->slot7(3);
    else if(item->field04==500.0f&&!((Rva00598007*)this)->rva0059802E())
-    item->field04=((Rva00598007*)this)->rva00598007()->config160->field1C;
+    item->field04=((Rva00598007*)this)->getAI()->config160->field1C;
    ++i;
    break;
   case 1: ++i;break;
@@ -298,7 +298,7 @@ Rva00598C3AItem *AIUnitBuilder::createBestUnitToMake()
    unit=new AIBuildableUnit((int)m_30);
    unit->name0C=name;
    unit->quantity=((BuildableUnitTemplateView *)TheThingFactory->findTemplate(name))->quantity;
-   unit->field04=((Rva00598007 *)this)->rva0059802E() ? 500.0f : ((Rva00598007 *)this)->rva00598007()->config160->field1C;
+   unit->field04=((Rva00598007 *)this)->rva0059802E() ? 500.0f : ((Rva00598007 *)this)->getAI()->config160->field1C;
  }
  return unit;
 }
@@ -356,7 +356,7 @@ void AIUnitBuilder::registerUnitFactory(ObjectID id)
 {
  Object *object=TheGameLogic->findObjectByID(id);
  if (!object) return;
- Rva00598961Config *config=((Rva00598007 *)this)->rva00598007()->config160;
+ Rva00598961Config *config=((Rva00598007 *)this)->getAI()->config160;
  for (_STL::vector<AsciiString *>::iterator i=config->unitNames.begin();i!=config->unitNames.end();++i) {
    AsciiString name=**i;
    const ThingTemplate *thing=TheThingFactory->findTemplate(name);
@@ -461,7 +461,7 @@ AsciiString AIUnitBuilder::decideWhichTemplateToMake()
 {
  _STL::vector<BfmeE16> storage;
  _STL::vector<const ModuleData*> &candidates=*(_STL::vector<const ModuleData*>*)&storage;
- Rva00598961Config *config=((Rva00598007*)this)->rva00598007()->config160;
+ Rva00598961Config *config=((Rva00598007*)this)->getAI()->config160;
  for (_STL::vector<AsciiString*>::iterator i=config->unitNames.begin();i!=config->unitNames.end();++i) {
   AsciiString *name=*i;
   if (!Rva00598738(name)) continue;
@@ -581,7 +581,7 @@ class ArmyMemberDefinition {public:float getInterpolatedPercentageOfArmy(void*);
 void AIUnitBuilder::rebuildArmyPercentages()
 {
  float total=0.0f;
- _STL::vector<AsciiString*> &names=((Rva00598007*)this)->rva00598007()->config160->unitNames;
+ _STL::vector<AsciiString*> &names=((Rva00598007*)this)->getAI()->config160->unitNames;
  
  for(_STL::vector<AsciiString*>::iterator i=names.begin();i!=names.end();++i) {
   // Retain the map receiver inside the guarded iteration: the equal-arm

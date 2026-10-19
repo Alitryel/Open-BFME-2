@@ -83,14 +83,14 @@ extern void *TheRva00222A8BOwner;
 class Rva00222A8BTarget {
 public: int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);
 };
-void Rva003807B7Hide();
+void HideToolTip();
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *,unsigned int,const char *,...);
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 // WorldBuilder AptGuiFX::ShowToolTip, WB VA 0x00F65460 (strings lead, score 1.0).
 void AptGuiFX::ShowToolTip(void *text,AsciiString *face,int size,int style,int color)
 {
- if(TheTooltipString) Rva003807B7Hide();
+ if(TheTooltipString) HideToolTip();
  float *dimensions=reinterpret_cast<GuiFXDimensions *>(g_bfmeAptWindowManager)->getDimensions();
  float minScale=dimensions[0]<dimensions[1]?dimensions[0]:dimensions[1];
  union {GameFont *(FontLibrary::*typed)(const AsciiString *,float,bool); GameFont *(FontLibrary::*word)(const AsciiString *,float,int);} get;

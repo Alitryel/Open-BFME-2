@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00531C5A@Rva00531C5A@@QAEGG@Z @ 0x00531C5A (50B): __thiscall union-find Find over m_p4; same shape as Rva00531A44::rva00531AEE; callers 0x00531C95 0x0053245C.
+// ?rva00531C5A@Rva00531C5A@@QAEGG@Z @ 0x00531C5A (50B): __thiscall union-find Find over m_p4; same shape as Rva00531A44::FindSet; callers 0x00531C95 0x0053245C.
 class Rva00531C5A
 {
 public:

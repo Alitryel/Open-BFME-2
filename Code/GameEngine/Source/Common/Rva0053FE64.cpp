@@ -42,7 +42,7 @@ public:
 class Rva005C7098
 {
 public:
-	Quaternion *rva005C7098(Quaternion *dst, float t, int a3, int a4, const Quaternion *src1, int a6, const Quaternion *src2, int a8, int a9, int a10);
+	Quaternion *doInterpolate(Quaternion *dst, float t, int a3, int a4, const Quaternion *src1, int a6, const Quaternion *src2, int a8, int a9, int a10);
 };
 
 class Rva005C71ADView
@@ -83,7 +83,7 @@ Rva0053FDE6 Rva0053FE64Get(float t, Rva0053FDE6 *key0, int t0, Rva0053FDE6 *key1
 		(S12 *)((Rva005C71ADView *)p1)->rva005C71AD(&position, t,
 			p0->m_position, (void *)t0, p1->m_position, (void *)t1,
 			p2->m_position, (void *)t2, p3->m_position, (void *)t3),
-		(S16 *)((Rva005C7098 *)p1)->rva005C7098((Quaternion *)&orientation, t,
+		(S16 *)((Rva005C7098 *)p1)->doInterpolate((Quaternion *)&orientation, t,
 			(int)p0->m_orientation, t0, (const Quaternion *)p1->m_orientation, t1,
 			(const Quaternion *)p2->m_orientation, t2, (int)p3->m_orientation, t3),
 		((CameraAnimationFrameData *)p1)->doInterpolate(t, &p0->m_value, t0,

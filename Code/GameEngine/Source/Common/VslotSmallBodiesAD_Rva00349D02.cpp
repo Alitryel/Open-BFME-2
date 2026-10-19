@@ -275,7 +275,7 @@ class Rva004CDF00 : public Rva004502CE
 {
 public:
 	void rva004CDF00(Int a, Int b);
-	void rva004CDF1D();
+	void onObjectCreated();
 	void rva004CDDBA(Int a);
 private:
 	Int m_00;
