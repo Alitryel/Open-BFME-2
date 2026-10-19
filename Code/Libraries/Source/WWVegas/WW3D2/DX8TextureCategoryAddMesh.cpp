@@ -47,8 +47,12 @@ class MeshModelClass {
 public:
  char pad[0x2c]; PolygonBuffer *polygons; char pad30[0x94-0x30]; MeshMatDescClass *descriptor;
  const TriIndex *Get_Polygon_Array() const { return polygons->data; }
- VertexMaterialClass *Peek_Material(int i,int p) const { return descriptor->Peek_Material(i,p); }
+ VertexMaterialClass *Peek_Material(int i,int p) const; // out of line at 0x00143550 (MeshModelMatDescForwarders.cpp)
 };
+// Retail inlines MeshModelClass::Peek_Material in this unit and tail-calls the
+// descriptor. A file-local copy of the forwarder keeps that inlining without
+// emitting a second external Peek_Material body beside the rowed one.
+static inline VertexMaterialClass *Model_Peek_Material(const MeshModelClass *model,int i,int p) { return model->descriptor->Peek_Material(i,p); }
 class Vertex_Split_Table {
 public:
  MeshModelClass *model; bool npatch; unsigned count; TriIndex *polygons;
@@ -59,7 +63,7 @@ public:
  ShaderClass Peek_Shader(unsigned,unsigned);
  VertexMaterialClass *Peek_Material(unsigned index,unsigned pass) {
   
-  if(model->descriptor->Has_Material_Array(pass)) return model->Peek_Material(model->Get_Polygon_Array()[index][0],pass);
+  if(model->descriptor->Has_Material_Array(pass)) return Model_Peek_Material(model,model->Get_Polygon_Array()[index][0],pass);
   // Retail inlines the target descriptor lookup at +A8 here.
   return model->descriptor->single[pass];
  }
