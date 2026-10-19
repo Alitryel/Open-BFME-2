@@ -25,6 +25,9 @@ namespace _STL {
 template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 }
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
 // ?rva0020EE29@Rva0020EE29@@QAEXXZ @0x0020EE29 51B
 // Clears each entry of the pointer vector at inner+0x2c/+0x30 (inner = *(this+8))
 // by calling rowed ?rva003F209C@Rva003F209C@@QAEXXZ. Evidence: retail
