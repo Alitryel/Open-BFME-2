@@ -826,7 +826,6 @@ address_global	Code/GameEngine/Source/Common/Rva001FF703CreateNode.cpp	g_Va00DB9
 address_global	Code/GameEngine/Source/Common/Rva002036B4GlobalCopiers.cpp	g_Va00DFE18C	4
 address_global	Code/GameEngine/Source/Common/Rva00210F96Body.cpp	g_Rva00E02E84	2
 address_global	Code/GameEngine/Source/Common/Rva00225D38Check.cpp	g_Va00DBA4E4	2
-address_global	Code/GameEngine/Source/Common/Rva0023D30FCall.cpp	g_Rva0023D30FFlag	3
 address_global	Code/GameEngine/Source/Common/Rva0023D339Check.cpp	g_bfmeRva42E8C1Add	2
 address_global	Code/GameEngine/Source/Common/Rva0023E7D9Clear.cpp	g_Rva00A00958	3
 address_global	Code/GameEngine/Source/Common/Rva0023E7D9Clear.cpp	g_Rva00A02D86	3
@@ -1699,8 +1698,6 @@ address_global	Code/GameEngine/Source/GameNetwork/LANAPICallbacks.cpp	g_Va00E033
 address_global	Code/GameEngine/Source/GameNetwork/LANAPILobbyMenuForwarders.cpp	g_Va00E03354	7
 address_global	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	g_Va00A03354	6
 address_global	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	g_Va00E03354	5
-address_global	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	g_Rva0023D30FFlag	1
-address_global	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	g_Rva00E02EEC	5
 address_global	Code/GameEngine/Source/GameNetwork/LANAPIRva00248D9D.cpp	g_Va00A03354	4
 address_global	Code/GameEngine/Source/GameNetwork/Rva007B55E0TxnNameInits.cpp	g_Va00DD7F48	21
 address_global	Code/GameEngine/Source/GameNetwork/Rva007B55E0TxnNameInits.cpp	g_Va00DD80AC	11
@@ -2663,7 +2660,6 @@ alternatename	Code/GameEngine/Source/Common/Rva00232E9AImm.cpp	?ji_0065561c@@YGJ
 alternatename	Code/GameEngine/Source/Common/Rva00232F0CImm.cpp	?ji_0065561c@@YGJPAXK0K@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00232F4FImm.cpp	?ji_00655622@@YGKPAXK@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva002390CBDtor.cpp	??1VoiceSlot@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/Common/Rva0023D30FCall.cpp	?g_Rva0023D30FFlag@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva0024A797DeletingDtor.cpp	??1UpdateModule@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva0024A797Derived.cpp	?f2@Rva0033EEC9_B2@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva0024A797Derived.cpp	?f2@Rva00486E18_B2@@UAEXXZ	1
@@ -4552,9 +4548,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeRva0
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	?g_Va00A03354@@3PAUGlobalA03354@@A	1
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	?g_Va00A03354@@3PAUOuter00446A77@@A	1
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	?g_Va00E03354@@3PAURva004469D1Receiver@@A	2
-alternatename	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	?g_00E02EEC@@3PAVRva00E02EECObj@@A	1
-alternatename	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	?g_Rva0023D30FFlag@@3HA	1
-alternatename	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	?g_Rva00E02EEC@@3PAVLANGameInfo@@A	2
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIRva00248D9D.cpp	?g_Va00A03354@@3PAUGlobalA03354@@A	1
 alternatename	Code/GameEngine/Source/GameNetwork/NetCommandListCtor.cpp	_vtbl_00C70A08	1
 alternatename	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	?count@XmlNameSlotList@@QAEHXZ	1

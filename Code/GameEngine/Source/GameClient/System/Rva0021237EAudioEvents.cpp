@@ -162,9 +162,7 @@ extern GameLogic *TheGameLogic;
 struct Bfme939Helper { int get()const; }; class RecorderClass; extern RecorderClass *TheRecorder;
 class RecorderClass { public:void stopRecording(); };
 class Rva00210C66CmpBoolField { public: bool get() const; };
-struct LANGameInfo; extern class GameInfo *TheGameInfo;
-#define g_Rva00E02EEC (*(LANGameInfo * *)&TheGameInfo)
-// ^ g_Rva00E02EEC is only an alias of the owned global TheGameInfo (ledger names column).
+extern class GameInfo *TheGameInfo;
 class GameInfo { public: void setMap(AsciiString); }; class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
@@ -197,7 +195,7 @@ void Rva0021237E::rva0021246D(Rva0021246DInput *input)
  AsciiString map;
  map.format("maps\\%s\\%s.map",base,base);
  ((AsciiString*)((char*)TheWritableGlobalData+0xAC0))->format(&map);
- if(!g_Rva00E02EEC || !((Rva00210C66CmpBoolField*)TheGameLogic)->get())
+ if(!TheGameInfo || !((Rva00210C66CmpBoolField*)TheGameLogic)->get())
   { if((*(GameInfo **)&TheSkirmishGameInfo)) InitGameLogicRandom(timeGetTime()); else InitGameLogicRandom(0); }
  GameMessage *message=TheMessageStream->append(30);
  TheGameLogic->rva0023CD9E(true,1,false);
@@ -207,8 +205,8 @@ void Rva0021237E::rva0021246D(Rva0021246DInput *input)
  theRadarWindowOverrideSource->rva002D4240(true);
  TheInGameUI->v24();
  TheMouse->rva001EEA6D(UnicodeString::TheEmptyString,-1,0,1.0f);
- if(g_Rva00E02EEC && TheGameLogic->m_114==1) message->appendIntegerArgument(1);
- else if(g_Rva00E02EEC && TheGameLogic->m_114==2) message->appendIntegerArgument(5);
+ if(TheGameInfo && TheGameLogic->m_114==1) message->appendIntegerArgument(1);
+ else if(TheGameInfo && TheGameLogic->m_114==2) message->appendIntegerArgument(5);
  else {
   if((*(GameInfo **)&TheSkirmishGameInfo)) {(*(GameInfo **)&TheSkirmishGameInfo)->setMap(map);message->appendIntegerArgument(2);}
   else message->appendIntegerArgument(0);

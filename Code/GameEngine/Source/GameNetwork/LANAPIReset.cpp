@@ -67,7 +67,9 @@ LANPlayer::~LANPlayer()
 {
 }
 
-extern LANGameInfo *g_Rva00E02EEC;
+// The current game slot at VA 0xE02EEC is the owned global TheGameInfo.
+class GameInfo;
+extern GameInfo *TheGameInfo;
 
 class LANAPI
 {
@@ -187,13 +189,8 @@ void LANAPI::reset(void)
 	m_expiration = 0;
 	m_inLobby = true;
 	m_isInLANMenu = true;
-	if (g_Rva00E02EEC == m_currentGame)
-		g_Rva00E02EEC = 0;
+	if ((LANGameInfo *)TheGameInfo == m_currentGame)
+		TheGameInfo = 0;
 	m_currentGame = 0;
 }
 
-// ?g_Rva00E02EEC@@3PAVLANGameInfo@@A: the global at this VA is ?TheGameInfo@@3PAVGameInfo@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Rva00E02EEC@@3PAVLANGameInfo@@A=?TheGameInfo@@3PAVGameInfo@@A")
-#pragma comment(linker, "/alternatename:?g_Rva0023D30FFlag@@3HA=?TheGameInfo@@3PAVGameInfo@@A")
-// ?g_Rva00E02EEC@@3PAVLANGameInfo@@A: the global at VA 0xe02eec is ?TheGameInfo@@3PAVGameInfo@@A.
-#pragma comment(linker, "/alternatename:?g_Rva00E02EEC@@3PAVLANGameInfo@@A=?TheGameInfo@@3PAVGameInfo@@A")

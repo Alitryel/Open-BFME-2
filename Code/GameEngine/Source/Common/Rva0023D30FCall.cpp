@@ -10,7 +10,9 @@
 // Evidence: unlock lane; ret 0xc means 3-arg stdcall forwarding to slot 0x108.
 // The shared GameLogic view already spells the callee as this member.
 #include "GameLogicObjectLookupView.h"
-extern int g_Rva0023D30FFlag;
+// The flag tested first is the owned global TheGameInfo at VA 0xE02EEC.
+class GameInfo;
+extern GameInfo *TheGameInfo;
 class Rva0023D30FTarget
 {
 public:
@@ -85,12 +87,10 @@ public:
 extern class NetworkInterface *TheNetwork;
 void GameLogic::rva0023D30F(int a1, int a2, UnicodeString *name)
 {
-	if (g_Rva0023D30FFlag == 0)
+	if (TheGameInfo == 0)
 		return;
 	Rva0023D30FTarget *t = (*(Rva0023D30FTarget **)&TheNetwork);
 	if (t == 0)
 		return;
 	t->slot108(a1, a2, (int)name);
 }
-// ?g_Rva0023D30FFlag@@3HA: the global at VA 0xe02eec is ?TheGameInfo@@3PAVGameInfo@@A.
-#pragma comment(linker, "/alternatename:?g_Rva0023D30FFlag@@3HA=?TheGameInfo@@3PAVGameInfo@@A")

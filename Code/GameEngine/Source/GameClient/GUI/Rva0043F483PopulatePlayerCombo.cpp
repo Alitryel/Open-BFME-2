@@ -577,7 +577,6 @@ UnicodeString Rva0055A04C(int kind);
 
 // The game being set up, spelled as LANAPIRemoveGame.cpp's pin does.
 struct LANGameInfo;
-extern LANGameInfo *g_Rva00E02EEC;
 
 class MapMetaData;
 class MapCache
