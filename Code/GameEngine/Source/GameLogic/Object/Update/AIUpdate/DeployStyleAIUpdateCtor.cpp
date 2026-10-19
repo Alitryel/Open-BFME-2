@@ -277,7 +277,7 @@ public:
  virtual UpdateSleepTime update();
  Bool mustCenter() const { return *(reinterpret_cast<const unsigned char *>(getModuleData())+0x6e)!=0; }
  Bool functionsOnlyDeployed() const { return *(reinterpret_cast<const unsigned char *>(getModuleData())+0x6f)!=0; }
- void Rva0048E634Reset() { *reinterpret_cast<int *>(&m_member3E4) |= -1; m_flag4A9=false; }
+ void resetMember3E4() { *reinterpret_cast<int *>(&m_member3E4) |= -1; m_flag4A9=false; }
  void reset();
 	void rva0048E8F7(const AICommandParms *parms);
 	void doLastOutsideCommand();
@@ -601,7 +601,7 @@ UpdateSleepTime DeployStyleAIUpdate::update()
    if(m_4D5) {
     rva0048EB53(DEPLOY); m_4D5=false;
     if(m_4AC==2) m_flag4A9=true;
-    else if(m_flag4A8) { Rva0048E634Reset(); reset(); }
+    else if(m_flag4A8) { resetMember3E4(); reset(); }
    } else if(remain || (inRange && attacking && functionsOnlyDeployed())) {
     rva0048EB53(DEPLOY);
     if(!m_flag4A8 || m_4AC!=0) m_flag4A9=true;
@@ -615,7 +615,7 @@ UpdateSleepTime DeployStyleAIUpdate::update()
     if(!m_flag4A8 || m_4AC!=0) m_flag4A9=true;
     if(m_4D6) {
      m_4D6=false;
-     if(functionsOnlyDeployed() && m_flag4A8 && (m_4AC==2 || m_4AC==3)) { Rva0048E634Reset(); reset(); }
+     if(functionsOnlyDeployed() && m_flag4A8 && (m_4AC==2 || m_4AC==3)) { resetMember3E4(); reset(); }
     }
    } else if(!target && m_4D4 && shouldDoLastOutsideCommand()) doLastOutsideCommand();
    break;
