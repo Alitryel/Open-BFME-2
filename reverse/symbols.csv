@@ -2963,7 +2963,6 @@ name,address,notes
 ??1DamageModule@@UAE@XZ,0x004B96CC,twin of rowed Rva004B96CC for TransitionDamageFX dtor at 0x4BA47C which calls here plus ctor at 0x4BA3EA calls DamageModule ctor at 0x4B9704
 ??1DebugCmdInterface@@MAE@XZ,0x006C5930,debug library DebugCmdInterface destructor: the 7-byte body stores vftable 0x007BE7EC whose slot 0 is the rowed ??_GDebugCmdInterface; the DebugCmdInterfaceDebug constructor unwind funclet destroys that base by jumping here (also pinned as the address model ??1Rva006C5930Dtor)
 ??1DebugCmdInterface@@UAE@XZ,0x006C5930,twin spelling of the MAE pin at the same 7B base-dtor body for the public link-canonical base view used by DebugCmdInterfaceDebugCtor.cpp
-??1DebugCommandMapEntry@@QAE@XZ,0x001DB48E,callee of ?parseDebugCommandMap@@YAXPAVINI@@@Z at retail 0x001DB4CF read from its REL32 displacement; ICF alias onto ??1MetaMapRec@@QAE@XZ (matched)
 ??1DebugIOConBase@@UAE@XZ,0x0003F320,TU-private view (DebugIOCon units) of the DebugIOInterface base: the DebugIOCon constructor and destructor-thunk unwind funclets destroy that base through the DebugIOInterface destructor at this address
 ??1DebugIOInterface@@MAE@XZ,0x0003F320,debug library DebugIOInterface destructor: the 7-byte body stores vftable 0x007C0990 whose slot 0 is the rowed ??_GDebugIOInterface; the unwind funclets of the DebugIOFlat/Net/Ods/NetPipe constructors and factories destroy their DebugIOInterface base by jumping here (rowed under the model name ?apply@Rva0003F320DwordImmSetter)
 ??1DebugMember@@QAE@XZ,0x0069E440

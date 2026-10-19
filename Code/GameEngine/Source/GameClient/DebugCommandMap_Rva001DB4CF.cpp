@@ -13,9 +13,15 @@
 #include "PreRTS.h"
 #include "Common/INI.h"
 
-struct DebugCommandMapEntry
+// The local is retail's MetaMapRec (no vptr in BFME 2): its destructor is the
+// rowed ??1MetaMapRec at 0x001DB48E (MessageStream/MetaMapRecDtor.cpp), so it is
+// declared, never defined here. Its field table is the DebugCommandMapEntry one.
+struct MetaMapRec
 {
-	char m_unknown00[ 0x08 ];		// 0x00  no INI field writes here
+	~MetaMapRec();
+
+	MetaMapRec *m_next;				// 0x00  no INI field writes here
+	Int m_meta;						// 0x04
 	Int m_key;						// 0x08  Key
 	Int m_transition;				// 0x0c  Transition
 	Int m_modifiers;				// 0x10  Modifiers
@@ -23,7 +29,10 @@ struct DebugCommandMapEntry
 	Int m_category;					// 0x18  Category
 	UnicodeString m_description;	// 0x1c  Description
 	UnicodeString m_displayName;	// 0x20  DisplayName
+};
 
+struct DebugCommandMapEntry
+{
 	static const FieldParse m_fieldParseTable[];
 };
 
@@ -31,6 +40,6 @@ void parseDebugCommandMap( INI *ini )
 {
 	ini->getNextToken();
 
-	DebugCommandMapEntry entry;
+	MetaMapRec entry;
 	ini->initFromINI( &entry, DebugCommandMapEntry::m_fieldParseTable );
 }
