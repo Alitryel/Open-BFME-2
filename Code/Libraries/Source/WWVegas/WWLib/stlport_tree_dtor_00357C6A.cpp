@@ -13,6 +13,14 @@ namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 
 typedef _STL::pair<const unsigned, void *> Rva00357C6APair;
 
+// Only the map-emitting helper below constructs a tree; this unit's malloc
+// wiring made its tree-base constructor (and the node allocate it calls)
+// differ from the copy stlport_map_int_ptr_lower.cpp emits first in link
+// order. Declare the constructor only, so the helper binds to that copy.
+namespace _STL {
+template <> _Rb_tree_base< ::Rva00357C6APair, allocator< ::Rva00357C6APair> >::_Rb_tree_base(const allocator< ::Rva00357C6APair> &);
+}
+
 // Preserve retail's inline node/buffer free; the public allocator is supplied by its verified owner.
 namespace _STL {
 #pragma optimize("gsy", on)
