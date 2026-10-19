@@ -98,7 +98,8 @@ class Rva005E9390
 {
 public:
 	Rva005E9390( const Rva005E9390 &other );
-	virtual ~Rva005E9390();
+	// Empty: vtable 0x0081D134 slot 0 0x004A10FD calls 0x0049B47C, one vtable store and ret.
+	virtual ~Rva005E9390() {}
 
 	V3Block16 m_block;
 };
@@ -114,7 +115,8 @@ class Rva005E95C0
 {
 public:
 	Rva005E95C0( const Rva005E95C0 &other );
-	virtual ~Rva005E95C0();
+	// Empty: vtable 0x0081D1A4 slot 0 0x004A10FD calls 0x0049B47C, one vtable store and ret.
+	virtual ~Rva005E95C0() {}
 
 	V3Block32 m_block;
 	Int m_field84;

@@ -31,7 +31,8 @@ class Rva00253E32Base
 {
 public:
 	Rva00253E32Base() {}
-	virtual ~Rva00253E32Base();
+	// Empty: the derived destructor 0x0049B47C calls no base destructor.
+	virtual ~Rva00253E32Base() {}
 
 private:
 	void *m_base4; // base subobject is eight bytes, so the member is at +8
@@ -41,7 +42,8 @@ class Rva00253E32 : public Rva00253E32Base
 {
 public:
 	Rva00253E32();
-	virtual ~Rva00253E32();
+	// Empty: vtable 0x0084ED70 slot 0 0x004A10FD calls 0x0049B47C, one vtable store and ret.
+	virtual ~Rva00253E32() {}
 
 private:
 	Rva004CE6BA m_8; // +0x08, sixteen bytes
