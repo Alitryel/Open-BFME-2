@@ -18,10 +18,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 class Player;
 
+// The record is the rowed UnitRevivalEntry (copy ctor 0x002E134C); the
+// address-derived name is only a view. Forward to the real body so _Construct
+// binds the canonical symbol instead of an undefined address-named twin.
+class UnitRevivalEntry { public: UnitRevivalEntry(const UnitRevivalEntry &); };
 struct Rva002E2D10Record
 {
     Rva002E2D10Record();
-    Rva002E2D10Record(const Rva002E2D10Record &that);
+    __declspec(dllimport) __forceinline Rva002E2D10Record(const Rva002E2D10Record &that)
+    {
+        ((UnitRevivalEntry *)this)->UnitRevivalEntry::UnitRevivalEntry(*(const UnitRevivalEntry *)&that);
+    }
     ~Rva002E2D10Record();
     Rva002E2D10Record &operator=(const Rva002E2D10Record &that);
 
