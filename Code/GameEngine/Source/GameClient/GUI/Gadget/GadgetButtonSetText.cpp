@@ -54,18 +54,6 @@ void GadgetButtonSetText(GameWindow *g, UnicodeString text)
 	TheWindowManager->winSendSystemMsg(g, 0x4001, (WindowMsgData)&text, 0);
 }
 
-// ?Rva003278F1Set@@YAXPAVGameWindow@@VUnicodeString@@@Z @0x003278F1 71B:
-// Same shape as GadgetButtonSetText above: null-guarded winSendSystemMsg
-// GGM_SET_LABEL 0x4001 with &text and 0 via TheWindowManager slot 58 0xE8;
-// UnicodeString by-value destroyed via releaseBuffer. Callers 0x002C1B42
-// 0x00316293 unclaimed. Honest address name; verb Set from 0x4001 msg.
-void Rva003278F1Set(GameWindow *g, UnicodeString text)
-{
-	if (g == 0)
-		return;
-	TheWindowManager->winSendSystemMsg(g, 0x4001, (WindowMsgData)&text, 0);
-}
-
 // Target WB1122270 and native328354..3283F7: update a push-button's cached
 // production query through the selected drawable's owner and command data.
 class GameWindow {public:void *winGetUserData();};
