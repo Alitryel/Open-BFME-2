@@ -870,29 +870,7 @@ public:
 	__forceinline void deleteInstance() { ::delete this; }
 };
 
-class WorkOrder
-{
-public:
-	WorkOrder() throw();
-	virtual void v00();
-
-	const ThingTemplate *m_thing;		// +0x04
-	ObjectID m_factoryID;			// +0x08
-	WorkOrder *m_next;			// +0x0C
-	Int m_numCompleted;			// +0x10
-	Int m_numRequired;			// +0x14
-	Bool m_required;			// +0x18
-	Bool m_isResourceGatherer;		// +0x19
-	Int m_bfmeInt1C;			// +0x1C
-	AsciiString m_bfmeString20;		// +0x20
-	unsigned int m_bfmeUnsigned24;		// +0x24
-	Bool m_bfmeFlag28;			// +0x28
-	Bool m_bfmeFlag29;			// +0x29
-	Int m_bfmeInt2C;			// +0x2C
-
-	Bool isWaitingToBuild() const { if (m_numCompleted >= m_numRequired) return false; return true; }
-	void validateFactory(Player *thisPlayer);
-};
+#include "WorkOrder.h"
 
 class TeamInQueue
 {

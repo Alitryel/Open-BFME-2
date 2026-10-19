@@ -15,15 +15,7 @@
 // and the work-order head at +0x14. The native Zero Hour member names
 // are retained, while offsets below are witnessed by the retail methods.
 
-struct WorkOrder
-{
-	char m_unreconstructed_00[8];
-	unsigned int m_factoryID;     // +0x08
-	WorkOrder *m_next;             // +0x0C
-	int m_numCompleted;            // +0x10
-	int m_numRequired;             // +0x14
-	bool m_required;               // +0x18
-};
+#include "WorkOrder.h"
 
 class TeamInQueue
 {

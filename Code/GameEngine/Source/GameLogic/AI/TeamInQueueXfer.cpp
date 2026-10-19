@@ -32,6 +32,7 @@
 // through the team factory lookup 0x0039F761. The constructor is declared
 // non-throwing: retail has no unwind frame around the allocation.
 
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 class AsciiString;
@@ -168,19 +169,7 @@ public:
 class TeamFactory;
 extern TeamFactory *TheTeamFactory;
 
-class WorkOrder : public Snapshot
-{
-public:
-	WorkOrder( void ) throw();
-protected:
-	virtual void crc( Xfer *xfer );
-	virtual void xfer( Xfer *xfer );
-	virtual void loadPostProcess( void );
-public:
-	char m_unrecovered04[ 0x0C - 0x04 ];
-	WorkOrder *m_next;																												///< 0x0C
-	char m_unrecovered10[ 0x30 - 0x10 ];
-};
+#include "WorkOrder.h"
 
 class TeamInQueue
 {

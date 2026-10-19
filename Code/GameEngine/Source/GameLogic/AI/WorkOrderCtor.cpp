@@ -26,32 +26,9 @@ enum ObjectID
 class Xfer;
 class ThingTemplate;
 
-class WorkOrder
-{
-public:
-	WorkOrder();
-protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-public:
-	const ThingTemplate *m_thing;						///< 0x04
-	ObjectID m_factoryID;								///< 0x08
-	WorkOrder *m_next;									///< 0x0C
-	Int m_numCompleted;									///< 0x10
-	Int m_numRequired;									///< 0x14
-	Bool m_required;									///< 0x18
-	Bool m_isResourceGatherer;							///< 0x19
-	Int m_bfmeInt1C;									///< 0x1C
-	AsciiString m_bfmeString20;							///< 0x20
-	UnsignedInt m_bfmeUnsigned24;						///< 0x24
-	Bool m_bfmeFlag28;									///< 0x28
-	Bool m_bfmeFlag29;									///< 0x29
-	Int m_bfmeInt2C;									///< 0x2C
-};
+#include "WorkOrder.h"
 
-WorkOrder::WorkOrder() :
+WorkOrder::WorkOrder() throw() :
 	m_thing(NULL),
 	m_factoryID(INVALID_ID),
 	m_next(NULL),
@@ -64,10 +41,3 @@ WorkOrder::WorkOrder() :
 	m_bfmeFlag28 = false;
 	m_bfmeFlag29 = false;
 }
-
-// Placeholder virtuals this unit's vftables hold.  In retail each such slot
-// holds a rowed function; the vftable's address is proven by the vptr stores in
-// the matched destructors, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?v00@WorkOrder@@MAEXXZ=??_GRva004F1B56@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:?v01@WorkOrder@@MAEXXZ=??1Region2D@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?v02@WorkOrder@@MAEXXZ=?name@Rva004F1116Named@@QBEPBDXZ")
