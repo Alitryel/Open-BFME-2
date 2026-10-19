@@ -23,9 +23,12 @@ struct Rva005CEDAFPay
 	int m_14;
 };
 
+// Slot 0 of the vtable the clone installs (0x008751E8) is the ICF-shared
+// deleting dtor 0x005FAA31, whose destructor 0x004E84A4 only restores the
+// vtable: an empty virtual destructor.
 struct Rva005CEDAF
 {
-	virtual ~Rva005CEDAF();
+	virtual ~Rva005CEDAF() {}
 	int m_ref;
 	Rva005CEDAFPay m_pay;
 	__forceinline Rva005CEDAF(const Rva005CEDAF &src) : m_ref(0), m_pay(src.m_pay) {}
