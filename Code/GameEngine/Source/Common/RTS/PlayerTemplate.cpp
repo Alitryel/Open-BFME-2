@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /O1 /MD /EHsc /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
 #include <set>
@@ -19,9 +19,6 @@ static inline bool operator!=(const _List_iterator<T, L> &a,
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.
 #include <new>
-// bfme link decl-only begin
-namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
-// bfme link decl-only end
 namespace _STL {
 static inline void _Construct(int *__p, const int &__val)
 { new (__p) int(__val); }
