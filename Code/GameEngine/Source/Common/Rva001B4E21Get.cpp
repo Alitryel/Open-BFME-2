@@ -1,7 +1,9 @@
 // cl: /O1 /MD
-// ?Rva001B4E21Get@@YGEPAX0@Z RVA 0x001B4E21 40B
+// ?rva001B4E21@SubsystemInterfaceList@@QAEEPAVSubsystemInterface@@PAE@Z RVA 0x001B4E21 40B
 // Evidence: unlock lane; callers 0x001B509F 0x001B50D8 in 0x001B505F; free function ret 8
 //   with vtable slot 0x10 call on arg1 with m_4 guard set/cleared around it.
+//   Retail passes ECX=this from SubsystemInterfaceList::rva001B505F and the body never
+//   reads it: a thiscall member with two stack arguments (ret 8).
 
 class Rva001B4E21Arg
 {
@@ -14,7 +16,14 @@ public:
 	unsigned char m_4;
 };
 
-unsigned char __stdcall Rva001B4E21Get(void *arg1, void *arg2)
+class SubsystemInterface;
+class SubsystemInterfaceList
+{
+public:
+	unsigned char rva001B4E21(SubsystemInterface *arg1, unsigned char *arg2);
+};
+
+unsigned char SubsystemInterfaceList::rva001B4E21(SubsystemInterface *arg1, unsigned char *arg2)
 {
 	Rva001B4E21Arg *obj = (Rva001B4E21Arg *)arg1;
 	unsigned char result = 0;

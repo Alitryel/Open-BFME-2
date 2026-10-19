@@ -15583,7 +15583,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva00357180@Rva00170D0FTree@@QBEPAURva00170D0FNode@@ABI@Z,0x00357180,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?rva00170AA9@Rva00170D0FTree@@QAEXURva00170D0FIterator@@@Z,0x00170AA9,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?generateNewParticleStartValues@ParticleSystem@FXParticleSystem@@QAEXPAVRva001F376E@@HH@Z,0x001F55A8,callee of ?rva001F9BA4@ParticleSystem@FXParticleSystem@@QAEXPAXH@Z
-?rva001B4E21@SubsystemInterfaceList@@QAEEPAVSubsystemInterface@@PAE@Z,0x001B4E21,callee of ?rva001B505F@SubsystemInterfaceList@@QAEEXZ
 ?rva00463A4D@HordeTransportContain@@QAEXV?$list@URva0036ADF9Element@@V?$allocator@URva0036ADF9Element@@@_STL@@@_STL@@H@Z,0x00463A4D,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
 ?rva00477513@HordeTransportContain@@QAEXXZ,0x00477513,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
 ?hasEntries@Rva00256AB0Owner@@QBE_NXZ,0x004DF49C,callee of ?rva0028BC3B@Rva0028BC3B@@QBE_NXZ

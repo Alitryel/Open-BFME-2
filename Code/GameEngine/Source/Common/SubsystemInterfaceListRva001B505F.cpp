@@ -19,7 +19,28 @@ namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int
 // bfme link decl-only end
 
 class ModuleData;
-
+// push_back's overflow is retail's 0x002DFCF6 body (ModuleFactory.cpp), which inlines
+// max(size(), n); the declaration-only max<unsigned> above would make this TU's copy
+// call it, so spell the inline form out here.
+static inline const unsigned int &moduleOverflowMax(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+namespace _STL {
+template <> inline void vector<const ModuleData *>::_M_insert_overflow(pointer __position, const value_type &__x,
+	const __true_type &, size_type __fill_len, bool __atend)
+{
+	const size_type __old_size = size();
+	const size_type __len = __old_size + moduleOverflowMax(__old_size, __fill_len);
+	pointer __new_start = this->_M_end_of_storage.allocate(__len);
+	pointer __new_finish = (pointer)__copy_trivial(this->_M_start, __position, __new_start);
+	__new_finish = fill_n(__new_finish, __fill_len, __x);
+	if (!__atend)
+		__new_finish = (pointer)__copy_trivial(__position, this->_M_finish, __new_finish);
+	_M_clear();
+	_M_set(__new_start, __new_finish, __new_start + __len);
+}
+}
 class SubsystemInterface
 {
 public:
