@@ -89,15 +89,6 @@ private:
 	Rva004E35D5 m_owner;
 };
 
-class Rva003EE884
-{
-public:
-	void rva003EE884(Int arg);
-private:
-	char m_pad[8];
-	Rva004E35D5 m_owner;
-};
-
 class Rva003EE966
 {
 public:
@@ -116,9 +107,12 @@ private:
 	Rva004E35D5 m_owner;
 };
 
-class Rva003EE84A
+// 0x003EE884 and 0x003EE84A: LivingWorldRegionEffectsManager::SyncRegion
+// (0x003EF08B) calls both on its own this.
+class LivingWorldRegionEffectsManager
 {
 public:
+	void rva003EE884(Int arg);
 	void rva003EE84A(Int a, Int b);
 private:
 	char m_pad[8];
@@ -130,7 +124,7 @@ void Rva003EE900::rva003EE900(Int arg)
 	m_owner.rva004E35D5(g_Rva00E02E7C, (Int)((char *)arg + 0x54), 0);
 }
 
-void Rva003EE884::rva003EE884(Int arg)
+void LivingWorldRegionEffectsManager::rva003EE884(Int arg)
 {
 	m_owner.rva004E35D5(g_Rva00E02E78, (Int)((char *)arg + 0x54), 0);
 }
@@ -145,7 +139,7 @@ void Rva003EEA9D::rva003EEA9D(Int arg)
 	m_owner.rva004E35D5(g_Rva00E02E68, (Int)((char *)arg + 0x54), 0);
 }
 
-void Rva003EE84A::rva003EE84A(Int a, Int b)
+void LivingWorldRegionEffectsManager::rva003EE84A(Int a, Int b)
 {
 	char *p = (char *)a + 0x54;
 	m_owner.rva004E35D5(g_Rva00E02E78, (Int)p, 1);
@@ -176,7 +170,7 @@ void Rva003EEAB7::rva003EEAB7()
 // ?rva003EE89E@Rva003EE89E@@QAEXHH@Z retail 0x003EE89E 58B. Unlock lane: same
 // three-call forward as rva003EE84A above but with string g_Rva00E02E7C;
 // callers at 0x003EE8F6/0x003EF120/0x0057DD5A; unblocks 3. Prev/next are the
-// Rva003EE884/900 family in this TU.
+// Rva003EE900 family in this TU.
 class Rva003EE89E
 {
 public:
@@ -564,6 +558,6 @@ void Rva003EEBEF::rva003EEBEF(Int p)
 	int count = arg->m_records.size();
 	for (int i = 0; i < count; ++i) {
 		Rva0020E89C *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->getLookup()->rva0020EAF6(arg->m_records[i].m_index);
-		((Rva003EE84A *)this)->rva003EE84A((Int)found, (Int)&arg->m_records[i].m_payload);
+		((LivingWorldRegionEffectsManager *)this)->rva003EE84A((Int)found, (Int)&arg->m_records[i].m_payload);
 	}
 }

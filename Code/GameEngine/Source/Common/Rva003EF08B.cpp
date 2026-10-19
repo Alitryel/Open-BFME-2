@@ -13,20 +13,10 @@ class Rva003EE7CA
 public:
 	int rva003EE7CA(int a, int b);
 };
-class Rva003EE84A
-{
-public:
-	void rva003EE84A(int a, int b);
-};
 class Rva003EE89E
 {
 public:
 	void rva003EE89E(int a, int b);
-};
-class Rva003EE884
-{
-public:
-	void rva003EE884(int a);
 };
 class Rva003EE900
 {
@@ -68,6 +58,8 @@ class LivingWorldRegionEffectsManager
 {
 public:
 	void SyncRegion(int arg);
+	void rva003EE84A(int a, int b);	// 0x003EE84A (Rva003EE900Forward.cpp)
+	void rva003EE884(int a);	// 0x003EE884 (Rva003EE900Forward.cpp)
 private:
 	char m_pad00[0x14];
 	int m_14;
@@ -92,7 +84,7 @@ void LivingWorldRegionEffectsManager::SyncRegion(int argInt)
 	if (arg->m_1A2 && faction != -1) {
 		int tmp[3];
 		((Rva003EE7CA *)this)->rva003EE7CA((int)&tmp, argInt);
-		((Rva003EE84A *)this)->rva003EE84A(argInt, (int)&tmp);
+		rva003EE84A(argInt, (int)&tmp);
 		if (argInt == m_14)
 			((Rva003EF041 *)this)->rva003EF041();
 		Rva002E2903Player *player = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->find(faction, (unsigned int *)0);
@@ -107,7 +99,7 @@ void LivingWorldRegionEffectsManager::SyncRegion(int argInt)
 		else
 			((Rva003EE900 *)this)->rva003EE900(argInt);
 	} else {
-		((Rva003EE884 *)this)->rva003EE884(argInt);
+		rva003EE884(argInt);
 		((Rva003EE900 *)this)->rva003EE900(argInt);
 	}
 }

@@ -36489,10 +36489,10 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?rva004E35FF@Rva004E35FF@@QAEXABVAsciiString@@HH@Z,,0x004E35FF,42,Code/GameEngine/Source/Common/Rva004E35D5Notify.cpp,matched,map dispatch slot 0x10 donor V4Lookup find 0x1F8437
 ?rva004E3629@Rva004E3629@@QAEXABVAsciiString@@H@Z,,0x004E3629,38,Code/GameEngine/Source/Common/Rva004E35D5Notify.cpp,matched,map dispatch slot 8 donor V4Lookup find 0x1F8437
 ?rva003EE900@Rva003EE900@@QAEXH@Z,,0x003EE900,26,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,forwarder to notify0C HomeRegionHighlight chain of 0x4E35D5
-?rva003EE884@Rva003EE884@@QAEXH@Z,,0x003EE884,26,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,forwarder to notify0C FilledOwnershipEffect chain of 0x4E35D5
+?rva003EE884@LivingWorldRegionEffectsManager@@QAEXH@Z,,0x003EE884,26,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,forwarder to notify0C FilledOwnershipEffect chain of 0x4E35D5
 ?rva003EE966@Rva003EE966@@QAEXH@Z,,0x003EE966,26,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,forwarder to notify0C RegionSelectionEffect chain of 0x4E35D5
 ?rva003EEA9D@Rva003EEA9D@@QAEXH@Z,,0x003EEA9D,26,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,forwarder to notify0C MouseoverEffectFlareup chain of 0x4E35D5
-?rva003EE84A@Rva003EE84A@@QAEXHH@Z,,0x003EE84A,58,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,triple notify0C-10-04 FilledOwnershipEffect chain
+?rva003EE84A@LivingWorldRegionEffectsManager@@QAEXHH@Z,,0x003EE84A,58,Code/GameEngine/Source/Common/Rva003EE900Forward.cpp,matched,triple notify0C-10-04 FilledOwnershipEffect chain
 ?aiExit@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z,,0x0036F39B,101,Code/GameEngine/Source/GameLogic/AI/AICommandInterfaceAttackCommands.cpp,matched,BFME1 donor aiExit AICMD 0x1A plus caller 0x003702A8 via AI subobject
 ?rva002A8F24@Rva002A8F24@@QAEPAXPAVPlayer@@@Z,,0x002A8F24,50,Code/GameEngine/Source/Common/RTS/Rva002A8F24.cpp,matched,map at +0x908 key Player+0x54 via rowed _M_find twin 0x4E95D4
 ?Rva002A8D2DFree@@YGXPAURva002A8D2DNode@@@Z,,0x002A8D2D,28,Code/Libraries/Source/WWVegas/WWLib/Rva002A8D2DFree.cpp,matched,node deleter via rowed CameraMarker dtor then free same as Rva00055864Free
