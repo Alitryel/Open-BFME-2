@@ -27,11 +27,14 @@ protected:
 class ALU_Iface1 { public: virtual void slot(); };
 class ALU_Iface2 { public: virtual void slot(); };
 
-class ALU_UpdateModule : public ALU_DeepBase, public ALU_Iface1, public ALU_Iface2
+// The base is retail's UpdateModule: its constructor (0x00253390),
+// destructor and setWakeFrame are rowed elsewhere, so they are declared,
+// never defined here.
+class UpdateModule : public ALU_DeepBase, public ALU_Iface1, public ALU_Iface2
 {
 public:
-	ALU_UpdateModule(Thing *thing, const ModuleData *moduleData)
-		: ALU_DeepBase(thing, moduleData), m_f14(0), m_f18(-1), m_f1c(-1) {}
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~UpdateModule();
 
 protected:
 	void setWakeFrame(Object *, UpdateSleepTime);
@@ -55,7 +58,7 @@ private:
 
 class ALU_Iface4 { public: virtual void slot(); };
 
-class AudioLoopUpgrade : public ALU_UpdateModule,
+class AudioLoopUpgrade : public UpdateModule,
 	public ALU_UpgradeMux,
 	public ALU_Iface4
 {
@@ -68,7 +71,7 @@ private:
 
 // ??0AudioLoopUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z
 AudioLoopUpgrade::AudioLoopUpgrade(Thing *thing, const ModuleData *moduleData)
-	: ALU_UpdateModule(thing, moduleData), ALU_UpgradeMux()
+	: UpdateModule(thing, moduleData), ALU_UpgradeMux()
 {
 	m_x2c = 1;
 	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);

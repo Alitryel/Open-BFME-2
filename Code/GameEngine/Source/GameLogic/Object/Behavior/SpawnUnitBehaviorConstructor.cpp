@@ -42,12 +42,13 @@ public:
     virtual ~SpawnUnitBehaviorIface3();
 };
 
-class SpawnUnitBehaviorBase : public SpawnUnitBehaviorGrandBase, public SpawnUnitBehaviorIface1, public SpawnUnitBehaviorIface2
+// The base is retail's UpdateModule: its constructor (0x00253390) and
+// destructor are rowed elsewhere, so they are declared, never defined here.
+class UpdateModule : public SpawnUnitBehaviorGrandBase, public SpawnUnitBehaviorIface1, public SpawnUnitBehaviorIface2
 {
 public:
-    SpawnUnitBehaviorBase(Thing *t, const ModuleData *m)
-        : SpawnUnitBehaviorGrandBase(t, m), m_14(0), m_18(-1), m_1C(-1) {}
-    virtual ~SpawnUnitBehaviorBase();
+    UpdateModule(Thing *t, const ModuleData *m);
+    virtual ~UpdateModule();
 
 private:
     unsigned int m_14;
@@ -55,7 +56,7 @@ private:
     int m_1C;
 };
 
-class SpawnUnitBehavior : public SpawnUnitBehaviorBase, public SpawnUnitBehaviorIface3
+class SpawnUnitBehavior : public UpdateModule, public SpawnUnitBehaviorIface3
 {
 public:
     SpawnUnitBehavior(Thing *, const ModuleData *);
@@ -69,7 +70,7 @@ private:
 
 // ??0SpawnUnitBehavior@@QAE@PAVThing@@PBVModuleData@@@Z
 SpawnUnitBehavior::SpawnUnitBehavior(Thing *t, const ModuleData *m)
-    : SpawnUnitBehaviorBase(t, m)
+    : UpdateModule(t, m)
 {
     m_spawnOnce = *(reinterpret_cast<const unsigned char *>(m_moduleData) + 0x1C);
 }

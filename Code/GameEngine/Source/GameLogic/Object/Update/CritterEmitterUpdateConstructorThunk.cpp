@@ -29,17 +29,15 @@ public:
     virtual ~CritterEmitterUpdateIface2();
 };
 
-class CritterEmitterUpdateBase : public ObjectModule,
+// The base is retail's UpdateModule: its constructor (0x00253390) and
+// destructor are rowed elsewhere, so they are declared, never defined here.
+class UpdateModule : public ObjectModule,
     public CritterEmitterUpdateIface1,
     public CritterEmitterUpdateIface2
 {
 public:
-    CritterEmitterUpdateBase(Thing *thing, const ModuleData *moduleData)
-        : ObjectModule(thing, moduleData), m_14(0), m_18(-1), m_1c(-1)
-    {
-    }
-
-    virtual ~CritterEmitterUpdateBase();
+    UpdateModule(Thing *thing, const ModuleData *moduleData);
+    virtual ~UpdateModule();
 
 private:
     unsigned int m_14;
@@ -53,7 +51,7 @@ public:
     virtual ~CritterEmitterUpdateIface3();
 };
 
-class CritterEmitterUpdate : public CritterEmitterUpdateBase,
+class CritterEmitterUpdate : public UpdateModule,
     public CritterEmitterUpdateIface3
 {
 public:
@@ -66,7 +64,7 @@ private:
 
 // ??0CritterEmitterUpdate@@QAE@PAVThing@@PBVModuleData@@@Z
 CritterEmitterUpdate::CritterEmitterUpdate(Thing *thing, const ModuleData *moduleData)
-    : CritterEmitterUpdateBase(thing, moduleData)
+    : UpdateModule(thing, moduleData)
 {
     m_24 = 0;
     m_25 = 1;

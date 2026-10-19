@@ -326,7 +326,6 @@ Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehavior.cpp	?build
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva0046152FFinish.cpp	?_M_insert_overflow@?$vector@VDynamicPortalLink@@V?$allocator@VDynamicPortalLink@@@_STL@@@_STL@@IAEXPAVDynamicPortalLink@@ABV3@ABU__false_type@2@I_N@Z	??$_Construct@VDynamicPortalLink@@V1@@_STL@@YAXPAVDynamicPortalLink@@ABV1@@Z	0x00460F18	wrong
 Code/GameEngine/Source/GameLogic/Object/Behavior/Rva0046152FFinish.cpp	?push_back@?$vector@VDynamicPortalLink@@V?$allocator@VDynamicPortalLink@@@_STL@@@_STL@@QAEXABVDynamicPortalLink@@@Z	??$_Construct@VDynamicPortalLink@@V1@@_STL@@YAXPAVDynamicPortalLink@@ABV1@@Z	0x00460F18	wrong
 Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior_rva0045F4D7.cpp	?rva0045F4D7@SpawnBehavior@@QAEPAVObject@@XZ	?callback0045F4D7@@YAXPAVObject@@PAX@Z	0x0045F39B	wrong
-Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnUnitBehaviorConstructor.cpp	??0SpawnUnitBehavior@@QAE@PAVThing@@PBVModuleData@@@Z	??0SpawnUnitBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z	0x00253390	wrong
 Code/GameEngine/Source/GameLogic/Object/Behavior/TransitionDamageFXDtor.cpp	??1TransitionDamageFX@@MAE@XZ	??1DamageModule@@UAE@XZ	0x004B96CC	wrong
 Code/GameEngine/Source/GameLogic/Object/Body/FreeLifeBodyAttemptDamage.cpp	?attemptDamage@Rva004C193COwner@@QAEXPAVDamageInfo@@@Z	?attemptDamage@ActiveBody@@UAEXPAVDamageInfo@@@Z	0x004BFE07	unowned
 Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBodyAttemptDamage.cpp	?attemptDamage@HighlanderBody@@UAEXPAVDamageInfo@@@Z	?attemptDamage@ActiveBody@@UAEXPAVDamageInfo@@@Z	0x004BFE07	unowned
@@ -351,7 +350,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterfacePrivateCommands.
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateParseLocomotorSet.cpp	?parseLocomotorSet@AIUpdateModuleData@@SAXPAVINI@@PAX1PBX@Z	?push_back@?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@QAEXABQBVLocomotorTemplate@@@Z	0x004DFCB0	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/ArrowStormUpdateSlots.cpp	?rva00450D9A@ArrowStormUpdate@@UAEXXZ	?rva00490AC5@ArrowStormUpdate@@AAEXXZ	0x00490AC5	unowned
 Code/GameEngine/Source/GameLogic/Object/Update/BoneFXUpdateXfer.cpp	?xfer@BoneFXUpdate@@MAEXPAVXfer@@@Z	?push_back@?$vector@W4ParticleSystemID@@V?$allocator@W4ParticleSystemID@@@_STL@@@_STL@@QAEXABW4ParticleSystemID@@@Z	0x002E01C6	wrong
-Code/GameEngine/Source/GameLogic/Object/Update/CritterEmitterUpdateConstructorThunk.cpp	??0CritterEmitterUpdate@@QAE@PAVThing@@PBVModuleData@@@Z	??0CritterEmitterUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z	0x00253390	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/ModuleUpdateDtors2.cpp	??_GRva004907C0@@UAEPAXI@Z	??1Rva004907C0@@UAE@XZ	0x004907C0	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/Rva002B7000Dtor.cpp	??1?$vector@URva002B7000Element@@V?$allocator@URva002B7000Element@@@_STL@@@_STL@@QAE@XZ	??$_Destroy@PAURva002B7000Element@@@_STL@@YAXPAURva002B7000Element@@0@Z	0x005F97BC	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D1B1.cpp	??1Rva0049D1B1@@UAE@XZ	??1AsciiString@@QAE@XZ	0x00036410	divergent
@@ -360,7 +358,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateDtor.cpp	??1S
 Code/GameEngine/Source/GameLogic/Object/Update/SpecialDisguiseUpdateOnExit.cpp	?onExit@SpecialDisguiseUpdate@@MAEX_N0@Z	?onExit@SpecialAbilityUpdate@@AAEX_N0@Z	0x004502CE	unowned
 Code/GameEngine/Source/GameLogic/Object/Update/StructureToppleUpdateModuleDataCtor.cpp	??0StructureToppleUpdateModuleData@@QAE@XZ	?erase@?$vector@UAngleFXInfo@@V?$allocator@UAngleFXInfo@@@_STL@@@_STL@@QAEPAUAngleFXInfo@@PAU3@0@Z	0x003FA4DB	divergent
 Code/GameEngine/Source/GameLogic/Object/Update/WeaponFireSpecialAbilityUpdateOnExit.cpp	?onExit@WeaponFireSpecialAbilityUpdate@@MAEX_N0@Z	?onExit@SpecialAbilityUpdate@@AAEX_N0@Z	0x004502CE	unowned
-Code/GameEngine/Source/GameLogic/Object/Upgrade/AudioLoopUpgradeCtorModuleFactory.cpp	??0AudioLoopUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z	??0ALU_UpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z	0x00253390	wrong
 Code/GameEngine/Source/GameLogic/Object/WeaponFireForwarders.cpp	?bfmeFireYC@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H@Z	?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1HHHPAH@Z	0x002CE30A	unowned
 Code/GameEngine/Source/GameLogic/Object/WeaponPrivateFireWrapper_002CE74B_O2.cpp	?rva002CE74B@Weapon@@QAE_NPBVObject@@0@Z	?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1HHHPAH@Z	0x002CE30A	unowned
 Code/GameEngine/Source/GameLogic/Object/WeaponPrivateFireWrappers_O1.cpp	?fireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@PAH@Z	?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1HHHPAH@Z	0x002CE30A	unowned

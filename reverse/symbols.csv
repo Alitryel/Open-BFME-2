@@ -1676,7 +1676,6 @@ name,address,notes
 ??0AIStateMachine@@QAE@PAVObject@@I@Z,0x00351C48,address read from the REL32 displacement at 0x00262540 in makeStateMachine 0x00262513 (slot 150 of eight AIUpdate-family vtables) after operator new(0x68); the body runs the StateMachine base constructor (0x004D79E1) with (owner / key / 0) then installs vtable 0x00C14CD0 and builds the goal-path vector at +0x3C and the temporary-state fields (+0x48..+0x64) as Zero Hour's AIStateMachine constructor does; BFME2 passes an integer key (0x4A9A0E38) where Zero Hour passes the name so the second parameter type is an inference
 ??0AITNGuardMachine@@QAE@PAVObject@@@Z,0x00546001,(Object*) ctor: installs vftable 0x00C6A090 whose name getter 0x00545B8F returns AITNGuardMachine; AITunnelNetworkGuardState::xfer news 0x50 bytes and calls it
 ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z,0x0026E9BD,(Thing*;ModuleData*) ctor called by AIUpdateInterface::friend_newModuleInstance (0x0024BDB7); class from the ModuleFactory registration literal
-??0ALU_UpdateModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00253390,callee of 0AudioLoopUpgrade (0x004B7CBC) at the site its BFME1 donor calls it; may be an ICF alias
 ??0ALU_UpgradeMux@@QAE@XZ,0x004CE2A3,callee of 0AudioLoopUpgrade (0x004B7CBC) at the site its BFME1 donor calls it; may be an ICF alias
 ??0AODCrushCollideModuleData@@QAE@XZ,0x004BBF89,EH 115B ctor with vtable 0xC5A350 and null FXList and OCL slots at +0x08/+0x0C/+0x10/+0x14/+0x18/+0x1C and filter member at +0x2C via 0x3623E5 and Damage fields matching own table 0x85A4A8; sole raw caller is ModuleData factory 0x251056 which news 0x48
 ??0AODHordeContain@@QAE@PAVThing@@PBVModuleData@@@Z,0x0047B3DB,(Thing*;ModuleData*) ctor called by AODHordeContain::friend_newModuleInstance (0x0024BB25); class from the ModuleFactory registration literal
@@ -1866,7 +1865,6 @@ name,address,notes
 ??0CreateObjectDieModuleData@@QAE@XZ,0x00485D88,ctor call in the byte-true CreateObjectDie data factory (ModuleFactory registers it under "CreateObjectDie")
 ??0CriticalSectionClass@@QAE@XZ,0x00613AE0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ??0CritterEmitterUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x004C8D86,(Thing*;ModuleData*) ctor called by CritterEmitterUpdate::friend_newModuleInstance (0x002528CE); class from the ModuleFactory registration literal
-??0CritterEmitterUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x00253390,callee of 0CritterEmitterUpdate (0x004C8D86) at the site its BFME1 donor calls it; may be an ICF alias
 ??0CrushDie@@QAE@PAVThing@@PBVModuleData@@@Z,0x004862E1,(Thing*;ModuleData*) ctor called by CrushDie::friend_newModuleInstance (0x0024CA38); class from the ModuleFactory registration literal
 ??0CullSystemClass@@QAE@XZ,0x00724550,address read from the retail REL32 in ??0GridCullSystemClass at 0x0071CBE0
 ??0CursorParticleSystemFXNugget@@QAE@XZ,0x001E0C90,no-arg ctor called by CursorParticleSystemFXNugget::parse (0x001E26CB) for the CursorParticleSystem FXList keyword; class name from BFME1
@@ -2547,7 +2545,6 @@ name,address,notes
 ??0SortingIndexBufferClass@@QAE@G@Z,0x00138B20,self-verifying: retail DynamicIBAccessClass::Allocate_Sorting_Dynamic_Buffer at 0x00138F50 encodes 0x00138B20 in its constructor call REL32 displacement
 ??0SpawnBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x0045F581,(Thing*;ModuleData*) ctor called by SpawnBehavior::friend_newModuleInstance (0x0024B405); class from the ModuleFactory registration literal
 ??0SpawnUnitBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B87E3,(Thing*;ModuleData*) ctor called by SpawnUnitBehavior::friend_newModuleInstance (0x00250926); class from the ModuleFactory registration literal
-??0SpawnUnitBehaviorBase@@QAE@PAVThing@@PBVModuleData@@@Z,0x00253390,callee of 0SpawnUnitBehavior (0x004B87E3) at the site its BFME1 donor calls it; may be an ICF alias
 ??0SpawnUnitBehaviorModuleData@@QAE@XZ,0x0025598C,SpawnUnitBehavior ModuleData ctor for 0x20 factory; sole raw E8 caller is ModuleData factory 0x2559F1; installs vtable 0x00BF36C0 plus AsciiString members at 8 and C
 ??0SpecialAbilityUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x0044EF5E,(Thing*;ModuleData*) ctor called by SpecialAbilityUpdate::friend_newModuleInstance (0x0024A847); class from the ModuleFactory registration literal
 ??0SpecialAbilityUpdateModuleData@@QAE@XZ,0x0044EB54,address read from the REL32 displacement at the byte-verified SpecialAbilityUpdateModuleData::friend_newModuleData 0x0024A882; the ctor stores the final vtable 0x00C3F2A8 and is rowed as the opaque ??0Rva0044EB54@@QAE@XZ
@@ -11124,7 +11121,6 @@ name,address,notes
 ?setVideoBuffer@GameWindowInstanceData@@QAEXXZ,0x00322167,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?setVideoBuffer@WinInstanceData@@QAEXPAVVideoBuffer@@@Z,0x00322167,13B setter storing +0x1A4 (the m_videoBuffer slot WinInstanceData::init 0x322174 zeroes last); sits directly before init; REL32 from placed WindowVideo dtor/init/setWindowState (0x53F10E/0x53F165/0x53F06C); ICF-shared with Object::friend_setPartitionData row
 ?setVisibility@BfmeMouse_setVisibility@@QAEX_N@Z,0x001EE5D6,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?setWakeFrame@ALU_UpdateModule@@IAEXPAVObject@@W4UpdateSleepTime@@@Z,0x0044DF71,callee of 0AudioLoopUpgrade (0x004B7CBC) at the site its BFME1 donor calls it; may be an ICF alias
 ?setWakeFrame@FireWeaponUpdate@@IAEXPAVObject@@I@Z,0x0044DF71,TU-spelling alias of UpdateModule setWakeFrame for FireWeaponUpdate-based behavior ctors; same Object-uint shape
 ?setWakeFrame@Rva0026E9BDBase@@IAEXPAVObject@@I@Z,0x0044DF71,TU-spelling alias of UpdateModule setWakeFrame for Rva0026E9BDBase-based behavior ctors; same Object-uint shape resolved by HordeAIUpdateCtor
 ?setWakeFrame@UpdateModule@@IAEXPAVObject@@I@Z,0x0044DF71,address read from the REL32 displacement at a placed body
