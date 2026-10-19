@@ -1,7 +1,7 @@
-// ?rva00531720@Rva00531720@@QAEEII@Z
+// ?rva00531720@PathfindZoneManager@@QAEEII@Z
 // partial score=0.93 date=2026-10-04
 // cl: /MD
-// ?rva00531720@Rva00531720@@QAEEII@Z @ 0x00531720 (55B): __thiscall bit-gated element test;
+// ?rva00531720@PathfindZoneManager@@QAEEII@Z @ 0x00531720 (55B): __thiscall bit-gated element test;
 // array at +0xC stride 4 tests [e+1]&0x80 when (a>>1)&1 and [e+2]&1 when (a>>2)&1;
 // callers at 0x0053192B 0x0053193A. The two gate masks live in a local two-byte
 // ARRAY rather than two scalars: that keeps both computed mask values
@@ -10,7 +10,7 @@
 // push esi / mov esi,[esp+0xc] bracket with the index still live at the lea.
 // Two scalar locals (the previous bank) collapse to the same shape at 53B with
 // no register save at all. See re_attempts.log row.
-class Rva00531720
+class PathfindZoneManager
 {
 public:
 	unsigned char rva00531720(unsigned int a, unsigned int idx);
@@ -24,7 +24,7 @@ public:
 	};
 	Elem m_elems[1];
 };
-unsigned char Rva00531720::rva00531720(unsigned int a, unsigned int idx)
+unsigned char PathfindZoneManager::rva00531720(unsigned int a, unsigned int idx)
 {
 	unsigned int t = a;
 	unsigned char m[2];

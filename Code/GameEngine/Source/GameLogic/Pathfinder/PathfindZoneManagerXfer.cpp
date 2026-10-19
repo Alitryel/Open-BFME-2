@@ -125,6 +125,7 @@ class PathfindZoneManager : public Rva00531E14
 {
 public:
  PathfindZoneManager();
+ unsigned char rva00531720(unsigned variant, unsigned zone);
 	class CellType
 	{
 	public:
@@ -247,9 +248,6 @@ ZoneAdjacencyRange ZoneAdjacencyTable::rva00532104(unsigned short key) {
  return ZoneAdjacencyRange(0,0);
 }
 
-class Rva00531720 {
-public: unsigned char rva00531720(unsigned variant, unsigned zone);
-};
 class Rva00532165 {
 public: void LinkSets(unsigned short first, unsigned short second);
 };
@@ -264,12 +262,12 @@ void PathfindZoneManager::CreateEquivalencySet(unsigned variant, unsigned equiva
  for (unsigned i=0; i<end; ++i)
   unions[variant][equivalent].MakeSet((unsigned short)i);
  for (unsigned zone=0; zone<end; ++zone) {
-  if (!((Rva00531720 *)this)->rva00531720(variant,zone)) continue;
+  if (!rva00531720(variant,zone)) continue;
   if (!CouldBeInEquivSet(equivalent,zone)) continue;
   ZoneAdjacencyRange range=((ZoneAdjacencyTable *)((char *)this+0x1770C))->rva00532104((unsigned short)zone);
   for (; range.begin != range.end; ++range.begin) {
    unsigned short other=range.begin->zone;
-   if (!((Rva00531720 *)this)->rva00531720(variant,other)) continue;
+   if (!rva00531720(variant,other)) continue;
    if (!InEquivSet(equivalent,zone,other)) continue;
    ((Rva00532165 *)&unions[variant][equivalent])->LinkSets((unsigned short)zone,other);
   }
@@ -411,7 +409,7 @@ void PathfindZoneManager::rva005324D8(unsigned char incremental,unsigned short f
  CellType *b=reinterpret_cast<CellType *>(unknown0C)+second;
  unsigned mask=(1u<<a->type)|(1u<<b->type);
  for(int variant=incremental ? 1:0;variant<8;variant+=2) {
-  if(!((Rva00531720 *)this)->rva00531720(variant,first) || !((Rva00531720 *)this)->rva00531720(variant,second))continue;
+  if(!rva00531720(variant,first) || !rva00531720(variant,second))continue;
   bool joined=false;
   if(a->type==b->type && (a->id==b->id || a->id==b->secondary || a->secondary==b->id || (a->secondary==16 && b->secondary==16))) {
    joined=true;
@@ -907,12 +905,12 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
    {
    int zone;
    while(affected.DoEnum(&zone)) {
-    if(!((Rva00531720 *)this)->rva00531720(v,zone))continue;
+    if(!rva00531720(v,zone))continue;
     if(!CouldBeInEquivSet(e,zone))continue;
     ZoneAdjacencyRange range=((ZoneAdjacencyTable *)((char *)this+0x1770C))->rva00532104((unsigned short)zone);
     for(;range.begin!=range.end;++range.begin) {
      unsigned short other=range.begin->zone;
-     if(!((Rva00531720 *)this)->rva00531720(v,other))continue;
+     if(!rva00531720(v,other))continue;
      if(!InEquivSet(e,zone,other))continue;
      ((Rva00532165 *)&unions[v][e])->LinkSets((unsigned short)zone,other);
     }
