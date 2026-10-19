@@ -1,6 +1,6 @@
 // stlport
 // cl: /Ireference/shims/bfme2_ascii /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
-// ?remove@Rva003ED2A3Manager@@QAEXABVAsciiString@@PAX@Z @0x003ED2A3 (62B):
+// ?remove@ThreatFinderManager@@QAEXABVAsciiString@@PAX@Z @0x003ED2A3 (62B):
 // manager remove-by-name (erases hash_map entry when _M_find hits; second
 // arg ignored but kept for ret-8 parity with the add twin 0x003ED265).
 // Called once from the heap-object unregister helper 0x003ECDB7. Callees
@@ -85,7 +85,7 @@ typedef std::hash_map<
 	rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
 
-class Rva003ED2A3Manager : public SubsystemInterface
+class ThreatFinderManager : public SubsystemInterface
 {
 public:
 	void remove(const AsciiString &name, void *unused);
@@ -106,7 +106,7 @@ public:
 	Object **findSlot(int *key);
 };
 
-void Rva003ED2A3Manager::remove(const AsciiString &name, void *unused)
+void ThreatFinderManager::remove(const AsciiString &name, void *unused)
 {
 	(void)unused;
 	NameKeyType key = TheNameKeyGenerator->nameToKey(name);
@@ -115,7 +115,7 @@ void Rva003ED2A3Manager::remove(const AsciiString &name, void *unused)
 		m_map.erase(it);
 }
 
-void Rva003ED2A3Manager::add(const AsciiString &name, void *obj)
+void ThreatFinderManager::add(const AsciiString &name, void *obj)
 {
 	NameKeyType key = TheNameKeyGenerator->nameToKey(name);
 	ArmorTemplateMap::iterator it = m_map.find(key);

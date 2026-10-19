@@ -330,7 +330,7 @@ extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
 // TheBaseTemplateLibrary (0x00A03124): registered below by name; retail .data starts it at 0.
 class Rva0022BD9ASubsystem;
 Rva0022BD9ASubsystem *TheBaseTemplateLibrary = 0;
-extern class Rva003ED2A3Manager *TheThreatFinderManager;
+extern class ThreatFinderManager *TheThreatFinderManager;
 extern struct Rva005055DESrc *TheAITargetHeuristicLibrary;
 extern ActionManager *TheActionManager;
 extern void *TheGameStateMap;

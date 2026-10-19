@@ -8,7 +8,7 @@
 #include "ascii_string.h"
 
 
-class Rva003ED2A3Manager
+class ThreatFinderManager
 {
 public:
 	void remove(const AsciiString &name, void *obj);
@@ -26,9 +26,9 @@ private:
 	AsciiString m_name;
 };
 
-extern Rva003ED2A3Manager *TheThreatFinderManager;
+extern ThreatFinderManager *TheThreatFinderManager;
 // TheThreatFinderManager: matched references place it at VA 0xe02e48 (zero-filled .bss).
-Rva003ED2A3Manager * TheThreatFinderManager;
+ThreatFinderManager * TheThreatFinderManager;
 
 Rva003ECDB7Object::~Rva003ECDB7Object()
 {

@@ -90,8 +90,8 @@ public:
 	ThreatInfo getThreatForPlayer(Player *player, int threatType, Player *other);
 };
 
-class Rva003ED2A3Manager;
-extern Rva003ED2A3Manager *TheThreatFinderManager;
+class ThreatFinderManager;
+extern ThreatFinderManager *TheThreatFinderManager;
 // Its by-name lookup is the ICF-folded hash_map find at 0x0041F474, rowed as
 // ArmorStore::rva0041F474 (ArmorStoreFindByName.cpp): call it by that name.
 class ArmorTemplate;
