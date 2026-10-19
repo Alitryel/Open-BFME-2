@@ -17,6 +17,9 @@ namespace _STL { template <> unsigned short * allocator<unsigned short>::allocat
 namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<unsigned short> > money_put<unsigned short, ostreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_put(ostreambuf_iterator<unsigned short, char_traits<unsigned short> >, bool, ios_base &, unsigned short, long double) const; }
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
