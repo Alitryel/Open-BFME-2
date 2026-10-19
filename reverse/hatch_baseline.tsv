@@ -1013,12 +1013,10 @@ address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00E0
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00E063D4	2
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00E06444	2
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00E06448	2
-address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEB2C	2
 address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEEE4	2
 address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEEFC	2
 address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEF08	2
 address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEF14	2
-address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEF2C	2
 address_global	Code/GameEngine/Source/Common/Rva007AB8D0StringInits.cpp	g_Va00DDEF38	2
 address_global	Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp	g_Va00DDF580	2
 address_global	Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp	g_Va00DF29A8	2

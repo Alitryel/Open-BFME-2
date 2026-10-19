@@ -58,7 +58,8 @@ extern unsigned char g_009DEEF0Static[12];
 extern unsigned char g_00DDEF20Static[12];
 unsigned g_Va00DDEEE4;	// retail RVA 0x009DEEE4 (.bss), defined here
 unsigned g_Va00DDEF38;	// retail RVA 0x009DEF38 (.bss), defined here
-unsigned g_Va00DDEF2C;	// retail RVA 0x009DEF2C (.bss), defined here
+// RVA 0x009DEF2C: the 12-byte string storage Rva00017B00StringInit.cpp defines.
+extern unsigned char g_00DDEF2CStatic[];
 
 struct Rva007AB8D0StringInits
 {
@@ -111,7 +112,7 @@ void __cdecl Rva007AB8D0StringInits::rva007ABB20()
 
 void __cdecl Rva007AB8D0StringInits::rva007ABB50()
 {
-	( (WideString *)&g_Va00DDEF2C )->WideString::basic_string( (const unsigned short *)L"" );
+	( (WideString *)g_00DDEF2CStatic )->WideString::basic_string( (const unsigned short *)L"" );
 	atexit( rva007B6A40 );
 }
 

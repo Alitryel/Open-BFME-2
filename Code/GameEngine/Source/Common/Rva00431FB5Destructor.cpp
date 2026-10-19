@@ -28,7 +28,9 @@ private:
 	void *m_ptr;
 };
 
-int g_Va00E0322C;	// retail RVA 0x00A0322C (.bss), defined here
+// VA 0x00E0322C: the FormationTranslator pointer Rva00431F61Ctor.cpp defines.
+class FormationTranslator;
+extern FormationTranslator *g_00E0322C;
 
 class Rva00431FB5 : public Rva0042CBB6
 {
@@ -42,6 +44,6 @@ private:
 
 Rva00431FB5::~Rva00431FB5()
 {
-	g_Va00E0322C = 0;
+	g_00E0322C = 0;
 	m_08.clear();
 }

@@ -116,7 +116,9 @@ public:
 	void report(Object *victim, int arg1);
 };
 
-void * g_00E032F8;	// retail RVA 0x00A032F8 (.bss), defined here
+// VA 0x00E032F8: the StatsCollector pointer BfmeOwnVVDCtor.cpp defines.
+class StatsCollector;
+extern StatsCollector *g_00E032F8;
 class CreateAHeroData;
 class CreateAHeroManager {public: CreateAHeroData *rva002197A6(int);};
 extern CreateAHeroManager *TheCreateAHeroManager;
