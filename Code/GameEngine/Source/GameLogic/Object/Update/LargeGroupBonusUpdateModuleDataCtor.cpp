@@ -18,6 +18,18 @@ namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiSt
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
 // bfme link decl-only end
+// Keep vector<AsciiString>'s storage release inline-only: nothing here calls it
+// out of line, and this TU's COMDAT copies are not the bodies retail kept.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void allocator<AsciiString>::deallocate(AsciiString *__p, size_t) const { if (__p != 0) ::free((void*)__p); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString *__p, size_t __n)
+{ allocator<AsciiString>::deallocate(__p, __n); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 class Rva003623E5Filter
 {
 public:

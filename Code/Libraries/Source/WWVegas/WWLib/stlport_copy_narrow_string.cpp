@@ -40,6 +40,8 @@ typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> 
 
 template NarrowStr12 &NarrowStr12::assign(const NarrowStr12 &);
 
-template <> inline NarrowStr12 &NarrowStr12::operator=(const NarrowStr12 &__s) { return assign(__s); }
+// dllimport keeps it inline-only: the loop inlines it and the TU emits no
+// operator= copy of its own (retail's 0x000120C0 serves the link).
+template <> __declspec(dllimport) __forceinline NarrowStr12 &NarrowStr12::operator=(const NarrowStr12 &__s) { return assign(__s); }
 
 template NarrowStr12 *_STL::copy<const NarrowStr12 *, NarrowStr12 *>(const NarrowStr12 *, const NarrowStr12 *, NarrowStr12 *);
