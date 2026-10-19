@@ -93,28 +93,10 @@ enum
 	FTPREPLY_FILESTATUS = 213
 };
 
-class Rva00885390Class
-{
-public:
-	void d_00885390(void);
-};
-
-class Rva00885920Class
-{
-public:
-	int d_00885920(void);
-};
-
 class Rva00885980Class
 {
 public:
 	void d_00885960(void);
-};
-
-class Rva008859D0Class
-{
-public:
-	void d_008859d0(const char *, char *);
 };
 
 #pragma comment(linker, "/alternatename:?RecvReply@Cftp@@QAEJPBDHPAH@Z=?d_00885570@@YAXXZ")
@@ -133,6 +115,10 @@ public:
 	HRESULT LogoffFromServer(void);
 	HRESULT FindFile(LPCSTR szRemoteFileName, int *piSize);
 	void ZeroStuff(void);
+	// Still address-named Cftp helpers (rows 0x006C9EA0, 0x006CA430, 0x006CA4E0).
+	void d_00885390(void);
+	int d_00885920(void);
+	void d_008859d0(const char *, char *);
 
 private:
 	HRESULT SendCommand(const char *command, int size);
@@ -358,7 +344,7 @@ HRESULT Cftp::FindFile(LPCSTR szRemoteFileName, int *piSize)
 
 	if (m_iStatus == FTPSTAT_SENTLIST)
 	{
-		i = ((Rva00885920Class *)this)->d_00885920();
+		i = d_00885920();
 		if (i != FTP_SUCCEEDED)
 		{
 			m_findStart = 0;
@@ -495,7 +481,7 @@ HRESULT Cftp::GetNextFileBlock(LPCSTR szLocalFileName, int *piTotalRead)
 	int res, iReply;
 	char downloadfilename[256];
 
-	((Rva008859D0Class *)this)->d_008859d0(szLocalFileName, downloadfilename);
+	d_008859d0(szLocalFileName, downloadfilename);
 	strncpy(m_szLocalFileName, szLocalFileName, 256);
 
 	if (m_iStatus == FTPSTAT_FILEFOUND)
@@ -582,7 +568,7 @@ HRESULT Cftp::GetNextFileBlock(LPCSTR szLocalFileName, int *piTotalRead)
 
 	if (m_iStatus == FTPSTAT_SENTRETR)
 	{
-		res = ((Rva00885920Class *)this)->d_00885920();
+		res = d_00885920();
 		if (res != FTP_SUCCEEDED)
 			return res;
 		m_iStatus = FTPSTAT_FILEDATAOPEN;
@@ -629,7 +615,7 @@ HRESULT Cftp::GetNextFileBlock(LPCSTR szLocalFileName, int *piTotalRead)
 		m_pfLocalFile = 0;
 
 		char downloadfilename[256];
-		((Rva008859D0Class *)this)->d_008859d0(m_szLocalFileName, downloadfilename);
+		d_008859d0(m_szLocalFileName, downloadfilename);
 
 		char curdir[256];
 		_getcwd(curdir, 256);
@@ -657,7 +643,7 @@ HRESULT Cftp::GetNextFileBlock(LPCSTR szLocalFileName, int *piTotalRead)
 		{
 			m_iStatus = FTPSTAT_INIT;
 			m_iFilePos = 0;
-			((Rva00885390Class *)this)->d_00885390();
+			d_00885390();
 		}
 		else
 		{
@@ -826,7 +812,7 @@ HRESULT Cftp::LogoffFromServer(void)
 			{
 				if (retCode == 221)
 				{
-					((Rva00885390Class *)this)->d_00885390();
+					d_00885390();
 					ZeroStuff();
 					return 0;
 				}

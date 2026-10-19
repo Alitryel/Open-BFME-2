@@ -14,7 +14,7 @@ public:
 	int d_00886a20( const char* name, int dummy );
 };
 
-class Rva008859D0Class
+class Cftp
 {
 public:
 	char pad0[0x34];
@@ -25,7 +25,7 @@ public:
 int Rva00886A20Class::d_00886a20( const char* name, int dummy )
 {
 	char buf[256];
-	((Rva008859D0Class *)this)->d_008859d0( name, buf );
+	((Cftp *)this)->d_008859d0( name, buf );
 
 	int file = (int)fopen( buf, "rb" );
 	if ( !file )

@@ -26,7 +26,7 @@ void Rva00885980Class::d_00885960( void )
 	m_socket8 = 0;
 }
 
-class Rva00885390Class
+class Cftp
 {
 public:
 	char m_pad0[4];
@@ -36,7 +36,7 @@ public:
 	void d_00885390( void );
 };
 
-void Rva00885390Class::d_00885390( void )
+void Cftp::d_00885390( void )
 {
 	if ( m_socket8 )
 	{

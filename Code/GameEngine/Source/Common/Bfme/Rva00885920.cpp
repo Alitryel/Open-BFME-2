@@ -3,7 +3,7 @@
 extern "C" int __stdcall accept( int, void*, void* );
 extern "C" int __stdcall WSAGetLastError( void );
 
-class Rva00885920Class
+class Cftp
 {
 public:
 	char m_pad0[4];
@@ -15,7 +15,7 @@ public:
 };
 
 
-int Rva00885920Class::d_00885920( void )
+int Cftp::d_00885920( void )
 {
 	if ( !m_socket8 )
 	{
