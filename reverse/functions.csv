@@ -7207,7 +7207,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1Rva0048D742@@UAE@XZ,,0x0048D742,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva0048FBBA@@UAE@XZ,,0x0048FBBA,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva0049188D@@UAE@XZ,,0x0049188D,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
-??1Rva00491DD3@@UAE@XZ,,0x00491DD3,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
+??1PickupStuffUpdate@@UAE@XZ,,0x00491DD3,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva0049506E@@UAE@XZ,,0x0049506E,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1DemoTrapUpdate@@UAE@XZ,,0x00495916,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1BoredUpdate@@UAE@XZ,,0x0049669A,25,Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdateCtor.cpp,matched,opaque MI dtor
@@ -11004,7 +11004,7 @@ _math_mod,,0x007485A0,65,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.m
 ??_GRva0048B671@@UAEPAXI@Z,,0x0048B7BD,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0048FBBA@@UAEPAXI@Z,,0x0048FCFF,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0049188D@@UAEPAXI@Z,,0x00491A68,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva00491DD3@@UAEPAXI@Z,,0x00491ECA,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GPickupStuffUpdate@@UAEPAXI@Z,,0x00491ECA,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0049506E@@UAEPAXI@Z,,0x00495167,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GDemoTrapUpdate@@UAEPAXI@Z,,0x004959E3,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GBoredUpdate@@UAEPAXI@Z,,0x004967F3,28,Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdateCtor.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
@@ -34511,7 +34511,7 @@ _Rva00814520,,0x00680420,17,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,mat
 ?DoXfer@Rva004E1B72@@UAEXAAVXfer@@@Z,,0x004E1355,61,Code/GameEngine/Source/Common/Rva004E1B72Dtor.cpp,matched,slot3 of vtable 0x00C61DC4 with GetSnapshotName SetPlayerControlOfArmy
 ?DoXfer@Rva004E1B00@@UAEXAAVXfer@@@Z,,0x004E1302,58,Code/GameEngine/Source/Common/Rva004E1B00DoXfer.cpp,matched,slot3 of vtable 0x00C61DB4 with GetSnapshotName MoveArmy
 ?DoXfer@Rva004E179A@@UAEXAAVXfer@@@Z,,0x004E1398,83,Code/GameEngine/Source/Common/Rva004E179ADoXfer.cpp,matched,slot3 of vtable 0x00C61B78 with GetSnapshotName SpawnBuilding
-?xfer@Rva00491DD3@@MAEXPAVXfer@@@Z,,0x00491F18,66,Code/GameEngine/Source/Common/Rva00491DD3Xfer.cpp,matched,slot3 xfer via UpdateModule base plus Version11 plus bool uint
+?xfer@PickupStuffUpdate@@MAEXPAVXfer@@@Z,,0x00491F18,66,Code/GameEngine/Source/Common/Rva00491DD3Xfer.cpp,matched,slot3 xfer via UpdateModule base plus Version11 plus bool uint
 ?xfer@InheritUpgradeCreate@@MAEXPAVXfer@@@Z,,0x004B94E3,37,Code/GameEngine/Source/GameLogic/Object/Create/InheritUpgradeCreateXfer.cpp,matched,slot 3 of 0x008596F4 base CreateModule xfer plus Version 1 1
 ?xfer@DetachableRiderUpdate@@MAEXPAVXfer@@@Z,,0x004AE7AD,72,Code/GameEngine/Source/GameLogic/Object/Update/DetachableRiderUpdateXfer.cpp,matched,slot3 of vtable 0x00855468 plus Version 1 1 plus base 0x0044DF9F plus bools
 ??_GDeflectSpecialPowerModuleData@@UAEPAXI@Z,,0x004C5683,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-cd13.cpp,matched,slot0 vtable C5DAB0; calls pinned dtor 0x4C64E9 plus delete 0x2FD60
@@ -40850,7 +40850,7 @@ _piRemoveXpingRva00862EF0,,0x006A3DE0,17,Code/GameEngine/Source/GameNetwork/Game
 ?rva0059BD58@Rva0059BD58@@QAEXPAURva0059BD58Node@@@Z,,0x0059BD58,45,Code/GameEngine/Source/Common/Rva0059BD58Free.cpp,matched,recursive list free child plus 0xC free node via 0x00030830 next plus 0x8
 ??0Rva0020D583@@QAE@XZ,,0x0020D4E3,132,Code/GameEngine/Source/Common/Rva0020D583Dtor.cpp,matched,unlock ctor vptr plus 5 StringBase set
 ?Rva0020D613Alloc@@YGPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,,0x0020D613,37,Code/GameEngine/Source/Common/Rva0020D613Alloc.cpp,matched,unlock hash node alloc via rowed allocate plus Construct
-?rva00491EE6@Rva00491DD3@@QAEXXZ,,0x00491EE6,50,Code/GameEngine/Source/Common/Rva00491DD3Method.cpp,matched,UpdateModule base plus AI slot 0x1B8 and rowed 0x26331C
+?rva00491EE6@PickupStuffUpdate@@QAEXXZ,,0x00491EE6,50,Code/GameEngine/Source/Common/Rva00491DD3Method.cpp,matched,UpdateModule base plus AI slot 0x1B8 and rowed 0x26331C
 ??4TerrainType@@QAEAAV0@ABV0@@Z,,0x0031804D,81,Code/GameEngine/Source/Common/Rva0031804DAssign.cpp,matched,same offsets as Rva00317F6F via pinned Ascii plus int pin plus rowed NoCase plus caller 0x003181C1
 ??0Rva000F1A32@@QAE@XZ,,0x000F1A32,166,Code/GameEngine/Source/Common/Rva000F1A32Ctor.cpp,matched,ctor via Rva000F0AF7 W3DBufferManager TCB resize caller 0x0009A710
 ??1Rva003F7EC7@@UAE@XZ,,0x003F7EC7,105,Code/Libraries/Source/WWVegas/WW3D2/Rva003F7EC7Dtor.cpp,matched,Derived base vtables with holder08 string and deleteinner

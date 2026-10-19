@@ -271,13 +271,13 @@ public:
 	virtual void f2();
 };
 
-class Rva00491DD3 : public UpdateModule, public MiBase1, public Rva00491DD3_B2
+class PickupStuffUpdate : public UpdateModule, public MiBase1, public Rva00491DD3_B2
 {
 public:
-	virtual ~Rva00491DD3();
+	virtual ~PickupStuffUpdate();
 };
 
-Rva00491DD3::~Rva00491DD3()
+PickupStuffUpdate::~PickupStuffUpdate()
 {
 }
 

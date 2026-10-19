@@ -5,9 +5,9 @@
 // subobject (module data at -0x0C, Object at -0x08). Sleeps forever for an
 // Object without an AI, or, when the module data's +0x08 flag is set, for one
 // whose controlling Player has no record in the g_00DFEEF8 registry
-// (0x002A8AB1). Otherwise, with the flag at +0x20 set it runs 0x00491EE6
-// (rowed under the address class Rva00491DD3 from this caller; pinned for
-// PickupStuffUpdate), else 0x004920B5 (pinned by address), and stays awake.
+// (0x002A8AB1). Otherwise, with the flag at +0x20 set it runs the pickup step
+// 0x00491EE6, else updateInactive 0x004920B5, both on the complete object,
+// and stays awake.
 enum UpdateSleepTime
 {
 	UPDATE_SLEEP_NONE = 1,
@@ -60,14 +60,12 @@ class UpdateModule : public ModuleBase, public BehaviorModuleInterface, public U
 protected:
 	unsigned char m_pad14[0x20 - 0x14];
 };
-// LINK: the pickup step binds the rowed owner at 0x00491EE6 (Rva00491DD3::rva00491EE6, Rva00491DD3Method.cpp).
-class Rva00491DD3 { public: void rva00491EE6(); };
-
 class PickupStuffUpdate : public UpdateModule
 {
 public:
 	virtual UpdateSleepTime update();
 	void updateInactive();
+	void rva00491EE6();	// the pickup step, rowed in Rva00491DD3Method.cpp
 private:
 	bool m_20;			// +0x20
 };
@@ -80,7 +78,7 @@ UpdateSleepTime PickupStuffUpdate::update()
 		if (!data->m_08 || g_00DFEEF8->rva002A8AB1(obj->getControllingPlayer()))
 		{
 			if (m_20)
-				((Rva00491DD3 *)this)->rva00491EE6();
+				rva00491EE6();
 			else
 				updateInactive();
 			return UPDATE_SLEEP_NONE;

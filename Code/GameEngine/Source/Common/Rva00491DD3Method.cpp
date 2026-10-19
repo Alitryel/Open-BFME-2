@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva00491EE6@Rva00491DD3@@QAEXXZ retail 0x00491EE6 50 bytes. Thiscall method
-// of Rva00491DD3 (UpdateModule base size 0x20 with bool at +0x20). Reads
+// ?rva00491EE6@PickupStuffUpdate@@QAEXXZ retail 0x00491EE6 50 bytes. Thiscall method
+// of PickupStuffUpdate (UpdateModule base size 0x20 with bool at +0x20). Reads
 // Object at +8 then AI at Object+0x258 calls virtual slot 0x1B8 returning
 // bool then if set checks AI+0x34 and calls rowed AIUpdateInterface
 // rva0026331C at 0x0026331C then clears bool at +0x20. Evidence is the
@@ -179,7 +179,7 @@ protected:
 	int m_bfmeReserved;
 };
 
-class Rva00491DD3 : public UpdateModule
+class PickupStuffUpdate : public UpdateModule
 {
 public:
 	void rva00491EE6();
@@ -189,7 +189,7 @@ private:
 	unsigned int m_24;
 };
 
-void Rva00491DD3::rva00491EE6()
+void PickupStuffUpdate::rva00491EE6()
 {
 	Object *obj = m_object;
 	AIUpdateInterface *ai = obj->m_258;

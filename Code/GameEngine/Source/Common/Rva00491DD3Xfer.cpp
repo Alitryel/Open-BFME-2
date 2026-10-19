@@ -1,8 +1,8 @@
 // cl: /DNDEBUG /MD
 //
-// ?xfer@Rva00491DD3@@MAEXPAVXfer@@@Z, retail 0x00491F18, 66 bytes. Virtual
+// ?xfer@PickupStuffUpdate@@MAEXPAVXfer@@@Z, retail 0x00491F18, 66 bytes. Virtual
 // slot 3 (offset 0x0C) of vtable 0x0084DDA8 (class of rowed dtor
-// ??1Rva00491DD3@@UAE@XZ in Rva0024A797Derived.cpp): base UpdateModule xfer
+// ??1PickupStuffUpdate@@UAE@XZ in Rva0024A797Derived.cpp): base UpdateModule xfer
 // via rowed 0x44DF9F first, then Version(1,1) via Xfer slot 0x28 reusing the
 // dead argument slot, then bool at +0x20 via Xfer slot 0x90, then uint at
 // +0x24 via Xfer slot 0x78. Layout is UpdateModule base 0x20 plus bool plus
@@ -130,7 +130,7 @@ public:
 	void xfer(Xfer *xfer);
 };
 
-class Rva00491DD3 : public UpdateModule
+class PickupStuffUpdate : public UpdateModule
 {
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -140,7 +140,7 @@ private:
 	unsigned int m_24; // +0x24
 };
 
-void Rva00491DD3::xfer(Xfer *xfer)
+void PickupStuffUpdate::xfer(Xfer *xfer)
 {
 	UpdateModule::xfer(xfer);
 	Xfer::Version version(1, 1);
