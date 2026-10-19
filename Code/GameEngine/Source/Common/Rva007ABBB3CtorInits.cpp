@@ -61,6 +61,7 @@ class AsciiString
 {
 public:
 	AsciiString();
+	static const AsciiString TheEmptyString;	// VA 0x00DE0878
 };
 
 #include "../../../../reference/shims/bfme2_ascii/unicode_string.h"
@@ -161,7 +162,6 @@ void __cdecl rva007B9071();
 
 extern unsigned BfmeINIMacroTableStorage[8];
 extern AsciiString BfmeINICurrentFilename;
-extern unsigned g_Va00DE0878;
 extern unsigned g_Va00DE1CCC;
 extern unsigned int g_00DE1CCD;
 extern unsigned g_Va00DE2008;
@@ -244,7 +244,7 @@ void Rva007ABBB3CtorInits::rva007ABBC9()
 // 0x007ABBE0 (22B): ??0AsciiString@@QAE@XZ on VA 0x00DE0878, atexit(0x007B6AA0 -> AsciiString dtor 0x0048BA39)
 void Rva007ABBB3CtorInits::rva007ABBE0()
 {
-	( (AsciiString *)&g_Va00DE0878 )->AsciiString::AsciiString();
+	( (AsciiString *)&AsciiString::TheEmptyString )->AsciiString::AsciiString();
 	atexit( rva007B6AA0 );
 }
 
