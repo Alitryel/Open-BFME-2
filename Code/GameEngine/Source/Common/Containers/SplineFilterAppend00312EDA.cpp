@@ -9,7 +9,7 @@
 // Input next20/count4C and coordinateC/10/14 are direct target facts; spline
 // role inferred from matched184B family. Original application names unknown.
 // Full bytes plus EH verified. No corresponding clean ZH spline service body.
-// cl: /O1 /Oy- /arch:SSE /G7 /MD /EHs /D_STLP_USE_STATIC_LIB /DNDEBUG
+// cl: /O1 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /DWIN32 /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc/stl
 // stlport
 #define _STLP_NO_EXCEPTIONS 1
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -20,6 +20,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+// The bfmealloc allocator of the Rva003A35A0Element.cpp sibling, which emits the retail
+// vector<Rva003A35A0Element> allocator and _M_clear copies.
+#include <cstddef>
+#include "_alloc.h"
 #include <vector>
 // Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
 // and this TU's COMDAT copy differs from the copy the link keeps.
