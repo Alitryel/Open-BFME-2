@@ -30,7 +30,16 @@ void __adjust_heap(RandomAccessIterator first, Distance hole, Distance len,
 	Tp value, Compare comp);
 }
 
-void Rva002E0BC0PopHeap(S4SortElem12 *first, S4SortElem12 *last,
+namespace _STL
+{
+template <class RandomAccessIterator, class Tp, class Compare, class Distance>
+void __pop_heap(RandomAccessIterator first, RandomAccessIterator last,
+	RandomAccessIterator result, Tp value, Compare comp, Distance *);
+}
+// STLport __pop_heap<S4SortElem12 *, S4SortElem12, S4Cmp002E1690, int>; the
+// sort family at 0x003327C5 reaches this body by that name.
+template <>
+void _STL::__pop_heap<S4SortElem12 *, S4SortElem12, S4Cmp002E1690, int>(S4SortElem12 *first, S4SortElem12 *last,
 	S4SortElem12 *result, S4SortElem12 value, S4Cmp002E1690 comp, int *)
 {
 	*result = *first;

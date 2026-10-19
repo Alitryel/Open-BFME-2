@@ -8011,7 +8011,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?Rva00331B05Copy@@YAPAVRva002DFC30@@PAV1@00@Z,0x00331B05,address,placeholder
 ?Rva00331B8FCopy@@YAPAVRva002DFC30@@PAV1@00@Z,0x00331B8F,address,placeholder
 ?Rva00331D67@@YAHHHH@Z,0x00331D67,address,placeholder
-?Rva002E0BC0PopHeap@@YAXPAUS4SortElem12@@00U1@US4Cmp002E1690@@PAH@Z,0x00331DAE,address,placeholder
+??$__pop_heap@PAUS4SortElem12@@U1@US4Cmp002E1690@@H@_STL@@YAXPAUS4SortElem12@@00U1@US4Cmp002E1690@@PAH@Z,0x00331DAE,address,placeholder
 ?Rva00331E0DCopy@@YAPAVRva002DFC30@@PAV1@00@Z,0x00331E0D,address,placeholder
 ?Rva00331E28MakeHeap@@YAXPAUS4SortElem12@@0US4Cmp002E1690@@@Z,0x00331E28,address,placeholder
 ?Rva00331E80PopHeap@@YAXPAUS4SortElem12@@0HUS4Cmp002E1690@@@Z,0x00331E80,address,placeholder

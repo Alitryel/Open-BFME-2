@@ -20,9 +20,15 @@ struct S4Cmp002E1690
 	void *m_state;
 };
 
-void __cdecl Rva002E0BC0PopHeap(S4SortElem12 *first, S4SortElem12 *last, S4SortElem12 *result, S4SortElem12 value, S4Cmp002E1690 comp, int *x) throw();
+namespace _STL
+{
+template <class RandomAccessIterator, class Tp, class Compare, class Distance>
+void __pop_heap(RandomAccessIterator first, RandomAccessIterator last,
+	RandomAccessIterator result, Tp value, Compare comp, Distance *);
+}
+// Rowed at 0x00331DAE in Rva002E0BC0PopHeap12_Rva00331dae.cpp.
 
 void __cdecl Rva00331E80PopHeap(S4SortElem12 *first, S4SortElem12 *last, int unused, S4Cmp002E1690 comp)
 {
-	Rva002E0BC0PopHeap(first, last - 1, last - 1, *(last - 1), comp, 0);
+	_STL::__pop_heap(first, last - 1, last - 1, *(last - 1), comp, (int *)0);
 }
