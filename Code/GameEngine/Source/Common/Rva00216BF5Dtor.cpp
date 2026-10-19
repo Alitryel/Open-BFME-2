@@ -20,8 +20,6 @@ public:
 
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-// g_pRva00224BC9 is only an alias of the owned g_bfmeAptWindowManager (ledger names column); read it through this unit's view.
-#define g_pRva00224BC9 (*(AptPlayer **)&g_bfmeAptWindowManager)
 
 class Rva00224455
 {
@@ -71,25 +69,25 @@ private:
 
 Rva00216BF5::~Rva00216BF5()
 {
-	if (g_pRva00224BC9)
+	if (((AptPlayer *)g_bfmeAptWindowManager))
 	{
 		for (unsigned int i = 0; i < 2; ++i)
 		{
 			AsciiString path;
 			path.format("BannerUI/~Location%d/Banner/AvailableBttn/", i);
-			g_pRva00224BC9->RemoveOverButtonHandler(path);
+			((AptPlayer *)g_bfmeAptWindowManager)->RemoveOverButtonHandler(path);
 			path.format("BannerUI/~Location%d/Banner/WaitingBttn/", i);
-			g_pRva00224BC9->RemoveOverButtonHandler(path);
+			((AptPlayer *)g_bfmeAptWindowManager)->RemoveOverButtonHandler(path);
 			path.format("BannerUI/~Location%d/Banner/Background", i);
-			g_pRva00224BC9->RemoveOverButtonHandler(path);
+			((AptPlayer *)g_bfmeAptWindowManager)->RemoveOverButtonHandler(path);
 		}
 		{
 			AsciiString name("AptBannerUI::OnInitialized");
-			((Rva00224455 *)g_pRva00224BC9)->RemoveCommandMap(&name);
+			((Rva00224455 *)((AptPlayer *)g_bfmeAptWindowManager))->RemoveCommandMap(&name);
 		}
 		{
 			AsciiString name("AptBannerUI::OnBttnBanner");
-			((Rva00224455 *)g_pRva00224BC9)->RemoveCommandMap(&name);
+			((Rva00224455 *)((AptPlayer *)g_bfmeAptWindowManager))->RemoveCommandMap(&name);
 		}
 	}
 }

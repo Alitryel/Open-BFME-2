@@ -25,9 +25,7 @@ public:
 
 // Preserve the existing global pointee spelling; its storage identity is unchanged.
 class Rva00224B7DTarget;
-// g_pRva00224BC9 is only an alias of the owned global g_bfmeAptWindowManager (ledger names column); this unit reads the owner through its own view type.
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-#define g_pRva00224BC9 (*(Rva00224B7DTarget * *)&g_bfmeAptWindowManager)
 
 class Rva00224BC9Owner
 {
@@ -73,7 +71,7 @@ extern int g_Va00E032FC;
 
 bool Rva00224BC9Owner::check()
 {
-	return reinterpret_cast<AptPlayer *>(g_pRva00224BC9)->RemoveLevel(m_slot);
+	return reinterpret_cast<AptPlayer *>(((Rva00224B7DTarget *)g_bfmeAptWindowManager))->RemoveLevel(m_slot);
 }
 
 bool ExperienceTracker::rva0039ABFF() const

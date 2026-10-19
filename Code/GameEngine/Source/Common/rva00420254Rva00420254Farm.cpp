@@ -72,10 +72,7 @@ class VictoryConditionsInterface;
 
 class BfmeAptWindowManager {public:void bfmeSetText(const AsciiString &,const UnicodeString &,bool);};
 class Rva00222A8BTarget {public:int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);};
-// g_pRva00224BC9 is only an alias of the owned g_bfmeAptWindowManager (ledger
-// names column); read the owner through this unit's view.
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-#define g_pRva00224BC9 (*(void **)&g_bfmeAptWindowManager)
 class GameTextInterface;extern GameTextInterface *TheGameText;
 class VictoryTextPrefix {public:
  virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();
@@ -92,13 +89,13 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 // Original UI slot name inferred from ShowEndGame string, not source identity.
 void VictoryConditions::rva00420254(const AsciiString &label,bool defeat,const AsciiString &name,const AsciiString &extra)
 {
- switch (1) { case 1: if(!g_pRva00224BC9 || m_endGameShowing) break;
+ switch (1) { case 1: if(!g_bfmeAptWindowManager || m_endGameShowing) break;
  { AsciiString key(":VictoryDefeat");
-      ((BfmeAptWindowManager *)g_pRva00224BC9)->bfmeSetText(key,((VictoryTextPrefix *)TheGameText)->fetchName(&label,0),false); }
+      ((BfmeAptWindowManager *)g_bfmeAptWindowManager)->bfmeSetText(key,((VictoryTextPrefix *)TheGameText)->fetchName(&label,0),false); }
  const char *suffix;
  if (!extra.isEmpty()) suffix=extra.str();
  else suffix="";
- ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,defeat?"0":"1",(void *)name.str(),(void *)suffix,0,0);
+ ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke((void *)13,"ShowEndGame",3,defeat?"0":"1",(void *)name.str(),(void *)suffix,0,0);
   m_endGameShowing=true;
   unsigned long t = (true ? timeGetTime() : timeGetTime());
   m_endGameShowTime=t;

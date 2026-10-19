@@ -1371,8 +1371,6 @@ address_global	Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp	g_Va0
 address_global	Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp	g_Va00E181FC	4
 address_global	Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp	g_Va00E18200	4
 address_global	Code/GameEngine/Source/Common/RvaGlobalThisFwds.cpp	g_pRva003BD424	2
-address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva00224BC9	2
-address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva0039ABFF	2
 address_global	Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp	g_pRva00437E9C	2
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoCtor.cpp	g_Va00BC2424	1
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoRva006BD9C0.cpp	g_Va00BBAEAC	1
@@ -1468,7 +1466,6 @@ address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineS
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineShellScreens.cpp	g_Va00E06480	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineShellScreens.cpp	g_Va00E06550	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatusScreen.cpp	g_Va00A04450	6
-address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptQuitMenuCallbacks.cpp	g_Rva0023D607Holder	4
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptQuitMenuCallbacks.cpp	g_Va00E0330C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptQuitMenuCallbacks.cpp	g_Va00E0492C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadCallbacks.cpp	g_Va00E032E0	2

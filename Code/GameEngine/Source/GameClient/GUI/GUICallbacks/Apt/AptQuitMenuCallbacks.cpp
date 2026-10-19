@@ -328,9 +328,7 @@ struct Rva0023D607Holder
 	void rva001ECEF6();
 };
 
-// g_Rva0023D607Holder is only an alias of the owned global TheLinearCampaignManager (ledger names column); this unit reads the owner through its own view type.
 extern class LinearCampaignManager *TheLinearCampaignManager;
-#define g_Rva0023D607Holder (*(Rva0023D607Holder * *)&TheLinearCampaignManager)
 
 // TheWritableGlobalData (0x009FE758): the map name and the pending file.
 class GlobalData
@@ -852,9 +850,9 @@ void ToggleQuitMenu()
 void restartMissionMenu()
 {
 	Rva0051AF0BEnable(2);
-	if (g_Rva0023D607Holder && g_Rva0023D607Holder->m_10)
+	if (((Rva0023D607Holder *)TheLinearCampaignManager) && ((Rva0023D607Holder *)TheLinearCampaignManager)->m_10)
 	{
-		g_Rva0023D607Holder->rva001ECEF6();
+		((Rva0023D607Holder *)TheLinearCampaignManager)->rva001ECEF6();
 		return;
 	}
 	int gameMode = TheGameLogic->m_110;
