@@ -7,7 +7,7 @@ extern bool ShaderOverbrightEnabled;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 void Rva000A8F98();
-void Rva000A9071();
+class W3DAptAux { public: static void PostDraw(); };
 class Rva0022244D { public: void rva0022244D(); };
 class Rva00062928 { public: void rva00062928(); };
 void Rva00062928::rva00062928()
@@ -19,13 +19,7 @@ void Rva00062928::rva00062928()
     flags[0x3C] = 0;
     Rva000A8F98();
     reinterpret_cast<Rva0022244D *>(this)->rva0022244D();
-    Rva000A9071();
+    W3DAptAux::PostDraw();
     reinterpret_cast<unsigned char *>(TheWritableGlobalData)[0x3C] = flag;
     ShaderOverbrightEnabled = overbright;
 }
-
-// Each retail call in this body reads an address the ledger already carries
-// under the rowed name below; bind the donor spelling to that owner so one
-// address keeps one definition.
-//   0x000A9071 -> ?PostDraw@W3DAptAux@@SAXXZ
-#pragma comment(linker, "/alternatename:?Rva000A9071@@YAXXZ=?PostDraw@W3DAptAux@@SAXXZ")

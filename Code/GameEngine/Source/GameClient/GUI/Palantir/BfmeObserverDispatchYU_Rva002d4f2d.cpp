@@ -17,24 +17,17 @@ public:
 	~AsciiStringYU(void);
 };
 
-class BfmeObserverYU
-{
-public:
-	bool bfmeActiveYU(void);
-};
-
-class BfmeRegistryYU
-{
-public:
-	void *bfmeFindYU(const AsciiStringYU &name);
-
-	void bfmeUseYU(int mode, void *entry);
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 // The global at 0x012F33F8 is the ControlBar singleton; only the accessor
-// spellings the method pins carry are needed here, so it stays incomplete.
-class ControlBar;
-class GameLogic;
+// spellings the method pins carry are declared here.
+class GameWindow;
+class ControlBar
+{
+public:
+	const CommandButton *findCommandButton(const AsciiString &name);
+	void rva004C1B60(GameWindow *window, void *entry);
+};
 extern GameLogic *TheGameLogic;				// retail 0x012F0898
 extern ControlBar *TheControlBar;			// retail 0x012F33F8
 
@@ -43,7 +36,7 @@ void __stdcall bfmeApplyYU(int unused)
 {
 	AsciiStringYU *name;
 
-	if (TheGameLogic != 0 && ((BfmeObserverYU *)TheGameLogic)->bfmeActiveYU())
+	if (TheGameLogic != 0 && TheGameLogic->isInMultiplayerGame())
 	{
 		static AsciiStringYU s_bfmeObjectivesYU("NonCommand_MultiplayerOptions");
 
@@ -56,10 +49,10 @@ void __stdcall bfmeApplyYU(int unused)
 		name = &s_bfmeOtherYU;
 	}
 
-	void *entry = reinterpret_cast<BfmeRegistryYU *>(TheControlBar)->bfmeFindYU(*name);
+	const CommandButton *entry = TheControlBar->findCommandButton(*(const AsciiString *)name);
 
 	if (entry != 0)
-		reinterpret_cast<BfmeRegistryYU *>(TheControlBar)->bfmeUseYU(0, entry);
+		TheControlBar->rva004C1B60(0, (void *)entry);
 }
 
 // Placeholder names this unit's own object settles.  In retail each one holds
@@ -68,6 +61,3 @@ void __stdcall bfmeApplyYU(int unused)
 // reaches, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:??0AsciiStringYU@@QAE@PBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
 #pragma comment(linker, "/alternatename:??1AsciiStringYU@@QAE@XZ=??1?$list@URva0036ADF9Element@@V?$allocator@URva0036ADF9Element@@@_STL@@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?bfmeActiveYU@BfmeObserverYU@@QAE_NXZ=?isInMultiplayerGame@GameLogic@@QAE_NXZ")
-#pragma comment(linker, "/alternatename:?bfmeFindYU@BfmeRegistryYU@@QAEPAXABVAsciiStringYU@@@Z=?findCommandButton@ControlBar@@QAEPBVCommandButton@@ABVAsciiString@@@Z")
-#pragma comment(linker, "/alternatename:?bfmeUseYU@BfmeRegistryYU@@QAEXHPAX@Z=?rva004C1B60@ControlBar@@QAEXPAVGameWindow@@PAX@Z")
