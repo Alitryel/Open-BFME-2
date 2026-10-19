@@ -4253,7 +4253,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/TurretAI_friendGetT
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleDeletingDtors.cpp	??1DockUpdate@@MAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?bfmeSetWakeBJ@BfmeWakeBJ@@QAEXPAXH@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@ALU_UpdateModule@@IAEXPAVObject@@W4UpdateSleepTime@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@FireWeaponUpdate@@IAEXPAVObject@@I@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@Rva0026E9BDBase@@IAEXPAVObject@@I@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@UpdateModule@@IAEXPAVObject@@I@Z	1
