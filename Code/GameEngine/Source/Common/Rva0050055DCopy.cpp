@@ -11,11 +11,13 @@ struct Rva004FFF54Less;
 
 // Retail's state-0 funclet 0x00793B8B unwinds m_first through 0x002B7391, the
 // tree destructor's tail-jump entry rowed as Rva002B7391CleanupForward::cleanup
-// (Rva002B57ACDtor.cpp): the tree destructor forwards to it.
-class Rva002B7391CleanupForward
+// (Rva002B57ACDtor.cpp). Its complete five bytes jump directly to the owned
+// 56-byte Rva002B57AC destructor at 0x002B626E; emit that same direct jump
+// here, rather than adding another forwarding hop in the member destructor.
+class Rva002B57AC
 {
 public:
-	void cleanup();
+	~Rva002B57AC();
 };
 
 namespace _STL
@@ -38,7 +40,7 @@ class _Rb_tree : private map<int,void*>
 public:
 	__forceinline _Rb_tree() : map<int,void*>() {}
 	_Rb_tree(const _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc> &other);
-	~_Rb_tree() { ((Rva002B7391CleanupForward *)this)->cleanup(); }
+	~_Rb_tree() { reinterpret_cast<Rva002B57AC *>(this)->~Rva002B57AC(); }
 
 // The base is a12-byte header ABI facade, not an assertion about original inheritance.
 };
