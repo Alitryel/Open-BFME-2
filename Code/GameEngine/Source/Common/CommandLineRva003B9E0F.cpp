@@ -28,7 +28,9 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 extern SubsystemInterfaceList *TheSubsystemList;
-extern "C" char clean_list[9];
+// The byte stored at 0x009B6218 is the render-asset colouring flag that
+// renderasset.cpp defines (the 8 bytes before it are WW3D's sorting clean_list).
+extern bool g_Va00DB6218;
 
 // ?Rva003B9E0FInit@@YAXXZ @0x003B9E0F 73B
 // Target evidence: called by the following command-line helper; retail
@@ -42,7 +44,7 @@ void Rva003B9E0FInit()
 		TheWritableGlobalData->m_flagD45 = 1;
 		TheWritableGlobalData->m_flag9BF = 0;
 		TheWritableGlobalData->m_flag40 = 0;
-		clean_list[8] = 0;
+		g_Va00DB6218 = false;
 		TheWritableGlobalData->m_cinematicDirectory.set("Mods\\cinematics");
 	}
 }

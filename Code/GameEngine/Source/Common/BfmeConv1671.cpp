@@ -4,7 +4,9 @@
 // name carries no target evidence, so the real export name is used here. The
 // donor's void* parameters are kept so the mangled name stays PAUBfmeSinkEQH@@PAX1@Z.
 extern "C" __declspec(dllimport) int __cdecl vsprintf(void *buffer, void *format, void *out);
-extern char g_bfmeBufferEQH[];					// retail 0x00DFF538
+// retail RVA 0x009FF538: zero-initialized 5120-byte .data format buffer; this
+// formatter is its only reader.
+char g_bfmeBufferEQH[5120];
 
 struct BfmeSinkEQH
 {

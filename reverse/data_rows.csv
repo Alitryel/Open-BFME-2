@@ -1012,3 +1012,4 @@ _vtbl_00BF23C8,0x007F23C8,rva,124,.rdata,Code/GameEngine/Source/GameLogic/Object
 ?g_Va00DE2040@@3MA,0x009E2040,rva,4,.data,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DViewRva0008DB18.cpp,matched,W3DView 0x0008DB18 zero-initialized float accumulator,claude-opus-5.5
 ?g_Va00DE2044@@3MA,0x009E2044,rva,4,.data,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DViewRva0008DB18.cpp,matched,W3DView 0x0008DB18 zero-initialized float accumulator,claude-opus-5.5
 ?g_bfmeEndKA@@3PAPAVBfmeItemKA@@A,0x009FEA48,rva,4,.data,Code/GameEngine/Source/Common/BfmeConv902_BfmeGoKA.cpp,matched,end pointer of the shared item container whose first pointer g_bfmeBegKA is 0x009FEA44; zero at load,claude-opus-5.5
+?g_bfmeBufferEQH@@3PADA,0x009FF538,rva,5120,.data,Code/GameEngine/Source/Common/BfmeConv1671.cpp,matched,zero-initialized 5120-byte format buffer the 0x009FF538 formatter writes with vsprintf and forwards,claude-opus-5.5
