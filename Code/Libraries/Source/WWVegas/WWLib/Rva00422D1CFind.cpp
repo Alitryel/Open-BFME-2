@@ -42,11 +42,13 @@ template <class K, class T, class C = less<K>, class A = allocator<pair<const K,
 typedef _STL::pair<const int, int> IntIntPair;
 typedef _STL::_Rb_tree<int, IntIntPair, _STL::_Select1st<IntIntPair>, _STL::less<int>, _STL::allocator<IntIntPair> > MapIntIntTree;
 
-extern _STL::map<int, int> g_00E0319C;
+// The map is retail 0x00A0319C, defined as raw storage g_Va00E0319C in
+// FormationSelectionCriteriaRva00424185.cpp (constructed by the 0x007B02C3 initializer).
+extern unsigned int g_Va00E0319C[3];
 
 int FormationAssistant::rva00422D1C(int key)
 {
-	MapIntIntTree *t = (MapIntIntTree *)&g_00E0319C;
+	MapIntIntTree *t = (MapIntIntTree *)g_Va00E0319C;
 	_STL::_Rb_tree_node<IntIntPair> *node = t->_M_find(key);
 	if ((void *)node != *(void * *)t)
 		return *(int *)((char *)node + 0x14);
