@@ -25,7 +25,7 @@ struct Rva0007A4E6VectorStorage {
     void *begin, *end, *capacity;
     ~Rva0007A4E6VectorStorage() { if (begin) free(begin); }
 };
-class Rva007A41E {
+class W3DHordeModelDrawManager {
 public:
     void rva007A41E();
 };
@@ -38,7 +38,7 @@ public:
     ~Rva007A4E6();
 };
 Rva007A4E6::~Rva007A4E6() {
-    reinterpret_cast<Rva007A41E *>(this)->rva007A41E();
+    reinterpret_cast<W3DHordeModelDrawManager *>(this)->rva007A41E();
 }
 
 // Native7A41E..7A498122B: sort each node's pointer vector, delete trailing
@@ -60,7 +60,7 @@ struct Rva0007A41ENode : _STL::_Rb_tree_node_base {
     int key;
     Rva00078F95Item **begin, **end, **capacity;
 };
-void Rva007A41E::rva007A41E() {
+void W3DHordeModelDrawManager::rva007A41E() {
     _STL::_Rb_tree_node_base *header = *reinterpret_cast<_STL::_Rb_tree_node_base **>(this);
     Rva0007A41ENode *node = static_cast<Rva0007A41ENode *>(header->_M_left);
     while (node != header) {

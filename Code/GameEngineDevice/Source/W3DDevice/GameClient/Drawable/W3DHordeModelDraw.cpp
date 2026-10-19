@@ -98,8 +98,6 @@ int W3DHordeModelDrawModuleData::rva00079186(int count)
 		* m_lods[GetLODIndex()].m_start / 100;
 }
 
-class Rva00079911 {public: void rva00079911();};
-class Rva007A41E {public: void rva007A41E();};
 class Rva00078C10 {public: bool rva00078C10(const Rva00078C10*,int*,int*);};
 struct HordeModelObject {char p[0x200]; float scale;};
 struct HordeAnimation {void *animation;float frame;char p[8];int mode;int direction;unsigned char flag;char tail[3];};
@@ -111,6 +109,8 @@ struct W3DHordeModelDrawHandle {HordeModelDraw *model; int nameKey;
 struct HordeGroupNode: _STL::_Rb_tree_node_base {W3DHordeModelDrawModuleData *data;W3DHordeModelDrawHandle **begin;W3DHordeModelDrawHandle **end;W3DHordeModelDrawHandle **capacity;};
 class W3DHordeModelDrawManager {public:
  int rva0007A54B();
+ void rva00079911();
+ void rva007A41E();
  void ProcessGroup(W3DHordeModelDrawHandle **begin,W3DHordeModelDrawHandle **end);
  HordeGroupNode *header;int count;
 };
@@ -141,8 +141,8 @@ __forceinline bool W3DHordeModelDrawHandle::PartOfSameGroup(const W3DHordeModelD
 bool (W3DHordeModelDrawHandle::*g_HordePartOfSameGroupBody)(const W3DHordeModelDrawHandle&,float) const = &W3DHordeModelDrawHandle::PartOfSameGroup;
 int W3DHordeModelDrawManager::rva0007A54B() {
  int groups=0;
- ((Rva00079911*)this)->rva00079911();
- ((Rva007A41E*)this)->rva007A41E();
+ rva00079911();
+ rva007A41E();
  if(!count) return 0;
  for(HordeGroupNode *node=(HordeGroupNode*)header->_M_left;node!=header;node=(HordeGroupNode*)_STL::_Rb_global<bool>::_M_increment(node)) {
   W3DHordeModelDrawHandle **first=node->begin,**end=node->end;

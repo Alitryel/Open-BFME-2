@@ -7,7 +7,7 @@
 class W3DHordeModelDrawManager;
 extern W3DHordeModelDrawManager *TheW3DHordeModelDrawManager;
 
-class Rva00079911
+class W3DHordeModelDrawManager
 {
 public:
 	void rva00079911();
@@ -16,5 +16,5 @@ public:
 void Rva00079985Clear(void)
 {
 	if (TheW3DHordeModelDrawManager)
-		((Rva00079911 *)TheW3DHordeModelDrawManager)->rva00079911();
+		TheW3DHordeModelDrawManager->rva00079911();
 }

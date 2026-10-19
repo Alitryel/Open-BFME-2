@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva00079911@Rva00079911@@QAEXXZ @0x00079911 116B via vector pair clear with ref release plus list clear
+// ?rva00079911@W3DHordeModelDrawManager@@QAEXXZ @0x00079911 116B via vector pair clear with ref release plus list clear
 // Evidence: thiscall ret0 tail jmp to List_base<string> clear; two vector<void*> erases; and [ecx+0x310],0 plus dec [ecx+4] release and virtual slot 0xec call; caller 0x0007A54B
 #include <list>
 #include <vector>
@@ -37,7 +37,7 @@ public:
 	int m_310;
 };
 
-class Rva00079911
+class W3DHordeModelDrawManager
 {
 public:
 	void rva00079911();
@@ -57,7 +57,7 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector
 namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
 namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> >::~basic_string(); }
 // bfme link decl-only/import-inline end
-void Rva00079911::rva00079911()
+void W3DHordeModelDrawManager::rva00079911()
 {
 	for (void **it = m_vec1.begin(); it != m_vec1.end(); ++it) {
 		Rva00079911Item *p = (Rva00079911Item *)*it;
