@@ -33,7 +33,10 @@ private:
 
 
 extern BfmeItemKA **g_bfmeBegKA;
-extern BfmeItemKA **g_bfmeEndKA;
+// Second pointer of the shared item container whose first pointer
+// (g_bfmeBegKA, retail RVA 0x009FEA44) Rva007B6880Thunks.cpp defines; this
+// walker reads it, and no unit defined it. Retail RVA 0x009FEA48, zero-initialized .data.
+BfmeItemKA **g_bfmeEndKA;
 
 // Previously recovered from BFME 1 game/GameEngine/Source/Common/BfmeConv902.cpp;
 // retail 0x00260805 (33B), still exact with the layout method's compiler flags.
