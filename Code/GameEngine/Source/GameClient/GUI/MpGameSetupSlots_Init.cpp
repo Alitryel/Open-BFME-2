@@ -419,8 +419,6 @@ struct Rva0057C71FEntry
 class Rva0057E3DB
 {
 public:
-	// Unrowed 0x0057E45C (its Apt callback registration), pinned by address.
-	void rva0057E45C();
 	// Unrowed 0x0057C71F (155 bytes; the scenario's entry for a slot, or
 	// 0), pinned by address.
 	Rva0057C71FEntry *rva0057C71F(int slot);
@@ -429,17 +427,9 @@ public:
 	// Unrowed 0x0057E058 (499 bytes) and 0x0057DFFB (65 bytes; switches on
 	// the mode at +0x1C), pinned by address.
 	void rva0057DFFB(int value);
-	// Unrowed 0x0057C621 (40 bytes; a value read through its +0x68 member
-	// when +0x50 is set), pinned by address.
-	int rva0057C621();
-	// Unrowed 0x0057D5E5 (292 bytes; called by the panel's 0x0043DE19
-	// shutdown), pinned by address.
-	void rva0057D5E5();
 	// Unrowed 0x0057CDA1 (34 bytes; ret 0xC: 1 after handling a combo box
 	// selection of its +0x50 window, else 0), pinned by address.
 	int rva0057CDA1(unsigned int msg, unsigned int data1, unsigned int data2);
-	// Unrowed 0x0057CB7D (152 bytes; ret 4, a bool), pinned by address.
-	bool rva0057CB7D(int value);
 
 	unsigned char m_pad00[0x1C];
 	int m_mode; // +0x1C (the panel's +0x7C, MpGameSetupOnInitGadget.cpp's m_hideFlag)
@@ -594,9 +584,9 @@ static inline bool unicodeIsEmpty(const UnicodeString &text)
 
 void MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());
 
-// Unrowed 0x0055A04C (59 bytes; a rule's display name, fetched from a
-// table of ten labels), pinned by address.
-UnicodeString Rva0055A04C(int kind);
+// 0x0055A04C (59 bytes; a rule's display name, fetched from a table of ten
+// labels), rowed in RTS/MpGameRules.cpp.
+class MpGameRules { public: static UnicodeString GetRuleString(int kind); };
 
 // The game being set up, spelled as LANAPIRemoveGame.cpp's pin does.
 struct LANGameInfo;
@@ -674,6 +664,12 @@ public:
 	void rva0057CD66();
 	// Rowed 0x0057C71F: the scenario's entry (forced team at +0x04) for a slot, or 0.
 	void *GetStartPositionInfoForSlot(int slot);
+	// Rowed in AptMapPreview.cpp: 0x0057C621, 0x0057CB7D, 0x0057D5E5 (the panel
+	// shutdown's call) and 0x0057E45C (its Apt callback registration).
+	int GetCurrentStrategicScenario();
+	bool IsValidStartPosition(int value);
+	void rva0057D5E5();
+	void rva0057E45C();
 };
 
 // The +0x60 member's next selectable slot from a start (rowed 0x0057CA78
@@ -912,9 +908,9 @@ public:
 	unsigned int rva0043DF22();
 	bool OnHostStartGame(bool value);
 
-	// Unrowed 0x0044009D (1039 bytes; ret 4, the slot; returns al), pinned
-	// by address.
-	bool rva0044009D(int slot);
+	// 0x0044009D (1039 bytes; ret 4, the slot; returns al), rowed in
+	// AptMpGameSetupPopulateColorCombo.cpp.
+	bool PopulateColorCombo(int slot);
 
 	// Unrowed 0x0043DC40 (53 bytes; picks the games list sort column, the
 	// same column again toggling to the next value), pinned by address.
@@ -938,9 +934,9 @@ public:
 	void PopulatePlayerTemplateCombo(int slot);
 	void PopulateHeroCombo(int slot);
 
-	// Unrowed 0x004422DD (522 bytes), called by 0x00442A19, pinned by
-	// address.
-	void rva004422DD();
+	// 0x004422DD (522 bytes), called by 0x00442A19, rowed in
+	// HostValidateColorsRva004422DDFarm.cpp.
+	void HostValidateColors();
 	void UpdateSlot(int slot);
 
 	// Unrowed 0x00442BCC (208 bytes; walks the slots through the encoded
@@ -1127,7 +1123,7 @@ void AptMpGameSetup::rva00442A19()
 {
 	if (!m_game->rva0043DA65())
 		return;
-	rva004422DD();
+	HostValidateColors();
 	if (m_refreshing)
 		return;
 	m_refreshing = true;
@@ -1206,7 +1202,7 @@ bool AptMpGameSetup::rva0043FC1F(int kind, bool reset)
 		{
 			message = TheGameText->fetch("GUI:RuleChangeWarning");
 			message += L" ";
-			message += Rva0055A04C(kind);
+			message += MpGameRules::GetRuleString(kind);
 		}
 		if (!unicodeIsEmpty(message))
 			m_owner->v17(message, 2);
@@ -1436,7 +1432,7 @@ bool AptMpGameSetup::rva0043E1CC(int which)
 	case 1:
 		{
 			GameInfo *game = (GameInfo *)m_game->rva0043DA65();
-			int value = m_60.rva0057C621();
+			int value = ((AptMapPreview *)&m_60)->GetCurrentStrategicScenario();
 			if (game)
 			{
 				if (game->m_8c)
@@ -1521,7 +1517,7 @@ bool AptMpGameSetup::Init(GameInfo *game, int value)
 	for (int slot = 7; slot >= 0; --slot)
 	{
 		PopulatePlayerCombo(slot);
-		rva0044009D(slot);
+		PopulateColorCombo(slot);
 		PopulatePlayerTemplateCombo(slot);
 		rva0043F244(slot, false);
 		PopulateHeroCombo(slot);
@@ -1621,7 +1617,7 @@ void AptMpGameSetup::UpdateSlot(int slot)
 	MpGameSetupComboRef *color = &m_colorCombo[slot];
 	if (color->m_window)
 	{
-		bool refresh = rva0044009D(slot);
+		bool refresh = PopulateColorCombo(slot);
 		int count = ((Rva003236E8 *)color)->rva003236E8();
 		int index;
 		for (index = 0; index < count; ++index)
@@ -1667,7 +1663,7 @@ void AptMpGameSetup::UpdateSlot(int slot)
 void AptMpGameSetup::rva0043DE19()
 {
 	rva0043DC0F();
-	m_60.rva0057D5E5();
+	((AptMapPreview *)&m_60)->rva0057D5E5();
 	m_d0.rva0057EF87();
 	((Rva0057F34D *)&m_190)->rva0057F34D();
 	((Rva0057FECE *)&m_244)->rva0057FECE();
@@ -1835,7 +1831,7 @@ int AptMpGameSetup::rva00442CB3(unsigned int msg, unsigned int data1, unsigned i
 // instance g_Va00E0333C.
 bool AptMpGameSetup::rva0043DCFA(int value)
 {
-	return m_60.rva0057CB7D(value);
+	return ((AptMapPreview *)&m_60)->IsValidStartPosition(value);
 }
 
 
@@ -1916,7 +1912,7 @@ void AptMpGameSetup::rva0044303D()
 		}
 	}
 	m_game->m_current = 0;
-	m_60.rva0057E45C();
+	((AptMapPreview *)&m_60)->rva0057E45C();
 	m_d0.rva0057F0AA();
 	m_190.rva0057FAB0();
 	m_244.rva0057FFB9();
