@@ -211,7 +211,8 @@ enum
 };
 
 // min and max in the ternary form of the matched min<int>/max<int> and
-// max<unsigned> providers (cmovge/cmovle leaves at 0x57B0, 0x57C0, 0x9FDE5).
+// max<unsigned> providers (cmovge/cmovle leaves at 0x57B0, 0x57C0, 0x9FDE5);
+// min<unsigned> 0x9FDD5 is rowed here, the unit that calls it.
 template <class T> inline const T& min( const T& a, const T& b )
 {
 	return a < b ? a : b;
