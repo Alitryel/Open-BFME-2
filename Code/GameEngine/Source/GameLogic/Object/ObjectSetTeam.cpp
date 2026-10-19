@@ -158,7 +158,7 @@ extern ScriptEngine *TheScriptEngine;
 class Rva002A8F24
 {
 public:
-	void rva002A8F56(Object *obj);
+	void UnRegister(Object *obj);
 	void rva002A9365(Object *obj);
 };
 extern Rva002A8F24 *g_00DFEEF8;
@@ -248,7 +248,7 @@ void Object::setOrRestoreTeam(Team *team, Bool restoring)
 
 	Bool playerChanged = m_team && team && playersDiffer(team, m_team);
 	if (playerChanged)
-		g_00DFEEF8->rva002A8F56(this);
+		g_00DFEEF8->UnRegister(this);
 
 	m_team = team;
 

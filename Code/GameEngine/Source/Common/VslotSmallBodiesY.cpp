@@ -304,7 +304,7 @@ void AISpecialPowerTargetEnemy::activate(Object *obj)
 class Rva005EEA20
 {
 public:
-	Object *rva005EEA20(Player *player, bool a, bool b);
+	Object *findUnitInCombat(Player *player, bool a, bool b);
 };
 // The special-power base: shouldActivate is slot 6 of each power's 7-slot
 // vftable (0x00C75E44 here, installed by 0x005D7AB3/0x005D7AC5), so the
@@ -325,7 +325,7 @@ private:
 };
 bool AISpellBookBuffTerrain::shouldActivate(Object *obj)
 {
-	Object *pick = m_28.rva005EEA20(obj->getControllingPlayer(), true, true);
+	Object *pick = m_28.findUnitInCombat(obj->getControllingPlayer(), true, true);
 	if (pick && !(pick->m_04->m_113 & 4))
 		return rva005EE8DD((const Coord3D *)&pick->m_38, obj);
 	return false;

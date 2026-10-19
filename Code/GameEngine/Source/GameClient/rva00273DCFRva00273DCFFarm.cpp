@@ -32,7 +32,7 @@ private:
 class Rva002D7127 : public Anim2D
 {
 public:
-	void rva002D7127(int x, int y, int width, int height);
+	void queue(int x, int y, int width, int height);
 };
 
 class Rva00270025
@@ -290,7 +290,7 @@ void Drawable::rva00273DCF()
 			int height = (*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->getCurrentFrameHeight();
 			int x = (int)((float)dw * 0.75f + (float)self->m_460 - (float)width * 0.5f);
 			int y = self->m_464 - height;
-			(*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->rva002D7127(x, y, width, height);
+			(*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->queue(x, y, width, height);
 		}
 	} else if (self->m_354 != 0) {
 		self->m_354->rva0027006C((int)slot);

@@ -226,7 +226,7 @@ class Rva002A8F24
 {
 public:
     void *rva002A8F24(Player *);
-    void rva002A8F56(Object *);
+    void UnRegister(Object *);
     void rva002A9365(Object *);
     Rva002A8AB1Record *rva002A8AB1(void *);
 };
@@ -467,7 +467,7 @@ void AIBuilder::checkForNewUpgrades()
         _STL::vector<Object *, _STL::allocator<Object *> >::iterator changedIt = changed.begin();
         do
         {
-            g_00DFEEF8->rva002A8F56(*changedIt);
+            g_00DFEEF8->UnRegister(*changedIt);
             g_00DFEEF8->rva002A9365(*changedIt);
             ++changedIt;
         } while (changedIt != changed.end());

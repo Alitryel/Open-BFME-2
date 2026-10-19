@@ -53,7 +53,7 @@ class Rva002E9042
 {
 public:
 	void rva002E9042(void *p);
-	void rva002E8FE5(void *p);
+	void AddPortal(void *p);
 private:
 	char m_pf[0x460];
 	PathfindZoneManager m_grid;
@@ -73,8 +73,8 @@ void Rva002E9042::rva002E9042(void *p)
 	arg->m_48 = 0;
 }
 
-// ?rva002E8FE5@Rva002E9042@@QAEXPAX@Z @0x002E8FE5 93B: set twin of 0x002E9042; WorldToCell then getCell layer 1, fills via 0x0052DA63 and grid 0x0053155E when cell slot empty, sets byte at +0x48
-void Rva002E9042::rva002E8FE5(void *p)
+// ?AddPortal@Rva002E9042@@QAEXPAX@Z @0x002E8FE5 93B: set twin of 0x002E9042; WorldToCell then getCell layer 1, fills via 0x0052DA63 and grid 0x0053155E when cell slot empty, sets byte at +0x48
+void Rva002E9042::AddPortal(void *p)
 {
 	Rva002E9042Arg *arg = (Rva002E9042Arg *)p;
 	ICoord2D cell;

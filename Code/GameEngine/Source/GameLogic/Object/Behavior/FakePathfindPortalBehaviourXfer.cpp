@@ -138,7 +138,7 @@ private:
 class Rva002E9042
 {
 public:
-	void rva002E8FE5(void *p);
+	void AddPortal(void *p);
 };
 
 class AI
@@ -203,7 +203,7 @@ void FakePathfindPortalBehaviour::xfer(Xfer *xfer)
 // and sets +0x32 again. Called from xfer on load when +0x32 is set.
 void FakePathfindPortalBehaviour::regWaypointsWithPathfinder()
 {
-	TheAI->m_10->rva002E8FE5(m_28[0]);
-	TheAI->m_10->rva002E8FE5(m_28[1]);
+	TheAI->m_10->AddPortal(m_28[0]);
+	TheAI->m_10->AddPortal(m_28[1]);
 	m_32 = true;
 }

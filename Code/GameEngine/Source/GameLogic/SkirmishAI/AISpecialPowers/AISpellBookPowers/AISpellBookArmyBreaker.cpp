@@ -99,7 +99,7 @@ public:
 };
 class Rva005EEA20 {
 public:
-    Object *rva005EEA20(Player *, bool, bool);
+    Object *findUnitInCombat(Player *, bool, bool);
 };
 class AISpellBookBase {
 public:
@@ -121,7 +121,7 @@ public:
 };
 bool Rva005D84F6::rva005D8619(Object *source)
 {
-    Object *object = reinterpret_cast<Rva005EEA20 *>(&m_lookup)->rva005EEA20(
+    Object *object = reinterpret_cast<Rva005EEA20 *>(&m_lookup)->findUnitInCombat(
         source->getControllingPlayer(), true, true);
     if (object) {
         Rva005EE9CE stats;

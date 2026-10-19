@@ -100,7 +100,7 @@ extern PartitionManager *ThePartitionManager;
 class Rva005EEA20
 {
 public:
-	Object *rva005EEA20(Player *player, bool a, bool b);	// 0x005EEA20
+	Object *findUnitInCombat(Player *player, bool a, bool b);	// 0x005EEA20
 };
 
 // The AoE special-power target picker (AISPecialPowerTargetAoE.cpp holds
@@ -126,7 +126,7 @@ private:
 
 bool Rva005EE816::rva005D7C3E(Object *source)
 {
-	Object *target = m_finder.rva005EEA20(source->getControllingPlayer(), true, true);
+	Object *target = m_finder.findUnitInCombat(source->getControllingPlayer(), true, true);
 	if (target) {
 		Rva005D75BEMask mask;
 		mask.set(60);

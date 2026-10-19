@@ -453,7 +453,7 @@ class SpecialDisguiseUpdate {
 };
 class Rva002A8F24 {
   public:
-    void rva002A8F56(Object *);
+    void UnRegister(Object *);
     void rva002A9365(Object *);
 };
 // Descriptive bank-only declarations: existing address-named owners need a
@@ -866,7 +866,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             target->rva0028DA28();
             target->rva00298C76(newTeam, 1);
         }
-        g_00DFEEF8->rva002A8F56(captured);
+        g_00DFEEF8->UnRegister(captured);
         captured->rva0028DA28();
         captured->rva00298C76(newTeam, 1);
         ((Rva001E431E *)captured)->rva001E431E((const int *)&Rva0028F59A(0, 119));

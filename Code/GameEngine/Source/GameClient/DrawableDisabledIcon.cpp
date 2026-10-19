@@ -23,7 +23,7 @@ private:
 class Rva002D7127
 {
 public:
-    void rva002D7127(int x, int y, int width, int height);
+    void queue(int x, int y, int width, int height);
 };
 
 class Rva00270025
@@ -94,6 +94,6 @@ void Rva00275F3FHost::rva00275F3F()
         int height = reinterpret_cast<Rva00270BA8 *>(this)->rva00270BA8()->icons[6]->getCurrentFrameHeight();
         int x = screenLeft;
         int y = screenBottom - (height + barHeight);
-        reinterpret_cast<Rva002D7127 *>(reinterpret_cast<Rva00270BA8 *>(this)->rva00270BA8()->icons[6])->rva002D7127(x, y, width, height);
+        reinterpret_cast<Rva002D7127 *>(reinterpret_cast<Rva00270BA8 *>(this)->rva00270BA8()->icons[6])->queue(x, y, width, height);
     }
 }

@@ -87,7 +87,7 @@ public:
     bool rva006FACA0(int x, int y, void **candidate);
     void Rva006F9EF0();
     void rva006FB910();
-    void rva006FAA20();
+    void ProcessButtonState();
     // ?HandleAutoNav@Rva006FB860@@QAEXPAVAptCIH@@HH@Z @0x006FAF80 416B:
     // renamed from placeholder rva006FAF80 — the WorldBuilder twin names
     // AptAnimationPoolData::HandleAutoNav at EA's own AptInput.cpp
@@ -116,7 +116,7 @@ void Rva006FB860::rva006FB910()
 // Calls to 0x006FA420, 0x006E1F00 and 0x006FA100 remain address-based because
 // their target bodies are unlanded; their addresses and ABIs come from these
 // retail call sites. The owning class name remains address-derived.
-void Rva006FB860::rva006FAA20()
+void Rva006FB860::ProcessButtonState()
 {
     AptCIH *value = rva006FA420(m74, m78);
     Rva006E3710 *pool = (Rva006E3710 *)g_bfmeAptPtrAtE176D0;

@@ -351,7 +351,7 @@ public:
 class Rva004482FB : public Rva00447773
 {
 public:
-	Int rva004483BC( UnicodeString name );		// getSlotNum
+	Int getSlotNum( UnicodeString name );		// getSlotNum
 
 	const BfmeNetAddress *getHostAddress( void ) const { return &m_slots[0].m_address; }
 };
@@ -792,7 +792,7 @@ void LANAPI::OnChat( const UnicodeString &player, const BfmeNetAddress *ip,
 			Int chatColor = -1;
 			if( m_currentGame )
 			{
-				Int slotNum = m_currentGame->rva004483BC( player );
+				Int slotNum = m_currentGame->getSlotNum( player );
 				if( slotNum >= 0 )
 				{
 					GameSlot *gs = m_currentGame->getSlot( slotNum );

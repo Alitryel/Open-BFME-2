@@ -27,7 +27,7 @@ public:
 };
 class Object;
 // Row spellings: 0x00333F37 is LuaDrawableState::rva00333F37(Object *),
-// 0x002A8F56 is Rva002A8F24::rva002A8F56(Object *).
+// 0x002A8F56 is Rva002A8F24::UnRegister(Object *).
 class LuaDrawableState
 {
 public:
@@ -36,7 +36,7 @@ public:
 class Rva002A8F24
 {
 public:
-	void rva002A8F56(Object *p);
+	void UnRegister(Object *p);
 };
 // Bind to the existing data-ledger owner; keep the retail access view local.
 class PartitionManager;
@@ -94,6 +94,6 @@ void Object::rva0028BAC0()
 	if (((LuaDrawableState *)TheLuaScriptEngine) != 0)
 		((LuaDrawableState *)TheLuaScriptEngine)->rva00333F37(this);
 	if (((Rva002A8F24 *)g_00DFEEF8) != 0)
-		((Rva002A8F24 *)g_00DFEEF8)->rva002A8F56(this);
+		((Rva002A8F24 *)g_00DFEEF8)->UnRegister(this);
 	m_454 = 0;
 }

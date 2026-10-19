@@ -82,7 +82,7 @@ void LANGameInfo::setSlot(int slotNum, LANGameSlot slotInfo)
     m_LANSlot[0].setMapAvailability(true);
 }
 
-// ?rva004483BC@Rva004482FB@@QAEHVUnicodeString@@@Z @0x004483BC (103B):
+// ?getSlotNum@Rva004482FB@@QAEHVUnicodeString@@@Z @0x004483BC (103B):
 // LANGameInfo-style getSlotNum by Unicode name: inGame gate at +0x10,
 // per-slot getConstLANSlot scan over 8x0x1D0 at +0xDC via rowed 0x447773,
 // isPlayer via rowed Rva004481A7 0x4481A7, by-value UnicodeString with
@@ -98,7 +98,7 @@ public:
 class Rva004482FB
 {
 public:
-    int rva004483BC(UnicodeString name);
+    int getSlotNum(UnicodeString name);
 };
 
 class Rva004481A7
@@ -107,8 +107,8 @@ public:
     bool isPlayer(UnicodeString userName) const;
 };
 
-// ?rva004483BC@Rva004482FB@@QAEHVUnicodeString@@@Z
-int Rva004482FB::rva004483BC(UnicodeString name)
+// ?getSlotNum@Rva004482FB@@QAEHVUnicodeString@@@Z
+int Rva004482FB::getSlotNum(UnicodeString name)
 {
     if (!*(bool *)((char *)this + 0x10))
         return -1;

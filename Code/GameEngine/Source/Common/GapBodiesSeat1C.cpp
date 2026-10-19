@@ -217,7 +217,7 @@ extern AI *TheAI;
 class Rva002E9042
 {
 public:
-	void rva002E8FE5(void *arg);							// 0x002E8FE5
+	void AddPortal(void *arg);							// 0x002E8FE5
 };
 
 struct Rva00372DABAIView
@@ -234,7 +234,7 @@ public:
 
 void Rva00372DAB::rva00372DAB(void *arg)
 {
-	((Rva00372DABAIView *)TheAI)->m_10->rva002E8FE5(arg);
+	((Rva00372DABAIView *)TheAI)->m_10->AddPortal(arg);
 }
 
 // --- 0x00373F1C (16B): the current element of the +0 cursor (+0x0C past

@@ -46,7 +46,7 @@ private:
 class Rva002D7127 : public Anim2D
 {
 public:
-	void rva002D7127(int x, int y, int width, int height);
+	void queue(int x, int y, int width, int height);
 };
 
 class Rva00270025
@@ -272,7 +272,7 @@ __declspec(noinline) inline void Drawable::rva00273755()
 		int h = ((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->getCurrentFrameHeight();
 		int y = m_46c - h;
 		int x = (int)((float)dw * 0.5f + (float)m_460 - (float)w * 0.5f);
-		((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->rva002D7127(x, y, w, h);
+		((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->queue(x, y, w, h);
 	} else {
 		rva002736A8();
 	}
@@ -347,7 +347,7 @@ void Drawable::rva002739D1()
 			int frameHeight = getIconInfo()->m_items[7]->getCurrentFrameHeight();
 			int y=m_464+frameHeight;
             int x=m_460;
-            getIconInfo()->m_items[7]->rva002D7127(x,y,frameWidth,frameHeight);
+            getIconInfo()->m_items[7]->queue(x,y,frameWidth,frameHeight);
 		}
 		else
 		{
@@ -362,7 +362,7 @@ void Drawable::rva002739D1()
 			int frameHeight = getIconInfo()->m_items[8]->getCurrentFrameHeight();
 			int y=m_464+frameHeight;
             int x=m_460 + frameWidth;
-            getIconInfo()->m_items[8]->rva002D7127(x,y,frameWidth,frameHeight);
+            getIconInfo()->m_items[8]->queue(x,y,frameWidth,frameHeight);
 		}
 		else
 		{
@@ -377,7 +377,7 @@ void Drawable::rva002739D1()
 			int frameHeight = getIconInfo()->m_items[9]->getCurrentFrameHeight();
 			int y=m_464+frameHeight;
             int x=m_460;
-            getIconInfo()->m_items[9]->rva002D7127(x+frameWidth*2,y,frameWidth,frameHeight);
+            getIconInfo()->m_items[9]->queue(x+frameWidth*2,y,frameWidth,frameHeight);
 		}
 		else
 		{

@@ -22,7 +22,7 @@ public:
 class Rva002A8F24
 {
 public:
-	void rva002A8F56(Object *obj);
+	void UnRegister(Object *obj);
 	void rva002A9365(Object *obj);
 };
 
@@ -55,7 +55,7 @@ void Rva004B3AFF::rva004B3AFF()
 	StringHolder *holder = *(StringHolder **)((char *)this - 0x0C);
 	Object *obj = *(Object **)((char *)this - 8);
 	obj->setCommandSetStringOverride(holder->m_name);
-	g_00DFEEF8->rva002A8F56(obj);
+	g_00DFEEF8->UnRegister(obj);
 	g_00DFEEF8->rva002A9365(obj);
 	TheControlBar->m_flag28 = 1;
 }

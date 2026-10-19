@@ -48,7 +48,7 @@ public:
 class Rva005EEA20
 {
 public:
-	Object *rva005EEA20(Player *player, Bool a, Bool b);
+	Object *findUnitInCombat(Player *player, Bool a, Bool b);
 	void getStatsInCombatRange(Rva005EE9CE *stats, Object *unit, float range);
 };
 class AISpellBookBase
@@ -77,7 +77,7 @@ private:
 
 Bool AISpellBookHeal::shouldActivate(Object *obj)
 {
-	Object *unit = m_base.rva005EEA20(obj->getControllingPlayer(), true, true);
+	Object *unit = m_base.findUnitInCombat(obj->getControllingPlayer(), true, true);
 	if (unit)
 	{
 		Rva005EE9CE stats;

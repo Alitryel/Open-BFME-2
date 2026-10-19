@@ -297,7 +297,7 @@ struct CtorArmyLastPair {float x,y; __forceinline CtorArmyLastPair():x(0),y(0){_
 class SpawnArmy {public: char pad00[4]; AsciiString a04,a08; char pad0C[12]; AsciiString a18; char pad1C[12]; AsciiString a28; char pad2C[24]; float f44; char pad48[8]; AsciiString a50; bool b54;};
 struct Rva002B6A04Player {char pad00[20];int id14;};
 class LivingWorldArmyLine {public:void rva00539141();};
-class Rva0031934BOwner {public:void rva0031934B(const AsciiString*);};
+class Rva0031934BOwner {public:void createVisualObjects(const AsciiString*);};
 struct Rva00318E8COut {float f;int i;};
 class Rva00318E8C {public:Rva00318E8COut *rva00318E8C(Rva00318E8COut*);};
 struct Rva003F0F13Elem {float x,y;};
@@ -365,7 +365,7 @@ LivingWorldArmy::LivingWorldArmy(int owner,SpawnArmy *desc,Rva002B6A04Player *pl
  if(((Rva00319CED*)desc)->rva00319CED())((LivingWorldArmy*)this)->UseArmySummary((Rva00319CED*)desc);
  ((ArmySummaryView*)summary78.m_summary)->owner1C=owner;
  ((AsciiString*)((char*)summary78.m_summary+0x20))->setCopyInline(name28);
- ((Rva0031934BOwner*)this)->rva0031934B(&desc->a04);
+ ((Rva0031934BOwner*)this)->createVisualObjects(&desc->a04);
  ((Rva003193EC*)this)->rva003190E7(false);
  if(desc->a28.isEmpty()) {
   Rva00318E8COut pos;
@@ -611,7 +611,7 @@ void LivingWorldArmy::rva003191E2(int mode, int keepPresentation)
 
 void LivingWorldArmy::loadPostProcess()
 {
-    reinterpret_cast<Rva0031934BOwner *>(this)->rva0031934B(&name24);
+    reinterpret_cast<Rva0031934BOwner *>(this)->createVisualObjects(&name24);
     if (v70 != -1)
     {
         if (status88)

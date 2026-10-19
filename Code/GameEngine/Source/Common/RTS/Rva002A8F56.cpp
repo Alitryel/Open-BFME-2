@@ -1,7 +1,7 @@
 // cl: /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 //
-// ?rva002A8F56@Rva002A8F24@@QAEXPAVObject@@@Z, retail 0x002A8F56, 138 bytes.
+// ?UnRegister@Rva002A8F24@@QAEXPAVObject@@@Z, retail 0x002A8F56, 138 bytes.
 // Rva002A8F24 member taking Object*: skips when Object+0x4b0 set, resolves the
 // controlling Player twice via rowed Object::getControllingPlayer 0x28AFA9,
 // looks up pin-only 0x2A8AB1 then rowed 0x2A8F24 dispatching to rowed 0x4E0425,
@@ -57,13 +57,13 @@ class Rva002A8F24
 public:
 	struct Rva002A8AB1Record *rva002A8AB1(void *key);
 	void *rva002A8F24(Player *player);
-	void rva002A8F56(Object *obj);
+	void UnRegister(Object *obj);
 private:
 	char m_pad[0x934];
 	_STL::vector<enum ObjectID> m_vec; // +0x934
 };
 
-void Rva002A8F24::rva002A8F56(Object *obj)
+void Rva002A8F24::UnRegister(Object *obj)
 {
 	if (obj->m_4b0 != 0)
 		return;

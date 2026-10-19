@@ -36,7 +36,7 @@ extern GameLogic *TheGameLogic;
 class Rva004CC829
 {
 public:
-	void rva004CC795(Object *defector, unsigned int endFrame);
+	void defectNow(Object *defector, unsigned int endFrame);
 };
 
 struct TemporarilyDefectUpdateFields
@@ -84,7 +84,7 @@ void Object::bfmeTransferReplacementState(Object *replacement)
 		{
 			Object *defector = TheGameLogic->findObjectByID(oldUpdate->m_defectorID);
 			if (defector != 0)
-				((Rva004CC829 *)newUpdate)->rva004CC795(defector, oldUpdate->m_endFrame);
+				((Rva004CC829 *)newUpdate)->defectNow(defector, oldUpdate->m_endFrame);
 		}
 	}
 }

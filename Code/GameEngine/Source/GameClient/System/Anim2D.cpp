@@ -826,11 +826,11 @@ public:
 // ------------------------------------------------------------------------------------------------
 /** Drawing an Anim2D using a forced width and height, additive blend (mode 3) via virtual core */
 // ------------------------------------------------------------------------------------------------
-// ?rva002D7127@Rva002D7127@@QAEXHHHH@Z @0x002D7127 150B via BFME1 Anim2DDrawing donor plus virtual Display 0xF8 core with mode 3. Evidence: Anim2D offsets +4 frame +0xC template +0x10 status +0x1C alpha +0x20 collection same as rowed draw 0x002D709A, rowed getFrame 0x002D6B2D, TheDisplay 0x00DFE9D8 slot 0xF8 drawImageCore, rowed tryNextFrame 0x002D6E26.
+// ?queue@Rva002D7127@@QAEXHHHH@Z @0x002D7127 150B via BFME1 Anim2DDrawing donor plus virtual Display 0xF8 core with mode 3. Evidence: Anim2D offsets +4 frame +0xC template +0x10 status +0x1C alpha +0x20 collection same as rowed draw 0x002D709A, rowed getFrame 0x002D6B2D, TheDisplay 0x00DFE9D8 slot 0xF8 drawImageCore, rowed tryNextFrame 0x002D6E26.
 class Rva002D7127 : public Anim2D
 {
 public:
-	void rva002D7127(Int x, Int y, Int width, Int height);
+	void queue(Int x, Int y, Int width, Int height);
 	void rva002D6FFF(Int x, Int y);
 	void rva002D6F80(Real x, Real y, Int opacity);
 
@@ -839,7 +839,7 @@ public:
 	Int m_drawHeight;	///< 0x30
 };
 
-void Rva002D7127::rva002D7127(Int x, Int y, Int width, Int height)
+void Rva002D7127::queue(Int x, Int y, Int width, Int height)
 {
 
 	// get the current image
@@ -861,10 +861,10 @@ void Rva002D7127::rva002D7127(Int x, Int y, Int width, Int height)
 	if (m_collectionSystem == NULL && BitTest(m_status, ANIM_2D_STATUS_FROZEN) == FALSE)
 		tryNextFrame();
 
-}  // end rva002D7127
+}  // end queue
 
 // ?rva002D6FFF@Rva002D7127@@QAEXHH@Z @0x002D6FFF 155B: the natural-size
-// sibling of rva002D7127. Same body as Anim2D::draw(x, y) (0x002D6EF1, the
+// sibling of queue. Same body as Anim2D::draw(x, y) (0x002D6EF1, the
 // image's own width and height at Image +0x24/+0x28) but straight into the
 // virtual Display slot 0xF8 core with mode 2, without the non-virtual
 // Display::drawImage wrapper (0x0004D6B3) that brackets the core between

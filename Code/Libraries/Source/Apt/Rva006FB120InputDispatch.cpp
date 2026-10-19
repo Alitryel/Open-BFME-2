@@ -126,7 +126,7 @@ public:
     char pad6C[0xA0 - 0x6C];
     AptActionQueueC *mpActionQueue; // +0xA0
     void rva006FA7E0(bool first, bool enabled, int value);
-    void rva006FAA20();
+    void ProcessButtonState();
     void rva006FB120(int eType, int state, int value, int device, char isFirst);
 };
 
@@ -234,5 +234,5 @@ void Rva006FB860::rva006FB120(int eType, int state, int value, int device, char 
         m68 = pHit;
     rva006FA7E0(bPressed, bReleased, value);
     if (device == 1)
-        rva006FAA20();
+        ProcessButtonState();
 }

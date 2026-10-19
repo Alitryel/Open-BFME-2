@@ -41,14 +41,14 @@ private:
 class Rva0031934BOwner
 {
 public:
-	void rva0031934B(const AsciiString *key);
+	void createVisualObjects(const AsciiString *key);
 	void rva00318EC0();
 private:
 	unsigned char m_pad[0x88];
 	Rva0031934BHelper *m_88;
 };
 
-void Rva0031934BOwner::rva0031934B(const AsciiString *key)
+void Rva0031934BOwner::createVisualObjects(const AsciiString *key)
 {
 	void *payload = ((Rva002130F6 *)TheLivingWorldManager)->rva002130F6(key);
 	Rva0031934BHelper *helper = m_88;

@@ -295,7 +295,7 @@ public:
 class Rva004482FB : public Rva00447773
 {
 public:
-	Int rva004483BC( UnicodeString name );
+	Int getSlotNum( UnicodeString name );
 };
 
 class LANGameInfo : public Rva004482FB
@@ -638,7 +638,7 @@ void LANAPI::handleInActive( LANMessage *msg, const BfmeNetAddress *sender )
 	UnicodeString playerName;
 	playerName = msg->name;
 
-	Int slotNum = m_currentGame->rva004483BC( playerName );
+	Int slotNum = m_currentGame->getSlotNum( playerName );
 	if( slotNum < 0 )
 		return;
 

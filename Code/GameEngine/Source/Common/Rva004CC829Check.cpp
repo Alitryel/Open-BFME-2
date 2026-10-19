@@ -72,7 +72,7 @@ extern int BfmeLogicFramesPerSecond;
 class Rva004CC829 : public UpdateModule
 {
 public:
-	void rva004CC795(Object *other, unsigned int wakeFrame);
+	void defectNow(Object *other, unsigned int wakeFrame);
 	bool rva004CC829();
 private:
 	unsigned int m_20;
@@ -81,7 +81,7 @@ private:
 	unsigned char m_2c;
 };
 
-// ?rva004CC795@Rva004CC829@@QAEXPAVObject@@I@Z @0x004CC795 (148B).
+// ?defectNow@Rva004CC829@@QAEXPAVObject@@I@Z @0x004CC795 (148B).
 // Target evidence: this+0x08 is the Object passed to testStatus(0x3e) and
 // setWakeFrame; this+0x04 is read at +8 when wakeFrame is zero; this+0x20,
 // +0x24, +0x28 and +0x2c are written here, while the adjacent matched
@@ -91,7 +91,7 @@ private:
 // Structural inference: the first 0x20 bytes are an UpdateModule view
 // (module data +4, Object +8, wake-frame member +0x14); the concrete module
 // identity and the meaning of the other object's +0x304 dword remain unknown.
-void Rva004CC829::rva004CC795(Object *other, unsigned int wakeFrame)
+void Rva004CC829::defectNow(Object *other, unsigned int wakeFrame)
 {
 	if (m_20 != 0)
 		return;

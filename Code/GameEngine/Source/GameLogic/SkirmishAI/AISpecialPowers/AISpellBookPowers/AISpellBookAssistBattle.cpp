@@ -117,7 +117,7 @@ public:
 };
 class Rva005EEA20 {
 public:
-    Object *rva005EEA20(Player *, bool, bool);
+    Object *findUnitInCombat(Player *, bool, bool);
 };
 class AISpellBookBase {
 public:
@@ -141,7 +141,7 @@ bool Rva005D8317::rva005D8443(Object *source)
 {
     bool skipStealth = m_mode == 1;
     bool skipVictim = m_mode == 0;
-    Object *object = reinterpret_cast<Rva005EEA20 *>(&m_mode)->rva005EEA20(
+    Object *object = reinterpret_cast<Rva005EEA20 *>(&m_mode)->findUnitInCombat(
         source->getControllingPlayer(), skipStealth, skipVictim);
     if (object) {
         Rva005EE9CE stats;

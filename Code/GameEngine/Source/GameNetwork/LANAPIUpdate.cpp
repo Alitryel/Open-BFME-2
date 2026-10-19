@@ -313,7 +313,7 @@ public:
 class Rva004482FB : public Rva00447773
 {
 public:
-	Int rva004483BC( UnicodeString name );
+	Int getSlotNum( UnicodeString name );
 };
 
 class LANGameInfo : public Rva004482FB

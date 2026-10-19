@@ -60,7 +60,7 @@ class Rva0037381C { public: void rva00373158(Rva00373373Portal *portal, int key)
 class Rva002E6ECA { public: int get() const; };
 class Rva00372CA8 { public: bool rva00372CEC(int value); };
 class Waypoint { public: void addLink(Waypoint *other); };
-class Rva002E9042 { public: void rva002E8FE5(void *portal); };
+class Rva002E9042 { public: void AddPortal(void *portal); };
 class AI { public: char pad[0x10]; Rva002E9042 *pathfinder; };
 extern AI *TheAI;
 class TerrainLogic {
@@ -148,9 +148,9 @@ void MineshaftPortalNetworkManager::update()
                         ((Waypoint *)wb)->addLink((Waypoint *)wa);
                     }
                     if (!(unsigned char)((Rva002E6ECA *)wa)->get())
-                        TheAI->pathfinder->rva002E8FE5(wa);
+                        TheAI->pathfinder->AddPortal(wa);
                     if (!(unsigned char)((Rva002E6ECA *)wb)->get())
-                        TheAI->pathfinder->rva002E8FE5(wb);
+                        TheAI->pathfinder->AddPortal(wb);
                 }
             }
         }

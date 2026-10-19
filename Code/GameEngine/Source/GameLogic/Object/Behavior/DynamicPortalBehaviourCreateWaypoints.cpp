@@ -70,7 +70,7 @@ public:
 class Rva002E9042
 {
 public:
-	void rva002E8FE5(void *waypoint);
+	void AddPortal(void *waypoint);
 };
 
 class AI
@@ -164,7 +164,7 @@ void Rva00460F90::rva00460F90()
 		
 		if (!alreadyCreated)
 			m_waypoints[first]->addLink(m_waypoints[last]);
-		(alreadyCreated ? TheAI->m_pathfinder : TheAI->m_pathfinder)->rva002E8FE5(m_waypoints[first]);
+		(alreadyCreated ? TheAI->m_pathfinder : TheAI->m_pathfinder)->AddPortal(m_waypoints[first]);
 		if (!alreadyCreated)
 		{
 			const int limit = count - 2;

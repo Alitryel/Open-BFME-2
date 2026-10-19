@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005EEA20@Rva005EEA20@@QAEPAVObject@@PAVPlayer@@_N1@Z, retail 0x005EEA20, 166 bytes.
+// ?findUnitInCombat@Rva005EEA20@@QAEPAVObject@@PAVPlayer@@_N1@Z, retail 0x005EEA20, 166 bytes.
 // First-match finder variant of Rva005EEB7BCollect: same map lookup then
 // LeaField+4 range, TheGameLogic findObjectByID, +4 flag 0x80 at +0x108,
 // optional +0x113 check gated by arg2, +0x258 getCurrentVictim,
@@ -80,10 +80,10 @@ struct IdRange
 class Rva005EEA20
 {
 public:
-	Object *rva005EEA20(Player *player, bool skipStealth, bool skipVictimCheck);
+	Object *findUnitInCombat(Player *player, bool skipStealth, bool skipVictimCheck);
 };
 
-Object *Rva005EEA20::rva005EEA20(Player *player, bool skipStealth, bool skipVictimCheck)
+Object *Rva005EEA20::findUnitInCombat(Player *player, bool skipStealth, bool skipVictimCheck)
 {
 	void *store = g_00DFEEF8->rva002A8F24(player);
 	Rva005C4AD1LeaField *holder = *(Rva005C4AD1LeaField **)store;

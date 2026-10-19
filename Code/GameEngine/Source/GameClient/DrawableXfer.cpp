@@ -414,7 +414,7 @@ public:
 };
 
 // Pathfinder::AddPortal (WB name lead) is still rowed under its placeholder.
-class Rva002E9042 { public: void rva002E8FE5(void *portal); };
+class Rva002E9042 { public: void AddPortal(void *portal); };
 
 class Pathfinder
 {
@@ -595,7 +595,7 @@ void Drawable::createEmbeddedPortals()
 				Waypoint *portal = new Waypoint(0x7ffffffe, AsciiString("#embed"), &positions[j],
 					AsciiString::TheEmptyString, AsciiString::TheEmptyString, AsciiString::TheEmptyString,
 					false, info.extra, AsciiString::TheEmptyString);
-				reinterpret_cast<Rva002E9042 *>(reinterpret_cast<DrawableXferAIView *>(TheAI)->m_pathfinder)->rva002E8FE5(portal);
+				reinterpret_cast<Rva002E9042 *>(reinterpret_cast<DrawableXferAIView *>(TheAI)->m_pathfinder)->AddPortal(portal);
 				if (prev)
 				{
 					prev->addLink(portal);

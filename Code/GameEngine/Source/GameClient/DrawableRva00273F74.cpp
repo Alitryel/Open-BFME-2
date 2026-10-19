@@ -31,7 +31,7 @@ private:
 class Rva002D7127 : public Anim2D
 {
 public:
-	void rva002D7127(int x, int y, int width, int height);
+	void queue(int x, int y, int width, int height);
 };
 
 class Rva00270025
@@ -229,7 +229,7 @@ __declspec(noinline) inline void Drawable::rva00273755()
 		int h = ((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->getCurrentFrameHeight();
 		int y = m_46c - h;
 		int x = (int)((float)dw * 0.5f + (float)m_460 - (float)w * 0.5f);
-		((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->rva002D7127(x, y, w, h);
+		((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->queue(x, y, w, h);
 	} else {
 		rva002736A8();
 	}
@@ -300,7 +300,7 @@ void Drawable::rva00273F74()
             ICoord2D screen;
             screen.x=(int)((float)m_460+(barWidth*0.25f)-(frameWidth*0.5f));
             screen.y=m_46c;
-            getIconInfo()->m_items[icon]->rva002D7127(screen.x,screen.y,frameWidth,frameHeight);
+            getIconInfo()->m_items[icon]->queue(screen.x,screen.y,frameWidth,frameHeight);
         }
     } else {
         killIcon(11);
