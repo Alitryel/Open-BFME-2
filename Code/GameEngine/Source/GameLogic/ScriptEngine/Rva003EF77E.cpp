@@ -25,12 +25,10 @@ template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deal
 }
 
 // The rowed empty-base constructor stays an out-of-line call in retail.
-namespace _STL {
-template <> __declspec(noinline) _Vector_base<BfmeE16, allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16> &a)
-	: _M_start(0), _M_finish(0), _M_end_of_storage(a, (BfmeE16 *)0)
-{
-}
-}
+// The row calls the base ctor out of line; retail's (StlportVectorPushBackFamily.cpp)
+// calls the alloc-proxy ctor, which this TU's copy inlined. Suppress this TU's
+// non-retail copy: the calls bind the kept retail one.
+namespace _STL { template <> _Vector_base<BfmeE16, allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16> &); }
 
 class Rva003EF77E
 {
