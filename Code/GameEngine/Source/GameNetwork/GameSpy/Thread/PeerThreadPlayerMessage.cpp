@@ -38,6 +38,9 @@ namespace _STL { template <> unsigned short * basic_string<unsigned short, char_
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 namespace _STL { template <> unsigned short * __char_traits_base<unsigned short, unsigned short>::move(unsigned short *, unsigned short const *, unsigned int); }
 // bfme link decl-only end
+// _String_base<unsigned short>'s destructor is inlined into every caller here; retail's
+// copy is the 63-byte EH body folded at 0x0000B3C0, so this unit emits none of its own.
+namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<unsigned short, allocator<unsigned short> >::~_String_base() { _M_deallocate_block(); } }
 namespace AtoiIAT { extern "C" __declspec(dllimport) int __cdecl atoi(const char *); }
 struct BfmePeerQMState { unsigned char unknown[0x294]; QMStatus status; };
 class PeerThreadClass { public:
