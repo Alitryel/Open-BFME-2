@@ -111,7 +111,7 @@ extern "C" void __cdecl MMX_idct10_DX(void);
 extern "C" void __cdecl MMX_idct_DX(void);
 extern "C" void __cdecl IDct1(void);	// rowed C body (was address-named Rva009C6360)
 extern "C" void __cdecl IDct10(void);	// rowed C body (was address-named Rva009C5D60)
-extern void __cdecl Rva009C5890(void);
+extern "C" void __cdecl IDctSlow(void);	// rowed C body (was address-named Rva009C5890)
 
 typedef void (__cdecl *BfmeSpreadFn)();
 
@@ -209,7 +209,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 	{
 		BfmeSpreadFn low = (BfmeSpreadFn)&IDct1;
 		BfmeSpreadFn mid = (BfmeSpreadFn)&IDct10;
-		BfmeSpreadFn tail = (BfmeSpreadFn)&Rva009C5890;
+		BfmeSpreadFn tail = (BfmeSpreadFn)&IDctSlow;
 		BfmeSpreadFn *cell;
 
 		for (cell = (BfmeSpreadFn *)((char *)&g_bfmeTableJX + 0x120);

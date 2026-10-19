@@ -1,4 +1,21 @@
 // cl: /Ob0 /DNDEBUG /DWIN32 /D_WINDOWS /MD
+/*
+ * IDctSlow -- the full inverse transform belonging to the On2 VP6 decoder
+ * that game.dat links.  Retail body at RVA 0x001D6190 (1032 bytes), cdecl
+ * with three stack arguments: calls dequant_slow (0x001D5DA0,
+ * Code/Libraries/Source/VP6/Dequant.cpp) into a 64-entry int32 block, then
+ * runs the row pass and the column pass into the int16 output.  Identity:
+ * reverse/vp6_cleanroom/specs/001d6190.md (name, ABI, callee); the slot
+ * UtilMachineSpecificConfig installs it in for the generic CPU tier.
+ * VP6 descends from On2's VP3, and this helper is VP3-heritage text that On2
+ * carried into VP6, like its sibling IDct10 (IDct10.c).
+ *
+ * The body is the previously matched placeholder body (Rva009C5890, a BFME1
+ * byte-identical donor, b1 0x009C5890), renamed: text libtheora 1.0alpha3,
+ * lib/idct.c, IDctSlow -- Xiph.org's BSD-licensed copy of the same On2 VP3
+ * text, whose licence follows (COPYING in this directory).  libtheora itself
+ * is NOT linked into game.dat (see IDct1.c).
+ */
 /********************************************************************
  *                                                                  *
  * THIS FILE IS PART OF THE OggTheora SOFTWARE CODEC SOURCE CODE.   *
@@ -52,7 +69,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef short ogg_int16_t;
 typedef short Q_LIST_ENTRY;
 typedef int ogg_int32_t;
-extern "C" void __cdecl dequant_slow(const short *, const short *, int *);
+void __cdecl dequant_slow(const short *, const short *, int *);
 #define IdctAdjustBeforeShift 8
 #define xC1S7 64277
 #define xC2S6 60547
@@ -62,7 +79,7 @@ extern "C" void __cdecl dequant_slow(const short *, const short *, int *);
 #define xC6S2 25080
 #define xC7S1 12785
 
-void Rva009C5890(  Q_LIST_ENTRY * InputData,
+void IDctSlow(  Q_LIST_ENTRY * InputData,
                 ogg_int16_t *QuantMatrix,
                 ogg_int16_t * OutputData ) {
   ogg_int32_t IntermediateData[64];
@@ -269,7 +286,3 @@ void Rva009C5890(  Q_LIST_ENTRY * InputData,
     op++;
   }
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?Rva009C5890@@YAXXZ=?Rva009C5890@@YAXPAF00@Z")
