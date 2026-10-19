@@ -1,5 +1,3 @@
-// ?Thread_Function@BuddyThreadClass@@MAEXXZ
-// partial score=0.99 date=2026-10-17
 // cl: /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHsc -D_STLP_USE_STATIC_LIB  -Ireference/open-bfme-1/inputs/reference/shims/sweep -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 // Target candidate BuddyThreadClass::Thread_Function552027..552BD2 (2987B),
@@ -13,12 +11,12 @@
 // full account enumeration with case-insensitive nick match and two type23
 // peer responses. Globals reuse existing listener flags; E05FC4 facade is
 // distinct native storage. Address-derived FESL views retain uncertain names.
-// Bank ONLY: pure-C++ main remains2990B versus native2987B because case4
-// recomputes the GPConnection address instead of keeping it in EDI across
-// new-user connect and optional info-mask call. Every preceding non-relocation
-// instruction through552A60 agrees after the response-store order fix;
-// affected branches differ, so this is not byte verified and must not land.
-// Raw COFF extent3044 includes local catch/table metadata, not all main code.
+// Main 2987B and catch funclet/jump table (3041B raw) byte-exact: the
+// GPConnection pointer `con` is declared after lastStatusString (WB keeps a
+// separate con local next to lastStatusString) and used by every gp* call
+// from there on; gpInitialize/gpSetCallback take &gpCon directly. Declaring
+// it earlier overlaps callbackWrapper's EDI and evicts the EBX zero; case-4
+// scope or &gpCon everywhere loses the EDI copy across connect/info-mask.
 // EH graph and class/provider linkage still require verification on landing.
 #define __PLACEMENT_VEC_NEW_INLINE
 #include <stdlib.h>
@@ -35,7 +33,7 @@ namespace _STL { template<> void vector<AsciiString>::push_back(const AsciiStrin
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 
-typedef void *GPConnection;
+class GPConnection { public: void *m_handle; };  // GameSpy GP connection handle (a class, as BuddyThread.cpp and the callbackWrapper row)
 typedef void (*Rva00438CD0Callback)(GPConnection *,void *,void *);
 void callbackWrapper(GPConnection *,void *,void *);
 extern "C" {
@@ -237,6 +235,7 @@ void BuddyThreadClass::Thread_Function()
             gpSetCallback(&gpCon,4,callbackWrapper,(void*)5);
             int lastStatus = 0;
             std::string lastStatusString;
+            GPConnection *con = &gpCon;
             BuddyRequest request;
             for (;;)
             {
@@ -365,7 +364,7 @@ void BuddyThreadClass::Thread_Function()
                         BfmeA1279 authentication((BfmeQ1279 *)&serviceResult);
                         m_84 = authentication.m_bfme04;
                         m_90 = authentication.m_bfme104;
-                        if (gpConnectPreAuthenticatedA(&gpCon,authentication.m_bfme04,authentication.m_bfme104,
+                        if (gpConnectPreAuthenticatedA(con,authentication.m_bfme04,authentication.m_bfme104,
                                 request.arg.login.hasFirewall?1:0,0,callbackWrapper,0))
                         {
                             BuddyResponse failed;
@@ -377,26 +376,25 @@ void BuddyThreadClass::Thread_Function()
                     }
                     case 1:
                         m_isConnecting=true;
-                        m_isConnected=(gpConnectA(&gpCon,m_nick.c_str(),m_email.c_str(),m_password.c_str(),1,1,callbackWrapper,0)==0);
+                        m_isConnected=(gpConnectA(con,m_nick.c_str(),m_email.c_str(),m_password.c_str(),1,1,callbackWrapper,0)==0);
                         m_isConnecting=false;
                         break;
                     case 10:
                         m_isDeleting=true;
-                        gpDeleteProfile(&gpCon);
+                        gpDeleteProfile(con);
                         break;
                     case 2:
                         m_isConnecting=m_isConnected=false;
-                        gpDisconnect(&gpCon);
+                        gpDisconnect(con);
                         break;
                     case 3:
                     {
                         std::string message=WideCharStringToMultiByte(request.arg.message.text);
-                        gpSendBuddyMessageA(&gpCon,request.arg.message.id,message.c_str());
+                        gpSendBuddyMessageA(con,request.arg.message.id,message.c_str());
                         break;
                     }
                     case 4:
                     {
-                        GPConnection *con=&gpCon;
                         m_isConnecting=true;
                         m_nick=request.arg.login.nick;
                         m_email=request.arg.login.email;
@@ -409,28 +407,28 @@ void BuddyThreadClass::Thread_Function()
                         m_isConnecting=false;
                         break;
                     }
-                    case 11: gpInvitePlayerA(&gpCon,request.arg.message.id,0x2911,(const char*)request.arg.message.text); break;
+                    case 11: gpInvitePlayerA(con,request.arg.message.id,0x2911,(const char*)request.arg.message.text); break;
                     case 5:
                     {
                         std::string message=WideCharStringToMultiByte(request.arg.message.text);
-                        gpSendBuddyRequestA(&gpCon,request.arg.message.id,message.c_str());
+                        gpSendBuddyRequestA(con,request.arg.message.id,message.c_str());
                         break;
                     }
-                    case 6: gpDeleteBuddy(&gpCon,request.arg.message.id); break;
-                    case 7: gpAuthBuddyRequest(&gpCon,request.arg.message.id); break;
-                    case 8: gpDenyBuddyRequest(&gpCon,request.arg.message.id); break;
+                    case 6: gpDeleteBuddy(con,request.arg.message.id); break;
+                    case 7: gpAuthBuddyRequest(con,request.arg.message.id); break;
+                    case 8: gpDenyBuddyRequest(con,request.arg.message.id); break;
                     case 9:
                         if (lastStatus==2 && lastStatusString=="Loading" && request.arg.status.status==1) break;
-                        gpSetStatusA(&gpCon,request.arg.status.status,request.arg.status.text,request.arg.status.location);
+                        gpSetStatusA(con,request.arg.status.status,request.arg.status.text,request.arg.status.location);
                         lastStatus=request.arg.status.status;
                         lastStatusString=request.arg.status.text;
                         break;
                     }
                 }
-                gpProcess(&gpCon);
+                gpProcess(con);
                 if (g_buddyFeslService) ((Rva006575F0*)g_buddyFeslService)->rva006575F0();
             }
-            gpDestroy(&gpCon);
+            gpDestroy(con);
         }
     }
     catch (...) {}
