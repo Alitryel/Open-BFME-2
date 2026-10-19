@@ -14,6 +14,13 @@
 // actual call displacements prove the two providers388F63/5530A8 instead.
 // Constructor and ID-value temporaries retain the native lifetimes/stack homes.
 #include <map>
+// map<int,int>::empty inlines at its one use here; imported force-inline so
+// this unit emits no non-retail COMDAT copy of the tree's empty().
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::empty() const
+{ return _M_node_count == 0; }
+}
 #include <set>
 #include "Common/BfmeAudioEventPrefix136.h"
 #include "GameLogicObjectLookupView.h"
@@ -41,7 +48,9 @@ class Drawable { public: Rva002390CB rva00462DAE(); Rva002390CB rva00462DC7(); }
 class Object { public: Drawable *getDrawable() const; bool addAttributeModifierToPool(const AsciiString &, int); int getID() const { return *reinterpret_cast<const int *>(reinterpret_cast<const char *>(this)+0x74); } };
 struct Rva00464D02Object { char unknown00[0x74]; int id74; };
 class Rva002D9531 { public: void rva002D9531(int); };
-class Rva000B6253 { public: Rva000B6253(int,unsigned,unsigned,unsigned,unsigned,unsigned); unsigned words[19]; operator const int *() const { return reinterpret_cast<const int *>(this); } };
+// The 0x000B6253 initializer is rowed as a this-returning member
+// (Rva000B6253::rva000B6253), so it is called on an uninitialized temporary.
+class Rva000B6253 { public: Rva000B6253() {} Rva000B6253 *rva000B6253(int,unsigned,unsigned,unsigned,unsigned,unsigned); unsigned words[19]; };
 struct Rva001E42F2 { void rva001E42F2(const int *); };
 struct Rva00463E09Record { char word; };
 struct Rva00463D9BElement {
@@ -89,7 +98,7 @@ void OpenContain::onRemoving(Object *rider)
         TheAudio->event(&sound);
         state1C.erase(rider->getID());
         names28.erase(opaqueKey(rider->getID()));
-        reinterpret_cast<Rva001E42F2 *>(rider)->rva001E42F2(Rva000B6253(0,194,195,196,197,198));
+        reinterpret_cast<Rva001E42F2 *>(rider)->rva001E42F2(reinterpret_cast<const int *>(Rva000B6253().rva000B6253(0,194,195,196,197,198)));
         Rva00464D02Data *module = data();
         if (module->bonusBegin != module->bonusEnd && !timesD0.empty()) {
             Rva00464D02Times::iterator it; it = timesD0.find(rider->getID());
