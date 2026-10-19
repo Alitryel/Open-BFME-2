@@ -1,4 +1,6 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
+// partial score=0.794 date=2026-10-19
+// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.794 date=2026-10-17
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.9 date=2026-10-15
@@ -273,6 +275,7 @@ class Rva00222A8BTarget
  
 }
 ;
+class Rva002239B2 { public: void rva002239E2(const AsciiString &name, const Image *image); };
 class BfmeAptWindowManager
 
 {
@@ -908,20 +911,14 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 void AptScoreScreen::rva0051DE3D()
 
 {
- struct { AptScoreObjectives *v; unsigned char pad[3]; } _o = { m_objectives };
- struct { int v; unsigned char pad[3]; } _c = { 0 };
- AptScoreObjectives *objectives = _o.v;
- if (!objectives)
+ if (!m_objectives)
  return;
- int count = objectives->m_count;
- _c.v = count;
- count = _c.v;
- for (int i = 0; i < count; ++i)
+ for (int i = 0; i < m_objectives->m_count; ++i)
  
  {
   AsciiString key;
   key.format("APT:objective%d", i);
-  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(objectives->m_labels[i].str()), false);
+  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(m_objectives->m_labels[i].str()), false);
   
  }
  if (!TheGameLogic || !TheThingFactory)
@@ -961,9 +958,9 @@ void AptScoreScreen::rva0051DE3D()
  
  {
   AsciiString key;
-  int slot = (int)(m_heroUpgrades.end() - m_heroUpgrades.begin()) + 1;
+  int slot = m_heroUpgrades.size() + 1;
   key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", slot);
-  TheRva00222A8BTarget->rva002239E2(key, heroes[k].image);
+  ((Rva002239B2 *)TheRva00222A8BTarget)->rva002239E2(key, heroes[k].image);
   m_heroUpgrades.push_back(heroes[k].upgraded);
   
  }
@@ -1012,13 +1009,13 @@ void AptScoreScreen::rva0051DE3D()
    
    {
     AsciiString key("Result/Infos/ScoreMap/Picture/Image");
-    TheRva00222A8BTarget->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
+    ((Rva002239B2 *)TheRva00222A8BTarget)->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
     
    }
    
    {
     AsciiString key("SubMenus/TerritoryBonus/TerritoryMap/TerritoryMap/Picture/Image");
-    TheRva00222A8BTarget->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
+    ((Rva002239B2 *)TheRva00222A8BTarget)->rva002239E2(key, ((Rva003F038E *)region)->rva003F03B9());
     
    }
    if (m_280 == 1)
