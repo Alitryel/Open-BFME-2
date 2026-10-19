@@ -80,6 +80,13 @@ private:
 
 typedef RefCountPtr<TextureClass> TextureVectorCell;
 
+// The vector deleting destructor (??_E) takes the optimization state of the
+// first function that needs it. Retail links one copy, the /O1 body at
+// 0x0004559C; this unemitted anchor makes this unit's copy that same body.
+#pragma optimize("gsy", on)
+static void bfmeVecDelAnchor(TextureVectorCell *p) { delete [] p; }
+#pragma optimize("", on)
+
 class TextureVectorBaseCtorShim
 {
 public:

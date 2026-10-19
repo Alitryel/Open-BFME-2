@@ -29,6 +29,9 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+// Retail's SimpleVecClass<Vector2>::Resize (0x001883F0) is the nothrow-delete body.
+void __cdecl operator delete[](void *) throw();
+void __cdecl operator delete(void *) throw();
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
