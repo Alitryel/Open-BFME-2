@@ -29,7 +29,16 @@ struct DeblockPlaneLocals
     DeblockBandCallback rowFunction;
 };
 
-static DeblockBandCallback g_rva01356EB4;
+// The band deblocker is slot 21 (VA 0x00E22FD0) of the codec dispatch table
+// at VA 0x00E22F7C that PostProcMachineSpecificConfig
+// (PostProcMachineSpecificConfig.cpp) defines and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356EB4 (*(DeblockBandCallback *)&g_bfmeCodecDispatch.slot[21])
 // Retail 0x001BE490 (DeblockVerticalEdges.cpp).
 extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBandNewFilter(
 	Rva009AF200Context *, unsigned char *, unsigned char *,

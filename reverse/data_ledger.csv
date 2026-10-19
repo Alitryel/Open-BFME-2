@@ -21888,8 +21888,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A22FBC,4,.data,global,?g_rva01356EA0@@3P6AXPAURva009A6130Context@@PAE1HHPBH@ZA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,4
 0x00A22FC0,4,.data,global,?g_lastVerticalScale21Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,1
 0x00A22FC4,8,.data,global,?g_verticalScale35Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2
-0x00A22FCC,4,.data,global,?g_horizontalScale35Slot@@3P6AXPBEIPAEI@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,5
-0x00A22FD0,12,.data,global,_g_rva01356EB4,Code/Libraries/Source/VP6/DeblockPlaneNew.cpp,owned,,1,1
+0x00A22FCC,16,.data,global,?g_horizontalScale35Slot@@3P6AXPBEIPAEI@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,5
 0x00A22FDC,292,.data,global,?g_rva01356EC0@@3P6AXPAURva009A6130Context@@PAE1HHPBH@ZA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,16
 0x00A23100,512,.data,global,?g_bfmeClampTable@@3QBEB,Code/Libraries/Source/VP6/FilteringC.cpp,owned,,1,57
 0x00A23300,4,.data,global,?g_bfmeSharedJX@@3HA,Code/Libraries/Source/VP6/CreatePBInstance.cpp,owned,,1,2
