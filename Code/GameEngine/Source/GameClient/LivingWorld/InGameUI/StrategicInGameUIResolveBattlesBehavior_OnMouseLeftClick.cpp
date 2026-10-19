@@ -281,7 +281,8 @@ int StrategicInGameUI::ResolveBattlesBehavior::Impl::OnMouseLeftClick(const IReg
  return 0;
 }
 
-class Rva0057539C { public: void rva0057539C(); };
+// 0x0057539C is rowed as Rva00575383's member forwarder (Rva0057539CForwarders.cpp).
+class Rva00575383 { public: void rva0057539C(); };
 class Rva005CD010 { public: void rva005CD010(); };
 class Rva005CCEB6 { public: void rva005CCEB6(); };
 class Rva005CD708 { public: void rva005CD708(); };
@@ -317,7 +318,7 @@ struct ResolveUpdateImplView {
 void StrategicInGameUI::ResolveBattlesBehavior::Impl::Update()
 {
  ResolveUpdateImplView *state=reinterpret_cast<ResolveUpdateImplView *>(this);
- reinterpret_cast<Rva0057539C *>(state->ui)->rva0057539C();
+ reinterpret_cast<Rva00575383 *>(state->ui)->rva0057539C();
  void *player=reinterpret_cast<ResolveUpdateWorldView *>(TheLivingWorldLogic)->localPlayer;
  if(player!=state->localPlayer) {
   reinterpret_cast<Rva000AD6F4 *>(&state->battleState)->clear();
