@@ -6,7 +6,7 @@
 // S4SortElem12 (int m_a; AsciiString m_name; char m_flag;) instead of the
 // (char; AsciiString; int) layout the 0x00531A40 twin uses.  Its adjust-heap
 // call uses the matched _STL::__adjust_heap<S4SortElem12 *, int,
-// S4SortElem12, S4Cmp002E0CD0> specialization at 0x002E07A0.
+// S4SortElem12, S4Cmp002E1690> specialization at 0x002E07A0.
 
 #include "ascii_string.h"
 
@@ -17,7 +17,7 @@ struct S4SortElem12
 	char m_flag;
 };
 
-struct S4Cmp002E0CD0
+struct S4Cmp002E1690
 {
 	void *m_state;
 	bool operator()(S4SortElem12, S4SortElem12) const;
@@ -31,9 +31,9 @@ void __adjust_heap(RandomAccessIterator first, Distance hole, Distance len,
 }
 
 void Rva002E0BC0PopHeap(S4SortElem12 *first, S4SortElem12 *last,
-	S4SortElem12 *result, S4SortElem12 value, S4Cmp002E0CD0 comp, int *)
+	S4SortElem12 *result, S4SortElem12 value, S4Cmp002E1690 comp, int *)
 {
 	*result = *first;
-	_STL::__adjust_heap<S4SortElem12 *, int, S4SortElem12, S4Cmp002E0CD0>(
+	_STL::__adjust_heap<S4SortElem12 *, int, S4SortElem12, S4Cmp002E1690>(
 		first, 0, last - first, value, comp);
 }

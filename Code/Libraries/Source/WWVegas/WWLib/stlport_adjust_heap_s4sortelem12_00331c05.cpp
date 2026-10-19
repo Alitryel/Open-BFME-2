@@ -2,7 +2,7 @@
 // stlport
 //
 // STLport __adjust_heap<S4SortElem12*, int, S4SortElem12,
-// S4Cmp002E0CD0>, placed from a retail call at 0x00331DED in the byte-true
+// S4Cmp002E1690>, placed from a retail call at 0x00331DED in the byte-true
 // Rva002E0BC0PopHeap body (0x00331DAE). The same specialization is called by
 // the rowed make_heap body at 0x00331E28. The address pin records the
 // REL32-derived target 0x00331C05; Ghidra gives that boundary as 165 bytes.
@@ -28,7 +28,7 @@ struct S4SortElem12
 	S4SortElem12 &operator=(const S4SortElem12 &);
 };
 
-struct S4Cmp002E0CD0
+struct S4Cmp002E1690
 {
 	void *m_bfmeState;
 	bool operator()(const S4SortElem12 &left, const S4SortElem12 &right) const
@@ -40,7 +40,7 @@ struct S4Cmp002E0CD0
 namespace _STL
 {
 template void __adjust_heap<S4SortElem12 *, int, S4SortElem12,
-	S4Cmp002E0CD0>(S4SortElem12 *, int, int, S4SortElem12, S4Cmp002E0CD0);
+	S4Cmp002E1690>(S4SortElem12 *, int, int, S4SortElem12, S4Cmp002E1690);
 template void __push_heap<S4SortElem12 *, int, S4SortElem12,
-	S4Cmp002E0CD0>(S4SortElem12 *, int, int, S4SortElem12, S4Cmp002E0CD0);
+	S4Cmp002E1690>(S4SortElem12 *, int, int, S4SortElem12, S4Cmp002E1690);
 }
