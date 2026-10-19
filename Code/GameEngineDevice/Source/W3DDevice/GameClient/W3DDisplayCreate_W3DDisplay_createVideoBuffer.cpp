@@ -127,7 +127,22 @@ public:
 	bool supportTextureFormat(WW3DFormat format);
 };
 
-extern W3DRadarFormatCaps *TheW3DRadarFormatCaps;
+// The caps at 0x00DEDA7C are DX8Wrapper's protected CurrentCaps (defined in
+// dx8wrapper.cpp), read through its public inline accessor.
+class DX8Caps;
+class DX8Wrapper
+{
+public:
+	static const DX8Caps *Get_Current_Caps() { return CurrentCaps; }
+
+protected:
+	static DX8Caps *CurrentCaps;
+};
+
+static __forceinline W3DRadarFormatCaps *radarFormatCaps()
+{
+	return (W3DRadarFormatCaps *)DX8Wrapper::Get_Current_Caps();
+}
 
 int Rva0011F1B0Get(void);
 int Rva00739D20(int format, bool allowAlpha);
@@ -161,22 +176,22 @@ VideoBuffer *W3DDisplay::createVideoBuffer(bool allowAlpha)
 	BFMEDX8DeviceLock lock;
 	int format = 0;
 
-	if (allowAlpha && TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x15))
+	if (allowAlpha && radarFormatCaps()->supportTextureFormat((WW3DFormat)0x15))
 		format = 5;
 	else
 	{
 		int native = Rva0011F1B0Get();
-		if (TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)native))
+		if (radarFormatCaps()->supportTextureFormat((WW3DFormat)native))
 			format = Rva00739D20(native, allowAlpha);
 		if (format == 0)
 		{
-			if (TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x16))
+			if (radarFormatCaps()->supportTextureFormat((WW3DFormat)0x16))
 				format = 2;
-			else if (TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x14))
+			else if (radarFormatCaps()->supportTextureFormat((WW3DFormat)0x14))
 				format = 1;
-			else if (TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x17))
+			else if (radarFormatCaps()->supportTextureFormat((WW3DFormat)0x17))
 				format = 3;
-			else if (TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x18))
+			else if (radarFormatCaps()->supportTextureFormat((WW3DFormat)0x18))
 				format = 4;
 			else
 				return 0;

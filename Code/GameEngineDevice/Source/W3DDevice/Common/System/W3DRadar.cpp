@@ -101,14 +101,20 @@ public:
 	Bool supportTextureFormat(WW3DFormat format);
 };
 
-extern W3DRadarFormatCaps *TheW3DRadarFormatCaps;
+// The caps at 0x00DEDA7C are DX8Wrapper's CurrentCaps, read through the
+// header's public Get_Current_Caps accessor.
+
+static __forceinline W3DRadarFormatCaps *radarFormatCaps()
+{
+	return (W3DRadarFormatCaps *)DX8Wrapper::Get_Current_Caps();
+}
 
 static __declspec(noinline) WW3DFormat findFormat(const WW3DFormat formats[])
 {
 	for( Int i = 0; formats[ i ] != WW3D_FORMAT_UNKNOWN; i++ )
 	{
 
-		if( TheW3DRadarFormatCaps->supportTextureFormat( formats[ i ] ) )
+		if( radarFormatCaps()->supportTextureFormat( formats[ i ] ) )
 		{
 
 			return formats[ i ];
@@ -992,8 +998,6 @@ void W3DRadar::refreshTerrain( TerrainLogic *terrain )
 
  *
  */
-// ?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.
-#pragma comment(linker, "/alternatename:?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 
 // Inferred role name for the four-byte color read by native4E55B at VA DE1CF8.
 // PE section bounds prove its initial storage is zero-filled. Its original

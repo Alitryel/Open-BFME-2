@@ -4770,7 +4770,6 @@ alternatename	Code/GameEngine/Source/Main/Win32GameEngineCtor.cpp	?m_unknown24@G
 alternatename	Code/GameEngine/Source/Main/Win32GameEngineCtor.cpp	?setIsActive@GameEngine@@UAEX_N@Z	1
 alternatename	Code/GameEngine/Source/Main/WinMain.cpp	?theBfmeDfe6e8@@3PAVBfmeDfe6e8@@A	1
 alternatename	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerUnselectProvider.cpp	?TheVideoPlayer@@3PAVVideoPlayer@@A	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/BFME2LoadParticleTexture.cpp	?bfmeDoBNH@@YAXPAVBfmeThingBNH@@PAXHH@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/BFMERopeDrawableGetPosition.cpp	_D3DXVec3CatmullRom@24	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/Rva000B7539Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
@@ -5206,7 +5205,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??1WriteLock@BfmeSortingVBAccess@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?BfmeCurrentCaps@@3PAEA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?BfmeCurrentCaps@@3PAVBfmeCaps@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicVBInUse@@3PA_NA	1
@@ -39054,21 +39052,14 @@ present_unmatched	Code/GameEngine/Source/GameNetwork/V2FeslArrayBlocks.cpp	clear
 present_unmatched	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp	Rva00059068Tree::~Rva00059068Tree	1
 present_unmatched	Code/GameEngineDevice/Source/MilesAudioDevice/Rva00052B3D.cpp	0Elem4@@QAE@XZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	?	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	buildTerrainTexture@W3DRadar@@IAEXPAVTerrainLogic@@@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	deleteResources@W3DRadar@@IAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	draw@W3DRadar@@UAEXHHHH@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	drawEvents@W3DRadar@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	drawHeroIcon@W3DRadar@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	drawIcons@W3DRadar@@IAEXHHHH@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	drawSingleBeaconEvent@W3DRadar@@IAEXHHHHH@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	drawSingleGenericEvent@W3DRadar@@IAEXHHHHH@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	getSurfaceLevel@W3DRadarResetTexture@@QAE?AVW3DRadarResetSurface@@XZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	init@W3DRadar@@UAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	newMap@W3DRadar@@UAEXPAVTerrainLogic@@@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	reconstructViewBox@W3DRadar@@IAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	renderObjectList@W3DRadar@@IAEXPBVRadarObject@@PAVTextureClass@@_N@Z	2
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	reset@W3DRadar@@UAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	setShroudLevel@W3DRadar@@UAEXHHW4CellShroudStatus@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	update@W3DRadar@@UAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDraw.cpp	1W3DDebrisDraw@@MAE@XZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDraw.cpp	crc@W3DDebrisDraw@@MAEXPAVXfer@@@Z	1
