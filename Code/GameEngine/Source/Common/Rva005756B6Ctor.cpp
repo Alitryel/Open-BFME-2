@@ -17,8 +17,7 @@ public:
 class Rva005CBA04
 {
 public:
-	// Empty: retail's 0x005CB9F3 only stores this class's vtable.
-	virtual ~Rva005CBA04() {}
+	virtual ~Rva005CBA04();
 	Rva005CBA04(BfmeFixedStorage002CF0F0 storage);
 private:
 	BfmeFixedStorage002CF0F0 m_storage;

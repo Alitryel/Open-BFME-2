@@ -27,7 +27,9 @@ class Rva00574815 : public Rva005CBA04
 {
 public:
 	Rva00574815(int arg);
-	virtual ~Rva00574815();
+	// Empty: retail's vtable slot 0 (deleting dtor 0x005E5A66) calls 0x00576FCE,
+	// one jump to the base dtor 0x005CB9F3.
+	virtual ~Rva00574815() {}
 private:
 	int m_08;
 };
