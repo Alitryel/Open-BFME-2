@@ -13,6 +13,10 @@ struct Rva0039627D {
 	void *m_00;
 	BfmeStringRecord004071F7 m_04;
 	Rva0039627D(void **p, const BfmeStringRecord004071F7 &rec);
+	// Declared only: this unit's implicit copy (a jump to the record
+	// destructor) is not retail's 0x0029D7C2 body, which the users that
+	// see the record's AsciiString emit.
+	~Rva0039627D();
 };
 
 struct Rva0039627D __cdecl Rva00396943Construct(void **p, const struct BfmeStringRecord004071F7 &rec)

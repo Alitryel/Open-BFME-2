@@ -38,11 +38,13 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class SidesList
+// 0x0032C2FF is rowed as Rva0032C2FF::rva0032C2FF on the sides list.
+class Rva0032C2FF
 {
 public:
 	void rva0032C2FF(const AsciiString &templateName);
 };
+class SidesList;
 
 extern SidesList *TheSidesList;
 
@@ -119,5 +121,5 @@ void CastleBehaviorModuleData::rva0039981E( INI *ini, void * /*instance*/, void 
 
 	((Rva0039981EMap *)store)->insert( Rva00396943Construct( &key, record ) );
 
-	TheSidesList->rva0032C2FF( templateName );
+	((Rva0032C2FF *)TheSidesList)->rva0032C2FF( templateName );
 }
