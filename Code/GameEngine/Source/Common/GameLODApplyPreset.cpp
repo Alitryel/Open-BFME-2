@@ -244,7 +244,7 @@ class LODTerrainSlots {public:
  virtual void slot129();
  virtual void slot130();
 };
-class G00DFF080Obj; extern G00DFF080Obj *g_00DFF080;
+class G00DFF080Obj; extern G00DFF080Obj *TheTerrainVisual;
 class LODPostSlots {public:
  virtual void slot0();
  virtual void slot1();
@@ -294,7 +294,7 @@ void Rva00DFE144Globals::rva002022E9(int level)
  GD->field24=info.particles<=0;GD->field1C=info.treeSway;
  control44=info.opaque44;control48=info.opaque48;
  if(TheTerrainRenderObject){LODRenderLock lock;((LODTerrainSlots*)TheTerrainRenderObject)->slot129();((LODTerrainSlots*)TheTerrainRenderObject)->slot130();}
- if(g_00DFF080)((LODPostSlots*)g_00DFF080)->slot9();
+ if(TheTerrainVisual)((LODPostSlots*)TheTerrainVisual)->slot9();
  GD->fieldAF0=controlProcessor>1&&!GD->fieldAF1;
  if(TheShell)TheShell->showShellMap(true,true);
 }

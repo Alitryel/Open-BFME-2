@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva0029A94F@Rva0029A94F@@QAEXXZ @0x0029A94F 101B. Loop over GlobalData count at +0xA94 clearing ptr slots at this+0x544 via g_00DFF080 slot 0x34 and TheGameClient slot 0x74 then tail to g_00DFF080 slot 0x38. Evidence: retail immediates 0x00DFE758 TheWritableGlobalData 0x00DFE77C TheGameClient 0x00DFF080 plus callers 0x0029BB8B 0x002A242A.
+// ?rva0029A94F@Rva0029A94F@@QAEXXZ @0x0029A94F 101B. Loop over GlobalData count at +0xA94 clearing ptr slots at this+0x544 via TheTerrainVisual slot 0x34 and TheGameClient slot 0x74 then tail to TheTerrainVisual slot 0x38. Evidence: retail immediates 0x00DFE758 TheWritableGlobalData 0x00DFE77C TheGameClient 0x00DFF080 plus callers 0x0029BB8B 0x002A242A.
 extern class GlobalData *TheWritableGlobalData;
 class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 
@@ -32,8 +32,8 @@ public:
 	virtual void v12(); virtual void v13(void *p); virtual void v14();
 };
 
-// g_00DFF080: matched references place it at VA 0xdff080 (retail .data initial value 0).
-G00DFF080Obj * g_00DFF080 = 0;
+// TheTerrainVisual: matched references place it at VA 0xdff080 (retail .data initial value 0).
+G00DFF080Obj * TheTerrainVisual = 0;
 
 struct Rva0029A94FSlot
 {
@@ -57,10 +57,10 @@ void Rva0029A94F::rva0029A94F()
 		void *p = m_slots[i].ptr;
 		if (p != 0)
 		{
-			g_00DFF080->v13(p);
+			TheTerrainVisual->v13(p);
 			(*(GameClientHolder **)&TheGameClient)->s29(m_slots[i].ptr);
 		}
 		m_slots[i].ptr = 0;
 	}
-	return g_00DFF080->v14();
+	return TheTerrainVisual->v14();
 }

@@ -7,7 +7,7 @@
 // as this: a TerrainLogic member that replaces ecx with the manager. Same
 // manager family as Rva0027D3CBForward/Rva00306769Forward.
 struct Coord3D;
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 
 class Rva009FF080Manager0027D1A4
 {
@@ -31,7 +31,7 @@ public:
 	virtual void _slot16(void *a, float b, int c);
 };
 
-#define TheRva009FF080Manager0027D1A4 (*(Rva009FF080Manager0027D1A4 **)&g_00DFF080)
+#define TheRva009FF080Manager0027D1A4 (*(Rva009FF080Manager0027D1A4 **)&TheTerrainVisual)
 
 class TerrainLogic
 {

@@ -357,7 +357,7 @@ public:
 		Real randomScaleAmount, const W3DTreeDrawModuleData *data, Int shadowType,
 		const AsciiString *shadowTextureName, const AsciiString *name); // +0x68
 };
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 
 class DebugReport
 {
@@ -548,7 +548,7 @@ void TerrainLogic::rva00280176(const ThingTemplate *tmpl, const Coord3D *pos, co
 	}
 	DrawableID id = (DrawableID)((Rva00238E1B *)TheGameClient)->rva00238E1B();
 	Int shadowType = tmpl->getShadowType();
-	g_00DFF080->addShrub(id, *pos, scale, mtx, 0.0f, md, shadowType,
+	TheTerrainVisual->addShrub(id, *pos, scale, mtx, 0.0f, md, shadowType,
 		&tmpl->getShadowTextureName(), &tmpl->getName());
 }
 
@@ -591,7 +591,7 @@ void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const 
 	((FoldedAppendVector *)&m_records)->push_back((const ModuleData *)rec);
 	m_584->addObject(rec);
 	Int shadowType = tmpl->getShadowType();
-	g_00DFF080->addTree(id, *pos, scale, mtx, 0.0f, md, shadowType,
+	TheTerrainVisual->addTree(id, *pos, scale, mtx, 0.0f, md, shadowType,
 		&tmpl->getShadowTextureName(), &tmpl->getName());
 	if (TheFireLogicSystem())
 		TheFireLogicSystem()->rva00286373(id, pos, tmpl);

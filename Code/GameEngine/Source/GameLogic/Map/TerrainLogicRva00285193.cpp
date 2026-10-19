@@ -1,7 +1,7 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /ICode/Libraries/Include/Lib
 #include "Coord3D.h"
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 template<int N> class Rva00285193Slots : public Rva00285193Slots<N-1>
 {
 public:
@@ -49,7 +49,7 @@ public:
 };
 void TerrainLogic::rva00285193(Object *argument)
 {
-    reinterpret_cast<Rva00285193GlobalView *>(g_00DFF080)->slot6C(argument);
+    reinterpret_cast<Rva00285193GlobalView *>(TheTerrainVisual)->slot6C(argument);
     if (!(reinterpret_cast<Rva00285193ObjectView *>(argument)->data->flags108 & 4)
         && (argument->rva00294815() > 1
             || (reinterpret_cast<Rva00285193ObjectView *>(argument)->data->flags109 & 8))

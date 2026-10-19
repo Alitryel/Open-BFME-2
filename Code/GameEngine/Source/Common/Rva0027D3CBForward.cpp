@@ -6,7 +6,7 @@
 // that verified provider returns false or forwards the word, and ends RET 4.
 // The old void/four-argument declaration confused this with TerrainLogic's
 // unrelated water-height slot. The receiver is unused in this forwarding body.
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 
 class Rva009FF080Manager0027D3CB
 {
@@ -46,7 +46,7 @@ public:
 	virtual bool _slot32(int handle);
 };
 
-#define TheRva009FF080Manager0027D3CB (*(Rva009FF080Manager0027D3CB **)&g_00DFF080)
+#define TheRva009FF080Manager0027D3CB (*(Rva009FF080Manager0027D3CB **)&TheTerrainVisual)
 
 class Rva0027D3CB
 {

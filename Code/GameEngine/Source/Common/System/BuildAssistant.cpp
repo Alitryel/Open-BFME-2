@@ -601,7 +601,7 @@ public:
 	virtual void addFactionBib(Object *factionBuilding, Bool highlight, Real extra = 0);	// +0x28
 };
 
-extern G00DFF080Obj *g_00DFF080;	// TheTerrainVisual
+extern G00DFF080Obj *TheTerrainVisual;	// TheTerrainVisual
 
 // What ThingFactory::newObject takes: the initial status bits.
 struct CreateMask
@@ -1678,7 +1678,7 @@ void BuildAssistant::addBibs( const Coord3D *worldPos, const ThingTemplate *buil
 			continue;
 
 		if( them->isKindOf( KINDOF_2 ) )
-			g_00DFF080->addFactionBib( them, TRUE );
+			TheTerrainVisual->addFactionBib( them, TRUE );
 
 	}
 

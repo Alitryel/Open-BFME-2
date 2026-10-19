@@ -520,7 +520,7 @@ public:
 // Use the existing storage owner; TheTerrainVisual in other units denotes
 // the distinct campaign-manager global at VA 0x00DFDC8C.
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 // Native TerrainLogic subsystem table BFB28C slot10 names this update role.
 // This is an entry-ABI view: ECX is the secondary SubsystemInterface at +4,
 // so the observed flag/record/count offsets below are relative to that entry,
@@ -585,5 +585,5 @@ void TerrainLogic::update( void )
 			}
 		}
 	}
-	reinterpret_cast<TerrainVisual *>(g_00DFF080)->update();
+	reinterpret_cast<TerrainVisual *>(TheTerrainVisual)->update();
 }

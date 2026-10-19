@@ -1279,7 +1279,7 @@ extern FontLibrary *TheFontLibrary;
 extern Mouse *TheMouse;
 extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;               // TheAnimationSoundModuleManager
 class LivingWorld; extern LivingWorld *TheLivingWorld;
-extern G00DFF080Obj *g_00DFF080;                        // TheTerrainVisual
+extern G00DFF080Obj *TheTerrainVisual;                        // TheTerrainVisual
 extern Display *TheDisplay;
 extern GlobalData *TheWritableGlobalData;
 extern HeaderTemplateManager *TheHeaderTemplateManager;
@@ -1422,8 +1422,8 @@ GameClient::~GameClient()
 	::delete ((Rva002D3627Host *)TheLivingWorld);
 	TheLivingWorld = 0;
 
-	::delete g_00DFF080;
-	g_00DFF080 = 0;
+	::delete TheTerrainVisual;
+	TheTerrainVisual = 0;
 
 	::delete TheDisplay;
 	TheDisplay = 0;
@@ -1596,11 +1596,11 @@ void GameClient::init()
 	}
 
 	// create the terrain visual
-	g_00DFF080 = createTerrainVisual();
-	if (g_00DFF080)
+	TheTerrainVisual = createTerrainVisual();
+	if (TheTerrainVisual)
 	{
-		g_00DFF080->init();
-		g_00DFF080->setName(AsciiString("TheTerrainVisual"));
+		TheTerrainVisual->init();
+		TheTerrainVisual->setName(AsciiString("TheTerrainVisual"));
 	}
 
 	TheLivingWorld = (LivingWorld *)vf50();
@@ -1701,7 +1701,7 @@ void GameClient::reset()
 	m_drawableList = 0;
 
 	TheDisplay->reset();
-	g_00DFF080->reset();
+	TheTerrainVisual->reset();
 	TheRayEffects->reset();
 	TheVideoPlayer->reset();
 	if (((Rva002D3627Host *)TheLivingWorld))
@@ -1860,7 +1860,7 @@ void GameClient::update()
 
 	if (!TheGameLogic->getFlag125())
 	{
-		g_00DFF080->update();
+		TheTerrainVisual->update();
 		TheDisplay->update();
 	}
 	else

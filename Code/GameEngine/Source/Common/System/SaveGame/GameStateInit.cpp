@@ -50,7 +50,7 @@ class PartitionManager; extern PartitionManager *TheShroudManager;
 class CollisionManager;
 extern CollisionManager *TheCollisionManager;
 class ParticleSystemManager; extern ParticleSystemManager *TheParticleSystemManager;
-class G00DFF080Obj; extern G00DFF080Obj *g_00DFF080;
+class G00DFF080Obj; extern G00DFF080Obj *TheTerrainVisual;
 class GhostObjectManager; extern GhostObjectManager *TheGhostObjectManager;
 class VictorySystem;
 VictorySystem *TheVictorySystem = 0;
@@ -86,7 +86,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_Shroud", (Snapshot *)(SnapshotSubsystemView *)TheShroudManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_Collision", (Snapshot *)(SnapshotSubsystemView *)TheCollisionManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_ParticleSystem", (Snapshot *)(SnapshotSubsystemView *)TheParticleSystemManager, (SnapshotType)0);
-    addSnapshotBlock("CHUNK_TerrainVisual", (Snapshot *)g_00DFF080, (SnapshotType)0);
+    addSnapshotBlock("CHUNK_TerrainVisual", (Snapshot *)TheTerrainVisual, (SnapshotType)0);
     addSnapshotBlock("CHUNK_GhostObject", (Snapshot *)TheGhostObjectManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_VictorySystem", (Snapshot *)(SnapshotSubsystemView *)TheVictorySystem, (SnapshotType)0);
     addSnapshotBlock("CHUNK_TaintManager", (Snapshot *)(SnapshotSubsystemView *)TheTaintManager, (SnapshotType)0);

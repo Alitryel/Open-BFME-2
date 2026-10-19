@@ -137,7 +137,7 @@ public:
 	virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22();
 	virtual void rva00282CFBNotify(TerrainPoint00282CFB point, float radius);
 };
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 
 void TerrainLogic::rva00282CFB(const Coord3D *pos, float radius, unsigned int mode)
 {
@@ -151,6 +151,6 @@ void TerrainLogic::rva00282CFB(const Coord3D *pos, float radius, unsigned int mo
 	for (Object *other = hits.next(); other != 0; other = hits.next())
 		TheGameLogic->destroyObject(other);
 	((BfmeThingCME *)this)->rva0027F1DD((Coord3D *)pos, radius);
-	if (g_00DFF080)
-		g_00DFF080->rva00282CFBNotify(TerrainPoint00282CFB(pos->x, pos->y, pos->z), radius);
+	if (TheTerrainVisual)
+		TheTerrainVisual->rva00282CFBNotify(TerrainPoint00282CFB(pos->x, pos->y, pos->z), radius);
 }

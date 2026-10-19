@@ -519,7 +519,7 @@ public:
     virtual void removeFactionBibDrawable(Drawable*);
     virtual void removeAllBibs();
 };
-extern G00DFF080Obj* g_00DFF080;
+extern G00DFF080Obj* TheTerrainVisual;
 class GhostObjectManager
 {
 public:
@@ -974,7 +974,7 @@ void InGameUI::handleBuildPlacements()
     }
     if (TheGameClient->getFrame() & 1)
     {
-        g_00DFF080->removeAllBibs();
+        TheTerrainVisual->removeAllBibs();
         bool anyIllegal = false;
         for (int i = 0; i < TheWritableGlobalData->maxLineBuildObjects; ++i)
         {
@@ -1018,9 +1018,9 @@ void InGameUI::handleBuildPlacements()
             else
                 icons[i].drawable->rva00275490(0);
             if (code != 0)
-                g_00DFF080->addFactionBibDrawable(icons[i].drawable, code != 0 && code != 9, 0);
+                TheTerrainVisual->addFactionBibDrawable(icons[i].drawable, code != 0 && code != 9, 0);
             else
-                g_00DFF080->removeFactionBibDrawable(icons[i].drawable);
+                TheTerrainVisual->removeFactionBibDrawable(icons[i].drawable);
         }
     }
 }

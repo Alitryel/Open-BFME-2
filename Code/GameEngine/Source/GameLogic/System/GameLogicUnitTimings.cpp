@@ -328,7 +328,7 @@ extern TerrainLogic *TheTerrainLogic;
 extern PlayerList *ThePlayerList;
 extern ThingFactory *TheThingFactory;
 extern AI *TheAI;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 extern MessageStream *TheMessageStream;
 extern GlobalData *TheWritableGlobalData;
 // Native benchmark saves/restores this view value and normalizes three display
@@ -542,7 +542,7 @@ void Rva002431CB::rva002431CB()
 		TheGameLogic->destroyObject(obj);
 		obj = obj->getNextObject();
 	}
-	g_00DFF080->m_inner.slot24();
+	TheTerrainVisual->m_inner.slot24();
 
 	if (m_startTiming && m_curThing && !m_gotUnit)
 	{

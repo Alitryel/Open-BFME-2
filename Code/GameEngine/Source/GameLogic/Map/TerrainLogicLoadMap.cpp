@@ -170,7 +170,7 @@ public:
 	virtual void slot4(const AsciiString &filename, ChunkInputStream *pStrm, Rva002834C4 *a,
 		Rva002834C4 *b, Rva002834C4 *c); // +0x10
 };
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 
 // N unnamed vftable slots appended to Base.
 template <class Base, int N> class TerrainLogicSlots : public TerrainLogicSlots<Base, N - 1>
@@ -248,7 +248,7 @@ Bool TerrainLogic::loadMap( const AsciiString &filename, ChunkInputStream *pStrm
 	}
 
 	if (!query)
-		g_00DFF080->slot4(getSourceFilename(), pStrm, get54(), get58(), get5C());
+		TheTerrainVisual->slot4(getSourceFilename(), pStrm, get54(), get58(), get5C());
 
 	return true;
 }

@@ -53,7 +53,7 @@ virtual void slot26();
 virtual void slot27();
 virtual bool slot28(int,const Coord3D *);
 };
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 class BfmeX1035 {public:Coord3D m_pos;int m_value0c;char pad10[8];bool m_processed;bool isProcessed() const {return m_processed;}Coord3D m_delta;};
 struct BfmeT1035 {void bfmeUse1035(BfmeX1035 *,int);Object *m_bfmeV;};
 void BfmeT1035::bfmeUse1035(BfmeX1035 *p, int b)
@@ -79,7 +79,7 @@ void BfmeT1035::bfmeUse1035(BfmeX1035 *p, int b)
 	delta.z = 0.0f;
 	int value = p->m_value0c;
 
-	if (!((TerrainVisual *)g_00DFF080)->slot28(value, &delta))
+	if (!((TerrainVisual *)TheTerrainVisual)->slot28(value, &delta))
 		return;
 
 	if (!p->m_processed)
@@ -103,6 +103,6 @@ void BfmeT1035::bfmeUse1035(BfmeX1035 *p, int b)
 		pos.x = p->m_pos.x;
 		pos.y = p->m_pos.y;
 		pos.z = p->m_pos.z + 5.0f;
-		((TerrainVisual *)g_00DFF080)->slot19(&pos, &geom, 0.0f);
+		((TerrainVisual *)TheTerrainVisual)->slot19(&pos, &geom, 0.0f);
 	}
 }

@@ -9,7 +9,7 @@
 // class and the free function use honest address-derived names: the
 // manager's identity is unproven.
 
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 
 class Rva009FF080Manager
 {
@@ -42,7 +42,7 @@ public:
 	virtual void _slot25(void *arg) = 0;
 };
 
-#define TheRva009FF080Manager (*(Rva009FF080Manager **)&g_00DFF080)
+#define TheRva009FF080Manager (*(Rva009FF080Manager **)&TheTerrainVisual)
 
 void __stdcall Rva00306769Forward(void *arg)
 {

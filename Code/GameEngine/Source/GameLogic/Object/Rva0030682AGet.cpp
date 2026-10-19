@@ -46,7 +46,7 @@ public:
 	virtual void *v24(void *a, void *b);
 };
 
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 // Retail's own 32-byte literal at RVA 0x00807D80 (file offset 0x008079D0),
 // ending exactly where retail's next literal "Buff " begins at 0x00807DA0. The
 // rowed body streams it straight after the buff's name, so the missing piece was
@@ -108,5 +108,5 @@ void *BuffLogic::addBuff(void *a, void *b)
 		}
 		return 0;
 	}
-	return ((G00DFF080Obj *)g_00DFF080)->v24(b, (void *)v);
+	return ((G00DFF080Obj *)TheTerrainVisual)->v24(b, (void *)v);
 }

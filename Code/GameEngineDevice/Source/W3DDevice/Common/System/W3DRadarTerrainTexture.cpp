@@ -98,7 +98,7 @@ virtual void p40();
 virtual Bridge *findBridgeAt(const Coord3D*);
 };extern TerrainLogic *TheTerrainLogic;
 extern GameLogic *TheGameLogic;
-class G00DFF080Obj {public: virtual void p0();virtual void p1();virtual void p2();virtual void p3();virtual void p4();virtual void p5();virtual void getTerrainColorAt(float,float,RGBColor*);};extern G00DFF080Obj *g_00DFF080;
+class G00DFF080Obj {public: virtual void p0();virtual void p1();virtual void p2();virtual void p3();virtual void p4();virtual void p5();virtual void getTerrainColorAt(float,float,RGBColor*);};extern G00DFF080Obj *TheTerrainVisual;
 class W3DRadar : public Radar { protected: void buildTerrainTexture(TerrainLogic*);protected: void rva0004E3F1();void interpolateColorForHeight(RGBColor*,float,float,float,float);private:
     char pad1430[4];Coord3D extentLo,extentHi;
     char pad144c[0x1468-0x144c];
@@ -274,7 +274,7 @@ void W3DRadar::buildTerrainTexture( TerrainLogic *terrain )
 								else
 								{
 
-									g_00DFF080->getTerrainColorAt( worldPoint.x, worldPoint.y, &color );
+									TheTerrainVisual->getTerrainColorAt( worldPoint.x, worldPoint.y, &color );
 
 									interpolateColorForHeight( &color, (float)centreHeight, getTerrainAverageZ(), 
 																						 extentHi.z, extentLo.z );

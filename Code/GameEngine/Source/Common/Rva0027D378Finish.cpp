@@ -4,7 +4,7 @@
 // if depleted call manager slot31 with target+0xC, reset via rowed
 // ?rva0027D098@Rva0027D098@@QAEXXZ, then this+0x1910 = TheGameLogic+0x40.
 // Evidence: calls rowed 0x0027D098 with ecx=esi; callees rowed; caller chain.
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 
 class Rva009FF080Manager0027D378
 {
@@ -43,7 +43,7 @@ public:
 	virtual void _slot31(int a);
 };
 
-#define TheRva009FF080Manager0027D378 (*(Rva009FF080Manager0027D378 **)&g_00DFF080)
+#define TheRva009FF080Manager0027D378 (*(Rva009FF080Manager0027D378 **)&TheTerrainVisual)
 
 class GameLogic
 {

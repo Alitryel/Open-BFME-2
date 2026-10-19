@@ -7,8 +7,8 @@
 // key at +0xC whose position the argument shape overlaps (rowed
 // GeometryInfo::CollidesWith 0x006BEB80 against the local shape at the
 // record with angle 0) is reported to TheTriggerManager (rowed 0x0028641F)
-// then reset (rowed 0x0027D098) and its key passed to g_00DFF080 slot +0x58
-// while +0x1910 takes TheGameLogic's frame. Finally g_00DFF080 slot +0x48
+// then reset (rowed 0x0027D098) and its key passed to TheTerrainVisual slot +0x58
+// while +0x1910 takes TheGameLogic's frame. Finally TheTerrainVisual slot +0x48
 // gets the position shape and angle. The local shape dies through the rowed
 // GeometryInfo destructor 0x00050B2A. WB twin 0x00C483E0 (callgraph 3.1)
 // has the same order with GeometryInfo::CollidesWith.
@@ -77,7 +77,7 @@ public:
 };
 
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 
 template<int N> class Rva0028449FSlots : public Rva0028449FSlots<N - 1>
 {
@@ -145,11 +145,11 @@ void TerrainLogic::rva0028449F(const Coord3D *pos, const GeometryInfo &geom, Rea
 			if (TheTriggerManager)
 				((FireLogicSystem *)TheTriggerManager)->rva0028641F(key, (const Coord3D *)*i);
 			(*i)->rva0027D098();
-			reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->slot58(key);
+			reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->slot58(key);
 			stamp = reinterpret_cast<Rva0028449FFrameView *>(TheGameLogic)->frame;
 		}
 	}
-	reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->slot48(pos, geom, angle);
+	reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->slot48(pos, geom, angle);
 }
 
 // ?flattenTerrain@TerrainLogic@@QAEXPAVObject@@@Z retail 0x0028458F..0x00284AC6
@@ -162,7 +162,7 @@ void TerrainLogic::rva0028449F(const Coord3D *pos, const GeometryInfo &geom, Rea
 // (rowed setFlag 0x006BF3C0) around the walk; the footprint sampler is the
 // rowed Rva004DC1BF ctor 0x004DC1BF with next 0x004DC096 and reset 0x004DC082;
 // grid cells are REAL_TO_INT_FLOOR(p * 0.1f) and TheTerrainVisual is the
-// g_00DFF080 slot +0x88 receiver. The floor import goes through math.h's
+// TheTerrainVisual slot +0x88 receiver. The floor import goes through math.h's
 // inline floorf: the float floor overload or a double floor reorders the
 // unrolled cell stores.
 __forceinline long fast_float2long_round(float f)
@@ -254,31 +254,31 @@ void TerrainLogic::flattenTerrain(Object *obj)
 		ICoord2D grid;
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f);
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f);
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) - 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f);
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) + 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f);
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f);
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) - 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f);
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) + 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) - 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) - 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) + 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) + 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) + 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) - 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 		grid.x = REAL_TO_INT_FLOOR(pt.x * 0.1f) - 1;
 		grid.y = REAL_TO_INT_FLOOR(pt.y * 0.1f) + 1;
-		reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->setRawMapHeight(&grid, height);
+		reinterpret_cast<Rva0028449FGlobalView *>(TheTerrainVisual)->setRawMapHeight(&grid, height);
 	}
 	geom->setFlag(flagName(AsciiString("TERRAIN_BOUNDS")), false);
 }

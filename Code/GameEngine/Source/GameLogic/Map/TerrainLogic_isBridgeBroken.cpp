@@ -149,7 +149,7 @@ bool TerrainLogic::isBridgeBroken(const Object *bridge)
 }
 
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 class TerrainPlacementManagerView {public:
  virtual void p0();
  virtual void p1();
@@ -175,6 +175,6 @@ class TerrainPlacementManagerView {public:
 };
 void TerrainLogic::rva0027D3D9(const ThingTemplate *templ,const Coord3D *position,const Matrix3D *matrix,float scale)
 {
- reinterpret_cast<TerrainPlacementManagerView*>(g_00DFF080)->p20(templ,position,matrix->Get_Z_Rotation(),scale);
+ reinterpret_cast<TerrainPlacementManagerView*>(TheTerrainVisual)->p20(templ,position,matrix->Get_Z_Rotation(),scale);
 }
 

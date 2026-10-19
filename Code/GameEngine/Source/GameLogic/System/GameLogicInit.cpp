@@ -2499,7 +2499,7 @@ public:
 
 extern ParticleSystemManager *TheParticleSystemManager;
 extern ControlBar *TheControlBar;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 extern View *TheTacticalView;
 extern RecorderClass *TheRecorder;
 extern NameKeyGenerator *TheNameKeyGenerator;
@@ -2519,7 +2519,7 @@ void GameLogic::rva00248278(bool loadingSaveGame)
 	TheControlBar->rva0031D64F();
 	TheControlBar->rva0031AD48(false);
 	rva0043D467();
-	g_00DFF080->slot14();
+	TheTerrainVisual->slot14();
 	Sleep(1);
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x5f);
 	Sleep(1);

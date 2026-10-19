@@ -14,7 +14,7 @@ extern "C" void _ReadWriteBarrier(void);
 class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 class GameLogic;
 extern GameLogic *TheGameLogic;
 
@@ -102,7 +102,7 @@ void BfmeThingCME::rva0027F1DD(Coord3D *position, float radius)
 		if (TheTriggerManager)
 			((FireLogicSystem *)TheTriggerManager)->rva0028641F(id, &(*it)->m_position);
 		(*it)->rva0027D098();
-		g_00DFF080->slot22(id);
+		TheTerrainVisual->slot22(id);
 		m_frame1910 = ((Rva0027F1DDFrames *)TheGameLogic)->m_frame40;
 	}
 }

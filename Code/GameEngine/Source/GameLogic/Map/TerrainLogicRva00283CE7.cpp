@@ -50,7 +50,7 @@ public:
     void rva0028641F(unsigned int key, const Coord3D *pos);
 };
 class G00DFF080Obj;
-extern G00DFF080Obj *g_00DFF080;
+extern G00DFF080Obj *TheTerrainVisual;
 template<int N> class Rva00283CE7Slots : public Rva00283CE7Slots<N-1>
 {
 public:
@@ -161,7 +161,7 @@ void TerrainLogic::rva00283CE7(unsigned int key)
             break;
         }
     }
-    reinterpret_cast<Rva00283CE7GlobalView *>(g_00DFF080)->slot58(key);
+    reinterpret_cast<Rva00283CE7GlobalView *>(TheTerrainVisual)->slot58(key);
     Rva0027D098 **end=last;
     for (Rva0027D098 **i=first; i!=end; ++i)
     {

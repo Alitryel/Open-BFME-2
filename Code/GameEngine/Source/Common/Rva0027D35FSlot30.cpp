@@ -4,7 +4,7 @@
 // with (Arg+0xc, this byte+0). Caller 0x27EA13. Neighbours 0x27D347 (slot29)
 // and 0x27D3CB (slot32) use the same global under /O1; /G7 drops the movzx
 // to retail mov cl + push ecx. No donor: honest address name.
-extern class G00DFF080Obj *g_00DFF080;
+extern class G00DFF080Obj *TheTerrainVisual;
 
 class Rva009FF080Manager0027D35F
 {
@@ -44,7 +44,7 @@ public:
 	virtual void _slot32(void *water, int a, int b, int c);
 };
 
-#define TheRva009FF080Manager0027D35F (*(Rva009FF080Manager0027D35F **)&g_00DFF080)
+#define TheRva009FF080Manager0027D35F (*(Rva009FF080Manager0027D35F **)&TheTerrainVisual)
 
 struct Rva0027D35FArg
 {
