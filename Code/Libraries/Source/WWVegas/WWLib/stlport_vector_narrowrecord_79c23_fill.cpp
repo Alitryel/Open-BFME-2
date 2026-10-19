@@ -35,16 +35,17 @@ template <> void _Construct<BfmeNarrowRecord00079C23, BfmeNarrowRecord00079C23>(
 
 #include <cstddef>
 // bfme link decl-only begin
-namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
-namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
-// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// The record dtor inlines each string's free like retail's folded 0x00079554,
+// so proxy<char>::deallocate is expanded inline and never emitted here.
 namespace _STL {
-template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char* p, size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<char>&>(*this),(char*)0).deallocate(p,n);
+}
 }
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
