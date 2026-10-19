@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class ButterflyDrawModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class ButterflyDrawModuleTemplateSubCopyShim
+class ButterflyDrawModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	ButterflyDrawModuleInfo(const ButterflyDrawModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -40,11 +41,11 @@ ButterflyDrawModuleTemplate::ButterflyDrawModuleTemplate(
 	const ButterflyDrawModuleTemplate &that)
 {
 	const void *src = &that;
-	((ButterflyDrawModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	ButterflyDrawModuleTemplateSubCopyShim *sub =
-		(ButterflyDrawModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	ButterflyDrawModuleInfo *sub = (ButterflyDrawModuleInfo *)((char *)this + 8);
+	sub->ButterflyDrawModuleInfo::ButterflyDrawModuleInfo(*(const ButterflyDrawModuleInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &ButterflyDrawModuleTemplate_csub_vtbl;
 	m_v0 = &ButterflyDrawModuleTemplate_cvtbl0;

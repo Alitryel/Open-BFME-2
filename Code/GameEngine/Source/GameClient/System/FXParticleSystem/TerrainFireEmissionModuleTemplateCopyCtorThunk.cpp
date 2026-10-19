@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class TerrainFireEmissionModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class TerrainFireEmissionModuleTemplateSubCopyShim
+class TerrainFireEmissionInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	TerrainFireEmissionInfo(const TerrainFireEmissionInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ TerrainFireEmissionModuleTemplate::TerrainFireEmissionModuleTemplate(
 	const TerrainFireEmissionModuleTemplate &that)
 {
 	const void *src = &that;
-	((TerrainFireEmissionModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	TerrainFireEmissionModuleTemplateSubCopyShim *sub =
-		(TerrainFireEmissionModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	TerrainFireEmissionInfo *sub = (TerrainFireEmissionInfo *)((char *)this + 8);
+	sub->TerrainFireEmissionInfo::TerrainFireEmissionInfo(*(const TerrainFireEmissionInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &TerrainFireEmissionModuleTemplate_csub_vtbl;
 	m_v0 = &TerrainFireEmissionModuleTemplate_cvtbl0;

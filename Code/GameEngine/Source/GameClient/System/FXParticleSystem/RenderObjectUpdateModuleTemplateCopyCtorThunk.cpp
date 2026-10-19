@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class RenderObjectUpdateModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class RenderObjectUpdateModuleTemplateSubCopyShim
+class RenderObjectUpdateModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	RenderObjectUpdateModuleInfo(const RenderObjectUpdateModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ RenderObjectUpdateModuleTemplate::RenderObjectUpdateModuleTemplate(
 	const RenderObjectUpdateModuleTemplate &that)
 {
 	const void *src = &that;
-	((RenderObjectUpdateModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	RenderObjectUpdateModuleTemplateSubCopyShim *sub =
-		(RenderObjectUpdateModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	RenderObjectUpdateModuleInfo *sub = (RenderObjectUpdateModuleInfo *)((char *)this + 8);
+	sub->RenderObjectUpdateModuleInfo::RenderObjectUpdateModuleInfo(*(const RenderObjectUpdateModuleInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &RenderObjectUpdateModuleTemplate_csub_vtbl;
 	m_v0 = &RenderObjectUpdateModuleTemplate_cvtbl0;

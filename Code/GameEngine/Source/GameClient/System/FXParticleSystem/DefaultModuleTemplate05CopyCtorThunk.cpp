@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class DefaultModuleTemplate05BaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class DefaultModuleTemplate05SubCopyShim
+class DefaultDrawModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	DefaultDrawModuleInfo(const DefaultDrawModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ template <int N>
 DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
 {
 	const void *src = &that;
-	((DefaultModuleTemplate05BaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	DefaultModuleTemplate05SubCopyShim *sub =
-		(DefaultModuleTemplate05SubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	DefaultDrawModuleInfo *sub = (DefaultDrawModuleInfo *)((char *)this + 8);
+	sub->DefaultDrawModuleInfo::DefaultDrawModuleInfo(*(const DefaultDrawModuleInfo *)sub_src);
 	*(void **)sub = &DefaultModuleTemplate05_sub_vtbl;
 	m_v0 = &DefaultModuleTemplate05_vtbl0;
 	m_v4 = &DefaultModuleTemplate05_vtbl4;

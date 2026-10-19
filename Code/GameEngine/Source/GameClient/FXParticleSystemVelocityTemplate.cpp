@@ -62,7 +62,3 @@ SphereEmissionVolumeInfo::SphereEmissionVolumeInfo(const SphereEmissionVolumeInf
 }
 
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?construct_from@SphereEmissionVolumeModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0SphereEmissionVolumeInfo@FXParticleSystem@@QAE@ABV01@@Z")

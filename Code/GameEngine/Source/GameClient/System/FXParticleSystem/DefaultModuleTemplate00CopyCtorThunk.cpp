@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class DefaultModuleTemplate00BaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class DefaultModuleTemplate00SubCopyShim
+class DefaultAlphaModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	DefaultAlphaModuleInfo(const DefaultAlphaModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -42,11 +43,11 @@ template <int N>
 DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
 {
 	const void *src = &that;
-	((DefaultModuleTemplate00BaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	DefaultModuleTemplate00SubCopyShim *sub =
-		(DefaultModuleTemplate00SubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	DefaultAlphaModuleInfo *sub = (DefaultAlphaModuleInfo *)((char *)this + 8);
+	sub->DefaultAlphaModuleInfo::DefaultAlphaModuleInfo(*(const DefaultAlphaModuleInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &DefaultModuleTemplate00_sub_vtbl;
 	m_v0 = &DefaultModuleTemplate00_vtbl0;

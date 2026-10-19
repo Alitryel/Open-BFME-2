@@ -12,16 +12,17 @@ extern "C" char s_slot3E4first;
 namespace FXParticleSystem
 {
 
-class LineEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class LineEmissionVolumeModuleTemplateSubCopyShim
+class LineEmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	LineEmissionVolumeInfo(const LineEmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ LineEmissionVolumeModuleTemplate::LineEmissionVolumeModuleTemplate(
 	const LineEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((LineEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	LineEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(LineEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	LineEmissionVolumeInfo *sub = (LineEmissionVolumeInfo *)((char *)this + 8);
+	sub->LineEmissionVolumeInfo::LineEmissionVolumeInfo(*(const LineEmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = (void *)__identifier("??_7LineEmissionVolumeModuleTemplate@FXParticleSystem@@6BLineEmissionVolumeInfo@1@@");
 	m_v0 = (void *)__identifier("??_7LineEmissionVolumeModuleTemplate@FXParticleSystem@@6BModuleTemplate@1@@");

@@ -75,5 +75,4 @@ LineEmissionVolumeInfo::LineEmissionVolumeInfo(const LineEmissionVolumeInfo &tha
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?construct_from@LineEmissionVolumeModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0LineEmissionVolumeInfo@FXParticleSystem@@QAE@ABV01@@Z")
 #pragma comment(linker, "/alternatename:?construct_from@CylinderEmissionVolumeModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0LineEmissionVolumeInfo@FXParticleSystem@@QAE@ABV01@@Z")

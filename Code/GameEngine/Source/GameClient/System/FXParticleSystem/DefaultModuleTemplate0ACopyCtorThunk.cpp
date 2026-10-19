@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class DefaultModuleTemplate0ABaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class DefaultModuleTemplate0ASubCopyShim
+class DefaultColorModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	DefaultColorModuleInfo(const DefaultColorModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ template <int N>
 DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
 {
 	const void *src = &that;
-	((DefaultModuleTemplate0ABaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	DefaultModuleTemplate0ASubCopyShim *sub =
-		(DefaultModuleTemplate0ASubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	DefaultColorModuleInfo *sub = (DefaultColorModuleInfo *)((char *)this + 8);
+	sub->DefaultColorModuleInfo::DefaultColorModuleInfo(*(const DefaultColorModuleInfo *)sub_src);
 	*(void **)sub = &DefaultModuleTemplate0A_sub_vtbl;
 	m_v0 = &DefaultModuleTemplate0A_vtbl0;
 	m_v4 = &DefaultModuleTemplate0A_vtbl4;

@@ -6,10 +6,11 @@
 namespace FXParticleSystem
 {
 
-class CylinderEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
 class CylinderEmissionVolumeModuleTemplateSubCopyShim
@@ -40,7 +41,8 @@ CylinderEmissionVolumeModuleTemplate::CylinderEmissionVolumeModuleTemplate(
 	const CylinderEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((CylinderEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
 	CylinderEmissionVolumeModuleTemplateSubCopyShim *sub =
 		(CylinderEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);

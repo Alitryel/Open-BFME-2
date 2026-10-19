@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class CylindricalEmissionVelocityModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class CylindricalEmissionVelocityModuleTemplateSubCopyShim
+class CylindricalEmissionVelocityInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	CylindricalEmissionVelocityInfo(const CylindricalEmissionVelocityInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ CylindricalEmissionVelocityModuleTemplate::CylindricalEmissionVelocityModuleTemp
 	const CylindricalEmissionVelocityModuleTemplate &that)
 {
 	const void *src = &that;
-	((CylindricalEmissionVelocityModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	CylindricalEmissionVelocityModuleTemplateSubCopyShim *sub =
-		(CylindricalEmissionVelocityModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	CylindricalEmissionVelocityInfo *sub = (CylindricalEmissionVelocityInfo *)((char *)this + 8);
+	sub->CylindricalEmissionVelocityInfo::CylindricalEmissionVelocityInfo(*(const CylindricalEmissionVelocityInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &CylindricalEmissionVelocityModuleTemplate_csub_vtbl;
 	m_v0 = &CylindricalEmissionVelocityModuleTemplate_cvtbl0;

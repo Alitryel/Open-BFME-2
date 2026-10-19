@@ -6,10 +6,11 @@
 namespace FXParticleSystem
 {
 
-class DefaultModuleTemplate7CopyCtorShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
 // DefaultModuleTemplate6_vtbl0: matched references place it at VA 0xc1bfa4 (retail .rdata value -44).
@@ -33,7 +34,8 @@ private:
 template <int N>
 DefaultModuleTemplate<N>::DefaultModuleTemplate(const DefaultModuleTemplate &that)
 {
-	((DefaultModuleTemplate7CopyCtorShim *)this)->construct_from(&that);
+	((CategoryModuleTemplate<7> *)this)->CategoryModuleTemplate<7>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<7> *)&that);
 	m_v0 = &DefaultModuleTemplate6_vtbl0;
 	m_v4 = &DefaultModuleTemplate6_vtbl4;
 	m_v8 = &DefaultModuleTemplate6_vtbl8;

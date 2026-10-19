@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class PointEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class PointEmissionVolumeModuleTemplateSubCopyShim
+class EmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	EmissionVolumeInfo(const EmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ PointEmissionVolumeModuleTemplate::PointEmissionVolumeModuleTemplate(
 	const PointEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((PointEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	PointEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(PointEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	EmissionVolumeInfo *sub = (EmissionVolumeInfo *)((char *)this + 8);
+	sub->EmissionVolumeInfo::EmissionVolumeInfo(*(const EmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &PointEmissionVolumeModuleTemplate_csub_vtbl;
 	m_v0 = &PointEmissionVolumeModuleTemplate_cvtbl0;

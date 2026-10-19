@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class QuadDrawModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class QuadDrawModuleTemplateSubCopyShim
+class QuadDrawModuleInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	QuadDrawModuleInfo(const QuadDrawModuleInfo &that);
 	virtual void dummy();
 };
 
@@ -40,11 +41,11 @@ QuadDrawModuleTemplate::QuadDrawModuleTemplate(
 	const QuadDrawModuleTemplate &that)
 {
 	const void *src = &that;
-	((QuadDrawModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	QuadDrawModuleTemplateSubCopyShim *sub =
-		(QuadDrawModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	QuadDrawModuleInfo *sub = (QuadDrawModuleInfo *)((char *)this + 8);
+	sub->QuadDrawModuleInfo::QuadDrawModuleInfo(*(const QuadDrawModuleInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &QuadDrawModuleTemplate_csub_vtbl;
 	m_v0 = &DefaultModuleTemplate05_vtbl0;

@@ -6,10 +6,11 @@
 namespace FXParticleSystem
 {
 
-class OutwardEmissionVelocityModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
 class OutwardEmissionVelocityModuleTemplateSubCopyShim
@@ -42,7 +43,8 @@ OutwardEmissionVelocityModuleTemplate::OutwardEmissionVelocityModuleTemplate(
 	const OutwardEmissionVelocityModuleTemplate &that)
 {
 	const void *src = &that;
-	((OutwardEmissionVelocityModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
 	OutwardEmissionVelocityModuleTemplateSubCopyShim *sub =
 		(OutwardEmissionVelocityModuleTemplateSubCopyShim *)((char *)this + 8);

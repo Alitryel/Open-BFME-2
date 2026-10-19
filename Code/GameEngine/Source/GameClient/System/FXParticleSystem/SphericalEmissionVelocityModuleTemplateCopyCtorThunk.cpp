@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class SphericalEmissionVelocityModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class SphericalEmissionVelocityModuleTemplateSubCopyShim
+class SphericalEmissionVelocityInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	SphericalEmissionVelocityInfo(const SphericalEmissionVelocityInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ SphericalEmissionVelocityModuleTemplate::SphericalEmissionVelocityModuleTemplate
 	const SphericalEmissionVelocityModuleTemplate &that)
 {
 	const void *src = &that;
-	((SphericalEmissionVelocityModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	SphericalEmissionVelocityModuleTemplateSubCopyShim *sub =
-		(SphericalEmissionVelocityModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	SphericalEmissionVelocityInfo *sub = (SphericalEmissionVelocityInfo *)((char *)this + 8);
+	sub->SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo(*(const SphericalEmissionVelocityInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &SphericalEmissionVelocityModuleTemplate_csub_vtbl;
 	m_v0 = &SphericalEmissionVelocityModuleTemplate_cvtbl0;

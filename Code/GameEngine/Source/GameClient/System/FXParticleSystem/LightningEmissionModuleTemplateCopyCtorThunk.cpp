@@ -6,10 +6,11 @@
 namespace FXParticleSystem
 {
 
-class LightningEmissionModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
 // The +8 sub copy is the matched copy constructor ??0LightningEmissionInfo@FXParticleSystem@@QAE@ABV01@@Z.
@@ -41,7 +42,8 @@ LightningEmissionModuleTemplate::LightningEmissionModuleTemplate(
 	const LightningEmissionModuleTemplate &that)
 {
 	const void *src = &that;
-	((LightningEmissionModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
 	LightningEmissionInfo *sub = (LightningEmissionInfo *)((char *)this + 8);
 	sub->LightningEmissionInfo::LightningEmissionInfo(*(const LightningEmissionInfo *)sub_src);

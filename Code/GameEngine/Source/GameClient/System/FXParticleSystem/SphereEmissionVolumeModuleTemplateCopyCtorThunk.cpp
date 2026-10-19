@@ -6,16 +6,17 @@
 namespace FXParticleSystem
 {
 
-class SphereEmissionVolumeModuleTemplateBaseCopyShim
+template <int CATEGORY>
+class CategoryModuleTemplate
 {
 public:
-	void construct_from(const void *src);
+	CategoryModuleTemplate(const CategoryModuleTemplate &that);
 };
 
-class SphereEmissionVolumeModuleTemplateSubCopyShim
+class SphereEmissionVolumeInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
+	SphereEmissionVolumeInfo(const SphereEmissionVolumeInfo &that);
 	virtual void dummy();
 };
 
@@ -41,11 +42,11 @@ SphereEmissionVolumeModuleTemplate::SphereEmissionVolumeModuleTemplate(
 	const SphereEmissionVolumeModuleTemplate &that)
 {
 	const void *src = &that;
-	((SphereEmissionVolumeModuleTemplateBaseCopyShim *)this)->construct_from(src);
+	((CategoryModuleTemplate<0> *)this)->CategoryModuleTemplate<0>::CategoryModuleTemplate(
+		*(const CategoryModuleTemplate<0> *)src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	SphereEmissionVolumeModuleTemplateSubCopyShim *sub =
-		(SphereEmissionVolumeModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	SphereEmissionVolumeInfo *sub = (SphereEmissionVolumeInfo *)((char *)this + 8);
+	sub->SphereEmissionVolumeInfo::SphereEmissionVolumeInfo(*(const SphereEmissionVolumeInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &SphereEmissionVolumeModuleTemplate_csub_vtbl;
 	m_v0 = &SphereEmissionVolumeModuleTemplate_cvtbl0;
