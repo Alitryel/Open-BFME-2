@@ -1,278 +1,762 @@
-// ?rva00095821@@YAXXZ
-// partial score=0.041 date=2026-10-17
-// cl: /DNDEBUG /MD /EHsc
-//
-// Bodies ported from Open-BFME-1's
-// GameEngine/Source/Common/BfmeDtor006e2480.cpp (donor revision
-// 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled
-// that way each body below places uniquely on unclaimed game.dat .text by
-// masked whole-.text search, and ./build.sh reproduces it byte for byte:
-// Gen006E2310::~Gen006E2310 0x00095360 (83B). Callee addresses are read off
-// retail's call sites (reverse/symbols.csv). Only the placed bodies are
-// carried; the donor's other definitions are omitted.
-
-class BfmeRef006e2480
+// ?Install_Materials@BfmeB1137@@UBEXXZ
+// partial score=0.88 date=2026-10-19
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+#include "ascii_string.h"
+class WWMath
 {
 public:
-	virtual void Delete_This(void);
-	void Release_Ref(void)
+	static __forceinline float Sqrt(float val)
 	{
-		if (--m_refs == 0)
-			Delete_This();
+		float retval;
+		__asm {
+			fld [val]
+			fsqrt
+			fstp [retval]
+		}
+		return retval;
+	}
+};
+typedef unsigned long DWORD;
+typedef long HRESULT;
+typedef unsigned int UINT;
+typedef DWORD D3DRENDERSTATETYPE;
+typedef DWORD D3DTEXTURESTAGESTATETYPE;
+
+struct IDirect3DBaseTexture8
+{
+	virtual HRESULT __stdcall QueryInterface(const void *riid, void **ppv) = 0;
+	virtual DWORD __stdcall AddRef(void) = 0;
+	virtual DWORD __stdcall Release(void) = 0;
+};
+
+// Direct3D 9 slot order behind the dx8 names: SetTransform +0xB0,
+// SetRenderState +0xE4, SetTexture +0x104, SetTextureStageState +0x10C.
+struct IDirect3DDevice8
+{
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual void s20(); virtual void s21(); virtual void s22(); virtual void s23();
+	virtual void s24(); virtual void s25(); virtual void s26(); virtual void s27();
+	virtual void s28(); virtual void s29(); virtual void s30(); virtual void s31();
+	virtual void s32(); virtual void s33(); virtual void s34(); virtual void s35();
+	virtual void s36(); virtual void s37(); virtual void s38(); virtual void s39();
+	virtual void s40(); virtual void s41(); virtual void s42(); virtual void s43();
+	virtual HRESULT __stdcall SetTransform(DWORD state, const void *matrix) = 0;
+	virtual void s45(); virtual void s46(); virtual void s47();
+	virtual void s48(); virtual void s49(); virtual void s50(); virtual void s51();
+	virtual void s52(); virtual void s53(); virtual void s54(); virtual void s55();
+	virtual void s56();
+	virtual HRESULT __stdcall SetRenderState(D3DRENDERSTATETYPE state, DWORD value) = 0;
+	virtual void s58(); virtual void s59();
+	virtual void s60(); virtual void s61(); virtual void s62(); virtual void s63();
+	virtual void s64();
+	virtual HRESULT __stdcall SetTexture(DWORD stage, IDirect3DBaseTexture8 *texture) = 0;
+	virtual void s66();
+	virtual HRESULT __stdcall SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, DWORD value) = 0;
+	virtual void s68();
+	virtual HRESULT __stdcall SetSamplerState(DWORD stage, DWORD type, DWORD value) = 0;
+};
+
+class Vector4
+{
+public:
+	Vector4() {}
+	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	float &operator[](int i) { return (&X)[i]; }
+	const float &operator[](int i) const { return (&X)[i]; }
+	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+
+	float X;
+	float Y;
+	float Z;
+	float W;
+};
+
+class Matrix4
+{
+public:
+	__forceinline Matrix4() {}
+	__forceinline Matrix4(const Matrix4 &m)
+	{
+		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
+	}
+	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	{
+		Init(r0, r1, r2, r3);
+	}
+	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	{
+		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+	}
+	__forceinline void Make_Identity()
+	{
+		Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
+		Row[1].Set(0.0f, 1.0f, 0.0f, 0.0f);
+		Row[2].Set(0.0f, 0.0f, 1.0f, 0.0f);
+		Row[3].Set(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+	__forceinline Matrix4 Transpose() const
+	{
+		return Matrix4(
+			Vector4(Row[0][0], Row[1][0], Row[2][0], Row[3][0]),
+			Vector4(Row[0][1], Row[1][1], Row[2][1], Row[3][1]),
+			Vector4(Row[0][2], Row[1][2], Row[2][2], Row[3][2]),
+			Vector4(Row[0][3], Row[1][3], Row[2][3], Row[3][3]));
+	}
+	__forceinline Matrix4 &operator=(const Matrix4 &m)
+	{
+		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
+		return *this;
 	}
 
+protected:
+	Vector4 Row[4];
+};
+
+// The 0x40-byte matrix the setters build (rowed ctor 0x0007671F).
+class Rva0007671F : public Matrix4
+{
+public:
+	Rva0007671F();
+};
+
+struct D3DXMATRIX;
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixMultiply(D3DXMATRIX *, const D3DXMATRIX *, const D3DXMATRIX *);
+struct D3DXMATRIX
+{
+	float m[4][4];
+	D3DXMATRIX() {}
+	__forceinline D3DXMATRIX operator*(const D3DXMATRIX &other) const
+	{
+		D3DXMATRIX result;
+		D3DXMatrixMultiply(&result, this, &other);
+		return result;
+	}
+};
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixInverse(D3DXMATRIX *, float *, const D3DXMATRIX *);
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixTranslation(D3DXMATRIX *, float, float, float);
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixScaling(D3DXMATRIX *, float, float, float);
+
+class StringClass
+{
+public:
+	inline StringClass(int initial_len = 0, bool hint_temporary = false);
+	~StringClass() { Free_String(); }
 private:
-	int m_refs;
+	char *m_Buffer;
+	void Free_String();
+	char *Get_String(int new_len, bool is_temp);
+	static char m_NullChar;
+	static char *m_EmptyString;
 };
 
-// 0X012F8048 is retail's global dword (?g_get_00710fb0@@3HA, defined in
-// W3DDevice/GameClient/Gen_00710fb0_Global.cpp).  Retail reloads it each
-// time, so this TU reads and writes it as the pointer it holds.
-extern int g_get_00710fb0;
-#define g_bfmeObj006e1be0 (*reinterpret_cast<BfmeRef006e2480 **>(&g_get_00710fb0))
-
-class Rva009519B
+inline StringClass::StringClass(int initial_len, bool hint_temporary) : m_Buffer(m_EmptyString)
 {
-public:
-	virtual ~Rva009519B(void);
-};
+	Get_String(initial_len, hint_temporary);
+	m_Buffer[0] = m_NullChar;
+}
 
-class Gen006E2310 : public Rva009519B
+class WW3D
 {
+	friend class BfmeB1137;
 public:
-	virtual ~Gen006E2310(void);
-};
-
-// ---------------------------------------------------------------------------
-// ?rva00095821@@YAXXZ
-//
-// The retail body is a single ~11 KB function: a DX8 render-state/texture
-// debug-dump whose real work sets three textures, clears a batch of cached
-// DX8 render-state / texture-stage-state values, and then performs a run of
-// D3DX matrix transforms (inverse / scaling / rotation / translation /
-// multiply) before scrolling UVs.  The full body is out of session scope; the
-// reconstruction below reproduces the shape of the entry sequence and the
-// texture setup that the disassembly shows at 0x495821..0x495aaa, which is the
-// portion that places uniquely.
-//
-// The function is a free function (YAXXZ) with no parameters; the retail
-// prologue establishes an SEH frame via __EH_prolog and reserves 0x630 bytes
-// of stack.
-// ---------------------------------------------------------------------------
-
-// Forward declarations for the retail callees referenced by the entry
-// sequence.  Only the ones actually called from the reconstructed region are
-// declared; the remainder of the body is omitted.
-
-class DX8Wrapper
-{
-public:
-	static void Invalidate_Cached_Render_States(void);
-	static void Apply_Render_State_Changes(void);
-	static void Get_DX8_Render_State_Value_Name(class StringClass &, unsigned long, int);
-	static void Get_DX8_Texture_Stage_State_Value_Name(class StringClass &, unsigned long, int);
+	static bool Is_Snapshot_Activated() { return SnapshotActivated; }
+private:
+	static bool SnapshotActivated;
+	static unsigned SyncTime;
 };
 
 class VertexMaterialClass
 {
 public:
-	enum PresetType { PRESET_DEFAULT = 0 };
-	static VertexMaterialClass *Get_Preset(PresetType);
-	void Add_Ref(void);
-	void Release_Ref(void);
+	enum PresetType { PRELIT_DIFFUSE = 0 };
+	static VertexMaterialClass *Get_Preset(PresetType type);
+	virtual void Delete_This(void);
+	void Add_Ref(void) { ++NumRefs; }
+	void Release_Ref(void) { if (--NumRefs == 0) Delete_This(); }
+private:
+	int NumRefs;
+};
+
+class ShaderClass
+{
+	friend class BfmeB1137;
+	friend class DX8Wrapper;
+public:
+	static ShaderClass _PresetMultiplicativeSpriteShader;
+	unsigned ShaderBits;
+protected:
+	static bool ShaderDirty;
 };
 
 class TextureBaseClass
 {
 public:
-	void Release_Ref(void);
+	void Release_Ref();
+	IDirect3DBaseTexture8 *Peek_D3D_Base_Texture() const;
+};
+class TextureClass : public TextureBaseClass
+{
+public:
+	void Release_Ref();	// rowed ICF alias of the TextureBaseClass body (0x0061ED10)
 };
 
-class TextureClass : public TextureBaseClass
+template <class T> class RefCountPtr
+{
+public:
+	T *ptr;
+	const RefCountPtr &operator=(const RefCountPtr &other);
+	~RefCountPtr()
+	{
+		if (ptr)
+			ptr->Release_Ref();
+	}
+};
+class BaseHeightMapRenderObjClass
+{
+public:
+	char pad[0x37C0];
+	struct WorldHeightMap *map;
+};
+struct WorldHeightMap
+{
+	char pad[8];
+	int width;
+	int height;
+};
+extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
+
+extern unsigned number_of_DX8_calls;
+
+struct RenderStateStruct
+{
+	ShaderClass shader;
+	VertexMaterialClass *material;
+	char pad08[0x1EC - 0x08];
+	Matrix4 world, view;
+};
+
+class DX8Wrapper
+{
+public:
+	enum ChangedStates { MATERIAL_CHANGED = 1 << 14, SHADER_CHANGED = 1 << 15 };
+	static void Apply_Render_State_Changes(void);
+	static void Get_DX8_Render_State_Value_Name(StringClass &name, D3DRENDERSTATETYPE state, unsigned value);
+	static void Get_DX8_Texture_Stage_State_Value_Name(StringClass &name, D3DTEXTURESTAGESTATETYPE state, unsigned value);
+
+	static __forceinline void Set_Material(const VertexMaterialClass *material)
+	{
+		VertexMaterialClass *m = const_cast<VertexMaterialClass *>(material);
+		if (m) m->Add_Ref();
+		if (render_state.material) render_state.material->Release_Ref();
+		render_state.material = m;
+		render_state_changed |= MATERIAL_CHANGED;
+		if (WW3D::Is_Snapshot_Activated()) {}
+	}
+	static __forceinline void Set_Shader(const ShaderClass &shader)
+	{
+		if (!ShaderClass::ShaderDirty && shader.ShaderBits == render_state.shader.ShaderBits)
+			return;
+		render_state.shader = shader;
+		render_state_changed |= SHADER_CHANGED;
+		StringClass str;
+		if (WW3D::Is_Snapshot_Activated()) {}
+	}
+	static __forceinline void Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
+	{
+		if (RenderStates[state] == value) return;
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0, true);
+			Get_DX8_Render_State_Value_Name(value_name, state, value);
+			if (WW3D::Is_Snapshot_Activated()) {}
+		}
+		RenderStates[state] = value;
+		D3DDevice->SetRenderState(state, value);
+		number_of_DX8_calls++;
+		render_state_changes++;
+	}
+	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+	{
+		if (stage >= 16) {
+			D3DDevice->SetTextureStageState(stage, state, value);
+			number_of_DX8_calls++;
+			return;
+		}
+		if (TextureStageStates[stage][state] == value) return;
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0, true);
+			Get_DX8_Texture_Stage_State_Value_Name(value_name, state, value);
+			if (WW3D::Is_Snapshot_Activated()) {}
+		}
+		TextureStageStates[stage][state] = value;
+		D3DDevice->SetTextureStageState(stage, state, value);
+		number_of_DX8_calls++;
+		texture_stage_state_changes++;
+	}
+	static __forceinline void Set_DX8_Sampler_State(unsigned stage, DWORD type, unsigned value)
+	{
+		D3DDevice->SetSamplerState(stage, type, value);
+		number_of_DX8_calls++;
+		texture_stage_state_changes++;
+	}
+	static void Invalidate_Cached_Render_States(void);
+	static __forceinline void Set_DX8_Texture(unsigned int stage, IDirect3DBaseTexture8 *texture)
+	{
+		if (stage >= 16) {
+			D3DDevice->SetTexture(stage, texture);
+			number_of_DX8_calls++;
+			return;
+		}
+		if (Textures[stage] == texture) return;
+		if (WW3D::Is_Snapshot_Activated()) {}
+		if (Textures[stage]) Textures[stage]->Release();
+		Textures[stage] = texture;
+		if (Textures[stage]) Textures[stage]->AddRef();
+		D3DDevice->SetTexture(stage, texture);
+		number_of_DX8_calls++;
+		texture_changes++;
+	}
+	static __forceinline void GetView(Matrix4 &m)
+	{
+		if (render_state_changed & (1 << 19))
+			m.Make_Identity();
+		else
+			m = render_state.view.Transpose();
+	}
+	static __forceinline void SetMatrix(unsigned state, const D3DXMATRIX &m)
+	{
+		if (WW3D::Is_Snapshot_Activated()) {}
+		++matrix_changes;
+		D3DDevice->SetTransform(state, &m);
+		++number_of_DX8_calls;
+	}
+
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+	static unsigned RenderStates[];
+	static unsigned TextureStageStates[][32];
+	static IDirect3DBaseTexture8 *Textures[];
+	static RenderStateStruct render_state;
+	static unsigned render_state_changed;
+	static unsigned render_state_changes;
+	static unsigned texture_stage_state_changes;
+	static unsigned texture_changes;
+	static unsigned matrix_changes;
+};
+
+
+class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass>
 {
 };
 
-class ShroudFilter;
+class ShroudFilter
+{
+public:
+	int m_minFilter;
+	int m_magFilter;
+	int m_mipFilter;
+	int m_uAddressMode;
+	int m_vAddressMode;
+	void SetMip(int mip);
+};
 
 class ShroudTexture
 {
 public:
-	ShroudFilter *getFilter(void);
-};
-
-class Version
-{
-public:
-	class AsciiString getAsciiBuildLocation(void);
+	ShroudFilter *getFilter();
 };
 
 class TextureAsset
 {
 public:
-	static class BFME2ParticleTextureHandle Get(const char *, int, int);
+	static BFME2ParticleTextureHandle Get(const char *filename, int a, int b);
 };
 
-class BFME2TextureRef
+struct BFME2TextureRef;
+void BFME2Set_Texture(unsigned int stage, const BFME2TextureRef &texture);
+
+struct D3DXVECTOR3 { float x, y, z; };
+struct D3DXVECTOR4 { float x, y, z, w; };
+struct D3DXPLANE { float a, b, c, d; };
+extern "C" D3DXMATRIX *__stdcall D3DXMatrixRotationZ(D3DXMATRIX *, float);
+extern "C" D3DXVECTOR4 *__stdcall rva0062AF56D3DXVec3Transform(D3DXVECTOR4 *, const D3DXVECTOR3 *, const D3DXMATRIX *);
+extern "C" D3DXPLANE *__stdcall rva0062AF50D3DXPlaneFromPointNormal(D3DXPLANE *, const D3DXVECTOR3 *, const D3DXVECTOR3 *);
+
+__inline D3DXMATRIX *__stdcall D3DXMatrixIdentity(D3DXMATRIX *pOut)
 {
-};
+	pOut->m[0][1] = pOut->m[0][2] = pOut->m[0][3] =
+	pOut->m[1][0] = pOut->m[1][2] = pOut->m[1][3] =
+	pOut->m[2][0] = pOut->m[2][1] = pOut->m[2][3] =
+	pOut->m[3][0] = pOut->m[3][1] = pOut->m[3][2] = 0.0f;
 
-class BFME2ParticleTextureHandle
+	pOut->m[0][0] = pOut->m[1][1] = pOut->m[2][2] = pOut->m[3][3] = 1.0f;
+	return pOut;
+}
+
+class RGBColor
 {
 public:
-	TextureClass *m_texture;
+	float red, green, blue;
+	int getAsInt() const;
 };
 
-class StringClass
+// The cloud settings object at 0x00DFE1E4 and its rowed getters.
+class Rva0027070CGlobal;
+extern Rva0027070CGlobal *g_00DFE1E4;
+struct CloudFields
+{
+	char pad00[0x1C];
+	float m_rotation;	// +0x1C
+	char pad20[8];
+	float m_28;
+	float m_2C;
+	char pad30[0x94];
+	int m_C4;
+};
+class Rva00564E0D { public: AsciiString rva00564E0D(); };
+class Version { public: AsciiString getAsciiBuildLocation(); };
+class Rva0056394A { public: AsciiString rva0056394A(); };
+namespace FXParticleSystem {
+class ParticleSystemTemplate { public: AsciiString getTextureFilename() const; };
+}
+class Rva00214D4A { public: float rva00214D4A(); };
+struct Rva00094DD3Val { float x, y; };
+class Rva00094DD3 { public: void rva00094DD3(Rva00094DD3Val *out); };
+
+extern int g_Va00DB47EC;
+class GlobalWeatherSystem;
+extern GlobalWeatherSystem *TheGlobalWeatherSystem;
+struct GlobalWeatherSystemView { char pad[0x10]; int m_10; };
+class GameLogic;
+extern GameLogic *TheGameLogic;
+struct GameLogicView { char pad[0x40]; int m_frame; };
+
+class BfmeB1137
 {
 public:
-	StringClass(int, bool);
-	~StringClass(void);
-	void Free_String(void);
+	virtual void s00(void);
+	virtual void s01(void);
+	virtual void Install_Materials(void) const;
+	virtual void UnInstall_Materials(void) const;
+
+	char pad04[0x34];
+	mutable float m_38;
+	mutable float m_3C;
+	mutable float m_40;
+	mutable int m_44;
+	char pad48[4];
+	mutable float m_4C;
+	mutable float m_50;
+	char pad54[4];
+	mutable RefCountPtr<TextureClass> m_58;
+	mutable RefCountPtr<TextureClass> m_5C;
+	mutable RefCountPtr<TextureClass> m_60;
+	mutable RefCountPtr<TextureClass> m_64;
+	mutable bool m_68;
+	bool m_69;
+	bool m_6A;
+	mutable D3DXVECTOR3 m_6C;
+	mutable D3DXVECTOR3 m_78;
+	mutable D3DXPLANE m_84;
+	mutable D3DXMATRIX m_94;
+	mutable float m_D4;
+	mutable float m_D8;
+	char padDC[4];
+	mutable float m_E0;
+	mutable int m_E4;
 };
 
-class AsciiString
+static __forceinline const BFME2TextureRef &AsRef(const RefCountPtr<TextureClass> &t)
 {
-public:
-	const char *m_data;
-};
+	return reinterpret_cast<const BFME2TextureRef &>(t);
+}
 
-#define g_bfmeRenderState0 (*(volatile int*)0x00DB47EC)
-#define g_bfmeRenderState1 (*(volatile int*)0x00E01CE4)
-#define g_bfmeFlag0 (*(volatile unsigned char*)0x00DB621C)
-#define g_bfmeVertexMaterial (*(VertexMaterialClass * volatile *)0x00DEE5DC)
-#define g_bfmeFlag1 (*(volatile unsigned char*)0x00DEC4F5)
-#define g_bfmeVersion (*(Version * volatile *)0x00DFE1E4)
+#define CLOUD ((CloudFields *)g_00DFE1E4)
 
-// The retail body is a method: the prologue stores the incoming `this` in
-// [ebp-0x18] and the three cached stage-state slots live at this+0x58,
-// this+0x60 and this+0x64.  Model that layout here so the slot accesses and
-// the second texture-stage call come out in retail order.
-struct RenderSlots
+void BfmeB1137::Install_Materials(void) const
 {
-	int slot58;
-	int pad5c;
-	int slot60;
-	int slot64;
-};
-
-void rva00095821(void)
-{
-	RenderSlots *self;
-	*(volatile RenderSlots**)&self = self;
-
-	int ent = 0;
-
-	// Retail: if (g_bfmeRenderState0 == 0 || g_bfmeRenderState1 == 0) return;
-	if (g_bfmeRenderState0 == 0 || g_bfmeRenderState1 == 0)
+	if (!g_Va00DB47EC || !TheGlobalWeatherSystem)
 		return;
 
-	if (0) { AsciiString d; }
-
 	DX8Wrapper::Invalidate_Cached_Render_States();
-
-	*(volatile unsigned char *)&g_bfmeFlag0 = 1;
-
-	int one = 0;
-	one++;
-	*(volatile int*)&ent = one;
-	VertexMaterialClass *mat = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRESET_DEFAULT);
-	if (mat != 0)
-		++*(reinterpret_cast<int *>(mat) + 1);
-	{
-		BfmeRef006e2480 *old = (BfmeRef006e2480 *)g_bfmeVertexMaterial;
-		if (old != 0)
-			old->Release_Ref();
-		if (0) throw 1;
-	}
-	g_bfmeVertexMaterial = mat;
-	if (mat != 0)
-	{
-		mat->Add_Ref();
-		int *refs = reinterpret_cast<int *>(mat);
-		int *r4 = refs + 1;
-		if (--*r4 == 0)
-			mat->Release_Ref();
-	}
-	*(volatile unsigned char *)&g_bfmeFlag1 |= 0x40;
-
+	ShaderClass::ShaderDirty = true;
+	VertexMaterialClass *vmat = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
+	DX8Wrapper::Set_Material(vmat);
+	if (vmat)
+		vmat->Release_Ref();
 	DX8Wrapper::Apply_Render_State_Changes();
 
-	if (g_bfmeRenderState0 != 0)
+	if (g_Va00DB47EC == 1)
 	{
-		if (self != 0)
+		if (!m_58.ptr)
 		{
-			if (self->slot58 != 0)
+			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
+			((ShroudTexture *)&m_58)->getFilter()->m_uAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
+		}
+		if (!m_60.ptr)
+		{
+			m_60 = TextureAsset::Get(((Version *)g_00DFE1E4)->getAsciiBuildLocation().str(), 0, 0);
+			((ShroudTexture *)&m_60)->getFilter()->m_uAddressMode = 1;
+			((ShroudTexture *)&m_60)->getFilter()->m_vAddressMode = 1;
+			((ShroudTexture *)&m_60)->getFilter()->SetMip(0);
+		}
+		if (!m_64.ptr)
+		{
+			m_64 = TextureAsset::Get(((Rva0056394A *)g_00DFE1E4)->rva0056394A().str(), 0, 0);
+			((ShroudTexture *)&m_64)->getFilter()->m_uAddressMode = 1;
+			((ShroudTexture *)&m_64)->getFilter()->m_vAddressMode = 1;
+			((ShroudTexture *)&m_64)->getFilter()->SetMip(0);
+		}
+		BFME2Set_Texture(0, AsRef(m_58));
+		BFME2Set_Texture(1, AsRef(m_58));
+		BFME2Set_Texture(2, AsRef(m_60));
+		BFME2Set_Texture(3, AsRef(m_64));
+
+		DX8Wrapper::Set_DX8_Render_State(15, 0);
+		if (!m_69)
+		{
+			DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 1);
+			return;
+		}
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 3, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 4, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 5, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 6, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 1, 3);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 3, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 4, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 5, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 6, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 1, 0x13);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 3, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 4, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 5, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 6, 1);
+		if (!m_6A)
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 1, 1);
+		else
+		{
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 1, 0x13);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 2, 2);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 3, 1);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 4, 2);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 5, 2);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 6, 1);
+		}
+		DX8Wrapper::Set_DX8_Render_State(23, 4);
+		DX8Wrapper::Set_DX8_Render_State(14, 0);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 11, 0x20000);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 24, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 11, 0x20000);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(2, 24, 2);
+		if (!m_6A)
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 24, 0);
+		else
+		{
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 11, 0x20000);
+			DX8Wrapper::Set_DX8_Texture_Stage_State(3, 24, 2);
+		}
+
+		D3DXMATRIX inv;
+		float det;
+		Rva0007671F view;
+		DX8Wrapper::GetView(view);
+		static_cast<Matrix4 &>(view) = view.Transpose();
+		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
+
+		D3DXMATRIX drift;
+		D3DXMatrixIdentity(&drift);
+		WorldHeightMap *map = TheTerrainRenderObject->map;
+		int width = map->width;
+		int height = map->height;
+		bool sameFrame = false;
+		if (m_E4 == ((GameLogicView *)TheGameLogic)->m_frame)
+			sameFrame = true;
+		m_E4 = ((GameLogicView *)TheGameLogic)->m_frame;
+		if (!sameFrame)
+			m_38 += ((Rva00214D4A *)g_00DFE1E4)->rva00214D4A();
+		if (m_38 > 1.0f)
+			m_38 = 1.0f;
+		float diagonal = WWMath::Sqrt((float)(height * height + width * width));
+		drift.m[3][0] -= diagonal * m_38 * 10.0f;
+
+		float fw = (float)width;
+		float fh = (float)height;
+		float sx = fw * 10.0f;
+		float sy = fh * 10.0f;
+		D3DXMATRIX scale;
+		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
+		D3DXMATRIX rot;
+		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
+		float hx = sx * 0.5f;
+		float hy = sy * 0.5f;
+		D3DXMATRIX center;
+		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
+		D3DXMATRIX shift;
+		D3DXMatrixTranslation(&shift, diagonal * 5.0f, 0.0f, 0.0f);
+		D3DXMATRIX uncenter;
+		D3DXMatrixIdentity(&uncenter);
+		uncenter.m[3][0] = sx * -0.5f;
+		uncenter.m[3][1] = sy * -0.5f;
+
+		D3DXMATRIX world = uncenter * rot * center * shift * drift;
+		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * (world * scale);
+		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
+
+		m_94 = world;
+		D3DXMatrixInverse(&world, &det, &world);
+		fw = fw * 0.5f * 10.0f;
+		fh = fh * 0.5f * 10.0f;
+		D3DXVECTOR3 corner;
+		corner.x = fw;
+		corner.y = fh;
+		corner.z = 0.0f;
+		D3DXVECTOR4 out;
+		rva0062AF56D3DXVec3Transform(&out, &corner, &world);
+		m_6C.x = out.x;
+		m_6C.y = out.y;
+		m_6C.z = out.z;
+		m_78.x = world.m[0][0];
+		m_78.y = world.m[0][1];
+		m_78.z = world.m[0][2];
+		rva0062AF50D3DXPlaneFromPointNormal(&m_84, &m_6C, &m_78);
+
+		int last = m_44;
+		m_44 = WW3D::SyncTime;
+		int elapsed = WW3D::SyncTime - last;
+		if (sameFrame)
+			elapsed = 0;
+		Rva00094DD3Val wind;
+		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
+		m_4C += wind.x * elapsed * 0.002f;
+		m_50 += wind.y * elapsed * 0.002f;
+		while (m_4C > 1.0f)
+			m_4C -= 1.0f;
+		while (m_50 > 1.0f)
+			m_50 -= 1.0f;
+		while (m_4C < -1.0f)
+			m_4C += 1.0f;
+		while (m_50 < -1.0f)
+			m_50 += 1.0f;
+
+		D3DXMATRIX scroll;
+		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
+		D3DXMatrixScaling(&scale, 0.0031746032f, 0.0031746032f, 1.0f);
+		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
+		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
+
+		if (m_6A)
+		{
+			m_D4 = hx;
+			m_D8 = hy;
+			D3DXMATRIX toOrigin;
+			D3DXMatrixTranslation(&toOrigin, 0.0f - m_D4, 0.0f - m_D8, 0.0f);
+			D3DXMATRIX toHalf;
+			D3DXMatrixTranslation(&toHalf, 0.5f, 0.5f, 0.0f);
+			float radius = CLOUD->m_28 + m_3C * 0.1f + m_3C * m_3C * 0.15000000596046448;
+			m_40 = radius;
+			if (!m_68)
 			{
-				StringClass s0(0, false);
-				DX8Wrapper::Get_DX8_Render_State_Value_Name(s0, 0x0F, 0);
+				if (radius > 100.0f)
+					m_40 = 100.0f;
+				else if (!sameFrame)
+					m_3C += CLOUD->m_2C;
 			}
+			D3DXMatrixScaling(&scale, 1.0f / (m_40 * 128.0f), 1.0f / (m_40 * 128.0f), 1.0f);
+			*reinterpret_cast<D3DXMATRIX *>(&view) = inv * toOrigin * scale * toHalf;
+			DX8Wrapper::SetMatrix(0x13, *reinterpret_cast<D3DXMATRIX *>(&view));
+			m_E0 = m_40 * 64.0f;
 		}
-
-		if (self->slot58 == 0)
-		{
-			Version *ver = g_bfmeVersion;
-			AsciiString loc = ver->getAsciiBuildLocation();
-			TextureAsset::Get(loc.m_data ? loc.m_data : "default", 0, 0);
-			TextureAsset::Get("second", 0, 0);
-			TextureAsset::Get("third", 0, 0);
-			*(volatile unsigned char *)&g_bfmeFlag1 |= 0x40;
-		}
-
-		ent = 1;
-
-		// this+0x60
-		if (self->slot60 == 0)
-		{
-			StringClass s(0, false);
-			DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(s, 0, 0);
-		}
-
-		// this+0x64
-		if (self->slot64 == 0)
-		{
-			StringClass s(0, false);
-			DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(s, 0, 0);
-		}
+		DX8Wrapper::Set_DX8_Render_State(27, 1);
+		DX8Wrapper::Set_DX8_Render_State(19, 1);
+		DX8Wrapper::Set_DX8_Render_State(20, 3);
 	}
-
-	if (ent != 0)
+	else if (g_Va00DB47EC == 2)
 	{
-		StringClass s1(0, false);
-		DX8Wrapper::Get_DX8_Render_State_Value_Name(s1, 0x0F, 0);
-	}
-	{
-		StringClass s2(0, false);
-		DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(s2, 0, 0);
-		StringClass s3(0, false);
-		DX8Wrapper::Get_DX8_Texture_Stage_State_Value_Name(s3, 0, 0);
-		DX8Wrapper::Invalidate_Cached_Render_States();
-		DX8Wrapper::Apply_Render_State_Changes();
-	}
-
-	// Matrix/scaling/rotation/translation work follows; represented here as
-	// the same cleared-state shape so the entry sequence stays intact.
-	{
-		VertexMaterialClass *mat2 = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRESET_DEFAULT);
-		if (mat2 != 0)
-			mat2->Release_Ref();
-		if (mat2 != 0)
-			mat2->Add_Ref();
-		if (mat2 != 0)
-			mat2->Release_Ref();
-		DX8Wrapper::Invalidate_Cached_Render_States();
-		DX8Wrapper::Apply_Render_State_Changes();
-		DX8Wrapper::Invalidate_Cached_Render_States();
-		DX8Wrapper::Apply_Render_State_Changes();
-	}
-
-	if (self != 0)
-	{
-		// this+0x58
-		if (self->slot58 == 0)
+		if (!m_58.ptr)
 		{
-			StringClass s(0, false);
-			DX8Wrapper::Get_DX8_Render_State_Value_Name(s, 0x0F, 0);
-			*(volatile unsigned char *)&g_bfmeFlag1 |= 0x40;
+			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
+			((ShroudTexture *)&m_58)->getFilter()->m_uAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
 		}
+		if (!m_5C.ptr)
+		{
+			m_5C = TextureAsset::Get(((FXParticleSystem::ParticleSystemTemplate *)g_00DFE1E4)->getTextureFilename().str(), 0, 0);
+			((ShroudTexture *)&m_5C)->getFilter()->m_uAddressMode = 0;
+			((ShroudTexture *)&m_5C)->getFilter()->m_vAddressMode = 0;
+			((ShroudTexture *)&m_5C)->getFilter()->SetMip(0);
+		}
+		BFME2Set_Texture(0, AsRef(((GlobalWeatherSystemView *)TheGlobalWeatherSystem)->m_10 == 1 ? m_5C : m_58));
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 7);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 3, 3);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 4, 7);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 5, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 6, 3);
+		DX8Wrapper::Set_DX8_Sampler_State(0, 6, 2);
+		DX8Wrapper::Set_DX8_Sampler_State(0, 5, 2);
+		DX8Wrapper::Set_DX8_Sampler_State(0, 7, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 11, 0x20000);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 24, 2);
+
+		D3DXMATRIX inv;
+		float det;
+		Rva0007671F view;
+		DX8Wrapper::GetView(view);
+		static_cast<Matrix4 &>(view) = view.Transpose();
+		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
+
+		int last = m_44;
+		m_44 = WW3D::SyncTime;
+		int elapsed = WW3D::SyncTime - last;
+		Rva00094DD3Val wind;
+		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
+		m_4C += elapsed * wind.x * 0.001f;
+		m_50 += elapsed * wind.y * 0.001f;
+		while (m_4C > 1.0f)
+			m_4C -= 1.0f;
+		while (m_50 > 1.0f)
+			m_50 -= 1.0f;
+		while (m_4C < -1.0f)
+			m_4C += 1.0f;
+		while (m_50 < -1.0f)
+			m_50 += 1.0f;
+
+		D3DXMATRIX scroll;
+		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
+		D3DXMATRIX scale;
+		D3DXMatrixScaling(&scale, 0.00078125f, 0.00078125f, 1.0f);
+		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
+		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
+
+		DX8Wrapper::Set_DX8_Render_State(23, 4);
+		DX8Wrapper::Set_DX8_Render_State(14, 0);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 1, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 4, 1);
+		CloudFields *cloud = CLOUD;
+		DX8Wrapper::Set_DX8_Render_State(15, 1);
+		DX8Wrapper::Set_DX8_Render_State(24, cloud->m_C4);
+		DX8Wrapper::Set_DX8_Render_State(25, 7);
+		DX8Wrapper::Set_DX8_Render_State(26, 1);
+		RGBColor color;
+		color.red = color.green = color.blue = (float)cloud->m_C4 * (1.0f / 255.0f);
+		DX8Wrapper::Set_DX8_Render_State(60, color.getAsInt() | 0xFF000000);
+		DX8Wrapper::Set_DX8_Render_State(27, 1);
+		DX8Wrapper::Set_DX8_Render_State(19, 1);
+		DX8Wrapper::Set_DX8_Render_State(20, 3);
 	}
+	else
+		return;
+	m_68 = true;
 }
