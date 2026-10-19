@@ -1426,58 +1426,7 @@ void Player::transferAssetsFromThat(Player *that)
 }
 
 //=============================================================================
-// ?garrisonAllUnits@Player@@QAEXW4CommandSourceType@@@Z present-unmatched
-void Player::garrisonAllUnits(CommandSourceType source)
-{
-	PartitionFilterAcceptByKindOf f1(MAKE_KINDOF_MASK(KINDOF_STRUCTURE), KINDOFMASK_NONE);
-	PartitionFilter *filters[] = { &f1, NULL };
-
-	Coord3D pos = {50.0, 50.0, 50.0};
-/// @todo srj -- we should really use iterateAllObjects() here instead, but I have no time to
-// test such a change... make someday
-	ObjectIterator *iterBuilding = ThePartitionManager->iterateObjectsInRange(&pos, 1e9f, FROM_CENTER_3D, filters, ITER_SORTED_NEAR_TO_FAR);
-	MemoryPoolObjectHolder hold(iterBuilding);
-
-	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it) {
-		for (BfmeTeamIter iter = bfmeTeamInstances(*it); !iter.done(); iter.advance()) {
-			Team *team = iter.cur();
-			if (!team) {
-				continue;
-			}
-			
-			for (BfmePlayerIter iterObj = bfmePlayerMembers(team); !iterObj.done(); iterObj.advance()) {
-				Object *obj = iterObj.cur();
-				if (!obj) {
-					continue;
-				}
-
-				AIUpdateInterface *ai = obj->getAIUpdateInterface();
-				if (!ai) {
-					continue;
-				}
-
-				for (Object *theBuilding = iterBuilding->first(); theBuilding; theBuilding = iterBuilding->next()) 
-				{
-					ContainModuleInterface *contain = getRetailContain(theBuilding);
-					if (contain)
-					{
-						PlayerMaskType player = contain->getPlayerWhoEntered();
-						if (!((player == 0) || (player == obj->getControllingPlayer()->getPlayerMask()))) {
-							continue;
-						}
-					}
-					if( !TheActionManager->canEnterObject( obj, theBuilding, source, CHECK_CAPACITY ) )
-					{
-						continue;
-					}
-
-					ai->aiEnter(theBuilding, source);
-				}
-			}
-		}
-	}
-}
+// Player::garrisonAllUnits is rowed at 0x002AEEA7 in PlayerTeamCommands.cpp.
 
 
 //-------------------------------------------------------------------------------
