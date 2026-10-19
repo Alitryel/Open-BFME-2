@@ -1,19 +1,12 @@
-// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
-// partial score=0.98 date=2026-10-15
-// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
-// partial score=0.9759 date=2026-10-14
-// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
-// partial score=0.9759 date=2026-10-14
-// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
-// partial score=0.975902 date=2026-10-10
-// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
-// partial score=0.95 date=2026-10-09
-// seat4 2026-10-15: visible stub hashtable begin (0x00427195) and cursor
-// next/advance (0x00411084/0x003F7925) bodies (byte-identical spellings, see
-// PlayerUpdate.cpp) plus a scoped save count: frame 0x18 like retail; left
-// are slot-only differences (retail packs the begin() temp over the load
-// path key at -0x10 and keeps count/value adjacent at -0x18/-0x1c).
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
+// r27 2026-10-20: exact 253/253. Retail's frame packing needs every callee that
+// receives &it to be visible all the way down: next 0x00411084 -> advance
+// 0x003F7925 -> bucketIndex 0x00223149 -> Rva00055041AsciiHash 0x00055041 ->
+// _STL::__stl_hash_string 0x0002BA61 (STLport <stl/_hash_fun.h> inline; any opaque call in that chain makes `it`
+// escape, so it cannot share the load value's slot). With the chain visible,
+// the WB C22A00 declaration shape (save: value, count, it; key in the loop)
+// places count/value/begin temp exactly as retail.
 // stlport
 //
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z, retail
@@ -38,6 +31,7 @@
 // The method name stays address-derived.
 #include "ascii_string.h"
 #include <vector>
+#include <stl/_hash_fun.h>
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -74,7 +68,7 @@ public:
 	virtual void slot25();
 	virtual void slot26();
 	virtual void xferAsciiString(AsciiString &value);
-	virtual void slot28();
+	virtual void xferReal(float &value);
 	virtual void slot29();
 	virtual void xferUnsignedInt(UnsignedInt &value);
 	virtual void xferInt(Int &value);
@@ -107,11 +101,26 @@ struct _Ht_iterator
 }
 typedef _STL::pair<GameWindow const *const, WindowVideo *> WVPair;
 typedef _STL::_Ht_iterator<WVPair, _STL::_Nonconst_traits<WVPair>, const GameWindow *, WindowVideoManager::hashConstGameWindowPtr, _STL::_Select1st<WVPair>, _STL::equal_to<const GameWindow *>, _STL::allocator<WVPair> > WVIter;
+__declspec(noinline) unsigned int __stdcall Rva00055041AsciiHash(const AsciiString *name)
+{
+	const StringBase<char> *data = *(const StringBase<char> * const *)name;
+	const char *chars = data != 0 ? (const char *)data + 8 : "";
+	return _STL::__stl_hash_string(chars);
+}
 class Rva000427195
 {
 public:
-	int bucketIndex(const AsciiString *name);	// 0x00223149
+	__declspec(noinline) int bucketIndex(const AsciiString *name);	// 0x00223149
+	void *m_unused00;
+	void **m_beginBuckets;
+	void **m_endBuckets;
 };
+int Rva000427195::bucketIndex(const AsciiString *name)
+{
+	unsigned hash = Rva00055041AsciiHash(name);
+	unsigned count = (unsigned)(((char *)m_endBuckets - (char *)m_beginBuckets) >> 2);
+	return hash % count;
+}
 class Rva000411084
 {
 public:
@@ -199,27 +208,67 @@ public:
 	UnsignedInt m_numElements;	// +0x10
 };
 
-struct CountValue{Int value;UnsignedInt count;};
+class Rva001FDE3F
+{
+public:
+	float &rva001FDE3F(const AsciiString &key);
+};
+struct Rva002AF236Node
+{
+	Rva002AF236Node *m_next;
+	AsciiString m_key;
+	float m_value;
+};
 class Player
 {
 public:
+	void rva002AF236(Xfer *xfer, Rva001FDE3F *map);
 	void rva002AF33B(Xfer *xfer, Rva002AE4C5 *map);
 };
+
+void Player::rva002AF236(Xfer *xfer, Rva001FDE3F *map)
+{
+	if (xfer->isSaving())
+	{
+		float value;
+		UnsignedInt count = ((Rva002AE4C5 *)map)->m_numElements;
+		xfer->xferUnsignedInt(count);
+		Rva000411084 it = ((WVMap *)map)->begin();
+		for (; it.m_current != 0; it.next())
+		{
+			AsciiString key = ((Rva002AF236Node *)it.m_current)->m_key;
+			value = ((Rva002AF236Node *)it.m_current)->m_value;
+			xfer->xferAsciiString(key);
+			xfer->xferReal(value);
+		}
+	}
+	else
+	{
+		UnsignedInt count = 0;
+		xfer->xferUnsignedInt(count);
+		AsciiString key;
+		float value;
+		for (UnsignedInt i = 0; i < count; ++i)
+		{
+			xfer->xferAsciiString(key);
+			xfer->xferReal(value);
+			map->rva001FDE3F(key) = value;
+		}
+	}
+}
 
 void Player::rva002AF33B(Xfer *xfer, Rva002AE4C5 *map)
 {
 	if (xfer->isSaving())
 	{
-		{
-			UnsignedInt count = map->m_numElements;
-			xfer->xferUnsignedInt(count);
-		}
+		Int value;
+		UnsignedInt count = map->m_numElements;
+		xfer->xferUnsignedInt(count);
 		Rva000411084 it = ((WVMap *)map)->begin();
-		Rva002AF33BNode *node;
-		for (; (node = (Rva002AF33BNode *)it.m_current) != 0; it.next())
+		for (; it.m_current != 0; it.next())
 		{
-			AsciiString key = node->m_key;
-			Int value = node->m_value;
+			AsciiString key = ((Rva002AF33BNode *)it.m_current)->m_key;
+			value = ((Rva002AF33BNode *)it.m_current)->m_value;
 			xfer->xferAsciiString(key);
 			xfer->xferInt(value);
 		}
