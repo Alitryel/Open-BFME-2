@@ -1,4 +1,6 @@
 // ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
+// partial score=0.9567 date=2026-10-19
+// ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
 // partial score=0.873 date=2026-10-17
 // ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
 // partial score=0.9586 date=2026-10-15
@@ -432,26 +434,31 @@ protected:
 };
 
 
+class Rva00376A62
+{
+public:
+	Bool rva00376A84(const void *thing);
+};
 class ObjectTypes
 {
 public:
-	Bool isInSet(const ThingTemplate *tmpl) const;
-};
-class ObjectTypesTypeSet
-{
-public:
-	virtual ~ObjectTypesTypeSet();
-	Bool isInSet(const ThingTemplate *tmpl) const;
+	virtual ~ObjectTypes();
+	Bool isInSet(const ThingTemplate *tmpl) const
+	{
+		return ((Rva00376A62 *)this)->rva00376A84(tmpl);
+	}
 };
 class ObjectTypesTemp
 {
 public:
 	ObjectTypesTemp();
-	~ObjectTypesTemp() { delete m_types; }
-	ObjectTypesTypeSet *m_types;
+	~ObjectTypesTemp() { ::delete m_types; }
+	ObjectTypes *m_types;
 };
-ObjectTypes *Script_objectTypesFromParam(Parameter *typeParm, ObjectTypesTypeSet *&types);
+void Script_objectTypesFromParam(Parameter *typeParm, ObjectTypes *types);
 
+// Retail passes ObjectTypes by value and uses global delete after virtual destruction.
+// The true-exit cleanup is three bytes longer than retail; see reverse/attempt_support/3e8e23-worker-20261019.md.
 Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, Parameter *comparisonParm, Parameter *rankParm)
 {
 	Player *player = ThePlayerList->getPlayerFromMask(TheScriptEngine->rva00357475(*playerParm->getString(), 0));
@@ -488,7 +495,6 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 					{
 						Int rank = tracker->getRank();
 						Bool matches = false;
-						*(Bool * volatile *)&matches = 0;
 						switch (comparisonParm->getInt())
 						{
 							case 0: matches = rank < rankParm->getInt(); break;
@@ -507,5 +513,4 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 	}
 	return false;
 
- if (0) throw 1;
 }
