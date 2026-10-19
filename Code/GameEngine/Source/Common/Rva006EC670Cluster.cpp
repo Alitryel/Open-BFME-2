@@ -5,28 +5,32 @@
 // BfmeAptValue::toInteger (0x006DD360) and adds 0x4000; then calls the
 // interpreter method 0x007092F0 with (checkedCast, 0, checkedCast, At(0),
 // size, At(2)) and returns the undefined singleton at 0x00E18078. The check
-// cast 0x006DCF60 and At 0x006FE580 are rowed; 0x007092F0 is unrowed and
-// address-derived. Identity of the handler is not proven.
+// cast 0x006DCF60 and At 0x006FE580 are rowed; 0x007092F0 is the rowed
+// duplicate-movie-clip helper AptActionInterpreter::rva007092F0 (private,
+// so this handler is its friend here). Identity of the handler is not proven.
 class BfmeAptValue006DCD20;
+class AptCIH;
+class AptValue;
 
 class AptBasePtrStack
 {
 public:
 	BfmeAptValue006DCD20 *At(int nPos);
-	BfmeAptValue006DCD20 *rva007092F0(BfmeAptValue006DCD20 *a1, int a2, BfmeAptValue006DCD20 *a3,
-		BfmeAptValue006DCD20 *a4, int a5, BfmeAptValue006DCD20 *a6);
 };
 
 struct AptActionInterpreter
 {
 	AptBasePtrStack stack;
+private:
+	friend BfmeAptValue006DCD20 *rva006ec670(BfmeAptValue006DCD20 *pValue, int nParams);
+	void rva007092F0(AptCIH *context, AptValue *with, AptValue *source, AptValue *target, int depth, AptValue *init);
 };
 
 // g_aptDateInterpreter: interpreter global at VA 0x00E182E0; the stack
 // sub-object is at offset 0 (matched references already place it there).
 extern AptActionInterpreter g_aptDateInterpreter;
 // g_aptUndefinedAtE18078: the undefined-value singleton at VA 0x00E18078.
-class AptValue; extern AptValue *gpUndefinedValue;
+extern AptValue *gpUndefinedValue;
 
 class BfmeAptValue006DCD20
 {
@@ -41,7 +45,7 @@ BfmeAptValue006DCD20 *rva006ec670(BfmeAptValue006DCD20 *pValue, int nParams)
 	BfmeAptValue006DCD20 *p1 = g_aptDateInterpreter.stack.At(1);
 	BfmeAptValue006DCD20 *p2 = (nParams >= 3) ? g_aptDateInterpreter.stack.At(2) : 0;
 	int size = p1->toInteger() + 0x4000;
-	g_aptDateInterpreter.stack.rva007092F0(
-		pValue->rva006DCF60(false), 0, pValue->rva006DCF60(false), p0, size, p2);
+	g_aptDateInterpreter.rva007092F0((AptCIH *)pValue->rva006DCF60(false), 0,
+		(AptValue *)pValue->rva006DCF60(false), (AptValue *)p0, size, (AptValue *)p2);
 	return (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue);
 }
