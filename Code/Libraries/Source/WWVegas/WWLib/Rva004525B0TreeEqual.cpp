@@ -15,21 +15,12 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 extern "C" int __cdecl memcmp(const void *buf1, const void *buf2, unsigned int count);
 #pragma intrinsic(memcmp)
 
-class Rva004525B0String
+#include "string_base.h"
+
+// The set's key is an AsciiString: its compare is StringBase<char>'s
+// (retail 0x000069D6, rowed in string_base.cpp), reached through the base.
+class Rva004525B0String : public StringBase<char>
 {
-public:
-	int compare(const Rva004525B0String &str) const;
-
-private:
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		char data[1];
-	};
-
-	Header *m_data;
 };
 
 inline bool operator==(const Rva004525B0String &left,
