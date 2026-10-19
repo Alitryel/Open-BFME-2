@@ -8,8 +8,9 @@
 // Native initializer 2DE641 repeatedly calls this helper with CHUNK_ labels.
 // The native insertion chain proves push_back2DDEA6 -> insert2DDE02 ->
 // create_node2DD021 -> Construct2DCD64 -> copyCF475 -> StringBase copy365F0.
-// The last two helpers already have verified rows under opaque TreeKey names;
-// their SnapshotBlock spellings are proven folded aliases and count no gain.
+// The 29-byte SnapshotBlock copy folds onto the existing CF475 owner. The
+// genuine Construct owns2DCD64; its native EH graph binds cleanup778027 and
+// handler778035. Their proper home replaces the obsolete TreeKey alias view.
 // All six complete emitted extents match strictly with the actual callees.
 // stlport
 #include <list>
