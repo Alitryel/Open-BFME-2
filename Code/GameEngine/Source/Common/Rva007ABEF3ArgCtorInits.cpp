@@ -13,12 +13,6 @@ extern "C" int __cdecl atexit(void (__cdecl *)(void));
 class Vector3;
 class Vector4;
 
-class Curve3DClass
-{
-public:
-	class KeyClass;
-};
-
 template <class T> class VectorClass
 {
 public:
@@ -142,7 +136,7 @@ unsigned g_Va00E00944;	// retail RVA 0x00A00944 (.bss), defined here
 class FontCharsClass;
 extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
 
-typedef DynamicVectorClass<Curve3DClass::KeyClass> KeyVector;
+typedef DynamicVectorClass<Vector3> KeyVector;
 typedef VectorClass<Vector3> Vector3Vector;
 typedef VectorClass<Vector4> Vector4Vector;
 typedef BitFlags<11> Mask11;
@@ -179,14 +173,14 @@ void Rva007ABEF3ArgCtorInits::rva007ABEF3()
 	atexit( rva007B6B91 );
 }
 
-// 0x007AC818 (26B): DynamicVectorClass<Curve3DClass::KeyClass>(0, 0) on VA 0x00DEBE0C, atexit(0x007B6E54 -> its dtor 0x000F1D19)
+// 0x007AC818 (26B): DynamicVectorClass<Vector3>(0, 0) on VA 0x00DEBE0C, atexit(0x007B6E54 -> its dtor 0x000F1D19)
 void Rva007ABEF3ArgCtorInits::rva007AC818()
 {
 	( (KeyVector *)&g_Va00DEBE0C )->KeyVector::DynamicVectorClass( 0, 0 );
 	atexit( rva007B6E54 );
 }
 
-// 0x007AC832 (26B): DynamicVectorClass<Curve3DClass::KeyClass>(0, 0) on VA 0x00DEBE24, atexit(0x007B6E5E -> its dtor 0x000F1D19)
+// 0x007AC832 (26B): DynamicVectorClass<Vector3>(0, 0) on VA 0x00DEBE24, atexit(0x007B6E5E -> its dtor 0x000F1D19)
 void Rva007ABEF3ArgCtorInits::rva007AC832()
 {
 	( (KeyVector *)&g_Va00DEBE24 )->KeyVector::DynamicVectorClass( 0, 0 );
