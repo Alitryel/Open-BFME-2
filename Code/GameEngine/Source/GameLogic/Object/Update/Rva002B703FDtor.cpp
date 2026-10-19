@@ -7,7 +7,13 @@
 struct Rva0040DC56Element
 {
 	~Rva0040DC56Element();
-	int m_pad[4];
+	void *m_holder; // native destroy2B44C1 advances four bytes; release2B2F49 uses +0
 };
+
+// Bind the verified24B range forwarder2B61C5; its27B destroy loop2B44C1
+// releases each four-byte holder through2B2F49 with flag0.
+namespace _STL {
+template <> void _Destroy<Rva0040DC56Element *>(Rva0040DC56Element *, Rva0040DC56Element *);
+}
 
 template _STL::vector<Rva0040DC56Element>::~vector();

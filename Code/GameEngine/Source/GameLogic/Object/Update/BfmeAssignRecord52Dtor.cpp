@@ -7,8 +7,13 @@
 struct Rva0040DC56Element
 {
 	~Rva0040DC56Element();
-	int m_pad[4];
+	void *m_holder; // native destroy2B44C1 advances four bytes; release2B2F49 uses +0
 };
+
+// The whole63B vector destructor is verified in Rva002B703FDtor.cpp.
+namespace _STL {
+template <> vector<Rva0040DC56Element, allocator<Rva0040DC56Element> >::~vector();
+}
 
 class Rva002B5558
 {
