@@ -46,3 +46,12 @@ float ACos(float value)
 {
     return (float)acos(value);
 }
+
+// Native 0x001333F0..0x001333FB: two float stack arguments, FPATAN and RET.
+// The BFME1 small-body sweep found identical atan2 float wrappers, including
+// WWMath::Atan2, but their folded names do not identify this unreferenced
+// retail copy. Keep the original spelling unknown and name its proven effect.
+float Rva001333F0Atan2(float y, float x)
+{
+    return static_cast<float>(atan2(y, x));
+}
