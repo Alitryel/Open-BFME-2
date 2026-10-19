@@ -1,4 +1,6 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+#include "../../../Include/Common/Rva003FA62B.h"
 #include "ascii_string.h"
 // Native 21427A..2142EA RET0: same receiver forwarded through five
 // independently identified cleanup calls, followed by two singleton calls.
@@ -28,7 +30,7 @@ public:
 };
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva003EF14A { public: void rva003EF1B8(); };
-class Rva003FA5B9 { public: void clear(); };
+
 // Additional target evidence for 2142EA..214407 RET0: the +48 AsciiString
 // selects a template, a 12-byte tracking handle plus ID makes a 16-byte record,
 // the +3C coordinate is passed to the existing particle setter, and the record
@@ -74,15 +76,7 @@ public:
 };
 extern ParticleSystemManager *TheParticleSystemManager;
 struct Rva00214243Element { int a[4]; };
-namespace _STL {
-template<class T> class allocator {};
-template<class T, class A=allocator<T> > class vector {
-public:
-    void push_back(const T &);
-private:
-    T *first, *last, *limit;
-};
-}
+namespace _STL { template <> void vector<Rva00214243Element>::push_back(const Rva00214243Element &); }
 struct LivingWorldParticleRecord {
     BfmeParticleSystemHandle handle;
     int id;
@@ -96,7 +90,7 @@ private:
     Rva001F3899Arg m_position3C;
     AsciiString m_template48;
     char unknown4C[0x264-0x4C];
-    Rva003FA5B9 *m_cleanup264;
+    Rva003FA62B *m_cleanup264;
     Rva003EF14A *m_cleanup268;
     char unknown26C[0x2A8-0x26C];
     _STL::vector<Rva00214243Element> m_systems2A8;

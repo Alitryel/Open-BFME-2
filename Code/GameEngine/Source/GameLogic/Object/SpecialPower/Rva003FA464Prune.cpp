@@ -1,20 +1,18 @@
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
-// NEW native3FA464..3FA4DB RET8. Address-derived owner and method; no
-// original class or method identity claimed from the neighboring upgrade unit.
-// Reverse visits vector8 at+4, preserves records whose indexed mask word has
-// the requested bit, and globally deletes other pointed objects before erase.
-// First argument unused. Bit-index bounds and original mask type remain unknown.
-struct BfmePod8 {void*object;unsigned mask;};
-namespace _STL {template<class T>class allocator{};template<class T,class A>class vector{public:T*begin;T*end;T*cap;unsigned size()const{return (unsigned)(end-begin);}T&operator[](unsigned n){return begin[n];}T*erase(T*);};}
-class Rva003FA464Object {public:virtual ~Rva003FA464Object();};
-class Rva003FA464 {public:void rva003FA464(void*,unsigned);private:unsigned opaque;_STL::vector<BfmePod8,_STL::allocator<BfmePod8> >records;};
-void Rva003FA464::rva003FA464(void*,unsigned bit)
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// Native119B two-word callback; slot0 of C378B4. First argument unused.
+#include "../../../../Include/Common/Rva003FA62B.h"
+
+class Rva003FA464Object { public: virtual ~Rva003FA464Object(); };
+namespace _STL { template <> BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *); }
+void Rva003FA62B::BeginTurn(int, int value)
 {
- for(int i=(int)records.size()-1;i>=0;--i) {
-  BfmePod8&item=records[i];
-  if(!(*(const unsigned*)((const char*)&item.mask+(bit>>5)*4)&(1U<<(bit&31)))) {
-   ::delete (Rva003FA464Object*)item.object;
-   records.erase(&records[i]);
+ unsigned bit=(unsigned)value;
+ for(int i=(int)m_records04.size()-1;i>=0;--i) {
+  BfmePod8 &item=m_records04[i];
+  if(!(*(const unsigned*)((const char*)&item.m_val+(bit>>5)*4)&(1U<<(bit&31)))) {
+   ::delete (Rva003FA464Object*)item.m_ptr;
+   m_records04.erase(&m_records04[i]);
   }
  }
 }

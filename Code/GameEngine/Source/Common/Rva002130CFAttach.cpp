@@ -1,4 +1,6 @@
-// cl: /EHs /MD
+// cl: /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+#include "../../Include/Common/Rva003FA62B.h"
 //
 // ?rva002130CF@Rva002130CF@@QAEXPAURva002130CFOwner@@@Z @0x002130CF 39B: an
 // attach-style override: run the base step 0x00210D1D (unrowed, address-derived
@@ -44,13 +46,6 @@ class Rva007FA6B4Target
 	char m_storage[0x14];
 public:
 	Rva007FA6B4Target(Rva002130CFOwner *owner);
-};
-struct Rva003FA62BOwner;
-class Rva003FA62B
-{
-	char m_storage[0x14];
-public:
-	Rva003FA62B(Rva003FA62BOwner *owner);
 };
 
 struct Rva00210D1DStateView
