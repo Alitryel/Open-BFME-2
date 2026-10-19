@@ -10,6 +10,10 @@
 #undef _CRTIMP
 #define _CRTIMP
 #include <set>
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_base<Rva001408C0Target *, allocator<Rva001408C0Target *> >::_Rb_tree_base(const allocator<Rva001408C0Target *> &); }
 // Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@PAURva001408C0Target@@PAU1@U?$_Identity@PAURva001408C0Target@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
