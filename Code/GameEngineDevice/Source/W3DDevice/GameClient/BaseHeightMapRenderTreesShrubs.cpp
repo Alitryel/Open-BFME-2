@@ -158,7 +158,7 @@ extern GlobalData *TheWritableGlobalData;
 class RenderInfoClass;
 class Rva000EC9C6 { public: void rva000EC9C6(int); };
 class W3DShrubBuffer { public: void drawShrubs(int); };
-class W3DBuffBuffer { public: void rva000D28FA(int, int); };
+class W3DBuffBuffer { public: void rva000D28FA(RenderInfoClass &rinfo, bool flag); };
 
 class BaseHeightMapRenderObjClass
 {
@@ -309,5 +309,5 @@ void BaseHeightMapRenderObjClass::rva0006BBD9(int a, int b)
 		ScreenMaterial->Release_Ref();
 	ScreenMaterial = material;
 	DX8Wrapper::render_state_changed |= 0x4000;
-	m_buffBuffer->rva000D28FA(a, b);
+	m_buffBuffer->rva000D28FA(*(RenderInfoClass *)a, *(bool *)&b);
 }

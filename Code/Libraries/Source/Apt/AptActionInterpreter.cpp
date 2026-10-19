@@ -321,7 +321,7 @@ class Rva006DB160 { public: void *allocBlock(int); };
 class Rva006DB270 { public: void freeBlock(void *,int); };
 extern Rva006DB270 *g_pChainBlockAllocator;
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
-extern void *g_e18650;
+extern AptValue *gpGlobalGlobalObject;
 
 class AptArray
 {
@@ -510,7 +510,7 @@ AptObject *AptActionInterpreter::_createObject(AptValue *context, AptValue *with
             if (nParams == 1)
                 ((AptValue *)stack.rva006FE580(0))->toString(text);
             str->str = text;
-            def = (AptValue *)((Rva0070A5C0 *)g_e18650)->rva0070A5C0((int)Rva0070B4F0GetString(0x9d));
+            def = (AptValue *)((Rva0070A5C0 *)gpGlobalGlobalObject)->rva0070A5C0((int)Rva0070B4F0GetString(0x9d));
             AptStringObject *obj = new AptStringObject(str);
             created = (AptValue *)obj;
         }

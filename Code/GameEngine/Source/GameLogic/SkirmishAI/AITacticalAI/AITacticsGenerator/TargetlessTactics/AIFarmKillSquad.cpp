@@ -292,7 +292,7 @@ public:
 	bool rva005ACDA9();
 	unsigned char rva004ED169();
 	void teamAttackObject(int a, Object *target);
-	void end(int a, int b);
+	void end(bool a, bool b);
 };
 
 class AITacticOffensive : public AITactic

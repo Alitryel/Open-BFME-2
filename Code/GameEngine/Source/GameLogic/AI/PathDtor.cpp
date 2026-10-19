@@ -7,8 +7,9 @@
 // its rowed FreeObject body; the local node type carries its next link at
 // +0x0 (matching the rowed PathNode layout).
 
-struct Rva00065964ObjectPool
+class Rva00065964ObjectPool
 {
+public:
 	void FreeObject(void *obj);
 };
 

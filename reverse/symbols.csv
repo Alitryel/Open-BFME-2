@@ -12100,7 +12100,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva004ED342@AITactic@@QAEXPAX@Z,0x004ED342,AITactic member taking a point; REL32 at 0x005AA66A in the SimpleAttack slot 6
 ?rva004ED372@AITactic@@QAEXPBUCoord3D@@@Z,0x004ED372,const Coord3D spelling of the AITactic point member pinned as rva004ED372(void *); REL32 at 0x005AB714 in ReturnTheRing 0x005AB6DC
 ?end@AITactic@@QAEXHH@Z,0x004ED748,AITactic stop/finish member (two ints); REL32 at 0x005AA691 in the SimpleAttack slot 7
-?rva005ACDA9@AITactic@@QAE_NXZ,0x005ACDA9,"bool-returning view of the already-recovered 0x005ACDA9 body (rowed as ?rva005ACDA9@Rva004ECECD@@QAEHXZ, 13B). Rva005ACCE4::v7 0x005AD5DD tests the result with test al,al, so this unit declares the narrow width; binds to the same 13-byte body via the multi-pin resolver."
 ?xfer@AITactic@@UAEXPAVXfer@@@Z,0x004EDA8C,AITactic xfer (slot 5 of the tactic vtables that do not override it); REL32 at 0x005AA617 in the FlankAttack slot 5
 ??0AITactic@@QAE@ABVAsciiString@@H@Z,0x004ED3D1,AITactic base ctor (name, flags): SEH ctor installing vtable 0x00C629E4; retail REL32 at the tactic base ctors 0x005DC730 and 0x005DCB1B targets this address
 ?checkEnemyForAttackMove@TacticalAI@@QAE_NPAVObject@@0@Z,0x002C600A,unrowed TacticalAI::checkEnemyForAttackMove (WB lead TacticalAI.cpp callgraph); thiscall on SkirmishAI +0x164 with searcher then enemy (ret 8); call at 0x0026155E in PartitionFilterSkirmishAI::Allow
