@@ -42,3 +42,13 @@ comparison.json records input revisions, hashes, commands, include paths and
 limitations. The normal commit hook must pass the final whole-tree gate before
 this update can be published; the successful canonical result is recorded after
 that hook completes. No verifier, baseline, compiler setting or source edits.
+
+Final canonical verification
+
+Functions: OK 97169/97169 matched across 23347 source file(s)
+Data rows: OK (989 row(s) byte-verified)
+No-op patch: OK build\patch\game.noop.dat
+FULL GATE: OK — every check green
+EH verify: 11740 row(s) with EH data (EXACT 11702, bytes_differ 36, retail_only 2); 38 not exact, 38 in baseline; 0 row(s) without an object; 19.3s
+Both complete commands exit0 at BFME2 ed8cdf22230d9f273f73781d7a842591ed50f002.
+A genuine local full-gate receipt was recorded only after both passed; final-verification.json binds the commands and log hashes.
