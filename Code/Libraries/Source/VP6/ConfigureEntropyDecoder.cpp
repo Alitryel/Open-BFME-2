@@ -13,8 +13,8 @@
 // scan band updates (0x63C positions 1..63) followed by BuildScanOrder
 // (0x001BBA20). Zero-run probabilities update without the working array.
 // VP6_ConfigureContexts (0x001C6DA0) runs last. The tables 0x00BD9210 /
-// 0x00BD9228 / 0x00BD9268 / 0x00BD9284 / 0x00BD92A0 are address-named (the
-// only ledger row there is the gap-sized blob g_rva01143064). The in-class
+// 0x00BD9228 / 0x00BD9268 / 0x00BD9284 / 0x00BD92A0 are defined below at
+// retail contents. The in-class
 // read helper is what reproduces retail's register choice; spelling the
 // same expression inline in each branch rotates ecx/edx/eax.
 struct Rva009B4800State;

@@ -2921,7 +2921,6 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D8D00,64,.rdata,global,?g_bfmeVp6SelectorMap@@3PAEA,Code/Libraries/Source/VP6/PredictDc.cpp,owned,,1,2
 0x007D8D40,136,.rdata,global,?g_00BD8D40@@3QBIB,,unowned,,0,1
 0x007D8DC8,1020,.rdata,global,?g_bfmeProbCost@@3PAHA,Code/Libraries/Source/VP6/BoolCoderEnc.cpp,owned,,1,1
-0x007D91C4,620,.rdata,global,?g_rva01143064@@3PAHA,Code/Libraries/Source/VP6/BoolCoderEnc.cpp,owned,,1,1
 0x007D9430,156,.rdata,global,?g_bfmeToneCoef@@3PAURva009B64A0Coef@@A,Code/Libraries/Source/VP6/ConfigureContexts.cpp,owned,,1,10
 0x007D94CC,16,.rdata,global,?defaultMvShort@@3PAEA,Code/Libraries/Source/VP6/decodembs.cpp,owned,,1,4
 0x007D94DC,16,.rdata,global,?defaultMvSize@@3PAEA,Code/Libraries/Source/VP6/decodembs.cpp,owned,,1,4
