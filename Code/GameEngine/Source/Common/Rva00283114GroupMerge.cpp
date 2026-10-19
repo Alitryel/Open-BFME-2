@@ -18,13 +18,14 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Ob
 class Object;
 typedef void *(__cdecl *Rva00282B26Callback)(void *key);
 // The 40-byte group built by the rowed constructor 0x00281A76; the member
-// call 0x002829BD keeps its pinned address-derived class spelling.
-class Rva002829BD { public: void rva002829BD(void *key, Rva00282B26Callback callback); };
+// call 0x002829BD is the rowed sphere merge (Rva002829BDSphereMerge.cpp).
+class ModuleData;
+class Rva002829BD { public: void rva002829BD(const ModuleData *key, Rva00282B26Callback callback); };
 class Rva00281A76
 {
 public:
  Rva00281A76(float);
- void add(void *key, Rva00282B26Callback callback) { ((Rva002829BD *)this)->rva002829BD(key, callback); }
+ void add(void *key, Rva00282B26Callback callback) { ((Rva002829BD *)this)->rva002829BD((const ModuleData *)key, callback); }
  bool active00; float radius04, centerX08, centerY0C, centerZ10; float padding14; bool selected18;
  _STL::vector<Object *> objects1C;
  ~Rva00281A76() {}

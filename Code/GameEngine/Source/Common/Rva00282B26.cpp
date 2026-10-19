@@ -4,11 +4,12 @@
 // flag and increments the result. Only the first matching group calls29BD.
 // Layout and control flow are target facts; group/key semantics are open.
 class Rva002829BD;
+class ModuleData;
 typedef void *(__cdecl *Rva00282B26Callback)(void *key);
 class Rva002829BD
 {
 public:
- void rva002829BD(void *key, Rva00282B26Callback callback);
+ void rva002829BD(const ModuleData *key, Rva00282B26Callback callback); // Rva002829BDSphereMerge.cpp
  unsigned char active;
  char pad[0x1C-1];
  void **begin;
@@ -38,7 +39,7 @@ int Rva00282B26::rva00282B26(void *key)
    {
     group->active = 1;
     if (count == 0)
-     group->rva002829BD(key, m_callback);
+     group->rva002829BD((const ModuleData *)key, m_callback);
     ++count;
     break;
    }
