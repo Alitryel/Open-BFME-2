@@ -585,11 +585,12 @@ void RailedTransportDockUpdate::loadPostProcess( void )
 
 }  // end loadPostProcess
 
-// Address-derived shim: the callee at 0x0044FC52 is pinned by address.
-class Rva0044FC52
+// The callee at 0x0044FC52 is the rowed virtual
+// SpecialAbilityUpdate::continuePreparation, called directly.
+class SpecialAbilityUpdate
 {
 public:
-	bool rva0044FC52();
+	virtual bool continuePreparation();
 };
 
 class Rva004B01E6Owner
@@ -607,5 +608,5 @@ bool Rva004B01E6Owner::rva004B01E6()
 {
 	if (m_24 == 2)
 		return false;
-	return ((Rva0044FC52 *)this)->rva0044FC52();
+	return ((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::continuePreparation();
 }
