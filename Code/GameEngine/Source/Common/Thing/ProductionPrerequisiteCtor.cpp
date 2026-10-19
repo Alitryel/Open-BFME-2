@@ -89,6 +89,16 @@ typedef char ProductionPrerequisiteVeinSizeCheck[sizeof(ProductionPrerequisite) 
 namespace _STL
 {
 
+// m_unused's empty vector<unsigned int> constructor is inlined and calls the
+// out-of-line, ICF-folded _Vector_base constructor 0x00211E58 (rowed in
+// stlport_vector_e16_o1.cpp); declare that base constructor and inline the
+// vector constructor so this unit emits no non-retail copy of either.
+template <>
+_Vector_base<unsigned int, allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &__a) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+
 // Retail calls both STL dispatch layers directly instead of expanding them:
 // the PrereqUnitRec destroy range takes exactly 2 pushes with no tag
 // (rowed at 0x002D02A8) and the __copy_ptrs forwarder takes the const-ref
@@ -102,7 +112,7 @@ inline __declspec(noinline) void _Destroy<ProductionPrerequisite::PrereqUnitRec 
 }
 
 template <>
-__declspec(noinline) ProductionPrerequisite::PrereqUnitRec *__copy_ptrs<ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *>(
+inline __declspec(noinline) ProductionPrerequisite::PrereqUnitRec *__copy_ptrs<ProductionPrerequisite::PrereqUnitRec *, ProductionPrerequisite::PrereqUnitRec *>(
 	ProductionPrerequisite::PrereqUnitRec *__first, ProductionPrerequisite::PrereqUnitRec *__last, ProductionPrerequisite::PrereqUnitRec *__result, const __false_type &)
 {
 	return __copy(__first, __last, __result, random_access_iterator_tag(), (ptrdiff_t *)0);
