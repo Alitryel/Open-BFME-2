@@ -42428,7 +42428,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ?do_length@?$codecvt@GDH@_STL@@MBEHABHPBD1I@Z,,0x00017460,33,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_codecvt_virtuals.cpp,matched,
 ?do_max_length@?$codecvt@GDH@_STL@@MBEHXZ,,0x00756B00,6,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_codecvt_virtuals.cpp,matched,
 ?do_unshift@?$codecvt@GDH@_STL@@MBE?AW4result@codecvt_base@2@AAHPAD1AAPAD@Z,,0x00017370,18,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_codecvt_virtuals.cpp,matched,
-?rva003FE13E@Rva003FE13E@@QAEMXZ,,0x003FE13E,129,Code/GameEngine/Source/Common/Rva003FE13ECap.cpp,matched,capped 2D distance with AIPlayer-gated 10x cap; b-first fill plus literal and scoped temp fix the banked partial; caller 0x003FE2CF
+?rva003FE13E@LivingWorldArmyIcon@@QAEMXZ,,0x003FE13E,129,Code/GameEngine/Source/Common/Rva003FE13ECap.cpp,matched,capped 2D distance with AIPlayer-gated 10x cap; b-first fill plus literal and scoped temp fix the banked partial; caller 0x003FE2CF
 ??$for_each@PAPAVRva004E5A78@@URva004E5CB0Deleter@@@_STL@@YA?AURva004E5CB0Deleter@@PAPAVRva004E5A78@@0U1@@Z,,0x004E5D4D,33,Code/GameEngine/Source/Common/Bfme/Rva004E5D4DForEach.cpp,matched,STLport for_each with by-value delete functor (thiscall operator() pinned at 0x004E5CB0); caller 0x004E5D6E
 ??0Rva0035D0D1@@QAE@XZ,,0x0035D097,58,Code/GameEngine/Source/Common/Rva0035D0D1Ctor.cpp,matched,fade ctor over rowed base ctor 0x001DBAA4; 1.0f literal fixes the banked partial; caller 0x0035D0FE
 ?rva005369CC@UserPreferences@@QAEMVAsciiString@@@Z,,0x005369CC,81,Code/GameEngine/Source/Common/UserPreferencesRva00535CE4.cpp,matched,AverageGameTurns float getter with 0.0f default same shape as TimePlayed getter 0x0053590D; caller 0x005378E9

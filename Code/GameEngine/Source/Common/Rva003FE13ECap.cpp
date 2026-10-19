@@ -1,11 +1,12 @@
 // cl: /MD
 //
-// ?rva003FE13E@Rva003FE13E@@QAEMXZ @0x003FE13E 129B. __thiscall float method:
+// ?rva003FE13E@LivingWorldArmyIcon@@QAEMXZ @0x003FE13E 129B. __thiscall float method:
 // builds a Coord2D from ([+0x50]-[+0x18], [+0x54]-[+0x1C]), takes its rowed
 // length as dist, loads [+0x58] as cap, gates a scale by the rowed Keyboard
 // check on TheKeyboard plus GlobalData +0x88, and returns min(dist, cap).
 // Evidence: rowed length and Keyboard callees; extern names from the packet;
-// SSE shape needs arch:SSE2; caller 0x003FE2CF.
+// SSE shape needs arch:SSE2; caller 0x003FE2CF in LivingWorldArmyIcon::
+// continueMoving, on its own this (+0x18 current, +0x50 destination).
 // Structural inference: the difference is filled from +0x50/+0x54 before the
 // subtractions, the cap scale is the 10.0f literal at 0x00BC2428 applied as
 // cap *= 10.0f, and the result is an STL-style min returning the selected
@@ -35,7 +36,7 @@ public:
 // GameClient.cpp owns this singleton with the class GlobalData spelling.
 extern GlobalData *TheWritableGlobalData;
 
-class Rva003FE13E
+class LivingWorldArmyIcon
 {
 	float m_pad00[6];
 	float m_18;
@@ -54,7 +55,7 @@ template <class T> inline const T &Rva003FE13EMin(const T &a, const T &b)
 	return b < a ? b : a;
 }
 
-float Rva003FE13E::rva003FE13E()
+float LivingWorldArmyIcon::rva003FE13E()
 {
 	float dist;
 	{

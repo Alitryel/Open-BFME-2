@@ -33,7 +33,6 @@ struct Rva00538E43Pair {
 extern "C" double __cdecl sqrt(double);
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-class Rva003FE13E {public:float rva003FE13E();};
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002D3627Host;
@@ -49,6 +48,7 @@ public:
  void rva003FE1DB();
  void rva003FE342();
  void continueMoving(Coord2D *out);
+ float rva003FE13E();
 private:
  char unknown0[0x18];Coord2D current;
  char unknown20[0x3C-0x20];Rva00538E22 queue;
@@ -63,7 +63,7 @@ void LivingWorldArmyIcon::rva003FE1DB() {
 }
 
 // Complete native 229B RET4 and WB1074010 establish this movement step.
-// The speed helper and queue advance retain their address-derived names.
+// The speed helper (0x003FE13E) and queue advance keep address-derived names.
 // Ordered current reads preserve retail's loads after displacement construction.
 // The output barrier retains the native x reload; newY stays a local because
 // the native subtraction reuses its value rather than loading out->y again.
@@ -78,7 +78,7 @@ void LivingWorldArmyIcon::continueMoving(Coord2D *out)
 		d.x *= inverse;
 		d.y *= inverse;
 	}
-	float step = ((Rva003FE13E *)this)->rva003FE13E();
+	float step = rva003FE13E();
 	Rva00538E43Pair displacement(step * d.x, step * d.y);
 	out->x = *reinterpret_cast<const volatile float *>(&current.x) + displacement.x;
 	float newY = *reinterpret_cast<const volatile float *>(&current.y) + displacement.y;
