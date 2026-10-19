@@ -29,6 +29,8 @@ namespace rts
 	};
 	template <> struct equal_to<AsciiString>
 	{
+		// Inline-only: this TU's out-of-line COMDAT copy is not retail's body.
+		__declspec(dllimport) __forceinline
 		bool operator()(const AsciiString &a, const AsciiString &b) const
 		{
 			return a.compareNoCase(b) == 0;
