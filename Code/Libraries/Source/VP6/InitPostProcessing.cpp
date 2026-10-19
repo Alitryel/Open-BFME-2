@@ -23,7 +23,9 @@ extern const void *g_rva01356A88;
 const void * g_rva01356A88;
 // g_rva01356940: matched references place it at VA 0xe22be0 (zero-filled).
 int g_rva01356940[64] = { 0 };
-unsigned short *Rva009C0D10Src;			// .bss VA 0x00E22CE0 (BFME1 0x01356A7C); set here
+// g_bfmeFilterLimit: the loop-filter limit table pointer (VA 0x00E22CE0,
+// zero-filled .bss); InitPostProcessing stores the version's table in it.
+int *g_bfmeFilterLimit;
 // g_bfmeDeblockLimit: the deblock limit table pointer (VA 0x00E22CEC, zero-filled .bss);
 // InitPostProcessing stores the version's table in it.
 int *g_bfmeDeblockLimit;
@@ -145,17 +147,17 @@ extern "C" void __cdecl InitPostProcessing(void *firstTable, void *secondTable, 
 
 	if ((unsigned)tier >= 6)
 	{
-		Rva009C0D10Src = g_rva012D7E58;
+		g_bfmeFilterLimit = (int *)g_rva012D7E58;
 		g_bfmeDeblockLimit = g_rva012D7A58;
 	}
 	else if ((unsigned)tier >= 5)
 	{
-		Rva009C0D10Src = g_rva012D7D58;
+		g_bfmeFilterLimit = (int *)g_rva012D7D58;
 		g_bfmeDeblockLimit = g_rva012D7958;
 	}
 	else
 	{
-		Rva009C0D10Src = g_rva012D7C58;
+		g_bfmeFilterLimit = (int *)g_rva012D7C58;
 		g_bfmeDeblockLimit = g_rva012D7858;
 	}
 	PostProcMachineSpecificConfig(tier);

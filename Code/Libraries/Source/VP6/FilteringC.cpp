@@ -13,9 +13,8 @@
 // through the saturating clamp table whose zero point is at 0x00E23100.
 
 extern const unsigned char g_bfmeClampTable[];		// retail 0x00E23100 (zero point)
-// ?g_bfmeFilterLimit@@3PAHA: the global at this VA is ?Rva009C0D10Src@@3PAGA; this name is an alias for it.
+// g_bfmeFilterLimit is defined in InitPostProcessing.cpp, which sets it.
 extern int * g_bfmeFilterLimit;
-#pragma comment(linker, "/alternatename:?g_bfmeFilterLimit@@3PAHA=?Rva009C0D10Src@@3PAGA")
 
 // g_bfmeClampTable: matched DIR32 references place this at VA 0x00E23100
 // (RVA 0x00A23100), in .data's zero-filled tail. This 0x200-byte storage
