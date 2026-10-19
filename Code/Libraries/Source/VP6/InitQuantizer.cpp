@@ -31,9 +31,10 @@ double g_Rva01142610 = 65536.0;
 unsigned char g_Rva01142608[8] = {
 	0, 0, 0, 0, 1, 1, 0, 0,
 };
-// g_rva01142308: matched references place it at VA 0xbd8460; retail contents, sized to the
-// 0x100-byte gap before the next known global there.
-int g_rva01142308[64] = {
+// vp6DequantIndex: the zig-zag scan order (transmission index -> raster
+// position) at VA 0xbd8460; retail contents. The dequantiser, quantiser and
+// quantiser-index builders all read it under this name.
+unsigned int vp6DequantIndex[64] = {
 	0, 1, 8, 16, 9, 2, 3, 10,
 	17, 24, 32, 25, 18, 11, 4, 5,
 	12, 19, 26, 33, 40, 48, 41, 34,

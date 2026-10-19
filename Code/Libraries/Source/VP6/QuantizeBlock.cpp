@@ -9,7 +9,7 @@
 #include <string.h>
 
 extern unsigned char g_Rva01142608[];
-extern int g_rva01142308[];
+extern unsigned int vp6DequantIndex[64];
 
 struct Rva009A6780State {
     int index,at0004;
@@ -33,7 +33,7 @@ extern "C" void __cdecl VP6_quantize_c(Rva009A6780State* s,const short* src,shor
     else if(value<=-threshold) dst[0]=(short)(((value-offsets[0])*multipliers[0]+65535)>>16);
     else run=1;
     for(unsigned int i=1;i<64;i++) {
-        int pos=g_rva01142308[i];
+        int pos=vp6DequantIndex[i];
         if(src[pos]>=thresholds[pos]+runs[run]) {
             dst[i]=(short)(((src[pos]+offsets[pos])*multipliers[pos])>>16);
             run=0;

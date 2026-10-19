@@ -2899,7 +2899,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D8160,256,.rdata,global,?g_Rva01142008@@3PAHA,,unowned,,0,1
 0x007D8260,256,.rdata,global,?g_Rva01142108@@3PAHA,,unowned,,0,1
 0x007D8360,256,.rdata,global,?g_Rva01142208@@3PAHA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,2
-0x007D8460,256,.rdata,global,?vp6DequantIndex@@3PAIA,,unowned,?g_rva01142308@@3PAHA;?vp6DequantIndex@@3PAIA,1,7
+0x007D8460,256,.rdata,global,?vp6DequantIndex@@3PAIA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,7
 0x007D8560,512,.rdata,global,?g_rva01142408@@3PAHA,Code/Libraries/Source/VP6/InitLibrary.cpp,owned,,1,2
 0x007D8760,8,.rdata,global,?g_Rva01142608@@3PAEA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
 0x007D8768,8,.rdata,global,?g_Rva01142610@@3NA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,4
