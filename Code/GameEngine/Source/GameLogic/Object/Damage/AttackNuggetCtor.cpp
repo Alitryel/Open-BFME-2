@@ -9,12 +9,15 @@
 // +0x3C word. Donor: BFME1 RadiusDecal.h (member class with AsciiString
 // members per the callee pin; the pin spelling resolves the call). Identity
 // is the Attack OCL keyword parse at 0x001F0D96 calling this out-of-line
-// ctor (superseded pin note).
+// ctor (superseded pin note). The base is ObjectCreationNugget, as in ZH:
+// retail's unwind funclet 0x0076AFD7 runs its rowed destructor 0x001F0409.
 
-class NuggetBase
+class ObjectCreationNugget
 {
 public:
-	virtual ~NuggetBase();
+	// Rowed out of line at 0x001F0102; inlined here, so never emitted.
+	__declspec(dllimport) __forceinline ObjectCreationNugget() {}
+	virtual ~ObjectCreationNugget();
 };
 
 class RadiusDecalTemplate
@@ -26,7 +29,7 @@ private:
 	unsigned char m_opaque[0x34];
 };
 
-class AttackNugget : public NuggetBase
+class AttackNugget : public ObjectCreationNugget
 {
 public:
 	AttackNugget();
