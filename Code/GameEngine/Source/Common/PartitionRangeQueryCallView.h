@@ -29,6 +29,7 @@ class PartitionManager
 public:
 	// Native +0x10 registration facade, already owned at RVA00625320.
 	void rva00625320(void *ptr);
+	void revealMapForPlayerPermanently(int playerIndex); // 0x00739790
 	// Relative angle helper, rowed in PartitionManager_Rva002C9C37.cpp.
 	float rva002C9C37(const Object *a, const Object *b, void *c);
 	static bool findPositionAround(const Coord3D*,const FindPositionOptions*,Coord3D*);
