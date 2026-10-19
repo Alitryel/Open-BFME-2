@@ -17,6 +17,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <string>
+// Keep _String_base<char>::~_String_base inline-only: no call here leaves it out
+// of line, and this TU's COMDAT copy is not retail's 0x0000B3C0 body.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+}
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
