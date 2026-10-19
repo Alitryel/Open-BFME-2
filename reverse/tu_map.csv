@@ -38379,7 +38379,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004E19E7,29,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,C,C=0x004E194E..0x004E1A04 noncontiguous,Code/GameEngine/Source/GameLogic/LivingWorld/FlashRegionRecord.cpp
 0x004E1A04,47,code,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp,proposed,K,K=Rva004E1A04 noncontiguous,Code/GameEngine/Source/Common/Rva004E1A04Dtor.cpp
 0x004E1A33,134,code,,,-,,Code/GameEngine/Source/Common/Rva004E1A33Parse.cpp
-0x004E1ABA,27,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva004E1ABA.cpp
+0x004E1ABA,27,code,,,-,,Code/GameEngine/Source/Common/Coord3DVectorFillInsertO1.cpp
 0x004E1AD5,26,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_004e1ad5.cpp
 0x004E1B00,69,code,Code/GameEngine/Source/GameClient/TracerFXNugget.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/TracerFXNugget.cpp,Code/GameEngine/Source/GameClient/FXList.cpp
 0x004E1B45,28,code,Code/GameEngine/Source/GameClient/TracerFXNugget.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/TracerFXNugget.cpp,Code/GameEngine/Source/GameClient/FXList.cpp

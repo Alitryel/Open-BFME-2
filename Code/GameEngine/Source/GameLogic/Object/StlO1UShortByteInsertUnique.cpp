@@ -7,7 +7,7 @@
 // Calls rowed _M_decrement 0x000242C0 and rowed _M_insert 0x004D1B6D. Donor vendor/stlport/stl/_tree.c
 // with _BFME_RETAIL_TREE_INSERT_LAYOUT for the leftmost fast path _M_insert(__y __y __v).
 // Neighbour TU StlO1Instantiations.cpp holds the same map operator[] and _M_insert rows under /O1 /G7.
-// StlO1Instantiations.cpp cannot carry the macro because its rows placed from the default spelling.
+// StlO1Instantiations.cpp now carries the macro too, so its insert_unique copy is retail's as well.
 
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 
