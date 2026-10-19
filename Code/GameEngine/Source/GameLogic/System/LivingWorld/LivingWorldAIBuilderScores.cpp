@@ -106,20 +106,11 @@ struct Rva0059D089Template
 
 struct BfmeE16;
 
-class Rva0059CEE4
-{
-	int m_00;
-	int m_04;
-	int m_08;
-	int m_0c;
-public:
-	float rva0059CEE4(int a1, void *a2, void **a3);
-	float rva0059CF2F(int a1, void *a2, void **a3);
-};
-
 class LivingWorldAIBuilder
 {
 public:
+	float rva0059CEE4(int a1, void *a2, void **a3);
+	float rva0059CF2F(int a1, void *a2, void **a3);
 	float rva0059CF34(int playerId, int count, Rva0059CFAACallee *armies,
 		Rva0059CFAARegion *const &region);
 	float rva0059CFAA(int playerId, int count, Rva0059CFAACallee *armies,
@@ -139,13 +130,14 @@ private:
 	int m_00;
 	int m_04;
 	int m_08;
+	int m_0c;
 };
 
-// ?rva0059CEE4@Rva0059CEE4@@QAEMHPAXPAPAX@Z retail 0x0059CEE4 (75 bytes):
+// ?rva0059CEE4@LivingWorldAIBuilder@@QAEMHPAXPAPAX@Z retail 0x0059CEE4 (75 bytes):
 // the builder's +0x0C weight scaled by the closest hero's distance falloff.
 extern float g_Va007C26F0;
 // g_00BC8980 was the retail address alias (RVA 0x007C8980) of the constant 1.5f; the literal is the source.
-float Rva0059CEE4::rva0059CEE4(int a1, void *a2, void **a3)
+float LivingWorldAIBuilder::rva0059CEE4(int a1, void *a2, void **a3)
 {
 	int out = 0;
 	float y = (float)m_0c;
@@ -372,7 +364,7 @@ void LivingWorldAIBuilder::FillBuildingOrders(_STL::vector<BfmeE16> *orders, int
 
 		float buildScore = region->rva003F1BD3(tmpl->getKey(0), 0) ? rva0059CF34(playerId, buildCount, armies, node) : 0.0f;
 		float upgradeScore = region->rva003F1BD3(tmpl->getKey(1), 0) ? rva0059CFAA(playerId, upgradeCount, armies, node) : 0.0f;
-		float score3 = region->rva003F1BD3(tmpl->getKey(3), 0) ? ((Rva0059CEE4 *)this)->rva0059CEE4(playerId, armies, (void **)&node) : 0.0f;
+		float score3 = region->rva003F1BD3(tmpl->getKey(3), 0) ? rva0059CEE4(playerId, armies, (void **)&node) : 0.0f;
 		float score4 = region->rva003F1BD3(tmpl->getKey(2), 0) ? rva0059D089(playerId, tmpl, armies, node) : 0.0f;
 
 		if (count > 0 && ((Rva003F07CEOwner *)region)->rva003F07CE())
@@ -401,7 +393,7 @@ void LivingWorldAIBuilder::FillBuildingOrders(_STL::vector<BfmeE16> *orders, int
 		{
 			float remove1 = regionInfo.Farms.size() > 0 ? rva0059D1A9(playerId, buildCount, armies, node) : -1.0f;
 			float remove2 = regionInfo.Barracks.size() > 0 ? rva0059D1C3(playerId, upgradeCount, armies, node) : -1.0f;
-			float remove3 = regionInfo.Armories.size() > 0 ? ((Rva0059CEE4 *)this)->rva0059CEE4(playerId, armies, (void **)&node) : -1.0f;
+			float remove3 = regionInfo.Armories.size() > 0 ? rva0059CEE4(playerId, armies, (void **)&node) : -1.0f;
 			float remove4 = regionInfo.Castles.size() > 0 ? rva0059D1DD(playerId, tmpl, armies, node) : -1.0f;
 
 			float bestScore = _STL::max(_STL::max(_STL::max(score4, score3), upgradeScore), buildScore);
@@ -452,7 +444,7 @@ void LivingWorldAIBuilder::FillBuildingOrders(_STL::vector<BfmeE16> *orders, int
 
 // 0x0059CF2F 5B, directly after the body it enters (tail jump into rva0059CEE4); no referencing site found in
 // this pass; address-named.
-float Rva0059CEE4::rva0059CF2F(int a1, void *a2, void **a3)
+float LivingWorldAIBuilder::rva0059CF2F(int a1, void *a2, void **a3)
 {
 	return rva0059CEE4(a1, a2, a3);
 }
