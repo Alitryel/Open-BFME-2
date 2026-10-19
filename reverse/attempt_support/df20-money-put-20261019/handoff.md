@@ -33,3 +33,24 @@ Earlier verdicts already rule out blanket destructor declarations, compiler flag
 ## Checks
 
 `checks.json` records results and raw log paths. Both check_csv and pin_consistency --check pass. Fresh final-bank compilation reproduces the candidate's alignment and emitted size. Byte exactness fails, as expected for this partial; bank-explain.txt records the unresolved allocator-base constructor and the first byte difference at +0x1D in the frame size. EH verification also fails. No matched Code source was edited, so build.sh and find_declared_unmatched were not run. Every trial used BFME_OBJSTORE=off. Original bank LF endings and every inherited comment are preserved. The assignment requested retaining all trial sources and raw logs under build; they remain in the dedicated task directory. No background process remains.
+
+## Destructor site map (claude-opus-5-5, 2026-10-19)
+
+Calls in retail's main flow, by retail offset (WHOLE = 0x142D70 `~basic_string<wchar_t>`, BASE = 0xB3C0 `~_String_base<wchar_t>`):
+
+- grouping temps (narrow, flags 1,2) at +0x17D/+0x1A8: inline free.
+- curr_symbol ternary temps (flags 4,8) at +0x236/+0x259: WHOLE.
+- early return 1 (`digits.size()==0`): WHOLE on curr_sym (esp+0x68) at +0x28C, then `jmp +0x841`.
+- sign ternary temps (flags 0x10..0x80) at +0x375/+0x398/+0x3BB/+0x3D7: BASE.
+- early return 2: BASE on sign (esp+0x5C) at +0x41E, BASE on curr_sym at +0x42F, then `jmp +0x841`.
+- final teardown at +0x807..+0x852: new_digits, sign, curr_sym and grouping all inline free.
+
+So one variable, curr_sym, is destroyed three ways (WHOLE, BASE and inline) in one function. That looks like the c2 inliner running out of budget per call site, not a declaration choice. The unwind funclets (0x75BB60..0x75BCA7) agree: WHOLE for grouping, BASE for curr_sym and sign, and WHOLE/BASE for new_digits states 21/22.
+
+Trials:
+
+- **v2 = bank without the `~basic_string<wchar_t>` specialization declaration.** Everything inlines: 2576 B, 29 regions. The final teardown lines up with retail +0x807..+0x852, but the early returns tail-merge into it (`jmp` into the free chain). Retail does not merge them, because its early-return dtors are calls.
+- **Forceinline helpers wrapping the dtor sites (v3/v4).** Refuted: MSVC 7.1 never inlines a forceinline helper whose body holds EH-tracked temporaries (2176 B).
+- **`/W4 /w14710 /w14714` to list non-inlined calls.** The build helper reports nothing.
+
+Not yet tried: reproducing the budget, which means finding which inlinee retail took that we force differently. Retail is 34 B larger than v2 while inlining less.
