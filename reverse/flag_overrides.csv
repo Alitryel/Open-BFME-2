@@ -225,6 +225,7 @@ Code/GameEngine/Source/Common/Rva006C0630Cluster.cpp,,1,1,region default loses r
 Code/GameEngine/Source/Common/Rva006C1F60.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva006C1F60Finish.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva006C21C0.cpp,-O2,1,1,region default loses rows
+Code/GameEngine/Source/Common/Rva006C33D0Purge_Rva006C1CC0.cpp,-O2,4,1,region default loses rows
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva006F9FC0Cluster.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva0075A4DCCluster.cpp,-O1 -arch:SSE2,2,1,region default loses rows

@@ -166,10 +166,10 @@ private:
 	void *m_node;
 };
 
-class Rva00205AF8Record
+class Rva00205AF8
 {
 public:
-	~Rva00205AF8Record();
+	~Rva00205AF8();
 
 private:
 	char m_body[12];
@@ -330,7 +330,7 @@ private:
 	char m_pad1A110[0x10];                        // +0x1A110
 	Rva00207E26Vector m_vector1A120;              // +0x1A120
 	char m_pad1A12C[0x38];                        // +0x1A12C
-	Rva00205AF8Record m_playerRecords[20];        // +0x1A164
+	Rva00205AF8 m_playerRecords[20];        // +0x1A164
 	Rva004EC395List m_list1A254;                  // +0x1A254
 	Rva004EC395List m_list1A258;                  // +0x1A258
 	Rva004EC395List m_list1A25C;                  // +0x1A25C

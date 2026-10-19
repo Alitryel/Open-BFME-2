@@ -63,6 +63,23 @@ template<>vector<RvaPair00207E26>::~vector();template<>vector<BfmeStringRecord00
 template<>_List_base<SnapshotBlock,allocator<SnapshotBlock> >::_List_base(const allocator<SnapshotBlock>&);
 template<>_List_base<upgradePair,allocator<upgradePair> >::_List_base(const allocator<upgradePair>&);
 }
+// The twenty player-record headers use the native destructor already
+// owned as Rva00205AF8 (tail to Rva00204136). Only empty-tree construction
+// borrows the STLport view; original key, payload and comparator are unknown.
+typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>,
+    _STL::_Select1st<_STL::pair<const int, void *> >, _STL::less<int>,
+    _STL::allocator<_STL::pair<const int, void *> > > ScriptPlayerRecordTree;
+class Rva00205AF8
+{
+public:
+    Rva00205AF8()
+        : m_tree(_STL::less<int>(), ScriptPlayerRecordTree::allocator_type()) {}
+    ~Rva00205AF8();
+private:
+    ScriptPlayerRecordTree m_tree;
+};
+typedef char ScriptPlayerRecordExtent[(sizeof(Rva00205AF8)==12)?1:-1];
+
 class ScriptEngine:public SubsystemInterface,public Snapshot {public:ScriptEngine();virtual~ScriptEngine();virtual void init();virtual void reset();virtual void update();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);
 private:
 _STL::vector<SequentialScript*> sequential;int unknown1C;Template action[599];ConditionTemplate condition[202];
