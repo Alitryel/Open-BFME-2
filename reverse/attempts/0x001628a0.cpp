@@ -1,165 +1,116 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.9637305699481865 date=2026-10-19
-// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.917 date=2026-10-17
-// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.879 date=2026-10-15
-// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.871 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.86647 date=2026-10-14
-// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
-// partial score=0.8 date=2026-09-23
-// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// partial score=0.98 date=2026-10-19
+// cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// 0x001628A0 bank 2026-10-19 (claude-opus-5-5): hack-free 769/769 (the old bank needed 5 hacks:
+// equal-arm root/parent ternaries, a barrier, a dummy block and int-punned copies). 6 aligned
+// instruction differences left: the W product's early X*X/Y*Y pair (0x162AB7) and the b.W*[ecx]
+// operand order (0x162ADC). Levers: Captured as a real STLport vector with the
+// HTreeClassFirstCapturedBone.cpp capture idiom; root via S2CompactTransform *d and
+// root.Get_Translation(&d->Position); loop = the landed Slave_Update SlaveCompose with a one-statement
+// per component product held in a Quaternion temp; Vector3/Quaternion need WWMath memberwise
+// operator= (default operator= gives 838 B). Hypothesis: retail reads the parent quaternion as values
+// cl treats as fresh after the translation stores. Home: HTreeClassFirstCapturedBone.cpp (row 0x162290
+// stays exact with /G7 /arch:SSE added). Scratch: build/nbr/r2/1628a0/.
+// stlport
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z  retail 0x001628A0, 769 B (ret 4 at 0x162B9E).
+// Hack-free candidate: 769/769 B, 6 differing instructions (bank: 6-7 with 5 hacks).
+// Root: Build_Quaternion + Matrix3D::Get_Translation through a pointer to Pivot[0]'s
+// transform; first captured index via the real STLport vector (empty()/front() give
+// retail's +0x1C reload, as in HTreeClassFirstCapturedBone.cpp 0x162290); loop is
+// HTreeClassReadPivots.cpp Slave_Update's SlaveCompose (rotate + product) with the
+// dot grouped X+(Y+Z) and one-statement product components.
+// Residue: W's first X*X/Y*Y pair issued in the other order (0x162AB7) and the
+// b.W*a.X product loads a.X instead of b.W (0x162ADC).
+#include <vector>
 
 class Vector3
 {
 public:
 	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-	Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
- float X, Y, Z;
+	Vector3 & operator = (const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	float X, Y, Z;
 };
-
 inline Vector3 operator + (const Vector3 &a, const Vector3 &b)
 {
 	return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 }
-
-class Matrix3D
-{
-public:
-	float Row[3][4];
-};
-
 class Quaternion
 {
 public:
 	Quaternion() {}
-	Quaternion(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
-
-	Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;}
- float X, Y, Z, W;
+	Quaternion(float a, float b, float c, float d) : X(a), Y(b), Z(c), W(d) {}
+	float & operator [](int i) { return (&X)[i]; }
+	const float & operator [](int i) const { return (&X)[i]; }
+	Quaternion & operator = (const Quaternion & source) { X = source[0]; Y = source[1]; Z = source[2]; W = source[3]; return *this; }
+	float X, Y, Z, W;
 };
-
-inline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
+class Matrix3D
 {
-	float x = q.W*v.X + (q.Y*v.Z - v.Y*q.Z);
-	float y = q.W*v.Y - (q.X*v.Z - v.X*q.Z);
-	float z = q.W*v.Z + (q.X*v.Y - v.X*q.Y);
-	float w = -(q.X*v.X + q.Y*v.Y + q.Z*v.Z);
-
-	return Vector3
-	(
-		q.W*x - w*q.X + (q.Y*z - y*q.Z),
-		q.W*y - w*q.Y - (q.X*z - x*q.Z),
-		q.W*z - w*q.Z + (q.X*y - q.Y*x)
-	);
-}
-
-
-inline Quaternion operator * (const Quaternion &a, const Quaternion &b)
-{
-	return Quaternion
-	(
-		a.W*b.X + b.W*a.X + (a.Y*b.Z - b.Y*a.Z),
-		a.W*b.Y + b.W*a.Y - (a.X*b.Z - b.X*a.Z),
-		a.W*b.Z + b.W*a.Z + (a.X*b.Y - b.X*a.Y),
-		a.W*b.W - (a.X*b.X + a.Y*b.Y + a.Z*b.Z)
-	);
-}
-
+public:
+	void Get_Translation(Vector3 *set) const { set->X = Row[0][3]; set->Y = Row[1][3]; set->Z = Row[2][3]; }
+	float Row[3][4];
+};
 Quaternion Build_Quaternion(const Matrix3D &mat);
 
-// BFME 2 pivot transform: rotation quaternion plus translation.
-struct PivotTransform
-{
-	Quaternion Rotation;
-	Vector3 Translation;
+struct S2CompactTransform { Quaternion Q; Vector3 Position; };
+struct S2PivotView {
+	char Name[16]; S2PivotView *Parent;
+	S2CompactTransform Base, Current;
+	int Index; bool visible; float factor;
 };
 
-inline PivotTransform operator * (const PivotTransform &parent, const PivotTransform &child)
-{
-	PivotTransform result;
-	result.Translation = Rotate_Vector(child.Translation, parent.Rotation) + parent.Translation;
-	result.Rotation = parent.Rotation * child.Rotation;
-	return result;
+static __forceinline void rotate(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+q.W*v.X;
+ float y=-(q.X*v.Z-q.Z*v.X)+q.W*v.Y;
+ float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
+  float w=0.0f-(q.X*v.X+(q.Y*v.Y+q.Z*v.Z));
+ out->X=(q.Y*z-y*q.Z)+(q.W*x-q.X*w);
+ out->Y=(q.W*y-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=(q.X*y-q.Y*x)+(q.W*z-q.Z*w);
+}
+static __forceinline void SlaveProduct(const Quaternion &a,const Quaternion &b,Quaternion &out) {
+ Quaternion q;
+ q.X=((a.Y*b.Z-a.Z*b.Y)+a.W*b.X)+b.W*a.X;
+ q.Y=(a.W*b.Y+a.Y*b.W)-(a.X*b.Z-a.Z*b.X);
+ q.Z=((a.X*b.Y-a.Y*b.X)+a.Z*b.W)+a.W*b.Z;
+ q.W=a.W*b.W-((a.X*b.X+a.Y*b.Y)+a.Z*b.Z);
+ out=q;
+}
+static __forceinline void SlaveCompose(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate(a.Q,b.Position,&r);result.Position=r+a.Position;
+ SlaveProduct(a.Q,b.Q,result.Q);
 }
 
-struct PivotClass
-{
-	char Name[16];
-	PivotClass *Parent;					// +0x10
-	PivotTransform BaseTransform;		// +0x14
-	PivotTransform Transform;			// +0x30
-	int Index;							// +0x4C
-	bool IsVisible;						// +0x50
-	float m_bfme54;						// +0x54
-};
-
-class HTreeClass
-{
+class HTreeClass {
 public:
 	void Base_Update(const Matrix3D &root);
 	int Capture_Update(int pivot_index);
-
 private:
+	struct CapturedBone { int Index; Quaternion Rotation; Vector3 Translation; bool WorldSpaceTranslation; };
 	char Name[16];
-	int NumPivots;						// +0x10
-	PivotClass *Pivot;					// +0x14
-	float ScaleFactor;					// +0x18
-	int *CapturedBegin;					// +0x1C
-	int *CapturedEnd;					// +0x20
+	int NumPivots;
+	S2PivotView *Pivot;
+	float ScaleFactor;
+	std::vector<CapturedBone> Captured;
 };
 
 void HTreeClass::Base_Update(const Matrix3D &root)
 {
-	PivotClass *ppiv = Pivot;
-	PivotTransform *d = &ppiv[0].Transform;
-	const Matrix3D *proot = &root;
-	d->Rotation = Build_Quaternion((1 ? *proot : *proot));
-	{
-		*(int*)&d->Translation.X = *(int*)&proot->Row[0][3];
-		*(int*)&d->Translation.Y = *(int*)&proot->Row[1][3];
-		*(int*)&d->Translation.Z = *(int*)&proot->Row[2][3];
-	}
-	Pivot[0].IsVisible = true;
-	Pivot[0].m_bfme54 = 1.0f;
+	S2CompactTransform *d = &Pivot[0].Current;
+	d->Q = Build_Quaternion(root);
+	root.Get_Translation(&d->Position);
+	Pivot[0].visible = true;
+	Pivot[0].factor = 1.0f;
 
-	int *pCapEnd = CapturedEnd;
-	int *pCapBegin = CapturedBegin;
-	int captured = (pCapBegin == CapturedEnd) ? -1 : (_ReadWriteBarrier(), *CapturedBegin);
-	{
-		/* single reload to mirror retail's duplicated load */
-		int *pCli = pCapBegin;
-		(void)pCli;
-	}
+	int captured = Captured.empty() ? -1 : Captured.front().Index;
 
 	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
-		PivotClass *pivot = &Pivot[piv_idx];
-		PivotTransform *parent = (1 ? &pivot->Parent->Transform : &pivot->Parent->Transform);
-		Vector3 rotated = Rotate_Vector(pivot->BaseTransform.Translation, parent->Rotation);
-		rotated = parent->Translation + rotated;
-		pivot->Transform.Translation = rotated;
-		float rx = parent->Rotation.Y * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.Y;
-		rx += parent->Rotation.W * pivot->BaseTransform.Rotation.X;
-		rx += pivot->BaseTransform.Rotation.W * parent->Rotation.X;
-		float ry = parent->Rotation.W * pivot->BaseTransform.Rotation.Y + parent->Rotation.Y * pivot->BaseTransform.Rotation.W - (parent->Rotation.X * pivot->BaseTransform.Rotation.Z - parent->Rotation.Z * pivot->BaseTransform.Rotation.X);
-		float rz = parent->Rotation.X * pivot->BaseTransform.Rotation.Y - parent->Rotation.Y * pivot->BaseTransform.Rotation.X;
-		rz += parent->Rotation.Z * pivot->BaseTransform.Rotation.W;
-		rz += parent->Rotation.W * pivot->BaseTransform.Rotation.Z;
-		float rw = parent->Rotation.W;
-		rw *= pivot->BaseTransform.Rotation.W;
-		rw -= (parent->Rotation.X * pivot->BaseTransform.Rotation.X + parent->Rotation.Y * pivot->BaseTransform.Rotation.Y) + parent->Rotation.Z * pivot->BaseTransform.Rotation.Z;
-		pivot->Transform.Rotation = Quaternion(rx, ry, rz, rw);
-		pivot->IsVisible = true;
-		pivot->m_bfme54 = 1.0f;
-
+		S2PivotView *pivot = &Pivot[piv_idx];
+		SlaveCompose(pivot->Parent->Current, pivot->Base, pivot->Current);
+		pivot->visible = true;
+		pivot->factor = 1.0f;
 		if (piv_idx == captured)
 			captured = Capture_Update(captured);
 	}
 }
-
-// Target evidence and trial conclusions: reverse/attempt_support/htree-base-update-20261019-w4.md.
