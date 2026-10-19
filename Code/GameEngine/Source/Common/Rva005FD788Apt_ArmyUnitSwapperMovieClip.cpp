@@ -34,7 +34,8 @@ public:
 };
 
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char *g_Va0087A290[];
+// The two slot-side names at RVA 0x0087A290 (.rdata): "Top", "Bottom".
+const char *g_Va0087A290[] = { "Top", "Bottom" };
 
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *ref); // 0x0007DEEF
@@ -315,3 +316,24 @@ StrategicHUD::ArmyUnitSwapperMovieClip::ArmyUnitSwapperMovieClip(int level, cons
 {
 }
 
+// Slots 1..5 of the class table 0x00C7A2E8 (stored by the ctor 0x005FDE24) are
+// the shared empty RET at 0x000B3FD0 (ICF fold).
+void StrategicHUD::ArmyUnitSwapperMovieClip::notifyClosed()
+{
+}
+
+void StrategicHUD::ArmyUnitSwapperMovieClip::notifyExit()
+{
+}
+
+void StrategicHUD::ArmyUnitSwapperMovieClip::notifyMoveDown()
+{
+}
+
+void StrategicHUD::ArmyUnitSwapperMovieClip::notifyMoveUp()
+{
+}
+
+void StrategicHUD::ArmyUnitSwapperMovieClip::notifySwap()
+{
+}
