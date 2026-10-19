@@ -2040,7 +2040,7 @@ name,address,notes
 ??0Locomotor@@QAE@PBVLocomotorTemplate@@_N@Z,0x001E449A,constructor called on the 0xB0-byte allocation with the template and flag by the byte-verified LocomotorStore::newLocomotor 0x001E4A81 read from its REL32 displacement
 ??0LocomotorSetUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B3F0B,(Thing*;ModuleData*) ctor called by LocomotorSetUpgrade::friend_newModuleInstance (0x0024FF33); class from the ModuleFactory registration literal
 ??0LuaScriptEngine@@QAE@XZ,0x003379FD,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
-??0Made002CC5E1@@QAE@XZ,0x00507C2D,ctor of the DamageNugget object newed by parseDamageNugget (0x002CC5E1); address-derived name; identity not recovered
+??0DamageNugget@@QAE@XZ,0x00507C2D,ctor of the DamageNugget object newed by parseDamageNugget (0x002CC5E1); address-derived name; identity not recovered
 ??0Made002CC64B@@QAE@XZ,0x00508BE5,ctor of the AttributeModifierNugget object newed by parseAttributeModifierNugget (0x002CC64B); address-derived name; identity not recovered
 ??0Made002CC6AE@@QAE@XZ,0x00508E11,ctor of the SpecialModelConditionNugget object newed by parseSpecialModelConditionNugget (0x002CC6AE); address-derived name; identity not recovered
 ??0Made002CC711@@QAE@XZ,0x00508F51,ctor of the ParalyzeNugget object newed by parseParalyzeNugget (0x002CC711); address-derived name; identity not recovered
@@ -4088,7 +4088,7 @@ name,address,notes
 ??1LockClass@BFMEPoolCriticalSection@@QAE@XZ,0x000657D0,TU-private view (the *PoolAllocateObjectMemory units) of FastCriticalSectionClass::LockClass: their unwind funclets release the pool lock by jumping to this clear-flag destructor
 ??1LockClass@CriticalSectionClass@@QAE@XZ,0x00613B80,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ??1LockClass@FastCriticalSectionClass@@QAE@XZ,0x000657D0,WWLib mutex.h FastCriticalSectionClass::LockClass destructor (cs.Thread_Safe_Clear_Flag(): mov eax [ecx]; mov dword [eax] 0); the pool allocate unwind funclets release their lock through this body (rowed as dup_000657d0 with object-symbol ??1BFMEPoolLock)
-??1Made002CC5E1@@UAE@XZ,0x00508684,callee read from retail REL32 at a given-back caller; byte-verified in the solo fork as Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Ctor.cpp (row not yet given back)
+??1DamageNugget@@UAE@XZ,0x00508684,callee read from retail REL32 at a given-back caller; byte-verified in the solo fork as Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Ctor.cpp (row not yet given back)
 ??1Made002CC711@@UAE@XZ,0x0050B8D6,ICF fold: the implicit paralyze-nugget dtor is the same jmp-to-0x00507823 body as the rowed Made002CCBCA one; REL32 at 0x00508F90 in ??_GMade002CC711 0x00508F8C
 ??1Made002CCA37@@UAE@XZ,0x0050BFBF,ICF fold: the implicit DOTNugget dtor is the same jmp-to-0x00508684 body as the rowed FireLogicNugget one; REL32 at 0x0050B220 in ??_GMade002CCA37 0x0050B21C
 ??1MaterialRemapperClass@@QAE@XZ,0x0016F170,MaterialRemapperClass dtor: call site in clone_materials 0x188274 on the stack remapper; 169B body releases both infos and deletes arrays; matches matinfo.cpp body (future row)
@@ -9800,7 +9800,7 @@ name,address,notes
 ?push_back@Rva004816F4Vector@@QAEXABURva004816F4Entry@@@Z,0x004816BD,native DestinationTemplate append; full55B verified8B entry vector push_back; scoped address views not original names
 ?push_front@?$list@UICoord2D@@V?$allocator@UICoord2D@@@_STL@@@_STL@@QAEXABUICoord2D@@@Z,0x00357DF8,positionAdditionalImages retail calls +0x15C/+0x219; emitted 28B typed push-front independently matches 8-byte-record provider including insert call
 ?push_front@Rva001EAD69List@@QAEXABURva001EAD69Entry@@@Z,0x001EA994,native107 call at1EADAB; full28B push_front verified with eight-byte string record; target-derived address views; original names unknown
-?q4Notify002CC5E1@@YAXPAXPAVMade002CC5E1@@HH@Z,0x005088F0,four-argument __cdecl field parser called by parseDamageNugget (0x002CC5E1); address-derived name; identity not recovered
+?q4Notify002CC5E1@@YAXPAXPAVDamageNugget@@HH@Z,0x005088F0,four-argument __cdecl field parser called by parseDamageNugget (0x002CC5E1); address-derived name; identity not recovered
 ?q4Notify002CC64B@@YAXPAXPAVMade002CC64B@@HH@Z,0x0050893A,four-argument __cdecl field parser called by parseAttributeModifierNugget (0x002CC64B); address-derived name; identity not recovered
 ?q4Notify002CC6AE@@YAXPAXPAVMade002CC6AE@@HH@Z,0x00508D2F,four-argument __cdecl field parser called by parseSpecialModelConditionNugget (0x002CC6AE); address-derived name; identity not recovered
 ?q4Notify002CC711@@YAXPAXPAVMade002CC711@@HH@Z,0x00508EBF,four-argument __cdecl field parser called by parseParalyzeNugget (0x002CC711); address-derived name; identity not recovered
@@ -10689,7 +10689,7 @@ name,address,notes
 ?rva00506265@AITacticsGenerator@@AAE_NPAURva00506909Request@@PAX@Z,0x00506265,kind 1 handler of AITacticsGenerator::rva005069CE (REL32 at 0x005069F8)
 ?rva0050633B@AITacticsGenerator@@AAE_NPAURva00506909Request@@PAX@Z,0x0050633B,kind 3 handler of AITacticsGenerator::rva005069CE (REL32 at 0x005069EC)
 ?rva005075D6@Rva00508925@@QAEEHH@Z,0x005075D6,address-derived callee of matched slot 0x00508925; retail REL32 targets 0x005075D6; Ghidra FUN bounds 372 bytes; thiscall on the caller object two args ret 8; caller tests al; callee body remains unclaimed; no named identity inferred
-?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z,0x00508120,"Native nonvirtual member on same Made002CC5E1 receiver: REL32 at508523 in186B slot14 wrapper5084FC; helper boundary508120..5084FC988B RET20; reads weapon+8 target viaECX2615E3 DamageInfo thirdarg bool fourtharg and coordinate-pointer fiftharg; original method name unknown."
+?rva00508120@DamageNugget@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z,0x00508120,"Native nonvirtual member on same DamageNugget receiver: REL32 at508523 in186B slot14 wrapper5084FC; helper boundary508120..5084FC988B RET20; reads weapon+8 target viaECX2615E3 DamageInfo thirdarg bool fourtharg and coordinate-pointer fiftharg; original method name unknown."
 ?rva00511CE6@AptMessenger@@QAEXXZ,0x00511CE6,unrowed thiscall (Ghidra FUN_00911CE6; plain ret) on the messenger screen; REL32 read in the AptMessenger::OnBttn_0/OnBttn_1 callbacks (0x005AEF16/0x005AEF32) with ECX=this; address name
 ?rva0051274F@Rva005126F5@@QAEHHII@Z,0x0051274F,unrowed 136B thiscall (Ghidra FUN_0091274f; ret 0xC) at slot 2 of vftable 0x00C659E8 of the LAN lobby screen base class (destroyed by 0x005126F5); the lobby handler 0x0044484A calls it directly with its three message args; address name
 ?rva0051274F@Rva0051274F@@QAEHHHH@Z,0x0051274F,thiscall int callee of 0x004E8D3E read from its REL32 displacement (this plus 3); body unrowed

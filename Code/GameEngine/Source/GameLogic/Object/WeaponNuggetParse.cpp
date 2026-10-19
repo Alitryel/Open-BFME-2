@@ -33,19 +33,19 @@ struct WeaponNuggetHead
 };
 
 // "DamageNugget": 0x002CC5E1, news 0x1A4, ctor 0x00507C2D, field parser 0x005088F0
-class Made002CC5E1 : public WeaponNuggetHead
+class DamageNugget : public WeaponNuggetHead
 {
 public:
-	Made002CC5E1();
+	DamageNugget();
 private:
 	char m_tail[0x1A4 - 0x108];
 };
-void q4Notify002CC5E1(void *ini, Made002CC5E1 *m, int c, int d);
+void q4Notify002CC5E1(void *ini, DamageNugget *m, int c, int d);
 
 // ?parseDamageNugget@@YAXPAVINI@@PAVWeaponTemplate@@@Z
 void parseDamageNugget(INI *ini, WeaponTemplate *weapon)
 {
-	Made002CC5E1 *m = new Made002CC5E1;
+	DamageNugget *m = new DamageNugget;
 	m->m_owner = weapon;
 	q4Notify002CC5E1(ini, m, 0, 0);
 	weapon->rva002CBA59(m);

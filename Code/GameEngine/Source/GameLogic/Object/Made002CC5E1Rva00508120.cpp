@@ -144,7 +144,7 @@ class Rva00507823
 public:
  virtual ~Rva00507823();
 };
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 public:
 private:
@@ -184,7 +184,7 @@ private:
 // distance +0x134..+0x130, the 0x0028F44C mutual bonus/scale block skipped by
 // the flag argument, the +0x19C filter that sets DamageInfo +0x24 and the
 // 32-bit player mask.
-bool Made002CC5E1::rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position)
+bool DamageNugget::rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position)
 {
  Rva00508120WeaponView *view = static_cast<Rva00508120WeaponView *>(weapon);
  Object *source = TheGameLogic->findObjectByID((ObjectID)view->sourceID08);

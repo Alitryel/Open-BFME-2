@@ -2,7 +2,7 @@
 //
 // ?rva0050B16F@Made002CCA37@@QAE_NPAXPAVObject@@PBUCoord3D@@@Z, retail
 // 0x0050B16F (141 bytes, RET 0x0C): slot 14 of the vtable 0x00864C38 that
-// the rowed Made002CCA37 constructor installs (it inherits Made002CC5E1's
+// the rowed Made002CCA37 constructor installs (it inherits DamageNugget's
 // damage nugget, whose slot-14 apply 0x005084FC it ends with). When the game
 // has a damage-over-time manager (GameLogic +0x174) and there is a target,
 // the nugget's damage (pinned helper 0x00508120) is recorded for the target's
@@ -52,7 +52,7 @@ public:
 };
 
 class Made002CCA37;
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 	friend class Made002CCA37;
 public:
@@ -62,7 +62,7 @@ private:
 	bool rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
 };
 
-class Made002CCA37 : public Made002CC5E1
+class Made002CCA37 : public DamageNugget
 {
 public:
 	bool rva0050B16F(void *weapon, Object *target, const Coord3D *position);

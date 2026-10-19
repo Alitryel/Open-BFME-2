@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /arch:SSE /ICode/GameEngine/Source/Common
-// Retail0x005084FC186B; vtable00864048 slot14 owned by matched Made002CC5E1
+// Retail0x005084FC186B; vtable00864048 slot14 owned by matched DamageNugget
 // deleting destructor/constructor. Original method name unknown. This scoped
 // view emits the method body only and deliberately does not model the vtable.
 // BFME1 b25 DamageNugget generateDamageInfo is the fill-helper semantic lead,
@@ -130,7 +130,7 @@ public:
  Rva005084FCModuleView *module04;
  unsigned char pad08[0x250-8]; Rva005086CEContain *contain250;
 private:
- friend class Made002CC5E1;
+ friend class DamageNugget;
  AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
 };
 extern GameLogic *TheGameLogic;
@@ -147,7 +147,7 @@ public:
  virtual ~Rva00507823();
  unsigned char rva005075D6(const void*,Object*);
 };
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 public:
  bool rva005084FC(void *weapon, Object *target, const Coord3D *position);
@@ -160,7 +160,7 @@ private:
  float value198;
  bool rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
 };
-bool Made002CC5E1::rva005084FC(void *weapon, Object *target, const Coord3D *position)
+bool DamageNugget::rva005084FC(void *weapon, Object *target, const Coord3D *position)
 {
  Rva00263895Member info;
  if (rva00508120(weapon, target, (DamageInfo*)&info, false, position) == true)
@@ -194,7 +194,7 @@ bool Made002CC5E1::rva005084FC(void *weapon, Object *target, const Coord3D *posi
 // Pinned BFME1 a7c38d3b DamageNugget.cpp supplies the source-count/divisor
 // damage scale with a reference-returning min; native fixes the target ABI,
 // condition filter and modifier-category gate. Original virtual name unknown.
-bool Made002CC5E1::rva005086CE(void *weapon,Object *target)
+bool DamageNugget::rva005086CE(void *weapon,Object *target)
 {
  Rva005084FCWeaponView *descriptor=(Rva005084FCWeaponView*)weapon;
  if(!rva005075D6(weapon,target)) return false;

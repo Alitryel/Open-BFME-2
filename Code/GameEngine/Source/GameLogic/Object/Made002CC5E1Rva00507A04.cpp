@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /ICode/GameEngine/Source/Common /ICode
 //
-// ?v4@Made002CC5E1@@UAEXPAX0@Z retail 0x00507A04..0x00507BB7 (435B): vtable
+// ?v4@DamageNugget@@UAEXPAX0@Z retail 0x00507A04..0x00507BB7 (435B): vtable
 // slot 4 of 0x00864048/0x00864C38/0x008650B8, reached from slot 3 0x0050797D.
 // Spawns TheWritableGlobalData->m_luaEventHelperName through ThingFactory and
 // arms DelayedLuaEventUpdate; same view as Made002CC5E1Rva00507991.cpp.
@@ -12,7 +12,7 @@ extern "C" void *__cdecl memset(void *dst, int value, unsigned int count);
 
 template <class T> inline const T &Made002CC5E1Max(const T &a, const T &b) { return a < b ? b : a; }
 
-class Made002CC5E1;
+class DamageNugget;
 class ThingTemplate;
 class Team;
 class Module;
@@ -44,7 +44,7 @@ public:
 	ObjectID getID() const { return m_id; }
 protected:
 	Module *findModule(NameKeyType key) const;
-	friend class Made002CC5E1;
+	friend class DamageNugget;
 private:
 	unsigned char m_pad00[0x74];
 	ObjectID m_id; // +0x74
@@ -133,10 +133,10 @@ private:
 	char m_pad04[0x128 - 4];
 };
 
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 public:
-	virtual ~Made002CC5E1();
+	virtual ~DamageNugget();
 	virtual bool v1(void *a, void *b);
 	virtual bool rva00507943(const void *a, int b);
 	virtual void rva0050797D(void *a, void *b);
@@ -147,7 +147,7 @@ private:
 	float m_130;
 };
 
-void Made002CC5E1::v4(void *a, void *b)
+void DamageNugget::v4(void *a, void *b)
 {
 	const AsciiString &helperName = TheWritableGlobalData->m_luaEventHelperName;
 	if (((const StringBase<char> *)&helperName)->isEmpty())

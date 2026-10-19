@@ -64,10 +64,10 @@ struct FireLogicNuggetSource
 	ObjectID m_sourceID;				// +0x08
 };
 
-class Made002CC5E1
+class DamageNugget
 {
 public:
-	virtual ~Made002CC5E1();
+	virtual ~DamageNugget();
 
 protected:
 	char m_pad004[0x128 - 0x004];
@@ -79,7 +79,7 @@ protected:
 	char m_pad13C[0x1A4 - 0x13C];
 };
 
-class FireLogicNugget : public Made002CC5E1
+class FireLogicNugget : public DamageNugget
 {
 public:
 	virtual void doEffectPosition(const FireLogicNuggetSource *source, const Coord3D *targetPosition);

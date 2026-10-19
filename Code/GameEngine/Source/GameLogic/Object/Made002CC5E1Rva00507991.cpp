@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 //
-// ?rva00507991@Made002CC5E1@@QAEX... retail 0x00507991 94B slot 5 of 0x00864048
-// (Made002CC5E1) and 0x00864C38 (Made002CCA37 inherits). Float at +0x130 vs
+// ?rva00507991@DamageNugget@@QAEX... retail 0x00507991 94B slot 5 of 0x00864048
+// (DamageNugget) and 0x00864C38 (Made002CCA37 inherits). Float at +0x130 vs
 // BfmeZeroRange (?BfmeZeroRange@@3MB): if !=0 call slot1 bool check then slot14
 // with (a b 0); if >0 call slot6 with (a b+0x38). Base size 0x128 from ctor
 // 0x00507C2D (m_128 at +0x128 m_12C +0x12C m_130 +0x130). ret 8 = 2 args.
@@ -16,10 +16,10 @@ private:
 	char m_pad04[0x128 - 4];
 };
 
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 public:
-	virtual ~Made002CC5E1();
+	virtual ~DamageNugget();
 	virtual bool v1(void *a, void *b);
 	virtual bool rva00507943(const void *a, int b);
 	virtual void rva0050797D(void *a, void *b);
@@ -40,7 +40,7 @@ private:
 	float m_130;
 };
 
-void Made002CC5E1::rva00507991(void *a, void *b)
+void DamageNugget::rva00507991(void *a, void *b)
 {
 	if (m_130 == 0.0f) {
 		if (v1(a, b)) {
@@ -54,14 +54,14 @@ void Made002CC5E1::rva00507991(void *a, void *b)
 
 // Slot 2 (0x00507943, shared by twelve nugget vtables through ICF): the base
 // slot-2 test, normalised to bool.
-bool Made002CC5E1::rva00507943(const void *a, int b)
+bool DamageNugget::rva00507943(const void *a, int b)
 {
 	return rva0050774A(a, b) ? true : false;
 }
 
 // Slot 3 (0x0050797D; also 0x00864C44 and 0x008650C4): slot 4 on the
 // second argument's +0x38, the same hand-off rva00507991 makes to slot 6.
-void Made002CC5E1::rva0050797D(void *a, void *b)
+void DamageNugget::rva0050797D(void *a, void *b)
 {
 	v4(a, (char *)b + 0x38);
 }

@@ -1,7 +1,7 @@
 // cl: /GX /DNDEBUG /MD
 //
 // ??0Made002CCA37@@QAE@XZ @0x0050B1FC (32B).
-// DOTNugget ctor: calls the pin-only base ??0Made002CC5E1@@QAE@XZ at
+// DOTNugget ctor: calls the pin-only base ??0DamageNugget@@QAE@XZ at
 // 0x00507C2D (343B, consistent pin), zeroes the two tail dwords at +0x1A4 and
 // +0x1A8 (the 8 bytes past the 0x1A4 base news size to the 0x1AC derived news
 // size per WeaponNuggetParse.cpp parseDOTNugget), then stores the derived
@@ -11,17 +11,17 @@
 // 0x1AC and runs this ctor. The /O1 and-zero idiom (and [m],0 for =0) matches
 // the recipe table.
 
-class Made002CC5E1
+class DamageNugget
 {
 public:
-	Made002CC5E1();
-	virtual ~Made002CC5E1();
+	DamageNugget();
+	virtual ~DamageNugget();
 
 private:
 	char m_pad[0x1A4 - 4];
 };
 
-class Made002CCA37 : public Made002CC5E1
+class Made002CCA37 : public DamageNugget
 {
 public:
 	Made002CCA37();

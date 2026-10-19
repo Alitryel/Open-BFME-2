@@ -1,11 +1,11 @@
 // cl: /DNDEBUG /MD
 //
-// ?q4Notify002CC5E1@@YAXPAXPAVMade002CC5E1@@HH@Z @0x005088F0 (53B).
+// ?q4Notify002CC5E1@@YAXPAXPAVDamageNugget@@HH@Z @0x005088F0 (53B).
 // DamageNugget field parser: MultiIni tmp, buildFieldParse via rowed
 // 0x005088CE, then INI initFromINIMulti via pin. Caller
 // parseDamageNugget at 0x002CC626. Same tail as sibling q4Notify002CC64B
 // 0x0050893A but with adds factored into buildFieldParse.
-class Made002CC5E1;
+class DamageNugget;
 class MultiIniFieldParse
 {
 public:
@@ -22,7 +22,7 @@ class INI
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
 };
-void __cdecl q4Notify002CC5E1(void *ini, Made002CC5E1 *m, int c, int d)
+void __cdecl q4Notify002CC5E1(void *ini, DamageNugget *m, int c, int d)
 {
 	MultiIniFieldParse tmp;
 	Rva005088CE::buildFieldParse(tmp);

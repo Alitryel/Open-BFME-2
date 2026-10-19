@@ -1,7 +1,7 @@
 // cl: /GX /DNDEBUG /MD
 //
 // ??0Made002CCCF3@@QAE@XZ @0x0050BF8F (48B).
-// FireLogicNugget ctor: calls the pin-only base ??0Made002CC5E1@@QAE@XZ at
+// FireLogicNugget ctor: calls the pin-only base ??0DamageNugget@@QAE@XZ at
 // 0x00507C2D (343B, consistent pin), zeroes three tail dwords at +0x1A4/+0x1A8
 // /+0x1AC (xor eax,eax plus three movs, the /O1 three-zero idiom saving 1B
 // over three and-zero stores), stores the derived vtable 0x008650B8 (DIR32),
@@ -10,17 +10,17 @@
 // 0x002CCD18), which news 0x1B4 and runs this ctor. Sibling of the DOTNugget
 // ctor ??0Made002CCA37@@QAE@XZ at 0x0050B1FC (two and-zero stores).
 
-class Made002CC5E1
+class DamageNugget
 {
 public:
-	Made002CC5E1();
-	virtual ~Made002CC5E1();
+	DamageNugget();
+	virtual ~DamageNugget();
 
 private:
 	char m_pad[0x1A4 - 4];
 };
 
-class Made002CCCF3 : public Made002CC5E1
+class Made002CCCF3 : public DamageNugget
 {
 public:
 	Made002CCCF3();

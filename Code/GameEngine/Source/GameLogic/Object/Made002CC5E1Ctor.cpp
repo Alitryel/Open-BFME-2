@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 // stlport
 //
-// ??0Made002CC5E1@@QAE@XZ retail 0x00507C2D 343B
+// ??0DamageNugget@@QAE@XZ retail 0x00507C2D 343B
 // DamageNugget ctor over rowed base Rva00507823 0x0050775B (vtable 0x00864010
 // then derived vtable 0x00864048). Derived floats at +0x128/+0x130/+0x134
 // zero plus -1.0f at +0x12C/+0x140/+0x144 via 0x00BBB9AC plus pi at +0x138
@@ -88,10 +88,10 @@ private:
 	bool m_124;
 };
 
-class Made002CC5E1 : public Rva00507823
+class DamageNugget : public Rva00507823
 {
 public:
-	Made002CC5E1();
+	DamageNugget();
 private:
 	float m_128;
 	float m_12C;
@@ -121,7 +121,7 @@ private:
 	bool m_1A0;
 };
 
-Made002CC5E1::Made002CC5E1()
+DamageNugget::DamageNugget()
 	: m_128(0.0f)
 	, m_12C(-1.0f)
 	, m_130(0.0f)

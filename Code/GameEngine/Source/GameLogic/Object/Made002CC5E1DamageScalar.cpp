@@ -60,14 +60,14 @@ void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *use
 
 typedef _STL::vector<Made002CC5E1DamageScalar, _STL::allocator<Made002CC5E1DamageScalar> > Made002CC5E1DamageScalarVec;
 
-class Made002CC5E1
+class DamageNugget
 {
 public:
 	static void parseDamageScalar(INI *ini, void *instance, void *store, const void *userData);
 };
 
-// ?parseDamageScalar@Made002CC5E1@@SAXPAVINI@@PAX1PBX@Z
-void Made002CC5E1::parseDamageScalar(INI *ini, void *instance, void *store, const void * /*userData*/)
+// ?parseDamageScalar@DamageNugget@@SAXPAVINI@@PAX1PBX@Z
+void DamageNugget::parseDamageScalar(INI *ini, void *instance, void *store, const void * /*userData*/)
 {
 	Made002CC5E1DamageScalar entry;
 	entry.scalar = ini->dup_002EE10(ini->getNextToken());

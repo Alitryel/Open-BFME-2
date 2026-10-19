@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // ??0Made002CC7DE@@QAE@XZ @0x0050968B 32B
 // Derived of Rva00507823 base 0x0050775B (vtable 0x00864010) overwrites vtable 0x00864588
-// zeroes +0x12C then +0x128. Caller parseWeaponOCLNugget 0x002CC803. Sibling Made002CC5E1
+// zeroes +0x12C then +0x128. Caller parseWeaponOCLNugget 0x002CC803. Sibling DamageNugget
 // (DamageNugget 0x00507C2D) proves base size 0x128 and derived layout.
 // The implicit dtor 0x005096C7 (emitted with the vtable, so no vptr store)
 // tears +0x12C down through the AsciiString dtor 0x00036410 before the base
