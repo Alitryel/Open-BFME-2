@@ -92,9 +92,8 @@ public:
 	Rva003B6831();
 };
 
-class AptActionInterpreter
+struct AptActionInterpreter
 {
-public:
 	AptActionInterpreter();
 };
 
@@ -225,13 +224,14 @@ void rva007B53D4()
 	atexit(rva007B9A37);
 }
 
-extern unsigned g_Va00E182E0;
+// VA 0x00E182E0 is AptDateSetters.cpp's ?g_aptDateInterpreter@@3UAptActionInterpreter@@A.
+extern AptActionInterpreter g_aptDateInterpreter;
 void __cdecl rva007B9C50();
 
-// ?rva007B67A0@@YAXXZ @0x007B67A0 22B: ctor 0x006FE980 on &g_Va00E182E0, atexit(0x007B9C50).
+// ?rva007B67A0@@YAXXZ @0x007B67A0 22B: ctor 0x006FE980 on &g_aptDateInterpreter (VA 0x00E182E0), atexit(0x007B9C50).
 void rva007B67A0()
 {
-	new (&g_Va00E182E0) AptActionInterpreter;
+	new (&g_aptDateInterpreter) AptActionInterpreter;
 	atexit(rva007B9C50);
 }
 
