@@ -1,9 +1,19 @@
-// cl: /O1 /arch:SSE /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+//
+// ?update@GiantBirdAIUpdate@@UAE?AW4UpdateSleepTime@@XZ, retail
+// 0x0036B103..0x0036B567 (1124 bytes). WB 0x00F38A40 is the same body, the
+// only WB caller of the grab toss below. Object::GetRelativeAngle is
+// written inline in the class with its full body (WB: Object.h inline);
+// cl still calls 0x000B4542 but knows &prev is not captured, and the
+// emitted COMDAT is the matched 273-byte body, select-any like the copy in
+// ObjectGetRelativeAngle.cpp. prev is copied member-wise, and the unit
+// direction pos lives in its own block that ends after normalize() (WB
+// copy-constructs pos and prev; retail drops WB's scale of pos).
 //
 // ?rva0036AE79@GiantBirdAIUpdate@@QAEXXZ, retail 0x0036AE79..0x0036B103
 // (650 bytes, EH): the grab toss of the giant bird, called only from the
-// unrowed GiantBirdAIUpdate update body at 0x0036B1A9.
+// GiantBirdAIUpdate::update body below (call at 0x0036B1A9).
 //
 // Target facts: this is the GiantBirdAIUpdate primary (+0x4B8 flag word
 // whose bit 6 onCollide also tests, +0x4BC timer, +0x4C0 and +0x4C4 words
@@ -31,15 +41,10 @@
 // field parse table 0x00C178D8; the function name is address-derived (WB
 // 0x00F3B0A0 is the same body, unnamed). The other field names and the
 // slot meanings are structural inferences.
+#include <math.h>
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
-
-// Compare typed nodes locally, as in NetPacket.cpp; retail inlines this test.
-namespace _STL {
-template <class T, class L, class R>
-static inline bool operator!=(const _List_iterator<T, L>& a, const _List_iterator<T, R>& b)
-{ return a._M_node != b._M_node; }
-}
+#include "../../../../../Include/GameLogic/BfmeStoredAICommandView.h"
 
 namespace _STL {template<> _List_base<Rva0036ADF9Element,allocator<Rva0036ADF9Element> >::~_List_base();}
 
@@ -50,6 +55,19 @@ typedef unsigned int UnsignedInt;
 
 extern int BfmeLogicFramesPerSecond;
 
+#define NULL 0
+#define TRUE 1
+#define FALSE 0
+
+#ifndef max
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+#endif
+#ifndef min
+#define min(x, y) (((x) < (y)) ? (x) : (y))
+#endif
+
+extern "C" void __cdecl free(void *p);
+
 inline void scaleCoord(Coord3D &c, Real s)
 {
 	c.x *= s;
@@ -57,8 +75,57 @@ inline void scaleCoord(Coord3D &c, Real s)
 	c.z *= s;
 }
 
-enum ObjectStatusTypes { OBJECT_STATUS_BFME_3C = 0x3C };
-enum { BFME_MODELCONDITION_72 = 2 * 32 + 8 };
+inline void setCoord(Coord3D &c, const Coord3D &a)
+{
+	c.x = a.x;
+	c.y = a.y;
+	c.z = a.z;
+}
+
+inline void addCoord(Coord3D &c, const Coord3D &a)
+{
+	c.x += a.x;
+	c.y += a.y;
+	c.z += a.z;
+}
+
+inline void subCoord(Coord3D &c, const Coord3D &a)
+{
+	c.x -= a.x;
+	c.y -= a.y;
+	c.z -= a.z;
+}
+
+inline void zeroCoord(Coord3D &c)
+{
+	c.x = 0.0f;
+	c.y = 0.0f;
+	c.z = 0.0f;
+}
+
+Real normalizeAngle(Real angle);
+
+// The scratch mask the GiantBird movement helpers pass along (data row).
+extern unsigned char g_00E01EC4[4];
+
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_BFME_06 = 0x06,
+	OBJECT_STATUS_BFME_3C = 0x3C,
+	OBJECT_STATUS_BFME_48 = 0x48
+};
+enum { BFME_MODELCONDITION_72 = 2 * 32 + 8, BFME_MODELCONDITION_103 = 3 * 32 + 7 };
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
+enum AICommandType { AICMD_NO_COMMAND = -1 };
+enum CommandSourceType { CMD_FROM_AI = 2 };
+
+#define INVALID_STATE_ID 999999
 
 class FXList;
 class Object;
@@ -86,6 +153,7 @@ private:
 	unsigned char m_kindOf[0x20]; // +0x108
 };
 
+extern Real ACos(Real);
 class Thing
 {
 public:
@@ -93,12 +161,18 @@ public:
 	Real getHeightAboveTerrain() const;
 	void setOrientation(Real angle);
 	void getUnitDirectionVector3D(Coord3D &dir) const;
+	const Coord3D *getUnitDirectionVector2D() const;
+	void setPositionZ(Real z);
 	const ThingTemplateView *getTemplate() const { return m_template; }
 	const Matrix3D *getTransformMatrix() const { return &m_transform; }
+	const Coord3D *getPosition() const { return &m_cachedPos; }
+	Real getOrientation() const { return m_cachedAngle; }
 private:
 	void *m_vptr;
 	const ThingTemplateView *m_template; // +0x04
 	Matrix3D m_transform; // +0x08
+	Coord3D m_cachedPos; // +0x38
+	Real m_cachedAngle; // +0x44
 };
 
 class BodyModuleInterface
@@ -185,11 +259,36 @@ public:
 		}
 	}
 	void setStatus(ObjectStatusTypes status, Bool set);
+	Real GetRelativeAngle(const Coord3D *pos) const
+	{
+		Coord3D delta;
+		delta.x = pos->x - getPosition()->x;
+		delta.y = pos->y - getPosition()->y;
+		Real distance = (Real)sqrt(delta.x * delta.x + delta.y * delta.y);
+		if (distance == 0.0f)
+			return 0.0f;
+		Coord3D *dir = &delta;
+		Real scale = 1.0f / distance;
+		dir->x *= scale;
+		dir->y *= scale;
+		const Coord3D *facing = getUnitDirectionVector2D();
+		Real cosine = delta.x * facing->x;
+		cosine += delta.y * facing->y;
+		if (cosine < -1.0)
+			cosine = -1.0f;
+		else if (cosine > 1.0)
+			cosine = 1.0f;
+		Real angle = ACos(cosine);
+		if (delta.y * facing->x - delta.x * facing->y < 0.0f)
+			angle = -angle;
+		return angle;
+	}
+	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	PhysicsBehavior *getPhysics() const { return m_physics; }
 private:
-	unsigned char m_pad038[0x74 - 0x38];
+	unsigned char m_pad048[0x74 - 0x48];
 	UnsignedInt m_id; // +0x74
 	unsigned char m_pad078[0x10C - 0x78];
 	ModelConditionFlags m_modelConditionFlags; // +0x10C
@@ -198,16 +297,81 @@ private:
 	BodyModuleInterface *m_body; // +0x254
 	void *m_ai; // +0x258
 	PhysicsBehavior *m_physics; // +0x25C
+	unsigned char m_pad260[0x438 - 0x260];
+	unsigned char m_privateStatus; // +0x438
+};
+
+// Sets a status on the Object for the lifetime of the scope (WB 0x00E414C0
+// and 0x00E41500, inlined in retail); the name is a structural inference.
+class ObjectStatusScope
+{
+public:
+	__forceinline ObjectStatusScope(Object *obj, ObjectStatusTypes status) : m_obj(obj), m_status(status)
+	{
+		m_obj->setStatus(m_status, true);
+	}
+	__forceinline ~ObjectStatusScope()
+	{
+		m_obj->setStatus(m_status, false);
+	}
+private:
+	Object *m_obj;
+	ObjectStatusTypes m_status;
+};
+
+class AiOrdersManager
+{
+public:
+	void rva003551D3(int value);
+};
+extern AiOrdersManager *TheAiOrdersManager;
+
+struct AICommandParms
+{
+	AICommandParms(AICommandType cmd, CommandSourceType cmdSource); // 0x00351BD0
+	~AICommandParms() { if (m_coordsStart) free(m_coordsStart); }
+
+	AICommandType m_cmd; // +0x00
+	CommandSourceType m_cmdSource; // +0x04
+	Coord3D m_pos; // +0x08
+	Object *m_obj; // +0x14
+	Object *m_otherObj; // +0x18
+	const void *m_team; // +0x1C
+	void *m_coordsStart; // +0x20
+	void *m_coordsFinish; // +0x24
+	void *m_coordsEnd; // +0x28
+	char m_tail[0xC0 - 0x2C];
+};
+
+class Rva00368C7A
+{
+public:
+	void rva003681F2(const Coord3D *pos, const unsigned char *mask, const Coord3D *pos2, bool flag);
+};
+
+typedef UnsignedInt StateID;
+
+class State
+{
+public:
+	StateID getID() const { return m_ID; }
+private:
+	void *m_vptr;
+	StateID m_ID; // +0x04
 };
 
 class StateMachine
 {
 public:
 	virtual void gap00(); virtual void gap01(); virtual void gap02(); virtual void gap03();
-	virtual void gap04(); virtual void gap05(); virtual void gap06(); virtual void gap07();
+	virtual Int updateStateMachine() = 0; // +0x10
+	virtual void gap05(); virtual void gap06(); virtual void gap07();
 	virtual void gap08(); virtual void gap09(); virtual void gap10(); virtual void gap11();
 	virtual void gap12(); virtual void gap13();
 	virtual void slot14(void *arg) = 0; // +0x38
+	StateID getCurrentStateID() const { return m_currentState ? m_currentState->getID() : INVALID_STATE_ID; }
+private:
+	State *m_currentState; // +0x04
 };
 
 struct GiantBirdAIUpdateModuleData
@@ -219,30 +383,112 @@ struct GiantBirdAIUpdateModuleData
 	const FXList *m_tossFX; // +0x80 TossFX
 };
 
-class GiantBirdAIUpdate
+struct GiantBirdHeightView
+{
+	unsigned char m_pad00[0xC0];
+	Int m_C0; // +0xC0
+};
+
+struct GiantBirdLocomotorView
+{
+	void *m_00;
+	const GiantBirdHeightView *m_04; // +0x04
+	Int getC0() const { return m_04->m_C0; }
+};
+
+class BehaviorModuleBase
 {
 public:
-	void rva0036AE79();
-	const GiantBirdAIUpdateModuleData *getGiantBirdAIUpdateModuleData() const { return m_moduleData; }
+	virtual void behaviorModuleBaseAnchor();
+	const void *m_moduleData; // +0x04
+	Object *m_object; // +0x08
+};
+
+class BehaviorModuleOther
+{
+public:
+	virtual void behaviorModuleOtherAnchor();
+};
+
+class BehaviorModule : public BehaviorModuleBase, public BehaviorModuleOther
+{
+public:
 	Object *getObject() const { return m_object; }
+};
+
+class UpdateModuleInterface
+{
+public:
+	virtual UpdateSleepTime update() = 0;
+};
+
+class UpdateModule : public BehaviorModule, public UpdateModuleInterface
+{
+protected:
+	UnsignedInt m_nextCallFrameAndPhase; // +0x14
+	Int m_indexInLogic; // +0x18
+	Int m_bfmeReserved; // +0x1C
+};
+
+class AICommandInterface
+{
+public:
+	virtual void aiDoCommand(const AICommandParms *parms) = 0;
+};
+
+#define GB_GAP10(n) virtual void aigap##n##0(); virtual void aigap##n##1(); virtual void aigap##n##2(); virtual void aigap##n##3(); virtual void aigap##n##4(); \
+	virtual void aigap##n##5(); virtual void aigap##n##6(); virtual void aigap##n##7(); virtual void aigap##n##8(); virtual void aigap##n##9();
+
+class AIUpdateInterface : public UpdateModule, public AICommandInterface
+{
+public:
+	// Primary vtable slots 1..148 (slot 0 is BehaviorModuleBase's).
+	GB_GAP10(0) GB_GAP10(1) GB_GAP10(2) GB_GAP10(3) GB_GAP10(4) GB_GAP10(5) GB_GAP10(6)
+	GB_GAP10(7) GB_GAP10(8) GB_GAP10(9) GB_GAP10(10) GB_GAP10(11) GB_GAP10(12) GB_GAP10(13)
+	virtual void aigap140(); virtual void aigap141(); virtual void aigap142(); virtual void aigap143();
+	virtual void aigap144(); virtual void aigap145(); virtual void aigap146(); virtual void aigap147();
+	virtual UpdateSleepTime slot149(); // +0x254, where Zero Hour calls doLocomotor
 	StateMachine *getStateMachine() const { return m_stateMachine; }
+protected:
+	unsigned char m_pad24[0x30 - 0x24];
+	StateMachine *m_stateMachine; // +0x30
+	StateMachine *m_34; // +0x34 the machine waiting to replace +0x30
+	unsigned char m_pad38[0x1F0 - 0x38];
+	const GiantBirdLocomotorView *m_1F0; // +0x1F0
+	unsigned char m_pad1F4[0x3E0 - 0x1F4];
+	Bool m_3E0; // +0x3E0 set while +0x30 updates
+	unsigned char m_pad3E1[0x3F0 - 0x3E1];
+};
+
+class GiantBirdAIUpdate : public AIUpdateInterface
+{
+public:
+	Bool isCommandPending() const { return m_commandPending; }
+	virtual UpdateSleepTime update();
+	void rva0036AE79();
+	const GiantBirdAIUpdateModuleData *getGiantBirdAIUpdateModuleData() const { return (const GiantBirdAIUpdateModuleData *)m_moduleData; }
 	Bool testFlag(Int bit) const { return (m_4B8 >> bit) & 1; }
 	void clearFlag(Int bit) { m_4B8 &= ~(1 << bit); }
 private:
-	void *m_vptr;
-	const GiantBirdAIUpdateModuleData *m_moduleData; // +0x04
-	Object *m_object; // +0x08
-	unsigned char m_pad0C[0x30 - 0x0C];
-	StateMachine *m_stateMachine; // +0x30
-	unsigned char m_pad34[0x1F0 - 0x34];
-	void *m_1F0; // +0x1F0
-	unsigned char m_pad1F4[0x4B8 - 0x1F4];
+	Rva00351570 m_storedCommand; // +0x3F0
+	unsigned char m_pad4B4[0x4B8 - 0x3F0 - sizeof(Rva00351570)];
 	UnsignedInt m_4B8; // +0x4B8
 	Real m_4BC; // +0x4BC
 	Int m_4C0; // +0x4C0
 	UnsignedInt m_4C4; // +0x4C4
-	unsigned char m_pad4C8[0x538 - 0x4C8];
+	unsigned char m_pad4C8[0x528 - 0x4C8];
+	Int m_528; // +0x528
+	unsigned char m_pad52C[0x538 - 0x52C];
 	Real m_538; // +0x538
+	Real m_53C; // +0x53C
+	unsigned char m_pad540[0x544 - 0x540];
+	Coord3D m_544; // +0x544
+	unsigned char m_pad550[0x558 - 0x550];
+	Bool m_commandPending; // +0x558
+	unsigned char m_pad559[0x560 - 0x559];
+	Coord3D m_560; // +0x560
+	Coord3D m_56C; // +0x56C
+	Bool m_578; // +0x578
 };
 
 void GiantBirdAIUpdate::rva0036AE79()
@@ -271,7 +517,7 @@ void GiantBirdAIUpdate::rva0036AE79()
 					contain->removeFromContain(rider, false);
 					rider->setOrientation(obj->getTransformMatrix()->Get_Z_Rotation());
 					getStateMachine()->slot14(0);
-					void *p1F0 = m_1F0;
+					const void *p1F0 = m_1F0;
 					PhysicsBehavior *phys = rider->getPhysics();
 					if (phys && p1F0)
 					{
@@ -311,4 +557,116 @@ void GiantBirdAIUpdate::rva0036AE79()
 	{
 		m_4BC = 0.0f;
 	}
+}
+
+UpdateSleepTime GiantBirdAIUpdate::update()
+{
+	Object *obj = getObject();
+	TheAiOrdersManager->rva003551D3(obj->getID());
+	ObjectStatusScope scope(obj, OBJECT_STATUS_BFME_48);
+	if (!isCommandPending() && m_storedCommand.m_00 != -1)
+	{
+		AICommandParms parms(AICMD_NO_COMMAND, CMD_FROM_AI);
+		m_storedCommand.rva0035164E(*(Rva00351570Src *)&parms);
+		aiDoCommand(&parms);
+		m_storedCommand.m_00 = -1;
+	}
+	rva0036AE79();
+	m_53C *= 0.8f;
+	m_538 *= 0.9f;
+	if (m_1F0 && getObject()->getHeightAboveTerrain() > m_1F0->getC0())
+		getObject()->setStatus(OBJECT_STATUS_BFME_06, true);
+	else
+		getObject()->setStatus(OBJECT_STATUS_BFME_06, false);
+	UpdateSleepTime sleep = (UpdateSleepTime)2;
+	m_3E0 = m_34 != NULL;
+	Int stRet = getStateMachine()->updateStateMachine();
+	m_3E0 = FALSE;
+	if (stRet > 0)
+	{
+		Int frames = stRet;
+		if (frames < sleep)
+			sleep = (UpdateSleepTime)frames;
+	}
+	else
+	{
+		sleep = UPDATE_SLEEP_NONE;
+	}
+	if (getObject()->isEffectivelyDead())
+		return UPDATE_SLEEP_NONE;
+	if (m_56C.GetLengthEstimate() > 0.0f)
+	{
+		m_56C.normalize();
+		Coord3D sum;
+		setCoord(sum, *getObject()->getPosition());
+		Coord3D prev;
+		setCoord(prev, m_560);
+		addCoord(sum, m_56C);
+		subCoord(sum, prev);
+		{
+			Coord3D pos;
+			setCoord(pos, sum);
+			pos.normalize();
+		}
+		prev.z += 4.0f;
+		getObject()->setModelConditionState(BFME_MODELCONDITION_103);
+		Real cur = getObject()->getOrientation();
+		Real rel = getObject()->GetRelativeAngle(&prev);
+		Real turn = min(-0.2f, max(0.2f, normalizeAngle(rel - cur)));
+		Real angle = normalizeAngle(cur + turn);
+		getObject()->setOrientation(angle);
+		getObject()->setPositionZ(prev.z);
+		zeroCoord(m_56C);
+		m_560 = *getObject()->getPosition();
+		m_538 *= 0.5f;
+		m_578 = TRUE;
+		return UPDATE_SLEEP_NONE;
+	}
+	if (m_578)
+	{
+		m_578 = FALSE;
+		((Rva00368C7A *)this)->rva003681F2(&m_544, g_00E01EC4, NULL, FALSE);
+	}
+	m_560 = *getObject()->getPosition();
+	switch (getStateMachine()->getCurrentStateID())
+	{
+		case 0x3E9: case 0x3EA: case 0x3EB: case 0x3EC:
+		case 0x3EE: case 0x3EF: case 0x3F1: case 0x3F2: case 0x3F3:
+		case 0x3F5: case 0x3F6: case 0x3FB: case 0x3FD: case 0x400:
+		{
+			UpdateSleepTime tmp = slot149();
+			if (tmp < sleep)
+				sleep = tmp;
+			break;
+		}
+		case 0x3FC: case 0x3FF:
+		{
+			m_528 = 2;
+			UpdateSleepTime tmp = slot149();
+			if (tmp < sleep)
+				sleep = tmp;
+			break;
+		}
+		case 0x10: case 0x11: case 0x17: case 0x1F:
+		case 0x3F7: case 0x3F8: case 0x3F9: case 0x3FA:
+		{
+			m_528 = 1;
+			UpdateSleepTime tmp = slot149();
+			if (tmp < sleep)
+				sleep = tmp;
+			break;
+		}
+		case 0x3ED: case 0x3F4:
+			sleep = UPDATE_SLEEP_NONE;
+			break;
+		case 0:
+		{
+			m_528 = 3;
+			UpdateSleepTime tmp = slot149();
+			if (tmp < sleep)
+				sleep = tmp;
+			break;
+		}
+	}
+	return sleep;
 }

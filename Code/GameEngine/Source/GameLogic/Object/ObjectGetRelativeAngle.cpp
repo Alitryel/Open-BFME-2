@@ -29,7 +29,10 @@ private:
   Coord3D m_cachedPos;
 };
 
-Real Object::GetRelativeAngle(const Coord3D *pos) const
+// Select-any like the inline copy other TUs emit (WB: Object.h inline; a
+// strong definition would duplicate theirs at link time); the anchor keeps
+// the noinline body emitted.
+__declspec(noinline) inline Real Object::GetRelativeAngle(const Coord3D *pos) const
 {
   Coord3D delta;
   delta.x = pos->x - m_cachedPos.x;
@@ -52,4 +55,10 @@ Real Object::GetRelativeAngle(const Coord3D *pos) const
   if (delta.y * facing->x - delta.x * facing->y < 0.0f)
     angle = -angle;
   return angle;
+}
+
+// ?bfmeAnchorObjectGetRelativeAngle absent-from-retail
+Real bfmeAnchorObjectGetRelativeAngle(const Object *o, const Coord3D *pos)
+{
+  return o->GetRelativeAngle(pos);
 }
