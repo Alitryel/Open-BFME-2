@@ -1,148 +1,251 @@
 // ?updateFormationPreview@InGameUI@@QAEXXZ
+// partial score=0.7090909090909091 date=2026-10-19
+// ?updateFormationPreview@InGameUI@@QAEXXZ
 // partial score=0.057 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-#include "ascii_string.h"
-struct Rva002A1B1DChunk { int m_words[3]; };
-class Rva002A1B1D { public: void rva002A1B1D(const Rva002A1B1DChunk *p1, const Rva002A1B1DChunk *p2, const Rva002A1B1DChunk *p3, const Rva002A1B1DChunk *p4); };
-class Rva002A4646BurstRecord { public: void rva002A4646(AsciiString name, unsigned int count); };
-struct Coord2D { float x, y; float toAngle() const; };
-struct Coord3D { float x,y,z; };
-class Thing { public: void setPosition(const Coord3D* p); void setOrientation(float a); };
-class Object {};
-class Player {};
-class Rva0029FB3BMember { public: void* init(void* p); };
-class Rva001EB984Member { public: void* init(void* p); void rva001EB769(); };
-class PoolMember { public: void Rva00268902(); };
-class RGBColor { public: void setFromInt(int v); };
-class GameLogic { public: Object* findObjectByID(int id); };
-class Formation {};
+// stlport
+// Native 002A4E1F..002A57BD and WB 00DC0B00 establish the complete preview flow.
+// Native selection/hash behavior and offsets differ from the debug-build body.
+#define _STLP_USE_STATIC_LIB
+#define _STLP_USE_MALLOC
+#define _CRTIMP
+#define COORD2D_VIEW_DTOR
+#include "../../Code/Libraries/Include/Lib/Coord2DCtorView.h"
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/ICoord2D.h"
+#include "../../Code/Libraries/Include/Lib/RGBColor.h"
+#include <list>
+#include <vector>
+#include <string>
+extern "C" double __cdecl sqrt(double);
+extern "C" double __cdecl cos(double);
+extern "C" double __cdecl sin(double);
+
+class Thing { public: void setOrientation(float); };
+class Drawable {
+public:
+ void setPosition(const Coord3D *);
+ char prefix[0xB0]; float opacity;
+};
+struct ShadowView { char prefix[8]; Coord3D position; char gap14[12]; float angle; char gap24[0x58-0x24]; float width,height; };
+class Rva0029A469 {
+public:
+ ShadowView *shadow;
+ void rva0029A469(float);
+ __forceinline float width() const { return shadow?shadow->width:0.0f; }
+ __forceinline float height() const { return shadow?shadow->height:0.0f; }
+ void setPosition(const Coord3D &p) { if(shadow)shadow->position=p; }
+ void setOrientation(float a) { if(shadow)shadow->angle=a; }
+ void setWidth(float w) { if(shadow){Coord2D size(w,shadow->height);shadow->width=size.x;shadow->height=size.y;} }
+};
+class ThingTemplate {public: char prefix[0x18]; float width;};
+class Object {public:char prefix[0x438];unsigned char flags;};
+class Player {public:char prefix[0x280];int color;};
+class PlayerList {public:char prefix[0x10];Player *localPlayer;};
+extern PlayerList *ThePlayerList;
+class GameLogic {public:Object *findObjectByID(int);};
+extern GameLogic *TheGameLogic;
+template<int N>class PreviewSlots:public PreviewSlots<N-1>{public:virtual void slot(char(*)[N]);};
+template<>class PreviewSlots<0>{};
+class GameClient:public PreviewSlots<31>{public:virtual unsigned getFrame();};
+extern GameClient *TheGameClient;
+extern int BfmeClientFramesPerSecond;
+
+struct IdNode {IdNode *next,*prev;int id;};
+class Rva0029FB3BMember {public: IdNode *head; void *init(void *);};
+class PoolMember {public:void Rva00268902() throw();};
+class Rva001EB984Member {public:void *init(void *);};
+class Rva001EB769 {public:void rva001EB769() throw();};
+class SelectedIDs:public Rva0029FB3BMember {
+public:
+ SelectedIDs(const char &a){init((void*)&a);}
+ ~SelectedIDs() throw(){reinterpret_cast<PoolMember*>(this)->Rva00268902();}
+};
+namespace _STL {
+template<> list<Object*>::iterator list<Object*>::insert(list<Object*>::iterator,Object *const&);
+}
+class Rva001EB130Holder {public:void *head;};
+class ObjectList:public Rva001EB130Holder {
+public:
+ ObjectList(const char &a){reinterpret_cast<Rva001EB984Member*>(this)->init((void*)&a);}
+ ~ObjectList() throw(){reinterpret_cast<Rva001EB769*>(this)->rva001EB769();}
+ void push_back(Object *const&o){_STL::list<Object*> &l=*reinterpret_cast<_STL::list<Object*>*>(this);l.insert(l.end(),o);}
+};
+struct Rva00422544List;
+class Rva004233F5 {public:int rva004233F5(Rva00422544List*,float);};
+struct Placement32 {ThingTemplate **type;int object;char gap8[8];ICoord2D position;char tail[8];};
+class Formation {public:Placement32 *first,*last,*limit;};
 class FormationAssistant {
 public:
- bool getValidSelectedObjectsForPlayer(Player* p, Rva0029FB3BMember* m);
- Formation* rva00424E77(int n, void* h, const Coord3D* c);
+ char prefix[0x10];ThingTemplate *templates[4];char gap20[0x2C-0x20];float threshold,delay;
+ bool getValidSelectedObjectsForPlayer(Player*,Rva0029FB3BMember*);
+ Formation *rva00424E77(int,Rva001EB130Holder*,const Coord3D*);
 };
-int Rva004233F5(void* l, float m);
-void Rva00423FBDDelete(void* s);
-class Rva002A3DD3 {
+class Rva0022AD10Subsystem;
+extern Rva0022AD10Subsystem *TheFormationAssistant;
+class Rva00423FBDThis {public:void Delete(_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >*);};
+class InGameUI : public PreviewSlots<51> {
 public:
- virtual void _pad00(); virtual void _pad01(); virtual void _pad02(); virtual void _pad03();
- virtual void _pad04(); virtual void _pad05(); virtual void _pad06(); virtual void _pad07();
- virtual void _pad08(); virtual void _pad09(); virtual void _pad10(); virtual void _pad11();
- virtual void _pad12(); virtual void _pad13(); virtual void _pad14(); virtual void _pad15();
- virtual void _pad16(); virtual void _pad17(); virtual void _pad18(); virtual void _pad19();
- virtual void _pad20(); virtual void _pad21(); virtual void _pad22(); virtual void _pad23();
- virtual void _pad24(); virtual void _pad25(); virtual void _pad26(); virtual void _pad27();
- virtual void _pad28(); virtual void _pad29(); virtual void _pad30(); virtual void _pad31();
- virtual void _pad32(); virtual void _pad33(); virtual void _pad34(); virtual void _pad35();
- virtual void _pad36(); virtual void _pad37(); virtual void _pad38(); virtual void _pad39();
- virtual void _pad40(); virtual void _pad41(); virtual void _pad42(); virtual void _pad43();
- virtual void _pad44(); virtual void _pad45(); virtual void _pad46(); virtual void _pad47();
- virtual void _pad48(); virtual void _pad49(); virtual void _pad50();
- virtual bool rvaCC();
- void rva002A3E24();
- void rva002A3DD3clear();
- void* rva002A3E5A(Thing* t);
-};
-class Rva0029A469Cls { public: void rva0029A469(float f); };
-class InGameUI : public Rva002A3DD3 {
-public:
+ class FormationPreviewPoolObject;
+ virtual bool formationMode();
+ Coord2D rva0029D9F9();
  void updateFormationPreview();
 private:
- unsigned char m_pad000[0x8D4];
- Rva002A1B1D m_bursts8D4;
+ char prefix[0x59C-4];int selectionHash;
+ struct BfmeE12View {int x,y;FormationPreviewPoolObject *pool;} *first,*last,*limit;
+ unsigned expires;bool active;char gap5B1[3];FormationPreviewPoolObject *arrows[4];
+ char gap5C4[0x98C-0x5C4];bool valid,directionValid;char gap98E[2];Coord3D start,end;Coord2D direction;int formation;
 };
-class Rva002A3DD3A : public Rva002A3DD3 { public: void clearFormationPreviewDrawables(); };
-Coord2D InGameUI_rva0029D9F9(InGameUI* p);
+class InGameUI::FormationPreviewPoolObject {public:Drawable *drawable;Rva0029A469 *decal;bool assigned;};
+class Rva002A3DD3 {
+public:
+ void rva002A3E24();
+ void clearFormationPreviewDrawables();
+ InGameUI::FormationPreviewPoolObject *rva002A3E5A(ThingTemplate*);
+ void rva002A4BFC(Object*,ThingTemplate*,const ICoord2D*,RGBColor);
+};
+struct BfmeE12 {int id;float key,z;};
+namespace _STL {template<> void vector<BfmeE12>::reserve(unsigned);}
+static __forceinline float lengthSq(const Coord2D &p){return p.x*p.x+p.y*p.y;}
+static __forceinline float length(const Coord2D &p){return (float)sqrt(lengthSq(p));}
+static __forceinline void normalize(Coord2D &p){float inv=1.0f/length(p);p.x*=inv;p.y*=inv;}
+static __forceinline void scale(Coord2D &p,float s){p.x*=s;p.y*=s;}
+struct PreviewMatrix {
+ float row[3][4];
+ __forceinline PreviewMatrix(float angle) {
+  float c=(float)cos(angle),s=(float)sin(angle);
+  float x=0.0f,y=0.0f,z=1.0f;
+  row[0][0]=x*x+(1.0f-x*x)*c;
+  row[0][1]=x*y*(1.0f-c)-s*z;
+  row[0][2]=z*x*(1.0f-c)+s*y;
+  row[0][3]=0.0f;
+  row[1][0]=x*y*(1.0f-c)+s*z;
+  row[1][1]=y*y+(1.0f-y*y)*c;
+  row[1][2]=y*z*(1.0f-c)-s*x;
+  row[1][3]=0.0f;
+  row[2][0]=z*x*(1.0f-c)-s*y;
+  row[2][1]=y*z*(1.0f-c)+s*x;
+  row[2][2]=z*z+(1.0f-z*z)*c;
+  row[2][3]=0.0f;
+ }
+ void transform(float x,float y,float &outX,float &outY)const {
+  outX=row[0][0]*x+row[0][1]*y+row[0][2]*0.0f+row[0][3];
+  outY=row[1][0]*x+row[1][1]*y+row[1][2]*0.0f+row[1][3];
+ }
+};
 
-void InGameUI::updateFormationPreview()
-{
-  *(volatile unsigned*)0x00B75081;
-  if ((rvaCC() ? rvaCC() : rvaCC())) {
-    int* pA = (int*)((char*)this + 0x5A0);
-    int* pB = (int*)((char*)this + 0x5A4);
-    int n = (*pB - *pA) / 12;
-    FormationAssistant* fa = (FormationAssistant*)*(volatile unsigned*)0x00DFE77C;
-    if (n <= 0)
-      return;
-    int cnt = (*pB - *pA) / 12;
-    (void)cnt;
-    float fA = *(volatile float*)0x00BBB8D8;
-    int iB = *(volatile int*)0x00DBA4E8;
-    float fB = (float)(double)iB;
-    float fC = *(volatile float*)0x00BC26F0;
-    float fdiv = (fA * fB) / fA;
-    double ratio = (double)fdiv;
-    float spacing = *(float*)0x00BBB8D8;
-    {
-      volatile float vs = spacing;
-      float t = (float)((double)vs * (double)fB + (double)fC);
-      volatile float vt = t;
-      (void)vt;
-    }
-    if (spacing != spacing) {
-      rva002A3E24();
-      return;
-    }
-    {
-      float b0 = (float)(double)*(volatile float*)0x00DBA4E8;
-      float c0 = *(volatile float*)0x00BC26F0;
-      float d0 = (spacing * b0) + c0;
-      volatile float vd0 = d0;
-      (void)vd0;
-    }
-    volatile float vr = (float)ratio;
-    (void)vr;
-    if (n <= 0)
-      return;
-    float f = (float)(double)spacing;
-    volatile float vf = f;
-    (void)vf;
-    volatile unsigned *pG = (volatile unsigned*)0x00B75081;
-    (void)*pG;
-    float saveA = *(volatile float*)0x00BBB8D8;
-    float saveB = *(volatile float*)0x00BC26F0;
-    int saveC = *(volatile int*)0x00DBA4E8;
-    int saveD = *(volatile int*)0x00DFE77C;
-    (void)saveA; (void)saveB; (void)saveC; (void)saveD;
-    {
-      Rva002A1B1DChunk c1 = { 0,0,0 }, c2 = { 0,0,0 }, c3 = { 0,0,0 }, c4 = { 0,0,0 };
-      Rva002A3DD3A* self2 = (Rva002A3DD3A*)this;
-      self2->clearFormationPreviewDrawables();
-      Rva002A4646BurstRecord br;
-      br.rva002A4646(AsciiString("Burst"), 4);
-      m_bursts8D4.rva002A1B1D(&c1, &c2, &c3, &c4);
-    }
-    if (0) throw 1;
-    {
-      Rva001EB984Member e; void* p = e.init(&e);
-      (void)p;
-      e.rva001EB769();
-      if (0) { AsciiString d; }
-    }
-    {
-      PoolMember pm; pm.Rva00268902();
-      {
-        float a = *(volatile float*)0x00BBB8D8;
-        float b = (float)(double)*(volatile float*)0x00DBA4E8;
-        float c = *(volatile float*)0x00BC26F0;
-        float d = (a * b) + c;
-        volatile float vd = d;
-        (void)vd;
-        Coord2D cc = InGameUI_rva0029D9F9(this);
-        float ang = cc.toAngle();
-        (void)ang;
-      }
-      Rva0029A469Cls cl; cl.rva0029A469((float)(double)*(float*)0x00BBB8D8);
-      Thing* t = 0; t->setPosition((const Coord3D*)0);
-      t->setOrientation(0.0f);
-      RGBColor col; col.setFromInt(0);
-      GameLogic* gl = 0; Object* o = gl->findObjectByID(0);
-      (void)o;
-    }
-  } else {
-    rva002A3DD3clear();
-    void* h = rva002A3E5A((Thing*)0);
-    Rva00423FBDDelete(h);
-    rva002A3E24();
+void InGameUI::updateFormationPreview() {
+ Rva002A3DD3 *owner=reinterpret_cast<Rva002A3DD3*>(this);
+ if(!formationMode()) {
+  if((unsigned)(last-first)>0) {
+   unsigned now=TheGameClient->getFrame();
+   if(expires>now) {if(expires-now>500)expires=now;return;}
+   float alpha=1.0f-(float)(now-expires)*(1.0f/(BfmeClientFramesPerSecond*0.5f));
+   if(alpha<=0.0f){owner->rva002A3E24();return;}
+   float one=1.0f;
+   const float &clamped=alpha<one?alpha:one;alpha=clamped;
+   for(BfmeE12View *it=first;it!=last;++it) {
+    Drawable *d=it->pool?it->pool->drawable:0;
+    if(d)d->opacity=alpha;
+    Rva0029A469 *decal=it->pool?it->pool->decal:0;
+    if(decal)decal->rva0029A469(alpha);
+   }
+   for(int i=0;i<4;++i)if(arrows[i] && arrows[i]->decal)arrows[i]->decal->rva0029A469(alpha);
   }
+  return;
+ }
+ const Coord2D facing=rva0029D9F9();
+ float facingSq=lengthSq(facing);
+ float distance=length(facing);
+
+ if(!active && facingSq<reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold*reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold) {
+  float delay=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->delay;
+  if((float)(TheGameClient->getFrame()-expires)/BfmeClientFramesPerSecond<delay)return;
+ }
+ active=true;
+ char allocator;
+ SelectedIDs ids(allocator);
+ reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->getValidSelectedObjectsForPlayer(ThePlayerList->localPlayer,&ids);
+ ObjectList objects(allocator);
+ int hash=0;
+ for(IdNode *it=ids.head->next;it!=ids.head;it=it->next) {
+  int id=it->id;
+  hash=((hash&0xF8000000)>>27)^(hash<<5)^id;
+  Object *obj=TheGameLogic->findObjectByID(id);
+  if(obj && !(obj->flags&1))objects.push_back(obj);
+ }
+ if(hash!=selectionHash){owner->rva002A3E24();formation=-1;selectionHash=hash;}
+ int type=reinterpret_cast<Rva004233F5*>(TheFormationAssistant)->rva004233F5(reinterpret_cast<Rva00422544List*>(&objects),distance);
+ if(type!=formation) {
+  formation=-1;
+  Formation *plan=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->rva00424E77(type,&objects,&start);
+  if(plan) {
+   owner->clearFormationPreviewDrawables();valid=true;formation=type;
+   reinterpret_cast<_STL::vector<BfmeE12>*>(&first)->reserve(plan->last-plan->first);
+   RGBColor color;color.setFromInt(ThePlayerList->localPlayer->color);
+   for(Placement32 *it=plan->first;it!=plan->last;++it) {
+    Object *obj=TheGameLogic->findObjectByID(it->object);
+    if(obj)owner->rva002A4BFC(obj,it->type[1],&it->position,color);
+   }
+   reinterpret_cast<Rva00423FBDThis*>(TheFormationAssistant)->Delete(reinterpret_cast<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >*>(plan));
+  } else valid=false;
+ }
+ if((unsigned)(last-first)>0) {
+  float angle=facing.toAngle();
+  PreviewMatrix matrix(angle+1.5707964f);
+  for(BfmeE12View *it=first;it!=last;++it) {
+   float x,y;matrix.transform((float)it->x,(float)it->y,x,y);
+   Coord3D pos={start.x+x,start.y+y,start.z};
+   Drawable *d=it->pool?it->pool->drawable:0;
+   if(d){d->setPosition(&pos);reinterpret_cast<Thing*>(d)->setOrientation(angle);}
+   Rva0029A469 *decal=it->pool?it->pool->decal:0;
+   if(decal){decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);}
+  }
+  for(int i=0;i<4;++i)if(!arrows[i]) {
+   FormationAssistant *fa=reinterpret_cast<FormationAssistant*>(TheFormationAssistant);
+   ThingTemplate *templ=fa->templates[i];if(i==3)templ=fa->templates[2];
+   if(templ)arrows[i]=owner->rva002A3E5A(templ);
+  }
+  float arrowWidth=0.0f,lineWidth=0.0f;
+  if(arrows[2] && arrows[2]->decal)arrowWidth=arrows[2]->decal->width();
+  if(arrows[1] && arrows[1]->decal)lineWidth=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->templates[1]->width;
+  Coord2D unit(facing);double unitInverse=1.0f/sqrt((double)facingSq);unit.x=(float)(facing.x*unitInverse);unit.y=(float)(facing.y*unitInverse);
+  Coord2D side(-facing.y,facing.x);
+  float minimum=(lineWidth+arrowWidth)*0.5f;
+  float sideSq=lengthSq(side);
+  if((float)sqrt((double)sideSq)<minimum){float inverse=1.0f/(float)sqrt((double)sideSq);side.x*=inverse;side.y*=inverse;scale(side,minimum);}
+  float offset=30.0f,frontOffset=30.0f;
+  if(arrows[1]) {
+   offset=arrows[1]->decal->height()*0.5f+30.0f;
+   frontOffset=arrows[1]->decal->height()+30.0f;
+   Rva0029A469 *decal=arrows[1]->decal;
+   if(decal) {
+    Coord3D pos={start.x+offset*unit.x,start.y+offset*unit.y,start.z};
+    decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
+    float width=length(side)*2.0f-arrowWidth;
+    decal->setWidth(width);
+   }
+  }
+  Coord2D tip(side);
+  float tipLength=length(tip)-10.0f;
+  normalize(tip);scale(tip,tipLength);
+  if(arrows[2] && arrows[2]->decal) {
+   Rva0029A469 *decal=arrows[2]->decal;
+   Coord3D pos={start.x+offset*unit.x+tip.x,start.y+offset*unit.y+tip.y,start.z};
+   decal->setPosition(pos);decal->setOrientation(angle+3.1415927f-1.5707964f);
+  }
+  if(arrows[3] && arrows[3]->decal) {
+   Rva0029A469 *decal=arrows[3]->decal;
+   Coord3D pos={start.x+offset*unit.x-tip.x,start.y+offset*unit.y-tip.y,start.z};
+   decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
+  }
+  if(arrows[0]) {
+   frontOffset+=arrows[0]->decal->height()*0.5f;
+   Rva0029A469 *decal=arrows[0]->decal;
+   if(decal) {
+    Coord3D pos={start.x+frontOffset*unit.x,start.y+frontOffset*unit.y,end.z};
+    decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
+   }
+  }
+ }
 }
