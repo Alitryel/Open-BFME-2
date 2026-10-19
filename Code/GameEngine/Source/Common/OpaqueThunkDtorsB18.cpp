@@ -76,13 +76,15 @@ Rva005FCFE5::~Rva005FCFE5()
 {
 }
 
-class Rva00600084
+namespace StrategicHUD {
+class BattlePromptPlayerPageMovieClip
 {
 public:
-	virtual ~Rva00600084();
+	virtual ~BattlePromptPlayerPageMovieClip();
 };
+}
 
-class __declspec(novtable) Rva00600379 : public Rva00600084
+class __declspec(novtable) Rva00600379 : public StrategicHUD::BattlePromptPlayerPageMovieClip
 {
 public:
 	virtual ~Rva00600379();

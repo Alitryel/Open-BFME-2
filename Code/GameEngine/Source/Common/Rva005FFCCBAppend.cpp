@@ -188,14 +188,14 @@ struct Rva005FFA56
 
 // The garrison panel's factory and panel at +0x1C (an inline ctor in
 // WorldBuilder; retail tracks an EH state for it, so it has a dtor).
-struct Rva006000AEPair
+struct Rva005FFB89
 {
-	Rva006000AEPair()
+	Rva005FFB89()
 	{
 		m_factory.m_ptr = 0;
 		m_panel.m_ptr = 0;
 	}
-	~Rva006000AEPair();
+	~Rva005FFB89();
 
 	Rva002BED91 m_factory; // +0x00
 	TreeHintRef00217D4C m_panel; // +0x04
@@ -249,7 +249,7 @@ private:
 	AsciiString m_name; // +0x08
 	AptCommandMapAdder m_commandMaps; // +0x0C
 	int m_18; // +0x18
-	Rva006000AEPair m_1c; // +0x1C
+	Rva005FFB89 m_1c; // +0x1C
 	Rva005FFBC6 m_elems[3]; // +0x24
 	int m_48; // +0x48
 	Rva005FFA56 m_4c[2]; // +0x4C; sizeof 0x50 (the owner ctor's new)
@@ -399,5 +399,19 @@ Rva005FFA56::Rva005FFA56()
 // from the last argument) built with this and the arguments.
 StrategicHUD::BattlePromptPlayerPageMovieClip::BattlePromptPlayerPageMovieClip(int level, const AsciiString &name, int playerColor)
 	: m_impl(new Impl(this, level, name, playerColor))
+{
+}
+
+// Slots 1..3 of the class table 0x00C7A5CC (stored by the ctor 0x00600305) are
+// the shared empty RET 4 at 0x0047A69C (ICF fold).
+void StrategicHUD::BattlePromptPlayerPageMovieClip::notifySwapButtonClicked(int)
+{
+}
+
+void StrategicHUD::BattlePromptPlayerPageMovieClip::notifySwapButtonRollOver(int)
+{
+}
+
+void StrategicHUD::BattlePromptPlayerPageMovieClip::notifySwapButtonRollOut(int)
 {
 }

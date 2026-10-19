@@ -470,25 +470,34 @@ private:
 	int m_pad04;
 };
 
-class Rva00600084
+// StrategicHUD::BattlePromptPlayerPageMovieClip: its ctor (0x00600305) stores
+// table 0x00C7A5CC, whose slot 0 is this deleting dtor 0x00600092 and slots
+// 1..3 the shared empty RET 4 (0x0047A69C).
+namespace StrategicHUD {
+class BattlePromptPlayerPageMovieClip
 {
 public:
-	virtual ~Rva00600084();
+	virtual ~BattlePromptPlayerPageMovieClip();
+	virtual void notifySwapButtonClicked(int index);
+	virtual void notifySwapButtonRollOver(int index);
+	virtual void notifySwapButtonRollOut(int index);
 
 private:
 	Rva0060006A m_member04;
 };
+}
+using StrategicHUD::BattlePromptPlayerPageMovieClip;
 
-Rva00600084::~Rva00600084()
+BattlePromptPlayerPageMovieClip::~BattlePromptPlayerPageMovieClip()
 {
 	m_member04.clear();
 }
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva00600084_Anchor(Rva00600084 *p)
+void Rva00600084_Anchor(BattlePromptPlayerPageMovieClip *p)
 {
-	p->Rva00600084::~Rva00600084();
+	p->BattlePromptPlayerPageMovieClip::~BattlePromptPlayerPageMovieClip();
 }
 
 class Rva0057C39C

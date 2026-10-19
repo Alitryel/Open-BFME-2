@@ -8,11 +8,13 @@
 // 0x0087A638; deleting dtor 0x006004A5 calls 0x006003FC then operator
 // delete; callers 0x005FB1D6/0x006004A8 plus jmp thunks 0x005FB20A/0x005FB3DF.
 
-class Rva00600084
+namespace StrategicHUD {
+class BattlePromptPlayerPageMovieClip
 {
 public:
-	virtual ~Rva00600084();
+	virtual ~BattlePromptPlayerPageMovieClip();
 };
+}
 
 // The base is the canonical Rva0007DF07 (table 0x007C6F20), as the ctor's unit
 // Rva00600352.cpp spells it: its empty inline dtor is the inline base-table store,
@@ -25,7 +27,7 @@ public:
 	virtual ~Rva006003FC();
 
 private:
-	Rva00600084 m_member08;
+	StrategicHUD::BattlePromptPlayerPageMovieClip m_member08;
 };
 
 Rva006003FC::~Rva006003FC()
