@@ -38,7 +38,6 @@ class Anim2DCallView { public:
  const Template004721F0* getAnimTemplate() const { return field0c; }
  void setAlpha(float a) { field1c = a; }
 };
-class Gen_00470870 {public:void bfmeExtend(int,int,int,int);};
 
 class Display;extern Display *TheDisplay;
 class FadeDisplayCalls {public:
@@ -53,6 +52,7 @@ class Anim2D {public:void setCurrentFrame(unsigned short);void draw(int,int,int,
 // destructor), as WB's LoadAssets is slot 1 of its table: virtual.
 class FadeInTextRender {public:
  virtual ~FadeInTextRender();virtual void LoadAssets();virtual void rva00596908(Text004721F0*,const ICoord2D*,unsigned);
+ void bfmeExtend(int,int,int,int); // grow the +8..+0x14 bounds (0x0059668D)
  GameFont*font;int minX,minY,maxX,maxY;unsigned effectColor;Anim2D*anim;float oldScale;AsciiString fontName;unsigned color;int delay;unsigned fontSize;unsigned starts[3],ends[3];int width,height;
 };
 // LoadAssets is supplied by Rva0059675AInitialize.cpp at 0x005967B3.
@@ -73,7 +73,7 @@ void FadeInTextRender::rva00596908(Text004721F0* text, const ICoord2D* pos, unsi
  text->size(&width, 0);
  int bottom = y + height;
 
- ((Gen_00470870*)this)->bfmeExtend(x,y,(x + width),bottom);
+ bfmeExtend(x,y,(x + width),bottom);
  int i;
  i=0;
  for(;i<3;++i) {
