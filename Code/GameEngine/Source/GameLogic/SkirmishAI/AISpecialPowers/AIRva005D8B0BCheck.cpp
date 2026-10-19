@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /EHs /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?rva005D8B0B@Rva005D8AE4@@UAE_NPAVObject@@@Z @0x005D8B0B 184B
 // Method of the AoE picker derivative Rva005D8AE4 (dtor 0x005D8AE4, base chain Rva005EE30C ->
@@ -11,10 +11,12 @@
 #include <vector>
 
 class Object;
-// The vector's block is freed through the game allocator's free wrapper (rowed 0x00030830), as in
-// Rva001F8A38ModuleCollect.cpp.
-void __cdecl Rva00030830GameFree(void *);
-namespace _STL {template<>inline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}}
+// The vector's block is freed through the game allocator's free wrapper (rowed 0x00030830) under
+// the CRT name every bfmealloc unit's copy calls. /EHs, not /EHsc: retail leaves EH state -1
+// before that call, so cl must treat the extern "C" free as able to throw. Import-inline: this
+// unit's out-of-line _Vector_base<Object*> dtor copy is not retail's EH-framed body, and every
+// use here is inlined, so none is emitted.
+namespace _STL {template<> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() {if(_M_start)free(_M_start);}}
 class AIUpdateInterface
 {
 public:

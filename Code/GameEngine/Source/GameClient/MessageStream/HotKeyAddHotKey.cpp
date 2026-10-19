@@ -68,6 +68,18 @@ template <class _T1, class _T2> struct pair
 	_T1 first;
 	_T2 second;
 };
+// Import-inline: every destruction of the key/action pair here is inlined,
+// and this unit's out-of-line copy of its dtor is not the kept one (rowed
+// 0x002175CE).
+template <> struct pair<const AsciiString, TreeHintRef00217D4C>
+{
+	pair() {}
+	pair(const pair &that);
+	__declspec(dllimport) __forceinline ~pair() {}
+
+	const AsciiString first;
+	TreeHintRef00217D4C second;
+};
 template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
 class _Rb_tree
 {
