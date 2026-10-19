@@ -105,13 +105,6 @@ public:
 	int rva0051274F(int message, unsigned int data1, unsigned int data2);
 };
 
-// The skirmish message callback calls this rowed action with its own ECX.
-class Rva00522A91
-{
-public:
-	void rva00522A91();
-};
-
 class AptSkirmish
 {
 public:
@@ -134,6 +127,7 @@ public:
 	virtual void rva00523303();
 	virtual void vslot13() = 0;
 	virtual bool MPOwnerValidatGameInfo(GameInfo *gameInfo);
+	void rva00522A91(); // profile popup close, rowed in AptInvokeWrappers.cpp
 
 	bool InitTheGame();
 	void MpOwnerGetLocalPlayerName(UnicodeString *);

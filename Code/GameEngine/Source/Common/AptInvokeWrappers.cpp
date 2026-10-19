@@ -56,16 +56,21 @@ int __cdecl Rva002D4531Invoke(Rva00222A8BTarget *target, void *owner, const char
 	return target->invoke(owner, name, 1, Rva002162CFStr(Rva00222834Get(arg)), 0, 0, 0, 0);
 }
 
-// ?rva00522A91@Rva00522A91@@QAEXXZ @0x00522A91 107B: close the profile popup.
+// ?rva00522A91@AptSkirmish@@QAEXXZ @0x00522A91 107B: close the profile popup.
 // In state 2 (unless the flag at +0x6C2 is set) and in state 4 it sends
 // CloseProfilePopup to the panel's Apt owner (+0x274). It then calls the
 // state's follow-up, 0x00521B56 or 0x005229D3 (both pinned), with 0.
-class Rva00522A91
+class AptSkirmish
 {
 public:
 	void rva00522A91();
 	void rva00521841();
 	int rva00523178(int msg, unsigned int key, unsigned int state);
+	// Follow-ups on the same panel, rowed in AptSkirmishCallbacks.cpp:
+	// 0x00521770, 0x00521B56, 0x005229D3.
+	void OnProfilePopupCancel(const char *unused);
+	void OnAddProfileAccept(const char *unused);
+	void OnChangeProfile(const char *unused);
 private:
 	char m_pad000[0x274];
 	void *m_owner;				// +0x274
@@ -75,7 +80,7 @@ private:
 	bool m_busy;				// +0x6C2
 };
 
-int Rva00522A91::rva00523178(int msg, unsigned int key, unsigned int state)
+int AptSkirmish::rva00523178(int msg, unsigned int key, unsigned int state)
 {
 	if (msg != 0x15)
 		return 0;
@@ -95,17 +100,7 @@ int Rva00522A91::rva00523178(int msg, unsigned int key, unsigned int state)
 	return 1;
 }
 
-// Row owners for the follow-up calls (same panel object, rowed in
-// AptSkirmishCallbacks.cpp): 0x00521770, 0x00521B56, 0x005229D3.
-class AptSkirmish
-{
-public:
-	void OnProfilePopupCancel(const char *unused);
-	void OnAddProfileAccept(const char *unused);
-	void OnChangeProfile(const char *unused);
-};
-
-void Rva00522A91::rva00522A91()
+void AptSkirmish::rva00522A91()
 {
 	switch (m_state)
 	{
@@ -113,23 +108,23 @@ void Rva00522A91::rva00522A91()
 		if (!m_busy)
 		{
 			((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
-			((AptSkirmish *)this)->OnAddProfileAccept(0);
+			OnAddProfileAccept(0);
 		}
 		break;
 	case 4:
 		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
-		((AptSkirmish *)this)->OnChangeProfile(0);
+		OnChangeProfile(0);
 		break;
 	}
 }
 
-// ?rva00521841@Rva00522A91@@QAEXXZ @0x00521841 110B: the same panel's back
+// ?rva00521841@AptSkirmish@@QAEXXZ @0x00521841 110B: the same panel's back
 // action. States 2-4 close the profile popup and run 0x00521770 (pinned)
 // with 0, and states 8-9 send CloseStats. Any other state tail-calls the
 // rowed Rva00521643Enable.
 void __cdecl Rva00521643Enable();
 
-void Rva00522A91::rva00521841()
+void AptSkirmish::rva00521841()
 {
 	switch (m_state)
 	{
@@ -137,7 +132,7 @@ void Rva00522A91::rva00521841()
 	case 3:
 	case 4:
 		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
-		((AptSkirmish *)this)->OnProfilePopupCancel(0);
+		OnProfilePopupCancel(0);
 		break;
 	case 8:
 	case 9:
