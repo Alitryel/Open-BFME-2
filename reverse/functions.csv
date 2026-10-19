@@ -45694,7 +45694,7 @@ _VP6_readTSC,,0x001B8E70,29,Code/Libraries/Source/VP6/CopyHelpers.cpp,matched,Cl
 ??0Rva001E3E43@@QAE@ABV0@@Z,,0x001E4641,78,Code/GameEngine/Source/Common/Rva001E3E43CopyCtor.cpp,matched,Rva001E3E43 copy ctor constructs 3 Region3D plus vtable plus global plus assignment
 ?rva000DE5B7@Rva000DE5B7@@QAE?AVAsciiString@@XZ,,0x000DE5B7,27,Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp,matched,AsciiString getter at +0x48 via rowed StringBase copy ctor same shape as GameInfo getMap
 ?rva004A44B1@Rva004A44B1@@QAEXXZ,,0x004A44B1,122,Code/GameEngine/Source/GameLogic/Object/Update/Rva004A44B1.cpp,matched,static BoneFXUpdate key via rowed nameToKey same as 0x004A4DBE and poolkey 0x004A429F
-?rva004A4D70@Rva004A4D70@@QAEXXZ,,0x004A4D70,40,Code/GameEngine/Source/GameLogic/Object/Update/Rva004A4D70.cpp,matched,same zeros and setWakeFrame as StructureCollapseUpdate ctor 0x004A42E4 via rowed 0x0044DF71
+?rva004A4D70@RubbleRiseUpdate@@QAEXXZ,,0x004A4D70,40,Code/GameEngine/Source/GameLogic/Object/Update/Rva004A4D70.cpp,matched,same zeros and setWakeFrame as StructureCollapseUpdate ctor 0x004A42E4 via rowed 0x0044DF71
 ?Rva002FEC97Insert@@YGPAXPAXPAUListNode@@PBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,,0x002FEC97,37,Code/Libraries/Source/WWVegas/WWLib/stlport_list_nocase4_insert_002FEC97.cpp,matched,list insert via rowed create 0x002FE8AA linking before position
 ??0Rva0045D887@@QAE@HHHHHH@Z,,0x0045D887,129,Code/GameEngine/Source/Common/Rva0045D887BitSet.cpp,matched,16-byte bitset ctor via memset plus five set bits caller 0x0045E293
 ?rva004B7A9D@Rva004B7A9D@@QAEXXZ,,0x004B7A9D,62,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004B7A9D.cpp,matched,chain via getDrawable plus AsciiString offsets plus g_bfmeWorldRV
