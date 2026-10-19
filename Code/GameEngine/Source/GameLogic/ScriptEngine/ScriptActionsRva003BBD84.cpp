@@ -6,7 +6,7 @@
 // Rva003BB233Set 0x003BB233, which sweeps a caller val; these sweep constant
 // 1 through two unrowed Player entries).
 // ?rva003BBD84@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBD84 64B: mask from ScriptEngine
-// rva00357475 0x00357475, then pinned Player::rva002AEEA7(1) per player.
+// rva00357475 0x00357475, then the rowed Player::garrisonAllUnits(CMD_FROM_SCRIPT) (0x002AEEA7) per player.
 // ?rva003BBDC4@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBDC4 64B: same through pinned
 // Player::ungarrisonAllUnits(CMD_FROM_SCRIPT). Evidence: ret 4 single name arg, TheScriptEngine +
 // ThePlayerList globals, getEachPlayerFromMask loop; player entries pinned
@@ -26,7 +26,7 @@ enum CommandSourceType { CMD_FROM_PLAYER = 0, CMD_FROM_SCRIPT = 1, CMD_FROM_AI =
 class Player
 {
 public:
-	void rva002AEEA7(int val);
+	void garrisonAllUnits(CommandSourceType cmdSource);
 	void ungarrisonAllUnits(CommandSourceType cmdSource);
 };
 
@@ -45,7 +45,7 @@ void ScriptActions::rva003BBD84(const AsciiString &name)
 	do {
 		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
 		if (player)
-			player->rva002AEEA7(1);
+			player->garrisonAllUnits(CMD_FROM_SCRIPT);
 	} while (mask != 0);
 }
 
