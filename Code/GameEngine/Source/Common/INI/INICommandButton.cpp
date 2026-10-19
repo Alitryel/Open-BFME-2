@@ -58,9 +58,9 @@ extern ControlBar *TheControlBar;
 struct LookupListRec { const char *name; int value; };
 // The retail lookup list at RVA 0x009BFB68 (16 names and the null terminator).
 extern const LookupListRec g_00DBFB68[17] = { { "NEED_TARGET_ENEMY_OBJECT", 12673396 }, { "NEED_TARGET_ALLY_OBJECT", 12673324 }, { "ALLOW_SHRUBBERY_TARGET", 12673284 }, { "NEED_UPGRADE", 12673240 }, { "OK_FOR_MULTI_SELECT", 12673200 }, { "CHECK_LIKE", 12673180 }, { "ATTACK_OBJECTS_POSITION", 12673144 }, { "OPTION_TWO", 12673116 }, { "NOT_QUEUEABLE", 12673080 }, { "---DO-NOT-USE---", 12673048 }, { "OK_FOR_MULTI_EXECUTE", 12673004 }, { "HIDE_WHILE_DISABLED", 12672960 }, { "TOGGLE_IMAGE_ON_WEAPONSET", 12672904 }, { "MOUNTED_ONLY", 12672872 }, { "NONPRESSABLE", 12672832 }, { "ON_GROUND_ONLY", 12672804 }, { 0, 0 } };
-extern const LookupListRec g_00C00698[];
+extern const LookupListRec TheWeaponSlotTypeNamesLookupList[];
 // The retail lookup list at RVA 0x00815430 (6 names and the null terminator).
-extern const LookupListRec g_00C15430[7] = { { "NONE", 0 }, { "BUILD", 1 }, { "UPGRADE", 2 }, { "ACTION", 3 }, { "SYSTEM", 4 }, { "ALTERED", 5 }, { 0, 0 } };
+extern const LookupListRec CommandButtonMappedBorderTypeNames[7] = { { "NONE", 0 }, { "BUILD", 1 }, { "UPGRADE", 2 }, { "ACTION", 3 }, { "SYSTEM", 4 }, { "ALTERED", 5 }, { 0, 0 } };
 extern "C" {
 void __identifier("?parseCommand@CommandButton@@SAXPAVINI@@PAX1PBX@Z")();
 void __identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z")();
@@ -93,10 +93,10 @@ extern const FieldParse g_00C15468[55] = {
 	{ "NeededUpgrade", (FieldParseProc)&__identifier("?Rva00339A13_ParseUpgradeKeyList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
 	{ "NeededUpgradeAny", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x34 },
 	{ "BuildUpgrades", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x38 },
-	{ "WeaponSlot", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x80 },
-	{ "WeaponSlotToggle1", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x84 },
-	{ "WeaponSlotToggle2", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x88 },
-	{ "WeaponSlotToggle3", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x8C },
+	{ "WeaponSlot", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x80 },
+	{ "WeaponSlotToggle1", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x84 },
+	{ "WeaponSlotToggle2", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x88 },
+	{ "WeaponSlotToggle3", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x8C },
 	{ "FlagsUsedForToggle", (FieldParseProc)&__identifier("?Rva002C8C06Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x90 },
 	{ "MaxShotsToFire", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA0 },
 	{ "Science", (FieldParseProc)&__identifier("?Rva00339AF1_ParseSciences@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xA4 },
@@ -110,7 +110,7 @@ extern const FieldParse g_00C15468[55] = {
 	{ "ButtonImage", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xB4 },
 	{ "CursorName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x50 },
 	{ "InvalidCursorName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x54 },
-	{ "ButtonBorderType", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C15430, 0xB0 },
+	{ "ButtonBorderType", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), CommandButtonMappedBorderTypeNames, 0xB0 },
 	{ "RadiusCursorType", (FieldParseProc)&__identifier("?rva0035AED4@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4C },
 	{ "UnitSpecificSound", (FieldParseProc)&__identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xC8 },
 	{ "SetAutoAbilityUnitSound", (FieldParseProc)&__identifier("?Rva0033A1CE_ParseSoundList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0xD4 },

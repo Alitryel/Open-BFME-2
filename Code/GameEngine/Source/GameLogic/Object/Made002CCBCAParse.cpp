@@ -12,7 +12,7 @@ typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
 struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 struct LookupListRec { const char *name; int value; };
 // The retail lookup list at RVA 0x00800698 (5 names and the null terminator).
-extern const LookupListRec g_00C00698[6] = { { "PRIMARY", 0 }, { "SECONDARY", 1 }, { "TERTIARY", 2 }, { "QUATERNARY", 3 }, { "QUINARY", 4 }, { 0, 0 } };
+extern const LookupListRec TheWeaponSlotTypeNamesLookupList[6] = { { "PRIMARY", 0 }, { "SECONDARY", 1 }, { "TERTIARY", 2 }, { "QUATERNARY", 3 }, { "QUINARY", 4 }, { 0, 0 } };
 extern "C" {
 void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
 void __identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z")();
@@ -20,7 +20,7 @@ void __identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z")();
 // The retail table at 0x00864DCC: 2 entries and the null terminator; every parser is a rowed code owner.
 extern const FieldParse g_00864DCC[3] = {
 	{ "ClosestMemberOnly", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x128 },
-	{ "LockWeaponSlot", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), g_00C00698, 0x12C },
+	{ "LockWeaponSlot", (FieldParseProc)&__identifier("?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponSlotTypeNamesLookupList, 0x12C },
 	{ 0, 0, 0, 0 }
 };
 
