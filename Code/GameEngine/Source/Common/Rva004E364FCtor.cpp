@@ -8,6 +8,9 @@
 // ebp-0x20 EyeTower temp then initFromINI. Honest-address name.
 #include <vector>
 struct BfmePod8 { int a[2]; };
+// erase is called out of line: bind it to the rowed retail copy at 0x003FA4DB
+// (stlport_pod_vector_malloc_bodies.cpp) instead of emitting this unit's own.
+namespace _STL { template <> __declspec(nothrow) BfmePod8 *vector<BfmePod8, allocator<BfmePod8> >::erase(BfmePod8 *, BfmePod8 *); }
 class Rva004E364F
 {
 public:
