@@ -3,6 +3,9 @@
 // The native network allocation path constructs a 0x40-byte object at
 // 0x0065E4A8, then calls this body before invoking the virtual init slot. The
 // base constructor is a separately pinned retail body at 0x005B4E63.
+// The installed table 0x00BF6040 supplies the rowed Network virtual methods.
+// This layout agrees with GameNetwork/Network.cpp; the former
+// BFME2NativeNetwork placeholder also names unrelated subsystem-base views.
 
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64 *frequency);
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64 *counter);
@@ -12,10 +15,10 @@ extern "C" const void *const __identifier("??_7Rva0025E4CD@@6B@")[];
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 class SubsystemInterface { public: SubsystemInterface(); };
 
-class BFME2NativeNetwork
+class Network
 {
 public:
-	void *construct(void);
+	Network();
 
 private:
 	void *m_vtable;
@@ -33,7 +36,7 @@ private:
 	int m_lastValue;
 };
 
-void *BFME2NativeNetwork::construct(void)
+Network::Network()
 {
 	reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface();
 	m_lastValue = -1;
@@ -46,5 +49,4 @@ void *BFME2NativeNetwork::construct(void)
 	m_vtable = (void *)__identifier("??_7Rva0025E4CD@@6B@");
 	QueryPerformanceFrequency(&m_performanceFrequency);
 	QueryPerformanceCounter(&m_lastPerformanceCounter);
-	return this;
 }

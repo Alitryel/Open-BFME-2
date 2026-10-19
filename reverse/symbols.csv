@@ -1722,7 +1722,6 @@ name,address,notes
 ??0AutoPickUpUpdateModuleData@@QAE@XZ,0x00496308,pinned by AutoPickUpUpdateModuleData factory call-site decode
 ??0BFME2Encoding0MotionChannel@@QAE@XZ,0x001B2E2C,Descriptive encoding0 channel constructor; calls base1A465B then zeros14 and18 and installs BD7648; factory encoding0 allocates28 bytes and invokes this complete26-byte constructor
 ??0BFME2MotionChannel@@QAE@XZ,0x001A465B,base motion-channel ctor; Type and Pivot or-minus-1 then vtable; ghidra 17 bytes
-??0BFME2NativeNetwork@@QAE@XZ,0x0025DB6D,ctor spelling of the rowed construct body: only caller is the new-expression at 0x0025E4A8 in 0x0025E46D whose unwind entry frees the 0x40 allocation
 ??0BFME2ScopedRenderEvent@@QAE@PBD0I@Z,0x00117CF0,"Descriptive scope ctor: label256 group64; bounded copy and BeginEvent wrapper11F340(label,color); RET12 full167"
 ??0BFME2StreamMotionChannel@@QAE@XZ,0x001B2138,Descriptive stream-channel constructor; calls base1A465B to initialize type and pivot then zeros payload pointer28 and installs BD7624; factory encoding1 and2 allocate44 bytes and invoke it before installing derived tables
 ??0BFMENetGameSpyStatsAuthKeyCommandMsg@@QAE@XZ,0x004D65DC,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

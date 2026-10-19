@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 // ?CreateTheNetwork@@YAXXZ @0x0025E46D 96B
 // Free network reset: destroy the current TheNetwork (0x00DFEA28), then
-// allocate a 0x40-byte BFME2NativeNetwork, construct it through the rowed
+// allocate a 0x40-byte Network, construct it through the rowed
 // constructor 0x0025DB6D (its only caller is the call at 0x0025E4A8 here),
 // store it and call the init slot +4.
 // Retail calls vtable slot 0 with flag 0 and hands the result to operator
@@ -16,10 +16,10 @@ public:
 	virtual void init();
 };
 
-class BFME2NativeNetwork : public NetworkInterface
+class Network : public NetworkInterface
 {
 public:
-	BFME2NativeNetwork();
+	Network();
 private:
 	char m_pad[0x3C];
 };
@@ -29,6 +29,6 @@ extern NetworkInterface *TheNetwork;
 void CreateTheNetwork()
 {
 	::delete TheNetwork;
-	TheNetwork = new BFME2NativeNetwork;
+	TheNetwork = new Network;
 	TheNetwork->init();
 }
