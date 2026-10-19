@@ -21883,10 +21883,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A22F8C,8,.data,global,?g_verticalScale21Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,1
 0x00A22F94,4,.data,global,?g_lastVerticalScale45Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2
 0x00A22F98,4,.data,global,?g_verticalScale45Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2
-0x00A22F9C,12,.data,global,?g_horizontalScale21Slot@@3P6AXPBEIPAEI@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,1
-0x00A22FA8,4,.data,global,?g_rva01356E8C@@3P6AXPAXHH@ZA,Code/Libraries/Source/VP6/PredictFiltered.cpp,owned,,1,1
-0x00A22FAC,8,.data,global,?g_lastVerticalScale35Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2
-0x00A22FB4,8,.data,global,?g_rva01356E98@@3P6AXPAXHH@ZA,Code/Libraries/Source/VP6/PredictFiltered.cpp,owned,,1,1
+0x00A22F9C,16,.data,global,?g_horizontalScale21Slot@@3P6AXPBEIPAEI@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,1
+0x00A22FAC,16,.data,global,?g_lastVerticalScale35Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2
 0x00A22FBC,4,.data,global,?g_rva01356EA0@@3P6AXPAURva009A6130Context@@PAE1HHPBH@ZA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,4
 0x00A22FC0,4,.data,global,?g_lastVerticalScale21Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,1
 0x00A22FC4,8,.data,global,?g_verticalScale35Slot@@3P6AXPAEII@ZA,Code/Libraries/Source/VP6/AnyRatio2DScale.cpp,owned,,1,2

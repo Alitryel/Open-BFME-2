@@ -13,12 +13,18 @@ typedef void (__cdecl *PredictFilteredCopy)(void *, void *, int, int);
 typedef void (__cdecl *PredictFilteredEdge)(void *, int, int);
 
 extern void *g_bfmeSlotB40;                 // retail 0x00E22D08, 12x12 copy function pointer
-// Matched DIR32 witness (w=1) places this callback slot at VA 0x00E22FA8
-// in the zero-filled .data tail: the vertical-edge loop filter.
-PredictFilteredEdge g_rva01356E8C;
-// Matched DIR32 witness (w=1) places this callback slot at VA 0x00E22FB4
-// in the zero-filled .data tail: the horizontal-edge loop filter.
-PredictFilteredEdge g_rva01356E98;
+// The vertical- and horizontal-edge loop filters are slots 11 (VA
+// 0x00E22FA8) and 14 (VA 0x00E22FB4) of the codec dispatch table at VA
+// 0x00E22F7C that PostProcMachineSpecificConfig
+// (PostProcMachineSpecificConfig.cpp) defines and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356E8C (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[11])
+#define g_rva01356E98 (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[14])
 
 struct PredictFilteredInstance
 {
