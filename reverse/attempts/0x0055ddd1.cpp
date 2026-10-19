@@ -1,166 +1,217 @@
-// ?rva0055DDD1@Rva0055DDD1@@QAEXXZ
-// partial score=0.102 date=2026-10-17
-// cl: /Oy- /DNDEBUG /MD /GX
-//
-// ?get@Rva0055DDB6SmartField@@QBE?AVRvaSmartPtr12@@XZ, retail 0x0055DDB6, 27 bytes.
-// Value-returning smart-pointer getter same shape as siblings 0x003FDA90
-// (member +0x15C, 30B) and 0x001F6C54 (member +0x68, 27B) via the rowed copy
-// at 0x4CC19: returns the 12-byte member at +0x04 through the hidden return
-// pointer (RVO). Callers at 0x0055DE57 0x0055F885 0x005623AA use a 12-byte
-// temp plus the rowed handle dtor; landing unblocks 0x0055F840 0x0055DDD1
-// 0x00562366.
+// ?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z
+// partial score=0.55 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
+#define COORD3D_VIEW_DTOR
+#include "Lib/Coord3DCtorView.h"
+#include "matrix3d.h"
+#include "wwmath.h"
+
+class GameClientRandomVariable
+{
+public:
+	float getValue() const;
+private:
+	int m_type;
+	float m_low;
+	float m_high;
+};
+
+class ParticleSystem;
+
 class RvaSmartPtr12
 {
 public:
-	RvaSmartPtr12(const RvaSmartPtr12 &that);
-	~RvaSmartPtr12();
-
-private:
-	void *m_ptr;
-	int m_pad04;
-	int m_pad08;
+	void rva0004CBC0() throw();
+	~RvaSmartPtr12() throw()
+	{
+		if (m_ptr != 0)
+			rva0004CBC0();
+	}
+	ParticleSystem *m_ptr;
+	int m_04;
+	int m_08;
 };
 
 class Rva0055DDB6SmartField
 {
 public:
-	RvaSmartPtr12 get() const;
-
-private:
-	char m_pad[4];
-	RvaSmartPtr12 m_value;
-};
-
-// Random variable with a float value accessor (retail 0x006341A1).
-class GameClientRandomVariable
-{
-public:
-	float getValue() const;
-
-private:
-	char m_pad[4];
-};
-
-// 3-float vector with a normalize() member (retail 0x004035B6).
-class Coord3D
-{
-public:
-	void normalize();
-
-	float x;
-	float y;
-	float z;
-};
-
-// The object behind the smart pointer; only the fields the retail body reads.
-class ParticleSystem
-{
-public:
-	char m_pad00[0xBC];
-	float m_00bc;
-	float m_00c0;
-	float m_00c4;
-	float m_00c8;
-	float m_00cc;
-	float m_00d0;
-	float m_00d4;
-	float m_00d8;
-	float m_00dc;
-	float m_00e0;
-	float m_00e4;
-	float m_00e8;
-	char m_padEC[0x188 - 0xEC];
-	float m_0188;
-	float m_018c;
-	float m_0190;
-	unsigned char m_0194;
+	RvaSmartPtr12 get() const throw();
 };
 
 ParticleSystem *Make001FCBD7();
 
-class Rva0055DDD1
+
+static __forceinline void InvXform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+{
+	float dx = in.X - A[0][3];
+	float dy = in.Y - A[1][3];
+	float dz = in.Z - A[2][3];
+	out->X = A[0][0] * dx + A[1][0] * dy + A[2][0] * dz;
+	out->Y = A[0][1] * dx + A[1][1] * dy + A[2][1] * dz;
+	out->Z = A[0][2] * dx + A[1][2] * dy + A[2][2] * dz;
+}
+
+struct ParticleSystemView
+{
+	char pad[0xBC];
+	Matrix3D m_transform;
+	char pad2[0x188 - 0xBC - sizeof(Matrix3D)];
+	Vector3 m_position;
+	bool m_isLocal;
+};
+
+namespace FXParticleSystem
+{
+
+class __declspec(novtable) ParticleModulePrimary
 {
 public:
-	void rva0055DDD1();
+	virtual ~ParticleModulePrimary() = 0;
 
 private:
-	char m_pad00[0x24];
-	Coord3D m_24;
-	Coord3D m_30;
-	GameClientRandomVariable m_3c;
-	GameClientRandomVariable m_48;
-	GameClientRandomVariable m_54;
-	GameClientRandomVariable m_60;
-	GameClientRandomVariable m_6c;
-	GameClientRandomVariable m_78;
-	GameClientRandomVariable m_84;
-	GameClientRandomVariable m_90;
-	GameClientRandomVariable m_9c;
+	unsigned char m_state[0x10];
 };
 
-class RvaGuardHelper
+class __declspec(novtable) ParticleModuleClassInterface
 {
 public:
-	RvaGuardHelper(int f3, int f2, int f1, int s, int n);
-	~RvaGuardHelper();
-	Coord3D pts[0x1E];
+	virtual void *getModuleClass() const = 0;
 };
-void Rva0055DDD1::rva0055DDD1()
+
+class __declspec(novtable) EmissionVolumeModuleInterface
 {
+public:
+	virtual Coord3D getVelocity(const Coord3D *, float, float) = 0;
+};
+
+template <int Category>
+class DefaultParticleModule
+	: public ParticleModulePrimary,
+	  public ParticleModuleClassInterface,
+	  public EmissionVolumeModuleInterface
+{
+};
+
+class __declspec(novtable) EmissionVolumeInfo
+{
+public:
+	virtual ~EmissionVolumeInfo() = 0;
+
+protected:
+	bool m_is_hollow;
+	unsigned char m_alignment[3];
+};
+
+class LightningEmissionInfo : public EmissionVolumeInfo
+{
+protected:
+	Coord3D m_start;
+	Coord3D m_end;
+	GameClientRandomVariable m_amplitude1;
+	GameClientRandomVariable m_frequency1;
+	GameClientRandomVariable m_phase1;
+	GameClientRandomVariable m_amplitude2;
+	GameClientRandomVariable m_frequency2;
+	GameClientRandomVariable m_phase2;
+	GameClientRandomVariable m_amplitude3;
+	GameClientRandomVariable m_frequency3;
+	GameClientRandomVariable m_phase3;
+};
+
+class LightningEmissionModule
+	: public DefaultParticleModule<5>, public LightningEmissionInfo
+{
+public:
+	virtual Coord3D getPosition(float, float, int, int);
+};
+
+Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
+{
+	Coord3D result;
+	if (count > 1 && count < 30)
 	{
-	RvaSmartPtr12 tmpSp = ((Rva0055DDB6SmartField *)this)->get();
-	(void)*(volatile void **)&tmpSp;
+		static Coord3D s_points[30];
+		if (index == 0)
+		{
+			Coord3D start;
+			Coord3D end;
+			start = m_start;
+			end = m_end;
+			RvaSmartPtr12 handle = ((const Rva0055DDB6SmartField *)this)->get();
+			ParticleSystem *sys = handle.m_ptr;
+			if (!sys)
+				sys = Make001FCBD7();
+			if (((ParticleSystemView *)sys)->m_isLocal)
+			{
+				ParticleSystem *ps = handle.m_ptr;
+				if (!ps)
+					ps = Make001FCBD7();
+				const Matrix3D &m = ((ParticleSystemView *)ps)->m_transform;
+				Vector3 a;
+				InvXform(m, m.Get_Translation(), &a);
+				start = *(Coord3D *)&a;
+				ParticleSystem *pe = handle.m_ptr;
+				if (!pe)
+					pe = Make001FCBD7();
+				const Vector3 *p = &((ParticleSystemView *)pe)->m_position;
+				Vector3 b;
+				InvXform(m, Vector3(p->X, p->Y, p->Z), &b);
+				end = *(Coord3D *)&b;
+			}
+			Coord3D delta;
+			delta.x = end.x - start.x;
+			delta.y = end.y - start.y;
+			delta.z = end.z - start.z;
+			float amplitude1 = m_amplitude1.getValue();
+			float frequency1 = m_frequency1.getValue();
+			float phase1 = m_phase1.getValue();
+			float amplitude2 = m_amplitude2.getValue();
+			float frequency2 = m_frequency2.getValue();
+			float phase2 = m_phase2.getValue();
+			float amplitude3 = m_amplitude3.getValue();
+			float frequency3 = m_frequency3.getValue();
+			float phase3 = m_phase3.getValue();
+			Coord3D dir;
+			dir.x = delta.x;
+			dir.y = delta.y;
+			dir.z = delta.z;
+			dir.normalize();
+			Coord3D up(0.0f, 0.0f, 1.0f);
+			Coord3D perp;
+			perp.x = up.y * dir.z - up.z * dir.y;
+			perp.y = up.z * dir.x - up.x * dir.z;
+			perp.z = up.x * dir.y - up.y * dir.x;
+			float step = 1.0f / (float)(count - 1);
+			float t = 0.0f;
+			for (int i = 0; i < count; ++i)
+			{
+				float envelope = 0.5f - WWMath::Fabs(0.5f - t);
+				float s1 = WWMath::Sin(t * frequency1 + phase1) * envelope * amplitude1;
+				float s2 = WWMath::Sin(t * frequency2 + phase2) * envelope * amplitude2;
+				float s3 = WWMath::Sin(t * frequency3 + phase3) * envelope * amplitude3;
+				float x = t * delta.x + start.x;
+				x += perp.x * s1;
+				x += perp.x * s2;
+				x += perp.x * s3;
+				s_points[i].x = x;
+				float y = t * delta.y + start.y;
+				y += perp.y * s1;
+				y += perp.y * s2;
+				y += perp.y * s3;
+				s_points[i].y = y;
+				float z = t * delta.z + start.z;
+				z += perp.z * s1;
+				z += perp.z * s2;
+				z += perp.z * s3;
+				s_points[i].z = z;
+				t += step;
+			}
+		}
+		result.x = s_points[index].x;
+		result.y = s_points[index].y;
+		result.z = s_points[index].z;
 	}
-	static RvaGuardHelper s_points_wrap((1 ? 0x0C : 0x0C), 0x1E, 0x87a6a9, 0x4b3fd0, 0xbb93ec);
-	struct { Coord3D v; unsigned char pad[12]; } pad_v0;
-	if (m_pad00[0] == 0)
-		return;
-	Coord3D *s_points = s_points_wrap.pts;
-	Coord3D v0 = m_24;
-	Coord3D v1 = m_30;
-	float p0 = m_3c.getValue();
-	float p1 = m_48.getValue();
-	float p2 = m_54.getValue();
-	float p3 = m_60.getValue();
-	float p4 = m_6c.getValue();
-	float p5 = m_78.getValue();
-	float p6 = m_84.getValue();
-	float p7 = m_90.getValue();
-	float p8 = m_9c.getValue();
-	Coord3D d;
-	d.x = v1.x - v0.x;
-	d.y = v1.y - v0.y;
-	d.z = v1.z - v0.z;
-	d.normalize();
-	{
-		Coord3D e;
-		e.x = d.x; e.y = d.y; e.z = d.z;
-		e.normalize();
-		d = e;
-	}
-	for (int i = 0; i < 0x1E; i++)
-	{
-		float t = (float)i;
-		float s0 = (float)(double)(t * p0 + p1);
-		float s1 = (float)(double)(t * p4 + p5);
-		float s2 = (float)(double)(t * p7 + p8);
-		(void)s0; (void)s1; (void)s2;
-		s_points[i].x = v0.x + d.x * t;
-		s_points[i].y = v0.y + d.y * t;
-		s_points[i].z = v0.z + d.z * t;
-	}
-	Coord3D e = d;
-	e.normalize();
-	Rva0055DDB6SmartField *fld = (Rva0055DDB6SmartField *)this;
-	RvaSmartPtr12 sp = (1 ? fld->get() : fld->get());
-	ParticleSystem *p = (ParticleSystem *)*(void **)&sp;
-	if ((p != 0 ? p : p)->m_0194 != 0)
-	{
-		(void)p->m_00bc; (void)p->m_00c0; (void)p->m_00c4;
-		(void)p->m_00c8; (void)p->m_00cc; (void)p->m_00d0;
-		(void)p->m_00d4; (void)p->m_00d8; (void)p->m_00dc;
-		(void)p->m_00e0; (void)p->m_00e4; (void)p->m_00e8;
-		(void)p->m_0188; (void)p->m_018c; (void)p->m_0190;
-	}
-	(void)p3; (void)p6; (void)p2;
+	return result;
+}
+
 }
