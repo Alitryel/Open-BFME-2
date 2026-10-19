@@ -255,21 +255,7 @@ extern AptValueVector *g_releaseVectorAtE17710;
 void Rva006CEC90Tick();
 void d_00891fa0();
 void Rva006E6E20Collect();
-void Rva006CF040Tick(unsigned elapsed) {
- tickAssert(g_bfmeAptInitAtE17700,"bInitialized","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",0x422);
- Rva004A9DF3Element entries[96];
- g_rva00893030Manager->rva006CDE50(entries,96);
- if(g_bfmeAptFlagAtE176D4)Rva006CEC90Tick();
- else {
-  void *p=currentTickCIH();
-  if(p && ((Rva006DBB30SarDwordField *)p)->get()==0x12 && !((BfmeAptValue006DCD20 *)p)->isUndefined()) {
-   if(Rva006CD7A0Tick(elapsed))d_00891fa0();
-  }else{g_bfmeAptLinkerAtE176F8->rva006D17F0();g_bfmeAptPtrAtE176D0->count=0;}
- }
- g_releaseVectorAtE17710->ReleaseValues();
- if(g_Va00E1770C){Rva006E6E20Collect();g_Va00E1770C=0;}
- tickStackAssert(0x453);
-}
+
 
 
 
@@ -554,18 +540,7 @@ bool _AptValidate()
 // 0x00E176FC is the ledger-owned g_aptBackgroundSet (AptMovieFrameControls),
 // cleared here.
 extern bool g_aptBackgroundSet;
-void Rva006CC600(const char *path,char *suffix)
-{
- tickAssert(g_bfmeAptInitAtE17700,"bInitialized","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",0x322);
- EAStringC target(suffix);
- bool isImport = !(target.rva006D30D0(&EAStringC("#import")) && "Please use AptPreloadFile instead of a target of '#import' now.");
- if (isImport) {
-  g_bfmeAptAssertAtE17734("sTarget != AptNativeString(\"#import\") && \"Please use AptPreloadFile instead of a target of \x27#import\x27 now.\"","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",0x325);
-  if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
- }
- g_aptBackgroundSet = false;
- g_bfmeAptLinkerAtE176F8->Load(EAStringC(path),target);
-}
+
 
 // Native6CC530..6CC5F0: level lookup walks the existing pool's +30 list;
 // on a miss it constructs a96B type19 CIH, roots it, and inserts by level.
@@ -776,9 +751,6 @@ private:
 	Rva004A9DF3Element m_inline[2];
 };
 
-Rva006CDB70Owner::Rva006CDB70Owner() : m_count(0), m_used(0), m_items(m_inline)
-{
-}
 
 // Native6CDA40..6CDB02: Ghidra-unlisted zombie-vector report over the E17714
 // optional value vector (owned above): count line, then for each entry from
@@ -825,10 +797,7 @@ void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl) {
 // Address name; the buffer (E177D8, eight bytes below the E177E0 flags) is
 // only declared here.
 extern char g_aptFormattedFieldText[];
-const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
- sprintf(g_aptFormattedFieldText,"0x%X",value->get());
- return g_aptFormattedFieldText;
-}
+
 
 // Native6CD060..6CD069: store the argument into the Apt word at E176C8
 // (beside the E176D0 root and E176D4 suppression flag). Address names.
