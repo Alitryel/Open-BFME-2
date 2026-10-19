@@ -69,6 +69,14 @@
 // the node has no orientation channel, then the fade) and reads visibility
 // from the node's TimeCodedBitChannelClass at the truncated frame. The
 // generic path declares its CompactTransform before the root update.
+//
+// 0x00163A80 (2850 bytes): HTreeClass::Anim_Update(root, HRawAnimClass *,
+// frame), WorldBuilder 0x00A16E30 (htree.cpp:766). The frame is truncated
+// once by Float_To_Long (WB 0x00A171B0: fld/fistp) and clamped to zero past
+// Get_Num_Frames; pointer loop over the pivots and the raw node motions. The
+// channel readers (WB 0x00A171D0 Get_Vector, 0x00A17250 set_identity,
+// 0x00A172B0 Get_Vector_As_Quat, 0x00A17330 Get_Bit) fill one
+// CompactTransform declared before the loop, then PostMul or Translate.
 #include <vector>
 
 class Vector3
@@ -80,6 +88,7 @@ public:
 	Vector3 & operator = (const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
 	Vector3 & operator += (const Vector3 & v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
 	Vector3 & operator *= (float k) { X = X*k; Y = Y*k; Z = Z*k; return *this; }
+	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
 	__declspec(dllimport) __forceinline static void Lerp(const Vector3 & a, const Vector3 & b, float alpha, Vector3 * set_result)
 	{
 		set_result->X = (a.X + (b.X - a.X)*alpha);
@@ -211,7 +220,7 @@ class HAnimClass : public RefCountClass
 {
 public:
 	virtual void slot1(); virtual void slot2(); virtual void slot3();
-	virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
+	virtual void slot4(); virtual int Get_Num_Frames(); virtual void slot6(); virtual void slot7();
 	virtual void Get_Translation(Vector3 & trans, int pividx, float frame);
 	virtual bool Get_Orientation(Quaternion & q, int pividx, float frame);
 	virtual void slot10();
@@ -283,6 +292,106 @@ private:
 	NodeCompressedMotionStruct * NodeMotions;
 };
 
+class MotionChannelClass
+{
+public:
+	__forceinline void Get_Vector(int frame, float * setvec)
+	{
+		if ((frame < FirstFrame) || (frame > LastFrame)) {
+			set_identity(setvec);
+		} else {
+			int vecframe = frame - FirstFrame;
+			for (int i = 0; i < VectorLen; i++) {
+				setvec[i] = Data[vecframe * VectorLen + i];
+			}
+		}
+	}
+	__forceinline void Get_Vector_As_Quat(int frame, Quaternion & quat)
+	{
+		if ((frame < FirstFrame) || (frame > LastFrame)) {
+			quat.Set(0, 0, 0, 1);
+		} else {
+			float * v = &Data[(frame - FirstFrame) * VectorLen];
+			quat.Set(v[0], v[1], v[2], v[3]);
+		}
+	}
+private:
+	__forceinline void set_identity(float * setvec)
+	{
+		if (Type == 15) {
+			setvec[0] = 1.0f;
+		} else {
+			setvec[0] = 0.0f;
+			if (Type == 6) {
+				setvec[1] = 0.0f;
+				setvec[2] = 0.0f;
+				setvec[3] = 1.0f;
+			}
+		}
+	}
+	unsigned int PivotIdx;
+	unsigned int Type;
+	int VectorLen;
+	float ValueOffset;
+	float ValueScale;
+	float * Data;
+	int FirstFrame;
+	int LastFrame;
+};
+
+class BitChannelClass
+{
+public:
+	// Inline-only (dllimport): BitChannelGetBit.cpp owns the out-of-line copy.
+	__declspec(dllimport) __forceinline int Get_Bit(int frame)
+	{
+		if ((frame < FirstFrame) || (frame > LastFrame)) {
+			return DefaultVal;
+		} else {
+			int bit = frame - FirstFrame;
+			unsigned char mask = (unsigned char)(1 << (bit & 7));
+			return (Bits[bit >> 3] & mask) != 0;
+		}
+	}
+private:
+	unsigned int PivotIdx;
+	unsigned int Type;
+	int DefaultVal;
+	int FirstFrame;
+	int LastFrame;
+	unsigned char * Bits;
+};
+
+struct NodeMotionStruct
+{
+	MotionChannelClass * X;
+	MotionChannelClass * Y;
+	MotionChannelClass * Z;
+	MotionChannelClass * XR;
+	MotionChannelClass * YR;
+	MotionChannelClass * ZR;
+	MotionChannelClass * Q;
+	MotionChannelClass * Fade;
+	BitChannelClass * Vis;
+};
+
+class HRawAnimClass : public HAnimClass
+{
+public:
+	NodeMotionStruct * Get_Node_Motion_Array() { return NodeMotions; }
+private:
+	char pad[0x50 - 8];
+	NodeMotionStruct * NodeMotions;
+};
+
+__forceinline long Float_To_Long(float f)
+{
+	long retval;
+	__asm fld dword ptr [f]
+	__asm fistp dword ptr [retval]
+	return retval;
+}
+
 class Rva00160FC0Input;
 class Rva00160FC0
 {
@@ -330,6 +439,7 @@ public:
 	int Capture_Update(int pivot_index);
 	void Base_Update(const Matrix3D & root);
 	void Anim_Update(const Matrix3D & root, HAnimClass * motion, float frame);
+	void Anim_Update(const Matrix3D & root, HRawAnimClass * motion, float frame);
 	void Blend_Update(const Matrix3D & root, HAnimClass * motion0, float frame0, HAnimClass * motion1, float frame1, float percentage);
 private:
 	struct CapturedPivot { int PivotIndex; CompactTransform Transform; bool WorldSpaceTranslation; };
@@ -674,5 +784,62 @@ void HTreeClass::Anim_Update(const Matrix3D & root, HAnimClass * motion, float f
 		}
 
 		if (piv_idx == captured) captured = Capture_Update(captured);
+	}
+}
+
+void HTreeClass::Anim_Update(const Matrix3D & root, HRawAnimClass * motion, float frame)
+{
+	Pivot[0].Transform = root;
+	Pivot[0].IsVisible = true;
+	Pivot[0].PivotFade = 1.0f;
+
+	int iframe = Float_To_Long(frame);
+	if (iframe >= motion->Get_Num_Frames()) iframe = 0;
+
+	NodeMotionStruct * nodemotion = motion->Get_Node_Motion_Array();
+	nodemotion++;
+
+	PivotClass * pivot = &Pivot[1];
+	PivotClass * endpivot = pivot + NumPivots - 1;
+	PivotClass * lastAnimPivot = &Pivot[motion->Get_Num_Pivots()];
+
+	int captured = rva00162290();
+
+	CompactTransform xform;
+	for (; pivot < endpivot; pivot++, nodemotion++) {
+
+		CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+		if (pivot < lastAnimPivot) {
+			xform.Position.Set(0, 0, 0);
+			if (nodemotion->X != NULL) nodemotion->X->Get_Vector(iframe, &(xform.Position.X));
+			if (nodemotion->Y != NULL) nodemotion->Y->Get_Vector(iframe, &(xform.Position.Y));
+			if (nodemotion->Z != NULL) nodemotion->Z->Get_Vector(iframe, &(xform.Position.Z));
+
+			if (ScaleFactor != 1.0f) xform.Position *= ScaleFactor;
+
+			if (nodemotion->Q != NULL) {
+				nodemotion->Q->Get_Vector_As_Quat(iframe, xform.Q);
+				pivot->Transform.PostMul(xform);
+			} else {
+				pivot->Transform.Translate(xform.Position);
+			}
+
+			if (nodemotion->Fade != NULL) {
+				float fade = 1.0f;
+				nodemotion->Fade->Get_Vector(iframe, &fade);
+				pivot->PivotFade = fade;
+			} else {
+				pivot->PivotFade = 1.0f;
+			}
+
+			if (nodemotion->Vis != NULL) {
+				pivot->IsVisible = (nodemotion->Vis->Get_Bit(iframe) == 1);
+			} else {
+				pivot->IsVisible = true;
+			}
+		}
+
+		if (pivot->Index == captured) captured = Capture_Update(captured);
 	}
 }

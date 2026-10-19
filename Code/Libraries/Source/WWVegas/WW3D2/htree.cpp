@@ -198,84 +198,8 @@ HTreeClass::HTreeClass(void) :
 // HTreeClass::Anim_Update(const Matrix3D &, HAnimClass *, float) is defined in
 // HTreeClassFirstCapturedBone.cpp.
 								
-/*Customized version of the above which excludes interpolation and assumes HRawAnimClass
-For use by 'Generals' -MW*/
-// ?Anim_Update@HTreeClass@@ present-unmatched
-void HTreeClass::Anim_Update(const Matrix3D & root,HRawAnimClass * motion,float frame)
-{
-	PivotClass *pivot,*endpivot,*lastAnimPivot;
-
-	Pivot[0].Transform = root;
-	Pivot[0].IsVisible = true;
-
-
-	int num_anim_pivots = motion->Get_Num_Pivots ();
-
-	//Get integer frame
-	int iframe=WWMath::Float_To_Long(frame);
-	if (iframe >= motion->Get_Num_Frames()) 
-		iframe = 0;
-
-	Vector3 trans;
-	Quaternion q;
-	Matrix3D mtx;
-
-	struct NodeMotionStruct * nodeMotion = ((HRawAnimClass*)motion)->Get_Node_Motion_Array();
-	nodeMotion += 1;	//skip the root node
-
-	pivot = &Pivot[1];
-	endpivot=pivot+(NumPivots-1);
-	lastAnimPivot = &Pivot[num_anim_pivots];
-
-	for (int piv_idx=1; pivot < endpivot; pivot++,nodeMotion++) {
-
-		// base pose
-		assert(pivot->Parent != NULL);
-		Matrix3D::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
-			
-		// Don't update this pivot if the HTree doesn't have animation data for it...
-		if (pivot < lastAnimPivot)
-		{
-			
-			// animation
-			trans.Set(0.0f,0.0f,0.0f);
-			Matrix3D *xform=&pivot->Transform;
-
-			if (nodeMotion->X != NULL)
-				nodeMotion->X->Get_Vector(iframe,&(trans[0]));
-			if (nodeMotion->Y != NULL)
-				nodeMotion->Y->Get_Vector(iframe,&(trans[1]));
-			if (nodeMotion->Z != NULL)
-				nodeMotion->Z->Get_Vector(iframe,&(trans[2]));
-
-			if (ScaleFactor == 1.0f)
-				xform->Translate(trans);
-			else
-				xform->Translate(trans*ScaleFactor);
-
-			if (nodeMotion->Q != NULL) 
-			{	nodeMotion->Q->Get_Vector_As_Quat(iframe, q);
-#ifdef ALLOW_TEMPORARIES
-				*xform = *xform * ::Build_Matrix3D(q,mtx);
-#else
-				xform->postMul(::Build_Matrix3D(q,mtx));
-#endif
-			}
-
-			// visibility
-			if (nodeMotion->Vis != NULL)
-				pivot->IsVisible=(nodeMotion->Vis->Get_Bit(iframe) == 1);
-			else
-				pivot->IsVisible=1;
-		}
-
-		if (pivot->Is_Captured()) 
-		{ 
-			pivot->Capture_Update();
-			pivot->IsVisible = true;
-		} 
-	}
-}								
+// HTreeClass::Anim_Update(const Matrix3D &, HRawAnimClass *, float) is defined
+// in HTreeClassFirstCapturedBone.cpp.
 
 
 // HTreeClass::Blend_Update is defined in HTreeClassFirstCapturedBone.cpp.
