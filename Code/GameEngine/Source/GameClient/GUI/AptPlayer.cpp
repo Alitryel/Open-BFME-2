@@ -19,12 +19,14 @@ typedef _STL::pair<const AsciiString, TreeHintRef00222C5A> Rva00223F4BPair;
 class Rva00056F61;
 struct Rva0041534BIter {
 	void *m_node; Rva00056F61 *m_table;
+	Rva0041534BIter() {}
 	Rva0041534BIter(void *n,Rva00056F61*t) : m_node(n), m_table(t) {}
 };
 class Rva00056F61 {
 public:
  __declspec(nothrow) void *rva00056F61(const AsciiString *);
- Rva0041534BIter rva0041534B(const AsciiString *);
+ __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString *);
+ __declspec(nothrow) __forceinline Rva0041534BIter findIter(const AsciiString &key) { return rva0041534B(&key); }
  __declspec(nothrow) __forceinline Rva0041534BIter find(const AsciiString &key) {
   return Rva0041534BIter(rva00056F61(&key),this);
  }
@@ -147,6 +149,7 @@ public:
  void RemoveOverButtonHandler(int index, const AsciiString &key);
  void RemoveOverButtonHandler(const AsciiString &key);
  void OnCustomRender(const char *name, int a, int b, int c, int d);
+ void HandleOverButtons();
  static int GetLevelIndex(GameWindow *window);
  GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
  bool ShowLevel(int index);
@@ -695,4 +698,103 @@ void AptPlayer::RemoveOverButtonHandler(const AsciiString &key)
 {
  AsciiString copy(key);
  reinterpret_cast<Rva00223591 *>(m_overButtonMap)->rva00223736(&copy);
+}
+
+// WorldBuilder B905A0 names HandleOverButtons (AptPlayer.cpp:426..443); the
+// tail jump at 0x00225294 reaches it. Native 224F6C..2251E5 proves the
+// 512-byte rollover target buffer, the level-11 bit 2 in 0x00E02FC0, the
+// mouse-string and window-manager slot 0xD4 guards, the level record's own
+// map at +0x10 keyed by the SkipLevelN leaf, the "<movie>/<leaf>" key into
+// the +0xA4 handler map (movie extension cut at '.'), the tooltip fallback
+// for keys not ending in '/', and the movie-key retry. Callback and map
+// providers keep their owned address names.
+extern unsigned int g_rva00E02FC0Bits;
+bool Rva006CD100Get();
+void Rva006CD2A0(char *target);
+namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
+class Rva001EDE45 { public: void *rva001EDE45(); };
+class Rva00224F6CWindowManager {
+public:
+#define WM_SLOT(n) virtual void wmSlot##n();
+ WM_SLOT(0) WM_SLOT(1) WM_SLOT(2) WM_SLOT(3) WM_SLOT(4) WM_SLOT(5) WM_SLOT(6) WM_SLOT(7) WM_SLOT(8) WM_SLOT(9)
+ WM_SLOT(10) WM_SLOT(11) WM_SLOT(12) WM_SLOT(13) WM_SLOT(14) WM_SLOT(15) WM_SLOT(16) WM_SLOT(17) WM_SLOT(18) WM_SLOT(19)
+ WM_SLOT(20) WM_SLOT(21) WM_SLOT(22) WM_SLOT(23) WM_SLOT(24) WM_SLOT(25) WM_SLOT(26) WM_SLOT(27) WM_SLOT(28) WM_SLOT(29)
+ WM_SLOT(30) WM_SLOT(31) WM_SLOT(32) WM_SLOT(33) WM_SLOT(34) WM_SLOT(35) WM_SLOT(36) WM_SLOT(37) WM_SLOT(38) WM_SLOT(39)
+ WM_SLOT(40) WM_SLOT(41) WM_SLOT(42) WM_SLOT(43) WM_SLOT(44) WM_SLOT(45) WM_SLOT(46) WM_SLOT(47) WM_SLOT(48) WM_SLOT(49)
+ WM_SLOT(50) WM_SLOT(51) WM_SLOT(52)
+#undef WM_SLOT
+ virtual int slotD4();
+};
+class Rva0057CC15Ref { public: void invoke(int arg); void *m_ptr; };
+struct AptOverButtonNode { AptOverButtonNode *next; AsciiString key; Rva0057CC15Ref handler; };
+struct Rva002229E3S12 { Rva002229E3S12() {} char m_c; const char *m_ptr; int m_len; };
+Rva002229E3S12 __cdecl Rva002229E3Build(const char &c, const char *s);
+AsciiString &__cdecl Rva00222C93Append(AsciiString &str, const char *s);
+Rva00224CDC *rva00224D80();
+// Retail expands the character read in place here (buffer text at +8, zero
+// for an empty string) instead of calling StringBase::getCharAt 0x00035720.
+static __forceinline char Rva00224F6CCharAt(const AsciiString &s, int i)
+{
+ const char *data = *reinterpret_cast<const char *const *>(&s);
+ return data ? data[8 + i] : 0;
+}
+
+void AptPlayer::HandleOverButtons()
+{
+ g_rva00E02FC0Bits &= ~2;
+ if (!Rva006CD100Get())
+  return;
+ char target[512];
+ Rva006CD2A0(target);
+ if (target[0] == 0)
+  return;
+ int level = AptUtils::LevelIndexFromTarget(target);
+ if (level == 11)
+  g_rva00E02FC0Bits |= 2;
+ if (static_cast<AsciiString *>(reinterpret_cast<Rva001EDE45 *>(TheMouse)->rva001EDE45())->getLength() > 0)
+  return;
+ if (TheWindowManager && reinterpret_cast<Rva00224F6CWindowManager *>(TheWindowManager)->slotD4())
+  return;
+
+ AsciiString name;
+ AsciiString movie;
+ if (level != -1 && m_levelData[level].m_c == level) {
+  const char *leaf = AptUtils::SkipLevelN(target);
+  {
+   Rva00056F61 &levelMap = *reinterpret_cast<Rva00056F61 *>(m_levelData[level].m_pad10);
+   Rva0041534BIter it = levelMap.findIter(AsciiString(leaf));
+   if (it.m_node) {
+    static_cast<AptOverButtonNode *>(it.m_node)->handler.invoke((int)leaf);
+    return;
+   }
+  }
+  movie.set(m_levelData[level].m_s0);
+  const char *dot = movie.find('.');
+  if (dot)
+   movie.set(AsciiString(movie, 0, dot - movie.str()));
+  name.set(movie);
+  Rva00222C93Append(name, (const char *)&(const Rva002229E3S12 &)Rva002229E3Build('/', leaf));
+ } else {
+  name.set(target);
+ }
+
+ Rva0041534BIter found;
+ found = reinterpret_cast<AptExternTable *>(m_overButtonMap)->find(name);
+ if (found.m_node) {
+  AptOverButtonNode *node = static_cast<AptOverButtonNode *>(found.m_node);
+  if (!node->handler.m_ptr)
+   return;
+  node->handler.invoke((int)name.str());
+  return;
+ }
+ if (Rva00224F6CCharAt(name, name.getLength() - 1) != '/') {
+  rva00224D80()->rva002238E6(name);
+  return;
+ }
+ found = reinterpret_cast<AptExternTable *>(m_overButtonMap)->find(movie);
+ if (!found.m_node)
+  return;
+ AptOverButtonNode *node = static_cast<AptOverButtonNode *>(found.m_node);
+ if (node->handler.m_ptr)
+  node->handler.invoke((int)name.str());
 }
