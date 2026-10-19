@@ -107,6 +107,9 @@ typedef _STL::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::
 namespace _STL { template <> void hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::_M_initialize_buckets(unsigned int); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::~hashtable(); }
+// Bind to the kept retail copy 0x002896AA (ArmorHashtableRtsCtor.cpp) instead of emitting this unit's own.
+namespace _STL { template <> hashtable<pair<NameKeyType const ,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_Select1st<pair<NameKeyType const ,ArmorTemplate> >,rts::equal_to<NameKeyType>,allocator<pair<NameKeyType const ,ArmorTemplate> > >::hashtable(unsigned int, rts::hash<NameKeyType> const &, rts::equal_to<NameKeyType> const &, allocator<pair<NameKeyType const ,ArmorTemplate> > const &); }
+namespace _STL { template <> hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, rts::equal_to<NameKeyType>, allocator<pair<NameKeyType const ,ArmorTemplate> > >::hash_map(); }
 // bfme link decl-only begin
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
