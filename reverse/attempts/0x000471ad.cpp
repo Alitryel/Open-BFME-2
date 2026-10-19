@@ -1,6 +1,8 @@
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 // partial score=0.994 date=2026-10-19
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
+// partial score=0.994 date=2026-10-19
+// ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 // partial score=0.99 date=2026-10-17
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
 // Bank state (size-exact 1474 B, 9 diff lines): <math.h> float tan overload
@@ -73,6 +75,7 @@ public:
 
 #include <math.h>
 #include "ascii_string.h"
+float atan2(float, float);
 class ShroudFilter { public: int m_00, m_04, m_08, m_0C, m_10; };
 class ShroudTexture { public: ShroudFilter *getFilter(void); };
 class TextureAsset
@@ -140,7 +143,7 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
  float halfU=uv->Width()*0.5f;
  float halfV=uv->Height()*0.5f;
  Vector2 centerUV={uv->Left+halfU,uv->Top+halfV};
- float corner=atan2f(width,height);
+ float corner=atan2(width,height);
  Vector2 end={left,top};
  Vector2 endUV={uv->Left,uv->Top};
  Vector2 start={center.X,top};

@@ -60,7 +60,19 @@ banks spell `_atan2f`; check the reloc.
 
 - 0x004DFCE6 (sphere merge, 361 B): rebuilt in WB 0x0129CFF0 member order
   (copy ctors, `-=`, `*=`, `edge(old += dir)`, `center = (edge += opp)`):
-  90 positional bytes -> 3 lines (old.x load order). Banked 0.96.
+  90 positional bytes -> 3 lines; then coord3d.cpp's Coord3D length and
+  normalize visible as `__declspec(noinline) inline` copies (lever 1) made it
+  exact. LANDED (Rva004DFCE6SphereMerge.cpp).
+- 0x0037609C computeAerialPath (2148 B): the same visible length/normalize
+  fixed both cos arms (14 -> 3 lines); the last line was the repair-loop
+  tail, closed by reading the time step into a local before the add
+  (`float spacing = ...; time = spacing + middle;`). LANDED
+  (AerialPathfinderComputePath.cpp).
+- So pair the member-mutator rewrite with visible Coord3D length/normalize:
+  either alone left both bodies short. A blind sweep that only injects the
+  visible bodies into banks (0x001E6007, 0x00451B92, 0x00561564, 0x0046525F,
+  0x0034E5B5, 0x0047AC8F, 0x00457737) was inert or near-inert; a blind
+  atan2f -> float-overload swap helped only 0x000471AD (10 -> 9).
 - 0x001E6B8B (Locomotor, 919 B): getMaxSpeed respelling + float atan2
   overload: 9 -> 7 lines (cmp scheduled inside the goal copy). Banked.
 - Inert or worse: 0x002E3AA8 (volatile-free member slide grows the frame,
