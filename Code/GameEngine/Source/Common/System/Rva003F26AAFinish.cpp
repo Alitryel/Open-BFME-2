@@ -65,6 +65,10 @@ namespace _STL { template <> void allocator<const ModuleData *>::deallocate(cons
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
 namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
+// push_back is rowed at 0x004DFCB0 (kept copy). This unit's own copy, and the
+// _Construct / placement-new copies it pulls in, differ from the kept ones.
+// Declare it only, so the call binds to the kept copy.
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &); }
 
 class ModuleData
 {
