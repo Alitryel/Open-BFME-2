@@ -272,6 +272,10 @@ namespace _STL { void __cdecl free(void *); }
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
 // Complete ZH ControlBarCommand.cpp is the semantic guide. Named target WB
 // 11180A0, assert file ControlBarCommand.cpp1005..1216, and native
 // 53CF65..53D3551008 establish the target deltas and ten-case jump table.
