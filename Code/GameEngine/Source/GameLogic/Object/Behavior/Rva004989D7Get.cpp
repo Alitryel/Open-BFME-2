@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?getControllingPlayer@Rva004989D7@@QBEPAVPlayer@@XZ @0x004989D7 8B
+// ?getControllingPlayer@GateOpenAndCloseBehavior@@QBEPAVPlayer@@XZ @0x004989D7 8B
 // Gap between GateOpenAndCloseBehaviorCtorShard 0x0049889C and Disp8 getter.
 // Forwards member at +0x0C to rowed Object::getControllingPlayer 0x0028AFA9.
 // Callers at 0x004E8F4D 0x004E91A5; landing unblocks 1.
@@ -22,7 +22,7 @@ public:
 	Relationship getRelationship(const Object *obj) const;
 };
 
-class Rva004989D7
+class GateOpenAndCloseBehavior
 {
 public:
 	Player *getControllingPlayer() const;
@@ -32,12 +32,12 @@ private:
 	Object *m_obj;
 };
 
-Player *Rva004989D7::getControllingPlayer() const
+Player *GateOpenAndCloseBehavior::getControllingPlayer() const
 {
 	return m_obj->getControllingPlayer();
 }
 
-Relationship Rva004989D7::getRelationship(const Player *p) const
+Relationship GateOpenAndCloseBehavior::getRelationship(const Player *p) const
 {
 	return p->getRelationship(m_obj);
 }

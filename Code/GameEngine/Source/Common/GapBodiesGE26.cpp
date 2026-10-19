@@ -126,8 +126,9 @@ Rva004E7A64::Rva004E7A64() : m_00(0), m_04(0.0f), m_08(0)
 // --- 0x004E8F76 (65B) / 0x004E8FB7 (63B): walks of a gate-behavior pointer
 // vector: open (rowed 0x004992D5 with false, true) and close (rowed
 // 0x0049924B with true) the allied gates failing the slot-6 test.
-class Rva004989D7
+class GateOpenAndCloseBehavior
 {
+	friend class Rva004E8F37;
 public:
 	virtual void slot00();
 	virtual void slot04();
@@ -138,11 +139,7 @@ public:
 	virtual bool slot18();
 	Player *getControllingPlayer() const;							// 0x004989D7
 	Relationship getRelationship(const Player *player) const;	// 0x004989DF
-};
-
-class GateOpenAndCloseBehavior : public Rva004989D7
-{
-	friend class Rva004E8F37;
+private:
 	void rva004992D5(bool a, bool b);						// 0x004992D5
 	void rva0049924B(bool a);								// 0x0049924B
 };

@@ -9,13 +9,13 @@
 // Chain-ready via 0x004989D7. Recipe is closest-scan with pos copy plus
 // best/bestDist plus finish.
 
-// ?getControllingPlayer@Rva004989D7@@QBEPAVPlayer@@XZ
+// ?getControllingPlayer@GateOpenAndCloseBehavior@@QBEPAVPlayer@@XZ
 // ?get@Rva004989EEAddDwordField@@QBEHXZ
 
 class Player;
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-class Rva004989D7
+class GateOpenAndCloseBehavior
 {
 public:
 	Player *getControllingPlayer() const;
@@ -44,7 +44,7 @@ void *GateOpenBehaviorList::rva004E9179(const Coord3D *pos, const Player *player
 	void **finish = m_end;
 	for (void **cur = m_begin; cur != finish; ++cur)
 	{
-		Rva004989D7 *obj = (Rva004989D7 *)*cur;
+		GateOpenAndCloseBehavior *obj = (GateOpenAndCloseBehavior *)*cur;
 		if (obj->getControllingPlayer() != player)
 			continue;
 		float vals[3];

@@ -7,18 +7,6 @@
 // Callee pins are honest address-derived candidates; the 0x4992D5
 // (1, null) order follows its push sequence.
 
-class GateOpenAndCloseBehavior
-{
-	friend class Rva004E8FF6;
-public:
-	bool rva00498980();
-private:
-	void rva0049924B(bool open);			// rowed private members at 0x0049924B
-	void rva004992D5(bool open, bool flag);	// and 0x004992D5
-};
-
-class Player;
-
 class Player;
 
 enum Relationship
@@ -26,12 +14,16 @@ enum Relationship
 	REL_NONE = 0
 };
 
-class Rva004989D7
+class GateOpenAndCloseBehavior
 {
+	friend class Rva004E8FF6;
 public:
-	Relationship getRelationship(const Player *arg) const;
+	bool rva00498980();
+	Relationship getRelationship(const Player *arg) const;	// 0x004989DF
+private:
+	void rva0049924B(bool open);			// rowed private members at 0x0049924B
+	void rva004992D5(bool open, bool flag);	// and 0x004992D5
 };
-
 
 class Rva002E713FOwner
 {
@@ -62,7 +54,7 @@ void Rva004E8FF6::rva004E8FF6(void *arg)
 		void *o = *p;
 		if (((GateOpenAndCloseBehavior *)o)->rva00498980())
 		{
-			int r = ((Rva004989D7 *)o)->getRelationship((const Player *)arg);
+			int r = ((GateOpenAndCloseBehavior *)o)->getRelationship((const Player *)arg);
 			if (r == 0)
 				((GateOpenAndCloseBehavior *)o)->rva0049924B((bool)r);
 		}
@@ -79,7 +71,7 @@ void Rva004E8FF6::rva004E9040(void *arg)
 		void *o = *p;
 		if (((GateOpenAndCloseBehavior *)o)->rva00498980())
 		{
-			int r = ((Rva004989D7 *)o)->getRelationship((const Player *)arg);
+			int r = ((GateOpenAndCloseBehavior *)o)->getRelationship((const Player *)arg);
 			if (r == 0)
 				((GateOpenAndCloseBehavior *)o)->rva004992D5(true, (bool)r);
 		}

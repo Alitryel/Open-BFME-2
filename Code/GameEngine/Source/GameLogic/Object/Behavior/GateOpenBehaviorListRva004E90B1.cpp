@@ -9,7 +9,7 @@
 // No callers rowed; chain-ready via 0x004989DF. Recipe is closest-scan with
 // pos copy plus best/bestDist plus finish.
 
-// ?getRelationship@Rva004989D7@@QBE?AW4Relationship@@PBVPlayer@@@Z
+// ?getRelationship@GateOpenAndCloseBehavior@@QBE?AW4Relationship@@PBVPlayer@@@Z
 // ?get@Rva004989EEAddDwordField@@QBEHXZ
 
 enum Relationship
@@ -22,7 +22,7 @@ enum Relationship
 class Player;
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-class Rva004989D7
+class GateOpenAndCloseBehavior
 {
 public:
 	Relationship getRelationship(const Player *p) const;
@@ -52,7 +52,7 @@ void *GateOpenBehaviorList::rva004E90B1(const Coord3D *pos, const Player *player
 	void **finish = m_end;
 	for (void **cur = m_begin; cur != finish; ++cur)
 	{
-		Rva004989D7 *obj = (Rva004989D7 *)*cur;
+		GateOpenAndCloseBehavior *obj = (GateOpenAndCloseBehavior *)*cur;
 		if (obj->getRelationship(player) != ALLIES)
 			continue;
 		float vals[3];
