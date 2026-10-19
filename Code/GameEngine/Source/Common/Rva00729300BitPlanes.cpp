@@ -117,13 +117,14 @@ bool Rva0006AB49BitPlane::test(int x, int y) const
 // stack arguments, the four byte outputs, signed upper clamps and division
 // by two truncated toward zero. Native origins are +50/+54 and the pointer
 // to the independently matched bit plane is +5C, sixteen bytes later than
-// the donor receiver. These are observed borrowed prefixes; original owner,
+// the donor receiver. The owner is W3DTerrainBackground (its 0x00113C07
+// calls checkUnsetEdges on its own this, and both bodies sit in its unit);
 // method names, geographical edge labels and allocation extent are unproven.
 // Keep the bit-test definition visible: separate-TU trials changed one
 // load/push scheduling pair in each receiver despite the same extents.
 // /O1 with ordinary frame omission matches both new receiver bodies and
 // the two pre-existing 79B bit tests; forced /Oy- changes the old tests.
-class Rva00112ED3TerrainPrefix
+class W3DTerrainBackground
 {
 public:
 	void checkUnsetEdges( int xOffset, int yOffset, int width,
@@ -140,7 +141,7 @@ private:
 	Rva00729300BitPlane *m_map;
 };
 
-void Rva00112ED3TerrainPrefix::checkUnsetEdges( int xOffset, int yOffset, int width,
+void W3DTerrainBackground::checkUnsetEdges( int xOffset, int yOffset, int width,
 	bool *top, bool *right, bool *bottom, bool *left )
 {
 	int xOrigin = m_xOrigin;
@@ -171,7 +172,7 @@ void Rva00112ED3TerrainPrefix::checkUnsetEdges( int xOffset, int yOffset, int wi
 		*left = true;
 }
 
-int Rva00112ED3TerrainPrefix::countUnsetCorners(int xOffset, int yOffset, int width, bool *corner0, bool *corner1, bool *corner2, bool *corner3)
+int W3DTerrainBackground::countUnsetCorners(int xOffset, int yOffset, int width, bool *corner0, bool *corner1, bool *corner2, bool *corner3)
 {
 	int xOrigin = m_xOrigin;
 	Rva00729300BitPlane *map = m_map;

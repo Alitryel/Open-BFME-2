@@ -77,13 +77,6 @@ private:
 	Int m_borderSize;
 };
 
-class Rva00112ED3TerrainPrefix
-{
-public:
-	void checkUnsetEdges(int xOffset, int yOffset, int width,
-		bool *top, bool *right, bool *bottom, bool *left);
-};
-
 class Rva001127F2TerrainPrefix
 {
 public:
@@ -94,6 +87,8 @@ public:
 class W3DTerrainBackground
 {
 public:
+	void checkUnsetEdges(int xOffset, int yOffset, int width,
+		bool *top, bool *right, bool *bottom, bool *left);
 	void rva00113DE0(UnsignedShort *ib, Vector3 *heights, Int xOffset, Int yOffset, Int width,
 		UnsignedShort *ndx, Int &curIndex);
 	void rva00113399(unsigned short *ib, void *aux, int x, int y, int w, int h,
@@ -133,7 +128,7 @@ void W3DTerrainBackground::rva00113C07(unsigned short *ib, void *aux, int x, int
 	*done0 = false;
 
 	bool top, right, bottom, left;
-	((Rva00112ED3TerrainPrefix *)this)->checkUnsetEdges(x, y, width, &top, &right, &bottom, &left);
+	checkUnsetEdges(x, y, width, &top, &right, &bottom, &left);
 	int half = width / 2;
 
 	if (right) {
