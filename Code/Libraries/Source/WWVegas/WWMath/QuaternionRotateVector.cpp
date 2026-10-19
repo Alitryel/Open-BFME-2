@@ -22,7 +22,8 @@ public:
 };
 
 // Select-any like the header copies other TUs emit (a strong definition would
-// duplicate theirs at link time); the anchor keeps the noinline body emitted.
+// duplicate theirs at link time: HTreeClassFirstCapturedBone.cpp emits the
+// result-pointer one); the anchor keeps the noinline bodies emitted.
 inline __declspec(noinline) Vector3 Quaternion::Rotate_Vector(const Vector3 &v) const
 {
 	float x = W*v.X + (Y*v.Z - v.Y*Z);
@@ -38,7 +39,7 @@ inline __declspec(noinline) Vector3 Quaternion::Rotate_Vector(const Vector3 &v) 
 	);
 }
 
-void Quaternion::Rotate_Vector(const Vector3 &v, Vector3 *result) const
+inline __declspec(noinline) void Quaternion::Rotate_Vector(const Vector3 &v, Vector3 *result) const
 {
 	float x = W*v.X + (Y*v.Z - v.Y*Z);
 	float y = W*v.Y - (X*v.Z - v.X*Z);
@@ -55,4 +56,6 @@ void Quaternion::Rotate_Vector(const Vector3 &v, Vector3 *result) const
 void bfmeEmitQuaternionRotateVector(const Quaternion *q, const Vector3 &v)
 {
 	q->Quaternion::Rotate_Vector(v);
+	Vector3 result;
+	q->Quaternion::Rotate_Vector(v, &result);
 }

@@ -181,37 +181,7 @@ HTreeClass::HTreeClass(void) :
 
 // The compact-pivot overload is defined in HTreeClassBoneLookup.cpp.
 
-/*********************************************************************************************** 
- * HTreeClass::Base_Update -- Computes the base pose transform for each pivot                  * 
- *                                                                                             * 
- * INPUT:                                                                                      * 
- *                                                                                             * 
- * OUTPUT:                                                                                     * 
- *                                                                                             * 
- * WARNINGS:                                                                                   * 
- *                                                                                             * 
- * HISTORY:                                                                                    * 
- *   08/11/1997 GH  : Created.                                                                 * 
- *=============================================================================================*/
-// ?Base_Update@HTreeClass@@ present-unmatched
-void HTreeClass::Base_Update(const Matrix3D & root)
-{
-	PivotClass *pivot;
-
-	Pivot[0].Transform = root;
-	Pivot[0].IsVisible = true;
-
-	for (int piv_idx=1; piv_idx < NumPivots; piv_idx++) {
-		
-		pivot = &Pivot[piv_idx];
-		
-		assert(pivot->Parent != NULL);
-		Matrix3D::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
-		pivot->IsVisible = 1;
-
-		if (pivot->Is_Captured()) pivot->Capture_Update();
-	}
-}
+// HTreeClass::Base_Update is defined in HTreeClassFirstCapturedBone.cpp.
 
 /*********************************************************************************************** 
  * HTreeClass::Anim_Update -- Computes the transform for each pivot with motion                * 
