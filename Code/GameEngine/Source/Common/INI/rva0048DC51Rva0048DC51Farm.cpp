@@ -28,6 +28,14 @@ extern "C" void _ReadWriteBarrier(void);
 #include <list>
 #include <vector>
 #include "ascii_string.h"
+// The segment count's max(2, count) is inlined; a file-static int overload
+// takes the call so this TU emits no external max<int> COMDAT.
+namespace _STL {
+static inline const int &max(const int &a, const int &b)
+{
+    return a < b ? b : a;
+}
+}
 
 typedef bool Bool;
 typedef int Int;
