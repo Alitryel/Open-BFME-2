@@ -7,8 +7,7 @@
 // module data's float at +0x14, and the Object's +0x258 holder has a zero
 // +0x34, it scans for the nearest candidate (0x00491FA6) and, when one is
 // found, hands it to moveToStuff (0x00492089) and sets +0x20; either way it
-// restamps the scan frame. The scan callee is rowed under an address class
-// name, hence its cast. Retail compares with fcompi, which MSVC 7.1 emits only under
+// restamps the scan frame. Retail compares with fcompi, which MSVC 7.1 emits only under
 // /arch:SSE.
 class Object;
 class GameLogic
@@ -37,16 +36,12 @@ struct PickupStuffUpdateModuleData
 	unsigned char m_pad00[0x14];
 	float m_scanDelay;		// +0x14
 };
-class Rva00491FA6
-{
-public:
-	Object *rva00491FA6();
-};
 class PickupStuffUpdate
 {
 public:
 	void moveToStuff(void *obj);
 	void updateInactive();
+	Object *rva00491FA6();	// the nearest-candidate scan
 private:
 	void *m_vptr;
 	const PickupStuffUpdateModuleData *m_moduleData;	// +0x04
@@ -59,7 +54,7 @@ void PickupStuffUpdate::updateInactive()
 {
 	if ((float)TheGameLogic->getFrame() > (float)BfmeLogicFramesPerSecond * m_moduleData->m_scanDelay + (float)m_lastScanFrame) {
 		if (m_object->m_258->m_34 == 0) {
-			Object *found = ((Rva00491FA6 *)this)->rva00491FA6();
+			Object *found = rva00491FA6();
 			if (found) {
 				moveToStuff(found);
 				m_20 = true;

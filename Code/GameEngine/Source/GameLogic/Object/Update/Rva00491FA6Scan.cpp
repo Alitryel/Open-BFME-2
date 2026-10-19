@@ -1,9 +1,9 @@
 // cl: /MD /GX
 //
-// ?rva00491FA6@Rva00491FA6@@QAEPAVObject@@XZ, retail 0x00491FA6, 227 bytes.
+// ?rva00491FA6@PickupStuffUpdate@@QAEPAVObject@@XZ, retail 0x00491FA6, 227 bytes.
 // An update-module member (+0x04 the module data, +0x08 the object; caller
-// 0x00492108 in 0x004920B5, owner class not established, hence the address
-// name): the nearest alive object within the module data's +0x0C range
+// 0x00492108 in PickupStuffUpdate::updateInactive 0x004920B5 on its own
+// this): the nearest alive object within the module data's +0x0C range
 // that passes the 0x002614EC filter (module data +0x10, the object's
 // controlling player) and lacks object status 98 (the two-mask status
 // filter 0x003685CF), iterated near to far.
@@ -112,7 +112,7 @@ struct Rva00491FA6ModuleData
 	char m_10[4];		// +0x10
 };
 
-class Rva00491FA6
+class PickupStuffUpdate
 {
 public:
 	Object *rva00491FA6();
@@ -123,7 +123,7 @@ private:
 	Object *m_object;				// +0x08
 };
 
-Object *Rva00491FA6::rva00491FA6()
+Object *PickupStuffUpdate::rva00491FA6()
 {
 	const Rva00491FA6ModuleData *md = m_moduleData;
 	Rva00491FA6Mask mustBeSet;
