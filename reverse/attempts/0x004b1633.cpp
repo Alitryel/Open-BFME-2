@@ -1,5 +1,7 @@
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.99 date=2026-10-19
+// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.99 date=2026-10-19
 // Bank draft of the EmotionTrackerUpdate per-frame step at 0x004B1633 (2200B).
 // WB 0x1230DD0 (EmotionTrackerUpdate::update) + retail. `this` is the module
 // object; the owning Thing is at +4, the tracked Object at +8. The body walks
@@ -86,9 +88,11 @@ class Player { public: __forceinline int getPlayerIndex() const { return index; 
 class ThingTemplate {
 public:
     bool isEquivalentTo(const ThingTemplate *) const;
-    char pad[0x113]; unsigned char flags113;
+    char pad[0x10b]; unsigned char flags10b;
+    char pad10c[0x113-0x10c]; unsigned char flags113;
     char pad114[0x11a-0x114]; unsigned char flags11a;
 };
+class ExperienceTracker { public: char pad[0x24]; int level; };
 class Object {
 public:
     const Coord3D *getPosition() const { return &pos; }
@@ -104,7 +108,8 @@ public:
     char pad8[0x38-8]; Coord3D pos;
     char pad44[0x74-0x44]; ObjectID id;
     char pad78[0x94-0x78]; unsigned int status94;
-    char pad98[0x274-0x98]; Object *m_274;
+    char pad98[0x264-0x98]; ExperienceTracker *m_tracker;
+    char pad268[0x274-0x268]; Object *m_274;
     char pad278[0x454-0x278]; bool flag454;
 };
 class Rva0028F326Owner { public: unsigned char rva0028F326(unsigned int, float); };
@@ -113,18 +118,20 @@ struct EmotionUpdateData {
     char pad0[8]; float range; int interval;
     char pad10[4]; Rva2225E0Filter filter14,filter18,filter1c;
     float range20,range24,probability;
+    unsigned char flag2c; char pad2d[3]; int level30;
 };
-struct EmotionEntry { char pad0[4]; int kind; };
+struct EmotionEntry { char pad0[4]; int kind; char pad8[4]; int duration; };
 struct Rva004DD018Arg;
 class EmotionNugget {
 public:
     bool CanBeActivatedFor(int,int,Rva004DD018Arg *);
+    void OnDeactivation();
     char pad0[4]; EmotionEntry *entry;
 };
 class Emotion : public EmotionNugget { public: bool rva004DCEC4(); };
-class Rva004DD2C0 { public: void rva004DD2C0(); };
+
 class Rva004DCC84 { public: void rva004DCC84(Object *,int); };
-class Rva004B13D8 { public: EmotionNugget *rva004B13D8(); };
+
 class EmotionTrackerUpdate;
 class PartitionFilter {
 public:
@@ -151,12 +158,13 @@ class EmotionTrackerUpdate : public EmotionModuleBase, public EmotionBehaviorInt
 public:
     class TauntPointFilter;
     virtual UpdateSleepTime update();
+    EmotionNugget *rva004B13D8();
     void PulseEmotion(int,void *,int);
     char pad14[0x24-0x14];
     bool flags[12];
     unsigned int expiry[12];
     ObjectID targetID[12];
-    EmotionNugget **begin, **end, **capacity;
+    std::vector<EmotionNugget *> nuggets;
     EmotionNugget *active;
     int countdown;
     char pad94[0xa0-0x94];
@@ -225,6 +233,7 @@ extern ThingFactory *TheThingFactory;
 extern int g_rva00DBA4E4;
 float GetGameLogicRandomValueReal(float,float,char *,int);
 
+
 UpdateSleepTime EmotionTrackerUpdate::update()
 {
     EmotionUpdateData *data=m_data;
@@ -233,7 +242,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
     if(!obj) return (UpdateSleepTime)0x3fffffff;
     if(obj->m_274) {
         if(active) {
-            ((Rva004DD2C0 *)active)->rva004DD2C0();
+            active->OnDeactivation();
             active=0;
         }
         return (UpdateSleepTime)1;
@@ -311,10 +320,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                    ((Rva0028F326Owner *)obj)->rva0028F326((unsigned int)other,data->range24)) {
                     if(other->status6() ||
                        getObject()->rva0028B511()==other->rva0028B511()) {
-                        EmotionNugget **n=begin;
-                        while(n!=end && ((*n)->entry->kind!=4 ||
+                        EmotionNugget **n=nuggets.begin();
+                        while(n!=nuggets.end() && ((*n)->entry->kind!=4 ||
                               !(*n)->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other))) ++n;
-                        if(n!=end) {
+                        if(n!=nuggets.end()) {
                             bestAlly=other;
                             allyDist=dist;
                             continue;
@@ -324,10 +333,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                 if(dist<closestDist &&
                    (data->filter14.accepts(other,0) || data->filter18.accepts(other,0) || data->filter1c.accepts(other,0)) &&
                    ((Rva0028F326Owner *)obj)->rva0028F326((unsigned int)other,obj->getShroudClearingRange())) {
-                    EmotionNugget **n=begin;
-                    while(n!=end && ((*n)->entry->kind!=3 ||
+                    EmotionNugget **n=nuggets.begin();
+                    while(n!=nuggets.end() && ((*n)->entry->kind!=3 ||
                           !(*n)->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other))) ++n;
-                    if(n!=end) {
+                    if(n!=nuggets.end()) {
                         closest=other;
                         closestDist=dist;
                         if(other->status6() ||
@@ -369,7 +378,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
            "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\EmotionTrackerUpdate.cpp",0x25e)<data->probability &&
        obj->rva0028B511()==1)
         PulseEmotion(8,0,1);
-    EmotionNugget *selected=((Rva004B13D8 *)this)->rva004B13D8();
+    EmotionNugget *selected=rva004B13D8();
     bool changed=false;
     if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3) &&
        closest->getID()!=targetID[selected->entry->kind]) {
@@ -381,11 +390,11 @@ UpdateSleepTime EmotionTrackerUpdate::update()
     }
     if(selected==active && !changed) {
         if(active && !((Emotion *)active)->rva004DCEC4()) {
-            ((Rva004DD2C0 *)active)->rva004DD2C0();
+            active->OnDeactivation();
             active=0;
         }
     } else {
-        if(active) ((Rva004DD2C0 *)active)->rva004DD2C0();
+        if(active) active->OnDeactivation();
         active=selected;
         if(active) {
             int kind=active->entry->kind;

@@ -1,4 +1,6 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
+// partial score=0.985 date=2026-10-19
+// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.985 date=2026-10-18
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.9758 date=2026-10-15
@@ -12,6 +14,7 @@
 // overload come from the complete retail/WB bodies. Lua dispatch and list
 // teardown reuse existing address-derived call views; original headers remain
 // unreconciled. No new pins or source recovery claims accompany this trial.
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include <map>
 #include "ascii_string.h"
 template <typename T>
@@ -29,6 +32,11 @@ public:
     char pad04[0x3c5-4]; unsigned char allow04;
 };
 class ThingTemplate { public: char pad00[0x5d8]; unsigned short templateID; };
+struct ModelConditionFlags {
+ unsigned int words[19];
+ unsigned int test(size_t bit) const { return words[bit/32] & (1UL << (bit%32)); }
+ void set(int bit) { words[bit>>5] |= 1U << (bit & 0x1f); }
+};
 class Object {
 public:
     void *rva0029439D();
@@ -36,12 +44,12 @@ public:
     void rva0028CFB2(const int *, const int *);
     void rva0028AE6D();
     bool isSignificantlyAboveTerrain() const;
-    int getID() const { return id; }
+    ObjectID getID() const { return id; }
     const ThingTemplate *getTemplate() const { return thingTemplate; }
     char pad00[4]; ThingTemplate *thingTemplate;
-    char pad08[0x74-8]; int id;
-    char pad78[0x124-0x78]; unsigned conditionWord124;
-    char pad128[0x258-0x128]; AIUpdateInterface *ai;
+    char pad08[0x74-8]; ObjectID id;
+    char pad78[0x10c-0x78]; ModelConditionFlags modelConditions;
+    char pad158[0x258-0x158]; AIUpdateInterface *ai;
 };
 class Rva0029439DIface {
 public:
@@ -125,8 +133,8 @@ void EmotionNugget::OnActivation(Object *target, int duration)
         else object00->rva0028CFB2(getTemplate()->clearec, getTemplate()->set54);
         if (target && target->isSignificantlyAboveTerrain()) {
             Object *object = object00;
-            if (!((object ? object : object)->conditionWord124 & 0x100)) {
-                object->conditionWord124 |= 0x100;
+            if (!object->modelConditions.test(200)) {
+                object->modelConditions.set(200);
                 object->rva0028AE6D();
             }
         }
