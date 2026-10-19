@@ -35,6 +35,6 @@
  "complete_vectors": 16,
  "prefix_vectors": 0,
  "reason": "objects",
- "ms": 317.0,
+ "ms": 315.2,
  "rebuilt_size": 2097
 }

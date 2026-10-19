@@ -168,8 +168,21 @@ def record(rec):
     receipt = RECEIPTS / f"0x{rva:08x}.json"
     receipt.write_text(json.dumps(rec, indent=1, default=str))
     rows = list(csv.DictReader(LEDGER.open(encoding="utf-8"))) if LEDGER.exists() else []
-    if any(int(r["target_rva"], 16) == rva and r["verdict"] == "tested" for r in rows):
-        return                      # a dedicated harness outranks an emulator verdict
+    def tier(v, iso, cov):
+        if v == "tested":
+            return 4
+        if v in ("none", "regalloc-only"):
+            if str(iso) in ("True", "true"):
+                return 3
+            try:
+                return 2 if float(cov or 0) >= 0.5 else 1
+            except ValueError:
+                return 1
+        return 0
+    new_t = tier(rec.get("verdict"), rec.get("isomorphic"), rec.get("coverage"))
+    for r in rows:
+        if int(r["target_rva"], 16) == rva and tier(r["verdict"], r.get("isomorphic"), r.get("coverage")) > new_t:
+            return                  # never replace a stronger result with a weaker one
     rows = [r for r in rows if int(r["target_rva"], 16) != rva]
     rows.append(dict(name=rec["name"], target_rva=f"0x{rva:08X}", target_size=str(rec["size"]),
                      source=rec["source"], verdict=rec["verdict"], coverage=str(rec.get("coverage", "")),
@@ -246,7 +259,8 @@ def main():
     a = ap.parse_args()
     os.chdir(ROOT)
     if a.all_banks:
-        rvas = unmatched_banks()[: a.limit or None]
+        fixed = {int(f.stem, 16) for f in (ROOT / "functional" / "src").glob("0x*.cpp")}
+        rvas = [r for r in unmatched_banks() if r not in fixed][: a.limit or None]   # a fixed body outranks its bank
         print(f"{len(rvas)} unmatched banks", file=sys.stderr, flush=True)
         with concurrent.futures.ProcessPoolExecutor(a.jobs, initializer=_init) as ex:
             for rec in ex.map(_bank_job, rvas):

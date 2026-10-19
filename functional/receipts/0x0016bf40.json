@@ -1,0 +1,40 @@
+{
+ "name": "?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z",
+ "rva": "0x0016BF40",
+ "size": 2960,
+ "extent": 2992,
+ "source": "reverse/attempts/0x0016bf40.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 6,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 127,
+ "verdict": "regalloc-only",
+ "coverage": 0.356,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: zeros",
+  "prefix-equal: ints: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v3: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v4: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v5: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v7: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v11",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v13: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v14",
+  "prefix-equal: v15: limit cut (retail instructions and rebuilt instructions): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 5,
+ "prefix_vectors": 11,
+ "reason": "zeros",
+ "ms": 87122.8,
+ "rebuilt_size": 2992
+}

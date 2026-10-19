@@ -1,0 +1,41 @@
+{
+ "name": "?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z",
+ "rva": "0x001645B0",
+ "size": 4712,
+ "extent": 4712,
+ "source": "functional/src/0x001645b0.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 8,
+  "by_value": 0,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 316,
+ "verdict": "logic",
+ "coverage": 0.466,
+ "per_vector": [
+  "inconclusive: objects: limit cut (rebuilt events): vector not completed",
+  "binding: zeros: call #13: retail rva:0x001622B0 rebuilt addr:0x00000000 (before the limit cut: rebuilt events)",
+  "inconclusive: ints: limit cut (rebuilt events): vector not completed",
+  "inconclusive: v3: limit cut (rebuilt events): vector not completed",
+  "inconclusive: v4: limit cut (rebuilt events): vector not completed",
+  "inconclusive: v5: limit cut (rebuilt events): vector not completed",
+  "inconclusive: v6: limit cut (rebuilt events): vector not completed",
+  "logic: v7: 5 calls in retail, 4 rebuilt",
+  "inconclusive: v8: limit cut (rebuilt events): vector not completed",
+  "binding: v9: call #12: retail rva:0x00165818 rebuilt addr:0x00000000",
+  "binding: v10: call #12: retail rva:0x00165818 rebuilt addr:0x00000000",
+  "inconclusive: v11: limit cut (rebuilt events): vector not completed",
+  "binding: v12: call #13: retail rva:0x001622B0 rebuilt addr:0x00000000 (before the limit cut: rebuilt events)",
+  "binding: v13: call #11: retail rva:0x00165818 rebuilt addr:0x00000000",
+  "binding: v14: call #12: retail rva:0x00165818 rebuilt addr:0x00000000",
+  "inconclusive: v15: limit cut (rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 9,
+ "complete_vectors": 0,
+ "prefix_vectors": 0,
+ "reason": "v7: 5 calls in retail, 4 rebuilt",
+ "ms": 17505.1,
+ "rebuilt_size": 4565
+}

@@ -1,0 +1,40 @@
+{
+ "name": "?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z",
+ "rva": "0x00165820",
+ "size": 2277,
+ "extent": 2285,
+ "source": "reverse/attempts/0x00165820.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 5,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 101,
+ "verdict": "regalloc-only",
+ "coverage": 0.393,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: zeros: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: ints: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "regalloc-only: v9",
+  "regalloc-only: v10",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v13",
+  "regalloc-only: v14",
+  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 6,
+ "prefix_vectors": 10,
+ "reason": "v7",
+ "ms": 36785.6,
+ "rebuilt_size": 2285
+}

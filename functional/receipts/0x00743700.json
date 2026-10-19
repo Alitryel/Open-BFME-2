@@ -1,0 +1,41 @@
+{
+ "name": "?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z",
+ "rva": "0x00743700",
+ "size": 14036,
+ "extent": 14036,
+ "source": "functional/src/0x00743700.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 96,
+  "by_value": 0,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 69,
+ "verdict": "logic",
+ "coverage": 0.43,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "logic: zeros: 1 written byte(s) differ, first 0xDEE5D9",
+  "logic: ints: 1 written byte(s) differ, first 0xDEE5D9",
+  "logic: v3: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)] (before the limit cut: retail events and rebuilt events)",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "logic: v6: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)] (before the limit cut: retail instructions and rebuilt instructions",
+  "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
+  "logic: v8: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)]",
+  "logic: v9: 1 written byte(s) differ, first 0xDEE5D9",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v13: limit cut (retail events and rebuilt events): vector not completed",
+  "logic: v14: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)]",
+  "logic: v15: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)] (before the limit cut: retail events and rebuilt events)"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 0,
+ "prefix_vectors": 8,
+ "reason": "zeros: 1 written byte(s) differ, first 0xDEE5D9",
+ "ms": 21423.9,
+ "rebuilt_size": 14001
+}

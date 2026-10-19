@@ -7,6 +7,7 @@
  "vectors": 128,
  "bindings": {
   "aligned": 0,
+  "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": true,
@@ -147,6 +148,6 @@
  "complete_vectors": 100,
  "prefix_vectors": 28,
  "reason": "ints",
- "ms": 68186.4,
+ "ms": 66877.1,
  "rebuilt_size": 241
 }

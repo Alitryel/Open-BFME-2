@@ -267,6 +267,27 @@ def run(ctx, start_va, size, code, vector, timeout_us, leafs=None, cover=None):
 
 
 _LEAFS = {}
+_RET = _re.compile(r"@@(?:[A-Z]{1,2}E|Y[AGI]|S[AGI])(?:\?[A-Z])?(_N|[XMNDEC])") if False else None
+
+
+def ret_kind(name):
+    """'void' | 'bool' | 'byte' | 'fp' | 'int' from the mangled return type (MSVC)."""
+    import re
+    m = re.search(r"@@(?:[A-Z][A-Z]?E|Y[AGI]|S[AGI])(?:\?[AB])?(_N|X|M|N|D|E|C|O)", name or "")
+    if not m:
+        return "int"
+    return {"X": "void", "_N": "bool", "D": "byte", "E": "byte", "C": "byte", "M": "fp", "N": "fp", "O": "fp"}[m.group(1)]
+
+
+def mask_ret(trace, kind):
+    r = trace.get("ret")
+    if not r:
+        return
+    eax, edx, esp = r
+    if kind in ("void", "fp"):
+        trace["ret"] = (None, None, esp)
+    elif kind in ("bool", "byte"):
+        trace["ret"] = ((eax & 0xFF) if isinstance(eax, int) else eax, None, esp)
 
 
 def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, budget_ms=4000, retail_size=None):
@@ -285,8 +306,9 @@ def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, bu
         return rec
     learned = learn_bindings(ctx, rva, retail_size, compiled, relocs)
     code, nre = rebind(ctx, row, code, sites, compiled, learned)
+    code, nval = bind_constants_by_value(ctx, row, code, sites, compiled, info, objdata, sections, retail_size)
     weak = sum(1 for s in sites if s["source"] in WEAK_SOURCES)
-    rec["bindings"] = {"aligned": nre, "weak_left": weak}
+    rec["bindings"] = {"aligned": nre, "by_value": nval, "weak_left": weak}
     ctx.phantom_bytes = {}
     for (name, index), address in phantoms.items():
         sym = info["symbols"][index]
@@ -317,6 +339,9 @@ def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, bu
                 v = "prefix-equal"      # both cut at the cap, identical up to it
             per.append((v, f"{vec['name']}: {r}"))
             continue
+        rk = ret_kind(row["name"])
+        mask_ret(a, rk)
+        mask_ret(b, rk)
         v, r = D.classify(ctx, a, b, row["name"])
         if v == "none" and not same_code:
             v = "regalloc-only"
@@ -410,7 +435,9 @@ def rebind(ctx, row, code, sites, compiled, learned):
     va = ctx.image.base + int(row["target_rva"], 16)
     n = 0
     for s in sites:
-        if s["source"] not in WEAK_SOURCES or s["symbol"] not in learned:
+        if s["symbol"] not in learned:
+            continue
+        if s["source"] not in WEAK_SOURCES and not (str(s["symbol"]).startswith("??_7") and s["source"] == "content-mismatch"):
             continue
         off, rtype, target = s["offset"], s["type"], learned[s["symbol"]]
         addend = struct.unpack_from("<i", compiled, off)[0]
@@ -433,11 +460,15 @@ _STK = _re.compile(r"\[(esp|ebp)[^\]]*\]")
 _NOISE = _re.compile(r"^(mov R, R|push R|pop R|nop|xchg R, R|fxch R|movaps R, R|movss R, R|lea R, \[R\])$")
 
 
-def _static_norm(ins):
+def _static_norm(ins, ctx=None):
     m = ins.mnemonic
     op = ins.op_str
-    if m == "call" or m.startswith("j") or m.startswith("loop"):
-        return f"{m} T" if m != "call" else f"call {op}"
+    if m == "call":
+        if op.startswith("0x") and ctx is not None:
+            return "call " + str(ctx.canon(int(op, 16)))      # thunks / jmp [iat] / import stubs followed
+        return "call " + _REG.sub("R", _STK.sub("STK", op))     # indirect: call [reg+off], call reg
+    if m.startswith("j") or m.startswith("loop"):
+        return f"{m} T"
     op = _STK.sub("STK", op)
     op = _REG.sub("R", op)
     s = f"{m} {op}".strip()
@@ -458,6 +489,78 @@ def static_isomorphic(ctx, rva, retail_size, code):
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     va = ctx.image.base + rva
     retail = ctx.image.read(rva, retail_size)
-    a = Counter(x for x in (_static_norm(i) for i in md.disasm(bytes(code).rstrip(b"\xcc"), va)) if x)
-    b = Counter(x for x in (_static_norm(i) for i in md.disasm(retail, va)) if x)
+    a = Counter(x for x in (_static_norm(i, ctx) for i in md.disasm(bytes(code).rstrip(b"\xcc"), va)) if x)
+    b = Counter(x for x in (_static_norm(i, ctx) for i in md.disasm(retail, va)) if x)
     return a == b, sum(((a - b) + (b - a)).values())
+
+
+# ------------------------------------------------------------------ constants by value
+def retail_constants(ctx, rva, size):
+    """{bytes value: address} of read-only data retail's own body references by absolute address
+    (float/double literals, strings): candidates for binding a rebuilt constant by VALUE."""
+    import capstone
+    md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    md.detail = True
+    va = ctx.image.base + rva
+    out = {}
+    for ins in md.disasm(ctx.image.read(rva, size), va):
+        for op in ins.operands:
+            addr = None
+            if op.type == capstone.x86.X86_OP_MEM and op.mem.base == 0 and op.mem.index == 0:
+                addr = op.mem.disp & 0xFFFFFFFF
+            elif op.type == capstone.x86.X86_OP_IMM:
+                addr = op.imm & 0xFFFFFFFF
+            if addr and ctx.image.contains_va(addr) and not ctx.image.is_code(addr - ctx.image.base):
+                for n in (4, 8, 16, 32, 64):
+                    try:
+                        out.setdefault(bytes(ctx.image.read(addr - ctx.image.base, n)), addr)
+                    except Exception:  # noqa: BLE001
+                        break
+    return out
+
+
+def bind_constants_by_value(ctx, row, code, sites, compiled, info, objdata, sections, retail_size):
+    """Rebind __real@ / ??_C@ (literal) sites to the retail address whose bytes equal the
+    constant's bytes in the object, among the constants retail's body itself references."""
+    if not info or not objdata or not sections:
+        return code, 0
+    consts = retail_constants(ctx, int(row["target_rva"], 16), retail_size)
+    out = bytearray(code)
+    va = ctx.image.base + int(row["target_rva"], 16)
+    syms = info.get("symbols") or []
+    byname = {}
+    for i, s in enumerate(syms):
+        if isinstance(s, dict) and s.get("name"):
+            byname.setdefault(s["name"], i)
+    n = 0
+    for s in sites:
+        name = str(s["symbol"])
+        if not (name.startswith("__real@") or name.startswith("??_C@")) or s.get("source") not in WEAK_SOURCES:
+            continue                # only constants nothing better bound (aligned/content/ledger stay)
+        idx = byname.get(name)
+        if idx is None:
+            continue
+        sym = syms[idx]
+        try:
+            sec = sections[sym["section"] - 1]
+            ln = D.symbol_extent(idx, syms, sec["raw_size"])
+            data = bytes(objdata[sec["raw_pointer"] + sym["value"]:][:ln])
+        except Exception:  # noqa: BLE001
+            continue
+        target = None
+        if name.startswith("__real@"):
+            target = consts.get(data[:8] if len(name) > 15 else data[:4])
+        else:
+            for v, addr in consts.items():
+                if v.startswith(data[:min(len(data), 64)]) or data.startswith(v[:len(data)]):
+                    target = addr
+                    break
+        if target is None:
+            continue
+        off, rtype = s["offset"], s["type"]
+        addend = struct.unpack_from("<i", compiled, off)[0]
+        field = target + addend if rtype == 0x06 else target + addend - (va + off + 4) if rtype == 0x14 else target + addend - ctx.image.base
+        struct.pack_into("<I", out, off, field & 0xFFFFFFFF)
+        s["source"], s["target"] = "by-value", target
+        n += 1
+    return bytes(out), n

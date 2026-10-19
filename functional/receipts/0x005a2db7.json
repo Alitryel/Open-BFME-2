@@ -1,0 +1,41 @@
+{
+ "name": "?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ",
+ "rva": "0x005A2DB7",
+ "size": 9218,
+ "extent": 9222,
+ "source": "functional/src/0x005a2db7.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 199,
+  "by_value": 0,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 16,
+ "verdict": "binding",
+ "coverage": 0.027,
+ "per_vector": [
+  "inconclusive: objects: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: zeros: limit cut (rebuilt instructions): vector not completed",
+  "binding: ints: call #8: retail rva:0x0038A063(??1PeerResponse@@QAE@XZ) rebuilt addr:0x00000005 (before the limit cut: rebuilt instructions)",
+  "inconclusive: v3: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v4: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v5: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v6: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v7: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v8: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v9: limit cut (rebuilt instructions): vector not completed",
+  "binding: v10: call #10: retail rva:0x0038A063(??1PeerResponse@@QAE@XZ) rebuilt heap:+0x18000 (before the limit cut: rebuilt instructions)",
+  "inconclusive: v11: limit cut (rebuilt instructions): vector not completed",
+  "inconclusive: v12: limit cut (rebuilt instructions): vector not completed",
+  "binding: v13: call #10: retail rva:0x0038A063(??1PeerResponse@@QAE@XZ) rebuilt addr:0xD73E4529 (before the limit cut: rebuilt instructions)",
+  "inconclusive: v14: limit cut (rebuilt instructions): vector not completed",
+  "binding: v15: call #8: retail rva:0x0038A063(??1PeerResponse@@QAE@XZ) rebuilt addr:0x3F800000 (before the limit cut: rebuilt instructions)"
+ ],
+ "inconclusive_vectors": 12,
+ "complete_vectors": 0,
+ "prefix_vectors": 0,
+ "reason": "ints: call #8: retail rva:0x0038A063(??1PeerResponse@@QAE@XZ) rebuilt addr:0x00000005 (before the limit cut: rebuilt instructions)",
+ "ms": 17073.7,
+ "rebuilt_size": 9222
+}

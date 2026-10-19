@@ -1,0 +1,41 @@
+{
+ "name": "?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z",
+ "rva": "0x00158E90",
+ "size": 2151,
+ "extent": 2151,
+ "source": "functional/src/0x00158e90.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 5,
+  "by_value": 0,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 58,
+ "verdict": "logic",
+ "coverage": 0.711,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "regalloc-only: zeros",
+  "logic: ints: 8 written byte(s) differ, first 0x30001060",
+  "prefix-equal: v3: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "logic: v4: 8 written byte(s) differ, first 0x30022060",
+  "logic: v5: 8 written byte(s) differ, first 0x3001B060",
+  "logic: v6: 6 written byte(s) differ, first 0x5",
+  "regalloc-only: v7",
+  "regalloc-only: v8",
+  "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "regalloc-only: v13",
+  "logic: v14: end return (0, 15, 20) vs return (0, 0, 20)",
+  "regalloc-only: v15"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 7,
+ "prefix_vectors": 4,
+ "reason": "ints: 8 written byte(s) differ, first 0x30001060",
+ "ms": 11489.6,
+ "rebuilt_size": 2147
+}

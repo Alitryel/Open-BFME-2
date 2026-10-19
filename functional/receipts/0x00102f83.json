@@ -1,0 +1,41 @@
+{
+ "name": "?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z",
+ "rva": "0x00102F83",
+ "size": 4299,
+ "extent": 4299,
+ "source": "functional/src/0x00102f83.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 13,
+  "by_value": 2,
+  "weak_left": 1
+ },
+ "isomorphic": false,
+ "iso_delta": 43,
+ "verdict": "logic",
+ "coverage": 0.699,
+ "per_vector": [
+  "regalloc-only: objects",
+  "binding: zeros: global reads differ",
+  "binding: ints: global reads differ",
+  "binding: v3: global reads differ",
+  "binding: v4: global reads differ",
+  "binding: v5: global reads differ",
+  "binding: v6: global reads differ",
+  "binding: v7: global reads differ",
+  "regalloc-only: v8",
+  "logic: v9: 5 written byte(s) differ, first 0x3000C008",
+  "logic: v10: 6 written byte(s) differ, first 0x30019008",
+  "binding: v11: global reads differ",
+  "binding: v12: global reads differ",
+  "binding: v13: global reads differ",
+  "binding: v14: global reads differ",
+  "binding: v15: global reads differ"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 2,
+ "prefix_vectors": 0,
+ "reason": "v9: 5 written byte(s) differ, first 0x3000C008",
+ "ms": 1739.8,
+ "rebuilt_size": 4278
+}

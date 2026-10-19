@@ -1,0 +1,8 @@
+{
+ "name": "?Rva004EACF5DistSqToSegment@@YAMPBUCoord2D@@00@Z",
+ "rva": "0x004EACF5",
+ "size": 197,
+ "source": "functional/src/0x004eacf5.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?Rva004EACF5DistSqToSegment@@YAMPBUCoord2D@@00@Z"
+}

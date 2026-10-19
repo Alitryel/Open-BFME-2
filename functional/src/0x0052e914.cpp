@@ -1,0 +1,198 @@
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.886 date=2026-10-17
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.901 date=2026-10-14
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.98 date=2026-10-13
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// Native 0052ED74..0052F294, 1312B, RET8. Neutral shared receiver and
+// existing int-word ABI come from rowed 0052F294; retail tests the flag byte.
+// WB12DD670 corroborates the bridge-bounds removal and raised-wall endpoint
+// handling. ZH AIPathfind.cpp bridge routines are semantic leads; BFME2's
+// receiver +10 map, +5C bridge chain, +60 stride40 layers, +460 zones and
+// +1BEB4 dirty flag are independently measured in retail and matched neighbours.
+// Bridge record +C uses rowed A8 constructor/assignment; bounds are at +B4.
+// The existing Rva002ED236Pos argument view preserves the callee-destroyed
+// by-value float copy. Explicit float subtraction restores native fabs-call
+// scheduling without changing the mathematical operation.
+// Full neighbor arrays are read independently from retail DD1A3C/DD1A5C;
+// original identifiers are unknown. Data rows verify all 32 bytes of each.
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+static __forceinline float bridgeDelta(float a,float b){return (float)(a-b);}
+extern "C" double __cdecl fabs(double);
+extern "C" __declspec(dllimport) double __cdecl floor(double);
+extern "C" __declspec(dllimport) double __cdecl ceil(double);
+static __forceinline int float2long(float f){int i;__asm{fld f
+ fistp i}return i;}
+#define FLOOR(x) float2long((float)floor(x))
+#define CEIL(x) float2long((float)ceil(x))
+struct BridgeBounds {struct {float x,y;}lo,hi;BridgeBounds(const BridgeBounds &r){lo.x=r.lo.x;lo.y=r.lo.y;hi.x=r.hi.x;hi.y=r.hi.y;}~BridgeBounds(){}};
+class Rva0027C36A {public:Rva0027C36A();Rva0027C36A &operator=(const Rva0027C36A &);Coord3D from,to;char rest[0xA8-24];};
+class Bridge {public:virtual ~Bridge();Bridge *next;int word8;Rva0027C36A info;BridgeBounds bounds;bool isPointOnBridge(const Coord3D *loc);float getBridgeHeight(const Coord3D *loc,Coord3D *normal);bool isCellOnEnd(const void *cellBounds);};
+struct CellOwnerInfo{char pad[0x28];int owner;};
+class Rva0052DFB1Arg;
+class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p?1:0;}bool rva0052DFB1(const void *arg);bool SetType_Dirty(int);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;};
+#include "Code/Libraries/Include/Lib/ICoord2D.h"
+ICoord2D *Rva002E7875WorldToCell(ICoord2D *,bool,const Coord3D *);
+bool Rva001E3679(int);
+class PathfindLayer {public:PathfindCell *getCell(int,int);void AddWallConnectCell(const ICoord2D *);char pad[0x3C];int height;};
+class PathfindZoneManager{public:void MarkDirty(int,int);char pad[4];};
+class Rva0052E001{public:bool rva0052E001(bool v);};
+class Rva0052E0A1{public:bool rva0052E0A1(int v);};
+class Rva00366500{public:bool rva00366500(int v);bool rva0036652D(int v);};
+class Object;
+struct Rva002ED236Pos {float x,y,z;Rva002ED236Pos(const Coord3D &p){x=p.x;y=p.y;z=p.z;}~Rva002ED236Pos(){}};
+enum PathfindLayerEnum {GROUND=1};
+class Pathfinder {public:PathfindLayerEnum rva002ED236(Object *,Rva002ED236Pos);void rva0052E914(int,int,PathfindCell *,Bridge *,bool,PathfindCell *,float);float GetWallHeight(int,const Coord3D *,Coord3D *);
+private:
+ char m_pad00[0x10];PathfindCell **m_map;int m_loX,m_loY,m_hiX,m_hiY;char m_pad24[0x460-0x24];PathfindZoneManager m_zoneManager;};
+class GameLogic{public:Object *findObjectByID(int id);};
+extern GameLogic *TheGameLogic;
+void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bool flag,PathfindCell *otherCell,float height)
+{
+	Coord3D topLeftCorner, bottomRightCorner;
+	topLeftCorner.y=(float)(j*10);bottomRightCorner.y=topLeftCorner.y+10.0f;
+	topLeftCorner.x=(float)(i*10);bottomRightCorner.x=topLeftCorner.x+10.0f;
+	topLeftCorner.z=0;bottomRightCorner.z=0;
+	int bridgeCount=0;Coord3D pt;
+	if(theBridge->isPointOnBridge(&topLeftCorner))bridgeCount++;
+	pt=topLeftCorner;pt.y=bottomRightCorner.y;
+	if(theBridge->isPointOnBridge(&pt))bridgeCount++;
+	if(theBridge->isPointOnBridge(&bottomRightCorner))bridgeCount++;
+	pt=topLeftCorner;pt.x=bottomRightCorner.x;
+	if(theBridge->isPointOnBridge(&pt))bridgeCount++;
+	if(flag){
+		PathfindZoneManager *zm=&m_zoneManager;
+		if(bridgeCount!=0&&cell->getType()==4){
+			Object *obj=TheGameLogic->findObjectByID(cell->getObstacleID());
+			if(obj){cell->rva0052DFB1((const Rva0052DFB1Arg*)obj);zm->MarkDirty(i,j);}
+		}
+		if(bridgeCount>0){if(((Rva0052E001*)cell)->rva0052E001(true))zm->MarkDirty(i,j);}
+		if(bridgeCount==4){
+			bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
+			changed|=((Rva00366500*)cell)->rva00366500(0x10);
+			changed|=((Rva00366500*)cell)->rva0036652D(0);
+			changed|=cell->SetType_Dirty(0);
+			if(changed)m_zoneManager.MarkDirty(i,j);
+			cell->setPinched(false);
+			return;
+		}
+		if(bridgeCount==0)return;
+		struct {float lox,loy,hix,hiy;} cellBounds;
+		cellBounds.lox=topLeftCorner.x;cellBounds.loy=topLeftCorner.y;
+		cellBounds.hix=bottomRightCorner.x;cellBounds.hiy=bottomRightCorner.y;
+		float wallHeight=GetWallHeight(cell->getLayer(),&topLeftCorner,0);
+		float bridgeHeight=theBridge->getBridgeHeight(&topLeftCorner,0);
+		if(theBridge->isCellOnEnd(&cellBounds)){
+			if(otherCell&&fabs(bridgeHeight-height)<15.0f){
+				if(((Rva00366500*)cell)->rva0036652D(otherCell->getLayer())|((Rva0052E0A1*)cell)->rva0052E0A1(0)|((Rva00366500*)cell)->rva00366500(0x10)|cell->SetType_Dirty(0)|((Rva00366500*)otherCell)->rva0036652D(cell->getLayer()))m_zoneManager.MarkDirty(i,j);
+				otherCell->SetType_Dirty(0);
+				return;
+			}
+			if(fabs(wallHeight-bridgeHeight)<15.0f){
+				bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
+				changed|=((Rva00366500*)cell)->rva0036652D(0x10);
+				changed|=cell->SetType_Dirty(0);
+				if(changed)m_zoneManager.MarkDirty(i,j);
+			}else{
+				bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
+				changed|=((Rva00366500*)cell)->rva00366500(0x10);
+				changed|=((Rva00366500*)cell)->rva0036652D(0);
+				changed|=cell->SetType_Dirty(0);
+				if(changed)m_zoneManager.MarkDirty(i,j);
+				cell->setPinched(false);
+			}
+		}else{
+			bool changed=((Rva00366500*)cell)->rva00366500(0x10);
+			_ReadWriteBarrier();
+			changed|=cell->SetType_Dirty(5);
+			changed|=((Rva00366500*)cell)->rva0036652D(0);
+			if(changed)m_zoneManager.MarkDirty(i,j);
+		}
+		return;
+	}
+	if(bridgeCount!=0){
+		if(((Rva0052E001*)cell)->rva0052E001(false))m_zoneManager.MarkDirty(i,j);
+		int count=0;int maxLayer=1;
+		for(int x=i-1;x<i+2;x++){
+			if(x<m_loX||x>m_hiX)continue;
+			for(int y=j-1;y<j+2;y++){
+				if(y<m_loY||y>m_hiY)continue;
+				if(x==i&&j==y)continue;
+				int layer=m_map[x][y].getLayer();
+				if(layer>0x10){count++;maxLayer=layer;}
+			}
+		}
+		int layer=cell->getLayer();
+		if(layer==0x10){
+			if(bridgeCount!=4&&count>=3) ((Rva00366500*)cell)->rva00366500(maxLayer);
+			else{((Rva00366500*)cell)->rva00366500(1);cell->SetType_Dirty(0);}
+			m_zoneManager.MarkDirty(i,j);
+		}else if(layer!=1){
+			if(cell->SetType_Dirty(5))m_zoneManager.MarkDirty(i,j);
+		}
+		if(((Rva00366500*)cell)->rva0036652D(0))m_zoneManager.MarkDirty(i,j);
+	}else if(cell->getType()==2){
+		cell->SetType_Dirty(0);
+		m_zoneManager.MarkDirty(i,j);
+	}
+}
+int BridgeUpdateNeighborX[8]={-1,1,0,0,-1,1,-1,1};
+int BridgeUpdateNeighborY[8]={0,0,-1,1,-1,-1,1,1};
+class Rva002E713FOwner {public:
+ void rva0052ED74(void *,int);
+ char pad00[0x10];PathfindCell **map;int loX,loY,hiX,hiY;char pad24[0x5C-0x24];Bridge *bridges;
+ PathfindLayer layers[16];PathfindZoneManager zones;char pad464[0x1BEB4-0x464];bool changed;
+};
+void Rva002E713FOwner::rva0052ED74(void *opaque,int flags)
+{
+ Bridge *bridge=(Bridge *)opaque;
+#define update (*(bool *)&flags)
+ BridgeBounds bounds=bridge->bounds;
+ if(!update){
+  Bridge *previous=0;
+  for(Bridge *node=bridges;node;){
+   Bridge *next=node->next;BridgeBounds other=node->bounds;
+   if(fabs(bridgeDelta(other.lo.x,bounds.lo.x))<1.0f && fabs(bridgeDelta(other.lo.y,bounds.lo.y))<1.0f && fabs(bridgeDelta(other.hi.x,bounds.hi.x))<1.0f && fabs(bridgeDelta(other.hi.y,bounds.hi.y))<1.0f){
+    if(previous)previous->next=next;else bridges=next;
+    node->next=0;::delete node;
+   }else previous=node;
+   node=next;
+  }
+ }
+ int first=1,second=1,actualFirst=1,actualSecond=1;
+ if(update){
+  Rva0027C36A info;info=bridge->info;
+  actualFirst=first=((Pathfinder *)this)->rva002ED236(0,info.from);
+  if(Rva001E3679(first)){ICoord2D cell;layers[first].AddWallConnectCell(Rva002E7875WorldToCell(&cell,true,&info.from));}else first=1;
+  actualSecond=second=((Pathfinder *)this)->rva002ED236(0,info.to);
+  if(Rva001E3679(second)){ICoord2D cell;layers[second].AddWallConnectCell(Rva002E7875WorldToCell(&cell,true,&info.to));}else second=1;
+ }
+ int lx=FLOOR((bounds.lo.x-.1f)*.1f),ly=FLOOR((bounds.lo.y-.1f)*.1f);
+ int hx=CEIL((bounds.hi.x+.1f)*.1f),hy=CEIL((bounds.hi.y+.1f)*.1f);
+ lx-=2;ly-=2;hx+=2;hy+=2;
+ if(lx<loX)lx=loX;if(ly<loY)ly=loY;if(hx>hiX)hx=hiX;if(hy>hiY)hy=hiY;
+ if(changed || !update || Rva001E3679(first) || Rva001E3679(second)){
+  for(int i=lx;i<=hx;++i)for(int j=ly;j<=hy;++j){
+   PathfindCell *other=0;float height=0;
+   if(first!=1){other=layers[first].getCell(i,j);height=(float)layers[first].height;}
+   if(!other && second!=1){other=layers[second].getCell(i,j);height=(float)layers[second].height;}
+   ((Pathfinder *)this)->rva0052E914(i,j,&map[i][j],bridge,update,other,height);
+  }
+ }
+ if(update && (first!=1||second!=1) && actualFirst!=1 && actualSecond!=1){
+  for(int i=lx+1;i<=hx-1;++i)for(int j=ly+1;j<=hy-1;++j){
+   PathfindCell *cell=&map[i][j];
+   if(cell->layer==16 && cell->type!=5){
+    for(int n=0;n<8;++n){
+     PathfindCell *near=&map[i+BridgeUpdateNeighborX[n]][j+BridgeUpdateNeighborY[n]];
+     if(near->layer!=16 && near->type!=5 && near->layer==1 && near->getOwner()==0){
+      if(near->SetType_Dirty(2))zones.MarkDirty(i+BridgeUpdateNeighborX[n],j+BridgeUpdateNeighborY[n]);
+     }
+    }
+   }
+  }
+ }
+}

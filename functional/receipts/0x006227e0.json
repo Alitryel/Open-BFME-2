@@ -1,0 +1,41 @@
+{
+ "name": "?refresh@Q1Receiver0134FAAC@@QAEXXZ",
+ "rva": "0x006227E0",
+ "size": 3244,
+ "extent": 3268,
+ "source": "functional/src/0x006227e0.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 1,
+  "by_value": 0,
+  "weak_left": 0
+ },
+ "isomorphic": false,
+ "iso_delta": 4,
+ "verdict": "inconclusive",
+ "coverage": 0.287,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: zeros: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: ints: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v3: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v4: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v5: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v7: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v8: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v9: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v10: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v11: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v12: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v13: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v14: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v15: limit cut (retail instructions and rebuilt instructions): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 0,
+ "prefix_vectors": 16,
+ "reason": "",
+ "ms": 39105.8,
+ "rebuilt_size": 3268
+}

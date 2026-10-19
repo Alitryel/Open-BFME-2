@@ -1,0 +1,133 @@
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.55 date=2026-10-17
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.9 date=2026-10-12
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.8116742830418466 date=2026-10-10
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// Matrix-bank continuation: local postMul copies BF1 575ba2b04 matrix3d.h arithmetic.
+// Same-valued coefficient PHIs and scoped initialized coefficient volatile reads
+// change compiler scheduling; full emitted extent remains part of the score.
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// BF1 575ba2b04 W3DTreeBufferRva00734270.cpp and ZH loadTreesInVertexAndIndexBuffers
+// provide the buffer-update/locked-buffer semantics. This native EB6BB..EBFD1
+// body independently supplies E8 tree records, 5C type records, 44B vertices,
+// scale/postMul/offset composition and lock/capacity checks. The sibling updater
+// EBFD1..EC67F is separate evidence; its alpha/fade behavior is not claimed here.
+#include "vector3.h"
+#include "vector2.h"
+#include "matrix3d.h"
+class VertexBufferClass {public:class WriteLockClass {public:
+ WriteLockClass(VertexBufferClass*,int);~WriteLockClass();void *Get_Vertex_Array(){return vertices;}
+ private:VertexBufferClass *buffer;void *vertices;int flags;
+};};
+class IndexBufferClass {public:class WriteLockClass {public:
+ WriteLockClass(IndexBufferClass*,int);~WriteLockClass();unsigned short*Get_Index_Array(){return indices;}
+ private:IndexBufferClass *buffer;unsigned short *indices;int flags;
+};};
+struct TreeVertex {float x,y,z,nx,ny,nz;unsigned diffuse;float u,v,u2,v2;};
+struct TreeModelVertices {char p[0xC];Vector3 *vertices;};
+struct TreeTriangle {unsigned short I,J,K;};
+template<class T>struct TreeArray {char p[0xC];T *array;};
+class MeshMatDescClass {public:Vector2*Get_UV_Array(int,int);char p[0xC];int uvCount;TreeArray<Vector2>*uv;char p14[0x50-0x14];TreeArray<unsigned>*colors;
+ __forceinline Vector2*GetUV(){if(uvCount)return Get_UV_Array(0,0);if(uv)return uv->array;return 0;}
+ __forceinline unsigned*GetColor(){if(colors)return colors->array;return 0;}
+};
+class MeshGeometryClass {public:const Vector3*Get_Vertex_Normal_Array(bool);};
+struct TreeModel:MeshGeometryClass {char p[0x24];int polys,count;TreeArray<TreeTriangle>*poly;TreeModelVertices *vertices;char p34[0x94-0x34];MeshMatDescClass *material;
+ int Get_Vertex_Count()const{return count;}Vector3*Get_Vertex_Array()const{return vertices->vertices;}
+ int Get_Polygon_Count()const{return polys;}TreeTriangle*Get_Polygon_Array()const{return poly->array;}
+ __forceinline Vector2*GetUV(){return material->GetUV();}__forceinline unsigned*GetColor(){return material->GetColor();}
+};
+class TreeMesh {char p[0xC4];TreeModel *model;public:TreeModel*Peek_Model()const{return model;}};
+struct TreeFadeData {char p[0x54];bool noSway;char p55[3];int step;};
+struct TreeType {TreeMesh *mesh;Vector3 offset;char p10[0x10];const TreeFadeData *data;float uScale,vScale,shadowUScale,shadowVScale,uOrigin,vOrigin,shadowUOrigin,shadowVOrigin;char p44[0x5C-0x44];};
+struct TreeRecord {
+ Vector3 location;float scale;Matrix3D transform;int type;bool visible;char p45[0x60-0x45];int sway;
+ int firstVertex,buffer;char p6C[0x80-0x6C];int state;char p84[0x90-0x84];Matrix3D world;
+ char pC0[4];bool flagC4;char pC5[3];int hidden;char pCC[0xE0-0xCC];int alpha,targetAlpha;
+};
+template<class T>struct TreeVector {T *start,*finish,*end;T&operator[](unsigned i){return start[i];}unsigned size()const{return finish-start;}};
+class GlobalData;extern GlobalData *TheGlobalData;struct TreeGlobalFade {char p[0x40];bool enabled;};
+class Rva000EC9C6 {public:void rva000EB6BB();
+ private:void *vptr;TreeVector<VertexBufferClass*> vertex;TreeVector<int> vertexCounts;TreeVector<class IndexBufferClass*> index;TreeVector<int> indexCounts;
+ char p34[0x5C0-0x34];TreeRecord trees[1200];int count;bool dirty;char p44545[0xF];bool initialized;char p44555[3];
+ TreeType types[64];int typeCount;char p45C5C[4];int step;bool alphaChanged;
+};
+typedef char CheckTreeRecord[(sizeof(TreeRecord)==0xE8)?1:-1];
+typedef char CheckTreeType[(sizeof(TreeType)==0x5C)?1:-1];
+static __forceinline void treePost(Matrix3D &a,const Matrix3D &b){float x,y,z,w;
+x = (b[0][0] * a[0][0] + b[1][0] * a[0][1]) + b[2][0] * a[0][2];
+y = b[0][1] * a[0][0] + b[1][1] * a[0][1] + b[2][1] * a[0][2];
+z = b[0][2] * a[0][0] + b[1][2] * a[0][1] + b[2][2] * a[0][2];
+w = b[0][3] * a[0][0] + b[1][3] * a[0][1] + b[2][3] * a[0][2];
+a[0][0] = x;
+a[0][1] = y;
+a[0][2] = z;
+a[0][3] += w;
+x = a[1][0] * b[0][0] + (&a?a[1][1]:a[1][1]) * b[1][0] + a[1][2] * b[2][0];
+y = a[1][0] * b[0][1] + a[1][1] * b[1][1] + a[1][2] * b[2][1];
+z = a[1][0] * b[0][2] + a[1][1] * b[1][2] + a[1][2] * b[2][2];
+w = a[1][0] * b[0][3] + a[1][1] * b[1][3] + a[1][2] * b[2][3];
+a[1][0] = x;
+a[1][1] = y;
+a[1][2] = z;
+a[1][3] += w;
+x = a[2][0] * b[0][0] + a[2][1] * b[1][0] + a[2][2] * b[2][0];
+y = a[2][0] * b[0][1] + a[2][1] * b[1][1] + a[2][2] * b[2][1];
+z = a[2][0] * b[0][2] + a[2][1] * b[1][2] + a[2][2] * b[2][2];
+w = a[2][0] * b[0][3] + a[2][1] * b[1][3] + a[2][2] * b[2][3];
+a[2][0] = x;
+a[2][1] = y;
+a[2][2] = z;
+a[2][3] += w;
+}
+void Rva000EC9C6::rva000EB6BB(){
+ if(!initialized||!index[0]||!vertex[0]||!dirty)return;
+ for(int i=0;i<count;++i)trees[i].buffer=-1;
+ int curTree=0;
+ for(unsigned b=0;b<vertex.size();++b){
+  vertexCounts[b]=0;indexCounts[b]=0;
+  if(curTree>=count)break;
+  IndexBufferClass::WriteLockClass indexLock(index[b],0x2000);
+  VertexBufferClass::WriteLockClass vertexLock(vertex[b],0x2000);
+  unsigned short *curIb=indexLock.Get_Index_Array();
+  TreeVertex *curVb=(TreeVertex*)vertexLock.Get_Vertex_Array();
+  for(;curTree<count;curTree+=step){
+   int type=trees[curTree].type;
+   if(type<0||!trees[curTree].visible||trees[curTree].hidden)continue;
+   float scale=trees[curTree].scale;Vector3 location=trees[curTree].location;
+   if(!types[type].mesh)continue;
+   Matrix3D transform;
+   if(trees[curTree].state||trees[curTree].flagC4)transform=trees[curTree].world;
+   else transform.Set(location);
+   transform.Scale(scale);treePost(transform,trees[curTree].transform);transform.Translate(types[type].offset);
+   int startVertex=vertexCounts[b];trees[curTree].buffer=b;trees[curTree].firstVertex=startVertex;
+   TreeType &tt=types[type];
+   int numVertex=tt.mesh->Peek_Model()->Get_Vertex_Count();
+   Vector3 *pVert=tt.mesh->Peek_Model()->Get_Vertex_Array();
+   if(vertexCounts[b]+numVertex>=30000)break;
+   int numIndex=tt.mesh->Peek_Model()->Get_Polygon_Count();
+   const TreeTriangle*pPoly=tt.mesh->Peek_Model()->Get_Polygon_Array();
+   if(indexCounts[b]+3*numIndex>=60000)break;
+   const Vector2*uvs=tt.mesh->Peek_Model()->GetUV();
+   const Vector3*normals=tt.mesh->Peek_Model()->Get_Vertex_Normal_Array(false);
+   const unsigned*colors=tt.mesh->Peek_Model()->GetColor();
+   float uScale=tt.uScale,vScale=tt.vScale,uOrigin=tt.uOrigin,vOrigin=tt.vOrigin;
+   for(int j=0;j<numVertex;++j){
+    Matrix3D::Transform_Vector(transform,pVert[j],(Vector3*)curVb);
+    if(normals)*(Vector3*)&curVb->nx=normals[j];else{curVb->nx=0;curVb->ny=0;curVb->nz=1;}
+    if(colors)curVb->diffuse=(colors[j]&0xFFFFFF)|(trees[curTree].alpha<<24);
+    else curVb->diffuse=0xFFFFFF|(trees[curTree].alpha<<24);
+    float U=uvs[j].U,V=uvs[j].V;
+    if(U>1)U=1;if(U<0)U=0;if(V>1)V=1;if(V<0)V=0;
+    curVb->u=U*uScale+uOrigin;curVb->v=V*vScale+vOrigin;
+    curVb->u2=types[trees[curTree].type].data->noSway?0:trees[curTree].sway;
+    curVb->v2=location.Z;++curVb;
+   }
+   vertexCounts[b]+=numVertex;
+   for(int j=0;j<numIndex;++j){*curIb++=startVertex+pPoly[j].I;*curIb++=startVertex+pPoly[j].J;*curIb++=startVertex+pPoly[j].K;}
+   indexCounts[b]+=3*numIndex;
+  }
+ }
+}

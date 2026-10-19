@@ -2,24 +2,40 @@
  "name": "?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z",
  "rva": "0x002FAD13",
  "size": 2117,
- "source": "reverse/attempts/0x002fad13.cpp",
- "sites": {
-  "content": 8,
-  "ledger": 59,
-  "copied": 10,
-  "pin": 2,
-  "pin-unmatched-body": 1,
-  "absolute": 1
+ "extent": 2117,
+ "source": "functional/src/0x002fad13.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 10,
+  "by_value": 0,
+  "weak_left": 0
  },
- "bytes_equal": false,
- "ends": [
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')",
-  "('fault', 'stack', 'addr:0x00000000')"
+ "isomorphic": true,
+ "iso_delta": 0,
+ "verdict": "inconclusive",
+ "coverage": 0.4,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: zeros: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: ints: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v8: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
+  "regalloc-only: v10",
+  "regalloc-only: v11",
+  "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v13: limit cut (retail instructions and rebuilt instructions): vector not completed",
+  "prefix-equal: v14: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
  ],
- "verdict": "regalloc-only",
+ "inconclusive_vectors": 0,
+ "complete_vectors": 2,
+ "prefix_vectors": 14,
  "reason": "",
- "divergent_sites": [],
- "ms": 152.1,
+ "ms": 9626.9,
  "rebuilt_size": 2117
 }

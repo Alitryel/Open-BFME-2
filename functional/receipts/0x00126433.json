@@ -1,0 +1,41 @@
+{
+ "name": "?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z",
+ "rva": "0x00126433",
+ "size": 11984,
+ "extent": 12025,
+ "source": "functional/src/0x00126433.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 99,
+  "by_value": 0,
+  "weak_left": 2
+ },
+ "isomorphic": false,
+ "iso_delta": 186,
+ "verdict": "binding",
+ "coverage": 0.9,
+ "per_vector": [
+  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
+  "binding: zeros: call #25: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "binding: ints: call #27: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
+  "binding: v4: call #29: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
+  "binding: v8: call #25: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "binding: v9: call #25: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
+  "binding: v12: call #35: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "prefix-equal: v13: limit cut (retail events and rebuilt events): vector not completed",
+  "binding: v14: call #25: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 0,
+ "prefix_vectors": 9,
+ "reason": "zeros: call #25: retail addr:0x00000000 rebuilt addr:0xDB85E64B",
+ "ms": 23659.9,
+ "rebuilt_size": 12025
+}

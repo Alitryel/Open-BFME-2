@@ -67,6 +67,6 @@
  "complete_vectors": 26,
  "prefix_vectors": 22,
  "reason": "zeros",
- "ms": 53931.3,
+ "ms": 57920.9,
  "rebuilt_size": 604
 }

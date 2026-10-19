@@ -1,0 +1,8 @@
+{
+ "name": "?quickHordeUpdate@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ",
+ "rva": "0x0026C4EB",
+ "size": 2598,
+ "source": "functional/src/0x0026c4eb.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?quickHordeUpdate@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ"
+}

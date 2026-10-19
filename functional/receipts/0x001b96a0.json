@@ -1,0 +1,8 @@
+{
+ "name": "?d_009a8c50@@YAXXZ",
+ "rva": "0x001B96A0",
+ "size": 1047,
+ "source": "functional/src/0x001b96a0.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?d_009a8c50@@YAXXZ"
+}

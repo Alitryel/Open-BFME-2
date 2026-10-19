@@ -147,6 +147,6 @@
  "complete_vectors": 128,
  "prefix_vectors": 0,
  "reason": "objects",
- "ms": 3321.7,
+ "ms": 3120.0,
  "rebuilt_size": 294
 }
