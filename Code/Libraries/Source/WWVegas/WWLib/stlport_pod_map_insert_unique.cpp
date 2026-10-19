@@ -26,6 +26,9 @@ bool less<int>::operator()(const int &a, const int &b) const
 }
 struct BfmePod8 { int a[2]; };
 typedef _STL::pair<const int, BfmePod8> PodMapValue;
+// The node allocator's allocate is kept from the bfmealloc map units (retail's
+// 0x000B40EA fold); declare it so this malloc-configured unit emits no copy.
+namespace _STL { template <> _Rb_tree_node<PodMapValue> *allocator<_Rb_tree_node<PodMapValue> >::allocate(size_t, const void *) const; }
 typedef _STL::_Rb_tree<int, PodMapValue, _STL::_Select1st<PodMapValue>, _STL::less<int>, _STL::allocator<PodMapValue> > PodMapTree;
 template _STL::pair<PodMapTree::iterator, bool> PodMapTree::insert_unique(const PodMapValue &);
 template PodMapTree::iterator PodMapTree::insert_unique(PodMapTree::iterator, const PodMapValue &);

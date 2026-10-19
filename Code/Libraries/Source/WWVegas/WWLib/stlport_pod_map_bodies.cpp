@@ -42,6 +42,9 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 }
 struct BfmePod8 { int a[2]; };
 typedef _STL::pair<const int, BfmePod8> PodMapValue;
+// The node allocator's allocate is kept from the bfmealloc map units (retail's
+// 0x000B40EA fold); declare it so this malloc-configured unit emits no copy.
+namespace _STL { template <> _Rb_tree_node<PodMapValue> *allocator<_Rb_tree_node<PodMapValue> >::allocate(size_t, const void *) const; }
 typedef _STL::_Rb_tree<int, PodMapValue, _STL::_Select1st<PodMapValue>, _STL::less<int>, _STL::allocator<PodMapValue> > PodMapTree;
 typedef _STL::map<int, BfmePod8, _STL::less<int>, _STL::allocator<PodMapValue> > PodMapTreeMap;
 template <> PodMapTree::_Link_type PodMapTree::_M_create_node(const PodMapValue &);
