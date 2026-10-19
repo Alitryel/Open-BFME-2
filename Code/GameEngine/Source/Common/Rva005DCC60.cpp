@@ -1,9 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva005DCC60@Rva005DCC60@@QAEXXZ, retail 0x005DCC60, 38 bytes.
+// ?rva005DCC60@BuildPhase@@QAEXXZ, retail 0x005DCC60, 38 bytes.
 // Range loop over pointer array at this+4..this+8; for each element with
 // +0x10 == 0 call virtual slot at vtable+0x18 with (this+0x14, 0).
 // Evidence: virtual call offset 0x18, callees rowed/pinned, caller 0x005DCCFB.
-// Honest address name; owner unproven.
+// Owner: the caller is the rowed BuildPhase::update (0x005DCCFB), which calls
+// this on its own this; +4..+8 is BuildPhase's orders vector.
 
 class Elem
 {
@@ -19,7 +20,7 @@ public:
 	int m_10; // +0x10
 };
 
-class Rva005DCC60
+class BuildPhase
 {
 public:
 	void rva005DCC60();
@@ -31,7 +32,7 @@ private:
 	int m_14; // +0x14
 };
 
-void Rva005DCC60::rva005DCC60()
+void BuildPhase::rva005DCC60()
 {
 	for (Elem **it = m_begin; it != m_end; ++it)
 	{

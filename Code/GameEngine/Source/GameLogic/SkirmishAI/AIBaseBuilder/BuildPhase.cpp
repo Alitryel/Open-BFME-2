@@ -16,7 +16,6 @@ struct Rva002A8AB1Record {char pad[0x16c];int phase;};
 class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void *);};
 extern Rva002A8F24 *g_00DFEEF8;
 extern GameLogic *TheGameLogic;
-class Rva005DCC60 {public:void rva005DCC60();};
 class Rva004E9378 {public:bool rva004E9378();};
 class Rva00573E7C {public:
  virtual void slot00();virtual void slot04();virtual float slot08();
@@ -29,6 +28,7 @@ class Rva005AD9C0Hit;
 class BuildPhase {public:
  bool complete,started,costsSet;_STL::vector<Rva00573E7C*> orders;int phase;void *player;
  void update();
+ void rva005DCC60();	// 0x005DCC60 (Rva005DCC60.cpp): starts each pending order
 };
 class Rva005DCE08 : public BuildPhase {public:
  Rva005AD9C0Hit*rva005DCC86(void*);
@@ -36,7 +36,7 @@ class Rva005DCE08 : public BuildPhase {public:
 void BuildPhase::update(){
  Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(player);
  if(phase>ai->phase)return;
- if(!started){((Rva005DCC60*)this)->rva005DCC60();started=true;}
+ if(!started){rva005DCC60();started=true;}
  if(phase<ai->phase && !complete && !costsSet){
   Rva00573E7C **last=orders.end();
   for(Rva00573E7C **it=orders.begin();it!=last;++it){if((*it)->state==0)(*it)->cost=(*it)->slot08();}

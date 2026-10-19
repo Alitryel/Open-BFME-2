@@ -42084,7 +42084,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ?rva0039597C@Rva0039597C@@QAEAAV1@ABV1@@Z,,0x0039597C,39,Code/GameEngine/Source/Common/Rva0039597COpAssign.cpp,matched,copy-assign two AsciiStrings plus int via rowed StringBase set
 ?Rva00395D45Copy@@YAPAVRva0039597C@@PAV1@00@Z,,0x00395D45,50,Code/GameEngine/Source/Common/Rva0039597COpAssign.cpp,matched,array copy via rowed 0x0039597C chain
 ??0PartitionFilterRejectByKindOf@@QAE@ABVBfmeFixedStorage0004543D@@0@Z,,0x00395A35,43,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00395A35Ctor.cpp,matched,Native C1A268 binds the existing reject predicate to this ctor; real three-slot base with link4 and two28B masks8/24; same43B constructor owner renamed and two consumers reconciled
-?rva005DCC60@Rva005DCC60@@QAEXXZ,,0x005DCC60,38,Code/GameEngine/Source/Common/Rva005DCC60.cpp,matched,range loop virtual slot 0x18 with this+0x14
+?rva005DCC60@BuildPhase@@QAEXXZ,,0x005DCC60,38,Code/GameEngine/Source/Common/Rva005DCC60.cpp,matched,range loop virtual slot 0x18 with this+0x14
 ??0Rva005DCDD9@@QAE@HH@Z,,0x005DCDD9,47,Code/GameEngine/Source/Common/Rva005DCDD9.cpp,matched,three bools vector BfmeE16 two ints
 ?rva005DCE72@Rva005DCE72@@QAEXABVAsciiString@@PAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@@Z,,0x005DCE72,59,Code/GameEngine/Source/Common/Rva005DCE72.cpp,matched,loop ModuleData compare pushback caller 0x005AD99C
 ??0Rva00222343@@QAE@XZ,,0x00222343,89,Code/Libraries/Source/WWVegas/WWMath/Rva00222343Ctor.cpp,matched,WWMath param block 14 ints 2 zero bytes gap unlock callers 0x00224296 0x006CF230
