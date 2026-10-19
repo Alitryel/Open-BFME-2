@@ -3,11 +3,17 @@
 // method names are address-derived.
 
 // Native 0x0052A65A, 16B: run 0x0052A4B5 on this, then set +0x0C. The
-// stack argument is unused.
-class Rva0052A4B5
+// stack argument is unused. The callee is rowed as a member of the owner
+// class Rva0052A470 (Rva0052A470Dtor.cpp).
+class Rva0052A470
 {
 public:
 	void rva0052A4B5();
+};
+
+class Rva0052A4B5
+{
+public:
 	void rva0052A65A(int unused);
 
 private:
@@ -16,7 +22,7 @@ private:
 };
 void Rva0052A4B5::rva0052A65A(int)
 {
-	rva0052A4B5();
+	((Rva0052A470 *)this)->rva0052A4B5();
 	m_0c = true;
 }
 
@@ -59,11 +65,15 @@ int CreateAHeroHero::rva00409EA0()
 }
 
 // Native 0x004ECE93, 21B: the +0x20 source's 0x002C59CE value for the
-// argument, else 0.
-class Rva002C59CE
+// argument, else 0. The callee is the rowed AITarget::checkThreatInArea
+// (Rva002C5D8BChoice.cpp); the argument word is passed through as its
+// position pointer.
+struct Coord3D;
+
+class AITarget
 {
 public:
-	float rva002C59CE(int key);
+	float checkThreatInArea(const Coord3D *pos);
 };
 
 class Rva004ECE93
@@ -73,23 +83,30 @@ public:
 
 private:
 	char m_pad00[0x20];
-	Rva002C59CE *m_source;
+	AITarget *m_source;
 };
 float Rva004ECE93::rva004ECE93(int key)
 {
 	if (m_source)
-		return m_source->rva002C59CE(key);
+		return m_source->checkThreatInArea((const Coord3D *)key);
 	return 0.0f;
 }
 
 extern int g_bfmeDisplayAnimationSyncClock;
 
 // Native 0x000C0386, 19B: run 0x000BFDFE unless +0xB8 already equals the
-// global at 0x00DE1B40.
+// global at 0x00DE1B40. The callee is the rowed
+// W3DScriptedModelDraw::processAnimations
+// (W3DScriptedModelDrawAnimationFrameCount.cpp).
+class W3DScriptedModelDraw
+{
+public:
+	void processAnimations();
+};
+
 class Rva000BFDFE
 {
 public:
-	void rva000BFDFE();
 	void rva000C0386();
 
 private:
@@ -99,5 +116,5 @@ private:
 void Rva000BFDFE::rva000C0386()
 {
 	if (g_bfmeDisplayAnimationSyncClock != m_b8)
-		rva000BFDFE();
+		((W3DScriptedModelDraw *)this)->processAnimations();
 }
