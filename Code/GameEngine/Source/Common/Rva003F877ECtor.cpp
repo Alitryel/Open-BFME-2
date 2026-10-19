@@ -49,7 +49,9 @@ namespace _STL { template <> void _STLP_alloc_proxy<BfmeE16 *, BfmeE16, allocato
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeE16;
 namespace _STL { template <> void allocator<BfmeE16>::deallocate(BfmeE16 *, size_t) const; }
-struct FieldParse;
+class INI;
+typedef void (*FieldParseProc)(INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 class INI {
 public:
  AsciiString getNextQuotedAsciiString();
@@ -68,14 +70,21 @@ public:
  INIException(const INIException &);
  INIException &operator=(const INIException &);
 };
-// Descriptive data roles; original table names remain unproven.
-extern const FieldParse g_logicTurnFields;
+// LogicTurn's field table (retail .rdata VA 0xC37514, read from the image):
+// "Phase" -> the rowed phase parser 0x003F90E4, no user data, offset 0, then
+// the null terminator. Descriptive name; the original remains unproven.
+struct Rva003F9004;
+void Rva003F90E4Parse(INI *ini, Rva003F9004 *outer);
+extern const FieldParse g_logicTurnFields[2] = {
+ { "Phase", (FieldParseProc)&Rva003F90E4Parse, 0, 0 },
+ { 0, 0, 0, 0 }
+};
 // Retail proves two accessed cdecl arguments; no trailing-parameter claim.
 void Rva003F91A4Parse(INI *ini,Rva003F9048 *outer) {
  if(!ini || !outer) throw INIException(3,"Invalid data in LogicTurn::ParseINI");
  AsciiString token=ini->getNextQuotedAsciiString();
  int phase=ini->scanInt(token.str());
  Rva003F877E *created=new Rva003F877E(reinterpret_cast<int>(outer),phase);
- ini->initFromINI(created,&g_logicTurnFields);
+ ini->initFromINI(created,g_logicTurnFields);
  outer->rva003F9048(reinterpret_cast<const ModuleData*>(created));
 }
