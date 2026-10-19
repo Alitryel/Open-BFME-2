@@ -35,11 +35,14 @@ void *__copy_trivial(const void *__first, const void *__last, void *__result) th
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "GameLogicObjectLookupView.h"
+// The id vector's _Construct and max inline into push_back/_M_insert_overflow as in the
+// retail/first-linked copies; dllimport keeps cl from emitting unreferenced copies of them.
+// fill_n stays an out-of-line call there, declaration-only (rowed elsewhere).
 // bfme link decl-only begin
-namespace _STL { template <> void _Construct<int, int>(int *, int const &); }
 namespace _STL { template <> int * fill_n<int *, unsigned int, int>(int *, unsigned int, int const &); }
-namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<int,int>(int *p,int const &v) { new (p) int(v); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a,const unsigned int &b) { return a < b ? b : a; } }
 
 template <class T> class Rva002444BEAllocator : public _STL::allocator<T> {};
 typedef _STL::vector<int, Rva002444BEAllocator<int> > SelectionIDs;
