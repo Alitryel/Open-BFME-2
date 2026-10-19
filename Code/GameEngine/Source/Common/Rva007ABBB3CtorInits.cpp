@@ -166,7 +166,8 @@ extern unsigned g_Va00DE1CCC;
 extern unsigned int g_00DE1CCD;
 extern unsigned g_Va00DE2008;
 unsigned g_Va00DEC008;	// retail RVA 0x009EC008 (.bss), defined here
-unsigned g_Va00DEE93C;	// retail RVA 0x009EE93C (.bss), defined here
+// VA 0x00DEE93C: the AsciiString Rva0012CAC3Run.cpp defines.
+extern AsciiString g_00DEE93C;
 unsigned g_Va00DFF0C4;	// retail RVA 0x009FF0C4 (.bss), defined here
 unsigned g_Va00E01CF0;	// retail RVA 0x00A01CF0 (.bss), defined here
 unsigned g_Va00E01CF4;	// retail RVA 0x00A01CF4 (.bss), defined here
@@ -179,8 +180,11 @@ extern Rva002B7250 g_registryAtE02E88; // 0x00E02E88, Rva003EF14ADtor.cpp
 extern unsigned g_Va00E03020;
 unsigned g_Va00E032E8;	// retail RVA 0x00A032E8 (.bss), defined here
 unsigned g_Va00E04424;	// retail RVA 0x00A04424 (.bss), defined here
-unsigned g_Va00E0447C;	// retail RVA 0x00A0447C (.bss), defined here
-unsigned g_Va00E044F0;	// retail RVA 0x00A044F0 (.bss), defined here
+// VA 0x00E0447C: the UnicodeString AptLobbyScreenInitCallbacks.cpp defines.
+extern UnicodeString g_00E0447C;
+// VA 0x00E044F0: the Rva002B7250 object Rva004EE5D2Erase.cpp defines.
+class Rva002B7250;
+extern Rva002B7250 g_00E044F0;
 extern unsigned g_Va00E048C4;
 unsigned g_Va00E06634;	// retail RVA 0x00A06634 (.bss), defined here
 extern unsigned g_Va00E06778;
@@ -279,7 +283,7 @@ void Rva007ABBB3CtorInits::rva007AC880()
 // 0x007ACD72 (22B): ??0AsciiString@@QAE@XZ on VA 0x00DEE93C, atexit(0x007B707A -> AsciiString dtor 0x0048BA39)
 void Rva007ABBB3CtorInits::rva007ACD72()
 {
-	( (AsciiString *)&g_Va00DEE93C )->AsciiString::AsciiString();
+	( &g_00DEE93C )->AsciiString::AsciiString();
 	atexit( rva007B707A );
 }
 
@@ -363,14 +367,14 @@ void Rva007ABBB3CtorInits::rva007B301A()
 // 0x007B3132 (22B): ??0UnicodeString@@QAE@XZ on VA 0x00E0447C, atexit(0x007B8F6D -> UnicodeString dtor 0x005B804E)
 void Rva007ABBB3CtorInits::rva007B3132()
 {
-	( (UnicodeString *)&g_Va00E0447C )->UnicodeString::UnicodeString();
+	( &g_00E0447C )->UnicodeString::UnicodeString();
 	atexit( rva007B8F6D );
 }
 
 // 0x007B33AF (22B): ??0Rva003818F4@@QAE@XZ on VA 0x00E044F0, atexit(0x007B903F)
 void Rva007ABBB3CtorInits::rva007B33AF()
 {
-	( (Rva003818F4 *)&g_Va00E044F0 )->Rva003818F4::Rva003818F4();
+	( (Rva003818F4 *)&g_00E044F0 )->Rva003818F4::Rva003818F4();
 	atexit( rva007B903F );
 }
 
