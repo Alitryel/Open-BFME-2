@@ -85,8 +85,6 @@ void __cdecl rva007B6C2A();
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
 unsigned g_Va00DEBE24;	// retail RVA 0x009EBE24 (.bss), defined here
-unsigned g_Va00DF94D0;	// retail RVA 0x009F94D0 (.bss), defined here
-unsigned g_Va00DF94B0;	// retail RVA 0x009F94B0 (.bss), defined here
 unsigned g_Va00DF708C;	// retail RVA 0x009F708C (.bss), defined here
 // VA 0x00E01E08: the 16-byte Rva00346BC0 record rva007AEBB7 constructs at
 // static-init time; defined here, its initializer's unit, so the burning-death
@@ -139,6 +137,16 @@ extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
 typedef DynamicVectorClass<Vector3> KeyVector;
 typedef VectorClass<Vector3> Vector3Vector;
 typedef VectorClass<Vector4> Vector4Vector;
+// VA 0x00DF94D0 / 0x00DF94B0 are pointgr.cpp's private
+// ?compressed_loc@PointGroupClass@@0V?$VectorClass@VVector3@@@@A and
+// ?compressed_diffuse@PointGroupClass@@0V?$VectorClass@VVector4@@@@A, reached
+// through a TU-scoped friend view instead of second datums at their addresses.
+class PointGroupClass
+{
+	friend struct Rva007ABEF3ArgCtorInits;
+	static Vector3Vector compressed_loc;
+	static Vector4Vector compressed_diffuse;
+};
 typedef BitFlags<11> Mask11;
 typedef SimpleDynVecClass<BfmePod4> Pod4Vector;
 
@@ -190,14 +198,14 @@ void Rva007ABEF3ArgCtorInits::rva007AC832()
 // 0x007ACE90 (26B): VectorClass<Vector3>(0, 0) on VA 0x00DF94D0, atexit(0x007B7280)
 void Rva007ABEF3ArgCtorInits::rva007ACE90()
 {
-	( (Vector3Vector *)&g_Va00DF94D0 )->Vector3Vector::VectorClass( 0, 0 );
+	( &PointGroupClass::compressed_loc )->Vector3Vector::VectorClass( 0, 0 );
 	atexit( rva007B7280 );
 }
 
 // 0x007ACEB0 (26B): VectorClass<Vector4>(0, 0) on VA 0x00DF94B0, atexit(0x007B72C0)
 void Rva007ABEF3ArgCtorInits::rva007ACEB0()
 {
-	( (Vector4Vector *)&g_Va00DF94B0 )->Vector4Vector::VectorClass( 0, 0 );
+	( &PointGroupClass::compressed_diffuse )->Vector4Vector::VectorClass( 0, 0 );
 	atexit( rva007B72C0 );
 }
 
