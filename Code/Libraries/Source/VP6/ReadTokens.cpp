@@ -17,9 +17,10 @@ struct Rva009AAF80State
 	int m_bitsRemaining;
 	unsigned m_inputCursor;
 	const unsigned char *m_inputBase;
-
-	int step(void);
 };
+
+// Register-form equiprobable decode, coder in ECX (0x001BB9C0).
+extern "C" int __fastcall VP6_DecodeBool128(Rva009AAF80State *state);
 
 struct Vp6TokenQuantizer
 {
@@ -149,19 +150,19 @@ struct Locals {const int *storage;int value;const unsigned char *acProbs;} local
 				do {
 					locals.value += VP6_BOOL(BfmeVp6TokenExtraBits[token].probs[k]) << k;
 				} while (--k >= 0);
-				sign = br->step();
+				sign = VP6_DecodeBool128(br);
 				coeffs[0] = (short)((locals.value ^ -sign) + sign);
 			} else {
 				if (VP6_BOOL(nodeProbs[4]))
 					locals.value = VP6_BOOL(dcProbs[5]) + 3;
 				else
 					locals.value = 2;
-				sign = br->step();
+				sign = VP6_DecodeBool128(br);
 				coeffs[0] = (short)((locals.value ^ -sign) + sign);
 			}
 		} else {
 			prec = 1;
-			sign = br->step();
+			sign = VP6_DecodeBool128(br);
 			coeffs[0] = (short)((1 ^ -sign) + sign);
 		}
 	}
