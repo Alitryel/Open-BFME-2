@@ -1,4 +1,6 @@
 // ?onEnter@AIAttackMeleeHordeApproachTargetState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.97 date=2026-10-19
+// ?onEnter@AIAttackMeleeHordeApproachTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.99 date=2026-10-17
 // ?onEnter@AIAttackMeleeHordeApproachTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.97 date=2026-10-13
@@ -1591,6 +1593,8 @@ StateReturnType AIAttackMeleeHordeApproachTargetState::onEnter()
 			}
 		}
 	}
+	else
+		return (StateReturnType)STATE_FAILURE;
 	return (StateReturnType)STATE_SUCCESS;
 }
 
@@ -1669,3 +1673,6 @@ StateReturnType AIAttackMeleeHordeApproachTargetState::update()
 	return STATE_CONTINUE;
 	}
 }
+
+// Invalid or rejected goals return failure before the successful approach exits.
+// Compiler-layout evidence: reverse/attempt_support/melee34d1c8-w9-20261019.md.
