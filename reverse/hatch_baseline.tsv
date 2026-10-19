@@ -1943,7 +1943,7 @@ address_global	Code/Libraries/Source/WWVegas/WW3D2/SceneSpatialRescale.cpp	g_Rva
 address_global	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	g_Va00DEDA06	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	g_Va00DEDA34	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	g_Va00DEDA7C	1
-address_global	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	g_Va00DEDA14	4
+address_global	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	g_Va00DEDA14	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/fxshadersetup.cpp	g_Va00DB5FA0	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	g_Va00DEC3D7	2
 address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373BCTimerTicks	2
@@ -5134,9 +5134,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeLenErrV38@
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeLenErrV43@BfmeStrV43@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeLengthErrorQX@BfmeThingQX@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeProjectionApplied@@3VMatrix4@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeProjectionFar@@3MA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeProjectionNear@@3MA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeProjectionSource@@3VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeReset@Gen_008812D0@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeThrow2V53@BfmeStrV53@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeThrow2V54@BfmeStrV54@@QAEXXZ	1

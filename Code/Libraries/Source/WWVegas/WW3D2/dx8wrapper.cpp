@@ -366,9 +366,8 @@ static unsigned char g_rva00DB621CFlag;
 // body (see the converted BFME1 dx8wrapper.cpp) with the texture-stage half
 // extracted into the helper above, which retail calls.
 // Retail zeroes render_state_changed and then the cold dword at 0x00DEDA14
-// (named g_Va00DEDA14 in ColdGlobalDwordGetters.cpp), not
+// (Light_Environment; ColdGlobalDwordGetters.cpp reads it as a dword), not
 // texture_stage_state_changes, which lives at 0x00DEDA68.
-extern int g_Va00DEDA14;
 // Retail byte at VA 0x00DEDA20 (RVA 0x009EDA20), written by 0x00125430, is
 // bfmeSkipFixedFunctionState (defined below), the flag Set_Light_Environment
 // and Apply_Render_State_Changes test.
@@ -1450,8 +1449,8 @@ void Rva00125430(bool enable)
 {
 	bfmeSkipFixedFunctionState = enable;
 	if (!enable) {
-		LightEnvironmentClass *tmp = reinterpret_cast<LightEnvironmentClass *>(g_Va00DEDA14);
-		g_Va00DEDA14 = 0;
+		LightEnvironmentClass *tmp = DX8Wrapper::Light_Environment;
+		DX8Wrapper::Light_Environment = 0;
 		DX8Wrapper::Set_Light_Environment(tmp);
 	}
 }
@@ -4286,18 +4285,18 @@ struct BfmeProjectionDevice9 : BfmeResetDevice9 {
     virtual HRESULT __stdcall Clear(DWORD rect_count, const D3DRECT *rects, DWORD flags, D3DCOLOR color, float z, DWORD stencil)=0;
     virtual HRESULT __stdcall SetTransform(D3DTRANSFORMSTATETYPE state, const D3DMATRIX *matrix)=0;
 };
-extern float bfmeProjectionBias, bfmeProjectionNear, bfmeProjectionFar;
-extern Matrix4x4 bfmeProjectionSource, bfmeProjectionApplied;
+extern float bfmeProjectionBias;
+extern Matrix4x4 bfmeProjectionApplied;
 // Recovered BFME2 float depth-bias role; see docs/reconstruction/dx8wrapper-depth-bias.md.
 void bfmeSetProjectionDepthBias(float bias)
 {
 	if (bias == bfmeProjectionBias) return;
 	bfmeProjectionBias = bias;
-	bfmeProjectionApplied = bfmeProjectionSource;
-	if (bfmeProjectionNear != bfmeProjectionFar) {
+	bfmeProjectionApplied = DX8Wrapper::ProjectionMatrix;
+	if (DX8Wrapper::ZNear != DX8Wrapper::ZFar) {
 		float scaled = bias * 0.000625f;
-		bfmeProjectionApplied[3][2] -= (bfmeProjectionFar * bfmeProjectionNear /
-			(bfmeProjectionFar - bfmeProjectionNear)) * scaled;
+		bfmeProjectionApplied[3][2] -= (DX8Wrapper::ZFar * DX8Wrapper::ZNear /
+			(DX8Wrapper::ZFar - DX8Wrapper::ZNear)) * scaled;
 	}
 	reinterpret_cast<BfmeProjectionDevice9 *>(DX8Wrapper::_Get_D3D_Device8())->SetTransform(D3DTS_PROJECTION,reinterpret_cast<const D3DMATRIX *>(&bfmeProjectionApplied));
 	number_of_DX8_calls++;
@@ -4443,18 +4442,12 @@ bool bfmeSkipFixedFunctionState;
 #pragma comment(linker, "/alternatename:?RendererPtr00DF363C@@3PAURendererFVFDeleteListView@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 // ?bfmeProjectionBias@@3MA: matched references place it at VA 0xdeda74; also referenced as ?g_Va00DEDA74@@3MA.
 float bfmeProjectionBias;
-// ?bfmeProjectionSource@@3VMatrix4@@A: the global at VA 0xdedc30 is ?ProjectionMatrix@DX8Wrapper@@1VMatrix4@@A.
-#pragma comment(linker, "/alternatename:?bfmeProjectionSource@@3VMatrix4@@A=?ProjectionMatrix@DX8Wrapper@@1VMatrix4@@A")
-// ?bfmeProjectionNear@@3MA: the global at VA 0xdec4f0 is ?ZNear@DX8Wrapper@@1MA.
-#pragma comment(linker, "/alternatename:?bfmeProjectionNear@@3MA=?ZNear@DX8Wrapper@@1MA")
 // ?g_Va00DEDA14@@3HA: the global at VA 0xdeda14 is ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A.
 #pragma comment(linker, "/alternatename:?g_Va00DEDA14@@3HA=?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A")
 // ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at VA 0xdf363c is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A.
 #pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 // ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at VA 0xde0880 is ?theDebug@@3PAVDebug@@A.
 #pragma comment(linker, "/alternatename:?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A=?theDebug@@3PAVDebug@@A")
-// ?bfmeProjectionFar@@3MA: the global at VA 0xded9f8 is ?ZFar@DX8Wrapper@@1MA.
-#pragma comment(linker, "/alternatename:?bfmeProjectionFar@@3MA=?ZFar@DX8Wrapper@@1MA")
 // ?bfmeApplyRenderState@@3UBfmeApplyRenderState@@A: the global at VA 0xdee5d8 is ?render_state@DX8Wrapper@@1URenderStateStruct@@A.
 #pragma comment(linker, "/alternatename:?bfmeApplyRenderState@@3UBfmeApplyRenderState@@A=?render_state@DX8Wrapper@@1URenderStateStruct@@A")
 

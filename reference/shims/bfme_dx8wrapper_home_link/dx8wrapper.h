@@ -733,6 +733,11 @@ protected:
 	static Matrix4x4						ProjectionMatrix;
 
 	friend void DX8_Assert();
+	// BFME2 helpers beside the wrapper in dx8wrapper.cpp: the depth-bias
+	// projection upload reads ZNear/ZFar/ProjectionMatrix, and Rva00125430
+	// takes and clears Light_Environment.
+	friend void bfmeSetProjectionDepthBias(float bias);
+	friend void Rva00125430(bool enable);
 	friend class WW3D;
 	friend class DX8IndexBufferClass;
 	friend class DX8VertexBufferClass;
