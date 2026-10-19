@@ -1,4 +1,6 @@
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
+// partial score=0.82 date=2026-10-20
+// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
 // partial score=0.86 date=2026-10-17
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
 // partial score=0.75 date=2026-10-14
@@ -30,6 +32,20 @@
 // - unresolved ICF STL callees: list dtor 0x2FECBC, list clear 0x23DAA5,
 //   the eh-vector element dtor 0x207F08 and the _List_base ctor 0x35C9A6
 //   need names or fold-proof pins.
+//
+// Re-banked 2026-10-20 from the 0.75 body. The farm body (score 0.86) dropped
+// the counters load loop's ++i (retail +0x2CB inc [ebp+8], jl back-edge at
+// +0x2D1) and carried a padded version struct and an equal-arm loop test.
+// The players store loop advances it, not pit, exactly as retail does: retail
+// +0x6C6 jumps back unconditionally and reuses esi, so the loop never exits.
+// Against retail this body differs only in the three loop entries above and in
+// frame slots: no member offset, callee or non-frame register differs.
+// The four ICF callee addresses named above now have ledger rows; whether this
+// body's own instantiation names resolve to them is unchecked.
+// XferVersion is built by a two-argument constructor, as WorldBuilder's twin
+// materializes 5 then 1 before storing the bytes; it moves version from the
+// third frame slot to -0x30 (retail -0x34).
+// Handoff: reverse/attempt_support/script-engine-doxfer-20a859/README.md
 #include "ascii_string.h"
 #include <map>
 #include <list>
@@ -62,6 +78,10 @@ typedef bool Bool;
 
 struct XferVersion
 {
+	XferVersion(UnsignedByte version, UnsignedByte currentVersion) :
+		m_version(version), m_currentVersion(currentVersion)
+	{
+	}
 	UnsignedByte m_version;
 	UnsignedByte m_currentVersion;
 };
@@ -342,10 +362,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	if (xfer->IsCRC())
 		return;
 
-	struct { XferVersion v; unsigned char pad[14]; } versionBuf;
-	XferVersion& version = versionBuf.v;
-	version.m_version = 1;
-	version.m_currentVersion = 5;
+	XferVersion version(1, 5);
 	xfer->xferVersion(&version);
 	xfer->xferBool(&m_freezeByScript);
 	xfer->xferAsciiString(&m_currentTrackName);
@@ -392,8 +409,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	else
 	{
 		((Rva00206593 *)&m_counters)->rva00206EC7();
-		i = 0;
-		while (i < countersSize)
+		for (i = 0; i < countersSize; ++i)
 		{
 			ScriptKey key;
 			xfer->xferAsciiString(&key.first);
@@ -499,7 +515,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 			xfer->xferInt(&count);
 			ScriptDefaultIntMap::iterator pit = m_players.begin();
 			ScriptDefaultIntMap::iterator pend = m_players.end();
-			while ((1 ? (pit != pend) : (pit != pend)))
+			while (pit != pend)
 			{
 				ScriptKey key(pit->first);
 				Rva00203D4EChain((Rva00203D4EA *)xfer, &key);
@@ -528,11 +544,11 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	xfer->xferInt(&m_closeWindowTimer);
 
 	// named objects
+	UnsignedShort namedObjectsCount = m_namedObjects.size();
+	xfer->xferUnsignedShort(&namedObjectsCount);
 	AsciiString namedObjectName;
 	Object *obj;
 	ObjectID objectID;
-	UnsignedShort namedObjectsCount = m_namedObjects.size();
-	xfer->xferUnsignedShort(&namedObjectsCount);
 	if (xfer->IsStoring())
 	{
 		VecNamedRequests::iterator it;
