@@ -21,7 +21,7 @@ extern "C" void _ReadWriteBarrier();
 // Destructor of Display: stores vtable 0x7F5DA0 then runs the field-reset
 // helper rva0025D19E and the list-clear rva0025C0FF on the same this, then
 // destroys AsciiString at +0xF0/+0xD0 and Unicode string at +0xB0 in reverse
-// order, then the GameEngineDeletingBase base dtor.
+// order, then the SubsystemInterface base dtor (0x001B4E74).
 // Evidence: same-this calls at 0x0025D6A4/0x0025D6AB; vtable shared with ctor
 // 0x0025D489 which inits the same D0/E0/E4/C8/CC/F0 fields; base call
 // 0x001B4E74; deleting-dtor caller 0x0025DA57.
@@ -199,11 +199,11 @@ public:
 	virtual ListNode0025D9E3 *getNext();
 };
 
-class GameEngineDeletingBase
+class SubsystemInterface
 {
 public:
-	GameEngineDeletingBase();
- virtual ~GameEngineDeletingBase();
+	SubsystemInterface();
+ virtual ~SubsystemInterface();
 private:
 	char m_pad[8];
 };
@@ -246,7 +246,7 @@ struct DisplayTextF0 {
  float f11c,m_f120;
  __forceinline DisplayTextF0():wordF4((_ReadWriteBarrier(),0)),wordF8(0),fFC(0),f100(0),f104(0),f108(0),flag10c(false),word110(0),m_b114(false),flag115(false),word118(0),f11c(1.0f),m_f120(0){}
 };
-class Display : public GameEngineDeletingBase
+class Display : public SubsystemInterface
 {
 public:
 	Display();
