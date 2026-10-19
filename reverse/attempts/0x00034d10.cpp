@@ -1,4 +1,6 @@
 // ?rva00034D10@GeneralAllocator@Allocator@EA@@QAEPAXH_NPAXI@Z
+// partial score=0.9988439306358381 date=2026-10-19
+// ?rva00034D10@GeneralAllocator@Allocator@EA@@QAEPAXH_NPAXI@Z
 // partial score=0.9965317919075144 date=2026-10-19
 // ?rva00034d10@Rva000353B0@@QAEPAXHHHH@Z
 // partial score=0.122 date=2026-10-17
@@ -233,12 +235,12 @@ void *EA::Allocator::GeneralAllocator::rva00034D10(int blockTypes, bool copy, vo
 				Rva00034D10Large *large = m_largeSentinel.m_next;
 				if (large != &m_largeSentinel)
 				{
-					unsigned char includeInternal = (unsigned char)(blockTypes & 0x10);
+					unsigned int includeInternal = blockTypes & 0x10;
 					EA::Allocator::BlockInfo *info = &snapshot->m_info[i];
 					do
 					{
 						void *chunk = (char *)large - large->m_offset;
-						if (includeInternal || !(large->m_flags & 4))
+						if ((unsigned char)includeInternal || !(large->m_flags & 4))
 						{
 							if (pass && i < count)
 								rva00032EC0(chunk, info);
@@ -278,3 +280,5 @@ void *EA::Allocator::GeneralAllocator::rva00034D10(int blockTypes, bool copy, vo
 
 // The free-list termination guard also consumes inUse after classification.
 // The large-list predicate uses only the internal-block flag at bit 4.
+// The large-list mask retains a dword value before its byte predicate.
+// Its nonzero values fit in a byte because only bit 4 is retained.
