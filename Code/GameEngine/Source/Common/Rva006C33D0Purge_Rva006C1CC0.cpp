@@ -1,4 +1,4 @@
-// cl: /MD /DNDEBUG /EHsc
+// cl: /O2 /MD /DNDEBUG /EHsc
 // Split from Rva006C33D0Purge.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
 //
@@ -40,6 +40,9 @@ class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
 	void rva006C3180(GeneralAllocatorDebugBlock *);
+	void *rva006C25F0Run6(void *, int, int, int, unsigned int *, int);
+	bool VerifyDelayedFreeFill(void *);
+	void rva006C26F0(void *, bool);
 };
 
 struct DelayedChunk
@@ -137,4 +140,60 @@ void *Rva006C1F60::rva006C1CC0(unsigned int size, int flags)
 		*(unsigned short *)((char *)block + usable - 0xA) = 0;
 	}
 	return block;
+}
+
+struct GeneralAllocatorDebugBlock
+{
+	unsigned int previousSize;
+	unsigned int flags;
+	unsigned char data[1]; // user storage starts after the two header words
+};
+
+struct GeneralAllocatorGuardView
+{
+	unsigned char pad[0x50B];
+	unsigned char guardFill;
+	unsigned char pad50C[8];
+	unsigned int flags; // +0x514
+};
+
+class Rva006C2D20Sink
+{
+public:
+	void rva006C2FB0(const char *, const char *);
+};
+class Rva00033E90
+{
+public:
+	void freeBlock(void *);
+};
+unsigned char rva00030E20Fill(void *, unsigned int, unsigned char);
+
+// Native 006C3180..006C3216, 150 bytes, RET4. Before releasing a chunk,
+// check up to 64 guard bytes, starting above the payload's first eight bytes.
+// The builder receives the address header+8, rather than a pointer loaded
+// there; its real six-argument ABI and the real (chunk, bool) metrics ABI
+// reproduce retail's frameless EBP allocation in ordinary C++.
+void GeneralAllocatorDebug::rva006C3180(GeneralAllocatorDebugBlock *info)
+{
+	GeneralAllocatorGuardView *view = (GeneralAllocatorGuardView *)this;
+	if (!(info->flags & 4) && (view->flags & 0x800)) {
+		unsigned int runLength;
+		unsigned char *data = info->data;
+		unsigned char *run = (unsigned char *)rva006C25F0Run6(data, 0xB, 0, 0, &runLength, 0);
+		if (run) {
+			unsigned int length = runLength;
+			if (length >= 0x40)
+				length = 0x40;
+			unsigned char *end = run + length;
+			unsigned char *lower = data + 8;
+			if (run < lower)
+				run = lower;
+			if (!rva00030E20Fill(run, end - run, view->guardFill))
+				((Rva006C2D20Sink *)this)->rva006C2FB0((const char *)info, "GeneralAllocatorDebug::VerifyGuardFill failure.");
+		}
+	}
+	VerifyDelayedFreeFill(info);
+	rva006C26F0(info, false);
+	((Rva00033E90 *)this)->freeBlock(info->data);
 }
