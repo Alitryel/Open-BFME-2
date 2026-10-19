@@ -113,7 +113,7 @@ struct UnknownE03138
 	virtual bool isLocalAlliedVictory();
 	virtual bool isLocalAlliedDefeat();
 };
-extern UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 class Rva0022AD10Subsystem
 {
@@ -461,9 +461,9 @@ bool ScriptConditions::evaluateConditionHelper(Condition *c)
 	case 141:
 		return this->rva003E83AF(c->getParameter(0), c->getParameter(1));
 	case 44:
-		return g_00E03138->isLocalAlliedVictory();
+		return ((UnknownE03138 *)TheVictoryConditions)->isLocalAlliedVictory();
 	case 45:
-		return g_00E03138->isLocalAlliedDefeat();
+		return ((UnknownE03138 *)TheVictoryConditions)->isLocalAlliedDefeat();
 	case 46:
 		return ((bool (__cdecl *)(void))Rva003E468FCheck)();
 	case 36:

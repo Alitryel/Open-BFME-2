@@ -717,9 +717,7 @@ class Rva00E03138 : public VPad<Rva00E03138Slot16, 5>
 public:
 	virtual UnsignedInt getEndFrame(void) = 0;			// slot 22 (+0x58)
 };
-// g_00E03138 is only an alias of the owned global g_00E03138 (ledger names column); this unit reads the owner through its own view type.
-extern struct UnknownE03138 *g_00E03138;
-#define g_00E03138 (*(Rva00E03138 * *)&g_00E03138)
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 // The donor's StringBase<char>::concat(char) form (as GameInfoSetMap.cpp): the
 // character goes through its own one-byte slot into concat(text, 1).
@@ -731,7 +729,7 @@ static inline void concatChar(AsciiString &s, char c)
 AsciiString GameSpyStagingRoom::generateGameSpyGameResultsPacket(Bool sawCRCMismatch, Bool playerQuit)
 {
 	Int i;
-	Int endFrame = g_00E03138->getEndFrame();
+	Int endFrame = ((Rva00E03138 *)TheVictoryConditions)->getEndFrame();
 	Int localSlotNum = getLocalSlotNum();
 	Int winningTeam = -1;
 	Int numHumans = 0;
@@ -748,7 +746,7 @@ AsciiString GameSpyStagingRoom::generateGameSpyGameResultsPacket(Bool sawCRCMism
 			(p = ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(playerName))) != 0)
 		{
 			++numHumans;
-			if (g_00E03138->hasAchievedVictory(p))
+			if (((Rva00E03138 *)TheVictoryConditions)->hasAchievedVictory(p))
 				winningTeam = getSlot(i)->getTeamNumber();
 
 			// check if he lasted
@@ -828,7 +826,7 @@ AsciiString GameSpyStagingRoom::generateGameSpyGameResultsPacket(Bool sawCRCMism
 			AsciiString result, side = "unknown";
 			if (sawCRCMismatch)
 			{
-				if (!g_00E03138->hasSinglePlayerBeenDefeated(p))
+				if (!((Rva00E03138 *)TheVictoryConditions)->hasSinglePlayerBeenDefeated(p))
 					result = "desync";
 				else
 					result = "quit";
@@ -837,11 +835,11 @@ AsciiString GameSpyStagingRoom::generateGameSpyGameResultsPacket(Bool sawCRCMism
 			{
 				result = "discon";
 			}
-			else if (g_00E03138->hasSinglePlayerBeenDefeated(p) && playerQuit)
+			else if (((Rva00E03138 *)TheVictoryConditions)->hasSinglePlayerBeenDefeated(p) && playerQuit)
 			{
 				result = "quit";
 			}
-			else if (g_00E03138->hasAchievedVictory(p))
+			else if (((Rva00E03138 *)TheVictoryConditions)->hasAchievedVictory(p))
 			{
 				result = "win";
 			}

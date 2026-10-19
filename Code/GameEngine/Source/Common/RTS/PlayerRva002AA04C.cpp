@@ -38,7 +38,7 @@ public:
 	virtual bool check(Rva002AA04C *p);
 };
 struct UnknownE03138;
-extern UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 struct Rva002AA04CInGameUI
 {
@@ -60,7 +60,7 @@ extern GameLogic *TheGameLogic;
 
 int Rva002AA04C::rva002AA04C()
 {
-	return (!reinterpret_cast<Rva002AA04CUnknown *>(g_00E03138)->check(this)
+	return (!reinterpret_cast<Rva002AA04CUnknown *>(TheVictoryConditions)->check(this)
 		&& m_734 == 0
 		&& reinterpret_cast<Rva002AA04CInGameUI *>(TheInGameUI)->m_8c5 == 0
 		&& reinterpret_cast<Rva002AA04CGameLogic *>(TheGameLogic)->m_70 != 0

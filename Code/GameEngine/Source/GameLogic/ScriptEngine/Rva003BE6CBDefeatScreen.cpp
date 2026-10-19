@@ -94,9 +94,7 @@ public:
 	virtual void s26();
 	virtual void slot27(int v);
 };
-// g_00E03138 is only an alias of the owned global g_00E03138 (ledger names column); this unit reads the owner through its own view type.
-extern struct UnknownE03138 *g_00E03138;
-#define g_00E03138 (*(Rva00E03138 * *)&g_00E03138)
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 class Rva002036B4GlobalCopier
 {
@@ -140,15 +138,15 @@ void Rva003BE6CB::rva003BE6CB()
 	((Rva003BBAD3 *)this)->rva003BBAD3();
 	if (m_flagC == 0) {
 		Player *pl = ThePlayerList->m_localPlayer;
-		if (g_00E03138 != 0 && pl != 0) {
+		if (TheVictoryConditions != 0 && pl != 0) {
 			{
 				AsciiString s1("Gui_DefeatScreen");
 				AsciiString s2(Rva003BA8F3Get() ? "APT:EndGameOver" : "APT:EndDefeat");
 				Rva003BE6CBP34 *p = pl->m_p34;
-				g_00E03138->slot23(s2, p ? p->m_1bc : (unsigned char)0, s1, AsciiString::TheEmptyString);
+				((Rva00E03138 *)TheVictoryConditions)->slot23(s2, p ? p->m_1bc : (unsigned char)0, s1, AsciiString::TheEmptyString);
 			}
 			if (((Rva0023C6A4 *)TheGameLogic)->rva00200084())
-				g_00E03138->slot27(1);
+				((Rva00E03138 *)TheVictoryConditions)->slot27(1);
 		}
 	}
 	TheCampaignManager->m_flag2D = false;

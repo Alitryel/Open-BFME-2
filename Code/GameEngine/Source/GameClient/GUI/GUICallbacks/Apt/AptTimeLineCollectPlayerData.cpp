@@ -305,7 +305,7 @@ class Rva0051F6DF { public: Rva0051F6DF &operator=(const Rva0051F6DF &); };
 class Rva001EB0CAHolder { public: unsigned char rva001EB0D9(); };
 class LinearCampaignManager;
 extern LinearCampaignManager *TheLinearCampaignManager;
-extern struct UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 class TimelineVictoryView {
 public:
 #define TIMELINE_VS(N) virtual void v##N();
@@ -340,8 +340,8 @@ void AptTimeLine::CollectPlayerData(Player *player, const GameSlot *slot)
  if(m_284!=1) {
   row->m_status=3;
   if(slot && slot->disconnected()) row->m_status=2;
-  else if(reinterpret_cast<TimelineVictoryView*>(g_00E03138)->hasLost(player))row->m_status=1;
-  else if(reinterpret_cast<TimelineVictoryView*>(g_00E03138)->hasWon(player))row->m_status=0;
+  else if(reinterpret_cast<TimelineVictoryView*>(TheVictoryConditions)->hasLost(player))row->m_status=1;
+  else if(reinterpret_cast<TimelineVictoryView*>(TheVictoryConditions)->hasWon(player))row->m_status=0;
  } else {
   row->m_status=1;
   if(TheLinearCampaignManager && reinterpret_cast<Rva001EB0CAHolder*>(TheLinearCampaignManager)->rva001EB0D9())row->m_status=0;

@@ -41,7 +41,7 @@ void __cdecl Rva0051B11CEnable(void)
 // Chain via rowed 0x002B2B66. Selection-locked GameMessage path plus fallback.
 // Calls rowed isSelectionLocked plus rowed Enable above plus rowed rva002B2B66
 // plus rowed appendIntegerArgument plus rowed appendBooleanArgument.
-// Globals g_009FEF10 MessageStreamSubsystem g_00E03138 TheInGameUI per packet.
+// Globals g_009FEF10 MessageStreamSubsystem TheVictoryConditions TheInGameUI per packet.
 // Caller at 0x0051BF1C.
 class BfmeSelectionState
 {
@@ -109,8 +109,11 @@ struct UnknownE03138
 	virtual bool u19(); // native slot4C
 	virtual bool u20(); // native slot50
 };
-// g_00E03138: matched references place it at VA 0xe03138 (retail .data initial value 0).
-UnknownE03138 * g_00E03138 = 0;
+// TheVictoryConditions (GameEngine::init registers it under that name): matched
+// references place it at VA 0xe03138 (retail .data initial value 0). This unit
+// reads it through its UnknownE03138 view.
+class VictoryConditionsInterface;
+VictoryConditionsInterface *TheVictoryConditions = 0;
 class InGameUI
 {
 public:
@@ -129,7 +132,7 @@ void __cdecl Rva0051B09BEnable(void)
 		return;
 	}
 	Rva0051AF0BEnable(0);
-	if (g_00E03138->u18())
+	if (((UnknownE03138 *)TheVictoryConditions)->u18())
 		return;
 	GameMessage *msg2 = TheMessageStream->v18(0x448);
 	msg2->appendBooleanArgument(false);
@@ -142,7 +145,7 @@ void __cdecl Rva0051B09BEnable(void)
 // or receiver are read. Original subsystem/method semantics remain unproved.
 int Rva003E468FCheck()
 {
- if (g_00E03138->u20() && !g_00E03138->u19())
+ if (((UnknownE03138 *)TheVictoryConditions)->u20() && !((UnknownE03138 *)TheVictoryConditions)->u19())
   return 1;
  return 0;
 }
@@ -154,10 +157,10 @@ int Rva003E468FCheck()
 // original wrapper names and subsystem semantics remain unproved.
 bool Rva003E4679Check()
 {
-	return g_00E03138->u18();
+	return ((UnknownE03138 *)TheVictoryConditions)->u18();
 }
 
 bool Rva003E4684Check()
 {
-	return g_00E03138->u19();
+	return ((UnknownE03138 *)TheVictoryConditions)->u19();
 }

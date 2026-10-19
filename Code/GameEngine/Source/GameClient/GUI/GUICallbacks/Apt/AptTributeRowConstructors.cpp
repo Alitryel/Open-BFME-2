@@ -120,7 +120,7 @@ virtual void slot12();
 virtual void slot13();
 virtual void slot14();
 virtual void slot15();
-virtual bool isDefeated(void*);};extern UnknownE03138*g_00E03138;
+virtual bool isDefeated(void*);};class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 class NetworkInterface {public:
 virtual void slot0();
 virtual void slot1();
@@ -195,7 +195,7 @@ class Player {public:bool isPlayerObserver()const;};
 void Rva0050EE72Set(int,const AsciiString&,int,const UnicodeString&);
 class Rva0050F909:public Rva0050FAEC {public:Rva0050F909(int,const AsciiString&,int,int);virtual~Rva0050F909(){}};
 Rva0050F909::Rva0050F909(int level,const AsciiString&path,int slotIndex,int stateWord):Rva0050FAEC(level,path){
- const GameSlot*slot=TheGameInfo->getConstSlot(slotIndex);bool alive=!g_00E03138->isDefeated((void*)stateWord);bool observer=((const Player*)stateWord)->isPlayerObserver();
+ const GameSlot*slot=TheGameInfo->getConstSlot(slotIndex);bool alive=!((UnknownE03138 *)TheVictoryConditions)->isDefeated((void*)stateWord);bool observer=((const Player*)stateWord)->isPlayerObserver();
  Rva0050EE72Set(level,path,0,slot->playerName);Rva0050EE72Set(level,path,1,slot->getApparentPlayerTemplateDisplayName());
  AsciiString text;text.format("Team:%d",slot->team+1);if(slot->isAI()&&slot->team==-1)text="Team:AI";
  Rva0050EE72Set(level,path,2,TheGameText->fetch(text,0));text.clear();

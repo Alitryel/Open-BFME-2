@@ -74,9 +74,7 @@ public:
 	virtual void s22();
 	virtual void slot23(const AsciiString &a, unsigned char b, const AsciiString &c, const AsciiString &d);
 };
-// g_00E03138 is only an alias of the owned global g_00E03138 (ledger names column); this unit reads the owner through its own view type.
-extern struct UnknownE03138 *g_00E03138;
-#define g_00E03138 (*(Rva00E03138 * *)&g_00E03138)
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 class Rva003BE5C9
 {
@@ -95,7 +93,7 @@ void Rva003BE5C9::rva003BE5C9()
 	if (m_flagC != 0)
 		return;
 	Player *pl = ThePlayerList->m_localPlayer;
-	if (g_00E03138 == 0 || pl == 0)
+	if (TheVictoryConditions == 0 || pl == 0)
 		return;
 	Rva003BE5C9P34 *p = pl->m_p34;
 	unsigned char c1 = p ? p->m_1bc : 0;
@@ -103,5 +101,5 @@ void Rva003BE5C9::rva003BE5C9()
 	AsciiString s2("Gui_VictoryScreen");
 	AsciiString s3(Rva003BA8F3Get() ? "APT:EndGameOver" : "APT:EndVictorious");
 	Rva003BE5C9P34 *p2 = pl->m_p34;
-	g_00E03138->slot23(s3, p2 ? p2->m_1bc : (unsigned char)0, s2, s1);
+	((Rva00E03138 *)TheVictoryConditions)->slot23(s3, p2 ? p2->m_1bc : (unsigned char)0, s2, s1);
 }

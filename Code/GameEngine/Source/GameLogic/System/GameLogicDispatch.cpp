@@ -10,13 +10,10 @@
 // cl: /Gy /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /I. /ICode/GameEngine/Source/GameLogic/System/LogicDispatch/headers /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/shims/aicommandoutofline /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #include "Code/GameEngine/Source/GameLogic/System/LogicDispatch/owner_context.inc"
-// The ledger owns these two globals under their address names (data_ledger
-// 0x00A032F8 TheStatsCollector, 0x00A03138 TheVictoryConditions); read them there.
+// The ledger owns 0x00A032F8 TheStatsCollector under its address name; read it
+// there. TheVictoryConditions (0x00A03138) comes from GameLogic/VictoryConditions.h.
 extern StatsCollector *g_00E032F8;
-struct UnknownE03138;
-extern UnknownE03138 *g_00E03138;
 #define TheStatsCollector g_00E032F8
-#define TheVictoryConditions (*(VictoryConditionsInterface **)&g_00E03138)
 // bfme link decl-only begin
 namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
 // list<Drawable *>'s base ctor is retail 0x00239BB0: its sentinel comes from the

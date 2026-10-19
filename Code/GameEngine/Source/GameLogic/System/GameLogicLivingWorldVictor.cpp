@@ -40,7 +40,7 @@ public:
 #undef VC_SLOT
 	virtual bool hasAchievedVictory(Player *player); // slot 0x38
 };
-extern struct UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 struct Rva0020E6B7Side
 {
@@ -93,7 +93,7 @@ Rva003F468DParticipant *GameLogic::GetLivingWorldTacticalVictor()
 			Rva003F468DParticipant *participant = (Rva003F468DParticipant *)battle->rva003F468D(side, i);
 			int index = participant->m_playerIndex;
 			Player *player = ThePlayerList->Rva002A7A6F(index);
-			if (player != 0 && (*(VictoryConditionsInterface **)&g_00E03138)->hasAchievedVictory(player) != 0)
+			if (player != 0 && TheVictoryConditions->hasAchievedVictory(player) != 0)
 				return participant;
 		}
 	}

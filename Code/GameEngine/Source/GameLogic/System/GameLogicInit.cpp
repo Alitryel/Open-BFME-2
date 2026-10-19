@@ -3281,9 +3281,7 @@ class SkirmishGameInfo;
 extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern LuaScriptEngine *TheLuaScriptEngine;
 extern GameEngine *TheGameEngine;
-// g_00E03138 is only an alias of the owned global g_00E03138 (ledger names column); this unit reads the owner through its own view type.
-extern struct UnknownE03138 *g_00E03138;
-#define g_00E03138 (*(Rva00E03138 * *)&g_00E03138)
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 extern InGameUI *TheInGameUI;
 extern Display *TheDisplay;
 extern Rva002872BA *TheTriggerManager;
@@ -3352,7 +3350,7 @@ void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 		if (TheGameEngine->isMultiplayerSession() || isSkirmish)
 			TheSidesList->rva0032FF91();
 		CreateMPPlayers(isSkirmish, *progress);
-		g_00E03138->reset();
+		((Rva00E03138 *)TheVictoryConditions)->reset();
 	} else if (((Rva0023C6A4 *)this)->rva00200084()) {
 		SetUpCampaignPlayers();
 	}
@@ -3375,7 +3373,7 @@ void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x10);
 	TheRadar->newMap(TheTerrainLogic);
 	TheInGameUI->setClientQuiet(false);
-	g_00E03138->slot44();
+	((Rva00E03138 *)TheVictoryConditions)->slot44();
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x11);
 
 	Region3D extent;
@@ -4854,7 +4852,7 @@ void GameLogic::update(int phase)
 		processDestroyList();
 		TheWeaponStore->update();
 		TheLocomotorStore->update();
-		g_00E03138->update();
+		((Rva00E03138 *)TheVictoryConditions)->update();
 		TheDelayedExperienceLevelGrantSystem->update();
 		((Rva0040CA98 *)&m_184)->rva0040CA98();
 		g_00DFEEF8->update();
@@ -4994,10 +4992,10 @@ void GameLogic::CreateWOTRMPPlayers()
   d.setBool(TheKey_teamIsSingleton.get(),true);
   TheSidesList->addTeam(&d);
  }
- g_00E03138->reset();
+ ((Rva00E03138 *)TheVictoryConditions)->reset();
  TheTeamFactory->reset();
  ThePlayerList->p0e();
- g_00E03138->slot44();
+ ((Rva00E03138 *)TheVictoryConditions)->slot44();
 }
 
 // Retail 0x0023DD48, 796 bytes: the load screen the game mode picks (the

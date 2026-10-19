@@ -965,7 +965,7 @@ struct UnknownE03138
 	virtual Bool u21();
 };
 
-extern UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 // Zero Hour and Open-BFME-1 DisconnectManager::update (track the last logic
 // frame and when it was reached, update the disconnect status while the
@@ -1036,8 +1036,8 @@ void DisconnectManager::update(ConnectionManager *conMgr)
 			{
 				if (*(Int *)((char *)TheGameLogic + 0x114) != 3)
 					turnOnScreen(conMgr);
-				else if (g_00E03138 != 0 &&
-					(g_00E03138->u19() || g_00E03138->u18() || g_00E03138->u21()))
+				else if (TheVictoryConditions != 0 &&
+					(((UnknownE03138 *)TheVictoryConditions)->u19() || ((UnknownE03138 *)TheVictoryConditions)->u18() || ((UnknownE03138 *)TheVictoryConditions)->u21()))
 				{
 					if (TheNetwork != 0)
 						((BFMENetworkVoteFacade *)TheNetwork)->rva0025E233();

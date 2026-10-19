@@ -467,7 +467,7 @@ struct UnknownE03138
 	virtual bool hasBeenDefeated(Player *player);
 };
 
-extern UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 // TheGameText's fetch by label (vslot 14).
 class GameTextInterface
@@ -526,7 +526,7 @@ void AptPlayerStatus::rva004E476C()
 			connected = true;
 		if (slot->isAI())
 			connected = true;
-		bool alive = !g_00E03138->hasBeenDefeated(player);
+		bool alive = !((UnknownE03138 *)TheVictoryConditions)->hasBeenDefeated(player);
 		bool observer = ((const ParticleSystem *)player)->isSaveable();
 		(this->*tableCallback.member)(row, 0, slot->getName());
 		(this->*tableCallback.member)(row, 1, slot->getApparentPlayerTemplateDisplayName());

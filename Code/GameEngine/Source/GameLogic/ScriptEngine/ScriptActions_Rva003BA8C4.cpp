@@ -34,7 +34,7 @@ struct UnknownE03138
 	virtual void u24();
 };
 
-extern UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 
 struct ScriptActionsRva003BA8C4
 {
@@ -47,8 +47,8 @@ struct ScriptActionsRva003BA8C4
 void ScriptActionsRva003BA8C4::setSuppressNewWindows(bool suppress)
 {
 	m_suppressNewWindows = suppress;
-	if (g_00E03138 != 0)
+	if (TheVictoryConditions != 0)
 	{
-		g_00E03138->u24();
+		((UnknownE03138 *)TheVictoryConditions)->u24();
 	}
 }

@@ -209,7 +209,7 @@ extern PlayerTemplateStore*ThePlayerTemplateStore;
 // GameEngine::init registers this storage with the TheVictoryConditions literal
 // and rowed420353 factory. Use the ledger's existing opaque pointer owner;
 // the accessed interface slots above remain proven by this retail body.
-extern struct UnknownE03138 *g_00E03138;
+class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;
 extern int BfmeLogicFramesPerSecond;
 
 Bool Rva005BF28EIsAlly(const GameInfo*,const GameSlot*);
@@ -221,7 +221,7 @@ void Rva005BF4BCProcess(Player*player) {
  SkirmishPreferences profile(0);
  RealTimeStatsPreferences prefs(profile.Rva0043B9F5());
  const AsciiString&side=player->playerTemplate->getSide();
- if(reinterpret_cast<VictoryConditionsInterface*>(g_00E03138)->isLocalAlliedVictory()) {
+ if(reinterpret_cast<VictoryConditionsInterface*>(TheVictoryConditions)->isLocalAlliedVictory()) {
   bool easy=false,normal=false,hard=false;
   int brutal=0;
   bool allied=false;
@@ -256,7 +256,7 @@ void Rva005BF4BCProcess(Player*player) {
   prefs.rva00536003(counterMax(prefs.rva0053604B(),prefs.rva00535FBA()));
   prefs.rva00535DBF(side,0);prefs.rva00536094(0);
   Rva005BF2C7Update(&prefs);
- }else if(reinterpret_cast<VictoryConditionsInterface*>(g_00E03138)->isLocalAlliedDefeat()) {
+ }else if(reinterpret_cast<VictoryConditionsInterface*>(TheVictoryConditions)->isLocalAlliedDefeat()) {
   for(int i=0;i<8;++i) {
    const GameSlot*slot=TheGameInfo->getConstSlot(i);
    bool ally=Rva005BF28EIsAlly(TheGameInfo,slot);

@@ -315,7 +315,7 @@ extern PlayerList *ThePlayerList;
 extern GameLogic *TheGameLogic;
 class RecorderClass; extern RecorderClass *TheRecorder;
 extern Radar *TheRadar;
-extern struct UnknownE03138 *g_00E03138;
+extern class VictoryConditionsInterface *TheVictoryConditions;
 class MetaMap;
 extern MetaMap *TheMetaMap;
 extern HouseColorSystem *TheHouseColorSystem;
@@ -883,7 +883,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheGameLogic, "TheGameLogic", createGameLogic(), 0);
 		initSubsystem(TheRecorder, "TheRecorder", createRecorder(), 0);
 		initSubsystem(TheRadar, "TheRadar", createRadar(), 0);
-		initSubsystem((reinterpret_cast<VictoryConditionsInterface *&>(g_00E03138)), "TheVictoryConditions", Rva00420353CreateVictoryConditions(), 0);
+		initSubsystem(TheVictoryConditions, "TheVictoryConditions", Rva00420353CreateVictoryConditions(), 0);
 		initSubsystem(TheMetaMap, "TheMetaMap", new MetaMap, 0);
 		initSubsystem(TheHouseColorSystem, "TheHouseColorSystem", new HouseColorSystem, 0);
 		initSubsystem(TheMeshInstancingManager, "TheMeshInstancingManager", new Rva0041FB13, 0);
