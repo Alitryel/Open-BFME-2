@@ -1,6 +1,8 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.9 date=2026-10-19
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
+// partial score=0.9 date=2026-10-19
+// ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.236 date=2026-10-17
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.25 date=2026-10-14
@@ -66,7 +68,7 @@ private:
     Rva006C65F0 *previous;
 };
 class AerialPathfinder { public: int rva00375ED7(Object *, const Coord3D *, Coord3D *); };
-class Rva00311B70 { public: void rva00311B70(); };
+class Rva00311DD9 { public: void rva00311B70(); };
 class Rva00311F46 { public: bool find(const Coord3D &, float); };
 class Rva00312C95 {
 public:
@@ -278,11 +280,11 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                             p.z += push.z;
                             if (!((Rva00311F46 *)route)->find(p, *(float *)(self + 0xbc)))
                                 ((AerialRouteCalls *)route)->insert(&p);
-                            ((Rva00311B70 *)route)->rva00311B70();
+                            ((Rva00311DD9 *)route)->rva00311B70();
                             ((AerialRouteCalls *)route)->prepare(1, 4000, 1000.0f, 1000.0f, 0, 0);
                             route->rva00312118();
                             ++repairs;
-                            ((AerialRouteCalls *)route)->time = middle + *(float *)(self + 0xbc);
+                            ((AerialRouteCalls *)route)->time = *(float *)(self + 0xbc) + middle;
                         }
                     }
                 }
