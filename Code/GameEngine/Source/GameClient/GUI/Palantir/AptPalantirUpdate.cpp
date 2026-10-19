@@ -827,7 +827,7 @@ struct Rva0039B95FHolder
 	char m_pad00[0x10];
 	Rva004266A1 *m_obj;
 };
-extern Rva0039B95FHolder *g_00E031E8;
+extern Rva0039B95FHolder *TheMissionObjectiveTracker;
 
 namespace _STL {
 template <> bool &map<int, bool, less<int>, allocator<pair<const int, bool> > >::operator[](const int &);
@@ -1033,7 +1033,7 @@ void AptPalantir::update()
 		if (TheLivingWorldLogic && !reinterpret_cast<BfmeSelectionState *>(TheLivingWorldLogic)->isSelectionLocked()
 			&& !reinterpret_cast<BfmeGlob939D *>(TheGameLogic)->bfmeCall939D())
 		{
-			Rva004266A1 *objectives = g_00E031E8 ? g_00E031E8->m_obj : 0;
+			Rva004266A1 *objectives = TheMissionObjectiveTracker ? TheMissionObjectiveTracker->m_obj : 0;
 			if (objectives)
 			{
 				int count = (objectives->m_end - objectives->m_begin) >> 3;

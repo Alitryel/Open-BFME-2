@@ -52,11 +52,11 @@ public:
 struct LANGameInfo;
 extern class GameInfo *TheGameInfo;
 
-// The objectives (Rva0039B95FCount.cpp's g_00E031E8; its +0x10 list is
+// The objectives (Rva0039B95FCount.cpp's TheMissionObjectiveTracker; its +0x10 list is
 // Rva0051C0E7Ctor.cpp's Rva004266A1, whose rowed 0x004268F6 and 0x004269F7
 // answer two flags of an objective).
 struct Rva0039B95FHolder;
-extern Rva0039B95FHolder *g_00E031E8;
+extern Rva0039B95FHolder *TheMissionObjectiveTracker;
 
 class Rva004266A1
 {
@@ -151,10 +151,10 @@ void AptPlayerStatus::PlayerColor(int slot, char *result, bool set)
 void AptPlayerStatus::Objective(int row, char *result, bool skip)
 {
 	strcpy(result, "00");
-	if (m_state == 0 && row >= 0 && row < 12 && !skip && g_00E031E8)
+	if (m_state == 0 && row >= 0 && row < 12 && !skip && TheMissionObjectiveTracker)
 	{
 		int index = GetNthVisibleObjectiveIndex(row);
-		Rva004266A1 *list = ((AptPlayerStatusObjectives *)g_00E031E8)->m_list;
+		Rva004266A1 *list = ((AptPlayerStatusObjectives *)TheMissionObjectiveTracker)->m_list;
 		if (index >= 0 && list)
 		{
 			result[0] = '0' + (list->rva004268F6(index) != 0);

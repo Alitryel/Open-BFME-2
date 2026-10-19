@@ -3,7 +3,7 @@
 // AptPlayerStatus handler answering "$<text>" for a row. Evidence: between
 // Objective 0x004E4446 and PlayerColor 0x004E45FA in same TU family; same
 // m_state +0x288 zero check and row range 0-12 and bool skip as Objective;
-// same GetNthVisibleObjectiveIndex index plus g_00E031E8 list plus Rva004266A1 text record.
+// same GetNthVisibleObjectiveIndex index plus TheMissionObjectiveTracker list plus Rva004266A1 text record.
 #include "ascii_string.h"
 
 extern "C" char *__cdecl _mbscpy(char *destination, const char *source);
@@ -17,7 +17,7 @@ public:
 };
 
 struct Rva0039B95FHolder;
-extern Rva0039B95FHolder *g_00E031E8;
+extern Rva0039B95FHolder *TheMissionObjectiveTracker;
 
 struct AptPlayerStatusObjectives
 {
@@ -42,8 +42,8 @@ void AptPlayerStatus::ExternsObjective(int row, char *result, bool skip)
 	{
 		AsciiString tmp;
 		int index = GetNthVisibleObjectiveIndex(row);
-		if (index >= 0 && g_00E031E8 && ((AptPlayerStatusObjectives *)g_00E031E8)->m_list)
-			tmp = *(const AsciiString *)((AptPlayerStatusObjectives *)g_00E031E8)->m_list->rva004267E9(index);
+		if (index >= 0 && TheMissionObjectiveTracker && ((AptPlayerStatusObjectives *)TheMissionObjectiveTracker)->m_list)
+			tmp = *(const AsciiString *)((AptPlayerStatusObjectives *)TheMissionObjectiveTracker)->m_list->rva004267E9(index);
 		if (!tmp.isEmpty() && tmp.getLength() + 2 < 0xFF)
 		{
 			result[0] = '$';

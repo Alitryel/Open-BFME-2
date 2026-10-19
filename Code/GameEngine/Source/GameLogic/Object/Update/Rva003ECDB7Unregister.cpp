@@ -26,18 +26,18 @@ private:
 	AsciiString m_name;
 };
 
-extern Rva003ED2A3Manager *g_manager;
-// g_manager: matched references place it at VA 0xe02e48 (zero-filled .bss).
-Rva003ED2A3Manager * g_manager;
+extern Rva003ED2A3Manager *TheThreatFinderManager;
+// TheThreatFinderManager: matched references place it at VA 0xe02e48 (zero-filled .bss).
+Rva003ED2A3Manager * TheThreatFinderManager;
 
 Rva003ECDB7Object::~Rva003ECDB7Object()
 {
 	if (m_name.compare(AsciiString::TheEmptyString) != 0)
-		g_manager->remove(m_name, this);
+		TheThreatFinderManager->remove(m_name, this);
 }
 
 void Rva003ECDB7Object::registerName()
 {
 	if (m_name.compare(AsciiString::TheEmptyString) != 0)
-		g_manager->add(m_name, this);
+		TheThreatFinderManager->add(m_name, this);
 }

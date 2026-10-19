@@ -4,7 +4,7 @@
 // MissionObjectiveTracker::ParseMapMissionObjective in EA's own
 // MissionObjectiveTracker.cpp (assert TheMissionObjectiveTracker, line 303).
 // Static member spelling: ABI-identical to the proven cdecl free function.
-// Original evidence: calls rowed ctor 0x426C4D plus initFromINI wrapper 0x42666E with new 0x10 plus holder g_00E031E8 at +0x10 plus debug theDebug slots 0x60 0x6c 0x38 0x4c plus literal plus INIException filler 0x2F681 plus throw 0x629094
+// Original evidence: calls rowed ctor 0x426C4D plus initFromINI wrapper 0x42666E with new 0x10 plus holder TheMissionObjectiveTracker at +0x10 plus debug theDebug slots 0x60 0x6c 0x38 0x4c plus literal plus INIException filler 0x2F681 plus throw 0x629094
 class INI
 {
 public:
@@ -33,11 +33,11 @@ struct Holder00426D14
 	Rva00426C4D *m_10;
 };
 
-// g_00E031E8 is defined as Rva0039B95FHolder* in Rva0039B95FCount.cpp (same
+// TheMissionObjectiveTracker is defined as Rva0039B95FHolder* in Rva0039B95FCount.cpp (same
 // VA 0x00E031E8, same +0x10 holder slot); declare that exact name here and
 // cast at use so the link resolves instead of adding a second global name.
 struct Rva0039B95FHolder;
-extern Rva0039B95FHolder *g_00E031E8;
+extern Rva0039B95FHolder *TheMissionObjectiveTracker;
 
 void *__cdecl operator new(unsigned int size);
 void __cdecl operator delete(void *p);
@@ -102,13 +102,13 @@ void MissionObjectiveTracker::ParseMapMissionObjective(INI *ini)
 {
 	if (ini->m_08 == 2)
 	{
-		if ((Holder00426D14 *)g_00E031E8 == 0)
+		if ((Holder00426D14 *)TheMissionObjectiveTracker == 0)
 			return;
 		Rva00426C4D *p = new Rva00426C4D;
 		((Rva0042666E *)p)->rva0042666E(ini);
-		if (((Holder00426D14 *)g_00E031E8)->m_10 == 0)
+		if (((Holder00426D14 *)TheMissionObjectiveTracker)->m_10 == 0)
 		{
-			((Holder00426D14 *)g_00E031E8)->m_10 = p;
+			((Holder00426D14 *)TheMissionObjectiveTracker)->m_10 = p;
 			return;
 		}
 		void *q = p ? p->v0(0) : (void *)0;

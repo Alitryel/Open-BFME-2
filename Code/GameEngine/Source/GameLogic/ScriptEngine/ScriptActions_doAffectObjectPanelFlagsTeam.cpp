@@ -13,7 +13,7 @@
 // bfmeCounter 0x0020874B, by value), the player mask (rowed 0x00357475) and
 // player (rowed getPlayerFromMask 0x002A7B91), "Enemies"/"Allies" to 0/1
 // (WB's invalid-type and invalid-player branches only assert), then the
-// threat finder by name from the manager at VA 0x00E02E48 (g_manager; the
+// threat finder by name from the manager at VA 0x00E02E48 (TheThreatFinderManager; the
 // find is the ICF body at 0x0041F474, placeholder-pinned), whose
 // getThreatForPlayer (pinned 0x003ED0C4) fills a 0x44-byte record whose
 // first float goes to the counter. A missing finder appends WB's warning.
@@ -79,7 +79,7 @@ public:
 };
 
 class Rva003ED2A3Manager;
-extern Rva003ED2A3Manager *g_manager;
+extern Rva003ED2A3Manager *TheThreatFinderManager;
 // Its by-name lookup is the ICF-folded hash_map find at 0x0041F474, rowed as
 // ArmorStore::rva0041F474 (ArmorStoreFindByName.cpp): call it by that name.
 class ArmorTemplate;
@@ -142,7 +142,7 @@ void ScriptActions::doSetCounterToThreatFinderThreat(const AsciiString &counterN
 		type = 1;
 	else
 		return;
-	ThreatFinder *finder = (ThreatFinder *)((const ArmorStore *)g_manager)->rva0041F474(threatFinderName);
+	ThreatFinder *finder = (ThreatFinder *)((const ArmorStore *)TheThreatFinderManager)->rva0041F474(threatFinderName);
 	if (finder) {
 		counter->m_value = (int)finder->getThreatForPlayer(player, type, 0).m_threat;
 	} else {

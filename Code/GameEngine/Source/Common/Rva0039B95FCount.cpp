@@ -22,15 +22,15 @@ struct Rva0039B95FHolder
 	Rva004266A1 *m_obj;
 };
 
-extern Rva0039B95FHolder *g_00E031E8;
-// g_00E031E8: matched references place it at VA 0xe031e8 (zero-filled .bss).
-Rva0039B95FHolder * g_00E031E8;
+extern Rva0039B95FHolder *TheMissionObjectiveTracker;
+// TheMissionObjectiveTracker: matched references place it at VA 0xe031e8 (zero-filled .bss).
+Rva0039B95FHolder * TheMissionObjectiveTracker;
 
 int __stdcall Rva0039B95FCount(int *outFirst)
 {
 	int countThree = 0;
 	int countTwo = 0;
-	Rva0039B95FHolder *holder = g_00E031E8;
+	Rva0039B95FHolder *holder = TheMissionObjectiveTracker;
 	if (holder != 0)
 	{
 		Rva004266A1 *obj = holder->m_obj;
@@ -63,7 +63,7 @@ int Rva0039B709::countMissionObjectives(int *outFirst)
 {
 	int countThree = 0;
 	int countTwo = 0;
-	Rva0039B95FHolder *holder = g_00E031E8;
+	Rva0039B95FHolder *holder = TheMissionObjectiveTracker;
 	if (holder != 0)
 	{
 		Rva004266A1 *obj = holder->m_obj;

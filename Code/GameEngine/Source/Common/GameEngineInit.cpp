@@ -281,7 +281,7 @@ extern class Rva0041811D *TheLivingWorldAutoResolveBodyStore;
 extern class Rva0041811D *TheLivingWorldAutoResolveLeadershipStore;
 extern class Rva0041811D *TheLivingWorldAutoResolveCombatChainStore;
 extern struct HandicapStore *TheLivingWorldAutoResolveHandicapStore;
-extern struct Rva0039B95FHolder *g_00E031E8;
+extern struct Rva0039B95FHolder *TheMissionObjectiveTracker;
 extern EmotionSystem *TheEmotionSystem;
 extern class ThingFactory *TheThingFactory;
 extern class Rva00425F10 *TheStancesStore;
@@ -330,8 +330,8 @@ extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
 // TheBaseTemplateLibrary (0x00A03124): registered below by name; retail .data starts it at 0.
 class Rva0022BD9ASubsystem;
 Rva0022BD9ASubsystem *TheBaseTemplateLibrary = 0;
-extern class Rva003ED2A3Manager *g_manager;
-extern struct Rva005055DESrc *g_00E0311C;
+extern class Rva003ED2A3Manager *TheThreatFinderManager;
+extern struct Rva005055DESrc *TheAITargetHeuristicLibrary;
 extern ActionManager *TheActionManager;
 extern void *TheGameStateMap;
 extern GameState *TheGameState;
@@ -850,7 +850,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022A9DDSubsystem *&>(TheLivingWorldAutoResolveLeadershipStore)), "TheLivingWorldAutoResolveLeadershipStore", new Rva0022A9DDSubsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022AA52Subsystem *&>(TheLivingWorldAutoResolveCombatChainStore)), "TheLivingWorldAutoResolveCombatChainStore", new Rva0022AA52Subsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022AAC7Subsystem *&>(TheLivingWorldAutoResolveHandicapStore)), "TheLivingWorldAutoResolveHandicapStore", new Rva0022AAC7Subsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022AB3CSubsystem *&>(g_00E031E8)), "TheMissionObjectiveTracker", new Rva0022AB3CSubsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022AB3CSubsystem *&>(TheMissionObjectiveTracker)), "TheMissionObjectiveTracker", new Rva0022AB3CSubsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheEmotionSystem, "TheEmotionSystem", new EmotionSystem, 0);
 		{
 		Rva000309B0 initScope('init');
@@ -894,8 +894,8 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022BCB0Subsystem *&>(g_00DFEEF8)), "TheSkirmishAIManager", new Rva0022BCB0Subsystem, 0);
 		initSubsystem(TheArmyDefinitionManager, "TheArmyDefinitionManager", new Rva0022BD25Subsystem, 0);
 		initSubsystem(TheBaseTemplateLibrary, "TheBaseTemplateLibrary", new Rva0022BD9ASubsystem, 0);
-		initSubsystem((reinterpret_cast<Rva0022BE0FSubsystem *&>(g_manager)), "TheThreatFinderManager", new Rva0022BE0FSubsystem, 0);
-		initSubsystem((reinterpret_cast<Rva0022BE84Subsystem *&>(g_00E0311C)), "TheAITargetHeuristicLibrary", new Rva0022BE84Subsystem, 0);
+		initSubsystem((reinterpret_cast<Rva0022BE0FSubsystem *&>(TheThreatFinderManager)), "TheThreatFinderManager", new Rva0022BE0FSubsystem, 0);
+		initSubsystem((reinterpret_cast<Rva0022BE84Subsystem *&>(TheAITargetHeuristicLibrary)), "TheAITargetHeuristicLibrary", new Rva0022BE84Subsystem, 0);
 		ini.loadFile("CommandMap.ini", INI_LOAD_OVERWRITE, 0);
 		initSubsystem(TheActionManager, "TheActionManager", new ActionManager, 0);
 		initSubsystem((reinterpret_cast<GameStateMap *&>(TheGameStateMap)), "TheGameStateMap", new GameStateMap, 0);

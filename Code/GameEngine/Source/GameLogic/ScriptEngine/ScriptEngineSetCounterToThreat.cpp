@@ -9,7 +9,7 @@
 // each read at the retail REL32: bfmeCounter 0x0020874B, getTeamNamed
 // 0x003584E9 and the unit lookup 0x00358752 on TheScriptEngine, the team and
 // object radius helpers 0x003A3736 / 0x002972B1, the threat-finder find
-// 0x0041F474 on g_manager and ThreatFinder::getThreatForPlayer 0x003ED0C4.
+// 0x0041F474 on TheThreatFinderManager and ThreatFinder::getThreatForPlayer 0x003ED0C4.
 // The template test is WB's BitFlags<KindOfType>::test, which retail inlines
 // to a byte test of bit 0xC3 in the template's kind-of bits at +0x108.
 // No Zero Hour donor: the action is BFME2's.
@@ -91,7 +91,7 @@ public:
 };
 
 class Rva003ED2A3Manager;
-extern Rva003ED2A3Manager *g_manager;
+extern Rva003ED2A3Manager *TheThreatFinderManager;
 // Its by-name lookup is the ICF-folded hash_map find at 0x0041F474, rowed as
 // ArmorStore::rva0041F474 (ArmorStoreFindByName.cpp): call it by that name.
 class ArmorTemplate;
@@ -135,7 +135,7 @@ void ScriptEngine::setCounterToThreat(ScriptAction *pAction, bool useTeam)
 		Object *obj = ((Rva00358752Opaque *)TheScriptEngine)->lookupUnitByValue(pAction->getParameter(1)->m_string);
 		if (obj) {
 			if (obj->getTemplate()->isKindOf(0xC3)) {
-				ThreatFinder *finder = (ThreatFinder *)((const ArmorStore *)g_manager)->rva0041F474(pAction->getParameter(1)->m_string);
+				ThreatFinder *finder = (ThreatFinder *)((const ArmorStore *)TheThreatFinderManager)->rva0041F474(pAction->getParameter(1)->m_string);
 				if (finder) {
 					Player *player = obj->getControllingPlayer();
 					value = finder->getThreatForPlayer(player, 0, 0).m_threat;

@@ -69,7 +69,7 @@ struct Rva0051C0E7G {
 	Rva004266A1 *m_10;
 };
 
-extern Rva0051C0E7G *g_00E031E8;
+extern Rva0051C0E7G *TheMissionObjectiveTracker;
 
 class AptScoreScreen
 {
@@ -86,10 +86,10 @@ void AptScoreScreen::PreCollectGameData(Rva0051C0E7 *obj)
 	if (!mid)
 		return;
 	obj->m_00.setCopyInline(mid->m_58);
-	if (!g_00E031E8)
+	if (!TheMissionObjectiveTracker)
 		return;
 	obj->m_04 = 0;
-	Rva004266A1 *vec = g_00E031E8->m_10;
+	Rva004266A1 *vec = TheMissionObjectiveTracker->m_10;
 	if (!vec)
 		return;
 	for (int i = 0; i < (int)vec->m_04.size(); i++)
@@ -108,4 +108,4 @@ void AptScoreScreen::PreCollectGameData(Rva0051C0E7 *obj)
 
 // The global(s) below are defined elsewhere under another name at the same
 // address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00E031E8@@3PAURva0051C0E7G@@A=?g_00E031E8@@3PAURva0039B95FHolder@@A")
+#pragma comment(linker, "/alternatename:?TheMissionObjectiveTracker@@3PAURva0051C0E7G@@A=?TheMissionObjectiveTracker@@3PAURva0039B95FHolder@@A")

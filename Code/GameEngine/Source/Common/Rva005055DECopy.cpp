@@ -1,7 +1,7 @@
 // cl: /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // ?rva005055DE@Rva005055DE@@QAEXXZ, retail 0x005055DE, 40 bytes.
-// Evidence: copies ModuleData ptr range from global g_00E0311C vec at +0xc via rowed push_back 0x004DFCB0 into vec at +0x14; caller jmp 0x0050590C.
+// Evidence: copies ModuleData ptr range from global TheAITargetHeuristicLibrary vec at +0xc via rowed push_back 0x004DFCB0 into vec at +0x14; caller jmp 0x0050590C.
 // Keep this inlined unsigned max overload local; retail has one external owner.
 // Define it for speed, then restore this unit's flags for its vector bodies.
 #pragma optimize("s", off)
@@ -25,8 +25,8 @@ struct Rva005055DESrc
 	_STL::vector<const ModuleData *> m_0C;
 };
 
-// g_00E0311C: matched references place it at VA 0xe0311c (retail .data initial value 0).
-Rva005055DESrc * g_00E0311C = 0;
+// TheAITargetHeuristicLibrary: matched references place it at VA 0xe0311c (retail .data initial value 0).
+Rva005055DESrc * TheAITargetHeuristicLibrary = 0;
 
 class Rva005055DE
 {
@@ -38,7 +38,7 @@ public:
 
 void Rva005055DE::rva005055DE()
 {
-	_STL::vector<const ModuleData *> &src = g_00E0311C->m_0C;
+	_STL::vector<const ModuleData *> &src = TheAITargetHeuristicLibrary->m_0C;
 	for (_STL::vector<const ModuleData *>::iterator it = src.begin(); it != src.end(); ++it)
 		m_14.push_back(*it);
 }

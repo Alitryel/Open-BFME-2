@@ -26,13 +26,13 @@ struct Rva004266A1Holder
 	Rva004266A1 *m_slot10;
 };
 
-// g_00E031E8 is only an alias of the owned global g_00E031E8 (ledger names column); this unit reads the owner through its own view type.
-extern struct Rva0039B95FHolder *g_00E031E8;
-#define g_00E031E8 (*(Rva004266A1Holder * *)&g_00E031E8)
+// TheMissionObjectiveTracker is only an alias of the owned global TheMissionObjectiveTracker (ledger names column); this unit reads the owner through its own view type.
+extern struct Rva0039B95FHolder *TheMissionObjectiveTracker;
+#define TheMissionObjectiveTracker (*(Rva004266A1Holder * *)&TheMissionObjectiveTracker)
 
 void ScriptActions::rva003BD32B(int index)
 {
-	Rva004266A1Holder *holder = g_00E031E8;
+	Rva004266A1Holder *holder = TheMissionObjectiveTracker;
 	if (holder == 0)
 		return;
 	Rva004266A1 *p = holder->m_slot10;
@@ -43,7 +43,7 @@ void ScriptActions::rva003BD32B(int index)
 
 void ScriptActions::rva003BD36F(int index)
 {
-	Rva004266A1Holder *holder = g_00E031E8;
+	Rva004266A1Holder *holder = TheMissionObjectiveTracker;
 	if (holder == 0)
 		return;
 	Rva004266A1 *p = holder->m_slot10;
@@ -57,9 +57,9 @@ void ScriptActions::rva003BD36F(int index)
 // retail's eax shape for the flag-0 spelling (a named holder emits ecx, 32 B).
 void ScriptActions::rva003BD34D(int index)
 {
-	if ((g_00E031E8) == 0)
+	if ((TheMissionObjectiveTracker) == 0)
 		return;
-	Rva004266A1 *p = (g_00E031E8)->m_slot10;
+	Rva004266A1 *p = (TheMissionObjectiveTracker)->m_slot10;
 	if (p == 0)
 		return;
 	p->rva0042682B(index - 1, 0);
@@ -69,9 +69,9 @@ void ScriptActions::rva003BD34D(int index)
 // 0x003BD34D.
 void ScriptActions::rva003BD391(int index)
 {
-	if ((g_00E031E8) == 0)
+	if ((TheMissionObjectiveTracker) == 0)
 		return;
-	Rva004266A1 *p = (g_00E031E8)->m_slot10;
+	Rva004266A1 *p = (TheMissionObjectiveTracker)->m_slot10;
 	if (p == 0)
 		return;
 	p->rva00426914(index - 1, 0);

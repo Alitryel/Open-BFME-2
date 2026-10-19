@@ -62,7 +62,7 @@ void *TheMineshaftPortalNetworkManager = 0;
 // Reuse this existing zero slot under that proven subsystem name.
 class AiOrdersManager;
 AiOrdersManager *TheAiOrdersManager = 0;
-struct Rva0039B95FHolder; extern Rva0039B95FHolder *g_00E031E8;
+struct Rva0039B95FHolder; extern Rva0039B95FHolder *TheMissionObjectiveTracker;
 class Rva00285D34; class Rva002872BA; extern Rva002872BA *TheTriggerManager;
 void GameState::init()
 {
@@ -96,7 +96,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_AiOrdersManager", (Snapshot *)(SnapshotSubsystemView *)TheAiOrdersManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_SpellStore", (Snapshot *)Rva0043CCC2GetRoute(), (SnapshotType)0);
     addSnapshotBlock("CHUNK_ObjectivesMenu", (Snapshot *)Rva004E4312GetRoute(), (SnapshotType)0);
-    addSnapshotBlock("CHUNK_MissionObjectives", (Snapshot *)(SnapshotSubsystemView *)g_00E031E8, (SnapshotType)0);
+    addSnapshotBlock("CHUNK_MissionObjectives", (Snapshot *)(SnapshotSubsystemView *)TheMissionObjectiveTracker, (SnapshotType)0);
     addSnapshotBlock("CHUNK_FireLogicSystem", (Snapshot *)(SnapshotSubsystemView *)TheTriggerManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_TeamFactory", (Snapshot *)(SnapshotSubsystemView *)TheTeamFactory, (SnapshotType)1);
     addSnapshotBlock("CHUNK_Players", (Snapshot *)(SnapshotSubsystemView *)ThePlayerList, (SnapshotType)1);
