@@ -44,6 +44,15 @@ public:
 #include "../../../../Include/Common/LivingWorldBattleListener.h"
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
+// Keep vector<void*>'s destructors inline-only: nothing here calls them out of
+// line, and this TU's /O1 copies are not retail's /Od bodies (0x00027370, 0x000251F0).
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_Vector_base<void *, allocator<void *> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+vector<void *, allocator<void *> >::~vector() { _Destroy(this->_M_start, this->_M_finish); }
+}
 
 struct BfmeStringRecord00111ACF;
 
