@@ -245,7 +245,6 @@ public:
 	unsigned int m_trigger;
 };
 
-class Rva000C65CB { public: void rva000C65CB(); };
 
 class ParticleStateView { public: char m_pad[0x74]; _STL::list<BfmePod32> m_bones; };
 class ParticleDataView { public: char m_pad[0xB4]; _STL::list<BfmePod32> m_bones; };
@@ -292,6 +291,7 @@ class W3DModelDraw
 {
 public:
 	void rva000C6E1A();
+	void rva000C65CB();	// bone-attached render object update (0x000C65CB)
 private:
 	char m_pad00[4];
 	ParticleModuleData *m_data;							// +0x04
@@ -481,6 +481,6 @@ void W3DModelDraw::rva000C6E1A()
 	else
 	{
 		m_secondary.slot6C(true);
-		((Rva000C65CB *)this)->rva000C65CB();
+		rva000C65CB();
 	}
 }

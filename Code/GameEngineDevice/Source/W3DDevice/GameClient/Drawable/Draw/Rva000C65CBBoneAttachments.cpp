@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
 //
-// ?rva000C65CB@Rva000C65CB@@QAEXXZ  retail 0x000C65CB..0x000C6878 (685B)
+// ?rva000C65CB@W3DModelDraw@@QAEXXZ  retail 0x000C65CB..0x000C6878 (685B)
 // WorldBuilder twin 0x00947720 (1607B; its only name lead is the inlined
 // RefCountClass::Release_Ref assert from refcount.h).
 //
@@ -22,8 +22,8 @@
 // Rva000C24EAVectorErase.cpp: word0 basic_string at +4 triple at +0x10 word at
 // +0x1C); _sin/_cos imports; scene global 0x009E1B34. The sole caller
 // 0x000C6E1A reads the drawable at +8 like W3DModelDraw and +0x50 is
-// W3DModelDraw's render object; the owning class is not established so the
-// name stays address-derived. Reading the angles through a reference to the
+// W3DModelDraw's render object, on its own this: W3DModelDraw owns it.
+// Reading the angles through a reference to the
 // record's triple is what reproduces retail's x87 schedule in Rotate_X.
 #define _STLP_NO_EXCEPTIONS 1
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -197,7 +197,7 @@ private:
 	Rva000C24EA *_M_start, *_M_finish, *_M_end;
 };
 
-class Rva000C65CB
+class W3DModelDraw
 {
 public:
 	void rva000C65CB();
@@ -211,7 +211,7 @@ private:
 	_STL::vector<_STL::basic_string<char> > m_removed;	// +0x170
 };
 
-void Rva000C65CB::rva000C65CB()
+void W3DModelDraw::rva000C65CB()
 {
 	if (m_14 == 0 || m_renderObject == 0)
 		return;
