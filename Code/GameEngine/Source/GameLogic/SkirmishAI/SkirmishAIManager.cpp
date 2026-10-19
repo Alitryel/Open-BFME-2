@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2
+// cl: /Ireference/shims/bfmealloc /O1 /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2
 // stlport
 // WB E8E070 names SkirmishAIManager::Register. Retail2A9365..2A93F5
 // establishes the controller dispatches and unique hero-ID insertion.
