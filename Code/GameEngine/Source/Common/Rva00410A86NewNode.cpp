@@ -1,13 +1,14 @@
 // cl: /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
-// ?Rva00410A86NewNode@@YGPAXPBX@Z, retail 0x00410A86 37B. Hashtable node
+// ?rva00410A86@Rva000427195@@QAEPAXPBX@Z, retail 0x00410A86 37B. Hashtable node
 // allocator for the AsciiString-keyed 12-byte node family (next+pair).
 // Allocates 12 bytes through the rowed game byte allocator 0x000307F0,
 // zeroes the next link, and placement-copies the 8-byte pair through the
 // rowed _Construct dup 0x004109BC for pair<const AsciiString,
 // TreeHintRef00217D4C>. Same shape as rowed 0x00410997 and 0x004152E6.
-// Called by 0x00410E0A in 0x00410DDF. Evidence: ret-4 free function;
-// push 0/push 0xC/call shape.
+// Called by 0x00410E0A in 0x00410DDF (Rva000427195::rva00410DDF, which calls it
+// as a member: the STLport hashtable _M_new_node shape). Evidence: ret-4, one
+// stack argument, ECX unused; push 0/push 0xC/call shape.
 #include <map>
 #include <set>
 #include <list>
@@ -38,7 +39,13 @@ struct HashNode
 	NewNodePair m_val;
 };
 
-void *__stdcall Rva00410A86NewNode(const void *src)
+class Rva000427195
+{
+public:
+	void *rva00410A86(const void *src);
+};
+
+void *Rva000427195::rva00410A86(const void *src)
 {
 	HashNode *node = (HashNode *)_STL::allocator<char>::allocate(12, 0);
 	node->m_next = 0;

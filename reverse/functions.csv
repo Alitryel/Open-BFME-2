@@ -47395,7 +47395,7 @@ _piConnectFillInUserCallbackA,,0x006A01B0,55,Code/GameEngine/Source/GameNetwork/
 ?rva005F0CC1@Rva005F0CC1@@QAEXABVUnicodeString@@@Z,,0x005F0CC1,8,Code/GameEngine/Source/Common/Rva005F0C54.cpp,matched,chain tail jmp to 0x005F0C54 via ptr at plus4
 ?rva00419331@Rva000427195@@QAE?AUInsertRet00419331@@PBX@Z,,0x00419331,124,Code/GameEngine/Source/GameClient/Rva00419331Insert.cpp,matched,hashtable insert same shape as rowed 124B siblings via bucketIndex compare new_node
 ?init@TextOnFrameTransition@@UAEXPAVGameWindow@@@Z,,0x0035FA90,62,Code/GameEngine/Source/GameClient/GUI/TextOnFrameTransitionInit.cpp,matched,
-?Rva00410A86NewNode@@YGPAXPBX@Z,,0x00410A86,37,Code/GameEngine/Source/Common/Rva00410A86NewNode.cpp,matched,12B hashtable node via rowed allocator 0x307F0 and rowed Construct 0x4109BC caller 0x410E0A same shape as 0x410997
+?rva00410A86@Rva000427195@@QAEPAXPBX@Z,,0x00410A86,37,Code/GameEngine/Source/Common/Rva00410A86NewNode.cpp,matched,12B hashtable node via rowed allocator 0x307F0 and rowed Construct 0x4109BC caller 0x410E0A same shape as 0x410997
 ?rva00410DDF@Rva000427195@@QAEPAU?$pair@$$CBVAsciiString@@UTreeHintPayload00410A86@@@_STL@@PBU23@@Z,,0x00410DDF,68,Code/GameEngine/Source/GameClient/Rva00410DDFInsert.cpp,matched,hashtable insert via pin 0x212858 rowed 0x223149 pinned twin 0x410A86 caller 0x41117B same shape as 0x410E67
 ??1HordeContain@@UAE@XZ,,0x0046F901,325,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainDtor.cpp,matched,HordeContain dtor 11 vptrs explicit m_2C8 virtual delete plus 10 members plus TransportContain base
 ??0Rva0018BEC7@@QAE@XZ,,0x0018BEC7,66,Code/GameEngine/Source/Common/Rva0018BEC7Ctor.cpp,matched,ctor registers WW3D via rowed Register with empty base and member
