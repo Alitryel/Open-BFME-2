@@ -9,7 +9,11 @@
 class Rva005CE4B2Held
 {
 public:
-	virtual ~Rva005CE4B2Held();
+	// Declared inline and empty (as the rowed family template
+	// Rva005CE259Ctor.cpp does) so the vtable this unit emits resolves in-TU:
+	// 0x005CE4B2 is the rowed outer ctor row, and the held object's real dtor
+	// is the empty ICF fold 0x004E84A4 that retail's vtable slot 0 reaches.
+	virtual ~Rva005CE4B2Held() {}
 	Rva005CE4B2Held(int const *v) : m_04(0) { m_08 = *v; }
 	int m_04;
 	int m_08;
