@@ -13,13 +13,12 @@ class AICommandInterface{public:void aiIdle(CommandSourceType);};
 struct TeleportAI{char pad[0x20];AICommandInterface commands;};
 class Object{public:char pad[0x44];float orientation;char pad48[0x258-0x48];TeleportAI *ai;void teleportTo(const Coord3D*,bool);};
 class Thing{public:void setOrientation(float);};
-class Rva004CD4DC{public:void rva004CD4DC(Object*);};
 struct TeleportData{char pad[0xCC];float minRadius,maxRadius;};
 struct FindPositionOptions{
  FindPositionOptions():flags(0),minRadius(0),maxRadius(0),startAngle(-99999.9f),maxZDelta(1e10f),ignoreObject(0),sourceToPathToDest(0),relationshipObject(0){}
  unsigned flags;float minRadius,maxRadius,startAngle,maxZDelta;const Object *ignoreObject,*sourceToPathToDest,*relationshipObject;
 };
-class TeleportToCasterSpecialPower{public:char pad[4];const TeleportData *data;void teleportList(const _STL::vector<ObjectID>*,const Coord3D*);};
+class TeleportToCasterSpecialPower{public:char pad[4];const TeleportData *data;void teleportList(const _STL::vector<ObjectID>*,const Coord3D*);void rva004CD4DC(Object*);};
 void TeleportToCasterSpecialPower::teleportList(const _STL::vector<ObjectID>*ids,const Coord3D*center){
  const TeleportData *moduleData=data;
  FindPositionOptions options;options.minRadius=moduleData->minRadius;options.maxRadius=moduleData->maxRadius;
@@ -27,13 +26,13 @@ void TeleportToCasterSpecialPower::teleportList(const _STL::vector<ObjectID>*ids
  for(_STL::vector<ObjectID>::const_iterator it=ids->begin();it!=ids->end();++it,angle+=angleSpacing){
   Object *object=TheGameLogic->findObjectByID(*it);
   if(object){
-   ((Rva004CD4DC*)this)->rva004CD4DC(object);
+   rva004CD4DC(object);
    float orientation=object->orientation;options.startAngle=angle;Coord3D position;
    if(PartitionManager::findPositionAround(center,&options,&position)){double dx=(double)position.x-center->x;float dy=(float)((double)position.y-center->y);orientation=atan2f(dy,(float)dx);}
    else position=*center;
    if(object->ai)object->ai->commands.aiIdle(COMMANDSOURCE_SCRIPT);
    ((Thing*)object)->setOrientation(orientation);object->teleportTo(&position,false);
-   ((Rva004CD4DC*)this)->rva004CD4DC(object);
+   rva004CD4DC(object);
   }
  }
 }

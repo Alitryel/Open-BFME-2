@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva004CD4DC@Rva004CD4DC@@QAEXPAVObject@@@Z @0x004CD4DC (63B).
+// ?rva004CD4DC@TeleportToCasterSpecialPower@@QAEXPAVObject@@@Z @0x004CD4DC (63B).
 // Update FX dispatcher via rowed Object::rva0029439D 0x29439D and
 // rowed FXList::doFXObj 0xB2235 with virtual slot 0x1EC on the
 // rva0029439D result. Retail saves this+4 to esi then calls
@@ -158,7 +158,7 @@ struct Rva004CD4DCMid
 	const FXList *m_fx;
 };
 
-class Rva004CD4DC
+class TeleportToCasterSpecialPower
 {
 public:
 	unsigned char m_pad0[4];
@@ -166,7 +166,7 @@ public:
 	void rva004CD4DC(Object *obj);
 };
 
-void Rva004CD4DC::rva004CD4DC(Object *obj)
+void TeleportToCasterSpecialPower::rva004CD4DC(Object *obj)
 {
 	Rva004CD4DCMid *mid = m_p04;
 	void *v = obj->rva0029439D();
