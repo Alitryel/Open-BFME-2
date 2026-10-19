@@ -17,6 +17,10 @@ namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pa
 namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
 namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::_M_erase(_Rb_tree_node<pair<int const, void *> > *); }
 // bfme link decl-only end
+// Nothing this unit's row reaches releases the map's header node; declare the
+// base destructor and node deallocate so the unit emits no copies of its own.
+namespace _STL { template <> _Rb_tree_base<pair<int const, void *>, allocator<pair<int const, void *> > >::~_Rb_tree_base(); }
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const, void *> > >::deallocate(_Rb_tree_node<pair<int const, void *> > *, size_t) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
