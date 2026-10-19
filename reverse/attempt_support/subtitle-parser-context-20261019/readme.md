@@ -65,3 +65,31 @@ Further work needs a supported explanation for stack packing/zero-versus-
 comparator allocation. The tested provider visibility, comparator locals,
 compiler options and declaration-order families are ruled out. No production
 source or ledger row landed, and the existing better bank is preserved.
+
+## 2026-10-19 follow-up (claude-opus-5-5): the allocation is a G6 LICM decision
+
+Native vs the current bank (default `-O2`, explicit `/G6` identical):
+native keeps the `_stricmp` IAT load **per iteration** at the token loop head
+(`688BB4 mov ebx,[0xBBA518]`, loop back edge `jne 688BB4`), so EBX is free for
+the color loop counter, EBP holds `color` (it is the prologue's zero register),
+the manager is split (EBX outside the loop, `[esp+0x24]` inside) and `text`
+packs into the dead arg3 slot. The bank hoists the IAT load to the preheader
+(`mov ebp,[imp]` before an aligned head), keeps manager in EBX inside the loop
+and spills `color` into the arg3 slot; `text` then needs its own frame slot.
+The missing native loop alignment is a consequence (native heads need 12/13
+pad bytes), not a separate lever.
+
+`/G7` alone reproduces the whole native global allocation (prologue exact to
++0x58, text at `[esp+0x5C]`, `call ebx`, color in EBP, no padding, 1,581 B),
+but it is not the retail setting: it emits `add/sub reg,1` where native has
+`inc/dec`, other scratch registers and a different throw-block order. So the
+retail body is G6 code whose optimizer did not hoist the import load. Tried
+under G6 without change (all 1,588 B, first diff +0x46): `int` color, color
+declared first/last in the block, `color <<= 8; color |= value`, `!color`,
+`for(;;)`+break, `while ((token = ...) != 0)`, while with tail fetch, color
+`do/while`. Moving color (or all PODs) to function scope, or testing `store`
+instead of the `target` copy, regresses to +0x17. /O1, /Os, /G5, /GB, /Ox and
+explicit /Og /Oi /Ot /Oy /Ob1 /Gs /GF /Gy also give no change or worse.
+Next lever to look for: a source shape that stops G6 loop-invariant hoisting of
+the IAT load (e.g. the comparisons reached through an inline helper or a
+different loop/EH structure), not further declaration-order trials.
