@@ -1,5 +1,5 @@
 // ?Rva004AEB84Parse@@YAXPAVINI@@PAX1PBX@Z
-// cl: /O1 /arch:SSE /G7 /MD /EHsc /Oi- /DNDEBUG /D_CRTIMP=
+// cl: /O1 /arch:SSE /G7 /MD /EHsc /Oi- /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfmelist
 // stlport
 // Native004AEB84..004AEC9A cdecl callback parses AnimState/AnimTime/RiderOCL records.
 // The native vector append uses84-byte elements: 19 dword conditions, a
@@ -63,6 +63,10 @@ public:
 class WeaponTemplateSet
 {
 public:
+	// This view's empty default constructor stays inline-only: retail's out-of-line
+	// WeaponTemplateSet() is ThingTemplate.cpp's (BitFlags ctor plus clear), which this
+	// parser never calls; its own select-any copy differed from that one.
+	__declspec(dllimport) __forceinline WeaponTemplateSet() {}
 	Rva0028F59A m_flags;
 	UnsignedInt m_animTime;
 	const void *m_ocl;
