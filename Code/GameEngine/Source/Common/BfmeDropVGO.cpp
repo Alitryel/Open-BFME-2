@@ -7,7 +7,7 @@ class Rva006D0280
 {
 public:
 	~Rva006D0280();
-	__forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
+	__declspec(dllimport) __forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
 	// Retail blocks are 0x1C bytes (freeBlock(p, 0x1C) below); pad to the
 	// full size so this TU's vector deleting dtor passes 28 like the link's.
 	char m_pad[0x1C]; // (class is otherwise empty: 0 + 28)

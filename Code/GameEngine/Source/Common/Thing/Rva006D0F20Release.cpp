@@ -11,7 +11,7 @@ void __cdecl Rva006D8680Free(void*,int);
 struct Rva006D0280
 {
 	~Rva006D0280();
-	__forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
+	__declspec(dllimport) __forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
 
 	int m_useCount; // +0, dropped by release above
 	// Retail frees 0x1C-byte blocks (freeBlock(target, 0x1C) below); the rest
