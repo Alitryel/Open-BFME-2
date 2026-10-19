@@ -22,6 +22,14 @@ private:
 };
 
 class LadderPref { public: char m_opaque[0x10]; };	// 16 bytes: the retail copy ctor 0x5BA3F5 copies +0, +4, +8 (short), +0xC
+// Nothing this unit's rows reach calls the map's subtree erase or its node
+// destroy; declare them so the unit emits no copies of its own (the kept
+// copies serve the link).
+namespace _STL {
+template <> void _Destroy<pair<const long, LadderPref> >(pair<const long, LadderPref> *);
+template <> void _Rb_tree<long, pair<const long, LadderPref>, _Select1st<pair<const long, LadderPref> >,
+	less<long>, allocator<pair<const long, LadderPref> > >::_M_erase(_Rb_tree_node<pair<const long, LadderPref> > *);
+}
 
 class Rva004134AE : public SubsystemInterface
 {
