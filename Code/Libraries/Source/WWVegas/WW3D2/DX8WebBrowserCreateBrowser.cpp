@@ -22,7 +22,8 @@ public:
  BfmeBstrVGP(const BfmeBstrVGP &other) throw() : m_data(other.m_data) {
   if(m_data) InterlockedIncrement(&m_data->m_bfme08);
  }
- ~BfmeBstrVGP() throw() { if(m_data) m_data->bfmeGoVGP(); }
+ // Clears the pointer as retail's out-of-line copy (WebBrowserComWrappers.cpp) does.
+ ~BfmeBstrVGP() throw() { if(m_data) { m_data->bfmeGoVGP(); m_data = 0; } }
 };
 class Rva00958C80 {
 public:

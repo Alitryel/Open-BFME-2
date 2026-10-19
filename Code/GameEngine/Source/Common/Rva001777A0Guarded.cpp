@@ -48,7 +48,11 @@ public:
 	~BfmeBstrVGP() throw()
 	{
 		if (m_data)
+		{
 			m_data->bfmeGoVGP();
+			// As retail's out-of-line copy (WebBrowserComWrappers.cpp): clear the pointer.
+			m_data = 0;
+		}
 	}
 };
 
