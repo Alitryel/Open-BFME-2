@@ -1,27 +1,31 @@
 // cl: /DNDEBUG /MD
-// ?rva0031AC39@Rva0031AC39@@QAEXXZ @0x0031AC39 22B: walk the +0x2C list calling
-// rowed image resolve 0x0035B77D on each node via its +0x18 next. Evidence:
-// chain lane callee rowed 0x0035B77D; same ECX-this plus ret plus 22B loop shape
-// as packet; callers 0x0031C863 0x0031E850.
+// ?postProcessCommands@ControlBar@@QAEXXZ @0x0031AC39 22B: walk the command
+// button list (+0x2C) calling the rowed image resolve 0x0035B77D on each
+// button via its +0x18 next. Identity: ControlBar::init calls it right after
+// the command-button parse (0x0031C863, the ZH order), and the INI reload
+// notice calls it again (0x0031E850); body is ZH's
+// ControlBar::postProcessCommands loop.
 class CommandButton
 {
 public:
 	void cacheButtonImage();
+	CommandButton *friend_getNext() { return m_next; }
+private:
 	char m_pad00[0x18];
-	CommandButton *m_18next;
+	CommandButton *m_next;	// +0x18
 };
 
-class Rva0031AC39
+class ControlBar
 {
 public:
-	void rva0031AC39();
+	void postProcessCommands(void);
 private:
 	char m_pad00[0x2C];
-	CommandButton *m_2C;
+	CommandButton *m_commandButtons;	// +0x2C
 };
 
-void Rva0031AC39::rva0031AC39()
+void ControlBar::postProcessCommands(void)
 {
-	for (CommandButton *p = m_2C; p != 0; p = p->m_18next)
-		p->cacheButtonImage();
+	for (CommandButton *button = m_commandButtons; button; button = button->friend_getNext())
+		button->cacheButtonImage();
 }

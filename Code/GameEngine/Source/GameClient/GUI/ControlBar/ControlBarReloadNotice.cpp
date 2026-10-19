@@ -59,6 +59,7 @@ public:
     CommandSet *rva0031E8D5(const AsciiString &,int);
     CommandSet *rva0031B05B(CommandSet *);
     static void parseCommandSetDefinition(INI *);
+	void postProcessCommands(void);	// 0x0031AC39
 };
 
 void ControlBar::rva0031AB77SetFlag()
@@ -121,7 +122,7 @@ class Rva00409FFA : public CommandSet {};
 typedef _STL::hash_map<AsciiString, Rva00409FFA *, rts::hash<AsciiString>,
 	_STL::equal_to<AsciiString> > Rva0031E7F0Map;
 
-// View of the object 0x0031AC39 walks; polymorphic here so the derived
+// ControlBar view (vftable 0x00C0CC88); polymorphic here so the derived
 // class below shares its address.
 class Rva0031AC39
 {
@@ -129,7 +130,6 @@ public:
 	virtual void v00();
 	virtual void v01();
 	virtual bool v02();	// 0x0031B53D in vftable 0x00C0CC88
-	void rva0031AC39();
 };
 
 class Rva0031DCF0 : public Rva0031AC39
@@ -154,7 +154,7 @@ bool Rva0031DCF0::rva0031E7F0(bool *needsRestart)
 		{
 			(*it).second->refreshIfStale();
 		}
-		rva0031AC39();
+		((ControlBar *)this)->postProcessCommands();
 		m_reloaded28 = true;
 		result = true;
 	}

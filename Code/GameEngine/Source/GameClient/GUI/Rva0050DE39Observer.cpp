@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?Rva0050DE39Init@@YAXXZ @0x0050DE39 597B: observer ControlBar cache init.
+// ?initObserverControls@ControlBar@@QAEXXZ @0x0050DE39 597B: observer ControlBar cache init.
 // Evidence: caller 0x0031D201; callees rowed nameToKey 0x00148E1A plus nameToKey_ascii 0x0009FA65 plus format 0x00038150 plus releaseBuffer 0x00036410 plus winGetWindowFromId slot 0xF0; strings ControlBar.wnd Observer/Player/Button/StaticText/WinFlag/Portrait/Cancel; globals g_00E0460C g_00E0462C ObserverPlayerInfoWindow ObserverPlayerListWindow g_00E04654 g_00E04674 g_00E04694 g_00E04698 g_00E0469C g_00E046A0 g_00E046A4 g_00E046A8 g_00E046AC g_00E046B0; neighbour Rva0050E776Send.cpp layout.
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -140,30 +140,6 @@ GameWindow *g_00E046A8 = 0;
 GameWindow *g_00E046AC = 0;
 GameWindow *g_00E046B0 = 0;
 
-void __cdecl Rva0050DE39Init()
-{
-	ObserverPlayerInfoWindow = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:ObserverPlayerInfoWindow"));
-	ObserverPlayerListWindow = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:ObserverPlayerListWindow"));
-	for (Int i = 0; i < 8; ++i) {
-		AsciiString tmp;
-		tmp.format("ControlBar.wnd:ButtonPlayer%d", i);
-		Int key = TheNameKeyGenerator->nameToKey(tmp);
-		g_00E0460C[i] = key;
-		g_00E04654[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key);
-		tmp.format("ControlBar.wnd:StaticTextPlayer%d", i);
-		Int key2 = TheNameKeyGenerator->nameToKey(tmp);
-		g_00E0462C[i] = key2;
-		g_00E04674[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key2);
-	}
-	g_00E046A0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnits"));
-	g_00E046A4 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfBuildings"));
-	g_00E046A8 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsKilled"));
-	g_00E046AC = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsLost"));
-	g_00E046B0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextPlayerName"));
-	g_00E04698 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinFlag"));
-	g_00E0469C = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinGeneralPortrait"));
-	g_00E04694 = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonCancel");
-}
 
 // Zero Hour's ControlBar::populateObserverList (ControlBarObserver.cpp).
 // BFME2 names the multiplayer players by their game slots' +0x34 name,
@@ -271,11 +247,40 @@ class ControlBar
 public:
 	void populateObserverList(void);
 	void populateObserverInfoWindow(void);
+	void initObserverControls(void);	// 0x0050DE39
 	void setObserverLookAtPlayer(Player *p) { m_observerLookAtPlayer = p; }
 	Player *getObserverLookAtPlayer(void) { return m_observerLookAtPlayer; }
 	unsigned char m_00[0x210];
 	Player *m_observerLookAtPlayer;		// +0x210
 };
+
+// Zero Hour's ControlBar::initObserverControls (ControlBarObserver.cpp):
+// ControlBar::init calls it last (0x0031D201, ECX = the control bar); the
+// body reads no member.
+void ControlBar::initObserverControls(void)
+{
+	ObserverPlayerInfoWindow = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:ObserverPlayerInfoWindow"));
+	ObserverPlayerListWindow = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:ObserverPlayerListWindow"));
+	for (Int i = 0; i < 8; ++i) {
+		AsciiString tmp;
+		tmp.format("ControlBar.wnd:ButtonPlayer%d", i);
+		Int key = TheNameKeyGenerator->nameToKey(tmp);
+		g_00E0460C[i] = key;
+		g_00E04654[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key);
+		tmp.format("ControlBar.wnd:StaticTextPlayer%d", i);
+		Int key2 = TheNameKeyGenerator->nameToKey(tmp);
+		g_00E0462C[i] = key2;
+		g_00E04674[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key2);
+	}
+	g_00E046A0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnits"));
+	g_00E046A4 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfBuildings"));
+	g_00E046A8 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsKilled"));
+	g_00E046AC = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsLost"));
+	g_00E046B0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextPlayerName"));
+	g_00E04698 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinFlag"));
+	g_00E0469C = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinGeneralPortrait"));
+	g_00E04694 = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonCancel");
+}
 
 void ControlBar::populateObserverList(void)
 {

@@ -147,11 +147,11 @@ public:
 	void setControlCommand(GameWindow *button, const CommandButton *commandButton);	// 0x0031B641
 	void switchToContext(Int context, void *draw);				// 0x0031BF64
 
+private:
+	// private as in the units that define them (ControlBar_Rva0031B99A.cpp)
 	static const Image *m_rankVeteranIcon;	// 0x00E01D00
 	static const Image *m_rankEliteIcon;	// 0x00E01D04
 	static const Image *m_rankHeroicIcon;	// 0x00E01D08
-
-private:
 	WindowVideoManager *m_videoManager;				// +0x0C
 	AnimateWindowManager *m_animateWindowManager;			// +0x10
 	AnimateWindowManager *m_animateWindowManagerForGenShortcuts;	// +0x14
