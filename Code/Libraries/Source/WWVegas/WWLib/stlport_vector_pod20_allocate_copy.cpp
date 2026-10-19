@@ -23,5 +23,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <algorithm>
 struct BfmePod20 { int a[5]; __forceinline bool operator<(const BfmePod20 &o) const { return a[0] < o.a[0]; } };
+// Decl-only: the class instantiation would otherwise emit the fill-insert family,
+// which nothing here calls and whose _M_fill_insert copy is not retail's body.
+namespace _STL {
+template <> void vector<BfmePod20, allocator<BfmePod20> >::_M_fill_insert(BfmePod20 *, size_t, const BfmePod20 &);
+template <> void vector<BfmePod20, allocator<BfmePod20> >::insert(BfmePod20 *, size_t, const BfmePod20 &);
+template <> void vector<BfmePod20, allocator<BfmePod20> >::resize(size_t, const BfmePod20 &);
+template <> void vector<BfmePod20, allocator<BfmePod20> >::resize(size_t);
+}
 template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20> >;
 template BfmePod20 *_STL::__lower_bound<BfmePod20 *, BfmePod20, _STL::less<BfmePod20>, int>(BfmePod20 *, BfmePod20 *, const BfmePod20 &, _STL::less<BfmePod20>, int *);
