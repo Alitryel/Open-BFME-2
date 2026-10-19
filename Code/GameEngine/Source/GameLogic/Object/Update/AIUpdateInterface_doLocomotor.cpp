@@ -237,7 +237,9 @@ class Locomotor
 {
 public:
 	Real getMaxSpeed(Object *obj) const;
-public: Bool locoUpdate_maintainCurrentPosition(Object *); };
+public: Bool locoUpdate_maintainCurrentPosition(Object *);
+	void locoUpdate_moveTowardsAngle(Object *obj, Real angle); // rowed 0x001EA0F4
+};
 
 // The current locomotor (Zero Hour's Locomotor); ledger class name.
 class Rva001E46E1
@@ -249,7 +251,6 @@ public:
 	Bool rva001E543F(Object *obj);
 	/* the rowed Locomotor::locoUpdate_maintainCurrentPosition */ __declspec(dllimport) __forceinline Bool rva001E84E5(Object * p0) { return ((Locomotor *)this)->locoUpdate_maintainCurrentPosition(p0); } // locoUpdate_maintainCurrentPosition
 	void rva001E9083(Object *obj, const Coord3D *goal, Real onPathDistToGoal, Real desiredSpeed); // locoUpdate_moveTowardsPosition
-	void rva001EA0F4(Object *obj, Real angle); // locoUpdate_moveTowardsAngle
 private:
 	void *m_vtbl;
 	const Rva001E46E1Template *m_template; // +0x04
@@ -696,7 +697,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 
 				case ANGLE:
 				{
-					m_curLocomotor->rva001EA0F4(obj, m_locomotorGoalData.x);
+					((Locomotor *)m_curLocomotor)->locoUpdate_moveTowardsAngle(obj, m_locomotorGoalData.x);
 					m_doFinalPosition = false;
 				}
 				break;
