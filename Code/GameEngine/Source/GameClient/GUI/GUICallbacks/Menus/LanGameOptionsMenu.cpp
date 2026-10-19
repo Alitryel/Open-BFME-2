@@ -1476,6 +1476,10 @@ extern const int chatSystemColor = -1;
 // 0xdba754 and 0xdba75c.
 extern const int chatActionColor = 0xFFFF00FF;
 extern const int chatLocalActionColor = 0xFF80FFFF;
+// The same table's accept colors (Zero Hour's GameMakeColor(0,255,0,255) and
+// (255,0,0,255)), retail .data VA 0xdba764 and 0xdba768.
+extern const int acceptTrueColor = 0xFF00FF00;
+extern const int acceptFalseColor = 0xFFFF0000;
 
 // ?rva0057DFFB@Rva0057DFFB@@QAE_N_N@Z @0x0057DFFB 65B
 // Retail boundary 0x0057DFFB..0x0057E03B. thiscall taking one stack bool,
