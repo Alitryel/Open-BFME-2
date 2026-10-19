@@ -1,14 +1,14 @@
 // cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
-// ?rva00491C84@Rva00491C84@@QAEXPAUCoord3D@@PBVObject@@@Z @0x00491C84 171B:
+// ?rva00491C84@AttachUpdate@@QAEXPAUCoord3D@@PBVObject@@@Z @0x00491C84 171B:
 // copies Object position at +0x38 to a local, filters through the +0x250
 // provider null check plus flag at +0x115 bit 0x20 plus virtual slot 0x230
 // bool test, then adjusts Z by GeometryInfo at +0xA8 when the ModuleData at
 // this+4 has anchor at +0x21, and writes the local to the out Coord. Same
 // AttachUpdate family as prev 0x00491AA0; callees are rowed
 // Object::rva0028C197 0x0028C197 and GeometryInfo::getMaxHeight 0x006BD7C0.
-// Caller at 0x00491D6E proves thiscall void(Coord3D* Object*); honest Rva
-// owner since the caller class is unproven.
+// Caller at 0x00491D6E in AttachUpdate::update (this-0x10, the complete
+// object) proves thiscall void(Coord3D* Object*) on AttachUpdate.
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Object;
@@ -86,7 +86,7 @@ public:
 	unsigned char m_anchor21;
 };
 
-class Rva00491C84
+class AttachUpdate
 {
 public:
 	void rva00491C84(Coord3D *out, const Object *obj);
@@ -96,7 +96,7 @@ private:
 	AttachUpdateModuleData *m_data04;
 };
 
-void Rva00491C84::rva00491C84(Coord3D *out, const Object *obj)
+void AttachUpdate::rva00491C84(Coord3D *out, const Object *obj)
 {
 	const AttachUpdateModuleData *data = m_data04;
 	const Coord3D *src = &obj->m_pos38;
