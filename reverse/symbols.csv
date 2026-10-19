@@ -2888,7 +2888,6 @@ name,address,notes
 ??1BfmeMsgVJH@@QAE@XZ,0x00655780,address read from the REL32 displacement in DirtySock Y2ScalarDeleters at 0x00676730; call order matches BFME1 source; body not yet converted
 ??1BfmeMsgVJI@@QAE@XZ,0x00655780
 ??1BfmeNarrowRecord00079C23@@QAE@XZ,0x00079554,BfmeNarrowRecord dtor ICF twin of Rva00079554Record via caller 0x000C3C59
-??1BfmeNarrowRecord000BFDC7@@QAE@XZ,0x0021F8F3,callee REL32 read by locate.py from a unique masked-byte placement emitted by stlport_vector_narrowrecord_bfdc7_fill.cpp
 ??1BfmeNarrowRecord0041A5D2@@QAE@XZ,0x00541E77,twin of rowed 0x0041A200 proven by identical body except EH handler and caller 0x00541EB8
 ??1BfmeNarrowRecord0041A617@@QAE@XZ,0x0007FAB3,independent complete 14-byte match; native16-byte record destroy loop41A3A3 callee; class layout comes from copy41A617 assignment41A820 and pop41A3F7; original semantic name unknown
 ??1BfmeNarrowRecord00427F75@@QAE@XZ,0x0022CCEF,callee REL32 read by locate.py from a unique masked-byte placement emitted by StlportVectorGrowthFootprints.cpp
