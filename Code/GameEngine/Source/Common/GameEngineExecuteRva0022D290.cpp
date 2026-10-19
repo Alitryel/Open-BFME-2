@@ -375,9 +375,13 @@ class Watchdog
 ;
 extern float g_Va00DBA2F8;
 extern int SavedClientFrame;
-unsigned EngineInitialFrameTime,EnginePreviousFrameTime,EngineFrameElapsedTime;
-unsigned EngineSleepTimeRemaining,EngineSleepTimeTotal;
-bool EngineLimitFrameRate;
+// EngineInitialFrameTime, EngineSleepTimeTotal and EngineLimitFrameRate are
+// defined (data rows) in W3DDisplayGatherNetworkStats.cpp.
+extern unsigned EngineInitialFrameTime;
+unsigned EnginePreviousFrameTime,EngineFrameElapsedTime;
+unsigned EngineSleepTimeRemaining;
+extern unsigned EngineSleepTimeTotal;
+extern bool EngineLimitFrameRate;
 extern bool TheDeepCRC,TheLiteCRC;
 class GameEngine 
 

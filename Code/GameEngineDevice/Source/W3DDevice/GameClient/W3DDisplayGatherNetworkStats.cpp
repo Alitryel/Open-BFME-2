@@ -137,11 +137,11 @@ extern GameLogic *TheGameLogic;
 // Frame pacing statistics (GameEngine's zero-filled data). Their original
 // identifiers are unknown; the names follow the line they print.
 extern int SkippedClientFrames;			// VA 0x00DFE6F0
-UnsignedInt BfmeTotalSleptMS = 0;		// VA 0x00DFE6F8
+UnsignedInt EngineSleepTimeTotal = 0;		// VA 0x00DFE6F8
 Int BfmeLastSleptMS = 0;			// VA 0x00DFE6FC
 Int BfmeLastFrameDeltaMS = 0;		// VA 0x00DFE700
-UnsignedInt BfmeGameStartTime = 0;		// VA 0x00DFE708
-Bool BfmeFramePacingLimited = 0;		// VA 0x00DFE70C
+UnsignedInt EngineInitialFrameTime = 0;		// VA 0x00DFE708
+Bool EngineLimitFrameRate = 0;		// VA 0x00DFE70C
 extern float g_Va00DBA2F8;			// VA 0x00DBA2F8, GameEngine.cpp's logic time scale
 Real BfmeAverageFPSRatio = 0;		// VA 0x00DE1B2C
 Int BfmeLastRunAheadCeilingHits = 0;		// VA 0x00DE1C9C
@@ -192,18 +192,18 @@ void W3DDisplay::gatherNetworkStats()
 
 	Real fps = ((BfmeNetworkStatsGlobalData *)TheWritableGlobalData)->m_framesPerSecondLimit * BfmeAverageFPSRatio;
 
-	Real sleptTime = BfmeTotalSleptMS;
+	Real sleptTime = EngineSleepTimeTotal;
 	Int sleptMinutes = sleptTime / 60000.0f;
 	Int sleptSeconds = (sleptTime - sleptMinutes * 60000.0f) / 1000.0f;
 	Int sleptTenths = (sleptTime - (sleptMinutes * 60000.0f + sleptSeconds * 1000.0f)) * 0.1f;
 
-	UnsignedInt elapsed = timeGetTime() - BfmeGameStartTime;
+	UnsignedInt elapsed = timeGetTime() - EngineInitialFrameTime;
 	Real totalTime = elapsed;
 	Int totalMinutes = totalTime / 60000.0f;
 	Int totalSeconds = (totalTime - totalMinutes * 60000.0f) / 1000.0f;
 	Int totalTenths = (totalTime - (totalMinutes * 60000.0f + totalSeconds * 1000.0f)) * 0.1f;
 
-	if (BfmeFramePacingLimited)
+	if (EngineLimitFrameRate)
 	{
 		unibuffer.format(L"FPS:%2.2f (%3d%% max) FPSLimit:%d, SCALAR:%1.2f, FSkipped:%d, Slept:%02dms, Delta:%02dms",
 			fps, (Int)(BfmeAverageFPSRatio * 100.0f), TheGameEngine->getFramesPerSecondLimit(),
