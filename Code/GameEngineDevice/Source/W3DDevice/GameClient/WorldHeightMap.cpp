@@ -91,6 +91,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 extern const StaticNameKey TheKey_GenericAIObjectType("GenericAIObjectType");
 extern const StaticNameKey TheKey_objectBasePriority("objectBasePriority");
 extern const StaticNameKey TheKey_objectBasePhase("objectBasePhase");
+// Waypoint keys TerrainLogic's map load reads: zero cache plus the name
+// pointer at 0x009BDCB4/0x009BDCBC (names at VA 0x00C091A8/0x00C091B8).
+extern const StaticNameKey TheKey_waypointType("waypointType");
+extern const StaticNameKey TheKey_waypointTypeOption("waypointTypeOption");
 
 
 #include "GameLogic/PolygonTrigger.h"

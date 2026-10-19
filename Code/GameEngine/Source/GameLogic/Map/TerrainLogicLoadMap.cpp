@@ -102,7 +102,9 @@ public:
 	MapObject *getNext() const { return m_nextMapObject; }
 	Bool isWaypoint() const { return (m_runtimeFlags & MO_WAYPOINT) != 0; }
 	Dict *getProperties() { return &m_properties; }
-	const Coord3D *getLocation() { return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
+	// Retail's getLocation is the pinned 0x0030D631 itself (rowed rva0030D631);
+	// import-inline so the call goes there and no wrapper copy is emitted.
+	__declspec(dllimport) __forceinline const Coord3D *getLocation() { return (const Coord3D *)((Rva0030D631 *)this)->rva0030D631(); }
 private:
 	char m_pad00[0x04];
 	MapObject *m_nextMapObject; // +0x04
