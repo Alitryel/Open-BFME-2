@@ -14,6 +14,14 @@ namespace _STL {
 template <> bool basic_filebuf<char, char_traits<char> >::_M_allocate_buffers(char *, streamsize);
 }
 
+// _M_seek_return calls the exact owner 0x00014430 out of line, as retail does.
+namespace _STL {
+template <> void basic_filebuf<char, char_traits<char> >::_M_exit_input_mode();
+// close (0x000150B0) and overflow (0x00015AB0) defer to their exact owners.
+template <> basic_filebuf<char, char_traits<char> > *basic_filebuf<char, char_traits<char> >::close();
+template <> int basic_filebuf<char, char_traits<char> >::overflow(int);
+}
+
 
 // The exact default constructor is owned by the verified dedicated unit.
 // This whole-class instantiation emitted a non-retail copy; defer to that owner.
