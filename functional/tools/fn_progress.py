@@ -54,7 +54,18 @@ def strong(row):
     check alone caught ~70% of mutants on well-covered rows; with isomorphism, all of them."""
     if row["verdict"] == "tested":
         return True
-    return row["verdict"] in PASS and row.get("isomorphic") == "True"
+    if row["verdict"] in PASS and row.get("isomorphic") == "True":
+        return True
+    return row["verdict"] in PASS and mutation_adequate(row)
+
+
+def mutation_adequate(row):
+    """fn_adequacy.py: this function's own vectors killed >= 90% of >= 5 mutants that changed its code."""
+    try:
+        k, n = (int(x) for x in (row.get("mutation") or "").split("/"))
+    except ValueError:
+        return False
+    return n >= 5 and k >= 0.9 * n
 
 
 def probable(row):

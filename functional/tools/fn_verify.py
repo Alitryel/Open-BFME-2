@@ -37,7 +37,7 @@ LEDGER = ROOT / "functional" / "ledger.csv"
 RECEIPTS = ROOT / "functional" / "receipts"
 WORK = ROOT / "build" / "fn"
 PASS = {"none", "regalloc-only", "tested"}
-FIELDS = ["name", "target_rva", "target_size", "source", "verdict", "coverage", "isomorphic", "evidence", "date"]
+FIELDS = ["name", "target_rva", "target_size", "source", "verdict", "coverage", "isomorphic", "evidence", "date", "mutation"]
 NVEC = None   # adaptive: fn_exec.diff_body picks 128/48/16 by size
 
 
