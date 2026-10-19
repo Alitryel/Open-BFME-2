@@ -394,7 +394,7 @@ class StandingWaveArea;
 class RiverArea;
 class WaterWaveArea;
 template <class T> class AreaSet;
-class Rva0082140
+class WaterRenderObjClass
 {
   public:
     void rva00083A7A(AreaSet<StandingWaveArea> *, AreaSet<RiverArea> *, AreaSet<WaterWaveArea> *);
@@ -449,7 +449,7 @@ class W3DTerrainVisual
                       AreaSet<RiverArea> *, AreaSet<WaterWaveArea> *);
     char pad4[0x14 - 4];
     BaseHeightMapRenderObjClass *terrain;
-    Rva0082140 *water;
+    WaterRenderObjClass *water;
     WorldHeightMap *height;
 };
 bool W3DTerrainVisual::load(const AsciiString &filename, ChunkInputStream *stream,

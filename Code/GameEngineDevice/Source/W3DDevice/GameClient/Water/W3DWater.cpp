@@ -139,17 +139,14 @@ class WaterTransparencySetting;
 class WaterTransparencyDeleteView {public: virtual void *destroy(unsigned flags);};
 template<class T> class OVERRIDE {public: T *ptr;};
 extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
-class WaterRenderObjClass {
-public:
- struct Setting {Setting():skyTexture(0),waterTexture(0){} ~Setting(); TextureBaseClass *skyTexture,*waterTexture; char data[0x28];};
-};
 class CameraClass : public RenderObjClass {
 public: CameraClass();
 private: char unmodelled[0x3FC-0xC4];
 };
-class Rva0082140 : public Snapshot,public RenderObjClass,
+class WaterRenderObjClass : public Snapshot,public RenderObjClass,
  public WaterAreaObserver<0>,public WaterAreaObserver<1>,public WaterAreaObserver<2> {
-public: Rva0082140(); virtual ~Rva0082140();
+public: WaterRenderObjClass(); virtual ~WaterRenderObjClass();
+ struct Setting {Setting():skyTexture(0),waterTexture(0){} ~Setting(); TextureBaseClass *skyTexture,*waterTexture; char data[0x28];};
  void rva0007F87C(void *scene, CameraClass *camera);
 private:
  int fieldD4;
@@ -169,7 +166,7 @@ private:
  WaterCountedRef ref128;
  float field12C,field130;
  bool field134,field135;
- WaterRenderObjClass::Setting settings138[6];
+ Setting settings138[6];
  int field258;
  bool field25C;
  int field260;
@@ -177,7 +174,7 @@ private:
 // Native 00082329..000824C3,410B, the WaterRenderObjClass constructor: it
 // stores the vtables this unit's destructor restores and builds the members
 // the destructor's unwind map tears down, in the same order (EH states 5..A).
-Rva0082140::Rva0082140()
+WaterRenderObjClass::WaterRenderObjClass()
  : fieldD4(0),fieldD8(0x10441B),fieldDC(0),fieldE0(0),fieldE4(0),fieldE8(0),
    fieldEC(0),fieldF0(false),fieldF4(0),
    refFC(new CameraClass),tracks100(0),standing104(0),rivers114(0),waves124(0),
@@ -186,7 +183,7 @@ Rva0082140::Rva0082140()
 {
  memset(settings138,0,sizeof(settings138));
 }
-Rva0082140::~Rva0082140() {
+WaterRenderObjClass::~WaterRenderObjClass() {
  if(standing104) {
   standing104->rva002B7250(reinterpret_cast<CreateAHeroData*>(static_cast<WaterAreaObserver<0>*>(this)));standing104=0;
   rivers114->rva002B7250(reinterpret_cast<CreateAHeroData*>(static_cast<WaterAreaObserver<1>*>(this)));rivers114=0;
@@ -221,7 +218,7 @@ public:
 bool Rva00118660Call(void *scene, void *camera);
 extern bool bfmeCameraProjectionOverride;
 class Rva0007F0FBOwner {public: void rva0007F0FB(CameraClass *camera, bool flag);};
-void Rva0082140::rva0007F87C(void *scene, CameraClass *camera) {
+void WaterRenderObjClass::rva0007F87C(void *scene, CameraClass *camera) {
  reinterpret_cast<Rva0007F0FBOwner*>(this)->rva0007F0FB(camera,false);
  if(refFC.ptr) {
   {

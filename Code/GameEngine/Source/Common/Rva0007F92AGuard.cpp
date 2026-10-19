@@ -15,7 +15,7 @@ struct Rva0007F92AGlobalView
 };
 
 class CameraClass;
-class Rva0082140
+class WaterRenderObjClass
 {
 public:
 	void rva0007F87C(void *scene, CameraClass *camera);
@@ -34,5 +34,5 @@ void Rva0007F92AHost::rva0007F92A(int a, int b)
 		return;
 	if (g->m_sub == 0)
 		return;
-	((Rva0082140 *)this)->rva0007F87C((void *)a, (CameraClass *)b);
+	((WaterRenderObjClass *)this)->rva0007F87C((void *)a, (CameraClass *)b);
 }

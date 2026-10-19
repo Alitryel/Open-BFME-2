@@ -4933,7 +4933,7 @@ name,address,notes
 ??1Rva00803890Base@@UAE@XZ,0x00666BA0
 ??1Rva00808CB0LanGameEntry@@UAE@XZ,0x00655780
 ??1Rva0081FDD@@UAE@XZ,0x0081FDD,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x82AEC; identity unproven, address-derived name
-??1Rva0082140@@UAE@XZ,0x0082140,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x8230D; identity unproven, address-derived name
+??1WaterRenderObjClass@@UAE@XZ,0x0082140,SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x8230D; restores the vtables whose RenderObjClass table 0x7C7108 holds WaterRenderObjClass::Render
 ??1Rva008291D@@UAE@XZ,0x008291D,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x82C6C; identity unproven, address-derived name
 ??1Rva0084096@@UAE@XZ,0x0084096,opaque SEH dtor (mov-eax-cookie prologue, vptr 0xBC743C); called by scalar-deleting-dtor at 0x840D5; identity unproven, address-derived name
 ??1Rva0084CEF@@UAE@XZ,0x0084CEF,opaque and-dtor (19B: member call 0x483E87 + and [esi+8]/[esi+0x18]); called by scalar-deleting-dtor at 0x91AB2; identity unproven, address-derived name

@@ -125,10 +125,10 @@ extern W3DShadowManager *TheW3DShadowManager;
 enum WaterType { WATER_TYPE_DEFAULT };
 
 // The water render object; its render-object part sits at +4.
-class Rva0082140
+class WaterRenderObjClass
 {
 public:
-	Rva0082140();
+	WaterRenderObjClass();
 	int m_00;
 	Rva00091AEARenderObj m_renderObj;		// +0x04
 private:
@@ -221,7 +221,7 @@ public:
 private:
 	unsigned char m_pad04[0x10 - 4];
 	Rva000E3BFE *m_terrainRenderObject;		// +0x10
-	Rva0082140 *m_waterRenderObject;		// +0x14
+	WaterRenderObjClass *m_waterRenderObject;		// +0x14
 	Rva00091CA7Counted *m_18;			// +0x18
 };
 
@@ -241,7 +241,7 @@ void W3DTerrainVisual::init()
 	TheW3DShadowManager = new W3DShadowManager;
 	TheW3DShadowManager->rva0009A254();
 
-	m_waterRenderObject = new Rva0082140;
+	m_waterRenderObject = new WaterRenderObjClass;
 	W3DGCData00DE2000 = m_waterRenderObject;
 	Rva00091AEAGlobalView *data = (Rva00091AEAGlobalView *)TheWritableGlobalData;
 	((Rva0007FC38 *)m_waterRenderObject)->rva0007FC38(data->m_waterPositionZ, data->m_waterExtentX, data->m_waterExtentY,

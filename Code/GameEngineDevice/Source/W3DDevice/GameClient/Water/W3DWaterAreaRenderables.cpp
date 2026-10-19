@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Native 0x00083780..0x000837F1, RET 8; standing-water observer slot 1
-// of vtable BC70F0. Owner is Rva0082140, the rowed WaterRenderObjClass
+// of vtable BC70F0. Owner is WaterRenderObjClass, the rowed WaterRenderObjClass
 // destructor at 82140. Native allocates A4, calls the rowed Rva008291D
 // constructor 82F6A, retains at +4, pushes into its vector at this+40,
 // and releases via 7DEEF. Constructor's established API takes void*.
@@ -136,12 +136,12 @@ public:
 };
 class WaterWaveArea;
 
-class Rva0082140 : public WaterRenderObjHead,
+class WaterRenderObjClass : public WaterRenderObjHead,
 	public AreaSetObserver<StandingWaveArea>, public AreaSetObserver<RiverArea>,
 	public AreaSetObserver<WaterWaveArea>
 {
 public:
-	virtual ~Rva0082140();
+	virtual ~WaterRenderObjClass();
 	virtual void onAreaAdded(int id, StandingWaveArea *area);
 	virtual void onAreaAdded(int id, RiverArea *area);
 	void rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out);
@@ -158,7 +158,7 @@ AreaSet<WaterWaveArea> *m_waveAreas;
 };
 
 // 0x00083780, 113 bytes, RET8: a standing water area was added.
-void Rva0082140::onAreaAdded(int, StandingWaveArea *area)
+void WaterRenderObjClass::onAreaAdded(int, StandingWaveArea *area)
 {
 	Rva00082BE6Element ref(new Rva008291D(area));
 	m_standingRenderables.push_back(ref);
@@ -167,14 +167,14 @@ void Rva0082140::onAreaAdded(int, StandingWaveArea *area)
 
 // Native 0x000837F1..0x0008385F, RET 8; river observer slot 1 at BC70E0.
 // The constructor's established void* parameter and 5C allocation are native.
-void Rva0082140::onAreaAdded(int, RiverArea *area)
+void WaterRenderObjClass::onAreaAdded(int, RiverArea *area)
 {
     m_riverRenderables.push_back(Rva00082C1DElement(new RenderableRiverArea(area)));
 }
 
 // 0x0008385F, 250 bytes, RET8: build a renderable for every standing water
 // area, subscribe to the set, then swap the new list into *out.
-void Rva0082140::rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out)
+void WaterRenderObjClass::rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out)
 {
 	unsigned int count = areas->size();
 	WaterAreaRenderableList<Rva00082BE6Element, Rva00081BAFVector> list;
@@ -189,7 +189,7 @@ void Rva0082140::rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderab
 
 
 // 0x00083959, 247 bytes, RET8: the same for the river areas.
-void Rva0082140::rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out)
+void WaterRenderObjClass::rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out)
 {
 	unsigned int count = areas->size();
 	WaterAreaRenderableList<Rva00082C1DElement, Rva00081C17Vector> list;
@@ -205,7 +205,7 @@ void Rva0082140::rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *ou
 // Native 83A7A..83B7B RET12: replace all three area subscriptions, rebuild
 // standing/river lists and initialize each standing-area shader. The +40
 // area pointer and the pre-existing 308C31 member binding come from retail.
-void Rva0082140::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverArea>*rivers,AreaSet<WaterWaveArea>*waves)
+void WaterRenderObjClass::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverArea>*rivers,AreaSet<WaterWaveArea>*waves)
 {
  if(m_standingAreas) {
   m_standingAreas->removeObserver(static_cast<AreaSetObserver<StandingWaveArea>*>(this));m_standingAreas=0;
@@ -229,6 +229,6 @@ void Rva0082140::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverAre
 // Terrain load at 9213F calls the full water owner through REL32 at 9241D.
 // This no-argument thiscall is the shared relocation-free RET at B3FD0.
 // The original method name is unproven; it contributes zero unique bytes.
-void Rva0082140::rva000B3FD0()
+void WaterRenderObjClass::rva000B3FD0()
 {
 }

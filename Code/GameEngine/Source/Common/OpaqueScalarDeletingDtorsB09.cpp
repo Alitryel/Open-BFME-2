@@ -442,16 +442,16 @@ class Rva0082140BaseC
 public:
 	virtual ~Rva0082140BaseC();
 };
-class Rva0082140 : public Rva0082140Base0, public Rva0082140Base4, public Rva0082140BaseC
+class WaterRenderObjClass : public Rva0082140Base0, public Rva0082140Base4, public Rva0082140BaseC
 {
 public:
-	Rva0082140(EmitVtableTag *);
+	WaterRenderObjClass(EmitVtableTag *);
 public:
-	virtual ~Rva0082140();
+	virtual ~WaterRenderObjClass();
 };
 
-// ?<Rva0082140::Rva0082140> absent-from-retail
-Rva0082140::Rva0082140(EmitVtableTag *)
+// ?<WaterRenderObjClass::WaterRenderObjClass> absent-from-retail
+WaterRenderObjClass::WaterRenderObjClass(EmitVtableTag *)
 {
 }
 
