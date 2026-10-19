@@ -54,3 +54,18 @@ source explanation was identified after these trials; release both claims and
 continue with independent work. Earlier target/donor identity and layout
 evidence remains in 002ce30a-real-caller.md; no new target identity is inferred
 from diagnostic byte equality. t=18min model=gpt-6.1-sol.
+
+## Newly pulled AnimalAIUpdate declaration-order lead
+
+After the first verdict, upstream8eab6fbd26 landed the previously blocked
+AnimalAIUpdate stack packing. Read its full current owner and tracked stack
+packing evidence before a separate bounded follow-up. Moving the linear
+coordinate declaration before its loop emits965B/frame3C/519 common-span byte
+differences. Moving scatter declaration before its victim branch emits938B/
+frame30/473 differences. Both emit946B/frame3C/539 differences. Separate
+function-scope coordinates before or after bonus emit946B/frame48/539;
+shared function-scope controls emit946B/frame3C/539. Every whole199B helper
+remains exact with no unresolved diagnostic names. The real declarations
+stay alive during calls and no dummy tail local was introduced. No closer
+candidate: both banks unchanged. Raw sources/results remain under
+build/weapon-declaration-order-oct19. Additional t=3min model=gpt-6.1-sol.
