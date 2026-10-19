@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // ScreenMotionBlurFilter::postRender
 // ?postRender@ScreenMotionBlurFilter@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
-// Retail 0x000FD5B7..0x000FDB21 (1386 bytes) RET16; vftable 0x007CF430 slot 3
+// Retail 0x000FD5B7..0x000FDB21 (1386 bytes) RET16; vftable 0x007CF410 slot 3
 // (init/shutdown/preRender/postRender/setup/set/reset as in Zero Hour).
 // Ends the render-to-texture pass and draws the captured screen as a
 // textured quad: zoom-in/out blur (count stepped by 5 per logic frame and
