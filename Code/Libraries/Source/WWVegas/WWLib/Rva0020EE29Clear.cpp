@@ -167,7 +167,7 @@ extern LivingWorldManager *TheLivingWorldManager;
 // the zero register doubles as the loop counter; reload-each-iteration count
 // loop over [esi+0x2c] like rva0020EE29 above. Argument meanings are unproven
 // (passed opaquely to the entry method).
-class Rva0020FB41Outer
+class Rva0020F685
 {
 public:
 	void rva0020F685();
@@ -199,7 +199,7 @@ private:
 
 void LivingWorldRegionManager::OnTurnEnding(int a1, int a2)
 {
-	((Rva0020FB41Outer *)this)->rva0020F685();
+	((Rva0020F685 *)this)->rva0020F685();
 	m_0C = 0;
 	m_10 = 0;
 	// Retail advances past the inner header once and reads begin/end from
@@ -578,7 +578,7 @@ void Rva0020EE29::rva0020F795()
 	Rva0020EE29 *self = this;
 	for (unsigned i = 0; i < (unsigned)(((char *)self->m_14.m_end - (char *)self->m_14.m_begin) >> 2); ++i)
 		((Rva00DFE1C8Host *)TheLivingWorldManager)->rva00212655(self->m_14.m_begin[i]->m_30);
-	((Rva0020FB41Outer *)self)->rva0020F685();
+	((Rva0020F685 *)self)->rva0020F685();
 	self->rva0020EE29();
 	self->m_0C = 0;
 	self->m_10 = 0;

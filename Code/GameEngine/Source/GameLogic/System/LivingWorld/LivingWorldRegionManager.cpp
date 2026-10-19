@@ -444,7 +444,7 @@ struct RegionLogicObserverPrefix
 	unsigned char m_pad00[0x1C];
 	Rva002B7250 m_observers;
 };
-class Rva0020FB41Outer
+class Rva0020F685
 {
 public:
 	void rva0020F685();
@@ -474,7 +474,7 @@ Rva00210B38::~Rva00210B38()
 	for (unsigned int i = 0; i < m_campaigns.size(); ++i)
 		delete static_cast<Rva002109F8 *>(m_campaigns[i]);
 	m_campaigns.clear();
-	reinterpret_cast<Rva0020FB41Outer *>(this)->rva0020F685();
+	reinterpret_cast<Rva0020F685 *>(this)->rva0020F685();
 	// The holder at singleton+1C removes the +4 observer subobject. Its
 	// existing ABI spells the opaque argument CreateAHeroData; this call
 	// establishes its address, not that unrelated class identity.

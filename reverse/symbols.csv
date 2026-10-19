@@ -10194,7 +10194,6 @@ name,address,notes
 ?rva0020ED51@@YGXPAXHH@Z,0x0020ED51,stdcall 3-arg worker called by Rva0020F2F1/09 forwarder twins (callee cleanup, no ecx); REL32 read from placed 0x0020F2F1 body
 ?rva0020F0D3@Rva0020F0D3Target@@QAEXXZ,0x0020F0D3,"method a vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva0020F5B3@Rva0020EE29Inner@@QAEXXZ,0x0020F5B3,inner tail-target of 0x002102CA with this=inner and no args
-?rva0020F685@Rva0020FB41Outer@@QAEXXZ,0x0020F685,call-site 0x0020FB48 in Rva0020FB41::rva0020FB41 (0x0020FB41) via lea ecx,[esi-4] with no stack args; Ghidra FUN_0060f685 141B
 ?rva0020F9F6@Rva0020EE29@@QAEPAXPAX00@Z,0x0020F9F6,find-first-vector-entry predicate runner; pinned from the four consistent retail REL32 call sites inside 0x0020F9F6 (own body) and its callers 0x0020FAB4/0x0020FAEA; reconstruction blocked on a save/restore codegen anomaly (see re_attempts.log)
 ?rva002100E6@Rva0020EE29@@QAEXPAX0@Z,0x002100E6,Rva0020EE29 member used twice by 0x002101C6 with this passthrough plus the arg and a member address; 224B range-7 target, reconstruct later
 ?rva002104B6@@YGPAXPAX@Z,0x002104B6,free lookup used by Rva002104C7 at 0x002104C7; single stack arg, pointer return tested for null
