@@ -4,7 +4,7 @@
 // node next/id/count at 0/4/6, inline counted entry or array at 8.
 // Pathfind zone adjacency is a donor-family lead; exact class identity unknown.
 // Advancing through the bucket link itself preserves native bottom-test shape.
-// cl: /O1 /Oy- /G7 /MD /DNDEBUG /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /MD /DNDEBUG /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 #define _STLP_NO_EXCEPTIONS 1
 #include <algorithm>
