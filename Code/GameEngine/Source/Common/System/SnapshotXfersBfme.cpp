@@ -192,22 +192,7 @@ struct Rva0039AE75Owner
 	Rva0039AE75Source *m_parent;																										///< 0x04
 };
 
-class Rva0039AE75
-{
-public:
-	Rva0039AE75( Rva0039AE75Owner *owner );
-	Real bfmeAt( Int value ) const;
-protected:
-	virtual ~Rva0039AE75();
-	virtual void crc( Xfer *xfer );
-	virtual void xfer( Xfer *xfer );
-private:
-	Int indexFor( Int value ) const;
-	Rva0039AE75Owner *m_owner;																												///< 0x04
-	Real m_bfmeReal08;																												///< 0x08
-	Int m_bfmeValue0C;																												///< 0x0C
-	ExperienceScalarTable *m_bfmeTable10;																							///< 0x10
-};
+#include "../../../Include/Common/Rva0039AE75.h"
 
 // The 0x44-byte BuffManager entries: only the slot-3 xfer is used.
 
@@ -357,7 +342,7 @@ class Drawable
 public:
 	const Coord3D *getPosition() const;
 };
-extern int g_012F801C;	// 0x009EBC38 (live-instance counter bumped by the ctor)
+int g_012F801C;	// 0x009EBC38 (live-instance counter bumped by the ctor)
 struct TBuffSource
 {
 	char m_pad[ 0x441 ];

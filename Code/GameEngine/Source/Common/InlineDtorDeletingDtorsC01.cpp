@@ -500,12 +500,7 @@ Rva00381D78::~Rva00381D78()
 {
 }
 
-class Rva0039AE75
-{
-public:
-	Rva0039AE75(EmitVtableTag *);
-	virtual ~Rva0039AE75() {}
-};
+#include "../../Include/Common/Rva0039AE75.h"
 
 // ?<Rva0039AE75::Rva0039AE75> absent-from-retail
 Rva0039AE75::Rva0039AE75(EmitVtableTag *)

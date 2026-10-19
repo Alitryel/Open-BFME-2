@@ -223,14 +223,7 @@ struct ExperienceTrackerParentView
 	AsciiString m_64;
 };
 struct Rva0039AE75Owner;
-class Rva0039AE75
-{
-public:
-	Rva0039AE75( Rva0039AE75Owner *owner );
-	virtual ~Rva0039AE75();
-private:
-	char m_unrecovered04[ 0x14 - 0x04 ];	// full layout in SnapshotXfersBfme.cpp
-};
+#include "../../../Include/Common/Rva0039AE75.h"
 
 ExperienceTracker::ExperienceTracker( const ThingTemplate *thingTemplate ) :
 	m_04( thingTemplate ),

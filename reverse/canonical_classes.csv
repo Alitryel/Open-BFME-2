@@ -132,3 +132,4 @@ GlowMaterial,Code/GameEngine/Source/GameClient/BuffManager.h,target-reviewed 14 
 BuffInstance,Code/GameEngine/Source/GameClient/BuffManager.h,target-reviewed 44 hex bytes and complete Snapshot four-slot table; all family views reconciled and 17 affected units byte-verified
 BuffManager,Code/GameEngine/Source/GameClient/BuffManager.h,target-reviewed 26C hex bytes and complete Snapshot four-slot table; all family views reconciled and 17 affected units byte-verified
 Rva003FA62B,Code/GameEngine/Include/Common/Rva003FA62B.h,native20-byte listener; two callbacks; nonvirtual teardown; vector8 at4 and owner10
+Rva0039AE75,Code/GameEngine/Include/Common/Rva0039AE75.h,target-reviewed20-byte ABI and complete three-slot C1AD60 table; all4 views adopted and byte-verified
