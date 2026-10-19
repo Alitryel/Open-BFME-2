@@ -43,6 +43,13 @@ inline void _Destroy<Rva00B6CF1 *>(Rva00B6CF1 *first, Rva00B6CF1 *last)
 
 template _STL::vector<Rva00B6CF1>::~vector();
 
+// The same record under its other placeholder name: the copy constructor
+// 0x000BCDBF is rowed as vector<BfmeStringRecord000B94D2>, and BfmePod252's
+// copy constructor (0x000C254B, unwind state 4) destroys that +0x64 member
+// through 0x000C03D8. Both names fold onto the 63B dtor and the 25B range
+// destroy above (fold-proof pins in reverse/symbols.csv).
+template _STL::vector<BfmeStringRecord000B94D2>::~vector();
+
 inline Rva00B6CF1 &Rva00B6CF1::operator=(const Rva00B6CF1 &o)
 {
 	m_s0 = o.m_s0;

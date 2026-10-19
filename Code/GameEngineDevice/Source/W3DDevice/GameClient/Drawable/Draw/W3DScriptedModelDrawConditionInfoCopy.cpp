@@ -61,7 +61,6 @@ template <> vector<Rva000BB491, allocator<Rva000BB491> >::~vector();
 template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> >::vector(const vector<Rva000BB4AC, allocator<Rva000BB4AC> > &);
 template <> vector<Rva000BB4AC, allocator<Rva000BB4AC> >::~vector();
 template <> vector<Rva000BC20DWords, allocator<Rva000BC20DWords> > &vector<Rva000BC20DWords, allocator<Rva000BC20DWords> >::operator=(const vector<Rva000BC20DWords, allocator<Rva000BC20DWords> > &);
-template <> vector<Rva000BC20DWords, allocator<Rva000BC20DWords> >::~vector();
 }
 
 struct BfmePod252
