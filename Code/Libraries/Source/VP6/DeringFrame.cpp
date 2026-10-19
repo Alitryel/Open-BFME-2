@@ -51,8 +51,8 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356EC0 (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[24])
-#define g_rva01356EA0 (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[16])
+#define g_slotDeringStrong (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[24])
+#define g_slotDeringWeak (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[16])
 extern void *g_bfmeSlotB44;
 extern int g_bfmeDeringModifiers[64];
 extern int g_rva012D7F58[64];
@@ -113,20 +113,20 @@ extern "C" void __cdecl DeringFrame(Rva009A6130Context *ctx, unsigned char *src,
 			int variance = ctx->m_metric[index];
 			if (ctx->m_level > 5 && variance > thresh3)
 			{
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 				if ((col > 0 && ctx->m_metric[index - 1] > thresh4) ||
 					(col + 1 < blocksAcross && ctx->m_metric[index + 1] > thresh4) ||
 					(row + 1 < blocksDown && ctx->m_metric[index + blocksAcross] > thresh4) ||
 					(row > 0 && ctx->m_metric[index - blocksAcross] > thresh4))
 				{
-					g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
-					g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+					g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+					g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 				}
 			}
 			else if (variance > thresh2)
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else if (variance > thresh1)
-				g_rva01356EA0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringWeak(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else
 				((Rva009B2A50Copy)g_bfmeSlotB44)(BLOCK_SRC, BLOCK_DST, lineLength);
 			++index;
@@ -151,14 +151,14 @@ extern "C" void __cdecl DeringFrame(Rva009A6130Context *ctx, unsigned char *src,
 				quality = ctx->m_qIndex[index];
 			if (ctx->m_level > 5 && variance > thresh4)
 			{
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			}
 			else if (variance > thresh2)
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else if (variance > thresh1)
-				g_rva01356EA0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringWeak(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else
 				((Rva009B2A50Copy)g_bfmeSlotB44)(BLOCK_SRC, BLOCK_DST, lineLength);
 			++index;
@@ -180,14 +180,14 @@ extern "C" void __cdecl DeringFrame(Rva009A6130Context *ctx, unsigned char *src,
 				quality = ctx->m_qIndex[index];
 			if (ctx->m_level > 5 && variance > thresh4)
 			{
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			}
 			else if (variance > thresh2)
-				g_rva01356EC0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringStrong(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else if (variance > thresh1)
-				g_rva01356EA0(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
+				g_slotDeringWeak(ctx, BLOCK_SRC, BLOCK_DST, lineLength, quality, table);
 			else
 				((Rva009B2A50Copy)g_bfmeSlotB44)(BLOCK_SRC, BLOCK_DST, lineLength);
 			++index;

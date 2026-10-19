@@ -66,12 +66,12 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356e68SetupBounding (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
+#define g_slotSetupBoundingValues (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
 // The two edge dispatchers are slots 15 (VA 0x00E22FB8) and 23 (VA
 // 0x00E22FD8) of the same table, where PostProcMachineSpecificConfig installs
 // the tier's FilterHoriz_* and FilterVert_* routines.
-#define g_00E22FB8 (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[15])
-#define g_00E22FD8 (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[23])
+#define g_slotFilterHoriz (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[15])
+#define g_slotFilterVert (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[23])
 // The per-Q-index filter limit. Retail VA 0x00DB7428 (RVA 0x009B7428) is raw
 // .data holding these 64 dwords verbatim, so the table is transcribed and not
 // zero-filled; this unit's rowed bodies read it by Q index and return on a
@@ -84,8 +84,8 @@ extern const int g_00DB7428[64] = {
 };
 
 #define CODED(i) ctx->IsCoded(i)
-#define FILTER_H(x) g_00E22FB8(ctx, (x), stride, bounding)
-#define FILTER_V(x) g_00E22FD8(ctx, (x), stride, bounding)
+#define FILTER_H(x) g_slotFilterHoriz(ctx, (x), stride, bounding)
+#define FILTER_V(x) g_slotFilterVert(ctx, (x), stride, bounding)
 
 extern "C" void __cdecl ApplyReconLoopFilter(Vp6LoopFilterInstance *ctx, int frameQIndex,
 	unsigned char *lastRecon, unsigned char *postProcBuffer, unsigned char *fragInfo,
@@ -115,7 +115,7 @@ extern "C" void __cdecl ApplyReconLoopFilter(Vp6LoopFilterInstance *ctx, int fra
 	limit = g_00DB7428[frameQIndex];
 	if (limit == 0)
 		return;
-	bounding = g_rva01356e68SetupBounding((Rva009AF530Context *)ctx, limit);
+	bounding = g_slotSetupBoundingValues((Rva009AF530Context *)ctx, limit);
 
 	for (plane = 0; plane < 3; plane++) {
 		switch (plane) {
@@ -249,7 +249,7 @@ extern "C" void __cdecl LoopFilter(Vp6LoopFilterInstance *ctx, int frameQIndex,
 	limit = g_00DB7428[frameQIndex];
 	if (limit == 0)
 		return;
-	bounding = g_rva01356e68SetupBounding((Rva009AF530Context *)ctx, limit);
+	bounding = g_slotSetupBoundingValues((Rva009AF530Context *)ctx, limit);
 
 	for (plane = 0; plane < 3; plane++) {
 		switch (plane) {

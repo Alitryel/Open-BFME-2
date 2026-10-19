@@ -53,8 +53,8 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_00E22FA4 (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[10])
-#define g_00E22FB0 (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[13])
+#define g_slotDeblockLoopFilteredBand (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[10])
+#define g_slotDeblockNonFilteredBand (*(DeblockPlaneBand *)&g_bfmeCodecDispatch.slot[13])
 extern const unsigned int *g_bfmeScaleTableV2;
 extern const unsigned int *g_bfmeScaleTableUV;
 extern const void *g_bfmeScaleTableV1;
@@ -74,10 +74,10 @@ extern "C" void __cdecl DeblockPlane(Rva009AF200Context *ctx, int sourceOffset, 
 	unsigned int column;
 
 	if (ctx->m_mode >= 2) {
-		band = g_00E22FB0;
+		band = g_slotDeblockNonFilteredBand;
 		edges = (DeblockPlaneBand)DeblockVerticalEdgesInNonFilteredBand;
 	} else {
-		band = g_00E22FA4;
+		band = g_slotDeblockLoopFilteredBand;
 		edges = (DeblockPlaneBand)DeblockVerticalEdgesInLoopFilteredBand;
 	}
 

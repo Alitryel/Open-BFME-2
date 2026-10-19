@@ -23,8 +23,8 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356E8C (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[11])
-#define g_rva01356E98 (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[14])
+#define g_slotFilteringHoriz12 (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[11])
+#define g_slotFilteringVert12 (*(PredictFilteredEdge *)&g_bfmeCodecDispatch.slot[14])
 
 struct PredictFilteredInstance
 {
@@ -74,13 +74,13 @@ extern "C" void __cdecl VP6_PredictFiltered(
 	scaledY &= 7;
 	if (scaledX != 0) {
 		void *quantizer = *(void **)pbi->quantizer;
-		g_rva01356E8C(quantizer, scaledX + (int)scratch + 2, 0x10);
+		g_slotFilteringHoriz12(quantizer, scaledX + (int)scratch + 2, 0x10);
 	}
 	if (scaledY != 0) {
 		void *quantizer = *(void **)pbi->quantizer;
 		scaledY += 2;
 		scaledY <<= 4;
 		scaledY += (int)scratch;
-		g_rva01356E98(quantizer, scaledY, 0x10);
+		g_slotFilteringVert12(quantizer, scaledY, 0x10);
 	}
 }

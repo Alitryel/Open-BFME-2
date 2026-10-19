@@ -27,7 +27,7 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
+#define g_slotSetupDeblockValues (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
 extern const unsigned int *g_bfmeScaleTableV2;
 extern const unsigned int *g_bfmeScaleTableUV;
 
@@ -65,7 +65,7 @@ extern "C" void __cdecl DeblockFrameInterlaced(Rva009AF320Context *ctx, int a, i
 			(Rva009ACBA0Context *)ctx, value);
 	} else {
 		int value = g_bfmeDeblockLimit[ctx->m_tableIndex];
-		bound = (int *)g_rva01356E64(
+		bound = (int *)g_slotSetupDeblockValues(
 			(Rva009ACC40State *)ctx, value);
 	}
 

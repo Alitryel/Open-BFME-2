@@ -71,9 +71,9 @@ struct BfmeCodecDispatchTable
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 // Slot 1 (VA 0x00E22F80) is the deblock value-array builder.
-#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
-#define g_rva01356E84 (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[9])
-#define g_rva01356EC4 (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[25])
+#define g_slotSetupDeblockValues (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
+#define g_slotFilterHorizSimple (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[9])
+#define g_slotFilterVertSimple (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[25])
 
 extern "C" void __cdecl SimpleDeblockFrame(
 	Rva009B3800Context *ctx, int sourceOffset, int destinationOffset)
@@ -93,7 +93,7 @@ extern "C" void __cdecl SimpleDeblockFrame(
 	else
 		selector = g_rva011428E8[tableIndex];
 
-	bounding = (int *)g_rva01356E64((Rva009ACC40State *)ctx, selector);
+	bounding = (int *)g_slotSetupDeblockValues((Rva009ACC40State *)ctx, selector);
 
 	plane = 0;
 	do
@@ -129,7 +129,7 @@ extern "C" void __cdecl SimpleDeblockFrame(
 			int count = firstCount - 1;
 			do
 			{
-				g_rva01356E84(ctx, cursor, stride, bounding);
+				g_slotFilterHorizSimple(ctx, cursor, stride, bounding);
 				cursor += 8;
 				--count;
 			}
@@ -145,7 +145,7 @@ extern "C" void __cdecl SimpleDeblockFrame(
 			{
 				unsigned char *rowDest = base + destinationOffset;
 				memcpy(rowDest, base + sourceOffset, stride * 8);
-				g_rva01356EC4(ctx, rowDest, stride, bounding);
+				g_slotFilterVertSimple(ctx, rowDest, stride, bounding);
 
 				if (firstCount > 1)
 				{
@@ -153,8 +153,8 @@ extern "C" void __cdecl SimpleDeblockFrame(
 					int count = firstCount - 1;
 					do
 					{
-						g_rva01356E84(ctx, cursor - 2, stride, bounding);
-						g_rva01356EC4(ctx, cursor, stride, bounding);
+						g_slotFilterHorizSimple(ctx, cursor - 2, stride, bounding);
+						g_slotFilterVertSimple(ctx, cursor, stride, bounding);
 						cursor += 8;
 						--count;
 					}

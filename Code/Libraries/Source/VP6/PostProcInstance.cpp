@@ -56,8 +56,8 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356e68SetupBounding (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
-#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
+#define g_slotSetupBoundingValues (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
+#define g_slotSetupDeblockValues (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
 
 // RVA 0x001B68D0
 extern "C" void __cdecl DeletePostProcInstance(POSTPROC_INSTANCE **instance)
@@ -108,7 +108,7 @@ extern "C" void __cdecl SetupLoopFilter(POSTPROC_INSTANCE *ppi)
 	if (p->version >= 2)
 		p->boundingValues = SetupBoundingValueArray_Generic((Rva009AF490Context *)p, limit);
 	else
-		p->boundingValues = g_rva01356e68SetupBounding((Rva009AF530Context *)p, limit);
+		p->boundingValues = g_slotSetupBoundingValues((Rva009AF530Context *)p, limit);
 }
 
 // RVA 0x001BD630
@@ -123,6 +123,6 @@ extern "C" void __cdecl SetupDeblocker(POSTPROC_INSTANCE *ppi)
 	else
 	{
 		int limit = g_bfmeDeblockLimit[p->frameQIndex];
-		p->deblockValues = (int *)g_rva01356E64((Rva009ACC40State *)p, limit);
+		p->deblockValues = (int *)g_slotSetupDeblockValues((Rva009ACC40State *)p, limit);
 	}
 }

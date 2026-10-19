@@ -38,7 +38,7 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
-#define g_rva01356EB4 (*(DeblockBandCallback *)&g_bfmeCodecDispatch.slot[21])
+#define g_slotDeblockNewFilterBand (*(DeblockBandCallback *)&g_bfmeCodecDispatch.slot[21])
 // Retail 0x001BE490 (DeblockVerticalEdges.cpp).
 extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBandNewFilter(
 	Rva009AF200Context *, unsigned char *, unsigned char *,
@@ -56,7 +56,7 @@ extern "C" void __cdecl DeblockPlaneNew(
     const unsigned int *table)
 {
     DeblockPlaneLocals locals;
-    locals.rowFunction = g_rva01356EB4;
+    locals.rowFunction = g_slotDeblockNewFilterBand;
     locals.directDestination = destination;
     locals.distance = (int)(source - destination);
     locals.directRows = 4;
