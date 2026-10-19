@@ -167,7 +167,8 @@ unsigned g_Va00DFE440;	// retail RVA 0x009FE440 (.bss), defined here
 unsigned g_Va00DFE448;	// retail RVA 0x009FE448 (.bss), defined here
 unsigned g_Va00DFE490;	// retail RVA 0x009FE490 (.bss), defined here
 unsigned g_Va00DFE49C;	// retail RVA 0x009FE49C (.bss), defined here
-unsigned g_Va00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined here
+class Rva00575674;
+extern Rva00575674 g_00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined in Rva002220DCInit.cpp
 unsigned g_Va00DFE6DC;	// retail RVA 0x009FE6DC (.bss), defined here
 unsigned g_Va00DFE72C;	// retail RVA 0x009FE72C (.bss), defined here
 extern unsigned g_Va00DFE7A8;
@@ -319,10 +320,10 @@ void __cdecl rva007B76FA()
 	p->Rva00221027::~Rva00221027();
 }
 
-// ?rva007B770E@@YAXXZ @ 0x007B770E (10B): ecx=&g_Va00DFE4C4, tail-jump to rowed ?clear@Rva000AD6F4@@QAEXXZ (0x000AD6F4)
+// ?rva007B770E@@YAXXZ @ 0x007B770E (10B): ecx=&g_00DFE4C4, tail-jump to rowed ?clear@Rva000AD6F4@@QAEXXZ (0x000AD6F4)
 void __cdecl rva007B770E()
 {
-	Rva000AD6F4 *p = (Rva000AD6F4 *)&g_Va00DFE4C4;
+	Rva000AD6F4 *p = (Rva000AD6F4 *)&g_00DFE4C4;
 	p->clear();
 }
 

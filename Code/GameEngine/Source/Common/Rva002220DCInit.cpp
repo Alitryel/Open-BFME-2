@@ -19,7 +19,7 @@ public:
 	Object *m_ptr;
 };
 
-Rva00575674 g_00DFE4C4;
+Rva00575674 g_00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), the only definition
 
 class Rva00222061
 {
