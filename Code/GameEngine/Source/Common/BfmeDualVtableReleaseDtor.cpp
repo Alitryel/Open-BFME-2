@@ -11,14 +11,17 @@ public:
 	virtual void bfmeRelease(void) = 0;
 };
 
-class BfmeDualVtableReleaseBase
+// The base is DllHandle, as ScriptEngine_dtor.cpp, ScriptEngine_DllHandle.cpp and
+// BfmeDualVtableReleaseDtorCtor.cpp spell it (its table 0x007E3990 carries both
+// names in reverse/data_ledger.csv); one spelling keeps this TU's vtable copy equal.
+class DllHandle
 {
 public:
-	__forceinline ~BfmeDualVtableReleaseBase(void) {}
+	__forceinline ~DllHandle(void) {}
 	virtual void bfmeKeepVtable(void) {}
 };
 
-class BfmeDualVtableReleaseDtor : public BfmeDualVtableReleaseBase
+class BfmeDualVtableReleaseDtor : public DllHandle
 {
 public:
 	virtual ~BfmeDualVtableReleaseDtor(void);
