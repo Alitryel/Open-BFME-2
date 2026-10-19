@@ -63,3 +63,32 @@ early (`(field + 1)[ i - 1 ]`, `field[ i + 1 - 1 ]`, `f = field + 1; f[ i - 1 ]`
 `(field - 1)[ i + 1 ]`) do not tip it; neither do `i[ field ]`, `*( i + field )`,
 `i[ pValue ]` tail spellings, or ten code-neutral rewrites elsewhere (`!p`, `*p++ =`,
 operand swaps in the iDelta/class tests, `*p` for `*p != 0`, `field[ 0 ]` for `*field`).
+
+## Round 2 sweep (seat6, same day): bank unchanged at 0.957
+
+These were scripted against the donor-loop base (roles wrong) and the 0.957 base. Nothing
+gave retail's undisplaced loop with retail's roles, and nothing removed the hoisted tail load:
+- Length spellings: pointer walk (`while`/`for`, `i = q - field (+1)`), separate
+  `const char *base = field`, unsigned and signed char views of field, forceinline and inline
+  length helpers (count, count+1, end pointer, unsigned view), index casts
+  (`(unsigned)i`, `(long)i`), separate unsigned counter, comma-expression pointer temp,
+  `i = i + 1`, compare spellings (`>= (unsigned)' '`, `> ' ' - 1`, `!( < ' ' )`), and
+  late-folded offsets (`i + d` with d = 0 or 1, `(f + 1)[ i - 1 ]` through a local,
+  `i * 1`, `i | 0`, `(&field[ i ])[ 0 ]`, `*&field[ i ]`). Every one either keeps the
+  donor's wrong roles (209 diff lines) or changes the prologue (pBuffer moves to EBP).
+- 120 random permutations of the eight local declarations: all identical (209).
+- Function placement after Rva007E8D30Name (retail's TU order): no change.
+- Scan-loop restructures (`while ( *++p >= ' ' )`, `for ( p++; ... )`, `while ( 1 )`, `!*p`):
+  no change.
+- Scoping the whole length/tail section in a `{ int n; ... }` block, with and without
+  iDelta inside it: no change.
+- Tail on the 0.957 base: a byte local for `pValue[ i ]`, a braced scope, the negated
+  condition with the arms swapped, nested ifs, a flag local, a `cSep` local in the else arm,
+  an else-if chain, unbraced arms, and type-punned unsigned or signed reads of the separator.
+  The fitness stays at 0.9567 or drops (0.917 / 0.929).
+
+Conclusion: cl folds every constant or copy-propagated offset before it allocates, so the
+EBX/EBP choice is set by the final address forms; only a real loop displacement flips it.
+Retail's identical code with the opposite roles points to a toolchain or IL difference not
+reachable from this source family. One untested lead: a VC 7.0 or VC6 build of the EA FESL
+library. No profile for either is in the tree.
