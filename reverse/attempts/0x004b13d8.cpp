@@ -1,4 +1,6 @@
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
+// partial score=0.9281045751633987 date=2026-10-19
+// ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.961 date=2026-10-17
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.55 date=2026-10-15
@@ -7,8 +9,6 @@
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.8920744680851063 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /MD
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.84 date=2026-10-07
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ @0x004B13D8 470B.
@@ -19,10 +19,7 @@ extern "C" void _ReadWriteBarrier(void);
 
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 struct BfmePointFD;
 
@@ -70,11 +67,6 @@ public:
 	ExperienceTracker *m_tracker;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class PartitionManager;
@@ -95,11 +87,16 @@ struct EntryInner
 	int m_c;
 };
 
+struct Rva004DD018Arg;
+class EmotionNugget
+{
+public:
+	bool CanBeActivatedFor(int a, int b, Rva004DD018Arg *other);
+};
+
 class Rva004DD018
 {
 public:
-	bool rva004DD018(void *a, void *b, Object *other);
-
 	char m_pad00[4];
 	EntryInner *m_4;
 };
@@ -144,11 +141,12 @@ struct Rva004B13D8Frame
 	int slotB;
 };
 
+// Restores the pretested iterator scan and the recursive retry.
+// Evidence: reverse/attempt_support/0x004b13d8-20261019-w1.md.
 Rva004DD018 *Rva004B13D8::rva004B13D8()
 {
 	Rva004B13D8Frame frame;
 
-restart:
 	frame.slotA = 0;
 	frame.slotB = 0;
 	Player *player = m_8 ? m_8->getControllingPlayer() : 0;
@@ -169,10 +167,9 @@ restart:
 	if (tracker)
 		frame.level = tracker->m_level;
 
-	frame.cursor = m_begin;
-	do
+	for (frame.cursor = m_begin; frame.cursor != m_end; ++frame.cursor)
 	{
-		Rva004DD018 *entry = *m_begin;
+		Rva004DD018 *entry = *frame.cursor;
 		if (!entry)
 			continue;
 
@@ -183,7 +180,7 @@ restart:
 			{
 				int index = inner->m_4;
 				Object *found = TheGameLogic->findObjectByID((ObjectID)m_ids[index]);
-				if (entry->rva004DD018((void *)frame.slotA, (void *)frame.slotB, found))
+				if (((EmotionNugget *)entry)->CanBeActivatedFor(frame.slotA, frame.slotB, (Rva004DD018Arg *)found))
 					return entry;
 			}
 		}
@@ -194,7 +191,6 @@ restart:
 		{
 			if (kind != m_b0)
 			{
-				(void)*(volatile Rva004DD018 ***)&frame.cursor;
 				continue;
 			}
 		}
@@ -204,7 +200,7 @@ restart:
 		}
 
 		ModuleData *data = m_data;
-		if ((flag ? (!flag) : (!flag)))
+		if (!flag)
 		{
 			if (data->m_2c == (unsigned char)flag && frame.level >= data->m_30)
 			{
@@ -234,18 +230,14 @@ restart:
 
 		kind = entry->m_4->m_4;
 		Object *found = TheGameLogic->findObjectByID((ObjectID)m_ids[kind]);
-		if (entry->rva004DD018((void *)frame.slotA, (void *)frame.slotB, found))
+		if (((EmotionNugget *)entry)->CanBeActivatedFor(frame.slotA, frame.slotB, (Rva004DD018Arg *)found))
 			return entry;
-		Rva004DD018 **end = m_end;
-		if (frame.cursor + 1 == end)
-			break;
-		++frame.cursor;
-	} while (true);
+	}
 
 	if (m_b4)
 	{
 		m_b4 = 0;
-		goto restart;
+		return rva004B13D8();
 	}
 	return 0;
 }
