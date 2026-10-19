@@ -19,6 +19,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <hash_map>
 #include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
@@ -28,15 +38,12 @@ template <> const unsigned int &max<unsigned int>(const unsigned int &, const un
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline vector<void *,allocator<void *> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 // bfme link decl-only begin
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 // bfme link decl-only end
 struct FieldParse;class INI;

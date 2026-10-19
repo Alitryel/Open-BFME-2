@@ -14,6 +14,14 @@
 // The callee at 41F369 has a proven thiscall/no-stack-argument ABI and normalizes
 // the entry weights at +4/+8/+C. Its original method name remains unknown.
 // The field-table name describes its ownership; its original EA name is unknown.
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 #include <hash_map>
 #include "ascii_string.h"
 

@@ -26,6 +26,16 @@ public:
 
 #define _STLP_USE_STATIC_LIB 1
 
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 #include <deque>
 #include <hash_map>
 
@@ -52,9 +62,7 @@ void *&vector<void*>::operator[](size_t __n)
 #include <set>
 #include <windows.h>
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
 // bfme link decl-only begin
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 // bfme link decl-only end
 
 struct Rva001408C0Target;

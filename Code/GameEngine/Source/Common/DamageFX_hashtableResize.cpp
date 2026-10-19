@@ -11,16 +11,24 @@
 // construct that reproduces the retail loads). Flags mirror DamageFX.cpp.
 
 #define _STLP_NO_EXCEPTIONS 1
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 #include <hash_map>
 // Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
 // unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
 // bfme link decl-only begin
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 // bfme link decl-only end
 

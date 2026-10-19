@@ -23,12 +23,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
-#include <hash_map>
-#include <cstddef>
-// Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
-// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
-namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
-// bfme link decl-only begin
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
@@ -36,12 +35,22 @@ namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::_Vector_base(const allocator<void *> &__a) : _M_start(0), _M_finish(0), _M_end_of_storage(__a, 0) {}
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
+#include <hash_map>
+#include <cstddef>
+// Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
+// bfme link decl-only begin
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
