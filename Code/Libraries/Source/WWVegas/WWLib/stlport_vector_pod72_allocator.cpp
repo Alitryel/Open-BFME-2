@@ -14,4 +14,6 @@
 // the retail imul stride.
 struct BfmePod72 { int a[18]; };
 #include <memory>
-template class _STL::allocator<BfmePod72>;
+// Instantiate only the rowed allocate: a whole-class instantiation also emits
+// construct and its _Construct<BfmePod72> COMDAT, which is not retail's body.
+template BfmePod72 *_STL::allocator<BfmePod72>::allocate(size_t, const void *) const;

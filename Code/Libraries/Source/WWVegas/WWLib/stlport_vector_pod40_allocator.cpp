@@ -13,4 +13,6 @@
 // here). The BfmePod40 layout mirrors the home TU declaration.
 struct BfmePod40 { int a[10]; };
 #include <memory>
-template class _STL::allocator<BfmePod40>;
+// Instantiate only the rowed allocate: a whole-class instantiation also emits
+// construct and its _Construct<BfmePod40> COMDAT, which is not retail's body.
+template BfmePod40 *_STL::allocator<BfmePod40>::allocate(size_t, const void *) const;
