@@ -687,6 +687,7 @@ private:
  const CommandButton* rva0042970A(int);
  int rva00429007(Arg*,int);
  int rva00429093(Arg*,int);
+ int rva00429112(Arg*,int);
 private:
  int rva00428EEB(const CommandButton*,int,Drawable*,const Coord3D*);
  int issueMoveToLocationCommand(const Coord3D*,Drawable*,int);
@@ -855,7 +856,6 @@ class Rva0055A88BDwordField { public: int get() const; };
 class Rva0006EE7A : public BitFlags<69> { public: Rva0006EE7A(int,int,int); };
 struct Rva0029AEF9Item;
 bool Rva0027DC65Check(float*);
-class Rva00429112 { public: int rva00429112(Arg*,int); };
 class Rva0031D5F8 { public: void* rva0031D5F8(const AsciiString*); };
 class CommandSet { public: const CommandButton* getCommandButton(int) const; };
 class Rva0026F0F0 { public: void* rva0026F0F0(const void*); };
@@ -951,7 +951,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
      switch(contextButton(command)->type) {
      case 29:case 30:msgType=rva00429007((Arg*)draw,type);break;
      case 41:msgType=rva00429093((Arg*)draw,type);break;
-     case 47:msgType=((Rva00429112*)this)->rva00429112((Arg*)draw,type);break;
+     case 47:msgType=rva00429112((Arg*)draw,type);break;
      case 24:msgType=issueSpecialPowerCommand(command,type,originalDraw,pos,0);break;
      case 32:{Object*unit=((ContextPlayers*)ThePlayerList)->getLocalPlayer()->findNaturalCommandCenter();if(unit)msgType=issueSpecialPowerCommand(command,type,draw,pos,unit);break;}
      case 38:{Object*unit=((ContextPlayers*)ThePlayerList)->getLocalPlayer()->rva002AC629();if(unit)msgType=issueSpecialPowerCommand(command,type,draw,pos,unit);break;}
