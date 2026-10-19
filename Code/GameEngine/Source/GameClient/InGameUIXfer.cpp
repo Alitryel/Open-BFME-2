@@ -304,6 +304,13 @@ typedef _STL::list<SuperweaponInfo *> SuperweaponList;
 typedef _STL::map<AsciiString, SuperweaponList> SuperweaponMap;
 typedef _STL::map<AsciiString, NamedTimerInfo *> NamedTimerMap;
 
+// The superweapon map subscript 0x002A6A2D is rowed under this opaque
+// four-byte list view (stlport_rb_tree_subscript_002a6a2d.cpp).
+struct TreeHintOpaque002A484A : public _STL::list<int> {};
+typedef _STL::pair<const AsciiString, TreeHintOpaque002A484A> TreeHintPair002A484A;
+typedef _STL::map<AsciiString, TreeHintOpaque002A484A, _STL::less<AsciiString>, _STL::allocator<TreeHintPair002A484A> > SuperweaponSubscriptMap;
+template <> TreeHintOpaque002A484A &SuperweaponSubscriptMap::operator[](const AsciiString &);
+
 // The map subscript 0x002A57BD is rowed under this AsciiString-keyed
 // instantiation; its four-byte payload holds the timer pointer.
 struct TreeHintPayload002A1D9D
@@ -560,7 +567,7 @@ void InGameUI::xfer( Xfer *xfer )
 				swInfo = (SuperweaponInfo *)new Rva0029B816( id, timestamp, hiddenByScript, hiddenByScience, ready,
 					m_superweaponNormalFont, m_superweaponNormalPointSize, m_superweaponNormalBold,
 					player->getPlayerColor(), (int)powerTemplate );
-				m_superweapons[ playerIndex ][ powerName ].push_back( swInfo );
+				((SuperweaponList &)(*(SuperweaponSubscriptMap *)&m_superweapons[ playerIndex ])[ powerName ]).push_back( swInfo );
 			}
 			else
 			{
