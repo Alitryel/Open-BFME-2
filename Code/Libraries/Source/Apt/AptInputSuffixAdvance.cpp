@@ -23,7 +23,7 @@ extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 #define INPUT_ASSERT(test,text,line) if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
-class Rva006FB860 {public:AptCIH *rva006FA420(int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void rva006FA340();};
+class AptAnimationPoolData {public:AptCIH *rva006FA420(int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void rva006FA340();};
 static __declspec(noinline) bool rva006F97F0Parse(EAStringC *value,int *first,int *second)
 {
  if(value->IsEmpty())return false;
@@ -38,7 +38,7 @@ static __declspec(noinline) bool rva006F97F0Parse(EAStringC *value,int *first,in
  if(first)*first=atoi(cursor+1);
  return true;
 }
-void Rva006FB860::rva006FA340()
+void AptAnimationPoolData::rva006FA340()
 {
  int first,second;
  if(current && rva006F97F0Parse(&current->name,&first,&second))return;
@@ -168,7 +168,7 @@ public:
 struct AptButtonInstance {AptButtonHitCIH *pCIH;BfmeM1208 matrix;};
 struct AptButtonPoolView {char pad[0x10];int nButtonInstances;AptButtonInstance *aButtonInstanceList;};
 #define gpButtonPool ((AptButtonPoolView*)g_bfmeAptPtrAtE176D0)
-AptCIH *Rva006FB860::rva006FA420(int x,int y)
+AptCIH *AptAnimationPoolData::rva006FA420(int x,int y)
 {
  int checked=0;
  for (int i=gpButtonPool->nButtonInstances-1;i>=0;i--) {

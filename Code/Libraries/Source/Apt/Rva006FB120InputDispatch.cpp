@@ -1,5 +1,5 @@
 // cl: /O2 /G6 /arch:SSE /MD
-// ?rva006FB120@Rva006FB860@@QAEXHHHHD@Z retail 0x006FB120..0x006FB5AC (1164
+// ?rva006FB120@AptAnimationPoolData@@QAEXHHHHD@Z retail 0x006FB120..0x006FB5AC (1164
 // bytes: code through 0x006FB592 including the in-loop return path, then
 // alignment and the six-entry case table at 0x006FB594), thiscall ret 0x14.
 // Called only by 0x006FB860 (rva006FB860, declared with this signature).
@@ -114,7 +114,7 @@ struct AptInputInstSet
     int GetSize() const { return mnSize; }
 };
 
-class Rva006FB860
+class AptAnimationPoolData
 {
 public:
     char pad0[8];
@@ -130,7 +130,7 @@ public:
     void rva006FB120(int eType, int state, int value, int device, char isFirst);
 };
 
-void Rva006FB860::rva006FB120(int eType, int state, int value, int device, char isFirst)
+void AptAnimationPoolData::rva006FB120(int eType, int state, int value, int device, char isFirst)
 {
     AptCIH *pInst = 0;
     bool bQueuedPress = false;

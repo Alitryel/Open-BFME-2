@@ -1,5 +1,5 @@
 // cl: /O2 /G6 /EHsc /MD /DNDEBUG
-// ?rva006FACA0@Rva006FB860@@QAE_NHHPAPAX@Z, retail 0x006FACA0..0x006FAF73.
+// ?rva006FACA0@AptAnimationPoolData@@QAE_NHHPAPAX@Z, retail 0x006FACA0..0x006FAF73.
 // WB 0x017999A0 explicitly identifies AptAnimationPoolData::HandleFocusButton,
 // AptInput.cpp:1207..1304. Target instructions occupy 687 bytes; their aligned
 // five-target jump table and fifteen-byte case map extend the body to 723.
@@ -49,8 +49,8 @@ void __debugbreak();
 #pragma intrinsic(__debugbreak)
 EAStringC *__cdecl Rva0070B4F0GetString(int);
 unsigned char __cdecl rva006FEC00(int,int,EAStringC*,int*,EAStringC*);
-class Rva006FB860 {public:char pad[0x6C];AptCIH *current;bool rva006FACA0(int,int,void**);void rva006FAB40(BfmeAptValue006DCD20 *,int,int);void rva006FA100(AptCIH *,int);};
-bool Rva006FB860::rva006FACA0(int event,int transition,void **out)
+class AptAnimationPoolData {public:char pad[0x6C];AptCIH *current;void rva006E6540();bool rva006FACA0(int,int,void**);void rva006FAB40(BfmeAptValue006DCD20 *,int,int);void rva006FA100(AptCIH *,int);};
+bool AptAnimationPoolData::rva006FACA0(int event,int transition,void **out)
 {
  if (!out) {
   g_bfmeAptAssertAtE17734("ppNewButton","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",0x4B7);
@@ -130,7 +130,7 @@ struct AptInputPoolView {
  AptActionQueueC *queue;
  void AddActionToQueue(AptValue *ctx,AptValue *fn,AptValue *res,int code,int arg){queue->rva006E3740(ctx,fn,res,code,arg);}
 };
-void Rva006FB860::rva006FAB40(BfmeAptValue006DCD20 *value,int mask,int arg)
+void AptAnimationPoolData::rva006FAB40(BfmeAptValue006DCD20 *value,int mask,int arg)
 {
  AptValue *pValue=(AptValue*)value;
  if(!pValue->ContainsNativeHashVirtual()) {
@@ -160,7 +160,7 @@ void Rva006FB860::rva006FAB40(BfmeAptValue006DCD20 *value,int mask,int arg)
  }
 }
 
-// ?rva006FA100@Rva006FB860@@QAEXPAVAptCIH@@H@Z, retail 0x006FA100..0x006FA340
+// ?rva006FA100@AptAnimationPoolData@@QAEXPAVAptCIH@@H@Z, retail 0x006FA100..0x006FA340
 // (RET8; the 8-entry case table completes the 576B extent). WB 0x01797C60
 // places it in AptInput.cpp by its asserts at lines 257/258/267 (pInst,
 // pInst->isButtonInst(), pInst->pParent): button-instance event broadcast. The BFME 1 AptInput.cpp donor at 575ba2b04
@@ -168,7 +168,6 @@ void Rva006FB860::rva006FAB40(BfmeAptValue006DCD20 *value,int mask,int arg)
 // Retail fixes the +0x48 parent/+0x4C character, descriptor +0x34/+0x38/+0x3C,
 // the 7x12B key-route table at 0xDDC898 and the pool queue callees.
 class Rva006DBB30SarDwordField {public:int get() const;};
-class AptAnimationPoolData {public:void rva006E6540();};
 extern int g_00E17704;
 extern void (__cdecl *g_bfmeAptFreeAtE17784)(void *,int);
 struct AptButtonRoute {unsigned int mask;int stringId;int keyCode;};
@@ -191,7 +190,7 @@ struct AptButtonRecord {int mask;void *actions;};
 struct AptButtonSound {char pad[8];void *handle;};
 struct AptButtonDescriptor {char pad[0x34];int count;AptButtonRecord *records;AptButtonSound **sounds;};
 struct AptButtonCharacter {char pad[0xc];AptButtonDescriptor *descriptor;};
-void Rva006FB860::rva006FA100(AptCIH *inst,int mode)
+void AptAnimationPoolData::rva006FA100(AptCIH *inst,int mode)
 {
  AptButtonInstView *pInst=(AptButtonInstView*)inst;
  if (!pInst) {
@@ -241,5 +240,5 @@ void Rva006FB860::rva006FA100(AptCIH *inst,int mode)
   case 8: if (desc->sounds[3]) g_bfmeAptFreeAtE17784(desc->sounds[3]->handle,0); break;
   }
  }
- ((AptAnimationPoolData*)this)->rva006E6540();
+ rva006E6540();
 }

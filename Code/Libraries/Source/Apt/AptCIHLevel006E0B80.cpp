@@ -262,7 +262,7 @@ void *AptCIH::rva006E1090() const
 
 // ?rva006E1F00@AptCIH@@QAEXH@Z, retail 0x006E1F00, 132 bytes (RET 4;
 // callers AptAnimationPoolData::_tickNewInsts, the display-list
-// instantiation 0x006F85E0 and three Rva006FB860 updates): sets the
+// instantiation 0x006F85E0 and three AptAnimationPoolData updates): sets the
 // instance data's (0x006E1090) +0x18 mask; when it changes, clears the
 // +0x1C display list (AptDisplayList::clear(false)) and re-submits every
 // 0x44-byte record of the character (+0x0C: count +0x2C, records +0x30)

@@ -1,5 +1,5 @@
 // cl: /O2 /G6 /arch:SSE /MD
-// ?rva006FA7E0@Rva006FB860@@QAEX_N0H@Z retail 0x006FA7E0..0x006FAA20 (576 bytes)
+// ?rva006FA7E0@AptAnimationPoolData@@QAEX_N0H@Z retail 0x006FA7E0..0x006FAA20 (576 bytes)
 // thiscall ret 0xC. Focus/press state transition on the Apt input object
 // shared with 0x006FB860/0x006FB910/0x006FAA20 (Rva006FB910Cluster.cpp):
 // +0x44 current value and the +0x60/+0x64/+0x68 AptValue slots are tested
@@ -39,7 +39,7 @@ public:
 class AptValue;
 extern AptValue *gpUndefinedValue; // 0x00E18078
 
-class Rva006FB860
+class AptAnimationPoolData
 {
 public:
     unsigned char _unread[0x44];
@@ -51,7 +51,7 @@ public:
     void rva006FA7E0(bool first, bool enabled, int value);
 };
 
-void Rva006FB860::rva006FA7E0(bool first, bool enabled, int value)
+void AptAnimationPoolData::rva006FA7E0(bool first, bool enabled, int value)
 {
     if (enabled) {
         if (m60->isUndefined())

@@ -1,6 +1,6 @@
 // cl: /O2 /MD
-// ?Rva006F9EF0@Rva006FB860@@QAEXXZ @0x006F9EF0 194B
-// Member of Rva006FB860 (caller 0x006FB910 in Rva006FB910Cluster.cpp).
+// ?Rva006F9EF0@AptAnimationPoolData@@QAEXXZ @0x006F9EF0 194B
+// Member of AptAnimationPoolData (caller 0x006FB910 in Rva006FB910Cluster.cpp).
 // Computes x=(float)m74-m58 y=(float)m78-m5C clamps x by m48/m50 and y by
 // m4C/m54 against the -9999.0f sentinel then checked-casts mValue via rowed
 // 0x006DCF60 and sets properties 0/1 via pinned factorySetProperty.
@@ -14,7 +14,7 @@ class AptCIH
 public:
     void factorySetProperty(int prop, float value, bool flag);
 };
-class Rva006FB860
+class AptAnimationPoolData
 {
 public:
     char m_pad[0x44];
@@ -30,7 +30,7 @@ public:
     int m78; // +0x78
     void Rva006F9EF0();
 };
-void Rva006FB860::Rva006F9EF0()
+void AptAnimationPoolData::Rva006F9EF0()
 {
     float x = (float)m74 - m58;
     float y = (float)m78 - m5C;

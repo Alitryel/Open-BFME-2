@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva006FB910@Rva006FB860@@QAEAAXXZ @0x006FB910 70B.
+// ?rva006FB910@AptAnimationPoolData@@QAEAAXXZ @0x006FB910 70B.
 //
 // A member of the Apt object reached through the global at VA 0x00E176D0, the
 // same pool pointer Rva006CC950Mouse.cpp and Rva006CD2A0Cluster.cpp establish.
@@ -11,7 +11,7 @@
 //   if (!((AptValue *)this + 0x44)->isUndefined())   // 0x006DC010, rowed
 //       Rva006F9EF0(this);                           // 0x006F9EF0, unnamed
 //   for (i = 0; i < this->mListCount; ++i)            // +0x3C
-//       Rva006FB860(this, this->aList[i], i == 0);   // +0x40, dword elements
+//       rva006FB860(this, this->aList[i], i == 0);   // +0x40, dword elements
 //   this->mListCount = 0;
 //
 // The +0x3C count / +0x40 element-list / +0x44 AptValue triple is read here
@@ -56,7 +56,7 @@ extern AptCIH *__cdecl rva006F99D0(int eventCode, AptCIH *first,
 
 // The object these members share. Only the fields the 0x006FB910 body reads
 // are modelled; the full layout is not claimed.
-class Rva006FB860
+class AptAnimationPoolData
 {
 public:
     unsigned char _unread[0x18];
@@ -88,11 +88,10 @@ public:
     void Rva006F9EF0();
     void rva006FB910();
     void ProcessButtonState();
-    // ?HandleAutoNav@Rva006FB860@@QAEXPAVAptCIH@@HH@Z @0x006FAF80 416B:
+    // ?HandleAutoNav@AptAnimationPoolData@@QAEXPAVAptCIH@@HH@Z @0x006FAF80 416B:
     // renamed from placeholder rva006FAF80 — the WorldBuilder twin names
     // AptAnimationPoolData::HandleAutoNav at EA's own AptInput.cpp
-    // (callgraph 3); the receiver keeps the guessed class view pending the
-    // family rename.
+    // (callgraph 3).
     void HandleAutoNav(AptCIH *candidate, int eventCode, int transition);
 };
 
@@ -102,7 +101,7 @@ public:
 // its own body is banked blocked in reverse/re_attempts.log on the unrowed
 // 0x006DCF60 and 0x006E0930. Declared above as a member, not defined here.
 
-void Rva006FB860::rva006FB910()
+void AptAnimationPoolData::rva006FB910()
 {
     if (!mValue->isUndefined())
         Rva006F9EF0();
@@ -116,7 +115,7 @@ void Rva006FB860::rva006FB910()
 // Calls to 0x006FA420, 0x006E1F00 and 0x006FA100 remain address-based because
 // their target bodies are unlanded; their addresses and ABIs come from these
 // retail call sites. The owning class name remains address-derived.
-void Rva006FB860::ProcessButtonState()
+void AptAnimationPoolData::ProcessButtonState()
 {
     AptCIH *value = rva006FA420(m74, m78);
     Rva006E3710 *pool = (Rva006E3710 *)g_bfmeAptPtrAtE176D0;
@@ -160,13 +159,13 @@ void Rva006FB860::ProcessButtonState()
         value->vtableSlot1();
 }
 
-// ?rva006FAF80@Rva006FB860@@QAEXPAVAptCIH@@HH@Z @0x006FAF80 386B.
+// ?rva006FAF80@AptAnimationPoolData@@QAEXPAVAptCIH@@HH@Z @0x006FAF80 386B.
 // Retail bytes establish ECX=this, three 32-bit stack arguments (ret 0xC),
 // a 0..15 state dispatch, and reads/writes of this+0x6C/+0x70. The candidate
-// argument is tested by the rowed AptCIH predicate at 0x006CFCD0. Ownership by
-// Rva006FB860 is inferred from the same fields and direct sibling calls; the
-// original method name and caller-level semantic labels remain unknown.
-void Rva006FB860::HandleAutoNav(AptCIH *candidate, int eventCode,
+// argument is tested by the rowed AptCIH predicate at 0x006CFCD0. The fields and
+// direct sibling calls tie it to AptAnimationPoolData; WorldBuilder's twin names
+// it HandleAutoNav (see the declaration above).
+void AptAnimationPoolData::HandleAutoNav(AptCIH *candidate, int eventCode,
                               int transition)
 {
     switch (eventCode) {
@@ -231,13 +230,13 @@ void Rva006FB860::HandleAutoNav(AptCIH *candidate, int eventCode,
     }
 }
 
-// ?rva006FB860@Rva006FB860@@QAEXHD@Z @0x006FB860 173B.
+// ?rva006FB860@AptAnimationPoolData@@QAEXHD@Z @0x006FB860 173B.
 // The target uses thiscall with two stack arguments (ret 8). When the packed
 // value is four-aligned it updates the global Apt coordinates at +0x74/+0x78;
 // otherwise it extracts three bit fields. Both paths feed two direct helper
 // calls, then a local AptCIH output slot passed to 0x006FACA0; a false result
 // forwards that value and the extracted coordinates to 0x006FAF80.
-void Rva006FB860::rva006FB860(int value, char isFirst)
+void AptAnimationPoolData::rva006FB860(int value, char isFirst)
 {
     void *candidate = 0;
     unsigned int packed = (unsigned int)value;
@@ -263,7 +262,7 @@ void Rva006FB860::rva006FB860(int value, char isFirst)
         HandleAutoNav((AptCIH *)candidate, x, y);
 }
 
-typedef char PoolCountOffset[(sizeof(Rva006FB860) >= 0x44 + sizeof(BfmeAptValue006DCD20)) ? 1 : -1];
+typedef char PoolCountOffset[(sizeof(AptAnimationPoolData) >= 0x44 + sizeof(BfmeAptValue006DCD20)) ? 1 : -1];
 
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
@@ -279,7 +278,7 @@ bool rva006EE6C0(AptValue *target, const EAStringC *name, AptValue *value);
 // 17993B0/AptInput.cpp lines1032..1084 supplies the listener-dispatch guide;
 // fields18/1A/1C and20/22/24, masks and ABIs are independently read in retail.
 // The original member name is unproven, so retain the address-derived identity.
-void Rva006FB860::rva006FB5B0(int x, int y, int packed, int field)
+void AptAnimationPoolData::rva006FB5B0(int x, int y, int packed, int field)
 {
     APTINPUT_CHECK(y==0 || y==1 || y==3 || y==4 || y==5,"eState == AptInputState_Pressed || eState == AptInputState_Released || eState == AptInputState_WheelUp || eState == AptInputState_WheelDown || eState == AptInputState_MouseMove",0x408);
     BfmeAptValue006DCD20 *value=0;

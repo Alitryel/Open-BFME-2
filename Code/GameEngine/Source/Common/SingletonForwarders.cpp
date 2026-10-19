@@ -22,7 +22,7 @@ extern ScriptEngine *TheScriptEngine;
 
 class Rva006E34D0;
 extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
-class Rva006FB860 { public: void rva006FA340(); };
+class AptAnimationPoolData { public: void rva006FA340(); };
 
 // ?rva002B298C@@YA_NXZ @0x002B298C: TheCampaignManager -> 0x003B8CAC
 bool rva002B298C()
@@ -46,7 +46,7 @@ void __stdcall rva003BA938(const AsciiString &strToAdd, bool forcePause)
 // ?rva006CC5F0@@YAXXZ @0x006CC5F0: the Apt object at 0x00E176D0 -> 0x006FA340
 void rva006CC5F0()
 {
-	((Rva006FB860 *)g_bfmeAptPtrAtE176D0)->rva006FA340();
+	((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->rva006FA340();
 }
 
 // Null-guarded variants: if the global object exists, tail-jump its member
