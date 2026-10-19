@@ -17,6 +17,10 @@ class _Locale_impl
 {
 public:
 	virtual ~_Locale_impl();
+	// Table 0x00BBBBB0's slots 1 and 2 (empty bodies in retail), as
+	// stlport_classic_locale.cpp's full class declares them.
+	virtual void _M_incr();
+	virtual void _M_decr();
 
 private:
 	void *_M_facets;
