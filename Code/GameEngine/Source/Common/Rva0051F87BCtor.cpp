@@ -8,6 +8,16 @@
 // three vector<unsigned> at +0x2C/+0x38/+0x44. Evidence: same vtable as rowed
 // copy 0x0051F87B; offsets from lea pairs; empty Vector_base folds to 0x00211E58.
 #include <vector>
+// vector<unsigned int>'s allocator constructor inlines at every use here;
+// imported force-inline so this unit emits no COMDAT copy of it (its copy
+// differs from retail's kept /Od body at 0x00025100). The vector base
+// constructor stays a declared nothrow call to its kept copy (0x00211E58).
+namespace _STL {
+template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+}
 
 #include "ascii_string.h"
 #include "unicode_string.h"

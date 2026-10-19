@@ -9,6 +9,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// vector<unsigned int>'s allocator constructor inlines at every use here;
+// imported force-inline so this unit emits no COMDAT copy of it (its copy
+// differs from retail's kept /Od body at 0x00025100). The vector base
+// constructor stays a declared nothrow call to its kept copy (0x00211E58).
+namespace _STL {
+template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+}
 #include <string.h>
 void Rva00030830FreeAllocation(void*);
 namespace _STL {template<> inline void allocator<unsigned int>::deallocate(unsigned int*p,size_t)const {if(p)Rva00030830FreeAllocation(p);}}

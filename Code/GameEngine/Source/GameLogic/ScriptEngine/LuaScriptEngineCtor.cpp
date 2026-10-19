@@ -9,6 +9,16 @@
 #include "ascii_string.h"
 typedef bool Bool;
 #include "subsystem_interface.h"
+// vector<unsigned int>'s allocator constructor inlines at every use here;
+// imported force-inline so this unit emits no COMDAT copy of it (its copy
+// differs from retail's kept /Od body at 0x00025100). The vector base
+// constructor stays a declared nothrow call to its kept copy (0x00211E58).
+namespace _STL {
+template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+}
 class Rva002E2680 { public: Rva002E2680(); char prefix[4]; bool value; char alignment5[3]; };
 class Rva003371B1 { char data[20]; public: ~Rva003371B1(); };
 struct BfmeOpaqueRecord156 { char data[156]; };
