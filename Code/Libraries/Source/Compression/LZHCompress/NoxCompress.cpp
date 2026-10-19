@@ -43,6 +43,18 @@ template <class T> const T &min(const T &a, const T &b)
 	}
 }
 
+// Retail's only out-of-line min<unsigned> is the /G7 cmovae leaf 0x0009FDD5
+// (W3DTextEntry.cpp); this unit's blend flags inline the select and must not
+// emit a second, jb-shaped copy of it.
+template <> __declspec(dllimport) __forceinline const UnsignedInt &min<UnsignedInt>(const UnsignedInt &a, const UnsignedInt &b)
+{
+	if (a < b) {
+		return a;
+	} else {
+		return b;
+	}
+}
+
 typedef void *LZHL_CHANDLE;
 
 LZHL_CHANDLE LZHLCreateCompressor();
