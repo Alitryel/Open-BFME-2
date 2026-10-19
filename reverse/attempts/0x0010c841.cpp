@@ -1,4 +1,6 @@
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
+// partial score=0.95 date=2026-10-19
+// ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
 // partial score=0.63 date=2026-10-16
 // W9-O1 bank r2: W3DProjectedShadowManager single-decal queue 0x10C841 (4656 B) as a full helpers-TU variant
 // (Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowDecalHelpers.cpp + this body). WB 0x8C9A10 guide.
@@ -82,6 +84,7 @@ static void decalAxesRva00108E7A(const Rva00108E7AMatrix &objXform, Rva00108E7AV
 	uVector = objXform.Get_X_Vector();
 	uVector.Z = 0.0f;
 	float vecLength = uVector.Length();
+	//prevent divide by zero
 	if (vecLength != 0.0f) {
 		uVector *= 1.0f / vecLength;
 		vVector.Set(uVector.Y, -uVector.X, 0.0f);
@@ -89,10 +92,11 @@ static void decalAxesRva00108E7A(const Rva00108E7AMatrix &objXform, Rva00108E7AV
 		vVector = objXform.Get_Y_Vector();
 		vVector.Z = 0.0f;
 		vecLength = vVector.Length();
+		//prevent divide by zero
 		if (vecLength != 0.0f)
 			vVector *= 1.0f / vecLength;
 		else
-			vVector.Set(0.0f, -1.0f, 0.0f);
+			vVector.Set(0.0f, -1.0f, 0.0f); //Point uvector in default direction
 		uVector.Set(-vVector.Y, vVector.X, 0.0f);
 	}
 }
@@ -154,10 +158,13 @@ static WWINLINE Rva00108E7AVector operator+(const Rva00108E7AVector&a,const Rva0
 static void projectRangesRva00108FBD(const Rva00108E7AVector &axisA, const Rva00108E7AVector &axisB, float sizeA, float sizeB,
 	float offA, float offB, Rva00108E33Pair &xr, Rva00108E33Pair &yr)
 {
+	//Compute bounding box of projection
 	Rva00108E7AVector a0(axisA.X * (-((offA + 0.5f) * sizeA)), axisA.Y * (-((offA + 0.5f) * sizeA)), 0.0f);
 	Rva00108E7AVector a1(axisA.X * ((0.5f - offA) * sizeA), axisA.Y * ((0.5f - offA) * sizeA), 0.0f);
 	Rva00108E7AVector b0(axisB.X * (-((offB + 0.5f) * sizeB)), axisB.Y * (-((offB + 0.5f) * sizeB)), 0.0f);
 	Rva00108E7AVector b1(axisB.X * ((0.5f - offB) * sizeB), axisB.Y * ((0.5f - offB) * sizeB), 0.0f);
+	///@todo: Optimize this bounding box calculation to use transformed extents
+	//Also skip bounding box calculation if object has not moved.
 	Rva00108E7AVector c0 = b0 + a0;
 	Rva00108E7AVector c1 = b0 + a1;
 	Rva00108E7AVector c2 = b1 + a1;
@@ -191,7 +198,7 @@ virtual void slot16();
 virtual void slot17();
 virtual void slot18();
 virtual void slot19();
-virtual void Validate_Transform();
+virtual void Validate_Transform() const;
 virtual void slot21();
 virtual void slot22();
 virtual void slot23();
@@ -262,6 +269,7 @@ virtual DrawableInfo*Get_User_Data();
 Vector3 Get_Position()const;
 void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
 int NumRefs;char pad08[0x10];Matrix3D transform;
+const Matrix3D &Get_Transform() const { Validate_Transform(); return transform; }
 };
 class TerrainLogic {public:
 virtual void pad0();
@@ -824,6 +832,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 	}
 	else
 	{
+		//no render object so use shadow's local position and default orientation
 		objPos.Set(shadow->m_position.x, shadow->m_position.y, shadow->m_position.z);
 		if (shadow->m_isRotating)
 			objXform.Rotate_Z(shadow->m_angle);
@@ -865,6 +874,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 		height = terrainHeight;
 	}
 
+	//Find size of heightmap sub-rectangle affected by shadow
 	Vector3 uVector, vVector;
 	decalAxesRva00108E7A(*(Rva00108E7AMatrix *)&objXform, *(Rva00108E7AVector *)&uVector, *(Rva00108E7AVector *)&vVector);
 
@@ -992,12 +1002,13 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 				}
 
 				Bool flushed = false;
-				if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000)
+				if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000) //check if room for model verts
 				{
+					//flush the buffer by drawing the contents and re-locking again
 					flushDecals(shadow->m_type, shadow->m_shadowTexture[0], shadow->m_shadowTexture[1], flushFlags);
 					m_decalStartVertex = 0;
 					m_decalStartIndex = 0;
-					m_numDecalPolysInBatch = 0;
+					m_numDecalPolysInBatch = 0; //reset number of polys in texture batch
 					m_numDecalVertsInBatch = 0;
 					m_numDecalVertsInBuffer = 0;
 					m_numDecalIndicesInBuffer = 0;
@@ -1039,8 +1050,9 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 							vertex = *src;
 						else
 						{
-							casterObj->Validate_Transform();
-							Matrix3D::Transform_Vector(casterObj->transform, *src, &vertex);
+							const Vector3 &sourceVertex = *src;
+							const Matrix3D &transform = casterObj->Get_Transform();
+							Matrix3D::Transform_Vector(transform, sourceVertex, &vertex);
 						}
 						vertex.Z += 0.0f;
 						decalVertex = vertex - objPos;
@@ -1087,7 +1099,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 	if (!useTerrainHeight && !(pos.z - terrainHeight < shadow->m_maxHeight))
 		return;
 
-	objPos.Z = 0.0f;
+	objPos.Z = 0.0f; //we don't care about object height since shadows project top-down
 	height = 0.0f;
 
 	Real mapScaleInv = 1.0f / MAP_XY_FACTOR;
@@ -1126,22 +1138,23 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 		endY -= numEdgeExtraY;
 	}
 
-	Int vertsPerRow = endX - startX + 1;
-	Int vertsPerColumn = endY - startY + 1;
+	Int vertsPerRow = endX - startX + 1; //number of cells +1
+	Int vertsPerColumn = endY - startY + 1; //number of cells +1
 	if (vertsPerRow <= 1 || vertsPerColumn <= 1)
-		return;
+		return; //nothing to render
 
-	Int numVerts = vertsPerRow * vertsPerColumn;
+	Int numVerts = vertsPerRow * vertsPerColumn; //number of terrain vertices
 	Int numPolys = (endX - startX) * (endY - startY) * 2;
-	Int numIndex = numPolys * 3;
+	Int numIndex = numPolys * 3; //6 indices per terrain cell (2 triangles).
 
 	Bool flushed = false;
-	if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000)
+	if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000) //check if room for model verts
 	{
+		//flush the buffer by drawing the contents and re-locking again
 		flushDecals(shadow->m_type, shadow->m_shadowTexture[0], shadow->m_shadowTexture[1], flushFlags);
 		m_decalStartVertex = 0;
 		m_decalStartIndex = 0;
-		m_numDecalPolysInBatch = 0;
+		m_numDecalPolysInBatch = 0; //reset number of polys in texture batch
 		m_numDecalVertsInBatch = 0;
 		m_numDecalVertsInBuffer = 0;
 		m_numDecalIndicesInBuffer = 0;
@@ -1161,6 +1174,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 	Vector3 hmapVertex;
 	Vector3 decalVertex;
 	SHADOW_DECAL_DUAL_VERTEX *firstVertex = pvVertices;
+	//insert each cell's bottom/left edge vertex
 	for (Int j = startY; j <= endY; j++)
 	{
 		hmapVertex.Y = (float)(j - borderSize) * MAP_XY_FACTOR;
@@ -1203,11 +1217,13 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 		}
 	}
 
+	//fill each cell's vertex indices
 	Int rowStart, j;
 	for (j = startY, rowStart = 0; j < endY; j++, rowStart += vertsPerRow)
 	{
 		for (Int i = rowStart, k = startX; k < endX; i++, k++)
 		{
+			///@todo: fix the winding order in heightmap to be in strip order like above!
 			if (hmap->getFlipState(k, j))
 			{
 				pvIndices[0] = i + 1 + m_numDecalVertsInBatch;
@@ -1236,3 +1252,7 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 	m_numDecalVertsInBatch += numVerts;
 	m_numDecalIndicesInBuffer += numIndex;
 }
+
+// Worker repair: capture Get_Transform receiver across Validate_Transform; name both transform operands.
+// Retail 0x50D1BF..0x50D287 proves the saved receiver; original method name remains unproven.
+// Evidence: reverse/attempt_support/rva0010c841-20261019.md; model=gpt-6.1-sol
