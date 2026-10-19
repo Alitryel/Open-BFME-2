@@ -12211,7 +12211,6 @@ _luaX_lex,,0x00757C90,1324,Code/Libraries/Source/Lua/llex.c,matched,BFME1 byte-i
 ?Rva00062A52Get@@YAHXZ,,0x00062A52,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret ffff; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
 ?Rva001DB686Get@@YAHXZ,,0x001DB686,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 returner ret c0cd88; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
 ?Rva001DFAA0Get@@YAHXZ,,0x001DFAA0,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret bdc720; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
-?Rva0026EDB1Get@@YAHXZ,,0x0026EDB1,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 returner ret bfa6e8; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
 ?Rva0028C77DGet@@YAHXZ,,0x0028C77D,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 9a; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
 ?Rva002A8922Get@@YAHXZ,,0x002A8922,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret bfd804; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
 ?Rva003B0FA0Get@@YAHXZ,,0x003B0FA0,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 returner ret dc0e78; prev C2-04-00 with no vtable slot and no callers and no branches; opaque name
@@ -33634,14 +33633,11 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?Rva00176E30Get@@YAHXZ,,0x00176E30,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ??1?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE@XZ,,0x0038103F,56,Code/GameEngine/Source/Common/MultiplayerColorTreeDtor.cpp,matched,Color-tree dtor shell: outline clear 0x380F08 plus null-checked header free; explicit instantiation recipe per 0x21B775 and 0x589BE; reached as MultiplayerSettings +0x34 member teardown
 ?Rva001DAEB2Get@@YAHXZ,,0x001DAEB2,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
-?Rva001DAF77Get@@YAHXZ,,0x001DAF77,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva000454EDGet@@YAHXZ,,0x000454ED,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva001DBA71Get@@YAHXZ,,0x001DBA71,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
-?Rva001DCC3FGet@@YAHXZ,,0x001DCC3F,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva001DFAB9Get@@YAHXZ,,0x001DFAB9,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva001E392EGet@@YAHXZ,,0x001E392E,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?FillLevelSurfaces@CursorTextureSlot@@QAEXXZ,,0x00132989,266,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseCursorSurfaceLevel.cpp,matched,per-level cursor-surface fill with one-hot float triple plus rvalue worker fetch; rvalue method call reuses hidden-slot register; SSE const-pool triple
-?Rva002009F5Get@@YAHXZ,,0x002009F5,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva00200BB4Get@@YAHXZ,,0x00200BB4,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva00201992Get@@YAHXZ,,0x00201992,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0020E2F2Get@@YAHXZ,,0x0020E2F2,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
@@ -33668,27 +33664,22 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?Rva00285B5AGet@@YAHXZ,,0x00285B5A,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva00285B60Get@@YAHXZ,,0x00285B60,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva002AA2C9Get@@YAHXZ,,0x002AA2C9,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
-?Rva002C8E5AGet@@YAHXZ,,0x002C8E5A,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva002D6AEFGet@@YAHXZ,,0x002D6AEF,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
-?Rva00309E1EGet@@YAHXZ,,0x00309E1E,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva00309E24Get@@YAHXZ,,0x00309E24,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0033A507Get@@YAHXZ,,0x0033A507,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva0033A7BBGet@@YAHXZ,,0x0033A7BB,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
-?Rva0035C959Get@@YAHXZ,,0x0035C959,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva003B0FA6Get@@YAHXZ,,0x003B0FA6,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva003B31C1Get@@YAHXZ,,0x003B31C1,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ??0?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV01@@Z,,0x004334D7,68,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e8_allocate_copy.cpp,matched,no-EH explicit instantiation emission; detour copy callee plus E8 get_allocator pin
 ?insert@BFME2RespawnRuleTree@@QAE?AURespawnInsertResult@@ABURespawnRule@@@Z,,0x004AFB2B,35,Code/GameEngine/Source/GameLogic/Object/Body/RespawnRuleTreeInsert.cpp,matched,hidden-result wrapper over unique-insert worker; inline memberwise copy ctor gives hidden-first dword-plus-byte copy
 ??0LivingWorldRegionConnection@@QAE@ABV0@@Z,,0x003F247D,83,Code/GameEngine/Source/Common/System/LivingWorldRegionConnectionCopy.cpp,matched,string copy pin plus E8 vector copy row; two EH states
 ?Rva003B321BGet@@YAHXZ,,0x003B321B,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
-?Rva0040C344Get@@YAHXZ,,0x0040C344,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva00417AE3Get@@YAHXZ,,0x00417AE3,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva00418060Get@@YAHXZ,,0x00418060,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva004186DAGet@@YAHXZ,,0x004186DA,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0041901DGet@@YAHXZ,,0x0041901D,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva00419663Get@@YAHXZ,,0x00419663,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva0041F286Get@@YAHXZ,,0x0041F286,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
-?Rva0041F71AGet@@YAHXZ,,0x0041F71A,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
 ?Rva004D949FGet@@YAHXZ,,0x004D949F,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva00509DA5Get@@YAHXZ,,0x00509DA5,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0050B5C9Get@@YAHXZ,,0x0050B5C9,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
@@ -97239,3 +97230,12 @@ __ehhandler$??1MapCache@@QAE@XZ,,0x0076FA26,10,Code/GameEngine/Source/Common/Gam
 $L6705,,0x0076E625,14,Code/Libraries/Source/WWVegas/WWLib/stlport_hero_integer_vector_tree.cpp,matched,gen-funclet;parent=??$_Construct@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@0@ABU10@@Z; Native14B placement-delete cleanup and full parent EH EXACT; replaces old object-symbol alias; evidence=reverse/attempt_support/hero-integer-vector-tree-eh-20261019.md
 ??3AptScriptFunctionByteCodeBlock@@SAXPAXI@Z,,0x006F12F0,22,Code/Libraries/Source/Apt/AptCIHQueueClipEvents.cpp,matched,Actual class-sized delete for native68B bytecode-block new in queueClipEvents6E2010; complete22B body and allocatorE176F4/freeBlock6D2A60 relocations equal every native6F12F0 owner. Replace five-byte wrapper with real pool release; proof reverse/attempt_support/apt-clip-cleanup-20261019.json
 $L1015,,0x007A90B0,15,Code/Libraries/Source/Apt/AptCIHQueueClipEvents.cpp,matched,gen-funclet;parent=?queueClipEvents@AptCIH@@QAE_NHHH@Z;Native1090B parent and complete EH graph exact; FuncInfo962A58 and handler7A90BF select failed68B bytecode-block allocation cleanup. Entire15B emitted body calls actual22B class-sized delete6F12F0 with verified allocatorE176F4/freeBlock6D2A60; proof reverse/attempt_support/apt-clip-cleanup-20261019.json
+?Rva001DAF77Get@@YAHXZ,,0x001DAF77,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified CommandButton field table owner; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva001DCC3FGet@@YAHXZ,,0x001DCC3F,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner DrawGroupInfo::s_fieldParseTable; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva002009F5Get@@YAHXZ,,0x002009F5,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner TerrainType::m_terrainTypeFieldParseTable; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva0026EDB1Get@@YAHXZ,,0x0026EDB1,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner g_00BFA6E8; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva002C8E5AGet@@YAHXZ,,0x002C8E5A,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner g_00C00B48; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva00309E1EGet@@YAHXZ,,0x00309E1E,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner GlowEffect::m_fieldParseTable; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva0035C959Get@@YAHXZ,,0x0035C959,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,Existing six-byte getter now names its verified data-table owner CrateTemplate::TheCrateTemplateFieldParseTable; rehome from address-only split; opaque integer ABI retained; no new coverage
+?Rva0040C344Get@@YAHXZ,,0x0040C344,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,Existing opaque six-byte getter remains in address-only split until its independently blocked data provider links; no new coverage
+?Rva0041F71AGet@@YAHXZ,,0x0041F71A,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,Existing opaque six-byte getter remains in address-only split until its independently blocked data provider links; no new coverage

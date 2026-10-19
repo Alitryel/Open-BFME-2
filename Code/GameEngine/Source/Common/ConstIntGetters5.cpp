@@ -564,3 +564,70 @@ int Rva00215C4EGet(void)
 {
 	return reinterpret_cast<int>(FactionVictoryFieldParse);
 }
+
+// These field tables now have verified data owners. The class declarations
+// name only static data; no instance layout or original getter identity is
+// inferred. Keep the existing opaque integer-return ABI for these leaf bodies.
+class GlowEffect { public: static const FieldParse m_fieldParseTable[]; };
+class CrateTemplate { public: static const FieldParse TheCrateTemplateFieldParseTable[]; };
+class DrawGroupInfo { public: static const FieldParse s_fieldParseTable[]; };
+class TerrainType { public: static const FieldParse m_terrainTypeFieldParseTable[]; };
+extern const FieldParse g_00C15468[];
+extern const FieldParse g_00BFA6E8[];
+extern const FieldParse g_00C00B48[];
+
+// ?Rva001DAF77Get@@YAHXZ @ 0x001daf77 (6B): returns 0x00c15468.
+// Follows an SEH epilogue plus leave plus ret. No direct callers.
+// Opaque address-derived name.
+int Rva001DAF77Get(void)
+{
+	return reinterpret_cast<int>(g_00C15468);
+}
+
+// ?Rva001DCC3FGet@@YAHXZ @ 0x001dcc3f (6B): returns 0x00bdbe10.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva001DCC3FGet(void)
+{
+	return reinterpret_cast<int>(DrawGroupInfo::s_fieldParseTable);
+}
+
+// ?Rva002009F5Get@@YAHXZ @ 0x002009f5 (6B): returns 0x00c0c3a8.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva002009F5Get(void)
+{
+	return reinterpret_cast<int>(TerrainType::m_terrainTypeFieldParseTable);
+}
+
+// ?Rva0026EDB1Get@@YAHXZ @ 0x0026edb1 (6B): returns 0x00bfa6e8.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva0026EDB1Get(void)
+{
+	return reinterpret_cast<int>(g_00BFA6E8);
+}
+
+// ?Rva002C8E5AGet@@YAHXZ @ 0x002c8e5a (6B): returns 0x00c00b48.
+// Follows an and-store plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva002C8E5AGet(void)
+{
+	return reinterpret_cast<int>(g_00C00B48);
+}
+
+// ?Rva00309E1EGet@@YAHXZ @ 0x00309e1e (6B): returns 0x00c08350.
+// Follows byte-store plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00309E1EGet(void)
+{
+	return reinterpret_cast<int>(GlowEffect::m_fieldParseTable);
+}
+
+// ?Rva0035C959Get@@YAHXZ @ 0x0035c959 (6B): returns 0x00c162a0.
+// Follows a pop plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva0035C959Get(void)
+{
+	return reinterpret_cast<int>(CrateTemplate::TheCrateTemplateFieldParseTable);
+}
