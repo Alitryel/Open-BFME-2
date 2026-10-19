@@ -146,7 +146,7 @@ struct TickNode {char pad[0x54];void *cih;};
 class Rva006E34D0 {public:void rva006E34D0(int);char pad[0x30];TickNode **nodes;char pad34[8];int count;};
 extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
 class AptAnimationPoolData {public:void tickIntervalTimers(int);void rva006E6540();void rva006FB910();};
-class Rva006F7A30 {public:void rva006F7A30();};
+class AptDisplayList {public:void rva006F7A30();void rva006F76B0();};
 class AptLinker {public:void rva006D17F0();void Load(const EAStringC &a,EAStringC b);};
 // VA 0x00E176F8 (RVA 0x00A176F8): the Apt linker this unit creates in its
 // first tick (g_bfmeAptLinkerAtE176F8 = new Rva008947A0Owner below), so the
@@ -175,7 +175,7 @@ static int Rva006CD7A0Tick(unsigned elapsed) {
  while(elapsed>=interval) {
   tickStackAssert(0x369);
   ((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->tickIntervalTimers(interval);
-  ((Rva006F7A30 *)&g_bfmeAptPtrAtE176D0->nodes)->rva006F7A30();
+  ((AptDisplayList *)&g_bfmeAptPtrAtE176D0->nodes)->rva006F7A30();
   ((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->rva006E6540();
   ((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->rva006FB910();
   g_bfmeAptLinkerAtE176F8->rva006D17F0();
@@ -800,9 +800,8 @@ void Rva006CDA40ReportZombies() {
 
 // Native6CD080..6CD091: when the Apt root object at E176D0 exists, tail-call
 // the rowed AptDisplayList walk 0x006F76B0 on its +0x30 display-list
-// sub-object (the same +0x30 slot the tick above hands to Rva006F7A30).
+// sub-object (the same +0x30 slot the tick above hands to rva006F7A30).
 // Callers unrecovered; address name.
-class AptDisplayList {public:void rva006F76B0();};
 void Rva006CD080ClearDisplayList() {
  if(g_bfmeAptPtrAtE176D0)((AptDisplayList *)&g_bfmeAptPtrAtE176D0->nodes)->rva006F76B0();
 }
