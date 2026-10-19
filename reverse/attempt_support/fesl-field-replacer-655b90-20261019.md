@@ -33,3 +33,21 @@ ternary 548B, `i--` first). tools/permute.py: 793 trials, no gain.
 
 Landing note: when exact, define it in Rva007E8D30FeslSetField.cpp, call it directly from
 Rva007E8D30 (drop the `d_007e8b00` cast) and retire the placeholder pin; the unit then links.
+
+## Update: register roles closed (0.883 -> 0.957)
+
+Writing the length loop as `for ( i = 1; (unsigned int)field[ i - 1 ] >= ' '; i++ ) {}`
+(same final value as the donor's `for ( i = 0; ...field[ i ]...; i++ ) {} i++;`) makes cl
+choose retail's roles: pValue=EBX, i=EBP with the late `push ebp`, and retail's epilogue
+order. The body is then exact through 0x00655CE7. A `field[ i + 1 ]` index flips the roles
+too; plain `field[ i ]` with `i = 1`, unsigned/long/short `i`, cast spellings, while/for/do
+forms, `++i` inside the iDelta expression, separate or early-initialised length variables
+do not. So the roles hinge on a near-tie in cl's allocator that the loop's address
+displacement tips.
+
+Remaining residue on the new bank: (a) that loop is rotated `mov ebp,1` / `[esi+ebp-1]`
+instead of retail's `xor ebp,ebp` / `[esi+ebp]` / trailing `inc ebp`; (b) the hoisted
+separator load in the tail (if/else, early return, inverted condition, nested ifs and
+store-first forms on the new base all keep it). permute.py: 836 trials from the new bank,
+no gain. Next lever to try: a form that keeps the donor loop but tips the same tie (another
+displacement or a different base pointer for `field` in that loop only).

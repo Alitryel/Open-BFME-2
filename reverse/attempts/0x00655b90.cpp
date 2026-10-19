@@ -1,5 +1,5 @@
 // ?Rva007E8B00@@YAHPAEHPBD@Z
-// partial score=0.883 date=2026-10-19
+// partial score=0.957 date=2026-10-19
 // cl: /GS
 // BANK (seat6 d8): FESL record-field replacer, retail 0x00655B90..0x00655DB5 (549B,
 // cdecl, 3 args: buffer, size, field; returns written length - 1). This is the
@@ -21,6 +21,22 @@
 // vc71-ddk-4035 profiles; /G7 555B, /O1|/Os 443B, /Oy- 579B; tail forms (unsigned
 // casts, inverted if, early return, ternary 548B, i-- first); permute.py 793
 // trials no gain. No volatile/barrier in this bank.
+// 0x007E8D30: the FESL message TU's private copy of the escaped string-field
+// writer (compare the DirtySock copy Rva007ECE60 at 0x007ECE60).  It is a
+// file-static helper whose only caller, 0x007E8EF0, hands it the field name in
+// ECX and the value in EAX: MSVC's private register convention for a static
+// function, reproduced here by compiling it with that caller.
+// UPDATE (same seat, later): writing the length loop as
+// for (i = 1; field[i - 1] >= ' '; i++) {}   (same value as the donor's
+// for (i = 0; field[i] >= ' '; i++) {} i++;) flips cl to retail's roles:
+// pValue=EBX, i=EBP with the late push ebp, and retail's epilogue order; the
+// body is exact up to 0x00655CE7. Score 0.883 -> 0.957. Remaining: that loop is
+// rotated as mov ebp,1 / [esi+ebp-1] instead of retail's xor ebp,ebp / [esi+ebp]
+// / trailing inc ebp, plus the hoisted separator load in the tail. A +1 index
+// (field[i + 1]) flips the roles too; plain field[i] with i=1, unsigned/long/short
+// i, cast spellings, while/for/do forms, ++i inside iDelta, separate length
+// variables, early-initialised length, and tail if/else/early-return/store-first
+// forms on this base do not give both. permute.py 836 trials from it: no gain.
 // 0x007E8D30: the FESL message TU's private copy of the escaped string-field
 // writer (compare the DirtySock copy Rva007ECE60 at 0x007ECE60).  It is a
 // file-static helper whose only caller, 0x007E8EF0, hands it the field name in
@@ -252,11 +268,9 @@ int Rva007E8B00( unsigned char *buffer, int size, const char *field )
 		}
 	}
 
-	for ( i = 0; (unsigned int)field[ i ] >= ' '; i++ )
+	for ( i = 1; (unsigned int)field[ i - 1 ] >= ' '; i++ )
 	{
 	}
-
-	i++;
 
 	iDelta = i - ( pTail - pValue );
 
