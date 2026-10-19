@@ -48,19 +48,25 @@ private:
 };
 
 // 0x00143550
-VertexMaterialClass *MeshModelClass::Peek_Material(int vidx, int pass) const { return CurMatDesc->Peek_Material(vidx, pass); }
+inline __declspec(noinline) VertexMaterialClass *MeshModelClass::Peek_Material(int vidx, int pass) const { return CurMatDesc->Peek_Material(vidx, pass); }
 // 0x00149510
 void MeshModelClass::Set_Single_Texture(const RefCountPtr<TextureClass> &tex, int pass, int stage) { CurMatDesc->Set_Single_Texture(tex, pass, stage); }
 // 0x00171680
-void MeshModelClass::Set_Single_Material(VertexMaterialClass *vmat, int pass) { CurMatDesc->Set_Single_Material(vmat, pass); }
+inline __declspec(noinline) void MeshModelClass::Set_Single_Material(VertexMaterialClass *vmat, int pass) { CurMatDesc->Set_Single_Material(vmat, pass); }
 // 0x00171690
-void MeshModelClass::Set_Material(int vidx, VertexMaterialClass *vmat, int pass) { CurMatDesc->Set_Material(vidx, vmat, pass); }
+inline __declspec(noinline) void MeshModelClass::Set_Material(int vidx, VertexMaterialClass *vmat, int pass) { CurMatDesc->Set_Material(vidx, vmat, pass); }
 // 0x001716A0
 void MeshModelClass::Set_Texture(int pidx, const RefCountPtr<TextureClass> &tex, int pass, int stage) { CurMatDesc->Set_Texture(pidx, tex, pass, stage); }
 // 0x00171760
 void MeshModelClass::Make_UV_Array_Unique(int pass, int stage) { CurMatDesc->Make_UV_Array_Unique(pass, stage); }
 // 0x00171770
 void MeshModelClass::Make_Color_Array_Unique(int array_index) { CurMatDesc->Make_Color_Array_Unique(array_index); }
+// Peek_Material, Set_Single_Material and Set_Material are noinline inline COMDATs:
+// MaterialCollectorCollectMaterials.cpp and meshmdlio.cpp compile byte-identical
+// in-class copies from their meshmdl.h views, which now fold with these.
+static VertexMaterialClass *(MeshModelClass::*s_anchor_Peek_Material)(int, int) const = &MeshModelClass::Peek_Material;
+static void (MeshModelClass::*s_anchor_Set_Single_Material)(VertexMaterialClass *, int) = &MeshModelClass::Set_Single_Material;
+static void (MeshModelClass::*s_anchor_Set_Material)(int, VertexMaterialClass *, int) = &MeshModelClass::Set_Material;
 
 class Rva00149BF0Owner
 {
