@@ -50,10 +50,24 @@ stalled at 294 B: the offset arm scheduled a fourth XMM register.
   lines left, all in the two cos arms (retail loads target.z right after
   `call cos`, then fmul/fadd between the pushes). Banked 0.97.
 
-## Candidates still unscreened with this lever
+## Round 2 screen (seat12, same day)
 
-Banks whose WB twin calls 0x41F630/0x41F3B0/0x41F8B0/0x41FA20/0x420830/0x420D30:
-0x001E6007, 0x005AA2D9, 0x0046525F, 0x00470DC1, 0x00345393, 0x00473B36,
-0x006BEF80, 0x002E3AA8, 0x0026C4EB, 0x0027FD2A, 0x001E6B8B, 0x00272FB6,
-0x0041D60B, 0x004DFCE6, 0x00365309, 0x00475F61 (0x420830 and
-0x420D30 are the by-value Add/Sub forms, untested).
+Note: WB's callee map labels the in-place MathCoord3D thunks wrongly (0x420D30
+Sub shows as "atan2 0x422CD", 0x420830 Add as "Rva002E7964"); read the WB
+call's `ecx`/push pattern, not the label. Separately, retail really does call
+the C++ float overload `?atan2@@YAMMM@Z` (0x000422CD) in several bodies that
+banks spell `_atan2f`; check the reloc.
+
+- 0x004DFCE6 (sphere merge, 361 B): rebuilt in WB 0x0129CFF0 member order
+  (copy ctors, `-=`, `*=`, `edge(old += dir)`, `center = (edge += opp)`):
+  90 positional bytes -> 3 lines (old.x load order). Banked 0.96.
+- 0x001E6B8B (Locomotor, 919 B): getMaxSpeed respelling + float atan2
+  overload: 9 -> 7 lines (cmp scheduled inside the goal copy). Banked.
+- Inert or worse: 0x002E3AA8 (volatile-free member slide grows the frame,
+  735 B), 0x005AA2D9 (members = existing forceinline helpers), 0x0041D60B
+  (frame residue untouched), 0x00365309 (cos-cast trick inert at Rotate_Z),
+  0x0045569D (bank baseline 1185 B), 0x00473B36 (bank 520 vs 543 B),
+  0x0045AF14 (needs the home unit's region flags).
+- Not attempted (large, low-score or home-unit): 0x00470DC1, 0x00345393,
+  0x0026C4EB, 0x0027FD2A, 0x00272FB6, 0x00475F61, 0x001E6007 (no atan2/member
+  site in its residue).

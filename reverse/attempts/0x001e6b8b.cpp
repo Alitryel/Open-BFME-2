@@ -1,4 +1,6 @@
 // ?rva001E6B8B@Locomotor@@QAEXPAVObject@@PBUCoord3D@@MM@Z
+// partial score=0.99 date=2026-10-19
+// ?rva001E6B8B@Locomotor@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.99 date=2026-10-13
 // ?rva001E6B8B@Locomotor@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.768859 date=2026-10-10
@@ -6,10 +8,25 @@
 // Native1E6B8B..1E6F22 RET16. Locomotor movement variant; original method name
 // unknown. ZH locomotor infantry/wheels movement supplies the angle, reverse
 // and speed modulation semantics; target offsets and flag decisions are native.
+// 2026-10-19 seat12: the max-speed call is the rowed Locomotor::getMaxSpeed (0x001E46E1, was
+// an unresolved Rva001E46E1 view) and the heading uses the C++ float atan2 overload
+// ?atan2@@YAMMM@Z (0x000422CD, retail's call target) instead of _atan2f: 919/919 B, 9 -> 7
+// differing lines. Left: retail schedules the data->reverseD8 cmp inside the delta=*goal copy.
+// Inert: member set()/-=/*= view for delta, statement order of the copy and moveBackwards,
+// a data local, visible noinline Coord3D::length; worse: a separate copy-constructed goal
+// local as in WB 0x00AE81C0 (897 B), POD struct copy (900 B).
 #include "Lib/Coord3D.h"
 static __forceinline void CoordSub(Coord3D *p,const Coord3D *v){p->x-=v->x;p->y-=v->y;p->z-=v->z;}
 static __forceinline void CoordScale(Coord3D *p,float s){p->x*=s;p->y*=s;p->z*=s;}
 extern "C" float atan2f(float,float);
+struct LocoCoord3D : public Coord3D
+{
+ void set(const Coord3D *o){x=o->x;y=o->y;z=o->z;}
+ LocoCoord3D &operator-=(const Coord3D &o){x-=o.x;y-=o.y;z-=o.z;return *this;}
+ LocoCoord3D &operator*=(float k){x*=k;y*=k;z*=k;return *this;}
+};
+static __forceinline LocoCoord3D &lc(Coord3D &c){return static_cast<LocoCoord3D &>(c);}
+float atan2(float,float);
 extern "C" double __cdecl fabs(double);
 float normalizeAngle(float);
 enum ObjectStatusTypes{status26=0x26};
@@ -41,6 +58,7 @@ class Rva001E6007 {public:void rva001e6007(unsigned,unsigned,float,float);};
 class Rva001E685F {public:void rva001E685F(int,int,int);};
 class Locomotor {public:
  void rva001E6B8B(Object*,const Coord3D*,float,float);
+ float getMaxSpeed(Object*)const;
  LocoMovementData *dormantData()const{return data;}
  char pad00[4];LocoMovementData *data;
  char pad08[0x40-8];float speed40;unsigned flags44;
@@ -50,11 +68,11 @@ void Locomotor::rva001E6B8B(Object *obj,const Coord3D *goal,float distance,float
 {
  if(dormantData()&&!dormantData()){static bool cache=obj->rva0006F039(0x41);(void)cache;}
  if(data->flagD3&&goal->z>obj->position.z)return;
- float maxSpeed=((Rva001E46E1*)this)->rva001E46E1(obj);
+ float maxSpeed=getMaxSpeed(obj);
  if(desiredSpeed>maxSpeed)desiredSpeed=maxSpeed;
  float actualSpeed=speed40;
  float angle=obj->orientation;
- float desiredAngle=atan2f(goal->y-obj->getPosition()->y,goal->x-obj->getPosition()->x);
+ float desiredAngle=atan2(goal->y-obj->getPosition()->y,goal->x-obj->getPosition()->x);
  const Coord3D *position=obj->getPosition();
  Coord3D delta;
  delta.x=position->x;delta.y=position->y;delta.z=position->z;
