@@ -6217,7 +6217,6 @@ _Copy12x12_MMX,,0x001D76A0,51,Code/Libraries/Source/VP6/ReconMmx.cpp,matched,Cle
 ?bfmeNeVMQ@BfmeStrVMQ@@QBE_NPBD@Z,,0x000249D0,40,Code/GameEngine/Source/Common/BfmeConv1432.cpp,matched,bfme1 uncapped Common sweep exact placement
 _Bound,,0x001C01F0,60,Code/Libraries/Source/VP6/FilterMath.cpp,matched,Clean-room spec 001c01f0; Bound: cdecl branch-free tent bounding of a filter value with sign restore; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001c01f0.md and retail only
 ??0Rva007F0910Record@@QAE@XZ,,0x0065D710,40,Code/GameEngine/Source/Common/SmallGaps/Rva007F0910RecordCtor.cpp,matched,bfme1 uncapped Common sweep exact placement
-?bfmeTermV57@@YGXPAD@Z,,0x000239A0,35,Code/GameEngine/Source/Common/BfmeConv1502.cpp,matched,bfme1 uncapped Common sweep exact placement
 _Scale1D_2t1_ps,,0x001BA4D0,53,Code/Libraries/Source/VP6/ScaleC.cpp,matched,Clean-room spec 001ba4d0; Scale1D_2t1_ps: cdecl 2-to-1 point-sampling downsampler; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001ba4d0.md and retail only
 ?Rva0080EE80Query@@YAHPAURva0080EE80View@@I@Z,,0x0067AD80,106,Code/GameEngine/Source/Common/Bfme/Rva0080EE80Query.cpp,matched,bfme1 uncapped Common-family sweep exact placement
 ?bfmeLinkEQB@@YGPAUBfmeNodeEQB@@PAU1@@Z,,0x00689230,38,Code/GameEngine/Source/Common/BfmeConv1668.cpp,matched,bfme1 uncapped Common-family sweep exact placement
