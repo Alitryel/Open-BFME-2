@@ -77,32 +77,6 @@ void (BfmeDrawablePtrVector::*const g_bfmeDrawVecFillInsertAnchor)(BfmeDrawableP
 typedef std::vector<Coord3D> BfmeCoord3DVector;
 extern void (BfmeCoord3DVector::*const g_bfmeCoordVecFillInsertAnchor)(BfmeCoord3DVector::iterator, size_t, const Coord3D &);
 void (BfmeCoord3DVector::*const g_bfmeCoordVecFillInsertAnchor)(BfmeCoord3DVector::iterator, size_t, const Coord3D &) = &BfmeCoord3DVector::_M_fill_insert;
-// insert_unique(v) in retail's layout (0x004D1BF7, rowed in
-// StlO1UShortByteInsertUnique.cpp under _BFME_RETAIL_TREE_INSERT_LAYOUT):
-// the leftmost fast path inserts at (y, y). This unit keeps the default
-// spelling for its own rows, so it spells this one member out instead of
-// emitting the default-layout copy the link would otherwise keep.
-typedef _STL::_Rb_tree<unsigned short, _STL::pair<const unsigned short, unsigned char>, _STL::_Select1st<_STL::pair<const unsigned short, unsigned char> >, _STL::less<unsigned short>, _STL::allocator<_STL::pair<const unsigned short, unsigned char> > > BfmeUShortByteTree;
-namespace _STL {
-template <> inline pair<BfmeUShortByteTree::iterator, bool> BfmeUShortByteTree::insert_unique(const BfmeUShortByteTree::value_type &__v)
-{
-	_Link_type __y = this->_M_header._M_data;
-	_Link_type __x = _M_root();
-	bool __comp = true;
-	while (__x != 0) {
-		__y = __x;
-		__comp = _M_key_compare(_Select1st<value_type>()(__v), _S_key(__x));
-		__x = __comp ? _S_left(__x) : _S_right(__x);
-	}
-	iterator __j = iterator(__y);
-	if (__comp && __j == begin())
-		return pair<iterator, bool>(_M_insert(__y, __y, __v), true);
-	if (__comp)
-		--__j;
-	if (_M_key_compare(_S_key(__j._M_node), _Select1st<value_type>()(__v)))
-		return pair<iterator, bool>(_M_insert(__x, __y, __v), true);
-	return pair<iterator, bool>(__j, false);
-}
-}typedef std::map<UnsignedShort, UnsignedByte> BfmeUShortByteMap;
+typedef std::map<UnsignedShort, UnsignedByte> BfmeUShortByteMap;
 extern UnsignedByte &(BfmeUShortByteMap::*const g_bfmeUShortByteMapIndexAnchor)(const UnsignedShort &);
 UnsignedByte &(BfmeUShortByteMap::*const g_bfmeUShortByteMapIndexAnchor)(const UnsignedShort &) = &BfmeUShortByteMap::operator[];
