@@ -16,6 +16,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
 struct BfmeFloat4Record00469C61 { float x, y, z, w; };
+// reserve 0x00538839 and push_back 0x00473F13 are rowed in
+// stlport_vector_float4_469c61.cpp. This unit's own copies of their callees
+// (_M_allocate_and_copy, _M_insert_overflow, _Construct) were not retail's.
+// Declare both only, so the calls bind to the rowed copies.
+namespace _STL {
+template <> void vector<BfmeFloat4Record00469C61, allocator<BfmeFloat4Record00469C61> >::reserve(size_t);
+template <> void vector<BfmeFloat4Record00469C61, allocator<BfmeFloat4Record00469C61> >::push_back(const BfmeFloat4Record00469C61 &);
+}
 struct BfmeE12 { int a[3]; };
 class DataChunkInput
 {
