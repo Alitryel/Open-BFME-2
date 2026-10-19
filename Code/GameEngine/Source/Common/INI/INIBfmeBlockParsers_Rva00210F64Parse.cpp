@@ -15,7 +15,15 @@
 typedef int Int;
 typedef bool Bool;
 
-struct FieldParse;
+class INI;
+typedef void (*FieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	FieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
@@ -24,6 +32,24 @@ public:
 	const char *getNextSubToken(const char *expected);
 	float scanReal(const char *token);
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void Rva002216A6_ParseDefaultMessageColor(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva00221714_ParseDefaultOpenAudio(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva0022175F_ParseDefaultMessageFont(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva00289228_ParseRealList(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva002A8945_ParseCombatChainDefinition(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva002A89D2_ParseDifficultyTuning(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva004E8EFF_ParseDisabledSlots(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiStringVectorAppend(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseColorInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord2D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord3D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
 };
 
 // 0x00215C38 (16B): "PlayerAIType" (registration VA 0x00DB9B74). Forwards the
@@ -54,12 +80,15 @@ void Rva00221012Parse(INI *ini)
 
 // 0x0022232E (21B): "InGameNotificationBox" (registration VA 0x00DBA19C).
 // No null check: initFromINI the object at 0x00DFE4C4 against VA 0x00BE6CE0.
-extern void *g_00DFE4C4;
+// The notification-type holder at 0x009FE4C4 (defined in Rva002220DCInit.cpp,
+// the data ledger's name for it); its first word is the store pointer.
+class Rva00575674;
+extern Rva00575674 g_00DFE4C4;
 extern const FieldParse InGameNotificationBoxFields[];
 
 void Rva0022232EParse(INI *ini)
 {
-	ini->initFromINI(g_00DFE4C4, InGameNotificationBoxFields);
+	ini->initFromINI(*(void **)&g_00DFE4C4, InGameNotificationBoxFields);
 }
 
 // 0x002859A8 (25B): "FireLogicSystem" (registration VA 0x00DBB758). Skips
@@ -256,3 +285,215 @@ void Rva0040F0F0Parse(INI *ini)
 		ini->initFromINI(army, LivingWorldPlayerArmyFields);
 	}
 }
+
+// The field tables these parsers hand initFromINI (retail .rdata, decoded from
+// the image): keyword strings, rowed callbacks and offsets, each closed by a
+// null entry except SkirmishAIDataFields, whose 19 entries run straight into
+// a float literal in retail. Callbacks with other signatures are cast to the
+// field-parse type.
+void Rva00285FA9Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
+void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
+namespace _STL
+{
+template <class T> class allocator;
+template <class T, class A> class vector;
+}
+struct BfmeStringRecord0022074B;
+void Rva00220FC4Parse(INI *ini, void *instance,
+	_STL::vector<BfmeStringRecord0022074B, _STL::allocator<BfmeStringRecord0022074B> > *store);
+void Rva0040C125Parse(INI *ini);
+void Rva00222278Parse(INI *ini, void *instance);
+void rva003F9CD2(INI *ini);
+class AwardSystemManager
+{
+public:
+	static void parseThingStat(INI *ini, void *instance, void *store, const void *userData);
+};
+class ArmySummary
+{
+public:
+	static void parseArmyEntry(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// retail .rdata 0x007E6B2C (2 entries + terminator)
+extern const FieldParse ArmySummaryDescriptionFields[] =
+{
+	{ "HeroFilter", iniParseObjectFilter, 0, 0xC },
+	{ "UnitCategory", (FieldParseProc)Rva00220FC4Parse, 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007E6CE0 (4 entries + terminator)
+extern const FieldParse InGameNotificationBoxFields[] =
+{
+	{ "DefaultOpenAudio", INI::Rva00221714_ParseDefaultOpenAudio, 0, 0x0 },
+	{ "DefaultMessageFont", INI::Rva0022175F_ParseDefaultMessageFont, 0, 0x0 },
+	{ "DefaultMessageColor", INI::Rva002216A6_ParseDefaultMessageColor, 0, 0x0 },
+	{ "NotificationType", (FieldParseProc)Rva00222278Parse, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007FB620 (3 entries + terminator)
+extern const FieldParse FireLogicSystemFields[] =
+{
+	{ "MaxCellsBurning", INI::parseInt, 0, 0x90 },
+	{ "FuelRegenerationRate", INI::parseInt, 0, 0x94 },
+	{ "TerrainCellType", Rva00285FA9Parse, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007FDA50 (19 entries, no terminator)
+extern const FieldParse SkirmishAIDataFields[] =
+{
+	{ "CombatChainDefinition", INI::Rva002A8945_ParseCombatChainDefinition, 0, 0x0 },
+	{ "BrutalDifficultyCheats", INI::Rva002A898A_ParseBrutalDifficultyCheats, 0, 0x0 },
+	{ "DifficultyTuning", INI::Rva002A89D2_ParseDifficultyTuning, 0, 0x0 },
+	{ "DisableBaseBuilding", INI::parseBool, 0, 0x848 },
+	{ "DisableEconomyBuilding", INI::parseBool, 0, 0x849 },
+	{ "DisableUnitBuilding", INI::parseBool, 0, 0x84A },
+	{ "DisableScienceUpgrading", INI::parseBool, 0, 0x84B },
+	{ "DisableUnitUpgrading", INI::parseBool, 0, 0x84C },
+	{ "DisableTacticalAI", INI::parseBool, 0, 0x84D },
+	{ "DisableTeamBuilding", INI::parseBool, 0, 0x84E },
+	{ "DisableWallBuilding", INI::parseBool, 0, 0x84F },
+	{ "MakeAllSkirmishSidesAIControlled", INI::parseBool, 0, 0x850 },
+	{ "AnyTypeTemplateDisabledSlots", INI::Rva004E8EFF_ParseDisabledSlots, 0, 0x854 },
+	{ "TeamIdleCheckRadius", INI::parseReal, 0, 0x860 },
+	{ "TeamTimeUntilConsideredIdle", INI::parseReal, 0, 0x864 },
+	{ "DefenseTreeNodeRadius", INI::parseReal, 0, 0x868 },
+	{ "TimeBetweenEnemyChangeLO", INI::parseReal, 0, 0x86C },
+	{ "TimeBetweenEnemyChangeHI", INI::parseReal, 0, 0x870 },
+	{ "DefaultTargetThreatRadius", INI::parseReal, 0, 0x874 },
+};
+
+// retail .rdata 0x007E4560 (90 entries + terminator)
+extern const FieldParse LivingWorldMapInfoFields[] =
+{
+	{ "MapObject", INI::parseAsciiString, 0, 0x0 },
+	{ "NumWorldTiles", INI::parseInt, 0, 0x4 },
+	{ "CloudBorderSubObject", INI::parseAsciiString, 0, 0x180 },
+	{ "TextLayerSubObject", INI::parseAsciiString, 0, 0x184 },
+	{ "Center", INI::parseCoord2D, 0, 0x8 },
+	{ "Extent", INI::parseCoord2D, 0, 0x10 },
+	{ "AptCenter", INI::parseCoord2D, 0, 0x18 },
+	{ "AptZoom", INI::parseReal, 0, 0x20 },
+	{ "AptPitch", INI::parseReal, 0, 0x24 },
+	{ "EmbersPartSys", INI::parseAsciiString, 0, 0x34 },
+	{ "CloudPos", INI::parseCoord3D, 0, 0x28 },
+	{ "Ambient", INI::parseRGBColor, 0, 0x38 },
+	{ "SunDir", INI::parseCoord2D, 0, 0x44 },
+	{ "SunRGB", INI::parseRGBColor, 0, 0x4C },
+	{ "Accent1Dir", INI::parseCoord2D, 0, 0x58 },
+	{ "Accent1RGB", INI::parseRGBColor, 0, 0x60 },
+	{ "Accent2Dir", INI::parseCoord2D, 0, 0x6C },
+	{ "Accent2RGB", INI::parseRGBColor, 0, 0x74 },
+	{ "MenBanner", INI::parseAsciiString, 0, 0x80 },
+	{ "ElvesBanner", INI::parseAsciiString, 0, 0x84 },
+	{ "DwarvesBanner", INI::parseAsciiString, 0, 0x88 },
+	{ "IsengardBanner", INI::parseAsciiString, 0, 0x8C },
+	{ "MordorBanner", INI::parseAsciiString, 0, 0x90 },
+	{ "WildBanner", INI::parseAsciiString, 0, 0x94 },
+	{ "NeutralBanner", INI::parseAsciiString, 0, 0x98 },
+	{ "MenAnts", INI::parseAsciiString, 0, 0x9C },
+	{ "ElvesAnts", INI::parseAsciiString, 0, 0xA0 },
+	{ "DwarvesAnts", INI::parseAsciiString, 0, 0xA4 },
+	{ "IsengardAnts", INI::parseAsciiString, 0, 0xA8 },
+	{ "MordorAnts", INI::parseAsciiString, 0, 0xAC },
+	{ "WildAnts", INI::parseAsciiString, 0, 0xB0 },
+	{ "NeutralAnts", INI::parseAsciiString, 0, 0xB4 },
+	{ "BattleMarker", INI::parseAsciiString, 0, 0xB8 },
+	{ "PalantirMarker", INI::parseAsciiString, 0, 0xBC },
+	{ "RegionAwardDisputeMarker", INI::parseAsciiString, 0, 0xC0 },
+	{ "BattleMarkerCreatedSound", Rva00339900Parse, 0, 0x14C },
+	{ "EnterMapSound", Rva00339900Parse, 0, 0x150 },
+	{ "BannerScaleSpeed", INI::parseReal, 0, 0xC4 },
+	{ "BannerMaxScale", INI::parseReal, 0, 0xC8 },
+	{ "BannerTiltAngle", INI::parseReal, 0, 0xCC },
+	{ "BannerHeight", INI::parseReal, 0, 0xD0 },
+	{ "ArmyHeight", INI::parseReal, 0, 0xD4 },
+	{ "BeaconHeight", INI::parseReal, 0, 0xD8 },
+	{ "HeroArmyIconDiameter", INI::parseReal, 0, 0xE0 },
+	{ "NumPointsPerArmyLine", INI::parseUnsignedInt, 0, 0xE4 },
+	{ "ArmyLineHeightBias", INI::parseReal, 0, 0xE8 },
+	{ "ArmyLineWidth", INI::parseReal, 0, 0xEC },
+	{ "ArmyLineColorAttacking", INI::parseRGBColor, 0, 0xF0 },
+	{ "ArmyLineColorNeutral", INI::parseRGBColor, 0, 0xFC },
+	{ "ArmyLineColorAllied", INI::parseRGBColor, 0, 0x108 },
+	{ "ArmyLineTextureName", INI::parseAsciiString, 0, 0x114 },
+	{ "AnimRays", INI::parseAsciiString, 0, 0x118 },
+	{ "AnimRaysPartSys", INI::parseAsciiString, 0, 0x11C },
+	{ "AnimRaysPartSysOffset", INI::parseCoord3D, 0, 0x120 },
+	{ "AnimRaysColor", INI::parseRGBColor, 0, 0x12C },
+	{ "AnimRaysColorScale", INI::parseReal, 0, 0x138 },
+	{ "AnimRaysEffectShells", INI::parseInt, 0, 0x13C },
+	{ "AnimRaysEffectDiameter", INI::parseInt, 0, 0x140 },
+	{ "AnimRaysEffectLifetime", INI::parseInt, 0, 0x144 },
+	{ "AnimRaysCreateSound", Rva00339900Parse, 0, 0x148 },
+	{ "AnimCloud", INI::parseAsciiString, 0, 0x154 },
+	{ "AnimCloudPartSys", INI::parseAsciiString, 0, 0x158 },
+	{ "NumAnimClouds", INI::parseInt, 0, 0x15C },
+	{ "AnimCloudLifetime", INI::parseInt, 0, 0x178 },
+	{ "AnimCloudRegionMin", INI::parseCoord3D, 0, 0x160 },
+	{ "AnimCloudRegionMax", INI::parseCoord3D, 0, 0x16C },
+	{ "MordorCloud", INI::parseAsciiString, 0, 0x17C },
+	{ "CloudGrowthPos", INI::parseCoord3D, 0, 0x194 },
+	{ "CloudGrowthRate", INI::parseInt, 0, 0x1A0 },
+	{ "CloudInitialSize", INI::parseReal, 0, 0x1A4 },
+	{ "CloudGrowthSize", INI::parseReal, 0, 0x1AC },
+	{ "CloudInitialOpacity", INI::parseReal, 0, 0x1A8 },
+	{ "CameraBoundX", INI::parseReal, 0, 0x1B4 },
+	{ "CameraBoundY", INI::parseReal, 0, 0x1B8 },
+	{ "ClickScrollThreshold", INI::parseInt, 0, 0x1CC },
+	{ "MouseWheelZoomPerTick", INI::parseReal, 0, 0x1BC },
+	{ "MouseWheelZoomDampenFactor", INI::parseReal, 0, 0x1C0 },
+	{ "AutoScrollSpeed", INI::parseReal, 0, 0x1C4 },
+	{ "MaxAutoScrollTime", INI::parseReal, 0, 0x1C8 },
+	{ "ShadowColor", INI::parseColorInt, 0, 0x1D0 },
+	{ "EnableMapShadows", INI::parseBool, 0, 0x1EC },
+	{ "AddShadowSubObject", INI::parseAsciiStringVectorAppend, 0, 0x188 },
+	{ "DefaultArmyMoveSpeed", INI::parseReal, 0, 0xDC },
+	{ "ArmySelectedFadeInStart", INI::parseInt, 0, 0x1D4 },
+	{ "ArmySelectedFadeInEnd", INI::parseInt, 0, 0x1D8 },
+	{ "ArmySelectedFadeOutStart", INI::parseInt, 0, 0x1DC },
+	{ "ArmySelectedFadeOutEnd", INI::parseInt, 0, 0x1E0 },
+	{ "ArmyHilightedFadeInTime", INI::parseInt, 0, 0x1E4 },
+	{ "ArmyHilightedFadeOutTime", INI::parseInt, 0, 0x1E8 },
+	{ "EyeTower", (FieldParseProc)rva003F9CD2, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x0083A600 (2 entries + terminator)
+extern const FieldParse HouseColorFields[] =
+{
+	{ "BaseTexture", INI::parseAsciiString, 0, 0x10 },
+	{ "HouseTexture", INI::parseAsciiString, 0, 0xC },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007FB820 (1 entry + terminator)
+extern const FieldParse ExperienceScalarTableFields[] =
+{
+	{ "Scalars", INI::Rva00289228_ParseRealList, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x00839410 (2 entries + terminator)
+extern const FieldParse AwardSystemFields[] =
+{
+	{ "ObjectAward", (FieldParseProc)Rva0040C125Parse, 0, 0x0 },
+	{ "ThingStat", AwardSystemManager::parseThingStat, 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x00839538 (6 entries + terminator)
+extern const FieldParse LivingWorldPlayerArmyFields[] =
+{
+	{ "Name", INI::parseAsciiString, 0, 0x18 },
+	{ "DisplayNameTag", INI::parseAsciiString, 0, 0x64 },
+	{ "Color", INI::parseRGBColor, 0, 0x24 },
+	{ "NightColor", INI::parseRGBColor, 0, 0x28 },
+	{ "ArmyEntry", ArmySummary::parseArmyEntry, 0, 0x0 },
+	{ "SurvivalThreshhold", INI::parseInt, 0, 0x60 },
+	{ 0, 0, 0, 0 }
+};

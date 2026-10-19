@@ -17,6 +17,7 @@ class CloudBreakEffectManager;
 class Rva0022C38BSubsystem;
 class Rva0022C316Subsystem;
 class HouseColorSystem;
+class PlayerAITypeSet;
 struct HandicapStore;
 
 TerrainRoadCollection *TheTerrainRoads = 0;		// retail 0x009FF084
@@ -37,3 +38,4 @@ HandicapStore *TheLivingWorldAutoResolveHandicapStore = 0;		// retail 0x00A03040
 Rva0022C38BSubsystem *TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore = 0;		// retail 0x00A0305C
 Rva0022C316Subsystem *TheLivingWorldAutoResolveResourceBonusScheduleStore = 0;		// retail 0x00A0306C
 HouseColorSystem *TheHouseColorSystem = 0;		// retail 0x00A030A0
+PlayerAITypeSet *ThePlayerAITypeSet = 0;		// retail 0x009FE31C
