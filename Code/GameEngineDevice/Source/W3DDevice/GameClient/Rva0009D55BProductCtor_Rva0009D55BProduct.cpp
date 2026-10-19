@@ -275,7 +275,7 @@ bool Rva00118660Call(void *scene, void *camera);
 extern bool ShaderOverbrightEnabled;
 extern float g_Va00DE5E2C[3];
 extern float g_Va00DE5E38[3];
-float g_Va00DB4AB4 = 0.6000000238418579f;	// retail RVA 0x009B4AB4 (.data), defined here
+extern float g_Va00DB4AB4;	// retail RVA 0x009B4AB4 (.data), defined in Rva0009D55BProductCtor.cpp
 static inline float Rva0009BC17Lerp(float a, float b, float t) { return (b - a) * t + a; }
 struct Rva0009BC17GlobalView { unsigned char m_pad[0xD2E]; bool m_D2E; };
 
@@ -516,8 +516,8 @@ public:
 };
 class Rva00213A85 { public: void rva00213B88(void *point); };
 // Native mutable tuning values DB4AB0/DB4AAC; original identifiers unknown.
-float BfmeCameraPanRotationRate = 1.0f;
-float BfmeCameraPanRotationLimit = 1.0f;
+extern float BfmeCameraPanRotationRate;
+extern float BfmeCameraPanRotationLimit;
 
 
 // MSVC 7.1 evaluates Y before X in the returned Vector2 constructor;

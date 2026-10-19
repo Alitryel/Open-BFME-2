@@ -65,7 +65,7 @@ class ScriptEngine { public:
  void addObjectToCache(Object*,const AsciiString&);
 };
 extern ScriptEngine* TheScriptEngine;
-extern int g_009BA4E8;
+extern int BfmeClientFramesPerSecond;
 float normalizeAngle(float);
 class Rva003955AFData { public: int query(int,int,float,int,int); };
 struct CastleBehaviorModuleData { char pad[0x30]; ObjectFilter m_filter; char p2[0x44]; bool m_flag75; };
@@ -119,7 +119,7 @@ Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant)
   TheScriptEngine->addObjectToCache(created,AsciiString(""));
   if(!instant) {
    float duration=field<float>(getData(),0x1c);
-   unsigned frames=(unsigned)(int)(duration*g_009BA4E8);
+   unsigned frames=(unsigned)(int)(duration*BfmeClientFramesPerSecond);
    created->getDrawable()->fadeIn(frames);
    created->setSpecialModelConditionState(CONDITION218,frames);
    created->setStatus(STATUS5,true);

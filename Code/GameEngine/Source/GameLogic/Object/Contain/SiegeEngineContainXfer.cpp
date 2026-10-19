@@ -204,7 +204,7 @@ struct SiegeExitData {char pad[0x18c];Rva2225E0Filter filter;char pad18d[3];int 
 class Pathfinder {public:void AddObjectToPathfindMap(Object*);bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);float GetWallHeight(PathfindLayerEnum,const Coord3D*,Coord3D*);};
 class AI {public:char pad[0x10];Pathfinder *pathfinder;};
 extern AI *TheAI;
-extern int g_00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 template<int N>class SiegeExitSlots:public SiegeExitSlots<N-1>{public:virtual void gap(char(*)[N]);};
 template<>class SiegeExitSlots<0>{};
 class SiegeExitRemove:public SiegeExitSlots<41>{public:virtual void remove(Object*,bool);};
@@ -417,7 +417,7 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
    AIUpdateInterface *ai=exitObj->ai;
    TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
    if(ai){
-     ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+g_00DBA4E4;
+     ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;
      Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&pos);
      _STL::vector<Coord3D> path;path.push_back(pos);path.push_back(pos);
      ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F*>(&path),me,CMD_FROM_AI);
@@ -439,7 +439,7 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
      dest.x+=direction.x*40.0f;dest.y+=direction.y*40.0f;}
      exitObj->teleportTo(&pos,false);exitObj->setOrientation(me->orientation);exitObj->rva0028B4CE(LAYER_WALL);
      AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
-     if(ai){ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+g_00DBA4E4;Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&dest);}
+     if(ai){ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&dest);}
      {_STL::vector<Coord3D> path;path.push_back(dest);path.push_back(dest);
      if(ai){ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F*>(&path),me,CMD_FROM_AI);exitObj->rva0028ACDC((int)&dest);}}
    }

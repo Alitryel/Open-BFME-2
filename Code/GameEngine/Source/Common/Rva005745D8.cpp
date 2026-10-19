@@ -34,7 +34,6 @@ public:
 	int get() const;
 };
 extern "C" __declspec(dllimport) double __cdecl floor(double v);
-extern float g_Va00BCF628;
 extern float g_Va00BBB8D8;
 struct Virt04
 {
@@ -88,7 +87,7 @@ void __fastcall Rva005745D8Get(void *a)
 	((Virt0C *)esi_obj)->v03(1, *(int *)((char *)edi_obj + 0x26C));
 	((Virt0C *)esi_obj)->v03(2, *(int *)((char *)edi_obj + 0x270));
 	int third = ((Rva002E0C2B *)edi_obj)->rva002E0C2B();
-	float g1 = (float)third * g_Va00BCF628 + g_Va00BBB8D8;
+	float g1 = (float)third * 0.01f + g_Va00BBB8D8;
 	((Virt14 *)esi_obj)->v05(g1);
 	int fourth = ((Rva002E063B *)edi_obj)->get();
 	((Virt1C *)esi_obj)->v07(fourth);

@@ -2,7 +2,7 @@
 // free compare-mask @ 0x003E46B4 203B leaf from 0x003EB90E. Evidence:
 // 3x Parameter ret 0xc; mask via rowed rva00357B82 walked with rowed
 // getEachPlayerFromMask; ratio via rowed Energy::getEnergySupplyRatio at +0x1BC vs float
-// threshold (param+8 int * g_Va00BCF628); op at [param+8] 0..5 selects
+// threshold (param+8 int * 0.01f); op at [param+8] 0..5 selects
 // float compares via dec-je switch. Direct transfer of landed sibling
 // Rva003E477FCompare (145B, same shape, int diff) to float ratio.
 #include "ascii_string.h"
@@ -41,7 +41,6 @@ public:
 };
 extern class ScriptEngine *TheScriptEngine;
 
-extern float g_Va00BCF628;
 
 class ScriptConditions
 {
@@ -51,7 +50,7 @@ protected:
 
 bool ScriptConditions::rva003E46B4(Parameter *pMaskParm, Parameter *pOpParm, Parameter *pValParm)
 {
-    float threshold = (float)pValParm->m_int * g_Va00BCF628;
+    float threshold = (float)pValParm->m_int * 0.01f;
     int mask = TheScriptEngine->rva00357B82(pMaskParm);
     while (mask) {
         Player *pl = ThePlayerList->getEachPlayerFromMask(mask);
