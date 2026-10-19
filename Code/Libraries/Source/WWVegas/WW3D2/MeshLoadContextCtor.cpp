@@ -70,13 +70,9 @@ class RefCountPtr
 {
 public:
 	RefCountPtr() : Referent(0) {}
-	~RefCountPtr()
-	{
-		if (Referent != 0) {
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
+	// Out of line: the proven destructor at 0x0017098D, which retail's
+	// vector deleting destructor 0x0004559C calls.
+	~RefCountPtr();
 
 private:
 	T *Referent;
