@@ -163,6 +163,15 @@ struct Rva004216D3Coord : Coord3D {
 };
 struct Rva001FDCE1Record {Rva001FDCE1Record();Rva001FDCE1Record(const Rva001FDCE1Record&);~Rva001FDCE1Record();Rva001FDCE1Record&operator=(const Rva001FDCE1Record&);char bytes[1];bool operator<(const Rva001FDCE1Record&)const;bool operator==(const Rva001FDCE1Record&)const;};
 struct Rva001FDAB0Less {bool operator()(int,int)const;};
+// bfme link decl-only begin
+// With the Rva wrapper copy ctors imported (no local COMDAT) the /O1 chain no
+// longer forces _M_clone_node out of line, so the tree _M_copy would inline it
+// (a 144B body; retail's copy is the 115B one that calls it). Keep
+// _M_clone_node out of line so _M_copy stays the retail shape. Owned by the
+// other tree units (identical bodies, no retail address).
+namespace _STL { template <> _Rb_tree_node<pair<const int, void*> > * _Rb_tree<int, pair<const int, void*>, _Select1st<pair<const int, void*> >, less<int>, allocator<pair<const int, void*> > >::_M_clone_node(_Rb_tree_node<pair<const int, void*> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<const int, void*> > * _Rb_tree<int, pair<const int, void*>, _Select1st<pair<const int, void*> >, Rva001FDAB0Less, allocator<pair<const int, void*> > >::_M_clone_node(_Rb_tree_node<pair<const int, void*> > *); }
+// bfme link decl-only end
 enum ScienceType { S3ScienceForce=0x7fffffff };
 struct Rva0021C21BElement { char bytes[4]; };
 struct Rva0026F4F4Element { unsigned words[1]; bool operator<(const Rva0026F4F4Element &)const;bool operator==(const Rva0026F4F4Element &)const; };
@@ -192,11 +201,20 @@ void *bfmeAnchorRva0010F149HandleCtor(void *where, const Rva0010F149Handle &r)
 	return ::new (where) Rva0010F149Handle(r);
 }
 // ?Rva001FD42B::Rva001FD42B present-unmatched
-struct Rva001FD42B { __forceinline Rva001FD42B(){typedef _STL::map<int,void*> T;((T*)this)->T::map();} __forceinline Rva001FD42B(const Rva001FD42B &r) {typedef _STL::map<int,void*> T;((T*)this)->T::map(*reinterpret_cast<const T*>(&r));} ~Rva001FD42B(); void *data[3];};
+struct Rva001FD42B { __forceinline Rva001FD42B(){typedef _STL::map<int,void*> T;((T*)this)->T::map();} __declspec(dllimport) __forceinline Rva001FD42B(const Rva001FD42B &r) {typedef _STL::map<int,void*> T;((T*)this)->T::map(*reinterpret_cast<const T*>(&r));} ~Rva001FD42B(); void *data[3];};
 // ?Rva001FD458::Rva001FD458 present-unmatched
-struct Rva001FD458 { __forceinline Rva001FD458(){typedef _STL::map<int,void*,Rva001FDAB0Less> T;((T*)this)->T::map();} __forceinline Rva001FD458(const Rva001FD458 &r) {typedef _STL::map<int,void*,Rva001FDAB0Less> T;((T*)this)->T::map(*reinterpret_cast<const T*>(&r));} ~Rva001FD458(); void *data[3];};
+struct Rva001FD458 { __forceinline Rva001FD458(){typedef _STL::map<int,void*,Rva001FDAB0Less> T;((T*)this)->T::map();} __declspec(dllimport) __forceinline Rva001FD458(const Rva001FD458 &r) {typedef _STL::map<int,void*,Rva001FDAB0Less> T;((T*)this)->T::map(*reinterpret_cast<const T*>(&r));} ~Rva001FD458(); void *data[3];};
 // ?Rva000427195::Rva000427195 present-unmatched
-struct Rva000427195 { __forceinline Rva000427195(){typedef _STL::hash_map<int,Rva001FDCE1Record> T;((T*)this)->T::hash_map();} __forceinline Rva000427195(const Rva000427195 &r) {typedef _STL::hash_map<int,Rva001FDCE1Record> T;((T*)this)->T::hash_map(*reinterpret_cast<const T*>(&r));} ~Rva000427195(); void *data[5];};
+struct Rva000427195 { __forceinline Rva000427195(){typedef _STL::hash_map<int,Rva001FDCE1Record> T;((T*)this)->T::hash_map();} __declspec(dllimport) __forceinline Rva000427195(const Rva000427195 &r) {typedef _STL::hash_map<int,Rva001FDCE1Record> T;((T*)this)->T::hash_map(*reinterpret_cast<const T*>(&r));} ~Rva000427195(); void *data[5];};
+// The hash_map copy-ctor COMDAT (a matched row, 0x001FDF14/18) was previously
+// emitted as a side effect of the Rva000427195 copy ctor above; with that now
+// dllimport this anchor keeps the matched external copy emitted.
+// ?bfmeAnchorHashmapCopyCtor absent-from-retail
+__declspec(noinline) void *bfmeAnchorHashmapCopyCtor(void *where, const Rva000427195 &r)
+{
+	typedef _STL::hash_map<int,Rva001FDCE1Record> T;
+	return ::new (where) T(*reinterpret_cast<const T*>(&r));
+}
 extern template const unsigned int &_STL::max<unsigned int>(const unsigned int &,const unsigned int &);
 namespace _STL {
 template<> inline _Vector_base<ScienceType,allocator<ScienceType> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
