@@ -17,6 +17,13 @@ extern "C" __declspec(dllimport) int __cdecl atoi(const char*);
 namespace _STL { template <> vector<basic_string<char, char_traits<char>, allocator<char> >, allocator<basic_string<char, char_traits<char>, allocator<char> > > >::~vector(); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 void __cdecl Rva00030830GameFree(void *);
 // Bind deallocation to the verified game allocator; retain imported atof/atoi.
 namespace _STL

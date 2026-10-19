@@ -121,6 +121,13 @@ PEERBool peerParseQuery(PEER peer, char *data, int len, struct sockaddr *from) t
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &a,bool const &b) : first(a), second(b) {} }
 // Bind to the kept retail copy instead of emitting this unit's own.
