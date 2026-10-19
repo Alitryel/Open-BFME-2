@@ -119,15 +119,14 @@ bool MaterialPassClass::EnablePerPolygonCulling = true;
  *   12/9/99    gth : Created.                                                                 *
  *   2/26/2001  gth : Changed to Install_Materials                                             *
  *=============================================================================================*/
-// ?Install_Materials@MaterialPassClass@@ present-unmatched
-void MaterialPassClass::Install_Materials(void) const
+// MaterialPassClass::Install_Materials is rowed at 0x0013EFA0 in
+// MaterialPassInstallMaterials.cpp; this unit's copy was not retail's.
+// Its Peek_Texture call kept the rowed out-of-line accessor (0x002C7469)
+// emitted here; this anchor keeps it.
+// ?bfmeAnchorMatpassPeekTexture absent-from-retail
+TextureClass *bfmeAnchorMatpassPeekTexture(const MaterialPassClass *pass)
 {
-	DX8Wrapper::Set_Material(Peek_Material());
-	DX8Wrapper::Set_Shader(Peek_Shader());
-	for (int i=0;i<DX8Wrapper::Get_Current_Caps()->Get_Max_Textures_Per_Pass();++i) 
-	{
-		DX8Wrapper::Set_Texture(i,Peek_Texture(i));
-	}
+	return pass->Peek_Texture(0);
 }
 
 
