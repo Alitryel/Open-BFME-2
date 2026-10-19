@@ -15,7 +15,7 @@
 //   0x005AC866  slot 2: forget the hero and clear both keys
 //   0x005AC924  slot 3: set the running key, then the AITactic's slot 3
 //   0x005ACBE3  slot 6: start: find the hero, then 0x005AC98A
-//   0x005ACBFF  slot 7 (not here yet): escort the hero
+//   0x005ACBFF  slot 7: escort the hero
 //   0x005ACA2D  find the owner's ring hero (template +0x121 bit 5) into +0x58
 #include "ascii_string.h"
 
@@ -47,6 +47,7 @@ public:
 class AICommandInterface
 {
 public:
+	void aiMoveToObject(Object *target, CommandSourceType source);
 	void rva0026C347(Object *target, CommandSourceType source);
 };
 
@@ -288,6 +289,7 @@ public:
 	virtual void cleanUp();
 	virtual bool initializeTeamTemplate(void *unit, int count);
 	virtual void run();
+	virtual void update();
 	bool weHaveGollum();
 	bool rva005ACA92();
 	bool enemyHasRingHeroUpgrade();
@@ -359,4 +361,41 @@ void AIRingHeroTactic::run()
 bool AIRingHeroTactic::rva005ACA92()
 {
 	return weHaveGollum();
+}
+
+// 0x005ACBFF 229B, slot 7: while running and the hero exists, until it escorts,
+// send it (rowed aiMoveToObject 0x00352ECA) toward each of the owner's suitable
+// objects (template +0x120 bit 2, not +0x94 bit 0, not +0x438 bit 0) and remember
+// it; once escorting, when the hero's AI (+0x258) idles, command it at the escort
+// again (rowed 0x0026C347) and end the tactic. A missing hero also ends it.
+// Shape follows the WorldBuilder twin (AIRingHeroTactic.cpp:96..110).
+void AIRingHeroTactic::update()
+{
+	if (m_running) {
+		Object *hero = TheGameLogic->findObjectByID(m_hero);
+		if (hero) {
+			if (!m_escorting) {
+				if (!m_escort) {
+					Rva005AC7E1Holder *holder = (Rva005AC7E1Holder *)g_00DFEEF8->rva002A8F24(m_owner);
+					Rva005C4AD1LeaField *field = holder->m_08;
+					Rva005AC7E1IDs *ids = (Rva005AC7E1IDs *)field->get();
+					for (ObjectID *it = ids->m_begin; it != ids->m_end; ++it) {
+						Object *obj = TheGameLogic->findObjectByID(*it);
+						if (obj && (obj->m_04->m_120 & 4) && !(obj->m_94 & 1) && !(obj->m_438 & 1)) {
+							hero->m_ai->m_commands.aiMoveToObject(obj, CMD_FROM_PLAYER);
+							m_escort = obj;
+							m_escorting = true;
+						}
+					}
+				}
+			} else if (m_escort) {
+				if (hero->m_ai->isIdle()) {
+					hero->m_ai->m_commands.rva0026C347(m_escort, CMD_FROM_PLAYER);
+					end(false, false);
+				}
+			}
+		} else {
+			end(false, false);
+		}
+	}
 }
