@@ -3,7 +3,7 @@
 // ?Rva00116F50@@YA_NXZ @ 0x00116F50 (11B): normalizes
 // DX8Wrapper::Set_Next_Render_Device to bool (call + test + setne).
 // ?Rva00116F60Get@@YAHXZ @ 0x00116F60 (6B): global dword getter over
-// 0x00DEC408 (mov eax,[mem]; ret).
+// the window handle at 0x00DEC408 (mov eax,[mem]; ret).
 // ?Rva00116F00@@YA_NXZ @ 0x00116F00 (11B): normalizes
 // DX8Wrapper::Set_Any_Render_Device to bool (same uchar-temp idiom).
 // Dedicated TU so no caller inlines any body (Rva007EB810Get precedent).
@@ -17,9 +17,8 @@ protected:
 	friend bool Rva00116F00();
 };
 
-extern int g_Va00DEC408;
-// ?g_Va00DEC408@@3HA: the global at this VA is ?g_WW3D_Hwnd@@3PAXA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEC408@@3HA=?g_WW3D_Hwnd@@3PAXA")
+// 0x00DEC408 is the render window handle (defined in WW3D_Init_Bfme.cpp).
+extern void *g_WW3D_Hwnd;
 
 // ?Rva00116F50@@YA_NXZ
 bool Rva00116F50(void)
@@ -31,7 +30,7 @@ bool Rva00116F50(void)
 // ?Rva00116F60Get@@YAHXZ
 int Rva00116F60Get(void)
 {
-	return g_Va00DEC408;
+	return (int)g_WW3D_Hwnd;
 }
 
 // ?Rva00116F00@@YA_NXZ

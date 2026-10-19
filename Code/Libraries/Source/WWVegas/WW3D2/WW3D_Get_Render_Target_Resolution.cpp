@@ -52,54 +52,47 @@ public:
 	virtual long __stdcall bfmeGetModeInfo(BfmeDisplayModeInfo *info) = 0; // +0x30
 };
 
-// ?TheBfmeRenderDevice@@3PAVBfmeRenderDevice@@A: the global at this VA is ?CurrentRenderTarget@DX8Wrapper@@1PAUIDirect3DSurface8@@A; this name is an alias for it.
-extern BfmeRenderDevice * TheBfmeRenderDevice;
-#pragma comment(linker, "/alternatename:?TheBfmeRenderDevice@@3PAVBfmeRenderDevice@@A=?CurrentRenderTarget@DX8Wrapper@@1PAUIDirect3DSurface8@@A")
-
-extern Int BfmeRenderWidth; // 0x00DB5FD4
-extern Int BfmeRenderHeight; // 0x00DB5FD8
-extern Int BfmeRenderBitDepth; // 0x00DB5FDC
-// ?BfmeRenderBitDepth@@3HA: the global at this VA is ?BitDepth@DX8Wrapper@@1HA; this name is an alias for it.
-extern int BfmeRenderBitDepth;
-#pragma comment(linker, "/alternatename:?BfmeRenderBitDepth@@3HA=?BitDepth@DX8Wrapper@@1HA")
-extern Bool BfmeRenderWindowed; // 0x00DEDA06
+// The render target surface; its slot 0x30 fills the mode struct above.
+struct IDirect3DSurface8;
 
 // the WW3D forwarder lives at 0x00116FF0 (5B thunk, already claimed);
 // this TU recovers the DX8Wrapper body it jumps to (private static, hence
-// the KAX mangling, matching the pre-existing pin).
+// the CAX mangling). The globals it reads are DX8Wrapper's protected static
+// members, defined in dx8wrapper.cpp.
 class DX8Wrapper
 {
 	static void Get_Render_Target_Resolution(Int &width, Int &height, Int &bitDepth, Bool &windowed);
+protected:
+	static IDirect3DSurface8 *CurrentRenderTarget; // 0x00DEDA38
+	static Int ResolutionWidth;                    // 0x00DB5FD4
+	static Int ResolutionHeight;                   // 0x00DB5FD8
+	static Int BitDepth;                           // 0x00DB5FDC
+	static Bool IsWindowed;                        // 0x00DEDA06
 };
 
-// ?Get_Render_Target_Resolution@DX8Wrapper@@KAXAAH00AA_N@Z
-// ?DX8Wrapper::Get_Render_Target_Resolution present-unmatched
+// ?Get_Render_Target_Resolution@DX8Wrapper@@CAXAAH00AA_N@Z
 void DX8Wrapper::Get_Render_Target_Resolution(Int &width, Int &height, Int &bitDepth, Bool &windowed)
 {
-	if (TheBfmeRenderDevice != NULL)
+	if (CurrentRenderTarget != NULL)
 	{
 		BFMEDX8DeviceLock guard;
 		BfmeDisplayModeInfo info;
 
-		TheBfmeRenderDevice->bfmeGetModeInfo(&info);
+		((BfmeRenderDevice *)CurrentRenderTarget)->bfmeGetModeInfo(&info);
 
 		width = info.m_bfmeWidth;
 		height = info.m_bfmeHeight;
-		bitDepth = BfmeRenderBitDepth;
-		windowed = BfmeRenderWindowed;
+		bitDepth = BitDepth;
+		windowed = IsWindowed;
 	}
 	else
 	{
-		width = BfmeRenderWidth;
-		height = BfmeRenderHeight;
-		bitDepth = BfmeRenderBitDepth;
-		windowed = BfmeRenderWindowed;
+		width = ResolutionWidth;
+		height = ResolutionHeight;
+		bitDepth = BitDepth;
+		windowed = IsWindowed;
 	}
 }
 
-// ?BfmeRenderWindowed@@3_NA: the global at this VA is ?IsWindowed@DX8Wrapper@@1_NA; this name is an alias for it.
-extern bool BfmeRenderWindowed;
-#pragma comment(linker, "/alternatename:?BfmeRenderWindowed@@3_NA=?IsWindowed@DX8Wrapper@@1_NA")
+// GlobalByteGetters.cpp still reads 0x00DEDA06 through this alias.
 #pragma comment(linker, "/alternatename:?g_Va00DEDA06@@3EA=?IsWindowed@DX8Wrapper@@1_NA")
-// ?BfmeRenderWindowed@@3_NA: the global at VA 0xdeda06 is ?IsWindowed@DX8Wrapper@@1_NA.
-#pragma comment(linker, "/alternatename:?BfmeRenderWindowed@@3_NA=?IsWindowed@DX8Wrapper@@1_NA")

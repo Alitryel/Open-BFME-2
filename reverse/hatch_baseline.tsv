@@ -1953,7 +1953,6 @@ address_global	Code/Libraries/Source/DirtySock/Y5SmallHelpers.c	g_Rva012C47A4Tex
 address_global	Code/Libraries/Source/DirtySock/commudp.cpp	g_Rva0130AD08Count	5
 address_global	Code/Libraries/Source/DirtySock/commudp.cpp	g_Rva0130AF38Lock	5
 address_global	Code/Libraries/Source/WWVegas/WW3D2/DX8SetAmbient.cpp	g_Va00DEDC70	2
-address_global	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperDeviceQueries.cpp	g_Va00DEC408	3
 address_global	Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsTextureShutdown.cpp	g_Va00DEE918	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderInit.cpp	g_Rva00153565Vec	3
 address_global	Code/Libraries/Source/WWVegas/WW3D2/HLodRva004ECECD.cpp	g_Va009FF0F8	3
@@ -5108,7 +5107,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8RigidDelayedMaterialPass.cp
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WebBrowser_Is_Browser_Open.cpp	?g_bfmeObjECF@@3VBfmeObjECFPtr@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperBeginSceneInner.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperBeginSceneInner.cpp	?Rva00959410Dispatch@@3URva00959410Ptr@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperDeviceQueries.cpp	?g_Va00DEC408@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperEndSceneHelper.cpp	?g_bfmeIidTSA@@3UBfmeGuidTSA@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Create_DX8_Surface.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Create_DX8_Surface.cpp	?D3DDevice@DX8Wrapper@@0PAUIDirect3DDevice9@@A	1
@@ -5212,9 +5210,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexBufferLockClasses.cpp	??
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexMaterialApply.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexSplitTableConstructorBFME.cpp	?BfmeCurrentCaps@@3PAVBfmeCaps@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/VertexSplitTablePeekTexture.cpp	?Peek_Texture@MeshModelClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HHH@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	?BfmeRenderBitDepth@@3HA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	?BfmeRenderWindowed@@3_NA	2
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	?TheBfmeRenderDevice@@3PAVBfmeRenderDevice@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	?g_Va00DEDA06@@3EA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Init_Bfme.cpp	?g_WW3D_IsInitted@@3EA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/WW3D_SetNPatchesLevelThunk.cpp	?NPatchesLevel@@3IA	1
@@ -39669,7 +39664,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/SurfaceByteSize.cpp	Surfac
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVectorWide.cpp	TextureBaseClassWide::Add_Ref	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/VectorClassProxyAssign.cpp	ProxyClass::ProxyClass	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/VectorClassProxyAssign.cpp	ProxyClass::~ProxyClass	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	DX8Wrapper::Get_Render_Target_Resolution	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp	AABTreeClass::AABTreeClass	3
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp	AABTreeClass::Build_Tree_Recursive	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp	AABTreeClass::Cast_AABox_Recursive	1
