@@ -2,6 +2,10 @@
 // Provenance: Open-BFME-1 game/Libraries/Source/WWVegas/WW3D2/StreakRendererInit.cpp at 6583b3c1ff; include paths repointed at the
 // reference checkout and built the BFME2 way (/arch:SSE /G7), where its body places
 // exactly once in game.dat by masked byte search.
+// Link: the scalar operator * is only referenced from .debug$F here; keep it
+// inline-only so this unit emits no losing COMDAT copy (Vector4ScaleO1.cpp recipe).
+class Vector2;
+__declspec(dllimport) __forceinline Vector2 operator * (const Vector2 &a, float k);
 #include "vector2.h"
 // Identity: ZH GeneralsMD WW3D2/streakRender.cpp Init, identical flag switch
 // and zero subdivision behavior; BFME restores tile and UV rate setters.
