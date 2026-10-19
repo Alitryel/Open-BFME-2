@@ -673,7 +673,7 @@ _Rva00023540,0x00023540,address,placeholder
 ?Rva000310ACGet@@YAHXZ,0x000310AC,address,placeholder
 ?Rva00031660Unlink@@YGXPAX@Z,0x00031660,address,placeholder
 ?rva00031680@GeneralAllocator@Allocator@EA@@QAEPAXPBX@Z,0x00031680,address,placeholder
-?rva00031790@Rva00031790@@QAEPAXPAX@Z,0x00031790,address,placeholder
+??0Rva00031790@@QAE@PAX@Z,0x00031790,address,placeholder
 ?rva000317c0@Rva000317C0@@QAEXXZ,0x000317C0,address,placeholder
 ?rva00031BB0@GeneralAllocator@Allocator@EA@@QAE_NPBX@Z,0x00031BB0,address,placeholder
 ?rva00032920@GeneralAllocator@Allocator@EA@@QAE_NPBX@Z,0x00032920,address,placeholder

@@ -1,3 +1,4 @@
+// cl: /EHsc
 // BFME 2's memory-pool entry points. `namespace MemoryPool` is retail's own
 // name: every `_`-prefixed function here is exported under it
 // (reverse/exports.csv), and 0x00030730 resolves each export back out of the
@@ -61,6 +62,7 @@ extern "C" __declspec(dllimport) int __stdcall VirtualFree(void *address, unsign
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned int count, const char *format, ...);
 
 class MemoryPoolFactory;
+class Rva00031790;
 // placement unverified: no rowed DIR32 site yet; ZH initial value is null.
 MemoryPoolFactory *TheMemoryPoolFactory = 0;
 
@@ -193,14 +195,19 @@ private:
 		unsigned char m_pad[0x18];
 		int volatile m_count;
 	};
-	unsigned char m_pad468[0x470 - (0x448 + sizeof(ListNode))];
-	// +0x470: recursion guard 0x31D00 raises around its checks (label
-	// descriptive; it only runs them while the count is at most one).
+public:
+	// Option fields written by 0x000317F0 (SetOption-like).
+	unsigned int m_option468;
+	bool m_state46C;
+	bool m_option46D;
+	unsigned char m_pad46E[0x470 - 0x46E];
+	// +0x470: recursion guard 0x31D00 raises around its checks.
 	int m_checkDepth;
-	unsigned char m_pad474[0x49C - 0x474];
-	// Second intrusive list proven by 0x00032160: sentinel embedded at +0x49C
-	// with its next pointer at +0xC; entries compare (node - *node) with the key.
-	// Only the offsets are target facts; the labels are descriptive.
+	unsigned char m_pad474[0x490 - 0x474];
+	unsigned int m_option490;
+	unsigned int m_option494;
+	bool m_option498;
+	unsigned char m_pad499[0x49C - 0x499];
 	struct RegionLink
 	{
 		unsigned int m_base;
@@ -208,12 +215,21 @@ private:
 		RegionLink *m_next;
 	};
 	RegionLink m_regions;
-	unsigned char m_pad4AC[0x4D4 - (0x49C + sizeof(RegionLink))];
-	// +0x4D4: alignment unit 0x31D00 masks mapped-chunk bounds with (minus
-	// one); a page size by its use, the original name is unknown.
+	unsigned char m_pad4AC[0x4B4 - (0x49C + sizeof(RegionLink))];
+	unsigned int m_option4B4;
+	unsigned char m_pad4B8[0x4C8 - 0x4B8];
+	unsigned int m_option4C8;
+	unsigned int m_option4CC;
+	unsigned char m_pad4D0[4];
 	unsigned int m_pageSize;
-	unsigned char m_pad4D8[0x4E4 - 0x4D8];
+	unsigned int m_coreSize;
+	unsigned int m_growSize;
+	bool m_option4E0;
 	Lock *m_4E4;
+	unsigned char m_lockStorage[0x1C];
+public:
+	void rva000317F0(int option, unsigned int value);
+	friend class ::Rva00031790;
 };
 
 GeneralAllocator::Snapshot::Snapshot(unsigned int size, void *context)
@@ -1147,28 +1163,37 @@ void _Exit()
 
 }
 
-// ?rva00031790@Rva00031790@@QAEPAXPAX@Z @ 0x00031790 (35B):
-// lock-holder setter: stores param at +0 then when non-null enters it as a
-// critical section and bumps the use count at +0x18 returning this.
-// Class unproven by callers (both call sites unclaimed) so honest
-// address-derived owner; EnterCriticalSection via dllimport like neighbours.
+// ??0Rva00031790@@QAE@PAX@Z @ 0x00031790 (35B): scoped counted lock.
+// The constructor stores the lock at +0 and, when non-null, enters it as a
+// critical section and bumps the use count at +0x18, returning this. It is
+// a constructor by target evidence: 0x000317F0 calls it on a stack object and
+// sets the EH state live right after the call, and its unwind funclet destroys
+// that object through 0x000317C0 (the inline destructor below; 21 B, exact).
+// Class name unknown (address-derived); PPMalloc's scoped mutex shape.
 class Rva00031790
 {
 public:
 	void *m_0000;
-	void *rva00031790(void *param);
+	Rva00031790(void *param);
+	~Rva00031790()
+	{
+		EA::Allocator::GeneralAllocator::Lock *lock = (EA::Allocator::GeneralAllocator::Lock *)m_0000;
+		if (lock != 0)
+		{
+			--lock->m_count;
+			LeaveCriticalSection(lock);
+		}
+	}
 };
 
-void *Rva00031790::rva00031790(void *param)
+Rva00031790::Rva00031790(void *param)
 {
 	m_0000 = param;
 	if (param != 0)
 	{
 		EnterCriticalSection(param);
-		int count = *(volatile int *)((char *)param + 0x18);
-		*(volatile int *)((char *)param + 0x18) = count + 1;
+		++((EA::Allocator::GeneralAllocator::Lock *)param)->m_count;
 	}
-	return this;
 }
 
 // Native 0x00030D10..0x00030D4E, RET4: retain bit0 of word +4;
@@ -1191,6 +1216,99 @@ void Rva00030D10::rva00030D10(unsigned int size) {
  if(size) sizeAndFlag=nonzero30D10(size)|flag;
  else sizeAndFlag=flag;
 }
+
+
+// Lock provider rows of Rva00030DD0AddRef.cpp (create, lock, unlock).
+struct Rva00030DD0Lock;
+Rva00030DD0Lock *Rva00030D90Init(Rva00030DD0Lock *storage);
+int Rva00030DD0AddRef(Rva00030DD0Lock *lock);
+int Rva00030DF0Release(Rva00030DD0Lock *lock);
+class Rva00034C90 { public: void rva00033930(); };	// pinned callee 0x00033930
+extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void *section);
+
+inline unsigned int rva000317F0Align(unsigned int size, unsigned int alignment)
+{
+	return (size + alignment - 1) & ~(alignment - 1);
+}
+
+namespace EA
+{
+namespace Allocator
+{
+// ?rva000317F0@GeneralAllocator@Allocator@EA@@QAEXHI@Z @ 0x000317F0 (872B
+// with its 13-entry jump table).
+void GeneralAllocator::rva000317F0(int option, unsigned int value)
+{
+	switch (option)
+	{
+	case 1:
+		if (value)
+		{
+			if (!m_4E4)
+				m_4E4 = (Lock *)Rva00030D90Init((Rva00030DD0Lock *)m_lockStorage);
+		}
+		else if (m_4E4)
+		{
+			Rva00030DD0AddRef((Rva00030DD0Lock *)m_4E4);
+			Lock *lock = m_4E4;
+			m_4E4 = 0;
+			Rva00030DF0Release((Rva00030DD0Lock *)lock);
+			DeleteCriticalSection(lock);
+		}
+		break;
+	case 2:
+	{
+		Rva00031790 guard(m_4E4);
+		if (value)
+		{
+			if (!m_state46C && !m_option468)
+				m_option468 = 1;
+		}
+		else
+			m_option468 = 0;
+		break;
+	}
+	case 3:
+		m_option46D = value != 0;
+		break;
+	case 4:
+		if (!value)
+			m_coreSize = 0x1000000;
+		else
+		{
+			m_coreSize = rva000317F0Align(value > m_pageSize ? value : m_pageSize, m_pageSize);
+		}
+		break;
+	case 5:
+		if (!value)
+			m_growSize = 0x400000;
+		else
+		{
+			m_growSize = value > m_pageSize ? value : m_pageSize;
+			m_growSize = rva000317F0Align(m_growSize, m_pageSize);
+			if (m_growSize > m_coreSize)
+				m_growSize = m_coreSize;
+		}
+		break;
+	case 6:
+	{
+		Rva00031790 guard(m_4E4);
+		((Rva00034C90 *)this)->rva00033930();
+		((Rva00030D10 *)this)->rva00030D10(value);
+		break;
+	}
+	case 7: m_option4C8 = value; break;
+	case 8: m_option4CC = value; break;
+	case 9: m_option494 = value; break;
+	case 10: m_option490 = value; break;
+	case 11: m_option498 = value != 0; break;
+	case 12: m_option4E0 = value != 0; break;
+	case 13: m_option4B4 = value; break;
+	}
+}
+}
+}
+
 
 
 // Native 31BF0..31CF4 including the final RET4, 260B (inventory stops
