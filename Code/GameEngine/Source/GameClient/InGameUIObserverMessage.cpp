@@ -136,7 +136,7 @@ class Rva004076EE { public: Object *rva004076EE(); };
 struct HeroAwardNameView { char pad[8]; UnicodeString name; };
 struct BfmePod40;
 class Rva0040AAD5 { public: BfmePod40 *rva0040AAD5(int); };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 struct HeroAwardRecordView { char pad[0x10]; AsciiString label; unsigned word14; AsciiString image; };
 class Image;
 class ImageCollection { public: const Image *findImageByName(const AsciiString &); };
@@ -146,7 +146,7 @@ void InGameUI::notifyHeroEarnedAward(CreateAHeroHero *hero, int key)
  if (!TheGameLogic->rva0042219() || ((AwardScriptEngineView *)TheScriptEngine)->suppressed >= 0) return;
  Object *object=((Rva004076EE *)hero)->rva004076EE();
  if (!object || !object->getControllingPlayer()->isLocalPlayer()) return;
- HeroAwardRecordView *award=(HeroAwardRecordView *)g_00E02F74->rva0040AAD5(key);
+ HeroAwardRecordView *award=(HeroAwardRecordView *)TheAwardSystemManager->rva0040AAD5(key);
  if (!award || award->label.isEmpty()) return;
  InGameNotificationType *type=FindInGameNotificationType(AsciiString("HeroEarnedAward"));
  if (!type) return;

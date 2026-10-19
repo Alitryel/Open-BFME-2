@@ -25,7 +25,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 extern GameLogic *TheGameLogic;
 
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 
 class Rva0040BAD0
 {
@@ -73,7 +73,7 @@ private:
 
 void Rva0021937DTarget::rva004089C7(int key, int delta)
 {
-	if (TheGameLogic->m_110 != 3 && ((Rva0040BAD0 *)g_00E02F74)->rva0040AAF8(key) != 0)
+	if (TheGameLogic->m_110 != 3 && ((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(key) != 0)
 	{
 		AsciiString name = TheNameKeyGenerator->keyToName((NameKeyType)key);
 		int count = m_counts[name].m_count;

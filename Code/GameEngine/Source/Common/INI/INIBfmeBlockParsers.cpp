@@ -186,7 +186,7 @@ void Rva00200FE3Parse(INI *ini)
 // 0x0040C32B (25B): "AwardSystem" (registration VA 0x00DC1D9C). Skips when
 // the object at 0x00E02F74 is null, else initFromINI it against VA 0x00C39410.
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 extern const FieldParse AwardSystemFields[];
 
 

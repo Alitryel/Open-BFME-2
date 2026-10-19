@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
 // ?OnSelectAward@Manager@AptCreateAHero@@QAEXPBD@Z @0x005B5E2D 257B
 // Chain of just-landed 0x00406E8F: atoi arg then holder+0x27c forward then
-// vector g_00E02F74 lookup then TheGameText fetch at slot 0x38 then
+// vector TheAwardSystemManager lookup then TheGameText fetch at slot 0x38 then
 // bfmeSetText; fallback builds wide from g_00BC26DC. Callers none.
 // Honest-address method.
 #include "ascii_string.h"
@@ -52,7 +52,7 @@ class Rva0040AAD5
 public:
     BfmePod40 *rva0040AAD5(int key);
 };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 extern const unsigned short g_00BC26DC[];
 
 class Rva00406E8F
@@ -87,7 +87,7 @@ void AptCreateAHero::Manager::OnSelectAward(const char *arg)
     if (idx >= 0)
     {
         int v = m_holder->m_obj.rva00406E8F((unsigned int)idx);
-        found = g_00E02F74->rva0040AAD5(v);
+        found = TheAwardSystemManager->rva0040AAD5(v);
     }
     if (found)
     {

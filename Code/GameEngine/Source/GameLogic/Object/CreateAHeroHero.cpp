@@ -160,7 +160,7 @@ class Rva00406E7D { public: int rva00406E7D(); };
 class Rva00406E8F { public: int rva00406E8F(unsigned int); };
 struct BfmePod40;
 class Rva0040AAD5 { public: BfmePod40 *rva0040AAD5(int); };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 class InGameUI
 {
 public:
@@ -494,7 +494,7 @@ void CreateAHeroHero::UpdateAwardEarnedFlags()
 		if (m_awardEarnedFlags[i])
 			continue;
 		Int key = ((Rva00406E8F *)this)->rva00406E8F(i);
-		BfmePod40 *award = g_00E02F74->rva0040AAD5(key);
+		BfmePod40 *award = TheAwardSystemManager->rva0040AAD5(key);
 		if (award && HasEarnedAward((const CreateAHeroAward *)award))
 		{
 			m_awardEarnedFlags[i] = true;
@@ -519,7 +519,7 @@ void CreateAHeroHero::rva004088F0(const void *thing, Int unused)
 	for (UnsignedInt i = 0; i < (UnsignedInt)((Rva00406E53 *)this)->rva00406E53(); ++i)
 	{
 		Int key = ((Rva00406E65 *)this)->rva00406E65(i);
-		Rva0040B0D0 *statistic = (Rva0040B0D0 *)((Rva0040BAD0 *)g_00E02F74)->rva0040AAF8(key);
+		Rva0040B0D0 *statistic = (Rva0040B0D0 *)((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(key);
 		if (statistic && statistic->rva0040B0D0(thing))
 		{
 			AsciiString name(TheNameKeyGenerator->keyToName((NameKeyType)key));

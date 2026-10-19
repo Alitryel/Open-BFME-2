@@ -130,7 +130,7 @@ class Rva00406E53 {public:int rva00406E53();};
 class Rva00406E65 {public:int rva00406E65(unsigned);};
 class Rva0040BAD0 {public:int rva0040AAF8(int);};
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 struct StatRecord {char prefix[0x54];AsciiString label;};
 int GadgetListBoxGetTopVisibleEntry(GameWindow *);
 void GadgetListBoxSetTopVisibleEntry(GameWindow *,int);
@@ -142,7 +142,7 @@ void AptCreateAHero::Manager::rva005B5F2E() {
   CreateAHeroData *hero=reinterpret_cast<CreateAHeroData *>((char *)screen+0x27c);
   for(unsigned i=0;i<(unsigned)reinterpret_cast<Rva00406E53 *>(hero)->rva00406E53();++i) {
    int key=reinterpret_cast<Rva00406E65 *>(hero)->rva00406E65(i);
-   StatRecord *record=reinterpret_cast<StatRecord *>(reinterpret_cast<Rva0040BAD0 *>(g_00E02F74)->rva0040AAF8(key));
+   StatRecord *record=reinterpret_cast<StatRecord *>(reinterpret_cast<Rva0040BAD0 *>(TheAwardSystemManager)->rva0040AAF8(key));
    if(record) {
     unsigned count=hero->GetStatValue(reinterpret_cast<const NameKeyType *>(record));
     UnicodeString text;

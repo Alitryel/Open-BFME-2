@@ -38,9 +38,7 @@ public:
 	BfmePod40 *rva0040AAD5(int id);
 };
 
-// g_Va00E02F74 is only an alias of the owned global g_00E02F74 (ledger names column); this unit reads the owner through its own view type.
-extern class Rva0040AAD5 *g_00E02F74;
-#define g_Va00E02F74 (*(Rva0040AAD5 * *)&g_00E02F74)
+extern class Rva0040AAD5 *TheAwardSystemManager;
 
 // The ids of the awards earned this game (0x00E04920).
 

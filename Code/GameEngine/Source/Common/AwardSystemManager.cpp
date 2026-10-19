@@ -163,7 +163,7 @@ class Rva0040AAD5 {public:
 // .data 0x00A02F74, just ahead of this unit's instance pointer 0x00A02F78 below:
 // GameEngine::init 0x0022FBE0 hands its address to initSubsystem with the
 // "TheAwardSystemManager" literal and the object 0x0040BF17 constructs.
-Rva0040AAD5 *g_00E02F74=0;
+Rva0040AAD5 *TheAwardSystemManager=0;
 class Image;
 class ImageCollection {public:const Image *findImageByName(const AsciiString &);};
 extern ImageCollection *TheMappedImageCollection;
@@ -191,7 +191,7 @@ void Rva0040C125Parse(INI *ini)
  static NameKeyType emptyKey=TheNameKeyGenerator->nameToKey("");
  if(key==NAMEKEY_INVALID || key==noneKey || key==emptyKey)
   throw INIException(3,"No award name specified while parsing Award.");
- BfmePod40 *existing=g_00E02F74->rva0040AAD5(key);
+ BfmePod40 *existing=TheAwardSystemManager->rva0040AAD5(key);
  if(existing) {
   AsciiString name=TheNameKeyGenerator->keyToName(static_cast<NameKeyType>(existing->words[0]));
   throw INIException(3,"An Award with the name %s already exists.",reinterpret_cast<const StringBase<char> *>(&name)->str());
@@ -207,7 +207,7 @@ void Rva0040C125Parse(INI *ini)
  text.setCopyInline(award.descriptionTag);
  if(text.isNone() || text.isEmpty())
   throw INIException(3,"No description tag specified while parsing Award.");
- g_00E02F74->rva0040C0FE(reinterpret_cast<const Rva0040C0C7Element &>(award));
+ TheAwardSystemManager->rva0040C0FE(reinterpret_cast<const Rva0040C0C7Element &>(award));
 }
 AwardSystemManager *BfmeAwardSystemManagerInstance=0;
 AwardSystemManager::AwardSystemManager()

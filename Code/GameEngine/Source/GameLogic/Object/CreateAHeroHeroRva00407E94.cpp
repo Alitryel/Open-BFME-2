@@ -39,7 +39,7 @@ private:
 struct BfmePod40;
 class CreateAHeroAward;
 class Rva0040AAD5 { public: BfmePod40 *rva0040AAD5(int key); };	// 0x0040AAD5
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 class Rva00406E7D { public: int rva00406E7D(); };		// 0x00406E7D
 class Rva00406E8F { public: int rva00406E8F(unsigned int i); };	// 0x00406E8F
 class CreateAHeroHero { public: bool HasEarnedAward(const CreateAHeroAward *award) const; };	// 0x00406EA7
@@ -60,7 +60,7 @@ void Rva0021937DTarget::rva00407E94()
 	m_earned.resize(count, false);
 	for (unsigned int i = 0; i < count; ++i)
 	{
-		BfmePod40 *award = g_00E02F74->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(i));
+		BfmePod40 *award = TheAwardSystemManager->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(i));
 		if (award && ((CreateAHeroHero *)this)->HasEarnedAward((const CreateAHeroAward *)award))
 			m_earned[i] = true;
 	}

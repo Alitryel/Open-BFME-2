@@ -8,7 +8,7 @@
 // messages. Parses a thing statistic (rowed default ctor 0x0040AF1D / dtor
 // 0x0040AFF3) through the field table at 0x00DC1DD8; rejects an invalid,
 // "None" or empty name key (keys cached in function statics) and a name the
-// award system (g_00E02F74, rowed lookup 0x0040AAF8) already has; finishes
+// award system (TheAwardSystemManager, rowed lookup 0x0040AAF8) already has; finishes
 // the lists (rowed 0x0040B4F9); requires every included / excluded template
 // key (rowed 0x0040A7F1 / 0x0040A80F) to name an existing ThingTemplate
 // (TheThingFactory lookup 0x002D06CA); then adds it (rowed 0x0040BAD0).
@@ -90,7 +90,7 @@ public:
 	bool rva0040BAD0(Rva0040AF66 *stat);			// adds a statistic
 };
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;					// the award system
+extern Rva0040AAD5 *TheAwardSystemManager;					// the award system
 
 class ThingTemplate;
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &name); };	// template lookup
@@ -140,7 +140,7 @@ void AwardSystemManager::parseThingStat(INI *ini, void *, void *, const void *)
 	if (name == NAMEKEY_INVALID || name == noneKey || name == emptyKey)
 		throw INIException(3, "No thingStat name specified while parsing ThingStat in thingStat system.");
 
-	const Rva0040AFF3 *existing = (const Rva0040AFF3 *)((Rva0040BAD0 *)g_00E02F74)->rva0040AAF8(name);
+	const Rva0040AFF3 *existing = (const Rva0040AFF3 *)((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(name);
 	if (existing != 0)
 	{
 		AsciiString statName = TheNameKeyGenerator->keyToName(existing->m_name);
@@ -165,5 +165,5 @@ void AwardSystemManager::parseThingStat(INI *ini, void *, void *, const void *)
 			throw INIException(3, "The ThingTemplate %s does not exist in AwardSystemManager::parseThingStat.", STR(templateName));
 	}
 
-	((Rva0040BAD0 *)g_00E02F74)->rva0040BAD0((Rva0040AF66 *)&stat);
+	((Rva0040BAD0 *)TheAwardSystemManager)->rva0040BAD0((Rva0040AF66 *)&stat);
 }

@@ -16,7 +16,7 @@ extern GameTextInterface *TheGameText;
 class ControlBar;
 extern ControlBar *TheControlBar;
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 class Rva0021CB1FTextView {public:
  virtual void slot0();
  virtual void slot1();
@@ -90,13 +90,13 @@ void CreateAHeroManager::rva0021CB1F() {
   for(int i=0;!reinterpret_cast<const StringBase<char>*>(reinterpret_cast<Rva0035B232*>(button)->rva0035B232(i))->isEmpty();++i)
    reinterpret_cast<Rva0021CB1FTextView*>(TheGameText)->fetch(*reinterpret_cast<Rva0035B232*>(button)->rva0035B232(i),0);
  }
- for(unsigned i=0;i<(unsigned)reinterpret_cast<Rva0040A82DDivAvgField*>(g_00E02F74)->get();++i) {
-  Rva0040A83AElement *item=reinterpret_cast<Rva0040A83A*>(g_00E02F74)->rva0040A83A(i);
+ for(unsigned i=0;i<(unsigned)reinterpret_cast<Rva0040A82DDivAvgField*>(TheAwardSystemManager)->get();++i) {
+  Rva0040A83AElement *item=reinterpret_cast<Rva0040A83A*>(TheAwardSystemManager)->rva0040A83A(i);
   reinterpret_cast<Rva0021CB1FTextView*>(TheGameText)->fetch(item->description,0);
   reinterpret_cast<Rva0021CB1FTextView*>(TheGameText)->fetch(item->name,0);
  }
- for(unsigned i=0;i<(unsigned)reinterpret_cast<Rva0040A85FDivAvgField*>(g_00E02F74)->get();++i) {
-  Rva0040A86CElement *item=reinterpret_cast<Rva0040A86C*>(g_00E02F74)->rva0040A86C(i);
+ for(unsigned i=0;i<(unsigned)reinterpret_cast<Rva0040A85FDivAvgField*>(TheAwardSystemManager)->get();++i) {
+  Rva0040A86CElement *item=reinterpret_cast<Rva0040A86C*>(TheAwardSystemManager)->rva0040A86C(i);
   reinterpret_cast<Rva0021CB1FTextView*>(TheGameText)->fetch(item->description,0);
   reinterpret_cast<Rva0021CB1FTextView*>(TheGameText)->fetch(item->name,0);
  }

@@ -24,7 +24,7 @@ struct Rva0021B68DCmp
 };
 
 class Rva0040AAD5;
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 
 class Rva0040BAD0
 {
@@ -65,8 +65,8 @@ extern GameTextInterface *TheGameText;
 
 bool Rva0021B68DCmp::operator()(const Rva0021B68DKey &a, const Rva0021B68DKey &b) const
 {
-	const Rva0021B68DEntry *entryA = (const Rva0021B68DEntry *)((Rva0040BAD0 *)g_00E02F74)->rva0040AAF8(a);
-	const Rva0021B68DEntry *entryB = (const Rva0021B68DEntry *)((Rva0040BAD0 *)g_00E02F74)->rva0040AAF8(b);
+	const Rva0021B68DEntry *entryA = (const Rva0021B68DEntry *)((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(a);
+	const Rva0021B68DEntry *entryB = (const Rva0021B68DEntry *)((Rva0040BAD0 *)TheAwardSystemManager)->rva0040AAF8(b);
 	if (entryA == 0)
 		return false;
 	if (entryB == 0)

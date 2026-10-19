@@ -16,13 +16,13 @@ class Rva0040BAD0
 public:
 	int rva0040AAF8(int x);
 };
-// Data ledger 0x00A02F74 owns g_00E02F74 as Rva0040AAD5*; pin 0x0040AAF8 is a
+// Data ledger 0x00A02F74 owns TheAwardSystemManager as Rva0040AAD5*; pin 0x0040AAF8 is a
 // Rva0040BAD0 member on the same manager. View the ledger type as derived so
 // the data ref keeps its ledger mangling while the call keeps its pin mangling.
 class Rva0040AAD5 : public Rva0040BAD0
 {
 };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 
 bool __cdecl Rva00219453Validate(int stat, const char *name)
 {
@@ -32,7 +32,7 @@ bool __cdecl Rva00219453Validate(int stat, const char *name)
 		_CxxThrowException(&e, &__identifier("_TI1?AVINIException@@"));
 		__assume(0);
 	}
-	if (g_00E02F74->rva0040AAF8(stat) == 0)
+	if (TheAwardSystemManager->rva0040AAF8(stat) == 0)
 	{
 		INIException e(3, "%s is not a valid statInfo in CreateAHeroSystem.ini.");
 		_CxxThrowException(&e, &__identifier("_TI1?AVINIException@@"));

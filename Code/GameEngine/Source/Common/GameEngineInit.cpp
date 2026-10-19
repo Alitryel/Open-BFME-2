@@ -337,7 +337,7 @@ extern void *TheGameStateMap;
 extern GameState *TheGameState;
 extern GameResultsInterface *TheGameResultsQueue;
 extern class Rva0022C0CDSubsystem *TheLivingWorldBuildingTemplateStore;
-extern class Rva0040AAD5 *g_00E02F74;
+extern class Rva0040AAD5 *TheAwardSystemManager;
 // TheHeroManager is only an alias of the owned global TheCreateAHeroManager (ledger names column); this unit reads the owner through its own view type.
 extern class CreateAHeroManager *TheCreateAHeroManager;
 #define TheHeroManager (*(class Rva0021A54A * *)&TheCreateAHeroManager)
@@ -902,7 +902,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheGameState, "TheGameState", new GameState, 0);
 		initSubsystem(TheGameResultsQueue, "TheGameResultsQueue", Rva0041AA6FCreateGameResults(), 0);
 		initSubsystem((reinterpret_cast<Rva0022C0CDSubsystem *&>(TheLivingWorldBuildingTemplateStore)), "TheLivingWorldBuildingTemplateStore", new Rva0022C0CDSubsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022C142Subsystem *&>(g_00E02F74)), "TheAwardSystemManager", new Rva0022C142Subsystem, 0);
+		initSubsystem((reinterpret_cast<Rva0022C142Subsystem *&>(TheAwardSystemManager)), "TheAwardSystemManager", new Rva0022C142Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022C1B7Subsystem *&>(TheHeroManager)), "TheCreateAHeroManager", new Rva0022C1B7Subsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheScoredKillEvaAnnouncerController, "TheScoredKillEvaAnnouncerController", new Rva0022C22CSubsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022C2A1Subsystem *&>(TheLivingWorldAutoResolveReinforcementScheduleStore)), "TheLivingWorldAutoResolveReinforcementScheduleStore", new Rva0022C2A1Subsystem, (Xfer *)&xferCRC);

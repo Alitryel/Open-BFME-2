@@ -135,7 +135,7 @@ public:
 	BfmePod40 *rva0040AAD5(int id);							// 0x0040AAD5
 };
 
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 
 class Rva00406E7D
 {
@@ -161,7 +161,7 @@ void CreateAHeroHero::rva005B0357(int index, char *buffer, int unused)
 	*buffer = 0;
 	if (index < ((Rva00406E7D *)this)->rva00406E7D())
 	{
-		BfmePod40 *award = g_00E02F74->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(index));
+		BfmePod40 *award = TheAwardSystemManager->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(index));
 		if (award)
 		{
 			if (HasEarnedAward((const CreateAHeroAward *)award))

@@ -73,7 +73,7 @@ public:
 };
 struct BfmePod40;
 class Rva0040AAD5 { public: BfmePod40 *rva0040AAD5(Int awardId); };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 class Rva00406E7D { public: Int rva00406E7D(); };
 class Rva00406E8F { public: Int rva00406E8F(UnsignedInt index); };
 
@@ -143,7 +143,7 @@ void CreateAHeroHero::ConstructHeroBlingList()
 
 	for (UnsignedInt awardIndex = 0; awardIndex < (UnsignedInt)((Rva00406E7D *)this)->rva00406E7D(); ++awardIndex)
 	{
-		BfmePod40 *award = g_00E02F74->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(awardIndex));
+		BfmePod40 *award = TheAwardSystemManager->rva0040AAD5(((Rva00406E8F *)this)->rva00406E8F(awardIndex));
 		if (!award || !((const CreateAHeroAward *)award)->rva0040AA27(this))
 			continue;
 		const Rva0040A7F1 *upgrades = (const Rva0040A7F1 *)award;

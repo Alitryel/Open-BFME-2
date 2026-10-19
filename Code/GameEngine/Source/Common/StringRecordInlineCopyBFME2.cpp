@@ -371,7 +371,7 @@ class Rva0040AAD5 : public Rva0040BAD0
 public:
 	BfmePod40 *rva0040AAD5(int key);
 };
-extern Rva0040AAD5 *g_00E02F74;
+extern Rva0040AAD5 *TheAwardSystemManager;
 
 struct _s__ThrowInfo;
 struct INIException
@@ -393,7 +393,7 @@ void rva0021A7A3(INI *ini, void * /*instance*/, void *store, const void * /*user
 	std::vector<NameKeyType> *keys = (std::vector<NameKeyType> *)store;
 	for (unsigned int i = 0; i < keys->size(); ++i)
 	{
-		if (g_00E02F74->rva0040AAD5(keys->begin()[i]) == 0)
+		if (TheAwardSystemManager->rva0040AAD5(keys->begin()[i]) == 0)
 		{
 			AsciiString name(TheNameKeyGenerator->keyToName(keys->begin()[i]));
 			INIException e(3, "The Award %s does not exist in the AwardSystemManager.", name.str());
@@ -410,7 +410,7 @@ void rva0021A859(INI *ini, void * /*instance*/, void *store, const void * /*user
 	std::vector<NameKeyType> *keys = (std::vector<NameKeyType> *)store;
 	for (unsigned int i = 0; i < keys->size(); ++i)
 	{
-		if (g_00E02F74->rva0040AAF8(keys->begin()[i]) == 0)
+		if (TheAwardSystemManager->rva0040AAF8(keys->begin()[i]) == 0)
 		{
 			AsciiString name(TheNameKeyGenerator->keyToName(keys->begin()[i]));
 			INIException e(3, "The Stat %s does not exist in the AwardSystemManager.", name.str());
