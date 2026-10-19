@@ -11,10 +11,12 @@
 
 struct Rva005CF22CBig;
 
-class Rva00575674Sub
+// The owner's +0x1C member is the rowed Rva00575674 (0x00575674 set, Object* argument).
+class Object;
+class Rva00575674
 {
 public:
-	void rva00575674(void *h);
+	void rva00575674(Object *h);
 };
 
 struct Rva005CF22CBig
@@ -22,7 +24,7 @@ struct Rva005CF22CBig
 	char m_pad[0x10];
 	void *m_view10;
 	char m_pad14[8];
-	Rva00575674Sub m_sub;
+	Rva00575674 m_sub;
 };
 
 class Rva005CF22COwner
@@ -148,15 +150,16 @@ private:
 void Rva005CF6B5Owner::rva005CF6B5(int x)
 {
 	Rva005CEE07 *h = new Rva005CEE07(m_a, x);
-	m_a->m_sub.rva00575674(h);
+	m_a->m_sub.rva00575674((Object *)h);
 }
 
-class Rva005CF4A8Helper
-{
-public:
-	Rva005CF4A8Helper(Rva005CF22CBig *b, int x);
-	unsigned char m_data[0x14];
-};
+// The selection helper the 0x005CF703 allocator builds is the rowed
+// Rva005CEF2F (ctor 0x005CF4A8, dtor below).
+class Rva0023A128Link {public:Rva0023A128Link(){}~Rva0023A128Link(){}virtual void rva00239B94(int);virtual void v01(int);};
+class Rva005E8F50 {public:void rva005E8F6A();};
+class Rva005CEA51 {public:Rva005CEA51():pointer(0){}__declspec(noinline) ~Rva005CEA51();void rva005CEA51(Rva005E8F50*);void rva005CE7EA();Rva005E8F50*pointer;};
+class Rva005CEF2F:public Rva005CE8F5,public Rva0023A128Link {public:Rva005CEF2F(Rva005CF22CBig *b, int x);virtual ~Rva005CEF2F();int selection;Rva005CEA51 secondary;};
+typedef char Rva005CEF2FSize[(sizeof(Rva005CEF2F)==0x14)?1:-1];
 
 class Rva005CF703Owner
 {
@@ -169,8 +172,8 @@ private:
 
 void Rva005CF703Owner::rva005CF703(int x)
 {
-	Rva005CF4A8Helper *h = new Rva005CF4A8Helper(m_a, x);
-	m_a->m_sub.rva00575674(h);
+	Rva005CEF2F *h = new Rva005CEF2F(m_a, x);
+	m_a->m_sub.rva00575674((Object *)h);
 }
 
 class Rva004E0741 {public:void rva004E0741()const;};
@@ -225,7 +228,7 @@ Rva005CEE9F::Rva005CEE9F(Rva005CF22CBig*b,int x):Rva005CE8F5(b),m_region((void*)
 // Native5CF22C allocator retained with destructor-owned class spelling.
 void Rva005CF22COwner::rva005CF22C(int x) {
  Rva005CEE9F *h=new Rva005CEE9F(m_a,x);
- m_a->m_sub.rva00575674(h);
+ m_a->m_sub.rva00575674((Object *)h);
 }
 
 class Rva002B7250 {public:void rva002B7250(CreateAHeroData*);};
@@ -240,11 +243,7 @@ Rva005CEE9F::~Rva005CEE9F(){
  ((const Rva004E0750*)m_region)->rva004E0750();
 }
 
-class Rva0023A128Link {public:Rva0023A128Link(){}~Rva0023A128Link(){}virtual void rva00239B94(int);virtual void v01(int);};
-class Rva005E8F50 {public:void rva005E8F6A();};
-class Rva005CEA51 {public:Rva005CEA51():pointer(0){}__declspec(noinline) ~Rva005CEA51();void rva005CEA51(Rva005E8F50*);void rva005CE7EA();Rva005E8F50*pointer;};
 class Rva004FC275 {public:void rva004FC2A6();};
-class Rva005CEF2F:public Rva005CE8F5,public Rva0023A128Link {public:virtual ~Rva005CEF2F();int selection;Rva005CEA51 secondary;};
 Rva005CEF2F::~Rva005CEF2F(){
  ((Rva002B7250*)((char*)selection+8))->rva002B7250((CreateAHeroData*)static_cast<Rva0023A128Link*>(this));
  void *view=m_owner->m_view10;
