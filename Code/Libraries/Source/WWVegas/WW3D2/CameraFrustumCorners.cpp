@@ -15,8 +15,10 @@ protected:
     void Update_Frustum() const;
     char unknown00[0x100]; FrustumClass Frustum;
 };
-const Vector3 *CameraClass::Get_Frustum_Corners() const
+inline const Vector3 *CameraClass::Get_Frustum_Corners() const
 {
     Update_Frustum();
     return Frustum.Corners;
 }
+const Vector3 *(CameraClass::*_bfmeInlineAnchor_CameraFrustumCorners_0)() const = &CameraClass::Get_Frustum_Corners;
+
