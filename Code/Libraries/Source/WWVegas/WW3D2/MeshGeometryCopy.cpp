@@ -16,15 +16,15 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 ** BFME1 MeshGeometry assignment adapted to BFME2's verified vector slots,
 ** +0x54 ushort buffer, and +0x5C opaque release-only buffer.
 */
-// Preserve inline refcounts without unused competing external copies.
-// RefCountClass's inline members and deleting destructor are retail's
-// size-optimised bodies: compile them for size, as hlod.cpp does.
-#pragma optimize("s", on)
 // multilist.h's inline members are retail's size-optimised bodies: compile
 // them for size (as hlod.cpp/decalsys.cpp do) so this unit's copies match.
 #pragma optimize("s", on)
 #include "multilist.h"
 #pragma optimize("", on)
+// Preserve inline refcounts without unused competing external copies.
+// RefCountClass's inline members and deleting destructor are retail's
+// size-optimised bodies: compile them for size, as hlod.cpp does.
+#pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
 #include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
@@ -45,12 +45,22 @@ typedef Vector3i16 TriIndex;
 #define W3DMPO_GLUE(ARGCLASS)
 #include "aabtree.h"
 #pragma pop_macro("W3DMPO_GLUE")
+#include "w3derr.h"
+class ChunkLoadClass;
 
 class MeshGeometryClass : public W3DMPO, public RefCountClass, public MultiListObjectClass {
 public:
     virtual ~MeshGeometryClass();
+    // The rest of the RefCountClass-side vtable, as meshgeometry.cpp emits it;
+    // declared so this unit's ??_7 copy is the same table.
+    virtual WW3DErrorType Load_W3D(ChunkLoadClass &cload);
     MeshGeometryClass(const MeshGeometryClass &that);
     MeshGeometryClass &operator=(const MeshGeometryClass &that);
+
+protected:
+    virtual void Compute_Plane_Equations(Vector4 *array);
+    virtual void Compute_Vertex_Normals(Vector3 *array);
+    virtual void Compute_Bounds(Vector3 *verts);
 
 private:
     ShareBufferClass<char> *MeshName;               // +0x10
