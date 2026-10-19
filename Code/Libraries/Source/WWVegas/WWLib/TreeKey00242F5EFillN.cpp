@@ -1,27 +1,21 @@
-// cl: /DNDEBUG /MD
-// ??$__uninitialized_fill_n@PAUTreeKey00242F5E@@IU1@@_STL@@YAPAUTreeKey00242F5E@@PAU1@IABU1@ABU__false_type@0@@Z @0x00523E27 37B:
-// _STL::__uninitialized_fill_n<TreeKey00242F5E> stride 8 via dup _Construct
-// 0x00523DD4 (true at 0x000A7876) called through dup cast per Rva00212354NewNode
-// precedent so the gate resolves to the dup address. Caller 0x00524547 pushes
-// 4 args pops 0x10. Dedicated TU so the call stays external.
-struct TreeKey00242F5E
-{
-	char _m[8];
-public:
-	TreeKey00242F5E(const TreeKey00242F5E &that);
-};
-void __cdecl dup_00523DD4(void);
-typedef void (__cdecl *TreeKeyConstructFn)(TreeKey00242F5E *, const TreeKey00242F5E &);
-namespace _STL
-{
-struct __false_type {};
-template <class ForwardIter, class Size, class T>
-ForwardIter __uninitialized_fill_n(ForwardIter first, Size n, const T &x, const __false_type &)
-{
-	ForwardIter cur = first;
-	for (; n > 0; --n, ++cur)
-		((TreeKeyConstructFn)&dup_00523DD4)(cur, x);
-	return cur;
+// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii
+// stlport
+// Native37B523E27 fills mutable (int, AsciiString) pairs through Construct523DD4.
+// Apt adder524845 and the vector's erase chain establish pair/mutability;
+// signedness retains the producer's source convention. Its sole named native
+// caller is vector overflow5244DC at524547. Keep the generic definition in its
+// genuine pair family; unrelated TreeKey vector instantiations remain separate.
+#include "ascii_string.h"
+#include <utility>
+namespace _STL {
+template<class T, class U> void _Construct(T *, const U &);
+template<class ForwardIter, class Size, class T>
+ForwardIter __uninitialized_fill_n(ForwardIter first, Size n, const T &x, const __false_type &) {
+ ForwardIter cur=first;
+ for(;n>0;--n,++cur)
+  _STL::_Construct(cur,x);
+ return cur;
 }
 }
-template TreeKey00242F5E *_STL::__uninitialized_fill_n(TreeKey00242F5E *, unsigned int, const TreeKey00242F5E &, const _STL::__false_type &);
+typedef _STL::pair<int, AsciiString> MutableAsciiPair;
+template MutableAsciiPair *_STL::__uninitialized_fill_n(MutableAsciiPair *, unsigned int, const MutableAsciiPair &, const _STL::__false_type &);

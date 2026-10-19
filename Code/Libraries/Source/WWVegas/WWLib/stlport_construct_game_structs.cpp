@@ -84,7 +84,6 @@ template void _STL::_Construct<Rva0052BDE6, Rva0052BDE6>(Rva0052BDE6 *, const Rv
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?dup_00382BC3@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
-#pragma comment(linker, "/alternatename:?dup_00523DD4@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
 
 // Native unsigned-key/string map: subscript136A21 -> hint136777 ->
 // insert136642/1364F7 -> node1364AC -> Construct13623C. The subscript
@@ -94,3 +93,11 @@ template void _STL::_Construct<Rva0052BDE6, Rva0052BDE6>(Rva0052BDE6 *, const Rv
 // owner; the separate TreeKey ConstructA7876 and handler760AB8 remain.
 typedef _STL::pair<const unsigned int, AsciiString> UnsignedAsciiPair;
 template void _STL::_Construct<UnsignedAsciiPair, UnsignedAsciiPair>(UnsignedAsciiPair *, const UnsignedAsciiPair &);
+
+// Native Apt adder524845 supplies std::make_pair to vector52480E at+0C,
+// which calls Construct523DD4. The erase/copy chain writes the first dword,
+// excluding a const map key. Keep the existing producer's int source view:
+// signedness is a source convention here, not a recovered original signature.
+// The genuine pair copy folds onto CF475; TreeKeyA7876 keeps its own identity.
+typedef _STL::pair<int, AsciiString> MutableAsciiPair;
+template void _STL::_Construct<MutableAsciiPair, MutableAsciiPair>(MutableAsciiPair *, const MutableAsciiPair &);
