@@ -1002,7 +1002,7 @@ void __cdecl rva007B6FAC()
 unsigned g_Va00DEAF20;	// retail RVA 0x009EAF20 (.bss), defined here
 extern unsigned BfmeLiveCameraModeNameStorage;
 extern unsigned g_Va00DEC3B8;
-extern unsigned g_Va00DEE93C;
+unsigned g_Va00DEE93C;	// retail RVA 0x009EE93C (.bss), defined here
 
 // ?rva007B6D09@@YAXXZ @ 0x007B6D09 (10B). Global AsciiString dtor thunk: ecx=&g_Va00DEAF20 then tail-jmp to rowed ??1AsciiString@@QAE@XZ (0x0048BA39).
 void __cdecl rva007B6D09()
