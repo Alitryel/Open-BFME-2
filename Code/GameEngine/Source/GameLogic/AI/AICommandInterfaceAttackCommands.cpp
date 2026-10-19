@@ -741,7 +741,7 @@ void AICommandInterface::aiMoveToPositionSA(const Coord3D *pos, Int cmdSource)
 // AICMD 0x09 plus coord-vector at +0x20 via rowed 0x0035149F copy plus m_obj at +0x14
 // plus slot-0 aiDoCommand plus inline free at 0x30830. Class proven by gap plus same TU flags.
 // Callers 7 unclaimed; landing unblocks 5.
-void AICommandInterface::rva0036EE16(const Rva0035149F *info, Object *target, CommandSourceType cmdSource)
+inline void AICommandInterface::rva0036EE16(const Rva0035149F *info, Object *target, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)9, cmdSource);
 	((Rva0035149F *)&parms.m_coordsStart)->rva0035149F(*info);
@@ -789,6 +789,7 @@ void (AICommandInterface::*_bfmeInlineAnchor_AICommandInterfaceAttackCommands_5)
 void (AICommandInterface::*_bfmeInlineAnchor_AICommandInterfaceAttackCommands_6)(const Coord3D *position, GuardMode guardMode, CommandSourceType cmdSource) = &AICommandInterface::aiGuardPosition;
 void (AICommandInterface::*_bfmeInlineAnchor_AICommandInterfaceAttackCommands_7)(const Rva0035149F *, Object *, float, CommandSourceType) = &AICommandInterface::rva0036EE89;
 void (AICommandInterface::*_bfmeInlineAnchor_AICommandInterfaceAttackCommands_8)(const Rva0035149F *, Object *, float, CommandSourceType) = &AICommandInterface::rva0036EF09;
+void (AICommandInterface::*_bfmeInlineAnchor_AICommandInterfaceAttackCommands_9)(const Rva0035149F *, Object *, CommandSourceType) = &AICommandInterface::rva0036EE16;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
