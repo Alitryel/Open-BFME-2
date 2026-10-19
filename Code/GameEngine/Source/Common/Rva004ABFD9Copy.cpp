@@ -31,7 +31,7 @@ struct Rva00E03CE0
 };
 
 // Existing data-ledger owner; use typed views of the one registry datum.
-extern unsigned g_Va00E03CE0;
+#include "../../Include/Common/ModuleKeyRegistryStorage.h"
 
 class Rva003ED658
 {
@@ -63,7 +63,7 @@ LargeGroupAudioUpdateModuleData::LargeGroupAudioUpdateModuleData(const LargeGrou
 	m_18(other.m_18),
 	m_1C(other.m_1C)
 {
-	reinterpret_cast<Rva00E03CE0 *>(&g_Va00E03CE0)->Rva004ABEAE(this);
+	reinterpret_cast<Rva00E03CE0 *>(&BfmeLargeGroupAudioRegistry)->Rva004ABEAE(this);
 }
 
 inline Rva001408C0Target::~Rva001408C0Target() {}

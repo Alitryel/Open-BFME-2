@@ -6981,11 +6981,9 @@ void __cdecl rva007B7AFF()
 }
 
 // Native7B89C1 loads ECX with E03CE0; separate from7B8590's E0362C.
-extern unsigned g_Va00E03CE0;
-unsigned int g_Va00E03CE0;
 
 
-// ?rva007B89C1@@YAXXZ @ 0x007B89C1 (10B). Global dtor thunk: ecx=&g_Va00E03CE0 then tail-jmp to pinned ??1Rva004ABE53Dtor@@QAE@XZ (0x004ABE53). No callers. Honest address name.
+// ?rva007B89C1@@YAXXZ @ 0x007B89C1 (10B). Global dtor thunk: ecx=&BfmeLargeGroupAudioRegistry then tail-jmp to pinned ??1Rva004ABE53Dtor@@QAE@XZ (0x004ABE53). No callers. Honest address name.
 void __cdecl rva007B89C1();
 
 class AptActionInterpreter

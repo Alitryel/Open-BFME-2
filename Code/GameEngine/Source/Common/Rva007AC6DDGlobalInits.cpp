@@ -170,10 +170,9 @@ extern unsigned g_00E01E41;
 void __cdecl rva007B7C72();
 
 
-extern unsigned g_Va00E03CE0;
 void __cdecl rva007B89C1();
 
-// ?rva007B1CDC@@YAXXZ @0x007B1CDC 22B: ctor 0x004ABDC3 on &g_Va00E03CE0, atexit(0x007B89C1).
+// ?rva007B1CDC@@YAXXZ @0x007B1CDC 22B: ctor 0x004ABDC3 on &BfmeLargeGroupAudioRegistry, atexit(0x007B89C1).
 void rva007B1CDC();
 
 extern unsigned g_Va00E04508;

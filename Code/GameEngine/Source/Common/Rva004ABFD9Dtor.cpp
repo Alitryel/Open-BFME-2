@@ -21,7 +21,7 @@ public:
 };
 struct Rva00E03CE0;
 // Existing data-ledger owner; use typed views of the one registry datum.
-extern unsigned g_Va00E03CE0;
+#include "../../Include/Common/ModuleKeyRegistryStorage.h"
 class Rva003ED94FDtor
 {
 public:
@@ -39,5 +39,5 @@ private:
 };
 LargeGroupAudioUpdateModuleData::~LargeGroupAudioUpdateModuleData()
 {
-	reinterpret_cast<Rva004ABFB2 *>(&g_Va00E03CE0)->rva004ABFB2((int)this);
+	reinterpret_cast<Rva004ABFB2 *>(&BfmeLargeGroupAudioRegistry)->rva004ABFB2((int)this);
 }

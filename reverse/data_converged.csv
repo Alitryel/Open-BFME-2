@@ -8,3 +8,4 @@ address,name,evidence
 0x009FF0F8,?TheAI@@3PAVAI@@A,b712e27e33: last stub spellings (6241d0694b map) renamed
 0x009FF000,?TheThingFactory@@3PAVThingFactory@@A,b712e27e33: last two stub spellings (6241d0694b map) renamed
 0x009FE9D8,?TheDisplay@@3PAVDisplay@@A,b712e27e33: last stub spelling (6241d0694b map) renamed
+0x00A03CE0,?BfmeLargeGroupAudioRegistry@@3TBfmeModuleKeyRegistryStorage@@A,Native module registry lifetime requires20B; all consumers share the sole byte-verified storage owner; previous unsigned placeholder removed

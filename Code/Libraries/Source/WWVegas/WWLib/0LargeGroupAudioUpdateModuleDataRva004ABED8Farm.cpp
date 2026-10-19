@@ -13,7 +13,7 @@ extern float g_parseDurationMsecScale;
 struct Rva001408C0Target;
 struct Rva00E03CE0 { void Rva004ABEAE(Rva001408C0Target *); };
 // Existing data-ledger owner; use typed views of the one registry datum.
-extern unsigned g_Va00E03CE0;
+#include "../../../../GameEngine/Include/Common/ModuleKeyRegistryStorage.h"
 class Rva003ED94FDtor {
 public:
     Rva003ED94FDtor();
@@ -38,5 +38,5 @@ LargeGroupAudioUpdateModuleData::LargeGroupAudioUpdateModuleData() :
     m_min = (int)ceil(d);
     m_variance = 1;
     m_weight = 1;
-    reinterpret_cast<Rva00E03CE0 *>(&g_Va00E03CE0)->Rva004ABEAE((Rva001408C0Target *)this);
+    reinterpret_cast<Rva00E03CE0 *>(&BfmeLargeGroupAudioRegistry)->Rva004ABEAE((Rva001408C0Target *)this);
 }

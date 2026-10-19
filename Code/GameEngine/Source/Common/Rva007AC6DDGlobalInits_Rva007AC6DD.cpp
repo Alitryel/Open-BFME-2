@@ -164,7 +164,6 @@ void rva007AEC8E()
 	atexit(rva007B7C72);
 }
 
-extern unsigned g_Va00E03CE0;
 void __cdecl rva007B89C1();
 void rva007B1CDC();
 
