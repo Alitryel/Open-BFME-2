@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /EHsc /MD /DNDEBUG
-// ?rva003FDEAD@Rva003FDEAD@@QAEXXZ @0x003FDEAD 110B: __thiscall void method guarding on +0x14 ref and +0x38 then BfmeAudioEventPrefix136(ref 1) plus +0x70 from +0x38->+0x54 then TheAudio addAudioEvent slot 0x64. Evidence: rowed ctor 0x002D97D6 plus rowed dtor 0x002D9A43 plus TheAudio 0x009FE6E8 plus caller 0x003191CA plus sibling Rva003184B8 same slot pattern.
+// ?rva003FDEAD@LivingWorldArmyIcon@@QAEXXZ @0x003FDEAD 110B: __thiscall void method guarding on +0x14 ref and +0x38 then BfmeAudioEventPrefix136(ref 1) plus +0x70 from +0x38->+0x54 then TheAudio addAudioEvent slot 0x64. Evidence: rowed ctor 0x002D97D6 plus rowed dtor 0x002D9A43 plus TheAudio 0x009FE6E8 plus caller 0x003191CA plus sibling Rva003184B8 same slot pattern.
 #include "Common/BfmeAudioEventPrefix136.h"
 
 // Native 3FDF1B/3FDF8B/3FDFFB call tag4 ctor2DA5D3 and prefix dtor2D9A43.
@@ -71,7 +71,7 @@ struct Rva003FDEADParam38
 	int m_val54;
 };
 
-class Rva003FDEAD
+class LivingWorldArmyIcon
 {
 	char m_pad00[0x14];
 	Rva003FDEADRefBlock *m_p14;
@@ -86,7 +86,7 @@ public:
 	void rva003FDFFB();
 };
 
-void Rva003FDEAD::rva003FDEAD()
+void LivingWorldArmyIcon::rva003FDEAD()
 {
 	if (m_p14->m_ref.referent == 0)
 		return;
@@ -98,7 +98,7 @@ void Rva003FDEAD::rva003FDEAD()
 	reinterpret_cast<Rva003FDEADAudioView *>(TheAudio)->addAudioEvent(&evt);
 }
 
-void Rva003FDEAD::rva003FDF1B()
+void LivingWorldArmyIcon::rva003FDF1B()
 {
 	if (!m_p14->ref1c.referent) return;
 	if (!m_p38) return;
@@ -108,7 +108,7 @@ void Rva003FDEAD::rva003FDF1B()
 	reinterpret_cast<Rva003FDEADAudioView *>(TheAudio)->addAudioEvent(event.get());
 }
 
-void Rva003FDEAD::rva003FDF8B()
+void LivingWorldArmyIcon::rva003FDF8B()
 {
 	if (!m_p14->ref20.referent) return;
 	if (!m_p38) return;
@@ -118,7 +118,7 @@ void Rva003FDEAD::rva003FDF8B()
 	reinterpret_cast<Rva003FDEADAudioView *>(TheAudio)->addAudioEvent(event.get());
 }
 
-void Rva003FDEAD::rva003FDFFB()
+void LivingWorldArmyIcon::rva003FDFFB()
 {
 	if (!m_p14->ref18.referent) return;
 	if (!m_p38) return;
@@ -129,7 +129,7 @@ void Rva003FDEAD::rva003FDFFB()
 
 // Native 3FDD41..3FDDAC: unused first two dword args and nonzero third
 // gate the same receiver14 reference block at14; RET12 proves stack ABI.
-void Rva003FDEAD::rva003FDD41(int,int,int enabled)
+void LivingWorldArmyIcon::rva003FDD41(int,int,int enabled)
 {
  if (enabled && m_p14->ref14.referent && m_p38) {
   Rva003FDEADRefBlock *block=m_p14;
@@ -140,7 +140,7 @@ void Rva003FDEAD::rva003FDD41(int,int,int enabled)
 class Rva005391A9 {public:void rva005391A9();};
 // Native 3FDDAC..3FDE1A: reference10 audio followed unconditionally by
 // existing5391A9 on the same receiver, including the failed-guard path.
-void Rva003FDEAD::rva003FDDAC()
+void LivingWorldArmyIcon::rva003FDDAC()
 {
  if (m_p14->ref10.referent && m_p38) {
   Rva003FDEADRefBlock *block=m_p14;

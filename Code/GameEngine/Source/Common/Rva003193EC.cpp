@@ -76,7 +76,7 @@ public:
 	int rva0040DDD6();
 };
 
-class Rva003FDEAD
+class LivingWorldArmyIcon
 {
 public:
 	void rva003FDEAD();
@@ -144,8 +144,8 @@ void Rva003193EC::rva003191B1()
 {
 	if (((Rva0040DDD6 *)m_78)->rva0040DDD6() <= 0)
 		return;
-	if (((Rva003FDEAD *)m_88) != 0)
-		((Rva003FDEAD *)m_88)->rva003FDEAD();
+	if (((LivingWorldArmyIcon *)m_88) != 0)
+		((LivingWorldArmyIcon *)m_88)->rva003FDEAD();
 	rva003190E7(false);
 }
 

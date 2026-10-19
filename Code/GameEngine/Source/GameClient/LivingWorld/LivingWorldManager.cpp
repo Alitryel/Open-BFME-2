@@ -18,7 +18,7 @@ public:
 };
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-class Rva003FDEAD {public:void rva003FDF1B();void rva003FDF8B();void rva003FDFFB();};
+class LivingWorldArmyIcon {public:void rva003FDF1B();void rva003FDF8B();void rva003FDFFB();};
 struct ArmyMemberRangeView {
  void **first,**last,**capacity;
  bool empty()const{return first==last;}
@@ -34,7 +34,7 @@ struct ArmySwapView {
  char unknown00[0x18];AsciiString name18;
  char unknown1C[0x54-0x1c];int player54;
  char unknown58[0x78-0x58];ArmySwapSummaryView *summary78;
- char unknown7C[0x88-0x7c];Rva003FDEAD *audio88;
+ char unknown7C[0x88-0x7c];LivingWorldArmyIcon *audio88;
  bool hasName()const{return !((const StringBase<char> *)&name18)->isEmpty();}
 };
 class LivingWorldManager {
@@ -51,8 +51,8 @@ void LivingWorldManager::OnSwapArmyMembers(ArmySwapView *armyA,const ArmyMemberR
  if(!player || !local || !((Rva002E071E *)player)->rva002E071E(local))return;
  bool nameA=armyA->hasName();
  bool nameB=armyB->hasName();
- Rva003FDEAD *audioA=armyA->audio88;
- Rva003FDEAD *audioB=armyB->audio88;
+ LivingWorldArmyIcon *audioA=armyA->audio88;
+ LivingWorldArmyIcon *audioB=armyB->audio88;
  if(!audioA || !audioB)return;
  if(!unitsA.empty() && !unitsB.empty()) {
   if(nameA)audioA->rva003FDF1B();
@@ -65,8 +65,8 @@ void LivingWorldManager::OnSwapArmyMembers(ArmySwapView *armyA,const ArmyMemberR
  const ArmyMemberRangeView &transferringUnits=fromA?unitsA:unitsB;
  bool fromName=fromA?nameA:nameB;
  bool toName=fromA?nameB:nameA;
- Rva003FDEAD *&fromAudio=fromA?audioA:audioB;
- Rva003FDEAD *&toAudio=fromA?audioB:audioA;
+ LivingWorldArmyIcon *&fromAudio=fromA?audioA:audioB;
+ LivingWorldArmyIcon *&toAudio=fromA?audioB:audioA;
  if(toName) {toAudio->rva003FDF1B();return;}
  if(fromName) {fromAudio->rva003FDF8B();return;}
  ArmySwapSummaryView *toSummary=toArmy->summary78;

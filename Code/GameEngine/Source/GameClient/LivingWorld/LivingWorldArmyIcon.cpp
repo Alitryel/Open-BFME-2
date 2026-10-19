@@ -39,7 +39,6 @@ class Rva002D3627Host;
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Vector3 {public:float X,Y,Z;};
 class Rva002B4C09 {public:bool rva002B4C09();};
-class Rva003FDEAD {public:void rva003FDFFB();};
 class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3*,Vector3*);};
 class Rva003FE342Virtual {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5(Vector3*);};
 class LivingWorldArmyIcon {
@@ -49,6 +48,7 @@ public:
  void continueMoving(Coord2D *out);
  float rva003FE13E();
  void rva003FDE8C(unsigned char);
+ void rva003FDFFB();
 private:
  char unknown0[0x18];Coord2D current;
  char unknown20[0x3C-0x20];Rva00538E22 queue;
@@ -107,7 +107,7 @@ void LivingWorldArmyIcon::rva003FE342()
 				Rva00318B5C front=queue.rva00538E43();
 				destination=front.coordinate;
 				active=true;
-				((Rva003FDEAD *)this)->rva003FDFFB();
+				rva003FDFFB();
 				rva003FDE8C(0);
 			}
 		}

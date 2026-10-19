@@ -848,18 +848,27 @@ int Rva003F2371::rva003F3126() const
 	return Rva003F1E2EHook(m_04, m_04);
 }
 
-// --- 0x003FD18F (10B): byte setter +0x51; 0x003FE1C8 (19B): stores the
-// +0x5C flag and, when set, runs the rowed 0x003FDFFB.
+// --- 0x003FD18F (10B): byte setter +0x51. It stays an address-named class:
+// LivingWorldArmyIcon keeps its destination Coord2D at +0x50, so a byte
+// store at +0x51 does not fit that class.
 class Rva003FDEAD
 {
 public:
-	void rva003FDFFB();										// 0x003FDFFB
 	void rva003FD18F(bool value);
-	void rva003FE1C8(bool value);
 private:
 	char m_pad00[0x51];
 	bool m_51;
-	char m_pad52[0x5C - 0x52];
+};
+
+// --- 0x003FE1C8 (19B): stores LivingWorldArmyIcon's +0x5C active flag and,
+// when set, runs the rowed 0x003FDFFB.
+class LivingWorldArmyIcon
+{
+public:
+	void rva003FDFFB();										// 0x003FDFFB
+	void rva003FE1C8(bool value);
+private:
+	char m_pad00[0x5C];
 	bool m_5C;
 };
 
@@ -868,7 +877,7 @@ void Rva003FDEAD::rva003FD18F(bool value)
 	m_51 = value;
 }
 
-void Rva003FDEAD::rva003FE1C8(bool value)
+void LivingWorldArmyIcon::rva003FE1C8(bool value)
 {
 	m_5C = value;
 	if (value)
