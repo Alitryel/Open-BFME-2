@@ -177,12 +177,6 @@ public:
 	void rva001E431E(const int *block);
 };
 
-class Rva004B031E
-{
-public:
-	void *rva004B031E();
-};
-
 enum WeaponSetType
 {
 	WEAPONSET_NONE = 0
@@ -320,6 +314,7 @@ class SpecialDisguiseUpdate : public SpecialAbilityUpdate
 public:
 	virtual void triggerAbilityEffect();
 	void rva004B04B2(bool value);
+	void *rva004B031E();	// the disguise template (module data +0xD0)
 private:
 	unsigned char m_pad28[0x8C - 0x28];
 	int m_8C; // +0x8C
@@ -379,7 +374,7 @@ void SpecialDisguiseUpdate::rva004B04B2(bool value)
 		obj->setWeaponSetFlag((WeaponSetType)0x15);
 		obj->rva0028B78A(6);
 	}
-	if (((Rva004B031E *)this)->rva004B031E())
+	if (rva004B031E())
 	{
 		WeaponTemplateSetHead conditions(*(const WeaponTemplateSetHead *)((const char *)obj + 0x10C));
 		int savedValue = draw->m_44C;
@@ -387,7 +382,7 @@ void SpecialDisguiseUpdate::rva004B04B2(bool value)
 		if (value)
 			draw = (Drawable *)TheThingFactory->newDrawable(obj->getTemplate(), 0, -1);
 		else
-			draw = (Drawable *)TheThingFactory->newDrawable(((Rva004B031E *)this)->rva004B031E(), 0, -1);
+			draw = (Drawable *)TheThingFactory->newDrawable(rva004B031E(), 0, -1);
 		if (draw)
 		{
 			TheGameLogic->bindObjectAndDrawable((Object *)obj, (Drawable *)draw);

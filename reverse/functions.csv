@@ -45808,7 +45808,7 @@ _rva0062AF4AD3DXVec4Transform@12,,0x0062AF4A,6,Code/GameEngine/Source/Common/Rva
 ?rva0056F07F@Rva0056F07F@@QAEPAU1@PAX0@Z,,0x0056F07F,141,Code/GameEngine/Source/GameClient/GUI/Gadget/Rva0056EDBAPick.cpp,matched,gap obfuscated init via ED06Pick constants c840885 100c1887
 ??0FirewallHelperClass@@QAE@XZ,,0x00594CDD,154,Code/GameEngine/Source/Common/Rva00594CDDPermuted.cpp,matched,banked partial closed by tools/permute.py; identity carried from the banked attempt
 ?rva006EB650@Rva006EB650@@QAEXABV1@@Z,,0x006EB650,78,Code/GameEngine/Source/Common/Rva006EB650.cpp,matched,leaf caller 0x006EF640 EAStringC rowed 0x20B conditional -1 fields
-?rva004B031E@Rva004B031E@@QAEPAXXZ,,0x004B031E,21,Code/GameEngine/Source/GameLogic/Object/Update/Rva004B031EGet.cpp,matched,honest lookup via g_009FF000 plus 0xD0 callers 0x004B052E
+?rva004B031E@SpecialDisguiseUpdate@@QAEPAXXZ,,0x004B031E,21,Code/GameEngine/Source/GameLogic/Object/Update/Rva004B031EGet.cpp,matched,honest lookup via g_009FF000 plus 0xD0 callers 0x004B052E
 ?rva004B0333@Rva004B0333@@QAEPAXXZ,,0x004B0333,21,Code/GameEngine/Source/GameLogic/Object/Update/Rva004B0333Get.cpp,matched,honest lookup via g_009FF000 plus 0xD4 sibling 0x004B031E
 ?rva0055B266@Rva0055B266@@UAEXPAVXfer@@@Z,,0x0055B266,54,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B266Xfer.cpp,matched,FX DoXfer 8x Version1 plus xferRandomVariable plus uint slot 0x78
 ?rva005EA0C0@Rva005EA183@@QAEXXZ,,0x005EA0C0,47,Code/Libraries/Source/WWVegas/WWMath/Rva005EA0C0Method.cpp,matched,new-8 link Set tail-slot1 vtable g_00C78174

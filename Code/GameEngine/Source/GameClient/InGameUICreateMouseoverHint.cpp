@@ -256,8 +256,7 @@ class ContainModuleInterface { public:
 };
 class Rva00373EC6 { public: unsigned char pad[0x38]; int playerIndex; const ThingTemplate* thingTemplate; };
 class Module {};
-class SpecialDisguiseUpdate : public Module {};
-class Rva004B031E { public: void* rva004B031E(); };
+class SpecialDisguiseUpdate : public Module { public: void* rva004B031E(); };
 class SupplyWarehouseDockUpdate : public Module { public: unsigned char pad[0x88]; int boxes; int getBoxesStored() const { return boxes; } };
 class Object { public:
  const ThingTemplate* getTemplate() const { return thingTemplate; }
@@ -549,7 +548,7 @@ void InGameUI::createMouseoverHint(const GameMessage* msg)
     if(update) {
      Player* clientPlayer=ThePlayerList->getLocalPlayer();
      if(player->getRelationship(clientPlayer->getDefaultTeam())!=ALLIES && clientPlayer->isPlayerActive()) {
-      const ThingTemplate* replacement=(const ThingTemplate*)((Rva004B031E*)update)->rva004B031E();
+      const ThingTemplate* replacement=(const ThingTemplate*)update->rva004B031E();
       if(replacement) {thingTemplate=replacement;disguised=true;}
      }
     }

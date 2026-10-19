@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
-// ?rva004B031E@Rva004B031E@@QAEPAXXZ, retail 0x004B031E, 21 bytes.
+// ?rva004B031E@SpecialDisguiseUpdate@@QAEPAXXZ, retail 0x004B031E, 21 bytes.
 // Honest-address thiscall with no stack args returning void*: loads
 // AsciiString at [this+4]+0xD0 and looks it up through global g_009FF000
 // slot rva002D06CA. Evidence: rowed callee 0x002D06CA, extern name in use
@@ -22,7 +22,7 @@ struct Rva004B031EInner
 	AsciiString m_key;
 };
 
-class Rva004B031E
+class SpecialDisguiseUpdate
 {
 public:
 	void *rva004B031E();
@@ -31,7 +31,7 @@ private:
 	Rva004B031EInner *m_ptr;
 };
 
-void *Rva004B031E::rva004B031E()
+void *SpecialDisguiseUpdate::rva004B031E()
 {
 	AsciiString *key = &m_ptr->m_key;
 	return (void *)TheThingFactory->findTemplate(*key);

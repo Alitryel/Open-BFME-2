@@ -4,7 +4,7 @@
 // AsciiString at [this+4]+0xD4 and looks it up through global g_009FF000
 // slot rva002D06CA. Evidence: rowed callee 0x002D06CA, extern name in use
 // g_009FF000 (?g_009FF000@@3PAVRva002D06CA@@A), sibling 0x004B031E same
-// recipe at +0xD0, caller 0x00291242, neighbours Rva004B031E / SpecialDisguise.
+// recipe at +0xD0, caller 0x00291242, neighbours SpecialDisguiseUpdate's 0x004B031E / SpecialDisguise.
 #include "ascii_string.h"
 
 class ThingTemplate;
