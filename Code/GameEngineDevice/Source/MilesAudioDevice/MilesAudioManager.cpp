@@ -1124,6 +1124,7 @@ extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *);
 
 class Rva00057151 { public: void rva00057151(int, int, int); };
 class Rva0036CA00Str;
+struct Rva0010F149Handle;
 class MilesAudioManager : public AudioManager {
 public:
     MilesAudioManager();
@@ -1371,7 +1372,7 @@ private:
     void unselectProvider(void);
     void selectProvider(bool accelerated);
 public:
-    Rva0036CA00Str rva0005AC80(const AsciiString &name, int context);
+    Rva0010F149Handle rva0005AC80(const AsciiString &name, int context);
     unsigned int getProviderIndex(const AsciiString &providerName) const;
     void init3DSamplePools();
     void createListener();
@@ -5252,6 +5253,7 @@ private:
 // the local: retail skips the release on the early null return and
 // releases unguarded at the end.
 struct Rva0010F149Handle {
+    __forceinline Rva0010F149Handle(const AudioEventInfo *info) { reinterpret_cast<AudioEventInfoRef *>(&referent)->AudioEventInfoRef::AudioEventInfoRef(info); }
     __declspec(noinline) __declspec(nothrow) Rva0010F149Handle(const Rva0010F149Handle &r) : referent(r.referent) { if (referent) referent->Add_Ref(); }
     ~Rva0010F149Handle() { if (referent) referent->Release_Ref(); }
     AudioEventInfo *operator->(void) const { return reinterpret_cast<AudioEventInfo *>(referent); }
@@ -6742,8 +6744,9 @@ bool MilesAudioManager::rva00055E6C(const AsciiString &name, int streamArg, int 
 
 // 0x0005AC80 (vtable 0x007C55B0 slot 73): the counted event-info handle for a name,
 // registering a new 0xC4-byte info (Rva001DA2D5) when the map at +0xBC has no usable entry.
-// Rva0036CA00Str is a four-byte counted-handle view over AudioEventInfoRef, not a claim
-// about the original wrapper types; the struct-tag constructor this TU emits is rowed.
+// The return uses the existing four-byte Rva0010F149Handle view: native return-slot
+// cleanup 0x0075DBAF calls the null-checked destructor 0x0010F149. Its copy and raw
+// construction share the existing counted-handle providers; original types remain unknown.
 
 namespace _STL {
 // Use the existing clear provider for checked element teardown.
@@ -6762,7 +6765,7 @@ template <> __declspec(noinline) inline void vector<Rva0036CA00Str, allocator<Rv
 class Rva001DA2D5 { char native[0xc4]; public: Rva001DA2D5(); };
 struct AudioInfoNode { void *next; AsciiString key; AudioEventInfo *info; };
 
-Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name, int context)
+Rva0010F149Handle MilesAudioManager::rva0005AC80(const AsciiString &name, int context)
 {
     MilesMutexGuard guard(&m_mutex, 0);
     {
@@ -6770,7 +6773,7 @@ Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name, int conte
         if (found.m_node && reinterpret_cast<OpaqueRefCounted *>(static_cast<AudioInfoNode *>(found.m_node)->info)->rva00050EFA()) {
             AudioEventInfoRef result(static_cast<AudioInfoNode *>(found.m_node)->info);
             reinterpret_cast<OpaqueRefCounted *>(result.get())->Release_Ref();
-            return *reinterpret_cast<const Rva0036CA00Str *>(&result);
+            return *reinterpret_cast<const Rva0010F149Handle *>(&result);
         }
     }
     {
@@ -6779,6 +6782,6 @@ Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name, int conte
         reinterpret_cast<_STL::vector<Rva0036CA00Str> &>(m_atD4).push_back(*reinterpret_cast<const Rva0036CA00Str *>(&temp));
         AudioEventInfo *ownedInfo = temp.get();
         m_allAudioEventInfo.rva00059FBB(name) = ownedInfo;
-        return Rva0036CA00Str(m_allAudioEventInfo.rva00059FBB(name));
+        return Rva0010F149Handle(m_allAudioEventInfo.rva00059FBB(name));
     }
 }
