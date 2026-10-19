@@ -1,4 +1,6 @@
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
+// partial score=0.9296820699597845 date=2026-10-19
+// ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9588173627150627 date=2026-10-16
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9578922598050313 date=2026-10-14
@@ -63,7 +65,7 @@
 // address-named because their real types are unproven.
 #include <vector>
 #include "Lib/Coord3D.h"
-#include "../../Common/GameLogicObjectLookupView.h"
+#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 typedef float Real;
 enum PathfindLayerEnum
 
@@ -818,7 +820,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
       for (ScienceType *it = portals.begin(); it != portals.end(); ++it)
       
       {
-       Waypoint * volatile portal = TheTerrainLogic->getWaypointByID(*it);
+       Waypoint *portal = TheTerrainLogic->getWaypointByID(*it);
        if (portal)
        
        {
@@ -979,3 +981,5 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
  }
  
 }
+
+// Aligned nonvolatile-portal comparison: reverse/attempt_support/horde-1e756d-w1-20261019.md.
