@@ -16,6 +16,13 @@ namespace _STL { template <> void list<int, allocator<int> >::push_front(int con
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &, _List_iterator<int, _Nonconst_traits<int> >); }
 namespace _STL { template <> void list<int, allocator<int> >::splice(_List_iterator<int, _Nonconst_traits<int> >, list<int, allocator<int> > &); }
 // bfme link decl-only end
+// Keep __node_alloc<true,0>::allocate inline-only: every call here is inlined,
+// and this TU's COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
