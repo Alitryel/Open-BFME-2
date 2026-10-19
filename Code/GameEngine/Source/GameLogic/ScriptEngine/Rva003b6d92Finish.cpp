@@ -31,6 +31,14 @@ enum NameKeyType { NAMEKEY_INVALID = 0 };
 #include "ascii_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
+
+class NameKeyGenerator
+{
+public:
+	const AsciiString &keyToName(NameKeyType key);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+
 class Rva00333B02 { public: void rva00333B02(AsciiString); };
 class Rva0034FF50 { public: __declspec(noinline) void checkAndSet(); int m_val0; };
 void Rva0034FF50::checkAndSet() { if (m_val0 == 15) m_val0 = 61; }
@@ -57,6 +65,10 @@ class Parameter
 public:
 	enum ParameterType
 	{
+		INT = 0,
+		REAL = 1,
+		BOOLEAN = 8,
+		AI_MOOD = 20,
 		OBJECT_TYPE = 0x0f,
 		SIDE = 0x0b,
 		SURFACES_ALLOWED = 0x25,
@@ -73,6 +85,8 @@ public:
 	{
 		return m_paramType;
 	}
+
+	Int getInt() const { return m_int; }
 
 	__forceinline void friend_setString(AsciiString text)
 	{
@@ -103,7 +117,8 @@ class Template
 public:
 	__declspec(dllimport) __forceinline Int getNumParameters() const { return m_numParameters; }
 	__declspec(noinline) Parameter::ParameterType getParameterType(Int index) const;
-	char m_prefix[0x10];
+	char m_prefix[0x0C];
+	AsciiString m_internalName;
 	NameKeyType m_internalNameKey;
 	char m_middle[0x34];
 	Int m_numParameters;
@@ -132,14 +147,27 @@ class ScriptAction
 public:
 	enum ScriptActionType
 	{
-		NO_OP = 5
+		NO_OP = 5,
+		NUM_ITEMS = 0x257
 	};
+	ScriptAction() throw();
 	void setActionType(ScriptActionType type);
+
+	Int getActionType() const { return m_actionType; }
+	Int getNumParameters() const { return m_numParms; }
+
+protected:
+	static ScriptAction *ParseAction(DataChunkInput &file, DataChunkInfo *info, void *userData);
+
 private:
 	void *m_vtable; // +0x00
 	Int m_actionType; // +0x04
 	Int m_numParms; // +0x08
 	Parameter *m_parms[MAX_PARMS]; // +0x0C
+	ScriptAction *m_nextAction; // +0x3C
+	Bool m_hasWarnings; // +0x40
+	Bool m_active; // +0x41
+	Int m_bfmeActionTail; // +0x44
 };
 
 void ScriptAction::setActionType(ScriptActionType type)
@@ -249,6 +277,207 @@ void Condition::setConditionType(ConditionType type)
 	for (i = 0; i < m_numParms; i++) {
 		m_parms[i] = new Parameter(pTemplate->getParameterType(i));
 	}
+}
+
+ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *info, void *userData)
+{
+	ScriptAction *pScriptAction = new ScriptAction;
+
+	pScriptAction->m_actionType = file.readInt();
+
+	const ActionTemplate *at = TheScriptEngine->getActionTemplate(pScriptAction->m_actionType);
+	if (info->version >= 2) {
+		NameKeyType key = file.readNameKey();
+		Bool match = false;
+		if (at) {
+			if (at->m_internalNameKey == key) {
+				match = true;
+			} else if (pScriptAction->m_actionType == 0x181 &&
+				(at->m_internalName.compare("BUILD_BASE_BUILDING_PER_TACTICAL_MARKER") == 0 ||
+				 at->m_internalName.compare("BUILD_BASE_BUILDING_PER_TACTIC") == 0)) {
+				match = true;
+			}
+		}
+		if (!match && pScriptAction->m_actionType == 0x181) {
+			AsciiString name = TheNameKeyGenerator->keyToName(key);
+			if (name.compare("BUILD_BASE_BUILDING_PER_TACTICAL_MARKER") == 0 ||
+				name.compare("BUILD_BASE_BUILDING_WITH_TACTIC") == 0) {
+				match = true;
+			}
+		}
+		if (!match) {
+			Int i;
+			for (i = 0; i < ScriptAction::NUM_ITEMS; i++) {
+				at = TheScriptEngine->getActionTemplate(i);
+				if (key == at->m_internalNameKey) {
+					match = true;
+					pScriptAction->m_actionType = i;
+					break;
+				}
+			}
+			if (!match) {
+				pScriptAction->m_actionType = ScriptAction::NO_OP;
+				pScriptAction->m_numParms = 0;
+			}
+		}
+	}
+
+	pScriptAction->m_numParms = file.readInt();
+	Int i;
+	for (i = 0; i < pScriptAction->m_numParms; i++) {
+		Parameter *parameter = Parameter::ReadParameter(file);
+		pScriptAction->m_parms[i] = parameter;
+		if (parameter->getParameterType() == Parameter::OBJECT_TYPE && at->getNumParameters() > i &&
+			at->getParameterType(i) == 0x3d)
+			parameter->friend_setParameterType(Parameter::TEMPLATE_REMAP_TYPE);
+	}
+
+	if (info->version >= 3)
+		pScriptAction->m_active = file.readInt() != 0;
+	else
+		pScriptAction->m_active = true;
+
+	// heal old files.
+	switch (pScriptAction->getActionType()) {
+		case 0x1b2:
+		case 0x1b3:
+			if (pScriptAction->getNumParameters() == 3) {
+				pScriptAction->m_numParms = 4;
+				pScriptAction->m_parms[3] = new Parameter((Parameter::ParameterType)0x34, 1);
+			}
+			break;
+		case 0xff:
+			if (pScriptAction->m_numParms == 1) {
+				pScriptAction->m_numParms = 2;
+				pScriptAction->m_parms[1] = pScriptAction->m_parms[0];
+				pScriptAction->m_parms[0] = new Parameter(Parameter::SIDE);
+				((Rva00333B02 *)pScriptAction->m_parms[0])->rva00333B02("<This Player>");
+			}
+			break;
+		case 0x24:
+			if (pScriptAction->m_numParms == 3) {
+				pScriptAction->m_numParms = 4;
+				pScriptAction->m_parms[3] = new Parameter(Parameter::BOOLEAN, 0);
+			}
+			break;
+		case 0xfe:
+			if (pScriptAction->m_numParms == 1) {
+				Bool flank = pScriptAction->m_parms[0]->getInt() != 0;
+				if (pScriptAction->m_parms[0])
+					pScriptAction->m_parms[0]->deleteInstance();
+				pScriptAction->m_numParms = 0;
+				if (flank)
+					pScriptAction->m_actionType = 0x102;
+			}
+			break;
+		case 0x2d:
+		case 0x2e:
+			if (pScriptAction->m_numParms >= 2 && pScriptAction->m_parms[1]->getParameterType() == Parameter::INT) {
+				pScriptAction->m_parms[1] = new Parameter(Parameter::AI_MOOD, pScriptAction->m_parms[1]->getInt());
+			}
+			break;
+		case 0x5d:
+		case 0x94:
+			if (pScriptAction->getNumParameters() == 2) {
+				pScriptAction->m_numParms = 3;
+				pScriptAction->m_parms[2] = new Parameter(Parameter::SIDE);
+			}
+			break;
+		case 0x69:
+		case 0x95:
+		case 0xe9:
+		case 0xea:
+			if (pScriptAction->getNumParameters() == 0) {
+				pScriptAction->m_numParms = 1;
+				pScriptAction->m_parms[0] = new Parameter(Parameter::SIDE);
+			}
+			break;
+		case 0x55:
+			if (pScriptAction->m_numParms == 1) {
+				pScriptAction->m_numParms = 2;
+				pScriptAction->m_parms[1] = new Parameter(Parameter::BOOLEAN, 1);
+				break;
+			}
+		case 0x1a:
+		case 0x1b:
+			if (pScriptAction->getNumParameters() == 1) {
+				pScriptAction->m_numParms = 3;
+				pScriptAction->m_parms[1] = new Parameter((Parameter::ParameterType)0x34, 0);
+				pScriptAction->m_parms[2] = new Parameter((Parameter::ParameterType)0x34, 0);
+			}
+			break;
+		case 0x0e:
+			if (pScriptAction->getNumParameters() == 3) {
+				pScriptAction->m_numParms = 5;
+				pScriptAction->m_parms[3] = new Parameter(Parameter::REAL, 0);
+				pScriptAction->m_parms[4] = new Parameter(Parameter::REAL, 0);
+			}
+			break;
+		case 0x12:
+		case 0x13:
+		case 0x78:
+		case 0x79:
+		case 0x154:
+		case 0x15a:
+			if (pScriptAction->getNumParameters() == 2) {
+				pScriptAction->m_numParms = 4;
+				pScriptAction->m_parms[2] = new Parameter(Parameter::REAL);
+				pScriptAction->m_parms[3] = new Parameter(Parameter::REAL);
+			}
+			break;
+		case 0xd2:
+			if (pScriptAction->getNumParameters() == 2) {
+				pScriptAction->m_numParms = 5;
+				pScriptAction->m_parms[2] = new Parameter(Parameter::REAL, 0);
+				pScriptAction->m_parms[3] = new Parameter(Parameter::REAL, 0);
+				pScriptAction->m_parms[4] = new Parameter(Parameter::BOOLEAN, 0);
+			} else if (pScriptAction->getNumParameters() == 4) {
+				pScriptAction->m_numParms = 5;
+				pScriptAction->m_parms[4] = new Parameter(Parameter::BOOLEAN, 0);
+			}
+			break;
+		case 0x52:
+			if (pScriptAction->getNumParameters() == 1) {
+				pScriptAction->m_numParms = 2;
+				pScriptAction->m_parms[1] = new Parameter(Parameter::BOOLEAN, 0);
+			}
+			break;
+		case 0x7a:
+			if (pScriptAction->getNumParameters() == 2) {
+				pScriptAction->m_numParms = 3;
+				pScriptAction->m_parms[2] = new Parameter(Parameter::REAL);
+			}
+			break;
+		case 0xb9:
+			if (pScriptAction->getNumParameters() == 3) {
+				pScriptAction->m_numParms = 5;
+				pScriptAction->m_parms[3] = new Parameter(Parameter::REAL, 0);
+				pScriptAction->m_parms[4] = new Parameter(Parameter::REAL, 0);
+			}
+			if (pScriptAction->getNumParameters() == 5) {
+				pScriptAction->m_numParms = 6;
+				pScriptAction->m_parms[5] = new Parameter(Parameter::REAL, 0);
+			}
+			break;
+		case 0x11:
+		case 0x186:
+			if (pScriptAction->getNumParameters() == 3) {
+				pScriptAction->m_numParms = 6;
+				pScriptAction->m_parms[3] = new Parameter(Parameter::REAL);
+				pScriptAction->m_parms[4] = new Parameter(Parameter::REAL);
+				pScriptAction->m_parms[5] = new Parameter(Parameter::REAL);
+			} else if (pScriptAction->getNumParameters() == 5) {
+				pScriptAction->m_numParms = 6;
+				pScriptAction->m_parms[5] = new Parameter(Parameter::REAL, 0);
+			}
+			break;
+	}
+
+	if (at->getNumParameters() != pScriptAction->getNumParameters()) {
+		pScriptAction->m_actionType = ScriptAction::NO_OP;
+		pScriptAction->m_numParms = 0;
+	}
+	return pScriptAction;
 }
 
 static int ParameterChangesVer2[] =
