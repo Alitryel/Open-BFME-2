@@ -298,6 +298,12 @@ private:
 ** This is a ShareBufferClass of uv coordinates.  At load time, we are detecting redundant UV arrays
 ** so this class stores a CRC for quick checking.
 */
+// The implicit virtual dtor's ??_G takes the optimization state of this
+// definition; retail's (0x000D20FC) is the /O1 body. Units built /O2 that
+// emit it define BFME_MESHMATDESC_UVBUFFER_O1.
+#ifdef BFME_MESHMATDESC_UVBUFFER_O1
+#pragma optimize("s", on)
+#endif
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.h
 class UVBufferClass : public ShareBufferClass < Vector2 >
 {
@@ -319,6 +325,9 @@ private:
 	// not implemented
 	UVBufferClass & operator = (const UVBufferClass & that);
 };
+#ifdef BFME_MESHMATDESC_UVBUFFER_O1
+#pragma optimize("", on)
+#endif
 
 /*********************************************************************************************************
 **

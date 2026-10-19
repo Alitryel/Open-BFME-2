@@ -68,3 +68,8 @@ PivotMapClass *HAnimComboClass::Get_Pivot_Weight_Map(int index)
 	}
 	return data->Peek_Pivot_Map();
 }
+
+// ??_EWeightInfoStruct, needed only by the end-of-unit template
+// instantiations, takes the optimization state at the end of the unit;
+// retail links the /O1 body (0x0004554B).
+#pragma optimize("gsy", on)
