@@ -126,16 +126,12 @@ class Rva004E0809
 public:
 	void rva004E0809();
 };
-class Rva004E060C
-{
-public:
-	void rva004E060C(unsigned char v);
-};
 
 class LivingWorldBuilding
 {
 public:
 	virtual void DoXfer(Xfer *xfer);
+	void rva004E060C(unsigned char v);
 
 	char m_pad04[0x14];
 	int m_id;
@@ -251,6 +247,6 @@ void LivingWorldBuilding::DoXfer(Xfer *xfer)
 	if (!xfer->isCRC() && version.current >= 6) {
 		xfer->xferBool(&m_51);
 		if (xfer->isLoading())
-			((Rva004E060C *)this)->rva004E060C(m_51);
+			rva004E060C(m_51);
 	}
 }
