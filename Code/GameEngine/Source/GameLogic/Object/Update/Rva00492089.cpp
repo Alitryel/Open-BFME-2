@@ -1,5 +1,5 @@
 // cl: /MD
-// ?moveToStuff@Rva00492089@@QAEXPAX@Z @0x00492089 44B
+// ?moveToStuff@PickupStuffUpdate@@QAEXPAX@Z @0x00492089 44B
 // Evidence: callees rowed BeginTemporaryStateMachine 0x002632EE and rva00352ECA 0x00352ECA; caller 0x00492114 passes factory pointer; [esi+8]+0x258 AI pointer with +0x20 command iface.
 // Links: no literals, callees by row names.
 enum CommandSourceType
@@ -34,7 +34,7 @@ public:
 	AIUpdateInterface *m_ai;
 };
 
-class Rva00492089
+class PickupStuffUpdate
 {
 public:
 	char m_pad[8];
@@ -42,7 +42,7 @@ public:
 	void moveToStuff(void *arg);
 };
 
-void Rva00492089::moveToStuff(void *arg)
+void PickupStuffUpdate::moveToStuff(void *arg)
 {
 	m_thing->m_ai->BeginTemporaryStateMachine();
 	m_thing->m_ai->m_cmd.aiMoveToObject((Object *)arg, CMD_FROM_PLAYER2);

@@ -6,9 +6,9 @@
 // frame passes the last scan frame (+0x24) plus BfmeLogicFramesPerSecond times the
 // module data's float at +0x14, and the Object's +0x258 holder has a zero
 // +0x34, it scans for the nearest candidate (0x00491FA6) and, when one is
-// found, hands it to 0x00492089 and sets +0x20; either way it restamps the
-// scan frame. Both callees are rowed under address class names, hence the
-// casts. Retail compares with fcompi, which MSVC 7.1 emits only under
+// found, hands it to moveToStuff (0x00492089) and sets +0x20; either way it
+// restamps the scan frame. The scan callee is rowed under an address class
+// name, hence its cast. Retail compares with fcompi, which MSVC 7.1 emits only under
 // /arch:SSE.
 class Object;
 class GameLogic
@@ -42,14 +42,10 @@ class Rva00491FA6
 public:
 	Object *rva00491FA6();
 };
-class Rva00492089
-{
-public:
-	void moveToStuff(void *obj);
-};
 class PickupStuffUpdate
 {
 public:
+	void moveToStuff(void *obj);
 	void updateInactive();
 private:
 	void *m_vptr;
@@ -65,7 +61,7 @@ void PickupStuffUpdate::updateInactive()
 		if (m_object->m_258->m_34 == 0) {
 			Object *found = ((Rva00491FA6 *)this)->rva00491FA6();
 			if (found) {
-				((Rva00492089 *)this)->moveToStuff(found);
+				moveToStuff(found);
 				m_20 = true;
 			}
 		}
