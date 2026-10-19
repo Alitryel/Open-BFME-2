@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva004B8B0F@Rva004B8B0F@@QAEXXZ, retail 0x004B8B0F, 50 bytes.
+// ?rva004B8B0F@OathbreakersFadeAwayBehavior@@QAEXXZ, retail 0x004B8B0F, 50 bytes.
 // Update-module helper: if the Object at +8 is FAERIE_FIRE (0x26) return;
 // else if its AI at +0x258 is null return; else issue AI command 0x31 with
 // value 0 source 2 via the +0x20 subobject then setSelectable(false).
@@ -43,7 +43,7 @@ public:
 	AIUpdateInterface *getAIUpdateInterface();
 };
 
-class Rva004B8B0F
+class OathbreakersFadeAwayBehavior
 {
 public:
 	void rva004B8B0F();
@@ -53,7 +53,7 @@ private:
 	Object *m_object; // +8
 };
 
-void Rva004B8B0F::rva004B8B0F()
+void OathbreakersFadeAwayBehavior::rva004B8B0F()
 {
 	Object *obj = m_object;
 	if (obj->testStatus(OBJECT_STATUS_FAERIE_FIRE))

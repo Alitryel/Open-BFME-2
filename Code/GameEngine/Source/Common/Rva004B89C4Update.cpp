@@ -39,12 +39,6 @@ enum KindOfType
 extern int BfmeLogicFramesPerSecond;	// logic frames per second
 extern GameLogic *TheGameLogic;
 
-class Rva004B8B0F
-{
-public:
-	void rva004B8B0F();
-};
-
 struct Rva004B89C4Template
 {
 	unsigned char m_pad000[0x115];
@@ -134,6 +128,7 @@ class OathbreakersFadeAwayBehavior : public Rva004B89C4Primary, public Rva004B89
 public:
 	virtual UpdateSleepTime update();
 	UpdateSleepTime rva004B8AE1();
+	void rva004B8B0F(); // fade start, rowed in Rva004B8B0F.cpp
 private:
 	unsigned char m_pad14[0x20 - 0x14];
 	Bool m_started;		// +0x20
@@ -157,7 +152,7 @@ UpdateSleepTime OathbreakersFadeAwayBehavior::update()
 	{
 		if (!m_started)
 		{
-			((Rva004B8B0F *)this)->rva004B8B0F();
+			rva004B8B0F();
 			m_started = true;
 		}
 		UnsignedInt frames = data->m_frames;

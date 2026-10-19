@@ -37335,7 +37335,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva004E6273@Rva004E6273@@QAEXXZ,,0x004E6273,34,Code/GameEngine/Source/Common/Bfme/Rva004E6273Method.cpp,matched,guarded virtual slot 0x38 call with index and 1 1 via thunk caller
 ?rva004210B0@Rva004210B0@@QAE_NPBVModuleData@@@Z,,0x004210B0,32,Code/GameEngine/Source/Common/Rva004210B0Contains.cpp,matched,linear search vector ModuleData at plus8 caller 0x004213E2
 ?rva0045003E@AICommandInterface@@QAEXHW4CommandSourceType@@@Z,,0x0045003E,101,Code/GameEngine/Source/GameLogic/AI/AICommandInterfaceAttackCommands.cpp,matched,AICMD 0x31 plus int store plus slot0 proven by callers 0x450575 and 0x450599 via AIUpdate plus 0x20
-?rva004B8B0F@Rva004B8B0F@@QAEXXZ,,0x004B8B0F,50,Code/GameEngine/Source/Common/Rva004B8B0F.cpp,matched,FAERIE_FIRE gate plus AI 0x258 plus command 0x31 value 0 plus unselectable via caller 0x4B8B6A
+?rva004B8B0F@OathbreakersFadeAwayBehavior@@QAEXXZ,,0x004B8B0F,50,Code/GameEngine/Source/Common/Rva004B8B0F.cpp,matched,FAERIE_FIRE gate plus AI 0x258 plus command 0x31 value 0 plus unselectable via caller 0x4B8B6A
 ?xfer@ArmorUpgrade@@MAEXPAVXfer@@@Z,,0x004B8710,27,Code/GameEngine/Source/GameLogic/Object/Upgrade/ArmorUpgradeXfer.cpp,matched,slot3 of 0x8570A0 plus Version1 plus base 0x4CE3F9 shared by simple Upgrades
 ?init@NetPacket@@QAEXXZ,,0x0058D10A,86,Code/GameEngine/Source/GameNetwork/NetPacket.cpp,matched,BFME1 NetPacket init donor with target callers and layout
 ?reset@NetPacket@@QAEXXZ,,0x0058D160,44,Code/GameEngine/Source/GameNetwork/NetPacket.cpp,matched,BFME1 reset donor tail-jmp to init with detach delete
