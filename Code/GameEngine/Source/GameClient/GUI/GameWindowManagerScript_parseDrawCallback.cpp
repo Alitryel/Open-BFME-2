@@ -57,16 +57,14 @@ extern Rva00DFF024Registry *TheRva00DFF024Registry;
 // TheRva00DFF024Registry: matched references place it at VA 0xdff024 (zero-filled .bss).
 Rva00DFF024Registry * TheRva00DFF024Registry;
 extern AsciiString g_drawCallbackName;
-extern void *g_drawCallback;
-// g_drawCallback: matched references place it at VA 0xe012f8 (zero-filled .bss).
-void * g_drawCallback;
+#include "WindowScriptCreateRecord.h"
 
 class WinInstanceData;
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
 
 // ?parseDrawCallback@@YA_NPADPAVWinInstanceData@@0PAX@Z
-static Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
+Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buffer, void *data)
 {
 	char *c, *ptr;
 	char *stringSeps = "\"";
@@ -79,7 +77,7 @@ static Bool parseDrawCallback(char *token, WinInstanceData *instData, char *buff
 	g_drawCallbackName.set(c);
 
 	NameKeyType key = TheNameKeyGenerator->nameToKey(g_drawCallbackName);
-	g_drawCallback = TheRva00DFF024Registry->lookup34(key, -1);
+	g_windowScriptCreateRecord.draw = TheRva00DFF024Registry->lookup34(key, -1);
 
 	return true;
 }

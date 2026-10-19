@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
-// Ported verbatim from the Generals Zero Hour reference
-// (GameEngine/Source/GameClient/GUI/GameWindowManagerScript.cpp); this unit had no counterpart under Code/.
+// Ported from the Generals Zero Hour window-script parser.
+// Retail BFME 2 supplies the creation record and parser interfaces.
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -92,6 +92,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #endif
 
 
+namespace NativeScriptCrt {
+extern "C" __declspec(dllimport) char *__cdecl strtok(char *, const char *);
+extern "C" __declspec(dllimport) int __cdecl isspace(int);
+}
 // DEFINES ////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -133,10 +137,34 @@ struct GameWindowParse
 ///////////////////////////////////////////////////////////////////////////////
 
 // window methods and their string representations
-static GameWinSystemFunc		systemFunc = NULL;
-static GameWinInputFunc		inputFunc = NULL;
-static GameWinTooltipFunc	tooltipFunc = NULL;
-static GameWinDrawFunc			drawFunc = NULL;
+
+#include "GameWindowManagerRecordView.h"
+#include "WindowScriptCreateRecord.h"
+WindowScriptCreateRecord g_windowScriptCreateRecord;
+class ScriptDisplaySlots {
+public:
+#define DS(n) virtual void slot##n();
+DS(0) DS(1) DS(2) DS(3) DS(4) DS(5) DS(6) DS(7)
+DS(8) DS(9) DS(10) DS(11) DS(12) DS(13) DS(14) DS(15)
+#undef DS
+virtual UnsignedInt getWidth();
+virtual UnsignedInt getHeight();
+};
+class ScriptFactoryManagerSlots {
+public:
+#define MS(n) virtual void slot##n();
+MS(0) MS(1) MS(2) MS(3) MS(4) MS(5) MS(6) MS(7) MS(8) MS(9)
+MS(10) MS(11) MS(12) MS(13) MS(14) MS(15) MS(16) MS(17) MS(18) MS(19)
+MS(20) MS(21) MS(22) MS(23) MS(24) MS(25) MS(26) MS(27) MS(28) MS(29)
+MS(30) MS(31) MS(32) MS(33)
+virtual GameWindow *createFromView(GadgetCreateView *);
+MS(35) MS(36) MS(37) MS(38) MS(39) MS(40) MS(41) MS(42) MS(43) MS(44)
+MS(45) MS(46) MS(47) MS(48) MS(49) MS(50) MS(51) MS(52) MS(53) MS(54)
+MS(55) MS(56) MS(57) MS(58)
+#undef MS
+virtual Int send(GameWindow *, UnsignedInt, UnsignedInt, UnsignedInt);
+};
+GameWindow *createGadget(char *, void *, GadgetCreateView *, GameWindow *);
 // The split callback parsers reference the canonical data-ledger names.
 // Keep these strings in their original initialization order and expose this
 // existing storage: native DIR32 bindings are RVA A01308/A0130C/A01310.
@@ -274,6 +302,16 @@ static void parseBitString( const char *inBuffer, UnsignedInt *bits, const char 
 
 }  // end parseBitString
 
+// Native File calls use read at slot 3 and scanString at slot 9.
+class GoalScriptFileSlots {
+public:
+ virtual void s0(); virtual void s1(); virtual void close();
+ virtual int read(void*,int); virtual int write(const void*,int);
+ virtual int seek(int,int); virtual void nextLine(char*,int);
+ virtual bool scanInt(int&); virtual bool scanReal(float&);
+ virtual bool scanString(AsciiString&);
+};
+
 // readUntilSemicolon =========================================================
 //=============================================================================
 static void readUntilSemicolon( File *fp, char *buffer, int maxBufLen )
@@ -285,10 +323,10 @@ static void readUntilSemicolon( File *fp, char *buffer, int maxBufLen )
 	{
 
 		// get next character
-		fp->read(buffer + i, 1);
+		((GoalScriptFileSlots *)fp)->read(buffer + i, 1);
 
 		// make all whitespace characters spaces
-		if( isspace( buffer[ i ] ) ) 
+		if( NativeScriptCrt::isspace( buffer[ i ] ) )
 		{
 
 			if( start == FALSE )
@@ -456,18 +494,6 @@ static Bool parseColor( Color *color, char *buffer )
 /** Parse a default color entry and store it in the value pointed to by 
 	* the 'color' parm. */
 //=============================================================================
-// BFME 2's File vtable puts scanString at slot 9, which the Zero Hour File
-// header used here does not; this view of the slots is what retail calls
-// (0x00315AF4, proven byte-exact by tools/permute.py).
-class GoalScriptFileSlots {
-public:
- virtual void s0(); virtual void s1(); virtual void close();
- virtual int read(void*,int); virtual int write(const void*,int);
- virtual int seek(int,int); virtual void nextLine(char*,int);
- virtual bool scanInt(int&); virtual bool scanReal(float&);
- virtual bool scanString(AsciiString&);
-};
-
 static Bool parseDefaultColor( Color *color, File *inFile, char *buffer )
 {
 	// eat '=' 
@@ -544,30 +570,30 @@ static Bool parseScreenRect( char *token, char *buffer,
 	char *seps = " ,:=\n\r\t";
 	char *c;
 
-	c = strtok( NULL, seps );  // UPPERLEFT token
-	c = strtok( NULL, seps );  // x position
+	c = NativeScriptCrt::strtok( NULL, seps );  // UPPERLEFT token
+	c = NativeScriptCrt::strtok( NULL, seps );  // x position
 	scanInt( c, screenRegion.lo.x );
-	c = strtok( NULL, seps );  // y posotion
+	c = NativeScriptCrt::strtok( NULL, seps );  // y posotion
 	scanInt( c, screenRegion.lo.y );
 
-	c = strtok( NULL, seps );  // BOTTOMRIGHT token
-	c = strtok( NULL, seps );  // x position
+	c = NativeScriptCrt::strtok( NULL, seps );  // BOTTOMRIGHT token
+	c = NativeScriptCrt::strtok( NULL, seps );  // x position
 	scanInt( c, screenRegion.hi.x );
-	c = strtok( NULL, seps );  // y posotion
+	c = NativeScriptCrt::strtok( NULL, seps );  // y posotion
 	scanInt( c, screenRegion.hi.y );
 
-	c = strtok( NULL, seps );  // CREATIONRESOLUTION token
-	c = strtok( NULL, seps );  // x creation resolution
+	c = NativeScriptCrt::strtok( NULL, seps );  // CREATIONRESOLUTION token
+	c = NativeScriptCrt::strtok( NULL, seps );  // x creation resolution
 	scanInt( c, createRes.x );
-	c = strtok( NULL, seps );  // y creation resolution
+	c = NativeScriptCrt::strtok( NULL, seps );  // y creation resolution
 	scanInt( c, createRes.y );
 
 	//
 	// shrink or expand the screen region by the ratio of the current
 	// resolution divided by the creation resolution
 	//
-	Real xScale = (Real)TheDisplay->getWidth() / (Real)createRes.x;
-	Real yScale = (Real)TheDisplay->getHeight() / (Real)createRes.y;
+	Real xScale = (Real)((ScriptDisplaySlots *)TheDisplay)->getWidth() / (Real)createRes.x;
+	Real yScale = (Real)((ScriptDisplaySlots *)TheDisplay)->getHeight() / (Real)createRes.y;
 	screenRegion.lo.x = (Int)((Real)screenRegion.lo.x * xScale);
 	screenRegion.lo.y = (Int)((Real)screenRegion.lo.y * yScale);
 	screenRegion.hi.x = (Int)((Real)screenRegion.hi.x * xScale);
@@ -730,110 +756,26 @@ static Bool parseStyle( char *token, WinInstanceData *instData,
 // parseSystemCallback ========================================================
 /** Parse the system method callback for a window */
 //=============================================================================
-static Bool parseSystemCallback( char *token, WinInstanceData *instData,
-																 char *buffer, void *data )
-{
-	char *c, *ptr;
-//	char *seps = " ,\n\r\t";
-	char *stringSeps = "\"";
-
-	// scan to the first " mark
-	ptr = buffer;
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the first "
-	c = strtok( ptr, stringSeps );  // name value
-
-	// save a pointer of the function address
-	DEBUG_ASSERTCRASH( TheNameKeyGenerator && TheFunctionLexicon, ("Invalid singletons") );
-	g_systemCallbackName = c;
-	NameKeyType key = TheNameKeyGenerator->nameToKey( g_systemCallbackName );
-	systemFunc = TheFunctionLexicon->gameWinSystemFunc( key );
-
-	return TRUE;
-
-}  // end parseSystemCallback
+Bool parseSystemCallback( char *token, WinInstanceData *instData,
+																 char *buffer, void *data );  // end parseSystemCallback
 
 // parseInputCallback =========================================================
 /** Parse the Input method callback for a window */
 //=============================================================================
-static Bool parseInputCallback( char *token, WinInstanceData *instData,
-																char *buffer, void *data )
-{
-	char *c, *ptr;
-//	char *seps = " ,\n\r\t";
-	char *stringSeps = "\"";
-
-	// scan to the first " mark
-	ptr = buffer;
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the first "
-	c = strtok( ptr, stringSeps );  // name value
-
-	// save a pointer of the function address
-	DEBUG_ASSERTCRASH( TheNameKeyGenerator && TheFunctionLexicon, ("Invalid singletons") );
-	g_inputCallbackName = c;
-	NameKeyType key = TheNameKeyGenerator->nameToKey( g_inputCallbackName );
-	inputFunc = TheFunctionLexicon->gameWinInputFunc( key );
-
-	return TRUE;
-
-}  // end parseInputCallback
+Bool parseInputCallback( char *token, WinInstanceData *instData,
+																char *buffer, void *data );  // end parseInputCallback
 
 // parseTooltipCallback =======================================================
 /** Parse the Tooltip method callback for a window */
 //=============================================================================
-static Bool parseTooltipCallback( char *token, WinInstanceData *instData,
-																  char *buffer, void *data )
-{
-	char *c, *ptr;
-//	char *seps = " ,\n\r\t";
-	char *stringSeps = "\"";
-
-	// scan to the first " mark
-	ptr = buffer;
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the first "
-	c = strtok( ptr, stringSeps );  // name value
-
-	// save a pointer of the function address
-	DEBUG_ASSERTCRASH( TheNameKeyGenerator && TheFunctionLexicon, ("Invalid singletons") );
-	g_tooltipCallbackName = c;
-	NameKeyType key = TheNameKeyGenerator->nameToKey( g_tooltipCallbackName );
-	tooltipFunc = TheFunctionLexicon->gameWinTooltipFunc( key );
-
-	return TRUE;
-
-}  // end parseTooltipCallback
+Bool parseTooltipCallback( char *token, WinInstanceData *instData,
+																  char *buffer, void *data );  // end parseTooltipCallback
 
 // parseDrawCallback ==========================================================
 /** Parse the Draw method callback for a window */
 //=============================================================================
-static Bool parseDrawCallback( char *token, WinInstanceData *instData,
-															 char *buffer, void *data )
-{
-	char *c, *ptr;
-//	char *seps = " ,\n\r\t";
-	char *stringSeps = "\"";
-
-	// scan to the first " mark
-	ptr = buffer;
-	while( *ptr != '"' )
-		ptr++;
-	ptr++;  // skip the first "
-	c = strtok( ptr, stringSeps );  // name value
-
-	// save a pointer of the function address
-	DEBUG_ASSERTCRASH( TheNameKeyGenerator && TheFunctionLexicon, ("Invalid singletons") );
-	g_drawCallbackName = c;
-	NameKeyType key = TheNameKeyGenerator->nameToKey( g_drawCallbackName );
-	drawFunc = TheFunctionLexicon->gameWinDrawFunc( key );
-
-	return TRUE;
-
-}  // end parseDrawCallback
+Bool parseDrawCallback( char *token, WinInstanceData *instData,
+															 char *buffer, void *data );  // end parseDrawCallback
 
 // parseHeaderTemplate ==========================================================
 /** Parse the Draw method callback for a window */
@@ -1405,68 +1347,7 @@ static Bool parseDrawData( char *token, WinInstanceData *instData,
 	* gadget data type used for the generic data pointers in the
 	* GUI gadget contorls */
 //=============================================================================
-void *getDataTemplate( char *type )
-{
-  static EntryData eData;
-  static SliderData sData;
-  static ListboxData lData;
-  static TextData tData;
-	static RadioButtonData rData;
-	static TabControlData tcData;
-	static ComboBoxData	cData;
-	void *data;
-
-  if( !strcmp( type, "VERTSLIDER" ) || !strcmp( type, "HORZSLIDER" ) ) 
-	{
-
-    memset( &sData, 0, sizeof( SliderData ) );
-    data = &sData;
-
-  } 
-	else if( !strcmp( type, "SCROLLLISTBOX" ) ) 
-	{
-
-    memset( &lData, 0, sizeof( ListboxData ) );
-    data = &lData;
-
-  } 
-	else if( !strcmp( type, "TABCONTROL" ) ) 
-	{
-    memset( &tcData, 0, sizeof( TabControlData ) );
-    data = &tcData;
-  } 
-	else if( !strcmp( type, "ENTRYFIELD" ) ) 
-	{
-
-    memset( &eData, 0, sizeof( EntryData ) );
-    data = &eData;
-
-  } 
-	else if( !strcmp( type, "STATICTEXT" ) ) 
-	{
-
-		memset( &tData, 0, sizeof( TextData ) );
-		data = &tData;
-
-  }
-	else if( !strcmp( type, "RADIOBUTTON" ) ) 
-	{ 
-
-		memset( &rData, 0, sizeof( RadioButtonData ) );
-		data = &rData;
-	}	
-	else if( !strcmp( type, "COMBOBOX" ) ) 
-	{ 
-
-		memset( &cData, 0, sizeof( ComboBoxData ) );
-		data = &cData;
-	}	
-	else
-    data = NULL;
-
-  return data;
-
-}  // end getDataTemplate
+void *getDataTemplate(char *type, Int *sizeOut);
 
 // parseData ==================================================================
 //
@@ -1488,12 +1369,15 @@ void *getDataTemplate( char *type )
 // 1/2/2003: THIS FUNCTION IS NEVER REACHED; IT IS OBSOLETE -MDC
 //
 //=============================================================================
-static Bool parseData( void **data, char *type, char *buffer )
+// Retail EntryData uses a flags word at +0x0c and is 0x28 bytes.
+struct EntryData004850C0 { void *text,*sText,*constructText; unsigned int field0c; short maxTextLen; bool secretText; char tail[21]; };
+struct LocalListboxData : ListboxData { char retailExtra[8]; };
+static __declspec(noinline) Bool parseData( void **data, char *type, char *buffer )
 {
   char *c;
-  static EntryData eData;
+  static EntryData004850C0 eData;
   static SliderData sData;
-  static ListboxData lData;
+  static LocalListboxData lData;
   static TextData tData;
 	static RadioButtonData rData;
 	static ComboBoxData cData;
@@ -1503,10 +1387,10 @@ static Bool parseData( void **data, char *type, char *buffer )
 
     memset( &sData, 0, sizeof( SliderData ) );
 
-	  c = strtok( buffer, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( buffer, " \t\n\r" );
     sData.minVal = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
     sData.maxVal = atoi(c);
 
     *data = &sData;
@@ -1515,27 +1399,27 @@ static Bool parseData( void **data, char *type, char *buffer )
 	else if( !strcmp( type, "SCROLLLISTBOX" ) ) 
 	{
 
-    memset( &lData, 0, sizeof( ListboxData ) );
+    memset( &lData, 0, sizeof( LocalListboxData ) );
 
-	  c = strtok( buffer, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( buffer, " \t\n\r" );
     lData.listLength = atoi(c);
 
-//	  c = strtok( NULL, " \t\n\r" );
+//	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
 //    lData.entryHeight = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
     lData.autoScroll = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
     lData.autoPurge = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
     lData.scrollBar = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
     lData.multiSelect = atoi(c);
 
-		c = strtok( NULL, " \t\n\r" );
+		c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
 		lData.forceSelect = atoi(c);
 		
     *data = &lData;
@@ -1544,18 +1428,18 @@ static Bool parseData( void **data, char *type, char *buffer )
 	else if( !strcmp( type, "ENTRYFIELD" ) ) 
 	{
 
-    memset( &eData, 0, sizeof( EntryData ) );
+    memset( &eData, 0, sizeof( EntryData004850C0 ) );
 
-	  c = strtok( buffer, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( buffer, " \t\n\r" );
     eData.maxTextLen = atoi(c);
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
 //    if (c)
 //      eData.entryWidth = atoi(c);
 //    else
 //      eData.entryWidth = -1;
 
-		c = strtok( NULL, " \t\n\r" );
+		c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
 		if (c)
 		{
 			eData.secretText = atoi(c);
@@ -1566,32 +1450,26 @@ static Bool parseData( void **data, char *type, char *buffer )
 		else
 			eData.secretText = FALSE;
 
-		c = strtok( NULL, " \t\n\r" );
-		if (c)
-		{
-			eData.numericalOnly = ( atoi(c) == 1 );
-			eData.alphaNumericalOnly = ( atoi(c) == 2 );
-			eData.aSCIIOnly = ( atoi(c) == 3 );
-		}
-		else
-		{
-			eData.numericalOnly = FALSE;
-			eData.alphaNumericalOnly = FALSE;
-			eData.aSCIIOnly = FALSE;
-		}
+        eData.field0c = 0;
+        c = NativeScriptCrt::strtok(NULL, " \t\n\r");
+        if (c) {
+            if (atoi(c) == 1) eData.field0c |= 0x20;
+            if (atoi(c) == 2) eData.field0c |= 0x40;
+            if (atoi(c) == 3) eData.field0c |= 0x10;
+        }
     *data = &eData;
 
   } 
 	else if( !strcmp( type, "STATICTEXT" ) ) 
 	{
 
-	  c = strtok( buffer, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( buffer, " \t\n\r" );
     tData.centered = atoi(c);
 		
 		if( tData.centered != FALSE )
 			tData.centered = TRUE;
 
-	  c = strtok( NULL, " \t\n\r" );
+	  c = NativeScriptCrt::strtok( NULL, " \t\n\r" );
 
 		/** @todo need to get a label from the translation manager, uncomment
 		the following line and remove the WideChar assignment when
@@ -1606,7 +1484,7 @@ static Bool parseData( void **data, char *type, char *buffer )
 	else if( !strcmp( type, "RADIOBUTTON" ) ) 
 	{ 
 
-		c = strtok( buffer, " \t\n\r" );
+		c = NativeScriptCrt::strtok( buffer, " \t\n\r" );
 		rData.group = atoi(c);
 /// @todo Colin: Why was this here???
 //		if( tData.centered != FALSE )
@@ -2059,122 +1937,66 @@ static GameWindow *createGadget( char *type,
 // createWindow ===============================================================
 // Create a user window or a gadget depending on the 'type' parm
 //=============================================================================
-static GameWindow *createWindow( char *type, 
-																 Int id, 
-																 Int status, 
-																 Int x, Int y,
-																 Int width, Int height, 
-																 WinInstanceData *instData, 
-																 void *data,
-																 GameWinSystemFunc system,
-																 GameWinInputFunc input,
-																 GameWinTooltipFunc tooltip,
-																 GameWinDrawFunc draw )
+static GameWindow *createWindow(char *type, Int id, void *data, GadgetCreateView *record)
 {
-  GameWindow *window, *parent;
+	GameWindow *window, *parent;
 
 	// Check to see if this window has a parent
-  parent = peekWindow();
+	parent = peekWindow();
 
-  // If this is a regular window just create it
-  if( !strcmp( type, "USER" ) ) 
+	// If this is a regular window just create it
+	if (!strcmp(type, "USER"))
 	{
-
-    window = TheWindowManager->winCreate( parent, 
-																					status, x, y, 
-																					width, height, 
-																					system );
-		if( window )
+		window = ((ScriptFactoryManagerSlots *)TheWindowManager)->createFromView(record);
+		if (window)
 		{
-
-			instData->m_style |= GWS_USER_WINDOW;
-			window->winSetInstanceData( instData );
-			window->winSetWindowId( id );
-
-		}  // end if
-
-  } 
-	else if( !strcmp( type, "TABPANE" ) ) 
+			record->instance->m_style |= 0x00000200;
+			window->winSetWindowId(id);
+		}
+	}
+	else if (!strcmp(type, "TABPANE"))
 	{
-
-    window = TheWindowManager->winCreate( parent, 
-																					status, x, y, 
-																					width, height, 
-																					system );
-		if( window )
+		window = ((ScriptFactoryManagerSlots *)TheWindowManager)->createFromView(record);
+		if (window)
 		{
-
-			instData->m_style |= GWS_TAB_PANE;
-			window->winSetInstanceData( instData );
-			window->winSetWindowId( id );
-
-		}  // end if
-
-  } 
-
-	else 
+			record->instance->m_style |= 0x00004000;
+			window->winSetInstanceData(record->instance);
+			window->winSetWindowId(id);
+		}
+	}
+	else
 	{
-
-    // Else parse the type and create the gadget
-    window = createGadget( type, 
-													 parent, 
-													 status, 
-													 x, y, 
-													 width, height,
-                           instData, 
-													 data );
-		if( window )
+		// Else parse the type and create the gadget
+		window = createGadget(type, data, record, 0);
+		if (window)
 		{
-
 			// set id
-			window->winSetWindowId( id );
-			
-		}  // end if
+			window->winSetWindowId(id);
+		}
+	}
 
-  }
-
-	// assign the callbacks if they are not empty/NULL, that means they were read
-	// in and parsed from the window definition file
-	if( window )
+	if (window)
 	{
-
-		if( system )
-			window->winSetSystemFunc( system );
-		if( input )
-			window->winSetInputFunc( input );
-		if( tooltip )
-			window->winSetTooltipFunc( tooltip );
-		if( draw )
-			window->winSetDrawFunc( draw );
-		
 		// save strings for edit data if present
 		GameWindowEditData *editData = window->winGetEditData();
-		if( editData )
+		if (editData)
 		{
+			editData->systemCallbackString.setCopyInline(g_systemCallbackName);
+			editData->inputCallbackString.setCopyInline(g_inputCallbackName);
+			editData->tooltipCallbackString.setCopyInline(g_tooltipCallbackName);
+			editData->drawCallbackString.setCopyInline(g_drawCallbackName);
+		}
+	}
 
-			editData->systemCallbackString = g_systemCallbackName;
-			editData->inputCallbackString = g_inputCallbackName;
-			editData->tooltipCallbackString = g_tooltipCallbackName;
-			editData->drawCallbackString = g_drawCallbackName;
+	// set any text read from the textLabel
+	if (window)
+		setWindowText(window, record->instance->m_textLabelString);
 
-		}  // end if
+	// If there is a parent window, send it the SCRIPT_CREATE message
+	if (window && parent)
+		((ScriptFactoryManagerSlots *)TheWindowManager)->send(parent, 0x16, id, 0);
 
-	}  // end if
-
-	if( window )
-	{
-
-		// set any text read from the textLabel
-		setWindowText( window, instData->m_textLabelString );
-
-	}  // end if
-
-  // If there is a parent window, send it the SCRIPT_CREATE message
-  if( window && parent )
-		TheWindowManager->winSendInputMsg( parent, GWM_SCRIPT_CREATE, id, 0 );
-
-  return window;
-
+	return window;
 }  // end createWindow
 
 // parseChildWindows ==========================================================
@@ -2309,12 +2131,15 @@ static Bool parseChildWindows( GameWindow *window,
 }  // end parseChildWindows
 
 // lookup table for parsing functions
+Bool parseWinClass(char *, WinInstanceData *, char *, void *);
+
 static GameWindowParse gameWindowFieldList[] = 
 {
 	{ "NAME", parseName },
 	{ "STATUS", parseStatus },
 	{ "STYLE", parseStyle },
 	{ "SYSTEMCALLBACK", parseSystemCallback },
+	{ "WINCLASS", parseWinClass },
 	{ "INPUTCALLBACK", parseInputCallback },
 	{ "TOOLTIPCALLBACK", parseTooltipCallback },
 	{ "DRAWCALLBACK", parseDrawCallback },
@@ -2371,12 +2196,11 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 {
 	GameWindowParse *parse;
 	GameWindow *window = NULL;
-	GameWindow *parent = peekWindow();
 	WinInstanceData instData;
+	g_windowScriptCreateRecord.parent = peekWindow();
 	char type[64];
 	char token[ 256 ];
 	char *c;
-	Int x, y, width, height;
 	void *data = NULL;
 	ICoord2D parentSize;
 	AsciiString asciibuf;
@@ -2385,24 +2209,26 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 	// reset our 'static globals' that house the current parsed window callback
 	// definitions to empty
 	//
-	systemFunc = NULL;
-	inputFunc = NULL;
-	tooltipFunc = NULL;
-	drawFunc = NULL;
+	g_windowScriptCreateRecord.winClass = NULL;
+	g_windowScriptCreateRecord.system = NULL;
+	g_windowScriptCreateRecord.input = NULL;
+	g_windowScriptCreateRecord.tooltip = NULL;
+	g_windowScriptCreateRecord.draw = NULL;
+	g_windowScriptCreateRecord.unknown2c = NULL;
 	g_systemCallbackName.clear();
 	g_inputCallbackName.clear();
 	g_tooltipCallbackName.clear();
 	g_drawCallbackName.clear();
 
 	// get the size of the parent, or if no parent present the screen
-	if( parent )
+	if( g_windowScriptCreateRecord.parent )
 	{
-		parent->winGetSize( &parentSize.x, &parentSize.y );
+		g_windowScriptCreateRecord.parent->winGetSize( &parentSize.x, &parentSize.y );
 	}  // end if
 	else
 	{
-		parentSize.x = TheDisplay->getWidth();
-		parentSize.y = TheDisplay->getHeight();
+		parentSize.x = ((ScriptDisplaySlots *)TheDisplay)->getWidth();
+		parentSize.y = ((ScriptDisplaySlots *)TheDisplay)->getHeight();
 	}  // end else
 
 	// Initialize the instance data to the defaults
@@ -2425,22 +2251,22 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 
 	// window type
 	readUntilSemicolon( inFile, buffer, WIN_BUFFER_LENGTH );	
-	c = strtok( buffer, seps );
+	c = NativeScriptCrt::strtok( buffer, seps );
 	assert( strcmp( c, "WINDOWTYPE" ) == 0 );
-	c = strtok( NULL, seps );  // get data to right of = sign
+	c = NativeScriptCrt::strtok( NULL, seps );  // get data to right of = sign
 	strcpy( type, c );
 
 	//
 	// based on the window type get a pointer for any specific data
 	// for the gadget controls needed
 	//
-	data = getDataTemplate( type );
+	data = getDataTemplate( type, NULL );
 	
 	// position
 	readUntilSemicolon( inFile, buffer, WIN_BUFFER_LENGTH );	
-	c = strtok( buffer, seps );
+	c = NativeScriptCrt::strtok( buffer, seps );
 	assert( strcmp( c, "SCREENRECT" ) == 0 );
-	if( parseScreenRect( c, buffer, &x, &y, &width, &height ) == FALSE )
+	if( parseScreenRect( c, buffer, &g_windowScriptCreateRecord.x, &g_windowScriptCreateRecord.y, &g_windowScriptCreateRecord.width, &g_windowScriptCreateRecord.height ) == FALSE )
 		goto cleanupAndExit;
 
 	// parse all the field definitions
@@ -2448,7 +2274,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 	{
 
 		// get token
-		inFile->scanString(asciibuf);
+		((GoalScriptFileSlots *)inFile)->scanString(asciibuf);
 
 		// parse field
 		for( parse = gameWindowFieldList; parse->parse; parse++ ) 
@@ -2460,7 +2286,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 				strcpy( token, asciibuf.str() );
 
 				// eat '='
-				inFile->scanString(asciibuf);
+				((GoalScriptFileSlots *)inFile)->scanString(asciibuf);
 
 				readUntilSemicolon( inFile, buffer, WIN_BUFFER_LENGTH );
 
@@ -2483,7 +2309,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 			{
 
 				// eat '='
-				inFile->scanString(asciibuf);
+				((GoalScriptFileSlots *)inFile)->scanString(asciibuf);
 
 				readUntilSemicolon( inFile, buffer, WIN_BUFFER_LENGTH );
 
@@ -2502,9 +2328,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 
 				// Create a window using the current description
 				if( window == NULL )
-					window = createWindow( type, instData.m_id, instData.getStatus(), x, y,
-																 width, height, &instData, data, 
-																 systemFunc, inputFunc, tooltipFunc, drawFunc );
+					{ g_windowScriptCreateRecord.instance = &instData; g_windowScriptCreateRecord.status = instData.getStatus(); window = createWindow(type, instData.m_id, data, (GadgetCreateView *)&g_windowScriptCreateRecord); }
 
 				
 				goto cleanupAndExit;
@@ -2514,9 +2338,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 			{
 
 				// Create a window using the current description
-				window = createWindow( type, instData.m_id, instData.getStatus(), x, y,
-															 width, height, &instData, data,
-															 systemFunc, inputFunc, tooltipFunc, drawFunc );
+				{ g_windowScriptCreateRecord.instance = &instData; g_windowScriptCreateRecord.status = instData.getStatus(); window = createWindow(type, instData.m_id, data, (GadgetCreateView *)&g_windowScriptCreateRecord); }
 
 				if (window == NULL)
 					goto cleanupAndExit;
@@ -2525,7 +2347,7 @@ static GameWindow *parseWindow( File *inFile, char *buffer )
 				if( parseChildWindows( window, inFile, buffer ) == FALSE )
 				{
 
-					TheWindowManager->winDestroy( window );
+					((ScriptChildWindowManagerSlots *)TheWindowManager)->winDestroy( window );
 					window = NULL;
 					goto cleanupAndExit;
 
