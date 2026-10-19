@@ -21,6 +21,9 @@ class MeshModelClass {
 public:
     RefCountPtr<TextureClass> Peek_Single_Texture(int pass,int stage) const;
 };
-RefCountPtr<TextureClass> MeshModelClass::Peek_Single_Texture(int pass,int stage) const {
+// Emitted as a noinline inline COMDAT so MaterialCollectorCollectMaterials.cpp's
+// visible in-class copy (kept there for its codegen) folds instead of colliding.
+inline __declspec(noinline) RefCountPtr<TextureClass> MeshModelClass::Peek_Single_Texture(int pass,int stage) const {
     return CurMatDesc->Peek_Single_Texture(pass,stage);
 }
+static RefCountPtr<TextureClass> (MeshModelClass::*s_anchor_Peek_Single_Texture)(int,int) const = &MeshModelClass::Peek_Single_Texture;
