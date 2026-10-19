@@ -14,30 +14,24 @@ inline void __cdecl operator delete(void *, void *) throw()
 
 extern void *DebugAllocMemory(unsigned size);
 
-class Rva00891540DebugIOCon
-{
-private:
-    char m_body[0x110];
-};
+class DebugIOInterface;
 
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/internal_io.h
+// (only the size and the two members this factory uses).
 class DebugIOCon
 {
 public:
     DebugIOCon(void);
+    static DebugIOInterface *Create(void);
 
 private:
     char m_body[0x110];
 };
 
-class Rva00891540DebugIOConFactory
+// ?Create@DebugIOCon@@SAPAVDebugIOInterface@@XZ @0x00040E50 89B: the "con"
+// factory DebugPostStaticInit (0x0003A250) registers, as ZH Debug::PostStaticInit
+// does with DebugIOCon::Create.
+DebugIOInterface *DebugIOCon::Create(void)
 {
-public:
-    static Rva00891540DebugIOCon *Create(void);
-};
-
-// ?Create@Rva00891540DebugIOConFactory@@SAPAVRva00891540DebugIOCon@@XZ
-Rva00891540DebugIOCon *Rva00891540DebugIOConFactory::Create(void)
-{
-    return (Rva00891540DebugIOCon *)new (DebugAllocMemory(sizeof(Rva00891540DebugIOCon)))
-        DebugIOCon();
+    return (DebugIOInterface *)new (DebugAllocMemory(sizeof(DebugIOCon))) DebugIOCon();
 }

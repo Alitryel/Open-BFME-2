@@ -491,7 +491,6 @@ Code/Libraries/Source/WWVegas/WW3D2/static_sort_list.cpp	??1DefaultStaticSortLis
 Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	?Render_Seg_Line@StreakLineClass@@IAEXAAVRenderInfoClass@@@Z	?Render@SegLineRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@ABVSphereClass@@PAVVector4@@@Z	0x00191C10	unowned
 Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	?Render_Streak_Line@StreakLineClass@@IAEXAAVRenderInfoClass@@@Z	?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z	0x00743700	unowned
 Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp	?Parse_Mapping_Args@VertexMaterialClass@@QAEXABUW3dVertexMaterialStruct@@PAD1@Z	??0GridEnvironmentMapperClass@@QAE@ABVINIClass@@PBDI@Z	0x0013C740	wrong
-Code/Libraries/Source/WWVegas/WWDebug/DebugPostStaticInit.cpp	?PostStaticInit@Debug@@CAXXZ	?Create@DebugIOCon@@SAPAVDebugIOInterface@@XZ	0x00040E50	wrong
 Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp	?AsyncGetHostByName@Cftp@@QAEHPADAAUsockaddr_in@@@Z	?gethostbynameA@@YGKPAX@Z	0x006C9F40	wrong
 Code/Libraries/Source/WWVegas/WWDownload/registry.cpp	?GetStringFromRegistry@@YA_NV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@0AAV12@@Z	??$append@PAD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PAD0ABUforward_iterator_tag@1@@Z	0x0001B3E0	divergent
 Code/Libraries/Source/WWVegas/WWLib/INIPutWideString.cpp	uw_007a7220	??1Base64Straw@@UAE@XZ	0x00615B70	wrong
