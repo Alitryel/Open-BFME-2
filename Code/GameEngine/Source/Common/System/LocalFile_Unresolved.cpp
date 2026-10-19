@@ -188,8 +188,19 @@ class RAMFile : public File
 public:
 	RAMFile();
 	virtual ~RAMFile();
-	virtual bool open( File *file );
+	// Overrides retail's vtable 0x00C7AA00 holds (each rowed in its own unit).
+	virtual bool open( const char *filename, int access );
 	virtual void close( void );
+	virtual int read( void *buffer, int bytes );
+	virtual int write( const void *buffer, int bytes );
+	virtual int seek( int pos, seekMode mode );
+	virtual void nextLine( char *buf, int bufSize );
+	virtual bool scanInt( int &newInt );
+	virtual bool scanReal( float &newReal );
+	virtual bool scanString( AsciiString &newString );
+	virtual char *readEntireAndClose( void );
+	virtual bool open( File *file );
+	virtual bool openFromArchive(File *archiveFile, const AsciiString &filename, int offset, int size);
 	virtual bool copyDataToFile( File *file );
 
 protected:
@@ -204,7 +215,9 @@ public:
 	StreamingArchiveFile();
 	virtual ~StreamingArchiveFile();
 	virtual bool open( const char *filename, int access );
-	virtual bool open( File *file );
+	// Retail's slot 17 (vtable 0x00C7AA50) is a plain `return TRUE` body, folded
+	// at 0x005CB9FA with other one-argument TRUE stubs.
+	virtual bool open( File *file ) { return true; }
 	virtual void close( void );
 	virtual int seek( int pos, seekMode mode );
 	virtual bool openFromArchive(File *archiveFile, const AsciiString &filename, int offset, int size);
