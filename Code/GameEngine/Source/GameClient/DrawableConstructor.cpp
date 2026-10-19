@@ -46,6 +46,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "Common/Snapshot.h"
 #include "Coord3D.h"
@@ -254,7 +255,7 @@ public:
 	__forceinline void addIface(const ModuleData *iface) { if (iface) m_158.push_back(iface); }
 	virtual ~Drawable();
 	virtual void LoadPostProcess();
-	virtual void GetSnapshotName();
+	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer);
 
 	int m_64;						// +0x64

@@ -20,6 +20,7 @@
 #include <vector>
 #include <new>
 #include "ascii_string.h"
+#define BFME_SNAPSHOT_NAME_SLOT
 #define BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #include "Common/Snapshot.h"
 #include "Coord3D.h"
@@ -272,7 +273,7 @@ public:
 	virtual ~Drawable();
 	void rva002743D7();
 	virtual void LoadPostProcess();
-	virtual void GetSnapshotName();
+	virtual const char *GetSnapshotName() const;
 	virtual void DoXfer(Xfer *xfer);
 
 	DrawableDisposable *m_64;					// +0x64; deleted through virtual slot 0

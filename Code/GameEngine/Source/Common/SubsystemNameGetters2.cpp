@@ -39,7 +39,20 @@ BFME_LITERAL_NAME_GETTER(Rva0033F3B0Named, "AIAttackMeleeHordeWaitPathState")
 BFME_LITERAL_NAME_GETTER(Rva00253DF7Named, "HordeNotifyTargetsOfImminentProbableCrushingUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00253ED3Named, "NotifyTargetsOfImminentProbableCrushingUpdate")
 BFME_LITERAL_NAME_GETTER(Rva00254BF1Named, "ModelConditionSoundSelectorClientBehavior")
-BFME_LITERAL_NAME_GETTER(Rva00279669Named, "Drawable")
+// Drawable's Snapshot sub-vtable 0x00BFB0A4 (installed by ~Drawable
+// 0x002793F0 at this+0x60) holds 0x00279669 in slot 2, the canonical
+// Snapshot GetSnapshotName slot; the body returns the unique "Drawable"
+// literal. Same six-byte body, real owner, as TerrainLogic below.
+class Drawable
+{
+public:
+	virtual const char *GetSnapshotName() const;
+};
+
+const char *Drawable::GetSnapshotName() const
+{
+	return "Drawable";
+}
 // Native TerrainLogic ctor283FAA installs BFB2C8; its slot2 is28417C,
 // returning the unique TerrainLogic literal. The canonical Snapshot header
 // names that slot GetSnapshotName. Replace the placeholder owner directly;
