@@ -1,4 +1,4 @@
-// cl: -O1 -GR- -EHsc-
+// cl: -O1 -GR- -EHsc- -Ireference/shims/bfme2_ascii
 // ?Run@Rva005B2725@@QAEXH@Z @0x005B2725 104B: m_4 414/418 gate plus hero prep.
 // If m_4 +0x414 equals +0x418, run rowed 0x5B5C02 on +0x418 and return; else
 // fetch via TheHeroManager List (pinned 0x21F797), build 7-arg init via
@@ -14,17 +14,22 @@ struct Rva005B5C02List
 {
 };
 
-struct Rva005B5C02Mgr
+// The list getter 0x0021F797 is the rowed CreateAHeroManager::rva0021F797.
+class Rva0040A3F9;
+class CreateAHeroManager
 {
-	Rva005B5C02List *List();
+public:
+	Rva0040A3F9 *rva0021F797();
 };
-
-// TheHeroManager is only an alias of the owned global TheCreateAHeroManager (ledger names column); this unit reads the owner through its own view type.
-extern class CreateAHeroManager *TheCreateAHeroManager;
-#define TheHeroManager (*(Rva005B5C02Mgr * *)&TheCreateAHeroManager)
-class UnicodeString;
-extern UnicodeString TheEmptyString;
-class CreateAHeroData;
+extern CreateAHeroManager *TheCreateAHeroManager;
+#define TheHeroManager TheCreateAHeroManager
+#include "unicode_string.h"
+// 0x00409359 consumes the source record as CreateAHeroData's rowed assignment.
+class CreateAHeroData
+{
+public:
+	CreateAHeroData &operator=(const CreateAHeroData &other);
+};
 
 class Rva00219251
 {
@@ -32,10 +37,6 @@ public:
 	CreateAHeroData *rva00219251(int a1, int a2, int a3, const UnicodeString &a4, int a5, int a6, int a7);
 };
 
-struct Rva005B5C02Entry
-{
-	void Use(void *s);
-};
 
 struct Rva00423A68
 {
@@ -60,8 +61,8 @@ void Rva005B2725::Run(int unused)
 		((Rva005B5C02Box *)box)->Run();
 		return;
 	}
-	Rva005B5C02List *list = TheHeroManager->List();
-	CreateAHeroData *built = ((Rva00219251 *)TheHeroManager)->rva00219251(0, 0, 0, TheEmptyString, -1, (int)0xFF707070, -1);
-	((Rva005B5C02Entry *)built)->Use((char *)m_4 + 0x27C);
+	Rva005B5C02List *list = (Rva005B5C02List *)TheHeroManager->rva0021F797();
+	CreateAHeroData *built = ((Rva00219251 *)TheHeroManager)->rva00219251(0, 0, 0, UnicodeString::TheEmptyString, -1, (int)0xFF707070, -1);
+	*built = *(const CreateAHeroData *)((char *)m_4 + 0x27C);
 	((Rva00423A68 *)list)->rva00423A68((const class ModuleData *)built);
 }
