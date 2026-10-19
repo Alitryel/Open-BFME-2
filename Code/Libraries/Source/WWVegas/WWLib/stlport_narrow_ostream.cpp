@@ -21,6 +21,14 @@ namespace _STL { template <> basic_ostream<char,char_traits<char> > & basic_ostr
 // bfme link decl-only begin
 namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
 namespace _STL { template <> bool _M_init<char, char_traits<char> >(basic_ostream<char, char_traits<char> > &); }
+// Keep the sentry constructor inline-only: this unit sorts before the owner
+// (stlport_narrow_ostream_put_num.cpp) in link order, and its unreferenced
+// 27-byte COMDAT copy is not retail's 25-byte body at 0x001F5E38.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+basic_ostream<char, char_traits<char> >::sentry::sentry(basic_ostream<char, char_traits<char> > &__str)
+  : _M_str(__str), _M_ok(_M_init(__str)) {}
+}
 namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_char(char); }
 namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_nowiden(char const *); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::flush(); }
