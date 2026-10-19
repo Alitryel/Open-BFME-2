@@ -27323,7 +27323,6 @@ uw_0079122e,,0x0079122E,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;obje
 uw_00791240,,0x00791240,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_00791248,,0x00791248,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2251
 uw_00791250,,0x00791250,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7827
-uw_00791265,,0x00791265,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4930
 uw_00791277,,0x00791277,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3563
 uw_007912bb,,0x007912BB,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2251
 uw_007912e6,,0x007912E6,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2251
@@ -96807,3 +96806,4 @@ __ehhandler$?rva006D17F0@AptLinker@@QAEXXZ,,0x007A8613,10,Code/GameEngine/Source
 __ehhandler$?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ,,0x0079FA0A,10,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineHomeTimeZone.cpp,matched,Compiler-emitted C++ EH handler of complete642B rowed parent005B98E9; native parent installs handler0079FA0A with FuncInfo00956794. Actual owner emits the whole10B mov FuncInfo plus CxxFrameHandler jump. Parent EH graph independently verified; no adjacency inference or alias or pin or source edit.
 ??1Rva004D960CHead@@QAE@XZ,,0x0010F149,12,Code/GameEngine/Source/Common/Rva004D95CEValueDtors.cpp,matched,gen-alias; Native upper destructor004D960C and exactEH cleanup00791277 destroy its head reference through0010F149. Complete12B emitted nullable-reference destructor and resolved0050ED3 Release_Ref call match existing whole owner; no new pointer-layout or original aggregate-name claim; zero unique bytes and no pin.
 __ehhandler$??1Rva004D95CE@@QAE@XZ,,0x0079126D,10,Code/GameEngine/Source/Common/Rva004D95CEValueDtors.cpp,matched,Compiler-emitted C++ EH handler of whole byte-exact parent ??1Rva004D95CE@@QAE@XZ at 004D95CE; native prologue installs handler0079126D and FuncInfo009432EC; complete associative EH graph EXACT. Parent is the ledger body itself. No new pin or alias.
+uw_00791265,,0x00791265,8,Code/GameEngine/Source/Common/Rva004D95CEValueDtors.cpp,matched,gen-funclet;parent=??1Rva004D95CE@@QAE@XZ;object-symbol=$L353;Whole byte-exact C++ parent004D95CE and EXACT associative EH graph place native cleanup00791265 through handler0079126D and FuncInfo009432EC. Actual C++ lifetime replaces generator frame surrogate; full bytes and resolved calls verified. No adjacency-derived ownership or new pin.
