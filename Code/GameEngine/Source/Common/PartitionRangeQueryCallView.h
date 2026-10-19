@@ -38,6 +38,7 @@ public:
 	BfmeWideResult rva006255D0(const Coord3D *pos, float radius, int distType, int order);
 	BfmeWideResult iterateObjectsInRange(const Coord3D *pos, float radius,
 		int distType, Rva000421C8 *filters, int order);
+	Object *rva00625340(const Coord3D *pos, float radius, int distType);
 	Object *getClosestObject(const Coord3D *pos, float maxDist, int dc,
 		Rva000421C8 *filters);	// 0x00625360
 };
