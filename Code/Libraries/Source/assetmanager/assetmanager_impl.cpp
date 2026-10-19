@@ -707,6 +707,22 @@ void vector<unsigned int, allocator<unsigned int> >::_M_clear()
 }
 }
 
+// The rows inline STLport's push_back. Spelling it through this view keeps that
+// expansion without emitting vector<unsigned>::push_back, whose 50-byte copy here
+// came first in link order and is not retail's 49-byte 0x4DFCB0.
+struct Rva0061F910Found : _STL::vector<unsigned int>
+{
+	void append(const unsigned int &__x)
+	{
+		if (this->_M_finish != this->_M_end_of_storage._M_data) {
+			_STL::_Construct(this->_M_finish, __x);
+			++this->_M_finish;
+		}
+		else
+			_M_insert_overflow(this->_M_finish, __x, _IsPODType(), 1UL, true);
+	}
+};
+
 struct Rva0061F910Key
 {
 	unsigned int a;
@@ -747,7 +763,7 @@ Rva0061F910Set &Rva0061F910Set::subtract(const Rva0061F910Set &other)
 	for (Rva0061F910Tree::iterator it = m_set.begin(); it != m_set.end(); ++it)
 	{
 		if (other.m_set.find(*it) != other.m_set.end())
-			found.push_back(it->a);
+			static_cast<Rva0061F910Found &>(found).append(it->a);
 	}
 	if (!found.empty())
 	{
@@ -768,7 +784,7 @@ Rva0061F910Set &Rva0061F910Set::retain(const Rva0061F910Set &other)
 	for (Rva0061F910Tree::iterator it = m_set.begin(); it != m_set.end(); ++it)
 	{
 		if (other.m_set.find(*it) == other.m_set.end())
-			found.push_back(it->a);
+			static_cast<Rva0061F910Found &>(found).append(it->a);
 	}
 	if (!found.empty())
 	{
