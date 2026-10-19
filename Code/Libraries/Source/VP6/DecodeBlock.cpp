@@ -40,8 +40,14 @@ struct PB_INSTANCE
 typedef void (__cdecl *Vp6InverseTransform)(unsigned char *, short *, short *);
 
 extern unsigned char g_bfmePlaneSelector[];
-extern int g_bfmeVp6SelectorMapDw[];
-extern Vp6InverseTransform g_Vp6IdctTable[];
+// The mode-to-reference-frame map (VA 0x00BD8D00) is defined in PredictDc.cpp
+// as bytes; this unit reads it as dwords. The inverse-transform table (VA
+// 0x00E22D40) is the spread table UtilMachineSpecificConfig fills, defined in
+// CreatePBInstance.cpp as g_bfmeTableJX.
+extern unsigned char g_bfmeVp6SelectorMap[];
+extern int g_bfmeTableJX;
+#define g_bfmeVp6SelectorMapDw ((const int *)g_bfmeVp6SelectorMap)
+#define g_Vp6IdctTable ((Vp6InverseTransform *)&g_bfmeTableJX)
 extern "C" unsigned char __cdecl VP6_ReadHuffTokens(PB_INSTANCE *, unsigned char *, int);
 extern "C" unsigned char __cdecl VP6_ReadTokens(PB_INSTANCE *, unsigned char *, int, Vp6BlockContext *, Vp6BlockContext *);
 struct Rva009B4880State;
