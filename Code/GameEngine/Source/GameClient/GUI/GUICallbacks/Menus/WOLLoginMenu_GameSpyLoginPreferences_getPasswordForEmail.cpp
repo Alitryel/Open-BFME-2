@@ -44,23 +44,17 @@
 #include <map>
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
-class WOLLoginAsciiStringLess
-{
-public:
-	bool operator()(const AsciiString& lhs, const AsciiString& rhs) const
-	{
-		// strcmp directly: the donor header's inline AsciiString::compare
-		// would be emitted here as an out-of-line COMDAT that is not retail's
-		// compare (0x69D6), and other units' references would bind to it.
-		return strcmp(lhs.str(), rhs.str()) < 0;
-	}
-};
-
+// The map's less is the free AsciiString operator< (row 0x0005598C), as in
+// GameSpyLoginPreferences.cpp: retail's _M_find calls it out of line.
 namespace _STL
 {
 	template <>
-	struct less<AsciiString> : public WOLLoginAsciiStringLess
+	struct less<AsciiString>
 	{
+		bool operator()(const AsciiString &left, const AsciiString &right) const
+		{
+			return left < right;
+		}
 	};
 }
 
