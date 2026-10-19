@@ -6,6 +6,8 @@
 // only what its body touches; the comment above each gives what references
 // it. Meanings are not recovered.
 
+#include "../../Include/Common/Rva0007DF07.h"
+
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
@@ -64,7 +66,11 @@ struct Rva00200BD9Holder
 	Int m_00;
 	Overridable *m_04;
 };
-extern Rva00200BD9Holder *g_rva00200BD9Holder;
+// VA 0x00DFF488 is the ledger's TheWaterTransparency (data_rows.csv); its
+// single word is the held object pointer read below.
+class WaterTransparencySetting;
+template <class T> class OVERRIDE;
+extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
 class Rva00200BD9
 {
 public:
@@ -72,7 +78,7 @@ public:
 };
 void Rva00200BD9::rva00200BD9()
 {
-	Overridable *o = g_rva00200BD9Holder->m_04;
+	Overridable *o = (*(Rva00200BD9Holder **)&TheWaterTransparency)->m_04;
 	if (o)
 		o->friend_getFinalOverride();
 }
@@ -167,13 +173,12 @@ void Rva003413A1::rva0034143C()
 
 // slot at 0x004444EB (screen tables beside BfmeAptScreenLanLobby): a new
 // 0x0C-byte object with table VA 0x00C3D490 and both words cleared; its base
-// destructor is the shared 0x004E84A4.
-class Rva004444EBBase
+// destructor is the shared 0x004E84A4, which restores the canonical
+// Rva0007DF07 table 0x00BC6F20 (its +0x04 word is the first one cleared).
+class Rva004444EBBase : public Rva0007DF07
 {
 public:
-	Rva004444EBBase() : m_04(0), m_08(0) {}
-	virtual ~Rva004444EBBase();
-	Int m_04;
+	Rva004444EBBase() : m_08(0) {}
 	Int m_08;
 };
 class Rva004444EBObject : public Rva004444EBBase
