@@ -278,12 +278,6 @@ public:
 	void rva0051847B(int unused);
 };
 
-class Rva005189CF
-{
-public:
-	void rva005189CF();
-};
-
 
 struct AptOptionsDisplaySettings
 {
@@ -301,6 +295,7 @@ class AptOptions : public _bfme_AptGameWindow
 public:
 	AptOptions(void *context);
 	virtual ~AptOptions();
+	void rva005189CF();	// 0x005189CF (Rva005189CFText.cpp)
 	void Save(const char *unused);
 	void Reset(const char *unused);
 	void RefreshNat(const char *unused);
@@ -485,7 +480,7 @@ AptOptions::AptOptions(void *context)
 	g_bfmeAptWindowManager->bfmeSetText("APT:VersionNum", UnicodeString(version), false);
 
 	m_preset = ((Rva00DFE144Globals *)TheGameLODManager)->m_1768;
-	((Rva005189CF *)this)->rva005189CF();
+	rva005189CF();
 	((AptOptions *)this)->rva0051A669();
 	OptionPreferences prefs;
 	((Rva00DFE144Globals *)TheGameLODManager)->rva00202244(((Rva00DFE144Globals *)TheGameLODManager)->getLevel17C4(), &prefs);

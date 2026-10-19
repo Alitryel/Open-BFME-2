@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva005189CF@Rva005189CF@@QAEXXZ @0x005189CF 282B
+// ?rva005189CF@AptOptions@@QAEXXZ @0x005189CF 282B
 // Master-option APT text: formats APT:MasterOption_%s from m_310 table when
 // 0..5, builds Unicode via TheGameText fetch slots 0x38/0x3C plus concats,
 // then bfmeSetText with CannotChangeGraphics. Evidence: caller 0x0051AE54;
@@ -20,7 +20,7 @@ template <typename T> class StringBase
 {
 	friend class AsciiString;
 	friend class UnicodeString;
-	friend class Rva005189CF;
+	friend class AptOptions;
 	StringBase(const T *text);
 	void releaseBuffer();
 public:
@@ -40,7 +40,7 @@ StringBase<char>::~StringBase() { releaseBuffer(); }
 
 class AsciiString : private StringBase<char>
 {
-	friend class Rva005189CF;
+	friend class AptOptions;
 public:
 	AsciiString() {}
 	AsciiString(const char *text) : StringBase<char>(text) {}
@@ -49,7 +49,7 @@ public:
 };
 class UnicodeString : private StringBase<unsigned short>
 {
-	friend class Rva005189CF;
+	friend class AptOptions;
 public:
 	UnicodeString() {}
 	~UnicodeString() {}
@@ -87,14 +87,14 @@ class Rva00222A8BTarget
 };
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 extern const char *rva00202B6CNames[];
-class Rva005189CF
+class AptOptions
 {
 	char m_pad[0x310];
 	int m_310;
 public:
 	void rva005189CF();
 };
-void Rva005189CF::rva005189CF()
+void AptOptions::rva005189CF()
 {
 	AsciiString key;
 	if (m_310 >= 0 && m_310 <= 5)
