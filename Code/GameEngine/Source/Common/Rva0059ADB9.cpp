@@ -217,12 +217,13 @@ bool Rva0059AE94::rva0059AE94()
 	return ((Rva004194D6 *)target)->rva0041950A();
 }
 
-// ?rva0059AEBC@Rva0059AEBC@@QAEMXZ @0x0059AEBC 22B
+// ?rva0059AEBC@LivingWorldAutoResolveUnit@@QAEMXZ @0x0059AEBC 22B
 // Target evidence: level at base+0x0C from +0x08 pushed before rowed
 // Rva0033A65E 0x0033A65E through +0x2C; result feeds rowed
 // LivingWorldAutoResolveBodyTemplate 0x00418573. Callers 0x0059AEDB
 // 0x0059AF37 0x0059B2CB 0x0059B697; neighbours 0x0059AE94 0x0059AFC2.
-// Owner identity remains address-derived.
+// Owner: the LivingWorldAutoResolveUnit constructor 0x0059B1EC calls it on
+// its own this (+0x08 entry, +0x2C thing template).
 struct Rva0059AEBCCtx
 {
 	char m_pad[0x0C];
@@ -236,7 +237,7 @@ public:
 	float getRegenRateForLevel(int level);
 };
 
-class Rva0059AEBC
+class LivingWorldAutoResolveUnit
 {
 public:
 	float rva0059AEBC();
@@ -248,7 +249,7 @@ private:
 	Rva0033A65E *m_holder;
 };
 
-float Rva0059AEBC::rva0059AEBC()
+float LivingWorldAutoResolveUnit::rva0059AEBC()
 {
 	return ((LivingWorldAutoResolveBodyTemplate *)m_holder->rva0033A65E())->getHitpointsForLevel(m_ctx->m_level);
 }
@@ -274,7 +275,7 @@ private:
 void Rva0059AED2::rva0059AED2()
 {
 	m_value10 = m_value0C;
-	m_value14 = ((Rva0059AEBC *)this)->rva0059AEBC();
+	m_value14 = ((LivingWorldAutoResolveUnit *)this)->rva0059AEBC();
 	m_flag18 = 0;
 }
 
@@ -374,7 +375,7 @@ public:
  Rva0033A65E *body;
 };
 void Rva0059AF30::rva0059AF30(int mode) {
- float limit = reinterpret_cast<Rva0059AEBC *>(this)->rva0059AEBC();
+ float limit = reinterpret_cast<LivingWorldAutoResolveUnit *>(this)->rva0059AEBC();
  if (limit != maximum) {
   float scaled = current;
   if (maximum != 0.0f) scaled = (limit / maximum) * scaled;

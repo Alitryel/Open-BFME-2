@@ -28,7 +28,6 @@ public:
 class LivingWorldAutoResolveUnit;
 class ExperienceTrackerAutoResolve {public:ExperienceTrackerAutoResolve(LivingWorldAutoResolveUnit *,const Rva004F6093Holder &); char opaque[0x3C];};
 class Rva005DB023 {public:void rva005DB023();};
-class Rva0059AEBC {public:float rva0059AEBC();};
 class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString &);};
 extern ThingFactory *TheThingFactory;
 class Rva0007DF07 {
@@ -46,6 +45,7 @@ class LivingWorldAutoResolveUnit:public Rva0007DF07 {
 public:
  LivingWorldAutoResolveUnit(const Rva0040DC56Element &,unsigned,ArmySummary *);
  virtual ~LivingWorldAutoResolveUnit();
+ float rva0059AEBC(); // max hitpoints for the entry level (0x0059AEBC)
  Rva004F6093Holder entry;
  float hitpoints,current,maximum;
  bool flag18;
@@ -62,7 +62,7 @@ LivingWorldAutoResolveUnit::LivingWorldAutoResolveUnit(const Rva0040DC56Element 
  tracker=new ExperienceTrackerAutoResolve(this,entry);
  ((Rva005DB023 *)tracker)->rva005DB023();
  if(!thing) {hitpoints=0.0f;current=0.0f;maximum=0.0f;}
- else current=hitpoints=maximum=((Rva0059AEBC *)this)->rva0059AEBC();
+ else current=hitpoints=maximum=rva0059AEBC();
 }
 
 // Keep the owned21B constructor visible (outlined) so the compiler sees

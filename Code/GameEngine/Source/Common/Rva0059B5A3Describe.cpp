@@ -86,7 +86,7 @@ struct Rva0059B5A3Unit
 	UpgradeMaskType m_upgrades;	// +0x10
 };
 
-class Rva0059AEBC
+class LivingWorldAutoResolveUnit
 {
 public:
 	float rva0059AEBC();	// maximum health
@@ -118,7 +118,7 @@ AsciiString Rva0059B5A3::rva0059B5A3()
 	str.concat(", HP:");
 	str.concat(_gcvt(m_health, 4, buffer));
 	str.concat("/");
-	str.concat(_gcvt(((Rva0059AEBC *)this)->rva0059AEBC(), 4, buffer));
+	str.concat(_gcvt(((LivingWorldAutoResolveUnit *)this)->rva0059AEBC(), 4, buffer));
 
 	const Rva00427157 *armor = ((Rva0033A9A5 *)m_template)->getCurrentLivingWorldAutoResolveArmor(&m_unit->m_upgrades);
 	const AsciiString *weapon = (const AsciiString *)m_template->getCurrentLivingWorldAutoResolveWeapon(&m_unit->m_upgrades);
