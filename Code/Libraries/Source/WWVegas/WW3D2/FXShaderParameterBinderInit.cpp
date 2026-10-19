@@ -1,4 +1,4 @@
-// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ?Init@FXShaderParameterBinder@@QAEXPAUID3DXEffect@@@Z @ 0x00153F08 (336
@@ -112,13 +112,27 @@ enum ScienceType { SCIENCE_INVALID = -1 };
 
 // The binder's stack parsing record: the parameter being bound and the
 // dynamic-set stack (the 4-byte vector the Push/PopDynamicSetStack rows use).
+//
+// 0x0015334F is an ICF-shared ctor: PlayerAITypeSetParse.cpp's Rva0015334F (a
+// name plus a string vector, dtor 0x002154BE) folds onto it too. This record's
+// destruction is different: Init's unwind reaches the 15-byte vector-at-+4
+// destructor 0x000796BC, not 0x002154BE. So the ctor view here is trivially
+// destructible and the stack record is its own class, Rva00153F08Parsing.
 class Rva0015334F
 {
 public:
 	Rva0015334F();
 
 	D3DXHANDLE m_current;			// +0
-	_STL::vector<ScienceType> m_stack;	// +4
+	_STL::vector<ScienceType> &stack() { return *reinterpret_cast<_STL::vector<ScienceType> *>(m_stack); }
+private:
+	char m_stack[sizeof(_STL::vector<ScienceType>)];	// +4, built by the ctor
+};
+
+class Rva00153F08Parsing : public Rva0015334F
+{
+public:
+	~Rva00153F08Parsing() { stack().~vector(); }
 };
 
 struct Rva005F8F96
@@ -190,10 +204,10 @@ void FXShaderParameterBinder::Init(ID3DXEffect *effect)
 	m_effect = effect;
 	effect->AddRef();
 
-	Rva0015334F parsing;
+	Rva00153F08Parsing parsing;
 	m_parsing = &parsing;
 	ScienceType top = (ScienceType)0;
-	parsing.m_stack.push_back(top);
+	parsing.stack().push_back(top);
 
 	int num_params = 0;
 	int num_techniques = 0;
