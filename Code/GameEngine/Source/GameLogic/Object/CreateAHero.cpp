@@ -189,7 +189,7 @@ class INI
 public:
 	INI();							// 0x0002CDB0
 	~INI();							// 0x0002CE5B
-	void loadFile(AsciiString filename, INILoadType loadType, Xfer *pXfer);	// 0x0002DC75
+	unsigned char loadFile(AsciiString filename, INILoadType loadType, Xfer *pXfer);	// 0x0002DC75: byte result (rowed in INI_loadFile.cpp)
 	static void parseAsciiStringVectorAppend(INI *, void *, void *, const void *);
 	void initFromINI(void *what, const FieldParse *parseTable);	// 0x0002DE78
 
