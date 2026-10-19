@@ -1,4 +1,6 @@
 // ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
+// partial score=0.985 date=2026-10-19
+// ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
 // partial score=0.979 date=2026-10-16
 // ?rva00365309@Path@@QAE_NPAVObject@@PAVPathNode@@PBUCoord3D@@PAUDirectionOptions@@HM_N@Z
 // partial W9-O1 2026-10-16: WB 0x00F1FC60-shaped rebuild, 2177/2177 B, frame 0x78 exact, nn 24 (scheduling only).
@@ -13,11 +15,20 @@
 // Residue: x87 result stores (cos) scheduled before independent SSE loads at the Rotate_Z sites,
 // one xorps/movss pair, the loop-tail mov esi placement and the dest.add x-term order.
 // permute.py 1466 trials: no gain. Lands together with 0x365E98 (needs this body visible).
-// cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /Oy-
+// cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
+// 0x00365309 bank 2026-10-19 (claude-opus-5-5): hack-free 2177/2177, nd 31 (was 37 with an artificial
+// ~Vector3). WB F1FC60: only Coord3D locals carry EH states, so the real empty Coord3D dtor
+// (COORD3D_VIEW_DTOR, 0x000B3FD0) replaces the fake Vector3 one; PathNode gets class-scoped pooled
+// operator new/delete (new PathNode(...); delete saved;) as WB shows, which closed the final midpoint
+// (ctor keeps throw(): retail has no EH frame for it). Left: the cos fstp scheduled before 1-3 SSE ops at
+// all four Rotate_Z sites, one zero-register reload order after the radial Inv_Sqrt, loop-tail
+// options/node reload order. Home: likely a new Pathfinder unit beside rva00365E98Rva00365E98Farm.cpp
+// (same flags). Scratch: build/nbr/r7/365309/.
 // Native365309..365B8A RET28; WB F1FC60 confirms curve construction.
 // ZH Vector3 math and Path/PathNode ownership are semantic guides. Native
 // provides portal20, optimized-link8, options0/1/4/8, and all call addresses.
 #define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
 #include <math.h>
 #include <new>
@@ -25,7 +36,12 @@ enum PathfindLayerEnum {LAYER_GROUND=1};
 struct Rva0028AC4EEntry;
 class Object {public:const Rva0028AC4EEntry *rva0028AC4E()const;};
 class Rva001E3F27FloatChaseField {public:float get()const;};
+class Rva00065964ObjectPool {public:void *rva002635C2()throw();};
+extern Rva00065964ObjectPool g_pathNodePool;
+void FreePooledNode(void *);
 class PathNode {public:
+ static void *operator new(size_t){return g_pathNodePool.rva002635C2();}
+ static void operator delete(void *p){FreePooledNode(p);}
  PathNode(const Coord3D *,PathfindLayerEnum)throw();
  PathfindLayerEnum getLayer()const{return layer;}
  PathNode *next,*previous,*nextOptimized;Coord3D pos;PathfindLayerEnum layer;bool canOptimize;char pad1D[3];int portalID;
@@ -33,7 +49,7 @@ class PathNode {public:
 class WWMath {public:static float __fastcall Inv_Sqrt(float);};
 class Vector3 {public:
  float X,Y,Z;
- __forceinline Vector3(){} __forceinline Vector3(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;} __forceinline Vector3(float x,float y,float z):X(x),Y(y),Z(z){} __forceinline ~Vector3(){}
+ __forceinline Vector3(){} __forceinline Vector3(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;} __forceinline Vector3(float x,float y,float z):X(x),Y(y),Z(z){} 
  __forceinline float Length2()const{return X*X+Y*Y+Z*Z;}
  __forceinline void Normalize(){float len2=Length2();if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}
  __forceinline void Scale(float s){X*=s;Y*=s;Z*=s;}
@@ -59,9 +75,6 @@ class Pathfinder {public:
 };
 class AI {public:char pad00[0x10];Pathfinder *finder;Pathfinder *pathfinder()const{return finder;}};
 extern AI *TheAI;
-class Rva00065964ObjectPool {public:void *rva002635C2()throw();};
-extern Rva00065964ObjectPool g_pathNodePool;
-void FreePooledNode(void *);
 class Path {public:
  bool rva00365309(Object *,PathNode *,const Coord3D *,DirectionOptions *,int,float,bool);
  void rva003649B1(const PathNode *);
@@ -142,12 +155,12 @@ bool Path::rva00365309(Object *obj,PathNode *node,const Coord3D *input,Direction
   }
  }
  if(!options->flag0 && !options->flag8){
-  void *memory=g_pathNodePool.rva002635C2();PathNode *saved=memory?new(memory)PathNode(&node->pos,LAYER_GROUND):0;
+  PathNode *saved=new PathNode(&node->pos,LAYER_GROUND);
   dest.add(&node->pos);
   dest.scale(0.5f);
   node->pos=dest;
   const Rva0028AC4EEntry *entry=obj->rva0028AC4E();if(entry)radius=((const Rva001E3F27FloatChaseField *)entry)->get();
-  rva00364AA2(saved,node,next,radius);if(saved)FreePooledNode(saved);
+  rva00364AA2(saved,node,next,radius);delete saved;
  }
  return true;
 }
