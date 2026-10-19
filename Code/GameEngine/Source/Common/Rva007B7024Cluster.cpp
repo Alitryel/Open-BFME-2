@@ -74,28 +74,12 @@ public:
 	int First;
 	unsigned int Size;
 };
-extern HashTemplateClass<Vector3, unsigned> LocationHash;
-extern HashTemplateClass<Vector3, unsigned> DuplicateLocationHash;
 extern HashTemplateClass<TriangleSide, SideIndexInfo> SideHash;
 
-void __cdecl rva007B71D0()
-{
-	if (LocationHash.Hash != 0)
-		operator delete[](LocationHash.Hash);
-	if (LocationHash.Table != 0)
-		operator delete[](LocationHash.Table);
-}
+// 0x007B71D0 and 0x007B7200 (35B each) are meshmdl_sidehash.cpp's compiler-
+// emitted atexit destructors _$E3 / _$E6 for LocationHash and
+// DuplicateLocationHash (the inlined ~HashTemplateClass); they are rowed there.
 
-// VA 0x00DB6354/58: the Hash/Table pair of meshmdl_sidehash.cpp's
-// DuplicateLocationHash, between LocationHash and SideHash.
-
-void __cdecl rva007B7200()
-{
-	if (DuplicateLocationHash.Hash != 0)
-		operator delete[](DuplicateLocationHash.Hash);
-	if (DuplicateLocationHash.Table != 0)
-		operator delete[](DuplicateLocationHash.Table);
-}
 // 0x007B7230 (35B): the same teardown over SideHash's Hash/Table pair at
 // VA 0x00DB6364/0x00DB6368.
 void __cdecl rva007B7230()

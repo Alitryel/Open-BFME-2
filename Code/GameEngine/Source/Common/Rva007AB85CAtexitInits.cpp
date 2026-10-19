@@ -20,8 +20,6 @@ void __cdecl rva007B6F98();
 void __cdecl rva007B7024();
 void __cdecl rva007B7090();
 void __cdecl rva007B70A0();
-void __cdecl rva007B71D0();
-void __cdecl rva007B7200();
 void __cdecl rva007B7270();
 void __cdecl rva007B7300();
 void __cdecl rva007B7340();
@@ -63,8 +61,6 @@ struct Rva007AB85CAtexitInits
 	static void rva007ACCA6();
 	static void rva007ACD90();
 	static void rva007ACDA0();
-	static void rva007ACE50();
-	static void rva007ACE60();
 	static void rva007ACE80();
 	static void rva007ACED0();
 	static void rva007ACEE0();
@@ -117,17 +113,9 @@ void Rva007AB85CAtexitInits::rva007ACCA6()
 
 
 
-// ?rva007ACE50@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE50 (12B): atexit(0x007B71D0)
-void Rva007AB85CAtexitInits::rva007ACE50()
-{
-	atexit( rva007B71D0 );
-}
-
-// ?rva007ACE60@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACE60 (12B): atexit(0x007B7200)
-void Rva007AB85CAtexitInits::rva007ACE60()
-{
-	atexit( rva007B7200 );
-}
+// 0x007ACE50 and 0x007ACE60 (12B each, atexit of 0x007B71D0 / 0x007B7200) are
+// meshmdl_sidehash.cpp's compiler-emitted _$E2 / _$E5 for LocationHash and
+// DuplicateLocationHash; they are rowed there.
 
 
 // ?rva007ACED0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACED0 (12B): atexit(0x007B7300)

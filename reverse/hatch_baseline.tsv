@@ -1004,7 +1004,6 @@ address_global	Code/GameEngine/Source/Common/Rva007AB81ACtorInits.cpp	g_Va00E066
 address_global	Code/GameEngine/Source/Common/Rva007AB81ACtorInits.cpp	g_Va00E06665	1
 address_global	Code/GameEngine/Source/Common/Rva007AB81ACtorInits.cpp	g_Va00E06724	1
 address_global	Code/GameEngine/Source/Common/Rva007AB81ACtorInits.cpp	g_Va00E08D48	1
-address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00DEC290	2
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00DEC3B8	2
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00DFF030	2
 address_global	Code/GameEngine/Source/Common/Rva007AB85CAtexitInits.cpp	g_Va00E022E8	2
