@@ -2230,7 +2230,6 @@ Code/Libraries/Source/WWVegas/WW3D2/BFME2StreamMotionChannelEvaluate.cpp	?Unknow
 Code/Libraries/Source/WWVegas/WW3D2/BFME2StreamMotionChannelEvaluate.cpp	?UnknownSlot5@BFME2Encoding2MotionChannel@@UAEXMPAVQuaternion@@PAPAE@Z	?rva001B27AB@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVQuaternion@@1@Z	0x001B27AB	unowned
 Code/Libraries/Source/WWVegas/WW3D2/DX8InsertTextureCategory.cpp	?Insert_To_Texture_Category@DX8FVFCategoryContainer@@IAEXAAVVertex_Split_Table@@PAPAVTextureClass@@PAVVertexMaterialClass@@VShaderClass@@HI@Z	?Add_Mesh@DX8TextureCategoryClass@@QAEIAAVVertex_Split_Table@@IIPAVIndexBufferClass@@I@Z	0x00145620	unowned
 Code/Libraries/Source/WWVegas/WW3D2/DX8WebBrowserCreateBrowser.cpp	?CreateBrowser@DX8WebBrowser@@SAXPBD0HHHHHJPAUIDispatch@@@Z	??0BfmeBstrVGP@@QAE@PBD@Z	0x00176CD0	wrong
-Code/Libraries/Source/WWVegas/WW3D2/DX8WebBrowserInitialize.cpp	?Initialize@DX8WebBrowser@@SA_NPBD000@Z	?Release@Data_t@_bstr_t@@QAEKXZ	0x00176E90	wrong
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ	??0Rva00DF6F94GapFillerContext@@QAE@XZ	0x0017414B	unowned
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ	?Rva00177923Init@@YAXXZ	0x00177923	unowned
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ	?Rva0017E210Init@@YAXXZ	0x0017E210	unowned

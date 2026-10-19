@@ -9,6 +9,10 @@
 // WW3D::Get_Window at 0x008FD170 reads the witnessed WW3D HWND global;
 // _bstr_t::Data_t::Release at 0x00958BF0 independently matches the native
 // 70-byte InterlockedDecrement / string-buffer destruction implementation.
+// <new> declares operator delete[] before comutil.h: without it cl 7.1 lowers
+// Data_t::_Free's delete [] m_str to operator delete (??3), and the emitted
+// Release COMDAT is not retail's 0x00176E90 body, which calls ??_V.
+#include <new>
 #include <objbase.h>
 #include <comip.h>
 extern void __stdcall _com_issue_errorex(HRESULT,IUnknown *,const IID &);
