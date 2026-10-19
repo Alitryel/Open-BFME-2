@@ -97200,3 +97200,4 @@ $L2677,,0x00787996,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-
 $L2679,,0x0078799E,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 $L2681,,0x007879A6,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
 $L2683,,0x007879AE,8,Code/GameEngine/Source/Common/StrategicHUD.cpp,matched,gen-funclet;parent=??0Impl@HUD@StrategicHUD@@QAE@HI@Z;exact matched parent EH graph places this emitted label at the complete native action
+?Apply@NodeCompressedMotionStruct@@QAEXAAVCompactTransform@@MPAMMPAPAE@Z,,0x00160240,1184,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp,matched,
