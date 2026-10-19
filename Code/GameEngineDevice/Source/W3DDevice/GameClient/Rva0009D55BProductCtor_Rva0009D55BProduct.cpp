@@ -273,8 +273,10 @@ public:
 };
 bool Rva00118660Call(void *scene, void *camera);
 extern bool ShaderOverbrightEnabled;
-extern float g_Va00DE5E2C[3];
-extern float g_Va00DE5E38[3];
+// The two float triples (retail .bss VA 0xDE5E2C / 0xDE5E38, zero at load)
+// were unowned; only this unit reads them, so they are defined here.
+float g_Va00DE5E2C[3];
+float g_Va00DE5E38[3];
 extern float g_Va00DB4AB4;	// retail RVA 0x009B4AB4 (.data), defined in Rva0009D55BProductCtor.cpp
 static inline float Rva0009BC17Lerp(float a, float b, float t) { return (b - a) * t + a; }
 struct Rva0009BC17GlobalView { unsigned char m_pad[0xD2E]; bool m_D2E; };
