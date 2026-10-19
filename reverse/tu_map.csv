@@ -11283,10 +11283,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001B71F0,945,code,,,-,,Code/Libraries/Source/VP6/InitQuantizer.cpp
 0x001B75B0,93,code,,,-,,Code/Libraries/Source/VP6/UpdateQC.cpp
 0x001B7610,500,code,,,-,,Code/Libraries/Source/VP6/QuantizeBlock.cpp
-0x001B7810,67,code,,,-,,Code/GameEngine/Source/Common/Rva009A6DA0ReleaseBuffers.cpp
-0x001B7860,206,code,,,-,,Code/GameEngine/Source/Common/Rva009A6DA0ReleaseBuffers.cpp
+0x001B7810,67,code,,,-,,Code/Libraries/Source/VP6/CreateQuantizer.cpp
+0x001B7860,206,code,,,-,,Code/Libraries/Source/VP6/CreateQuantizer.cpp
 0x001B7930,94,code,,,-,,Code/Libraries/Source/VP6/DeleteQuantizer.cpp
-0x001B7990,73,code,,,-,,Code/GameEngine/Source/Common/Rva009A6DA0ReleaseBuffers.cpp
+0x001B7990,73,code,,,-,,Code/Libraries/Source/VP6/CreateQuantizer.cpp
 0x001B79E0,185,code,,,-,,Code/Libraries/Source/VP6/quantize.cpp
 0x001B7AA0,582,code,,,-,,Code/Libraries/Source/VP6/BlockArith.cpp
 0x001B7CF0,100,code,,,-,,Code/Libraries/Source/VP6/UnpackBlock.cpp
