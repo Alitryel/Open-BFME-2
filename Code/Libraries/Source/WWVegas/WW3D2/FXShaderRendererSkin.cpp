@@ -262,12 +262,12 @@ public:
     static void Set_Vertex_Buffer(const DynamicVBAccessClass &vb);
 };
 
-class Rva0017438B { public: void rva0017438B(int begin, int end); };
 class Rva00DF6F94GapFillerContext { public: void rva00174350(); };
 
 class FXShaderRenderer
 {
 public:
+    void rva0017438B(int begin, int end);	// 0x0017438B (WB PerformRendering)
     void FlushSoftwareSkinnedRenderingTasks();
     void rva00173C04(Rva0017368AMesh *mesh, void *dest_verts);
 private:
@@ -390,7 +390,7 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
             verticesToSkin -= used;
         }
         DX8Wrapper::Set_Vertex_Buffer(vb);
-        ((Rva0017438B *)this)->rva0017438B((int)batchStart, (int)task);
+        rva0017438B((int)batchStart, (int)task);
         batchStart = task;
     }
     ((Rva00DF6F94GapFillerContext *)this)->rva00174350();

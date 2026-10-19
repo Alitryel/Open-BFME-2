@@ -16,7 +16,7 @@ namespace _STL {
 template <class RandomIt, class Compare> void sort(RandomIt first, RandomIt last, Compare comp);
 }
 typedef bool (*BfmeAssignRecord32Less)(const BfmeAssignRecord32 &, const BfmeAssignRecord32 &);
-class Rva0017438B
+class FXShaderRenderer
 {
 public:
 	void rva0017438B(int a, int b);
@@ -42,6 +42,6 @@ void Rva00174A57::rva00174A57()
 	if (m_18 == m_1C)
 		return;
 	_STL::sort<BfmeAssignRecord32 *, BfmeAssignRecord32Less>((BfmeAssignRecord32 *)m_18, (BfmeAssignRecord32 *)m_1C, (BfmeAssignRecord32Less)&Rva0017368ACompare);
-	((Rva0017438B *)this)->rva0017438B(m_18, m_1C);
+	((FXShaderRenderer *)this)->rva0017438B(m_18, m_1C);
 	return ((Rva00DF6F94GapFillerContext *)this)->rva0017437D();
 }

@@ -1,10 +1,10 @@
-// ?rva0017438B@Rva0017438B@@QAEXHH@Z
+// ?rva0017438B@FXShaderRenderer@@QAEXHH@Z
 // retail 0x0017438B, 819 bytes, WB FXShaderRenderer::PerformRendering.
 // Ledger identity is the existing int,int pin (0x17438B); the body uses a
 // RenderingTask* view with a no-op entry cast to keep that mangling.
 // BANKED PARTIAL ONLY: not an adopted class/provider contract.
 // Target WB identity FXShaderRenderer::PerformRendering; integration must reconcile
-// current Rva0017438B and Rva00DF6F94GapFillerContext owners without a second pin.
+// current FXShaderRenderer and Rva00DF6F94GapFillerContext owners without a second pin.
 // stlport
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 extern "C" {
@@ -92,12 +92,12 @@ bool operator!=(const Rva00087A93 &a,const Rva00087A93 &b) { return a.GetPtr()!=
 struct RenderingTask {
  MeshReference mesh; int methodCount; Rva00087A93 methods[6];
 };
-class Rva0017438B {
+class FXShaderRenderer {
  char opaque00[0x24]; _STL::vector<Rva0017341BWords> transforms;
 public:
  void rva0017438B(int begin_,int end_);
 };
-void Rva0017438B::rva0017438B(int begin_,int end_) {
+void FXShaderRenderer::rva0017438B(int begin_,int end_) {
  RenderingTask *begin=(RenderingTask *)begin_,*end=(RenderingTask *)end_;
  RenderingTask *batchBegin=begin,*batchEnd=begin;
  for(;batchEnd!=end;batchBegin=batchEnd) {
