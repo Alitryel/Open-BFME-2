@@ -34,7 +34,7 @@ template <> _Deque_base<BfmeE32, allocator<BfmeE32> >::~_Deque_base();
 
 class ShroudManagerImpl;
 class ShroudManagerImpl008FBA40Node;
-class ShroudManagerImpl008FBA40Element;
+class ShroudManagerCell;
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
 class PartitionData
@@ -64,7 +64,7 @@ private:
 	Real inverseCellSize;
 	unsigned int width;
 	unsigned int height;
-	ShroudManagerImpl008FBA40Element *elements;
+	ShroudManagerCell *elements;
 	ShroudManagerImpl008FBA40Node *nodes;
 	PartitionData *pendingPartitionData;
 	int unknown38;
@@ -76,7 +76,7 @@ private:
 	ShroudManagerImpl008FBA40RefreshCallback refreshCallback;
 
 	__declspec(noinline) void processPending(bool drainAll);
-	friend class ShroudManagerImpl008FBA40Element;
+	friend class ShroudManagerCell;
 };
 
 // Method-only view: the independently named target provider is73AD90.

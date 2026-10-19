@@ -5,13 +5,13 @@
 struct BfmeE32 {int a[8];};
 namespace _STL {template<> deque<BfmeE32>::~deque();}
 class BfmeThingCDE {public:void bfmeDtorCDE();};
-class ShroudManagerImpl008FBA40Element {
+class ShroudManagerCell {
  char storage[0xA8];
-public:__declspec(noinline) ~ShroudManagerImpl008FBA40Element(){}
+public:__declspec(noinline) ~ShroudManagerCell(){}
 };
 class ShroudManagerImpl {
  char prefix[0x2C];
- ShroudManagerImpl008FBA40Element *elements;
+ ShroudManagerCell *elements;
  BfmeThingCDE *nodes;
  char unknown34[8];
  _STL::deque<BfmeE32> records;

@@ -1,7 +1,7 @@
 // cl: /MD
 //
-// ?xfer@ShroudManagerImpl008FBA40Element@@QAEXPAVXfer@@@Z, retail 0x0073EBB0
-// (134 B).  ShroudManagerImpl008FBA40Element::xfer: write version 1.2 through
+// ?xfer@ShroudManagerCell@@QAEXPAVXfer@@@Z, retail 0x0073EBB0
+// (134 B).  ShroudManagerCell::xfer: write version 1.2 through
 // the Xfer vtable slot +0x28, then for each of the 20 player states transfer
 // its status short (slot +0x80) and its three counter shorts.  On load of a
 // pre-1.2 save (isLoading slot +4 and the stored current version below 2) only
@@ -64,7 +64,7 @@ struct ShroudManagerImpl008FBA40PlayerState
 	UnsignedShort counters[3];
 };
 
-class ShroudManagerImpl008FBA40Element
+class ShroudManagerCell
 {
 public:
 	void xfer(Xfer *xfer);
@@ -77,7 +77,7 @@ private:
 extern Xfer *Rva0073EB00Xfer(Xfer *xfer, UnsignedShort *values);
 extern Xfer *rva0073ea90(Xfer *xfer, UnsignedShort *values);
 
-void ShroudManagerImpl008FBA40Element::xfer(Xfer *xfer)
+void ShroudManagerCell::xfer(Xfer *xfer)
 {
 	XferVersion version;
 	version.m_version = 1;

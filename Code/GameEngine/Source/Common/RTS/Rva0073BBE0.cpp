@@ -4,7 +4,7 @@
 // adjustPlayerCounter008FC1F0 variant with (index m+8 m+0xC). Grid at +0 mask at +4.
 // Callers 0x0073C820 pass grid as +0 mask as +4; returns 1 always; ret 0xc is (x1 x2 y).
 class BfmeCellFD;
-class ShroudManagerImpl008FBA40Element;
+class ShroudManagerCell;
 
 class Gen_008F7CD0
 {
@@ -12,7 +12,7 @@ public:
 	void rva0073A2A0(BfmeCellFD **first, BfmeCellFD **last, int x1, int x2, int y);
 };
 
-class ShroudManagerImpl008FBA40Element
+class ShroudManagerCell
 {
 public:
 	void adjustPlayerCounter008FC1F0(int playerIndex, int counterIndex, int amount);
@@ -48,7 +48,7 @@ char Rva0073BBE0::rva0073BBE0(int x1, int x2, int y)
 				{
 					do
 					{
-						((ShroudManagerImpl008FBA40Element *)cell)->adjustPlayerCounter008FC1F0(
+						((ShroudManagerCell *)cell)->adjustPlayerCounter008FC1F0(
 							index, m_counterIndex, m_amount);
 						cell = (BfmeCellFD *)((char *)cell + 0xA8);
 					} while (cell != end);

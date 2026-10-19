@@ -10949,7 +10949,7 @@ name,address,notes
 ?rva0070DFE0@BfmeAptValue006DCD20@@QAEXXZ,0x0070DFE0,"address-derived AptArray clear-prep helper 0x0070DFE0 called with this in ecx and no stack args by the array clear 0x006D93D0; body unrowed; Ghidra 70DFE0 112B"
 ?rva00739A30@Rva00739A30@@QAEXPAUPair00739BE0@@MH@Z,0x00739A30,REL32 at the byte-verified doNamedMapReveal 0x003577DA: TheShroudManager radius reveal (location/radius/mask) whose undo counterpart is the rowed 0x00739BE0
 ?rva0073CC60@Gen_008F7CD0@@QAEXPAUFloatRect0073CE30@@HI@Z,0x0073CC60,address-derived Gen_008F7CD0 rect-updater entry called by the 229B sibling at 0x00739AF0; ghidra boundary 0x0073CC60/96 and a prior attempt measured a 458B true extent; identity unproven
-?rva0073ea90@@YAPAVXfer@@PAV1@PAG@Z,0x0073EA90,"N=2 twin of Rva0073EB00Xfer at 0x73EB00; legacy counter reader called by ShroudManagerImpl008FBA40Element::xfer 0x73EBB0; address-derived name"
+?rva0073ea90@@YAPAVXfer@@PAV1@PAG@Z,0x0073EA90,"N=2 twin of Rva0073EB00Xfer at 0x73EB00; legacy counter reader called by ShroudManagerCell::xfer 0x73EBB0; address-derived name"
 ?rva00796023@@YAHPAVObject@@PAX@Z,0x00796023,iterate callback pushed at retail 0x003960FF in rva003960BD 0x003960BD for Player::iterateObjects over the Rva0036BDD0 box; identity unproven
 ?rva007A41E@Rva007A41E@@QAEXXZ,0x007A41E,unrowed thiscall string-list worker called by the Rva007A4E6 dtor 0x007A4E6 at +0x18 (Rb increment/erase/delete/map-ctor composite); Rva007A4E6Dtor.cpp calls it through this spelling; full-body identity still open
 ?rva007F76D0@Rva00801670Host@@QAEPAHPAVBfmeVecCZ@@H@Z,0x00663DC0
