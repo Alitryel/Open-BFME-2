@@ -935,8 +935,6 @@ Code/GameEngine/Source/Common/Rva008A2C80Constructor.cpp	uw_007a91a0	??1Rva008A2
 Code/GameEngine/Source/Common/Rva008A2C80Constructor.cpp	uw_007a91b0	??1Rva008A2BA0Handle@@QAE@XZ	0x000A9DF3	wrong
 Code/GameEngine/Source/Common/Rva008B2EF0Constructors.cpp	??0Rva008B38D0@@QAE@I@Z	??0Rva008B2EF0@@QAE@II@Z	0x006F1310	unowned
 Code/GameEngine/Source/Common/Rva008C3E70CallAdapter.cpp	?rva008C3E70Adapter@@YGXHHH@Z	?rva008AF650Implementation@@YAXHHH@Z	0x006EE6C0	unowned
-Code/GameEngine/Source/Common/Rva009A5800Forward.cpp	?Rva009A5620DecodeFrame@@YAHPAE0I@Z	?d_009a8c50@@YAXXZ	0x001B96A0	unowned
-Code/GameEngine/Source/Common/Rva009A5800Forward.cpp	?Rva009A5620DecodeFrame@@YAHPAE0I@Z	?d_009acb60@@YAXXZ	0x001BD550	unowned
 Code/GameEngine/Source/Common/Rva009F5970StateCtor.cpp	??0Rva009F5970State@@QAE@XZ	??1?$vector@UGen_p8cd@@V?$allocator@UGen_p8cd@@@_STL@@@_STL@@QAE@XZ	0x00142D70	wrong
 Code/GameEngine/Source/Common/Rva009F5970StateCtor.cpp	??0Rva009F5970State@@QAE@XZ	?m@T_009f59d0@@QAEXXZ	0x00627E40	unowned
 Code/GameEngine/Source/Common/Rva009F5970StateCtor.cpp	uw_007a78d0	??1?$vector@UGen_p8cd@@V?$allocator@UGen_p8cd@@@_STL@@@_STL@@QAE@XZ	0x00142D70	wrong

@@ -67,7 +67,8 @@ public:
 	char movePair(int *output, int *first, unsigned int *second, unsigned int limit);
 };
 
-void __cdecl Rva009A5800Forward(int s, int data, int size);
+struct PB_INSTANCE;
+extern "C" int __cdecl VP6_DecodeFrameToYUV(PB_INSTANCE *pbi, unsigned char *buffer, unsigned int byteCount);
 typedef void (__cdecl *Vp6ForwardFn)(int, int, int, int, int);
 
 class Rva007E3C20Vp6Stream;
@@ -139,7 +140,7 @@ void Rva007E3C20Vp6Stream::rva000908F6()
 				return;
 			}
 		} while (tag != 0x4b305641 && tag != 0x46305641);
-		((Vp6ForwardFn)Rva009A5800Forward)((int)m_at18, (int)m_at54 + 8, size, m_at30, m_at34);
+		((Vp6ForwardFn)VP6_DecodeFrameToYUV)((int)m_at18, (int)m_at54 + 8, size, m_at30, m_at34);
 	}
 	else
 		g_vp6ActiveStream = this;
@@ -154,6 +155,6 @@ void Rva007E3C20Vp6Stream::rva000908F6()
 			return;
 		}
 	} while (tag != 0x4b30564d && tag != 0x4630564d);
-	((Vp6ForwardFn)Rva009A5800Forward)((int)m_at14, (int)m_at54 + 8, size, m_at30, m_at34);
+	((Vp6ForwardFn)VP6_DecodeFrameToYUV)((int)m_at14, (int)m_at54 + 8, size, m_at30, m_at34);
 	++m_at48;
 }
