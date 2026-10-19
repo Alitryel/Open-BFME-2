@@ -9,7 +9,7 @@
 //   0x005A9CBE  slot 1: the owner's TheSkirmishAIManager record answers
 //               0x002C6ACB, the base test passes, the request carries no
 //               +0x04, and the 0x005DC8A2 search finds a gate
-//   0x005A9F70  slot 3 (not here yet): unless told otherwise, queue one order per gate
+//   0x005A9F70  slot 3: unless told otherwise, queue one order per gate
 //               object (kind 7) the owner holds on the given order list
 //   0x005A9D06  slot 5: xfer: the base's, then the stage
 //   0x005A9EC9  slot 7: while running, step the stage machine
@@ -117,6 +117,9 @@ public:
 	Coord3D m_pos;		// +0x38
 	char m_pad044[0x304 - 0x44];
 	int m_304;		// +0x304
+	// Inline index read (WB 0x0151A830 copies it into its own temporary
+	// before the owner side of the compare).
+	int getOwnerIndex() const { return m_304; }
 };
 
 struct Rva005A9CB3Template
@@ -132,6 +135,7 @@ class Player
 public:
 	char m_pad000[0x2EC];
 	int m_2EC;		// +0x2EC
+	int getPlayerIndex() const { return m_2EC; }
 };
 
 class Team
@@ -250,6 +254,9 @@ public:
 	char m_pad11[0x20 - 0x11];
 	Rva005A9CB3Record *m_record;	// +0x20
 	Player *m_owner;		// +0x24
+	// Inline owner read: WB 0x0151A830 copies +0x24 into a temporary at
+	// both uses in initializeTeamTemplate.
+	Player *getPlayer() const { return m_owner; }
 	char m_pad28[0x58 - 0x28];
 };
 
@@ -270,6 +277,7 @@ class AISimpleSiegeTactic : public AITacticSiege
 public:
 	virtual ~AISimpleSiegeTactic();
 	virtual bool canRun(void *request);
+	virtual bool initializeTeamTemplate(TeamPrototype *orders, int skip);
 	virtual void xfer(Xfer *xfer);
 	virtual void update();
 	bool rva005A9DD4();
@@ -344,4 +352,33 @@ void AISimpleSiegeTactic::update()
 			end(1, 0);
 		break;
 	}
+}
+
+// 0x005A9F70, slot 3 (WB 0x0151A830 AISimpleSiegeTactic::initializeTeamTemplate,
+// AISimpleSiegeTactic.cpp:137): unless told to skip, queue one order (one to one
+// unit of the object's template) for every kind-7 object the owner holds in its
+// TheSkirmishAIManager record; fail when the record held none. The owner and both
+// index reads go through inline accessors as in the WB twin: written as plain
+// member reads, cl keeps the constant 1 in EBX and spills this.
+bool AISimpleSiegeTactic::initializeTeamTemplate(TeamPrototype *orders, int skip)
+{
+	if (!skip) {
+		Object *obj = 0;
+		Rva0025BFF8 *objects = *(Rva0025BFF8 **)g_00DFEEF8->rva002A8F24(getPlayer());
+		for (unsigned int idx = 0; idx < ((IntMap *)objects)->bucket_count(); ++idx) {
+			obj = objects->rva0025BFF8(idx);
+			if (obj && obj->getOwnerIndex() == getPlayer()->getPlayerIndex()
+				&& ((Rva005A9CB3Template *)obj->m_04)->m_520 == 7) {
+				Rva0039EA9C order;
+				order.m_00 = 1;
+				order.m_04 = 1;
+				order.m_10 = ((Rva005A9CB3Template *)obj->m_04)->m_name;
+				order.m_14 = -1;
+				orders->addUnitInfo(*(Rva0039D769 *)&order);
+			}
+		}
+		if (!obj)
+			return false;
+	}
+	return true;
 }
