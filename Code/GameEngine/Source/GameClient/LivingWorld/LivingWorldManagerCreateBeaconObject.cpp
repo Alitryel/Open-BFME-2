@@ -38,6 +38,10 @@
 #include <hash_map>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// The beacon map's _M_find (0x002888D4, fold-proof here) inlines size(); a
+// declaration-only size() made this unit's copy call it. Bind to the kept
+// retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 // bfme link decl-only begin
 namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
@@ -49,7 +53,6 @@ namespace _STL { template <> void *& vector<void *, allocator<void *> >::operato
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
-namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
@@ -218,6 +221,10 @@ private:
 	char m_pad164[0x218 - 0x164];
 	_STL::hash_map<int, Rva003FD14D *> m_beacons; // +0x218
 };
+
+// With size() inlined, this unit's spare _M_bkt_num_key copy would differ from
+// the first copy in link order. Bind to the kept copy instead of emitting one.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int hashtable<pair<const int, Rva003FD14D *>, int, hash<int>, _Select1st<pair<const int, Rva003FD14D *> >, equal_to<int>, allocator<pair<const int, Rva003FD14D *> > >::_M_bkt_num_key(const int &__key) const { return _M_hash(__key) % _M_buckets.size(); } }
 
 void LivingWorldManager::CreateBeaconObject(int id, const Coord2D *pos, int type)
 {
