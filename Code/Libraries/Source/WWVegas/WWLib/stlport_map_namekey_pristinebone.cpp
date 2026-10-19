@@ -45,6 +45,12 @@ struct PristineBoneInfo
 
 typedef _STL::map<NameKeyType, PristineBoneInfo> PristineBoneMap;
 typedef _STL::_Rb_tree<NameKeyType, PristineBoneMap::value_type, _STL::_Select1st<PristineBoneMap::value_type>, _STL::less<NameKeyType>, PristineBoneMap::allocator_type> PristineBoneTree;
+// Retail's _M_copy is the no-EH copy (rowed 0x000BC2DE in
+// stlport_map_namekey_pristinebone_copy.cpp) that the copy constructor and
+// assignment here call; suppress this /EHsc unit's own instantiation and keep
+// the rowed _M_clone_node (0x000BBC89) it used to pull in.
+extern template PristineBoneTree::_Link_type PristineBoneTree::_M_copy(PristineBoneTree::_Link_type, PristineBoneTree::_Link_type);
+template PristineBoneTree::_Link_type PristineBoneTree::_M_clone_node(PristineBoneTree::_Link_type);
 // Preserve the existing instantiated map operations and emit native destruction.
 template class _STL::map<NameKeyType, PristineBoneInfo>;
 template PristineBoneTree::~_Rb_tree();
