@@ -24,12 +24,14 @@ public:
     void rva00174A57();
 };
 class Rva001748B3 { public: void rva001748B3(); };
+// 0x001748E8 is rowed as FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks
+// (FXShaderRendererSkin.cpp); this context is that renderer.
+class FXShaderRenderer { public: void FlushSoftwareSkinnedRenderingTasks(); };
 class Rva00DF6F94GapFillerContext
 {
 public:
     void rva174ba6();
     /* the rowed Rva001748B3::rva001748B3 */ __declspec(dllimport) __forceinline void rva001748B3() { ((Rva001748B3 *)this)->rva001748B3(); }
-    void rva001748E8();
 private:
     void *first0, *last0, *limit0;
     void *first1, *last1, *limit1;
@@ -41,7 +43,7 @@ void Rva00DF6F94GapFillerContext::rva174ba6()
     {
         Rva00125430(true);
         rva001748B3();
-        rva001748E8();
+        reinterpret_cast<FXShaderRenderer *>(this)->FlushSoftwareSkinnedRenderingTasks();
         reinterpret_cast<Rva00174A57 *>(this)->rva00174A57();
         Rva00125430(false);
         DX8WrapperStageHelper::Rva0011CC60InvalidateTextureStages();
