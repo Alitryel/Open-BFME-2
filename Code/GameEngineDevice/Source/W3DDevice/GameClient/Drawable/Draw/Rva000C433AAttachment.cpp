@@ -18,6 +18,10 @@ void Rva00030830GameFree(void*);
 #define free Rva00030830GameFree
 #include <vector>
 #include <string>
+// Inline _String_base<char>'s dtor everywhere so this unit emits no copy of
+// its own; the kept retail copy serves any out-of-line call.
+namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); } }
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }

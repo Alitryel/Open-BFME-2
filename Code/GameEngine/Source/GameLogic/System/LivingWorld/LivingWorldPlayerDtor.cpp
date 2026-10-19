@@ -23,7 +23,8 @@ extern "C" __declspec(nothrow) void *__cdecl memset(void*,int,unsigned int);
 void Rva00030830FreeAllocation(void*);
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 namespace _STL{
-template<>void allocator<BfmeE16>::deallocate(pointer p,size_type)const{Rva00030830FreeAllocation(p);}
+template<>__declspec(dllimport) __forceinline void allocator<BfmeE16>::deallocate(pointer p,size_type)const{Rva00030830FreeAllocation(p);}
+template<>__declspec(dllimport) __forceinline void _STLP_alloc_proxy<BfmeE16*,BfmeE16,allocator<BfmeE16> >::deallocate(BfmeE16*p,size_t n){allocator<BfmeE16>::deallocate(p,n);}
 template<>__declspec(nothrow) __declspec(noinline) _Vector_base<BfmeE16,allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16>&a):_M_start(0),_M_finish(0),_M_end_of_storage(a,0){}
 }
 struct Header:public _STL::_Vector_base<BfmeE16,_STL::allocator<BfmeE16> >{
@@ -90,8 +91,9 @@ class Rva002E21D1 {public:void rva002E21D1();};
 Rva002E2AAE::~Rva002E2AAE(){((Rva002E21D1*)this)->rva002E21D1();((Rva002E1E51List*)((char*)this+4))->forEach(&Rva002E1E51Listener::notify,this);}
 class Rva002E18C3Lookup {public:AsciiString *find(const AsciiString&);};
 extern Rva002E18C3Lookup *Va00E03140Lookup;
-class Rva002E0648M4C {public:void rva004FB222(void*,void*);};
-void Rva002E2AAE::loadPostProcess(){AsciiString*s=Va00E03140Lookup->find(zero48);if(!s)return;((Rva002E0648M4C*)&ai)->rva004FB222(this,s);}
+struct Rva004FB303Target;
+class Rva004FB222Owner {public:void rva004FB222(Rva004FB303Target*,int);};
+void Rva002E2AAE::loadPostProcess(){AsciiString*s=Va00E03140Lookup->find(zero48);if(!s)return;((Rva004FB222Owner*)&ai)->rva004FB222((Rva004FB303Target*)this,(int)s);}
 const char *Rva002E2AAE::GetSnapshotName()const{return "LivingWorldPlayer";}
 typedef char PlayerSize[sizeof(Rva002E2AAE)==0x3c8?1:-1];
 
