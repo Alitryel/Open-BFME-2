@@ -17,7 +17,7 @@ extern "C" unsigned short g_vp6MmxThrees[4] = {
 };
 // Retail 0x009B7FA0: four 16-bit lanes of 4 (shared with the wide
 // accumulator unit that owns it).
-extern "C" unsigned char Vp6WideAccumConst86D0[8];
+extern "C" unsigned char g_vp6DeblockNewMmxWord4[8];
 
 // Post-processor instance view: per-block q index and variance arrays.
 struct DeblockBandMmxContext
@@ -328,7 +328,7 @@ extern "C" void __cdecl DeblockLoopFilteredBand_MMX(DeblockBandMmxContext *ctx, 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -471,7 +471,7 @@ extern "C" void __cdecl DeblockLoopFilteredBand_MMX(DeblockBandMmxContext *ctx, 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -971,7 +971,7 @@ extern "C" void __cdecl DeblockLoopFilteredBand_MMX(DeblockBandMmxContext *ctx, 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -1114,7 +1114,7 @@ extern "C" void __cdecl DeblockLoopFilteredBand_MMX(DeblockBandMmxContext *ctx, 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]

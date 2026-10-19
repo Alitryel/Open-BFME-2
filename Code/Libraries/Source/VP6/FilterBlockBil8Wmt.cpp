@@ -20,9 +20,9 @@ struct Rva009C7380WeightPair
 // eight 32-byte bilinear banks (one per sub-pixel phase) followed by eight
 // 64-byte bicubic banks at +0x100, which is the layout FilterBlock_wmt
 // indexes through BILINEAR_BANK/BICUBIC_BANK. `extern "C"` gives the const
-// array external linkage under the ledger name _g_00DB84E0, which
+// array external linkage under the ledger name _g_vp6BilinearFilterWmt, which
 // FilterBlock_wmt also declares extern "C".
-extern "C" __declspec(align(16)) const unsigned char g_00DB84E0[768] = {
+extern "C" __declspec(align(16)) const unsigned char g_vp6BilinearFilterWmt[768] = {
 	0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x70, 0x00, 0x70, 0x00, 0x70, 0x00, 0x70, 0x00, 0x70, 0x00, 0x70, 0x00, 0x70, 0x00, 0x70, 0x00,
@@ -74,7 +74,7 @@ extern "C" __declspec(align(16)) const unsigned char g_00DB84E0[768] = {
 
 static const void *rva009C7380Weights(int index)
 {
-	return g_00DB84E0 + index * 32;
+	return g_vp6BilinearFilterWmt + index * 32;
 }
 
 extern "C" void __cdecl FilterBlockBil_8_wmt(const unsigned char *rowA, const unsigned char *rowB,

@@ -16,8 +16,8 @@
 // and 0x009B7FB0 (owned by the wide accumulator unit): four 16-bit lanes of
 // 3, of 4 and of 1.
 extern "C" unsigned short g_vp6MmxThrees[4];
-extern "C" unsigned char Vp6WideAccumConst86D0[8];
-extern "C" unsigned char Vp6WideAccumConst86E0[8];
+extern "C" unsigned char g_vp6DeblockNewMmxWord4[8];
+extern "C" unsigned char g_vp6DeblockNewMmxWord1[8];
 
 // Deblock loop limit table selected by the post-processor setup.
 extern int *g_bfmeDeblockLimit;
@@ -328,7 +328,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psubw mm3, mm6
 		movq mm4, mm5
 		paddw mm4, mm5
-		paddw mm3, qword ptr Vp6WideAccumConst86D0
+		paddw mm3, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm5, mm4
 		paddw mm3, mm5
 		psraw mm3, 3
@@ -336,7 +336,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psraw mm3, 0xf
 		pxor mm2, mm3
 		psubsw mm2, mm3
-		por mm3, qword ptr Vp6WideAccumConst86E0
+		por mm3, qword ptr g_vp6DeblockNewMmxWord1
 		movq mm4, mm1
 		psubw mm1, mm2
 		movq mm5, mm1
@@ -389,7 +389,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -509,7 +509,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psubw mm5, mm4
 		psubw mm3, mm6
 		movq mm4, mm5
-		paddw mm3, qword ptr Vp6WideAccumConst86D0
+		paddw mm3, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm4, mm4
 		paddw mm3, mm4
 		paddw mm3, mm5
@@ -518,7 +518,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psraw mm3, 0xf
 		pxor mm2, mm3
 		psubsw mm2, mm3
-		por mm3, qword ptr Vp6WideAccumConst86E0
+		por mm3, qword ptr g_vp6DeblockNewMmxWord1
 		movq mm4, mm1
 		psubw mm1, mm2
 		movq mm5, mm1
@@ -571,7 +571,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -1015,7 +1015,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psubw mm3, mm6
 		movq mm4, mm5
 		paddw mm4, mm5
-		paddw mm3, qword ptr Vp6WideAccumConst86D0
+		paddw mm3, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm5, mm4
 		paddw mm3, mm5
 		psraw mm3, 3
@@ -1023,7 +1023,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psraw mm3, 0xf
 		pxor mm2, mm3
 		psubsw mm2, mm3
-		por mm3, qword ptr Vp6WideAccumConst86E0
+		por mm3, qword ptr g_vp6DeblockNewMmxWord1
 		movq mm4, mm1
 		psubw mm1, mm2
 		movq mm5, mm1
@@ -1076,7 +1076,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]
@@ -1197,7 +1197,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psubw mm3, mm6
 		movq mm4, mm5
 		paddw mm4, mm5
-		paddw mm3, qword ptr Vp6WideAccumConst86D0
+		paddw mm3, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm5, mm4
 		paddw mm3, mm5
 		psraw mm3, 3
@@ -1205,7 +1205,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		psraw mm3, 0xf
 		pxor mm2, mm3
 		psubsw mm2, mm3
-		por mm3, qword ptr Vp6WideAccumConst86E0
+		por mm3, qword ptr g_vp6DeblockNewMmxWord1
 		movq mm4, mm1
 		psubw mm1, mm2
 		movq mm5, mm1
@@ -1258,7 +1258,7 @@ extern "C" void __cdecl DeblockNonFilteredBand_MMX(DeblockNonFilteredMmxContext 
 		paddw mm3, qword ptr [edi+0x20]
 		paddw mm4, qword ptr [edi+0x30]
 		paddw mm3, qword ptr [edi+0x40]
-		paddw mm4, qword ptr Vp6WideAccumConst86D0
+		paddw mm4, qword ptr g_vp6DeblockNewMmxWord4
 		paddw mm3, mm4
 		movq mm4, mm3
 		movq mm5, qword ptr [edi+0x10]

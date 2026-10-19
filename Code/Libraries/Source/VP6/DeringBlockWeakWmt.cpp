@@ -24,40 +24,40 @@
 // planes into the eight-row reconstruction and writes the output rows.
 
 extern "C" int Vp6FilterEdgeTagTable[];
-extern "C" unsigned char Vp6FilterConst8840[];
-// Vp6FilterConst8850: matched references place it at VA 0xdb8120; retail contents, sized to the
+extern "C" unsigned char g_vp6DeringWmtWord128[];
+// g_vp6DeringWmtWord64: matched references place it at VA 0xdb8120; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8850[16] = {
+extern "C" unsigned char g_vp6DeringWmtWord64[16] = {
 	64, 0, 64, 0, 64, 0, 64, 0,
 	64, 0, 64, 0, 64, 0, 64, 0,
 };
-// Vp6FilterConst8860: matched references place it at VA 0xdb8130; retail contents, sized to the
+// g_vp6DeringWmtByte64: matched references place it at VA 0xdb8130; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8860[16] = {
+extern "C" unsigned char g_vp6DeringWmtByte64[16] = {
 	64, 64, 64, 64, 64, 64, 64, 64,
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
-// Vp6FilterConst8870: matched references place it at VA 0xdb8140; retail contents, sized to the
+// g_vp6DeringWmtByte32: matched references place it at VA 0xdb8140; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8870[16] = {
+extern "C" unsigned char g_vp6DeringWmtByte32[16] = {
 	32, 32, 32, 32, 32, 32, 32, 32,
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
-// Vp6FilterConst8880: matched references place it at VA 0xdb8150; retail contents, sized to the
+// g_vp6DeringWmtByte127: matched references place it at VA 0xdb8150; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8880[16] = {
+extern "C" unsigned char g_vp6DeringWmtByte127[16] = {
 	127, 127, 127, 127, 127, 127, 127, 127,
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
-// Vp6FilterConst8890: matched references place it at VA 0xdb8160; retail contents, sized to the
+// g_vp6DeringWmtByte128: matched references place it at VA 0xdb8160; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8890[16] = {
+extern "C" unsigned char g_vp6DeringWmtByte128[16] = {
 	128, 128, 128, 128, 128, 128, 128, 128,
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
-// Vp6FilterConst88B0: matched references place it at VA 0xdb8180; retail contents, sized to the
+// g_vp6DeringWmtByte231: matched references place it at VA 0xdb8180; retail contents, sized to the
 // 0x8-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst88B0[8] = {
+extern "C" unsigned char g_vp6DeringWmtByte231[8] = {
 	231, 231, 231, 231, 231, 231, 231, 231,
 };
 
@@ -104,10 +104,10 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		punpcklbw mm2, mm2
 		paddb mm1, mm0
 		paddb mm1, mm0
-		paddusb mm1, qword ptr [Vp6FilterConst88B0]
-		paddb mm0, qword ptr [Vp6FilterConst8870]
-		psubusb mm1, qword ptr [Vp6FilterConst88B0]
-		movq mm3, qword ptr [Vp6FilterConst8880]
+		paddusb mm1, qword ptr [g_vp6DeringWmtByte231]
+		paddb mm0, qword ptr [g_vp6DeringWmtByte32]
+		psubusb mm1, qword ptr [g_vp6DeringWmtByte231]
+		movq mm3, qword ptr [g_vp6DeringWmtByte127]
 		pandn mm1, mm3
 	vloop1:
 		movq mm3, qword ptr [esi]
@@ -121,8 +121,8 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		paddusb mm3, mm3
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8890]
-		paddb mm4, qword ptr [Vp6FilterConst8860]
+		movq mm5, qword ptr [g_vp6DeringWmtByte128]
+		paddb mm4, qword ptr [g_vp6DeringWmtByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -144,8 +144,8 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		paddusb mm3, mm3
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8890]
-		paddb mm4, qword ptr [Vp6FilterConst8860]
+		movq mm5, qword ptr [g_vp6DeringWmtByte128]
+		paddb mm4, qword ptr [g_vp6DeringWmtByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -169,8 +169,8 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		pxor xmm7, xmm7
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8890]
-		paddb mm4, qword ptr [Vp6FilterConst8860]
+		movq mm5, qword ptr [g_vp6DeringWmtByte128]
+		paddb mm4, qword ptr [g_vp6DeringWmtByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -199,8 +199,8 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		paddusb mm3, mm3
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8890]
-		paddb mm4, qword ptr [Vp6FilterConst8860]
+		movq mm5, qword ptr [g_vp6DeringWmtByte128]
+		paddb mm4, qword ptr [g_vp6DeringWmtByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -243,12 +243,12 @@ extern "C" void __cdecl DeringBlockWeak_WMT(
 		paddw xmm4, xmm6
 		movq xmm2, qword ptr [esi]
 		paddw xmm0, xmm5
-		movdqa xmm1, xmmword ptr [Vp6FilterConst8840]
+		movdqa xmm1, xmmword ptr [g_vp6DeringWmtWord128]
 		punpcklbw xmm2, xmm7
 		psubw xmm1, xmm4
 		pmullw xmm2, xmm1
 		add esi, ecx
-		movdqa xmm6, xmmword ptr [Vp6FilterConst8850]
+		movdqa xmm6, xmmword ptr [g_vp6DeringWmtWord64]
 		movdqa xmm7, xmm6
 		add eax, 16
 		psllw xmm7, 8

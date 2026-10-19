@@ -21,15 +21,15 @@
 // see reverse/re_attempts.log for the derivation notes.
 
 extern "C" int Vp6FilterEdgeTagTable[];
-extern "C" unsigned char Vp6FilterConst8720[];
-extern "C" unsigned char Vp6FilterConst8730[];
-extern "C" unsigned char Vp6FilterConst8740[];
-extern "C" unsigned char Vp6FilterConst8750[];
-extern "C" unsigned char Vp6FilterConst8760[];
-extern "C" unsigned char Vp6FilterConst8770[];
-// Vp6FilterConst8780: matched references place it at VA 0xdb8050; retail contents, sized to the
+extern "C" unsigned char g_vp6DeringMmxWord128[];
+extern "C" unsigned char g_vp6DeringMmxWord64[];
+extern "C" unsigned char g_vp6DeringMmxByte64[];
+extern "C" unsigned char g_vp6DeringMmxByte32[];
+extern "C" unsigned char g_vp6DeringMmxByte127[];
+extern "C" unsigned char g_vp6DeringMmxByte128[];
+// g_vp6DeringMmxByte223: matched references place it at VA 0xdb8050; retail contents, sized to the
 // 0x10-byte gap before the next known global there.
-extern "C" unsigned char Vp6FilterConst8780[16] = {
+extern "C" unsigned char g_vp6DeringMmxByte223[16] = {
 	223, 223, 223, 223, 223, 223, 223, 223,
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
@@ -76,10 +76,10 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		punpcklbw mm2, mm2
 		paddb mm1, mm0
 		paddb mm1, mm0
-		paddusb mm1, qword ptr [Vp6FilterConst8780]
-		paddb mm0, qword ptr [Vp6FilterConst8750]
-		psubusb mm1, qword ptr [Vp6FilterConst8780]
-		movq mm3, qword ptr [Vp6FilterConst8760]
+		paddusb mm1, qword ptr [g_vp6DeringMmxByte223]
+		paddb mm0, qword ptr [g_vp6DeringMmxByte32]
+		psubusb mm1, qword ptr [g_vp6DeringMmxByte223]
+		movq mm3, qword ptr [g_vp6DeringMmxByte127]
 		pandn mm1, mm3
 	vloop:
 		movq mm3, qword ptr [esi]
@@ -91,8 +91,8 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		movq mm6, mm0
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8770]
-		paddb mm4, qword ptr [Vp6FilterConst8740]
+		movq mm5, qword ptr [g_vp6DeringMmxByte128]
+		paddb mm4, qword ptr [g_vp6DeringMmxByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -117,8 +117,8 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		movq mm6, mm0
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8770]
-		paddb mm4, qword ptr [Vp6FilterConst8740]
+		movq mm5, qword ptr [g_vp6DeringMmxByte128]
+		paddb mm4, qword ptr [g_vp6DeringMmxByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -143,8 +143,8 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		movq mm6, mm0
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8770]
-		paddb mm4, qword ptr [Vp6FilterConst8740]
+		movq mm5, qword ptr [g_vp6DeringMmxByte128]
+		paddb mm4, qword ptr [g_vp6DeringMmxByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -174,8 +174,8 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		movq mm6, mm0
 		movq mm4, mm0
 		psubusb mm6, mm3
-		movq mm5, qword ptr [Vp6FilterConst8770]
-		paddb mm4, qword ptr [Vp6FilterConst8740]
+		movq mm5, qword ptr [g_vp6DeringMmxByte128]
+		paddb mm4, qword ptr [g_vp6DeringMmxByte64]
 		pxor mm4, mm5
 		pxor mm3, mm5
 		pcmpgtb mm3, mm4
@@ -243,15 +243,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -317,15 +317,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -391,15 +391,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -465,15 +465,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -539,15 +539,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -613,15 +613,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -687,15 +687,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3
@@ -761,15 +761,15 @@ extern "C" void __cdecl DeringBlockStrong_MMX(
 		paddw mm1, mm3
 		movq mm3, mm2
 		punpcklbw mm2, mm7
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		punpckhbw mm3, mm7
 		psubw mm6, mm4
 		pmullw mm2, mm6
-		movq mm6, qword ptr [Vp6FilterConst8720]
+		movq mm6, qword ptr [g_vp6DeringMmxWord128]
 		paddw mm0, mm2
 		psubw mm6, mm5
 		pmullw mm3, mm6
-		movq mm6, qword ptr [Vp6FilterConst8730]
+		movq mm6, qword ptr [g_vp6DeringMmxWord64]
 		movq mm7, mm6
 		paddw mm0, mm6
 		paddw mm1, mm3

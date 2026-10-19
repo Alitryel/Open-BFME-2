@@ -10,10 +10,10 @@
 // Rva009C7380BinkSse.cpp owns.
 #include <emmintrin.h>
 
-extern "C" const unsigned char g_00DB84E0[];
+extern "C" const unsigned char g_vp6BilinearFilterWmt[];
 
-#define BILINEAR_BANK(phase) (g_00DB84E0 + (phase) * 32)
-#define BICUBIC_BANK(phase) (g_00DB84E0 + 0x100 + (phase) * 64)
+#define BILINEAR_BANK(phase) (g_vp6BilinearFilterWmt + (phase) * 32)
+#define BICUBIC_BANK(phase) (g_vp6BilinearFilterWmt + 0x100 + (phase) * 64)
 
 extern "C" void __cdecl FilterBlock1d_h_wmt(const void *, void *, int, int, int, int, const void *);
 extern "C" void __cdecl FilterBlock1d_v_wmt(const void *, void *, int, int, int, int, const void *);
