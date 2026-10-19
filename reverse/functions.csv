@@ -24280,7 +24280,6 @@ uw_007824bf,,0x007824BF,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;obje
 uw_007824c7,,0x007824C7,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
 uw_007824cf,,0x007824CF,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
 uw_007824fa,,0x007824FA,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
-uw_00782514,,0x00782514,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L12415
 uw_00782529,,0x00782529,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00782531,,0x00782531,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2881
 uw_0078253c,,0x0078253C,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2882
@@ -96795,3 +96794,4 @@ __ehhandler$?takeGroups@ScriptList@@QAEXPAV1@PAPAUScriptGroupLink@@1@Z,,0x007826
 $L5621,,0x007826A7,8,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptListTakeGroups.cpp,matched,gen-funclet;parent=?takeGroups@ScriptList@@QAEXPAV1@PAPAUScriptGroupLink@@1@Z; Exact parent141B EH graph binds actual compiler cleanup7826A7 through state0 unwind map; deque local at EBP-34 destructed through existing typed provider; complete8B ends at handler7826AF; real parent lifetime replaces anonymous harness without object-symbol alias or adjacency guess.
 __ehhandler$??1Rva003B872ASet@@QAE@XZ,,0x0078251F,10,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptListRva003B766BDtor.cpp,matched,Compiler-emitted C++ EH handler; native77B destructor3B766B installs78251F with FuncInfo92D980; exact full parent EH graph and whole owning source independently verified.
 $L4821,,0x0078250C,8,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptListRva003B766BDtor.cpp,matched,gen-funclet;parent=??1Rva003B872ASet@@QAE@XZ; Exact parent EH graph binds actual eight-byte sorted-vector base cleanup78250C; native saved receiver EBP-10 and whole typed destructor relocation verified; ends at next action782514; real class member lifetime replaces anonymous harness.
+$L4822,,0x00782514,11,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptListRva003B766BDtor.cpp,matched,gen-funclet;parent=??1Rva003B872ASet@@QAE@XZ; Exact parent EH graph binds eleven-byte records-vector member cleanup782514; actual saved receiver EBP-10 plusC and typed vector destructor relocation verified; ends at handler78251F; real member lifetime replaces anonymous harness.
