@@ -63,19 +63,7 @@ void __identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ")();
 void __identifier("?Create@GameFileClass@@UAEHXZ")();
 void __identifier("?Rva004647D1Get@@YAMXZ")();
 }
-extern const void *const g_00C1C388[11] = {
-	(const void *)&__identifier("??_GRva003AD273@@UAEPAXI@Z"), // slot 0 0x003AD257
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?xfer@ObjectModule@@QAEXPAVXfer@@@Z"), // slot 3 0x00560AE1
-	(const void *)&__identifier("?doParticles@StreakDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x0055FD6B
-	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
-	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
-	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
-	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
-};
+extern const void *const g_00C1C388[11];
 extern const void *const g_00C1C3C8[];
 extern const void *const g_00C1C404[];
 // The retail table at RVA 0x0081C538: 1 slots, each a rowed code owner (the next
@@ -83,9 +71,7 @@ extern const void *const g_00C1C404[];
 extern "C" {
 void __identifier("?rva003AC93E@Rva003AC93ETemplate@@UAEPAVRva003AC93EModule@@I@Z")();
 }
-extern const void *const g_00C1C538[1] = {
-	(const void *)&__identifier("?rva003AC93E@Rva003AC93ETemplate@@UAEPAVRva003AC93EModule@@I@Z"), // slot 0 0x003AC93E
-};
+extern const void *const g_00C1C538[1];
 // The retail table at RVA 0x0081C53C: 7 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -97,15 +83,7 @@ void __identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 void __identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ")();
 }
-extern const void *const g_00C1C53C[7] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?rva0055B951@Rva0055B951@@UAEXPAVXfer@@@Z"), // slot 3 0x0055B951
-	(const void *)&__identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z"), // slot 4 0x003ABCE6
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
-	(const void *)&__identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ"), // slot 6 0x003ABD04
-};
+extern const void *const g_00C1C53C[7];
 extern "C" const void *const __identifier("??_7Rva003ABD20@@6BDefaultModuleSecondBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003ABD81@@6BDefaultModuleSecondBase@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot1@@@")[];
@@ -119,12 +97,7 @@ void __identifier("?rva0056405C@Rva0056405C@@QAEXXZ")();
 int __cdecl _purecall(void);
 void __identifier("?rva00563ED1@Rva00563ED1@@UAEXPAVXfer@@@Z")();
 }
-extern const void *const g_00C1C620[4] = {
-	(const void *)&__identifier("??_GRva003ACB74@@UAEPAXI@Z"), // slot 0 0x003AD413
-	(const void *)&__identifier("?rva0056405C@Rva0056405C@@QAEXXZ"), // slot 1 0x0056405C
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?rva00563ED1@Rva00563ED1@@UAEXPAVXfer@@@Z"), // slot 3 0x00563ED1
-};
+extern const void *const g_00C1C620[4];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B1C@@@")[];
 extern const void *const g_00C1C6DC[];
 extern "C" const void *const __identifier("??_7Rva003AF47D@@6BIntermediate3AFC6FC@@@")[];
@@ -152,15 +125,7 @@ void __identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 void __identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ")();
 }
-extern const void *const g_00C1CDF0[7] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?clone@Rva003AEADD@@QBEPAV1@XZ"), // slot 2 0x003AEAA3
-	(const void *)&__identifier("?rva0055B951@Rva0055B951@@UAEXPAVXfer@@@Z"), // slot 3 0x0055B951
-	(const void *)&__identifier("?rva003ABCE6@Rva003ABCE6Forwarder@@QAEXH@Z"), // slot 4 0x003ABCE6
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
-	(const void *)&__identifier("?rva003ABD04@Rva003ABD04@@QAE?AURva00SlotFloat2@@XZ"), // slot 6 0x003ABD04
-};
+extern const void *const g_00C1CDF0[7];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$02@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003ABD20@@6B@")[];
 // The retail table at RVA 0x0081CE64: 9 slots, each a rowed code owner (the next
@@ -176,17 +141,7 @@ void __identifier("?rva003ABD6B@Rva003ABD6B@@QAE?AURva00SlotFloat2@@XZ")();
 void __identifier("?get@Rva0045310DByteField@@QBEEXZ")();
 void __identifier("?get@Rva003ABD51ByteField@@QBEEXZ")();
 }
-extern const void *const g_00C1CE64[9] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?clone@Rva003AEB9C@@QBEPAV1@XZ"), // slot 2 0x003AEB65
-	(const void *)&__identifier("?xfer@Rva0055EF39@@UAEXPAVXfer@@@Z"), // slot 3 0x0055EF39
-	(const void *)&__identifier("?get@Rva00094A9CFloatField@@QBEMXZ"), // slot 4 0x00094A9C
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
-	(const void *)&__identifier("?rva003ABD6B@Rva003ABD6B@@QAE?AURva00SlotFloat2@@XZ"), // slot 6 0x003ABD6B
-	(const void *)&__identifier("?get@Rva0045310DByteField@@QBEEXZ"), // slot 7 0x0045310D
-	(const void *)&__identifier("?get@Rva003ABD51ByteField@@QBEEXZ"), // slot 8 0x003ABD51
-};
+extern const void *const g_00C1CE64[9];
 extern "C" const void *const __identifier("??_7Rva003ABD81@@6B@")[];
 // The retail table at RVA 0x0081CE98: 12 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
@@ -204,20 +159,7 @@ void __identifier("?get@Rva0053998CLeaField@@QBEPAXXZ")();
 void __identifier("?get@Rva003EE704LeaField@@QBEPAXXZ")();
 void __identifier("?getSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ")();
 }
-extern const void *const g_00C1CE98[12] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?clone@Rva003AEC5E@@QBEPAV1@XZ"), // slot 2 0x003AEC24
-	(const void *)&__identifier("?rva0055F710@Rva0055F710@@UAEXPAVXfer@@@Z"), // slot 3 0x0055F710
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 4 0x004F5FA3
-	(const void *)&__identifier("?getSolution@PartitionSolver@@QBEABV?$vector@U?$pair@W4ObjectID@@W41@@_STL@@V?$allocator@U?$pair@W4ObjectID@@W41@@_STL@@@2@@_STL@@XZ"), // slot 5 0x002A9808
-	(const void *)&__identifier("?getAttackSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ"), // slot 6 0x001D96F0
-	(const void *)&__identifier("?get@Rva003F3FE4LeaField@@QBEPAXXZ"), // slot 7 0x003F3FE4
-	(const void *)&__identifier("?get@Rva0008BCC8LeaField@@QBEPAXXZ"), // slot 8 0x0008BCC8
-	(const void *)&__identifier("?get@Rva0053998CLeaField@@QBEPAXXZ"), // slot 9 0x0053998C
-	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 10 0x003EE704
-	(const void *)&__identifier("?getSoundsVector@AudioEventInfo@@QBEABV?$vector@URvaPair001D9F62@@V?$allocator@URvaPair001D9F62@@@_STL@@@_STL@@XZ"), // slot 11 0x001D96EC
-};
+extern const void *const g_00C1CE98[12];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot3@@@")[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6B@")[];
 extern "C" const void *const __identifier("??_7Rva003AECE6@@6BRva003AECE6Slot0@@@")[];
@@ -239,19 +181,7 @@ void __identifier("?get@Rva003F3FCEDwordField@@QBEHXZ")();
 void __identifier("?Create@GameFileClass@@UAEHXZ")();
 void __identifier("?Rva004647D1Get@@YAMXZ")();
 }
-extern const void *const g_00C1C444[11] = {
-	(const void *)&__identifier("??_GRva003ACED6@@UAEPAXI@Z"), // slot 0 0x003ACEBA
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?rva00562945@Rva00562945@@UAEXPAVXfer@@@Z"), // slot 3 0x00562945
-	(const void *)&__identifier("?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x00562DDB
-	(const void *)&__identifier("?rva00562BF7@Rva00562BF7Owner@@QAE?AVAsciiString@@XZ"), // slot 5 0x00562BF7
-	(const void *)&__identifier("?rva004BD9CB@Rva004BD9CB@@UBE?AVAsciiString@@XZ"), // slot 6 0x004BD9CB
-	(const void *)&__identifier("?get@Rva003F3FCEDwordField@@QBEHXZ"), // slot 7 0x003F3FCE
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 8 0x000910FB
-	(const void *)&__identifier("?Create@GameFileClass@@UAEHXZ"), // slot 9 0x000910FB
-	(const void *)&__identifier("?Rva004647D1Get@@YAMXZ"), // slot 10 0x004647D1
-};
+extern const void *const g_00C1C444[11];
 extern "C" const void *const __identifier("??_7Rva003AE683@@6B@")[];
 extern const void *const g_00C1C620[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6BDefaultModuleSecondBase_3AEE16@@@")[];
@@ -267,13 +197,7 @@ void __identifier("?clone@?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJE
 void __identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 }
-extern const void *const g_00C1CDCC[5] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?clone@?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@V?$DefaultParticleModule@$01@2@@FXParticleSystem@@@FXParticleSystem@@UBEPAVRenderObjectUpdateModuleTemplate@2@XZ"), // slot 2 0x003AE9DB
-	(const void *)&__identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z"), // slot 3 0x0055B30F
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 4 0x004F5FA3
-};
+extern const void *const g_00C1CDCC[5];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$00@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Rva003AEDE9@@6BDefaultModuleHeadBase_3AEE16@@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$07$E?LIFE_EVENT_MODULE_KEY@FXParticleSystem@@3QBDB$E?LIFE_EVENT_MODULE_NAME@2@3QBDBVLifeEventModule@2@VLifeEventModuleTemplate@2@VParticleLifeEventModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
@@ -290,20 +214,7 @@ void __identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ")();
 void __identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ")();
 void __identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ")();
 }
-extern const void *const g_00C1CF38[12] = {
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 0 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("?clone@Rva003AEF6E@@QBEPAV1@XZ"), // slot 2 0x003AEF34
-	(const void *)&__identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z"), // slot 3 0x00562233
-	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 4 0x003EE704
-	(const void *)&__identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ"), // slot 5 0x0030BBA5
-	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 6 0x00308156
-	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 7 0x003ABE71
-	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 8 0x003ABE78
-	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 9 0x00308156
-	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 10 0x003ABE71
-	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 11 0x003ABE78
-};
+extern const void *const g_00C1CF38[12];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
 extern "C" const void *const __identifier("??_7Gen005ED0D0@@6BDefaultModuleHeadBase_3AEE16@@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$07$E?TERRAIN_COLLISION_MODULE_KEY@FXParticleSystem@@3QBDB$E?TERRAIN_COLLISION_MODULE_NAME@2@3QBDBVTerrainCollisionModule@2@VTerrainCollisionModuleTemplate@2@VParticleTerrainCollisionModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
@@ -328,19 +239,7 @@ void __identifier("?get@Bfme939Helper@@QBEHXZ")();
 void __identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ")();
 void __identifier("?get@Rva00094A98FloatField@@QBEMXZ")();
 }
-extern const void *const g_00C1C4C8[11] = {
-	(const void *)&__identifier("??_GRva003ACEF7@@UAEPAXI@Z"), // slot 0 0x003ACEDB
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?xfer@Rva003AE928@@UAEXPAVXfer@@@Z"), // slot 3 0x00563965
-	(const void *)&__identifier("?doParticles@GpuDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z"), // slot 4 0x005639A4
-	(const void *)&__identifier("?rva00560ABA@Rva00560ABA@@QAE?AVAsciiString@@XZ"), // slot 5 0x00560ABA
-	(const void *)&__identifier("?rva0056394A@Rva0056394A@@QAE?AVAsciiString@@XZ"), // slot 6 0x0056394A
-	(const void *)&__identifier("?rva0055C44F@Rva0055C44F@@QAEHXZ"), // slot 7 0x0055C44F
-	(const void *)&__identifier("?get@Bfme939Helper@@QBEHXZ"), // slot 8 0x0030F2C7
-	(const void *)&__identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ"), // slot 9 0x0030D377
-	(const void *)&__identifier("?get@Rva00094A98FloatField@@QBEMXZ"), // slot 10 0x00094A98
-};
+extern const void *const g_00C1C4C8[11];
 extern "C" const void *const __identifier("??_7Rva003AE928@@6B@")[];
 extern const void *const g_00C1C508[];
 // The retail table at RVA 0x0081C504: 6 slots, each a rowed code owner (the next
@@ -353,14 +252,7 @@ int __cdecl _purecall(void);
 void __identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z")();
 void __identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ")();
 }
-extern const void *const g_00C1C504[6] = {
-	(const void *)&__identifier("?rva003AC8D7@Rva003AC8D7Host@@UAEPAVRva003AC8D7Object@@I@Z"), // slot 0 0x003AC8D7
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 1 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 2 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
-	(const void *)&__identifier("?rva0055B30F@Rva0055B30F@@UAEXPAVXfer@@@Z"), // slot 4 0x0055B30F
-	(const void *)&__identifier("?get@Rva004F5FA3LeaGetter@@QBEPAXXZ"), // slot 5 0x004F5FA3
-};
+extern const void *const g_00C1C504[6];
 extern const void *const g_00C1CDBC[];
 extern const void *const g_00C1C644[];
 // The retail table at RVA 0x0081C640: 13 slots, each a rowed code owner (the next
@@ -377,21 +269,7 @@ void __identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ")();
 void __identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ")();
 void __identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ")();
 }
-extern const void *const g_00C1C640[13] = {
-	(const void *)&__identifier("?rva003ACA93@Rva003ACA93Host@@UAEPAVRva003ACA93Object@@I@Z"), // slot 0 0x003ACA93
-	(const void *)&__identifier("??_GRva003ACB6F@@UAEPAXI@Z"), // slot 1 0x003AD3F7
-	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 2 0x000B3FD0
-	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
-	(const void *)&__identifier("?rva00562233@Rva00562233@@UAEXPAVXfer@@@Z"), // slot 4 0x00562233
-	(const void *)&__identifier("?get@Rva003EE704LeaField@@QBEPAXXZ"), // slot 5 0x003EE704
-	(const void *)&__identifier("?get@Rva0030BBA5LeaField@@QBEPAXXZ"), // slot 6 0x0030BBA5
-	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 7 0x00308156
-	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 8 0x003ABE71
-	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 9 0x003ABE78
-	(const void *)&__identifier("?get@Rva00308156LeaGetter@@QBEPAXXZ"), // slot 10 0x00308156
-	(const void *)&__identifier("?get@Rva003ABE71LeaGetter@@QBEPAXXZ"), // slot 11 0x003ABE71
-	(const void *)&__identifier("?get@Rva003ABE78LeaGetter@@QBEPAXXZ"), // slot 12 0x003ABE78
-};
+extern const void *const g_00C1C640[13];
 extern const void *const g_00C1CF28[];
 // The retail table at RVA 0x0081C6A4: 4 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
@@ -401,12 +279,7 @@ void __identifier("?rva005645FE@Rva005645FE@@QAEXXZ")();
 int __cdecl _purecall(void);
 void __identifier("?rva005644A9@Rva005644A9@@UAEXPAVXfer@@@Z")();
 }
-extern const void *const g_00C1C6A4[4] = {
-	(const void *)&__identifier("??_GRva003ACB74@@UAEPAXI@Z"), // slot 0 0x003AD413
-	(const void *)&__identifier("?rva005645FE@Rva005645FE@@QAEXXZ"), // slot 1 0x005645FE
-	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
-	(const void *)&__identifier("?rva005644A9@Rva005644A9@@UAEXPAVXfer@@@Z"), // slot 3 0x005644A9
-};
+extern const void *const g_00C1C6A4[4];
 extern "C" const void *const __identifier("??_7Gen005ED0D0@@6BDefaultModuleSecondBase_3AEE16@@@")[];
 extern "C" const void *const __identifier("??_7Gen005ED0D0@@6B@")[];
 

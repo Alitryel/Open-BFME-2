@@ -169,26 +169,26 @@ extern unsigned g_Va00DE0878;
 extern unsigned g_Va00DE1CCC;
 extern unsigned int g_00DE1CCD;
 extern unsigned g_Va00DE2008;
-unsigned g_Va00DEC008;	// retail RVA 0x009EC008 (.bss), defined here
-unsigned g_Va00DEE93C;	// retail RVA 0x009EE93C (.bss), defined here
-unsigned g_Va00DFF0C4;	// retail RVA 0x009FF0C4 (.bss), defined here
-unsigned g_Va00E01CF0;	// retail RVA 0x00A01CF0 (.bss), defined here
-unsigned g_Va00E01CF4;	// retail RVA 0x00A01CF4 (.bss), defined here
+extern unsigned g_Va00DEC008;	// retail RVA 0x009EC008 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00DEE93C;	// retail RVA 0x009EE93C (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00DFF0C4;	// retail RVA 0x009FF0C4 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E01CF0;	// retail RVA 0x00A01CF0 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E01CF4;	// retail RVA 0x00A01CF4 (.bss), defined in Rva007ABBB3CtorInits.cpp
 extern unsigned g_Va00E01E40;
-unsigned g_Va00E02310;	// retail RVA 0x00A02310 (.bss), defined here
-unsigned g_Va00E02D90;	// retail RVA 0x00A02D90 (.bss), defined here
-unsigned g_Va00E02D94;	// retail RVA 0x00A02D94 (.bss), defined here
+extern unsigned g_Va00E02310;	// retail RVA 0x00A02310 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E02D90;	// retail RVA 0x00A02D90 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E02D94;	// retail RVA 0x00A02D94 (.bss), defined in Rva007ABBB3CtorInits.cpp
 class Rva002B7250;
 extern Rva002B7250 g_registryAtE02E88; // 0x00E02E88, Rva003EF14ADtor.cpp
 extern unsigned g_Va00E03020;
-unsigned g_Va00E032E8;	// retail RVA 0x00A032E8 (.bss), defined here
-unsigned g_Va00E04424;	// retail RVA 0x00A04424 (.bss), defined here
-unsigned g_Va00E0447C;	// retail RVA 0x00A0447C (.bss), defined here
-unsigned g_Va00E044F0;	// retail RVA 0x00A044F0 (.bss), defined here
+extern unsigned g_Va00E032E8;	// retail RVA 0x00A032E8 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E04424;	// retail RVA 0x00A04424 (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E0447C;	// retail RVA 0x00A0447C (.bss), defined in Rva007ABBB3CtorInits.cpp
+extern unsigned g_Va00E044F0;	// retail RVA 0x00A044F0 (.bss), defined in Rva007ABBB3CtorInits.cpp
 extern unsigned g_Va00E048C4;
-unsigned g_Va00E06634;	// retail RVA 0x00A06634 (.bss), defined here
+extern unsigned g_Va00E06634;	// retail RVA 0x00A06634 (.bss), defined in Rva007ABBB3CtorInits.cpp
 extern unsigned g_Va00E06778;
-unsigned g_Va00E09E60;	// retail RVA 0x00A09E60 (.bss), defined here
+extern unsigned g_Va00E09E60;	// retail RVA 0x00A09E60 (.bss), defined in Rva007ABBB3CtorInits.cpp
 extern unsigned int g_Va00E01E7C;
 extern unsigned g_Va00DEC018;
 extern unsigned g_Va00DEC080;

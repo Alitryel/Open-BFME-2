@@ -160,47 +160,47 @@ public:
 };
 
 extern unsigned int g_00DDE0AC;
-unsigned g_Va00DE1DC0;	// retail RVA 0x009E1DC0 (.bss), defined here
-unsigned g_Va00DEBC64;	// retail RVA 0x009EBC64 (.bss), defined here
-unsigned g_Va00DEBCA0;	// retail RVA 0x009EBCA0 (.bss), defined here
-unsigned g_Va00DFE3E8;	// retail RVA 0x009FE3E8 (.bss), defined here
-unsigned g_Va00DFE420;	// retail RVA 0x009FE420 (.bss), defined here
-unsigned g_Va00DFE440;	// retail RVA 0x009FE440 (.bss), defined here
-unsigned g_Va00DFE448;	// retail RVA 0x009FE448 (.bss), defined here
-unsigned g_Va00DFE490;	// retail RVA 0x009FE490 (.bss), defined here
-unsigned g_Va00DFE49C;	// retail RVA 0x009FE49C (.bss), defined here
-unsigned g_Va00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined here
-unsigned g_Va00DFE6DC;	// retail RVA 0x009FE6DC (.bss), defined here
-unsigned g_Va00DFE72C;	// retail RVA 0x009FE72C (.bss), defined here
+extern unsigned g_Va00DE1DC0;	// retail RVA 0x009E1DC0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DEBC64;	// retail RVA 0x009EBC64 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DEBCA0;	// retail RVA 0x009EBCA0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE3E8;	// retail RVA 0x009FE3E8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE420;	// retail RVA 0x009FE420 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE440;	// retail RVA 0x009FE440 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE448;	// retail RVA 0x009FE448 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE490;	// retail RVA 0x009FE490 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE49C;	// retail RVA 0x009FE49C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE4C4;	// retail RVA 0x009FE4C4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE6DC;	// retail RVA 0x009FE6DC (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFE72C;	// retail RVA 0x009FE72C (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFE7A8;
-unsigned g_Va00DFE940;	// retail RVA 0x009FE940 (.bss), defined here
-unsigned g_Va00DFED90;	// retail RVA 0x009FED90 (.bss), defined here
-unsigned g_Va00DFED9C;	// retail RVA 0x009FED9C (.bss), defined here
-unsigned g_Va00DFEDA8;	// retail RVA 0x009FEDA8 (.bss), defined here
-unsigned g_Va00DFEDB4;	// retail RVA 0x009FEDB4 (.bss), defined here
-unsigned g_Va00DFEDC0;	// retail RVA 0x009FEDC0 (.bss), defined here
-unsigned g_Va00DFEDCC;	// retail RVA 0x009FEDCC (.bss), defined here
-unsigned g_Va00DFEDD8;	// retail RVA 0x009FEDD8 (.bss), defined here
+extern unsigned g_Va00DFE940;	// retail RVA 0x009FE940 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFED90;	// retail RVA 0x009FED90 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFED9C;	// retail RVA 0x009FED9C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFEDA8;	// retail RVA 0x009FEDA8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFEDB4;	// retail RVA 0x009FEDB4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFEDC0;	// retail RVA 0x009FEDC0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFEDCC;	// retail RVA 0x009FEDCC (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFEDD8;	// retail RVA 0x009FEDD8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 struct BfmeUiResourceEntryState;
 extern BfmeUiResourceEntryState BfmeUiResourceEntryCollectorState;
-unsigned g_Va00DFEE20;	// retail RVA 0x009FEE20 (.bss), defined here
+extern unsigned g_Va00DFEE20;	// retail RVA 0x009FEE20 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFF030;
-unsigned g_Va00DFF044;	// retail RVA 0x009FF044 (.bss), defined here
-unsigned g_Va00DFF048;	// retail RVA 0x009FF048 (.bss), defined here
-unsigned g_Va00DFF050;	// retail RVA 0x009FF050 (.bss), defined here
-unsigned g_Va00DFF054;	// retail RVA 0x009FF054 (.bss), defined here
-unsigned g_Va00DFF05C;	// retail RVA 0x009FF05C (.bss), defined here
-unsigned g_Va00DFF060;	// retail RVA 0x009FF060 (.bss), defined here
-unsigned g_Va00DFF0A0;	// retail RVA 0x009FF0A0 (.bss), defined here
-unsigned g_Va00DFF0A4;	// retail RVA 0x009FF0A4 (.bss), defined here
+extern unsigned g_Va00DFF044;	// retail RVA 0x009FF044 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF048;	// retail RVA 0x009FF048 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF050;	// retail RVA 0x009FF050 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF054;	// retail RVA 0x009FF054 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF05C;	// retail RVA 0x009FF05C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF060;	// retail RVA 0x009FF060 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF0A0;	// retail RVA 0x009FF0A0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00DFF0A4;	// retail RVA 0x009FF0A4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00DFF0C4;
-unsigned g_Va00DFF168;	// retail RVA 0x009FF168 (.bss), defined here
-unsigned g_Va00E02040;	// retail RVA 0x00A02040 (.bss), defined here
-unsigned g_Va00E020C8;	// retail RVA 0x00A020C8 (.bss), defined here
-unsigned g_Va00E02158;	// retail RVA 0x00A02158 (.bss), defined here
-unsigned g_Va00E021F8;	// retail RVA 0x00A021F8 (.bss), defined here
-unsigned g_Va00E022A8;	// retail RVA 0x00A022A8 (.bss), defined here
-unsigned g_Va00E022AC;	// retail RVA 0x00A022AC (.bss), defined here
+extern unsigned g_Va00DFF168;	// retail RVA 0x009FF168 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E02040;	// retail RVA 0x00A02040 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E020C8;	// retail RVA 0x00A020C8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E02158;	// retail RVA 0x00A02158 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E021F8;	// retail RVA 0x00A021F8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E022A8;	// retail RVA 0x00A022A8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E022AC;	// retail RVA 0x00A022AC (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E022E8;
 extern unsigned g_Va00E028C4;
 extern unsigned g_Va00E02D68;
@@ -208,48 +208,48 @@ extern unsigned g_Va00E02D90;
 extern unsigned g_Va00E02D94;
 extern unsigned g_Va00E02E70;
 extern unsigned g_Va00E02E74;
-unsigned g_Va00E03080;	// retail RVA 0x00A03080 (.bss), defined here
-unsigned g_Va00E030E4;	// retail RVA 0x00A030E4 (.bss), defined here
-unsigned g_Va00E03238;	// retail RVA 0x00A03238 (.bss), defined here
+extern unsigned g_Va00E03080;	// retail RVA 0x00A03080 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E030E4;	// retail RVA 0x00A030E4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E03238;	// retail RVA 0x00A03238 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E032E8;
-unsigned g_Va00E03318;	// retail RVA 0x00A03318 (.bss), defined here
-unsigned g_Va00E03324;	// retail RVA 0x00A03324 (.bss), defined here
-unsigned g_Va00E03328;	// retail RVA 0x00A03328 (.bss), defined here
-unsigned g_Va00E0332C;	// retail RVA 0x00A0332C (.bss), defined here
-unsigned g_Va00E03330;	// retail RVA 0x00A03330 (.bss), defined here
-unsigned g_Va00E04444;	// retail RVA 0x00A04444 (.bss), defined here
-unsigned g_Va00E04448;	// retail RVA 0x00A04448 (.bss), defined here
-unsigned g_Va00E0445C;	// retail RVA 0x00A0445C (.bss), defined here
+extern unsigned g_Va00E03318;	// retail RVA 0x00A03318 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E03324;	// retail RVA 0x00A03324 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E03328;	// retail RVA 0x00A03328 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E0332C;	// retail RVA 0x00A0332C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E03330;	// retail RVA 0x00A03330 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E04444;	// retail RVA 0x00A04444 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E04448;	// retail RVA 0x00A04448 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E0445C;	// retail RVA 0x00A0445C (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E0447C;
 extern unsigned g_Va00E04490;
-unsigned g_Va00E048F4;	// retail RVA 0x00A048F4 (.bss), defined here
-unsigned g_Va00E048FC;	// retail RVA 0x00A048FC (.bss), defined here
-unsigned g_Va00E0494C;	// retail RVA 0x00A0494C (.bss), defined here
-unsigned g_Va00E04954;	// retail RVA 0x00A04954 (.bss), defined here
-unsigned g_Va00E04964;	// retail RVA 0x00A04964 (.bss), defined here
-unsigned g_Va00E0498C;	// retail RVA 0x00A0498C (.bss), defined here
-unsigned g_Va00E04998;	// retail RVA 0x00A04998 (.bss), defined here
-unsigned g_Va00E049A0;	// retail RVA 0x00A049A0 (.bss), defined here
-unsigned g_Va00E049A4;	// retail RVA 0x00A049A4 (.bss), defined here
+extern unsigned g_Va00E048F4;	// retail RVA 0x00A048F4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E048FC;	// retail RVA 0x00A048FC (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E0494C;	// retail RVA 0x00A0494C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E04954;	// retail RVA 0x00A04954 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E04964;	// retail RVA 0x00A04964 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E0498C;	// retail RVA 0x00A0498C (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E04998;	// retail RVA 0x00A04998 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E049A0;	// retail RVA 0x00A049A0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E049A4;	// retail RVA 0x00A049A4 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E062FC;
 extern unsigned g_Va00E0630C;
 extern unsigned g_Va00E0631C;
-unsigned g_Va00E06360;	// retail RVA 0x00A06360 (.bss), defined here
-unsigned g_Va00E063B8;	// retail RVA 0x00A063B8 (.bss), defined here
-unsigned g_Va00E063C0;	// retail RVA 0x00A063C0 (.bss), defined here
+extern unsigned g_Va00E06360;	// retail RVA 0x00A06360 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E063B8;	// retail RVA 0x00A063B8 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E063C0;	// retail RVA 0x00A063C0 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E063D4;
-unsigned g_Va00E06458;	// retail RVA 0x00A06458 (.bss), defined here
+extern unsigned g_Va00E06458;	// retail RVA 0x00A06458 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E065EC;
 extern unsigned g_Va00E06620;
 extern unsigned g_Va00E06710;
-unsigned g_Va00E06724;	// retail RVA 0x00A06724 (.bss), defined here
+extern unsigned g_Va00E06724;	// retail RVA 0x00A06724 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E06734;
 extern unsigned g_Va00E06748;
-unsigned g_Va00E08D48;	// retail RVA 0x00A08D48 (.bss), defined here
-unsigned g_Va00E09E50;	// retail RVA 0x00A09E50 (.bss), defined here
+extern unsigned g_Va00E08D48;	// retail RVA 0x00A08D48 (.bss), defined in Rva007B6A00AtexitThunks.cpp
+extern unsigned g_Va00E09E50;	// retail RVA 0x00A09E50 (.bss), defined in Rva007B6A00AtexitThunks.cpp
 extern unsigned g_Va00E09E60;
 extern unsigned g_Va00E0C150;
-unsigned g_Va00E176A0;void __cdecl rva007B6AE7();
+extern unsigned g_Va00E176A0;
 
 void __cdecl rva007B6B05();
 
