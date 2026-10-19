@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Retail evidence: 0x000CA2F3 is the 73-byte vector<Coord3D> two-argument
 // resize body. Its identity is supported by the rowed one-argument forwarder
