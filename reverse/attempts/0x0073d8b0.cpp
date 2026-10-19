@@ -1,4 +1,6 @@
 // ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
+// partial score=0.958435 date=2026-10-19
+// ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
 // partial score=0.919 date=2026-10-17
 // ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
 // partial score=0.619 date=2026-10-14
@@ -799,20 +801,19 @@ __declspec(noinline) ShroudManagerImpl008FBA40Element::ShroudManagerImpl008FBA40
 
 __forceinline unsigned shroudByteChecksum(const unsigned char *data, unsigned count)
 {
- unsigned value = 0;
- if(data) {
-  while(count--) {
-   unsigned byte = *data++;
-   unsigned high = value >> 31;
-   value = byte + (value << 1) + high;
-  }
+ if (!data) return 0;
+ unsigned value=0;
+ while(count--) {
+  unsigned byte=*data++;
+  unsigned high=value>>31;
+  value=byte+(value<<1)+high;
  }
  return value;
 }
 
 void ShroudManagerImpl::rva0073D8B0(Xfer *target)
 {
- if((1 ? (!target->isCRC()) : (!target->isCRC()))) {
+ if(!target->isCRC()) {
   drainPending();
   for(BfmeThingCDE *node=(BfmeThingCDE *)nodes; node; node=node->next) {
    node->d_008f7ec0();
@@ -855,27 +856,14 @@ void ShroudManagerImpl::rva0073D8B0(Xfer *target)
    for(unsigned x=0;x<width;++x,element+=0xa8) {
     const unsigned char *row=element;
     for(unsigned p=0;p<20;++p,row+=8) {
-     unsigned value=0;
-     const unsigned char *data=row + 6;
-     unsigned count=2;
-     do {
-      unsigned byte=*data++;
-      unsigned high=value>>31;
-      value=byte+(value<<1)+high;
-     } while(--count);
-     scratch+=value;
-     value=0;
-     count=6;
-     do {
-      unsigned byte=data[2];
-      ++data;
-      unsigned high=value>>31;
-      value=byte+(value<<1)+high;
-     } while(--count);
-     scratch+=value;
+     scratch+=shroudByteChecksum(row+4,2);
+     scratch+=shroudByteChecksum(row+6,6);
     }
    }
   }
   target->uint(&scratch);
  }
 }
+
+// CRC spans and pointer guards follow retail 0x0073DB30 and 0x0073DB5B.
+// Semantic repair evidence: reverse/attempt_support/0x0073d8b0-20261019-w5/readme.md.
