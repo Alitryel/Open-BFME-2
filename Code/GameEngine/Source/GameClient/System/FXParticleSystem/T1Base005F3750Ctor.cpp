@@ -22,6 +22,13 @@
 #include <set>
 
 #include "ascii_string.h"
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
