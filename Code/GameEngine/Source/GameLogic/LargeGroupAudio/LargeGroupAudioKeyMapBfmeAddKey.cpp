@@ -80,7 +80,9 @@ typedef _STL::_Rb_tree<AsciiString, Rva003D3F90Pair,
 	_STL::allocator<Rva003D3F90Pair> > Rva003D3F90Tree;
 
 extern Rva003D3F90Tree g_lgaKeyRecords;
-extern unsigned int g_lgaNextKey;
+// Next key handed out by bfmeAddKey (retail RVA 0x00A02E4C, zero at load, just
+// below g_lgaKeyRecords); bfmeClearMembers (LargeGroupAudioKeyList.cpp) resets it.
+unsigned int g_lgaNextKey = 0;
 
 class LargeGroupAudioKeyMap :
 	public _STL::vector<void *, _STL::allocator<void *> >
