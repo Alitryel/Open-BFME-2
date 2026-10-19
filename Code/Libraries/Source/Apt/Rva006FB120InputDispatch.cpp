@@ -100,12 +100,6 @@ extern AptValue *gpUndefinedValue;
 extern int g_00E17704;
 
 class Rva006E1E30;
-class Rva006F9FC0
-{
-public:
-    bool rva006F9FC0(Rva006E1E30 *object, int value); // 0x006F9FC0
-};
-
 struct AptInputInstSet
 {
     unsigned short mnCount;
@@ -128,6 +122,7 @@ public:
     void rva006FA7E0(bool first, bool enabled, int value);
     void ProcessButtonState();
     void rva006FB120(int eType, int state, int value, int device, char isFirst);
+    bool rva006F9FC0(Rva006E1E30 *object, int value); // 0x006F9FC0
 };
 
 void AptAnimationPoolData::rva006FB120(int eType, int state, int value, int device, char isFirst)
@@ -149,7 +144,7 @@ void AptAnimationPoolData::rva006FB120(int eType, int state, int value, int devi
             continue;
         APT_ASSERT(inputSet.maElements[i]->isCIH(), "inputSet.maElements[i]->isCIH()", APT_INPUT_FILE, 0x296)
         if (isFirst && pInst->rva006E0BF0() && pInst->rva006E24D0()
-            && ((Rva006F9FC0 *)this)->rva006F9FC0((Rva006E1E30 *)pInst, value)) {
+            && rva006F9FC0((Rva006E1E30 *)pInst, value)) {
             if (pHit->isUndefined()
                 || (!pInst->rva006E0C50(pHit->c_cih()) && pInst->rva006E2460(pHit->c_cih())))
                 pHit = pInst;

@@ -21,12 +21,6 @@ public:
     BfmeAptValue006DCD20 *rva006DCF60(bool bUndefOK); // rowed, 0x006DCF60
 };
 
-class Rva006F9FC0
-{
-public:
-    bool rva006F9FC0(Rva006E1E30 *object, int unused); // rowed, 0x006F9FC0
-};
-
 // 0x006E2010 is rowed as AptCIH::queueClipEvents (1090B; WB twin);
 // same (int,int,int) shape, so these resolve to the rowed body instead of
 // the unrowed dispatcher spelling (sole U on this unit).
@@ -49,6 +43,7 @@ public:
     BfmeAptValue006DCD20 *m64;
     BfmeAptValue006DCD20 *m68;
     void rva006FA7E0(bool first, bool enabled, int value);
+    bool rva006F9FC0(Rva006E1E30 *object, int unused); // rowed, 0x006F9FC0
 };
 
 void AptAnimationPoolData::rva006FA7E0(bool first, bool enabled, int value)
@@ -65,7 +60,7 @@ void AptAnimationPoolData::rva006FA7E0(bool first, bool enabled, int value)
                     ->queueClipEvents(0x1000, value, 1);
             }
         } else {
-            if (((Rva006F9FC0 *)this)->rva006F9FC0(
+            if (rva006F9FC0(
                     (Rva006E1E30 *)m60->rva006DCF60(false), value) && m68 == m60) {
                 ((AptCIH *)m60->rva006DCF60(false))
                     ->queueClipEvents(0x800, value, 1);
@@ -88,7 +83,7 @@ void AptAnimationPoolData::rva006FA7E0(bool first, bool enabled, int value)
     }
 
     if (!m60->isUndefined()) {
-        bool inside = ((Rva006F9FC0 *)this)->rva006F9FC0(
+        bool inside = rva006F9FC0(
             (Rva006E1E30 *)m60->rva006DCF60(false), value);
         if (!m64->isUndefined() && !inside) {
             ((AptCIH *)m60->rva006DCF60(false))
@@ -113,7 +108,7 @@ void AptAnimationPoolData::rva006FA7E0(bool first, bool enabled, int value)
         } else {
             if (m64->isUndefined() || m68 == m64 || !m60->isUndefined())
                 return;
-            if (((Rva006F9FC0 *)this)->rva006F9FC0(
+            if (rva006F9FC0(
                     (Rva006E1E30 *)m64->rva006DCF60(false), value))
                 return;
             ((AptCIH *)m64->rva006DCF60(false))

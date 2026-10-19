@@ -19,7 +19,7 @@ public:
 	void rva006E1E30(Rva006F9FC0Rect *rect);
 };
 
-class Rva006F9FC0
+class AptAnimationPoolData
 {
 public:
 	bool rva006F9FC0(Rva006E1E30 *object, int unused);
@@ -30,8 +30,8 @@ private:
 	int m_78;
 };
 
-// ?rva006F9FC0@Rva006F9FC0@@QAE_NPAVRva006E1E30@@H@Z
-bool Rva006F9FC0::rva006F9FC0(Rva006E1E30 *object, int)
+// ?rva006F9FC0@AptAnimationPoolData@@QAE_NPAVRva006E1E30@@H@Z
+bool AptAnimationPoolData::rva006F9FC0(Rva006E1E30 *object, int)
 {
 	Rva006F9FC0Rect rect;
 	object->rva006E1E30(&rect);
