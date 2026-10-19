@@ -64,7 +64,6 @@ public:
  void setFileReady(int,int *,int,bool);
 };
 struct Rva000A7E9EInput;
-class Rva000A7E9E {public: void freeUnusedSamples(); void rva000A7E9E(const Rva000A7E9EInput &);};
 class Gen0002857E;
 class AudioFileContainer {
 public:
@@ -81,6 +80,8 @@ extern "C" __declspec(dllimport) int __stdcall AIL_WAV_info(const void *,int *);
 extern "C" __declspec(dllimport) int __stdcall AIL_decompress_ADPCM(const int *,void **,unsigned int *);
 class AudioFileCache {
 public:
+ void freeUnusedSamples();
+ void rva000A7E9E(const Rva000A7E9EInput &);
  void readAudioFile(OpenAudioFile *entry);
  unsigned long rva000A8437();
 private:
@@ -107,7 +108,7 @@ unsigned long AudioFileCache::rva000A8437()
      if (it != pending.end()) {
       entry=(OpenAudioFile *)*it;
       int _z = (int)(entry->m_count);
-      if (_z == 0) ((Rva000A7E9E *)this)->rva000A7E9E(*(const Rva000A7E9EInput *)entry);
+      if (_z == 0) rva000A7E9E(*(const Rva000A7E9EInput *)entry);
       ((Rva00691040Handle &)keep)=(const Rva00691040Handle &)AudioFileContainer((Gen0002857E *)entry);
       pending.pop_front();
      }

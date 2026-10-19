@@ -22,7 +22,7 @@ class Gen0002857E;
 // at +0x50; the helper's entry view reads +0x30/+0x38/+0x44.
 struct Rva000A80A8Item;
 
-class Rva000A7E9E
+class AudioFileCache
 {
 public:
 	char m_pad[0x50];
@@ -37,7 +37,7 @@ public:
 	void release();
 private:
 	char m_pad0[4];
-	Rva000A7E9E *m_owner;
+	AudioFileCache *m_owner;
 	char m_pad1[0x34 - 8];
 	// volatile so the read-modify-write is not strength-reduced to `inc`.
 	volatile int m_count;

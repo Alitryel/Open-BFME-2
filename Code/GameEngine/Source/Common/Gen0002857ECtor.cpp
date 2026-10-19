@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc
-// ??0Gen0002857E@@QAE@PAVRva000A7E9E@@ABVAsciiString@@@Z at 0x0010ED4C (118B).
+// ??0Gen0002857E@@QAE@PAVAudioFileCache@@ABVAsciiString@@@Z at 0x0010ED4C (118B).
 // Constructor of the Miles wave-info entry whose handle/release methods are
 // rowed in Rva0010ECBDFinish.cpp: copies the name at +0, stores the owner at
 // +4, zeroes the counters/flags at +0x2C..+0x40 and builds the two events at
@@ -22,15 +22,15 @@ public:
 	virtual ~Rva0040F9D() {}
 };
 
-class Rva000A7E9E;
+class AudioFileCache;
 
 class Gen0002857E
 {
 public:
-	Gen0002857E(Rva000A7E9E *owner, const AsciiString &name);
+	Gen0002857E(AudioFileCache *owner, const AsciiString &name);
 private:
 	AsciiString m_name;
-	Rva000A7E9E *m_owner;
+	AudioFileCache *m_owner;
 	unsigned int m_waveInfo[9];
 	void *m_data;
 	unsigned int m_size;
@@ -42,7 +42,7 @@ private:
 	Rva0040F9D m_failed;
 };
 
-Gen0002857E::Gen0002857E(Rva000A7E9E *owner, const AsciiString &name)
+Gen0002857E::Gen0002857E(AudioFileCache *owner, const AsciiString &name)
 	: m_name(name), m_owner(owner), m_data(0), m_size(0), m_count(0), m_lastReleaseTime(0),
 	m_priority(0), m_allocated(false), m_ready(1, 0, 0, 0), m_failed(1, 0, 0, 0)
 {

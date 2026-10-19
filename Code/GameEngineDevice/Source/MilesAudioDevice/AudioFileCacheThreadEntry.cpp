@@ -59,13 +59,13 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 // constructor are address-derived (StlSweepW4Rva000A7E7A.cpp).
 struct Rva000A7E7AElement { char bytes[1]; bool operator<(const Rva000A7E7AElement&)const; bool operator==(const Rva000A7E7AElement&)const; };
 
-class Rva000A7E9E;
+class AudioFileCache;
 // The cached file (WorldBuilder: OpenAudioFile); 0x54-byte allocation and
 // its 0x0010ED4C constructor (owner, name) are read from retail.
 class Gen0002857E
 {
 public:
-	Gen0002857E(Rva000A7E9E *owner, const AsciiString &name);
+	Gen0002857E(AudioFileCache *owner, const AsciiString &name);
 	char pad00[0x3C];
 	int priority3C;
 	char pad40[0x14];
@@ -121,7 +121,7 @@ AudioFileCache::AudioFileCache(void *mutex)
 	: m_activeBytes(0), m_unusedBytes(0), m_budget(0), m_thread(0), m_quit(false), m_mutex(mutex)
 {
 	char badName[] = "\nspecial bad\n";
-	Gen0002857E *bad = new Gen0002857E((Rva000A7E9E *)this, AsciiString(badName));
+	Gen0002857E *bad = new Gen0002857E(this, AsciiString(badName));
 	((Rva0010ECB5 *)bad)->rva0010ECB5();
 	(Rva00691040Handle &)m_bad = (const Rva00691040Handle &)AudioFileContainer(bad);
 	{

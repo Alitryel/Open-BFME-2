@@ -5,12 +5,13 @@
 // from the tree at this+0x20 through rowed 0x000A7E31, then subtracts input
 // +0x30 from this+0x3C. The const-reference spelling models the observed
 // single stack pointer ABI; target bytes do not resolve pointer versus
-// reference or the owning class and input identities.
+// reference or the input identity. The owner is AudioFileCache: WorldBuilder
+// names this body AudioFileCache::eraseFromUnusedList (MilesAudioCache.cpp).
 // Retail 0x000A8127, 151B. Target evidence: constructs the rowed mutex guard
 // over this+0x50, tests the slot at item+0x44, inserts a rowed TreeKey made
 // from item+0x38 and its AsciiString through 0x000A7DCE, then adds item+0x30
-// to this+0x3C. The false branch calls rowed 0x000A80A8(item, 1). Manager and
-// item identities remain address-derived.
+// to this+0x3C. The false branch calls rowed 0x000A80A8(item, 1). The item
+// identity remains address-derived.
 
 #include <set>
 #include <list>
@@ -54,7 +55,7 @@ struct Rva000A7E9EInput
 	unsigned int m_at38;
 };
 
-class Rva000A7E9E
+class AudioFileCache
 {
 public:
 	void rva000A7E9E(const Rva000A7E9EInput &input);
@@ -71,7 +72,7 @@ private:
 	unsigned int m_budget;
 };
 
-void Rva000A7E9E::rva000A7E9E(const Rva000A7E9EInput &input)
+void AudioFileCache::rva000A7E9E(const Rva000A7E9EInput &input)
 {
 	TreeKey00242F5E key(input.m_at38, input.m_at00);
 	m_tree.erase((const Rva000A7E31Key &)key);
@@ -126,7 +127,7 @@ public:
 	unsigned int m_numElements;
 };
 
-void Rva000A7E9E::rva000A80A8(Rva000A80A8Item *item, int treeDetached)
+void AudioFileCache::rva000A80A8(Rva000A80A8Item *item, int treeDetached)
 {
 	Rva000A80A8Item *entry = item;
 	if (entry->m_slot.shouldRemove(0))
@@ -151,7 +152,7 @@ void Rva000A7E9E::rva000A80A8(Rva000A80A8Item *item, int treeDetached)
 	::operator delete(entry);
 }
 
-void Rva000A7E9E::rva000A8127(Rva000A80A8Item *item)
+void AudioFileCache::rva000A8127(Rva000A80A8Item *item)
 {
 	MilesMutexGuard guard(*(void **)((char *)this + 0x50), 0);
 	if (item->m_slot.shouldRemove(0)) {
@@ -181,8 +182,8 @@ struct AudioCacheHashNode {
  Rva000A80A8Item *m_item;
 };
 typedef _STL::set<TreeKey00242F5E,_STL::less<TreeKey00242F5E>,_STL::allocator<TreeKey00242F5E> > AudioUnusedTree;
-// ?freeUnusedSamples@Rva000A7E9E@@QAEXXZ 0x000A81BE 131B
-void Rva000A7E9E::freeUnusedSamples()
+// ?freeUnusedSamples@AudioFileCache@@QAEXXZ 0x000A81BE 131B
+void AudioFileCache::freeUnusedSamples()
 {
  while (m_activeBytes > m_budget) {
   if (m_tree.empty()) break;
