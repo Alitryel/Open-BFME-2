@@ -31,6 +31,7 @@ template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
 class INI;
+class Xfer;
 typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
 
 struct FieldParse
@@ -55,6 +56,11 @@ class SpecialAbilityUpdateModuleData
 public:
 	SpecialAbilityUpdateModuleData();
 	virtual ~SpecialAbilityUpdateModuleData();
+	// The ModuleData slots after the dtor, pure here as in the dtor unit's view
+	// (ActivateModuleSpecialPowerModuleDataDtor.cpp): one derived table copy.
+	virtual void crc(Xfer *xfer) = 0;
+	virtual void xfer(Xfer *xfer) = 0;
+	virtual void loadPostProcess() = 0;
 	static void buildFieldParse(MultiIniFieldParse &parse);
 
 protected:
