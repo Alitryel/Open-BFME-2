@@ -899,7 +899,6 @@ void WW3D::_Invalidate_Mesh_Cache()
 #pragma comment(linker, "/alternatename:?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 #pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAEA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 #pragma comment(linker, "/alternatename:?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
-#pragma comment(linker, "/alternatename:?g_currentCaps@@3PAVBfmeEnumerationCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 #pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAVBfmeCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 #pragma comment(linker, "/alternatename:?g_Va00DEDA7C@@3HA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
 // ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.

@@ -43,25 +43,25 @@ private:
 void *__cdecl operator new(unsigned int size);
 void __cdecl operator delete(void *block);
 
-extern BfmeEnumerationCaps *g_currentCaps;
-extern IDirect3D8 *g_d3dInterface;
-extern IDirect3DDevice8 *g_d3dDevice;
-extern _D3DADAPTER_IDENTIFIER8 g_adapterIdentifier;
+// The globals are DX8Wrapper's protected static members (defined in
+// dx8wrapper.cpp); this view grants the caps rebuild access to them.
+class DX8Wrapper
+{
+	friend void __cdecl Rva001207B0Init(void *device);
+protected:
+	static IDirect3D8 *D3DInterface;                         // 0x00DEDA30
+	static IDirect3DDevice8 *D3DDevice;                      // 0x00DEDA34
+	static _D3DADAPTER_IDENTIFIER8 CurrentAdapterIdentifier; // 0x00DEC5E8
+	static DX8Caps *CurrentCaps;                             // 0x00DEDA7C
+};
 
 // ?Rva001207B0Init@@YAXPAX@Z
 void __cdecl Rva001207B0Init(void *device)
 {
-	delete g_currentCaps;
-	g_currentCaps = (BfmeEnumerationCaps *)new DX8Caps(g_d3dInterface,
-		g_d3dDevice, (WW3DFormat)(int)device, g_adapterIdentifier);
+	delete (BfmeEnumerationCaps *)DX8Wrapper::CurrentCaps;
+	DX8Wrapper::CurrentCaps = new DX8Caps(DX8Wrapper::D3DInterface,
+		DX8Wrapper::D3DDevice, (WW3DFormat)(int)device, DX8Wrapper::CurrentAdapterIdentifier);
 }
 
-// ?g_d3dInterface@@3PAUIDirect3D8@@A: the global at this VA is ?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_d3dInterface@@3PAUIDirect3D8@@A=?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A")
+// ConstGlobalGetters.cpp reads 0x00DEDA30 under this spelling.
 #pragma comment(linker, "/alternatename:?G009EDA30@@3HA=?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A")
-// ?g_adapterIdentifier@@3U_D3DADAPTER_IDENTIFIER8@@A: the global at VA 0xdec5e8 is ?CurrentAdapterIdentifier@DX8Wrapper@@1U_D3DADAPTER_IDENTIFIER8@@A.
-#pragma comment(linker, "/alternatename:?g_adapterIdentifier@@3U_D3DADAPTER_IDENTIFIER8@@A=?CurrentAdapterIdentifier@DX8Wrapper@@1U_D3DADAPTER_IDENTIFIER8@@A")
-// ?g_d3dInterface@@3PAUIDirect3D8@@A: the global at VA 0xdeda30 is ?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A.
-#pragma comment(linker, "/alternatename:?g_d3dInterface@@3PAUIDirect3D8@@A=?D3DInterface@DX8Wrapper@@1PAUIDirect3D8@@A")
-// ?g_currentCaps@@3PAVBfmeEnumerationCaps@@A: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.
-#pragma comment(linker, "/alternatename:?g_currentCaps@@3PAVBfmeEnumerationCaps@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")

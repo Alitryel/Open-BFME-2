@@ -5097,9 +5097,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@Rva00180023@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BoxDynamicVBAccessClassDestructor.cpp	??1BfmeSortingVBAccess@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8CapsRecreate.cpp	?G009EDA30@@3HA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8CapsRecreate.cpp	?g_adapterIdentifier@@3U_D3DADAPTER_IDENTIFIER8@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8CapsRecreate.cpp	?g_currentCaps@@3PAVBfmeEnumerationCaps@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8CapsRecreate.cpp	?g_d3dInterface@@3PAUIDirect3D8@@A	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Caps_constructors.cpp	??0BfmeEnumerationCaps@@QAE@PAUIDirect3D8@@ABUBFME_DeviceCaps9@@W4WW3DFormat@@ABUBFME_AdapterIdentifier9@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8RigidDelayedMaterialPass.cpp	?MatPassTaskPool@@3VMatPassTaskPoolClass@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WebBrowser_Is_Browser_Open.cpp	?g_bfmeObjECF@@3VBfmeObjECFPtr@@A	1
@@ -5163,7 +5160,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva001499D0Cluster.cpp	?g_rva0
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva001514B2ForwardAndApply.cpp	?get@Rva001514B2@@QAEPAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva003F7EC7Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0061F090Siblings.cpp	_g_bfme00E09C0C	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00743060Siblings.cpp	?g_bfmeSyncTimeAtDEC3CC@@3IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0093D050CopySurfaceRects.cpp	?g_w3dMouseD3DDevice@@3PAVD3DDeviceInterface@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseATXA@@YGXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseBTXA@@YGXPAX@Z	1
@@ -5232,7 +5228,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeD3DDevice8@@3PAXA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeD3DDevice@@3PAVBfmeD3DDevice@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_currentCaps@@3PAVBfmeEnumerationCaps@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_d3dDevice@@3PAUIDirect3DDevice8@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_w3dMouseD3DDevice@@3PAVD3DDeviceInterface@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
