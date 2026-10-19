@@ -7392,13 +7392,13 @@ void __cdecl rva007B7CC3()
 	return p->~Rva00362B5ADtor();
 }
 
-extern unsigned g_Va00E01E94;
-unsigned int g_Va00E01E94;
+class Rva00065964ObjectPool;
+extern Rva00065964ObjectPool g_pathNodePool;
 
-// ?rva007B7CD7@@YAXXZ @ 0x007B7CD7 (10B). Global dtor thunk: ecx=&g_Va00E01E94 then tail-jmp to pinned ??1Rva002859EADtor@@QAE@XZ (0x002859EA). No callers. Honest address name.
+// ?rva007B7CD7@@YAXXZ @ 0x007B7CD7 (10B). Global dtor thunk: ecx=&g_pathNodePool (0x00E01E94, defined in PathDtor.cpp) then tail-jmp to pinned ??1Rva002859EADtor@@QAE@XZ (0x002859EA). No callers. Honest address name.
 void __cdecl rva007B7CD7()
 {
-	Rva002859EADtor *p = (Rva002859EADtor *)&g_Va00E01E94;
+	Rva002859EADtor *p = (Rva002859EADtor *)&g_pathNodePool;
 	return p->~Rva002859EADtor();
 }
 
