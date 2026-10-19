@@ -86,6 +86,7 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 #include <string>
 #undef private
 #include <locale>
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > &ostreambuf_iterator<char, char_traits<char> >::operator=(char); }  // rowed 0x00009820 (stlport_ostreambuf_iterator_assign.cpp)
 // bfme link decl-only begin
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > fill_n<ostreambuf_iterator<char, char_traits<char> >, unsigned int, char>(ostreambuf_iterator<char, char_traits<char> >, unsigned int, char const &); }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > & ostreambuf_iterator<char, char_traits<char> >::operator=(char); }
