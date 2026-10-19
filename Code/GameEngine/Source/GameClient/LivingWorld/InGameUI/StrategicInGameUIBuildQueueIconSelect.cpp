@@ -218,7 +218,7 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::SelectQueueIndex(int queue
 #include "ascii_string.h"
 #include "unicode_string.h"
 class SpawnArmy { public:
- SpawnArmy(void *);
+ SpawnArmy(int index);
  virtual ~SpawnArmy();
  char pad04[0x2c-4]; AsciiString name; char pad30[0x48-0x30]; int m_48; char pad4C[0x58-0x4c];
 };

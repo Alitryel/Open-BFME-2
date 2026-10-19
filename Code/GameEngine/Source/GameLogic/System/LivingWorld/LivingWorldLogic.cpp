@@ -568,7 +568,7 @@ struct LivingWorldBuildPlot*rva003F088C(int)const;void BuildBuilding(class Rva00
 class SpawnArmy
 {
 public:
-	SpawnArmy(void *arg);					// 0x004E30D5
+	SpawnArmy(int index);					// 0x004E30D5
 	virtual ~SpawnArmy();					// 0x004E3184
 
 	StringBase<char> m_name;				// +0x04
