@@ -641,6 +641,7 @@ class AptOnlineCustomMatch : public CustomMatchScreen, public MpOwner
 {
 public:
 	void PlayGame(const char *unused);
+	void rva005A5BAF();	// 0x005A5BAF (Rva005A5BAFCheck.cpp)
 	void LoadGame(const char *unused);
 	void CancelPopUpCreate(const char *unused);
 	void CancelPopUpHost(const char *unused);
@@ -882,7 +883,6 @@ void __cdecl Rva00381C2DClear(unsigned int value);
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
 class Rva005170CD { public: void rva005170CD(); };
 class Rva0059FC9F { public: int rva0059FC9F(); };
-class Rva005A5BAFClass { public: void rva005A5BAF(); };
 
 // Retail 0x005A61C6, 956 bytes: slot 3 of vftable 0x00871414, the screen's
 // per-frame step over its +0x488 state (WorldBuilder twin 0x014E76B0, a
