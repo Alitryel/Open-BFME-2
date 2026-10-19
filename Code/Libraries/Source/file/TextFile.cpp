@@ -32,6 +32,9 @@
 #define strncpy bfmeStatic_strncpy_unused
 #include <vector>
 #include "ascii_string.h"
+// Import-inline: retail inlines max<unsigned> into this unit's vector growth;
+// its out-of-line /G7 copy was not retail's 0x00013740 body.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
 #undef _strcmpi
 #undef strcmp
 #undef strncpy
@@ -166,7 +169,7 @@ void __cdecl rva00601C53(void *outer, int lineFlag, void *vec1, void *vec2, void
     }
     const char *filename = file->filename.str();
     appendCString(stack, filename);
-    char *data = new(0x737472) char[size + 1];
+    char *data = new('str') char[size + 1];
     appendCString(buffers, reinterpret_cast<const char *const &>(data));
     file->read(data, size);
     data[size] = 0;
