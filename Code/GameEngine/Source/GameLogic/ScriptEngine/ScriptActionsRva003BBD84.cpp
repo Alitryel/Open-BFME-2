@@ -8,7 +8,7 @@
 // ?rva003BBD84@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBD84 64B: mask from ScriptEngine
 // rva00357475 0x00357475, then pinned Player::rva002AEEA7(1) per player.
 // ?rva003BBDC4@ScriptActions@@QAEXABVAsciiString@@@Z @0x003BBDC4 64B: same through pinned
-// Player::rva002AF037(1). Evidence: ret 4 single name arg, TheScriptEngine +
+// Player::ungarrisonAllUnits(CMD_FROM_SCRIPT). Evidence: ret 4 single name arg, TheScriptEngine +
 // ThePlayerList globals, getEachPlayerFromMask loop; player entries pinned
 // address-derived.
 #include "ascii_string.h"
@@ -20,11 +20,14 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
+// 0x002AF037 is the rowed Player::ungarrisonAllUnits (PlayerTeamCommands.cpp).
+enum CommandSourceType { CMD_FROM_PLAYER = 0, CMD_FROM_SCRIPT = 1, CMD_FROM_AI = 2 };
+
 class Player
 {
 public:
 	void rva002AEEA7(int val);
-	void rva002AF037(int val);
+	void ungarrisonAllUnits(CommandSourceType cmdSource);
 };
 
 class PlayerList
@@ -54,7 +57,7 @@ void ScriptActions::rva003BBDC4(const AsciiString &name)
 	do {
 		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
 		if (player)
-			player->rva002AF037(1);
+			player->ungarrisonAllUnits(CMD_FROM_SCRIPT);
 	} while (mask != 0);
 }
 
