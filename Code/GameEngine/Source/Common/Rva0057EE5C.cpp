@@ -50,7 +50,7 @@ class Rva0057EE5C : public Rva005248D0
 public:
 	Rva0057EE5C(TargetRef00217D4C*);
  virtual ~Rva0057EE5C();
-	virtual void vslot1(int a, int b);
+	virtual void vslot1(int a, int b) = 0;	// slot 1 of 0x00C6F4F0 is __purecall
 	void rva0057F002(int arg);
 private:
 ReleaseHolder0057EE5C m_58;
