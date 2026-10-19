@@ -5,6 +5,20 @@
 // with (this, fwd, a, b, c) pushed c,b,a; m_08 = a; installs vtable 0x00C7A620 by
 // literal store; returns this; ret 0x10. Same fastcall family as 0x005F8E37.
 // TU-local view only.
+// The retail table at RVA 0x0087A620: 4 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00600379@@UAEPAXI@Z")();
+void __identifier("?rva0060037E@Rva0060037E@@QAEXXZ")();
+void __identifier("?rva00600386@Rva0060037E@@QAEXXZ")();
+void __identifier("?rva0060038E@Rva0060038E@@QAEXXZ")();
+}
+extern "C" const void *const vtbl_00C7A620[4] = {
+	(const void *)&__identifier("??_GRva00600379@@UAEPAXI@Z"), // slot 0 0x006003D3
+	(const void *)&__identifier("?rva0060037E@Rva0060037E@@QAEXXZ"), // slot 1 0x0060037E
+	(const void *)&__identifier("?rva00600386@Rva0060037E@@QAEXXZ"), // slot 2 0x00600386
+	(const void *)&__identifier("?rva0060038E@Rva0060038E@@QAEXXZ"), // slot 3 0x0060038E
+};
 class Rva00600305Obj;
 void __fastcall rva00600305(Rva00600305Obj *o, int fwd, int s1, int s2, int s3);
 
@@ -19,7 +33,7 @@ Rva00600352 *__fastcall rva00600352Init(Rva00600352 *o, int fwd, int volatile a,
 {
 	rva00600305((Rva00600305Obj *)o, fwd, b, c, d);
 	o->m_08 = a;
-	((int *)o)[0] = 0x00C7A620;
+	((int *)o)[0] = ((unsigned int)vtbl_00C7A620);
 	return o;
 }
 
