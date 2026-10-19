@@ -21875,7 +21875,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A22F64,4,.data,global,?g_bfmeSlotD84@@3PAXA,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp,owned,,1,5
 0x00A22F68,4,.data,global,?g_bfmeSlotD88@@3PAXA,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp,owned,,1,5
 0x00A22F6C,8,.data,global,?g_bfmeSlotD8C@@3PAXA,Code/Libraries/Source/VP6/UtilMachineSpecificConfig.cpp,owned,,1,5
-0x00A22F74,4,.data,global,?g_bfmeHook1040@@3P6AXPAUBfmeS1040@@@ZA,,unowned,?g_bfmeHook1040@@3P6AXPAUBfmeS1040@@@ZA;?g_rva01356DA0@@3R6AXPAX@ZA,0,4
+0x00A22F74,4,.data,global,?g_bfmeQuantIndexBuilder@@3P6AXPAUBfmeS1040@@@ZA,Code/Libraries/Source/VP6/InitLibrary.cpp,owned,,1,4
 0x00A22F78,4,.data,global,?g_bfmeCodecDispatchOutlier@@3P6AXXZA,Code/Libraries/Source/VP6/PostProcMachineSpecificConfig.cpp,owned,,1,8
 0x00A22F7C,64,.data,global,?g_bfmeCodecDispatch@@3UBfmeCodecDispatchTable@@A,Code/Libraries/Source/VP6/PostProcMachineSpecificConfig.cpp,owned,,1,88
 0x00A22FBC,32,.data,global,?g_rva01356EA0@@3P6AXPAURva009A6130Context@@PAE1HHPBH@ZA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,4

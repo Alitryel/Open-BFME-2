@@ -16,9 +16,11 @@ extern "C" void __cdecl InitVPUtil(void);                    // 0x001B8040
 
 struct BfmeS1040;
 typedef void (__cdecl *QuantIndexBuilder)(BfmeS1040 *);
-extern QuantIndexBuilder g_bfmeHook1040;                    // 0x00E22F74 quant index hook
+// The quant index builder pointer (VA 0x00E22F74, zero-filled .bss);
+// VP6_DMachineSpecificConfig picks the WMT, MMX or generic builder.
+QuantIndexBuilder g_bfmeQuantIndexBuilder;
 // Retail stores the hook twice on the generic path; volatile stores keep both.
-#define QUANT_INDEX_HOOK (*(QuantIndexBuilder volatile *)&g_bfmeHook1040)
+#define QUANT_INDEX_HOOK (*(QuantIndexBuilder volatile *)&g_bfmeQuantIndexBuilder)
 extern int g_bfmeSharedJX;                                   // 0x00E23300 processor frequency
 
 // Retail 0x00BD8560: identity index 0..63 followed by the zig-zag inverse

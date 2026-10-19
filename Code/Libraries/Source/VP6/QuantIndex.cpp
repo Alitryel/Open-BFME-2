@@ -3,7 +3,7 @@
 // 001c47c0.md plus retail only. No decoder source was consulted.
 struct BfmeS1040;
 extern "C" void __cdecl VP6_init_dequantizer(BfmeS1040 *s, int version); // 0x001B70A0
-extern void (__cdecl *g_bfmeHook1040)(BfmeS1040 *s);   // 0x00E22F74
+extern void (__cdecl *g_bfmeQuantIndexBuilder)(BfmeS1040 *s);   // 0x00E22F74, InitLibrary.cpp
 
 // 0x007D8560 identity index (ledger g_rva01142408), 0x007D8460 zig-zag order.
 extern int g_rva01142408[];
@@ -56,7 +56,7 @@ extern "C" void __cdecl VP6_UpdateQ(Quantizer *q, int version)
 	if (q->thresholds[q->frameQ] != q->cached)
 	{
 		q->cached = q->quality;
-		((void (__cdecl *)(Quantizer *))g_bfmeHook1040)(q);
+		((void (__cdecl *)(Quantizer *))g_bfmeQuantIndexBuilder)(q);
 		VP6_init_dequantizer((BfmeS1040 *)q, version);
 	}
 }
