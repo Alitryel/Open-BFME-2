@@ -87,6 +87,7 @@ public:
 	Bool canCrushOrSquishNoAlly(Object *other, Int test);
 	bool rva0028AFBB() const;
 	bool rva0028AC62() const;
+	const struct Rva0028AC4EEntry *rva0028AC4E() const;
 	float GetGoalAngle() const;
     __forceinline int getID() const { return *(const int *)((const char *)this+0x74); }
 	AIUpdateInterface *getAI() const { return reinterpret_cast<AIUpdateInterface *>(m_258); }
@@ -760,6 +761,10 @@ public:
 	Bool getClosestPointOnLand(const Coord3D *position, Object *object, Coord3D *out);
 	Int rva002EB4DF(const ICoord2DBase *center, const ICoord2DBase *diameter, float angle, int layer, Rva002E7E26 *visitor);
 	Int rva002E8773(Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor);
+ int rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, void *info);
+ void AdjustFlingDestination(Object *obj, const Coord3D *from_, Coord3D *to);
+private:
+ Int iterateCellsAlongLine(const ICoord2D *, const ICoord2D *, PathfindLayerEnum, struct Rva002E85ADInfo *);
 };
 
 class Rva002E99F9Sub460
@@ -926,6 +931,58 @@ Pathfinder_FuncTightenPath::Pathfinder_FuncTightenPath(Pathfinder *pathfinder,
 	zeroCoord3D(&m_destPos);
 	Rva002EBCA7Split(m_obj, &m_radius, &m_center);
 	m_foundDest = false;
+}
+
+// scratch: Pathfinder::rva002EB4A0 rehomed (0x002EB4A0, 63 B)
+int Pathfinder::rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, void *info)
+{
+	ICoord2D tmp1;
+	ICoord2D tmp2;
+	return iterateCellsAlongLine(Rva002E7875WorldToCell(&tmp2, true, a), Rva002E7875WorldToCell(&tmp1, true, b), layer, (struct Rva002E85ADInfo *)info);
+}
+
+struct Rva0028AC4EQ { char pad00[0x14]; Int value14; };
+struct Rva0028AC4EEntry { char pad00[4]; Rva0028AC4EQ *next; };
+struct FlingInfo { Int surfaces; Bool notFlag; Bool computer; Int radius; Bool atAC62; };
+struct FlingVisitor { Pathfinder *finder; Coord3D *found; PathfindLayerEnum layer; FlingInfo info; Bool alive; };
+void Pathfinder::AdjustFlingDestination(Object *obj, const Coord3D *from_, Coord3D *to)
+{
+	Bool centered = Rva002EBBFBIsOdd(obj);
+	Coord3D from;
+	copyCoord3D(&from, from_);
+	if (!centered) {
+		from.x += 5.0f;
+		from.y += 5.0f;
+		to->x += 5.0f;
+		to->y += 5.0f;
+	}
+	const Rva0028AC4EEntry *loco = obj->rva0028AC4E();
+	Int surfaces = 1;
+	if (loco) surfaces = loco->next->value14;
+	Int priority = obj->m_template->priority;
+	Bool flag = obj->m_template->flag;
+	Bool atAC62 = obj->rva0028AC62();
+	Bool computer = obj->rva0028AFBB();
+	FlingInfo info;
+	info.surfaces = surfaces;
+	info.notFlag = !flag;
+	info.computer = computer;
+	info.radius = priority - 1;
+	info.atAC62 = atAC62;
+	Coord3D found;
+	copyCoord3D(&found, &from);
+	Bool alive = !(*((const unsigned char *)obj + 0x438) & 1);
+	FlingVisitor visitor;
+	visitor.finder = this;
+	visitor.found = &found;
+	visitor.layer = (PathfindLayerEnum)obj->rva0028B511();
+	visitor.info = info;
+	visitor.alive = alive;
+	if (rva002EB4A0(&from, to, PATHFIND_LAYER_GROUND, &visitor)) *to = found;
+	if (!centered) {
+		to->x -= 5.0f;
+		to->y -= 5.0f;
+	}
 }
 
 // Pathfinder::TightenPath, retail 0x002FC95E (83 bytes). Name from
