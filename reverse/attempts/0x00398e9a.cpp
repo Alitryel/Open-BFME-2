@@ -1,4 +1,7 @@
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
+// partial score=0.951049 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /EHs /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
+// ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.813 date=2026-10-17
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.9 date=2026-10-15
@@ -47,8 +50,8 @@ void CastleBehavior::rva00398E9A(){
  Player *civilian=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey("PlyrCivilian"));
  const CastleData *d=data;
  if(d->radius<=0.0f || d->disabled)return;
- struct { Coord3D v; unsigned char pad[4]; } posHold;
- Coord3D &pos=posHold.v;pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
+ Coord3D pos;
+ pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
  BfmeFixedStorage0004543D flags;flags.words[0]|=0xf00;
  BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&pos,d->radius,0,
   PartitionFilterRejectByKindOf(Rva00045411BitSet(0,127),*(BfmeFixedStorage0004543D*)g_00DFEFA4StoragePrototype).link(Rva003959FA(flags).link(&Rva0026119DFilter())),0);
@@ -65,15 +68,18 @@ void CastleBehavior::rva00398E9A(){
    if(player->getRelationship(other->team)!=ALLY){hostile=true;break;}
   }
   players.insert(entry);
-  int value=player->state==0?2:1;
-  int &weight=weights[player->index];
+  // Keep the state and index values live while forming the weight address.
+  void *state=player->state;
+  int value=state==0?2:1;
+  int index=player->index;
+  int &weight=weights[index];
   if(weight<0)weight=value;
   weight+=value;
   _ReadWriteBarrier();
   int scaled=value*candidate->type->weight;
   weight+=scaled;
  }
- int chosen=-1;int largest=chosen;
+ int largest=-1;int chosen=largest;
  for(int i=0;i<20;++i){if(weights[i]>largest){chosen=i;largest=weights[i];}}
  Team *team;
  Player *player;
