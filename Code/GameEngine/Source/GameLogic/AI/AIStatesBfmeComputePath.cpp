@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /EHsc
 //
 // Small computePath (slot 17), onExit (slot 5) and other overrides of AI
 // states, each named by its vtable's own slot-2 name getter (the state's name
@@ -106,6 +106,25 @@ enum DisabledType
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+#include <math.h>
+// Coord3D's header-inline length/normalize (retail emits them as the shared
+// COMDATs 0x00003571/0x000035B6, not inlined here). Their visible bodies show
+// the optimizer that they keep no pointer to their object, which lets it drop
+// the dead stores of the melee-approach direction.
+inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
 // Retail copies the direction member-wise (three movss loads, no movsd block
 // copy) and keeps x apart from the in-place y/z scaling; only a user-written
 // copy constructor reproduces that register shape. The shipped type is not
@@ -240,6 +259,8 @@ public:
 	Bool isMoving() const;
 	void requestPath(Coord3D *destination, Bool isFinalGoal);
 	Path *getPath() const { return m_path; }
+	Bool isBlockedAndStuck() const { return m_bfmeBlocked16C > 0; }
+	Bool requestMeleeApproachPath(const Coord3D *destination, Bool flag);
 	Bool isWaitingForPath() const { return m_waitingForPath; }
 	unsigned char m_pad004[0x140 - 0x04];
 	Path *m_path; // +0x140
@@ -276,15 +297,32 @@ public:
 	const Coord3D *getUnitDirectionVector2D() const;
 };
 
+// KindOf bits named from retail's KindOf name table (0x00DBBE18).
+enum KindOfType
+{
+	KINDOF_SIEGE_TOWER = 93,
+	KINDOF_WALL_UPGRADE = 150
+};
+class ThingTemplate
+{
+public:
+	unsigned int isKindOf(KindOfType t) const { return m_kindOf[t >> 5] & (1U << (t & 0x1f)); }
+private:
+	unsigned char m_pad00[0x108];
+	unsigned int m_kindOf[7]; // +0x108
+};
+
 class Object : public Thing
 {
 public:
 	AIUpdateInterface *getAI() { return m_ai; }
+	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
 	ObjectID getID() const { return m_id; }
 	const Weapon *getCurrentWeapon(WeaponSlotType *wslot = 0) const;
 protected:
 	friend class AIGoingIdleState;
+	friend class AIAttackMeleeApproachState;
 	Module *findModule(NameKeyType key) const;
 public:
 	void setStatus(ObjectStatusTypes status, Bool set);
@@ -296,6 +334,8 @@ public:
 	void rva0028AD32();
 	void rva0028C2DD(Coord3D *pos) const;
 	void rva0028ACDC(int pos);
+	Bool rva0029493F(Object *other, int mode);
+	int rva0028B511() const;
 	Real getGeometryRadiusB8() const { return m_geometryRadiusB8; }
 	__forceinline void clearModelConditionBit(int bit)
 	{
@@ -306,7 +346,9 @@ public:
 		}
 	}
 private:
-	unsigned char m_pad000[0x38];
+	unsigned char m_pad000[4];
+	const ThingTemplate *m_template; // +0x04
+	unsigned char m_pad008[0x38 - 0x08];
 	Coord3D m_position; // +0x38
 	unsigned char m_pad044[0x74 - 0x44];
 	ObjectID m_id; // +0x74
@@ -350,6 +392,7 @@ protected:
 	virtual Bool computePath();
 	StateMachine *getMachine() const { return m_machine; }
 	Object *getMachineOwner() const { return m_machine->getOwner(); }
+	Object *getMachineGoalObject() const { return m_machine->getGoalObject(); }
 	unsigned char m_pad04[0x18 - 0x04];
 	StateMachine *m_machine; // +0x18
 };
@@ -708,6 +751,7 @@ class Rva002C9B80Owner;
 class Pathfinder
 {
 public:
+	Bool IsPointOnWall(int pos, Bool flag);
 	Bool CanApproachToTarget(Object *obj, const Coord3D *targetPos, Rva002C9B80Owner *weapon, Bool flag);
 	Bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet,
 		Coord3D *dest, const Coord3D *groupDest);
@@ -715,13 +759,24 @@ public:
 		Coord3D *dest);
 };
 
+class AIData
+{
+public:
+	unsigned char m_pad00[0x90];
+	Real m_bfme90; // +0x90
+	Real m_bfme94; // +0x94
+};
+
 class AI
 {
 public:
 	Pathfinder *pathfinder() { return m_pathfinder; }
+	const AIData *getAiData() const { return m_aiData; }
 private:
 	unsigned char m_pad00[0x10];
 	Pathfinder *m_pathfinder; // +0x10
+	unsigned char m_pad14[0x18 - 0x14];
+	const AIData *m_aiData; // +0x18
 };
 extern AI *TheAI;
 
@@ -915,4 +970,127 @@ Bool AIMoveToStateSA::computePath()
 		TheAI->pathfinder()->AdjustDestination(owner, ai->m_locomotorSet, &m_goalPosition, 0);
 	}
 	return AIInternalMoveToState::computePath();
+}
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const char *name);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+
+class DynamicPortalBehaviour
+{
+public:
+	static Module *rva004608E0(Object *obj);
+	Bool IsEndPortalAboveWall(Coord3D *pos);
+};
+class Rva004C5772CmpBoolField
+{
+public:
+	Bool get() const;
+};
+
+class AIAttackMeleeApproachState : public AIInternalMoveToState
+{
+protected:
+	virtual Bool computePath();
+private:
+	unsigned int m_approachTimestamp; // +0x4C
+	Coord3D m_prevVictimPos; // +0x50
+};
+
+Bool AIAttackMeleeApproachState::computePath()
+{
+	critterDesyncLog("CritterDesync: ComputePath18");
+	Bool forceRepath = false;
+	AIUpdateInterface *ai = getMachineOwner()->getAI();
+	if (ai->isBlockedAndStuck())
+		return false;
+	if (m_waitingForPath)
+		return true;
+	if (!forceRepath && ai->getPath() == 0 && !ai->isWaitingForPath())
+		forceRepath = true;
+	// force minimum time between recomputation
+	if (!forceRepath && TheGameLogic->getFrame() - m_approachTimestamp < BfmeLogicFramesPerSecond)
+		return true;
+	m_approachTimestamp = TheGameLogic->getFrame();
+	if (getMachineGoalObject())
+	{
+		Object *source = getMachineOwner();
+		// if our victim's position hasn't changed, don't re-path
+		if (!forceRepath && isSamePosition(source->getPosition(), &m_prevVictimPos, getMachineGoalObject()->getPosition()))
+			return true;
+		const Weapon *weapon = source->getCurrentWeapon();
+		if (!weapon)
+			return false;
+		// remember where we think our victim is, so if it moves, we can re-path
+		Object *victim = getMachineGoalObject();
+		m_prevVictimPos = *victim->getPosition();
+		if (source->rva0029493F(victim, 2))
+		{
+			m_goalPosition = m_prevVictimPos;
+			ai->requestPath(&m_goalPosition, false);
+			return true;
+		}
+		Coord3D delta = *source->getPosition();
+		delta.sub(&m_prevVictimPos);
+		delta.z = 0.0f;
+		Real dist = delta.length();
+		dist -= victim->getGeometryRadiusB8();
+		if (delta.length() < TheAI->getAiData()->m_bfme94 + TheAI->getAiData()->m_bfme90)
+			return false;
+		if (victim->getTemplate()->isKindOf(KINDOF_WALL_UPGRADE))
+			return false;
+		if (rva00344EB2Gate(source, victim))
+		{
+			delta = *victim->getUnitDirectionVector2D();
+			delta.scaleInlined(victim->getGeometryRadiusB8() * 2.0f + 60.0f);
+			m_goalPosition = m_prevVictimPos;
+			m_goalPosition.add(delta);
+			critterDesyncLog("CritterDesync: setAdjustDestination(FALSE) 30");
+			setAdjustsDestination(false);
+			ai->requestPath(&m_goalPosition, false);
+		}
+		else
+		{
+			Module *siege = 0;
+			DynamicPortalBehaviour *portal = 0;
+			if (victim->getTemplate()->isKindOf(KINDOF_SIEGE_TOWER) && source->rva0028B511() != 1)
+			{
+				static NameKeyType key_SiegeDeploySpecialPower = TheNameKeyGenerator->nameToKey("SiegeDeploySpecialPower");
+				siege = victim->findModule(key_SiegeDeploySpecialPower);
+				portal = (DynamicPortalBehaviour *)DynamicPortalBehaviour::rva004608E0(victim);
+				if (siege && !((Rva004C5772CmpBoolField *)siege)->get())
+					siege = 0;
+			}
+			Bool throughPortal = false;
+			if (siege && portal && portal->IsEndPortalAboveWall(&m_goalPosition))
+			{
+				delta = m_goalPosition;
+				delta -= m_prevVictimPos;
+				throughPortal = true;
+			}
+			delta.normalize();
+			delta.scaleInlined(victim->getGeometryRadiusB8());
+			m_goalPosition = m_prevVictimPos;
+			m_goalPosition.add(delta);
+			if (throughPortal)
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					if (TheAI->pathfinder()->IsPointOnWall((int)&m_goalPosition, false))
+						break;
+					m_goalPosition += delta;
+				}
+			}
+			if (ai->requestMeleeApproachPath(&m_goalPosition, throughPortal))
+			{
+				m_waitingForPath = ai->isWaitingForPath();
+				return true;
+			}
+		}
+		m_waitingForPath = ai->isWaitingForPath();
+	}
+	return false;
 }
