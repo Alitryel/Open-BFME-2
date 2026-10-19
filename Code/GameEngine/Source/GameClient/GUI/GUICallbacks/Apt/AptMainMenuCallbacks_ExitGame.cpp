@@ -27,9 +27,9 @@ public:
 
 #include "ascii_string.h"
 
-// The script event the exit button fires (a .data pointer to
-// "ShellMainMenuExitPushed").
-extern const char *g_009C108C;
+// The script event the exit button fires: the .data pointer at 0x009C108C to
+// "ShellMainMenuExitPushed" (0x0081F154), defined here (no owner unit yet).
+const char *g_009C108C = "ShellMainMenuExitPushed";
 
 class ScriptEngine
 {
@@ -272,7 +272,8 @@ extern "C" __declspec(dllimport) long __stdcall GetWindowLongA(HWND window, int 
 extern "C" __declspec(dllimport) int __stdcall AdjustWindowRect(tagRECT *rect, unsigned long style, int menu);
 extern "C" __declspec(dllimport) int __stdcall SetWindowPos(HWND window, HWND after, int x, int y, int width, int height, unsigned int flags);
 
-extern HWND ApplicationHWnd;
+// WinMain.cpp defines the window handle as a void * (?ApplicationHWnd@@3PAXA).
+extern void *ApplicationHWnd;
 
 // TheDisplay: windowed (vslot 21), width (16) and height (17).
 class Display
@@ -471,16 +472,16 @@ void AptMainMenu::ResetResolution(const char *unused)
 	int width = TheDisplay->getWidth();
 	int height = TheDisplay->getHeight();
 	tagRECT rect = {0};
-	GetClientRect(ApplicationHWnd, &rect);
+	GetClientRect((HWND)ApplicationHWnd, &rect);
 	if (rect.right - rect.left != width || rect.bottom - rect.top != height)
 	{
 		rect.left = 0;
 		rect.top = 0;
 		rect.right = width;
 		rect.bottom = height;
-		unsigned long style = GetWindowLongA(ApplicationHWnd, -16);
+		unsigned long style = GetWindowLongA((HWND)ApplicationHWnd, -16);
 		AdjustWindowRect(&rect, style, 0);
-		SetWindowPos(ApplicationHWnd, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 6);
+		SetWindowPos((HWND)ApplicationHWnd, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 6);
 		TheMouse->rva000B3FD0();
 		Rva0041267F();
 		TheInGameUI->v108();
@@ -610,7 +611,8 @@ public:
 	virtual ~GameInfo();
 };
 extern GameInfo *TheGameInfo;
-extern class GameInfo *TheSkirmishGameInfo;
+// Defined as a SkirmishGameInfo * in SkirmishGameOptionsMenu.cpp.
+class GameInfo; class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 // TheGameText's vslot 15 fetch (Rva00515C64's view).
 class GameTextInterface

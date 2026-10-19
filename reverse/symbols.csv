@@ -10694,7 +10694,6 @@ name,address,notes
 ?rva0051274F@Rva005126F5@@QAEHHII@Z,0x0051274F,unrowed 136B thiscall (Ghidra FUN_0091274f; ret 0xC) at slot 2 of vftable 0x00C659E8 of the LAN lobby screen base class (destroyed by 0x005126F5); the lobby handler 0x0044484A calls it directly with its three message args; address name
 ?rva0051274F@Rva0051274F@@QAEHHHH@Z,0x0051274F,thiscall int callee of 0x004E8D3E read from its REL32 displacement (this plus 3); body unrowed
 ?rva00513B94@Rva00513B94Target@@QAEXXZ,0x00513B94,"method a vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
-?rva00515633@AptMainMenu@@QAEXXZ,0x00515633,thiscall spelling of the 108-byte body rowed as the free ?Rva00515633Delete@@YAXXZ (it ignores ECX): AptMainMenu::rva005158A7 0x005158A7 tail-jumps to it at 0x005158BD with the main menu in ECX
 ?rva00517EA2@Rva00517EA2@@QAEXXZ,0x00517EA2,address-derived callee of matched slot 0x005B800A; retail jmp rel32 targets 0x00517EA2; Ghidra FUN bounds 137 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva00517F31@Rva005B8EBB@@QAEXXZ,0x00517F31,callees of 0x005B8EBB from retail REL32; names unknown
 ?rva0051B09B@Rva0051BED7@@QAEXXZ,0x0051B09B,this-shaped call site in the 0x0051BED7 poll (mov ecx,esi with no stack args); rowed free fn Rva0051B09BEnable lives here; address from retail REL32
