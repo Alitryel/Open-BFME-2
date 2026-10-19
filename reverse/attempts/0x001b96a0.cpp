@@ -1,21 +1,21 @@
 // _UpdateUMVBorder
-// partial score=0.8 date=2026-10-18
-// _UpdateUMVBorder
-// partial score=0.8 date=2026-10-10
-// _UpdateUMVBorder
-// partial score=0.8 date=2026-10-10
+// partial score=0.8 date=2026-10-19
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001b96a0.md plus retail only.
 // NEAR (not exact): UpdateUMVBorder retail 0x001B96A0..0x001B9AB6 (1047
-// bytes). Same block structure (inlined memset/memcpy rep stos/movs; the
-// border copy loops address the bottom rows as top + invariant difference;
-// halved border via shr; UV stride and UV rows kept for V) but this body
-// compiles to 1055 bytes: MSVC loads the buffer argument first into ECX
-// and keeps the border in EDX where retail keeps the buffer in EAX and the
-// border in ECX (and the left source pointer in ESI) so registers rotate
-// throughout. Tried: increment orders / declaration orders / separate
-// halved border / width local / single row pointer / unsigned border /
-// local buffer copy / flag variants (/G5 /G7 /Ox /O1 /Oy-).
+// bytes); this body compiles to 1042 bytes with 280 of retail's 353
+// instructions in aligned order (the previous bank: 1055 bytes, 130).
+// Two source changes moved it: (1) the Y side-fill loop reads the left
+// edge pixel into a local and advances srcLeft before the memset, which
+// gives retail's whole prologue (border in ECX, buffer loaded late into
+// EAX, srcLeft in ESI); (2) the U setup halves the border after srcRight
+// is formed. Remaining: the Y loop is entered through a jmp + srcLeft
+// reload (retail falls straight in with ESI = srcLeft and reloads
+// mid-loop); the side-fill stack slots are rotated (retail srcRight 0x10,
+// dstLeft 0x14, srcLeft 0x18, dstRight 0x1c); U shr still issues one
+// instruction early; U/V row loops form the bottom-top delta as
+// dstBottom - dstTop where retail forms border*stride - src + dstBottom.
+// See reverse/attempt_support/001b96a0-20261019-s9.md.
 struct Vp6BorderInstance {
 	unsigned char unknown0[0x78];
 	int ReconYDataOffset;
@@ -36,20 +36,23 @@ extern "C" void UpdateUMVBorder(Vp6BorderInstance *pbi, unsigned char *buffer)
 {
 	int i;
 	int rows;
-	int border = pbi->MVBorder;
-	int stride = pbi->YStride;
+	int border;
+	int stride;
 	unsigned char *srcLeft, *srcRight, *dstLeft, *dstRight;
 	unsigned char *src, *last, *dstTop, *dstBottom;
 
 	rows = pbi->VFragments * 8;
-	srcLeft = buffer + pbi->ReconYDataOffset;
+	border = pbi->MVBorder;
+	stride = pbi->YStride;
+	srcLeft = pbi->ReconYDataOffset + buffer;
 	srcRight = srcLeft + pbi->HFragments * 8 - 1;
 	dstLeft = srcLeft - border;
 	dstRight = srcRight + 1;
 	for (i = 0; i < rows; i++) {
-		memset(dstLeft, srcLeft[0], border);
-		memset(dstRight, srcRight[0], border);
+		unsigned char left = *srcLeft;
 		srcLeft += stride;
+		memset(dstLeft, left, border);
+		memset(dstRight, srcRight[0], border);
 		srcRight += stride;
 		dstLeft += stride;
 		dstRight += stride;
@@ -67,9 +70,9 @@ extern "C" void UpdateUMVBorder(Vp6BorderInstance *pbi, unsigned char *buffer)
 
 	stride = pbi->UVStride;
 	rows = pbi->VFragments * 4;
-	border = (unsigned)border / 2;
 	srcLeft = buffer + pbi->ReconUDataOffset;
 	srcRight = srcLeft + pbi->HFragments * 4 - 1;
+	border = (unsigned)border / 2;
 	dstLeft = srcLeft - border;
 	dstRight = srcRight + 1;
 	for (i = 0; i < rows; i++) {
