@@ -15,6 +15,12 @@ namespace _STL { inline locale::facet::~facet() {} }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
 // bfme link decl-only end
+// ostreambuf_iterator<wchar_t>::operator= and sputc are inlined into every caller here;
+// retail keeps the out-of-line operator= that calls sputc
+// (stlport_ostreambuf_iterator_assign.cpp). Bind both to the kept retail copies instead
+// of emitting this unit's own operator=, which inlines sputc.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned short basic_streambuf<unsigned short, char_traits<unsigned short> >::sputc(unsigned short __c) { return ((_M_pnext < _M_pend) ? char_traits<unsigned short>::to_int_type(*_M_pnext++ = __c) : this->overflow(char_traits<unsigned short>::to_int_type(__c))); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline ostreambuf_iterator<unsigned short, char_traits<unsigned short> > & ostreambuf_iterator<unsigned short, char_traits<unsigned short> >::operator=(unsigned short __c) { _M_ok = _M_ok && !char_traits<unsigned short>::eq_int_type(_M_buf->sputc(__c), char_traits<unsigned short>::eof()); return *this; } }
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
