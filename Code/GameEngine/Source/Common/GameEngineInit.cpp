@@ -276,11 +276,11 @@ extern BuildAssistant *TheBuildAssistant;
 // crowd-response blocks; the initSubsystem call below only assigns it.
 extern Rva0022A809Subsystem *TheCrowdResponseStore;
 extern class LivingWorldAutoResolveArmorStore *TheLivingWorldAutoResolveArmorStore;
-extern class Rva0041811D *g_Va00E030C0;
-extern class Rva0041811D *g_Va00E030B0;
-extern class Rva0041811D *g_Va00E030A8;
-extern class Rva0041811D *g_Va00E030B8;
-extern struct HandicapStore *g_00E03040;
+extern class Rva0041811D *TheLivingWorldAutoResolveWeaponStore;
+extern class Rva0041811D *TheLivingWorldAutoResolveBodyStore;
+extern class Rva0041811D *TheLivingWorldAutoResolveLeadershipStore;
+extern class Rva0041811D *TheLivingWorldAutoResolveCombatChainStore;
+extern struct HandicapStore *TheLivingWorldAutoResolveHandicapStore;
 extern struct Rva0039B95FHolder *g_00E031E8;
 extern EmotionSystem *TheEmotionSystem;
 extern class ThingFactory *TheThingFactory;
@@ -344,7 +344,7 @@ extern class Rva0040AAD5 *g_00E02F74;
 extern class CreateAHeroManager *TheCreateAHeroManager;
 #define TheHeroManager (*(class Rva0021A54A * *)&TheCreateAHeroManager)
 extern Rva0022C22CSubsystem *TheScoredKillEvaAnnouncerController;
-extern void *g_00E03064;
+extern void *TheLivingWorldAutoResolveReinforcementScheduleStore;
 extern Rva0022C316Subsystem *TheLivingWorldAutoResolveResourceBonusScheduleStore;
 extern Rva0022C38BSubsystem *TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore;
 
@@ -847,11 +847,11 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheBuildAssistant, "TheBuildAssistant", new BuildAssistant, 0);
 		initSubsystem(TheCrowdResponseStore, "TheCrowdResponseStore", new Rva0022A809Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022A87ESubsystem *&>(TheLivingWorldAutoResolveArmorStore)), "TheLivingWorldAutoResolveArmorStore", new Rva0022A87ESubsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022A8F3Subsystem *&>(g_Va00E030C0)), "TheLivingWorldAutoResolveWeaponStore", new Rva0022A8F3Subsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022A968Subsystem *&>(g_Va00E030B0)), "TheLivingWorldAutoResolveBodyStore", new Rva0022A968Subsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022A9DDSubsystem *&>(g_Va00E030A8)), "TheLivingWorldAutoResolveLeadershipStore", new Rva0022A9DDSubsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022AA52Subsystem *&>(g_Va00E030B8)), "TheLivingWorldAutoResolveCombatChainStore", new Rva0022AA52Subsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022AAC7Subsystem *&>(g_00E03040)), "TheLivingWorldAutoResolveHandicapStore", new Rva0022AAC7Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022A8F3Subsystem *&>(TheLivingWorldAutoResolveWeaponStore)), "TheLivingWorldAutoResolveWeaponStore", new Rva0022A8F3Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022A968Subsystem *&>(TheLivingWorldAutoResolveBodyStore)), "TheLivingWorldAutoResolveBodyStore", new Rva0022A968Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022A9DDSubsystem *&>(TheLivingWorldAutoResolveLeadershipStore)), "TheLivingWorldAutoResolveLeadershipStore", new Rva0022A9DDSubsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022AA52Subsystem *&>(TheLivingWorldAutoResolveCombatChainStore)), "TheLivingWorldAutoResolveCombatChainStore", new Rva0022AA52Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022AAC7Subsystem *&>(TheLivingWorldAutoResolveHandicapStore)), "TheLivingWorldAutoResolveHandicapStore", new Rva0022AAC7Subsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022AB3CSubsystem *&>(g_00E031E8)), "TheMissionObjectiveTracker", new Rva0022AB3CSubsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheEmotionSystem, "TheEmotionSystem", new EmotionSystem, 0);
 		{
@@ -907,7 +907,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022C142Subsystem *&>(g_00E02F74)), "TheAwardSystemManager", new Rva0022C142Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022C1B7Subsystem *&>(TheHeroManager)), "TheCreateAHeroManager", new Rva0022C1B7Subsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheScoredKillEvaAnnouncerController, "TheScoredKillEvaAnnouncerController", new Rva0022C22CSubsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022C2A1Subsystem *&>(g_00E03064)), "TheLivingWorldAutoResolveReinforcementScheduleStore", new Rva0022C2A1Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022C2A1Subsystem *&>(TheLivingWorldAutoResolveReinforcementScheduleStore)), "TheLivingWorldAutoResolveReinforcementScheduleStore", new Rva0022C2A1Subsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheLivingWorldAutoResolveResourceBonusScheduleStore, "TheLivingWorldAutoResolveResourceBonusScheduleStore", new Rva0022C316Subsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore, "TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore", new Rva0022C38BSubsystem, (Xfer *)&xferCRC);
 

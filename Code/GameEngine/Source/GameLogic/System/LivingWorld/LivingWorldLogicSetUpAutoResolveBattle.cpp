@@ -31,10 +31,10 @@ struct Rva00413E27Bucket;
 class Rva00413E27 {public:Rva00413E27Bucket*rva00413E27(int);};
 class Rva004134E3 {public:int*rva004134E3(int);};
 class Rva0022C2A1Subsystem;class Rva0022C316Subsystem;class Rva0022C38BSubsystem;class Rva0022AAC7Subsystem;
-extern void *g_00E03064;
+extern void *TheLivingWorldAutoResolveReinforcementScheduleStore;
 extern Rva0022C316Subsystem *TheLivingWorldAutoResolveResourceBonusScheduleStore;
 extern Rva0022C38BSubsystem *TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore;
-struct HandicapStore; extern HandicapStore *g_00E03040;
+struct HandicapStore; extern HandicapStore *TheLivingWorldAutoResolveHandicapStore;
 enum NameKeyType { NAMEKEY_INVALID=0 };
 class NameKeyGenerator {public:NameKeyType nameToKey(const AsciiString&);};extern NameKeyGenerator*TheNameKeyGenerator;
 class PlayerTemplate {public:char gap[0x154];};
@@ -88,7 +88,7 @@ void LivingWorldLogic::SetUpAutoResolveBattle(const _STL::vector<SetupPlayer*>*p
   SetupPlayer*player=(*players)[i];
   int side=!((Rva002E071E*)player)->rva002E071E((Rva002E071E*)sidePlayer);
   out->begin()[i].side=side;int id=player->playerID;out->begin()[i].playerID=id;
-  LivingWorldAutoResolveReinforcementSchedule *schedule=(LivingWorldAutoResolveReinforcementSchedule*)((char*)g_00E03064+0x0C+side*16);
+  LivingWorldAutoResolveReinforcementSchedule *schedule=(LivingWorldAutoResolveReinforcementSchedule*)((char*)TheLivingWorldAutoResolveReinforcementScheduleStore+0x0C+side*16);
   int number=0;
   for(unsigned j=0;j<armies->size();++j) {
    SetupArmy*army=(*armies)[j];
@@ -110,7 +110,7 @@ void LivingWorldLogic::SetUpAutoResolveBattle(const _STL::vector<SetupPlayer*>*p
    int*word=((LivingWorldAutoResolveResourceBonusSchedule*)bucket)->getBonusForResourceAmount(player->resources);
    if(word) {ScaleX(out->begin()[i].weapon,((float*)word)[1]);Scale(((float*)word)[2],out->begin()[i].armor);}
   }
-  int*handicap=((Rva004134E3*)g_00E03040)->rva004134E3(player->handicap);
+  int*handicap=((Rva004134E3*)TheLivingWorldAutoResolveHandicapStore)->rva004134E3(player->handicap);
   Scale(((float*)handicap)[1],out->begin()[i].weapon);Scale(((float*)handicap)[2],out->begin()[i].armor);Scale(((float*)handicap)[3],out->begin()[i].experience);
   if(simulation) {
    int faction=player->faction;SetupRecord52 *records=out->begin();records[i].science=((Rva00413E27*)TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore)->rva00413E27(faction);

@@ -45,14 +45,14 @@ public:
 	void *rva0041811D(const AsciiString *name);
 };
 
-extern Rva0041811D *g_Va00E030B0;
+extern Rva0041811D *TheLivingWorldAutoResolveBodyStore;
 
-// g_Va00E030A8/B8/C0: VA 0x00E030A8/0x00E030B8/0x00E030C0 (.data/bss);
+// Leadership/CombatChain/Weapon stores: VA 0x00E030A8/0x00E030B8/0x00E030C0 (.data/bss);
 // zero-filled pointers to the Rva0041811D tables. Defined here like
-// Rva0033A65EGetter defines g_Va00E030B0, so these names resolve.
-Rva0041811D *g_Va00E030A8;
-Rva0041811D *g_Va00E030B8;
-Rva0041811D *g_Va00E030C0;
+// Rva0033A65EGetter defines TheLivingWorldAutoResolveBodyStore, so these names resolve.
+Rva0041811D *TheLivingWorldAutoResolveLeadershipStore;
+Rva0041811D *TheLivingWorldAutoResolveCombatChainStore;
+Rva0041811D *TheLivingWorldAutoResolveWeaponStore;
 
 // ?Rva00418143Parse@@YAXPAVINI@@PAX1PBX@Z
 void Rva00418143Parse(INI *ini, void *, void *store, const void *)
@@ -60,7 +60,7 @@ void Rva00418143Parse(INI *ini, void *, void *store, const void *)
 	const char *token = ini->getNextToken();
 	{
 		AsciiString name(token);
-		*(void **)store = g_Va00E030A8->rva0041811D(&name);
+		*(void **)store = TheLivingWorldAutoResolveLeadershipStore->rva0041811D(&name);
 	}
 	if (*(void **)store == 0)
 		throw INIException(1, "Unknown LivingWorldAutoResolveLeadership %s", token);
@@ -72,7 +72,7 @@ void Rva00418853Parse(INI *ini, void *, void *store, const void *)
 	const char *token = ini->getNextToken();
 	{
 		AsciiString name(token);
-		*(void **)store = g_Va00E030B0->rva0041811D(&name);
+		*(void **)store = TheLivingWorldAutoResolveBodyStore->rva0041811D(&name);
 	}
 	if (*(void **)store == 0)
 		throw INIException(1, "Unknown LivingWorldAutoResolveBody %s", token);
@@ -84,7 +84,7 @@ void Rva00419182Parse(INI *ini, void *, void *store, const void *)
 	const char *token = ini->getNextToken();
 	{
 		AsciiString name(token);
-		*(void **)store = g_Va00E030B8->rva0041811D(&name);
+		*(void **)store = TheLivingWorldAutoResolveCombatChainStore->rva0041811D(&name);
 	}
 	if (*(void **)store == 0)
 		throw INIException(1, "Unknown LivingWorldAutoResolveCombatChain %s", token);
@@ -96,7 +96,7 @@ void Rva00419726Parse(INI *ini, void *, void *store, const void *)
 	const char *token = ini->getNextToken();
 	{
 		AsciiString name(token);
-		*(void **)store = g_Va00E030C0->rva0041811D(&name);
+		*(void **)store = TheLivingWorldAutoResolveWeaponStore->rva0041811D(&name);
 	}
 	if (*(void **)store == 0)
 		throw INIException(1, "Unknown LivingWorldAutoResolveWeapon %s", token);

@@ -34,13 +34,13 @@ struct InsertRet00419331 {void *node;void *owner;unsigned char found;};
 #pragma pack(pop)
 class Rva000427195 {public:InsertRet00419331 rva004193AD(const void*); __forceinline InsertRet00419331 rva004193D1(const void *value) {return rva004193AD(value);}};
 class Rva0041811D {public:void *rva00419154();unsigned char pad[12];Rva000427195 table;};
-extern Rva0041811D *g_Va00E030B8;
+extern Rva0041811D *TheLivingWorldAutoResolveCombatChainStore;
 void Rva004193E5Parse(INI *ini)
 {
  const char *token=ini->getNextToken();
- const Rva004190DA *defaults=static_cast<const Rva004190DA*>(g_Va00E030B8->rva00419154());
+ const Rva004190DA *defaults=static_cast<const Rva004190DA*>(TheLivingWorldAutoResolveCombatChainStore->rva00419154());
  const AsciiString *recordName,*pairName;
- InsertRet00419331 result=g_Va00E030B8->table.rva004193D1((recordName=&AsciiString(token),pairName=&AsciiString(token),&Rva0022D214(*pairName,*reinterpret_cast<const Rva004191E5*>(&Rva004190DA(*recordName,defaults)))));
+ InsertRet00419331 result=TheLivingWorldAutoResolveCombatChainStore->table.rva004193D1((recordName=&AsciiString(token),pairName=&AsciiString(token),&Rva0022D214(*pairName,*reinterpret_cast<const Rva004191E5*>(&Rva004190DA(*recordName,defaults)))));
  if(!result.found) throw INIException(8,"Duplicate AutoResolveCombatChain entries named %s",token);
  ini->initFromINI(static_cast<char*>(result.node)+8,combatChainFields);
 }

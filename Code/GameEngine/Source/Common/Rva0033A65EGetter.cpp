@@ -8,9 +8,9 @@ public:
 	void *rva00418825();
 };
 
-// g_Va00E030B0: VA 0x00E030B0 (.data/bss); zero-filled pointer to the
+// TheLivingWorldAutoResolveBodyStore: VA 0x00E030B0 (.data/bss); zero-filled pointer to the
 // Rva0041811D table used for the default-body fallback.
-Rva0041811D *g_Va00E030B0;
+Rva0041811D *TheLivingWorldAutoResolveBodyStore;
 
 class Rva0033A65E
 {
@@ -25,7 +25,7 @@ void *Rva0033A65E::rva0033A65E()
 {
 	if (m_body != 0)
 		return m_body;
-	Rva0041811D *table = g_Va00E030B0;
+	Rva0041811D *table = TheLivingWorldAutoResolveBodyStore;
 	return table->rva00418825();
 }
 

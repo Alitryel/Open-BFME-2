@@ -108,7 +108,7 @@ public:
 	Rva00418A8EHost m_table0C;
 };
 
-extern Rva0041811D *g_Va00E030B0;
+extern Rva0041811D *TheLivingWorldAutoResolveBodyStore;
 // Retail's body-block field table at RVA 0x0083A8B0 (.rdata, 80 bytes = four 16-byte records and the zero
 // sentinel), transcribed from retail's own bytes.
 extern const FieldParse Rva00418AC6FieldParseTable[] =
@@ -134,9 +134,9 @@ extern "C" const struct _s__ThrowInfo __identifier("_TI1?AVINIException@@");
 void __cdecl Rva00418AC6Parse(INI *ini)
 {
 	const char *token = ini->getNextToken(0);
-	const Rva00418797 *defaults = (const Rva00418797 *)g_Va00E030B0->rva00418825();
+	const Rva00418797 *defaults = (const Rva00418797 *)TheLivingWorldAutoResolveBodyStore->rva00418825();
 	Rva00418A12Result result;
-	g_Va00E030B0->m_table0C.insert(&result, Rva0041890FRecord(token, Rva00418797(token, defaults)));
+	TheLivingWorldAutoResolveBodyStore->m_table0C.insert(&result, Rva0041890FRecord(token, Rva00418797(token, defaults)));
 	if (!result.inserted)
 	{
 		INIException e(8, "Duplicate AutoResolveBody entries named %s", token);

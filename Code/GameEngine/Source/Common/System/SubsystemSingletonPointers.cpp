@@ -33,7 +33,7 @@ GameResultsInterface *TheGameResultsQueue = 0;		// retail 0x00A030D4
 CloudBreakEffectManager *TheCloudBreakEffectManager = 0;		// retail 0x00A01CEC
 // GameEngine::init registers 0x00A03040 as "TheLivingWorldAutoResolveHandicapStore";
 // its readers still spell it by address.
-HandicapStore *g_00E03040 = 0;		// retail 0x00A03040
+HandicapStore *TheLivingWorldAutoResolveHandicapStore = 0;		// retail 0x00A03040
 Rva0022C38BSubsystem *TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore = 0;		// retail 0x00A0305C
 Rva0022C316Subsystem *TheLivingWorldAutoResolveResourceBonusScheduleStore = 0;		// retail 0x00A0306C
 HouseColorSystem *TheHouseColorSystem = 0;		// retail 0x00A030A0

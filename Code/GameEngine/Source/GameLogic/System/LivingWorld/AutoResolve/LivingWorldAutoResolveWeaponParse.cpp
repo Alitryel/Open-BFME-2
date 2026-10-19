@@ -26,7 +26,7 @@ struct Rva004197E8 : Rva0022D249 {Rva004197E8(const AsciiString&, const Rva00419
 struct InsertRet00419331 { void* m_node; void* m_owner; unsigned char m_found;};
 class Rva000427195 {public: InsertRet00419331 rva00419967(const void*); __forceinline InsertRet00419331 rva0041998B(const void *value) {return rva00419967(value);}private:char bytes[0x14];};
 class Rva0041811D {public: void* rva004196F8(); char prefix[0xC]; Rva000427195 table;};
-extern Rva0041811D *g_Va00E030C0;
+extern Rva0041811D *TheLivingWorldAutoResolveWeaponStore;
 class INIException {public:char*message;int code;INIException(int,const char*,...);INIException(const INIException&);~INIException();};
 void Rva0041999FParse(INI* ini) {
  static const FieldParse fields[] = {
@@ -36,8 +36,8 @@ void Rva0041999FParse(INI* ini) {
  {"MissPercentChance",INI::parseInt,0,0x10},
  {0,0,0,0}};
  const char* token=ini->getNextToken(0);
- const Rva00419669* defaults=(const Rva00419669*)g_Va00E030C0->rva004196F8();
- InsertRet00419331 result=g_Va00E030C0->table.rva0041998B(&Rva004197E8(token,Rva00419669(token,defaults)));
+ const Rva00419669* defaults=(const Rva00419669*)TheLivingWorldAutoResolveWeaponStore->rva004196F8();
+ InsertRet00419331 result=TheLivingWorldAutoResolveWeaponStore->table.rva0041998B(&Rva004197E8(token,Rva00419669(token,defaults)));
  if(!result.m_found) throw INIException(8,"Duplicate AutoResolveWeapon entries named %s",token);
  ini->initFromINI((char*)result.m_node+8,fields);
 }

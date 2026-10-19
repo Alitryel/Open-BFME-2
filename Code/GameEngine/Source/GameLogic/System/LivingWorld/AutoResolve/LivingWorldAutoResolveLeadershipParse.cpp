@@ -32,13 +32,13 @@ class Rva004181F5;
 struct OutIter004182F8 {void *node;void *table;unsigned char inserted;};
 class Rva00418374 {public:OutIter004182F8 *rva00418374(OutIter004182F8*,const Rva004181F5*); __forceinline OutIter004182F8 *insertOne(OutIter004182F8 *out,const Rva004181F5 *value) {return rva00418374(out,value);}};
 class Rva0041811D {public:unsigned char pad[12];Rva00418374 table;};
-extern Rva0041811D *g_Va00E030A8;
+extern Rva0041811D *TheLivingWorldAutoResolveLeadershipStore;
 void Rva004183ACParse(INI *ini)
 {
  const char *token=ini->getNextToken();
  const AsciiString *recordName,*pairName;
  OutIter004182F8 result;
- g_Va00E030A8->table.insertOne(&result,(recordName=&AsciiString(token),pairName=&AsciiString(token),reinterpret_cast<const Rva004181F5*>(&Rva00418232(*pairName,*reinterpret_cast<const Rva004181A6*>(&Rva00417F7C(*reinterpret_cast<const StringBase<char>*>(recordName)))))));
+ TheLivingWorldAutoResolveLeadershipStore->table.insertOne(&result,(recordName=&AsciiString(token),pairName=&AsciiString(token),reinterpret_cast<const Rva004181F5*>(&Rva00418232(*pairName,*reinterpret_cast<const Rva004181A6*>(&Rva00417F7C(*reinterpret_cast<const StringBase<char>*>(recordName)))))));
  if(!result.inserted) throw INIException(8,"Duplicate AutoResolveLeadership entries named %s",token);
  ini->initFromINI(static_cast<char*>(result.node)+8,leadershipFields);
 }
