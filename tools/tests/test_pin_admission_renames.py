@@ -64,3 +64,34 @@ def test_two_new_pin_names_cannot_share_an_address(admission):
 @pytest.mark.parametrize("address", ["0x00403000", "0x00005010", "0x00007000"])
 def test_rename_still_checks_image_and_executable_bounds(admission, address):
     assert admission.judge([pin(PUBLIC)], [pin(PROTECTED, address)], [], [])
+
+
+# Logged false reject at retail 0x00001158 (gen-gap-thunks batch 0): the
+# generator pins the gap thunk's target as ?b_<target>@@YAXXZ, which is that
+# target's own address in hex and adds no identity beside its real owner.
+def test_self_address_gap_thunk_target_pin_is_a_placeholder(admission):
+    assert admission.judge([], [pin("?b_00003000@@YAXXZ")], [], [row(PUBLIC)]) == []
+    assert admission.judge([], [pin("?j_00003000@@YAXXZ")], [], [row(PUBLIC)]) == []
+
+
+# Logged false reject at retail 0x00375B7A: the gen_dump scaffold name
+# ?d_<rva>@@YAXXZ on the callee counted as a real name against its real pin.
+def test_self_address_dump_name_does_not_block_a_real_pin(admission):
+    assert admission.judge([], [pin(PUBLIC)], [], [row("?d_00003000@@YAXXZ")]) == []
+    assert admission.judge([], [pin(PUBLIC)], [], [row("?d_00003001@@YAXXZ")])
+
+
+@pytest.mark.parametrize("name", [
+    "?b_00003001@@YAXXZ",          # another address's number: a name like any other
+    "?b_00003000@Cls@@QAEXXZ",     # not gen_small.thunk_symbol's spelling
+    "?b_00003000X@@YAXXZ",
+    "?k_00003000@@YAXXZ",
+])
+def test_other_b_j_names_still_cannot_stack_on_a_real_owner(admission, name):
+    assert admission.judge([], [pin(name)], [], [row(PUBLIC)])
+
+
+def test_self_address_gap_thunk_pin_does_not_hide_a_real_second_name(admission):
+    assert admission.judge([pin("?b_00003000@@YAXXZ")],
+                           [pin("?b_00003000@@YAXXZ"), pin("?Wrong@@YAXXZ")],
+                           [], [row(PUBLIC)])

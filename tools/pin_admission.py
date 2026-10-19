@@ -126,11 +126,20 @@ def image_layout():
 # identity whatever follows the digits; GEN_PLACEHOLDER_RE stops at a trailing
 # hex letter (the D of "Dtor"), so it is widened here.
 ADDRESS_NAME_RE = re.compile(r"(?:[Rr]va|[Gg]en|ji|dup)_?[0-9A-Fa-f]{8}")
+# Generator spellings that are their own address in hex: gen_small.thunk_symbol's
+# `?j_<rva>@@YAXXZ` gap thunk and `?b_<target>@@YAXXZ` body it jumps to
+# (gen-gap-thunks), and gen_dump's `?d_<rva>@@YAXXZ` byte-true dump. Each is a
+# placeholder only AT that address; a b_/d_/j_ name carrying any other number
+# (BFME 1 / Zero Hour labels already in symbols.csv) is judged as a name like
+# any other.
+SELF_ADDRESS_THUNK_RE = re.compile(r"\?[bdj]_([0-9a-f]{8})@@YAXXZ")
 
 
 def is_placeholder(name, rva):
+    self_named = SELF_ADDRESS_THUNK_RE.fullmatch(name)
     return bool(build.GEN_PLACEHOLDER_RE.search(name) or build.DUP_ALIAS_RE.match(name)
-                or ADDRESS_NAME_RE.search(name) or build.is_ghidra_autoname(name, rva))
+                or ADDRESS_NAME_RE.search(name) or build.is_ghidra_autoname(name, rva)
+                or (self_named and int(self_named.group(1), 16) == rva))
 
 
 def pin_problems(pin, names_at, prove=None):
