@@ -788,11 +788,14 @@ struct Rva0043A1C0ColorView
 	int m_color;
 };
 
-class Rva0043A1C0
+// AptLoadScreen's Apt extern handlers: its constructor 0x0043AE44 registers 0x0043A1C0 as
+// "GameLoading:PlayerColor:%d" and 0x0043A242 as "GameLoadingType" (AptLoadScreenCtor.cpp).
+// Non-virtual members only; this TU's view covers the fields the two handlers read.
+class AptLoadScreen
 {
 public:
-	void rva0043A1C0(int index, char *buffer, bool skip);
-	void rva0043A242(int index, char *buffer, bool skip);
+	void PlayerColor(int index, char *buffer, bool skip);
+	void GameLoadingType(int index, char *buffer, bool skip);
 private:
 	char m_pad[0x14];
 	int m_mode;												// +0x14
@@ -802,7 +805,7 @@ private:
 	int m_slots[8];											// +0x90
 };
 
-void Rva0043A1C0::rva0043A1C0(int index, char *buffer, bool skip)
+void AptLoadScreen::PlayerColor(int index, char *buffer, bool skip)
 {
 	if (skip || index >= 8)
 		return;
@@ -818,7 +821,7 @@ void Rva0043A1C0::rva0043A1C0(int index, char *buffer, bool skip)
 	sprintf(buffer, "%d", ((Rva0043A1C0ColorView *)TheMultiplayerSettings->getColor(slot->getApparentColor()))->m_color);
 }
 
-void Rva0043A1C0::rva0043A242(int index, char *buffer, bool skip)
+void AptLoadScreen::GameLoadingType(int index, char *buffer, bool skip)
 {
 	if (skip)
 		return;
