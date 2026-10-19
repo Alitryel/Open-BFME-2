@@ -18220,7 +18220,6 @@ uw_00762848,,0x00762848,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obje
 uw_00762850,,0x00762850,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9684
 uw_0076285b,,0x0076285B,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4956
 uw_00762863,,0x00762863,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4956
-uw_00762897,,0x00762897,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_007628a9,,0x007628A9,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_007628b1,,0x007628B1,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2889
 uw_007628c6,,0x007628C6,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7394
@@ -26505,7 +26504,6 @@ uw_0078c697,,0x0078C697,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_0078c6b6,,0x0078C6B6,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6541
 uw_0078c6c1,,0x0078C6C1,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7403
 uw_0078c6d3,,0x0078C6D3,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L5029
-uw_0078c6e5,,0x0078C6E5,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_0078c6f7,,0x0078C6F7,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0078c6ff,,0x0078C6FF,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3569
 uw_0078c72b,,0x0078C72B,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4797
@@ -28555,7 +28553,6 @@ uw_00796610,,0x00796610,8,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obje
 uw_0079663a,,0x0079663A,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2948
 uw_00796642,,0x00796642,8,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2880
 uw_00796654,,0x00796654,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3361
-uw_00796666,,0x00796666,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_00796678,,0x00796678,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3361
 uw_00796680,,0x00796680,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5414
 uw_00796695,,0x00796695,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2948
@@ -97108,3 +97105,13 @@ __ehhandler$?Rva004C7E09_ParseUpgradeName@@YAXPAVINI@@PAX1PBX@Z,,0x0079037B,10,C
 $L1194,,0x0078FF2B,8,Code/GameEngine/Source/Common/System/INI_Rva004C3859ParseUpgradeName.cpp,matched,gen-funclet;parent=?Rva004C3859_ParseUpgradeName@INI@@SAXPAV1@PAX1PBX@Z;Native FuncInfo941400 unwind action and complete63B parent/EH graph establish the actual compiler-local8B AsciiString cleanup. Whole bytes and destructor relocation exact; replace anonymous generated harness with its real lifetime; no object-symbol alias
 $L1210,,0x00790373,8,Code/GameEngine/Source/Common/System/INI_Rva004C3859ParseUpgradeName.cpp,matched,gen-funclet;parent=?Rva004C7E09_ParseUpgradeName@@YAXPAVINI@@PAX1PBX@Z;Native FuncInfo941AEC unwind action and independent63B UpgradeName callback/EH graph establish the actual compiler-local8B AsciiString cleanup. Whole bytes and destructor relocation exact; replace anonymous generated harness with its real lifetime; no object-symbol alias
 ??_GLineGroupClass@@UAEPAXI@Z,,0x001B3770,30,Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassDestructor.cpp,matched,scalar deleting dtor emitted beside the rowed dtor 0x001B3510 in its own unit; rehomed from LineGroupClassDeletingDestructor.cpp whose second ~LineGroupClass definition duplicated the row
+??1?$_Vector_base@VCameraMarker@@V?$allocator@VCameraMarker@@@_STL@@@_STL@@QAE@XZ,,0x0007FAB3,14,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,gen-alias;Native independent member-vector destructors D04E1/48D003/5243BB and exact EH actions establish shared storage cleanup7FAB3; actual emitted STLport base destructor is whole14B free-first-pointer twin with matching free30830 relocation; no separate template address or original element identity claim
+??1W3DStreakWeatherVec@@QAE@XZ,,0x000D04E1,63,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Independent real C++ member-vector destructor; native owner call and 8B element cleanup establish role and layout; original template identity unknown; full EH exact
+__ehhandler$??1W3DStreakWeatherVec@@QAE@XZ,,0x0076289F,10,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Compiler-emitted handler of actual parent 0xd04e1; whole10B and FuncInfo0x906018; full parent EH exact
+$L7461,,0x00762897,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,gen-funclet;parent=??1W3DStreakWeatherVec@@QAE@XZ;Actual parent storage cleanup; next named handler proves8B extent; full EH exact
+??1CameraMarkerVec@@QAE@XZ,,0x0048D003,63,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Independent real C++ member-vector destructor; native owner call and 8B element cleanup establish role and layout; original template identity unknown; full EH exact
+__ehhandler$??1CameraMarkerVec@@QAE@XZ,,0x0078C6ED,10,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Compiler-emitted handler of actual parent 0x48d003; whole10B and FuncInfo0x93bf04; full parent EH exact
+$L7514,,0x0078C6E5,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,gen-funclet;parent=??1CameraMarkerVec@@QAE@XZ;Actual parent storage cleanup; next named handler proves8B extent; full EH exact
+??1Rva005243BBVector@@QAE@XZ,,0x005243BB,63,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Independent real C++ member-vector destructor; native owner call and 8B element cleanup establish role and layout; original template identity unknown; full EH exact
+__ehhandler$??1Rva005243BBVector@@QAE@XZ,,0x0079666E,10,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Compiler-emitted handler of actual parent 0x5243bb; whole10B and FuncInfo0x94a0a0; full parent EH exact
+$L7562,,0x00796666,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,gen-funclet;parent=??1Rva005243BBVector@@QAE@XZ;Actual parent storage cleanup; next named handler proves8B extent; full EH exact

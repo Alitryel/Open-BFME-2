@@ -33,3 +33,42 @@ the normal byte gates. No artificial lifetime, assembly or new pin is used.
 This retraction and its following recovery form one publication batch. The
 recovery will report only unique newly owned bytes; these 189 already
 counted parent bytes are not credited again. BFME1 input: cf0a80c228.
+
+## Verified recovery
+
+The source now defines all three real destructors. Each naturally emits its
+own complete ten-byte handler, for 30 new unique strict C++ bytes. Rehome
+the three existing eight-byte generated cleanup actions to their actual
+parent-scoped compiler labels. The named following handler and native
+handler address both prove each action's extent. Each entire eighteen-byte
+action/handler section is covered by the two whole-body proofs.
+
+The actions call the existing shared fourteen-byte storage cleanup at
+7FAB3. Normal admission first exposed that the emitted _Vector_base name
+had no resolver binding. Admit its actual whole-byte-and-relocation ICF
+twin through add_match --icf-owner, naming the existing int-vector owner.
+No pin or object-symbol annotation is added. All three independent native
+EH actions call that body, and its free relocation resolves to 30830.
+
+The dependent Apt destructor at 524436 initially failed the scoped link
+preview: its old vector<CameraMarker> call selected the canonical CF60B
+body, whereas native calls the independent 5243BB member destructor. Replace
+that member declaration with the recovered twelve-byte Rva005243BBVector
+view. Its whole65-byte parent and complete EH graph remain exact; its
+existing ten-byte handler remains exact. This is a provider/consumer repair,
+not a new original class-name claim or an additional unique-byte recovery.
+
+Normal verification passes30/30 provider rows and2/2 consumer rows. The
+provider and all three direct callers preview as LINKS against the published
+8eecc93d07 census; this is not a new census or a global link-coverage result.
+The affected-unit placement rescan finds zero additional bodies or pins.
+Frozen-file validation passes both edited units. proof.json records all ten
+recovered/folded whole bodies, the two consumer bodies, all relocations, full
+parent EH verdicts, current strict receipts and source/object hashes.
+native-evidence.json records the retail callers, parents and cleanup helpers.
+
+Six old object-symbol annotations and two linker alias directives are gone.
+The old hatch allowances are left for later batched tightening. No generated
+source, compiler flag, shared header, gate or baseline is changed. No runtime
+test or maintained verification runner was needed for identical bytes.
+About eight minutes; gpt-6.1-sol.

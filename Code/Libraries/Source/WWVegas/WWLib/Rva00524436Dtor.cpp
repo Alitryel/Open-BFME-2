@@ -1,6 +1,6 @@
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??1Rva00524436@@QAE@XZ @0x00524436 65B evidence: dtor via rowed clear 0x00523F8C plus vector CameraMarker at +0xc via dup 0x005243BB plus vector AsciiString at +0 via 0x0002CC70; precedent Rva00524265Dtor single-vector shape; callers 0x005248D0 0x0052634F 0x0052936C 0x005C7954
+// ??1Rva00524436@@QAE@XZ @0x00524436 65B evidence: dtor via rowed clear 0x00523F8C plus the independent vector at +0xc via 0x005243BB plus vector AsciiString at +0 via 0x0002CC70; callers 0x005248D0 0x0052634F 0x0052936C 0x005C7954
 #include <vector>
 
 #include "ascii_string.h"
@@ -14,10 +14,16 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
-class CameraMarker
+// The native +C member calls its own 5243BB destructor, not the canonical
+// vector<CameraMarker> at CF60B. Use that recovered twelve-byte member view
+// directly so the linker selects the same callee as the native call/EH path.
+// The original template/element identity remains unknown.
+struct Rva005243BBVector
 {
-public:
-	~CameraMarker();
+	~Rva005243BBVector();
+	void *m_start;
+	void *m_finish;
+	void *m_end;
 };
 
 class Rva00524021
@@ -32,15 +38,9 @@ public:
 	~Rva00524436();
 private:
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > m_00;
-	_STL::vector<CameraMarker, _STL::allocator<CameraMarker> > m_0c;
+	Rva005243BBVector m_0c;
 };
 
-// bfme link decl-only begin
-namespace _STL { template <> void _Destroy<CameraMarker *>(CameraMarker *,CameraMarker *); }
-namespace _STL { template <> void __destroy<CameraMarker *,CameraMarker>(CameraMarker *,CameraMarker *,CameraMarker *); }
-namespace _STL { template <> void __destroy_aux<CameraMarker *>(CameraMarker *,CameraMarker *,_STL::__false_type const &); }
-namespace _STL { template <> vector<CameraMarker,_STL::allocator<CameraMarker> >::~vector(); }
-// bfme link decl-only end
 Rva00524436::~Rva00524436()
 {
 	((Rva00524021 *)this)->rva00523F8C();

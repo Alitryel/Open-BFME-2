@@ -53,10 +53,45 @@ template <> void _Construct<Rva002390CB, Rva002390CB>(Rva002390CB *, const Rva00
 // Explicit members avoid unrelated incompatible whole-class COMDAT copies.
 template void _STL::vector<Rva002390CB, _STL::allocator<Rva002390CB> >::push_back(const Rva002390CB &);
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??1CameraMarkerVec@@QAE@XZ=??1?$vector@VCameraMarker@@V?$allocator@VCameraMarker@@@_STL@@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1W3DStreakWeatherVec@@QAE@XZ=??1?$vector@VCameraMarker@@V?$allocator@VCameraMarker@@@_STL@@@_STL@@QAE@XZ")
+// The member destructors at D04E1, 48D003 and 5243BB have independent EH
+// graphs. Their callers pass the three-pointer member at +28, +28 and +C,
+// respectively. Each destroys [start, finish) through the same 48CE25 helper
+// (eight-byte stride, element cleanup 29D7C2), then releases its allocation.
+// These are descriptive container views, not recovered template identities:
+// sharing that element cleanup does not establish the original element type.
+// STLport's existing base supplies the proven representation/storage cleanup.
+struct W3DStreakWeatherVec
+    : public _STL::_Vector_base<CameraMarker, _STL::allocator<CameraMarker> >
+{
+    ~W3DStreakWeatherVec();
+};
+
+W3DStreakWeatherVec::~W3DStreakWeatherVec()
+{
+    _STL::_Destroy(this->_M_start, this->_M_finish);
+}
+
+struct CameraMarkerVec
+    : public _STL::_Vector_base<CameraMarker, _STL::allocator<CameraMarker> >
+{
+    ~CameraMarkerVec();
+};
+
+CameraMarkerVec::~CameraMarkerVec()
+{
+    _STL::_Destroy(this->_M_start, this->_M_finish);
+}
+
+struct Rva005243BBVector
+    : public _STL::_Vector_base<CameraMarker, _STL::allocator<CameraMarker> >
+{
+    ~Rva005243BBVector();
+};
+
+Rva005243BBVector::~Rva005243BBVector()
+{
+    _STL::_Destroy(this->_M_start, this->_M_finish);
+}
 
 // Retail 0x0031BD77 is the 45-byte no-EH allocation-and-copy helper, not
 // the insert candidate served by structural drift. Native calls identify the
