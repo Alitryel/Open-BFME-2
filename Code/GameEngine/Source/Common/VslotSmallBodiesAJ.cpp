@@ -1424,7 +1424,9 @@ public:
 
 // Native 00404B03..00404B6C: two owned pointers at +12C/+130,
 // an embedded 168-byte float-pair table at +78, and trailing state fields.
-// The rowed +404B6C forwarder proves the receiver ABI. Original names unknown.
+// The rowed +404B6C forwarder proves the receiver ABI: VictorySystem::reset
+// and VictorySystem::newMap both call it on their own this. Method and field
+// names are unknown.
 class CellGrid { public: void rva0056C065(); };
 class Rva0056C3E5
 {
@@ -1442,12 +1444,14 @@ private:
     unsigned int flags0;
     unsigned int flags1;
 };
-class Rva00404B03
+class VictorySystem
 {
 public:
+    virtual void reset();	// SubsystemInterface slot 9
     void rva00404B03();
 private:
-    unsigned char prefix00[0x14];
+    // +0x00 is the SubsystemInterface vtable pointer.
+    unsigned char prefix04[0x14 - 0x04];
     int field14;
     unsigned char prefix18[0x78 - 0x18];
     Rva00404781 table78;
@@ -1458,7 +1462,7 @@ private:
     int field138;
     int field13C;
 };
-void Rva00404B03::rva00404B03()
+void VictorySystem::rva00404B03()
 {
     for (int i = 0; i < 2; ++i)
     {
@@ -1478,14 +1482,9 @@ void Rva00404B03::rva00404B03()
 // VictorySystem::reset: SubsystemInterface slot 9 of VictorySystem's table
 // 0x008388D4 (installed by the rowed VictorySystem ctor 0x004054E1); it
 // tail-jumps to the clear body 0x00404B03 above.
-class VictorySystem
-{
-public:
-	virtual void reset();
-};
 void VictorySystem::reset()
 {
-	((Rva00404B03 *)this)->rva00404B03();
+	rva00404B03();
 }
 
 class Rva0047BBA7

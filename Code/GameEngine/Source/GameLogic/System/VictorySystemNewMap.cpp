@@ -25,7 +25,7 @@ class Player {public:char unknown00[0x58];AsciiString faction;};
 class PlayerList {public:Player *getNthPlayer(int);char unknown00[0x14];unsigned count;};
 extern PlayerList *ThePlayerList;
 class CellGrid {public:CellGrid(int,int,float,float);private:int width,height;unsigned count;float size,offset;void *cells,*values;};
-class Rva00404B03 {public:void rva00404B03();};
+class VictorySystem {public:void rva00404B03();};
 class Rva00404D70 {public:int rva00404D70(const AsciiString &) throw();};
 class VictorySystemNewMapView {public:void newMap();private:
  char unknown00[0x10];float cellSize;unsigned playerCount;float scale,subtract,radius,bonus;
@@ -33,7 +33,7 @@ class VictorySystemNewMapView {public:void newMap();private:
 };
 void VictorySystemNewMapView::newMap()
 {
- reinterpret_cast<Rva00404B03 *>(this)->rva00404B03();
+ reinterpret_cast<VictorySystem *>(this)->rva00404B03();
  if(cellSize>0.0f){
   Region3D extent;
   cellSize=100.0f>cellSize?100.0f:cellSize;
