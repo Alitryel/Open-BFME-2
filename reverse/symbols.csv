@@ -13521,7 +13521,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva0023F88C@Rva0023E7D9@@QAEX_N@Z,0x0023F88C,bool view of the rowed ?rva0023F88C@Rva0023E7D9@@QAEXH@Z (ret 4 with the argument unused); GameLogic 0x00248558 forwards its bool param (push edi at 0x00248678)
 ?rva0024004D@GameLogic@@QAEX_N@Z,0x0024004D,GameLogic member (push ebp frame after the 0x00240000 tail jump) called by 0x00248558 at 0x00248656 with its bool param; tests this+0x72 and this+0x78
 ?rva00205358@ScriptEngine@@QAEXPAVAssetList@@PAUAssetLoadMode@@@Z,0x00205358,TheScriptEngine (0x009FE16C) member called by GameLogic 0x00248278 at 0x00248521 with a fresh AssetList and its load-mode flag (ret 8); walks the sides list and forwards both to 0x003B3836
-?rva0023C666@Rva0023C666@@QAE_NXZ,0x0023C666,bool view of the rowed ?rva0023C666@Rva0023C666@@QAEHXZ: returns 0 or 1 in eax and GameLogic 0x00248278 tests only al after the call at 0x00248448
 ?rva002A95F9@Rva002A8F24@@QAEXXZ,0x002A95F9,member of the 0x009FEEF8 object (g_00DFEEF8) called with no arguments by GameLogic 0x00248278 at 0x00248431 after ThePlayerList newMap
 ?rva0031D64F@ControlBar@@QAEXXZ,0x0031D64F,TheControlBar (0x00A01CFC) member called with no arguments by GameLogic 0x00248278 at 0x002482A5 before the 0x0031AD48(false) call
 ?rva003A262C@TeamFactory@@QAEXXZ,0x003A262C,TheTeamFactory (0x00A028BC) member called with no arguments by GameLogic 0x00248278 at 0x0024843C (plain ret at 0x003A2658)

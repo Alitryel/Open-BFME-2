@@ -125,7 +125,7 @@ class GlobalData {
 extern GlobalData *TheWritableGlobalData;
 class Rva0023C666 {
   public:
-    int rva0023C666();
+    bool rva0023C666();
 };
 class Rva0039B795;
 class Rva003B0D7C {

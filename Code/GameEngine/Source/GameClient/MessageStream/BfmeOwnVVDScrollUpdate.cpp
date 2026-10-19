@@ -196,7 +196,7 @@ private:
 class Rva0023C666
 {
 public:
-	int rva0023C666();
+	bool rva0023C666();
 };
 
 class BfmeOwnVVD
