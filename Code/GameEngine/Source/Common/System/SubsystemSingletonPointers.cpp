@@ -14,6 +14,10 @@ class WaterTracksRenderSystem;
 class SelectionTranslator;
 class GameResultsInterface;
 class CloudBreakEffectManager;
+class Rva0022C38BSubsystem;
+class Rva0022C316Subsystem;
+class HouseColorSystem;
+struct HandicapStore;
 
 TerrainRoadCollection *TheTerrainRoads = 0;		// retail 0x009FF084
 BfmeTaintManager *TheTaintManager = 0;			// retail 0x009FE750
@@ -27,3 +31,9 @@ WaterTracksRenderSystem *TheWaterTracksRenderSystem = 0;		// retail 0x009EC218
 SelectionTranslator *TheSelectionTranslator = 0;		// retail 0x00A03220
 GameResultsInterface *TheGameResultsQueue = 0;		// retail 0x00A030D4
 CloudBreakEffectManager *TheCloudBreakEffectManager = 0;		// retail 0x00A01CEC
+// GameEngine::init registers 0x00A03040 as "TheLivingWorldAutoResolveHandicapStore";
+// its readers still spell it by address.
+HandicapStore *g_00E03040 = 0;		// retail 0x00A03040
+Rva0022C38BSubsystem *TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore = 0;		// retail 0x00A0305C
+Rva0022C316Subsystem *TheLivingWorldAutoResolveResourceBonusScheduleStore = 0;		// retail 0x00A0306C
+HouseColorSystem *TheHouseColorSystem = 0;		// retail 0x00A030A0
