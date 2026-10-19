@@ -1,21 +1,14 @@
-// ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
-// partial score=0.99 date=2026-10-19
 // cl: /O2 /MD /EHsc
-// Case order 1,8,3,2 follows WB179D270 (assert lines 0x2a,0x30,0x36,0x46);
-// with it the frame-label case lands out of line after the epilogue as in
-// retail. Bracing the whole case-2 body (label at case scope) gives retail's
-// lea &aFrames[i].apControls at dispatch and every instruction. Remaining:
-// label/k frame slots swapped (k$ id < label$ id in /FAsc; slots go by
-// descending symbol id, so retail created label's symbol before k's).
-// Target70E900..70ED98 is1176B, including the out-of-line frame-label
-// switch case. The queue1169B boundary truncates the final destructor call
-// and jump. AptMovie.cpp assertions prove frames/control/event-action fields;
-// the receiver's original type/API spelling is unresolved. This is a local
-// data-format view, not a claimed donor layout.
+// Retail 0x0070E900..0x0070EDB8: body plus its eight-entry switch jump table.
+// AptMovie.cpp assertions (WB 179D270, lines 0x1c..0x46) prove the frame,
+// control and event-action fields fixed up against pBase. Case order 1,8,3,2
+// follows WB; the frame-label case is emitted out of line after the epilogue
+// as in retail. The assert break is spelled __asm int 3 like the sibling
+// AptMovieFrameControls.cpp CHECK macro; the __debugbreak intrinsic swaps the
+// label and k frame slots. The receiver's original type and API spelling are
+// unresolved: this is a local data-format view, not a claimed donor layout.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
 class Rva006DB160 {public:void *allocBlock(int);};
 class Rva006DB270 {public:void freeBlock(void *,int);};
 extern Rva006DB270 *g_pChainBlockAllocator;
@@ -50,7 +43,7 @@ class Rva0070E900 {
 public:
  void rva0070E900(void *pBase,void *pConstantFile,void *pCount);
 };
-#define MOVIE_ASSERT(test,text,line) do {if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMovie.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}}while(0)
+#define MOVIE_ASSERT(test,text,line) do {if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMovie.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}}while(0)
 #define MOVIE_OFFSET(field,type) do {if(field)(unsigned &)(field)+=(unsigned)pBase;}while(0)
 void Rva0070E900::rva0070E900(void *pBase,void *pConstantFile,void *pCount) {
  MOVIE_ASSERT(!phLabels,"!phLabels",0x1c);
