@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 //
 // ??0Rva002D22CA@@QAE@XZ
 // RVA 0x002D22AC size 30. Ctor calls SubsystemInterface ctor at 0x1B4E63
@@ -9,23 +9,11 @@
 // GameEngineDeletingBaseDerived.cpp share /O1 /MD; loop (not memset) keeps
 // retail lea-xor order.
 
-class AsciiStringMember
-{
-public:
-	~AsciiStringMember();
-};
-
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-
-private:
-	char m_pad04[4];
-	AsciiStringMember m_member08;
-};
+// The native header GameEngineDeletingBaseDerived.cpp (which defines ~Rva002D22CA)
+// uses: flag +0x04, name +0x08 and its fourteen slots, so both TUs emit one table.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 class Rva002D22CA : public SubsystemInterface
 {
