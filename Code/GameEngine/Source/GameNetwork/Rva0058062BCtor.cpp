@@ -1,8 +1,10 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// Native2339F3 allocates and fills four-byte elements. This unsigned32 storage
+// view corrects the former ushort guess; original application type is unknown.
 // ??0Rva000795C1Record@@QAE@PAXI@Z @0x0058062B 27B (renamed from the
 // address-derived Rva0058062B: the class IS the 16-byte sort comparator
-// record). Stores first arg at +0x00 then constructs vector<ushort> at +0x04
+// record). Stores first arg at +0x00 then constructs vector<four-byte value> at +0x04
 // with second arg via rowed 0x002339F3, returns this. Evidence: the 87-byte
 // body at 0x0058113D builds the sort's 16-byte by-value record argument
 // in place with this ctor (sub esp,0x10; ecx=esp; pushes; call) and passes
@@ -13,7 +15,7 @@
 // ret 8 with this in eax.
 #include <vector>
 // bfme link decl-only begin
-namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int * allocator<unsigned int>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
 
 class Rva000795C1Record
@@ -23,7 +25,7 @@ public:
 
 private:
     void *m_00;
-    _STL::vector<unsigned short> m_04;
+    _STL::vector<unsigned int> m_04;
 };
 
 Rva000795C1Record::Rva000795C1Record(void *a, unsigned int n) : m_00(a), m_04(n)

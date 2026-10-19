@@ -33,8 +33,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 // bfme link decl-only begin
-namespace _STL { template <> void _Construct<unsigned short, unsigned short>(unsigned short *, unsigned short const &); }
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+// Keep the header's inline word construction, but leave the external copy to
+// stlport_wide_string.cpp (retail 0x00019A00). This TU's compiler settings
+// otherwise emit a competing out-of-line implementation of the same function.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _Construct<unsigned short, unsigned short>(unsigned short *p, const unsigned short &value)
+{ new (p) unsigned short(value); }
+}
 // bfme link decl-only end
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {

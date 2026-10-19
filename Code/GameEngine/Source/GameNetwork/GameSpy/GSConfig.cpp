@@ -170,7 +170,9 @@ protected:
 	time_t m_natRoundTimeout;
 
 	std::vector<AsciiString> m_manglerHosts;
-	std::vector<short> m_manglerPorts;
+	// Original ZH and BFME1 GSConfig use unsigned16 ports. Retail copies words
+	// into an UnsignedShort output; signedness is carried from that donor.
+	std::vector<UnsignedShort> m_manglerPorts;
 
 	std::list<AsciiString> m_qmMaps;
 	Int m_qmBotID;
