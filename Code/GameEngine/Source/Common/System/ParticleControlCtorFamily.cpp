@@ -1,4 +1,4 @@
-// cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Include
+// cl: /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Include
 // stlport
 // Native311B3FC58C/WB106E280 exposes name4, handle1C, two vectors5C/68,
 // scalar defaults throughA8 and manager registration2129A1. The pre-existing
@@ -168,7 +168,6 @@ Rva003FD14DBase::Rva003FD14DBase(int arg) : name(*reinterpret_cast<const AsciiSt
 // vtable, then releases the parameter. No additional fields are initialized.
 class Rva003FDAAE : public Rva003FD14DBase { public:
  Rva003FDAAE(AsciiString name);
- virtual void vfunc();
 };
 Rva003FDAAE::Rva003FDAAE(AsciiString name):Rva003FD14DBase(reinterpret_cast<int>(&name)) {}
 
@@ -177,7 +176,6 @@ Rva003FDAAE::Rva003FDAAE(AsciiString name):Rva003FD14DBase(reinterpret_cast<int>
 // is address-derived; the doom-ray visual allocates it with size 0xB8.
 class Rva003FDBD1 : public Rva003FD14DBase { public:
  Rva003FDBD1(AsciiString name);
- virtual void vfuncDBD1();
  Coord3D vAC;
 };
 Rva003FDBD1::Rva003FDBD1(AsciiString name):Rva003FD14DBase(reinterpret_cast<int>(&name)),vAC(0.f,0.f,0.f) {}
