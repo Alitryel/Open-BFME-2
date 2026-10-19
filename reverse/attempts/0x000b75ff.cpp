@@ -1,6 +1,6 @@
 // ?rva000B75FF@Rva000B75FF@@QAE_N_N@Z
 // partial score=0.9528585707146426 date=2026-10-16
-// cl: /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB
+// cl: /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii
 // stlport
 // BFME2 record copy at0x63BE4: seven words, an AsciiString, two tail bytes.
 // The original application class and field meanings are unknown.
@@ -11,7 +11,7 @@
 // names cleanup through the real releaseBuffer provider instead of the false
 // public StringBase destructor spelling. BF1 revision9cbfb551 record-copy TUs
 // also use the shared header; BF2's releaseBuffer ABI is established separately.
-#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "ascii_string.h"
 struct BfmeStringRecord00063BE4 {
     unsigned int word0, word1, word2, word3, word4, word5, word6;
     AsciiString text;

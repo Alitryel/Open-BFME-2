@@ -1,4 +1,6 @@
 // ?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z
+// partial score=0.976 date=2026-10-19
+// ?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z
 // partial score=0.9760474601408973 date=2026-10-14
 // ?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z
 // partial score=0.8959090347299469 date=2026-10-10
@@ -52,14 +54,16 @@ class Player { public: void rva002AF236(Xfer *, Rva001FDE3F *); };
 
 void Player::rva002AF236(Xfer *raw, Rva001FDE3F *table)
 {
-
  NameMapXferView *xfer = reinterpret_cast<NameMapXferView *>(raw);
  if (xfer->saving()) {
   struct SaveValues {float value;unsigned int count;} values; values.count=reinterpret_cast<NameFloatTablePrefix *>(table)->count;
   xfer->word(&values.count);
   ExistingNameTable *view = reinterpret_cast<ExistingNameTable *>(table);
   ExistingNameTable::iterator it;
-  ExistingNameTable::iterator initial=view->begin(); it=initial;
+  {
+   ExistingNameTable::iterator first = view->begin();
+   it = first;
+  }
   for (; it != view->end(); ++it) {
    AsciiString name(it->first);
    values.value = *reinterpret_cast<const float *>(&it->second);
