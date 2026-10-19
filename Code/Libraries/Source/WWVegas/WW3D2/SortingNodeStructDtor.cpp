@@ -79,19 +79,24 @@ class IndexBufferClass : public RefCountClass
 
 class TextureClass : public RefCountClass
 {
+public:
+	// Out-of-line release: the rowed ?Release_Ref@TextureClass@@QAEXXZ at
+	// 0x0061ED10, which retail's RefCountPtr<TextureClass> destructor
+	// (0x0017098D) tail-jumps to.
+	void Release_Ref(void);
 };
 
 template<class T>
 class RefCountPtr
 {
 public:
-	RefCountPtr() : Referent(0) {}
+	// Both are reached only out of line here (the eh vector constructor and
+	// destructor iterators): retail's copies are 0x00326BE6 and 0x0017098D.
+	RefCountPtr();
 	~RefCountPtr()
 	{
-		if (Referent != 0) {
+		if (Referent != 0)
 			Referent->Release_Ref();
-			Referent = 0;
-		}
 	}
 
 private:
