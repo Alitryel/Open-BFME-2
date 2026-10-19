@@ -323,75 +323,7 @@ void HTreeClass::Anim_Update(const Matrix3D & root,HRawAnimClass * motion,float 
 }								
 
 
-/***********************************************************************************************
- * HTreeClass::Blend_Update -- computes each pivot as a blend of two anims                     *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   3/4/98     GTH : Created.                                                                 *
- *=============================================================================================*/
-void HTreeClass::Blend_Update
-(
-	const Matrix3D &					root,
-	HAnimClass *						motion0,
-	float									frame0,
-	HAnimClass *						motion1,
-	float									frame1,
-	float									percentage		// 0.0 = motion0.  1.0 = motion1
-)
-{
-	PivotClass *pivot;
-	Matrix3D mtx;
-
-	Pivot[0].Transform = root;
-	Pivot[0].IsVisible = true;
-
-	int num_anim_pivots = MIN( motion0->Get_Num_Pivots (), motion1->Get_Num_Pivots () );
-
-	for (int piv_idx=1; piv_idx < NumPivots; piv_idx++) {
-
-		pivot = &Pivot[piv_idx];
-
-		assert(pivot->Parent != NULL);
-		Matrix3D::Multiply(pivot->Parent->Transform,pivot->BaseTransform,&(pivot->Transform));
-
-		if (piv_idx < num_anim_pivots) {
-			// interpolated translation
-			Vector3 trans0;
-			motion0->Get_Translation(trans0,piv_idx,frame0);
-			Vector3 trans1;
-			motion1->Get_Translation(trans1,piv_idx,frame1);
-			Vector3 lerped = (1.0 - percentage) * trans0 + (percentage) * trans1;
-			pivot->Transform.Translate(lerped * ScaleFactor);
-
-			// interpolated rotation
-			Quaternion q0;
-			motion0->Get_Orientation(q0,piv_idx,frame0);
-			Quaternion q1;
-			motion1->Get_Orientation(q1,piv_idx,frame1);
-			Quaternion q;
-			Fast_Slerp(q,q0,q1,percentage);
-#ifdef ALLOW_TEMPORARIES
-			pivot->Transform = pivot->Transform * Build_Matrix3D(q);
-#else
-			pivot->Transform.postMul(Build_Matrix3D(q,mtx));
-#endif
-
-			pivot->IsVisible = (motion0->Get_Visibility(piv_idx,frame0) || motion1->Get_Visibility(piv_idx,frame1));
-		}
-
-		if (pivot->Is_Captured()) 
-		{
-			pivot->Capture_Update();
-			pivot->IsVisible = true;
-		} 
-	}
-}																							
+// HTreeClass::Blend_Update is defined in HTreeClassFirstCapturedBone.cpp.
 
 
 // HTreeClass::Combo_Update is defined in HTreeClassFirstCapturedBone.cpp.

@@ -151,6 +151,12 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   smallest k that matches with a comment. The score is not monotonic in k.
   HTreeClass::Combo_Update 0x00165820: 38 diffs at k=0, exact at 23 and 31
   only (0..80 scanned; the shared-anim_num variant never went below 88).
+  When one body inlines the same helper twice and only the second copy
+  stays wrong for every k, the declaration order is wrong, not the count:
+  HTreeClass::Blend_Update 0x001645B0 sat at 207 diffs in its generic loop
+  for k=0..60 as `if (fast) {...} else {...}` with the generic transform at
+  the top. WB's shape (fast block ends in `return`, the generic locals
+  follow it at function scope) was exact at k=0.
 - **The float `tan` overload is two inline levels.** In `<math.h>`,
   `tan(float)` forwards to `tanf`, which calls `tan(double)`. Each level moves
   the call's `pop ecx` cleanup later. `tanf(x)` (one level) at one site and

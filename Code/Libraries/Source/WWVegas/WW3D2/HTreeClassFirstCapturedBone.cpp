@@ -46,6 +46,20 @@
 // post-multiplies CompactTransform(q0, trans) and averages the visited
 // animations' fades. WorldBuilder's twin is 0x00A17D10. Captured pivots go
 // through the seeded Capture_Update chain above.
+//
+// 0x001645B0 (4715 bytes): HTreeClass::Blend_Update, BFME 2's two-animation
+// blend in WorldBuilder's shape (0x00A173C0, htree.cpp:893-970). A
+// compressed motion0 (Get_Class_ID() == 1) with node channels takes the fast
+// path: the motion-cache check at 0x00160FC0 (rowed as Rva00160FC0, called
+// through a cast), the nodes' X/Y/Z/Q/Fade channels read inline through the
+// shared channel cache, then return. Any other pair clears the cached motion
+// and blends through the HAnimClass virtuals. As in WB, the generic path's
+// locals (its CompactTransform after the first-captured seed) follow the fast
+// block at function scope; that order alone gives the generic loop retail's
+// operand order and the 0xA0 frame. Get_Translation and the Matrix3D
+// assignment are __forceinline because cl stops inlining them this deep into
+// the body. Vector3::Lerp is a dllimport inline so the unit emits no copy to
+// compete with WWMath's out-of-line one (0x0009AA48).
 #include <vector>
 
 class Vector3
@@ -56,6 +70,13 @@ public:
 	Vector3(const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; }
 	Vector3 & operator = (const Vector3 & v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
 	Vector3 & operator += (const Vector3 & v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
+	Vector3 & operator *= (float k) { X = X*k; Y = Y*k; Z = Z*k; return *this; }
+	__declspec(dllimport) __forceinline static void Lerp(const Vector3 & a, const Vector3 & b, float alpha, Vector3 * set_result)
+	{
+		set_result->X = (a.X + (b.X - a.X)*alpha);
+		set_result->Y = (a.Y + (b.Y - a.Y)*alpha);
+		set_result->Z = (a.Z + (b.Z - a.Z)*alpha);
+	}
 	float X, Y, Z;
 };
 inline Vector3 operator + (const Vector3 & a, const Vector3 & b)
@@ -126,7 +147,7 @@ class CompactTransform
 public:
 	CompactTransform() {}
 	CompactTransform(const Quaternion & q, const Vector3 & p) : Q(q), Position(p) {}
-	CompactTransform & operator = (const Matrix3D & m)
+	__forceinline CompactTransform & operator = (const Matrix3D & m)
 	{
 		Q = Build_Quaternion(m);
 		m.Get_Translation(&Position);
@@ -145,6 +166,12 @@ public:
 		Q.Rotate_Vector(b.Position, &tmp);
 		Position += tmp;
 		Q.PostMultiply(b.Q);
+	}
+	void Translate(const Vector3 & v)
+	{
+		Vector3 tmp;
+		Q.Rotate_Vector(v, &tmp);
+		Position += tmp;
 	}
 	Quaternion Q;
 	Vector3 Position;
@@ -182,7 +209,65 @@ public:
 	virtual bool Get_Visibility(int pividx, float frame);
 	virtual float Get_Fade(int pividx, float frame);
 	virtual int Get_Num_Pivots();
+	virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
+	virtual void slot18(); virtual void slot19(); virtual void slot20();
+	virtual int Get_Class_ID() const;
 };
+
+class BFME2MotionChannel
+{
+public:
+	virtual void slot0(); virtual void slot1(); virtual void slot2();
+	virtual void Get_Value(float frame, float * out, unsigned char ** cache);
+	virtual void slot4();
+	virtual void Get_Quaternion(float frame, Quaternion * out, unsigned char ** cache);
+};
+
+struct NodeCompressedMotionStruct
+{
+	__forceinline void Get_Translation(Vector3 & trans, float frame, unsigned char ** cache)
+	{
+		if (X) X->Get_Value(frame, &trans.X, cache); else trans.X = 0;
+		if (Y) Y->Get_Value(frame, &trans.Y, cache); else trans.Y = 0;
+		if (Z) Z->Get_Value(frame, &trans.Z, cache); else trans.Z = 0;
+	}
+	bool Get_Orientation(Quaternion & q, float frame, unsigned char ** cache)
+	{
+		if (Q == 0) return false;
+		Q->Get_Quaternion(frame, &q, cache);
+		return true;
+	}
+	void Get_Fade(float * fade, float frame, unsigned char ** cache)
+	{
+		if (Fade == 0) *fade = 1.0f;
+		else Fade->Get_Value(frame, fade, cache);
+	}
+	BFME2MotionChannel * X;
+	BFME2MotionChannel * Y;
+	BFME2MotionChannel * Z;
+	BFME2MotionChannel * Q;
+	BFME2MotionChannel * Fade;
+	void * Vis;
+};
+
+class HCompressedAnimClass : public HAnimClass
+{
+public:
+	NodeCompressedMotionStruct * Get_Nodes() { return NodeMotions; }
+private:
+	char pad[0x58 - 8];
+	NodeCompressedMotionStruct * NodeMotions;
+};
+
+class Rva00160FC0Input;
+class Rva00160FC0
+{
+public:
+	void rva00160FC0(Rva00160FC0Input * next);
+};
+
+inline float Lerp(float a, float b, float lerp) { return (a + (b - a)*lerp); }
+#define MIN(a,b) (((a) < (b)) ? (a) : (b))
 
 class PivotMapVector
 {
@@ -220,6 +305,7 @@ public:
 	int rva00162290() const;
 	int Capture_Update(int pivot_index);
 	void Base_Update(const Matrix3D & root);
+	void Blend_Update(const Matrix3D & root, HAnimClass * motion0, float frame0, HAnimClass * motion1, float frame1, float percentage);
 private:
 	struct CapturedPivot { int PivotIndex; CompactTransform Transform; bool WorldSpaceTranslation; };
 	char Name[16];
@@ -227,6 +313,8 @@ private:
 	PivotClass *Pivot;
 	float ScaleFactor;
 	std::vector<CapturedPivot> CapturedPivots;
+	HAnimClass * CachedMotion;
+	unsigned char * ChannelCache;
 };
 
 int HTreeClass::rva00162290() const
@@ -364,6 +452,119 @@ void HTreeClass::Combo_Update(const Matrix3D & root, HAnimComboClass * anim)
 				}
 			}
 			if (fade_count > 0.0f) pivot->PivotFade /= fade_count;
+		}
+
+		if (piv_idx == captured) captured = Capture_Update(captured);
+	}
+}
+
+void HTreeClass::Blend_Update(const Matrix3D & root, HAnimClass * motion0, float frame0, HAnimClass * motion1, float frame1, float percentage)
+{
+	if (motion0->Get_Class_ID() == 1) {
+
+		HCompressedAnimClass *cmotion = (HCompressedAnimClass *)motion0;
+		NodeCompressedMotionStruct *nodes = cmotion->Get_Nodes();
+
+		if (nodes != 0) {
+
+			((Rva00160FC0 *)this)->rva00160FC0((Rva00160FC0Input *)cmotion);
+
+			Pivot[0].Transform = root;
+			Pivot[0].IsVisible = true;
+			Pivot[0].PivotFade = 1.0f;
+
+			unsigned char *cache = ChannelCache;
+
+			int num_anim_pivots = MIN(motion0->Get_Num_Pivots(), motion1->Get_Num_Pivots());
+
+			int captured = rva00162290();
+
+			for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
+
+				PivotClass *pivot = &Pivot[piv_idx];
+
+				CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+				if (piv_idx < num_anim_pivots) {
+
+					NodeCompressedMotionStruct *node = &nodes[piv_idx];
+					CompactTransform xform;
+
+					Vector3 trans0;
+					node->Get_Translation(trans0, frame0, &cache);
+					Vector3 trans1;
+					motion1->Get_Translation(trans1, piv_idx, frame1);
+					Vector3::Lerp(trans0, trans1, percentage, &xform.Position);
+					xform.Position *= ScaleFactor;
+
+					Quaternion q0;
+					bool has0 = node->Get_Orientation(q0, frame0, &cache);
+					Quaternion q1;
+					bool has1 = motion1->Get_Orientation(q1, piv_idx, frame1);
+
+					if (has0 || has1) {
+						if (!has0) q0.Make_Identity();
+						if (!has1) q1.Make_Identity();
+						BFME2_Nlerp(xform.Q, q0, q1, percentage);
+						pivot->Transform.PostMul(xform);
+					} else {
+						pivot->Transform.Translate(xform.Position);
+					}
+
+					float fade0;
+					node->Get_Fade(&fade0, frame0, &cache);
+					pivot->PivotFade = Lerp(fade0, motion1->Get_Fade(piv_idx, frame1), percentage);
+					pivot->IsVisible = motion0->Get_Visibility(piv_idx, frame0) || motion1->Get_Visibility(piv_idx, frame1);
+				}
+
+				if (piv_idx == captured) captured = Capture_Update(captured);
+			}
+			return;
+		}
+	}
+
+	CachedMotion = 0;
+
+	Pivot[0].Transform = root;
+	Pivot[0].IsVisible = true;
+	Pivot[0].PivotFade = 1.0f;
+
+	int num_anim_pivots = MIN(motion0->Get_Num_Pivots(), motion1->Get_Num_Pivots());
+
+	int captured = rva00162290();
+	CompactTransform xform;
+
+	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
+
+		PivotClass *pivot = &Pivot[piv_idx];
+
+		CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+		if (piv_idx < num_anim_pivots) {
+
+			Vector3 trans0;
+			motion0->Get_Translation(trans0, piv_idx, frame0);
+			Vector3 trans1;
+			motion1->Get_Translation(trans1, piv_idx, frame1);
+			Vector3::Lerp(trans0, trans1, percentage, &xform.Position);
+			if (ScaleFactor != 1.0f) xform.Position *= ScaleFactor;
+
+			Quaternion q0;
+			bool has0 = motion0->Get_Orientation(q0, piv_idx, frame0);
+			Quaternion q1;
+			bool has1 = motion1->Get_Orientation(q1, piv_idx, frame1);
+
+			if (has0 || has1) {
+				if (!has0) q0.Make_Identity();
+				if (!has1) q1.Make_Identity();
+				BFME2_Nlerp(xform.Q, q0, q1, percentage);
+				pivot->Transform.PostMul(xform);
+			} else {
+				pivot->Transform.Translate(xform.Position);
+			}
+
+			pivot->IsVisible = motion0->Get_Visibility(piv_idx, frame0) || motion1->Get_Visibility(piv_idx, frame1);
+			pivot->PivotFade = Lerp(motion0->Get_Fade(piv_idx, frame0), motion1->Get_Fade(piv_idx, frame1), percentage);
 		}
 
 		if (piv_idx == captured) captured = Capture_Update(captured);
