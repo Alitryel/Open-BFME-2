@@ -41,6 +41,9 @@ Rva00148F5ECache TheKey_playerIsHuman = { NAMEKEY_INVALID, "playerIsHuman" };
 Rva00148F5ECache TheKey_playerDisplayName = { NAMEKEY_INVALID, "playerDisplayName" };
 Rva00148F5ECache TheKey_playerAllies = { NAMEKEY_INVALID, "playerAllies" };
 Rva00148F5ECache TheKey_playerEnemies = { NAMEKEY_INVALID, "playerEnemies" };
+// RVA 0x009BDE9C: {0, "playerAIType"} between TheKey_playerIsPreorder and
+// TheKey_playerFactionIcon; its readers spell it through this cache view.
+Rva00148F5ECache TheKey_playerAIType = { NAMEKEY_INVALID, "playerAIType" };
 extern const unsigned short SidesListNeutralDisplayName[8] = {
 	'N', 'e', 'u', 't', 'r', 'a', 'l', 0
 };
