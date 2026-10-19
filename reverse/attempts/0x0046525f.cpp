@@ -1,5 +1,7 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.985 date=2026-10-19
+// partial score=0.99 date=2026-10-20
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial date=2026-10-20 (r29: + visible retail-exact Coord3D::length/normalize COMDAT copies)
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
 // 0x0046525F bank 2026-10-19 (claude-opus-5-5): HACK-FREE home port (copy of
 // OpenContainExitObjectInAHurry.cpp with the target added; sibling 0x4656DF stays exact). The dead
@@ -325,4 +327,22 @@ __declspec(noinline) inline void AICommandInterface::rva0036EE16(const Rva003514
 __declspec(noinline) inline void AICommandInterface::rva0036EF09(const Rva0035149F *info,Object *target,float value,CommandSourceType src)
 {
  AICommandParms parms(AICMD_PATH_ANGLE,src);parms.coords.rva0035149F(*info);parms.target=target;parms.pos.x=value;aiDoCommand(&parms);
+}
+// Coord3D::length (0x00003571) and ::normalize (0x000035B6) are `inline` (select-any COMDAT) in
+// coord3d.cpp; these copies compile byte-exact to both rows, so they are link-safe. Making them
+// visible lets VC7.1 see that &delta/&displacement do not escape: fixes the fld/mov order at 0x4654FB.
+#include <math.h>
+inline __declspec(noinline) float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+inline __declspec(noinline) void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
 }
