@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc
-// The ticker response pump remains separate while 0x005AF12F is unmatched.
+// The ticker response pump, split from the Apt display functions.
 #include "ascii_string.h"
 #include "unicode_string.h"
 
@@ -97,7 +97,7 @@ public:
 extern Shell *TheShell;
 void HandleBuddyResponses();			// ZH HandleBuddyResponses (pinned)
 void HandlePersistentStorageResponses();			// ZH HandlePersistentStorageResponses (pinned)
-void rva005AF12F(void *resp);	// shared peer-response hook (pinned)
+class AptMessengerOnline { public: static bool ProcessGameSpyResponse(void *resp); };	// shared peer-response hook
 void Rva00548C1ACleanup();	// ZH GameSpyCloseAllOverlays
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
 void TearDownGameSpy();
@@ -115,7 +115,7 @@ void Rva005B9378::rva005BA02B()
 	PeerResponse resp;
 	while (allowedMessages-- && !sawImportantMessage && TheGameSpyPeerMessageQueue->getResponse(resp))
 	{
-		rva005AF12F(&resp);
+		AptMessengerOnline::ProcessGameSpyResponse(&resp);
 		switch (resp.peerResponseType)
 		{
 		case 1:	// PEERRESPONSE_DISCONNECT

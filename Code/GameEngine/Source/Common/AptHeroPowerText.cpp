@@ -239,7 +239,6 @@ public:
 extern Shell *TheShell;
 void HandleBuddyResponses();			// ZH HandleBuddyResponses (pinned)
 void HandlePersistentStorageResponses();			// ZH HandlePersistentStorageResponses (pinned)
-void rva005AF12F(void *resp);	// shared peer-response hook (pinned)
 void Rva00548C1ACleanup();	// ZH GameSpyCloseAllOverlays
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
 void TearDownGameSpy();

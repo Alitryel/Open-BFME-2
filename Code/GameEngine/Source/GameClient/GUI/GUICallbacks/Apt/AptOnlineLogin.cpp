@@ -1104,7 +1104,7 @@ checked:;
 class Rva00595D95 { public: bool rva00595D95(); };
 FirewallHelperClass *Rva00595143Get();
 void HandleBuddyResponses();void HandlePersistentStorageResponses();
-void rva005AF12F(void *);
+class AptMessengerOnline { public: static bool ProcessGameSpyResponse(void *); };
 void TearDownGameSpy();void SetUpGameSpy(const char *,const char *);
 void AptOnlineLogin::rva00571C9D()
 {
@@ -1123,7 +1123,7 @@ void AptOnlineLogin::rva00571C9D()
   }
   PeerResponse resp;
   if(!loggedIn && TheGameSpyPeerMessageQueue->getResponse(resp)) {
-   rva005AF12F(&resp);
+   AptMessengerOnline::ProcessGameSpyResponse(&resp);
    switch(resp.type) {
    case 0: {
     loggedIn=true;

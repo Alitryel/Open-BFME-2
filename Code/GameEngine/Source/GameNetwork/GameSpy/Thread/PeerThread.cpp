@@ -3507,7 +3507,7 @@ static void listingGamesCallback(PEER peer, PEERBool success, const char * name,
 // Their bodies and semantic names are outside this recovered response pump.
 extern void __cdecl HandleBuddyResponses(void);
 extern void __cdecl HandlePersistentStorageResponses(void);
-extern void __cdecl rva005AF12F(void *response);
+class AptMessengerOnline { public: static bool ProcessGameSpyResponse(void *response); };
 
 // The native call uses GameSpyInfo vtable slot 0x5D. Earlier slots have no
 // identity claim in this TU; this view exists only to express that call.
@@ -3631,7 +3631,7 @@ void Rva00517EA2::rva00517EA2()
 			--responsesLeft;
 			if (!TheGameSpyPeerMessageQueue->getResponse(response))
 				break;
-			rva005AF12F(&response);
+			AptMessengerOnline::ProcessGameSpyResponse(&response);
 		}
 	}
 }
