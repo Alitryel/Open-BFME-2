@@ -62,6 +62,19 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "Common/StackDump.h"
 #include "Common/SubsystemInterface.h"
 #include "BfmeNarrowRecord0041A5D2.h"
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
+// Keep _String_base<char>::~_String_base inline-only: no call here leaves it out
+// of line, and this TU's frameless COMDAT copy is not retail's 0x0000B3C0 body.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+}
 // bfme link decl-only begin
 namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
