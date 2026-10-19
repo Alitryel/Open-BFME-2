@@ -7,28 +7,40 @@
 // consumes the full (a, b, c) via the pinned 3-arg callee 0x5DC187, then
 // +0x10 stamps 1 while the byte table clears the non-current index. All
 // call targets read from retail REL32; true identities unproven.
-struct Rva005A69C0Obj
+// GameSlot::isHuman is rowed at 0x003FF0F1 (GameSlotHumanSaveoff.cpp).
+class GameSlot
 {
-	bool IsHuman();
+public:
+	bool isHuman() const;
 };
 
+// 0x005DC187 is rowed as PortNegotiationSchema::reconnectPlayers(unsigned short,
+// unsigned short, bool); retail pushes NAT::reconnectPlayers' third argument
+// unconverted, so that spelling needs this unit's own row (int c) settled first.
 struct Rva005A69C0Sub
 {
 	void Do3(int a, int b, int c);
-	bool Q1(int j, int i);
-	void *Q2(int j, int i);
-	bool rva005DBC2E(int i, int j);
+};
+
+// The +0x28 sub-object's callees are rowed as PortNegotiationSchema members
+// (PortNegotiationSchema.cpp, Rva005DBCA6Get.cpp, Rva005DB98EGet.cpp).
+class PortNegotiationSchema
+{
+public:
+	bool isConnectionDone(unsigned short j, unsigned short i);	// 0x005DBBC1
+	void *peekPing(unsigned short j, unsigned short i);	// 0x005DB98E
+	bool isRetryConnectingOverLimit(unsigned short i, unsigned short j);	// 0x005DBC2E
 };
 
 struct NAT
 {
 	char pad0[8];
-	Rva005A69C0Obj **m_8;
+	GameSlot **m_8;
 	int m_C;
 	int m_10;
 	int m_14;
 	char pad1[0x28 - 0x18];
-	Rva005A69C0Sub m_28;
+	PortNegotiationSchema m_28;
 	char pad2[0x8e4 - 0x29];
 	unsigned char m_8E4[8];
 	int m_8EC[8];
@@ -54,17 +66,17 @@ void NAT::reconnectPlayers(int a, int b, int c)
 	if ((unsigned short)a == (unsigned short)b)
 		return;
 	int an = (unsigned short)a;
-	Rva005A69C0Obj *oa = m_8[an];
+	GameSlot *oa = m_8[an];
 	if (oa == 0)
 		return;
 	int bn = (unsigned short)b;
 	if (m_8[bn] == 0)
 		return;
-	if (!oa->IsHuman())
+	if (!oa->isHuman())
 		return;
-	if (!m_8[bn]->IsHuman())
+	if (!m_8[bn]->isHuman())
 		return;
-	m_28.Do3(a, b, c);
+	((Rva005A69C0Sub *)&m_28)->Do3(a, b, c);
 	if (an == m_14) {
 		m_10 = 1;
 		m_8E4[bn] = 0;
@@ -87,16 +99,16 @@ void NAT::rva005A6CA5()
 	int stamp = timeGetTime();
 	int i = 0;
 	do {
-		Rva005A69C0Obj *o = m_8[i];
-		if (o != 0 && o->IsHuman()) {
+		GameSlot *o = m_8[i];
+		if (o != 0 && o->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {
-					Rva005A69C0Obj *o2 = m_8[j];
-					if (o2 != 0 && o2->IsHuman()) {
-						Rva005A69C0Sub *q = (Rva005A69C0Sub *)((char *)self + 0x28);
-						if (q->Q1(i, j)) {
-							void *r = q->Q2(i, j);
+					GameSlot *o2 = m_8[j];
+					if (o2 != 0 && o2->isHuman()) {
+						PortNegotiationSchema *q = (PortNegotiationSchema *)((char *)self + 0x28);
+						if (q->isConnectionDone(i, j)) {
+							void *r = q->peekPing(i, j);
 							if (r != 0) {
 								int t = *(int *)((char *)r + 0x10);
 								if (t != 0 && (unsigned)(stamp - t) > (unsigned)g_rva005A6CA5Limit)
@@ -124,14 +136,14 @@ void NAT::rva005A6D47()
 		return;
 	int i = 0;
 	do {
-		Rva005A69C0Obj *o = m_8[i];
-		if (o != 0 && o->IsHuman()) {
+		GameSlot *o = m_8[i];
+		if (o != 0 && o->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {
-					Rva005A69C0Obj *o2 = m_8[j];
-					if (o2 != 0 && o2->IsHuman()) {
-						if (m_28.rva005DBC2E(i, j))
+					GameSlot *o2 = m_8[j];
+					if (o2 != 0 && o2->isHuman()) {
+						if (m_28.isRetryConnectingOverLimit(i, j))
 							reconnectPlayers(i, j, 1);
 					}
 				}
@@ -152,12 +164,12 @@ public:
 	void rva005A6D47();
 private:
 	char pad0[8];
-	Rva005A69C0Obj **m_8;
+	GameSlot **m_8;
 	int m_C;
 	int m_10;
 	int m_14;
 	char pad1[0x28 - 0x18];
-	Rva005A69C0Sub m_28;
+	PortNegotiationSchema m_28;
 };
 
 void Rva005A6D47::rva005A6D47()
@@ -166,14 +178,14 @@ void Rva005A6D47::rva005A6D47()
 		return;
 	int i = 0;
 	do {
-		Rva005A69C0Obj *o = m_8[i];
-		if (o != 0 && o->IsHuman()) {
+		GameSlot *o = m_8[i];
+		if (o != 0 && o->isHuman()) {
 			int j = 0;
 			do {
 				if (i != j) {
-					Rva005A69C0Obj *o2 = m_8[j];
-					if (o2 != 0 && o2->IsHuman()) {
-						if (m_28.rva005DBC2E(i, j))
+					GameSlot *o2 = m_8[j];
+					if (o2 != 0 && o2->isHuman()) {
+						if (m_28.isRetryConnectingOverLimit(i, j))
 							((NAT *)this)->reconnectPlayers(i, j, 1);
 					}
 				}
