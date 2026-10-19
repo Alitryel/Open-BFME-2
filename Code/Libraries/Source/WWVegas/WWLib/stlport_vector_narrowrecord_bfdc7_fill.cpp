@@ -27,6 +27,8 @@ struct BfmeNarrowRecord000BFDC7
 	unsigned int m_word4;
 	BfmeNarrowRecord000BFDC7();
 	BfmeNarrowRecord000BFDC7(const BfmeNarrowRecord000BFDC7 &o);
+public:
+	~BfmeNarrowRecord000BFDC7();
 };
 
 namespace _STL
