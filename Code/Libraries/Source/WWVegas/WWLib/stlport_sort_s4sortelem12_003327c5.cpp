@@ -48,6 +48,12 @@ namespace _STL { template <> void __unguarded_linear_insert<S4SortElem12 *,S4Sor
 namespace _STL { template <> void __pop_heap<S4SortElem12 *,S4SortElem12,S4Cmp002E1690,int>(S4SortElem12 *,S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690,int *); }
 namespace _STL { template <> S4SortElem12 *__unguarded_partition<S4SortElem12 *,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,S4SortElem12 *,S4SortElem12,S4Cmp002E1690); }
 
+// The heap helpers are rowed in stlport_adjust_heap_s4sortelem12_00331c05.cpp
+// (0x00331C05 / 0x00331A91) and Rva002E0BC0PopHeap12_Rva00331dae.cpp
+// (0x00331DAE); bind to them instead of emitting this unit's copies.
+namespace _STL { template <> void __adjust_heap<S4SortElem12 *,int,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,int,int,S4SortElem12,S4Cmp002E1690); }
+namespace _STL { template <> void __push_heap<S4SortElem12 *,int,S4SortElem12,S4Cmp002E1690>(S4SortElem12 *,int,int,S4SortElem12,S4Cmp002E1690); }
+
 void Rva002E00E0Swap(S4SortElem12 &left, S4SortElem12 &right);
 
 namespace _STL
