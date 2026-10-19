@@ -1,4 +1,6 @@
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
+// partial score=0.86 date=2026-10-20
+// ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // partial score=0.857 date=2026-10-20
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // partial score=0.747 date=2026-10-17
@@ -524,10 +526,24 @@ struct Rva002F4491Info { Pathfinder *pathfinder; Bool center; char pad5[3]; Path
 class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 struct GroundTriggerCell { char pad0[6]; unsigned short count; char pad8[12]; };
+// The trigger grid floors through math.h's float overload, as pathfinder.cpp's clip.
+static __forceinline float clipCellFloor(float f)
+{
+	return floor(f);
+}
+static __forceinline long clipCellRound(float f)
+{
+	long i;
+	__asm {
+		fld [f]
+		fistp [i]
+	}
+	return i;
+}
 struct GroundTriggerGrid { char pad0[0x70]; GroundTriggerCell **cells; char pad74[4]; Int width,height;
     __forceinline Bool isMarked(const Coord3D *p) const {
-        Int x=realToIntFloor((p->x+0.5f)/10.0f);
-        Int y=realToIntFloor((p->y+0.5f)/10.0f);
+        Int x=clipCellRound(clipCellFloor((p->x+0.5f)/10.0f));
+        Int y=clipCellRound(clipCellFloor((p->y+0.5f)/10.0f));
         if(x<0 || x>=width || y<0 || y>=height)return false;
         return cells[x][y].count>0;
     }
