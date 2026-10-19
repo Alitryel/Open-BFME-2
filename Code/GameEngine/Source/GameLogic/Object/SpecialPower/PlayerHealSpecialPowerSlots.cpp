@@ -89,6 +89,7 @@ public:
 	virtual void doSpecialPowerAtObject(Object *obj, unsigned int options);
 	virtual void doSpecialPowerAtLocation(const Coord3D *loc, unsigned int options);
 	void rva004C8095(const Coord3D *loc);
+	void rva004C7F5C(Object *obj); // the per-object heal
 	const PlayerHealSpecialPowerModuleData *getPlayerHealSpecialPowerModuleData() const
 	{
 		return (const PlayerHealSpecialPowerModuleData *)m_moduleData;
@@ -143,12 +144,6 @@ public:
 };
 
 
-// The per-object heal, address-named as rowed.
-class Rva004C7F5C
-{
-public:
-	void rva004C7F5C(Object *obj);
-};
 
 
 extern PartitionManager *ThePartitionManager;
@@ -168,5 +163,5 @@ void PlayerHealSpecialPower::rva004C8095(const Coord3D *loc)
 	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(loc, getPlayerHealSpecialPowerModuleData()->m_healRadius, 0, &Rva0026119DFilter(), 0);
 	Object *other;
 	while ((other = iter.next()) != 0)
-		((Rva004C7F5C *)this)->rva004C7F5C(other);
+		rva004C7F5C(other);
 }

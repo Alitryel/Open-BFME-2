@@ -1,5 +1,5 @@
 // cl: /MD /DNDEBUG
-// ?rva004C7F5C@Rva004C7F5C@@QAEXPAVObject@@@Z 222B @0x004C7F5C: heal guard via Thing KindOf plus relationship plus float range plus body mult plus attemptHealing plus doFXObj.
+// ?rva004C7F5C@PlayerHealSpecialPower@@QAEXPAVObject@@@Z 222B @0x004C7F5C: heal guard via Thing KindOf plus relationship plus float range plus body mult plus attemptHealing plus doFXObj.
 // Evidence: retail push ebp frame plus Thing 0x11B test plus isAnyKindOf via BitFlags at this plus4 plus0x88 plus getRelationship pin 0x28D156 plus float range via BfmeZeroRange and g_00BCEA18 plus body at plus0x254 slot 0x18 mult plus attemptHealing row 0x28FE55 plus doFXObj row 0x0B2235. Caller at 0x004C8128.
 template<int N>
 class BitFlags
@@ -74,7 +74,7 @@ struct Inner
 	FXList *m_a4;
 };
 
-class Rva004C7F5C
+class PlayerHealSpecialPower
 {
 public:
 	void rva004C7F5C(Object *obj);
@@ -84,7 +84,7 @@ private:
 	Object *m_8;
 };
 
-void Rva004C7F5C::rva004C7F5C(Object *obj)
+void PlayerHealSpecialPower::rva004C7F5C(Object *obj)
 {
 	Inner *inner = m_4;
 	if ((obj->m_4->m_11B & 8) != 0)
