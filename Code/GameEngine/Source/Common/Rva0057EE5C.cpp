@@ -84,4 +84,3 @@ void Rva0057EE5C::rva0057F002(int arg)
 	reinterpret_cast<AptMpGameRules *>(this)->rva0057EF18();
 }
 
-Rva0057EE5C::Rva0057EE5C(TargetRef00217D4C *ref):m_58(ref),m_5C(-1),m_60(-1),m_88(true),m_89(false),m_B4(10,INVALID_OBJECT_ID){MpGameRules::GetDefaults(m_60,&m_8C);}
