@@ -432,9 +432,12 @@ public:
 	}
 	unsigned char m_pad000[0x64];
 	AsciiString m_64; // +0x64 (template name)
-	unsigned char m_pad068[0x109 - 0x68];
-	unsigned char m_109; // +0x109 (bit 1 keeps slot 4 from re-commanding members)
-	unsigned char m_pad10A[0x114 - 0x10A];
+	unsigned char m_pad068[0x108 - 0x68];
+	union { unsigned int m_108; struct { unsigned char m_108b; unsigned char m_109; }; };
+	// WorldBuilder 0x010C7070 tests bit 0xB of the +0x108 flag word through an
+	// out-of-line BitFlags test; retail inlines it as the +0x109 & 8 byte test.
+	bool testFlag108(int bit) const { return (m_108 & (1U << bit)) != 0; }
+	unsigned char m_pad10C[0x114 - 0x10C];
 	unsigned int m_kindOf[4]; // +0x114
 	unsigned char m_pad124[0x2E4 - 0x124];
 	ModuleInfo m_moduleInfo; // +0x2E4
@@ -466,6 +469,7 @@ public:
 	unsigned char m_pad00[0x10];
 	float m_10; // +0x10
 	unsigned char m_pad14[0x24 - 0x14];
+	int getVeterancyLevel() const { return m_24; }
 	int m_24; // +0x24 (slot 48 compares it across 0x0039B3D1)
 };
 // The Object +0x254 module: slot 5 gives a float.
@@ -540,10 +544,22 @@ struct Rva00469F3AFlags
 			m_words[i] = ~m_words[i];
 	}
 };
+enum KindOfType { KINDOF_INVALID = -1 };
+template <int N> class BitFlags;
+template <> class BitFlags<11> {
+    unsigned int m_bits[1];
+public:
+    bool any() const;
+};
+
 class Object
 {
 public:
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
+	bool isKindOf(KindOfType kind) const;
+	const ThingTemplate *getTemplate() const { return m_template; }
+	ExperienceTracker *getExperienceTracker() const { return m_264; }
+	bool isDisabled() const { return m_disabledMask.any(); }
 	void rva00293077(const void *upgrade); // rowed 0x00293077
 
 	Weapon *getCurrentWeapon(WeaponSlotType *slot = 0);	// pinned 0x0028AEBD
@@ -584,7 +600,9 @@ public:
 			unsigned int m_110; // +0x110
 		};
 	};
-	unsigned char m_pad114[0x244 - 0x114];
+	unsigned char m_pad114[0x1C8 - 0x114];
+	BitFlags<11> m_disabledMask;
+	unsigned char m_pad1CC[0x244 - 0x1CC];
 	Rva004708BCBehavior **m_244; // +0x244
 	unsigned char m_pad248[0x250 - 0x248];
 	Rva0046A2ECContain *m_250; // +0x250
@@ -817,7 +835,10 @@ struct HordeContainModuleDataFields
 	_STL::map<int, int> m_1B8; // +0x1B8
 	unsigned char m_pad1C4[0x1D8 - 0x1C4];
 	bool m_1D8; // +0x1D8
-	unsigned char m_pad1D9[0x224 - 0x1D9];
+	unsigned char m_pad1D9[0x1F4 - 0x1D9];
+	Rva00469851Names m_1F4;
+	unsigned char m_pad200[0x218 - 0x200];
+	Rva00469851Names m_218;
 	union
 	{
 		struct
@@ -831,7 +852,10 @@ struct HordeContainModuleDataFields
 	bool m_230; // +0x230
 	unsigned char m_pad231[0x234 - 0x231];
 	int m_234; // +0x234 (slot 30 hands it to each AI's slot 142 unless -1)
-	unsigned char m_pad238[0x254 - 0x238];
+	bool m_238;
+	unsigned char m_pad239[0x23C - 0x239];
+	AsciiString m_23C;
+	unsigned char m_pad240[0x254 - 0x240];
 	bool m_254; // +0x254
 	unsigned char m_pad255[0x25C - 0x255];
 	float m_25C; // +0x25C (a flank arc, degrees)
@@ -950,7 +974,7 @@ public:
 	virtual void removeMemberFromHorde(Object *obj) = 0; virtual void gap15() = 0; virtual void performReform() = 0; virtual void rva0046FE99(_STL::list<Object *> &out) = 0;
 	virtual void gap18() = 0; virtual Object *rva0046CB2C() = 0; virtual Object *rva0046CC09() = 0; virtual Object *rva0046CBCA() = 0;
 	virtual void *rva004696CD() = 0; virtual bool rva0046CDC9() = 0; virtual void rva004696E5() = 0; virtual bool rva0046CCEF(const ThingTemplate *tmpl) = 0;
-	virtual void rva00472D43(void *thingTemplate) = 0; virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup) = 0; virtual void gap28() = 0; virtual void gap29() = 0;
+	virtual void rva00472D43(void *thingTemplate) = 0; virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup) = 0; virtual bool rva0046EA94(Object *obj) = 0; virtual void gap29() = 0;
 	virtual void rva00473799(const _STL::list<Object *> &items) = 0; virtual void rva00472A24(const Coord3D *pos, CommandSourceType cmdSource, int a3) = 0; virtual void gap32() = 0; virtual void rva00472C8E(Object *obj, CommandSourceType cmdSource) = 0;
 	virtual bool rva00468D11() = 0; virtual bool rva00468D2C() = 0; virtual bool rva0046BB6F(int *out, unsigned int frame) = 0; virtual bool rva0046A2A7() = 0;
 	virtual void rva0046BEAC(Object *obj) = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
@@ -1261,6 +1285,7 @@ public:
 	virtual void assignSpotToUnit(Object *obj);
 	virtual void startMeleeAttack(Object *target);
 	virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup);
+	virtual bool rva0046EA94(Object *obj);
 	virtual float rva0046B850();
 	virtual void rva0046D1F7(_STL::list<const Object *> &out);
 	virtual void rva0046E253();
@@ -4544,4 +4569,54 @@ void HordeContain::rva0046E7E3(const UpgradeTemplate *upgrade, bool all)
 		if (draw)
 			draw->rva0027541E(&color, 4, 4, 15);
 	}
+}
+
+// ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
+// Retail 0x0046EA94 (488 bytes), slot 28 of the +0x11C interface. Follows its
+// WorldBuilder twin 0x010C7070: early-out status/kind tests, then with no
+// rva002931F5(false) Object two slot-27 eligibility queries and a template
+// name test that fall through to the shared related-Object check, which
+// builds the related template name and looks up its rva0046D158 record.
+// The getObject/getExperienceTracker/getTemplate inlines are the WB calls.
+bool HordeContain::rva0046EA94(Object *obj)
+{
+	if (!obj)
+		return false;
+	if (obj->isEffectivelyDead())
+		return false;
+	if (obj->testStatus((ObjectStatusTypes)0x3B))
+		return false;
+	if (obj->testStatus((ObjectStatusTypes)0x3E))
+		return false;
+	Object *self = getObject();
+	if (self->testStatus((ObjectStatusTypes)0x3E))
+		return false;
+	if (obj->isDisabled())
+		return false;
+	if (obj->isKindOf((KindOfType)0xDA))
+		return false;
+	Object *other = obj->rva002931F5(false);
+	if (self->getControllingPlayer() != obj->getControllingPlayer())
+		return false;
+	if (!other)
+	{
+		const HordeContainModuleDataFields *data = fields();
+		if (rva0046970D(obj, (int)m_264, &data->m_1F4, false))
+			return true;
+		if (rva0046970D(obj, m_26C, &data->m_218, false) && getObject()->getExperienceTracker()->getVeterancyLevel() <= 1)
+			return true;
+		if (data->m_238 && obj->getTemplate()->testFlag108(0xB) && data->m_23C.compare(obj->getTemplate()->m_64) == 0)
+			return true;
+	}
+	if (!other || !self || other == self)
+		return false;
+	AsciiString name;
+	name = other->getTemplate()->m_64;
+	if (!rva0046D158(name))
+		return false;
+	if (other->testStatus((ObjectStatusTypes)2) || other->testStatus((ObjectStatusTypes)3))
+		return false;
+	if (self->testStatus((ObjectStatusTypes)2) || self->testStatus((ObjectStatusTypes)3))
+		return false;
+	return true;
 }
