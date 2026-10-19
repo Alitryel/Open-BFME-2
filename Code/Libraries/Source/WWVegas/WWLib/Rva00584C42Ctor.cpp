@@ -6,7 +6,9 @@ class Rva00584C42
 {
 public:
 	Rva00584C42();
-	virtual ~Rva00584C42();
+	// Empty destructor: retail's vtable 0x0086FCDC slot 0 0x00587752 calls 0x00468A3F,
+	// which only stores the vtable.
+	virtual ~Rva00584C42() {}
 private:
 	bool m_flag; // +4
 	float m_a; // +8

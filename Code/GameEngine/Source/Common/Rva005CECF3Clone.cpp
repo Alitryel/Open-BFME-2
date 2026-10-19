@@ -15,7 +15,9 @@ struct Rva005CECF3Handle
 
 struct Rva005CECF3
 {
-	virtual ~Rva005CECF3();
+	// Empty destructor: retail's vtable 0x008751D0 slot 0 is the ICF-shared deleting dtor 0x005FAA31, whose
+	// destructor 0x004E84A4 only restores the vtable.
+	virtual ~Rva005CECF3() {}
 	int m_ref;
 	int m_08;
 	int m_0C;
