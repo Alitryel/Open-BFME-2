@@ -49,7 +49,6 @@ OathbreakerBody::OathbreakerBody( Thing *thing, const ModuleData *moduleData )
 {
 }
 
-// ??1OathbreakerBody@@UAE@XZ present-unmatched
 OathbreakerBody::~OathbreakerBody()
 {
 }

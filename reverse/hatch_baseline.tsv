@@ -35327,12 +35327,9 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ActiveBodyFriendN
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	1?$StringBase@D@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	1FreePtr@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/BodyModuleDeletingDtors.cpp	bfmeEmitBodyModuleDeletingDtors@@YAXPAVActiveBody@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBodyConstructor.cpp	1HighlanderBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/HighlanderBodyFriendNew.cpp	bfmeEmitHighlanderBodyFriendNew@@YAXPAVHighlanderBody@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyConstructor.cpp	1ImmortalBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/ImmortalBodyFriendNew.cpp	bfmeEmitImmortalBodyFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/OathbreakerBodyConstructor.cpp	1OathbreakerBody@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBodyModule.cpp	1PorcupineFormationBodyModule@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/RespawnBodyCtorThunk.cpp	1RespawnBody@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Body/StructureBodyFriendNew.cpp	bfmeEmitStructureBodyFriendNew@@YAXPAVStructureBody@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleCtor.cpp	bfmeEmitCollideModuleCtor@@YAXPAVCollideModule@@PAVThing@@PBVModuleData@@@Z	1
