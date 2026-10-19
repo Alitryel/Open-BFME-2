@@ -748,21 +748,6 @@ public:
 };
 
 
-StateReturnType AIFollowWaypointPathStateAndEvacuate::update()
-{
-	StateReturnType status = AIFollowWaypointPathState::update();
-	Object *owner = getMachineOwner();
-	if (owner->getAI()->getPath() != 0)
-	{
-		Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8());
-		if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-			status = STATE_SUCCESS;
-	}
-	if (status == STATE_SUCCESS)
-		rva003532BF(owner, getMachine(), false);
-	return status;
-}
-
 StateReturnType AIFollowWaypointPathState::update()
 {
 	if (m_framesSleeping > 0)
