@@ -1,39 +1,23 @@
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.7663551401869159 date=2026-10-19
+// partial score=0.99 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
+// stlport
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.696 date=2026-10-17
-// ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.8368660154985625 date=2026-10-13
-// ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.6 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
-// ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// Retail 0x00491316..0x0049157D (615 bytes). BANKED ROUGH DRAFT (~0.6):
-// semantics and callees are mapped, codegen is not converged (587 vs 615
-// bytes). Open points:
-//  - the four partition filters: retail constructs them in order (EH states
-//    0..3), links them extra.link(alive.link(notMe.link(&relationship))) and
-//    restores their base vftables right after iterateObjectsInRange, i.e.
-//    before the two local lists are built; named locals (this draft) live too
-//    long and an inline helper is refused by cl (EH), so they are probably
-//    temporaries of the call expression in the original;
-//  - the zero register (retail keeps ebx = 0 for the null tests and pushes);
-//  - the list views: retail's local lists are the placeholder
-//    Rva0029FB3BMember (ctor pin 0x0029FB3B, insert pin 0x002A1316, dtor pin
-//    0x00268902); the member list at +0x2C goes through the push_back pin
-//    0x002A1B6F (BridgeBehaviorObjectIDList) and list<BfmePod12>::remove
-//    0x002ABFC3; finds use the list<int> find row 0x0029B694.
-//
-// DamageFieldUpdate::update (UpdateModuleInterface slot at vtable entry
-// 0x0084D964, this = module + 0x10): with module data and an object, an
-// unmet required upgrade (+0x18, findUpgrade / Object 0x00290D2B) sleeps
-// none; otherwise gathers the objects within data +0x10 of the object
-// through the relationship (+0x14 spec, controlling player) / not-self /
-// alive / 0x00BFBC90 filters, fires (rowed 0x004911AE) at and remembers
-// every new one in +0x2C, forgets the ones no longer in range, then returns
-// FireWeaponUpdate's rowed update 0x0048BA3E.
-// Current candidate restores native filter order and passes saved scalar IDs.
-// Nonthrowing list cleanup and the admitted insert ABI preserve native calls.
+// Retail 0x00491316..0x0049157D (615 bytes). WB twin va 0x011DF5A0 (1503 B,
+// callgraph 3; callees findUpgrade, Object 0x290D2B, getControllingPlayer,
+// 3x PartitionFilter::And, iterateObjectsInRange, rowed 0x4911AE, list remove,
+// FireWeaponUpdate 0x48BA3E confirm identity). Structure follows WB literally:
+// data/object gate, upgrade gate, filter temporaries chained with And, two
+// local std::list<ObjectID> (in range, gone), a while loop over the query
+// remembering new victims in m_victims (+0x2C) with a found flag, a for loop
+// collecting victims no longer in range, a for loop removing them.
+// Real STLport 4.5.3 list<ObjectID> (not the old views) is what restores
+// retail's frame (0x58), loop-2 register assignment and loop-3 hoisted
+// sentinel with jmp-to-test; /EHsc removes the dtor EH-state writes.
+// Code shape is byte-identical; only these STLport callees lack pins:
+//   ??0?$_List_base<ObjectID> -> 0x0029FB3B, ??1?$_List_base<ObjectID> -> 0x00268902,
+//   list<ObjectID>::insert -> 0x002A1316, list<ObjectID>::remove -> 0x002ABFC3,
+//   list<ObjectID>::push_back -> 0x002A1B6F (already pinned at 0x0005548F).
 #include "ascii_string.h"
 
 typedef float Real;
@@ -110,50 +94,9 @@ public:
 #include "PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
 
-// list<int> views (STLport node: next, prev, value).
-struct IDNode { IDNode *m_next; IDNode *m_prev; ObjectID m_value; };
-namespace _STL
-{
-template <class T> struct _Nonconst_traits;
-template <class T, class Traits> struct _List_iterator
-{
-	_List_iterator(IDNode *n) : m_node(n) {}
-_List_iterator(const _List_iterator &i):m_node(i.m_node){}
-	IDNode *m_node;
-};
-template <class It, class T> It find(It first, It last, const T &value);
-}
-typedef _STL::_List_iterator<ObjectID, _STL::_Nonconst_traits<ObjectID> > IDIter;
-template IDIter _STL::find<IDIter, ObjectID>(IDIter, IDIter, const ObjectID &);
-
-struct Rva0029FB3BAlloc { Rva0029FB3BAlloc() {} ~Rva0029FB3BAlloc() {} };
-struct Rva002A1316Iterator {
-    explicit Rva002A1316Iterator(void *p) : node(p) {}
-    Rva002A1316Iterator(const Rva002A1316Iterator &i) : node(i.node) {}
-    void *node;
-};
-class Rva002A1B6FNativeList {
-    friend class Rva0029FB3BMember;
-    Rva002A1316Iterator insert(Rva002A1316Iterator pos, void *const &value);
-};
-class Rva0029FB3BMember
-{
-public:
-	Rva0029FB3BMember(const Rva0029FB3BAlloc &alloc);
-	~Rva0029FB3BMember() throw();
-	IDIter begin() { return IDIter(m_node->m_next); }
-	IDIter end() { return IDIter(m_node); }
-	__forceinline void push_back(const ObjectID &id) { Rva002A1316Iterator e(m_node); ((Rva002A1B6FNativeList *)this)->insert(e, reinterpret_cast<void *const &>(id)); }
-	IDNode *m_node;
-};
-class BridgeBehaviorObjectIDList { public: void push_back(const ObjectID &id); };
-struct BfmePod12 { int v[3]; };
-namespace _STL
-{
-template <class T> class allocator;
-template <class T, class A> class list { public: void remove(const T &value); };
-}
-
+#include <list>
+#include <algorithm>
+typedef std::list<ObjectID> ObjectIDList;
 struct DamageFieldUpdateModuleData
 {
 	unsigned char m_pad00[0x10];
@@ -189,7 +132,7 @@ public:
 	virtual UpdateSleepTime update();
 	void rva004911AE(Object *other);
 private:
-	IDNode *m_victims;	// +0x2C
+	ObjectIDList m_victims;	// +0x2C
 };
 
 UpdateSleepTime DamageFieldUpdate::update()
@@ -206,32 +149,40 @@ UpdateSleepTime DamageFieldUpdate::update()
 		}
 
 		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(me->getPosition(), (Real)data->m_radius, 0,
-          Rva00BFBC90Filter(me,1,false).link(Rva0026119DFilter().link(Rva00BF91BCFilter(me).link(&Rva00BCECF0Filter(data->m_filterSpec,me->getControllingPlayer(),true)))),0);
+			Rva00BFBC90Filter(me, 1, false).link(Rva0026119DFilter().link(Rva00BF91BCFilter(me).link(&Rva00BCECF0Filter(data->m_filterSpec, me->getControllingPlayer(), true)))), 0);
 
-		Rva0029FB3BMember inRange((Rva0029FB3BAlloc()));
-		Rva0029FB3BMember gone((Rva0029FB3BAlloc()));
-		IDIter victimsEnd(m_victims);
-		for (Object *other = iter.next(); other; other = iter.next())
+		ObjectIDList inRange;
+		ObjectIDList gone;
+		Object *other = 0;
+		while ((other = iter.next()) != 0)
 		{
 			inRange.push_back(other->getID());
-			IDIter end(m_victims);
-			if (_STL::find(IDIter(m_victims->m_next), end, other->getID()).m_node == end.m_node)
+			bool found = false;
+			if (std::find(m_victims.begin(), m_victims.end(), other->getID()) != m_victims.end())
+				found = true;
+			if (!found)
 			{
 				rva004911AE(other);
-				((BridgeBehaviorObjectIDList *)&m_victims)->push_back(other->getID());
+				m_victims.push_back(other->getID());
 			}
 		}
-		for (IDNode *node = m_victims->m_next; node != m_victims; node = node->m_next)
+
+		ObjectIDList::iterator it;
+		for (it = m_victims.begin(); it != m_victims.end(); ++it)
 		{
-			const ObjectID id = (ObjectID)node->m_value;
-			IDIter end = inRange.end();
-			if (_STL::find(inRange.begin(), end, id).m_node == end.m_node)
+			ObjectID id = *it;
+			bool found = false;
+			if (std::find(inRange.begin(), inRange.end(), id) != inRange.end())
+				found = true;
+			if (!found)
 				gone.push_back(id);
 		}
-		for (IDNode *g = gone.m_node->m_next; g != gone.m_node; g = g->m_next)
+
+		ObjectIDList::iterator git;
+		for (git = gone.begin(); git != gone.end(); ++git)
 		{
-			const int value = g->m_value;
-			((_STL::list<BfmePod12, _STL::allocator<BfmePod12> > *)&m_victims)->remove(reinterpret_cast<const BfmePod12 &>(value));
+			ObjectID id = *git;
+			m_victims.remove(id);
 		}
 	}
 	return FireWeaponUpdate::rva0048BA3E();
