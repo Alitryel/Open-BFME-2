@@ -2594,37 +2594,10 @@ static void getPlayerProfileIDCallback(PEER peer,  PEERBool success,  const char
 	}
 }
 
-static void stagingRoomPlayerEnum( PEER peer, PEERBool success, RoomType roomType, int index, const char * nick, int flags, void * param )
-{
-	DEBUG_LOG(("Enum: success=%d, index=%d, nick=%s, flags=%d\n", success, index, nick, flags));
-	if (!nick || !success)
-		return;
-
-	Int id = 0;
-	peerGetPlayerProfileID(peer, nick, getPlayerProfileIDCallback, &id, PEERTrue);
-	DEBUG_ASSERTCRASH(id != 0, ("Failed to fetch player ID!"));
-
-	PeerResponse *resp = (PeerResponse *)param;
-	if (flags & PEER_FLAG_OP)
-	{
-		resp->joinStagingRoom.isHostPresent = TRUE;
-	}
-	if (index < MAX_SLOTS)
-	{
-		resp->stagingRoomPlayerNames[index] = nick;
-	}
-
-	if (id)
-	{
-		PSRequest req;
-		req.requestType = PSRequest::PSREQUEST_READPLAYERSTATS;
-		req.player.id = id;
-		TheGameSpyPSMessageQueue->addRequest(req);
-	}
-}
-
-// ?Rva0038B8B7Enum@@YAXPAXHW4RoomType@@HPBDH0@Z @0x0038B8B7 104B evidence: REF callback pushed for peerEnumPlayers in joinRoomCallback 0x0038E5A0; nick success guards; peerGetPlayerProfileIDA 0x69A540 with getPlayerProfileIDCallback 0x00388BE4; flag 0x20 host 0x111; index LT 8 names 0x88 string assign 0x1B790; TheGameSpyInfo slot 0x7c
-void Rva0038B8B7Enum(PEER peer, PEERBool success, RoomType roomType, int index, const char *nick, int flags, void *param)
+// ?stagingRoomPlayerEnum@@YAXPAXHW4RoomType@@HPBDH0@Z @0x0038B8B7 104B evidence: REF callback pushed for peerEnumPlayers in joinRoomCallback 0x0038E5A0; nick success guards; peerGetPlayerProfileIDA 0x69A540 with getPlayerProfileIDCallback 0x00388BE4; flag 0x20 host 0x111; index LT 8 names 0x88 string assign 0x1B790; TheGameSpyInfo slot 0x7c
+// Zero Hour's static stagingRoomPlayerEnum, replaced by this retail body: retail drops
+// the PSRequest stats read and is external, since joinRoomCallback lives in Rva0038E4B9Finish.cpp.
+void stagingRoomPlayerEnum(PEER peer, PEERBool success, RoomType roomType, int index, const char *nick, int flags, void *param)
 {
 	if (!nick || !success)
 		return;
