@@ -52188,7 +52188,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006A12F0,116,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c
 0x006A1370,17,code-unledgered,,,-,,
 0x006A1390,33,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c
-0x006A13C0,310,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/ChatSdkBodies.cpp
+0x006A13C0,310,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c
 0x006A1500,21,code-unledgered,,,-,,
 0x006A1520,103,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/Rva006A1520FixNick.cpp
 0x006A1590,83,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c

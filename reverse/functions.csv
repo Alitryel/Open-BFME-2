@@ -6555,7 +6555,7 @@ _peerGetHostServer,,0x00698EC0,11,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 _peerGetNickA,,0x006989E0,18,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; BFME1 attests same size
 _peerInRoom,,0x00698E70,16,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; BFME1 attests same size
 _peerSetQuietMode,,0x00698AA0,15,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; BFME1 attests same size
-_chatChangeNickA,,0x006A13C0,310,Code/GameEngine/Source/GameNetwork/GameSpy/chat/ChatSdkBodies.cpp,matched,bfme1 GameSpy sweep exact placement; verbatim source import; BFME1 attests same size
+_chatChangeNickA,,0x006A13C0,310,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import; BFME1 attests same size
 _chatEnumChannelBansA,,0x006A1E80,108,Code/GameEngine/Source/GameNetwork/GameSpy/chat/ChatMessagePump.c,matched,bfme1 GameSpy sweep exact placement; filter call site reads landed _ciAddGETBANFilter; BFME1 attests same size
 _chatGetUserInfoA,,0x006A2200,108,Code/GameEngine/Source/GameNetwork/GameSpy/chat/ChatMessagePump.c,matched,bfme1 GameSpy sweep exact placement; filter call site reads landed _ciAddWHOISFilter; BFME1 attests same size
 _chatGetChannelBasicUserInfoA,,0x006A2370,108,Code/GameEngine/Source/GameNetwork/GameSpy/chat/ChatMessagePump.c,matched,bfme1 GameSpy sweep exact placement; filter call site reads landed _ciAddCWHOFilter; BFME1 attests same size

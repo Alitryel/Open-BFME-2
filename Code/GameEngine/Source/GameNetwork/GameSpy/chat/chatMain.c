@@ -1041,12 +1041,43 @@ void chatSendRawW(CHAT chat,
 }
 #endif
 
-// chatChangeNickA: defined in ChatSdkBodies.cpp (its row's unit).
 void chatChangeNickA(CHAT chat,
 					const char * newNick,
 					chatChangeNickCallback callback,
 					void * param,
-					CHATBool blocking);
+					CHATBool blocking)
+{
+	int ID;
+	CONNECTION;
+	CONNECTED;
+
+	{
+	CHATBool success = CHATTrue;
+	if(!newNick || !newNick[0] || (strlen(newNick) >= MAX_NICK) ||
+		(strcasecmp(newNick, connection->nick) == 0))
+		success = CHATFalse;
+
+	if(!success)
+	{
+		if(callback)
+		{
+			ciCallbackChangeNickParams params;
+			params.success = CHATFalse;
+			params.oldNick = connection->nick;
+			params.newNick = (char *)newNick;
+			ID = ciGetNextID(chat);
+			ciAddCallback(chat, CALLBACK_CHANGE_NICK, (void*)callback, &params, param, ID, NULL);
+
+			CI_DO_BLOCKING;
+		}
+		return;
+	}
+
+	ciSocketSendf(&connection->chatSocket, "NICK :%s", newNick);
+	ID = ciAddNICKFilter(chat, connection->nick, newNick, callback, param);
+	CI_DO_BLOCKING;
+	}
+}
 #ifdef GSI_UNICODE
 void chatChangeNickW(CHAT chat,
 					const unsigned short * newNick,

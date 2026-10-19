@@ -16,9 +16,8 @@ transcribed from the 2007 public SDK (nitrocaster/GameSpy, src/GameSpy/Chat/)
 with the eight local headers (chat.h, chatASCII.h, chatCallbacks.h,
 chatChannel.h, chatCrypt.h, chatHandlers.h, chatMain.h, chatSocket.h) standing
 in for the period headers, whose 2007 versions drag in the common/gsPlatform
-layer that did not exist in the snapshot EA built. The three .cpp files are
-this repository's own code (address-named helpers and ChatSdkBodies.cpp), not
-SDK sources. CHAT-SDK-LICENSE.txt is the 2014 republisher's BSD-3-Clause file
+layer that did not exist in the snapshot EA built. The two .cpp files are
+this repository's own code (address-named helpers), not SDK sources. CHAT-SDK-LICENSE.txt is the 2014 republisher's BSD-3-Clause file
 that circulates with the 2007 SDK, kept as the carrier's text; it is not the
 grant (see ../PROVENANCE.txt, "Why no grant is readable from the tree
 itself", item 5).
