@@ -31,6 +31,12 @@ class MixFileCreator
 public:
 	struct FileInfoStruct
 	{
+		// The copy constructor and assignment are rowed out of line
+		// (MixFileCreatorFileInfoStructAssign.cpp, 0x00217624/0x002174DF).
+		FileInfoStruct() {}
+		FileInfoStruct(const FileInfoStruct &src);
+		FileInfoStruct &operator=(const FileInfoStruct &src);
+
 		unsigned long CRC;
 		unsigned long Offset;
 		unsigned long Size;
@@ -75,10 +81,18 @@ struct FieldParse
 	int offset;
 };
 
+// 0x00218C2B (the font-size table lookup) is rowed as
+// int Rva00218C2B::rva00218C2B(const AsciiString &) in
+// CreateAHeroDataRva004080DD.cpp; its result is the table pointer.
+class Rva00218C2B
+{
+public:
+	int rva00218C2B(const AsciiString &key);
+};
+
 class FontLibrary
 {
 public:
-	_STL::vector<Rva00218FC2Record> *rva00218C2B(const AsciiString &name);
 	static void parseFontSizeMapping(INI *ini, void *instance, void *store, const void *userData);
 };
 
@@ -120,7 +134,7 @@ void rva00219005(INI *ini)
 {
 	(void)&ini;
 	AsciiString name = ini->getNextQuotedAsciiString();
-	_STL::vector<Rva00218FC2Record> *table = TheFontLibrary->rva00218C2B(name);
+	_STL::vector<Rva00218FC2Record> *table = (_STL::vector<Rva00218FC2Record> *)((Rva00218C2B *)TheFontLibrary)->rva00218C2B(name);
 	FieldParse fields[2] = {{"Size", FontLibrary::parseFontSizeMapping, 0, 0}, {0, 0, 0, 0}};
 	ini->initFromINI(table, fields);
 	Rva00218FC2RecordCompare compare = {};
