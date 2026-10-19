@@ -1,8 +1,10 @@
 // cl: /O2 /G6 /DNDEBUG /MD
-// Clean room: reverse/vp6_cleanroom/specs/001b6420.md 001b6460.md plus retail
-// only. No decoder source was consulted.
+// Clean room: reverse/vp6_cleanroom/specs/001b6420.md 001b6460.md 001b64a0.md
+// plus retail only. No decoder source was consulted.
 extern "C" void *__cdecl memset(void *block, int value, unsigned int bytes);
 #pragma intrinsic(memset)
+extern "C" void *__cdecl memcpy(void *destination, const void *source, unsigned int bytes);
+#pragma intrinsic(memcpy)
 
 extern "C" void *__cdecl duck_malloc(unsigned int bytes); // 0x001B63C0
 
@@ -20,4 +22,10 @@ extern "C" void *__cdecl duck_calloc(unsigned int count, unsigned int size)
 	if (block)
 		memset(block, 0, bytes);
 	return block;
+}
+
+// RVA 0x001B64A0 (no caller in retail)
+extern "C" void *__cdecl duck_memcpy(void *destination, const void *source, unsigned int bytes)
+{
+	return memcpy(destination, source, bytes);
 }
