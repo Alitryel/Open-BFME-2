@@ -9,19 +9,17 @@ public:
 	~ControlBarScheme();
 };
 
-namespace _STL
-{
-	template <class T> class allocator;
-	template <class T, class A> class _List_base
-	{
-	public:
-		~_List_base();
-		void clear();
-	private:
-		void *m_header;
-	};
-	typedef _List_base<int, allocator<int> > ListBaseInt;
+#include <list>
+namespace _STL {
+// Retail keeps these out-of-line operations, shared by pointer-list instances.
+template <> _List_base<ControlBarScheme *, allocator<ControlBarScheme *> >::~_List_base();
+template <> void _List_base<ControlBarScheme *, allocator<ControlBarScheme *> >::clear();
 }
+// Native EH cleanup 0x0077AFBB calls the complete list destructor 0x00200667,
+// whose 5-byte tail call reaches the list-base destructor at 0x004EC395.
+// The real pointer-list member preserves both levels; declaring only List_base
+// incorrectly bound the cleanup directly to the latter. The full parent and EH
+// graph verify this member lifetime independently of the donor type spelling.
 
 struct CBMNode
 {
@@ -42,7 +40,7 @@ public:
 private:
 	void *m_currentScheme;
 	char m_pad4[8];
-	_STL::ListBaseInt m_schemeList;
+	_STL::list<ControlBarScheme *> m_schemeList;
 };
 
 ControlBarSchemeManager::~ControlBarSchemeManager()
