@@ -79,6 +79,7 @@ struct BlockInfo
 class GeneralAllocator
 {
 public:
+	void rva000317F0(int option, unsigned int value);
 	unsigned int rva00032A20(const void *block);
 	void *rva000353B0(void *core, int types, bool b, void *d, unsigned int e);
 	const BlockInfo *rva00032F60(void *handle, int types);
@@ -120,6 +121,7 @@ private:
 };
 
 class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
+class Rva006C17B0 { public: void rva006C17B0(bool, bool); };
 
 union GeneralAllocatorMetricBlockArg { GeneralAllocatorChunk *block; unsigned int size; };
 
@@ -135,6 +137,7 @@ class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
 	void rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool allocation);
+	void rva006C1B60(int option, unsigned int value);
 	unsigned int rva006C1FE0(char *base, int length, char **bodyOut);
 	unsigned int rva006C2510(char *block, int mode, char **outBody);
 	void *rva006C2010Run6(void *block, unsigned int size, unsigned short kind, void *dst, unsigned int capacity, unsigned int *outLen);
@@ -184,6 +187,11 @@ private:
 	GeneralAllocatorMetricCounters m_metrics[4]; // +0x570..0x66F
 	unsigned int m_lastAllocation; // +0x670
 	unsigned int m_lastFree; // +0x674
+	unsigned char m_pad678[0x67C - 0x678];
+	int m_tableGate; // +0x67C
+	bool m_tableEnabled; // +0x680
+	unsigned char m_pad681[0x684 - 0x681];
+	Rva006C17B0 m_table; // +0x684
 };
 
 void GeneralAllocatorDebug::rva006C2AA0(unsigned char fillFree, unsigned char fillDelayedFree,
@@ -418,4 +426,30 @@ void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool
    m_metrics[3].totalFreeBytes+=size;
   }
  }
+}
+
+// ?rva006C1B60@GeneralAllocatorDebug@@QAEXHI@Z, retail 0x006C1B60 (114 B): the
+// debug allocator's option setter. Option 1000 switches the metrics (+0x560),
+// option 1001 the block table (+0x680; enabling is refused while +0x67C is 1
+// and disabling clears the table at +0x684); every other option goes to the
+// base GeneralAllocator option setter 0x000317F0.
+void GeneralAllocatorDebug::rva006C1B60(int option, unsigned int value)
+{
+	if (option == 1000)
+		m_metricsEnabled = value != 0;
+	else if (option == 1001)
+	{
+		bool enable = value != 0;
+		if (m_tableEnabled != enable)
+		{
+			if (enable || m_tableGate != 1)
+			{
+				m_tableEnabled = enable;
+				if (!enable)
+					m_table.rva006C17B0(true, true);
+			}
+		}
+	}
+	else
+		GeneralAllocator::rva000317F0(option, value);
 }
