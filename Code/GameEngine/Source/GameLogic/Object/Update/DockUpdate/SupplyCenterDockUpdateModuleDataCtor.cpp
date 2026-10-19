@@ -22,7 +22,7 @@ class SupplyCenterDockUpdateModuleData : public DockUpdateModuleData
 {
 public:
 	SupplyCenterDockUpdateModuleData();
-	virtual ~SupplyCenterDockUpdateModuleData();
+	// Implicit destructor: retail's vtable 0x0084ED70 slot 0 0x004A10FD calls 0x0049B47C directly: the whole chain is trivial.
 private:
 	float m_valueMultiplier;
 	int m_bonusScience;

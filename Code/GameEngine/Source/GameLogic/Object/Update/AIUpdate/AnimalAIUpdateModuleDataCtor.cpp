@@ -26,7 +26,7 @@ class AnimalAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	AnimalAIUpdateModuleData();
-	virtual ~AnimalAIUpdateModuleData();
+	// Implicit destructor: retail's folded vtable 0x0084B6C8 slot 0 0x00254418 calls 0x004905B0, a tail jump to the Transport base dtor.
 
 private:
 	int m_fleeRange; // +0x64
