@@ -47,6 +47,9 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char* p, size_
  __stl_alloc_rebind(static_cast<allocator<char>&>(*this),(char*)0).deallocate(p,n);
 }
 }
+// _String_base<char>'s destructor is inlined into every caller here (only .debug$F
+// bound this TU's copy, which differed from the kept one), so this unit emits none.
+namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<char,allocator<char> >::~_String_base() { _M_deallocate_block(); } }
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
