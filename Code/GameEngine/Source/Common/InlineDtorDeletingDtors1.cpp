@@ -88,6 +88,10 @@ public:
 	Rva00549C74();
 	Rva00549C74(EmitVtableTag *);
 	virtual ~Rva00549C74() {}
+	// Retail's vtable (VA 0x00C6A68C) has two pure slots after the destructor,
+	// as Rva0054BBB5_Unresolved.cpp's iterator view declares them.
+	virtual int first() = 0;
+	virtual int next() = 0;
 };
 
 // ??0Rva00549C74@@QAE@XZ @0x00549CCB 9B: the default constructor, storing the
@@ -102,7 +106,9 @@ __declspec(noinline) inline Rva00549C74::Rva00549C74()
 // ?bfmeAnchorRva00549C74 absent-from-retail
 void *bfmeAnchorRva00549C74(void *where)
 {
-	return new (where) Rva00549C74();
+	// The class is abstract, so run the default constructor in place explicitly.
+	((Rva00549C74 *)where)->Rva00549C74::Rva00549C74();
+	return where;
 }
 
 
