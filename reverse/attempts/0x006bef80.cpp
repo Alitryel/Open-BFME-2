@@ -1,4 +1,6 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
+// partial score=0.738205365402405 date=2026-10-19
+// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
 // partial score=0.6735615248150802 date=2026-10-16
 // cl: /O2 /Ob2 /G6 /DNDEBUG /MD /EHs-c- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 // GeometryInfo::CollidesWith, retail 0x006BEB80..0x006BEEB5 (821 bytes, RET 0x14).
@@ -100,7 +102,7 @@ bool GeometryInfo::CollidesWith(const Coord3D &p,float angle,const GeometryInfo 
 extern Coord3D GeometryContactOrigin;
 extern unsigned g_Va00E0C150;
 struct ContactPoint:Coord3D { ContactPoint(const Coord3D&r) {x=r.x;y=r.y;z=r.z;} };
-static inline void contactCopy(Coord3D &out,const Coord3D &in){out.x=in.x;out.y=in.y;out.z=in.z;}
+static inline void contactCopy(Coord3D &out,const Coord3D &in){out=in;}
 bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const char*label,int preference,int seed,bool ignoreCollision)const {
  if(g_bfmeDockingTraceActive&&caller&&theLogicRandomLogFile)
   fprintf(theLogicRandomLogFile,"        GeometryInfo::getBestContactPoint, callerPos=%g,%g,%g, label=%s, pref=%d, seed=%d, skipCollideTest=%d, m_innermostContactPoint=%g,%g,%g",caller->x,caller->y,caller->z,label?label:"NONE",preference,seed,ignoreCollision?"TRUE":"FALSE",defaultPosition.x,defaultPosition.y,defaultPosition.z);
@@ -132,27 +134,31 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
  }
  case 1:
   contactCopy(*out,preferredPosition);
-  {float h=getMaxHeightAbovePosition(); if(out->z>h)out->z=h;}
+  if(out->z>getMaxHeightAbovePosition())out->z=getMaxHeightAbovePosition();
   return true;
  case 0:{
-  if(!caller)return false;
+  if(caller){
   int count=contactsEnd-contactsBegin;
   int best=count;float bestDistance=FLT_MAX;
   for(int i=0;i<count;++i){
-   if(contactsBegin[i].label.compare(label?label:"")!=0)continue;
-   ContactPoint pos=contactsBegin[i].position;
+   int comparison; if(label) comparison=contactsBegin[i].label.compare(label); else comparison=contactsBegin[i].label.compare(""); if(comparison!=0)continue;
+   Coord3D pos=contactsBegin[i].position;
    if(pos.z>getMaxHeightAbovePosition())pos.z=getMaxHeightAbovePosition();
    if(!ignoreCollision&&!CollidesWith(GeometryContactOrigin,0.0f,*(const GeometryInfo *)&g_Va00E0C150,pos,0.0f))continue;
    float dx=pos.x-caller->x,dy=pos.y-caller->y,dz=pos.z-caller->z;
    float d=dx*dx+dy*dy+dz*dz;
    if(d<bestDistance){bestDistance=d;best=i;}
   }
-  if(best==count)return false;
+  if(best!=count){
   contactCopy(*out,contactsBegin[best].position);
-  if(out->z>getMaxHeightAbovePosition()){out->z=getMaxHeightAbovePosition();return true;}
-  if(out->z<getMaxHeightAbovePosition()*0.1f)out->z=getMaxHeightAbovePosition()*0.1f;
+  if(out->z>getMaxHeightAbovePosition()){out->z=getMaxHeightAbovePosition();}
+  else if(out->z<getMaxHeightAbovePosition()*0.1f)out->z=getMaxHeightAbovePosition()*0.1f;
   return true;
  }
- default:return false;
  }
+ break;
+ }
+ default:break;
+ }
+ return false;
 }
