@@ -162,10 +162,10 @@ typedef _STL::hash_map<int, int> GenHashMap0C;
 typedef _STL::hash_map<int, int> GenHashMap44;
 typedef _STL::deque<int> GenDeque;
 
-class Gen_dtor_00625040
+class AssetManagerImpl
 {
 public:
-	~Gen_dtor_00625040();
+	~AssetManagerImpl();
 
 private:
 	uintptr_t m_thread;
@@ -195,7 +195,7 @@ private:
 	Rva009EEA70CleanupDeleting *m_hashContext;
 };
 
-typedef char GenDtorSizeCheck[sizeof(Gen_dtor_00625040) == 0x200 ? 1 : -1];
+typedef char GenDtorSizeCheck[sizeof(AssetManagerImpl) == 0x200 ? 1 : -1];
 
 // Constructor-only storage view for the already pinned 0x00624DB0 callee.
 // The target ledger identifies that callee as AssetManagerImpl; allocation
@@ -220,7 +220,7 @@ private:
 	// BFME2 reads the member at +0x0C (BFME1: +0x08): one unidentified dword
 	// sits between the debug name and the render object.
 	void *m_bfme08;
-	Gen_dtor_00625040 *m_renderObject;
+	AssetManagerImpl *m_renderObject;
 };
 
 Rva0061EEE0::~Rva0061EEE0()
@@ -242,7 +242,7 @@ Rva0061EEE0::~Rva0061EEE0()
 // Native RET at 0x006252C8 closes the 649-byte body (the old 646-byte
 // inventory truncates its add-esp/RET). Global delete uses worker vslot flag 0
 // followed by operator delete; /EHs preserves both hash-map cleanup states.
-Gen_dtor_00625040::~Gen_dtor_00625040()
+AssetManagerImpl::~AssetManagerImpl()
 {
 	Q1Receiver0134FAAC *receiver = (Q1Receiver0134FAAC *)this;
 
@@ -289,5 +289,5 @@ Gen_dtor_00625040::~Gen_dtor_00625040()
 // which requires saving this as well as the new-expression allocation.
 Rva0061EEE0::Rva0061EEE0()
 {
-	m_renderObject = reinterpret_cast<Gen_dtor_00625040 *>(new Rva00624DB0);
+	m_renderObject = reinterpret_cast<AssetManagerImpl *>(new Rva00624DB0);
 }
