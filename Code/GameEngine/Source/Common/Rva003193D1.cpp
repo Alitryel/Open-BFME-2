@@ -11,7 +11,7 @@ public:
 	void rva00318F64();
 };
 
-class Rva003FDE8C
+class LivingWorldArmyIcon
 {
 public:
 	void rva003FDE8C(unsigned char v);
@@ -23,7 +23,7 @@ public:
 	void rva003193D1();
 private:
 	char m_pad[0x88];
-	Rva003FDE8C *m_88;
+	LivingWorldArmyIcon *m_88;
 };
 
 void Rva003193D1::rva003193D1()

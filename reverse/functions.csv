@@ -44385,7 +44385,7 @@ _MmxFastDeInterlace,,0x001CDF60,232,Code/Libraries/Source/VP6/FastDeInterlace.cp
 ?rva00362ADE@Rva00362AB5@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHPAX@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@0@Z,,0x00362ADE,68,Code/Libraries/Source/WWVegas/WWLib/RvaTreeEraseRangeFamily.cpp,matched,STLport _Rb_tree::erase(first last) body over the rowed rva00362AB5 clear and the folded map<int void *> erase(iterator); bytes equal the rowed set<AsciiString> instance except those calls
 ?Rva0040B1A8Fill@@YAPAVRva0040AEE3@@PAV1@IABV1@@Z,,0x0040B1A8,37,Code/GameEngine/Source/Common/Thing/Rva0040AEE3Fill.cpp,matched,chain via rowed Construct 0x0040B14E stride 0x10 caller 0x0040B89F
 ?rva003FDE50@Rva003FDE50@@QAEXI@Z,,0x003FDE50,33,Code/GameEngine/Source/Common/Rva003FDE50.cpp,matched,chain lane pointer range loop via rowed Rva0056B970
-?rva003FDE8C@Rva003FDE8C@@QAEXE@Z,,0x003FDE8C,33,Code/GameEngine/Source/Common/Rva003FDE8C.cpp,matched,chain lane pointer range loop via rowed Rva0056B929
+?rva003FDE8C@LivingWorldArmyIcon@@QAEXE@Z,,0x003FDE8C,33,Code/GameEngine/Source/Common/Rva003FDE8C.cpp,matched,chain lane pointer range loop via rowed Rva0056B929
 ?rva003FDE71@Rva003FDE71@@QAEXXZ,,0x003FDE71,27,Code/GameEngine/Source/Common/Rva003FDE71.cpp,matched,chain lane pointer range loop via rowed Rva0056B95E
 ??1Rva0022CD2A@@QAE@XZ,,0x0022CD2A,59,Code/GameEngine/Source/Common/Rva0022CD2ADtor.cpp,matched,unlock packet calls rowed 0x0022C64A and rowed free 0x00030830
 ??1Rva0022CDDA@@UAE@XZ,,0x0022CDDA,63,Code/GameEngine/Source/Common/System/SaveGame/Rva0022CDDADtor.cpp,matched,unlock packet calls rowed base 0x001B4E74 and rowed vector dtor
