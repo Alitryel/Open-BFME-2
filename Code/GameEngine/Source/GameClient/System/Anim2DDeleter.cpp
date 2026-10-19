@@ -13,6 +13,7 @@
 // counterpart) only makes this TU emit the vtable and with it the deleting destructor.
 
 struct EmitVtableTag;
+class Xfer;
 
 class Anim2D
 {
@@ -20,6 +21,11 @@ public:
 	Anim2D(EmitVtableTag *);
 protected:
 	virtual ~Anim2D();
+	// Snapshot slots, as InGameUIFloatingAnimation.cpp's Anim2D (first in link
+	// order) declares them.
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *xfer);
 };
 
 // ?<Anim2D::Anim2D> absent-from-retail
