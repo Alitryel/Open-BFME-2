@@ -2,6 +2,13 @@
 // stlport
 
 #include <vector>
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined
+// (only .debug$F bound this TU's copy, which differs from the copy the link keeps).
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 
 struct Gen_p8cd
 {
