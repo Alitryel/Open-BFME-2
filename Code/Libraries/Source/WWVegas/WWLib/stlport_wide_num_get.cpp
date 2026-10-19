@@ -46,6 +46,9 @@ namespace _STL { template <> istreambuf_iterator<unsigned short, char_traits<uns
 namespace _STL { template <> bool __get_integer<istreambuf_iterator<unsigned short, char_traits<unsigned short> >, __int64>(istreambuf_iterator<unsigned short, char_traits<unsigned short> > &, istreambuf_iterator<unsigned short, char_traits<unsigned short> > &, int, __int64 &, int, bool, char, basic_string<char, char_traits<char>, allocator<char> > const &, __true_type const &); }
 namespace _STL { template <> bool __get_integer<istreambuf_iterator<unsigned short, char_traits<unsigned short> >, unsigned __int64>(istreambuf_iterator<unsigned short, char_traits<unsigned short> > &, istreambuf_iterator<unsigned short, char_traits<unsigned short> > &, int, unsigned __int64 &, int, bool, char, basic_string<char, char_traits<char>, allocator<char> > const &, __false_type const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_deallocate_block@?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _String_base<unsigned short, allocator<unsigned short> >::_M_deallocate_block(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@G@_STL@@QBEXPAGI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void allocator<unsigned short>::deallocate(unsigned short *, size_t) const; }
