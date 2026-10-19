@@ -66,6 +66,9 @@ unsigned char Rva003EF5FBNode::rva003EF5FB(int owner){
 // vector reference across iteration; both native scheduling facts are byte-proven.
 struct Rva003EF6D6Entry;struct Rva003EF6D6Span;struct Rva003C4CF0Span;class Rva002C589B;
 enum ObjectID { INVALID_ID=0 };
+// Range erase is called out of line; bind to retail's kept body (0x00532803)
+// rather than emitting this unit's differing copy.
+namespace _STL { template <> ObjectID *vector<ObjectID,allocator<ObjectID> >::erase(ObjectID *,ObjectID *); }
 struct Rva003EF6A0Entry {int key;char pad04[24];float f1c,f20,f24;Rva003EF6A0Entry *prev;};
 struct Rva003EF6A0Span;struct Rva003EF9DCNode;struct Rva003EF634Node;
 class Rva003C5890Item;
@@ -112,7 +115,11 @@ void Rva003EF8E1::rva003EF8E1(Rva003EF5FBNode *node,int owner,bool allowOther){
 // erase32 and push49), not the original target ID typedef. Host inheritance
 // shares our verified prefix view; original source inheritance is unasserted.
 enum ScienceType { SCIENCE_NONE=0 };
-class BfmeSlotVecG { public: void bfmeErase(void **,void **); void **begin,*end,*limit; };
+namespace _STL { template <> ScienceType *vector<ScienceType,allocator<ScienceType> >::erase(ScienceType *,ScienceType *); }
+// The range erase these views call is vector<void *>::erase (0x0031BD55);
+// declared only so the call binds to that kept body.
+namespace _STL { template <> void **vector<void *,allocator<void *> >::erase(void **,void **); }
+class BfmeSlotVecG { public: __forceinline void bfmeErase(void **first,void **last) { ((_STL::vector<void *> *)this)->erase(first,last); } void **begin,*end,*limit; };
 class Rva003EFC1CHost:public Rva003EF8E1 { public: void rva003EFC1C(int,void*); };
 // ?rva003EFC1C@Rva003EFC1CHost@@QAEXHPAX@Z
 void Rva003EFC1CHost::rva003EFC1C(int from,void *output) {
