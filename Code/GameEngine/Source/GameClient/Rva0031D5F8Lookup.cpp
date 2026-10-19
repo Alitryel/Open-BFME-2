@@ -5,7 +5,7 @@
 // returning payload at node+8 or NULL when the iterator node is NULL.
 // Callers at 0x00219317 0x0031D623 0x0031D914 0x0031DFC7 prove the
 // thiscall shape with one AsciiString arg and pointer return used as this.
-// ?rva0031DF89@Rva0031D5F8@@QAEPAXPBX@Z, retail 0x0031DF89 (72B).
+// ?GetPurchaseScienceCommandSet@Rva0031D5F8@@QAEPAXPBX@Z, retail 0x0031DF89 (72B).
 // Guarded lookup on the same table: arg+0x34 base must be non-null, variant
 // AsciiString at base+0x138 or base+0x13c via TheBfmeGlob 0x00DFE78C gate,
 // empty check via rowed StringBase isEmpty, then same-table rva0031D5F8.
@@ -40,7 +40,7 @@ class Rva0031D5F8
 {
 public:
 	void *rva0031D5F8(const AsciiString *key);
-	void *rva0031DF89(const void *arg);
+	void *GetPurchaseScienceCommandSet(const void *arg);
 	char m_pad[0x30];
 	Rva00056F61 m_table;
 };
@@ -53,7 +53,7 @@ void *Rva0031D5F8::rva0031D5F8(const AsciiString *key)
 	return 0;
 }
 
-void *Rva0031D5F8::rva0031DF89(const void *arg)
+void *Rva0031D5F8::GetPurchaseScienceCommandSet(const void *arg)
 {
 	char *base = *(char **)((const char *)arg + 0x34);
 	if (base == 0)

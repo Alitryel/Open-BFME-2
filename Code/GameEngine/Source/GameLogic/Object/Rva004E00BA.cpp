@@ -1,6 +1,6 @@
 // cl: /EHsc /DNDEBUG /MD
 // stlport
-// ?rva004E00BA@Rva004E00BAOwner@@QAEXPAVObject@@@Z @ 0x004E00BA (31B).
+// ?addObject@Rva004E00BAOwner@@QAEXPAVObject@@@Z @ 0x004E00BA (31B).
 // Ghidra boundary 0x004E00BA..0x004E00D6 ends in ret 4; the next body starts
 // at 0x004E00D9. The bytes push the Object* into a vector at this+4 via the
 // pinned STLport vector<Object*>::push_back at 0x001F211B, then call 0x004DFF2C
@@ -22,7 +22,7 @@ class Object;
 class Rva004E00BAOwner
 {
 public:
-	void rva004E00BA(Object *object);
+	void addObject(Object *object);
 	void rva004DFF2C(Object *object);
 
 private:
@@ -30,7 +30,7 @@ private:
 	_STL::vector<Object *> m_objects;
 };
 
-void Rva004E00BAOwner::rva004E00BA(Object *object)
+void Rva004E00BAOwner::addObject(Object *object)
 {
 	m_objects.push_back(object);
 	rva004DFF2C(object);

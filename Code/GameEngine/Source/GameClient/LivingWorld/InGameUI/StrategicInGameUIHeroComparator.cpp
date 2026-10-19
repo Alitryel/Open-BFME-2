@@ -154,7 +154,7 @@ static float Rva005E3F0A(const Rva005E4300Entry *entry) {
  return (entry->metric-low)/(high-low);
 }
 }
-class Rva0037DCA5 {public:void *rva0040C65D(int);};
+class Rva0037DCA5 {public:void *GetDisplayNameStrategicGame(int);};
 class Rva005F2A32 {public:
  void rva005F3272(const UnicodeString &);
  void rva005F2F41(int);
@@ -173,7 +173,7 @@ void Rva005E4087::rva005E4087(int key) {
  if(key!=selected) {
   const Rva005E4300Entry *entry=(const Rva005E4300Entry*)context->index->get(key);
   Rva005E3967Template *type=StrategicInGameUI::Rva005E3967(entry);
-  clip->rva005F3272(*(const UnicodeString*)((Rva0037DCA5*)entry)->rva0040C65D(context->playerID));
+  clip->rva005F3272(*(const UnicodeString*)((Rva0037DCA5*)entry)->GetDisplayNameStrategicGame(context->playerID));
   clip->rva005F2F41(entry->rank);
   float progress=StrategicInGameUI::Rva005E3F0A(entry);
   if(progress>=0.0f)clip->rva005F2F49(progress);

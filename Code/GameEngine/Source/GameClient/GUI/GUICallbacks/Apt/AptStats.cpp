@@ -162,7 +162,7 @@ void AptStats::InitializeFactionVariables() {
 }
 
 UnicodeString Rva00559C3D(unsigned char,int);
-const Image*Rva00559B64GetImage(int,int);
+const Image*GetRankIcon(int,int);
 // Native [5DD48C,5DD5ED) owns both rank string temporaries separately.
 // Receiver slots 1/2 and template flag1BC are target facts; method name unknown.
 // The rowed rank/string/image providers establish each consumed ABI.
@@ -177,7 +177,7 @@ void AptStats::rva005DD48C() {
    name.format("Stats:LevelName_%d",faction);
    g_bfmeAptWindowManager->bfmeSetText(name,Rva00559C3D(pt&&pt->flag1bc,rank),false);
    name.format("Stats:RankImage_%d",faction);
-   const Image*image=Rva00559B64GetImage(faction,rank);
+   const Image*image=GetRankIcon(faction,rank);
    reinterpret_cast<Rva00524306*>(static_cast<char*>(owner)+0x40)->rva00524725(name,image);
    name.format("Stats:PointsNextLevel_%d",faction);
    UnicodeString progress;

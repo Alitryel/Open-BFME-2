@@ -75,7 +75,7 @@ void Rva0020EE29Inner::rva0020F5B3()
 // The singleton chains and the four-byte collection slots are native facts;
 // the owner and slot meanings remain address-derived views.
 class Rva0020EB41 {public: void rva0020EB41();};
-class Rva002104C7 {public: bool rva002104C7(void*,void*);};
+class Rva002104C7 {public: bool ActivateRegion(void*,void*);};
 class Rva003EF008 {public: void rva003EF008();};
 struct Rva0052C161RegionManager: Rva0020EB41 {
  char unknown00[8]; Rva0020EE29Inner *campaign;
@@ -93,7 +93,7 @@ void Rva0052C036::rva0052C161() {
  if(campaign) {
   _STL::vector<Rva0020F5B3Elem *> &entries=campaign->entries();
   for(unsigned i=0;i<entries.size();++i)
-   reinterpret_cast<Rva002104C7*>(reinterpret_cast<Rva0052C161World*>(TheLivingWorldLogic)->regions)->rva002104C7(&entries[i],0);
+   reinterpret_cast<Rva002104C7*>(reinterpret_cast<Rva0052C161World*>(TheLivingWorldLogic)->regions)->ActivateRegion(&entries[i],0);
  }
  reinterpret_cast<Rva0052C161Manager*>(TheLivingWorldManager)->effects->rva003EF008();
  reinterpret_cast<Rva0052C161World*>(TheLivingWorldLogic)->regions->campaign->rva0020F5B3();

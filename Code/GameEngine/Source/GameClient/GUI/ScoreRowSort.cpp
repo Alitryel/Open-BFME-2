@@ -60,7 +60,7 @@ public:
  unsigned char pad08[4];int value0C;
  unsigned char pad10[0x94-0x10];int value94,value98,value9C;
  UnicodeString titleA0;
- void *rva0040C65D(int);
+ void *GetDisplayNameStrategicGame(int);
 };
 // Existing 24B push_back footprint, now viewed through target5ECD8C stores.
 struct BfmeStringRecord005EC43C {
@@ -85,7 +85,7 @@ void Rva005ECD8C::rva005ECD8C(_STL::vector<S4SortElem8B> *input,int player) {
   Rva0037DCA5 *army=reinterpret_cast<Rva0037DCA5 *>(it->m_bfmeFirst);
   BfmeStringRecord005EC43C row;
   if(!army->titleA0.isEmpty())row.title=army->titleA0;
-  else row.title=*reinterpret_cast<UnicodeString *>(army->rva0040C65D(player));
+  else row.title=*reinterpret_cast<UnicodeString *>(army->GetDisplayNameStrategicGame(player));
   row.image14=StrategicInGameUI::GetButtonImage(reinterpret_cast<const StrategicButtonImageView *>(army),player);
   row.value04=army->value0C;row.value08=army->value94;row.value0C=army->value98;row.value10=army->value9C;
   rows4.push_back(row);

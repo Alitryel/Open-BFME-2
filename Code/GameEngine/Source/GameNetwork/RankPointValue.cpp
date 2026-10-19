@@ -35,7 +35,7 @@ UnicodeString Rva00559C3D(unsigned char evil, int rank)
 	return TheGameText->fetch(key);
 }
 class Image;
-const Image *__cdecl Rva00559B64GetImage(int side, int rank);
+const Image *__cdecl GetRankIcon(int side, int rank);
 class Rva00559AC1
 {
 public:
@@ -73,7 +73,7 @@ int Rva00559AC1::rva00559ADC(int v)
 const Image *Rva00559AC1::rva00559C25(int side, int v)
 {
 	int idx = rva00559AC1(v);
-	return Rva00559B64GetImage(side, idx);
+	return GetRankIcon(side, idx);
 }
 
 // ?rva00559A76@Rva00559AC1@@QAEPAV1@H@Z @0x00559A76 75B: rank threshold table init.

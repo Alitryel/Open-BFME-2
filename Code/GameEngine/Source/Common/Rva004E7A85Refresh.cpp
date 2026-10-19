@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva004E7A85@Rva004E7A85@@QAEXXZ @0x004E7A85 82B.
+// ?show@Rva004E7A85@@QAEXXZ @0x004E7A85 82B.
 // First-shot refresh: when m_4 is still zero, sweep the +0x1C collector via
 // rowed 0x004E551E, resolve the relationship index through the 0x00DFEE88
 // world (rowed PlayerList probe 0x002A7C70 on its +0x10/+0x54 chain, default
@@ -64,7 +64,7 @@ public:
 class Rva004E7A85
 {
 public:
-	void rva004E7A85();
+	void show();
 private:
 	char m_pad[4];
 	int m_4;
@@ -72,7 +72,7 @@ private:
 	ResourceEntryCollector m_1C;
 };
 
-void Rva004E7A85::rva004E7A85()
+void Rva004E7A85::show()
 {
 	if (m_4 == 0) {
 		ResourceEntryCollector *c = &m_1C;

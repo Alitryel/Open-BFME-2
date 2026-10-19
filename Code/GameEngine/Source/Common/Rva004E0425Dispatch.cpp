@@ -54,7 +54,7 @@ public:
 class Rva004E00BAOwner
 {
 public:
-	void rva004E00BA(Object *holder);
+	void addObject(Object *holder);
 };
 
 class Rva004DF9B9
@@ -208,7 +208,7 @@ void AIStatCollector::Register(Object *holder)
 		done = (any != 0);
 	}
 	if (any != 0 && !((Rva004DFB7E *)this)->rva004DFB7E((Object *)holder))
-		((Rva004E00BAOwner *)m_10)->rva004E00BA(holder);
+		((Rva004E00BAOwner *)m_10)->addObject(holder);
 	if (((AIUnitStats *)m_00)->Register(holder) || ((Rva0025C061 *)m_04)->rva005960C1(holder))
 	{
 		((Rva004DF9B9 *)this)->rva004DF9B9(holder, 4);

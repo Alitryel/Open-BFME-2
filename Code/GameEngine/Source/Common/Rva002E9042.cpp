@@ -30,7 +30,7 @@ public:
 class Rva0052DA63
 {
 public:
-	void rva0052DA63(void *arg);
+	void SetPortal(void *arg);
 	char _00[4];
 	void *m_04;
 };
@@ -67,7 +67,7 @@ void Rva002E9042::rva002E9042(void *p)
 	PathfindCell *c = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
 	if (c != 0 && ((Rva0052DA63 *)c)->m_04 == p)
 	{
-		((Rva0052DA63 *)c)->rva0052DA63(0);
+		((Rva0052DA63 *)c)->SetPortal(0);
 		m_grid.rva0053155E(cell.x, cell.y, false, (int)p);
 	}
 	arg->m_48 = 0;
@@ -82,7 +82,7 @@ void Rva002E9042::AddPortal(void *p)
 	PathfindCell *c = ((Pathfinder *)this)->getCell((PathfindLayerEnum)1, cell.x, cell.y);
 	if (c != 0 && ((Rva0052DA63 *)c)->m_04 == 0)
 	{
-		((Rva0052DA63 *)c)->rva0052DA63(p);
+		((Rva0052DA63 *)c)->SetPortal(p);
 		m_grid.rva0053155E(cell.x, cell.y, true, (int)p);
 	}
 	arg->m_48 = 1;

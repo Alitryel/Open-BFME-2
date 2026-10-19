@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
-// ?rva005F2792@Rva005F2792@@QAEXXZ, retail 0x005F2792, 102 bytes.
+// ?RemoveOnLoadedCommandMap@Rva005F2792@@QAEXXZ, retail 0x005F2792, 102 bytes.
 // Key builder: formats "_level%u.%s_OnUnitIconSlotLoaded%d" from m_info->m_level,
 // team name at m_info->m_holder+8 (else g_Rva0107301CEmptyString) and m_slot,
 // then erases via rowed 0x00224455 through TheRva00222A8BTarget.
@@ -46,7 +46,7 @@ private:
 class Rva005F2792
 {
 public:
-	void rva005F2792();
+	void RemoveOnLoadedCommandMap();
 	void rva005F27F8(const char *path);
 private:
 	char m_pad[8];
@@ -56,7 +56,7 @@ private:
 	Rva005C31FB *m_panel20;
 };
 
-void Rva005F2792::rva005F2792()
+void Rva005F2792::RemoveOnLoadedCommandMap()
 {
 	AsciiString key;
 	const char *mid = m_info->m_holder ? m_info->m_holder->m_name : "";
@@ -72,7 +72,7 @@ void Rva005F2792::rva005F27F8(const char *path)
     if (m_panel20 == 0) {
         ((Rva00575674 *)&m_panel20)->rva00575674((Object *)new Rva005C31FB(
             AptUtils::LevelIndexFromTarget(path), AsciiString(AptUtils::SkipLevelN(path))));
-        rva005F2792();
+        RemoveOnLoadedCommandMap();
     }
 }
 

@@ -45,7 +45,7 @@ public:
 class Rva00492089
 {
 public:
-	void rva00492089(void *obj);
+	void moveToStuff(void *obj);
 };
 class PickupStuffUpdate
 {
@@ -65,7 +65,7 @@ void PickupStuffUpdate::updateInactive()
 		if (m_object->m_258->m_34 == 0) {
 			Object *found = ((Rva00491FA6 *)this)->rva00491FA6();
 			if (found) {
-				((Rva00492089 *)this)->rva00492089(found);
+				((Rva00492089 *)this)->moveToStuff(found);
 				m_20 = true;
 			}
 		}

@@ -119,7 +119,7 @@ TreeHintRef00217D4C StrategicInGameUI::ArmyUnitIcon::CreateMovieClip(AptMovieCli
 class Rva001524CA { public: TreeHintRef00217D4C rva001524CA(); };
 class Rva0037DCA5 {
 public:
-    void *rva0040C65D(int index);
+    void *GetDisplayNameStrategicGame(int index);
 };
 class InGameSimpleHelp {
 public:
@@ -151,7 +151,7 @@ TreeHintRef00217D4C StrategicInGameUI::ArmyHeroIcon::rva005F4254()
         const ThingTemplate *found = TheThingFactory->findTemplate(*key);
         if (found) {
             void *owner = *(void **)((char *)this - 0x10);
-            UnicodeString *title = (UnicodeString *)(*(Rva0037DCA5 **)((char *)this - 0xc))->rva0040C65D(*(int *)((char *)owner + 0x54));
+            UnicodeString *title = (UnicodeString *)(*(Rva0037DCA5 **)((char *)this - 0xc))->GetDisplayNameStrategicGame(*(int *)((char *)owner + 0x54));
             if (!title->isEmpty()) {
                 const UnicodeString &text = *(const UnicodeString *)((char *)found + 0x40);
                 return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(*title, text));

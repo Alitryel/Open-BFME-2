@@ -244,7 +244,7 @@ extern ControlBar *TheControlBar;
 class Rva0031D5F8
 {
 public:
-	void *rva0031DF89(const void *key);
+	void *GetPurchaseScienceCommandSet(const void *key);
 };
 
 // The Apt window manager (0x009FE4CC): the rowed image binding 0x002239E2
@@ -511,7 +511,7 @@ void AptSpellStore::rva0043C9FD()
 	Player *player = ThePlayerList->spellStoreLocalPlayer();
 	if (!player)
 		return;
-	const CommandSet *set = (const CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031DF89(player);
+	const CommandSet *set = (const CommandSet *)((Rva0031D5F8 *)TheControlBar)->GetPurchaseScienceCommandSet(player);
 	if (!set)
 		return;
 	m_sciences.m_player = player;

@@ -167,7 +167,7 @@ extern Rva00559D0CRankWeights g_00E06000;
 extern char *g_00E06034;
 extern char *g_rva005C1A8DDefault;
 
-const Image *Rva00559B64GetImage(int side, int difficulty);
+const Image *GetRankIcon(int side, int difficulty);
 int Rva0033A3F4Lookup(const AsciiString &armyName);
 UnicodeString Rva0043A568Get(int rank);
 
@@ -377,16 +377,16 @@ void AptLoadScreen::init(GameInfo *game)
 			switch (slot->m_state)
 			{
 			case 2:
-				rankImage = Rva00559B64GetImage(side, 1);
+				rankImage = GetRankIcon(side, 1);
 				break;
 			case 3:
-				rankImage = Rva00559B64GetImage(side, 4);
+				rankImage = GetRankIcon(side, 4);
 				break;
 			case 4:
-				rankImage = Rva00559B64GetImage(side, 6);
+				rankImage = GetRankIcon(side, 6);
 				break;
 			case 5:
-				rankImage = Rva00559B64GetImage(side, 9);
+				rankImage = GetRankIcon(side, 9);
 				break;
 			}
 		}

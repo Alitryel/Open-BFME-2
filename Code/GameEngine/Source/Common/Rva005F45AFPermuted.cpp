@@ -59,7 +59,7 @@ void useUpgradeList(UnicodeString &out,const UpgradeRecordView *record){appendUp
 // template text at +0x40 when non-empty, then the same-TU appendUpgradeList.
 class Rva0037DCA5 {
 public:
- void *rva0040C65D(int index);
+ void *GetDisplayNameStrategicGame(int index);
 };
 UnicodeString GetArmySummaryEntryDescription(Rva0037DCA5 *entry,int rule);
 class InGameSimpleHelp {
@@ -101,7 +101,7 @@ TreeHintRef00217D4C StrategicInGameUI::ArmyUnitIcon::rva005F4710()
   const ThingTemplate *found=TheThingFactory->findTemplate(*key);
   if(found) {
    void *owner=*(void **)((char *)this-0x1c);
-   UnicodeString *title=(UnicodeString *)(*(Rva0037DCA5 **)((char *)this-0x18))->rva0040C65D(*(int *)((char *)owner+0x54));
+   UnicodeString *title=(UnicodeString *)(*(Rva0037DCA5 **)((char *)this-0x18))->GetDisplayNameStrategicGame(*(int *)((char *)owner+0x54));
    if(!title->isEmpty()) {
     UnicodeString desc=GetArmySummaryEntryDescription(*(Rva0037DCA5 **)((char *)this-0x18),0);
     const UnicodeString &text=*(const UnicodeString *)((char *)found+0x40);

@@ -120,7 +120,7 @@ struct DescriptionDataView {
     _STL::vector<DescriptionCategory> categories;
 };
 struct DescriptionTemplateView { char pad[0x58]; UnicodeString displayName; };
-class Rva0037DCA5 { public: void *rva0040C64A(); };
+class Rva0037DCA5 { public: void *GetDisplayNameStrategicGame(); };
 void Rva00220DCDInit();
 class ThingTemplate;
 class Player;
@@ -199,7 +199,7 @@ UnicodeString GetArmySummaryEntryDescription(Rva0037DCA5 *entry,int rule)
         BuildDescriptionString(&result,&items);
         return result;
     }
-    case 1: return *(UnicodeString *)entry->rva0040C64A();
+    case 1: return *(UnicodeString *)entry->GetDisplayNameStrategicGame();
     default: return UnicodeString::TheEmptyString;
     }
 }

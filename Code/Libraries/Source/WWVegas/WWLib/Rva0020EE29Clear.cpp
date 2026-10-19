@@ -295,7 +295,7 @@ end:
 	;
 }
 
-// ?rva002104C7@Rva002104C7@@QAE_NPAX0@Z @0x002104C7 38B
+// ?ActivateRegion@Rva002104C7@@QAE_NPAX0@Z @0x002104C7 38B
 // Looks up the second handle through the rowed-pending free 0x002104B6 and,
 // when found, runs the rowed-pending member 0x0020E374 on this with the
 // first handle and the lookup result. Answers false on a null lookup and
@@ -305,13 +305,13 @@ end:
 class Rva002104C7
 {
 public:
-	bool rva002104C7(void *a1, void *a2);
+	bool ActivateRegion(void *a1, void *a2);
 	void rva0020E374(void *a1, void *a2);
 };
 
 void *__stdcall rva002104B6(void *a1);
 
-bool Rva002104C7::rva002104C7(void *a1, void *a2)
+bool Rva002104C7::ActivateRegion(void *a1, void *a2)
 {
 	void *p = rva002104B6(a1);
 	if (!p)

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
-// ?Rva00559B64GetImage@@YAPBVImage@@HH@Z, retail 0x00559B64, 193 bytes.
+// ?GetRankIcon@@YAPBVImage@@HH@Z, retail 0x00559B64, 193 bytes.
 // Free-function Apt rank icon lookup with side-name table and fallback.
 // Evidence: BFME1 donor Rva0046F910RankDisplay.cpp same sprintf shapes "AptRankIcon%s%d" and "AptRankIcon%d" via rowed StringBase ctor 0x00037BA0 releaseBuffer 0x00036410 and rowed findImageByName 0x002D92F6; IAT sprintf; global g_00DFF078 ?g_00DFF078@@3PAVImageCollection@@A; table g_00DBE9B0; callers 0x00559C25 0x0043A5F6 0x005DD48C.
 #include "ascii_string.h"
@@ -18,7 +18,7 @@ public:
 extern class ImageCollection *TheMappedImageCollection;
 extern const char *g_rva0033A3F4Table[];
 
-const Image *__cdecl Rva00559B64GetImage(int side, int rank)
+const Image *__cdecl GetRankIcon(int side, int rank)
 {
 	char imageNameBuffer[256];
 	const Image *image;

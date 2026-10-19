@@ -6,7 +6,7 @@
 class Rva004E7A85
 {
 public:
-	void rva004E7A85();
+	void show();
 };
 class Rva004E7B0CHolder
 {
@@ -17,5 +17,5 @@ private:
 };
 void Rva004E7B0CHolder::rva004E7B0C()
 {
-	m_ptr->rva004E7A85();
+	m_ptr->show();
 }

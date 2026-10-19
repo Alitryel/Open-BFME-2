@@ -126,7 +126,7 @@ public:
 class Rva005F2792
 {
 public:
-	void rva005F2792();
+	void RemoveOnLoadedCommandMap();
  void rva005F27F8(const char*);
 };
 
@@ -639,7 +639,7 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::IconSlot::OnLoaded(const char *pa
 	if (clip->m_ptr == 0)
 	{
 		((Rva00575674 *)clip)->rva00575674((Object *)new Rva005C31FB(AptUtils::LevelIndexFromTarget(path), AsciiString(AptUtils::SkipLevelN(path))));
-		((Rva005F2792 *)this)->rva005F2792();
+		((Rva005F2792 *)this)->RemoveOnLoadedCommandMap();
 	}
 }
 

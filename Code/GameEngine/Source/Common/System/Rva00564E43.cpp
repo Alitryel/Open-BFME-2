@@ -4,11 +4,11 @@
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 #include "PreRTS.h"
-// ?rva00564E43@Rva00564E43@@QAEXXZ @0x00564E43 125B: unlock loops 8B array at +8/+0xc setting local AsciiString from +4 then calling m_b0 rva002104C7 with 1. Evidence: calls rowed set releaseBuffer rva002104C7 EH_prolog; g_009FEF10; single caller call at 0x00566972; prev CDManager next GloItem.
+// ?rva00564E43@Rva00564E43@@QAEXXZ @0x00564E43 125B: unlock loops 8B array at +8/+0xc setting local AsciiString from +4 then calling m_b0 ActivateRegion with 1. Evidence: calls rowed set releaseBuffer ActivateRegion EH_prolog; g_009FEF10; single caller call at 0x00566972; prev CDManager next GloItem.
 class Rva002104C7
 {
 public:
-	bool rva002104C7(void *a1, void *a2);
+	bool ActivateRegion(void *a1, void *a2);
 };
 class Rva002BA8F1Logic
 {
@@ -43,6 +43,6 @@ void Rva00564E43::rva00564E43()
 		tmp.setCopyInline(m_begin[i].m_4);
 		Rva002104C7 *h = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_b0;
 		_ReadWriteBarrier();
-		h->rva002104C7(&tmp, (void *)1);
+		h->ActivateRegion(&tmp, (void *)1);
 	}
 }

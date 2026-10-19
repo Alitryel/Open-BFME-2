@@ -120,7 +120,7 @@ struct Rva002E6ECA
 class Rva0052DA63
 {
 public:
-	void rva0052DA63(void *waypoint);
+	void SetPortal(void *waypoint);
 };
 
 class TerrainLogic
@@ -227,7 +227,7 @@ void Pathfinder::NewMap()
 			if ((unsigned char)((Rva002E6ECA *)way)->get()) {
 				void *cell = rva001E3647Pos(TheTerrainLogic->getLayerForDestination(0, &way->m_location), &way->m_location);
 				if (cell) {
-					((Rva0052DA63 *)cell)->rva0052DA63(way);
+					((Rva0052DA63 *)cell)->SetPortal(way);
 				}
 			}
 		}

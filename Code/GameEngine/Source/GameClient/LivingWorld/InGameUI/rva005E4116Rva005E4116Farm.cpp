@@ -144,7 +144,7 @@ static float Rva005E3F0A(const Rva005E4300Entry *entry) {
  return (entry->metric-low)/(high-low);
 }
 }
-class Rva0037DCA5 {public:void *rva0040C65D(int);};
+class Rva0037DCA5 {public:void *GetDisplayNameStrategicGame(int);};
 class Rva005F2A32 {public:
  void rva005F3272(const UnicodeString &);
  void rva005F2F41(int);

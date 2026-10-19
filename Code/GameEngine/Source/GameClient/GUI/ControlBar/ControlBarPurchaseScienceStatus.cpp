@@ -36,7 +36,7 @@ public:
 class Rva0031D5F8
 {
 public:
-    void *rva0031DF89(const void *);
+    void *GetPurchaseScienceCommandSet(const void *);
 };
 class ScienceStore
 {
@@ -62,7 +62,7 @@ void ControlBar::GetPurchaseScienceStatus(Player *player, int index,
     *canPurchase = false;
     *hasScience = false;
     const CommandSet *set = static_cast<const CommandSet *>(
-        reinterpret_cast<Rva0031D5F8 *>(this)->rva0031DF89(player));
+        reinterpret_cast<Rva0031D5F8 *>(this)->GetPurchaseScienceCommandSet(player));
     if (!set) return;
     *buttonOut = set->getCommandButton(index);
     if (!*buttonOut) return;
