@@ -67,12 +67,12 @@ public:
 	int rva005748AD(int message, int key, int state);
 };
 
-// The rowed 0x0051274F base handler for vtable slot 2 (LINK BONUS name
-// rva0051274F@Rva0051274F@@QAEHHHH@Z).
-class Rva0051274F
+// The rowed 0x0051274F base handler for vtable slot 2
+// (BfmeAptGameWindowMessages.cpp).
+class _bfme_AptGameWindow
 {
 public:
-	int rva0051274F(int message, int key, int state);
+	int rva0051274F(int message, unsigned int key, unsigned int state);
 };
 
 // The page map's mapped value: stlport_rb_tree_hint_005109b7.cpp's
@@ -99,12 +99,12 @@ struct TreeHintRef0051030C
 			++m_ptr->references;
 	}
 	TreeHintRef0051030C &operator=(const TreeHintRef0051030C &other);
-	// The second read is kept apart from the null test (retail: cmp [page],0
-	// then a reload for the release call).
+	// Out of line this is the ICF-folded 0x005F8F96 the pair destructor and
+	// the stlport_rb_tree_hint_005109b7.cpp copies share.
 	__forceinline ~TreeHintRef0051030C()
 	{
 		if (m_ptr)
-			ReleaseTreeHintRef00217D4C(*(TargetRef00217D4C *volatile *)&m_ptr);
+			ReleaseTreeHintRef00217D4C(m_ptr);
 	}
 };
 
@@ -205,7 +205,7 @@ int Rva00510D0C::rva0050F5DF(int message, int key, int state)
 		if (page->v04(message, key, state) == 1)
 			return 1;
 	}
-	return ((Rva0051274F *)this)->rva0051274F(message, key, state);
+	return ((_bfme_AptGameWindow *)this)->rva0051274F(message, key, state);
 }
 
 // Retail 0x00510ECC, 117 bytes: "_OnPageUnloaded". Drops the named page,
@@ -250,83 +250,15 @@ void Rva00510D0C::OnPageSelected(const char *name)
 		m_page = 0;
 	}
 }
-
-// The two page kinds, named by their rowed destructors. Their constructors
-// are pinned by the factory below; both forward the level and path to the
-// rowed refcounted base.
-class Rva005105D7 : public TargetRef00217D4C
-{
-public:
-	Rva005105D7(int level, const AsciiString &path);
-	unsigned char m_pad08[0xD0 - 0x08];
-};
-
-class Rva00510CC3 : public TargetRef00217D4C
-{
-public:
-	Rva00510CC3(int level, const AsciiString &path);
-	unsigned char m_pad08[0x28 - 0x08];
-};
-
-class Rva0050EE23;
-int __cdecl rva0050F841(Rva0050EE23 *a, const char *b);
-namespace AptUtils { const char *__cdecl SkipLevelN(const char *path); }
-bool __cdecl Rva004128F0GetParam(const char *params, const char *key, AsciiString &value);
-namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
-
-// map::operator[] stays the out-of-line instance retail calls (rowed 0x00511087):
-// a declaration-only explicit specialization suppresses this unit's inline copy.
-namespace _STL
-{
-template <> Rva00510D0C::PageMap::mapped_type &Rva00510D0C::PageMap::operator[](const AsciiString &key);
-}
-
-static TreeHintRef0051030C Rva00510D98CreatePage(const AsciiString &type, int level, const AsciiString &name)
-{
-	if (rva0050F841((Rva0050EE23 *)&type, "StatusPage") == 0)
-		return TreeHintRef0051030C(new Rva005105D7(level, AsciiString(AptUtils::SkipLevelN(name.str()))));
-	if (rva0050F841((Rva0050EE23 *)&type, "TributePage") == 0)
-		return TreeHintRef0051030C(new Rva00510CC3(level, AsciiString(AptUtils::SkipLevelN(name.str()))));
-	return TreeHintRef0051030C();
-}
-
-// The page references' assignment is the ICF-folded 43-byte counted-pointer
-// assignment 0x002174A4, rowed under the Apt handle templates; the call is
-// spelled through that rowed twin (no new name for the address).
-class AptCommandMap;
-template <class T> class AptRef
-{
-public:
-	AptRef &operator=(const AptRef &other);
-	void *m_ptr;
-};
-typedef AptRef<AptCommandMap> TreeHintRefAssignTwin;
-
-void Rva00510D0C::OnPageLoaded(const char *params)
-{
-	AsciiString name;
-	if (!Rva004128F0GetParam(params, "name", name))
-		return;
-	int level = AptUtils::LevelIndexFromTarget(name.str());
-	if (level == m_level)
-	{
-		AsciiString type;
-		if (Rva004128F0GetParam(params, "type", type))
-		{
-			TreeHintRef0051030C page = Rva00510D98CreatePage(type, level, name);
-			if (page.m_ptr)
-				reinterpret_cast<TreeHintRefAssignTwin &>(m_pages[name]) = reinterpret_cast<const TreeHintRefAssignTwin &>(page);
-		}
-	}
-}
-
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
 
-class TributePageBaseABI
+// The base slot 0x000910FB is the ICF-folded four-byte body rowed as
+// GameFileClass::Create; the call is spelled through that row.
+class GameFileClass
 {
 public:
-	int rva000910FB();
+	virtual int Create();
 };
 
 int Rva00510D0C::rva0050F65B()
@@ -334,5 +266,5 @@ int Rva00510D0C::rva0050F65B()
 	PageMap::iterator end = m_pages.end();
 	for (PageMap::iterator it = m_pages.begin(); it != end; ++it)
 		reinterpret_cast<Rva00510D0CPage *>(it->second.m_ptr)->v05();
-	return reinterpret_cast<TributePageBaseABI *>(this)->rva000910FB();
+	return reinterpret_cast<GameFileClass *>(this)->GameFileClass::Create();
 }

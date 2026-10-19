@@ -61,6 +61,19 @@ struct TreeHintRef0051030C
 };
 
 
+namespace _STL
+{
+// The tree destructor is the rowed 0x0051097F (stlport_rb_tree_dtor_twins.cpp),
+// and the base constructor the copy stlport_rb_tree_hint_005109b7.cpp compiles.
+typedef pair<const AsciiString, TreeHintRef0051030C> TreeHintPair0051030C;
+template <>
+_Rb_tree<AsciiString, TreeHintPair0051030C, _Select1st<TreeHintPair0051030C>, less<AsciiString>,
+	allocator<TreeHintPair0051030C> >::~_Rb_tree();
+template <>
+_Rb_tree_base<TreeHintPair0051030C, allocator<TreeHintPair0051030C> >::_Rb_tree_base(
+	const allocator<TreeHintPair0051030C> &);
+}
+
 class GameWindow
 {
 protected:
