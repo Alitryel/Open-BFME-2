@@ -1,15 +1,15 @@
 // _DeringBlockWeak_C
-// partial score=0.8899082568807339 date=2026-10-19
+// partial score=0.9351245085190039 date=2026-10-19
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: approved specs 001c22c0 and 001c1ad0, plus complete retail bytes.
-// Full weak deringing: calculate both weight arrays before immediate output stores.
-// Vertical row pointers and distinct row-counter lifetimes restore retail's
-// loop structure; conditional absolute differences retain the original samples.
-// Not exact: 1523 versus 1526 bytes, frame 0x160, first difference +0x40.
-// Remaining differences include stack slots, pointer bias and tail scheduling.
-// 2560 paired native/C++/published-spec cases pass, including overlapping buffers,
-// both pitch signs and all 64 sharpen indices. No external decoder source read.
-// Evidence: reverse/attempt_support/dering-weak-bank-20261019/.
+// Full weak deringing; all weights precede immediate output stores.
+// Keep blended and clipped values distinct, as the native output loop does.
+// Not exact: 1526-byte extent, 1427 aligned bytes, 250 fixed-offset differences.
+// First difference +0x63; weight-pointer bias, stack slots and scheduling remain.
+// 2560 native/C++/approved-spec cases pass, including both pitch signs,
+// all sharpen indices and disjoint/identical/partially overlapping buffers.
+// No external decoder source read. See
+// reverse/attempt_support/dering-weak-clipping-lifetime-20261019/.
 extern "C" int Vp6FilterEdgeTagTable[];
 
 extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *source,
@@ -70,11 +70,11 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 			int value = ((128 - right - down - up - left) * source[r * pitch + c]
 				+ down * below[r * pitch + c] + left * source[r * pitch + c - 1]
 				+ right * source[r * pitch + c + 1] + up * above[r * pitch + c] + 64) >> 7;
-			if (value < 0)
-				value = 0;
-			else if (value > 255)
-				value = 255;
-			destination[r * pitch + c] = (unsigned char)value;
+			int pixel;
+			if (value < 0) pixel = 0;
+			else if (value > 255) pixel = 255;
+			else pixel = (int)value;
+			destination[r * pitch + c] = (unsigned char)pixel;
 		}
 	}
 }
