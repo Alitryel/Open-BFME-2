@@ -39,4 +39,15 @@ struct BfmePod52 { int a[13]; };
 // The rowed ~_Rb_tree (stlport_map_int_pod52_tree_dtor.cpp, 0x00425FB4) resets the
 // EH state before freeing the header; this unit's copy did not. Bind to it.
 namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::~_Rb_tree(); }
+// The map instantiation below would also emit the node allocate, the tree
+// base constructor, insert_unique and _M_create_node, none of which this unit's rows reach;
+// declare them so the kept copies serve the link.
+namespace _STL {
+template <> _Rb_tree_node<pair<const int, BfmePod52> > *allocator<_Rb_tree_node<pair<const int, BfmePod52> > >::allocate(size_t, const void *) const;
+template <> _Rb_tree_base<pair<const int, BfmePod52>, allocator<pair<const int, BfmePod52> > >::_Rb_tree_base(const allocator<pair<const int, BfmePod52> > &);
+template <> pair<_Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::iterator, bool>
+_Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::insert_unique(const pair<const int, BfmePod52> &);
+template <> _Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::_Link_type
+_Rb_tree<int, pair<const int, BfmePod52>, _Select1st<pair<const int, BfmePod52> >, less<int>, allocator<pair<const int, BfmePod52> > >::_M_create_node(const pair<const int, BfmePod52> &);
+}
 template class _STL::map<int, BfmePod52, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod52> > >;
