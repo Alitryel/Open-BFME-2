@@ -928,9 +928,6 @@ address_global	Code/GameEngine/Source/Common/Rva004FBCBEDtor.cpp	g_Va00E05FAC	3
 address_global	Code/GameEngine/Source/Common/Rva00500606EqualRange.cpp	g_Va00E04544	3
 address_global	Code/GameEngine/Source/Common/Rva00503D26Bezier.cpp	g_Va00863BF8	3
 address_global	Code/GameEngine/Source/Common/Rva00503E17BezierCall.cpp	g_Va00863BFC	3
-address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va009FE4CC	11
-address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va009FE78C	4
-address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va009FEEE8	4
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00A03314	5
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00A03318	4
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00A0331C	3
@@ -988,7 +985,6 @@ address_global	Code/GameEngine/Source/Common/Rva005BA2CBDtor.cpp	g_Va00E06548	3
 address_global	Code/GameEngine/Source/Common/Rva005C76C0Ctor.cpp	g_Rva009D2398Basis	4
 address_global	Code/GameEngine/Source/Common/Rva005C8D17Get.cpp	g_Va00BBB8D8	2
 address_global	Code/GameEngine/Source/Common/Rva005CF9FFFlagNotifyDtors.cpp	g_Va00E05FAC	7
-address_global	Code/GameEngine/Source/Common/Rva005D3B9APortrait.cpp	g_Va009FE4CC	4
 address_global	Code/GameEngine/Source/Common/Rva005D7272Check.cpp	g_Va007C26F0	2
 address_global	Code/GameEngine/Source/Common/Rva005D7860.cpp	g_Va00BBB8D8	2
 address_global	Code/GameEngine/Source/Common/Rva005D84F6Ctor.cpp	g_Va00E06670	2
@@ -999,7 +995,6 @@ address_global	Code/GameEngine/Source/Common/Rva005E39AERva005E5424.cpp	g_Va00E0
 address_global	Code/GameEngine/Source/Common/Rva005FC8FDApt.cpp	g_Rva0107301CEmptyString	4
 address_global	Code/GameEngine/Source/Common/Rva005FD788Apt.cpp	g_Va0087A290	2
 address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va0087A290	1
-address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va009FE4CC	1
 address_global	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	g_Rva0107301CEmptyString	3
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBA4E4	2
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBB710	2
@@ -2839,14 +2834,7 @@ alternatename	Code/GameEngine/Source/Common/Rva00500BF5TreeInsert.cpp	?createNod
 alternatename	Code/GameEngine/Source/Common/Rva00500BF5TreeInsert.cpp	?insertEqualWorker@Rva00500BF5Tree@@QAE?AU?$_Rb_tree_iterator@VRva00500500@@U?$_Nonconst_traits@VRva00500500@@@_STL@@@_STL@@ABVRva00500500@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00500BF5TreeInsert.cpp	?insertWorker@Rva00500BF5Tree@@QAE?AU?$_Rb_tree_iterator@VRva00500500@@U?$_Nonconst_traits@VRva00500500@@@_STL@@@_STL@@PAURva00500BF5Node@@0ABVRva00500500@@0@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?TheGuiScale@@3PAVGuiScale@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?TheShroudKeyBase@@3PAUShroudKeyBase@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?WindowManagerSubsystem@@3PAVClientSubsystem@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FE4CC@@3PAVDummy24@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A	2
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FE4CC@@3PAVRva00223A94@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FE4CC@@3PAVRva00224705@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FE78C@@3PAUGlobal9FE78C@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va009FEEE8@@3PAURva0043C933Outer@@A	2
 alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va00E03314@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va00E04450@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	?g_Va00E046B4@@3HA	1
@@ -2905,7 +2893,6 @@ alternatename	Code/GameEngine/Source/Common/Rva005CB26AForwarder.cpp	?Rva005CB26
 alternatename	Code/GameEngine/Source/Common/Rva005CC803Permuted.cpp	_vtbl_00BC6F20	1
 alternatename	Code/GameEngine/Source/Common/Rva005D1A6C.cpp	?g_00C42518@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/Common/Rva005D3B26Portrait.cpp	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	1
-alternatename	Code/GameEngine/Source/Common/Rva005D3B9APortrait.cpp	?g_Va009FE4CC@@3PAVRva00223A94@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva005D583CCtor.cpp	_vtbl_00C75B2C	1
 alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?Rva0055AED6@Rva0055B0CC@@UAEXPAX0@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva005DAC85Dtor.cpp	?slot0@Rva0055B0CC@@UAEXXZ	1

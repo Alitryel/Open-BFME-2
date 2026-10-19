@@ -22,7 +22,10 @@ public:
 	int rva00223A94(const AsciiString *key);
 };
 
-extern Rva00223A94 *g_Va009FE4CC;
+// The window-manager slot at VA 0xDFE4CC is the ledger's g_bfmeAptWindowManager;
+// this unit calls it through its Rva00223A94 view.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class Rva005D3B9A
 {
@@ -38,14 +41,12 @@ public:
 
 void Rva005D3B9A::rva005D3B9A()
 {
-	if (g_Va009FE4CC == 0)
+	if (g_bfmeAptWindowManager == 0)
 		return;
 	if (m_flag20 == 0)
 		return;
 	AsciiString tmp;
 	const char *name = m_inner ? m_inner->m_name : "";
 	tmp.format("_level%u.%s_Portrait", m_level, name);
-	g_Va009FE4CC->rva00223A94(&tmp);
+	((Rva00223A94 *)g_bfmeAptWindowManager)->rva00223A94(&tmp);
 }
-// ?g_Va009FE4CC@@3PAVRva00223A94@@A: the global at VA 0xdfe4cc is ?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A.
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00223A94@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")

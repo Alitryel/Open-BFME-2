@@ -344,13 +344,8 @@ int Rva0043C99AGet(void)
 	return 0;
 }
 
-// ?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A: the global at this VA is ?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 #pragma comment(linker, "/alternatename:?WindowManagerSubsystem@@3PAVClientSubsystem@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00223A94@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 #pragma comment(linker, "/alternatename:?TheGuiScale@@3PAVGuiScale@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVDummy24@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00224705@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 // ?g_Va009FEEE8@@3PAURva0043C933Outer@@A: the global at this VA is ?ThePlayerList@@3PAVPlayerList@@A; this name is an alias for it.
 // ?g_Va00A03314@@3PAUGlobalA03314@@A: matched references place it at VA 0xe03314; also referenced as ?g_Va00E03314@@3HA.
 GlobalA03314 * g_Va00A03314 = 0;
@@ -361,8 +356,6 @@ GlobalA04450 * g_Va00A04450 = 0;
 // ?g_Va00A046B4@@3PAUGlobalA046B4@@A: matched references place it at VA 0xe046b4; also referenced as ?g_Va00E046B4@@3HA.
 GlobalA046B4 * g_Va00A046B4 = 0;
 #pragma comment(linker, "/alternatename:?g_Va00E046B4@@3HA=?g_Va00A046B4@@3PAUGlobalA046B4@@A")
-// ?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A: the global at VA 0xdfe4cc is ?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A.
-#pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 // ?g_Va009FEEE8@@3PAURva0043C933Outer@@A: the global at VA 0xdfeee8 is ?ThePlayerList@@3PAVPlayerList@@A.
 // ?g_Va009FE78C@@3PAUGlobal9FE78C@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.
 

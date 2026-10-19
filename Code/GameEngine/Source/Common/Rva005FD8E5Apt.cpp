@@ -25,7 +25,7 @@ class BfmeAptWindowManager
 public:
 	void bfmeSetText(const AsciiString &, const UnicodeString &, bool);
 };
-extern BfmeAptWindowManager *g_Va009FE4CC;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern const char *g_Va0087A290[];
 struct Rva005FD8E5Entry
 {
