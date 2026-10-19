@@ -14,14 +14,6 @@ public:
 	bool isHuman() const;
 };
 
-// 0x005DC187 is rowed as PortNegotiationSchema::reconnectPlayers(unsigned short,
-// unsigned short, bool); retail pushes NAT::reconnectPlayers' third argument
-// unconverted, so that spelling needs this unit's own row (int c) settled first.
-struct Rva005A69C0Sub
-{
-	void Do3(int a, int b, int c);
-};
-
 // The +0x28 sub-object's callees are rowed as PortNegotiationSchema members
 // (PortNegotiationSchema.cpp, Rva005DBCA6Get.cpp, Rva005DB98EGet.cpp).
 class PortNegotiationSchema
@@ -30,7 +22,22 @@ public:
 	bool isConnectionDone(unsigned short j, unsigned short i);	// 0x005DBBC1
 	void *peekPing(unsigned short j, unsigned short i);	// 0x005DB98E
 	bool isRetryConnectingOverLimit(unsigned short i, unsigned short j);	// 0x005DBC2E
+	void reconnectPlayers(unsigned short slot1, unsigned short slot2, bool resetRetries);	// 0x005DC187
 };
+// LINK: retail pushes the three arguments unconverted, so the rowed
+// reconnectPlayers keeps that int call shape through a member-pointer cast.
+typedef void (PortNegotiationSchema::*PortNegotiationReconnectShape)(int, int, int);
+
+// The readiness gate 0x005A6709 is rowed as int Rva005A6709::rva005A6709()
+// const (Rva005A6709Predicate.cpp); its callers test al, so they keep the
+// bool call shape through a member-pointer cast (as Rva005A6903Box.cpp does).
+class Rva005A6709
+{
+public:
+	int rva005A6709() const;
+};
+typedef bool (Rva005A6709::*Rva005A6709BoolShape)() const;
+#define NAT_READY(p) ((((Rva005A6709 *)(p))->*reinterpret_cast<Rva005A6709BoolShape>(&Rva005A6709::rva005A6709))())
 
 struct NAT
 {
@@ -46,18 +53,19 @@ struct NAT
 	int m_8EC[8];
 	int *m_90C[8];
 
-	bool rva005A6709();
 	void reconnectPlayers(int a, int b, int c);
 	void rva005A6CA5();
 	void rva005A6D47();
 };
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
-extern int g_rva005A6CA5Limit;
+// 0x009D35C8 (.data): the ping-age limit the pair scan compares against;
+// nothing else defines it, so it is defined here at its retail value.
+int g_rva005A6CA5Limit = 12000;
 
 void NAT::reconnectPlayers(int a, int b, int c)
 {
-	if (!rva005A6709())
+	if (!NAT_READY(this))
 		return;
 	if ((unsigned short)a >= 8)
 		return;
@@ -76,7 +84,7 @@ void NAT::reconnectPlayers(int a, int b, int c)
 		return;
 	if (!m_8[bn]->isHuman())
 		return;
-	((Rva005A69C0Sub *)&m_28)->Do3(a, b, c);
+	(m_28.*reinterpret_cast<PortNegotiationReconnectShape>(&PortNegotiationSchema::reconnectPlayers))(a, b, c);
 	if (an == m_14) {
 		m_10 = 1;
 		m_8E4[bn] = 0;
@@ -94,7 +102,7 @@ void NAT::reconnectPlayers(int a, int b, int c)
 void NAT::rva005A6CA5()
 {
 	NAT *self = this;
-	if (!rva005A6709())
+	if (!NAT_READY(this))
 		return;
 	int stamp = timeGetTime();
 	int i = 0;
@@ -132,7 +140,7 @@ void NAT::rva005A6CA5()
 // body calls (0x5A6709); its loops are the same.
 void NAT::rva005A6D47()
 {
-	if (!rva005A6709())
+	if (!NAT_READY(this))
 		return;
 	int i = 0;
 	do {
@@ -174,7 +182,7 @@ private:
 
 void Rva005A6D47::rva005A6D47()
 {
-	if (!((NAT *)this)->rva005A6709())
+	if (!NAT_READY(this))
 		return;
 	int i = 0;
 	do {
