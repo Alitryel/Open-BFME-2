@@ -141,6 +141,16 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   them back. When one inline fixes a block and breaks another, try inlines in
   the broken block before dropping the fix. The setters' parameters made no
   difference. Rva000471AD image clock bank, nd 24 -> 9.
+- **Local count decides commutative operand order.** When a body is right
+  except for a few swapped commutative operands (`mulss a, b` against
+  `mulss b, a`, addition order of products), the count of initialized locals
+  the body numbers can be the cause: cl breaks such ties by symbol number.
+  Scan it with k inert `int unusedN = 0;` locals (positions do not matter;
+  uninitialized or global ones count nothing; Vector3 counts 3, an empty
+  ctor object 2; inline helpers' own locals count nothing) and land the
+  smallest k that matches with a comment. The score is not monotonic in k.
+  HTreeClass::Combo_Update 0x00165820: 38 diffs at k=0, exact at 23 and 31
+  only (0..80 scanned; the shared-anim_num variant never went below 88).
 - **The float `tan` overload is two inline levels.** In `<math.h>`,
   `tan(float)` forwards to `tanf`, which calls `tan(double)`. Each level moves
   the call's `pop ecx` cleanup later. `tanf(x)` (one level) at one site and

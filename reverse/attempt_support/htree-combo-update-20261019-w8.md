@@ -41,3 +41,18 @@ The retained candidate still has 31 structural regions, 87 memory differences an
 The first volatile-removal writer assumed CRLF and failed its assertion; the subsequent missing-source tool failure is retained in `no_volatile.align.log`. The corrected trial uses the original LF content and logs under `no_volatile2`. Early arithmetic probes with a stale assumed q0 stack offset failed closed; the corrected probes use the actual Nlerp argument address and are recorded separately. Neither failure is treated as a code result. All raw trial outputs remain available for review.
 
 After banking, `bank_final.align.log` reproduces `final.align.log` byte for byte, and `bank-final-audit.log` passes the same 14 grouped-expression comparisons against the actual stashed source. `bank_final.metrics.log` and `bank_final.explain.log` retain the fresh bank measurement. The ordinary function and symbol ledgers remain unchanged. The final clock is recorded in `completion.json`; no started background process remains.
+
+## Landed (2026-10-19, claude-opus-5-5)
+
+Landed in `Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp`
+(exact, 2277 bytes; the unit links, 18 -> 4,390 bytes). The structure is
+Zero Hour's: a function-scope `anim_num` for the MIN sweep, a separate one in
+the weighting loop that the visibility loop reuses (the shared-variable form
+of WorldBuilder's frame never went below 88 diffs with any local count up to
+80). That body sat at 38 diffs, all commutative operand order; adding 23 (or
+31) inert initialized `int` locals made it exact, at any position. Other
+counts give 10 (15), 30 (24), 38 (16, 32, 40, 72) and more. Zero Hour's
+Rotate_Vector form breaks Base_Update, Capture_Update and Combo_Update
+together; the unit keeps WorldBuilder's. `operator*(float, const Vector3 &)`
+and `RefCountClass::Release_Ref` are dllimport `__forceinline` so the unit
+emits no out-of-line copy against retail's (0x0007DFB3, 0x005D1A7D).

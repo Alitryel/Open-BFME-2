@@ -36,6 +36,16 @@
 // a rotation-only CompactTransform(Q, Vector3(0,0,0)) followed by adding the
 // translation unrotated, and returns the next captured pivot index or -1.
 // Retail inlines every helper, as WWINLINE's __forceinline does.
+//
+// 0x00165820 (2277 bytes): HTreeClass::Combo_Update, ZH htree.cpp's combo
+// sweep in its own loop shape (a function-scope anim_num for the pivot-count
+// MIN, a separate one in the weighting loop that the visibility loop
+// reuses) over the compact pivots: each animated pivot accumulates the
+// weighted translations, slerps the orientations through BFME 2's
+// normalized lerp (an identity when Get_Orientation reports none), then
+// post-multiplies CompactTransform(q0, trans) and averages the visited
+// animations' fades. WorldBuilder's twin is 0x00A17D10. Captured pivots go
+// through the seeded Capture_Update chain above.
 #include <vector>
 
 class Vector3
@@ -52,6 +62,11 @@ inline Vector3 operator + (const Vector3 & a, const Vector3 & b)
 {
 	return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 }
+// Inline-only (dllimport): retail's out-of-line copy is 0x0007DFB3.
+__declspec(dllimport) __forceinline Vector3 operator * (float k, const Vector3 & a)
+{
+	return Vector3(a.X * k, a.Y * k, a.Z * k);
+}
 
 class Quaternion
 {
@@ -61,6 +76,8 @@ public:
 	float & operator [](int i) { return (&X)[i]; }
 	const float & operator [](int i) const { return (&X)[i]; }
 	Quaternion & operator = (const Quaternion & source) { X = source[0]; Y = source[1]; Z = source[2]; W = source[3]; return *this; }
+	void Make_Identity() { Set(0, 0, 0, 1); }
+	void Set(float a, float b, float c, float d) { X = a; Y = b; Z = c; W = d; }
 	void Rotate_Vector(const Vector3 & v, Vector3 * result) const;
 	__forceinline void PostMultiply(const Quaternion & q)
 	{
@@ -145,8 +162,61 @@ public:
 	float PivotFade;
 };
 
+class RefCountClass
+{
+public:
+	virtual void Delete_This();
+	// Inline-only (dllimport): retail's out-of-line copy is 0x005D1A7D.
+	__declspec(dllimport) __forceinline void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
+	int NumRefs;
+};
+
+class HAnimClass : public RefCountClass
+{
+public:
+	virtual void slot1(); virtual void slot2(); virtual void slot3();
+	virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
+	virtual void Get_Translation(Vector3 & trans, int pividx, float frame);
+	virtual bool Get_Orientation(Quaternion & q, int pividx, float frame);
+	virtual void slot10();
+	virtual bool Get_Visibility(int pividx, float frame);
+	virtual float Get_Fade(int pividx, float frame);
+	virtual int Get_Num_Pivots();
+};
+
+class PivotMapVector
+{
+public:
+	virtual void slot0();
+	float *Values;
+	char rest[0x10];
+};
+
+class PivotMapClass : public PivotMapVector, public RefCountClass
+{
+public:
+	float & operator [](int i) { return Values[i]; }
+};
+
+class HAnimComboClass
+{
+public:
+	int Get_Num_Anims() const { return NumAnims; }
+	HAnimClass * Get_Motion(int indx);
+	HAnimClass * Peek_Motion(int indx);
+	float Get_Frame(int indx);
+	float Get_Weight(int indx);
+	PivotMapClass * Get_Pivot_Weight_Map(int indx);
+private:
+	char pad[0x10];
+	int NumAnims;
+};
+
+void BFME2_Nlerp(Quaternion & res, const Quaternion & a, const Quaternion & b, float t);
+
 class HTreeClass {
 public:
+	void Combo_Update(const Matrix3D & root, HAnimComboClass * anim);
 	int rva00162290() const;
 	int Capture_Update(int pivot_index);
 	void Base_Update(const Matrix3D & root);
@@ -209,4 +279,93 @@ int HTreeClass::Capture_Update(int pivot_index)
 	if (i == CapturedPivots.end())
 		return -1;
 	return i->PivotIndex;
+}
+
+void HTreeClass::Combo_Update(const Matrix3D & root, HAnimComboClass * anim)
+{
+	PivotClass *pivot;
+	// Never read and emit nothing: cl breaks ties between commutative
+	// operands by symbol number, and retail's operand order needs this body
+	// to number 23 (or 31) more initialized locals than it otherwise has.
+	int unused0 = 0, unused1 = 0, unused2 = 0, unused3 = 0, unused4 = 0,
+		unused5 = 0, unused6 = 0, unused7 = 0, unused8 = 0, unused9 = 0,
+		unused10 = 0, unused11 = 0, unused12 = 0, unused13 = 0, unused14 = 0,
+		unused15 = 0, unused16 = 0, unused17 = 0, unused18 = 0, unused19 = 0,
+		unused20 = 0, unused21 = 0, unused22 = 0;
+
+	Pivot[0].Transform = root;
+	Pivot[0].IsVisible = true;
+	Pivot[0].PivotFade = 1.0f;
+
+	int num_anim_pivots = 100000;
+	for (int anim_num = 0; anim_num < anim->Get_Num_Anims(); anim_num++) {
+		num_anim_pivots = num_anim_pivots < anim->Peek_Motion(anim_num)->Get_Num_Pivots() ? num_anim_pivots : anim->Peek_Motion(anim_num)->Get_Num_Pivots();
+	}
+	if (num_anim_pivots == 100000) num_anim_pivots = 0;
+
+	int captured = rva00162290();
+
+	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
+
+		pivot = &Pivot[piv_idx];
+
+		CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+		if (piv_idx < num_anim_pivots) {
+
+			Vector3 trans(0, 0, 0);
+			Quaternion q0;
+			Quaternion q1;
+			float weight_total = 0;
+			int wcount = 0;
+
+			for (int anim_num = 0; anim_num < anim->Get_Num_Anims(); anim_num++) {
+				HAnimClass *motion = anim->Get_Motion(anim_num);
+				if (motion) {
+					float frame_num = anim->Get_Frame(anim_num);
+					PivotMapClass *pivot_map = anim->Get_Pivot_Weight_Map(anim_num);
+					float weight = anim->Get_Weight(anim_num);
+					if (pivot_map) {
+						weight *= (*pivot_map)[piv_idx];
+						pivot_map->Release_Ref();
+					}
+					if (weight != 0.0) {
+						wcount++;
+						Vector3 temp_trans;
+						motion->Get_Translation(temp_trans, piv_idx, frame_num);
+						trans += weight * ScaleFactor * temp_trans;
+						weight_total += weight;
+						if (!motion->Get_Orientation(q1, piv_idx, frame_num)) q1.Make_Identity();
+						if (wcount == 1) {
+							q0 = q1;
+						} else {
+							BFME2_Nlerp(q0, q0, q1, weight / weight_total);
+						}
+					}
+					motion->Release_Ref();
+				}
+			}
+
+			if (weight_total != 0.0f) {
+				pivot->Transform.PostMul(CompactTransform(q0, trans));
+			}
+
+			pivot->IsVisible = false;
+			pivot->PivotFade = 0;
+			float fade_count = 0;
+			for (anim_num = 0; anim_num < anim->Get_Num_Anims() && !pivot->IsVisible; anim_num++) {
+				HAnimClass *motion = anim->Get_Motion(anim_num);
+				if (motion) {
+					float frame_num = anim->Get_Frame(anim_num);
+					pivot->IsVisible |= motion->Get_Visibility(piv_idx, frame_num);
+					pivot->PivotFade += motion->Get_Fade(piv_idx, frame_num);
+					fade_count += 1.0f;
+					motion->Release_Ref();
+				}
+			}
+			if (fade_count > 0.0f) pivot->PivotFade /= fade_count;
+		}
+
+		if (piv_idx == captured) captured = Capture_Update(captured);
+	}
 }
