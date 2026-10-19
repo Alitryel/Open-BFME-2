@@ -1,4 +1,14 @@
 // cl: /Z7
+// Clean room: reverse/vp6_cleanroom/specs/001d2f20.md plus retail only. No decoder
+// source was consulted.
+//
+// DeringBlockWeak_WMT (retail 0x001D2F20, 776 bytes): SSE2 weak deringing of
+// one 8x8 block (postproc dispatch slot 16 of the SSE tier). The spec supplies
+// the identity; the body is the previously matched placeholder body (BFME1
+// byte-identical donor b1 0x009C2620), renamed. MSVC cannot schedule these
+// packed-byte SIMD kernels from scalar C++, so the vector work stays inline
+// assembly.
+//
 //
 // VP6 adaptive four-neighbour diagonal block filter. Genuine hand-vectorized
 // MMX/SSE2 retail body (movd/punpcklbw/pcmpgtb/movq2dq/psraw), not compiler
@@ -51,7 +61,7 @@ extern "C" unsigned char Vp6FilterConst88B0[8] = {
 	231, 231, 231, 231, 231, 231, 231, 231,
 };
 
-extern "C" void __cdecl Rva009C2620Vp6FilterDiag4(
+extern "C" void __cdecl DeringBlockWeak_WMT(
 	void *unused, void *sourceArgument, void *destinationArgument,
 	int stride, int selector, int *filterTable)
 {

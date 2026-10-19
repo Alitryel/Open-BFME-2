@@ -1,4 +1,14 @@
 // cl: /Oy- /Z7 /MD
+// Clean room: reverse/vp6_cleanroom/specs/001cb090.md plus retail only. No decoder
+// source was consulted.
+//
+// PlaneAddNoise_mmx (retail 0x001CB090, 11476 bytes): builds the Gaussian
+// noise distribution and adds clamped noise to a plane eight bytes per MMX
+// step. The spec supplies the identity; the body is the previously matched
+// placeholder body (address-named MMX dispatch slot body b1 0x009BA790),
+// renamed. MSVC cannot schedule these packed-byte SIMD kernels from scalar
+// C++, so the vector work stays inline assembly.
+//
 // Address-derived identity: MMX dispatch slot VA 0x01356E60, RVA 0x009BA790.
 // Boundary, five-argument ABI and MMX codegen evidence:
 // targets/game/reverse/identity_evidence/009ba790.md
@@ -6,7 +16,7 @@
 #include <stdlib.h>
 extern "C" double __cdecl gaussian(double, double, double);
 
-extern "C" void __cdecl Rva009BA790(unsigned char *pixels, int width,
+extern "C" void __cdecl PlaneAddNoise_mmx(unsigned char *pixels, int width,
     unsigned int height, int stride, int parameter18)
 {
     __declspec(align(16)) signed char noise[2048] = {

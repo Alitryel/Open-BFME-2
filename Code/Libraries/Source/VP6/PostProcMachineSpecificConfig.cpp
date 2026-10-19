@@ -58,11 +58,11 @@ extern "C" void __cdecl FilteringVert_12_C(unsigned int, unsigned char *, int);
 // Unconverted gen-dump callees that already carry a functions.csv row (the
 // row is the candidate; no new pin needed).
 extern "C" void __cdecl FilterHoriz_MMX(void *, unsigned char *, int, void *);
-extern "C" void __cdecl Rva009C2620Vp6FilterDiag4(void *, void *, void *, int, int, int *);
-extern "C" void __cdecl Rva009C2320Vp6FilterDiag4(void *, void *, void *, int, int, int *);
+extern "C" void __cdecl DeringBlockWeak_WMT(void *, void *, void *, int, int, int *);
+extern "C" void __cdecl DeringBlockStrong_WMT(void *, void *, void *, int, int, int *);
 extern "C" void __cdecl DeblockLoopFilteredBand_WMT(void);	// rowed C body (was address-named d_009bebb0)
 extern "C" void __cdecl DeblockNonFilteredBand_WMT(void);	// rowed C body (was address-named d_009bfa40)
-extern void __cdecl d_009b9700(void);
+extern "C" void __cdecl DeblockNonFilteredBandNewFilter_MMX(void);	// rowed C body (was address-named d_009b9700)
 struct Rva009C2170Ctx;
 extern "C" void __cdecl FilterVert_Simple_MMX(Rva009C2170Ctx *, unsigned char *, int, const void *);
 extern "C" void __cdecl FilterHoriz_Simple_MMX(Rva009C2170Ctx *, unsigned char *, int, const void *);
@@ -70,19 +70,18 @@ extern "C" void __cdecl FilteringHoriz_8_MMX(unsigned int, unsigned char *, int)
 extern "C" void __cdecl FilteringHoriz_12_MMX(unsigned int, unsigned char *, int);
 extern "C" void __cdecl FilteringVert_8_MMX(unsigned int, unsigned char *, int);
 extern "C" void __cdecl FilteringVert_12_MMX(unsigned int, unsigned char *, int);
-extern void __cdecl d_009bd470(void);
-extern "C" void __cdecl Rva009BD470Vp6FilterSse(void *, void *, void *, int, int);
+extern "C" void __cdecl ClampLevels_wmt(void *, int, int, int, int);
 extern "C" void __cdecl PlaneAddNoise_wmt(void);	// rowed C body (was address-named d_009c0a30)
-extern "C" void __cdecl Rva009BE180Vp6FilterWideV2(void *, void *, void *, int, int, int *);
-extern "C" void __cdecl Rva009BD750Vp6FilterWide(void *, void *, void *, int, int, int *);
+extern "C" void __cdecl DeringBlockWeak_MMX(void *, void *, void *, int, int, int *);
+extern "C" void __cdecl DeringBlockStrong_MMX(void *, void *, void *, int, int, int *);
 extern "C" void __cdecl DeblockNonFilteredBand_MMX(void);	// rowed C body (was address-named d_009b8130)
 extern void __cdecl d_009a5f50(void);
 
 // Slot fillers with neither a real identity nor a ghidra-boundary row yet;
 // address-derived names, pinned in reverse/symbols.csv.
 extern "C" void __cdecl DeblockLoopFilteredBand_MMX(void);	// rowed C body (was address-named Rva009B6D80)
-extern void __cdecl Rva009BD570(void);
-extern "C" void __cdecl Rva009BA790(void);
+extern "C" void __cdecl ClampLevels_mmx(void *, int, int, int, int);
+extern "C" void __cdecl PlaneAddNoise_mmx(unsigned char *, int, unsigned int, int, int);
 extern void __cdecl Rva009B18D0(void);
 extern void __cdecl Rva009B10E0(void);
 extern "C" void __cdecl DeblockLoopFilteredBand_C(void);	// rowed C body (was address-named Rva009ACF90)
@@ -122,11 +121,11 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 		g_bfmeCodecDispatch.slot[23] = (BfmeDispatchFn)&FilterVert_MMX;
 		g_bfmeCodecDispatch.slot[2] = (BfmeDispatchFn)&SetupBoundingValueArray_ForMMX;
 		g_bfmeCodecDispatch.slot[1] = (BfmeDispatchFn)&SetupDeblockValueArray_ForMMX;
-		g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&Rva009C2620Vp6FilterDiag4;
-		g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&Rva009C2320Vp6FilterDiag4;
+		g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&DeringBlockWeak_WMT;
+		g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&DeringBlockStrong_WMT;
 		g_bfmeCodecDispatch.slot[10] = (BfmeDispatchFn)&DeblockLoopFilteredBand_WMT;
 		g_bfmeCodecDispatch.slot[13] = (BfmeDispatchFn)&DeblockNonFilteredBand_WMT;
-		g_bfmeCodecDispatch.slot[21] = (BfmeDispatchFn)&d_009b9700;
+		g_bfmeCodecDispatch.slot[21] = (BfmeDispatchFn)&DeblockNonFilteredBandNewFilter_MMX;
 		g_bfmeCodecDispatch.slot[9] = (BfmeDispatchFn)&FilterHoriz_Simple_MMX;
 		g_bfmeCodecDispatch.slot[25] = (BfmeDispatchFn)&FilterVert_Simple_MMX;
 		g_bfmeCodecDispatch.slot[8] = (BfmeDispatchFn)&HorizontalLine_1_2_Scale_MMX;
@@ -143,7 +142,7 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 		g_bfmeCodecDispatch.slot[11] = (BfmeDispatchFn)&FilteringHoriz_12_MMX;
 		g_bfmeCodecDispatch.slot[14] = (BfmeDispatchFn)&FilteringVert_12_MMX;
 		g_bfmeCodecDispatch.slot[3] = (BfmeDispatchFn)&WmtFastDeInterlace;
-		g_bfmeCodecDispatch.slot[19] = (BfmeDispatchFn)&Rva009BD470Vp6FilterSse;
+		g_bfmeCodecDispatch.slot[19] = (BfmeDispatchFn)&ClampLevels_wmt;
 		g_bfmeCodecDispatch.slot[0] = (BfmeDispatchFn)&PlaneAddNoise_wmt;
 		return;
 	}
@@ -154,11 +153,11 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 		g_bfmeCodecDispatch.slot[23] = (BfmeDispatchFn)&FilterVert_MMX;
 		g_bfmeCodecDispatch.slot[2] = (BfmeDispatchFn)&SetupBoundingValueArray_ForMMX;
 		g_bfmeCodecDispatch.slot[1] = (BfmeDispatchFn)&SetupDeblockValueArray_ForMMX;
-		g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&Rva009BE180Vp6FilterWideV2;
-		g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&Rva009BD750Vp6FilterWide;
+		g_bfmeCodecDispatch.slot[16] = (BfmeDispatchFn)&DeringBlockWeak_MMX;
+		g_bfmeCodecDispatch.slot[24] = (BfmeDispatchFn)&DeringBlockStrong_MMX;
 		g_bfmeCodecDispatch.slot[10] = (BfmeDispatchFn)&DeblockLoopFilteredBand_MMX;
 		g_bfmeCodecDispatch.slot[13] = (BfmeDispatchFn)&DeblockNonFilteredBand_MMX;
-		g_bfmeCodecDispatch.slot[21] = (BfmeDispatchFn)&d_009b9700;
+		g_bfmeCodecDispatch.slot[21] = (BfmeDispatchFn)&DeblockNonFilteredBandNewFilter_MMX;
 		g_bfmeCodecDispatch.slot[9] = (BfmeDispatchFn)&FilterHoriz_Simple_MMX;
 		g_bfmeCodecDispatch.slot[25] = (BfmeDispatchFn)&FilterVert_Simple_MMX;
 		g_bfmeCodecDispatch.slot[8] = (BfmeDispatchFn)&HorizontalLine_1_2_Scale_MMX;
@@ -175,8 +174,8 @@ extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 		g_bfmeCodecDispatch.slot[11] = (BfmeDispatchFn)&FilteringHoriz_12_MMX;
 		g_bfmeCodecDispatch.slot[14] = (BfmeDispatchFn)&FilteringVert_12_MMX;
 		g_bfmeCodecDispatch.slot[3] = (BfmeDispatchFn)&MmxFastDeInterlace;
-		g_bfmeCodecDispatch.slot[19] = (BfmeDispatchFn)&Rva009BD570;
-		g_bfmeCodecDispatch.slot[0] = (BfmeDispatchFn)&Rva009BA790;
+		g_bfmeCodecDispatch.slot[19] = (BfmeDispatchFn)&ClampLevels_mmx;
+		g_bfmeCodecDispatch.slot[0] = (BfmeDispatchFn)&PlaneAddNoise_mmx;
 		return;
 	}
 	g_bfmeCodecDispatch.slot[15] = (BfmeDispatchFn)&FilterHoriz_Generic;

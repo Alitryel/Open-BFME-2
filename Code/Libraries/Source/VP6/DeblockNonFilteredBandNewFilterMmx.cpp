@@ -1,4 +1,15 @@
 // cl: /Z7
+// Clean room: reverse/vp6_cleanroom/specs/001ca000.md plus retail only. No decoder
+// source was consulted.
+//
+// DeblockNonFilteredBandNewFilter_MMX (retail 0x001CA000, 4240 bytes): MMX
+// new-profile deblocking of one band of a non-loop-filtered plane (postproc
+// dispatch slot 21 of the SSE and MMX tiers). The spec supplies the identity;
+// the body is the previously matched placeholder body (structural
+// reconstruction from BFME1 donor b1 0x009B9700), renamed. MSVC cannot
+// schedule these packed-byte SIMD kernels from scalar C++, so the vector work
+// stays inline assembly.
+//
 // Target reconstruction for game.dat RVA 0x001CA000 (0x1090 bytes). The
 // BFME1 function banked at reverse/attempts/0x009b9700.cpp is the structural
 // donor; its provenance remains donor-side. The target disassembly supplies
@@ -34,7 +45,7 @@ struct Rva009B9700Vp6Context
 	int *m_accum;             // +0x28
 };
 
-extern "C" void __cdecl Rva001CA000Vp6WideAccum(
+extern "C" void __cdecl DeblockNonFilteredBandNewFilter_MMX(
 	Rva009B9700Vp6Context *ctx,
 	unsigned char *p2,
 	unsigned char *p3,
@@ -1320,4 +1331,3 @@ __asm {
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?d_009b9700@@YAXXZ=_Rva001CA000Vp6WideAccum")

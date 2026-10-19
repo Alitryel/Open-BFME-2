@@ -1,4 +1,14 @@
 // cl: /Z7
+// Clean room: reverse/vp6_cleanroom/specs/001cdd70.md plus retail only. No decoder
+// source was consulted.
+//
+// ClampLevels_wmt (retail 0x001CDD70, 253 bytes): SSE2 luma level clamp of the
+// postproc plane (saturating subtract black / add black+white / subtract white
+// per 16 bytes). The spec supplies the identity; the body is the previously
+// matched placeholder body (BFME1 byte-identical donor b1 0x009BD470),
+// renamed. MSVC cannot schedule these packed-byte SIMD kernels from scalar
+// C++, so the vector work stays inline assembly.
+//
 //
 // VP6 SSE2 byte filter installed in the SSE CPU tier's dispatch slot 19.
 // Retail builds three aligned 16-byte byte patterns, then applies them with
@@ -12,7 +22,7 @@ struct Rva009BD470PatternFrame
 	unsigned char padding[32];
 };
 
-extern "C" void __cdecl Rva009BD470Vp6FilterSse(
+extern "C" void __cdecl ClampLevels_wmt(
 	void *context, void *byteArgumentA, void *byteArgumentB,
 	int sourceOffset, int destinationOffset)
 {

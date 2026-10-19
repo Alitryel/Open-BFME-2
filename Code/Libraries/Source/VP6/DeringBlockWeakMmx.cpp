@@ -1,9 +1,19 @@
 // cl: /Z7
+// Clean room: reverse/vp6_cleanroom/specs/001cea80.md plus retail only. No decoder
+// source was consulted.
+//
+// DeringBlockWeak_MMX (retail 0x001CEA80, 2608 bytes): MMX weak deringing of
+// one 8x8 block (postproc dispatch slot 16 of the MMX tier). The spec supplies
+// the identity; the body is the previously matched placeholder body (BFME1
+// byte-identical donor b1 0x009BE180), renamed. MSVC cannot schedule these
+// packed-byte SIMD kernels from scalar C++, so the vector work stays inline
+// assembly.
+//
 //
 // VP6 adaptive edge filter, wide variant. Genuine hand-vectorized MMX retail
 // body (movd/punpcklbw/pcmpgtb/pandn, plain 64-bit MMX only, no SSE2/xmm).
 // Same aligned-frame prologue and parameter/table ABI as the diag4 filter at
-// 0x009C2320 (see BfmeConv9C2320.cpp for the /Z7 recipe writeup): a single
+// 0x009C2320 (see DeringBlockStrongWmt.cpp for the /Z7 recipe writeup): a single
 // 8-iteration loop computes vertical/left/right edge-weight planes into two
 // __declspec(align(16)) frame buffers, then eight literal (unrolled, no
 // branch) reconstruction blocks -- one per output row -- fold the planes
@@ -73,7 +83,7 @@ extern "C" unsigned char Vp6FilterConst8790[16] = {
 	0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-extern "C" void __cdecl Rva009BE180Vp6FilterWideV2(
+extern "C" void __cdecl DeringBlockWeak_MMX(
 	void *unused, void *sourceArgument, void *destinationArgument,
 	int stride, int selector, int *filterTable)
 {

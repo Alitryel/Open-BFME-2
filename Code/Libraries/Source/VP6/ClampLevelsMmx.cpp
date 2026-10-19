@@ -1,4 +1,13 @@
 // cl: /Z7
+// Clean room: reverse/vp6_cleanroom/specs/001cde70.md plus retail only. No decoder
+// source was consulted.
+//
+// ClampLevels_mmx (retail 0x001CDE70, 232 bytes): MMX luma level clamp of the
+// postproc plane eight bytes per step. The spec supplies the identity; the
+// body is the previously matched placeholder body (BFME1 byte-identical donor
+// b1 0x009BD570), renamed. MSVC cannot schedule these packed-byte SIMD kernels
+// from scalar C++, so the vector work stays inline assembly.
+//
 struct Rva009BD570PatternFrame
 {
 	unsigned char patternA[16];
@@ -12,9 +21,8 @@ struct Rva009BD570PatternFrame
 	unsigned char *source;
 };
 
-// Open BFME 2: Code/GameEngine/Source/Common/BfmeConv9BD470.cpp
-// ?Rva009BD570@@YAXPAXHHHH@Z
-void __cdecl Rva009BD570(
+// SSE2 twin: Code/Libraries/Source/VP6/ClampLevelsWmt.cpp
+extern "C" void __cdecl ClampLevels_mmx(
 	void *context, int byteArgumentA, int byteArgumentB,
 	int sourceOffset, int destinationOffset)
 {
