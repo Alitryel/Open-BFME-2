@@ -37387,7 +37387,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?erase@?$vector@URva004F69C3@@V?$allocator@URva004F69C3@@@_STL@@@_STL@@QAEPAURva004F69C3@@PAU3@@Z,,0x0040DC1F,55,Code/GameEngine/Source/Common/Rva0040DC1FErase.cpp,matched,single erase via copy_ptrs 0x40D8FB and dtor 0x4F69C3 same shape Nugget erase 0x33C3BC callers 0xDD86 0xDE08 0xDE93 0xDFEA
 ?rva001DE78E@Eva@@QAEHPBVAsciiString@@@Z,,0x001DE78E,39,Code/GameEngine/Source/GameClient/EvaRva001DE78E.cpp,matched,Eva event id lookup via rowed 0x0041534B table at plus 0x34
 ??$__uninitialized_copy@PAUCoord3D@@PAU1@@_STL@@YAPAUCoord3D@@PAU1@00ABU__false_type@0@@Z,,0x00346C2D,38,Code/GameEngine/Source/Common/Coord3DUninitializedCopy.cpp,matched,Coord3D uninitialized_copy stride 0x0C via pinned Construct 0x2CA82C
-?rva003468F5@Rva003468F5@@QAE_NXZ,,0x003468F5,48,Code/GameEngine/Source/Common/Rva003468F5RangeCheck.cpp,matched,Turret goal distSq exceeds 2500 via rowed callees
+?rva003468F5@AIChargeTargetState@@AAE_NXZ,,0x003468F5,48,Code/GameEngine/Source/Common/Rva003468F5RangeCheck.cpp,matched,Turret goal distSq exceeds 2500 via rowed callees
 ??4Rva0039B893@@QAEAAV0@ABV0@@Z,,0x0039B900,45,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp,matched,V3Poly 2-int-plus-3-word assign no vptr store 3 callers share copy-ctor layout
 ?Rva0039BA68Fill@@YAXPAVRva0039B893@@0ABV1@@Z,,0x0039BA68,29,Code/GameEngine/Source/Common/Rva0039BA68Fill.cpp,matched,chain fill via rowed assign stride 0x14 two callers clean caller
 ?Rva0039B92DCopyBackward@@YAPAVRva0039B893@@PAV1@00ABURandomAccessTag@@PAH@Z,,0x0039B92D,50,Code/GameEngine/Source/Common/Rva0039B92DCopyBackward.cpp,matched,chain copy-backward via rowed assign 5-arg dispatch tag plus null

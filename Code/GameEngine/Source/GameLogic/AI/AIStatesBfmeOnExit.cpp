@@ -823,14 +823,6 @@ void AIFollowPathAsTeamState::onExit(StateExitType status)
 	ai->friend_setCurrentGoalPathIndex(-1);
 }
 
-// 0x003468F5: the goal-moved-past-50 test, rowed as Rva003468F5's member
-// (Rva003468F5RangeCheck.cpp); update calls it with the state in ECX.
-class Rva003468F5
-{
-public:
-	bool rva003468F5();
-};
-
 class AIChargeTargetState : public AIInternalMoveToState
 {
 public:
@@ -838,6 +830,8 @@ public:
 	virtual StateReturnType update();
 private:
 	Bool rva0034BF20();
+	// 0x003468F5: the goal-moved-past-50 test (Rva003468F5RangeCheck.cpp).
+	Bool rva003468F5();
 	void rva00346925(Object *source, Object *victim, AIUpdateInterface *ai);
 	void rva0034BFFF(Object *source);
 	Bool m_bfmeFlag4C; // +0x4C
@@ -866,7 +860,7 @@ StateReturnType AIChargeTargetState::update()
 	AIUpdateInterface *ai = source->getAI();
 	if (ai && (victim || source->isKindOf(KINDOF_BFME_84)) && m_bfmeValue50 > 0)
 	{
-		if (victim && ((Rva003468F5 *)this)->rva003468F5() && !source->isKindOf(KINDOF_BFME_84))
+		if (victim && rva003468F5() && !source->isKindOf(KINDOF_BFME_84))
 		{
 			source->rva0028AD32();
 			Coord3D goalPosition;
