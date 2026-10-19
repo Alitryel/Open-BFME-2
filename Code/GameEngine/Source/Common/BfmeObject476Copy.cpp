@@ -136,6 +136,9 @@ namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, v
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
