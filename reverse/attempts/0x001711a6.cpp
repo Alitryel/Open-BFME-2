@@ -1,17 +1,23 @@
 // ?rva001711a6@Rva00171024@@QAEXXZ
+// partial score=0.98 date=2026-10-20
+// ?rva001711a6@Rva00171024@@QAEXXZ
 // partial score=0.617 date=2026-10-17
 // ?rva001711a6@Rva00171024@@QAEXXZ
 // partial score=0.57 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // Full semantic reconstruction of native 1711A6..171522 (892B).
 // WB A12EB0 names TexturePacker::UpdateResultTexture in texturepacker.cpp.
 // The existing receiver spelling remains address-derived while its providers
 // are reconciled. No guessed callee pins accompany this reconstruction.
+// Follows the WB body: make_pair insert into the area multimap, skyline[0]
+// only, side<<5 written per use, an inline null-guarded validity test, a bool
+// clear flag, and a D3DX RECT built member by member from the packed rectangle.
+// Compiled bytes equal retail outside relocation slots; six callee names
+// (area multimap ctor/insert_equal/dtor, make_pair, pair conversion, clear(bool))
+// still differ from their rowed spellings. Handoff:
+// reverse/attempt_support/texturepacker-update-20261020/readme.md
 #include <map>
-#include <algorithm>
 
 class TextureClass {
 public:
@@ -25,6 +31,7 @@ public:
     AssetReference(const AssetReference &a) : object(a.object) { if(object) object->Add_Ref(); }
     ~AssetReference() { if(object) object->Release_Ref(); }
     bool operator<(const AssetReference &a) const { return (unsigned)object < (unsigned)a.object; }
+    bool Is_Initialized() const;
 };
 struct Rva00170999Data { unsigned left,top,right,bottom; };
 class Rva00170BFF {
@@ -46,7 +53,7 @@ class W3DRadarResetSurface {
 public:
     void *surface;
     ~W3DRadarResetSurface();
-    void clear(unsigned);
+    void clear(bool);
 };
 class CursorTextureSlot {
 public: W3DRadarResetSurface Get_Surface_Level();
@@ -60,7 +67,13 @@ public:
     virtual void slot8()=0; virtual void slot9()=0;
     virtual bool Is_Initialized() const=0;
 };
-extern "C" long __stdcall D3DXLoadSurfaceFromSurface(void *,void *,const Rva00170999Data *,void *,void *,const Rva00170999Data *,unsigned,unsigned);
+inline bool AssetReference::Is_Initialized() const
+{
+    if(object) return reinterpret_cast<TextureInitializationView *>(object)->Is_Initialized();
+    return false;
+}
+struct RECT { long left,top,right,bottom; };
+extern "C" long __stdcall D3DXLoadSurfaceFromSurface(void *,void *,const RECT *,void *,void *,const RECT *,unsigned,unsigned);
 extern "C" long __stdcall D3DXFilterTexture(void *,void *,unsigned,unsigned);
 
 typedef _STL::map<AssetReference,Rva00170999Data> RectangleMap;
@@ -78,66 +91,67 @@ public:
     float inverseWidth,inverseHeight;
 };
 
+// Packs every texture into a square atlas, largest area first, on a skyline of
+// 32-pixel cells, then rebuilds the result texture and copies each texture in.
 void Rva00171024::rva001711a6()
 {
     dirty=false;
-    RectangleMap::iterator end=rectangles.end();
     reinterpret_cast<Rva001333C6 *>(&result)->f();
     inverseWidth=inverseHeight=1.0f;
     AreaMap byArea;
-    _ReadWriteBarrier();
-    for(RectangleMap::iterator it=rectangles.begin(); it!=end; ++it) {
+    for(RectangleMap::iterator it=rectangles.begin(); it!=rectangles.end(); ++it) {
         const TextureBaseClass *texture=reinterpret_cast<const TextureBaseClass *>(&it->first);
-        unsigned width=(unsigned)texture->rva0013275A();
-        unsigned height=(unsigned)texture->rva00132784();
-        unsigned area=height*width;
-        AreaMap::value_type entry(area,it->first);
-        byArea.insert(entry);
+        unsigned area=texture->rva0013275A()*texture->rva00132784();
+        byArea.insert(_STL::make_pair(area,it->first));
     }
     int side=1;
     int skyline[64];
-    for(int i=0;i<64;++i) skyline[i]=0;
-    for(AreaMap::reverse_iterator it=byArea.rbegin(); (1 ? it!=byArea.rend() : it!=byArea.rend()); ++it) {
-        const AssetReference &keyref=it->second;
-        AssetReference texture(keyref);
+    skyline[0]=0;
+    for(AreaMap::reverse_iterator it=byArea.rbegin(); it!=byArea.rend(); ++it) {
+        AssetReference texture(it->second);
         TextureBaseClass *handle=reinterpret_cast<TextureBaseClass *>(&texture);
         int width=((unsigned)handle->rva0013275A()+31u)>>5;
         int height=((unsigned)handle->rva00132784()+31u)>>5;
-        int y;
         for(;;) {
+            int y;
             for(y=0; y<=side-height; ++y) {
                 int j;
                 for(j=0; j<height; ++j)
                     if(skyline[y+j]+width>side) break;
                 if(j==height) break;
             }
-            if(y<=side-height) break;
-            if((unsigned)(side<<6)>maxSize) return;
-            for(int n=side; n<side*2; ++n) skyline[n]=0;
-            side*=2;
+            if(y>side-height) {
+                if((unsigned)(side*2*32)>maxSize) return;
+                for(int n=side; n<side*2; ++n) skyline[n]=0;
+                side*=2;
+            } else {
+                int x=0;
+                for(int j=0; j<height; ++j) if(skyline[y+j]>x) x=skyline[y+j];
+                for(int j=0; j<height; ++j) skyline[y+j]=x+width;
+                Rva00170999Data *rect=reinterpret_cast<Rva00170BFF *>(&rectangles)->rva00171128(texture);
+                rect->left=x<<5;
+                rect->top=y<<5;
+                rect->right=rect->left+handle->rva0013275A();
+                rect->bottom=rect->top+handle->rva00132784();
+                break;
+            }
         }
-        int x=0;
-        for(int j=0; j<height; ++j) if(skyline[y+j]>x) x=skyline[y+j];
-        for(int j=0; j<height; ++j) skyline[y+j]=x+width;
-        Rva00170999Data *rect=reinterpret_cast<Rva00170BFF *>(&rectangles)->rva00171128(texture);
-        rect->left=x<<5;
-        rect->top=y<<5;
-        rect->right=rect->left+handle->rva0013275A();
-        rect->bottom=rect->top+handle->rva00132784();
     }
-    int pixels=side<<5;
-    reinterpret_cast<Rva00131DFC *>(&result)->rva00131DFC((void *)pixels,(void *)pixels,(void *)format,0,1,0);
-    if(!result.object || !reinterpret_cast<TextureInitializationView *>(result.object)->Is_Initialized()) return;
-    inverseWidth=inverseHeight=1.0f/pixels;
+    reinterpret_cast<Rva00131DFC *>(&result)->rva00131DFC((void *)(side<<5),(void *)(side<<5),(void *)format,0,1,0);
+    if(!result.Is_Initialized()) return;
+    inverseWidth=inverseHeight=1.0f/(side<<5);
     W3DRadarResetSurface destination=reinterpret_cast<CursorTextureSlot *>(&result)->Get_Surface_Level();
     destination.clear(blackWhite);
     for(RectangleMap::iterator it=rectangles.begin(); it!=rectangles.end(); ++it) {
         AssetReference texture(it->first);
-        Rva00170999Data rect=it->second;
-        _ReadWriteBarrier();
+        const Rva00170999Data &packed=it->second;
+        RECT rect;
+        rect.left=packed.left;
+        rect.top=packed.top;
+        rect.right=packed.right;
+        rect.bottom=packed.bottom;
         W3DRadarResetSurface source=reinterpret_cast<CursorTextureSlot *>(&texture)->Get_Surface_Level();
         D3DXLoadSurfaceFromSurface(destination.surface,0,&rect,source.surface,0,0,1,0);
     }
     D3DXFilterTexture(reinterpret_cast<TextureBaseClass *>(&result)->Peek_D3D_Base_Texture(),0,~0u,~0u);
 }
-
