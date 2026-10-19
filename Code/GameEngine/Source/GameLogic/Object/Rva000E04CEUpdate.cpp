@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+namespace _STL { template <> Coord3D *__copy<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, const random_access_iterator_tag &, int *); }  // rowed 0x002C97AC (BfmeTwoHundredFortyThree.cpp)
 
 class Vector3
 {

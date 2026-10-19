@@ -49,6 +49,7 @@ enum StateExitType
 #define IS_STATE_CONTINUE_OR_SLEEP(r) ((r) >= STATE_CONTINUE)
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+namespace _STL { template <> Coord3D *__copy<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, const random_access_iterator_tag &, int *); }  // rowed 0x002C97AC (BfmeTwoHundredFortyThree.cpp)
 
 template <int N> class AIStateMachineAISlots : public AIStateMachineAISlots<N - 1>
 {

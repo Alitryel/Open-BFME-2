@@ -1,34 +1,29 @@
-// flags: region default (reverse/retail_inventory/flag_regions.csv)
-//
-// Ported from Open-BFME-1 GameEngine/Source/Common/BfmeTwoHundredFortyThree.cpp
-// (donor revision 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled that way each body
-// places uniquely on unclaimed game.dat .text by masked whole-.text search:
-//   ?bfmeCopyOA@@YAPAUBfmeVecOA@@PBU1@0PAU1@@Z 0x002C97AC (60B)
-// Callee addresses are read off retail call sites (reverse/symbols.csv).
-// A counted run of triples copied across, each of the three words in turn, with
-// the advanced destination handed back.
+// cl: /O1 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// stlport
+// ??$__copy@PAUCoord3D@@PAU1@H@_STL@@YAPAUCoord3D@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z
+// @0x002C97AC 60B: STLport 4.5.3 random-access __copy over Coord3D (12-byte
+// elements: the count is (last-first)/12 by idiv; three dword moves per element).
+// Target evidence: retail callers (e.g. 0x002CA86E) push five arguments
+// (first, last, result, tag, distance*), the __copy signature, not the three of
+// the BFME 1 donor's bfmeCopyOA name this row carried before; the existing
+// symbols.csv pin already binds this name here. The body is STLport's loop with
+// the element assignment spelled member by member, as the retail TU's Coord3D
+// view assigned (an implicit struct copy compiles to movsd under /O1).
+#include <stl/_algobase.h>
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
-struct BfmeVecOA
+namespace _STL {
+template <>
+Coord3D *__copy<Coord3D *, Coord3D *, int>(Coord3D *__first, Coord3D *__last, Coord3D *__result,
+                                           const random_access_iterator_tag &, int *)
 {
-	int m_bfmeAcross;			// 0x0
-	int m_bfmeUp;				// 0x4
-	int m_bfmeAlong;			// 0x8
-};
-
-BfmeVecOA *bfmeCopyOA(const BfmeVecOA *first, const BfmeVecOA *last, BfmeVecOA *out)
-{
-	int count = (int)(last - first);
-
-	while (count > 0)
-	{
-		out->m_bfmeAcross = first->m_bfmeAcross;
-		out->m_bfmeUp = first->m_bfmeUp;
-		out->m_bfmeAlong = first->m_bfmeAlong;
-
-		++first;
-		++out;
-		--count;
+	for (int __n = __last - __first; __n > 0; --__n) {
+		__result->x = __first->x;
+		__result->y = __first->y;
+		__result->z = __first->z;
+		++__first;
+		++__result;
 	}
-
-	return out;
+	return __result;
+}
 }

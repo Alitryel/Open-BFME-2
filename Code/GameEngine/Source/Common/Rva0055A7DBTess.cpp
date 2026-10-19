@@ -21,6 +21,7 @@ struct Gen_p12pod { int a[3]; };
 #include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 #include "../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
 // bfme link decl-only begin
+namespace _STL { template <> Coord3D *__copy<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, const random_access_iterator_tag &, int *); }  // rowed 0x002C97AC (BfmeTwoHundredFortyThree.cpp)
 namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, random_access_iterator_tag const &, int *); }
 namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
 namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D *, unsigned int, Coord3D const &); }
