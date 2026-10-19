@@ -15,6 +15,7 @@
 // the vtable and with it the deleting destructor.
 
 struct EmitVtableTag;
+class Xfer;
 
 class AIGroup
 {
@@ -22,6 +23,12 @@ public:
 	AIGroup(EmitVtableTag *);
 protected:
 	virtual ~AIGroup();
+	// Snapshot slots, as AIGroupConstructor.cpp (first in link order) declares them.
+public:
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+protected:
+	virtual void xfer(Xfer *xfer);
 };
 
 // ?<AIGroup::AIGroup> absent-from-retail
