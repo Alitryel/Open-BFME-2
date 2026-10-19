@@ -13,9 +13,11 @@ char g_00BF2358;
 // ??0FadeAndDieOrnamentUpdateModuleData@@QAE@XZ, retail 0x002555AC,
 // 85 bytes. MD ctor: vtable 0x00BF3740 plus AttachToTargetBone string at
 // +0x08 (inline-zero plus clear through the rowed 0x36410 fold, Topple
-// precedent) plus Envelope OrnamentData at +0x0C (implicit default ctor
-// plus declared-only dtor arming EH state 1 plus explicit init through
-// the pinned 0xC9251 leaf, then and-zero of the +0x0C/+0x24 dwords) plus
+// precedent; its declared-only dtor arms EH state 1: retail's unwind
+// funclet 0x00771D0C destroys +0x08 through 0x0048BA39) plus Envelope
+// OrnamentData at +0x0C (trivial: no destructor, no unwind state; explicit
+// init through the pinned 0xC9251 leaf, then and-zero of the +0x0C/+0x24
+// dwords) plus
 // FollowTarget at +0x34 set to true. The empty UpdateModuleData base
 // (inline-empty ctor plus declared-only dtor) advances EH state 0 with no
 // emitted code (Topple precedent). Field identity is the own table at
@@ -29,6 +31,7 @@ class AsciiString
 {
 public:
 	AsciiString() : m_data(0) {}
+	~AsciiString();
 	void clear();
 
 private:
@@ -38,7 +41,6 @@ private:
 struct OrnamentData
 {
 	OrnamentData *init() throw();
-	~OrnamentData();
 
 	unsigned char m_pad[0x0C];
 	int m_inner0C;
