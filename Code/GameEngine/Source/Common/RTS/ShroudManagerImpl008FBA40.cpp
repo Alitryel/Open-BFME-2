@@ -97,6 +97,7 @@ class Xfer
 public:
 	struct Version
 	{
+		__declspec(dllimport) __declspec(nothrow) __forceinline
 		Version(unsigned char current, unsigned char minimum)
 			: m_current(current), m_minimum(minimum) {}
 
@@ -104,7 +105,7 @@ public:
 		unsigned char m_minimum;
 	};
 
-	void Version1()
+	__declspec(dllimport) __declspec(nothrow) __forceinline void Version1()
 	{
 		Version version(1, 1);
 		xferVersion(&version);
