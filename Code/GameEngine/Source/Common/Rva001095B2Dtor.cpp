@@ -17,7 +17,13 @@ public:
 // Base vtable 0x007CEFA0 is BfmeShadowBufferOwnerBase's (slot 0 is the rowed
 // ??_GBfmeShadowBufferOwnerBase 0x000EFAD2); this class, with vtable 0x007CF9F4,
 // is the W3DProjectedShadow that W3DProjectedShadowManager 0x0010C2D5 creates.
+// The base's deleting destructor must keep the out-of-line call to the base
+// teardown that the rowed copy has (the owner unit compiles it /Ob0); with
+// /O1 this TU inlined the empty teardown into the copy and the census held the
+// differing COMDAT against the unit.
+#pragma inline_depth(0)
 #include "../../../GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeShadowPrefix.h"
+#pragma inline_depth()
 
 class Rva001095B2 : public BfmeShadowBufferOwnerBase
 {
