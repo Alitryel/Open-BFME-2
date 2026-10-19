@@ -24,10 +24,16 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+template <int N> class BitFlags;
+
+// The interface table as the other UpdateModule views (first in link order:
+// DumbProjectileBehavior.cpp) spell it: update stays pure in UpdateModule and the
+// second slot is UpdateModule's getDisabledTypesToProcess.
 class UpdateModuleInterface
 {
 public:
 	virtual void update() = 0;
+	virtual BitFlags<13> getDisabledTypesToProcess() const = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -38,7 +44,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	virtual void update();
+	virtual BitFlags<13> getDisabledTypesToProcess() const;
 };
 
 inline UpdateModule::UpdateModule(Thing *thing, const ModuleData *moduleData)
