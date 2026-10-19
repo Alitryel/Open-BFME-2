@@ -30,9 +30,11 @@ public:
     void setGCMark(bool value);
 };
 
-class Rva006D6360 {
+// Retail calls 0x0070DFD0, the rowed 5-byte forward to Rva006D6360::rva006DCC00
+// (VslotSmallBodiesAJ.cpp); the call names that row.
+class Rva0070DFD0 {
 public:
-    void rva006DCC00();
+    void rva0070DFD0();
 };
 
 class Rva006F2C20 {
@@ -57,7 +59,7 @@ public:
 
 void Rva006F2C20::rva006F2C20()
 {
-    ((Rva006D6360 *)this)->rva006DCC00();
+    ((Rva0070DFD0 *)this)->rva0070DFD0();
     if (!m_ctor)
         return;
     if (static_cast<unsigned char>(((const Rva006DBB40ShrAndField *)m_ctor)->get()))
