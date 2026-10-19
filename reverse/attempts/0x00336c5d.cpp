@@ -1,4 +1,6 @@
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
+// partial score=0.998 date=2026-10-19
+// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.99664 date=2026-10-14
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.99664 date=2026-10-13
@@ -21,7 +23,7 @@ class Rva000B664E {public:void rva0033394D(AsciiString);};
 class WeaponTemplateSetHead {public:char bytes[76];};
 class Rva00332F5B {public:
  Rva00332F5B(const WeaponTemplateSetHead &,const WeaponTemplateSetHead &);
- int rva00332F81(const Rva00332F5B &)const;
+ bool rva00332F81(const Rva00332F5B &)const;
  unsigned char bytes[156];
 };
 struct EventFlagEntry {void setKeyFromName(const char *);};
@@ -76,7 +78,7 @@ void LuaScriptEngine::rva002E9680ParseModelConditionEvent(BfmeLexEAN *parser)
   reinterpret_cast<EventFlagEntry *>(&record)->setKeyFromName(name.str());
 
   for(Rva00336AB2Element *it=m_modelConditionEvents.begin();it!=m_modelConditionEvents.end();++it) {
-   if((record.rva00332F81(*reinterpret_cast<Rva00332F5B *>(it)) & 0xff)!=0) {found=true;break;}
+   if(record.rva00332F81(*reinterpret_cast<Rva00332F5B *>(it))) {found=true;break;}
   }
   if(!found)m_modelConditionEvents.push_back(*reinterpret_cast<Rva00336AB2Element *>(&record));
   else return;
