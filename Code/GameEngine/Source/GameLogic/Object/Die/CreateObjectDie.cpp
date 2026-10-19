@@ -2,8 +2,8 @@
 // stlport
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Die/CreateObjectDie.cpp); this unit had no counterpart under Code/.
 
-// GameLogic.h (sweep shim): the vector<Object*>::size row in this unit is the
-// copy the inline findObjectByID body instantiates, so keep that body.
+// GameLogic.h (sweep shim): inline findObjectByID body (the vector<Object*>::size
+// row now lives in SquadGetAllObjectsAndRemoveDead.cpp, which emits the same copy).
 #define BFME_ZH_INLINE_FINDOBJECTBYID
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
@@ -81,63 +81,7 @@ CreateObjectDie::~CreateObjectDie( void )
 //-------------------------------------------------------------------------------------------------
 /** The die callback. */
 //-------------------------------------------------------------------------------------------------
-// ?onDie@CreateObjectDie@@ present-unmatched
-void CreateObjectDie::onDie( const DamageInfo * damageInfo )
-{
-	const CreateObjectDieModuleData *data = getCreateObjectDieModuleData();
-	if (!isDieApplicable(damageInfo))
-		return;
-
-	Object *damageDealer = TheGameLogic->findObjectByID( damageInfo->in.m_sourceID );
-
-	Object *newObject = ObjectCreationList::create( data->m_ocl, getObject(), damageDealer );
-
-	//If we're transferring previous health, we're transfering the last known
-	//health before we died. In the case of the sneak attack tunnel network, it
-	//is killed after the lifetime update expires.
-	if( newObject && data->m_transferPreviousHealth )
-	{
-		//Convert old health to new health.
-		Object *oldObject = getObject();
-		BodyModuleInterface *oldBody = oldObject->getBodyModule();
-		BodyModuleInterface *newBody = newObject->getBodyModule();
-		if( oldBody && newBody )
-		{
-			//First transfer subdual damage
-			DamageInfo damInfo;
-			Real subdualDamageAmount = oldBody->getCurrentSubdualDamageAmount();
-			if( subdualDamageAmount > 0.0f )
-			{
-				damInfo.in.m_amount = subdualDamageAmount;
-				damInfo.in.m_damageType = DAMAGE_SUBDUAL_UNRESISTABLE;
-				damInfo.in.m_sourceID = INVALID_ID;
-				newBody->attemptDamage( &damInfo );				
-			}
-
-			//Now transfer the previous health from the old object to the new.
-			damInfo.in.m_amount = oldBody->getMaxHealth() - oldBody->getPreviousHealth();
-			damInfo.in.m_damageType = DAMAGE_UNRESISTABLE;
-			damInfo.in.m_sourceID = oldBody->getLastDamageInfo()->in.m_sourceID;
-			if( damInfo.in.m_amount > 0.0f )
-			{
-				newBody->attemptDamage( &damInfo );
-			}
-
-		}
-
-		//Transfer attackers.
-		for( Object *obj = TheGameLogic->getFirstObject(); obj; obj = obj->getNextObject() )
-		{
-			AIUpdateInterface* ai = obj->getAI();
-			if (!ai)
-				continue;
-
-			ai->transferAttack( oldObject->getID(), newObject->getID() );
-		}
-	}
-
-	
-}  // end onDie
+// ?onDie@CreateObjectDie@@UAEXPBVDamageInfo@@@Z: defined in Rva00485C86Finish.cpp (its row's unit).
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

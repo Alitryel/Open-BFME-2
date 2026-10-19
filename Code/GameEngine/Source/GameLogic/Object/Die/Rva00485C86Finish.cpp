@@ -1,9 +1,10 @@
-// ?rva00485C86@CreateObjectDieIfEldestKindof@@QAEXPBVDamageInfo@@@Z
+// ?onDie@CreateObjectDie@@UAEXPBVDamageInfo@@@Z
 // cl: /Ireference/shims/bfme2_ascii /MD
 // stlport
 //
-// ?rva00485C86@CreateObjectDieIfEldestKindof@@QAEXPBVDamageInfo@@@Z, retail 0x00485C86 139B:
-// the upgrade-gated create helper behind CreateObjectDieIfEldestKindof::onDie (0x00485D11),
+// ?onDie@CreateObjectDie@@UAEXPBVDamageInfo@@@Z, retail 0x00485C86 139B (formerly the
+// placeholder CreateObjectDieIfEldestKindof::rva00485C86): CreateObjectDie::onDie, slot 0 of
+// CreateObjectDie's die-module table 0x00C4A7DC, gated on BFME2's upgrade list; also called by CreateObjectDieIfEldestKindof::onDie (0x00485D11),
 // which tail-calls it as `push [ebp+8]; mov ecx,esi; call` -- so the method is __thiscall with
 // `this` in ecx and `damageInfo` as its only stack argument (`ret 4`).
 //
@@ -76,7 +77,7 @@ public:
 
 class DieModule
 {
-	friend class CreateObjectDieIfEldestKindof;
+	friend class CreateObjectDie;
 protected:
 	bool isDieApplicable(const DamageInfo *damageInfo) const;
 public:
@@ -93,14 +94,16 @@ struct CreateObjectDieModuleDataView
 	AsciiString *m_end44;
 };
 
-class CreateObjectDieIfEldestKindof
+// `this` is the DieModuleInterface subobject at +0x10 (slot 0 of the die-module table
+// 0x00C4A7DC), hence the explicit -0x10 / -0x0C / -8 member offsets below.
+class CreateObjectDie
 {
 public:
-	void rva00485C86(const DamageInfo *damageInfo);
+	virtual void onDie(const DamageInfo *damageInfo);
 };
 
-// ?rva00485C86@CreateObjectDieIfEldestKindof@@QAEXPBVDamageInfo@@@Z
-void CreateObjectDieIfEldestKindof::rva00485C86(const DamageInfo *damageInfo)
+// ?onDie@CreateObjectDie@@UAEXPBVDamageInfo@@@Z
+void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 {
 	if (!((DieModule *)((char *)this - 0x10))->isDieApplicable(damageInfo))
 		return;
