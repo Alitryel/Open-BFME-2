@@ -316,8 +316,9 @@ public:
 };
 extern MessageStream *TheMessageStream;
 
-// The frames between two reinforcement steps (0x00E06780).
-extern Int g_DynamicAutoResolveStepFrames;
+// The frames between two reinforcement steps (0x00E06780). Zero at load; retail
+// code only reads it (the Impl ctor and WaitForBattleStepStateHandler::Update).
+Int g_DynamicAutoResolveStepFrames = 0;
 
 class Object;
 class Rva00575674
