@@ -25,10 +25,6 @@ class Rva004076EE {
 	public:
 	Object *rva004076EE();
 };
-class Rva005B0E9F {
-	public:
-	BfmePod8 *GetObjectInfo(int);
-};
 struct Rva005B0473View {
 	char pad[0x68];
 	int field68;
@@ -138,6 +134,9 @@ struct CameraPosition {
 	}
 };
 class AptMyHero {
+public:
+	BfmePod8 *GetObjectInfo(int);
+private:
 	char pad00[0xc];
 	int field0C,field10;
 	char pad14[0x140-0x14];
@@ -154,7 +153,7 @@ void AptMyHero::rva005B1019(){
 	if(!object)return;
 	Rva005B0473View *firstView=rva005B0473();
 	int firstIndex=firstView->field68;
-	BfmePod8 *info=((Rva005B0E9F *)this)->GetObjectInfo(firstIndex);
+	BfmePod8 *info=GetObjectInfo(firstIndex);
 	object->setOrientation(field168+info->b);
 	int b=field10;
 	int a=field0C;
