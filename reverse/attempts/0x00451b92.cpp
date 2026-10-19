@@ -1,4 +1,6 @@
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
+// partial score=0.98 date=2026-10-19
+// ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.95 date=2026-10-16
 // W9-O2: farm best plus ZH dir.set/normalize/scale/add/sub spelling via Lib/Coord3DCtorView.h (COORD3D_VIEW_INLINE): flee site exact
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
@@ -14,6 +16,12 @@
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.6 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD /I. /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Oy- /Op
+// 0x00451B92 bank 2026-10-19 (claude-opus-5-5): 793/794, same bytes as before with one hack fewer: the
+// equal-arm ternary is now WB local_50's named flag (`int flag; if (m_6C & 0x40000) flag = 1; else flag = 0;`).
+// The trailing dead `if (0) throw 1;` remains: it is the frame-packing trigger, which needs any address-taken
+// local in a nested block after the mine block (e.g. {Coord3D b; b.zero();}) - ZH has such a bogusForce block
+// but WB 0x10E7810 shows none there. Left: the mine-site range/dir.y/dir.z preload before the pos copy (1 B).
+// Scratch: build/nbr/r11/451b92/.
 // stlport
 // SpecialAbilityUpdate.cpp: bodies retail links from this TU (tu_map approved),
 // folded from three split units with these exact flags. The two
@@ -742,16 +750,19 @@ void SpecialAbilityUpdate::finishAbility()
 						pos = mine->m_position;
 						pos.add(&dir);
 					}
+					
 				}
 			}
 			const Object *target = TheGameLogic->findObjectByID(m_targetID);
 			if (target)
 				ai->ignoreObstacle(target);
 			ai->m_commands.aiMoveToPosition(&pos, CMD_FROM_AI);
+			
 		}
 	}
 	else if (!((const StringBase<char> *)&data->m_commandButtonName)->isEmpty())
 	{
+		
 		const CommandButton *button = TheControlBar->findCommandButton(data->m_commandButtonName);
 		if (button)
 		{
@@ -764,10 +775,14 @@ void SpecialAbilityUpdate::finishAbility()
 					if (player && player->isLocalPlayer() && player->m_playerType == 0)
 						TheInGameUI->placeBuildAvailable(button);
 				}
+				
 			}
 			else
 			{
-				m_object->doCommandButton(button, ((m_6C?m_6C:m_6C) >> 18) & 1, 0);
+				int flag;
+				if (m_6C & 0x40000) flag = 1; else flag = 0;
+				m_object->doCommandButton(button, flag, 0);
+				
 			}
 		}
 	}
@@ -776,8 +791,9 @@ void SpecialAbilityUpdate::finishAbility()
 		unsigned char *ai = m_object->m_ai;
 		if (ai)
 			((AICommandInterface *)(ai + 0x20))->aiIdle(CMD_FROM_AI);
+		
 	}
+	
 	onExit(false, false);
-
- if (0) throw 1;
+	if (0) throw 1;
 }
