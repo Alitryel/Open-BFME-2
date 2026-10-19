@@ -1,4 +1,6 @@
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
+// partial score=0.857 date=2026-10-20
+// ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // partial score=0.747 date=2026-10-17
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // partial score=0.833930351338802 date=2026-10-13
@@ -11,8 +13,6 @@
 // instantiation also needs provider reconciliation. No new pins were added.
 // ?FindGroundPath@Pathfinder@@QAEPAVPath@@PAVObject@@PBUCoord3D@@1H@Z
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // wb-lead 2.000 callgraph: Pathfinder::SetBridgeStateRepaired at 0x002E7205.
 // Identity evidence: the GeneralsMD AIPathfind.cpp implementation
@@ -79,7 +79,7 @@ public:
     __forceinline int getID() const { return *(const int *)((const char *)this+0x74); }
 	AIUpdateInterface *getAI() const { return reinterpret_cast<AIUpdateInterface *>(m_258); }
 	void *m_vtable;
-	PathfinderTemplateView *volatile m_template;
+	PathfinderTemplateView *m_template;
 	char m_pad08[0x38-8];
 	float position[3];
 	float m_orientation;				// +0x44
@@ -519,7 +519,8 @@ extern void *g_00DFEFF0;
 
 class Rva002E99F9Sub460 { public: unsigned short rva0053241F(void *,unsigned short); };
 struct GroundMovementQuery { Int surfaces; Bool field4,field5; char pad6[2]; Int field8; Bool fieldC; };
-struct Rva002F4491Info { Pathfinder *pathfinder; Bool center; char pad5[3]; PathfindCell *goal; Int diameter; };
+struct Rva002F4491Info { Pathfinder *pathfinder; Bool center; char pad5[3]; PathfindCell *goal; Int diameter;
+    Int cellCallback(PathfindCell *,PathfindCell *,Int,Int); };
 class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
 struct GroundTriggerCell { char pad0[6]; unsigned short count; char pad8[12]; };
@@ -1270,6 +1271,148 @@ Int Pathfinder::rva002F0A72(PathfindCell *cell, PathfindCell *goal)
     return 14 * dx + cost + 10 * (dy - dx);
 }
 
+// Retail 0x002E6BA1, 0x002E8B7A, 0x002EBC7F and 0x002F69E3 sit in this unit; their
+// visible bodies keep the cell indices passed to them from escaping.
+extern "C" void *__cdecl memset(void *, int, unsigned int);
+#pragma intrinsic(memset)
+extern int TheMixFileInfoCount;
+class Rva002E6BA1
+{
+public:
+	void rva002E6BA1(int a, In002E6BA1 *b);
+
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	unsigned short m_10;
+	unsigned short m_12;
+	int m_14[5];
+	int m_28;
+	int m_2C;
+	int m_30;
+};
+
+// 0x002E6BA1: fills a pooled cell info with the cell position and owner.
+inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+{
+	m_30 = a;
+	m_00 = b->x;
+	m_04 = b->y;
+	m_08 = 0;
+	m_0C = 0;
+	m_10 = 0;
+	m_12 = 0;
+	memset(m_14, 0, 20);
+	m_2C &= 0xffffffe0;
+	m_28 = 0;
+	++TheMixFileInfoCount;
+}
+
+class MixFileInfoBuffer
+{
+private:
+	void bfmeUnlink();
+	friend class Rva002E6BA1;
+public:
+	friend MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in);
+};
+
+// 0x002E8B7A: takes the pool head, unlinks it (0x002E6BE2) and initializes it.
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+{
+	MixFileInfoBuffer *node = *pp;
+	node->bfmeUnlink();
+	((Rva002E6BA1 *)node)->rva002E6BA1(a, in);
+	return node;
+}
+
+bool Rva002EBBFBIsOdd(void *);
+void rva002E79A8(int,unsigned char,int,int,int);
+// 0x002EBC7F: forwards the cell pair's x/y and the parity of a2 to 0x002E79A8.
+inline __declspec(noinline) void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
+{
+	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	return a1;
+}
+
+extern "C" int __cdecl abs( int n );
+// 0x002F69E3: the Bresenham cell walk of PathfinderCellLineWalks.cpp for the
+// ground-search callback 0x002F4491.
+inline __declspec(noinline) Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
+	const ICoord2D *destinationCell, PathfindLayerEnum layer,
+	Rva002F4491Info *callbackInfo )
+{
+	Int delta_x = abs( destinationCell->x - startCell->x );
+	Int delta_y = abs( destinationCell->y - startCell->y );
+
+	Int xinc2, yinc1, xinc1, numpixels, numadd, den;
+	Int yinc2, num;
+	if (delta_x >= delta_y)
+	{
+		numpixels = delta_x + 1;
+		num = 2 * delta_y - delta_x;
+		numadd = delta_y << 1;
+		den = 2 * (delta_y - delta_x);
+		xinc2 = 1;
+		yinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+	else
+	{
+		numpixels = delta_y + 1;
+		num = 2 * delta_x - delta_y;
+		numadd = delta_x << 1;
+		den = 2 * (delta_x - delta_y);
+		yinc2 = 1;
+		xinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+
+	if (startCell->x > destinationCell->x)
+	{
+		xinc2 = -xinc2;
+		xinc1 = -1;
+	}
+	if (startCell->y > destinationCell->y)
+	{
+		yinc2 = -yinc2;
+		yinc1 = -1;
+	}
+
+	Int x = startCell->x;
+	Int y = startCell->y;
+	PathfindCell *previousCell = 0;
+	for (Int curpixel = 0; curpixel < numpixels; curpixel++)
+	{
+		PathfindCell *currentCell = getCell( layer, x, y );
+		if (currentCell == 0)
+			return 0;
+
+		Int ret = callbackInfo->cellCallback( previousCell, currentCell, x, y );
+		if (ret != 0)
+			return ret;
+		previousCell = currentCell;
+
+		if (num < 0)
+		{
+			num += numadd;
+			x += xinc2;
+			y += yinc2;
+		}
+		else
+		{
+			num += den;
+			x += xinc1;
+			y += yinc1;
+		}
+	}
+	return 0;
+}
+
 // ZH/BFME1 findGroundPath semantic donor. Native 2F95F6..2F9DBA and WB
 // D337F0 identify the target's Object-aware four-argument ground search.
 // Target adds hierarchy metadata, movement query, CalcExtraCosts and trigger
@@ -1289,24 +1432,23 @@ Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *
     if(diameter!=rva002E7749(0,cell.x,cell.y,layer,diameter,true)){
         Int offset=1;ICoord2D previous;
         while(offset<8){
-            _ReadWriteBarrier();
             previous=cell;
             cell.x+=offset;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
             cell.y+=offset;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            Int nx = cell.x - offset; cell.x = nx;
-            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break;
-            nx = cell.x - offset; cell.x = nx;
+            cell.x-=offset;
             if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
-            { Int ny = cell.y - offset; cell.y = ny;
-            if(rva002E7749(0,cell.x,ny,layer,diameter,true)==diameter)break; }
-            { Int ny = cell.y - offset; cell.y = ny;
-            if(rva002E7749(0,cell.x,ny,layer,diameter,true)==diameter)break; }
-            { Int nx = cell.x + offset; cell.x = nx;
-            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break; }
-            { Int nx = cell.x + offset; cell.x = nx;
-            if(rva002E7749(0,nx,cell.y,layer,diameter,true)==diameter)break; }
+            cell.x-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.y-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.y-=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
+            cell.x+=offset;
+            if(rva002E7749(0,cell.x,cell.y,layer,diameter,true)==diameter)break;
             ++offset;cell=previous;
         }
         if(offset>=8)return 0;
@@ -1341,39 +1483,51 @@ Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *
         ICoord2D start,end;start.x=parent->getXIndex();start.y=parent->getYIndex();end.x=goal->getXIndex();end.y=goal->getYIndex();
         Rva002F4491Info info;info.pathfinder=this;info.center=false;info.goal=goal;info.diameter=diameter;
         iterateCellsAlongLine(&start,&end,(PathfindLayerEnum)parent->getLayer(),&info); }
+        ICoord2D newCellCoord;
+        PathfindCell *newCell;
         const Int adjacent[5]={0,1,2,3,0};
         Bool neighborFlags[8]={false,false,false,false,false,false,false};
+        unsigned int newCostSoFar;
         for(Int i=0;i<8;++i){
             neighborFlags[i]=false;
-            ICoord2D next;next.x=parent->getXIndex()+groundDx[i];next.y=parent->getYIndex()+groundDy[i];
-            PathfindCell *neighbor=getCell((PathfindLayerEnum)parent->getLayer(),next.x,next.y);
-            if(!neighbor)continue;
-            if(neighbor->getLayer()==1 && !m_zoneManager.IsPassable(next.x,next.y)){
+            newCellCoord.x=parent->getXIndex()+groundDx[i];
+            newCellCoord.y=parent->getYIndex()+groundDy[i];
+            newCell=getCell((PathfindLayerEnum)parent->getLayer(),newCellCoord.x,newCellCoord.y);
+            if(!newCell)continue;
+            if(newCell->getLayer()==1 && !m_zoneManager.IsPassable(newCellCoord.x,newCellCoord.y)){
                 Bool passable=false;
-                if(m_zoneManager.IsPassable(next.x+3,next.y+3))passable=true;
-                if(m_zoneManager.IsPassable(next.x-3,next.y+3))passable=true;
-                if(m_zoneManager.IsPassable(next.x+3,next.y-3))passable=true;
-                if(m_zoneManager.IsPassable(next.x-3,next.y-3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x+3,newCellCoord.y+3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x-3,newCellCoord.y+3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x+3,newCellCoord.y-3))passable=true;
+                if(m_zoneManager.IsPassable(newCellCoord.x-3,newCellCoord.y-3))passable=true;
                 if(!passable)continue;
             }
-            if((unsigned char)((Rva002E6AF3 *)neighbor)->get() || (unsigned char)((Rva002E6B06 *)neighbor)->rva002E6B06())continue;
-            if(neighbor!=goal){
-                if(i>=4 && !neighborFlags[adjacent[i-4]] && !neighborFlags[adjacent[i-3]])continue;
-                if(neighbor->getType()!=PathfindCell::CELL_CLEAR || ((unsigned char)(neighbor->m_info>>16)&1))continue;
-                neighborFlags[i]=true;neighbor->allocateInfo((In002E6BA1 *)&next);
+            if((unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
+            if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06())continue;
+            if(newCell!=goal){
+                if(i>=4){
+                    if(!neighborFlags[adjacent[i-4]] && !neighborFlags[adjacent[i-3]])continue;
+                }
+                if(newCell->getType()!=PathfindCell::CELL_CLEAR)continue;
+                if((unsigned char)(newCell->m_info>>16)&1)continue;
+                neighborFlags[i]=true;
+                newCell->allocateInfo((In002E6BA1 *)&newCellCoord);
             }
-            Int clear=rva002E7749(0,next.x,next.y,neighbor->getLayer(),diameter,false);
-            unsigned int cost=neighbor->CalcCostSoFar((const Rva002E6C79 *)parent);
-            cost+=CalcExtraCosts(obj,parent,(Rva002EBC7FPair *)&next,diameter,diameter,true);
-            if(clear<diameter)cost+=0.6f*((diameter-clear)*10);
-            Coord3D world;world.x=(float)(next.x*10);world.y=(float)(next.y*10);
-            if(((GroundTriggerGrid *)TheTriggerManager)->isMarked(&world))cost+=10;
-            neighbor->m_pathInfo->flags&=~1U;
-            Int remaining=rva002F0A72(neighbor,goal);
-            neighbor->m_pathInfo->costSoFar=(unsigned short)cost;
-            neighbor->SetParentCell((Int *)parent);
-            neighbor->m_pathInfo->totalCost=(unsigned short)(neighbor->m_pathInfo->costSoFar+remaining);
-            AddToOpenList(neighbor);
+            Int clearDiameter=rva002E7749(0,newCellCoord.x,newCellCoord.y,newCell->getLayer(),diameter,false);
+            newCostSoFar=newCell->CalcCostSoFar((const Rva002E6C79 *)parent);
+            newCostSoFar+=CalcExtraCosts(obj,parent,(Rva002EBC7FPair *)&newCellCoord,diameter,diameter,true);
+            if(clearDiameter<diameter){
+                int delta=diameter-clearDiameter;
+                newCostSoFar+=0.6f*(delta*10);
+            }
+            Coord3D pos;pos.x=(float)(newCellCoord.x*10);pos.y=(float)(newCellCoord.y*10);
+            if(((GroundTriggerGrid *)TheTriggerManager)->isMarked(&pos))newCostSoFar+=10;
+            newCell->m_pathInfo->flags&=~1U;
+            Int costRemaining=rva002F0A72(newCell,goal);
+            newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
+            newCell->SetParentCell((Int *)parent);
+            newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+costRemaining);
+            AddToOpenList(newCell);
         }
     }
     m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return 0;
