@@ -65,13 +65,13 @@ private: AsciiString filename270;
 // destructor reads pointers0/4, while close reads status0C and COM pointer10.
 // Use their existing names directly; the original resource type remains unknown.
 class Rva005B7010 { public: void rva005B7010(); };
-class Rva005B6EFEArrayPair {
-public: ~Rva005B6EFEArrayPair();
+class BfmeThingTTD {
+public: ~BfmeThingTTD();
 private: void* first;void* second;unsigned int unknown08;int status0C;void* com10;
 };
 class AptMainMenu : public _bfme_AptGameWindow {
 public: AptMainMenu(EmitVtableTag*);virtual ~AptMainMenu();
-private: unsigned char unknown274[0x1c];Rva005B6EFEArrayPair resource290;AsciiString str2A4;
+private: unsigned char unknown274[0x1c];BfmeThingTTD resource290;AsciiString str2A4;
 };
 // ?<AptMainMenu::AptMainMenu> absent-from-retail
 AptMainMenu::AptMainMenu(EmitVtableTag *)

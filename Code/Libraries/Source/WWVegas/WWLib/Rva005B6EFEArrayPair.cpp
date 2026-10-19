@@ -10,17 +10,21 @@
 // array delete2FD80. This proves the cleanup and the accessed prefix only.
 // Original class/template arguments, field names, array element types and
 // full object size are unknown; the donor Edge/Triangle labels are not pins.
+// Class identity: AptMainMenu's +0x290 member is built by BfmeThingTTD's ctor
+// (0x005B6ED1, which ends where this body starts) and destroyed here by the
+// ctor's unwind funclet 0x0079535E and the dtor 0x00514EAB, so this is
+// ~BfmeThingTTD (a placeholder class name).
 void __cdecl operator delete[](void *);
 
-class Rva005B6EFEArrayPair
+class BfmeThingTTD
 {
     void *first;
     void *second;
 public:
-    ~Rva005B6EFEArrayPair();
+    ~BfmeThingTTD();
 };
 
-Rva005B6EFEArrayPair::~Rva005B6EFEArrayPair()
+BfmeThingTTD::~BfmeThingTTD()
 {
     if (first)
         operator delete[](first);

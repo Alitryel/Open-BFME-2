@@ -359,6 +359,7 @@ public:
 	void LoadCampaign(const char *unused);
 	void Skirmish(const char *unused);
 	void LoadReplay(const char *unused);
+	void LevelSelect(const char *unused);
 	void StopGameMovie(const char *unused);
 	void ContinueCampaign(const char *unused);
 	void OnInitialized(const char *unused);
@@ -470,6 +471,12 @@ void AptMainMenu::LoadReplay(const char *unused)
 {
 	m_state = 9;
 	m_next = 3;
+}
+
+// Retail 0x0047A69C, 3 bytes: AptMainMenu's ctor (0x00516211) binds
+// "AptMainMenu::LevelSelect" to the shared empty RET 4 body (ICF fold).
+void AptMainMenu::LevelSelect(const char *unused)
+{
 }
 
 // Retail 0x00514BF7, 30 bytes: "AptMainMenu::StopGameMovie" (BFME1's

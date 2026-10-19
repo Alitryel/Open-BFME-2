@@ -20,8 +20,8 @@
 class AptMainMenu
 {
 public:
-	void rva00515FAB(const char *unused);
-	void rva005160DE(const char *unused);
+	void LAN(const char *unused);
+	void OnlineButtonPressed(const char *unused);
 	void rva00514B8D();
 	void rva00514BA1();
 	void rva00514BB5();
@@ -101,7 +101,9 @@ class GameTextInterface {public:
 extern GameTextInterface *TheGameText;
 class Rva00514B66 {public:unsigned char rva00514B66();};
 static __forceinline FunctorBinding MenuBinding(FunctorMethod method,FunctorTarget *target){return FunctorBinding(method,target);}
-void AptMainMenu::rva00515FAB(const char *unused) {
+// Names: AptMainMenu's ctor (0x00516211) binds "AptMainMenu::LAN" to 0x00515FAB
+// and "AptMainMenu::OnlineButtonPressed" to 0x005160DE.
+void AptMainMenu::LAN(const char *unused) {
  if(reinterpret_cast<Rva00514B66 *>(this)->rva00514B66()) {
   Rva00437F61(2,TheGameText->fetch("GUI:FirewallPopUpTitle"),TheGameText->fetch("GUI:FirewallPopUpMessage"),
    Rva0044BF40(Rva0044BA4E(
@@ -109,7 +111,7 @@ void AptMainMenu::rva00515FAB(const char *unused) {
     Rva004F6986Member(MenuBinding(reinterpret_cast<FunctorMethod>(&AptMainMenu::rva00514BB5),reinterpret_cast<FunctorTarget *>(this))))));
  } else {m_state=9;m_next=6;}
 }
-void AptMainMenu::rva005160DE(const char *unused) {
+void AptMainMenu::OnlineButtonPressed(const char *unused) {
  if(reinterpret_cast<Rva00514B66 *>(this)->rva00514B66()) {
   Rva00437F61(2,TheGameText->fetch("GUI:FirewallPopUpTitle"),TheGameText->fetch("GUI:FirewallPopUpMessage"),
    Rva0044BF40(Rva0044BA4E(
