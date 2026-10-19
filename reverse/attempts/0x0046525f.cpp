@@ -1,38 +1,38 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.98 date=2026-10-19
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.985 date=2026-10-16
-// W9-O3 2026-10-16: farm best + hatch fixes: g_00E03624 -> rowed datum BfmeAIExitDoorFlag (data_rows), rva0028ACDC row is QAEXH (int) -> (int)&coord cast (was unresolved). Size 1154 vs 1152, nd 12: (1) ai=exitObj->ai load one slot early in branch 1; (2) scale block: retail 'movaps t,50; mulss t,[delta.x/y]' after the target movsd copy, ours loads delta.x/y above the copy (+2 B). Inert: 50*x / x*50 / s local / const-ref s / direct target+=50*d / z-first orders.
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.985 date=2026-10-15
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.95 date=2026-10-14
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.95 date=2026-10-14 (self-contained BFME2-layout TU, same head as
-// OpenContainExitObjectInAHurry.cpp; difflib ratio 0.959 vs retail, if-branch exact
-// modulo the frame). Levers found: AI *theAI local before the startPosition copy
-// (retail loads TheAI first); delta.normalize() then in-place delta.z/x/y*=50 and
-// target+=delta (retail products held in xmm1..3); savedGoal x/y/z before delta.
-// Remaining: (1) uniform one-DWORD frame shift (sub esp 0x54 vs 0x50): vector#2
-// lands at -0x24 overlapping ai's dead home instead of delta's -0x38 slot; declaration
-// order, function-level ai and scope moves do not change it; (2) x/y products load
-// delta into regs before the movsd copy (retail: movaps 50 + mulss mem after it);
-// (3) delta.x fld before/after the goalView load scheduling at the atan2 setup.
+// partial score=0.985 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
-// 0x0046525F bank 2026-10-19 (claude-opus-5-5): same residue as the old bank (1154/1152 B) with fewer hacks:
-// _ReadWriteBarrier removed (inert: the theAI/pf locals alone fix the getClosestPointOnLand pushes) and both
-// goto done replaced by nesting. One hack left: the trailing dead `if (0) throw 1;` that fixes the frame (0x50);
-// next step is the landed twin SiegeEngineContain::exitObjectViaDoor 0x47C4F2 recipe (visible
-// Rva0035149F vector-copy chain, noinline-inline command wrappers incl. an rva0036EF09 body, throwing
-// deallocator, /EHsc /D_STLP_NO_EXCEPTIONS) which removed the same extra frame there. Left: fld/mov swap at
-// 0x4654FB and the scale block (retail multiplies delta.x/.y from memory after the target copy).
-// Home: OpenContainExitObjectInAHurry.cpp. Scratch: build/nbr/r8/46525f/.
+// 0x0046525F bank 2026-10-19 (claude-opus-5-5): HACK-FREE home port (copy of
+// OpenContainExitObjectInAHurry.cpp with the target added; sibling 0x4656DF stays exact). The dead
+// `if (0) throw 1;` is gone: the Siege-twin chain (visible Rva0035149F vector copy, noinline-inline
+// rva0036EE16/rva0036EF09 command wrappers, AICommandParms dtor) plus dropping the declaration-only
+// vector<Coord3D>::push_back give retail's frame 0x50 natively. Left (1154 vs 1152 B): fld/mov swap at
+// 0x4654FB and the scale block preloading delta.x/.y (retail multiplies them from memory after the
+// target copy). Scratch: build/nbr/r9/46525f/.
 // stlport
+//
+// ?exitObjectInAHurry@OpenContain@@UAEXPAVObject@@@Z, retail 0x004656DF..0x00465972
+// (659 bytes, EH, RET 4).
+//
+// Provenance: the Zero Hour OpenContain::exitObjectInAHurry (GeneralsMD
+// GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp) supplies the
+// purpose and statement order. The ZH layout in OpenContain.cpp does not fit
+// BFME2: retail's ExitInterface subobject sits at +0x30 (module data at
+// [this-0x2C], owner at [this-0x28], removeFromContain slot 41 on the contain
+// interface at [this-0x10]), so this unit spells only what the body reads.
+// Target facts from the body:
+// - door: the open-time (module data +0x78) is stored into the countdown at
+//   +0x70 and, when nonzero, the inline condition swap (clear bit 22, set
+//   bit 21 at owner +0x10C) calls the rowed notifier 0x0028AE6D;
+// - exit paths (module data +0x74), the "ExitStart"/"ExitEnd" bone names,
+//   the exit-path cycle at +0x6C and the rally point at +0xD0/+0xDC;
+// - BFME2 replaces ZH's vehicle pathfind refresh with the rowed owner
+//   helpers 0x0028AD7C / 0x0028ACDC, writes the ignore-collision frame at AI
+//   +0x178 directly, and ends with 0x0028ACDC on the exiting object instead of
+//   Pathfinder::updateGoal.
 #include <vector>
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-namespace _STL {template <> __declspec(noinline) void vector<Coord3D>::push_back(const Coord3D&);}
 // /D_CRTIMP= keeps free a direct call; itoa stays an import-slot call.
 extern "C" char *(__cdecl *_imp___itoa)(int,char*,int);
 enum PathfindLayerEnum {LAYER_GROUND=0};
@@ -66,12 +66,31 @@ public:
  char pad48[0x10c-0x48];ConditionBits conditionBits;char pad11c[0x258-0x11c];AIUpdateInterface *ai;
 };
 template<class Tag,int N>class Slots:public Slots<Tag,N-1>{public:virtual void gap(Tag*,char(*)[N]);};template<class Tag>class Slots<Tag,1>{public:virtual void gap(Tag*,char(*)[1]);};
-class AICommandInterface {public:void rva0036EE16(const Rva0035149F*,Object*,CommandSourceType);void rva0036EF09(const Rva0035149F*,Object*,float,CommandSourceType);};
+void Rva00030830GameFree(void*);
+void Rva00030830FreeAllocation(void*);
+struct BfmeE12 {float x,y,z;};
+class Rva000E016A {public:BfmeE12 *rva000E016A(unsigned,Coord3D*,Coord3D*);};
+namespace _STL {
+template <class I,class O> O __copy_ptrs(I,I,O,const __false_type&);
+template <> Coord3D *__uninitialized_copy(Coord3D*,Coord3D*,Coord3D*,const __false_type&);
+}
+class Rva0035149F {public:BfmeE12 *start,*finish,*end;Rva0035149F &rva0035149F(const Rva0035149F&);};
+enum AICommandType {AICMD_PATH=9,AICMD_PATH_ANGLE=0x25};
+struct AICommandParms {
+ AICommandParms(AICommandType,CommandSourceType);
+ ~AICommandParms(){if(coords.start)Rva00030830GameFree(coords.start);}
+ int cmd,source;Coord3D pos;Object *target;char pad18[8];Rva0035149F coords;char pad2c[0xc0-0x2c];
+};
+class AICommandInterface {public:virtual void aiDoCommand(const AICommandParms*);void rva0036EE16(const Rva0035149F*,Object*,CommandSourceType);void rva0036EF09(const Rva0035149F*,Object*,float,CommandSourceType);};
 struct AIGoalView {char pad[0x24];Coord3D goal;};
-class AIUpdateInterface:public Slots<AIUpdateInterface,1>{
+class AIUpdateInterface:public Slots<AIUpdateInterface,110>{
 public:
+ virtual bool isIdle() const;
+ virtual void slot111();virtual void slot112();virtual void slot113();virtual void slot114();
+ virtual void slot115();virtual void slot116();
+ virtual void doQuickExit(const _STL::vector<Coord3D>*);
  void ignoreObstacle(const Object*);
- char pad4[0x20-4];AICommandInterface commands;char pad21[0x30-0x21];AIGoalView *goalView;char pad34[0x148-0x34];Coord3D position148;char pad154[0x178-0x154];unsigned int ignoreCollisionUntil;char pad17c[0x1cc-0x17c];
+ char pad4[0x20-4];AICommandInterface commands;char pad24[0x30-0x24];AIGoalView *goalView;char pad34[0x148-0x34];Coord3D position148;char pad154[0x178-0x154];unsigned int ignoreCollisionUntil;char pad17c[0x1cc-0x17c];
  LocomotorSet &locomotorSet(){return *(LocomotorSet*)((char*)this+0x1cc);}
 };
 class Pathfinder {public:void AddObjectToPathfindMap(Object*);bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);bool getClosestPointOnLand(const Coord3D*,Object*,Coord3D*);};
@@ -81,11 +100,12 @@ extern int BfmeLogicFramesPerSecond;
 struct OpenContainModuleData {char pad[0x74];int numberOfExitPaths;unsigned int doorOpenTime;};
 class OpenContainModule:public Slots<OpenContainModule,1>{public:OpenContainModuleData *moduleData;Object *owner;Object *getObject() const{return owner;}const OpenContainModuleData *getOpenContainModuleData() const{return moduleData;}char padC[0x20-0xc];};
 class ContainModuleInterface:public Slots<ContainModuleInterface,41>{public:virtual void removeFromContain(Object*,bool);char pad4[0x10-4];};
-class ExitInterface:public Slots<ExitInterface,1>{public:virtual void exitObjectViaDoor(Object*,ExitDoorType);};
+class ExitInterface:public Slots<ExitInterface,1>{public:virtual void exitObjectViaDoor(Object*,ExitDoorType);virtual void exitObjectInAHurry(Object*);};
 class OpenContain:public OpenContainModule,public ContainModuleInterface,public ExitInterface{
 public:
  virtual void removeFromContain(Object*,bool);
  virtual void exitObjectViaDoor(Object*,ExitDoorType);
+ virtual void exitObjectInAHurry(Object*);
  char pad34[0x6c-0x34];int whichExitPath;unsigned int doorCloseCountdown;
  char pad74[0xd0-0x74];Coord3D rallyPoint;bool rallyPointExists;
 };
@@ -93,6 +113,7 @@ static __forceinline void concatChar(AsciiString &s,char c)
 {
  ((StringBase<char>*)&s)->concat(&c,1);
 }
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z, retail 0x0046525F..0x004656DF
 void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
 {
  removeFromContain(exitObj,false);
@@ -209,5 +230,99 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
   }
   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
  }
- if (0) throw 1;
+}
+
+
+void OpenContain::exitObjectInAHurry(Object *exitObj)
+{
+ removeFromContain(exitObj,false);
+ Object *me=getObject();
+ doorCloseCountdown=getOpenContainModuleData()->doorOpenTime;
+ if(doorCloseCountdown){
+  if(me->conditionBits.test(22)||!me->conditionBits.test(21)){
+   me->conditionBits.clear(22);
+   me->conditionBits.set(21);
+   me->rva0028AE6D();
+  }
+ }
+ int numberExits=getOpenContainModuleData()->numberOfExitPaths;
+ if(numberExits>0){
+  AsciiString startBone("ExitStart");
+  AsciiString endBone("ExitEnd");
+  Coord3D startPosition;
+  Coord3D endPosition;
+  if(numberExits>1){
+   char suffix[8];
+   _imp___itoa(whichExitPath,suffix,10);
+   if(whichExitPath<10){
+    concatChar(startBone,'0');
+    concatChar(endBone,'0');
+   }
+   whichExitPath=whichExitPath%numberExits+1;
+   startBone.concat(suffix);
+   endBone.concat(suffix);
+  }
+  me->getSingleLogicalBonePosition(((StringBase<char>*)&startBone)->str(),&startPosition,0);
+  me->getSingleLogicalBonePosition(((StringBase<char>*)&endBone)->str(),&endPosition,0);
+  float exitAngle=me->orientation;
+  exitObj->setPosition(&startPosition);
+  exitObj->setOrientation(exitAngle);
+  exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
+  _STL::vector<Coord3D> exitPath;
+  exitPath.push_back(endPosition);
+  AIUpdateInterface *ai=exitObj->ai;
+  AIUpdateInterface *myAi=me->ai;
+  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+  if(ai){
+   if(myAi&&myAi->isIdle()&&(me->thingTemplate[0x109]&2)){
+    me->rva0028AD7C();
+    me->rva0028ACDC((int)&me->position);
+   }
+   ai->ignoreObstacle(0);
+   ai->ignoreCollisionUntil=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;
+   Pathfinder *pathfinder=TheAI->pathfinder;
+   pathfinder->adjustToPossibleDestination(exitObj,ai->locomotorSet(),&endPosition);
+  }
+  exitPath.push_back(endPosition);
+  if(rallyPointExists)
+   exitPath.push_back(rallyPoint);
+  if(ai){
+   ai->doQuickExit(&exitPath);
+   exitObj->rva0028ACDC((int)&endPosition);
+  }
+ }else{
+  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+ }
+}
+
+inline Rva0035149F &Rva0035149F::rva0035149F(const Rva0035149F &other)
+{
+ _STL::__false_type tag;
+ typedef BfmeE12 *(__cdecl *Copy)(const BfmeE12*,const BfmeE12*,BfmeE12*,const _STL::__false_type&);
+ Copy copy=&_STL::__copy_ptrs<const BfmeE12*,BfmeE12*>;
+ if(&other==this)return *this;
+ unsigned n=other.finish-other.start,cap=end-start;
+ if(n>cap){
+  BfmeE12 *fresh=((Rva000E016A*)this)->rva000E016A(n,(Coord3D*)other.start,(Coord3D*)other.finish);
+  if(start)Rva00030830GameFree(start);
+  start=fresh;end=fresh+n;
+ }else{
+  unsigned sz=finish-start;
+  if(sz>=n){
+   copy((const BfmeE12*)other.start,(const BfmeE12*)other.finish,start,tag);
+  }else{
+   copy((const BfmeE12*)other.start,(const BfmeE12*)(other.start+sz),start,tag);
+   _STL::__uninitialized_copy((Coord3D*)(other.start+(finish-start)),(Coord3D*)other.finish,(Coord3D*)finish,tag);
+  }
+ }
+ finish=start+n;
+ return *this;
+}
+__declspec(noinline) inline void AICommandInterface::rva0036EE16(const Rva0035149F *info,Object *target,CommandSourceType src)
+{
+ AICommandParms parms(AICMD_PATH,src);parms.coords.rva0035149F(*info);parms.target=target;aiDoCommand(&parms);
+}
+__declspec(noinline) inline void AICommandInterface::rva0036EF09(const Rva0035149F *info,Object *target,float value,CommandSourceType src)
+{
+ AICommandParms parms(AICMD_PATH_ANGLE,src);parms.coords.rva0035149F(*info);parms.target=target;parms.pos.x=value;aiDoCommand(&parms);
 }
