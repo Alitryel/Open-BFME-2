@@ -16,4 +16,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct BfmePod172 { int a[43]; };
+// _Construct<BfmePod172> is rowed in stlport_construct_pod172.cpp; declare it so
+// this unit calls that copy instead of emitting its own.
+namespace _STL { template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &); }
 template class _STL::vector<BfmePod172, _STL::allocator<BfmePod172> >;

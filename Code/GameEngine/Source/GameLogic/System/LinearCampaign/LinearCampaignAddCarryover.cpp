@@ -143,6 +143,14 @@ public:
 struct BfmeAssignRecord36;
 struct BfmeAssignRecord172 { int a[43]; };
 struct BfmePod172 { int a[43]; };
+// _Construct<BfmePod172> and the two range helpers built on it are rowed in
+// the pod172 STLport units; declare them so this unit calls those copies
+// instead of emitting its own.
+namespace _STL {
+template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &);
+template <> BfmePod172 *__uninitialized_copy<BfmePod172 *, BfmePod172 *>(BfmePod172 *, BfmePod172 *, BfmePod172 *, const __false_type &);
+template <> BfmePod172 *__uninitialized_fill_n<BfmePod172 *, unsigned int, BfmePod172>(BfmePod172 *, unsigned int, const BfmePod172 &, const __false_type &);
+}
 namespace _STL { template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *); }
 struct Rva001EB8A4Elem;
 class Rva001EB8A4 { public: bool rva001EB8A4(const Rva001EB8A4Elem &e); };
