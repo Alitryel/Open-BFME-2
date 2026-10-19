@@ -69,6 +69,13 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 #include <stdio.h>
 #include <string.h>
 #include "GameNetwork/GameSpy/BuddyThread.h"
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 // Same seven donor enum values, without unrelated PeerDefs inline bodies.
 enum GameSpyBuddyStatus { BUDDY_OFFLINE, BUDDY_ONLINE, BUDDY_LOBBY,
     BUDDY_STAGING, BUDDY_LOADING, BUDDY_PLAYING, BUDDY_MATCHING, BUDDY_MAX };

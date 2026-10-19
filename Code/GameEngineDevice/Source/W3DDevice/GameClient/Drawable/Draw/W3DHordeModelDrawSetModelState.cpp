@@ -20,6 +20,13 @@
 #include <algorithm>
 #include <string.h>
 #include "ascii_string.h"
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 typedef _STL::vector<AsciiString> Strings;
 typedef _STL::basic_string<char> NarrowString;
 struct Rva00079EA1Element { unsigned words[2]; };

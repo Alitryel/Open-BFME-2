@@ -40,6 +40,13 @@ namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); 
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 
 template class _STL::hash_map<_STL::string, unsigned int,
 	_STL::hash<_STL::string>, _STL::equal_to<_STL::string>,
