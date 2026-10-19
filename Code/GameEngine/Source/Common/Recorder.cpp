@@ -90,6 +90,7 @@ virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot
  GameInfo m_gameInfo;char padGameInfo[0xe60-0x24-sizeof(GameInfo)];int field0e60,field0e64;char padE68[8];bool m_doingAnalysis;char padE71[3];int m_gameMode;
 public:void stopRecording();
  void rva0037AF05(int,GameMessageArgumentType);
+ void rva0037AF88(int,GameMessage*);
 protected:
  void dumpCommandHistory(CommandDumpFile0037BE15*,unsigned);
  void writeToFile(GameMessage*);
@@ -304,7 +305,6 @@ class Rva0030F47A {public:Rva0030F47A(void*);private:char storage[0x24];};
 struct Rva0054D54ANode {virtual void*destroy(unsigned);Rva0054D54ANode*next;int type,count;};
 class Rva0054D54A {public:Rva0054D54A();Rva0054D54A(GameMessage*);virtual ~Rva0054D54A();Rva0054D54ANode*first;void*last;int numTypes;};
 class Rva0054D5D3 {public:void rva0054D5D3(void*,void*);};
-class Rva0037AF88 {public:void rva0037AF88(int,GameMessage*);};
 #include "GameLogicObjectLookupView.h"
 extern GameLogic*TheGameLogic;
 class CommandList {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual void appendMessage(GameMessage*);char p4[8];GameMessage*first;};extern CommandList*TheCommandList;
@@ -389,7 +389,7 @@ void RecorderClass::appendNextCommand()
     }
 
     for (int j = 0; j < totalArgs; ++j) {
-        ((Rva0037AF88*)this)->rva0037AF88(lasttype,msg);
+        rva0037AF88(lasttype,msg);
 
         --argsLeftForType;
         if (argsLeftForType == 0) {
