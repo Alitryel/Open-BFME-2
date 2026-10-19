@@ -1968,7 +1968,6 @@ name,address,notes
 ??0GenBase009A1A30@@QAE@XZ,0x001B4E63,BFME1 donor name for the base ctor called by Rva001129B0 (0x0005107D); retail calls SubsystemInterface ctor 0x001B4E63 there (alias)
 ??0GenBase009EB7D0@@QAE@XZ,0x0061ED40,retail REL32 from Create_Rva00972880_Prototype at 0x00181165; BFME1 prototype base constructor
 ??0GenX005EBB30@@QAE@PAVHostX005EBB30@@@Z,0x003AE683,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??0Gen_008AC620@@QAE@XZ,0x006ED060
 ??0Gen_00920A20@@QAE@H@Z,0x0013EA00,callee of ?getFilter@ShroudTexture@@QAEPAVShroudFilter@@XZ at retail 0x00132888 read from its REL32 displacement; body unrowed
 ??0Gen_dtor_007f6d20@@QAE@XZ,0x00672310
 ??0GenericObjectCreationNugget@@QAE@XZ,0x001F0E32,SEH ctor installing vtable 0xBE1160 called by parseObject new at 0x1F311B; BFME1-attested QAE mangling
@@ -3030,7 +3029,6 @@ name,address,notes
 ??1Gen_004E9FD0@@QAE@XZ,0x003820FE,native416BD9 call ABI; link alias to verified ??1BuddyInfo@@QAE@XZ
 ??1Gen_00757830@@QAE@XZ,0x000C9A12,callee of 1W3DLaserDraw (0x000C9B1D) at the site its BFME1 donor calls it; may be an ICF alias
 ??1Gen_008AC620@@QAE@XZ,0x006ED150
-??1Gen_008AC620@@UAE@XZ,0x006ED150
 ??1Gen_dtor_0034dd90@@UAE@XZ,0x00357CD9,callee of resetOwnedObject (0x00357E4C) at the site its BFME1 donor calls it; may be an ICF alias
 ??1Gen_dtor_0040ba10@@UAE@XZ,0x0009519B,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1Gen_dtor_007f6d20@@UAE@XZ,0x0066C730

@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // Retail 0x008A2BA0, 186 bytes. Vtable 0x011364A4 is also installed by
 // the matched Rva008A2C80 destructor at 0x008A2C80. The base constructor
-// is the independently recovered Gen_008AC620 at 0x008AD3F0 (48-byte base).
+// is the rowed Rva006ED150 (ctor 0x006ED060, dtor 0x006ED150; 48-byte view).
 // Argument and member are one-pointer owning handles: retail guards the
 // by-value argument before base construction and drops it on normal exit.
 // Names are address-derived ABI views, not asserted original game names.
@@ -48,18 +48,18 @@ public:
     }
     Rva008A2BA0Payload *m_ptr;
 };
-class Gen_008AC620
+class Rva006ED150
 {
 public:
-    Gen_008AC620();
-    virtual ~Gen_008AC620();
+    Rva006ED150();
+    virtual ~Rva006ED150();
     unsigned char m_unmodelled04[8];
     void *m_value0c;
     unsigned char m_unmodelled10[0x20];
 };
 class Rva006DB270 { public: void freeBlock(void *, int); };
 extern Rva006DB270 *g_pChainBlockAllocator;
-class Rva008A2C80 : public Gen_008AC620
+class Rva008A2C80 : public Rva006ED150
 {
 public:
     Rva008A2C80(Rva008A2BA0Handle value);
