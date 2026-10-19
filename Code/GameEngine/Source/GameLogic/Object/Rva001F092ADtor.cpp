@@ -10,7 +10,7 @@
 // Complete-object destructor of Rva001F092A (its scalar deleting dtor at
 // 0x001F0BEF calls here; vtable 0x00BE100C re-stated at entry like the
 // rowed base dtor 0x001B4E74 does). Layout evidence (target facts):
-// - Base is the 12B GameEngineDeletingBase (virtual dtor rowed 0x001B4E74,
+// - Base is the 12B SubsystemInterface view (virtual dtor rowed 0x001B4E74,
 //   auto-called at the end); map-typed +0x0C per the rowed map<int,void*>
 //   ctor 0x0033C432 in the 0x001F092A ctor, followed by two 12B range
 //   triples at +0x18/+0x24 (the ctor TU's BfmeE16 element guess is
@@ -45,11 +45,15 @@ public:
 	~AsciiStringMember();
 };
 
-class GameEngineDeletingBase
+// The base destructor 0x001B4E74 is rowed as ??1SubsystemInterface@@UAE@XZ.
+// Its second slot is the pure virtual Rva001F092ACtor.cpp's view declares,
+// so both units emit the same two-slot Rva001F092A vftable.
+class SubsystemInterface
 {
 public:
-	virtual ~GameEngineDeletingBase();
+	virtual ~SubsystemInterface();
 private:
+	virtual void unused() = 0;
 	char m_pad04[4];
 	AsciiStringMember m_member08;
 };
@@ -102,7 +106,7 @@ struct Rva001F092AVec
 	void **m_storage;
 };
 
-class Rva001F092A : public GameEngineDeletingBase
+class Rva001F092A : public SubsystemInterface
 {
 public:
 	virtual ~Rva001F092A();
