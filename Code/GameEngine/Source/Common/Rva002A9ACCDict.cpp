@@ -20,8 +20,12 @@ private:
 	const char *m_name;
 };
 
-Rva00148F5ECache g_00DBDE64("playerColor");
-Rva00148F5ECache g_00DBDE6C("playerNightColor");
+// VA 0x00DBDE64 / 0x00DBDE6C are TheKey_playerColor / TheKey_playerNightColor,
+// defined once by WorldHeightMap.cpp (INSTANTIATE_WELL_KNOWN_KEYS) as const
+// StaticNameKey records; this unit reads them through its Rva00148F5ECache view.
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerColor;
+extern const StaticNameKey TheKey_playerNightColor;
 
 class Dict
 {
@@ -46,14 +50,14 @@ void Rva002A9ACC::rva002A9ACC(const Dict *dict)
 	if (!dict)
 		return;
 	bool exists;
-	int v = dict->getInt(g_00DBDE64.get(), &exists);
+	int v = dict->getInt(((Rva00148F5ECache &)TheKey_playerColor).get(), &exists);
 	if (exists)
 	{
 		v |= 0xFF000000;
 		m_color1 = v;
 		m_color2 = v;
 	}
-	int v2 = dict->getInt(g_00DBDE6C.get(), &exists);
+	int v2 = dict->getInt(((Rva00148F5ECache &)TheKey_playerNightColor).get(), &exists);
 	if (exists)
 	{
 		v2 |= 0xFF000000;
