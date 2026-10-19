@@ -7,7 +7,8 @@ class Object { public: char m_pad[0x38]; Coord3D m_position; char m_pad44[0x30];
 class Weapon {
 public:
     bool privateFireWeapon(const Object *source, const Coord3D *sourcePos, const Object *target,
-        int targetID, const Coord3D *targetPos, int arg6, int arg7, int arg8, int *projectileID);
+        int targetID, const Coord3D *targetPos, bool ignoreRanges, bool special,
+        unsigned int extraBonusFlags, int *projectileID);
     bool rva002CE74B(const Object *source, const Object *target);
 };
 bool Weapon::rva002CE74B(const Object *source, const Object *target)

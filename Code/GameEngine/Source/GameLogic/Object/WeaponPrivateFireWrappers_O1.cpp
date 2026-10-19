@@ -11,7 +11,8 @@ extern GameLogic *TheGameLogic;
 class Weapon {
 public:
     bool privateFireWeapon(const Object *source, const Coord3D *sourcePos, const Object *target,
-        int targetID, const Coord3D *targetPos, int arg6, int arg7, int arg8, int *projectileID);
+        int targetID, const Coord3D *targetPos, bool ignoreRanges, bool special,
+        unsigned int extraBonusFlags, int *projectileID);
     bool fireWeapon(const Object *source, const Coord3D *pos, int *projectileID);
     bool rva002CE6C5(const Object *source, int targetID, const Object *target, int *projectileID);
     Object *forceFireWeapon(const Object *source, const Coord3D *pos);
