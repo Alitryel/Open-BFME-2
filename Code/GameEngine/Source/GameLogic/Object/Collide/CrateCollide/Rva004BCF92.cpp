@@ -5,7 +5,7 @@
 // at +8 (Vec3 at +0x38), lifts Z by the global float, resolves the caller's
 // controlling player color and forwards (arg, pos, color) to the InGameUI
 // virtual at slot 0x1A0. Evidence: direct call to rowed
-// ?getControllingPlayer@Object@@QBEPAVPlayer@@XZ, globals g_Va00BC2428 and
+// ?getControllingPlayer@Object@@QBEPAVPlayer@@XZ, the float 10.0 (0x00BC2428) and
 // TheInGameUI as annotated, ret 8 with two stack args.
 
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
@@ -24,7 +24,6 @@ public:
 	Player *getControllingPlayer() const;
 };
 
-extern float g_Va00BC2428;
 
 class InGameUI
 {
@@ -81,7 +80,7 @@ void Rva004BCF92::rva004BCF92(const Object *obj, int arg)
 	Coord3D tmp;
 	tmp.x = p->x;
 	tmp.y = p->y;
-	tmp.z = p->z + g_Va00BC2428;
+	tmp.z = p->z + 10.0f;
 	Player *player = heldObj->getControllingPlayer();
 	int color = player->m_unk280 | 0xe6000000;
 	TheInGameUI->unk1A0(arg, &tmp, color);

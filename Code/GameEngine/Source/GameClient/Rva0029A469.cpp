@@ -3,7 +3,6 @@
 typedef float Real;
 typedef int Int;
 
-extern float g_00BC2900;
 
 class Shadow
 {
@@ -22,5 +21,5 @@ public:
 void Rva0029A469::rva0029A469(Real v)
 {
 	if (m_shadow)
-		m_shadow->setOpacity((Int)(*(const volatile float *)&v * g_00BC2900));
+		m_shadow->setOpacity((Int)(*(const volatile float *)&v * 255.0f));
 }

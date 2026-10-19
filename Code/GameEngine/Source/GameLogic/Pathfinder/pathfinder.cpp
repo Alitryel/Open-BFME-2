@@ -2453,7 +2453,6 @@ Bool Pathfinder::AdjustDestination(Object *obj,const LocomotorSet &locomotorSet,
 	return false;
 }
 
-extern float g_00BC7838;
 struct PathfinderCellPoint : Coord3D {
 	__forceinline PathfinderCellPoint() {}
 	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
@@ -2470,8 +2469,8 @@ PathfinderCellPoint rva002E79A8(Bool centerInCell, Int cellX, Int cellY, Pathfin
 		pos.x = ((float)cellX + 0.5f) * 10.0f;
 		pos.y = ((float)cellY + 0.5f) * 10.0f;
 	} else {
-		pos.x = ((float)cellX + g_00BC7838) * 10.0f;
-		pos.y = ((float)cellY + g_00BC7838) * 10.0f;
+		pos.x = ((float)cellX + 0.05f) * 10.0f;
+		pos.y = ((float)cellY + 0.05f) * 10.0f;
 	}
 	if (layer != PATHFIND_LAYER_GROUND || !((TerrainLogicWaterQuery *)TheTerrainLogic)->slot4C(pos.x, pos.y, &pos.z, 0, 0))
 		pos.z = TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true);
@@ -3048,7 +3047,6 @@ static __forceinline void setInfoCellYX(TCheckMovementInfo &info, ICoord2D c) { 
 // it in this object, so InternalFindPath's &clipFrom/&adjustTo stay local.
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
 bool __cdecl ClipLine2D(ICoord2D *p1, ICoord2D *p2, ICoord2D *c1, ICoord2D *c2, IRegion2D *clipRegion);
-extern float g_00BC7838;
 // Retail floors through math.h's float overload (floor(float) -> floorf), not
 // realToIntFloor's direct double call: the extra inline level moves a pop ecx.
 static __forceinline float clipCellFloor(float f)
@@ -3077,7 +3075,7 @@ void Pathfinder::rva002E75A3(Coord3D *a, Coord3D *b)
 	p2.y = clipCellRound(clipCellFloor(b->y * PATHFINDER_CELL_INV));
 	if (!ClipLine2D(&p1, &p2, &c1, &c2, clip))
 		return;
-	float base = g_00BC7838;
+	float base = 0.05f;
 	if (p1.x != c1.x || p1.y != c1.y) {
 		a->x = (float)(c1.x * 10) + base;
 		a->y = (float)(c1.y * 10) + base;

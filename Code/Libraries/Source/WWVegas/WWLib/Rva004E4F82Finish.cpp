@@ -3,7 +3,7 @@
 // stlport
 // ??0Rva004E4F82@@QAE@XZ @0x004E4F82 144B
 // __thiscall no-arg ctor: six floats +0..+0x14 zero, +0x18 zero,
-// +0x24=g_Va00BBB8D8 +0x28=g_bfmeClearA +0x2c=g_00BC6258, +0x30=-1,
+// +0x24=g_Va00BBB8D8 +0x28=20.0f +0x2c=g_00BC6258, +0x30=-1,
 // list<int> at +0x34 via rowed List_base<int> 0x004EC36C,
 // list<BfmePod8> at +0x38 via rowed List_base<BfmePod8> 0x0035C9A6.
 // Caller 0x004E556E in 0x004E5559. Flags copy stlport_pod_list_bodies.cpp
@@ -48,7 +48,6 @@ inline bool operator==(const BfmePod8 &x, const BfmePod8 &y) { return x.a[0] == 
 inline bool operator<(const BfmePod8 &x, const BfmePod8 &y) { return x.a[0] < y.a[0]; }
 
 extern float g_Va00BBB8D8;
-extern const float g_bfmeClearA;
 // g_00BC6258 was the retail address alias (RVA 0x007C6258) of the constant 60.0f; the literal is the source.
 
 class Rva004E4F82
@@ -72,7 +71,7 @@ public:
     _STL::list<BfmePod8, _STL::allocator<BfmePod8> > m_38;
 };
 
-Rva004E4F82::Rva004E4F82() : m_30(-1), m_18(0.0f), m_24(g_Va00BBB8D8), m_28(g_bfmeClearA), m_2C(60.0f)
+Rva004E4F82::Rva004E4F82() : m_30(-1), m_18(0.0f), m_24(g_Va00BBB8D8), m_28(20.0f), m_2C(60.0f)
 {
     m_00 = 0.0f;
     m_04 = 0.0f;

@@ -5,12 +5,11 @@
 // prefix alone, above 14 return empty static buffer. Evidence: callers pass level
 // plus prefix plus APT args, callees rowed format 0x00038150 concat 0x00005629
 // releaseBuffer 0x00036410 plus pinned AptCall 0x006CCB80, statics g_00DFE5D8
-// g_00BBD3EC plus empty fallback g_Rva0107301CEmptyString, neighbours
+// "." plus empty fallback g_Rva0107301CEmptyString, neighbours
 // Rva00222A8BAptCallLevel.cpp and Rva00222BCDInvoke.cpp same page.
 //
 #include "ascii_string.h"
 
-extern const char g_00BBD3EC[];
 // g_00DFE5D8: matched references place it at VA 0xdfe5d8; zero-filled at retail, sized to the
 // 0x10c-byte gap before the next known global there.
 char g_00DFE5D8[268];
@@ -28,7 +27,7 @@ int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *fu
 		return (int)g_00DFE5D8;
 	} else {
 		path.format("/_level%d", level);
-		((StringBase<char> *)&path)->concat(g_00BBD3EC);
+		((StringBase<char> *)&path)->concat(".");
 		((StringBase<char> *)&path)->concat(prefix);
 	}
 	const char *s = path.str();

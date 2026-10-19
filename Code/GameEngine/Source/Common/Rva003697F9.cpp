@@ -4,7 +4,7 @@
 // Object::isMobile 0x002907A1, StateMachine::setGoalPosition 0x004D745C,
 // Rva00351759::rva00351759 0x00351759, AIStateMachine::setGoalWaypoint 0x003E3BFB,
 // AIUpdateInterface::ignoreObstacle 0x00268D88; virtual slots 0x14/0x20 on +0x30;
-// float const VA 0x00BBB8E0 via g_Va00BBB8E0; +0x528 flag.
+// float const VA 0x00BBB8E0 (FLT_MAX, 3.4028235e+38f); +0x528 flag.
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -63,7 +63,6 @@ public:
 	void ignoreObstacle(const Object *o);
 };
 
-extern float g_Va00BBB8E0;
 
 class Rva003697F9
 {
@@ -90,7 +89,7 @@ void Rva003697F9::rva003697F9(const Rva0035149F &path, const Object *obstacle, c
 		tmp.x = last->x;
 		tmp.y = last->y;
 		tmp.z = last->z;
-		m_machine->setGoalPosition(&tmp, g_Va00BBB8E0);
+		m_machine->setGoalPosition(&tmp, 3.4028235e+38f);
 	}
 	((Rva00351759 *)m_machine)->rva00351759(path);
 	((AIStateMachine *)this)->setGoalWaypoint(goal);

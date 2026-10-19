@@ -9,7 +9,7 @@
 // releaseBuffer 0x36410/0x36E70, invoke 0x222A8B, strings Gui_VictoryScreen
 // Gui_DefeatScreen Gui_VictoryCheerEvil/Good APT:EndVictorious/Defeat
 // :VictoryDefeat ShowEndGame, globals TheNameKeyGenerator ThePlayerTemplateStore
-// TheGameText TheRva00222A8BTarget g_Rva0107301CEmptyString g_00BBFDDC/FDE0.
+// TheGameText TheRva00222A8BTarget g_Rva0107301CEmptyString and the "0"/"1" literals.
 #include "ascii_string.h"
 #include "unicode_string.h"
 
@@ -73,8 +73,6 @@ public:
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 
 extern const char g_Rva0107301CEmptyString[];
-extern const char g_00BBFDDC[];
-extern const char g_00BBFDE0[];
 
 struct Rva002B5D36Faction
 {
@@ -111,5 +109,5 @@ void LivingWorldLogic::ShowEndGameSplashScreen()
 		AsciiString suffix(":VictoryDefeat");
 		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(suffix, TheGameText->fetch(endKey), false);
 	}
-	TheRva00222A8BTarget->invoke((void *)0xD, "ShowEndGame", 3, isEvil ? g_00BBFDDC : g_00BBFDE0, (void *)screen.str(), (void *)(isVictory ? cheer.str() : g_Rva0107301CEmptyString), 0, 0);
+	TheRva00222A8BTarget->invoke((void *)0xD, "ShowEndGame", 3, isEvil ? "0" : "1", (void *)screen.str(), (void *)(isVictory ? cheer.str() : g_Rva0107301CEmptyString), 0, 0);
 }

@@ -6,7 +6,6 @@
 // body at +4 is taken first, +0x18 is two 16-bit bitfields (and/or merges in the debug build, word
 // stores here), and +0x04 is an if/else while +0x08/+0x0C/+0x10 are conditionals. x87 float copy:
 // this unit keeps the x87 (no /arch:SSE) flags. Field names are structural inferences.
-extern const float BfmeZeroRange;
 
 struct Rva006F69D0DescriptorBody
 {
@@ -55,5 +54,5 @@ Rva006F69D0::Rva006F69D0(void *descriptor, int second, int fourth) throw()
 		m_04 = 0;
 	m_08 = (b->m_flags & 8) ? (void *)b->m_block24 : 0;
 	m_0c = (b->m_flags & 0x80) ? b->m_ptr38 : 0;
-	m_10 = (b->m_flags & 0x10) ? b->m_float2C : BfmeZeroRange;
+	m_10 = (b->m_flags & 0x10) ? b->m_float2C : 0.0f;
 }

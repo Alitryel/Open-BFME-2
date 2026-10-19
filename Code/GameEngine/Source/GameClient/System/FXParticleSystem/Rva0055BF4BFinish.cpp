@@ -2,7 +2,7 @@
 // ??0Rva0055BF4B@@QAE@ABVRvaSmartPtr12@@PBURva0055BF4BSrc@@@Z @0x0055BF4B 181B
 // Derived module ctor: second base FXParticleSystem::DefaultColorModuleInfo at
 // +0x1c, its eight RGBColorKeyframe elements copied from src+0xc, then the
-// trailing random variable set from src+0x90/0x94 scaled by g_00BBB8F0.
+// trailing random variable set from src+0x90/0x94 scaled by 1/255 (0.003921569f).
 // Evidence: thiscall 2 args ret 8; calls rowed ??0Rva0055BF21@@QAE@ABVRvaSmartPtr12@@H@Z 0x0055BF21
 // and ??0DefaultColorModuleInfo@FXParticleSystem@@QAE@XZ 0x0055BC39 and
 // ?setRange@GameClientRandomVariable@@QAEXMMW4DistributionType@1@@Z 0x002341E7;
@@ -104,7 +104,6 @@ struct Rva0055BF4BSrc
 	float m_f94;
 };
 
-extern const float g_00BBB8F0;
 
 class Rva0055BF4B : public Rva0055BF21, public FXParticleSystem::DefaultColorModuleInfo
 {
@@ -118,5 +117,5 @@ Rva0055BF4B::Rva0055BF4B(const RvaSmartPtr12 &smart, const Rva0055BF4BSrc *src)
 {
 	for (int i = 0; i < 8; ++i)
 		m_keys[i] = (const FXParticleSystem::RGBColorKeyframe &)src->m_elems[i];
-	m_trailing.setRange(src->m_f90 * g_00BBB8F0, src->m_f94 * g_00BBB8F0);
+	m_trailing.setRange(src->m_f90 * 0.003921569f, src->m_f94 * 0.003921569f);
 }
