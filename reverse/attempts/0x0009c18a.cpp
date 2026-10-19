@@ -1,4 +1,6 @@
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
+// partial score=0.869 date=2026-10-19
+// ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.869 date=2026-10-17
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.92 date=2026-10-15
@@ -511,11 +513,11 @@ void Rva0009D55BProduct::rva0009C18A()
 	float negDrop = -drop;
 	_ReadWriteBarrier();
 	_ReadWriteBarrier();
-	tm.Set_Z_Translation((1 ? negDrop : negDrop));
+	tm.Set_Z_Translation(negDrop);
 	_ReadWriteBarrier();
 	m_170.lo.z = m_170.hi.z;
 	((Rva0009C18ARenderObj *)m_D4)->Set_Transform(tm);
-	m_DC = distance[0] > distance[1] ? distance[1] : distance[0];
+	m_DC = distance[1] > distance[0] ? distance[1] : distance[0];
 	m_134 = 0.0f;
 	rva0009BAA4();
 	Coord3D corners[4];
@@ -529,3 +531,5 @@ void Rva0009D55BProduct::rva0009C18A()
 	rva0009BAA4();
 	((Rva0009C134Host *)this)->rva0009B7EA((Coord3D *)m_140);
 }
+
+// The distance selection keeps X unless Y is greater, including unordered inputs.
