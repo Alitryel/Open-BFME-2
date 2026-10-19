@@ -33,7 +33,9 @@ public:
 // ??_7Rva0059D400MultiTailDtor@@6BRva0001AA9BMultiBase@@@; that vftable is
 // compiler-emitted, so it is spelled here by its decorated name.
 extern "C" int __identifier("??_7Rva0059D400MultiTailDtor@@6BRva0001AA9BMultiBase@@@");
-extern const FieldParse s5Table0059D600;
+// The parse table at 0x008166DC is the one CountUpTransitionDestructorThunk.cpp
+// owns as CountUpTransitionFields (data ledger alias s5Table0059D600).
+extern const FieldParse CountUpTransitionFields[];
 
 // The record's constructor (0x0035F2B3) is the rowed FullFadeTransition
 // constructor (GameWindowTransitionsStyles.cpp); the record is that class.
@@ -54,7 +56,7 @@ struct FullFadeTransition : public Rva00489210
 void s5parse0059D600( INI *ini, Gen_00489270 *sink )
 {
 	FullFadeTransition *record = new FullFadeTransition;
-	ini->initFromINI( record, &s5Table0059D600 );
+	ini->initFromINI( record, CountUpTransitionFields );
 	record->m_04 = record->m_14;
 	sink->m( (int)record );
 }
