@@ -51,3 +51,34 @@ more vtable blockers, so the difference is upstream of the teardown itself.
 `CreateAHeroDataResetElements.cpp`) differs from the retail-proven owner
 `CreateAHeroElementCopy.cpp` by compiler flags (`/O1 /Ob2` vs `BFME_ASCII_DTOR_DECL`),
 not by the dtor declaration.
+
+## 3. Duplicate strong definitions of an inline body
+
+A `duplicate` blocker is the pair rule: link.exe compares every definition with
+the first one in link order and reports it when either side is exclusive. Two
+units that both define the same out-of-line body therefore charge each other
+even when the bytes agree. Which fix works depends on whether the symbol is one
+of *your* rows:
+
+* **Not your row -> rename it.** `DeployStyleAIUpdateCtor.cpp` carried an
+  in-class `Rva0048E634Reset()` while `DeployStyleAIUpdateHelper.cpp` owns the
+  rowed `?Rva0048E634Reset@DeployStyleAIUpdate@@QAEXXZ` @0x48E634. Renaming the
+  in-class helper (`resetMember3E4`) removes the colliding strong definition and
+  keeps every call inlined, so all nine rows keep retail bytes; the unit went
+  from 1,495 to its full 2,723 held-out bytes. This is the cheapest form and it
+  needs no declaration change at all.
+* **Not your row, and it must stay callable -> `__declspec(dllimport)
+  __forceinline`.** Same unit, same symbol, before the rename: the suppression
+  removed the COMDAT and left the rows identical (1,495 -> 2,723). It is the
+  same recipe as `MeshModelTextureReplacement.cpp`; only the emission goes away.
+* **It is your row -> neither works.** `Rva00559CE5Wrapper.cpp` needs
+  `Rva00559B4BCheck`'s body visible for its own 39-byte wrapper row, while
+  `Rva00559B4BCheck.cpp` holds that row at 0x00559B4B. Both alternatives were
+  measured and both change the wrapper's bytes:
+  - `inline` on the duplicate definition (SELECT_ANY fold, `noinline` kept):
+    `83 c4 04` (add esp,4) becomes `59` (pop ecx) after the checker call;
+  - deleting the definition and calling the external symbol: the same `59`
+    substitution, from the caller's side.
+
+  So a duplicate whose symbol is your own row cannot be folded by declaration
+  tricks; one of the two units has to stop claiming the body.
