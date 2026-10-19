@@ -372,7 +372,6 @@ void Rva0040707EUpdate(void *,void *,void *,Rva00406FBF *);
 void Rva004070B6Update(void *,void *,void *,Rva00406FBF *);
 void Rva0040718FForward(void *,const AsciiString &,int,Rva00407137 *);
 class Rva00407218 { public: void rva00407218(void *,void *); };
-class Rva00407C6B { public: void rva00407C6B(); };
 class Rva00407E28 { public: bool rva00407E53(int); bool rva00407DE0(int,int); };
 class CreateAHeroData { public: bool WriteNamedHeroAtRva004074CF(); bool rva00408A55(); };
 class HeroTransferLog { public:
@@ -434,6 +433,7 @@ class CreateAHeroHero
 {
 public:
 	void DoXfer(Xfer &xfer);
+	void rva00407C6B();	// 0x00407C6B: clears m_bling and m_priorBling
 	Bool HasEarnedAward(const CreateAHeroAward *award) const;
 	Int GetBlingCount(Int blingKey) const;
 	Int GetBlingId(Int blingKey, UnsignedInt index) const;
@@ -903,7 +903,7 @@ void CreateAHeroHero::DoXfer(Xfer &xfer)
     { AsciiString tag("TertiaryColor"); Rva0040707EUpdate(&xfer,&m_blue,&tag,&crc); }
     for(unsigned i=0;i<15;++i)((Rva00407218*)&m_buttons[i])->rva00407218(&xfer,&crc);
     if(xfer.load()) {
-        ((Rva00407C6B*)this)->rva00407C6B();
+        rva00407C6B();
         unsigned count=0;
         { AsciiString tag("BlingCount"); Rva0040707EUpdate(&xfer,&count,&tag,&crc); }
         for(unsigned i=0;i<count;++i) {

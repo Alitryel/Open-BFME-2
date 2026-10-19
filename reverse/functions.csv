@@ -37910,7 +37910,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0010ECB5@Rva0010ECB5@@QAE_NXZ,,0x0010ECB5,8,Code/GameEngine/Source/Common/Rva0010ECB5Set.cpp,matched,thunk add ecx 0x4C jmp set callers 0xA835A 0xA83F5 0xA860B
 ?rva0041097B@Rva0041097B@@QAEXPAX@Z,,0x0041097B,28,Code/GameEngine/Source/Common/Rva0041097BDelete.cpp,matched,chain hashtable node delete val plus4 via rowed dtor and free
 ?rva0023E7B4@Rva0023E7B4@@QAEPAXG@Z,,0x0023E7B4,37,Code/GameEngine/Source/Common/Rva0023E7B4Find.cpp,matched,circular list head 0x1c0 word key return node plus 8
-?rva00407C6B@Rva00407C6B@@QAEXXZ,,0x00407C6B,20,Code/GameEngine/Source/Common/Rva00407C6BClear.cpp,matched,unlock two map clears via twin pin clear 21A917
+?rva00407C6B@CreateAHeroHero@@QAEXXZ,,0x00407C6B,20,Code/GameEngine/Source/Common/Rva00407C6BClear.cpp,matched,unlock two map clears via twin pin clear 21A917
 ?rva001F385A@Rva001F385A@@QAEXPAX@Z,,0x001F385A,63,Code/GameEngine/Source/Common/Rva001F385AXfer.cpp,matched,SSE triple copy via sub memcpy
 ??0Rva004F6966@@QAE@ABU0@@Z,,0x004F6966,32,Code/GameEngine/Source/Common/Rva004F6966CopyCtor.cpp,matched,copy ctor 12B holder with AddRef same as Rva004F692B
 ?Rva004F6B69Construct@@YAXPAURva004F6966@@PBU1@@Z,,0x004F6B69,18,Code/GameEngine/Source/Common/Rva004F6B69Construct.cpp,matched,placement copy via rowed copy ctor 0x4F6966 callers walk 0xC
