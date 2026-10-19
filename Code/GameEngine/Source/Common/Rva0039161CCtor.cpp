@@ -9,7 +9,8 @@ class Rva0039161C : public Rva0039161CBase
 {
 public:
 	Rva0039161C(void const *p1, void const *p2, float f, bool b);
-	virtual ~Rva0039161C();
+	// Empty: retail's vtable 0x0081A05C slot 0 0x00395A19 calls 0x0049C38A, one vtable store and ret.
+	virtual ~Rva0039161C() {}
 private:
 	int m_08;
 	int m_0c;
