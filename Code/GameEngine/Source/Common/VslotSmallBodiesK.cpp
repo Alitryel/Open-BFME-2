@@ -11,8 +11,8 @@
 // slots at VA 0x00BC82BC and 0x00BC82F8: copies the global string at VA
 // 0x00E01CF0 over the one at VA 0x00E01CF4 (inline AsciiString assignment,
 // the rowed StringBase<char>::set).
-extern AsciiString g_rva00318A95Source;
-extern AsciiString g_rva00318A95Target;
+AsciiString g_rva00318A95Source;
+AsciiString g_rva00318A95Target;
 class Rva00318A95
 {
 public:
@@ -25,6 +25,8 @@ void Rva00318A95::rva00318A95()
 
 // slot at VA 0x00C548F4: returns a copy of the global value at VA
 // 0x00E030D0 (rowed copy constructor 0x002CF0F0).
+template <int N> class BitFlags { public: unsigned int m_words[(N + 31) / 32]; };
+extern BitFlags<11> DISABLEDMASK_ALL;
 class BfmeFixedStorage002CF0F0
 {
 public:
@@ -32,7 +34,6 @@ public:
 private:
 	int m_00;
 };
-extern BfmeFixedStorage002CF0F0 g_rva004AB9D5Value;
 class Rva004AB9D5
 {
 public:
@@ -40,5 +41,5 @@ public:
 };
 BfmeFixedStorage002CF0F0 Rva004AB9D5::rva004AB9D5()
 {
-	return g_rva004AB9D5Value;
+	return *(const BfmeFixedStorage002CF0F0 *)&DISABLEDMASK_ALL;
 }
