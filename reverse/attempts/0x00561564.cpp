@@ -1,7 +1,22 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.987 date=2026-10-19
+// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9833715596330275 date=2026-10-19
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9823 date=2026-10-17
+// 3-angle pass 2026-10-19 (claude-opus-5-5): nd 10 -> 8. Fresh pointer-copy
+// locals (locs via a ShareBufferClass* local, offset via a copy in both loop
+// heads, f/l/o pointers at the refresh AddP and the cached add) close the
+// cached-loop z add at 561a9a. The SSE commutative picks rotate with the
+// count of surviving user locals mod 8 (N and N+8 pointer copies give the
+// same code anywhere in the body; unused locals and names do nothing), so
+// score every structural trial at all 8 shifts. Left: B.z P2 (56182b) and
+// C.z P2 (56188a). In this family A.x never ranks between C.y and C.z as
+// retail needs. axisC=Vector3(0,0,1) or Set makes the &axisC.z register at the
+// store (C.z above A.x), and B.x P2 is wrong at every shift. WB 0x1429DF0
+// stores axisC member-wise and calls crossProduct out of line; retail inlines
+// it (possible cross-TU inline). Full table and harness:
+// reverse/attempt_support/doparticles561564_20261019/README.md
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
 // Parallel bank (other seat, .978, 441/462 insns at this rebase; this bank 443/462) notes:
 // doParticles .978 (2026-10-17): WB 1429DF0 calls Coord3D::crossProduct(&C,&A,&B),(&A,&B,&C)
@@ -234,7 +249,7 @@ static inline void Rva00561564CrossSecond(const FXParticleSystem::LightningDrawM
 int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,void* bounds,int* particleCount) {
  if(WW3D::IsCurrentlyRenderingShadowMap)return 0;
  int n=0;
- Vector3* locs=g_00E065C8->Get_Array();
+ ShareBufferClass<Vector3> *tT0=g_00E065C8;Vector3* locs=tT0->Get_Array();
  float* widths=g_00E065D0->Get_Array();
  Vector4* colors=g_00E065CC->Get_Array();
  unsigned char* angles=g_00E065D4->Get_Array();
@@ -264,7 +279,7 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
    axisC.x=0;axisC.y=0;axisC.z=1;
    Rva00561564CrossFirst(&axisC,&axisA,&axisB);
    Rva00561564CrossSecond(&axisA,&axisB,&axisC);
-   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
+   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *tL0=pointsB[j];Rva00561C34Point *offset=tL0; for(int i=0;i<n;i++){
     if(i!=0 && i!=n-1){
      float v0=((GameClientRandomVariable*)&a)->getValue();
      float v1=((GameClientRandomVariable*)&b)->getValue();
@@ -275,7 +290,7 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
      offset[i].x=sumX;
      offset[i].y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
      offset[i].z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
-     Rva00561564AddP(&locs[i],&offset[i],&out[i]);
+     Rva00561C34Point *o=&out[i];Rva00561C34Point *f=&offset[i];Vector3 *l=&locs[i];Rva00561564AddP(l,f,o);
     }else{
      out[i].x=offset[i].x=locs[i].X;
      out[i].y=offset[i].y=locs[i].Y;
@@ -283,11 +298,12 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
     }
    }
   }}else{
-   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
+   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *tJ0=pointsB[j];Rva00561C34Point *offset=tJ0; for(int i=0;i<n;i++){
     if(i!=0 && i!=n-1){
-     out[i].x=offset[i].x+locs[i].X;
-     out[i].y=offset[i].y+locs[i].Y;
-     out[i].z=offset[i].z+locs[i].Z;
+     Rva00561C34Point *f=&offset[i];Vector3 *l=&locs[i];
+     out[i].x=f->x+l->X;
+     out[i].y=f->y+l->Y;
+     out[i].z=f->z+l->Z;
     }else{
      out[i].x=offset[i].x;
      out[i].y=offset[i].y;
