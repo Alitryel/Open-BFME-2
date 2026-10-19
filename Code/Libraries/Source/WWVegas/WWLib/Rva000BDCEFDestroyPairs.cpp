@@ -1,4 +1,4 @@
-// cl: /MD /DNDEBUG
+// cl: /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 
 // ?Rva000BDCEFDestroy@@YAXPAURvaPair000BDCEF@@0@Z RVA 0x000BDCEF size 25

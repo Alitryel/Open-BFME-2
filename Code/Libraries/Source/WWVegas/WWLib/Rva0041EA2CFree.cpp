@@ -1,4 +1,4 @@
-// cl: /MD /DNDEBUG
+// cl: /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // ?rva0041EA2C@Rva0041EA2C@@QAEXPAX@Z @0x0041EA2C 28B via hashtable node free twin
 // Retail 28B: esi=node arg, lea ecx [esi+4], call rowed Locomotor pair dtor
