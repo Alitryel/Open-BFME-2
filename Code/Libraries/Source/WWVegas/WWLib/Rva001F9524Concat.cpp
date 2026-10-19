@@ -18,6 +18,13 @@ namespace _STL { template <> void basic_string<char, char_traits<char>, allocato
 namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::_M_construct_null_aux(char *, __true_type const &); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::append(basic_string<char, char_traits<char>, allocator<char> > const &); }
 // bfme link decl-only end
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

@@ -36,6 +36,13 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
 namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
 // bfme link decl-only end
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 
 // BFME 2's thread base (rowed ThreadClass members): name +0x04, id +0x44,
 // handle +0x48, priority +0x4C. Only the layout this body reads is needed.

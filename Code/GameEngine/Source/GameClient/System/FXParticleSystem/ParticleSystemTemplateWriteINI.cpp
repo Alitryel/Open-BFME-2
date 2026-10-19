@@ -40,6 +40,13 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> basic_ostream<char, char_traits<char> > * basic_ios<char, char_traits<char> >::tie(basic_ostream<char, char_traits<char> > *); }
 namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
 // bfme link decl-only end
+// Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
+// out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, size_t __n)
+{ allocator<char>::deallocate(__p, __n); }
+}
 class File { public: virtual ~File(); virtual bool open(const char*,int=0); virtual void close(); virtual int read(void*,int); virtual int write(const void*,int); };
 struct Rva001F458BText { const char *m_start,*m_finish; };
 File &Rva001F458BWrite(File&,const Rva001F458BText&);
