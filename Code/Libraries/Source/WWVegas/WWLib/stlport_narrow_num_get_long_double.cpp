@@ -131,9 +131,6 @@ void bfmeNumGetEmitter::emit(const bfmeNumGetEmitter *p, narrow_iterator a, narr
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??1Rva0007FAB3Vector@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1SlowDeathFXVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1SlowDeathOCLVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1SlowDeathWeaponVec@@QAE@XZ=??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

@@ -482,7 +482,6 @@ void _bfmeCoord2DInlineAnchor(Coord2D *c)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??0SpawnBoneRow@@QAE@XZ=??0Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1BfmeElemVVD@@QAE@XZ=??1Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??0Rva0047A040Base9E0@@QAE@XZ=??0Coord2D@@QAE@XZ")
 #pragma comment(linker, "/alternatename:_bfmeDtorCbDSE=??1Coord2D@@QAE@XZ")

@@ -605,7 +605,6 @@ template StringBase<wchar_t>::StringBase(const CharSource<wchar_t> &source);
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?init@CustomAsciiStringShim@@QAEXPBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
-#pragma comment(linker, "/alternatename:??0StringBaseNarrowAR@@IAE@PBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
 
 // BFME1 donor: 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24,
 // game/Libraries/Source/string/StringBase.cpp, compiled under BFME2 /O2.

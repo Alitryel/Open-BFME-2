@@ -17,5 +17,4 @@ template _STL::vector<AsciiString>::~vector();
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??1TransitionSmallVec@@QAE@XZ=??1?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1TransitionDamageFXSlotD@@QAE@XZ=??1?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ")

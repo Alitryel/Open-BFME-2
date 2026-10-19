@@ -61,7 +61,3 @@ int Get_RDTSC_CPU_Speed(void)
 		return 667;
 	return rounded_200;
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?d_009a8430@@YAXXZ=?Get_RDTSC_CPU_Speed@@YAHXZ")

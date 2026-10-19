@@ -72,7 +72,6 @@ template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeFillV16@@YAPADPADID@Z=?assign@?$char_traits@D@_STL@@SAPADPADID@Z")
 #pragma comment(linker, "/alternatename:?bfmeFillV14@@YAPADPADID@Z=?assign@?$char_traits@D@_STL@@SAPADPADID@Z")
 #pragma comment(linker, "/alternatename:?rva0082ADB0Fill@@YAXPAD0ABD@Z=?fill@_STL@@YAXPAD0ABD@Z")
 #pragma comment(linker, "/alternatename:?bfmeCallVMC@@YAXHHH@Z=?__copy_trivial@_STL@@YAPAXPBX0PAX@Z")

@@ -25,10 +25,6 @@ template Map0032CB55::iterator Map0032CB55::insert(Map0032CB55::iterator, const 
 // Retail0x32C4A4 uses the proven two-AsciiString comparator206BCF.
 template Tree0032CB55::_Link_type Tree0032CB55::_M_lower_bound(const TreeKey00206BCF &) const;
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:??0Rva0033CopyBase@@QAE@ABV0@@Z=??0?$pair@VAsciiString@@V1@@_STL@@QAE@ABU01@@Z")
-
 // Retail 0x0032CA8D (20B, RET8): the out-of-line lower_bound over the rowed
 // _M_lower_bound 0x0032C4A4 above, wrapping its node into the returned
 // iterator (twin of map<int,void*> find 0x004D7546). Constness of the

@@ -5224,8 +5224,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??1WriteLock@BfmeSortingVBAccess@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?BfmeCurrentCaps@@3PAEA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?BfmeCurrentCaps@@3PAVBfmeCaps@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?Rva01340534Device@@3PAUGen00920BC0Device@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?ScreenDevice@@3PAUDevice@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A	2
@@ -5301,7 +5299,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp	??0SnapshotDupRep
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp	?bfmeInitTUA@BfmeSubTUA@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/promoted__Reset_HAnimComboClass_QAEXXZ_00974DC0.cpp	?TheHAnimComboDataPool@@3V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp	??4BfmeRendererVectorBase@@QAEAAV0@ABV0@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1BfmeElemBY@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1BfmeElemVVE@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1BfmeElementA@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1MaterialPassStage@@QAE@XZ	1
@@ -5322,7 +5319,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWDebug/Debug_IsLogEnabled.cpp	?Upda
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	?StackWalk@DebugStackwalk@@SAHAAUSignature@1@PAU_CONTEXT@@_N@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP	?RecvReply@Cftp@@QAEJPBDHPAH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/BFMEPoolCriticalSectionLock.cpp	?spin@LockClass@FastCriticalSectionClass@@CIXPAI@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/Get_RDTSC_CPU_Speed.cpp	?d_009a8430@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/NestedRecordLookupRva003F6D35.cpp	??0Rva003F6D35Inner@@QAE@H@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/NestedRecordLookupRva003F6D35.cpp	??0Rva003F6D35Outer@@QAE@PAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/NestedRecordLookupRva003F6D35.cpp	??1Rva003F6D35Inner@@QAE@XZ	1
@@ -5440,7 +5436,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/StlWordAssignRva00540295.cpp	?
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportAsciiStringVectorDtor.cpp	??1RvaVecAscii@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportAsciiStringVectorDtor.cpp	??1SidesInfoStringVector@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportAsciiStringVectorDtor.cpp	??1TransitionDamageFXSlotD@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportAsciiStringVectorDtor.cpp	??1TransitionSmallVec@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportRecordRangeCopyDispatch.cpp	_Rva00053F6ECopyRecords	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportRecordRangeCopyDispatch.cpp	_Rva00311602CopyRecords	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportRecordRangeCopyDispatch.cpp	_Rva003F421DCopyRecords	1
@@ -5615,7 +5610,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf.cpp	??0
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf.cpp	?_M_release_lock@NodeAllocMutex@_STL@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeCopyChV24@@YAXPAD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeEraseV14@BfmeStrV14@@QAEXPAD0@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeEraseV16@BfmeStrV16@@QAEXPAD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeEraseV24@BfmeStrV24@@QAEXPAD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeEraseV44@BfmeStrV44@@QAEXPAD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_fstream.cpp	?bfmeEraseVME@BfmeStrVME@@QAEXPAD0@Z	1
@@ -5624,9 +5618,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_do
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1RubbleFXVec@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1RubbleOCLVec@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1Rva0007FAB3Vector@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1SlowDeathFXVec@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1SlowDeathOCLVec@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_num_get_long_double.cpp	??1SlowDeathWeaponVec@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream.cpp	?bfmeMakeOX@@YAHPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream.cpp	?bfmeStrlenV51@@YAIPAD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream.cpp	?bfmeStrlenV55@@YAIPAD@Z	1
@@ -5634,7 +5625,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream.cpp	_bf
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?bfmeAssignPL@BfmeThingPL@@QAEXPAD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?bfmeCallVMC@@YAXHHH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?bfmeFillV14@@YAPADPADID@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?bfmeFillV16@@YAPADPADID@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?rva0082ADB0Fill@@YAXPAD0ABD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp	?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_assign_dispatch.cpp	?bfmeInitV37@BfmeStrV37@@QAEXPAD00@Z	1
@@ -5646,7 +5636,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_pop_heap_rva004f7e61.c
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_push_heap_rva00422ca8.cpp	??$__make_heap@PAHVRva00422CA8@@@_STL@@YAXPAH0VRva00422CA8@@00@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_push_heap_rva00422ca8.cpp	??$__pop_heap@PAHHHVRva00422CA8@@@_STL@@YAXPAH00HVRva00422CA8@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_bfmepod20_insert.cpp	?insertUnique@BFME2RespawnRuleTree@@QAEPAURespawnInsertResult@@PAU2@ABURespawnRule@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_0032cb55.cpp	??0Rva0033CopyBase@@QAE@ABV0@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_insert_003f75ec.cpp	?_M_create_node@?$_Rb_tree@HURva003F75ECValue@@URva003F75ECKey@@U?$greater@H@_STL@@V?$allocator@URva003F75ECValue@@@4@@_STL@@IAEPAU?$_Rb_tree_node@URva003F75ECValue@@@2@ABURva003F75ECValue@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_treekey00242F5E_lower.cpp	??RRva000A7AA7Less@@QBE_NABUTreeKey00242F5E@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_treekey00242F5E_upper.cpp	??RRva000A7AA7Less@@QBE_NABUTreeKey00242F5E@@0@Z	1
@@ -5701,12 +5690,10 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base.cpp	?set@AsciiStri
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp	?compareRange@@YAHPBGH0HUCharCompare@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp	?compareRangeNoCase@@YAHPBGH0HUCharCompare@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_inline.cpp	??0?$StringBase@D@@QAE@PBD@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_inline.cpp	??0StringBaseNarrowAR@@IAE@PBD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/string_base_inline.cpp	?init@CustomAsciiStringShim@@QAEXPBD@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/vector_class_resize.cpp	?bfmeDtorUD@BfmeThingUD@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/wwlib_pod_container_bodies.cpp	?Grow@?$SimpleDynVecClass@VVector3@@@@QAE_NH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWMath/coord2d.cpp	??0Rva0047A040Base9E0@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWMath/coord2d.cpp	??0SpawnBoneRow@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWMath/coord2d.cpp	??1BfmeElemVVD@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWMath/coord2d.cpp	_bfmeDtorCbDSE	1
 alternatename	Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp	??4Matrix3@@QAEAAV0@ABVMatrix3D@@@Z	1
@@ -40616,7 +40603,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Set_Subdivision
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Set_Texture_Reduction_Factor@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	Cross_Product@Vector3@@SAXABV1@0PAV1@@Z	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	Get_Texture@StreakRendererClass@@QBEPAVTextureClass@@XZ	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	Init@StreakRendererClass@@QAEXABUW3dEmitterLinePropertiesStruct@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	Transform@VectorProcessorClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/texproject.cpp	TexProjectClass::Configure_Camera	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/texproject.cpp	TexProjectClass::Enable_Attenuation	1
