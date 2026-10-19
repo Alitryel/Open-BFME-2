@@ -136,7 +136,7 @@ float Rva0051E458PowFloat(int base, int exp);
 
 extern GameTextInterface *TheGameText;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 class AptTimeLine
 {
@@ -265,8 +265,8 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 			else
 			{
 				int frame = (int)((maxFrames + 0.5f) * i * 0.1f);
-				int totalSeconds = maxFrames / g_Va00DBA4E4;
-				int seconds = frame / g_Va00DBA4E4;
+				int totalSeconds = maxFrames / BfmeLogicFramesPerSecond;
+				int seconds = frame / BfmeLogicFramesPerSecond;
 				UnicodeString format;
 				if (totalSeconds < 3600)
 				{
