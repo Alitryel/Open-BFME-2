@@ -1,6 +1,8 @@
 // ?rva0059BE1F@LivingWorldAIArmyMover@@QAEXPAUArmyMoverRegion@@HHPAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@11PAVRva004FF5B7@@H@Z
-// cl: /O1 /G7 /arch:SSE /MD /EHs  /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /MD /EHs  /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
+// Retail's 0x59B809 growth worker has no STL catch/rethrow path.
+// /EHs still preserves the native C++ object lifetimes in these callers.
 // Native 59BE1F..59C010, 497B, thiscall RET20, unused this.
 // WB14FB870 establishes vector collection, distance tree and difficulty filter.
 // Method name and original container/element spellings remain unknown.
