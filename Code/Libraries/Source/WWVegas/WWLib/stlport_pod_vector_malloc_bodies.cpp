@@ -35,6 +35,9 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 struct BfmePod8 { int a[2]; };
+// allocator<BfmePod8>::allocate is kept from the bfmealloc pod units (retail's
+// 0x00523D6C fold); declare it so this malloc-configured unit emits no copy.
+namespace _STL { template <> BfmePod8 *allocator<BfmePod8>::allocate(size_t, const void *) const; }
 struct BfmePod12 { int a[3]; };
 struct BfmePod16 { int a[4]; };
 struct BfmePod40 { int a[10]; };
