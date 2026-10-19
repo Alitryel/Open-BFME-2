@@ -1,136 +1,268 @@
 // ?rva00470DC1@HordeContain@@UAEXXZ
-// partial score=0.85 date=2026-10-19
-// ?rva00470DC1@HordeContain@@UAEXXZ
-// partial score=0.8 date=2026-10-16
-// ?rva00470DC1@HordeContain@@UAEXXZ
-// FRAGMENT bank (home TU Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp
-// is 159 KB, over the attempt cap). Apply the view patch below to the home TU, append
-// the function, and score with SRC=<home TU> SYM=?rva00470DC1@HordeContain@@UAEXXZ RVA=0x470DC1 SIZE=1699.
-// State: compiles, all calls resolve, 1700/1699 B, nd179 (W9-O1 scorer). Retail facts: primary
-// vtable 0x00C45050 slot 35 (this body) calls slot 36 (unrowed 0x474842, virtual so no reloc);
-// +0x11C interface slot 7 (by-value Coord3D) / slot 60 (rva0046F8F4) / slot 107 (rva0046D8AE);
-// constants 410 (attack range), 20 (pairing offset), 55 (closest-member spacing), 5 (held
-// offset), 0.9 double (held release factor), 2*pi. Open residue: frame slots shifted 4 B (id/
-// attacker sharing), slot-60 dir x/y order, TheGameLogic kept in esi across the attack pair
-// lookups, +0x120 bit test as shr/test al (ours folds to test byte), angle store tail merges.
-//
-// ---- view patch (unified diff against the home TU) ----
-// --- Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp	2026-10-16 09:39:04.258645917 +0200
-// +++ build/o1/hc/c2.cpp	2026-10-16 20:02:54.205685412 +0200
-// @@ -185,6 +185,7 @@
-//  {
-//  public:
-//  	bool IsPointOnWall(int pos, bool flag);
-// +	void AdjustLayer(Object *obj);
-//  	bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
-//  	bool IsPointOnRamp(const Coord3D *pos);
-//  	void RemoveObjectFromPathfindMap(Object *object);
-// @@ -581,7 +582,9 @@
-//  			unsigned int m_110; // +0x110
-//  		};
-//  	};
-// -	unsigned char m_pad114[0x244 - 0x114];
-// +	unsigned char m_pad114[0x120 - 0x114];
-// +	unsigned int m_120; // +0x120 (status bits)
-// +	unsigned char m_pad124[0x244 - 0x124];
-//  	Rva004708BCBehavior **m_244; // +0x244
-//  	unsigned char m_pad248[0x250 - 0x248];
-//  	Rva0046A2ECContain *m_250; // +0x250
-// @@ -814,7 +817,9 @@
-//  	_STL::map<int, int> m_1B8; // +0x1B8
-//  	unsigned char m_pad1C4[0x1D8 - 0x1C4];
-//  	bool m_1D8; // +0x1D8
-// -	unsigned char m_pad1D9[0x224 - 0x1D9];
-// +	unsigned char m_pad1D9[0x1F0 - 0x1D9];
-// +	float m_1F0; // +0x1F0 (held-slot release range)
-// +	unsigned char m_pad1F4[0x224 - 0x1F4];
-//  	union
-//  	{
-//  		struct
-// @@ -998,8 +1003,8 @@
-//  	virtual void slot32(Object *obj) = 0;
-//  	virtual void slot33(int a1) = 0;
-//  	virtual void rva0046AF85() = 0;
-// -	virtual void gap35() = 0;
-// -	virtual void gap36() = 0;
-// +	virtual void rva00470DC1() = 0;
-// +	virtual void rva00474842(Object *obj, const Coord3D *pos, float angle, bool stopped) = 0;
-//  	virtual bool rva00470B21() = 0;
-//  protected:
-//  	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
-// @@ -1113,6 +1118,21 @@
-//  class Rva00468CB6A;
-//  // The rowed 0x0046D946 on the HordeContain base: the contained Object
-//  // closest to the argument.
-// +// The rowed squared distance from an Object to a point (0x002615E3).
-// +class Rva000CBA20Point;
-// +class Rva000CBA20 { public: float distSq(const Rva000CBA20Point *p); };
-// +// The rowed per-Object formation-slot setter (0x001E431E).
-// +class Rva001E431E { public: void rva001E431E(const int *slot); };
-// +// The rowed post-update refresh of the horde (0x0046A024).
-// +class Rva0046A024 { public: void rva0046A024(); };
-// +float ACos(float x);
-// +// A +0x1A0 record: the member's held formation position and remaining hold
-// +// count (target node +0x14).
-// +struct Rva00470DC1Slot
-// +{
-// +	Coord3D m_position; // +0x00
-// +	int m_count; // +0x0C
-// +};
-//  class Rva0046D946
-//  {
-//  public:
-// @@ -1277,6 +1297,7 @@
-//  	Rva0046D158Record *rva0046D158(AsciiString name);
-//  	virtual void performReform();
-//  	virtual bool rva00470B21();
-// +	virtual void rva00470DC1();
-//  	Coord2D *rva0046A5B1(Coord2D *offset, int index);
-//  	bool rva004723F2(Object *, const AsciiString &);
-//  private:
-// @@ -1302,7 +1323,7 @@
-//  	bool m_198; // +0x198
-//  	unsigned char m_pad199[0x19C - 0x199];
-//  	int m_19C; // +0x19C
-// -	unsigned char m_pad1A0[0x1AC - 0x1A0];
-// +	_STL::map<int, int> m_1A0; // +0x1A0 (per-member formation slot: position and hold count)
-//  	ObjectID m_1AC; // +0x1AC
-//  	ObjectID m_1B0; // +0x1B0
-//  	int m_1B4; // +0x1B4
-// @@ -1331,7 +1352,9 @@
-//  	int m_29C; // +0x29C
-//  	int m_2A0; // +0x2A0
-//  	bool m_2A4; // +0x2A4
-// -	unsigned char m_pad2A5[0x2B8 - 0x2A5];
-// +	unsigned char m_pad2A5[0x2B0 - 0x2A5];
-// +	ObjectID m_2B0; // +0x2B0 (the formation leader)
-// +	unsigned char m_pad2B4[0x2B8 - 0x2B4];
-//  	Coord3D m_2B8; // +0x2B8
-//  	bool m_2C4; // +0x2C4
-//  	unsigned char m_pad2C5[0x2C8 - 0x2C5];
-// @@ -4532,3 +4555,163 @@
-//  			draw->rva0027541E(&color, 4, 4, 15);
-//  	}
-//  }
-// +
-// ?rva00470DC1@HordeContain@@UAEXXZ @0x00470DC1: slot 35 of the primary
-// vtable (0x00C45050). Places every contained member that is not keyed in the
-// +0x170 tree: the +0x11C interface's slot 7 gives its formation position and
-// angle; a facing horde (+0x11C slot 60) faces the leader's heading along the
-// offset, otherwise the angle is relative to the horde's Object and is
-// adjusted for the +0x24C attack pairing (+0x1AC target, +0x1B0 attacker),
-// the +0x1A0 held slots (leader +0x2B0, module data +0x1F0 range) or the
-// +0x2B8 rally point; slot 36 then moves the member, standing when the
-// horde's AI is idle. The rowed 0x0046A024 refresh follows.
-// Apply the view patch above, then make Rva00470DC1Slot::m_count unsigned int.
-// Current evidence: reverse/attempt_support/0x00470dc1-20261019/README.md.
+// partial score=0.9 date=2026-10-20
+// ?rva00470DC1@HordeContain@@UAEXXZ, retail 0x470DC1 (1699 B). Fragment bank: apply the view patch below to
+// Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp, then append the body (build/nbr/r28/470dc1/gen.py).
+// Compiles 1688/1699, all calls resolved, no hacks; all 148 home rows stay exact.
+#if 0 /* view patch */
+--- Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp	2026-10-19 21:52:59.962668500 +0200
++++ build/nbr/r28/470dc1/HordeContainIface11CSlots.best.cpp	2026-10-20 01:07:16.167880200 +0200
+@@ -192,6 +192,7 @@
+ {
+ public:
+ 	bool IsPointOnWall(int pos, bool flag);
++	void AdjustLayer(Object *obj);
+ 	bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
+ 	bool IsPointOnRamp(const Coord3D *pos);
+ 	void RemoveObjectFromPathfindMap(Object *object);
+@@ -839,7 +840,8 @@
+ 	_STL::map<int, int> m_1B8; // +0x1B8
+ 	unsigned char m_pad1C4[0x1D8 - 0x1C4];
+ 	bool m_1D8; // +0x1D8
+-	unsigned char m_pad1D9[0x1F4 - 0x1D9];
++	unsigned char m_pad1D9[0x1F0 - 0x1D9];
++	float m_1F0; // +0x1F0
+ 	Rva00469851Names m_1F4;
+ 	unsigned char m_pad200[0x218 - 0x200];
+ 	Rva00469851Names m_218;
+@@ -1029,8 +1031,8 @@
+ 	virtual void slot32(Object *obj) = 0;
+ 	virtual void slot33(int a1) = 0;
+ 	virtual void rva0046AF85() = 0;
+-	virtual void gap35() = 0;
+-	virtual void gap36() = 0;
++	virtual void rva00470DC1() = 0;
++	virtual void rva00474842(Object *obj, const Coord3D *pos, float angle, bool stopped) = 0;
+ 	virtual bool rva00470B21() = 0;
+ protected:
+ 	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
+@@ -1144,6 +1146,16 @@
+ class Rva00468CB6A;
+ // The rowed 0x0046D946 on the HordeContain base: the contained Object
+ // closest to the argument.
++class Rva000CBA20Point;
++class Rva000CBA20 { public: float distSq(const Rva000CBA20Point *p); };
++class Rva001E431E { public: void rva001E431E(const int *slot); };
++class Rva0046A024 { public: void rva0046A024(); };
++float ACos(float x);
++struct Rva00470DC1Slot
++{
++	Coord3D m_position; // +0x00
++	unsigned int m_count; // +0x0C
++};
+ class Rva0046D946
+ {
+ public:
+@@ -1310,6 +1322,7 @@
+ 	Rva0046D158Record *rva0046D158(AsciiString name);
+ 	virtual void performReform();
+ 	virtual bool rva00470B21();
++	virtual void rva00470DC1();
+ 	Coord2D *rva0046A5B1(Coord2D *offset, int index);
+ 	bool rva004723F2(Object *, const AsciiString &);
+ private:
+@@ -1335,7 +1348,7 @@
+ 	bool m_198; // +0x198
+ 	unsigned char m_pad199[0x19C - 0x199];
+ 	int m_19C; // +0x19C
+-	unsigned char m_pad1A0[0x1AC - 0x1A0];
++	_STL::map<int, int> m_1A0; // +0x1A0
+ 	ObjectID m_1AC; // +0x1AC
+ 	ObjectID m_1B0; // +0x1B0
+ 	int m_1B4; // +0x1B4
+@@ -1364,7 +1377,9 @@
+ 	int m_29C; // +0x29C
+ 	int m_2A0; // +0x2A0
+ 	bool m_2A4; // +0x2A4
+-	unsigned char m_pad2A5[0x2B8 - 0x2A5];
++	unsigned char m_pad2A5[0x2B0 - 0x2A5];
++	ObjectID m_2B0; // +0x2B0
++	unsigned char m_pad2B4[0x2B8 - 0x2B4];
+ 	Coord3D m_2B8; // +0x2B8
+ 	bool m_2C4; // +0x2C4
+ 	unsigned char m_pad2C5[0x2C8 - 0x2C5];
+@@ -4684,3 +4699,169 @@
+ 		return false;
+ 	return true;
+ }
++
++// ?rva00470DC1@HordeContain@@UAEXXZ (scratch, WB 0x010B73E0 literal)
++struct HordeOffset3D : public Coord3D { HordeOffset3D(const Coord3D &p) { x=p.x; y=p.y; z=p.z; } };
++static __forceinline bool hordeTestCondition(const Object *obj, int bit)
++{
++	return ((obj->m_conditionWords[bit >> 5] >> (bit & 0x1f)) & 1) != 0;
++}
++void HordeContain::rva00470DC1()
++{
++	Rva0046247DPair p;
++	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(p);
++	_STL::list<Object *>::const_iterator it = p.m04->begin();
++	Object *self = getObject();
++	TheAI->pathfinder()->AdjustLayer(self);
++	float baseAngle = self->m_orientation;
++	AIUpdateInterface *ai = self->m_ai;
++	if (!ai)
++		return;
++	const HordeContainModuleDataFields *data = fields();
++	if (!data)
++		return;
++	Object *leader = TheGameLogic->findObjectByID(m_2B0);
++	while (it != p.m04->end())
++	{
++		Object *obj = *it;
++		it++;
++		if (m_170.find(obj->getID()) == m_170.end())
++		{
++			float angle = 0.0f;
++			Coord3D pos = slot7(obj, &angle);
++			if (rva0046F8F4())
++			{
++				HordeOffset3D dir(self->m_position);
++				dir.z = 0.0f;
++				dir.x = pos.x - dir.x;
++				dir.y = pos.y - dir.y;
++				if (dir.y * dir.y + dir.x * dir.x == 0.0f)
++					angle = self->m_orientation;
++				else
++				{
++					dir.Normalize2D();
++					float a = ACos(dir.x);
++					if (dir.y < 0.0f)
++						a = 6.2831855f - a;
++					angle = a;
++				}
++			}
++			else
++			{
++				angle += baseAngle;
++				if (!m_24C.empty())
++				{
++					if (hordeTestCondition(obj, 170))
++					{
++						rva0046D8AE();
++						break;
++					}
++					GameLogic *logic = TheGameLogic;
++					Object *attacker = logic->findObjectByID(m_1B0);
++					Object *target = logic->findObjectByID(m_1AC);
++					if (!target || !attacker)
++					{
++						rva0046D8AE();
++						break;
++					}
++					float dist = ((Rva000CBA20 *)attacker)->distSq((const Rva000CBA20Point *)target->getPosition());
++					if (obj == attacker)
++					{
++						if (dist < 410.0f)
++						{
++							((Rva001E431E *)obj)->rva001E431E(&m_1B4);
++							angle = obj->GetRelativeAngle(target->getPosition());
++							angle += obj->m_orientation;
++						}
++					}
++					else if (obj == target)
++					{
++						if (dist < 410.0f)
++							((Rva001E431E *)obj)->rva001E431E(&m_1B4);
++						pos = obj->m_position;
++						pos.sub(&attacker->m_position);
++						pos.normalize();
++						pos.scale(20.0f);
++						pos.add(&attacker->m_position);
++						angle = obj->GetRelativeAngle(&attacker->m_position);
++						angle += obj->m_orientation;
++					}
++					else if (dist < 410.0f)
++					{
++						int slot = reinterpret_cast<_STL::map<int, int> &>(m_24C)[obj->getID()];
++						((Rva001E431E *)obj)->rva001E431E(&m_200);
++						angle = obj->GetRelativeAngle(&attacker->m_position);
++						angle += obj->m_orientation;
++						pos = obj->m_position;
++						pos.sub(&attacker->m_position);
++						pos.normalize();
++						pos.scale((float)slot);
++						pos.add(&attacker->m_position);
++						Object *closest = ((Rva0046D946 *)(UpdateModule *)this)->rva0046D946(obj);
++						if (closest && ((Rva000CBA20 *)obj)->distSq((const Rva000CBA20Point *)closest->getPosition()) < 55.0f)
++						{
++							HordeOffset3D delta(obj->m_position);
++							delta.sub(&attacker->m_position);
++							Coord3D side;
++							side.x = 0.0f * delta.z - delta.y;
++							side.y = delta.x - 0.0f * delta.z;
++							side.z = 0.0f * delta.y - 0.0f * delta.x;
++							HordeOffset3D toClosest(closest->m_position);
++							toClosest.sub(&obj->m_position);
++							side.normalize();
++							side.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
++							pos.add(&side);
++						}
++					}
++				}
++				else if (!m_1A0.empty())
++				{
++					_STL::map<int, int>::iterator held = m_1A0.find(obj->getID());
++					if (held != m_1A0.end())
++					{
++						if (leader && data->m_1F0 != 0.0f)
++						{
++							HordeOffset3D offset(obj->m_position);
++							offset.sub(&leader->m_position);
++							float length = offset.length();
++							if (length < data->m_1F0 * 0.9)
++							{
++								pos = offset;
++								pos.normalize();
++								const Coord3D *op = &obj->m_position;
++								pos.x = pos.x * 5.0f + op->x;
++								pos.y = pos.y * 5.0f + op->y;
++								pos.z = pos.z * 5.0f + op->z;
++							}
++							else if (length < data->m_1F0)
++								pos = obj->m_position;
++						}
++						else
++						{
++							Rva00470DC1Slot *slot = (Rva00470DC1Slot *)&held->second;
++							if (slot->m_count <= 0)
++								pos = slot->m_position;
++							else
++							{
++								slot->m_count--;
++								continue;
++							}
++						}
++					}
++					if (leader)
++					{
++						angle = obj->GetRelativeAngle(leader->getPosition());
++						angle += obj->m_orientation;
++					}
++				}
++				else if (m_2C4)
++				{
++					angle = obj->GetRelativeAngle(&m_2B8);
++					angle += obj->m_orientation;
++				}
++			}
++			rva00474842(obj, &pos, angle, !ai->isMoving());
++		}
++	}
++	((Rva0046A024 *)(UpdateModule *)this)->rva0046A024();
++}
+#endif
+// ?rva00470DC1@HordeContain@@UAEXXZ (scratch, WB 0x010B73E0 literal)
 struct HordeOffset3D : public Coord3D { HordeOffset3D(const Coord3D &p) { x=p.x; y=p.y; z=p.z; } };
+static __forceinline bool hordeTestCondition(const Object *obj, int bit)
+{
+	return ((obj->m_conditionWords[bit >> 5] >> (bit & 0x1f)) & 1) != 0;
+}
 void HordeContain::rva00470DC1()
 {
 	Rva0046247DPair p;
 	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(p);
 	_STL::list<Object *>::const_iterator it = p.m04->begin();
-	Object *self = m_object;
+	Object *self = getObject();
 	TheAI->pathfinder()->AdjustLayer(self);
 	float baseAngle = self->m_orientation;
 	AIUpdateInterface *ai = self->m_ai;
@@ -140,137 +272,147 @@ void HordeContain::rva00470DC1()
 	if (!data)
 		return;
 	Object *leader = TheGameLogic->findObjectByID(m_2B0);
-	for (; it != p.m04->end(); )
+	while (it != p.m04->end())
 	{
 		Object *obj = *it;
-		++it;
-		int id = obj->getID();
-		if (m_170.find(id) != m_170.end())
-			continue;
-		float angle = 0.0f;
-		Coord3D pos = slot7(obj, &angle);
-		if (rva0046F8F4())
+		it++;
+		if (m_170.find(obj->getID()) == m_170.end())
 		{
-			HordeOffset3D dir(self->m_position);
-			dir.z = 0.0f;
-			dir.x = pos.x - dir.x;
-			dir.y = pos.y - dir.y;
-			if (dir.y * dir.y + dir.x * dir.x == 0.0f)
-				angle = self->m_orientation;
+			float angle = 0.0f;
+			Coord3D pos = slot7(obj, &angle);
+			if (rva0046F8F4())
+			{
+				HordeOffset3D dir(self->m_position);
+				dir.z = 0.0f;
+				dir.x = pos.x - dir.x;
+				dir.y = pos.y - dir.y;
+				if (dir.y * dir.y + dir.x * dir.x == 0.0f)
+					angle = self->m_orientation;
+				else
+				{
+					dir.Normalize2D();
+					float a = ACos(dir.x);
+					if (dir.y < 0.0f)
+						a = 6.2831855f - a;
+					angle = a;
+				}
+			}
 			else
 			{
-				dir.Normalize2D();
-				float a = ACos(dir.x);
-				angle = (dir.y < 0.0f) ? 6.2831855f - a : a;
-			}
-		}
-		else
-		{
-			angle += baseAngle;
-			if (m_24C.size())
-			{
-				if ((unsigned char)(obj->m_120 >> 10) & 1)
+				angle += baseAngle;
+				if (!m_24C.empty())
 				{
-					rva0046D8AE();
-					break;
-				}
-				Object *attacker = TheGameLogic->findObjectByID(m_1B0);
-				Object *target = TheGameLogic->findObjectByID(m_1AC);
-				if (!target || !attacker)
-				{
-					rva0046D8AE();
-					break;
-				}
-				const Coord3D *targetPos = target->getPosition();
-				float dist = ((Rva000CBA20 *)attacker)->distSq((const Rva000CBA20Point *)targetPos);
-				if (obj == attacker)
-				{
-					if (dist < 410.0f)
+					if (hordeTestCondition(obj, 170))
 					{
-						((Rva001E431E *)obj)->rva001E431E(&m_1B4);
-						angle = obj->GetRelativeAngle(targetPos) + obj->m_orientation;
+						rva0046D8AE();
+						break;
 					}
-				}
-				else if (obj == target)
-				{
-					if (dist < 410.0f)
-						((Rva001E431E *)obj)->rva001E431E(&m_1B4);
-					pos = obj->m_position;
-					pos -= attacker->m_position;
-					pos.normalize();
-					pos *= 20.0f;
-					pos += attacker->m_position;
-					angle = obj->GetRelativeAngle(&attacker->m_position) + obj->m_orientation;
-				}
-				else if (dist < 410.0f)
-				{
-					int slot = reinterpret_cast<_STL::map<int, int> &>(m_24C)[obj->getID()];
-					((Rva001E431E *)obj)->rva001E431E(&m_200);
-					const Coord3D *attackerPos = &attacker->m_position;
-					angle = obj->GetRelativeAngle(attackerPos) + obj->m_orientation;
-					pos = obj->m_position;
-					pos -= *attackerPos;
-					pos.normalize();
-					pos *= (float)slot;
-					pos += *attackerPos;
-					Object *closest = ((Rva0046D946 *)(UpdateModule *)this)->rva0046D946(obj);
-					if (closest && ((Rva000CBA20 *)obj)->distSq((const Rva000CBA20Point *)closest->getPosition()) < 55.0f)
+					GameLogic *logic = TheGameLogic;
+					Object *attacker = logic->findObjectByID(m_1B0);
+					Object *target = logic->findObjectByID(m_1AC);
+					if (!target || !attacker)
 					{
-						HordeOffset3D delta(obj->m_position);
-						delta -= *attackerPos;
-						Coord3D side;
-						side.x = 0.0f * delta.z - delta.y;
-						side.y = delta.x - 0.0f * delta.z;
-						side.z = 0.0f * delta.y - 0.0f * delta.x;
-						HordeOffset3D toClosest = *closest->getPosition();
-						toClosest -= obj->m_position;
-						side.normalize();
-						float sign = (side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f) ? -4 : 4;
-						HordeOffset3D scaled(side);
-						scaled *= sign;
-						pos += scaled;
+						rva0046D8AE();
+						break;
 					}
-				}
-			}
-			else if (m_1A0.size())
-			{
-				_STL::map<int, int>::iterator held = m_1A0.find(obj->getID());
-				if (held != m_1A0.end())
-				{
-					if (leader && data->m_1F0 != 0.0f)
+					float dist = ((Rva000CBA20 *)attacker)->distSq((const Rva000CBA20Point *)target->getPosition());
+					if (obj == attacker)
 					{
-						HordeOffset3D offset = obj->m_position;
-						offset -= leader->m_position;
-						float length = offset.length();
-						if (data->m_1F0 * 0.9 > length)
+						if (dist < 410.0f)
 						{
-							pos = offset;
-							pos.normalize();
-							pos.x = pos.x * 5.0f + obj->m_position.x;
-							pos.y = pos.y * 5.0f + obj->m_position.y;
-							pos.z = pos.z * 5.0f + obj->m_position.z;
+							((Rva001E431E *)obj)->rva001E431E(&m_1B4);
+							angle = obj->GetRelativeAngle(target->getPosition());
+							angle += obj->m_orientation;
 						}
-						else if (data->m_1F0 > length)
-							pos = obj->m_position;
 					}
-					else
+					else if (obj == target)
 					{
-						Rva00470DC1Slot *slot = (Rva00470DC1Slot *)&held->second;
-						if (slot->m_count > 0)
+						if (dist < 410.0f)
+							((Rva001E431E *)obj)->rva001E431E(&m_1B4);
+						pos = obj->m_position;
+						pos.sub(&attacker->m_position);
+						pos.normalize();
+						pos.scale(20.0f);
+						pos.add(&attacker->m_position);
+						angle = obj->GetRelativeAngle(&attacker->m_position);
+						angle += obj->m_orientation;
+					}
+					else if (dist < 410.0f)
+					{
+						int slot = reinterpret_cast<_STL::map<int, int> &>(m_24C)[obj->getID()];
+						((Rva001E431E *)obj)->rva001E431E(&m_200);
+						angle = obj->GetRelativeAngle(&attacker->m_position);
+						angle += obj->m_orientation;
+						pos = obj->m_position;
+						pos.sub(&attacker->m_position);
+						pos.normalize();
+						pos.scale((float)slot);
+						pos.add(&attacker->m_position);
+						Object *closest = ((Rva0046D946 *)(UpdateModule *)this)->rva0046D946(obj);
+						if (closest && ((Rva000CBA20 *)obj)->distSq((const Rva000CBA20Point *)closest->getPosition()) < 55.0f)
 						{
-							--slot->m_count;
-							continue;
+							HordeOffset3D delta(obj->m_position);
+							delta.sub(&attacker->m_position);
+							Coord3D side;
+							side.x = 0.0f * delta.z - delta.y;
+							side.y = delta.x - 0.0f * delta.z;
+							side.z = 0.0f * delta.y - 0.0f * delta.x;
+							HordeOffset3D toClosest(closest->m_position);
+							toClosest.sub(&obj->m_position);
+							side.normalize();
+							side.scale((float)(side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f ? -4 : 4));
+							pos.add(&side);
 						}
-						pos = slot->m_position;
 					}
 				}
-				if (leader)
-					angle = obj->GetRelativeAngle(leader->getPosition()) + obj->m_orientation;
+				else if (!m_1A0.empty())
+				{
+					_STL::map<int, int>::iterator held = m_1A0.find(obj->getID());
+					if (held != m_1A0.end())
+					{
+						if (leader && data->m_1F0 != 0.0f)
+						{
+							HordeOffset3D offset(obj->m_position);
+							offset.sub(&leader->m_position);
+							float length = offset.length();
+							if (length < data->m_1F0 * 0.9)
+							{
+								pos = offset;
+								pos.normalize();
+								const Coord3D *op = &obj->m_position;
+								pos.x = pos.x * 5.0f + op->x;
+								pos.y = pos.y * 5.0f + op->y;
+								pos.z = pos.z * 5.0f + op->z;
+							}
+							else if (length < data->m_1F0)
+								pos = obj->m_position;
+						}
+						else
+						{
+							Rva00470DC1Slot *slot = (Rva00470DC1Slot *)&held->second;
+							if (slot->m_count <= 0)
+								pos = slot->m_position;
+							else
+							{
+								slot->m_count--;
+								continue;
+							}
+						}
+					}
+					if (leader)
+					{
+						angle = obj->GetRelativeAngle(leader->getPosition());
+						angle += obj->m_orientation;
+					}
+				}
+				else if (m_2C4)
+				{
+					angle = obj->GetRelativeAngle(&m_2B8);
+					angle += obj->m_orientation;
+				}
 			}
-			else if (m_2C4)
-				angle = obj->GetRelativeAngle(&m_2B8) + obj->m_orientation;
+			rva00474842(obj, &pos, angle, !ai->isMoving());
 		}
-		rva00474842(obj, &pos, angle, !ai->isMoving());
 	}
 	((Rva0046A024 *)(UpdateModule *)this)->rva0046A024();
 }
