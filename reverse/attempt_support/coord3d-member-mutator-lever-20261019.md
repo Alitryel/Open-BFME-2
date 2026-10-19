@@ -83,3 +83,21 @@ banks spell `_atan2f`; check the reloc.
 - Not attempted (large, low-score or home-unit): 0x00470DC1, 0x00345393,
   0x0026C4EB, 0x0027FD2A, 0x00272FB6, 0x00475F61, 0x001E6007 (no atan2/member
   site in its residue).
+
+## Round 3: float-overload call-target sweep (seat12)
+
+Scanned retail `call rel32` sites inside every banked body for the math
+wrappers and compared them with the bank's spelling: 0x000422A0 (`_atan2f`, also
+the `Rva000422A0Atan2` adapter), 0x000422CD (`?atan2@@YAMMM@Z`), 0x001333F0
+(WWMath float Atan2 `Rva001333F0Atan2`), 0x000930A5/0x000930C0 (fmod pair),
+0x000422BB, 0x0004D649, Sin/Cos/Tan/ACos/ASin, WWMath Sqrt/Sin/Cos/Fabs,
+Inv_Sqrt. Mismatches found and respelled (all rebanked):
+- 0x0045569D: double adapter -> `extern "C" float atan2f`: 1185 B/246 lines
+  -> 1175 B/79 (biggest win; residue is this in EDI vs EBX after
+  onStructureCreated).
+- 0x001E756D, 0x00394879: `atan2f` -> float overload (0x422CD); relocation
+  now right, alignment unchanged.
+- 0x00560B11: math.h atan2 -> WWMath Rva001333F0Atan2 (0x1333F0): 197 -> 196.
+All other wrapper calls in banks >= 0.8 already agree (0x10C841 fmod pair,
+Inv_Sqrt users, Sin/Cos users). Member-mutator view on 0x0045569D's keep
+delta is inert.

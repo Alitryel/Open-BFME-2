@@ -1,4 +1,6 @@
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
+// partial score=0.8823982179152894 date=2026-10-19
+// ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
 // partial score=0.8823982179152894 date=2026-10-16
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -16,6 +18,7 @@ const _List_iterator<T,Traits>& b)
 #include <algorithm>
 #include <string.h>
 #include <math.h>
+float atan2(float, float);
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
@@ -589,7 +592,7 @@ return TRUE;Coord3D pt;pt.x=0.0f;pt.y=0.0f;pt.z=0.0f;const ModuleInfo&info=build
 {pt=doorData->m_offset;break;}}}if(pt.GetLength()!=0.0f)
 {Matrix3D tm;tm.Make_Identity();tm.Rotate_Z(angle);Vector3 out(0.0f,0.0f,0.0f);Matrix3D::Transform_Vector(tm,Vector3(pt.x,pt.y,pt.z),&out);out.X +=worldPos->x;out.Y +=worldPos->y;if(builderObject&& builderObject->isKindOf(KINDOF_DOZER)
 && !TheAI->pathfinder()->QuickDoesPathExist(builderObject,worldPos,(const Coord3D*)&out,0))
-return FALSE;Real dy=out.Y - worldPos->y;Coord2D dir;dir.x=out.X - worldPos->x;dir.y=dy;Real len=dir.length();GeometryInfo doorGeom(GEOMETRY_BOX,FALSE,1.0f,len* 0.5,0.5f);Real inv=1.0f / len;Real doorAngle=atan2f(dir.x* inv,dy* inv);Coord3D center;center.x=(out.X + worldPos->x)* 0.5f;center.y=(out.Y + worldPos->y)* 0.5f;center.z=worldPos->z;Real doorRange=build->getTemplateGeometryInfo().getMajorRadius()* 2.0f;BfmeWideResult iter2=ThePartitionManager->iterateObjectsInRange(worldPos,doorRange,FROM_CENTER_3D,
+return FALSE;Real dy=out.Y - worldPos->y;Coord2D dir;dir.x=out.X - worldPos->x;dir.y=dy;Real len=dir.length();GeometryInfo doorGeom(GEOMETRY_BOX,FALSE,1.0f,len* 0.5,0.5f);Real inv=1.0f / len;Real doorAngle=atan2(dir.x* inv,dy* inv);Coord3D center;center.x=(out.X + worldPos->x)* 0.5f;center.y=(out.Y + worldPos->y)* 0.5f;center.z=worldPos->z;Real doorRange=build->getTemplateGeometryInfo().getMajorRadius()* 2.0f;BfmeWideResult iter2=ThePartitionManager->iterateObjectsInRange(worldPos,doorRange,FROM_CENTER_3D,
 Rva0004584D(*(BfmeFixedStorage0004543D*)&Rva00045411BitSet(0,KINDOF_STRUCTURE),*(BfmeFixedStorage0004543D*)&KINDOFMASK_NONE)
 .link(&Rva00261353Filter(builderObject->getControllingPlayer()->m_playerIndex)),0);while((them=iter2.next())!=NULL)
 {if(them->getGeometryInfo().CollidesWith(*them->getPosition(),them->getOrientation(),doorGeom,center,doorAngle))

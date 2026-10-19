@@ -1,6 +1,8 @@
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9296820699597845 date=2026-10-19
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
+// partial score=0.9296820699597845 date=2026-10-19
+// ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9588173627150627 date=2026-10-16
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9578922598050313 date=2026-10-14
@@ -574,6 +576,7 @@ void *Rva00372D3AFind(void *obj);
 Real normalizeAngle(Real angle);
 Real Cos(Real angle);
 extern "C" float atan2f(float y, float x);
+float atan2(float y, float x);
 class Rva001E46E1
 
 {
@@ -927,7 +930,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   if (m_template->m_150 && hordeContain)
   desiredSpeed = hordeContain->slot144(desiredSpeed);
   Real angle = obj->getOrientation();
-  Real desiredAngle = atan2f(goalPos.y - obj->getPosition()->y, goalPos.x - obj->getPosition()->x);
+  Real desiredAngle = atan2(goalPos.y - obj->getPosition()->y, goalPos.x - obj->getPosition()->x);
   Real relAngle = normalizeAngle(desiredAngle - angle);
   Coord3D goal;
   goal.x = goalPos.x;

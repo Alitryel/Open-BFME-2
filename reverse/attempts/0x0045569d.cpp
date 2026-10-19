@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.95 date=2026-10-19
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.94 date=2026-10-19
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.976 date=2026-10-17
@@ -366,7 +368,7 @@ inline Object *GameLogic::findObjectByID(ObjectID id)
 }
 extern GameLogic *TheGameLogic;
 
-double Rva000422A0Atan2(Real y, Real x);
+extern "C" float __cdecl atan2f(float y, float x);
 Real normalizeAngle(Real angle);
 
 extern "C" void *__cdecl memset(void *dst, int value, unsigned int size);
@@ -499,7 +501,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 					delta.x -= keep->getPosition()->x;
 					delta.y -= keep->getPosition()->y;
 					const Coord3D *deltaPtr = &delta;
-					orientation = normalizeAngle(Rva000422A0Atan2(deltaPtr->y, deltaPtr->x));
+					orientation = normalizeAngle(atan2f(deltaPtr->y, deltaPtr->x));
 					orientation = obj->getTemplate()->getPlacementAngle() + orientation;
 				}
 			}

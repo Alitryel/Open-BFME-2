@@ -1,6 +1,8 @@
 // ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9672131147540983 date=2026-10-19
 // ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.9672131147540983 date=2026-10-19
+// ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.268 date=2026-10-17
 // ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.669017 date=2026-10-09
@@ -27,6 +29,7 @@
 */
 #include "ascii_string.h"
 #include <math.h>
+float Rva001333F0Atan2(float y, float x);
 class WWMath {public:static __forceinline float Cos(float);static __forceinline float Sin(float);};
 // ----------------------------------------------------------------------------
 // Cos
@@ -151,7 +154,7 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
   vertices[6].Set(0,low,0,1);vertices[7].Set(negWing,low,wingHeight,1);
   if(fabs(p->axis.X)>0.0001f){
    Rva0007671F rotation;
-   float facing=(float)(atan2(0.0f-p->axis.Y,p->axis.X)-1.5707963267948966);
+   float facing=(float)(Rva001333F0Atan2(0.0f-p->axis.Y,p->axis.X)-1.5707963267948966);
    D3DXMatrixRotationZ((D3DXMATRIX*)&rotation,facing);
    for(int i=0;i<8;++i){transformed=rotation*vertices[i];vertices[i]=transformed;}
   }
