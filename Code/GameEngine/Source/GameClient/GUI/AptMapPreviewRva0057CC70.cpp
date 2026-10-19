@@ -1,5 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE
-// ?rva0057CC70@AptMapPreview@@QAEPAURva0057CC70Color@@PAU2@PAUCC70Arg@@@Z @0x0057CC70 246B
+// ?v04@Rva0057C50C@@UAEPAXPAX0@Z @0x0057CC70 246B: slot 1 of the map preview's
+// colour callback (vtable 0x0086F31C, ctor 0x0057C50C, deleting dtor 0x0057C66C);
+// +0x04 is its owning AptMapPreview.
 // Evidence: chain from 0x0057C525 landing; neighbours AptMapPreviewSetMapDescription
 // (prev 0x0057CC43) and RvaTreeEraseClearFamily (next 0x0057CD78); callees rowed
 // 0x0043DA65 0x0057CA78 0x003FF29F 0x004FCA0C 0x0057C525 0x00381373.
@@ -110,17 +112,23 @@ struct CC70LWMView
 class AptMapPreview
 {
 public:
-	virtual void v0();
-	virtual void virt04(Rva0057CC70Color *o, Res004FCA0C *r);
-	Rva0057CC70Color *rva0057CC70(Rva0057CC70Color *o, CC70Arg *a);
 	// 0x0057C525 is the rowed AptMapPreview::AllowsStartInRegion(int) (AptMapPreview.cpp).
 	bool AllowsStartInRegion(int region);
-private:
-	CC70Outer *m_outer;
 };
 
-Rva0057CC70Color *AptMapPreview::rva0057CC70(Rva0057CC70Color *o, CC70Arg *a)
+class Rva0057C50C
 {
+public:
+	virtual void v0();
+	virtual void *v04(void *color, void *arg);
+private:
+	CC70Outer *m_outer;	// +0x04 the owning AptMapPreview
+};
+
+void *Rva0057C50C::v04(void *color, void *arg)
+{
+	Rva0057CC70Color *o = (Rva0057CC70Color *)color;
+	CC70Arg *a = (CC70Arg *)arg;
 	Rva0057CC70Color def;
 	def.r = 0.5f;
 	def.g = 0.5f;
@@ -149,7 +157,7 @@ Rva0057CC70Color *AptMapPreview::rva0057CC70(Rva0057CC70Color *o, CC70Arg *a)
 		Res004FCA0C *r = t->Rva004FCA0C((Rva0020E89C *)a);
 		if (r != (Res004FCA0C *)a)
 		{
-			virt04(o, r);
+			v04(o, r);
 			return o;
 		}
 		if (!((AptMapPreview *)m_outer)->AllowsStartInRegion((int)a))

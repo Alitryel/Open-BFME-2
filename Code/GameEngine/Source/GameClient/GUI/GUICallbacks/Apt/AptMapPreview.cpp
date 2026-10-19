@@ -47,13 +47,32 @@ typedef int Int;
 typedef bool Bool;
 
 class Rva0020E89C;
+class ModuleData;
+
+// Row spellings of the two start-region callees (Rva004FD6F9.cpp, Rva004FD448.cpp).
+class Rva004FD6F9
+{
+public:
+	Bool rva004FD8A8(const Rva004FD6F9 &region);	// 0x004FD8A8
+};
+class Rva004FD699
+{
+public:
+	void rva004FD699(const ModuleData *region, _STL::vector<const ModuleData *> *regions);	// 0x004FD699
+};
 
 class Rva004FD8A8Set
 {
 public:
-	Bool rva004FD8A8(Int region);		// 0x004FD8A8
+	__declspec(dllimport) __forceinline Bool rva004FD8A8(Int region)	// 0x004FD8A8
+	{
+		return ((Rva004FD6F9 *)this)->rva004FD8A8(*(const Rva004FD6F9 *)region);
+	}
 	Bool rva004FCA90();			// 0x004FCA90
-	void rva004FD699(Int region, _STL::vector<Rva0020E89C *> *regions);	// 0x004FD699
+	__declspec(dllimport) __forceinline void rva004FD699(Int region, _STL::vector<Rva0020E89C *> *regions)	// 0x004FD699
+	{
+		((Rva004FD699 *)this)->rva004FD699((const ModuleData *)region, (_STL::vector<const ModuleData *> *)regions);
+	}
 
 	unsigned char m_pad00[8];
 	AsciiString m_descKey;		// +0x08, passed to TheGameText->fetch
@@ -121,6 +140,13 @@ public:
 	void append(Rva002BA8F1Listener *listener);
 };
 
+// Row spelling of 0x003EEBEF (Rva003EE900Forward.cpp).
+class Rva003EEBEF
+{
+public:
+	void rva003EEBEF(Int value);		// 0x003EEBEF
+};
+
 // The singleton at 0x00DFE1C8 owns, at +0x268, the object that is told the
 // preview's campaign (0x003EF008, unrowed and unnamed in WB).
 class Rva003EF008
@@ -128,7 +154,10 @@ class Rva003EF008
 public:
 	void rva003EF008();			// 0x003EF008
 
-	void rva003EEBEF(Int value);		// 0x003EEBEF
+	__declspec(dllimport) __forceinline void rva003EEBEF(Int value)	// 0x003EEBEF
+	{
+		((::Rva003EEBEF *)this)->rva003EEBEF(value);
+	}
 
 	unsigned char m_pad00[0x38];
 	unsigned char m_field38[0x44 - 0x38];	// +0x38

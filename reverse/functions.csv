@@ -62919,7 +62919,7 @@ uw_0077af8b,,0x0077AF8B,24,Code/GameEngine/Source/GameClient/GUI/ControlBar/Cont
 ??1Rva0057D4EE@@QAE@XZ,,0x0057D4EE,5,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewDtor0057D4EE.cpp,matched,5B jmp to rowed AptMapPreview dtor
 ?rva004FD6F9@Rva004FD6F9@@QAE_NABV?$StringBase@D@@@Z,,0x004FD6F9,32,Code/GameEngine/Source/Common/Rva004FD6F9.cpp,matched,find begin end cmp end
 ?rva004FD8A8@Rva004FD6F9@@QAE_NABV1@@Z,,0x004FD8A8,16,Code/GameEngine/Source/Common/Rva004FD6F9.cpp,matched,16B thunk forwards o.m_14
-?rva0057CC70@AptMapPreview@@QAEPAURva0057CC70Color@@PAU2@PAUCC70Arg@@@Z,,0x0057CC70,246,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewRva0057CC70.cpp,matched,chain from 0x0057C525 via AptMapPreview neighbours
+?v04@Rva0057C50C@@UAEPAXPAX0@Z,,0x0057CC70,246,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewRva0057CC70.cpp,matched,chain from 0x0057C525 via AptMapPreview neighbours
 ?Rva0055D686Compute@@YGXPAVCoord3D@@PAVCoord2D@@MM@Z,,0x0055D686,81,Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,matched,REF slot EmissionVolumeInfo cylinder helper normalize then scale
 ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z,,0x00464EE7,224,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainRva00464EE7.cpp,matched,OpenContain primary vtable 0x00C435E8 slot 19; target field and call layout recorded in source. Method name and helper identities stay address-derived.
 ?rva00465011@OpenContainActionIface@@UAEXPAVObject@@@Z,,0x00465011,103,Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainRva00464EE7.cpp,matched,slot 32 of the +0x20 vtable 0x00C433B0; snapshots parent+0x54 list and calls aiExit 0x0036F39B for riders with AI; argument role unresolved
