@@ -37,7 +37,27 @@ list<Drawable *>::_M_create_node(Drawable *const &value)
 }
 }
 #include "Common/BfmeAudioEventPrefix136.h"
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
+#include <math.h>
+
+// Coord3D::length and Coord3D::normalize (0x000035B6), the select-any copies every
+// Coord3D user carries: finishAbility hands its direction to normalize, and
+// only with the body visible does the compiler see the address not escape
+// and give the flee and kind-of-filter temporaries retail's stack slots.
+inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+__declspec(noinline) inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
 
 enum ModelConditionFlagType
 {
@@ -92,11 +112,14 @@ class Thing
 public:
 	Drawable *getDrawable() const;
 	void setOrientation(float);
+	const Coord3D *getUnitDirectionVector2D() const;
 };
 class Player
 {
 public:
 	bool isLocalPlayer() const;
+	unsigned char m_pad00[0x5C];
+	int m_playerType; // +0x5C (0: human)
 };
 enum EvaEventID { EVA_EVENT_STUB = 0 };
 class Eva
@@ -158,6 +181,7 @@ class AICommandInterface
 public:
 	virtual void aiDoCommand(const void *parms);
 	void aiIdle(CommandSourceType cmdSource);
+	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
 	void aiMoveToPositionSA(const Coord3D *pos, int cmdSource);
 	void rva0044FFD9(Object *obj, CommandSourceType cmdSource);
 	void rva0045003E(int value, CommandSourceType cmdSource);
@@ -371,6 +395,7 @@ struct ApproachTargetContainer
 	unsigned char m_pad08[0x74 - 8];
 	unsigned int m_targetID; // +0x74
 };
+class CommandButton;
 class Object : public Thing
 {
 	friend class SpecialAbilityUpdate;
@@ -388,6 +413,7 @@ public:
 	// Zero Hour's inline Object::clearAndSetModelConditionState.
 	void clearAndSetModelConditionState(ModelConditionFlagType clr, ModelConditionFlagType set);
 	void setStatus(ObjectStatusTypes status, bool set);
+	void doCommandButton(const CommandButton *button, int flag, bool source);
 	void rva0028AE6D();
 	void setSpecialModelConditionState(ModelConditionFlagType mc, unsigned int frames);
 	__forceinline void setModelConditionState(ModelConditionFlagType mc)
@@ -469,7 +495,8 @@ public:
 	float m_approachRange; // +0x4C
 	unsigned char m_pad50[0x54 - 0x50];
 	float m_packUnpackVariationFactor; // +0x54
-	unsigned char m_pad58[0x6C - 0x58];
+	float m_fleeRangeAfterCompletion; // +0x58
+	unsigned char m_pad5C[0x6C - 0x5C];
 	int m_6C; // +0x6C ability condition selector (1..6)
 	unsigned char m_pad70[0x74 - 0x70];
 	unsigned int m_preparationFrames; // +0x74
@@ -484,6 +511,7 @@ public:
 	bool m_loseStealth; // +0xB0
 	unsigned char m_padB1[0xBC - 0xB1];
 	AsciiString m_targetBone; // +0xBC
+	AsciiString m_commandButtonName; // +0xC0 issued on completion when set
 };
 float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 typedef unsigned int AudioHandle;
@@ -570,6 +598,7 @@ protected:
 	bool initLaser(Object *specialObject, Object *target);
 public:
 	virtual void startUnpacking();
+	virtual void finishAbility();
 protected:
 	void endPreparation();
 private:
@@ -583,9 +612,13 @@ private:
 	ObjectID m_targetID; // +0x40
 	Coord3D m_targetPos; // +0x44
 	Coord3D m_previousTarget; // +0x50
-	unsigned char m_pad5C[0x78 - 0x5C];
+	unsigned char m_pad5C[0x6C - 0x5C];
+	unsigned int m_6C; // +0x6C flag word (bit 18: command button argument)
+	unsigned char m_pad70[0x78 - 0x70];
 	unsigned int m_approachFrames; // +0x78
-	unsigned char m_pad7C[0x83 - 0x7C];
+	unsigned char m_pad7C[0x80 - 0x7C];
+	bool m_withinStartAbilityRange; // +0x80
+	unsigned char m_pad81[0x83 - 0x81];
 	bool m_approached; // +0x83
 	unsigned int m_84; // +0x84
 };
@@ -1069,4 +1102,163 @@ bool SpecialAbilityUpdate::handlePackingProcessing()
   return true;
  }
  return false;
+}
+
+// Partition filters: the chain base, the one-player filter (vftable
+// 0x00BFAD04) and the kind-of filter with its must-be-set/must-be-clear masks.
+class Rva000421C8
+{
+public:
+	Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask();
+	Rva000421C8 *link(Rva000421C8 *next);	// 0x00625790
+	Rva000421C8 *m_next;
+};
+class Rva00260E2AFilter : public Rva000421C8
+{
+public:
+	Rva00260E2AFilter(Player *player) : m_player(player) {}
+	virtual bool allow(Object *obj);
+	virtual int getPlayerMask();
+	Player *m_player;
+};
+class BfmeFixedStorage0004543D
+{
+public:
+	BfmeFixedStorage0004543D(int, int);
+	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &) throw();
+private:
+	unsigned char bytes[28];
+};
+class Rva00045411BitSet
+{
+public:
+	Rva00045411BitSet(int unused, int bit);	// 0x00045411
+	unsigned char bytes[28];
+};
+class Rva0004584D : public Rva000421C8
+{
+public:
+	Rva0004584D(const BfmeFixedStorage0004543D &, const BfmeFixedStorage0004543D &) throw();
+	virtual bool allow(Object *obj);
+	BfmeFixedStorage0004543D m08, m24;
+};
+extern const BfmeFixedStorage0004543D g_009FEFA4;	// KINDOFMASK_NONE
+#include "../../../Common/PartitionRangeQueryCallView.h"
+extern PartitionManager *ThePartitionManager;
+class CommandButton
+{
+public:
+	unsigned char m_pad00[0x1C];
+	unsigned short m_options; // +0x1C
+};
+class ControlBar
+{
+public:
+	const CommandButton *findCommandButton(const AsciiString &name);
+};
+extern ControlBar *TheControlBar;
+class InGameUI
+{
+public:
+	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+	virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+	virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+	virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
+	virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
+	virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
+	virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35();
+	virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
+	virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
+	virtual void v44(); virtual void v45(); virtual void v46();
+	virtual void placeBuildAvailable(const CommandButton *button);	// slot 47 (+0xBC)
+};
+extern InGameUI *TheInGameUI;
+
+// SpecialAbilityUpdate::finishAbility, retail 0x00451B92 (794 bytes, vtable
+// slot 19; EvacuateGarrisonSpecialPower overrides it). Zero Hour's
+// finishAbility through the BFME1 donor, in WorldBuilder 0x10E7810's shape:
+// one direction for both legs. With a flee range and a valid target the unit
+// flees along (or, flipped, against) its facing, steering away from the
+// closest own kind-0x37 object, and moves there; otherwise BFME2 issues the
+// module's completion command button (or idles), then onExit.
+void SpecialAbilityUpdate::finishAbility()
+{
+	m_withinStartAbilityRange = false;
+	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
+	m_packingState = 0;
+	const bool validTarget = m_targetPos.x || m_targetPos.y || m_targetPos.z || 0 != m_targetID;
+	if (data->m_fleeRangeAfterCompletion && validTarget)
+	{
+		Coord3D pos;
+		pos.set(&m_object->m_position);
+		AIUpdateInterface *ai = m_object->getAI();
+		if (ai)
+		{
+			Coord3D dir;
+			dir.set(m_object->getUnitDirectionVector2D());
+			dir.normalize();
+			dir.scaleInlined(data->m_fleeRangeAfterCompletion);
+			if (data->m_flipAfterUnpacking || data->m_flipAfterPacking)
+				pos.add(&dir);
+			else
+				pos.sub(&dir);
+			Object *obj = m_object;
+			if (obj)
+			{
+				Player *player = obj->getControllingPlayer();
+				if (player)
+				{
+					Object *mine = ThePartitionManager->getClosestObject(&pos,
+						data->m_fleeRangeAfterCompletion, 0, Rva0004584D(*(const BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 0x37), g_009FEFA4).link(&Rva00260E2AFilter(player)));
+					if (mine)
+					{
+						dir.set(pos.x - mine->m_position.x, pos.y - mine->m_position.y, 0.0f);
+						dir.normalize();
+						dir.scaleInlined(data->m_fleeRangeAfterCompletion);
+						pos = mine->m_position;
+						pos.add(&dir);
+					}
+				}
+			}
+			const Object *target = TheGameLogic->findObjectByID(m_targetID);
+			if (target)
+				ai->ignoreObstacle(target);
+			ai->aiMoveToPosition(&pos, CMD_FROM_AI);
+		}
+	}
+	else if (!((const StringBase<char> *)&data->m_commandButtonName)->isEmpty())
+	{
+		const CommandButton *button = TheControlBar->findCommandButton(data->m_commandButtonName);
+		if (button)
+		{
+			if (button->m_options & 0x227)
+			{
+				const Object *obj = m_object;
+				if (obj)
+				{
+					Player *player = obj->getControllingPlayer();
+					if (player && player->isLocalPlayer() && player->m_playerType == 0)
+						TheInGameUI->placeBuildAvailable(button);
+				}
+			}
+			else
+			{
+				int flag;
+				if (m_6C & 0x40000) flag = 1; else flag = 0;
+				m_object->doCommandButton(button, flag, 0);
+			}
+		}
+	}
+	else
+	{
+		AIUpdateInterface *ai = m_object->getAI();
+		if (ai)
+			ai->aiIdle(CMD_FROM_AI);
+	}
+	onExit(false, false);
 }
