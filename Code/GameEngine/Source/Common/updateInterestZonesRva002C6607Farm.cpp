@@ -200,7 +200,7 @@ void TacticalAI::updateInterestZones() {
  PrototypeList::iterator end=prototypes.end();
  PrototypeList::iterator begin=prototypes.begin();
  PrototypeList::iterator p=begin;
- for(;p!=end;++p) {
+ for(;p._M_node!=end._M_node;++p) {
   for(DLINK_ITERATOR<Team> teams=(*(TeamPrototype * volatile *)&*p)->iterate_TeamInstanceList();!teams.done();(player ? teams.advance() : teams.advance())) {
    Team *team=teams.cur();
    if(team==((Rva002C6607PlayerView*)player)->excluded) continue;

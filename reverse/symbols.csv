@@ -11144,7 +11144,6 @@ name,address,notes
 ?startsWith@AsciiString@@QBE_NABV1@@Z,0x00035FB0,AsciiString view of StringBase<char>::startsWith; call at 0x00205543 in _adjustVariable
 ?startsWithNoCase@?$StringBase@D@@QBE_NPBDH@Z,0x000359B0,BFME2 export and retail call target; the body is banked as a near miss on one register choice
 ?startsWithNoCase@AsciiString@@QBE_NABV1@@Z,0x000362B0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?startsWithNoCase@AsciiString@@QBE_NPBD@Z,0x00036000,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?state0@Rva002E2903Player@@QAEXXZ,0x002E0668,Target REL32 from verified-shape RVA 002BA8F1; address-qualified TU view; Ghidra boundary and direct call target checked; semantics provisional
 ?state1@Rva002E2903Player@@QAEXXZ,0x002E066D,Target REL32 from verified-shape RVA 002BA8F1; address-qualified TU view; Ghidra boundary and direct call target checked; semantics provisional
 ?state2@Rva002E2903Player@@QAEXXZ,0x002E0675,Target REL32 from verified-shape RVA 002BA8F1; address-qualified TU view; Ghidra boundary and direct call target checked; semantics provisional

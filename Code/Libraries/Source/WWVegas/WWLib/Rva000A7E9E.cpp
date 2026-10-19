@@ -46,6 +46,12 @@ struct Rva000A7AA7Less
 typedef _STL::set<TreeKey00242F5E, Rva000A7AA7Less,
 	_STL::allocator<TreeKey00242F5E> > TreeKey00242F5ESet;
 
+// set::insert calls insert_unique out of line; bind it to the rowed retail copy
+// (stlport_rb_tree_treekey00242F5E_insert.cpp) instead of emitting this unit's own.
+namespace _STL { template <> pair<_Rb_tree_iterator<TreeKey00242F5E, _Nonconst_traits<TreeKey00242F5E> >, bool> _Rb_tree<TreeKey00242F5E, TreeKey00242F5E, _Identity<TreeKey00242F5E>, Rva000A7AA7Less, allocator<TreeKey00242F5E> >::insert_unique(const TreeKey00242F5E &); }
+// The _M_create_node row here was reached only through insert_unique; instantiate it.
+template _STL::_Rb_tree_node<TreeKey00242F5E> *_STL::_Rb_tree<TreeKey00242F5E, TreeKey00242F5E, _STL::_Identity<TreeKey00242F5E>, Rva000A7AA7Less, _STL::allocator<TreeKey00242F5E> >::_M_create_node(const TreeKey00242F5E &);
+
 struct Rva000A7E9EInput
 {
 	AsciiString m_at00;
@@ -139,7 +145,7 @@ void AudioFileCache::rva000A80A8(Rva000A80A8Item *item, int treeDetached)
 	if (!entry->m_slot.shouldRemove(0)) {
 		_STL::list<int, _STL::allocator<int> > *list =
 			(_STL::list<int, _STL::allocator<int> > *)((char *)this + 0x14 + entry->m_listIndex * 4);
-		for (_STL::list<int, _STL::allocator<int> >::iterator it = list->begin(); it != list->end(); ++it) {
+		for (_STL::list<int, _STL::allocator<int> >::iterator it = list->begin(); it._M_node != list->end()._M_node; ++it) {
 			if ((void *)(unsigned int)*it == entry) {
 				*(_STL::list<int, _STL::allocator<int> >::iterator *)(void *)&item = list->erase(it);
 				break;

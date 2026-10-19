@@ -36,6 +36,9 @@ public:
     static char *allocate(unsigned int bytes, const void *hint);
 };
 }
+// _M_insert calls _M_create_node out of line; bind it to the rowed retail copy
+// Rva000A7E9E.cpp instantiates (0x000A799B) instead of emitting this unit's own.
+namespace _STL { template <> _Rb_tree_node<TreeKey00242F5E> *_Rb_tree<TreeKey00242F5E, TreeKey00242F5E, _Identity<TreeKey00242F5E>, Rva000A7AA7Less, allocator<TreeKey00242F5E> >::_M_create_node(const TreeKey00242F5E &); }
 template _STL::pair<TreeKey00242F5ESetTree::iterator, bool> TreeKey00242F5ESetTree::insert_unique(const TreeKey00242F5ESetTree::value_type &);
 typedef _STL::set<TreeKey00242F5E, Rva000A7AA7Less, _STL::allocator<TreeKey00242F5E> > TreeKey00242F5ESet;
 template _STL::pair<TreeKey00242F5ESet::iterator, bool> TreeKey00242F5ESet::insert(const TreeKey00242F5ESet::value_type &);

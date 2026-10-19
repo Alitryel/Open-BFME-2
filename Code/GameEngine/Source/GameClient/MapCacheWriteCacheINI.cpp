@@ -91,13 +91,13 @@ void MapCache::writeCacheINI(bool userDir)
                 ++itw;
             }
             Coord3DList::iterator itc3d = md.techPositions.begin();
-            while (itc3d != md.techPositions.end()) {
+            while (itc3d._M_node != md.techPositions.end()._M_node) {
                 pos = *itc3d;
                 fprintf(fp,"  techPosition = X:%2.2f Y:%2.2f Z:%2.2f\n",pos.x,pos.y,pos.z);
                 itc3d++;
             }
             itc3d = md.supplyPositions.begin();
-            while (itc3d != md.supplyPositions.end()) {
+            while (itc3d._M_node != md.supplyPositions.end()._M_node) {
                 pos = *itc3d;
                 fprintf(fp,"  supplyPosition = X:%2.2f Y:%2.2f Z:%2.2f\n",pos.x,pos.y,pos.z);
                 itc3d++;
