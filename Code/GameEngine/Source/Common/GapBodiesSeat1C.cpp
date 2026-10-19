@@ -1014,39 +1014,6 @@ void Rva005DDDF0::rva005DDDF0(Rva005DDBAB *target)
 	target->rva005DDBAB(m_00, m_04);
 }
 
-// --- 0x005E0D27, 0x005E0D31 (10B each): the +0 object's slots 5 and 6;
-// the word argument is unused.
-class Rva005E0D27Target
-{
-public:
-	virtual void s0();
-	virtual void s1();
-	virtual void s2();
-	virtual void s3();
-	virtual void s4();
-	virtual void slot5();
-	virtual void slot6();
-};
-
-class Rva005E0D27
-{
-public:
-	void rva005E0D27(int value);
-	void rva005E0D31(int value);
-private:
-	Rva005E0D27Target *m_target;
-};
-
-void Rva005E0D27::rva005E0D27(int)
-{
-	m_target->slot5();
-}
-
-void Rva005E0D27::rva005E0D31(int)
-{
-	m_target->slot6();
-}
-
 // --- 0x005E2D66 (14B): the indexed flag of the +0x30 array of the +4
 // record.
 struct Rva005E2D66Record

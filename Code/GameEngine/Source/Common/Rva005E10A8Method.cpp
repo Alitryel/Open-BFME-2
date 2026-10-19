@@ -1,8 +1,9 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHsc /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /O1 /G7 /MD /EHsc /arch:SSE
 // StrategicHUD::CommandButtonMovieClip::Impl::OnInitialized (WorldBuilder name, line 234: replay Enable / ShowProductionCount / ShowTimerOverlay ... for the cached +0x41.. flags).
 // was ?rva005E10A8@Rva005E10A8@@QAEXH@Z retail 0x005E10A8 176B
 // Evidence: chain via rowed Fire 0x005277D9 triple Enable ShowProductionCount ShowTimerOverlay using level +0x08 prefix +0x0C from +8 else empty plus flags +0x41 +0x42 +0x43 and bool temps 0 1 1 plus final +0x40 to 1; same Fire shape as Rva00527890Move.cpp; ret 4 dummy int
 #include "ascii_string.h"
+#include "Common/Rva0007DF07.h"
 
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *ref); // 0x0007DEEF
@@ -131,6 +132,8 @@ struct Init005E1260
 {
 	template <class T> Init005E1260(T *object, void (T::*method)(const char *))
 		: m_object(reinterpret_cast<AptCommandTarget *>(object)), m_method(reinterpret_cast<void (AptCommandTarget::*)(const char *path)>(method)) {}
+	template <class T, class R> Init005E1260(T *object, R (T::*method)() const)
+		: m_object(reinterpret_cast<AptCommandTarget *>(object)), m_method(reinterpret_cast<void (AptCommandTarget::*)(const char *path)>(method)) {}
 
 	AptCommandTarget *m_object;
 	void (AptCommandTarget::*m_method)(const char *path);
@@ -143,11 +146,18 @@ public:
 	int m_refCount;
 };
 
+// The timer binder 0x005E1260 is rowed on its address-named class (as the
+// in-game command button's unit reaches it).
+class Rva005E1260
+{
+public:
+	Rva005E1260 &rva005E1260(const Init005E1260 *init); // 0x005E1260
+};
+
 template <> class AptRef<AptTimer>
 {
 public:
-	AptRef(const Init005E1260 *init) { rva005E1260(init); }
-	AptRef &rva005E1260(const Init005E1260 *init); // 0x005E1260
+	AptRef(const Init005E1260 *init) { ((Rva005E1260 *)this)->rva005E1260(init); }
 	AptRef(const AptRef &that);
 	~AptRef()
 	{
@@ -248,21 +258,11 @@ extern Rva00222A8BTarget *TheRva00222A8BTarget;
 extern const char g_Rva0107301CEmptyString[];
 void __cdecl Rva005277D9Fire(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, bool *flagPtr);
 
-// The owner's first base: a word at +0x04 and a vtable its ctor never
-// stores (as the army member icon's first base; novtable here, inference).
-class __declspec(novtable) Rva005E1627Base
-{
-public:
-	__forceinline Rva005E1627Base() : m_04(0) {}
-	virtual ~Rva005E1627Base();
-
-protected:
-	int m_04;
-};
-
+// The owner's first base is the canonical one-slot Rva0007DF07: retail's
+// unwind of the owner's ctor calls its destructor 0x004E84A4 (BC6F20 restore).
 namespace StrategicHUD
 {
-class CommandButtonMovieClip : public Rva005E1627Base
+class CommandButtonMovieClip : public Rva0007DF07
 {
 public:
 	class Impl;
@@ -316,6 +316,42 @@ private:
 };
 }
 
+// The owner's virtual slots 1..6 the Apt callbacks forward to (retail
+// vtable 0x00877998; its own slot spellings stay unrecovered).
+class CommandButtonMovieClipSlots
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual void v04();
+	virtual void v05();
+	virtual void v06();
+};
+
+// The Apt window manager's +0x318 mode (0: idle, 2: close).
+struct CommandButtonAptMode
+{
+	char m_pad000[0x318];
+	int m_mode;
+};
+
+// The timer's value: the +0x3C scale paired with a function-static colour
+// built on first use (0x80FFFFFF: white at half alpha, GameMakeColor's packing).
+typedef int Color;
+inline Color GameMakeColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
+{
+	return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
+
+struct Rva005E0D3BValue
+{
+	Rva005E0D3BValue(float value, Color color) : m_value(value), m_color(color) {}
+	float m_value;
+	Color m_color;
+};
+
 class StrategicHUD::CommandButtonMovieClip::Impl
 {
 public:
@@ -324,7 +360,7 @@ public:
 	void OnClicked(const char *path); // 0x005E0CEB
 	void OnRollOver(const char *path); // 0x005E0D27
 	void OnRollOut(const char *path); // 0x005E0D31
-	void OnTimer(const char *path); // 0x005E0D3B
+	Rva005E0D3BValue OnTimer() const; // 0x005E0D3B
 private:
 	CommandButtonMovieClip *m_owner; // +0x00
 	AptMovieClipFrame *m_frame; // +0x04
@@ -342,6 +378,7 @@ private:
 	bool m_flag43;
 
 	Rva005E10A8Inner *inner() const { return *(Rva005E10A8Inner *const *)&m_name; }
+	CommandButtonMovieClipSlots *slots() const { return (CommandButtonMovieClipSlots *)m_owner; }
 };
 
 void StrategicHUD::CommandButtonMovieClip::Impl::OnInitialized(int dummy)
@@ -364,6 +401,45 @@ void StrategicHUD::CommandButtonMovieClip::Impl::OnInitialized(int dummy)
 		Rva005277D9Fire(TheRva00222A8BTarget, (void *)m_level08, prefix2, "ShowTimerOverlay", &flag2);
 	}
 	m_flag40 = true;
+}
+
+// 0x005E0CEB: idle forwards to the owner's slot 1 or 2 by the +0x41 flag,
+// close mode to slot 3 or 4 (WorldBuilder line 257 asserts TheAptPlayer).
+void StrategicHUD::CommandButtonMovieClip::Impl::OnClicked(const char *)
+{
+	int mode = ((CommandButtonAptMode *)TheRva00222A8BTarget)->m_mode;
+	if (mode == 0)
+	{
+		if (m_flag41)
+			slots()->v01();
+		else
+			slots()->v02();
+	}
+	else if (mode == 2)
+	{
+		if (m_flag41)
+			slots()->v03();
+		else
+			slots()->v04();
+	}
+}
+
+// 0x005E0D27 and 0x005E0D31: the owner's slots 5 and 6.
+void StrategicHUD::CommandButtonMovieClip::Impl::OnRollOver(const char *)
+{
+	slots()->v05();
+}
+
+void StrategicHUD::CommandButtonMovieClip::Impl::OnRollOut(const char *)
+{
+	slots()->v06();
+}
+
+// 0x005E0D3B: the timer value (WorldBuilder 15DF290, bound as "_Timer").
+Rva005E0D3BValue StrategicHUD::CommandButtonMovieClip::Impl::OnTimer() const
+{
+	static const Color s_color = GameMakeColor(255, 255, 255, 128);
+	return Rva005E0D3BValue(m_scale, s_color);
 }
 
 StrategicHUD::CommandButtonMovieClip::Impl::Impl(CommandButtonMovieClip *owner, AptMovieClipFrame *frame, const AsciiString &instance)
