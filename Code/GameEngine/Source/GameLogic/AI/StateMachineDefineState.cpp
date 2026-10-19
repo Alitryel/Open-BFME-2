@@ -9,6 +9,13 @@
 // transitions-array setter; 40+ callers at 0x003431CA 0x00343204 0x003433FA; layout from
 // StateMachineGoal.cpp (+0x08 map +0x1C default) and StateCtor.cpp (+0x04/+0x08/+0x0C/+0x1C).
 #include <map>
+// Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
+// and this TU's /O1 COMDAT copy differs from the copy the link keeps.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 
