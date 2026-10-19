@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /ICode/Libraries/Include/Lib
 // stlport
 // ??0Drawable@@QAE@PBVThingTemplate@@W4DrawableStatus@@H@Z retail 0x002797BD 2111 bytes RET 0xC.
 //
@@ -187,13 +187,11 @@ struct Coord3DZero
 struct DrawableICoord2D { int x, y; };
 
 #include "../../../Libraries/Include/Lib/RGBColor.h"
-// bfme link decl-only begin
-namespace _STL { template <> void vector<ModuleData const *, allocator<ModuleData const *> >::_M_insert_overflow(ModuleData const **, ModuleData const *const &, __true_type const &, unsigned int, bool); }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVModuleData@@@_STL@@QBEXPAPBVModuleData@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// With the vector<const ModuleData*> owners' /D_CRTIMP= this TU emits retail's
+// push_back, _M_insert_overflow, _M_clear and allocator copies itself, so the
+// former declaration-only specializations of _M_insert_overflow and
+// allocator::deallocate are gone.
 class ModuleData;
-namespace _STL { template <> void allocator<const ModuleData *>::deallocate(const ModuleData **, size_t) const; }
 
 class Rva0010F149Handle
 {
