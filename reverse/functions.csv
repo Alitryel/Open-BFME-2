@@ -6300,15 +6300,15 @@ _peerCreateStagingRoomA,,0x0069AF90,48,Code/GameEngine/Source/GameNetwork/GameSp
 _piIsCallbackFinished,,0x0069F100,51,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerCallbacksFinished.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piCreateAutoMatchRoomCallback,,0x006A5370,110,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerAutoMatchCreateRoom.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piCreateAutoMatchRoom,,0x006A53E0,87,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerAutoMatchCreateRoom.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
-_peerConnectPreAuthA,,0x0069AE50,219,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainConnectPreAuth.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
+_peerConnectPreAuthA,,0x0069AE50,219,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piSBStartListingGroups,,0x006A6150,222,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerSBStartListingGroups.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piStartAutoMatchReporting,,0x006A7770,275,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerAutoMatchStartReporting.c,matched,bfme1 GameSpy sweep exact placement; strzcpy-strzcat map to CRT per retail imports
 _piSBGroupsListCallback,,0x006A55D0,279,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerSBGroupsListCallback.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piSBGamesListCallback,,0x006A5440,292,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerSBGamesListCallback.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piQRServerKeyCallback,,0x006A71F0,295,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerQRServerKeyCallback.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
-_piCheckBlockingID,,0x006986E0,37,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
-_peerLeaveRoomA,,0x0069A2C0,95,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
-_peerListGroupRoomsA,,0x0069A320,187,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
+_piCheckBlockingID,,0x006986E0,37,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
+_peerLeaveRoomA,,0x0069A2C0,95,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
+_peerListGroupRoomsA,,0x0069A320,187,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piSBInit,,0x006A5B00,322,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerSBInit.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piOperationFree,,0x0069FDF0,65,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _piOperationsInit,,0x0069FE40,59,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerOperations.c,matched,bfme1 GameSpy sweep exact placement; verbatim source import

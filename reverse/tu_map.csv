@@ -51832,7 +51832,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006985F0,78,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/qr2/qr2.c
 0x00698640,110,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/qr2/qr2.c
 0x006986B0,39,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/qr2/qr2.c
-0x006986E0,37,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c
+0x006986E0,37,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x00698710,74,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x00698760,61,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x006987A0,23,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
@@ -51914,8 +51914,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0069A130,40,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069A160,40,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069A190,298,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
-0x0069A2C0,95,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c
-0x0069A320,187,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainLeaveRoom.c
+0x0069A2C0,95,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
+0x0069A320,187,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069A3E0,46,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069A410,5,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainUTMPlayer.c
 0x0069A420,286,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
@@ -51929,7 +51929,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0069AB20,311,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069AC60,240,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069AD50,251,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
-0x0069AE50,219,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainConnectPreAuth.c
+0x0069AE50,219,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069AF30,83,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c
 0x0069AF90,48,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/PeerCreateStagingRoomA.cpp
 0x0069AFC0,48,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c

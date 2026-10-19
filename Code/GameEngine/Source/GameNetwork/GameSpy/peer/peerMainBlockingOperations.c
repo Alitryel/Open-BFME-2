@@ -240,9 +240,20 @@ void msleep(unsigned int milliseconds);
 int piIsOperationFinished(PEER peer, int opID);
 int PeerOperationsComplete(PEER peer, int opID);
 int piIsCallbackFinished(PEER peer, int opID);
+int piNewListGroupRoomsOperation(PEER peer, const char *fields,
+	void *callback, void *param, int opID);
+void piAddListGroupRoomsCallback(PEER peer, int success, int groupID,
+	const char *name, int maxWaiting, int numWaiting, int numGames,
+	int numPlaying, int numRooms, void *callback, void *param, int opID);
 void peerShutdown(PEER peer);
 __declspec(dllimport) char *__cdecl strncpy(char *destination,
 	const char *source, unsigned int count);
+
+static int piCheckBlockingID(PEER peer, int opID)
+{
+	return PeerOperationsComplete(peer, opID) &&
+		piIsCallbackFinished(peer, opID);
+}
 
 static unsigned int piGetPrivateIP(void)
 {
@@ -737,6 +748,55 @@ void peerConnectLoginA(PEER peer, int namespaceID, const char *email,
 	}
 }
 
+void peerConnectPreAuthA(PEER peer, const char *authtoken,
+	const char *partnerchallenge, void *nickErrorCallback,
+	void *connectCallback, void *param, int blocking)
+{
+	int success = 1;
+	int opID = piGetNextID(peer);
+	piConnection *connection = (piConnection *)peer;
+
+	if (connection->connected || connection->connecting)
+		success = 0;
+	if (success && !connection->title[0])
+		success = 0;
+
+	if (success)
+	{
+		connection->chat = 0;
+		connection->nick[0] = '\0';
+		connection->connected = 0;
+		connection->connecting = 1;
+		connection->nickErrorCallback = nickErrorCallback;
+		connection->profileID = 0;
+		connection->disconnect = 0;
+
+		if (!piNewConnectOperation(peer, 3, 0, 0, 0, 0, 0, 0,
+				authtoken, partnerchallenge, connectCallback, param, opID))
+		{
+			success = 0;
+			piDisconnectCleanup(peer);
+		}
+	}
+
+	if (!success)
+		piAddConnectCallback(peer, 0, 0, connectCallback, param, opID);
+
+	if (blocking)
+	{
+		do
+		{
+			msleep(1);
+			piThink(peer, opID);
+		}
+		while (!PeerOperationsComplete(peer, opID) ||
+			!piIsCallbackFinished(peer, opID));
+
+		if (connection->shutdown && connection->callbackDepth == 0)
+			peerShutdown(peer);
+	}
+}
+
 void peerGetRoomKeysA(PEER peer, int roomType, const char *nick, int num,
 	const char **keys, void *callback, void *param, int blocking)
 {
@@ -1114,6 +1174,56 @@ void peerCreateStagingRoomWithSocketA(PEER peer, const char *name,
 		}
 		while (!piIsOperationFinished(peer, opID) ||
 			!piIsCallbackFinished(peer, opID));
+
+		if (connection->shutdown && connection->callbackDepth == 0)
+			peerShutdown(peer);
+	}
+}
+
+void peerLeaveRoomA(PEER peer, int roomType, const char *reason)
+{
+	piConnection *connection = (piConnection *)peer;
+
+	if (!connection->title[0])
+		return;
+	if (!connection->connected)
+		return;
+	if (!connection->enteringRoom[roomType] && !connection->inRoom[roomType])
+		return;
+
+	piLeaveRoom(peer, roomType, reason);
+	if (roomType == 2 && connection->autoMatchStatus != 0 &&
+		connection->autoMatchStatus != 5)
+		piSetAutoMatchStatus(peer, 1);
+}
+
+void peerListGroupRoomsA(PEER peer, const char *fields, void *callback,
+	void *param, int blocking)
+{
+	piConnection *connection = (piConnection *)peer;
+	int success = 1;
+	int opID = piGetNextID(peer);
+
+	if (!connection->title[0])
+		success = 0;
+	if (!fields)
+		fields = "";
+	if (success &&
+		!piNewListGroupRoomsOperation(peer, fields, callback, param, opID))
+		success = 0;
+
+	if (!success)
+		piAddListGroupRoomsCallback(peer, 0, 0, 0, 0, 0, 0, 0, 0,
+			callback, param, opID);
+
+	if (blocking)
+	{
+		do
+		{
+			msleep(1);
+			piThink(peer, opID);
+		}
+		while (!piCheckBlockingID(peer, opID));
 
 		if (connection->shutdown && connection->callbackDepth == 0)
 			peerShutdown(peer);
