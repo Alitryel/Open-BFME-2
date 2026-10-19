@@ -1,6 +1,7 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /arch:SSE /G7
 //
 // ??0Class@AptCreateAHero@@QAE@PAURva005B3676Owner@@@Z, retail 0x005B57FA..0x005B59FD
+// (also OnMapLoaded 0x005B59FD, below)
 // (515 bytes, EH, ret 4). The create-a-hero class page (WB
 // AptCreateAHero::Class::Class; the class keeps its address name Rva005B5420
 // from its rowed dtor 0x005B5420, vtable 0x00C73450). Native evidence: stores
@@ -29,6 +30,7 @@ struct DelegateDesc
 		, m_method(reinterpret_cast<AptDelegateMethod>(method))
 	{
 	}
+	DelegateDesc() {}
 
 	AptDelegateTarget *m_object;
 	AptDelegateMethod m_method;
@@ -101,6 +103,9 @@ public:
 	Rva005B5420Base(Rva005B3676Owner *owner) : m_owner(owner) {}
 	virtual ~Rva005B5420Base() {}
 protected:
+	// Inline owner read: written as a plain m_owner read, cl keeps the +0x21C
+	// command-map offset in EDI across both registrations in OnMapLoaded.
+	Rva005B3676Owner *getOwner() const { return m_owner; }
 	Rva005B3676Owner *m_owner;
 };
 
@@ -110,6 +115,14 @@ public:
 	void Run(char *);
 };
 
+// The Exit callback 0x005B5418 keeps its rowed address-class name (the class
+// Rva005B5420Dtor.cpp views; only the method is needed here).
+class Rva005B5420
+{
+public:
+	void rva005B5418(const char *);
+};
+
 namespace AptCreateAHero
 {
 class Class : public Rva005B5420Base
@@ -117,9 +130,10 @@ class Class : public Rva005B5420Base
 public:
 	Class(Rva005B3676Owner *owner);
 	virtual ~Class() {}
-	void rva005B59FD();
-	void rva005B5418(const char *);
-	void rva0047A69C(const char *);
+	void OnMapLoaded();
+	// The OnMapClick delegate target is retail's shared empty ret-4 stub at
+	// RVA 0x0047A69C.
+	void OnMapClick(const char *) {}
 	// The InitGadgets delegate target is retail's shared empty ret-0xC stub
 	// at RVA 0x000D1407.
 	void rva000D1407(const char *, void *, GameWindow *) {}
@@ -143,4 +157,15 @@ AptCreateAHero::Class::Class(Rva005B3676Owner *owner)
 	{ AsciiString name("CahClass::NumClassTypes"); ((AptExternHandlerAdder *)owner->m_externs)->AddExternHandler(name, 1, AptRef<AptExternHandler>(MakeDelegate(this, &Class::ExternFunc))); }
 	{ AsciiString name("CahClass::NumClasses"); ((AptExternHandlerAdder *)owner->m_externs)->AddExternHandler(name, 0, AptRef<AptExternHandler>(MakeDelegate(this, &Class::ExternFunc))); }
 	{ AsciiString name("AptCreateAHero::Class::SetClassAndType"); ((AptCommandMapAdder *)owner->m_commands)->AddCommandMap(name, AptRef<AptCommandMap>(MakeDelegate((Rva005B57C6Box *)this, &Rva005B57C6Box::Run))); }
+}
+
+// 0x005B59FD..0x005B5AAF (178 bytes, EH): WB 0x0157BFF0
+// AptCreateAHero::Class::OnMapLoaded. Registers the Exit (0x005B5418) and
+// OnMapClick command maps on the owner's command-map adder (+0x21C), reusing
+// one delegate descriptor; the owner is re-read for each registration.
+void AptCreateAHero::Class::OnMapLoaded()
+{
+	DelegateDesc desc;
+	{ AsciiString name("AptCreateAHero::Class::Exit"); desc = MakeDelegate((Rva005B5420 *)this, &Rva005B5420::rva005B5418); getOwner()->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(desc)); }
+	{ AsciiString name("AptCreateAHero::Class::OnMapClick"); desc = MakeDelegate(this, &Class::OnMapClick); getOwner()->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(desc)); }
 }
