@@ -7,11 +7,34 @@
 //    into one call (`mov ecx,esi` before `push 0x17`, neg/sbb/inc for the negation). The constant 0x17 is hoisted into EDI once a loop holds 8 sites
 //    and steals the iterator's register; the named `ObjectID oid = *it` adds iterator weight and keeps 0x17 an immediate.
 //  - the six `getSingleObjectFromSelection` null checks are `return`, not `break` (they skip the shared selection-group cleanup).
-// cl: /Gy /Ireference/shims/bfme2_ascii /I. /ICode/GameEngine/Source/GameLogic/System/LogicDispatch/headers /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/shims/aicommandoutofline /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// cl: /Gy /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /I. /ICode/GameEngine/Source/GameLogic/System/LogicDispatch/headers /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/shims/aicommandoutofline /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 #include "Code/GameEngine/Source/GameLogic/System/LogicDispatch/owner_context.inc"
+// The ledger owns these two globals under their address names (data_ledger
+// 0x00A032F8 TheStatsCollector, 0x00A03138 TheVictoryConditions); read them there.
+extern StatsCollector *g_00E032F8;
+struct UnknownE03138;
+extern UnknownE03138 *g_00E03138;
+#define TheStatsCollector g_00E032F8
+#define TheVictoryConditions (*(VictoryConditionsInterface **)&g_00E03138)
 // bfme link decl-only begin
 namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+// list<Drawable *>'s base ctor is retail 0x00239BB0: its sentinel comes from the
+// 12-byte node pool at VA 0x00DBA5E0 (stlport_list_drawable_base_ctor.cpp states
+// the same specialization), so this unit's copy is retail's body.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> __declspec(noinline)
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+}
 // bfme link decl-only end
 inline __declspec(noinline) bool GameLogic::rva00085124() { return m_110 == 4 || m_110 == 7; }
 void GameLogic::logicMessageDispatcher( GameMessage *msg, void *userData )

@@ -535,7 +535,10 @@ Upgrade *rva002AE329(const UpgradeTemplate *,UpgradeStatusType,int);
 	/**
 		return this player's "default" team.
 	*/
-	Team *getDefaultTeam() { DEBUG_ASSERTCRASH(m_defaultTeam!=NULL,("default team is null")); return *(Team **)((char *)this+0x2ec); }
+	// Inline-only (dllimport): the dispatcher reads +0x2EC here, while retail's
+	// out-of-line Player::getDefaultTeam (0x0046F7E4) reads +0x160, so this
+	// view's COMDAT copy would not be retail's body.
+	__declspec(dllimport) Team *getDefaultTeam() { DEBUG_ASSERTCRASH(m_defaultTeam!=NULL,("default team is null")); return *(Team **)((char *)this+0x2ec); }
 	const Team *getDefaultTeam() const { DEBUG_ASSERTCRASH(m_defaultTeam!=NULL,("default team is null")); return *(Team **)((char *)this+0x2ec); }
 
 	void setBuildList(BuildListInfo *pBuildList);			///< sets the build list.
