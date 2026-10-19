@@ -198,7 +198,10 @@ extern "C" int __cdecl fprintf(FILE *stream, const char *format, ...);
 extern "C" FILE *theLogicRandomLogFile;
 
 // BFME 1's docking diagnostics switches (0x00DCBF44 and 0x00E03CA8).
-extern bool g_bfmeDockingDesyncLog;
+// The first is defined here: retail .data holds 1 at RVA 0x009CBF44, right
+// after this unit's header string tables; DozerAIUpdate::newTask (0x00489A07)
+// and WorkerAIUpdate::newTask (0x004AADB1) test it.
+bool g_bfmeDockingDesyncLog = true;
 extern bool g_bfmeDockingTraceActive;
 
 // Logic random log switch (data ledger 0x00A03745).
