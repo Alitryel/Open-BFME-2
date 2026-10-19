@@ -1140,6 +1140,26 @@ Rva003ED94FDtor::~Rva003ED94FDtor()
 	bfmeClearMembers((LGA_MemberObj *)this);
 }
 
+// ??1Rva003ED658@@QAE@XZ folds onto 0x003ED94F too: retail's unwind funclets
+// for the Rva003ED658 aggregates that LargeGroupAudio::rva0020D86C and
+// Rva0020DXXXElem::rva003EDD68 return call it there. It is that same tree
+// destructor (and needs this unit's /EHs: under /EHsc the state reset before
+// the header free drops out).
+class Rva003ED658
+{
+public:
+	RvaTreeFamilyHolder m_header;
+	int m_flag;
+	char m_unreconstructed08[4];
+	~Rva003ED658();
+};
+
+// ?Rva003ED658::~Rva003ED658 present-unmatched (ICF-folded at 0x003ED94F; pinned)
+Rva003ED658::~Rva003ED658()
+{
+	bfmeClearMembers((LGA_MemberObj *)this);
+}
+
 
 // ??1Rva0041090E@@QAE@XZ @0x00410CB9 56B -> Rva0041090E::rva00410A14
 class Rva0041090E
