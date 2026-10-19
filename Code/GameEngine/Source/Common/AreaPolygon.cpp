@@ -31,6 +31,29 @@ struct BfmeE8 {
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> vector<BfmeE8,allocator<BfmeE8> >::vector(vector<BfmeE8,allocator<BfmeE8> > const &); }
+// Retail's growth path is the no-EH provider 0x00057C80; spell its
+// algorithm out so this TU's copy is that provider instead of an EH copy.
+namespace _STL {
+template<> inline void vector<BfmeE8>::_M_insert_overflow(
+    pointer position, const BfmeE8 &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = start;
+    finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    _M_clear();
+    _M_set(start, finish, start + length);
+}
+}
 
 // Retail 0x0030B9F3..0x0030BA8C is the STLport insertion provider called
 // below: the explicit float copy constructor reproduces its movss temporary

@@ -17,6 +17,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct BfmeE8 { int a, b; };
+// insert(pos, x) is AreaPolygon's /O1 body 0x0030B9F3; call it, emit no copy.
+namespace _STL { template <> vector<BfmeE8>::iterator vector<BfmeE8>::insert(iterator, const BfmeE8 &); }
 template class _STL::vector<BfmeE8, _STL::allocator<BfmeE8 > >;
 
 // MilesAudioManager's 8-byte trigger-area record: retail folds its push_back

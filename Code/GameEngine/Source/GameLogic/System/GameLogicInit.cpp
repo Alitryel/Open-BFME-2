@@ -5152,6 +5152,29 @@ if ((LS_MODE != 0 || LS_MODE == 0)) {
 // at EBP-0x94 and originalOwner at EBP-0x30. The object guard must retain its
 // lexical scope even though the initial rejection guards are early continues.
 struct BfmeE8 { int a, b; };
+// Retail's push_back calls the no-EH provider 0x00057C80; spell its
+// algorithm out so this TU's copy is that provider instead of an EH copy.
+namespace _STL {
+template<> inline void vector<BfmeE8>::_M_insert_overflow(
+    pointer position, const BfmeE8 &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = start;
+    finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    _M_clear();
+    _M_set(start, finish, start + length);
+}
+}
 class GameClient { public: void rva0023B383(Dict *, ThingTemplate *, const Coord3D *); };
 extern "C" int (__cdecl * const _imp__strncmp)(const char *s1, const char *s2, unsigned int count);
 class Rva0028CBFD
