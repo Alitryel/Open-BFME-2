@@ -1,13 +1,13 @@
-// ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
-// partial score=0.99 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode
-// 0x0051EED7 bank 2026-10-19 (claude-opus-5-5): hack-free 2048/2048, nd 15 (was 72): every differing byte is
-// one slot swap (retail graphMode -0x24 / {label, j char-offset IV} -0x20; ours reversed). The fix: the frame
-// character goes through a TU-local StringBase<unsigned short>::concat(unsigned short) specialization (as
-// HotKeySearch.cpp) so it is an inlined parameter, not an address-taken local (WB 0x13DC050 temp local_156).
-// Two candidates remain: this early-return form (extra return path weighs graphMode up) and
-// build/nbr/r6/51eed7/best_nested.cpp (every frame slot right but `this` in EDI not ESI, nd 83). Needs /EHsc;
-// home likely AptTimeLineCtor.cpp / AptTimeLineStats.cpp or a split unit. Scratch: build/nbr/r6/51eed7/.
+//
+// ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z, retail 0x0051EED7 (2048 B): the
+// time-line stats graph renderer. Shape follows WB 0x13DC050: the whole body nested under
+// if (m_lastFrames != maxFrames) (its je goes straight to the shared graphMode destructor),
+// the frame character passed to an inline StringBase<unsigned short>::concat(unsigned short)
+// (as HotKeySearch.cpp), the +0x2B8 focus weights a real _STL::vector<float> (WB reads
+// this+0x2B8 through an inlined member call) indexed by one index local per draw call.
+// The +0x2B8 vector is this private view's layout claim; other AptTimeLine units still
+// view it opaquely.
 // stlport
 //
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
@@ -155,7 +155,7 @@ private:
 	Image *m_eventImageB;               // +0x2AC
 	float m_lastMaximum;                // +0x2B0
 	int m_lastFrames;                   // +0x2B4
-	float *m_focus;                     // +0x2B8, the focus weights' vector storage
+	_STL::vector<float> m_focus;        // +0x2B8, one focus weight per player (WB: inline member call on this+0x2B8)
 };
 
 template<> inline void StringBase<unsigned short>::concat(unsigned short c) { concat(&c, 1); }
@@ -221,8 +221,10 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 	{
 		unsigned int color = player->m_color & 0xFFFFFF;
 		series->m_player = player;
-		graph.rva0051E511(series, 1.0f, 3.0f, ((int)(m_focus[player - m_players.begin()] * 0.5f * 255.5)) << 24 | color);
-		graph.rva0051E511(series, 1.0f, 1.0f, ((int)(m_focus[player - m_players.begin()] * 255.5)) << 24 | color);
+		int glowIndex = player - m_players.begin();
+		graph.rva0051E511(series, 1.0f, 3.0f, ((int)(m_focus[glowIndex] * 0.5f * 255.5)) << 24 | color);
+		int lineIndex = player - m_players.begin();
+		graph.rva0051E511(series, 1.0f, 1.0f, ((int)(m_focus[lineIndex] * 255.5)) << 24 | color);
 	}
 
 	for (player = m_players.begin(); player != m_players.end(); ++player)
@@ -252,78 +254,78 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 		m_lastMaximum = maximum;
 	}
 
-	if (m_lastFrames == maxFrames)
-		return;
-
-	for (int i = 0; i < 11; ++i)
+	if (m_lastFrames != maxFrames)
 	{
-		UnicodeString text;
-		if (m_gameType == 6 || m_gameType == 7)
+		for (int i = 0; i < 11; ++i)
 		{
-			text.format(L"%d", _STL::min(i * maxFrames / 10 + 1, maxFrames));
-			g_bfmeAptWindowManager->bfmeSetText(AsciiString("Timeline:XAxisDescription"), UnicodeString(L" "), false);
-		}
-		else
-		{
-			int frame = (int)((maxFrames + 0.5f) * i * 0.1f);
-			int totalSeconds = maxFrames / g_Va00DBA4E4;
-			int seconds = frame / g_Va00DBA4E4;
-			UnicodeString format;
-			if (totalSeconds < 3600)
+			UnicodeString text;
+			if (m_gameType == 6 || m_gameType == 7)
 			{
-				format = TheGameText->fetch("APT:TimeMinuteSecond");
-				AsciiString name("Timeline:XAxisDescription");
-				g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionMinuteSecond"), false);
-			}
-			else if (totalSeconds < 86400)
-			{
-				format = TheGameText->fetch("APT:TimeHoursMinute");
-				AsciiString name("Timeline:XAxisDescription");
-				g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionHoursMinute"), false);
+				text.format(L"%d", _STL::min(i * maxFrames / 10 + 1, maxFrames));
+				g_bfmeAptWindowManager->bfmeSetText(AsciiString("Timeline:XAxisDescription"), UnicodeString(L" "), false);
 			}
 			else
 			{
-				format = TheGameText->fetch("APT:TimeDaysHoursMinute");
-				AsciiString name("Timeline:XAxisDescription");
-				g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionDaysHoursMinute"), false);
-			}
-
-			UnicodeString piece;
-			for (int j = 0; j < format.getLength(); ++j)
-			{
-				const WideStringView &view = *(const WideStringView *)&format;
-				if (view.charAt(j) == 's')
+				int frame = (int)((maxFrames + 0.5f) * i * 0.1f);
+				int totalSeconds = maxFrames / g_Va00DBA4E4;
+				int seconds = frame / g_Va00DBA4E4;
+				UnicodeString format;
+				if (totalSeconds < 3600)
 				{
-					piece.format(L"%02d", seconds % 60);
-					text += piece;
+					format = TheGameText->fetch("APT:TimeMinuteSecond");
+					AsciiString name("Timeline:XAxisDescription");
+					g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionMinuteSecond"), false);
 				}
-				else if (view.charAt(j) == 'm')
+				else if (totalSeconds < 86400)
 				{
-					piece.format(L"%02d", seconds / 60 % 60);
-					text += piece;
-				}
-				else if (view.charAt(j) == 'h')
-				{
-					piece.format(L"%02d", seconds / 60 / 60 % 24);
-					text += piece;
-				}
-				else if (view.charAt(j) == 'd')
-				{
-					piece.format(L"%d", seconds / 60 / 60 / 24);
-					text += piece;
+					format = TheGameText->fetch("APT:TimeHoursMinute");
+					AsciiString name("Timeline:XAxisDescription");
+					g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionHoursMinute"), false);
 				}
 				else
 				{
-					text.concat(view.charAt(j));
+					format = TheGameText->fetch("APT:TimeDaysHoursMinute");
+					AsciiString name("Timeline:XAxisDescription");
+					g_bfmeAptWindowManager->bfmeSetText(name, TheGameText->fetch("APT:TimeDescriptionDaysHoursMinute"), false);
+				}
+
+				UnicodeString piece;
+				for (int j = 0; j < format.getLength(); ++j)
+				{
+					const WideStringView &view = *(const WideStringView *)&format;
+					if (view.charAt(j) == 's')
+					{
+						piece.format(L"%02d", seconds % 60);
+						text += piece;
+					}
+					else if (view.charAt(j) == 'm')
+					{
+						piece.format(L"%02d", seconds / 60 % 60);
+						text += piece;
+					}
+					else if (view.charAt(j) == 'h')
+					{
+						piece.format(L"%02d", seconds / 60 / 60 % 24);
+						text += piece;
+					}
+					else if (view.charAt(j) == 'd')
+					{
+						piece.format(L"%d", seconds / 60 / 60 / 24);
+						text += piece;
+					}
+					else
+					{
+						text.concat(view.charAt(j));
+					}
 				}
 			}
-		}
 
-		AsciiString name;
-		name.format("Timeline:XAxis:%d", i);
-		g_bfmeAptWindowManager->bfmeSetText(name, text, false);
-		if (i == 10)
-			g_bfmeAptWindowManager->bfmeSetText(AsciiString("Timeline:TotalTime"), text, false);
+			AsciiString name;
+			name.format("Timeline:XAxis:%d", i);
+			g_bfmeAptWindowManager->bfmeSetText(name, text, false);
+			if (i == 10)
+				g_bfmeAptWindowManager->bfmeSetText(AsciiString("Timeline:TotalTime"), text, false);
+		}
+		m_lastFrames = maxFrames;
 	}
-	m_lastFrames = maxFrames;
 }
