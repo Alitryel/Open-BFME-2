@@ -19,6 +19,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
 // Bind to the kept retail copy instead of emitting this unit's own.

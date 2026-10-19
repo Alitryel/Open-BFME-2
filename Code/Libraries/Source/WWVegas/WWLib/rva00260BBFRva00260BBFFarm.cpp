@@ -9,6 +9,9 @@
 #include "unicode_string.h"
 #include <vector>
 #include <algorithm>
+// Import-inline: every _STL::max<unsigned int> use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
 // bfme link decl-only begin
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
 // bfme link decl-only end

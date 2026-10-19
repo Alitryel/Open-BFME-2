@@ -12,6 +12,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Ob
 #include <set>
 #include "Lib/Coord3D.h"
 #include "GameLogicObjectLookupView.h"
+// Import-inline: every _STL::max<unsigned int> use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
 
 struct AITeamBuilderLookupNode { AITeamBuilderLookupNode *next; ObjectID key; Object *object; };
 struct AITeamBuilderLookupBuckets {

@@ -26,6 +26,9 @@ namespace _STL {
 template <> bool less<unsigned int>::operator()(const unsigned int &a, const unsigned int &b) const;
 }
 #include <cstddef>
+// Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 // bfme link decl-only begin
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
 namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
