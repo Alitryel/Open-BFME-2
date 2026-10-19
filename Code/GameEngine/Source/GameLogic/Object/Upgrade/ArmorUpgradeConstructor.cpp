@@ -52,6 +52,10 @@ class ArmorUpgrade : public UpgradeModule
 {
 public:
 	ArmorUpgrade( Thing *thing, const ModuleData *moduleData );
+
+// Protected virtual, as ArmorUpgradeDtor.cpp (row 0x004B33FD) declares it.
+protected:
+	virtual ~ArmorUpgrade();
 };
 
 // ??0ArmorUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z
