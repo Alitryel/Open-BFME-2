@@ -1,4 +1,6 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.9833715596330275 date=2026-10-19
+// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9823 date=2026-10-17
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
 // Parallel bank (other seat, .978, 441/462 insns at this rebase; this bank 443/462) notes:
@@ -18,6 +20,8 @@
 // canonical Coord3D storage. Its empty ctor is a whole3B relocation-free
 // twin of the owned47A6A9 coordinate ctor; the alias adds no unique bytes.
 // Actual C++ bases supply all three vtable stores and two EH cleanup states.
+// Scalar X accumulators preserve the retail evaluation order.
+// Cross-product stages retain separate input lifetimes for each basis update.
 #include "Coord3D.h"
 #include "ascii_string.h"
 typedef int Int;
@@ -217,6 +221,16 @@ static inline void Rva00561564CrossP(const FXParticleSystem::LightningDrawModule
  r->y=(a->z*b->x-a->x*b->z);
  r->z=(a->x*b->y-a->y*b->x);
 }
+static inline void Rva00561564CrossFirst(const FXParticleSystem::LightningDrawModule::Vec *a,const FXParticleSystem::LightningDrawModule::Vec *b,FXParticleSystem::LightningDrawModule::Vec *r){
+ float p=a->y; p*=b->z; r->x=p-a->z*b->y;
+ r->y=(a->z*b->x-a->x*b->z);
+ r->z=(a->x*b->y-a->y*b->x);
+}
+static inline void Rva00561564CrossSecond(const FXParticleSystem::LightningDrawModule::Vec *a,const FXParticleSystem::LightningDrawModule::Vec *b,FXParticleSystem::LightningDrawModule::Vec *r){
+ float p=a->y*b->z; float q=a->z; q*=b->y; r->x=p-q;
+ r->y=(a->z*b->x-a->x*b->z);
+ r->z=(a->x*b->y-a->y*b->x);
+}
 int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,void* bounds,int* particleCount) {
  if(WW3D::IsCurrentlyRenderingShadowMap)return 0;
  int n=0;
@@ -248,14 +262,17 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
   if(refresh){
    axisA.Set(locs[n-1].X-locs[0].X,locs[n-1].Y-locs[0].Y,locs[n-1].Z-locs[0].Z);axisA.normalize();
    axisC.x=0;axisC.y=0;axisC.z=1;
-   Rva00561564CrossP(&axisC,&axisA,&axisB);
-   Rva00561564CrossP(&axisA,&axisB,&axisC);
+   Rva00561564CrossFirst(&axisC,&axisA,&axisB);
+   Rva00561564CrossSecond(&axisA,&axisB,&axisC);
    for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
     if(i!=0 && i!=n-1){
      float v0=((GameClientRandomVariable*)&a)->getValue();
      float v1=((GameClientRandomVariable*)&b)->getValue();
      float v2=((GameClientRandomVariable*)&c)->getValue();
-     offset[i].x=v1*axisC.x+v2*axisA.x+v0*axisB.x;
+     float sumX=v2*axisA.x;
+     sumX=sumX+v0*axisB.x;
+     sumX=sumX+v1*axisC.x;
+     offset[i].x=sumX;
      offset[i].y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
      offset[i].z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
      Rva00561564AddP(&locs[i],&offset[i],&out[i]);
