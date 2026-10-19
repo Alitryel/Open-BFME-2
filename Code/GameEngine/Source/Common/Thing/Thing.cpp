@@ -127,13 +127,8 @@ public:
 
 // Thing::Thing: defined in ThingConstructor.cpp (its row's unit).
 
-//=============================================================================
-/** Destructor */
-//=============================================================================
-// ??1Thing@@MAE@XZ present-unmatched
-Thing::~Thing()
-{
-}
+// Thing::~Thing: defined in ThingConstructor.cpp (its row's unit; retail lowers
+// the live-instance count, which Zero Hour's empty destructor here did not).
 
 //DECLARE_PERF_TIMER(ThingMatrixStuff)
 

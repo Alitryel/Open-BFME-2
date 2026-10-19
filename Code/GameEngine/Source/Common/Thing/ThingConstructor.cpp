@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
+// cl: /O1 /Ob1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // ??0Thing@@QAE@PBVThingTemplate@@@Z retail 0x0030A188 187 bytes RET 4.
 //
 // Thing::Thing (WorldBuilder twin 0x00CEC1B0 in Thing.cpp; Zero Hour's
@@ -68,9 +68,9 @@ private:
 };
 
 // Live Thing instance count (WorldBuilder asserts m_instances>0 in
-// Thing::~Thing); the data ledger names it after the destructor's
-// placeholder class and Rva0030A120Dtor.cpp owns the definition.
-extern int g_Rva0030A120Count;
+// Thing::~Thing); the data ledger still names it after the destructor's
+// former placeholder class Rva0030A120 (original global name unknown).
+int g_Rva0030A120Count;
 
 class Object;
 class Drawable;
@@ -121,4 +121,14 @@ Thing::Thing(const ThingTemplate *thingTemplate)
 	m_cachedAltitudeAboveTerrain = 0;
 	m_cachedAltitudeAboveTerrainOrWater = 0;
 	m_cacheFlags = 0;
+}
+
+// Thing::~Thing 0x0030A120 13B: restores the Thing vftable and lowers the live
+// instance count (WorldBuilder twin Thing::~Thing in Thing.cpp asserts it was
+// positive). Protected virtual as in Zero Hour's MEMORY_POOL_GLUE_ABC(Thing).
+// Its compiler-generated scalar deleting destructor ??_GThing 0x0030A243 28B is
+// the vftable's slot 7, emitted here beside the vftable.
+Thing::~Thing()
+{
+	--g_Rva0030A120Count;
 }

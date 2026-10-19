@@ -58,10 +58,11 @@ struct Rva00299CE4Template
 };
 
 // Thing (destructor 0x0030A120, 0x60 bytes): primary vftable, template at +4.
-class Rva0030A120
+class Thing
 {
+protected:
+	virtual ~Thing();	// protected as in Zero Hour's MEMORY_POOL_GLUE_ABC(Thing)
 public:
-	virtual ~Rva0030A120();
 	const Rva00299CE4Template *m_template;			// +0x04
 	unsigned char m_unmodelled008[0x58];
 };
@@ -162,7 +163,7 @@ struct Rva002D76C6Owner;
 class Radar { public: void removeObject(Rva002D76C6Owner *obj); };
 extern Radar *TheRadar;
 
-class Object : public Rva0030A120, public Snapshot, public Rva00BFC2D8Base, public Rva00BFC2B8Base, public Rva00BFC290Base
+class Object : public Thing, public Snapshot, public Rva00BFC2D8Base, public Rva00BFC2B8Base, public Rva00BFC290Base
 {
 public:
 	virtual void LoadPostProcess();
