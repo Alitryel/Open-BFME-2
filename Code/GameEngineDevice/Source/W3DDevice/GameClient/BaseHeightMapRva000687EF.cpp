@@ -1,12 +1,4 @@
-// ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.64 date=2026-10-17
-// ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.7815 date=2026-10-15
-// ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.691852 date=2026-10-10
-// ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.638345 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include
+// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include
 // Native687EF..68D431364. ZH updateScorches supplies terrain-grid mesh semantics;
 // BFME2 uses tree queryEAFA4 for radius and atlas transforms, clips outside UVs
 // to the projection edge and samples the terrain virtual height there.
@@ -17,7 +9,14 @@ class W3DTreeBuffer {public:bool rva000EAFA4(int,Rva000EAFA4Coord3*,float*,Rva00
 struct ProjectionVertex687EF {float x,y,z;unsigned diffuse;float u,v;};
 class VertexBufferClass {public:class WriteLockClass {public:WriteLockClass(VertexBufferClass*,int);~WriteLockClass();VertexBufferClass*buffer;ProjectionVertex687EF*vertices;char mutex[4];};};
 class IndexBufferClass {public:class WriteLockClass {public:WriteLockClass(IndexBufferClass*,int);~WriteLockClass();IndexBufferClass*buffer;unsigned short*indices;char mutex[4];};};
-class Rva0006653B {public:unsigned short rva0006653B(int,int);};
+class Rva0006653B {public:
+ unsigned short rva0006653B(int x,int y) {
+  if(x<0)x=0;else if(x>=width)x=width-1;
+  if(y<0)y=0;else if(y>=height)y=height-1;
+  int extent=width;unsigned short*data=heights;return data[y*extent+x];
+ }
+ char pad00[8];int width,height,border;char pad14[0x24-0x14];unsigned short*heights;
+};
 class Gen_0074B410 {public:bool bfmeBitA(int,int)const;};
 struct ProjectionMap687EF {char pad00[8];int width,height,border;};
 class GlobalData;extern GlobalData*TheWritableGlobalData;
@@ -178,20 +177,19 @@ void BaseHeightMapRenderObjClass::rva000687EF(){
   if(((ProjectionGlobal687EF*)TheWritableGlobalData)->enabled61){
    IndexBufferClass::WriteLockClass il(indices37a8,0);unsigned short*curIb=il.indices;
    VertexBufferClass::WriteLockClass vl(vertices37a4,0);ProjectionVertex687EF*curVb=vl.vertices;
-   ProjectionMap687EF*map=map37c0;
-   int borderSize=(map?map:map)->border;int count=tree3850->count;
+   int borderSize=(map37c0?map37c0:map37c0)->border;int count=tree3850->count;
    for(int curTree=0;curTree<count;curTree++){
     Rva000EAFA4Coord3 loc;float radius;Rva000EAFA4Coord2 scale,offset;
     if(tree3850->rva000EAFA4(curTree,&loc,&radius,&scale,&offset)){
      float minXf=floorf((loc.x-radius)*0.1f);
-     float minYf=floorf((loc.y-radius)*0.1f);
      int minX=fast_float2long_round(minXf);
+     float minYf=floorf((loc.y-radius)*0.1f);
      int minY=fast_float2long_round(minYf);
      if(minX<-borderSize)minX=-borderSize;if(minY<-borderSize)minY=-borderSize;
      int maxX=fast_float2long_round(ceilf((loc.x+radius)*0.1f));maxX++;
      int maxY=fast_float2long_round(ceilf((loc.y+radius)*0.1f));maxY++;
-     if(maxX>(map?map:map)->width-borderSize)maxX=(map?map:map)->width-borderSize;
-     if(maxY>(map?map:map)->height-borderSize)maxY=(map?map:map)->height-borderSize;
+     if(maxX>map37c0->width-borderSize){int extent=map37c0->width;maxX=extent-borderSize;}
+     if(maxY>map37c0->height-borderSize){int extent=map37c0->height;maxY=extent-borderSize;}
      int startVertex=vertices37b0;int i,j;
      for(j=minY;j<maxY;j++){
       float Y=j*10.0f;
@@ -213,9 +211,10 @@ void BaseHeightMapRenderObjClass::rva000687EF(){
      }
      int yOffset=maxX-minX;
      for(j=0;j<maxY-minY-1;j++){
+      int yNdx=j+minY+borderSize;
       for(i=0;i<maxX-minX-1;i++){
        if(indices37b4+6>maxIndices37bc)return;
-       bool flip=((Gen_0074B410*)map37c0)->bfmeBitA(i+minX+borderSize,j+minY+borderSize);
+       bool flip=((Gen_0074B410*)map37c0)->bfmeBitA(i+minX+borderSize,yNdx);
        if(flip){
         *curIb++=startVertex+j*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i;*curIb++=startVertex+j*yOffset+i;
         *curIb++=startVertex+j*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i;
