@@ -43,7 +43,11 @@ struct __declspec(uuid("ee883b17-0778-4b18-a12b-e44c0d298412")) IFEBrowserEngine
 };
 struct __declspec(uuid("2b2cc8b0-2dc0-48c6-b6fd-c07820a6477e")) FEBrowserEngine2;
 typedef _com_ptr_t<_com_IIID<IFEBrowserEngine2,&__uuidof(IFEBrowserEngine2)> > IFEBrowserEngine2Ptr;
-extern IFEBrowserEngine2Ptr Rva0134B280Browser;
+// The browser smart pointer lives at retail 0x009F7040, the global
+// BfmeConv804.cpp owns as g_bfmeObjECF; this unit views it as the COM pointer.
+struct BfmeObjECF;
+extern BfmeObjECF *g_bfmeObjECF;
+#define Rva0134B280Browser (*reinterpret_cast<IFEBrowserEngine2Ptr *>(&g_bfmeObjECF))
 class WW3D { public: static void *Get_Window(); };
 struct IDirect3DDevice8;
 class DX8Wrapper { protected: static IDirect3DDevice8 *D3DDevice; public: static IDirect3DDevice8 *_Get_D3D_Device8(){return D3DDevice;} };
