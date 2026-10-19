@@ -70,7 +70,9 @@ void __cdecl rva007B7CAF();
 void __cdecl rva007B839B();
 void __cdecl rva007B8590();
 
-unsigned g_Va00DDF580;	// retail RVA 0x009DF580 (.bss), defined here
+// RVA 0x009DF580: Rva00200D38Ctor.cpp's _STL::vector<const ModuleData *> g_vec00200D38.
+class ModuleData;
+extern _STL::vector<const ModuleData *> g_vec00200D38;
 extern unsigned g_Va00DF29A8;
 extern unsigned int g_00DFE174;
 extern unsigned int g_00DFE1AC;
@@ -79,13 +81,17 @@ class BfmeItemKA;
 extern BfmeItemKA **g_bfmeBegKA;
 extern unsigned g_Va00DFF134;
 extern unsigned g_Va00E031A8;
-unsigned g_Va00E04484;	// retail RVA 0x00A04484 (.bss), defined here
+// RVA 0x00A04484: Rva004E9B70Finish.cpp's RvaVector g_00E04484.
+struct RvaVector;
+extern RvaVector g_00E04484;
 extern unsigned g_Va00E04920;
 extern unsigned g_Va00E0657C;
 extern unsigned g_Va00E06654;
 extern unsigned g_Va00E06670;
 extern unsigned g_Va00DE6194;
-unsigned g_Va00E01E68;	// retail RVA 0x00A01E68 (.bss), defined here
+// RVA 0x00A01E68: the vector whose begin pointer ObjectFilterRelease.cpp defines
+// as g_validityBegin (the data ledger's owner of the address).
+extern unsigned char *g_validityBegin;
 extern unsigned g_Va00E032DC;
 extern unsigned g_Va00E0362C;
 
@@ -114,7 +120,7 @@ struct Rva007ABB96AllocCtorInits
 // 0x007ABB96 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DDF580, atexit(0x007B6A64 -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007ABB96()
 {
-	( (E16Vector *)&g_Va00DDF580 )->E16Vector::vector();
+	( (E16Vector *)&g_vec00200D38 )->E16Vector::vector();
 	atexit( rva007B6A64 );
 }
 
@@ -152,7 +158,7 @@ void Rva007ABB96AllocCtorInits::rva007ADE2F()
 // 0x007B31A8 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E04484, atexit(0x007B8F9F -> 0x0007FAB3)
 void Rva007ABB96AllocCtorInits::rva007B31A8()
 {
-	( (E16Vector *)&g_Va00E04484 )->E16Vector::vector();
+	( (E16Vector *)&g_00E04484 )->E16Vector::vector();
 	atexit( rva007B8F9F );
 }
 
@@ -165,7 +171,7 @@ void Rva007ABB96AllocCtorInits::rva007B31A8()
 // 0x007AED2A (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E01E68, atexit(0x007B7CAF -> 0x003615E5)
 void Rva007ABB96AllocCtorInits::rva007AED2A()
 {
-	( (E16Vector *)&g_Va00E01E68 )->E16Vector::vector();
+	( (E16Vector *)&g_validityBegin )->E16Vector::vector();
 	atexit( rva007B7CAF );
 }
 
