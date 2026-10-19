@@ -1,5 +1,5 @@
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
-// partial score=0.97 date=2026-10-19
+// partial score=0.98 date=2026-10-19
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
 // partial score=0.9 date=2026-10-19
 // ?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z
@@ -23,6 +23,11 @@
 // ?atan2@@YAMMM@Z (0x000422CD), not _atan2f. 2148/2148 B, 22 differing lines: only the two cos
 // arms remain (retail loads target.z right after `call cos` and delays fmul/fadd between the
 // argument pushes). Member set(x,y,z) for q is worse (2186/2160 B).
+// Then q.y = (float)(cos(a) * radius) + target.y (the float rounding cast; also
+// target.y + (float)(...)) moves the fadd after the first push: 22 -> 14 lines; only the fmul
+// still sits right after `call cos` (retail: after movss target.z / pops / mov ecx). Inert or
+// worse: float/double cy locals (2156 B), (float)cos(a)*r, split q.y +=, z before y (36),
+// a float y local stored after q.z (14).
 // The earlier draft description above is preserved as contributor evidence.
 #include "../../Code/Libraries/Include/Lib/Coord3D.h"
 #include "../../Code/Libraries/Include/Lib/Coord3DBase.h"
@@ -210,7 +215,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                     if (tryPlus) {
                         float a = normalizeAngle(base + angle);
                         q.x = sin(a) * (float)radius + target.x;
-                        q.y = cos(a) * (float)radius + target.y;
+                        q.y = (float)(cos(a) * (float)radius) + target.y;
                         q.z = target.z;
                         if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a + 2 * step) * (float)radius + target.x;
@@ -228,7 +233,7 @@ bool Rva0037609C::rva0037609C(void *thing, const Coord3D *dest, Rva00312C95 *rou
                     if (tryMinus) {
                         float a = normalizeAngle(base - angle);
                         q.x = sin(a) * (float)radius + target.x;
-                        q.y = cos(a) * (float)radius + target.y;
+                        q.y = (float)(cos(a) * (float)radius) + target.y;
                         q.z = target.z;
                         if (!((AerialPathfinder *)this)->rva00375ED7((Object *)thing, &q, &push)) {
                             q.x = sin(a - 2 * step) * (float)radius + target.x;
