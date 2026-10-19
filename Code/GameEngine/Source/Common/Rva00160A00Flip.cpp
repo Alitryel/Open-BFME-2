@@ -7,7 +7,7 @@ struct Rva00160A00Node
 	Rva00160A00Node *m_10;
 };
 
-class Rva00160A00
+class AIPlayer
 {
 	char pad[8];
 	Rva00160A00Node *m_08;
@@ -16,7 +16,7 @@ public:
 	void flip();
 };
 
-void Rva00160A00::flip()
+void AIPlayer::flip()
 {
 	Rva00160A00Node *p = m_08;
 	Rva00160A00Node *last = 0;
