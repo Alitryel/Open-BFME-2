@@ -1,3 +1,8 @@
+// ??0CastleBehaviorModuleData@@QAE@XZ
+// partial score=0.9744245524296675 date=2026-10-19
+// cl: /O1 /arch:SSE /G7 /GX /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// stlport
+#if 0
 // ??0BaikonurLaunchPowerModuleData@@QAE@XZ
 // partial score=0.387 date=2026-10-17
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
@@ -183,3 +188,115 @@ BaikonurLaunchPowerModuleData::BaikonurLaunchPowerModuleData()
     m_b74 = 0;
     m_b75 = 1;
 }
+
+#endif
+// Native factory 0x0024AA99 is registered as CastleBehavior and calls this body.
+// The inherited bank above is inactive evidence; its name, types and operations are superseded.
+// Two ESP-witness/ECX instruction pairs still differ; vtable and helper bindings need admission.
+#include <vector>
+#include <map>
+#include "ascii_string.h"
+
+class Rva002618A2
+{
+public:
+    Rva002618A2 *rva002618FA(int, int, int, int, int, int);
+protected:
+    unsigned m_words[7];
+};
+class Rva00045411BitSet : public Rva002618A2
+{
+public:
+    Rva00045411BitSet(int, int);
+    Rva00045411BitSet(const Rva00045411BitSet &);
+    __declspec(dllimport) __forceinline Rva00045411BitSet(int a, int b, int c, int d, int e, int f)
+    { rva002618FA(a, b, c, d, e, f); }
+};
+class BfmeFixedStorage0004543D : public Rva00045411BitSet
+{
+public:
+    BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &);
+    __declspec(dllimport) __forceinline BfmeFixedStorage0004543D(int a, int b) : Rva00045411BitSet(a,b) {}
+};
+extern const BfmeFixedStorage0004543D g_defaultStorage009FEFA4;
+class Rva003623E5Member
+{
+public:
+    Rva003623E5Member();
+    ~Rva003623E5Member();
+    void rva00362192(Rva00045411BitSet, BfmeFixedStorage0004543D);
+    void initFromStorages(BfmeFixedStorage0004543D, BfmeFixedStorage0004543D);
+private:
+    int m_handle;
+};
+struct RvaPair0039973B { AsciiString m_key; int m_value; ~RvaPair0039973B(); };
+struct Rva00395D77 { unsigned char m_bytes[12]; ~Rva00395D77(); };
+namespace _STL { template <> inline void vector<RvaPair0039973B>::clear() { erase(this->_M_start, this->_M_finish); } template <> inline void vector<Rva00395D77>::clear() { erase(this->_M_start, this->_M_finish); } }
+struct BfmeStringRecord004071F7 { AsciiString m_templateName; unsigned m_count1, m_count2; };
+class Rva00397C94 { public: void rva00398257(); };
+#include "Common/Snapshot.h"
+extern const void *const BfmeCastleBehaviorModuleDataVtable[];
+class __declspec(novtable) Rva0039A027Base : public Snapshot
+{
+public:
+    __forceinline Rva0039A027Base() : m_f08(0.0f), m_n0c(0)
+    { *(const void *const **)this = BfmeCastleBehaviorModuleDataVtable; }
+    virtual ~Rva0039A027Base() {}
+private:
+    unsigned m_unknown04;
+    float m_f08;
+    unsigned m_n0c;
+};
+class __declspec(novtable) CastleBehaviorModuleData : public Rva0039A027Base
+{
+public:
+    CastleBehaviorModuleData();
+    virtual ~CastleBehaviorModuleData();
+private:
+    AsciiString m_str10, m_str14;
+    float m_f18, m_f1c, m_f20, m_f24, m_f28, m_f2c;
+    Rva003623E5Member m_filter30, m_filter34;
+    int m_n38;
+    bool m_b3c, m_b3d, m_b3e;
+    int m_n40, m_n44, m_n48, m_n4c;
+    _STL::vector<RvaPair0039973B> m_vec50;
+    _STL::vector<Rva00395D77> m_vec5c;
+    _STL::map<int, BfmeStringRecord004071F7> m_map68;
+    bool m_b74, m_b75;
+};
+CastleBehaviorModuleData::CastleBehaviorModuleData()
+{
+    ((Rva00397C94 *)&m_map68)->rva00398257();
+    ((StringBase<char> *)&m_str10)->set("");
+    m_vec50.clear();
+    m_vec5c.clear();
+    ((StringBase<char> *)&m_str14)->set("");
+    m_f18 = 1.0f;
+    m_f1c = 2.0f;
+    m_f20 = 2.0f;
+    m_f24 = 5.0f;
+    m_f28 = 100.0f;
+    m_f2c = 0.0f;
+    m_b74 = false;
+    m_filter30.rva00362192(Rva00045411BitSet(0,7,0x3c,0x68,0x99,0x73), BfmeFixedStorage0004543D(0,0x88));
+    m_filter34.initFromStorages(g_defaultStorage009FEFA4, g_defaultStorage009FEFA4);
+    m_n38 = 0x12;
+    m_n48 = 0;
+    m_n44 = 0;
+    m_n40 = 0xa;
+    m_b3c = false;
+    m_b3d = false;
+    m_n4c = -1;
+    m_b3e = false;
+    m_b75 = true;
+}
+
+typedef char Rva0039A027BaseSize[(sizeof(Rva0039A027Base) == 0x10) ? 1 : -1];
+typedef char Rva0039A027StringSize[(sizeof(AsciiString) == 4) ? 1 : -1];
+typedef char Rva0039A027FilterSize[(sizeof(Rva003623E5Member) == 4) ? 1 : -1];
+typedef char Rva0039A027MaskSize[(sizeof(Rva00045411BitSet) == 28 && sizeof(BfmeFixedStorage0004543D) == 28) ? 1 : -1];
+typedef char Rva0039A027PairSize[(sizeof(RvaPair0039973B) == 8) ? 1 : -1];
+typedef char Rva0039A027RecordSize[(sizeof(BfmeStringRecord004071F7) == 12) ? 1 : -1];
+typedef char Rva0039A027VectorSize[(sizeof(_STL::vector<RvaPair0039973B>) == 12 && sizeof(_STL::vector<Rva00395D77>) == 12) ? 1 : -1];
+typedef char Rva0039A027MapSize[(sizeof(_STL::map<int, BfmeStringRecord004071F7>) == 12) ? 1 : -1];
+typedef char Rva0039A027DataSize[(sizeof(CastleBehaviorModuleData) == 0x78) ? 1 : -1];
