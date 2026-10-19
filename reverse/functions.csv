@@ -42040,7 +42040,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ?Rva004328D8Emit@@YGXPAURva004328D8Payload@@@Z,,0x004328D8,89,Code/GameEngine/Source/Common/Rva004328D8Message.cpp,matched,two messages 0xC3 and type pixel int time via subsystem
 ??0AnimationSoundModuleManager@@QAE@XZ,,0x00432FA7,72,Code/GameEngine/Source/Common/Rva00432FA7Ctor.cpp,matched,ctor baseConstruct vtable FLT_MAX floats singleton
 ?rva00432EC0@AnimationSoundModuleManager@@QAEXPAVRva00432F23Node@@@Z,,0x00432EC0,99,Code/GameEngine/Source/Common/Rva00432F23Remove.cpp,matched,move node list1 to head list2 honest Rva
-?rva00432A3B@Rva00432A3B@@QAEXPBVGameMessage@@@Z,,0x00432A3B,103,Code/GameEngine/Source/Common/Rva00432A3BHandler.cpp,matched,handler types 4 6 14 16 pixel int int via getArgument
+?rva00432A3B@AptTranslator@@QAEXPBVGameMessage@@@Z,,0x00432A3B,103,Code/GameEngine/Source/Common/Rva00432A3BHandler.cpp,matched,handler types 4 6 14 16 pixel int int via getArgument
 ?rva000B3C61@Rva000B3C61@@QAEXH@Z,,0x000B3C61,110,Code/GameEngine/Source/Common/Rva000B3C61.cpp,matched,neighbours 0x000B3A68 array at 0x110 stride 28 release plus float zero fold
 ?Prepare_LOD@RenderObjClass@@UAEXAAVCameraClass@@@Z,,0x00180FD0,3,Code/Libraries/Source/WWVegas/WW3D2/RenderObjPrepareLOD.cpp,matched,Target vftable 0x00BD2F68 slot 72 is RET 4; folds with wide streambuf imbue; retail no-op diverges from BFME1 LOD work
 ?Get_Obj_Space_Bounding_Box@RenderObjClass@@UBEXAAVAABoxClass@@@Z,,0x001A1420,39,Code/Libraries/Source/WWVegas/WW3D2/RenderObjGetObjSpaceBoundingBox.cpp,matched,Target vftables 0x00BD2F68 and 0x00BD69F8 slot 68 share this 39-byte zero-box body; folds with ParticleEmitter bounding box
@@ -42606,7 +42606,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ??1AptTranslator@@QAE@XZ,,0x0043283C,28,Code/GameEngine/Source/Common/Rva0043283CDtor.cpp,matched,dtor singleton clear via g_Va00E032C8 base vtable 0x00BDBA74 caller 0x00432A1F
 ??_GAptTranslator@@QAEPAXI@Z,,0x00432A1F,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva0043283C.cpp,matched,chain deleting dtor calls rowed 0x0043283C plus delete 0x0002FD60 slot1 0x0083CA28
 ??0PlaceEventTranslator@@QAE@XZ,,0x0043216D,29,Code/GameEngine/Source/Common/Rva0043216DCtor.cpp,matched,ctor vtable 0x00C3C9C0 zeroes 0x04-0x15 caller 0x0023A502; vtable slot 0 is rowed PlaceEventTranslator::translateGameMessage 0x0043218A and the zeroed fields are its; ZH priority 30
-?rva0043287E@Rva0043287E@@QAEHXZ,,0x0043287E,31,Code/GameEngine/Source/Common/Rva0043287ECheck.cpp,matched,unlock OR-shape callers 0x00432AFB et al row 0x00222A53
+?rva0043287E@AptTranslator@@QAEHXZ,,0x0043287E,31,Code/GameEngine/Source/Common/Rva0043287ECheck.cpp,matched,unlock OR-shape callers 0x00432AFB et al row 0x00222A53
 ?rva00432AEB@Rva00432AEB@@QAEHH@Z,,0x00432AEB,45,Code/GameEngine/Source/Common/Rva00432AEBSet.cpp,matched,setter +0x1F0 old-return Mouse slot 0x4C via row 0x0043287E
 ?rva00432E5D@AnimationSoundModuleManager@@QAEXPAVRva00432F23Node@@@Z,,0x00432E5D,99,Code/GameEngine/Source/Common/Rva00432F23Remove.cpp,matched,move list2 to head list1 mirror of 0x00432EC0
 ?Rva00433D3CClear@@YAXXZ,,0x00433D3C,17,Code/GameEngine/Source/Common/Rva00433D3CClear.cpp,matched,clear byte 0x29D via g_Va00E032E0 shared with 0x00433D27

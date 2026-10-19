@@ -80,8 +80,6 @@ enum GameWindowMessage { GWM_NONE = 0 };
 GameWindowMessage rawMouseToWindowMessage(const GameMessage *msg);
 int Rva0043289DClassify(int type);
 void Rva006CC9A0(int a, int b, int c);
-class Rva0043287E { public: int rva0043287E(); };
-class Rva00432A3B { public: void rva00432A3B(const GameMessage *msg); };
 
 enum GameMessageDisposition { KEEP_MESSAGE = 0, DESTROY_MESSAGE = 1 };
 
@@ -104,6 +102,8 @@ class AptTranslator : public GameMessageTranslator
 {
 public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
+	int rva0043287E();
+	void rva00432A3B(const GameMessage *msg);
 private:
 	bool m_buttonDown[4]; // +0x04
 	char m_pad08[0x1EC - 8];
@@ -135,7 +135,7 @@ GameMessageDisposition AptTranslator::translateGameMessage(const GameMessage *ms
 		break;
 	case 3:
 	{
-		if (anyButton || ((unsigned char)((Rva0043287E *)this)->rva0043287E() && !mouseHeld))
+		if (anyButton || ((unsigned char)rva0043287E() && !mouseHeld))
 		{
 			TheMouse->setCursor(m_cursor);
 			disp = DESTROY_MESSAGE;
@@ -187,9 +187,9 @@ GameMessageDisposition AptTranslator::translateGameMessage(const GameMessage *ms
 			g_bfmeAptWindowManager->m_mouseButtonMode = 0;
 		else
 			g_bfmeAptWindowManager->m_mouseButtonMode = 2;
-		if ((unsigned char)((Rva0043287E *)this)->rva0043287E())
+		if ((unsigned char)rva0043287E())
 		{
-			((Rva00432A3B *)this)->rva00432A3B(msg);
+			rva00432A3B(msg);
 			Rva006CC9A0(0, 0, 1);
 			if (++m_200 < 2)
 				m_200 = 2;
@@ -199,7 +199,7 @@ GameMessageDisposition AptTranslator::translateGameMessage(const GameMessage *ms
 		break;
 	case 10:
 	case 11:
-		if ((unsigned char)((Rva0043287E *)this)->rva0043287E())
+		if ((unsigned char)rva0043287E())
 		{
 			*button = true;
 			disp = DESTROY_MESSAGE;
@@ -209,7 +209,7 @@ GameMessageDisposition AptTranslator::translateGameMessage(const GameMessage *ms
 	case 16:
 		if (*button)
 		{
-			((Rva00432A3B *)this)->rva00432A3B(msg);
+			rva00432A3B(msg);
 			if (type == 6)
 				g_bfmeAptWindowManager->m_mouseButtonMode = 0;
 			else

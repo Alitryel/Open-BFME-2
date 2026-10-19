@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00432A3B@Rva00432A3B@@QAEXPBVGameMessage@@@Z, retail 0x00432A3B, 103 bytes.
+// ?rva00432A3B@AptTranslator@@QAEXPBVGameMessage@@@Z, retail 0x00432A3B, 103 bytes.
 // Handler for message types 4/6/14/16: indexes 24B entries at this+8 by type,
 // stores type at +0x1E8, extracts pixel (arg0 8B) ints (arg1 arg2) via rowed
 // getArgument 0x0030F4EA, clears bit0 at +0x14. Matches emit Rva004328D8Emit
@@ -38,7 +38,7 @@ struct Rva00432A3BEntry
 	char m_pad15[3];
 };
 
-class Rva00432A3B
+class AptTranslator
 {
 public:
 	void rva00432A3B(const GameMessage *msg);
@@ -50,7 +50,7 @@ private:
 	int m_1E8;
 };
 
-void Rva00432A3B::rva00432A3B(const GameMessage *msg)
+void AptTranslator::rva00432A3B(const GameMessage *msg)
 {
 	int type = *(const int *)((const char *)msg + 0x10);
 	switch (type)
