@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva00373EEC@Rva00373EEC@@QAEXI@Z @0x00373EEC 48B:
+// ?rva00373EEC@StealthUpdate@@QAEXI@Z @0x00373EEC 48B:
 // Frame-horizon max store: holder at +0x04 (value at +0x08), stored frame at
 // +0x24, base frame from TheGameLogic+0x40 (rowed extern
 // ?TheGameLogic@@3PAVGameLogic@@A). Zero arg overwrites, nonzero keeps the
@@ -20,7 +20,7 @@ struct Rva00373EECSub
 	unsigned int m_8;
 };
 
-class Rva00373EEC
+class StealthUpdate
 {
 public:
 	void rva00373EEC(unsigned int v);
@@ -31,7 +31,7 @@ private:
 	unsigned int m_24; // +0x24
 };
 
-void Rva00373EEC::rva00373EEC(unsigned int v)
+void StealthUpdate::rva00373EEC(unsigned int v)
 {
 	if (m_ptr == 0)
 		return;

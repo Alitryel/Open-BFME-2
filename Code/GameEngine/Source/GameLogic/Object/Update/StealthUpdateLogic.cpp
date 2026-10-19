@@ -656,13 +656,6 @@ public:
 	void rva003743CF(void *status, Bool set);
 };
 
-// The 0x00373EEC detection-expiry update, rowed under an address-derived name.
-class Rva00373EEC
-{
-public:
-	void rva00373EEC(UnsignedInt numFrames);
-};
-
 // Zero Hour's Drawable::isDrawableEffectivelyHidden (0x00270260), rowed
 // under an address-derived name.
 class Rva00270260
@@ -673,14 +666,6 @@ public:
 
 extern float g_secondsPerLogicFrame;
 extern "C" double __cdecl fabs(double value);
-
-// Zero Hour's hintDetectableWhileUnstealthed position (0x0037441E), rowed
-// under an address-derived name.
-class Rva0037441E
-{
-public:
-	void rva0037441E();
-};
 
 struct ObjectListNode
 {
@@ -926,6 +911,10 @@ public:
 	void changeVisualDisguise();
 	virtual UpdateSleepTime update();
 	UpdateSleepTime rva00374FD5();
+	// The detection-expiry update 0x00373EEC and Zero Hour's
+	// hintDetectableWhileUnstealthed 0x0037441E, rowed under address-derived names.
+	void rva00373EEC(UnsignedInt numFrames);
+	void rva0037441E();
 	Bool canDisguise() const { return getStealthUpdateModuleData()->m_teamDisguised; }
 	__declspec(dllimport) Bool isDisguised() const { return m_disguiseAsTemplate != NULL; }
 	__declspec(dllimport) __forceinline Int getDisguisedPlayerIndex() const { return m_disguiseAsPlayerIndex; }
@@ -1343,7 +1332,7 @@ void StealthUpdate::markAsDetected(UnsignedInt numFrames, Int feedback, Object *
 		}
 	}
 
-	((Rva00373EEC *)this)->rva00373EEC(numFrames);
+	rva00373EEC(numFrames);
 }
 
 // ?changeVisualDisguise@StealthUpdate@@QAEXXZ @0x00374BC8
@@ -1633,7 +1622,7 @@ UpdateSleepTime StealthUpdate::rva00374FD5()
 
 			setStatusBit(OBJECT_STATUS_STEALTHED, false);
 			rva00373D5E();
-			((Rva0037441E *)this)->rva0037441E();
+			rva0037441E();
 			markAsDetected(0, 1, NULL, true);
 		}
 	}
@@ -1738,7 +1727,7 @@ UpdateSleepTime StealthUpdate::update()
 				markAsDetected(0, 1, NULL, true);
 			else
 			{
-				((Rva00373EEC *)this)->rva00373EEC(0);
+				rva00373EEC(0);
 				disguiseAsObject(NULL);
 			}
 			changeVisualDisguise();

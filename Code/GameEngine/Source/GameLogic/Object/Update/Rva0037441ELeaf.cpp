@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva0037441E@Rva0037441E@@QAEXXZ @0x0037441E 80B.
+// ?rva0037441E@StealthUpdate@@QAEXXZ @0x0037441E 80B.
 // BehaviorModule method: m_object at +8 null-checked, module data +0x10
 // tested via rowed ?test@Rva00331682Holder 0x00331682 at Object+0x94,
 // controlling player via rowed ?getControllingPlayer@Object 0x0028AFA9
@@ -54,7 +54,7 @@ public:
 	int m_vals[4];
 };
 
-class Rva0037441E
+class StealthUpdate
 {
 public:
 	void rva0037441E();
@@ -64,7 +64,7 @@ private:
 	Object *m_object;
 };
 
-void Rva0037441E::rva0037441E()
+void StealthUpdate::rva0037441E()
 {
 	Object *object = m_object;
 	if (object == 0)
