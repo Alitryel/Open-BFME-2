@@ -641,13 +641,6 @@ private:
 	unsigned char m_pad04[0x0C - 0x04];
 };
 
-// The screen viewed by its rowed 0x0059ECD2 / 0x0059EC72 helpers (Rva0059ECD2.cpp).
-class Rva0059ECD2
-{
-public:
-	void rva0059ECD2(int unused);
-	void rva0059EC72(int unused);
-};
 int __cdecl Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class AptOnlineCustomMatch : public CustomMatchScreen, public MpOwner
@@ -655,6 +648,8 @@ class AptOnlineCustomMatch : public CustomMatchScreen, public MpOwner
 public:
 	void PlayGame(const char *unused);
 	void rva005A5BAF();	// 0x005A5BAF (Rva005A5BAFCheck.cpp)
+	void rva0059ECD2(int unused);	// 0x0059ECD2 and 0x0059EC72 (Rva0059ECD2.cpp)
+	void rva0059EC72(int unused);
 	void LoadGame(const char *unused);
 	void CancelPopUpCreate(const char *unused);
 	void CancelPopUpHost(const char *unused);
@@ -1291,7 +1286,7 @@ int AptOnlineCustomMatch::rva005A6582(int window, int msg, unsigned char key, in
 						Rva0043DB23((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_owner->m_movie, "CloseConnectionsScreen");
 					return 1;
 				case 10:
-					((Rva0059ECD2 *)this)->rva0059ECD2(0);
+					rva0059ECD2(0);
 					return 1;
 				default:
 					return 1;
@@ -1308,7 +1303,7 @@ int AptOnlineCustomMatch::rva005A6582(int window, int msg, unsigned char key, in
 				switch (m_state)
 				{
 				case 3:
-					((Rva0059ECD2 *)this)->rva0059EC72(0);
+					rva0059EC72(0);
 					return 1;
 				case 10:
 					AcceptJoinGame(0);

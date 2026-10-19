@@ -201,12 +201,8 @@ public:
 	void OnOpenConnectionsScreen(const char *);
 	void OnClosingConnectionsScreen(const char *);
 	void InitGadgets(const char *, int, GameWindow *);
-};
-class Rva0059ECD2 : public CustomMatchBindingA, public CustomMatchBindingB
-{
-public:
-	void rva0059ECD2(int);
-	void rva0059EC72(int);
+	void rva0059ECD2(int);	// bound as CancelPopUpJoin
+	void rva0059EC72(int);	// bound as CreateGame
 };
 class Rva0059ECAD : public CustomMatchBindingA, public CustomMatchBindingB
 {
@@ -217,7 +213,7 @@ public:
 typedef void (AptOnlineCustomMatch::*CustomMatchText)(const char *);
 typedef void (AptOnlineCustomMatch::*CustomMatchInt)(int);
 typedef void (AptOnlineCustomMatch::*CustomMatchInitGadgets)(const char *, int, GameWindow *);
-typedef void (Rva0059ECD2::*CustomMatchPopUp)(int);
+typedef void (AptOnlineCustomMatch::*CustomMatchPopUp)(int);
 typedef void (Rva0059ECAD::*CustomMatchJoin)(int);
 
 class Rva005BA1FDBase : public Rva0056DC6B, public Rva004444D2, public Rva0059EB41
@@ -274,8 +270,8 @@ Rva005BA1FDBase::Rva005BA1FDBase(int shell, int profile)
 	++g_Va00E063F0;
 	g_currentAptOnlineCustomMatch = (int)this;
 	m_setup.rva004422B4(profile);
-	CM_BIND("AptOnline::CustomMatch::CancelPopUpJoin", &Rva0059ECD2::rva0059ECD2, CustomMatchPopUp)
-	CM_BIND("AptOnline::CustomMatch::CreateGame", &Rva0059ECD2::rva0059EC72, CustomMatchPopUp)
+	CM_BIND("AptOnline::CustomMatch::CancelPopUpJoin", &AptOnlineCustomMatch::rva0059ECD2, CustomMatchPopUp)
+	CM_BIND("AptOnline::CustomMatch::CreateGame", &AptOnlineCustomMatch::rva0059EC72, CustomMatchPopUp)
 	CM_BIND("AptOnline::CustomMatch::JoinGame", &Rva0059ECAD::rva0059ECAD, CustomMatchJoin)
 	CM_BIND("AptOnline::CustomMatch::LoadGame", &AptOnlineCustomMatch::LoadGame, CustomMatchText)
 	CM_BIND("AptOnline::CustomMatch::AcceptJoinGame", &AptOnlineCustomMatch::AcceptJoinGame, CustomMatchText)
