@@ -1,7 +1,7 @@
 // cl: /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// ?rva002E514A@OptionPreferences@@QAEIXZ, retail 0x002E514A, 194 bytes.
+// ?getOnlineIPAddress@OptionPreferences@@QAEIXZ, retail 0x002E514A, 194 bytes.
 // GameSpy twin of the landed getLANIPAddress at 0x002E4F98 (same 194B shape:
 // stored pref matched case-insensitively against enumerated locals, fallback
 // to writable global default at +0xA48). Differences from the LAN twin, all
@@ -105,7 +105,7 @@ public:
 	OptionPreferences();
 	virtual ~OptionPreferences();
 
-	UnsignedInt rva002E514A(void);
+	UnsignedInt getOnlineIPAddress(void);
 };
 
 class MultiplayerColorDefinition
@@ -148,8 +148,8 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 
-// ?rva002E514A@OptionPreferences@@QAEIXZ, retail 0x002E514A, 194 bytes.
-UnsignedInt OptionPreferences::rva002E514A(void)
+// ?getOnlineIPAddress@OptionPreferences@@QAEIXZ, retail 0x002E514A, 194 bytes.
+UnsignedInt OptionPreferences::getOnlineIPAddress(void)
 {
 	AsciiString wanted = (*this)["GameSpyIPAddress"];
 	IPEnumeration IPs;

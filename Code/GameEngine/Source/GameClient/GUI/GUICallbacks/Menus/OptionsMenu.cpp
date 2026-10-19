@@ -299,22 +299,7 @@ inline __declspec(noinline) void OptionPreferences::setLANIPAddress( AsciiString
 
 // ?setLANIPAddress@OptionPreferences@@QAEXI@Z: defined in OptionPreferences_setLANIPAddress.cpp (its row's unit).
 
-// ?OptionPreferences::getOnlineIPAddress present-unmatched
-UnsignedInt OptionPreferences::getOnlineIPAddress(void)
-{
-	AsciiString selectedIP = (*this)["GameSpyIPAddress"];
-	IPEnumeration IPs;
-	EnumeratedIP *IPlist = IPs.getAddresses();
-	while (IPlist)
-	{
-		if (((StringBase<char> &)(selectedIP)).compareNoCase((const StringBase<char> &)(IPlist->getIPstring())) == 0)
-		{
-			return IPlist->getIP();
-		}
-		IPlist = IPlist->getNext();
-	}
-	return TheGlobalData->m_defaultIP;
-}
+// ?getOnlineIPAddress@OptionPreferences@@QAEIXZ: defined in OptionPreferences_getGameSpyIPAddress.cpp (its row's unit).
 
 // Select-any, as setLANIPAddress above.
 inline __declspec(noinline) void OptionPreferences::setOnlineIPAddress( AsciiString IP )

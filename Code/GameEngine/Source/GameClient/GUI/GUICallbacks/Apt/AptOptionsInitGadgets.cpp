@@ -74,7 +74,7 @@ public:
 	float getBrightness();
 	float getScrollFactor();
 	bool getAlternateMouseSetup();
-	unsigned int rva002E514A();
+	unsigned int getOnlineIPAddress();
 	unsigned short getFirewallPortOverride();
 	bool getSendDelay();
 	bool getDisplayForeignLanguage();
@@ -336,7 +336,7 @@ void AptOptions::InitGadgets(const char *name, int unused, GameWindow *window)
 	else if (strcmp(name, "Options::OnlineIp") == 0)
 	{
 		m_onlineIPCombo = window;
-		unsigned int selectedIP = OptionPreferences().rva002E514A();
+		unsigned int selectedIP = OptionPreferences().getOnlineIPAddress();
 		UnicodeString ipText;
 		IPEnumeration IPs;
 		EnumeratedIP *IPlist = IPs.getAddresses();
