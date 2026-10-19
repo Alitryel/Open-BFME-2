@@ -84,7 +84,11 @@ class DamageModuleInterface
 {
 public:
 	DamageModuleInterface() {}
-	virtual void onDamage(DamageInfo *damageInfo);
+	// The interface's three slots, pure here as FireWeaponWhenDamagedBehaviorCtor.cpp
+	// declares them: one copy of this class's DamageModuleInterface table.
+	virtual void onDamage(DamageInfo *damageInfo) = 0;
+	virtual void onHealing(DamageInfo *damageInfo) = 0;
+	virtual void onBodyDamageStateChange(const DamageInfo *damageInfo, int oldState, int newState) = 0;
 };
 
 class FireWeaponWhenDamagedBehavior : public UpdateModule, public UpgradeMux, public DamageModuleInterface
