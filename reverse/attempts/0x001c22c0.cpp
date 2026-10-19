@@ -1,15 +1,14 @@
 // _DeringBlockWeak_C
-// partial score=0.9351245085190039 date=2026-10-19
+// partial score=0.944298820445609 date=2026-10-19
+// _DeringBlockWeak_C
 // cl: /O2 /G6 /DNDEBUG /MD
-// Clean room: approved specs 001c22c0 and 001c1ad0, plus complete retail bytes.
-// Full weak deringing; all weights precede immediate output stores.
-// Keep blended and clipped values distinct, as the native output loop does.
-// Not exact: 1526-byte extent, 1427 aligned bytes, 250 fixed-offset differences.
-// First difference +0x63; weight-pointer bias, stack slots and scheduling remain.
-// 2560 native/C++/approved-spec cases pass, including both pitch signs,
-// all sharpen indices and disjoint/identical/partially overlapping buffers.
-// No external decoder source read. See
-// reverse/attempt_support/dering-weak-clipping-lifetime-20261019/.
+// Approved clean-room specs 001c22c0 and 001c1ad0 plus retail only.
+// All weights precede immediate output stores; alias behavior is retained.
+// Separate unsigned horizontal-column lifetime, with signed neighbor offsets.
+// Not byte exact: native/compiled extent 1526B, alignment 1441/1526,
+// 243 fixed-offset differing bytes, first difference +0x63.
+// Existing independent-spec oracle passes 2560 native/C++/spec cases.
+// See reverse/attempt_support/dering-weak-mixed-counter-20261019/.
 extern "C" int Vp6FilterEdgeTagTable[];
 
 extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *source,
@@ -48,14 +47,14 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 	const unsigned char *hrow = source;
 	short *hweight = horizontal;
 	for (int r = 8; r != 0; --r) {
-		for (c = 0; c < 9; c++) {
-			int difference = (hrow[c] - hrow[c - 1]) > 0 ? (hrow[c] - hrow[c - 1]) : (hrow[c - 1] - hrow[c]);
+		for (unsigned int hc = 0; hc < 9; hc++) {
+			int difference = (hrow[(int)hc] - hrow[(int)hc - 1]) > 0 ? (hrow[(int)hc] - hrow[(int)hc - 1]) : (hrow[(int)hc - 1] - hrow[(int)hc]);
 			int weight;
 			weight = quality + 2 * (16 - difference);
 			if (weight < -64) weight = sharpen;
 			else if (weight < 0) weight = 0;
 			else if (weight > cap) weight = cap;
-			hweight[c] = (short)weight;
+			hweight[(int)hc] = (short)weight;
 		}
 		hrow += pitch;
 		hweight += 9;
