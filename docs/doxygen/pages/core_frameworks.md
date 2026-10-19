@@ -186,10 +186,11 @@ buttons. `ControlBar::parseCommandButtonDefinition` and
 `ControlBar::parseCommandSetDefinition` parse them. Buttons are more than
 UI: `CommandButton::isReady` and `CommandButton::isValidObjectTarget` decide
 whether a command can be used, and the command a button issues reaches the
-logic as a `GameMessage`. BFME 2 differences: up to 32 buttons per set (Zero Hour: 18);
-`CommandSet::getCommandButton` first asks the game logic for a run-time
-override of that slot; `CommandButton::isReady` refuses a missing source
-object and adds a check for one command type. The in-game UI is Apt-based
+logic as a `GameMessage`. As in Zero Hour, `CommandSet::getCommandButton`
+first asks the game logic for a run-time override of the slot, which map
+scripts record. BFME 2 differences: up to 32 buttons per set (Zero Hour: 18);
+the override map is keyed by a (slot, set name) pair; `CommandButton::isReady`
+refuses a missing source object and adds a check for one command type. The in-game UI is Apt-based
 (\ref sub_gui_apt), but `ControlBar` still owns the definitions.
 
 ## Data reloading {#page_core_frameworks_reload}
