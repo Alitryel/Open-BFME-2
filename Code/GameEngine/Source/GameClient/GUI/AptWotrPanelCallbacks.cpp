@@ -70,10 +70,10 @@ public:
 	unsigned char m_pad[0x14];
 };
 
-class Rva005D4DA9
+class Rva005D4C61
 {
 public:
-	Rva005D4DA9(int level, const AsciiString &path);
+	Rva005D4C61(int level, const AsciiString &path);
 
 	void *m_0;
 	Rva005A0B4CList m_listeners; // +0x04
@@ -90,7 +90,7 @@ public:
 
 // The scroll bar's enable forwarder to its Impl (0x005D49CD, pinned by
 // address), as Rva005D498BVisible.cpp views the scroll bar.
-class AptScrollBar
+class Rva005D49CD
 {
 public:
 	void rva005D49CD(bool enabled);
@@ -105,17 +105,17 @@ public:
 
 // The checklist's items: an STLport list of pointers (sentinel node at
 // +0x30, data at node +8), each item updating its +8 member through the
-// unrowed 0x005D4769 (pinned by address).
-class Rva005D4769
+// 0x005D4769, rowed as Rva005D40A6::Update (Rva005D40A6Dtor.cpp).
+class Rva005D40A6
 {
 public:
-	void rva005D4769();
+	void Update();
 };
 
 struct Rva0057B499Item
 {
 	unsigned char m_pad00[0x08];
-	Rva005D4769 m_08;
+	Rva005D40A6 m_08;
 };
 
 struct Rva0057B499Node
@@ -187,7 +187,7 @@ public:
 	virtual void slot00(int);
 	virtual void OnScrollBarPosChanged(int unused, float position);
 
-	void listenTo(Rva005D4DA9 *scrollBar)
+	void listenTo(Rva005D4C61 *scrollBar)
 	{
 		scrollBar->m_listeners.append((Rva002BA8F1Listener *)this);
 	}
@@ -271,8 +271,8 @@ void StrategicHUD::ChecklistUIImpl::OnScrollBarLoaded(const char *name)
 	Rva000AD6F4 *scrollBar = &m_scrollBar;
 	if (scrollBar->m_ptr == 0)
 	{
-		((Rva00575674 *)scrollBar)->rva00575674((Object *)new Rva005D4DA9(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
-		listenTo((Rva005D4DA9 *)scrollBar->m_ptr);
+		((Rva00575674 *)scrollBar)->rva00575674((Object *)new Rva005D4C61(AptUtils::LevelIndexFromTarget(name), AsciiString(AptUtils::SkipLevelN(name))));
+		listenTo((Rva005D4C61 *)scrollBar->m_ptr);
 		rva0057B16D();
 	}
 }
@@ -288,7 +288,7 @@ void StrategicHUD::ChecklistUIImpl::Update()
 		SortItems();
 	if (m_scrollBar.m_ptr != 0)
 	{
-		((AptScrollBar *)m_scrollBar.m_ptr)->rva005D49CD(true);
+		((Rva005D49CD *)m_scrollBar.m_ptr)->rva005D49CD(true);
 		((Rva000B3FD0Nop *)m_scrollBar.m_ptr)->noop();
 	}
 	if (m_26 && m_state == 0)
@@ -298,7 +298,7 @@ void StrategicHUD::ChecklistUIImpl::Update()
 	}
 	Rva0057B499Node *end = reinterpret_cast<Rva0057B499Node*>(items.end()._M_node);
 	for (Rva0057B499Node *node = end->m_next; node != end; node = node->m_next)
-		node->m_item->m_08.rva005D4769();
+		node->m_item->m_08.Update();
 }
 
 // Retail 0x0057AC0C, 27 bytes: bound as "<movie>_OnExpandButtonClicked"
@@ -504,7 +504,7 @@ inline AsciiStringPlusStringText operator+(const AsciiStringPlusString &left, co
 class Rva0057BCEC
 {
 public:
-	~Rva0057BCEC();
+	virtual ~Rva0057BCEC();
 };
 
 class __declspec(novtable) Rva0057BCD7Base0
@@ -517,7 +517,7 @@ class __declspec(novtable) Rva0057BCD7 : public Rva0057BCD7Base0, public Rva0057
 {
 public:
 	Rva0057BCD7();
-	__forceinline ~Rva0057BCD7() { ((Rva0057BCEC *)this)->~Rva0057BCEC(); }
+	__forceinline ~Rva0057BCD7() { ((Rva0057BCEC *)this)->Rva0057BCEC::~Rva0057BCEC(); }
 };
 
 class Rva001FF3A9
