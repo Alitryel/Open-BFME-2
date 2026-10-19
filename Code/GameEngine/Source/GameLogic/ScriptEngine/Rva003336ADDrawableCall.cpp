@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DBFME_ASCII_DTOR_DECL /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /EHsc
 //
 // ?Rva003336ADGet@@YA_N_NPBD@Z @0x003336AD (117B): cdecl bool(bool, const char *).
 // Reads the drawable link at +0x9C of the Lua state global (VA 0x00E01DBC, see

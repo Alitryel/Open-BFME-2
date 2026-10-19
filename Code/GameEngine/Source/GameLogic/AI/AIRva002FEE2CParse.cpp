@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /EHsc /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ?Rva002FEE2CParse@@YAXPAVINI@@PAX1PBX@Z, retail 0x002FEE2C (129B). INI field callback for the
