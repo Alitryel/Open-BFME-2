@@ -25,7 +25,15 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 
 // Preserve the inline transform algorithms while suppressing unused external copies.
+// An inline function's out-of-line copy takes the optimization state of its definition:
+// WWMath::Fabs keeps its frame (retail 0x0004CAD1) and Matrix3D() builds Row through ??_H
+// under /O1 settings (retail 0x000423C5). Bodies that inline them are unchanged.
+#pragma optimize("y", off)
+#include "wwmath.h"
+#pragma optimize("", on)
+#pragma optimize("gsy", on)
 #include "matrix3d.h"
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "inttest.h"
 

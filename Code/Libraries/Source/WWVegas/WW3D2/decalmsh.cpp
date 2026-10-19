@@ -83,6 +83,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  *   SkinDecalMeshClass::Process_Material_Run -- scans the mesh for material runs              *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// ZH meshgeometry.h's Get_Flag reads Flags at +0x14; BFME2's MeshGeometryClass keeps it at +0x18
+// (retail 0x000D1AA1). Every use here is inlined, so a TU-local name keeps this unit's copy, first
+// in link order, from displacing retail's.
+#define Get_Flag Get_Flag_Zh
 #include "../../../../../reference/shims/bfme_decal_plane/plane.h"
 #include "decalmsh.h"
 #include "decalsys.h"

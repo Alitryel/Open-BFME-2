@@ -66,6 +66,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * Functions:                                                              * 
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+// ZH meshgeometry.h's Get_Flag and Set_Flag use Flags at +0x14; BFME2's MeshGeometryClass keeps it at
+// +0x18 (retail 0x000D1AA1, 0x001494B0). Every use here is inlined, so
+// TU-local names keep this unit's copies, first in link order, from displacing retail's.
+#define Get_Flag Get_Flag_Zh
+#define Set_Flag Set_Flag_Zh
 #include "matinfo.h" // load the declaration-only TU shim before sibling includes
 #include "dx8wrapper.h" // the bfmestages shim has to win the include guard over the ZH sibling
 // Keep the native shader accessor at 0x00143370: its Shader array is
