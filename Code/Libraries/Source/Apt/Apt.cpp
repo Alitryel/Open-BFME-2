@@ -812,7 +812,7 @@ void Rva006CD080ClearDisplayList() {
 // gpAptXmlImpl (E17720, named by the AptXml.cpp assert that reads it);
 // a null argument leaves the current one. Address name.
 class AptXmlImpl;
-extern AptXmlImpl *gpAptXmlImpl;
+AptXmlImpl *gpAptXmlImpl = 0;	// retail RVA 0x00A17720, zero at load
 void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl) {
  if(impl)gpAptXmlImpl=impl;
 }
@@ -829,7 +829,7 @@ const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
 
 // Native6CD060..6CD069: store the argument into the Apt word at E176C8
 // (beside the E176D0 root and E176D4 suppression flag). Address names.
-extern int g_aptWordAtE176C8;
+int g_aptWordAtE176C8 = 0;	// retail RVA 0x00A176C8, zero at load
 void Rva006CD060SetWord(int value) {
  g_aptWordAtE176C8=value;
 }
