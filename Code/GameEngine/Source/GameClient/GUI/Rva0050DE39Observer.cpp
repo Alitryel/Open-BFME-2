@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // ?initObserverControls@ControlBar@@QAEXXZ @0x0050DE39 597B: observer ControlBar cache init.
-// Evidence: caller 0x0031D201; callees rowed nameToKey 0x00148E1A plus nameToKey_ascii 0x0009FA65 plus format 0x00038150 plus releaseBuffer 0x00036410 plus winGetWindowFromId slot 0xF0; strings ControlBar.wnd Observer/Player/Button/StaticText/WinFlag/Portrait/Cancel; globals g_00E0460C g_00E0462C ObserverPlayerInfoWindow ObserverPlayerListWindow g_00E04654 g_00E04674 g_00E04694 g_00E04698 g_00E0469C g_00E046A0 g_00E046A4 g_00E046A8 g_00E046AC g_00E046B0; neighbour Rva0050E776Send.cpp layout.
+// Evidence: caller 0x0031D201; callees rowed nameToKey 0x00148E1A plus nameToKey_ascii 0x0009FA65 plus format 0x00038150 plus releaseBuffer 0x00036410 plus winGetWindowFromId slot 0xF0; strings ControlBar.wnd Observer/Player/Button/StaticText/WinFlag/Portrait/Cancel; globals buttonPlayerID staticTextPlayerID ObserverPlayerInfoWindow ObserverPlayerListWindow buttonPlayer staticTextPlayer buttonCancelID winFlag winGeneralPortrait staticTextNumberOfUnits staticTextNumberOfBuildings staticTextNumberOfUnitsKilled staticTextNumberOfUnitsLost staticTextPlayerName; neighbour Rva0050E776Send.cpp layout.
 #include "ascii_string.h"
 #include "unicode_string.h"
 extern "C" void *__cdecl memset(void *, int, unsigned int);
@@ -111,34 +111,34 @@ extern GameWindowManager *TheWindowManager;
 // Owned here: the two name-key tables are filled in this TU's init loop
 // (ButtonPlayer / StaticTextPlayer keys) and read back by input handling;
 // retail .data starts them at 0.
-Int g_00E0460C[8] = { 0 };
-Int g_00E0462C[8] = { 0 };
+Int buttonPlayerID[8] = { 0 };
+Int staticTextPlayerID[8] = { 0 };
 // Zero Hour's file statics (VA 0x00E0464C/0x00E04650): only this unit's
 // observer functions touch them, and retail schedules around them as
 // non-aliased statics (0x0050E6E6).
 static GameWindow *ObserverPlayerInfoWindow = NULL;
 static GameWindow *ObserverPlayerListWindow = NULL;
-extern GameWindow *g_00E04654[8];
-extern GameWindow *g_00E04674[8];
-extern Int g_00E04694;
+extern GameWindow *buttonPlayer[8];
+extern GameWindow *staticTextPlayer[8];
+extern Int buttonCancelID;
 // Owned here: observer button windows, cancel key and the trio above are all
 // written in this TU; retail .data starts them at 0.
-GameWindow *g_00E04654[8] = { 0 };
-GameWindow *g_00E04674[8] = { 0 };
-Int g_00E04694 = 0;
+GameWindow *buttonPlayer[8] = { 0 };
+GameWindow *staticTextPlayer[8] = { 0 };
+Int buttonCancelID = 0;
 // Owned here: WinFlag, general portrait and the two count windows are
 // written in this TU's init (winGetWindowFromId) and read back by the
 // observer-panel refresh; retail .data starts them at 0.
-GameWindow *g_00E04698 = 0;
-GameWindow *g_00E0469C = 0;
-GameWindow *g_00E046A0 = 0;
-GameWindow *g_00E046A4 = 0;
+GameWindow *winFlag = 0;
+GameWindow *winGeneralPortrait = 0;
+GameWindow *staticTextNumberOfUnits = 0;
+GameWindow *staticTextNumberOfBuildings = 0;
 // Owned here: the three observer static-text windows below are written in
 // this TU's init (winGetWindowFromId) and read back on every observer-panel
 // refresh; retail .data starts them at 0.
-GameWindow *g_00E046A8 = 0;
-GameWindow *g_00E046AC = 0;
-GameWindow *g_00E046B0 = 0;
+GameWindow *staticTextNumberOfUnitsKilled = 0;
+GameWindow *staticTextNumberOfUnitsLost = 0;
+GameWindow *staticTextPlayerName = 0;
 
 
 // Zero Hour's ControlBar::populateObserverList (ControlBarObserver.cpp).
@@ -265,21 +265,21 @@ void ControlBar::initObserverControls(void)
 		AsciiString tmp;
 		tmp.format("ControlBar.wnd:ButtonPlayer%d", i);
 		Int key = TheNameKeyGenerator->nameToKey(tmp);
-		g_00E0460C[i] = key;
-		g_00E04654[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key);
+		buttonPlayerID[i] = key;
+		buttonPlayer[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key);
 		tmp.format("ControlBar.wnd:StaticTextPlayer%d", i);
 		Int key2 = TheNameKeyGenerator->nameToKey(tmp);
-		g_00E0462C[i] = key2;
-		g_00E04674[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key2);
+		staticTextPlayerID[i] = key2;
+		staticTextPlayer[i] = TheWindowManager->winGetWindowFromId(ObserverPlayerListWindow, key2);
 	}
-	g_00E046A0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnits"));
-	g_00E046A4 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfBuildings"));
-	g_00E046A8 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsKilled"));
-	g_00E046AC = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsLost"));
-	g_00E046B0 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextPlayerName"));
-	g_00E04698 = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinFlag"));
-	g_00E0469C = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinGeneralPortrait"));
-	g_00E04694 = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonCancel");
+	staticTextNumberOfUnits = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnits"));
+	staticTextNumberOfBuildings = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfBuildings"));
+	staticTextNumberOfUnitsKilled = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsKilled"));
+	staticTextNumberOfUnitsLost = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextNumberOfUnitsLost"));
+	staticTextPlayerName = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:StaticTextPlayerName"));
+	winFlag = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinFlag"));
+	winGeneralPortrait = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:WinGeneralPortrait"));
+	buttonCancelID = TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonCancel");
 }
 
 void ControlBar::populateObserverList(void)
@@ -297,17 +297,17 @@ void ControlBar::populateObserverList(void)
 			{
 				if (((const ParticleSystem *)p)->isSaveable())
 					continue;
-				Rva00328518(g_00E04654[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(g_00E04654[currentButton], p->m_playerTemplate->rva001FD221());
-				g_00E04654[currentButton]->rva003148A2(p->m_playerDisplayName);
-				g_00E04654[currentButton]->winHide(false);
-				g_00E04654[currentButton]->winSetStatus(0x200000);
+				Rva00328518(buttonPlayer[currentButton], (Int)p);
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
+				buttonPlayer[currentButton]->rva003148A2(p->m_playerDisplayName);
+				buttonPlayer[currentButton]->winHide(false);
+				buttonPlayer[currentButton]->winSetStatus(0x200000);
 
 				const GameSlot *slot = TheGameInfo->getConstSlot(currentButton);
 				Int playerColor = p->m_color;
 				Int backColor = 0xFF000000;
-				g_00E04674[currentButton]->winSetEnabledTextColors(playerColor, backColor);
-				g_00E04674[currentButton]->winHide(false);
+				staticTextPlayer[currentButton]->winSetEnabledTextColors(playerColor, backColor);
+				staticTextPlayer[currentButton]->winHide(false);
 				AsciiString teamStr;
 				teamStr.format("Team:%d", slot->m_teamNumber + 1);
 				if (slot->isAI() && slot->m_teamNumber == -1)
@@ -316,14 +316,14 @@ void ControlBar::populateObserverList(void)
 				UnicodeString text;
 				text.format(TheGameText->fetchPtr("CONTROLBAR:ObsPlayerLabel"), p->m_playerDisplayName.str(),
 					TheGameText->fetch(teamStr).str());
-				GadgetStaticTextSetText(g_00E04674[currentButton], text);
+				GadgetStaticTextSetText(staticTextPlayer[currentButton], text);
 				++currentButton;
 			}
 		}
 		for (; currentButton < 8; ++currentButton)
 		{
-			g_00E04654[currentButton]->winHide(true);
-			g_00E04674[currentButton]->winHide(true);
+			buttonPlayer[currentButton]->winHide(true);
+			staticTextPlayer[currentButton]->winHide(true);
 		}
 	}
 	else
@@ -333,24 +333,24 @@ void ControlBar::populateObserverList(void)
 			Player *p = ThePlayerList->getNthPlayer(i);
 			if (p && !((const ParticleSystem *)p)->isSaveable() && p->m_playerType == 0)
 			{
-				Rva00328518(g_00E04654[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(g_00E04654[currentButton], p->m_playerTemplate->rva001FD221());
-				g_00E04654[currentButton]->rva003148A2(p->m_playerDisplayName);
-				g_00E04654[currentButton]->winHide(false);
-				g_00E04654[currentButton]->winSetStatus(0x200000);
+				Rva00328518(buttonPlayer[currentButton], (Int)p);
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
+				buttonPlayer[currentButton]->rva003148A2(p->m_playerDisplayName);
+				buttonPlayer[currentButton]->winHide(false);
+				buttonPlayer[currentButton]->winSetStatus(0x200000);
 				Int playerColor = p->m_color;
 				Int backColor = 0xFF000000;
-				g_00E04674[currentButton]->winSetEnabledTextColors(playerColor, backColor);
-				g_00E04674[currentButton]->winHide(false);
-				GadgetStaticTextSetText(g_00E04674[currentButton], p->m_playerDisplayName);
+				staticTextPlayer[currentButton]->winSetEnabledTextColors(playerColor, backColor);
+				staticTextPlayer[currentButton]->winHide(false);
+				GadgetStaticTextSetText(staticTextPlayer[currentButton], p->m_playerDisplayName);
 				++currentButton;
 				break;
 			}
 		}
 		for (; currentButton < 8; ++currentButton)
 		{
-			g_00E04654[currentButton]->winHide(true);
-			g_00E04674[currentButton]->winHide(true);
+			buttonPlayer[currentButton]->winHide(true);
+			staticTextPlayer[currentButton]->winHide(true);
 		}
 	}
 }
@@ -375,7 +375,7 @@ void ControlBar::populateObserverInfoWindow(void)
 	mask.set(KINDOF_SCORE);
 	clearmask.set(KINDOF_STRUCTURE);
 	uString.format(L"%d", m_observerLookAtPlayer->countObjects(mask, clearmask));
-	GadgetStaticTextSetText(g_00E046A0, uString);
+	GadgetStaticTextSetText(staticTextNumberOfUnits, uString);
 	Int numBuildings = 0;
 	memset(mask.m_words, 0, sizeof(mask.m_words));
 	mask.set(KINDOF_SCORE);
@@ -391,16 +391,16 @@ void ControlBar::populateObserverInfoWindow(void)
 	mask.set(KINDOF_STRUCTURE);
 	numBuildings += m_observerLookAtPlayer->countObjects(mask, clearmask);
 	uString.format(L"%d", numBuildings);
-	GadgetStaticTextSetText(g_00E046A4, uString);
+	GadgetStaticTextSetText(staticTextNumberOfBuildings, uString);
 	uString.format(L"%d", m_observerLookAtPlayer->getScoreKeeper()->getTotalUnitsDestroyed());
-	GadgetStaticTextSetText(g_00E046A8, uString);
+	GadgetStaticTextSetText(staticTextNumberOfUnitsKilled, uString);
 	uString.format(L"%d", m_observerLookAtPlayer->getScoreKeeper()->getTotalUnitsLost());
-	GadgetStaticTextSetText(g_00E046AC, uString);
-	GadgetStaticTextSetText(g_00E046B0, m_observerLookAtPlayer->m_playerDisplayName);
+	GadgetStaticTextSetText(staticTextNumberOfUnitsLost, uString);
+	GadgetStaticTextSetText(staticTextPlayerName, m_observerLookAtPlayer->m_playerDisplayName);
 	Int color = m_observerLookAtPlayer->m_color;
-	g_00E046B0->winSetEnabledTextColors(color, 0xFF000000);
-	g_00E04698->winSetEnabledImage(0, m_observerLookAtPlayer->m_playerTemplate->rva001FD1FB());
-	g_00E0469C->winHide(false);
+	staticTextPlayerName->winSetEnabledTextColors(color, 0xFF000000);
+	winFlag->winSetEnabledImage(0, m_observerLookAtPlayer->m_playerTemplate->rva001FD1FB());
+	winGeneralPortrait->winHide(false);
 }
 
 // Zero Hour's ControlBarObserverSystem: the cancel button returns to the
@@ -423,7 +423,7 @@ WindowMsgHandledType ControlBarObserverSystem(GameWindow *window, unsigned int m
 		{
 			GameWindow *control = (GameWindow *)mData1;
 			Int controlID = control->winGetWindowId();
-			if (controlID == g_00E04694)
+			if (controlID == buttonCancelID)
 			{
 				TheControlBar->setObserverLookAtPlayer(0);
 				ObserverPlayerInfoWindow->winHide(true);
@@ -432,11 +432,11 @@ WindowMsgHandledType ControlBarObserverSystem(GameWindow *window, unsigned int m
 			}
 			for (Int i = 0; i < 8; ++i)
 			{
-				if (controlID == g_00E0460C[i])
+				if (controlID == buttonPlayerID[i])
 				{
 					ObserverPlayerInfoWindow->winHide(false);
 					ObserverPlayerListWindow->winHide(true);
-					TheControlBar->setObserverLookAtPlayer((Player *)GadgetButtonGetData(g_00E04654[i]));
+					TheControlBar->setObserverLookAtPlayer((Player *)GadgetButtonGetData(buttonPlayer[i]));
 					if (TheControlBar->getObserverLookAtPlayer())
 						TheControlBar->populateObserverInfoWindow();
 					return MSG_HANDLED;
