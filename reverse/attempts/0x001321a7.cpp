@@ -1,4 +1,6 @@
 // ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
+// partial score=0.9477965018820536 date=2026-10-19
+// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
 // partial score=0.8419 date=2026-10-16
 // cl: /O1 /Ob1 /G7 /DNDEBUG /MD /EHsc
 // WB twin 9D2F80 (texture.cpp 1129..1334): the pixel pass is switch(desc.Format)
@@ -9,6 +11,8 @@
 // behind the shared exit; frame-slot packing of -14/-20/-28/-2C differs (retail
 // keeps dst apart from bits, count in the pixelSize slot with and [mem],7, ebx=pitch
 // across the colour loop); volatile dstGap still needed for its [ebp+8] home.
+// 2026-10-19: visible byte-exact setter, getter and dispatcher remove allocation deltas; all volatile shaping is removed.
+// Remaining format-26 block placement: reverse/attempt_support/0x001321a7-20261019-w5.md.
 #include <string.h>
 void *operator new[](unsigned);
 struct TextureRecolorGUID 
@@ -174,6 +178,23 @@ static __forceinline const unsigned &TextureRecolorMin(const unsigned &a,const u
  return b<a?b:a;
  
 }
+void Rva00131D7D::rva00131D7D(unsigned c)
+{
+ red=(c>>16)&255;
+ green=(c>>8)&255;
+ blue=c&255;
+}
+class Rva000B2361 { public: int *rva000B2361(int); int m_00,m_04,m_08,m_0C; };
+int *Rva000B2361::rva000B2361(int which)
+{
+ switch(which) { case 0: return &m_04; case 1: return &m_08; case 2: return &m_0C; default: return &m_04; }
+}
+void *Rva000B4653::rva000B4653(int a)
+{
+ if((unsigned)a<flags.count())
+  return *reinterpret_cast<void **>(reinterpret_cast<Rva000B2361 *>(this)->rva000B2361(a));
+ return 0;
+}
 void BfmeThing937B::rva001321A7(void *settings)
 
 {
@@ -194,7 +215,7 @@ void BfmeThing937B::rva001321A7(void *settings)
   TextureRecolorSurfaceLock lock(holder,bits,pitch,false);
   SurfaceClass::SurfaceDescription desc;
   reinterpret_cast<SurfaceClass *>(&holder)->Get_Description(desc);
-  int pixelSize=0;
+  unsigned pixelSize=0;
   if(desc.Format==21)pixelSize=4;
   else if(desc.Format==26)pixelSize=2;
   if(!pixelSize)return;
@@ -223,10 +244,18 @@ void BfmeThing937B::rva001321A7(void *settings)
    sourcePitch=pitch;
    
   }
-  unsigned count=options->flags.count();
+  unsigned &count=pixelSize;
+  count=options->flags.bits;
+  unsigned i=0;
   Rva00131D7D colors[3];
-  for(unsigned i=0;i<count;++i)
-  colors[i].rva00131D7D(reinterpret_cast<unsigned>(options->rva000B4653(i)));
+  if(0U<(count&=7))
+  {
+   do
+   {
+    colors[i].rva00131D7D(reinterpret_cast<unsigned>(options->rva000B4653(i)));
+    ++i;
+   } while(i<count);
+  }
   switch(desc.Format)
   {
   case 21:
@@ -234,7 +263,7 @@ void BfmeThing937B::rva001321A7(void *settings)
    unsigned char *src=source;
    unsigned char *dst=reinterpret_cast<unsigned char *>(bits);
    int srcGap=sourcePitch-desc.Width*4;
-   volatile int dstGap = pitch-desc.Width*4;
+   int dstGap = pitch-desc.Width*4;
    switch(count) 
    {
     case 0:
