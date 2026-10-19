@@ -66,19 +66,6 @@ cleanup_done_0075D994:
     ret
 ?rva0075D994@@YAXXZ ENDP
 
-; Unwind@00b5dbaf: bit 0 at [ebp-0x18], cleanup pointer at [ebp+8].
-PUBLIC ?rva0075DBAF@@YAXXZ
-?rva0075DBAF@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-24]
-    and eax, 1
-    jz NEAR PTR cleanup_done_0075DBAF
-    and DWORD PTR [ebp-24], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1BfmeStringTailRecord156@@QAE@XZ
-cleanup_done_0075DBAF:
-    ret
-?rva0075DBAF@@YAXXZ ENDP
-
 ; Unwind@00b5f97f: eh-vector-dtor cleanup adds 44h to [ebp-16] and passes it to 0057098Dh.
 PUBLIC ?rva0075F97F@@YAXXZ
 ?rva0075F97F@@YAXXZ PROC
