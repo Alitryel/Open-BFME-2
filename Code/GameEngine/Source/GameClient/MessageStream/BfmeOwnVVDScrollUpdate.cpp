@@ -232,7 +232,7 @@ extern GameEngine *TheGameEngine;
 extern GameLogic *TheGameLogic;
 extern MessageStream *TheMessageStream;
 class LivingWorld; extern LivingWorld *TheLivingWorld;
-extern bool g_00E03218[4];
+extern bool scrollDir[4];
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 
 void BfmeOwnVVD::rva0042F213()
@@ -293,13 +293,13 @@ void BfmeOwnVVD::rva0042F213()
 			break;
 		case 2:
 			{
-				if (g_00E03218[0])
+				if (scrollDir[0])
 					offset.y -= TheWritableGlobalData->m_verticalScrollSpeedFactor * 100.0f * TheWritableGlobalData->m_keyboardScrollFactor;
-				if (g_00E03218[1])
+				if (scrollDir[1])
 					offset.y += TheWritableGlobalData->m_verticalScrollSpeedFactor * 100.0f * TheWritableGlobalData->m_keyboardScrollFactor;
-				if (g_00E03218[2])
+				if (scrollDir[2])
 					offset.x -= TheWritableGlobalData->m_horizontalScrollSpeedFactor * 100.0f * TheWritableGlobalData->m_keyboardScrollFactor;
-				if (g_00E03218[3])
+				if (scrollDir[3])
 					offset.x += TheWritableGlobalData->m_horizontalScrollSpeedFactor * 100.0f * TheWritableGlobalData->m_keyboardScrollFactor;
 			}
 			break;
@@ -391,14 +391,14 @@ void BfmeOwnVVD::rva0042F213()
 	if (m_isScrolling)
 	{
 		if (!TheKeyboard->rva00232643(0xC8))
-			g_00E03218[0] = false;
+			scrollDir[0] = false;
 		if (!TheKeyboard->rva00232643(0xD0))
-			g_00E03218[1] = false;
+			scrollDir[1] = false;
 		if (!TheKeyboard->rva00232643(0xCB))
-			g_00E03218[2] = false;
+			scrollDir[2] = false;
 		if (!TheKeyboard->rva00232643(0xCD))
-			g_00E03218[3] = false;
-		if (!g_00E03218[0] && !g_00E03218[1] && !g_00E03218[2] && !g_00E03218[3] && m_scrollType == 2)
+			scrollDir[3] = false;
+		if (!scrollDir[0] && !scrollDir[1] && !scrollDir[2] && !scrollDir[3] && m_scrollType == 2)
 			rva0042E804();
 	}
 

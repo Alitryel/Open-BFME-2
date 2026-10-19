@@ -218,10 +218,10 @@ extern GameTextInterface *TheGameText;
 extern Mouse *TheMouse;
 extern GlobalData *TheWritableGlobalData;
 extern Shell *TheShell;
-extern bool g_00E03218[4];
-// Owned here: key-pressed flags written below; retail .data starts them at 0
-// (VA 0x00A03218).
-bool g_00E03218[4] = { false, false, false, false };
+extern bool scrollDir[4];
+// Owned here: Zero Hour LookAtXlat.cpp's scrollDir key-pressed flags (DIR_UP,
+// DOWN, LEFT, RIGHT), written below; retail .data starts them at 0 (VA 0x00A03218).
+bool scrollDir[4] = { false, false, false, false };
 
 GameMessageDisposition BfmeOwnVVD::translateGameMessage(const GameMessage *msg)
 {
@@ -243,16 +243,16 @@ GameMessageDisposition BfmeOwnVVD::translateGameMessage(const GameMessage *msg)
 		switch (key)
 		{
 		case 0xC8:
-			g_00E03218[0] = isPressed;
+			scrollDir[0] = isPressed;
 			break;
 		case 0xD0:
-			g_00E03218[1] = isPressed;
+			scrollDir[1] = isPressed;
 			break;
 		case 0xCB:
-			g_00E03218[2] = isPressed;
+			scrollDir[2] = isPressed;
 			break;
 		case 0xCD:
-			g_00E03218[3] = isPressed;
+			scrollDir[3] = isPressed;
 			break;
 		case 0x4B:
 			m_154 = isPressed;
@@ -274,7 +274,7 @@ GameMessageDisposition BfmeOwnVVD::translateGameMessage(const GameMessage *msg)
 		int numDirs = 0;
 		for (int i = 0; i < 4; ++i)
 		{
-			if (g_00E03218[i])
+			if (scrollDir[i])
 				numDirs++;
 		}
 
