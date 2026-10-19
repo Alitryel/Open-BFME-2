@@ -184,10 +184,10 @@ struct VolShadowDeviceLock {
 };
 class Rva000F0912 { public: void rva000F0972(); };
 #include "hash.h"
-class Rva000F1AD8 { public: void rva000F1AD8(); };
 // BFME1/WB geometry manager: nonvirtual and two hash-table pointers at0/4.
 class W3DShadowGeometryManager {
 public: ~W3DShadowGeometryManager();
+ void rva000F1AD8(); // 0x000F1AD8, BFME1's Free_All_Geoms loop
 private: HashTableClass *GeomPtrTable,*MissingGeomTable;
 };
 #include "tcbspline.h"
@@ -212,12 +212,12 @@ W3DVolumetricShadowManager::~W3DVolumetricShadowManager()
 }
 
 // Native60 atF2797; the manager143 deletion and matched constructor fields
-// agree with BFME1's two-table owner. Free_All_Geoms still uses the existing
-// address-derived95B binding; no additional callee identity is asserted.
+// agree with BFME1's two-table owner. Free_All_Geoms (95B at 0x000F1AD8)
+// keeps its address-derived method name.
 // ?W3DShadowGeometryManager::~W3DShadowGeometryManager present-unmatched
 W3DShadowGeometryManager::~W3DShadowGeometryManager()
 {
- ((Rva000F1AD8 *)this)->rva000F1AD8();
+ rva000F1AD8();
  delete GeomPtrTable; GeomPtrTable=0;
  delete MissingGeomTable; MissingGeomTable=0;
 }
