@@ -346,11 +346,9 @@ extern volatile Drawable *g_Rva012F340C;
 // PUBLIC /////////////////////////////////////////////////////////////////////////////////////////
 ControlBar *TheControlBar = NULL;
 
-void (Coord3D::*g_controlBarCoord3DSet)( const Coord3D * ) = &Coord3D::set;
-
-const Image* ControlBar::m_rankVeteranIcon	= NULL;
-const Image* ControlBar::m_rankEliteIcon		= NULL;
-const Image* ControlBar::m_rankHeroicIcon		= NULL;
+// g_controlBarCoord3DSet and the ControlBar rank icons are defined in
+// ControlBar_Rva0031B99A.cpp; copies here duplicated them at link time.
+extern void (Coord3D::*g_controlBarCoord3DSet)( const Coord3D * );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // CommandButton //////////////////////////////////////////////////////////////////////////////////
