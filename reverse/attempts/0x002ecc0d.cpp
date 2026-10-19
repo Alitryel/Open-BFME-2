@@ -1,10 +1,10 @@
 // ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.94 date=2026-10-19
+// ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.938 date=2026-10-17
 // ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.93 date=2026-10-12
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 //
 #include "Coord3D.h"
 
@@ -140,39 +140,32 @@ Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
 		info.cell.x = cx;
 	}
 	info.layer = (PathfindLayerEnum)obj->rva0028B511();
-
 	{
-		Int extent = obj->getTemplate()->m_56C;
-		Bool flag = obj->getTemplate()->m_634;
-		Rva002E8BCF loco(reinterpret_cast<const Rva002E8BCFSrc *>((char *)obj->getAI() + 0x1CC),
-			!flag, extent - 1, obj->rva0028AFBB());
+	Int extent = obj->getTemplate()->m_56C;
+	Bool flag = obj->getTemplate()->m_634;
+	AIUpdateInterface *ai = obj->getAI();
+	Rva002E8BCF loco(reinterpret_cast<const Rva002E8BCFSrc *>((char *)ai + 0x1CC),
+		!flag, extent - 1, obj->rva0028AFBB());
+Int start = -info.radius; Int i, j;
+for (i = -info.radius; i < info.radius; i++)
+{
+j = start;
+if (j < info.radius)
+{
+Int x = info.cell.x + i;
+do
+{
+PathfindCell *c = getCell(info.layer, x, info.cell.y + j);
+if (c == 0)
+	return false;
+if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))
+	return false;
+j++;
+} while (j < info.radius);
+}
+}
 
-		Int start = -info.radius;
-		Int j = start;
-		Int i = start;
-		while ((i < info.radius) ? true : false)
-		{
-			Int cur = i;
-			j = (cur ? cur : cur);
-			if (j < info.radius)
-			{
-				Int x = *(volatile Int *)&info.cell.x + cur;
-				Int y0 = info.cell.y;
-				do
-				{
-					Int jj = j;
-					PathfindCell *c = getCell(info.layer, x, y0 + jj);
-					if (c == 0)
-						return false;
-					if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))
-						return false;
-					j = jj + 1;
-				} while (j < *(volatile Int *)&info.radius);
-			}
-			i++;
-		}
 	}
-
 	info.m_14 = (obj->getTemplate()->m_kindOf110 & 0x4000000) ? 1 : 0x10;
 	info.m_11 = false;
 	info.m_18 = obj->getAI() ? obj->getAI()->getIgnoredObstacleID() : INVALID_ID;
