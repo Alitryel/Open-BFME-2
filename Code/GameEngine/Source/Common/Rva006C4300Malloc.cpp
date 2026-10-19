@@ -46,7 +46,7 @@ class GeneralAllocatorDebug
 public:
 	void rva006C2270(Rva006C2270Record *record, unsigned size, unsigned flags, unsigned alignment, unsigned alignmentOffset);
 	bool rva006C3D30(Rva006C2270Record *record, void *block, bool flag);
-	void rva006C26F0(void *chunk, int flag);
+	void rva006C26F0(void *chunk, bool allocation);
 };
 
 class Rva006C1F60
@@ -172,7 +172,7 @@ void *Rva006C40C0::rva006C40C0(void *a, void *b)
 		p = mallocMarked(total, flags);
 		if (p != 0) {
 			if (((GeneralAllocatorDebug *)this)->rva006C3D30(&record, p, true))
-				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, 1);
+				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, true);
 			else {
 				((Rva00033E90 *)this)->freeBlock(p);
 				p = 0;
@@ -203,7 +203,7 @@ int Rva006C4460::rva006C4300(int a, int b, int c, int d)
 	for (;;) {
 		if (p != 0) {
 			if (((GeneralAllocatorDebug *)this)->rva006C3D30(&record, p, true))
-				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, 1);
+				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, true);
 			else {
 				((Rva00033E90 *)this)->freeBlock(p);
 				p = 0;
@@ -236,7 +236,7 @@ void *Rva006C4530::rva006C4530(void *a, void *b, void *c)
 	for (;;) {
 		if (p != 0) {
 			if (((GeneralAllocatorDebug *)this)->rva006C3D30(&record, p, false))
-				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, 1);
+				((GeneralAllocatorDebug *)this)->rva006C26F0((char *)p - 8, true);
 			else {
 				((Rva00033E90 *)this)->freeBlock(p);
 				p = 0;

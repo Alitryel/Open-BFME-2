@@ -55,7 +55,7 @@ class GeneralAllocatorDebug
 {
 public:
 	bool VerifyGuardFill(void *block, int a, unsigned char b);	// 0x006C3020
-	void rva006C26F0(void *block, int a);						// 0x006C26F0
+	void rva006C26F0(void *block, bool allocation);						// 0x006C26F0
 };
 
 class Rva00033E90
@@ -111,7 +111,7 @@ void Rva006C1F60::rva006C3660(void *p)
 			((GeneralAllocatorDebug *)this)->VerifyGuardFill(block, 0, 0);
 			if (m_540 == 0)
 			{
-				((GeneralAllocatorDebug *)this)->rva006C26F0(block, 0);
+				((GeneralAllocatorDebug *)this)->rva006C26F0(block, false);
 				((Rva00033E90 *)this)->freeBlock(p);
 			}
 			else
@@ -119,7 +119,7 @@ void Rva006C1F60::rva006C3660(void *p)
 				unsigned int size = ((EA::Allocator::GeneralAllocator *)this)->rva006C1D10(p);
 				if (size < 8)
 				{
-					((GeneralAllocatorDebug *)this)->rva006C26F0(block, 0);
+					((GeneralAllocatorDebug *)this)->rva006C26F0(block, false);
 					((Rva00033E90 *)this)->freeBlock(p);
 				}
 				else
