@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // ?Rva004185E4HitpointsAtLevel@@YAXPAVINI@@PAX1PBX@Z @0x004185E4 123B.
 // Target evidence: the HitpointsAtLevel table entry parses Hitpoints then Level; retail inserts into the supplied int map and throws on duplicate keys.
@@ -6,8 +6,9 @@
 #include <map>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &a,bool const &b) : first(a), second(b) {} }
+// Inline the iterator step as retail's speed-form insert_unique does.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > & _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
 // bfme link decl-only begin
-namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, int> > * _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_create_node(pair<int const, int> const &); }
 // bfme link decl-only end
 

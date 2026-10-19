@@ -17,9 +17,12 @@ _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > 
     return *this;
 }
 }
+// Inline the iterator steps as retail's speed-form tree bodies do.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &a, bool const &b) : first(a), second(b) {} }
+// empty() too: stlport_map_int_int.cpp owns the retail entry at 0x620050.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::empty() const { return _M_node_count == 0; } }
 // bfme link decl-only begin
-namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
-namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
 namespace _STL { template <> _Rb_tree_node<pair<int const, int> > * _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_create_node(pair<int const, int> const &); }
 // bfme link decl-only end
 

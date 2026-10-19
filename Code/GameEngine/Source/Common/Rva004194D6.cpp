@@ -1,4 +1,4 @@
-// cl: /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?rva004194D6@Rva004194D6@@QAEXXZ, retail 0x004194D6, 52 bytes.
 // State gate at +0x38 with 8-float threshold check at +0x14 against global at 0x00BBAEAC; sets 1 or 0.
@@ -8,8 +8,9 @@
 #include <map>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > >,bool>::pair(_Rb_tree_iterator<pair<int const ,int>,_Nonconst_traits<pair<int const ,int> > > const &a,bool const &b) : first(a), second(b) {} }
+// Inline the iterator steps as retail's speed-form tree bodies do.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
 // bfme link decl-only begin
-namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
 // bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
