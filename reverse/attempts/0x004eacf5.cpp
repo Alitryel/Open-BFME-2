@@ -1,11 +1,9 @@
-// ?Rva004EACF5DistSqToSegment@@YAMPBUCoord2D@@00@Z
-// partial score=0.90571 date=2026-10-19
-// Joint candidate for native 0x004EACF5 (197 B) and 0x004EADBA (227 B).
-// Descriptive Polyline/PointSource labels, not proven original class names.
-// Native: helper a=EAX, b=EDX, p=ECX; compiler still swaps b/p registers.
-// Correct semantic call below: a=prev, p=input point, b=current segment end.
-// Coord2D constructor expression + y-square-first sum closes projection tail
-// and length-squared XMM scheduling. No pins or exact/link claim.
+// ?distSqToSegment@@YAMPBUCoord2D@@00@Z
+// partial score=0.948 date=2026-10-20
+// ?distSqToSegment@@YAMPBUCoord2D@@00@Z (0x4EACF5, 197 B) + ?distanceSq@Polyline@@UBEMPBUCoord2D@@@Z (0x4EADBA, 227 B)
+// r26 joint candidate. helper fit 0.9481 (10 insn diffs, IPRA regs now exact: p=ECX a=EAX b=EDX); caller exact except
+// the unresolved local call. Params (p, a, b) = (pt, lineStart, lineEnd) as ZH Geometry.cpp calcPointToLineDistSquared;
+// retail caller lea order edx(b), eax(a), ecx(p) = right-to-left of (p, a, b). Separate returns raise p's use count (8 > b's 6).
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
 struct Coord2D { float x, y; Coord2D() {} Coord2D(float ax, float ay) : x(ax), y(ay) {} };
 struct Coord3D { float x, y, z; };
@@ -17,36 +15,30 @@ public:
 	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11(); virtual void s12();
 	virtual Coord3D getPosition() const;	// +0x34
 };
-static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2D *p, const Coord2D *b)
+template <typename NUM> inline NUM sqr(NUM x) { return x * x; }
+static float calcDistSquared(const Coord2D &a, const Coord2D &b) { return sqr(a.y - b.y) + sqr(a.x - b.x); }
+static __declspec(noinline) float distSqToSegment(const Coord2D *p, const Coord2D *a, const Coord2D *b)
 {
-	float dx = b->x;
-	float dy = b->y;
-	float apx = p->x - a->x;
-	float apy = p->y - a->y;
-	dx -= a->x;
-	dy -= a->y;
-	float dot = apx * dx + apy * dy;
-	float cx, cy;
-	if (dot <= 0.0f)
-	{
-		cx = a->x; cy = a->y;
-	}
-	else
-	{
-		Coord2D e(b->x-a->x,b->y-a->y);
-		float len2 = e.y*e.y+e.x*e.x;
-		if (dot >= len2)
-		{
-			cx = b->x; cy = b->y;
-		}
-		else
-		{
-			float t = dot / len2;
-			Coord2D q(t*dx+a->x-p->x,t*dy+a->y-p->y);return q.y*q.y+q.x*q.x;
-		}
-	}
-	Coord2D q(cx-p->x,cy-p->y);return q.y*q.y+q.x*q.x;
-
+float dx = b->x;
+float dy = b->y;
+float apx = p->x - a->x;
+float apy = p->y - a->y;
+dx -= a->x;
+dy -= a->y;
+float dot = apy * dy;
+dot += apx * dx;
+if (dot <= 0.0f)
+{
+return calcDistSquared(*a, *p);
+}
+float len2 = calcDistSquared(*b, *a);
+if (dot >= len2)
+{
+return calcDistSquared(*b, *p);
+}
+float t = dot / len2;
+Coord2D c(a->x + t*dx, a->y + t*dy);
+return calcDistSquared(c, *p);
 }
 class Polyline
 {
@@ -65,7 +57,7 @@ float Polyline::distanceSq(const Coord2D *pt) const
 	for (PointSource **it = m_begin; it != end; ++it)
 	{
 		Coord2D cur((*it)->getPosition().x, (*it)->getPosition().y);
-		float d = distSqToSegment(&prev,&p,&cur);
+		float d = distSqToSegment(&p,&prev,&cur);
 		if (best < 1.0f || d < best)
 			best = d;
 		prev = cur;
