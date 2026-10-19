@@ -51,3 +51,15 @@ separator load in the tail (if/else, early return, inverted condition, nested if
 store-first forms on the new base all keep it). permute.py: 836 trials from the new bank,
 no gain. Next lever to try: a form that keeps the donor loop but tips the same tie (another
 displacement or a different base pointer for `field` in that loop only).
+
+## Diagnostic: the displacement is the tipper
+
+The semantically WRONG probe `for ( i = 0; field[ i + 1 ] >= ' '; i++ ) {} i++;` emits
+retail's exact length-loop structure (`push ebp; xor ebp,ebp; cmp [esi+1]; jb; inc ebp;
+cmp [esi+ebp+1]; jae; inc ebp`) and retail's roles; only the +1 displacement differs. So
+with a displaced loop address cl 7.1 picks i=EBP/pValue=EBX, and with retail's undisplaced
+`[esi+ebp]` it picks the opposite in every spelling tried. Constant offsets that cl folds
+early (`(field + 1)[ i - 1 ]`, `field[ i + 1 - 1 ]`, `f = field + 1; f[ i - 1 ]`,
+`(field - 1)[ i + 1 ]`) do not tip it; neither do `i[ field ]`, `*( i + field )`,
+`i[ pValue ]` tail spellings, or ten code-neutral rewrites elsewhere (`!p`, `*p++ =`,
+operand swaps in the iDelta/class tests, `*p` for `*p != 0`, `field[ 0 ]` for `*field`).
