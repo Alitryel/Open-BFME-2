@@ -22,6 +22,10 @@
 #include <set>
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_base<Rva001408C0Target *, allocator<Rva001408C0Target *> >::~_Rb_tree_base(); }
 // Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
