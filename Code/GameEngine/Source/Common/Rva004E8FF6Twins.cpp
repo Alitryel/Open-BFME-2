@@ -29,7 +29,7 @@ enum Relationship
 class Rva004989D7
 {
 public:
-	Relationship rva004989DF(const Player *arg) const;
+	Relationship getRelationship(const Player *arg) const;
 };
 
 
@@ -62,7 +62,7 @@ void Rva004E8FF6::rva004E8FF6(void *arg)
 		void *o = *p;
 		if (((GateOpenAndCloseBehavior *)o)->rva00498980())
 		{
-			int r = ((Rva004989D7 *)o)->rva004989DF((const Player *)arg);
+			int r = ((Rva004989D7 *)o)->getRelationship((const Player *)arg);
 			if (r == 0)
 				((GateOpenAndCloseBehavior *)o)->rva0049924B((bool)r);
 		}
@@ -79,7 +79,7 @@ void Rva004E8FF6::rva004E9040(void *arg)
 		void *o = *p;
 		if (((GateOpenAndCloseBehavior *)o)->rva00498980())
 		{
-			int r = ((Rva004989D7 *)o)->rva004989DF((const Player *)arg);
+			int r = ((Rva004989D7 *)o)->getRelationship((const Player *)arg);
 			if (r == 0)
 				((GateOpenAndCloseBehavior *)o)->rva004992D5(true, (bool)r);
 		}

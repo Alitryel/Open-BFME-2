@@ -9,7 +9,7 @@
 // No callers rowed; chain-ready via 0x004989DF. Recipe is closest-scan with
 // pos copy plus best/bestDist plus finish.
 
-// ?rva004989DF@Rva004989D7@@QBE?AW4Relationship@@PBVPlayer@@@Z
+// ?getRelationship@Rva004989D7@@QBE?AW4Relationship@@PBVPlayer@@@Z
 // ?get@Rva004989EEAddDwordField@@QBEHXZ
 
 enum Relationship
@@ -25,7 +25,7 @@ class Player;
 class Rva004989D7
 {
 public:
-	Relationship rva004989DF(const Player *p) const;
+	Relationship getRelationship(const Player *p) const;
 };
 
 class Rva004989EEAddDwordField
@@ -53,7 +53,7 @@ void *GateOpenBehaviorList::rva004E90B1(const Coord3D *pos, const Player *player
 	for (void **cur = m_begin; cur != finish; ++cur)
 	{
 		Rva004989D7 *obj = (Rva004989D7 *)*cur;
-		if (obj->rva004989DF(player) != ALLIES)
+		if (obj->getRelationship(player) != ALLIES)
 			continue;
 		float vals[3];
 		vals[0] = pos->x;

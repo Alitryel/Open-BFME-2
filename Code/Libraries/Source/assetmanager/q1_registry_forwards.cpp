@@ -10,7 +10,7 @@ class Q1Receiver0134FAAC
 {
 public:
 	void m009EC970(int which);
-	void m009EC9A0(int which);
+	void Disable(int which);
 	void AddStickyAssets(int value);
 	void m009F19E0(int source);
 	void m009F0BD0(int value);
@@ -52,7 +52,7 @@ void bfmeSetReceiverFlag(int which)
 void bfmeClearReceiverFlag(int which)
 {
 	if (TheQ1Receiver != 0)
-		TheQ1Receiver->m009EC9A0(which);
+		TheQ1Receiver->Disable(which);
 }
 
 // 0x0061F0F0 (25B): the same guard with the argument tested first. Ported

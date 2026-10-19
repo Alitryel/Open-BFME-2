@@ -35,7 +35,7 @@ public:
 class Rva00594C12
 {
 public:
-	int rva00594C12(const char *buf, int len, unsigned long addr, unsigned short port);
+	int Write(const char *buf, int len, unsigned long addr, unsigned short port);
 };
 
 struct Rva0059517FPacket
@@ -87,7 +87,7 @@ bool Rva0059517F::sendToManglerFromPort(unsigned long a1, unsigned short a2, uns
 	if (entry == 0)
 		return false;
 	Rva00594C12 *udp = *(Rva00594C12 **)entry;
-	udp->rva00594C12((const char *)&pkt, 0x14, a1, a4);
+	udp->Write((const char *)&pkt, 0x14, a1, a4);
 	return true;
 }
 
@@ -109,7 +109,7 @@ bool Rva0059517F::rva00595213(UDP *udp, unsigned long address, unsigned short pa
 	unsigned int crc = ComputeCRC((const unsigned char *)&pkt.m_04, 0x10, 0);
 	pkt.m_crc = htonl(crc);
 	pkt._len = 0x14;
-	((Rva00594C12 *)udp)->rva00594C12((const char *)&pkt, 0x14, address, port);
+	((Rva00594C12 *)udp)->Write((const char *)&pkt, 0x14, address, port);
 	m_88 = packetID;
 	return true;
 }

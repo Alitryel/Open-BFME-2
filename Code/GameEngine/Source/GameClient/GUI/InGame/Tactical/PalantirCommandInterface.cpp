@@ -42,7 +42,7 @@ namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
 // parsers are rowed; six slots are 0x14 bytes from +0x64, holder +8.
 // The owning UI class has not been established from target evidence.
 bool __cdecl Rva00529628Get(const char *path, int *slot);
-bool __cdecl Rva00528C30Get(const char *path, AsciiString &name);
+bool __cdecl ParseClipName(const char *path, AsciiString &name);
 class Rva0052991E
 {
 	struct Slot
@@ -66,7 +66,7 @@ void Rva0052991E::OnToggleFlashLoaded(const char *path)
 		int slot;
 		if (!Rva00529628Get(path, &slot))
 			return;
-		if (!Rva00528C30Get(path, name))
+		if (!ParseClipName(path, name))
 			return;
 		button = &m_slots[slot];
 	}
@@ -86,7 +86,7 @@ void Rva0052991E::OnSubMenuLoaded(const char *path)
 		int slot;
 		if (!Rva00529628Get(path, &slot))
 			return;
-		if (!Rva00528C30Get(path, name))
+		if (!ParseClipName(path, name))
 			return;
 		button = &m_slots[slot];
 	}

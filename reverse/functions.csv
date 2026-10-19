@@ -10283,7 +10283,7 @@ _next,,0x007537E0,76,Code/Libraries/Source/Lua/lparser.c,matched,BFME1 byte-iden
 ?clear@Rva00802BB0Owner@@QAEXXZ,,0x0066ECE0,21,Code/GameEngine/Source/GameNetwork/Y2FeslBrowserSmallMembers.cpp,matched,BFME1 byte-identical donor; b1 0x00802BB0; callee is rowed Rva00802A10 clear
 ?isDisconnectedAfterGameStart@GameSpyInfo@@UBE_NPAH@Z,,0x00386104,19,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,matched,BFME1 byte-identical donor; b1 0x006371D0
 ??1Debug@@UAE@XZ,,0x00038710,66,Code/Libraries/Source/WWVegas/WWDebug/DebugDestructorThunk.cpp,matched,BFME1 byte-identical donor; b1 0x00889620
-?bfmeGo1024E@BfmeE1024@@QAEXXZ,,0x0061EE50,36,Code/GameEngine/Source/Common/BfmeConv1024.cpp,matched,BFME1 byte-identical donor; b1 0x009EB8D0
+?UnloadNow@BfmeE1024@@QAEXXZ,,0x0061EE50,36,Code/GameEngine/Source/Common/BfmeConv1024.cpp,matched,BFME1 byte-identical donor; b1 0x009EB8D0
 ?bfmeGoDXH@BfmeThingDXH@@QAEXPAX@Z,,0x0070E6C0,30,Code/GameEngine/Source/Common/BfmeConv794.cpp,matched,BFME1 byte-identical donor; b1 0x008D2E00
 ??0BfmeThingUNC@@QAE@HPAUBfmeOwnerUNC@@@Z,,0x00674ED0,62,Code/GameEngine/Source/Common/BfmeConv1338.cpp,matched,BFME1 byte-identical donor; b1 0x00808FD0
 ??6AssetList@@QAEAAV0@ABV0@@Z,,0x000BBDC0,31,Code/GameEngine/Source/GameClient/AssetListOperatorInsert.cpp,matched,BFME1 byte-identical donor; b1 0x00141CD0
@@ -15039,7 +15039,7 @@ __heap_abort,,0x000398A0,80,Code/Libraries/Source/WWVegas/WWDebug/DebugHeapAbort
 ?SetInternalFPFInfinity@@YAXPAUInternalFPF@@E@Z,,0x006B8DB0,23,Code/Libraries/Source/Benchmark/emfloat.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?SetInternalFPFZero@@YAXPAUInternalFPF@@E@Z,,0x006B8D90,23,Code/Libraries/Source/Benchmark/emfloat.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?DoBitops@@YAXXZ,,0x006B75A0,483,Code/Libraries/Source/Benchmark/nbench1.cpp,matched,BYTEmark nbench-byte 2.1 (pre-Dierks; retail keeps the i*ROWS*COLS stride) DoBitops; BSim-paired with BFME1 DoBitops; error context now references the empty-string symbol like its siblings
-?m009EC9A0@Q1Receiver0134FAAC@@QAEXH@Z,,0x0061FF10,81,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,BFME1 donor assetmanager_impl.cpp paired by BSim; BFME2 layout is 8 bytes deeper past +0x28
+?Disable@Q1Receiver0134FAAC@@QAEXH@Z,,0x0061FF10,81,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,BFME1 donor assetmanager_impl.cpp paired by BSim; BFME2 layout is 8 bytes deeper past +0x28
 ?bfmeMarkXS@BfmeThingXS@@QBEEH@Z,,0x0061FF70,47,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,BFME1 donor assetmanager_impl.cpp paired by BSim; BFME2 layout is 8 bytes deeper past +0x28
 ?m009EC970@Q1Receiver0134FAAC@@QAEXH@Z,,0x0061FEE0,45,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,BFME1 donor assetmanager_impl.cpp paired by BSim; BFME2 layout is 8 bytes deeper past +0x28
 ?AddStickyAssets@Q1Receiver0134FAAC@@QAEXH@Z,,0x00621A00,265,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
@@ -42421,7 +42421,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?Rva002D2ACAGet@@YAXHPAM000@Z,,0x002D2ACA,114,Code/GameEngine/Source/Common/System/color_ops_float.cpp,matched,float GameGetColorComponents 5 callers reciprocal 0x7BB8F0 unsigned alpha x87 path
 ?Rva002D2B9ADarken@@YAHHH@Z,,0x002D2B9A,120,Code/GameEngine/Source/Common/System/color_ops.cpp,matched,darkens RGB by percent via byte unpack caller 0x00322450
 ?rva0039B2E6@Rva0039B2E6@@QAEXABURva0039B2E6Input@@@Z,,0x0039B2E6,47,Code/GameEngine/Source/Common/Rva0039B2E6Method.cpp,matched,chain from 0x39AF76 plus rowed 0x39B20C input copy
-?rva00594C12@Rva00594C12@@QAEHPBDHKG@Z,,0x00594C12,109,Code/GameEngine/Source/GameNetwork/Rva00594C12Write.cpp,matched,UDP Write donor with retval-minus-1 or-edi-eax via IAT sendto
+?Write@Rva00594C12@@QAEHPBDHKG@Z,,0x00594C12,109,Code/GameEngine/Source/GameNetwork/Rva00594C12Write.cpp,matched,UDP Write donor with retval-minus-1 or-edi-eax via IAT sendto
 ?rva0004CA57@Rva0004CA4C@@UAEXXZ,,0x0004CA57,52,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,matched,derived slot1 init via base init plus 3 registers indices 3 8 5
 ??0Rva0004CA4C@@QAE@XZ,,0x0004CA3A,18,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,matched,ctor via base ctor plus vtable 7C4C20 unblocks 41DC9
 ?rva00293275@Object@@QAEXVAsciiString@@@Z,,0x00293275,187,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293275.cpp,matched,Object tokenizes upgrades via nextToken findUpgrade grants via 0x28C197 slots
@@ -46430,7 +46430,7 @@ _FilterBlock_C,,0x001B8560,993,Code/Libraries/Source/VP6/FilterBlockC.cpp,matche
 ?rva0052A786@Rva0052A786@@QAEAAV1@PBUDelegateDesc@@@Z,,0x0052A786,59,Code/GameEngine/Source/Common/Rva00579E47Delegate.cpp,matched,delegate-wrapper ctor: bytes equal rva00579E47 except the impl vtable it installs
 ?rva0052A7C1@Rva0052A7C1@@QAEAAV1@PBUDelegateDesc@@@Z,,0x0052A7C1,59,Code/GameEngine/Source/Common/Rva00579E47Delegate.cpp,matched,delegate-wrapper ctor: bytes equal rva00579E47 except the impl vtable it installs
 ?Rva00498B8BGet@@YAEPAVObject@@@Z,,0x00498B8B,36,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498B8BCheck.cpp,matched,unlock free predicate flag 0x108 bit2 plus rowed call 0x0028B511
-?rva004989DF@Rva004989D7@@QBE?AW4Relationship@@PBVPlayer@@@Z,,0x004989DF,15,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004989D7Get.cpp,matched,unlock forwards plus0C to rowed Player getRelationship
+?getRelationship@Rva004989D7@@QBE?AW4Relationship@@PBVPlayer@@@Z,,0x004989DF,15,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004989D7Get.cpp,matched,unlock forwards plus0C to rowed Player getRelationship
 ?rva00498707@Rva00498707@@QAEHXZ,,0x00498707,15,Code/GameEngine/Source/Common/Rva00498707Get.cpp,matched,leaf getter global compare m_44 vs m_0C
 ?rva00498F46@Rva00498DF3@@QAEXPAURva00498DF3Arg@@HH@Z,,0x00498F46,100,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva00498F46Cmd.cpp,matched,calls rowed 0x498B8B 0x4D7726 0x268D71 0x498DF3 mid-null falls through to rva00498DF3
 ??0GateOpenAndCloseBehaviorModuleData@@QAE@XZ,,0x00498E2E,280,Code/GameEngine/Source/GameLogic/Object/Behavior/GateOpenAndCloseBehaviorModuleDataCtor.cpp,matched,Gate ModuleData ctor via Snapshot plus refholders plus AsciiString vectors
@@ -70336,7 +70336,7 @@ uw_00773b7a,,0x00773B7A,8,Code/GameEngine/Source/GameLogic/Map/TerrainLogicWater
 ?Rva005258F8@Holder00525D9A@@QAEXHUNodeRef00525D9A@@@Z,,0x005258F8,30,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/InGameHeroSelectDataRemoveHero.cpp,matched,Native thiscall receiver and callable-plus-node stack pair proven by both callers and 114B listener dispatch; reconciles audited singleton ownership; no new byte credit
 ?Rva005277D9Fire@@YAXPAVRva00222A8BTarget@@PAXPBD2PA_N@Z,,0x005277D9,51,Code/GameEngine/Source/Common/Rva00578AC1.cpp,matched,Existing51B bool APT fire body rehomed with Palantir secondary-interface callers; same named rowed callees and fullbytes; explicit noinline retains call while compiler observes bool input read only
 ?Rva0052780C@@YA?AURva0052780CPair@@DH@Z,,0x0052780C,27,Code/GameEngine/Source/Common/Bfme/Rva0052780CPair.cpp,matched,cdecl pair builder with hidden return slot; byte staged through dword local; address-derived
-?Rva00528C30Get@@YA_NPBDAAVAsciiString@@@Z,,0x00528C30,27,Code/GameEngine/Source/Common/Rva00528C30.cpp,matched,GetParam wrapper with literal name plus uchar local bool normalize
+?ParseClipName@@YA_NPBDAAVAsciiString@@@Z,,0x00528C30,27,Code/GameEngine/Source/Common/Rva00528C30.cpp,matched,GetParam wrapper with literal name plus uchar local bool normalize
 ?Rva00529628Get@@YA_NPBDPAH@Z,,0x00529628,112,Code/GameEngine/Source/Common/Rva00529628Get.cpp,matched,free cdecl bool const-char int-out via GetParam index atoi 0-5 caller 0x005297A0
 ?Rva0052B8ED_ParseNugget@@YA?AU?$auto_ptr@VRva0052B685Pointee@@@_STL@@PAVINI@@@Z,,0x0052B8ED,279,Code/GameEngine/Source/Common/BuildingNuggetParse.cpp,matched,BuildingNugget factory parse (cdecl auto_ptr by value; caller 2E0142): quoted type looked up in the factory table 52B84F else INIException Unknown BuildingNugget type then factory slot 1 create / slot 3 field parse / initFromINIMulti / returned via holder release 52B685 (holder dtor through the pinned AD6F4); EH; full 279B exact (helper-agent work reviewed)
 ?Rva0052D6BEConstruct@@YAXPAVRva0056616B@@ABV1@@Z,,0x0052D6BE,45,Code/GameEngine/Source/Common/System/Rva0052D6BE.cpp,matched,chain helper placement copy via rowed 0x0052D555

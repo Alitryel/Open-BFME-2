@@ -137,7 +137,7 @@ public:
 	virtual void slot14();
 	virtual bool slot18();
 	Player *rva004989D7() const;							// 0x004989D7
-	Relationship rva004989DF(const Player *player) const;	// 0x004989DF
+	Relationship getRelationship(const Player *player) const;	// 0x004989DF
 };
 
 class GateOpenAndCloseBehavior : public Rva004989D7
@@ -183,7 +183,7 @@ void Rva004E8F37::rva004E8F76(const Player *player)
 	for (GateOpenAndCloseBehavior **it = m_begin; it != end; ++it)
 	{
 		GateOpenAndCloseBehavior *gate = *it;
-		if (!gate->slot18() && gate->rva004989DF(player) == ALLIES)
+		if (!gate->slot18() && gate->getRelationship(player) == ALLIES)
 			gate->rva004992D5(false, true);
 	}
 }
@@ -194,7 +194,7 @@ void Rva004E8F37::rva004E8FB7(const Player *player)
 	for (GateOpenAndCloseBehavior **it = m_begin; it != end; ++it)
 	{
 		GateOpenAndCloseBehavior *gate = *it;
-		if (!gate->slot18() && gate->rva004989DF(player) == ALLIES)
+		if (!gate->slot18() && gate->getRelationship(player) == ALLIES)
 			gate->rva0049924B(true);
 	}
 }

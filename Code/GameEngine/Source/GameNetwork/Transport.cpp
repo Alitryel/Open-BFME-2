@@ -48,7 +48,7 @@ struct sockaddr_in
 class Rva00594C12
 {
 public:
-    int rva00594C12(const char *, int, unsigned long, unsigned short);
+    int Write(const char *, int, unsigned long, unsigned short);
 };
 
 class Rva00594DC0
@@ -306,7 +306,7 @@ bool Transport::doSend()
                 message.m_length = 0;
                 continue;
             }
-            if (socket->rva00594C12(cursor - sizeof(m_outBuffer[0].m_crc) - sizeof(m_outBuffer[0].m_data),
+            if (socket->Write(cursor - sizeof(m_outBuffer[0].m_crc) - sizeof(m_outBuffer[0].m_data),
                        message.m_length + 4, message.m_addr, message.m_port) > 0) {
                 ++m_stats5[m_int40E6C];
                 m_stats2[m_int40E6C] += message.m_length + 4;

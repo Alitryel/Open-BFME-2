@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
-// ?rva00594C12@Rva00594C12@@QAEHPBDHKG@Z @0x00594C12 109B UDP::Write donor shape via wsock32 sendto
+// ?Write@Rva00594C12@@QAEHPBDHKG@Z @0x00594C12 109B UDP::Write donor shape via wsock32 sendto
 // Evidence: IAT htons htonl sendto WSAGetLastError; callers 0x004D4CC0 0x00595208 0x005952B0; donor udp.cpp Write with retval=-1 giving or edi eax.
 extern "C" __declspec(dllimport) unsigned short __stdcall htons(unsigned short hostshort);
 extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long hostlong);
@@ -19,13 +19,13 @@ struct SockAddrIn
 class Rva00594C12
 {
 public:
-	int rva00594C12(const char *buf, int len, unsigned long addr, unsigned short port);
+	int Write(const char *buf, int len, unsigned long addr, unsigned short port);
 private:
 	SOCKET m_socket;
 	char m_pad[0x1C - 4];
 	int m_lastError;
 };
-int Rva00594C12::rva00594C12(const char *buf, int len, unsigned long addr, unsigned short port)
+int Rva00594C12::Write(const char *buf, int len, unsigned long addr, unsigned short port)
 {
 	if (addr == 0 || port == 0)
 		return -7;

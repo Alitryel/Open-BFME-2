@@ -33,7 +33,7 @@ void __identifier("?Delete@AssetFactoryBase@@UAEXXZ")();
 void __identifier("??_GRva002DB8BA@@UAEPAXI@Z")();
 void __identifier("?rva00131CF2@Rva00131CF2@@QAE_NXZ")();
 void __identifier("?method@Rva009EB8A0@@QAEXXZ")();
-void __identifier("?bfmeGo1024E@BfmeE1024@@QAEXXZ")();
+void __identifier("?UnloadNow@BfmeE1024@@QAEXXZ")();
 void __identifier("?Rva000EF29AGet@@YAHXZ")();
 void __identifier("?rva00131CDB@Rva00131CDB@@QBEIXZ")();
 void __identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z")();
@@ -53,7 +53,7 @@ extern const void *const g_00BD2690[18] = {
     (const void *)&__identifier("??_GRva002DB8BA@@UAEPAXI@Z"), // slot 9
     (const void *)&__identifier("?rva00131CF2@Rva00131CF2@@QAE_NXZ"), // slot 10
     (const void *)&__identifier("?method@Rva009EB8A0@@QAEXXZ"), // slot 11
-    (const void *)&__identifier("?bfmeGo1024E@BfmeE1024@@QAEXXZ"), // slot 12
+    (const void *)&__identifier("?UnloadNow@BfmeE1024@@QAEXXZ"), // slot 12
     (const void *)&__identifier("?Rva000EF29AGet@@YAHXZ"), // slot 13
     (const void *)&__identifier("?rva00131CDB@Rva00131CDB@@QBEIXZ"), // slot 14
     (const void *)&__identifier("?rva005CB9FF@Rva005CB9FF@@QAE_NH@Z"), // slot 15
