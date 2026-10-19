@@ -5,6 +5,8 @@
 // vendor/stlport/stl/_time_facets.h: locale::facet takes the reference policy,
 // _Time_Info constructs at offset 0x0C, and _Init_timeinfo fills it.
 
+struct tm;
+
 namespace _STL
 {
 
@@ -60,6 +62,8 @@ public:
 
 void __cdecl _Init_timeinfo(_Time_Info &);
 
+class ios_base;
+
 template <class CharT, class InIt>
 class time_get : public locale::facet, public time_base
 {
@@ -74,6 +78,13 @@ protected:
 	_Time_Info _M_timeinfo;
 	virtual ~time_get();
 	virtual dateorder do_date_order() const;
+	// The remaining STLport slots, as the full facet in stlport_classic_locale.cpp
+	// declares them: this TU's table copy then has all seven.
+	virtual InIt do_get_time(InIt, InIt, ios_base &, int &, tm *) const;
+	virtual InIt do_get_date(InIt, InIt, ios_base &, int &, tm *) const;
+	virtual InIt do_get_weekday(InIt, InIt, ios_base &, int &, tm *) const;
+	virtual InIt do_get_monthname(InIt, InIt, ios_base &, int &, tm *) const;
+	virtual InIt do_get_year(InIt, InIt, ios_base &, int &, tm *) const;
 };
 
 template class time_get<char, istreambuf_iterator<char, char_traits<char> > >;
