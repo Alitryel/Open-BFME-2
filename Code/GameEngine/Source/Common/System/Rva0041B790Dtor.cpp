@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/moduledata /MD /EHsc
+// cl: /Ireference/shims/moduledata /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /MD /EHsc
 // Target: 0x0041B790..0x0041B7D9, 73 bytes, ends in RET.
 // The rowed deleting destructor at 0x0041B7D9 establishes the existing
 // address-derived class name; the original class identity remains unknown.
@@ -7,13 +7,10 @@
 // 0x001B4E74. The matched 0x002D3573 destructor supplies the same MI/EH
 // compiler pattern. Base layout is target evidence, not a donor name claim.
 
-class SubsystemInterface
-{
-public:
-    virtual ~SubsystemInterface();
-private:
-    char m_pad04[8];
-};
+// The native SubsystemInterface header (flag +0x04, name +0x08, fourteen slots),
+// as OpaqueScalarDeletingDtorsB10.cpp builds this class: one table copy.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 #include "Common/Snapshot.h"
 
