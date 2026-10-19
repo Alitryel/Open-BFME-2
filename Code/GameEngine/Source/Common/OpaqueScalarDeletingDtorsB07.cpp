@@ -610,7 +610,13 @@ struct Rva003FE58ARef
     TargetRef00217D4C *ref;
     ~Rva003FE58ARef() { if (ref) ReleaseTreeHintRef00217D4C(ref); }
 };
-struct BfmeVectorRecord00319C84;
+// The record vector at +0x3C is torn down through 0x00538E3E, the rowed
+// LivingWorldArmyMoveQueue destructor (a tail jump to the vector dtor 0x00319B58).
+struct Rva00538E22
+{
+    void *begin, *end, *capacity;
+    ~Rva00538E22();
+};
 class Rva003FE58A : public Rva0053947D
 {
 public:
@@ -619,7 +625,7 @@ public:
     char unmodelled14[0x18];
     Rva003FE58ABuffer buffer;
     char unmodelled38[4];
-    _STL::vector<BfmeVectorRecord00319C84, _STL::allocator<BfmeVectorRecord00319C84> > records;
+    Rva00538E22 records;
     char unmodelled48[4];
     Rva003FE58ARef ref;
 };
