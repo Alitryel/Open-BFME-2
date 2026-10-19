@@ -1,4 +1,6 @@
 // ?postDraw@InGameUI@@UAEXXZ
+// partial score=0.8864341856964102 date=2026-10-19
+// ?postDraw@InGameUI@@UAEXXZ
 // partial score=0.9195329738745678 date=2026-10-14
 // ?postDraw@InGameUI@@UAEXXZ
 // partial score=0.99 date=2026-10-13
@@ -147,7 +149,7 @@ struct ScriptCounter
 class ScriptEngine
 {
 public:
-	ScriptCounter *getCounter(AsciiString counterName);
+	void *rva002086C5(AsciiString counterName);
 };
 extern ScriptEngine *TheScriptEngine;
 
@@ -357,10 +359,12 @@ protected:
 };
 
 // ?postDraw@InGameUI@@UAEXXZ
+/** This is called after the UI has been drawn. */
 void InGameUI::postDraw()
 {
 	Int startY;
 	_ReadWriteBarrier();
+	// render our display strings for the messages if on
 	if (m_messagesOn) {
 		ICoord2D pos = (g_00DFEF18 && g_00DFEF18->m_18) ? m_messagePositionAlt : m_messagePosition;
 		Int y = fast_float2long_round(floor((Real)TheDisplay->getHeight() * pos.y * (1.0f / 768.0f) + 0.5f));
@@ -375,10 +379,13 @@ void InGameUI::postDraw()
 					drawX = TheDisplay->getWidth() + (x - width);
 				}
 				UnsignedByte r, g, b, a;
+				// make drop color black, but use the alpha setting of the fill color specified (for fading)
 				GameGetColorComponents(m_uiMessages[i].color, &r, &g, &b, &a);
 				Color dropColor = GameMakeColor(0, 0, 0, a);
+				// draw the text
 				displayString->setColors(m_uiMessages[i].color, dropColor);
 				displayString->drawAtOffsets(drawX, y, 1, 1);
+				// increment text spot to next location
 				y += displayString->getFont()->height;
 			}
 		}
@@ -386,6 +393,7 @@ void InGameUI::postDraw()
 
 	m_7F4->draw();
 
+	// draw superweapon timers
 	if (TheGameLogic->getFrame() > 0 && !m_superweaponHiddenByScript) {
 		Int startX = (Int)(TheDisplay->getWidth() * m_superweaponPositionX);
 		startY = (Int)(TheDisplay->getHeight() * m_superweaponPositionY);
@@ -404,6 +412,7 @@ void InGameUI::postDraw()
 						break;
 					SuperweaponInfo *info = *listIt;
 					if (info && !info->m_hiddenByScript && !info->m_hiddenByScience) {
+						//enforce bottom margin of tactical view
 						if (startY >= bottomMargin) {
 							UnicodeString ellipsis;
 							ellipsis.format(L"...");
@@ -416,23 +425,34 @@ void InGameUI::postDraw()
 
 						Object *owningObject = TheGameLogic->findObjectByID(info->m_id);
 						if (owningObject) {
+							// We don't draw our timers until we are finished with construction.
+							// It is important that let the SpecialPowerUpdate is add its timer in its contructor,,
+							// since the science for it could be added before construction is finished,
+							// And thus the timer set to READY before the timer is first drawn, here
 							if (owningObject->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
 								continue;
 
 							SpecialPowerModuleInterface *module = owningObject->getSpecialPowerModule(info->getSpecialPowerTemplate());
 							if (module) {
+								// found one - draw it
 								Bool isReady = module->isReady();
 								Int readySecs;
+								// IsReady includes disabledness, so if you have a 0 timer disabled super, you don't want
+								// the UnsignedInt to wrap around to hundreds of millions of seconds.
 								if (module->getReadyFrame() < TheGameLogic->getFrame())
 									readySecs = 0;
 								else
 									readySecs = (module->getReadyFrame() - TheGameLogic->getFrame()) / g_Va00DBA4E4;
+								// Yes, integer math.  We can't have float imprecision display 4:01 on a disabled superweapon.
 
+								// Similarly, only checking timers is not truly indicitive of readyness.
 								Bool changeBolding = (readySecs != info->m_timestamp) || (isReady != info->m_ready) || info->m_forceUpdateText;
 								if (changeBolding) {
 									if (isReady) {
+										// go bold - we're good to go
 										info->setFont(m_superweaponReadyFont, m_superweaponReadyPointSize, m_superweaponReadyBold);
 									} else {
+										// if we were at 0, we've just fired - kill the bold
 										if (info->m_timestamp == 0)
 											info->setFont(m_superweaponNormalFont, m_superweaponNormalPointSize, m_superweaponNormalBold);
 									}
@@ -467,10 +487,16 @@ void InGameUI::postDraw()
 									info->drawTime(startX, startY, 0, bgColor);
 								}
 
+								// increment text spot to next location
 								startY += info->getHeight();
 
 								if (info->getSpecialPowerTemplate()->isSharedNSync())
-									break;
+									break; // Wow, it is almost too easy!
+								// This prevents redundant timers for shared powers/superweapons
+								// No matter how many specialpowermodules register their timers with me,
+								// I will only draw the timer of the first valid one in my list,
+								// since they all have the same template, ans they all
+								// use the Player::getReadyFrame() functions to stay in sync.
 							}
 						}
 					}
@@ -479,6 +505,7 @@ void InGameUI::postDraw()
 		}
 	}
 
+	// draw named timers
 	if (TheGameLogic->getFrame() > 0 && m_showNamedTimers) {
 		Bool reverseXDir = !m_namedTimerCentered && m_namedTimerPositionX >= 0.5f;
 		Int startX = (Int)(TheDisplay->getWidth() * (m_namedTimerOffsetX + m_namedTimerPositionX));
@@ -488,9 +515,10 @@ void InGameUI::postDraw()
 			AsciiString timerName = mapIt->first;
 			NamedTimerInfo *info = mapIt->second;
 			if (info) {
-				Int framesLeft = 0;
+				// found one - draw it
 				UnicodeString line;
-				ScriptCounter *counter = TheScriptEngine->getCounter(timerName);
+				Int framesLeft = 0;
+				ScriptCounter *counter = (ScriptCounter *)TheScriptEngine->rva002086C5(timerName);
 				if (counter)
 					framesLeft = counter->value;
 				UnsignedInt readyFrame = TheGameLogic->getFrame();
@@ -499,9 +527,11 @@ void InGameUI::postDraw()
 				Int readySecs = (Int)(g_secondsPerLogicFrame * (readyFrame - TheGameLogic->getFrame()));
 				if ((info->isCountdown && readySecs != info->timestamp) || (!info->isCountdown && framesLeft != info->timestamp)) {
 					if (!readySecs && info->isCountdown) {
+						// go bold - we're good to go
 						info->displayString->setFont(TheFontLibrary->getFont(&m_namedTimerReadyFont,
 							TheGlobalLanguageData->adjustFontSize(m_namedTimerReadyPointSize), m_namedTimerReadyBold));
 					} else {
+						// if we were at 0, we've just fired - kill the bold
 						if (info->timestamp == 0 || info->isCountdown) {
 							info->displayString->setFont(TheFontLibrary->getFont(&m_namedTimerNormalFont,
 								TheGlobalLanguageData->adjustFontSize(m_namedTimerNormalPointSize), m_namedTimerNormalBold));
@@ -527,6 +557,7 @@ void InGameUI::postDraw()
 					info->displayString->setText(line);
 				}
 
+				// draw the text
 				Int drawX = startX;
 				if (m_namedTimerCentered)
 					drawX -= info->displayString->getWidth(-1) / 2;
@@ -548,17 +579,19 @@ void InGameUI::postDraw()
 				}
 				info->displayString->drawAtOffsets(drawX, startY, 1, 1);
 
+				// increment text spot to next location
 				startY -= info->displayString->getFont()->height;
 			}
 		}
 	}
 
+	// draw RMB scroll anchor
 	if (TheLookAtTranslator && m_drawRMBScrollAnchor) {
 		const ICoord2D *anchor = TheLookAtTranslator->getRMBScrollAnchor();
 		if (anchor) {
 			static const Int w = 2;
 			static const Int h = 2;
-			static const Int r = 4;
+			static const Int r = 4; // ratio
 			static const Color mainColor = GameMakeColor(0, 255, 0, 255);
 			static const Color dropColor = GameMakeColor(0, 0, 0, 255);
 			((Rva0004263F *)TheDisplay)->rva0004263F(anchor->x - w * r - 1, anchor->y - h - 1, w * 2 * r + 3, h * 2 + 3, dropColor);
@@ -567,4 +600,6 @@ void InGameUI::postDraw()
 			((Rva0004263F *)TheDisplay)->rva0004263F(anchor->x - w, anchor->y - h * r, w * 2 + 1, h * 2 * r + 1, mainColor);
 		}
 	}
-}
+}  // end postDraw
+
+// Current alignment and declaration binding: reverse/attempt_support/postdraw-w5-20261019.md.
