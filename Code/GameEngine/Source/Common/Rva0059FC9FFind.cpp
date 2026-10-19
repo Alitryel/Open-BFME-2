@@ -144,9 +144,7 @@ public:
 	virtual MapHolder *getMap();
 };
 
-// ?g_00A02320@@3PAVMapProvider@@A: the global at this VA is ?TheGameSpyInfo@@3PAVGameSpyInfoInterface@@A; this name is an alias for it.
-extern MapProvider * g_00A02320;
-#pragma comment(linker, "/alternatename:?g_00A02320@@3PAVMapProvider@@A=?TheGameSpyInfo@@3PAVGameSpyInfoInterface@@A")
+extern class GameSpyInfoInterface *TheGameSpyInfo;
 
 struct Outer58
 {
@@ -166,7 +164,7 @@ private:
 int Rva0059FC9F::rva0059FC9F()
 {
 	Rva0059F479 rec(m_58->m_rec298);
-	MapHolder *map = g_00A02320->getMap();
+	MapHolder *map = (*(MapProvider **)&TheGameSpyInfo)->getMap();
 	_STL::_Rb_tree_node_base *node = map->m_header->_M_left;
 	int out;
 	if (node == map->m_header)

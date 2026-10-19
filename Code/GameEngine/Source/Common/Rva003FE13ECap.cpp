@@ -3,7 +3,7 @@
 // ?rva003FE13E@Rva003FE13E@@QAEMXZ @0x003FE13E 129B. __thiscall float method:
 // builds a Coord2D from ([+0x50]-[+0x18], [+0x54]-[+0x1C]), takes its rowed
 // length as dist, loads [+0x58] as cap, gates a scale by the rowed Keyboard
-// check on g_009FE720 plus GlobalData +0x88, and returns min(dist, cap).
+// check on TheKeyboard plus GlobalData +0x88, and returns min(dist, cap).
 // Evidence: rowed length and Keyboard callees; extern names from the packet;
 // SSE shape needs arch:SSE2; caller 0x003FE2CF.
 // Structural inference: the difference is filled from +0x50/+0x54 before the

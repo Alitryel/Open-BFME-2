@@ -166,7 +166,7 @@ struct Rva00A022F4
 	int m_40;
 };
 
-extern Rva00A022F4 *g_00A022F4;
+extern class MultiplayerSettings *TheMultiplayerSettings;
 
 // ?rva0044D836@GameModePreferences@@QAEHXZ @0x0044D836 (86B): Color getter
 // over the mode-keyed map with -1 for missing or out of range plus lazy

@@ -39,5 +39,3 @@ Rva0060061A::~Rva0060061A()
 	::operator delete(q2);
 	(*(Rva0060061AHelper **)&TheLocalFileSystem) = 0;
 }
-// ?G00A06E54@@3PAVRva0060061AHelper@@A: the global at VA 0xe06e54 is ?TheLocalFileSystem@@3PAVLocalFileSystem@@A.
-#pragma comment(linker, "/alternatename:?G00A06E54@@3PAVRva0060061AHelper@@A=?TheLocalFileSystem@@3PAVLocalFileSystem@@A")

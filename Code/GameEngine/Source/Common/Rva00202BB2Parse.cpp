@@ -12,7 +12,7 @@
 //   (0x000365F0); the local is destroyed at the end through the ROWED
 //   StringBase dtor (0x00036410), the trailing releaseBuffer call.
 // - Global 0x009FE144 is spelled exactly as the sibling TU owns it
-//   (TheRva00DFE144); the method call casts to Rva00202B6C* at the call
+//   (TheGameLODManager); the method call casts to Rva00202B6C* at the call
 //   site because the rowed method ignores `this`.
 // - FieldParse table at 0x007E3308 is DIR32-masked.
 
@@ -47,7 +47,7 @@ public:
 };
 
 struct Rva00DFE144Globals;
-extern Rva00DFE144Globals *TheRva00DFE144;
+extern class GameLODManager *TheGameLODManager;
 // The retail name list at RVA 0x009B960C (47 names and the null terminator).
 extern const char *const g_00DB960C[48] = { "Low", "Medium", "High", "UltraHigh", "VeryLow", "Low", "Medium", "High", "UltraHigh", "VeryLow", "Low", "Medium", "High", "UltraHigh", "Off", "Low", "High", "Low", "Medium", "High", "UltraHigh", "Off", "Low", "Medium", "High", "UltraHigh", "Low", "Medium", "High", "Low", "Medium", "High", "Low", "Medium", "High", "UltraHigh", "VeryLow", "Low", "Medium", "High", "VeryHigh", "Low", "High", "XX", "P3", "P4", "K7", 0 };
 struct LookupListRec { const char *name; int value; };
@@ -111,10 +111,10 @@ void Rva00202BB2Parse(INI *ini)
 {
 	AsciiString name;
 	name.set(ini->getNextToken(0));
-	if (TheRva00DFE144 != 0)
+	if (TheGameLODManager != 0)
 	{
-		Int idx = ((Rva00202B6C *)TheRva00DFE144)->rva00202B6C(name);
+		Int idx = ((Rva00202B6C *)TheGameLODManager)->rva00202B6C(name);
 		if (idx != -1)
-			ini->initFromINI((char *)TheRva00DFE144 + idx * 0x4c, g_007E3308);
+			ini->initFromINI((char *)TheGameLODManager + idx * 0x4c, g_007E3308);
 	}
 }

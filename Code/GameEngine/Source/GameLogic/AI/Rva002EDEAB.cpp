@@ -95,7 +95,7 @@ public:
 	int m_flag9B8;
 };
 
-extern Rva00E02EECObj *g_00E02EEC;
+extern class GameInfo *TheGameInfo;
 extern GlobalData *TheWritableGlobalData;
 
 class Pathfinder
@@ -108,8 +108,8 @@ public:
 
 void Pathfinder::SetDebugPath(Rva002EDEABArg *arg)
 {
-	if (g_00E02EEC != 0)
-		g_00E02EEC->virt19();
+	if (TheGameInfo != 0)
+		(*(Rva00E02EECObj **)&TheGameInfo)->virt19();
 	if (TheWritableGlobalData->m_flag9B8 == 0)
 		return;
 	delete m_path;
@@ -117,5 +117,3 @@ void Pathfinder::SetDebugPath(Rva002EDEABArg *arg)
 	for (Rva002EDEABSrcNode *node = arg->m_head; node != 0; node = node->m_next)
 		m_path->rva002655E3(&node->m_pos, node->m_layer, 0x7FFFFFFF);
 }
-// ?g_00E02EEC@@3PAVRva00E02EECObj@@A: the global at VA 0xe02eec is ?TheGameInfo@@3PAVGameInfo@@A.
-#pragma comment(linker, "/alternatename:?g_00E02EEC@@3PAVRva00E02EECObj@@A=?TheGameInfo@@3PAVGameInfo@@A")

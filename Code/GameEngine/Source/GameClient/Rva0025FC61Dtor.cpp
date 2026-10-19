@@ -41,7 +41,7 @@ public:
 	virtual void FreeEntry(void *p);
 };
 
-extern DisplayManager *g_009FEAD8;
+extern class DisplayStringManager *TheDisplayStringManager;
 
 class GameSubTitle : public SubtitleEntry
 {
@@ -56,7 +56,7 @@ GameSubTitle::~GameSubTitle()
 {
 	for (int i = 0; i < m_count; ++i)
 	{
-		g_009FEAD8->FreeEntry(m_items[i]);
+		(*(DisplayManager **)&TheDisplayStringManager)->FreeEntry(m_items[i]);
 		m_items[i] = 0;
 	}
 }

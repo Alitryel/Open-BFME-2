@@ -204,7 +204,7 @@ public:
 	void rva002E52FC(int value);
 };
 
-// The global at 0x00DFE144 (Rva00202BB2Parse.cpp's TheRva00DFE144): its
+// The global at 0x00DFE144 (Rva00202BB2Parse.cpp's TheGameLODManager): its
 // unrowed 0x00202244 writes advanced option preset N into the options,
 // pinned by address.
 struct Rva00DFE144Globals
@@ -212,7 +212,6 @@ struct Rva00DFE144Globals
 	void rva00202244(int preset, OptionPreferences *prefs);
 };
 
-extern Rva00DFE144Globals *TheRva00DFE144;
 
 // The global at 0x009FE144: the LOD manager; +0x17C4 is the integer the
 // 0x00518FEA warning gate compares against.
@@ -492,7 +491,7 @@ void AptOptions::EnterAdvancedSettings(const char *unused)
 	if (m_preset == -1)
 		return;
 	OptionPreferences prefs;
-	TheRva00DFE144->rva00202244(m_preset, &prefs);
+	(*(Rva00DFE144Globals **)&TheGameLODManager)->rva00202244(m_preset, &prefs);
 	Rva005186E1Format(&prefs, &m_presetText);
 }
 
@@ -565,7 +564,7 @@ void AptOptions::ExternsLODTemplate(int query, char *value, bool set)
 	if (query < 0 || query >= 5)
 		return;
 	OptionPreferences prefs;
-	TheRva00DFE144->rva00202244(query, &prefs);
+	(*(Rva00DFE144Globals **)&TheGameLODManager)->rva00202244(query, &prefs);
 	AsciiString text;
 	Rva005186E1Format(&prefs, &text);
 	strcpy(value, text.str());

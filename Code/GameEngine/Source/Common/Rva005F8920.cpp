@@ -35,9 +35,7 @@ public:
 
 extern MessageStream *TheMessageStream;	// VA 0x00E00950
 
-extern class Rva0025CEEFHost *g_009FE720;
-// ?g_009FE720@@3PAVRva0025CEEFHost@@A: the global at VA 0xdfe720 is ?TheKeyboard@@3PAVKeyboard@@A.
-#pragma comment(linker, "/alternatename:?g_009FE720@@3PAVRva0025CEEFHost@@A=?TheKeyboard@@3PAVKeyboard@@A")
+extern class Keyboard *TheKeyboard;
 
 class Rva005F8920Result
 {
@@ -69,7 +67,7 @@ void StrategicInGameUI::QueueUnitButton::OnLeftClicked()
 	if (!res || !res->rva005F8920Check(m_20))
 		return;
 	int i;
-	Keyboard *kbd = (Keyboard *)g_009FE720;
+	Keyboard *kbd = TheKeyboard;
 	i = (kbd->isShift() ? 4 : 0) + 1;
 	if (i > 0)
 	{

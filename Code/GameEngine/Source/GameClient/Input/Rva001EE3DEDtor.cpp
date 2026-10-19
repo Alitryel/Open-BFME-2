@@ -33,7 +33,7 @@ public:
 	virtual void FreeEntry(void *p);
 };
 
-extern DisplayManager *g_009FEAD8;
+extern class DisplayStringManager *TheDisplayStringManager;
 
 struct CursorInfo {
 	CursorInfo();
@@ -250,6 +250,6 @@ Mouse::Mouse()
 Mouse::~Mouse()
 {
 	if (m_cursorTextDisplayString != 0)
-		g_009FEAD8->FreeEntry(m_cursorTextDisplayString);
+		(*(DisplayManager **)&TheDisplayStringManager)->FreeEntry(m_cursorTextDisplayString);
 	m_cursorTextDisplayString = 0;
 }

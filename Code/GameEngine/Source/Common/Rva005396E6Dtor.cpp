@@ -26,9 +26,7 @@ public:
 	virtual void FreeEntry(void *p);
 };
 
-// ?g_009FEAD8@@3PAVDisplayManager@@A: the global at this VA is ?TheDisplayStringManager@@3PAVDisplayStringManager@@A; this name is an alias for it.
-extern DisplayManager * g_009FEAD8;
-#pragma comment(linker, "/alternatename:?g_009FEAD8@@3PAVDisplayManager@@A=?TheDisplayStringManager@@3PAVDisplayStringManager@@A")
+extern class DisplayStringManager *TheDisplayStringManager;
 
 template <typename T> class StringBase
 {
@@ -53,8 +51,8 @@ private:
 
 Rva005396E6::~Rva005396E6()
 {
-	g_009FEAD8->FreeEntry(m_0C);
-	g_009FEAD8->FreeEntry(m_10);
+	(*(DisplayManager **)&TheDisplayStringManager)->FreeEntry(m_0C);
+	(*(DisplayManager **)&TheDisplayStringManager)->FreeEntry(m_10);
 }
 
 // ?rva005398B3@Rva005398B3@@QAEXXZ @0x005398B3 26B:

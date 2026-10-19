@@ -1,7 +1,7 @@
 // cl: /MD
 // ?rva006006D9@Rva0060061A@@QAEXPAX@Z @0x006006D9 158B
 // Leaf between Rva0060061A dtor and Rva00600777Set: news Rva00604A5F and Win32BIGFileSystem
-// into TheArchiveFileSystem and G00A06E54 then virtual A1 plus Helper v1 plus
+// into TheArchiveFileSystem and TheLocalFileSystem then virtual A1 plus Helper v1 plus
 // Archive doesFileExist shaders.big gate to BFME2PreferLocalFiles.
 // Evidence: same globals and flags as Rva0060061A dtor TU, same Archive layout
 // as FileSystemDoesFileExist, rowed ctors, string literal, caller 0x0022E3B7.
@@ -31,7 +31,7 @@ public:
 	virtual void v1(void *a1);
 };
 
-extern Rva0060061AHelper *G00A06E54;
+extern class LocalFileSystem *TheLocalFileSystem;
 
 class ArchiveFileSystem
 {
@@ -59,9 +59,9 @@ void Rva0060061A::rva006006D9(void *a1)
 	Rva00604A5F *p1 = new Rva00604A5F();
 	TheArchiveFileSystem = (ArchiveFileSystem *)p1;
 	Win32BIGFileSystem *p2 = new Win32BIGFileSystem();
-	G00A06E54 = (Rva0060061AHelper *)p2;
+	(*(Rva0060061AHelper **)&TheLocalFileSystem) = (Rva0060061AHelper *)p2;
 	TheArchiveFileSystem->A1();
-	G00A06E54->v1(a1);
+	(*(Rva0060061AHelper **)&TheLocalFileSystem)->v1(a1);
 	if (!TheArchiveFileSystem->doesFileExist("shaders.big"))
 		BFME2PreferLocalFiles = true;
 }

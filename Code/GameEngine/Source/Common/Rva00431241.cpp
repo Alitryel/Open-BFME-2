@@ -1,5 +1,5 @@
 // cl: /MD
-// ?doSetRallyPointCommand@@YAHPAXPAUICoord2D@@@Z @0x00431241 164B: free Emit building GameMessage 0x413 via InGameUI slot75 TacticalView screenToTerrain MessageStream createMessage plus Keyboard check. Evidence: unlock lane; globals TheInGameUI TheTacticalView MessageStreamSubsystem g_009FE720; rowed appendObjectIDArgument 0x0030F979 appendLocationArgument 0x0030F9BB isShift 0x00232683 appendBooleanArgument 0x0030F963; caller 0x004317BB.
+// ?doSetRallyPointCommand@@YAHPAXPAUICoord2D@@@Z @0x00431241 164B: free Emit building GameMessage 0x413 via InGameUI slot75 TacticalView screenToTerrain MessageStream createMessage plus Keyboard check. Evidence: unlock lane; globals TheInGameUI TheTacticalView MessageStreamSubsystem TheKeyboard; rowed appendObjectIDArgument 0x0030F979 appendLocationArgument 0x0030F9BB isShift 0x00232683 appendBooleanArgument 0x0030F963; caller 0x004317BB.
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
@@ -123,7 +123,7 @@ int __cdecl doSetRallyPointCommand(void *a, ICoord2D *b)
 	GameMessage *msg = TheMessageStream->createMessage(0x413);
 	msg->appendObjectIDArgument(ret->m_fc->m_id);
 	msg->appendLocationArgument(pos);
-	bool active = ((Keyboard *)(*(Rva0025CEEFHost **)&TheKeyboard))->isShift();
+	bool active = TheKeyboard->isShift();
 	msg->appendBooleanArgument(active);
 	msg->appendObjectIDArgument(OBJECTID_NONE);
 	return 1;

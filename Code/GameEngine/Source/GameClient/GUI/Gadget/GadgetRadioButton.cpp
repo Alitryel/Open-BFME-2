@@ -565,7 +565,6 @@ void GadgetRadioSetSelection( GameWindow *g, Bool sendMsg )
 
 // ?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A: the global at this VA is ?TheKeyboard@@3PAVKeyboard@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A=?TheKeyboard@@3PAVKeyboard@@A")
-#pragma comment(linker, "/alternatename:?g_009FE720@@3PAVRva0025CEEFHost@@A=?TheKeyboard@@3PAVKeyboard@@A")
 #pragma comment(linker, "/alternatename:?InputLockSubsystem@@3PAVClientSubsystem@@A=?TheKeyboard@@3PAVKeyboard@@A")
 // ?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A: the global at VA 0xdfe720 is ?TheKeyboard@@3PAVKeyboard@@A.
 #pragma comment(linker, "/alternatename:?TheBfmeKeyboardModifiers@@3PAVBfmeKeyboardModifiers@@A=?TheKeyboard@@3PAVKeyboard@@A")

@@ -1,10 +1,10 @@
 // cl: /MD
 // ?Rva00600777Set@@YAXPAD@Z @0x00600777 46B free cdecl copy into TheLangDir.
 // Retail push esi; push arg; mov esi TheLangDir; push esi; call _mbscpy;
-// pop ecx twice; mov ecx G00A06E54; push 1; push "*.BIG"; store
+// pop ecx twice; mov ecx TheLocalFileSystem; push 1; push "*.BIG"; store
 // BFME2PreferLocalFiles=1; mov eax [ecx]; push esi; call [eax+0x20].
 // Evidence: caller 0x003BA046 push eax call pop ecx (cdecl 1 arg);
-// extern names in use TheLangDir BFME2PreferLocalFiles G00A06E54; "*.BIG" literal.
+// extern names in use TheLangDir BFME2PreferLocalFiles TheLocalFileSystem; "*.BIG" literal.
 extern char TheLangDir[];
 extern bool BFME2PreferLocalFiles;
 

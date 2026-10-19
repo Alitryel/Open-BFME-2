@@ -170,10 +170,10 @@ struct AptPalantirCampaign
 	bool m_evil; // +0x2C
 };
 
-// The global at 0x00DFE144 (Rva00202BB2Parse.cpp's TheRva00DFE144); its
+// The global at 0x00DFE144 (Rva00202BB2Parse.cpp's TheGameLODManager); its
 // +0x1778 level picks the palantir's minimum LOD.
 struct Rva00DFE144Globals;
-extern Rva00DFE144Globals *TheRva00DFE144;
+extern class GameLODManager *TheGameLODManager;
 
 struct AptPalantirLODView
 {
@@ -509,7 +509,7 @@ void AptPalantir::OnPlanningModeUIUnloaded(const char *unused)
 void AptPalantir::PalantirMinLOD(int query, char *result, bool skip)
 {
 	if (query == 0 && !skip)
-		strcpy(result, ((AptPalantirLODView *)TheRva00DFE144)->m_level <= 1 ? "1" : "0");
+		strcpy(result, ((AptPalantirLODView *)TheGameLODManager)->m_level <= 1 ? "1" : "0");
 }
 
 // Retail 0x002D3D61, 109 bytes. Name unknown. Executes the side's ring or

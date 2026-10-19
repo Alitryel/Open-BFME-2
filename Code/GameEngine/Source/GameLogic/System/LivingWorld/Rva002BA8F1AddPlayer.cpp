@@ -37,7 +37,7 @@ private: char at00[0xc]; _STL::vector<AsciiString *> entries;
 extern Rva002E18C3Lookup *Va00DFF0B0Lookup, *Va00E03140Lookup;
 struct Rva002000D7Config { char at00[0x34]; int at34; };
 class Rva002000D7Store { public: Rva002000D7Config *get(int); };
-extern Rva002000D7Store *Va00DFE0ECStore;
+extern class RankInfoStore *TheRankInfoStore;
 struct Va00DFE78CState { char at00[0x114]; int at114; };
 class GameLogic;
 extern GameLogic *TheGameLogic;
@@ -81,7 +81,7 @@ void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, 
     }
     Rva002E2903Player *player = new Rva002E2903Player(input, first);
     if (slot) slot->at4C = player->at14;
-    Rva002000D7Config *config = Va00DFE0ECStore->get(1);
+    Rva002000D7Config *config = (*(Rva002000D7Store **)&TheRankInfoStore)->get(1);
     if (config) player->setAt1C4(config->at34);
     player->setColor(input->at18);
     players.push_back(player);
@@ -96,6 +96,4 @@ void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, 
 
 // Va00E03140Lookup: matched references place it at VA 0xe03140 (zero-filled .bss).
 Rva002E18C3Lookup *Va00DFF0B0Lookup, * Va00E03140Lookup;
-// ?Va00DFE0ECStore@@3PAVRva002000D7Store@@A: the global at VA 0xdfe0ec is ?TheRankInfoStore@@3PAVRankInfoStore@@A.
-#pragma comment(linker, "/alternatename:?Va00DFE0ECStore@@3PAVRva002000D7Store@@A=?TheRankInfoStore@@3PAVRankInfoStore@@A")
 // ?Va00DFE78CStatePointer@@3PAUVa00DFE78CState@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.
