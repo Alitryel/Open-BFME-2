@@ -1,6 +1,16 @@
 // ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9 date=2026-10-17
+// partial score=0.82 date=2026-10-19
 // cl: /GX /MD /DNDEBUG
+// Banked whole-unit replacement for DualWeaponBehaviorCtor.cpp (test IN PLACE:
+// copy over the home file, explain_mismatch, then restore).
+// WB-literal update (WB 0x0117D920): separate !ai / dead returns, repeated
+// getContainer() reads, close-range-active block before the victim search,
+// field-wise delta (no Coord3D copy), duplicated set/clear blocks that cl
+// tail-merges, the horde test written clear-first. 527/527 size-exact, every
+// register and the horde jump polarity match; only residue: cl hosts the
+// merged "set close weapon" block after the timer block (from the final
+// live-victim branch), retail hosts it at the mounted check, before the
+// timer. No volatile, no equal-arm, no goto.
 //
 // ??0DualWeaponBehavior@@QAE@PAVThing@@PBVModuleData@@@Z at retail
 // 0x0045AE55, 88 bytes. Behavior-side ctor in the DualWeapon file-unit:
@@ -101,11 +111,6 @@ DualWeaponBehavior::~DualWeaponBehavior()
 // Native527B 45AF14..45B123; corrected native guards and shared set/clear paths.
 #include <math.h>
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
-template<class T> __forceinline volatile T &r1_vwrite(T &value)
-{
- return *(volatile T *)&value;
-
-}
 enum WeaponSetType
 
 {
@@ -277,7 +282,7 @@ class AI
 extern AI *TheAI;
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
-extern const int g_009BA4E4;
+extern int BfmeLogicFramesPerSecond;
 struct DualWeaponBehaviorModuleData
 
 {
@@ -291,72 +296,85 @@ struct DualWeaponBehaviorModuleData
 ;
 
 UpdateSleepTime DualWeaponBehavior::update()
-
 {
- const DualWeaponBehaviorModuleData *d = (const DualWeaponBehaviorModuleData *)m_moduleData;
- Object *obj = getObject();
- AIUpdateInterface *ai = obj->getAIUpdateInterface();
- if ((d ? (!ai || obj->isEffectivelyDead()) : (!ai || obj->isEffectivelyDead()))) return UPDATE_SLEEP_FOREVER;
- if (obj->getWeaponSetFlags()->test(8)) return (UpdateSleepTime)g_009BA4E4;
- Object *container = obj->getContainer();
- if (container && !(container->getTemplate()->kindWord & 0x2000))
- return (m_closeRangeActive ? ((UpdateSleepTime)g_009BA4E4) : ((UpdateSleepTime)g_009BA4E4));
- goto afterContainerRange;
- afterContainerRange:;
- if (d->useHordeRangeWeapon && container && (container->getTemplate()->kindWord & 0x2000))
-
- {
-  if (container->getWeaponSetFlags()->test(7)) { obj->setWeaponSetFlag(WEAPONSET_CLOSE);
- obj->setCloseCondition();
- return (UpdateSleepTime)g_009BA4E4; }
- obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
- obj->clearCloseCondition();
- return (UpdateSleepTime)g_009BA4E4;
- }
- if (!obj->isKindOf((KindOfType)0xcf)) { } else return (UpdateSleepTime)g_009BA4E4;
- if (!m_closeRangeActive)
-
- {
-  float range = d->switchDistance;
-  Object *victim = 0;
-  if (d->useRealVictimRange && ai->getCurrentVictim())
-
-  {
-   victim = ai->getCurrentVictim();
-   Coord3D delta;
-   delta.x = obj->getPosition()->x - victim->getPosition()->x;
-   delta.y = obj->getPosition()->y - victim->getPosition()->y;
-   r1_vwrite(delta.z) = obj->getPosition()->z - victim->getPosition()->z;
-   if (delta.x*delta.x + delta.y*delta.y + delta.z*delta.z > range*range) victim = 0;
-
-  }
-  else
-
-  {
-   victim = TheAI->findClosestEnemy(obj, range, 0x62, 0, 0, 0);
-
-  }
-  if (victim && fabs((double)(victim->getPosition()->z - obj->getPosition()->z)) > (double)(range * 0.5f))
-  victim = 0;
-  if (d->useCloseWhileMounted && obj->isKindOf((KindOfType)0xd6)) {
-   if (!obj->getWeaponSetFlags()->test(7)) { obj->setWeaponSetFlag(WEAPONSET_CLOSE);
- obj->setCloseCondition();
- return (UpdateSleepTime)g_009BA4E4; }
-   return (UpdateSleepTime)g_009BA4E4;
-  }
-  unsigned int now = TheGameLogic->getFrame();
-  int remaining = (int)(m_switchTimer + d->minimumSwitchTime - now);
-  if (remaining > 0) return (UpdateSleepTime)remaining;
-  m_switchTimer = now;
-  if (!victim || victim->isEffectivelyDead()) {
-   if (!obj->getWeaponSetFlags()->test(7)) return (UpdateSleepTime)g_009BA4E4;
-   obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
- obj->clearCloseCondition();
- return (UpdateSleepTime)g_009BA4E4;
-  }
- }
- if (!obj->getWeaponSetFlags()->test(7)) { obj->setWeaponSetFlag(WEAPONSET_CLOSE);
- obj->setCloseCondition();
- return (UpdateSleepTime)g_009BA4E4; }
- return (UpdateSleepTime)g_009BA4E4;
+	const DualWeaponBehaviorModuleData *d = (const DualWeaponBehaviorModuleData *)m_moduleData;
+	Object *obj = getObject();
+	AIUpdateInterface *ai = obj->getAIUpdateInterface();
+	if (!ai)
+		return UPDATE_SLEEP_FOREVER;
+	if (obj->isEffectivelyDead())
+		return UPDATE_SLEEP_FOREVER;
+	if (obj->getWeaponSetFlags()->test(8))
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	if (obj->getContainer() && !(obj->getContainer()->getTemplate()->kindWord & 0x2000))
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	if (d->useHordeRangeWeapon && obj->getContainer() && (obj->getContainer()->getTemplate()->kindWord & 0x2000))
+	{
+		if (!obj->getContainer()->getWeaponSetFlags()->test(7))
+		{
+			obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
+			obj->clearCloseCondition();
+		}
+		else
+		{
+			obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+			obj->setCloseCondition();
+		}
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	}
+	if (obj->isKindOf((KindOfType)0xcf))
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	if (m_closeRangeActive)
+	{
+		if (!obj->getWeaponSetFlags()->test(7))
+		{
+			obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+			obj->setCloseCondition();
+		}
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	}
+	float range = d->switchDistance;
+	unsigned int filter = 0x62;
+	Object *victim = 0;
+	if (d->useRealVictimRange && ai->getCurrentVictim())
+	{
+		victim = ai->getCurrentVictim();
+		Coord3D delta;
+		delta.x = obj->getPosition()->x - victim->getPosition()->x;
+		delta.y = obj->getPosition()->y - victim->getPosition()->y;
+		delta.z = obj->getPosition()->z - victim->getPosition()->z;
+		if (delta.x*delta.x + delta.y*delta.y + delta.z*delta.z > range * range)
+			victim = 0;
+	}
+	else
+		victim = TheAI->findClosestEnemy(obj, range, filter, 0, 0, 0);
+	if (victim && fabs(victim->getPosition()->z - obj->getPosition()->z) > range * 0.5f)
+		victim = 0;
+	if (d->useCloseWhileMounted && obj->isKindOf((KindOfType)0xd6))
+	{
+		if (!obj->getWeaponSetFlags()->test(7))
+		{
+			obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+			obj->setCloseCondition();
+		}
+		return (UpdateSleepTime)BfmeLogicFramesPerSecond;
+	}
+	int remaining = m_switchTimer + d->minimumSwitchTime - TheGameLogic->getFrame();
+	if (remaining > 0)
+		return (UpdateSleepTime)remaining;
+	m_switchTimer = TheGameLogic->getFrame();
+	if (victim && !victim->isEffectivelyDead())
+	{
+		if (!obj->getWeaponSetFlags()->test(7))
+		{
+			obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+			obj->setCloseCondition();
+		}
+	}
+	else if (obj->getWeaponSetFlags()->test(7))
+	{
+		obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
+		obj->clearCloseCondition();
+	}
+	return (UpdateSleepTime)BfmeLogicFramesPerSecond;
 }
