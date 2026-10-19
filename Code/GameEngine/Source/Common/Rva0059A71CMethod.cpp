@@ -46,6 +46,9 @@ namespace _STL { template <> void allocator<const ModuleData *>::deallocate(cons
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
 namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
+// push_back is called out of line: bind it to the rowed retail copy instead of
+// emitting this unit's own (0x004DFCB0, stlport_moduledatavector_push.cpp).
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &); }
 class CreateAHeroData;
 class ModuleData;
 struct Leaf
