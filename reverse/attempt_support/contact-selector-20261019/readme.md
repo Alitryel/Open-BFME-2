@@ -74,3 +74,5 @@ nested continues, pos copy inside each arm, pointer declared at case scope or
 initialised before the loop. (2) case 3 keeps begin in EBP and copies it
 (`mov eax,ebp`), ours holds begin in ECX and count-1 in EBP; a begin local
 does not change it. (3) final `add eax,ecx` order in the found copy.
+
+- r2 follow-up: inline accessor `contactAt(i)` / `contactData()+i` / reference-bound local per arm: still 11 regions, head-merge unchanged (disproven).
