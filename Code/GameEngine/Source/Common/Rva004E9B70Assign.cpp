@@ -1,10 +1,17 @@
 // cl: /Ob0
 
-class Rva0036CA00Str
+// The element is a narrow string handle: retail assigns it through the rowed
+// StringBase<char>::set 0x000366F0 (the refcounted Rva0036CA00Str handle's own
+// assignment is OpaqueRefElement4::operator= 0x00239099, see Rva00403055CopyCtor.cpp).
+template <class T> class StringBase
 {
 public:
-	Rva0036CA00Str &operator=(const Rva0036CA00Str &other);
+	void set(const StringBase<T> &src);
+};
+#define BFME_STR_SET(dst, src) ((StringBase<char> &)(dst)).set((const StringBase<char> &)(src))
 
+class Rva0036CA00Str
+{
 private:
 	void *m_item;
 };
@@ -35,9 +42,9 @@ public:
 Rva004E9B70 &Rva004E9B70::operator=(const Rva004E9B70 &other)
 {
 	m_00 = other.m_00;
-	m_04 = other.m_04;
-	m_08 = other.m_08;
-	m_0C = other.m_0C;
+	BFME_STR_SET(m_04, other.m_04);
+	BFME_STR_SET(m_08, other.m_08);
+	BFME_STR_SET(m_0C, other.m_0C);
 	m_10 = other.m_10;
 	m_14 = other.m_14;
 	m_18 = other.m_18;

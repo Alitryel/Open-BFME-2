@@ -5230,7 +5230,6 @@ name,address,notes
 ??4Rva002AF6C5Element@@QAEAAU0@ABU0@@Z,0x002AF505,opaque 0x24-byte element copy assignment; per-element callee of the __copy loop at 0x002AF6C5; address read from the retail REL32 there
 ??4Rva0032CD3BRecord@@QAEAAU0@ABU0@@Z,0x0032C602
 ??4Rva003371B1@@QAEAAV0@ABV0@@Z,0x003372EC,assignment called by retail __adjust_heap 0x0033758C and __push_heap 0x00337479; ICF alias of the body rowed as ??0Rva002E9E70 at this address
-??4Rva0036CA00Str@@QAEAAV0@ABV0@@Z,0x000366F0,folds with AsciiString op= at this address; read 2x from REL32 at placed ??4Rva000DF920 0x2A7EAA; BFME1 pins same name at 0x00887C90
 ??4Rva00385B78SavedMap@@QAEAAV0@ABV0@@Z,0x0038407F,native loadSavedIgnoreList100 115B assign at call385BB2; complete rowed provider independently verified; address-derived consumed tree view and hidden-return ABI
 ??4Rva003A35A0Element@@QAEAAU0@ABU0@@Z,0x00311537,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??4Rva003F61C6Record@@QAEAAU0@ABU0@@Z,0x003F554C,Native258Bfill3F61C6 directcall or fullgenericdispatch provider; separatelyrowed fullbody; scoped48Bnontrivial vector element ABI no originalapplicationtypename claimed

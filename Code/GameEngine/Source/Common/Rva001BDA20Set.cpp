@@ -6,11 +6,18 @@
 //   ?set@Rva001BDA20@@QAEXABVRva0036CA00Str@@@Z 0x000B28A5 (26B)
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 
-class Rva0036CA00Str
+// The element is a narrow string handle: retail assigns it through the rowed
+// StringBase<char>::set 0x000366F0 (the refcounted Rva0036CA00Str handle's own
+// assignment is OpaqueRefElement4::operator= 0x00239099, see Rva00403055CopyCtor.cpp).
+template <class T> class StringBase
 {
 public:
-	Rva0036CA00Str &operator=(const Rva0036CA00Str &other);
+	void set(const StringBase<T> &src);
+};
+#define BFME_STR_SET(dst, src) ((StringBase<char> &)(dst)).set((const StringBase<char> &)(src))
 
+class Rva0036CA00Str
+{
 private:
 	void *m_item;
 };
@@ -27,6 +34,6 @@ public:
 
 void Rva001BDA20::set(const Rva0036CA00Str &s)
 {
-	m_10 = s;
+	BFME_STR_SET(m_10, s);
 	m_14 = 4;
 }
