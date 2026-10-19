@@ -1,4 +1,6 @@
 // ?Rva00237D3DCheck@@YAHXZ
+// partial score=0.791 date=2026-10-20
+// ?Rva00237D3DCheck@@YAHXZ
 // partial score=0.791 date=2026-10-17
 // ?Rva00237D3DCheck@@YAHXZ
 // partial score=0.628 date=2026-10-15
@@ -9,6 +11,8 @@
 // Win32 import identities and the inlined GUID establish executable signature
 // verification. Native237E0A..237E1A contains16 internal NOP bytes; result is
 // unconditionally1 despite preserving WinVerifyTrust's status in EBX.
+// Retail discards the status: the NOP run replaced its test after linking, so the
+// dead mov ebx,eax and the NOPs have no C++ spelling and the body returns 1.
 struct TrustGuid { unsigned long a; unsigned short b,c; unsigned char d[8]; };
 struct TrustFile { unsigned long size; const unsigned short *path; void *file; TrustGuid *subject; };
 struct TrustData { unsigned long size; void *policy,*sip; unsigned long ui,revocation,choice; TrustFile *file; unsigned long state; void *stateData; const unsigned short *url; unsigned long flags; };
@@ -42,9 +46,7 @@ int Rva00237D3DCheck() {
     data.stateData=0;
     data.url=0;
     data.flags=0x210;
-    volatile long *pstatus = (volatile long *)0;
-    long status = (argc ? WinVerifyTrust(0,&action,&data) : WinVerifyTrust(0,&action,&data));
+    WinVerifyTrust(0,&action,&data);
     LocalFree(argv);
-    *pstatus = status;
     return 1;
 }
