@@ -140,7 +140,8 @@ public:
 	char pad260[0x438 - 0x260];
 	unsigned char status;
 	__forceinline unsigned getCondition(int bit) const { return flags.test(bit); }
-	__forceinline void setCondition(int bit) { flags.SetBit(bit); rva0028AE6D(); }
+	// The caller tests the bit; this unchecked helper differs from setCondition's guarded body.
+	__forceinline void setShockConditionUnchecked(int bit) { flags.SetBit(bit); rva0028AE6D(); }
 };
 
 extern GameLogic *TheGameLogic;
@@ -260,7 +261,7 @@ void Object::rva00296065(Rva00297612Entry *entry)
 			// Apply the shock to the object
 			((Rva003909FAObj *)behavior)->consume(&forceVector, 0, 0);
 		}
-		if (!getCondition(127)) setCondition(127);
+		if (!getCondition(127)) setShockConditionUnchecked(127);
 		// Set stunned state due to the shock for the object
 		behavior->rva00390629(true);
 		if (ai && ai->getCurrentStateID() == 45)
