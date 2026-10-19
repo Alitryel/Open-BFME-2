@@ -228,12 +228,20 @@ private:
 	char m_unrecovered00[0x04];
 };
 
+// The 0x00262FEB one-store setter is ICF-shared with the rowed
+// ParticleEmitterDefClass::Set_Burst_Size; retail calls it directly.
+class ParticleEmitterDefClass
+{
+public:
+	virtual void Set_Burst_Size(unsigned int value);
+};
+
 class AIUpdateInterface : public AIUpdateInterfaceBase, public AICommandInterface
 {
 public:
 	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return m_locomotorSet; }
 	ObjectID getIgnoredObstacleID() const;
-	void rva00262FEB(Int id);
+	__declspec(dllimport) __forceinline void rva00262FEB(Int id) { ((ParticleEmitterDefClass *)this)->ParticleEmitterDefClass::Set_Burst_Size(id); }
 private:
 	char m_unrecovered24[0x1CC - 0x24];
 	LocomotorSet m_locomotorSet;																							///< 0x1CC
