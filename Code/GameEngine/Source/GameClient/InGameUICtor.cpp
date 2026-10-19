@@ -74,11 +74,12 @@ private:
 	char m_opaque04[0x34 - 0x4];
 };
 
-// The notification box the +0x9CC owner holds.
-class Rva004E6C34
+// The notification box the +0x9CC owner holds; its constructor 0x004E6C34 is
+// rowed as InGameNotificationBoxMovieClip::InGameNotificationBoxMovieClip.
+class InGameNotificationBoxMovieClip
 {
 public:
-	Rva004E6C34();
+	InGameNotificationBoxMovieClip();
 
 private:
 	char m_opaque[0x54];
@@ -288,12 +289,12 @@ private:
 class Rva0029B620
 {
 public:
-	Rva0029B620( Rva004E6C34 *box ) : m_ptr( box ) {}
+	Rva0029B620( InGameNotificationBoxMovieClip *box ) : m_ptr( box ) {}
 	~Rva0029B620() { clear(); }
 	void clear();
 
 private:
-	Rva004E6C34 *m_ptr;
+	InGameNotificationBoxMovieClip *m_ptr;
 };
 
 // Tree at +0x590 (constructor 0x00413727, destructor 0x0029FAB7).
@@ -533,7 +534,7 @@ InGameUI::InGameUI() :
 	m_9B0( -1 ),
 	m_9B4( false ),
 	m_9C8( 0 ),
-	m_notificationBox( new Rva004E6C34 ),
+	m_notificationBox( new InGameNotificationBoxMovieClip ),
 	m_9D4( 0.0f ),
 	m_9DC( 0.0f ),
 	m_9E4( 0.0f ),
