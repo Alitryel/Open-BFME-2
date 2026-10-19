@@ -1,15 +1,9 @@
-// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
-// partial score=0.753 date=2026-10-19
-// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
-// partial score=0.753 date=2026-10-17
-// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
-// partial score=0.844 date=2026-10-13
-// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
-// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
-// partial score=0.8258513473497188 date=2026-10-10
-// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
-// partial score=0.75 date=2026-10-09
-// cl:    /DNDEBUG /MD /EHsc /O1 /G7 /arch:SSE
+// cl: /DNDEBUG /MD /EHsc /O1 /G7 /arch:SSE
+// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z, retail 0x004BBA65 (1144 B).
+// Body follows the WorldBuilder twin 0x0124AC90 literally: the module object cached
+// as self for the closing weapon/damage calls (retail spills self and this as WB
+// does), member-wise Coord3D copy construction through the canonical
+// Coord3DCtorView.h, damage fields set in WB order.
 // Reference: GeneralsMD SquishCollide.cpp at BFME1 donor874e38488;
 // original SquishCollide identity comes from rowed ctor4BB9CF, factory250FE6,
 // name getter4BB962 and the native CollideModuleInterface vtable.
@@ -19,20 +13,16 @@
 // are target facts, not extrapolated ZH behavior. Unknown fields retain
 // offset names. Two target-observed Object calls remain unpinned:2929F9
 // 848B void(Object*) and28F44C112B bool(Object*), both thiscall RET4.
-// Codegen wall: compiled1148B/104-frame versus1144B/104 retail; compiler
-// caches adjusted receiver inESI early, self inEDI; retail spills both
-// pointers atEBP-14/-10 and saves ESI/EDI after the level comparison.
-// Hierarchy/getter relocation, condition splitting, const, aggregate
-// context and O1/O2/G6/Ob1/Op trials do not close that allocation wall.
+// Body follows the WorldBuilder debug twin (WB va 0x124AC90) statement by
+// statement: member-wise Coord3D copy construction (retail's user copy ctor)
+// for the toward-victim and impulse vectors, plain assignment for the
+// fallback, the module's object cached as `self` and reused for the
+// terminal weapon/damage calls, getObject() re-read where WB re-reads it.
 // Current provider declarations agree with the rowed Object and GeometryInfo bodies.
 // A successful HijackerUpdate lookup returns before geometry or damage work.
-struct Coord3D 
-{
- float x,y,z;
- void normalize();
- 
-}
-;
+// Coord3D: retail user ctors (member-wise copy ctor, 0x004216D3) plus ZH header-inline sub.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 class Object;
 class GeometryInfo 
 {
@@ -431,15 +421,16 @@ class SquishCollide: public CollideModule
 }
 ;
 /** Do the collision */
+static const float HUGE_DAMAGE_AMOUNT=999999.0f;
 void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *normal)
-
 {
  // Note that other == null means "collide with ground"
- if(!other || other->destroyed() || (other->tmplate->flags&0x2000))return;
+ if(other==0 || other->destroyed())return;
+ if(other->tmplate->flags&0x2000)return;
  Object*self=getObject();
- if(self->destroyed() || self->experience->dead)return;
- signed char crushable=self->rva0028CE7B();
- if(other->rva00294815()<=crushable)return;
+ if(self->destroyed())return;
+ if(self->experience->dead)return;
+ if(!(other->rva00294815()>self->rva0028CE7B()))return;
  AIUpdateInterface*otherAI=other->ai;
  if(otherAI)
  {
@@ -447,47 +438,35 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   if(target)
   {
    if(target->targetID4C0==self->getID())return;
-   
   }
   else if(otherAI->machine->getGoalObject()==self && other->getCurrentWeapon(0) && ((Weapon*)other->getCurrentWeapon(0))->rva002C969D(other,(int)self))return;
-  
  }
  // only squish if tank is moving toward victim
- Coord3D direction;
- other->getUnitDirectionVector2D(direction);
- Coord3D actualPosition;
- ((Rva0028E8D4*)other)->rva0028E8D4(&actualPosition.x);
- const Coord3D*myPos=self->getPosition();
- Coord3D to;
- float dx=myPos->x-other->getPosition()->x;
- float dy=myPos->y-other->getPosition()->y;
- to.x=dx;
- to.y=dy;
- if(to.x*direction.x+to.y*direction.y<0.0f)
+ Coord3D dir;
+ other->getUnitDirectionVector2D(dir);
+ const Coord3D*otherPos=other->getPosition();
+ Coord3D actualPos;
+ ((Rva0028E8D4*)other)->rva0028E8D4(&actualPos.x);
+ const Coord3D*myPos=getObject()->getPosition();
+ Coord3D to(*myPos);
+ to.sub(otherPos);
+ if(to.x*dir.x+to.y*dir.y<0.0f)
  {
   to=*myPos;
-  to.x-=actualPosition.x;
-  to.y-=actualPosition.y;
-  if(to.x*direction.x+to.y*direction.y<0.0f)return;
-  
+  to.sub(&actualPos);
+  if(to.x*dir.x+to.y*dir.y<0.0f)return;
  }
  // order matters: we want to know if IT considers ME to be an ally (a reversal of the usual situation)
  if(!other->testStatus(STATUS39) && !other->testStatus(STATUS32) && !other->isKindOf(KIND84) && !other->tmplate->crushAllies && other->getRelationship(getObject())!=ENEMIES)return;
  AIUpdateInterface *ai=self->ai;
  if(ai && ai->machine->getGoalObject()==other)
  {
-  //We are actually targeting the other object to do something to! Don't allow them to crush us in the following
-  //special circumstances:
-
   //Hijacking!
   static NameKeyType key_HijackerUpdate=TheNameKeyGenerator->nameToKey("HijackerUpdate");
-  if (self->findModule(key_HijackerUpdate)) return;
-  {
+  if(self->findModule(key_HijackerUpdate))return;
   //TNT hunter placing a charge!
   SpecialAbilityUpdate *ability=(SpecialAbilityUpdate*)self->rva0028BD92(0x19);
   if(ability && ability->active.isActive())return;
-  
-  }
  }
  GeometryInfo myGeom=self->getGeometryInfo();
  myGeom.rva004BBA15(5.0f);
@@ -497,7 +476,6 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
  {
   other->rva00295FA9(getObject());
   return;
-  
  }
  BodyModuleInterface *body=getObject()->body;
  if(body && !body->permitsCrushing(other))return;
@@ -505,38 +483,34 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
  other->rva002929F9(getObject());
  if(other->tmplate->crushMagnitude>0.0f)
  {
-  to.x=self->getPosition()->x-other->getPosition()->x;
-  to.y=self->getPosition()->y-other->getPosition()->y;
-  to.z=self->getPosition()->z-other->getPosition()->z;
-  to.normalize();
-  damageInfo.direction=to;
+  Coord3D v(*self->getPosition());
+  v.sub(other->getPosition());
+  v.normalize();
+  damageInfo.direction=v;
   damageInfo.magnitude=other->tmplate->crushMagnitude;
   damageInfo.unknown4C=other->tmplate->crushExtra;
-  damageInfo.deathType=0;
   damageInfo.unknown44=10.0f;
   damageInfo.unknown48=1.0f;
-  damageInfo.sourceID=other->getID();
   damageInfo.damageType=1;
+  damageInfo.deathType=0;
+  damageInfo.sourceID=other->getID();
   damageInfo.amount=0.0f;
   self->attemptDamage(&damageInfo);
-  
  }
  if(!(other->tmplate->flags&0x2000))
  {
-  if(other->crushWeapon)other->crushWeapon->rva002CE6C5(other,getObject()->getID(),getObject(),0);
-  else 
+  Weapon *crushWeapon=other->crushWeapon;
+  if(crushWeapon)crushWeapon->rva002CE6C5(other,self->getID(),self,0);
+  else
   {
-   damageInfo.sourceID=other->getID();
    damageInfo.damageType=1;
    damageInfo.deathType=2;
-   damageInfo.amount=999999.0f; // make sure they die
-   getObject()->attemptDamage(&damageInfo);
-   
+   damageInfo.sourceID=other->getID();
+   damageInfo.amount=HUGE_DAMAGE_AMOUNT; // make sure they die
+   self->attemptDamage(&damageInfo);
   }
-  Weapon *crushedWeapon=getObject()->crushedWeapon;
-  if(crushedWeapon && !getObject()->rva0028F44C(other))crushedWeapon->rva002CE6C5(getObject(),other->getID(),other,0);
-  
+  Weapon *crushedWeapon=self->crushedWeapon;
+  if(crushedWeapon && !self->rva0028F44C(other))crushedWeapon->rva002CE6C5(self,other->getID(),other,0);
  }
  other->rva0028AC34(false);
- 
 }
