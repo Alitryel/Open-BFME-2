@@ -130,8 +130,8 @@ struct Rva0057BC63FunctorHolder {Rva0057BC63FunctorHolder(const FunctorBinding &
 class Rva0023E8D8 : public Rva0057BC63FunctorHolder {public:__forceinline Rva0023E8D8(const FunctorBinding &b):Rva0057BC63FunctorHolder(b){} Rva0023E8D8(const Rva0023E8D8&o):Rva0057BC63FunctorHolder(o){} };
 extern "C" void __cdecl Rva00437F61(int,const UnicodeString &,const UnicodeString &,Rva0023E8D8);
 static __forceinline FunctorBinding bind(FunctorMethod m,FunctorTarget*t){FunctorBinding r(m,t);return r;}
-struct BfmeOpaqueOwnedRecord492;
-struct AptOnlineQuickMatch {char prefix[0x60];int state;char at64[0x16];bool matched;char at7b[0x21];int mode;void rva005BB5F6();void rva005BBDAC(BfmeOpaqueOwnedRecord492 &);void rva005BBF15();void rva005BA39F(int);void OnMatched(PeerResponse &);};
+struct BfmeOpaqueOwnedRecord492;class Rva0054D8D8;
+struct AptOnlineQuickMatch {char prefix[0x60];int state;char at64[0x16];bool matched;char at7b[0x21];int mode;void rva005BB5F6();void rva005BBDAC(BfmeOpaqueOwnedRecord492 &);void rva005BBF15();void rva005BA39F(int);void OnMatched(PeerResponse &);Rva0054D8D8 *rva005BA36D();};
 #undef V
 void AptOnlineQuickMatch::rva005BB5F6(){
  HandleBuddyResponses();HandlePersistentStorageResponses();
@@ -567,7 +567,6 @@ extern "C" void __cdecl free(void *);
 // supply the partition predicate and comparator the native call site uses;
 // the loop body holds *m in a named local, which reproduces retail's iterator
 // register roles (EDI first-arg / ESI iterator) exactly.
-class Rva005BA36D {public:Rva0054D8D8 *rva005BA36D();};
 struct Rva0030145CCmp {bool operator()(MapMetaData *,MapMetaData *)const;};
 struct Rva00450B90Item
 {
@@ -602,7 +601,7 @@ public:
 void AptOnlineQuickMatch::rva005BBDAC(BfmeOpaqueOwnedRecord492 &request){
  _STL::vector<bool> &result=request.unknown_104;result.clear();
  _STL::list<AsciiString> maps;int players=0;
- Rva0054D8D8 *ladder=((Rva005BA36D*)this)->rva005BA36D();
+ Rva0054D8D8 *ladder=rva005BA36D();
  if(ladder){players=ladder->players*2;maps=ladder->maps;}
  else{int selected=0;GadgetComboBoxGetSelectedPos(*(GameWindow**)((char*)this+0x84),&selected);if(selected<0)selected=0;players=(selected+1)*2;maps=TheGameSpyConfig->getQMMaps();}
  _STL::vector<MapMetaData*> metadata;

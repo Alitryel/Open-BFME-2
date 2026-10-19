@@ -146,7 +146,7 @@ public:
 	_STL::list<AsciiString> m_validFactions;	// +0x20
 };
 
-class Rva005BA36D
+class AptOnlineQuickMatch
 {
 public:
 	Rva0054D8D8 *rva005BA36D();
@@ -176,7 +176,7 @@ bool Rva005BB3A1::rva005BB3A1()
 
 	UnicodeString unused;
 	Int favSide = m_prefs.getSide();
-	const Rva0054D8D8 *li = ((Rva005BA36D *)this)->rva005BA36D();
+	const Rva0054D8D8 *li = ((AptOnlineQuickMatch *)this)->rva005BA36D();
 	Int numPlayerTemplates = ThePlayerTemplateStore->getPlayerTemplateCount();
 	UnicodeString playerTemplateName;
 
