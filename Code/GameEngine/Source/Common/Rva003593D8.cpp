@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 // stlport
-// ?removeMessageAction@Rva003593D8@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
+// ?removeMessageAction@HotKeyManager@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
 #include <map>
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
@@ -29,7 +29,7 @@ struct Rva00358E26Record
 	bool operator==(const Rva00358E26Record &other) const { return word == other.word; }
 };
 
-class Rva003593D8
+class HotKeyManager
 {
 public:
 	unsigned int removeMessageAction(int key);
@@ -38,7 +38,7 @@ private:
 	_STL::map<int, Rva00358E26Record> m_records;
 };
 
-unsigned int Rva003593D8::removeMessageAction(int key)
+unsigned int HotKeyManager::removeMessageAction(int key)
 {
 	return m_records.erase(key);
 }
