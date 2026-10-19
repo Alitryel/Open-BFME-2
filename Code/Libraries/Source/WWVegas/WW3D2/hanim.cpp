@@ -61,7 +61,18 @@ void __cdecl operator delete[](void *) throw();
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
 #include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "assetmgr.h"
 #include "htree.h"
 #include "motchan.h"
@@ -77,6 +88,8 @@ template <> int DynamicVectorClass<float>::ID(float const &);
 template <> int VectorClass<float>::ID(float const &);
 template <> int VectorClass<float>::ID(float const *);
 template <> bool VectorClass<float>::Resize(int, float const *);
+template <> bool DynamicVectorClass<BfmeWeightInfoVddAnchor::Info>::Add(BfmeWeightInfoVddAnchor::Info const &);
+template <> bool VectorClass<BfmeWeightInfoVddAnchor::Info>::Resize(int, BfmeWeightInfoVddAnchor::Info const *);
 // bfme link decl-only end
 
 
@@ -93,7 +106,9 @@ NamedPivotMapClass::~NamedPivotMapClass(void)
 {
 }
 
-NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
+// Inline: the retail copy (0x00196170) is the select-any one hanim_weight_vector_add.cpp
+// emits with the Add it inlines into.
+inline NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
 {	
 	if(Name) delete [] Name;
 	assert(that.Name != 0);

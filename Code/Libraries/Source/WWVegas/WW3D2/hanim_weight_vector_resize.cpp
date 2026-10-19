@@ -32,6 +32,12 @@ public:
 	};
 };
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first.
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(NamedPivotMapClass::WeightInfoStruct *p) { delete [] p; }
+#pragma optimize("", on)
 inline NamedPivotMapClass::WeightInfoStruct & NamedPivotMapClass::WeightInfoStruct::operator = (WeightInfoStruct const &that)
 {
 	if(Name) delete [] Name;

@@ -55,6 +55,18 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "hanim.h"
 #include "assetmgr.h"
 #include "htree.h"
@@ -70,6 +82,7 @@ template <> int DynamicVectorClass<float>::ID(float const &);
 template <> int VectorClass<float>::ID(float const &);
 template <> int VectorClass<float>::ID(float const *);
 template <> bool VectorClass<float>::Resize(int, float const *);
+template <> bool VectorClass<BfmeWeightInfoVddAnchor::Info>::Resize(int, BfmeWeightInfoVddAnchor::Info const *);
 // bfme link decl-only end
 
 // Retail keeps one HAnimComboDataClass pool allocator (0x001963A0); this unit calls it.

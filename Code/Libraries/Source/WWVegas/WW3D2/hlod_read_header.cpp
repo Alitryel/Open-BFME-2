@@ -19,6 +19,18 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #include "winbase_shim.h"
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E,
+// the copy htree.cpp emits); it takes the optimization state of the first function
+// that needs it, so this unemitted anchor needs it first. The private struct is reached
+// by befriending the anchor while hanim.h is first read; layout and names are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "hlod.h"
 #include "chunkio.h"
 #include <string.h>
@@ -29,8 +41,12 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // emits a differing ??_E. Defining the dtor inline here lets our ??_E inline
 // the same way; the inline ??1 is a COMDAT the link discards for hlod.cpp's
 // regular copy.
-// ??1SubObjectArrayClass@HLodDefClass@@QAE@XZ present-unmatched
-// ??1SubObjectArrayClass@HLodDefClass@@QAE@XZ is a row of hlod.cpp; this unit only declares it.
+// ??1SubObjectArrayClass@HLodDefClass@@QAE@XZ is a row of hlod.cpp.
+inline HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
+{
+	Reset();
+}
+
 
 bool HLodDefClass::read_header(ChunkLoadClass & cload)
 {

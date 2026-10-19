@@ -768,7 +768,9 @@ HLodDefClass::SubObjectArrayClass::SubObjectArrayClass(void) :
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
+// Inline, so hlod_read_header.cpp can define the same body and its vector deleting
+// destructor inlines Reset as retail's (0x0019EC30) does; one COMDAT copy links.
+inline HLodDefClass::SubObjectArrayClass::~SubObjectArrayClass(void)
 {
 	Reset();
 }
