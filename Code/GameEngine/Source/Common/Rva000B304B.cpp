@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
-// ?rva000B304B@Rva000B304B@@QAEXPAX_N@Z @0x000B304B 73B
-// Honest address-derived placeholder: method rva000B304B in new opaque class
+// ?setMuzzleFlashHidden@Rva000B304B@@QAEXPAX_N@Z @0x000B304B 73B
+// Honest address-derived placeholder: method setMuzzleFlashHidden in new opaque class
 // Rva000B304B. Unlock lane: landing it makes 0x000B5179/97 0x000B4E43/583
 // 0x000B57A7/367 ready. Callers pass (ptr bool): 0x000B4EF4 setne bool
 // 0x000B51C0 true 0x000B5903 false. Body null-guards p then q and forwards
@@ -57,13 +57,13 @@ public:
 class Rva000B304B
 {
 public:
-	void rva000B304B(void *p, bool flag);
+	void setMuzzleFlashHidden(void *p, bool flag);
 private:
 	char m_pad00[8];
 	int m_val08; // +8
 };
 
-void Rva000B304B::rva000B304B(void *p, bool flag)
+void Rva000B304B::setMuzzleFlashHidden(void *p, bool flag)
 {
 	if (!flag)
 		flag = false;

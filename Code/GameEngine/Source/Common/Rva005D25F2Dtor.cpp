@@ -86,7 +86,7 @@ public:
 	virtual void rva005D264D(int,const TreeHintRef00217D4C &)=0;
 	virtual void rva005D2664(int)=0;
 	virtual void rva005D269B()=0;
-	virtual void rva005D2B2F(int,float)=0;
+	virtual void DoFlashButton(int,float)=0;
 };
 
 // Native7-byte C078DC interface teardown at5D23FE is also the full standalone
@@ -106,7 +106,7 @@ public:
 	virtual void rva005D264D(int,const TreeHintRef00217D4C &);
 	virtual void rva005D2664(int);
 	virtual void rva005D269B();
-	virtual void rva005D2B2F(int,float);
+	virtual void DoFlashButton(int,float);
 private:
 	int m_04;
 	AsciiString m_08;

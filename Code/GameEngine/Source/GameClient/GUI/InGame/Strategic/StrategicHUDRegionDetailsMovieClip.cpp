@@ -164,7 +164,7 @@ public:
 };
 
 // Page name to slot (rowed table lookups 0x005E2CFA and 0x005E2D8A).
-void *__cdecl Rva005E2CFAGet(const char *name);
+void *__cdecl PageIDToSlot(const char *name);
 void *__cdecl ParsePageSlot(const char *name);
 
 // BfmePathLeafAfterMarker.cpp's path helpers and the pinned Apt parameter
@@ -275,7 +275,7 @@ StrategicHUD::RegionDetailsMovieClip::Impl::Impl(RegionDetailsMovieClip *owner, 
 
 void StrategicHUD::RegionDetailsMovieClip::Impl::OnTabClicked(const char *path)
 {
-	int slot = (int)Rva005E2CFAGet(path);
+	int slot = (int)PageIDToSlot(path);
 	if (m_pages[slot].m_ptr != 0)
 		m_selectedTab = slot;
 }
@@ -387,7 +387,7 @@ void StrategicHUD::RegionDetailsMovieClip::Impl::HidePage(int page)
 // Native5E2CFA44B cdecl table lookup. WB PageIDToSlot identifies its role;
 // the original slot enum spelling and declaration remain unproven, so this
 // recovered body keeps its existing address-derived four-byte return view.
-void *Rva005E2CFAGet(const char *s)
+void *PageIDToSlot(const char *s)
 {
 	for (unsigned int i = 0; i < 3; ++i)
 	{
@@ -405,7 +405,7 @@ void *ParsePageSlot(const char *p)
 	AsciiString tmp;
 	if (!Rva004128F0GetParam(p, "id", tmp))
 		return 0;
-	return Rva005E2CFAGet(tmp.str());
+	return PageIDToSlot(tmp.str());
 }
 
 // Native005E2E3A..005E2E91 RET8; WB15F4D00 SetPageEnabled and the retail

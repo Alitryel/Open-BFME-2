@@ -36,8 +36,8 @@ class Rva004FF9C9 {
  char unknown00[4];
  IntIntTree tree;
 public:
- void *rva004FF9C9(int key);
+ void *GetGarrisonArmies(int key);
 };
-void *Rva004FF9C9::rva004FF9C9(int key) {
+void *Rva004FF9C9::GetGarrisonArmies(int key) {
  return (char*)tree._M_find(key)+0x34;
 }

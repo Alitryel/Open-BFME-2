@@ -2718,7 +2718,7 @@ void LivingWorldLogic::spawnCity(SpawnArmy *city)
 }
 
 class Rva002B2405 {public:int rva002B2405();};
-class Rva002B4650 {public:int rva002B4650();};
+class Rva002B4650 {public:int GetTimeRemainingForCurrentPhaseInFrames();};
 class Rva0020E72A {public:bool rva0020E72A(void *);};
 class Rva002B4C09 {public:bool rva002B3621();void rva002B6875();};
 class Rva002B5F8A {public:bool rva002B5F8A();};
@@ -2757,7 +2757,7 @@ void LivingWorldLogic::UpdateTurnPhase(){
   if(m_native10A)break;
   TurnPhaseCampaignManagerView *mgr=(TurnPhaseCampaignManagerView *)TheCampaignManager;
   bool advance=mgr->campaigns14[mgr->index10]->flag4E;
-  if((unsigned char)((Rva002B4650 *)this)->rva002B4650())advance=true;
+  if((unsigned char)((Rva002B4650 *)this)->GetTimeRemainingForCurrentPhaseInFrames())advance=true;
   switch(m_turnPhase){
    case 1:case 5:
     if(!((Rva002B4B3D *)this)->rva002B4B3D() && !rva002B4B83())advance=true;
@@ -3353,7 +3353,7 @@ class Rva002B3416Veto {public:
  virtual Bool allows(Parent00575EEA *plot);
 };
 class CreateAHeroData;
-class Rva003F07E5 {public: bool rva003F07E5(CreateAHeroData *,Int *);};
+class Rva003F07E5 {public: bool CanBuildBuilding(CreateAHeroData *,Int *);};
 Bool LivingWorldLogic::rva002B3416(Parent00575EEA *plot)
 {
 	if (m_localPlayer == 0)
@@ -3372,7 +3372,7 @@ Bool LivingWorldLogic::rva002B3416(Parent00575EEA *plot)
 		LocalRegionOwner13C *region = plot->region;
 		if (region->owner != ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66())
 			return false;
-		return ((Rva003F07E5 *)region)->rva003F07E5((CreateAHeroData *)plot, 0) ? true : false;
+		return ((Rva003F07E5 *)region)->CanBuildBuilding((CreateAHeroData *)plot, 0) ? true : false;
 	}
 }
 

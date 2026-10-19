@@ -26,7 +26,7 @@ public:
     static void Rva002C5E40_ParseAITarget(INI *, void *, void *, const void *);
     static void Rva002C5E8F_ParseAITargetList(INI *, void *, void *, const void *);
     const char *getNextTokenOrNull(const char *seps);
-	static void Rva0029B919_ParseResourceClaimDecal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseTerrainResourceClaimDecal(INI *ini, void *instance, void *store, const void *userData);
 	static void Rva005096FF_ParseWeaponSlot(INI *ini, void *instance, void *store, const void *userData);
 };
 
@@ -55,8 +55,8 @@ void INI::Rva004E8E57_ParseAIKindOf(INI *ini, void *, void *store, const void *)
 	*(int *)store = getAIKindOfFromName(ini->getNextAsciiString().str());
 }
 
-// ?Rva0029B919_ParseResourceClaimDecal@INI@@SAXPAV1@PAX1PBX@Z
-void INI::Rva0029B919_ParseResourceClaimDecal(INI *ini, void *instance, void *, const void *)
+// ?parseTerrainResourceClaimDecal@INI@@SAXPAV1@PAX1PBX@Z
+void INI::parseTerrainResourceClaimDecal(INI *ini, void *instance, void *, const void *)
 {
 	AsciiString name;
 	INI::parseAsciiString(ini, NULL, &name, NULL);

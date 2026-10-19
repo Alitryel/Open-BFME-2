@@ -3,7 +3,7 @@
 // Evidence: chain via 0x005FD72D row; mov ecx [ecx+4] jmp tail; caller 0x005F55C0; neighbour 0x005FD8B1
 struct Rva005FD72D
 {
-	void rva005FD72D(bool enabled);
+	void SetSwapButtonEnabled(bool enabled);
 };
 
 struct Rva005FD8B9
@@ -15,5 +15,5 @@ struct Rva005FD8B9
 
 void Rva005FD8B9::rva005FD8B9(bool enabled)
 {
-	return m_ptr4->rva005FD72D(enabled);
+	return m_ptr4->SetSwapButtonEnabled(enabled);
 }

@@ -36,18 +36,18 @@ int rva002B3D81()
 class Rva002B3DB2
 {
 public:
-	int rva002B3DB2();
+	int GetTimeAllowedForCurrentPhaseInFrames();
 private:
 	unsigned char m_pad00[0x100];
 	unsigned int m_100;
 	unsigned int m_104;
 };
 
-// ?rva002B3DB2@Rva002B3DB2@@QAEHXZ @0x002B3DB2 30B. Saturating
+// ?GetTimeAllowedForCurrentPhaseInFrames@Rva002B3DB2@@QAEHXZ @0x002B3DB2 30B. Saturating
 // remainder of the rva002B3D81 limit above over the +0x100/+0x104
 // window: returns limit minus the window when the window is below the
 // limit, else zero.
-int Rva002B3DB2::rva002B3DB2()
+int Rva002B3DB2::GetTimeAllowedForCurrentPhaseInFrames()
 {
 	unsigned int diff = m_100 - m_104;
 	int limit = rva002B3D81();

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
-// ?rva005E2439@Rva005E2439@@QAEXXZ @0x005E2439 39B
+// ?SetUpSubUIs@Rva005E2439@@QAEXXZ @0x005E2439 39B
 // Unlock sibling of 0x005E2460: same [this+0xC]->[+0x170][[this+0x20]] chain
 // then virtual slot 0x18 on [this+8] with D else slot 0x14 with entry.
 // Evidence: unlock lane plus 3 callers including 0x005E24D8 which passes same this.
@@ -39,7 +39,7 @@ struct Rva005E2439Obj
 class Rva005E2439
 {
 public:
-	void rva005E2439();
+	void SetUpSubUIs();
 	void rva005E2460();
 	void rva005E2540();
 private:
@@ -50,7 +50,7 @@ private:
 	int m_20;
 };
 
-void Rva005E2439::rva005E2439()
+void Rva005E2439::SetUpSubUIs()
 {
 	Rva005E2439A *a = m_0C;
 	int idx = m_20;
@@ -66,10 +66,10 @@ void Rva005E2439::rva005E2540()
 {
 	if (m_20 < 0)
 		return;
-	rva005E2439();
+	SetUpSubUIs();
 }
 // ?rva005E2460@Rva005E2439@@QAEXXZ @0x005E2460 (120B)
-// Chain sibling of rva005E2439 above on the same [this+0xC]->[+0x170]
+// Chain sibling of SetUpSubUIs above on the same [this+0xC]->[+0x170]
 // table: label holder at entry+0x20, UnicodeString via rowed 0x002DF9E9
 // when present else rowed free 0x005C95CA, forwarded to rowed 0x005F0CC1.
 // Evidence: WB ShowSelectionName branch structure + retail 120B; the d+0x28

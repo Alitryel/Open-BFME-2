@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 //
 // ?GetButtonImage@StrategicInGameUI@@YAPBVImage@@PAX@Z @0x005F02E0 56B
-// Evidence: unlock lane, prev Rva005F0220Get 0x005F0220 next rva005F05E6
+// Evidence: unlock lane, prev Rva005F0220Get 0x005F0220 next GetBuildPlotByIndex
 // 0x005F05E6 in Common, 3 callers, callees rva002D06CA ThingTemplate
 // ButtonImage flows plus tail rva0033BA46, global g_009FF000, literal none.
 // Identity: WB 0x01615550 is this StrategicInGameUI::GetButtonImage overload

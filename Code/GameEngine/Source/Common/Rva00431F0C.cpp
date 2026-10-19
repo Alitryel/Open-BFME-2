@@ -10,7 +10,7 @@ public:
 class Rva00431A4D
 {
 public:
-	void rva00431A4D(GameMessage *msg);
+	void EatNextClickMessage(GameMessage *msg);
 };
 
 extern "C" const void *const __identifier("??_7Rva004318FC@@6B@")[];
@@ -46,7 +46,7 @@ int Rva00431F0C::rva00431F0C(GameMessage *msg)
 	{
 		if (t != m_08)
 		{
-			((Rva00431A4D *)m_04)->rva00431A4D(msg);
+			((Rva00431A4D *)m_04)->EatNextClickMessage(msg);
 			void *mem = operator new(8);
 			Rva00431F0CHelper *h;
 			if (mem != 0)

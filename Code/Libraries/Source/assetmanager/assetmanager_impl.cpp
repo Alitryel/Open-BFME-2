@@ -190,7 +190,7 @@ public:
 class Q1Receiver0134FAAC
 {
 public:
-	void m009EC970(int which);
+	void Enable(int which);
 	void Disable(int which);
 	void m009ECA30(int value);
 	void AddStickyAssets(int value);
@@ -219,7 +219,7 @@ private:
 	bool m_flag2;
 };
 
-void Q1Receiver0134FAAC::m009EC970(int which)
+void Q1Receiver0134FAAC::Enable(int which)
 {
 	switch (which)
 	{

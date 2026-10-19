@@ -29,7 +29,7 @@ class Rva0059E920 { public: Rva0059E920(); private: char unknown00[0x20]; };
 class Rva0059E848 { public: void rva0059E848(); };
 class ModuleData;
 class Rva004FD4C1 { public: void rva004FD4C1(const ModuleData *data); };
-void Rva0059E8A1Parse(void *, void *, void *);
+void parseAsciiStringSetForPositionInfo(void *, void *, void *);
 void Rva004FCB23Parse(INI *ini, void *instance, void *store, const void *userData);
 
 // Retail's StartingRestriction field table at VA 0x00C71178 (.rdata, 64 bytes:
@@ -37,7 +37,7 @@ void Rva004FCB23Parse(INI *ini, void *instance, void *store, const void *userDat
 extern const FieldParse StartingRestrictionFieldParse[] =
 {
 	{ "Regions",  &INI::parseAsciiStringVector,         0, 0x08 },
-	{ "Factions", (FieldParseProc)&Rva0059E8A1Parse,    0, 0x04 },
+	{ "Factions", (FieldParseProc)&parseAsciiStringSetForPositionInfo,    0, 0x04 },
 	{ "Teams",    &Rva004FCB23Parse,                    0, 0x14 },
 	{ 0, 0, 0, 0 }
 };

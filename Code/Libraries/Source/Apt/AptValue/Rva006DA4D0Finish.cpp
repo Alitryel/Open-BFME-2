@@ -6,7 +6,7 @@
 // This call-only declaration does not assert their private class layout.
 // cl: /O2 /MD
 extern "C" void *__cdecl memmove(void *, const void *, unsigned int);
-class BfmeAptValue006DCD20 { public: void rva006D9500(int); void rva006D8AD0(int, BfmeAptValue006DCD20 *); };
+class BfmeAptValue006DCD20 { public: void rva006D9500(int); void SetAt(int, BfmeAptValue006DCD20 *); };
 class Rva006D6360 { public: Rva006D6360(int type, int size); virtual ~Rva006D6360(); char m_pad[0x18]; };
 class Rva006D2A60 { public: void freeBlock(void *, int); };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
@@ -41,5 +41,5 @@ Rva006DA4D0::Rva006DA4D0(int count, BfmeAptValue006DCD20 **pValues)
 	mnLength = count;
 	reinterpret_cast<BfmeAptValue006DCD20 *>(this)->rva006D9500(count);
 	for (int i = 0; i < mnLength; ++i)
-		reinterpret_cast<BfmeAptValue006DCD20 *>(this)->rva006D8AD0(i, pValues[i]);
+		reinterpret_cast<BfmeAptValue006DCD20 *>(this)->SetAt(i, pValues[i]);
 }

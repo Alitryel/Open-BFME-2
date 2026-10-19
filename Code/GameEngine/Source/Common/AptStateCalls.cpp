@@ -136,7 +136,7 @@ void StrategicHUD::RegionDetailsArmiesMovieClip::Impl::Update()
 	TheMouse->rva001EEA6D(msg, -1, 0, 1.0f);
 }
 
-// ?rva005FFC8B@Rva005FFC8B@@QAEXABUTreeHintRef00217D4C@@@Z @0x005FFC8B 64B:
+// ?CreateGarrisonPanel@Rva005FFC8B@@QAEXABUTreeHintRef00217D4C@@@Z @0x005FFC8B 64B:
 // store the reference through its rowed assignment 0x002174A4, then
 // CreateArmyPanel "garrison" through the same wrapper (level +4, name +8).
 struct TreeHintRef00217D4C
@@ -148,7 +148,7 @@ struct TreeHintRef00217D4C
 class Rva005FFC8B
 {
 public:
-	void rva005FFC8B(const TreeHintRef00217D4C &ref);
+	void CreateGarrisonPanel(const TreeHintRef00217D4C &ref);
 private:
 	char m_pad00[4];
 	unsigned int m_level;		// +0x04
@@ -157,7 +157,7 @@ private:
 	TreeHintRef00217D4C m_ref;	// +0x1C
 };
 
-void Rva005FFC8B::rva005FFC8B(const TreeHintRef00217D4C &ref)
+void Rva005FFC8B::CreateGarrisonPanel(const TreeHintRef00217D4C &ref)
 {
 	m_ref = ref;
 	Rva005FB5E6AptCall(TheRva00222A8BTarget, (void *)m_level, m_name.str(), "CreateArmyPanel", "garrison");

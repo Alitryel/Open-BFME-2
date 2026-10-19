@@ -4,12 +4,12 @@
 // Q1 receiver registry at VA 0x00E09C0C is live, forward the argument to
 // the rowed Q1Receiver0134FAAC worker. Same guard idiom as
 // bfmeBeginResourceEnumeration at 0x0061F110 and
-// bfmeInvokeResourceEnumeration at 0x0061EFB0, which guard the same global.
+// RegisterDependencies at 0x0061EFB0, which guard the same global.
 
 class Q1Receiver0134FAAC
 {
 public:
-	void m009EC970(int which);
+	void Enable(int which);
 	void Disable(int which);
 	void AddStickyAssets(int value);
 	void m009F19E0(int source);
@@ -46,7 +46,7 @@ void bfmeMarkReceiverPayloads(int value)
 void bfmeSetReceiverFlag(int which)
 {
 	if (TheQ1Receiver != 0)
-		TheQ1Receiver->m009EC970(which);
+		TheQ1Receiver->Enable(which);
 }
 
 void bfmeClearReceiverFlag(int which)

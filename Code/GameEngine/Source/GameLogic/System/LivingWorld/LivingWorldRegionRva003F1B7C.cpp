@@ -16,7 +16,7 @@ struct Rva003F1BD3TemplateView
 class Rva003F07E5
 {
 public:
-    bool rva003F07E5(CreateAHeroData *hero, int *reason);
+    bool CanBuildBuilding(CreateAHeroData *hero, int *reason);
 };
 class Rva003F11EC
 {
@@ -34,7 +34,7 @@ public:
 bool LivingWorldRegion::rva003F1B7C(CreateAHeroData *hero,
     const Rva003F1BD3TemplateView *record, int *reason)
 {
-    if (!reinterpret_cast<Rva003F07E5 *>(this)->rva003F07E5(hero, reason))
+    if (!reinterpret_cast<Rva003F07E5 *>(this)->CanBuildBuilding(hero, reason))
         return false;
 
     CreateAHeroData *key = record->key;

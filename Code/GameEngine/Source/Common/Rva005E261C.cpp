@@ -21,7 +21,7 @@ public:
 class Rva005E2439
 {
 public:
-	void rva005E2439();
+	void SetUpSubUIs();
 	void rva005E2460();	// rowed Rva005E2439::rva005E2460
 };
 
@@ -44,5 +44,5 @@ void Rva005E261C::rva005E261C()
 	if (m_8->m_8flag == 0)
 		return;
 	m_8->rva005E261CSlot();
-	((Rva005E2439 *)this)->rva005E2439();
+	((Rva005E2439 *)this)->SetUpSubUIs();
 }

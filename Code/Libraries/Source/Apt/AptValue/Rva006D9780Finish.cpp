@@ -25,7 +25,7 @@ public:
 	int isArray() const;
 	BfmeAptValue006DCD20 *rva006DCFA0();
 	void rva006D9500(int nCapacity);
-	void rva006D8AD0(int nIndex, BfmeAptValue006DCD20 *pNewValue);
+	void SetAt(int nIndex, BfmeAptValue006DCD20 *pNewValue);
 	void rva006D95E0(int nIndex, BfmeAptValue006DCD20 *pValue);
 	bool rva006D9780(BfmeAptValue006DCD20 *pContext, EAStringC *pKey, BfmeAptValue006DCD20 *pValue);
 

@@ -35,13 +35,13 @@ class Rva00431A4D
 	unsigned char m_04;
 	unsigned char m_05;
 public:
-	void rva00431A4D(GameMessage *msg);
+	void EatNextClickMessage(GameMessage *msg);
 };
 
 class Rva00431E95
 {
 public:
-	int rva00431E95(void *p);
+	int HandleButtonUp(void *p);
 };
 
 class View
@@ -267,7 +267,7 @@ public:
 	int rva004320B1(GameMessage *msg);
 };
 
-void Rva00431A4D::rva00431A4D(GameMessage *msg)
+void Rva00431A4D::EatNextClickMessage(GameMessage *msg)
 {
 	if (msg->m_10 == 6)
 		m_04 = 1;
@@ -295,8 +295,8 @@ int Rva004320B1::rva004320B1(GameMessage *msg)
 	}
 	case 6:
 	case 0x10:
-		m_04->rva00431A4D(msg);
-		return ((Rva00431E95 *)this)->rva00431E95(msg);
+		m_04->EatNextClickMessage(msg);
+		return ((Rva00431E95 *)this)->HandleButtonUp(msg);
 	default:
 		return 0;
 	}

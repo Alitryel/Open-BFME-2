@@ -393,7 +393,7 @@ private:
 class Rva002834E6Owner
 {
 public:
-	void rva002834E6(void *p);
+	void addObject(void *p);
 };
 
 extern GameLogic *TheGameLogic;
@@ -582,7 +582,7 @@ void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const 
 	Rva0027D02F *rec = new Rva0027D02F((const unsigned int *)pos, id, m_field48++, (int)tmpl, next, v,
 		tmpl->get5EB(), tmpl->get5EC());
 	((FoldedAppendVector *)&m_records)->push_back((const ModuleData *)rec);
-	m_584->rva002834E6(rec);
+	m_584->addObject(rec);
 	Int shadowType = tmpl->getShadowType();
 	g_00DFF080->addTree(id, *pos, scale, mtx, 0.0f, md, shadowType,
 		&tmpl->getShadowTextureName(), &tmpl->getName());

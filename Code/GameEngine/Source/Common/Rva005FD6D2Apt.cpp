@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva005FD6D2@Rva005FD6D2@@QAEX_N@Z retail 0x005FD6D2 91B
+// ?SetMoveUpButtonEnabled@Rva005FD6D2@@QAEX_N@Z retail 0x005FD6D2 91B
 // Evidence: chain via 0x005F8EDA AptCall; suffix up disabled inner plus8; level at +4 flag at 0x4d; sibling 0x005FD677 precedent; caller 0x005FD8B1
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
@@ -19,10 +19,10 @@ struct Rva005FD6D2
 	Rva005FD6D2Inner *m_inner8;
 	char m_padC[0x4D - 0xC];
 	bool m_flag4D;
-	void rva005FD6D2(bool enabled);
+	void SetMoveUpButtonEnabled(bool enabled);
 };
 
-void Rva005FD6D2::rva005FD6D2(bool enabled)
+void Rva005FD6D2::SetMoveUpButtonEnabled(bool enabled)
 {
 	if (enabled == m_flag4D)
 		return;

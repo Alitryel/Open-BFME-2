@@ -19,7 +19,7 @@ public:
 class ShroudManagerImpl008FBA40Element
 {
 public:
-	void updatePlayerCells008FC300(ShroudManagerImpl *manager, int playerIndex);
+	void AddLooker(ShroudManagerImpl *manager, int playerIndex);
 };
 
 class Rva0073BAA0Base
@@ -53,7 +53,7 @@ char Rva0073BAA0Base::rva0073BAA0(int x1, int x2, int y)
 					do
 					{
 						if (testFunc(x, y))
-							((ShroudManagerImpl008FBA40Element *)cell)->updatePlayerCells008FC300(
+							((ShroudManagerImpl008FBA40Element *)cell)->AddLooker(
 								(ShroudManagerImpl *)m_grid, index);
 						++x;
 						cell = (BfmeCellFD *)((char *)cell + 0xA8);

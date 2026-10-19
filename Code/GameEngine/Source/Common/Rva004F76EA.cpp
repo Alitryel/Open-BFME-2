@@ -1,6 +1,6 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
-// ?rva004F76EA@Rva004F76EA@@QAEXHHPAVRva004F76EAPred@@@Z, retail 0x004F76EA 71B.
+// ?enumerateReinforcementUnits@Rva004F76EA@@QAEXHHPAVRva004F76EAPred@@@Z, retail 0x004F76EA 71B.
 // Iterates vector<int> stored as map value: map array indexed by (a1+3),
 // find by a2 via rowed _M_find 0x00388F63, then calls virtual slot 0 on each
 // int until false. Evidence: ret 0xc three args plus thiscall, imul 0xc stride
@@ -26,12 +26,12 @@ public:
 class Rva004F76EA
 {
 public:
-	void rva004F76EA(int a1, int a2, Rva004F76EAPred *pred);
+	void enumerateReinforcementUnits(int a1, int a2, Rva004F76EAPred *pred);
 private:
 	_STL::map<int, int> m_maps[5];
 };
 
-void Rva004F76EA::rva004F76EA(int a1, int a2, Rva004F76EAPred *pred)
+void Rva004F76EA::enumerateReinforcementUnits(int a1, int a2, Rva004F76EAPred *pred)
 {
 	_STL::map<int, int> *m = &m_maps[a1 + 3];
 	_STL::map<int, int>::iterator it = m->find(a2);

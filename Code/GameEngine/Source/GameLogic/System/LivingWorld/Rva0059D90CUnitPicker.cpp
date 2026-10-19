@@ -50,7 +50,7 @@ struct BfmeE8
 class Rva004FF8DA
 {
 public:
-	bool rva004FF8DA(int type, int key);
+	bool HasUnitOfType(int type, int key);
 	void *rva004FF910(int type, int key);
 };
 
@@ -111,7 +111,7 @@ bool Rva0059D90C::rva0059D90C(_STL::vector<BfmeE8> *out, const Rva0059D90CSource
 			int bestType = 7;
 			for (int type = 0; type < 8; ++type)
 			{
-				if (m_counts[type] > best && types->rva004FF8DA(type, ((Rva0059D90CRegion *)TheLivingWorldLogic->getRegionManager()->rva0020EEF4((*ids)[i]))->m_type->m_key))
+				if (m_counts[type] > best && types->HasUnitOfType(type, ((Rva0059D90CRegion *)TheLivingWorldLogic->getRegionManager()->rva0020EEF4((*ids)[i]))->m_type->m_key))
 				{
 					best = m_counts[type];
 					bestType = type;

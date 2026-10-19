@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 // stlport
-// ?rva003593D8@Rva003593D8@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
+// ?removeMessageAction@Rva003593D8@@QAEII@Z 0x003593D8 16B; tree erase call and +0x24 this adjustment are retail evidence
 #include <map>
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
@@ -32,13 +32,13 @@ struct Rva00358E26Record
 class Rva003593D8
 {
 public:
-	unsigned int rva003593D8(int key);
+	unsigned int removeMessageAction(int key);
 private:
 	char m_pad00[0x24];
 	_STL::map<int, Rva00358E26Record> m_records;
 };
 
-unsigned int Rva003593D8::rva003593D8(int key)
+unsigned int Rva003593D8::removeMessageAction(int key)
 {
 	return m_records.erase(key);
 }

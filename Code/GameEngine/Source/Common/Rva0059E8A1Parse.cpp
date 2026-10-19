@@ -1,6 +1,6 @@
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?Rva0059E8A1Parse@@YAXPAX00@Z @0x0059E8A1 127B.
+// ?parseAsciiStringSetForPositionInfo@@YAXPAX00@Z @0x0059E8A1 127B.
 // Evidence: chain from PlayerPosition faction insert 0x3023B8 (now rowed);
 // parses an INI ascii-vector via rowed 0x2F196 then inserts each element into
 // the PlayerPosition set; null-guards on the store double-pointer; vector
@@ -39,8 +39,8 @@ public:
 	static void parseAsciiStringVector(INI *ini, void *instance, void *store, const void *userData);
 };
 
-// ?Rva0059E8A1Parse@@YAXPAX00@Z
-void Rva0059E8A1Parse(void *ini, void *unused, void *store)
+// ?parseAsciiStringSetForPositionInfo@@YAXPAX00@Z
+void parseAsciiStringSetForPositionInfo(void *ini, void *unused, void *store)
 {
 	if (!store)
 		return;

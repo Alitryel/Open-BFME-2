@@ -220,7 +220,7 @@ Int Rva00740A60Get(const StringBase<char> &name);
 class Rva007401A3
 {
 public:
-	void rva007401A3(Int a, Int b);
+	void SetFrame(Int a, Int b);
 };
 class Rva00740A96
 {
@@ -232,5 +232,5 @@ private:
 };
 void Rva00740A96::rva00740A96(Int a, const StringBase<char> &name)
 {
-	m_20.rva007401A3(a, Rva00740A60Get(name));
+	m_20.SetFrame(a, Rva00740A60Get(name));
 }

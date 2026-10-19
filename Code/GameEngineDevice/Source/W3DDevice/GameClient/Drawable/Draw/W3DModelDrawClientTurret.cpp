@@ -95,7 +95,7 @@ class TurretRenderView {public:
 };
 struct TurretInfoView {int angleName,pitchName;float artAngle,artPitch;int angleBone,pitchBone;};
 struct TurretStateView {char pad[0xd0];struct TurretVector {TurretInfoView *first,*last,*limit;unsigned size()const{return last-first;}const TurretInfoView &operator[](unsigned n)const{return first[n];}} turrets;char padDC[0xf5-0xdc];bool validTurrets;bool hasRecoil[6];};
-class Rva000B304B {public:void rva000B304B(void*,bool);};
+class Rva000B304B {public:void setMuzzleFlashHidden(void*,bool);};
 struct BarrelView {int recoilBone,fireBone,muzzleFlashBone;char rest[0x3c-12];};
 struct RecoilView {int state;float shift,rate;};
 template<class T>struct RecoilVectorView {T*first,*last,*limit;unsigned size()const{return last-first;}T*begin()const{return first;}T&operator[](int n)const{return *(begin()+n);}};
@@ -117,7 +117,7 @@ void W3DModelDraw::handleClientRecoil() {
   int count=barrels.size(),rc=r.size();
   count=(count>rc)?rc:count;
   for(int i=0;i<count;++i) {
-   if(barrels[i].muzzleFlashBone!=0) ((Rva000B304B*)&barrels[i])->rva000B304B(render,r[i].state!=1);
+   if(barrels[i].muzzleFlashBone!=0) ((Rva000B304B*)&barrels[i])->setMuzzleFlashHidden(render,r[i].state!=1);
    if(barrels[i].recoilBone) {
     switch(r[i].state) {
      case 0:break;

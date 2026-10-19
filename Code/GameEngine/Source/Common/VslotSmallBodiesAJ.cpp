@@ -61,7 +61,7 @@ class Rva005C3E79 { public: void rva005C3E79(); };
 class Rva00E01E28Owner { public: void rva003591F4(Rva003591F4Arg); };
 class HotKeyManager;
 extern HotKeyManager *TheHotKeyManager;
-class Rva003593D8 { public: unsigned int rva003593D8(int); };
+class Rva003593D8 { public: unsigned int removeMessageAction(int); };
 int GetAssociatedMessageType(int);
 class InGameToggleStanceCommandButton {
 public:
@@ -1760,7 +1760,7 @@ InGameToggleStanceCommandButton::Impl::~Impl()
    StanceHotKeyRecord &key=hotKeys[i];
    if(key.active) ((Rva00E01E28Owner *)TheHotKeyManager)->rva003591F4(key.action);
    int message=GetAssociatedMessageType(button14->getStance(i));
-   if(message) reinterpret_cast<Rva003593D8*>(TheHotKeyManager)->rva003593D8(message);
+   if(message) reinterpret_cast<Rva003593D8*>(TheHotKeyManager)->removeMessageAction(message);
    key.ref.clear();
   }
  }

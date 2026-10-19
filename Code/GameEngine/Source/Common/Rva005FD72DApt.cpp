@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva005FD72D@Rva005FD72D@@QAEX_N@Z retail 0x005FD72D 91B
+// ?SetSwapButtonEnabled@Rva005FD72D@@QAEX_N@Z retail 0x005FD72D 91B
 // Evidence: chain via 0x005F8EDA AptCall; suffix up disabled inner plus8; level at +4 flag at 0x4e; sibling 0x005FD677 precedent; caller 0x005FD8B9
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
@@ -19,10 +19,10 @@ struct Rva005FD72D
 	Rva005FD72DInner *m_inner8;
 	char m_padC[0x4E - 0xC];
 	bool m_flag4E;
-	void rva005FD72D(bool enabled);
+	void SetSwapButtonEnabled(bool enabled);
 };
 
-void Rva005FD72D::rva005FD72D(bool enabled)
+void Rva005FD72D::SetSwapButtonEnabled(bool enabled)
 {
 	if (enabled == m_flag4E)
 		return;

@@ -37,7 +37,7 @@ class Rva004FF8DA
 	char pad[0x38];
 	IntIntTree tree;
 public:
-	bool rva004FF8DA(int idx, int key);
+	bool HasUnitOfType(int idx, int key);
 	void *rva004FF910(int idx, int key);
 };
 
@@ -61,8 +61,8 @@ void *Rva004FF8DA::rva004FF910(int idx, int key)
 	return &arr[0][0];
 }
 
-// ?rva004FF8DA@Rva004FF8DA@@QAE_NHH@Z
-bool Rva004FF8DA::rva004FF8DA(int idx, int key)
+// ?HasUnitOfType@Rva004FF8DA@@QAE_NHH@Z
+bool Rva004FF8DA::HasUnitOfType(int idx, int key)
 {
 	_STL::_Rb_tree_node<IntIntPair> *node = tree._M_find(key);
 	UnitArray *arr = *(UnitArray **)((char *)node + 0x14);

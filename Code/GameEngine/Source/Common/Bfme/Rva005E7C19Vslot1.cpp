@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?rva005E712A@Rva005E7C19@@QAEXH@Z @0x005E712A 53B
+// ?OnBuildQueueIconSlotRightClicked@Rva005E7C19@@QAEXH@Z @0x005E712A 53B
 // Virtual slot 1 (offset 0x4) of vtable 0x00877F14 (class of ??1Rva005E7C19@@UAE@XZ).
 // Emits GameMessage 0x6AE via MessageStreamSubsystem slot 0x48 then two integer args:
 // chain this+4 -> +0x18 -> +0x18 int, plus this+8 int. Single int param unused (ret 4).
@@ -47,13 +47,13 @@ struct ChainA005E712A
 class Rva005E7C19
 {
 public:
-	void rva005E712A(int unused);
+	void OnBuildQueueIconSlotRightClicked(int unused);
 private:
 	void *m_00;
 	ChainA005E712A *m_04;
 	int m_08;
 };
-void Rva005E7C19::rva005E712A(int unused)
+void Rva005E7C19::OnBuildQueueIconSlotRightClicked(int unused)
 {
 	(void)unused;
 	GameMessage *msg = TheMessageStream->appendType(0x6AE);

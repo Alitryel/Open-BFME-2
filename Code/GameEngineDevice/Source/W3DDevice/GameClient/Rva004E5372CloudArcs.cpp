@@ -19,7 +19,7 @@
 #include <math.h>
 extern "C"void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-class Rva004E5344{public:void rva004E5344(float,float);Coord3D center;char unknown0C[12];float radius;};
+class Rva004E5344{public:void addAngle(float,float);Coord3D center;char unknown0C[12];float radius;};
 struct CloudArcNode {CloudArcNode*next,*prev;Rva004E5344 arc;};
 class Rva004E54B8{private:void helper004E5372();public:bool rva004E4EA3(Rva004E5344*,float);int word0;CloudArcNode*head;};
 bool Rva004E54B8::rva004E4EA3(Rva004E5344*arc,float angle){
@@ -46,11 +46,11 @@ void Rva004E54B8::helper004E5372(){
    else if(!hit){fullCircle=false;break;}
    first+=step;
   }
-  if(fullCircle){arc->rva004E5344(0.0f,turn);continue;}
+  if(fullCircle){arc->addAngle(0.0f,turn);continue;}
   float angle=first;float start=first;covered=false;float end=first+6.29300308f;
   for(;angle<=end;angle+=step){
    bool hit=rva004E4EA3(arc,angle);
-   if(!covered){if(hit){covered=true;arc->rva004E5344(start,angle);}}
+   if(!covered){if(hit){covered=true;arc->addAngle(start,angle);}}
    else if(!hit){float nextStart=angle;_ReadWriteBarrier();covered=false;start=nextStart;}
   }
  }

@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva0025C061@Rva0025C061@@QAEXPAX@Z, retail 0x0025C061, 28 bytes.
+// ?addObject@Rva0025C061@@QAEXPAX@Z, retail 0x0025C061, 28 bytes.
 // Reads ScienceType at arg+0x74 and pushes it into the vector<ScienceType> at
 // this+4 (callee ?push_back@?$vector@W4ScienceType@@V?$allocator@W4ScienceType@@@_STL@@@_STL@@QAEXABW4ScienceType@@@Z
 // rowed in Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp).
@@ -32,13 +32,13 @@ public:
 class Rva0025C061
 {
 public:
-	void rva0025C061(void *holder);
+	void addObject(void *holder);
 private:
 	int m_unk0;
 	_STL::vector<ScienceType, _STL::allocator<ScienceType> > m_sciences;
 };
 
-void Rva0025C061::rva0025C061(void *holder)
+void Rva0025C061::addObject(void *holder)
 {
 	m_sciences.push_back((ScienceType)*(int *)((char *)holder + 0x74));
 }
@@ -47,7 +47,7 @@ void Rva0025C061::rva0025C061(void *holder)
 // 0x0025C061, in the else branch). The value pushed is the object's +0x74.
 // __thiscall predicate over holder arg: requires Rva005964ECGet(holder)!=0,
 // then if inner(+4)[0x123]&1 pushes Science at holder+0x74 into derived
-// vector at this+0x10, else calls base Rva0025C061::rva0025C061(holder).
+// vector at this+0x10, else calls base Rva0025C061::addObject(holder).
 // Returns true in both push paths, false when predicate fails.
 // Evidence: push esi mov edi ecx call 0x5964EC test je; mov eax[esi+4] test
 // [eax+123]1 je to base call else vector push_back via 0x2E01C6; callers at
@@ -72,7 +72,7 @@ bool AIStructureStats::Register(Object *holder)
 		}
 		else
 		{
-			Rva0025C061::rva0025C061(holder);
+			Rva0025C061::addObject(holder);
 		}
 		return true;
 	}

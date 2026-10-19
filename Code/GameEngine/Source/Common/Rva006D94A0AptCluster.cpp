@@ -91,7 +91,7 @@ public:
 	BfmeAptValue006DCD20 *rva006DCEE0();
 	BfmeAptValue006DCD20 *rva006D8A50(int nIndex);
 	void rva006D9500(int nCapacity);
-	void rva006D8AD0(int nIndex, BfmeAptValue006DCD20 *pNewValue);
+	void SetAt(int nIndex, BfmeAptValue006DCD20 *pNewValue);
 	void rva006D95E0(int nIndex, BfmeAptValue006DCD20 *pValue);
 	void rva006DD6C0(EAStringC *pBuffer);
 	void rva006D94A0();

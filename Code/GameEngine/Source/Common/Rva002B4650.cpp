@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva002B4650@Rva002B4650@@QAEHXZ @0x002B4650 30B: __thiscall int gate.
+// ?GetTimeRemainingForCurrentPhaseInFrames@Rva002B4650@@QAEHXZ @0x002B4650 30B: __thiscall int gate.
 // Returns 1 only when the 0x2B2BAA guard passes and the 0x2B3DB2 measure
 // comes back zero (retained in eax: test/jne fail, inc eax on the zero
 // path). Evidence: retail
@@ -14,14 +14,14 @@ extern class GameLogic *TheGameLogic;
 extern class GameInfo *TheGameInfo;
 struct Rva002B2BAAGameInfo {char opaque[0x78];unsigned int count;};
 
-// The 0x002B3DB2 measure is the rowed Rva002B3DB2::rva002B3DB2 (Rva002B3D81.cpp).
-class Rva002B3DB2 {public: int rva002B3DB2();};
+// The 0x002B3DB2 measure is the rowed Rva002B3DB2::GetTimeAllowedForCurrentPhaseInFrames (Rva002B3D81.cpp).
+class Rva002B3DB2 {public: int GetTimeAllowedForCurrentPhaseInFrames();};
 
 class Rva002B4650
 {
 public:
 	bool rva002B2BAA();
-	int rva002B4650();
+	int GetTimeRemainingForCurrentPhaseInFrames();
 	int rva002B3DD0();
 private:
 	char m_opaque[0xF4];
@@ -30,10 +30,10 @@ private:
 
 extern int BfmeLogicFramesPerSecond;
 
-int Rva002B4650::rva002B4650()
+int Rva002B4650::GetTimeRemainingForCurrentPhaseInFrames()
 {
 	if (rva002B2BAA()) {
-		int n = ((Rva002B3DB2 *)this)->rva002B3DB2();
+		int n = ((Rva002B3DB2 *)this)->GetTimeAllowedForCurrentPhaseInFrames();
 		if (n == 0)
 			return ++n;
 	}
@@ -46,10 +46,10 @@ int Rva002B4650::rva002B4650()
 // unsigned arithmetic, gives retail's lea operand order.
 int Rva002B4650::rva002B3DD0()
 {
-	return ((unsigned int)((Rva002B3DB2 *)this)->rva002B3DB2() + (unsigned int)BfmeLogicFramesPerSecond - 1) / (unsigned int)BfmeLogicFramesPerSecond;
+	return ((unsigned int)((Rva002B3DB2 *)this)->GetTimeAllowedForCurrentPhaseInFrames() + (unsigned int)BfmeLogicFramesPerSecond - 1) / (unsigned int)BfmeLogicFramesPerSecond;
 }
 
-// Native 0x002B2BAA..0x002B2BEC, RET0. The existing rva002B4650
+// Native 0x002B2BAA..0x002B2BEC, RET0. The existing GetTimeRemainingForCurrentPhaseInFrames
 // calls this predicate. TheGameLogic and TheGameInfo reuse the canonical
 // global names; +F4 and the unsigned +78 count are consumed target fields.
 bool Rva002B4650::rva002B2BAA()

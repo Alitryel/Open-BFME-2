@@ -55,7 +55,7 @@ extern void bfmeMergeReceiverKeys(int value);
 class Rva009EB960;
 extern Rva009EB960 *Rva0134FAA0;
 
-class Rva007401A3 { public: void rva007401A3(int,int); };
+class Rva007401A3 { public: void SetFrame(int,int); };
 
 class W3DAptComponentView3D { public: class AnimInfo; };
 
@@ -63,7 +63,7 @@ class W3DAptComponentView3D::AnimInfo
 {
 public:
 	bool Init(const AsciiString &name, Rva00740AB4RefTarget *owner, int mode);
-	void publish(int first, int second) { ((Rva007401A3 *)this)->rva007401A3(first,second); }
+	void publish(int first, int second) { ((Rva007401A3 *)this)->SetFrame(first,second); }
 
 	Rva00740AB4RefTarget *m_owner;
 	HTreeClass *m_animation;

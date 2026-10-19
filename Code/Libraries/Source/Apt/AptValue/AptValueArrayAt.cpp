@@ -25,7 +25,7 @@ public:
     int isArray() const;
     BfmeAptValue006DCD20 *rva006DCFA0();
     BfmeAptValue006DCD20 *rva006D8A50(int nIndex);
-    void rva006D8AD0(int nIndex, BfmeAptValue006DCD20 *pNewValue);
+    void SetAt(int nIndex, BfmeAptValue006DCD20 *pNewValue);
 };
 class AptValue; extern AptValue *gpUndefinedValue;
 // g_aptUndefinedAtE18078: VA 0xe18078 (zero-filled .bss).
@@ -77,7 +77,7 @@ BfmeAptValue006DCD20 *__cdecl Rva006D9B50Pop(BfmeAptValue006DCD20 *pValue)
     }
     return undefined;
 }
-// ?rva006D8AD0@BfmeAptValue006DCD20@@QAEXHPAV1@@Z @0x006D8AD0 (140 bytes).
+// ?SetAt@BfmeAptValue006DCD20@@QAEXHPAV1@@Z @0x006D8AD0 (140 bytes).
 // Array set: asserts pNewValue != NULL at _Apt.h:0x117 then nIndex <
 // mnCapacity at _Apt.h:0x118 via the shared Apt assert pointer at
 // 0x00A17734 and break flag at 0x009DC01C, AddRefs the new value through
@@ -85,7 +85,7 @@ BfmeAptValue006DCD20 *__cdecl Rva006D9B50Pop(BfmeAptValue006DCD20 *pValue)
 // Layout (m_data at +0x20, mnCapacity at +0x24) matches 0x006D8A50 in this
 // TU; callers 0x006D9625 0x006D98E7 0x006D9C2A 0x006DA347 0x006DA537 pass
 // (index, value) with ecx=this.
-void BfmeAptValue006DCD20::rva006D8AD0(int nIndex, BfmeAptValue006DCD20 *pNewValue)
+void BfmeAptValue006DCD20::SetAt(int nIndex, BfmeAptValue006DCD20 *pNewValue)
 {
     if (!pNewValue) {
         g_bfmeAptAssertAtE17734("pNewValue != NULL", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_Apt.h", 0x117);

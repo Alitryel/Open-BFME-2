@@ -113,7 +113,7 @@ class Rva005C31FB
 public:
 	virtual ~Rva005C31FB();
 	Rva005C31FB(int level, const AsciiString &name);
-	void rva005C3209();
+	void DeleteContentMovieClip();
 
 private:
 	int m_level;
@@ -136,13 +136,13 @@ class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *t, void *a1, const char *a2, const char *a3);
 
-// ?rva005C3209@Rva005C31FB@@QAEXXZ @0x005C3209 55B: guarded DeleteContent AptCall.
+// ?DeleteContentMovieClip@Rva005C31FB@@QAEXXZ @0x005C3209 55B: guarded DeleteContent AptCall.
 // If flag +0xC is clear return; else pass level +4 and name text +8 (or
 // g_Rva0107301CEmptyString when null) with literal "DeleteContent" to rowed
 // 0x00524EF4, then clear flag. Evidence: retail cmp/je flag, mov/test/add-8
 // string select, pushes to 0x00524EF4, neighbours Rva005C31FB ctor in this TU,
 // precedent Rva005C394DGo.cpp, callers 0x005C7954 0x005E0DC0.
-void Rva005C31FB::rva005C3209()
+void Rva005C31FB::DeleteContentMovieClip()
 {
 	if (!m_flag0C)
 		return;

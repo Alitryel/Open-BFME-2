@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva007401A3@Rva007401A3@@QAEXHH@Z, retail 0x007401A3, 66 bytes.
+// ?SetFrame@Rva007401A3@@QAEXHH@Z, retail 0x007401A3, 66 bytes.
 // Setter caching two ints then notifying via vtable slot 0xB4 with float conversion.
 // Evidence: callers 0x00740AAB 0x00740BA7; callee virtual slot 0xB4; uses SSE cvtsi2ss.
 class NotifyTarget
@@ -55,14 +55,14 @@ public:
 class Rva007401A3
 {
 public:
-	void rva007401A3(int a, int b);
+	void SetFrame(int a, int b);
 private:
 	NotifyTarget *m_p0;
 	void *m_p1;
 	int m_08;
 	int m_0C;
 };
-void Rva007401A3::rva007401A3(int a, int b)
+void Rva007401A3::SetFrame(int a, int b)
 {
 	if (!m_p0)
 		return;

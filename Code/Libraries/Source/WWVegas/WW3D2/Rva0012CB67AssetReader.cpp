@@ -54,7 +54,7 @@ void Rva001804CBCreate(const char *,int,int);
 void Rva001800B2Create(const char *,int,int);
 void Rva0017FD2F_RegisterPrototype(const char *,int,int);
 class TextureAsset { public: static void Register(const char *); };
-void bfmeInvokeResourceEnumeration(void *,void *);
+void RegisterDependencies(void *,void *);
 struct Rva001408C0Target;
 class Rva0006C995 {public:Rva0006C995 *rva0006C995(Rva001408C0Target *);};
 struct Q1ReceiverLocalSet {
@@ -133,7 +133,7 @@ bool Rva0012CB67(_iobuf *file,bool skipTextures)
    --counts.dependencyCount;
   }
   if(counts.dependencyCount)break;
-  if(!dependencies.assets.empty())bfmeInvokeResourceEnumeration(parentName,&dependencies);
+  if(!dependencies.assets.empty())RegisterDependencies(parentName,&dependencies);
   }
   --counts.parentCount;
  }

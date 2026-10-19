@@ -41,7 +41,7 @@ public:
 class RadarWindowOverrideSource
 {
 public:
-	void rva002D36F5(const TreeHintRef00217D4C &hint);
+	void ShowHelpBox(const TreeHintRef00217D4C &hint);
 };
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
 
@@ -63,7 +63,7 @@ void Rva00405A50::rva00405A50()
 		if (hint.m_ptr)
 		{
 			if (theRadarWindowOverrideSource)
-				theRadarWindowOverrideSource->rva002D36F5(hint);
+				theRadarWindowOverrideSource->ShowHelpBox(hint);
 		}
 	}
 }

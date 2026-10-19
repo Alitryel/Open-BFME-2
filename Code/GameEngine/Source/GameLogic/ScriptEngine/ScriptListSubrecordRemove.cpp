@@ -104,7 +104,7 @@ public:
 	void deallocateEntry(int index);
 	int rva003B7C47(const StringBase<char> &key);
 	int rva003B7F8E(Rva003B573E *other, int index);
-	int rva003B820D(Rva003B573E *other, int index);
+	int take(Rva003B573E *other, int index);
 	void rva003B7096(int index);
 	void rva003B71B4(int index);
 private:
@@ -191,7 +191,7 @@ int Rva003B573E::rva003B7F8E(Rva003B573E *other, int index)
 // 0x003B847B on the ScriptList subobject at +0x2C. Its native key, indexed
 // record, node-link and removal operations independently agree with the
 // +0x0C subobject entry above. Original class/method identities are unknown.
-int Rva003B573E::rva003B820D(Rva003B573E *other, int index)
+int Rva003B573E::take(Rva003B573E *other, int index)
 {
 	Rva003B675BRecord *source = &other->m_records[index];
 	int destination = rva003B7C47(*(const StringBase<char> *)&source->m_name);

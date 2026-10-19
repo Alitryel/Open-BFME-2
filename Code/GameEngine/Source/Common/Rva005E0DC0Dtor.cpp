@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
 //
 // ??1Rva005E0DC0@@QAE@XZ @0x005E0DC0 93B
-// Non-virtual dtor: explicit m_04->rva005C3209 call then member dtors for
+// Non-virtual dtor: explicit m_04->DeleteContentMovieClip call then member dtors for
 // AsciiString +0xC plus three vector wrappers +0x10 +0x1C +0x28. Evidence:
 // retail EH states 3/2/1/0 with releaseBuffer last, callees rowed 0x005C3209
 // 0x005242D7 0x00524349 0x0052413E plus releaseBuffer 0x00036410, callers
@@ -11,7 +11,7 @@
 class Rva005C31FB
 {
 public:
-	void rva005C3209();
+	void DeleteContentMovieClip();
 };
 
 class Rva005242D7
@@ -54,5 +54,5 @@ private:
 
 Rva005E0DC0::~Rva005E0DC0()
 {
-	m_04->rva005C3209();
+	m_04->DeleteContentMovieClip();
 }

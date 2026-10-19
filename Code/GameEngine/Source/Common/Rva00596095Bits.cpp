@@ -86,7 +86,7 @@ Int __stdcall Rva00596446Get(void *arg)
 }
 // ?rva00596472@Rva0025C061@@QAE_NPAX@Z @0x00596472 31B
 // __thiscall predicate over holder: requires Rva00596446Get(holder)!=0
-// (byte test al), then calls this Rva0025C061::rva0025C061(holder) with same
+// (byte test al), then calls this Rva0025C061::addObject(holder) with same
 // ecx and returns true, else false. Same-this ECX survives because callee
 // definition is visible in this TU (shape-lever visibility); separate TU
 // spills this to esi and grows to 37B.
@@ -118,7 +118,7 @@ public:
 class Rva0025C061
 {
 public:
-	void rva0025C061(void *holder);
+	void addObject(void *holder);
 	bool rva00596472(void *holder);
 	bool rva005960C1(void *holder);
 private:
@@ -130,12 +130,12 @@ bool Rva0025C061::rva00596472(void *holder)
 {
 	if (((unsigned char)Rva00596446Get(holder)) != 0)
 	{
-		rva0025C061(holder);
+		addObject(holder);
 		return true;
 	}
 	return false;
 }
-// ?rva00596491@AIStatBase@@QAE_NPAX@Z @0x00596491 31B
+// ?UnRegister@AIStatBase@@QAE_NPAX@Z @0x00596491 31B
 // __thiscall predicate over holder: requires Rva00596446Get(holder)!=0
 // (byte test al), then calls this AIStatBase::removeObject(holder) with same
 // ecx and returns true, else false. Same-this ECX survives because callee
@@ -147,14 +147,14 @@ class AIStatBase
 {
 public:
 	bool removeObject(void *holder);
-	bool rva00596491(void *holder);
+	bool UnRegister(void *holder);
 	bool rva005960E0(void *holder);
 private:
 	char m_pad[4];
 	_STL::vector<CreateAHeroData *, _STL::allocator<CreateAHeroData *> > m_vec04;
 };
 
-bool AIStatBase::rva00596491(void *holder)
+bool AIStatBase::UnRegister(void *holder)
 {
 	if (((unsigned char)Rva00596446Get(holder)) != 0)
 	{
@@ -165,7 +165,7 @@ bool AIStatBase::rva00596491(void *holder)
 }
 // ?rva005960C1@Rva0025C061@@QAE_NPAX@Z @0x005960C1 31B
 // __thiscall predicate over holder: requires Rva00596095Get(holder)!=0
-// (byte test al), then calls this Rva0025C061::rva0025C061(holder) with same
+// (byte test al), then calls this Rva0025C061::addObject(holder) with same
 // ecx and returns true, else false. Same-this ECX survives because callee
 // definition is visible in this TU (shape-lever visibility).
 // Evidence: push [esp+4] call 0x596095 test al je; push [esp+4] call 0x25C061;
@@ -174,7 +174,7 @@ bool Rva0025C061::rva005960C1(void *holder)
 {
 	if (((unsigned char)Rva00596095Get(holder)) != 0)
 	{
-		rva0025C061(holder);
+		addObject(holder);
 		return true;
 	}
 	return false;

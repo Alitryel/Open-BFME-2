@@ -67,7 +67,7 @@ class Rva002E071E {public:int rva002E0BC0(int);};
 struct ArmyMoverRegionInfo {int id,owner,m_08,m_0c;_STL::vector<int>m_10,m_1c,m_28,m_34,m_40;IntMap armies;};
 struct Rva004FF5B7Node:public _STL::_Rb_tree_node_base {int key;ArmyMoverRegionInfo region;};
 struct Rva004FF5B7Iter {Rva004FF5B7Node*m_ptr;};
-class Rva004FF5B7 {public:__forceinline ArmyMoverRegionInfo*get(int id){return &rva004FF5B7(id).m_ptr->region;}Rva004FF5B7Iter rva004FF5B7(int);};
+class Rva004FF5B7 {public:__forceinline ArmyMoverRegionInfo*get(int id){return &GetRegionInfo(id).m_ptr->region;}Rva004FF5B7Iter GetRegionInfo(int);};
 struct ArmyMoverDistanceLookup { IntMap::iterator find(int id){return ((IntMap*)this)->find(id);} };
 extern unsigned g_Va00E04544;
 int GetGameLogicRandomValue(int,int,char*,int);
@@ -315,7 +315,7 @@ void LivingWorldAIArmyMover::rva0059C93C(_STL::vector<BfmePod20>*moves,int playe
   for(j=0;j<moves->size();++j)if((*moves)[j].m_id==army->GetID())break;
   if(j<moves->size())continue;
   ArmyMoverRegionInfo*from=info->get((*armies)[a].region->id);
-  Rva004FF5B7Iter fromIt=info->rva004FF5B7((*armies)[a].region->id);
+  Rva004FF5B7Iter fromIt=info->GetRegionInfo((*armies)[a].region->id);
   int closestDistance=9999;
   int closest=((Rva005003DF*)info)->rva005003DF(playerID,from->id,&closestDistance);
   int targetID=-1,targetDistance=9999;
@@ -332,7 +332,7 @@ void LivingWorldAIArmyMover::rva0059C93C(_STL::vector<BfmePod20>*moves,int playe
   if(((Rva004FFA6E*)info)->rva004FF9DC(playerID,1,(Rva004FFA6ESource*const&)fromIt.m_ptr))bestScore+=5+from->m_10.size()*5;
   _STL::pair<IntTree::iterator,IntTree::iterator> range=distances.first().equal_range(1);
   for(IntTree::iterator it=range.first;it!=range.second;++it) {
-   Rva004FF5B7Iter region=info->rva004FF5B7(it->second);
+   Rva004FF5B7Iter region=info->GetRegionInfo(it->second);
    int score=region.m_ptr->region.m_08;
    ArmyMoverRegion*r=(ArmyMoverRegion*)((Rva0020EAF6View*)((StrategyLogic*)TheLivingWorldLogic)->getManager())->rva0020EAF6(region.m_ptr->region.id);
    int outcome=WinTestBattle(r,1,playerID,(const ModuleData*)army,unused,info,difficulty);

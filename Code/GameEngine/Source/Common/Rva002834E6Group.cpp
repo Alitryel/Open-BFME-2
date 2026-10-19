@@ -39,7 +39,7 @@ public:
 class Rva002834E6Owner
 {
 public:
-	void rva002834E6(void *key);
+	void addObject(void *key);
 
 private:
 	char m_pad00[4];
@@ -69,7 +69,7 @@ private:
 namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::_M_insert_overflow(Rva004DFCB0Element *,Rva004DFCB0Element const &,_STL::__false_type const &,unsigned int,bool); }
 namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::push_back(Rva004DFCB0Element const &); }
 // bfme link decl-only end
-void Rva002834E6Owner::rva002834E6(void *key)
+void Rva002834E6Owner::addObject(void *key)
 {
 	Rva004DFCB0Element const &element = *(Rva004DFCB0Element const *)&key;
 	m_values.push_back(element);
@@ -85,7 +85,7 @@ void Rva0028360CHost::rva0028360C()
 	{
 		if (it == end)
 			break;
-		((Rva002834E6Owner *)m_worker)->rva002834E6(*it);
+		((Rva002834E6Owner *)m_worker)->addObject(*it);
 		++it;
 	}
 }

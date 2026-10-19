@@ -3,7 +3,7 @@
 // ?UnRegister@AIStatCollector@@QAEXPAX@Z @0x004E0425 180B.
 // Five-pointer dispatch plus name-keyed release. Retail 0x004E0425..0x004E04D9.
 // thiscall (void* holder), ret 4. Member evidence from the call sequence:
-//   m_0C->rva00596491(holder) true  -> loop(holder,2), any++, done=1
+//   m_0C->UnRegister(holder) true  -> loop(holder,2), any++, done=1
 //   m_08->UnRegister(holder) true  -> loop(holder,1), any=1, done=any
 //   any != 0                        -> m_10->rva004E02D7(holder)
 //   m_00->UnRegister(holder) || m_04->rva005960E0(holder) -> loop(holder,4), done=1
@@ -132,7 +132,7 @@ typedef _STL::hashtable<_STL::pair<const NameKeyType, ArmorTemplate>, NameKeyTyp
 class AIStatBase
 {
 public:
-	bool rva00596491(void *holder);
+	bool UnRegister(void *holder);
 	bool rva005960E0(void *holder);
 };
 
@@ -232,7 +232,7 @@ void AIStatCollector::UnRegister(void *holder)
 {
 	bool done = false;
 	unsigned char any = 0;
-	if (m_0C->rva00596491(holder))
+	if (m_0C->UnRegister(holder))
 	{
 		Rva004DF9E4::rva004DF9E4(holder, 2);
 		++any;

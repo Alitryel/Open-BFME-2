@@ -43,7 +43,7 @@ public:
 class Rva0025C061
 {
 public:
-	void rva0025C061(void *holder);
+	void addObject(void *holder);
 private:
 	int m_unk0;
 	_STL::vector<ScienceType, _STL::allocator<ScienceType> > m_sciences;
@@ -82,7 +82,7 @@ bool AIUnitStats::Register(void *holder)
 					((_STL::vector<ScienceType, _STL::allocator<ScienceType> > *)((char *)this + 0x98))->push_back((ScienceType)*(int *)((char *)holder + 0x74));
 			}
 		} else {
-			((Rva0025C061 *)this)->rva0025C061(holder);
+			((Rva0025C061 *)this)->addObject(holder);
 			((Rva003ECA69Element *)((char *)this + 0x10))->rva003ECB52((Rva003ECB52Arg *)holder);
 		}
 		return true;

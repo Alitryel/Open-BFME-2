@@ -3,7 +3,7 @@
 class Rva000B304B
 {
 public:
-	void rva000B304B(void *p, bool flag);
+	void setMuzzleFlashHidden(void *p, bool flag);
 };
 
 struct Elem000B5179
@@ -49,7 +49,7 @@ void Rva000B5179Apply(void *a1_, void *a2_, void *a3_)
 			Elem000B5179 *beg = *(ppEnd - 1);
 			for (Elem000B5179 *p = beg; p != *ppEnd; ++p) {
 				if (p->m08 != 0)
-					((Rva000B304B *)p)->rva000B304B(a3, true);
+					((Rva000B304B *)p)->setMuzzleFlashHidden(a3, true);
 			}
 		}
 	}

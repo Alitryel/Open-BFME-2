@@ -171,7 +171,7 @@ public:
 	void rva002D35F2( void );
 	void rva002D370A( void );
 	void rva002D3615( bool value );
-	void rva002D36F5(const TreeHintRef00217D4C &hint);
+	void ShowHelpBox(const TreeHintRef00217D4C &hint);
 	void rva002D4240(bool immediate);
 
 private:
@@ -207,9 +207,9 @@ void RadarWindowOverrideSource::rva002D3615( bool value )
 	setHideScroll();
 }
 
-// ?rva002D36F5@RadarWindowOverrideSource@@QAEXABUTreeHintRef00217D4C@@@Z @0x002D36F5 21B. Forwards TreeHintRef to +0xC8 object slot0 via 0x001FF3A9 forwarder.
+// ?ShowHelpBox@RadarWindowOverrideSource@@QAEXABUTreeHintRef00217D4C@@@Z @0x002D36F5 21B. Forwards TreeHintRef to +0xC8 object slot0 via 0x001FF3A9 forwarder.
 // Evidence: caller 0x00405A86 passes TreeHintRef with this=theRadarWindowOverrideSource; same +0x10/+0xC8 chase as sibling rva002D370A; pin QAEXABU TreeHintRef at 0x001FF3A9.
-void RadarWindowOverrideSource::rva002D36F5(const TreeHintRef00217D4C &hint)
+void RadarWindowOverrideSource::ShowHelpBox(const TreeHintRef00217D4C &hint)
 {
 	Rva001FF3A9 *p = (Rva001FF3A9 *)m_inner->m_C8.m_pointer;
 	if (p)

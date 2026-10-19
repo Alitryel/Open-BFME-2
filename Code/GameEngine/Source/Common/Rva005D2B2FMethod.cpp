@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
-// ?rva005D2B2F@Rva005D25F2@@UAEXHM@Z @0x005D2B2F 165B: virtual slot 4 offset 0x10 of vtable 0x00875800.
+// ?DoFlashButton@Rva005D25F2@@UAEXHM@Z @0x005D2B2F 165B: virtual slot 4 offset 0x10 of vtable 0x00875800.
 // Evidence: (idx+1)*0x1C array like sibling Rva005D2664, timeGetTime plus floor plus fast_round fistp,
 // Fire 0x00525338 with SetFlashEffectState plus _show/_hide plus GetStr of AsciiString at +8,
 // globals g_00BBE358 g_Va007C26F0 TheRva00222A8BTarget, x87 blocker needs inline asm fast_round.
@@ -51,7 +51,7 @@ public:
  virtual void rva005D264D(int,const struct TreeHintRef00217D4C &);
  virtual void rva005D2664(int);
  virtual void rva005D269B();
- virtual void rva005D2B2F(int idx, float val);
+ virtual void DoFlashButton(int idx, float val);
 private:
 	void *m_04;
 	AsciiString m_08;
@@ -59,7 +59,7 @@ private:
 	Elem005D2B2F m_1C[6];
 };
 
-void Rva005D25F2::rva005D2B2F(int idx, float val)
+void Rva005D25F2::DoFlashButton(int idx, float val)
 {
 	Elem005D2B2F *e = (Elem005D2B2F *)((char *)this + (idx + 1) * 0x1C);
 	int old = e->m_18;

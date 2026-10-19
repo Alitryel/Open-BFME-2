@@ -192,7 +192,7 @@ struct StateView367 {char pad00[0xAC];BarrelVector367 barrels[3];char padD0[0xF4
 struct RecoilView367 {int state;float value04,value08;};
 struct RecoilVector367 {RecoilView367*begin,*end,*capacity;};
 struct DataView367 {char pad00[0x54];float initial54;};
-class Rva000B304B {public:void rva000B304B(void*,bool);};
+class Rva000B304B {public:void setMuzzleFlashHidden(void*,bool);};
 class RenderView367 {public:virtual void v000();virtual void v001();virtual void v002();virtual void v003();
 virtual void v004();virtual void v005();virtual void v006();virtual void v007();
 virtual void v008();virtual void v009();virtual void v010();virtual void v011();
@@ -668,7 +668,7 @@ bool W3DScriptedModelDraw::handleWeaponFireFX(int slot,int barrel,const FXList*f
   if(!recoil.state){
    recoil.state=1;
    recoil.value08=(*(DataView367**)((char*)this-8))->initial54;
-   if(info.muzzle08)((Rva000B304B*)&info)->rva000B304B(render44,false);
+   if(info.muzzle08)((Rva000B304B*)&info)->setMuzzleFlashHidden(render44,false);
   }
  }
  return handled;

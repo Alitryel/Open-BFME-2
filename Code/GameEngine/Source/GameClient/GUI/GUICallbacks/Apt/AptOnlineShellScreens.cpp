@@ -149,7 +149,7 @@ public:
 
 	void ShellUnloadScreen(const char *name);
 	void ShellLoadScreen(const char *name);
-	void rva00517207(int query, char *value, bool set);
+	void ExternFunc(int query, char *value, bool set);
 	void rva00516F08();
 
 private:
@@ -271,7 +271,7 @@ void AptOnline::rva00516F08()
 // "OnlineShellStartScreen" (0: the current sub-screen's name, read only)
 // and "OnlineAdvMode" (1: the GameSpy misc preference "InAdvMode"), so it
 // keeps its address.
-void AptOnline::rva00517207(int query, char *value, bool set)
+void AptOnline::ExternFunc(int query, char *value, bool set)
 {
 	if (!set)
 		value[0] = 0;

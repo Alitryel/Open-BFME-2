@@ -181,7 +181,7 @@ public:
 	void rva004E434C(int query, char *result, bool set);
 	// "Objective%d", the row's objective text
 	// (AptPlayerStatusObjectiveText.cpp).
-	void rva004E4553(int row, char *result, bool set);
+	void ExternsObjective(int row, char *result, bool set);
 	// Unrowed 0x004E476C: fills the player table from the game slots.
 	void rva004E476C();
 	// "PlayerTable:<row>:<column>" (rowed as the stdcall

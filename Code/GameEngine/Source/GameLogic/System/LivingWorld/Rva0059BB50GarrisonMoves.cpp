@@ -203,13 +203,13 @@ struct Rva004FF5B7Iter
 class Rva004FF5B7
 {
 public:
-	Rva004FF5B7Iter rva004FF5B7(int key);
+	Rva004FF5B7Iter GetRegionInfo(int key);
 };
 
 class Rva004FF9C9
 {
 public:
-	void *rva004FF9C9(int key);
+	void *GetGarrisonArmies(int key);
 };
 
 struct Rva004FFB00Hero
@@ -266,7 +266,7 @@ void Rva0059BB50::rva0059BB50(int moves, int playerId, int unused, int armies)
 	Rva002E2903Player *player =
 		((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(playerId, 0);
 	Rva0059BB50Records *garrisons =
-		(Rva0059BB50Records *)((Rva004FF9C9 *)armies)->rva004FF9C9(playerId);
+		(Rva0059BB50Records *)((Rva004FF9C9 *)armies)->GetGarrisonArmies(playerId);
 	for (unsigned int i = 0; i < garrisons->size(); ++i)
 	{
 		Rva0059BB50Army *army = (Rva0059BB50Army *)((Rva002E0A9FElem *)player)->rva002E0A9F((void *)(*garrisons)[i].id);
@@ -292,7 +292,7 @@ void Rva0059BB50::rva0059BB50(int moves, int playerId, int unused, int armies)
 		Rva0059BB50Range range = ((Rva0059BB50IntTree *)&links)->equal_range(1);
 		for (Rva0059BB50IntTree::iterator it = range.first; it != range.second; ++it)
 		{
-			Rva004FF5B7Iter region = ((Rva004FF5B7 *)armies)->rva004FF5B7((*it).second);
+			Rva004FF5B7Iter region = ((Rva004FF5B7 *)armies)->GetRegionInfo((*it).second);
 			if ((unsigned char)((Rva002E071E *)player)->rva002E0BC0(region.m_ptr->m_10)
 				&& rva0050059A(from, region.m_ptr->m_14) < distance)
 			{

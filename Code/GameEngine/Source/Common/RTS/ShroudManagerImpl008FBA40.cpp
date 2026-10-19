@@ -165,11 +165,11 @@ public:
 	__declspec(noinline) ~ShroudManagerImpl008FBA40Element() {}
 	void adjustPlayerCounter008FC1F0(int playerIndex, int counterIndex,
 		int amount);
-	void updatePlayerCells008FC300(ShroudManagerImpl *manager,
+	void AddLooker(ShroudManagerImpl *manager,
 		int playerIndex);
 	void updatePlayerCells008FC3B0(ShroudManagerImpl *manager,
 		int playerIndex);
-	void updatePlayerCells008FC450(ShroudManagerImpl *manager,
+	void ShroudIfFogged(ShroudManagerImpl *manager,
 		int playerIndex);
 	__declspec(noinline) int getPlayerStatus_Rva0073EA40(int playerIndex);
 
@@ -345,7 +345,7 @@ void ShroudManagerImpl::RevealMapForPlayerPermanently(
 		for (ShroudManagerImpl008FBA40Element *element = elements;
 			element != end; ++element)
 		{
-			element->updatePlayerCells008FC300(this, playerIndex);
+			element->AddLooker(this, playerIndex);
 		}
 	}
 }
@@ -363,7 +363,7 @@ void ShroudManagerImpl::RevealMapForPlayer(
 		ShroudManagerImpl008FBA40Element *end = element + height * width;
 		while (element != end)
 		{
-			element->updatePlayerCells008FC300(this, playerIndex);
+			element->AddLooker(this, playerIndex);
 			element->updatePlayerCells008FC3B0(this, playerIndex);
 			++element;
 		}
@@ -550,7 +550,7 @@ void ShroudManagerImpl008FBA40Element::adjustPlayerCounter008FC1F0(
 // Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: the
 // reveal-count-increment variant refreshes through the manager callback when
 // the visible status word changes.
-void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC300(
+void ShroudManagerImpl008FBA40Element::AddLooker(
 	ShroudManagerImpl *manager, int playerIndex)
 {
 	ShroudManagerImpl008FBA40PlayerState &playerState =
@@ -609,7 +609,7 @@ void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC3B0(
 
 // Transferred from BFME 1's ShroudManagerImpl.cpp verbatim: the
 // full-shroud variant sets the status word and reports constant status 2.
-void ShroudManagerImpl008FBA40Element::updatePlayerCells008FC450(
+void ShroudManagerImpl008FBA40Element::ShroudIfFogged(
 	ShroudManagerImpl *manager, int playerIndex)
 {
 	ShroudManagerImpl008FBA40PlayerState &playerState =
@@ -696,7 +696,7 @@ void ShroudManager::ShroudMapForPlayer(int playerIndex)
 		for (ShroudManagerImpl008FBA40Element *element = elements;
 			element != end; ++element)
 		{
-			element->updatePlayerCells008FC450(this, playerIndex);
+			element->ShroudIfFogged(this, playerIndex);
 		}
 	}
 }

@@ -191,7 +191,7 @@ Int Rva00740A60Get(const StringBase<char> &name);
 class Rva007401A3
 {
 public:
-	void rva007401A3(Int a, Int b);
+	void SetFrame(Int a, Int b);
 };
 class Rva00740A96
 {

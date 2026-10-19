@@ -22,7 +22,7 @@ template<> struct __type_traits<BfmeScriptSlotAddress> : __type_traits_aux<1> {}
 // 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus /O1). Compiled
 // that way each body below places uniquely on unclaimed game.dat .text by
 // masked whole-.text search, and ./build.sh reproduces it byte for byte:
-// BfmeOwnerZK::bfmeRelinkZK 0x003B8556 (51B). Callee addresses are read off
+// BfmeOwnerZK::takeScript 0x003B8556 (51B). Callee addresses are read off
 // retail's call sites (reverse/symbols.csv). Only the placed bodies are
 // carried; the donor's other definitions are omitted.
 // Retail RVA 0x0035DCF0. The body walks a singly linked list to find the slot
@@ -50,7 +50,7 @@ template<class T> class StringBase;
 class Rva003B573E
 {
 public:
-	int rva003B820D(Rva003B573E *other, int index);
+	int take(Rva003B573E *other, int index);
 	int rva003B7F46(int index, const StringBase<char> &key);
 	int rva003B81C5(int index, const StringBase<char> &key);
 	unsigned char m_head[0x0C];
@@ -73,7 +73,7 @@ struct BfmeHeadZK
 class BfmeOwnerZK
 {
 public:
-	void bfmeRelinkZK(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
+	void takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
 		BfmeHeadZK *fallback, BfmeNodeZK **where);
 	void bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to);
 	void rva003B8383(BfmeNodeZK *node, const StringBase<char> &key);
@@ -85,7 +85,7 @@ private:
 	Rva003B573E m_table;
 };
 
-void BfmeOwnerZK::bfmeRelinkZK(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
+void BfmeOwnerZK::takeScript(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *node,
 	BfmeHeadZK *fallback, BfmeNodeZK **where)
 {
 	BfmeNodeZK **slot = &list->m_bfmeFirstZK;
@@ -111,7 +111,7 @@ void BfmeOwnerZK::bfmeRelinkZK(BfmeKeyZK *key, BfmeHeadZK *list, BfmeNodeZK *nod
 void BfmeOwnerZK::bfmeMoveZK(BfmeKeyZK *key, BfmeNodeZK **from, BfmeNodeZK **to)
 {
 	int id = (*from)->m_bfmeIdZK;
-	int index = m_table.rva003B820D((Rva003B573E *)key->m_table, id);
+	int index = m_table.take((Rva003B573E *)key->m_table, id);
 	if (index == -1)
 		return;
 	(*from)->m_bfmeIdZK = index;

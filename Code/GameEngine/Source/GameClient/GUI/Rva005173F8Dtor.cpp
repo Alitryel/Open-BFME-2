@@ -63,7 +63,7 @@ public:
  void OnInitialized(const char*);
  void ShellLoadScreen(const char*);void ShellUnloadScreen(const char*);
  void Options(const char*);void ShellExit(const char*);
- void rva00517207(int query, char *value, bool set); // rowed 0x00517207 void(int,char*,bool)
+ void ExternFunc(int query, char *value, bool set); // rowed 0x00517207 void(int,char*,bool)
 };
 
 struct Rva00416088 {
@@ -180,12 +180,12 @@ Rva005173F8::Rva005173F8(void *context):_bfme_AptGameWindow(context),m_currentSc
   m_commandMaps.AddCommandMap(name,AptRef<AptCommandMap>(FunctorBinding(method,reinterpret_cast<FunctorTarget*>(this))));
  }
  {
-  FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptOnline::rva00517207);
+  FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptOnline::ExternFunc);
   AsciiString name("OnlineShellStartScreen");
   m_externHandlers.AddExternHandler(name,0,AptRef<AptExternHandler>(FunctorBinding(method,reinterpret_cast<FunctorTarget*>(this))));
  }
  {
-  FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptOnline::rva00517207);
+  FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptOnline::ExternFunc);
   AsciiString name("OnlineAdvMode");
   m_externHandlers.AddExternHandler(name,1,AptRef<AptExternHandler>(FunctorBinding(method,reinterpret_cast<FunctorTarget*>(this))));
  }

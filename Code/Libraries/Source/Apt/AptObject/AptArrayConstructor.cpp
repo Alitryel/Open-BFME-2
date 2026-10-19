@@ -244,7 +244,7 @@ AptValue *AptArray::sMethod_concat(AptValue *pThis,int nParams) {
 }
 
 #pragma comment(linker, "/alternatename:?_reserve@AptArray@@QAEXH@Z=?rva006D9500@Rva006D9500@@QAEXH@Z")
-#pragma comment(linker, "/alternatename:?SetAt@AptArray@@QAEXHPAVAptValue@@@Z=?rva006D8AD0@BfmeAptValue006DCD20@@QAEXHPAV1@@Z")
+#pragma comment(linker, "/alternatename:?SetAt@AptArray@@QAEXHPAVAptValue@@@Z=?SetAt@BfmeAptValue006DCD20@@QAEXHPAV1@@Z")
 
 class AptString : public AptValue { public: static AptString *Create(); EAStringC str; };
 AptValue *AptArray::sMethod_join(AptValue *pThis,int nParams) {

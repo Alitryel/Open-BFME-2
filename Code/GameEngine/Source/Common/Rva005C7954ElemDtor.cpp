@@ -12,7 +12,7 @@ int __cdecl Rva005FB5E6AptCall(Rva00222A8BTarget *target, void *level, const cha
 class Rva005C31FB
 {
 public:
-	void rva005C3209();
+	void DeleteContentMovieClip();
 };
 
 // Owner vtable installed by the factory at 0x005C802B. Callback bodies
@@ -144,5 +144,5 @@ InGameCommandButtonMovieClip::Impl::~Impl()
 			Rva005FB5E6AptCall(TheRva00222A8BTarget, m_08, s, "SetFlashEffectState", "_hide");
 		}
 	}
-	m_04->rva005C3209();
+	m_04->DeleteContentMovieClip();
 }

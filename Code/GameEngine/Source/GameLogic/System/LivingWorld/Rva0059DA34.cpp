@@ -62,7 +62,7 @@ struct Rva004FF5B7Iter
 class Rva004FF5B7
 {
 public:
-	Rva004FF5B7Iter rva004FF5B7(int key);
+	Rva004FF5B7Iter GetRegionInfo(int key);
 };
 
 struct Rva0059DA34Region
@@ -168,7 +168,7 @@ int Rva0059DA34::rva0059DA34(int key, int limit, bool matchEqual, int maxLevel, 
 		_STL::pair<_STL::multimap<int, int>::const_iterator, _STL::multimap<int, int>::const_iterator> range = levels->equal_range(key);
 		for (_STL::multimap<int, int>::const_iterator it = range.first; it != range.second; ++it)
 		{
-			Rva0059DA34Region *region = (Rva0059DA34Region *)info->rva004FF5B7(it->second).m_ptr->m_value;
+			Rva0059DA34Region *region = (Rva0059DA34Region *)info->GetRegionInfo(it->second).m_ptr->m_value;
 			for (_STL::multimap<int, Rva00501E3FElement>::iterator r = region->m_4c.begin(); r != region->m_4c.end(); ++r)
 			{
 				if ((matchEqual && r->first == limit) || (!matchEqual && r->first != limit))

@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00431E95@Rva00431E95@@QAEHPAX@Z @0x00431E95 65B.
+// ?HandleButtonUp@Rva00431E95@@QAEHPAX@Z @0x00431E95 65B.
 // Evidence: chain via 0x004319F2; helper new 12B with vtable g_00C3C9AC plus final
 // Rva00575674 call; rowed new 0x0002FDA0 rva00575674 0x00575674 Rva004319F2Update;
 // callers 0x004320B1; prev Rva00431C35 next Rva00431F0C same dir same flags.
@@ -32,12 +32,12 @@ class Rva00431E95
 	void *m_00;
 	void *m_04;
 public:
-	int rva00431E95(void *p);
+	int HandleButtonUp(void *p);
 };
 
 void *__cdecl operator new(unsigned int size);
 
-int Rva00431E95::rva00431E95(void *p)
+int Rva00431E95::HandleButtonUp(void *p)
 {
 	Rva004319F2Update();
 	Rva00431E95Param *par = (Rva00431E95Param *)p;

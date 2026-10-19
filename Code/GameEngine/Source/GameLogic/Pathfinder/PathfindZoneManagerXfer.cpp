@@ -97,9 +97,9 @@ public:
  Rva00531E14(unsigned short n) {rva00531D08(n);}
  Rva00531E14 &rva00531D08(unsigned short);
 	~Rva00531E14() { delete [] table; }
- unsigned char rva00531E14(unsigned short);
- unsigned char rva00531DAE(unsigned short);
- unsigned short rva00531D52();
+ unsigned char IsUsed_SlowMethod(unsigned short);
+ unsigned char ReleaseUse(unsigned short);
+ unsigned short GetAndUseNew();
  unsigned short rva00531DE1();
 	unsigned short capacity, first, second, end;
 	unsigned short *table;
@@ -194,7 +194,7 @@ void PathfindZoneManager::DoXfer(Xfer *xfer)
 		// only0/1. Its representation is also the native transferred Bool;
 		// this view avoids an unnecessary second boolean normalization.
 		union { bool b; unsigned char raw; } value;
-		value.raw = rva00531E14(k);
+		value.raw = IsUsed_SlowMethod(k);
 		bool &used = value.b;
 		xfer->xferBool(&used);
 		if (used) reinterpret_cast<CellType *>(unknown0C)[k].DoXfer(xfer);
@@ -521,7 +521,7 @@ void PathfindZoneManager::rva005329C8(PathfindCell **map,const IRegion2D &region
  for(unsigned n=0;n<count;++n) {
   if(((Rva00531ED3 *)&local)->rva00531ED3((unsigned short)n)!=n)continue;
   initialized[n]=false;
-  mappedID[n]=rva00531D52();
+  mappedID[n]=GetAndUseNew();
   changed.SetBit(mappedID[n]);
   for(int variant=0;variant<8;variant+=2)
    for(int equivalent=0;equivalent<7;++equivalent)
@@ -574,7 +574,7 @@ void PathfindZoneManager::rva00532FEA(Block *block,PathfindCell **map,const IReg
      changed.SetBit(map[x][y].getZone());changed.SetBit(map[x][y+1].getZone());
     }
    }
-   if(rva00531DAE(map[x][y].getZone())) {
+   if(ReleaseUse(map[x][y].getZone())) {
     changed.SetBit(map[x][y].getZone());
     for(int i=0;i<8;i+=2)for(int j=0;j<7;++j)unions[i][j].rva00531B3A(map[x][y].getZone());
    }
@@ -815,7 +815,7 @@ void PathfindZoneManager::Update(PathfindCell **map, PathfindLayer *layers, cons
   end=0; first=0; second=capacity;
   buckets.rva00531E74();
   for (int layer=2; layer<=15; ++layer) {
-   int zone=rva00531D52();
+   int zone=GetAndUseNew();
    CellType &cell=reinterpret_cast<CellType *>(unknown0C)[zone];
    cell.id=layer; cell.unknown15=0; cell.secondary=0; cell.type=0; cell.bridge=0;
    ((Rva0036667B *)&layers[layer])->rva0036667B(zone);

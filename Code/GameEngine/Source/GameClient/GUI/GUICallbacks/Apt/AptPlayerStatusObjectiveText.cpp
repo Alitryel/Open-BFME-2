@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva004E4553@AptPlayerStatus@@QAEXHPAD_N@Z @0x004E4553 167B
+// ?ExternsObjective@AptPlayerStatus@@QAEXHPAD_N@Z @0x004E4553 167B
 // AptPlayerStatus handler answering "$<text>" for a row. Evidence: between
 // Objective 0x004E4446 and PlayerColor 0x004E45FA in same TU family; same
 // m_state +0x288 zero check and row range 0-12 and bool skip as Objective;
@@ -28,14 +28,14 @@ struct AptPlayerStatusObjectives
 class AptPlayerStatus
 {
 public:
-	void rva004E4553(int row, char *result, bool skip);
+	void ExternsObjective(int row, char *result, bool skip);
 
 private:
 	unsigned char m_pad000[0x288];
 	int m_state;
 };
 
-void AptPlayerStatus::rva004E4553(int row, char *result, bool skip)
+void AptPlayerStatus::ExternsObjective(int row, char *result, bool skip)
 {
 	*result = 0;
 	if (m_state == 0 && row >= 0 && row < 12 && !skip)

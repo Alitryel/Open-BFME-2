@@ -104,7 +104,7 @@ public:
 class Rva004F76EA
 {
 public:
-	void rva004F76EA(Int side, Int round, Rva004F76EAPred *pred);
+	void enumerateReinforcementUnits(Int side, Int round, Rva004F76EAPred *pred);
 };
 class Rva004F7B42
 {
@@ -160,7 +160,7 @@ static __declspec(noinline) Real collectMaxTotalHealth(DynamicAutoResolveBattleP
 		for (Int round = reinterpret_cast<Rva004F81CC *>(battle)->rva004F81CC(side); round >= 0;
 			round = reinterpret_cast<Rva004F7B42 *>(battle)->rva004F7B42(side, round))
 		{
-			reinterpret_cast<Rva004F76EA *>(battle)->rva004F76EA(side, round, reinterpret_cast<Rva004F76EAPred *>(&collector));
+			reinterpret_cast<Rva004F76EA *>(battle)->enumerateReinforcementUnits(side, round, reinterpret_cast<Rva004F76EAPred *>(&collector));
 		}
 	}
 	return *Rva005EA09CFindMax(healths.begin(), healths.end());

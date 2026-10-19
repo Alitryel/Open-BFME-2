@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /GX-
-// ?rva003F07E5@Rva003F07E5@@QAE_NPAVCreateAHeroData@@PAH@Z @0x003F07E5 85B:
+// ?CanBuildBuilding@Rva003F07E5@@QAE_NPAVCreateAHeroData@@PAH@Z @0x003F07E5 85B:
 // __thiscall bool check: hero+0x1C must equal this else *out=5 false;
 // this+0x1A3 must be zero else *out=3 false; hero+0x20 must be zero
 // else *out=4 false; else *out=0 true. Sibling of Rva003F1093Check
@@ -15,12 +15,12 @@ public:
 class Rva003F07E5
 {
 public:
-    bool rva003F07E5(CreateAHeroData *hero, int *out);
+    bool CanBuildBuilding(CreateAHeroData *hero, int *out);
 private:
     char m_pad1A3[0x1a3];
     unsigned char m_1A3;
 };
-bool Rva003F07E5::rva003F07E5(CreateAHeroData *hero, int *out)
+bool Rva003F07E5::CanBuildBuilding(CreateAHeroData *hero, int *out)
 {
     if (hero->m_1C != this) {
         if (out)
