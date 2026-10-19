@@ -7,9 +7,11 @@ struct TargetRef00217D4C
 	virtual void *destroy(unsigned int flags);
 	int references;
 };
+// Slot 0 is the base visit (bound by Rva005CD813Visit.cpp to retail's row), not
+// pure, as the other Visitor005CCCD0 views declare it: one table copy.
 struct Visitor005CCCD0
 {
-	virtual bool visit(TargetRef00217D4C *p) = 0;
+	virtual bool visit(TargetRef00217D4C *p);
 	virtual ~Visitor005CCCD0() {}
 };
 class Rva005CCD36
