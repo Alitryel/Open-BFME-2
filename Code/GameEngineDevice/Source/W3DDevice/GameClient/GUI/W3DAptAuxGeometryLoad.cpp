@@ -10,6 +10,10 @@
 #include "ascii_string.h"
 struct BfmeStringNoCaseLess {bool operator()(const AsciiString&,const AsciiString&)const;};
 typedef _STL::set<AsciiString,BfmeStringNoCaseLess,_STL::allocator<AsciiString> > FilenameList;
+// The retail tree destructor (0x0002CC38) is rowed in
+// stlport_nocase_asciistring_set_cleanup.cpp, built /EHs; keep this unit's
+// /EHsc copy out of the link.
+extern template _STL::_Rb_tree<AsciiString,AsciiString,_STL::_Identity<AsciiString>,BfmeStringNoCaseLess,_STL::allocator<AsciiString> >::~_Rb_tree();
 class FileSystem {public:void getFileListInDirectory(const AsciiString&,const AsciiString&,FilenameList&,bool)const;};
 extern FileSystem*TheFileSystem;
 class AptAnimData {public:void rva000AB83B();AsciiString baseDirectory;private:void createRenderData(const AsciiString&);};
