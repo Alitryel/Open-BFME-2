@@ -51,3 +51,14 @@ no effect.
   the tie-break.
 - Before landing: in-TU length/normalize need markers or an absorbing decision
   (see AIWall.cpp:563/569 for the same pattern).
+
+## Round 2 (2026-10-19, claude-opus-5-5): local-count recipe and declaration order
+- docs/recipes.md:144 (local count decides commutative operand order): k inert
+  `int unusedN = 0;` locals at the top of the body, k=0..80, never flips +0x22D;
+  best stays the 2-diff body (k=4 and k=12 break structure, 10 regions).
+- The same scan with the locals after the PITCH_DAMPING declaration, before the
+  first spring line, before the object block and before ROLL_BOB_AMPLITUDE
+  (k=1..30 each): no improvement, 12 to 18 memory lines.
+- All 120 declaration orders of PITCH_STIFFNESS, ROLL_STIFFNESS, PITCH_DAMPING,
+  ROLL_DAMPING and UNIFORM_AXIAL_DAMPING: the banked order is the only
+  2-diff one; every other order gives 6 diffs or more.
