@@ -194,7 +194,7 @@ static inline const int &min(const int &a, const int &b)
 #include <bitset>
 #include <algorithm>
 class Rva0040C598 { public: void rva0040C598(const int *); void rva0040C5B1(const int *); };
-class Rva0037DCA5 { public: void *rva0037DC52(); };
+class Rva0037DCA5 { public: void *GetThingTemplate(); };
 class Rva002AA292 { public: bool rva002AA292(const int *) const; };
 class Rva00406F9C { public: bool rva00406F9C(const void *); };
 struct WorldMapUpgradeDataView {

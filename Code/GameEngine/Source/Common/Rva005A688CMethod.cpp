@@ -4,7 +4,7 @@
 class Rva005DC3C1
 {
 public:
-	void rva005DC3C1(unsigned short a, unsigned short b, int expected, int newVal);
+	void handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal);
 };
 // A slot's address (+0x38 in each slot of the list at NAT +0x08).
 struct Rva005A6A4CAddress
@@ -69,9 +69,9 @@ checkSwap:
 	}
 notify:
 	if (val == 5)
-		m_28.rva005DC3C1((unsigned short)a, (unsigned short)b, expected, 4);
+		m_28.handleNegotiationResult((unsigned short)a, (unsigned short)b, expected, 4);
 	else if (val == 4)
-		m_28.rva005DC3C1((unsigned short)a, (unsigned short)b, expected, 3);
+		m_28.handleNegotiationResult((unsigned short)a, (unsigned short)b, expected, 3);
 }
 void NAT::rva005A6C90(int val)
 {

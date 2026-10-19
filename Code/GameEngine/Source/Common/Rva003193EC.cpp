@@ -24,7 +24,7 @@ public:
 class Rva0037DCA5
 {
 public:
-	int rva0037DCA5();
+	int GetCommandPointSize();
 };
 
 class Rva002BA8F1Logic;
@@ -112,7 +112,7 @@ bool Rva003193EC::rva003193EC(int x)
 
 bool Rva003193EC::rva00319413(Rva0037DCA5 *p)
 {
-	return rva003193EC(p->rva0037DCA5());
+	return rva003193EC(p->GetCommandPointSize());
 }
 
 void Rva003193EC::rva003190E7(bool flag)

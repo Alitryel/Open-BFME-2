@@ -13,7 +13,7 @@
 class Rva0037DCA5
 {
 public:
-	int rva0037DCA5();		// 0x0037DCA5
+	int GetCommandPointSize();		// 0x0037DCA5
 };
 
 class Rva004F6093Holder
@@ -43,7 +43,7 @@ int BfmeY1038::bfmeVal1038()
 {
 	int total = 0;
 	for (unsigned int i = 0; i < m_entries.size(); ++i)
-		total += m_entries[i].m_holder.get()->rva0037DCA5();
+		total += m_entries[i].m_holder.get()->GetCommandPointSize();
 	return total;
 }
 

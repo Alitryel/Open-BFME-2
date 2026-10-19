@@ -254,7 +254,7 @@ class SpawnArmy:public Snapshot {public:
 };
 class Rva00319CED {public:void *rva004E23C1();};
 class Rva0040CB2CIndexedField {public:int get(int)const;};
-class Rva0037DCA5 {public:void *rva0037DC52();};
+class Rva0037DCA5 {public:void *GetThingTemplate();};
 class CountInputPrefix {public:virtual void *get();virtual void slot1();virtual void slot2();virtual void slot3();virtual bool fill(void*,SpawnArmy*);};
 struct CountInputObjectPrefix {char prefix[4];Rva004E06FBPtrChase32Field *type;};
 struct CountArrayEntry {int first;void *second;};
@@ -270,7 +270,7 @@ void LivingWorldScoreKeeper::event7_3(CountInputPrefix *input,void *arg) {
    int i=array->end-array->begin-1;
    for(;i>=0;--i) {
     CountEntryPrefix *entry=(CountEntryPrefix*)((Rva0040CB2CIndexedField*)array)->get(i);
-    TemplateCountKey key((const ThingTemplate *)((Rva0037DCA5*)entry)->rva0037DC52());
+    TemplateCountKey key((const ThingTemplate *)((Rva0037DCA5*)entry)->GetThingTemplate());
     ((_STL::map<TemplateCountKey,int>*)&m_9C)->insert(_STL::pair<const TemplateCountKey,int>(key,0)).first->second+=entry->count;
    }
   }

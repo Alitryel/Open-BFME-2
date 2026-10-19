@@ -129,7 +129,7 @@ struct Rva004FA83ETemplate
 class Rva0037DCA5
 {
 public:
-	void *rva0037DC52();
+	void *GetThingTemplate();
 };
 class Rva004E0705
 {
@@ -221,7 +221,7 @@ bool LivingWorldBuildingNuggetSpawnArmy::canQueueUnit(ObjectID id)
 		&& (owner = (LivingWorldPlayer *)getOwningPlayer()) != 0
 		&& owner->rva002E1155((Rva00319CED *)&army)
 		&& (summary = ((Rva00319CED *)&army)->rva004E23C1()) != 0
-		&& (tmpl = (Rva004FA83ETemplate *)((Rva0037DCA5 *)((Rva0040CB2CIndexedField *)summary)->get(0))->rva0037DC52()) != 0
+		&& (tmpl = (Rva004FA83ETemplate *)((Rva0037DCA5 *)((Rva0040CB2CIndexedField *)summary)->get(0))->GetThingTemplate()) != 0
 		&& ((tmpl->m_kind113 & 4) == 0
 			|| (((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->rva002E12F3(id)
 				&& !((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->HasArmyQueuedInAnyBuilding(*(void **)army.m_pad4C, 0, 0)));

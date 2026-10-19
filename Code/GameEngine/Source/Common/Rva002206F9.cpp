@@ -6,7 +6,7 @@ class Rva002206F9Sink { public: virtual void add(void *value); };
 class Rva0037DCA5
 {
 public:
- void *rva0037DC52();
+ void *GetThingTemplate();
  int rva0037DF8D(Rva002206F9Sink *sink);	// rowed int return (Rva0037DF8DIterate.cpp); result unused here
  char pad[0x90];
  int count;
@@ -29,7 +29,7 @@ bool Rva002206F9::rva002206F9(Rva0037DCA5 *descriptor)
  else
  {
   for (int i = 0; i < descriptor->count; ++i)
-   m_sink.add(descriptor->rva0037DC52());
+   m_sink.add(descriptor->GetThingTemplate());
  }
  return true;
 }

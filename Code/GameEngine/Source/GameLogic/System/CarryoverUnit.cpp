@@ -25,7 +25,7 @@ extern GameLogic *TheGameLogic;
 struct CarryoverGameLogicView { char unknown00[0x98]; bool enable; bool get() const { return enable; } void set(bool v) { enable=v; } };
 struct CarryoverPlayerView { char unknown00[0x2EC]; Team *team; Team *getTeam() const { return team; } };
 class Rva002206F9Sink;
-class Rva0037DCA5 { public: void *rva0037DC52(); int rva0037DF8D(Rva002206F9Sink *); };
+class Rva0037DCA5 { public: void *GetThingTemplate(); int rva0037DF8D(Rva002206F9Sink *); };
 class Rva0028CBFD { public: void rva0028CBFD(); };
 class Rva003BD306Target {
 public:
@@ -90,7 +90,7 @@ public:
 };
 Object *CarryoverUnit::createSingleObject(Player *player)
 {
-    const ThingTemplate *tmplate = (const ThingTemplate *)((Rva0037DCA5 *)this)->rva0037DC52();
+    const ThingTemplate *tmplate = (const ThingTemplate *)((Rva0037DCA5 *)this)->GetThingTemplate();
     if (!tmplate) return 0;
     bool old = ((CarryoverGameLogicView *)TheGameLogic)->get();
     ((CarryoverGameLogicView *)TheGameLogic)->set(false);

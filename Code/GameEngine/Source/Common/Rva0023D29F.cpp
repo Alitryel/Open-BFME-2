@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva0023D29F@Rva0023D29F@@QAEXXZ, retail 0x0023D29F, 57 bytes.
+// ?sendEndSessionMsg@Rva0023D29F@@QAEXXZ, retail 0x0023D29F, 57 bytes.
 // If TheNetwork set and !isPacketRouter return; else emit GameMessage 0x6a5 with +0x38 and set +0x3c.
 // Evidence: leaf lane; caller 0x0023DA1E; slots 0xAC bool and 0x48 GameMessage*(int) per NetworkInterfaceFramePacing/Rva0051B09BEnable; rowed appendIntegerArgument 0x0030F936.
 class GameMessage
@@ -83,13 +83,13 @@ extern NetworkInterface *TheNetwork;
 class Rva0023D29F
 {
 public:
-	void rva0023D29F();
+	void sendEndSessionMsg();
 private:
 	char m_pad[0x38];
 	int m_38;
 	unsigned char m_3c;
 };
-void Rva0023D29F::rva0023D29F()
+void Rva0023D29F::sendEndSessionMsg()
 {
 	if (TheNetwork != 0 && !TheNetwork->isPacketRouter())
 		return;

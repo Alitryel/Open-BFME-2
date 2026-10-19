@@ -126,7 +126,7 @@ public:
 class Rva0023D29F
 {
 public:
-	void rva0023D29F();
+	void sendEndSessionMsg();
 };
 
 class GameLogic
@@ -180,7 +180,7 @@ void GameLogic::LivingWorldTacticalBattleComplete()
 	if (g_00DFE1C8->rva00210DC9() && !((Rva002D3627Host *)TheLivingWorld)->getFlag18()) {
 		GameLogic *logic = TheGameLogic;
 		if (((Rva00210C66CmpBoolField *)logic)->get())
-			((Rva0023D29F *)logic)->rva0023D29F();
+			((Rva0023D29F *)logic)->sendEndSessionMsg();
 		else
 			g_00DFE1C8->rva00211FA8();
 	} else {

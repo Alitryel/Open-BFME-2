@@ -272,7 +272,7 @@ class Rva00083E87Ref;
 class Rva00083CE9Host
 {
 public:
-	void rva00083CE9(Rva00083CE9Node *p);
+	void releaseTrack(Rva00083CE9Node *p);
 	void rva00084002();
 	void rva00083E87();
 private:
@@ -283,10 +283,10 @@ private:
 	Rva00083CE9Node *m_10;
 	Rva00083CE9Node *m_14;
 };
-// ?rva00083CE9@Rva00083CE9Host@@QAEXPAURva00083CE9Node@@@Z retail 0x00083CE9
+// ?releaseTrack@Rva00083CE9Host@@QAEXPAURva00083CE9Node@@@Z retail 0x00083CE9
 // 107B unlink node from old list then push at head of this list and reset it.
 // Evidence: chain calls 0x00083CB2; callers at 0x00083EA6 0x00083FDD 0x00084016.
-void Rva00083CE9Host::rva00083CE9(Rva00083CE9Node *p)
+void Rva00083CE9Host::releaseTrack(Rva00083CE9Node *p)
 {
 	if (p == 0)
 		return;
@@ -330,7 +330,7 @@ void Rva00084C05System::update() {
     if (mod->bottomIndex >= maxTankTrackEdges) mod->bottomIndex = 0;
    }
    if (mod->activeEdgeCount == 0 && !mod->bound)
-    ((Rva00083CE9Host *)this)->rva00083CE9((Rva00083CE9Node *)mod);
+    ((Rva00083CE9Host *)this)->releaseTrack((Rva00083CE9Node *)mod);
   }
   mod = nextMod;
  }

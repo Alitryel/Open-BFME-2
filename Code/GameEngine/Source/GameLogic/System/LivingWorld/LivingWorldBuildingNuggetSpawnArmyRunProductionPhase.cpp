@@ -127,7 +127,7 @@ struct Rva004FA83ETemplate
 class Rva0037DCA5
 {
 public:
-	void *rva0037DC52();
+	void *GetThingTemplate();
 };
 class Rva004E0705
 {

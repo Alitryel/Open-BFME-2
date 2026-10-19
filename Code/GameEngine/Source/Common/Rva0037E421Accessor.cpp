@@ -26,7 +26,7 @@ public:
     void *rva0037E915(int index);
     unsigned char rva0037E7BC(int index);
     void *rva0037E451(int key);
-    unsigned char rva0037E7DA(int key);
+    unsigned char productionSystemCancelUnitCreate(int key);
     void *rva0037E7A5(int index);
 };
 void *Rva0037E421::rva0037E421(int index)
@@ -61,11 +61,11 @@ void *Rva0037E421::rva0037E451(int key)
     }
     return 0;
 }
-// ?rva0037E7DA@Rva0037E421@@QAEEH@Z @0x0037E7DA 59B
+// ?productionSystemCancelUnitCreate@Rva0037E421@@QAEEH@Z @0x0037E7DA 59B
 // Chain of rva0037E451; if element missing or m_98 == -1 return 0 else set
 // m_98/m_a4 to -1 via or -1, m_cc to 1.0f via movss, return 1. Proven by caller
 // at 0x0049DCE7 and the shared 1.0f literal at 0x00BBB8D8; same class, /arch:SSE for movss.
-unsigned char Rva0037E421::rva0037E7DA(int key)
+unsigned char Rva0037E421::productionSystemCancelUnitCreate(int key)
 {
     Elem216 *e = (Elem216 *)rva0037E451(key);
     if (!e)

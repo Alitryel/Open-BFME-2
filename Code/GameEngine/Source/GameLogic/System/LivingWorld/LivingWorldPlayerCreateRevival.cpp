@@ -124,7 +124,7 @@ void LivingWorldPlayer::rva002E3442(const RevivalSourceView*const *source,const 
 // mode. WB DE5DF0 supplies the same template lookup/revival construction.
 // Keep the admitted static helper visible: ordinary MSVC optimization selects
 // its witnessed EBX template input, without a handwritten calling convention.
-class Rva0037DCA5 { public: void *rva0037DC52(); };
+class Rva0037DCA5 { public: void *GetThingTemplate(); };
 struct Rva0040DD3ARef { const RevivalSourceView *value; };
 class Rva002E34A9 { public:
  void rva002E34A9(const Rva0040DD3ARef &,int);
@@ -132,7 +132,7 @@ class Rva002E34A9 { public:
 };
 // ?rva002E34A9@Rva002E34A9@@QAEXABURva0040DD3ARef@@H@Z
 void Rva002E34A9::rva002E34A9(const Rva0040DD3ARef &source,int kind) {
- const ThingTemplate *thing=(const ThingTemplate*)reinterpret_cast<Rva0037DCA5*>(const_cast<RevivalSourceView*>(source.value))->rva0037DC52();
+ const ThingTemplate *thing=(const ThingTemplate*)reinterpret_cast<Rva0037DCA5*>(const_cast<RevivalSourceView*>(source.value))->GetThingTemplate();
  if(thing) {
   UnitRevivalEntry entry=CreateRevivalEntry(reinterpret_cast<LivingWorldPlayer*>(this),&source.value,thing,kind);
   entries.push_back(reinterpret_cast<const Rva002E2D10Record&>(entry));
@@ -193,7 +193,7 @@ void LivingWorldPlayer::InitBuildableHeroes() {
    const ArmySummaryView *summary=(const ArmySummaryView*)((Rva00319CED*)record)->rva004E23C1();
    if(!summary || summary->end-summary->begin==0) continue;
    const RevivalSourceView *unit=(const RevivalSourceView*)((const Rva0040CB2CIndexedField*)summary)->get(0);
-   const ThingTemplate *thing=(const ThingTemplate*)((Rva0037DCA5*)unit)->rva0037DC52();
+   const ThingTemplate *thing=(const ThingTemplate*)((Rva0037DCA5*)unit)->GetThingTemplate();
    if(!thing) continue;
    if((thing->flags11F & 0x40) && !((Rva002E06B8*)this)->rva002E06EF()) continue;
    if(thing->flags113 & 4) {

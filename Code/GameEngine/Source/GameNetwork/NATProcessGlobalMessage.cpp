@@ -57,7 +57,7 @@ struct NATAddressView
 class Rva005DC3C1
 {
 public:
-	void rva005DC3C1(UnsignedShort first, UnsignedShort second, Int cookie, Int result);
+	void handleNegotiationResult(UnsignedShort first, UnsignedShort second, Int cookie, Int result);
 	unsigned char m_bytes[0x8E4 - 0x28];
 };
 
@@ -189,7 +189,7 @@ void NAT::processGlobalMessage(Int slotNum, const char *options)
 		sscanf(c, "%d %d %X", &first, &second, &cookie);
 		if (first == m_localSlot && second == m_targetSlot && cookie == m_cookie)
 			rva005A6C90(4);
-		m_schema.rva005DC3C1(first, second, cookie, 3);
+		m_schema.handleNegotiationResult(first, second, cookie, 3);
 	}
 	else if (!strncmp(ptr, "CONNFAILED", strlen("CONNFAILED")))
 	{
@@ -198,6 +198,6 @@ void NAT::processGlobalMessage(Int slotNum, const char *options)
 		sscanf(c, "%d %d %X", &first, &second, &cookie);
 		if (first == m_targetSlot && second == m_localSlot && cookie == m_cookie)
 			setConnectionState(first, second, cookie, 5);
-		m_schema.rva005DC3C1(first, second, cookie, 4);
+		m_schema.handleNegotiationResult(first, second, cookie, 4);
 	}
 }

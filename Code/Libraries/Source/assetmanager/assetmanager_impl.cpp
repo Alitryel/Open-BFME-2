@@ -193,7 +193,7 @@ public:
 	void m009EC970(int which);
 	void m009EC9A0(int which);
 	void m009ECA30(int value);
-	void m009F0D40(int value);
+	void AddStickyAssets(int value);
 	void m009F0E50(int value);
 	void m009F19E0(int source);
 	void m009F1A60(int source);
@@ -264,7 +264,7 @@ void Q1Receiver0134FAAC::m009EC9A0(int which)
 // Q1Receiver0134FAAC::m009ECA30 (BFME1's clamped m_value setter) is not carried
 // over: its body occurs nowhere in this image at any nearby field offset.
 
-void Q1Receiver0134FAAC::m009F0D40(int value)
+void Q1Receiver0134FAAC::AddStickyAssets(int value)
 {
 	Q1ReceiverLocalSet set = { *(Q1ReceiverSet *)value, 0, true };
 	m009EFD40(&set);
@@ -290,7 +290,7 @@ void Q1Receiver0134FAAC::m009F0D40(int value)
 // (513 bytes, ret 4): grows the caller's key set to its dependency closure.
 // Each pass copies the frontier (0x009EE8E0), clears the frontier, and for
 // every non-null key of the copy looks its payload up in the +0x4C table
-// (the key read straight from the tree node, as m009F0D40 does) and adds
+// (the key read straight from the tree node, as AddStickyAssets does) and adds
 // every listed dependency not yet in the caller's set to both sets.
 void Q1Receiver0134FAAC::m009EFD40(Q1ReceiverLocalSet *source)
 {
@@ -328,7 +328,7 @@ void Q1Receiver0134FAAC::m009EFD40(Q1ReceiverLocalSet *source)
 	}
 }
 
-// Sibling of m009F0D40: copy the argument set with 0x009EE8E0, hand the local
+// Sibling of AddStickyAssets: copy the argument set with 0x009EE8E0, hand the local
 // group to 0x009EFD40, then under the +0x68 and +0x34 locks walk the +0x4C
 // hash map and store, per payload, whether its key is in the copied set.
 // BFME1 donor Q1Receiver0134FAAC_m009F0E50.cpp with the TU's +8 layout repair.

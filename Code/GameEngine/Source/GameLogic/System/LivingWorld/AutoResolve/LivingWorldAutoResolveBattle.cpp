@@ -83,7 +83,7 @@ struct Rva004F9C8EKindTemplate
 class Rva0037DCA5
 {
 public:
-	void *rva0037DC52();
+	void *GetThingTemplate();
 	char m_pad[0xAC];
 	TargetRef00217D4C m_ref;
 	ObjectID m_id;
@@ -373,7 +373,7 @@ void LivingWorldAutoResolveBattle::rva004F9C8E(TreeHintRef00217D4C *pos, int sid
 {
 	if ((*pos)->getObject()->getID() != INVALID_ID)
 		m_deadIDs.push_back((*pos)->getObject()->getID());
-	if (((Rva004F9C8EKindTemplate *)(*pos)->getObject()->rva0037DC52())->m_kindWord2 & (1u << 26))
+	if (((Rva004F9C8EKindTemplate *)(*pos)->getObject()->GetThingTemplate())->m_kindWord2 & (1u << 26))
 	{
 		Rva0037DCA5 *object = (*pos)->getObject();
 		Rva004F9C8ERecord *record = (*pos)->getRecord();

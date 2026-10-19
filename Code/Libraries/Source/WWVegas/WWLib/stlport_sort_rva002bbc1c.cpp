@@ -38,7 +38,7 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 class Rva0037DCA5
 {
 public:
-	int rva0037DCA5();
+	int GetCommandPointSize();
 	char m_pad00[8];
 	float m08; // +0x08
 	char m_pad0C[0xAC - 0xC];
@@ -85,8 +85,8 @@ struct Rva002BBC1CCmp
 		Rva0037DCA5 *pb = b.m_ptr;
 		int diff = (int)(pa->m08 - pb->m08);
 		if (diff == 0) {
-			int va = pb->rva0037DCA5();
-			int vb = pa->rva0037DCA5();
+			int va = pb->GetCommandPointSize();
+			int vb = pa->GetCommandPointSize();
 			return vb < va;
 		}
 		return diff < 0;

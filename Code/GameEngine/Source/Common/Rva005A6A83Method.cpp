@@ -31,7 +31,7 @@ public:
 class Rva0059517F
 {
 public:
-	Bool rva0059517F(UnsignedLong address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
+	Bool sendToManglerFromPort(UnsignedLong address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
 };
 
 class Rva005A6A83
@@ -65,6 +65,6 @@ void Rva005A6A83::rva005A6A83()
 open:
 	((FirewallHelperClass *)g_a063b0)->openSpareSocket(m_port936);
 	++m_port934;
-	((Rva0059517F *)g_a063b0)->rva0059517F(m_addr944, m_port936, m_port934, 4321, false);
+	((Rva0059517F *)g_a063b0)->sendToManglerFromPort(m_addr944, m_port936, m_port934, 4321, false);
 	m_time938 = timeGetTime() + g_00DD35BC;
 }

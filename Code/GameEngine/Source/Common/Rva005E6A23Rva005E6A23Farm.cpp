@@ -127,7 +127,7 @@ HeroDetailsPair Rva005E6CA1(Rva005E4300Context *context) {
 }
 }
 
-class Rva0037DCA5 {public:void *rva0037DC52();};
+class Rva0037DCA5 {public:void *GetThingTemplate();};
 class InGameSimpleHelp {public:InGameSimpleHelp(const UnicodeString&,const UnicodeString&);virtual ~InGameSimpleHelp();int count;void*impl;};
 namespace StrategicInGameUI {
 TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry*entry) {
@@ -137,7 +137,7 @@ TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry*entry) {
  const UnicodeString *titleAddress=&title;
  bool bEmpty = titleAddress->isEmpty();
  if(bEmpty == false) {
-  t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->rva0037DC52();
+  t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->GetThingTemplate();
   if(t) {
    const UnicodeString &description=t->descriptionText();
    return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(title,description));

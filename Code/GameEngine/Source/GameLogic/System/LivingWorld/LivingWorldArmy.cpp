@@ -87,7 +87,7 @@ struct Rva0031A02ASummary { char opaque00[0x1C]; int owner; };
 class ThingTemplate { public: int rva0033B479() const; };
 class Rva00319CED { public: bool rva00319CED(); void *rva004E23C1(); char pad00[0x4C]; int source4C; };
 class Rva0040CB2CIndexedField { public: int get(int) const; };
-class Rva0037DCA5 { public: void *rva0037DC52(); };
+class Rva0037DCA5 { public: void *GetThingTemplate(); };
 class ExperienceLevelList;
 class ExperienceLevelIterator {
 public:
@@ -394,7 +394,7 @@ void LivingWorldArmy::UseArmySummary(Rva00319CED *source)
     int count = summary78.m_summary->size();
     for (int i = 0; i < count; ++i) {
         ArmySummaryEntryView *entry = reinterpret_cast<ArmySummaryEntryView *>(reinterpret_cast<Rva0040CB2CIndexedField *>(summary78.m_summary)->get(i));
-        ThingTemplate *thing = static_cast<ThingTemplate *>(reinterpret_cast<Rva0037DCA5 *>(entry)->rva0037DC52());
+        ThingTemplate *thing = static_cast<ThingTemplate *>(reinterpret_cast<Rva0037DCA5 *>(entry)->GetThingTemplate());
         if (!thing) continue;
         int level = thing->rva0033B479();
         entry->level0C = level;
@@ -485,7 +485,7 @@ void LivingWorldArmy::KillSummaryEntry(int index)
 {
     if (index < 0) return;
     Rva0040DD3ARef entry(reinterpret_cast<Rva004F69C3Target *>(reinterpret_cast<Rva0040CB2CIndexedField *>(summary78.m_summary)->get(index)));
-    void *thing = reinterpret_cast<Rva0037DCA5 *>(entry.value)->rva0037DC52();
+    void *thing = reinterpret_cast<Rva0037DCA5 *>(entry.value)->GetThingTemplate();
     if (thing && (static_cast<HeroTemplateKindView *>(thing)->kind113 & 4)) {
         Rva002E2903Player *player = reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->find(owner54,0);
         if (!player) return;

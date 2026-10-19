@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
-// ?rva0037DCA5@Rva0037DCA5@@QAEHXZ, retail 0x0037DCA5 (39B).
+// ?GetCommandPointSize@Rva0037DCA5@@QAEHXZ, retail 0x0037DCA5 (39B).
 // Lookup via TheThingFactory global 0x00DFF000 plus AsciiString at +0x4 through
 // rowed 0x002D06CA. Returns 0 when lookup misses else template dword at +0x618
 // times int at +0x90. Sibling of rowed 0x0037E270 (same global and callee via
@@ -28,8 +28,8 @@ class Rva0037DCA5
 	char m_pad8[0x90 - 8];
 	int m_count;
 public:
-	int rva0037DCA5();
-	void *rva0037DC52();
+	int GetCommandPointSize();
+	void *GetThingTemplate();
 	void *GetDisplayNameStrategicGame();
 	void *GetDisplayNameStrategicGame(int v);
 };
@@ -46,24 +46,24 @@ class Rva002E06B8
 public:
 	void *rva002E06EF();
 };
-int Rva0037DCA5::rva0037DCA5()
+int Rva0037DCA5::GetCommandPointSize()
 {
 	void *found = (void *)TheThingFactory->findTemplate(m_name);
 	if (found == 0)
 		return 0;
 	return ((Rva0037DCA5Template *)found)->m_cost * m_count;
 }
-// ?rva0037DC52@Rva0037DCA5@@QAEPAXXZ @0x0037DC52 16B same +0x4 lookup via 0x002D06CA and global 0x00DFF000.
-void *Rva0037DCA5::rva0037DC52()
+// ?GetThingTemplate@Rva0037DCA5@@QAEPAXXZ @0x0037DC52 16B same +0x4 lookup via 0x002D06CA and global 0x00DFF000.
+void *Rva0037DCA5::GetThingTemplate()
 {
 	return (void *)TheThingFactory->findTemplate(m_name);
 }
-// ?GetDisplayNameStrategicGame@Rva0037DCA5@@QAEPAXXZ @0x0040C64A 19B chain of rva0037DC52.
+// ?GetDisplayNameStrategicGame@Rva0037DCA5@@QAEPAXXZ @0x0040C64A 19B chain of GetThingTemplate.
 // Returns empty wide sentinel 0x00E0C898 when lookup misses else template+0x58.
 // Caller at 0x00220BA7 passes this plus pushes return for wide copy.
 void *Rva0037DCA5::GetDisplayNameStrategicGame()
 {
-	void *found = rva0037DC52();
+	void *found = GetThingTemplate();
 	if (found == 0)
 		return (void *)&UnicodeString::TheEmptyString;
 	return (char *)found + 0x58;
@@ -71,7 +71,7 @@ void *Rva0037DCA5::GetDisplayNameStrategicGame()
 
 void *Rva0037DCA5::GetDisplayNameStrategicGame(int v)
 {
-	void *found = rva0037DC52();
+	void *found = GetThingTemplate();
 	if (found == 0)
 		return (void *)&UnicodeString::TheEmptyString;
 	if ((((unsigned char *)found)[0x11F] & 0x40) == 0)

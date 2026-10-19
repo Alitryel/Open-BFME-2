@@ -106,7 +106,7 @@ bool PortNegotiationSchema::rva005DC586(_STL::vector<Rva005A7A96Pair>*pairs){
 __declspec(noinline) bool PortNegotiationSchema::IsConflictingWithProceedingNegotiation(unsigned short x){if(x<8){for(int i=0;i<8;++i){if(i!=x&&state[i+x*8]==2)return true;if(state[x+i*8]==2)return true;}}return false;}
 
 struct Rva005A684FWord{unsigned m_00;unsigned short m_04;};class Rva005A684F{public:unsigned get(unsigned)const;char pad[0x90c];Rva005A684FWord *m_slots[8];};
-class Rva00594E07{public:unsigned short rva00594E07(unsigned short,int);};class Rva0059534A{public:void rva0059534A(unsigned short);};class Rva0059517F{public:bool rva0059517F(unsigned long,unsigned short,unsigned short,unsigned short,bool);};class FirewallHelperClass{public:static void getManglerName(int,char*);void flagNeedToRefresh(bool);};
+class Rva00594E07{public:unsigned short rva00594E07(unsigned short,int);};class Rva0059534A{public:void rva0059534A(unsigned short);};class Rva0059517F{public:bool sendToManglerFromPort(unsigned long,unsigned short,unsigned short,unsigned short,bool);};class FirewallHelperClass{public:static void getManglerName(int,char*);void flagNeedToRefresh(bool);};
 extern unsigned long g_00DD35BC;int NAT::s_manglerMaxRetryCount=25;
 struct NatConnectionView{char pad00[8];GameSpyGameSlot **slots;int host,parentState;int local,target;unsigned localIP,cookie;bool sendPort,receivedPort;char pad26[0x92c-0x26];int retries,maxRetries;unsigned short packetID,spareSocket;unsigned manglerRetryTime;int manglerRetries;unsigned short previousSource;bool beenProbed,unknown943;unsigned manglerAddress,nextSendTime;int connectionState,previousState;char pad954[8];unsigned nextPortSendTime,timeoutTime,roundTimeout,unknown968,nextHostTick;bool active;};
 // BF1 f98983a7d NAT_connectionUpdate.cpp supplies mangler retry/port/probe
@@ -120,7 +120,7 @@ int NAT::rva005A879B(){
  if(!v->beenProbed&&timeGetTime()>=v->nextPortSendTime){AsciiString name;name.translate(*(UnicodeString*)((char*)target+0x30));if(v->sendPort){rva005A7974(((Rva005A684F*)this)->get(v->local),target);v->nextPortSendTime=timeGetTime()+s_probeRetryInterval;}}
  if(v->connectionState==2){
   if(!v->sendPort){unsigned short mangled;if(g_a063b0&&(mangled=((Rva00594E07*)g_a063b0)->rva00594E07(v->packetID,0))!=0){processManglerResponse(mangled);((Rva0059534A*)g_a063b0)->rva0059534A(v->spareSocket);v->spareSocket=0;}
-   else if(timeGetTime()>=v->manglerRetryTime){if(++v->manglerRetries>s_manglerMaxRetryCount)rva005A7974(((Rva005A684F*)this)->get(v->local),target);else{if(g_a063b0)((Rva0059517F*)g_a063b0)->rva0059517F(v->manglerAddress,v->spareSocket,v->packetID,4321,false);v->manglerRetryTime=timeGetTime()+g_00DD35BC;}}
+   else if(timeGetTime()>=v->manglerRetryTime){if(++v->manglerRetries>s_manglerMaxRetryCount)rva005A7974(((Rva005A684F*)this)->get(v->local),target);else{if(g_a063b0)((Rva0059517F*)g_a063b0)->sendToManglerFromPort(v->manglerAddress,v->spareSocket,v->packetID,4321,false);v->manglerRetryTime=timeGetTime()+g_00DD35BC;}}
   }
   if(!v->receivedPort){if(timeGetTime()>v->timeoutTime){rva005A6C90(5);notifyConnectionToTargetFailed();}}
   if(v->receivedPort&&v->sendPort)rva005A6C90(3);

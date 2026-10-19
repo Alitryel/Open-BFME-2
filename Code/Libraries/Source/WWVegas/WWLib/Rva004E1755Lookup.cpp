@@ -49,7 +49,7 @@ public:
 class Rva0037DCA5
 {
 public:
-	void *rva0037DC52();
+	void *GetThingTemplate();
 };
 
 struct Rva004E23E2Pair
@@ -91,5 +91,5 @@ void *Rva00319CED::rva004E23E2()
 	if ((diff & ~7) == 0)
 		return 0;
 	int index = ((Rva0040CB2CIndexedField *)p)->get(0);
-	return ((Rva0037DCA5 *)index)->rva0037DC52();
+	return ((Rva0037DCA5 *)index)->GetThingTemplate();
 }

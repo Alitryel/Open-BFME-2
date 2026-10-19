@@ -1074,8 +1074,8 @@ public:
 class Rva0037DCA5
 {
 public:
-	Int rva0037DCA5();					// 0x0037DCA5
-	void *rva0037DC52();					// 0x0037DC52, template lookup
+	Int GetCommandPointSize();					// 0x0037DCA5
+	void *GetThingTemplate();					// 0x0037DC52, template lookup
 };
 class Rva003193EC
 {
@@ -1383,7 +1383,7 @@ Bool LivingWorldLogic::CanMoveArmyMembers_internal(LivingWorldArmy *army, const 
 			continue;
 		if (!CanMoveArmyMember_internal(army, entry.m_entry, target, false))
 			return false;
-		*commandPoints += ((Rva0037DCA5 *)entry.m_entry)->rva0037DCA5();
+		*commandPoints += ((Rva0037DCA5 *)entry.m_entry)->GetCommandPointSize();
 	}
 	return true;
 }
@@ -1477,7 +1477,7 @@ Bool LivingWorldLogic::canBuildUnit(LivingWorldBuildingNuggetSpawnArmy *nugget, 
 		if (summary->m_entries.size() == 0)
 			return false;
 		Rva0037DCA5 *entry = (Rva0037DCA5 *)((Rva0040CB2CIndexedField *)summary)->get(0);
-		const ThingTemplateKindOf *thing = (const ThingTemplateKindOf *)entry->rva0037DC52();
+		const ThingTemplateKindOf *thing = (const ThingTemplateKindOf *)entry->GetThingTemplate();
 		if (thing == 0)
 			return false;
 		if ((thing->m_kindOf[5] & (1u << 30)) != 0)
@@ -3014,7 +3014,7 @@ LivingWorldArmy *LivingWorldLogic::spawnArmy(SpawnArmy *spawn,Rva002B6A04Player 
   int count=summary->m_entries.size();
   for(int i=0;i<count;++i){
    Rva0037DCA5 *entry=(Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary)->get(i);
-   const ThingTemplateKindOf *thing=(const ThingTemplateKindOf*)entry->rva0037DC52();
+   const ThingTemplateKindOf *thing=(const ThingTemplateKindOf*)entry->GetThingTemplate();
    if(thing && (thing->m_kindOf[2] & (1u<<26))){
     int key=*(int*)((char*)spawn+0x4c);
     if(((LivingWorldPlayer*)player)->rva002E12F3(key)){

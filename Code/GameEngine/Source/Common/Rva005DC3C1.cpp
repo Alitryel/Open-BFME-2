@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva005DC3C1@Rva005DC3C1@@QAEXGGHH@Z @0x005DC3C1 71B unlock: two int[64] arrays at +0x18 and +0x118 plus list at +0x04 with forEach 0x005DBE6A and notify 0x001FF3A9, callers 0x005A68F8 and 0x005A8F41, neighbours forEach 0x005DBE6A and vector overflow 0x005DC499
+// ?handleNegotiationResult@Rva005DC3C1@@QAEXGGHH@Z @0x005DC3C1 71B unlock: two int[64] arrays at +0x18 and +0x118 plus list at +0x04 with forEach 0x005DBE6A and notify 0x001FF3A9, callers 0x005A68F8 and 0x005A8F41, neighbours forEach 0x005DBE6A and vector overflow 0x005DC499
 class Rva005DBE6AListener
 {
 public:
@@ -26,7 +26,7 @@ public:
 class Rva005DC3C1
 {
 public:
-    void rva005DC3C1(unsigned short a, unsigned short b, int expected, int newVal);
+    void handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal);
 private:
     char m_pad00[4];
     Rva005DBE6AList m_list; // +0x04
@@ -35,7 +35,7 @@ private:
     int m_arr118[64]; // +0x118
 };
 
-void Rva005DC3C1::rva005DC3C1(unsigned short a, unsigned short b, int expected, int newVal)
+void Rva005DC3C1::handleNegotiationResult(unsigned short a, unsigned short b, int expected, int newVal)
 {
     if (a >= 8)
         return;

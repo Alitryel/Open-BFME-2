@@ -17,7 +17,7 @@ public:
 class Rva0059517F
 {
 public:
-    bool rva0059517F(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5);
+    bool sendToManglerFromPort(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5);
 };
 
 class Rva00595A9F
@@ -70,13 +70,13 @@ bool Rva00595A9F::rva00595A9F()
         return false;
     } else {
         unsigned long addr = m_54;
-        ((Rva0059517F *)this)->rva0059517F(addr, m_68, m_88, 0x10e2, false);
-        ((Rva0059517F *)this)->rva0059517F(addr, m_68, m_88, 0x10e2, false);
-        ((Rva0059517F *)this)->rva0059517F(addr, m_68, m_88, 0x10e2, false);
+        ((Rva0059517F *)this)->sendToManglerFromPort(addr, m_68, m_88, 0x10e2, false);
+        ((Rva0059517F *)this)->sendToManglerFromPort(addr, m_68, m_88, 0x10e2, false);
+        ((Rva0059517F *)this)->sendToManglerFromPort(addr, m_68, m_88, 0x10e2, false);
         ++m_88;
         m_180 = timeGetTime();
         m_184 = 0xfa0;
-        ((Rva0059517F *)this)->rva0059517F(m_54, m_6a, m_88, 0x10e1, false);
+        ((Rva0059517F *)this)->sendToManglerFromPort(m_54, m_6a, m_88, 0x10e1, false);
         m_17c = 7;
         return false;
     }
@@ -145,7 +145,7 @@ bool Rva00595A9F::rva00595685()
         m_180 = now;
         m_184 = 0x1770;
         m_7a = 0;
-        ((Rva0059517F *)this)->rva0059517F(m_58, m_68, (unsigned short)(m_88 + 1), 0x10e1, false);
+        ((Rva0059517F *)this)->sendToManglerFromPort(m_58, m_68, (unsigned short)(m_88 + 1), 0x10e1, false);
         m_17c = 3;
         return false;
     }

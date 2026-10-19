@@ -35,7 +35,7 @@ class Rva0059517F
 {
 public:
 	// FirewallHelperClass::sendToManglerFromPort(address, port, packetID, destPort, blitzme)
-	Bool rva0059517F(unsigned long address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
+	Bool sendToManglerFromPort(unsigned long address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
 };
 
 // BFME 2's GameSpyConfigInterface keeps getManglerLocation in vslot 11
@@ -71,7 +71,7 @@ struct BfmeGlobalDataFirewall
 static const UnsignedShort BFME_MANGLER_PORT = 4321;
 
 #define sendToManglerFromPort(address, port, packetID, destPort) \
-	(((Rva0059517F *)this)->rva0059517F((address), (port), (packetID), (destPort), FALSE))
+	(((Rva0059517F *)this)->sendToManglerFromPort((address), (port), (packetID), (destPort), FALSE))
 
 /* static */ void FirewallHelperClass::getManglerName(Int manglerIndex, Char *nameBuf)
 {

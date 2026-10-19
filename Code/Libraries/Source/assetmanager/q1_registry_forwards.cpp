@@ -11,7 +11,7 @@ class Q1Receiver0134FAAC
 public:
 	void m009EC970(int which);
 	void m009EC9A0(int which);
-	void m009F0D40(int value);
+	void AddStickyAssets(int value);
 	void m009F19E0(int source);
 	void m009F0BD0(int value);
 	void m009EC960(void *value);
@@ -40,7 +40,7 @@ void bfmeMergeReceiverKeys(int value)
 void bfmeMarkReceiverPayloads(int value)
 {
 	if (TheQ1Receiver != 0)
-		TheQ1Receiver->m009F0D40(value);
+		TheQ1Receiver->AddStickyAssets(value);
 }
 
 void bfmeSetReceiverFlag(int which)

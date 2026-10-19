@@ -26,7 +26,7 @@ class Rva00319924 {public:int count(const AsciiString&);};
 class Rva0031979COwner {public:void rva0031979C(int);};
 class Rva00318FBE {public:int rva00318FBE();};
 class LivingWorldArmy {public:void rva00319EA3(LivingWorldArmy*,ArmySummaryEntry*);};
-class Rva0037DCA5 {public:int rva0037DCA5();void*rva0037DC52();};
+class Rva0037DCA5 {public:int GetCommandPointSize();void*GetThingTemplate();};
 class Rva003190A5 {public:bool query()const;};
 class Rva0040CB2CIndexedField {public:int get(int)const;};
 class Rva0040DB0ERegistry {public:int rva0040DB0E(const AsciiString&);};
@@ -58,8 +58,8 @@ class Rva00319028 {public:ArmySummaryEntryRef rva00319028(int,int);char prefix[0
 int Rva00318FC6::rva00318FC6(int kind,int maxCP){
  int count=0;
  for(int i=0;i<(int)summary.Get()->records.size();++i){
-  ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->rva0037DC52();
-  if(thing->kind==kind&&((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->rva0037DCA5()<=maxCP)++count;
+  ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->GetThingTemplate();
+  if(thing->kind==kind&&((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->GetCommandPointSize()<=maxCP)++count;
  }
  return count;
 }
@@ -68,8 +68,8 @@ int Rva00318FC6::rva00318FC6(int kind,int maxCP){
 // ?rva00319028@Rva00319028@@QAE?AUArmySummaryEntryRef@@HH@Z
 ArmySummaryEntryRef Rva00319028::rva00319028(int kind,int maxCP){
  for(int i=(int)summary.Get()->records.size()-1;i>=0;--i){
-  ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->rva0037DC52();
-  if(thing->kind==kind&&((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->rva0037DCA5()<=maxCP){
+  ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->GetThingTemplate();
+  if(thing->kind==kind&&((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary.Get())->get(i))->GetCommandPointSize()<=maxCP){
    int id=((Rva0040CC0EIndexedField*)summary.Get())->get(i);
    return summary.Get()->GetEntry(id);
   }
@@ -113,7 +113,7 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit*unit,Rva002BC1DAArmy*army,Livin
     }
    }
    lost=((Rva0040DB0ERegistry*)summary)->rva0040DB0E(*name)-((Rva00319924*)other)->count(*name);
-   int cp=((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary)->get(j))->rva0037DCA5();
+   int cp=((Rva0037DCA5*)((Rva0040CB2CIndexedField*)summary)->get(j))->GetCommandPointSize();
    int kind=TheThingFactory->findTemplate(*name)->kind;
    available=((Rva00318FC6*)unit)->rva00318FC6(kind,cp);
    if(lost>0&&available>0&&kind!=5){
@@ -137,11 +137,11 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit*unit,Rva002BC1DAArmy*army,Livin
   int max=(int)remaining.size();
   for(int j=0;j<max&&cp<limit;++j){
    Rva0040DC56Element*last=remaining.begin()+remaining.size()-1;
-   ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)last->Get())->rva0037DC52();
-   if(((Rva0037DCA5*)last->Get())->rva0037DCA5()+cp>limit||(thing&&(thing->heroFlags&4)))continue;
+   ThingTemplate*thing=(ThingTemplate*)((Rva0037DCA5*)last->Get())->GetThingTemplate();
+   if(((Rva0037DCA5*)last->Get())->GetCommandPointSize()+cp>limit||(thing&&(thing->heroFlags&4)))continue;
    ((LivingWorldArmy*)other)->rva00319EA3((LivingWorldArmy*)unit,last->Get());
    ((Rva002B6066*)&remaining)->rva002B6066(remaining.begin()+remaining.size()-1);
-   cp+=((Rva0037DCA5*)last->Get())->rva0037DCA5();
+   cp+=((Rva0037DCA5*)last->Get())->GetCommandPointSize();
   }
  }
  for(i=0;i<count;++i){
@@ -152,7 +152,7 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit*unit,Rva002BC1DAArmy*army,Livin
    ArmySummaryEntry*entry=(ArmySummaryEntry*)((Rva0040CB2CIndexedField*)summary)->get(j);
    AsciiString*name=&entry->name;
    int kind=TheThingFactory->findTemplate(*name)->kind;
-   int cp=((Rva0037DCA5*)entry)->rva0037DCA5();
+   int cp=((Rva0037DCA5*)entry)->GetCommandPointSize();
    bool found=false;
    Rva0040DC56Element*it;
    for(it=remaining.begin();it!=remaining.end();++it){
@@ -164,7 +164,7 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit*unit,Rva002BC1DAArmy*army,Livin
    }
    if(found)continue;
    for(it=remaining.begin();it!=remaining.end();++it){
-    if(kind!=5&&kind==((ThingTemplate*)((Rva0037DCA5*)it->value)->rva0037DC52())->kind&&cp>=((Rva0037DCA5*)it->value)->rva0037DCA5()){
+    if(kind!=5&&kind==((ThingTemplate*)((Rva0037DCA5*)it->value)->GetThingTemplate())->kind&&cp>=((Rva0037DCA5*)it->value)->GetCommandPointSize()){
      found=true;
      ((Rva002B6066*)&remaining)->rva002B6066(it);
      break;
@@ -172,7 +172,7 @@ void ConsumeGarrisonUnitsFromRTS(Rva002BC1DAUnit*unit,Rva002BC1DAArmy*army,Livin
    }
    if(found)continue;
    for(it=remaining.begin();it!=remaining.end();++it){
-    if(((ThingTemplate*)((Rva0037DCA5*)it->value)->rva0037DC52())->kind!=5&&cp>=((Rva0037DCA5*)it->value)->rva0037DCA5()){
+    if(((ThingTemplate*)((Rva0037DCA5*)it->value)->GetThingTemplate())->kind!=5&&cp>=((Rva0037DCA5*)it->value)->GetCommandPointSize()){
      ((Rva002B6066*)&remaining)->rva002B6066(it);
      break;
     }

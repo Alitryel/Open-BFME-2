@@ -15,7 +15,7 @@
 class Rva0037DCA5
 {
 public:
-	void *rva0037DC52();	// 0x0037DC52, WB CarryoverUnit::GetThingTemplate
+	void *GetThingTemplate();	// 0x0037DC52, WB CarryoverUnit::GetThingTemplate
 };
 
 struct CarryoverUnitRecord
@@ -111,7 +111,7 @@ void LinearCampaign::beginCampaign()
 		units[i].m_name = name;
 		units[i].m_90 = 1;
 		const CarryoverThingTemplateView *thing = static_cast<const CarryoverThingTemplateView *>(
-			reinterpret_cast<Rva0037DCA5 *>(&units[i])->rva0037DC52());
+			reinterpret_cast<Rva0037DCA5 *>(&units[i])->GetThingTemplate());
 		if (thing && (thing->m_kindOf[0x5A >> 3] & (1 << (0x5A & 7))))
 			++m_numFlaggedCarryovers;
 	}

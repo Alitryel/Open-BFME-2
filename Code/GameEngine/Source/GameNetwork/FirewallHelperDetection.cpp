@@ -47,7 +47,7 @@ class Rva0059517F
 {
 public:
 	// FirewallHelperClass::sendToManglerFromPort(address, port, packetID, destPort, blitzme)
-	Bool rva0059517F(unsigned long address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
+	Bool sendToManglerFromPort(unsigned long address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
 };
 
 // FirewallHelperClass::getNATPortAllocationScheme with BFME 2's signature:
@@ -66,7 +66,7 @@ static const UnsignedInt BFME_FIREWALL_TYPE_DESTINATION_PORT_DELTA = 128;
 
 #define closeSpareSocket(port) (((Rva0059534A *)this)->rva0059534A(port))
 #define sendToManglerFromPort(address, port, packetID, destPort) \
-	(((Rva0059517F *)this)->rva0059517F((address), (port), (packetID), (destPort), FALSE))
+	(((Rva0059517F *)this)->sendToManglerFromPort((address), (port), (packetID), (destPort), FALSE))
 #define byteAdjust(data) (((Rva00594DC0 *)this)->rva00594DC0((Rva00594DC0Msg *)(data)))
 
 /* static */ Int FirewallHelperClass::m_sourcePortPool = 4096;

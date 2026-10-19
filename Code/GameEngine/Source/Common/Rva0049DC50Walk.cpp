@@ -24,7 +24,7 @@ public:
 class Rva0037E421
 {
 public:
-	unsigned char rva0037E7DA(int id);
+	unsigned char productionSystemCancelUnitCreate(int id);
 };
 
 class Rva0049D526
@@ -84,7 +84,7 @@ void Rva0049DC50::rva0049DC50(int id)
 				((Rva0039BAD2 *)((char *)player + 0x3bc))->rva0039BAD2(node->m_8, -node->m_28);
 			}
 			if (node->m_4 == 3)
-				((Rva0037E421 *)((char *)player + 0x738))->rva0037E7DA(node->m_10);
+				((Rva0037E421 *)((char *)player + 0x738))->productionSystemCancelUnitCreate(node->m_10);
 			((Rva0049D526 *)((char *)this - 0x20))->rva0049D57F(node);
 			::operator delete(node->slot0(0));
 			return;

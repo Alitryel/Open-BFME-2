@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD
-// ?rva0059517F@Rva0059517F@@QAE_NKGGG_N@Z @0x0059517F 148B: GameNetwork packet send via Rva00594DC0 convert plus CRC plus FirewallHelper search plus Rva00594C12 write. Evidence: rowed Convert 0x00594DC0 with ecx plus Msg arg; CRC over Msg+4 len 0x10 seed 0 then htonl into m_00; rowed Search 0x00594D77 by port; Write 0x00594C12 with buf len 0x14; ret 0x14 with 5 stack args and bool result.
+// ?sendToManglerFromPort@Rva0059517F@@QAE_NKGGG_N@Z @0x0059517F 148B: GameNetwork packet send via Rva00594DC0 convert plus CRC plus FirewallHelper search plus Rva00594C12 write. Evidence: rowed Convert 0x00594DC0 with ecx plus Msg arg; CRC over Msg+4 len 0x10 seed 0 then htonl into m_00; rowed Search 0x00594D77 by port; Write 0x00594C12 with buf len 0x14; ret 0x14 with 5 stack args and bool result.
 // ?rva00595213@Rva0059517F@@QAE_NPAVUDP@@KGG_N@Z @0x00595213 177B: BFME 2's
 // UDP-socket variant of the same mangler request (no ZH counterpart). Target
 // evidence: the rowed UDP error query 0x00594A06 (-11 returns false), the
@@ -63,14 +63,14 @@ public:
 class Rva0059517F
 {
 public:
-	bool rva0059517F(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5);
+	bool sendToManglerFromPort(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5);
 	bool rva00595213(UDP *udp, unsigned long address, unsigned short packetID, unsigned short port, bool blitzme);
 private:
 	char m_pad[0x88];
 	unsigned short m_88;
 };
 
-bool Rva0059517F::rva0059517F(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5)
+bool Rva0059517F::sendToManglerFromPort(unsigned long a1, unsigned short a2, unsigned short a3, unsigned short a4, bool a5)
 {
 	Rva0059517FPacket pkt;
 	memset(&pkt, 0x44, 0x14);

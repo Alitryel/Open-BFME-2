@@ -42,12 +42,12 @@ class ModuleData {public:
 class ModuleInfo {public:char *begin,*end,*storage;const ModuleData *getNthData(int)const;};
 struct CarryoverTemplate {char pad[0x115];unsigned char flag;char pad116[0x2E4-0x116];ModuleInfo modules;};
 class Rva0037DCA5 {public:
- void *rva0037DC52();int rva0037DF8D(Rva002206F9Sink *sink);
+ void *GetThingTemplate();int rva0037DF8D(Rva002206F9Sink *sink);
  char pad[0x90];int count;
 };
 int Rva0037DCA5::rva0037DF8D(Rva002206F9Sink *sink) {
  if(!TheThingFactory)return 1;
- CarryoverTemplate *type=(CarryoverTemplate *)rva0037DC52();
+ CarryoverTemplate *type=(CarryoverTemplate *)GetThingTemplate();
  if(!type)return 1;
  if(!(type->flag&0x20))return IterateTemplates(sink,type,count);
  ModuleInfo &mods=type->modules;
