@@ -1,5 +1,5 @@
 // ?render@AptShapeContainer@@QAEXXZ
-// partial score=0.94 date=2026-10-15
+// partial score=0.94 date=2026-10-19
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include/Lib
 // stlport
 // W3DAptAux.cpp -- W3DAptAux members recovered from WorldBuilder leads
@@ -514,6 +514,14 @@ static __forceinline void aptMatrixMul(V2 &out, const V2 &in, const AptRenderTra
 	out.X = in.X * m.a + in.Y * m.c + m.tx;
 	out.Y = in.X * m.b + in.Y * m.d + m.ty;
 }
+static __forceinline void aptMatrixMulProducts(V2 &out, const V2 &in, const AptRenderTransform &transform)
+{
+	const AptMatrix &m = (const AptMatrix &)transform;
+	out.X = in.X * m.a + in.Y * m.c + m.tx;
+	float Y0 = in.X * m.b;
+	float Y1 = in.Y * m.d;
+	out.Y = Y0 + Y1 + m.ty;
+}
 void AptShapeContainer::render()
 {
 	V2 a, b;
@@ -572,11 +580,11 @@ void AptShapeContainer::render()
 				break;
 			for (_STL::vector<AptTriangle>::iterator t = solid->m_triangles.begin(); t != solid->m_triangles.end(); ++t) {
 				const AptTriangle &tri = *t;
-				aptMatrixMul(v->pos, tri.p[0], m_transform);
+				aptMatrixMulProducts(v->pos, tri.p[0], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
-				aptMatrixMul(v->pos, tri.p[2], m_transform);
+				aptMatrixMulProducts(v->pos, tri.p[2], m_transform);
 				v->z = 0.0f;
 				v->color = color;
 				++v;
@@ -600,7 +608,7 @@ void AptShapeContainer::render()
 			for (_STL::vector<AptLineSegment>::iterator g = line->m_segments.begin(); g != line->m_segments.end(); ++g) {
 				const AptLineSegment &segment = *g;
 				aptMatrixMul(a, segment.a, m_transform);
-				aptMatrixMul(b, segment.b, m_transform);
+				aptMatrixMulProducts(b, segment.b, m_transform);
 				Rva001101D7Draw(W3DAptAux::s_renderer, (Rva001101D7 *)&lines, a, b, line->m_width, color);
 			}
 			W3DAptAux::s_renderer->rva001100C5(lines);
