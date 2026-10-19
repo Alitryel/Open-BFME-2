@@ -52,3 +52,25 @@ to a unique build/ path, then run tools/explain_mismatch.py with the exact
 decorated symbol, --rva 0x006BEF80 --size 1082 and --source that path.
 The included old source, baseline/final diagnostics, sibling check and trial
 results preserve the comparison; the trial driver records all tested shapes.
+
+## Round r2 (2026-10-19, opus-5.5): element pointer closes the frame
+
+Retail keeps `&contactsBegin[i]` in EDI across the case-0 loop body (label
+compare `this`=EDI+0xC, position copy from [EDI]); that extra live value is
+what spills `best` to the native stack local [esp+0x10] and widens the frame
+to 0x1C, with `i` homed in the preference slot and `bestDistance` in the seed
+slot. Assigning `const GeometryContactRecord *c=&contactsBegin[i]` in each
+label arm (then `pos=c->position`) reproduces the 0x1C frame, the arg homes
+and EDI/ESI roles. In case 3 a pointer `p=&contactsBegin[index]` with
+`first=p[0]`, `second=p[1]` removes one more region. SequenceMatcher (same
+trials.py method) 0.738205 -> 0.893420; structural regions 28 -> 11; register
+diffs 44 -> 16; 1076 B vs 1082 (first diff +176).
+
+Remaining: (1) native computes the element pointer separately in each label
+arm (`mov edx|eax,[esi+0x38]; lea edi,[ebx+reg]`), ours head-merges it above
+the `test label` (6 bytes). Unchanged by: one ref before the if, pointer per
+arm via &a[i] / a+i / byte arithmetic, `!label` arm order, ternary call,
+nested continues, pos copy inside each arm, pointer declared at case scope or
+initialised before the loop. (2) case 3 keeps begin in EBP and copies it
+(`mov eax,ebp`), ours holds begin in ECX and count-1 in EBP; a begin local
+does not change it. (3) final `add eax,ecx` order in the found copy.
