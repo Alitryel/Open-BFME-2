@@ -86,7 +86,9 @@ namespace _STL { void __cdecl free(void *block); }
 #define peerCreateStagingRoomWithSocket peerCreateStagingRoomWithSocketA
 #define peerGetPlayerFlags              peerGetPlayerFlagsA
 #define peerGetPlayerInfoNoWait         peerGetPlayerInfoNoWaitA
-#define peerJoinStagingRoom             peerJoinStagingRoomA
+// BFME 2's peerJoinStagingRoomA (0x0069A130) is rowed as Rva0069A130JoinServer
+// in peer/peerMainBlockingOperations.c; the call names that row.
+#define peerJoinStagingRoom             Rva0069A130JoinServer
 #define peerLeaveRoom                   peerLeaveRoomA
 #define peerListGroupRooms              peerListGroupRoomsA
 #define peerMessagePlayer               peerMessagePlayerA
