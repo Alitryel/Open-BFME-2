@@ -1,7 +1,7 @@
 // cl: /EHs /D_STLP_NO_EXCEPTIONS /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /GF
 // stlport
-// ??0Rva0041386B@@QAE@XZ @0x0041386B 54B: thiscall ctor with vector at +0 and ModuleTemplateMap at +0xC.
-// Evidence: chain/unlock lane, EH prolog, rowed Vector_base BfmeE16 at 0x00211E58 and rowed map ctor at 0x00413727, caller at 0x00413B88.
+// Native0041386B54B: science-bonus schedule record, side-pointer vector+0 and bonus map+0xC.
+// Native callbacks002E2612/004138C7 and caller00413B4D establish the24B layout.
 #include <vector>
 #include <map>
 
@@ -17,23 +17,16 @@ template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
-#include "../../../../Libraries/Include/Lib/BfmeE16.h"
-// bfme link decl-only BfmeE16
-namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-enum NameKeyType { NK_ZERO = 0 };
-class ModuleFactory
-{
-public:
-	class ModuleTemplate
-	{
-	public:
-		void *m_createProc;
-		void *m_createDataProc;
-		int m_whichInterfaces;
-	};
+// The Sides parser002E2612 stores pointers returned by lookup002E18C3.
+// The pointee's original class name is unproven; no pointed-to object is owned.
+struct Rva002E18C3Side;
+// Callback004138C7 parses and copies this complete twelve-byte value.
+// The signed key is the minimum science-purchase-point count.
+struct Rva004138C7BonusView {
+ int minimum;
+ float firstMultiplier;
+ float secondMultiplier;
 };
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> _Rb_tree_base<pair<NameKeyType const ,ModuleFactory::ModuleTemplate>,allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > >::_Rb_tree_base(allocator<pair<NameKeyType const ,ModuleFactory::ModuleTemplate> > const &); }
 struct FieldParse
 {
  const char *name;
@@ -65,9 +58,11 @@ public:
 	Rva0041386B();
 	void rva0041393F(class INI *ini);
 private:
-	_STL::vector<BfmeE16> m_vec00;
-	_STL::map<NameKeyType, ModuleFactory::ModuleTemplate, _STL::less<NameKeyType>, _STL::allocator<_STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate> > > m_map0C;
+	_STL::vector<Rva002E18C3Side *> m_vec00;
+	_STL::map<int, Rva004138C7BonusView> m_map0C;
 };
+typedef char VerifyScienceBonusFields[(sizeof(Rva004138C7BonusView) == 12) ? 1 : -1];
+typedef char VerifyScienceBonusRecord[(sizeof(Rva0041386B) == 24) ? 1 : -1];
 Rva0041386B::Rva0041386B()
 {
 }
