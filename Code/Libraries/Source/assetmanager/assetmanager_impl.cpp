@@ -605,6 +605,10 @@ void BfmeP1024::bfmeReg1024(BfmeE1024 *item)
 extern void __cdecl Rva00030830FreeAllocation(void *);
 #include <set>
 #include <vector>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(allocator<unsigned int> const &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {} }
 // Bind to the kept retail copy instead of emitting this unit's own.

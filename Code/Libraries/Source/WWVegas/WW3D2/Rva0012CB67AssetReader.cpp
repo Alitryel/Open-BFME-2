@@ -10,6 +10,10 @@
 #undef _CRTIMP
 #define _CRTIMP
 #include <set>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 // Native12CB67..12CFA0/1081B. WB9D5C30 assetinit.cpp lines54..145 is
 // an independent debug semantic lead (larger assertions), with matching
 // FILE reads, EALA/102 header, asset registration and dependency collection.

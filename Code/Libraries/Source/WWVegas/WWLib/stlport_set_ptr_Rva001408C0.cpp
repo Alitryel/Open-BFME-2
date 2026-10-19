@@ -6,6 +6,10 @@
 // tree insert_unique at pinned 0x00422047. Called from 12 sites including
 // 0x004ABEAE (LargeGroupAudio path). Flags from stlport_vector_s_o1.cpp.
 #include <set>
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 struct Rva001408C0Target { int x; };
 typedef _STL::set<Rva001408C0Target*, _STL::less<Rva001408C0Target*>, _STL::allocator<Rva001408C0Target*> > PtrSet001408C0;
 template _STL::pair<PtrSet001408C0::iterator, bool> PtrSet001408C0::insert(Rva001408C0Target* const &);

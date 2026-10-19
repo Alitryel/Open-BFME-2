@@ -137,6 +137,10 @@ class RenderObjClass;
 class HTreeClass;
 RenderObjClass*Create_Render_Obj(const char*);
 #include "../../../../Libraries/Source/WWVegas/WW3D2/AnimationAssetBFME2.h"
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAU?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@U12@V?$alloc:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
 void rva0010E4F6(void*,bool);
 class ParticleModelModule621 {public:virtual void v00();virtual void v04();virtual void v08();virtual void v0C();virtual void v10();virtual AsciiString modelName();virtual void v18();virtual int modelValue();};
 struct ParticleSystemModel621 {char unknown00[0xC];int kind;char unknown10[0x1B4];ParticleModelModule621*module;};
