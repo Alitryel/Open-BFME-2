@@ -17,10 +17,14 @@ class Xfer;
 #include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 
+// 12-byte element, as Rva002A73B8Dtor.cpp and StlportVectorDtorFamily.cpp (the
+// retail _Destroy loop steps by 0x0C) lay it out.
 class Rva002A73B8
 {
 public:
 	~Rva002A73B8();
+private:
+	char m_pad[0xC];
 };
 
 class __declspec(novtable) Rva002AE5EB : public Snapshot
