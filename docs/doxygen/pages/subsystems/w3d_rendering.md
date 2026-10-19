@@ -18,7 +18,7 @@ porting the renderer are under \ref sub_w3d_rendering_remastering.
 |---|---|
 | `Libraries/Source/WWVegas/WW3D2/` | the engine: `WW3D`, `DX8Wrapper`, render objects, meshes, hierarchies and animations, shaders and materials, textures, particles, scenes, cameras, lights, the 2D renderer and fonts, and BFME 2's FX shaders and asset registry |
 | `Libraries/Source/WWVegas/WWMath/` | vectors, matrices, quaternions, bounding volumes, collision tests and culling systems |
-| `Libraries/Source/WWVegas/wwshade/` | one small unit so far, from the shader library Zero Hour keeps there |
+| `Libraries/Source/WWVegas/wwshade/` | code from the shader library Zero Hour keeps there |
 | `GameEngineDevice/Source/W3DDevice/GameClient/` | `W3DDisplay`, `W3DView`, `W3DGameClient`, terrain and its buffers, `Water/`, `Shadow/`, `Drawable/Draw/` (draw modules), `GUI/` (W3D drawing of window gadgets) |
 | `GameEngineDevice/Source/W3DDevice/Common/` | `W3DModuleFactory` (draw module registration) and conversion helpers |
 | `GameEngineDevice/Source/W3DDevice/GameLogic/` | `W3DTerrainLogic` and `W3DGhostObject`: device-specific code on the logic side |
@@ -103,10 +103,16 @@ module factory's (\ref sub_rts_model).
 
 Each client frame, `GameClient::update` updates the display and asks it to
 redraw (\ref sub_gameclient). Where Zero Hour's `GameClient::update` calls
-`Display::draw`, BFME 2 calls a display method at a different slot. BFME 2's
-`W3DDisplay::draw` is not yet reconstructed, so its order (Zero Hour: sync
-the animation clock, begin rendering, draw each view, draw the 2D overlay,
-end rendering) is not confirmed here.
+`Display::draw`, BFME 2 calls a display method at a different slot.
+
+BFME 2 renders a frame in a `W3DDisplay` helper whose structure follows Zero
+Hour's `W3DDisplay::draw`. In outline, it holds the DX8 device lock for the
+whole pass. It prepares the frame (particles, the terrain's shroud and taint,
+and the shadow-map and water-reflection updates), begins rendering and draws
+the views. It then draws the UI (the in-game UI and the Apt UI), then the
+mouse, and ends rendering. In the branch that corresponds to Zero Hour's
+loading-screen render, it draws only the UI and the mouse. Another branch,
+which this page does not describe, skips the views.
 
 ## How it connects {#sub_w3d_rendering_connects}
 
@@ -176,8 +182,8 @@ end rendering) is not confirmed here.
   or `BIG4`) named in the global data, opened and parsed directly by path,
   not through the game's file system; then `<asset directory>\asset.dat`;
   then `asset.dat` in the working directory. It reports failure when the last
-  is missing or does not parse, which `W3DDisplay::init` does not check. The
-  format of the index is not yet documented here.
+  is missing or does not parse, which `W3DDisplay::init` does not check. This
+  page does not describe the format of the index.
 - **Detail presets.** `StaticGameLOD` INI blocks set per-level options such
   as `ModelLOD`, `EffectsLOD`, `ShaderLOD`, `ShadowLOD`, `WaterLOD`,
   `MaxParticleCount`, `UseShadowVolumes`, `UseShadowMapping`,
@@ -205,7 +211,7 @@ end rendering) is not confirmed here.
   `D3DXQuaternionSlerp`. Both are W3D-side dependencies on `d3dx9_27.dll`
   (their known callers are camera, mesh and animation code), so a port
   without D3DX must replace them. Whether any game-logic result depends on
-  them has not been traced.
+  them is not established.
 - **Resolution and aspect.** The device size comes from the global data and
   `W3DDisplay::setDisplayMode` changes it at run time, resizing the 2D
   coordinate range to match. The 2D camera made by `W3DView::init` has a fixed
@@ -215,25 +221,25 @@ end rendering) is not confirmed here.
   vertical sync); in full screen it clips the cursor to the window.
 - **Threads.** Zero Hour's WW3D locks only in its texture loading and
   texture file cache code. BFME 2 also guards the device: `DX8Wrapper::Init`
-  creates a device mutex, and `DX8Wrapper::Init`, `W3DDisplay::init` (device
-  creation and shader set-up), `W3DDisplay::setDisplayMode` and
-  `FXShaderAsset::Impl::Load` all take the same device lock. Which threads
-  contend for it is not yet traced.
+  creates a device mutex. Code that takes the same device lock includes
+  `DX8Wrapper::Init`, `W3DDisplay::init` (device creation and shader set-up),
+  `W3DDisplay::setDisplayMode`, `FXShaderAsset::Impl::Load` and the per-frame
+  render pass described above, as well as terrain, radar, shroud and taint
+  code such as `BaseHeightMapRenderObjClass::initHeightData`,
+  `W3DRadar::reset`, `W3DShroud::init` and `W3DTaint::init`. Which threads
+  contend for it is not established.
 
 ## State of the reconstruction {#sub_w3d_rendering_state}
 
-The subsystem is large, and much of it is already byte-matched. WWMath is
-almost entirely named. WW3D2 is largely named:
-the device wrapper, meshes, HLODs, animations, particles and the 2D renderer
-are recognisable Zero Hour classes, while BFME 2's dynamic buffers, sorting
-draws and effect binding still carry many placeholder or role names. The W3D device
-layer is the least settled part: `W3DDisplay`, the terrain and shrub buffers
-and the screen filters have many placeholder-named rows, and
-`W3DDisplay::draw` is not reconstructed. Many WW3D2 and device-layer files
-do not link yet (`tools/link_rank.py` shows what holds them back), and
-`reverse/canonical_classes.csv` lists which classes have a shared header.
-To refresh this picture, search `reverse/functions.csv` and
-`reverse/link_status.csv` for the directories above.
+The subsystem is large. WWMath and, in WW3D2, the device wrapper, meshes,
+HLODs, animations, particles and the 2D renderer are recognisable Zero Hour
+classes, so the Zero Hour source is the first reference for them. Where a
+row carries a placeholder or role name (\ref page_reading_code), read its
+ledger note before relying on it.
+Coverage changes daily: search `reverse/functions.csv` and
+`reverse/link_status.csv` for the directories above, `tools/link_rank.py`
+shows what keeps a file from linking, and `reverse/canonical_classes.csv`
+lists which classes have a shared header.
 
 ## Reading list {#sub_w3d_rendering_reading}
 

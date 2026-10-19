@@ -39,7 +39,7 @@ class name to find all of its files.
   online launch attaches the transport prepared by NAT negotiation when
   there is one). A failed start deletes it again, and
   `GameEngine::reset` deletes it when it runs after a multiplayer game
-  (BFME 2 adds one further condition whose meaning is not yet
+  (BFME 2 adds one further condition whose meaning is not
   established). Zero Hour's `GameEngine::reset` makes the same deletion.
 - `ConnectionManager` owns the game's connections, the transport and the
   frame rings. It receives packets, sorts their commands into frames,
@@ -91,9 +91,12 @@ class name to find all of its files.
 5. **Commands out.** The local player's commands on `TheCommandList`
    become `NetGameCommandMsg`s for a later logic frame. Zero Hour does
    this in `Network::GetCommandsFromCommandList`, with the delay set by
-   the run-ahead; BFME 2's matched counterpart still has a placeholder
-   name. Each peer also sends frame info: how many commands it issued
-   for a frame, so receivers know when that frame is complete.
+   the run-ahead. BFME 2's counterpart walks `TheCommandList` the same
+   way: it hands network command messages to the connection manager only
+   while in game, and removes and frees each one from the list whether
+   or not it was sent. Each peer also sends frame info: how many
+   commands it issued for a frame, so receivers know when that frame is
+   complete.
 6. **Transport.** `ConnectionManager::update` receives, updates the
    disconnect manager, relays, sends every connection's queue and flushes
    the `Transport`. `ConnectionManager::processNetCommand` dispatches each
@@ -140,7 +143,7 @@ calls these queries.
 | `DisconnectManager::update` | disconnect timeouts and screen |
 | `LANAPI::init` | binds the LAN lobby socket and reads the user and machine names |
 | `LANAPI::OnGameStart` | creates the network, runs the transfers and launches a LAN game |
-| `LANAPI::update` | LAN lobby pump |
+| `LANAPI::update` | LAN lobby pump: dispatches received lobby messages by type, resends announcements, drops players and games no longer heard from, and times out pending requests |
 | the network's own update and light update | pump commands and call `ConnectionManager::update` |
 
 ## How it connects {#sub_network_connects}
@@ -201,7 +204,7 @@ calls these queries.
   from `GameData` INI fields (`NetworkRunAheadSlack`,
   `NetworkKeepAliveDelay`, `NetworkDisconnectTime`,
   `NetworkPlayerTimeoutTime` and others); whether BFME 2 keeps them is not
-  yet established. The lobby and error texts come from the string table
+  established. The lobby and error texts come from the string table
   ("LAN:...", "GUI:..." keys) and the screens are UI data
   (\ref sub_gui_apt). Limits, the command set and the wire format are
   code.
@@ -225,7 +228,7 @@ calls these queries.
   connections, sockets, game slots) and the LAN port range.
 - **Frame rates.** The logic and client frame rates are read from two
   globals that hold 5 and 30 per second in the shipped game; whether any
-  data file sets them is not yet established.
+  data file sets them is not established.
 
 ## Remastering notes {#sub_network_remastering}
 
@@ -257,18 +260,21 @@ calls these queries.
 
 ## State of the reconstruction {#sub_network_state}
 
-The lockstep core is largely named and matched: `NetPacket`'s serialisers
-and parsers, `ConnectionManager` and its command handlers, the frame
-rings, the frame-admission queries, `Transport` and `UDP`, the LAN
-handlers and much of `GameInfo` and `GameSlot`. The network's update and
-light update are matched but still carry address names. Many BFME 2-only
-connection-manager methods carry class and method names carried over from
-the BFME 1 reconstruction rather than from retail evidence. Most GameSpy SDK modules
-are vendored C, matched and named; `chat/` and `peer/` are
-reconstructions transcribed from the public SDK (see their
-`PROVENANCE.txt` files). The FESL and DirtySock code is mostly
-address-named. To refresh this picture, search `reverse/functions.csv`
-and `reverse/link_status.csv` for the directories above.
+Each part of the subsystem has its own reference. For the lockstep core,
+`Transport`, `UDP` and the LAN lobby, the Zero Hour sources in the reading
+list are the first reference, and the BFME 1 reconstruction's network files
+are the donor to check for code Zero Hour does not have. The GameSpy SDK's C
+modules are vendored from a period copy of the SDK (one licensee's source
+release), except `chat/` and `peer/`,
+which are reconstructions transcribed from the later public SDK;
+`GameSpy/PROVENANCE.txt` and the `PROVENANCE.txt` files in `chat/` and
+`peer/` record where each text comes from and how it differs. Names in the
+FESL and DirtySock code and in the BFME 2-only connection-manager code come
+from several sources, and code with no recovered name is named after its
+address (\ref page_reading_code); read a row's ledger note before relying on
+a name. Coverage changes daily: search `reverse/functions.csv` and
+`reverse/link_status.csv` for the directories above, and
+`tools/link_rank.py` shows what keeps a file from linking.
 
 ## Reading list {#sub_network_reading}
 
