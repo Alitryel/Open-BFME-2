@@ -102,6 +102,14 @@ inline __declspec(noinline) Rva0040CB11Entry::Rva0040CB11Entry(int key, const Rv
 }
 #pragma inline_depth()
 
+// Declaration-only: retail keeps one push_back (rowed 0x0040E8D1) and one
+// _M_insert_overflow (rowed 0x004F8EAF) copy for this element; this unit calls
+// them rather than emitting its own.
+namespace _STL {
+template <> void vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::_M_insert_overflow(Rva0040CB11Entry *, const Rva0040CB11Entry &, const __false_type &, size_t, bool);
+template <> void vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::push_back(const Rva0040CB11Entry &);
+}
+
 class Rva0040D8D6Listener
 {
 public:
