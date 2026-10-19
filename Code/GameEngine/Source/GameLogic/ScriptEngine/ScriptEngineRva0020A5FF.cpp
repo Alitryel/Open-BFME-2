@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHs /D_STLP_USE_MALLOC
+// cl: /Ireference/shims/bfme2_ascii /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ?addObjectToCache@ScriptEngine@@QAEXPAVObject@@ABVAsciiString@@@Z @0x0020A5FF 374B.
@@ -19,10 +19,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
-// bfme link decl-only begin
-namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
-namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
-// bfme link decl-only end
 
 class Object;
 struct ObjectTemplate
