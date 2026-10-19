@@ -123,8 +123,6 @@ private:
 class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
 class Rva006C17B0 { public: void rva006C17B0(bool, bool); };
 
-union GeneralAllocatorMetricBlockArg { GeneralAllocatorChunk *block; unsigned int size; };
-
 struct GeneralAllocatorMetricCounters
 {
 	unsigned __int64 currentCount, totalAllocCount, peakCount;
@@ -136,7 +134,7 @@ extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount(void);
 class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
-	void rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool allocation);
+	void rva006C26F0(void *chunk, bool allocation);
 	void rva006C1B60(int option, unsigned int value);
 	unsigned int rva006C1FE0(char *base, int length, char **bodyOut);
 	unsigned int rva006C2510(char *block, int mode, char **outBody);
@@ -377,18 +375,18 @@ unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **ou
 	return result;
 }
 
-// ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z,
+// ?rva006C26F0@GeneralAllocatorDebug@@QAEXPAX_N@Z,
 // retail 0x006C26F0 (934 B): the allocation/free metrics update. With metrics on
 // (+0x560) it books the chunk footprint, header overhead, the debug data size
 // (rva006C2510) and the user size into the four 64-bit counter blocks and
 // stamps the allocation or free time. The usable size is one conditional
 // expression (mmapped chunks carry no trailing word), as EA's GetUsableSize;
 // with it cl spills the user size into the dead arg slot as retail does.
-void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool allocation)
+void GeneralAllocatorDebug::rva006C26F0(void *chunk, bool allocation)
 {
  if(allocation) ++m_allocRequests;
- if(m_metricsEnabled && arg.block) {
-  GeneralAllocatorChunk *block=arg.block;
+ if(m_metricsEnabled && chunk) {
+  GeneralAllocatorChunk *block=(GeneralAllocatorChunk *)chunk;
   unsigned int flags=block->m_size;
   unsigned int prev=(flags&2)?block->m_prevSize:0;
   unsigned int footprint=(block->m_size&0x7FFFFFF8)+prev;
