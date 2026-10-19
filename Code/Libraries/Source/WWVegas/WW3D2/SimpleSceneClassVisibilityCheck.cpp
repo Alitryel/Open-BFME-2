@@ -53,7 +53,7 @@ public:
 	int m_14;
 };
 
-extern Rva0006EFC8 g_Rva0006EFC8Pool00DB424C;
+extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp (VA 0xDB424C)
 
 struct Rva0006FB50List
 {
@@ -64,8 +64,8 @@ struct Rva0006FB50List
 		while (current) {
 			Gen_00943CF0_Node *old = current;
 			current = current->m_next;
-			old->m_next = (Gen_00943CF0_Node *)g_Rva0006EFC8Pool00DB424C.m_head;
-			g_Rva0006EFC8Pool00DB424C.m_head = old;
+			old->m_next = (Gen_00943CF0_Node *)g_BfmeSceneNodePool.m_head;
+			g_BfmeSceneNodePool.m_head = old;
 		}
 	}
 };

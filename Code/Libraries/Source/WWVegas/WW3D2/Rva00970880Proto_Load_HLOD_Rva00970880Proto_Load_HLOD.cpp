@@ -30,8 +30,6 @@ private:
 	void Free_String();
 };
 
-extern "C" const char Rva011139E4_W3D_Extension[];
-
 class BFMEChunkInput
 {
 public:
@@ -89,7 +87,7 @@ extern void *Open_W3D_File(void *a, void *b, const char *filename);
 void Rva00970880Proto::Load_HLOD()
 {
 	StringClass filename(m_name, false);
-	filename += Rva011139E4_W3D_Extension;
+	filename += ".w3d";	// the compiler literal at VA 0xBC6860
 
 	BFMEChunkInput *file = (BFMEChunkInput *)Open_W3D_File(
 		(void *)(const char *)filename,

@@ -121,11 +121,12 @@ struct Rva007B70F0Pool
     int m_context;
 };
 
-extern unsigned g_Va00DB424C;
+class Rva0006EFC8;
+extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp (VA 0xDB424C)
 
 void rva007B70F0()
 {
-    Rva007B70F0Pool *pool = (Rva007B70F0Pool *)&g_Va00DB424C;
+    Rva007B70F0Pool *pool = (Rva007B70F0Pool *)&g_BfmeSceneNodePool;
     void *block = pool->m_blocks;
     while (block != 0) {
         pool->m_blocks = *(void **)block;

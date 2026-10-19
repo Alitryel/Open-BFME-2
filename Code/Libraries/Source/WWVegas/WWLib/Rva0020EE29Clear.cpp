@@ -727,11 +727,11 @@ public:
 	void rva002122D4(void *a);
 };
 
-extern NameKeyGenerator *g_rva00DF36A4;
+extern NameKeyGenerator *TheNameKeyGenerator; // VA 0xDF36A4, owned by NameKeyGenerator.cpp
 
 void __stdcall Rva002122FD(void *a1)
 {
-	void *t = (void *)g_rva00DF36A4->nameToKey(*(const AsciiString *)a1);
+	void *t = (void *)TheNameKeyGenerator->nameToKey(*(const AsciiString *)a1);
 	((Rva00DFE1C8Host *)TheLivingWorldManager)->rva002122D4(t);
 }
 
