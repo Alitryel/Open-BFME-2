@@ -1,4 +1,4 @@
-// ?rva00160FC0@Rva00160FC0@@QAEXPAVRva00160FC0Input@@@Z
+// ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z
 // cl: /O2 /G7 /DNDEBUG /MD /EHsc
 // Native00160FC0..0016104E RET4. Input+58 holds six-pointer records;
 // visit five pointers in each record after the first. Virtual slots34/8
@@ -37,7 +37,7 @@ public:
     char unknown04[0x54];
     Rva00160FC0Item **records;
 };
-class Rva00160FC0
+class HTreeClass
 {
     char unknown00[0x28];
     Rva00160FC0Input *input;
@@ -46,7 +46,7 @@ class Rva00160FC0
 public:
     void rva00160FC0(Rva00160FC0Input *next);
 };
-void Rva00160FC0::rva00160FC0(Rva00160FC0Input *next)
+void HTreeClass::rva00160FC0(Rva00160FC0Input *next)
 {
     if (next != input)
     {

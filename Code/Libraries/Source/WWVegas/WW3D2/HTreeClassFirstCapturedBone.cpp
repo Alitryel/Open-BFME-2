@@ -50,8 +50,8 @@
 // 0x001645B0 (4715 bytes): HTreeClass::Blend_Update, BFME 2's two-animation
 // blend in WorldBuilder's shape (0x00A173C0, htree.cpp:893-970). A
 // compressed motion0 (Get_Class_ID() == 1) with node channels takes the fast
-// path: the motion-cache check at 0x00160FC0 (rowed as Rva00160FC0, called
-// through a cast), the nodes' X/Y/Z/Q/Fade channels read inline through the
+// path: the motion-cache check at 0x00160FC0 (HTreeClass::rva00160FC0),
+// the nodes' X/Y/Z/Q/Fade channels read inline through the
 // shared channel cache, then return. Any other pair clears the cached motion
 // and blends through the HAnimClass virtuals. As in WB, the generic path's
 // locals (its CompactTransform after the first-captured seed) follow the fast
@@ -393,11 +393,6 @@ __forceinline long Float_To_Long(float f)
 }
 
 class Rva00160FC0Input;
-class Rva00160FC0
-{
-public:
-	void rva00160FC0(Rva00160FC0Input * next);
-};
 
 inline float Lerp(float a, float b, float lerp) { return (a + (b - a)*lerp); }
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
@@ -441,6 +436,7 @@ public:
 	void Anim_Update(const Matrix3D & root, HAnimClass * motion, float frame);
 	void Anim_Update(const Matrix3D & root, HRawAnimClass * motion, float frame);
 	void Blend_Update(const Matrix3D & root, HAnimClass * motion0, float frame0, HAnimClass * motion1, float frame1, float percentage);
+	void rva00160FC0(Rva00160FC0Input * next);	// motion/channel cache refresh 0x00160FC0
 private:
 	struct CapturedPivot { int PivotIndex; CompactTransform Transform; bool WorldSpaceTranslation; };
 	char Name[16];
@@ -602,7 +598,7 @@ void HTreeClass::Blend_Update(const Matrix3D & root, HAnimClass * motion0, float
 
 		if (nodes != 0) {
 
-			((Rva00160FC0 *)this)->rva00160FC0((Rva00160FC0Input *)cmotion);
+			rva00160FC0((Rva00160FC0Input *)cmotion);
 
 			Pivot[0].Transform = root;
 			Pivot[0].IsVisible = true;
@@ -715,7 +711,7 @@ void HTreeClass::Anim_Update(const Matrix3D & root, HAnimClass * motion, float f
 
 		if (nodes != 0) {
 
-			((Rva00160FC0 *)this)->rva00160FC0((Rva00160FC0Input *)cmotion);
+			rva00160FC0((Rva00160FC0Input *)cmotion);
 
 			Pivot[0].Transform = root;
 			Pivot[0].IsVisible = true;
