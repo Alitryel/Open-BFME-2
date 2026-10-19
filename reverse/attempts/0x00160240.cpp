@@ -1,4 +1,6 @@
 // ?evaluate@Rva00160150@@QAEXAAURva00160240Pose@@MAAMMPAPAE@Z
+// partial score=0.84 date=2026-10-19
+// ?evaluate@Rva00160150@@QAEXAAURva00160240Pose@@MAAMMPAPAE@Z
 // partial score=0.82 date=2026-10-16
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 //
@@ -31,9 +33,11 @@ struct Rva00160240Pose {
   float y=q.W*v.Y-(q.X*v.Z-q.Z*v.X);
   float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
   float w=0.0f-(q.Y*v.Y+q.X*v.X+q.Z*v.Z);
-  return Vector3((q.Y*z-q.Z*y)+(q.W*x-q.X*w),
-    (q.W*y-q.Y*w)-(q.X*z-q.Z*x),
-    (q.X*y-q.Y*x)+(q.W*z-q.Z*w));
+  Vector3 result;
+  result.X=(q.Y*z-q.Z*y)+(q.W*x-q.X*w);
+  result.Y=(q.W*y-q.Y*w)-(q.X*z-q.Z*x);
+  result.Z=(q.X*y-q.Y*x)+(q.W*z-q.Z*w);
+  return result;
  }
  __forceinline void Translate(const Vector3 &v){ Position+=rotate(v); }
  __forceinline void Rotate(const Quaternion &q){
@@ -119,5 +123,8 @@ void Rva00160150::evaluate(Rva00160240Pose &pose,float scale,float &fade,float f
   pose.Translate(s.translation);
   pose.Rotate(s.rotation);
  }else pose.Translate(s.translation);
- if(((BFME2MotionChannel*)m_scale))((BFME2MotionChannel*)m_scale)->UnknownSlot3(frame,&fade,cursor);else fade=1.0f;
+ if(!m_scale){ fade=1.0f; return; }
+ ((BFME2MotionChannel*)m_scale)->UnknownSlot3(frame,&fade,cursor);
 }
+
+// Retail evidence and remaining SSE differences: reverse/attempt_support/00160240-20261019.md.
