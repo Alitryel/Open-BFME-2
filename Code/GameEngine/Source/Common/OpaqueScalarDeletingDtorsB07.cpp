@@ -115,7 +115,18 @@ Rva0037381C::Rva0037381C(EmitVtableTag *)
 {
 }
 
-class Rva0037BB53
+// Rva0037BB53 is a GameInfo (Rva0037BADDGameInfoCtor.cpp): its table's slot 1 is
+// GameInfo::reset. The base is novtable, with its ctor declared only, so this TU
+// emits no GameInfo table or ctor of its own.
+class __declspec(novtable) GameInfo
+{
+public:
+	GameInfo();
+	virtual ~GameInfo();
+	virtual void reset();
+};
+
+class Rva0037BB53 : public GameInfo
 {
 public:
 	Rva0037BB53(EmitVtableTag *);
