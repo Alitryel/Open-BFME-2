@@ -36,7 +36,7 @@ static __forceinline AsciiStringPlusString operator+(const AsciiString&a,const A
 inline AsciiStringPlusStringText operator+(const AsciiStringPlusString &left,const char *right){Rva000B3F84Pair text;text.init(right);AsciiStringPlusStringText result;static_cast<AsciiStringPlusString&>(result)=left;result.m_right=text;return result;}
 struct Rva005EF5CA:AsciiStringPlusStringText {operator AsciiString();AsciiStringRef fourth;};
 Rva005EF5CA operator+(const AsciiStringPlusStringText&,const AsciiString&);
-class Rva005F69F5 {public:Rva005F69F5();~Rva005F69F5();virtual void vslot10()=0;protected:void *at04;int at08,at0C,quantity,at14;bool hover;};
+class Rva005F69F5 {public:Rva005F69F5();~Rva005F69F5();virtual void DoSetState(int);protected:void *at04;int at08,at0C,quantity,at14;bool hover;};
 namespace StrategicHUD {
 class BuildQueueDetailsMovieClip {public:class Impl;};
 class BuildQueueDetailsMovieClip::Impl {public:class QueuedIconSlot;char unknown00[4];unsigned level;AsciiString name;char unknown0C[8];AptCommandMapAdder commands;};
@@ -45,7 +45,10 @@ public:
  QueuedIconSlot(Impl*,int);
  void rva005F6AE8(void*);void rva005F6A98(void*);void rva005F6A90(void*);void rva005F6892(void*);void rva005F688B(void*);void rva005F6AA8(void*);void rva005F6AA0(void*);
  void SetQuantityString(int);void SetNumTurnsString(int);
- virtual void unknown1();
+ // Slot 9 of retail's table 0x00879828; the dtor (Rva005F6AB0Dtor.cpp) and
+ // DoSetState (Rva005F7559Setter.cpp) units declare this same one-virtual view,
+ // so every unit emits one identical ??_7 COMDAT.
+ virtual void DoSetState(int);
 private: Impl *owner;int index,turns;bool turnsHover;
 };
 BuildQueueDetailsMovieClip::Impl::QueuedIconSlot::QueuedIconSlot(Impl*parent,int slot):owner(parent),index(slot),turns(0),turnsHover(false){
