@@ -35,21 +35,21 @@ struct BfmeShadowBufferEntry
 	unsigned int unreconstructed14;
 };
 
-class BfmeVolumetricShadowBufferOwner : public BfmeShadowBufferOwnerBase
+class W3DVolumetricShadowV2 : public BfmeShadowBufferOwnerBase
 {
 	unsigned char m_unreconstructed_058[ 0x10 ];
-	BfmeVolumetricShadowBufferOwner **m_prevLink;
-	BfmeVolumetricShadowBufferOwner *m_next;
+	W3DVolumetricShadowV2 **m_prevLink;
+	W3DVolumetricShadowV2 *m_next;
 	unsigned int m_unreconstructed_070;
 	BfmeShadowRefCount *m_resource;
 	int m_entryCount;
 	BfmeShadowBufferEntry *m_entries;
 
 public:
-	virtual ~BfmeVolumetricShadowBufferOwner();
+	virtual ~W3DVolumetricShadowV2();
 };
 
-BfmeVolumetricShadowBufferOwner::~BfmeVolumetricShadowBufferOwner()
+W3DVolumetricShadowV2::~W3DVolumetricShadowV2()
 {
 	if (m_next != 0)
 		m_next->m_prevLink = m_prevLink;
