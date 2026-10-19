@@ -42,7 +42,6 @@ private:
  float m_40;
 };
 
-extern float g_Va00BBB8D8;
 
 void *operator new(unsigned int s) throw();
 
@@ -65,7 +64,7 @@ void Drawable::rva0027541E(const RGBColor *peak, unsigned int a1, unsigned int a
 	if (peak != 0) {
 		((TintEnvelope *)m_68)->play(peak, a2, a1, a3);
 	} else {
-		float white = g_Va00BBB8D8;
+		float white = 1.0f;
 		RGBColor tmp;
 		tmp.red = white;
 		tmp.green = white;

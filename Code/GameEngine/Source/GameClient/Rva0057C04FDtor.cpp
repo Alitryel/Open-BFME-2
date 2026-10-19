@@ -143,7 +143,6 @@ class Rva00222A8BTarget
 };
 
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
-extern const unsigned short g_Va007C9260[];
 int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *t, void *a1, const char *a2, const char *a3);
 struct Base00
 {
@@ -198,7 +197,7 @@ void Rva0057C04F::DoPlay(int turn)
 	AsciiString key;
 	key.format("APT:_level%u.%s_TurnNumber", m_level04, m_08.str());
 	UnicodeString value;
-	value.format(g_Va007C9260, turn);
+	value.format(L"%d", turn);
 	((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, value, false);
 	Rva00524EF4AptCall(TheRva00222A8BTarget, (void *)m_level04, m_08.str(), "Go");
 	m_flag18 = 1;

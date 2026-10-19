@@ -11,7 +11,6 @@ typedef bool Bool;
 #define TRUE 1
 #endif
 
-extern const unsigned short g_Va007C9260[];
 
 class GameWindow
 {
@@ -64,7 +63,7 @@ void CountUpTransition::update(Int frame)
 		{
 			m_currentValue = 0;
 			UnicodeString currVal;
-			currVal.format(g_Va007C9260, m_currentValue);
+			currVal.format(L"%d", m_currentValue);
 			GadgetStaticTextSetText(m_win, currVal);
 			m_win->winHide(TRUE);
 			m_isFinished = TRUE;
@@ -90,7 +89,7 @@ void CountUpTransition::update(Int frame)
 		if (m_currentValue > m_intValue)
 			m_currentValue = m_intValue;
 		UnicodeString currVal;
-		currVal.format(g_Va007C9260, m_currentValue);
+		currVal.format(L"%d", m_currentValue);
 		GadgetStaticTextSetText(m_win, currVal);
 	}
 	if (frame == m_frameLength)

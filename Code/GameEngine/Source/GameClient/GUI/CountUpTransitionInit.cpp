@@ -15,7 +15,6 @@ typedef bool Bool;
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-extern const unsigned short g_Va007C9260[];
 
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *str);
 
@@ -104,6 +103,6 @@ void CountUpTransition::init(GameWindow *win)
 
 	m_currentValue = 0;
 	UnicodeString currVal;
-	currVal.format(g_Va007C9260, m_currentValue);
+	currVal.format(L"%d", m_currentValue);
 	GadgetStaticTextSetText(m_win, currVal);
 }
