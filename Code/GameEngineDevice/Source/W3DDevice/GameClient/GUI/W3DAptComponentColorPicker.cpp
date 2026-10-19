@@ -14,6 +14,9 @@
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char*,const char*,...);
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char*,unsigned int,const char*,...);
 #include "wwmath.h"
+// Keep the same visible operation without emitting an O1 WWMath::Floor copy;
+// lightenvironment.cpp owns the retail O2 body of that public member.
+static inline float colorPickerFloor(float value) { return floorf(value); }
 struct ColorFloatPoint {float x,y;ColorFloatPoint(float a=0,float b=0):x(a),y(b){}};
 struct ColorIntPoint {int x,y; ColorIntPoint(int a,int b):x(a),y(b){} };
 class Image {public:char pad[8];AsciiString filename;ColorIntPoint size;ColorFloatPoint uv;const ColorIntPoint *Get_Size() const{return &size;}const ColorFloatPoint *Get_UV() const{return &uv;}char pad1C[8];int width,height;};
@@ -140,8 +143,8 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
   if(!uv)return;
   const ColorIntPoint *textureSize=image->Get_Size();
   if(!textureSize)return;
-  int left=WWMath::Float_To_Long(WWMath::Floor((float)textureSize->x*uv->x+0.5f));
-  int top=WWMath::Float_To_Long(WWMath::Floor((float)textureSize->y*uv->y+0.5f));
+  int left=WWMath::Float_To_Long(colorPickerFloor((float)textureSize->x*uv->x+0.5f));
+  int top=WWMath::Float_To_Long(colorPickerFloor((float)textureSize->y*uv->y+0.5f));
   int pitch;
   void *voidPtr;
   ColorSurfaceLock lock(surface,&pitch,left,top,left+cursorX,top+cursorY,voidPtr);
@@ -163,7 +166,7 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
   if(cursorY) offset.y=((float)nearestY*(float)height)/(float)cursorY; else offset.y=0.0f;
   const ColorFloatPoint *scale=(const ColorFloatPoint*)Rva000A8F5EGet();
   {
-  ColorIntPoint cursor(WWMath::Float_To_Long(WWMath::Floor(offset.x*scale->x+0.5f)),WWMath::Float_To_Long(WWMath::Floor(offset.y*scale->y+0.5f)));
+  ColorIntPoint cursor(WWMath::Float_To_Long(colorPickerFloor(offset.x*scale->x+0.5f)),WWMath::Float_To_Long(colorPickerFloor(offset.y*scale->y+0.5f)));
   Rva00525235Fire(TheRva00222A8BTarget,(void*)14,colorName(owner),"SetCursor",&cursor.x,&cursor.y);
   }
   seek=false;
