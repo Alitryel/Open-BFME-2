@@ -98,6 +98,12 @@ class Rva0046A915 { public: ~Rva0046A915(); private: void *m_ptr; int m_flag; };
 class Rva0046AB7D { public: ~Rva0046AB7D(); private: void *m_ptr; int m_flag; };
 class Rva002EE9B7 { public: ~Rva002EE9B7(); private: void *m_ptr; int m_flag; };
 
+// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
+// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
+// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
+struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
+typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
+typedef _STL::_Rb_tree<Rva00286656Element, _STL::pair<const Rva00286656Element, int>, _STL::_Select1st<_STL::pair<const Rva00286656Element, int> >, _STL::less<Rva00286656Element>, _STL::allocator<_STL::pair<const Rva00286656Element, int> > > Rva00286852Tree;
 class HordeContain : public TransportContain, public Iface11C
 {
 public:
@@ -106,14 +112,14 @@ private:
 	unsigned char m_pad120[0x170 - 0x120];
 	Rva002EE9B7 m_170;
 	int m_pad174;
-	IntPtrTree m_17C;
+	Rva00286852Tree m_17C;
 	FreeHolder m_188;
 	int m_pad18C[2];
 	_STL::_List_base<int, _STL::allocator<int> > m_194;
 	int m_pad198[2];
 	Rva0046AB7D m_1A0;
 	unsigned char m_pad1A8[0x24C - 0x1A8];
-	IntPtrTree m_24C;
+	Rva00286852Tree m_24C;
 	Rva0046A915 m_258;
 	unsigned char m_pad260[0x270 - 0x260];
 	FreeHolder m_270;

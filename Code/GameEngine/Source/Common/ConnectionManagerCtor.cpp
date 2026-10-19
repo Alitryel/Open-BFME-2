@@ -97,6 +97,13 @@ private:
 };
 typedef char ConnectionProgressExtent[(sizeof(Rva004D1D32)==12)?1:-1];
 
+// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
+// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
+// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
+struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
+typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
+namespace _STL { template <> _Rb_tree_base<pair<Rva00286656Element const, int>, allocator<pair<Rva00286656Element const, int> > >::_Rb_tree_base(allocator<pair<Rva00286656Element const, int> > const &); }
+namespace _STL { template <> _Rb_tree<Rva00286656Element, pair<Rva00286656Element const, int>, _Select1st<pair<Rva00286656Element const, int> >, less<Rva00286656Element>, allocator<pair<Rva00286656Element const, int> > >::~_Rb_tree(); }
 class ConnectionManager
 {
 public:
@@ -127,7 +134,7 @@ public:
 	bool m_12134;
 	bool m_12135;
 	char m_12136pad[2];
-	_STL::map<int, void *> m_12138;
+	Rva00286852Map m_12138;
 	ConnectionAsciiSet m_12144;
 	Rva004D1D32 m_12150[8];
 };
