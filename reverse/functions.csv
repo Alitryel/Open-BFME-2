@@ -61694,7 +61694,7 @@ _FilterBlockBil_8_mmx,,0x001D7200,204,Code/Libraries/Source/VP6/FilterBlockBil8M
 ?rva001F8203@Rva001F8203@@QAEXXZ,,0x001F8203,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
 ?rva001F8950@Rva001F8950@@QAEXXZ,,0x001F8950,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
 ?rva003F7D56@Rva003F7D56@@QAEXXZ,,0x003F7D56,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
-?rva0050EAB9@Rva0050EAB9@@QAEXXZ,,0x0050EAB9,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
+??1AptRowListRow@@QAE@XZ,,0x0050EAB9,8,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptRowListConstructor.cpp,matched,AptRowListRow implicit dtor (add ecx 8; jmp movie member dtor 0x000AD6F4); kept COMDAT copy of AptRowListConstructor.cpp; also emitted by AptRowListCallbacks.cpp; was the placeholder Rva0050EAB9::rva0050EAB9
 ?rva0050EB02@Rva0050EB02@@QAEXXZ,,0x0050EB02,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
 ?rva0059EB5E@Rva0059EB5E@@QAEXXZ,,0x0059EB5E,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
 ?rva00628D18@Rva00628D18@@QAEXXZ,,0x00628D18,8,Code/GameEngine/Source/Common/RvaEmbeddedMemberForwarders.cpp,matched,Embedded member void forwarder tail jmp by REL32
