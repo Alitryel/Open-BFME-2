@@ -61,7 +61,6 @@ int g_rva011428E8[142] = {
 	3, 3, 3, 3, 3, 0,
 };
 struct Rva009ACC40State;
-extern int (__cdecl *g_rva01356E64)(Rva009ACC40State *, int);
 // The two filters are slots 9 (VA 0x00E22FA0) and 25 (VA 0x00E22FE0) of the
 // codec dispatch table at VA 0x00E22F7C that PostProcMachineSpecificConfig
 // (PostProcMachineSpecificConfig.cpp) defines and fills.
@@ -71,6 +70,8 @@ struct BfmeCodecDispatchTable
 	BfmeDispatchFn slot[26];
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+// Slot 1 (VA 0x00E22F80) is the deblock value-array builder.
+#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
 #define g_rva01356E84 (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[9])
 #define g_rva01356EC4 (*(Rva009B3800Filter *)&g_bfmeCodecDispatch.slot[25])
 

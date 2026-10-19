@@ -17,7 +17,17 @@ extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *ctx, 
 
 extern int *g_rva01356A9C;
 struct Rva009ACC40State;
-extern int (__cdecl *g_rva01356E64)(Rva009ACC40State *, int);
+// The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
+// and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that
+// PostProcMachineSpecificConfig (PostProcMachineSpecificConfig.cpp) defines
+// and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
 extern const unsigned int *g_rva01356AA0;
 extern const unsigned int *g_rva01356A98;
 

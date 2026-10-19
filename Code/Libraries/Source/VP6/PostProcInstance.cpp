@@ -46,8 +46,18 @@ extern "C" int *__cdecl SetupBoundingValueArray_Generic(Rva009AF490Context *, in
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *, int); // 0x001BD590
 extern int *g_bfmeFilterLimit;   // 0x00E22CE0 loop-filter limit table pointer
 extern int *g_rva01356A9C;       // 0x00E22CEC deblock limit table pointer
-int *(__cdecl *g_rva01356e68SetupBounding)(Rva009AF530Context *, int) = 0; // 0x00E22F84, zero-filled
-int (__cdecl *g_rva01356E64)(Rva009ACC40State *, int) = 0;                     // 0x00E22F80, zero-filled
+// The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
+// and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that
+// PostProcMachineSpecificConfig (PostProcMachineSpecificConfig.cpp) defines
+// and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356e68SetupBounding (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
+#define g_rva01356E64 (*(int (__cdecl **)(Rva009ACC40State *, int))&g_bfmeCodecDispatch.slot[1])
 
 // RVA 0x001B68D0
 extern "C" void __cdecl DeletePostProcInstance(POSTPROC_INSTANCE **instance)

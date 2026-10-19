@@ -56,7 +56,17 @@ struct Vp6LoopFilterInstance
 struct Rva009AF530Context;
 typedef void (__cdecl *Vp6LoopFilterEdge)(Vp6LoopFilterInstance *, unsigned char *, unsigned int, int *);
 
-extern int *(__cdecl *g_rva01356e68SetupBounding)(Rva009AF530Context *, int);
+// The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
+// and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that
+// PostProcMachineSpecificConfig (PostProcMachineSpecificConfig.cpp) defines
+// and fills.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+#define g_rva01356e68SetupBounding (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
 // The two edge dispatchers. Retail's VA 0x00E22FB8 / 0x00E22FD8 (RVA
 // 0x00A22FB8 / 0x00A22FD8) sit in .data's zero tail -- raw data ends at RVA
 // 0x009DE008 -- so retail's image holds a null pointer for both; the decoder
