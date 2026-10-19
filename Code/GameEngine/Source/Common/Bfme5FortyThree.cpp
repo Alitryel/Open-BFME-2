@@ -7,7 +7,7 @@ public:
 	int m_bfmeData[3];					// 12 bytes
 };
 
-class Gen_001EFCE0
+class BezierProjectileBehavior
 {
 public:
 	int bfmeCost(void) const;
@@ -25,8 +25,8 @@ private:
 
 // Two constants either way, so the answer comes out as a borrow masked with
 // their difference.
-// ?bfmeCost@Gen_001EFCE0@@QBEHXZ
-int Gen_001EFCE0::bfmeCost(void) const
+// ?bfmeCost@BezierProjectileBehavior@@QBEHXZ
+int BezierProjectileBehavior::bfmeCost(void) const
 {
 	return bfmeSize() > 0 ? 1 : 0x3FFFFFFF;
 }

@@ -89,7 +89,6 @@ class Rva00260EB1Filter:public Rva000421C8 { public:
  Rva00260EB1Filter(const Object*p,int f,bool b):m_obj(p),m_flags(f),m_match(b){}
  virtual bool allow(Object*);virtual int getPlayerMask();const Object *m_obj;int m_flags;bool m_match;
 };
-class Gen_001EFCE0 { public: int bfmeCost() const; };
 enum UpdateSleepTime { UPDATE_SLEEP_NONE=1,UPDATE_SLEEP_FOREVER=0x3fffffff };
 struct BezierProjectileBehaviorModuleData {
  char p00[0x3C]; int nearEndFrames; char p40[8];bool tumble;bool orient;
@@ -105,6 +104,7 @@ class BezierUpdateBase:public BehaviorBase,public BehaviorInterface,public Updat
 class BezierProjectileBehavior:public BezierUpdateBase,public BezierProjectileInterface,public BezierSecondInterface {
 public:
  virtual UpdateSleepTime update();
+ int bfmeCost() const; // sleep time: awake while the path has points
 private: bool calcFlightPath(bool);
 public: void rva0045C026();
  ObjectID launcher;Coord3D launchPos;ObjectID victim;WeaponTemplate*weapon;int v40;
@@ -122,7 +122,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 	if (step >= count)
 	{
 		hit(0);
-		return (UpdateSleepTime)((Gen_001EFCE0 *)this)->bfmeCost();
+		return (UpdateSleepTime)bfmeCost();
 	}
 
 	if (d->nearEndFrames && step == count - d->nearEndFrames)
@@ -175,7 +175,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 				if (!calcFlightPath(false))
 				{
 					rva0045C026();
-					return (UpdateSleepTime)((Gen_001EFCE0 *)this)->bfmeCost();
+					return (UpdateSleepTime)bfmeCost();
 				}
 			}
 		}
@@ -252,10 +252,10 @@ UpdateSleepTime BezierProjectileBehavior::update()
 			pos.z = TheTerrainLogic->getLayerHeight(pos.x, pos.y, testLayer, 0, true) + offset;
 			obj->setPosition(&pos);
 			rva0045C026();
-			return (UpdateSleepTime)((Gen_001EFCE0 *)this)->bfmeCost();
+			return (UpdateSleepTime)bfmeCost();
 		}
 	}
 
 	++step;
-	return (UpdateSleepTime)((Gen_001EFCE0 *)this)->bfmeCost();
+	return (UpdateSleepTime)bfmeCost();
 }
