@@ -1,8 +1,19 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
+// partial score=0.99 date=2026-10-19
+// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
 // partial score=0.993 date=2026-10-19
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
 // partial score=0.979 date=2026-10-16
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
+// 0x006227E0 bank 2026-10-19 (claude-opus-5-5): 3244/3244, frame 0xBC, nd 10 (8 instructions + 2 unresolved) with
+// two of the old three hacks gone (volatile m_word/m_bits00; the pass-loop queue update is the plain
+// bitfield form; q==0 indexes m_deques78[q] directly). Left: `volatile unsigned m_queue : 8` (retail
+// always touches it as a full dword and re-reads it with no store between; likely genuinely volatile in
+// EA's threaded asset manager - the landed AssetManagerImplUpdate.cpp carries the same), the +0x1E0/+0x1E4
+// start-term order (retail s2,s0,s1; ours s2,s1,s0; 36 term orders and 64 reference combos tried), and two
+// ledger calls: 0x759BC0 _M_insert needs a fold-proof pin as the multimap<unsigned,Rva009EDBE0Value> tree
+// (unsigned jae compares), 0x620A00 ~_Rb_tree owner row (StlSweepR3Rva00620A00.cpp, int key) should be
+// renamed to the unsigned-key tree (+ its _M_erase pin 0x620390). Scratch: build/nbr/r10/6227e0/.
 // stlport
 //
 // BFME 1 donor 0x009EFF50 (3186 B); BFME 2 retail 0x006227E0, 3244 B. Identity: the address pin
@@ -140,10 +151,10 @@ public:
 
 	union
 	{
-		volatile unsigned int m_word;
+		unsigned int m_word;
 		struct
 		{
-			volatile unsigned int m_bits00 : 16;
+			unsigned int m_bits00 : 16;
 			volatile unsigned int m_queue : 8;
 			unsigned int m_bit24 : 1;
 			unsigned int m_bit25 : 1;
@@ -256,9 +267,8 @@ void Q1Receiver0134FAAC::refresh()
 			else if (q == 0)
 			{
 				entry->m_queue = 7;
-				Q1ReceiverQueue &q0 = m_deques78[0];
-				q0[i] = q0[q0.size() - 1];
-				q0.pop_back();
+				m_deques78[q][i] = m_deques78[q][m_deques78[q].size() - 1];
+				m_deques78[q].pop_back();
 				--i;
 			}
 		}
@@ -303,9 +313,8 @@ void Q1Receiver0134FAAC::refresh()
 				Rva009EF0D0Element *asset = (*found).second;
 				if (asset->m_queue == 7)
 				{
-					unsigned int flags = asset->m_word & 0xff00ffff;
-					asset->m_word = flags;
-					asset->m_word = flags | 0x2000000;
+					asset->m_queue = 0;
+					asset->m_bit25 = 1;
 					m_deques78[asset->m_queue].push_back((int)asset);
 				}
 			}
