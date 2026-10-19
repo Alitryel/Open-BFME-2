@@ -67,14 +67,11 @@ struct BfmeCodecDispatchTable
 };
 extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_rva01356e68SetupBounding (*(int *(__cdecl **)(Rva009AF530Context *, int))&g_bfmeCodecDispatch.slot[2])
-// The two edge dispatchers. Retail's VA 0x00E22FB8 / 0x00E22FD8 (RVA
-// 0x00A22FB8 / 0x00A22FD8) sit in .data's zero tail -- raw data ends at RVA
-// 0x009DE008 -- so retail's image holds a null pointer for both; the decoder
-// installs its horizontal and vertical edge routines into them at startup,
-// which no rowed body does. Only this unit reads them, so the zero-initialised
-// objects are owned here.
-Vp6LoopFilterEdge g_00E22FB8 = 0;
-Vp6LoopFilterEdge g_00E22FD8 = 0;
+// The two edge dispatchers are slots 15 (VA 0x00E22FB8) and 23 (VA
+// 0x00E22FD8) of the same table, where PostProcMachineSpecificConfig installs
+// the tier's FilterHoriz_* and FilterVert_* routines.
+#define g_00E22FB8 (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[15])
+#define g_00E22FD8 (*(Vp6LoopFilterEdge *)&g_bfmeCodecDispatch.slot[23])
 // The per-Q-index filter limit. Retail VA 0x00DB7428 (RVA 0x009B7428) is raw
 // .data holding these 64 dwords verbatim, so the table is transcribed and not
 // zero-filled; this unit's rowed bodies read it by Q index and return on a
