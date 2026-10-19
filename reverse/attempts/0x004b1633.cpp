@@ -137,13 +137,22 @@ public:
 };
 class Rva000421C8;
 
-class EmotionTrackerUpdate {
+class EmotionModuleBase {
+public:
+    virtual ~EmotionModuleBase();
+    Object *getObject() const { return m_object; }
+    const EmotionUpdateData *getModuleData() const { return m_data; }
+    EmotionUpdateData *m_data;
+    Object *m_object;
+};
+class EmotionBehaviorInterface { public: virtual void behaviorSlot0(); };
+class EmotionUpdateInterface { public: virtual UpdateSleepTime update() = 0; };
+class EmotionTrackerUpdate : public EmotionModuleBase, public EmotionBehaviorInterface, public EmotionUpdateInterface {
 public:
     class TauntPointFilter;
     virtual UpdateSleepTime update();
-    Object *getObject() const { return *(Object **)((char *)this-8); }
     void PulseEmotion(int,void *,int);
-    char pad4[0x14-4];
+    char pad14[0x24-0x14];
     bool flags[12];
     unsigned int expiry[12];
     ObjectID targetID[12];
@@ -218,9 +227,9 @@ float GetGameLogicRandomValueReal(float,float,char *,int);
 
 UpdateSleepTime EmotionTrackerUpdate::update()
 {
-    EmotionUpdateData *data=*(EmotionUpdateData **)((char *)this-0xc);
+    EmotionUpdateData *data=m_data;
     if(!data) return (UpdateSleepTime)0x3fffffff;
-    Object *obj=*(Object **)((char *)this-8);
+    Object *obj=getObject();
     if(!obj) return (UpdateSleepTime)0x3fffffff;
     if(obj->m_274) {
         if(active) {
@@ -243,7 +252,7 @@ UpdateSleepTime EmotionTrackerUpdate::update()
     --countdown;
     if(countdown<=0 && data->interval && forcedFrames==0) {
         countdown=data->interval;
-        TauntPointFilter filter((EmotionTrackerUpdate *)((char *)this-0x10));
+        TauntPointFilter filter(this);
         RvaDistanceFilter distance(obj,data->range);
         RvaPlayerFilter player(obj->getControllingPlayer());
         filter.And(distance);
@@ -359,8 +368,8 @@ UpdateSleepTime EmotionTrackerUpdate::update()
        GetGameLogicRandomValueReal(0.0f,1.0f,
            "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Update\\EmotionTrackerUpdate.cpp",0x25e)<data->probability &&
        obj->rva0028B511()==1)
-        ((EmotionTrackerUpdate *)((char *)this-0x10))->PulseEmotion(8,0,1);
-    EmotionNugget *selected=((Rva004B13D8 *)((char *)this-0x10))->rva004B13D8();
+        PulseEmotion(8,0,1);
+    EmotionNugget *selected=((Rva004B13D8 *)this)->rva004B13D8();
     bool changed=false;
     if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3) &&
        closest->getID()!=targetID[selected->entry->kind]) {
