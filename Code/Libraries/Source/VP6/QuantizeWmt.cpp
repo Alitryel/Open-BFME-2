@@ -8,11 +8,11 @@
 #include <stdlib.h>
 
 extern unsigned char g_bfmePlaneSelector[8];
-// g_Rva009B7B28: the VP6 forward-quantisation scan order, read at VA 0x00DB7B28
+// g_vp6ZigzagSimd: the VP6 forward-quantisation scan order, read at VA 0x00DB7B28
 // (RVA 0x9B7B28) by both the WMT and the MMX quantiser bodies, which bake the
 // address into their instructions (mov ecx,[eax+0x00DB7B28]). One copy serves
 // both units, so it is defined here and left external in QuantizeMmx.cpp.
-int g_Rva009B7B28[64] = {
+int g_vp6ZigzagSimd[64] = {
 	0, 1, 8, 16, 9, 2, 3, 10,
 	17, 24, 32, 25, 18, 11, 4, 5,
 	12, 19, 26, 33, 40, 48, 41, 34,
@@ -98,7 +98,7 @@ extern "C" void __cdecl VP6_quantize_wmt(Vp6Quantizer *q, short *coeffs, short *
 	dst = out + 3;
 	for (i = 4; i < 256; i += 12, dst += 3) {
 		int k, c, mag;
-		k = *(int *)((char *)g_Rva009B7B28 + i);
+		k = *(int *)((char *)g_vp6ZigzagSimd + i);
 		c = candidate[k];
 		if (c == 0) run++;
 		else {
@@ -106,7 +106,7 @@ extern "C" void __cdecl VP6_quantize_wmt(Vp6Quantizer *q, short *coeffs, short *
 			if (mag < row->runBias[run] + row->zeroBin[k]) run++;
 			else { run = 0; dst[-2] = (short)c; }
 		}
-		k = *(int *)((char *)g_Rva009B7B28 + i + 4);
+		k = *(int *)((char *)g_vp6ZigzagSimd + i + 4);
 		c = candidate[k];
 		if (c == 0) run++;
 		else {
@@ -114,7 +114,7 @@ extern "C" void __cdecl VP6_quantize_wmt(Vp6Quantizer *q, short *coeffs, short *
 			if (mag < row->runBias[run] + row->zeroBin[k]) run++;
 			else { run = 0; dst[-1] = (short)c; }
 		}
-		k = *(int *)((char *)g_Rva009B7B28 + i + 8);
+		k = *(int *)((char *)g_vp6ZigzagSimd + i + 8);
 		c = candidate[k];
 		if (c == 0) run++;
 		else {

@@ -84,18 +84,18 @@ struct Vp6HuffTokenInstance
 // addresses into the reading bodies, so each one is defined here from retail's
 // bytes: the bit mask read by Rva001C4FE0ReadBits at VA 0x00BD8D40, the token
 // minimums at VA 0x00BD8B48 and the AC band map at VA 0x00BD8B78.
-extern const unsigned g_00BD8D40[33] = {
+extern const unsigned g_vp6LowBitMasks[33] = {
 	0, 1, 3, 7, 15, 31, 63, 127,
 	255, 511, 1023, 2047, 4095, 8191, 16383, 32767,
 	65535, 131071, 262143, 524287, 1048575, 2097151, 4194303, 8388607,
 	16777215, 33554431, 67108863, 134217727, 268435455, 536870911, 1073741823, 2147483647,
 	-1,
 };
-extern const int g_00BD8B48[12] = {
+extern const int g_vp6TokenMinimum[12] = {
 	0, 1, 2, 3, 4, 5, 7, 11,
 	19, 35, 67, 0,
 };
-extern const int g_00BD8B78[65] = {
+extern const int g_vp6CoeffBandMap[65] = {
 	-1, 0, 1, 1, 1, 2, 2, 2,
 	2, 2, 2, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3,
@@ -110,7 +110,7 @@ extern const int g_00BD8B78[65] = {
 static unsigned Rva001C4FE0ReadBits(Vp6RawBits *state, int bits)
 {
 	unsigned result = 0;
-	state->value &= g_00BD8D40[state->bits];
+	state->value &= g_vp6LowBitMasks[state->bits];
 	bits -= state->bits;
 	if (bits > 0) {
 		result = state->value << bits;
@@ -170,7 +170,7 @@ extern "C" unsigned char __cdecl VP6_ReadHuffTokens(Vp6HuffTokenInstance *pbi, s
 		prec = 0;
 	} else {
 		token = Vp6ExtractToken(pbi->m_dcLookup[plane], br, pbi->m_dcTree[plane]);
-		value = g_00BD8B48[token];
+		value = g_vp6TokenMinimum[token];
 		if (token == 11)
 			goto done;
 		if (token == 0) {
@@ -204,9 +204,9 @@ extern "C" unsigned char __cdecl VP6_ReadHuffTokens(Vp6HuffTokenInstance *pbi, s
 	}
 
 	do {
-		band = g_00BD8B78[pos];
+		band = g_vp6CoeffBandMap[pos];
 		token = Vp6ExtractToken(pbi->m_acLookup[prec][plane][band], br, pbi->m_acTree[prec][plane][band]);
-		value = g_00BD8B48[token];
+		value = g_vp6TokenMinimum[token];
 		if (token == 0) {
 			table = pos >= 6;
 			zero = Vp6ExtractToken(pbi->m_zeroLookup[table], br, pbi->m_zeroTree[table]);

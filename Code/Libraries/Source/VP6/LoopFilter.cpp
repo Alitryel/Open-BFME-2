@@ -76,7 +76,7 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 // .data holding these 64 dwords verbatim, so the table is transcribed and not
 // zero-filled; this unit's rowed bodies read it by Q index and return on a
 // zero limit, which is what the trailing zeros encode.
-extern const int g_00DB7428[64] = {
+extern const int g_bfmeFilterLimitV1[64] = {
 	30, 25, 20, 20, 15, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 10,
 	 9,  9,  8,  8,  7,  7,  7,  7,  6,  6,  6,  6,  5,  5,  5,  5,
 	 4,  4,  4,  4,  3,  3,  3,  3,  2,  2,  2,  2,  2,  2,  2,  2,
@@ -112,7 +112,7 @@ extern "C" void __cdecl ApplyReconLoopFilter(Vp6LoopFilterInstance *ctx, int fra
 	ctx->m_fragInfoElementSize = fragInfoElementSize;
 	ctx->m_fragInfoCodedMask = fragInfoCodedMask;
 
-	limit = g_00DB7428[frameQIndex];
+	limit = g_bfmeFilterLimitV1[frameQIndex];
 	if (limit == 0)
 		return;
 	bounding = g_slotSetupBoundingValues((Rva009AF530Context *)ctx, limit);
@@ -246,7 +246,7 @@ extern "C" void __cdecl LoopFilter(Vp6LoopFilterInstance *ctx, int frameQIndex,
 	ctx->m_fragInfoElementSize = fragInfoElementSize;
 	ctx->m_fragInfoCodedMask = fragInfoCodedMask;
 
-	limit = g_00DB7428[frameQIndex];
+	limit = g_bfmeFilterLimitV1[frameQIndex];
 	if (limit == 0)
 		return;
 	bounding = g_slotSetupBoundingValues((Rva009AF530Context *)ctx, limit);

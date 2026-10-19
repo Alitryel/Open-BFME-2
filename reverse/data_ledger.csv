@@ -2902,7 +2902,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D8460,256,.rdata,global,?vp6DequantIndex@@3PAIA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,7
 0x007D8560,512,.rdata,global,?g_bfmeIdentityIndex@@3PAHA,Code/Libraries/Source/VP6/InitLibrary.cpp,owned,,1,2
 0x007D8760,8,.rdata,global,?g_bfmePlaneSelector@@3PAEA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
-0x007D8768,8,.rdata,global,?g_Rva01142610@@3NA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,4
+0x007D8768,8,.rdata,global,?g_vp6Fixed16Scale@@3NA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,4
 0x007D8770,8,.rdata,float,__real@3eb0c6f7a0b5ed8d,,literal,,0,1
 0x007D8778,96,.rdata,global,?g_bfmeNeighbourOffsets@@3PAHA,Code/Libraries/Source/VP6/InitFrameDetails.cpp,owned,,1,12
 0x007D87D8,12,.rdata,string,??_C@_09CGHNGBD@y?$CF04d?4raw?$AA@,,literal,,0,1
@@ -2919,7 +2919,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D8C80,64,.rdata,global,?DefaultNonInterlacedScanBands@@3PAEA,Code/Libraries/Source/VP6/decodembs.cpp,owned,,1,1
 0x007D8CC0,64,.rdata,global,?DefaultInterlacedScanBands@@3PAEA,Code/Libraries/Source/VP6/decodembs.cpp,owned,,1,1
 0x007D8D00,64,.rdata,global,?g_bfmeVp6SelectorMap@@3PAEA,Code/Libraries/Source/VP6/PredictDc.cpp,owned,,1,2
-0x007D8D40,136,.rdata,global,?g_00BD8D40@@3QBIB,,unowned,,0,1
+0x007D8D40,136,.rdata,global,?g_vp6LowBitMasks@@3QBIB,Code/Libraries/Source/VP6/HuffTokens.cpp,owned,,1,1
 0x007D8DC8,1020,.rdata,global,?g_bfmeProbCost@@3PAHA,Code/Libraries/Source/VP6/BoolCoderEnc.cpp,owned,,1,1
 0x007D9430,156,.rdata,global,?g_bfmeToneCoef@@3PAURva009B64A0Coef@@A,Code/Libraries/Source/VP6/ConfigureContexts.cpp,owned,,1,10
 0x007D94CC,16,.rdata,global,?defaultMvShort@@3PAEA,Code/Libraries/Source/VP6/decodembs.cpp,owned,,1,4

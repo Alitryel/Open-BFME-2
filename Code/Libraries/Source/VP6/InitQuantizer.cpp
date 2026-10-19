@@ -111,9 +111,9 @@ int g_bfmeZeroRunCorrection[64] = {
 	0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19, 0x19,
 	0x1e, 0x1e, 0x1e, 0x1e, 0x1e, 0x1e, 0x1e, 0x1e,
 };
-extern double g_Rva01142610;
-// g_Rva01142610: matched references place it at VA 0xbd8768 (retail .rdata value 65536.0).
-double g_Rva01142610 = 65536.0;
+extern double g_vp6Fixed16Scale;
+// g_vp6Fixed16Scale: matched references place it at VA 0xbd8768 (retail .rdata value 65536.0).
+double g_vp6Fixed16Scale = 65536.0;
 // g_bfmePlaneSelector: matched references place it at VA 0xbd8760; retail contents, sized to the
 // 0x8-byte gap before the next known global there.
 unsigned char g_bfmePlaneSelector[8] = {
@@ -142,27 +142,27 @@ extern "C" void __cdecl VP6_init_quantizer(Rva009A6780State* s,int version)
 {
     int index=s->index;
     double reciprocal=1.0/(((const short *)g_bfmeApplyTableC)[index]*4);
-    reciprocal*=g_Rva01142610;
+    reciprocal*=g_vp6Fixed16Scale;
     s->at0190[0][0]=(int)(reciprocal+0.5);
     s->at0390[0][0]=g_bfmeYDcRounding[index];
     s->at0590[0][0]=g_bfmeYDcZeroBin[index];
     int i;
     for(i=1;i<64;++i) {
         reciprocal=1.0/(((const unsigned *)g_bfmeApplyTableA)[s->index]*4);
-        reciprocal*=g_Rva01142610;
+        reciprocal*=g_vp6Fixed16Scale;
         s->at0190[0][i]=(int)(reciprocal+0.5);
         s->at0390[0][i]=g_bfmeYAcRounding[s->index];
         s->at0590[0][i]=g_bfmeYAcZeroBin[s->index];
     }
     index=s->index;
     reciprocal=1.0/(((const short *)g_bfmeApplyTableD)[index]*4);
-    reciprocal*=g_Rva01142610;
+    reciprocal*=g_vp6Fixed16Scale;
     s->at0190[1][0]=(int)(reciprocal+0.5);
     s->at0390[1][0]=g_bfmeUvDcRounding[index];
     s->at0590[1][0]=g_bfmeUvDcZeroBin[index];
     for(i=1;i<64;++i) {
         reciprocal=1.0/(((const unsigned *)g_bfmeApplyTableB)[s->index]*4);
-        reciprocal*=g_Rva01142610;
+        reciprocal*=g_vp6Fixed16Scale;
         s->at0190[1][i]=(int)(reciprocal+0.5);
         s->at0390[1][i]=g_bfmeUvAcRounding[s->index];
         s->at0590[1][i]=g_bfmeUvAcZeroBin[s->index];

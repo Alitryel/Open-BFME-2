@@ -23,7 +23,7 @@ struct Vp6MvEntropyInstance {
 };
 extern "C" int __cdecl VP6_DecodeBool(void *, int);
 extern "C" int __cdecl VP6_bitread(void *, int);
-extern const unsigned char g_00BD94A8[2][17];
+extern const unsigned char g_vp6MvUpdateProbs[2][17];
 // Retail's own 2 x 17 MV entropy update weights, transcribed from .rdata at
 // RVA 0x007D94A8 (file offset 0x007D88A8). The rowed body proves the base and
 // the stride: `mov ebx, 0xbd94a9` then `movzx eax, byte ptr [ebx-1]` / `movzx
@@ -35,7 +35,7 @@ extern const unsigned char g_00BD94A8[2][17];
 // MvShortProbs and entries 9..16 the eight MvSizeProbs (the identity of these
 // as FFmpeg's vp6_mv_context table is a correspondence, not the evidence - the
 // bytes above are).
-const unsigned char g_00BD94A8[2][17] = {
+const unsigned char g_vp6MvUpdateProbs[2][17] = {
 	{ 0xed, 0xf6, 0xfd, 0xfd, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe,
 	  0xfe, 0xfe, 0xfe, 0xfe, 0xfa, 0xfa, 0xfa, 0xfc },
 	{ 0xe7, 0xf3, 0xf5, 0xfd, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe,
@@ -46,12 +46,12 @@ extern "C" void VP6_ConfigureMvEntropyDecoder(Vp6MvEntropyInstance *pbi, unsigne
 	int i;
 	unsigned j;
 	for (i = 0; i < 2; i++) {
-		if (VP6_DecodeBool(pbi->br, g_00BD94A8[i][0])) {
+		if (VP6_DecodeBool(pbi->br, g_vp6MvUpdateProbs[i][0])) {
 			pbi->IsMvShortProb[i] = VP6_bitread(pbi->br, 7) << 1;
 			if (!pbi->IsMvShortProb[i])
 				pbi->IsMvShortProb[i] = 1;
 		}
-		if (VP6_DecodeBool(pbi->br, g_00BD94A8[i][1])) {
+		if (VP6_DecodeBool(pbi->br, g_vp6MvUpdateProbs[i][1])) {
 			pbi->MvSignProbs[i] = VP6_bitread(pbi->br, 7) << 1;
 			if (!pbi->MvSignProbs[i])
 				pbi->MvSignProbs[i] = 1;
@@ -60,7 +60,7 @@ extern "C" void VP6_ConfigureMvEntropyDecoder(Vp6MvEntropyInstance *pbi, unsigne
 	for (i = 0; i < 2; i++) {
 		int k = 2;
 		for (j = 0; j < 7; j++, k++) {
-			if (VP6_DecodeBool(pbi->br, g_00BD94A8[i][k])) {
+			if (VP6_DecodeBool(pbi->br, g_vp6MvUpdateProbs[i][k])) {
 				pbi->MvShortProbs[i][j] = VP6_bitread(pbi->br, 7) << 1;
 				if (!pbi->MvShortProbs[i][j])
 					pbi->MvShortProbs[i][j] = 1;
@@ -70,7 +70,7 @@ extern "C" void VP6_ConfigureMvEntropyDecoder(Vp6MvEntropyInstance *pbi, unsigne
 	for (i = 0; i < 2; i++) {
 		int k = 9;
 		for (j = 0; j < 8; j++, k++) {
-			if (VP6_DecodeBool(pbi->br, g_00BD94A8[i][k])) {
+			if (VP6_DecodeBool(pbi->br, g_vp6MvUpdateProbs[i][k])) {
 				pbi->MvSizeProbs[i][j] = VP6_bitread(pbi->br, 7) << 1;
 				if (!pbi->MvSizeProbs[i][j])
 					pbi->MvSizeProbs[i][j] = 1;
