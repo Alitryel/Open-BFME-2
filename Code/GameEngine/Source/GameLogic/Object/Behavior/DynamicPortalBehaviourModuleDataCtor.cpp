@@ -8,8 +8,9 @@
 // folded clear at 0x00036410 (Image clear-after-null precedent),
 // WayPoint at +0x120 is an 8B-element vector built through the folded
 // Vector_base at 0x00211E58 and cleared through erase at 0x003FA4DB
-// (OCL clear-lowers-to-erase precedent), Link at +0x12C is a second
-// 8B-element vector, WallBoundsMesh at +0x138 copies TheEmptyString, GenerateNow
+// (OCL clear-lowers-to-erase precedent). Link at +0x12C holds 12B owner
+// records: native cleanup78A8E5 and companion destructor461602 call the
+// verified Link vector destructor4613EB (element clearer3F29F8). WallBoundsMesh at +0x138 copies TheEmptyString, GenerateNow
 // at +0x13C and AllowEnemies at +0x13D are false, AboveWall at +0x140 is -1,
 // TopAttackPos at +0x144 is zero, TopAttackRadius at +0x150 is 5.0f,
 // ActivationDelaySeconds at +0x154 is 0.0f, and DestroyedDamageTimeoutMS at
@@ -54,13 +55,25 @@ private:
 #include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 // 8B INI-list element (erase at 0x3FA4DB is the 8B-element build);
-// WayPoint/Link parse procs 0x86133B/0x8616B1 are unclaimed, so the two
-// fields stay a neutral ordered pair here.
+// WayPoint parser46133B is unclaimed, so its two scalar fields stay neutral.
 struct DynamicPortalWayPoint
 {
 	int m_first;
 	int m_second;
 };
+
+// Same partial element layout as the verified DynamicPortalLinkVector provider.
+// Destruction proves ownership at +0; the remaining two fields stay neutral.
+struct DynamicPortalLink
+{
+    void *m_owned;
+    int m_second;
+    int m_third;
+    ~DynamicPortalLink();
+};
+namespace _STL {
+template <> vector<DynamicPortalLink, allocator<DynamicPortalLink> >::~vector();
+}
 
 extern unsigned char g_00DFEFA4StoragePrototype[28];
 
@@ -97,7 +110,7 @@ private:
 	int m_numberOfBones; // +0x118, NumberOfBones
 	AsciiString m_bonePrefix; // +0x11C, BonePrefix
 	_STL::vector<DynamicPortalWayPoint> m_wayPoint; // +0x120, WayPoint
-	_STL::vector<DynamicPortalWayPoint> m_link; // +0x12C, Link
+	_STL::vector<DynamicPortalLink> m_link; // +0x12C, Link
 	AsciiString m_wallBoundsMesh; // +0x138, WallBoundsMesh
 	bool m_generateNow; // +0x13C, GenerateNow
 	bool m_allowEnemies; // +0x13D, AllowEnemies
