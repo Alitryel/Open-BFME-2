@@ -121,9 +121,20 @@ private:
 
 class Rva006C1850 { public: bool rva006C1850(unsigned int, void **); };
 
+union GeneralAllocatorMetricBlockArg { GeneralAllocatorChunk *block; unsigned int size; };
+
+struct GeneralAllocatorMetricCounters
+{
+	unsigned __int64 currentCount, totalAllocCount, peakCount;
+	unsigned __int64 currentBytes, totalAllocBytes, peakBytes;
+	unsigned __int64 totalFreeCount, totalFreeBytes;
+};
+extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount(void);
+
 class GeneralAllocatorDebug : public EA::Allocator::GeneralAllocator
 {
 public:
+	void rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool allocation);
 	unsigned int rva006C1FE0(char *base, int length, char **bodyOut);
 	unsigned int rva006C2510(char *block, int mode, char **outBody);
 	void *rva006C2010Run6(void *block, unsigned int size, unsigned short kind, void *dst, unsigned int capacity, unsigned int *outLen);
@@ -166,6 +177,13 @@ private:
 	unsigned int m_delayedFreeTotal; // +0x540
 	unsigned int m_544;
 	GeneralAllocatorChunk m_delayedFree; // +0x548
+	unsigned char m_pad558[0x560 - 0x558];
+	bool m_metricsEnabled; // +0x560
+	unsigned char m_pad561[0x568 - 0x561];
+	unsigned __int64 m_allocRequests; // +0x568
+	GeneralAllocatorMetricCounters m_metrics[4]; // +0x570..0x66F
+	unsigned int m_lastAllocation; // +0x670
+	unsigned int m_lastFree; // +0x674
 };
 
 void GeneralAllocatorDebug::rva006C2AA0(unsigned char fillFree, unsigned char fillDelayedFree,
@@ -349,4 +367,55 @@ unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **ou
 	if (lock)
 		Rva00030DF0Release(lock);
 	return result;
+}
+
+// ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z,
+// retail 0x006C26F0 (934 B): the allocation/free metrics update. With metrics on
+// (+0x560) it books the chunk footprint, header overhead, the debug data size
+// (rva006C2510) and the user size into the four 64-bit counter blocks and
+// stamps the allocation or free time. The usable size is one conditional
+// expression (mmapped chunks carry no trailing word), as EA's GetUsableSize;
+// with it cl spills the user size into the dead arg slot as retail does.
+void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool allocation)
+{
+ if(allocation) ++m_allocRequests;
+ if(m_metricsEnabled && arg.block) {
+  GeneralAllocatorChunk *block=arg.block;
+  unsigned int flags=block->m_size;
+  unsigned int prev=(flags&2)?block->m_prevSize:0;
+  unsigned int footprint=(block->m_size&0x7FFFFFF8)+prev;
+  unsigned int usable=(block->m_size&2)?(flags&0x7FFFFFF8):(flags&0x7FFFFFF8)+4;
+  unsigned int overhead=prev+8;
+  unsigned int debugSize=rva006C2510((char *)block+8,0,0);
+  unsigned int size=usable-debugSize-8;
+  if(allocation) {
+   m_lastAllocation=GetTickCount()/1000;
+   ++m_metrics[0].currentCount;
+   ++m_metrics[0].totalAllocCount;
+   m_metrics[0].currentBytes+=footprint;
+   m_metrics[0].totalAllocBytes+=footprint;
+   if(m_metrics[0].peakCount<m_metrics[0].currentCount)m_metrics[0].peakCount=m_metrics[0].currentCount;
+   if(m_metrics[0].peakBytes<m_metrics[0].currentBytes)m_metrics[0].peakBytes=m_metrics[0].currentBytes;
+   m_metrics[1].currentBytes+=overhead;
+   m_metrics[1].totalAllocBytes+=overhead;
+   m_metrics[2].currentBytes+=debugSize;
+   m_metrics[2].totalAllocBytes+=debugSize;
+   unsigned int used=size;
+   m_metrics[3].currentBytes+=used;
+   m_metrics[3].totalAllocBytes+=used;
+   if(m_metrics[3].peakBytes<m_metrics[3].currentBytes)m_metrics[3].peakBytes=m_metrics[3].currentBytes;
+  } else {
+   m_lastFree=GetTickCount()/1000;
+   --m_metrics[0].currentCount;
+   m_metrics[0].currentBytes-=footprint;
+   ++m_metrics[0].totalFreeCount;
+   m_metrics[0].totalFreeBytes+=footprint;
+   m_metrics[1].currentBytes-=overhead;
+   m_metrics[1].totalFreeBytes+=overhead;
+   m_metrics[2].currentBytes-=debugSize;
+   m_metrics[2].totalFreeBytes+=debugSize;
+   m_metrics[3].currentBytes-=size;
+   m_metrics[3].totalFreeBytes+=size;
+  }
+ }
 }
