@@ -1,7 +1,7 @@
 // ?rva004BDB37@Rva004BDB37@@QAEXXZ
 // partial score=0.96 date=2026-10-04
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva004BDB37@Rva004BDB37@@QAEXXZ @0x004BDB37 78B evidence: vslot 41 of DetachableRiderBody plus rowed getDrawable plus pin bfmeCallFCB plus rowed Drawable-rva plus tail slot 0x28
+// ?rva004BDB37@Rva004BDB37@@QAEXXZ @0x004BDB37 78B evidence: vslot 41 of DetachableRiderBody plus rowed getDrawable plus rowed Object::rva0028FCD9 plus rowed Drawable-rva plus tail slot 0x28
 class Drawable
 {
 public:
@@ -14,10 +14,10 @@ public:
 	Drawable *getDrawable() const;
 };
 
-class BfmeSubFCB
+class Object
 {
 public:
-	void bfmeCallFCB(void *p, int i);
+	void rva0028FCD9(int a, int b);
 };
 
 class EdiObj
@@ -77,13 +77,8 @@ void Rva004BDB37::rva004BDB37()
 	bool f = false;
 	for (int n = 3; n != 0; --n) {
 		edi->v21(1);
-		((BfmeSubFCB *)(*(Thing **)((char *)this - 8)))->bfmeCallFCB(m_20, m_24);
+		((Object *)(*(Thing **)((char *)this - 8)))->rva0028FCD9((int)m_20, m_24);
 		(*(Thing **)((char *)this - 8))->getDrawable()->rva00274176(f);
 	}
 	v10();
 }
-
-// The retail call in this body reads 0x0028FCD9, an address the ledger already
-// carries as ?rva0028FCD9@Object@@QAEXHH@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:?bfmeCallFCB@BfmeSubFCB@@QAEXPAXH@Z=?rva0028FCD9@Object@@QAEXHH@Z")
