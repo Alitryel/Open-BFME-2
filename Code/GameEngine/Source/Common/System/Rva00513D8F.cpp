@@ -1,5 +1,5 @@
 // cl: /EHsc /MD
-// ?rva00513D8F@Rva00513D8F@@QAEHPAG@Z @0x00513D8F 37B
+// ?copyToBuffer@Rva00513D8F@@QAEHPAG@Z @0x00513D8F 37B
 // Unlock lane: landing it makes 0x00513E25 ready. Prev/next vector ctors
 // in stlport_vector_s_o1.cpp (adjacent rows only). Calls rowed
 // Rva000B3F84Pair::copyWchars 0x002342A7 then rowed
@@ -19,14 +19,14 @@ struct BFME2WideStringRef
 class Rva00513D8F
 {
 public:
-	int rva00513D8F(unsigned short *dst);
+	int copyToBuffer(unsigned short *dst);
 private:
 	const char *m_ptr; // +0 for pair view
 	int m_len; // +4
 	const void *m_second; // +8 ref view
 };
 
-int Rva00513D8F::rva00513D8F(unsigned short *dst)
+int Rva00513D8F::copyToBuffer(unsigned short *dst)
 {
 	int first = ((Rva000B3F84Pair *)this)->copyWchars(dst);
 	int second = ((const BFME2WideStringRef *)((const char *)this + 8))->copyPayloadTo(dst + first);
@@ -43,7 +43,7 @@ private:
 
 int Rva00513E25::rva00513E25(unsigned short *dst)
 {
-	int first = ((Rva00513D8F *)this)->rva00513D8F(dst);
+	int first = ((Rva00513D8F *)this)->copyToBuffer(dst);
 	int second = ((Rva000B3F84Pair *)((char *)this + 12))->copyWchars(dst + first);
 	return first + second;
 }

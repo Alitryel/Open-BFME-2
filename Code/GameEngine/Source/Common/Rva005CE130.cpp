@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /MD
-// ?rva005CE130@Rva005CE130@@QAEXH@Z @0x005CE130 38B
+// ?NotifyBuildingAboutToBeDestroyedByUI@Rva005CE130@@QAEXH@Z @0x005CE130 38B
 // evidence: VTABLE slot 2 table 0x00875148; callees ?rva004E05F0@Rva004E05F0@@QAEPAVCreateAHeroData@@XZ rowed and ?fwd@Rva005E683EMid@@QAEXHH@Z rowed; callers none
 
 class CreateAHeroData;
@@ -29,12 +29,12 @@ public:
 class Rva005CE130
 {
 public:
-	void rva005CE130(int arg);
+	void NotifyBuildingAboutToBeDestroyedByUI(int arg);
 	char m_lead[0x10];
 	Rva004E05F0 *m_10;
 };
 
-void Rva005CE130::rva005CE130(int arg)
+void Rva005CE130::NotifyBuildingAboutToBeDestroyedByUI(int arg)
 {
 	(void)arg;
 	Rva004E05F0 *p = m_10;

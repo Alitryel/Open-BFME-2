@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva004B327F@Rva004B327F@@QAEHXZ @0x004B327F 211B.
+// ?update@Rva004B327F@@QAEHXZ @0x004B327F 211B.
 // Sits at AISpecialPowerUpdate+0x10. A clear byte at +0x11 runs post-init.
 // A set player byte at +0x734 clears the flag at +0x10 and returns 1.
 // Otherwise the power object at +0x14 is armed and the answer is its
@@ -101,7 +101,7 @@ public:
 class Rva004B327F
 {
 public:
-	int rva004B327F();
+	int update();
 
 private:
 	Object *object()
@@ -116,7 +116,7 @@ private:
 	Rva0058AD94 *m_power;
 };
 
-int Rva004B327F::rva004B327F()
+int Rva004B327F::update()
 {
 	if (!m_inited)
 		((AISpecialPowerUpdate *)((char *)this - 0x10))->postInitAISpecialPower();
