@@ -75,6 +75,23 @@ struct Rva005668E9Element
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct<Rva005668E9Element,Rva005668E9Element>(Rva005668E9Element *p,Rva005668E9Element const &v) { new (p) Rva005668E9Element(v); } }
+// Keep the Rva0052BDE6/Rva0052BEF0 range destroys inline-only: nothing here
+// calls them out of line, and this view's empty-destructor copies are not the
+// bodies retail kept (the overflow units own them).
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void __destroy_aux<Rva0052BDE6 *>(Rva0052BDE6 *__first, Rva0052BDE6 *__last, const __false_type &)
+{ for ( ; __first != __last; ++__first) _Destroy(&*__first); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void _Destroy<Rva0052BDE6 *>(Rva0052BDE6 *__first, Rva0052BDE6 *__last)
+{ __destroy(__first, __last, (Rva0052BDE6 *)0); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void __destroy_aux<Rva0052BEF0 *>(Rva0052BEF0 *__first, Rva0052BEF0 *__last, const __false_type &)
+{ for ( ; __first != __last; ++__first) _Destroy(&*__first); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void _Destroy<Rva0052BEF0 *>(Rva0052BEF0 *__first, Rva0052BEF0 *__last)
+{ __destroy(__first, __last, (Rva0052BEF0 *)0); }
+}
 
 template _STL::vector<Rva002B72C9>::vector(const _STL::vector<Rva002B72C9> &);
 template _STL::vector<_STL::vector<BfmeE8> >::vector(const _STL::vector<_STL::vector<BfmeE8> > &);
