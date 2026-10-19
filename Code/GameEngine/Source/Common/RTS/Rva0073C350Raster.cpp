@@ -12,7 +12,7 @@ public:
 };
 
 class ShroudManagerImpl;
-class ShroudManagerImpl008FBA40Element;
+class ShroudManagerCell;
 
 class Rva0073BAA0Base
 {

@@ -72,7 +72,7 @@ Xfer *Rva0073EB00Xfer(Xfer *xfer, unsigned short *vals)
 }
 
 // Native 0x0073EA90..0x0073EAFA is the N=2 legacy counter helper.
-// The matched ShroudManagerImpl008FBA40Element::xfer at 0x0073EBB0
+// The matched ShroudManagerCell::xfer at 0x0073EBB0
 // calls it for pre-1.2 loads, then zeros the third counter. Its Ghidra
 // extent and the call target independently establish the 106-byte body;
 // the previous rope/parseTurret drift votes are unrelated identities.

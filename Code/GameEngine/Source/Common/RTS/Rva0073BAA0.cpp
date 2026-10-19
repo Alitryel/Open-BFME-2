@@ -8,7 +8,7 @@
 // Returns 1 always; ret 0xc is (x1 x2 y). Twin is 0x0073BB40 decrement variant, sibling 0x0073BBE0 adjust variant.
 class BfmeCellFD;
 class ShroudManagerImpl;
-class ShroudManagerImpl008FBA40Element;
+class ShroudManagerCell;
 
 class Gen_008F7CD0
 {
@@ -16,7 +16,7 @@ public:
 	void rva0073A2A0(BfmeCellFD **first, BfmeCellFD **last, int x1, int x2, int y);
 };
 
-class ShroudManagerImpl008FBA40Element
+class ShroudManagerCell
 {
 public:
 	void AddLooker(ShroudManagerImpl *manager, int playerIndex);
@@ -53,7 +53,7 @@ char Rva0073BAA0Base::rva0073BAA0(int x1, int x2, int y)
 					do
 					{
 						if (testFunc(x, y))
-							((ShroudManagerImpl008FBA40Element *)cell)->AddLooker(
+							((ShroudManagerCell *)cell)->AddLooker(
 								(ShroudManagerImpl *)m_grid, index);
 						++x;
 						cell = (BfmeCellFD *)((char *)cell + 0xA8);
