@@ -29,7 +29,8 @@
 class ModuleData;
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
-template<> inline _Vector_base<const ModuleData *, allocator<const ModuleData *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
+// Inlined into every caller here; the census keeps ModuleFactory.cpp's copy, so this unit emits none.
+template<> __declspec(dllimport) __declspec(nothrow) __forceinline _Vector_base<const ModuleData *, allocator<const ModuleData *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
 }
 
 class Thing;
