@@ -100,6 +100,14 @@ const SolutionVec& PartitionSolver::getSolution( void ) const
 	return m_bestSolution;
 }
 
+// Import-inline: the vector base ctor below inlines its allocate, and this
+// unit's out-of-line allocate copy differs from the first one in link order.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline PairObjectIDAndUInt *
+allocator<PairObjectIDAndUInt>::allocate(size_type __n, const void *) const
+{ return __n != 0 ? __REINTERPRET_CAST(value_type *, allocator<char>::allocate(__n * sizeof(value_type), 0)) : 0; }
+}
+
 // Keep the independently rowed template providers under their original flags.
 template _STL::_Vector_base<PairObjectIDAndUInt,_STL::allocator<PairObjectIDAndUInt> >::_Vector_base(size_t,const _STL::allocator<PairObjectIDAndUInt>&);
 template _STL::pair<ObjectID,ObjectID> _STL::make_pair<ObjectID,ObjectID>(const ObjectID&,const ObjectID&);
