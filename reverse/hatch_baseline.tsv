@@ -22531,12 +22531,14 @@ pin	reverse/symbols.csv	0x001E4DEB	1
 pin	reverse/symbols.csv	0x001E6007	1
 pin	reverse/symbols.csv	0x001E6731	1
 pin	reverse/symbols.csv	0x001E685F	1
+pin	reverse/symbols.csv	0x001E6B8B	1	allow=46fb0846f603e78fd81d195cb89d9a27b24e16ba
 pin	reverse/symbols.csv	0x001E6F5F	1
 pin	reverse/symbols.csv	0x001E7053	1
 pin	reverse/symbols.csv	0x001E7087	1
 pin	reverse/symbols.csv	0x001E7243	1
 pin	reverse/symbols.csv	0x001E7270	1
 pin	reverse/symbols.csv	0x001E72B4	1
+pin	reverse/symbols.csv	0x001E756D	1	allow=46fb0846f603e78fd81d195cb89d9a27b24e16ba
 pin	reverse/symbols.csv	0x001E7E25	2
 pin	reverse/symbols.csv	0x001E7E7D	2
 pin	reverse/symbols.csv	0x001E7E9F	1

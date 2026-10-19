@@ -30,11 +30,12 @@ class Rva0030A3E4 {public:void _setTransformMatrix(const Matrix3D *);};
 struct Rva001E3F08Arg;
 class Rva001E3F08 {public:float rva001E3F08(Rva001E3F08Arg *);};
 class Rva001E702E {public:void rva001E702E(Thing *,int,int);};
-class Rva001E46E1 {public:void rva001E9083(Object *,const Coord3D *,float,float);bool rva001E7ECA(Object *,const Coord3D *);};
+class Rva001E46E1 {public:bool rva001E7ECA(Object *,const Coord3D *);};
 struct LocomotorData {char pad[0x84];float turnLimit;};
 class Locomotor {public:
  bool rva001E4194(Object *);
  void locoUpdate_moveTowardsAngle(Object *,float);
+ void rva001E9083(Object *,const Coord3D *,float,float);
  void rva001E41FA(float);
  char pad[4];const LocomotorData *data;char pad08[0x44-8];unsigned flags;char pad48[0x68-0x48];Matrix3D matrix;
 };
@@ -57,7 +58,7 @@ void Locomotor::locoUpdate_moveTowardsAngle(Object *obj,float goalAngle)
   Coord3D desired;desired.x=obj->pos.x;desired.y=obj->pos.y;desired.z=obj->pos.z;
   desired.x+=Cos(goalAngle)*minSpeed*2;
   desired.y+=Sin(goalAngle)*minSpeed*2;
-  ((Rva001E46E1*)this)->rva001E9083(obj,&desired,99999.0f,minSpeed);
+  rva001E9083(obj,&desired,99999.0f,minSpeed);
  } else {
   const Coord3D *position=&obj->pos;Coord3D desired;desired.x=position->x;desired.y=position->y;desired.z=position->z;
   desired.x+=Cos(goalAngle)*1000.0f;

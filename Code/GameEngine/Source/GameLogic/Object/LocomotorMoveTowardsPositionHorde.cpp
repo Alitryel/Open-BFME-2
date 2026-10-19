@@ -1,8 +1,9 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // stlport
 //
-// Locomotor's horde portal movement, retail 0x001E7389 (484 bytes), with the
-// path getter it calls.
+// Locomotor's horde portal movement, retail 0x001E7389 (484 bytes), the
+// per-frame movement dispatch 0x001E9083 (2429 bytes), and the path getter
+// both call.
 //
 // ?Rva001E3FFDGet@@YAPAXPAURva001E3FFDOuter@@@Z, retail 0x001E3FFD (24 bytes):
 // the Object's +0x258 AI and that AI's +0x140 path, else null. Defined here,
@@ -37,15 +38,70 @@
 // Facts from retail: offsets slots and types; names of the method and the
 // waypoint come from the WorldBuilder twin; the point and node views are
 // address-named because their real types are unproven.
+//
+// ?rva001E9083@Locomotor@@QAEXPAVObject@@PBUCoord3D@@MM@Z, retail 0x001E9083
+// (2429 bytes plus the 40-byte case table at 0x001E99D8, ret 0x10). Called
+// from AIUpdateInterface::doLocomotor 0x0026A3A0 and quickHordeUpdate
+// 0x0026C4EB. Clears flag 4 at +0x44, copies the Object's transform into
+// +0x68, clamps the desired speed to the timed limit (+0x5C until frame
+// +0x60) and to getMaxSpeed, then returns early when 0x001E4194 holds or the
+// Object has status 0x25. Records the path's 0x001E3557 test at +0x99. For
+// a wall climber (template +0x150, kindof 0xB8 and not 0x6D, not status 0x26,
+// not contained by a kindof-0x6D container) it probes the step ahead (the
+// unit direction times min(speed, 7)): a kindof-0xC9 wall found by the
+// pathfinder (0x001E4461) there is climbed when the step lies inside its
+// major radius and below its top (rising 0.6 per unit speed with status
+// 0x67, otherwise turned to the wall's facing and clamped to its radius in
+// wall space, with Eva event 15 for an enemy-owned local wall); without a
+// wall the Object descends towards the ground (status 0x69). Climbing,
+// descending and landing set the position, the 0x67/0x69 status bits, the
+// drawable flag (0x00272A02) and reveal a stealthed Object; otherwise the
+// bits are cleared and the template's appearance (+0x74) selects the worker:
+// 0/4/7 0x001E6B8B, 6 moveTowardsPositionHorde 0x001E756D, 2 0x001E7C4C,
+// 8 0x001E9045, 9 0x001E68D7, 3 0x001E7C2B, 1 0x001E8C1B, 5 none, else
+// 0x001E7053; then 0x001E7ECA unless the path's 0x001E3591 test holds, and
+// the transform is written back. The WorldBuilder twin 0x00ADF140 has the
+// same statement shapes (wall top as height plus wall z, the clamp and bias
+// ternaries); its name is not recovered, so the method keeps an address name
+// (ZH's analogue is Locomotor::locoUpdate_moveTowardsPosition). Codegen: the
+// bit-flag, kindof and status helpers are forceinline; the Coord3D helpers
+// are field-wise so the direction vectors stay out of block copies, which
+// is what gives retail's register assignment.
 #include <vector>
+#include <math.h>
 #include "Lib/Coord3D.h"
 #include "../../Common/GameLogicObjectLookupView.h"
+// always.h (via matrix3d.h) redeclares operator new[]/delete[], which the
+// STLport <new> above already provides.
+#define _OPERATOR_NEW_DEFINED_
+#include "matrix3d.h"
 
 typedef float Real;
+typedef bool Bool;
 
 enum PathfindLayerEnum
 {
 	LAYER_INVALID = 0
+};
+
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_NONE = 0
+};
+
+enum KindOfType
+{
+	KINDOF_INVALID = -1
+};
+
+enum Relationship
+{
+	ENEMIES = 0
+};
+
+enum EvaEventID
+{
+	EVA_INVALID = -1
 };
 
 enum ScienceType
@@ -165,28 +221,129 @@ public:
 	virtual HordeContainInterface *getHordeContainInterface(); // +0x7C
 };
 
+template <int NUMBITS>
+class BitFlagsView
+{
+public:
+	__forceinline Bool test(unsigned int bit) const { return (m_bits[bit >> 5] & (1 << (bit & 0x1f))) != 0; }
+	__forceinline void set(unsigned int bit) { m_bits[bit >> 5] |= 1 << (bit & 0x1f); }
+	__forceinline void clear(unsigned int bit) { m_bits[bit >> 5] &= ~(1 << (bit & 0x1f)); }
+private:
+	unsigned int m_bits[(NUMBITS + 31) / 32];
+};
+
+class ThingTemplate
+{
+public:
+	__forceinline Bool hasKindOf(KindOfType k) const { return m_kindof.test(k); }
+private:
+	char m_pad00[0x108];
+	BitFlagsView<218> m_kindof; // +0x108
+};
+
+class Drawable
+{
+public:
+	void rva00272A02(Bool b);
+};
+class GeometryInfo
+{
+public:
+	Real getMaxHeightAbovePosition() const;
+	Real getMajorRadius() const { return m_majorRadius; }
+private:
+	char m_pad00[0x24];
+	Real m_majorRadius; // +0x24
+};
+class AIUpdateInterface
+{
+public:
+	void destroyPath();
+};
+class Rva00373EC6;
+
+class StealthUpdate
+{
+public:
+	void markAsDetected(unsigned int frames, int a, Object *by, Bool b);
+	Bool rva3c() const { return m_p3c != 0; }
+private:
+	char m_pad00[0x3c];
+	void *m_p3c; // +0x3c
+};
 class Thing
 {
 public:
-	void setPosition(const Coord3D *pos);
+	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_pos; }
-
-protected:
-	char m_pad00[0x38];
+	Real getOrientation() const { return m_angle; }
+	const Matrix3D *getTransformMatrix() const { return &m_transform; }
+	const Coord3D *getUnitDirectionVector2D() const;
+	void setPosition(const Coord3D *pos);
+	void setOrientation(Real angle);
+	void setTransformMatrix(const Matrix3D *mx);
+	Drawable *getDrawable() const;
+private:
+	void *m_vtbl;
+	const ThingTemplate *m_template; // +0x04
+	Matrix3D m_transform; // +0x08
 	Coord3D m_pos; // +0x38
+	Real m_angle; // +0x44
 };
-
 class Object : public Thing
 {
 public:
+	Bool testStatus(ObjectStatusTypes s) const;
+	Bool isKindOf(KindOfType k) const;
+	int rva0028B511() const;
+	void rva0028AE6D();
 	void rva0028B4CE(PathfindLayerEnum layer);
+	Rva00373EC6 *rva0028F4BC(); // the StealthUpdate, or null
+	Bool isLocallyControlled() const;
+	ObjectID getContainedByID() const { return m_containedByID; }
+	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
+	AIUpdateInterface *getAI() { return m_ai; }
 	ContainModuleInterface *getContain() const { return m_contain; }
-
+	Bool has274() const { return m_p274 != 0; }
+	__forceinline void setStatusBit(int bit)
+	{
+		if (!m_status.test(bit))
+		{
+			m_status.set(bit);
+			rva0028AE6D();
+		}
+	}
+	__forceinline void clearStatusBit(int bit)
+	{
+		if (m_status.test(bit))
+		{
+			m_status.clear(bit);
+			rva0028AE6D();
+		}
+	}
+	__forceinline void clearAndSetStatusBit(int clr, int set)
+	{
+		if (m_status.test(clr) || !m_status.test(set))
+		{
+			m_status.clear(clr);
+			m_status.set(set);
+			rva0028AE6D();
+		}
+	}
 private:
-	char m_pad44[0x250 - 0x44];
+	char m_pad48[0x78 - 0x48];
+	ObjectID m_containedByID; // +0x78
+	char m_pad7c[0xa8 - 0x7c];
+	GeometryInfo m_geometryInfo; // +0xa8
+	char m_padd0[0x10c - 0xa8 - sizeof(GeometryInfo)];
+	BitFlagsView<128> m_status; // +0x10c
+	char m_pad11c[0x250 - 0x11c];
 	ContainModuleInterface *m_contain; // +0x250
+	char m_pad254[0x258 - 0x254];
+	AIUpdateInterface *m_ai; // +0x258
+	char m_pad25c[0x274 - 0x25c];
+	void *m_p274; // +0x274
 };
-
 class Waypoint
 {
 public:
@@ -197,25 +354,137 @@ private:
 	ObjectID m_climbObjectID; // +0xB0
 };
 
-// The transform at Locomotor +0x68; only the translation column is touched.
-struct Rva001E7389Transform
-{
-	float Row[3][4];
-	void setTranslation(const Coord3D *p) { Row[0][3] = p->x; Row[1][3] = p->y; Row[2][3] = p->z; }
-};
-
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
+
+class TerrainLogic
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03(); virtual void s04(); virtual void s05(); virtual void s06();
+	virtual Real getLayerHeight(Real x, Real y, int layer, Coord3D *normal, Bool clip) const; // +0x1c
+	PathfindLayerEnum getLayerForDestination(Object *obj, const Coord3D *pos);
+};
+extern TerrainLogic *TheTerrainLogic;
+class Pathfinder
+{
+public:
+	void *rva001E4461(int layer, int pos); // 0x001E4461: the wall object's ID at a position
+};
+class AI
+{
+public:
+	Pathfinder *pathfinder() { return m_pathfinder; }
+private:
+	char m_pad00[0x10];
+	Pathfinder *m_pathfinder; // +0x10
+};
+extern AI *TheAI;
+class Player
+{
+public:
+	Relationship getRelationship(const Object *that) const;
+};
+class PlayerList
+{
+public:
+	Player *getLocalPlayer() { return m_local; }
+private:
+	char m_pad00[0x10];
+	Player *m_local; // +0x10
+};
+extern PlayerList *ThePlayerList;
+class Eva
+{
+public:
+	Bool reportEvaEvent(EvaEventID id, const Coord3D *pos, const Coord3D *pos2);
+};
+extern Eva *TheEva;
+class Rva001E3557
+{
+public:
+	Bool rva001E3557();
+};
+class Rva001E3591
+{
+public:
+	Bool rva001E3591();
+};
+Real normalizeAngle(Real angle);
+
+class LocomotorTemplate
+{
+public:
+	char m_pad00[0x74];
+	int m_appearance; // +0x74
+	char m_pad78[0x150 - 0x78];
+	Bool m_150; // +0x150
+};
+
+static __forceinline void CoordCopy(Coord3D *d, const Coord3D *s) { d->x = s->x; d->y = s->y; d->z = s->z; }
+static __forceinline void CoordScale(Coord3D *d, Real s) { d->x *= s; d->y *= s; d->z *= s; }
+static __forceinline void CoordAdd(Coord3D *d, const Coord3D *s) { d->x += s->x; d->y += s->y; d->z += s->z; }
+static __forceinline void CoordSub(Coord3D *d, const Coord3D *s) { d->x -= s->x; d->y -= s->y; d->z -= s->z; }
+
+// Receivers of the appearance workers, named as their rows and pins are.
+class Rva001E7C4C
+{
+public:
+	void rva001E7C4C(Object *obj, unsigned int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+};
+
+class Rva001E9045
+{
+public:
+	void rva001E9045(int obj, int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+};
+
+class Rva001E7C2B
+{
+public:
+	void rva001E7C2B(int obj, int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+};
+
+class Rva001E8C1B
+{
+public:
+	void rva001E8C1B(int obj, int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+};
+
+class Rva001E7053
+{
+public:
+	void rva001e7053(unsigned int obj, unsigned int goalPos, Real onPathDistToGoal, Real desiredSpeed);
+};
+
+class Rva001E46E1
+{
+public:
+	Bool rva001E7ECA(Object *obj, const Coord3D *goalPos); // 0x001E7ECA
+};
 
 class Locomotor
 {
 public:
+	Real getMaxSpeed(Object *obj) const;
+	Bool rva001E4194(Object *obj);
 	bool moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way);
+	void moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Real onPathDistToGoal, Real desiredSpeed);
+	void rva001E68D7(Object *obj, const Coord3D *goalPos, Real onPathDistToGoal, Real desiredSpeed);
+	void rva001E6B8B(Object *obj, const Coord3D *goalPos, Real onPathDistToGoal, Real desiredSpeed);
+	void rva001E9083(Object *obj, const Coord3D *goalPos, Real onPathDistToGoal, Real desiredSpeed);
 
 private:
-	char m_pad00[0x64];
+	void *m_vtbl;
+	LocomotorTemplate *m_template; // +0x04
+	char m_pad08[0x44 - 0x08];
+	unsigned int m_flags; // +0x44
+	char m_pad48[0x5c - 0x48];
+	Real m_speedLimit; // +0x5c
+	unsigned int m_speedLimitFrame; // +0x60
 	unsigned int m_hordeClimbFrame; // +0x64
-	Rva001E7389Transform m_transform; // +0x68
+	Matrix3D m_transform; // +0x68
+	Bool m_98; // +0x98
+	Bool m_99; // +0x99
 };
 
 bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way)
@@ -247,7 +516,7 @@ bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way
 	if (delta.x * delta.x + delta.y * delta.y + delta.z * delta.z > 10.0f * 10.0f)
 	{
 		obj->setPosition(&climbPos);
-		m_transform.setTranslation(&climbPos);
+		m_transform.Set_Translation(Vector3(climbPos.x, climbPos.y, climbPos.z));
 		obj->rva0028B4CE((PathfindLayerEnum)((Rva001E34FA *)&result)->rva001E34FA());
 		hordeContain->slot111(&goalPos, &((Rva001E34B2 *)&result)->rva001E34B2(),
 			((Rva001E3511 *)&result)->rva001E3511(), ((Rva001E34FA *)&result)->rva001E34FA());
@@ -262,4 +531,195 @@ bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way
 	_STL::vector<ScienceType> portals;
 	aPath->AdvancePastPortal((ScienceType)((Rva001E3511 *)&result)->rva001E3511(), &portals);
 	return false;
+}
+
+void Locomotor::rva001E9083(Object *obj, const Coord3D *goalPos, Real onPathDistToGoal, Real desiredSpeed)
+{
+	m_flags &= ~4;
+	m_transform = *obj->getTransformMatrix();
+	if (TheGameLogic->getFrame() <= m_speedLimitFrame && desiredSpeed > m_speedLimit)
+		desiredSpeed = m_speedLimit;
+	Real maxSpeed = getMaxSpeed(obj);
+	if (desiredSpeed > maxSpeed)
+		desiredSpeed = maxSpeed;
+	if (rva001E4194(obj))
+		return;
+	if (obj->testStatus((ObjectStatusTypes)0x25))
+		return;
+	m_99 = false;
+	void *path = Rva001E3FFDGet((Rva001E3FFDOuter *)obj);
+	if (path)
+		m_99 = ((Rva001E3557 *)path)->rva001E3557();
+	Bool skip = obj->testStatus((ObjectStatusTypes)0x26);
+	if (!skip)
+	{
+		skip = obj->has274();
+		if (!skip && obj->getContainedByID())
+		{
+			Object *container = TheGameLogic->findObjectByID(obj->getContainedByID());
+			skip = container && container->getTemplate()->hasKindOf((KindOfType)0x6d);
+		}
+	}
+	if (!skip && m_template->m_150 && !obj->getTemplate()->hasKindOf((KindOfType)0x6d) && obj->getTemplate()->hasKindOf((KindOfType)0xb8))
+	{
+		Coord3D pos;
+		CoordCopy(&pos, obj->getPosition());
+		Real height = TheTerrainLogic->getLayerHeight(pos.x, pos.y, obj->rva0028B511(), NULL, true);
+		Coord3D dir;
+		CoordCopy(&dir, obj->getUnitDirectionVector2D());
+		CoordScale(&dir, desiredSpeed < 7.0f ? desiredSpeed : 7.0f);
+		CoordAdd(&pos, &dir);
+		Real nextHeight = TheTerrainLogic->getLayerHeight(pos.x, pos.y, obj->rva0028B511(), NULL, true);
+		Real bias = (height - nextHeight + 0.1f < 0.0f) ? 0.0f : height - nextHeight + 0.1f;
+		PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
+		ObjectID wallID = (ObjectID)(int)TheAI->pathfinder()->rva001E4461(layer, (int)&pos);
+		Object *wall = TheGameLogic->findObjectByID(wallID);
+		Bool climbing = false;
+		Bool descending = false;
+		Bool landed = false;
+		if (wall && wall->getTemplate()->hasKindOf((KindOfType)0xc9))
+		{
+			Vector3 local(pos.x, pos.y, pos.z);
+			Matrix3D inverse;
+			wall->getTransformMatrix()->Get_Orthogonal_Inverse(inverse);
+			inverse.mulVector3(local);
+			const GeometryInfo &geom = wall->getGeometryInfo();
+			Bool inside = fabs(local.X) <= geom.getMajorRadius() && local.Z <= geom.getMaxHeightAbovePosition();
+			if (inside)
+			{
+				Real maxH = geom.getMaxHeightAbovePosition();
+				Real top = wall->getPosition()->z + maxH;
+				if (pos.z < top)
+				{
+					CoordSub(&pos, &dir);
+					climbing = true;
+					if (obj->isKindOf((KindOfType)0x67))
+					{
+						pos.z += desiredSpeed * 0.6f;
+						if (pos.z > top)
+							pos.z = top;
+					}
+					else
+					{
+						Coord3D myDir;
+						CoordCopy(&myDir, obj->getUnitDirectionVector2D());
+						Coord3D wallDir;
+						CoordCopy(&wallDir, wall->getUnitDirectionVector2D());
+						Real dot = myDir.x * wallDir.x + myDir.y * wallDir.y + myDir.z * wallDir.z;
+						if (dot >= 0.0f)
+							obj->setOrientation(wall->getOrientation());
+						else
+							obj->setOrientation(normalizeAngle(wall->getOrientation() + 3.1415927f));
+						Vector3 moved(pos.x, pos.y, pos.z);
+						inverse.mulVector3(moved);
+						if (moved.X > geom.getMajorRadius())
+							moved.X = geom.getMajorRadius();
+						else if (-geom.getMajorRadius() > moved.X)
+							moved.X = -geom.getMajorRadius();
+						wall->getTransformMatrix()->mulVector3(moved);
+						pos.x = moved.X;
+						pos.y = moved.Y;
+						pos.z = moved.Z;
+						if (wall->isLocallyControlled() && ThePlayerList->getLocalPlayer()->getRelationship(obj) == ENEMIES)
+							TheEva->reportEvaEvent((EvaEventID)15, wall->getPosition(), NULL);
+					}
+				}
+				else
+				{
+					landed = true;
+				}
+			}
+		}
+		else
+		{
+			Real groundHeight = TheTerrainLogic->getLayerHeight(pos.x, pos.y, obj->rva0028B511(), NULL, true);
+			if (pos.z > groundHeight + bias)
+			{
+				CoordSub(&pos, &dir);
+				descending = true;
+				if (obj->isKindOf((KindOfType)0x69))
+				{
+					pos.z -= desiredSpeed * 0.6f;
+					if (groundHeight + 1.0f >= pos.z)
+					{
+						pos.z = groundHeight;
+						if (obj->getAI())
+							obj->getAI()->destroyPath();
+						obj->setStatusBit(0x3d);
+						landed = true;
+					}
+				}
+			}
+		}
+		if (descending || climbing || landed)
+		{
+			obj->setPosition(&pos);
+			if (descending)
+			{
+				if (obj->getDrawable())
+					obj->getDrawable()->rva00272A02(false);
+				obj->clearAndSetStatusBit(0x67, 0x69);
+				StealthUpdate *stealth = (StealthUpdate *)obj->rva0028F4BC();
+				if (stealth && stealth->rva3c())
+					stealth->markAsDetected(0, 1, NULL, true);
+			}
+			else if (climbing)
+			{
+				if (obj->getDrawable())
+					obj->getDrawable()->rva00272A02(false);
+				obj->clearAndSetStatusBit(0x69, 0x67);
+				StealthUpdate *stealth = (StealthUpdate *)obj->rva0028F4BC();
+				if (stealth && stealth->rva3c())
+					stealth->markAsDetected(0, 1, NULL, true);
+			}
+			else
+			{
+				obj->clearStatusBit(0x67);
+				obj->clearStatusBit(0x69);
+				if (obj->getDrawable())
+					obj->getDrawable()->rva00272A02(true);
+			}
+			return;
+		}
+		obj->clearStatusBit(0x67);
+		obj->clearStatusBit(0x69);
+		if (obj->getDrawable())
+			obj->getDrawable()->rva00272A02(true);
+	}
+	switch (m_template->m_appearance)
+	{
+		case 0:
+		case 4:
+		case 7:
+			rva001E6B8B(obj, goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 6:
+			moveTowardsPositionHorde(obj, *goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 2:
+			((Rva001E7C4C *)this)->rva001E7C4C(obj, (unsigned int)goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 8:
+			((Rva001E9045 *)this)->rva001E9045((int)obj, (int)goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 9:
+			rva001E68D7(obj, goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 3:
+			((Rva001E7C2B *)this)->rva001E7C2B((int)obj, (int)goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 1:
+			((Rva001E8C1B *)this)->rva001E8C1B((int)obj, (int)goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+		case 5:
+			break;
+		default:
+			((Rva001E7053 *)this)->rva001e7053((unsigned int)obj, (unsigned int)goalPos, onPathDistToGoal, desiredSpeed);
+			break;
+	}
+	path = Rva001E3FFDGet((Rva001E3FFDOuter *)obj);
+	if (!path || !((Rva001E3591 *)path)->rva001E3591())
+		((Rva001E46E1 *)this)->rva001E7ECA(obj, goalPos);
+	obj->setTransformMatrix(&m_transform);
+	m_99 = false;
 }

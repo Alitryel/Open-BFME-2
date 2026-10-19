@@ -239,6 +239,7 @@ public:
 	Real getMaxSpeed(Object *obj) const;
 public: Bool locoUpdate_maintainCurrentPosition(Object *);
 	void locoUpdate_moveTowardsAngle(Object *obj, Real angle); // rowed 0x001EA0F4
+	void rva001E9083(Object *obj, const Coord3D *goal, Real onPathDistToGoal, Real desiredSpeed); // rowed 0x001E9083
 };
 
 // The current locomotor (Zero Hour's Locomotor); ledger class name.
@@ -250,7 +251,6 @@ public:
 	void rva001E53D8(Real speed, Object *obj);
 	Bool rva001E543F(Object *obj);
 	/* the rowed Locomotor::locoUpdate_maintainCurrentPosition */ __declspec(dllimport) __forceinline Bool rva001E84E5(Object * p0) { return ((Locomotor *)this)->locoUpdate_maintainCurrentPosition(p0); } // locoUpdate_maintainCurrentPosition
-	void rva001E9083(Object *obj, const Coord3D *goal, Real onPathDistToGoal, Real desiredSpeed); // locoUpdate_moveTowardsPosition
 private:
 	void *m_vtbl;
 	const Rva001E46E1Template *m_template; // +0x04
@@ -475,7 +475,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 					delta.z = oldPos.z;
 					coordSub(&delta, goal);
 					Real dist = delta.length();
-					m_curLocomotor->rva001E9083(obj, goal, dist + m_pathExtraDistance, speed);
+					((Locomotor *)m_curLocomotor)->rva001E9083(obj, goal, dist + m_pathExtraDistance, speed);
 					if (m_locomotorGoalType == POSITION_EXPLICIT_HORDE &&
 						!TheAI->pathfinder()->IsValidHordeMemberRegularMovement(obj, &oldPos, obj->getPosition(), goal))
 					{
@@ -495,7 +495,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 					if (m_locomotorGoalType == POSITION_EXPLICIT_HORDE && m_path)
 					{
 						Rva003642DFResult info = m_path->rva00364521((const Rva0008BB38FloatField *)m_curLocomotor);
-						m_curLocomotor->rva001E9083(obj, &info.m_pos,
+						((Locomotor *)m_curLocomotor)->rva001E9083(obj, &info.m_pos,
 							getPathExtraDistance() + ((Rva00363D20 *)&info)->rva00363D20(), speed);
 						m_path->DoAdvanceAlongPath(obj->getPositionForUpdate(), true);
 					}
@@ -524,7 +524,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 							dest.y = pos->y + dest.y;
 							dest.z = pos->z + dest.z;
 							if (TheAI->pathfinder()->QuickDoesPathExist(obj, pos, &dest, 0))
-								m_curLocomotor->rva001E9083(obj, &dest, FAST_AS_POSSIBLE, step);
+								((Locomotor *)m_curLocomotor)->rva001E9083(obj, &dest, FAST_AS_POSSIBLE, step);
 							Rva00265254 flags(0, 0x3d, 0x87, 0x88, 0x83, 0x85, 0x86, 0x89, 0x8a, 0xef, 0xf0, 0x9c);
 							((WeaponTemplateSetHead *)&flags)->rva000B3ED3(m_290);
 							obj->rva001E431E((const Int *)&flags);
@@ -688,7 +688,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 					{
 						obj->clearModelConditionState(MODELCONDITION_156);
 						Real moveSpeed = blocked ? 0.0f : speed;
-						m_curLocomotor->rva001E9083(obj, &info.m_pos,
+						((Locomotor *)m_curLocomotor)->rva001E9083(obj, &info.m_pos,
 							getPathExtraDistance() + ((Rva00363D20 *)&info)->rva00363D20(), moveSpeed);
 					}
 					m_doFinalPosition = false;
