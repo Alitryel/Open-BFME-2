@@ -17,7 +17,7 @@
 // 0.8..1, 0.2..0.35, 0.4..0.6, 0.85..1) through rowed 0x003FBA0E, plays the
 // +0x15C sound there; the first element instead gets m_14C * 1.2 at +0x98.
 // Then every element of the +0x234 list is unhidden, +0x98 reset from +0x9C
-// and restarted through rowed 0x003FB9C8(m_158, 0); finally g_00DFE1E4 slot
+// and restarted through rowed 0x003FB9C8(m_158, 0); finally TheCloudEffectManager slot
 // 17. The WB twin's Vector2 shape (operator[] writes and reads, *=,
 // Random_Float(min, max)) is followed.
 #include "Common/BfmeAudioEventPrefix136.h"
@@ -143,7 +143,7 @@ public:
 	virtual void s16();
 	virtual void slot17();	// +0x44
 };
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 class AudioManager
 {
@@ -232,5 +232,5 @@ void Rva0021193B::rva0021193B(ICoord2D pos)
 			((Rva003FB9C8 *)m_234[i])->rva003FB9C8(m_frames, 0);
 		}
 	}
-	g_00DFE1E4->slot17();
+	TheCloudEffectManager->slot17();
 }

@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 //
 // ?rva0027070C@Rva0027070C@@QAEPAURva0027070CData@@XZ, retail 0x0027070C, 74 bytes.
-// Unlock lane: returns &m_90 (12B at +0x90) or 0. Guards on global g_00DFE1E4
+// Unlock lane: returns &m_90 (12B at +0x90) or 0. Guards on global TheCloudEffectManager
 // (data 0x009FE1E4, no name yet): null check, virtual at +0x3C returning bool,
 // then virtual at +0x48 filling a 12B stack tmp and returning a 12B src which
 // is copied to m_90. Prev is our Rva002706A8.cpp, next is DrawableFade.cpp,
@@ -26,8 +26,8 @@ public:
 	virtual Rva0027070CData *slot48(Rva0027070CData *out);
 };
 
-// g_00DFE1E4: matched references place it at VA 0xdfe1e4 (retail .data initial value 0).
-Rva0027070CGlobal * g_00DFE1E4 = 0;
+// TheCloudEffectManager: matched references place it at VA 0xdfe1e4 (retail .data initial value 0).
+Rva0027070CGlobal * TheCloudEffectManager = 0;
 
 class Rva0027070C
 {
@@ -40,10 +40,10 @@ private:
 
 Rva0027070CData *Rva0027070C::rva0027070C()
 {
-	if (g_00DFE1E4 != 0 && g_00DFE1E4->slot3C())
+	if (TheCloudEffectManager != 0 && TheCloudEffectManager->slot3C())
 	{
 		Rva0027070CData tmp;
-		Rva0027070CData *src = g_00DFE1E4->slot48(&tmp);
+		Rva0027070CData *src = TheCloudEffectManager->slot48(&tmp);
 		Rva0027070CData *dst = &m_90;
 		dst->a = src->a;
 		dst->b = src->b;

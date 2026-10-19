@@ -2,7 +2,7 @@
 // ??0AnimationSoundModuleManager@@QAE@XZ, retail 0x00432FA7, 72 bytes.
 // Ctor: baseConstruct 0x001B4E63 then vtable g_00C3CA30 then five ints at
 // +0xC/+0x10/+0x14/+0x18/+0x1C zeroed then three FLT_MAX floats at
-// +0x20/+0x24/+0x28 from pool 0x007BB8E0 then singleton g_00E032D0 set if zero.
+// +0x20/+0x24/+0x28 from pool 0x007BB8E0 then singleton TheAnimationSoundModuleManager set if zero.
 // Base size 0xC from BFME2NativeNetworkBaseConstruct (vptr+flag+value).
 // Precedent Rva0026201C 0x00262002 (/O1 /MD, baseConstruct then zeros then
 // vtable). Floats via FLT_MAX link (never extern per linking rule).
@@ -21,9 +21,7 @@ private:
 
 extern const void *const g_00C3CA30[];
 class AnimationSoundModuleManager;
-// ?g_00E032D0@@3PAVAnimationSoundModuleManager@@A: the global at this VA is ?g_004C9DC9Container@@3PAVAnimationSoundModuleManager@@A; this name is an alias for it.
-extern class AnimationSoundModuleManager *g_004C9DC9Container;
-#pragma comment(linker, "/alternatename:?g_00E032D0@@3PAVAnimationSoundModuleManager@@A=?g_004C9DC9Container@@3PAVAnimationSoundModuleManager@@A")
+extern class AnimationSoundModuleManager *TheAnimationSoundModuleManager;
 
 class AnimationSoundModuleManager : public SubsystemInterface
 {
@@ -50,8 +48,8 @@ AnimationSoundModuleManager::AnimationSoundModuleManager()
 	m_20 = FLT_MAX;
 	m_24 = FLT_MAX;
 	m_28 = FLT_MAX;
-	if (g_004C9DC9Container == 0)
-		g_004C9DC9Container = this;
+	if (TheAnimationSoundModuleManager == 0)
+		TheAnimationSoundModuleManager = this;
 }
 
 // Retail's data references in this unit's matched rows land on globals defined

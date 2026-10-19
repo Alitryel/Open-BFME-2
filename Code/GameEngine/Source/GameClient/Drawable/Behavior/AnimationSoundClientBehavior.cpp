@@ -37,7 +37,7 @@ struct ModuleData { void*vptr; int unknown04; AnimationSoundTree tree; float cap
 class Rva001DFE56 { public: bool rva001DFE56(const void*,const void*) const; };
 class Rva00432F23Node;
 class AnimationSoundModuleManager { public: void rva00432EC0(Rva00432F23Node*); };
-extern AnimationSoundModuleManager *g_004C9DC9Container;
+extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;
 class ObjectDrawInterface { public:
  virtual void slot0()=0;
  virtual void slot1()=0;
@@ -191,7 +191,7 @@ void AnimationSoundClientBehavior::updateAnimationSounds()
 {
  Drawable*d=drawable;
  if(!d)return;
- if(!d->enabled){if(g_004C9DC9Container)g_004C9DC9Container->rva00432EC0((Rva00432F23Node*)this);return;}
+ if(!d->enabled){if(TheAnimationSoundModuleManager)TheAnimationSoundModuleManager->rva00432EC0((Rva00432F23Node*)this);return;}
  if(!TheAudio)return;
  const Coord3D*microphone=TheAudio->getListenerPosition();
  Coord3D relative={microphone->x,microphone->y,microphone->z};
@@ -202,7 +202,7 @@ void AnimationSoundClientBehavior::updateAnimationSounds()
    relative.x-=position->x;relative.y-=position->y;relative.z-=position->z;
    if(rangeSquared>=relative.z*relative.z+relative.y*relative.y+relative.x*relative.x)return;
   }
-  if(g_004C9DC9Container)g_004C9DC9Container->rva00432EC0((Rva00432F23Node*)this);
+  if(TheAnimationSoundModuleManager)TheAnimationSoundModuleManager->rva00432EC0((Rva00432F23Node*)this);
   return;
  }
  AnimationSoundTree*tree=(AnimationSoundTree*)&data->tree;

@@ -68,7 +68,7 @@ class AnimationSoundModuleManager
 public:
 	void rva00432E5D( Rva00432F23Node *node );
 };
-extern class AnimationSoundModuleManager *g_004C9DC9Container;
+extern class AnimationSoundModuleManager *TheAnimationSoundModuleManager;
 
 // ---------------------------------------------------------------- 0x006057C0
 
@@ -90,8 +90,8 @@ U4Assign006057C0 &U4Assign006057C0::operator=( const U4Assign006057C0 &other )
 		m_f04 = other.m_f04;
 		m_f08 = other.m_f08;
 		m_f10 = other.m_f10;
-		if ( (*(U4Notify **)&g_004C9DC9Container) != 0 )
-			(*(AnimationSoundModuleManager **)&g_004C9DC9Container)->rva00432E5D( (Rva00432F23Node *)this );
+		if ( (*(U4Notify **)&TheAnimationSoundModuleManager) != 0 )
+			(*(AnimationSoundModuleManager **)&TheAnimationSoundModuleManager)->rva00432E5D( (Rva00432F23Node *)this );
 	}
 	return *this;
 }

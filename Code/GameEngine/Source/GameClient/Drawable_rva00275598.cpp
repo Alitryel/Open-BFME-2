@@ -158,7 +158,7 @@ class Rva0027070CGlobal
 	float m_scale58;						// +0x58
 };
 
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 void *operator new(unsigned int s) throw();
 
@@ -280,7 +280,7 @@ void Drawable::rva00275598()
 	{
 		if (m_envelope8C == 0)
 			m_envelope8C = new Rva00271826;
-		Rva0027070CGlobal *setting = g_00DFE1E4;
+		Rva0027070CGlobal *setting = TheCloudEffectManager;
 		bool scaled = reinterpret_cast<Rva0027000E *>(setting)->rva0027000E();
 		unsigned int status = m_tintStatus120;
 		if (status & 4)

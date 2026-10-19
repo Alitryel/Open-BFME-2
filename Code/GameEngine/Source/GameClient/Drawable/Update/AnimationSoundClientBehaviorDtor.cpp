@@ -25,9 +25,9 @@ public:
     void remove(Rva00432F23Node *node);
 };
 
-extern AnimationSoundModuleManager *g_004C9DC9Container;
-// g_004C9DC9Container: VA 0xe032d0 (zero-filled .bss).
-AnimationSoundModuleManager * g_004C9DC9Container;
+extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;
+// TheAnimationSoundModuleManager: VA 0xe032d0 (zero-filled .bss).
+AnimationSoundModuleManager * TheAnimationSoundModuleManager;
 
 class Rva0049B47C
 {
@@ -66,6 +66,6 @@ public:
 
 AnimationSoundClientBehavior::~AnimationSoundClientBehavior()
 {
-    if (g_004C9DC9Container)
-        g_004C9DC9Container->remove((Rva00432F23Node *)this);
+    if (TheAnimationSoundModuleManager)
+        TheAnimationSoundModuleManager->remove((Rva00432F23Node *)this);
 }

@@ -80,7 +80,7 @@ public:
 	void rva00432F7D(Rva00432F23Node *node);
 };
 
-extern AnimationSoundModuleManager *g_004C9DC9Container;
+extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;
 
 class AudioManager;
 extern AudioManager *TheAudio;
@@ -135,7 +135,7 @@ AnimationSoundClientBehavior::AnimationSoundClientBehavior(Thing *thing, const M
 		if (maxVal > mod->m_max14)
 			maxVal = mod->m_max14;
 		m_float10 = maxVal * maxVal;
-		if (g_004C9DC9Container)
-			g_004C9DC9Container->rva00432F7D((Rva00432F23Node *)this);
+		if (TheAnimationSoundModuleManager)
+			TheAnimationSoundModuleManager->rva00432F7D((Rva00432F23Node *)this);
 	}
 }

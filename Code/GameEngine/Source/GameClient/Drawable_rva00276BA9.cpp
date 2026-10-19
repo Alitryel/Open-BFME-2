@@ -4,7 +4,7 @@
 // thiscall RET 4. Sibling of the rowed tint-status refresh Drawable::rva00275598
 // (Drawable_rva00275598.cpp): it creates the +0x8C tint envelope on demand
 // (operator new 0x50 plus rowed ctor 0x00271826, no EH frame as in that
-// sibling), then -- when the global tint setting g_00DFE1E4 exists and its
+// sibling), then -- when the global tint setting TheCloudEffectManager exists and its
 // slot +0x3C test holds -- samples a value at the Drawable's position (pinned
 // 0x00276470) through the setting's +0x54 or +0x58 virtual, chosen by its mode
 // tests 0x0026FFF7 (mode 1/2) and rowed 0x0027000E (mode 3/4). At or below
@@ -64,7 +64,7 @@ public:
 	RGBColor m_color30;
 };
 
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 class Rva0026FFF7
 {
@@ -102,15 +102,15 @@ void Drawable::rva00276BA9(bool apply)
 {
 	if (m_envelope8C == 0)
 		m_envelope8C = new Rva00271826;
-	if (g_00DFE1E4 == 0 || !g_00DFE1E4->slot3C())
+	if (TheCloudEffectManager == 0 || !TheCloudEffectManager->slot3C())
 		return;
 	const Coord3D *pos = ((Rva00276470Drawable *)this)->rva00276470();
 	float value;
-	Rva0027070CGlobal *setting = g_00DFE1E4;
+	Rva0027070CGlobal *setting = TheCloudEffectManager;
 	if ((unsigned char)((Rva0026FFF7 *)setting)->get())
-		value = g_00DFE1E4->slot54(*pos);
+		value = TheCloudEffectManager->slot54(*pos);
 	else if (((Rva0027000E *)setting)->rva0027000E())
-		value = g_00DFE1E4->slot58(*pos);
+		value = TheCloudEffectManager->slot58(*pos);
 	else
 		return;
 	if (value <= -25.0f)
@@ -124,7 +124,7 @@ void Drawable::rva00276BA9(bool apply)
 			m_tintStatus120 = 2;
 		if (apply)
 		{
-			RGBColor color = g_00DFE1E4->m_color30;
+			RGBColor color = TheCloudEffectManager->m_color30;
 			(((Rva002747B8 *)m_envelope8C)->*reinterpret_cast<void (Rva002747B8::*)(RGBColor)>(&Rva002747B8::rva002747B8))(color);
 		}
 		return;
@@ -149,7 +149,7 @@ void Drawable::rva00276BA9(bool apply)
 	}
 	if (apply)
 	{
-		RGBColor color = g_00DFE1E4->m_color30;
+		RGBColor color = TheCloudEffectManager->m_color30;
 		(((Rva002747B8 *)m_envelope8C)->*reinterpret_cast<void (Rva002747B8::*)(RGBColor)>(&Rva002747B8::rva002747B8))(color);
 	}
 }

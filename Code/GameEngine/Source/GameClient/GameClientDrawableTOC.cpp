@@ -1277,7 +1277,7 @@ extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern GameWindowManager *TheWindowManager;
 extern FontLibrary *TheFontLibrary;
 extern Mouse *TheMouse;
-extern AnimationSoundModuleManager *g_004C9DC9Container;               // TheAnimationSoundModuleManager
+extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;               // TheAnimationSoundModuleManager
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 extern G00DFF080Obj *g_00DFF080;                        // TheTerrainVisual
 extern Display *TheDisplay;
@@ -1290,7 +1290,7 @@ extern ImageCollection *TheMappedImageCollection;
 extern Keyboard *TheKeyboard;
 extern DisplayStringManager *TheDisplayStringManager;
 extern SnowManager *TheSnowManager;
-extern Rva0027070CGlobal *g_00DFE1E4;                   // TheCloudEffectManager
+extern Rva0027070CGlobal *TheCloudEffectManager;                   // TheCloudEffectManager
 extern CloudBreakEffectManager *TheCloudBreakEffectManager;
 extern FireManager *TheFireManager;
 extern class MessageStream *TheMessageStream;           // TheMessageStream
@@ -1416,8 +1416,8 @@ GameClient::~GameClient()
 	::delete TheMouse;
 	TheMouse = 0;
 
-	::delete g_004C9DC9Container;
-	g_004C9DC9Container = 0;
+	::delete TheAnimationSoundModuleManager;
+	TheAnimationSoundModuleManager = 0;
 
 	::delete ((Rva002D3627Host *)TheLivingWorld);
 	TheLivingWorld = 0;
@@ -1458,8 +1458,8 @@ GameClient::~GameClient()
 	::delete TheSnowManager;
 	TheSnowManager = 0;
 
-	::delete g_00DFE1E4;
-	g_00DFE1E4 = 0;
+	::delete TheCloudEffectManager;
+	TheCloudEffectManager = 0;
 
 	::delete TheCloudBreakEffectManager;
 	TheCloudBreakEffectManager = 0;
@@ -1508,9 +1508,9 @@ void GameClient::init()
 	TheAnim2DCollection->init();
 	TheAnim2DCollection->setName(AsciiString("TheAnim2DCollection"));
 
-	g_004C9DC9Container = new AnimationSoundModuleManager;
-	g_004C9DC9Container->init();
-	g_004C9DC9Container->setName(AsciiString("TheAnimationSoundModuleManager"));
+	TheAnimationSoundModuleManager = new AnimationSoundModuleManager;
+	TheAnimationSoundModuleManager->init();
+	TheAnimationSoundModuleManager->setName(AsciiString("TheAnimationSoundModuleManager"));
 
 	// register message translators
 	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8, 4);
@@ -1652,11 +1652,11 @@ void GameClient::init()
 		TheSnowManager->setName(AsciiString("TheSnowManager"));
 	}
 
-	g_00DFE1E4 = createCloudEffectManager();
-	if (g_00DFE1E4)
+	TheCloudEffectManager = createCloudEffectManager();
+	if (TheCloudEffectManager)
 	{
-		g_00DFE1E4->init();
-		g_00DFE1E4->setName(AsciiString("TheCloudEffectManager"));
+		TheCloudEffectManager->init();
+		TheCloudEffectManager->setName(AsciiString("TheCloudEffectManager"));
 	}
 
 	TheCloudBreakEffectManager = createCloudBreakEffectManager();
@@ -1706,13 +1706,13 @@ void GameClient::reset()
 	TheVideoPlayer->reset();
 	if (((Rva002D3627Host *)TheLivingWorld))
 		((Rva002D3627Host *)TheLivingWorld)->vf05();
-	g_004C9DC9Container->reset();
+	TheAnimationSoundModuleManager->reset();
 	bfmeReset();
 
 	if (TheSnowManager)
 		TheSnowManager->reset();
-	if (g_00DFE1E4)
-		g_00DFE1E4->reset();
+	if (TheCloudEffectManager)
+		TheCloudEffectManager->reset();
 	if (TheCloudBreakEffectManager)
 		TheCloudBreakEffectManager->reset();
 	if (TheFireManager)
@@ -1758,8 +1758,8 @@ void GameClient::update()
 
 	if (TheSnowManager)
 		TheSnowManager->update();
-	if (g_00DFE1E4)
-		g_00DFE1E4->update();
+	if (TheCloudEffectManager)
+		TheCloudEffectManager->update();
 	if (TheCloudBreakEffectManager)
 		TheCloudBreakEffectManager->update();
 	if (TheFireManager)
@@ -1849,7 +1849,7 @@ void GameClient::update()
 			draw = next;
 		}
 
-		g_004C9DC9Container->update();
+		TheAnimationSoundModuleManager->update();
 		if (TheGameEngine->rva00225D38())
 			((Rva00239300 *)this)->rva00239300(TheGameLogic->getFrame(), 1);
 		else

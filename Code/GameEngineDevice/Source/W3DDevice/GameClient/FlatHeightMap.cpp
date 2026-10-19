@@ -463,7 +463,7 @@ struct TerrainLightingGlobals
 #define TheGlobalLighting ((TerrainLightingGlobals *)TheWritableGlobalData)
 
 class Rva0027070CGlobal;
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 class CloudDimmingView
 {
 public:
@@ -475,7 +475,7 @@ public:
 	virtual void s16(); virtual void s17();
 	virtual Vector3 getDimming();			// slot 18
 };
-#define TheCloudDimming ((CloudDimmingView *)g_00DFE1E4)
+#define TheCloudDimming ((CloudDimmingView *)TheCloudEffectManager)
 
 class WW3D { public: static bool Is_Currently_Rendering_Shadow_Map() { return IsCurrentlyRenderingShadowMap; } private: static bool IsCurrentlyRenderingShadowMap; };
 extern bool bfmeOnlyEmissiveDraws;

@@ -6,7 +6,7 @@
 // 0x000E25DE stores 0x004E2700 for "Offset" and 0x004E2763 for "Scale"; the
 // other three are referenced the same way from 0x000E23CD, 0x000E2CE9 and
 // 0x000E2D03. TheTerrainRenderObject is VA 0x00DE1EAC (W3DFloorDrawDtor.cpp)
-// and g_00DFE1E4 is the object Rva0027070C.cpp guards with slot 15.
+// and TheCloudEffectManager is the object Rva0027070C.cpp guards with slot 15.
 // Callback, map and field names are address-derived.
 //
 // ?Rva000E2409ScaleOffset@@YAXPAUID3DXEffect@@PBD@Z @0x000E2409 148B
@@ -108,7 +108,7 @@ public:
 	Rva000E2D26Vector3 m_30;
 };
 
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 void Rva000E2409ScaleOffset(ID3DXEffect *effect, D3DXHANDLE handle)
 {
@@ -176,9 +176,9 @@ void Rva000E2D26Vector(ID3DXEffect *effect, D3DXHANDLE handle)
 	value.y = 1.0f;
 	value.z = 1.0f;
 	value.w = 0.0f;
-	if (g_00DFE1E4 && g_00DFE1E4->slot3C())
+	if (TheCloudEffectManager && TheCloudEffectManager->slot3C())
 	{
-		Rva000E2D26Vector3 v = g_00DFE1E4->get30();
+		Rva000E2D26Vector3 v = TheCloudEffectManager->get30();
 		value.x = v.x;
 		value.y = v.y;
 		value.z = v.z;
@@ -193,9 +193,9 @@ void Rva000E2DA4Level(ID3DXEffect *effect, D3DXHANDLE handle)
 	value.y = 0.0f;
 	value.z = 0.0f;
 	value.w = 0.0f;
-	if (g_00DFE1E4 && g_00DFE1E4->slot3C())
+	if (TheCloudEffectManager && TheCloudEffectManager->slot3C())
 	{
-		float level = g_00DFE1E4->slot4C();
+		float level = TheCloudEffectManager->slot4C();
 		value.x = level;
 		value.y = level;
 		value.z = level;

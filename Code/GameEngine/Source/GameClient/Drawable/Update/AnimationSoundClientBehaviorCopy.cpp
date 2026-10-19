@@ -41,7 +41,7 @@ public:
 	void rva00432F7D(Rva00432F23Node *node);
 };
 
-extern AnimationSoundModuleManager *g_004C9DC9Container;
+extern AnimationSoundModuleManager *TheAnimationSoundModuleManager;
 
 class AnimationSoundClientBehavior : public Rva00252B68, public Rva004C9E33Iface
 {
@@ -60,6 +60,6 @@ AnimationSoundClientBehavior::AnimationSoundClientBehavior(
 	const AnimationSoundClientBehavior &other)
 	: Rva00252B68(other), m_float10(other.m_float10), m_next14(0), m_prev18(0)
 {
-	if (g_004C9DC9Container)
-		g_004C9DC9Container->rva00432F7D((Rva00432F23Node *)this);
+	if (TheAnimationSoundModuleManager)
+		TheAnimationSoundModuleManager->rva00432F7D((Rva00432F23Node *)this);
 }

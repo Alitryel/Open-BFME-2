@@ -202,7 +202,7 @@ struct TerrainLightingGlobals
 // The cloud-effect manager: slot 15 reports it active, slot 18 returns the
 // colour it takes away from the global terrain lights.
 class Rva0027070CGlobal;
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 class CloudDimmingView
 {
@@ -215,7 +215,7 @@ public:
 	virtual void s16(); virtual void s17();
 	virtual Vector3 getDimming();			// slot 18
 };
-#define TheCloudDimming ((CloudDimmingView *)g_00DFE1E4)
+#define TheCloudDimming ((CloudDimmingView *)TheCloudEffectManager)
 
 #define PAD_VIRTUALS10(p) \
 	virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3(); virtual void p##4(); \

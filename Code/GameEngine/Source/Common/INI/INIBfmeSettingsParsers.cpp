@@ -258,7 +258,7 @@ const FieldParse CloudEffectSettingsFields[] =
 	{ "LightningFX", INI::parseAsciiString, 0, 0x94 },
 	{ 0, 0, 0, 0 }
 };
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 void Rva0021526CParse(INI *ini)
 {
@@ -267,8 +267,8 @@ void Rva0021526CParse(INI *ini)
 	Int loadType = ini->getLoadType();
 	if (loadType != 2 && loadType != 4)
 		TheCloudEffectSettingsSaved = TheCloudEffectSettings;
-	if (g_00DFE1E4)
-		g_00DFE1E4->slot38();
+	if (TheCloudEffectManager)
+		TheCloudEffectManager->slot38();
 }
 
 class Rva009519B
@@ -292,18 +292,18 @@ void Rva009519B::rva002150BE()
 // +0x20/+0xB8 and slots 9/11 to 14/16.
 void __stdcall Rva00212118(AsciiString text)
 {
-	if (g_00DFE1E4 != 0)
+	if (TheCloudEffectManager != 0)
 	{
-		g_00DFE1E4->slot38();
+		TheCloudEffectManager->slot38();
 		if (((const StringBase<char> *)&text)->compare("ACTIVE") == 0)
 		{
-			g_00DFE1E4->m_active = 1;
-			if (g_00DFE1E4->m_stateB8 == 0)
-				g_00DFE1E4->slot40();
+			TheCloudEffectManager->m_active = 1;
+			if (TheCloudEffectManager->m_stateB8 == 0)
+				TheCloudEffectManager->slot40();
 		}
 		else
 		{
-			g_00DFE1E4->m_active = 0;
+			TheCloudEffectManager->m_active = 0;
 		}
 	}
 }

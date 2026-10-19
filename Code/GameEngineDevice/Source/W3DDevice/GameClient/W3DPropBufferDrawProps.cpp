@@ -5,7 +5,7 @@
 // BFME 2's W3DPropBuffer::drawProps. Against Zero Hour: no camera cull here;
 // each frame it invalidates the shroud status of the next 30 props (cursor
 // +0x2F720), rebuilds the prop draw state when the +0x2EE0A flag is set
-// (0x000EE15B), dims the object lighting by the g_00DFE1E4 slot-18 level when
+// (0x000EE15B), dims the object lighting by the TheCloudEffectManager slot-18 level when
 // slot 15 says it applies, sets each prop's 0x0013BEB0 slot to 2 or 0 from
 // GlobalData +0xC60, copies the DX8 fog colour into the RenderInfoClass, and
 // renders shrouded props under the shroud's material pass and rendering
@@ -187,7 +187,7 @@ public:
 	virtual void slot40(); virtual void slot44();
 	virtual void slot48(Rva000E2D26Vector3 *out);
 };
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 
 enum ObjectShroudStatus
 {
@@ -273,9 +273,9 @@ void W3DPropBuffer::drawProps(RenderInfoClass &rinfo)
 	const BfmeTerrainLighting *objectLighting =
 		TheWritableGlobalData->m_terrainObjectsLighting[TheWritableGlobalData->m_timeOfDay];
 	Real scale = 1.0f;
-	if (g_00DFE1E4 && g_00DFE1E4->slot3C()) {
+	if (TheCloudEffectManager && TheCloudEffectManager->slot3C()) {
 		Rva000E2D26Vector3 level;
-		g_00DFE1E4->slot48(&level);
+		TheCloudEffectManager->slot48(&level);
 		scale = 1.0f - level.x;
 	}
 

@@ -137,7 +137,7 @@ public:
 	virtual void slot40(); virtual void slot44();
 	virtual Rva0027070CData *slot48(Rva0027070CData *out);
 };
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct SceneLightGlobalView
@@ -205,10 +205,10 @@ void RTS3DScene::Flush(RenderInfoClass &rinfo)
 		Vector3 ambient = Get_Ambient_Light();
 		lightEnv.bfmeSetPair((const BfmeVecHF *)&Vector3(0, 0, 0), (const BfmeVecHF *)&ambient);
 		Vector3 lodScale(1.0f, 1.0f, 1.0f);
-		if (g_00DFE1E4 && g_00DFE1E4->slot3C())
+		if (TheCloudEffectManager && TheCloudEffectManager->slot3C())
 		{
 			Rva0027070CData tmp;
-			const Rva0027070CData *p = g_00DFE1E4->slot48(&tmp);
+			const Rva0027070CData *p = TheCloudEffectManager->slot48(&tmp);
 			lodScale = Vector3(1.0f - p->a, 1.0f - p->b, 1.0f - p->c);
 		}
 		if (LODTextureReduction <= 1)
