@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /arch:SSE /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC
+// cl: /O1 /G7 /EHsc /MD /arch:SSE /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // class-gate: allow Snapshot Snapshot subobject view at +0x0C with virtual DoXfer slot 1 reproduces byte-exact CaveSystem::DoXfer at 0x00427738
 // CaveSystem.cpp -- CaveSystem members recovered from WorldBuilder leads
@@ -9,16 +9,16 @@
 
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
-// bfme link decl-only begin
-namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *); }
-namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
-namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
-namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
-// bfme link decl-only end
-// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
-// shape); this TU's flags would emit a private copy.
+// LINK: with the matched siblings' allocator flags these two inline, and the
+// copies cl still emits are referenced by .debug$F alone; a dllimport
+// forceinline specialization keeps them inline without an external copy.
 namespace _STL {
-template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b)
+{ return __a < __b ? __b : __a; }
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *__s, unsigned int *__f, unsigned int *__e)
+{ this->_M_start = __s; this->_M_finish = __f; this->_M_end_of_storage._M_data = __e; }
 }
 
 typedef int Int;
