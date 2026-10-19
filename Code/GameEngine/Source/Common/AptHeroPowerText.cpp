@@ -419,7 +419,7 @@ void Rva0057E3DB::rva0057C7BA(int type)
 	}
 }
 
-// ?rva0043C8E4@Rva0043C8E4@@QAEXHH@Z @0x0043C8E4 79B: one spell button's
+// ?rva0043C8E4@AptSpellStore@@QAEXHH@Z @0x0043C8E4 79B: one spell button's
 // state. SetSpellButtonState receives the 1-based button number as "%d" and
 // the state's name from the table at VA 0x00C3D700. It goes through the
 // rowed invoke on the owner the rowed Rva00222547Get resolves for this
@@ -428,7 +428,7 @@ class GameWindow;
 class AptPlayer { public: static int GetLevelIndex(GameWindow *window); };
 extern const char *g_00C3D700[];
 
-class Rva0043C8E4
+class AptSpellStore
 {
 public:
 	void rva0043C8E4(int index, int state);

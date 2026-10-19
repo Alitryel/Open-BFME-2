@@ -399,6 +399,7 @@ public:
 	void OnBttnSpell(const char *name);
 	void rva0043C9FD();
 	void rva0043CD3C();
+	void rva0043C8E4(int slot, int state);
 
 private:
 	_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > m_chosen; // +0x27C
@@ -571,12 +572,6 @@ class Rva0043C6EA
 {
 public:
 	bool rva0043C6EA(int science);
-};
-
-class Rva0043C8E4
-{
-public:
-	void rva0043C8E4(int slot, int state);
 };
 
 // The screen's Apt movie (rowed 0x00222547) and the window manager's
