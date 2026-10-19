@@ -107,7 +107,9 @@ struct BfmeCodecDispatchTable
 
 // Shared by the native post-filter dispatcher: table base VA 0x00E22F7C.
 BfmeCodecDispatchTable g_bfmeCodecDispatch;
-static BfmeDispatchFn g_bfmeCodecDispatchOutlier;
+// The outlier slot just ahead of the table (VA 0x00E22F78): the 4/5
+// horizontal scaler, read by AnyRatio_2D_Scale and Scale_4_5_2D.
+BfmeDispatchFn g_bfmeCodecDispatchOutlier;
 
 extern "C" void __cdecl PostProcMachineSpecificConfig(int version)
 {

@@ -21,9 +21,19 @@ typedef void (__cdecl *VerticalScaleCallback)(
 	unsigned char *, unsigned int, unsigned int);
 
 // Callback slots owned by the generic scaler's unit (image 0x00E22Fxx).
-extern HorizontalScaleCallback g_horizontalScale45Slot;
-extern VerticalScaleCallback g_verticalScale45Slot;
-extern VerticalScaleCallback g_lastVerticalScale45Slot;
+// The scale callbacks live in the codec dispatch table at VA 0x00E22F7C and
+// its outlier slot at VA 0x00E22F78, which PostProcMachineSpecificConfig
+// (PostProcMachineSpecificConfig.cpp) defines and fills per CPU tier.
+typedef void (__cdecl *BfmeDispatchFn)();
+struct BfmeCodecDispatchTable
+{
+	BfmeDispatchFn slot[26];
+};
+extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
+extern BfmeDispatchFn g_bfmeCodecDispatchOutlier;
+#define g_horizontalScale45Slot (*(HorizontalScaleCallback *)&g_bfmeCodecDispatchOutlier)
+#define g_verticalScale45Slot (*(VerticalScaleCallback *)&g_bfmeCodecDispatch.slot[7])
+#define g_lastVerticalScale45Slot (*(VerticalScaleCallback *)&g_bfmeCodecDispatch.slot[6])
 
 // RVA 0x001B9E40
 extern "C" void __cdecl Scale_4_5_2D(
