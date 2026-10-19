@@ -179,6 +179,7 @@ public:
  void registerUnitFactory(ObjectID);
  AsciiString decideWhichTemplateToMake();
  int rva00598192(const AsciiString &);
+ void *rva00598016();
 
 private:
 	unsigned char m_pad00[8];
@@ -444,7 +445,6 @@ typename hashtable<V,K,H,X,E,A>::iterator hashtable<V,K,H,X,E,A>::find(const T &
 }
 }
 struct ArmyPercentageNodeView {void *next;NameKeyType key;float percentage;};
-class Rva00598016 {public:void *rva00598016();};
 class Rva002A7461 {public:int rva002A7461();int rva002A7548(int);};
 struct BuildableTemplateQuantityView {char pad[0x618];int quantity;};
 // Retail calls the canonical empty vector-header provider (BfmeE16 at211E58)
@@ -467,7 +467,7 @@ AsciiString AIUnitBuilder::decideWhichTemplateToMake()
   AsciiString *name=*i;
   if (!Rva00598738(name)) continue;
   BuildableTemplateQuantityView *thing=(BuildableTemplateQuantityView*)TheThingFactory->findTemplate(*name);
-  int count=((Rva004DFBED*)((Rva00598016*)this)->rva00598016())->rva004DFBED(*name);
+  int count=((Rva004DFBED*)rva00598016())->rva004DFBED(*name);
   for (_STL::list<Rva00598C3AItem*>::iterator j=m_items.begin();j!=m_items.end();++j)
    if (((StringBase<char>*)&(*j)->name0C)->compare(*(StringBase<char>*)name)==0) ++count;
   float percentage=(float)(thing->quantity*count)/(float)((Rva002A7461*)((char*)m_30+0x60))->rva002A7461()*100.0f;
