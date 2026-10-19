@@ -6,9 +6,6 @@ extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *
 extern "C" char *__cdecl _mbscpy(char *, const char *);
 extern "C" char *__cdecl _mbscat(char *, const char *);
 
-#pragma comment(linker, "/alternatename:_mbscpy=?ji_00629176@@YAXXZ")
-#pragma comment(linker, "/alternatename:_mbscat=?ji_0062988c@@YAXXZ")
-
 class AptSaveLoad
 {
 public:

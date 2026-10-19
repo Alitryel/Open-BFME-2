@@ -62,7 +62,3 @@ Rva0029B816::Rva0029B816(int p1, int p2, bool b1, bool b2, bool b3, const AsciiS
 	m_8->s01(UnicodeString(UnicodeString::TheEmptyString));
 	((SuperweaponInfo *)this)->setFont(font, point, bold);
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?TheEmptyString@UnicodeString@@2V1@B=?TheEmptyString@UnicodeString@@2V1@A")

@@ -149,8 +149,6 @@ void Rva00534BDCParse(INI *ini, void *instance, void *, const void *)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:_bfmeCbEOEa=??0PlayerPosition@@QAE@XZ")
-#pragma comment(linker, "/alternatename:_bfmeCbEOEb=??1PlayerPosition@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Rva00078460Elem@@QAE@XZ=??1PlayerPosition@@QAE@XZ")
 
 // The four members above are header inlines elsewhere: other units emit

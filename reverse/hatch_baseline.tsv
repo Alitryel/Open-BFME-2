@@ -3150,7 +3150,6 @@ alternatename	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	?v1@Default
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	?v1@LineEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	?v1@PointEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	?v1@SphereEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	?v1@SphericalEmissionVelocityModuleTemplate@FXParticleSystem@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystemDefaultTemplateDtor.cpp	_vtbl_00BBB52C	1
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystemDefaultTemplateDtor.cpp	_vtbl_00BBB554	1
 alternatename	Code/GameEngine/Source/GameClient/FXParticleSystemDefaultTemplateDtor.cpp	_vtbl_00C1C780	1
@@ -3191,8 +3190,6 @@ alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOptionsC
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatusCallbacks.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatusScreen.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptRowListCallbacks.cpp	_strcpy	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00433DFE.cpp	_mbscat	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00433DFE.cpp	_mbscpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435819.cpp	??BBFME2WideConcatPair@@QAE?AVUnicodeString@@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTimeLineCallbacks.cpp	_strcpy	1
@@ -3245,8 +3242,6 @@ alternatename	Code/GameEngine/Source/GameClient/LightPulseFXNuggetCtor.cpp	_vfn_
 alternatename	Code/GameEngine/Source/GameClient/LightPulseFXNuggetCtor.cpp	_vfn_0050B238	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??1Rva00078460Elem@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	_bfmeCbEOEa	1
-alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	_bfmeCbEOEb	1
 alternatename	Code/GameEngine/Source/GameClient/Open2Twins006.cpp	??0ShroudManagerImpl008FBA40CtorView@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00085947Method.cpp	_atexit	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp	?PreviousSyncTime@WW3D@@2IA	1
@@ -3258,7 +3253,6 @@ alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDDC@@3QB
 alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDE0@@3QBDB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva002728C5Finish.cpp	?g_00BC26F0@@3MB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0029B2E7Zero.cpp	??0BfmeElemVVD@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/Rva0029B816Ctor.cpp	?TheEmptyString@UnicodeString@@2V1@B	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0029B816Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva002E5791Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva002E66F2Dtor.cpp	?g_00804E90@@3QBQBXB	1

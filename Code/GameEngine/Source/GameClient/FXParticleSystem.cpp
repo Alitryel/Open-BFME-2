@@ -2178,7 +2178,6 @@ void Rva001F42BA::call(int a)
 #pragma comment(linker, "/alternatename:?v1@BoxEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
 #pragma comment(linker, "/alternatename:?v1@LineEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
 #pragma comment(linker, "/alternatename:?v1@CylinderEmissionVolumeModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
-#pragma comment(linker, "/alternatename:?v1@SphericalEmissionVelocityModuleTemplate@FXParticleSystem@@UAEXXZ=__purecall")
 
 // These functions are header inlines; their ordinary owner definitions
 // collided with select-any copies. The anchor keeps this unit's row copies;
