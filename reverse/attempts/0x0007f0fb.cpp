@@ -1,5 +1,7 @@
 // ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
-// partial score=0.45 date=2026-10-19
+// partial score=0.6 date=2026-10-19
+// ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
+// partial score=0.6 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // ?rva0007F0FB@Rva0007F0FB@@QAEXXZ
 // partial score=0.05 date=2026-10-17
@@ -136,8 +138,7 @@ public:
 void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
 {
  DeviceLock guard;
- Vector2 minimum,maximum;
- Matrix4 inverse,projection;
+  Matrix4 inverse,projection;
  Vector4 clip;
  if (!_finite(source->Get_Transform().m[0][0]))return;
  *camera=*source;
@@ -172,9 +173,10 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  rPos=(Vector3&)full.m[3]-(2.0f*axis_distance*waterNormal);
  Matrix3D reflected(rRight,-rUp,rN,rPos);
  camera->Set_Transform(reflected);
+ {Vector2 minimum,maximum;
  maximum.X=maximum.Y=1.0f;
  minimum.X=minimum.Y=0.0f;
- camera->Set_Viewport(minimum,maximum);
+ camera->Set_Viewport(minimum,maximum);}
  camera->Apply();
  DX8Wrapper::Apply_Render_State_Changes();
  if(DX8Wrapper::render_state_changed&0x80000) {
@@ -189,7 +191,8 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
   inverse.m[3][0]=DX8Wrapper::render_state.view.m[0][3]; inverse.m[3][1]=DX8Wrapper::render_state.view.m[1][3]; inverse.m[3][2]=DX8Wrapper::render_state.view.m[2][3]; inverse.m[3][3]=DX8Wrapper::render_state.view.m[3][3];
  }
  D3DXMatrixInverse(&inverse,0,&inverse);
- Vector4 plane(0.0f,0.0f,1.0f,0.0f-level);
+ float d=0.0f-level;
+ Vector4 plane(0.0f,0.0f,1.0f,d);
  rva0062AF4AD3DXVec4Transform(&clip,&plane,&inverse);
  projection.m[0][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][0]; projection.m[0][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][0]; projection.m[0][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][0]; projection.m[0][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][0];
  projection.m[1][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][1]; projection.m[1][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][1]; projection.m[1][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][1]; projection.m[1][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][1];
