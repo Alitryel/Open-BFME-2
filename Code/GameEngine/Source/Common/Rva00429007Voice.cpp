@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva00429007@Rva00429007@@QAEHPAUArg@@H@Z @0x00429007 140B
+// ?rva00429007@CommandTranslator@@QAEHPAUArg@@H@Z @0x00429007 140B
 // Evidence: caller 0x0042A368 plus TheInGameUI slot73 plus PickAndPlayInfo ctor 0x004D92FE plus pickAndPlayUnitVoiceResponse pin plus MessageStreamSubsystem slot 0x48 with 0x42c plus appendObjectIDArgument 0x0030F979
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
 
@@ -103,7 +103,7 @@ struct Arg
 	ArgInner *m_innerFC;
 };
 
-class Rva00429007
+class CommandTranslator
 {
 public:
 	int rva00429007(Arg *a, int b);
@@ -112,7 +112,7 @@ private:
 	unsigned char m_flag08;
 };
 
-int Rva00429007::rva00429007(Arg *a, int b)
+int CommandTranslator::rva00429007(Arg *a, int b)
 {
 	if (b == 2)
 		return 0x42c;

@@ -673,6 +673,7 @@ int rva005A9B00(Object*,void*);
 class DrawableList;
 bool pickAndPlayUnitVoiceResponse(const DrawableList*,GameMessage::Type,PickAndPlayInfo* = 0);
 
+struct Arg;
 class CommandTranslator {public:void rva0042AF97(GameMessage*); public:
  virtual GameMessageDisposition translateGameMessage(const GameMessage*);
  virtual ~CommandTranslator();
@@ -684,6 +685,7 @@ private:
  enum CommandEvaluateType { CONTEXT_COMMAND, CONTEXT_HINT, CONTEXT_EVALUATE };
  GameMessage::Type evaluateContextCommand(Drawable*,const Coord3D*,CommandEvaluateType);
  const CommandButton* rva0042970A(int);
+ int rva00429007(Arg*,int);
 private:
  int rva00428EEB(const CommandButton*,int,Drawable*,const Coord3D*);
  int issueMoveToLocationCommand(const Coord3D*,Drawable*,int);
@@ -852,8 +854,6 @@ class Rva0055A88BDwordField { public: int get() const; };
 class Rva0006EE7A : public BitFlags<69> { public: Rva0006EE7A(int,int,int); };
 struct Rva0029AEF9Item;
 bool Rva0027DC65Check(float*);
-struct Arg;
-class Rva00429007 { public: int rva00429007(Arg*,int); };
 class Rva00429093 { public: int rva00429093(Arg*,int); };
 class Rva00429112 { public: int rva00429112(Arg*,int); };
 class Rva0031D5F8 { public: void* rva0031D5F8(const AsciiString*); };
@@ -949,7 +949,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    if(currentlyValid) {
     if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE) {
      switch(contextButton(command)->type) {
-     case 29:case 30:msgType=((Rva00429007*)this)->rva00429007((Arg*)draw,type);break;
+     case 29:case 30:msgType=rva00429007((Arg*)draw,type);break;
      case 41:msgType=((Rva00429093*)this)->rva00429093((Arg*)draw,type);break;
      case 47:msgType=((Rva00429112*)this)->rva00429112((Arg*)draw,type);break;
      case 24:msgType=issueSpecialPowerCommand(command,type,originalDraw,pos,0);break;
@@ -995,7 +995,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    else {msgType=178;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if((draw||originalDraw)&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)8,originalObject?originalObject:obj,InGameUI::CONTEXT_ANY,true)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=((Rva00429007*)this)->rva00429007((Arg*)(originalDraw?originalDraw:draw),type);
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=rva00429007((Arg*)(originalDraw?originalDraw:draw),type);
    else {Object*target=originalObject?originalObject:obj;msgType=TheActionManager->rva0041CE06(target);hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(target->getID());}
   }
   else if(originalDraw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)6,originalObject,InGameUI::CONTEXT_ANY,false)) {
@@ -1011,11 +1011,11 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    else {msgType=172;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&draw->getObject()&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)10,draw->getObject(),InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=((Rva00429007*)this)->rva00429007((Arg*)draw,type);
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=rva00429007((Arg*)draw,type);
    else {msgType=182;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(draw->getObject()->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)11,obj,InGameUI::CONTEXT_ANY,false)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=((Rva00429007*)this)->rva00429007((Arg*)draw,type);
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=rva00429007((Arg*)draw,type);
    else {msgType=184;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&canSelectionSalvage(obj)) {
@@ -1023,7 +1023,7 @@ GameMessage::Type CommandTranslator::evaluateContextCommand(Drawable*draw,const 
    else {msgType=0xbe;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendLocationArgument(*obj->getPosition());}
   }
   else if(draw&&!contextUI()->getForceAttack()&&TheInGameUI->canSelectedObjectsDoAction((InGameUI::ActionType)9,obj,InGameUI::CONTEXT_ANY,true)) {
-   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=((Rva00429007*)this)->rva00429007((Arg*)draw,type);
+   if(type==CONTEXT_COMMAND||type==CONTEXT_EVALUATE)msgType=rva00429007((Arg*)draw,type);
    else {msgType=0xb0;hintMessage=TheMessageStream->appendMessage((GameMessage::Type)msgType);hintMessage->appendObjectIDArgument(obj->getID());}
   }
   else if(draw&&(result=TheInGameUI->getCanSelectedObjectsAttack((InGameUI::ActionType)1,obj,InGameUI::CONTEXT_ANY,contextUI()->getForceAttack()))==3) {
