@@ -1,8 +1,10 @@
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
+// partial score=0.99 date=2026-10-20
+// ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.9 date=2026-10-19
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.86 date=2026-10-15
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z, retail
@@ -26,6 +28,8 @@
 // 0x000826E3 body; the call site pushes the byte itself), so this unit
 // specializes vector<char> to that interface. The count constructor and
 // resize are the rowed out-of-line bodies; swap is STLport's inline one.
+// The members resize reaches keep STLport 4.5.3's bodies, so the compiler
+// sees that the vector's address is not retained across the file calls.
 namespace _STL
 {
 template <>
@@ -44,7 +48,36 @@ public:
 	char *begin() { return this->_M_start; }
 	char *end() { return this->_M_finish; }
 	size_type size() const { return size_type(this->_M_finish - this->_M_start); }
-	char *erase(char *first, char *last);
+	char *erase(char *first, char *last)
+	{
+		char *i = __copy_ptrs(last, this->_M_finish, first, __true_type());
+		_Destroy(i, this->_M_finish);
+		this->_M_finish = i;
+		return first;
+	}
+	void _M_clear()
+	{
+		_Destroy(this->_M_start, this->_M_finish);
+		this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+	}
+	void _M_set(char *s, char *f, char *e)
+	{
+		this->_M_start = s;
+		this->_M_finish = f;
+		this->_M_end_of_storage._M_data = e;
+	}
+	void _M_insert_overflow(char *position, const char &x, const __true_type &, size_type fillLen, bool atEnd = false)
+	{
+		const size_type oldSize = size();
+		const size_type len = oldSize + (max)(oldSize, fillLen);
+		char *newStart = this->_M_end_of_storage.allocate(len);
+		char *newFinish = (char *)__copy_trivial(this->_M_start, position, newStart);
+		newFinish = fill_n(newFinish, fillLen, x);
+		if (!atEnd)
+			newFinish = (char *)__copy_trivial(position, this->_M_finish, newFinish);
+		_M_clear();
+		_M_set(newStart, newFinish, newStart + len);
+	}
 	void _M_fill_insert(char *position, size_type n, const char &x);
 
 	char &operator[](size_type n) { return this->_M_start[n]; }
@@ -62,6 +95,30 @@ public:
 		_STLP_STD::swap(this->_M_end_of_storage, x._M_end_of_storage);
 	}
 };
+
+inline void vector<char, allocator<char> >::_M_fill_insert(char *position, size_type n, const char &x)
+{
+	if (n != 0) {
+		if (size_type(this->_M_end_of_storage._M_data - this->_M_finish) >= n) {
+			char xCopy = x;
+			const size_type elemsAfter = this->_M_finish - position;
+			char *oldFinish = this->_M_finish;
+			if (elemsAfter > n) {
+				__uninitialized_copy(this->_M_finish - n, this->_M_finish, this->_M_finish, __true_type());
+				this->_M_finish += n;
+				__copy_backward_ptrs(position, oldFinish - n, oldFinish, __true_type());
+				_STLP_STD::fill(position, position + n, xCopy);
+			} else {
+				uninitialized_fill_n(this->_M_finish, n - elemsAfter, xCopy);
+				this->_M_finish += n - elemsAfter;
+				__uninitialized_copy(position, oldFinish, this->_M_finish, __true_type());
+				this->_M_finish += elemsAfter;
+				_STLP_STD::fill(position, oldFinish, xCopy);
+			}
+		} else
+			_M_insert_overflow(position, x, __true_type(), n);
+	}
+}
 }
 
 class File
