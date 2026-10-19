@@ -155,8 +155,9 @@ void ThingFactory::reset()
     }
 }
 
-// Existing target workers; their semantic class names are not claimed here.
-class Rva0033A920
+// Existing target workers: the template's ThreatBreakdown member (+0x520,
+// parsed by the "ThreatBreakdown" FieldParse entry) and the 0x00361439 resolver.
+class ThreatBreakdown
 {
 public:
     void rva0033A920(const void *arg);
@@ -181,7 +182,7 @@ void ThingFactory::postProcessLoad()
                     "ENTRY MISSING: ObjectStatusOfContained entry required within ContainModule for %s.",
                     t->m_name.str());
         }
-        ((Rva0033A920 *)((char *)t + 0x520))->rva0033A920(t);
+        ((ThreatBreakdown *)((char *)t + 0x520))->rva0033A920(t);
     }
     Rva00361439Resolve();
 }

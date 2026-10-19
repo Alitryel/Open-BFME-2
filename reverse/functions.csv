@@ -39682,7 +39682,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0033A8D9@Rva0033A8D9@@QBE_NPBX@Z,,0x0033A8D9,23,Code/GameEngine/Source/Common/Rva0033A8D9Wrapper.cpp,matched,forwarder to rowed 0x33A453 with need at +4 ban at +84
 ?rva0033A68A@Rva0033A68A@@QAEPAVOverridable@@XZ,,0x0033A68A,16,Code/GameEngine/Source/Common/Rva0033A68AWrapper.cpp,matched,final-override-or-self via rowed 0x288609
 ?buildFieldParse@Rva0033A8FC@@SAXAAVMultiIniFieldParse@@@Z,,0x0033A8FC,36,Code/GameEngine/Source/Common/Rva0033A8FCBuildFieldParse.cpp,matched,two-table buildFieldParse via rowed add
-?rva0033A920@Rva0033A920@@QAEXPBX@Z,,0x0033A920,49,Code/GameEngine/Source/Common/Rva0033A920Setter.cpp,matched,lazy -1 to 6-10-0 via arg bits 108-80 and 110-4000000
+?rva0033A920@ThreatBreakdown@@QAEXPBX@Z,,0x0033A920,49,Code/GameEngine/Source/Common/Rva0033A920Setter.cpp,matched,lazy -1 to 6-10-0 via arg bits 108-80 and 110-4000000
 ?rva00274176@Drawable@@QAEX_N@Z,,0x00274176,104,Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp,matched,BFME1 applyPending donor plus pending slots plus caller 0x2761F3 plus siblings
 ?rva0041811D@Rva0041811D@@QAEPAXPBVAsciiString@@@Z,,0x0041811D,38,Code/GameEngine/Source/GameClient/Rva0041811DGet.cpp,matched,lookup via rowed 0x0041534B in table at +0xC returning node+8
 ?rva00418825@Rva0041811D@@QAEPAXXZ,,0x00418825,46,Code/GameEngine/Source/GameClient/Rva0041811DGet.cpp,matched,default Body getter via rowed 0x0041811D with DefaultBody string

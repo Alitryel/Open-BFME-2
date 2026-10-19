@@ -1,11 +1,12 @@
 // cl: /MD
-// ?rva0033A920@Rva0033A920@@QAEXPBX@Z @0x0033A920 49B
+// ?rva0033A920@ThreatBreakdown@@QAEXPBX@Z @0x0033A920 49B
 // Lazy enum setter: if this int is not -1 return; else if the arg byte at
 // +0x108 has 0x80 set this to 6, else this to 10 when the arg dword at +0x110
 // has 0x4000000 else 0 (neg/sbb/and shape). Caller at 0x002CF666 passes
-// esi with this at esi+0x520 and arg esi. Opaque Rva names: owning classes
-// behind both pointers are unproven.
-class Rva0033A920
+// esi with this at esi+0x520 and arg esi: this is the ThingTemplate's
+// ThreatBreakdown member, at the +0x520 offset of its "ThreatBreakdown"
+// FieldParse entry, and the arg is that template.
+class ThreatBreakdown
 {
 public:
 	void rva0033A920(const void *arg);
@@ -22,7 +23,7 @@ struct Rva0033A920Arg
 	unsigned int m_110;
 };
 
-void Rva0033A920::rva0033A920(const void *arg)
+void ThreatBreakdown::rva0033A920(const void *arg)
 {
 	if (m_val != -1)
 		return;
