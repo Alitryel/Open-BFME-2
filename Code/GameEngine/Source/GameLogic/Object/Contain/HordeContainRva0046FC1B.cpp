@@ -1,11 +1,15 @@
-// ?rva0046FC1B@Rva0046FC1B@@QAEHXZ
-// partial score=0.955 date=2026-10-19
-// ?rva0046FC1B@Rva0046FC1B@@QAEHXZ
-// partial score=0.246 date=2026-10-17
-// ?rva0046FC1B@Rva0046FC1B@@QAEHXZ
-// Native 0x0046FC1B..0x0046FE99 (638B), RET4.
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
+// ?rva0046FC1B@Rva0046FC1B@@QAEHXZ, retail 0x0046FC1B..0x0046FE99 (638 B,
+// plain RET): HordeContain's update reached through its UpdateModuleInterface
+// secondary base (receiver = HordeContain + 0x10; WorldBuilder twin
+// 0x010BE680). It records the owner's orientation history, refreshes the
+// condition copy, runs the TransportContain update, re-layers the horde
+// when its pathfind layer changed, then services the formation flags.
+// The tail follows WorldBuilder literally: each busy exit returns
+// UPDATE_SLEEP_NONE directly and the +0x111 latch is cleared by its own
+// test before the combined busy check; that is what gives retail's block
+// order. The class and method keep their address-derived names.
 // Forward declarations of the classes whose data members are referenced by
 // this function's retail accesses.
 // The receiver. Retail accesses touch members at these offsets relative to ECX:
@@ -27,9 +31,8 @@
 // Helper: per-instance push_back of a ModuleData pointer into the vector at
 // [+0x2bc]. Defined by the game; only the ABI matters here.
 
-// Retail corrects the earlier notes: RET0, embedded integer cursor, float history.
-// Every history branch continues into the full update; no volatile access is needed.
-// Remaining cold-block order differs; the complete handoff is in
+// Retail: plain RET, embedded integer cursor, float history; every history
+// branch continues into the full update. Earlier evidence:
 // reverse/attempt_support/0x0046fc1b-20261019.md.
 #include "Lib/Coord3D.h"
 #include <vector>
@@ -158,25 +161,21 @@ int Rva0046FC1B::rva0046FC1B()
     HordeContain *horde = (HordeContain *)(self-0x10);
     ((Rva0046E740 *)horde)->rva0046E740(0);
     if (((UpdateLogicView *)TheGameLogic)->frame % (unsigned int)BfmeLogicFramesPerSecond == 0 && horde->slot31())
-        goto sleep;
-    if (*(bool *)(self+0x110) || *(int *)(self+0x194) || *(int *)(self+0x1a0)) {
+        return UPDATE_SLEEP_NONE;
+    if (*(bool *)(self+0x110) || *(int *)(self+0x194) != 0 || *(int *)(self+0x1a0)) {
         *(bool *)(self+0x110) = false;
-        if (*(int *)(self+0x1a0) && !*(int *)(self+0x19c)) {
+        if (*(int *)(self+0x1a0) && *(int *)(self+0x19c) == 0) {
             *(int *)(self+0x1a0) = 0;
             ((_STL::UpdateIntPtrTree *)(self+0x23c))->clear();
             *(bool *)(self+0x111) = true;
         }
         horde->slot35();
-        bool pending = *(bool *)(self+0x110);
-        if (pending)
-            goto sleep;
-        *(bool *)(self+0x111) = pending;
-        if (*(int *)(self+0x194))
-            goto sleep;
+        if (!*(bool *)(self+0x110))
+            *(bool *)(self+0x111) = false;
+        if (*(bool *)(self+0x110) || *(int *)(self+0x194) != 0)
+            return UPDATE_SLEEP_NONE;
     }
     if (((UpdateLogicView *)TheGameLogic)->frame % (unsigned int)BfmeLogicFramesPerSecond == 0)
         horde->rva0046A10D();
     return result;
-sleep:
-    return UPDATE_SLEEP_NONE;
 }
