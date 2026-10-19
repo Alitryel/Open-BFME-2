@@ -9655,7 +9655,6 @@ _FilterBlock1d_vb8_wmt,,0x001D79D0,100,Code/Libraries/Source/VP6/FilterBlock1dWm
 ?bfmeGoBJA@BfmeThingBJA@@QAEXXZ,,0x0025697F,23,Code/GameEngine/Source/Common/BfmeConv468.cpp,matched,BFME1 byte-identical donor; b1 0x00128760
 _FilterUnpackBlock1d_hb8_wmt,,0x001D7BC0,95,Code/Libraries/Source/VP6/FilterUnpackBlock1dWmt.cpp,matched,Clean-room spec 001d7bc0; FilterUnpackBlock1d_hb8_wmt: SSE2 horizontal two-tap filter storing eight int16 values per row; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001d7bc0.md and retail only
 _FilterUnpackBlock1d_vb8_wmt,,0x001D7C20,93,Code/Libraries/Source/VP6/FilterUnpackBlock1dWmt.cpp,matched,Clean-room spec 001d7c20; FilterUnpackBlock1d_vb8_wmt: SSE2 vertical two-tap filter storing eight int16 values per row; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001d7c20.md and retail only
-?bfmeGoTA@BfmeThingTA@@QAEXXZ,,0x00016B60,36,Code/GameEngine/Source/Common/BfmeConv909.cpp,matched,BFME1 donor subset without undeclared sibling defs; b1 0x00840780
 ?bfmeGoBJB@BfmeThingBJB@@QAEXXZ,,0x00256A1C,23,Code/GameEngine/Source/Common/BfmeConv472.cpp,matched,BFME1 byte-identical donor; b1 0x00128860
 _checktag,,0x0074FC40,25,Code/Libraries/Source/Lua/ltm.c,matched,BFME1 byte-identical donor; b1 0x00998AE0; vendored=lua-4.0.1; 1 DIR32 string literal(s) agree
 _luaH_new,,0x00750770,87,Code/Libraries/Source/Lua/ltable.c,matched,BFME1 byte-identical donor; b1 0x00999610; vendored=lua-4.0.1
