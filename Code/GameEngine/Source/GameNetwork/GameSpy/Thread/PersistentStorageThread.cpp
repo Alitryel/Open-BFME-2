@@ -958,6 +958,15 @@ protected:
 private:
 	bool tryConnect();
 	bool tryLogin(Int id, Rva00385333String nick, Rva00385333String password, Rva00385333String email);
+public:
+	// The GHTTP ladder starters (0x00557996, 0x00557A33, 0x00557AC2,
+	// 0x00557B04) reach the +0x5c request map through the file-local
+	// Gen_00654130 layout view, as the cdecl callback adapters do.
+	void rva00557996(int ladder);
+	void rva00557A33(int profileID);
+	void rva00557AC2();
+	void rva00557B04();
+private:
 	bool m_loginOK;
 	bool m_doneTryingToLogin;
 	Int m_opCount;
@@ -1639,16 +1648,8 @@ struct Rva00557996Request
 	int profileID;
 };
 
-class Rva00557996 : public Gen_00654130
-{
-public:
-	void rva00557996(int ladder);
-	void rva00557A33(int profileID);
-    void rva00557AC2();
-    void rva00557B04();
-};
 
-void Rva00557996::rva00557996(int ladder)
+void PSThreadClass::rva00557996(int ladder)
 {
 	AsciiString url;
 	if (ladder == 1)
@@ -1659,13 +1660,13 @@ void Rva00557996::rva00557996(int ladder)
 	if (request)
 	{
 		Rva00557996Request *data = new Rva00557996Request;
-		data->owner = this;
+		data->owner = (Gen_00654130 *)this;
 		data->ladder = ladder;
-		m_values[request] = (int)data;
+		((Gen_00654130 *)this)->m_values[request] = (int)data;
 	}
 }
 
-void Rva00557996::rva00557A33(int profileID)
+void PSThreadClass::rva00557A33(int profileID)
 {
 	AsciiString url;
 	url.format("http://lotrebfme2.arenasdk.gamespy.com/ladderrank.sdk?ladderid=35030,35033&profileid=%d", profileID);
@@ -1673,9 +1674,9 @@ void Rva00557996::rva00557A33(int profileID)
 	if (request)
 	{
 		Rva00557996Request *data = new Rva00557996Request;
-		data->owner = this;
+		data->owner = (Gen_00654130 *)this;
 		data->profileID = profileID;
-		m_values[request] = (int)data;
+		((Gen_00654130 *)this)->m_values[request] = (int)data;
 	}
 }
 
@@ -2129,11 +2130,11 @@ void PSThreadClass::Thread_Function()
 							break;
 						}
 					}
-					((Rva00557996 *)this)->rva00557A33(req.player.getID());
+					rva00557A33(req.player.getID());
 					if (MESSAGE_QUEUE->getLocalPlayerID() == req.player.getID())
 					{
-						((Rva00557996 *)this)->rva00557996(1);
-						((Rva00557996 *)this)->rva00557996(2);
+						rva00557996(1);
+						rva00557996(2);
 					}
 					break;
 				case 2:
@@ -2279,10 +2280,10 @@ void PSThreadClass::Thread_Function()
 					}
 					break;
 				case 10:
-					((Rva00557996 *)this)->rva00557AC2();
+					rva00557AC2();
 					break;
 				case 12:
-					((Rva00557996 *)this)->rva00557B04();
+					rva00557B04();
 					break;
 				}
 			}
@@ -2488,21 +2489,21 @@ Int Rva00559D0CRankWeights::rva00559E48(const Rva00553E47StatsCore *stats) const
 // Native 557AC2/557B04,66B each: static GHTTP ladders retain the same
 // 12-byte owner payload and pending-request map as557996/557A33.
 int __cdecl rva0055794C(int, int, int, int, int, void *);
-void Rva00557996::rva00557AC2() {
+void PSThreadClass::rva00557AC2() {
     int request=ghttpGetA("http://gamestats.gamespy.com/lotrbme2/display.html", 0, rva0055794C, this);
     if(request) {
         Rva00557996Request *data=new Rva00557996Request;
-        data->owner=this;
-        m_values[request]=(int)data;
+        data->owner=(Gen_00654130 *)this;
+        ((Gen_00654130 *)this)->m_values[request]=(int)data;
     }
 }
 int __cdecl rva00557971(int, int, int, int, int, void *);
-void Rva00557996::rva00557B04() {
+void PSThreadClass::rva00557B04() {
     int request=ghttpGetA("http://gamestats.gamespy.com/lotrbme2/IsClanWarsEnabled.asp", 0, rva00557971, this);
     if(request) {
         Rva00557996Request *data=new Rva00557996Request;
-        data->owner=this;
-        m_values[request]=(int)data;
+        data->owner=(Gen_00654130 *)this;
+        ((Gen_00654130 *)this)->m_values[request]=(int)data;
     }
 }
 
