@@ -31,6 +31,13 @@ bool operator<(const AsciiString &, const AsciiString &);
 struct TreeHintPayload001F8ACB { char m_body[4]; };
 typedef _STL::pair<const AsciiString, TreeHintPayload001F8ACB> TreeHintPair001F8ACB;
 typedef _STL::_Rb_tree<AsciiString, TreeHintPair001F8ACB, _STL::_Select1st<TreeHintPair001F8ACB>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair001F8ACB> > TreeHint001F8ACB;
+// The copy constructor row calls the tree-base constructor out of line. This
+// unit's malloc wiring made its copy of that constructor, and of the node
+// allocate it calls, differ from the retail-proven copy the CreateAHeroData
+// units emit first in link order. Declare it only, so the call binds there.
+namespace _STL {
+template <> _Rb_tree_base<TreeHintPair001F8ACB, allocator<TreeHintPair001F8ACB> >::_Rb_tree_base(const allocator<TreeHintPair001F8ACB> &);
+}
 // BFME replaces STLport allocation with a static byte allocator (RVA 0x307F0).
 namespace _STL {
 template <> class allocator<char> {
