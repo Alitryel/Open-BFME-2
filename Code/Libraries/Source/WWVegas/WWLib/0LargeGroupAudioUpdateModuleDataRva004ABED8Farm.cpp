@@ -1,17 +1,19 @@
-// ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// cl: /G7 /O1 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata
+// LargeGroupAudioUpdateModuleData: registered factory 0x24F362; native table 0xC549F8.
+// cl: /G7 /O1 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include/Common
 // stlport
 #include <vector>
 #include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Native table has the shared 31-slot ModuleData interface, ending at 0xC54A74.
+// Native teardown then restores Snapshot table 0xBBB554; original intermediate
+// inheritance and the meaning of the word at +4 remain unrecovered.
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
 extern float g_parseDurationMsecScale;
 struct Rva001408C0Target;
 struct Rva00E03CE0 { void Rva004ABEAE(Rva001408C0Target *); };
-extern Rva00E03CE0 g_00E03CE0;
+// Existing data-ledger owner; use typed views of the one registry datum.
+extern unsigned g_Va00E03CE0;
 class Rva003ED94FDtor {
 public:
     Rva003ED94FDtor();
@@ -20,11 +22,9 @@ private:
     void *m_words[2];
     unsigned int m_count;
 };
-class LargeGroupAudioUpdateModuleData : public Snapshot {
+class LargeGroupAudioUpdateModuleData : public ModuleData {
 public:
-    LargeGroupAudioUpdateModuleData(); virtual ~LargeGroupAudioUpdateModuleData();
-protected:
-    virtual void loadPostProcess(); virtual void crc(Xfer *); virtual void xfer(Xfer *);
+    LargeGroupAudioUpdateModuleData(); virtual __declspec(noinline) ~LargeGroupAudioUpdateModuleData();
 private:
     unsigned int m_04;
     Rva003ED94FDtor m_keys;
@@ -38,5 +38,5 @@ LargeGroupAudioUpdateModuleData::LargeGroupAudioUpdateModuleData() :
     m_min = (int)ceil(d);
     m_variance = 1;
     m_weight = 1;
-    g_00E03CE0.Rva004ABEAE((Rva001408C0Target *)this);
+    reinterpret_cast<Rva00E03CE0 *>(&g_Va00E03CE0)->Rva004ABEAE((Rva001408C0Target *)this);
 }
