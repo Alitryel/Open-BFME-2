@@ -1,17 +1,11 @@
 // ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z
-// partial score=0.6060081329 date=2026-10-16
-// Owner integration for HTreeClassReadPivots.cpp. Before compiling this bank,
-// add the already-pinned Capture_Update declaration using this header patch.
-// Trial used an isolated header copy under build; shared header was not edited.
-#if 0
---- a/reference/shims/bfme2htree/htree.h
-+++ b/reference/shims/bfme2htree/htree.h
-@@ -134 +134,2 @@
--	void					Capture_Bone(int boneindex);
-+	int Capture_Update(int);
-+ void Capture_Bone(int boneindex);
-#endif
-// cl: /O2 /Ireference/shims/bfme2htree /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// partial score=0.75 date=2026-10-19
+// Bank r2 (claude-opus-5-5, 2026-10-19): 39 structural regions (prior bank 94 under the same measure).
+// Compile note: the cl line uses /Ibuild/htshim = reference/shims/bfme2htree with one added
+// member declaration in class HTreeClass:  int Capture_Update(int);  (pinned callee, retail 0xFFFFE830 rel).
+// Integration target: Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (same flags).
+// Handoff: reverse/attempt_support/0x00163A80_anim_update_r2.md
+// cl: /O2 /Ibuild/htshim /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it. Retail links one
 // copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
@@ -45,84 +39,54 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "chunkio.h"
 #include <string.h>
 #include <assert.h>
-
-// BFME 2 WorldBuilder read_pivots and retail 0x001614F0 agree on the
-// 0x58-byte pivot and quaternion/vector transform, unlike ZH's Matrix3D pivot.
-struct Bfme2HTreeTransform {
-    Quaternion Rotation;
-    Vector3 Translation;
-    // ?Bfme2HTreeTransform::Bfme2HTreeTransform absent-from-retail
-    __forceinline Bfme2HTreeTransform(bool identity) {
-        Rotation.Make_Identity();
-        Translation.Set(0.0f, 0.0f, 0.0f);
-    }
-    // ?Bfme2HTreeTransform::operator= absent-from-retail
-    __forceinline Bfme2HTreeTransform &operator=(const Bfme2HTreeTransform &source) {
-        Rotation = source.Rotation;
-        Translation = source.Translation;
-        return *this;
-    }
+struct S2CompactTransform {
+ Quaternion Q; Vector3 Position;
+ S2CompactTransform(){}
+ __forceinline explicit S2CompactTransform(const Matrix3D &m) {
+  Q=Build_Quaternion(m);
+  m.Get_Translation(&Position);
+ }
+ explicit S2CompactTransform(bool init):Q(init),Position(0.0f,0.0f,0.0f){}
 };
-struct Bfme2HTreePivot {
-    char Name[16];
-    Bfme2HTreePivot *Parent;
-    Bfme2HTreeTransform BaseTransform;
-    Bfme2HTreeTransform Transform;
-    int Index;
-    bool IsVisible;
-    float PivotFade;
+struct S2PivotView {
+ char Name[16]; S2PivotView *Parent;
+ S2CompactTransform Base,Current;
+ int Index; bool visible; float factor;
 };
-typedef char Bfme2HTreePivotSize[(sizeof(Bfme2HTreePivot) == 88) ? 1 : -1];
-bool HTreeClass::read_pivots(ChunkLoadClass &cload, bool pre30)
-{
-    W3dPivotStruct piv;
-    int first_piv = 0;
-    if (pre30) {
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].Index = 0;
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].Parent = NULL;
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].BaseTransform = Bfme2HTreeTransform(true);
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].Transform = Bfme2HTreeTransform(true);
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].IsVisible = true;
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].PivotFade = 1.0f;
-        strcpy(reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].Name, "RootTransform");
-        first_piv++;
-    }
-    for (int pidx = first_piv; pidx < NumPivots; pidx++) {
-        if (cload.Read(&piv, sizeof(W3dPivotStruct)) != sizeof(W3dPivotStruct))
-            return false;
-        memcpy(reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].Name, piv.Name, W3D_NAME_LEN);
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].Index = pidx;
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].BaseTransform.Translation.Set(piv.Translation.X, piv.Translation.Y, piv.Translation.Z);
-        reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].BaseTransform.Rotation.Set(piv.Rotation.Q[0], piv.Rotation.Q[1], piv.Rotation.Q[2], piv.Rotation.Q[3]);
-        if (pre30) piv.ParentIdx += 1;
-        if (piv.ParentIdx == -1) {
-            reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].Parent = NULL;
-            assert(pidx == 0);
-        } else {
-            reinterpret_cast<Bfme2HTreePivot *>(Pivot)[pidx].Parent = &reinterpret_cast<Bfme2HTreePivot *>(Pivot)[piv.ParentIdx];
-        }
-    }
-    reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].Transform = Bfme2HTreeTransform(true);
-    reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].IsVisible = true;
-    reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].PivotFade = 1.0f;
-    return true;
+class HAnimClass;
+class S2CompactAnimView {
+public:
+ virtual void vt0();virtual void vt4();virtual void vt8();virtual void vtC();virtual void vt10();
+ virtual void vt14();virtual void vt18();virtual void vt1C();virtual void vt20();virtual void vt24();
+ virtual void rva_vt28(S2CompactTransform&,int,float)const;
+};
+static __forceinline void rotate(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+q.W*v.X;
+ float y=-(q.X*v.Z-q.Z*v.X)+q.W*v.Y;
+ float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
+ float w=0.0f-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
+ out->X=(q.Y*z-y*q.Z)+(q.W*x-q.X*w);
+ out->Y=(q.W*y-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=(q.X*y-q.Y*x)+(q.W*z-q.Z*w);
+}
+static __forceinline void compose(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate(a.Q,b.Position,&r);result.Position=r+a.Position;
+ result.Q=a.Q*b.Q;
 }
 
-inline Vector3 rawRotateVector(const Vector3 &v, const Quaternion &q)
-{
-	float x = (v.Z*q.Y - q.Z*v.Y) + q.W*v.X;
-	float y = q.W*v.Y - (v.Z*q.X - q.Z*v.X);
-	float z = (q.X*v.Y - v.X*q.Y) + v.Z*q.W;
-	float w = -((v.X*q.X + v.Z*q.Z) + v.Y*q.Y);
-
-	return Vector3
-	(
-		(z*q.Y - q.Z*y) + (q.W*x - q.X*w),
-		(q.W*y - w*q.Y) - (q.X*z - q.Z*x),
-		(q.X*y - x*q.Y) + (q.W*z - q.Z*w)
-	);
+static __forceinline void rotate3(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+v.X*q.W;
+ float y=v.Y*q.W-(q.X*v.Z-v.X*q.Z);
+ float z=(q.X*v.Y-q.Y*v.X)+v.Z*q.W;
+ float w=0.0f-((v.X*q.X+q.Y*v.Y)+q.Z*v.Z);
+ out->X=(q.Y*z-q.Z*y)+(x*q.W-q.X*w);
+ out->Y=(y*q.W-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=(q.X*y-q.Y*x)+(z*q.W-q.Z*w);
 }
-
+static __forceinline void compose3(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate3(a.Q,b.Position,&r);result.Position=a.Position+r;
+ result.Q=a.Q*b.Q;
+}
 class MotionChannelClass {
 public:
  unsigned PivotIdx,Type; int VectorLen;float ValueOffset,ValueScale;float *Data;int FirstFrame,LastFrame;
@@ -146,8 +110,8 @@ public:
  unsigned PivotIdx,Type;int DefaultVal,FirstFrame,LastFrame;unsigned char *Bits;
  __forceinline int Get_Bit(int frame) const {
   if(frame<FirstFrame || frame>LastFrame)return DefaultVal;
-  int bit=frame-FirstFrame;unsigned char mask=(unsigned char)(1<<(bit%8));
-  return (Bits[bit/8]&mask)!=0;
+  int bit=frame-FirstFrame;
+  return (Bits[bit >> 3] & (unsigned char)(1 << (bit & 7))) != 0;
  }
 };
 struct NodeMotionStruct { MotionChannelClass *X,*Y,*Z,*XR,*YR,*ZR,*Q,*Fade;BitChannelClass *Vis;};
@@ -158,22 +122,19 @@ public:
  char pad[0x4c];NodeMotionStruct *Nodes;
 };
 void HTreeClass::Anim_Update(const Matrix3D &root,HRawAnimClass *motion,float frame) {
- Bfme2HTreePivot *pivots=(Bfme2HTreePivot*)Pivot;
- Bfme2HTreeTransform &initial=pivots[0].Transform;
- initial.Rotation=Build_Quaternion(root);
- initial.Translation.X=root[0][3];initial.Translation.Y=root[1][3];initial.Translation.Z=root[2][3];
- pivots[0].IsVisible=true;pivots[0].PivotFade=1.0f;
+ S2CompactTransform &initial=((S2PivotView*)Pivot)[0].Current;
+ initial.Q=Build_Quaternion(root);
+ initial.Position.X=root[0][3];initial.Position.Y=root[1][3];initial.Position.Z=root[2][3];
+ ((S2PivotView*)Pivot)[0].visible=true;((S2PivotView*)Pivot)[0].factor=1.0f;
  int iframe=WWMath::Float_To_Long(frame);
  if(iframe>=motion->Get_Num_Frames())iframe=0;
  NodeMotionStruct *node=motion->Nodes+1;
- Bfme2HTreePivot *pivot=&pivots[1];
- Bfme2HTreePivot *endpivot=pivot+(NumPivots-1);
- Bfme2HTreePivot *lastAnimPivot=&pivots[motion->Get_Num_Pivots()];
+ S2PivotView *pivot=&((S2PivotView*)Pivot)[1];
+ S2PivotView *endpivot=pivot+(NumPivots-1);
+ S2PivotView *lastAnimPivot=&((S2PivotView*)Pivot)[motion->Get_Num_Pivots()];
  int captured=OwnedSequence1C[0]==OwnedSequence1C[1]?-1:*(int*)OwnedSequence1C[0];
  for(;pivot<endpivot;++pivot,++node) {
-  const Bfme2HTreeTransform &parent=pivot->Parent->Transform;
-  pivot->Transform.Translation=parent.Translation+rawRotateVector(pivot->BaseTransform.Translation,parent.Rotation);
-  pivot->Transform.Rotation=parent.Rotation*pivot->BaseTransform.Rotation;
+  compose3(pivot->Parent->Current,pivot->Base,pivot->Current);
   if(pivot<lastAnimPivot) {
    Vector3 trans(0,0,0);
    if(node->X)node->X->Get_Vector(iframe,&trans.X);
@@ -182,17 +143,13 @@ void HTreeClass::Anim_Update(const Matrix3D &root,HRawAnimClass *motion,float fr
    if(ScaleFactor!=1.0f){trans.X*=ScaleFactor;trans.Y*=ScaleFactor;trans.Z*=ScaleFactor;}
    if(node->Q) {
     Quaternion q;node->Q->Get_Vector_As_Quat(iframe,q);
-    pivot->Transform.Translation=rawRotateVector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
-    Quaternion old=pivot->Transform.Rotation;
-    pivot->Transform.Rotation.X=(old.Y*q.Z-q.Y*old.Z)+q.W*old.X+old.W*q.X;
-    pivot->Transform.Rotation.Y=q.W*old.Y+old.W*q.Y-(old.X*q.Z-q.X*old.Z);
-    pivot->Transform.Rotation.Z=(q.Y*old.X-old.Y*q.X)+q.W*old.Z+old.W*q.Z;
-    pivot->Transform.Rotation.W=q.W*old.W-((q.Z*old.Z+q.Y*old.Y)+old.X*q.X);
+    Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=pivot->Current.Position+r;
+    pivot->Current.Q=pivot->Current.Q*q;
    } else {
-    pivot->Transform.Translation=rawRotateVector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
+    Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=r+pivot->Current.Position;
    }
-   if(node->Fade){float fade=1;node->Fade->Get_Vector(iframe,&fade);pivot->PivotFade=fade;}else pivot->PivotFade=1;
-   pivot->IsVisible=node->Vis?node->Vis->Get_Bit(iframe)==1:true;
+   if(node->Fade){float fade=1;node->Fade->Get_Vector(iframe,&fade);pivot->factor=fade;}else pivot->factor=1;
+   if(node->Vis)pivot->visible=node->Vis->Get_Bit(iframe)==1;else pivot->visible=true;
   }
   if(pivot->Index==captured)captured=Capture_Update(captured);
  }
