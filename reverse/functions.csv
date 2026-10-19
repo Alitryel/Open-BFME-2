@@ -18550,7 +18550,6 @@ uw_00764806,,0x00764806,8,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obje
 uw_0076483a,,0x0076483A,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3553
 uw_00764842,,0x00764842,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3544
 uw_00764857,,0x00764857,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3553
-uw_00764869,,0x00764869,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9284
 uw_0076487b,,0x0076487B,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4459
 uw_0076488d,,0x0076488D,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4902
 uw_007648c2,,0x007648C2,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4902
@@ -96879,3 +96878,4 @@ __ehhandler$??1GroupOrder@@UAE@XZ,,0x00798150,10,Code/GameEngine/Source/GameLogi
 __ehhandler$??0Rva006ABC60@@QAE@XZ,,0x0075DB31,10,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioVolumeConstructor.cpp,matched,Natural compiler-emitted C++ EH handler of whole verified parent 0x0005A2E6; native prologue directly installs handler 0x0075DB31 naming FuncInfo 0x008FFEC8. Complete 10B body and whole parent exception graph exact. Cleanup call targets separately checked against existing bindings or whole emitted callees; see reverse/attempt_support/eh-handler-cohort-20261019c. No source scaffolding or pin or alias.
 ?loadPostProcess@TeamInQueue@@MAEXXZ,,0x000B3FD0,1,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp,matched,gen-alias; retail TeamInQueue vtable C62B78 slot1 is shared empty RET B3FD0; complete emitted body and empty relocation set agree with owner
 __ehhandler$??1Rva0010F83E@@UAE@XZ,,0x00764871,10,Code/GameEngine/Source/Common/Rva0010F83EDtor.cpp,matched,Compiler-emitted C++ EH handler of whole byte-exact parent ??1Rva0010F83E@@UAE@XZ at 0010F83E; native prologue installs handler00764871 and FuncInfo00908A6C; complete associative EH graph EXACT. Parent is the ledger body itself. No new pin or alias.
+uw_00764869,,0x00764869,8,Code/GameEngine/Source/Common/Rva0010F83EDtor.cpp,matched,gen-funclet;parent=??1Rva0010F83E@@UAE@XZ;object-symbol=$L1182;Whole byte-exact C++ parent0010F83E and EXACT associative EH graph place native cleanup00764869 through handler00764871 and FuncInfo00908A6C. Actual C++ lifetime replaces generator frame surrogate; full bytes and resolved calls verified. No adjacency-derived ownership or new pin.
