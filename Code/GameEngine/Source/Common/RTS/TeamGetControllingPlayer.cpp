@@ -296,7 +296,7 @@ public:
 	void *getContain() const { return m_contain; }
 	void *rva0028C197() const;
 	Real rva00263763(const void *other) const;
-	void rva0029660C(const Coord3D *pos, int flag);
+	void teleportTo(const Coord3D *pos, bool flag);
 	void rva00346C53(ObjectStatusTypes status, Bool set);
 	void setTeam(Team *team);
 private:
@@ -1161,7 +1161,7 @@ int Team::rva003A178D(ObjectTypes *types, int maxCount, Team *srcTeam)
 									++count;
 									recruited = true;
 									if (distSqr > 22500.0f)
-										combined->rva0029660C(combined->getPosition(), 0);
+										combined->teleportTo(combined->getPosition(), false);
 								}
 							}
 							if (count >= maxCount)
