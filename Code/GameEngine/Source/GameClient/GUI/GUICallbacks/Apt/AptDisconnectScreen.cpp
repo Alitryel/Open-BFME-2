@@ -146,18 +146,13 @@ private:
 // The open disconnect menu (VA 0x00E048D0; BFME 1's TheDisconnectMenu).
 class DisconnectMenu; extern DisconnectMenu *TheDisconnectMenu;
 
-// Rva00512CE9Kick.cpp's view of this screen: shows or hides a slot's kick
-// button and records it at +0x286.
-class Rva00512CE9
-{
-public:
-	void rva00512CE9(int player, bool show);
-};
-
 class AptDisconnectScreen : public _bfme_AptGameWindow
 {
 public:
 	AptDisconnectScreen(void *context);
+	// Shows or hides a slot's kick button and records it at +0x286
+	// (rowed in Rva00512CE9Kick.cpp).
+	void rva00512CE9(int player, bool show);
 	virtual ~AptDisconnectScreen();
 
 	// AptDisconnectScreenKick.cpp and AptLobbyScreenInitCallbacks.cpp.
@@ -259,7 +254,7 @@ int AptDisconnectScreen::rva00512DB1()
 	{
 		m_kickButtonsDirty = false;
 		for (int slot = 0; slot < 8; ++slot)
-			((Rva00512CE9 *)this)->rva00512CE9(slot, m_kickButtons[slot]);
+			rva00512CE9(slot, m_kickButtons[slot]);
 	}
 	return 1;
 }
@@ -324,7 +319,7 @@ void AptDisconnectScreen::rva00512EDD(int slot, UnicodeString name)
 			GadgetListBoxAddEntryText(m_chatBox, msg, g_00DD1488, -1, -1, true);
 		}
 	}
-	((Rva00512CE9 *)this)->rva00512CE9(slot, false);
+	rva00512CE9(slot, false);
 	key.format("DisconnectScreen::VotesReceived%d", slot);
 	g_bfmeAptWindowManager->bfmeSetText(key, UnicodeString(L" "), false);
 }

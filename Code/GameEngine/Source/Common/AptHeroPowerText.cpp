@@ -249,9 +249,9 @@ void TearDownGameSpy();
 // DisconnectScreen::PlayerName%d, or L" " when the name is null or empty
 // (inline length test at +4). The slot then goes through the rowed bar update
 // 0x00513040 with 0 or, for a real name, the rowed 0x00512CE9 (false) and the
-// bar update with 100. Both helpers are rowed as methods of their own
-// address-named views of this same object.
-class Rva00512CE9
+// bar update with 100. 0x00512CE9 is AptDisconnectScreen's; the bar update
+// keeps an address-named view of this same object.
+class AptDisconnectScreen
 {
 public:
 	void rva00512CE9(int slot, bool b);
@@ -288,7 +288,7 @@ void Rva00513497::rva00513497(int slot, UnicodeString name)
 	else
 	{
 		((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, name, false);
-		((Rva00512CE9 *)this)->rva00512CE9(slot, false);
+		((AptDisconnectScreen *)this)->rva00512CE9(slot, false);
 		((Rva00513040 *)this)->rva00513040(slot, 100);
 	}
 }

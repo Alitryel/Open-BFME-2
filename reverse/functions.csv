@@ -40217,7 +40217,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ??1Rva005E888A@@QAE@XZ,,0x005E888A,8,Code/GameEngine/Source/Common/Bfme/Rva005E888ADtor.cpp,matched,nonvirtual dtor tail-jmp to rowed member dtor at plus4
 ?freeSockets@NameKeyGenerator@@AAEXXZ,,0x00148B42,66,Code/GameEngine/Source/Common/NameKeyGenerator.cpp,matched,NameKeyGenerator freeSockets 45007 buckets plus aux map clear via ZH donor
 ?reset@NameKeyGenerator@@UAEXXZ,,0x00148C41,84,Code/GameEngine/Source/Common/NameKeyGenerator.cpp,matched,NameKeyGenerator reset lock freeSockets plus nextID via chain
-?rva00512CE9@Rva00512CE9@@QAEXH_N@Z,,0x00512CE9,94,Code/GameEngine/Source/Common/Rva00512CE9Kick.cpp,matched,kick button sprintf plus apt invoke via g_Va009FE4CC
+?rva00512CE9@AptDisconnectScreen@@QAEXH_N@Z,,0x00512CE9,94,Code/GameEngine/Source/Common/Rva00512CE9Kick.cpp,matched,kick button sprintf plus apt invoke via g_Va009FE4CC
 ??_GRva005E888A@@QAEPAXI@Z,,0x005E88C1,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-06-5E88C1.cpp,matched,deleting dtor via rowed dtor plus rowed delete
 ??1Rva005E8EA1@@QAE@XZ,,0x005E8EA1,8,Code/GameEngine/Source/Common/Bfme/Rva005E8EA1Dtor.cpp,matched,nonvirtual dtor tail-jmp to rowed member dtor at plus8
 ??$__lower_bound@PAUBfmePod28@@U1@U?$less@UBfmePod28@@@_STL@@H@_STL@@YAPAUBfmePod28@@PAU1@0ABU1@U?$less@UBfmePod28@@@0@PAH@Z,,0x005413B0,66,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_pod28_allocate_copy.cpp,matched,unlock lower bound Pod28 via less a0
@@ -44325,7 +44325,7 @@ _MmxFastDeInterlace,,0x001CDF60,232,Code/Libraries/Source/VP6/FastDeInterlace.cp
 ??1Rva00383D71@@QAE@XZ,,0x00383D71,271,Code/GameEngine/Source/Common/Rva00383D71Dtor.cpp,matched,base dtor via rowed tree dtors and eh vector arrays callers 0x3844D7 0x38454E
 ??1Rva003844D7@@QAE@XZ,,0x003844D7,119,Code/GameEngine/Source/Common/Rva003844D7Dtor.cpp,matched,derived dtor via rowed member dtors and base 0x00383D71 callers 0x38535F 0x38539E
 ??1Rva0038454E@@QAE@XZ,,0x0038454E,269,Code/GameEngine/Source/Common/Rva003844D7Dtor.cpp,matched,derived dtor 15 members via rowed 0x383276 0x38323E base 0x383D71 LINK 0x385371
-?rva00512D47@Rva00512CE9@@QAE_NH@Z,,0x00512D47,14,Code/GameEngine/Source/Common/Rva00512CE9Kick.cpp,matched,getter m_286 array same offset as setter
+?rva00512D47@AptDisconnectScreen@@QAE_NH@Z,,0x00512D47,14,Code/GameEngine/Source/Common/Rva00512CE9Kick.cpp,matched,getter m_286 array same offset as setter
 ?registerAnimation@Anim2DCollection@@QAEXPAVAnim2D@@@Z,,0x002D6C8B,34,Code/GameEngine/Source/GameClient/System/Anim2D.cpp,matched,Zero Hour donor registerAnimation retail head plus0x10
 ?newTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z,,0x002D7283,82,Code/GameEngine/Source/GameClient/System/Anim2DCollectionTemplates.cpp,matched,newTemplate via BFME1 donor and Anim2D head offsets
 ?onDie@BridgeTowerBehavior@@UAEXPBVDamageInfo@@@Z,,0x00458A88,38,Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp,matched,Zero Hour body; slot of the DieModuleInterface vftable BridgeTowerBehavior installs (this-adjust -4); kill() takes BFME 2's DAMAGE_UNRESISTABLE (8) where Zero Hour's default is 11

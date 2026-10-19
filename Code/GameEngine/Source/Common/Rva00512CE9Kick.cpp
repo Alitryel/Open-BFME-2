@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva00512CE9@Rva00512CE9@@QAEXH_N@Z, retail 0x00512CE9, 94 bytes.
+// ?rva00512CE9@AptDisconnectScreen@@QAEXH_N@Z, retail 0x00512CE9, 94 bytes.
 // Kick-button UI: formats player index via sprintf %d then invokes Apt
 // ShowKickButton/HideKickButton with 1 plus buffer plus 0s plus owner at
 // +0x274 via TheAptPlayer at 0x9FE4CC (SubsystemInterface registers it)
@@ -17,7 +17,7 @@ public:
 
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
-class Rva00512CE9
+class AptDisconnectScreen
 {
 public:
 	void rva00512CE9(int player, bool show);
@@ -29,7 +29,7 @@ private:
 	bool m_286[8];
 };
 
-void Rva00512CE9::rva00512CE9(int player, bool show)
+void AptDisconnectScreen::rva00512CE9(int player, bool show)
 {
 	char buf[32];
 	sprintf(buf, "%d", player);
@@ -38,9 +38,9 @@ void Rva00512CE9::rva00512CE9(int player, bool show)
 	m_286[player] = show;
 }
 
-// ?rva00512D47@Rva00512CE9@@QAE_NH@Z @0x00512D47 14B: getter for m_286[player] bool array at +0x286.
+// ?rva00512D47@AptDisconnectScreen@@QAE_NH@Z @0x00512D47 14B: getter for m_286[player] bool array at +0x286.
 // Evidence: same +0x286 indexed store in rva00512CE9 setter in this TU; callers at 0x004D45CB 0x004D45E4.
-bool Rva00512CE9::rva00512D47(int player)
+bool AptDisconnectScreen::rva00512D47(int player)
 {
 	return m_286[player];
 }

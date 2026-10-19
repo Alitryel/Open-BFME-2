@@ -732,6 +732,8 @@ class AptDisconnectScreen
 {
 public:
 	void rva00512EDD(Int slot, UnicodeString playerName);
+	void rva00512CE9(Int slot, Bool show);	// kick button show/hide
+	Bool rva00512D47(Int slot);		// kick button shown
 };
 
 // The screen's per-slot name setter, the donor's DisconnectMenu::setPlayerName,
@@ -836,13 +838,6 @@ public:
 	void rva00513040(Int slot, Int percent);
 };
 
-class Rva00512CE9
-{
-public:
-	void rva00512CE9(Int slot, Bool show);
-	Bool rva00512D47(Int slot);
-};
-
 // Open-BFME-1's updateDisconnectStatus. BFME 2 reads the timeout at
 // GlobalData+0xc24, keeps its GameLogic flag at +0x2a4, sends the player
 // destruct before disconnecting the player and then posts message 0x6b8 with
@@ -909,11 +904,11 @@ void DisconnectManager::updateDisconnectStatus(ConnectionManager *conMgr) {
 					((Rva00513040 *)TheDisconnectMenu)->rva00513040(slot, (Int)newTime);
 
 					if ((UnsignedInt)newTime < 90) {
-						if (((Rva00512CE9 *)TheDisconnectMenu)->rva00512D47(slot) == FALSE)
-							((Rva00512CE9 *)TheDisconnectMenu)->rva00512CE9(slot, TRUE);
+						if (((AptDisconnectScreen *)TheDisconnectMenu)->rva00512D47(slot) == FALSE)
+							((AptDisconnectScreen *)TheDisconnectMenu)->rva00512CE9(slot, TRUE);
 					} else if ((UnsignedInt)newTime > 95) {
-						if (((Rva00512CE9 *)TheDisconnectMenu)->rva00512D47(slot))
-							((Rva00512CE9 *)TheDisconnectMenu)->rva00512CE9(slot, FALSE);
+						if (((AptDisconnectScreen *)TheDisconnectMenu)->rva00512D47(slot))
+							((AptDisconnectScreen *)TheDisconnectMenu)->rva00512CE9(slot, FALSE);
 					}
 
 					if ((newTime == 0) && (isPlayerVotedOut(slot, conMgr) == FALSE)) {
