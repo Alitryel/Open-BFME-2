@@ -32,20 +32,20 @@ typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
 struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 // Retail Weapon FieldParse table; its original linker symbol is unestablished.
 // The retail name list at RVA 0x009BC64C (4 names and the null terminator).
-extern const char *const g_00DBC64C[5] = { "PER_SHOT", "PER_ATTACK", "PER_CLIP", "PER_POSITION", 0 };
+extern const char *const TheWeaponPrefireNames[5] = { "PER_SHOT", "PER_ATTACK", "PER_CLIP", "PER_POSITION", 0 };
 // The retail name list at RVA 0x009BC63C (3 names and the null terminator).
-extern const char *const g_00DBC63C[4] = { "YES", "NO", "RETURN_TO_BASE", 0 };
+extern const char *const TheWeaponReloadNames[4] = { "YES", "NO", "RETURN_TO_BASE", 0 };
 // The retail name list at RVA 0x009BC660 (10 names and the null terminator).
-extern const char *const g_00DBC660[11] = { "SELF", "ALLIES", "ENEMIES", "NEUTRALS", "SUICIDE", "NOT_SIMILAR", "NOT_AIRBORNE", "PROJECTILES", "SAME_HEIGHT_ONLY", "MINES", 0 };
+extern const char *const TheWeaponAffectsMaskNames[11] = { "SELF", "ALLIES", "ENEMIES", "NEUTRALS", "SUICIDE", "NOT_SIMILAR", "NOT_AIRBORNE", "PROJECTILES", "SAME_HEIGHT_ONLY", "MINES", 0 };
 // The retail name list at RVA 0x009BC68C (11 names and the null terminator).
-extern const char *const g_00DBC68C[12] = { "ALLIES", "ENEMIES", "NEUTRAL", "STRUCTURES", "SHRUBBERY", "PROJECTILES", "WALLS", "SMALL_MISSILES", "BALLISTIC_MISSILES", "CONTROLLED_STRUCTURES", "MONSTERS", 0 };
+extern const char *const TheWeaponCollideMaskNames[12] = { "ALLIES", "ENEMIES", "NEUTRAL", "STRUCTURES", "SHRUBBERY", "PROJECTILES", "WALLS", "SMALL_MISSILES", "BALLISTIC_MISSILES", "CONTROLLED_STRUCTURES", "MONSTERS", 0 };
 // The retail name list at RVA 0x009BC49C (3 names and the null terminator).
 extern const char *const g_00DBC49C[4] = { "NONE", "CATAPULT_ROCK", "TREBUCHET_ROCK", 0 };
 struct LookupListRec { const char *name; int value; };
 // The retail lookup list at RVA 0x009BC530 (15 names and the null terminator).
 extern const LookupListRec g_00DBC530[16] = { { "FORCE", 12426360 }, { "SLASH", 12426344 }, { "SIEGE", 12426324 }, { "FLAME", 12426308 }, { "UNRESISTABLE", 12426284 }, { "PENALTY", 12426268 }, { "TOPPLING", 12426244 }, { "PASSENGER", 12426224 }, { "CHOP", 12426208 }, { "SPECIALIST", 12426188 }, { "HERO_RANGED", 12426164 }, { "UNDEFINED", 12426136 }, { "CAVALRY", 12426112 }, { "POISON", 0 }, { "NORMAL", 12426080 }, { 0, 0 } };
 // The retail name list at RVA 0x009BC5B0 (24 names and the null terminator).
-extern const char *const g_00DBC5B0[25] = { "NORMAL", "NONE", "CRUSHED", "BURNED", "EXPLODED", "POISONED", "TOPPLED", "FLOODED", "SUICIDED", "LASERED", "DETONATED", "SPLATTED", "POISONED_BETA", "EXTRA_2", "EXTRA_3", "EXTRA_4", "EXTRA_5", "EXTRA_6", "EXTRA_7", "EXTRA_8", "KNOCKBACK", "SUPERNATURAL", "FADED", "SLAUGHTERED", 0 };
+extern const char *const TheDeathNames[25] = { "NORMAL", "NONE", "CRUSHED", "BURNED", "EXPLODED", "POISONED", "TOPPLED", "FLOODED", "SUICIDED", "LASERED", "DETONATED", "SPLATTED", "POISONED_BETA", "EXTRA_2", "EXTRA_3", "EXTRA_4", "EXTRA_5", "EXTRA_6", "EXTRA_7", "EXTRA_8", "KNOCKBACK", "SUPERNATURAL", "FADED", "SLAUGHTERED", 0 };
 // The retail lookup list at RVA 0x009BC4B0 (15 names and the null terminator).
 extern const LookupListRec g_00DBC4B0[16] = { { "SWORD_SLASH", 12591160 }, { "REFLECTED", 12591140 }, { "EVIL_ARROW_PIERCE", 12591108 }, { "BIG_ROCK", 12591084 }, { "FLAME", 12426224 }, { "BALROG_SWORD", 12591056 }, { "ELECTRIC", 12591032 }, { "STRUCTURAL", 12591020 }, { "BOLT", 12591004 }, { "MAGIC2", 12590988 }, { "FIRE1", 12590972 }, { "FIRE3", 12590956 }, { "SPARKS2", 12590940 }, { "EARTH2", 12426104 }, { "TORNADO", 12426152 }, { 0, 0 } };
 extern "C" {
@@ -175,13 +175,13 @@ extern const FieldParse g_00C00B48[125] = {
 	{ "LockWhenUsing", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x16F },
 	{ "BombardType", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x170 },
 	{ "UseInnateAttributes", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x171 },
-	{ "PreAttackType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC64C, 0x12C },
-	{ "AutoReloadsClip", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC63C, 0x128 },
-	{ "RadiusDamageAffects", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC660, 0x110 },
-	{ "ProjectileCollidesWith", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC68C, 0x118 },
+	{ "PreAttackType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponPrefireNames, 0x12C },
+	{ "AutoReloadsClip", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponReloadNames, 0x128 },
+	{ "RadiusDamageAffects", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponAffectsMaskNames, 0x110 },
+	{ "ProjectileCollidesWith", (FieldParseProc)&__identifier("?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z"), TheWeaponCollideMaskNames, 0x118 },
 	{ "FXTrigger", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC49C, 0x10 },
 	{ "DamageType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC530, 0x58 },
-	{ "DeathType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC5B0, 0x5C },
+	{ "DeathType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), TheDeathNames, 0x5C },
 	{ "DamageFXType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC4B0, 0x60 },
 	{ "DamageSubType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DBC4B0, 0x64 },
 	{ "AntiAirborneVehicle", (FieldParseProc)&__identifier("?parseBitInInt32@INI@@SAXPAV1@PAX1PBX@Z"), (const void *)1, 0x10C },
