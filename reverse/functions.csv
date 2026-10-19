@@ -31112,7 +31112,6 @@ uw_007a0dfa,,0x007A0DFA,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;obj
 uw_007a0e0f,,0x007A0E0F,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3687
 uw_007a0e25,,0x007A0E25,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2609
 uw_007a0e3a,,0x007A0E3A,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4744
-uw_007a0e84,,0x007A0E84,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L6129
 uw_007a0ec7,,0x007A0EC7,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3498
 uw_007a0ecf,,0x007A0ECF,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3488
 uw_007a0ee1,,0x007A0EE1,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11823
@@ -96763,3 +96762,4 @@ uw_0078a901,,0x0078A901,14,Code/GameEngine/Source/GameLogic/Object/Behavior/Dyna
 ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z,,0x00296065,1447,Code/GameEngine/Source/GameLogic/Object/ObjectShockRva00296065.cpp,matched,Native 296065-29660C RET4 and owned caller2975AC establish Object and the opaque entry contract; retail Object.cpp file string and WB CC92C0 support shockwave processing; ZH attemptDamage supplies semantic guide only. Local scalar reads reproduce SSE operands; sequential vertical products reproduce shared x87 tail; both native kill calls retained. t=8 model=gpt-6.1-sol
 $L6433,,0x007A0E79,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,matched,gen-funclet;parent=??0Rva005C8624Element@@QAE@ABU0@@Z; Native 11B member-ref cleanup at this+8 binds through exact parent005C9217 EH graph; real BfmePoolRef10 lifetime emits fully resolved jump to rowed destructor000519AB; replaces anonymous generated harness
 $L6435,,0x007A0E8F,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,matched,gen-funclet;parent=??0Rva005C8624Element@@QAE@ABU0@@Z; Exact parent EH graph binds complete11B vector-member cleanup at+38; native7FAB3 callee independently whole-body and relocation fold-proven; replaces generated harness
+$L6434,,0x007A0E84,11,Code/GameEngine/Source/Common/Rva005C8624ElementCopy.cpp,matched,gen-funclet;parent=??0Rva005C8624Element@@QAE@ABU0@@Z; Exact parent EH graph binds11B map-member cleanup at+2C; float key established independently by native5C8CA0 lookup; whole ctor and dtor provider graphs fold-proven; mapped value original type remains unknown

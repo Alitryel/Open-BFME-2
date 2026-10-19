@@ -60,7 +60,9 @@ struct Rva005C8624Element
     int m_00, m_04;
     BfmePoolRef10 m_ref;
     void *m_overlaps[8];
-    _STL::map<int, void *> m_map;
+    // Native unwind7A0E84 selects tree5C8D66/5C8D2E, whose lower_bound
+    // at5C8CA0 compares float keys. The mapped value's original type is unknown.
+    _STL::map<float, void *> m_map;
     _STL::vector<Rva004E1D4EElement> m_vector;
     unsigned short m_44;
     unsigned char m_46;
