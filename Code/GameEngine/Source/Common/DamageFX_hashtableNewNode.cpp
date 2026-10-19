@@ -24,8 +24,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <hash_map>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
+// Preserve the inline const begin operation without a DLL-import declaration.
+namespace _STL { template <> __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
@@ -98,4 +98,23 @@ struct equal_to
 
 typedef _STL::hash_map<NameKeyType, DamageFX, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> > DamageFXMap;
 
-template class _STL::hash_map<NameKeyType, DamageFX, rts::hash<NameKeyType>, rts::equal_to<NameKeyType> >;
+// Instantiate the owned operations, avoiding unused whole-map definitions.
+typedef _STL::pair<const NameKeyType, DamageFX> DamageFXPair;
+typedef _STL::hashtable<DamageFXPair, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<DamageFXPair>, rts::equal_to<NameKeyType>,
+    _STL::allocator<DamageFXPair> > DamageFXTable;
+typedef _STL::_Hashtable_node<DamageFXPair> DamageFXNode;
+typedef _STL::pair<DamageFXMap::iterator, bool> DamageFXInsertResult;
+namespace _STL {
+template <> void DamageFXTable::erase(DamageFXTable::const_iterator, DamageFXTable::const_iterator);
+template <> void DamageFXTable::clear();
+}
+template DamageFXNode *DamageFXTable::_M_new_node(const DamageFXPair &);
+template void DamageFXMap::erase(DamageFXMap::iterator, DamageFXMap::iterator);
+template unsigned int DamageFXTable::_M_bkt_num_key(const NameKeyType &) const;
+template void DamageFXTable::_M_erase_bucket(unsigned int, DamageFXNode *, DamageFXNode *);
+template DamageFXPair::pair(const NameKeyType &, const DamageFX &);
+template DamageFXInsertResult::pair(const DamageFXMap::iterator &, const bool &);
+template DamageFXTable::hashtable(unsigned int, const rts::hash<NameKeyType> &,
+    const rts::equal_to<NameKeyType> &, const _STL::allocator<DamageFXPair> &);
+template DamageFXMap::hash_map();
