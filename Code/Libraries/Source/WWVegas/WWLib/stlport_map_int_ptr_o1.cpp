@@ -32,3 +32,12 @@ template class _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pai
 // Whole-class instantiation of this tree. It reproduces count (retail 0x004FF8B1)
 // byte for byte; their calls read the tree's matched STL helpers.
 template class _STL::_Rb_tree<int,_STL::pair<int const ,void *>,_STL::_Select1st<_STL::pair<int const ,void *> >,_STL::less<int>,_STL::allocator<_STL::pair<int const ,void *> > >;
+
+// The module-pointer registry uses the same independently verified trivial
+// node lifetime. Emit its actual typed clear and recursive erase providers
+// here with the established kept STL lifetime family.
+struct Rva004ABDDCEntry;
+typedef _STL::_Rb_tree<Rva004ABDDCEntry *, Rva004ABDDCEntry *,
+    _STL::_Identity<Rva004ABDDCEntry *>, _STL::less<Rva004ABDDCEntry *>,
+    _STL::allocator<Rva004ABDDCEntry *> > ModuleKeyRegistryTree;
+template void ModuleKeyRegistryTree::clear();

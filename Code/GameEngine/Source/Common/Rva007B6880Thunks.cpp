@@ -6984,18 +6984,9 @@ void __cdecl rva007B7AFF()
 extern unsigned g_Va00E03CE0;
 unsigned int g_Va00E03CE0;
 
-class Rva004ABE53Dtor
-{
-public:
-	~Rva004ABE53Dtor();
-};
 
 // ?rva007B89C1@@YAXXZ @ 0x007B89C1 (10B). Global dtor thunk: ecx=&g_Va00E03CE0 then tail-jmp to pinned ??1Rva004ABE53Dtor@@QAE@XZ (0x004ABE53). No callers. Honest address name.
-void __cdecl rva007B89C1()
-{
-	Rva004ABE53Dtor *p = (Rva004ABE53Dtor *)&g_Va00E03CE0;
-	return p->~Rva004ABE53Dtor();
-}
+void __cdecl rva007B89C1();
 
 class AptActionInterpreter
 {

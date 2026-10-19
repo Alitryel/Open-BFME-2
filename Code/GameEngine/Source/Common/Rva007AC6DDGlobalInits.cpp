@@ -61,11 +61,6 @@ public:
 	Rva004E5610();
 };
 
-class Rva004ABDC3
-{
-public:
-	Rva004ABDC3();
-};
 
 class Rva00502EC6
 {
@@ -179,11 +174,7 @@ extern unsigned g_Va00E03CE0;
 void __cdecl rva007B89C1();
 
 // ?rva007B1CDC@@YAXXZ @0x007B1CDC 22B: ctor 0x004ABDC3 on &g_Va00E03CE0, atexit(0x007B89C1).
-void rva007B1CDC()
-{
-	new (&g_Va00E03CE0) Rva004ABDC3;
-	atexit(rva007B89C1);
-}
+void rva007B1CDC();
 
 extern unsigned g_Va00E04508;
 void __cdecl rva007B9049();

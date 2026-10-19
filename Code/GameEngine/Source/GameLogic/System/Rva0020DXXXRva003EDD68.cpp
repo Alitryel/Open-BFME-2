@@ -24,30 +24,14 @@ public:
 class Rva003ED94FDtor
 {
 public:
-	~Rva003ED94FDtor();
-	void *m_begin;
-	void *m_end;
+    Rva003ED94FDtor();
+    ~Rva003ED94FDtor();
+    unsigned char m_storage[12];
 };
 
-class ObjectCreationList
-{
-public:
-    ObjectCreationList();
-    char storage[12];
-};
 
-// The ctor name is an existing folded address. Its trivial declaration
-// supplies initialization only; the local key-map view owns the independently
-// established key-map destructor instead of defining ObjectCreationList's.
-class Rva003EDD68KeyMap : public ObjectCreationList
-{
-public:
-    __forceinline ~Rva003EDD68KeyMap()
-    {
-        ((Rva003ED94FDtor *)this)->Rva003ED94FDtor::~Rva003ED94FDtor();
-    }
-};
-
+// Native locals use the existing folded19B constructor1F81BF and full58B
+// destructor3ED94F directly; a derived cleanup wrapper is not retail.
 class Rva0020DXXXElem
 {
 public:
@@ -60,7 +44,7 @@ private:
 
 Rva003ED658 Rva0020DXXXElem::rva003EDD68()
 {
-	Rva003EDD68KeyMap list;
+	Rva003ED94FDtor list;
 	for (void **it = m_begin, *end = m_end; it != end; ++it)
 		((Rva003ED9B1 *)&list)->rva003ED9B1(*(Rva003ED9B1 const *)*it);
 	return *(Rva003ED658 const *)&list;
@@ -80,18 +64,11 @@ struct Rva004ABDDCEntry
     Rva003ED9B1 keys;
 };
 typedef _STL::_Rb_tree_node<Rva004ABDDCEntry *> Rva004ABDDCNode;
-class Rva004ABDDC
+#include "../../../Include/Common/ModuleKeyRegistry.h"
+Rva003ED658 Rva004ABE53Dtor::rva004ABDDC()
 {
-public:
-    Rva003ED658 rva004ABDDC();
-private:
-    char pad[4];
-    _STL::_Rb_tree_node_base *header04;
-};
-Rva003ED658 Rva004ABDDC::rva004ABDDC()
-{
-    Rva003EDD68KeyMap list;
-    _STL::_Rb_tree_node_base *end = header04;
+    Rva003ED94FDtor list;
+    _STL::_Rb_tree_node_base *end = *reinterpret_cast<_STL::_Rb_tree_node_base **>(&m_entries);
     Rva004ABDDCNode *it = (Rva004ABDDCNode *)end->_M_left;
     for (; it != end; it = (Rva004ABDDCNode *)_STL::_Rb_global<bool>::_M_increment(it))
         ((Rva003ED9B1 *)&list)->rva003ED9B1(it->_M_value_field->keys);
