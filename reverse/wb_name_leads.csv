@@ -3880,7 +3880,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x0045CD6E,Rva004A78B8::rva0045CD6E,PIN_ONLY,,,2.0000,callgraph
 0x004EA046,,UNROWED,AIEconomyBuilder::needMoreFarms,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIEconomyBuilder\AIEconomyBuilder.cpp,2.0000,callgraph
 0x005774E3,,UNROWED,,,2.0000,callgraph
-0x005DCCFB,Rva005DCE08::rva005DCCFB,PIN_ONLY,BuildPhase::update,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIBaseBuilder\BuildPhase.cpp,1.0000,callgraph
+0x005DCCFB,BuildPhase::update,RESOLVED,BuildPhase::update,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\SkirmishAI\AIBaseBuilder\BuildPhase.cpp,1.0000,callgraph
 0x0032D8C7,,UNROWED,SidesList::removeSideAndTeams,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Map\SidesList.cpp,5.5000,align
 0x0040FB9C,,UNROWED,,,5.0000,callgraph
 0x005B922F,Rva005B922F::~Rva005B922F,PLACEHOLDER,AptOnlineHome::~AptOnlineHome,C:\Projects\bfme2\Code\GameEngine\Source\GameClient\Gui\GUICallbacks\Apt\AptOnlineHome.cpp,3.2500,callgraph
@@ -5132,7 +5132,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x005E7B28,StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats,PIN_ONLY,StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats,C:\Projects\bfme2\Code\GameEngine\Source\GameClient\LivingWorld\InGameUI\StrategicInGameUIBuildQueueDetailsPanel.cpp,1.0000,callgraph
 0x0029E8FA,,UNROWED,,,33.0000,vtable
 0x00344EB2,rva00344EB2Gate,PIN_ONLY,,,8.0000,callgraph
-0x00334003,,UNROWED,LuaScriptEngine::PushObjectTable,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\ScriptEngine\LuaScriptEngine.cpp,7.0000,callgraph
+0x00334003,LuaScriptEngine::PushObjectTable,RESOLVED,LuaScriptEngine::PushObjectTable,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\ScriptEngine\LuaScriptEngine.cpp,7.0000,callgraph
 0x0053EFC7,Rva0053ED1A::rva0053EFC7,PLACEHOLDER,,,5.0000,callgraph
 0x00202244,Rva00DFE144Globals::rva00202244,PIN_ONLY,,,4.0000,callgraph
 0x0052A53B,,UNROWED,,,4.0000,callgraph
@@ -12830,7 +12830,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x004FF408,Rva004FF408::rva004FF408,PLACEHOLDER,,,1.0000,callgraph
 0x0052D6BE,Rva0052D6BEConstruct,PLACEHOLDER,,,1.0000,callgraph
 0x0052E0A1,Rva0052E0A1::rva0052E0A1,PLACEHOLDER,,c:\projects\bfme2\code\gameengine\source\gamelogic\pathfinder\pathfinder_cell.h,1.0000,callsite
-0x00548FD4,Rva00548FD4ItemList::add,PLACEHOLDER,FormationSquad::AddUnit,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Ai\AIGroupFormations.cpp,1.0000,callsite
+0x00548FD4,FormationSquad::AddUnit,RESOLVED,FormationSquad::AddUnit,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Ai\AIGroupFormations.cpp,1.0000,callsite
 0x005531DD,Rva005531DD::rva005531DD,PLACEHOLDER,,,1.0000,callsite
 0x0055CFC3,,UNROWED,,,1.0000,align
 0x00564522,Rva00564522::rva00564522,PLACEHOLDER,,,1.0000,align
@@ -16022,7 +16022,7 @@ target_rva,current_name,current_kind,wb_name,wb_file,score,evidence
 0x004DE511,Rva004DD843::rva004DE511,PLACEHOLDER,,,1.0000,callgraph
 0x004E5911,Rva004E5911::rva004E5911,PLACEHOLDER,,,1.0000,callsite
 0x004F6A1A,,UNROWED,,,1.0000,align
-0x00549237,Rva00549237Setter::set,PLACEHOLDER,FormationSquad::SetSquadWidth,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Ai\AIGroupFormations.cpp,1.0000,callsite
+0x00549237,FormationSquad::SetSquadWidth,RESOLVED,FormationSquad::SetSquadWidth,C:\Projects\bfme2\Code\GameEngine\Source\GameLogic\Ai\AIGroupFormations.cpp,1.0000,callsite
 0x00555A8B,Rva00555A8BNarrowField::get,PLACEHOLDER,,,1.0000,callsite
 0x00555AA6,Rva00555AA6NarrowField::get,PLACEHOLDER,,,1.0000,order
 0x0056394A,Rva0056394A::rva0056394A,PLACEHOLDER,,,1.0000,callsite

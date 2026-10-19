@@ -14,6 +14,24 @@
 
 #include <list>
 
+class Object;
+// The kept Object-pointer node factory is retail's dedicated-freelist body
+// (0x001EB9AC), not the header's generic allocator. Emit that body so this
+// TU's copy is identical to the one Player.cpp provides.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DB8FEC;
+namespace _STL {
+template <> inline __declspec(noinline)
+_List_node<Object *> *list<Object *, allocator<Object *> >::_M_create_node(Object *const &value)
+{
+    _List_node<Object *> *node = (_List_node<Object *> *)g_freelistPool00DB8FEC.pop();
+    Object **valuePtr = (Object **)((char *)node + 8);
+    if (valuePtr)
+        *valuePtr = value;
+    return node;
+}
+}
+
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_NONE = 0

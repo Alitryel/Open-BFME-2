@@ -28,7 +28,7 @@ The API group is \ref grp_gui_apt. Where the UI runs in the frame is on
 
 `GUI/` rows are under `Code/GameEngine/Source/GameClient/`. Many HUD and Apt
 units sit in `Code/GameEngine/Source/Common/`, `StrategicHUD.cpp` among
-them, and many address-named staging units hold more
+them, and staging units named after an address can hold more
 (\ref page_reading_code_staging): search by class.
 
 ## The Apt runtime {#sub_gui_apt_runtime}
@@ -87,15 +87,17 @@ them, and many address-named staging units hold more
   points the movie supplies.
 - **The game-side player.** `GameEngine::init` registers a subsystem named
   `TheAptPlayer`, and the callbacks are registered with that object. Its
-  class is not yet proven; the WorldBuilder build calls it `AptPlayer`, with
-  tables of commands, value queries, rollover handlers, custom renderers
-  and timers. How the engine updates and draws it each frame is not yet
-  reconstructed.
+  class name comes from the WorldBuilder build, which calls it `AptPlayer`,
+  with tables of commands, value queries, rollover handlers, custom
+  renderers and timers. The W3D display's frame render pass draws this
+  object in its UI step, alongside the in-game UI
+  (\ref sub_w3d_rendering_entry). How the engine updates it each frame is not
+  established.
 
 ## The window system {#sub_gui_apt_windows}
 
-Zero Hour's window system remains and is matched largely from the Zero Hour
-and BFME 1 sources:
+Zero Hour's window system remains, with the Zero Hour and BFME 1 sources
+as its references:
 
 - `GameWindowManager` (`TheWindowManager`) owns every `GameWindow`, focus,
   modality and the destroy list, and parses `.wnd` layout scripts
@@ -172,7 +174,7 @@ selection and the pending commands behind them.
   source.
 - **Font substitution.** BFME 2 loads `data\ini\fontsubstitution.ini` in
   `FontLibrary::init` (Zero Hour: empty). BFME 1 already loads the same
-  file from a function Open-BFME-1 has not yet named.
+  file.
 
 ## Modding notes {#sub_gui_apt_modding}
 
@@ -202,7 +204,7 @@ selection and the pending commands behind them.
   `ControlBarScheme.ini`, `HeaderTemplate.ini` and `fontsubstitution.ini`
   load without the CRC `Xfer`, so the INI CRC check (\ref sub_ini) does
   not cover them. Whether a mismatch between machines would desync is not
-  yet established.
+  established.
 
 ## Remastering notes {#sub_gui_apt_remastering}
 
@@ -212,7 +214,7 @@ selection and the pending commands behind them.
 - **Resolution.** `.wnd` layouts store a creation resolution and are
   scaled with separate width and height factors, so a layout authored at
   one aspect ratio is stretched non-uniformly at another. How the Apt
-  player fits a movie to the screen has not been traced. A display-mode
+  player fits a movie to the screen is not established. A display-mode
   change deletes and recreates the shell on `MainMenu.apt` rather than
   re-laying out the open screens.
 - **Hosting the movies.** Keeping the shipped movies means keeping an Apt
@@ -225,15 +227,15 @@ selection and the pending commands behind them.
 
 ## State of the reconstruction {#sub_gui_apt_state}
 
-The Apt library is well named from retail asserts and from the symbols of
+The Apt library's names come from retail asserts and from the symbols of
 another EA game's Apt library (version 0.19.03, The Godfather for Xbox),
 many of whose function bodies match BFME 2's. That BFME 2 uses the same Apt
-release is not established, and many Apt helpers still have address names.
-The window system follows Zero Hour closely and is largely matched. Screen
-controllers and the HUD mix real names, names from the WorldBuilder build
-and address names, and their classes have no shared headers yet
-(\ref page_reading_code). Coverage changes daily: search
-`reverse/functions.csv` and `reverse/link_status.csv` for the paths above.
+release is not established. The window system follows Zero Hour closely.
+Names in the screen controllers and the HUD come from several sources,
+including the WorldBuilder build; code with no recovered name is named after
+its address (\ref page_reading_code). Coverage changes daily: search
+`reverse/functions.csv` and `reverse/link_status.csv` for the paths above,
+and `reverse/canonical_classes.csv` lists which classes have a shared header.
 
 ## Reading list {#sub_gui_apt_reading}
 

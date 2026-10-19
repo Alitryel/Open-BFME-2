@@ -1,4 +1,6 @@
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
+// partial score=0.886 date=2026-10-19
+// ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
 // partial score=0.886 date=2026-10-17
 // ?canMake@AIBuildableWallSegment@@UAEHPAVPlayer@@@Z
 // partial score=0.8559 date=2026-10-13
@@ -111,7 +113,7 @@ class BuildAssistant
 }
 ;
 class Rva00A027B8;
-extern Rva00A027B8 *g_00A027B8;
+extern BuildAssistant *TheBuildAssistant;
 class Rva0055ADD8
 
 {
@@ -128,8 +130,9 @@ class AIBuildableStructure
  virtual void s01();
  virtual void s02();
  virtual void s03();
- virtual int canMake(Player *player);
+ virtual void s04();
 // slot 4 (base 0x00573CFB)
+// Retail canMake is slot 16 in the table at RVA 0x00870AF0.
  virtual void s05();
  virtual void s06();
  virtual void s07();
@@ -140,7 +143,9 @@ class AIBuildableStructure
  virtual void s12();
  virtual Coord3D getWorldPosition();
 // slot 13, hidden result pointer
+ virtual void s14();
  virtual bool build(Player *player);
+ virtual int canMake(Player *player);
 // WB 0x1506950; retail 0x00573C7C, a vtable slot (0x0086E2AC)
  protected:
  char m_unrecovered04[0x24 - 4];
@@ -170,7 +175,7 @@ bool AIBuildableWallSegment::build(Player *player)
  return AIBuildableStructure::build(player);
  Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
  Object *terminalHub = 0;
- if (((BuildAssistant *)g_00A027B8)->buildWall(startNode, &startNode->m_position,
+ if (((BuildAssistant *)TheBuildAssistant)->buildWall(startNode, &startNode->m_position,
  getWorldPosition(), player, false, &terminalHub))
  
  {
@@ -210,6 +215,8 @@ float AIBuildableWallSegment::getTotalCost(Player *player)
 // separate (213B, nd~5): default-ctor form costs 11B (lea+mov [ebp-0x18],ebx+
 // call 0x36410) + 4B frame; retail's extra 16B is its own failure-path dtor.
 // Remaining lever: force the dtor duplication without the dummy (cl tail-merge).
+// Retail success destroys the quote and returns zero after caching the cost.
+// The compiler merges success and failure into one destructor tail.
 int AIBuildableWallSegment::canMake(Player *player)
 
 {
@@ -218,7 +225,7 @@ int AIBuildableWallSegment::canMake(Player *player)
  return AIBuildableStructure::canMake(player);
  Object *startNode = TheGameLogic->findObjectByID(m_startNodeID);
  Rva0039205C result;
- bool failed = !((BuildAssistant *)g_00A027B8)->quoteWall(
+ bool failed = !((BuildAssistant *)TheBuildAssistant)->quoteWall(
  &result, startNode, &startNode->m_position, getWorldPosition(), false);
  if (failed)
  return 9;
@@ -236,7 +243,6 @@ int AIBuildableWallSegment::canMake(Player *player)
  return 2;
  m_totalCost = result.m_pad04;
  if (0) { AsciiString dummy; }
- zero = *(volatile int *)&m_totalCost;
- return zero;
+ return 0;
  
 }

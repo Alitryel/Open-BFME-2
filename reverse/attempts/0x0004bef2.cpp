@@ -1,4 +1,6 @@
 // ?draw@W3DDisplay@@UAEXXZ
+// partial score=0.92 date=2026-10-19
+// ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.91 date=2026-10-17
 // ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.9237 date=2026-10-14
@@ -7,16 +9,17 @@
 // ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.9213 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /ICode/GameEngine/Source/Common
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // ZH W3DDisplay::draw semantic guide; native 4BEF2..4C3D8.
 // BFME2 separates the full render into 4A462 and adds panorama captures.
+// Retail repeats while paused; array new/delete and draw slot 12 follow native evidence.
+// Resume evidence: reverse/attempt_support/w8-4bef2-20261019.md.
+void *__cdecl operator new[](unsigned int);
+void __cdecl operator delete[](void *) throw();
 #include "ascii_string.h"
 #include "GameLogicObjectLookupView.h"
 #include <windows.h>
 #include <mmsystem.h>
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 struct POINT2 { int x,y; }; struct RECT2 { int left,top,right,bottom; };
 class W3DView {public:bool updateCameraMovements();};
 class FrameClient {public:
@@ -111,20 +114,21 @@ virtual void slot53();
 virtual void slot54();
 virtual int getTimeMultiplier();
 };
+struct ScriptVector { void *begin, *end; bool empty() const { return begin == end; } };
 class GlobalData {public:
 char pad0[0x26];bool useFpsLimit; char pad27[0xAF5-0x27];bool loadScreenRender;
-char padAF6[0xBBD-0xAF6];bool fastMode;char padBBE[0xC54-0xBBE];void*begin,*end;
+char padAF6[0xBBD-0xAF6];bool fastMode;char padBBE[0xC54-0xBBE];ScriptVector scripts;
 char padC5C[0xEA0-0xC5C];int panoramaCount; bool panoramaIndividual; char reservedEA5;bool panoramaMode;bool panoramaLast;float panoramaScale;float panoramaAngle;
 };
-class Tracks {public:void update();};
+class Rva00084C05System {public:void update();};
 class Rva00203B47Host {public:bool rva00203B47();};
 extern GameLogic*TheGameLogic;extern FrameClient*TheGameClient;extern TimeView*TheTacticalView;extern GlobalData*TheGlobalData;
-extern Tracks*TheTerrainTracksRenderObjClassSystem;extern Rva00203B47Host*g_pRva003BBEDE;
+extern Rva00084C05System*TheTerrainTracksRenderObjClassSystem;extern Rva00203B47Host*g_pRva003BBEDE;
 extern HWND ApplicationHWnd;
 extern unsigned syncTime,displayLastFrame;extern int timeMultiplierCounter,prevTime,prevTimeFlag;
 extern int capturePending,captureIndex;extern int g_Va00DE204C;
 void StatDebugDisplay();void Rva00043D69Callback();void Rva00043D96Callback();void Rva00043D3CCallback();
-void Rva00079985();
+void Rva00079985Clear();
 class WW3D {public:static void Sync(unsigned);};
 class W3DDisplay {public:
 virtual void slot0();
@@ -139,7 +143,7 @@ virtual void slot8();
 virtual void slot9();
 virtual void slot10();
 virtual void slot11();
-virtual void slot12();
+virtual void draw();
 virtual void slot13();
 virtual void slot14();
 virtual void slot15();
@@ -211,7 +215,7 @@ virtual void slot80();
 virtual void slot81();
 virtual void slot82();
 virtual void takeScreenShot(const char*);
-virtual void draw();void updateAverageFPS();void rva00043FB9();void rva0004826C();void rva0004B31C();void rva00049271();void rva0004AA4A();bool rva0004A462(unsigned);
+void updateAverageFPS();void rva00043FB9();void rva0004826C();protected:void gatherAnimationDebuggingInfo();public:virtual void gatherNetworkStats();void gatherSkirmishAIStats();bool rva0004A462(unsigned);
 private:
 void rva00045213(char*,unsigned);void rva00047BC0(char*,unsigned,unsigned,const char*);
 public:
@@ -221,9 +225,9 @@ void W3DDisplay::draw(){
  if(ApplicationHWnd && IsIconic(ApplicationHWnd))return;
  updateAverageFPS();rva00043FB9();
  if(debugDisplayCallback==StatDebugDisplay)rva0004826C();
- else if(debugDisplayCallback==Rva00043D69Callback)rva0004B31C();
- else if(debugDisplayCallback==Rva00043D96Callback)rva00049271();
- else if(debugDisplayCallback==Rva00043D3CCallback)rva0004AA4A();
+ else if(debugDisplayCallback==Rva00043D69Callback)gatherAnimationDebuggingInfo();
+ else if(debugDisplayCallback==Rva00043D96Callback)W3DDisplay::gatherNetworkStats();
+ else if(debugDisplayCallback==Rva00043D3CCallback)gatherSkirmishAIStats();
  bool freezeTime=!TheGameClient->active;
  W3DView*primaryW3DView=getFirstView();
  if(displayLastFrame>TheGameClient->getFrame())displayLastFrame=TheGameClient->getFrame();
@@ -249,9 +253,9 @@ void W3DDisplay::draw(){
    int imageArea=height*width;
    if(!TheGlobalData->panoramaIndividual)image=new char[TheGlobalData->panoramaCount*imageArea*3];
    for(;i<TheGlobalData->panoramaCount;++i){
-    int panCount=TheGlobalData->panoramaCount;int panCopy=panCount;
-    *(volatile float *)&TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/panCount;
-    *(volatile bool *)&TheGlobalData->panoramaLast=(i==TheGlobalData->panoramaCount-1);
+    int panCount=TheGlobalData->panoramaCount;
+    TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/panCount;
+    TheGlobalData->panoramaLast=(i==TheGlobalData->panoramaCount-1);
     if(!rva0004A462(now))freezeTime=false;
     { int panSaved=TheGlobalData->panoramaCount;
     if(TheGlobalData->panoramaIndividual){AsciiString name;name.format("sshot_panorama_%.2d_%.4d",i,captureIndex);takeScreenShot(name.str());}
@@ -260,7 +264,7 @@ void W3DDisplay::draw(){
    if(!TheGlobalData->panoramaIndividual){rva00047BC0(image,TheGlobalData->panoramaCount*width,height,0);delete[]image;}
    ++captureIndex;--capturePending;TheGlobalData->panoramaMode=false;
   }else if(!rva0004A462(now))break;
- }while(freezeTime&&!TheTacticalView->isCameraMovementFinished()&&!TheGameLogic->isGamePaused());
- if(capturePending>0&&TheGlobalData->panoramaCount==0&&TheGlobalData->begin==TheGlobalData->end){--capturePending;takeScreenShot(0);}
- Rva00079985();
+ }while(freezeTime&&!TheTacticalView->isCameraMovementFinished()&&TheGameLogic->isGamePaused());
+ if(capturePending>0&&TheGlobalData->panoramaCount==0&&TheGlobalData->scripts.empty()){--capturePending;takeScreenShot(0);}
+ Rva00079985Clear();
 }

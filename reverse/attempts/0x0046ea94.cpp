@@ -1,9 +1,12 @@
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
+// partial score=0.919 date=2026-10-19
+// ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.878 date=2026-10-17
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.836 date=2026-10-15
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.766 date=2026-10-14
+// cl: /I. /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 //
@@ -536,7 +539,7 @@ enum KindOfType
 };
 template <int N> class BitFlags
 {
-	unsigned int m_bits[7];
+	unsigned int m_bits[(N + 31) / 32];
 public:
 	bool any() const;
 };
@@ -559,10 +562,7 @@ public:
 	bool test110(int bit) const { return ((m_110 >> bit) & 1) != 0; }
 	const Coord3D *getPosition() const { return &m_position; }
 	bool isEquivalentTemplate(const ThingTemplate *t) const { return m_template->isEquivalentTo(t); }
-	__declspec(noinline) unsigned int isKindOf(int kind) const
-	{
-		return m_template->m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
-	}
+	bool isKindOf(KindOfType kind) const;
 	unsigned char m_pad000[0x04];
 	const ThingTemplate *m_template; // +0x04
 	unsigned char m_pad008[0x38 - 0x08];
@@ -584,7 +584,7 @@ public:
 	};
 	unsigned char m_pad114[0x1C8 - 0x114];
 	BitFlags<11> m_disabledMask; // +0x1C8
-	unsigned char m_pad1E4[0x244 - 0x1E4];
+	unsigned char m_pad1CC[0x244 - 0x1CC];
 	Rva004708BCBehavior **m_244; // +0x244
 	unsigned char m_pad248[0x250 - 0x248];
 	Rva0046A2ECContain *m_250; // +0x250
@@ -957,17 +957,20 @@ public:
 class Rva0046BB38Iface11C : public Rva0046BB38Iface6
 {
 public:
+	// Farm interface fields retained as disabled evidence; owner members provide these offsets.
+#if 0
 	unsigned char m_pad11C[0x148 - 0x11C];
 	int m_148; // +0x148 (interface m_264 equivalent)
 	int m_14C; // +0x14C
 	unsigned char m_pad150_pad[0x150 - 0x14C];
 	int m_150; // +0x150 (interface m_26C equivalent)
 	unsigned char m_pad154[0x164 - 0x154];
+#endif
 	virtual int rva0046979B() = 0; virtual void assignSpotToUnit(Object *obj) = 0; virtual void rva00469F2F(Object *obj) = 0; virtual void gap13() = 0;
 	virtual void removeMemberFromHorde(Object *obj) = 0; virtual void gap15() = 0; virtual void performReform() = 0; virtual void rva0046FE99(_STL::list<Object *> &out) = 0;
 	virtual void gap18() = 0; virtual Object *rva0046CB2C() = 0; virtual Object *rva0046CC09() = 0; virtual Object *rva0046CBCA() = 0;
 	virtual void *rva004696CD() = 0; virtual bool rva0046CDC9() = 0; virtual void rva004696E5() = 0; virtual bool rva0046CCEF(const ThingTemplate *tmpl) = 0;
-	virtual void rva00472D43(void *thingTemplate) = 0; virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup) = 0; virtual void gap28() = 0; virtual void gap29() = 0;
+	virtual void rva00472D43(void *thingTemplate) = 0; virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup) = 0; virtual bool rva0046EA94(Object *obj) = 0; virtual void gap29() = 0;
 	virtual void rva00473799(const _STL::list<Object *> &items) = 0; virtual void rva00472A24(const Coord3D *pos, CommandSourceType cmdSource, int a3) = 0; virtual void gap32() = 0; virtual void rva00472C8E(Object *obj, CommandSourceType cmdSource) = 0;
 	virtual bool rva00468D11() = 0; virtual bool rva00468D2C() = 0; virtual bool rva0046BB6F(int *out, unsigned int frame) = 0; virtual bool rva0046A2A7() = 0;
 	virtual void gap38() = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
@@ -1375,33 +1378,32 @@ public:
 	virtual float rva00468B5B(float value);
 	virtual void rva004690D0(int value);
 };
+// Retail calls the bool KindOfType overload and enters through interface slot 28.
+// The inherited volatile read touches only the initialized private self local.
 bool HordeContain::rva0046EA94(Object *obj)
 {
 	if (!obj || obj->isEffectivelyDead())
 		return false;
 	if (obj->testStatus((ObjectStatusTypes)0x3B) || obj->testStatus((ObjectStatusTypes)0x3E))
 		return false;
-	Rva0046BB38Iface11C *ifc = (Rva0046BB38Iface11C *)(void *)this;
-	Object *self = *(Object * volatile *)((char *)ifc - 0x114);
+	Object *self = m_object;
 	if (self->testStatus((ObjectStatusTypes)0x3E))
 		return false;
-	if (obj->isDisabled() || (1 ? (unsigned char)obj->isKindOf((KindOfType)0xDA) : (unsigned char)obj->isKindOf((KindOfType)0xDA)))
+	if (obj->isDisabled() || obj->isKindOf((KindOfType)0xDA))
 		return false;
 	Object *other = obj->rva002931F5(false);
 	if (self->getControllingPlayer() != obj->getControllingPlayer())
 		return false;
 	if (!other)
 	{
-		const HordeContainModuleDataFields *data = ((HordeContain *)((char *)((Rva0046BB38Iface11C *)(void *)this) - 0x11C))->fields();
+		const HordeContainModuleDataFields *data = fields();
 		const Rva00469851Names *n1 = &data->m_1F4;
 		const Rva00469851Names *n2 = &data->m_218;
-		int firstIndex = (int)m_264;
-		if (rva0046970D(obj, *(int *)((char *)this + 0x148), n1, false))
+		if (rva0046970D(obj, (int)m_264, n1, false))
 			return true;
-		if (rva0046970D(obj, *(int *)((char *)this + 0x150), n2, false) && self->m_264->m_24 <= 1)
+		if (rva0046970D(obj, m_26C, n2, false) && m_object->m_264->m_24 <= 1)
 			return true;
-		const ThingTemplate *tmpl = obj->m_template;
-		if (!data->m_238 || !(tmpl->m_109 & 8) || data->m_23C.compare(tmpl->m_64) != 0)
+		if (!data->m_238 || !(obj->m_template->m_109 & 8) || data->m_23C.compare(obj->m_template->m_64) != 0)
 			return false;
 		return true;
 	}

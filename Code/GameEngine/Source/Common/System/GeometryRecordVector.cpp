@@ -30,6 +30,8 @@ struct GeometryRecord
 	int m_second;
 	int m_third;
 	AsciiString m_name;
+public:
+	GeometryRecord &operator=(const GeometryRecord &);
 };
 
 // The malloc-backed retail allocator release is rowed in GeometryInfoDtor.cpp.

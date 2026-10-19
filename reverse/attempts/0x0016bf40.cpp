@@ -1,10 +1,10 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
+// partial score=0.6630094043887147 date=2026-10-19
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.301 date=2026-10-17
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.447 date=2026-10-09
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ZH meshgeometry.cpp get_deformed_vertices guides the run-based transforms.
 // Target extends it with two bind-position streams, planar bone/percent-weight
 // arrays, a precomputed run list and compact quaternion transforms.
@@ -21,9 +21,9 @@ class HTreeClass {public:char fields00[0x14];BfmeSkinPivot *pivots;};
 template<class T> struct BfmeSkinBuffer {char fields00[0xc];T *data;};
 template<bool translate> static __forceinline void skinRotate(const BfmeSkinTransform &t,const Vector3 &v,Vector3 &out) {
  const Quaternion &q=t.Rotation;
- float x=(v.Z*q.Y-v.Y*q.Z)+v.X*q.W;
- float y=q.W*v.Y-(q.X*v.Z-v.X*q.Z);
  float z=(v.Y*q.X-v.X*q.Y)+v.Z*q.W;
+ float y=q.W*v.Y-(q.X*v.Z-v.X*q.Z);
+ float x=(v.Z*q.Y-v.Y*q.Z)+v.X*q.W;
  float w=-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
  if(translate) {
   out.X=(q.Y*z-y*q.Z)+(x*q.W-w*q.X)+t.Translation.X;
@@ -67,21 +67,21 @@ private:
  BfmeSkinBuffer<Vector3> *vertices[2],*normals[2];
  char fields40[0x10];BfmeSkinBuffer<unsigned short> *bones,*runs;
 };
+// Destination pointers MUST point to arrays large enough to hold all vertices
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z present-unmatched
 void MeshModelClass::get_deformed_vertices(Vector3 *dst,Vector3 *dstNorm,const HTreeClass *tree) {
  if(!runs)return;
- _ReadWriteBarrier();
  if(!bones)return;
  if(!tree)return;
  int streams=1;
  if(vertices[1])streams=2;
  Vector3 *source[2],*normal[2];
  for(int k=0;k<streams;++k) {
-  source[k]=vertices[k]?vertices[k]->data:0;
-  normal[k]=normals[k]?normals[k]->data:0;
+  if(vertices[k])source[k]=vertices[k]->data;else source[k]=0;
+  if(normals[k])normal[k]=normals[k]->data;else normal[k]=0;
  }
- unsigned short *bone=bones->data;
  unsigned short *run=runs->data;
+ unsigned short *bone=bones->data;
  Rva00129510Inc();
  int total=vertexCount;
  int remaining=total;
@@ -95,22 +95,29 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst,Vector3 *dstNorm,const H
    Matrix3D a,b;
    skinMatrix(tree->pivots[first].Current,a);
    skinMatrix(tree->pivots[second].Current,b);
-   skinScale(a,firstWeight);skinScale(b,secondWeight);
+   a[0]*=firstWeight;b[0]*=secondWeight;a[1]*=firstWeight;b[1]*=secondWeight;a[2]*=firstWeight;b[2]*=secondWeight;
+   if(count) {
    Vector3 *v=source[0],*w=source[1],*out=dst;
    int n=count;
-   if(n)do {skinBlend(a,*v++,b,*w++,*out++);}while(--n);
+   do {skinBlend(a,*v++,b,*w++,*out++);}while(--n);
    v=normal[0];w=normal[1];out=dstNorm;n=count;
-   if(n)do {skinBlendNormals(a,*v++,b,*w++,*out++);}while(--n);
+   do {skinBlendNormals(a,*v++,b,*w++,*out++);}while(--n);
+   }
   } else {
    const BfmeSkinTransform &t=tree->pivots[first].Current;
    Vector3 *v=source[0],*out=dst;
    int n=count;
-   if(n)do {skinRotate<true>(t,*v++,*out++);}while(--n);
+   if(n) {
+   do {skinRotate<true>(t,*v++,*out++);}while(--n);
    v=normal[0];out=dstNorm;n=count;
-   if(n)do {skinRotate<false>(t,*v++,*out++);}while(--n);
+   do {skinRotate<false>(t,*v++,*out++);}while(--n);
+   }
   }
   bone+=count;
   for(int k=0;k<streams;++k) {source[k]+=count;normal[k]+=count;}
   dst+=count;dstNorm+=count;
  }
 }
+
+// Corresponding matrix rows are weighted together before transforming each run.
+// Positions include translation; normal vectors use only the rotation terms.

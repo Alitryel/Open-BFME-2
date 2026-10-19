@@ -42,6 +42,8 @@
 // (W8 alone) eax/edx swap after that point; parallel bank alone (short + split t0/t1 + index?index:index +
 // `Count - 1 == index`) is 446 B. Next: find the int-typed source that keeps this copy shape (a 32-bit
 // value the compiler must copy out of eax, as the short probe forces) - shared with slots 3/5.
+// Round 2026-10-19: aggregate result copies, aggregate search returns, /Ob2, and const-ref results
+// retain the int copy wall. Bank body unchanged; see reverse/attempt_support/0x001b3159-20261019.md.
 class Vector3 { public: float X, Y, Z; };
 class Quaternion { public: float X, Y, Z, W; };
 class ChunkLoadClass;

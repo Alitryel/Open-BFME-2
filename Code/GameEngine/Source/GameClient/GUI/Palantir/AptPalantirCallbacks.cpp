@@ -350,13 +350,14 @@ public:
 	void OnPlanningModeUILoaded(const char *path);
 	void PalantirMinLOD(int query, char *result, bool skip);
 
-	// Bound under the button clips' paths
+	// Callbacks are bound under the button clips' paths
 	// ("PalantirButtons/Buttons/PlayerPowerCap/",
 	// "ObserverStuff/PriorPlayerBttn", "messengerButton/") rather than
-	// method names, so they keep their addresses.
+	// method names. WB separately names the two HandleOver methods below;
+	// keep AptPalantir as the existing target-bound class view.
 	void rva002D3D61(const char *unused);
-	void rva002D4DD0(const char *unused);
-	void rva002D4E71(const char *unused);
+	void HandleOverSpellStoreButton(const char *unused);
+	void HandleOverObjectivesButton(const char *unused);
 	void rva002D3E29(const char *unused);
 	void rva002D3E84(const char *unused);
 
@@ -432,10 +433,11 @@ void AptPalantir::OnBttnSpellStore(const char *unused)
 }
 
 // Retail 0x002D4DD0, 161 bytes: bound under the clip path
-// "PalantirButtons/Buttons/PlayerMagic/ButtonClip/", so it keeps its
-// address. Runs the side's player experience command button (evil when
-// +0x7E has 4).
-void AptPalantir::rva002D4DD0(const char *unused)
+// "PalantirButtons/Buttons/PlayerMagic/ButtonClip/". WB F45B80 names
+// Palantir::Impl::HandleOverSpellStoreButton; the branch on +0x7E bit 2,
+// both experience-button strings and command dispatch agree with retail.
+// Keep the target-bound AptPalantir class view. The evil side has +0x7E bit 2 set.
+void AptPalantir::HandleOverSpellStoreButton(const char *unused)
 {
 	const AsciiString *name;
 	if (m_7e & 4)
@@ -454,10 +456,12 @@ void AptPalantir::rva002D4DD0(const char *unused)
 }
 
 // Retail 0x002D4E71, 188 bytes: bound under the clip path
-// "PalantirButtons/Buttons/Objectives/ButtonClip/", so it keeps its
-// address. Runs the objectives command button when TheGameLogic's
+// "PalantirButtons/Buttons/Objectives/ButtonClip/". WB F45CF0 names
+// Palantir::Impl::HandleOverObjectivesButton; the global gate, mode value,
+// both strings and dispatch agree with retail. Keep the target-bound
+// AptPalantir class view. Runs the objectives command when TheGameLogic's
 // 0x00200084 holds or the game mode is 6, else the player status one.
-void AptPalantir::rva002D4E71(const char *unused)
+void AptPalantir::HandleOverObjectivesButton(const char *unused)
 {
 	const AsciiString *name;
 	if (TheGameLogic && (((Rva0023C6A4 *)TheGameLogic)->rva00200084()

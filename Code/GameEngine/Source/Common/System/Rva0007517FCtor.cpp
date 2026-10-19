@@ -88,16 +88,6 @@ private:
 	int m_tail[5];
 };
 
-Rva0007517F::Rva0007517F()
-	: m_1c(0)
-	, m_20(9)
-	, m_24(13)
-	, m_28(0)
-{
-	g_00DE1ED0 = this;
-	for (int i = 0; i < 5; ++i)
-		m_tail[i] = 0;
-}
 
 void Rva0007517F::rva00075016(float const *p, float f, int a, int b, int c)
 {

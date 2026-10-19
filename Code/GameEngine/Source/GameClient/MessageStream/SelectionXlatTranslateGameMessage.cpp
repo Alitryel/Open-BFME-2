@@ -173,11 +173,7 @@ class Object : public Thing, public Snapshot
  }
  void updateObjValuesFromMapProperties(Dict* properties);
 ///< Brings in properties set in the editor.
- ObjectID getID() const 
- {
-  return m_id;
-  
- }
+ ObjectID getID();
 ///< this object's unique ID
  void friend_bindToDrawable( Drawable *draw );
 ///< set drawable association. for use ONLY by GameLogic!
@@ -461,11 +457,7 @@ class Object : public Thing, public Snapshot
  }
  void getHealthBoxPosition(Coord3D& pos) const;
  Bool getHealthBoxDimensions(Real &healthBoxHeight, Real &healthBoxWidth) const;
- inline Bool isEffectivelyDead() const 
- {
-  return (m_privateStatus & EFFECTIVELY_DEAD) != 0;
-  
- }
+ Bool isEffectivelyDead();
  void setEffectivelyDead(Bool dead);
  void markSingleUseCommandUsed() 
  {

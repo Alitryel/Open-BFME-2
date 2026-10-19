@@ -446,8 +446,8 @@ public:
 	void OnPlanningModeUIUnloaded(const char *unused);
 	void PalantirMinLOD(int query, char *result, bool skip);
 	void rva002D3D61(const char *unused);
-	void rva002D4DD0(const char *unused);
-	void rva002D4E71(const char *unused);
+	void HandleOverSpellStoreButton(const char *unused);
+	void HandleOverObjectivesButton(const char *unused);
 	void rva002D3E29(const char *unused);
 	void rva002D3E84(const char *unused);
 	void ClipRadar(const PalantirPoint *, const PalantirPoint *, void *, void *);
@@ -602,9 +602,9 @@ __declspec(noinline) inline AptPalantir::AptPalantir(Rva002D3573 *owner, int lev
 	}
 	APT_COMMAND("AptPalantir::OnInitialized", &AptPalantir::OnInitialized)
 	APT_COMMAND("AptPalantir::OnClosed", &AptPalantir::OnClosed)
-	APT_OVER_BUTTON("PalantirButtons/Buttons/PlayerMagic/ButtonClip/", reinterpret_cast<FunctorMethod>(&AptPalantir::rva002D4DD0))
+	APT_OVER_BUTTON("PalantirButtons/Buttons/PlayerMagic/ButtonClip/", reinterpret_cast<FunctorMethod>(&AptPalantir::HandleOverSpellStoreButton))
 	APT_OVER_BUTTON("PalantirButtons/Buttons/Options", StdcallMethod(&bfmeApplyYU))
-	APT_OVER_BUTTON("PalantirButtons/Buttons/Objectives/ButtonClip/", reinterpret_cast<FunctorMethod>(&AptPalantir::rva002D4E71))
+	APT_OVER_BUTTON("PalantirButtons/Buttons/Objectives/ButtonClip/", reinterpret_cast<FunctorMethod>(&AptPalantir::HandleOverObjectivesButton))
 	APT_OVER_BUTTON("PalantirButtons/Buttons/PlayerPowerCap/", reinterpret_cast<FunctorMethod>(&AptPalantir::rva002D3D61))
 	APT_OVER_BUTTON("ObserverStuff/NextPlayerBttn", StdcallMethod(&rva0058C100ObserveNext))
 	APT_OVER_BUTTON("ObserverStuff/PriorPlayerBttn", reinterpret_cast<FunctorMethod>(&AptPalantir::rva002D3E29))

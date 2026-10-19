@@ -76,6 +76,17 @@ enum LocomotorSetType
 
 typedef _STL::vector<const LocomotorTemplate *> BfmeLocomotorTemplateVector;
 
+// The retail map helpers are provided out of line. Avoid competing tree copies.
+typedef _STL::pair<const LocomotorSetType, BfmeLocomotorTemplateVector> BfmeRetailLocomotorValue;
+typedef _STL::_Rb_tree<LocomotorSetType, BfmeRetailLocomotorValue,
+    _STL::_Select1st<BfmeRetailLocomotorValue>, _STL::less<LocomotorSetType>,
+    _STL::allocator<BfmeRetailLocomotorValue> > BfmeRetailLocomotorTree;
+namespace _STL {
+template <> BfmeRetailLocomotorTree::_Link_type BfmeRetailLocomotorTree::_M_copy(
+    BfmeRetailLocomotorTree::_Link_type, BfmeRetailLocomotorTree::_Link_type);
+template <> BfmeRetailLocomotorTree& BfmeRetailLocomotorTree::operator=(const BfmeRetailLocomotorTree&);
+}
+
 typedef _STL::map<LocomotorSetType, BfmeLocomotorTemplateVector, _STL::less<LocomotorSetType>, _STL::allocator<_STL::pair<const LocomotorSetType, BfmeLocomotorTemplateVector> > > BfmeLocomotorSetMap;
 
 template<> BfmeLocomotorTemplateVector& BfmeLocomotorSetMap::operator[](const LocomotorSetType& __k)

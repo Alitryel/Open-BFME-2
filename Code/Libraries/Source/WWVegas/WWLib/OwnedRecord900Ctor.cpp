@@ -46,6 +46,8 @@ public:
 	Rva00254FE4Member();
 private:
 	VoiceSlot900 m_slots[56];
+public:
+	~Rva00254FE4Member();
 };
 
 struct BfmePod8

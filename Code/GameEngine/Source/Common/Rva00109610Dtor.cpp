@@ -7,7 +7,13 @@
 // rowed ??_GBfmeShadowBufferOwnerBase 0x000EFAD2). W3DProjectedShadow is the
 // sibling class with vtable 0x007CF9F4 (Rva001095B2Dtor.cpp); 0x00108951 is
 // rowed under its name, so the call goes through a vtable-free view.
+// The base's deleting destructor must keep the out-of-line call to the base
+// teardown that the rowed copy has (the owner unit compiles it /Ob0); with /O1
+// this TU inlined the empty teardown into the copy and the census held the
+// differing COMDAT against the unit.
+#pragma inline_depth(0)
 #include "../../../GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeShadowPrefix.h"
+#pragma inline_depth()
 class W3DProjectedShadow
 {
 public:

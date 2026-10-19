@@ -1,5 +1,6 @@
 // cl: /O1
-// ??0Rva0040CB11Entry@@QAE@HABVRva004F6093Holder@@@Z @0x0040CB11 27B
+// The two-argument ctor at 0x0040CB11 is rowed in Rva0040ECCF.cpp,
+// whose caller already emits the byte-exact inline definition.
 // Entry ctor for sorted vector: int key at +0, Holder value at +4 via copy ctor.
 // Evidence: 1 caller at 0x0040ED06; callee copy ctor 0x004F6093 now rowed; shared 8-byte entry layout with twin getters and binary search.
 class Rva004F6093Holder
@@ -17,10 +18,6 @@ private:
 	int m_first;
 	Rva004F6093Holder m_second;
 };
-
-Rva0040CB11Entry::Rva0040CB11Entry(int key, const Rva004F6093Holder &val) : m_first(key), m_second(val)
-{
-}
 
 inline Rva0040CB11Entry::Rva0040CB11Entry(const Rva0040CB11Entry &other) : m_first(other.m_first), m_second(other.m_second)
 {

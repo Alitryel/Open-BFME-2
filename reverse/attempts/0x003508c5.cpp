@@ -1,10 +1,10 @@
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
+// partial score=0.8125 date=2026-10-19
+// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.816 date=2026-10-17
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.817718347601175 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // NEAR draft (bank): register allocation swaps ESI/EDI against retail; move to
 // Code/GameEngine/Source/GameLogic/AI/ and restore the ../../Common include paths.
 //
@@ -27,6 +27,7 @@ extern "C" void _ReadWriteBarrier(void);
 // object 0x002931BA names) must still be in range; a victim rowed
 // Rva0034311ECheck fails; and the argument stops before the aim test,
 // which also passes inside half the locomotor turn rate.
+// Snapshot the turn limit across fabs and the source ID before targeter calls.
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 typedef bool Bool;
@@ -172,7 +173,7 @@ class WeaponTemplate
  unsigned char m_pad00[0x2C];
  Real m_aimDelta;
 // +0x2C
- volatile Real m_aimOffset;
+ Real m_aimOffset;
 // +0x30
  
 }
@@ -371,6 +372,7 @@ class AIAttackAimAtTargetState : public State
 StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
 
 {
+ // contained by AIAttackState, so no separate timer
  Object *source = getMachineOwner();
  AIUpdateInterface *sourceAI = source->getAI();
  if (!sourceAI)
@@ -382,6 +384,7 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
  if (m_isAttackingObject)
  
  {
+  // can't aim at dead things
   if (!victim || victim->isEffectivelyDead() || victim->testStatus(OBJECT_STATUS_32))
   return STATE_FAILURE;
   if (victim->rva002943B2(source->getControllingPlayer()))
@@ -398,16 +401,24 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
   if (m_isAttackingObject)
   sourceAI->setTurretTargetObject(tur, victim, m_isForceAttacking);
   else
-  _ReadWriteBarrier();
   sourceAI->setTurretTargetPosition(tur, getMachineGoalPosition());
-  if (sourceAI->getTurretTurnRate(tur) != 0.0f)
-  return STATE_CONTINUE;
+  // if we have a turret, but it is incapable of turning, turn ourself.
+  // (gotta do this for units like the Comanche, which have fake "turrets"
+  // solely to allow for attacking-on-the-move...)
+  if (sourceAI->getTurretTurnRate(tur) != 0.0f) {
+   // The Body can never return Success if the weapon is on the turret, or else we end
+   // up shooting the current weapon (which is on the turret) in the wrong direction.
+   // We always say Continue, so the Turret can do its own Aiming state.
+   return STATE_CONTINUE;
+  }
+  // else fall thru!
   
  }
+ // no else here!
+ // about 2 degrees. (getRelativeAngle2D is current only accurate to about 1.25 degrees)
  const Real REL_THRESH = 0.035f;
  const Real DISABLED_THRESH = 0.3f;
  Real aimDelta = weapon ? weapon->getTemplate()->m_aimDelta : 0.0f;
- *(volatile Real*)&aimDelta = aimDelta;
  if (aimDelta < REL_THRESH)
  aimDelta = REL_THRESH;
  Real turnRate = 0.0f;
@@ -419,9 +430,10 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
  return STATE_SUCCESS;
  Coord3D goalPos;
  const Coord3D *vp;
- goalPos.x = getMachineGoalPosition()->x;
- goalPos.y = getMachineGoalPosition()->y;
- goalPos.z = getMachineGoalPosition()->z;
+ const Coord3D *goalSource = getMachineGoalPosition();
+ goalPos.x = goalSource->x;
+ goalPos.y = goalSource->y;
+ goalPos.z = goalSource->z;
  if (m_isAttackingObject)
  
  {
@@ -436,19 +448,24 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
   
  }
  Real relAngle = source->GetRelativeAngle(&goalPos);
- if (source->getTemplate()->m_53c < 360.0f)
+ const Real &turnLimit = source->getTemplate()->m_53c;
+ if (turnLimit < 360.0f)
  
  {
   Bool turned = false;
-  if (fabs(relAngle) > source->getTemplate()->m_53c * 3.141f / 360.0f)
+  Real turnLimitValue = turnLimit;
+  if (fabs(relAngle) > turnLimitValue * 3.141f / 360.0f)
   turned = true;
   sourceAI->chooseLocomotorSet(turned ? 15 : 0);
   if (turned)
   source->m_1c0 = source->getOrientation();
   
  }
- if (weapon && weapon->getTemplate()->m_aimOffset > 0.0f)
- relAngle = normalizeAngle(relAngle - weapon->getTemplate()->m_aimOffset);
+ if (weapon) {
+  Real aimOffset = weapon->getTemplate()->m_aimOffset;
+  if (aimOffset > 0.0f)
+   relAngle = normalizeAngle(relAngle - aimOffset);
+ }
  if (m_canTurnInPlace)
  
  {
@@ -484,9 +501,12 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
    shooter = source;
    
   }
+  // Are we still in range?
   const Weapon *shooterWeapon = shooter->getCurrentWeapon();
   if (!shooterWeapon)
   return STATE_FAILURE;
+  // NO BAD WRONG!!! How can this be the one spot to convert an Object to a center pos?  We have
+  // an attack object check for a reason!  The center and the edge can be very far apart.
   if (victim)
   
   {
@@ -505,9 +525,13 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
  if (fabs(relAngle) < aimDelta || fabs(relAngle) < turnRate * 0.5f)
  
  {
+  ObjectID sourceID = source->getID();
   AIUpdateInterface *victimAI = victim ? victim->getAI() : 0;
+  // add ourself as a targeter BEFORE calling isTemporarilyPreventingAimSuccess().
+  // we do this every time thru, just in case we get into a squabble with our turret-ai
+  // over whether or not we are a targeter... (srj)
   if (victimAI)
-  victimAI->addTargeter(source->getID(), true);
+  victimAI->addTargeter(sourceID, true);
   if (victimAI && victimAI->isTemporarilyPreventingAimSuccess())
   return STATE_CONTINUE;
   return STATE_SUCCESS;

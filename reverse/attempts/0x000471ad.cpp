@@ -1,6 +1,8 @@
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
+// partial score=0.994 date=2026-10-19
+// ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 // partial score=0.99 date=2026-10-17
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
 // Bank state (size-exact 1474 B, 9 diff lines): <math.h> float tan overload
 // with tanf at the first site gives retail's pop placement and done flag
 // order; in-class render setters (+0 and +0x48, as in the BFME 1 twin
@@ -14,15 +16,104 @@
 // 0x000470D5 is still unmatched and unpinned.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-#include "BFME2ParticleTextureHandles.h"
+// (inlined from the scratch hcopy.h: handle view with the inline copy ctor)
+// BFME 2 one-pointer texture ownership views, established by the matched
+// particle texture loader, fallback getters and native release/copy providers.
+#ifndef BFME2_PARTICLE_TEXTURE_HANDLES_H
+#define BFME2_PARTICLE_TEXTURE_HANDLES_H
+class TextureClass
+{
+public:
+	virtual void slot00();
+	unsigned short m_refCount;
+	unsigned short m_pad06;
+	void Release_Ref();
+};
+
+// Inline acquisition has its own overload because this /O1 caller uses INC;
+// the ordinary out-of-line copy provider at 0x001494F0 uses ADD. Keep that
+// provider declaration while reproducing the verified inline caller expansion.
+template<class T> class RefCountPtr
+{
+public:
+    RefCountPtr() : Ptr(0) {}
+    RefCountPtr(const RefCountPtr &other);
+    enum InlineCopy { COPY_INLINE };
+    __forceinline RefCountPtr(const RefCountPtr &other, InlineCopy)
+        : Ptr(other.Ptr)
+    {
+        if (Ptr)
+            ++Ptr->m_refCount;
+    }
+    ~RefCountPtr();
+    T *Ptr;
+};
+
+class BFME2ParticleTextureHandle
+{
+public:
+	TextureClass *Ptr;
+	BFME2ParticleTextureHandle() : Ptr(0) {}
+	BFME2ParticleTextureHandle(const BFME2ParticleTextureHandle &o) : Ptr(o.Ptr) { if (Ptr) ++Ptr->m_refCount; }
+	BFME2ParticleTextureHandle(TextureClass *ptr);
+	enum InlineAcquire { ACQUIRE_INLINE };
+	__forceinline BFME2ParticleTextureHandle(TextureClass *ptr, InlineAcquire) : Ptr(ptr)
+	{
+		if (Ptr)
+			++Ptr->m_refCount;
+	}
+	~BFME2ParticleTextureHandle()
+	{
+		if (Ptr)
+			Ptr->Release_Ref();
+	}
+};
+
+#endif
+
 #include <math.h>
+#include "ascii_string.h"
+class ShroudFilter { public: int m_00, m_04, m_08, m_0C, m_10; };
+class ShroudTexture { public: ShroudFilter *getFilter(void); };
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *, int, int);
+	void rva00132FE9(bool flag);
+};
 const float ClockPi=3.14159265358979323846f;
 class Vector2{public:float X,Y;Vector2&operator=(const Vector2&v){X=v.X;Y=v.Y;return *this;}};
 class RectClass{public:float Left,Top,Right,Bottom;float Width()const{return Right-Left;}float Height()const{return Bottom-Top;}};
-class Image{public:char gap[0x14];RectClass uv;};
-BFME2ParticleTextureHandle Rva000470D5(const Image*);
+class Image
+{
+public:
+	char gap[0x8];
+	AsciiString m_filename;
+	char gap0C[0x8];
+	RectClass uv;
+	char gap24[0x8];
+	BFME2ParticleTextureHandle *m_rawTextureData;
+	unsigned int m_status;
+	unsigned int getStatus() const { return m_status; }
+	const AsciiString &getFilename() const { return m_filename; }
+};
+static BFME2ParticleTextureHandle Rva000470D5(const Image *image)
+{
+	if (image->getStatus() & 2) {
+		BFME2ParticleTextureHandle texture(*image->m_rawTextureData);
+		((ShroudTexture *)&texture)->getFilter()->m_10 = 1;
+		((ShroudTexture *)&texture)->getFilter()->m_0C = 1;
+		return texture;
+	} else {
+		BFME2ParticleTextureHandle texture(TextureAsset::Get(image->getFilename().str(), 1, 0));
+		((ShroudTexture *)&texture)->getFilter()->m_10 = 1;
+		((ShroudTexture *)&texture)->getFilter()->m_0C = 1;
+		((TextureAsset *)&texture)->rva00132FE9(true);
+		return texture;
+	}
+}
 class Rva000456C9{public:void rva000456C9(const RefCountPtr<TextureClass>*);};
-class Render2DClass{public:void set00(unsigned v){state=v;}void set48(bool b){active=b;}void Add_Tri(const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,unsigned long);unsigned state;char gap04[0x44];bool active;};
+class Render2DClass{public:void set00(unsigned v){state=v;}void set48(bool b){active=b;}void Add_Tri(const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,unsigned long) throw();unsigned state;char gap04[0x44];bool active;};
 class W3DDisplay{public:virtual void Rva000471AD(const Image*,float,float,float,float,float,unsigned long);char gap04[0x164];Render2DClass*render;};
 inline float clockPi(){return 3.14159265358979323846f;}
 void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,float bottom,float percent,unsigned long color)
@@ -123,5 +214,5 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
   endUV.X=(float)(centerUV.X+t*halfU*heightWidth);
  }
  render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
- if (0) throw 1;
+
 }

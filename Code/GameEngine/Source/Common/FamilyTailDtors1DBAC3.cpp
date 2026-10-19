@@ -1,8 +1,8 @@
 // cl: /Ireference/shims/bfme2_ascii /MD
 // Twelve derived destructors sharing one shape: clear the field at +0xC,
 // restore the class vtable, and tail-call the base destructor at 0x1DBAC3.
-// Owners are unidentified, so each keeps an address name; the base is
-// declared by its pinned destructor spelling. Deleting destructors follow.
+// Unidentified owners keep address names. The base uses the rowed
+// Rva001DBAA4 identity and its proven 16-byte layout; deleting dtors follow.
 // vslot 0x0035DD9C (?Rva0035DD9C@MainMenuMediumScaleUpTransition@@UAEXXZ, 33B, slot 3 offset 0xC
 // of vtable 0x00816574): hide windows at +0xC and +0x44 via rowed winHide
 // 0x00313C64; clears +0x8/+0x9. Evidence: vtable 0x00816574.
@@ -19,7 +19,21 @@
 // Evidence: donor GameWindowTransitionsStyles plus string Gradient plus
 // vtable 0x008165F0 slot 1 plus winGetSize/Position rows.
 
-class Rva001DBAC3Base { public: virtual ~Rva001DBAC3Base(); };
+// Same base view as Rva001DBAA4Ctor.cpp: native constructor 1DBAA4
+// initializes +4/+8/+9/+A/+C and the derived virtuals use +C as a window.
+class GameWindow;
+
+class Rva001DBAA4
+{
+public:
+    virtual ~Rva001DBAA4();
+    Rva001DBAA4();
+    int m_4;
+    bool m_8;
+    bool m_9;
+    bool m_A;
+    GameWindow *m_C; // +0x0C: shared window slot, used by the derived transitions.
+};
 
 class GameWindow
 {
@@ -29,18 +43,18 @@ public:
 	int winGetScreenPosition(int *x, int *y);
 };
 
-class Rva0035D47B : public Rva001DBAC3Base { public: virtual ~Rva0035D47B(); int m_pad[2]; int m_field; };
-Rva0035D47B::~Rva0035D47B() { m_field = 0; }
+class Rva0035D47B : public Rva001DBAA4 { public: virtual ~Rva0035D47B(); };
+Rva0035D47B::~Rva0035D47B() { m_C = 0; }
 void famgenDelete(Rva0035D47B *p) { delete p; }
 
-class ScoreScaleUpTransition : public Rva001DBAC3Base { public: virtual ~ScoreScaleUpTransition(); int m_pad[2]; int m_field; };
-ScoreScaleUpTransition::~ScoreScaleUpTransition() { m_field = 0; }
+class ScoreScaleUpTransition : public Rva001DBAA4 { public: virtual ~ScoreScaleUpTransition(); };
+ScoreScaleUpTransition::~ScoreScaleUpTransition() { m_C = 0; }
 void famgenDelete(ScoreScaleUpTransition *p) { delete p; }
 
-class Rva0035DA01 : public Rva001DBAC3Base { public: virtual ~Rva0035DA01(); int m_pad[2]; int m_field; };
+class Rva0035DA01 : public Rva001DBAA4 { public: virtual ~Rva0035DA01(); };
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
-__declspec(noinline) inline Rva0035DA01::~Rva0035DA01() { m_field = 0; }
+__declspec(noinline) inline Rva0035DA01::~Rva0035DA01() { m_C = 0; }
 
 // ?bfmeAnchorRva0035DA01Dtor absent-from-retail
 void bfmeAnchorRva0035DA01Dtor(Rva0035DA01 *p)
@@ -49,11 +63,11 @@ void bfmeAnchorRva0035DA01Dtor(Rva0035DA01 *p)
 }
 void famgenDelete(Rva0035DA01 *p) { delete p; }
 
-class Rva0035D74A : public Rva001DBAC3Base { public: virtual ~Rva0035D74A(); int m_pad[2]; int m_field0C; int m_pad10[9]; int m_field34; };
-Rva0035D74A::~Rva0035D74A() { m_field0C = 0; m_field34 = 0; }
+class Rva0035D74A : public Rva001DBAA4 { public: virtual ~Rva0035D74A(); int m_pad10[9]; int m_field34; };
+Rva0035D74A::~Rva0035D74A() { m_C = 0; m_field34 = 0; }
 void famgenDelete(Rva0035D74A *p) { delete p; }
 
-class MainMenuMediumScaleUpTransition : public Rva001DBAC3Base
+class MainMenuMediumScaleUpTransition : public Rva001DBAA4
 {
 public:
 	virtual ~MainMenuMediumScaleUpTransition();
@@ -65,11 +79,6 @@ public:
 	virtual void slot6();
 	virtual void slot7();
 private:
-	char m_pad4[4];
-	bool m_8;
-	bool m_9;
-	char m_padA[2];
-	GameWindow *m_C;
 	int m_10;
 	int m_14;
 	char m_pad18[0x28 - 0x18];
@@ -120,7 +129,7 @@ void MainMenuMediumScaleUpTransition::update(int index)
 	m_28 = index;
 }
 
-class Rva0035E00F : public Rva001DBAC3Base
+class Rva0035E00F : public Rva001DBAA4
 {
 public:
 	virtual ~Rva0035E00F();
@@ -132,11 +141,6 @@ public:
 	virtual void slot6();
 	virtual void slot7();
 private:
-	char m_pad4[4];
-	bool m_8;
-	bool m_9;
-	char m_padA[2];
-	GameWindow *m_C;
 	int m_10;
 	int m_14;
 	char m_pad18[0x28 - 0x18];
@@ -177,12 +181,12 @@ void Rva0035E00F::Rva0035E0F7(int index)
 	m_28 = index;
 }
 
-class Rva0035E2E6 : public Rva001DBAC3Base { public: virtual ~Rva0035E2E6(); int m_pad[2]; int m_field; };
-Rva0035E2E6::~Rva0035E2E6() { m_field = 0; }
+class Rva0035E2E6 : public Rva001DBAA4 { public: virtual ~Rva0035E2E6(); };
+Rva0035E2E6::~Rva0035E2E6() { m_C = 0; }
 void famgenDelete(Rva0035E2E6 *p) { delete p; }
 
-class Rva0035E60B : public Rva001DBAC3Base { public: virtual ~Rva0035E60B(); int m_pad[2]; int m_field; };
-Rva0035E60B::~Rva0035E60B() { m_field = 0; }
+class Rva0035E60B : public Rva001DBAA4 { public: virtual ~Rva0035E60B(); };
+Rva0035E60B::~Rva0035E60B() { m_C = 0; }
 void famgenDelete(Rva0035E60B *p) { delete p; }
 
 // ?init@ButtonFlashTransition@@UAEXPAVGameWindow@@@Z @ 0x0035E97E (135B):
@@ -255,24 +259,24 @@ void ButtonFlashTransition::init(GameWindow *win)
 	m_gradient = TheMappedImageCollection->findImageByName(gradient);
 }
 
-class Rva0035EE66 : public Rva001DBAC3Base { public: virtual ~Rva0035EE66(); int m_pad[2]; int m_field; };
-Rva0035EE66::~Rva0035EE66() { m_field = 0; }
+class Rva0035EE66 : public Rva001DBAA4 { public: virtual ~Rva0035EE66(); };
+Rva0035EE66::~Rva0035EE66() { m_C = 0; }
 void famgenDelete(Rva0035EE66 *p) { delete p; }
 
-class Rva0035F1D0 : public Rva001DBAC3Base { public: virtual ~Rva0035F1D0(); int m_pad[2]; int m_field; };
-Rva0035F1D0::~Rva0035F1D0() { m_field = 0; }
+class Rva0035F1D0 : public Rva001DBAA4 { public: virtual ~Rva0035F1D0(); };
+Rva0035F1D0::~Rva0035F1D0() { m_C = 0; }
 void famgenDelete(Rva0035F1D0 *p) { delete p; }
 
-class Rva0035F4A6 : public Rva001DBAC3Base { public: virtual ~Rva0035F4A6(); int m_pad[2]; int m_field; };
-Rva0035F4A6::~Rva0035F4A6() { m_field = 0; }
+class Rva0035F4A6 : public Rva001DBAA4 { public: virtual ~Rva0035F4A6(); };
+Rva0035F4A6::~Rva0035F4A6() { m_C = 0; }
 void famgenDelete(Rva0035F4A6 *p) { delete p; }
 
-class Rva0035FA2A : public Rva001DBAC3Base { public: virtual ~Rva0035FA2A(); int m_pad[2]; int m_field; };
-Rva0035FA2A::~Rva0035FA2A() { m_field = 0; }
+class Rva0035FA2A : public Rva001DBAA4 { public: virtual ~Rva0035FA2A(); };
+Rva0035FA2A::~Rva0035FA2A() { m_C = 0; }
 void famgenDelete(Rva0035FA2A *p) { delete p; }
 
-class Rva0035FF76 : public Rva001DBAC3Base { public: virtual ~Rva0035FF76(); int m_pad[2]; int m_field; };
-Rva0035FF76::~Rva0035FF76() { m_field = 0; }
+class Rva0035FF76 : public Rva001DBAA4 { public: virtual ~Rva0035FF76(); };
+Rva0035FF76::~Rva0035FF76() { m_C = 0; }
 void famgenDelete(Rva0035FF76 *p) { delete p; }
 
 
@@ -290,7 +294,6 @@ void famgenDelete(Rva0035FF76 *p) { delete p; }
 // what the unit's matched code references or installs: the rowed function of
 // the vftable slot it occupies, or the function or datum the instruction
 // reaches, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:??1Rva001DBAC3Base@@UAE@XZ=??1Rva001DBAA4@@UAE@XZ")
 #pragma comment(linker, "/alternatename:?slot3@Rva0035E00F@@UAEXXZ=?rva0035D1BD@Rva0035D1BD@@QAEXXZ")
 #pragma comment(linker, "/alternatename:?slot4@MainMenuMediumScaleUpTransition@@UAEXXZ=?draw@MainMenuMediumScaleUpTransition@@UAEXXZ")
 #pragma comment(linker, "/alternatename:?slot4@Rva0035E00F@@UAEXXZ=?draw@MainMenuScaleUpTransition@@UAEXXZ")

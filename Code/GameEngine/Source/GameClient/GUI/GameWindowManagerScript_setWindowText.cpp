@@ -72,13 +72,15 @@ public:
 
 extern GameTextInterface *TheGameText;
 
+struct GameWindowEditData;
 class GameWindow
 {
 public:
 	UnsignedInt winGetStyle(void);
 	Int winSetText(UnicodeString newText);
 	Int winSetInstanceData(WinInstanceData *data);
-	Int getRva0031450A(void);
+	Int winSetWindowId(Int value);
+	GameWindowEditData *winGetEditData(void);
 };
 
 class WinInstanceData
@@ -96,12 +98,6 @@ struct GameWindowEditData
 	AsciiString inputCallbackString;
 	AsciiString tooltipCallbackString;
 	AsciiString drawCallbackString;
-};
-
-class Rva0031404A
-{
-public:
-	Int rva0031404A(Int value);	// rowed 0x0031404A
 };
 
 class GameWindowManager
@@ -189,8 +185,8 @@ static void setWindowText(GameWindow *window, AsciiString textLabel)
 // (type, id, data, record) with the record in EDI under MSVC's private static
 // convention, so the scaffold caller below keeps it emitted. All callees
 // rowed or pinned: peekWindow 0x00314EEE, strcmp import, manager slots
-// 0x88/0xEC, winSetInstanceData 0x0031495C, rva0031404A 0x0031404A,
-// getRva0031450A 0x0031450A, StringBase::set 0x000366F0, StringBase ctor
+// 0x88/0xEC, winSetInstanceData 0x0031495C, winSetWindowId 0x0031404A,
+// winGetEditData 0x0031450A, StringBase::set 0x000366F0, StringBase ctor
 // 0x000365F0, setWindowText 0x003161F2, createGadget pin 0x00316518.
 static GameWindow *createWindow(char *type, Int id, void *data, GadgetCreateView *record)
 {
@@ -204,7 +200,7 @@ static GameWindow *createWindow(char *type, Int id, void *data, GadgetCreateView
 		if (window)
 		{
 			record->instance->m_style |= 0x00000200;
-			((Rva0031404A *)window)->rva0031404A(id);
+			window->winSetWindowId(id);
 		}
 	}
 	else if (!strcmp(type, "TABPANE"))
@@ -214,19 +210,19 @@ static GameWindow *createWindow(char *type, Int id, void *data, GadgetCreateView
 		{
 			record->instance->m_style |= 0x00004000;
 			window->winSetInstanceData(record->instance);
-			((Rva0031404A *)window)->rva0031404A(id);
+			window->winSetWindowId(id);
 		}
 	}
 	else
 	{
 		window = createGadget(type, data, record, 0);
 		if (window)
-			((Rva0031404A *)window)->rva0031404A(id);
+			window->winSetWindowId(id);
 	}
 
 	if (window)
 	{
-		GameWindowEditData *editData = (GameWindowEditData *)window->getRva0031450A();
+		GameWindowEditData *editData = window->winGetEditData();
 		if (editData)
 		{
 			editData->systemCallbackString.setCopyInline(g_systemCallbackName);

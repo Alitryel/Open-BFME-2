@@ -1,4 +1,6 @@
 // ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
+// partial score=0.91 date=2026-10-19
+// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
 // partial score=0.9 date=2026-10-14
 // ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
 // partial score=0.85 date=2026-10-09
@@ -79,7 +81,7 @@ struct Coord3DDiff : public Coord3D
 };
 
 // The pinned free check at 0x003430A3 (attacker, candidate, weapon).
-bool Rva003430A3Check(void *attacker, Object *candidate, int weapon);
+bool rva003430A3(Object *attacker, Object *candidate, Weapon *weapon);
 
 template <int N> class Rva0046C7A4Slots : public Rva0046C7A4Slots<N - 1>
 {
@@ -180,7 +182,7 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 					Coord3D diff;
 					diff.x = pos->x;
 					diff.y = pos->y;
-					diff.z = (pos->z ? pos->z : pos->z);
+					diff.z = pos->z;
 					diff.x -= obj->getPosition()->x;
 					diff.y -= obj->getPosition()->y;
 					diff.z -= obj->getPosition()->z;
@@ -258,7 +260,7 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 				}
 				if (dist < bestDist)
 				{
-					if (attacker && weapon && !Rva003430A3Check(attacker, obj, (int)weapon))
+					if (attacker && weapon && !rva003430A3(attacker, obj, weapon))
 						continue;
 					best = obj;
 					bestDist = dist;
@@ -292,3 +294,5 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 // Vtable reads fixing nearby slots: 50->46BC30 51->46BD70 52->46BE0E
 // 63->4738B6 66->46F7FF 68->46D27A 69->46D2C3 70->46D372 99->4708BC.
 #endif
+// The ID-set distance reads z directly, matching the retail coordinate load.
+// The attack gate uses its row-owned name and pointer-typed declaration above.

@@ -233,22 +233,8 @@ private:
 	Rva0009990D m_threadLock;			// +0x80
 };
 
-GameResultsInterface *Rva0041AA6FCreateGameResults()
-{
-	return new Rva0041A644;
-}
 
-Rva0041A644::Rva0041A644() : m_requestCount(0), m_responseCount(0)
-{
-	for (int i = 0; i < 1; ++i)
-		m_workerThreads[i] = 0;
-	startThreads();
-}
 
-Rva0041A644::~Rva0041A644()
-{
-	endThreads();
-}
 
 void Rva0041A644::startThreads()
 {

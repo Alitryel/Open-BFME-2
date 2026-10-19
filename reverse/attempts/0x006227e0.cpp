@@ -1,4 +1,6 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
+// partial score=0.993 date=2026-10-19
+// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
 // partial score=0.979 date=2026-10-16
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
@@ -236,24 +238,27 @@ void Q1Receiver0134FAAC::refresh()
 				Q1ReceiverPendingPair value(entry->m_field10, Rva009EDBE0Value());
 				const_cast<Rva009EDBE0Value &>(value.second).m_entry = entry;
 				pending.insert(value);
-				m_deques78[3][i] = m_deques78[3][m_deques78[3].size() - 1];
-				m_deques78[3].pop_back();
+				Q1ReceiverQueue &q3 = m_deques78[3];
+				q3[i] = q3[q3.size() - 1];
+				q3.pop_back();
 				--i;
 			}
 			else if (q == 4)
 			{
 				entry->m_queue = 3;
 				m_field20 += (unsigned int)entry->slot38();
-				m_deques78[entry->m_queue].push_back(m_deques78[4][i]);
-				m_deques78[4][i] = m_deques78[4][m_deques78[4].size() - 1];
-				m_deques78[4].pop_back();
+				Q1ReceiverQueue &q4 = m_deques78[4];
+				m_deques78[entry->m_queue].push_back(q4[i]);
+				q4[i] = q4[q4.size() - 1];
+				q4.pop_back();
 				--i;
 			}
 			else if (q == 0)
 			{
 				entry->m_queue = 7;
-				m_deques78[0][i] = m_deques78[0][m_deques78[0].size() - 1];
-				m_deques78[0].pop_back();
+				Q1ReceiverQueue &q0 = m_deques78[0];
+				q0[i] = q0[q0.size() - 1];
+				q0.pop_back();
 				--i;
 			}
 		}
@@ -273,6 +278,7 @@ void Q1Receiver0134FAAC::refresh()
 	for (Q1ReceiverPending::iterator it = pending.begin(); it != pending.end(); ++it)
 		m_deques78[3].push_back(*(const int *)&it->second.m_entry);
 
+	Q1ReceiverQueue *queues = m_deques78;
 	for (int pass = 0; pass < 2; ++pass)
 	{
 		BfmeThingBVA keys;
@@ -306,10 +312,8 @@ void Q1Receiver0134FAAC::refresh()
 		}
 
 		if (pass == 0)
-			m_field1e0 = m_deques78[0].size() + (m_deques78[1].size() +
-				m_deques78[2].size());
+			m_field1e0 = queues[0].size() + queues[1].size() + queues[2].size();
 		else
-			m_field1e4 = m_deques78[0].size() + (m_deques78[1].size() +
-				m_deques78[2].size()) - m_field1e0;
+			m_field1e4 = queues[0].size() + queues[1].size() + queues[2].size() - m_field1e0;
 	}
 }

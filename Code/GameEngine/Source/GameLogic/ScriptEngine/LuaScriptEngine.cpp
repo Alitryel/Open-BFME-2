@@ -397,20 +397,6 @@ private:
 	// C8 is explicitly released by the dtor body; BC/A0 are automatic.
 	void *m_bufC8; void *m_endCC, *m_limitD0;
 };
-Rva00337AA8::~Rva00337AA8()
-{
-	if (m_lua0C != 0)
-	{
-		lua_close(m_lua0C);
-		m_lua0C = 0;
-	}
-	if (m_lua10 != 0)
-	{
-		lua_close(m_lua10);
-		m_lua10 = 0;
-	}
- if(m_bufC8) free(m_bufC8);
-}
 
 // Native337C8C..337CEA vslot9 resets Lua0C and four vector ranges.
 // Element spellings of A0/BC are borrowed from the already-owned full

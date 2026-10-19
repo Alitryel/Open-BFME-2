@@ -24,7 +24,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct Rva00501E3FElement
 {
 	unsigned int m_data[5];
-	~Rva00501E3FElement() {}
+	~Rva00501E3FElement();
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<Rva00501E3FElement>(Rva00501E3FElement *p) { typedef Rva00501E3FElement BfmeDestroyT; p->~BfmeDestroyT(); } }

@@ -66,7 +66,7 @@ private:
 struct Rva00257464
 {
 	__forceinline Rva00257464() {}
-	~Rva00257464() {}
+	~Rva00257464();
 	_STL::list<BfmePod32> m_list;
 };
 

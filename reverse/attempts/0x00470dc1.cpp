@@ -1,4 +1,6 @@
 // ?rva00470DC1@HordeContain@@UAEXXZ
+// partial score=0.85 date=2026-10-19
+// ?rva00470DC1@HordeContain@@UAEXXZ
 // partial score=0.8 date=2026-10-16
 // ?rva00470DC1@HordeContain@@UAEXXZ
 // FRAGMENT bank (home TU Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp
@@ -120,6 +122,9 @@
 // the +0x1A0 held slots (leader +0x2B0, module data +0x1F0 range) or the
 // +0x2B8 rally point; slot 36 then moves the member, standing when the
 // horde's AI is idle. The rowed 0x0046A024 refresh follows.
+// Apply the view patch above, then make Rva00470DC1Slot::m_count unsigned int.
+// Current evidence: reverse/attempt_support/0x00470dc1-20261019/README.md.
+struct HordeOffset3D : public Coord3D { HordeOffset3D(const Coord3D &p) { x=p.x; y=p.y; z=p.z; } };
 void HordeContain::rva00470DC1()
 {
 	Rva0046247DPair p;
@@ -146,10 +151,10 @@ void HordeContain::rva00470DC1()
 		Coord3D pos = slot7(obj, &angle);
 		if (rva0046F8F4())
 		{
-			Coord3D dir;
-			dir.x = pos.x - self->m_position.x;
-			dir.y = pos.y - self->m_position.y;
+			HordeOffset3D dir(self->m_position);
 			dir.z = 0.0f;
+			dir.x = pos.x - dir.x;
+			dir.y = pos.y - dir.y;
 			if (dir.y * dir.y + dir.x * dir.x == 0.0f)
 				angle = self->m_orientation;
 			else
@@ -211,20 +216,19 @@ void HordeContain::rva00470DC1()
 					Object *closest = ((Rva0046D946 *)(UpdateModule *)this)->rva0046D946(obj);
 					if (closest && ((Rva000CBA20 *)obj)->distSq((const Rva000CBA20Point *)closest->getPosition()) < 55.0f)
 					{
-						float dx = obj->m_position.x - attackerPos->x;
-						float dy = obj->m_position.y - attackerPos->y;
-						float dz = obj->m_position.z - attackerPos->z;
+						HordeOffset3D delta(obj->m_position);
+						delta -= *attackerPos;
 						Coord3D side;
-						side.x = 0.0f * dz - dy;
-						side.y = dx - 0.0f * dz;
-						side.z = 0.0f * dy - 0.0f * dx;
-						Coord3D toClosest = *closest->getPosition();
+						side.x = 0.0f * delta.z - delta.y;
+						side.y = delta.x - 0.0f * delta.z;
+						side.z = 0.0f * delta.y - 0.0f * delta.x;
+						HordeOffset3D toClosest = *closest->getPosition();
 						toClosest -= obj->m_position;
 						side.normalize();
 						float sign = (side.x * toClosest.x + side.z * toClosest.z + side.y * toClosest.y > 0.0f) ? -4 : 4;
-						pos.x += sign * side.x;
-						pos.y += side.y * sign;
-						pos.z += side.z * sign;
+						HordeOffset3D scaled(side);
+						scaled *= sign;
+						pos += scaled;
 					}
 				}
 			}
@@ -233,10 +237,9 @@ void HordeContain::rva00470DC1()
 				_STL::map<int, int>::iterator held = m_1A0.find(obj->getID());
 				if (held != m_1A0.end())
 				{
-					Rva00470DC1Slot *slot = (Rva00470DC1Slot *)&held->second;
 					if (leader && data->m_1F0 != 0.0f)
 					{
-						Coord3D offset = obj->m_position;
+						HordeOffset3D offset = obj->m_position;
 						offset -= leader->m_position;
 						float length = offset.length();
 						if (data->m_1F0 * 0.9 > length)
@@ -248,10 +251,11 @@ void HordeContain::rva00470DC1()
 							pos.z = pos.z * 5.0f + obj->m_position.z;
 						}
 						else if (data->m_1F0 > length)
-							pos = slot->m_position;
+							pos = obj->m_position;
 					}
 					else
 					{
+						Rva00470DC1Slot *slot = (Rva00470DC1Slot *)&held->second;
 						if (slot->m_count > 0)
 						{
 							--slot->m_count;

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHs-c- /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ob2 /ICode/Libraries/Include /ICode/GameEngine/Source/Common /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 //
 // ?xfer@SiegeEngineContain@@MAEXPAVXfer@@@Z, retail 0x0047C322, 464 bytes.
@@ -14,6 +14,9 @@
 // Layout per the rowed SiegeEngineContainDtor view; member names not
 // recovered.
 
+#define COORD3D_VIEW_DTOR
+#include "Lib/Coord3DCtorView.h"
+#include <vector>
 #include <list>
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
@@ -129,6 +132,88 @@ class Snapshot;
 class Thing;
 class ModuleData;
 class Object;
+enum ExitDoorType { DOOR_1=0 };
+enum CommandSourceType { CMD_FROM_AI=2 };
+enum PathfindLayerEnum { LAYER_WALL=17 };
+enum NameKeyType { NAMEKEY_INVALID=0 };
+class NameKeyGenerator {public:NameKeyType nameToKey(const char*);};
+extern NameKeyGenerator *TheNameKeyGenerator;
+class Player {public:char pad[0x5c];int type;};
+class Module;
+class Matrix3D {public:float m[3][4];};
+class LocomotorSet;
+class Rva0035149F;
+void Rva00030830GameFree(void*);
+struct BfmeE12
+{
+    float x, y, z;
+};
+class Rva000E016A
+{
+  public:
+    BfmeE12 *rva000E016A(unsigned, Coord3D *, Coord3D *);
+};
+namespace _STL
+{
+template <> __declspec(noinline) inline void _Construct(Coord3D *p, const Coord3D &r)
+{
+    if (p)
+    {
+        p->x = r.x;
+        p->y = r.y;
+        p->z = r.z;
+    }
+}
+} // namespace _STL
+// The retail copy worker takes the empty tag by const reference.
+// Select that overload explicitly; the general STLport header uses a value tag.
+namespace _STL
+{
+template <class I, class O> O __copy_ptrs(I, I, O, const __false_type &);
+template <> Coord3D *__uninitialized_copy(Coord3D *, Coord3D *, Coord3D *, const __false_type &);
+} // namespace _STL
+class Rva0035149F
+{
+  public:
+    BfmeE12 *start, *finish, *end;
+    Rva0035149F &rva0035149F(const Rva0035149F &);
+};
+
+enum AICommandType { AICMD_PATH = 9 };
+struct AICommandParms {
+ AICommandParms(AICommandType,CommandSourceType);
+ ~AICommandParms(){if(coords.start)Rva00030830GameFree(coords.start);}
+ int cmd,source;Coord3D pos;Object *target;char pad18[8];Rva0035149F coords;char pad2c[0xc0-0x2c];
+};
+class AICommandInterface {public:virtual void aiDoCommand(const AICommandParms*);void rva0036EE16(const Rva0035149F *,Object *,CommandSourceType);void aiHunt(CommandSourceType);void aiIdle(CommandSourceType);};
+class AIUpdateInterface {public:
+ void ignoreObstacle(const Object *);
+ const LocomotorSet &set()const{return *reinterpret_cast<const LocomotorSet*>(reinterpret_cast<const char*>(this)+0x1cc);}
+ AICommandInterface *commands(){return reinterpret_cast<AICommandInterface*>(reinterpret_cast<char*>(this)+0x20);}
+ char pad[0x178];unsigned int movementFrame;
+};
+class Thing {public:const Coord3D *getUnitDirectionVector2D()const;void setOrientation(float);};
+class Rva004C5772CmpBoolField {public:bool get()const;};
+struct SiegeExitTemplate {char pad[0x108];unsigned int kinds[7];};
+class ModelConditionFlags {public:
+ unsigned int test(unsigned int bit)const{return m_words[bit>>5]&(1U<<(bit&0x1f));}
+ void clear(unsigned int bit){m_words[bit>>5]&=~(1U<<(bit&0x1f));}
+ private:unsigned int m_words[19];};
+class Rva2225E0Filter {public:bool accepts(Object*,Player*);};
+struct SiegeExitData {char pad[0x18c];Rva2225E0Filter filter;char pad18d[3];int count;};
+class Pathfinder {public:void AddObjectToPathfindMap(Object*);bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);float GetWallHeight(PathfindLayerEnum,const Coord3D*,Coord3D*);};
+class AI {public:char pad[0x10];Pathfinder *pathfinder;};
+extern AI *TheAI;
+extern int g_00DBA4E4;
+template<int N>class SiegeExitSlots:public SiegeExitSlots<N-1>{public:virtual void gap(char(*)[N]);};
+template<>class SiegeExitSlots<0>{};
+class SiegeExitRemove:public SiegeExitSlots<41>{public:virtual void remove(Object*,bool);};
+class OpenContain {public:virtual void exitObjectViaDoor(Object*,ExitDoorType);};
+void Rva00030830FreeAllocation(void*);
+
+namespace _STL {
+template<> __forceinline void allocator<Coord3D>::deallocate(Coord3D *p,unsigned)const {if(p)Rva00030830FreeAllocation(p);}
+}
 
 class Xfer
 {
@@ -195,29 +280,26 @@ public:
 	unsigned char m_minimum;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
 
-class Object
-{
-public:
-	ObjectID getID() const { return m_id; }
-private:
-	unsigned char m_pad00[0x74];
-	ObjectID m_id;
+class Object:public Thing {public:
+ Player *getControllingPlayer()const;
+ protected: Module *findModule(NameKeyType)const; public:
+ bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*)const;
+ void rva0028AE6D();void rva0028D412(const Matrix3D*);void rva0028B4CE(PathfindLayerEnum);
+ void teleportTo(const Coord3D*,bool);void rva0028ACDC(int);
+ char pad[4];SiegeExitTemplate *tmplate;char pad8[0x38-8];Coord3D position;float orientation;
+ ObjectID getID()const{return m_id;}
+ char pad48[0x74-0x48];ObjectID m_id;char pad78[0xcc-0x78];float radius;char padD0[0x10c-0xd0];ModelConditionFlags mcf;
+ char pad158[0x258-0x158];AIUpdateInterface *ai;
+ __forceinline void clearModelConditionState(unsigned int mc){if(mcf.test(mc)!=0){mcf.clear(mc);rva0028AE6D();}}
 };
 
-class GameLogic
-{
-public:
-	void destroyObject(Object *obj);
-};
 
-extern GameLogic *TheGameLogic;
+class ObjectModuleView:public Object {public:using Object::findModule;};
 
 class TransportContain
 {
@@ -231,6 +313,13 @@ protected:
 
 class SiegeEngineContain : public TransportContain
 {
+public:
+ // The exit entry receives the +0x30 ExitInterface view; xfer receives the primary view.
+ virtual void exitObjectViaDoor(Object*,ExitDoorType);
+ Object *object()const{return *reinterpret_cast<Object *const*>(reinterpret_cast<const char*>(this)-0x28);}
+ const SiegeExitData *data()const{return *reinterpret_cast<const SiegeExitData *const*>(reinterpret_cast<const char*>(this)-0x2c);}
+ void remove(Object *o){reinterpret_cast<SiegeExitRemove*>(reinterpret_cast<char*>(this)-0x10)->remove(o,false);}
+ const bool &exitClosed()const{return *(reinterpret_cast<const bool*>(this)+0xf4);}
 protected:
 	virtual void xfer(Xfer *xfer);
 
@@ -311,4 +400,89 @@ void SiegeEngineContain::xfer(Xfer *xfer)
 			m_128[reinterpret_cast<const int &>(key)] = value;
 		}
 	}
+}
+
+// WB names this override; retail decodes the owner and data relative to ExitInterface.
+void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
+{
+ if(exitClosed())return;
+ static NameKeyType key=TheNameKeyGenerator->nameToKey("SiegeDeploySpecialPower");
+ Rva004C5772CmpBoolField *deploy=(Rva004C5772CmpBoolField*)((ObjectModuleView*)object())->findModule(key);
+ Object *me=object();const SiegeExitData *md=data();
+ if(const_cast<Rva2225E0Filter&>(md->filter).accepts(exitObj,me->getControllingPlayer()) && md->count>0){
+   remove(exitObj);
+   Coord3D pos;pos.x=exitObj->position.x;pos.y=exitObj->position.y;pos.z=exitObj->position.z;
+   {Coord3D diff;diff.x=pos.x-me->position.x;diff.y=pos.y-me->position.y;diff.z=pos.z-me->position.z;
+   diff.normalize();float dx=diff.x*50.0f,dy=diff.y*50.0f;pos.x+=dx;pos.y+=dy;pos.z=0;}
+   AIUpdateInterface *ai=exitObj->ai;
+   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+   if(ai){
+     ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+g_00DBA4E4;
+     Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&pos);
+     _STL::vector<Coord3D> path;path.push_back(pos);path.push_back(pos);
+     ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F*>(&path),me,CMD_FROM_AI);
+     exitObj->rva0028ACDC((int)&pos);
+   }
+ }else if(deploy && deploy->get()){
+   remove(exitObj);Object *me=object();Coord3D pos;
+   if(me->tmplate->kinds[4]&0x800){Matrix3D transform;
+     me->getSingleLogicalBonePosition("Ladder04",&pos,&transform);
+     exitObj->clearModelConditionState(3*32+0);
+     exitObj->rva0028D412(&transform);exitObj->rva0028B4CE(LAYER_WALL);
+     AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+     if(ai){if(exitObj->getControllingPlayer()->type==1){ai->ignoreObstacle(0);ai->commands()->aiHunt(CMD_FROM_AI);}else ai->commands()->aiIdle(CMD_FROM_AI);}
+   }else{
+     Coord3D dest;{pos=me->position;Coord3D direction=*me->getUnitDirectionVector2D();
+     float radius=me->radius;pos.x+=direction.x*radius;pos.y+=direction.y*radius;
+     pos.z=(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->GetWallHeight(LAYER_WALL,&pos,0);
+     dest=pos;pos.x+=direction.x*20.0f;pos.y+=direction.y*20.0f;
+     dest.x+=direction.x*40.0f;dest.y+=direction.y*40.0f;}
+     exitObj->teleportTo(&pos,false);exitObj->setOrientation(me->orientation);exitObj->rva0028B4CE(LAYER_WALL);
+     AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+     if(ai){ai->ignoreObstacle(0);ai->movementFrame=TheGameLogic->getFrame()+g_00DBA4E4;Pathfinder *pathfinder=TheAI->pathfinder;pathfinder->adjustToPossibleDestination(exitObj,ai->set(),&dest);}
+     {_STL::vector<Coord3D> path;path.push_back(dest);path.push_back(dest);
+     if(ai){ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F*>(&path),me,CMD_FROM_AI);exitObj->rva0028ACDC((int)&dest);}}
+   }
+ }else reinterpret_cast<OpenContain*>(this)->OpenContain::exitObjectViaDoor(exitObj,door);
+}
+
+inline Rva0035149F &Rva0035149F::rva0035149F(const Rva0035149F &other)
+{
+    _STL::__false_type tag;
+    typedef BfmeE12 *(__cdecl * Copy)(const BfmeE12 *, const BfmeE12 *, BfmeE12 *,
+                                      const _STL::__false_type &);
+    Copy copy = &_STL::__copy_ptrs<const BfmeE12 *, BfmeE12 *>;
+    if (&other == this)
+        return *this;
+    unsigned n = other.finish - other.start, cap = end - start;
+    if (n > cap)
+    {
+        BfmeE12 *fresh =
+            ((Rva000E016A *)this)->rva000E016A(n, (Coord3D *)other.start, (Coord3D *)other.finish);
+        if (start)
+            Rva00030830GameFree(start);
+        start = fresh;
+        end = fresh + n;
+    }
+    else
+    {
+        unsigned sz = finish - start;
+        if (sz >= n)
+        {
+            copy((const BfmeE12 *)other.start, (const BfmeE12 *)other.finish, start, tag);
+        }
+        else
+        {
+            copy((const BfmeE12 *)other.start, (const BfmeE12 *)(other.start + sz), start, tag);
+            _STL::__uninitialized_copy((Coord3D *)(other.start + (finish - start)),
+                                       (Coord3D *)other.finish, (Coord3D *)finish, tag);
+        }
+    }
+    finish = start + n;
+    return *this;
+}
+
+__declspec(noinline) inline void AICommandInterface::rva0036EE16(const Rva0035149F *info,Object *target,CommandSourceType src)
+{
+ AICommandParms parms(AICMD_PATH,src);parms.coords.rva0035149F(*info);parms.target=target;aiDoCommand(&parms);
 }

@@ -117,10 +117,10 @@
 /// text after the digits is ignored, so 250ms reads as 250, and a leading
 /// minus sign is accepted and wraps to a very large value. It is
 /// multiplied by the engine's frames-per-millisecond factor and rounded up
-/// with ceil. In the current reconstruction that factor is a
-/// global whose retail value is 0.005, which matches the 5 logic frames per
-/// second described on \ref page_frame_loop; only reads of the global have
-/// been found. Zero Hour computes the same thing with
+/// with ceil. That factor is a writable global initialised to 0.005, which
+/// matches the 5 logic frames per second described on \ref page_frame_loop
+/// (\ref grp_w1019_ini_units_name_keys describes the factors the unit
+/// parsers share). Zero Hour computes the same thing with
 /// ConvertDurationFromMsecsToFrames at 30 frames per second.
 ///
 /// \param ini      The reader, positioned after the field name.

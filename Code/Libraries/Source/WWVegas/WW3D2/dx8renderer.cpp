@@ -1672,13 +1672,17 @@ void DX8TextureCategoryClass_AccessorAnchor(
 	int (MeshClass::*&base_vertex_offset)(void),
 	LightEnvironmentClass *(MeshClass::*&lighting)(void),
 	TextureMapperClass *(VertexMaterialClass::*&mapper)(int),
-	void (LinearOffsetTextureMapperClass::*&uv_offset)(const Vector2 &))
+	void (LinearOffsetTextureMapperClass::*&uv_offset)(const Vector2 &),
+	ShaderClass *(GapFillerClass::*&gap_shaders)(int) const,
+	VertexMaterialClass **(GapFillerClass::*&gap_materials)(int) const)
 {
 	object_scale = &RenderObjClass::Get_ObjectScale;
 	base_vertex_offset = &MeshClass::Get_Base_Vertex_Offset;
 	lighting = &MeshClass::Get_Lighting_Environment;
 	mapper = &VertexMaterialClass::Peek_Mapper;
 	uv_offset = &LinearOffsetTextureMapperClass::Set_Current_UV_Offset;
+	gap_shaders = &GapFillerClass::Get_Shader_Array;
+	gap_materials = &GapFillerClass::Get_Material_Array;
 }
 
 // DX8MeshRendererClass constructor: BFME 2's body is the row 0x00145AA0 in DX8MeshRendererCtor.cpp;

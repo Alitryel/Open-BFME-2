@@ -64,17 +64,6 @@ Rva0037BBED *Rva0037BCC4Create()
     return new Rva0037BBED;
 }
 
-// Native Ghidra extent 0x0037BB98..0x0037BBED, 85 bytes, thiscall RET 0.
-// The existing allocator and destructor establish this receiver and vtable.
-// Two default UnicodeStrings and the +0x24 GameInfo-shaped member explain
-// EH states 0..3; native calls identify its constructor and the reset worker.
-// The ZH Recorder constructor has the same member/reset relationship; target
-// offsets and the final +0xE78 clear are taken from retail rather than the donor.
-Rva0037BBED::Rva0037BBED()
-{
-    m_frameE78 = 0;
-    rva0037B326();
-}
 
 // Native Ghidra extent 0x0037B326..0x0037B3D1, 171 bytes, thiscall RET 0.
 // The recorder vtable at VA 0x00C18828 places this method in slot 1.
@@ -134,26 +123,6 @@ public:
     bool crcProcessing71;
 };
 
-// Native Ghidra 0x0037D0A7..0x0037D0EF; 72 bytes; thiscall RET 16.
-// Reference: BFME 1 1399ad37d42ea52a63829e417c46a1ba9ed2cd20,
-// game/GameEngine/Source/Common/System/RecorderHandleCRCMessage.cpp.
-// The four argument roles and processing sequence follow that readable donor;
-// retail proves +0xC receiver storage, +0x71 flag and all three call targets.
-// Native rva0037BD64 already checks the queue before removing its front value.
-// Its folded list wrappers are named opaquely here: the FXList ledger spelling
-// at those addresses does not establish a recorder's CRC storage as FXList.
-void Rva0037BBED::rva0037D0A7(unsigned int crc, int player, bool fromPlayback, unsigned int frame)
-{
-    if (fromPlayback)
-        m_0c->rva0037D097(crc);
-    m_0c->rva0037BD64();
-    if (frame > 0)
-    {
-        Rva00241529CRCView *logic = reinterpret_cast<Rva00241529CRCView *>(TheGameLogic);
-        if (!logic->crcProcessing71)
-            logic->rva00241529(crc, player, frame, 0, false, 0);
-    }
-}
 
 // Same 0x5C string-bearing header as the independently rowed destructor.
 // Target accesses, not the donor layout, establish the six string offsets.
@@ -197,27 +166,6 @@ struct RecorderCRCGlobalView
     unsigned int iniCRCB04;
 };
 
-// Native Ghidra 0x0037D0EF..0x0037D1E6; 247 bytes; thiscall RET 4.
-// ZH Recorder::testVersionPlayback and BFME1 1399ad37 RecorderReadReplayHeader
-// supply the comparison sequence. Target uses a Unicode filename and omits
-// the donor's version-number/executable checks. The destructor proves header
-// storage; retail proves forPlayback+2C, version+44/+48, and CRC+4C/global+B04.
-bool Rva0037BBED::rva0037D0EF(UnicodeString filename)
-{
-    Rva0037B5DF header;
-    header.forPlayback2C = true;
-    header.filename28 = filename;
-    bool success = rva0037CBB6(header);
-    if (!success)
-        return false;
-    bool versionStringDiff = reinterpret_cast<const Rva00006A7A *>(&header.version44)->rva00006A7A(TheVersion->getFullUnicodeVersion()) != 0;
-    bool versionTimeStringDiff = reinterpret_cast<const Rva00006A7A *>(&header.versionTime48)->rva00006A7A(TheVersion->getUnicodeBuildTime()) != 0;
-    bool exeDifferent = versionStringDiff || versionTimeStringDiff;
-    bool iniDifferent = header.iniCRC4C != reinterpret_cast<const RecorderCRCGlobalView *>(TheWritableGlobalData)->iniCRCB04;
-    if (exeDifferent || iniDifferent)
-        return true;
-    return false;
-}
 
 struct _iobuf;
 extern "C" __declspec(dllimport) int __cdecl fgetc(_iobuf *file);

@@ -1,9 +1,9 @@
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
+// partial score=0.325518 date=2026-10-19
+// ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.187 date=2026-10-17
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.414 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.4 date=2026-10-14
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
@@ -16,11 +16,22 @@ extern "C" void _ReadWriteBarrier(void);
 // render-state restore.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
 
-class TextureClass { public: unsigned short m_refCount; void Release_Ref(); };
+// Geometry is adapted from GeneralsMD W3DDisplay::drawImage at the donor revision in the handoff.
+// Retail proves the float ABI, render states, counted-handle calls and member offsets used here.
+class TextureClass { public: virtual void slot00(); unsigned short m_refCount; void Release_Ref(); };
 class Render2DClass;
-class Vector2 { public: float X, Y; };
-class RectClass { public: Vector2 Min, Max; };
-class Rva000470D5Source;
+class Vector2 { public: float X, Y; Vector2(float x, float y) : X(x), Y(y) {} };
+class RectClass
+{
+public:
+    float Left, Top, Right, Bottom;
+    RectClass() {}
+    RectClass(float l, float t, float r, float b) : Left(l), Top(t), Right(r), Bottom(b) {}
+    RectClass &operator=(const RectClass &r) { Left=r.Left; Top=r.Top; Right=r.Right; Bottom=r.Bottom; return *this; }
+    float Width() const { return Right - Left; }
+    float Height() const { return Bottom - Top; }
+};
+struct Rva000470D5Source;
 class BFME2ParticleTextureHandle
 {
 public:
@@ -29,15 +40,12 @@ public:
     BFME2ParticleTextureHandle(const BFME2ParticleTextureHandle &o) : Ptr(o.Ptr) { if (Ptr) ++Ptr->m_refCount; }
     ~BFME2ParticleTextureHandle() { if (Ptr) Ptr->Release_Ref(); }
 };
-class Rva000470D5Getter
-{
-public:
-    BFME2ParticleTextureHandle rva000470D5(const Rva000470D5Source *);
-};
+BFME2ParticleTextureHandle __cdecl Rva000470D5GetTexture(const Rva000470D5Source *);
+template<class T> class RefCountPtr;
 class Rva000456C9
 {
 public:
-    void rva000456C9(const BFME2ParticleTextureHandle *);
+    void rva000456C9(const RefCountPtr<TextureClass> *);
 };
 class Render2DClass
 {
@@ -47,9 +55,9 @@ public:
     unsigned char m_48;				// +0x48
     void Set2DShader(int);
     void Add_Tri(const Vector2 &, const Vector2 &, const Vector2 &,
-        const Vector2 &, const Vector2 &, const Vector2 &, unsigned long);
+        const Vector2 &, const Vector2 &, const Vector2 &, unsigned long) throw();
     void Add_Quad(const RectClass &, const RectClass &, unsigned long, unsigned long,
-        unsigned long, unsigned long);
+        unsigned long, unsigned long) throw();
 };
 
 class Rva0044776F
@@ -65,14 +73,28 @@ private:
     unsigned char m_17c;			// +0x17c
 };
 
-#define BFME_GET_PARTICLE_TEXTURE(src) \
-    ((Rva000470D5Getter *)(src))->rva000470D5((const Rva000470D5Source *)(src))
 
-void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float y2,
+#define __max(a,b) (((a) > (b)) ? (a) : (b))
+#define __min(a,b) (((a) < (b)) ? (a) : (b))
+
+// W3DDisplay::drawImage ======================================================
+/** Draws an images at the screen coordinates and keeps it within the end
+    * screen coords specified */
+//=============================================================================
+void Rva0044776F::rva0044776F(void *texture, float startX, float startY, float endX, float endY,
     unsigned long color, int mode)
 {
+    // sanity
     if (texture == 0)
         return;
+
+    // !!
+    // Remember to update the GUIEditDisplay::drawImage when you make
+    // changes to this, it technically uses W3D code to render itself,
+    // but it not derived on the W3DDisplay
+    // !!
+
+    const float *uv = (const float *)((const char *)texture + 0x14);
     m_render->m_48 = 1;
     switch (mode)
     {
@@ -84,84 +106,127 @@ void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float
     default: break;
     }
 
-    ((Rva000456C9 *)m_render)->rva000456C9(&BFME_GET_PARTICLE_TEXTURE(texture));
+    // if we have raw texture data we will use it, otherwise we are referencing filenames
+    ((Rva000456C9 *)m_render)->rva000456C9(
+        (const RefCountPtr<TextureClass> *)&Rva000470D5GetTexture((const Rva000470D5Source *)texture));
 
-    float *tex = (float *)((char *)texture + 0x14);
-    unsigned int texFlag = *(unsigned int *)((char *)texture + 0x30);
-    float u0 = tex[0];
-    float v0 = tex[1];
-    float u1 = tex[2];
-    float v1 = tex[3];
+	RectClass screen_rect, uv_rect;
+    uv_rect.Left=uv[0];
+    screen_rect.Left=startX; screen_rect.Top=startY;
+    screen_rect.Right=endX; screen_rect.Bottom=endY;
+    uv_rect.Top=uv[1]; uv_rect.Right=uv[2]; uv_rect.Bottom=uv[3];
 
-    Vector2 p0, p1, p2, p3, p4, p5;
-    RectClass screenRect, uvRect;
-    if (m_17c == 0)
-    {
-        screenRect.Min.X = x1;
-        screenRect.Min.Y = y1;
-        screenRect.Max.X = x2;
-        screenRect.Max.Y = y2;
-        uvRect.Min.X = u0;
-        uvRect.Min.Y = v0;
-        uvRect.Max.X = u1;
-        uvRect.Max.Y = v1;
-        p0.X = x1; p0.Y = y1;
-        p1.X = x1; p1.Y = y2;
-        p2.X = x2; p2.Y = y1;
-        p3.X = u1; p3.Y = v0;
-        p4.X = u0; p4.Y = v0;
-        p5.X = u1; p5.Y = v1;
-        _ReadWriteBarrier();
-    }
-    else
-    {
-        if ((float)m_16c >= x2)
-            return;
-        if ((float)m_170 >= y2)
-            return;
-        float a, b, c, d;
-        float U0, U1, V0, V1;
-        _ReadWriteBarrier();
-        a = x1 > (float)m_16c ? x1 : (float)m_16c;
-        _ReadWriteBarrier();
-        b = x2 < (float)m_174 ? x2 : (float)m_174;
-        c = y1 > (float)m_170 ? y1 : (float)m_170;
-        d = y2 < (float)m_178 ? y2 : (float)m_178;
-        {
-            float w = x2 - x1;
-            float h = v1 - v0;
-            float hh = y2 - y1;
-            U0 = (a - x1) / w * h + v0;
-            U1 = (b - x1) / w * h + v0;
-            V0 = u1 - (c - y1) / hh * (u1 - u0);
-            V1 = u1 - (d - y1) / hh * (u1 - u0);
-            p0.X = a; p0.Y = c;
-            p1.X = a; p1.Y = d;
-            p2.X = b; p2.Y = c;
-            p3.X = V1; p3.Y = U0;
-            p4.X = V0; p4.Y = U0;
-            p5.X = V1; p5.Y = U1;
-        }
-        screenRect.Min.X = a;
-        screenRect.Min.Y = c;
-        screenRect.Max.X = b;
-        screenRect.Max.Y = d;
-        uvRect.Min.X = U0;
-        uvRect.Min.Y = U1;
-        uvRect.Max.X = V0;
-        uvRect.Max.Y = V1;
-    }
+	if (m_17c)
+	{	//need to clip this quad to clip rectangle
 
-    if ((texFlag & 1) != 0)
-    {
-        m_render->Add_Tri(p0, p1, p2, p3, p4, p5, color);
-        m_render->Add_Tri(p2, p3, p4, p5, p0, p1, color);
-    }
-    else
-    {
-        m_render->Add_Quad(screenRect, uvRect, color, color, color, color);
-    }
+		//
+		//	Check for completely clipped
+		//
+		if (	endX <= m_16c ||
+				endY <= m_170)
+		{
+			return;	//nothing to render
+		} else {
+			RectClass clipped_rect;
+			RectClass clipped_uv_rect;
 
+			if( (*(unsigned int *)((char *)texture + 0x30) & 1) )
+			{
+
+	
+				//
+				//	Clip the polygons to the specified area
+				//
+				
+				clipped_rect.Left		= __max (screen_rect.Left, m_16c);
+				clipped_rect.Right	= __min (screen_rect.Right, m_174);
+				clipped_rect.Top		= __max (screen_rect.Top, m_170);
+				clipped_rect.Bottom	= __min (screen_rect.Bottom, m_178);
+
+				//
+				//	Clip the texture to the specified area
+				//
+				
+				float percent				= ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Top		= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Right - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Bottom	= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Top - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Right	= uv_rect.Right - (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Bottom - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Left		= uv_rect.Right - (uv_rect.Width () * percent);
+			}
+			else
+
+			{
+			
+				//
+				//	Clip the polygons to the specified area
+				//
+				
+				clipped_rect.Left		= __max (screen_rect.Left, m_16c);
+				clipped_rect.Right	= __min (screen_rect.Right, m_174);
+				clipped_rect.Top		= __max (screen_rect.Top, m_170);
+				clipped_rect.Bottom	= __min (screen_rect.Bottom, m_178);
+
+				//
+				//	Clip the texture to the specified area
+				//
+				
+				float percent				= ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Left		= uv_rect.Left + (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Right - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Right	= uv_rect.Left + (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Top - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Top		= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Bottom - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Bottom	= uv_rect.Top + (uv_rect.Height () * percent);
+			}
+
+			//
+			//	Use the clipped rectangles to render
+			//
+			screen_rect = clipped_rect;
+			uv_rect		= clipped_uv_rect;
+		}
+	}
+
+	// if rotated 90 degrees clockwise we have to adjust the uv coords
+	if( (*(unsigned int *)((char *)texture + 0x30) & 1) )
+	{
+
+		m_render->Add_Tri( Vector2( screen_rect.Left, screen_rect.Top ), 
+												 Vector2( screen_rect.Left, screen_rect.Bottom ),
+												 Vector2( screen_rect.Right, screen_rect.Top ),
+												 Vector2( uv_rect.Right, uv_rect.Top),
+												 Vector2( uv_rect.Left, uv_rect.Top),
+												 Vector2( uv_rect.Right, uv_rect.Bottom ),
+												 color );
+
+		m_render->Add_Tri( Vector2( screen_rect.Right, screen_rect.Bottom ),
+												 Vector2( screen_rect.Right, screen_rect.Top ),
+												 Vector2( screen_rect.Left, screen_rect.Bottom ),
+												 Vector2( uv_rect.Left, uv_rect.Bottom ),
+												 Vector2( uv_rect.Right, uv_rect.Bottom ),
+												 Vector2( uv_rect.Left, uv_rect.Top ),
+												 color );
+
+	}  // end if
+	else
+	{
+
+		// just draw as normal
+		m_render->Add_Quad( screen_rect, uv_rect, color, color, color, color );
+
+	}  // end else
+
+    //reset to default states for next time this method is called.
     if (mode != 2)
         m_render->m_0 = 2;
-}
+}  // end drawImage

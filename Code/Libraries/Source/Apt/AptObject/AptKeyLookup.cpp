@@ -119,41 +119,6 @@ inline void operator delete(void *p,KeyObjectAllocation size){g_pChainBlockAlloc
 EAStringC *Rva0070B4F0GetString(int);
 AptValue *Rva008A4EA0MakeFloat(float);
 struct KeyAnimationAnalog {unsigned char prefix[0x7c];float leftX,leftY;unsigned char unused[8];float rightX,rightY;};
-AptValue *AptKey::sMethod_getAnalogStickInfo(AptValue *,int)
-{
- int controller=0;
- int type=503;
- if(Rva008A5250LastKey!=0) {
-  unsigned int input=Rva008A5250LastKey;
-  if(!(((input&3)==1&&(input&0xfffe0000)==0x3ec0000)||(input&0xfffe0000)==0x3ea0000)) {
-   g_bfmeAptAssertAtE17734("INPUT_IS_ANALOG(&gAptActionInterpreter.input)","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMiscObjects.cpp",839);
-   if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
-  }
-  type=Rva008A5250LastKey>>17;
-  controller=(Rva008A5250LastKey>>2)&255;
- }
- controller-=2;
- AptObject *obj=new(keyObjectAllocation) AptObject((AptVirtualFunctionTable_Indices)27);
- AptValue *controllerValue=AptInteger::Create(controller);
- EAStringC *name=Rva0070B4F0GetString(47);
- reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(name,controllerValue);
- EAStringC temp("fXAxisValue");
- if(type==501) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftX);
-  AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->leftY);
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
-  temp="fYAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
-  } else if(type==502) {
-  AptValue *x=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightX);
-  AptValue *y=Rva008A4EA0MakeFloat(reinterpret_cast<KeyAnimationAnalog *>(g_bfmeAptPtrAtE176D0)->rightY);
-  temp="fXAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,x);
-  temp="fYAxisValue";
-  reinterpret_cast<AptNativeHash *>(reinterpret_cast<char *>(obj)+8)->Set(&temp,y);
- }
- return obj;
-}
 AptValue *aptKeyValue();
 AptValue *aptKeyCode();
 AptInteger *aptPackedKeyFieldAt008A5360();
@@ -166,89 +131,7 @@ extern Rva008A47B0Item *g_rva008A47B0_4;
 extern Rva008A47B0Item *g_rva008A47B0_5;
 extern Rva008A47B0Item *g_rva008A47B0_6;
 extern Rva008A47B0Item *g_rva008A47B0_7;
-AptValue *AptKey::objectMemberLookup(AptValue *const context,const EAStringC *const name)const
-{
- const BfmeW1229 *prop=context&&static_cast<unsigned char>(reinterpret_cast<BfmeAptValue006DCD20 *>(context)->isKey())?bfmeFind1229(name->rva00620090(),name->rva006D3750()):0;
- if(prop) {
-  switch(prop->value) {
-case 1:return AptInteger::Create(8);
-case 2:return AptInteger::Create(20);
-case 3:return AptInteger::Create(17);
-case 4:return AptInteger::Create(46);
-case 5:return AptInteger::Create(40);
-case 6:return AptInteger::Create(35);
-case 7:return AptInteger::Create(13);
-case 8:return AptInteger::Create(27);
-case 9:return AptInteger::Create(36);
-case 10:return AptInteger::Create(45);
-case 11:return AptInteger::Create(37);
-case 12:return AptInteger::Create(34);
-case 13:return AptInteger::Create(33);
-case 14:return AptInteger::Create(39);
-case 15:return AptInteger::Create(16);
-case 16:return AptInteger::Create(32);
-case 17:return AptInteger::Create(9);
-case 18:return AptInteger::Create(38);
-case 100:
-   if(!g_rva008A47B0_0) {
-    g_rva008A47B0_0=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&sMethod_isDown)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_0)->setGCRootCount(1);
-    g_rva008A47B0_0->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_0);
-case 101:
-   if(!g_rva008A47B0_1) {
-    g_rva008A47B0_1=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&sMethod_isToggled)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_1)->setGCRootCount(1);
-    g_rva008A47B0_1->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_1);
-case 102:
-   if(!g_rva008A47B0_2) {
-    g_rva008A47B0_2=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&aptKeyValue)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_2)->setGCRootCount(1);
-    g_rva008A47B0_2->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_2);
-case 103:
-   if(!g_rva008A47B0_3) {
-    g_rva008A47B0_3=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&aptPackedKeyFieldAt008A5360)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_3)->setGCRootCount(1);
-    g_rva008A47B0_3->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_3);
-case 104:
-   if(!g_rva008A47B0_4) {
-    g_rva008A47B0_4=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&sMethod_addListener)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_4)->setGCRootCount(1);
-    g_rva008A47B0_4->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_4);
-case 105:
-   if(!g_rva008A47B0_5) {
-    g_rva008A47B0_5=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&sMethod_removeListener)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_5)->setGCRootCount(1);
-    g_rva008A47B0_5->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_5);
-case 106:
-   if(!g_rva008A47B0_6) {
-    g_rva008A47B0_6=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&sMethod_getAnalogStickInfo)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_6)->setGCRootCount(1);
-    g_rva008A47B0_6->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_6);
-case 107:
-   if(!g_rva008A47B0_7) {
-    g_rva008A47B0_7=reinterpret_cast<Rva008A47B0Item *>(new Rva006D6500(reinterpret_cast<int>(&aptKeyCode)));
-    reinterpret_cast<BfmeAptValue006DCD20 *>(g_rva008A47B0_7)->setGCRootCount(1);
-    g_rva008A47B0_7->unused0();
-   }
-   return reinterpret_cast<AptValue *>(g_rva008A47B0_7);
-  }
- }
- return 0;
-}
+
 
 // Native6D6340 is the empty canonical GC-base destructor, tail-calling
 // the51B AptValue teardown at6DE350. The exact analog-object constructor

@@ -1,11 +1,5 @@
 // ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
-// partial score=0.928 date=2026-10-17
-// ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
-// partial score=0.9339971791030821 date=2026-10-14
-// ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
-// partial score=0.965 date=2026-10-13
-// ?ParseAction@ScriptAction@@KAPAV1@AAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
-// partial score=0.96 date=2026-10-11
+// partial score=0.958 date=2026-10-18
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD
 // BANK (partial 0.96, 2026-10-11, claude-opus-5-5): ParseAction in its Scripts.cpp
 // proxy home Code/GameEngine/Source/GameLogic/ScriptEngine/TemplateGetParameterType.cpp.
@@ -48,8 +42,6 @@
 // retail's Scripts.cpp. ScriptAction caller 0x003B5413 is its ctor (vtable
 // 0x0081F3FC).
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 
 // Retail registers no unwind state for the copied key name: its literal
@@ -296,7 +288,6 @@ ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *inf
 		}
 	}
 
-	_ReadWriteBarrier();
 	pScriptAction->m_numParms = file.readInt();
 	Int i;
 	for (i = 0; i < pScriptAction->m_numParms; i++) {
@@ -372,13 +363,11 @@ ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *inf
 				pScriptAction->m_numParms = 2;
 				pScriptAction->m_parms[1] = new Parameter(Parameter::BOOLEAN, 1);
 			}
-			_ReadWriteBarrier();
-			break;
+					break;
 		case 0x1a:
 		case 0x1b:
-			if ((pScriptAction->getNumParameters() == 1) ? true : true) {
-				_ReadWriteBarrier();
-				pScriptAction->m_numParms = 3;
+			if (pScriptAction->getNumParameters() == 1) {
+							pScriptAction->m_numParms = 3;
 				pScriptAction->m_parms[1] = new Parameter((Parameter::ParameterType)0x34, 0);
 				pScriptAction->m_parms[2] = new Parameter((Parameter::ParameterType)0x34, 0);
 			}

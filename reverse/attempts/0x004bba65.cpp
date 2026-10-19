@@ -1,4 +1,6 @@
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
+// partial score=0.753 date=2026-10-19
+// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // partial score=0.753 date=2026-10-17
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // partial score=0.844 date=2026-10-13
@@ -22,6 +24,8 @@
 // pointers atEBP-14/-10 and saves ESI/EDI after the level comparison.
 // Hierarchy/getter relocation, condition splitting, const, aggregate
 // context and O1/O2/G6/Ob1/Op trials do not close that allocation wall.
+// Current provider declarations agree with the rowed Object and GeometryInfo bodies.
+// A successful HijackerUpdate lookup returns before geometry or damage work.
 struct Coord3D 
 {
  float x,y,z;
@@ -36,7 +40,7 @@ class GeometryInfo
  virtual ~GeometryInfo();
  void rva004BBA15(float);
  void rva004BBA3D(float);
- bool bfmeIntersects(const Coord3D&,float,const GeometryInfo&,const Coord3D&,float)const;
+ bool CollidesWith(const Coord3D&,float,const GeometryInfo&,const Coord3D&,float)const;
  private: char unknown04[0x58];
  
 }
@@ -324,11 +328,14 @@ class Object: public Thing
  bool testStatus(ObjectStatusTypes)const;
  bool isKindOf(KindOfType)const;
  Relationship getRelationship(const Object*)const;
- Module*findModule(NameKeyType)const;
+ protected: Module*findModule(NameKeyType)const;
+ friend class SquishCollide;
+ public:
  void *rva0028BD92(int);
  void rva00295FA9(Object*);
  void rva002929F9(Object*);
- bool rva0028F44C(Object*);
+ bool rva0028F44C(const Object*)const;
+ bool rva0028CECF();
  void attemptDamage(DamageInfo*);
  void rva0028AC34(bool);
  GeometryInfo const&getGeometryInfo()const
@@ -423,9 +430,11 @@ class SquishCollide: public CollideModule
  
 }
 ;
+/** Do the collision */
 void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *normal)
 
 {
+ // Note that other == null means "collide with ground"
  if(!other || other->destroyed() || (other->tmplate->flags&0x2000))return;
  Object*self=getObject();
  if(self->destroyed() || self->experience->dead)return;
@@ -443,6 +452,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   else if(otherAI->machine->getGoalObject()==self && other->getCurrentWeapon(0) && ((Weapon*)other->getCurrentWeapon(0))->rva002C969D(other,(int)self))return;
   
  }
+ // only squish if tank is moving toward victim
  Coord3D direction;
  other->getUnitDirectionVector2D(direction);
  Coord3D actualPosition;
@@ -461,12 +471,19 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   if(to.x*direction.x+to.y*direction.y<0.0f)return;
   
  }
+ // order matters: we want to know if IT considers ME to be an ally (a reversal of the usual situation)
  if(!other->testStatus(STATUS39) && !other->testStatus(STATUS32) && !other->isKindOf(KIND84) && !other->tmplate->crushAllies && other->getRelationship(getObject())!=ENEMIES)return;
  AIUpdateInterface *ai=self->ai;
  if(ai && ai->machine->getGoalObject()==other)
  {
+  //We are actually targeting the other object to do something to! Don't allow them to crush us in the following
+  //special circumstances:
+
+  //Hijacking!
   static NameKeyType key_HijackerUpdate=TheNameKeyGenerator->nameToKey("HijackerUpdate");
-  if (!(self->findModule(key_HijackerUpdate))) {
+  if (self->findModule(key_HijackerUpdate)) return;
+  {
+  //TNT hunter placing a charge!
   SpecialAbilityUpdate *ability=(SpecialAbilityUpdate*)self->rva0028BD92(0x19);
   if(ability && ability->active.isActive())return;
   
@@ -475,8 +492,8 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
  GeometryInfo myGeom=self->getGeometryInfo();
  myGeom.rva004BBA15(5.0f);
  myGeom.rva004BBA3D(5.0f);
- if(!other->getGeometryInfo().bfmeIntersects(*other->getPosition(),other->getOrientation(),myGeom,*self->getPosition(),self->getOrientation()))return;
- if(!((Rva0028CECFOwner*)other)->rva0028CECF())
+ if(!other->getGeometryInfo().CollidesWith(*other->getPosition(),other->getOrientation(),myGeom,*self->getPosition(),self->getOrientation()))return;
+ if(!other->rva0028CECF())
  {
   other->rva00295FA9(getObject());
   return;
@@ -512,7 +529,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
    damageInfo.sourceID=other->getID();
    damageInfo.damageType=1;
    damageInfo.deathType=2;
-   damageInfo.amount=999999.0f;
+   damageInfo.amount=999999.0f; // make sure they die
    getObject()->attemptDamage(&damageInfo);
    
   }

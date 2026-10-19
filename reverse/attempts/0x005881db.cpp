@@ -1,4 +1,6 @@
 // ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
+// partial score=0.9711684370257967 date=2026-10-19
+// ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
 // partial score=0.97 date=2026-10-16
 // ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
 // partial score=0.8288 date=2026-10-14
@@ -11,9 +13,26 @@
 // Native and WB prove60B entry offsets and circular-list / AI slots individually.
 // The swarm recovery supplied the matching STLport indexing pattern.
 #include "Coord3DCtorView.h"
-#include "Coord2D.h"
+
 #include <math.h>
 #include <vector>
+class Coord2D {
+public: float x,y;
+public:
+ __forceinline float GetLength() const {
+  float x_value=x, y_value=y;
+  return (float)sqrt(x_value*x_value+y_value*y_value);
+ }
+ __forceinline float Normalize() {
+  float length=GetLength();
+  float inverse=1.0f/length;
+  x*=inverse; y*=inverse;
+  return length;
+ }
+ Coord2D &operator-=(const Coord2D &v) { x-=v.x; y-=v.y; return *this; }
+ Coord2D &operator+=(const Coord2D &v) { x+=v.x; y+=v.y; return *this; }
+ Coord2D &operator*=(float f) { x*=f; y*=f; return *this; }
+};
 class Object;
 enum ObjectStatusTypes { AMOEBA_STATUS_1C=0x1c, AMOEBA_STATUS_45=0x45 };
 enum WeaponSlotType { PRIMARY_WEAPON=0 };
@@ -151,12 +170,7 @@ class AmoebaPositionProvider : public AmoebaSlots<38> { public: virtual void set
 ICoord2D *Rva002EBC14Cell(ICoord2D *,void *,const Coord3D *);
 Object *Rva0058723D(Object *,Object *);
 int GetGameLogicRandomValue(int,int,char *,int);
-static __forceinline void amoebaNormalize(Coord2D &v)
-{
- float length=(float)sqrt(v.x*v.x+v.y*v.y);
- float inverse=1.0f/length;
- v.x*=inverse; v.y*=inverse;
-}
+
 static __forceinline Object *amoebaLeader(AmoebaHeld *held) { return *(Object **)((char *)held+8); }
 void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
 {
@@ -243,18 +257,18 @@ void HordeMeleeAmoeba::updateMeleeAttack(Object *victim)
      if(other) {
       Coord2D toward;
       toward.x=unit->m_position.x-other->m_position.x; toward.y=unit->m_position.y-other->m_position.y;
-      amoebaNormalize(toward);
+      toward.Normalize();
       Coord2D displacement;
       displacement.x=unit->m_position.x-candidate.x; displacement.y=unit->m_position.y-candidate.y;
       Coord2D perpendicular;
       perpendicular.x=displacement.y; perpendicular.y=-displacement.x;
-      amoebaNormalize(perpendicular);
+      perpendicular.Normalize();
       float radius=other->radius; perpendicular.x*=radius; perpendicular.y*=radius;
       Coord2D left;
       left.x=displacement.x+perpendicular.x; left.y=displacement.y+perpendicular.y;
-      amoebaNormalize(left);
+      left.Normalize();
       displacement.x-=perpendicular.x; displacement.y-=perpendicular.y;
-      amoebaNormalize(displacement);
+      displacement.Normalize();
       if(left.x*toward.x+left.y*toward.y<data->alignment && displacement.x*toward.x+displacement.y*toward.y<data->alignment) continue;
      }
      Object *destination=other?other:victim;

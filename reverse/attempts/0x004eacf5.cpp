@@ -1,11 +1,11 @@
 // ?Rva004EACF5DistSqToSegment@@YAMPBUCoord2D@@00@Z
-// partial score=0.6 date=2026-10-16
-// W9-O1 joint bank for 0x4EADBA (227 B caller, virtual polyline min distance, RET 4) + 0x4EACF5 (197 B file-static helper).
-// The caller compiles EXACT apart from the helper argument registers (retail lea edx,cur / lea eax,prev / lea ecx,p;
-// ours edx=p, ecx=cur) because the helper convention cl picks gives b=ECX p=EDX where retail has b=EDX p=ECX.
-// Toy rules measured (build/o1/rr3-rr5 in ws/o1): most-used pointer -> EAX; then more uses (after CSE) -> ECX; equal uses ->
-// the one used in the then-branch -> ECX; parameter order only breaks exact ties. 128 spelling combos + goto/inverted
-// branch forms kept b=ECX. Constants: best init -1.0f, test best < 1.0f. Owner class/identity unknown (names neutral).
+// partial score=0.90571 date=2026-10-19
+// Joint candidate for native 0x004EACF5 (197 B) and 0x004EADBA (227 B).
+// Descriptive Polyline/PointSource labels, not proven original class names.
+// Native: helper a=EAX, b=EDX, p=ECX; compiler still swaps b/p registers.
+// Correct semantic call below: a=prev, p=input point, b=current segment end.
+// Coord2D constructor expression + y-square-first sum closes projection tail
+// and length-squared XMM scheduling. No pins or exact/link claim.
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
 struct Coord2D { float x, y; Coord2D() {} Coord2D(float ax, float ay) : x(ax), y(ay) {} };
 struct Coord3D { float x, y, z; };
@@ -17,7 +17,7 @@ public:
 	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11(); virtual void s12();
 	virtual Coord3D getPosition() const;	// +0x34
 };
-static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2D *b, const Coord2D *p)
+static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2D *p, const Coord2D *b)
 {
 	float dx = b->x;
 	float dy = b->y;
@@ -33,9 +33,8 @@ static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2
 	}
 	else
 	{
-		float ex = b->x - a->x;
-		float ey = b->y - a->y;
-		float len2 = ex * ex + ey * ey;
+		Coord2D e(b->x-a->x,b->y-a->y);
+		float len2 = e.y*e.y+e.x*e.x;
 		if (dot >= len2)
 		{
 			cx = b->x; cy = b->y;
@@ -43,14 +42,10 @@ static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2
 		else
 		{
 			float t = dot / len2;
-			float y = t * dy + a->y - p->y;
-			float x = t * dx + a->x - p->x;
-			return x * x + y * y;
+			Coord2D q(t*dx+a->x-p->x,t*dy+a->y-p->y);return q.y*q.y+q.x*q.x;
 		}
 	}
-	float x = cx - p->x;
-	float y = cy - p->y;
-	return x * x + y * y;
+	Coord2D q(cx-p->x,cy-p->y);return q.y*q.y+q.x*q.x;
 
 }
 class Polyline
@@ -70,7 +65,7 @@ float Polyline::distanceSq(const Coord2D *pt) const
 	for (PointSource **it = m_begin; it != end; ++it)
 	{
 		Coord2D cur((*it)->getPosition().x, (*it)->getPosition().y);
-		float d = distSqToSegment(&prev, &cur, &p);
+		float d = distSqToSegment(&prev,&p,&cur);
 		if (best < 1.0f || d < best)
 			best = d;
 		prev = cur;

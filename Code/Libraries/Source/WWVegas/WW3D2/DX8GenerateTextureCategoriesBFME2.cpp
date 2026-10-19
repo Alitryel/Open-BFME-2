@@ -56,17 +56,13 @@ public:
  unsigned Get_Pass_Count() const {return passes;} VertexMaterialClass *single[16]; void *arrays[4];
  VertexMaterialClass *Peek_Material(int,int) const;
  bool Has_Material_Array(int p) const { return arrays[p]!=0; }
- // Inline for this body; the outlined retail accessor is owned by dynamesh.cpp.
- __declspec(dllimport) __forceinline VertexMaterialClass *Peek_Single_Material(int p) const {return single[p];}
 };
 class MeshModelClass {
 public:
  char pad[0x2c]; PolygonBuffer *polygons; char pad30[0x94-0x30]; MeshMatDescClass *descriptor;
  unsigned Get_Pass_Count() const {return descriptor->Get_Pass_Count();}
- bool Has_Material_Array(int p) const { return descriptor->Has_Material_Array(p); }
  const TriIndex *Get_Polygon_Array() const { return polygons->data; }
  VertexMaterialClass *Peek_Material(int i,int p) const { return descriptor->Peek_Material(i,p); }
- VertexMaterialClass *Peek_Single_Material(int p) const { return descriptor->Peek_Single_Material(p); }
 };
 class Vertex_Split_Table {
 public:
@@ -80,7 +76,8 @@ public:
  VertexMaterialClass *Peek_Material(unsigned index,unsigned pass) {
   
   MeshMatDescClass *desc=model->descriptor; if(desc->Has_Material_Array(pass)) return model->Peek_Material(model->Get_Polygon_Array()[index][0],pass);
-  return model->Peek_Single_Material(pass);
+  // Retail inlines the target descriptor lookup at +A8 here.
+  return model->descriptor->single[pass];
  }
 };
 class IndexBufferClass { public: virtual ~IndexBufferClass(); char pad[20]; };

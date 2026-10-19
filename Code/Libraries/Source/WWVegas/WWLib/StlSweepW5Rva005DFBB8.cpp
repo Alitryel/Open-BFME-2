@@ -61,5 +61,5 @@ template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
 
-struct Rva005DFBB8Element { unsigned words[4];Rva005DFBB8Element();Rva005DFBB8Element(const Rva005DFBB8Element&b){words[0]=b.words[0];words[1]=b.words[1];words[2]=b.words[2];words[3]=b.words[3];}bool operator<(const Rva005DFBB8Element&)const;bool operator==(const Rva005DFBB8Element&)const; };
+struct Rva005DFBB8Element { unsigned words[4];Rva005DFBB8Element();Rva005DFBB8Element(const Rva005DFBB8Element&b);bool operator<(const Rva005DFBB8Element&)const;bool operator==(const Rva005DFBB8Element&)const; };
 template class _STL::hash_map<int,Rva005DFBB8Element>;

@@ -7,9 +7,10 @@ public:
 class Rva00362D6C {
 public:
     Rva00362D6C();
-    ~Rva00362D6C();
+    // The element owns a vptr; native array cleanup uses its rowed virtual destructor.
+    virtual ~Rva00362D6C();
 private:
-    char m_pad[0x44];
+    char m_pad[0x44 - 4];
 };
 class Rva00239FE4 {
 public:

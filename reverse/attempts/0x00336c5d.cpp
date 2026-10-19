@@ -89,3 +89,4 @@ void LuaScriptEngine::rva002E9680ParseModelConditionEvent(BfmeLexEAN *parser)
  } catch(...) {}
  if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()==2)reinterpret_cast<XmlNameSlotList *>(parser)->finish();
 }
+// The INIException catch block at 0x00336E1E (caught object at -0x28) belongs to this body; see reverse/attempt_support/00336e1e-boundary-20261019.md.

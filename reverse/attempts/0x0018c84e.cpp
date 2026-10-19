@@ -1,4 +1,6 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.986 date=2026-10-18
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.986 date=2026-10-17
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.9935589632 date=2026-10-15
@@ -275,17 +277,24 @@ struct BfmeFVFDescriptor {
  unsigned Get_Tex_Offset(unsigned n) const {return textureOffsets[n];}
  void *rva001818C0();
 };
+extern void BFME_DX8_Thread_Lock(void);
+extern void BFME_DX8_Thread_Assert(void);
+class BFMEDX8DeviceLock {
+public:
+ BFMEDX8DeviceLock() {BFME_DX8_Thread_Lock();}
+ ~BFMEDX8DeviceLock() {BFME_DX8_Thread_Assert();}
+};
 class VertexBufferClass {
 public:
  class WriteLockClass {
  public:
   WriteLockClass(VertexBufferClass *buffer,int flags);
   ~WriteLockClass();
-  void *Get_Vertex_Array() {return m_vertices;}
+  void *Get_Vertex_Array() {return Vertices;}
  private:
-  VertexBufferClass *m_buffer;
-  void *m_vertices;
-  int m_flags;
+  VertexBufferClass *VertexBuffer;
+  void *Vertices;
+  BFMEDX8DeviceLock device_lock;
  };
 };
 class BfmeDynamicNativeVB:public VertexBufferClass {
@@ -299,10 +308,11 @@ public:
  public:
   WriteLockClass(IndexBufferClass *buffer,int flags);
   ~WriteLockClass();
-  unsigned short *Get_Index_Array() {return (unsigned short *)m_indices;}
+  unsigned short *Get_Index_Array() {return indices;}
  private:
-  IndexBufferClass *m_buffer;
-  void *m_indices;
+  IndexBufferClass *index_buffer;
+  unsigned short *indices;
+  BFMEDX8DeviceLock device_lock;
  };
 };
 class DX8IndexBufferClass:public IndexBufferClass {
@@ -404,8 +414,8 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  if(!skin && TheFxPassCountProvider && maxBones>1 && !mesh->Get_Flag(MeshGeometryClass::ALIGNED) && !mesh->Get_Flag(MeshGeometryClass::ORIENTED)) {
   m_Passes=TheFxPassCountProvider->slot00(mesh->Get_Name());
   m_Passes=_STL::min(m_Passes,maxBones);
-  if(mesh->VertexCount*m_Passes>65000) m_Passes=65000/mesh->VertexCount;
-  if(m_Passes*mesh->PolyCount*3>65000) m_Passes=65000/(mesh->PolyCount*3);
+  if(mesh->Get_Vertex_Count()*m_Passes>65000) m_Passes=65000/mesh->Get_Vertex_Count();
+  if(m_Passes*mesh->Get_Polygon_Count()*3>65000) m_Passes=65000/(mesh->Get_Polygon_Count()*3);
   m_Passes=_STL::max(m_Passes,1);
  } else m_Passes=1;
  m_FVF=0;
@@ -482,14 +492,14 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  }
  m_IB=new DX8IndexBufferClass(m_Passes*mesh->Get_Polygon_Count()*3,DX8IndexBufferClass::USAGE_DEFAULT);
  {
-  struct PaddedLock1:public IndexBufferClass::WriteLockClass { unsigned char pad[1]; __forceinline PaddedLock1(IndexBufferClass *p,int f):IndexBufferClass::WriteLockClass(p,f) {} }; PaddedLock1 lock(m_IB,0);
+  IndexBufferClass::WriteLockClass lock(m_IB,0);
   const TriIndex *polys=mesh->Poly->Array;
   unsigned short *indices=lock.Get_Index_Array();
-  memcpy(indices,polys,mesh->PolyCount*sizeof(TriIndex));
-  indices+=mesh->PolyCount*3;
+  memcpy(indices,polys,mesh->Get_Polygon_Count()*sizeof(TriIndex));
+  indices+=mesh->Get_Polygon_Count()*3;
   for(unsigned pass=1;pass<(unsigned)m_Passes;++pass) {
    int offset=mesh->VertexCount*pass;
-   for(unsigned j=0;j<(unsigned)mesh->PolyCount;++j) {
+   for(unsigned j=0;j<(unsigned)mesh->Get_Polygon_Count();++j) {
     indices[0]=polys[j].I+offset;
     indices[1]=polys[j].J+offset;
     indices[2]=polys[j].K+offset;

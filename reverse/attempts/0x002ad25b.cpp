@@ -1,4 +1,6 @@
 // ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
+// partial score=0.9846153846153847 date=2026-10-19
+// ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
 // partial score=0.959 date=2026-10-17
 // ?rva002AD25B@Player@@QAEXABVAsciiString@@@Z
 // partial score=0.9453824643375456 date=2026-10-14
@@ -56,22 +58,26 @@ private:
 };
 struct TeamsInfoEntry {short next,previous,reserved,free;int generation;Dict dict;};
 class SidesList;extern SidesList*TheSidesList;
-class TeamsInfoRec {
+class SkirmishTeamEntries {
 public:
  int getFirstTeamID() const{return teams.front().next;}
  int getNextTeamID(int id) const{return teams[id].next;}
  Dict *getTeamInfo(int id){return &teams[id].dict;}
+private:
+ _STL::vector<TeamsInfoEntry> teams;
+};
+class TeamsInfoRec {
+public:
  void removeTeam(int id);
  int addTeam(const Dict *dict);
-private:
- _STL::vector<TeamsInfoEntry> teams; char padFix[0x1C];
+ char indexData[0xC]; SkirmishTeamEntries entries; short activeCount,freeHead;
 };
 class SidesList {
 public:
  SidesInfo *getSkirmishSideInfo(int index);
  SidesInfo *getSideInfo(int index);
  TeamsInfoRec *getTeams(){return &teams;}
- TeamsInfoRec *getSkirmishTeams(){return &skirmishTeams;}
+ SkirmishTeamEntries *getSkirmishTeamEntries(){return &skirmishTeams.entries;}
 public:
  char pad[0x7C0];int skirmishCount;SidesInfo skirmishSides[20];TeamsInfoRec teams;TeamsInfoRec skirmishTeams;
 };
@@ -116,9 +122,9 @@ void Player::rva002AD25B(const AsciiString &playerName)
  }
  Dict *sideDict=TheSidesList->getSkirmishSideInfo(skirmishIndex)->getDict();
  AsciiString originalPlayerName=sideDict->getAsciiString(TheKey_playerName.get());
- int teamID=TheSidesList->getSkirmishTeams()->getFirstTeamID();if(teamID)do {
-  if (originalPlayerName==TheSidesList->getSkirmishTeams()->getTeamInfo(teamID)->getAsciiString(TheKey_teamOwner.get())) {
-   Dict teamDict(*TheSidesList->getSkirmishTeams()->getTeamInfo(teamID));
+ int teamID=TheSidesList->getSkirmishTeamEntries()->getFirstTeamID();if(teamID)do {
+  if (TheSidesList->getSkirmishTeamEntries()->getTeamInfo(teamID)->getAsciiString(TheKey_teamOwner.get())==originalPlayerName) {
+   Dict teamDict(*TheSidesList->getSkirmishTeamEntries()->getTeamInfo(teamID));
    AsciiString teamName=teamDict.getAsciiString(TheKey_teamName.get());
    static const char *teamPrefix="team";
    if (equalTeamNode(teamName,teamPrefix+originalPlayerName))
@@ -129,5 +135,10 @@ void Player::rva002AD25B(const AsciiString &playerName)
     TheSidesList->getTeams()->removeTeam(existingTeam);
    TheSidesList->getTeams()->addTeam(&teamDict);
   }
- teamID=TheSidesList->getSkirmishTeams()->getNextTeamID(teamID); }while(teamID);
+ teamID=TheSidesList->getSkirmishTeamEntries()->getNextTeamID(teamID); }while(teamID);
 }
+
+typedef char TeamsInfoRecSizeCheck[sizeof(TeamsInfoRec)==0x1C?1:-1];
+
+// Retail owner comparison uses the returned temporary as receiver; the entry view preserves the verified vector address.
+// Remaining prefix argument scheduling and indirect pushes are documented in reverse/attempt_support/player-2ad25b-20261019.md.

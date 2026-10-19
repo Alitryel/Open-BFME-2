@@ -86,9 +86,9 @@ class Rva005B8F69 : public Rva0056DC4C, public AptStats
 {
 public:
     Rva005B8F69(AptOnline *);
-    virtual ~Rva005B8F69();
-    virtual void *rankValues();
-    virtual int rankPoints(int);
+    virtual ~Rva005B8F69() {}
+    virtual void *rankValues() { return 0; }
+    virtual int rankPoints(int) { return 0; }
     int tab;
 };
 class Rva005B7FA4;

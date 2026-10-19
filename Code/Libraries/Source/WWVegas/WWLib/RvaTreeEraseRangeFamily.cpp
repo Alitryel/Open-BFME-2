@@ -19,10 +19,13 @@
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.
+// Retail compares this file's map<int, void *> keys unsigned: its own rowed
+// int/void* erase(const int &) 0x004ABE65 calls equal_range 0x00362B5F, which
+// calls _M_lower_bound 0x004FF3B6 / _M_upper_bound 0x004FF539, both `jb`/`jae`.
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
-{ return a < b; }
+{ return (unsigned int)a < (unsigned int)b; }
 }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
@@ -37,6 +40,19 @@ typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>, _STL::_Select1st<_STL
 	_STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > IntPtrTree;
 typedef _STL::_Rb_tree<int, _STL::pair<const int, int>, _STL::_Select1st<_STL::pair<const int, int> >,
 	_STL::less<int>, _STL::allocator<_STL::pair<const int, int> > > IntIntTree;
+
+// The map<int, int> tree's bounds are emitted COMDATs here only as a side
+// effect of the other tree's instantiation; declare them out of line so this
+// TU calls the rowed int/int bodies (0x00382A92 / 0x004FF471, `jl`/`jge`)
+// instead of emitting the unsigned copies the comparator above now yields.
+namespace _STL {
+template <> _Rb_tree_node<pair<const int, int> > *
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >,
+         less<int>, allocator<pair<const int, int> > >::_M_lower_bound(const int &) const;
+template <> _Rb_tree_node<pair<const int, int> > *
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >,
+         less<int>, allocator<pair<const int, int> > >::_M_upper_bound(const int &) const;
+}
 
 class Rva0007E971
 {
@@ -57,14 +73,6 @@ void Rva0007E971::rva0007FB07(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x00082536 73B: erase(const int &) over rva0007FB07
-unsigned int Rva0007E971::rva00082536(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva0007FB07(p.first, p.second);
-	return n;
-}
 
 class Rva000D20A9
 {
@@ -85,14 +93,6 @@ void Rva000D20A9::rva000D22BD(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x000D3BFD 73B: erase(const int &) over rva000D22BD
-unsigned int Rva000D20A9::rva000D3BFD(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva000D22BD(p.first, p.second);
-	return n;
-}
 
 class Rva00388EAE
 {
@@ -225,14 +225,6 @@ void Rva00362AB5::rva00362ADE(IntPtrTree::iterator first, IntPtrTree::iterator l
 			tree->erase(first++);
 }
 
-// 0x00362B89 73B: erase(const int &) over rva00362ADE
-unsigned int Rva00362AB5::rva00362B89(const int &x)
-{
-	_STL::pair<IntPtrTree::iterator, IntPtrTree::iterator> p = reinterpret_cast<IntPtrTree *>(this)->equal_range(x);
-	unsigned int n = _STL::distance(p.first, p.second);
-	rva00362ADE(p.first, p.second);
-	return n;
-}
 
 // Other units call this body (pinned at its address) under the spelling(s)
 // below, with the same calling convention and stack arguments; bind them.
@@ -244,10 +236,6 @@ public:
 	unsigned int rva00082BE1(const int &x);
 };
 
-unsigned int Rva00082BE1::rva00082BE1(const int &x)
-{
-	return reinterpret_cast<Rva0007E971 *>(this)->rva00082536(x);
-}
 
 class Rva000D3C46
 {
@@ -255,10 +243,6 @@ public:
 	unsigned int rva000D3C46(const int &x);
 };
 
-unsigned int Rva000D3C46::rva000D3C46(const int &x)
-{
-	return reinterpret_cast<Rva000D20A9 *>(this)->rva000D3BFD(x);
-}
 
 class Rva001E7E78
 {
@@ -277,10 +261,6 @@ public:
 	unsigned int rva00362C9A(const int &x);
 };
 
-unsigned int Rva00362C9A::rva00362C9A(const int &x)
-{
-	return reinterpret_cast<Rva00362AB5 *>(this)->rva00362B89(x);
-}
 
 class Rva003899C4
 {

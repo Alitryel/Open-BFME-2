@@ -61,7 +61,7 @@ class LuaScriptEngine
 {
 public:
 	void DispatchSpyEvent(int key, void *object, void *spy, void *parameters);
-	void rva00334003(lua_State *state, Object *object);
+	void PushObjectTable(lua_State *state, Object *object);
 
 private:
 	unsigned char m_pad00[0x0c];
@@ -106,8 +106,8 @@ void LuaScriptEngine::DispatchSpyEvent(int key, void *object, void *spy, void *p
 		return;
 	}
 
-	rva00334003(m_luaState, (Object *)object);
-	rva00334003(m_luaState, (Object *)spy);
+	PushObjectTable(m_luaState, (Object *)object);
+	PushObjectTable(m_luaState, (Object *)spy);
 	int count = 2;
 	EventParameters *events = (EventParameters *)parameters;
 	for (int i = 0; i < 3; ++i)
@@ -129,7 +129,7 @@ void LuaScriptEngine::DispatchSpyEvent(int key, void *object, void *spy, void *p
 			break;
 		}
 		case 3:
-			rva00334003(m_luaState, TheGameLogic->findObjectByID(events->m_event[i].m_object));
+			PushObjectTable(m_luaState, TheGameLogic->findObjectByID(events->m_event[i].m_object));
 			++count;
 			break;
 		default:

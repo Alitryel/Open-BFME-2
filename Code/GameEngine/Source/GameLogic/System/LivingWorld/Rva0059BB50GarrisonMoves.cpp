@@ -42,6 +42,18 @@
 // map<int,void*> inline erase, which copies the iterator into the argument
 // slot. The folded STL names are the ledger's own.
 #include <map>
+
+// Preserve STLport's inlined walk without emitting a competing size-profile
+// wrapper. stlport_map_int_int.cpp owns the complete retail entry at 0x169ED0.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{
+    _M_node = _Rb_global_inst::_M_increment(_M_node);
+    return *this;
+}
+}
 #include <vector>
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.

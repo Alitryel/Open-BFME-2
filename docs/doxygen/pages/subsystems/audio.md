@@ -7,8 +7,9 @@ pick from and how to vary pitch, volume and delay. The manager queues the
 request and plays it through the Miles Sound System as a 2D sample, a 3D
 sample or a stream. Unlike Zero Hour, BFME 2 (like BFME 1) has large-group
 audio, which works out where a group sound for many nearby units should sit.
-It is driven from the game logic; how the group sound reaches `TheAudio` is
-not yet traced.
+It is driven from the game logic, which starts and stops the group sounds
+itself through virtual calls on `TheAudio`; which audio-manager functions
+those calls reach is not established.
 
 The audio manager runs on the client side of the engine, and sound-event
 variation (file, pitch, volume) comes from the audio random stream rather
@@ -49,15 +50,15 @@ so search by function name.
 - `AudioEventInfo` is one sound definition from INI: the kind of block
   that defined it (sound effect, music track, dialog, ambient stream or
   streamed sound; a `Multisound` block probably also makes one, holding a
-  list of subsounds, but that is not yet confirmed), weighted lists of file
+  list of subsounds, but that is not confirmed), weighted lists of file
   names, optional attack and decay files, and the pitch, volume and delay
   ranges.
 - `AudioEventRTS` is one request to play an `AudioEventInfo`: its owner
   (a fixed position, a drawable or an object as in Zero Hour, or, in
   BFME 2, a Living World entity or army, as
-  `AudioEventRTS::internalXfer` shows; one further owner kind is not yet
-  identified), the chosen file and the chosen pitch and volume. It knows
-  which portion (attack, main sound, decay) plays next.
+  `AudioEventRTS::internalXfer` shows; the identity of one further owner
+  kind is not established), the chosen file and the chosen pitch and
+  volume. It knows which portion (attack, main sound, decay) plays next.
 - `AudioFileCache` holds sound file images in memory. A worker loop of its
   own takes pending files from three priority queues and reads them
   (`AudioFileCache::readAudioFile`); Zero Hour's cache reads a file when it
@@ -134,7 +135,7 @@ the logic update; \ref page_frame_loop gives the order.
   virtual functions) and \ref sub_living_world (campaign acts can contain
   `AudioEvent` steps; `LivingWorldSound` parses its sounds).
 - **Apt UI** (\ref sub_gui_apt): the Apt runtime has its own `Sound` object
-  (`AptSound`); how it reaches `TheAudio` is not yet traced.
+  (`AptSound`); how it reaches `TheAudio` is not established.
 - **Reads** the file system and archives (\ref sub_common_services), INI
   (\ref sub_ini) and the audio level of detail from `TheGameLODManager`.
 - **Saved** with the game (\ref sub_save_load_crc): `LargeGroupAudio::xfer`;
@@ -227,7 +228,7 @@ Zero Hour's code is in `GameEngine/Source/Common/Audio/` (`GameAudio.cpp`,
   one at random by weight and rerolls rather than repeat the file played
   last; a control flag, or a sequential event, makes it cycle through the
   files in order instead. Other event kinds name a single file. Which INI
-  control keyword sets that flag in BFME 2 is not yet confirmed.
+  control keyword sets that flag in BFME 2 is not confirmed.
 - **File formats.** Files loaded through the cache must be PCM or IMA
   ADPCM WAV; any other format is recorded as failed and not loaded.
   Zero Hour: streams (music, speech) bypass this cache.

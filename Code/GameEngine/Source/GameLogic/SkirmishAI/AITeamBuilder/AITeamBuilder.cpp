@@ -78,6 +78,7 @@ struct Requirements {
 class TeamPrototype {
 public:
  void rva003A0E08(const Rva0039D769 &);
+ void addUnitInfo(const Rva0039D769 &);
  char prefix[0x12c]; Requirements requirements;
  char pad2d8[0x31c-0x2d8]; bool building; bool ready;
  char pad31e[0x334-0x31e]; Team *head;
@@ -86,6 +87,7 @@ public:
 class AITeamBuilder {
 public:
  void recruitPreDefined(Team*,int*,TeamPrototype*);
+ bool defineUnitsNormal_old(TeamPrototype*);
  void recruitUnDefined(Team*,int*);
  void distanceSortUnits(void*,const void*,const Coord3D*);
  int getCurNumUnits(Team *);
@@ -147,11 +149,16 @@ class Thing { public: bool isAnyKindOf(const BitFlags<69>&) const; };
 // word test that cl narrows to retail's byte test.
 struct RecruitKindOfFlags { unsigned int m_words[3]; __forceinline int test(int b) const { return m_words[b >> 5] & (1u << (b & 31)); } };
 struct RecruitThingTemplate { char prefix[0x64]; AsciiString name; char pad68[0x113-0x68]; unsigned char kind113;
+ const AsciiString &getName() const { return name; }
  const RecruitKindOfFlags &kindOf() const { return *(const RecruitKindOfFlags *)((const char *)this + 0x108); } };
 class AIUpdateInterface { public: Object* getCurrentVictim() const; };
+enum ObjectStatusTypes { STATUS_90=90 };
 class Object {
 public:
  void setTeam(Team*);
+ bool testStatus(ObjectStatusTypes) const;
+ Team *getTeam() const { return team; }
+ const RecruitThingTemplate *getTemplate() const { return objectTemplate; }
  char pad00[4]; RecruitThingTemplate* objectTemplate;
  char pad08[0x38-8]; Coord3D position;
  char pad44[0x258-0x44]; AIUpdateInterface* ai;
@@ -325,4 +332,38 @@ void AITeamBuilder::recruitUnDefined(Team* teamToBuild,int* curNumUnits) {
    }
   }
  }
+}
+
+#include <hash_map>
+class Rva0039D761DwordClearer { public: void clear(); };
+namespace _STL { template<> unsigned int hash_map<int,int>::bucket_count() const; }
+
+// Native59A2BE..59A40D,335B; WB152ABC0 names defineUnitsNormal_old,
+// AITeamBuilder.cpp381..389. Retail supplies the object/team/template offsets
+// and the requirement-count/maximum accesses. IDVectorView keeps the existing
+// folded ScienceType provider ABI; these stored words are object IDs.
+// Keep the real vector copy constructor visible: an opaque specialization
+// loses retail's begin-pointer lifetime through the loop and cleanup.
+bool AITeamBuilder::defineUnitsNormal_old(TeamPrototype* prototype) {
+ ((Rva0039D761DwordClearer*)prototype)->clear();
+ void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ void* units=*(void**)stats;
+ if(((_STL::hash_map<int,int>*)units)->bucket_count()>0) {
+  IDVectorView ids(*(const IDVectorView*)((Rva005C4AD1LeaField*)units)->get());
+  for(const ScienceType* id=ids.begin();id!=ids.end();++id) {
+   if((unsigned)((Rva0039D5A9*)((char*)prototype+0x12c))->rva0039D5A9()>=prototype->requirements.maximum)break;
+   Object* obj=TheGameLogic->findObjectByID((ObjectID)*id);
+   if(obj && obj->getTeam()==owner14->defaultTeam &&
+      (obj->objectTemplate->kindOf().test(3)||obj->objectTemplate->kindOf().test(90)) &&
+      !obj->testStatus(STATUS_90)) {
+    Rva0039EA9C record;
+    record.first=1; record.second=1;
+    record.name10=obj->getTemplate()->getName();
+    record.final14=-1;
+    prototype->addUnitInfo((const Rva0039D769&)record);
+   }
+  }
+  if((int)((const AITeamRequirementView*)((const char*)prototype+0x12c))->recordCount>0)return true;
+ }
+ return false;
 }

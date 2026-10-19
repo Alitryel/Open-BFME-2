@@ -233,6 +233,8 @@ class W3DFontLibrary : public BFMERetailFontLibrary
 {
 protected:
 	Bool loadFontData( GameFont *font );
+public:
+	~W3DFontLibrary();
 };
 
 #define __KEYBOARD_H_

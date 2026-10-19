@@ -29,11 +29,25 @@ public:
 	~ObjectHelper();
 };
 
+// Native 0x00268902 clears the list and returns its head to the shared pool.
+// Spell the complete cleanup here, as in PoolMemberRelease.cpp: a forwarding
+// destructor would emit a non-retail five-byte COMDAT under this existing pin.
+extern void *g_freeList;
+
 class Rva0029FB3BMember
 {
 public:
 	Rva0029FB3BMember(void *context) { init(context); }
-	~Rva0029FB3BMember();
+    ~Rva0029FB3BMember()
+    {
+        reset();
+        void *head = m_head;
+        if (head) {
+            *(void **)head = g_freeList;
+            g_freeList = head;
+        }
+    }
+    void reset();
 	void *init(void *context);
 	void *m_head;
 };

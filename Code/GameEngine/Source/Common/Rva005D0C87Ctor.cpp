@@ -31,7 +31,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva005CB723
 {
 public:
-	void rva005CB723(int value);
+	void rva005CB723(void *value);
 };
 
 class Rva005CB84A
@@ -45,7 +45,7 @@ private:
 
 void Rva005CB84A::rva005CB84A(int value)
 {
-	m_impl04->rva005CB723(value);
+	m_impl04->rva005CB723(reinterpret_cast<void *>(value));
 }
 
 struct Rva005D0C87Source
@@ -60,7 +60,7 @@ class Rva005D0C87Interface
 {
 public:
 	~Rva005D0C87Interface() {}
-	virtual void i0();
+	virtual void i0() {}
 };
 
 class Rva005D06CBB2
@@ -68,9 +68,9 @@ class Rva005D06CBB2
 public:
 	__declspec(dllimport) __forceinline Rva005D06CBB2() {}
 	~Rva005D06CBB2() {}
-	virtual void s0();
-	virtual void s1();
-	virtual void s2();
+	virtual void s0() {}
+	virtual void s1() {}
+	virtual void s2() {}
 };
 
 class Rva005D0C87;
@@ -87,9 +87,9 @@ class Rva005D0C87Callback : public Rva005D0C87CallbackBase
 {
 public:
 	Rva005D0C87Callback(Rva005D0C87 *owner) : Rva005D0C87CallbackBase(owner) {}
-	virtual void c0();
-	virtual void c1();
-	virtual void c2();
+	virtual void c0() {}
+	virtual void c1() {}
+	virtual void c2() {}
 };
 
 // The owning holder's teardown is the rowed Rva000AD6F4::clear.
@@ -124,8 +124,8 @@ class Rva005D0C87 : public Rva005D0C87Interface, public Rva005D06CBB2
 public:
 	Rva005D0C87(Rva005D0D85 *owner, int a, int b, int c);
 	~Rva005D0C87();
-	virtual void s0();
-	virtual void s2();
+	virtual void s0() {}
+	virtual void s2() {}
 
 private:
 	Rva005D0D85 *m_owner08;					// +0x08

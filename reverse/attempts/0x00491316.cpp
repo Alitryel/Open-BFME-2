@@ -1,4 +1,6 @@
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.7663551401869159 date=2026-10-19
+// ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.696 date=2026-10-17
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.8368660154985625 date=2026-10-13
@@ -30,6 +32,8 @@
 // alive / 0x00BFBC90 filters, fires (rowed 0x004911AE) at and remembers
 // every new one in +0x2C, forgets the ones no longer in range, then returns
 // FireWeaponUpdate's rowed update 0x0048BA3E.
+// Current candidate restores native filter order and passes saved scalar IDs.
+// Nonthrowing list cleanup and the admitted insert ABI preserve native calls.
 #include "ascii_string.h"
 
 typedef float Real;
@@ -107,7 +111,7 @@ public:
 extern PartitionManager *ThePartitionManager;
 
 // list<int> views (STLport node: next, prev, value).
-struct IDNode { IDNode *m_next; IDNode *m_prev; int m_value; };
+struct IDNode { IDNode *m_next; IDNode *m_prev; ObjectID m_value; };
 namespace _STL
 {
 template <class T> struct _Nonconst_traits;
@@ -119,20 +123,27 @@ _List_iterator(const _List_iterator &i):m_node(i.m_node){}
 };
 template <class It, class T> It find(It first, It last, const T &value);
 }
-typedef _STL::_List_iterator<int, _STL::_Nonconst_traits<int> > IDIter;
-template IDIter _STL::find<IDIter, int>(IDIter, IDIter, const int &);
+typedef _STL::_List_iterator<ObjectID, _STL::_Nonconst_traits<ObjectID> > IDIter;
+template IDIter _STL::find<IDIter, ObjectID>(IDIter, IDIter, const ObjectID &);
 
 struct Rva0029FB3BAlloc { Rva0029FB3BAlloc() {} ~Rva0029FB3BAlloc() {} };
-struct Rva0029FB3BIter { Rva0029FB3BIter(){} Rva0029FB3BIter(const Rva0029FB3BIter&i):m_node(i.m_node){} IDNode *m_node; };
+struct Rva002A1316Iterator {
+    explicit Rva002A1316Iterator(void *p) : node(p) {}
+    Rva002A1316Iterator(const Rva002A1316Iterator &i) : node(i.node) {}
+    void *node;
+};
+class Rva002A1B6FNativeList {
+    friend class Rva0029FB3BMember;
+    Rva002A1316Iterator insert(Rva002A1316Iterator pos, void *const &value);
+};
 class Rva0029FB3BMember
 {
 public:
 	Rva0029FB3BMember(const Rva0029FB3BAlloc &alloc);
-	~Rva0029FB3BMember();
-	Rva0029FB3BIter insert(Rva0029FB3BIter pos, const ObjectID &id);
+	~Rva0029FB3BMember() throw();
 	IDIter begin() { return IDIter(m_node->m_next); }
 	IDIter end() { return IDIter(m_node); }
-	__forceinline void push_back(ObjectID id) { Rva0029FB3BIter e; e.m_node = m_node; insert(e, id); }
+	__forceinline void push_back(const ObjectID &id) { Rva002A1316Iterator e(m_node); ((Rva002A1B6FNativeList *)this)->insert(e, reinterpret_cast<void *const &>(id)); }
 	IDNode *m_node;
 };
 class BridgeBehaviorObjectIDList { public: void push_back(const ObjectID &id); };
@@ -195,7 +206,7 @@ UpdateSleepTime DamageFieldUpdate::update()
 		}
 
 		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(me->getPosition(), (Real)data->m_radius, 0,
-          Rva00BFBC90Filter(me,1,false).link(Rva00BF91BCFilter(me).link(Rva0026119DFilter().link(&Rva00BCECF0Filter(data->m_filterSpec,me->getControllingPlayer(),true)))),0);
+          Rva00BFBC90Filter(me,1,false).link(Rva0026119DFilter().link(Rva00BF91BCFilter(me).link(&Rva00BCECF0Filter(data->m_filterSpec,me->getControllingPlayer(),true)))),0);
 
 		Rva0029FB3BMember inRange((Rva0029FB3BAlloc()));
 		Rva0029FB3BMember gone((Rva0029FB3BAlloc()));
@@ -204,7 +215,7 @@ UpdateSleepTime DamageFieldUpdate::update()
 		{
 			inRange.push_back(other->getID());
 			IDIter end(m_victims);
-			if (_STL::find(IDIter(m_victims->m_next), end, (int)other->getID()).m_node == end.m_node)
+			if (_STL::find(IDIter(m_victims->m_next), end, other->getID()).m_node == end.m_node)
 			{
 				rva004911AE(other);
 				((BridgeBehaviorObjectIDList *)&m_victims)->push_back(other->getID());
@@ -212,15 +223,15 @@ UpdateSleepTime DamageFieldUpdate::update()
 		}
 		for (IDNode *node = m_victims->m_next; node != m_victims; node = node->m_next)
 		{
+			const ObjectID id = (ObjectID)node->m_value;
 			IDIter end = inRange.end();
-			if (_STL::find(inRange.begin(), end, node->m_value).m_node == end.m_node)
-				gone.push_back((ObjectID)node->m_value);
+			if (_STL::find(inRange.begin(), end, id).m_node == end.m_node)
+				gone.push_back(id);
 		}
 		for (IDNode *g = gone.m_node->m_next; g != gone.m_node; g = g->m_next)
 		{
-			BfmePod12 value = { 0 };
-			value.v[0] = g->m_value;
-			((_STL::list<BfmePod12, _STL::allocator<BfmePod12> > *)&m_victims)->remove(value);
+			const int value = g->m_value;
+			((_STL::list<BfmePod12, _STL::allocator<BfmePod12> > *)&m_victims)->remove(reinterpret_cast<const BfmePod12 &>(value));
 		}
 	}
 	return FireWeaponUpdate::rva0048BA3E();

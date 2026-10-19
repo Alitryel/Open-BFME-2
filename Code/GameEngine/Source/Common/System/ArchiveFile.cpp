@@ -131,6 +131,12 @@ namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, DetailedArchi
 namespace _STL { template <> map<AsciiString, DetailedArchivedDirectoryInfo, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::map(); }
 namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, ArchivedFileInfo>, _Select1st<pair<AsciiString const, ArchivedFileInfo> >, less<AsciiString>, allocator<pair<AsciiString const, ArchivedFileInfo> > >::~_Rb_tree(); }
 // bfme link decl-only end
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, DetailedArchivedDirectoryInfo>, _Select1st<pair<AsciiString const, DetailedArchivedDirectoryInfo> >, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::~_Rb_tree(); }
+namespace _STL { template <> pair<AsciiString const, DetailedArchivedDirectoryInfo>::~pair(); }
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, DetailedArchivedDirectoryInfo>, _Select1st<pair<AsciiString const, DetailedArchivedDirectoryInfo> >, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::_M_erase(_Rb_tree_node<pair<AsciiString const, DetailedArchivedDirectoryInfo> > *); }
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, DetailedArchivedDirectoryInfo>, _Select1st<pair<AsciiString const, DetailedArchivedDirectoryInfo> >, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::clear(); }
+// bfme link decl-only end
 
 
 // checks to see if str matches searchString.  Search string is done in the
@@ -209,15 +215,25 @@ void ArchiveFile::addFile(const AsciiString& path, const ArchivedFileInfo *fileI
 	temp.nextToken(&token, "\\/");
 
 	while (token.getLength() > 0) {
-		if (dirInfo->m_directories.find(token) == dirInfo->m_directories.end()) 
+		DetailedArchivedDirectoryInfoMap::iterator it = dirInfo->m_directories.find(token);
+		if (it == dirInfo->m_directories.end())
 		{
-			dirInfo->m_directories[token].clear();
-			dirInfo->m_directories[token].m_directoryName = token;
+			// Insert the missing directory without instantiating this map's pair
+			// destructor: ArchiveFile's /O2 pair body is not retail's, the /O1 body
+			// in ArchiveDirInfoO1.cpp is, and a destroyable pair temporary here would
+			// emit (and reference) it ahead of that unit.
+			union BfmeDaiEntryBuffer { UnsignedInt m_align; unsigned char m_bytes[sizeof(DetailedArchivedDirectoryInfoMap::value_type)]; } buffer;
+			DetailedArchivedDirectoryInfoMap::value_type *entry =
+				new (buffer.m_bytes) DetailedArchivedDirectoryInfoMap::value_type(token, DetailedArchivedDirectoryInfo());
+			it = dirInfo->m_directories.insert(*entry).first;
+			const_cast<AsciiString &>(entry->first).clear();
+			it->second.clear();
+			it->second.m_directoryName = token;
 		}
 
 		((StringBase<char> *)&debugpath)->concat(*(const StringBase<char> *)&token);
 		debugpath.concat('\\');
-		dirInfo = &(dirInfo->m_directories[token]);
+		dirInfo = &it->second;
 		temp.nextToken(&token, "\\/");
 	}
 

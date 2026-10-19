@@ -41,17 +41,9 @@ struct GeometryShape
 
 	GeometryShape();
 	~GeometryShape();
-	GeometryShape(const GeometryShape &other)
-		: m_type(other.m_type),
-		  m_height(other.m_height),
-		  m_majorRadius(other.m_majorRadius),
-		  m_minorRadius(other.m_minorRadius),
-		  m_centerOffset(other.m_centerOffset),
-		  m_name(other.m_name),
-		  m_enabled(other.m_enabled),
-		  m_unmodelled21()
-	{
-	}
+	GeometryShape(const GeometryShape &other);
+public:
+	GeometryShape &operator=(const GeometryShape &);
 };
 
 template class _STL::vector<GeometryShape>;

@@ -65,6 +65,13 @@ public:
 
 #include "../../Include/Common/Rva0007DF07.h"
 
+// Retail installs C7A630 before the holder can throw, but first-base
+// destruction ends at BC6F20. These are distinct lifetime levels, as in
+// Rva00567CCDCtor.cpp and the rowed BaseMid destructor at 0x004E84A4.
+// Reuse that intermediate identity instead of assigning both vtables to
+// Rva0007DF07. Its inherited zero-before-vptr initialization is unchanged.
+#include "../../Include/Common/Rva00567960BaseMid.h"
+
 class Rva005F5C77Holder : public Rva005E1158
 {
 public:
@@ -86,7 +93,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_rva00E06918;
 
-class Rva005F5F2B : public Rva0007DF07, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F5F2B : public Rva00567960BaseMid, public Rva005F5C77Holder, public Rva005E4AE2Listener
 {
 public:
 	Rva005F5F2B(void *a1, Rva005F5F2BIn *a2);
@@ -97,7 +104,7 @@ private:
 };
 
 Rva005F5F2B::Rva005F5F2B(void *a1, Rva005F5F2BIn *a2)
-	: Rva0007DF07()
+	: Rva00567960BaseMid()
 	, Rva005F5C77Holder(a1, AsciiString("button"), a2->m_00)
 	, Rva005E4AE2Listener()
 {

@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /MD /GX /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /D_STLP_NO_EXCEPTIONS /EHsc
 // stlport
 //
 // The "FarmKillSquad" skirmish-AI tactic (vtable 0x00872474; ctor 0x005ACF38
@@ -19,6 +19,9 @@
 //   0x005ACE15  (not here yet) the distance from a point to the line through two others
 //   0x005AD152  the player's first tracked object whose template has +0x120
 //               bit 2 (the base building the squad farms around)
+//   0x005AD404  findFarmTarget: the reachable tracked farm farthest (beyond 300)
+//               from the line through the centre and the enemy fortress; with no
+//               fortress, a random tracked farm
 //   0x005AD5DD  slot 7 update (the slot the sibling tactics' rowed update bodies
 //               fill): stop when 0x005ACDA9 answers; while the +0x58 target is
 //               kept (0x004ED169 says not to retarget) only forget it once it is
@@ -26,7 +29,13 @@
 //               attack the farm target 0x005AD404 or the production target
 //               0x005AD243 (a game-logic roll, line 135, picks when both exist),
 //               and stop when there is neither
+#define free farm_hidden_c_free
+#include <cstdlib>
+#undef free
+void __cdecl free(void *);
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <vector>
+#include <map>
 #include "ascii_string.h"
 
 static inline float sqr(float x)
@@ -200,7 +209,7 @@ extern GameLogic *TheGameLogic;
 class Pathfinder
 {
 public:
-	bool rva002F4B33(Object *from, const Coord3D *fromPos, Object *to, int flags);
+	bool QuickDoesPathExistToStructure(Object *from, const Coord3D *fromPos, Object *to, int flags);
 };
 
 class AI
@@ -222,6 +231,7 @@ struct Rva005ACCE4Holder
 {
 	char m_pad00[8];
 	Rva005C4AD1LeaField *m_08;	// +0x08
+	Rva005C4AD1LeaField *m_0C;	// +0x0C
 };
 
 class Player;
@@ -456,4 +466,86 @@ void AIFarmKillSquad::update()
 	} else {
 		end(1, 0);
 	}
+}
+
+Object *AIFarmKillSquad::findProductionTarget(void *player)
+{
+	Coord3D center;
+	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
+	center.x = 0.0f;
+	center.y = 0.0f;
+	center.z = 0.0f;
+	rva004ECECD(0)->rva0039E5B9(&center);
+	_STL::vector<ObjectID> ids(*(const _STL::vector<ObjectID> *)holder->m_08->get());
+	Object *building = findEnemyFortress(static_cast<Player *>(player));
+	Object *result;
+	if (building) {
+		Coord3D base;
+		base.x = building->m_pos.x;
+		base.y = building->m_pos.y;
+		base.z = building->m_pos.z;
+		Object *farm = getFarmFinder();
+		_STL::map<float, Object *> byDistance;
+		for (ObjectID *it = ids.begin(); it != ids.end(); ++it) {
+			Object *obj = TheGameLogic->findObjectByID(*it);
+			if (obj && !(obj->m_04->m_10E & 4) && building != obj
+				&& TheAI->pathfinder()->QuickDoesPathExistToStructure(farm, &farm->m_pos, obj, 0)) {
+				float distance = rva005ACE15(&obj->m_pos, &center, &base);
+				byDistance.insert(_STL::pair<const float, Object *>(distance, obj));
+			}
+		}
+		if (!byDistance.empty()) {
+			_STL::map<float, Object *>::iterator last = byDistance.end();
+			--last;
+			result = last->second;
+		} else {
+			return 0;
+		}
+	} else if (!ids.empty()) {
+		result = TheGameLogic->findObjectByID(ids[GetGameLogicRandomValue(0, ids.size() - 1,
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIFarmKillSquad.cpp",
+			250)]);
+	} else {
+		return 0;
+	}
+	return result;
+}
+
+Object *AIFarmKillSquad::findFarmTarget(void *player)
+{
+	Coord3D center;
+	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
+	center.x = 0.0f;
+	center.y = 0.0f;
+	center.z = 0.0f;
+	rva004ECECD(0)->rva0039E5B9(&center);
+	_STL::vector<ObjectID> ids(*(const _STL::vector<ObjectID> *)holder->m_0C->get());
+	Object *building = findEnemyFortress(static_cast<Player *>(player));
+	if (building) {
+		Coord3D base;
+		base.x = building->m_pos.x;
+		base.y = building->m_pos.y;
+		base.z = building->m_pos.z;
+		Object *farm = getFarmFinder();
+		_STL::map<float, Object *> byDistance;
+		for (ObjectID *it = ids.begin(); it != ids.end(); ++it) {
+			Object *obj = TheGameLogic->findObjectByID(*it);
+			if (obj && !(obj->m_04->m_10E & 4)
+				&& TheAI->pathfinder()->QuickDoesPathExistToStructure(farm, &farm->m_pos, obj, 0)) {
+				float distance = rva005ACE15(&obj->m_pos, &center, &base);
+				if (distance > 300.0f)
+					byDistance.insert(_STL::pair<const float, Object *>(distance, obj));
+			}
+		}
+		if (!byDistance.empty()) {
+			_STL::map<float, Object *>::iterator last = byDistance.end();
+			--last;
+			return last->second;
+		}
+	} else if (!ids.empty()) {
+		return TheGameLogic->findObjectByID(ids[GetGameLogicRandomValue(0, ids.size() - 1,
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIFarmKillSquad.cpp",
+			304)]);
+	}
+	return 0;
 }

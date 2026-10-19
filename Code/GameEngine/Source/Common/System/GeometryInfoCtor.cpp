@@ -57,6 +57,8 @@ struct GeometryRecord
 	int m_second;
 	int m_third;
 	AsciiString m_name;
+public:
+	GeometryRecord &operator=(const GeometryRecord &);
 };
 
 class Xfer;

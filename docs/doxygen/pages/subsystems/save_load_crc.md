@@ -18,7 +18,7 @@ deterministic random numbers it includes.
 | Path under `Code/` | What is there |
 |---|---|
 | `GameEngine/Source/Common/System/Xfer.cpp` and the `Xfer*.cpp` files beside it | the `Xfer` base: typed transfer operators, versions, enums, raw bytes, strings, and helpers for engine types such as object-id lists, sciences and upgrades |
-| `Libraries/Source/xfer/` | the stream classes `XferSave` and `XferLoad` (some members still sit in staging files elsewhere) and the checksum accumulator |
+| `Libraries/Source/xfer/` | the stream classes `XferSave` and `XferLoad` and the checksum accumulator |
 | `GameEngine/Source/Common/System/Snapshot.cpp` | `Snapshot`; its shared declaration is `reference/shims/moduledata/Common/Snapshot.h` |
 | `GameEngine/Source/Common/System/SaveGame/` | `GameState`: save blocks, save-file reading, the save list, map paths |
 | `GameEngine/Source/Common/Recorder.cpp`, `GameEngine/Source/Common/System/Recorder*.cpp` | `RecorderClass` |
@@ -28,9 +28,8 @@ deterministic random numbers it includes.
 The WorldBuilder twin names the original units
 `Libraries/Source/xfer/xfer_save.cpp` and `xfer_load.cpp`,
 `Common/System/SaveGame/GameState.cpp` and `GameStateMap.cpp`, and
-`Common/Recorder.cpp`. `GameStateMap` and several `RecorderClass` and stream
-members currently sit in address-named staging files; search
-`reverse/functions.csv` for exact locations.
+`Common/Recorder.cpp`. Search `reverse/functions.csv` by class name for
+the file that defines each member.
 
 ## Key classes {#sub_save_load_crc_classes}
 
@@ -47,11 +46,12 @@ members currently sit in address-named staging files; search
   `Xfer::XferRawBytes`; and the mode queries `Xfer::IsLoading`,
   `Xfer::IsStoring`, `Xfer::IsCRC` and `Xfer::IsLightCRC`. Each operator
   ends in one pure virtual data function that receives a four-character type
-  tag (`int`, `real`, `astr` and so on), an address and a size. Many units
-  still call Zero Hour spellings (`xferInt`, `xferSnapshot`) through their
-  own view of the class; those reach the same virtual functions.
+  tag (`int`, `real`, `astr` and so on), an address and a size. Units with
+  their own view of the class may call Zero Hour spellings (`xferInt`,
+  `xferSnapshot`); those reach the same virtual functions.
 - `XferSave` and `XferLoad` write and read a byte stream. The checksum
-  writer derives from `XferSave`; its class name is still a placeholder.
+  writer derives from `XferSave`; Zero Hour's checksum writer, `XferCRC`,
+  derives from `Xfer` directly.
 - `GameState` (`TheGameState`) owns save files, `GameStateMap`
   (`TheGameStateMap`) the map stored in them, and `RecorderClass`
   (`TheRecorder`) replays.
@@ -75,7 +75,7 @@ members currently sit in address-named staging files; search
   stream starts with the signature `ALAE2STR`, a value from the caller and a
   flag; with the flag set every value is preceded by its type tag and
   `XferLoad` checks it ("Expected '...' but found '...'"). Which files use
-  the tagged form is not yet established.
+  the tagged form is not established.
 
 ## Saving and loading a game {#sub_save_load_crc_saves}
 
@@ -83,9 +83,9 @@ members currently sit in address-named staging files; search
   `CHUNK_GameLogic`, `CHUNK_Players`, `CHUNK_LivingWorldLogic`,
   `CHUNK_Audio` and many more) with `GameState::addSnapshotBlock`. They go
   into separate lists: the full save list, a logic-only list (Zero Hour uses
-  its counterpart for deep checksums; its BFME 2 user is not yet
-  identified), and two short lists (mainly game state, campaign, map, game
-  logic, audio and Living World logic) whose use is not yet identified.
+  its counterpart for deep checksums; its BFME 2 user is not
+  established), and two short lists (mainly game state, campaign, map, game
+  logic, audio and Living World logic) whose use is not established.
 - `GameState::xferSaveData` walks one list. Saving writes each block name,
   the block, then an end-of-file token; loading reads names up to that token
   and skips any block whose name is not registered.
@@ -136,7 +136,7 @@ members currently sit in address-named staging files; search
   summary of each), a checksum of the logic random seed, the partition,
   collision, shroud and taint managers, a skirmish-AI manager, the player
   list, the AI and, in some games, the Living World logic. Flags whose
-  setter is not yet known can leave parts out. It does not hash the script
+  setter is not established can leave parts out. It does not hash the script
   engine, teams, sides or terrain logic, which are saved (Zero Hour's deep
   CRC also walks a block list that includes the script engine). Given a
   stream, the writer also writes everything it hashes there; that is how
@@ -154,7 +154,7 @@ members currently sit in address-named staging files; search
   first. In BFME 1 it compares afterwards and, on a difference, shows
   "GameLogic changed outside of GameLogic::update()!" and appends to
   `CLIENT_DESYNC_<machine>.txt`. BFME 2 has the same strings; how its guard
-  compares has not been established. A flag enables the check.
+  compares is not established. A flag enables the check.
 
 ## Replays {#sub_save_load_crc_replays}
 
@@ -253,7 +253,7 @@ members currently sit in address-named staging files; search
   Plain fields are not skipped: a field change needs a version bump.
 - **Templates are saved by name.** Renaming or removing a template affects
   saves that use it. Zero Hour skips such objects on load; BFME 2's handling
-  is not yet traced.
+  is not established.
 - **Maps travel with saves.** A save restores its own map copy, so editing a
   map file does not change saves made on it.
 - **Fixed limits.** The replay header holds eight player slots, versions are

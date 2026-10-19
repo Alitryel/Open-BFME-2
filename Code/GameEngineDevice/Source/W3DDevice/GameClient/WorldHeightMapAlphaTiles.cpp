@@ -41,6 +41,7 @@ public:
 	UnsignedByte m_tileDataMip1[0x4];
 	int m_2AB4;
  unsigned char tail[8];
+	bool hasRGBDataForWidth(Int width);
 	UnsignedByte *getRGBDataForWidth(Int width);
 	void updateMips();
 };
@@ -125,4 +126,122 @@ void Rva000AC6F9SetupAlphaTiles(void)
 		}
 		pTile->updateMips();
 	}
+}
+
+// Native AC88E..AC9DA (332B): existing neutral WorldHeightMap call owner.
+// Semantic guide: ZH WorldHeightMap::getRawTileData and TileData mip access,
+// reviewed at BFME1 dae380faa5f6fa536eec8d6ebbe877321d4cb51d.
+// Retail supplies the fifth mode argument, optional tile copy at 111784,
+// source table +B0/4096 entries and RGB555-to-32-bit expansion instead of
+// the donor's 4BPP memcpy. Original BFME2 method name remains unknown.
+class Rva00111784DwordField
+{
+public:
+	int get() const;
+};
+
+class Rva000ADDCEWorldHeightMapView
+{
+public:
+	bool rawTile(short tile, int width, unsigned char *buffer, int bytes, int mode);
+
+private:
+	char prefix[0xB0];
+	TileData *tiles[0x1000];
+};
+
+// The retail pixel block saves the row counter and packs through BH and AX.
+// Keep that block in assembly because C++ does not express those register operations.
+bool Rva000ADDCEWorldHeightMapView::rawTile(short tile, int width,
+	unsigned char *buffer, int bytes, int mode)
+{
+	TileData *source = 0;
+	if (tile / 4 < 0x1000) {
+		source = tiles[tile / 4];
+		if (mode == 1) {
+			if (!source) return false;
+			source = reinterpret_cast<TileData *>(reinterpret_cast<const Rva00111784DwordField *>(source)->get());
+			if (!source) return false;
+		}
+	}
+	int destinationBytes = width * width * 4;
+	if (bytes < destinationBytes) return false;
+	if (source) {
+		int sourceWidth = width * 2;
+		if (source->hasRGBDataForWidth(sourceWidth)) {
+			unsigned char *pixels = source->getRGBDataForWidth(sourceWidth);
+			if (tile & 1) pixels += width * 2;
+			if (tile & 2) pixels += width * width * 4;
+			__asm {
+				mov esi,pixels
+				mov edi,buffer
+				mov edx,width
+			raw_row:
+				mov ecx,width
+				shr ecx,2
+				push edx
+				mov edx,003f3f3fh
+			raw_pixels:
+				movzx eax,word ptr [esi]
+				mov ebx,eax
+				shr eax,10
+				shl ebx,3
+				shl eax,19
+				shl bh,3
+				mov ax,bx
+				mov ebx,eax
+				shr ebx,5
+				and ebx,edx
+				add eax,ebx
+				mov dword ptr [edi],eax
+				movzx eax,word ptr [esi+2]
+				mov ebx,eax
+				shr eax,10
+				shl ebx,3
+				shl eax,19
+				shl bh,3
+				mov ax,bx
+				mov ebx,eax
+				shr ebx,5
+				and ebx,edx
+				add eax,ebx
+				mov dword ptr [edi+4],eax
+				movzx eax,word ptr [esi+4]
+				mov ebx,eax
+				shr eax,10
+				shl ebx,3
+				shl eax,19
+				shl bh,3
+				mov ax,bx
+				mov ebx,eax
+				shr ebx,5
+				and ebx,edx
+				add eax,ebx
+				mov dword ptr [edi+8],eax
+				movzx eax,word ptr [esi+6]
+				mov ebx,eax
+				shr eax,10
+				shl ebx,3
+				shl eax,19
+				shl bh,3
+				mov ax,bx
+				mov ebx,eax
+				shr ebx,5
+				and ebx,edx
+				add eax,ebx
+				mov dword ptr [edi+12],eax
+				add esi,8
+				add edi,16
+				dec ecx
+				jnz raw_pixels
+				pop edx
+				mov ecx,width
+				lea esi,[esi+ecx*2]
+				dec edx
+				jnz raw_row
+			}
+			return true;
+		}
+	}
+	return false;
 }

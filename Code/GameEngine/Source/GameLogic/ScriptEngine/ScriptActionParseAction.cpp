@@ -52,6 +52,8 @@ struct DataChunkInfo
 	AsciiString parentLabel;
 	DataChunkVersionType version;
 	Int dataSize;
+public:
+	~DataChunkInfo();
 };
 
 class DataChunkInput

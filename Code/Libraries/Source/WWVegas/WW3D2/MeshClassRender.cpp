@@ -309,7 +309,6 @@ public:
 
 	int Get_Flag(FlagsType flag) { return Flags & flag; }
 	int Get_Sort_Level(void) const { return SortLevel; }
-	ShaderClass Get_Single_Shader(int pass = 0) const { return CurMatDesc->Get_Single_Shader(pass); }
 	FXShaderSetup *Peek_FX_Shader(int pass) const { return CurMatDesc->Peek_FX_Shader(pass); }
 	bool Is_FX_Shader_Material(void) const { return CurMatDesc->Has_FX_Shader(0); }
 	bool rva00171720(void);
@@ -562,8 +561,9 @@ void MeshClass::Render(RenderInfoClass &rinfo)
 	DX8FVFCategoryContainer *fvf_container = Model->PolygonRendererList.Peek_Head()->Get_Texture_Category()->Get_Container();
 
 	bool render_base_passes = ((rinfo.Current_Override_Flags() & RenderInfoClass::RINFO_OVERRIDE_ADDITIONAL_PASSES_ONLY) == 0);
-	bool is_alpha = (Model->Get_Single_Shader().Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE) ||
-		(Model->Get_Single_Shader().Get_Src_Blend_Func() == ShaderClass::SRCBLEND_SRC_ALPHA);
+	// Retail inlines the descriptor lookup in both alpha tests.
+	bool is_alpha = (Model->CurMatDesc->Get_Single_Shader().Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE) ||
+		(Model->CurMatDesc->Get_Single_Shader().Get_Src_Blend_Func() == ShaderClass::SRCBLEND_SRC_ALPHA);
 
 	if ((rinfo.Current_Override_Flags() & RenderInfoClass::RINFO_OVERRIDE_SHADOW_RENDERING) &&
 		(is_alpha == true))

@@ -9,6 +9,12 @@
 // PreRTS clamp<float> call (row 0x0000575A).
 #include <math.h>
 #include <list>
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <vector>
 #include "GameLogic/ContainmentListView.h"
 #include "Coord3D.h"

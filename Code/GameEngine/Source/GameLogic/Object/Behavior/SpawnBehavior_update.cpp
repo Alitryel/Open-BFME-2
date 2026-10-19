@@ -34,6 +34,7 @@ template <> __declspec(dllimport) __forceinline
 void *const *vector<void*>::begin() const { return this->_M_start; }
 template <> __declspec(dllimport) __forceinline
 size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(begin() + __n); }
 }
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it

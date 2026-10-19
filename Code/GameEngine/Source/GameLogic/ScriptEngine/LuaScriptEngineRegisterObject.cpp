@@ -69,7 +69,7 @@ private:
 class LuaScriptEngine
 {
 public:
-	void rva00334003(lua_State *L, Object *obj);
+	void PushObjectTable(lua_State *L, Object *obj);
 
 private:
 	unsigned char m_pad00[0xC];
@@ -118,7 +118,7 @@ void LuaDrawableState::rva00333F37(Object *obj)
 	}
 }
 
-void LuaScriptEngine::rva00334003(lua_State *L, Object *obj)
+void LuaScriptEngine::PushObjectTable(lua_State *L, Object *obj)
 {
 	if (obj == 0)
 	{

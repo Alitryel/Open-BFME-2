@@ -167,7 +167,6 @@ class Rva005DCE08
 public:
 	~Rva005DCE08();
 	Rva005AD9C0Hit *rva005DCC86(void *arg);
-	void rva005DCCFB();
 	void rva005DCEAD(Xfer *xfer);
 	void rva005DCE62(Rva00573E7C *order);
 };

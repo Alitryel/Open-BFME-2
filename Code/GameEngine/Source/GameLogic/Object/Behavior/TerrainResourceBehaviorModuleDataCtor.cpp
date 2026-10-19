@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG
+// cl: /MD /GX /DNDEBUG /Ireference/shims/moduledata
 //
 // ??0TerrainResourceBehaviorModuleData@@QAE@XZ, retail 0x0048202F, 91 bytes.
 // EH ctor over the Income table 0xC494F0 (Radius@8, MaxIncome@C,
@@ -6,21 +6,26 @@
 // Upgrade@1C, UpgradeBonusPercent@20). Identity is the table plus the
 // TerrainResourceBehavior poolkey 0x481FBD in the same cluster plus factory
 // 0x24C2A4 (news 0x24, sole caller) plus rowed proc 0x48208A.
-// Shape follows Devastate V5 precedent: virtual base (declared-only virtual
-// dtor, no code) is the TU's sole unwindable, which arms retail's EH frame
+// Shape follows Devastate V5 precedent: the virtual base is the TU's
+// sole unwindable, which arms retail's EH frame
 // with its single state-0 store; the member has no declared dtor so the
 // 0x3623E5 call advances no state. The derived vtable store is
-// compiler-emitted (virtual classes, TU-local, nothing defined so no vtable
-// is emitted here; the store resolves through the ??_7 pin at the true
-// vtable 0x00C49440, whose slot0 is the scalar-deleting dtor 0x482259).
+// compiler-emitted; its store resolves through the ??_7 pin at the true
+// vtable 0x00C49440, whose slot0 is the scalar-deleting dtor 0x482259.
 // /Oy- forces the ebp frame with the __EH_prolog prologue; /arch:SSE keeps
 // the float zeros as xorps plus movss; init-list (-1) emits the or form.
+
+// Native constructor 0x48202F state-0 cleanup 0x78BB8A calls 0x49B47C.
+// Its 7-byte teardown restores Snapshot table 0xBBB554, also restored by
+// the complete derived destructor at 0x482275. Keep the existing 8-byte
+// base view and delegate that proven primary lifetime to canonical Snapshot.
+#include "Common/Snapshot.h"
 
 class TerrainResourceModuleDataBase
 {
 public:
 	TerrainResourceModuleDataBase() {}
-	virtual ~TerrainResourceModuleDataBase();
+	virtual ~TerrainResourceModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 	unsigned char m_pad[8 - 4];

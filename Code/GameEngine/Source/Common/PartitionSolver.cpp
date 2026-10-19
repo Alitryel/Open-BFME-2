@@ -89,16 +89,7 @@ static Bool greater_than(PairObjectIDAndUInt a, PairObjectIDAndUInt b)
 }
 
 #pragma optimize("s", on)
-PartitionSolver::PartitionSolver(const EntriesVec& elements, const SpacesVec& spaces, SolutionType solveHow)
-{
-	m_data = elements;
-	m_spacesForData = spaces;
-	m_howToSolve = solveHow;
-	//Added By Sadullah Nader
-	//Initializations inserted
-	m_currentSolutionLeftovers = 0;
-	//
-}
+
 #pragma optimize("", on)
 
 // solve lives in PartitionSolverSolve.cpp under its native /O1 /EHs configuration.

@@ -37,6 +37,10 @@ multiplied by wb_context.BOOST (1.5); ranked views keep their own order. The
 packet tier also breaks landability ties toward packets whose Zero Hour name or
 file agrees with the lead. A lead is identity evidence only, never a match.
 
+Previously attempted candidates carry their standing verdict and full evidence
+in `prior_attempt` in --json. Text output prints it before the start command,
+including evidence paths; read it before repeating a failed trial.
+
 Usage:
   python3 tools/next_work.py [--tier structural]
   python3 tools/next_work.py --wb [--claim] [--ranked]
@@ -556,6 +560,31 @@ def annotate_stashes(candidates):
     return candidates
 
 
+def annotate_attempts(candidates):
+    """Expose the candidate's own standing verdict, without changing selection.
+
+    Boundary/void rules stay in re_log. In particular, a drift-corrected
+    boundary must not acquire a verdict recorded only at its old address.
+    Keep the full evidence: handoff paths often occur after a long trial note.
+    """
+    for candidate in candidates:
+        candidate.pop("prior_attempt", None)
+        symbol = candidate.get("function")
+        if not symbol:
+            continue
+        rva = _candidate_rva(candidate)
+        moved = "drift-corrected" in candidate.get("hint", "")
+        status = re_log.standing_status(symbol, rva, boundary_moved=moved)
+        if status is not None:
+            candidate["prior_attempt"] = {
+                "status": status,
+                "evidence": re_log.standing_evidence(
+                    symbol, rva, boundary_moved=moved) or "",
+                "log": "reverse/re_attempts.log",
+            }
+    return candidates
+
+
 def stash_line(candidate):
     """The one-line pointer at a banked body, or None. Printed beside `start:`."""
     if "stash" not in candidate:
@@ -683,7 +712,7 @@ def claim_choice(candidates, label):
 
 
 def _print_boundary_verdicts(candidate, limit=3):
-    """Report standing verdicts recorded at this candidate's own address.
+    """Report the candidate's own verdict and findings under other names.
 
     One retail address carries several drifted names, and a verdict retires the
     name it names -- not the address. So the queue legitimately re-serves an
@@ -694,6 +723,14 @@ def _print_boundary_verdicts(candidate, limit=3):
     A" is no proof of "not B" -- it just starts the next agent from the
     disassembly that was already paid for.
     """
+    annotate_attempts([candidate])
+    prior = candidate.get("prior_attempt")
+    if prior:
+        print(f"       prior attempt: {prior['status']} ({prior['log']})")
+        if prior["evidence"]:
+            print(f"         {' '.join(prior['evidence'].split())}")
+        print("       Read the prior evidence before retrying; do not repeat "
+              "unchanged failed trials.")
     rva = _candidate_rva(candidate)
     if rva is None:
         return
@@ -704,8 +741,6 @@ def _print_boundary_verdicts(candidate, limit=3):
           f"({len(found)} verdict(s), evidence in reverse/re_attempts.log):")
     for symbol, status, evidence in found[:limit]:
         shown = " ".join(evidence.split())
-        if len(shown) > 140:
-            shown = shown[:139] + "…"
         print(f"         {status} as {symbol}")
         if shown:
             print(f"           {shown}")
@@ -1346,6 +1381,7 @@ def print_candidate(label, candidate, meta, candidates=()):
         print(f"  {candidate['size']:>5}B  {what}  {candidate['function']}")
         print(f"       {candidate['target_rva']} in {candidate['source']}")
         print(f"       why: {candidate['why']}")
+        _print_boundary_verdicts(candidate)
         print(f"       start: fix the row in {candidate['source']}; done when the pass test passes:")
         print(f"       pass test: {candidate['pass_test']}")
         print(f"       credit: {candidate['credit']:,} bytes (a repair counts: progress_v2 gate debt / link series)")
@@ -1476,6 +1512,7 @@ def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
             print(f"       {candidate['source']} @ {candidate['candidate_rva']}  "
                   f"hint: {candidate['hint']}")
             _print_wb(candidate)
+            _print_boundary_verdicts(candidate)
             print("       fix the literal in source, then byte-verify: "
                   f"{candidate['command']}")
 
@@ -1662,7 +1699,10 @@ def main():
     anchored = apply_shard(anchored, args.shard)
     wb = apply_shard(wb, args.shard)
     similar_q = apply_shard(similar_q, args.shard)
+    for queue in (repair, link):
+        annotate_attempts(queue)
     for queue in (named, drifts, structural, ghidra_absent, anchored, wb, similar_q):
+        annotate_attempts(queue)
         annotate_stashes(queue)
         annotate_wb(queue)
         annotate_wpo(queue)
@@ -1698,6 +1738,7 @@ def main():
                 for candidate in queue[:args.limit]:
                     print(f"  {candidate['size']:>5}B {candidate.get('check', '')} {candidate['target_rva']} "
                           f"{candidate['function'][:70]}  ({candidate['source']})")
+                    _print_boundary_verdicts(candidate)
                     print(f"       pass test: {candidate['pass_test']}")
             if link_note:
                 print(f"  {link_note}")
@@ -1709,6 +1750,7 @@ def main():
     packets = (packet_candidates(claimed)
                if args.tier in (None, "packet") else [])
     packets = annotate_wpo(annotate_wb(without_busy(packets, busy)))
+    annotate_attempts(packets)
     if wpo_detect is not None:
         wpo_detect.save_cache()
     repair_queue.annotate_dest(packets)

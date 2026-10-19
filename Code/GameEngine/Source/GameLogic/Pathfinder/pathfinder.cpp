@@ -33,6 +33,7 @@ typedef int LocomotorSurfaceTypeMask;
 class LocomotorSet
 {
 public:
+	Bool isDownhillOnly()const{return m_downhillOnly;}
 	LocomotorSurfaceTypeMask getValidSurfaces() const
 	{
 		return m_validLocomotorSurfaces;
@@ -221,6 +222,7 @@ public:
 	Bool rvaBit16() const { return (Bool)((m_info >> 16) & 1); }
  PathfindCell *getParentCell(){return (PathfindCell *)((Rva002E6C79 *)this)->rva002E6C79();}
  Waypoint *getParentWaypoint()const {return m_pathInfo?m_pathInfo->parentWaypoint:0;}
+ ObjectID getObstacleID() const { return m_pathInfo ? m_pathInfo->obstacleID : (ObjectID)0; }
 
 private:
 	PathfinderGroundInfo *m_pathInfo;
@@ -505,6 +507,8 @@ private:
 class PathfindZoneManager
 {
 public:
+	void rva005312BE();
+ unsigned char IsPassable(Int,Int);
 	void rva00531300();
 	void rva00531481();
 	void rva005314C6(Int x, Int y, unsigned char flag);
@@ -673,8 +677,10 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
 	Path *InternalFindPath(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *,HierarchicalPath *,Bool *);
 	Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
 	Path *GetMoveAwayFromPath(Object *,Object *,Path *,Object *,Path *);
+	Path *FindClosestPath(Object *,const LocomotorSet &,const Coord3D *,Coord3D *,Bool,float,Bool);
 	Int ExamineNeighboringCellsForSidewaysAttack(PathfindCell *,const ICoord2D *,Int,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
-	Bool checkForMovement(Object *,TCheckMovementInfo &);
+	Bool rva002EA658(Object *,TCheckMovementInfo &,const ICoord2D *);
+ Bool checkForMovement(Object *,TCheckMovementInfo &);
 	Bool rva002EDFF9(Object *,Coord3D *);
 	void rva002E75A3(Coord3D *,Coord3D *);
 	Int rva002F0A72(PathfindCell *,PathfindCell *);
@@ -3586,6 +3592,238 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
  m_isTunneling=false;rva002F40E7();return 0;
 }
 
+float g_00DBD338 = 0.010000000707805157f;	// retail RVA 0x009BD338 (.data), defined here
+class Rva0053476A;
+class Rva002EAD62 { public: void rva002EAD62(); };
+class Rva002EAD39 { public: void rva002EAD39(Rva0053476A *); };
+// Owner of the hierarchical path the closest search consults.
+struct PathfinderAttackHandle
+{
+	Path *path;
+	__forceinline PathfinderAttackHandle(Path *p) : path(p) {}
+	__forceinline ~PathfinderAttackHandle() { ((Rva002EAD62 *)this)->rva002EAD62(); }
+};
+// WB D48830 supplies FindClosestPath identity and target-specific stages;
+// ZH findClosestPath supplies closest-cell and hierarchical search semantics.
+inline __declspec(noinline) float Coord3D::length()const{return(float)sqrt(x*x+y*y+z*z);}
+inline __declspec(noinline) float Coord3D::GetLength()const{float a=x,b=y,c=z;return(float)sqrt(a*a+b*b+c*c);}
+inline __declspec(noinline) float Coord3D::Normalize(){float len=GetLength();float scale=1.0f/len;x*=scale;y*=scale;z*=scale;return len;}
+Path *Pathfinder::FindClosestPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
+Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
+{
+ m_srcMineshaft=0;
+ m_destMineshaft=0;
+ Bool human=true;
+ if(obj->getControllingPlayer() && obj->getControllingPlayer()->m_playerType==1)human=false;
+ if(!locos.getValidSurfaces())return 0;
+ if(!m_isMapReady)return 0;
+ m_isTunneling=false;
+ Bool throughUnits=false;
+ if(obj->getAI())throughUnits=*((const Bool *)obj->getAI()+0x3ba);
+ Int radius;
+ Bool center;
+ Rva002EBCA7Split(obj,&radius,(unsigned char *)&center);
+ Coord3D adjusted;
+ copyCoord3D(&adjusted,rawTo);
+ if(!QuickDoesPathExist(obj,from,&adjusted,false))
+ {
+  Coord3D delta;
+  delta.x=adjusted.x-from->x;
+  delta.y=adjusted.y-from->y;
+  delta.z=0;
+  Int steps=-1-(Int)(delta.length()*(-1.0f/30.0f));
+  if(steps>5)steps=5;
+  delta.Normalize();
+  delta.x*=30.0f;
+  delta.y*=30.0f;
+  delta.z*=30.0f;
+  for(Int i=0;i<steps;++i)
+  {
+   adjusted.x-=delta.x;
+   adjusted.y-=delta.y;
+   adjusted.z-=delta.z;
+   if(QuickDoesPathExist(obj,from,&adjusted,false))break;
+  }
+ }
+ Coord3D destination;
+ copyCoord3D(&destination,&adjusted);
+ if(!center)
+ {
+  destination.x+=5.0f;
+  destination.y+=5.0f;
+ }
+ Coord3D clippedFrom;
+ copyCoord3D(&clippedFrom,from);
+ rva002E75A3(&clippedFrom,&destination);
+ ICoord2D startIndex;
+ Rva002E7875WorldToCell(&startIndex,true,from);
+ PathfindCell *parent=rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(),&clippedFrom);
+ if(!parent)return 0;
+ Int priority=obj->m_template->priority;
+ Bool flag=obj->m_template->flag;
+ Rva002E8BCF movement((const Rva002E8BCFSrc *)&locos,!flag,priority-1,obj->rva0028AFBB());
+ if(!((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent))m_isTunneling=true;
+ {
+  TCheckMovementInfo info;
+  ((Rva002E6FDF *)&info)->rva002E6FDF();
+  info.cell=startIndex;
+  info.layer=(PathfindLayerEnum)obj->rva0028B511();
+  info.centerInCell=center;
+  info.radius=radius;
+  info.m_11=blocked;
+  info.m_14=obj->m_template->testKindWord(90)?1:16;
+  readMoverInfo(info,obj);
+  if(!checkForMovement(obj,info))m_isTunneling=true;
+ }
+ Bool gotHierarchical=false;
+ ((_STL::vector<Gen_p12pod> *)&m_1C1CC)->clear();
+ PathfinderAttackHandle hierarchical(0);
+ if(m_isTunneling)m_zoneManager.rva00531300();
+ else
+ {
+  m_zoneManager.rva005312BE();
+  Path *path=FindClosestHierarchicalPath(human,locos,obj,from,&adjusted,false,&destination);
+  ((Rva002EAD39 *)&hierarchical)->rva002EAD39((Rva0053476A *)path);
+  if(hierarchical.path)gotHierarchical=true;
+  else m_zoneManager.rva00531300();
+ }
+ PathfindLayerEnum destinationLayer=(PathfindLayerEnum)TheTerrainLogic->getLayerForDestination(0,&destination);
+ PathfindCell *goal=rva002E8BF8(destinationLayer,&destination);
+ if(!goal)return 0;
+ Bool goalOnObstacle=false;
+ if(m_ignoreObstacleID)
+ {
+  Object *goalObj=TheGameLogic->findObjectByID(m_ignoreObstacleID);
+  if(goalObj)
+  {
+   PathfindCell *ignoreCell=rva002E8BF8((PathfindLayerEnum)goalObj->rva0028B511(),(const Coord3D *)goalObj->position);
+   PathfinderGroundInfo *goalInfo=goal->m_pathInfo;
+   if((goalInfo?goalInfo->obstacleID:(ObjectID)0)==ignoreCell->getObstacleID() && (goalInfo?goalInfo->obstacleID:(ObjectID)0))
+   {
+    Object *newObstacle=TheGameLogic->findObjectByID(goalInfo?goalInfo->obstacleID:(ObjectID)0);
+    if(newObstacle && newObstacle->m_template->hasKind(35))
+    {
+     m_ignoreObstacleID=goalInfo?goalInfo->obstacleID:(ObjectID)0;
+     goalOnObstacle=true;
+    }
+    else
+    {
+     if(m_ignoreObstacleID==(goalInfo?goalInfo->obstacleID:(ObjectID)0))goalOnObstacle=true;
+    }
+   }
+  }
+ }
+ Bool startedStuck=m_isTunneling;
+ { ICoord2D goalIndex; goal->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&goalIndex,true,&destination)); }
+ if(parent!=goal)
+ {
+  ICoord2D parentIndex; parent->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&parentIndex,true,&clippedFrom));
+ }
+ parent->StartPathfind((Int)goal);
+ parent->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parent,goal);
+ PathfindCell *closest=0;
+ float closestMetric=3.4028235e38f;
+ Int closestOrder=0;
+ float bestDistance=8.5070587e37f,bestScreenDistance=8.5070587e37f;
+ PathfinderSearchCellsVisited=0;
+ AddToOpenList(parent);
+ Int count=0;
+ Bool foundGoal=false;
+ while((parent=rva002F36E5())!=0)
+ {
+  if(parent==goal)
+  {
+   if(goalOnObstacle || !closest || throughUnits || bfmeWrapE6E90(obj,(void *)parent->getXIndex(),(void *)parent->getYIndex(),(void *)parent->getLayer(),(void *)radius,boolArg(center)))
+   {
+    m_isTunneling=false;
+    Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,goal,center,blocked,true);
+    rva002F40E7();
+    parent->ReleaseInfo();
+    goal->ReleaseInfo();
+    return path;
+   }
+   foundGoal=true;
+   parent->PutOnClosedList(&m_closedList);
+   continue;
+  }
+  parent->PutOnClosedList(&m_closedList);
+  float dx,dy,distance;
+  if(!m_isTunneling && bfmeWrapE6E90(obj,(void *)parent->getXIndex(),(void *)parent->getYIndex(),(void *)parent->getLayer(),(void *)radius,boolArg(center)) &&
+  (!startedStuck || ((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent)))
+  {
+   dx=(float)abs(goal->getXIndex()-parent->getXIndex());
+   dy=(float)abs(goal->getYIndex()-parent->getYIndex());
+   distance=dy*dy+dx*dx;
+   if(distance<bestDistance)
+   {
+    if(dx+dy>25.0f)
+    {
+     float metric=(float)sqrt((double)distance); metric+=25.0f;
+     bestScreenDistance=(float)(metric*metric);
+    }
+    else bestScreenDistance=distance*4.0f;
+    bestDistance=distance;
+   }
+   unsigned short cost=parent->m_pathInfo->costSoFar;
+   distance+=(cost*(cost*g_00DBD338))*multiplier;
+   distance+=(unsigned int)(((_STL::vector<Gen_p12pod> *)&m_1C1CC)->size()*10000U);
+   if(hierarchical.path)
+   {
+    Int order=((HierarchicalPath *)hierarchical.path)->lookUpPositionOnPath((const Coord3D *)parent->m_pathInfo);
+    if(order>closestOrder || (order==closestOrder && distance<closestMetric))
+    {
+     PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+     if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
+     {
+      closest=parent;
+      closestOrder=order;
+      closestMetric=distance;
+     }
+    }
+   }
+   else if(distance<closestMetric)
+   {
+    PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+    if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
+    {
+     closest=parent;
+     closestMetric=distance;
+    }
+   }
+  }
+  dx=(float)abs(goal->getXIndex()-parent->getXIndex());
+  dy=(float)abs(goal->getYIndex()-parent->getYIndex());
+  distance=dy*dy+dx*dx;
+  if(distance>bestScreenDistance)
+  {
+   Bool stop=false;
+   if(!gotHierarchical)stop=true;
+   if(count>2000)stop=true;
+   if(distance<100.0f)stop=false;
+   if(stop)continue;
+  }
+  if(!foundGoal)
+  {
+   CheckChangeLayers(parent,obj);
+   count+=rva002F83F5(parent,goal,locos,human,center,radius,&startIndex,obj,0);
+  }
+ }
+ if(closest)
+ {
+  m_isTunneling=false;
+  adjusted.x=closest->getXIndex()*10+5.0f;
+  adjusted.y=closest->getYIndex()*10+5.0f;
+  Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,closest,center,blocked,true);
+  rva002F40E7();
+  goal->ReleaseInfo();
+  return path;
+ }
+ m_isTunneling=false;
+ rva002F40E7();
+ goal->ReleaseInfo();
+ return 0;
+}
+
 Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet, const Coord3D *from,
 	const Coord3D *rawTo, HierarchicalPath *hierarchicalPath, Bool *destinationAdjusted)
 {
@@ -4978,4 +5216,91 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
    }
  }
  return true;
+}
+
+class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);char fields[0x34];};
+struct BurningCell {char pad[6];unsigned short count;char pad8[12];};
+struct BurningGrid {char pad[0x70];BurningCell **cells;char word74[4];Int width,height;};
+class Rva002872BA;extern Rva002872BA *TheTriggerManager;
+// Shared neighbor body from PathfinderSidewaysAttack.cpp; the index is unused.
+// ?Pathfinder::rva002F83F5 present-unmatched
+inline __declspec(noinline) Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
+{
+if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
+Bool canPathThroughUnits=false;
+if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
+if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
+ICoord2D end;const ICoord2D *endPtr;
+if(m_1C1CC.empty()){endPtr=(ICoord2D *)goalCell->m_pathInfo;}
+else {endPtr=(ICoord2D *)&m_1C1CC.back().m_position;}
+end=*endPtr;PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();Rva002EAB6F query((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0);
+iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002E7261Info *)&query);
+}
+Int cellCount=0;
+TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
+info.layer=(PathfindLayerEnum)parentCell->getLayer();info.radius=radius;info.centerInCell=centerInCell;
+info.m_14=12;if(!obj->m_template->hasKind(90))info.m_14=28;
+info.m_18=(ObjectID)(obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0);
+Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;info.m_11=true;
+(*(Rva002E8BCF *)info.m_1C)=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
+static Int deltaX[]={1,0,-1,0,1,-1,-1,1};static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
+Bool neighborFlags[8];
+for(Int i=0;i<8;++i) {
+neighborFlags[i]=false;
+Int x=parentCell->getXIndex()+deltaX[i],y=parentCell->getYIndex()+deltaY[i];ICoord2D coords={x,y};
+PathfindCell *newCell=getCell((PathfindLayerEnum)parentCell->getLayer(),x,y);
+if(!newCell)continue;
+if((unsigned char)((Rva002E6B06 *)newCell)->rva002E6B06() || (unsigned char)((Rva002E6AF3 *)newCell)->get())continue;
+if(newCell->getLayer()!=parentCell->getLayer() && !((*(Rva002E8BCF *)info.m_1C).surfaces&64) && newCell->getLayer()!=((parentCell->m_info>>10)&63) && ((newCell->m_info>>10)&63)!=parentCell->getLayer() && (((parentCell->m_info>>10)&63)!=16 || ((newCell->m_info>>10)&63)!=((parentCell->m_info>>10)&63)))continue;
+if(isHuman){if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
+if(i>=4 && !neighborFlags[i&3] && !neighborFlags[(i+1)&3])continue;
+if(locomotorSet.isDownhillOnly()) {
+float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
+float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
+if(oldZ<newZ)continue;
+}
+Bool movementValid=((Rva002E6DC4 *)this)->rva002E6DC4(&(*(Rva002E8BCF *)info.m_1C),newCell);
+Bool tunnelingValid=false;
+if(m_isTunneling)tunnelingValid=(newCell->getLayer()==parentCell->getLayer());
+if(!movementValid && !tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
+neighborFlags[i]=true;
+info.cell.x=x;info.cell.y=y;
+if(!rva002EA658(obj,info,(const ICoord2D *)parentCell->m_pathInfo)) {
+if(!tunnelingValid){newCell->allocateInfo((In002E6BA1 *)&coords);newCell->PutOnClosedList(&m_closedList);continue;}
+++info.m_34;
+} else {if(movementValid)m_isTunneling=false;}
+if(!newCell->m_pathInfo)++cellCount;
+newCell->allocateInfo((In002E6BA1 *)&coords);
+unsigned int newCostSoFar=0;
+Int dx=goalCell?abs(x-goalCell->getXIndex()):3;
+Int dy=goalCell?abs(y-goalCell->getYIndex()):3;
+if(newCell->getType()==2 && !(unsigned char)(newCell->m_info>>16&1)) {
+float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
+float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
+if(fabs(oldZ-newZ)<10.0f)newCostSoFar=98;
+} else if((unsigned char)(newCell->m_info>>16)&1 || (unsigned char)(newCell->m_info>>23)&1){if(dx+dy>3)newCostSoFar=10;}
+newCell->m_pathInfo->flags&=~1U;
+if(info.m_2C){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
+Int remaining=0;
+if(goalCell){remaining=rva002F0A72(newCell,goalCell);if(attackMode && info.m_32)newCostSoFar+=30;}
+if((unsigned char)Rva002E6E6CGet(newCell->getLayer()) && !m_zoneManager.IsPassable(x,y) && !((unsigned char)(newCell->m_info>>21)&1))newCostSoFar+=1000;
+if(newCell->getType()==4){Int obstacle=newCell->m_pathInfo?newCell->m_pathInfo->obstacleID:0;if(obstacle!=m_ignoreObstacleID)newCostSoFar+=1000;}
+newCostSoFar+=info.m_34*10;
+if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&(*(Rva002E8BCF *)info.m_1C),newCell))newCostSoFar+=100;
+if((unsigned char)(newCell->m_info>>21)&1)newCostSoFar>>=1;
+newCostSoFar+=newCell->CalcCostSoFar((const Rva002E6C79 *)parentCell);
+newCostSoFar+=CalcExtraCosts(obj,parentCell,(Rva002EBC7FPair *)&coords,info.radius,info.radius+(info.centerInCell?1:0),true);
+Int fireX=realToIntFloor(((float)(x*10)+0.5f)*0.1f);
+Int fireY=realToIntFloor(((float)(y*10)+0.5f)*0.1f);
+BurningGrid *grid=(BurningGrid *)TheTriggerManager;
+Bool burning=false;
+if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)burning=grid->cells[fireX][fireY].count>0;
+if(burning)newCostSoFar+=10;
+newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
+newCell->SetParentCell((Int *)parentCell);
+if(m_isTunneling)remaining=0;
+newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+remaining);
+AddToOpenList(newCell);
+}
+return cellCount;
 }

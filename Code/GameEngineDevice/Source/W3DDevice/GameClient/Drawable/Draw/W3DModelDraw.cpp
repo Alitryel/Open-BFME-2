@@ -1877,17 +1877,14 @@ void W3DModelDraw::onDrawableBoundToObject(void)
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1W3DModelDraw@@ present-unmatched
-W3DModelDraw::~W3DModelDraw(void)
-{
-	if (m_trackRenderObject && TheTerrainTracksRenderObjClassSystem)
-	{	
-		TheTerrainTracksRenderObjClassSystem->unbindTrack(m_trackRenderObject);
-		m_trackRenderObject = NULL;
-	}
-
-	nukeCurrentRender(NULL);
-}
+// W3DModelDraw::~W3DModelDraw: dropped. Its body (??1W3DModelDraw@@MAE@XZ) ODR-used DrawModule's
+// inline protected dtor, so defining it also emitted this TU's ??_7DrawModule@@6B@ vftable copy
+// (digest 0c012cdf4860), its ??_GDrawModule@@MAEPAXI@Z deleting dtor (f1f3da198369),
+// ??1DrawModule@@MAE@XZ (d321ea2f2604) and the ??_7W3DModelDraw@@6BDrawModule@@@ table. At link
+// place 1123 that vftable copy came before the copies W3DProjectileStreamDrawDtor,
+// W3DBoatWakeModelDrawDtor, W3DLightDrawDestructor and W3DLightDrawConstructor install (digest
+// 4fe3271e863a), so all four lost it and could not link. Dropped so their copies win; nothing
+// references ??1W3DModelDraw@@MAE@XZ or ??_7W3DModelDraw@@6BDrawModule@@@ (no census blocker).
 
 //-------------------------------------------------------------------------------------------------
 // W3DModelDraw::doStartOrStopParticleSys (0x000B6EDE) is rowed in W3DModelDrawParticles.cpp; a second definition here would not link.
@@ -3905,14 +3902,14 @@ void W3DModelDraw::xfer( Xfer *xfer )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@W3DModelDraw@@ present-unmatched
-void W3DModelDraw::loadPostProcess( void )
-{
-
-	// extend base class
-	DrawModule::loadPostProcess();
-
-}  // end loadPostProcess
+// W3DModelDraw::loadPostProcess: dropped. This body (call the base DrawModule::loadPostProcess and
+// return, digest f0e7b4cd44e0) is not retail's 0x000B3A2D, whose 59-byte body is rowed anonymously
+// as ?rva000B3A2D@Rva000B3A2D@@QAEXXZ (Code/GameEngine/Source/Common/Rva000B3A2D.cpp) and pinned
+// to ?loadPostProcess@W3DModelDraw@@MAEXXZ in reverse/symbols.csv. At link place 1123 this TU's
+// wrong copy was the sole definer, so W3DTankTruckDraw.cpp and W3DTankDrawLoadPostProcess.cpp kept
+// a definition proven not retail's. Dropped, leaving the name to the pinned 0x000B3A2D owner
+// (still rowed under the anonymous name); those two units were blocked either way until that row
+// is realized under the real name, so this is not a new blocker for them.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

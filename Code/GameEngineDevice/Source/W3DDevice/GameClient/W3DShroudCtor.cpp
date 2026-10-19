@@ -135,17 +135,6 @@ private:
 	_STL::set<int, _STL::less<int>, Rva0054E8DCAllocator<int> > m_dirty;
 };
 
-// ??0W3DShroud@@QAE@XZ
-W3DShroud::W3DShroud()
- : m_numCellsX(0), m_numCellsY(0), m_numMaxVisibleCellsX(0), m_numMaxVisibleCellsY(0),
- m_cellWidth(10.0f), m_cellHeight(10.0f), m_shroudData(0),
- m_dstTextureWidth(0), m_dstTextureHeight(0), m_shroudFilter(4),
- m_drawOriginX(0.0f), m_drawOriginY(0.0f), m_drawFogOfWar(0), m_clearDstTexture(1),
- m_borderShroudLevel(TheWritableGlobalData->m_shroudAlpha),
- m_finalFogData(0), m_currentFogData(0),
- m_method(new Rva00073320Method(this)), m_pad44(0), m_trackDirtyCells(1)
-{
-}
 
 // ?setShroudLevel@W3DShroud@@QAEXHHE_N@Z, retail 0x000731F4 (184B, RET 16).
 // Identity: W3DDisplay slot 0x00044FF2 is ZH's W3DDisplay::setShroudLevel and

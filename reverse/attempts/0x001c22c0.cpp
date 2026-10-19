@@ -1,14 +1,15 @@
 // _DeringBlockWeak_C
-// partial score=0.724770642201835 date=2026-10-13
+// partial score=0.8899082568807339 date=2026-10-19
 // cl: /O2 /G6 /DNDEBUG /MD
-// Clean room: approved specs 001c22c0 and 001c1ad0 plus the complete retail body.
-// No external decoder source was consulted.
-// Full weak deringing: all weights precede output; immediate pixel stores retain
-// retail overlapping-buffer behavior. Horizontal source and weight pointers
-// improve byte alignment; vertical and output register/slot shape remain nonexact.
-// Normal mismatch compile:1485 versus1526 bytes, frame0x160, first difference+15.
-// 288 observed differential cases match retail and an independent spec oracle;
-// not exhaustive behavior or byte identity. Existing sharpen global reused.
+// Clean room: approved specs 001c22c0 and 001c1ad0, plus complete retail bytes.
+// Full weak deringing: calculate both weight arrays before immediate output stores.
+// Vertical row pointers and distinct row-counter lifetimes restore retail's
+// loop structure; conditional absolute differences retain the original samples.
+// Not exact: 1523 versus 1526 bytes, frame 0x160, first difference +0x40.
+// Remaining differences include stack slots, pointer bias and tail scheduling.
+// 2560 paired native/C++/published-spec cases pass, including overlapping buffers,
+// both pitch signs and all 64 sharpen indices. No external decoder source read.
+// Evidence: reverse/attempt_support/dering-weak-bank-20261019/.
 extern "C" int Vp6FilterEdgeTagTable[];
 
 extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *source,
@@ -21,18 +22,17 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 	int cap = 3 * quality;
 	short vertical[72];
 	short horizontal[72];
-	int r;
 	int c;
 
 	if (cap > 24)
 		cap = 24;
 
-	for (r = 0; r < 9; r++) {
+	const unsigned char *vrow = source;
+	short *vweight = vertical;
+	for (int r = 9; r != 0; --r) {
 		for (c = 0; c < 8; c++) {
-			int difference = source[(r - 1) * pitch + c + pitch] - source[(r - 1) * pitch + c];
+			int difference = (vrow[c] - vrow[c - pitch]) > 0 ? (vrow[c] - vrow[c - pitch]) : (vrow[c - pitch] - vrow[c]);
 			int weight;
-			if (difference <= 0)
-				difference = source[(r - 1) * pitch + c] - source[(r - 1) * pitch + c + pitch];
 			weight = quality + 2 * (16 - difference);
 			if (weight < -64)
 				weight = sharpen;
@@ -40,16 +40,17 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 				weight = 0;
 			else if (weight > cap)
 				weight = cap;
-			vertical[r * 8 + c] = (short)weight;
+			vweight[c] = (short)weight;
 		}
+		vrow += pitch;
+		vweight += 8;
 	}
 	const unsigned char *hrow = source;
 	short *hweight = horizontal;
-	for (r = 8; r != 0; --r) {
+	for (int r = 8; r != 0; --r) {
 		for (c = 0; c < 9; c++) {
-			int difference = hrow[c] - hrow[c - 1];
+			int difference = (hrow[c] - hrow[c - 1]) > 0 ? (hrow[c] - hrow[c - 1]) : (hrow[c - 1] - hrow[c]);
 			int weight;
-			if (difference <= 0) difference = hrow[c - 1] - hrow[c];
 			weight = quality + 2 * (16 - difference);
 			if (weight < -64) weight = sharpen;
 			else if (weight < 0) weight = 0;
@@ -60,7 +61,7 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 		hweight += 9;
 	}
 
-	for (r = 0; r < 8; r++) {
+	for (int r = 0; r < 8; r++) {
 		for (c = 0; c < 8; c++) {
 			int up = vertical[r * 8 + c];
 			int down = vertical[r * 8 + c + 8];

@@ -19,6 +19,21 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 
-struct Rva003F6B24Record { Rva003F6B24Record(); Rva003F6B24Record(const Rva003F6B24Record&); ~Rva003F6B24Record(); Rva003F6B24Record&operator=(const Rva003F6B24Record&); private: char bytes[28]; };
-namespace _STL {template<> void _Construct<Rva003F6B24Record,Rva003F6B24Record>(Rva003F6B24Record*,const Rva003F6B24Record&);}
+// The 28-byte element is retail's record under other address-derived labels:
+// its placement copy ctor is rowed at 0x003F5F89 (??0Rva003F5F89, matched in
+// Code/GameEngine/Source/GameLogic/LivingWorld/LivingWorldLogicRemovePlayer.cpp)
+// and its destructor at 0x003F60C8 (??1BfmeStringRecord00111ACF,
+// VectorMemberRecordDtors.cpp; this unit's row at 0x003F6B24 is the ICF twin of
+// that record's 0x003F6B24 _M_insert_overflow). The vector helpers below keep
+// this unit's own Rva003F6B24Record spelling for the ledger row, but the two
+// special calls they reach must bind to those rowed owners instead of the
+// undefined ??$_Construct@URva003F6B24Record / ??1Rva003F6B24Record: the
+// _Construct specialization reproduces retail's null-guarded placement copy at
+// 0x003F62C8 (byte-identical) through the rowed copy ctor, and the destructor
+// is a view of the rowed dtor.
+class Rva003F5F89 { public: Rva003F5F89(const Rva003F5F89&); };
+class BfmeStringRecord00111ACF { public: ~BfmeStringRecord00111ACF(); };
+
+struct Rva003F6B24Record { Rva003F6B24Record(); Rva003F6B24Record(const Rva003F6B24Record&); ~Rva003F6B24Record() { ((BfmeStringRecord00111ACF *)this)->BfmeStringRecord00111ACF::~BfmeStringRecord00111ACF(); } Rva003F6B24Record&operator=(const Rva003F6B24Record&); private: char bytes[28]; };
+namespace _STL {template<> inline void _Construct<Rva003F6B24Record,Rva003F6B24Record>(Rva003F6B24Record*p,const Rva003F6B24Record&v){ _STLP_PLACEMENT_NEW ((void*)p) Rva003F5F89(*(const Rva003F5F89*)&v); }}
 template void _STL::vector<Rva003F6B24Record>::_M_insert_overflow(Rva003F6B24Record*,const Rva003F6B24Record&,const _STL::__false_type&,unsigned int,bool);

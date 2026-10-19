@@ -1,4 +1,6 @@
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
+// partial score=0.922 date=2026-10-19
+// ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 // partial score=0.917 date=2026-10-17
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 // partial score=0.913 date=2026-10-15
@@ -283,7 +285,7 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 			block = g_heaps.m_allocators[i]->rva00032F60(report, 0x1f))
 		{
 			char t_m_blockType = block->m_blockType;
-			if (block->m_blockType == 2)
+			if (t_m_blockType == 2)
 			{
 				blockBytes += block->m_blockSize;
 				dataBytes += block->m_dataSize;
@@ -294,7 +296,7 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 					usedBytes += block->m_dataSize;
 				lastFree = 0;
 			}
-			else if (block->m_blockType == 8)
+			else if (t_m_blockType == 8)
 			{
 				++coreCount;
 				committed += block->m_blockSize;
@@ -327,3 +329,5 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 }
 
 }
+
+// All three report-type tests use the single type read from the current block.

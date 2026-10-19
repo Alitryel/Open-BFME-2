@@ -2,56 +2,7 @@
 // Clean C++ conversion of the byte-block state accumulator at retail RVA 0x009D6330.
 // The donor's base-update member shares the pinned address and thiscall ABI of
 // XferSave::XferEnum; preserve the call-site bytes while resolving its spelling.
-#include <stdarg.h>
-
 #pragma comment(linker, "/alternatename:?bfmeBaseUpdate@Gen009D6330@@QAEXPAXPBXI@Z=?XferEnum@XferSave@@UAEXPAXPBXI@Z")
-
-extern "C" __declspec(dllimport) int __cdecl _vsnprintf(char *buffer, unsigned int count, const char *format, va_list args);
-extern "C" unsigned int __cdecl strlen(const char *text);
-
-struct BfmeRva0060D594Stream
-{
-	virtual void _M_slot_00();
-	virtual void _M_slot_04();
-	virtual void _M_slot_08();
-	virtual void _M_slot_0c();
-	virtual void Write(const char *text, int length);
-};
-
-static __declspec(noinline) void rva0060D594(BfmeRva0060D594Stream *stream, const char *format, ...)
-{
-	char buffer[1024];
-	va_list args;
-	va_start(args, format);
-	_vsnprintf(buffer, sizeof(buffer), format, args);
-	stream->Write(buffer, strlen(buffer));
-}
-
-// ?rva0060D594Caller absent-from-retail
-void rva0060D594Caller(BfmeRva0060D594Stream *stream)
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		rva0060D594(stream, "%d", i);
-	}
-}
-
-// Retail 0x0060D5D8 (26B, RET 0): the companion indent helper of the tagged
-// text dump (0x0060DFB5 calls it before each value line): `depth` tabs through
-// the stream slot 4 write. The stream arrives in ESI and the depth in EAX, the
-// private convention cl 7.1 picks for a file-static noinline function; its
-// only caller is still unmatched, so a source-only caller emits it.
-static __declspec(noinline) void rva0060D5D8TabIndent(BfmeRva0060D594Stream *stream, int depth)
-{
-	while (depth-- != 0)
-		stream->Write("\t", 1);
-}
-
-// ?rva0060D5D8TabIndentCaller absent-from-retail
-void rva0060D5D8TabIndentCaller(BfmeRva0060D594Stream *stream, int depth)
-{
-	rva0060D5D8TabIndent(stream, depth);
-}
 
 class Gen009D6330
 {

@@ -130,6 +130,13 @@ byte-match queue does not exhaust reusable reference source. Regenerate with
 
 Finish or revert each body or homogeneous trivial batch before the next.
 
+**Stay with one substantive target.** After checking relevant reference leads
+and prior evidence, select one promising function or concrete prerequisite.
+Stay with it while testing new, evidence-backed hypotheses. Switch only when
+viable hypotheses are exhausted or a specific prerequisite prevents further
+progress; preserve findings for the next agent. The ~30-minute reassessment
+below is a review point, not an automatic stopping time.
+
 **Claim retail bodies before starting work:** `python3 tools/claims.py claim 0xRVA`
 (every RVA in a batch); `python3 tools/next_work.py --claim` and
 `python3 tools/list_naked_candidates.py Code --claim` claim while selecting and
@@ -421,6 +428,16 @@ hand-edit `reverse/re_attempts.log`), citing the real boundary, `t=<minutes>` an
 your model. Walled only by a missing function? Add `blocked-on=0x<rva>`: the queue
 re-serves you as untried once it lands. `add_match` records `landed` and lists
 deferrals citing the body it landed — stage the log with your row.
+
+**Preserve substantial failed work.** Before retrying any function, read its
+attempt-log entries and linked evidence, regardless of how you selected it.
+For substantive attempts ending `blocked` or `partial`, commit a concise handoff
+under `reverse/attempt_support/` and cite its tracked path in the `re_log.py`
+evidence. Include hypotheses tested and ruled out, the exact remaining mismatch
+or prerequisite, the best candidate and useful diagnostic diffs, and relevant
+input revisions/compiler settings. Preserve better existing banks; retain only
+artifacts needed to resume (diagnostic source as patches or `.cpp.txt`). A simple
+blocker needs only a concise log entry.
 
 **Close, not exact? Bank the body:** `partial '<what is wrong>' --stash <your .cpp>
 --score <0..1>` keeps the candidate servable and starts the next agent from your

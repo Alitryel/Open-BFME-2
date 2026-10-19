@@ -196,16 +196,3 @@ _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base* head,_Slist_n
 }
 }
 
-void BfmeSceneVector::rva00141F90(const Rva00141F90Bounds &newBounds)
-{
-	typedef _STL::_Slist_base<int,_STL::allocator<int> > NodeList;
-	NodeList objects((_STL::allocator<int>()));
-	typedef char OneWordList[(sizeof(NodeList)==4)?1:-1];
-	rva00141EF0((Gen_00943CF0_Node **)&objects);
-	bounds = newBounds;
-	float dx = bounds.m_0C - bounds.m_00;
-	float dy = bounds.m_10 - bounds.m_04;
-	float greater = dx > dy ? dx : dy;
-	scale = 1.0f / greater;
-	((Gen_00943CF0 *)this)->process((Gen_00943CF0_Node **)&objects);
-}

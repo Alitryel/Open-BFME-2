@@ -52,10 +52,7 @@ public:
     Rva003ED658(const Rva003ED658 &other);
     // The native returned aggregate is destroyed through this existing
     // tree-cleanup owner; no second destructor pin is introduced.
-    __forceinline ~Rva003ED658()
-    {
-        ((Rva003ED94FDtor *)this)->Rva003ED94FDtor::~Rva003ED94FDtor();
-    }
+    __forceinline ~Rva003ED658();
     char m_storage[12];
 };
 
@@ -158,15 +155,3 @@ bool LargeGroupAudio::rva0020DB09(int reason)
     return m_flag39;
 }
 
-// Native 0x0020D86C..0x0020D8F1: combine the first pointer range's
-// returned key maps, then copy the 12-byte aggregate into the hidden result.
-// Existing address-derived types preserve the provider's unresolved identity.
-Rva003ED658 LargeGroupAudio::rva0020D86C()
-{
-    Rva003EDD68KeyMap list;
-    for (void **it = m_begin10, **end = m_end14; it != end; ++it)
-    {
-        ((Rva003ED9B1 *)&list)->rva003ED9B1(((Rva0020DXXXElem *)*it)->rva003EDD68());
-    }
-    return *(const Rva003ED658 *)&list;
-}

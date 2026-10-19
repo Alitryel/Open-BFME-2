@@ -21,7 +21,7 @@ class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
 	virtual ~Rva00330C50();
-	virtual void s0();
+	virtual void s0() {}
 private:
 	void *m_08;
 	unsigned char m_pad0C[0x38 - 0x0C];
@@ -30,7 +30,7 @@ private:
 class Rva002E4049Second
 {
 public:
-	virtual void s0();
+	virtual void s0() {}
 };
 
 class Rva002E4049 : public Rva00330C50, public Rva002E4049Second

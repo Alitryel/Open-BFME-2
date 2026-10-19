@@ -164,12 +164,17 @@ public:
 
 class Rva00573E7C;
 
-class Rva005DCE08
+class BuildPhase
+{
+public:
+	void update();
+};
+
+class Rva005DCE08 : public BuildPhase
 {
 public:
 	~Rva005DCE08();
 	Rva005AD9C0Hit *rva005DCC86(void *arg);
-	void rva005DCCFB();
 	void rva005DCEAD(Xfer *xfer);
 	void rva005DCE62(Rva00573E7C *order);
 };
@@ -419,7 +424,7 @@ void AIBase::rva005ADC63()
 		buildFortressIfNeeded();
 	}
 	for (Rva005DCE08 **it = m_items.begin(); it != m_items.end(); ++it)
-		(*it)->rva005DCCFB();
+		(*it)->update();
 }
 
 

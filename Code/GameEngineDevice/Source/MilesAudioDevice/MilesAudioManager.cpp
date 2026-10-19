@@ -873,9 +873,11 @@ private:
 typedef MilesKeyAliases::iterator::_Node MilesAliasNode;
 typedef MilesKeyAliases::iterator::_Hashtable MilesAliasTable;
 namespace _STL {
+// Native 0x56B39 keeps an unwind state around clear(): C++ free may throw.
+// The C-linkage declaration lets cl elide that state and emits only 24/57 bytes.
 template<> __declspec(dllimport) __forceinline
 void allocator<MilesAliasNode>::deallocate(MilesAliasNode *p, size_t n) const
-{ if (p != 0) ::free((void *)p); }
+{ if (p != 0) _STL::free((void *)p); }
 template<> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<unsigned int, MilesAliasNode, allocator<MilesAliasNode> >::deallocate(MilesAliasNode *p, size_t n)
 { static_cast<allocator<MilesAliasNode>&>(*this).deallocate(p, n); }
@@ -1121,6 +1123,7 @@ typedef _STL::map<unsigned int, Image *, Rva00053DC5Less> Rva00053DC5Map;
 extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *);
 
 class Rva00057151 { public: void rva00057151(int, int, int); };
+class Rva0036CA00Str;
 class MilesAudioManager : public AudioManager {
 public:
     MilesAudioManager();
@@ -1368,6 +1371,7 @@ private:
     void unselectProvider(void);
     void selectProvider(bool accelerated);
 public:
+    Rva0036CA00Str rva0005AC80(const AsciiString &name, int context);
     unsigned int getProviderIndex(const AsciiString &providerName) const;
     void init3DSamplePools();
     void createListener();
@@ -3791,6 +3795,7 @@ void MilesAudioManager::processRequestList(void)
 class Rva0036CA00Str {
 public:
     __declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str &other);
+    __forceinline Rva0036CA00Str(const AudioEventInfo *info) { reinterpret_cast<AudioEventInfoRef *>(&m_ptr)->AudioEventInfoRef::AudioEventInfoRef(info); }
     ~Rva0036CA00Str() { reinterpret_cast<OpaqueRefCounted *>(m_ptr)->Release_Ref(); }
     PlayingAudio *operator->(void) const { return m_ptr; }
     PlayingAudio *get(void) const { return m_ptr; }
@@ -6734,3 +6739,46 @@ bool MilesAudioManager::rva00055E6C(const AsciiString &name, int streamArg, int 
     return false;
 }
 
+
+// 0x0005AC80 (vtable 0x007C55B0 slot 73): the counted event-info handle for a name,
+// registering a new 0xC4-byte info (Rva001DA2D5) when the map at +0xBC has no usable entry.
+// Rva0036CA00Str is a four-byte counted-handle view over AudioEventInfoRef, not a claim
+// about the original wrapper types; the struct-tag constructor this TU emits is rowed.
+
+namespace _STL {
+// Use the existing clear provider for checked element teardown.
+template <> void vector<Rva0036CA00Str, allocator<Rva0036CA00Str> >::_M_clear();
+template <> __declspec(noinline) inline void vector<Rva0036CA00Str, allocator<Rva0036CA00Str> >::push_back(const Rva0036CA00Str &value)
+{
+    if (this->_M_finish != this->_M_end_of_storage._M_data) {
+        _Construct(this->_M_finish, value);
+        ++this->_M_finish;
+    } else {
+        _M_insert_overflow(this->_M_finish, value, __false_type(), 1, true);
+    }
+}
+}
+
+class Rva001DA2D5 { char native[0xc4]; public: Rva001DA2D5(); };
+struct AudioInfoNode { void *next; AsciiString key; AudioEventInfo *info; };
+
+Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name, int context)
+{
+    MilesMutexGuard guard(&m_mutex, 0);
+    {
+        Rva0041534BIter found = reinterpret_cast<Rva00056F61 *>(&m_allAudioEventInfo)->rva0041534B(&name);
+        if (found.m_node && reinterpret_cast<OpaqueRefCounted *>(static_cast<AudioInfoNode *>(found.m_node)->info)->rva00050EFA()) {
+            AudioEventInfoRef result(static_cast<AudioInfoNode *>(found.m_node)->info);
+            reinterpret_cast<OpaqueRefCounted *>(result.get())->Release_Ref();
+            return *reinterpret_cast<const Rva0036CA00Str *>(&result);
+        }
+    }
+    {
+        m_at6A4 = false;
+        AudioEventInfoRef temp(reinterpret_cast<AudioEventInfo *>(new Rva001DA2D5));
+        reinterpret_cast<_STL::vector<Rva0036CA00Str> &>(m_atD4).push_back(*reinterpret_cast<const Rva0036CA00Str *>(&temp));
+        AudioEventInfo *ownedInfo = temp.get();
+        m_allAudioEventInfo.rva00059FBB(name) = ownedInfo;
+        return Rva0036CA00Str(m_allAudioEventInfo.rva00059FBB(name));
+    }
+}

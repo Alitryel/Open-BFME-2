@@ -1,3 +1,5 @@
+// ?Rva0073C450Raster@@YADPAH0HVRva0073BAA0Base@@@Z
+// partial score=0.4078549848942598 date=2026-10-19
 // ?Rva0073C450Fill@@YADPAH0HVRva0073BB40@@@Z
 // partial score=0.097 date=2026-10-17
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/stlp_nodealloc
@@ -5,170 +7,87 @@
 // Same midpoint-circle shape as 0x0073BF40 (donor taintmanager_impl.cpp bfmeRasterCircleFC);
 // per-row gate is the rowed rva0073BB40 decrement updater, checked with 1 on full sweep 0 on early out.
 // Caller 0x0073CD2A; unblocks 0x0073CCC0.
-class BfmeCellFD;
-
-class Gen_008F7CD0
-{
+// The inherited circle comments above describe sibling 73C3B0, not this polygon.
+// Native C450 is the 874-byte BFE0 twin with calls to base-updater BB40.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// Mutates the coordinate arrays to remove adjacent duplicate vertices.
+// Horizontal top edges advance the right-edge origin before interpolation.
+class Gen_008F7CD0;
+class Rva0073BAA0Base {
 public:
-	void rva0073A2A0(BfmeCellFD **first, BfmeCellFD **last, int x1, int x2, int y);
-};
-
-class ShroudManagerImpl;
-class ShroudManagerImpl008FBA40Element;
-
-class Rva0073BB40
-{
-public:
-	virtual char testFunc(int x, int y);
-	char rva0073BB40(int x1, int x2, int y);
+ virtual char testFunc(int,int);
+ char rva0073BB40(int,int,int);
 private:
-	Gen_008F7CD0 *m_grid;
-	unsigned int m_mask;
+ Gen_008F7CD0 *grid;
+ unsigned mask;
 };
-
-inline int crop_round(int v)
+class RasterEdge {
+public:
+ int value,step,remaining;
+ __forceinline RasterEdge(int from,int to,int n) {set(from,to,n);}
+ __forceinline void set(int from,int to,int n) {
+  remaining=n;
+  if(n>0) {
+   step=((to-from)<<8)/n;
+   value=(from<<8)+step/2;
+  }
+ }
+ __forceinline bool next() {
+  value+=step;
+  return --remaining!=0;
+ }
+ __forceinline int rounded() const {return (value+128)/256;}
+};
+__forceinline int prev(int i,int n) {return i?i-1:n-1;}
+__forceinline int next(int i,int n) {return ++i==n?0:i;}
+char __cdecl Rva0073C450Raster(int *xs,int *ys,int n,Rva0073BAA0Base updater)
 {
-	return v;
-}
+ int i;
+ int count=1;
+ int *py=ys;
+ int *px=xs;
+ for(i=1;i<n;++i) {
+  if((1 ? (px[i]!=px[count-1] || py[i]!=py[count-1]) : (px[i]!=px[count-1] || py[i]!=py[count-1]))) {
+   px[count]=px[i]; py[count]=py[i]; ++count;
+  }
+ }
+ n=count;
+ while(n>2 && xs[0]==xs[n-1] && ys[0]==ys[n-1]) --n;
+ if(n<3) return 1;
+ int first=0;
+ for(i=1;i<n;++i) {
+  if(ys[i]<ys[first] || (ys[i]==ys[first] && xs[i]<xs[first])) first=i;
+ }
+ int y=ys[first];
+ int firstx=xs[first];
 
-char Rva0073C450Fill(int *a, int *b, int n, Rva0073BB40 cell)
-{
-	int m;
-	int i;
-	int nCopy = *(volatile int*)&n;
-	int *bCopy = b;
-	m = 1;
-	for (i = 1; i < nCopy; i++)
-	{
-		int av = a[i];
-		int am = a[m - 1];
-		int bv = bCopy[i];
-		int bm = bCopy[m - 1];
-		if (av != am || bv != bm)
-		{
-			a[m] = av;
-			b[m] = bv;
-			m++;
-		}
-	}
-	n = m;
-
-	while (n > 2 && a[0] == a[n - 1] && b[0] == b[n - 1])
-		n--;
-
-	if (n < 3)
-		return 1;
-
-	int idx = 0;
-	int iScan;
-	for (iScan = 1; iScan < n; iScan++)
-	{
-		if (b[iScan] < b[idx] || (b[iScan] == b[idx] && a[iScan] < a[idx]))
-			idx = iScan;
-	}
-	i = idx;
-
-	int yA = b[idx];
-	int i0 = idx;
-	int iPrev = (i0 != 0) ? i0 - 1 : n - 1;
-
-	int dB = b[iPrev] - b[i0];
-	int& dyB = dB;
-	int yTop = a[iPrev];
-	int yBot = a[i0];
-
-	int slopeB = dyB;
-	if (dyB > 0)
-	{
-		slopeB = ((yTop - yBot) << 8) / dyB;
-	}
-
-	int xFrac = 0;
-	if (dyB > 0)
-	{
-		xFrac = (yBot << 8) + crop_round(slopeB);
-	}
-
-	i0 = (i0 != 0) ? i0 - 1 : n - 1;
-
-	int prev;
-	while ((prev = (idx + 1 == n) ? 0 : idx + 1), b[idx] == b[prev])
-		idx = prev;
-
-	int j = idx;
-	int jNext = (j + 1 == n) ? 0 : j + 1;
-	int jNext2 = (j + 1 == n) ? 0 : j + 1;
-
-	int dC = b[jNext] - b[j];
-	int& dyC = dC;
-	int yTop2 = a[jNext2];
-	int yBot2 = a[j];
-
-	int slopeC = dyC;
-	if (dyC > 0)
-	{
-		slopeC = ((yTop2 - yBot2) << 8) / dyC;
-	}
-
-	int xFrac2 = 0;
-	if (dyC > 0)
-	{
-		xFrac2 = ((yBot2 << 8) + crop_round(slopeC));
-	}
-	else
-	{
-		xFrac2 = 0;
-	}
-
-	int slopeB_first = slopeB;
-
-	char ok = cell.rva0073BB40((xFrac + 0x80) >> 8, (slopeB_first + 0x80) >> 8, iPrev);
-	if (!ok)
-		return 0;
-
-	while (true)
-	{
-		xFrac += slopeC;
-		slopeB--;
-		iPrev++;
-		if (slopeB == 0)
-		{
-			i0 = (i0 != 0) ? i0 - 1 : n - 1;
-			int cur = i0;
-			int nxt = (cur != 0) ? cur - 1 : n - 1;
-			int e = b[cur];
-			int eTop = b[nxt];
-			int f = a[cur];
-			int fTop = a[nxt];
-			int dB2 = eTop - e;
-			if (dB2 > 0)
-			{
-				slopeB = ((fTop - f) << 8) / dB2;
-				xFrac = (f << 8) + crop_round(slopeB_first);
-			}
-			if (dB2 < 0)
-				return 0;
-		}
-
-		xFrac2 += slopeC;
-		dyC--;
-		if (dyC == 0)
-		{
-			j = (j + 1 == n) ? 0 : j + 1;
-			int jn = (j + 1 == n) ? 0 : j + 1;
-			int dC2 = b[jn] - b[j];
-			if (dC2 > 0)
-			{
-				slopeC = ((a[jn] - a[j]) << 8) / dC2;
-				xFrac2 = (a[j] << 8) + crop_round(slopeC);
-			}
-			if (dC2 < 0)
-				return 0;
-		}
-
-		ok = cell.rva0073BB40((xFrac + 0x80) >> 8, (xFrac2 + 0x80) >> 8, iPrev);
-		if (!ok)
-			return 0;
-	}
-	return 1;
+ int left=prev(first,n);
+ {
+  RasterEdge leftEdge(firstx,xs[left],ys[left]-ys[first]);
+  while(ys[first]==ys[next(first,n)]) first=next(first,n);
+  (void)0;
+  RasterEdge rightEdge(xs[first],xs[next(first,n)],ys[next(first,n)]-ys[first]);
+  int right=next(first,n);
+  if(!updater.rva0073BB40(leftEdge.rounded(),rightEdge.rounded(),y)) return 0;
+  for(;;) {
+   ++y;
+   if(!leftEdge.next()) {
+    do {
+     leftEdge.set(xs[left],xs[prev(left,n)],ys[prev(left,n)]-ys[left]);
+     left=prev(left,n);
+     if(leftEdge.remaining<0) return 1;
+    } while(leftEdge.remaining==0);
+   }
+   if(!rightEdge.next()) {
+    do {
+     rightEdge.set(xs[right],xs[next(right,n)],ys[next(right,n)]-ys[right]);
+     right=next(right,n);
+     if(rightEdge.remaining<0) return 1;
+    } while(rightEdge.remaining==0);
+   }
+   if(!updater.rva0073BB40(leftEdge.rounded(),rightEdge.rounded(),y)) return 0;
+  }
+ }
+ _ReadWriteBarrier();
 }

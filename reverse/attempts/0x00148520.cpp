@@ -1,4 +1,6 @@
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
+// partial score=0.9103003663003664 date=2026-10-19
+// ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.9103003663003664 date=2026-10-16
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.904 date=2026-10-15
@@ -14,13 +16,33 @@
 // ZH dx8renderer.cpp Render semantic source; BFME1 revision9cbfb551fe20.
 // WB9DAE60 names target148520 and source1383..1527. Native full1400B
 // ends148A98 after dynamicVB cleanup13A780 (queue1379 cuts the call).
+// CurMatDesc is +0x94; the cached-mesh local preserves retail EAX usage.
+// Queue-drain spelling follows the EA donor; see skin-render-00148520-20261019.md.
+/*
+**	Command & Conquer Generals Zero Hour(tm)
+**	Copyright 2025 Electronic Arts Inc.
+**
+**	This program is free software: you can redistribute it and/or modify
+**	it under the terms of the GNU General Public License as published by
+**	the Free Software Foundation, either version 3 of the License, or
+**	(at your option) any later version.
+**
+**	This program is distributed in the hope that it will be useful,
+**	but WITHOUT ANY WARRANTY; without even the implied warranty of
+**	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**	GNU General Public License for more details.
+**
+**	You should have received a copy of the GNU General Public License
+**	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include <stddef.h>
 #include "vector3.h"
 #include "vector2.h"
 #include "vector.h"
 #include "multilist.h"
 struct S2Buffer {char pad[12];void*Data;};
 struct S2MaterialDesc {
- char pad[12];unsigned UVCount;S2Buffer*UV[8];int UVIndex[2];char gap[0x18];S2Buffer *Colors[2];
+ int PassCount;char pad[8];unsigned UVCount;S2Buffer*UV[8];int UVIndex[2];char gap[0x18];S2Buffer *Colors[2];
  const Vector2*Get_UV_Array_By_Index(int n)const {
   S2Buffer*b;
   if(UVCount && n<2){int i=UVIndex[n];if(i==-1)return 0;b=UV[i];}else b=UV[n];
@@ -36,16 +58,16 @@ class MeshModelClass
 {
 public:
     unsigned char pad[0x24];
-    int PassCount;
+    int PolygonCount;
     int VertexCount;
     unsigned char pad1[0x94 - 0x2C];
-    MeshPolygonCount *PolygonCount;S2MaterialDesc *descriptor;
+    S2MaterialDesc *descriptor;
     int Get_Vertex_Count() const
     { return VertexCount; }
     int Get_Pass_Count() const
-    { return PassCount; }
+    { return descriptor->PassCount; }
     int Get_Polygon_Count() const
-    { return PolygonCount->Count; }
+    { return PolygonCount; }
 };
 
 class MeshClass {
@@ -54,7 +76,7 @@ public:
  virtual int Get_Num_Polys()const;
  virtual void vt2C();virtual void vt30();virtual void vt34();virtual void vt38();virtual void vt3C();virtual void vt40();virtual void vt44();virtual void vt48();virtual void vt4C();virtual void vt50();virtual void vt54();virtual void vt58();virtual void vt5C();virtual void vt60();virtual float Get_Alpha()const;
  char pad[0xC4-4];MeshModelClass *Model;char gapC8[0x238];unsigned BaseVertexOffset;MeshClass*NextVisibleSkin;char gap308[8];MeshClass **Anchor;
- MeshModelClass*Peek_Model(){return Model;}unsigned Get_Base_Vertex_Offset(){return BaseVertexOffset;}void Set_Base_Vertex_Offset(unsigned v){BaseVertexOffset=v;}MeshClass*Peek_Next_Visible_Skin(){return NextVisibleSkin;}void Set_Next_Visible_Skin(MeshClass*m){NextVisibleSkin=m;}
+ MeshModelClass*Peek_Model(){return Model;}int Get_Base_Vertex_Offset(){return BaseVertexOffset;}void Set_Base_Vertex_Offset(unsigned v){BaseVertexOffset=v;}MeshClass*Peek_Next_Visible_Skin(){return NextVisibleSkin;}void Set_Next_Visible_Skin(MeshClass*m){NextVisibleSkin=m;}
  void Get_Deformed_Vertices(Vector3*,Vector3*);
 };
 struct VertexFormatXYZNDUV2 {float x,y,z,nx,ny,nz;unsigned diffuse;float u1,v1,u2,v2;};
@@ -90,8 +112,11 @@ class DX8SkinFVFCategoryContainer:public DX8FVFCategoryContainer {
 public:
  unsigned VisibleVertexCount,rva_ec;MeshClass*VisibleSkinHead,*VisibleSkinTail;bool rva_f8;
  virtual void Render();
+ virtual void Add_Mesh(MeshModelClass*);virtual void Log(bool);
  virtual bool Check_If_Mesh_Fits(MeshModelClass*);virtual void Add_Delayed_Visible_Material_Pass(MaterialPassClass*,MeshClass*);void Add_Visible_Skin(MeshClass*);private:void clearVisibleSkinList();
 };
+typedef char DescriptorOffset[(offsetof(MeshModelClass,descriptor)==0x94)?1:-1];
+typedef char PolygonOffset[(offsetof(MeshModelClass,PolygonCount)==0x24)?1:-1];
 typedef char BaseSize[(sizeof(DX8FVFCategoryContainer)==0xe8)?1:-1];
 typedef char MeshSize[(sizeof(MeshClass)==0x314)?1:-1];
 void DX8SkinFVFCategoryContainer::Render() {
@@ -99,8 +124,13 @@ void DX8SkinFVFCategoryContainer::Render() {
  static DynamicVectorClass<Vector3> tempNormals;
  if(!AnythingToRender)return;
  AnythingToRender=false;
+ // Free up the reference to the current vertex buffer
+ // (in case it is the dynamic, which may have to be resized)
  DX8Wrapper::Set_Vertex_Buffer((const VertexBufferClass*)0,0);
- unsigned maxVertexCount=VisibleVertexCount;if(maxVertexCount>65535)maxVertexCount=65535;
+ //'Generals' customization to allow more than 65535 vertices
+ unsigned maxVertexCount=VisibleVertexCount;
+ //clamp vertex count to maximum size that can be indexed by 16-bit index
+ if(maxVertexCount>65535)maxVertexCount=65535;
  DynamicVBAccessClass vb(sorting?3:2,5,maxVertexCount,0);
  unsigned renderedVertexCount=0;
  MeshClass*mesh=VisibleSkinHead;
@@ -114,12 +144,21 @@ void DX8SkinFVFCategoryContainer::Render() {
    remainingMesh=0;
    while(mesh){
     MeshModelClass*mmc=mesh->Peek_Model();int mesh_vertex_count=mmc->VertexCount;
-    if(vertex_offset+mesh_vertex_count>maxVertexCount || remainingMesh){mesh->Set_Base_Vertex_Offset(65535);if(!remainingMesh)remainingMesh=mesh;mesh=mesh->Peek_Next_Visible_Skin();continue;}
+    //'Generals' mod to deal with cases where not all meshes fit in VB.
+    if(vertex_offset+mesh_vertex_count>maxVertexCount || remainingMesh){
+     //flag mesh so we know it didn't fit in the vertex buffer
+     mesh->Set_Base_Vertex_Offset(65535);
+     if(!remainingMesh)remainingMesh=mesh; //start of meshes that didn't fit in buffer
+     mesh=mesh->Peek_Next_Visible_Skin(); //skip rendering this mesh
+     continue;
+    }
     if(mesh->Anchor && *mesh->Anchor){
      Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);
-     mesh->Set_Base_Vertex_Offset((*mesh->Anchor)->Get_Base_Vertex_Offset());
+     MeshClass *cachedMesh=*mesh->Anchor; unsigned offset=cachedMesh->Get_Base_Vertex_Offset();mesh->Set_Base_Vertex_Offset(offset);
      renderedVertexCount+=mesh_vertex_count;mesh=mesh->Peek_Next_Visible_Skin();continue;
     }
+    // If this assert hits, a skinned mesh has probably been added to the scene more than once.
+    // Example: A skinned mesh was added to the scene then it was attached to a bone without being removed from the scene.
     Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);
     if(tempVertices.Length()<mesh_vertex_count)tempVertices.Resize(mesh_vertex_count);
     if(tempNormals.Length()<mesh_vertex_count)tempNormals.Resize(mesh_vertex_count);
@@ -141,17 +180,18 @@ void DX8SkinFVFCategoryContainer::Render() {
     if(alpha<1.0f){unsigned a=(unsigned)(alpha*255.0f)<<24;for(int v=0;v<mesh_vertex_count;++v)verts[v].diffuse=(verts[v].diffuse&0xFFFFFF)|a;}
     mesh->Set_Base_Vertex_Offset(vertex_offset);
     if(mesh->Anchor)*mesh->Anchor=mesh;
-    renderedVertexCount+=mesh_vertex_count;vertex_offset+=mesh_vertex_count;mesh=mesh->Peek_Next_Visible_Skin();
-   }
-  }
+    vertex_offset+=mesh_vertex_count;renderedVertexCount+=mesh_vertex_count;mesh=mesh->Peek_Next_Visible_Skin();
+   } //while
+  } //lock
   DX8Wrapper::Set_Vertex_Buffer(vb);DX8Wrapper::Set_Index_Buffer(index_buffer,0);
+  //Flush the meshes which fit in the vertex buffer, applying all texture variations
   for(unsigned pass=0;pass<passes;++pass){MultiListIterator<DX8TextureCategoryClass> it(&visible[pass]);while(!it.Is_Done()){it.Peek_Obj()->Render();it.Next();}}
   Render_Procedural_Material_Passes();
   for(MeshClass*m=VisibleSkinHead;m;m=m->NextVisibleSkin)if(m->Anchor)*m->Anchor=0;
- }
- for(unsigned pass=0;pass<passes;++pass)while(visible[pass].Remove_Head()){}
- while(VisibleSkinHead){MeshClass*next=VisibleSkinHead->NextVisibleSkin;VisibleSkinHead->NextVisibleSkin=0;VisibleSkinHead=next;}
- VisibleSkinHead=0;VisibleSkinTail=0;VisibleVertexCount=0;rva_ec=0;
+ } //while
+ //remove all the rendered data from queues
+ for(unsigned pass=0;pass<passes;++pass)while(DX8TextureCategoryClass *tex=visible[pass].Remove_Head()){}
+ clearVisibleSkinList();
 }
 
 void DX8SkinFVFCategoryContainer::clearVisibleSkinList()

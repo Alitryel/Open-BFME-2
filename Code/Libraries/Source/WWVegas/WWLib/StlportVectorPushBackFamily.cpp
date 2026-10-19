@@ -123,7 +123,7 @@ struct BfmeStringRecord00395E75 { int a[3]; };
 class LivingWorldRegionConnection { public: int a[6]; };
 struct Rva003F7B22Element { int a[1]; };
 class Rva00403927 { public: int a[5]; };
-struct Rva0040C0C7Element { int a[10]; };
+struct Rva0040C0C7Element { virtual ~Rva0040C0C7Element(); int a[9]; };
 struct Rva00413B16Element { int a[6]; };
 struct Rva00414258Element { int a[6]; };
 struct Rva00414BA4Element { int a[11]; };
@@ -165,6 +165,40 @@ struct Rva005F13E6Element { int a[1]; };
 struct Rva005FA197Element { int a[1]; };
 struct Rva005FA1CEElement { int a[1]; };
 struct Rva00601A3AElement { int a[3]; };
+
+// The overflow/growth/destroy helpers the held vector<...> units own are
+// emitted here too, and this TU's private-POD copies of them sort first in
+// link order and win. Declaring the explicit specializations stops this TU
+// emitting its (non-retail) copies, so the units below link to the providers
+// they name:
+//   StlportVectorRva005C8624AllocateCopy.cpp   (Rva005C8624Element)
+//   stlport_vector_Rva0040C0C7_overflow.cpp    (Rva0040C0C7Element)
+//   StlportVectorRva004E3E5AGrowth.cpp         (Rva004E3E5AElement)
+//   StlportVectorOverflow0008257F.cpp          (Rva00082BE6Element)
+//   StlportVectorOverflow00082631.cpp          (Rva00082C1DElement)
+//
+// Rva0040C0C7Element is the exception: retail's _M_insert_overflow at
+// 0x0040BFF4 (owned retail-identically by
+// stlport_vector_Rva0040C0C7_overflow.cpp) proves the 40-byte element has a
+// virtual destructor, not the flat int[10] this TU used to assume. The
+// polymorphic view (vptr + int[9], still 40 bytes) makes this TU's
+// _Destroy/__destroy_aux/_M_clear copies bit-identical to the held unit's,
+// and this TU sorts first in link order (0x4CF63 < 0x40C0C7), so they win
+// retail-side. Declaring those three for Rva0040C0C7 instead leaves the held
+// unit blocked by the peer POD copies (AwardSystemManager.obj).
+namespace _STL {
+template <> void _Destroy<Rva00082BE6Element *>(Rva00082BE6Element *, Rva00082BE6Element *);
+template <> void _Destroy<Rva00082C1DElement *>(Rva00082C1DElement *, Rva00082C1DElement *);
+template <> void _Destroy<Rva0008B689Element *>(Rva0008B689Element *, Rva0008B689Element *);
+template <> void __destroy_aux<Rva00082BE6Element *>(Rva00082BE6Element *, Rva00082BE6Element *, const __false_type &);
+template <> void __destroy_aux<Rva00082C1DElement *>(Rva00082C1DElement *, Rva00082C1DElement *, const __false_type &);
+template <> void vector<Rva00082BE6Element, allocator<Rva00082BE6Element> >::_M_clear();
+template <> void vector<Rva00082C1DElement, allocator<Rva00082C1DElement> >::_M_clear();
+template <> void vector<Rva004E3E5AElement, allocator<Rva004E3E5AElement> >::_M_clear();
+template <> void vector<Rva005C8624Element, allocator<Rva005C8624Element> >::_M_clear();
+template <> Rva0005A084Element *__uninitialized_copy<Rva0005A084Element *, Rva0005A084Element *>(Rva0005A084Element *, Rva0005A084Element *, Rva0005A084Element *, const __false_type &);
+template <> Rva0005A084Element *__uninitialized_fill_n<Rva0005A084Element *, unsigned int, Rva0005A084Element>(Rva0005A084Element *, unsigned int, const Rva0005A084Element &, const __false_type &);
+}
 
 // _Construct is declared, not defined: each call resolves to the address the
 // retail push_back calls (a ledger row or a pin).

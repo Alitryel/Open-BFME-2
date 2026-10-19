@@ -156,6 +156,8 @@ class CreateAHeroManager
 public:
     class CreateAHeroSubClass { public: int a[54]; };
 };
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<CreateAHeroManager::CreateAHeroSubClass,allocator<CreateAHeroManager::CreateAHeroSubClass> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
 namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubClass *); }
 // Retail's _Construct<CreateAHeroSubClass> is rowed in stlport_construct_pod216.cpp
 // (0x0021EF66); declare that specialization so this unit emits no competing copy.
@@ -187,6 +189,29 @@ inline bool operator<(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] 
 // Retail's _Construct<BfmePod340> is rowed in StlportConstructFamily.cpp
 // (0x004D9B98); declare that specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod340, BfmePod340>(BfmePod340 *__p, const BfmePod340 &__val); }
+
+// The 20-byte growth worker is the complete no-catch retail body at
+// 0x59B809. Other element copies in this TU retain their native EH paths.
+// Keep STLport 4.5.3 growth/copy/fill/release semantics for this specialization.
+template <> inline void _STL::vector<BfmePod20>::_M_insert_overflow(
+    BfmePod20 *__position, const BfmePod20 &__x, const _STL::__false_type &,
+    unsigned int __fill_len, bool __atend)
+{
+    const size_type __old_size = size();
+    const size_type __len = __old_size + (max)(__old_size, __fill_len);
+    pointer __new_start = this->_M_end_of_storage.allocate(__len);
+    pointer __new_finish = __new_start;
+    __new_finish = __uninitialized_copy(this->_M_start, __position, __new_start, __false_type());
+    if (__fill_len == 1) {
+        _Construct(__new_finish, __x);
+        ++__new_finish;
+    } else
+        __new_finish = __uninitialized_fill_n(__new_finish, __fill_len, __x, __false_type());
+    if (!__atend)
+        __new_finish = __uninitialized_copy(__position, this->_M_finish, __new_finish, __false_type());
+    _M_clear();
+    _M_set(__new_start, __new_finish, __new_start + __len);
+}
 
 // Target boundary 0x0007EA1F/136 is vector<char>::_M_insert_overflow for the
 // true_type path: matched _M_fill_insert at 0x0007FE65 calls it with the five

@@ -1,4 +1,6 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
+// partial score=0.7262059973924381 date=2026-10-19
+// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
 // partial score=0.658 date=2026-10-17
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
 // partial score=0.2693486590038314 date=2026-09-07
@@ -19,6 +21,27 @@
 // 15E50 (grouping), EA30 (currency), EA50 (positive), and EA70 (negative).
 // No new pins or matched rows were added for this attempt.
 //
+/*
+ * Copyright (c) 1999
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Copyright (c) 1999
+ * Boris Fomitchev
+ *
+ * This material is provided "as is", with absolutely no warranty expressed
+ * or implied. Any use is at your own risk.
+ *
+ * Permission to use or copy this software for any purpose is hereby granted
+ * without fee, provided the above notices are retained on all copies.
+ * Permission to modify the code and to distribute modified code is granted,
+ * provided the above notices are retained, and a notice that the code was
+ * modified is included with the above copyright notice.
+ *
+ */
+
+// Currency and zero-fraction copies use the retail helper; fractional and
+// sign-tail copies retain their inline loops. The pattern local is aligned.
+
 // Suppress stdlib.h so free retains the C++ linkage and throwing declaration
 // needed for retail's direct call and exception-state stores. These are the
 // declarations consumed by the vendor cstdlib wrapper.
@@ -120,7 +143,13 @@ template <> __forceinline _MoneyOut copy(const wchar_t* first, const wchar_t* la
 __forceinline void __money_write_point(_MoneyOut& out,const wchar_t& value) { out = value; }
 #pragma inline_depth(255)
 struct _MoneySignPolicy : random_access_iterator_tag { bool negative; };
+#pragma inline_depth(0)
 __forceinline _MoneyOut __money_copy_symbol(const wchar_t* first,const wchar_t* last,_MoneyOut out,const _MoneySignPolicy& policy) { return __copy(first,last,out,policy,(ptrdiff_t*)0); }
+__forceinline _MoneyOut __money_copy_external(const wchar_t* first, const wchar_t* last, _MoneyOut out) {
+  random_access_iterator_tag tag;
+  return __copy(first, last, out, tag, (ptrdiff_t*)0);
+}
+#pragma inline_depth(255)
 template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool __intl, ios_base& __str, char_type __fill, const string_type& __digits) const
 {
   typedef wchar_t _CharT;
@@ -130,8 +159,6 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   typedef moneypunct<_CharT, true>  _Punct_intl;
 
   locale __loc = __str.getloc();
-  volatile int _M_frame_pad = 0;
-  (void)_M_frame_pad;
   const _Ctype&      __c_type      = use_facet<_Ctype>(__loc) ;
   const _Punct&      __punct      = use_facet<_Punct>(__loc) ;
   const _Punct_intl& __punct_intl = use_facet<_Punct_intl>(__loc) ;
@@ -230,7 +257,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   bool __generate_curr = (__str.flags() & ios_base::showbase) !=0;
   if (__generate_curr)
     __length += __curr_sym.size();
-  money_base::pattern __format =
+  __declspec(align(8)) money_base::pattern __format =
     __intl ? (__sign_policy.negative ? __punct_intl.neg_format() 
                             : __punct_intl.pos_format())
            : (__sign_policy.negative ? __punct.neg_format() 
@@ -270,7 +297,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
     }
     else if (__ffield == money_base::value) {
       if (__frac_digits == 0)
-        __s = copy(__digits_first, __digits_last, __s);
+        __s = __money_copy_external(__digits_first, __digits_last, __s);
       else {
         if ((int)__value_length <= __frac_digits) {
           __money_write_point(__s,__point);

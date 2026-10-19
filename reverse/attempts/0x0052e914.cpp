@@ -1,12 +1,13 @@
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.886 date=2026-10-19
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.886 date=2026-10-17
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.901 date=2026-10-14
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.98 date=2026-10-13
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // Native 0052ED74..0052F294, 1312B, RET8. Neutral shared receiver and
 // existing int-word ABI come from rowed 0052F294; retail tests the flag byte.
 // WB12DD670 corroborates the bridge-bounds removal and raised-wall endpoint
@@ -19,6 +20,8 @@ extern "C" void _ReadWriteBarrier(void);
 // scheduling without changing the mathematical operation.
 // Full neighbor arrays are read independently from retail DD1A3C/DD1A5C;
 // original identifiers are unknown. Data rows verify all 32 bytes of each.
+// Ground setters precede the dirty test; the other-cell connection follows it.
+// The height-tolerance datum preserves retail's four-byte float load.
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 static __forceinline float bridgeDelta(float a,float b){return (float)(a-b);}
 extern "C" double __cdecl fabs(double);
@@ -30,10 +33,11 @@ static __forceinline int float2long(float f){int i;__asm{fld f
 #define CEIL(x) float2long((float)ceil(x))
 struct BridgeBounds {struct {float x,y;}lo,hi;BridgeBounds(const BridgeBounds &r){lo.x=r.lo.x;lo.y=r.lo.y;hi.x=r.hi.x;hi.y=r.hi.y;}~BridgeBounds(){}};
 class Rva0027C36A {public:Rva0027C36A();Rva0027C36A &operator=(const Rva0027C36A &);Coord3D from,to;char rest[0xA8-24];};
-class Bridge {public:virtual ~Bridge();Bridge *next;int word8;Rva0027C36A info;BridgeBounds bounds;bool isPointOnBridge(const Coord3D *loc);float getBridgeHeight(const Coord3D *loc,Coord3D *normal);bool isCellOnEnd(const void *cellBounds);};
+struct Region2D {float lox,loy,hix,hiy;};
+class Bridge {public:virtual ~Bridge();Bridge *next;int word8;Rva0027C36A info;BridgeBounds bounds;bool isPointOnBridge(const Coord3D *loc);float getBridgeHeight(const Coord3D *loc,Coord3D *normal);bool isCellOnEnd(const Region2D *cellBounds);};
 struct CellOwnerInfo{char pad[0x28];int owner;};
-class Rva0052DFB1Arg;
-class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p?1:0;}bool rva0052DFB1(const void *arg);bool SetType_Dirty(int);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;};
+struct Rva0052DFB1Arg;
+class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p?1:0;}bool rva0052DFB1(const Rva0052DFB1Arg *arg);bool SetType_Dirty(int);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;};
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
 ICoord2D *Rva002E7875WorldToCell(ICoord2D *,bool,const Coord3D *);
 bool Rva001E3679(int);
@@ -45,11 +49,15 @@ class Rva00366500{public:bool rva00366500(int v);bool rva0036652D(int v);};
 class Object;
 struct Rva002ED236Pos {float x,y,z;Rva002ED236Pos(const Coord3D &p){x=p.x;y=p.y;z=p.z;}~Rva002ED236Pos(){}};
 enum PathfindLayerEnum {GROUND=1};
-class Pathfinder {public:PathfindLayerEnum rva002ED236(Object *,Rva002ED236Pos);void rva0052E914(int,int,PathfindCell *,Bridge *,bool,PathfindCell *,float);float GetWallHeight(int,const Coord3D *,Coord3D *);
+class Pathfinder {public:PathfindLayerEnum rva002ED236(Object *,Rva002ED236Pos);void rva0052E914(int,int,PathfindCell *,Bridge *,bool,PathfindCell *,float);float GetWallHeight(PathfindLayerEnum,const Coord3D *,Coord3D *);
 private:
  char m_pad00[0x10];PathfindCell **m_map;int m_loX,m_loY,m_hiX,m_hiY;char m_pad24[0x460-0x24];PathfindZoneManager m_zoneManager;};
 class GameLogic{public:Object *findObjectByID(int id);};
 extern GameLogic *TheGameLogic;
+static float bridgeHeightTolerance=15.0f;
+/**
+ * Classify the given map cell as clear, or not, etc.
+ */
 void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bool flag,PathfindCell *otherCell,float height)
 {
 	Coord3D topLeftCorner, bottomRightCorner;
@@ -80,18 +88,26 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 			return;
 		}
 		if(bridgeCount==0)return;
-		struct {float lox,loy,hix,hiy;} cellBounds;
+		// check against the end lines.
+		Region2D cellBounds;
 		cellBounds.lox=topLeftCorner.x;cellBounds.loy=topLeftCorner.y;
 		cellBounds.hix=bottomRightCorner.x;cellBounds.hiy=bottomRightCorner.y;
-		float wallHeight=GetWallHeight(cell->getLayer(),&topLeftCorner,0);
+		float wallHeight=GetWallHeight((PathfindLayerEnum)cell->getLayer(),&topLeftCorner,0);
 		float bridgeHeight=theBridge->getBridgeHeight(&topLeftCorner,0);
 		if(theBridge->isCellOnEnd(&cellBounds)){
-			if(otherCell&&fabs(bridgeHeight-height)<15.0f){
-				if(((Rva00366500*)cell)->rva0036652D(otherCell->getLayer())|((Rva0052E0A1*)cell)->rva0052E0A1(0)|((Rva00366500*)cell)->rva00366500(0x10)|cell->SetType_Dirty(0)|((Rva00366500*)otherCell)->rva0036652D(cell->getLayer()))m_zoneManager.MarkDirty(i,j);
+			if(otherCell&&fabs(bridgeHeight-height)<bridgeHeightTolerance){
+				{
+					bool changed=((Rva00366500*)cell)->rva0036652D(otherCell->getLayer());
+					changed|=((Rva0052E0A1*)cell)->rva0052E0A1(0);
+					changed|=((Rva00366500*)cell)->rva00366500(0x10);
+					changed|=cell->SetType_Dirty(0);
+					if(changed)m_zoneManager.MarkDirty(i,j);
+				}
+				((Rva00366500*)otherCell)->rva0036652D(cell->getLayer());
 				otherCell->SetType_Dirty(0);
 				return;
 			}
-			if(fabs(wallHeight-bridgeHeight)<15.0f){
+			if(fabs(wallHeight-bridgeHeight)<bridgeHeightTolerance){
 				bool changed=((Rva0052E0A1*)cell)->rva0052E0A1(0);
 				changed|=((Rva00366500*)cell)->rva0036652D(0x10);
 				changed|=cell->SetType_Dirty(0);
@@ -106,7 +122,6 @@ void Pathfinder::rva0052E914(int i,int j,PathfindCell *cell,Bridge *theBridge,bo
 			}
 		}else{
 			bool changed=((Rva00366500*)cell)->rva00366500(0x10);
-			_ReadWriteBarrier();
 			changed|=cell->SetType_Dirty(5);
 			changed|=((Rva00366500*)cell)->rva0036652D(0);
 			if(changed)m_zoneManager.MarkDirty(i,j);

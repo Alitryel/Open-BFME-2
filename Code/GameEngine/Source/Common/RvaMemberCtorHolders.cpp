@@ -164,16 +164,8 @@ void Rva005E7461Ref::release()
 		ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)(m_target + 0x24));
 }
 
-struct Rva005F0624Ref
-{
-	void release();
-	char *m_target;
-};
-void Rva005F0624Ref::release()
-{
-	if (m_target)
-		ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)(m_target + 4));
-}
+// Native005F0624 is the by-value resize element destructor. Its existing
+// complete C++ definition owns the row in StlportVectorRva005EFDE9Resize.cpp.
 
 struct Rva005EE258Result
 {

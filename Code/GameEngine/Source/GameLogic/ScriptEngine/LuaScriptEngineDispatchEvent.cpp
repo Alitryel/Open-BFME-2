@@ -76,7 +76,7 @@ class LuaScriptEngine
 {
 public:
 	void DispatchEvent(int *key, Object *object, void *parameters);
-	void rva00334003(lua_State *state, Object *object);
+	void PushObjectTable(lua_State *state, Object *object);
 
 private:
 	unsigned char m_pad00[0x0c];
@@ -130,7 +130,7 @@ void LuaScriptEngine::DispatchEvent(int *key, Object *object, void *parameters)
 		return;
 	}
 
-	rva00334003(m_luaState, object);
+	PushObjectTable(m_luaState, object);
 	int count = 1;
 	EventParameters *events = (EventParameters *)parameters;
 	for (int i = 0; i < 3; ++i)
@@ -149,7 +149,7 @@ void LuaScriptEngine::DispatchEvent(int *key, Object *object, void *parameters)
 			break;
 		}
 		case 3:
-			rva00334003(m_luaState, TheGameLogic->findObjectByID(events->m_event[i].m_object));
+			PushObjectTable(m_luaState, TheGameLogic->findObjectByID(events->m_event[i].m_object));
 			++count;
 			break;
 		case 4:

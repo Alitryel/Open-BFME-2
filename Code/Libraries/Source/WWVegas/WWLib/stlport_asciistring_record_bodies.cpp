@@ -104,6 +104,20 @@ template class _STL::vector<BfmeAssignRecord44, _STL::allocator<BfmeAssignRecord
 template class _STL::vector<BfmeAssignRecord52, _STL::allocator<BfmeAssignRecord52> >;
 template struct _STL::pair<const AsciiString, BfmePod8>;
 template class _STL::vector<BfmeAssignRecord84, _STL::allocator<BfmeAssignRecord84> >;
+// Declared only: the retail vector<BfmeStringHeadRecord148/160> overflow
+// helper, its prefix copy/fill helpers and the 160 destructor are emitted and
+// rowed by the StlportVectorInsertOverflow units. This TU's per-flag copies
+// sort first in link order and win, blocking those owners; declaring the
+// explicit specializations before the whole-class instantiations below stops
+// this TU emitting them. Its own _M_clear, _Destroy and __destroy_aux rows
+// stay instantiated (kept for the same units).
+namespace _STL {
+template <> void vector<BfmeStringHeadRecord148, allocator<BfmeStringHeadRecord148> >::_M_insert_overflow(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &, const __false_type &, unsigned int, bool);
+template <> void vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::_M_insert_overflow(BfmeStringHeadRecord160 *, const BfmeStringHeadRecord160 &, const __false_type &, unsigned int, bool);
+template <> BfmeStringHeadRecord160 *__uninitialized_copy<BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, const __false_type &);
+template <> BfmeStringHeadRecord160 *__uninitialized_fill_n<BfmeStringHeadRecord160 *, unsigned int, BfmeStringHeadRecord160>(BfmeStringHeadRecord160 *, unsigned int, const BfmeStringHeadRecord160 &, const __false_type &);
+template <> vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::~vector();
+}
 template class _STL::vector<BfmeStringHeadRecord148, _STL::allocator<BfmeStringHeadRecord148> >;
 template class _STL::vector<BfmeStringHeadRecord160, _STL::allocator<BfmeStringHeadRecord160> >;
 namespace _STL {

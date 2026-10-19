@@ -1,4 +1,6 @@
 // ?rva005424C4@XmlNameSlotList@@QAEHXZ
+// partial score=0.8833333333333333 date=2026-10-19
+// ?rva005424C4@XmlNameSlotList@@QAEHXZ
 // partial score=0.744 date=2026-10-17
 // ?rva005424C4@XmlNameSlotList@@QAEHXZ
 // partial score=0.12 date=2026-10-10
@@ -81,11 +83,11 @@ int XmlNameSlotList::rva005424C4()
  m_tail=m_pos;
  char *tagEnd=Rva00542425Skip(m_pos);
  m_pos=tagEnd;
- if(*m_pos==0)goto failed;
+ if(*m_pos==0)return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
  m_pos=((Rva005423F0 *)this)->rva005423F0(m_pos);
- if(*m_pos==0)goto failed;
- if((kind==1) ? true : false) {
-  *(volatile int*)&m_mark=0;
+ if(*m_pos==0)return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
+ m_mark=0;
+ if(kind==1) {
   while(isalnum(*m_pos)) {
    char *name=m_pos;
    char *nameEnd=Rva00542425Skip(m_pos);
@@ -156,3 +158,6 @@ int XmlNameSlotList::finish()
  }
  m_tail=0;m_mark=0;return 0;
 }
+
+// Native +0x28 resets for both tag kinds; the two pre-loop errors return early.
+// Remaining shape and native-input checks: reverse/attempt_support/0x005424c4-w5-20261019.md

@@ -1,4 +1,6 @@
 // ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z
+// partial score=0.6307420494699647 date=2026-10-19
+// ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z
 // partial score=0.436 date=2026-10-17
 // ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z
 // partial score=0.595 date=2026-10-14
@@ -14,12 +16,18 @@ public:
 	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
 	Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
+ Vector3 &operator+=(const Vector3 &v){X+=v.X;Y+=v.Y;Z+=v.Z;return *this;}
  float X, Y, Z;
 };
 
 inline Vector3 operator + (const Vector3 &a, const Vector3 &b)
 {
 	return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+}
+
+inline Vector3 operator * (float scale,const Vector3 &v)
+{
+ return Vector3(scale*v.X,scale*v.Y,scale*v.Z);
 }
 
 class Matrix3D
@@ -54,11 +62,27 @@ inline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
 }
 
 
+inline Vector3 Rotate_Blended_Vector(const Vector3 &v, const Quaternion &q)
+{
+ float x = (v.Z*q.Y - q.Z*v.Y) + q.W*v.X;
+ float y = q.W*v.Y - (v.Z*q.X - q.Z*v.X);
+ float z = (q.X*v.Y - v.X*q.Y) + v.Z*q.W;
+ float dot=q.Y*v.Y+q.Z*v.Z;
+ dot+=q.X*v.X;
+ float w=-dot;
+ return Vector3((z*q.Y-q.Z*y)+(q.W*x-q.X*w),
+                (q.W*y-w*q.Y)-(q.X*z-q.Z*x),
+                (q.X*y-x*q.Y)+(q.W*z-q.Z*w));
+}
+
 inline Quaternion operator * (const Quaternion &a, const Quaternion &b)
 {
+ float rx=a.Y*b.Z-b.Y*a.Z;
+ rx+=a.W*b.X;
+ rx+=b.W*a.X;
 	return Quaternion
 	(
-		(a.Y*b.Z - b.Y*a.Z) + b.W*a.X + a.W*b.X,
+		rx,
 		a.W*b.Y + b.W*a.Y - (a.X*b.Z - b.X*a.Z),
 		(a.X*b.Y - b.X*a.Y) + b.W*a.Z + a.W*b.Z,
 		a.W*b.W - ((a.Z*b.Z + a.X*b.X) + a.Y*b.Y)
@@ -129,26 +153,36 @@ public:
  struct CapturedBone{int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
  CapturedBone *CapturedBegin,*CapturedEnd,*CapturedCapacity;
 };
+/***********************************************************************************************
+ * HTreeClass::Combo_Update -- compute each pivot's transform using an anim combo              *
+ *                                                                                             *
+ * INPUT:                                                                                      *
+ *                                                                                             *
+ * OUTPUT:                                                                                     *
+ *                                                                                             *
+ * WARNINGS:                                                                                   *
+ *                                                                                             *
+ * HISTORY:                                                                                    *
+ *   3/4/98     GTH : Created.                                                                 *
+ *=============================================================================================*/
 void HTreeClass::Combo_Update(const Matrix3D &root,HAnimComboClass *anim) {
  PivotTransform &initial=Pivot[0].Transform;
  initial.Rotation=Build_Quaternion(root);
  initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
  Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
  int num_anim_pivots=100000;
- for(int anim_num=0;anim_num<(anim->Get_Num_Anims() ? anim->Get_Num_Anims() : anim->Get_Num_Anims());++anim_num)
+ for(int anim_num=0;anim_num<anim->Get_Num_Anims();++anim_num)
   num_anim_pivots=num_anim_pivots<anim->Peek_Motion(anim_num)->Get_Num_Pivots()?num_anim_pivots:anim->Peek_Motion(anim_num)->Get_Num_Pivots();
- _ReadWriteBarrier(); _ReadWriteBarrier();
  if(num_anim_pivots==100000)num_anim_pivots=0;
  int captured;
  if(CapturedBegin==CapturedEnd)captured=-1;
- else captured=CapturedBegin->Index;
+ else { _ReadWriteBarrier(); captured=CapturedBegin->Index; }
  int piv_idx=1;
  for(;piv_idx<NumPivots;++piv_idx) {
   PivotClass *pivot=&Pivot[piv_idx];
   const PivotTransform &parent=pivot->Parent->Transform;
   PivotTransform &xform=pivot->Transform;
-  Vector3 base_trans=pivot->BaseTransform.Translation;
-  *(volatile float*)&base_trans.X; *(volatile float*)&base_trans.Y; *(volatile float*)&base_trans.Z;
+  const Vector3 &base_trans=pivot->BaseTransform.Translation;
   Vector3 _rv = Rotate_Vector(base_trans,parent.Rotation);
   xform.Translation=parent.Translation+_rv;
   _ReadWriteBarrier();
@@ -160,12 +194,17 @@ void HTreeClass::Combo_Update(const Matrix3D &root,HAnimComboClass *anim) {
     if(motion) {
      float frame_num=anim->Get_Frame(anim_num);
      PivotMapClass *pivot_map=anim->Get_Pivot_Weight_Map(anim_num);
+     //float	*pivot_map = anim->Get_Pivot_Weight_Map( anim_num );
      float weight=anim->Get_Weight(anim_num);
-     if(pivot_map){weight*=(*pivot_map)[piv_idx];pivot_map->Release_Ref();}
+     if(pivot_map){
+      weight*=(*pivot_map)[piv_idx];
+      // GREG - Pivot maps are ref counted so shouldn't we
+      // release the rivot map here?
+      pivot_map->Release_Ref();
+     }
      if(weight!=0.0) {
       ++wcount;Vector3 temp_trans;motion->Get_Translation(temp_trans,piv_idx,frame_num);
-      float scale=(float)(double)(weight*ScaleFactor);
-      trans.X+=(scale*temp_trans.X);trans.Y+=(scale*temp_trans.Y);trans.Z+=(scale*temp_trans.Z);
+      trans += weight * ScaleFactor * temp_trans;
       weight_total+=weight;
       if(!motion->Get_Orientation(q1,piv_idx,frame_num))q1=Quaternion(0,0,0,1);
       if(wcount==1)q0=q1;else BFME2_Nlerp(q0,q0,q1,weight/weight_total);
@@ -174,13 +213,20 @@ void HTreeClass::Combo_Update(const Matrix3D &root,HAnimComboClass *anim) {
     }
    }
    if(weight_total!=0.0f) {
-    pivot->Transform.Translation=Rotate_Vector(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
-    Quaternion old=pivot->Transform.Rotation;
-    pivot->Transform.Rotation.X=(old.Y*q0.Z-q0.Y*old.Z)+q0.W*old.X+old.W*q0.X;
-    pivot->Transform.Rotation.Y=q0.W*old.Y+old.W*q0.Y-(old.X*q0.Z-q0.X*old.Z);
-    pivot->Transform.Rotation.Z=(q0.Y*old.X-old.Y*q0.X)+q0.W*old.Z+old.W*q0.Z;
+    // SKB: Removed assert because I have a case where I don't want normalization.
+    // 	  One anim moves X, the other moves Y.  Assert was just in to warn programmers.
+//				WWASSERT(WWMath::Fabs( weight_total - 1.0 ) < WWMATH_EPSILON);
+    Quaternion blended=q0;
+    xform.Translation=Rotate_Blended_Vector(trans,xform.Rotation)+xform.Translation;
+    Quaternion old=xform.Rotation;
+    float rx=old.Y*blended.Z-blended.Y*old.Z;
+    rx+=blended.W*old.X;
+    rx+=old.W*blended.X;
+    xform.Rotation.X=rx;
+    xform.Rotation.Y=blended.W*old.Y+old.W*blended.Y-(old.X*blended.Z-blended.X*old.Z);
+    xform.Rotation.Z=(blended.Y*old.X-old.Y*blended.X)+blended.W*old.Z+old.W*blended.Z;
     _ReadWriteBarrier();
-    pivot->Transform.Rotation.W=q0.W*old.W-((q0.Z*old.Z+q0.Y*old.Y)+old.X*q0.X);
+    xform.Rotation.W=blended.W*old.W-((blended.Z*old.Z+blended.Y*old.Y)+old.X*blended.X);
    }
    pivot->IsVisible=false;pivot->m_bfme54=0;float fade_count=0;
    for(anim_num=0;anim_num<anim->Get_Num_Anims()&&!pivot->IsVisible;++anim_num) {
@@ -197,3 +243,6 @@ void HTreeClass::Combo_Update(const Matrix3D &root,HAnimComboClass *anim) {
   if(piv_idx==captured)captured=Capture_Update(captured);
  }
 }
+
+// Handoff: reverse/attempt_support/htree-combo-update-20261019-w8.md.
+// Native expression groups verified for both seven-component transform compositions.

@@ -17,9 +17,9 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 { return a._M_node != b._M_node; }
 }
 struct Rva004FFFF9Element {
- Rva004FFFF9Element(); Rva004FFFF9Element(const Rva004FFFF9Element&);
- ~Rva004FFFF9Element(); Rva004FFFF9Element&operator=(const Rva004FFFF9Element&);
  char bytes[8];
 };
-bool operator<(const Rva004FFFF9Element&,const Rva004FFFF9Element&);
-template class _STL::set<Rva004FFFF9Element>;
+// The element copies memberwise (its rowed 165B _Rb_tree copy is at 0x004FFFF9):
+// instantiate only the two rowed copy constructors.
+template _STL::_Rb_tree<Rva004FFFF9Element,Rva004FFFF9Element,_STL::_Identity<Rva004FFFF9Element>,_STL::less<Rva004FFFF9Element>,_STL::allocator<Rva004FFFF9Element> >::_Rb_tree(const _STL::_Rb_tree<Rva004FFFF9Element,Rva004FFFF9Element,_STL::_Identity<Rva004FFFF9Element>,_STL::less<Rva004FFFF9Element>,_STL::allocator<Rva004FFFF9Element> >&);
+template _STL::set<Rva004FFFF9Element>::set(const _STL::set<Rva004FFFF9Element>&);

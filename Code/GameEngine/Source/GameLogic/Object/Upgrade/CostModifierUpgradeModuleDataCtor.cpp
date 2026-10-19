@@ -30,8 +30,10 @@
 #include "ascii_string.h"
 
 // A declaration-only specialization stops this TU emitting its own
-// vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
+// vector destructors, so calls bind their verified kept copies. The float
+// destructor is emitted and verified by SpellRechargeModifierUpgradeModuleDataCtor.
 namespace _STL {
+template <> vector<float, allocator<float> >::~vector();
 template <> vector<AsciiString, allocator<AsciiString> >::~vector();
 template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
 template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);

@@ -72,7 +72,7 @@ functions, and `reverse/tu_map.csv` maps them back to original units
   under it (`Pathfinder::classifyMapCell`). Cells sit on layers: the
   ground (layer 1) and bridges (layers 2 to 15), with a fixed array of
   sixteen layer slots covering values up to 15. BFME 2 also uses layer values of 16 and above, a
-  ramp value and a range of wall values (their naming is not yet settled),
+  ramp value and a range of wall values (their original names are not established),
   which the pathfinder handles outside that array; their heights come from
   a separate pathfinder query. As in
   Zero Hour, zones group cells that are reachable from each other for a kind
@@ -85,21 +85,22 @@ functions, and `reverse/tu_map.csv` maps them back to original units
   `Pathfinder::queueForPath` (Zero Hour serves that queue from
   `AI::update`).
 - **AerialPathfinder (TheAerialPathfinder).** A separate subsystem for
-  flying units. Its reconstructed members keep flyers apart, pushing a unit
-  away from overlapping neighbours, and probe ground height around a flyer.
+  flying units. Among its members are ones that keep flyers apart, pushing
+  a unit away from overlapping neighbours, and ones that probe ground height
+  around a flyer.
   It also stores no-fly zones read from INI.
 - **Player AI.** `AIPlayer` builds teams from a queue (`TeamInQueue`,
   `WorkOrder`), finds dozers and trains units for computer-controlled
   players; `AISkirmishPlayer` derives from it.
 - **Skirmish AI.** On a new map with game setup info, and only in certain
   game modes (a further logic check, which the ledger reads as a replay
-  guard, also stops it; the exact guards are not yet named),
+  guard, also stops it; what exactly the guards test is not established),
   `TheSkirmishAIManager` sets up AI for each eligible player whose type
   marks it as computer-controlled, or for every eligible player when a
   force flag is set. Other eligible players get an `AIStatCollector`,
-  which records their units. The AI-creation call is not yet
-  reconstructed; that it creates a `SkirmishAI` is inferred from
-  WorldBuilder names. A `SkirmishAI` owns an
+  which records their units. What the AI-creation call does is not
+  established from BFME 2's code; that it creates a `SkirmishAI` is inferred
+  from WorldBuilder names. A `SkirmishAI` owns an
   `AIBuilder`, whose components manage dozers, the base, the economy and
   walls, and a `TacticalAI`, which generates tactics (`AITactic` and subclasses such as
   `AIFlankAttackTactic`, `AIRoamingDefenseTactic`, `AIStructureCreepTactic`
@@ -133,8 +134,10 @@ functions, and `reverse/tu_map.csv` maps them back to original units
    list, which runs each `AIPlayer`. BFME 2's `AI::update` is described
    here by contract only.
 4. **Commands in.** Player orders arrive as messages that the logic
-   dispatcher turns into `AIGroup` or `AICommandInterface` calls (Zero Hour
-   structure; BFME 2's dispatcher is still being traced). Map scripts build
+   dispatcher, `GameLogic::logicMessageDispatcher`, turns into `AIGroup` or
+   `AICommandInterface` calls. As in Zero Hour, it builds an `AIGroup` from
+   the sending player's current selection and issues group commands such
+   as `groupAttackObject` to it. Map scripts build
    temporary groups with `AI::createGroup` and command them
    (\ref sub_scripting).
 5. **Save and checksum.** States, machines, groups, group orders and AI
@@ -181,7 +184,7 @@ bodies:
   `AISkirmishPlayer`'s virtual overrides only forward to `AIPlayer`.
 - **Pathfinder.** The path-request queue (512 slots, as in Zero Hour)
   becomes a ring object, and BFME 2 adds a second ring of the same shape
-  whose use is not yet known. The zone manager is reworked: Zero Hour's
+  whose use is not established. The zone manager is reworked: Zero Hour's
   zone equivalency tables are stored differently. New-map setup also marks
   the cells under certain map waypoints. A layer without a bridge takes
   its bounds from a chain of polygon triggers. Several queries are
@@ -236,18 +239,17 @@ bodies:
   changes AI behaviour and breaks lockstep and replays with retail
   (\ref page_frame_loop).
 - The pathfinder is one large object with fixed-size arrays (layers,
-  request rings, zone tables) built for the 32-bit retail layout. No
-  canonical header declares `Pathfinder`, `AIStateMachine` or `AIGroup`
-  yet; source files carry their own partial views.
+  request rings, zone tables) built for the 32-bit retail layout.
 
 ## State of the reconstruction {#sub_ai_pathfinding_state}
 
-Naming is uneven: some classes, including several of the skirmish AI's
-supporting managers, are still address-named and appear here under their
-subsystem names, and many method names come from WorldBuilder leads and
-may change. Check `reverse/link_status.csv` for which files link; class
-and member pages wait for canonical headers. `AI::update` and the logic dispatcher's AI commands are described here by
-contract. To list the rows, run
+Where a class has no recovered name, this page refers to it by its
+subsystem role (\ref page_reading_code); check the ledger before relying on
+a name. Some method names come from WorldBuilder leads, so read a row's
+ledger note before relying on one. Check `reverse/link_status.csv` for which files link; class
+and member pages wait for canonical headers, and
+`reverse/canonical_classes.csv` lists which classes have a shared header.
+`AI::update` is described here by contract. To list the rows, run
 `rg ',Code/GameEngine/Source/GameLogic/(AI|Pathfinder|SkirmishAI)/' reverse/functions.csv`.
 
 ## Reading list {#sub_ai_pathfinding_reading}

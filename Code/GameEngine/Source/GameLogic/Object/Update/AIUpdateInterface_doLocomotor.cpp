@@ -237,7 +237,7 @@ class Locomotor
 {
 public:
 	Real getMaxSpeed(Object *obj) const;
-};
+public: Bool locoUpdate_maintainCurrentPosition(Object *); };
 
 // The current locomotor (Zero Hour's Locomotor); ledger class name.
 class Rva001E46E1
@@ -247,7 +247,7 @@ public:
 	Int getAirborneTargetingHeight() const { return m_template->m_airborneTargetingHeight; }
 	void rva001E53D8(Real speed, Object *obj);
 	Bool rva001E543F(Object *obj);
-	Bool rva001E84E5(Object *obj); // locoUpdate_maintainCurrentPosition
+	/* the rowed Locomotor::locoUpdate_maintainCurrentPosition */ __declspec(dllimport) __forceinline Bool rva001E84E5(Object * p0) { return ((Locomotor *)this)->locoUpdate_maintainCurrentPosition(p0); } // locoUpdate_maintainCurrentPosition
 	void rva001E9083(Object *obj, const Coord3D *goal, Real onPathDistToGoal, Real desiredSpeed); // locoUpdate_moveTowardsPosition
 	void rva001EA0F4(Object *obj, Real angle); // locoUpdate_moveTowardsAngle
 private:

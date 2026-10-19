@@ -71,6 +71,16 @@ enum ScienceType
 	SCIENCE_NONE = 0
 };
 
+// The separate subscript unit owns the byte-verified 0x0041EB1A body.
+// Whole-class instantiation here must use it rather than emit another copy.
+namespace _STL {
+template <> vector<ScienceType> &hash_map<int, vector<ScienceType> >::operator[](const int &);
+}
+
 template class _STL::hash_map<int, _STL::vector<ScienceType>, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, _STL::vector<ScienceType> > > >;
+
+// These rowed helpers were otherwise emitted only through operator[].
+template _STL::pair<const int, _STL::vector<ScienceType> >::pair(const int &, const _STL::vector<ScienceType> &);
+template _STL::pair<const int, _STL::vector<ScienceType> > &_STL::hashtable<_STL::pair<const int, _STL::vector<ScienceType> >, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, _STL::vector<ScienceType> > >, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, _STL::vector<ScienceType> > > >::_M_insert(const _STL::pair<const int, _STL::vector<ScienceType> > &);
 
 template bool _STL::operator!=(const _STL::vector<ScienceType, _STL::allocator<ScienceType> > &, const _STL::vector<ScienceType, _STL::allocator<ScienceType> > &);

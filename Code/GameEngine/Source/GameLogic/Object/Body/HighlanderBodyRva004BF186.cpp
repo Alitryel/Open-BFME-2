@@ -1,10 +1,13 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva004BF186@HighlanderBody@@UAEX_N@Z @0x004BF186 98B.
-// Target evidence: the only reference to this body is slot 33 of the vtable
-// 0x00C5B390 that the matched HighlanderBody ctor 0x004C0781 installs at
-// +0x10, the second interface base of the body module (vptrs at +0, +0xC,
-// +0x10); the slot's name is not established, hence the address name. cl 7.1
+// ?setIndestructible@ActiveBody@@UAEX_N@Z @0x004BF186 98B.
+// Target evidence: slot 33 (+0x84) of the body-interface vtable at +0x10,
+// installed by ActiveBody's own vtable 0x00C5B5B0 and inherited unchanged by
+// the Highlander, Immortal, Respawn, Oathbreaker and PorcupineFormation body
+// vtables. Callers that pass Indestructible map/script flags use the same
+// slot (ObjectUpdateObjValuesFromMapProperties, ScriptActions, BridgeObject).
+// The body is Zero Hour's ActiveBody::setIndestructible (store the flag,
+// mirror it onto the bridge's four towers). cl 7.1
 // compiles an override of a non-primary base's virtual with the base
 // subobject's this and folds the adjustment into the member accesses: the
 // Object pointer at +8 is read as [ecx-8] and the flag at +0xC7 as [ecx+0xB7].
@@ -68,7 +71,7 @@ public:
 	virtual void s30();
 	virtual void s31();
 	virtual void s32();
-	virtual void rva84(bool v) = 0; // +0x84
+	virtual void setIndestructible(bool v) = 0; // +0x84
 };
 struct ThingTemplate
 {
@@ -127,17 +130,17 @@ public:
 	virtual void s30();
 	virtual void s31();
 	virtual void s32();
-	virtual void rva004BF186(bool v) = 0;
+	virtual void setIndestructible(bool v) = 0;
 };
-class HighlanderBody : public B00, public B0C, public Iface10
+class ActiveBody : public B00, public B0C, public Iface10
 {
 public:
-	virtual void rva004BF186(bool v);
+	virtual void setIndestructible(bool v);
 private:
 	unsigned char m_pad014[0xC7 - 0x14];
 	bool m_C7;
 };
-void HighlanderBody::rva004BF186(bool v)
+void ActiveBody::setIndestructible(bool v)
 {
 	m_C7 = v;
 	Object *obj = m_object;
@@ -153,7 +156,7 @@ void HighlanderBody::rva004BF186(bool v)
 				{
 					BodyIface *body = tower->m_254;
 					if (body)
-						body->rva84(v);
+						body->setIndestructible(v);
 				}
 			}
 		}

@@ -1,4 +1,11 @@
 // ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.96 date=2026-10-19
+// b1 2026-10-19 (WB 0x011B2240 literal pass, claude-opus-5.5): returning threshold is 5.0f (WB fcomp 5.0f,
+// retail [0xbc4eb8] 5.0f; the bank's 10.0f was masked by the reloc), emitter radius test is WB's
+// (Real)(m_maxWanderRadius * m_maxWanderRadius) with no `int radius` local (fixes the radius load order),
+// delta.sub()/destination.scale() members as WB calls them (COORD3D_VIEW_INLINE, byte-neutral), no
+// function-scope `position` pointer (WB re-reads obj->getPosition(), byte-neutral). Frame still 0xA4.
+// ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.96 date=2026-10-16
 // ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial r3 W9-O1 2026-10-16 (nn 32, 20 hunks): home Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AnimalAIUpdate.cpp
@@ -26,11 +33,12 @@
 // group plus rel at -0x3C overlapping it, mirrored (emitter dest in the group), at the cost of
 // broad register changes. Visible isReachableLayer (0x47ED3D, same retail TU) and {} around the
 // emitter query change nothing.
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
-#include "../../../../Common/GameLogicObjectLookupView.h"
-#include "../../../../Common/PartitionRangeQueryCallView.h"
-#include "../../../../Common/RTS/XYDistanceCallView.h"
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+#define COORD3D_VIEW_INLINE
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "Code/GameEngine/Source/Common/RTS/XYDistanceCallView.h"
 #include "ascii_string.h"
 
 // BFME-only AnimalAIUpdate::update, retail 0x0047EDC9..0x0047F92D (2916 B).
@@ -311,8 +319,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 		processedOne(self) = 1;
 	}
 
-	const Coord3D *position = animalPosition(animal);
-	if (!((AnimalAIUpdateDestinationLayer*)((char*)self-0x10))->isReachableLayer(position))
+	if (!((AnimalAIUpdateDestinationLayer*)((char*)self-0x10))->isReachableLayer(animalPosition(animal)))
 	{
 		if (g_bfmeCritterDesyncLog && theLogicRandomLogFile)
 			fprintf(theLogicRandomLogFile,
@@ -334,8 +341,9 @@ UpdateSleepTime AnimalAIUpdate::update()
 				animalDebugName(animal), originalPosition(self)->x, originalPosition(self)->y,
 				originalPosition(self)->z);
 
-		Coord3D delta=*originalPosition(self);delta.x-=position->x;delta.y-=position->y;delta.z-=position->z;
-		if(delta.GetLengthEstimate2D() < 10.0f)
+		Coord3D delta = *originalPosition(self);
+		delta.sub(animalPosition(animal));
+		if(delta.GetLengthEstimate2D() < 5.0f)
 		{
 			if (g_bfmeCritterDesyncLog && theLogicRandomLogFile)
 				fprintf(theLogicRandomLogFile,
@@ -416,8 +424,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 					fprintf(theLogicRandomLogFile,
 						"CritterDesync:  animal %s(%d) EMITTER CASE",
 						animalDebugName(animal), animalID(animal));
-				int radius = data->m_maxWanderRadius;
-				if (((Rva000CBA20 *)animal)->distSq((const Rva000CBA20Point *)animalPosition(emitter)) > (float)(radius * radius))
+				if (((Rva000CBA20 *)animal)->distSq((const Rva000CBA20Point *)animalPosition(emitter)) > (float)(data->m_maxWanderRadius * data->m_maxWanderRadius))
 				{
 					if (g_bfmeCritterDesyncLog && theLogicRandomLogFile)
 						fprintf(theLogicRandomLogFile,
@@ -439,8 +446,8 @@ UpdateSleepTime AnimalAIUpdate::update()
 					destination.x += Cos(angle);destination.y += Sin(angle);
 					float distance = (float)GetGameLogicRandomValue(0,
 						data->m_maxWanderDistance, (char *)kAnimalSource, 0xbf);
-					destination.x *= distance; destination.y *= distance; destination.z *= distance;
-					destination.x += position->x;destination.y += position->y;
+					destination.scale(distance);
+					destination.x += animalPosition(animal)->x;destination.y += animalPosition(animal)->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{
 						if (g_bfmeCritterDesyncLog && theLogicRandomLogFile)
@@ -466,7 +473,8 @@ UpdateSleepTime AnimalAIUpdate::update()
 					fprintf(theLogicRandomLogFile,
 						"CritterDesync:  animal %s(%d) NO EMITTER CASE",
 						animalDebugName(animal), animalID(animal));
-				Coord3D delta=*originalPosition(self);delta.x-=position->x;delta.y-=position->y;delta.z-=position->z;
+				Coord3D delta = *originalPosition(self);
+		delta.sub(animalPosition(animal));
 				float dist = delta.GetLengthEstimate();
 				if (dist > (float)data->m_maxWanderRadius)
 				{
@@ -490,8 +498,8 @@ UpdateSleepTime AnimalAIUpdate::update()
 					destination.x += Cos(angle);destination.y += Sin(angle);
 					float distance = (float)GetGameLogicRandomValue(0,
 						data->m_maxWanderDistance, (char *)kAnimalSource, 0xf5);
-					destination.x *= distance; destination.y *= distance; destination.z *= distance;
-					destination.x += position->x;destination.y += position->y;
+					destination.scale(distance);
+					destination.x += animalPosition(animal)->x;destination.y += animalPosition(animal)->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{
 						if (g_bfmeCritterDesyncLog && theLogicRandomLogFile)

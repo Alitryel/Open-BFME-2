@@ -10,8 +10,9 @@
 // compiler.  The fistp helper is required because a plain (int) cast emits
 // _ftol2 under /O1.
 
-extern float g_00BC9D14;
-extern float g_00C17274;
+// Native factors at VA BC9D14 and C17274; original identifiers unknown.
+float BfmePathArcFactor0 = 0.03333333507180214f;
+float g_00C17274 = 5.092957973480225f;
 
 extern "C" __declspec(dllimport) double __cdecl ceil(double v);
 
@@ -31,7 +32,7 @@ class Path { public: int rva003641AE(float a, float b); };
 int Path::rva003641AE(float a, float b)
 {
 	double d = b;
-	b = (float)ceil((a * (d * g_00BC9D14)) * g_00C17274);
+	b = (float)ceil((a * (d * BfmePathArcFactor0)) * g_00C17274);
 	int i = fast_float2long_round(b);
 	if (i < 1)
 		i = 1;

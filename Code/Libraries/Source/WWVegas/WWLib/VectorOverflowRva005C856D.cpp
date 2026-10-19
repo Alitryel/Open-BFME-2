@@ -20,6 +20,23 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 
+// Native placement-copy and range-destruction calls identify these existing
+// helper owners. The opaque element spelling stays local; no new identity
+// or layout is claimed for the record. Bind its helper calls to those owners.
+struct Rva005C8624Element;
+struct Rva005C84D3Element;
+namespace _STL { template<> void vector<Rva005C84D3Element>::_M_clear(); }
+namespace _STL { template<> void _Construct<Rva005C8624Element,Rva005C8624Element>(Rva005C8624Element*,const Rva005C8624Element&); }
+
+struct Rva005C856DClearOwner : _STL::vector<Rva005C84D3Element > {
+    using _STL::vector<Rva005C84D3Element >::_M_clear;
+};
+
 struct Rva005C856DRecord { Rva005C856DRecord(); Rva005C856DRecord(const Rva005C856DRecord&); ~Rva005C856DRecord(); Rva005C856DRecord&operator=(const Rva005C856DRecord&); private: char bytes[72]; };
-namespace _STL {template<> void _Construct<Rva005C856DRecord,Rva005C856DRecord>(Rva005C856DRecord*,const Rva005C856DRecord&);}
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void vector<Rva005C856DRecord>::_M_clear()
+{ reinterpret_cast<Rva005C856DClearOwner*>(this)->_M_clear(); }
+template<> __declspec(dllimport) __forceinline void _Construct<Rva005C856DRecord,Rva005C856DRecord>(Rva005C856DRecord*p,const Rva005C856DRecord&v)
+{ _Construct(reinterpret_cast<Rva005C8624Element*>(p),reinterpret_cast<const Rva005C8624Element&>(v)); }
+}
 template void _STL::vector<Rva005C856DRecord>::_M_insert_overflow(Rva005C856DRecord*,const Rva005C856DRecord&,const _STL::__false_type&,unsigned int,bool);

@@ -98,6 +98,8 @@ struct AudioSettings {char pad0[0x74];int globalRange;char pad78[0x3c];int cache
 extern float g_00DBA4FC;
 #include <limits>
 // Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(unsigned int const &x,unsigned int const &y)const  { return x < y; } }
+// Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * const * vector<void *,allocator<void *> >::begin()const  { return this->_M_start; } }
 // bfme link decl-only begin
 namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }

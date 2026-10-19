@@ -36,6 +36,19 @@ Useful iteration tools:
 
 ## MSVC 7.1 shaping notes
 
+The default compiler remains 13.10.3077. A source may explicitly select
+`// compiler: vc71-sp1` for the hash-pinned 13.10.6030 optimizing compiler in
+`vendor/vc71-sp1/`, using the same submodule headers and libraries. This supports
+`/hotpatch` for SDK bodies whose retail archive was built by a later 13.10
+compiler. Record the retail evidence before selecting it; all normal byte,
+identity and relocation checks still apply. Its executable and runtime DLLs
+are part of object-cache fingerprints and dependency receipts.
+
+`// compiler: vc71-ddk-4035` selects the similarly pinned Windows Server 2003
+SP1 DDK compiler, 13.10.4035. Retail's DXErr object records that version; it
+emits the older `/GS` cookie shape required by DXTrace. Both profiles retain
+the default compiler's headers and libraries.
+
 Near-matches are still failures. If a candidate differs only by register choice, branch layout, or
 x87 operand order, revert it unless the exact decorated-symbol check passes.
 
