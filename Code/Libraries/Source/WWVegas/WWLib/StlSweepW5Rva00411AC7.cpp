@@ -61,4 +61,11 @@ template <> void **vector<void*>::end();
 }
 
 struct Rva00411AC7Element {Rva00411AC7Element();Rva00411AC7Element(const Rva00411AC7Element&);Rva00411AC7Element&operator=(const Rva00411AC7Element&);~Rva00411AC7Element(){}char bytes[8]; bool operator==(const Rva00411AC7Element&)const;};
-template class _STL::hash_map<int,Rva00411AC7Element>;
+// Only the recovered bucket-table constructor is owned here. Instantiating
+// the whole hash_map also emits unused element operations with no providers.
+typedef _STL::pair<const int,Rva00411AC7Element> Rva00411AC7Pair;
+template _STL::hashtable<Rva00411AC7Pair,int,_STL::hash<int>,
+    _STL::_Select1st<Rva00411AC7Pair>,_STL::equal_to<int>,
+    _STL::allocator<Rva00411AC7Pair> >::hashtable(unsigned int,
+    const _STL::hash<int>&,const _STL::equal_to<int>&,
+    const _STL::allocator<Rva00411AC7Pair>&);
