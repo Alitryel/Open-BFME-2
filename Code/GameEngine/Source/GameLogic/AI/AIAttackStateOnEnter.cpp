@@ -88,7 +88,6 @@ public:
  char pad25c[0xA8]; Team *team;
  char pad308[0x130]; unsigned char status438;
 };
-class Rva003413B2 { public: bool rva003413B2(); };
 class Rva002C9400ByteField { public: unsigned char get() const; };
 class Rva002C940EByteField { public: unsigned char get() const; };
 class Rva0028B7B5CmpBoolField { public: bool get() const; };
@@ -120,6 +119,7 @@ class AIAttackState {
 public:
  virtual void slot00();virtual void slot01();virtual void slot02();virtual void slot03();
  virtual StateReturnType onEnter();
+ bool rva003413B2(); // ZH chooseWeapon
  StateMachine *getMachine() const { return machine; }
  char pad04[0x14];StateMachine *machine;char pad1c[8];StateMachine *attackMachine;
  AttackExitConditionsInterface *parameters;Team *victimTeam;Coord3D victimPos;
@@ -136,7 +136,7 @@ StateReturnType AIAttackState::onEnter() {
  if(!(ai->getMoodMatrixActionAdjustment((MoodMatrixAction)2)&1)) return SUCCESS;
  if(parameters && parameters->shouldExit(getMachine())) return SUCCESS;
  if(source->isOutOfAmmo() && !(source->m_template->kinds[3]&2)) return FAILURE;
- if(!reinterpret_cast<Rva003413B2*>(this)->rva003413B2()) return FAILURE;
+ if(!rva003413B2()) return FAILURE;
  Weapon *weapon=const_cast<Weapon*>(source->getCurrentWeapon(0));
  if(!weapon) return FAILURE;
  flag48=reinterpret_cast<const Rva002C9400ByteField*>(weapon->m_template)->get();

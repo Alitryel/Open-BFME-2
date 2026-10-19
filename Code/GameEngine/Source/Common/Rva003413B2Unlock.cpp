@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva003413B2@Rva003413B2@@QAE_NXZ, retail 0x003413B2, 75 bytes. Unlock lane.
+// ?rva003413B2@AIAttackState@@QAE_NXZ, retail 0x003413B2, 75 bytes. Unlock lane.
 // this+0x18 is TurretStateMachine (rowed getGoalObject 0x004D7726); its +0x14
 // is the owner Object (rowed chooseBestWeapon 0x0028AF4A, pin-only rva0028DB3C).
 // Flag byte at this+0x41 gates the early false when the goal is null. The
@@ -77,7 +77,7 @@ public:
 	Virt0028CmdSrc *m_258;
 };
 
-class Rva003413B2
+class AIAttackState
 {
 public:
 	bool rva003413B2();
@@ -88,7 +88,7 @@ private:
 	unsigned char m_41;
 };
 
-bool Rva003413B2::rva003413B2()
+bool AIAttackState::rva003413B2()
 {
 	Object *goal = m_18->getGoalObject();
 	if (m_41 == 0)

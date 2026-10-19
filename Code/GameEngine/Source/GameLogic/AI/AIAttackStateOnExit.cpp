@@ -256,11 +256,6 @@ class AttackExitConditionsInterface
 public:
 	virtual Bool shouldExit(const StateMachine *machine) const = 0;
 };
-class Rva003413B2
-{
-public:
-	Bool rva003413B2();
-};
 class State
 {
 public:
@@ -287,6 +282,7 @@ class AIAttackState : public State
 public:
 	virtual void onExit(StateExitType status);
 	virtual StateReturnType update();
+	Bool rva003413B2();	// ZH chooseWeapon
 private:
 	unsigned char m_pad20[0x24 - 0x20];
 	StateMachine *m_attackMachine; // +0x24
@@ -395,7 +391,7 @@ if (sourceAI && !victim->testStatus(OBJECT_STATUS_01) && victim->getContain() &&
 	if (source->getContainedBy() && source->getContainedBy()->getContain() &&
 		source->getContainedBy()->getContain()->rva0034F981Slot48(source, victim))
 		return STATE_FAILURE;
-	if (!((Rva003413B2 *)this)->rva003413B2())
+	if (!rva003413B2())
 		return STATE_FAILURE;
 	const Weapon *curWeapon = source->getCurrentWeapon();
 	if (!((const StringBase<char> *)&m_weaponName)->isEmpty())
