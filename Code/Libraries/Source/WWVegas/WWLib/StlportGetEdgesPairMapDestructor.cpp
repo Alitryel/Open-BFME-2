@@ -3,14 +3,22 @@
 // Actual GetEdges directed-edge pair map; independently proven unwind7677D0
 // of native GetEdges16E450 invokes its5B destructor16E2B0. Existing pair-key
 // clear86B provider was fold-proven in RvaMapIndexGenP12pod00928690.cpp.
-#include <hash_map>
-// Bind to the kept retail copy instead of emitting this unit's own.
+#include <vector>
+// vector<void*> members kept from this unit's link copies, moved beside <vector> so
+// they precede every use. Import-inline: these members are inlined at every use here,
+// and this unit's out-of-line copies (referenced from .debug$F alone) are not the ones
+// the link keeps.
 namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
-// bfme link decl-only begin
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
+#include <hash_map>
+// Bind to the kept retail copy instead of emitting this unit's own.
+// bfme link decl-only begin
+namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
 // bfme link decl-only end
 typedef _STL::pair<int, int> Rva00928590Key;
 struct Rva00928590Hash { unsigned operator()(const Rva00928590Key &) const; };
