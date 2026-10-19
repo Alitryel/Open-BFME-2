@@ -26,7 +26,7 @@ public:
 };
 class Rva004A9DF3Element:public BfmeRefVGO {
 public:
- Rva004A9DF3Element(){}
+ Rva004A9DF3Element();
  ~Rva004A9DF3Element();
  static void *operator new[](unsigned n){unsigned *p=(unsigned *)((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock(n+4);*p=n;return p+1;}
  static void operator delete[](void *p){unsigned *q=(unsigned *)p-1;g_pChainBlockAllocator->freeBlock(q,*q+4);}
