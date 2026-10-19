@@ -106,24 +106,50 @@ class GameLogic;
 extern GameLogic *TheGameLogic;
 
 
-extern char g_bfme939Str[];
-
-class BfmeSub939E
+// bfmeGo939E is the "Pathfinder" block parser PathfinderConstructor.cpp
+// registers. Its callee (pinned bfmeCall939E, 0x0002DE78) is the rowed
+// INI::initFromINI, and the table it passes is retail .data VA 0xDBD2F8:
+// {"SlopeLimits", 0x004B3FD0, NULL, 0} plus the null terminator (read from the
+// image). The field's parser is the shared empty RET at 0x000B3FD0, an ICF
+// fold whose own name is unknown; the table reaches it through the rowed empty
+// pathfinder debug hook folded there (PathfinderReleaseDebug.cpp).
+class INI;
+typedef void (*FieldParseProc)(INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
+class INI
 {
 public:
-	void bfmeCall939E(int *out, char *s);
+	void initFromINI(void *what, const FieldParse *parseTable);
 };
+struct Coord3D;
+struct PathfinderDebugColor;
+void Rva000B3FD0PathDebug(const Coord3D *, float, int, PathfinderDebugColor);
+
+FieldParse g_bfmePathfinderFieldParse[2] = {
+	{ "SlopeLimits", (FieldParseProc)&Rva000B3FD0PathDebug, 0, 0 },
+	{ 0, 0, 0, 0 }
+};
+
+class BfmeSub939E;
 
 void bfmeGo939E(BfmeSub939E *a)
 {
 	int tmp;
-	a->bfmeCall939E(&tmp, g_bfme939Str);
+	reinterpret_cast<INI *>(a)->initFromINI(&tmp, g_bfmePathfinderFieldParse);
 }
+
+// The pinned bfmeCall939G (0x0044BD79) is the rowed BfmeA1042N::bfmeGo1042D
+// there; in BFME 1 the pin's ILT thunk 0x00011900 jumps to that same body
+// (0x004C5F20).
+class BfmeA1042N
+{
+public:
+	void bfmeGo1042D();
+};
 
 class BfmeSub939G
 {
 public:
-	void bfmeCall939G();
 	void *m_bfmeP;
 };
 
@@ -139,5 +165,5 @@ void BfmeThing939G::bfmeGo939G(void *a)
 {
 	BfmeSub939G *s = &m_bfmeSub;
 	if (!a && s->m_bfmeP)
-		s->bfmeCall939G();
+		reinterpret_cast<BfmeA1042N *>(s)->bfmeGo1042D();
 }
