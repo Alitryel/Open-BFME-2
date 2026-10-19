@@ -125,9 +125,9 @@ template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 #include "Common/Snapshot.h"
 #include "../GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
-// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+// Retail's Relationship _M_find (0x002888D4) inlines the const subscript;
+// take it inline without emitting this TU's own copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(this->_M_start + __n); } }
 
 typedef bool Bool;
 typedef float Real;
@@ -438,7 +438,6 @@ class Team : public MemoryPoolObject, public Snapshot
 public:
 	Team *dlink_next_TeamInstanceList() const;
 	void updateState();
-	bool removeOverrideTeamRelationship(unsigned int teamID);
 	Object *getFirstItemIn_TeamMemberList() const { return m_dlinkhead_TeamMemberList; }
 	Bool isActive() const { return m_active; }
 	Player *getControllingPlayer() const;
@@ -519,11 +518,26 @@ private:
 class ScriptEngine
 {
 public:
-	Script *rva003573C4(const AsciiString &owner, const AsciiString &name, AsciiString *outName);
 	Bool rva0020A1D0(const AsciiString &scope, Script *pScript, Team *thisTeam, Player *player);
 };
 
 extern ScriptEngine *TheScriptEngine;
+
+// Team::removeOverrideTeamRelationship and ScriptEngine's script lookup are
+// rowed under these views (0x003A2897, 0x003573C4): call them by their row names.
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+class Rva003A2897
+{
+public:
+	bool rva003A2897(NameKeyType key);
+};
+
+class BfmeRoomZC;
+class Rva003573C4Owner
+{
+public:
+	void *rva003573C4(const AsciiString &scope, const BfmeRoomZC &name, void *arg);
+};
 extern int BfmeLogicFramesPerSecond;	// logic frames per second
 extern unsigned g_Va00E028C4;	// static AsciiString "<!TRUE!>"
 
@@ -695,7 +709,7 @@ void TeamPrototype::teamAboutToBeDeleted(Team *team)
 {
 	for (TeamInstanceIterator<Team> iter = iterate_TeamInstanceList(); !iter.done(); iter.advance())
 	{
-		iter.cur()->removeOverrideTeamRelationship(team ? team->getTeamKey() : 0);
+		((Rva003A2897 *)iter.cur())->rva003A2897((NameKeyType)(team ? team->getTeamKey() : 0));
 	}
 }
 
@@ -744,7 +758,7 @@ Bool TeamPrototype::evaluateProductionCondition()
 		m_productionConditionAlwaysFalse = true;
 		return false;
 	}
-	Script *pScript = TheScriptEngine->rva003573C4(m_owner, m_productionCondition, &m_productionConditionScope);
+	Script *pScript = (Script *)((Rva003573C4Owner *)TheScriptEngine)->rva003573C4(m_owner, reinterpret_cast<const BfmeRoomZC &>(m_productionCondition), &m_productionConditionScope);
 	if (pScript)
 	{
 		switch ((int)((Rva002A9BF2 *)getControllingPlayer())->rva002A9BF2())
