@@ -1,4 +1,6 @@
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
+// partial score=0.97 date=2026-10-19
+// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.9732493272630317 date=2026-10-16
 #if 0
 W9-A1 owner integration prerequisite (isolated declaration-only copy; do not edit shared header):
@@ -6,13 +8,20 @@ python3 - <<'PYCODE'
 from pathlib import Path
 h=Path('Code/GameEngine/Source/Common/GameLogicObjectLookupView.h').read_text()
 h=h.replace('class GameLogic\n{','struct ObjectTOCEntry;\nclass GameLogic\n{',1).replace('\tvoid prepareLogicForObjectLoad();','\tunsigned int getObjectCount();\n\tvoid xferObjectTOC(Xfer*);\n\tObjectTOCEntry*findTOCEntryByName(AsciiString);\n\tvoid prepareLogicForObjectLoad();',1)
-p=Path('build/w9-a1/24797e/GameLogicView.h');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(h)
+p=Path('build/nbr/r6/24797e/GameLogicView.h');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(h)
 PYCODE
 #endif
 // W9-A1: current canonical GameLogic/Coord3DBase owner integration; actual wide
 // compare chain42+63+43+52B all exact. Parent2195/frame70; unresolved typed
 // BuildableMap begin/increment and stack-slot permutation still prevent landing.
 // cl: /I. /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist
+// 0x0024797E bank 2026-10-19 (claude-opus-5-5): hack-free at parity (2195 B, frame 0x70, 49 lines, all
+// frame displacements): the __assume/_CxxThrowException helper is now `throw XferException(5,0);` (class
+// from the matched CaveSystem.cpp) and the buildable loop is ZH's const_iterator for-loop. Left: retail
+// homes the hash iterator at -0x3c and the begin() temp at -0x34, ours -0x1c/-0x3c (8-byte locals sit at
+// offsets = 4 mod 8). Landing needs pins/fold-proof for begin 0x427195 and ++ 0x411084 and three methods
+// in the canonical GameLogic header. Home: GameLogicSetControlBarOverride.cpp. WB twin = wb_show 0x24797E
+// (a different build). Scratch: build/nbr/r6/24797e/ (fa.py writes /FAs listings).
 // stlport
 //
 // GameLogic::DoXfer, retail 0x0024797E (2195 B, RET 4; WB 0x00D097E0, GameLogic.cpp 7168..7472).
@@ -75,7 +84,7 @@ public:
 	virtual Xfer &xferBool(bool *value);
 };
 
-#include "build/w9-a1/24797e/GameLogicView.h"
+#include "build/nbr/r6/24797e/GameLogicView.h"
 void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferBuildableStatus(Xfer *xfer, int *value);
 void XferGameDifficulty(Xfer *xfer, int *value);
@@ -245,18 +254,17 @@ struct ObjectView
 	ObjectView *m_next;
 };
 
-struct BfmeFormattedText { char *text; int tag; };
-extern "C" BfmeFormattedText *__cdecl bfmeFormatText(BfmeFormattedText *result, int tag, const char *format, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-extern int g_guardTargetTypeThrowInfo;
 
-static __forceinline void throwXferException()
+class XferException
 {
-	BfmeFormattedText tmp;
-	bfmeFormatText(&tmp, 5, (const char *)0);
-	_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-	__assume(0);
-}
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException(void);
+
+	char *text;
+	int tagValue;
+};
 
 // Visible definitions from the verified wide string comparison provider chain.
 struct WideCharCompare {char m_unused;int compare(const wchar_t*,const wchar_t*,int)const;};
@@ -273,7 +281,7 @@ template<> int StringBase<wchar_t>::compare(const StringBase<wchar_t>&str)const 
  const int len=str.m_data?str.m_data->length:0;const wchar_t*data=str.m_data?&str.m_data->data[0]:L"";return compare(data,len);
 }
 
-static __forceinline bool differs(const UnicodeString &a, const UnicodeString &b) throw() { return a.compare(b) != 0; }
+static __forceinline bool differs(const UnicodeString &a, const UnicodeString &b) { return a.compare(b) != 0; }
 
 // The Snapshot sub-object of GameLogic (receiver of DoXfer); offsets are receiver-relative.
 class GameLogicSnapshot
@@ -377,14 +385,13 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 	unsigned int objectCount = logic->getObjectCount();
 	xfer->xferUnsignedInt(&objectCount);
 
-	BuildableMap::iterator it;
 	ObjectID id;
 	Team *defaultTeam;
 	if (xfer->isStoring()) {
 		for (ObjectView *obj = m_objList; obj; obj = obj->m_next) {
 			ObjectTOCEntry *entry = logic->findTOCEntryByName(*(AsciiString *)((char *)obj->m_template + 0x64));
 			if (entry == 0)
-				throwXferException();
+				throw XferException(5, 0);
 			xfer->xferUnsignedShort((unsigned short *)((char *)entry + 4));
 			id = obj->m_id;
 			XferObjectID(xfer, &id);
@@ -399,7 +406,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 			xfer->xferUnsignedShort(&tocID);
 			AsciiString *entryName = (AsciiString *)((Rva0023E7B4 *)logic)->rva0023E7B4(tocID);
 			if (entryName == 0)
-				throwXferException();
+				throw XferException(5, 0);
 			XferObjectID(xfer, &id);
 			const ThingTemplate *tt = TheThingFactory->findTemplate(*entryName);
 			if (tt == 0) {
@@ -428,7 +435,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 	xfer->xferInt(&m_10c);
 
 	if (xfer->isStoring()) {
-		for (it = m_buildableOverrides.begin(); it != m_buildableOverrides.end(); ++it) {
+		for (BuildableMap::const_iterator it = m_buildableOverrides.begin(); it != m_buildableOverrides.end(); ++it) {
 			AsciiString name = it->first;
 			int status = it->second;
 			xfer->xferAsciiString(&name);
@@ -438,7 +445,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 		xfer->xferAsciiString(&empty);
 	} else {
 		if (!m_buildableOverrides.empty())
-			throwXferException();
+			throw XferException(5, 0);
 		for (;;) {
 			AsciiString name;
 			xfer->xferAsciiString(&name);
@@ -469,7 +476,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 		xfer->xferInt(&end);
 	} else {
 		if (!m_controlBarOverrides.empty())
-			throwXferException();
+			throw XferException(5, 0);
 		for (;;) {
 			if (version.m_b >= 5) {
 				int slot;
