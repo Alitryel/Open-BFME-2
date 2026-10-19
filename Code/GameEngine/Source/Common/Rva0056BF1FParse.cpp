@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
 // stlport
 // ?Rva0056BF1FParse@@YAXPAVINI@@PAX1PBX@Z @0x0056BF1F 255B. LivingWorldBuildPlotIcon sub-object parse: checks INI type at +8 for map.ini override (2) and reload (5) throwing INIException(8) then getNextToken plus new Rva00402F28Item via AsciiString temp plus MultiIniFieldParse two-table init plus vector push_back. Evidence: chain via just-landed 0x0056BEFB ctor plus sibling 0x0056B668 same 255B shape with ArmyIcon strings plus BlockParse LivingWorldBuildPlotIcon 0x00402E30 plus FieldParse tables 0x00C6D690 and 0x00C6D9D8.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
@@ -12,22 +12,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@_S:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> const ModuleData **_STLP_alloc_proxy<const ModuleData **, const ModuleData *, allocator<const ModuleData *> >::allocate(size_t); }
-// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVModuleData@@@_STL@@QBEXPAPBVModuleData@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> void allocator<const ModuleData *>::deallocate(const ModuleData **, size_t) const; }
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
 
 class INIException
 {
@@ -62,6 +46,8 @@ class INI
 public:
 	const char *getNextToken(const char *seps);
 	void initFromINIMulti(void *what, const MultiIniFieldParse &parse);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);      // 0x0002E850
+	static void parseIndexList(INI *ini, void *instance, void *store, const void *userData); // 0x0002EC4E
 
 	int m_00;
 	int m_04;
@@ -83,7 +69,13 @@ private:
 };
 
 int Rva0056B7DEGet(void);
-extern const FieldParse g_00C6D9D8[];
+// The plot icon's own field table (retail 0x00C6D9D8): three flags.
+extern const FieldParse g_00C6D9D8[] = {
+	{ "Clickable", (void (__cdecl *)(void *, void *, void *, const void *))&INI::parseBool, 0, 88 },
+	{ "HideWhenOccupied", (void (__cdecl *)(void *, void *, void *, const void *))&INI::parseBool, 0, 89 },
+	{ "HideWhenNotOccupied", (void (__cdecl *)(void *, void *, void *, const void *))&INI::parseBool, 0, 90 },
+	{ 0, 0, 0, 0 },
+};
 
 void Rva0056BF1FParse(INI *ini, void *instance, void *store, const void *userData)
 {
