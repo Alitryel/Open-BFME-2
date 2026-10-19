@@ -3003,7 +3003,6 @@ alternatename	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	_vtbl_00CE3168
 alternatename	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	_vtbl_00CE36A0	1
 alternatename	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	_vtbl_00CE3934	1
 alternatename	Code/GameEngine/Source/Common/Rva007D85C0FilterShutdown.cpp	?erase@AICommandCoordVector@@QAEPAUCoord3D@@PAU2@0@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva007E3410VirtualCall.cpp	?invoke@Rva00180AD6HelperABI@@QAEHXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva007E8810Ctor.cpp	??0BfmeMsgVJH@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva007E8810Ctor.cpp	??0Rva007E8810Message@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva007EB2C0ObjectDestructor.cpp	?g_Va0130A588@@3URva0130A588State@@A	1
@@ -5518,8 +5517,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005EE06C.cpp	?e
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005EE06C.cpp	?fill@Rva005EE06CVector@@AAEXPAURva005EE06CRecord@@IABU2@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005FE974.cpp	?erase@Rva005FE974Vector@@AAEPAURva005FE974Record@@PAU2@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005FE974.cpp	?fill@Rva005FE974Vector@@AAEXPAURva005FE974Record@@IABU2@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeReadVFC@BfmeChunkVFC@@QAEIPAXI@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeWriteUQB@BfmeChunkUQB@@QAEIPAXI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/node_alloc_M_deallocateThunk.cpp	?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0PAPAU_Obj@12@A	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/rva002da398_audio_string.cpp	?g_00BBD3EC@@3QBDB	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_nocase_less.cpp	??RRecordNocaseLess@@QBE_NABUBfmeStringRecord004071F7@@0@Z	1
@@ -39719,16 +39716,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp	AABTreeClass::
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtreebuilder.cpp	AABTreeBuilderClass::AABTreeBuilderClass	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtreebuilder.cpp	AABTreeBuilderClass::Poly_Count	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/aabtreebuilder.cpp	AABTreeBuilderClass::~AABTreeBuilderClass	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Create	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Create_Render_Object	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Load_Assets	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Load_W3D	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Read_Class_Info	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Read_Header	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Read_Info	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Save_Class_Info	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Save_Header	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateDefClass::Save_Info	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp	AggregateLoaderClass::Load_W3D	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	Animatable3DObjClass::Animatable3DObjClass	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	Animatable3DObjClass::Capture_Bone	1

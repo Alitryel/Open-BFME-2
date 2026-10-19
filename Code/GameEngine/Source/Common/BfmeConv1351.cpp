@@ -30,30 +30,6 @@ int BfmeThingVFA::bfmeGoVFA(BfmeRecVFA *r)
 	return bfmeSendVFA(m_bfmeHandle, r->m_bfme00, r->m_bfme04, r->m_bfme08, r->m_bfme0c);
 }
 
-class BfmeChunkVFC
-{
-public:
-	unsigned bfmeReadVFC(void *p, unsigned n);
-};
-
-class BfmeThingVFC
-{
-public:
-	char bfmeGoVFC(BfmeChunkVFC *c);
-	char m_bfmePad[0x44];
-	char m_bfmeBuf[0x14];
-};
-
-char BfmeThingVFC::bfmeGoVFC(BfmeChunkVFC *c)
-{
-	memset(m_bfmeBuf, 0, 0x14);
-	char r = 0;
-	if (c->bfmeReadVFC(m_bfmeBuf, 0x14) == 0x14)
-		r = 1;
-	return r;
-}
-
-
 class BfmeBufVFD
 {
 public:

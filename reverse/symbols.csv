@@ -9424,7 +9424,6 @@ name,address,notes
 ?internalChangeHealth@ActiveBody@@UAEXMPAVDamageInfo@@@Z,0x004BF005,read from the REL32 at 0x004C0948 in the placed ImmortalBody::internalChangeHealth (0x004C0918) - Zero Hour forwards to ActiveBody::internalChangeHealth; BFME 2 adds the DamageInfo argument (ret 8); same address as the ?apply@Rva004BF005Owner view
 ?intersect_obb_obb@@YA_NAAUObbIntersectionStruct@@@Z,0x007277C0,address read from the REL32 displacement at a placed body
 ?invoke@BfmeCallJ63@@QAEPAXPAX@Z,0x00333918,address read from the REL32 displacement at a placed body
-?invoke@Rva00180AD6HelperABI@@QAEHXZ,0x001A3140,Native180AF4 in complete180AD6/35 tail-jumps to independently rowed1A3140/80 with ECX from receiver+14 and no stack argument; external word-result member ABI alternate binds verified linked BfmeHelper71BA0 provider; original caller owner unknown
 ?invoke@Rva00222A8BTarget@@QAEHPAXPBDH10000@Z,0x00222A8B,int-return twin of void pin same address via 0x00222BCD call site exact except reloc
 ?invoke@Rva00222A8BTarget@@QAEXPAXPBDH10000@Z,0x00222A8B,UI callback invoker 8 stack args with target in ecx; sole callee of the UiCallbackFirers run at 0x003FEAA2
 ?invoke@Rva00352F2FOpaque@@QAEXPBVWaypoint@@HW4CommandSourceType@@@Z,0x00352F2F,BFME2 NAMED_FOLLOW_WAYPOINTS_EXACT body at 0x3C8773 calls target helper with Waypoint* 0x7FFFFFFF and command source 1; opaque helper identity is limited to its target RVA and call ABI

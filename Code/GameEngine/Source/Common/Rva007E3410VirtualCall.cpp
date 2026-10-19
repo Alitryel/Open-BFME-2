@@ -36,16 +36,18 @@ void Rva007E3410Object::invokeForMode(void)
 // lead. Complete native Ghidra180AD6/35 independently proves receiver
 // virtual slots +28/+2C, a pointer at +14, and the null-zero/otherwise
 // tail call at 180AF4 to rowed1A3140/80. That provider independently
-// byte-verifies and links in BfmeHelper71BA0.cpp. This narrow external
+// byte-verifies and links in agg_def.cpp. This narrow external
 // ABI view declares no new layout or original identity for its receiver.
 // The caller's owner, original names and full layout are unknown; unused
 // virtual declarations preserve slot spacing only, not original signatures.
-class Rva00180AD6HelperABI
+// The callee at 0x1A3140 is AggregateDefClass::Create (agg_def.cpp); only that
+// member is declared here.
+class RenderObjClass;
+class AggregateDefClass
 {
 public:
-    int invoke();
+    RenderObjClass *Create(void);
 };
-#pragma comment(linker, "/alternatename:?invoke@Rva00180AD6HelperABI@@QAEHXZ=?bfmeCall71BA0@BfmeHelper71BA0@@QAEHXZ")
 
 class Rva00180AD6HelperOwner
 {
@@ -66,7 +68,7 @@ public:
     int guardedHelper();
 private:
     unsigned char reserved04[0x14 - 4];
-    Rva00180AD6HelperABI *helper;
+    AggregateDefClass *helper;
 };
 
 int Rva00180AD6HelperOwner::guardedHelper()
@@ -75,5 +77,5 @@ int Rva00180AD6HelperOwner::guardedHelper()
         prepare();
     if (!helper)
         return 0;
-    return helper->invoke();
+    return (int)helper->Create();
 }

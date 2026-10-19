@@ -404,8 +404,3 @@ uint32 ChunkSaveClass::Write(const IOQuaternionStruct & q)
 {
 	return Write(&q,sizeof(q));
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeReadVFC@BfmeChunkVFC@@QAEIPAXI@Z=?Read@ChunkLoadClass@@QAEKPAXK@Z")
-#pragma comment(linker, "/alternatename:?bfmeWriteUQB@BfmeChunkUQB@@QAEIPAXI@Z=?Write@ChunkSaveClass@@QAEKPBXK@Z")
