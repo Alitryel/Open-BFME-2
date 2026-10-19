@@ -35,12 +35,15 @@
 // as ChangeFuelInArea does. Both callers (the record xfer at 0x0028002F and
 // 0x00283839) pass a ThingTemplate, and the other callers of 0x00285F43 pass
 // Thing+0x04 under a template flag test.
-#include "Lib/Coord3D.h"
+#define COORD3D_VIEW_DTOR
+#include "Lib/Coord3DCtorView.h"
+#define COORD2D_VIEW_DTOR
+#include "Lib/Coord2DCtorView.h"
+#include "Lib/ICoord2D.h"
 
 typedef int Int;
 
-extern "C" __declspec(dllimport) double __cdecl floor(double);
-extern "C" __declspec(dllimport) double __cdecl ceil(double);
+#include <math.h>
 
 __forceinline long FloatToLong(float f)
 {
@@ -65,6 +68,66 @@ void Rva00286116Free(void *node);
 extern GameLogic *TheGameLogic;
 
 class ThingTemplate;
+
+struct BfmeVecVNB
+{
+	float x;
+	float y;
+	float z;
+};
+// A geometry shape (36 bytes): 0x006BD390 moves a point by the shape's
+// offset rotated through the angle.
+class BfmeXformVNB
+{
+public:
+	void bfmeApplyVNB(BfmeVecVNB *out, float angle);
+	Int m_type;			// +0x00, 0/1 circle, 2 box
+	Int m_04;
+	float m_major;		// +0x08
+	float m_minor;		// +0x0C
+	Coord3D m_offset;	// +0x10
+	Int m_1C;
+	bool m_active;		// +0x20
+};
+struct BfmeShapeE15 : public BfmeXformVNB
+{
+};
+class BfmeObjE15
+{
+public:
+	BfmeShapeE15 *bfmeAtE15(int i);
+	Int m_00;
+	bool m_small;			// +0x04
+	char m_pad05[0x10 - 0x05];
+	float m_boundingRadius;	// +0x10
+	char m_pad14[0x2C - 0x14];
+	BfmeShapeE15 *m_start;
+	BfmeShapeE15 *m_finish;
+};
+float Cos(float a);
+float Sin(float a);
+// The object FireLogicSystem's Register/UnregisterObject twins (0x00287C21
+// and 0x00287C39) hand to 0x00287552.
+struct Rva00287C21Other
+{
+	Int m_00;
+	const ThingTemplate *m_template;	// +0x04
+	char m_pad08[0x38 - 0x08];
+	Coord3D m_pos;						// +0x38
+	float m_angle;						// +0x44
+	char m_pad48[0x74 - 0x48];
+	ObjectID m_id;						// +0x74
+	char m_pad78[0xA8 - 0x78];
+	BfmeObjE15 m_geometry;				// +0xA8
+	ObjectID getID() const { return m_id; }
+	char m_padDC[0x49C - 0xDC];
+	Int m_watchCount;					// +0x49C, -1 when not watching
+	void *m_watchList;					// +0x4A0
+};
+static inline unsigned int TemplateKindBits(const ThingTemplate *tmpl)
+{
+	return *(const unsigned int *)((const char *)tmpl + 0x108);
+}
 
 // The flammability a template gives its cell (WB reads it at +0x314).
 struct FlammabilityData
@@ -216,6 +279,7 @@ public:
     void ResetCellToOriginalFlammability(Int x, Int y);
 	void rva00286373(Int id, const Coord3D *pos, const ThingTemplate *tmpl);
 	void *rva00286D4E(ObjectID id, Int x, Int y, bool add);
+	void rva00287552(Rva00287C21Other *obj, int add);
 	bool rva00286772(const PolygonTrigger *area, Int minBurn);
 	void rva00286CC4();
 private:
@@ -223,10 +287,10 @@ private:
 	struct WatcherNode
 	{
 		WatcherNode *m_next;
-		Int m_04;
+		WatcherNode *m_objectNext;	// +0x04, the watching object's own list
 		ObjectID m_id;
-		short m_x;
-		short m_y;
+		unsigned short m_x;
+		unsigned short m_y;
 	};
 	struct ObjectNode
 	{
@@ -611,9 +675,9 @@ void *FireLogicSystem::rva00286D4E(ObjectID id, Int x, Int y, bool add)
 				return 0;
 		WatcherNode *node = (WatcherNode *)g_pool00286116.rva00285A3B();
 		node->m_next = cell->m_0C;
-		node->m_04 = 0;
-		node->m_x = (short)x;
-		node->m_y = (short)y;
+		node->m_objectNext = 0;
+		node->m_x = (unsigned short)x;
+		node->m_y = (unsigned short)y;
 		node->m_id = id;
 		cell->m_0C = node;
 		return node;
@@ -635,6 +699,146 @@ void *FireLogicSystem::rva00286D4E(ObjectID id, Int x, Int y, bool add)
 		}
 	}
 	return 0;
+}
+
+// ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z @0x00287552
+void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
+{
+ if (TemplateKindBits(obj->m_template) & 0x2000000)
+ {
+  obj->m_watchCount = (char)add ? 0 : -1;
+  return;
+ }
+ if (!(char)add)
+ {
+  WatcherNode *node = (WatcherNode *)obj->m_watchList;
+  while (node)
+  {
+   WatcherNode *next = node->m_objectNext;
+   rva00286D4E(obj->getID(), node->m_x, node->m_y, false);
+   node = next;
+  }
+  obj->m_watchList = 0;
+  obj->m_watchCount = -1;
+  return;
+ }
+ if (obj->m_pos.x == 0.0f && obj->m_pos.y == 0.0f)
+ {
+  obj->m_watchCount = 0;
+  return;
+ }
+ bool single = false;
+ if (!(TemplateKindBits(obj->m_template) & 4))
+ {
+  if (obj->m_geometry.m_small)
+   single = true;
+  if (obj->m_geometry.m_boundingRadius < 30.0f)
+   single = true;
+ }
+ if (single)
+ {
+  Int y = FloatToLong(floor(obj->m_pos.y / 10.0f + 0.5f));
+  Int x = FloatToLong(floor(obj->m_pos.x / 10.0f + 0.5f));
+  void *node = rva00286D4E(obj->getID(), x, y, true);
+  obj->m_watchList = node;
+  obj->m_watchCount = node != 0;
+  return;
+ }
+ Int count = 0;
+ float angle = obj->m_angle;
+ Coord3D pos = obj->m_pos;
+ WatcherNode *list = 0;
+ for (Int i = 0; i < obj->m_geometry.m_finish - obj->m_geometry.m_start; i++)
+ {
+  BfmeShapeE15 *shape = obj->m_geometry.bfmeAtE15(i);
+  if (!shape->m_active)
+   continue;
+  Coord3D offset = shape->m_offset;
+  if (offset.z > 10.0f)
+   continue;
+  Coord3D p = pos;
+  float c = Cos(angle);
+  float s = Sin(angle);
+  shape->bfmeApplyVNB((BfmeVecVNB *)&p, angle);
+  switch (shape->m_type)
+  {
+   case 2:
+   {
+    float major = shape->m_major;
+    float minor = shape->m_minor;
+    float step = 5.0f;
+    float rowStepX = s * step;
+    float rowStepY = -c * step;
+    float colStepX = c * step;
+    float colStepY = s * step;
+    Int cols = FloatToLong(ceil(2.0f * major / step));
+    Int rows = FloatToLong(ceil(2.0f * minor / step));
+    float rowX = p.x - major * c - minor * s;
+    float rowY = minor * c + p.y - major * s;
+    for (Int row = 0; row < rows; row++, rowX += rowStepX, rowY += rowStepY)
+    {
+     float sx = rowX;
+     float sy = rowY;
+     for (Int col = 0; col < cols; col++, sx += colStepX, sy += colStepY)
+     {
+      Int x = FloatToLong(floor((sx + 0.5f) / 10.0f));
+      Int y = FloatToLong(floor((sy + 0.5f) / 10.0f));
+      WatcherNode *node = (WatcherNode *)rva00286D4E(obj->getID(), x, y, true);
+      if (node)
+      {
+       count++;
+       node->m_objectNext = list;
+       list = node;
+       if (TemplateKindBits(obj->m_template) & 4)
+        ChangeCellToObjectFlammability(x, y, obj->m_template);
+      }
+     }
+    }
+    break;
+   }
+   case 0:
+   case 1:
+   {
+    ICoord2D lo, hi;
+    Coord2D center;
+    Coord2D delta;
+    float radius = shape->m_major;
+    float fx = (p.x - radius) / 10.0f + 0.5f;
+    lo.x = FloatToLong(floor(fx)) - 1;
+    float fy = (p.y - radius) / 10.0f + 0.5f;
+    lo.y = FloatToLong(floor(fy)) - 1;
+    float r = radius / 10.0f;
+    center.x = p.x / 10.0f;
+    center.y = p.y / 10.0f;
+    float r2 = (r += 0.4f) * r;
+    hi.x = (Int)(lo.x + 2.0f * r + 2.0f);
+    hi.y = (Int)(lo.y + 2.0f * r + 2.0f);
+    for (Int y = lo.y; y < hi.y; y++)
+    {
+     for (Int x = lo.x; x < hi.x; x++)
+     {
+      delta.x = x + 0.5f - center.x;
+      delta.y = y + 0.5f - center.y;
+      if (delta.x * delta.x + delta.y * delta.y <= r2)
+      {
+       WatcherNode *node = (WatcherNode *)rva00286D4E(obj->getID(), x, y, true);
+       if (node)
+       {
+        count++;
+        node->m_objectNext = list;
+        list = node;
+        if (TemplateKindBits(obj->m_template) & 4)
+         ChangeCellToObjectFlammability(x, y, obj->m_template);
+       }
+      }
+     }
+    }
+    break;
+   }
+  }
+ }
+ obj->m_watchList = list;
+ obj->m_watchCount = count;
 }
 
 // m_cellsOnFire's in-order walk (STLport's shared increment, 0x00024250) and
@@ -765,7 +969,6 @@ class ICoord3D;
 class Region3D;
 class IRegion3D;
 class Coord2D;
-#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 class IRegion2D;
 class RealRange;
 class RGBColor;
