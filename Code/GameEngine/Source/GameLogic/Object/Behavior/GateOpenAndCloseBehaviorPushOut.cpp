@@ -186,14 +186,10 @@ protected:
 };
 
 struct Rva00498DF3Arg;
-class Rva00498DF3
+class GateOpenAndCloseBehavior : public GatePrimary, public BehaviorModule
 {
 public:
 	void rva00498DF3(Rva00498DF3Arg *obj, float offset);	// 0x00498DF3
-};
-
-class GateOpenAndCloseBehavior : public GatePrimary, public BehaviorModule
-{
 private:
 	void rva00498FAA();
 };
@@ -227,5 +223,5 @@ void GateOpenAndCloseBehavior::rva00498FAA()
 			->link(&Rva003685CF(ObjectStatusMaskNone(), *Rva0023DA79().rva0023DA79(0, 0x26)))
 			->link(&Rva00261603Filter(pos, geom, us->getOrientation(), true)), 0);
 	for (Object *obj = hits.next(); obj; obj = hits.next())
-		((Rva00498DF3 *)this)->rva00498DF3((Rva00498DF3Arg *)obj, offset);
+		rva00498DF3((Rva00498DF3Arg *)obj, offset);
 }

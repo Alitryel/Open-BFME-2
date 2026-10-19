@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Ireference/shims/moduledata
 //
-// ?rva00498DF3@Rva00498DF3@@QAEXPAURva00498DF3Arg@@M@Z, retail 0x00498DF3, 59 bytes.
+// ?rva00498DF3@GateOpenAndCloseBehavior@@QAEXPAURva00498DF3Arg@@M@Z, retail 0x00498DF3, 59 bytes.
 // Evidence: calls rowed 0x00262DD3 AIUpdateInterface::rva00262DD3 and rowed 0x0026C411 AICommandInterface::rva0026C411; Object+0x38 Coord3D and CMD_FROM_AI=2 match donors; caller at 0x00498F9E pushes ebp plus float and tests nothing; this+0xC Object pattern matches caller 0x00498F46.
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
@@ -63,7 +63,7 @@ struct Rva00498DF3Arg
 	Rva00498DF3Mid *m_mid258;
 };
 
-class Rva00498DF3
+class GateOpenAndCloseBehavior
 {
 public:
 	char m_pad0[0x8];
@@ -76,7 +76,7 @@ public:
 	void rva00498F46(Rva00498DF3Arg *arg, int u1, int u2);
 };
 
-void Rva00498DF3::rva00498DF3(Rva00498DF3Arg *arg, float flt)
+void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *arg, float flt)
 {
 	Object *obj = m_objC;
 	if (!obj)
@@ -91,7 +91,7 @@ void Rva00498DF3::rva00498DF3(Rva00498DF3Arg *arg, float flt)
 	((AICommandInterface *)((char *)mid + 0x20))->rva0026C411(obj, &obj->m_pos38, CMD_FROM_AI);
 }
 
-void Rva00498DF3::rva00498F46(Rva00498DF3Arg *arg, int u1, int u2)
+void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *arg, int u1, int u2)
 {
 	if (m_ptr08->m_flag18 == 0)
 		return;
