@@ -124,7 +124,15 @@ void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert)
 int g_rva009f36b0 = 0;
 int g_rva009f36ac = 0;
 extern int G00DEDA78;
-extern int g_rva009eda24;
+
+// 0x00DEDA24 is DX8Wrapper's protected FogColor (defined in dx8wrapper.cpp);
+// this view grants MeshClass access to it.
+class DX8Wrapper
+{
+	friend class MeshClass;
+protected:
+	static unsigned long FogColor;
+};
 
 class Rva00149BB0Inner
 {
@@ -151,10 +159,6 @@ void MeshClass::rva00149bb0()
 	if (inner->m_flagB8 != 0 || inner->m_flag108 != 0)
 	{
 		G00DEDA78 = g_rva009f36b0;
-		g_rva009eda24 = g_rva009f36ac;
+		DX8Wrapper::FogColor = g_rva009f36ac;
 	}
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_rva009eda24@@3HA=?FogColor@DX8Wrapper@@1KA")
