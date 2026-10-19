@@ -14,9 +14,8 @@ template<class T> class OVERRIDE { public: const T *ptr; };
 extern OVERRIDE<WeatherSetting> TheWeatherSetting;
 class GlobalWeatherSystem { public: char pad00[0x10]; int state; };
 extern GlobalWeatherSystem *TheGlobalWeatherSystem;
-class Rva00093457 { public: void rva00093457(); };
-class Rva00093349 { public: void rva00093349(); };
 class W3DSnowManager { public:
+ void rva00093457(); void rva00093349();
  char pad00[0x14]; float velocity; char pad18[0x3c-0x18]; float intensity; char pad40[0x58-0x40]; int frames;
  float startFraction,endFraction,initialIntensity,peakIntensity,initialVelocity,peakVelocity; char pad74[0xa8-0x74]; int weatherState,phase;
  void rva00093B5B();
@@ -43,6 +42,6 @@ void W3DSnowManager::target_00094652() {
   }
  } else {
   int s=TheGlobalWeatherSystem->state;
-  if(s==2 && weatherState!=2) { weatherState=s; ((Rva00093349 *)this)->rva00093349(); }
+  if(s==2 && weatherState!=2) { weatherState=s; rva00093349(); }
  }
 }

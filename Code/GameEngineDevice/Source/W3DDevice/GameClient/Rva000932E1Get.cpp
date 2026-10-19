@@ -1,5 +1,5 @@
 // cl: /MD /EHsc /DNDEBUG
-// ?rva000932E1@Rva000932E1@@QAEMXZ @0x000932E1 (104B):
+// ?rva000932E1@W3DSnowManager@@QAEMXZ @0x000932E1 (104B):
 // Float getter: default shared 1.0f unless the weather global resolves and
 // both its +0x54 flag and this +0x50 flag are set, then a second resolve and
 // the +0x58 random variable getValue. Nested ternaries force the explicit
@@ -30,7 +30,7 @@ public:
 	char m_pad55[3];
 	GameClientRandomVariable m_58;
 };
-class Rva000932E1
+class W3DSnowManager
 {
 public:
 	float rva000932E1();
@@ -38,7 +38,7 @@ private:
 	char m_pad[0x50];
 	bool m_50;
 };
-float Rva000932E1::rva000932E1()
+float W3DSnowManager::rva000932E1()
 {
 	float def = g_Va00BBB8D8;
 	const WeatherSetting *gv = TheWeather00DFE118;

@@ -10,9 +10,8 @@ template<class T> class OVERRIDE { public: const T *ptr; };
 extern OVERRIDE<WeatherSetting> TheWeatherSetting;
 class GlobalWeatherSystem { public: char pad00[0x10]; int state; };
 extern GlobalWeatherSystem *TheGlobalWeatherSystem;
-class Rva00093457 { public: void rva00093457(); };
-class Rva00093349 { public: void rva00093349(); };
 class W3DSnowManager { public:
+ void rva00093457(); void rva00093349();
  char pad00[0x14]; float velocity; char pad18[0x3c-0x18]; float intensity; char pad40[0x58-0x40]; int frames;
  float startFraction,endFraction,initialIntensity,peakIntensity,initialVelocity,peakVelocity; char pad74[0xa8-0x74]; int weatherState,phase;
  void rva00093B5B();
@@ -31,7 +30,7 @@ void W3DSnowManager::rva00093B5B() {
  if (f) { next=f->m_nextOverride; const WeatherSetting *ft=next ? (const WeatherSetting *)next->getFinalOverride() : f; _ReadWriteBarrier(); from=ft; }
  to = !f ? 0 : (next ? (const WeatherSetting *)next->getFinalOverride() : f);
  float fraction=(float)(from->duration-frames)/(float)to->duration;
- if(fraction>1.0f) { ((Rva00093457 *)this)->rva00093457(); }
+ if(fraction>1.0f) { rva00093457(); }
  else if(fraction>endFraction) {
   float blend=(fraction-endFraction)/(1.0f-endFraction);
   phase=3;
@@ -43,6 +42,6 @@ void W3DSnowManager::rva00093B5B() {
   float blend=startFraction>1e-5f ? fraction/startFraction : 1.0f;
   intensity=initialIntensity+(peakIntensity-initialIntensity)*blend;
   velocity=initialVelocity+(peakVelocity-initialVelocity)*blend;
- } else { ((Rva00093457 *)this)->rva00093457(); }
+ } else { rva00093457(); }
 }
 

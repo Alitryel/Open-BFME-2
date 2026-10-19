@@ -184,17 +184,11 @@ public:
 	}
 };
 
-// The random helper 0x000932E1 on this W3DSnowManager, rowed under its address.
-class Rva000932E1
-{
-public:
-	float rva000932E1(void);
-};
-
 class W3DSnowManager
 {
 public:
 	void renderAsQuads(RenderInfoClass &rinfo, int cubeOriginX, int cubeOriginY, int cubeDimX, int cubeDimY);
+	float rva000932E1(void);	// the weather float helper 0x000932E1
 
 private:
 	char m_pad00[0x0C];
@@ -285,7 +279,7 @@ void W3DSnowManager::renderAsQuads(RenderInfoClass &rinfo, int cubeOriginX, int 
 
 	int gray;
 	if (m_randomGray)
-		gray = (int)(((Rva000932E1 *)this)->rva000932E1() * 255.0f);
+		gray = (int)(rva000932E1() * 255.0f);
 	else
 		gray = 255;
 	unsigned int color = gray * 0x10101 + 0xFF000000;

@@ -1,5 +1,5 @@
 // cl: /MD /EHsc /DNDEBUG
-// ?rva00093349@Rva00093349@@QAEXXZ @0x00093349 (100B):
+// ?rva00093349@W3DSnowManager@@QAEXXZ @0x00093349 (100B):
 // Weather sync helper: sets m_ac and m_41 then copies weather +0x70/+0x74/+0x78
 // to m_58/m_5c/m_60 through override hops. Same null/next diamond around pinned
 // getFinalOverride 0x001E35DF as neighbours Rva000932E1Get.cpp and
@@ -23,7 +23,7 @@ public:
 	int m_74;
 	int m_78;
 };
-class Rva00093349
+class W3DSnowManager
 {
 public:
 	void rva00093349();
@@ -37,7 +37,7 @@ private:
 	char m_pad64[0xac - 0x64];
 	int m_ac;
 };
-void Rva00093349::rva00093349()
+void W3DSnowManager::rva00093349()
 {
 	m_ac = 1;
 	m_41 = true;

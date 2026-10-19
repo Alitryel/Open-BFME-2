@@ -12,15 +12,11 @@ protected:
 	bool m_50;
 	char m_pad51[0x74 - 0x51];
 };
-class Rva00093457
-{
-public:
-	void rva00093457();
-};
 class W3DSnowManager : public SnowManager
 {
 public:
 	virtual void reset();
+	void rva00093457();
 private:
 	char m_pad74[0xa8 - 0x74];
 	int m_a8;
@@ -28,7 +24,7 @@ private:
 void W3DSnowManager::reset()
 {
 	SnowManager::reset();
-	((Rva00093457 *)this)->rva00093457();
+	rva00093457();
 	m_a8 = 0;
 	m_50 = false;
 }

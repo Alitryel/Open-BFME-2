@@ -78,14 +78,6 @@ struct POINTVERTEX
 	unsigned int diffuse;
 };
 
-// Retail calls 0x00723C50 on this W3DSnowManager (thunk 0x00038C4E); the
-// ledger still names it by its address-derived class.
-class Rva000932E1
-{
-public:
-	float rva000932E1();
-};
-
 struct Rva00093507VertexBuffer;
 struct Rva00093507VertexBufferVtable
 {
@@ -108,6 +100,7 @@ class W3DSnowManager
 {
 public:
 	void renderSubBox(RenderInfoClass &, int, int, int, int);
+	float rva000932E1();	// the weather float helper 0x000932E1 (earlier note: retail call via thunk 0x00038C4E)
 private:
 	char pad00[12];
 	float *m_startingHeights;
@@ -141,7 +134,7 @@ void W3DSnowManager::renderSubBox(RenderInfoClass &rinfo, int originX, int origi
 
 	int gray;
 	if (m_brightnessGate)
-		gray = (int)(((Rva000932E1 *)this)->rva000932E1() * 255.0f);
+		gray = (int)(rva000932E1() * 255.0f);
 	else
 		gray = 255;
 	unsigned int color = gray * 0x10101 + 0xFF000000;

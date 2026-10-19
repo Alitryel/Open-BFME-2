@@ -1,5 +1,5 @@
 // cl: /MD /EHsc /DNDEBUG
-// ?rva00093457@Rva00093457@@QAEXXZ @0x00093457 176B
+// ?rva00093457@W3DSnowManager@@QAEXXZ @0x00093457 176B
 // Weather sync method: zeroes two members, pulls an int through the second data
 // global, then copies weather fields through override hops. A shared global
 // local feeds the nested-ternary diamond around the +0x46 flag; when +0x46 is
@@ -38,7 +38,7 @@ public:
 	int m_4c;
 	int m_50;
 };
-class Rva00093457
+class W3DSnowManager
 {
 public:
 	void rva00093457();
@@ -61,7 +61,7 @@ private:
 	int m_a8;
 	int m_ac;
 };
-void Rva00093457::rva00093457()
+void W3DSnowManager::rva00093457()
 {
 	m_58 = 0;
 	m_ac = 0;
