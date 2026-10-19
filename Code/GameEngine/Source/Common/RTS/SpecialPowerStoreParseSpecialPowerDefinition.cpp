@@ -36,6 +36,10 @@ struct FieldParse;
 extern unsigned char g_00E01EA8;			// 0x012ED611
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
 inline const char *specialPowerNameText(const AsciiString &name) {
  const char *data=*(const char *const *)&name;
  return data ? data+8 : "";
