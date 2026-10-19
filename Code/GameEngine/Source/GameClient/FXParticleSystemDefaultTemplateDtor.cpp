@@ -6,14 +6,11 @@
 // module-template destructor onto. Named templates whose destructors share
 // the fold ride in the same TU under the same standalone shape.
 
-extern "C" const void *const vtbl_00C1C780[];  // folded, 35 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];  // folded, 35 classes
 
-extern "C" const void *const vtbl_00BBB554[];  // folded, 23 classes; via ??_7BfmeBaseVUQ@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB554=??_7BfmeBaseVUQ@@6B@")
+extern "C" const void *const __identifier("??_7BfmeBaseVUQ@@6B@")[];  // folded, 23 classes
 
-extern "C" const void *const vtbl_00BBB52C[];  // ??_7ModuleTemplate@FXParticleSystem@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BBB52C=??_7ModuleTemplate@FXParticleSystem@@6B@")
+extern "C" const void *const __identifier("??_7ModuleTemplate@FXParticleSystem@@6B@")[];
 
 namespace FXParticleSystem
 {
@@ -33,11 +30,11 @@ public:
 inline DefaultModuleTemplate<1>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -50,11 +47,11 @@ public:
 inline DefaultModuleTemplate<2>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -67,11 +64,11 @@ public:
 inline DefaultModuleTemplate<3>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -84,11 +81,11 @@ public:
 inline DefaultModuleTemplate<0>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 template <>
@@ -101,11 +98,11 @@ public:
 inline DefaultModuleTemplate<6>::~DefaultModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 // Category 7 delegates: its template destructor is a bare tail call into the
@@ -150,11 +147,11 @@ public:
 inline CylindricalEmissionVelocityModuleTemplate::~CylindricalEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) OrthoEmissionVelocityModuleTemplate
@@ -166,11 +163,11 @@ public:
 inline OrthoEmissionVelocityModuleTemplate::~OrthoEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) LightningDrawModuleTemplate
@@ -182,11 +179,11 @@ public:
 inline LightningDrawModuleTemplate::~LightningDrawModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) LightningEmissionModuleTemplate
@@ -198,11 +195,11 @@ public:
 inline LightningEmissionModuleTemplate::~LightningEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) RenderObjectUpdateModuleTemplate
@@ -214,11 +211,11 @@ public:
 inline RenderObjectUpdateModuleTemplate::~RenderObjectUpdateModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) TerrainFireEmissionModuleTemplate
@@ -230,11 +227,11 @@ public:
 inline TerrainFireEmissionModuleTemplate::~TerrainFireEmissionModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 class __declspec(novtable) OutwardEmissionVelocityModuleTemplate
@@ -246,11 +243,11 @@ public:
 inline OutwardEmissionVelocityModuleTemplate::~OutwardEmissionVelocityModuleTemplate()
 {
     unsigned char *info = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)info = ((unsigned int)vtbl_00BBB554);
+    *(volatile unsigned int *)info = ((unsigned int)__identifier("??_7BfmeBaseVUQ@@6B@"));
 
     unsigned char *base = this ? (unsigned char *)this + 4 : 0;
-    *(volatile unsigned int *)base = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00BBB52C);
+    *(volatile unsigned int *)base = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7ModuleTemplate@FXParticleSystem@@6B@"));
 }
 
 }

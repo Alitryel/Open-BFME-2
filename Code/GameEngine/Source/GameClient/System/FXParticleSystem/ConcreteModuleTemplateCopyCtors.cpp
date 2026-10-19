@@ -52,7 +52,7 @@ extern "C" char Rva003AEC5E_v1c = -64;
 extern "C" char Rva003AEF6E_v0 = -9;
 // Rva003AEF6E_v14: matched references place it at VA 0xc1c640 (retail .rdata value -109).
 extern "C" char Rva003AEF6E_v14 = -109;
-extern "C" char Rva003AEF6E_v18;
+extern "C" char __identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@");
 // Rva003AEF6E_v1c: matched references place it at VA 0xc1cf28 (retail .rdata value -64).
 extern "C" char Rva003AEF6E_v1c = -64;
 
@@ -132,7 +132,7 @@ Rva003AEF6E::Rva003AEF6E(const Rva003AEF6E &that)
 	((Rva003AEF9B *)this)->Rva003AEF9B::Rva003AEF9B(*(const Rva003AEF9B *)src);
 	*(void **)this = &Rva003AEF6E_v0;
 	*(void **)((char *)this + 0x14) = &Rva003AEF6E_v14;
-	*(void **)((char *)this + 0x18) = &Rva003AEF6E_v18;
+	*(void **)((char *)this + 0x18) = &__identifier("??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@");
 	*(void **)((char *)this + 0x1C) = &Rva003AEF6E_v1c;
 }
 
@@ -164,4 +164,3 @@ Rva003AED3E::Rva003AED3E(const Rva003AED3E &that)
 
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:_Rva003AEF6E_v18=??_7?$ConcreteModuleTemplate@V?$ModuleTag@$01$E?RENDEROBJECT_UPDATE_MODULE_KEY@FXParticleSystem@@3QBDB$E?RENDEROBJECT_UPDATE_MODULE_NAME@2@3QBDBVRenderObjectUpdateModule@2@VRenderObjectUpdateModuleTemplate@2@VRenderObjectParticleUpdateModule@2@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")

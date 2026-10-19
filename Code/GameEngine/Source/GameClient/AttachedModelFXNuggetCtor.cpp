@@ -11,22 +11,17 @@
 // Retail VA 0x00BDD814 (.rdata): a 5-slot vftable no unit emits. Defined here as
 // data with retail's slot pointers, each bound to the ledger name at its
 // target (tools/vftable_map.py); its installers store this table.
-extern "C" void vfn_001DFF5D();
-extern "C" void vfn_001E0878();
-extern "C" void vfn_001E1152();
-extern "C" void vfn_001E1709();
-extern "C" void vfn_001F01E8();
-#pragma comment(linker, "/alternatename:_vfn_001DFF5D=?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E0878=?doFXObj@AttachedModelFXNugget@@UBEXPBVObject@@0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E1152=??_GCursorParticleSystemFXNugget@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E1709=?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z")
-#pragma comment(linker, "/alternatename:_vfn_001F01E8=?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")
+extern "C" void __identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")();
+extern "C" void __identifier("?doFXObj@AttachedModelFXNugget@@UBEXPBVObject@@0@Z")();
+extern "C" void __identifier("??_GCursorParticleSystemFXNugget@@UAEPAXI@Z")();
+extern "C" void __identifier("?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z")();
+extern "C" void __identifier("?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z")();
 extern "C" const void *const vtbl_00BDD814[] = {
-	(const void *)&vfn_001E1152,
-	(const void *)&vfn_001F01E8,
-	(const void *)&vfn_001E0878,
-	(const void *)&vfn_001E1709,
-	(const void *)&vfn_001DFF5D
+	(const void *)&__identifier("??_GCursorParticleSystemFXNugget@@UAEPAXI@Z"),
+	(const void *)&__identifier("?rva001F01E8@Rva001F01E8@@QAEXHHHH@Z"),
+	(const void *)&__identifier("?doFXObj@AttachedModelFXNugget@@UBEXPBVObject@@0@Z"),
+	(const void *)&__identifier("?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z"),
+	(const void *)&__identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
 };
 
 extern int BfmeLogicFramesPerSecond;

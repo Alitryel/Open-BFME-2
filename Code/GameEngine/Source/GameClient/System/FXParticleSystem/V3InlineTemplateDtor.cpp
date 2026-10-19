@@ -9,11 +9,9 @@
 // +8 then +0. Vtable 0x0081D2C0 slot 0 is the ??_G at 0x003AE16E which calls
 // here; callers also include Unwind funclets for EH cleanup.
 
-extern "C" const void *const vtbl_00C1C780[];  // folded, 35 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
+extern "C" const void *const __identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")[];  // folded, 35 classes
 
-extern "C" const void *const vtbl_00C1B320[];  // ??_7V3Vt01111D90@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C1B320=??_7V3Vt01111D90@@6B@")
+extern "C" const void *const __identifier("??_7V3Vt01111D90@@6B@")[];
 
 class __declspec(novtable) Rva003AE13C
 {
@@ -29,8 +27,8 @@ private:
 Rva003AE13C::~Rva003AE13C()
 {
     unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)b08 = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00C1B320);
+    *(volatile unsigned int *)b08 = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
 }
 
 // Rva0055BCD2 (ctor 0x0055BCD2, unit Rva0055B52EPermuted.cpp): its vtable
@@ -50,8 +48,8 @@ private:
 Rva0055BCD2::~Rva0055BCD2()
 {
     unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
-    *(volatile unsigned int *)b08 = ((unsigned int)vtbl_00C1C780);
-    *(volatile unsigned int *)this = ((unsigned int)vtbl_00C1B320);
+    *(volatile unsigned int *)b08 = ((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+    *(volatile unsigned int *)this = ((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
 }
 
 // The primary eight bytes carry no resources; the parent below performs both
@@ -68,8 +66,8 @@ class __declspec(novtable) Rva003ADFDB:public Rva003ADFDBPrimary,public Iface00C
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline Rva003ADFDB::~Rva003ADFDB(){
  unsigned char* b08=this?(unsigned char*)this+8:0;
- *(volatile unsigned int*)b08=((unsigned int)vtbl_00C1C780);
- *(volatile unsigned int*)this=((unsigned int)vtbl_00C1B320);
+ *(volatile unsigned int*)b08=((unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@"));
+ *(volatile unsigned int*)this=((unsigned int)__identifier("??_7V3Vt01111D90@@6B@"));
 }
 
 // ?bfmeAnchorRva003ADFDBDtor absent-from-retail

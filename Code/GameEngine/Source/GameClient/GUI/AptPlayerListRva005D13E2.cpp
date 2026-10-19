@@ -132,8 +132,7 @@ private:
 	char **m_entriesEnd;
 };
 
-extern "C" const void *const vtbl_00C755C0[];
-#pragma comment(linker, "/alternatename:_vtbl_00C755C0=??_7Rva005D13BD@@6B@")
+extern "C" const void *const __identifier("??_7Rva005D13BD@@6B@")[];
 
 struct Rva005D13E2LoopTemps
 {
@@ -192,7 +191,7 @@ __declspec(noinline) Rva005D13BDStorage::Rva005D13BDStorage(
 	StrategicInGameUI::RegionAwardDialog::Impl *owner, int first, int second)
 	: Rva005EE05E(first, *(const AsciiString *)second), m_owner(owner)
 {
-	*(void **)this = (void *)vtbl_00C755C0;
+	*(void **)this = (void *)__identifier("??_7Rva005D13BD@@6B@");
 }
 
 // ?OnMovieClipLoaded@Impl@RegionAwardDialog@StrategicInGameUI@@QAEXHABVAsciiString@@@Z @ 0x005D17B2, 148 bytes.

@@ -12,22 +12,17 @@
 // Retail VA 0x00BDD7CC (.rdata): a 5-slot vftable no unit emits. Defined here as
 // data with retail's slot pointers, each bound to the ledger name at its
 // target (tools/vftable_map.py); its installers store this table.
-extern "C" void vfn_001DFF5D();
-extern "C" void vfn_001E0760();
-extern "C" void vfn_001E079E();
-extern "C" void vfn_001E0A3B();
-extern "C" void vfn_0050B238();
-#pragma comment(linker, "/alternatename:_vfn_001DFF5D=?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E0760=?doFXPos@CameraShakerVolumeFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E079E=?doFXObj@CameraShakerVolumeFXNugget@@UBEXPBVObject@@0@Z")
-#pragma comment(linker, "/alternatename:_vfn_001E0A3B=??_GRva001E009E@@UAEPAXI@Z")
-#pragma comment(linker, "/alternatename:_vfn_0050B238=?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")
+extern "C" void __identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")();
+extern "C" void __identifier("?doFXPos@CameraShakerVolumeFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z")();
+extern "C" void __identifier("?doFXObj@CameraShakerVolumeFXNugget@@UBEXPBVObject@@0@Z")();
+extern "C" void __identifier("??_GRva001E009E@@UAEPAXI@Z")();
+extern "C" void __identifier("?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z")();
 extern "C" const void *const vtbl_00BDD7CC[] = {
-	(const void *)&vfn_001E0A3B,
-	(const void *)&vfn_001E0760,
-	(const void *)&vfn_001E079E,
-	(const void *)&vfn_0050B238,
-	(const void *)&vfn_001DFF5D
+	(const void *)&__identifier("??_GRva001E009E@@UAEPAXI@Z"),
+	(const void *)&__identifier("?doFXPos@CameraShakerVolumeFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z"),
+	(const void *)&__identifier("?doFXObj@CameraShakerVolumeFXNugget@@UBEXPBVObject@@0@Z"),
+	(const void *)&__identifier("?SkipBadBlock@Xfer@@UAEXAAVSnapshot@@I@Z"),
+	(const void *)&__identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")
 };
 
 class Rva001DFEAABase

@@ -48,7 +48,7 @@ public:
 
 }
 
-extern "C" char Rva003AEB0A_v0a;
+extern "C" char __identifier("??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@");
 extern "C" char Rva003AEB0A_v14a;
 extern "C" char Rva003AEB0A_v18a;
 // Rva003AEB0A_vsub: matched references place it at VA 0xc1d628 (retail .rdata value -114).
@@ -58,7 +58,7 @@ extern "C" char Rva003AEB0A_v0b = -10;
 extern "C" char Rva003AEB0A_v14b;
 extern "C" char Rva003AEB0A_v18b;
 
-extern "C" char Rva003AEBC9_v0a;
+extern "C" char __identifier("??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@");
 extern "C" char Rva003AEBC9_v14a;
 extern "C" char Rva003AEBC9_v18a;
 // Rva003AEBC9_vsub: matched references place it at VA 0xc1d678 (retail .rdata value -114).
@@ -68,7 +68,7 @@ extern "C" char Rva003AEBC9_v0b = -10;
 extern "C" char Rva003AEBC9_v14b;
 extern "C" char Rva003AEBC9_v18b;
 
-extern "C" char Rva003AEC8B_v0a;
+extern "C" char __identifier("??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@");
 extern "C" char Rva003AEC8B_v14a;
 extern "C" char Rva003AEC8B_v18a;
 // Rva003AEC8B_vsub: matched references place it at VA 0xc1d6b8 (retail .rdata value -114).
@@ -78,7 +78,7 @@ extern "C" char Rva003AEC8B_v0b = -10;
 extern "C" char Rva003AEC8B_v14b;
 extern "C" char Rva003AEC8B_v18b;
 
-extern "C" char Rva003AEF9B_v0a;
+extern "C" char __identifier("??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@");
 extern "C" char Rva003AEF9B_v14a;
 extern "C" char Rva003AEF9B_v18a;
 // Rva003AEF9B_vsub: matched references place it at VA 0xc1d758 (retail .rdata value -114).
@@ -109,7 +109,7 @@ Rva003AEB0A::Rva003AEB0A(const Rva003AEB0A &that)
 	const void *sub_src = src ? (const char *)src + 0x1C : 0;
 	FXParticleSystem::DefaultColorModuleInfo *sub =
 		(FXParticleSystem::DefaultColorModuleInfo *)((char *)this + 0x1C);
-	*(void **)this = &Rva003AEB0A_v0a;
+	*(void **)this = &__identifier("??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@");
 	*(void **)((char *)this + 0x14) = &Rva003AEB0A_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEB0A_v18a;
 	sub->DefaultColorModuleInfo::DefaultColorModuleInfo(
@@ -144,7 +144,7 @@ Rva003AEBC9::Rva003AEBC9(const Rva003AEBC9 &that)
 	const void *sub_src = src ? (const char *)src + 0x1C : 0;
 	Rva003A7736 *sub =
 		(Rva003A7736 *)((char *)this + 0x1C);
-	*(void **)this = &Rva003AEBC9_v0a;
+	*(void **)this = &__identifier("??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@");
 	*(void **)((char *)this + 0x14) = &Rva003AEBC9_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEBC9_v18a;
 	sub->Rva003A7736::Rva003A7736(
@@ -176,7 +176,7 @@ Rva003AEC8B::Rva003AEC8B(const Rva003AEC8B &that)
 	const void *sub_src = src ? (const char *)src + 0x1C : 0;
 	FXParticleSystem::DefaultUpdateModuleInfo *sub =
 		(FXParticleSystem::DefaultUpdateModuleInfo *)((char *)this + 0x1C);
-	*(void **)this = &Rva003AEC8B_v0a;
+	*(void **)this = &__identifier("??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@");
 	*(void **)((char *)this + 0x14) = &Rva003AEC8B_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEC8B_v18a;
 	sub->DefaultUpdateModuleInfo::DefaultUpdateModuleInfo(
@@ -208,7 +208,7 @@ Rva003AEF9B::Rva003AEF9B(const Rva003AEF9B &that)
 	const void *sub_src = src ? (const char *)src + 0x1C : 0;
 	FXParticleSystem::RenderObjectUpdateModuleInfo *sub =
 		(FXParticleSystem::RenderObjectUpdateModuleInfo *)((char *)this + 0x1C);
-	*(void **)this = &Rva003AEF9B_v0a;
+	*(void **)this = &__identifier("??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@");
 	*(void **)((char *)this + 0x14) = &Rva003AEF9B_v14a;
 	*(void **)((char *)this + 0x18) = &Rva003AEF9B_v18a;
 	sub->RenderObjectUpdateModuleInfo::RenderObjectUpdateModuleInfo(
@@ -293,7 +293,3 @@ Rva003AED6B::Rva003AED6B(const Rva003AED6B &that)
 
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:_Rva003AEB0A_v0a=??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@")
-#pragma comment(linker, "/alternatename:_Rva003AEBC9_v0a=??_7Rva0055BF21@@6BDefaultModuleHeadBase@@@")
-#pragma comment(linker, "/alternatename:_Rva003AEC8B_v0a=??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@")
-#pragma comment(linker, "/alternatename:_Rva003AEF9B_v0a=??_7Rva0055F98A@@6BDefaultModuleHeadBase@@@")
