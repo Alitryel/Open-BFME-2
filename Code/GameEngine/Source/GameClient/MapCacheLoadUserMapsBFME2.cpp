@@ -91,3 +91,8 @@ bool MapCache::loadUserMaps(){
  }
  if(clearUnseenMaps(mapDir))return true;return parsedAMap;
 }
+
+// Provider for the no-case set erase that FileSystem::getFileListInDirectory
+// (0x00600FC9) calls: under this unit's flags it compiles to retail's 59-byte
+// body at 0x00056BC3, the ICF fold it shares with the less<AsciiString> erase.
+template void _STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, BfmeStringNoCaseLess, _STL::allocator<AsciiString> >::erase(_STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, BfmeStringNoCaseLess, _STL::allocator<AsciiString> >::iterator);
