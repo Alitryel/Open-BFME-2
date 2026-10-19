@@ -78,6 +78,12 @@ void AptOnline::OnlineHome::rva005B977B()
 // of GameSpyColor, 0x00DB9204), and the line is added to the list box at +0x60. Same flow as BFME 1's
 // OnlineHomeMessageOfTheDay.cpp; WorldBuilder 0x015855D0.
 #include <string>
+// Keep _String_base<unsigned short>::~_String_base inline-only: no call here
+// leaves it out of line, and this TU's COMDAT copy is not retail's body.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_String_base<unsigned short, allocator<unsigned short> >::~_String_base() { _M_deallocate_block(); }
+}
 #include <stdlib.h>
 
 
