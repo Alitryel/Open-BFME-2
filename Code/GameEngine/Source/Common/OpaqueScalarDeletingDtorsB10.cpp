@@ -204,16 +204,16 @@ class Rva00435DE7Base218
 public:
 	virtual ~Rva00435DE7Base218();
 };
-class Rva00435DE7 : public Rva00435DE7Base0, public Rva00435DE7Base218
+class AptSaveLoad : public Rva00435DE7Base0, public Rva00435DE7Base218
 {
 public:
-	Rva00435DE7(EmitVtableTag *);
+	AptSaveLoad(EmitVtableTag *);
 public:
-	virtual ~Rva00435DE7();
+	virtual ~AptSaveLoad();
 };
 
-// ?<Rva00435DE7::Rva00435DE7> absent-from-retail
-Rva00435DE7::Rva00435DE7(EmitVtableTag *)
+// ?<AptSaveLoad::AptSaveLoad> absent-from-retail
+AptSaveLoad::AptSaveLoad(EmitVtableTag *)
 {
 }
 

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /DNDEBUG /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /O1 /G7 /arch:SSE /I.
-class AptSaveLoad { public: static AptSaveLoad *s_instance; };
+class AptSaveLoad;
 // stlport
 // Target evidence: vptr pair 0x00C3CDC8/0x00C3CDC4 at this/+0x218, AptSaveLoad
 // strings and neighboring callbacks, pending kind at +0x28, and the fields
@@ -177,10 +177,11 @@ void Rva0051AF0BEnable(int value);
 void Rva005210ECEnable(bool value);
 void _bfme_closeAptScreen(const AsciiString &name);
 
-class Rva00435DE7 : public _bfme_AptGameWindow
+class AptSaveLoad : public _bfme_AptGameWindow
 {
 public:
-	virtual ~Rva00435DE7();
+	static AptSaveLoad *s_instance;
+	virtual ~AptSaveLoad();
 
 private:
 	unsigned char m_pad274[8];
@@ -214,7 +215,7 @@ extern const char *const BfmeSaveLoadRegistrations[3] = {
  BfmeSaveLoadRegistrationCurrentType
 };
 
-Rva00435DE7::~Rva00435DE7()
+AptSaveLoad::~AptSaveLoad()
 {
 	bool showBackground = true;
 	const char *const *registrations =
