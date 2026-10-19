@@ -59,3 +59,16 @@ into an existing 4-byte slot. Finding it (WB's tail: final log/return handling) 
 - No-emitter delta: covers the whole no-emitter else block (state 8), enclosing the no-emitter dest (state 9).
 - Both queries use full-expression filter temporaries, destroyed before the `if`.
 - WB is the bfme2 (not patch 1.03) revision, so its scopes may differ from retail.
+
+## Follow-up: the pinned tail object, ruled out against retail
+- **stateID:** not address-taken. Retail reads it inline at +0x15..+0x33 and spills it by value to -0x28,
+  and the slot is later reused for radius^2. The later state query returns in eax.
+- **Tail logs:** no address-taken local in any of them ("wandering to", "CANNOT wander", "dice roll failed",
+  "finished update"). They push values only, and the epilogue is plain.
+- **No-emitter dest:** every pointer argument after it points at the dest itself (isReachableLayer, aiMoveToPosition).
+- **Angle float -0x10:** it is a plain spill, identical in ours. Inlined by-reference Cos/Sin wrappers leave no
+  address-taken local (q1-q3 identical).
+
+The rule is narrower than "last object conflicts with everything": the p5 probe only shared stateID's dead slot.
+Retail keeps the emitter dest at -0x24 out of the {deltas, no-emitter dest} group while alive overlaps it; the
+cause of that split is still unknown.
