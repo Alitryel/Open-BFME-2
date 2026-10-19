@@ -29,7 +29,13 @@ struct CarryoverUnitRecord
 
 class Rva001EC9BDVector: public _STL::vector<CarryoverUnitRecord> {public:void resize(unsigned);};
 
-struct BfmeAssignRecord172 { unsigned char bytes[172]; };
+struct BfmeAssignRecord172;
+
+// The history vector calls the verified reserve implementation at 0x001EBE2D.
+// Its record stays opaque here; the provider owns its copy and lifetime logic.
+namespace _STL {
+template <> void vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::reserve(unsigned int);
+}
 
 struct CarryoverThingTemplateView
 {
