@@ -152,15 +152,9 @@ private:
 	char m_unrecovered00[ 4 ];
 };
 
-// The snapshot base: only its virtual table matters to these bodies.
-class SnapshotBase
-{
-protected:
-	virtual ~SnapshotBase();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-};
+// Canonical four-slot snapshot lifetime and virtual layout.
+#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+typedef Snapshot SnapshotBase;
 
 // ExperienceLevelStore's scalar table (its accessors live in
 // ExperienceLevelSystem.cpp): an STLport vector<Real> at +0x00, the name at +0x0C.
