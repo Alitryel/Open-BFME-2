@@ -1,6 +1,8 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.95 date=2026-10-19
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.95 date=2026-10-19
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.94 date=2026-10-19
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.976 date=2026-10-17
@@ -62,16 +64,15 @@ typedef float Real;
 #define TRUE true
 #define FALSE false
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#define COORD3D_VIEW_INLINE
+#include "../../../../Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
 };
 
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class NameKeyGenerator
 {
@@ -475,7 +476,6 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	CreateMask statusBits;
 	memset(&statusBits, 0, sizeof(statusBits));
 	Object *obj = TheThingFactory->newObject(what, owningPlayer->getDefaultTeam(), &statusBits, false);
-	_ReadWriteBarrier();
 	obj->rva0028BAC0();
 	Real orientation = angle;
 	obj->setProducer(foundation);
@@ -489,28 +489,27 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 			Object *keep = TheGameLogic->findObjectByID(member2->m_keepID);
 			if (keep)
 			{
+				Bool noOrient = FALSE;
 				Object *castle = TheGameLogic->findObjectByID(member2->m_castleID);
-				Module *castleModule;
-				if (castle == NULL
-					|| (castleModule = castle->findModule(CastleBehavior::rva0003955DA())) == NULL
-					|| !((const CastleBehaviorModuleData *)castleModule->getModuleData())->m_flag74)
+				if (castle)
 				{
-					Coord3D delta;
-					delta.x = foundation->getPosition()->x;
-					delta.y = foundation->getPosition()->y;
-					delta.x -= keep->getPosition()->x;
-					delta.y -= keep->getPosition()->y;
-					const Coord3D *deltaPtr = &delta;
-					orientation = normalizeAngle(atan2f(deltaPtr->y, deltaPtr->x));
-					orientation = obj->getTemplate()->getPlacementAngle() + orientation;
+					Module *castleModule = castle->findModule(CastleBehavior::rva0003955DA());
+					if (castleModule)
+						noOrient = ((const CastleBehaviorModuleData *)castleModule->getModuleData())->m_flag74;
+				}
+				if (!noOrient)
+				{
+					Coord3D delta(*foundation->getPosition());
+					delta -= *keep->getPosition();
+					orientation = normalizeAngle(atan2f(delta.y, delta.x));
+					orientation += obj->getTemplate()->getPlacementAngle();
 				}
 			}
 		}
 	}
 	else if (obj->getTemplate()->isKindOf(KINDOF_69))
 	{
-		orientation = obj->getTemplate()->getPlacementAngle();
-		orientation = foundation->getTransformMatrix()->Get_Z_Rotation() + orientation;
+		orientation = obj->getTemplate()->getPlacementAngle() + foundation->getTransformMatrix()->Get_Z_Rotation();
 	}
 
 	if (!isRebuild && obj->getTemplate()->isKindOf(KINDOF_69) && !obj->getTemplate()->isKindOf(KINDOF_68))
@@ -520,7 +519,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		Rva001E4912 clearBits;
 		obj->rva0028CFB2((const int *)&Rva0028F59A(0, 67), (const int *)clearBits.rva001E4912(0, 68, 69));
 		BodyModuleInterface *body = obj->getBodyModule();
-		body->setHealthDelta(1.0f - body->getHealth(0));
+		body->setHealthDelta(-body->getHealth(0) + 1.0f);
 	}
 
 	if (md->m_mode)
@@ -570,13 +569,11 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	BfmeItemE63 *oldMember = (BfmeItemE63 *)getObject()->findModule(memberKey);
 	if (newMember && oldMember)
 	{
-		ObjectID keepID = oldMember->m_keepID;
-		newMember->m_keepID = keepID;
+		newMember->m_keepID = oldMember->m_keepID;
 		newMember->m_castleID = oldMember->m_castleID;
 		if (!isRebuild)
 		{
-			Int selfInt = (Int)getObject();
-			UnsignedInt cost = what->rva0033A69A(owningPlayer, selfInt, -1);
+			UnsignedInt cost = what->rva0033A69A(owningPlayer, (Int)getObject(), -1);
 			owningPlayer->getMoney()->withdraw(cost, owningPlayer->getStats(), true);
 			owningPlayer->getStats()->rva0039BAD2((Rva0039BAD2Input *)what, cost);
 			obj->m_buildCost = (Real)cost;

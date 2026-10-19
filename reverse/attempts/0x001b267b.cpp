@@ -1,25 +1,18 @@
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
-// partial score=0.847 date=2026-10-17
+// partial score=0.56 date=2026-10-19
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
-// partial score=0.75 date=2026-10-14
-// ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
-// partial score=0.85 date=2026-10-13
-// ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
-// partial score=0.8 date=2026-10-13
-// TU-formulation in 2599-TU context (2599 row landed); 293B frame-1c, role wall mapped
+// partial score=0.58 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Oy-
-//
-// ?rva001B2599@BFME2Encoding2MotionChannel@@QAEXPAIIIPAM1@Z, retail 0x001b2599, 226 bytes. Banked partial (score 0.9578713968957872) closed by tools/permute.py;
-// the body is the banked one up to statement/operand order and local types.
-// Native RET20 at1B2678 ends1B267B =226. Existing evaluator family pins
-// prove state/from/frame/two-output ABI. Encoding2 stores16 bytes per block
-// plus one filter byte (17B), mapping unsigned bytes to -128..127. Native
-// multiplier BD7640 is double0.0625; Table DB6C28 has a verified provider in
-// BFME2EncodingFilterTableInit.cpp. This is the clean adaptive-delta guide
-// adapted from the banked encoding1 scalar fused two-frame decoder.
-// Complete near match225B: first46bytes and most outer flow exact; residual
-// byte load/index increment and x87-filter scheduling differ. Declaring fi
-// outside the loop restores target EDX frame/EDI initial-value allocation.
+// BFME 2 stream motion channel encoding 1: nibble adaptive-delta decoders, called from the
+// slot 3/4/5 evaluators (BFME2StreamMotionChannelEvaluate.cpp). The decoder continues from a
+// cached state (first value record, frame) to `frame` and writes the values at `frame` and
+// `frame + 1`; blocks are 16 frames, each component packet is a filter byte plus 16 signed
+// nibbles (9 bytes). Structure is BFME 1 motchan.cpp AdaptiveDeltaMotionChannelClass::decompress
+// (donor, 9cbfb551) fused for two outputs; packet size, component count and layout are read
+// from retail 0x001B230A. Layout: Data at +0x28, scale at +0x14, initial values at +0x18,
+// frame count at +0xC.
+// Codegen: `bit` kept as an int and used for both the select and the pointer step; the vi
+// loop advances packet in its increment expression.
 class ChunkLoadClass;
 class Vector3 { public: float X, Y, Z; };
 class Quaternion { public: float X, Y, Z, W; };
@@ -40,57 +33,33 @@ public:
 // but they are distinct storage instances; one external global conflates them.
 // This descriptive namespace records the stream table's identity and scope;
 // its original spelling and initializer owner remain unknown.
-extern float filtertable[256];
+// The decode filter table is the data-ledger global ?filtertable@@3PAMA (0x009B6C28,
+// BFME2EncodingFilterTableInit.cpp).
+extern float filtertable[];
 class BFME2StreamMotionChannel : public BFME2MotionChannel {
 public:
     float Scale;
     float Initial[4];
     unsigned char *Data;
 };
-class BFME2Encoding2MotionChannel : public BFME2StreamMotionChannel {
+class BFME2Encoding1MotionChannel : public BFME2StreamMotionChannel {
 public:
-    void rva001B2599(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1);
     void rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
     void rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
+};
+class BFME2Encoding2MotionChannel : public BFME2StreamMotionChannel {
+public:
     void rva001B267B(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
 };
-struct ScalarValue {float x;};
-void BFME2Encoding2MotionChannel::rva001B2599(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1)
-{
- ScalarValue last;
- if(from>frame){ from=0; last=*(const ScalarValue*)Initial; }
- else last=*(const ScalarValue*)state;
- unsigned char *packet=Data+(from>>4)*17;
- while(from<=frame+1){
-  if(from>=(unsigned)Count){if(value0)*(ScalarValue*)value0=last;*(ScalarValue*)value1=last;return;}
-  // Codegen: same-valued PHI on the packet pointer (two reads) closes the native register roles.
-  unsigned ix=*(packet?packet:packet);
-  unsigned fi=from&0xF; from&=~0xFu;
-  float filter=filtertable[ix]*Scale*0.0625;
-  
-  for(;fi<16;++fi){
-   unsigned f=from+fi;
-   if(f==frame)*value0=last.x;
-   else if(f==frame+1){*value1=last.x;break;}
-   int factor=(int)(packet?packet:packet)[fi+1]-128;
-   last.x+=(float)factor*filter;
-  }
-  from+=16;packet+=17;
-  if(from>frame)value0=0;
- }
-}
-
-void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1)
+void BFME2Encoding1MotionChannel::rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1)
 {
     Vector3 last;
-    float filter;
     if (from > frame) {
         from = 0;
         last = *(const Vector3 *)Initial;
     } else
         last = *(const Vector3 *)state;
-    unsigned char *packet = Data + (from >> 4) * 51;
-    unsigned int fi0;
+    unsigned char *packet = Data + (from >> 4) * 27;
     while (from <= frame + 1) {
         if (from >= (unsigned int)Count) {
             if (value0)
@@ -98,24 +67,102 @@ void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int 
             *value1 = last;
             return;
         }
-        fi0 = from & 0xF;
+        unsigned int fi0 = from & 0xF;
         from &= ~0xFu;
-        for (int vi = 0; vi < 3; ++vi, packet += 17) {
-            filter = filtertable[*(1 ? packet : packet)] * Scale * 0.0625;
-            volatile unsigned int fi = fi0;
-            { ;
-if ((1 ? fi : fi) < 16) do {
-                volatile unsigned int f = from + fi;
-                if (frame == f)
+        for (int vi = 0; vi < 3; ++vi, packet += 9) {
+            float filter = filtertable[*packet] * Scale;
+            unsigned char *p = packet + 1 + (fi0 >> 1);
+            for (unsigned int fi = fi0; fi < 16; ++fi) {
+                unsigned int f = from + fi;
+                if (f == frame)
                     ((float *)value0)[vi] = ((float *)&last)[vi];
                 else if (f == frame + 1) {
                     ((float *)value1)[vi] = ((float *)&last)[vi];
                     break;
                 }
-                volatile int factor = (int)(1 ? packet : packet)[1 + fi] - 0x80;
-                ((float *)&last)[vi] += (unsigned short)factor * filter;
-            } while ((1 ? fi : fi) < 16);
+                int bit = fi & 1;
+                int factor = bit ? (signed char)*p >> 4 : (signed char)(*p << 4) >> 4;
+                p += bit;
+                ((float *)&last)[vi] += (float)factor * filter;
+            }
         }
+        from += 16;
+        if (from > frame)
+            value0 = 0;
+    }
+}
+
+void BFME2Encoding1MotionChannel::rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1)
+{
+    Quaternion last;
+    if (from > frame) {
+        from = 0;
+        last = *(const Quaternion *)Initial;
+    } else
+        last = *(const Quaternion *)state;
+    unsigned char *packet = Data + (from >> 4) * 36;
+    while (from <= frame + 1) {
+        if (from >= (unsigned int)Count) {
+            if (value0)
+                *value0 = last;
+            *value1 = last;
+            return;
+        }
+        unsigned int fi0 = from & 0xF;
+        from &= ~0xFu;
+        for (int vi = 0; vi < 4; ++vi, packet += 9) {
+            float filter = filtertable[*packet] * Scale;
+            unsigned char *p = packet + 1 + (fi0 >> 1);
+            for (unsigned int fi = fi0; fi < 16; ++fi) {
+                unsigned int f = from + fi;
+                if (f == frame)
+                    ((float *)value0)[vi] = ((float *)&last)[vi];
+                else if (f == frame + 1) {
+                    ((float *)value1)[vi] = ((float *)&last)[vi];
+                    break;
+                }
+                int bit = fi & 1;
+                int factor = bit ? (signed char)*p >> 4 : (signed char)(*p << 4) >> 4;
+                p += bit;
+                ((float *)&last)[vi] += (float)factor * filter;
+            }
+        }
+        from += 16;
+        if (from > frame)
+            value0 = 0;
+    }
+}
+
+void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1)
+{
+    Vector3 last;
+    if (from > frame) {
+        from = 0;
+        last = *(const Vector3 *)Initial;
+    } else
+        last = *(const Vector3 *)state;
+    unsigned char *packet = Data + (from >> 4) * 51;
+    while (from <= frame + 1) {
+        if (from >= (unsigned int)Count) {
+            if (value0)
+                *value0 = last;
+            *value1 = last;
+            return;
+        }
+        unsigned int fi0 = from & 0xF;
+        from &= ~0xFu;
+        for (int vi = 0; vi < 3; ++vi, packet += 17) {
+            float filter = filtertable[*packet] * Scale * 0.0625;
+            for (unsigned int fi = fi0; fi < 16; ++fi) {
+                unsigned int f = from + fi;
+                if (f == frame)
+                    ((float *)value0)[vi] = ((float *)&last)[vi];
+                else if (f == frame + 1) {
+                    ((float *)value1)[vi] = ((float *)&last)[vi];
+                }
+                int factor = (int)packet[1 + fi] - 0x80;
+                ((float *)&last)[vi] += (float)factor * filter;
+            }
         }
         from += 16;
         if (from > frame)

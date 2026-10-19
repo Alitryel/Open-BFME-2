@@ -1,5 +1,5 @@
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
-// partial score=0.77 date=2026-10-17
+// partial score=0.81 date=2026-10-19
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.8212 date=2026-10-14
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
@@ -395,15 +395,12 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	Int maxY = m_yOrigin + m_width;
 	WorldHeightMap *map = m_map;
 	Int limitX = map->getXExtent() - 1;
+	// (barrier removed)
 	Int limitY = map->getYExtent() - 1;
-	Int copyX = limitX;
-	_ReadWriteBarrier();
-	limitX = copyX;
-	if (maxY > limitY)
-		maxY = limitY;
 	if (maxX > limitX)
-		_ReadWriteBarrier();
-		maxX = __cp(map->getXExtent() - 1);
+		maxX = limitX;
+	if (maxY > limitY)
+		maxY = map->getYExtent() - 1;
 	if (partialRange.lo.x > maxX || partialRange.lo.y > maxY
 		|| partialRange.hi.x < minX || partialRange.hi.y < minY)
 		return;
@@ -457,7 +454,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			TCliffInfo info;
 			m_map->rva000AE44B(i, j, &info);
 			Int base = m_curNumCliffVertices;
-			if (base + 4 >= __cp(m_vertexCliffSize))
+			if (base + 4 >= m_vertexCliffSize)
 				return;
 			bool flip = false;
 			unsigned char alpha[4];
@@ -493,6 +490,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			pos.X = (i + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			m_map->getTerrainNormal(i + 1, j, &normal);
+			// (barrier removed)
 			curVb->u1 = info.u1;
 			curVb->v1 = info.v1;
 			curVb->x = pos.X;
@@ -537,7 +535,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			m_curNumCliffVertices++;
 
 			*curIb++ = base;
-			if (!flip) {
+			if (!m_map->getFlip(i, j)) {
 				*curIb++ = base + 3;
 				*curIb++ = base + 2;
 				*curIb++ = base;

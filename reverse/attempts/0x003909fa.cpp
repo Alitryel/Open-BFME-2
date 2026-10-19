@@ -1,4 +1,6 @@
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
+// partial score=0.88 date=2026-10-19
+// ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.738 date=2026-10-17
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.84 date=2026-10-15
@@ -7,7 +9,7 @@
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include <string.h>
 #pragma intrinsic(memcpy)
@@ -68,8 +70,8 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  if(obj->holder && !(obj->holder->type->option115&0x20)) {
   ((UpdateModule *)this)->setWakeFrame(obj,UPDATE_SLEEP_FOREVER);return;
  }
- AIUpdateInterface *ai=obj->ai;
  if(obj->testStatus(RVA_STATUS_46))obj->rva00293105();
+ AIUpdateInterface *ai=obj->ai;
  if(ai && !ai->slot16C()) {ai->rva0026331C();ai->commands.aiIdle(RVA_COMMAND_SOURCE_2);}
  ((UpdateModule *)this)->setWakeFrame(obj,UPDATE_SLEEP_NONE);
  int frames=0;
@@ -94,7 +96,6 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  duration+=frames;
  float count=(float)duration;
  float peak=(vertical*0.5f)*(count*0.5f);
- *(volatile float*)&height = height;
  if(peak<0.0f)peak=0.0f;
  Coord3D destination=obj->position;
  position.x=velocity->x*count;destination.x+=position.x;

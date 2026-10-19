@@ -1,4 +1,15 @@
 // ?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1_N2IPAH@Z
+// partial score=0.99 date=2026-10-19
+// r23 candidate: retail's frame 0x24 (bonus EBP-0x24 overlapping the target
+// coordinate at EBP-0x18) comes from same-TU interprocedural analysis: every
+// callee taking &bonus (computeBonus + both appendBonuses, delay getter
+// 0x2C9322, special 0x2CAA9D, fire 0x2CBBF5) is defined in this TU and the
+// special/fire bodies ignore their bonus argument, so bonus is dead across the
+// linear/scatter branches. The bonus argument of special/fire must be typed
+// (const WeaponBonus&); an int parameter with (int)&bonus keeps frame 0x30.
+// The rva002CBBF5 body below is a DIAGNOSTIC STUB standing in for the real
+// 1561-byte body (which is exact with the typed parameter, see firetyped.cpp).
+// ?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1_N2IPAH@Z
 // partial score=0.991623 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /I.
 // ?isGoalPosWithinAttackRange@Weapon@@QBE_NPBVObject@@PBUCoord3D@@01@Z
@@ -7,21 +18,19 @@
 // stlport
 // BFME1 a18d9ed50607e9175de4d6568798d7d73119de09 Weapon.cpp semantic donor.
 // Native 002CE30A..002CE6C5 and WB BB7C40 establish the caller and target deltas.
+#define COORD3D_VIEW_DTOR
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 #include <vector>
 #include <math.h>
 #include "Code/Libraries/Include/Lib/Coord2D.h"
-struct Coord3DBase { float x,y,z; };
-struct Coord3D : public Coord3DBase {
-    Coord3D() {}
-    Coord3D(const Coord3D &that) { x=that.x; y=that.y; z=that.z; }
-    ~Coord3D() {}
-};
+
 class Matrix3D { public: float Get_Z_Rotation() const; float data[12]; };
 class Drawable { public: int rva0027434D(int); };
 class Object { public:
     Drawable *getDrawable() const;
     bool rva0028C15E(int,float*,int,int);
     char unknown[8]; Matrix3D matrix; Coord3D position;
+    char padObj44[0x380-0x44]; unsigned m_weaponBonusCondition;
 };
 class TerrainLogic {
 public:
@@ -35,22 +44,48 @@ extern GameLogic *TheGameLogic;
 class ObjectFilter { public: bool isValid() const; };
 class WeaponBonus { public:
     WeaponBonus() { for(int i=0;i<6;++i) fields[i]=1.0f; }
+    enum Field { DAMAGE = 0, RADIUS, RANGE, RATE_OF_FIRE };
+    float getField(Field field) const { return fields[field]; }
+    void appendBonuses(WeaponBonus &bonus) const;
     float fields[6];
 };
+class WeaponBonusSet { public:
+    void appendBonuses(unsigned flags, WeaponBonus &bonus) const;
+    WeaponBonus m_bonus[22];
+};
+class GlobalData { public: char m_pad[0xAD0]; WeaponBonusSet *m_weaponBonusSet; };
+extern GlobalData *TheWritableGlobalData;
 enum WeaponStatus { READY_TO_FIRE, OUT_OF_AMMO, BETWEEN_FIRING_SHOTS, RELOADING_CLIP, PRE_ATTACK };
 class Weapon;
-class Rva002CA9CA { public: void rva002CAA9D(int,const void*,const void*,int); };
+struct ListNode { ListNode *m_next; ListNode *m_prev; void *m_data; };
+class VirtNode2
+{
+public:
+    virtual void v00();
+    virtual bool v04(int a, const void *b);
+    virtual void v08();
+    virtual void v0c(int a, const void *b);
+    virtual void v10();
+    virtual void v14(int a, const void *b);
+    virtual void v18();
+    virtual bool v1c();
+};
+class Rva002CA9CA { public:
+    void rva002CAA9D(int a1, const void *a2, const void *a3, const WeaponBonus &bonus);
+    char m_pad[0x17c]; ListNode *m_17c;
+};
 class WeaponTemplate {
 public:
     int rva002C9322(const WeaponBonus&,float) const;
-    void rva002CBBF5(Object*,int,int,int,Object*,int,const Coord3D*,int,bool,Weapon*,int);
+    void rva002CBBF5(Object*,int,int,int,Object*,int,const Coord3D*,const WeaponBonus&,bool,Weapon*,int);
     char pad00[0x28]; float requestAssistRange;
     char pad2c[0xc]; float scatterScalar;
     char pad3c[4]; std::vector<Coord2D> scatterTargets;
     std::vector<Coord3D> linearTargets;
-    char pad58[0x108-0x58]; int shotsPerBarrel;
+    char pad58[0xE0-0x58]; WeaponBonusSet *m_extraBonus; char padE4[0xF0-0xE4]; int m_minDelay, m_maxDelay; char padF8[0x108-0xF8]; int shotsPerBarrel;
     char pad10c[0x14]; char ammoDescriptor[8]; int autoReloadMode;
     char pad12c[4]; bool leechRange;
+    int getTimingExtra144(const WeaponBonus &) const { return timingExtra144; }
     char pad131[0x144-0x131]; int timingExtra144;
     char pad148[0xc]; bool skipFirstLinear;
 };
@@ -70,12 +105,13 @@ public:
     unsigned frame1c, frame20, pad24, m_whenLastReloadStarted, m_lastFireFrame;
     int pad30, m_maxShotCount, m_curBarrel, m_numShotsForCurBarrel;
     std::vector<int> m_scatterTargetsUnused;
+    void setLeechUntil(int delay) { leechUntil=TheGameLogic->frame+delay; }
     int pad4c; unsigned leechUntil; int m_linearIndex;
 };
 int GetGameLogicRandomValue(int,int,char*,int);
 // Native 002CB594 and WB BB9080 establish return by value and the four entry registers.
 // The real privateFireWeapon caller below replaces the prior compiler probe.
-static __declspec(noinline) Coord3D getLinearPosition(
+static Coord3D getLinearPosition(
     const std::vector<Coord3D> &positions, int index, const Object *object)
 {
     const Coord3D &point=positions[index];
@@ -121,10 +157,7 @@ bool Weapon::privateFireWeapon(const Object *sourceObj,const Coord3D *sourcePos,
     // @todo srj -- this isn't a universally true assertion! eg, FireWeaponDie lets you do this easily.
     //
     if(m_template->leechRange) {
-        int delay=m_template->timingExtra144;
-        int one=1;
-        const int &leechDelay=std::max(delay,one);
-        leechUntil=TheGameLogic->frame+leechDelay;
+        setLeechUntil(std::max(m_template->getTimingExtra144(bonus),1));
     }
     if(getStatus()!=READY_TO_FIRE) return false;
     prepareProjectileStreamForFiring();
@@ -140,7 +173,7 @@ bool Weapon::privateFireWeapon(const Object *sourceObj,const Coord3D *sourcePos,
             m_numShotsForCurBarrel=m_template->shotsPerBarrel;
         }
         if(special) {
-            ((Rva002CA9CA*)m_template)->rva002CAA9D((int)this,sourceObj,victimObj,(int)&bonus);
+            ((Rva002CA9CA*)m_template)->rva002CAA9D((int)this,sourceObj,victimObj,bonus);
         } else if(m_template->linearTargets.size() && sourceObj) {
             delay=0;
             int iteration=0;
@@ -149,7 +182,7 @@ bool Weapon::privateFireWeapon(const Object *sourceObj,const Coord3D *sourcePos,
                 Coord3D targetPos=getLinearPosition(m_template->linearTargets,m_linearIndex,sourceObj);
                 if(!m_template->skipFirstLinear || m_linearIndex!=0)
                     m_template->rva002CBBF5((Object*)sourceObj,(int)sourcePos,m_wslot,m_curBarrel,
-                        (Object*)victimObj,victimID,&targetPos,(int)&bonus,ignoreRanges,this,(int)projectileID);
+                        (Object*)victimObj,victimID,&targetPos,bonus,ignoreRanges,this,(int)projectileID);
                 delay=*(const unsigned int*)&m_template->linearTargets[m_linearIndex].z;
                 m_linearIndex=(m_linearIndex+1)%m_template->linearTargets.size();
             }
@@ -175,10 +208,10 @@ bool Weapon::privateFireWeapon(const Object *sourceObj,const Coord3D *sourcePos,
             m_scatterTargetsUnused[randomPick]=m_scatterTargetsUnused.back();
             m_scatterTargetsUnused.pop_back();
             m_template->rva002CBBF5((Object*)sourceObj,(int)sourcePos,m_wslot,m_curBarrel,
-                (Object*)victimObj,victimID,&targetPos,(int)&bonus,ignoreRanges,this,(int)projectileID);
+                (Object*)victimObj,victimID,&targetPos,bonus,ignoreRanges,this,(int)projectileID);
         } else {
             m_template->rva002CBBF5((Object*)sourceObj,(int)sourcePos,m_wslot,m_curBarrel,
-                (Object*)victimObj,victimID,victimPos,(int)&bonus,ignoreRanges,this,(int)projectileID);
+                (Object*)victimObj,victimID,victimPos,bonus,ignoreRanges,this,(int)projectileID);
         }
         m_lastFireFrame=now;
         --m_ammoInClip;
@@ -204,9 +237,83 @@ bool Weapon::privateFireWeapon(const Object *sourceObj,const Coord3D *sourcePos,
             m_whenLastReloadStarted=now;
             m_whenWeCanFireAgain=now+delay;
             //CRCDEBUG_LOG(("Just set m_whenWeCanFireAgain to %d (delay is %d) in Weapon::privateFireWeapon\n", m_whenWeCanFireAgain, delay));
-            if(m_template->timingExtra144>0)
-                frame20=TheGameLogic->frame+m_template->timingExtra144;
+            int extra=m_template->getTimingExtra144(bonus);
+            if(extra>0)
+                frame20=TheGameLogic->frame+extra;
         }
     }
     return reloaded;
+}
+
+void WeaponBonus::appendBonuses(WeaponBonus &bonus) const
+{
+    for (int f = 0; f < 6; ++f)
+        bonus.fields[f] += this->fields[f] - 1.0f;
+}
+void WeaponBonusSet::appendBonuses(unsigned flags, WeaponBonus &bonus) const
+{
+    if (flags == 0)
+        return;
+    for (int i = 0; i < 22; ++i)
+    {
+        if ((flags & (1 << i)) == 0)
+            continue;
+        this->m_bonus[i].appendBonuses(bonus);
+    }
+}
+void Weapon::computeBonus(const Object *source, unsigned extra, WeaponBonus &bonus) const
+{
+    for (int i = 0; i < 6; ++i) bonus.fields[i] = 1.0f;
+    unsigned flags = source->m_weaponBonusCondition | extra;
+    WeaponBonusSet *global = TheWritableGlobalData->m_weaponBonusSet;
+    if (global)
+        global->appendBonuses(flags, bonus);
+    WeaponBonusSet *own = m_template->m_extraBonus;
+    if (own)
+        own->appendBonuses(flags, bonus);
+}
+__forceinline long fast_float2long_round(float f)
+{
+    long i;
+    __asm {
+        fld [f]
+        fistp [i]
+    }
+    return i;
+}
+int WeaponTemplate::rva002C9322(const WeaponBonus &bonus, float factor) const
+{
+    int delayToUse;
+    if (m_minDelay == m_maxDelay)
+        delayToUse = m_minDelay;
+    else
+        delayToUse = GetGameLogicRandomValue(m_minDelay, m_maxDelay,
+            "C:\projects\bfme2patch103\bfme2\Code\GameEngine\Source\GameLogic\Object\Weapon.cpp", 988);
+    return fast_float2long_round((float)floor((double)((float)delayToUse / (bonus.getField(WeaponBonus::RATE_OF_FIRE) * factor))));
+}
+void extv(const void*);
+void Rva002CA9CA::rva002CAA9D(int a1, const void *a2, const void *a3, const WeaponBonus &)
+{
+    if (a2 == 0)
+        return;
+    if (a3 == 0)
+        return;
+    ListNode *cur = m_17c->m_next;
+    while (cur != m_17c)
+    {
+        VirtNode2 *obj = (VirtNode2 *)cur->m_data;
+        if (obj->v1c())
+        {
+            if (obj->v04(a1, a3))
+            {
+                obj->v14(a1, a3);
+            }
+        }
+        cur = cur->m_next;
+    }
+}
+void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word14, Object *victim, int word1C, const Coord3D *position, const WeaponBonus &, bool ignore, Weapon *weapon, int word30)
+{
+    if (!source || (!victim && !position)) return;
+    extv(source); extv(victim); extv(position); extv(weapon);
 }

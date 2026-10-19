@@ -1,7 +1,5 @@
 // ?rva0050F306@Rva0050F0AB@@QAEXXZ
-// partial score=0.981 date=2026-10-17
-// ?rva0050F306@Rva0050F0AB@@QAEXXZ
-// partial score=0.9640359640359639 date=2026-10-15
+// partial score=0.95 date=2026-10-19
 // ?rva0050F306@Rva0050F0AB@@QAEXXZ
 // partial score=0.95 date=2026-10-13
 // ?rva0050F306@Rva0050F0AB@@QAEXXZ
@@ -61,10 +59,10 @@ private:
 void Rva0050F0AB::rva0050F306()
 {
 	int v = pad1();
-	Player *player=m_64;Player90 *p = (Player90 *)*(Player *volatile *)((char *)&m_64 + 0x90);
-	if (this ? p : p)
+	Player90 *p = (Player90 *)((char *)m_64 + 0x90);
+	if (p)
 		v += p->m_04;
-	Rva002A8AB1Record *rec = (Rva002A8AB1Record *)g_00DFEEF8->rva002A8AB1((void *)player);
+	Rva002A8AB1Record *rec = (Rva002A8AB1Record *)g_00DFEEF8->rva002A8AB1((void *)m_64);
 	if (rec)
 	{
 		void *r = g_00DFEEF8->rva002A8F24(m_64);
