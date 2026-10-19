@@ -86,7 +86,9 @@ class Rva003ABD20 : public Rva0055F197
 {
 public:
 	__declspec(noinline) Rva003ABD20(const RvaSmartPtr12 &smart, int x);
-	virtual ~Rva003ABD20();
+	// Empty: retail's vtable 0x0081C578 slot 0 0x003AD3F7 calls 0x003ACB6F, one
+	// jump to the base dtor 0x003ABC0B (Rva0055F197's, see Rva003ABC0BDtor.cpp).
+	virtual ~Rva003ABD20() {}
 };
 
 Rva003ABD20::Rva003ABD20(const RvaSmartPtr12 &smart, int x)

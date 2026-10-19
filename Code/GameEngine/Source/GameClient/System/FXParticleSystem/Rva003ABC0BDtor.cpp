@@ -39,3 +39,17 @@ Rva0055F9B4::~Rva0055F9B4()
 	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
 	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
 }
+
+// Rva0055F197 (ctor 0x0055F197, Rva003ABD20Ctor.cpp): its vtable 0x00C1D654
+// slot 0 is the same deleting dtor 0x003AEFF6, so this 22B body is its
+// destructor too (ICF alias row).
+class __declspec(novtable) Rva0055F197 : public Rva003AEEB3
+{
+public:
+	virtual ~Rva0055F197();
+};
+Rva0055F197::~Rva0055F197()
+{
+	unsigned char *b1C = this ? (unsigned char *)this + 0x1C : 0;
+	*(volatile unsigned int *)b1C = (unsigned int)__identifier("??_7Snapshot@@6B@");
+}
