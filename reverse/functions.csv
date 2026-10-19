@@ -47335,7 +47335,7 @@ _GetThisFrameReconPtr,,0x001B6330,11,Code/Libraries/Source/VP6/PbAccessors.cpp,m
 ?rva003F8083@Rva003F8083@@QAEXXZ,,0x003F8083,13,Code/Libraries/Source/WWVegas/WW3D2/WaterRenderObjRva003F8090.cpp,matched,unlock lane sibling of 0x003F8076 via plus14 to rowed 0x003F7E90
 ?rva003F80C3@Rva003F8090@@QAEPAXXZ,,0x003F80C3,30,Code/Libraries/Source/WWVegas/WW3D2/WaterRenderObjRva003F8090.cpp,matched,unlock lane same offsets as 0x003F8090 callers at 0x003F8525 0x003F854A barrier for retail reload
 ??0Rva003F877E@@QAE@HH@Z,,0x003F877E,43,Code/GameEngine/Source/Common/Rva003F877ECtor.cpp,matched,leaf vtable 0x00837318 vector base rowed
-?rva003F83D9@Rva003F83D9@@QAENH@Z,,0x003F83D9,37,Code/GameEngine/Source/Common/Rva003F83D9.cpp,matched,AsciiString array at +0xC via member str IAT atof caller 0x003F8CF2
+?rva003F83D9@SessionTask@LivingWorldTutorial@@QAENH@Z,,0x003F83D9,37,Code/GameEngine/Source/Common/Rva003F83D9.cpp,matched,AsciiString array at +0xC via member str IAT atof caller 0x003F8CF2
 ?rva007B7AAF@@YAXXZ,,0x007B7AAF,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,Freelist pool clear thunk at 0x007B7AAF
 ?rva007B7AB9@@YAXXZ,,0x007B7AB9,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,Freelist pool clear thunk at 0x007B7AB9
 ?rva007B7AC3@@YAXXZ,,0x007B7AC3,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,Freelist pool clear thunk at 0x007B7AC3

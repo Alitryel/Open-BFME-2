@@ -5,7 +5,7 @@
 // Index AsciiString array at +0xC and forward via rowed Rva002104B6.
 // Evidence: rowed rva002104B6 0x002104B6; global g_009FEF10 +0xb0;
 // callers at 0x003F8421 0x003F88FB 0x003F8957 0x003F8A35 0x003F8AD6 0x003F8B34
-// 0x003F8CA6; same +0xC array as neighbours Rva003F83D9 Rva003F8443.
+// 0x003F8CA6; same +0xC array as neighbours 0x003F83D9 and 0x003F8443.
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;

@@ -236,14 +236,6 @@ int storage14;
 
 struct Rva002E1948Entry;
 
-class Rva003F83D9
-{
-
-public:
-double rva003F83D9(int);
-}
-;
-
 class Rva004E0625
 {
 
@@ -282,6 +274,7 @@ public:
 	public:
 		void *getBattleParam(Int index);
 		void *getRegionParam(Int index);	// 0x003F83FE
+		double rva003F83D9(int);	// 0x003F83D9
 		void create(); // 0x003F88BC; WB names the complete retail switch.
         Rva002E1948Entry *getArmyParam(int);
     private:
@@ -443,7 +436,7 @@ void LivingWorldTutorial::SessionTask::create()
 		}
 		case 11:{
 			if(m_params.size()!=1)break;
-			float duration=(float)((Rva003F83D9 *)this)->rva003F83D9(0);
+			float duration=(float)rva003F83D9(0);
 			if(duration<0.0f)break;
 			task=new Rva0056ADF1(m_owner,(int)scaledTutorialDuration(duration));
 			break;
