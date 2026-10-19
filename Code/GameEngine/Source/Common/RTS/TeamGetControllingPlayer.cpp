@@ -125,6 +125,9 @@ template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 #include "Common/Snapshot.h"
 #include "../GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
 
 typedef bool Bool;
 typedef float Real;
