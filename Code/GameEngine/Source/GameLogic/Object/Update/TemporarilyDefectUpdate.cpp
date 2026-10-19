@@ -42,12 +42,6 @@ class Thing
 public:
     Drawable *getDrawable() const;
 };
-class Rva004CC829
-{
-public:
-    bool rva004CC829();
-};
-
 class PlayerList
 {
 public:
@@ -171,6 +165,7 @@ class TemporarilyDefectUpdate
 {
 public:
 	virtual UpdateSleepTime update();
+	bool rva004CC829();	// complete-object method, called through this - 0x10
 
 private:
 	unsigned char m_pad004[0x0C];
@@ -206,7 +201,7 @@ UpdateSleepTime TemporarilyDefectUpdate::update()
 		return UPDATE_SLEEP_FOREVER;
 	}
 
-	if (((Rva004CC829 *)((char *)this - 0x10))->rva004CC829())
+	if (((TemporarilyDefectUpdate *)((char *)this - 0x10))->rva004CC829())
 	{
 		m_startFrame = zero;
 		m_endFrame = zero;

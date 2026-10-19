@@ -31,9 +31,8 @@ class Module;
 
 extern GameLogic *TheGameLogic;
 
-// TemporarilyDefectUpdate's transfer entry, under the owner name its row
-// (0x004CC795) carries.
-class Rva004CC829
+// TemporarilyDefectUpdate's transfer entry (rowed 0x004CC795).
+class TemporarilyDefectUpdate
 {
 public:
 	void defectNow(Object *defector, unsigned int endFrame);
@@ -84,7 +83,7 @@ void Object::bfmeTransferReplacementState(Object *replacement)
 		{
 			Object *defector = TheGameLogic->findObjectByID(oldUpdate->m_defectorID);
 			if (defector != 0)
-				((Rva004CC829 *)newUpdate)->defectNow(defector, oldUpdate->m_endFrame);
+				((TemporarilyDefectUpdate *)newUpdate)->defectNow(defector, oldUpdate->m_endFrame);
 		}
 	}
 }

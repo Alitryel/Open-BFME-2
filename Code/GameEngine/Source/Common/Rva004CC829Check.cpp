@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva004CC829@Rva004CC829@@QAE_NXZ @0x004CC829 89B ObjectID validity check.
+// ?rva004CC829@TemporarilyDefectUpdate@@QAE_NXZ @0x004CC829 89B ObjectID validity check.
 // Evidence: m_28 ObjectID via findObjectByID 0x00049DC5 then Object+4 +0x117 flag 8 then controlling player ByteField 0 then +0x438 flag 1 then GameLogic+0x40 vs m_20 frame; callers 0x004CC8F9.
 enum ObjectID
 {
@@ -69,7 +69,7 @@ protected:
 };
 extern int BfmeLogicFramesPerSecond;
 
-class Rva004CC829 : public UpdateModule
+class TemporarilyDefectUpdate : public UpdateModule
 {
 public:
 	void defectNow(Object *other, unsigned int wakeFrame);
@@ -81,7 +81,7 @@ private:
 	unsigned char m_2c;
 };
 
-// ?defectNow@Rva004CC829@@QAEXPAVObject@@I@Z @0x004CC795 (148B).
+// ?defectNow@TemporarilyDefectUpdate@@QAEXPAVObject@@I@Z @0x004CC795 (148B).
 // Target evidence: this+0x08 is the Object passed to testStatus(0x3e) and
 // setWakeFrame; this+0x04 is read at +8 when wakeFrame is zero; this+0x20,
 // +0x24, +0x28 and +0x2c are written here, while the adjacent matched
@@ -89,9 +89,11 @@ private:
 // other+0x304 to the address-derived Object helper at 0x00298AAD, checks the
 // +0x117 flag through other+4, and schedules through rowed 0x0044DF71.
 // Structural inference: the first 0x20 bytes are an UpdateModule view
-// (module data +4, Object +8, wake-frame member +0x14); the concrete module
-// identity and the meaning of the other object's +0x304 dword remain unknown.
-void Rva004CC829::defectNow(Object *other, unsigned int wakeFrame)
+// (module data +4, Object +8, wake-frame member +0x14). The module is
+// TemporarilyDefectUpdate: Object::bfmeTransferReplacementState (0x002928B5)
+// finds it by that name and calls this. The meaning of the other object's
+// +0x304 dword remains unknown.
+void TemporarilyDefectUpdate::defectNow(Object *other, unsigned int wakeFrame)
 {
 	if (m_20 != 0)
 		return;
@@ -121,7 +123,7 @@ void Rva004CC829::defectNow(Object *other, unsigned int wakeFrame)
 	m_2c = 0;
 }
 
-bool Rva004CC829::rva004CC829()
+bool TemporarilyDefectUpdate::rva004CC829()
 {
 	if (m_28 != OBJECTID_INVALID)
 	{

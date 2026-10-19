@@ -97,7 +97,7 @@ class SpawnBehaviorInterface { public:
  virtual void s08();
  virtual void native24(); virtual void s28(); virtual void s2c(); virtual void native30();
 };
-class Rva004CC829 { public: void defectNow(Object *,unsigned int); };
+class TemporarilyDefectUpdate { public: void defectNow(Object *,unsigned int); };
 
 enum ObjectStatusTypes
 {
@@ -297,7 +297,7 @@ void Object::rva00298979(Object *source,bool permanent) {
  if(!permanent) {
   static NameKeyType key_TemporarilyDefectUpdate=TheNameKeyGenerator->nameToKey("TemporarilyDefectUpdate");
   Module *module=findModule(key_TemporarilyDefectUpdate);
-  if(module) ((Rva004CC829 *)module)->defectNow(source,0);
+  if(module) ((TemporarilyDefectUpdate *)module)->defectNow(source,0);
  } else {
   Team *newTeam=source->team;
   if(newTeam && newTeam!=team) setTemporaryTeam(newTeam);
