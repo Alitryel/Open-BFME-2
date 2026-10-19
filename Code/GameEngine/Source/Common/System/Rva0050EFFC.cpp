@@ -8,7 +8,10 @@ class Rva00222A8BTarget
 {
 };
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char *g_00C6556C[];
+// SetState's state-suffix table, retail .rdata VA 0xC6556C: three pointers to
+// the literals "_default", "_player" and "_na" (read from the image). Only
+// rva0050EFFC references it, so it is defined here.
+extern const char *const g_00C6556C[3] = { "_default", "_player", "_na" };
 int Rva0050E9FEAptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const char **a0ptr);
 
 struct Rva0050F041Inner
@@ -61,7 +64,7 @@ void Rva0050F041::rva0050EFFC(int state)
 	if (state == m_74)
 		return;
 	const char *prefix = m_60 ? m_60->m_name : "";
-	Rva0050E9FEAptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), (void *)m_5c, prefix, "SetState", &g_00C6556C[state]);
+	Rva0050E9FEAptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), (void *)m_5c, prefix, "SetState", const_cast<const char **>(&g_00C6556C[state]));
 	m_74 = state;
 }
 

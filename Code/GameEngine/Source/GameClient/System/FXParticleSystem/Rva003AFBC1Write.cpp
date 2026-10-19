@@ -63,7 +63,6 @@ struct Rva001F458BText {
 };
 File &Rva001F458BWrite(File &file, const Rva001F458BText &text);
 extern "C" void __cdecl free(void *p);
-extern const char g_00C1D838[];
 
 _STL::basic_ostream<char, _STL::char_traits<char> > &Rva001F6951Pad(
 	_STL::basic_ostream<char, _STL::char_traits<char> > &os,
@@ -84,6 +83,6 @@ void Rva003AFC6BWrite(File *file, unsigned int *flags)
 	*flags -= 2;
 	_STL::basic_ostringstream<char, _STL::char_traits<char>, _STL::allocator<char> > oss(16);
 	_STL::basic_ostream<char, _STL::char_traits<char> > &r = Rva001F6951Pad(oss, *flags);
-	r._M_put_nowiden(g_00C1D838);
+	r._M_put_nowiden("End\n");	// the compiler literal at VA 0xC1D838
 	Rva001F458BWrite(*file, (const Rva001F458BText &)oss.str());
 }
