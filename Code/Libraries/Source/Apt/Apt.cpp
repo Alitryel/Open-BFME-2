@@ -313,11 +313,13 @@ public:
  PlaybackIterator begin(){return PlaybackIterator(first,first,last);}
  PlaybackIterator end(){return PlaybackIterator(last,first,last);}
 };
+// The checkpoint container is the rowed Rva006CE660Vec (same 28-byte
+// layout); its 0x006CEB10 member is called through that view.
+class Rva006CE660Vec {public:void rva006CEB10(const EAStringC &);};
 class Rva006CEB10Playback {
 public:
  int size,capacity;PlaybackItem *items;PlaybackItem inlineItems[2];
  Rva006CEB10Playback():size(0),capacity(0),items(inlineItems){} POOL_ALLOC
- void rva006CEB10(const EAStringC &);
  PlaybackIterator begin(){return PlaybackRange(items,items+size).begin();}
  PlaybackIterator end(){return PlaybackRange(items,items+size).end();}
  __forceinline bool readyFor(int a,int b) {
@@ -347,7 +349,7 @@ void Rva006CEC90Tick() {
     case 2:{
      tickAssert((*(unsigned char *)PLAYCUR & 3)==2,"INPUT_IS_CHECKPOINT(&*gSIPlayback.pCurSavedInput)","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",0x3ab);
      ++PLAYCUR;const char *name=PLAYCUR;PLAYCUR+=strlen(name)+1;
-     g_aptPlaybackCheckpoints->rva006CEB10(EAStringC(name));break;
+     ((Rva006CE660Vec *)g_aptPlaybackCheckpoints)->rva006CEB10(EAStringC(name));break;
     }
     case 3:{
      ++PLAYCUR;
