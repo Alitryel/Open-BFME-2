@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD
-// ?rva00492FC2@Rva00492FC2@@QAEX_N@Z @0x00492FC2 71B evidence: thiscall void bool; vtable slot2 virtual float; TheGameLogic VA 0x00DFE78C +0x40 frame; members +0x08 accum +0x0C count +0x10 base +0x14 float; unblocks 0x004C4430 0x00493C5A; next Rva00493009Xfer same flags
+// ?pauseCountdown@SpecialPowerModule@@UAEX_N@Z @0x00492FC2 71B: slot 9 of the
+// SpecialPowerModuleInterface vtable 0x0085E080 (pinned name), ZH's
+// SpecialPowerModule::pauseCountdown; this is the interface subobject. Evidence: thiscall void bool; vtable slot2 virtual float; TheGameLogic VA 0x00DFE78C +0x40 frame; members +0x08 accum +0x0C count +0x10 base +0x14 float; unblocks 0x004C4430 0x00493C5A; next Rva00493009Xfer same flags
 
 class GameLogic
 {
@@ -10,13 +12,13 @@ public:
 
 extern GameLogic *TheGameLogic;
 
-class Rva00492FC2
+class SpecialPowerModule
 {
 public:
 	virtual void v0();
 	virtual void v1();
 	virtual float v2();
-	void rva00492FC2(bool flag);
+	virtual void pauseCountdown(bool pause);
 private:
 	char m_pad04[0x04];
 	int m_08;
@@ -25,7 +27,7 @@ private:
 	float m_14;
 };
 
-void Rva00492FC2::rva00492FC2(bool flag)
+void SpecialPowerModule::pauseCountdown(bool flag)
 {
 	if (flag)
 	{

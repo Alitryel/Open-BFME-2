@@ -450,32 +450,7 @@ void SpecialPowerModule::doSpecialPowerUsingWaypoints( const Waypoint *way, Unsi
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?SpecialPowerModule::pauseCountdown present-unmatched
-void SpecialPowerModule::pauseCountdown( Bool pause )
-{
-	if (pause)// If pausing
-	{
-		if( m_pausedCount == 0 )
-		{
-			// Only record this with the first pausing, otherwise upon final unpausing you would get credited the time
-			// between pauses as time served.
-			m_pausedOnFrame = TheGameLogic->getFrame();
-			m_pausedPercent = getPercentReady();
-		}
-
-		++m_pausedCount;
-	}
-	else if( m_pausedCount > 0 )//Else if unpausing, but only if I am in fact paused, so multiple unpauses don't break.
-	{
-		--m_pausedCount;
-
-		// And only update the ready time if we are fully unpaused now.
-		if( m_pausedCount == 0 )	
-		{
-			m_availableOnFrame += (TheGameLogic->getFrame() - m_pausedOnFrame);
-		}
-	}
-}  // end pauseCountdown
+// SpecialPowerModule::pauseCountdown is rowed at 0x00492FC2 (Rva00492FC2.cpp).
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

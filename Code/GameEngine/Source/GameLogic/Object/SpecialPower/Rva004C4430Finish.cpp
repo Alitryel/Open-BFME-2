@@ -7,7 +7,7 @@
 // Evidence: thiscall bool (cmp byte [ebp+8] ret 4); +0x24 gate then float from [this-0xC]+0x7C
 // zeroed when arg!=0 via movss/xorps; Object at [this-8] -> getControllingPlayer (row 0x0028AFA9)
 // -> Player::rva002A9E25(float) (row 0x002A9E25) with early push/fstp reuse; tail
-// mov ecx,esi -> Rva00492FC2::rva00492FC2(bool) (row 0x00492FC2). Negative offsets via explicit
+// mov ecx,esi -> SpecialPowerModule::pauseCountdown(bool) (row 0x00492FC2). Negative offsets via explicit
 // byte casts (same bytes as MI second-base); ScavengerSpecialPower neighbours give TU/flags.
 
 class Player
@@ -28,10 +28,10 @@ struct FloatHolder004C4430
 	float m_7C;
 };
 
-class Rva00492FC2
+class SpecialPowerModule
 {
 public:
-	void rva00492FC2(bool flag);
+	virtual void pauseCountdown(bool pause);
 };
 
 class Rva004C4430
@@ -53,5 +53,5 @@ void Rva004C4430::rva004C4430(bool flag)
 		Object *obj = *(Object **)((char *)this - 8);
 		obj->getControllingPlayer()->rva002A9E25(f);
 	}
-	((Rva00492FC2 *)this)->rva00492FC2(flag);
+	((SpecialPowerModule *)this)->SpecialPowerModule::pauseCountdown(flag);
 }
