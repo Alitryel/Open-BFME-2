@@ -31,8 +31,8 @@ int *g_bfmeFilterLimit;
 // InitPostProcessing stores the version's table in it.
 int *g_bfmeDeblockLimit;
 
-// g_rva012D7C58: matched references place it at VA 0xdb7528 (retail .data contents).
-unsigned short g_rva012D7C58[128] = {
+// g_bfmeFilterLimitOld: the loop-filter limit table for codec versions below 5 (VA 0xdb7528, retail .data contents).
+unsigned short g_bfmeFilterLimitOld[128] = {
 	0x1eu, 0u, 0x19u, 0u, 0x14u, 0u, 0x14u, 0u,
 	0xfu, 0u, 0xfu, 0u, 0xeu, 0u, 0xeu, 0u,
 	0xdu, 0u, 0xdu, 0u, 0xcu, 0u, 0xcu, 0u,
@@ -50,8 +50,8 @@ unsigned short g_rva012D7C58[128] = {
 	1u, 0u, 1u, 0u, 1u, 0u, 1u, 0u,
 	1u, 0u, 1u, 0u, 1u, 0u, 1u, 0u,
 };
-// g_rva012D7D58: matched references place it at VA 0xdb7628 (retail .data contents).
-unsigned short g_rva012D7D58[128] = {
+// g_bfmeFilterLimitV5: the loop-filter limit table for codec version 5 (VA 0xdb7628, retail .data contents).
+unsigned short g_bfmeFilterLimitV5[128] = {
 	0xeu, 0u, 0xeu, 0u, 0xdu, 0u, 0xdu, 0u,
 	0xcu, 0u, 0xcu, 0u, 0xau, 0u, 0xau, 0u,
 	0xau, 0u, 0xau, 0u, 8u, 0u, 8u, 0u,
@@ -69,8 +69,8 @@ unsigned short g_rva012D7D58[128] = {
 	4u, 0u, 4u, 0u, 4u, 0u, 3u, 0u,
 	3u, 0u, 3u, 0u, 3u, 0u, 2u, 0u,
 };
-// g_rva012D7E58: matched references place it at VA 0xdb7728 (retail .data contents).
-unsigned short g_rva012D7E58[128] = {
+// g_bfmeFilterLimitV6: the loop-filter limit table for codec version 6 and up (VA 0xdb7728, retail .data contents).
+unsigned short g_bfmeFilterLimitV6[128] = {
 	0xeu, 0u, 0xeu, 0u, 0xdu, 0u, 0xdu, 0u,
 	0xcu, 0u, 0xcu, 0u, 0xau, 0u, 0xau, 0u,
 	0xau, 0u, 0xau, 0u, 8u, 0u, 8u, 0u,
@@ -88,8 +88,8 @@ unsigned short g_rva012D7E58[128] = {
 	4u, 0u, 4u, 0u, 4u, 0u, 3u, 0u,
 	3u, 0u, 3u, 0u, 3u, 0u, 2u, 0u,
 };
-// g_rva012D7858: matched references place it at VA 0xdb7128 (retail .data contents).
-int g_rva012D7858[64] = {
+// g_bfmeDeblockLimitOld: the deblock limit table for codec versions below 5 (VA 0xdb7128, retail .data contents).
+int g_bfmeDeblockLimitOld[64] = {
 	0x1e, 0x19, 0x14, 0x14, 0xf, 0xf, 0xe, 0xe,
 	0xd, 0xd, 0xc, 0xc, 0xb, 0xb, 0xa, 0xa,
 	9, 9, 8, 8, 7, 7, 7, 7,
@@ -99,8 +99,8 @@ int g_rva012D7858[64] = {
 	2, 2, 2, 2, 2, 2, 2, 2,
 	1, 1, 1, 1, 1, 1, 1, 1,
 };
-// g_rva012D7958: matched references place it at VA 0xdb7228 (retail .data contents).
-int g_rva012D7958[64] = {
+// g_bfmeDeblockLimitV5: the deblock limit table for codec version 5 (VA 0xdb7228, retail .data contents).
+int g_bfmeDeblockLimitV5[64] = {
 	0xf, 0xf, 0xf, 0xf, 0xa, 0xa, 0xa, 0xa,
 	0xa, 0xa, 0xa, 0xa, 0xa, 9, 8, 8,
 	8, 8, 8, 8, 8, 8, 8, 8,
@@ -110,8 +110,8 @@ int g_rva012D7958[64] = {
 	3, 3, 3, 3, 3, 2, 2, 2,
 	2, 2, 1, 1, 1, 0, 0, 0,
 };
-// g_rva012D7A58: matched references place it at VA 0xdb7328 (retail .data contents).
-int g_rva012D7A58[64] = {
+// g_bfmeDeblockLimitV6: the deblock limit table for codec version 6 and up (VA 0xdb7328, retail .data contents).
+int g_bfmeDeblockLimitV6[64] = {
 	0xf, 0xf, 0xf, 0xf, 0xa, 0xa, 0xa, 0xa,
 	0xa, 0xa, 0xa, 0xa, 0xa, 9, 8, 8,
 	8, 8, 8, 8, 8, 8, 8, 8,
@@ -148,18 +148,18 @@ extern "C" void __cdecl InitPostProcessing(void *firstTable, void *secondTable, 
 
 	if ((unsigned)tier >= 6)
 	{
-		g_bfmeFilterLimit = (int *)g_rva012D7E58;
-		g_bfmeDeblockLimit = g_rva012D7A58;
+		g_bfmeFilterLimit = (int *)g_bfmeFilterLimitV6;
+		g_bfmeDeblockLimit = g_bfmeDeblockLimitV6;
 	}
 	else if ((unsigned)tier >= 5)
 	{
-		g_bfmeFilterLimit = (int *)g_rva012D7D58;
-		g_bfmeDeblockLimit = g_rva012D7958;
+		g_bfmeFilterLimit = (int *)g_bfmeFilterLimitV5;
+		g_bfmeDeblockLimit = g_bfmeDeblockLimitV5;
 	}
 	else
 	{
-		g_bfmeFilterLimit = (int *)g_rva012D7C58;
-		g_bfmeDeblockLimit = g_rva012D7858;
+		g_bfmeFilterLimit = (int *)g_bfmeFilterLimitOld;
+		g_bfmeDeblockLimit = g_bfmeDeblockLimitOld;
 	}
 	PostProcMachineSpecificConfig(tier);
 }

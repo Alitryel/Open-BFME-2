@@ -100,8 +100,8 @@ extern const int g_bfmeUvDcRounding[64] = {
 	50, 50, 48, 48, 46, 46, 38, 38, 38, 38, 36, 36, 34, 32, 32, 32,
 	32, 32, 30, 22, 22, 22, 20, 20, 18, 16, 14, 10, 6, 6, 4, 4,
 };
-// g_Rva01142208: matched references place it at VA 0xbd8360 (retail .rdata contents).
-int g_Rva01142208[64] = {
+// g_bfmeZeroRunCorrection: the zero-run zero-bin correction percentages by run length (VA 0xbd8360, retail .rdata contents).
+int g_bfmeZeroRunCorrection[64] = {
 	-8, 0, 5, 0xa, 0xa, 0xa, 0xa, 0xa,
 	0xf, 0xf, 0xf, 0xf, 0x14, 0x14, 0x14, 0x14,
 	0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14,
@@ -173,7 +173,7 @@ extern "C" void __cdecl VP6_init_quantizer(Rva009A6780State* s,int version)
         s->at0028[i]=(short)s->at0590[0][1]-1;
     }
     for(i=0;i<64;++i) {
-        s->at0790[0][i]=(int)(((const unsigned *)g_bfmeApplyTableA)[s->index]*g_Rva01142208[i]*4)/100;
-        s->at0790[1][i]=(int)(((const unsigned *)g_bfmeApplyTableB)[s->index]*g_Rva01142208[i]*4)/100;
+        s->at0790[0][i]=(int)(((const unsigned *)g_bfmeApplyTableA)[s->index]*g_bfmeZeroRunCorrection[i]*4)/100;
+        s->at0790[1][i]=(int)(((const unsigned *)g_bfmeApplyTableB)[s->index]*g_bfmeZeroRunCorrection[i]*4)/100;
     }
 }

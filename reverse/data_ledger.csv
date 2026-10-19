@@ -2898,7 +2898,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007D8060,256,.rdata,global,?g_bfmeUvDcZeroBin@@3QBHB,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
 0x007D8160,256,.rdata,global,?g_bfmeYDcRounding@@3QBHB,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
 0x007D8260,256,.rdata,global,?g_bfmeUvDcRounding@@3QBHB,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
-0x007D8360,256,.rdata,global,?g_Rva01142208@@3PAHA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,2
+0x007D8360,256,.rdata,global,?g_bfmeZeroRunCorrection@@3PAHA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,2
 0x007D8460,256,.rdata,global,?vp6DequantIndex@@3PAIA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,7
 0x007D8560,512,.rdata,global,?g_rva01142408@@3PAHA,Code/Libraries/Source/VP6/InitLibrary.cpp,owned,,1,2
 0x007D8760,8,.rdata,global,?g_Rva01142608@@3PAEA,Code/Libraries/Source/VP6/InitQuantizer.cpp,owned,,1,1
@@ -16907,12 +16907,12 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009B7040,40,.data,global,?g_rva00ED7770Vp6ModeDispatch@@3PAHA,Code/Libraries/Source/VP6/ReconstructBlock.cpp,owned,,1,2
 0x009B7068,128,.data,global,?g_012D7798@@3QAY03$$CBHA,Code/Libraries/Source/VP6/FilterBlockC.cpp,owned,,1,6
 0x009B70E8,64,.data,global,?g_012D7818@@3QAY01$$CBHA,Code/Libraries/Source/VP6/FilterBlockC.cpp,owned,,1,68
-0x009B7128,256,.data,global,?g_rva012D7858@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
-0x009B7228,256,.data,global,?g_rva012D7958@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
-0x009B7328,512,.data,global,?g_rva012D7A58@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
-0x009B7528,256,.data,global,?g_rva012D7C58@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
-0x009B7628,256,.data,global,?g_rva012D7D58@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
-0x009B7728,256,.data,global,?g_rva012D7E58@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7128,256,.data,global,?g_bfmeDeblockLimitOld@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7228,256,.data,global,?g_bfmeDeblockLimitV5@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7328,512,.data,global,?g_bfmeDeblockLimitV6@@3PAHA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7528,256,.data,global,?g_bfmeFilterLimitOld@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7628,256,.data,global,?g_bfmeFilterLimitV5@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
+0x009B7728,256,.data,global,?g_bfmeFilterLimitV6@@3PAGA,Code/Libraries/Source/VP6/InitPostProcessing.cpp,owned,,1,1
 0x009B7828,256,.data,global,?g_rva012D7F58@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,1
 0x009B7928,256,.data,global,?g_rva012D8058@@3PAHA,Code/Libraries/Source/VP6/DeringFrameInterlaced.cpp,owned,,1,1
 0x009B7A28,512,.data,global,_Vp6FilterEdgeTagTable,Code/Libraries/Source/VP6/DeringBlockWeakMmx.cpp,owned,,1,4
