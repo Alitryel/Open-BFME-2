@@ -4839,6 +4839,7 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGetBackBuffer
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	?crc@GeometryInfo@@MAEXPAVXfer@@@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	?loadPostProcess@GeometryInfo@@MAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	?xfer@GeometryInfo@@MAEXPAVXfer@@@Z	1
+alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	?Release_Ref@W3DRoadBufferRef18Target@@QAEXXZ	1	allow=d08fb1a339d53158bd2b510ba514cca86527b37e
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisual.cpp	?crc@GeometryInfo@@MAEXPAVXfer@@@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisual.cpp	?loadPostProcess@GeometryInfo@@MAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisual.cpp	?xfer@GeometryInfo@@MAEXPAVXfer@@@Z	1
@@ -39361,19 +39362,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffe
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferRemoveProp.cpp	drawProps@W3DPropBuffer@@QAEXAAVRenderInfoClass@@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferRemoveProp.cpp	removePropsForConstruction@W3DPropBuffer@@QAEXPBUCoord3D@@ABVGeometryInfo@@M@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferRemoveProp.cpp	xfer@W3DPropBuffer@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	0RoadType@@QAE@XZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	addMapObjects@W3DRoadBuffer@@IAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	allocateRoadBuffers@W3DRoadBuffer@@IAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	applyTexture@RoadType@@QAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	drawRoads@W3DRoadBuffer@@QAEXPAVCameraClass@@PAVTextureClass@@1_NHHHHPAV?$RefMultiListIterator@VRenderObjClass@@@@@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	loadLitRoadsInVertexAndIndexBuffers@W3DRoadBuffer@@IAEXPAV?$RefMultiListIterator@VRenderObjClass@@@@@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	loadRoadSegment@W3DRoadBuffer@@	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	loadRoadsInVertexAndIndexBuffers@W3DRoadBuffer@@IAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	loadTestTexture@RoadType@@QAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	loadTexture@RoadType@@QAEXVAsciiString@@H@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	setTexture@W3DShaderManager@@SAXHPAVTextureClass@@@Z	2
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	updateCenter@W3DRoadBuffer@@QAEXXZ	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	updateSegLighting@RoadSegment@@QAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	RTS2DScene::Customized_Render	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	RTS2DScene::RTS2DScene	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	RTS2DScene::doRender	1

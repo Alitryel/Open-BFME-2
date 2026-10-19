@@ -1,4 +1,4 @@
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /arch:SSE /DNDEBUG /DWIN32 /MD /EHsc /Ireference/shims/w3droadbuffer /Ireference/shims/indexbuffercount /Ireference/shims/vertexbufferlock /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /arch:SSE /DNDEBUG /DWIN32 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /EHsc /Ireference/shims/bfmealloc /Ireference/shims/w3droadbuffer /Ireference/shims/indexbuffercount /Ireference/shims/vertexbufferlock /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 
 // BFME 2 has no W3D memory pools (see Code/Libraries/Source/WWVegas/WWLib/always.h).
@@ -161,19 +161,6 @@ static Bool s_dynamic = false;
 // W3DRoadBufferRoadTypeDtor.cpp, and the vector deleting form freeRoadBuffers
 // uses calls it.
 
-//=============================================================================
-// RoadType applyTexture
-//=============================================================================
-/** Sets the W3D texture. */
-//=============================================================================
-// ?applyTexture@RoadType@@QAEXXZ present-unmatched
-void RoadType::applyTexture(void)
-{
- 	W3DShaderManager::setTexture(0,m_roadTexture);
-	DX8Wrapper::Set_Index_Buffer(m_indexRoad,0);
-	DX8Wrapper::Set_Vertex_Buffer(m_vertexRoad);
-}
-
 
 //=============================================================================
 // RoadType loadTexture
@@ -219,6 +206,12 @@ private:
 class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass>
 {
 };
+// BFME 2 releases textures through the out-of-line rowed
+// TextureBaseClass::Release_Ref (0x0061ED10). This unit's Zero Hour texture.h
+// only has RefCountClass's inline const release, so it cannot name that body
+// directly; bind the release target the views above and the shim's +0x18
+// reference call to it.
+#pragma comment(linker, "/alternatename:?Release_Ref@W3DRoadBufferRef18Target@@QAEXXZ=?Release_Ref@TextureBaseClass@@QAEXXZ")
 class TextureAsset
 {
 public:
@@ -227,16 +220,26 @@ public:
 AsciiString makeNrmTextureName(const AsciiString &in);
 bool Render_Obj_Exists(const char *name);
 
-class BfmeDX8VertexBuffer
+// BFME 2's dynamic vertex buffer (rowed ctor 0x0013AC00), as the sibling
+// buffer TUs call it.
+class BfmeDynamicNativeVB
 {
 public:
-	enum UsageType { USAGE_DEFAULT = 0, USAGE_DYNAMIC = 1 };
+	enum { USAGE_DEFAULT = 0, USAGE_DYNAMIC = 1 };
 
-	BfmeDX8VertexBuffer(unsigned fvf, unsigned short count,
-		UsageType usage, unsigned vertexSize);
+	BfmeDynamicNativeVB(unsigned fvf, unsigned short count,
+		unsigned usage, unsigned vertexSize);
 
 private:
 	unsigned char m_storage[0x20];
+};
+
+// freeRoadBuffers drops the +0x18 reference through the shared releasing
+// clear (rowed 0x0004D75B, BfmeResetTextureRefClear.cpp).
+struct BfmeResetTextureRef
+{
+	void *pointer;
+	void clear();
 };
 
 // RoadType +0x00/+0x04 own their textures as RefCountPtr<TextureClass>.
@@ -281,7 +284,7 @@ void RoadType::loadTexture(AsciiString path, Int ID)
 			reinterpret_cast<BfmeRoadTypeTexturesView *>(this)->m_roadTexture2 = TextureAsset::Get(nrmPath.str(), MIP_LEVELS_3, 0);
 	}
 
-	m_vertexRoad=(DX8VertexBufferClass *)NEW BfmeDX8VertexBuffer(DX8_FVF_XYZNDUV1,BFME_ROAD_LIMITS->m_maxRoadVertex+4, (s_dynamic?BfmeDX8VertexBuffer::USAGE_DYNAMIC:BfmeDX8VertexBuffer::USAGE_DEFAULT), 0);
+	m_vertexRoad=(DX8VertexBufferClass *)NEW BfmeDynamicNativeVB(DX8_FVF_XYZNDUV1,BFME_ROAD_LIMITS->m_maxRoadVertex+4, (s_dynamic?BfmeDynamicNativeVB::USAGE_DYNAMIC:BfmeDynamicNativeVB::USAGE_DEFAULT), 0);
 	m_indexRoad=NEW_REF(DX8IndexBufferClass,(BFME_ROAD_LIMITS->m_maxRoadIndex+4, (s_dynamic?DX8IndexBufferClass::USAGE_DYNAMIC:DX8IndexBufferClass::USAGE_DEFAULT)));
 	m_numRoadVertices=0;
 	m_numRoadIndices=0;
@@ -1590,6 +1593,12 @@ typedef _STL::set<
     Rva001408C0Key,
     _STL::less<Rva001408C0Key>,
     _STL::allocator<Rva001408C0Key> > Rva001408C0Set;
+// The tree destructor addMapObjects calls is the /EHs copy at 0x0006BF2A
+// (ThingTemplateAssetListCleanup.cpp); this /EHsc unit's copy drops the state
+// reset before free, so call that provider instead of emitting one.
+extern template _STL::_Rb_tree<Rva001408C0Key, Rva001408C0Key,
+    _STL::_Identity<Rva001408C0Key>, _STL::less<Rva001408C0Key>,
+    _STL::allocator<Rva001408C0Key> >::~_Rb_tree();
 
 class AssetList {
 public:
@@ -3165,7 +3174,7 @@ void W3DRoadBuffer::freeRoadBuffers(void)
 		delete[] m_roadTypes;
 		m_roadTypes = NULL;
 	}
-	m_ref18.clear();
+	reinterpret_cast<BfmeResetTextureRef *>(&m_ref18)->clear();
 	m_initialized = false;
 }
 
@@ -3228,7 +3237,7 @@ void W3DRoadBuffer::allocateRoadBuffers(void)
 	CursorTextureSlot *holder = reinterpret_cast<CursorTextureSlot *>(&m_ref18);
 	reinterpret_cast<Rva00131DFC *>(holder)->rva00131DFC((void *)1, (void *)1, (void *)0x15, (void *)1, 1, 0);
 	if (holder->Ptr)
-		holder->Get_Surface_Level().DrawPixel(0, 0, 0x7f7fff);
+		holder->Get_Surface_Level().DrawPixel(0, 0, (0x7f0000 | 0x7fff));  // XRGB (127,127,255); not a retail address
 
 	m_initialized = true;
 
@@ -3334,146 +3343,6 @@ void W3DRoadBuffer::updateLighting(void)
 		m_roads[curRoad].updateSegLighting();
 	}
 	m_updateBuffers = true;
-}
-
-//=============================================================================
-// W3DRoadBuffer::updateCenter
-//=============================================================================
-/** Sets the flag to reload the vertex buffer. */
-//=============================================================================
-// ?updateCenter@W3DRoadBuffer@@QAEXXZ present-unmatched
-void W3DRoadBuffer::updateCenter(void)
-{
-	m_updateBuffers = true;
-}
-
-//=============================================================================
-// W3DRoadBuffer::drawRoads
-//=============================================================================
-/** Draws the roads.   */
-//=============================================================================
-// ?drawRoads@W3DRoadBuffer@@QAEXPAVCameraClass@@PAVTextureClass@@1_NHHHHPAV?$RefMultiListIterator@VRenderObjClass@@@@@Z present-unmatched
-void W3DRoadBuffer::drawRoads(CameraClass * camera, TextureClass *cloudTexture, TextureClass *noiseTexture, Bool wireframe,
-															Int minX, Int maxX, Int minY, Int maxY, RefRenderObjListIterator *pDynamicLightsIterator)
-{
-	IRegion2D bounds;
-	bounds.lo.x = minX*MAP_XY_FACTOR;
-	bounds.hi.x = maxX*MAP_XY_FACTOR;
-	bounds.lo.y = minY*MAP_XY_FACTOR;
-	bounds.hi.y = maxY*MAP_XY_FACTOR;
-
-#define NO_TEST_CULL 1
-#ifdef TEST_CULL
-	bounds.lo.x += 32*MAP_XY_FACTOR;
-	bounds.hi.x -= 32*MAP_XY_FACTOR;
-#endif
-#define noLOG_STATS
-#ifdef LOG_STATS
-	Int polys = 0;
-#endif
-
-	Int i;
-
-	Int maxStacking = 0;
-	for (i=0; i<m_maxRoadTypes; i++) {
-		if (m_roadTypes[i].getStacking() > maxStacking) {
-			maxStacking = m_roadTypes[i].getStacking();
-		}
-	}
-	Int stacking;
-	W3DShaderManager::ShaderTypes st=W3DShaderManager::ST_ROAD_BASE; //set default shader
-	if (cloudTexture) {	
-		st=W3DShaderManager::ST_ROAD_BASE_NOISE1;
-		if (noiseTexture)
-			st=W3DShaderManager::ST_ROAD_BASE_NOISE12;
-	}
-	else
-	if (noiseTexture)
-		st=W3DShaderManager::ST_ROAD_BASE_NOISE2;
-
-	Int devicePasses = 1;	//assume regular rendering
- 	//Find number of passes required to render current shader
-	devicePasses=W3DShaderManager::getShaderPasses(st);
-
-// ?setTexture@W3DShaderManager@@SAXHPAVTextureClass@@@Z present-unmatched
-	W3DShaderManager::setTexture(1,cloudTexture);	//cloud
-// ?setTexture@W3DShaderManager@@SAXHPAVTextureClass@@@Z present-unmatched
-	W3DShaderManager::setTexture(2,noiseTexture);	//noise/lightmap
-
-
-	Bool loadBuffers = false;
-	if (m_updateBuffers) {
-		if (visibilityChanged(bounds)) {
-			loadBuffers = true;
-		}
-	}
-	m_updateBuffers = false;
-
-	for (stacking=0; stacking <= maxStacking; stacking++) {
-		for (i=0; i<m_maxRoadTypes; i++) {
-			if (stacking != m_roadTypes[i].getStacking()) {
-				continue;
-			}
-			m_curUniqueID = m_roadTypes[i].getUniqueID();
-			m_curRoadType = i;
-			if (loadBuffers) loadRoadsInVertexAndIndexBuffers();
-			if (m_roadTypes[i].getNumIndices() == 0) continue;
-			if (wireframe) {
-				m_roadTypes[i].applyTexture();
-				DX8Wrapper::Set_Texture(0,NULL);
-			} else {
-				m_roadTypes[i].applyTexture();
-			}
-	#ifdef _DEBUG
-			//DX8Wrapper::Set_Shader(detailShader); // shows clipping.
-	#endif	
-			for (Int pass=0; pass < devicePasses; pass++)
-			{
-				if (!wireframe)
-		 			W3DShaderManager::setShader(st, pass);
-				//Draw all this road type.
-				DX8Wrapper::Draw_Triangles(	0, m_roadTypes[i].getNumIndices()/3, 0,	m_roadTypes[i].getNumVertices());
-#ifdef LOG_STATS
-				polys += m_roadTypes[i].getNumIndices()/3;
-#endif
-			}
-
-			if (!wireframe)	//shader was applied at least once?
- 				W3DShaderManager::resetShader(st);
-		}
-	}
-#ifdef LOG_STATS
-	if (loadBuffers) {
-		DEBUG_LOG(("Road poly count %d\n", polys));
-	}
-#endif
-
-#if 0
-	// Need to use a separate set of index & vertex buffers for this.  jba.
-	DX8Wrapper::Set_Index_Buffer(NULL,0);
-	DX8Wrapper::Set_Vertex_Buffer(NULL);
-	if (pDynamicLightsIterator) {
-		for (i=0; i<m_maxRoadTypes; i++) {
-			m_curRoadType = i;
-			m_curUniqueID = m_roadTypes[i].getUniqueID();
-			if (m_curUniqueID < 0 || m_curUniqueID >= m_maxRoadTypes) continue;
-			loadLitRoadsInVertexAndIndexBuffers(pDynamicLightsIterator);
-			if (this->m_curNumRoadIndices == 0) continue;
-			if (wireframe) {
-					DX8Wrapper::Set_Texture(0,NULL);
-			} else {
-				m_roadTypes[i].applyTexture();
-				if (cloudTexture) {
-					DX8Wrapper::Set_Texture(1,cloudTexture);
-				}
-			}
-			DX8Wrapper::Set_Shader(detailAlphaShader);
-			//Draw all the roads.
-			DX8Wrapper::Draw_Triangles(	0, m_curNumRoadIndices/3, 0,	m_curNumRoadVertices);
-		}
-	}
-#endif
-	m_curRoadType = 0;
 }
 
 class Rva000D4435Buffers
