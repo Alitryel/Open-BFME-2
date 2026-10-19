@@ -1,3 +1,6 @@
+// ?rva005C6D9C@Rva005C6D4D@@QAEXXZ
+// partial score=0.9622641509433962 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // ?rva005C6D9C@Rva005C6D9C@@QAEHH@Z
 // partial score=0.283 date=2026-10-17
 // cl: /O1 /DNDEBUG /MD
@@ -35,192 +38,129 @@
 //   0x005C9753  0x005C9659  0x00C74B70#0
 //   0x005CC44C  0x005CC37C  0x00C74E38#0
 //   0x005CC63A  0x005CC656  0x00C74E70#0
-
-#include <math.h>
-#include <mmsystem.h>
-
-struct EmitVtableTag;
-
-class Rva0059E5AE
-{
-public:
-	Rva0059E5AE(EmitVtableTag *);
-public:
-	virtual ~Rva0059E5AE();
-};
-
 // Sub-objects whose members this routine touches.
-struct Rva005C663C
-{
-	Rva005C663C();
-};
-
-struct TreeHintRef00217D4C
-{
-	int m_x;
-};
-
-struct TargetRef00217D4C;
-
-struct Rva002BED91
-{
-	void set(TargetRef00217D4C *);
-};
-
-struct Rva0027EA49
-{
-	int m_k;
-};
-
-template<class K, class V> struct _Rb_tree;
-
 // Minimal stand-ins for the STL map / rb-tree nodes used by the disassembly.
-template<class T> struct RvaTreeAlloc
-{
-	T *allocate(unsigned int);
-	void deallocate(T *, unsigned int);
-};
-
-struct RvaTreeMapNode
-{
-	RvaTreeMapNode *m_left;
-	RvaTreeMapNode *m_right;
-	RvaTreeMapNode *m_parent;
-	char m_color;
-	char m_pad[3];
-	int m_key;
-	TreeHintRef00217D4C m_val;
-};
-
-struct RvaTreeMap
-{
-	RvaTreeMapNode *m_head;
-	int m_count;
-	RvaTreeMapNode *find(const int &) const;
-	RvaTreeMapNode *insert(const int &);
-	unsigned int erase(const Rva0027EA49 &);
-	void clear();
-	TreeHintRef00217D4C &operator[](const int &);
-};
-
 // The object modelled by this translation unit: only the members the
 // disassembly reads/writes are declared, at their retail offsets.
-class Rva005C6D9C
-{
+// +0x00  vptr
+// +0x04
+// +0x05
+// +0x08
+// +0x0C
+// +0x14
+// +0x18
+// +0x1c
+// +0x20
+// +0x24
+// +0x28
+// +0x2c
+// +0x30
+// 0x00DFE9D8
+// 0x00E01E48
+// 0x022644BC
+// 0x022644C0
+// 0x022644C8
+// Native 005C6D9C..005C6F9D: no-argument thiscall with 20-byte flash allocation.
+// The retained comments above describe the earlier bank's scaffolding.
+// stlport
+#include <math.h>
+#include <mmsystem.h>
+#include <map>
+
+void *__cdecl operator new(unsigned int) throw();
+class Display;
+extern Display *TheDisplay;
+class DisplayView005C6D9C {
 public:
-	int rva005C6D9C(int);
-	int visit(int);
-	unsigned int vtable40();
-	unsigned int vtable44();
-private:
-	unsigned char m_pad0[4];          // +0x00  vptr
-	unsigned char m_flag;             // +0x04
-	unsigned char m_pad5[3];          // +0x05
-	int m_count;                      // +0x08
-	unsigned char m_padC[8];          // +0x0C
-	int m_a;                          // +0x14
-	int m_b;                          // +0x18
-	int m_c;                          // +0x1c
-	int m_t0;                         // +0x20
-	int m_accum;                      // +0x24
-	float m_scale;                    // +0x28
-	float m_step;                     // +0x2c
-	RvaTreeMap m_tree;                // +0x30
+    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
+    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual unsigned width(); virtual unsigned height();
 };
-
-Rva005C6D9C *g_timer;                 // 0x00DFE9D8
-unsigned char g_pauseFlag;            // 0x00E01E48
-
-float g_radialA;                      // 0x022644BC
-float g_radialB;                      // 0x022644C0
-float g_radialSum;                    // 0x022644C8
-
-int Rva005C6D9C::rva005C6D9C(int n)
+struct PauseView005C6D9C { char pad[0x5c]; bool paused; };
+class Shell;
+extern Shell *TheShell;
+extern float g_00E065C4;
+struct TargetRef00217D4C;
+struct Rva002BED91 { void set(TargetRef00217D4C *); };
+struct TreeHintRef00217D4C { TargetRef00217D4C *m_ptr; };
+typedef _STL::map<int, TreeHintRef00217D4C> TreeHintMap;
+namespace _STL { template<> TreeHintRef00217D4C &TreeHintMap::operator[](const int &); }
+// The existing clear/erase providers use the same native tree prefix.
+// Erase reads only the signed integer key prefix; its legacy set name is unproven.
+class SubTree005C6B83 { public: void clear(); };
+struct Rva0027EA49 { int key; TargetRef00217D4C *pointer; };
+bool operator<(const Rva0027EA49 &, const Rva0027EA49 &);
+typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > EraseTree;
+namespace _STL { template<> unsigned int EraseTree::erase(const Rva0027EA49 &); }
+class Rva005C663C {
+public:
+    Rva005C663C();
+private:
+    char unknown[20];
+};
+class Rva005C6D4D {
+public:
+    virtual void v0();
+    virtual bool visit(int);
+    void rva005C6D9C();
+private:
+    bool flag;
+    char pad[3];
+    int count;
+    int unknown0c, unknown10;
+    int width, height;
+    unsigned radius;
+    unsigned lastTime, elapsed;
+    float scale, angle;
+    TreeHintMap tree;
+};
+void Rva005C6D4D::rva005C6D9C()
 {
-	int t;
-	{
-		int tt = (int)timeGetTime();
-		t = tt;
-		*(volatile int*)&t = t;
-	}
-	if ((1 ? *(volatile int*)&m_count <= 0 : m_count <= 0))
-	{
-		m_tree.clear();
-		return n;
-	}
-	if (m_c == 0)
-	{
-		unsigned int u0 = (1 ? ((unsigned int (__stdcall *)(void *))(*(void ***)g_timer)[16/4])(g_timer) : 0);
-		m_a = (int)((float)u0 * 0.0009765625f);
-		unsigned int u1 = (1 ? ((unsigned int (__stdcall *)(void *))(*(void ***)g_timer)[17/4])(g_timer) : 0);
-		m_b = (int)((float)u1 * 0.0013020834f);
-
-		if (m_count > 2)
-		{
-			float half = (float)m_a * 0.5f;
-			float s = (float)sin(3.1415927f / (float)m_count);
-			m_c = (int)(half / s);
-			m_c = (int)(m_c > ((float)m_a * 2.0f / 3.0f) ? (float)m_c : ((float)m_a * 2.0f / 3.0f));
-		}
-		else
-		{
-			m_c = (int)((float)m_a * 2.0f / 3.0f);
-		}
-
-		m_step = 6.2831855f / (float)m_count;
-		m_t0 = t;
-		m_accum = 0;
-	}
-
-	if (!g_pauseFlag)
-		m_accum += t - m_t0;
-	m_t0 = t;
-
-	if (m_count > 1)
-	{
-		if ((float)m_accum <= g_radialA)
-		{
-			float u = (float)m_accum * (1.0f / g_radialA);
-			m_scale = u;
-		}
-		else if ((float)m_accum <= g_radialSum)
-		{
-			float u = ((float)m_accum - g_radialA) / g_radialB;
-			m_scale = 1.0f + (1.0f - u) * (1.0f - 0.0f);
-		}
-		else
-		{
-			m_scale = 1.0f;
-		}
-	}
-	else
-	{
-		m_scale = 0.0f;
-	}
-
-	{
-		int i = 0;
-		for (; i < m_count; i++)
-		{
-			if (this->visit(i))
-			{
-				RvaTreeMapNode *node = m_tree.find(i);
-				if (node == m_tree.m_head)
-				{
-					Rva005C663C *p = new Rva005C663C();
-					m_tree[i].m_x = 0;
-					((Rva002BED91 *)&m_tree[i])->set((TargetRef00217D4C *)p);
-					m_flag = 1;
-				}
-			}
-			else
-			{
-				Rva0027EA49 key;
-				key.m_k = i;
-				m_tree.erase(key);
-			}
-		}
-	}
-
-	return n;
+    if (count <= 0) {
+        ((SubTree005C6B83 *)&tree)->clear();
+        return;
+    }
+    unsigned now = timeGetTime();
+    if (radius == 0) {
+        width = (int)(((DisplayView005C6D9C *)TheDisplay)->width() * (48.0f / 1024.0f));
+        height = (int)(((DisplayView005C6D9C *)TheDisplay)->height() * (48.0f / 768.0f));
+        if (count > 2) {
+            float half = width * 0.5f;
+            radius = (unsigned)((half * 1.175f) / sin(3.1415927f / count));
+            radius = (unsigned)(((float)radius > width * 2.0f / 3.0f) ? (float)radius : width * 2.0f / 3.0f);
+        } else {
+            radius = (unsigned)(width * 2.0f / 3.0f);
+        }
+        angle = 6.2831855f / count;
+        lastTime = now;
+        elapsed = 0;
+    }
+    if (!((PauseView005C6D9C *)TheShell)->paused)
+        elapsed += now - lastTime;
+    lastTime = now;
+    // Retail retains these comparisons after folding the animation scale to 1.
+    if (count > 1) {
+        if ((float)elapsed < 0.0f) {
+            scale = 1.0f;
+        } else if ((float)elapsed <= g_00E065C4) {
+            scale = 1.0f;
+        } else {
+            scale = 1.0f;
+        }
+    } else {
+        scale = 1.0f;
+    }
+    for (int i = 0; i < count; ++i) {
+        if (visit(i)) {
+            if (((_STL::map<int,int> *)&tree)->find(i) == ((_STL::map<int,int> *)&tree)->end()) {
+                Rva005C663C *p = new Rva005C663C;
+                ((Rva002BED91 *)&tree[i])->set((TargetRef00217D4C *)p);
+                flag = true;
+            }
+        } else {
+            ((EraseTree *)&tree)->erase((const Rva0027EA49 &)i);
+        }
+    }
 }
