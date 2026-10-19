@@ -1,4 +1,6 @@
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
+// partial score=0.9828080229226361 date=2026-10-19
+// ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.94 date=2026-10-17
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.9769963871932229 date=2026-10-14
@@ -17,6 +19,8 @@
 // direction-constructor shape close all instructions; frameA0 and698B exact.
 // Remaining14 bytes are only homes: native height38,forward3C,width48,len4C,x50;
 // current height48,forward38,width4C,len50,x44 (EBP uses biased frame +74).
+// Retail width scales the horizontal ray; height scales the vertical ray.
+// The farm bank exchanged these operands; see attempt_support/0x0009b7ea-20261019.md.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I. /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 #include "matrix3d.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -63,8 +67,8 @@ Vector3 forward=tm.Get_Z_Vector()*-1.0f;
 for(;i<4;++i){
 int x,y;
 switch(i){case 0:x=0;y=1;break;case 1:x=1;y=1;break;case 2:x=0;y=0;break;case 3:x=1;y=0;break;default:x=0;y=0;break;}
-float dx=(x-0.5-cam->offsetX())*extent.Y;
-float dy=(y-0.5-cam->offsetY())*extent.X;
+float dx=(x-0.5-cam->offsetX())*extent.X;
+float dy=(y-0.5-cam->offsetY())*extent.Y;
 Vector3 dir(tm[0][0]*dx+tm[0][1]*dy+forward.X,tm[1][0]*dx+tm[1][1]*dy+forward.Y,tm[2][0]*dx+tm[2][1]*dy+forward.Z);
 dir.Normalize();
 Vector3 p=camera->Get_Position()+dir;
