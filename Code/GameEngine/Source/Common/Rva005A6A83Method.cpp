@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva005A6A83@Rva005A6A83@@QAEXXZ @0x005A6A83 145B. Firewall NAT probe:
+// ?rva005A6A83@NAT@@QAEXXZ @0x005A6A83 145B. Firewall NAT probe:
 // pre-check ++m_936==0 skips to open; loop two getNextTemporarySourcePort(0)
 // until second==first+1; openSpareSocket(m_936); ++m_934; sendToMangler
 // via rowed 0x0059517F (addr +0x944, ports +0x936/+0x934, dest 4321, false);
@@ -34,7 +34,7 @@ public:
 	Bool sendToManglerFromPort(UnsignedLong address, UnsignedShort port, UnsignedShort packetID, UnsignedShort destPort, Bool blitzme);
 };
 
-class Rva005A6A83
+class NAT
 {
 public:
 	void rva005A6A83();
@@ -48,7 +48,7 @@ private:
 	UnsignedLong m_addr944;                 // +0x944
 };
 
-void Rva005A6A83::rva005A6A83()
+void NAT::rva005A6A83()
 {
 	unsigned int p = m_port936;
 	++p;
