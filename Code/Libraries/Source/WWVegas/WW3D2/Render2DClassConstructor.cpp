@@ -128,17 +128,12 @@ private:
 	unsigned char tail[3];
 };
 
-// ??0Render2DClass@@ present-unmatched
-Render2DClass::Render2DClass() :
-	CoordinateScale(1.0f, 1.0f),
-	CoordinateOffset(0.0f, 0.0f),
-	CurrentBatch(-1),
-	IsDirty(true)
+// The Render2DClass constructor itself is rowed (retail 0x0011C0F0) in
+// Rva0011C0F0Finish.cpp; this unit only needs Render2DRawArray's inline
+// constructor (retail 0x00118D60) emitted, so construct one in place.
+inline void *operator new(unsigned int, void *where) { return where; }
+// ?bfmeAnchorRender2DRawArray absent-from-retail
+void bfmeAnchorRender2DRawArray(void *where)
 {
-	Reset();
-	g_bfmeSecondEB = 0;
-	g_bfmeFirstEB = 0;
-	g_bfmeThirdEB = 7;
-	g_bfmeFourthEB = 2;
-	g_bfmeFifthEB = 5;
+	new (where) Render2DRawArray;
 }
