@@ -1,4 +1,6 @@
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
+// partial score=0.8582949308755761 date=2026-10-19
+// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.804 date=2026-10-17
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.8867 date=2026-10-14
@@ -235,10 +237,10 @@ _ReadWriteBarrier();
    out=vb+fvf.Get_Tex_Offset(0);
    if(texcoords) {
     const Vector2 *input=texcoords->Get_Array()+current*4;
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(Vector2*)out=*input;out+=stride;++input;}
+    for(unsigned i=0;i!=static_cast<unsigned>(delta*4);++i) {*(Vector2*)out=*input;out+=stride;++input;}
    } else {
     float first=0.0f,second=0.0f;
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {
+    for(unsigned i=0;i!=static_cast<unsigned>(delta*4);++i) {
      *(Vector2*)out=Vector2(first,second);
      if(first!=0.0f){first=0.0f;second=1.0f-second;}else first=1.0f;
      out+=stride;
@@ -253,3 +255,5 @@ _ReadWriteBarrier();
  DX8Wrapper::Set_Transform(D3DTS_VIEW,view);
  DX8Wrapper::Set_Transform(D3DTS_WORLD,world);
 }
+
+// Chunk size bounds both UV loops; nonzero guards preserve their vertex range.
