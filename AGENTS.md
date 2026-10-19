@@ -421,7 +421,10 @@ Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is not
 byte-match proof. After ~30 minutes without meaningful progress, reassess. Continue while testing
 a new evidence-backed hypothesis; identity, layout, dependency and compiler
 discoveries count as progress. Bank and switch when viable hypotheses are
-exhausted or a concrete prerequisite blocks further work. Do not repeat
+exhausted or a concrete prerequisite blocks further work. Before declaring a
+function blocked, reassess independent explanations — control flow, variable
+lifetime, types/layout, callee visibility and compiler settings. Exhausting one
+family of source variations is insufficient. Do not repeat
 disproven trials or leave a nonmatching reconstruction in `Code/`. Record the verdict with
 `python3 tools/re_log.py record <symbol> <rva> <size> <status> <evidence>` (never
 hand-edit `reverse/re_attempts.log`), citing the real boundary, `t=<minutes>` and
