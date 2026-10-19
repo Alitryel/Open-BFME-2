@@ -55,6 +55,17 @@ whole bodies match the existing 39-byte and 23-byte int-list owners, including
 every relocation. This supplies genuine pointer-list definitions without
 linker alias directives, new address pins or shared-header edits.
 
+Final verification: the manager's five rows and the provider's two rows pass
+the ordinary byte gates; the manager's full EH graph is EXACT. The identity
+scan reports 13 references and zero wrong bindings across both units, and
+placement finds no further bodies or pins. Normal pre-commit COMDAT checks pass.
+The old census cannot preview a newly added provider. A current-ledger preview
+first needed the missing Rva00034D10Snapshot object (ordinary build passed),
+then refused because 10,827 unrelated objects lacked current compiler evidence.
+No full rebuild, census or link cycle was launched. The earlier clean preview
+above describes the original owner before this type repair; a complete link
+result for the repaired owner and new provider remains unmeasured.
+
 Inputs: BFME2 d8961f14c2 plus geometry bank 970c23d0f8 and handler 364e2d2294;
 BFME1 f52d3a5cb41976aafa760e8db12c4bfdb2be91e8. Reproduce with normal build.sh,
 tools/eh_verify.py on the source, and the explain command above. Existing source
