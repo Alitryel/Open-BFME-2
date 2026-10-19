@@ -203,6 +203,56 @@ extern const FieldParse g_00C6BDB4[] = {
 	{ 0, 0, 0, 0 }
 };
 
+// Module key/name strings the ModuleTag<CATEGORY, KEY, NAME, ...> registrations
+// take by address (FXParticleSystemModules.cpp, FXParticleSystemFactories.cpp).
+// Retail lays each KEY, NAME pointer pair out in .rdata beside that module's
+// FieldParse table above, followed by the two strings they point at.
+namespace FXParticleSystem
+{
+extern const char *const POINT_EMISSION_VOLUME_MODULE_KEY = "PointEmissionVolume";	// RVA 0x0086BB2C
+extern const char *const POINT_EMISSION_VOLUME_MODULE_NAME = "Point Emission Volume";	// RVA 0x0086BB30
+extern const char *const LINE_EMISSION_VOLUME_MODULE_KEY = "LineEmissionVolume";	// RVA 0x0086BB8C
+extern const char *const LINE_EMISSION_VOLUME_MODULE_NAME = "Line Emission Volume";	// RVA 0x0086BB90
+extern const char *const BOX_EMISSION_VOLUME_MODULE_KEY = "BoxEmissionVolume";	// RVA 0x0086BC94
+extern const char *const BOX_EMISSION_VOLUME_MODULE_NAME = "Box Emission Volume";	// RVA 0x0086BC98
+extern const char *const SPHERE_EMISSION_VOLUME_MODULE_KEY = "SphereEmissionVolume";	// RVA 0x0086BD7C
+extern const char *const SPHERE_EMISSION_VOLUME_MODULE_NAME = "Sphere Emission Volume";	// RVA 0x0086BD80
+extern const char *const CYLINDER_EMISSION_VOLUME_MODULE_KEY = "CylinderEmissionVolume";	// RVA 0x0086BE64
+extern const char *const CYLINDER_EMISSION_VOLUME_MODULE_NAME = "Cylinder Emission Volume";	// RVA 0x0086BE68
+extern const char *const LIGHTNING_EMISSION_MODULE_KEY = "LightningEmission";	// RVA 0x0086BF90
+extern const char *const LIGHTNING_EMISSION_MODULE_NAME = "Lightning Emission";	// RVA 0x0086BF94
+extern const char *const TERRAIN_FIRE_EMISSION_MODULE_KEY = "TerrainFireEmission";	// RVA 0x0086C0C8
+extern const char *const TERRAIN_FIRE_EMISSION_MODULE_NAME = "Terrain Fire Emission";	// RVA 0x0086C0CC
+extern const char *const ORTHO_EMISSION_VELOCITY_MODULE_KEY = "OrthoEmissionVelocity";	// RVA 0x0086C178
+extern const char *const ORTHO_EMISSION_VELOCITY_MODULE_NAME = "Ortho Emission Velocity";	// RVA 0x0086C17C
+extern const char *const SPHERICAL_EMISSION_VELOCITY_MODULE_KEY = "SphericalEmissionVelocity";	// RVA 0x0086C1F0
+extern const char *const SPHERICAL_EMISSION_VELOCITY_MODULE_NAME = "Spherical Emission Velocity";	// RVA 0x0086C1F4
+extern const char *const CYLINDRICAL_EMISSION_VELOCITY_MODULE_KEY = "CylindricalEmissionVelocity";	// RVA 0x0086C250
+extern const char *const CYLINDRICAL_EMISSION_VELOCITY_MODULE_NAME = "Cylindrical Emission Velocity";	// RVA 0x0086C254
+extern const char *const OUTWARD_EMISSION_VELOCITY_MODULE_KEY = "OutwardEmissionVelocity";	// RVA 0x0086C348
+extern const char *const OUTWARD_EMISSION_VELOCITY_MODULE_NAME = "Outward Emission Velocity";	// RVA 0x0086C34C
+extern const char *const STREAK_DRAW_MODULE_KEY = "StreakDraw";	// RVA 0x0086C540
+extern const char *const STREAK_DRAW_MODULE_NAME = "Streak Draw";	// RVA 0x0086C544
+extern const char *const QUAD_DRAW_MODULE_KEY = "QuadDraw";	// RVA 0x0086C560
+extern const char *const QUAD_DRAW_MODULE_NAME = "Quad Draw";	// RVA 0x0086C564
+extern const char *const BUTTERFLY_DRAW_MODULE_KEY = "ButterflyDraw";	// RVA 0x0086C580
+extern const char *const BUTTERFLY_DRAW_MODULE_NAME = "Butterfly Draw";	// RVA 0x0086C584
+extern const char *const LIGHTNING_DRAW_MODULE_KEY = "LightningDraw";	// RVA 0x0086C5B0
+extern const char *const LIGHTNING_DRAW_MODULE_NAME = "Lightning Draw";	// RVA 0x0086C5B4
+extern const char *const RENDEROBJECT_UPDATE_MODULE_KEY = "RenderObjectUpdate";	// RVA 0x0086C668
+extern const char *const RENDEROBJECT_UPDATE_MODULE_NAME = "RenderObject Update";	// RVA 0x0086C66C
+extern const char *const RENDEROBJECT_DRAW_MODULE_KEY = "RenderObjectDraw";	// RVA 0x0086C7F4
+extern const char *const RENDEROBJECT_DRAW_MODULE_NAME = "RenderObject Draw";	// RVA 0x0086C7F8
+extern const char *const GPU_DRAW_MODULE_KEY = "GpuDraw";	// RVA 0x0086C9E8
+extern const char *const GPU_DRAW_MODULE_NAME = "Gpu Draw";	// RVA 0x0086C9EC
+extern const char *const LIFE_EVENT_MODULE_KEY = "LifeEvent";	// RVA 0x0086CA70
+extern const char *const LIFE_EVENT_MODULE_NAME = "Life Event";	// RVA 0x0086CA74
+extern const char *const TERRAIN_COLLISION_MODULE_KEY = "TerrainCollision";	// RVA 0x0086CB14
+extern const char *const TERRAIN_COLLISION_MODULE_NAME = "Terrain Collision";	// RVA 0x0086CB18
+extern const char *const HEMISPHERICAL_EMISSION_VELOCITY_MODULE_KEY = "HemisphericalEmissionVelocity";	// RVA 0x0086CBC8
+extern const char *const HEMISPHERICAL_EMISSION_VELOCITY_MODULE_NAME = "Hemispherical Emission Velocity";	// RVA 0x0086CBCC
+}
+
 namespace FXParticleSystem
 {
 class PointEmissionVolumeModuleTemplate
