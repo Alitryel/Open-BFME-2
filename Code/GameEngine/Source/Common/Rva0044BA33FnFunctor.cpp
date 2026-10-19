@@ -12,7 +12,10 @@ typedef void (*Rva0044BA33Fn)();
 
 struct Rva0044BA33
 {
-	virtual ~Rva0044BA33();
+	// Empty destructor: retail's vtable 0x0083ED7C slot 0 is the ICF-shared
+	// deleting dtor 0x005FAA31, whose destructor 0x004E84A4 only stores the
+	// vtable.
+	virtual ~Rva0044BA33() {}
 	virtual void invoke() { m_fn(); }
 	int m_04;
 	Rva0044BA33Fn m_fn;

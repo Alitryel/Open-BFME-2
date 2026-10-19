@@ -13,7 +13,9 @@ class Rva005E569A
 {
 public:
 	Rva005E569A(int a, void *b);
-	virtual ~Rva005E569A();
+	// Empty destructor: retail's vtable 0x00877D44 slot 0 0x005E57AD calls
+	// 0x005E57C9, which only stores the vtable.
+	virtual ~Rva005E569A() {}
 private:
 	int m_04;
 	int m_08;

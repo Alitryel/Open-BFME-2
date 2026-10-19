@@ -8,7 +8,10 @@ class Rva005CEAE6
 public:
 	struct Payload { int v[3]; };
 	Rva005CEAE6(const Payload *src);
-	virtual ~Rva005CEAE6();
+	// Empty destructor: retail's vtable 0x008751DC slot 0 is the ICF-shared
+	// deleting dtor 0x005FAA31, whose destructor 0x004E84A4 only stores the
+	// vtable.
+	virtual ~Rva005CEAE6() {}
 private:
 	int m_ref; // +4
 	Payload m_data; // +8
