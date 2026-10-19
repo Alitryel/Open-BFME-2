@@ -31,6 +31,10 @@ namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::_List_bas
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// _Construct<list<Coord3D>> is rowed at 0x00282843 (stlport_construct_stl_types.cpp)
+// and called out of line; this unit's copy pulled in list<Coord3D> teardown copies
+// (clear, ~_List_base, node deallocate) that differ from the kept ones.
+namespace _STL { template <> void _Construct<list<Coord3D, allocator<Coord3D> >, list<Coord3D, allocator<Coord3D> > >(list<Coord3D, allocator<Coord3D> > *, list<Coord3D, allocator<Coord3D> > const &); }
 // bfme link decl-only end
 
 typedef _STL::list<Coord3D> CoordList;
