@@ -31,25 +31,21 @@ public:
     virtual ~LifeEventCategoryBase();
 };
 
-class LifeEventCategoryTemplate : public LifeEventCategoryBase
+// The category base is retail's CategoryModuleTemplate<8>: its copy
+// constructor at 0x00001F30 is rowed in FXParticleSystem.cpp, so it is
+// declared, never defined here.
+template <int N>
+class CategoryModuleTemplate : public LifeEventCategoryBase
 {
 public:
-    LifeEventCategoryTemplate(const LifeEventCategoryTemplate &that)
-        : LifeEventCategoryBase(that)
-    {
-        const void *source = &that;
-        const void *word_source = source ? (const unsigned char *)source + 8 : 0;
-        m_word = *(const unsigned short *)word_source;
-        *(volatile unsigned int *)this = 0x01073848;
-        *(volatile unsigned int *)((unsigned char *)this + 4) = 0x01073844;
-    }
-    virtual ~LifeEventCategoryTemplate();
+    CategoryModuleTemplate(const CategoryModuleTemplate &that);
+    virtual ~CategoryModuleTemplate();
 
 private:
     volatile unsigned short m_word;
 };
 
-class LifeEventModuleTemplate : public LifeEventCategoryTemplate,
+class LifeEventModuleTemplate : public CategoryModuleTemplate<8>,
                                        public LifeEventModuleInfo
 {
 public:
@@ -59,7 +55,7 @@ public:
 
 // ??0LifeEventModuleTemplate@FXParticleSystem@@QAE@ABV01@@Z
 LifeEventModuleTemplate::LifeEventModuleTemplate(const LifeEventModuleTemplate &that)
-    : LifeEventCategoryTemplate(that),
+    : CategoryModuleTemplate<8>(that),
       LifeEventModuleInfo(that)
 {
 }
