@@ -31,7 +31,7 @@ public:
 class PlaneClass
 {
 public:
-	PlaneClass() {}
+	__declspec(dllimport) __forceinline PlaneClass() {}	// inlined at its one use; no copy here
 	PlaneClass(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3) { Set(point1, point2, point3); }
 	void Set(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3);
 	bool Compute_Intersection(const Vector3 &p0, const Vector3 &p1, Real *set_t) const;
@@ -90,10 +90,10 @@ Real Bridge::getBridgeHeight(const Coord3D *pLoc, Coord3D *normal)
 		Coord3D toNormal(toEdge.y, -toEdge.x, 0);
 		Real fromDot = along.x * fromNormal.x + along.y * fromNormal.y;
 		if (fromDot < 0)
-			fromNormal.scale(-1.0f);
+			fromNormal.scaleInlined(-1.0f);
 		Real toDot = along.x * toNormal.x + along.y * toNormal.y;
 		if (toDot > 0)
-			toNormal.scale(-1.0f);
+			toNormal.scaleInlined(-1.0f);
 		fromNormal.normalize();
 		toNormal.normalize();
 		Coord3D fromDelta = *pLoc;
