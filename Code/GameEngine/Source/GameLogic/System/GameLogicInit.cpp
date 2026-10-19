@@ -2506,7 +2506,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 extern const StaticNameKey TheKey_InitialCameraPosition;
 class VictorySystem;
 extern VictorySystem *TheVictorySystem;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern TeamFactory *TheTeamFactory;
 extern NetworkInterface *TheNetwork;
 
@@ -2565,7 +2565,7 @@ void GameLogic::rva00248278(bool loadingSaveGame)
 	if (!loadingSaveGame)
 		ThePlayerList->newMap();
 	((Rva00E02F3CObj *)TheVictorySystem)->slot38();
-	g_00DFEEF8->rva002A95F9();
+	TheSkirmishAIManager->rva002A95F9();
 	TheTeamFactory->rva003A262C();
 
 	if (!loadingSaveGame && ((Rva0023C666 *)this)->rva0023C666()) {
@@ -4855,7 +4855,7 @@ void GameLogic::update(int phase)
 		((Rva00E03138 *)TheVictoryConditions)->update();
 		TheDelayedExperienceLevelGrantSystem->update();
 		((Rva0040CA98 *)&m_184)->rva0040CA98();
-		g_00DFEEF8->update();
+		TheSkirmishAIManager->update();
 		((SubsystemInterface *)TheMineshaftPortalNetworkManager)->update();
 		TheTeamFactory->update();
 	}

@@ -22,7 +22,7 @@ public:
 	Rva002A8B59Data *rva002A8B59(void *key);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct RvaVector
 {
@@ -53,7 +53,7 @@ private:
 
 void Rva004E9F6E::postInit()
 {
-	Rva002A8B59Data *rec = ((Rva002A8F24 *)g_00DFEEF8)->rva002A8B59(m_8);
+	Rva002A8B59Data *rec = ((Rva002A8F24 *)TheSkirmishAIManager)->rva002A8B59(m_8);
 	if (rec->m_28.compare(AsciiString::TheEmptyString) == 0)
 		m_4 = 1;
 	if (g_00E04484.m_begin == g_00E04484.m_end) {

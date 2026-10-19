@@ -14,7 +14,7 @@
 // or-minus-one); their immediates are the retail-measured secondary slots.
 // The new behavior registers itself into the global gate list at
 // [0xDFEEF8]+0x940 through the rowed appendOnce helper; the list owner itself
-// is unidentified, so it is reached through its data-ledger name g_00DFEEF8. Row supersedes the
+// is unidentified, so it is reached through its data-ledger name TheSkirmishAIManager. Row supersedes the
 // same-name pin; the instance factory (0x24E28B, news 0x4C) stays green via
 // the row, as does the appendOnce home TU.
 //
@@ -112,10 +112,10 @@ private:
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
-// The list owner at 0x00DFEEF8 (data ledger name g_00DFEEF8); its class is
+// The list owner at 0x00DFEEF8 (data ledger name TheSkirmishAIManager); its class is
 // unidentified, so the +0x940 list is reached by offset.
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class GateOpenAndCloseBehavior : public GatePrimary, public UpdateModule
 {
@@ -152,6 +152,6 @@ GateOpenAndCloseBehavior::GateOpenAndCloseBehavior(Thing *thing, const ModuleDat
 	m_3C = TheGameLogic->getFrame();
 	m_2C = 0;
 	m_24 = 0;
-	GateOpenBehaviorList *list = *(GateOpenBehaviorList **)((char *)g_00DFEEF8 + 0x940);
+	GateOpenBehaviorList *list = *(GateOpenBehaviorList **)((char *)TheSkirmishAIManager + 0x940);
 	list->appendOnce(this);
 }

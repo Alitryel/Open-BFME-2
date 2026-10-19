@@ -26,7 +26,7 @@ extern PlayerList *ThePlayerList;
 class BfmeMemberRV { public: bool bfmeAskRV(); };
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); void *rva002A8F24(Player*); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct ScoreWeightsView {
@@ -208,9 +208,9 @@ void ScoreKeeper::updateFrame(int frameNumber)
    reinterpret_cast<Rva0039C190*>(&stats)->rva0039D1D0(frameNumber+1);
   ScoreFrameStatsView &record=stats[frameNumber];
   record.money=owner->money;
-  if(g_00DFEEF8->rva002A8AB1(owner))
+  if(TheSkirmishAIManager->rva002A8AB1(owner))
   {
-   void *collector=g_00DFEEF8->rva002A8F24(owner);
+   void *collector=TheSkirmishAIManager->rva002A8F24(owner);
    void *economy=*reinterpret_cast<void**>(static_cast<char*>(collector)+0xC);
    record.money+=*reinterpret_cast<int*>(static_cast<char*>(economy)+0x14);
   }

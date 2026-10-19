@@ -204,7 +204,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITactic
 {
@@ -263,7 +263,7 @@ private:
 // the record call's own arguments wherever this form is used.
 static inline Rva002A8AB1Record *aiData(Player *owner)
 {
-	return g_00DFEEF8->rva002A8AB1(owner);
+	return TheSkirmishAIManager->rva002A8AB1(owner);
 }
 
 bool AIReturnTheRingTactic::canRun(void *)
@@ -294,7 +294,7 @@ void AIReturnTheRingTactic::xfer(Xfer *xfer)
 
 Object *AIReturnTheRingTactic::findClosestFortress()
 {
-	Rva005AB309Holder *holder = (Rva005AB309Holder *)g_00DFEEF8->rva002A8F24(m_owner);
+	Rva005AB309Holder *holder = (Rva005AB309Holder *)TheSkirmishAIManager->rva002A8F24(m_owner);
 	Rva005C4AD1LeaField *field = holder->m_08;
 	Coord3D center;
 	float best = 0.0f;
@@ -336,7 +336,7 @@ void AIReturnTheRingTactic::moveToFortress()
 		m_target = obj->getID();
 		rva004ED372(obj->getPosition());
 	} else {
-		Rva004EBF4B *record = (Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(m_owner);
+		Rva004EBF4B *record = (Rva004EBF4B *)TheSkirmishAIManager->rva002A8AB1(m_owner);
 		rva004ED372(&record->rva004EBF4B());
 	}
 }

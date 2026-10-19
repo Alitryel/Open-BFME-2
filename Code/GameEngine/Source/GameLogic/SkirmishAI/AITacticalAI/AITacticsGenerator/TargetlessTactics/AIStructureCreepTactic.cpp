@@ -462,7 +462,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
@@ -615,7 +615,7 @@ void AIStructureCreepTactic::xfer(Xfer *xfer)
 
 bool AIStructureCreepTactic::isOffensiveBuilding(Object *obj)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	for (unsigned int i = 0; i < record->m_160->m_names.size(); ++i) {
 		const AsciiString &name = obj->m_04->m_name;
 		if (record->m_160->m_names[i].compare(name) == 0)
@@ -626,7 +626,7 @@ bool AIStructureCreepTactic::isOffensiveBuilding(Object *obj)
 
 AsciiString AIStructureCreepTactic::getBuildTemplateName()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (m_next == -1) {
 		m_next = GetGameLogicRandomValue(0, record->m_160->m_names.size() - 1,
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIStructureCreepTactic.cpp",
@@ -639,7 +639,7 @@ AsciiString AIStructureCreepTactic::getBuildTemplateName()
 
 void AIStructureCreepTactic::cleanUp()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (m_running) {
 		record->rva002C717E(AIStructureCreep_IsRunning, 0);
 		m_nextRun = TheGameLogic->getFrame() + g_00E06428;
@@ -654,11 +654,11 @@ void AIStructureCreepTactic::cleanUp()
 bool AIStructureCreepTactic::canRun(void *request)
 {
 	if (m_nextRun == (unsigned int)-1 || m_nextRun <= TheGameLogic->getFrame()) {
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 		if (record->rva002C7196(AIStructureCreep_IsRunning) == 0
 			&& !record->m_160->m_names.empty()
 			&& record->m_140.rva00599870(((Rva004EBF4B *)record)->rva004EBF4B(), 0) != 0) {
-			AIEconomyStats *stats = ((Rva005AB7E5Objects *)g_00DFEEF8->rva002A8F24(m_owner))->m_0C;
+			AIEconomyStats *stats = ((Rva005AB7E5Objects *)TheSkirmishAIManager->rva002A8F24(m_owner))->m_0C;
 			if (stats->getTotalMoney() >= 700u && findBestInterestZone())
 				return true;
 		}
@@ -668,7 +668,7 @@ bool AIStructureCreepTactic::canRun(void *request)
 
 bool AIStructureCreepTactic::findBestInterestZone()
 {
-	Rva002C5FE8 *sites = g_00DFEEF8->rva002A8AB1(m_owner)->m_164;
+	Rva002C5FE8 *sites = TheSkirmishAIManager->rva002A8AB1(m_owner)->m_164;
 	if (sites->m_begin != sites->m_end) {
 		for (int i = (int)(sites->m_end - sites->m_begin) - 1; i >= 0; --i) {
 			Rva005ABEA2Site *site = sites->m_begin[i];
@@ -698,7 +698,7 @@ bool AIStructureCreepTactic::findBestInterestZone()
 
 Rva005ABEA2Site *getMyZone(Player *owner, int id)
 {
-	Rva002C5FE8 *sites = g_00DFEEF8->rva002A8AB1(owner)->m_164;
+	Rva002C5FE8 *sites = TheSkirmishAIManager->rva002A8AB1(owner)->m_164;
 	return (Rva005ABEA2Site *)sites->rva002C5FE8(id);
 }
 bool AIStructureCreepTactic::validateTemplateName(const AsciiString &name)
@@ -741,7 +741,7 @@ bool AIStructureCreepTactic::validateTemplateName(const AsciiString &name)
 // map result and the fresh post-format ID keep native register scheduling.
 void AIStructureCreepTactic::run()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	int running = record->rva002C7196(AIStructureCreep_IsRunning);
 	if (running == 0) {
 		Player *owner = m_owner;
@@ -846,7 +846,7 @@ struct BfmeVector3
 // emits retail's component order and XMM coloring.
 bool AIStructureCreepTactic::rva005ABCFE(Coord3DBase *out, const AsciiString &name)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	Player *zoneOwner = m_owner;
 	Rva005ABEA2Site *site = getMyZone(zoneOwner, m_68);
 	BfmeVector3 dir = ((Rva004EBF4B *)record)->rva004EBF4B();
@@ -891,7 +891,7 @@ void AIStructureCreepTactic::update()
 		if (zone == 0) {
 			m_78 = true;
 		} else if (dozer == 0) {
-			Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+			Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 			record->m_164->rva002C60A9(m_68);
 			end(false, false);
 		} else if (m_order == 0) {
@@ -953,7 +953,7 @@ void AIStructureCreepTactic::update()
 bool AIStructureCreepTactic::rva005AC294()
 {
 	AsciiString name(AsciiString::TheEmptyString);
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	for (unsigned int i = 0; i < record->getNames()->m_names.size(); ++i) {
 		if (name.compare(AsciiString::TheEmptyString) != 0)
 			break;
@@ -991,7 +991,7 @@ void AIStructureCreepTactic::moveDozerAway()
 	if (dozer == 0)
 		return;
 	dozer->m_ai->m_commands.aiIdle(CMD_FROM_PLAYER);
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	BfmeVector3 dir = ((Rva004EBF4B *)record)->rva004EBF4B();
 	BfmeVector3 base = *dozer->getPosition();
 	dir -= base;

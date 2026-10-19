@@ -4,7 +4,7 @@
 // class's +0x10 update-module interface table 0x00C4DD9C, so `this` is that
 // subobject (module data at -0x0C, Object at -0x08). Sleeps forever for an
 // Object without an AI, or, when the module data's +0x08 flag is set, for one
-// whose controlling Player has no record in the g_00DFEEF8 registry
+// whose controlling Player has no record in the TheSkirmishAIManager registry
 // (0x002A8AB1). Otherwise, with the flag at +0x20 set it runs the pickup step
 // 0x00491EE6, else updateInactive 0x004920B5, both on the complete object,
 // and stays awake.
@@ -30,7 +30,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 struct PickupStuffUpdateModuleData
 {
 	unsigned char m_pad00[0x08];
@@ -75,7 +75,7 @@ UpdateSleepTime PickupStuffUpdate::update()
 	if (obj->getAI())
 	{
 		const PickupStuffUpdateModuleData *data = (const PickupStuffUpdateModuleData *)m_moduleData;
-		if (!data->m_08 || g_00DFEEF8->rva002A8AB1(obj->getControllingPlayer()))
+		if (!data->m_08 || TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer()))
 		{
 			if (m_20)
 				rva00491EE6();

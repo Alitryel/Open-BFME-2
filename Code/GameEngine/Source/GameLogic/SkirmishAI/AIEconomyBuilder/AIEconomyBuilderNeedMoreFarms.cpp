@@ -19,12 +19,12 @@ struct Rva002A8AB1Record {
  int need;
 };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 struct EconomyPlayerMoneyView { char unknown00[0x94]; unsigned money; };
 bool AIEconomyBuilder::needMoreFarms(int *priority) {
- Rva002A8AB1Record *myAI=g_00DFEEF8->rva002A8AB1(m_14);
+ Rva002A8AB1Record *myAI=TheSkirmishAIManager->rva002A8AB1(m_14);
  unsigned elapsed=TheGameLogic->getFrame()-value20;
  if(myAI->need>0 || value20==-1 || elapsed>BfmeLogicFramesPerSecond*myAI->army->delay) {
   unsigned limit=myAI->army->limit;

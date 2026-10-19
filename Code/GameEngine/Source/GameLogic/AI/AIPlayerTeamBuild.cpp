@@ -675,7 +675,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class TeamFactory
 {
@@ -1059,7 +1059,7 @@ Object *AIPlayer::findFactory(const ThingTemplate *thing, Bool busyOK, Int *buil
 
 Bool AIPlayer::isPossibleToBuildTeam(TeamPrototype *proto, Bool requireIdleFactory, Bool &notEnoughMoney)
 {
-	if (g_00DFEEF8->rva002A8AB1(m_player) != NULL)
+	if (TheSkirmishAIManager->rva002A8AB1(m_player) != NULL)
 		return true;
 
 	notEnoughMoney = false;
@@ -1411,7 +1411,7 @@ Bool AIPlayer::startTraining(WorkOrder *order, Bool busyOK, AsciiString teamName
 {
 	if (order->m_bfmeFlag28)
 		return false;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_player);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_player);
 	if (record)
 	{
 		Team *team = TheTeamFactory->findTeamByID(order->m_bfmeUnsigned24);
@@ -1524,7 +1524,7 @@ void AIPlayer::queueUnits()
 			}
 			if (order->isWaitingToBuild() && !order->m_bfmeFlag29)
 				startTraining(order, team->m_priorityBuild, team->m_team->getName());
-			else if (!g_00DFEEF8->rva002A8AB1(m_player))
+			else if (!TheSkirmishAIManager->rva002A8AB1(m_player))
 				order->validateFactory(m_player);
 		}
 	}
@@ -1916,7 +1916,7 @@ void AIPlayer::checkReadyTeams()
 // ?update@AIPlayer@@UAEXXZ @0x004F4927 59B
 void AIPlayer::update()
 {
-	if (g_00DFEEF8->rva002A8AB1(m_player))
+	if (TheSkirmishAIManager->rva002A8AB1(m_player))
 		return;
 	checkReadyTeams();
 	checkQueuedTeams();

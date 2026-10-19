@@ -94,7 +94,7 @@ struct IdleTargetPoint { int word0; Coord3D position; };
 struct IdleTargetList { char prefix[0x20]; _STL::vector<IdleTargetPoint*> points; };
 struct Rva002A8AB1Record { char prefix[0x164]; IdleTargetList* targetList; };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); void *rva002A8F24(Player *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern GameLogic *TheGameLogic;
 extern int g_00E063E0;
@@ -138,7 +138,7 @@ template <> void vector<Object *>::_M_clear()
 }
 
 void AITeamBuilder::checkIdleTeams() {
- void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ void* stats=TheSkirmishAIManager->rva002A8F24(owner14);
  void* units=*(void**)stats;
  int count=((_STL::hash_map<int,int>*)units)->bucket_count();
  if(count>0) {
@@ -158,7 +158,7 @@ void AITeamBuilder::checkIdleTeams() {
     }
    }
   }
-  IdleTargetList* list=g_00DFEEF8->rva002A8AB1(owner14)->targetList;
+  IdleTargetList* list=TheSkirmishAIManager->rva002A8AB1(owner14)->targetList;
   if(!idle.empty() && !list->points.empty()) {
    Object** idleBegin=&idle[0];
    int idx=GetGameLogicRandomValue(0,idle.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITeamBuilder\\AITeamBuilder.cpp",0x251);

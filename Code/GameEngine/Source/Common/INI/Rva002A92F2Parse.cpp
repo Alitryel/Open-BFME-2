@@ -47,7 +47,7 @@ public:
 	Rva002A9140 m_dozerAssignments; // +0x920
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern const FieldParse AIDozerAssignmentFields[];
 
 class Rva002A8BB9
@@ -65,5 +65,5 @@ void Rva002A92F2Parse(INI *ini)
 	Rva002A8BB9 entry;
 	ini->initFromINI(&entry, AIDozerAssignmentFields);
 	int key = TheNameKeyGenerator->nameToKey(entry.m_0);
-	g_00DFEEF8->m_dozerAssignments.rva002A9140(key) = entry.m_4;
+	TheSkirmishAIManager->m_dozerAssignments.rva002A9140(key) = entry.m_4;
 }

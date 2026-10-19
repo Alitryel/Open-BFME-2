@@ -253,7 +253,7 @@ public:
 	void *rva002A8F24(Player *player);
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva005ACCE4Flags
 {
@@ -328,7 +328,7 @@ private:
 bool AIFarmKillSquad::canRun(void *)
 {
 	void *owner = m_owner;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(owner);
 	if (!m_farm && record->m_16C <= 0)
 		return false;
 	int running = record->rva002C7196(AIFarmKillSquad_IsRunning);
@@ -340,7 +340,7 @@ bool AIFarmKillSquad::canRun(void *)
 
 void AIFarmKillSquad::cleanUp()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AIFarmKillSquad_IsRunning, 0);
 	record->rva002C717E(AIFarmKillSquad_FrameNextRun, TheGameLogic->getFrame()
 		+ GetGameLogicRandomValue(g_00E06438, g_00E0643C,
@@ -378,14 +378,14 @@ bool AIFarmKillSquad::initializeTeamTemplate(void *unit, int count)
 	flags->m_10 |= 0x20;
 	flags->m_00 |= 0x800;
 	team->m_21C = 30;
-	if (g_00DFEEF8->rva002A8AB1(m_owner)->m_16C == 0)
+	if (TheSkirmishAIManager->rva002A8AB1(m_owner)->m_16C == 0)
 		team->m_2D4 = 1;
 	else
 		team->m_2D4 = 2;
 	team->m_2D0 = GetGameLogicRandomValue(team->m_2D4, 3,
 		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIFarmKillSquad.cpp",
 		371);
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AIFarmKillSquad_IsRunning, 1);
 	return true;
 }
@@ -411,7 +411,7 @@ Object *AIFarmKillSquad::getFarmFinder()
 Object *AIFarmKillSquad::findEnemyFortress(Player *player)
 {
 	Object *found = 0;
-	_STL::vector<ObjectID> *ids = (_STL::vector<ObjectID> *)((Rva005ACCE4Holder *)g_00DFEEF8->rva002A8F24(player))->m_08->get();
+	_STL::vector<ObjectID> *ids = (_STL::vector<ObjectID> *)((Rva005ACCE4Holder *)TheSkirmishAIManager->rva002A8F24(player))->m_08->get();
 	ObjectID *end = ids->end();
 	for (ObjectID *it = ids->begin(); it != end; ++it) {
 		if (found)
@@ -435,7 +435,7 @@ void AIFarmKillSquad::update()
 		return;
 	}
 	if (getFarmFinder()) {
-		void *player = g_00DFEEF8->rva002A8AB1(m_owner)->rva002C6ACB();
+		void *player = TheSkirmishAIManager->rva002A8AB1(m_owner)->rva002C6ACB();
 		if (player) {
 			Object *target = 0;
 			Object *farm = findFarmTarget(player);
@@ -471,7 +471,7 @@ void AIFarmKillSquad::update()
 Object *AIFarmKillSquad::findProductionTarget(void *player)
 {
 	Coord3D center;
-	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
+	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)TheSkirmishAIManager->rva002A8F24(static_cast<Player *>(player));
 	center.x = 0.0f;
 	center.y = 0.0f;
 	center.z = 0.0f;
@@ -514,7 +514,7 @@ Object *AIFarmKillSquad::findProductionTarget(void *player)
 Object *AIFarmKillSquad::findFarmTarget(void *player)
 {
 	Coord3D center;
-	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
+	Rva005ACCE4Holder *holder = (Rva005ACCE4Holder *)TheSkirmishAIManager->rva002A8F24(static_cast<Player *>(player));
 	center.x = 0.0f;
 	center.y = 0.0f;
 	center.z = 0.0f;

@@ -2,7 +2,7 @@
 // ?buildDozer@AIDozerManager@@QAEXPAVObject@@@Z, retail 0x00599564, 162 bytes.
 // Unlock lane; prev Rva00599534EraseFirst /O1 GX- SSE2; callers 0x00599EAC.
 // Evidence: pin-only callees 0x002A8AB1 0x0028BC58; rowed 0x00327C1B 0x002D06CA;
-// TheEmptyString; g_009FF000; g_00DFEEF8; virtual slots +0x44 +0x54 +0x8 +0x20.
+// TheEmptyString; g_009FF000; TheSkirmishAIManager; virtual slots +0x44 +0x54 +0x8 +0x20.
 #include "ascii_string.h"
 
 class Object;
@@ -70,7 +70,7 @@ public:
 	virtual ProductionEntry *v15(); // +0x54
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class ThingFactory;
 extern ThingFactory *TheThingFactory;
 
@@ -88,7 +88,7 @@ private:
 void AIDozerManager::buildDozer(Object *obj)
 {
 	int zero = 0;
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_0c);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_0c);
 	if (m_10 != zero || rec->m_16c > zero) {
 		SuffixObj *s = (SuffixObj *)obj->rva0028BC58(zero);
 		if (s != (SuffixObj *)zero) {

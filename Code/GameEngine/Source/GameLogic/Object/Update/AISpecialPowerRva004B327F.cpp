@@ -38,7 +38,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AISpecialPowerUpdate
 {
@@ -129,7 +129,7 @@ int Rva004B327F::update()
 			m_flag = false;
 			return 1;
 		}
-		if (m_power && g_00DFEEF8->rva002A8AB1(
+		if (m_power && TheSkirmishAIManager->rva002A8AB1(
 				(Rva003A2BD4M08 *)object()->getControllingPlayer()))
 		{
 

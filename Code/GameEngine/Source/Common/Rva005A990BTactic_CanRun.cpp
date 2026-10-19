@@ -47,7 +47,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva005A990BThing
 {
@@ -131,12 +131,12 @@ public:
 
 bool AIBasePenetrationTroopsTactic::canRun(void *request)
 {
-	Rva002A8AB1Record *running = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *running = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (running->rva002C7196(AIBasePenetrationTroopsTactic_IsRunning))
 		return false;
 	if (!checkTarget(request))
 		return false;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (!record || record->m_16C < 1)
 		return false;
 	Object *obj = ((Rva002C589B *)request)->rva002C5DA6();

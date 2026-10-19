@@ -76,7 +76,7 @@ struct Rva00DFEEF8World
 };
 
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;	// the data ledger owner's spelling (Rva005EEA20Find.cpp)
+extern Rva002A8F24 *TheSkirmishAIManager;	// the data ledger owner's spelling (Rva005EEA20Find.cpp)
 
 class Rva002C5FBA
 {
@@ -207,7 +207,7 @@ void AIGameTeam::update()
 		}
 		if (m_24 != 0)
 		{
-			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E8FF6(rva004E93E8());
+			((Rva00DFEEF8World *)TheSkirmishAIManager)->m_obj->rva004E8FF6(rva004E93E8());
 			Rva004E94FBHead *head = m_00;
 			for (Rva004E94FBNode *m = head->m_first; m != (Rva004E94FBNode *)head; m = (Rva004E94FBNode *)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base *)m))
 			{
@@ -216,7 +216,7 @@ void AIGameTeam::update()
 				((SkirmishAI *)m->m_14)->update();
 			}
 			rva004E9446();
-			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E9040(rva004E93E8());
+			((Rva00DFEEF8World *)TheSkirmishAIManager)->m_obj->rva004E9040(rva004E93E8());
 		}
 	}
 }

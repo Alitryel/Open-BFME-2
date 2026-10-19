@@ -14,7 +14,7 @@ public:
 	void registerBuildable(AIBuildable *x);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // A virtual: slot 6 of nine retail vtables (0x00C6B900, 0x00C70BD0 of
 // AIUpgrade, 0x00C765F8 of AIBuildableUnit, ...) that inherit it unchanged, as
@@ -29,7 +29,7 @@ public:
 
 void AIBuildable::registerWithBuilder(void *x, bool flag)
 {
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(x);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(x);
 	if (!flag)
 		m_10 = 0;
 	((AIBuilder *)rec)->registerBuildable(this);

@@ -1,9 +1,9 @@
 // cl: /DNDEBUG /MD
 // ?getEnemyThreat@Rva002C589B@@QAEMXZ @0x002C5AE6 96B via max array float plus m_28
-// Evidence: pin QAEMXZ float no args; caller 0x00505383 matched plus 0x0059A1F0; this+0 m_00 via global g_00DFEEF8 to rowed rva002A8AB1 pin; rec+0x164 plus 0x20 bounds; elems float at +0x18 max from 0.0f; m_28 float at +0x28 max; SSE xorps movss comiss plus fld return; prev/next Rva002C589B same class
+// Evidence: pin QAEMXZ float no args; caller 0x00505383 matched plus 0x0059A1F0; this+0 m_00 via global TheSkirmishAIManager to rowed rva002A8AB1 pin; rec+0x164 plus 0x20 bounds; elems float at +0x18 max from 0.0f; m_28 float at +0x28 max; SSE xorps movss comiss plus fld return; prev/next Rva002C589B same class
 class Rva002A8F24;
 struct Rva002A8AB1Record;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva002A8AB1Record
 {
@@ -63,7 +63,7 @@ private:
 float Rva002C589B::getEnemyThreat()
 {
 	float vmax = 0.0f;
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(*(void **)this);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(*(void **)this);
 	ArrayBounds002C5AE6 *b = (ArrayBounds002C5AE6 *)((char *)rec->m_164 + 0x20);
 	void **it = b->m_start;
 	void **end = b->m_end;

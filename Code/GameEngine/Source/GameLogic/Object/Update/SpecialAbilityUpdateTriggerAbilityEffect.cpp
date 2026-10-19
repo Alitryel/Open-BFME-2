@@ -458,7 +458,7 @@ class Rva002A8F24 {
 };
 // Descriptive bank-only declarations: existing address-named owners need a
 // coherent rename before landing. Never bind a second global at their address.
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva00421520;
 extern Rva00421520 *g_00E03158;
 class LuaScriptEngine;
@@ -866,12 +866,12 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             target->rva0028DA28();
             target->rva00298C76(newTeam, 1);
         }
-        g_00DFEEF8->UnRegister(captured);
+        TheSkirmishAIManager->UnRegister(captured);
         captured->rva0028DA28();
         captured->rva00298C76(newTeam, 1);
         ((Rva001E431E *)captured)->rva001E431E((const int *)&Rva0028F59A(0, 119));
         target->captor = 0;
-        g_00DFEEF8->rva002A9365(captured);
+        TheSkirmishAIManager->rva002A9365(captured);
         if (powerTemplate->friend_getFinalOverride()->powerType == 0x1a)
             power->resetRecharge(1.0f);
     } break;

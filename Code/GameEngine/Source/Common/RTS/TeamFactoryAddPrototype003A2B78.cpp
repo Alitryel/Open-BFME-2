@@ -73,7 +73,7 @@ class Rva002A8F24
 public:
 	struct Rva002A8AB1Record *rva002A8AB1(void *p);
 };
-extern class Rva002A8F24 *g_00DFEEF8;
+extern class Rva002A8F24 *TheSkirmishAIManager;
 struct Arg;
 class Rva004EC072
 {
@@ -101,7 +101,7 @@ void TeamPrototype::addToLists()
 	if (!m_owner)
 		return;
 	((Player *)m_owner)->addTeamToList(this);
-	struct Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_owner);
+	struct Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (!rec)
 		return;
 	((Rva004EC072 *)rec)->rva004EC072((struct Arg *)this);

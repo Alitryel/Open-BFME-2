@@ -2,7 +2,7 @@
 // ?rva00572E0F@Rva00572DE8@@UAEXPAVAITarget@@PAVPlayer@@H@Z @0x00572E0F 174B
 // Slot 1 of vtable 0x0086E094 (class Rva00572DE8, ctor 0x00572DD4 in Rva00572DE8Ctor.cpp).
 // Evidence: vtable slot, chain via 0x002C5D8B, neighbours Rva005CB23CDerived and DispDwordLeaFieldGetters.
-// If record+0x16C > 1 and player lacks Upgrade_RingHero, walk GameLogic objects for template flag 0x82000 at +0x120 then forward via 0x002C5D8B with float at g_00DFEEF8+0x884.
+// If record+0x16C > 1 and player lacks Upgrade_RingHero, walk GameLogic objects for template flag 0x82000 at +0x120 then forward via 0x002C5D8B with float at TheSkirmishAIManager+0x884.
 #include "ascii_string.h"
 
 class UpgradeTemplate;
@@ -20,13 +20,13 @@ struct Rva002A8AB1Record
 	int m_16C;
 };
 
-// class key matches the data ledger primary ?g_00DFEEF8@@3PAVRva002A8F24@@A (Rva005EEA20Find.cpp).
+// class key matches the data ledger primary ?TheSkirmishAIManager@@3PAVRva002A8F24@@A (Rva005EEA20Find.cpp).
 class Rva002A8F24
 {
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class UpgradeCenter
 {
@@ -85,7 +85,7 @@ public:
 
 void Rva00572DE8::rva00572E0F(AITarget *dst, Player *player, int unused)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(player);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(player);
 	if (record->m_16C > 1) {
 		const UpgradeTemplate *tmpl = TheUpgradeCenter->findUpgrade(AsciiString("Upgrade_RingHero"));
 		if (!player->rva002AB87D(tmpl)) {
@@ -93,7 +93,7 @@ void Rva00572DE8::rva00572E0F(AITarget *dst, Player *player, int unused)
 			while (obj) {
 				Rva00572E0FTemplate *t = (Rva00572E0FTemplate *)obj->m_04;
 				if ((t->m_120 & 0x82000) != 0) {
-					dst->setTarget(obj, *(float *)((char *)g_00DFEEF8 + 0x884));
+					dst->setTarget(obj, *(float *)((char *)TheSkirmishAIManager + 0x884));
 					break;
 				}
 				obj = obj->m_next;

@@ -211,7 +211,7 @@ public:
 	char m_pad000[0x864];
 	_STL::vector<int> m_usedStarts;	// +0x864
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva005ADA40Owned
 {
@@ -437,7 +437,7 @@ bool AIBase::rva005AD964()
 	GameSlot *slot = Rva00506C82Find((const Rva00506C82Arg *)m_owner);
 	if (slot) {
 		int start = slot->m_10 + 1;
-		_STL::vector<int> &used = g_00DFEEF8->m_usedStarts;
+		_STL::vector<int> &used = TheSkirmishAIManager->m_usedStarts;
 		int *end = used.end();
 		for (int *it = used.begin(); it != end; ++it) {
 			if (*it == start)

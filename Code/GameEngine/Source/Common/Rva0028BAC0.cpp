@@ -52,7 +52,7 @@ class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 // Bind to the existing data-ledger owner; keep the retail access view local.
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 // 0x0028BAC0 is an Object member: Object::~Object and the Object script-status
 // setter call it on this, every other retail caller passes an Object pointer
 // (TunnelTracker post-process, doTransferTeamToPlayer members and hordes), and
@@ -93,7 +93,7 @@ void Object::rva0028BAC0()
 	}
 	if (((LuaDrawableState *)TheLuaScriptEngine) != 0)
 		((LuaDrawableState *)TheLuaScriptEngine)->rva00333F37(this);
-	if (((Rva002A8F24 *)g_00DFEEF8) != 0)
-		((Rva002A8F24 *)g_00DFEEF8)->UnRegister(this);
+	if (((Rva002A8F24 *)TheSkirmishAIManager) != 0)
+		((Rva002A8F24 *)TheSkirmishAIManager)->UnRegister(this);
 	m_454 = 0;
 }

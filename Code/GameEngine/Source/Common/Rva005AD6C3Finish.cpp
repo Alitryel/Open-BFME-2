@@ -168,7 +168,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
@@ -203,10 +203,10 @@ void AINavyUnitBattleShip::update()
 		}
 		return;
 	}
-	Player *player = (Player *)g_00DFEEF8->rva002A8AB1(ship->getControllingPlayer())->rva002C6ACB();
+	Player *player = (Player *)TheSkirmishAIManager->rva002A8AB1(ship->getControllingPlayer())->rva002C6ACB();
 	if (!player)
 		return;
-	_STL::vector<ObjectID> targets(*(const _STL::vector<ObjectID> *)((Rva005AD6C3Holder *)g_00DFEEF8->rva002A8F24(player))->m_04->get());
+	_STL::vector<ObjectID> targets(*(const _STL::vector<ObjectID> *)((Rva005AD6C3Holder *)TheSkirmishAIManager->rva002A8F24(player))->m_04->get());
 	if (!targets.empty()) {
 		ObjectID chosen = targets[GetGameLogicRandomValue(0, targets.size() - 1,
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticalNavy\\AINavyUnitBattleShip.cpp",

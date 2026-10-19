@@ -14,7 +14,7 @@
 // captured before the preceding loop, exactly as retail does.
 struct Rva002A8AB1Record {char pad[0x16c];int phase;};
 class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void *);};
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 class Rva004E9378 {public:bool rva004E9378();};
 class Rva00573E7C {public:
@@ -34,7 +34,7 @@ class Rva005DCE08 : public BuildPhase {public:
  Rva005AD9C0Hit*rva005DCC86(void*);
 };
 void BuildPhase::update(){
- Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(player);
+ Rva002A8AB1Record *ai=TheSkirmishAIManager->rva002A8AB1(player);
  if(phase>ai->phase)return;
  if(!started){rva005DCC60();started=true;}
  if(phase<ai->phase && !complete && !costsSet){

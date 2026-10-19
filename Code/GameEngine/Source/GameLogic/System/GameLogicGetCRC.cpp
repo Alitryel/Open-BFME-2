@@ -181,9 +181,9 @@ extern PlayerList *ThePlayerList;
 extern CollisionManager *TheCollisionManager;
 class BfmeTaintManager;
 extern BfmeTaintManager *TheTaintManager;
-// g_00DFEEF8 is only an alias of the owned global g_00DFEEF8 (ledger names column); this unit reads the owner through its own view type.
-extern class Rva002A8F24 *g_00DFEEF8;
-#define g_00DFEEF8 (*(SkirmishAIManager * *)&g_00DFEEF8)
+// TheSkirmishAIManager is only an alias of the owned global TheSkirmishAIManager (ledger names column); this unit reads the owner through its own view type.
+extern class Rva002A8F24 *TheSkirmishAIManager;
+#define TheSkirmishAIManager (*(SkirmishAIManager * *)&TheSkirmishAIManager)
 extern class AI *TheAI;
 
 class GameLogic
@@ -220,7 +220,7 @@ unsigned int GameLogic::getCRC(int mode)
 	if (TheLiteCRC != 0 || g_00E02D80 == 0)
 		xfer->xferSnapshot((TaintManager *)TheTaintManager);
 	if (TheLiteCRC != 0 || BfmeGameLogicCRCModeFlag == 0)
-		xfer->xferSnapshot(g_00DFEEF8);
+		xfer->xferSnapshot(TheSkirmishAIManager);
 	if (TheLiteCRC != 0 || g_00E02D83 == 0)
 		xfer->xferSnapshot(ThePlayerList);
 	if (TheLiteCRC != 0 || g_00E02D84 == 0)

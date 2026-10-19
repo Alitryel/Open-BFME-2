@@ -205,7 +205,7 @@ public:
 };
 
 // Native DFEEF8 is the existing single datum owned by Rva005EEA20Find.cpp.
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIUpdateInterface
 {

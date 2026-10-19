@@ -325,7 +325,7 @@ class VictorySystem;
 extern VictorySystem *TheVictorySystem;
 extern class Rva002872BA *TheTriggerManager;
 extern void *TheMineshaftPortalNetworkManager;
-extern class Rva002A8F24 *g_00DFEEF8;
+extern class Rva002A8F24 *TheSkirmishAIManager;
 extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
 // TheBaseTemplateLibrary (0x00A03124): registered below by name; retail .data starts it at 0.
 class Rva0022BD9ASubsystem;
@@ -891,7 +891,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<VictorySystem *&>(TheVictorySystem)), "TheVictorySystem", new VictorySystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BBC6Subsystem *&>(TheTriggerManager)), "TheFireLogicSystem", new Rva0022BBC6Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BC3BSubsystem *&>(TheMineshaftPortalNetworkManager)), "TheMineshaftPortalNetworkManager", new Rva0022BC3BSubsystem, 0);
-		initSubsystem((reinterpret_cast<Rva0022BCB0Subsystem *&>(g_00DFEEF8)), "TheSkirmishAIManager", new Rva0022BCB0Subsystem, 0);
+		initSubsystem((reinterpret_cast<Rva0022BCB0Subsystem *&>(TheSkirmishAIManager)), "TheSkirmishAIManager", new Rva0022BCB0Subsystem, 0);
 		initSubsystem(TheArmyDefinitionManager, "TheArmyDefinitionManager", new Rva0022BD25Subsystem, 0);
 		initSubsystem(TheBaseTemplateLibrary, "TheBaseTemplateLibrary", new Rva0022BD9ASubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BE0FSubsystem *&>(TheThreatFinderManager)), "TheThreatFinderManager", new Rva0022BE0FSubsystem, 0);

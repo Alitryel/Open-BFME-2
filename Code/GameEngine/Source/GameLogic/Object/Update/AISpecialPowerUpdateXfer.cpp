@@ -7,7 +7,7 @@
 // bool at +0x21; on load with that bool set (or from an older save) the
 // pinned no-argument member 0x004B303F; a bool at +0x20; then, when the
 // object at +0x24 exists, its slot-1 transfer, gated before version 2 on
-// the rowed g_00DFEEF8 record lookup for the controlling player. Member
+// the rowed TheSkirmishAIManager record lookup for the controlling player. Member
 // names not recovered.
 
 class AsciiString;
@@ -112,7 +112,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva004B3352State
 {
@@ -165,7 +165,7 @@ void AISpecialPowerUpdate::xfer(Xfer *xfer)
 
 	if (m_24)
 	{
-		if (version.m_minimum >= 2 || g_00DFEEF8->rva002A8AB1(getObject()->getControllingPlayer()))
+		if (version.m_minimum >= 2 || TheSkirmishAIManager->rva002A8AB1(getObject()->getControllingPlayer()))
 			m_24->xfer(xfer);
 	}
 }

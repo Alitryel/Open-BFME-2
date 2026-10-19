@@ -37,7 +37,7 @@ public:
 };
 
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva004EBF93World
 {
@@ -97,7 +97,7 @@ void Rva004EBF93::rva004EBF93()
 	m_FC.postInit();
 	m_38.rva00598CBC();
 	m_12C->postInit();
-	Rva004EBF93World *w = (Rva004EBF93World *)((char *)g_00DFEEF8 + 0x10);
+	Rva004EBF93World *w = (Rva004EBF93World *)((char *)TheSkirmishAIManager + 0x10);
 	if (w->m_848 != 0)
 		m_8 = 1;
 	if (w->m_849 != 0)

@@ -153,7 +153,7 @@ public:
 };
 struct Rva002A8B59Data { char unknown[0x28]; };
 class Rva002A8F24 { public: Rva002A8B59Data *rva002A8B59(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 int __cdecl GetGameLogicRandomValue(int, int, char *, int);
 
 void AIWallBuilder::tryToStartWallProduction()
@@ -175,7 +175,7 @@ void AIWallBuilder::tryToStartWallProduction()
             ? candidates[GetGameLogicRandomValue(0, candidates.size() - 1,
                 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AIWallBuilder\\AIWallBuilder.cpp", 165)]
             : candidates[0];
-        Rva002A8B59Data *def = g_00DFEEF8->rva002A8B59(m_owner);
+        Rva002A8B59Data *def = TheSkirmishAIManager->rva002A8B59(m_owner);
         reinterpret_cast<AIWall *>(const_cast<ModuleData *>(wall))->activate(
             m_owner, rva004E98B4(reinterpret_cast<AIWall *>(const_cast<ModuleData *>(wall))),
             reinterpret_cast<char *>(def) + 0x28);

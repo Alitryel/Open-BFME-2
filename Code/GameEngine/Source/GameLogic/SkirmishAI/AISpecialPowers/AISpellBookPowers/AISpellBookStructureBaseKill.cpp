@@ -46,7 +46,7 @@ public:
 	void *rva002A8F24(Player *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 namespace _STL
 {
@@ -93,11 +93,11 @@ public:
 bool AISpellBookStructureBaseKill::enemyHasAFortress(Object *source)
 {
 	Player *controlling = source->getControllingPlayer();
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(controlling);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(controlling);
 	void *owner = record->rva002C6ACB();
 	if (owner != 0)
 	{
-		Rva002A8F24Result *store = static_cast<Rva002A8F24Result *>(g_00DFEEF8->rva002A8F24(static_cast<Player *>(owner)));
+		Rva002A8F24Result *store = static_cast<Rva002A8F24Result *>(TheSkirmishAIManager->rva002A8F24(static_cast<Player *>(owner)));
 		Rva0025BFF8 *stats = store->m_hash;
 		unsigned count = stats->bucket_count();
 		for (unsigned i = 0; i < count; ++i)

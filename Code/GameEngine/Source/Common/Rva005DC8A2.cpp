@@ -1,6 +1,6 @@
 // cl: /MD
 // AITacticSiege::sideHasIdleSiegeWeapons, retail 0x005DC8A2, 97 bytes.
-// Predicate over holder from g_00DFEEF8 map lookup keyed by Player at this+0x24.
+// Predicate over holder from TheSkirmishAIManager map lookup keyed by Player at this+0x24.
 // Holder's first dword dereferenced, then index loop over bucket_count with
 // rowed rva0025BFF8 getter; match requires Object+0x304 == Player+0x2ec and
 // [Object+4]+0x520 == 7. Evidence: callees rowed (0x002A8F24 0x0025BFF8
@@ -42,7 +42,7 @@ public:
 	void *rva002A8F24(Player *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva0025BFF8
 {
@@ -86,7 +86,7 @@ private:
 
 bool AITacticSiege::sideHasIdleSiegeWeapons()
 {
-	void *store = g_00DFEEF8->rva002A8F24(m_player);
+	void *store = TheSkirmishAIManager->rva002A8F24(m_player);
 	Rva0025BFF8 *holder = *(Rva0025BFF8 **)store;
 	IntMap *map = (IntMap *)holder;
 	for (unsigned int i = 0; i < map->bucket_count(); ++i)

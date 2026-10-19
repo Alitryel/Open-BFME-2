@@ -3,7 +3,7 @@
 // ?updatePhase@SkirmishAI@@QAEXXZ @0x002C693B 258B
 // Evidence: unlock lane sibling 002C68CE prev Rva002C68CE next stlport caller
 // 0x002C6BFF callee rva002A8B59 pin plus TheGameLogic plus ThePlayerList area
-// g_00DFEEF8 globals g_Va00BBB8D8 g_secondsPerLogicFrame BfmeZeroRange
+// TheSkirmishAIManager globals g_Va00BBB8D8 g_secondsPerLogicFrame BfmeZeroRange
 // g_00BC26EC floats 0xa4/0xa8 plus 0x170 offsets 0x15c/0x16c/0x174/0x40.
 // Identity: honest-address thiscall method no args returning void with frame.
 class GameLogic
@@ -28,7 +28,7 @@ public:
 	Rva002A8B59Data *rva002A8B59(void *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern float g_secondsPerLogicFrame;
 extern const float g_00BC26EC;
@@ -49,7 +49,7 @@ private:
 
 void SkirmishAI::updatePhase()
 {
-	Rva002A8B59Data *data = g_00DFEEF8->rva002A8B59(m_15C);
+	Rva002A8B59Data *data = TheSkirmishAIManager->rva002A8B59(m_15C);
 	unsigned int delta = TheGameLogic->m_40 - (unsigned int)m_174;
 	switch (m_16C) {
 	case 0: {

@@ -2,7 +2,7 @@
 // ?findUnitInCombat@AISpellBookBase@@QAEXPAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@PAVPlayer@@@Z, retail 0x005EEB7B, 123 bytes.
 // Collects ModuleData entries for objects whose current victim is controlled.
 // Evidence: caller 0x005D7B65 passes this+0x28 with vector+Player; callees rowed;
-// global g_00DFEEF8 map lookup then LeaField+4 range, TheGameLogic findObjectByID,
+// global TheSkirmishAIManager map lookup then LeaField+4 range, TheGameLogic findObjectByID,
 // +4 flag 0x80 at +0x108, +0x258 getCurrentVictim, getControllingPlayer flag check,
 // vector<ModuleData*> push_back. Honest address name; owner unproven.
 
@@ -30,7 +30,7 @@ public:
 	void *rva002A8F24(Player *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva005C4AD1LeaField
 {
@@ -95,7 +95,7 @@ public:
 
 void AISpellBookBase::findUnitInCombat(_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *vec, Player *player)
 {
-	void *store = g_00DFEEF8->rva002A8F24(player);
+	void *store = TheSkirmishAIManager->rva002A8F24(player);
 	Rva005C4AD1LeaField *holder = *(Rva005C4AD1LeaField **)store;
 	IdRange *range = (IdRange *)(void *)holder->get();
 	ObjectID *it = range->m_begin;

@@ -22,7 +22,7 @@ class Rva005978ED { public: Rva005970ED *rva005978ED(); };
 struct ScienceUpgradeConfig { char pad00[0xc8]; float min0,max0,min1,max1; };
 struct Rva002A8AB1Record { char pad00[0x160]; ScienceUpgradeConfig *config; char pad164[8]; int enabled; };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 float GetGameLogicRandomValueReal(float,float,char *,int);
 class Rva00597983 { char pad00[0x14]; Player *owner; char pad18[0x24-0x18]; Rva005970ED **begin,**end; public: void rva00597983(); };
 void Rva00597983::rva00597983()
@@ -32,7 +32,7 @@ void Rva00597983::rva00597983()
  for (Rva005970ED **i=begin;i!=finish;++i) {
   if (!((Rva004E9378 *)*i)->rva004E9378() && (*i)->upgrading) ++count;
  }
- Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(owner);
+ Rva002A8AB1Record *ai=TheSkirmishAIManager->rva002A8AB1(owner);
  unsigned limit;
  switch(ai->enabled) { case 1:limit=1;break;case 2:limit=3;break;default:return; }
  if (count>=limit) return;

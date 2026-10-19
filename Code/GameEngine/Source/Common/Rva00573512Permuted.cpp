@@ -33,7 +33,7 @@ struct Rva002A8AB1Record
     int m_16C;
 };
 
-// class key matches the data ledger primary ?g_00DFEEF8@@3PAVRva002A8F24@@A (Rva005EEA20Find.cpp).
+// class key matches the data ledger primary ?TheSkirmishAIManager@@3PAVRva002A8F24@@A (Rva005EEA20Find.cpp).
 class Rva002A8F24
 {
 public:
@@ -43,7 +43,7 @@ public:
     float fallbackWeight;
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITargetHeuristicEnemyStructure
 {
@@ -54,7 +54,7 @@ public:
 int AITargetHeuristicEnemyStructure::isValidTarget(Thing *thing, void *owner)
 {
     void *o = owner;
-    Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(o);
+    Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(o);
     int mask1[7];
     int mask2[7];
     memset(mask1, 0, 0x1C);
@@ -115,7 +115,7 @@ public:
 };
 void AITargetHeuristicEnemyDozer::findBestTarget(AITarget *target, Player *attackingPlayer, Player *targetPlayer)
 {
-    EnemyHeuristicRecord *stats = (EnemyHeuristicRecord *)g_00DFEEF8->rva002A8F24(targetPlayer);
+    EnemyHeuristicRecord *stats = (EnemyHeuristicRecord *)TheSkirmishAIManager->rva002A8F24(targetPlayer);
     Rva005C4AD1LeaField *structures = stats->structures;
     int count = 0;
     for (ObjectID *p = ((EnemyHeuristicIds *)structures->get())->first;
@@ -130,7 +130,7 @@ void AITargetHeuristicEnemyDozer::findBestTarget(AITarget *target, Player *attac
         for (ObjectID *p = units->first; p != units->last; ++p)
         {
             Object *object = TheGameLogic->findObjectByID(*p);
-            if (object) target->setTarget(object, g_00DFEEF8->fallbackWeight);
+            if (object) target->setTarget(object, TheSkirmishAIManager->fallbackWeight);
         }
     }
 }

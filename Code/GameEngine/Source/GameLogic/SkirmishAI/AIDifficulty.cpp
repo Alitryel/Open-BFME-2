@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // ?Rva0058AF47Check@@YG_NPAVRva002A9BF2@@@Z @0x0058AF47 108B, caller 0x004B332D.
 // Free stdcall chance test: indexes a 32-byte entry table at +0x888 of the
-// g_00DFEEF8 owner by the rowed 0x002A9BF2 difficulty getter (shl eax,5,
+// TheSkirmishAIManager owner by the rowed 0x002A9BF2 difficulty getter (shl eax,5,
 // rep movsd of 8 dwords to the stack), and passes outright when the ratio
 // num/den (+0xC/+0x10) reaches 1.0; otherwise rolls the rowed
 // GetGameLogicRandomValue(0, den - 1) with the AIDifficulty.cpp __FILE__
@@ -52,7 +52,7 @@ public:
 	bool allowOffensiveTactic(Rva002A9BF2 *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern float g_Va00BBB8D8;
 
@@ -61,7 +61,7 @@ int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 bool __stdcall Rva0058AF47Check(Rva002A9BF2 *p)
 {
 	int diff = (int)p->rva002A9BF2();
-	AIDiffEntry e = g_00DFEEF8->m_table[diff];
+	AIDiffEntry e = TheSkirmishAIManager->m_table[diff];
 	float num = (float)e.m_num;
 	float den = (float)e.m_den;
 	float ratio = num / den;
@@ -79,7 +79,7 @@ bool __stdcall Rva0058AF47Check(Rva002A9BF2 *p)
 bool Rva002A9BF2::fromGate(Rva002A9BF2 *p)
 {
 	int diff = (int)p->rva002A9BF2();
-	AIDiffEntry e = g_00DFEEF8->m_table[diff];
+	AIDiffEntry e = TheSkirmishAIManager->m_table[diff];
 	float num = (float)e.m_num;
 	float den = (float)e.m_den;
 	float ratio = num / den;
@@ -100,11 +100,11 @@ bool AIDifficulty::allowOffensiveTactic(Rva002A9BF2 *key)
 	int diff = (int)key->rva002A9BF2();
 	if (diff == 0)
 	{
-		Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(key);
+		Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(key);
 		if (rec->m_16C == diff)
 			return false;
 	}
-	AIDiffEntry e = g_00DFEEF8->m_table[diff];
+	AIDiffEntry e = TheSkirmishAIManager->m_table[diff];
 	float num = (float)e.m_14;
 	float den = (float)e.m_18;
 	float ratio = num / den;
@@ -125,8 +125,8 @@ bool AIDifficulty::allowOffensiveTactic(Rva002A9BF2 *key)
 bool AIDifficulty::allowEconomyUpgrade(Rva002A9BF2 *p)
 {
 	int diff = (int)p->rva002A9BF2();
-	AIDiffEntry e = g_00DFEEF8->m_table[diff];
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(p);
+	AIDiffEntry e = TheSkirmishAIManager->m_table[diff];
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(p);
 	if (rec->m_cc + rec->m_d0 < e.m_1C)
 	{
 		float num = (float)e.m_04;

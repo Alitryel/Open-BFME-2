@@ -101,7 +101,7 @@ public:
 	int m_74;
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva00506A52
 {
@@ -114,7 +114,7 @@ private:
 
 void Rva00506A52::rva00506A52()
 {
-	void *ret = g_00DFEEF8->rva002A8F24(m_00);
+	void *ret = TheSkirmishAIManager->rva002A8F24(m_00);
 	Rva0025BFF8 *maps = *(Rva0025BFF8 **)((char *)ret + 4);
 	unsigned int count = (( _STL::hash_map<int, int> *)maps)->bucket_count();
 	for (unsigned int i = 0; i < count; ++i) {

@@ -175,7 +175,7 @@ public:
 	char m_pad00[0x10];
 	Rva002A8F24Data m_data;	// +0x10
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // What slot 1 hands the pick to (0x002C5D8B forwards to 0x002C5CF7).
 class AITarget
@@ -235,7 +235,7 @@ bool AITargetHeuristicExpansionBase::wantsToExpand(Player *player)
 		fprintf(g_00DFEFF0, "pos 2: money= %d", player->m_94);
 	if (player->m_94 < 3000)
 		return false;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(player);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(player);
 	if (g_00DFEFF0)
 		fprintf(g_00DFEFF0, "pos 3: p1 = %d", record->m_16C);
 	if (record->m_16C < 1)
@@ -249,7 +249,7 @@ void AITargetHeuristicExpansionBase::findBestTarget(AITarget *choice, Player *pl
 {
 	if (!wantsToExpand(player))
 		return;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(player);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(player);
 	Coord3D base = record->rva004EBF4B();
 	Coord3D best;
 	best.x = 0.0f;
@@ -270,7 +270,7 @@ void AITargetHeuristicExpansionBase::findBestTarget(AITarget *choice, Player *pl
 		float dist = dx * dx + dy * dy;
 		if (bestDist < 0.0f || dist < bestDist) {
 			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(pos,
-				g_00DFEEF8->getData()->m_874, 0,
+				TheSkirmishAIManager->getData()->m_874, 0,
 				Rva0026119DFilter().link(&Rva00261409Filter(player, true, 6)), 1);
 			unsigned count = 0;
 			for (Object *obj = hits.next(); obj; obj = hits.next())
@@ -283,7 +283,7 @@ void AITargetHeuristicExpansionBase::findBestTarget(AITarget *choice, Player *pl
 		}
 	}
 	if (bestDist > 0.0f)
-		choice->rva002C5CF7(&best, g_00DFEEF8->getData()->m_874, 0);
+		choice->rva002C5CF7(&best, TheSkirmishAIManager->getData()->m_874, 0);
 }
 
 // ?rva0057322B@@YAPAVWaypoint@@VAsciiString@@@Z retail 0x0057322B 83B

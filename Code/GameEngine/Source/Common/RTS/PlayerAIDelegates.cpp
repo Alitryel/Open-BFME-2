@@ -54,7 +54,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class SkirmishAI
 {
@@ -155,7 +155,7 @@ void Player::onUnitCreated(Object *factory, Object *unit)
 	if (m_ai)
 		m_ai->onUnitProduced(factory, unit);
 
-	SkirmishAI *skirmishAI = (SkirmishAI *)g_00DFEEF8->rva002A8AB1(this);
+	SkirmishAI *skirmishAI = (SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(this);
 	if (skirmishAI)
 		skirmishAI->onUnitCreated(factory, unit);
 }

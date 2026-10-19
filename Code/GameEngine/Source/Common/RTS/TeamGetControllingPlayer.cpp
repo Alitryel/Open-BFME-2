@@ -39,7 +39,7 @@
 // ?rva003A0CD1@TeamPrototype@@QAEXXZ, retail 0x003A0CD1 (57 bytes), called
 // out of line by ~TeamPrototype. Zero Hour's destructor tail (owner and factory
 // list removal) with one BFME 2 addition: the owner's record in the
-// g_00DFEEF8 registry (rowed lookup 0x002A8AB1) also drops this prototype
+// TheSkirmishAIManager registry (rowed lookup 0x002A8AB1) also drops this prototype
 // through 0x004EC07D, an 11-byte forward to its +0x90 member.
 //
 // ?teamAboutToBeDeleted@TeamPrototype@@QAEXPAVTeam@@@Z, retail 0x003A2CA5
@@ -491,7 +491,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Script
 {
@@ -718,7 +718,7 @@ void TeamPrototype::rva003A0CD1()
 	if (m_owningPlayer)
 	{
 		m_owningPlayer->removeTeamFromList(this);
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owningPlayer);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owningPlayer);
 		if (record)
 			record->rva004EC07D(this);
 	}

@@ -178,7 +178,7 @@ extern int BfmeLogicFramesPerSecond;
 float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Object;
 
@@ -278,7 +278,7 @@ bool AITargetChooser::isAchievableTarget(Rva002C589B *entry)
 	if (!entry->m_19 && !entry->m_18) {
 		if (entry->m_04 == 1)
 			return true;
-		Rva0050535AStore *store = *g_00DFEEF8->rva002A8F24(m_owner);
+		Rva0050535AStore *store = *TheSkirmishAIManager->rva002A8F24(m_owner);
 		if (store->m_threshold > entry->getEnemyThreat())
 			return true;
 	}
@@ -306,12 +306,12 @@ Rva002C589B *AITargetChooser::getBestTarget()
 
 Rva00505289Data *AITargetChooser::getArmyDef()
 {
-	return g_00DFEEF8->rva002A8AB1(m_owner)->m_160;
+	return TheSkirmishAIManager->rva002A8AB1(m_owner)->m_160;
 }
 
 int AITargetChooser::rva0050529D()
 {
-	return g_00DFEEF8->rva002A8F24Record(m_owner)->m_10;
+	return TheSkirmishAIManager->rva002A8F24Record(m_owner)->m_10;
 }
 
 // True when the entry is done with (killed, finished, or its object gone);
@@ -385,7 +385,7 @@ void AITargetChooser::updateTargets()
 		if (matches.size() != 0) {
 			int pick = GetGameLogicRandomValue(0, matches.size() - 1, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITargetChooser\\AITargetChooser.cpp", 184);
 			Rva0050542BOther *chosen = matches[pick];
-			int value = g_00DFEEF8->rva002A8AE4(m_owner)->m_15C;
+			int value = TheSkirmishAIManager->rva002A8AE4(m_owner)->m_15C;
 			chosen->act(entry, value, target);
 		}
 	}

@@ -51,7 +51,7 @@ struct AITeamRequirementView;
 struct AITargetView;
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); void *rva002A8F24(Player *); void *rva002A8B73(void *,int); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 class TeamPrototype;
 class Rva0039D769;
@@ -138,7 +138,7 @@ void Rva0059AC4D::update()
      team->flag110=true;
      team->flag111=false;
      if (!team->active) { team->dirty=true; team->active=true; }
-     SkirmishAI *ai=(SkirmishAI *)g_00DFEEF8->rva002A8AB1(owner);
+     SkirmishAI *ai=(SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(owner);
      ai->Register(team);
      prototype->building=false;
      prototype->ready=true;

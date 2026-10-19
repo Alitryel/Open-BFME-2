@@ -161,7 +161,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
 
@@ -181,8 +181,8 @@ void AINavyUnitBattleShip::patrol()
 	Object *ship = TheGameLogic->findObjectByID((ObjectID)m_field04);
 	if (!ship->m_ai->isIdle())
 		return;
-	Player *player = (Player *)g_00DFEEF8->rva002A8AB1(ship->getControllingPlayer())->rva002C6ACB();
-	Rva005AD6C3Holder *holder = (Rva005AD6C3Holder *)g_00DFEEF8->rva002A8F24(player);
+	Player *player = (Player *)TheSkirmishAIManager->rva002A8AB1(ship->getControllingPlayer())->rva002C6ACB();
+	Rva005AD6C3Holder *holder = (Rva005AD6C3Holder *)TheSkirmishAIManager->rva002A8F24(player);
 	Rva005C4AD1LeaField *units = holder->m_08;
 	bool attacked = false;
 	unsigned int count = ((IntMap *)units)->bucket_count();

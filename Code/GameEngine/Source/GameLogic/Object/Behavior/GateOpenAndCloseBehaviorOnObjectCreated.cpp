@@ -90,7 +90,7 @@ public:
 
 extern GameLogic *TheGameLogic;
 extern NameKeyGenerator *TheNameKeyGenerator;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class GatePrimary
 {
@@ -145,7 +145,7 @@ void GateOpenAndCloseBehavior::onObjectCreated()
 	if (m_object->isEffectivelyDead())
 	{
 		rva004992D5(true, true);
-		g_00DFEEF8->m_gateList->rva004E908C(this);
+		TheSkirmishAIManager->m_gateList->rva004E908C(this);
 	}
 
 	const GateOpenAndCloseBehaviorModuleData *data = getGateModuleData();

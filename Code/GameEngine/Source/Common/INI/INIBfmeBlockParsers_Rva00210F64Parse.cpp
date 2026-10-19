@@ -114,12 +114,12 @@ public:
 	char m_skirmishAIData[0x10];
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern const FieldParse SkirmishAIDataFields[];
 
 void Rva002A8A31Parse(INI *ini)
 {
-	ini->initFromINI(g_00DFEEF8->m_skirmishAIData, SkirmishAIDataFields);
+	ini->initFromINI(TheSkirmishAIManager->m_skirmishAIData, SkirmishAIDataFields);
 }
 
 // 0x00210F64 (40B): "LivingWorldMapInfo" (registration VA 0x00DB9A2C). Skips

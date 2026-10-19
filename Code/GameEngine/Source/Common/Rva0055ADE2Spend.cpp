@@ -2,7 +2,7 @@
 // Retail compares the two floats with fcomi, a P6 instruction MSVC 7.1 emits
 // only under /arch:SSE; /O1 /G6 alone gives fcom/fnstsw.
 // ?doBuild@AIBuildable@@QAE_NPAVPlayer@@@Z @0x0055ADE2 147B
-// __thiscall bool (Player*): lookup store via g_00DFEEF8 map, amount=(int)(v09-cost),
+// __thiscall bool (Player*): lookup store via TheSkirmishAIManager map, amount=(int)(v09-cost),
 // gated by +0x21 bool and float compare, spend via rowed 0x005963C8, tail v15.
 // Evidence: chain from 0x005963C8; callees rowed 0x002A8F24 0x00629228;
 // callers 0x004ECCE2; +0x21 bool matches Rva0055B0CC layout; vslots 0x24/0x3c.
@@ -22,7 +22,7 @@ class Rva002A8F24
 public:
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIEconomyStats
 {
@@ -57,7 +57,7 @@ private:
 
 bool AIBuildable::doBuild(Player *player)
 {
-	void *store = g_00DFEEF8->rva002A8F24(player);
+	void *store = TheSkirmishAIManager->rva002A8F24(player);
 	unsigned int c1 = (unsigned int)player->m_cost94;
 	int amount = (int)(v09(player) - (float)c1);
 	if (m_flag21) {

@@ -66,7 +66,7 @@ public:
 	char m_skirmishAIData[0x10];
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern const FieldParse SkirmishAIDataFields[];
 
 

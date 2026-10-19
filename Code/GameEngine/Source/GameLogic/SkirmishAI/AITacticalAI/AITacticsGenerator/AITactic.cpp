@@ -206,7 +206,7 @@ public:
     Rva002A8AB1Record *rva002A8AB1(void *owner);		// 0x002A8AB1
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern int g_00E044AC;
 
 // The tactic's target (WorldBuilder AITarget); rowed under a placeholder owner.
@@ -335,7 +335,7 @@ void AITactic::end(bool a, bool b)
 	if (!b)
 		slot02();
 
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_24);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_24);
 	if (record)
 	{
 		TeamPrototype **protoEnd = m_protos.end();
@@ -410,7 +410,7 @@ void AITactic::updateTeamInfos()
         team->rva0039E5B9(&position);
         float dx = position.x - rec->m_lastPosition.x;
         float dy = position.y - rec->m_lastPosition.y;
-        float threshold = g_00DFEEF8->m_movementThreshold;
+        float threshold = TheSkirmishAIManager->m_movementThreshold;
         bool moved = false;
         if (dx * dx + dy * dy > threshold * threshold) {
             rec->m_lastPosition = position;
@@ -520,7 +520,7 @@ void AITactic::xfer(Xfer *xfer)
 	unsigned int targetID = m_20 ? m_20->getID() : (unsigned int)-1;
 	xfer->xferUnsignedInt(&targetID);
 	if (xfer->isLoading() && targetID != (unsigned int)-1)
-		m_20 = (Rva002C589B *)g_00DFEEF8->rva002A8B73(m_24, targetID);
+		m_20 = (Rva002C589B *)TheSkirmishAIManager->rva002A8B73(m_24, targetID);
 
 	xfer->xferBool(&m_ended);
 	xfer->xferAsciiString(&m_name);
@@ -607,7 +607,7 @@ bool AITactic::start(void *owner)
 // with a victim supplies the attack position. Every field is a native access.
 bool AITactic::sendTeamToAssistAnotherHorde(Team *team)
 {
-    void *stats = g_00DFEEF8->rva002A8F24((Player *)m_24);
+    void *stats = TheSkirmishAIManager->rva002A8F24((Player *)m_24);
     Rva0025BFF8 *holder = *(Rva0025BFF8 **)stats;
     int count = ((AITacticAssistIndex *)holder)->bucket_count();
     if (count > 0) {

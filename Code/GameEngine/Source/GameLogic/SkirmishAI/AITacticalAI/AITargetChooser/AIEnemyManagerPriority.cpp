@@ -5,7 +5,7 @@
 // stores per enemy (rowed caller 0x005A9824, sibling file AIEnemyManager.cpp). The WorldBuilder
 // call graph supplies an AIEnemyManager priority-distance lead, not a proved original
 // name, so the neutral owner class stays. Target byte facts: owner pointer at +0,
-// player record lookup 0x002A8AB1 on the converged-neighbour global g_00DFEEF8, base
+// player record lookup 0x002A8AB1 on the converged-neighbour global TheSkirmishAIManager, base
 // center 0x004EBF4B, home point 0x00506CF5 for a non-record enemy.
 //
 // Retail's Coord3D is the non-POD class (Lib/Coord3DCtorView.h, included first: it
@@ -18,7 +18,7 @@ class Rva005A9562 { public: float rva005A92DE(void *); private: void *m_ptr; };
 #include "wwmath.h"
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva004EBF4B { public: Coord3D rva004EBF4B(); };
 Coord3D __cdecl Rva00506CF5(void *, Coord3D *);
 
@@ -29,8 +29,8 @@ static __forceinline float positionDistance(Coord3D saved, const Coord3D &p)
 }
 float Rva005A9562::rva005A92DE(void *other)
 {
- Rva004EBF4B *mine = (Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(m_ptr);
- Rva004EBF4B *enemy = (Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(other);
+ Rva004EBF4B *mine = (Rva004EBF4B *)TheSkirmishAIManager->rva002A8AB1(m_ptr);
+ Rva004EBF4B *enemy = (Rva004EBF4B *)TheSkirmishAIManager->rva002A8AB1(other);
  if(enemy) {
   return positionDistance(Coord3D(mine->rva004EBF4B()), enemy->rva004EBF4B());
  }

@@ -186,7 +186,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class LocomotorSet;
 class Pathfinder
 {
@@ -1693,7 +1693,7 @@ bool HordeContain::rva00468C37()
 // stay put.
 void HordeContain::rva004690D0(int value)
 {
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1((g_00DFEEF8 ? m_object : m_object)->getControllingPlayer());
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1((TheSkirmishAIManager ? m_object : m_object)->getControllingPlayer());
 	if (rec)
 		rec->rva002C6AA8(value, m_object);
 }

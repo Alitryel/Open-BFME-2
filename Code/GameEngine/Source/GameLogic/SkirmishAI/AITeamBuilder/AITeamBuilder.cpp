@@ -49,7 +49,7 @@ struct AITeamRequirementView;
 struct AITargetView;
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); void *rva002A8F24(Player *); void *rva002A8B73(void *,int); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 class TeamPrototype;
 class Rva0039D769;
@@ -249,7 +249,7 @@ public:
 void AITeamBuilder::recruitPreDefined(Team* team,int* count,TeamPrototype* remaining) {
  AITeamRequirementView* requirements=(AITeamRequirementView*)((char*)remaining+0x12c);
  if(requirements->priority<20)requirements->priority=20;
- void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ void* stats=TheSkirmishAIManager->rva002A8F24(owner14);
  const IDVectorView* units=(const IDVectorView*)((Rva005C4AD1LeaField*)*(void**)stats)->get();
  IDVectorView sorted;
  TeamPrototype* prototype=team->prototype30;
@@ -272,7 +272,7 @@ void AITeamBuilder::recruitPreDefined(Team* team,int* count,TeamPrototype* remai
   for(DistanceTree::iterator it=tree->begin();it._M_node!=finish._M_node;++it)sorted.push_back(*(const ScienceType*)&it->second.m_bits);
   units=&sorted;
  }
- AITargetView* target=(AITargetView*)g_00DFEEF8->rva002A8B73(owner14,requirements->targetKind);
+ AITargetView* target=(AITargetView*)TheSkirmishAIManager->rva002A8B73(owner14,requirements->targetKind);
  const ScienceType* end=units->end();
  for(const ScienceType* it=units->begin();it!=end;++it) {
   if(((Rva0039D5A9*)requirements)->rva0039D5A9()<=0)break;
@@ -301,11 +301,11 @@ void AITeamBuilder::recruitPreDefined(Team* team,int* count,TeamPrototype* remai
 // template has kind bit 0x108&8 and they pass the rowed 0x0059A01C test; for
 // requirement modes 0 and 1 (+0x1A0) a second pass takes kind bit 0x113&4.
 void AITeamBuilder::recruitUnDefined(Team* teamToBuild,int* curNumUnits) {
- void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ void* stats=TheSkirmishAIManager->rva002A8F24(owner14);
  Rva005C4AD1LeaField* unitStats=*(Rva005C4AD1LeaField**)stats;
  TeamPrototype* prototype=teamToBuild->prototype30;
  const AITeamRequirementView* requirements=(const AITeamRequirementView*)((const char*)prototype+0x12C);
- AITargetView* target=(AITargetView*)g_00DFEEF8->rva002A8B73(owner14,requirements->targetKind);
+ AITargetView* target=(AITargetView*)TheSkirmishAIManager->rva002A8B73(owner14,requirements->targetKind);
  const IDVectorView* units=(const IDVectorView*)unitStats->get();
  const IDVectorView* useUnits=units;
  IDVectorView sorted;
@@ -346,7 +346,7 @@ namespace _STL { template<> unsigned int hash_map<int,int>::bucket_count() const
 // loses retail's begin-pointer lifetime through the loop and cleanup.
 bool AITeamBuilder::defineUnitsNormal_old(TeamPrototype* prototype) {
  ((Rva0039D761DwordClearer*)prototype)->clear();
- void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ void* stats=TheSkirmishAIManager->rva002A8F24(owner14);
  void* units=*(void**)stats;
  if(((_STL::hash_map<int,int>*)units)->bucket_count()>0) {
   IDVectorView ids(*(const IDVectorView*)((Rva005C4AD1LeaField*)units)->get());

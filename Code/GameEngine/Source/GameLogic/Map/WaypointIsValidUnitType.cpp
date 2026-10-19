@@ -81,7 +81,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);	// 0x002A8AB1
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern GameLogic *TheGameLogic;
 
@@ -156,7 +156,7 @@ bool Waypoint::isValidUnitType(Object *obj)
 		{
 			if (!obj->getControllingPlayer()->rva002AA245())
 				return false;
-			if (g_00DFEEF8->rva002A8AB1(obj->getControllingPlayer()) == 0)
+			if (TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer()) == 0)
 				return false;
 		}
 		if (m_type == 7)

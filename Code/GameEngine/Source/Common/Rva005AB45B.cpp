@@ -5,7 +5,7 @@
 // AIReturnTheRingTactic.cpp).
 // Searches ID range from Rva002A8F24 map entry via LeaField for first live
 // Object with status 0x5E and stores its ID at +0x5C. Evidence: rowed calls
-// rva002A8F24 get findObjectByID testStatus; globals g_00DFEEF8 TheGameLogic;
+// rva002A8F24 get findObjectByID testStatus; globals TheSkirmishAIManager TheGameLogic;
 // caller 0x005AB6A5; offsets +0x24 +0x5C +0x438 from retail.
 class Player;
 class Object;
@@ -38,7 +38,7 @@ public:
 	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class AIReturnTheRingTactic
 {
 public:
@@ -51,7 +51,7 @@ private:
 };
 bool AIReturnTheRingTactic::findRingBearer()
 {
-	void *tmp = g_00DFEEF8->rva002A8F24(m_player);
+	void *tmp = TheSkirmishAIManager->rva002A8F24(m_player);
 	Rva005C4AD1LeaField *fld = *(Rva005C4AD1LeaField **)tmp;
 	void *range = fld->get();
 	ObjectID *begin = *(ObjectID **)range;

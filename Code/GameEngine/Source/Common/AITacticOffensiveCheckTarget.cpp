@@ -81,7 +81,7 @@ public:
 	void *rva002A8F24(Player *player);		// 0x002A8F24
 	Rva002A8AB1Record *rva002A8AB1(void *owner);	// 0x002A8AB1
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // The tactic's target (WorldBuilder AITarget), rowed under a placeholder.
 class Rva002C589B
@@ -120,7 +120,7 @@ unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 	Rva005DC763Units *units;
 	Object *obj = 0;
 	{
-		void *owner = g_00DFEEF8->rva002A8F24(m_player);
+		void *owner = TheSkirmishAIManager->rva002A8F24(m_player);
 		units = *(Rva005DC763Units **)owner;
 	}
 	for (unsigned int i = 0; i < units->bucket_count(); ++i)
@@ -141,7 +141,7 @@ unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 	}
 	if (!obj)
 		return false;
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_player);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_player);
 	if (rec->m_16C == 0)
 	{
 		Object *structure = target->rva002C5DA6();

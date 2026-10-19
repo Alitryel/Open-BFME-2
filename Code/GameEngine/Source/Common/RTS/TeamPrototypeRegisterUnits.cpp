@@ -10,7 +10,7 @@ class Player;
 class Rva004EC05A { public: void rva004EC05A(void *); };
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 struct UnitInfo { int m_00,m_04,m_08; AsciiString m_0c,m_name10; int m_14; };
 class TeamPrototype { public: void __declspec(noinline) rva003A0D0A(); private:
  char pad0[8]; Player *owner; char padc[0x130-12]; UnitInfo units[7]; int count;
@@ -18,7 +18,7 @@ class TeamPrototype { public: void __declspec(noinline) rva003A0D0A(); private:
 void TeamPrototype::rva003A0D0A()
 {
  if(owner) {
-  Rva002A8AB1Record *record=g_00DFEEF8->rva002A8AB1(owner);
+  Rva002A8AB1Record *record=TheSkirmishAIManager->rva002A8AB1(owner);
   if(record) {
    for(int i=0;i<count;++i) {
     if(units[i].m_name10.compare(AsciiString::TheEmptyString)!=0)

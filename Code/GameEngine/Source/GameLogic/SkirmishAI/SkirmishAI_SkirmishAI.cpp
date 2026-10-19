@@ -262,7 +262,7 @@ class Rva002A8F24 {
 public:
  Rva004E9600 *rva002A8B24(void *key);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva00506B1B { public: void rva00506B2F(); };
 
 // Native TacticalAI +0x10 is the tactics generator. WB names the two

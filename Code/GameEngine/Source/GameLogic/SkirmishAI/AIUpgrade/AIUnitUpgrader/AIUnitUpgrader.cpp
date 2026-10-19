@@ -48,7 +48,7 @@ extern ControlBar *TheControlBar;
 struct UpgradeConfigView { char pad[0xc4]; float probability; char padC8[0xd8-0xc8]; float minDelay,maxDelay; };
 struct Rva002A8AB1Record { char pad[0x160]; UpgradeConfigView *config; char pad164[8]; int enabled; };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva005DAFD7 { public: Rva005DAFD7(); void *vtable; float delay; unsigned int id; StringBase<char> name; char pad[0x2c-0x10]; unsigned int cost; const CommandButton *command; };
 class ModuleData;
 int GetGameLogicRandomValue(int,int,char *,int);
@@ -66,7 +66,7 @@ void AIUnitUpgrader::Register(Object *object, void *)
    if (!command) continue;
    UpgradeTemplate *upgrade=command->upgrade;
    if (!upgrade) continue;
-   Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(owner);
+   Rva002A8AB1Record *ai=TheSkirmishAIManager->rva002A8AB1(owner);
    Rva005DAFD7 *record=new Rva005DAFD7;
    record->cost=upgrade->calcCostToBuild(owner,(unsigned int)object);
    record->id=object->id;
@@ -98,7 +98,7 @@ public: void update();
 };
 void Rva00599264::update()
 {
- Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(owner);
+ Rva002A8AB1Record *ai=TheSkirmishAIManager->rva002A8AB1(owner);
  if (ai->enabled>0) {
    _STL::vector<void *>::iterator i=waiting.begin();
    while (i!=waiting.end()) {

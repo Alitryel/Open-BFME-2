@@ -32,7 +32,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva005DCB32Slot
 {
@@ -69,7 +69,7 @@ bool AITacticDefensive::initializeTeamTemplate(void *unit, int count)
 {
 	if (AITactic::initializeTeamTemplate(unit, count)) {
 		Rva005DCB32Unit *target = (Rva005DCB32Unit *)unit;
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 		Rva005DCB32Chances *chances = record->m_chances;
 		int index = m_slot->m_index;
 		if (!(GetGameLogicRandomValueReal(0.0f, 1.0f, AITACTICDEFENSIVE_FILE, 43) >= chances->m_chance[index]))

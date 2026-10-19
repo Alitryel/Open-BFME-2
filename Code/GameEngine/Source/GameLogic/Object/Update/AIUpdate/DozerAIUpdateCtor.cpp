@@ -1660,7 +1660,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIBuilder
 {
@@ -1670,7 +1670,7 @@ public:
 
 void DozerAIUpdate::notifyConstructionComplete()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(getObject()->getControllingPlayer());
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(getObject()->getControllingPlayer());
 	if (record)
 		reinterpret_cast<AIBuilder *>(record)->rva004EC2D4(getObject()->getID());
 }
@@ -2020,7 +2020,7 @@ void DozerAIUpdate::makePhantomStructureReal()
 	if (m_isRebuild == FALSE)
 	{
 		if (getObject()->getControllingPlayer()->getPlayerType() != PLAYER_COMPUTER ||
-			g_00DFEEF8->rva002A8AB1(getObject()->getControllingPlayer()) != 0)
+			TheSkirmishAIManager->rva002A8AB1(getObject()->getControllingPlayer()) != 0)
 		{
 			if (TheBuildAssistant->isLocationLegalToBuild(obj->getPosition(), obj->getTemplate(), obj->getOrientation(),
 					BuildAssistant::TERRAIN_RESTRICTIONS |

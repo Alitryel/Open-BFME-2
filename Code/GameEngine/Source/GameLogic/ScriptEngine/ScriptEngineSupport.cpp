@@ -18,7 +18,7 @@ public:
 class Rva002A8A81 { public: float rva002A8A81(void *); };
 struct Rva002A8AB1Record { void *rva002C6ACB(); };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 struct CombatChainAIDataView { char unknown00[0x54]; float scale; };
 class AI;
 extern AI *TheAI;
@@ -29,10 +29,10 @@ float AttackPriorityInfo::doModPriorityByCombatChain(float priority,const Object
     int chain = searcher->m_template->chain;
     if (chain != -1) {
         Rva002A8A81 *definition = reinterpret_cast<Rva002A8A81 *>(
-            reinterpret_cast<char *>(g_00DFEEF8) + 0x10 + chain * 0x84);
+            reinterpret_cast<char *>(TheSkirmishAIManager) + 0x10 + chain * 0x84);
         float modifier = definition->rva002A8A81(const_cast<Object *>(target));
         if (modifier != -1.0f) {
-            Rva002A8AB1Record *ai = g_00DFEEF8->rva002A8AB1(searcher->getControllingPlayer());
+            Rva002A8AB1Record *ai = TheSkirmishAIManager->rva002A8AB1(searcher->getControllingPlayer());
             if (ai) {
                 Player *targetPlayer = target->getControllingPlayer();
                 if (ai->rva002C6ACB() == targetPlayer)

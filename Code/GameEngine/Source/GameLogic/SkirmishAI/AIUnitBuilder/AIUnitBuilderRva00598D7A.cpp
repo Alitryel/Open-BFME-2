@@ -312,7 +312,7 @@ Rva00598C3AItem *AIUnitBuilder::createBestUnitToMake()
 
 class Player;
 class Rva002A8F24 { public: void *rva002A8F24(Player *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 // Native51B at4DFBED returns the keyed count at node+8 or0; RET4.
 // WB129B860 reads the same AsciiString reference; identity stays address-named.
 struct HeroEconomyStatsView {char pad[0x14];unsigned int available;};
@@ -321,7 +321,7 @@ int GetGameLogicRandomValue(int,int,char *,int);
 // WB152D170 names getHeroIndex; assertions200..225 and native165B agree.
 int AIUnitBuilder::getHeroIndex()
 {
- Rva004DFBED *stats=(Rva004DFBED *)g_00DFEEF8->rva002A8F24((Player *)m_30);
+ Rva004DFBED *stats=(Rva004DFBED *)TheSkirmishAIManager->rva002A8F24((Player *)m_30);
  if (!removedHeroes.empty()) {
    _STL::vector<int>::iterator i=removedHeroes.begin(),end=removedHeroes.end();
    while (i!=end) {
@@ -521,7 +521,7 @@ struct HeroBuildableFieldsView : Rva00598C3AItem {
 };
 Rva00598C3AItem *AIUnitBuilder::createBestHeroToBuild()
 {
- Rva004DFBED *stats=(Rva004DFBED *)g_00DFEEF8->rva002A8F24((Player *)m_30);
+ Rva004DFBED *stats=(Rva004DFBED *)TheSkirmishAIManager->rva002A8F24((Player *)m_30);
  int used=0;
  for (_STL::list<Rva00598C3AItem *>::const_iterator i=m_items.begin();i!=m_items.end();) { HeroBuildableFieldsView *item=(HeroBuildableFieldsView*)*i; ++i; used+=item->getQuantity(); }
  AIBuildableUnit *result=0;
@@ -537,7 +537,7 @@ Rva00598C3AItem *AIUnitBuilder::createBestHeroToBuild()
    if (!existing && found) {
      ThingTemplate *costTemplate=(ThingTemplate *)TheThingFactory->findTemplate(*name);
      cost48=costTemplate->rva0033A69A((const Player *)m_30,(int)factory,-1);
-     Rva004DFBED *current=(Rva004DFBED *)g_00DFEEF8->rva002A8F24((Player *)m_30);
+     Rva004DFBED *current=(Rva004DFBED *)TheSkirmishAIManager->rva002A8F24((Player *)m_30);
      if (current->economy->available>=(unsigned int)cost48 && fits) {
        result=new AIBuildableUnit((int)m_30);
        result->name0C=*name;

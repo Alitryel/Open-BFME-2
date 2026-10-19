@@ -237,7 +237,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *key);				// 0x002A8AB1
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva00599F65
 {
@@ -250,7 +250,7 @@ private:
 
 Rva002A8AB1Record *Rva00599F65::rva00599F65()
 {
-	return g_00DFEEF8->rva002A8AB1(m_key);
+	return TheSkirmishAIManager->rva002A8AB1(m_key);
 }
 
 // --- 0x0059AE72 (34B): with a positive +0x0C amount, the rowed 0x0041950A

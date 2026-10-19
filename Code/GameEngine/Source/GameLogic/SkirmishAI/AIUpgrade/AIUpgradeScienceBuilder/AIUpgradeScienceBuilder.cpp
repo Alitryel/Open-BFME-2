@@ -123,7 +123,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);	// 0x002A8AB1
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern unsigned g_00E063CC;	// frames between attempts
 
@@ -353,7 +353,7 @@ void AIUpgradeScienceBuilder::buildExpansionUpgrades()
 		return;
 	if (TheGameLogic->getFrame() - m_3C < g_00E063CC)
 		return;
-	if (g_00DFEEF8->rva002A8AB1(m_14)->get16C() < 1)
+	if (TheSkirmishAIManager->rva002A8AB1(m_14)->get16C() < 1)
 		return;
 	Rva00597E30Entry *entry = m_30[GetGameLogicRandomValue(0, (m_34 - m_30) - 1,
 		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AIUpgrade\\AIUpgradeScienceBuilder\\AIUpgradeScienceBuilder.cpp", 0x1A1)];

@@ -301,7 +301,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // 0x004ED748 on the tactic base is rowed as AITactic::end(bool, bool).
 class AITactic
@@ -355,7 +355,7 @@ void AIRoamingDefenseTactic::update()
 {
 	if (!m_roaming)
 		return;
-	IntMap *objects = *(IntMap **)g_00DFEEF8->rva002A8F24( (m_roaming ? m_owner : m_owner));
+	IntMap *objects = *(IntMap **)TheSkirmishAIManager->rva002A8F24( (m_roaming ? m_owner : m_owner));
 	for (unsigned int i = 0; i < objects->bucket_count(); ++i) {
 		Rva005AAB91IDs *ids = (Rva005AAB91IDs *)((Rva005C4AD1LeaField *)objects)->get();
 		Object *obj = TheGameLogic->findObjectByID(ids->m_begin[i]);

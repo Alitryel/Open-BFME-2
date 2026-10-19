@@ -250,7 +250,7 @@ public:
 // The tactical AI registry (0x00DFEEF8) and its per-player lookup 0x002A8AB1.
 struct Rva002A8AB1Record;
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIUpdateInterface { public: int rva00260DED() const; };
 class AttackPriorityInfo { public: float getPriority(const Object *, const Object *, bool) const; };
@@ -388,14 +388,14 @@ void *Rva002FFFCA::rva002FF07B(Object *me, const Coord3D *pos, float range, unsi
 	Rva0004584D filterAccept((const BfmeFixedStorage0004543D &)KINDOFMASK_NONE, (const BfmeFixedStorage0004543D &)Rva0006EE7A(0, 130, 136));
 	Rva002FDF47 filterReject((const BfmeFixedStorage0004543D &)Rva0006EE7A(0, 130, 136), (const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 38));
 	Rva00261513Filter filterDistance(me, true, range);
-	PartitionFilterSkirmishAI filterSkirmish(me, (SkirmishAI *)g_00DFEEF8->rva002A8AB1(me->getControllingPlayer()));
+	PartitionFilterSkirmishAI filterSkirmish(me, (SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(me->getControllingPlayer()));
 
 	filterOwner.link(&filterAlive);
 	if (!(qualifiers & 8))
 		filterOwner.link(&filterBuildings);
 	if (qualifiers & 0x40)
 	{
-		if (!g_00DFEEF8->rva002A8AB1(me->getControllingPlayer()))
+		if (!TheSkirmishAIManager->rva002A8AB1(me->getControllingPlayer()))
 			filterOwner.link(&filterAccept);
 		else
 			filterOwner.link(&filterReject);
@@ -412,7 +412,7 @@ void *Rva002FFFCA::rva002FF07B(Object *me, const Coord3D *pos, float range, unsi
 	filterOwner.link(&filterStatus);
 	if (!(qualifiers & 0x100))
 		filterOwner.link(&filterDistance);
-	if (me->ai->rva00260DED() == 0x21 && g_00DFEEF8->rva002A8AB1(me->getControllingPlayer()))
+	if (me->ai->rva00260DED() == 0x21 && TheSkirmishAIManager->rva002A8AB1(me->getControllingPlayer()))
 		filterOwner.link(&filterSkirmish);
 	if (qualifiers & 2)
 		filterOwner.link(&filterAttack);

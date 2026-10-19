@@ -247,7 +247,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 template <int N> class Rva00455B42Slots : public Rva00455B42Slots<N - 1>
 {
@@ -345,8 +345,8 @@ void FoundationAIUpdate::rva00455B67(Player *oldOwner, Player *newOwner)
 	Object *obj = TheGameLogic->findObjectByID(m_28);
 	if (!obj)
 		return;
-	Rva002A8AB1Record *oldRecord = g_00DFEEF8->rva002A8AB1(oldOwner);
-	Rva002A8AB1Record *newRecord = g_00DFEEF8->rva002A8AB1(newOwner);
+	Rva002A8AB1Record *oldRecord = TheSkirmishAIManager->rva002A8AB1(oldOwner);
+	Rva002A8AB1Record *newRecord = TheSkirmishAIManager->rva002A8AB1(newOwner);
 	if (oldRecord)
 		oldRecord->rva002C6A4E(obj);
 	if (newRecord)

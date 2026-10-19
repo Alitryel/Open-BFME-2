@@ -61,7 +61,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva005A9ACDRequest
 {
@@ -137,7 +137,7 @@ private:
 
 bool AISiegeGatesTactic::canRun(void *request)
 {
-	if (g_00DFEEF8->rva002A8AB1(m_owner)->rva002C6ACB()
+	if (TheSkirmishAIManager->rva002A8AB1(m_owner)->rva002C6ACB()
 		&& checkTarget(request)
 		&& !((Rva005A9ACDRequest *)request)->m_04)
 		return !sideHasIdleSiegeWeapons();

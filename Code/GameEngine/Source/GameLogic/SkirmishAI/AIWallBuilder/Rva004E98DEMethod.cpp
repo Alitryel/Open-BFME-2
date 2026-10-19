@@ -1,7 +1,7 @@
 // cl: /MD
 // AIWallBuilder::canBuildAnyWall (WorldBuilder name, AIWallBuilder.cpp line 186: the same +0x08 player test through 0x002A8AB1).
 // was ?rva004E98DE@Rva004E98DE@@QAEEXZ, retail 0x004E98DE, 25 bytes.
-// thiscall reads this+8 as owner for rowed-adjacent pin rva002A8AB1 0x002A8AB1 via g_00DFEEF8 then tests +0x16c > 0. Caller 0x004E9DB8.
+// thiscall reads this+8 as owner for rowed-adjacent pin rva002A8AB1 0x002A8AB1 via TheSkirmishAIManager then tests +0x16c > 0. Caller 0x004E9DB8.
 struct Rva002A8AB1Record
 {
     char m_pad00[0x160];
@@ -14,7 +14,7 @@ class Rva002A8F24
 public:
     Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class AIWallBuilder
 {
     char m_pad00[8];
@@ -24,5 +24,5 @@ public:
 };
 unsigned char AIWallBuilder::canBuildAnyWall()
 {
-    return g_00DFEEF8->rva002A8AB1(m_owner)->m_16c > 0;
+    return TheSkirmishAIManager->rva002A8AB1(m_owner)->m_16c > 0;
 }

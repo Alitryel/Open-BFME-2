@@ -92,10 +92,10 @@ void *Rva0037E421::rva0037E7A5(int index)
 // Leaf body called by ProductionUpdate::calcTotalProductionFrames at 0x0049CD8E via Player+0x738 slot.
 // Entry lookup via Rva0037E421::rva0037E451, controlling-player gate via
 // Object::getControllingPlayer plus Rva002A9BF2 == 3, PlayerList gate via
-// g_00DFEEF8 plus Rva002A8AB1, time via UnitRevivalEntry::
+// TheSkirmishAIManager plus Rva002A8AB1, time via UnitRevivalEntry::
 // revivalEntryCalcTimeToBuild with this+0x10 player, scale = min(1.0f,
-// *(g_00DFEEF8+0x854)), return (int)(t*(1.0f-scale)). No donor; recipe follows
-// UpgradeTemplate::rva0026EE30 precedent for (int)void* plus g_00DFEEF8 plus void* args.
+// *(TheSkirmishAIManager+0x854)), return (int)(t*(1.0f-scale)). No donor; recipe follows
+// UpgradeTemplate::rva0026EE30 precedent for (int)void* plus TheSkirmishAIManager plus void* args.
 // Honest-address name: owner unknown so Rva0037E6E8 class, void* void* args (PAX0 compression).
 class Object
 {
@@ -115,7 +115,7 @@ class Rva002A8F24
 public:
     Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva0037E6E8 : public Rva0037E421
 {
 public:
@@ -134,8 +134,8 @@ int Rva0037E6E8::rva0037E6E8(void *extra, void *object)
     void *p1 = obj->getControllingPlayer();
     if ((int)((Rva002A9BF2 *)p1)->rva002A9BF2() == 3) {
         void *p2 = obj->getControllingPlayer();
-        if (g_00DFEEF8->rva002A8AB1((Rva003A2BD4M08 *)p2)) {
-            float *limitPtr = (float *)((char *)g_00DFEEF8 + 0x854);
+        if (TheSkirmishAIManager->rva002A8AB1((Rva003A2BD4M08 *)p2)) {
+            float *limitPtr = (float *)((char *)TheSkirmishAIManager + 0x854);
             float scale = (1.0f > *limitPtr) ? *limitPtr : 1.0f;
             int t = ((UnitRevivalEntry *)entry)->revivalEntryCalcTimeToBuild(m_10, obj);
             return (int)((float)t * (1.0f - scale));
@@ -198,8 +198,8 @@ int Rva0037E6E8::rva0037E649(int index, Object *object)
     void *p1 = object->getControllingPlayer();
     if ((int)((Rva002A9BF2 *)p1)->rva002A9BF2() == 3) {
         void *p2 = object->getControllingPlayer();
-        if (g_00DFEEF8->rva002A8AB1((Rva003A2BD4M08 *)p2)) {
-            float *limitPtr = (float *)((char *)g_00DFEEF8 + 0x850);
+        if (TheSkirmishAIManager->rva002A8AB1((Rva003A2BD4M08 *)p2)) {
+            float *limitPtr = (float *)((char *)TheSkirmishAIManager + 0x850);
             float scale = (1.0f > *limitPtr) ? *limitPtr : 1.0f;
             int cost = ((UnitRevivalEntry *)entry)->revivalEntryCalcCostToBuild(m_10, object);
             return (int)((float)cost * (1.0f - scale));

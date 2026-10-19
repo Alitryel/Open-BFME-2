@@ -193,7 +193,7 @@ public:
 	void *rva002A8F24(Player *player);
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // The 0x18-byte order record (ctor 0x0039EA9C, dtor 0x0039EAB7) and its
 // copy-assigned view (0x0039D769) that 0x003A0D62 appends.
@@ -364,7 +364,7 @@ bool AISimpleSiegeTactic::initializeTeamTemplate(TeamPrototype *orders, int skip
 {
 	if (!skip) {
 		Object *obj = 0;
-		Rva0025BFF8 *objects = *(Rva0025BFF8 **)g_00DFEEF8->rva002A8F24(getPlayer());
+		Rva0025BFF8 *objects = *(Rva0025BFF8 **)TheSkirmishAIManager->rva002A8F24(getPlayer());
 		for (unsigned int idx = 0; idx < ((IntMap *)objects)->bucket_count(); ++idx) {
 			obj = objects->rva0025BFF8(idx);
 			if (obj && obj->getOwnerIndex() == getPlayer()->getPlayerIndex()

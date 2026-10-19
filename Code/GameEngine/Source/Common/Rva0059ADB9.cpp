@@ -331,7 +331,7 @@ public:
 typedef _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>,
     _STL::allocator<_STL::pair<const int, int> > > Rva002BEDABRangeView;
 extern TeamFactory *TheTeamFactory;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 void Rva0059AC4D::rva0059ABC9(void *object)
 {
@@ -342,7 +342,7 @@ void Rva0059AC4D::rva0059ABC9(void *object)
         team->flag110 = true;
         team->flag111 = true;
     }
-    void *stats = g_00DFEEF8->rva002A8F24(owner14);
+    void *stats = TheSkirmishAIManager->rva002A8F24(owner14);
     Rva002BEDABRangeView *range = *static_cast<Rva002BEDABRangeView **>(stats);
     if (range->bucket_count() > 0) {
         int count = reinterpret_cast<AITeamBuilder *>(this)->getCurNumUnits(team);

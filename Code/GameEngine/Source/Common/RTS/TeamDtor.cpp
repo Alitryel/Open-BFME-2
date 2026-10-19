@@ -188,7 +188,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *key);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class SkirmishAI
 {
@@ -264,9 +264,9 @@ Team::~Team()
 	m_48.clear();
 	m_xferMemberIDList.clear();
 
-	if (g_00DFEEF8)
+	if (TheSkirmishAIManager)
 	{
-		Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_proto->m_owner);
+		Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_proto->m_owner);
 		if (rec)
 			((SkirmishAI *)rec)->UnRegister(this);
 	}

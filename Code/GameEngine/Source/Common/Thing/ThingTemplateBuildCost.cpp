@@ -55,7 +55,7 @@ class Rva002A8F24 { public:
  Rva002A8AB1Record* rva002A8AB1(void*);
 };
 // Reuse the data-ledger provider, defined by Rva005EEA20Find.cpp.
-extern Rva002A8F24* g_00DFEEF8;
+extern Rva002A8F24* TheSkirmishAIManager;
 class Overridable;
 class Rva0033A68A { public: Overridable* rva0033A68A(); };
 class ThingTemplate { public:
@@ -77,8 +77,8 @@ int ThingTemplate::rva0033A69A(const Player*player,int builderAddress,int price)
  float factionFactor=((Rva002AD5ED*)player)->rva002AD5ED(name)+1.0f;
  factionFactor*=((Player*)player)->getProductionCostChangeBasedOnTemplate(this,false);
  float handicap=player->handicap.getHandicap(Handicap::BUILDCOST,this); float cost=baseCost; cost*=handicap;cost*=factionFactor;cost*=builderFactor;
- if((int)((Rva002A9BF2*)player)->rva002A9BF2()==3 && g_00DFEEF8->rva002A8AB1((void*)player)) {
-  return (int)(cost*(1.0f-CappedDiscount(g_00DFEEF8->discount)));
+ if((int)((Rva002A9BF2*)player)->rva002A9BF2()==3 && TheSkirmishAIManager->rva002A8AB1((void*)player)) {
+  return (int)(cost*(1.0f-CappedDiscount(TheSkirmishAIManager->discount)));
  }
  return (int)cost;
 }

@@ -37,7 +37,7 @@ struct RoamOwnerStats{char pad[8];Rva005C4AD1LeaField *all;IntMap *targets;};
 struct Rva002A8AB1Record;
 class Player;
 class Rva002A8F24 {public:void *rva002A8F24(Player *);Rva002A8AB1Record *rva002A8AB1(void *);};
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva004EBF4B{public:Coord3D rva004EBF4B();};
 class Rva00295A0FCommands{public:void Rva00295A0FCommand(void*,int,int);};
 struct RoamAI {char pad[0x20];Rva00295A0FCommands commands;};
@@ -65,10 +65,10 @@ static __forceinline float RoamDistance2(const RoamVector3 &a,const RoamVector3 
 class AIRoamingDefenseTactic {public:void roam(Object *);char pad[0x24];Player *owner;};
 void AIRoamingDefenseTactic::roam(Object *obj)
 {
- RoamOwnerStats *stats=(RoamOwnerStats *)g_00DFEEF8->rva002A8F24(owner);
+ RoamOwnerStats *stats=(RoamOwnerStats *)TheSkirmishAIManager->rva002A8F24(owner);
  IntMap *targets=stats->targets;
  if(targets->bucket_count()>0){
-  Rva002A8AB1Record *record=g_00DFEEF8->rva002A8AB1(owner);
+  Rva002A8AB1Record *record=TheSkirmishAIManager->rva002A8AB1(owner);
   Coord3D center=((Rva004EBF4B *)record)->rva004EBF4B();
   _STL::vector<ObjectID> *ids=(_STL::vector<ObjectID> *)((Rva005C4AD1LeaField *)targets)->get();
   _STL::vector<Object *> nearby;

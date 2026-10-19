@@ -147,7 +147,7 @@ private:
 	char m_pad00[0x10];
 	Rva004EA4E5Settings m_settings;	// +0x10
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva004EA4E5IDs
 {
@@ -280,7 +280,7 @@ Rva004EA4E5Farm *AIEconomyBuilder::findAvailableFarm()
 			continue;
 		Coord3D pos = farm->getPosition();
 		Coord3D base;
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_player);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_player);
 		if (record->m_baseBuilder.rva00506B74(&base))
 		{
 			pos.x -= base.x;
@@ -296,10 +296,10 @@ Rva004EA4E5Farm *AIEconomyBuilder::findAvailableFarm()
 	{
 
 		Rva004EA4E5Object *depot = 0;
-		void *target = g_00DFEEF8->rva002A8AB1(m_player)->rva002C6ACB();
+		void *target = TheSkirmishAIManager->rva002A8AB1(m_player)->rva002C6ACB();
 		if (target)
 		{
-			Rva004EA4E5Stats *stats = (Rva004EA4E5Stats *)g_00DFEEF8->rva002A8F24((Player *)target);
+			Rva004EA4E5Stats *stats = (Rva004EA4E5Stats *)TheSkirmishAIManager->rva002A8F24((Player *)target);
 			Rva004EA4E5IDs *ids = (Rva004EA4E5IDs *)stats->m_structureStats->get();
 			ObjectID *idEnd = ids->m_end;
 			for (ObjectID *id = ids->m_begin; id != idEnd && !depot; ++id)
@@ -340,7 +340,7 @@ Rva004EA4E5Farm *AIEconomyBuilder::findAvailableFarm()
 			Rva004EA4E5Mask rejectKinds;
 			rejectKinds.set(205);
 			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&farm->getPosition(),
-				g_00DFEEF8->getSettings().m_farmDangerRadius, 0,
+				TheSkirmishAIManager->getSettings().m_farmDangerRadius, 0,
 				Rva0026119DFilter().link(&Rva00261409Filter(m_player, true, 4))->link(
 					Rva003959FA(*(BfmeFixedStorage0004543D *)&kinds).link(&Rva0027231F(*(BfmeFixedStorage0004543D *)&rejectKinds))),
 				0);

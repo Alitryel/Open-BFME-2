@@ -25,7 +25,7 @@
 // trigger-area tests as in ZH Team.cpp). BFME2 walks a fresh 24-byte member
 // iterator per pass (retail rep movsd 6) instead of getFirstItemIn, moves each
 // member with the pinned Object member 0x00298AE4, then notifies the
-// TheSkirmishAIManager (g_00DFEEF8) record of the controlling player through
+// TheSkirmishAIManager (TheSkirmishAIManager) record of the controlling player through
 // 0x002C6A76. Sole caller 0x0039E9FD hands units to the owner's +0x2EC team.
 // ?transferKindOfUnitsTo@Team@@QAEXPAV1@ABV?$BitFlags@$0EF@@@@Z @0x0039E6D1 (155B): the
 // kind-filtered twin (Thing::isAnyKindOf on each member, advance otherwise),
@@ -124,7 +124,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Team
 {
@@ -338,7 +338,7 @@ void Team::transferUnitsTo(Team *newTeam)
 		return;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter = iterate_TeamMemberList())
 		iter.cur()->setTeam(newTeam);
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(getControllingPlayer());
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(getControllingPlayer());
 	if (rec)
 		((SkirmishAI *)rec)->UnRegister(this);
 }
@@ -358,7 +358,7 @@ void Team::transferKindOfUnitsTo(Team *newTeam, const BitFlags<69> &kinds)
 			iter.advance();
 		}
 	}
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(getControllingPlayer());
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(getControllingPlayer());
 	if (rec && !rva0039DEC4())
 		((SkirmishAI *)rec)->UnRegister(this);
 }

@@ -57,7 +57,7 @@ class Rva002A8F24
 public:
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva005AA735Record
 {
@@ -104,7 +104,7 @@ bool Rva005AA735::initializeTeamTemplate(Rva0039D7A6Setter *team, void *)
 		team->m_2D0 = 3;
 		break;
 	case 2: {
-		unsigned int count = (*(IntMap **)g_00DFEEF8->rva002A8F24(m_owner))->bucket_count();
+		unsigned int count = (*(IntMap **)TheSkirmishAIManager->rva002A8F24(m_owner))->bucket_count();
 		if (count > 1)
 			team->m_2D0 = (int)(count * 0.5f);
 		break;

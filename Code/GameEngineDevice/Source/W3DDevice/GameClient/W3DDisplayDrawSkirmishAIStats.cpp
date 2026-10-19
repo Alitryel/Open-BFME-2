@@ -7,7 +7,7 @@
 // WorldBuilder 0x0096CC30 W3DDisplay::drawSkirmishAIStats (W3DDisplay.cpp,
 // assert dTree at line 3038, callgraph match) agrees.
 // Target facts: for every player passing 0x002AA245, the skirmish AI manager
-// (global 0x009FEEF8, owner name g_00DFEEF8) record 0x002A8AB1 lists markers
+// (global 0x009FEEF8, owner name TheSkirmishAIManager) record 0x002A8AB1 lists markers
 // at +0x164 -> +0x20 whose position (+4) and radius (+0x14) become red spheres,
 // and the 0x002A8F24 owner's tree at +0x10 (pointer array +0x10..+0x14,
 // positions by 0x00049D20, radius at element +4) draws spheres in the player
@@ -122,7 +122,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *player);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class SkirmishAIStatsDebugDraw
 {
@@ -172,7 +172,7 @@ void W3DDisplay::drawSkirmishAIStats()
 		Player *player = ThePlayerList->getNthPlayer(i);
 		if (!player->rva002AA245())
 			continue;
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(player);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(player);
 		if (record) {
 			const SkirmishAIStatsMarkerVector &markers = record->m_markers->m_markers;
 			SkirmishAIStatsMarker **end = markers.end();
@@ -183,8 +183,8 @@ void W3DDisplay::drawSkirmishAIStats()
 				((SkirmishAIStatsDisplayView *)TheDisplay)->m_debugDraw->drawSphere(tm, (*it)->m_radius, GameMakeColor(255, 0, 0, 255), 0, 1);
 			}
 		}
-		if (g_00DFEEF8->rva002A8F24(player)) {
-			Rva00049D20 *dTree = ((SkirmishAIStatsOwner *)g_00DFEEF8->rva002A8F24(player))->m_tree;
+		if (TheSkirmishAIManager->rva002A8F24(player)) {
+			Rva00049D20 *dTree = ((SkirmishAIStatsOwner *)TheSkirmishAIManager->rva002A8F24(player))->m_tree;
 			for (unsigned int j = 0; j < dTree->size(); ++j) {
 				Vector3 tmp;
 				Vector3 pos = *(Vector3 *)dTree->rva00049D20(&tmp, j);

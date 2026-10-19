@@ -27,7 +27,7 @@ public:
 	struct Rva002A8AB1Record *rva002A8AB1(void *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AISpellBookBase
 {
@@ -53,7 +53,7 @@ private:
 bool AISpellBookStructureBreaker::shouldActivate(Object *source)
 {
 	Player *p1 = source->getControllingPlayer();
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(p1);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(p1);
 	void *v = rec->rva002C6ACB();
 	if (v == 0)
 		return false;

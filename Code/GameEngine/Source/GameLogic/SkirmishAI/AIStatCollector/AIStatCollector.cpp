@@ -94,7 +94,7 @@ class Rva005965A5 { public: Rva005965A5(); private: char bytes[0x1c]; };
 class AIEconomyStats { public: AIEconomyStats(int); private: char bytes[0x1c]; };
 class Rva00283081 { public: Rva00283081(float,int) throw(); private: char bytes[0x24]; };
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 struct CollectorManagerView { char prefix[0x878]; float interval; };
 void *Rva004DF983Field(void *);
 class AIStatCollector {
@@ -122,7 +122,7 @@ AIStatCollector::AIStatCollector(Player *owner)
  otherUnits=new Rva00596069;
  structures=new Rva005965A5;
  resources=new AIEconomyStats(reinterpret_cast<int>(player));
- positions=new Rva00283081(reinterpret_cast<CollectorManagerView *>(g_00DFEEF8)->interval,
+ positions=new Rva00283081(reinterpret_cast<CollectorManagerView *>(TheSkirmishAIManager)->interval,
                           reinterpret_cast<int>(&Rva004DF983Field));
 }
 

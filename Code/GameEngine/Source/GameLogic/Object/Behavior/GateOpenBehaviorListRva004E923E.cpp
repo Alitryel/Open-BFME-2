@@ -3,7 +3,7 @@
 // ?rva004E923E@GateOpenBehaviorList@@QAE_NPAVObject@@@Z, retail 0x004E923E, 249 bytes.
 // Gate list path check for one object: finds the gate closest to the
 // position recorded for the object's controlling player (rowed
-// 0x002A8AB1 lookup on g_00DFEEF8 then the rowed 0x004EBF4B position copy)
+// 0x002A8AB1 lookup on TheSkirmishAIManager then the rowed 0x004EBF4B position copy)
 // among the gates that player owns (rowed closest-owned scan 0x004E9179).
 // Without such a gate the answer is false. Otherwise it aims 100 units past
 // the gate along the direction from that position (rowed Coord3D::normalize
@@ -36,7 +36,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva004EBF4B
 {
@@ -87,7 +87,7 @@ private:
 
 bool GateOpenBehaviorList::rva004E923E(Object *obj)
 {
-	Rva004EBF4B *record = (Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(obj->getControllingPlayer());
+	Rva004EBF4B *record = (Rva004EBF4B *)TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer());
 	Coord3D pos = record->rva004EBF4B();
 	void *gate = rva004E9179(&pos, obj->getControllingPlayer());
 	if (gate != 0)

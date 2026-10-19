@@ -29,7 +29,7 @@ extern class Rva002872BA *TheTriggerManager;
 class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 // Sole data-ledger owner of the registry pointer at VA 0x00DFEEF8.
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 // The timing-log enable byte (VA 0x00DFE7A8), defined by Rva003B9EC4.cpp.
 extern unsigned char g_00DFE7A8;
 class AIData {public:char pad[0xb9];bool enabled;};
@@ -57,7 +57,7 @@ void Object::rva0028DCC4(){
   if((type->kind[3] & (1u<<13)) && !TheAI->data->enabled)eligible=false;
   if(eligible && TheCollisionManager)((Rva00758230*)TheCollisionManager)->rva00758230((Rva009A29A0Window*)collision);
   if(TheLuaScriptEngine)((LuaDrawableState*)TheLuaScriptEngine)->rva00333E5B(this);
-  g_00DFEEF8->rva002A9365(this);
+  TheSkirmishAIManager->rva002A9365(this);
   flag454=true;
  }
 }

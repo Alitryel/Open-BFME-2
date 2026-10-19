@@ -235,7 +235,7 @@ public:
     Rva002A8AB1Record *rva002A8AB1(void *);
 };
 extern GameLogic *TheGameLogic;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern int BfmeLogicFramesPerSecond;
 enum ObjectStatusTypes;
 class ThingTemplate
@@ -353,12 +353,12 @@ void AIBuilder::moneySaverUpdate()
     unsigned int frame = TheGameLogic->getFrame();
     if (value158 <= frame)
     {
-        AIBuilderSavingsStore *store = static_cast<AIBuilderSavingsStore *>(g_00DFEEF8->rva002A8F24(owner00));
+        AIBuilderSavingsStore *store = static_cast<AIBuilderSavingsStore *>(TheSkirmishAIManager->rva002A8F24(owner00));
         AIEconomyStats *saver = store->saver0c;
         saver->limit18 = component38.savingsLimit48;
         if (saver->limit18 == -1 || saver->saved14 < static_cast<unsigned int>(saver->limit18))
         {
-            Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(owner00);
+            Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(owner00);
             double amount = static_cast<float>(owner00->money94) *
                 *reinterpret_cast<float *>(static_cast<unsigned char *>(record->data160) + 0xac + record->difficulty16c * 4);
             if (amount > 1.0f)
@@ -449,7 +449,7 @@ void AIBuilder::checkForNewUpgrades()
         return;
     flag154 = enabled;
 
-    void *stats = g_00DFEEF8->rva002A8F24(owner00);
+    void *stats = TheSkirmishAIManager->rva002A8F24(owner00);
     Rva005C4AD1LeaField *idsField = *(Rva005C4AD1LeaField **)((unsigned char *)stats + 8);
     _STL::vector<ObjectID> *ids = (_STL::vector<ObjectID> *)idsField->get();
     _STL::vector<Object *, _STL::allocator<Object *> > changed;
@@ -471,8 +471,8 @@ void AIBuilder::checkForNewUpgrades()
         _STL::vector<Object *, _STL::allocator<Object *> >::iterator changedIt = changed.begin();
         do
         {
-            g_00DFEEF8->UnRegister(*changedIt);
-            g_00DFEEF8->rva002A9365(*changedIt);
+            TheSkirmishAIManager->UnRegister(*changedIt);
+            TheSkirmishAIManager->rva002A9365(*changedIt);
             ++changedIt;
         } while (changedIt != changed.end());
     }

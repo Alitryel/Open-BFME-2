@@ -218,7 +218,7 @@ public:
 	char m_pad000[0x864];
 	_STL::vector<int> m_usedStarts;	// +0x864
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva005ADA40Owned
 {
@@ -552,7 +552,7 @@ void AIBase::buildFortressIfNeeded()
 	const ThingTemplate *tmpl = TheThingFactory->findTemplate(side);
 	if (!((Player *)m_owner)->canBuild(tmpl))
 		return;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	int count = record->m_16C;
 	if (count < 1)
 		return;

@@ -15,7 +15,7 @@ public:
 };
 
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva002C6845
 {
@@ -35,7 +35,7 @@ void Rva002C6845::rva002C6845()
 	char *base = (char *)this + 0x164;
 	Rva002C5F65 *p = *(Rva002C5F65 **)base;
 	p->rva002C5F65();
-	if (((unsigned char *)g_00DFEEF8)[0x85D] == 0)
+	if (((unsigned char *)TheSkirmishAIManager)[0x85D] == 0)
 		return;
 	Rva002C5F65 *q = *(Rva002C5F65 **)base;
 	((unsigned char *)q)[4] = 1;

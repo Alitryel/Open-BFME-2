@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX- /Ob1
 // ?notifyProductionBurstFinished@QueueProductionExitUpdate@@QAEXXZ @0x004A0547 297B chain via 0x4A0403.
-// Evidence: QueueProductionExitUpdate rally logic via rowed bfmeQueryRallyOverride 0x4A0403; TheGameLogic findObjectByID row; setStatus rows; getControllingPlayer row; g_00DFEEF8 plus rva002A8AB1 pin; rva00346C53 pin; AI rva0036EBB8 row; v8 rally coord; v31/v4/v145 virtuals; neighbours SetRallyPoint /O1.
+// Evidence: QueueProductionExitUpdate rally logic via rowed bfmeQueryRallyOverride 0x4A0403; TheGameLogic findObjectByID row; setStatus rows; getControllingPlayer row; TheSkirmishAIManager plus rva002A8AB1 pin; rva00346C53 pin; AI rva0036EBB8 row; v8 rally coord; v31/v4/v145 virtuals; neighbours SetRallyPoint /O1.
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 class Object;
 Object *bfmeQueryRallyOverride(Object *obj, const Coord3D *pos);
@@ -81,7 +81,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *x);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class AICommandInterface
 {
 public:
@@ -149,7 +149,7 @@ void QueueProductionExitUpdate::notifyProductionBurstFinished()
 		Player *player = selfObj->getControllingPlayer();
 		if (!player || player->m_5c)
 		{
-			Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(player);
+			Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(player);
 			if (!rec)
 				provider->v4(0);
 			else if (unk1c->m_32)

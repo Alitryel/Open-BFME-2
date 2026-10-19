@@ -5,7 +5,7 @@
 // optional +0x113 check gated by arg2, +0x258 getCurrentVictim,
 // getControllingPlayer flag check, optional victim 0x80 check gated by arg3.
 // Evidence: callers 0x005D7C63 0x005D8475 0x005D8636 pass ecx=this+0x28 with
-// Player* plus 1/1 bools; callees rowed; globals g_00DFEEF8 TheGameLogic.
+// Player* plus 1/1 bools; callees rowed; globals TheSkirmishAIManager TheGameLogic.
 // Honest address name; owner unproven.
 
 class Player;
@@ -31,9 +31,9 @@ public:
 	void *rva002A8F24(Player *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
-// g_00DFEEF8: matched references place it at VA 0xdfeef8 (zero-filled .bss).
-Rva002A8F24 * g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
+// TheSkirmishAIManager: matched references place it at VA 0xdfeef8 (zero-filled .bss).
+Rva002A8F24 * TheSkirmishAIManager;
 
 class Rva005C4AD1LeaField
 {
@@ -85,7 +85,7 @@ public:
 
 Object *Rva005EEA20::findUnitInCombat(Player *player, bool skipStealth, bool skipVictimCheck)
 {
-	void *store = g_00DFEEF8->rva002A8F24(player);
+	void *store = TheSkirmishAIManager->rva002A8F24(player);
 	Rva005C4AD1LeaField *holder = *(Rva005C4AD1LeaField **)store;
 	IdRange *range = (IdRange *)(void *)holder->get();
 	ObjectID *it = range->m_begin;

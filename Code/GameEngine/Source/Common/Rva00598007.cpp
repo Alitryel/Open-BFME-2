@@ -13,7 +13,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIUnitBuilder
 {
@@ -27,12 +27,12 @@ private:
 
 Rva002A8AB1Record *AIUnitBuilder::getAI()
 {
-	Rva002A8AB1Record *p = g_00DFEEF8->rva002A8AB1(m_30);
+	Rva002A8AB1Record *p = TheSkirmishAIManager->rva002A8AB1(m_30);
 	return p;
 }
 
 bool AIUnitBuilder::rva0059802E()
 {
-	Rva002A8AB1Record *p = g_00DFEEF8->rva002A8AB1(m_30);
+	Rva002A8AB1Record *p = TheSkirmishAIManager->rva002A8AB1(m_30);
 	return p->m_16c == 0;
 }

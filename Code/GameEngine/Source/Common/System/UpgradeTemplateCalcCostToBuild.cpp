@@ -84,7 +84,7 @@ public:
 	char m_pad000[0x850];
 	float m_850; // +0x850
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class UpgradeTemplate
 {
@@ -135,10 +135,10 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 		multiplier = player->getProductionCostChangeBasedOnUpgradeDiscount(m_name) + 1.0f;
 	int scaled = (int)((float)cost * multiplier);
 
-	if ((int)((Rva002A9BF2 *)player)->rva002A9BF2() == 3 && g_00DFEEF8->rva002A8AB1(player))
+	if ((int)((Rva002A9BF2 *)player)->rva002A9BF2() == 3 && TheSkirmishAIManager->rva002A8AB1(player))
 	{
 		const float one = 1.0f;
-		float change = g_00DFEEF8->m_850 < one ? g_00DFEEF8->m_850 : one;
+		float change = TheSkirmishAIManager->m_850 < one ? TheSkirmishAIManager->m_850 : one;
 		return (int)((1.0f - change) * (float)scaled);
 	}
 	return scaled;

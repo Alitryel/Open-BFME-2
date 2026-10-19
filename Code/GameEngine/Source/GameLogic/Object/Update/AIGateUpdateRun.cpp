@@ -19,7 +19,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *key);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class GateOpener;
 
@@ -56,7 +56,7 @@ UpdateSleepTime AIGateUpdate::update()
 	if (enabled == 0) {
 		Object *obj = object;
 		Player *player = obj->getControllingPlayer();
-		Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(player);
+		Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(player);
 		int wide;
 		if (rec != 0 && getOpener() != 0)
 			wide = 1;

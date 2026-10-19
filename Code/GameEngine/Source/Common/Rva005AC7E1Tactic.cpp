@@ -252,7 +252,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITactic
 {
@@ -304,7 +304,7 @@ private:
 void AIRingHeroTactic::cleanUp()
 {
 	m_hero = INVALID_ID;
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AsciiString("AIRingHeroTactic_IsRunning"), 0);
 	record->rva002C717E(AsciiString("AIRingHeroTactic_NextLogicFrameRun"), 0);
 	m_5C = 0;
@@ -312,14 +312,14 @@ void AIRingHeroTactic::cleanUp()
 
 bool AIRingHeroTactic::initializeTeamTemplate(void *unit, int count)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AsciiString("AIRingHeroTactic_IsRunning"), 1);
 	return AITactic::initializeTeamTemplate(unit, count);
 }
 
 bool AIRingHeroTactic::weHaveGollum()
 {
-	IntMap *objects = *(IntMap **)g_00DFEEF8->rva002A8F24(m_owner);
+	IntMap *objects = *(IntMap **)TheSkirmishAIManager->rva002A8F24(m_owner);
 	for (unsigned int i = 0; i < objects->bucket_count(); ++i) {
 		Rva005AC7E1IDs *ids = (Rva005AC7E1IDs *)((Rva005C4AD1LeaField *)objects)->get();
 		Object *obj = TheGameLogic->findObjectByID(ids->m_begin[i]);
@@ -333,7 +333,7 @@ bool AIRingHeroTactic::weHaveGollum()
 
 bool AIRingHeroTactic::canRun(void *)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	int running = record->rva002C7196(AsciiString("AIRingHeroTactic_IsRunning"));
 	unsigned int next = record->rva002C7196(AsciiString("AIRingHeroTactic_NextLogicFrameRun"));
 	if (!next) {
@@ -376,7 +376,7 @@ void AIRingHeroTactic::update()
 		if (hero) {
 			if (!m_escorting) {
 				if (!m_escort) {
-					Rva005AC7E1Holder *holder = (Rva005AC7E1Holder *)g_00DFEEF8->rva002A8F24(m_owner);
+					Rva005AC7E1Holder *holder = (Rva005AC7E1Holder *)TheSkirmishAIManager->rva002A8F24(m_owner);
 					Rva005C4AD1LeaField *field = holder->m_08;
 					Rva005AC7E1IDs *ids = (Rva005AC7E1IDs *)field->get();
 					for (ObjectID *it = ids->m_begin; it != ids->m_end; ++it) {

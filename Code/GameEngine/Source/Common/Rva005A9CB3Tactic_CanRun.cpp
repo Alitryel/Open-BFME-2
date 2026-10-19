@@ -191,7 +191,7 @@ public:
 	void *rva002A8F24(Player *player);
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // The 0x18-byte order record (ctor 0x0039EA9C, dtor 0x0039EAB7) and its
 // copy-assigned view (0x0039D769) that 0x003A0D62 appends.
@@ -281,7 +281,7 @@ private:
 
 bool AISimpleSiegeTactic::canRun(void *request)
 {
-	if (g_00DFEEF8->rva002A8AB1(m_owner)->rva002C6ACB()
+	if (TheSkirmishAIManager->rva002A8AB1(m_owner)->rva002C6ACB()
 		&& checkTarget(request)
 		&& !((Rva005A9CB3Request *)request)->m_04)
 		return sideHasIdleSiegeWeapons();

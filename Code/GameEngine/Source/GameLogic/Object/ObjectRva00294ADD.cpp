@@ -56,7 +56,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *player);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva00294ADDGate
 {
@@ -128,7 +128,7 @@ Int Object::rva00294ADD(Int entry)
 	if (getControllingPlayer() != 0)
 	{
 		if (getControllingPlayer()->getPlayerListKey() == 0
-			|| g_00DFEEF8->rva002A8AB1(getControllingPlayer()) != 0)
+			|| TheSkirmishAIManager->rva002A8AB1(getControllingPlayer()) != 0)
 		{
 			if (rec->m_flags & 0x40)
 			{

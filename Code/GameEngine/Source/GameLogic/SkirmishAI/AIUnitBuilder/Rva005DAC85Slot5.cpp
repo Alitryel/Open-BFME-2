@@ -39,7 +39,7 @@ public:
 	void *rva002A8F24(Player *player);
 	Rva002A8AB1Record *rva002A8AB1(void *key);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class ThingTemplate;
 class ThingFactory
@@ -126,7 +126,7 @@ struct Rva005DACC0PlayerView { char pad[0x60]; Rva002A7389 sk; };
 // clamp is written as a negated >= test, then capped at 1800 + 300 * (1 - ratio).
 void Rva005DAC85::rva005DACC0()
 {
-	IntMap *map = *(IntMap **)((char *)g_00DFEEF8->rva002A8F24((Player *)m_40) + 0xC);
+	IntMap *map = *(IntMap **)((char *)TheSkirmishAIManager->rva002A8F24((Player *)m_40) + 0xC);
 	if (map->bucket_count() < 2)
 		return;
 	const ThingTemplate *found = TheThingFactory->findTemplate(*(const AsciiString *)&m_0C);
@@ -134,7 +134,7 @@ void Rva005DAC85::rva005DACC0()
 		return;
 	if ((*(unsigned char *)((char *)found + 0x113) & 4) != 0)
 		return;
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_40);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_40);
 	Rva005DACC0PlayerView *pv = (Rva005DACC0PlayerView *)m_40;
 	float fa = (float)pv->sk.get(0);
 	float div = fa / (float)((Rva002A7461 *)&pv->sk)->rva002A7461();

@@ -101,7 +101,7 @@ extern GameLogic *TheGameLogic;
 class PlayerList {public:int rva002A7C0B(bool);};extern PlayerList *ThePlayerList;
 class Rva002A9BF2 {public:void *rva002A9BF2();};
 struct Rva002A8AB1Record;
-class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void*);};extern Rva002A8F24 *g_00DFEEF8;
+class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void*);};extern Rva002A8F24 *TheSkirmishAIManager;
 struct RegistryBuildView {char before[0x854];float factor;};
 extern int BfmeLogicFramesPerSecond;
 __forceinline long fast_float2long_round(float f) {
@@ -142,8 +142,8 @@ int ThingTemplate::rva0033AA1F(const Player *player,int objectCarrier,int timeOv
   float mult=kind&0x80 ? ((const GlobalDataBuildView *)TheWritableGlobalData)->multiplay.getBuildingSpeedMult(count) : ((const GlobalDataBuildView *)TheWritableGlobalData)->multiplay.getUnitSpeedMult(count);
   buildTime*=mult;
  }
- if(((Rva002A9BF2 *)player)->rva002A9BF2()==(void *)3 && g_00DFEEF8->rva002A8AB1((void*)player)) {
-  float mult=((const RegistryBuildView *)g_00DFEEF8)->factor < 1.0f ? ((const RegistryBuildView *)g_00DFEEF8)->factor : 1.0f;
+ if(((Rva002A9BF2 *)player)->rva002A9BF2()==(void *)3 && TheSkirmishAIManager->rva002A8AB1((void*)player)) {
+  float mult=((const RegistryBuildView *)TheSkirmishAIManager)->factor < 1.0f ? ((const RegistryBuildView *)TheSkirmishAIManager)->factor : 1.0f;
   return fast_float2long_round(buildFloor((1.0f-mult)*(buildTime*BfmeLogicFramesPerSecond)));
  }
  return fast_float2long_round(buildFloor((float)(buildTime*BfmeLogicFramesPerSecond)));

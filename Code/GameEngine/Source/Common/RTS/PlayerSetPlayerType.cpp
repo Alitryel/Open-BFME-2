@@ -51,7 +51,7 @@ struct Rva002A9A18Global
 	bool m_860;
 };
 class Rva002A8F24;
-extern Rva002A8F24 *g_00DFEEF8;	// data row in Rva005EEA20Find.cpp; viewed here as Rva002A9A18Global
+extern Rva002A8F24 *TheSkirmishAIManager;	// data row in Rva005EEA20Find.cpp; viewed here as Rva002A9A18Global
 
 enum PlayerType
 {
@@ -80,7 +80,7 @@ void Player::setPlayerType(PlayerType t, bool skirmish)
 	}
 	m_ai = 0;
 
-	if (t == PLAYER_COMPUTER || (skirmish && ((Rva002A9A18Global *)g_00DFEEF8)->m_860))
+	if (t == PLAYER_COMPUTER || (skirmish && ((Rva002A9A18Global *)TheSkirmishAIManager)->m_860))
 	{
 		if (skirmish || ((Rva002A9A18AI *)TheAI)->getAiData()->m_forceSkirmishAI) {
 			m_ai = new AISkirmishPlayer(this);

@@ -200,7 +200,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITactic
 {
@@ -238,7 +238,7 @@ public:
 
 bool AIStartWoTRBattleTactic::canRun(void *)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	return !record->rva002C7196(StartWoTRBattleTacticHasRun)
 		&& TheGameLogic->m_114 != 3
 		&& TheGameLogic->m_40 > 5;
@@ -253,10 +253,10 @@ void AIStartWoTRBattleTactic::xfer(Xfer *xfer)
 
 void AIStartWoTRBattleTactic::run()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	if (!record->rva002C7196(StartWoTRBattleTacticHasRun)) {
 		record->rva002C717E(StartWoTRBattleTacticHasRun, 1);
-		Rva005AB125IDs *ids = (Rva005AB125IDs *)(*(Rva005C4AD1LeaField **)g_00DFEEF8->rva002A8F24(m_owner))->get();
+		Rva005AB125IDs *ids = (Rva005AB125IDs *)(*(Rva005C4AD1LeaField **)TheSkirmishAIManager->rva002A8F24(m_owner))->get();
 		Coord3D base = ((Rva004EBF4B *)record)->rva004EBF4B();
 		ObjectID *last = ids->m_end;
 		for (ObjectID *it = ids->m_begin; it != last; ++it) {

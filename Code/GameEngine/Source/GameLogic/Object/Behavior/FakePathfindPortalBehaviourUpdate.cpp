@@ -3,7 +3,7 @@
 // ?update@FakePathfindPortalBehaviour@@UAE?AW4UpdateSleepTime@@XZ, retail
 // 0x00461DC7, 118 bytes. The update-interface slot (this is the +0x10
 // subobject): sleeps forever unless the owner's controlling player has a
-// record in the rowed g_00DFEEF8 lookup (0x002A8AB1) and the +0x34 target
+// record in the rowed TheSkirmishAIManager lookup (0x002A8AB1) and the +0x34 target
 // is cached (rowed finder 0x00498725). An unregistered portal (+0x30 clear)
 // runs the rowed gate 0x00461DB5 first; then, with +0x32 set, a target
 // answering its slot 6 is unregistered (0x004618D4), and without it a target
@@ -23,7 +23,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 void *Rva00498725Find(void *object);
 
@@ -79,7 +79,7 @@ private:
 // ?update@FakePathfindPortalBehaviour@@UAE?AW4UpdateSleepTime@@XZ @0x00461DC7
 UpdateSleepTime FakePathfindPortalBehaviour::update()
 {
-	if (g_00DFEEF8->rva002A8AB1(m_object->getControllingPlayer()) != 0)
+	if (TheSkirmishAIManager->rva002A8AB1(m_object->getControllingPlayer()) != 0)
 	{
 		if (m_target == 0)
 			m_target = (FakePathfindPortalTarget *)Rva00498725Find(m_object);

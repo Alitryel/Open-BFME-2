@@ -185,7 +185,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITactic
 {
@@ -244,7 +244,7 @@ private:
 // the record call's own arguments wherever this form is used.
 static inline Rva002A8AB1Record *aiData(Player *owner)
 {
-	return g_00DFEEF8->rva002A8AB1(owner);
+	return TheSkirmishAIManager->rva002A8AB1(owner);
 }
 
 
@@ -257,7 +257,7 @@ static inline Rva002A8AB1Record *aiData(Player *owner)
 void AIReturnTheRingTactic::run()
 {
 	if (!aiData(m_owner)->rva002C7196(AIReturnTheRingTactic_IsRunning)) {
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 		if (buildReturnTeam()) {
 			record->rva002C717E(AIReturnTheRingTactic_IsRunning, 1);
 			moveToFortress();

@@ -127,7 +127,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // The build order's other address-named views (its base Rva0055B0CC).
 class Rva004E9378
@@ -236,7 +236,7 @@ private:
 
 void AISimpleExpansionTactic::startCreateNewBase()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->m_layout.rva0050722A(&m_record->m_point0C);
 }
 

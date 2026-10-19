@@ -11,7 +11,7 @@ class Player;struct Coord3D;
 class Rva005D7A42Body {public:virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual float value14();};
 class Object {public:Player *getControllingPlayer()const;char pad[0x254];Rva005D7A42Body*body;};
 class Rva002A8F24 {public:void *rva002A8F24(Player*);};
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 class Rva005C4AD1LeaField {public:void *get()const;};
 struct Rva005D7A42Store {char pad[8];Rva005C4AD1LeaField*owner;};
@@ -20,7 +20,7 @@ class Rva005EE816 {public:bool rva005EE8DD(const Coord3D*,Object*);};
 class Rva005D7A42 {public:bool rva005D7A42(Object*source);};
 // ?rva005D7A42@Rva005D7A42@@QAE_NPAVObject@@@Z
 bool Rva005D7A42::rva005D7A42(Object*source){
- Rva005D7A42Store*store=(Rva005D7A42Store*)g_00DFEEF8->rva002A8F24(source->getControllingPlayer());
+ Rva005D7A42Store*store=(Rva005D7A42Store*)TheSkirmishAIManager->rva002A8F24(source->getControllingPlayer());
  Rva005D7A42IDs*ids=(Rva005D7A42IDs*)store->owner->get();
  for(ObjectID*p=ids->begin;p!=ids->end;++p){
   Object*object=TheGameLogic->findObjectByID(*p);

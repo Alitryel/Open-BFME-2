@@ -6,7 +6,7 @@
 // Clear two polymorphic pointer vectors via virtual destroy plus delete then
 // vector clear plus hero unregister via rowed 0x002A8F24 plus rowed 0x004DFB55.
 // Evidence: callees 0x0002FD60 plus 0x0031BD55 plus 0x002A8F24 plus 0x004DFB55
-// all rowed; caller ctor at 0x005990DF; g_00DFEEF8 global.
+// all rowed; caller ctor at 0x005990DF; TheSkirmishAIManager global.
 // The destroy result is materialised into a delete argument that is always
 // passed (mem = zero; if (obj) mem = obj->destroy(zero); operator delete(mem)),
 // reproducing retail's xor-eax-cmp plus push-eax and the unconditional delete.
@@ -49,7 +49,7 @@ public:
 	void rva004DFB55(CreateAHeroData *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIUnitUpgrader
 {
@@ -85,6 +85,6 @@ void AIUnitUpgrader::shutdown()
 		::operator delete(mem);
 	}
 	m_14.clear();
-	void *holder = g_00DFEEF8->rva002A8F24(m_20);
+	void *holder = TheSkirmishAIManager->rva002A8F24(m_20);
 	((Rva004DFB55 *)holder)->rva004DFB55((CreateAHeroData *)((char *)this - 12));
 }

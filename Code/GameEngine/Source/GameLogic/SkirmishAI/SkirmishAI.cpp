@@ -260,7 +260,7 @@ class Rva002A8F24 {
 public:
  Rva004E9600 *rva002A8B24(void *key);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva00506B1B { public: void rva00506B2F(); };
 
 // Native TacticalAI +0x10 is the tactics generator. WB names the two
@@ -346,7 +346,7 @@ void SkirmishAI::update()
   }
  } else {
   unsigned int count = reinterpret_cast<Rva004E93A8 *>(
-   g_00DFEEF8->rva002A8B24(m_player))->rva004E93A8();
+   TheSkirmishAIManager->rva002A8B24(m_player))->rva004E93A8();
   if (count > 1 || (count == 1 && m_specialMaster160 != 0))
    reinterpret_cast<Rva00506B1B *>(m_tacticalAI)->rva00506B2F();
  }

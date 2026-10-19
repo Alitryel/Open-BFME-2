@@ -56,7 +56,7 @@ class VictorySystem;
 VictorySystem *TheVictorySystem = 0;
 class BfmeTaintManager; extern BfmeTaintManager *TheTaintManager;
 class GlobalWeatherSystem; extern GlobalWeatherSystem *TheGlobalWeatherSystem;
-class Rva002A8F24; extern Rva002A8F24 *g_00DFEEF8;
+class Rva002A8F24; extern Rva002A8F24 *TheSkirmishAIManager;
 void *TheMineshaftPortalNetworkManager = 0;
 // Target initialization registers "TheAiOrdersManager" at VA 0x00E01E18.
 // Reuse this existing zero slot under that proven subsystem name.
@@ -91,7 +91,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_VictorySystem", (Snapshot *)(SnapshotSubsystemView *)TheVictorySystem, (SnapshotType)0);
     addSnapshotBlock("CHUNK_TaintManager", (Snapshot *)(SnapshotSubsystemView *)TheTaintManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_WeatherSystem", (Snapshot *)(SnapshotSubsystemView *)TheGlobalWeatherSystem, (SnapshotType)0);
-    addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)g_00DFEEF8, (SnapshotType)0);
+    addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)TheSkirmishAIManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_MineshaftPortalNetworkManager", (Snapshot *)(SnapshotSubsystemView *)TheMineshaftPortalNetworkManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_AiOrdersManager", (Snapshot *)(SnapshotSubsystemView *)TheAiOrdersManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_SpellStore", (Snapshot *)Rva0043CCC2GetRoute(), (SnapshotType)0);
@@ -106,7 +106,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_Partition", (Snapshot *)(SnapshotSubsystemView *)ThePartitionManager, (SnapshotType)1);
     addSnapshotBlock("CHUNK_Shroud", (Snapshot *)(SnapshotSubsystemView *)TheShroudManager, (SnapshotType)1);
     addSnapshotBlock("CHUNK_Collision", (Snapshot *)(SnapshotSubsystemView *)TheCollisionManager, (SnapshotType)1);
-    addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)g_00DFEEF8, (SnapshotType)1);
+    addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)TheSkirmishAIManager, (SnapshotType)1);
     addSnapshotBlock("CHUNK_LivingWorldLogic", (Snapshot *)(SnapshotSubsystemView *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic), (SnapshotType)3);
     addSnapshotBlock("CHUNK_Audio", (Snapshot *)(SnapshotSubsystemView *)TheAudio, (SnapshotType)3);
     addSnapshotBlock("CHUNK_GameState", (Snapshot *)(SnapshotSubsystemView *)TheGameState, (SnapshotType)3);

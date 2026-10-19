@@ -311,7 +311,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AITactic
 {
@@ -356,7 +356,7 @@ private:
 bool AIRoamingDefenseTactic::canRun(void *)
 {
 	if (!((Rva002A9BF2 *)m_owner)->rva002A9BF2()) {
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+		Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 		int running = record->rva002C7196(AsciiString("AIRoamingDefenseTactic_IsRunning"));
 		unsigned int next = record->rva002C7196(AsciiString("AIRoamingDefenseTactic_NextLogicFrameRun"));
 		if (!next) {
@@ -371,14 +371,14 @@ bool AIRoamingDefenseTactic::canRun(void *)
 
 void AIRoamingDefenseTactic::cleanUp()
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AsciiString("AIRoamingDefenseTactic_IsRunning"), 0);
 	record->rva002C717E(AsciiString("AIRoamingDefenseTactic_NextLogicFrameRun"), 0);
 }
 
 bool AIRoamingDefenseTactic::initializeTeamTemplate(void *unit, int count)
 {
-	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	record->rva002C717E(AsciiString("AIRoamingDefenseTactic_IsRunning"), 1);
 	return AITactic::initializeTeamTemplate(unit, count);
 }

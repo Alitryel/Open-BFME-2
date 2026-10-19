@@ -76,7 +76,7 @@ class Rva002A8F24
  
 }
 ;
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern GameLogic *TheGameLogic;
 extern PartitionManager *ThePartitionManager;
 struct TemplateView
@@ -187,10 +187,10 @@ class AITargetHeuristicTechBuilding
 void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owner,Player *unused)
 
 {
- Rva002A8AB1Record *stats=g_00DFEEF8->rva002A8AB1(((&(owner)) ? (owner) : (owner)));
+ Rva002A8AB1Record *stats=TheSkirmishAIManager->rva002A8AB1(((&(owner)) ? (owner) : (owner)));
  int value=stats->mode;
  bool mode=value!=0;
- _STL::vector<ScienceType> buildings(*(const _STL::vector<ScienceType> *)&g_00DFEEF8->techBuildings);
+ _STL::vector<ScienceType> buildings(*(const _STL::vector<ScienceType> *)&TheSkirmishAIManager->techBuildings);
  TacticalAI *tactics=stats->tactics;
  Coord3D center=stats->rva004EBF4B();
  Object *best=0;
@@ -241,6 +241,6 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
   }
   
  }
- if(best)target->setTarget(best,(float)(double)g_00DFEEF8->fallbackWeight);
+ if(best)target->setTarget(best,(float)(double)TheSkirmishAIManager->fallbackWeight);
  
 }

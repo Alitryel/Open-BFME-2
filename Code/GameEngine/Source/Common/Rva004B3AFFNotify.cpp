@@ -40,7 +40,7 @@ public:
 	unsigned char m_flag28;
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 extern ControlBar *TheControlBar;
 
 class Rva004B3AFF
@@ -55,7 +55,7 @@ void Rva004B3AFF::rva004B3AFF()
 	StringHolder *holder = *(StringHolder **)((char *)this - 0x0C);
 	Object *obj = *(Object **)((char *)this - 8);
 	obj->setCommandSetStringOverride(holder->m_name);
-	g_00DFEEF8->UnRegister(obj);
-	g_00DFEEF8->rva002A9365(obj);
+	TheSkirmishAIManager->UnRegister(obj);
+	TheSkirmishAIManager->rva002A9365(obj);
 	TheControlBar->m_flag28 = 1;
 }

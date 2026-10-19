@@ -4,7 +4,7 @@
 // Evidence: unlock lane, prev Disp8CmpBoolGetters 0x002C67CF next stlport
 // rb_tree 0x002C6C93, 1 caller 0x002AB44A, callees getNthPlayer row plus
 // DispByteFieldGetters row plus rva002A8AB1 pin, globals ThePlayerList and
-// g_00DFEEF8, offsets 0x178/0x15c/0x54/0x14. Identity: honest-address
+// TheSkirmishAIManager, offsets 0x178/0x15c/0x54/0x14. Identity: honest-address
 // thiscall method returning bool with no args.
 class Player
 {
@@ -39,7 +39,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct Rva002C67DC15C
 {
@@ -67,7 +67,7 @@ bool SkirmishAI::isAPartialBrain()
 		Player *player = ThePlayerList->getNthPlayer(i);
 		if (((Rva002AA22AByteField *)player)->get() != 0)
 			continue;
-		Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(player);
+		Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(player);
 		if (!rec)
 			continue;
 		if (rec->m_178 == m_ptr15C->m_54)

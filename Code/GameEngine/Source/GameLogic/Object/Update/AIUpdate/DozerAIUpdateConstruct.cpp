@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /GX /O1 /arch:SSE /G7
 //
-// ?construct@DozerAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBVCoord3D@@MPAVPlayer@@_N@Z, retail 0x00488F52, 231 bytes. VTABLE slot 126 of 0x0084B848 class DozerAIUpdate via ctor 0x004894F5; stores isRebuild at +0x40C then createMachines rowed 0x00488EFC; early NULL and playerType checks match ZH DozerAIUpdate::construct; BuildAssistant globals g_00A027B8 g_00DFEEF8 and task tail via dozer vslots 6 13 12 25 29.
+// ?construct@DozerAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBVCoord3D@@MPAVPlayer@@_N@Z, retail 0x00488F52, 231 bytes. VTABLE slot 126 of 0x0084B848 class DozerAIUpdate via ctor 0x004894F5; stores isRebuild at +0x40C then createMachines rowed 0x00488EFC; early NULL and playerType checks match ZH DozerAIUpdate::construct; BuildAssistant globals g_00A027B8 TheSkirmishAIManager and task tail via dozer vslots 6 13 12 25 29.
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 
 typedef bool Bool;
@@ -152,7 +152,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva00A027B8
 {
@@ -192,7 +192,7 @@ Object *DozerAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos, 
 			goto checks;
 		{
 			Player *controlling = getObject()->getControllingPlayer();
-			Rva002A8AB1Record *res = g_00DFEEF8->rva002A8AB1(controlling);
+			Rva002A8AB1Record *res = TheSkirmishAIManager->rva002A8AB1(controlling);
 			if (res == NULL)
 				goto create;
 		}

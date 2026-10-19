@@ -250,7 +250,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva0044E633
 {
@@ -413,7 +413,7 @@ void SpecialAbilityUpdate::initiateIntentToDoSpecialPower(const SpecialPowerTemp
 	if (ai->slot098())
 		ai->slot098()->disable();
 	ai->m_3ca = true;
-	if (!(ai->slot143() == 2 || g_00DFEEF8->rva002A8AB1(obj->getControllingPlayer())))
+	if (!(ai->slot143() == 2 || TheSkirmishAIManager->rva002A8AB1(obj->getControllingPlayer())))
 	{
 		ai->rva0026331C();
 		ai->aiIdle(CMD_FROM_AI);

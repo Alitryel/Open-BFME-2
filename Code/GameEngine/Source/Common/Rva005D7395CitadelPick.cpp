@@ -1,13 +1,13 @@
 // U1 r6: EXACT in Lab2 (nd 0, 394 B): single-exit shape (found flag + `result` assigned in both arms, one return) puts the epilogue at the end like retail; plus chain
-// vref on location.x. Landing needs g_00DFEEF8 (TheSkirmishAIManager, address-named global = hatch) in a new TU.
+// vref on location.x. Landing needs TheSkirmishAIManager (TheSkirmishAIManager, address-named global = hatch) in a new TU.
 // ?rva005D7395@Rva005D736E@@QAE_NPAVObject@@@Z
 // partial score=0.999 date=2026-10-14
 // U1 r6: EXACT in Lab2 (nd 0, 394 B): single-exit shape (found flag + `result` assigned in both arms, one return) puts the epilogue at the end like retail; plus chain
-// vref on location.x. Landing needs g_00DFEEF8 (TheSkirmishAIManager, address-named global = hatch) in a new TU.
+// vref on location.x. Landing needs TheSkirmishAIManager (TheSkirmishAIManager, address-named global = hatch) in a new TU.
 // ?rva005D7395@Rva005D736E@@QAE_NPAVObject@@@Z
 // partial score=0.999 date=2026-10-14
 // U1 r6: EXACT in Lab2 (nd 0, 394 B): single-exit shape (found flag + `result` assigned in both arms, one return) puts the epilogue at the end like retail; plus chain
-// vref on location.x. Landing needs g_00DFEEF8 (TheSkirmishAIManager, address-named global = hatch) in a new TU.
+// vref on location.x. Landing needs TheSkirmishAIManager (TheSkirmishAIManager, address-named global = hatch) in a new TU.
 // ?rva005D7395@Rva005D736E@@QAE_NPAVObject@@@Z
 // partial score=0.92 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /ICode/Libraries/Include /Ireference/shims/bfmealloc
@@ -38,21 +38,21 @@ public:
     Rva002A8AB1Record *rva002A8AB1(void *);
     void *rva002A8F24(Player *);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva004EBF4B { public: Coord3D rva004EBF4B(); };
 class Rva005EE816 { public: bool rva005EE8DD(const Coord3D *,Object *); };
 float GetGameLogicRandomValueReal(float,float,char *,int);
 class Rva005D736E { public: bool rva005D7395(Object *); };
 bool Rva005D736E::rva005D7395(Object *source)
 {
-    Rva002A8AB1Record *owner=g_00DFEEF8->rva002A8AB1(source->getControllingPlayer());
+    Rva002A8AB1Record *owner=TheSkirmishAIManager->rva002A8AB1(source->getControllingPlayer());
     Coord3D own = reinterpret_cast<Rva004EBF4B *>(owner)->rva004EBF4B();
     Player *enemy=static_cast<Player *>(owner->rva002C6ACB());
     bool result;
     Object *obj=0;
     bool isfound=false;
     if(enemy) {
-        CitadelPlayerData *target=static_cast<CitadelPlayerData *>(g_00DFEEF8->rva002A8F24(enemy));
+        CitadelPlayerData *target=static_cast<CitadelPlayerData *>(TheSkirmishAIManager->rva002A8F24(enemy));
         Rva0025BFF8 *objects=target->objects8;
         unsigned count=reinterpret_cast<_STL::hash_map<int,int> *>(objects)->bucket_count();
         for(unsigned i=0;i<count;++i) {

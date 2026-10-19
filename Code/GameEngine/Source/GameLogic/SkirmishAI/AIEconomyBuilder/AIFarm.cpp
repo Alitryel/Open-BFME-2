@@ -91,7 +91,7 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *key);
 	Rva002A8B59Data *rva002A8B59(void *key);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 extern float g_secondsPerLogicFrame;
 
@@ -183,14 +183,14 @@ void AIFarm::DoXfer(Xfer *xfer, Player *owner)
 // Retail 0x00596F23..0x00596FF5 establishes slot 5 and the priority float at +4.
 void AIFarm::updatePriority()
 {
-    Rva002A8AB1Record *ai = g_00DFEEF8->rva002A8AB1(m_owningPlayer);
+    Rva002A8AB1Record *ai = TheSkirmishAIManager->rva002A8AB1(m_owningPlayer);
     if (ai->m_16C > 0)
     {
-        void *stats = g_00DFEEF8->rva002A8F24(m_owningPlayer);
+        void *stats = TheSkirmishAIManager->rva002A8F24(m_owningPlayer);
         unsigned int count = (*(IntMap **)((char *)stats + 0xc))->bucket_count();
         if (count < 1)
             count = 1;
-        Rva002A8B59Data *data = g_00DFEEF8->rva002A8B59(m_owningPlayer);
+        Rva002A8B59Data *data = TheSkirmishAIManager->rva002A8B59(m_owningPlayer);
         const float base = g_secondsPerLogicFrame * data->m_4C / (float)count;
         float amount = (float)((Rva002A7389 *)((char *)m_owningPlayer + 0x60))->get(0);
         float ratio = amount / (float)((Rva002A7461 *)((char *)m_owningPlayer + 0x60))->rva002A7461();

@@ -40,7 +40,7 @@ class Rva002A8F24 {
   public:
     Rva002A8AB1Record *rva002A8AB1(void *);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class SkirmishAI {
   public:
     bool isAPartialBrain();
@@ -150,7 +150,7 @@ class Rva002AB5C7Player {
     void rva002AB5C7();
 };
 void Rva002AB5C7Player::rva002AB44A() {
-    SkirmishAI *brain = (SkirmishAI *)g_00DFEEF8->rva002A8AB1(this);
+    SkirmishAI *brain = (SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(this);
     if (brain && brain->isAPartialBrain())
         dead = true;
     else {

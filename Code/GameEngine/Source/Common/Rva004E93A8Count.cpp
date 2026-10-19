@@ -6,7 +6,10 @@ public:
     unsigned char get() const;
 };
 struct Glob004E93A8 { char _pad[0x860]; unsigned char m_860; };
-extern Glob004E93A8 *g_00DFEEF8;
+// TheSkirmishAIManager is owned as a Rva002A8F24 (Rva005EEA20Find.cpp); this
+// unit reads it through its own view.
+class Rva002A8F24;
+extern Rva002A8F24 *TheSkirmishAIManager;
 class Rva004E93A8
 {
 public:
@@ -26,14 +29,10 @@ int Rva004E93A8::rva004E93A8()
             break;
         Rva002AA22AByteField *cur = *p;
         if (cur->get() == 0) {
-            if (*(int *)((char *)cur + 0x5c) == 1 || g_00DFEEF8->m_860 != 0)
+            if (*(int *)((char *)cur + 0x5c) == 1 || ((Glob004E93A8 *)TheSkirmishAIManager)->m_860 != 0)
                 ++count;
         }
         ++p;
     }
     return count;
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00DFEEF8@@3PAUGlob004E93A8@@A=?g_00DFEEF8@@3PAVRva002A8F24@@A")

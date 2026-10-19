@@ -27,7 +27,7 @@ struct Rva002C5FBAResult { char pad[12]; Coord3D location; };
 class Rva002C5FBA { public: void *rva002C5FBA(int); };
 struct Rva002A8AB1Record { char pad[0x164]; Rva002C5FBA *target; };
 class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 struct Prototype { char pad[0x2c4]; int targetId; };
 class Rva0055B0CC { public: virtual ~Rva0055B0CC();
 virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();
@@ -36,7 +36,7 @@ virtual Coord3D getLocation() const; private: char pad[0x28]; };
 class Team : public Snapshot, public Rva0055B0CC { public: Player *getControllingPlayer() const; virtual Coord3D getLocation() const; private: Prototype *proto; };
 Coord3D Team::getLocation() const
 {
- Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(getControllingPlayer());
+ Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(getControllingPlayer());
  if(record) {
   Prototype *prototype = proto;
   Rva002C5FBA *target = record->target;

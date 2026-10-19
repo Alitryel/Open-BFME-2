@@ -161,7 +161,7 @@ public:
 	void UnRegister(Object *obj);
 	void rva002A9365(Object *obj);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 // RVO getter 0x00291775 over the prototype's attack-priority name (+0x318).
 class Rva00291775AsciiField { public: AsciiString get() const; };
@@ -248,12 +248,12 @@ void Object::setOrRestoreTeam(Team *team, Bool restoring)
 
 	Bool playerChanged = m_team && team && playersDiffer(team, m_team);
 	if (playerChanged)
-		g_00DFEEF8->UnRegister(this);
+		TheSkirmishAIManager->UnRegister(this);
 
 	m_team = team;
 
 	if (playerChanged)
-		g_00DFEEF8->rva002A9365(this);
+		TheSkirmishAIManager->rva002A9365(this);
 
 	if (m_team)
 	{

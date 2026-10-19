@@ -53,7 +53,7 @@ class Rva002A8F24
 public:
 	void *rva002A8B73(void *key, int key2);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva002C589B
 {
@@ -72,7 +72,7 @@ private:
 
 int AITeamBuilder::doesTeamMeetThreat(Team *team)
 {
-	void *found = g_00DFEEF8->rva002A8B73((void *)m_14, team->m_proto30->m_2C4);
+	void *found = TheSkirmishAIManager->rva002A8B73((void *)m_14, team->m_proto30->m_2C4);
 	float vmax = 0.0f;
 	if (found != 0)
 		vmax = ((Rva002C589B *)found)->getEnemyThreat();

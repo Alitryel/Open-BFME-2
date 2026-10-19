@@ -1,5 +1,5 @@
 // cl: /GX-
-// ?shutdown@AIUpgradeScienceBuilder@@QAEXXZ @0x00597B32 162B: vslot2 of 0x00870C18 clearing two voidptr vectors with slot0+delete then hero remove via g_00DFEEF8 and ScienceType clear; callers 0x00597BFE
+// ?shutdown@AIUpgradeScienceBuilder@@QAEXXZ @0x00597B32 162B: vslot2 of 0x00870C18 clearing two voidptr vectors with slot0+delete then hero remove via TheSkirmishAIManager and ScienceType clear; callers 0x00597BFE
 class Player;
 class CreateAHeroData;
 
@@ -15,7 +15,7 @@ public:
 	void rva004DFB55(CreateAHeroData *p);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 enum ScienceType
 {
@@ -96,7 +96,7 @@ void AIUpgradeScienceBuilder::shutdown()
 	}
 
 	Player *pl = m_player08;
-	void *store = g_00DFEEF8->rva002A8F24(pl);
+	void *store = TheSkirmishAIManager->rva002A8F24(pl);
 	((Rva004DFB55 *)store)->rva004DFB55((CreateAHeroData *)((char *)this - 0xc));
 	_STL::vector<ScienceType, _STL::allocator<ScienceType> > *vs = &m_sci0c;
 	vs->erase(vs->m_start, vs->m_finish);

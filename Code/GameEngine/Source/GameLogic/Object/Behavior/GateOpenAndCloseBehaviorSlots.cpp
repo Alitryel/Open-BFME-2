@@ -58,7 +58,7 @@ public:
 	unsigned char m_pad[0x940];
 	GateOpenBehaviorList *m_gateList; // +0x940
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class GatePrimary
 {
@@ -119,7 +119,7 @@ private:
 // ??1GateOpenAndCloseBehavior@@UAE@XZ @0x00498798
 GateOpenAndCloseBehavior::~GateOpenAndCloseBehavior()
 {
-	GateOpenBehaviorList *list = g_00DFEEF8->m_gateList;
+	GateOpenBehaviorList *list = TheSkirmishAIManager->m_gateList;
 	list->rva004E908C(this);
 }
 

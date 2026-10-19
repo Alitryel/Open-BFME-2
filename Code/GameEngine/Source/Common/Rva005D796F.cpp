@@ -4,7 +4,7 @@
 // ?rva005D796F@Rva005D791C@@UAE_NPAVObject@@@Z @0x005D796F 154B, slot 6
 // (offset 0x18) of vtable 0x00875DFC (class of rowed dtor 0x005D791C).
 // For each ObjectID in the array behind rowed rva002A8F24 (via global
-// g_00DFEEF8) plus rowed LeaField get 0x005C4AD1: resolve it through rowed
+// TheSkirmishAIManager) plus rowed LeaField get 0x005C4AD1: resolve it through rowed
 // GameLogic::findObjectByID via TheGameLogic; skip nulls, skip IDs already
 // keys of the map<int,int> at +0x28 (rowed _M_find 0x00388F63, HordeContain
 // precedent), skip when pin-only 0x005EE8DD is false; else insert the key
@@ -80,7 +80,7 @@ class Rva002A8F24
 public:
 	void *rva002A8F24(Player *player);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva005C4AD1LeaField
 {
@@ -112,7 +112,7 @@ private:
 bool Rva005D791C::rva005D796F(Object *arg)
 {
 	Player *player = arg->getControllingPlayer();
-	void *arr = g_00DFEEF8->rva002A8F24(player);
+	void *arr = TheSkirmishAIManager->rva002A8F24(player);
 	const Rva005C4AD1LeaField *fld = *(const Rva005C4AD1LeaField *const *)((const char *)arr + 0x0C);
 	ObjectID **pp = (ObjectID **)fld->get();
 	ObjectID *cur = pp[0];

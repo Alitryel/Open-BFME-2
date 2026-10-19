@@ -6,7 +6,7 @@ class Player;
 class CreateAHeroData;
 class Rva002A8F24 { public: void *rva002A8F24(Player *); };
 class Rva004DFB55 { public: void rva004DFB55(CreateAHeroData *); };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 #include "AIEconomyBuilderFarmLibrary.h"
 class BaseA { public: virtual void a0(); virtual void a1(); virtual ~BaseA(); int a4,a8; };
 class Rva00506B1B { public: virtual ~Rva00506B1B(); virtual void b1(); virtual void rva004EA33A(); bool flag; };
@@ -33,6 +33,6 @@ void Rva004EA3B8::rva004EA33A()
    reinterpret_cast<void **>(AIEconomyBuilder::m_farmList.finish));
  }
  m_18 = 0;
- void *stats = g_00DFEEF8->rva002A8F24(static_cast<Player *>(m_owner14));
+ void *stats = TheSkirmishAIManager->rva002A8F24(static_cast<Player *>(m_owner14));
  reinterpret_cast<Rva004DFB55 *>(stats)->rva004DFB55(reinterpret_cast<CreateAHeroData *>(this));
 }

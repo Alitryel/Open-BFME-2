@@ -9,13 +9,13 @@ public:
 	Rva002A8AB1Record *rva002A8AB1(void *x);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 #include "../GameLogic/SkirmishAI/AIEconomyBuilder/AIEconomyBuilderFarmLibrary.h"
 
 AsciiString AIEconomyBuilder::getFarmTemplateName()
 {
-	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_14);
+	Rva002A8AB1Record *rec = TheSkirmishAIManager->rva002A8AB1(m_14);
 	void *p160 = *(void **)((char *)rec + 0x160);
 	AsciiString *src = (AsciiString *)((char *)p160 + 0x24);
 	return *src;

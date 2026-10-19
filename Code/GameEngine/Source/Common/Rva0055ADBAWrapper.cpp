@@ -13,7 +13,7 @@ public:
 	void rva004EC276(void *x);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Rva00506FE9Hit
 {
@@ -23,7 +23,7 @@ public:
 
 void Rva00506FE9Hit::unRegisterWithBuilder(void *x)
 {
-	Rva002A8F24 *mgr = g_00DFEEF8;
+	Rva002A8F24 *mgr = TheSkirmishAIManager;
 	Rva002A8AB1Record *rec = mgr->rva002A8AB1(x);
 	((Rva004EC276 *)rec)->rva004EC276(this);
 }

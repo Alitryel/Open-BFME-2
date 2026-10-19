@@ -188,7 +188,7 @@ public:
 	unsigned char m_pad[0x940];
 	GateOpenBehaviorList *m_gateList; // +0x940
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 struct GateVec
 {
@@ -342,7 +342,7 @@ UpdateSleepTime GateOpenAndCloseBehavior::update()
 		}
 		rva004992D5Inline(false, true);
 		TheAudio->removeAudioEvent(m_soundHandle);
-		g_00DFEEF8->m_gateList->rva004E908C(this);
+		TheSkirmishAIManager->m_gateList->rva004E908C(this);
 		m_30 = false;
 		return UPDATE_SLEEP_NONE;
 	}

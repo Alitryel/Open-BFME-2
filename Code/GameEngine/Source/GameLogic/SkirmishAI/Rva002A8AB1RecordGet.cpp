@@ -1,6 +1,6 @@
 // cl: /O1 /EHsc /MD /arch:SSE /G7
 // ?rva002C6ACB@Rva002A8AB1Record@@QAEPAXXZ @0x002C6ACB 47B
-// Evidence: pin Rva002A8AB1Record; callers in Rva005A9ACDTactic and Rva005AD6F5Finish; callees rowed 0x002A8B24 and 0x004E93E8 plus pinned 0x002A8AB1 plus rowed tail 0x002C5FD9; global g_00DFEEF8; member plus 0x15C.
+// Evidence: pin Rva002A8AB1Record; callers in Rva005A9ACDTactic and Rva005AD6F5Finish; callees rowed 0x002A8B24 and 0x004E93E8 plus pinned 0x002A8AB1 plus rowed tail 0x002C5FD9; global TheSkirmishAIManager; member plus 0x15C.
 class Rva003A2BD4M08;
 class Player;
 class Rva004E9600;
@@ -26,7 +26,7 @@ public:
 	Rva004E9600 *rva002A8B24(void *key);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class AIGameTeam
 {
@@ -51,8 +51,8 @@ private:
 // ?rva002C6ACB@Rva002A8AB1Record@@QAEPAXXZ
 void *Rva002A8AB1Record::rva002C6ACB()
 {
-	Rva004E9600 *mid = g_00DFEEF8->rva002A8B24(m_15c);
+	Rva004E9600 *mid = TheSkirmishAIManager->rva002A8B24(m_15c);
 	void *found = mid->rva004E93E8();
-	Player *p = (Player *)g_00DFEEF8->rva002A8AB1(found);
+	Player *p = (Player *)TheSkirmishAIManager->rva002A8AB1(found);
 	return p->m_164->rva002C5FD9();
 }

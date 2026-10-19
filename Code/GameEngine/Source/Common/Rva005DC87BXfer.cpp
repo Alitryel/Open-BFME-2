@@ -156,7 +156,7 @@ bool AITacticSiege::isWallBreached() {
 struct Rva002A8AB1Record {public:void*rva002C6ACB();};
 class Player;
 class Rva002A8F24 {public:Rva002A8AB1Record*rva002A8AB1(void*);void*rva002A8F24(Player*);};
-extern Rva002A8F24*g_00DFEEF8;
+extern Rva002A8F24*TheSkirmishAIManager;
 class Rva0025BFF8 {public:Object*rva0025BFF8(int);};
 namespace _STL {
  template<class T>struct hash;template<class T>struct equal_to;
@@ -173,9 +173,9 @@ struct SiegeStore {void*word0;void*word4;Rva0025BFF8*list;};
 bool AITacticSiege::findWallTarget() {
  const Coord3D*center=&rva004ECECD(0)->rva0039E8EB()->position;
  Coord3D position;position.x=center->x;position.y=center->y;
- Rva002A8AB1Record*record=g_00DFEEF8->rva002A8AB1(m_owner);
+ Rva002A8AB1Record*record=TheSkirmishAIManager->rva002A8AB1(m_owner);
  if(record->rva002C6ACB()) {
-  SiegeStore*store=(SiegeStore*)g_00DFEEF8->rva002A8F24((Player*)record->rva002C6ACB());
+  SiegeStore*store=(SiegeStore*)TheSkirmishAIManager->rva002A8F24((Player*)record->rva002C6ACB());
   Rva0025BFF8*list=store->list;
   float nearest=0;
   Object*selected=0;

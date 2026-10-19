@@ -25,7 +25,7 @@ class Rva002A8F24
 public:
 	Rva002A8AB1Record *rva002A8AB1(void *owner);
 };
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 class Object
 {
@@ -47,8 +47,8 @@ public:
 
 static __declspec(noinline) void rva00396999(_STL::vector<ObjectID> *vec, Player *oldPlayer, Player *newPlayer)
 {
-	Rva002A8AB1Record *oldRecord = g_00DFEEF8->rva002A8AB1(oldPlayer);
-	Rva002A8AB1Record *newRecord = g_00DFEEF8->rva002A8AB1(newPlayer);
+	Rva002A8AB1Record *oldRecord = TheSkirmishAIManager->rva002A8AB1(oldPlayer);
+	Rva002A8AB1Record *newRecord = TheSkirmishAIManager->rva002A8AB1(newPlayer);
 	ObjectID *end = vec->end();
 	for (ObjectID *it = vec->begin(); it != end; ++it)
 	{

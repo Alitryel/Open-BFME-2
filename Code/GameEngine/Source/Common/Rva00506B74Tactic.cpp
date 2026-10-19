@@ -232,7 +232,7 @@ public:
 	Rva002A8B59Data *rva002A8B59(void *owner);
 };
 
-extern Rva002A8F24 *g_00DFEEF8;
+extern Rva002A8F24 *TheSkirmishAIManager;
 
 Coord3D __cdecl Rva00506CF5(void *owner, Coord3D *point);
 
@@ -351,7 +351,7 @@ void AIBaseBuilder::notifyBuildingDestroyed(Object *obj)
 	for (Rva005ADA40 **it = m_0C.begin(); it != end; ++it)
 		reinterpret_cast<Rva005AD99C *>(*it)->rva005AD99C(name, (_STL::vector<const ModuleData *> *)&hits);
 	if (!hits.empty()) {
-		Rva002A8B59Data *data = g_00DFEEF8->rva002A8B59(m_08);
+		Rva002A8B59Data *data = TheSkirmishAIManager->rva002A8B59(m_08);
 		for (Rva00506FE9Hit **h = hits.begin(); h != hits.end(); ++h) {
 			Rva00506FE9Hit *hit = *h;
 			if (hit->m_24 == ((Rva00506FE9ObjectView *)obj)->m_id) {
