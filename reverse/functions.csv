@@ -18652,9 +18652,7 @@ uw_007654d4,,0x007654D4,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_007654dc,,0x007654DC,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5762
 uw_007654e4,,0x007654E4,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5672
 uw_007654ec,,0x007654EC,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5672
-uw_00765590,,0x00765590,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5338
 uw_0076559b,,0x0076559B,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5735
-uw_007655a6,,0x007655A6,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5329
 uw_007655b1,,0x007655B1,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5320
 uw_007655bc,,0x007655BC,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5311
 uw_00765600,,0x00765600,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4958
@@ -24961,10 +24959,6 @@ uw_00785529,,0x00785529,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obj
 uw_00785534,,0x00785534,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2901
 uw_0078553f,,0x0078553F,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2902
 uw_0078554a,,0x0078554A,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2903
-uw_0078555f,,0x0078555F,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2596
-uw_0078556a,,0x0078556A,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2884
-uw_00785575,,0x00785575,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2885
-uw_00785580,,0x00785580,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2886
 uw_007855ad,,0x007855AD,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5879
 uw_007855b5,,0x007855B5,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
 uw_007855e1,,0x007855E1,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L9838
@@ -28911,10 +28905,6 @@ uw_007987ca,,0x007987CA,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_007987dc,,0x007987DC,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5707
 uw_00798806,,0x00798806,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5697
 uw_00798876,,0x00798876,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5870
-uw_00798888,,0x00798888,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5697
-uw_00798890,,0x00798890,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L7197
-uw_0079889b,,0x0079889B,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L7198
-uw_007988a6,,0x007988A6,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L7199
 uw_007988dc,,0x007988DC,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5933
 uw_007988e4,,0x007988E4,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3917
 uw_007988ec,,0x007988EC,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3926
@@ -29884,7 +29874,6 @@ uw_0079d367,,0x0079D367,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obje
 uw_0079d379,,0x0079D379,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7384
 uw_0079d38b,,0x0079D38B,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L5814
 uw_0079d3df,,0x0079D3DF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
-uw_0079d3f1,,0x0079D3F1,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5110
 uw_0079d403,,0x0079D403,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5110
 uw_0079d41f,,0x0079D41F,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2601
 uw_0079d42a,,0x0079D42A,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2604
@@ -31230,7 +31219,6 @@ uw_007a2466,,0x007A2466,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;obje
 uw_007a24a1,,0x007A24A1,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2882
 uw_007a24b7,,0x007A24B7,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
 uw_007a24bf,,0x007A24BF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
-uw_007a24d1,,0x007A24D1,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2596
 uw_007a24f0,,0x007A24F0,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L5723
 uw_007a24f8,,0x007A24F8,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L6882
 uw_007a2533,,0x007A2533,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3552
@@ -97175,3 +97163,15 @@ $L13851,,0x00775346,11,Code/GameEngine/Source/GameClient/InGameUICtor.cpp,matche
 $L371,,0x0077A02F,8,Code/GameEngine/Source/Common/System/Rva0030B0E3Ctor.cpp,matched,gen-funclet;parent=??0Rva0030B0E3@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
 $L6737,,0x0077D9DC,8,Code/GameEngine/Source/Common/Rva0035A9C1Dtor.cpp,matched,gen-funclet;parent=??1Rva0035A9C1@@UAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
 $L9375,,0x007854A8,8,Code/GameEngine/Source/Common/0CreateAHeroManager21FE49.cpp,matched,gen-funclet;parent=??1Rva0040A530@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L1198,,0x0078555F,11,Code/Libraries/Source/WWVegas/WWLib/Rva0040B77EDtor.cpp,matched,gen-funclet;parent=??1Rva0040B77E@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L1199,,0x0078556A,11,Code/Libraries/Source/WWVegas/WWLib/Rva0040B77EDtor.cpp,matched,gen-funclet;parent=??1Rva0040B77E@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L1200,,0x00785575,11,Code/Libraries/Source/WWVegas/WWLib/Rva0040B77EDtor.cpp,matched,gen-funclet;parent=??1Rva0040B77E@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L1201,,0x00785580,11,Code/Libraries/Source/WWVegas/WWLib/Rva0040B77EDtor.cpp,matched,gen-funclet;parent=??1Rva0040B77E@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L6362,,0x00798888,8,Code/Libraries/Source/WWVegas/WWLib/Rva0055011ACtor.cpp,matched,gen-funclet;parent=??0Rva0055011A@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L6363,,0x00798890,11,Code/Libraries/Source/WWVegas/WWLib/Rva0055011ACtor.cpp,matched,gen-funclet;parent=??0Rva0055011A@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L6364,,0x0079889B,11,Code/Libraries/Source/WWVegas/WWLib/Rva0055011ACtor.cpp,matched,gen-funclet;parent=??0Rva0055011A@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L6365,,0x007988A6,11,Code/Libraries/Source/WWVegas/WWLib/Rva0055011ACtor.cpp,matched,gen-funclet;parent=??0Rva0055011A@@QAE@XZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L3960,,0x0079D3F1,8,Code/GameEngine/Source/GameLogic/Object/Die/Rva00597693Ctor.cpp,matched,gen-funclet;parent=??0Rva00597693@@QAE@PAX@Z;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L491,,0x007A24D1,11,Code/GameEngine/Source/Common/Rva005D4C61Dtor.cpp,matched,gen-funclet;parent=??0Rva005D4C61@@QAE@HABVAsciiString@@@Z;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L923,,0x00765590,11,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTextureEnd.cpp,matched,gen-funclet;parent=?Record_Texture_End@@YAXXZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
+$L925,,0x007655A6,11,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTextureEnd.cpp,matched,gen-funclet;parent=?Record_Texture_End@@YAXXZ;exact matched parent EH graph places this emitted label at the complete native action (logged false reject; scaffold now replaceable after 0ea7acc6e1)
