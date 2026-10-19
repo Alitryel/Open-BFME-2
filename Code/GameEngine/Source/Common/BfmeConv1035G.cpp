@@ -7,9 +7,18 @@
 // omitted -- bfmeGo1035C is recovered in its own TU.
 class BfmeG1035;
 
-extern char g_bfmeCh1035;
-extern char g_bfmeLit1035[];
-void bfmeFix1035(char **slot, char *lit, BfmeG1035 *o);
+// The name is a StringClass (wwstring.cpp): the empty test reads its private
+// sentinel StringClass::m_NullChar (VA 0xE08C18) and the fix-up is the cdecl
+// StringClass::Format (0x00610DD0), called with the "dyntex_%08x" literal
+// (VA 0xBD2620) and this.
+class StringClass
+{
+public:
+	int __cdecl Format(const char *format, ...);
+private:
+	static char m_NullChar;
+	friend class BfmeG1035;
+};
 
 class BfmeG1035
 {
@@ -22,8 +31,8 @@ public:
 
 char *BfmeG1035::bfmeGo1035G(void)
 {
-	if (*m_bfmeName == g_bfmeCh1035)
-		bfmeFix1035(&m_bfmeName, g_bfmeLit1035, this);
+	if (*m_bfmeName == StringClass::m_NullChar)
+		reinterpret_cast<StringClass *>(&m_bfmeName)->Format("dyntex_%08x", this);
 
 	return m_bfmeName;
 }
