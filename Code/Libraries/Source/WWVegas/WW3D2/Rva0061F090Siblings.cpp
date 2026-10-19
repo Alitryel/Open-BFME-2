@@ -3,19 +3,21 @@
 // matched on mnemonic shape only -- the identity differs. Retail 0x0061F090
 // (21B) forwards through the singleton pointer at 0x00E09C0C and otherwise
 // returns 100. The tail jump targets the incremental-link thunk at
-// 0x00620DA0, which the resolver finds on the already-rowed bfmeForward name.
-class Gen_009EBB60Target
+// 0x00620DA0, rowed as the 5-byte tail jump Rva00620DA0::forward
+// (TailJumpWrappers5B.cpp); retail truth never follows a padded jmp, so the
+// call names that row rather than its target bfmeForward (0x006208B0).
+class Rva00620DA0
 {
 public:
-	int bfmeForward();
+	int forward();
 };
 
-extern "C" Gen_009EBB60Target *g_bfme00E09C0C;
+extern "C" Rva00620DA0 *g_bfme00E09C0C;
 
 int __cdecl rva0061F090()
 {
 	if (g_bfme00E09C0C)
-		return g_bfme00E09C0C->bfmeForward();
+		return g_bfme00E09C0C->forward();
 	return 100;
 }
 

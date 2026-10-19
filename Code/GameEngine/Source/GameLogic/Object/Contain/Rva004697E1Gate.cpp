@@ -84,7 +84,8 @@ public:
 	virtual void slot32();
 	virtual void slot33(int value);
 	void rva004697E1();
-	void rva004783D7();
+	// Retail calls the 0x004783D7 forward; never inline it into rva004697E1.
+	__declspec(noinline) void rva004783D7();
 private:
 	Rva004697E1Owner *owner;
 	char unknown08[0x11C-0x08];
