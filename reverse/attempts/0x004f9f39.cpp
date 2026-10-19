@@ -1,30 +1,9 @@
 // ?rva004F9F39@Rva004F9F39@@QAEXXZ
-// partial score=0.94 date=2026-10-15
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG
-namespace _STL
-{
-template <class T> class allocator
-{
-public:
-	allocator() {}
-};
-template <class T, class A> class _Vector_base
-{
-public:
-	_Vector_base(const A &a);
-	T *_M_start;
-	T *_M_finish;
-	T *_M_end_of_storage;
-};
-template <class T, class A = allocator<T> > class vector
-{
-public:
-	void reserve(unsigned int n);
-	T *erase(T *first, T *last);
-	void push_back(const T &x);
-};
-template <class It, class Cmp> void sort(It first, It last, Cmp cmp);
-}
+// partial score=0.98 date=2026-10-19
+// cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// stlport
+#include <vector>
+namespace _STL { template <class It, class Cmp> void sort(It, It, Cmp); }
 
 struct TargetRef00217D4C
 {
@@ -58,6 +37,11 @@ struct Rva004F6352
 	int m_04;
 	TreeHintRef00217D4C m_08;
 };
+namespace _STL {
+template <> void vector<Rva004F6352>::reserve(unsigned int);
+template <> Rva004F6352 *vector<Rva004F6352>::erase(Rva004F6352 *, Rva004F6352 *);
+template <> void vector<Rva004F6352>::push_back(const Rva004F6352 &);
+}
 struct Rva004F6352Cmp
 {
 	bool operator()(const Rva004F6352 &a, const Rva004F6352 &b) const;
@@ -171,7 +155,7 @@ void Rva004F9F39::rva004F9F39()
 			int n = vec.size();
 			for (int k = 0; count > 0 && k < n; ++k)
 			{
-				Rva004F9F39Unit *unit = (Rva004F9F39Unit *)(frontToBack ? vec[k] : vec[n - 1 - k]).m_ptr;
+				Rva004F9F39Unit *unit = (Rva004F9F39Unit *)(frontToBack ? vec[k].m_ptr : vec[n - 1 - k].m_ptr);
 				if (unit->m_1c)
 					continue;
 				unsigned int bit = unit->m_2c->m_5c4;
