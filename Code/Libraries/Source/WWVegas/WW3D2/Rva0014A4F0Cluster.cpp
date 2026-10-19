@@ -25,9 +25,15 @@
 #include "vector3.h"
 
 // Target-derived: the global the packed colour lands in (DX8Wrapper::FogColor
-// at VA 0x00DEDA24, via the g_Va alias the ledger defines there), and the
-// shared 255.0f scale (g_00BC2900 at VA 0x00BC2900).
-extern int g_Va00DEDA24;
+// at VA 0x00DEDA24, dx8wrapper.cpp's protected ?FogColor@DX8Wrapper@@1KA,
+// reached through a TU-scoped friend view), and the shared 255.0f scale
+// (g_00BC2900 at VA 0x00BC2900).
+class DX8Wrapper
+{
+	friend void Pack_Ambient_Color(const Vector3& color);
+protected:
+	static unsigned long FogColor;
+};
 
 // The out-of-line Convert_Color(const Vector3&, float alpha) shape. Only
 // [ebp+8] (the colour pointer) is read; the alpha operand comes from the
@@ -91,7 +97,7 @@ not_changed:
         add esp,20
         mov col,eax
     }
-    g_Va00DEDA24 = col;
+    DX8Wrapper::FogColor = col;
 }
 
 // The pointer constant is the emission lever only: it forces this TU to emit

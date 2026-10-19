@@ -1,5 +1,13 @@
 // cl: /O1 /DNDEBUG /MD /arch:SSE
-extern int g_Va00DEDA14;
+// dx8wrapper.cpp's protected ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A
+// at VA 0x00DEDA14, reached through a TU-scoped friend view.
+class LightEnvironmentClass;
+class DX8Wrapper
+{
+  friend class Rva0014D722This;
+protected:
+  static LightEnvironmentClass *Light_Environment;
+};
 struct Rva0013F6F0Light {
   float m_f00;
   float m_f04;
@@ -34,7 +42,7 @@ public:
 };
 void Rva0014D722This::rva0014D722(Rva0014D722Outer *o, void *b) {
   float buf[4];
-  Rva0013F6F0LightEnv *le = (Rva0013F6F0LightEnv *)g_Va00DEDA14;
+  Rva0013F6F0LightEnv *le = (Rva0013F6F0LightEnv *)DX8Wrapper::Light_Environment;
   if (le == 0)
     goto zero;
   if (m_04 < 0)

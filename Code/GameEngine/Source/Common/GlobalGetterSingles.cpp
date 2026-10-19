@@ -7,13 +7,22 @@
 
 // ?Rva0001D1C0Get@@YAHXZ @ 0x0001D1C0 (6B) over 0x00DA6CC8.
 
-extern int g_Va00DA6CC8;
-// ?g_Va00DA6CC8@@3HA: the global at this VA is ?_M_page_size@_Filebuf_base@_STL@@1KA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DA6CC8@@3HA=?_M_page_size@_Filebuf_base@_STL@@1KA")
+// STLport's protected ?_M_page_size@_Filebuf_base@_STL@@1KA, read through a
+// TU-scoped friend view (real decoration, no alias, no second datum).
+int Rva0001D1C0Get(void);
+namespace _STL
+{
+class _Filebuf_base
+{
+	friend int ::Rva0001D1C0Get(void);
+protected:
+	static unsigned long _M_page_size;
+};
+}
 
 int Rva0001D1C0Get(void)
 {
-	return g_Va00DA6CC8;
+	return (int)_STL::_Filebuf_base::_M_page_size;
 }
 
 // ?Rva00020E80Get@@YAHXZ @ 0x00020E80 (6B) over 0x00DA7188.
@@ -96,13 +105,18 @@ int Rva000A8F36Get(void)
 
 // ?Rva000EDF40Get@@YAHXZ @ 0x000EDF40 (6B) over 0x00DEDA24.
 
-extern int g_Va00DEDA24;
-// ?g_Va00DEDA24@@3HA: the global at this VA is ?FogColor@DX8Wrapper@@1KA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA24@@3HA=?FogColor@DX8Wrapper@@1KA")
+// dx8wrapper.cpp's protected ?FogColor@DX8Wrapper@@1KA through a friend view.
+class DX8Wrapper
+{
+	friend int Rva000EDF40Get(void);
+	friend void Rva00149570Set(int value);
+protected:
+	static unsigned long FogColor;
+};
 
 int Rva000EDF40Get(void)
 {
-	return g_Va00DEDA24;
+	return (int)DX8Wrapper::FogColor;
 }
 
 // ?Rva00149570Set@@YAXH@Z @ 0x00149570 (10B): the matching dword setter over
@@ -110,18 +124,23 @@ int Rva000EDF40Get(void)
 // both sides, no direct callers. Address-derived name.
 void Rva00149570Set(int value)
 {
-	g_Va00DEDA24 = value;
+	DX8Wrapper::FogColor = value;
 }
 
 // ?Rva00171660Get@@YAHXZ @ 0x00171660 (6B) over 0x00DB5F90.
 
-extern int g_Va00DB5F90;
-// g_Va00DB5F90: matched references place it at VA 0xdb5f90 (retail .data initial value 1).
-int g_Va00DB5F90 = 1;
+// ww3d.cpp defines this datum (initial NPATCHES_GAP_FILLING_ENABLED, 1) as the
+// private ?NPatchesGapFillingMode@WW3D@@0W4NPatchesGapFillingModeEnum@1@A.
+class WW3D
+{
+	friend int Rva00171660Get(void);
+	enum NPatchesGapFillingModeEnum {};
+	static NPatchesGapFillingModeEnum NPatchesGapFillingMode;
+};
 
 int Rva00171660Get(void)
 {
-	return g_Va00DB5F90;
+	return WW3D::NPatchesGapFillingMode;
 }
 
 // ?Rva000B29C3Get@@YAHXZ @ 0x000B29C3 (6B) over 0x00DE1B40.

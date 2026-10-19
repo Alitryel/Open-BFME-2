@@ -7,16 +7,28 @@
 // are address-derived (g_Va<VA> / Rva<RVA>Get). Opaque names witness only the
 // address and the global. The /GX- line matches the sibling TUs (verified
 // frameless six-byte shape).
-extern int g_Va00DEC3CC;
-// ?g_Va00DEC3CC@@3HA: the global at this VA is ?SyncTime@WW3D@@0IA; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_Va00DEC3CC@@3HA=?SyncTime@WW3D@@0IA")
+// ww3d.cpp's private ?SyncTime@WW3D@@0IA and dx8wrapper.cpp's protected
+// ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A, read through
+// TU-scoped friend views: real decorations, no alias, no second datum.
+class LightEnvironmentClass;
+class WW3D
+{
+	friend int Rva00083B7BGet(void);
+	static unsigned int SyncTime;
+};
+class DX8Wrapper
+{
+	friend int Rva0014D241Get(void);
+protected:
+	static LightEnvironmentClass *Light_Environment;
+};
 
 // ?Rva00083B7BGet@@YAHXZ @ 0x00083b7b (6B) over 0x00DEC3CC.
 // Follows a ret-with-pop (prev C2), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
 int Rva00083B7BGet(void)
 {
-	return g_Va00DEC3CC;
+	return WW3D::SyncTime;
 }
 
 extern int g_Va00DB47EC;
@@ -31,14 +43,12 @@ int Rva00094B87Get(void)
 	return g_Va00DB47EC;
 }
 
-extern int g_Va00DEDA14;
-
 // ?Rva0014D241Get@@YAHXZ @ 0x0014d241 (6B) over 0x00DEDA14.
 // Follows a ret (prev C3), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
 int Rva0014D241Get(void)
 {
-	return g_Va00DEDA14;
+	return (int)DX8Wrapper::Light_Environment;
 }
 
 extern int g_Va00DFE348;

@@ -8,9 +8,16 @@
 // form (defaults hoist a register load first); per the flag-split law this
 // body lives in its own TU so the defaults-built flag helpers are untouched.
 // No other flags (appended to the base -O2).
-extern unsigned int g_Va00DEC3DC;
+// The slot is ww3d.cpp's private ?Movie@WW3D@@0PAVFrameGrabClass@@A, read
+// through a TU-scoped friend view (real decoration, no alias).
+class FrameGrabClass;
+class WW3D
+{
+	friend int hasBfmeThingTXA(void);
+	static FrameGrabClass *Movie;
+};
 
 int hasBfmeThingTXA(void)
 {
-	return g_Va00DEC3DC != 0;
+	return WW3D::Movie != 0;
 }
