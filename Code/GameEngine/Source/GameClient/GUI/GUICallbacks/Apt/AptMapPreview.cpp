@@ -266,19 +266,14 @@ enum Rva0057DB97Slot
 {
 };
 
-// AptMapPreviewSetMapDescription.cpp's view of the preview: the player
-// slot of the given index, 0 for -1 or an empty game.
+// The player slot AptMapPreview::rva0057C688 (in
+// AptMapPreviewSetMapDescription.cpp) finds for a start region id, 0 for -1
+// or an empty game.
 class GameSlot
 {
 public:
 	unsigned char m_pad00[0x10];
 	Int m_startPos;		// +0x10, the start region id, -1 for none
-};
-
-class Rva0057C688
-{
-public:
-	GameSlot *rva0057C688(Int slot);
 };
 
 // The preview's ref-counted members (+0x18, +0x6C) release their referent
@@ -651,6 +646,7 @@ class AptMapPreview : public Rva0086E350Listener
 {
 public:
 	AptMapPreview(Rva0043DA65 *game);
+	GameSlot *rva0057C688(Int slot);	// 0x0057C688
 	Bool IsValidStartPosition(Int index);	// may a player start at this index
 	virtual void v04(void *a, void *b);
 	virtual void v0C(void *a, void *b, void *c);
@@ -928,7 +924,7 @@ void AptMapPreview::rva0057D85D(Rva0020E89C *region)
 	GetRegionsInOwnershipSet((Int)region, &m_regions);
 	for (unsigned int i = 0; i < m_regions.size(); ++i)
 	{
-		if (((Rva0057C688 *)this)->rva0057C688(m_regions[i]->getId()) != 0)
+		if (rva0057C688(m_regions[i]->getId()) != 0)
 		{
 			picked = m_regions[i];
 			break;

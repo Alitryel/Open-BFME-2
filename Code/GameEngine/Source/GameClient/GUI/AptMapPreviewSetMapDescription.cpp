@@ -24,10 +24,14 @@ public:
     UnicodeString bfme_getDescriptionFirstLine();
 };
 
+class GameSlot;
+class Rva0043DA65;
+
 class AptMapPreview
 {
 public:
     void bfmeSetMapDescription(MapMetaData *map);
+    GameSlot *rva0057C688(int value);
     void rva0057C597(bool show);
     void rva0057CC43(struct Rva0057CC43Node *head);
     void *GetStrategicScenarioComboBoxSelectedCampaign();
@@ -35,7 +39,9 @@ public:
     void rva0057CD66();
     int rva0057C57B(int value);
 private:
-    char m_unmodelled[0x2C];
+    char m_unmodelled[0x18];
+    Rva0043DA65 *m_ptr18;	// +0x18, the game the preview was built for
+    char m_unmodelled1C[0x2C - 0x1C];
     GameWindow *m_descriptionList;
     GameWindow *m_windows[8];
     GameWindow *m_combo50;
@@ -126,14 +132,7 @@ public:
 	GameSlot *getSlot(int slotNum);
 };
 
-struct Rva0057C688
-{
-	char m_pad0[0x18];
-	Rva0043DA65 *m_ptr18;
-	GameSlot *rva0057C688(int value);
-};
-
-GameSlot *Rva0057C688::rva0057C688(int value)
+GameSlot *AptMapPreview::rva0057C688(int value)
 {
 	if (value == -1)
 		return 0;
