@@ -76,3 +76,12 @@ initialised before the loop. (2) case 3 keeps begin in EBP and copies it
 does not change it. (3) final `add eax,ecx` order in the found copy.
 
 - r2 follow-up: inline accessor `contactAt(i)` / `contactData()+i` / reference-bound local per arm: still 11 regions, head-merge unchanged (disproven).
+
+## Round r3 (2026-10-19, claude-opus-5-5): no gain, 11 regions kept
+
+Disproven on top of the r2 bank (regions/bytes): compare arg ternary `c->label.compare(label?label:"")`
+26/1079, same without c 25/1072; arms without c plus `pos=contactsBegin[i].position` 16/1066; result int
+`r` set in each arm then `if(r)continue` 25/1080 (with per-arm c: 13/1076). Case 3: direct
+`contactsBegin[index]`/`[index+1]` 12, `p=contactsBegin;p+=index` 11 (same regs), `p=&begin[seed%(count-1)]`
+with `++p` 14, `count>1` 12. Ours also hoists `lea ecx,[edi+0xc]` above the label test (retail sinks it
+to the join after the per-arm push), so the whole arm head is merged, not just the pointer.
