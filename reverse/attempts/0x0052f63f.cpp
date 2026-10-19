@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.7051406402 date=2026-10-19
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.601 date=2026-10-17
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8014 date=2026-10-14
@@ -92,7 +94,7 @@ struct IRegion2D
 struct BfmeE8{int a,b;};
 class Dict;
 class Rva0027C36A{public:Rva0027C36A();char bytes[0xa8];};
-class PolygonTrigger{public:virtual void *destroy(unsigned);void getBounds(int*);};
+class PolygonTrigger{public:virtual void *destroy(unsigned);void getBounds(IRegion2D*);};
 class Bridge{public:Bridge(Rva0027C36A&,Dict*,const AsciiString&,PolygonTrigger*);virtual void *destroy(unsigned);Bridge*next;char bytes[0xcc-8];};
 class Drawable{public:int rva002725E7(int);int rva002725B1(int);bool rva0027267D(int,int,int,int);bool rva002726C3(int,int,int,int);};
 struct WallTemplate{char pad[0x64];AsciiString name;};
@@ -251,14 +253,16 @@ extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 static __forceinline float wallDelta(PathfindLayer *entry,const float &height) { int value=entry->height; _ReadWriteBarrier(); return (float)value-height; }
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
+// Normalize pinch queries through the Boolean accessor used by the map classifier.
+// Bounds arguments and wall diagnostic text follow the native call sites.
 void Pathfinder::rva0052F63F(Object*obj,bool insert)
 {
- Drawable*drawable=(insert ? obj->getDrawable() : obj->getDrawable());if(!drawable)return;
+ Drawable*drawable=obj->getDrawable();if(!drawable)return;
  static const volatile float tolerance=3.5f;Rva0027C36A data;PolygonTrigger*poly;
  if(insert){
   float h;poly=(PolygonTrigger*)drawable->rva002725E7((int)&h);
   if(poly){
-   int layer=2;IRegion2D bounds;poly->getBounds((int*)&bounds);
+   int layer=2;IRegion2D bounds;poly->getBounds(&bounds);
    bool merged = false;
    for(;layer<=15;++layer){
     PathfindLayer *entry = &layers[layer];
@@ -305,7 +309,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    ++count;
    if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();
-    (theDebug->CrashBegin(0,0,0)<<obj->templ->name.str()<<" has a wall height of "<<height<<" but there's already a wall with a height\nof "<<heightForLayer(layer)<<" defined by "<<nameForLayer(layer).str()<<"; separation required "<<tolerance<<"; layer "<<layer).CrashDone(2);
+    (theDebug->CrashBegin(0,0,0)<<obj->templ->name.str()<<" has a wall height of "<<height<<" but there's already a wall with a height\nof "<<heightForLayer(layer)<<" defined by "<<nameForLayer(layer).str()<<" - maximum delta for considering two walls to\nbe equal is "<<tolerance<<"; needs to be fixed /"<<layer).CrashDone(2);
    }
   }
   if(heightCount<64){heights[heightCount]=height;names[heightCount]=obj->templ->name;layer=heightCount+17;++heightCount;}
@@ -317,7 +321,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   }
  }
  if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->templ->name;}
- IRegion2D world;area->getBounds((int*)&world);
+ IRegion2D world;area->getBounds(&world);
  int loX=FLOOR(world.lo.x/10)-2;
  _ReadWriteBarrier();
  int loY=FLOOR(world.lo.y/10)-2;
@@ -335,7 +339,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
    int current=m_map[i][j].layer;
    if(current==layer)m_map[i][j].pinched=false;
-   if(m_map[i][j].type==0){
+   if(m_map[i][j].getType()==0){
     int count=0;for(int k=i-1;k<i+2;++k){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
      for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&l==j)continue;
       if(m_map[k][l].layer!=current)++count;
@@ -346,12 +350,12 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    }
   }
   for(_STL::vector<BfmeE8>::iterator p=changed.begin();p!=changed.end();++p){
-   int i=p->a,j=p->b;if(m_map[i][j].pinched&&m_map[i][j].type==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].pinched=false;
+   int i=p->a,j=p->b;if(m_map[i][j].getPinched()&&m_map[i][j].getType()==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].pinched=false;
   }
  }else{
   _STL::set<int>::iterator found=wallIDs.find(obj->id);if(found!=wallIDs.end())wallIDs.erase(found);
   for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
-   if(m_map[i][j].pinched){int count=0;int current=m_map[i][j].layer;
+   if(m_map[i][j].getPinched()){int count=0;int current=m_map[i][j].layer;
     for(int k=i-1;k<i+2;++k){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
      for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&l==j)continue;if(m_map[k][l].layer!=current)++count;}
     }
@@ -368,7 +372,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   for(_STL::set<int>::iterator p=wallIDs.begin();p!=wallIDs.end();++p){
    Object*other=TheGameLogic->findObjectByID((ObjectID)*p);if(!other||(other->status&1))continue;
    Drawable*d=other->getDrawable();if(!d)continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
-   IRegion2D qb;q->getBounds((int*)&qb);
+   IRegion2D qb;q->getBounds(&qb);
    int lx=FLOOR(qb.lo.x/10)-2,ly=FLOOR(qb.lo.y/10)-2,hx=CEIL(qb.hi.x/10)+2,hy=CEIL(qb.hi.y/10)+2;
    if((layer ? (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY) : (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY))){rva0052F63F(other,true);deletePoly(q);}
   }
