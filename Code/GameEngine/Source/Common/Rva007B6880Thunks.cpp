@@ -187,7 +187,7 @@ extern unsigned g_Va00DDEEE4;
 extern unsigned g_Va00DDEF38;
 unsigned g_Va00DDEEF0;	// retail RVA 0x009DEEF0 (.bss), defined here
 unsigned g_Va00DDEF20;	// retail RVA 0x009DEF20 (.bss), defined here
-extern unsigned g_Va00DDEF2C;
+unsigned g_Va00DDEF2C;	// retail RVA 0x009DEF2C (.bss), defined here
 
 // ?rva007B68C0@@YAXXZ @ 0x007B68C0 (10B). Global string dtor thunk: ecx=&_STL::_Nameless then tail-jmp to rowed ??1?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ (0x00142D70).
 void __cdecl rva007B68C0()
