@@ -1,6 +1,8 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 
+#include <math.h>
+#include <mmsystem.h>
 #define _STLP_BFME_TREE_NODE_BASE_O2  // emit retail's _Rb_tree_node_base::_S_minimum/_S_maximum (vendor/stlport/stl/_tree.h)
 #include <stl/_prolog.h>
 #include <stl/type_traits.h>
@@ -131,3 +133,111 @@ template<> TreeHintRef00218787 &TreeHintMap00218787::operator[](const int &key)
  return (*it).second;
 }
 template class _STL::map<int, TreeHintRef00218787>;
+
+void *__cdecl operator new(unsigned int) throw();
+class Display;
+extern Display *TheDisplay;
+class DisplayView005C6D9C {
+public:
+    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
+    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual unsigned width(); virtual unsigned height();
+};
+struct PauseView005C6D9C { char pad[0x5c]; bool paused; };
+class Shell;
+extern Shell *TheShell;
+extern float g_00E065C4;
+static const float kFlashMaxScale = 1.1f;
+static const float kFlashStart = 0.0f;
+static const float kFlashDuration = 0.0f;
+struct Rva002BED91 { void set(TargetRef00217D4C *); };
+// The existing clear/erase providers use the same native tree prefix.
+// Erase reads only the signed integer key prefix; its legacy set name is unproven.
+class SubTree005C6B83 { public: void clear(); };
+struct Rva0027EA49 { ~Rva0027EA49(); int key; TargetRef00217D4C *pointer; };
+inline bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b) { return a.key < b.key; }
+typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > EraseTree;
+class Rva005C663C {
+public:
+    Rva005C663C();
+private:
+    char unknown[20];
+};
+class Rva005C6D4D {
+public:
+    virtual void v0();
+    virtual bool visit(int);
+    void rva005C6D9C();
+private:
+    bool flag;
+    char pad[3];
+    int count;
+    int unknown0c, unknown10;
+    int width, height;
+    unsigned radius;
+    unsigned lastTime, elapsed;
+    float scale, angle;
+    TreeHintMap tree;
+};
+void Rva005C6D4D::rva005C6D9C()
+{
+    if (count <= 0) {
+        ((SubTree005C6B83 *)&tree)->clear();
+        return;
+    }
+    unsigned now = timeGetTime();
+    if (radius == 0) {
+        width = (int)(((DisplayView005C6D9C *)TheDisplay)->width() * (48.0f / 1024.0f));
+        height = (int)(((DisplayView005C6D9C *)TheDisplay)->height() * (48.0f / 768.0f));
+        if (count > 2) {
+            float half = width * 0.5f;
+            radius = (unsigned)((half * 1.175f) / sin(3.1415927f / count));
+            radius = (unsigned)(((float)radius > width * 2.0f / 3.0f) ? (float)radius : width * 2.0f / 3.0f);
+        } else {
+            radius = (unsigned)(width * 2.0f / 3.0f);
+        }
+        angle = 6.2831855f / count;
+        lastTime = now;
+        elapsed = 0;
+    }
+    if (!((PauseView005C6D9C *)TheShell)->paused)
+        elapsed += now - lastTime;
+    lastTime = now;
+    if (count > 1) {
+        if ((float)elapsed < kFlashStart) {
+            if (kFlashStart != 0.0f)
+                scale = (float)elapsed * (kFlashMaxScale / kFlashStart);
+            else
+                scale = 1.0f;
+        } else if ((float)elapsed < g_00E065C4) {
+            float t;
+            if (kFlashStart != 0.0f)
+                t = ((float)elapsed - kFlashStart) / kFlashDuration;
+            else
+                t = 1.0f;
+            scale = (1.0f - t) * (kFlashMaxScale - 1.0f) + 1.0f;
+        } else {
+            scale = 1.0f;
+        }
+    } else {
+        if (kFlashStart != 0.0f) {
+            float s = (float)elapsed * (kFlashMaxScale / kFlashStart);
+            scale = s > 1.0f ? 1.0f : s;
+        } else {
+            scale = 1.0f;
+        }
+    }
+    for (int i = 0; i < count; ++i) {
+        if (visit(i)) {
+            if (((_STL::map<int,int> *)&tree)->find(i) == ((_STL::map<int,int> *)&tree)->end()) {
+                Rva005C663C *p = new Rva005C663C;
+                ((Rva002BED91 *)&tree[i])->set((TargetRef00217D4C *)p);
+                flag = true;
+            }
+        } else {
+            ((EraseTree *)&tree)->erase((const Rva0027EA49 &)i);
+        }
+    }
+}
