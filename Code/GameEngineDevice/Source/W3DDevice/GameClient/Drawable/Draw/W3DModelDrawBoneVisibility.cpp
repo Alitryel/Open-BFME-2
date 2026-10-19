@@ -113,7 +113,7 @@ public:
 	void rva000B3814(Rva000B3814Arg *subObject, float alpha);
 };
 
-class Rva000B3885
+class W3DModelDraw
 {
 public:
 	char m_pad00[0x08];
@@ -130,7 +130,7 @@ typedef const HTreeClass *(BfmeBoneRenderDispatch::*BoneGetTree)() const;
 typedef Int (BfmeBoneRenderDispatch::*BoneGetObjectIndex)(Int, Int) const;
 typedef Int (BfmeBoneRenderDispatch::*BoneGetSubObjectCount)() const;
 
-void Rva000B3885::rva000B3885(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex)
+void W3DModelDraw::rva000B3885(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex)
 {
 	nativeSetHidden(subObject, info->m_hide);
 
@@ -155,7 +155,7 @@ void Rva000B3885::rva000B3885(Rva000B3885HideShowInfo *info, RenderObjClass *sub
 // down and +0x1C9 is set; else the alpha steps by the rate clamped to 0..1.
 // Either alpha path applies it through rowed 0x000B3814. The bone walk tail
 // is rva000B3885's. WorldBuilder twin 0x00942B10 (callsite evidence).
-void Rva000B3885::rva000B38F9(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex)
+void W3DModelDraw::rva000B38F9(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex)
 {
 	if (info->m_fadeRate != 0.0f)
 	{

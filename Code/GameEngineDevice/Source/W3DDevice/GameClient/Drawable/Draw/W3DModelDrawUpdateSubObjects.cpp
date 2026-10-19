@@ -213,8 +213,8 @@ class Drawable
  
 }
 ;
-// Hide/show entry (0x18 bytes); the per-entry workers are rowed under the
-// address-named W3DModelDraw view Rva000B3885.
+// Hide/show entry (0x18 bytes); the per-entry workers are W3DModelDraw
+// members (0x000B3885, 0x000B38F9).
 struct Rva000B3885HideShowInfo
 
 {
@@ -230,15 +230,6 @@ struct Rva000B3885HideShowInfo
 // +0x10
  float m_delay;
 // +0x14
- 
-}
-;
-class Rva000B3885
-
-{
- public:
- void rva000B3885(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex);
- void rva000B38F9(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex);
  
 }
 ;
@@ -284,6 +275,8 @@ class W3DModelDraw : public Rva000BAF7BDrawModule, public ObjectDrawInterface
 {
  public:
  virtual void updateSubObjects();
+ void rva000B3885(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex);
+ void rva000B38F9(Rva000B3885HideShowInfo *info, RenderObjClass *subObject, Int subObjectIndex);
  private:
  const Drawable *getDrawable() const 
  {
@@ -340,7 +333,7 @@ void W3DModelDraw::updateSubObjects()
      if (_strnicmp(it->m_name.str(), subName, len) == 0)
      
      {
-      ((Rva000B3885 *)this)->rva000B3885(it, subObj, objIndex);
+      rva000B3885(it, subObj, objIndex);
       
      }
      else
@@ -348,7 +341,7 @@ void W3DModelDraw::updateSubObjects()
      {
       const char * dot = strchr(subName, '.');
       if (dot && _strnicmp(it->m_name.str(), dot + 1, len) == 0)
-      ((Rva000B3885 *)this)->rva000B3885(it, subObj, objIndex);
+      rva000B3885(it, subObj, objIndex);
       
      }
      subObj->Release_Ref();
@@ -363,7 +356,7 @@ void W3DModelDraw::updateSubObjects()
     if (subObj)
     
     {
-     ((Rva000B3885 *)this)->rva000B3885(it, subObj, objIndex);
+     rva000B3885(it, subObj, objIndex);
      subObj->Release_Ref();
      
     }
@@ -405,7 +398,7 @@ void W3DModelDraw::updateSubObjects()
      if (_strnicmp(it->m_name.str(), subName, len) == 0)
      
      {
-      ((Rva000B3885 *)this)->rva000B38F9(it, subObj, objIndex);
+      rva000B38F9(it, subObj, objIndex);
       
      }
      else
@@ -413,7 +406,7 @@ void W3DModelDraw::updateSubObjects()
      {
       const char *dot = strchr(subName, '.');
       if (dot && _strnicmp(it->m_name.str(), dot + 1, len) == 0)
-      ((Rva000B3885 *)this)->rva000B38F9(it, subObj, objIndex);
+      rva000B38F9(it, subObj, objIndex);
       
      }
      subObj->Release_Ref();
@@ -428,7 +421,7 @@ void W3DModelDraw::updateSubObjects()
     if (subObj)
     
     {
-     ((Rva000B3885 *)this)->rva000B38F9(it, subObj, objIndex);
+     rva000B38F9(it, subObj, objIndex);
      subObj->Release_Ref();
      
     }
