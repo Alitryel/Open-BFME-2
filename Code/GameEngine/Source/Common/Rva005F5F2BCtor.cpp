@@ -72,11 +72,11 @@ public:
 // Rva0007DF07. Its inherited zero-before-vptr initialization is unchanged.
 #include "../../Include/Common/Rva00567960BaseMid.h"
 
-class Rva005F5C77Holder : public Rva005E1158
+class Rva005E12D1 : public Rva005E1158
 {
 public:
-	Rva005F5C77Holder(void *a1, const AsciiString &a2, void *a3);
-	virtual ~Rva005F5C77Holder();
+	Rva005E12D1(void *a1, const AsciiString &a2, void *a3);
+	virtual ~Rva005E12D1();
 private:
 	void *m_0C;
 	int m_10;
@@ -93,7 +93,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_rva00E06918;
 
-class Rva005F5F2B : public Rva00567960BaseMid, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F5F2B : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
 public:
 	Rva005F5F2B(void *a1, Rva005F5F2BIn *a2);
@@ -105,7 +105,7 @@ private:
 
 Rva005F5F2B::Rva005F5F2B(void *a1, Rva005F5F2BIn *a2)
 	: Rva00567960BaseMid()
-	, Rva005F5C77Holder(a1, AsciiString("button"), a2->m_00)
+	, Rva005E12D1(a1, AsciiString("button"), a2->m_00)
 	, Rva005E4AE2Listener()
 {
 	m_20 = a2->m_04;

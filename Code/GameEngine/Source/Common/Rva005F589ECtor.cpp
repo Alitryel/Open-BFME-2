@@ -7,7 +7,7 @@
 // via rowed 0x005E16B9 and unlocked via rowed 0x005E1158, listener registered
 // through rowed append 0x005A0B4C. Evidence: EH_prolog cookie 0xBA5425; vtables
 // 0x00C79570/0x00C79550/0x00C79544; caller at 0x005E5D27; prev 0x005F5882 next 0x005F594C.
-// Reuses Rva0007DF07/Rva005F5C77Holder names to call the existing pin at 0x005E1680.
+// Reuses the Rva0007DF07 name, and the row class Rva005E12D1 for the holder ctor at 0x005E1680.
 #include "ascii_string.h"
 
 class Image;
@@ -56,11 +56,11 @@ public:
 // Rva0007DF07. Its inherited zero-before-vptr initialization is unchanged.
 #include "../../Include/Common/Rva00567960BaseMid.h"
 
-class Rva005F5C77Holder : public Rva005E1158
+class Rva005E12D1 : public Rva005E1158
 {
 public:
-	Rva005F5C77Holder(void *a1, const AsciiString &a2, void *a3);
-	virtual ~Rva005F5C77Holder();
+	Rva005E12D1(void *a1, const AsciiString &a2, void *a3);
+	virtual ~Rva005E12D1();
 private:
 	void *m_0C;
 	int m_10;
@@ -77,7 +77,7 @@ struct Rva005E16DA;
 
 extern Rva005E16DA g_00E068EC;
 
-class Rva005F589E : public Rva00567960BaseMid, public Rva005F5C77Holder, public Rva005E4AE2Listener
+class Rva005F589E : public Rva00567960BaseMid, public Rva005E12D1, public Rva005E4AE2Listener
 {
 public:
 	Rva005F589E(int a1, void *a2);
@@ -89,7 +89,7 @@ private:
 
 Rva005F589E::Rva005F589E(int a1, void *a2raw)
 	: Rva00567960BaseMid()
-	, Rva005F5C77Holder((void *)a1, AsciiString("button"), ((Rva005F589EIn *)a2raw)->m_00)
+	, Rva005E12D1((void *)a1, AsciiString("button"), ((Rva005F589EIn *)a2raw)->m_00)
 	, Rva005E4AE2Listener()
 {
 	Rva005F589EIn *a2 = (Rva005F589EIn *)a2raw;
