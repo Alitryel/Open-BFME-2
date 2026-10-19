@@ -53,9 +53,11 @@ struct PartitionNode {
 // The legacy receiver spelling remains an ABI adapter over the one shared
 // storage view; this inheritance is reconstruction scaffolding, not a retail
 // class-hierarchy assertion. WB names the owner PartitionManagerImpl.
+struct Gen009F5040Node;
 class PartitionManagerImpl {
 public:
  void SetTreeDepth(unsigned);
+ void linkNode(Gen009F5040Node*);
  void *GetClosestObject(int,float,int,int,int);
  void _ClearNumObjBelow(void **slot, unsigned count);
  int prefix[6];
@@ -97,8 +99,6 @@ void Gen_dtor_009f2600::cleanup()
     }
 }
 
-struct Gen009F5040Node;
-class Gen009F5040 {public:void linkNode(Gen009F5040Node*);};
 class Rva00627AA0TreeVector : public _STL::_Vector_base<PartitionRawPair,_STL::allocator<PartitionRawPair> > {
  typedef _STL::_Vector_base<PartitionRawPair,_STL::allocator<PartitionRawPair> > Base;
 public:
@@ -124,7 +124,7 @@ void PartitionManagerImpl::SetTreeDepth(unsigned depth)
         *reinterpret_cast<_STL::vector<PartitionAssignPair>*>(&trees[i]) = *reinterpret_cast<const _STL::vector<PartitionAssignPair>*>(&fresh);
     }
     for (PartitionNode *node = head; node; node = node->next)
-        ((Gen009F5040 *)this)->linkNode((Gen009F5040Node *)node);
+        linkNode((Gen009F5040Node *)node);
 }
 
 // Native helper ignores receiver and allocates/copies8-byte elements. The

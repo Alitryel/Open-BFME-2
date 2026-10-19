@@ -190,7 +190,7 @@ int Rva0073B640::rva0073B640(int row, int column) const
 // ?rva007584F0@Rva007584F0@@QAEXXZ @0x007584F0 12B and
 // ?rva00625870@Rva00625870@@QAEXXZ @0x00625870 12B: hand the +4 word to a
 // rowed member of the object held at +0 (CollisionManagerImpl::UnRegisterObject
-// 0x007592E0 / Gen009F5040::bfmeDropYQ 0x006278A0).
+// 0x007592E0 / PartitionManagerImpl::bfmeDropYQ 0x006278A0).
 class Rva009A36F0Param;
 class CollisionManagerImpl
 {
@@ -210,7 +210,7 @@ void Rva007584F0::rva007584F0()
 	m_00->UnRegisterObject(m_04);
 }
 class BfmeThingYQ;
-class Gen009F5040
+class PartitionManagerImpl
 {
 public:
 	void bfmeDropYQ(BfmeThingYQ *thing);
@@ -220,7 +220,7 @@ class Rva00625870
 public:
 	void rva00625870();
 private:
-	Gen009F5040 *m_00;
+	PartitionManagerImpl *m_00;
 	BfmeThingYQ *m_04;
 };
 void Rva00625870::rva00625870()

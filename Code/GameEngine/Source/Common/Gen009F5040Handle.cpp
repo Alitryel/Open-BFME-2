@@ -51,7 +51,7 @@ struct Gen009F4900Value1
 	float m_value04;
 };
 
-// ?remove@Gen009F5040@@QAEXPAUGen009F5040Node@@@Z
+// ?remove@PartitionManagerImpl@@QAEXPAUGen009F5040Node@@@Z
 //
 // BFME1 donor Gen009F5040Handle.cpp shape: unlink the node from the
 // secondary list, then walk the counter pyramid (mask/count halving per
@@ -110,7 +110,7 @@ struct Gen009F5040Bucket
 	int m_pad08;
 };
 
-class Gen009F5040
+class PartitionManagerImpl
 {
 public:
 	__declspec(noinline) void remove(Gen009F5040Node *node);
@@ -127,8 +127,8 @@ public:
 	Gen009F5040Node *m_node;
 };
 
-// ?remove@Gen009F5040@@QAEXPAUGen009F5040Node@@@Z
-void Gen009F5040::remove(Gen009F5040Node *node)
+// ?remove@PartitionManagerImpl@@QAEXPAUGen009F5040Node@@@Z
+void PartitionManagerImpl::remove(Gen009F5040Node *node)
 {
 	if (node->m_secondaryNext != 0)
 		node->m_secondaryNext->m_secondaryPreviousLink = node->m_secondaryPreviousLink;
@@ -153,7 +153,7 @@ void Gen009F5040::remove(Gen009F5040Node *node)
 	}
 }
 
-void Gen009F5040::handle()
+void PartitionManagerImpl::handle()
 {
 	Gen009F5040Node *node = m_node;
 	if (node == 0)
@@ -184,7 +184,7 @@ void Gen009F5040::handle()
 	}
 }
 
-// ?linkNode@Gen009F5040@@QAEXPAUGen009F5040Node@@@Z
+// ?linkNode@PartitionManagerImpl@@QAEXPAUGen009F5040Node@@@Z
 //
 // BFME1 donor Gen009F5040Handle.cpp linkNode_009F4D80 shape: recompute the
 // node results, clamp the item index, walk the counter pyramid bumping
@@ -193,7 +193,7 @@ void Gen009F5040::handle()
 // (near-miss drift at +0x31: 10 vs 14, plus mask member +0x11C already in
 // this TU). B1 0x009F4D80 181B -> B2 0x006274B0 181B, immediate-only drift.
 // Callees: calculate (pinned 0x6271D0) + virtual getIndex (slot 0x1C).
-void Gen009F5040::linkNode(Gen009F5040Node *node)
+void PartitionManagerImpl::linkNode(Gen009F5040Node *node)
 {
 	calculate(node, &node->m_result28, &node->m_result2c, &node->m_result24);
 	int index = node->m_item->getIndex();
@@ -223,11 +223,11 @@ void Gen009F5040::linkNode(Gen009F5040Node *node)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeLinkEQR@BfmeHostEQR@@QAEXPAVBfmeRecEQR@@@Z=?linkNode@Gen009F5040@@QAEXPAUGen009F5040Node@@@Z")
+#pragma comment(linker, "/alternatename:?bfmeLinkEQR@BfmeHostEQR@@QAEXPAVBfmeRecEQR@@@Z=?linkNode@PartitionManagerImpl@@QAEXPAUGen009F5040Node@@@Z")
 
 // Keep the first getter view live across the second virtual call.
-// ?calculate@Gen009F5040@@QAEXPAUGen009F5040Node@@PAH11@Z
-void Gen009F5040::calculate(Gen009F5040Node *node,
+// ?calculate@PartitionManagerImpl@@QAEXPAUGen009F5040Node@@PAH11@Z
+void PartitionManagerImpl::calculate(Gen009F5040Node *node,
 	int *result28, int *result2c, int *result24)
 {
 	Gen009F4900Value0 *value0 = (Gen009F4900Value0 *)node->m_item->getValue0();

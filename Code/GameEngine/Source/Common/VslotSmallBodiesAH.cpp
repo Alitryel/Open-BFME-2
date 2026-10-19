@@ -70,7 +70,7 @@ void Rva00711AB0::rva00711AB0()
 // 0x006252F0, 0x0066F5E0, 0x00739700 and 0x00739710: the pinned handlers
 // 0x00627770 (+0x10), 0x00676A50 (+0x18) and the rowed ShroudManager
 // reset 0x0073DFD0 / drainPending 0x0073D7D0 (+0x10) of a member object.
-class Gen009F5040
+class PartitionManagerImpl
 {
 public:
 	void handle();
@@ -96,7 +96,7 @@ public:
 	void rva006252F0();
 private:
 	char m_pad00[0x10];
-	Gen009F5040 *m_10;
+	PartitionManagerImpl *m_10;
 };
 void Rva006252F0::rva006252F0()
 {

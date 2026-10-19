@@ -30,12 +30,6 @@ struct Region3D;
 
 class BfmeThingYQ;
 
-class Gen009F5040
-{
-public:
-	void bfmeDropYQ(BfmeThingYQ *t);
-};
-
 class ShroudManagerImpl;
 
 class ShroudManager
@@ -68,6 +62,7 @@ class PartitionManagerImpl
 public:
  void *GetClosestObject(int, float, int, int, int);
 	void SetTreeDepth(unsigned int depth);	// 0x00627E40
+	void bfmeDropYQ(BfmeThingYQ *t);	// 0x006278A0
 };
 
 class ShroudManagerImpl
@@ -150,7 +145,7 @@ void PartitionManager::rva00625320(void *ptr)
 
 void PartitionManager::rva00625330(void *ptr)
 {
-	((Gen009F5040 *)m_shroudManager)->bfmeDropYQ((BfmeThingYQ *)ptr);
+	((PartitionManagerImpl *)m_shroudManager)->bfmeDropYQ((BfmeThingYQ *)ptr);
 }
 
 // Native BuildAssistant callers392ECB/393433 pass position, radius and mode

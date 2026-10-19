@@ -9,7 +9,7 @@ struct BfmeNode912C
 };
 
 struct Gen009F5040Node;
-class Gen009F5040
+class PartitionManagerImpl
 {
 public:
 	void linkNode(Gen009F5040Node *node);
@@ -27,7 +27,7 @@ void BfmeThing912C::InsertAllObjects()
 {
 	BfmeNode912C *n = m_bfmeHead;
 	while (n) {
-		((Gen009F5040 *)this)->linkNode((Gen009F5040Node *)n);
+		((PartitionManagerImpl *)this)->linkNode((Gen009F5040Node *)n);
 		n = n->m_bfmeNext;
 	}
 }
