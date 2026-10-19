@@ -12,6 +12,16 @@
 // Zero Hour's OVERRIDE<ThingTemplate> (body-assigning ctor) gives retail's store
 // schedule around the first vector-base ctor (bank 0.9945 -> exact).
 #include <vector>
+// vector<unsigned int>'s allocator constructor inlines at every use here;
+// imported force-inline so this unit emits no COMDAT copy of it (its copy
+// differs from retail's kept /Od body at 0x00025100). The vector base
+// constructor stays a declared nothrow call to its kept copy (0x00211E58).
+namespace _STL {
+template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw();
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+}
 #include <bitset>
 #include <string.h>
 #include "ascii_string.h"
@@ -23,15 +33,21 @@ namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiSt
 // bfme link decl-only end
 class Rva001E3624 {public:Rva001E3624():next(0),flag(false),extra(-1){}virtual ~Rva001E3624();void*next;bool flag;int extra;};
 class Rva002390CB {public:~Rva002390CB();char bytes[8];};
+// Bind to the kept copies (rows: vector<Rva002390CB> dtor 0x0035B825, range
+// erase 0x00532803, vector<void *> range erase 0x0031BD55) instead of
+// emitting this unit's differing ones.
+namespace _STL { template <> vector<Rva002390CB, allocator<Rva002390CB> >::~vector(); }
+namespace _STL { template <> void **vector<void *, allocator<void *> >::erase(void **, void **); }
 class Rva0024C7B3Member {public:Rva0024C7B3Member() throw();unsigned words[7];};
 class Rva0042526Member {public:Rva0042526Member() throw();unsigned words[19];};
 class Rva001EAE6FHelper {public:Rva001EAE6FHelper(){clear80();}Rva001EAE6FHelper*clear80();unsigned words[32];};
 class BfmeSlotVecG:public _STL::_Vector_base<int,_STL::allocator<int> > {public:
  __forceinline BfmeSlotVecG() throw():_STL::_Vector_base<int,_STL::allocator<int> >(_STL::allocator<int>()){}
- void bfmeErase(void**,void**);
+ __forceinline void bfmeErase(void**first,void**last){((_STL::vector<void*>*)this)->erase(first,last);}
  void clear(){bfmeErase((void**)_M_start,(void**)_M_finish);}
 };
 enum ScienceType {SCIENCE_NONE=0};
+namespace _STL { template <> ScienceType *vector<ScienceType, allocator<ScienceType> >::erase(ScienceType *, ScienceType *); }
 struct RawString {RawString():data(0){}void*data;};
 struct PairCapacity {PairCapacity():begin(0),size(32){}void*begin;unsigned size;};
 
