@@ -50,6 +50,11 @@ namespace _STL
 // Declared-only so the call stays external to the rowed body.
 template <>
 vector<RvaPair00257544, allocator<RvaPair00257544> >::~vector();
+// Keep allocator<AngleFXInfo>::deallocate inline-only: nothing here calls it out
+// of line, and this TU's COMDAT copy is not retail's body.
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+void allocator<AngleFXInfo>::deallocate(AngleFXInfo *__p, size_t) const
+{ if (__p != 0) ::free((void *)__p); }
 }
 
 class __declspec(novtable) StructureToppleUpdateModuleData : public Snapshot
