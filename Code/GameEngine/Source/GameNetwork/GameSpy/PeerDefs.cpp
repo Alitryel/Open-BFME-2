@@ -404,11 +404,13 @@ public:
 extern "C" int (__cdecl * const _imp___strcmpi)(const char *, const char *);
 
 // Lobby room IDs recorded by addGroupRoom from the GUI:LobbyRoom<n> labels.
-extern Int g_lobbyRoom2ID;		// 0x00E02328
-extern Int g_lobbyRoom9ID;		// 0x00E0232C
-extern Int g_lobbyRoom1ID;		// 0x00E02330
-extern Int g_lobbyRoom6ID;		// 0x00E02334
-extern Int g_lobbyRoom1IDAlt;	// 0x00E02338
+// Defined here, beside TheGameSpyGame (0x00E02324); zero at load, read back by
+// joinPreferredGroupRoom.
+Int g_lobbyRoom2ID = 0;		// 0x00E02328
+Int g_lobbyRoom9ID = 0;		// 0x00E0232C
+Int g_lobbyRoom1ID = 0;		// 0x00E02330
+Int g_lobbyRoom6ID = 0;		// 0x00E02334
+Int g_lobbyRoom1IDAlt = 0;	// 0x00E02338
 
 typedef void (*GameWinMsgBoxFunc)(void);
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, GameWinMsgBoxFunc okFunc = 0);
