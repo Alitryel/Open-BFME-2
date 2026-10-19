@@ -1,10 +1,16 @@
-// cl: /I. /O1 /G7 /EHs /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /I. /O1 /G7 /EHs /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // Donor semantic spine: f98983a7d ZH AIGroup::friend_moveFormationToPos.
 // Native371166..371AE2 RET20 / WB EE0AF0 independently name BFME2 formation move.
 // Visible getter, command/vector and coordinate helper definitions reproduce the C0 frame.
 // Their emitted bodies also match the existing retail owner rows.
 #include <list>
+// vector<Coord3D>::_M_insert_overflow inlines max(size(), n), as the rowed
+// retail copy 0x002CDF8A does; a file-static unsigned overload takes the call.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; }
+}
 #include <vector>
 
 // Retail compares typed list nodes inline, as in NetPacket.cpp.
@@ -97,6 +103,7 @@ class LocomotorSet;
 class Rva0035149F;
 
 void Rva00030830GameFree(void *);
+extern "C" void free(void *block);
 enum AICommandType
 {
     AICMD_MOVE_TO_POSITION = 0
@@ -125,10 +132,11 @@ template <> __declspec(noinline) inline void _Construct(Coord3D *p, const Coord3
 } // namespace _STL
 // The retail copy worker takes the empty tag by const reference.
 // Select that overload explicitly; the general STLport header uses a value tag.
+// __uninitialized_copy stays visible: a declaration-only specialization makes
+// _M_insert_overflow build a zeroed tag temporary that retail's copy lacks.
 namespace _STL
 {
 template <class I, class O> O __copy_ptrs(I, I, O, const __false_type &);
-template <> Coord3D *__uninitialized_copy(Coord3D *, Coord3D *, Coord3D *, const __false_type &);
 } // namespace _STL
 class Rva0035149F
 {
@@ -139,10 +147,11 @@ class Rva0035149F
 struct AICommandParms
 {
     AICommandParms(AICommandType, CommandSourceType);
+    // Inline teardown frees through the C free, as SlavedUpdateRepair's rowed copies do.
     ~AICommandParms()
     {
         if (coords.start)
-            Rva00030830GameFree(coords.start);
+            free(coords.start);
     }
     int cmd, source;
     Coord3D pos;
