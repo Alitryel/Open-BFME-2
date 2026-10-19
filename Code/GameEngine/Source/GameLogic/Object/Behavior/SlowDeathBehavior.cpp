@@ -293,11 +293,10 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 //-------------------------------------------------------------------------------------------------
 // SlowDeathBehavior::beginSlowDeath is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045DE65);
 // ZH's version here was the strong copy the link kept. Retail has no direct callers of the
-// out-of-line PhysicsBehavior setters and atan2(float, float) rowed to this unit, which ZH's
-// beginSlowDeath alone emitted; the anchors below keep their copies.
+// out-of-line PhysicsBehavior setters rowed to this unit, which ZH's beginSlowDeath alone
+// emitted; the anchors below keep their copies.
 static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_0)(Real) = &PhysicsBehavior::setExtraBounciness;
 static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_1)(Real) = &PhysicsBehavior::setExtraFriction;
-static float (__cdecl *const _bfmeInlineAnchor_SlowDeathBehavior_2)(float, float) = &atan2;
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
