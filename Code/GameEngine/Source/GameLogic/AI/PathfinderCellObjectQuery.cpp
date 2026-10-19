@@ -83,8 +83,24 @@ enum ObjectID {};
 class PathfindCell
 {
 public:
+	// Values come from the native cell-query tests. Enum spellings are carried
+	// from the BFME1/ZH donor; the target does not independently name them.
+	enum CellType { CELL_OBSTACLE = 4, CELL_BRIDGE_IMPASSABLE = 5, CELL_IMPASSABLE = 6 };
 	bool IsObstaclePresent(ObjectID objID) const;
 };
+
+// BFME1 cf0a80c2 AIPathfind.cpp:82 supplies this clean static predicate.
+// Native 002E7569..002E757D is its exact 20-byte private EAX-input copy.
+// The genuine query below inlines the predicate and naturally retains that
+// out-of-line copy; no synthetic caller or calling-convention adapter is used.
+static inline bool IS_IMPASSABLE(PathfindCell::CellType type)
+{
+	if (type == PathfindCell::CELL_BRIDGE_IMPASSABLE) return true;
+	if (type == PathfindCell::CELL_OBSTACLE) return true;
+	if (type == PathfindCell::CELL_IMPASSABLE) return true;
+	return false;
+}
+
 class Rva002E9D09
 {
 public:
@@ -126,9 +142,9 @@ int Rva002E9D09::rva002E9D09(Object *a1, int a2, int a3)
 		return 1;
 	if (tag == 4)
 		return ((PathfindCell *)a1)->IsObstaclePresent((ObjectID)m_10) == 0;
-	if (tag == 5)
-		return 1;
-	if (tag == 6)
+	// Tag 4 has already returned, so the donor's redundant obstacle test
+	// preserves the native query's final rejection of tags 5 and 6.
+	if (IS_IMPASSABLE((PathfindCell::CellType)tag))
 		return 1;
 	if (m_14 != 0)
 		return 0;
