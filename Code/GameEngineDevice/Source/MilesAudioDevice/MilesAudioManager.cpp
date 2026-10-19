@@ -601,6 +601,7 @@ public:
     ~AudioFileCache();                   // rowed 0x000A7CF3
     Rva00690FF0Handle requestFile(const BfmePoolRef10 &event, int shortSound);
     Rva00690FF0Handle requestFile(const AsciiString &fileName, int priority);
+    void rva000A77B3(void);             // rowed 0x000A77B3: stop the loader thread
 private:
     char m_body[0x54];                   // native operator new(0x54) at 0x0005D3DA
 };
@@ -6660,13 +6661,12 @@ void MilesAudioManager::mapLogicalHandleToPhysicalHandle(unsigned int logical, u
 // TheAudio, drain the completed list and both request containers, then free
 // the loop buffers, the file cache, the misc record and the settings.
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void *handle, unsigned long ms);
-class Rva000A77B3 { public: void rva000A77B3(void); };
 class Rva00A897D { public: void rva000A89C1(void); };
 MilesAudioManager::~MilesAudioManager()
 {
     m_atBE0 = true;
     if (m_audioFileCache)
-        reinterpret_cast<Rva000A77B3 *>(m_audioFileCache)->rva000A77B3();
+        m_audioFileCache->rva000A77B3();
     if (m_atB90)
         reinterpret_cast<Rva00A897D *>((void *)m_atB90)->rva000A89C1();
     if (m_loopBufferThread) {

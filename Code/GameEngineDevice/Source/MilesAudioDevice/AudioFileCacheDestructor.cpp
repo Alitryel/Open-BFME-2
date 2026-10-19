@@ -58,7 +58,6 @@ typedef char AudioHashLifetimeSize[sizeof(Rva000A7CE9)==0x14?1:-1];
 typedef char AudioTreeLifetimeSize[sizeof(Rva000A7CEE)==0x0c?1:-1];
 class Gen0002857E;
 class AudioFileContainer {Gen0002857E *target;public:~AudioFileContainer();};
-class Rva000A77B3 {public:void rva000A77B3();};
 class Rva000A8A6C {public:void rva000A8A6C();};
 class MilesMutexGuard {void *mutex;bool flag;public:MilesMutexGuard(void*,int);~MilesMutexGuard();};
 class AudioFileCache:public Rva000A7CE9 {
@@ -71,10 +70,11 @@ class AudioFileCache:public Rva000A7CE9 {
  bool quit4C;
  void *mutex50;
 public:~AudioFileCache();
+ void rva000A77B3();
 };
 typedef char CacheSize[sizeof(AudioFileCache)==0x54?1:-1];
 AudioFileCache::~AudioFileCache() {
- ((Rva000A77B3*)this)->rva000A77B3();
+ rva000A77B3();
  {
   MilesMutexGuard guard(mutex50,0);
   ((Rva000A8A6C*)&sentinel44)->rva000A8A6C();
