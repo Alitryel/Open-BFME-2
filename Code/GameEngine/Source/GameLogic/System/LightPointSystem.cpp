@@ -9,6 +9,20 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <vector>
+// Bind to the kept retail copy instead of emitting this unit's own.
+namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base(); }
+// The base constructor stays a nothrow call to its kept copy (0x00211E58).
+namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::_Vector_base(const allocator<unsigned int> &) throw(); }
+// vector<unsigned int>'s constructor and destructor inline at every use here;
+// imported force-inline so this unit emits no COMDAT copies of them: its /O1
+// copies differ from retail's kept /Od bodies (0x00025100 for the ctor).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::vector(const allocator<unsigned int> &__a)
+	: _Vector_base<unsigned int, allocator<unsigned int> >(__a) {}
+template <> __declspec(dllimport) __forceinline
+vector<unsigned int, allocator<unsigned int> >::~vector() { _Destroy(this->_M_start, this->_M_finish); }
+}
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 class Rva004211CA;
 class LightPointOverrideFields
@@ -30,8 +44,6 @@ public:
 };
 Rva004211CA::Rva004211CA() : m_name(), m_label(), m_values() {}
 #include "Common/INIException.h"
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base(); }
 class ModuleData;
 struct Rva00421263Vec { const ModuleData **begin, **end; };
 class INI;
