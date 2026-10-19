@@ -16,6 +16,7 @@ private:
 	void Get_String(int new_len, bool flag);
 
 	static char *m_EmptyString;
+	static char m_NullChar;
 	static char m_LeadByte;
 	char *m_Buffer;
 };
@@ -28,7 +29,9 @@ inline StringClass::StringClass(int value, bool flag)
 {
 	m_Buffer = m_EmptyString;
 	Get_String(value, flag);
-	m_Buffer[0] = m_LeadByte;
+	// wwstring.cpp's m_NullChar (VA 0x00A08C18), as the 33 other copies of this
+	// inline ctor spell the lead-byte global.
+	m_Buffer[0] = m_NullChar;
 }
 
 // StringClass int-bool ctor is a header inline elsewhere: other units emit
