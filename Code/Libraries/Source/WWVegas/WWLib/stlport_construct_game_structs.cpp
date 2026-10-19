@@ -1,4 +1,4 @@
-// cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii
 // stlport
 //
 // STLport _Construct<T> placement-copy helpers, same-shape siblings of the
@@ -13,6 +13,7 @@
 // name with an object-symbol note like 0x0002C485.
 
 #include <memory>
+#include "ascii_string.h"
 
 struct TreeKey00242F5E
 {
@@ -84,4 +85,12 @@ template void _STL::_Construct<Rva0052BDE6, Rva0052BDE6>(Rva0052BDE6 *, const Rv
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?dup_00382BC3@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
 #pragma comment(linker, "/alternatename:?dup_00523DD4@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
-#pragma comment(linker, "/alternatename:?dup_0013623C@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
+
+// Native unsigned-key/string map: subscript136A21 -> hint136777 ->
+// insert136642/1364F7 -> node1364AC -> Construct13623C. The subscript
+// default-constructs the mapped string and returns node+0x14; the node is
+// 24 bytes with its 8-byte value at +0x10. STLport map::value_type supplies
+// the const key. Its genuine pair copy folds onto the existing29B CF475
+// owner; the separate TreeKey ConstructA7876 and handler760AB8 remain.
+typedef _STL::pair<const unsigned int, AsciiString> UnsignedAsciiPair;
+template void _STL::_Construct<UnsignedAsciiPair, UnsignedAsciiPair>(UnsignedAsciiPair *, const UnsignedAsciiPair &);
