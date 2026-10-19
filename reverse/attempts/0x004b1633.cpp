@@ -1,10 +1,10 @@
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.93495 date=2026-10-19
+// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.93495 date=2026-10-19
 // partial score=0.86233 date=2026-10-19
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.083 date=2026-10-17
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.33 date=2026-10-14
-// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.33 date=2026-10-14
 // Bank draft of the EmotionTrackerUpdate per-frame step at 0x004B1633 (2200B).
 // WB 0x1230DD0 (EmotionTrackerUpdate::update) + retail. `this` is the module
@@ -246,18 +246,17 @@ UpdateSleepTime EmotionTrackerUpdate::update()
             closestDist=obj->rva00263763(closest);
         }
     }
-    bool rangeEnabled=(data->range20>0.0f || data->range24>0.0f);
     Object *bestNeutral=0;
     Object *bestAlly=0;
-    if(rangeEnabled && forcedFrames==0) {
+    if((data->range20>0.0f || data->range24>0.0f) && forcedFrames==0) {
         bool found=false;
         int enemyCount=0,allyCount=0;
         Player *player=obj->getControllingPlayer();
         if(player) {
             unsigned allies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),3,false);
             unsigned enemies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);
-            enemyCount=((Rva00739830 *)TheShroudManager)->rva00739830(
-                (const BfmePointFD *)(*(Object **)((char *)this-8))->getPosition(),1,enemies);
+            const BfmePointFD *p=(const BfmePointFD *)(*(Object **)((char *)this-8))->getPosition();
+            enemyCount=((Rva00739830 *)TheShroudManager)->rva00739830(p,1,enemies);
             allyCount=((Rva00739830 *)TheShroudManager)->rva00739830(
                 (const BfmePointFD *)(*(Object **)((char *)this-8))->getPosition(),1,allies);
         }
@@ -340,13 +339,15 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         ((EmotionTrackerUpdate *)((char *)this-0x10))->PulseEmotion(8,0,1);
     EmotionNugget *selected=((Rva004B13D8 *)((char *)this-0x10))->rva004B13D8();
     bool changed=false;
-    if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3) &&
-       closest->getID()!=targetID[selected->entry->kind]) {
+    if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3)) {
+        ObjectID id=closest->getID();
+        if(id!=targetID[selected->entry->kind]) {
         Object *oldObj=TheGameLogic->findObjectByID(targetID[selected->entry->kind]);
-        Object *newObj=TheGameLogic->findObjectByID(closest->getID());
+        Object *newObj=TheGameLogic->findObjectByID(id);
         if(oldObj && oldObj->m_274) oldObj=oldObj->m_274;
         if(newObj && newObj->m_274) newObj=newObj->m_274;
         if(oldObj!=newObj) changed=true;
+        }
     }
     if(selected==active && !changed) {
         if(active && !((Emotion *)active)->rva004DCEC4()) {
@@ -367,8 +368,10 @@ UpdateSleepTime EmotionTrackerUpdate::update()
             }
             if(forcedFrames>0)
                 ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(forcedTarget),forcedFrames);
-            else
-                ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(targetID[active->entry->kind]),0);
+            else {
+                EmotionNugget *a=active;
+                ((Rva004DCC84 *)a)->rva004DCC84(TheGameLogic->findObjectByID(targetID[a->entry->kind]),0);
+            }
         }
     }
     for(int i=0;i<12;++i) {
