@@ -31,9 +31,13 @@ __forceinline RvaF1Handle::RvaF1Handle(void *p) : m_p(p)
 		++((int *)p)[1];
 }
 
+// Each clone installs its own vtable (0x00875130, 0x008751DC, 0x00877D6C,
+// 0x00877D78, 0x00877D84, 0x00878044, 0x00878050); slot 0 of every one is the
+// ICF-shared deleting dtor 0x005FAA31, whose destructor 0x004E84A4 only stores
+// the vtable: the destructors are empty.
 struct Rva005CE46F
 {
-	virtual ~Rva005CE46F();
+	virtual ~Rva005CE46F() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005CE46F(const Rva005CE46F &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -47,7 +51,7 @@ RvaF1Handle Rva005CE46F::clone() const
 
 struct Rva005CED6C
 {
-	virtual ~Rva005CED6C();
+	virtual ~Rva005CED6C() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005CED6C(const Rva005CED6C &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -61,7 +65,7 @@ RvaF1Handle Rva005CED6C::clone() const
 
 struct Rva005E5E7A
 {
-	virtual ~Rva005E5E7A();
+	virtual ~Rva005E5E7A() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005E5E7A(const Rva005E5E7A &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -75,7 +79,7 @@ RvaF1Handle Rva005E5E7A::clone() const
 
 struct Rva005E5EBD
 {
-	virtual ~Rva005E5EBD();
+	virtual ~Rva005E5EBD() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005E5EBD(const Rva005E5EBD &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -89,7 +93,7 @@ RvaF1Handle Rva005E5EBD::clone() const
 
 struct Rva005E5F00
 {
-	virtual ~Rva005E5F00();
+	virtual ~Rva005E5F00() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005E5F00(const Rva005E5F00 &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -103,7 +107,7 @@ RvaF1Handle Rva005E5F00::clone() const
 
 struct Rva005E99D8
 {
-	virtual ~Rva005E99D8();
+	virtual ~Rva005E99D8() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005E99D8(const Rva005E99D8 &src) : m_refCount(0), m_pay(src.m_pay) {}
@@ -117,7 +121,7 @@ RvaF1Handle Rva005E99D8::clone() const
 
 struct Rva005E9A1B
 {
-	virtual ~Rva005E9A1B();
+	virtual ~Rva005E9A1B() {}
 	int m_refCount;
 	RvaF1Pay m_pay;
 	__forceinline Rva005E9A1B(const Rva005E9A1B &src) : m_refCount(0), m_pay(src.m_pay) {}
