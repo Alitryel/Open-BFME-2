@@ -153,16 +153,16 @@ Rva004D9A3C::Rva004D9A3C()
 }
 
 // --- 0x00406D95 (14B): the rowed ControlBar lookup with 1.
-class Rva00409FFA;
+class CommandSet;
 
 class ControlBar
 {
 public:
-	Rva00409FFA *rva0031E8D5(const AsciiString &name, int flag);	// 0x0031E8D5
-	Rva00409FFA *rva00406D95(const AsciiString &name);
+	CommandSet *rva0031E8D5(const AsciiString &name, int flag);	// 0x0031E8D5
+	CommandSet *rva00406D95(const AsciiString &name);
 };
 
-Rva00409FFA *ControlBar::rva00406D95(const AsciiString &name)
+CommandSet *ControlBar::rva00406D95(const AsciiString &name)
 {
 	return rva0031E8D5(name, 1);
 }

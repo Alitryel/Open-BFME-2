@@ -50,14 +50,14 @@ static bool g_Va00E01D0C;
 // remains unknown, but its thiscall ABI is established independently of the
 // eight-byte optimized body, which does not need to read the receiver.
 class INI;
-class Rva00409FFA;
+class CommandSet;
 class ControlBar
 {
 public:
 	void rva0031AB77SetFlag();
     void forgetStaleCommandSet(const AsciiString &);
-    Rva00409FFA *rva0031E8D5(const AsciiString &,int);
-    Rva00409FFA *rva0031B05B(Rva00409FFA *);
+    CommandSet *rva0031E8D5(const AsciiString &,int);
+    CommandSet *rva0031B05B(CommandSet *);
     static void parseCommandSetDefinition(INI *);
 };
 
@@ -97,12 +97,22 @@ private:
     int m_stale;
 };
 
-// The map's values: each gets 0x00409FCC (rowed under this address name).
-class Rva00409FFA : public Rva001E3624
+// The map's values: each gets refreshIfStale (0x00409FCC). The INI field
+// table and button parser further down belong to the same class.
+struct FieldParse;
+class CommandSet : public Rva001E3624
 {
 public:
 	void refreshIfStale();
+	static const FieldParse m_commandSetFieldParseTable[];
+	static void parseCommandButton(class INI *,void *,const class CommandButton **,int);
 };
+
+// Value view for the map below. Its iterator increment (0x00411084) and begin
+// (0x00427195) are ICF-folded bodies whose addresses already carry other real
+// names, so their pins keep this address-named value spelling; each value is
+// a CommandSet, reached through this empty derived view at offset 0.
+class Rva00409FFA : public CommandSet {};
 
 // AsciiString-keyed: retail advances it with the iterator increment 0x00411084
 // that the rts::hash<AsciiString> maps share (ICF); begin is the shared
@@ -181,15 +191,12 @@ public:
     int m_loadType;
 };
 class Rva0031D5F8 { public: void *rva0031D5F8(const AsciiString *); };
-class CommandSet { public: static const FieldParse m_commandSetFieldParseTable[]; public:
-	static void parseCommandButton(class INI *,void *,const class CommandButton **,int);
-};
 extern ControlBar *TheControlBar;
 void ControlBar::parseCommandSetDefinition(INI *ini)
 {
     AsciiString name;
     name=ini->getNextToken();
-    Rva00409FFA *set=(Rva00409FFA *)((Rva0031D5F8 *)TheControlBar)->rva0031D5F8(&name);
+    CommandSet *set=(CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031D5F8(&name);
     if(!set) {
         set=TheControlBar->rva0031E8D5(name,0);
         if(ini->m_loadType==2) set->markAsOverride();

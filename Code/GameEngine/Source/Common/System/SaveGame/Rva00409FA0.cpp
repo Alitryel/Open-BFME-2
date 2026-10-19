@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-// ?SetCommandButton@Rva00409FFA@@QAEXHH@Z @0x00409FA0 44B
+// ?SetCommandButton@CommandSet@@QAEXHH@Z @0x00409FA0 44B
 // Evidence: unlock lane; same 0x9C layout as sibling ctor 0x00409FFA banked
 // (vtable C3906C, +0x14 array32, +0x94 count, +0x98 flag); guarded by +0x98==1
 // and index<0x20 then arr[index]=value and count=max(count,index+1);
@@ -8,7 +8,7 @@
 #include "ascii_string.h"
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
-class Rva00409FFA {
+class CommandSet {
     unsigned int word04;
     unsigned char flag08;
     unsigned int word0C;
@@ -18,9 +18,9 @@ class Rva00409FFA {
     unsigned int word98;
 public:
     void SetCommandButton(int value, int index);
-    virtual ~Rva00409FFA();
+    virtual ~CommandSet();
 };
-void Rva00409FFA::SetCommandButton(int value, int index)
+void CommandSet::SetCommandButton(int value, int index)
 {
     if (word98 == 1) {
         if ((unsigned int)index < 0x20) {

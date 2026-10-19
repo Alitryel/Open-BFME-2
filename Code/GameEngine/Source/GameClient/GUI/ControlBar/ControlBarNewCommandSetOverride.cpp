@@ -14,10 +14,10 @@ private:
     bool m_override;
     int m_stale;
 };
-class Rva00409FFA : public Rva001E3624 {
+class CommandSet : public Rva001E3624 {
 public:
-    Rva00409FFA(const AsciiString &,int);
-    virtual ~Rva00409FFA();
+    CommandSet(const AsciiString &,int);
+    virtual ~CommandSet();
     const AsciiString &getName() const { return m_name; }
 private:
     AsciiString m_name;
@@ -27,11 +27,11 @@ private:
 };
 class Rva0031AB7F { public: Rva0031AB7F &operator=(const Rva0031AB7F &); };
 extern unsigned char g_00E01EA8;
-class ControlBar { public: Rva00409FFA *rva0031B05B(Rva00409FFA *); };
-Rva00409FFA *ControlBar::rva0031B05B(Rva00409FFA *original)
+class ControlBar { public: CommandSet *rva0031B05B(CommandSet *); };
+CommandSet *ControlBar::rva0031B05B(CommandSet *original)
 {
     if(!original) return 0;
-    Rva00409FFA *set=new Rva00409FFA(original->getName(),0);
+    CommandSet *set=new CommandSet(original->getName(),0);
     g_00E01EA8=1;
     *((Rva0031AB7F *)set)=*((const Rva0031AB7F *)original);
     g_00E01EA8=0;

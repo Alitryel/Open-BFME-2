@@ -16,17 +16,17 @@ private:
     bool m_override;
     int m_stale;
 };
-class Rva00409FFA : public Rva001E3624 {
+class CommandSet : public Rva001E3624 {
 public:
-    Rva00409FFA(const AsciiString &name, int mode98);
-    virtual ~Rva00409FFA();
+    CommandSet(const AsciiString &name, int mode98);
+    virtual ~CommandSet();
 private:
     AsciiString m_name;
     void *m_buttons[32];
     int m_count;
     int m_mode98;
 };
-Rva00409FFA::Rva00409FFA(const AsciiString &name, int mode98) : m_name(name), m_count(32), m_mode98(mode98)
+CommandSet::CommandSet(const AsciiString &name, int mode98) : m_name(name), m_count(32), m_mode98(mode98)
 {
     for(int i=0;i<32;++i) m_buttons[i]=0;
 }

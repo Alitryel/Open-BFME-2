@@ -225,19 +225,15 @@ public:
 	unsigned char m_pad34[0x44 - 0x34];
 	const SpecialPowerTemplate *m_power;
 };
-// The command set UpdateCommandSet builds, rowed under the address-named
-// class its reset (0x00409F83, WB CommandSet::ResetCommandSet) and button
-// setter (0x00409FA0, WB CommandSet::SetCommandButton; the ledger spells the
-// button argument as an int) carry; ControlBar's 0x0031E8D5 returns it.
-class Rva00409FFA
+// The command set UpdateCommandSet builds, with its reset (0x00409F83, WB
+// CommandSet::ResetCommandSet) and button setter (0x00409FA0, WB
+// CommandSet::SetCommandButton; the ledger spells the button argument as an
+// int); ControlBar's 0x0031E8D5 returns it.
+class CommandSet
 {
 public:
 	void ResetCommandSet();								// 0x00409F83
 	void SetCommandButton(Int button, Int index);		// 0x00409FA0
-};
-class CommandSet
-{
-public:
 	const CommandButton *getCommandButton(Int index) const;	// 0x00409EE8
 };
 // ControlBar's command-set lookup by name (0x0031D5F8), rowed under its
@@ -251,7 +247,7 @@ class ControlBar
 {
 public:
 	const CommandButton *findCommandButton(const AsciiString &);
-	Rva00409FFA *rva0031E8D5(const AsciiString &name, Int create);	// 0x0031E8D5
+	CommandSet *rva0031E8D5(const AsciiString &name, Int create);	// 0x0031E8D5
 
 	unsigned char m_pad00[0x28];
 	Bool m_commandSetsChanged;		// +0x28
@@ -682,7 +678,7 @@ Bool CreateAHeroHero::UpdateCommandSet(UnsignedInt rank)
 	AsciiString commandSetName;
 	commandSetName.format("CommandSet_%s_%s_rank_%d", object->m_templateName.str(), m_className.str(), rank);
 	object->m_commandSetStringOverride = commandSetName;
-	Rva00409FFA *commandSet = TheControlBar->rva0031E8D5(commandSetName, 1);
+	CommandSet *commandSet = TheControlBar->rva0031E8D5(commandSetName, 1);
 	commandSet->ResetCommandSet();
 
 	const CommandSet *baseSet = (const CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031D5F8(
