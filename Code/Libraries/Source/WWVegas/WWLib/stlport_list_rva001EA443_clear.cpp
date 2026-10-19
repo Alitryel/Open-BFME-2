@@ -47,4 +47,5 @@ struct Rva001EA443
 inline bool operator==(const Rva001EA443 &x, const Rva001EA443 &y) { return false; }
 inline bool operator<(const Rva001EA443 &x, const Rva001EA443 &y) { return false; }
 
-template class _STL::list<Rva001EA443, _STL::allocator<Rva001EA443> >;
+template void _STL::_List_base<Rva001EA443, _STL::allocator<Rva001EA443> >::clear();
+template _STL::_List_base<Rva001EA443, _STL::allocator<Rva001EA443> >::~_List_base();
