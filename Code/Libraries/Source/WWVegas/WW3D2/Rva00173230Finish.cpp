@@ -41,15 +41,27 @@ public:
     unsigned *field_108;
 };
 class Rva001735F9 { public: void rva001735F9(MeshModelClass *mesh); };
-class Rva00145C30 { public: int rva00145C30(MeshModelClass *mesh); };
+// 0x00145C30 is the rowed DX8MeshRendererClass::Register_Mesh_Type.
+class DX8MeshRendererClass { public: void Register_Mesh_Type(MeshModelClass *mesh); };
 class Rva00199FFB { public: static bool rva00199FFB(MeshMatDescClass *, MeshModelClass *); };
 
 // The globals this body reads. LODMeshCacheSetting, TheMeshGapFillerContext
 // and TheDX8MeshRenderer bind to their existing providers. The two remaining
 // mode gates retain provisional address-derived names. Keep the flag's
 // volatile access at the use site so the declaration names the byte provider.
-extern volatile unsigned g_0DB5F94;        // renderer mode gate
-extern volatile unsigned g_0DB5F90;        // NPatch mode gate
+// The two mode gates are ww3d.cpp's private WW3D statics NPatchesLevel
+// (0x009B5F94) and NPatchesGapFillingMode (0x009B5F90).
+class WW3D
+{
+public:
+	enum NPatchesGapFillingModeEnum { NPATCHES_GAP_FILLING_DISABLED, NPATCHES_GAP_FILLING_ENABLED, NPATCHES_GAP_FILLING_FORCE };
+private:
+	friend class MeshModelClass;
+	static NPatchesGapFillingModeEnum NPatchesGapFillingMode;
+	static unsigned NPatchesLevel;
+};
+#define g_0DB5F94 (*(volatile unsigned *)&WW3D::NPatchesLevel)
+#define g_0DB5F90 (*(volatile unsigned *)&WW3D::NPatchesGapFillingMode)
 extern unsigned char LODMeshCacheSetting; // force-register flag
 extern class Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;            // specialized renderer
 extern class DX8MeshRendererClass *TheDX8MeshRenderer;            // plain renderer
@@ -83,8 +95,7 @@ void MeshModelClass::Register_For_Rendering()
     if (desc->field_b8 != 0) goto specialized;
     if (desc->field_108 != 0) goto specialized;
     {
-        Rva00145C30 *renderer = (*(Rva00145C30 **)&TheDX8MeshRenderer);
-        renderer->rva00145C30(this);
+        TheDX8MeshRenderer->Register_Mesh_Type(this);
     }
     return;
 specialized:
