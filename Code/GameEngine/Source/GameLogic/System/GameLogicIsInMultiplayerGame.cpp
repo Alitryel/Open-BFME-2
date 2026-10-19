@@ -15,7 +15,8 @@ public:
 };
 
 // ?isInMultiplayerGame@GameLogic@@QAE_NXZ
-bool GameLogic::isInMultiplayerGame()
+inline __declspec(noinline) bool GameLogic::isInMultiplayerGame()
 {
 	return m_gameMode == 1 || m_gameMode == 5;
 }
+static bool (GameLogic::*s_anchor_isInMultiplayerGame)() = &GameLogic::isInMultiplayerGame;
