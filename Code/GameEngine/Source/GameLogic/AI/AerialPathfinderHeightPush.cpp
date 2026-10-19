@@ -15,8 +15,8 @@ class Object {public:
  char prefix[0xA8];GeometryInfo geometry;
  char padC0[0x258-0xC0];AerialAI* ai;
 };
-class Rva00375AF7HeightQuery {public:float rva00375B7A(float,float);};
 class AerialPathfinder {public:
+ float rva00375B7A(float,float);
  int rva00375ED7(Object*,const Coord3D*,Coord3D*);
  bool rva00375C28(Object*,const Coord3D*,float*,Coord3D*);
 };
@@ -31,20 +31,20 @@ int AerialPathfinder::rva00375ED7(Object*obj,const Coord3D*pos,Coord3D*push)
  float worst=0;
  sample.z=pos->z-height*0.5f;
  sample.x=pos->x;sample.y=pos->y;
- float ground=((Rva00375AF7HeightQuery*)this)->rva00375B7A(sample.x,sample.y);
+ float ground=rva00375B7A(sample.x,sample.y);
  if(ground-sample.z>0.0f)worst=ground-sample.z;
  sample.z=pos->z-height*0.5f*0.777f;
  sample.x=pos->x-radius;sample.y=pos->y-radius;
- ground=((Rva00375AF7HeightQuery*)this)->rva00375B7A(sample.x,sample.y);
+ ground=rva00375B7A(sample.x,sample.y);
  if(ground-sample.z>worst)worst=ground-sample.z;
  sample.y=pos->y+radius;
- ground=((Rva00375AF7HeightQuery*)this)->rva00375B7A(sample.x,sample.y);
+ ground=rva00375B7A(sample.x,sample.y);
  if(ground-sample.z>worst)worst=ground-sample.z;
  sample.x=pos->x+radius;
- ground=((Rva00375AF7HeightQuery*)this)->rva00375B7A(sample.x,sample.y);
+ ground=rva00375B7A(sample.x,sample.y);
  if(ground-sample.z>worst)worst=ground-sample.z;
  sample.y=pos->y-radius;
- ground=((Rva00375AF7HeightQuery*)this)->rva00375B7A(sample.x,sample.y);
+ ground=rva00375B7A(sample.x,sample.y);
  if(ground-sample.z>worst)worst=ground-sample.z;
  push->z+=worst;
  rva00375C28(*(Object*volatile*)&obj,pos,&worst,push);

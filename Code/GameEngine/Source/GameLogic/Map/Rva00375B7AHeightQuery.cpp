@@ -14,12 +14,12 @@ class AI;
 extern AI *TheAI;
 struct Rva00375B7ACap { char unknown00[0xB0]; float height; };
 struct Rva00375B7AAI { char unknown00[0x18]; Rva00375B7ACap *cap; };
-class Rva00375AF7HeightQuery {
+class AerialPathfinder {
 public:
  float rva00375AF7(float x,volatile float y);
  float rva00375B7A(float x,float y);
 };
-float Rva00375AF7HeightQuery::rva00375B7A(float x,float y)
+float AerialPathfinder::rva00375B7A(float x,float y)
 {
  float height=TheTerrainLogic->heightAt(x,y,0);
  float local=rva00375AF7(x,y);

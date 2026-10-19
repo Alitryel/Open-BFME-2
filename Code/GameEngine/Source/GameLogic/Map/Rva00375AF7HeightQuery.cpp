@@ -15,18 +15,19 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 }
 // Native375AF7..375B7A RET8. Circular list head at+10; node payload is
 // PolygonTrigger* at+8 and height at+C. Empty list returns0; containing
-// polygons update the maximum initialized to-9999. Identity remains neutral.
+// polygons update the maximum initialized to-9999. Owner: AerialPathfinder
+// (its rowed rva00375ED7 calls 0x00375B7A, which calls this, on its own this).
 #include "../../../../Libraries/Include/Lib/ICoord3D.h"
 class PolygonTrigger { public: bool pointInTrigger(const ICoord3D &); };
 // Volatile observations preserve native y/height/shape load order; the
 // retail loads are proven, but the original source qualifiers are unknown.
 struct Rva00375AF7Entry { PolygonTrigger *volatile shape; volatile float height; };
-class Rva00375AF7HeightQuery {
+class AerialPathfinder {
 public: float rva00375AF7(float x,volatile float y);
 private: char unknown00[0x10]; _STL::list<Rva00375AF7Entry> entries;
 };
 struct Rva00375AF7State { ICoord3D point; int padding; float height; float highest; };
-float Rva00375AF7HeightQuery::rva00375AF7(float x,volatile float y)
+float AerialPathfinder::rva00375AF7(float x,volatile float y)
 {
  if(entries.empty()) return 0.0f;
  _STL::list<Rva00375AF7Entry>::iterator node=entries.begin();

@@ -76,14 +76,14 @@ public:
 		const Coord3D *lookAhead, Bool noLookAhead);
 };
 
-class Rva00375AF7HeightQuery
+class AerialPathfinder
 {
 public:
 	Real rva00375B7A(Real x, Real y);
 };
-// g_00E01F10 is only an alias of the owned global TheAerialPathfinder (ledger names column); this unit reads the owner through its own view type.
-extern class AerialPathfinder *TheAerialPathfinder;
-#define g_00E01F10 (*(Rva00375AF7HeightQuery * *)&TheAerialPathfinder)
+// g_00E01F10 is only an alias of the owned global TheAerialPathfinder (ledger names column).
+extern AerialPathfinder *TheAerialPathfinder;
+#define g_00E01F10 TheAerialPathfinder
 extern unsigned char g_00E01EC0[4];
 
 #include "../../../../Common/GameLogicObjectLookupView.h"
