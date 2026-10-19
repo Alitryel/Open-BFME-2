@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /EHsc
-// ??1Rva002E6158@@QAE@XZ 0x002E6158 44B
+// ??1GameTextTable@@QAE@XZ 0x002E6158 44B
 // Evidence: chain from 0x002E5E5A vector dtor; scalar dtor over +4 Rva002E5791 array via delete[] then +8 trivial array via vector delete; callers 0x002E6415 0x002E6551 0x002E6303.
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -15,10 +15,10 @@ private:
 	StringBase<unsigned short> m_wide;
 };
 
-class Rva002E6158
+class GameTextTable
 {
 public:
-	~Rva002E6158();
+	~GameTextTable();
 
 private:
 	int m_unk00;
@@ -26,7 +26,7 @@ private:
 	char *m_other;
 };
 
-Rva002E6158::~Rva002E6158()
+GameTextTable::~GameTextTable()
 {
 	if (m_array)
 	{

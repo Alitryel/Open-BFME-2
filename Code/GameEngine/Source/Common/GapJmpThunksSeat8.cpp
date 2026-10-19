@@ -268,10 +268,10 @@ public:
 	void rva002E15E6();
 };
 
-class Rva002E6158
+class GameTextTable
 {
 public:
-	~Rva002E6158();
+	~GameTextTable();
 };
 
 class Rva002EE9B7
@@ -788,8 +788,8 @@ void Rva002E1E14::rva002E1E14()
 	((Rva002E15E6 *)this)->rva002E15E6();
 }
 
-// 0x002E6324 (5B): tail jump to the rowed Rva002E6158 destructor 0x002E6158.
-class Rva002E6324 : public Rva002E6158
+// 0x002E6324 (5B): tail jump to the rowed GameTextTable destructor 0x002E6158.
+class Rva002E6324 : public GameTextTable
 {
 public:
 	~Rva002E6324();

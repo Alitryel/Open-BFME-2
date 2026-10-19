@@ -142,12 +142,6 @@ public:
 	void *rva002E6451(const char *label);
 };
 
-class Rva002E6158
-{
-public:
-	~Rva002E6158();
-};
-
 // One label/text pair; the array is new[]'d with a cookie (??_U plus the
 // rowed vector dtor 0x002E5791).
 struct StringInfo
@@ -172,12 +166,13 @@ namespace _STL
 template <> void sort<StringLookUp *, Rva002E5678Cmp>(StringLookUp *, StringLookUp *, Rva002E5678Cmp);
 }
 
-// The label table. clear (0x002E6158) frees both arrays; find (0x002E6451)
+// The label table. The destructor (0x002E6158) frees both arrays; find (0x002E6451)
 // binary-searches the lookup array.
 class GameTextTable
 {
 public:
 	GameTextTable() : m_count(0), m_info(0), m_lookup(0) {}
+	~GameTextTable();
 	Bool load(const char *strFile, const char *csfFile, Bool *usedCSF);
 	// Compiler-only receiver read for the inactive EH state in load.
 	unsigned dormantCount() const { return m_count; }
@@ -525,7 +520,7 @@ bool GameTextManager::vslot04(int)
 // ?load@GameTextTable@@QAE_NPBD0PA_N@Z @0x002E68EC 159B
 Bool GameTextTable::load(const char *strFile, const char *csfFile, Bool *usedCSF)
 {
-	((Rva002E6158 *)this)->~Rva002E6158();
+	this->~GameTextTable();
 	if (!strFile || !readSTR(strFile)) {
 		if (!csfFile)
 			return false;

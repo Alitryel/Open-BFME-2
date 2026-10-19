@@ -38447,7 +38447,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??4Rva002CF5D4@@QAEAAU0@ABU0@@Z,,0x002CF5D4,43,Code/GameEngine/Source/GameLogic/Object/Rva002CF5D4Assign.cpp,matched,56-element assign via 0x002C99FB; 43B exact; caller 0x002D128C
 ?rva002CF2D5@Rva002CF2D5@@QAEXPAURva002CF2D5Node@@@Z,,0x002CF2D5,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7C3
 ?Rva003BB654@ScriptActions@@QAEXXZ,,0x003BB654,19,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,null-guarded forwarder to vslot 0x17C via global 0xDFE6E8 caller 0x003CE477; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
-??1Rva002E6158@@QAE@XZ,,0x002E6158,44,Code/GameEngine/Source/GameClient/Rva002E6158Dtor.cpp,matched,chain from 0x002E5E5A vector arrays
+??1GameTextTable@@QAE@XZ,,0x002E6158,44,Code/GameEngine/Source/GameClient/Rva002E6158Dtor.cpp,matched,chain from 0x002E5E5A vector arrays
 ?rva002CF7B5@Rva002CF7B5@@QAEXXZ,,0x002CF7B5,41,Code/Libraries/Source/WWVegas/WWLib/Rva002CF7B5Clear.cpp,matched,tree clear via 0x002CF2D5; 41B exact; callers 0x002D0142 0x0033BD65
 ?rva002CF302@Rva002CF302@@QAEXPAURva002CF302Node@@@Z,,0x002CF302,45,Code/Libraries/Source/WWVegas/WWLib/Rva002CF302Erase.cpp,matched,tree erase via right plusC left plus8 free 0x30830; 45B exact; caller 0x002CF7EC
 ??0Rva004393D6@@QAE@ABU0@@Z,,0x004393D6,39,Code/Libraries/Source/WWVegas/WWLib/Rva004393D6Copy.cpp,matched,unlock list Pod196 copy plus ints
@@ -38463,7 +38463,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva0022C8E3DestroyRange@@YAXPAURva0052BF9BElem@@0@Z,,0x0022C8E3,24,Code/GameEngine/Source/Common/System/Rva0052BF33DestroyTagged.cpp,matched,unlock destroy range via 0052BF9B callers 10
 ??_GRva006F84C0@@UAEPAXI@Z,,0x006F84C0,35,Code/GameEngine/Source/Common/Rva006F84C0DeletingDtor.cpp,matched,pooled deleting dtor calls rowed dtor 0x006F8460 size 0x1C
 ?rva004D662D@Rva004D65DC@@QAEXVAsciiString@@@Z,,0x004D662D,52,Code/GameEngine/Source/Common/Rva004D662DSet.cpp,matched,Rva004D65DC AsciiString plus20 setter via caller 0x00592520
-??_GRva002E6158@@QAEPAXI@Z,,0x002E6415,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse07-2E6158.cpp,matched,chain from 0x002E6158 scalar deleting
+??_GGameTextTable@@QAEPAXI@Z,,0x002E6415,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse07-2E6158.cpp,matched,chain from 0x002E6158 scalar deleting
 ??0Rva004395EC@@QAE@ABU0@@Z,,0x0043964D,29,Code/Libraries/Source/WWVegas/WWLib/Rva004393D6Copy.cpp,matched,chain copy of 0x004395EC
 ?rva002E6431@Rva002E6431@@QAEXXZ,,0x002E6431,32,Code/GameEngine/Source/GameClient/Rva002E6431Clear.cpp,matched,chain clears +0x30 via dtor delete
 ?rva005E36A0@Rva005E36A0@@QAEHPAD@Z,,0x005E36A0,37,Code/GameEngine/Source/Common/Rva005E36A0Write.cpp,matched,two-part write via rowed Rva0059B3E9 and AsciiStringRef returns total
@@ -87088,7 +87088,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva002CFF23@Rva002CFF23@@QAEXXZ,,0x002CFF23,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2CFF23 jmp to rowed ?rva003A2A41@Rva000427195@@QAEXXZ 3A2A41 same receiver; owner unresolved
 ?rva002CFF28@Rva002CFF28@@QAEXI@Z,,0x002CFF28,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2CFF28 jmp to rowed ?rva00212858@Rva000427195@@QAEXI@Z 212858 same receiver; owner unresolved
 ?rva002E1E14@Rva002E1E14@@QAEXXZ,,0x002E1E14,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2E1E14 jmp to rowed ?rva002E15E6@Rva002E15E6@@QAEXXZ 2E15E6 same receiver; owner unresolved
-??1Rva002E6324@@QAE@XZ,,0x002E6324,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2E6324 jmp to rowed dtor ??1Rva002E6158@@QAE@XZ 2E6158; derived-class dtor shape; owner unresolved
+??1Rva002E6324@@QAE@XZ,,0x002E6324,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2E6324 jmp to rowed dtor ??1GameTextTable@@QAE@XZ 2E6158; derived-class dtor shape; owner unresolved
 ?rva002F0B4D@Rva002F0B4D@@QAEXXZ,,0x002F0B4D,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2F0B4D jmp to rowed ?rva002EE9B7@Rva002EE9B7@@QAEXXZ 2EE9B7 same receiver; owner unresolved
 ??1Rva003291EF@@QAE@XZ,,0x003291EF,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 3291EF jmp to rowed dtor ??1Out@@QAE@XZ 329182; derived-class dtor shape; owner unresolved
 ?rva0033BE6B@Rva0033BE6B@@QAEXXZ,,0x0033BE6B,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 33BE6B jmp to rowed ?rva002CF7B5@Rva002CF7B5@@QAEXXZ 2CF7B5 same receiver; owner unresolved
