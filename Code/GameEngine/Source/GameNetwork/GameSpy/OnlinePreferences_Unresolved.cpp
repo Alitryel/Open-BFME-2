@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // Split from OnlinePreferences.cpp: these definitions reference a callee with no matched body yet,
 // so they are kept apart from the unit's bodies that already link.
 // stlport
@@ -10,6 +10,12 @@
 // own unit. The UserPreferences model is the one in
 // Code/GameEngine/Source/Common/UserPreferences.cpp.
 
+// Retail's ladder map subscript (0x005E017A) builds the default LadderPref with
+// T(), not through an out-of-line __default_constructed call.
+#include <utility>
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(T) T()
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
@@ -20,6 +26,8 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <stdlib.h>
+// Retail's tree node deallocators call the game's local free, not the import.
+extern "C" void __cdecl free(void *);
 
 struct _iobuf;
 typedef struct _iobuf FILE;
@@ -216,6 +224,8 @@ extern "C" unsigned int __cdecl strlen(const char *s);
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *s) throw();
 
 typedef _STL::map<time_t, LadderPref> LadderPrefMap;
+// Retail's tree destructor (0x005DFE18) is the /EHs copy Rva00243177.cpp emits.
+namespace _STL { template <> _Rb_tree<long, pair<long const, LadderPref>, _Select1st<pair<long const, LadderPref> >, less<long>, allocator<pair<long const, LadderPref> > >::~_Rb_tree(); }
 
 // Zero Hour's recent-ladder preferences: a UserPreferences file plus the
 // parsed LadderPrefMap at +0x14; write is overridden (vtable 0x00C77788

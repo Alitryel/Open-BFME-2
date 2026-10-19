@@ -44,6 +44,10 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
                               const _List_iterator<T, Traits>& b)
 { return a._M_node != b._M_node; }
 }
+// Retail's map subscript (0x002A6A2D) builds the default list with T(), not
+// through an out-of-line __default_constructed call.
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(T) T()
 #include <map>
 // Keep typed node comparisons local; no competing external tree-base copy.
 namespace _STL {

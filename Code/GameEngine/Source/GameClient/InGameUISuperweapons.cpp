@@ -50,6 +50,10 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
                               const _List_iterator<T, Traits>& b)
 { return a._M_node != b._M_node; }
 }
+// Retail's map subscript (0x002A6A2D) builds the default list with T(), not
+// through an out-of-line __default_constructed call.
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(T) T()
 #include <map>
 // Keep typed node comparisons local; no competing external tree-base copy.
 namespace _STL {
@@ -333,6 +337,10 @@ public:
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> void _Construct<pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > >,pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > >(pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > *,pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > const &); }
+
+// Retail keeps one node constructor for this tree, the no-EH copy at 0x002A42B6
+// that InGameUIXfer.cpp emits; this /EHsc unit would emit a try/catch copy.
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > > *_Rb_tree<AsciiString,pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > >,_Select1st<pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > >,less<AsciiString>,allocator<pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > > >::_M_create_node(pair<AsciiString const ,list<SuperweaponInfo *,allocator<SuperweaponInfo *> > > const &); }
 
 enum { MAX_PLAYER_COUNT = 20 };
 

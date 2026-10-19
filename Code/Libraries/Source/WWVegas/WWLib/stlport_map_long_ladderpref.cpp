@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 
 
@@ -13,7 +13,7 @@
 class LadderPref
 {
 public:
-    LadderPref();
+    LadderPref() {}
     __declspec(noinline) LadderPref(const LadderPref &source);
     ~LadderPref();
 
@@ -23,6 +23,12 @@ public:
     long lastPlayDate;
 };
 
+// Retail's map subscript (0x005E017A) builds the default LadderPref with T(),
+// not through an out-of-line __default_constructed call.
+#include <utility>
+#undef _STLP_DEFAULT_CONSTRUCTED
+#define _STLP_DEFAULT_CONSTRUCTED(T) T()
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<long, pair<long const, LadderPref>, _Select1st<pair<long const, LadderPref> >, less<long>, allocator<pair<long const, LadderPref> > >::~_Rb_tree(); }
