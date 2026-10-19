@@ -109,11 +109,7 @@ class AptSaveLoad
 public:
 	static AptSaveLoad *s_instance;
 	void MultiplayerSaveGameDenied(int reason);
-};
-
-class Rva00433FDD
-{
-public:
+	// Rowed 0x00433D96 (Rva00433FDDSet.cpp): state +0x27C = 10.
 	void rva00433D96(void);
 };
 
@@ -217,7 +213,7 @@ void GameLogic::ProcessSaveGameCommand(Rva0023E928 *msg, bool frozen)
 				break;
 			}
 			if (AptSaveLoad::s_instance)
-				((Rva00433FDD *)AptSaveLoad::s_instance)->rva00433D96();
+				AptSaveLoad::s_instance->rva00433D96();
 		}
 		*(bool *)((char *)TheGameLogic + 0x11D) = true;
 		if (player == TheNetwork->slotB8() || !TheGameState)

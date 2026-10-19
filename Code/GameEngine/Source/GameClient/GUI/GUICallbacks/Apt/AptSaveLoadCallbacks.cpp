@@ -85,6 +85,8 @@ public:
 
 	// Rowed 0x004340AC (Rva004340ACMethod.cpp's view of this screen).
 	void rva004340AC();
+	// Rowed 0x00433FDD (Rva00433FDDSet.cpp): state +0x27C = pending ? 3 : 1.
+	void rva00433FDD();
 
 	// 0x00434432 (90 bytes; chain from 0x004340AC).
 	void rva00434432();
@@ -120,13 +122,6 @@ public:
 		bool newSave, int filter);
 };
 extern GameState *TheGameState;
-
-// The rowed 0x00433FDD (Rva00433FDDSet.cpp's view of this screen).
-class Rva00433FDD
-{
-public:
-	void rva00433FDD();
-};
 
 // TheLivingWorldLogic (Rva003F03C9Fetch.cpp's g_00DFEF10); its rowed
 // 0x002B2E77 is called with the logic in ECX, so it is a member.
@@ -306,7 +301,7 @@ void AptSaveLoad::ConfirmationOk(const char *unused)
 	else if (m_state == 0x14)
 		rva00434B8A();
 	else if (m_state == 0x15)
-		((Rva00433FDD *)this)->rva00433FDD();
+		rva00433FDD();
 }
 
 // Retail 0x00435172, 178 bytes: "AptSaveLoad::InitGadgets" keeps the

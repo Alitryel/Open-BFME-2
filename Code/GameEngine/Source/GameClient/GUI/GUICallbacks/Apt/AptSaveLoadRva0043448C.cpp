@@ -21,16 +21,11 @@ private:
 	unsigned char m_04[0xE78];
 };
 
-class Rva00433FDD
-{
-public:
-	void rva00433FDD();
-};
-
 class AptSaveLoad
 {
 public:
 	void rva0043448C();
+	void rva00433FDD();
 
 private:
 	unsigned char m_pad000[0x27C];
@@ -46,7 +41,7 @@ void AptSaveLoad::rva0043448C()
 		if (check.rva0037D0EF(m_pending->m_name))
 			m_state = 17;
 		else
-			((Rva00433FDD *)this)->rva00433FDD();
+			rva00433FDD();
 	}
 	else
 	{
