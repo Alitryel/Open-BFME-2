@@ -1,5 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX
 #include "GameLogic/BfmeStoredAICommandView.h"
+#include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "Common/BfmeAudioEventPrefix136.h"
 #include "../../../../Common/GameLogicObjectLookupView.h"
 
@@ -16,16 +17,44 @@ typedef unsigned int UnsignedInt;
 enum WhichTurretType { TURRET_INVALID=-1 };
 enum DeployStateTypes { READY_TO_MOVE, DEPLOY, READY_TO_ATTACK, UNDEPLOY, ALIGNING_TURRETS };
 class Drawable;
+class Weapon;
+enum WeaponSlotType;
 class Object {
 public:
 	Drawable *getDrawable() const;
+ const Weapon *getCurrentWeapon(WeaponSlotType *slot=0) const;
+ const Coord3D *getPosition() const { return reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this)+0x38); }
+ Bool isEffectivelyDead() const { return (m_dead & 1)!=0; }
 	void rva0028CFB2(const int *,const int *);
 	bool addAttributeModifierToPool(const AsciiString &,int);
 	void removeAttributeModifierFromPool(const AsciiString &);
 	ObjectID getID() const { return m_id; }
-	char pad00[0x74]; ObjectID m_id;
+	char pad00[0x74]; ObjectID m_id; char pad78[0x438-0x78]; unsigned char m_dead;
 };
-class AICommandInterface { public: void aiIdle(CommandSourceType); };
+enum UpdateSleepTime { UPDATE_SLEEP_NONE=1, UPDATE_SLEEP_FOREVER=0x3fffffff };
+class AICommandInterface {
+public:
+ virtual void aiDoCommand(const AICommandParms *);
+ void aiIdle(CommandSourceType);
+ void rva0026C2D9(Object *, int, CommandSourceType);
+};
+class Weapon {
+public:
+ Bool isWithinAttackRange(const Object *, const Object *, float, int) const;
+ Bool isWithinAttackRange(Object *, const Coord3D *, Object *, const Coord3D *, float, Bool);
+};
+class TurretStateMachine { public: Object *getGoalObject(); };
+class __declspec(novtable) ObjectModule {
+public:
+ virtual void slot00(); const void *m_moduleData; Object *m_object;
+};
+class __declspec(novtable) BehaviorModuleInterface { public: virtual void slot00(); };
+class __declspec(novtable) BehaviorModule : public ObjectModule, public BehaviorModuleInterface {};
+class __declspec(novtable) UpdateModuleInterface { public: virtual UpdateSleepTime update(); };
+class __declspec(novtable) UpdateModule : public BehaviorModule, public UpdateModuleInterface {
+public: unsigned int nextFrame; int index, reserved;
+};
+class __declspec(novtable) AIUpdateInterface24 { public: virtual void slot00(); };
 class Rva0048E61F { public: int rva0048E61F(); };
 extern GameLogic *TheGameLogic;
 
@@ -194,7 +223,7 @@ public:
 // ??0DeployStyleAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
 // 0x0048E983 (112 bytes). Behavior ctor over the pinned opaque AI-update
 // base (0x26E9BD, thing plus data): installs the five behavior vtable slots
-// (+0x00/+0x0C/+0x10/+0x20/+0x24 via explicit members with TU-local dummy
+// (+0x00/+0x0C/+0x10/+0x20/+0x24 via explicit stores of TU-local dummy
 // statics, DIR32-masked) over a 0x3E4 member (ctor 0x26AFDA, size 0xC4
 // ending at 0x4A8) plus zeros at +0x4A8..0x4B8 in retail order
 // (0x4B4 before 0x4B0), then runs the pinned class helper (0x48E65B).
@@ -211,24 +240,25 @@ static int s_secondary10;
 static int s_secondary20;
 static int s_secondary24;
 
-class __declspec(novtable) AIUpdateInterface
+class __declspec(novtable) AIUpdateInterface : public UpdateModule, public AICommandInterface, public AIUpdateInterface24
 {
 public:
-	AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
-	virtual void aiDoCommand(const AICommandParms *parms);
-	WhichTurretType getWhichTurretForCurWeapon() const;
-	void setTurretEnabled(WhichTurretType,Bool);
-	void recenterTurret(WhichTurretType);
-
-protected:
-	// The declared virtual member supplies the primary vptr at +0x00.
-	unsigned char m_pad04[0x0C - 4];
-	const void *m_p0C;			// +0x0C
-	const void *m_p10;			// +0x10
-	unsigned char m_pad14[0x20 - 0x14];
-	const void *m_p20;			// +0x20
-	const void *m_p24;			// +0x24
-	unsigned char m_pad28[0x3E4 - 0x28];
+ AIUpdateInterface(Thing *thing, const ModuleData *moduleData);
+ virtual void aiDoCommand(const AICommandParms *parms);
+ virtual UpdateSleepTime update();
+ WhichTurretType getWhichTurretForCurWeapon() const;
+ void setTurretEnabled(WhichTurretType,Bool);
+ void recenterTurret(WhichTurretType);
+ Object *getTurretTargetObject(WhichTurretType);
+ Object *getNextMoodTarget(Bool, Bool);
+ Bool isMoving() const;
+ Bool isTurretInNaturalPosition(WhichTurretType) const;
+ Bool isWaitingForPath() const { return waiting; }
+ void *getPath() const { return path; }
+ char pad28[0x30-0x28]; TurretStateMachine *machine;
+ char pad34[0x140-0x34]; void *path;
+ char pad144[0x3b1-0x144]; Bool waiting;
+ char pad3b2[0x3e4-0x3b2];
 };
 
 class Rva0026AFDAMember
@@ -244,7 +274,11 @@ class __declspec(novtable) DeployStyleAIUpdate : public AIUpdateInterface
 {
 public:
 	DeployStyleAIUpdate(Thing *thing, const ModuleData *moduleData);
-	void reset();
+ virtual UpdateSleepTime update();
+ Bool mustCenter() const { return *(reinterpret_cast<const unsigned char *>(getModuleData())+0x6e)!=0; }
+ Bool functionsOnlyDeployed() const { return *(reinterpret_cast<const unsigned char *>(getModuleData())+0x6f)!=0; }
+ void Rva0048E634Reset() { *reinterpret_cast<int *>(&m_member3E4) |= -1; m_flag4A9=false; }
+ void reset();
 	void rva0048E8F7(const AICommandParms *parms);
 	void doLastOutsideCommand();
 	void doCommand(const AICommandParms *parms, bool fromLastOutside);
@@ -253,7 +287,7 @@ public:
  Object *getObject() const { return *reinterpret_cast<Object *const *>(reinterpret_cast<const char *>(this)+8); }
  const void *getModuleData() const { return *reinterpret_cast<const void *const *>(reinterpret_cast<const char *>(this)+4); }
  Bool shouldDoLastOutsideCommand() { return (unsigned char)reinterpret_cast<Rva0048E61F *>(this)->rva0048E61F()!=0; }
- void aiIdle(CommandSourceType source) { reinterpret_cast<AICommandInterface *>(&m_p20)->aiIdle(source); }
+ void aiIdle(CommandSourceType source) { AICommandInterface::aiIdle(source); }
  WhichTurretType getWhichTurretForCurWeapon() const { return reinterpret_cast<const AIUpdateInterface *>(this)->getWhichTurretForCurWeapon(); }
  void setTurretEnabled(WhichTurretType turret,Bool enabled) { reinterpret_cast<AIUpdateInterface *>(this)->setTurretEnabled(turret,enabled); }
  void recenterTurret(WhichTurretType turret) { reinterpret_cast<AIUpdateInterface *>(this)->recenterTurret(turret); }
@@ -272,13 +306,13 @@ protected:
 	float m_4C4;			// +0x4C4
 	float m_4C8;			// +0x4C8
 	float m_4CC;			// +0x4CC
-	unsigned char m_4D0;		// +0x4D0
-	unsigned char m_4D1;		// +0x4D1
-	unsigned char m_4D2;		// +0x4D2
-	unsigned char m_4D3;		// +0x4D3
-	unsigned char m_4D4;		// +0x4D4
-	unsigned char m_4D5;		// +0x4D5
-	unsigned char m_4D6;		// +0x4D6
+	Bool m_4D0;		// +0x4D0
+	Bool m_4D1;		// +0x4D1
+	Bool m_4D2;		// +0x4D2
+	Bool m_4D3;		// +0x4D3
+	Bool m_4D4;		// +0x4D4
+	Bool m_4D5;		// +0x4D5
+	Bool m_4D6;		// +0x4D6
 };
 
 // ??0DeployStyleAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x48E983
@@ -286,10 +320,10 @@ DeployStyleAIUpdate::DeployStyleAIUpdate(Thing *thing, const ModuleData *moduleD
 	: AIUpdateInterface(thing, moduleData)
 {
 	*reinterpret_cast<const void **>(this) = &s_vtable;
-	m_p0C = &s_secondary0C;
-	m_p10 = &s_secondary10;
-	m_p20 = &s_secondary20;
-	m_p24 = &s_secondary24;
+	reinterpret_cast<const void **>(this)[3] = &s_secondary0C;
+	reinterpret_cast<const void **>(this)[4] = &s_secondary10;
+	reinterpret_cast<const void **>(this)[8] = &s_secondary20;
+	reinterpret_cast<const void **>(this)[9] = &s_secondary24;
 	m_member3E4.initMember();
 	int zero = 0;
 	m_flag4A8 = false;
@@ -473,7 +507,7 @@ void DeployStyleAIUpdate::doCommand(const AICommandParms *parms, bool fromLastOu
 		}
 		if (m_4B4 != DEPLOY && m_4B4 != UNDEPLOY)
 		{
-			reinterpret_cast<AIUpdateInterface *>(&m_p20)->AIUpdateInterface::aiDoCommand(parms);
+			AIUpdateInterface::aiDoCommand(parms);
 			m_flag4A8 = true;
 		}
 		else
@@ -510,7 +544,7 @@ void DeployStyleAIUpdate::doCommand(const AICommandParms *parms, bool fromLastOu
 	else
 	{
 		m_4AC = m_4B0;
-		reinterpret_cast<AIUpdateInterface *>(&m_p20)->AIUpdateInterface::aiDoCommand(parms);
+		AIUpdateInterface::aiDoCommand(parms);
 	}
 }
 
@@ -519,3 +553,92 @@ void DeployStyleAIUpdate::doCommand(const AICommandParms *parms, bool fromLastOu
 // address keeps one definition.
 //   0x0026E9BD -> ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z (defined by Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AIUpdateInterfaceCtor.cpp)
 #pragma comment(linker, "/alternatename:??0Rva0026E9BDBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z")
+
+// Native secondary update slot at +0x10, RVA 0x0048EE8C.
+// BFME1 6c1e0b51 supplies the target-selection and deploy-state guide.
+UpdateSleepTime DeployStyleAIUpdate::update()
+{
+ Object *self=getObject();
+ const Weapon *weapon=self->getCurrentWeapon();
+ Bool inRange=false;
+ Object *target=0;
+ Bool attacking=false;
+ if(weapon) {
+  if(m_4D2) {
+   inRange=const_cast<Weapon *>(weapon)->isWithinAttackRange(self,self->getPosition(),0,reinterpret_cast<const Coord3D *>(&m_4C4),0.0f,true);
+   attacking=true;
+  } else if(m_4D1) {
+   target=TheGameLogic->findObjectByID((ObjectID)m_4C0);
+   if(target && target->isEffectivelyDead()) target=0;
+   if(target) { inRange=weapon->isWithinAttackRange(self,target,0.0f,1); attacking=true; }
+  } else if(m_4D0) {
+   Bool newTarget=false;
+   WhichTurretType tur=getWhichTurretForCurWeapon();
+   if(tur!=TURRET_INVALID) target=getTurretTargetObject(tur);
+   else target=machine->getGoalObject();
+   if(!target) target=TheGameLogic->findObjectByID((ObjectID)m_4BC);
+   if(target && target->isEffectivelyDead()) { target=getNextMoodTarget(true,false); newTarget=true; }
+   if(!target && m_4D3) {
+    target=getNextMoodTarget(false,false);
+    if(target) {
+     inRange=weapon->isWithinAttackRange(self,target,0.0f,1); attacking=true;
+     if(inRange) { rva0026C2D9(target,0x7fffffff,CMD_FROM_AI); m_4D4=true; m_4BC=target->getID(); }
+     else target=0;
+    } else target=0;
+   } else if(target) {
+    inRange=weapon->isWithinAttackRange(self,target,0.0f,1); attacking=true; m_4BC=target->getID();
+    if(m_4D4 && newTarget && inRange) rva0026C2D9(target,0x7fffffff,CMD_FROM_AI);
+   } else m_4BC=0;
+  }
+ }
+ Bool remain=m_4D3 && !target && !isMoving() && !isWaitingForPath();
+ if(attacking) m_4B0=inRange ? 2:3;
+ else if(isMoving() || isWaitingForPath()) m_4B0=1;
+ else m_4B0=0;
+ UnsignedInt now=TheGameLogic->getFrame();
+ switch(m_4B4) {
+  case READY_TO_MOVE:
+   if(m_4D5) {
+    rva0048EB53(DEPLOY); m_4D5=false;
+    if(m_4AC==2) m_flag4A9=true;
+    else if(m_flag4A8) { Rva0048E634Reset(); reset(); }
+   } else if(remain || (inRange && attacking && functionsOnlyDeployed())) {
+    rva0048EB53(DEPLOY);
+    if(!m_flag4A8 || m_4AC!=0) m_flag4A9=true;
+   }
+   break;
+  case READY_TO_ATTACK:
+   if((!remain && ((!inRange && attacking) || (!attacking && (isWaitingForPath() || getPath())))) || m_4D6) {
+    WhichTurretType tur=getWhichTurretForCurWeapon();
+    if(tur!=TURRET_INVALID && mustCenter()) { rva0048EB53(ALIGNING_TURRETS); break; }
+    rva0048EB53(UNDEPLOY);
+    if(!m_flag4A8 || m_4AC!=0) m_flag4A9=true;
+    if(m_4D6) {
+     m_4D6=false;
+     if(functionsOnlyDeployed() && m_flag4A8 && (m_4AC==2 || m_4AC==3)) { Rva0048E634Reset(); reset(); }
+    }
+   } else if(!target && m_4D4 && shouldDoLastOutsideCommand()) doLastOutsideCommand();
+   break;
+  case DEPLOY:
+   if(m_4B8!=0 && now>=m_4B8) {
+    rva0048EB53(READY_TO_ATTACK);
+    if(m_4D0 && inRange && attacking && target) { rva0026C2D9(target,0x7fffffff,CMD_FROM_AI); m_4D4=true; }
+   }
+   break;
+  case UNDEPLOY:
+   if(m_4B8!=0 && now>=m_4B8) rva0048EB53(READY_TO_MOVE);
+   break;
+  case ALIGNING_TURRETS:
+   { WhichTurretType tur=getWhichTurretForCurWeapon();
+     if(tur!=TURRET_INVALID && isTurretInNaturalPosition(tur)) rva0048EB53(UNDEPLOY); }
+   break;
+ }
+ UpdateSleepTime mine=UPDATE_SLEEP_FOREVER;
+ switch(m_4B4) {
+  case READY_TO_ATTACK: case READY_TO_MOVE: mine=UPDATE_SLEEP_FOREVER; break;
+  case DEPLOY: case UNDEPLOY: mine=(m_4B8>now) ? (UpdateSleepTime)(m_4B8-now):UPDATE_SLEEP_NONE; aiIdle(CMD_FROM_AI); break;
+  case ALIGNING_TURRETS: mine=UPDATE_SLEEP_NONE; aiIdle(CMD_FROM_AI); break;
+ }
+ UpdateSleepTime ret=AIUpdateInterface::update();
+ return mine<ret ? mine:ret;
+}
