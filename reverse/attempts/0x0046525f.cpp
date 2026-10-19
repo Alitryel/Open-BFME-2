@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.98 date=2026-10-19
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.985 date=2026-10-16
 // W9-O3 2026-10-16: farm best + hatch fixes: g_00E03624 -> rowed datum BfmeAIExitDoorFlag (data_rows), rva0028ACDC row is QAEXH (int) -> (int)&coord cast (was unresolved). Size 1154 vs 1152, nd 12: (1) ai=exitObj->ai load one slot early in branch 1; (2) scale block: retail 'movaps t,50; mulss t,[delta.x/y]' after the target movsd copy, ours loads delta.x/y above the copy (+2 B). Inert: 50*x / x*50 / s local / const-ref s / direct target+=50*d / z-first orders.
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
@@ -17,9 +19,15 @@
 // delta into regs before the movsd copy (retail: movaps 50 + mulss mem after it);
 // (3) delta.x fld before/after the goalView load scheduling at the atan2 setup.
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
+// 0x0046525F bank 2026-10-19 (claude-opus-5-5): same residue as the old bank (1154/1152 B) with fewer hacks:
+// _ReadWriteBarrier removed (inert: the theAI/pf locals alone fix the getClosestPointOnLand pushes) and both
+// goto done replaced by nesting. One hack left: the trailing dead `if (0) throw 1;` that fixes the frame (0x50);
+// next step is the landed twin SiegeEngineContain::exitObjectViaDoor 0x47C4F2 recipe (visible
+// Rva0035149F vector-copy chain, noinline-inline command wrappers incl. an rva0036EF09 body, throwing
+// deallocator, /EHsc /D_STLP_NO_EXCEPTIONS) which removed the same extra frame there. Left: fld/mov swap at
+// 0x4654FB and the scale block (retail multiplies delta.x/.y from memory after the target copy).
+// Home: OpenContainExitObjectInAHurry.cpp. Scratch: build/nbr/r8/46525f/.
 // stlport
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -145,18 +153,16 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
    AIUpdateInterface *ai;
    Coord3D savedGoal,target,startPosition;
    float exitAngle;
-   {
    const Coord3D *pos=&me->position;
    startPosition.x=pos->x;
    startPosition.y=pos->y;
    startPosition.z=pos->z;
    AI *theAI=TheAI;
    Pathfinder *pf=theAI->pathfinder;
-   _ReadWriteBarrier();
-   if(!pf->getClosestPointOnLand(pos,me,&startPosition))goto done;
-   ai=exitObj->ai;
-   if(!ai)goto done;
-   {
+   if(pf->getClosestPointOnLand(pos,me,&startPosition)){
+    ai=exitObj->ai;
+    if(ai){
+     {
      Coord3D delta,displacement;
      AIGoalView *goalView=ai->goalView;
      savedGoal.x=goalView->goal.x;
@@ -183,10 +189,9 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
       target.y+=delta.y;
       target.z+=delta.z;
      }
-   }
+     }
      exitObj->setPosition(&startPosition);
      exitObj->setOrientation(exitAngle);
-   }
      if(!exitObj->rva002931BA()){
       _STL::vector<Coord3D> exitPath;
       exitPath.push_back(target);
@@ -199,10 +204,10 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
       target=savedGoal;
      }
      exitObj->rva0028ACDC((int)&target);
+    }
+   }
   }
-done:
   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
  }
-
  if (0) throw 1;
 }
