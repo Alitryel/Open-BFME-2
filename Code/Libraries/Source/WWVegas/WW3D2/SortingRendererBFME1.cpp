@@ -544,7 +544,7 @@ extern unsigned g_00DEDA4C;
 // ?g_00DEDA4C@@3IA: the global at this VA is ?matrix_changes@DX8Wrapper@@1IA; this name is an alias for it.
 extern unsigned int g_00DEDA4C;
 #pragma comment(linker, "/alternatename:?g_00DEDA4C@@3IA=?matrix_changes@DX8Wrapper@@1IA")
-extern unsigned g_00DEDA98;
+extern unsigned number_of_DX8_calls;
 
 void Rva0012D4D0Apply(RenderStateStruct &render_state)
 {
@@ -569,10 +569,10 @@ void Rva0012D4D0Apply(RenderStateStruct &render_state)
 	}
 	++g_00DEDA4C;
 	g_d3dDevice->SetTransform(D3DTS_WORLD, reinterpret_cast<const D3DMATRIX *>(&render_state.world));
-	++g_00DEDA98;
+	++number_of_DX8_calls;
 	++g_00DEDA4C;
 	g_d3dDevice->SetTransform(D3DTS_VIEW, reinterpret_cast<const D3DMATRIX *>(&render_state.view));
-	++g_00DEDA98;
+	++number_of_DX8_calls;
 }
 
 // ----------------------------------------------------------------------------
@@ -924,9 +924,6 @@ void SortingRendererClass::Insert_VolumeParticle(
 extern unsigned int TheBoxTextureDirtyMask;
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 #pragma comment(linker, "/alternatename:?BFME2RenderStateChanged@@3IA=?render_state_changed@DX8Wrapper@@1IA")
-// ?g_00DEDA98@@3IA: the global at this VA is ?number_of_DX8_calls@@3IA; this name is an alias for it.
-extern unsigned int g_00DEDA98;
-#pragma comment(linker, "/alternatename:?g_00DEDA98@@3IA=?number_of_DX8_calls@@3IA")
 #pragma comment(linker, "/alternatename:?g_bfmeCountTDB@@3HA=?number_of_DX8_calls@@3IA")
 // ?g_d3dDevice@@3PAUIDirect3DDevice8@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
 #pragma comment(linker, "/alternatename:?g_d3dDevice@@3PAUIDirect3DDevice8@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
@@ -934,8 +931,6 @@ extern unsigned int g_00DEDA98;
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 // ?BfmeCurrentCaps@@3PAEA: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.
 #pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAEA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
-// ?g_00DEDA98@@3IA: the global at VA 0xdeda98 is ?number_of_DX8_calls@@3IA.
-#pragma comment(linker, "/alternatename:?g_00DEDA98@@3IA=?number_of_DX8_calls@@3IA")
 
 // Retail 0x0012FE00..0x001303F0, 1520 bytes, ending at RET (no padding).
 // BFME1 sortingrenderer.cpp at d6db6bfa4fd3 provides the sorted-insertion

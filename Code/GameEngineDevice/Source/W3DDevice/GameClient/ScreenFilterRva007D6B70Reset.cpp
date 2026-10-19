@@ -90,8 +90,8 @@ static __forceinline void filterSetPixelShader(void *shader)
 //   spells the same protected `?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A`
 //   so _Get_D3D_Device8 resolves by name, no alias.
 // - number_of_DX8_calls VA 0x00DEDA98 (RVA 0x009EDA98, 626 refs): SOLE storage
-//   dx8wrapper.cpp:216 `unsigned number_of_DX8_calls`; SortingRendererBFME1
-//   precedent binds g_00DEDA98 via alternatename (linker-only).
+//   dx8wrapper.cpp:216 `unsigned number_of_DX8_calls`, named directly here
+//   and in SortingRendererBFME1.
 // - texture_changes VA 0x00DEDA60 (RVA 0x009EDA60, 42 refs): SOLE storage
 //   dx8wrapper.cpp:192 `unsigned DX8Wrapper::texture_changes`; consecutive-
 //   layout chain (matrix 4C/doc, material 50, vertex 54, index 58, light 5C,
@@ -101,8 +101,6 @@ static __forceinline void filterSetPixelShader(void *shader)
 // All addresses DIR32-masked by the gate, never hardcoded.
 extern unsigned int number_of_DX8_calls;
 extern unsigned g_00DEDA60;
-// ?g_00DEDA98@@3IA: the global at VA 0xdeda98 is ?number_of_DX8_calls@@3IA.
-#pragma comment(linker, "/alternatename:?g_00DEDA98@@3IA=?number_of_DX8_calls@@3IA")
 // ?g_00DEDA60@@3IA: the global at VA 0xdeda60 is ?texture_changes@DX8Wrapper@@1IA.
 #pragma comment(linker, "/alternatename:?g_00DEDA60@@3IA=?texture_changes@DX8Wrapper@@1IA")
 // TU-local public Textures -> home protected Textures (type-identical struct U).
