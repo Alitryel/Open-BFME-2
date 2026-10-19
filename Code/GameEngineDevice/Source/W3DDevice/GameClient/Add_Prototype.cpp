@@ -48,6 +48,17 @@ typedef _STL::hashtable<_STL::pair<const int, int>, int, _STL::hash<int>,
 typedef _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>,
 	_STL::allocator<_STL::pair<const int, int> > > BfmePrototypeMap;
 
+// The iterator equality test is always inlined in the bodies below; keep the
+// unit from emitting its own out-of-line, non-retail copy.
+namespace _STL {
+typedef _Ht_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> >, int,
+	hash<int>, _Select1st<pair<const int, int> >, equal_to<int>,
+	allocator<pair<const int, int> > > BfmePrototypeIterator;
+template <> __declspec(dllimport) __forceinline
+bool operator==(const BfmePrototypeIterator &__x, const BfmePrototypeIterator &__y)
+{ return __x._M_cur == __y._M_cur; }
+}
+
 // String-interning name table holding the 45007-bucket registry that
 // Add_Prototype_Impl queries. Retail 0x00620500 (187B) hashes the name
 // case-insensitively (tolower fold, times 33), buckets via div 0xAFCF,
