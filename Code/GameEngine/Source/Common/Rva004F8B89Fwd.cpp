@@ -62,12 +62,6 @@ public:
 	void DoXfer(Xfer *xfer);
 };
 
-class Rva004E94FB
-{
-public:
-	void rva004E9446();
-};
-
 class Rva004E8FF6
 {
 public:
@@ -144,6 +138,7 @@ class AIGameTeam
 public:
 	void *rva004E93E8();	// 0x004E93E8
 	void rva004E94FB();
+	void rva004E9446();	// 0x004E9446 (Rva004E9446Erase.cpp)
 	void rva004E951C(void *o);
 	void *getTargetByIndexForPlayer(int unused, int key);
 	void update();
@@ -220,7 +215,7 @@ void AIGameTeam::update()
 				*(void **)((char *)inner + 0x18) = x;
 				((SkirmishAI *)m->m_14)->update();
 			}
-			((Rva004E94FB *)this)->rva004E9446();
+			rva004E9446();
 			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E9040(rva004E93E8());
 		}
 	}

@@ -10642,7 +10642,7 @@ name,address,notes
 ?rva004E7D1D@Rva004E7B0CHolder@@QAEXXZ,0x004E7D1D,"forwarder (mov ecx, [ecx] / jmp 0x004E7CEF) of the holder at TheInGameUI +0x58C; TerrainResourceClientBehavior slot 18 0x004CC61A calls it before clearing its +0x0C flag"
 ?rva004E8FF6@Rva004E8FF6@@QAEXPAX@Z,0x004E8FF6,thiscall single-arg callee of 0x004E9710 read from its REL32 displacement; body unrowed
 ?rva004E9040@Rva004E8FF6@@QAEXPAX@Z,0x004E9040,same-object single-arg callee of 0x004E9710 (global plus 0x940) read from REL32; in-range target, provisional class
-?rva004E9446@Rva004E94FB@@QAEXXZ,0x004E9446,thiscall no-arg callee of 0x004E9710 read from its REL32 displacement (same this); in-range target, provisional class
+?rva004E9446@AIGameTeam@@QAEXXZ,0x004E9446,thiscall no-arg callee of 0x004E9710 read from its REL32 displacement (same this); in-range target; class is its caller AIGameTeam::update's
 ?rva004EBF4B@Rva004EBF4B@@QAE?AUCoord3D@@XZ,0x004EBF4B,the same body as the rowed void(Coord3D *) spelling: it returns the Coord3D by value through the hidden pointer (eax = out); REL32 at 0x005AB70C in ReturnTheRing 0x005AB6DC uses the returned pointer
 ?rva004EC072@Rva004EC072@@QAEXPAUArg@@@Z,0x004EC072,second name for the 11-byte forwarder rowed at 0x004EC072 as ?fwd@Rva004EC072Owner@@QAEXPAX@Z (263b7dc5b1 dropped this row as a duplicate); TeamPrototype::rva003A2BD4 0x003A2BD4 still calls it by this name
 ?rva004EC07D@Rva002A8AB1Record@@QAEXPAVTeamPrototype@@@Z,0x004EC07D,Ghidra 11B add ecx 0x90 then jmp 0x0059A153; REL32 call at 0x003A0CF6 in TeamPrototype::rva003A0CD1 on the per-owner record

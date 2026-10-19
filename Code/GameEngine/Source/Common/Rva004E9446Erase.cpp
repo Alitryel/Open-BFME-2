@@ -1,12 +1,12 @@
 // cl: /O1 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva004E9446@Rva004E94FB@@QAEXXZ @ 0x004E9446, 91 bytes.
+// ?rva004E9446@AIGameTeam@@QAEXXZ @ 0x004E9446, 91 bytes.
 // Predicate-gated erase walk over vector<void*> at +0x18 (end cached, refreshed
 // after each erase): per element call rowed bool predicate 0x004E9378 ([+0x10]==2/3);
 // when true delete (elem ? elem->v00(0) : 0) via rowed scalar delete 0x0002FD60 and
 // erase via rowed vector<void*>::erase 0x001FF51F; when false call the rowed
-// AIMoneyLender::update 0x00596B10 if elem[+0x10]==1 then advance. Same this as caller 0x004E9710 (provisional pin class).
+// AIMoneyLender::update 0x00596B10 if elem[+0x10]==1 then advance. Same this as caller AIGameTeam::update 0x004E9710.
 #include <vector>
 // Keep vector<void*> begin/end inline without emitting this unit's /O1 COMDAT
 // copies: retail's out-of-line ones are the /Od bodies (0x00023B90, 0x00023BA0).
@@ -36,7 +36,7 @@ struct Rva004E9446Elem
 	int m_10;
 };
 
-class Rva004E94FB
+class AIGameTeam
 {
 public:
 	void rva004E9446();
@@ -46,7 +46,7 @@ private:
 	_STL::vector<void *> m_vec; // +0x18 (begin/end/capacity)
 };
 
-void Rva004E94FB::rva004E9446()
+void AIGameTeam::rva004E9446()
 {
 	_STL::vector<void *>::iterator end = m_vec.end();
 	_STL::vector<void *>::iterator it = m_vec.begin();
