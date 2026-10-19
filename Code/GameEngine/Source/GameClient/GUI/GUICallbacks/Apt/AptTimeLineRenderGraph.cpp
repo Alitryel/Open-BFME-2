@@ -30,6 +30,14 @@
 #include <vector>
 #include <algorithm>
 
+// The frame-count clamps inline min/max(int). File-static int overloads take
+// those calls, so this TU emits no external cmov copy of the template (retail
+// keeps one 17-byte jl/jge copy of each).
+namespace _STL {
+static inline const int &min(const int &a, const int &b) { return b < a ? b : a; }
+static inline const int &max(const int &a, const int &b) { return a < b ? b : a; }
+}
+
 #include "ascii_string.h"
 #include "unicode_string.h"
 
