@@ -18,7 +18,7 @@ enum KindOfType { KINDOF_17=17, KINDOF_60=60, KINDOF_100=100 };
 template<int NUMBITS> class BitFlags { public: unsigned long m_words[(NUMBITS+31)/32];
  __forceinline bool test(size_t pos) const { return (m_words[pos/32] & (1UL<<(pos%32)))!=0; } };
 class ThingTemplate { public: char pad[0x108]; BitFlags<218> m_kindof;
- __forceinline bool isKindOf(KindOfType t) const { return m_kindof.test(t); } };
+ __declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const { return m_kindof.test(t); } };
 class ThingFactory { public: const ThingTemplate* findTemplate(const AsciiString&); };
 extern ThingFactory* TheThingFactory;
 class Player;
@@ -44,7 +44,14 @@ class Object { public: CastleBodyView* body() const { return *(CastleBodyView*co
  ExitInterface* getObjectExitInterface() const;
 };
 class Rva0028CBFD { public: void rva0028CBFD(); };
-class DamageInfo { public: DamageInfo(); char prefix[8]; int sourceID; int unknownC; int damageType; int unknown14; int unknown18; int deathType; float amount; int unknown24; float unknown28; char tail[0x50]; };
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();	// 0x00263895
+};
+class DamageInfo { public: __declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); } char prefix[8]; int sourceID; int unknownC; int damageType; int unknown14; int unknown18; int deathType; float amount; int unknown24; float unknown28; char tail[0x50]; };
 class CastleBodyView {
 public:
  virtual void damage(DamageInfo*); virtual void slot1(); virtual void slot2();

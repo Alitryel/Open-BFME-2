@@ -50,11 +50,12 @@ public:
 enum DamageType { DAMAGE_UNRESISTABLE_8 = 8 };
 enum DeathType { DEATH_0 = 0 };
 
+// Layout of the 0x68-byte input record (rowed ctor Rva00263653); the
+// forwarder below constructs it, so this view declares no constructor.
 class Rva00263653
 {
 public:
-	Rva00263653() throw();
-	virtual void rva00263653_dummy();
+	const void *m_vptr;
 	ObjectID m_sourceID;	// +0x04
 	int m_08;
 	int m_damageType;	// +0x0C
@@ -65,11 +66,18 @@ public:
 	unsigned char m_rest[0x68 - 0x20];
 };
 
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member() throw();	// 0x00263895
+};
 class DamageInfo
 {
 public:
-	DamageInfo() throw();
-	virtual void rva00263895_dummy();
+	__declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
+	const void *m_vptr;
 	Rva00263653 in;
 	const void *m_ptr;
 	float m_f70;

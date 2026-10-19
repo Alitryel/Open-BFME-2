@@ -75,10 +75,17 @@ struct Rva0046247DPair
     const _STL::list<Object *> *m04;
 };
 
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();	// 0x00263895
+};
 class DamageInfo
 {
 public:
-    DamageInfo();
+    __declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
     char m_lead[0x08];
     unsigned int m_sourceID; // +0x08
     char m_gap0C[0x10 - 0x0C];

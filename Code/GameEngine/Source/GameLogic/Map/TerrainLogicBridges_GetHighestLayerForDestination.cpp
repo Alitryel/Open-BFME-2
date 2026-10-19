@@ -110,10 +110,17 @@ public:
 };
 
 // The 0x7C-byte damage record; its constructor is the rowed 0x00263895.
+// Retail builds it through the rowed initializer Rva00263895Member
+// (Rva00263895Init.cpp); the inline forwarder binds the call there.
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();	// 0x00263895
+};
 class DamageInfo
 {
 public:
-	DamageInfo();
+	__declspec(dllimport) __forceinline DamageInfo() { ((Rva00263895Member *)this)->Rva00263895Member::Rva00263895Member(); }
 	char m_pad00[0x08];
 	ObjectID m_sourceID; // +0x08
 	char m_pad0C[0x10 - 0x0C];
