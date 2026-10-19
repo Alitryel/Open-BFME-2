@@ -1,4 +1,6 @@
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
+// partial score=0.9902048085485308 date=2026-10-19
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.894 date=2026-10-17
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.969603329480937 date=2026-10-14
@@ -539,7 +541,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	if (cosAngle >= cosAngleToCare)
 	{	const Vector3 &rPa = (Vector3 &)(prevXForm->operator [](1));
 		const Vector3 &rOb = (Vector3 &)(objectToWorld.operator [](1));
-		cosAngle = fabs ((rPa.Y*rOb.Y + rPa.X*rOb.X) + rPa.Z*rOb.Z);
+		cosAngle = fabs ((rPa.Y*rOb.Y + rPa.Z*rOb.Z) + rPa.X*rOb.X);
 		if (cosAngle >= cosAngleToCare)
 		{
 			cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](2)),(Vector3 &)(objectToWorld.operator [](2))));
@@ -582,7 +584,8 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		toLight.Normalize();
 
 		// compute vector from the previous light to the object position
-		toPrevLight = objectCenter - m_lightPosHistory[ lightIndex ][meshIndex];
+		Vector3::Subtract(objectCenter, m_lightPosHistory[ lightIndex ][meshIndex], &lightPosObject);
+		toPrevLight = lightPosObject;
 		toPrevLight.Normalize();
 
 		Real cosAngle = fabs (Vector3::Dot_Product(toLight,toPrevLight));
@@ -619,7 +622,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		Real vectorScale,vectorScaleTemp, vectorScaleMax;
 
 		//Get vertices of top of bounding box
-		Corners[0]=(meshIndex?(box.Center):(box.Center))+box.Extent;	//top right corner
+		Corners[0]=box.Center+box.Extent;	//top right corner
 		Corners[1]=Corners[0];
 		Corners[1].X -= 2.0f*box.Extent.X;		//top left corner
 		Corners[2]=Corners[1];
@@ -635,7 +638,6 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		Corners[4]=Corners[0]+lightRay*vectorScale;
 		vectorScaleMax *= length;
 
-		Corners[4] = (1 ? Corners[4] : Corners[4]);
 		lightRay = Corners[1] - lightPosWorld;	//vector light to corner
 		length= 1.0f/lightRay.Length();
 		lightRay *= length;
@@ -772,3 +774,6 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 // need evaluation-order flip (its homes/temps follow); rows 0/2 must NOT be touched. Candidate:
 // rewrite row 1's Dot_Product(prev[1],obj[1]) as manual Y-then-X partial sums, or swap its two
 // product statements if already manual. t=15 model=muse-spark.
+
+// Shared light-vector scratch is reused before the object-space transform.
+// Storage and identity evidence: reverse/attempt_support/update-mesh-volume-20261019.md.
