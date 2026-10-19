@@ -490,29 +490,6 @@ AptValue *Rva00709EC0Get(int);
 
 
 
-
-
-
-
-
-
-
-
-
-
-void AptActionInterpreter::_FunctionAptActionCloneSprite(AptActionInterpreter *const p, LocalContextT *const c)
-{
-    AptValue *depth=p->stack.At(0);
-    AptValue *target=p->stack.At(1);
-    AptValue *source=p->stack.At(2);
-    int n=depth->toInteger();
-    p->rva007092F0(c->pCurrentContext,c->pCurWith,source,target,n,0);
-    p->stack.Pop(3);
-}
-
-
-
-
 class Rva8D0D80String;
 class Rva8D0D80Value;
 class Rva8D0D80Table { public: void add(Rva8D0D80String *,Rva8D0D80Value *); };
@@ -634,50 +611,7 @@ extern "C" char *__cdecl strcpy(char *,const char *);
 static __forceinline bool bfmeIsFSCommand(const char *s) { return strncmp(s,g_bfmeAptFSCommandAtDDC920,strlen(g_bfmeAptFSCommandAtDDC920))==0; }
 class AptLinker { public: void Load(const EAStringC &,EAStringC); };
 extern AptLinker *g_bfmeAptLinkerAtE176F8;
-void AptActionInterpreter::_FunctionAptActionGetUrl(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    c->pInstruction=(const unsigned char *)(((unsigned int)c->pInstruction+3)&~3U);
-    struct Data { const char *szUrl,*szWin; };
-    const Data *data=(const Data *)c->pInstruction;
-    c->pInstruction+=sizeof(Data);
-    if (bfmeIsFSCommand(data->szUrl)) p->doFSCommand(data->szUrl,data->szWin);
-    else {
-        char buffer[260];
-        strcpy(buffer,data->szUrl);
-        int nLength=strlen(buffer);
-        if ((buffer[nLength-1]=='f' || buffer[nLength-1]=='F') &&
-            (buffer[nLength-2]=='w' || buffer[nLength-2]=='W') &&
-            (buffer[nLength-3]=='s' || buffer[nLength-3]=='S') && buffer[nLength-4]=='.') {
-            buffer[nLength-4]=0;
-            g_bfmeAptLinkerAtE176F8->Load(EAStringC(buffer),EAStringC(data->szWin));
-        } else if (nLength==0) g_bfmeAptLinkerAtE176F8->Load(EAStringC(""),EAStringC(data->szWin));
-        else Rva006CC110Log(4,"not loading non-swf file: '%s'\n",buffer);
-    }
-}
 
-// Native877B through708FAC. Retail tests uppercase W/S at n-1 as written;
-// later donor fixed this suffix bug. loadVariables706370 remains unrowed.
-void AptActionInterpreter::_FunctionAptActionGetUrl2(AptActionInterpreter *const p,LocalContextT *const c)
-{
-    AptValue *a=p->stack.At(0),*b=p->stack.At(1);
-    EAStringC sa,sb;
-    b->toString(sb);
-    if(bfmeIsFSCommand(sb.rva00620090())) { a->toString(sa);p->doFSCommand(sb.rva00620090(),sa.rva00620090()); }
-    else {
-        int n=sb.rva006D3750();EAStringC buf;AptValue *context=0;
-        if(n==0 || ((sb.GetAt(n-1)=='f'||sb.GetAt(n-1)=='F') && (sb.GetAt(n-2)=='w'||sb.GetAt(n-1)=='W') && (sb.GetAt(n-3)=='s'||sb.GetAt(n-1)=='S') && sb.GetAt(n-4)=='.')) {
-            a->toString(sa);buf=sb;
-            if((int)buf.rva006D3750()>=4) buf.rva006D54B0(buf.rva006D3750()-4,4);
-            AptValue *v=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,&sa);
-            if(v->isCIH()) getName(v->c_cih(),sa);
-            p->stack.Pop(2);g_bfmeAptLinkerAtE176F8->Load(buf,sa);return;
-        } else {
-            if(a->isString()) context=p->getVariable((AptValue *)c->pCurrentContext,c->pCurWith,a->c_string()->GetInternalString(),1);
-            else context=a;
-            p->loadVariables(context,c->pCurWith,&sb);
-        }
-    }
-    p->stack.Pop(2);
-}
+
 
 #pragma comment(linker, "/alternatename:?getName@AptActionInterpreter@@SAXPAVAptCIH@@AAVEAStringC@@@Z=?rva006ffce0@@YAXPAVAptValue@@AAVEAStringC@@@Z")
