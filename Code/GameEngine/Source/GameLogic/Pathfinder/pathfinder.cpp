@@ -3592,7 +3592,7 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
  m_isTunneling=false;rva002F40E7();return 0;
 }
 
-extern float g_00DBD338;
+float g_00DBD338 = 0.010000000707805157f;	// retail RVA 0x009BD338 (.data), defined here
 class Rva0053476A;
 class Rva002EAD62 { public: void rva002EAD62(); };
 class Rva002EAD39 { public: void rva002EAD39(Rva0053476A *); };
