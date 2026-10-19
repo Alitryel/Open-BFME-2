@@ -246,7 +246,7 @@ class Rva00893030Manager {int head;public:Rva00893030Manager():head(0){} POOL_AL
 extern Rva00893030Manager *g_rva00893030Manager;
 class AptValueVector {int capacity,count;AptValue **values;int high;public:AptValueVector(int);void ReleaseValues();POOL_ALLOC
  int GetNumValues() const;
- AptValue *operator[](int iPos) const {
+ __declspec(dllimport) __declspec(nothrow) __forceinline AptValue *operator[](int iPos) const {
   if(!(iPos>=0 && iPos<count)){g_bfmeAptAssertAtE17734("iPos >= 0 && iPos < mCurrentNum","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValueVector.h",0x39);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
   return values[iPos];
  }
