@@ -367,11 +367,13 @@ public:
 	virtual void onExit(StateExitType a);
 };
 
-class Rva0057BA90
+namespace StrategicHUD {
+class SelectionDetailsUIImpl
 {
 public:
 	void rva0057BA90();
 };
+}
 
 class Rva005E717ENamed
 {
@@ -883,8 +885,8 @@ public:
 };
 
 
-// 0x0057BC20: tail jump to Rva0057BA90::rva0057BA90.
-class Rva0057BC20 : public Rva0057BA90
+// 0x0057BC20: tail jump to SelectionDetailsUIImpl::rva0057BA90 (the Open body).
+class Rva0057BC20 : public StrategicHUD::SelectionDetailsUIImpl
 {
 public:
 	void rva0057BC20();

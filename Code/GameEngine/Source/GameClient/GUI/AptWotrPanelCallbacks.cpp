@@ -526,13 +526,6 @@ public:
 	virtual void rva001FF3A9();
 };
 
-// The rowed open and close bodies.
-class Rva0057BA90
-{
-public:
-	void rva0057BA90();
-};
-
 namespace StrategicHUD {
 class SelectionDetailsUIImpl;
 }
@@ -544,6 +537,8 @@ public:
 	~SelectionDetailsUIImpl();
 	void OnPanelFrameLoaded(const char *name);
 	void OnPanelFrameUnloaded(const char *name);
+	// The rowed open body 0x0057BA90 ("Open" Apt call; Rva0057BA90Open.cpp).
+	void rva0057BA90();
 	// The rowed close body (WorldBuilder name; "Close" Apt call).
 	void Close();
 	void OnToggleButtonClicked(const char *unused);
@@ -605,7 +600,7 @@ void StrategicHUD::SelectionDetailsUIImpl::OnToggleButtonClicked(const char *unu
 {
 	int state = m_state;
 	if (state == 0)
-		((Rva0057BA90 *)this)->rva0057BA90();
+		rva0057BA90();
 	else if (state == 2)
 		Close();
 }

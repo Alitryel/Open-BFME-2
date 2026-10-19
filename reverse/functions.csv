@@ -51987,7 +51987,7 @@ _HorizontalLine_4_5_Scale_C,,0x001B9C10,247,Code/Libraries/Source/VP6/Horizontal
 ??1Rva005D19F8@@UAE@XZ,,0x005D1A42,14,Code/GameEngine/Source/Common/Rva005D1A42Dtor.cpp,matched,virtual dtor tail-jmp to rowed member clear
 ??_GRva005D19F8@@UAEPAXI@Z,,0x005D1A50,28,Code/GameEngine/Source/Common/Rva005D1A42Dtor.cpp,matched,deleting dtor emitted by dtor unit vtable slot 0
 ??_GRva005D1846@@QAEPAXI@Z,,0x005D1891,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva005D1846.cpp,matched,deleting dtor via placeholder scalar dtor plus delete
-?rva0057BA90@Rva0057BA90@@QAEXXZ,,0x0057BA90,52,Code/GameEngine/Source/Common/Rva0057BA90Open.cpp,matched,leaf Apt Open via rowed call
+?rva0057BA90@SelectionDetailsUIImpl@StrategicHUD@@QAEXXZ,,0x0057BA90,52,Code/GameEngine/Source/Common/Rva0057BA90Open.cpp,matched,leaf Apt Open via rowed call
 ?rva002C9586@Weapon@@QAE_NXZ,,0x002C9586,24,Code/GameEngine/Source/GameLogic/Object/Rva002C96D8Finish.cpp,matched,frame window via rowed TheGameLogic plus WeaponDtor layout plus callers; row moved home from WeaponIsTooClose.cpp
 ?isReady@SpecialPowerModule@@UBE_NXZ,,0x004934DE,128,Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleIsReady.cpp,matched,ZH isReady lead blocked28 status70 MI primary+10 layout agrees getPowerName
 ?rva007B685A@@YAXXZ,,0x007B685A,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,gap thunk ecx plus jmp same shape as neighbours 007B6850 007B686F
@@ -56370,7 +56370,7 @@ _$E5,,0x007ACE60,12,Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp,mat
 ?rva00524AE2@Rva00524AE2@@QAEXXZ,,0x00524AE2,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to MovieWindowPlayback::clear (rowed/pinned); no Ghidra entry
 ?rva0052B48D@Rva0052B48D@@QAEXXZ,,0x0052B48D,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to XferSave::endBlock (rowed/pinned); no Ghidra entry
 ?rva00545CAA@Rva00545CAA@@QAEXW4StateExitType@@@Z,,0x00545CAA,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to AIEnterState::onExit (rowed/pinned); no Ghidra entry
-?rva0057BC20@Rva0057BC20@@QAEXXZ,,0x0057BC20,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva0057BA90::rva0057BA90 (rowed/pinned); no Ghidra entry
+?rva0057BC20@Rva0057BC20@@QAEXXZ,,0x0057BC20,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to SelectionDetailsUIImpl::rva0057BA90 (rowed/pinned); no Ghidra entry
 ?rva005CE344@Rva005CE344@@QBEPBDXZ,,0x005CE344,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva005E717ENamed::name (rowed/pinned); no Ghidra entry
 ?rva005CEB76@Rva005CEB76@@QBEPBDXZ,,0x005CEB76,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Rva005CC5DFNamed::name (rowed/pinned); no Ghidra entry
 ?rva005E358F@Rva005E358F@@QAEXXZ,,0x005E358F,5,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp,matched,vtable slot; single tail jump to Overridable::markAsOverride (rowed/pinned); no Ghidra entry
