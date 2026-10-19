@@ -1,4 +1,6 @@
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
+// partial score=0.995 date=2026-10-19
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
 // partial score=0.99 date=2026-10-19
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
 // partial score=0.9693877551020408 date=2026-10-19
@@ -88,6 +90,17 @@ private:
 	unsigned int m_granularity;				// +0x4DC
 };
 
+static inline void q34AddDoubleFencepost(unsigned int *chunk, unsigned int flags)
+{
+	unsigned int size = chunk[1];
+	unsigned int fencepostOffset = ((size & 0x7FFFFFF8) - 9) & 0xFFFFFFF8;
+	chunk[1] = (size & 0x80000007) | fencepostOffset;
+	unsigned int *fencepost = (unsigned int *)((char *)chunk + fencepostOffset);
+	*(unsigned int *)((char *)chunk + fencepostOffset) = fencepostOffset;
+	fencepost[1] = flags | 8;
+	fencepost[2] = 8;
+	fencepost[3] = 9;
+}
 Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 {
 	bool newTop = false;
@@ -136,16 +149,12 @@ Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 		else
 		{
 			Chunk *first = (Chunk *)(((unsigned int)core + 0x27) & ~7);
-			unsigned int header = ((unsigned int)core - (unsigned int)first + extend) | 1;
-			unsigned int fencepostOffset = ((header & 0x7FFFFFF8) - 9) & 0xFFFFFFF8;
 			core->m_firstChunk = first;
-			first->m_size = (header & 0x80000007) | fencepostOffset;
-			unsigned int *fence = (unsigned int *)((char *)first + fencepostOffset);
-			fence[0] = fencepostOffset;
-			fence[1] = 8;
-			first->m_priorSize = 0;
-			fence[2] = 8;
-			fence[3] = 9;
+			unsigned int *chunkCopy = (unsigned int *)first;
+			unsigned int initSize = ((unsigned int)core - (unsigned int)chunkCopy + extend);
+			chunkCopy[1] = initSize | 1;
+			chunkCopy[0] = 0;
+			q34AddDoubleFencepost(chunkCopy, 0);
 			chunk = first;
 			chunkSize = extend;
 			SetTopChunk(chunk, true);
