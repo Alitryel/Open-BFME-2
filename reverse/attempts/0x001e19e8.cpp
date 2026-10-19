@@ -1,4 +1,6 @@
 // ?reallyDoFX@ParticleSystemFXNugget@@QBEXPBUCoord3D@@PBVMatrix3D@@PBVObject@@2@Z
+// partial score=0.93188302425107 date=2026-10-19
+// ?reallyDoFX@ParticleSystemFXNugget@@QBEXPBUCoord3D@@PBVMatrix3D@@PBVObject@@2@Z
 // partial score=0.8965821252031981 date=2026-10-16
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Include /G7 /Oi- /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /GX
 //
@@ -141,7 +143,7 @@ struct Rva001F3899Arg; struct Rva001F38C1Arg; struct Rva001F3C43Arg;
 class Rva001F3899Slot {public: void set(const Rva001F3899Arg&);};
 class Rva001F38C1Slot {public: void set(const Rva001F38C1Arg&);};
 class Rva001F3C43Slot {public: void set(const Rva001F3C43Arg*);};
-class Rva001F3C60Slot {public: AsciiString& set(const AsciiString&);};
+class Rva001F3C60Slot {public: void set(const AsciiString&);};
 class ParticleSystem {public:
  void rotateLocalTransformX(float);void rotateLocalTransformY(float);void rotateLocalTransformZ(float); void destroy();
  char pad[0x120]; unsigned int delay; char pad124[4];int field128;char pad12C[0x188-0x12C];Vector3 target;bool targetValid;
@@ -175,7 +177,7 @@ extern float g_msecToFrames;
 static __forceinline const Coord3D *objectPos(const Object*p){return (const Coord3D*)((const char*)p+0x38);}
 static __forceinline bool boneTransform(const Object*p,const AsciiString&name,Matrix3D&m){return ((const Thing*)p)->getDrawable()->rva00272835((int)name.str(),(int)&m);}
 void adjustVector(Coord3D*,const Matrix3D*);
-static __forceinline void rotateParticleY(Matrix3D&m,const float&s,float c){m.Rotate_Y(s,c);}
+static __forceinline void rotateParticleY(Matrix3D&m,const float&s,const float&c){m.Rotate_Y(s,c);}
 void ParticleSystemFXNugget::reallyDoFX(const Coord3D*primary,const Matrix3D*mtx,const Object*thingToAttachTo,const Object*secondary)const {
  Vector3 _boundlocalOffset0=*(const Vector3*)&m_offset; Vector3 &localOffset=_boundlocalOffset0;
  if(mtx)adjustVector((Coord3D*)&localOffset,mtx);
@@ -235,3 +237,5 @@ void ParticleSystemFXNugget::reallyDoFX(const Coord3D*primary,const Matrix3D*mtx
   }
  }
 }
+
+// Resume evidence: reverse/attempt_support/1e19e8-w7-20261019.md
