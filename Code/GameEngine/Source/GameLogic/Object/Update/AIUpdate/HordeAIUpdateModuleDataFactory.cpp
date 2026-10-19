@@ -12,20 +12,17 @@ class INI {
 public:
     void initFromINIMultiProc(void *, void (__cdecl *)(MultiIniFieldParse &));
 };
-extern "C" void *__identifier("??_7HordeAIUpdateModuleData@@6B@")[ ];
 class TransportAIUpdateModuleData {
 public:
     TransportAIUpdateModuleData();
+    virtual ~TransportAIUpdateModuleData();
     static void buildFieldParse(MultiIniFieldParse &);
 protected:
-    void **m_vtable;
     unsigned char m_opaque[0x60];
 };
+// Implicit ctor and destructor, as ZH's module data declare them: the
+// compiler installs the class's own vtable (retail's folded 0x0084B6C8).
 class HordeAIUpdateModuleData : public TransportAIUpdateModuleData {
-public:
-    HordeAIUpdateModuleData() {
-        m_vtable = __identifier("??_7HordeAIUpdateModuleData@@6B@");
-    }
 };
 class HordeAIUpdate {
 public:
