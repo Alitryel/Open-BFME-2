@@ -5103,8 +5103,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperEndSceneHelper.cpp	?
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Create_DX8_Surface.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Create_DX8_Surface.cpp	?D3DDevice@DX8Wrapper@@0PAUIDirect3DDevice9@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_D3DCalls.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	?g_dx8Device@@3PAXA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	?g_dx8FilterMode@@3W4TextureFilterMode@TextureFilterClass@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Depth.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Surface.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordPolys.cpp	?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A	1

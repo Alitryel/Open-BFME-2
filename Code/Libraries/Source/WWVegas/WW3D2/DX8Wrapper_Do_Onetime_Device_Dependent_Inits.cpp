@@ -88,6 +88,19 @@ public:
 	static void Init( void );
 };
 
+// The texture filter mode at 0x00DB5F9C is WW3D's private static (ww3d.cpp).
+class WW3D
+{
+	friend class DX8Wrapper;
+	static int TextureFilter;
+};
+
+// Only the type's name matters here: the display format is passed on as is.
+enum _D3DFORMAT
+{
+	D3DFMT_UNKNOWN = 0
+};
+
 class DX8Wrapper
 {
 public:
@@ -95,6 +108,7 @@ public:
 
 protected:
 	static void Set_Default_Global_Render_States( void );
+	static _D3DFORMAT DisplayFormat; // 0x00DEDA08, defined in dx8wrapper.cpp
 };
 
 void __cdecl Rva001207B0Init( void *device );
@@ -116,12 +130,8 @@ struct DX8CapsSnapshot
 	unsigned Field5;
 };
 
-// ?g_dx8Device@@3PAXA: the global at this VA is ?DisplayFormat@DX8Wrapper@@1W4_D3DFORMAT@@A; this name is an alias for it.
-extern void * g_dx8Device;
-#pragma comment(linker, "/alternatename:?g_dx8Device@@3PAXA=?DisplayFormat@DX8Wrapper@@1W4_D3DFORMAT@@A")
 // g_dx8CapsSnapshot: matched references place it at VA 0xdeca08 (zero-filled; a plain-data view).
 DX8CapsSnapshot g_dx8CapsSnapshot;
-extern TextureFilterClass::TextureFilterMode g_dx8FilterMode;
 extern DX8MeshRendererClass *TheDX8MeshRenderer;
 extern Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;
 // TheMeshGapFillerContext: matched references place it at VA 0xdf6f94 (zero-filled .bss).
@@ -130,12 +140,12 @@ Rva00DF6F94GapFillerContext * TheMeshGapFillerContext;
 // ?Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@SAXXZ
 void DX8Wrapper::Do_Onetime_Device_Dependent_Inits( void )
 {
-	Rva001207B0Init( g_dx8Device );
+	Rva001207B0Init( (void *)DisplayFormat );
 
 	DX8CapsSnapshot snapshot = g_dx8CapsSnapshot;
 	DebugLogTyped( 'DXHW', &snapshot, sizeof( snapshot ) );
 
-	TextureFilterClass::_Init_Filters( g_dx8FilterMode );
+	TextureFilterClass::_Init_Filters( (TextureFilterClass::TextureFilterMode)WW3D::TextureFilter );
 
 	TheDX8MeshRenderer = new DX8MeshRendererClass;
 	TheDX8MeshRenderer->Init();
@@ -150,5 +160,3 @@ void DX8Wrapper::Do_Onetime_Device_Dependent_Inits( void )
 	DynamicVBAccessClass::Init();
 	Set_Default_Global_Render_States();
 }
-// ?g_dx8FilterMode@@3W4TextureFilterMode@TextureFilterClass@@A: the global at VA 0xdb5f9c is ?TextureFilter@WW3D@@0HA.
-#pragma comment(linker, "/alternatename:?g_dx8FilterMode@@3W4TextureFilterMode@TextureFilterClass@@A=?TextureFilter@WW3D@@0HA")
