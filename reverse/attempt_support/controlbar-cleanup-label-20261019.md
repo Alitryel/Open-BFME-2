@@ -1,4 +1,4 @@
-# ControlBarSchemeManager cleanup: add_match local-label collision
+# ControlBarSchemeManager cleanup: corrected local-label admission
 
 The whole `Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarSchemeManagerDtor.cpp`
 was read and its two original rows byte-verified. The native destructor at
@@ -14,18 +14,21 @@ that is not a 21-byte cleanup extent. `explain_mismatch.py '$L367' --rva
 parent EH graph independently proves ownership, rather than adjacency.
 The current placeholder is `uw_0077afbb` in Code/gen_small/uw_gen_011.cpp.
 
-`add_match.py '$L367' 0x0077AFBB 11 <source> --replace-rva 0x0077AFBB` refuses
-before verification because other translation units already use `$L367` at
-0x007989BB, 0x007699CE and 0x0075D392. Those are COFF local labels in independent
-objects, not competing external names. This appears to be a false rejection
-from the globally unique-name admission rule. No existing row was repointed,
-no object-symbol alias was added, and no verifier was changed to evade it.
+The first admission attempt omitted the required notes tokens
+`gen-funclet;parent=??1ControlBarSchemeManager@@QAE@XZ`. It therefore correctly
+used global-name semantics and refused the other `$L367` rows at 0x007989BB,
+0x007699CE and 0x0075D392. The previous false-reject diagnosis was wrong and
+has been retracted with `re_log.py record ... void`.
 
-The existing generated scaffold is retained, so this blocker claims no exact
-coverage gain. Future tooling work should scope proven compiler-local labels
-to their source while retaining the uniqueness rule for real linkage names,
-with a regression test and the required Verifier-Change trailer. The exception
-handler itself passed ordinary add_match, byte/EH checks and pre-commit.
+Commit 96131fefe9 already implements source-scoped compiler-local EH labels.
+With the proven parent recorded, ordinary `add_match.py` admits this cleanup
+and verifies all four rows in the owner TU. Its collision checks require a
+same-source byte-verified parent, exact parent EH graph, COFF-local label and
+exact cleanup bytes and relocations. No verifier edit or alias is needed.
+The generated scaffold row is replaced by the native C++ cleanup. This moves
+11 bytes to the authored owner but adds no C++ exact coverage, since the
+generated scaffold was already exact. The exception handler separately added
+10 bytes of exact coverage in the preceding batch.
 The link preview is clean: the source's own matched bytes rise 129 to139 with
 the newly rowed handler (census 26f19e6e34, retail-truth-2).
 
