@@ -96,12 +96,10 @@ extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBand(Rva009AD750Context
 	}
 }
 
-// ?Rva009ADAA0@@YAXPAURva009AF200Context@@PAE1IIHPBI@Z retail
+// _DeblockVerticalEdgesInNonFilteredBandNewFilter retail
 // 0x001BE490..0x001BE76A (730 bytes) cdecl. Clean room:
-// reverse/vp6_cleanroom/specs/001be490.md plus retail only. The spec name is
-// DeblockVerticalEdgesInNonFilteredBandNewFilter; the pinned name is kept
-// because the matched band driver DeblockPlaneNew calls it with this
-// signature. The quantizer step is the scale-table entry for the frame Q
+// reverse/vp6_cleanroom/specs/001be490.md plus retail only. The matched band
+// driver DeblockPlaneNew calls it directly. The quantizer step is the scale-table entry for the frame Q
 // index (0x0C) and the activity limit is step squared times 3 shifted
 // right 5. For each of the across - 1 vertical edges (the first 8 pixels
 // into the band) and each of the 8 lines ten source samples straddle the
@@ -125,7 +123,7 @@ struct Rva009AF200Context
 
 #define VP6_ABS(v) ((v) > 0 ? (v) : -(v))
 
-void __cdecl Rva009ADAA0(Rva009AF200Context *ctx, unsigned char *src, unsigned char *dst,
+extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBandNewFilter(Rva009AF200Context *ctx, unsigned char *src, unsigned char *dst,
 	unsigned int step, unsigned int across, int index, const unsigned int *table)
 {
 	int qStep;

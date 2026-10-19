@@ -30,8 +30,8 @@ struct DeblockPlaneLocals
 };
 
 static DeblockBandCallback g_rva01356EB4;
-// Retail 0x001BE490; pinned under this address-derived name.
-extern void __cdecl Rva009ADAA0(
+// Retail 0x001BE490 (DeblockVerticalEdges.cpp).
+extern "C" void __cdecl DeblockVerticalEdgesInNonFilteredBandNewFilter(
 	Rva009AF200Context *, unsigned char *, unsigned char *,
 	unsigned int, unsigned int, int, const unsigned int *);
 
@@ -88,6 +88,6 @@ extern "C" void __cdecl DeblockPlaneNew(
     }
     while (locals.directRows != 0);
 
-    Rva009ADAA0(
+    DeblockVerticalEdgesInNonFilteredBandNewFilter(
         context, source, destination, stride, width, index, table);
 }

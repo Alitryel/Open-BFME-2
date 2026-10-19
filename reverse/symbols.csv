@@ -6357,7 +6357,6 @@ name,address,notes
 ?Rva00958570_Flush_Buffered_Frames@FrameGrabClass@@IAEXXZ,0x001767D0,FrameGrabClass buffered-frame flush called first by GetBuffer (0x00176860); BFME1 donor spelling (its 0x00958570)
 ?Rva00990030Lookup@@YAIPAUlua_State@@H@Z,0x00747190,address read from the REL32 displacement at a placed body
 ?Rva009A86F0Allocate@@YAHPAX@Z,0x001B9140,BFME1-donor declaration Rva009A86F0Allocate(void*) in BfmeCheckJX.cpp; its call site at body+0x1D6 pushes the state pointer only; address is the retail call target
-?Rva009ADAA0@@YAXPAURva009AF200Context@@PAE1IIHPBI@Z,0x001BE490
 ?Rva009B4390CodecCall@@YAXPAXH0HHHHHHHHHHHH@Z,0x001C4C90
 ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z,0x001C5E30
 ?Rva009EEC60_FindAsset@Rva009EEC60Registry@@QAE?AVRva009EBCE0AssetReference@@PBD@Z,0x00621220

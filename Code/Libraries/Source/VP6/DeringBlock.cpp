@@ -1,4 +1,13 @@
 // cl: /O2
+// Clean room: reverse/vp6_cleanroom/specs/001c28c0.md plus retail only. No
+// decoder source was consulted.
+//
+// DeringBlock (retail 0x001C28C0, 701 bytes): cdecl generic deringing of one
+// 8x8 block with a spread-measure argument (seven stack arguments: instance,
+// source, destination, pitch, fragment Q index, scale table, spread). Nothing
+// in retail references it. The spec supplies the identity; the body is the
+// previously matched placeholder body (BFME1 byte-identical donor b1
+// 0x009B1ED0), renamed.
 extern "C" int Vp6FilterEdgeTagTable[64];
 
 struct Rva009B1ED0Info
@@ -8,7 +17,7 @@ struct Rva009B1ED0Info
 };
 
 // _rva009B1ED0
-extern "C" void __cdecl rva009B1ED0(const Rva009B1ED0Info *info, const void *sourceArgument, void *destinationArgument, int stride, int selector, const int *thresholds, unsigned variance)
+extern "C" void __cdecl DeringBlock(const Rva009B1ED0Info *info, const void *sourceArgument, void *destinationArgument, int stride, int selector, const int *thresholds, unsigned variance)
 {
     const unsigned char *source = (const unsigned char *)sourceArgument;
     unsigned char *dest = (unsigned char *)destinationArgument;
