@@ -153,7 +153,6 @@ Code/GameEngine/Source/Common/Rva00787C20HashOwnerDestructor.cpp	??1Rva00787C20@
 Code/GameEngine/Source/Common/Rva007B5DE0StaticInstance.cpp	??__Es_rva006655B0@@YAXXZ	_$E2	0x007B9B90	wrong
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	?rva007B7B82@@YAXXZ	?releaseBuffer@?$StringBase@D@@AAEXXZ	0x0048BA39	wrong
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	?rva007B7B8C@@YAXXZ	?releaseBuffer@?$StringBase@D@@AAEXXZ	0x0048BA39	wrong
-Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	?rva007B89C1@@YAXXZ	??1Rva004ABE53Dtor@@QAE@XZ	0x004ABE53	unowned
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	?rva007B9680@@YAXXZ	?releaseBuffer@?$StringBase@D@@AAEXXZ	0x0048BA39	wrong
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	?rva007B968A@@YAXXZ	?releaseBuffer@?$StringBase@D@@AAEXXZ	0x0048BA39	wrong
 Code/GameEngine/Source/Common/Rva009F5970StateCtor.cpp	??0Rva009F5970State@@QAE@XZ	??1?$vector@UGen_p8cd@@V?$allocator@UGen_p8cd@@@_STL@@@_STL@@QAE@XZ	0x00142D70	wrong
@@ -427,7 +426,6 @@ Code/Libraries/Source/WWVegas/WW3D2/DX8WebBrowserCreateBrowser.cpp	?CreateBrowse
 Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTexture.cpp	_$E1	_$E2	0x007B7040	wrong
 Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassGetCharData.cpp	?Get_Char_Data@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z	?Store_GDI_Char@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z	0x00157FF0	unowned
 Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassLoadCharacterData.cpp	?loadCharacterData@FontCharsClass@@QAEPBUFontCharsClassCharDataStruct@@G@Z	?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z	0x00156A60	unowned
-Code/Libraries/Source/WWVegas/WW3D2/HLodGetProxy.cpp	?Get_Proxy@HLodClass@@UBE_NHAAVProxyClass@@@Z	?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z	0x001628A0	unowned
 Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorClassCtor.cpp	uw_007679e8	??1MaterialVector@@QAE@XZ	0x0016F580	wrong
 Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp	?Resize@?$VectorClass@VBfmeHandleCX@@@@UAE_NHPBVBfmeHandleCX@@@Z	??0BfmeHandleCX@@QAE@XZ	0x00326BE6	wrong
 Code/Libraries/Source/WWVegas/WW3D2/MaterialInfoCopyCtor.cpp	uw_00767978	??1MaterialVector@@QAE@XZ	0x0016F580	wrong
@@ -445,9 +443,7 @@ Code/Libraries/Source/WWVegas/WW3D2/SimpleDynVecDeleteAllV4_Rva0016843C.cpp	?Del
 Code/Libraries/Source/WWVegas/WW3D2/SimpleSceneClass_dtor.cpp	uw_007660a0	??1BfmeSceneBase@@UAE@XZ	0x00724510	wrong
 Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	?Anim_Update@Animatable3DObjClass@@IAEXABVMatrix3D@@PAVHAnimClass@@M@Z	?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z	0x00162BB0	unowned
 Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	?Anim_Update@Animatable3DObjClass@@IAEXABVMatrix3D@@PAVHAnimClass@@M@Z	?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z	0x00163A80	unowned
-Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	?Base_Update@Animatable3DObjClass@@IAEXABVMatrix3D@@@Z	?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z	0x001628A0	unowned
 Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	?Blend_Update@Animatable3DObjClass@@IAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z	?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z	0x001645B0	unowned
-Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp	?Combo_Update@Animatable3DObjClass@@IAEXABVMatrix3D@@PAVHAnimComboClass@@@Z	?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z	0x00165820	unowned
 Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	??0DX8FVFCategoryContainer@@QAE@I_N@Z	??0?$MultiListClass@VDX8TextureCategoryClass@@@@QAE@XZ	0x00143D40	wrong
 Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	??0DX8FVFCategoryContainer@@QAE@I_N@Z	??1?$MultiListClass@VDX8TextureCategoryClass@@@@UAE@XZ	0x001446F0	wrong
 Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	??1DX8FVFCategoryContainer@@UAE@XZ	??1?$MultiListClass@VDX8TextureCategoryClass@@@@UAE@XZ	0x001446F0	wrong
