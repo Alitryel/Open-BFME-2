@@ -5,7 +5,33 @@
 #include "vector2.h"
 // Local consuming series view: retail calls count at slot0 and float value
 // at slot4. The original series and graph class names remain unknown.
-class TimelineSeries {public:virtual int count()=0;virtual float value(int)=0;};
+// Consuming two-slot interface; original class and inheritance names remain unknown.
+class __declspec(novtable) TimelineSeries
+{
+public:
+    virtual int count() = 0;
+    virtual float value(int index) = 0;
+};
+
+// Existing constructor owners: native 12-byte series, table RVAs 867268/867270.
+// The opaque row points at the player's native record ranges; it is not a new
+// claim about the original source type or ownership of those fields in a base.
+class Rva0051E716 : public TimelineSeries
+{
+public:
+    Rva0051E716(int selector) { m_array = 0; m_selector = selector; }
+    virtual int count();
+    virtual float value(int index);
+    void *m_array;
+    int m_selector;
+};
+class Rva0051E73E : public Rva0051E716
+{
+public:
+    Rva0051E73E(int selector) : Rva0051E716(selector) {}
+    virtual int count();
+    virtual float value(int index);
+};
 class Rva0051E354 {
 public:
  Vector2 rva0051E354(TimelineSeries*,int);
@@ -183,27 +209,11 @@ struct Rva0051E96BArray
 	Rva0051E716Range<Rva0051E96BRecord> m_range;
 };
 
-class Rva0051E716 : public TimelineSeries
-{
-public:
-	Rva0051E716(int selector);
-	virtual int count();
-	virtual float value(int) { return 0.0f; }
 
-protected:
-	Rva0051E96BArray *m_array;
-	int m_selector;
-};
-
-Rva0051E716::Rva0051E716(int selector)
-{
-	m_array = 0;
-	m_selector = selector;
-}
 
 int Rva0051E716::count()
 {
-	return m_array->m_range.size();
+	return reinterpret_cast<Rva0051E96BArray *>(m_array)->m_range.size();
 }
 
 struct Rva0051E437
@@ -220,17 +230,7 @@ struct Rva0051E9D2Array
 	Rva0051E716Range<Rva0051E437> m_range;
 };
 
-class Rva0051E73E : public Rva0051E716
-{
-public:
-	Rva0051E73E(int selector);
-	virtual int count();
-};
 
-Rva0051E73E::Rva0051E73E(int selector)
-	: Rva0051E716(selector)
-{
-}
 
 int Rva0051E73E::count()
 {

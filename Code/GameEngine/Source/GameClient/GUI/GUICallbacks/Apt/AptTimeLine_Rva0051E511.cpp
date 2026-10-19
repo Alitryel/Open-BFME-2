@@ -7,7 +7,13 @@
 #include "vector2.h"
 // Local consuming series view: retail calls count at slot0 and float value
 // at slot4. The original series and graph class names remain unknown.
-class TimelineSeries {public:virtual int count()=0;virtual float value(int)=0;};
+// Consuming two-slot interface; original class and inheritance names remain unknown.
+class __declspec(novtable) TimelineSeries
+{
+public:
+    virtual int count() = 0;
+    virtual float value(int index) = 0;
+};
 class Rva0051E354 {
 public:
  Vector2 rva0051E354(TimelineSeries*,int);
@@ -176,65 +182,4 @@ void Rva0051E354::rva0051E511(TimelineSeries*series,float step,float lineWidth,u
  if(pending>0)reinterpret_cast<Rva0011A040Target*>(render)->rva0011A040();
  render->shader=previousShader;
 }
-
-struct Rva0051E96BRecord
-{
-	int m00;
-	int m04;
-	float m08;
-	short m0C;
-	short m0E;
-	char mPad10[0x14 - 0x10];
-};
-
-template <class T>
-struct Rva0051E716Range
-{
-	int size() const { return m_end - m_begin; }
-	T *m_begin;
-	T *m_end;
-};
-
-struct Rva0051E96BArray
-{
-	char pad[0x14];
-	Rva0051E716Range<Rva0051E96BRecord> m_range;
-};
-
-class Rva0051E716 : public TimelineSeries
-{
-public:
-	Rva0051E716(int selector);
-	virtual int count();
-	virtual float value(int) { return 0.0f; }
-
-protected:
-	Rva0051E96BArray *m_array;
-	int m_selector;
-};
-
-
-
-struct Rva0051E437
-{
-	int m00;
-	short m04;
-	short m06;
-	short m08;
-};
-
-struct Rva0051E9D2Array
-{
-	char pad[0x20];
-	Rva0051E716Range<Rva0051E437> m_range;
-};
-
-class Rva0051E73E : public Rva0051E716
-{
-public:
-	Rva0051E73E(int selector);
-	virtual int count();
-};
-
-
 

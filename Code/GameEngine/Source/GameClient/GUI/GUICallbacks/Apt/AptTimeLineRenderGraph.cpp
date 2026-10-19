@@ -54,39 +54,37 @@ struct AptTimeLinePlayer
 	unsigned char m_pad44[0x50 - 0x44];
 };
 
+// Consuming two-slot interface; original class and inheritance names remain unknown.
 class __declspec(novtable) TimelineSeries
 {
 public:
-	virtual int count() = 0;
-	virtual float value(int index) = 0;
+    virtual int count() = 0;
+    virtual float value(int index) = 0;
+};
 
-	AptTimeLinePlayer *m_player; // +0x04
-	int m_mode;                  // +0x08
+// Existing constructor owners: native 12-byte series, table RVAs 867268/867270.
+// The opaque row points at the player's native record ranges; it is not a new
+// claim about the original source type or ownership of those fields in a base.
+class Rva0051E716 : public TimelineSeries
+{
+public:
+    Rva0051E716(int selector) { m_array = 0; m_selector = selector; }
+    virtual int count();
+    virtual float value(int index);
+    void *m_array;
+    int m_selector;
+};
+class Rva0051E73E : public Rva0051E716
+{
+public:
+    Rva0051E73E(int selector) : Rva0051E716(selector) {}
+    virtual int count();
+    virtual float value(int index);
 };
 
 // Vtable 0x00867268 (slots 0x0051E72C / 0x0051E96B).
-class Rva00867268Series : public TimelineSeries
-{
-public:
-	Rva00867268Series(int mode)
-	{
-		m_player = 0;
-		m_mode = mode;
-	}
-	virtual int count();
-	virtual float value(int index);
-};
 
 // Vtable 0x00867270 (slots 0x0051E754 / 0x0051E9D2).
-class Rva00867270Series : public Rva00867268Series
-{
-public:
-	Rva00867270Series(int mode) : Rva00867268Series(mode)
-	{
-	}
-	virtual int count();
-	virtual float value(int index);
-};
 
 class Rva0051E354
 {
@@ -178,9 +176,9 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 	else if (graphMode.compare("FinalScore") == 0)
 		mode = 4;
 
-	Rva00867268Series seriesA(mode);
-	Rva00867270Series seriesB(mode);
-	TimelineSeries *series;
+	Rva0051E716 seriesA(mode);
+	Rva0051E73E seriesB(mode);
+	Rva0051E716 *series;
 	if (m_gameType == 6 || m_gameType == 7)
 		series = &seriesB;
 	else
@@ -191,7 +189,7 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 	_STL::vector<AptTimeLinePlayer>::iterator player;
 	for (player = m_players.begin(); player != m_players.end(); ++player)
 	{
-		series->m_player = player;
+		series->m_array = player;
 		int count = series->count();
 		maxFrames = _STL::max(maxFrames, count);
 		// Recheck the series length after each sample.
@@ -220,7 +218,7 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 	for (player = m_players.begin(); player != m_players.end(); ++player)
 	{
 		unsigned int color = player->m_color & 0xFFFFFF;
-		series->m_player = player;
+		series->m_array = player;
 		int glowIndex = player - m_players.begin();
 		graph.rva0051E511(series, 1.0f, 3.0f, ((int)(m_focus[glowIndex] * 0.5f * 255.5)) << 24 | color);
 		int lineIndex = player - m_players.begin();
@@ -229,7 +227,7 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 
 	for (player = m_players.begin(); player != m_players.end(); ++player)
 	{
-		series->m_player = player;
+		series->m_array = player;
 		int last = series->count() - 1;
 		if (last >= 0)
 			graph.rva0051E664(series, last, (player->m_side == 4 || player->m_side == 3) ? 0 : m_sideImages[player->m_side]);

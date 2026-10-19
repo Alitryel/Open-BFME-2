@@ -1,6 +1,8 @@
-// ?rva0051E96B@Rva0051E96B@@UAEMH@Z @0x0051E96B, 103 bytes.
-// Target evidence: virtual slot 1 at 0x00867270 (sibling slot at 0x00867278
-// rowed 0x0051E9D2); bounds an index against 20-byte records; switch on
+// ?value@Rva0051E716@@UAEMH@Z @0x0051E96B, 103 bytes.
+// Target evidence: slot 1 of table RVA 0x00867268 is this existing owner;
+// table RVA 0x00867270 instead uses sibling 0x0051E9D2. The constructor/count
+// pair at 0x0051E716/0x0051E72C establishes the concrete series relationship.
+// Bounds an index against 20-byte records; switch on
 // selector with cases 0,1,2,4 (3 missing, like sibling's missing 2).
 // Record layout from retail loads: int +0x04, float +0x08, shorts +0x0C/+0x0E.
 // Array pad 0x14 from begin/end offsets (sibling uses 0x20).
@@ -22,21 +24,39 @@ struct Rva0051E96BArray
 	char *end;
 };
 
-class Rva0051E96B
+// Consuming two-slot interface; original class and inheritance names remain unknown.
+class __declspec(novtable) TimelineSeries
 {
 public:
-	virtual float rva0051E96B(int index);
-
-private:
-	Rva0051E96BArray *m_array;
-	int m_selector;
+    virtual int count() = 0;
+    virtual float value(int index) = 0;
 };
 
-float Rva0051E96B::rva0051E96B(int index)
+// Existing constructor owners: native 12-byte series, table RVAs 867268/867270.
+// The opaque row points at the player's native record ranges; it is not a new
+// claim about the original source type or ownership of those fields in a base.
+class Rva0051E716 : public TimelineSeries
+{
+public:
+    Rva0051E716(int selector) { m_array = 0; m_selector = selector; }
+    virtual int count();
+    virtual float value(int index);
+    void *m_array;
+    int m_selector;
+};
+class Rva0051E73E : public Rva0051E716
+{
+public:
+    Rva0051E73E(int selector) : Rva0051E716(selector) {}
+    virtual int count();
+    virtual float value(int index);
+};
+
+float Rva0051E716::value(int index)
 {
 	if (index >= 0)
 	{
-		Rva0051E96BArray *array = m_array;
+		Rva0051E96BArray *array = reinterpret_cast<Rva0051E96BArray *>(m_array);
 		char *beginRef = array->begin;
 		int count = (array->end - array->begin) / 20;
 		if ((unsigned)index <= (unsigned)count)
