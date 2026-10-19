@@ -65,7 +65,7 @@ public:
 	unsigned char m_bfmeKind;				// +0x00
 	unsigned char m_bfmeGap[3];				// +0x01
 	int m_bfmeValue;					// +0x04
-	// Retail ??1Gen_008812D0 passes element size 12 to the vector
+	// Retail ??1TaintManagerImpl passes element size 12 to the vector
 	// destructor helper, so BFME2 cells carry one more word than BFME1's
 	// 8-byte cells. No landed body reads it yet; purpose unestablished.
 	int m_bfmeExtra;					// +0x08
@@ -81,17 +81,26 @@ void operator delete[]( void *block );
 
 class GridXferView;
 
+// Retail calls an empty grid method here that /OPT:ICF folded onto a shared
+// empty body (0x0069E440, rowed as an STL destructor). Its pin predates the
+// class name and that address cannot take a second spelling, so the calls
+// keep the pinned name through this one-method view.
 class Gen_008812D0
 {
 public:
 	void bfmeReset();
+};
+
+class TaintManagerImpl
+{
+public:
 	void bfmeSetRegion(const Region3D *region, Real cellSize);
 	void bfmeConfigure(Region3D region, Real cellSize);
 	void bfmeApplyCircle(int x, int y, int radius, int amount, bool absolute, int mode);
 	int rva006C0E40(const BfmePointFC *point, int *extra);
 	int rva006C0E70(int x, int y);
 	void rva006C0F50(GridXferView *xfer);
-	~Gen_008812D0();
+	~TaintManagerImpl();
 
 	friend class BfmeTaintManager;
 
@@ -116,13 +125,13 @@ public:
 
 private:
 	unsigned char m_bfmeHead[0x10 - 4];				// +0x04
-	Gen_008812D0 *m_bfmeGrid;				// +0x10
+	TaintManagerImpl *m_bfmeGrid;				// +0x10
 };
 
 // ?bfmeResetGrid@BfmeTaintManager@@UAEXXZ
 void BfmeTaintManager::bfmeResetGrid()
 {
-	m_bfmeGrid->bfmeReset();
+	((Gen_008812D0 *)m_bfmeGrid)->bfmeReset();
 
 	Region3D region;
 	bfmeZeroCoord3D(region.lo);
@@ -130,8 +139,8 @@ void BfmeTaintManager::bfmeResetGrid()
 	m_bfmeGrid->bfmeSetRegion(&region, 0.0f);
 }
 
-// ?bfmeSetRegion@Gen_008812D0@@QAEXPBURegion3D@@M@Z
-void Gen_008812D0::bfmeSetRegion(const Region3D *region, Real cellSize)
+// ?bfmeSetRegion@TaintManagerImpl@@QAEXPBURegion3D@@M@Z
+void TaintManagerImpl::bfmeSetRegion(const Region3D *region, Real cellSize)
 {
 	if (cellSize <= 0.0f)
 		cellSize = m_bfmeCellSize;
@@ -143,11 +152,11 @@ void Gen_008812D0::bfmeSetRegion(const Region3D *region, Real cellSize)
 	}
 }
 
-// ??1Gen_008812D0@@QAE@XZ at retail 0x006C0D70 (39B). Near-miss drift is a
+// ??1TaintManagerImpl@@QAE@XZ at retail 0x006C0D70 (39B). Near-miss drift is a
 // single literal: push 0x0C (BFME1 pushes 0x08) -- the array-delete helper
 // takes the element size, so BFME2 cells are 12 bytes (see BfmeCellFC).
 // B1 0x008813E0 -> B2 0x006C0D70, immediate-only drift.
-Gen_008812D0::~Gen_008812D0()
+TaintManagerImpl::~TaintManagerImpl()
 {
 	delete[] m_bfmeCells;
 }
@@ -164,7 +173,7 @@ void BfmeTaintManager::bfmeApplyCircleWorld(const BfmePointFC *point, Real radiu
 
 // ?rva006C0850@BfmeTaintManager@@QAEHPBUBfmePointFC@@PAH@Z @ 0x006C0850 8B
 // Honest address name: tail-jmp thunk loading grid at +0x10 then jumping to
-// rowed Gen_008812D0::rva006C0E40. Same (point extra) signature forwards.
+// rowed TaintManagerImpl::rva006C0E40. Same (point extra) signature forwards.
 // Evidence: chain from 0x006C0E40 landing, mov ecx [ecx+0x10] plus jmp shape,
 // BfmeTaintManager grid at +0x10, callers in 0x0049B98A.
 int BfmeTaintManager::rva006C0850(const BfmePointFC *point, int *extra)
@@ -174,7 +183,7 @@ int BfmeTaintManager::rva006C0850(const BfmePointFC *point, int *extra)
 
 // ?rva006C0840@BfmeTaintManager@@QAEEHH@Z @ 0x006C0840 8B
 // Honest address name: tail-jmp thunk loading grid at +0x10 then jumping to
-// rowed Gen_008812D0::rva006C0E70. Same (x y) signature forwards.
+// rowed TaintManagerImpl::rva006C0E70. Same (x y) signature forwards.
 // Evidence: chain from 0x006C0E70 landing, mov ecx [ecx+0x10] plus jmp shape,
 // BfmeTaintManager grid at +0x10.
 unsigned char BfmeTaintManager::rva006C0840(int x, int y)
@@ -188,7 +197,7 @@ unsigned char BfmeTaintManager::rva006C0840(int x, int y)
 // plus jmp shape, BfmeTaintManager primary vtable 0x00CE7B84 slot 10.
 void BfmeTaintManager::rva006C07F0()
 {
-	m_bfmeGrid->bfmeReset();
+	((Gen_008812D0 *)m_bfmeGrid)->bfmeReset();
 }
 
 struct BfmeFlagPair
@@ -223,7 +232,7 @@ public:
 
 private:
 	char m_bfmeHead[4];
-	Gen_008812D0 *m_bfmeSink;
+	TaintManagerImpl *m_bfmeSink;
 };
 
 void Gen_006C0A20::bfmeDescribe(BfmeFlagTarget *target)

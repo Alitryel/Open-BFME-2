@@ -7655,7 +7655,7 @@ name,address,notes
 ?bfmeCompare1294@AsciiString@@QBEHPBD@Z,0x000069B1,callee of ?parseEmbedPortal@W3DModelDrawModuleData@@SAXPAVINI@@PAX1PBX@Z at retail 0x000C39F5 read from its REL32 displacement; donor ABI view of the rowed ?compare@?$StringBase@D@@QBEHPBD@Z body at this address
 ?bfmeComputeBVID@BfmePartBVID@@QAEHXZ,0x00195CC0
 ?bfmeComputeVID@BfmePartVID@@QAEHXZ,0x00195BC0
-?bfmeConfigure@Gen_008812D0@@QAEXURegion3D@@M@Z,0x006C11E0
+?bfmeConfigure@TaintManagerImpl@@QAEXURegion3D@@M@Z,0x006C11E0
 ?bfmeConvertUVB@@YAHPADPAPAX@Z,0x00673AE0
 ?bfmeCopyBZD@@YAXPADPBDI@Z,0x0062983E
 ?bfmeCopyCD@@YAPAUBfmeElemCD@@PBU1@0PAU1@ABUBfmeFalseCD@@@Z,0x006BEEC0,retail 6BF6F0 verified call graph; alias to existing native copy/fill/string body; dispatch tag unused
@@ -8054,7 +8054,7 @@ name,address,notes
 ?bfmeSetDYF@BfmeGlobDYF@@QAEX_N@Z,0x001EE5BE,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeSetESI@BfmeStateESI@@QAEXH@Z,0x0066D830
 ?bfmeSetGM@BfmeDerivedGM@@QAEXPAX@Z,0x00665600
-?bfmeSetRegion@Gen_008812D0@@QAEXPBURegion3D@@M@Z,0x006C1500
+?bfmeSetRegion@TaintManagerImpl@@QAEXPBURegion3D@@M@Z,0x006C1500
 ?bfmeSetSizeVLR@Rva007EB8B0Log@@QAEXH@Z,0x00658730
 ?bfmeSetTGB@BfmeSubTGB@@QAEXH@Z,0x00291C9B,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeSetText@BfmeAptWindowManager@@QAEXABVAsciiString@@ABVUnicodeString@@_N@Z,0x00225301,recovered APT binding text setter; key lookup at manager+0x48 and UnicodeString update at binding+0xC; thiscall ret12

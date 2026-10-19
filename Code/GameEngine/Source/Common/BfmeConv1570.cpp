@@ -4,7 +4,7 @@
 // Twin of the Y converter at 0x008F74B0: both floor a world coordinate
 // relative to an origin and scaled by the cell-size reciprocal, then
 // truncate with a bare fistp. Same floor-import plus __asm truncation
-// idiom as the matched Gen_008812D0 helpers in Bfme5SeventySix.cpp; the
+// idiom as the matched TaintManagerImpl helpers in Bfme5SeventySix.cpp; the
 // X half reads the origin at +0x04, the Y half the origin at +0x08, and
 // both share the scale at +0x20 with the converted bounds-checked cell
 // lookup ?bfmeAt@Gen_008F7CD0@@QBEPAVBfmeCellFD@@HH@Z at 0x008F7CD0.

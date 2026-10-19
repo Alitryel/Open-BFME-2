@@ -2,7 +2,7 @@
 // Sibling of rowed ??0CollisionManager@@QAE@XZ at 0x00758250 (146B).
 // Retail 0x006C08F0 (143B) is BfmeTaintManager's constructor. It has the
 // same SubsystemInterface+Snapshot base layout, the same SEH frame and the
-// same base ctor call 0x001B4E63; it allocates the 0x30-byte Gen_008812D0
+// same base ctor call 0x001B4E63; it allocates the 0x30-byte TaintManagerImpl
 // grid at 0x006C1490 and stores it at +0x10. The only encoded delta is the
 // allocation size: 0x30 fits in a signed byte, so push imm8 shortens the
 // body by three bytes versus the template's push 0xC070.
@@ -24,11 +24,11 @@ private:
 
 // The grid type is fully defined in BfmeGridRasterCircle.cpp; this unit only
 // needs its 0x30-byte size and the rowed constructor at 0x006C1490.
-class Gen_008812D0
+class TaintManagerImpl
 {
 public:
-	Gen_008812D0();
-	~Gen_008812D0();
+	TaintManagerImpl();
+	~TaintManagerImpl();
 
 private:
 	unsigned char m_data[0x30];
@@ -47,12 +47,12 @@ public:
 	virtual void loadPostProcess();
 
 private:
-	Gen_008812D0 *m_grid;
+	TaintManagerImpl *m_grid;
 };
 
 BfmeTaintManager::BfmeTaintManager()
 {
-	m_grid = new Gen_008812D0;
+	m_grid = new TaintManagerImpl;
 }
 
 // Retail 0x006C09A0 (115B), the destructor the scalar deleting destructor at
