@@ -1342,12 +1342,8 @@ address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E09E60	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E0C150	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E176A0	2
-address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6344	3
-address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6348	3
 address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6354	3
 address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6358	3
-address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6364	3
-address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DB6368	3
 address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DEE86C	3
 address_global	Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	g_Va00DEE870	3
 address_global	Code/GameEngine/Source/Common/Rva007E9A50Lookups.cpp	g_Rva012C37F8	2

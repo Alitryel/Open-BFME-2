@@ -58,16 +58,31 @@ void __cdecl rva007B7024()
 
 void operator delete[](void *p);
 
-// g_Va00DB6344 / g_Va00DB6348: global pointer pair at VA 0x00DB6344/48.
-void *g_Va00DB6344;
-void *g_Va00DB6348;
+// VA 0x00DB6344 and 0x00DB6364 start meshmdl_sidehash.cpp's LocationHash and
+// SideHash (16-byte HashTemplateClass objects: Hash, Table, First, Size); the
+// two pointer pairs these bodies free are their Hash/Table members, the
+// ~HashTemplateClass teardown. A layout-only view reaches the defined
+// objects instead of second datums at their addresses.
+class Vector3;
+struct TriangleSide;
+struct SideIndexInfo;
+template <class KeyType, class ValueType> class HashTemplateClass
+{
+public:
+	int *Hash;
+	void *Table;
+	int First;
+	unsigned int Size;
+};
+extern HashTemplateClass<Vector3, unsigned> LocationHash;
+extern HashTemplateClass<TriangleSide, SideIndexInfo> SideHash;
 
 void __cdecl rva007B71D0()
 {
-	if (g_Va00DB6344 != 0)
-		operator delete[](g_Va00DB6344);
-	if (g_Va00DB6348 != 0)
-		operator delete[](g_Va00DB6348);
+	if (LocationHash.Hash != 0)
+		operator delete[](LocationHash.Hash);
+	if (LocationHash.Table != 0)
+		operator delete[](LocationHash.Table);
 }
 
 // g_Va00DB6354 / g_Va00DB6358: global pointer pair at VA 0x00DB6354/58.
@@ -81,16 +96,12 @@ void __cdecl rva007B7200()
 	if (g_Va00DB6358 != 0)
 		operator delete[](g_Va00DB6358);
 }
-// 0x007B7230 (35B): target bytes show a second guarded delete[] pair at the
-// consecutive global pointer slots VA 0x00DB6364/0x00DB6368. The owners are
-// unknown; the function name is address-derived like its neighboring pair.
-void *g_Va00DB6364;
-void *g_Va00DB6368;
-
+// 0x007B7230 (35B): the same teardown over SideHash's Hash/Table pair at
+// VA 0x00DB6364/0x00DB6368.
 void __cdecl rva007B7230()
 {
-	if (g_Va00DB6364 != 0)
-		operator delete[](g_Va00DB6364);
-	if (g_Va00DB6368 != 0)
-		operator delete[](g_Va00DB6368);
+	if (SideHash.Hash != 0)
+		operator delete[](SideHash.Hash);
+	if (SideHash.Table != 0)
+		operator delete[](SideHash.Table);
 }
