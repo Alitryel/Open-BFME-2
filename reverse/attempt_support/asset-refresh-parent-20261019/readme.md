@@ -66,3 +66,14 @@ hashes in remaining.json refer to the diagnostic source before comment-only
 bank header cleanup; bank_body_sha256 covers its identical #include/body
 portion. No external decoder or unsupported reference source was read.
 About twenty minutes of parent trials; model gpt-6.1-sol.
+
+Follow-up: native and the official STLport header independently establish the
+40-byte queue layout and its public iterator-base fields. A new read-only
+cursor view tested the size arithmetic directly, both factored and per queue.
+Factoring emits3253B and changes the frame/register allocation; direct counts
+emit3160B and hoist almost the entire sum before the branch. Restoring exactly
+the header's signed-difference arithmetic still emits the same3160B. This
+rules out container-inlining overhead as an easy lowering fix. No view or
+changed arithmetic was added to the strongest bank or Code/. The three
+actual-binding measurements and independent zero-context patches are in
+cursor-trials.json and cursor-trials.patch. About three minutes, same model.
