@@ -1,33 +1,21 @@
 // ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
+// partial score=0.9747292418772563 date=2026-10-20
+// ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
 // partial score=0.9747292418772563 date=2026-10-19
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /DNDEBUG
 // stlport
-// Notes kept from the earlier banks of this body:
-// w9-o3: farm best (nd 10) with the 1?: empty test replaced by message.isEmpty(); still needs the (ok ? end : end) read for retail regalloc; residue: retail constructs names after the sels test (inside the else) - inner scope moves zero reg to ebx and shrink-wraps esi/edi (nd 126)
-// farm best: 12 instruction differences (retail 554 B); key 2c169cb56a95a5104f6b
-// Banked GameSpyInfo::sendChat reconstruction, retail 0x001EFD9C..0x001EFFC6.
-// WB 0x00B01080 (Chat.cpp:166) and retail vtable VA0x00C19500 slot64 name
-// the body. BFME1 cee35b7d8ca077d7255f1c39cb69e9fd9627aa85 donor
-// game/GameEngine/Source/GameNetwork/GameSpy/GameSpyInfoSendChat.cpp was
-// compiled with BFME2 tools (zero placements). It supplies the chat flow;
-// BFME2 replaces its listbox with begin/end profile-ID pointers.
-// Retail and WB prove trim/empty return, request tags3/2, queue slot6,
-// GameSpy slots12/22/23/29 and the format/concat loop. Returned player
-// pointers are viewed only through their first AsciiString, not a full type.
-// PeerRequest's owned constructor/destructor are 0x1EF661/0x1EF723.
-// IMPORTANT corrections to the earlier bank: the vector<bool> ends at118;
-// the action byte is the FIRST byte of the union there (not eight later).
-// Reload message.str() AFTER PeerRequest construction: retail reloads the
-// by-value argument and retains its null fallback. The old cached pointer
-// incorrectly let the compiler eliminate that reload and fallback.
-// Current body:563B vs554, allREL32 calls resolved; fixed-offset byte
-// agreement only113/554 (0.204). No claim that the old0.65 score was exact
-// byte agreement. Retail promotes the third argument to EDI and reuses its
-// stack slot for string temporaries; this still spills it and reserves4
-// extra frame bytes. Early-return variant576B, vector variant571B; sibling
-// /G7 /arch:SSE flags do not help. Nothing integrated into Code/.
-// Begin/end int-pointer pair retail threads through the third slot.
-// Strict pointee type unproven; elements are consumed as Int profileIDs.
+// Banked recovery: retail 0x001EFD9C..0x001EFFC6, 554 bytes.
+// Same resolved 14-byte stack-home swap as the prior best bank, now with
+// ordinary count/iterator methods instead of an equal-arm conditional artifact.
+// SelPair is only the witnessed begin/end prefix of profile-ID selections;
+// no complete container layout, original class name, or capacity is asserted.
+// Retail vtable VA0x00C19500 slot64 and WB callgraph identify sendChat;
+// address-derived receiver name is retained. PlayerInfo exposes only its
+// leading AsciiString. Request ctor/dtor: 0x1EF661/0x1EF723; action at +0x118.
+// message.str() must reload after request construction; retail does so.
+// Native names uses ebp-0x10, transient strings reuse dead sels at ebp+0x10;
+// this bank chooses the opposite homes. All other resolved bytes agree.
+// Handoff: reverse/attempt_support/chat-prefix-20261020/readme.md.
 #include <string>
 #include <vector>
 
@@ -88,10 +76,12 @@ extern GameSpyPeerMessageQueueInterface *TheGameSpyPeerMessageQueue;
 
 
 // Retail consumes begin/end pointers to profile IDs; the full selector type is unproven.
-struct SelPair
-{
-	int *begin;
-	int *end;
+struct SelPair {
+  int *first; int *last;
+  int *begin() const { return first; }
+  int *end() const { return last; }
+  unsigned size() const { return last-first; }
+  bool empty() const { return first==last; }
 };
 
 struct PlayerInfo
@@ -130,7 +120,7 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 		PeerRequest rec;
 		rec.unknown_10 = message.str();
 		if (sels == 0
-			|| (((reinterpret_cast<const char *>((isAction ? sels->end : sels->end)) - reinterpret_cast<const char *>(sels->begin)) & ~3) == 0))
+			|| sels->size() == 0)
 		{
 			rec.msgAction.action = isAction;
 			rec.unknown_00 = 3;
@@ -146,7 +136,7 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 					names.format("%s", found->m_name.str());
 				else
 					names.format("%s", TheGameSpyInfo->getLocalName().str());
-				for (int *p = sels->begin; p != sels->end; ++p)
+				for (int *p = sels->begin(); p != sels->end(); ++p)
 				{
 					PlayerInfo *info = TheGameSpyInfo->rva00382D0A(*p);
 					if (info)
