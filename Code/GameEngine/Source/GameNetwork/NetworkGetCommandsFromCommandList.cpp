@@ -170,7 +170,7 @@ struct Rva0025E75FLogic
 class NetworkInterface
 {
 public:
-	void rva0025E539(NetWrapperCommandMsg *msg);	// 0x0025E539, ProcessDestroyPlayerCommand
+	void ProcessDestroyPlayerCommand(NetWrapperCommandMsg *msg);	// 0x0025E539
 };
 
 class Rva0025E4CD : public Rva0025E75FSlots<46>
@@ -247,7 +247,7 @@ void Rva0025E4CD::rva0025E75F()
 			Rva004D57AE *cmd = new Rva004D57AE;
 			cmd->m_0C = getLocalPlayerID();
 			cmd->setPlayerIndex(getLocalPlayerID());
-			((NetworkInterface *)this)->rva0025E539((NetWrapperCommandMsg *)cmd);
+			((NetworkInterface *)this)->ProcessDestroyPlayerCommand((NetWrapperCommandMsg *)cmd);
 			cmd->detach();
 		}
 		m_localStatus = 2;

@@ -214,7 +214,7 @@ public:
 	void OnScrollBarUnloaded(const char *unused);
 	void OnExpandButtonClicked(const char *unused);
 	void OnScrollBarLoaded(const char *name);
-	void rva0057B499();
+	void Update();
 	// The rowed collapse and expand bodies (WorldBuilder names; "CloseList"
 	// and "OpenList" Apt calls).
 	void Close();
@@ -281,7 +281,7 @@ void StrategicHUD::ChecklistUIImpl::OnScrollBarLoaded(const char *name)
 // update, reached from the HUD's (0x0042D577) on its +0x30 slot: enables the
 // expand button, runs the pending 0x0057B217, enables and updates the scroll
 // bar, expands a closed panel that asked to, and updates every item.
-void StrategicHUD::ChecklistUIImpl::rva0057B499()
+void StrategicHUD::ChecklistUIImpl::Update()
 {
 	SetExpandButtonEnabled(true);
 	if (m_38)

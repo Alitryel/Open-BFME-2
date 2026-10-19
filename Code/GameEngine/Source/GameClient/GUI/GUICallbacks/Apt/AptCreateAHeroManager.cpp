@@ -16,7 +16,7 @@ class Image {public:char prefix[0x24];int width;};
 class ImageCollection {public:const Image *findImageByName(const AsciiString &);};
 extern ImageCollection *TheMappedImageCollection;
 enum NameKeyType;
-class CreateAHeroData {public:unsigned rva00408109(const NameKeyType *);char prefix[8];UnicodeString name;unsigned major,minor;char gap[0x48-0x14];bool isDefault;};
+class CreateAHeroData {public:unsigned GetStatValue(const NameKeyType *);char prefix[8];UnicodeString name;unsigned major,minor;char gap[0x48-0x14];bool isDefault;};
 class Rva0040A3F9 {public:unsigned *first,*last,*limit;bool rva0040A441(CreateAHeroData *);};
 class CreateAHeroManager {public:Rva0040A3F9 *rva0021F797();const AsciiString &GetSubClassNameTag(unsigned,unsigned);};
 extern CreateAHeroManager *TheCreateAHeroManager;
@@ -144,7 +144,7 @@ void AptCreateAHero::Manager::rva005B5F2E() {
    int key=reinterpret_cast<Rva00406E65 *>(hero)->rva00406E65(i);
    StatRecord *record=reinterpret_cast<StatRecord *>(reinterpret_cast<Rva0040BAD0 *>(g_00E02F74)->rva0040AAF8(key));
    if(record) {
-    unsigned count=hero->rva00408109(reinterpret_cast<const NameKeyType *>(record));
+    unsigned count=hero->GetStatValue(reinterpret_cast<const NameKeyType *>(record));
     UnicodeString text;
     text.format(L"%d",count);
     int row=GadgetListBoxAddEntryText(otherWindow,TheGameText->fetchLabel(record->label),-1,-1,0,true);

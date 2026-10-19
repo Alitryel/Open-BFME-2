@@ -31,7 +31,7 @@ class CommandList {public:
  virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();virtual void slot7();virtual void slot8();virtual void slot9();virtual void slot10();virtual void slot11();virtual void slot12();virtual void slot13();virtual void append(GameMessage*);
 };
 extern CommandList *TheCommandList;
-class NetworkInterface {public:void rva0025E539(NetWrapperCommandMsg*);};
+class NetworkInterface {public:void ProcessDestroyPlayerCommand(NetWrapperCommandMsg*);};
 class Rva0025E4CD {public:
  virtual void slot0();
  virtual void slot1();
@@ -117,7 +117,7 @@ void Rva0025E4CD::rva0025E5F4() {
    } else if(manager->processPlayerLeave(player)==1)state=2;
    ((Rva0023D201StatusView*)TheGameLogic)->rva0023D201(player,1);break;
   }
-  case 11:((NetworkInterface*)this)->rva0025E539((NetWrapperCommandMsg*)command);break;
+  case 11:((NetworkInterface*)this)->ProcessDestroyPlayerCommand((NetWrapperCommandMsg*)command);break;
   case 30:TheGameLogic->ProcessSaveGameCommand((Rva0023E928*)command,true);break;
   }
  }

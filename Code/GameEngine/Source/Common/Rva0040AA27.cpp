@@ -13,7 +13,7 @@
 enum NameKeyType { NAMEKEY_INVALID=0, FORCE_NAMEKEYTYPE_LONG=0x7fffffff };
 class NameKeyGenerator { public: const AsciiString &keyToName(NameKeyType); };
 extern NameKeyGenerator *TheNameKeyGenerator;
-class CreateAHeroData { public: bool rva004080DD(const AsciiString&, unsigned int*); };
+class CreateAHeroData { public: bool GetStat(const AsciiString&, unsigned int*); };
 class Rva0040A7D5 { public: int rva0040A7D5(int) const; };
 
 class Rva0040A99AElem
@@ -68,7 +68,7 @@ bool Rva0040A99AElem::rva0040A99A(int context)
 		unsigned int amount = 0;
 		AsciiString name = TheNameKeyGenerator->keyToName(
 			(NameKeyType)((const Rva0040A7D5 *)this)->rva0040A7D5(i));
-		if (((CreateAHeroData *)context)->rva004080DD(name, &amount))
+		if (((CreateAHeroData *)context)->GetStat(name, &amount))
 			total += amount;
 	}
 	return total >= m_required;

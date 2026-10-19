@@ -194,7 +194,7 @@ class ChecklistUIImpl
 public:
  ChecklistUIImpl(int level,const AsciiString &name);
  virtual ~ChecklistUIImpl();
- void rva0057B499();
+ void Update();
 private:
  unsigned char m_pad004[0x50-4];
 };
@@ -538,7 +538,7 @@ void StrategicHUD::HUD::Impl::rva0042D577()
 		if (m_statsDisplay.m_ptr != 0)
 			((Rva000B3FD0Nop *)m_statsDisplay.m_ptr)->noop();
 		if (m_checklist.m_ptr != 0)
-			((StrategicHUD::ChecklistUIImpl *)m_checklist.m_ptr)->rva0057B499();
+			((StrategicHUD::ChecklistUIImpl *)m_checklist.m_ptr)->Update();
 		if (m_selectionDetails.m_ptr != 0)
 			((StrategicHUD::SelectionDetailsUIImpl *)m_selectionDetails.m_ptr)->rva0057BBBB();
 		if (m_newTurnIndicator.m_ptr != 0)

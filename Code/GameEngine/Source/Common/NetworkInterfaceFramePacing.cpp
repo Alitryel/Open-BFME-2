@@ -51,7 +51,7 @@ public:
 	virtual void slot21(void);
 	virtual void slot22(void);
 	int getFramePacingStatus(void);
-	void rva0025E539(NetWrapperCommandMsg *msg);
+	void ProcessDestroyPlayerCommand(NetWrapperCommandMsg *msg);
 	virtual void slot23(void);
 	virtual void slot24(void);
 	virtual void slot25(void);
@@ -112,7 +112,7 @@ int NetworkInterface::getFramePacingStatus(void)
 	return 2;
 }
 
-// ?rva0025E539@NetworkInterface@@QAEXPAVNetWrapperCommandMsg@@@Z at 0x0025E539 (187B).
+// ?ProcessDestroyPlayerCommand@NetworkInterface@@QAEXPAVNetWrapperCommandMsg@@@Z at 0x0025E539 (187B).
 // Thiscall handler: slot index from NetWrapperCommandMsg::getData, GameSlot name
 // to NameKey to Player, new Rva0030F47A((void*)0x448) with bool true, +0x14 from
 // Player+0x54, virtual send at +0x38 on global 0xA00954. Evidence: caller
@@ -209,7 +209,7 @@ public:
 
 #define TheMessageTarget (*(MessageTarget **)&TheCommandList)
 
-void NetworkInterface::rva0025E539(NetWrapperCommandMsg *msg)
+void NetworkInterface::ProcessDestroyPlayerCommand(NetWrapperCommandMsg *msg)
 {
 	unsigned int idx = (unsigned int)msg->getData();
 	if (idx >= 8)
