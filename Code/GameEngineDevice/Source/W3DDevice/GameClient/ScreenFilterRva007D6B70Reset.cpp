@@ -46,15 +46,19 @@ public:
 
 struct IDirect3DDevice8;
 
+class Rva007D6B70;
+
 class DX8Wrapper
 {
+	friend class Rva007D6B70;
 public:
 	static void Invalidate_Cached_Render_States(void);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
-	static IDirect3DBaseTexture8 *Textures[16];
 
 protected:
 	static IDirect3DDevice8 *D3DDevice;
+	static IDirect3DBaseTexture8 *Textures[16];
+	static unsigned texture_changes;
 };
 
 typedef long (__stdcall *BfmeFilterSetTextureFn)(void *device, unsigned long stage, void *texture);
@@ -82,9 +86,8 @@ static __forceinline void filterSetPixelShader(void *shader)
 // - Textures[0..15] base VA 0x00DEC4B0 (RVA 0x009EC4B0, 16x4=64B per
 //   data_xrefs rows 21910-21914: 4+4+4+4+48); reset touches stages 0..4 =
 //   VAs B0/B4/B8/BC/C0, i.e. Textures[0]+0/4/8/12/16 addends. SOLE storage is
-//   dx8wrapper.cpp:172; this TU declares the array public (mangling 2) and
-//   binds it with ONE array alias below to home protected (mangling 1).
-//   No per-stage whole-array alias; no private COM-type globals.
+//   dx8wrapper.cpp:172; this TU declares it protected (mangling 1) like
+//   its home. No per-stage whole-array alias; no private COM-type globals.
 // - D3DDevice VA 0x00DEDA34 (RVA 0x009EDA34, 739 refs): SOLE storage
 //   dx8wrapper.cpp:180 `IDirect3DDevice8 *DX8Wrapper::D3DDevice`; this TU
 //   spells the same protected `?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A`
@@ -96,15 +99,11 @@ static __forceinline void filterSetPixelShader(void *shader)
 //   dx8wrapper.cpp:192 `unsigned DX8Wrapper::texture_changes`; consecutive-
 //   layout chain (matrix 4C/doc, material 50, vertex 54, index 58, light 5C,
 //   TEXTURE 60, render_state 64, stage 68, draw 6C) + SetTexture(+both)/
-//   SetPixelShader(+calls only) behavior pairing per seat-45-r7. Bound the
-//   same global-to-member way as g_00DEDA4C->matrix_changes precedent.
+//   SetPixelShader(+calls only) behavior pairing per seat-45-r7.
 // All addresses DIR32-masked by the gate, never hardcoded.
+// The view above declares Textures and texture_changes protected, as their
+// home does, and befriends the reset, so both resolve by name.
 extern unsigned int number_of_DX8_calls;
-extern unsigned g_00DEDA60;
-// ?g_00DEDA60@@3IA: the global at VA 0xdeda60 is ?texture_changes@DX8Wrapper@@1IA.
-#pragma comment(linker, "/alternatename:?g_00DEDA60@@3IA=?texture_changes@DX8Wrapper@@1IA")
-// TU-local public Textures -> home protected Textures (type-identical struct U).
-#pragma comment(linker, "/alternatename:?Textures@DX8Wrapper@@2PAPAUIDirect3DBaseTexture8@@A=?Textures@DX8Wrapper@@1PAPAUIDirect3DBaseTexture8@@A")
 
 class Rva007D6B70
 {
@@ -127,7 +126,7 @@ void Rva007D6B70::reset(void)
 		DX8Wrapper::Textures[0] = 0;
 		filterSetTexture(0, 0);
 		++number_of_DX8_calls;
-		++g_00DEDA60;
+		++DX8Wrapper::texture_changes;
 	}
 	if (DX8Wrapper::Textures[1])
 	{
@@ -135,7 +134,7 @@ void Rva007D6B70::reset(void)
 		DX8Wrapper::Textures[1] = 0;
 		filterSetTexture(1, 0);
 		++number_of_DX8_calls;
-		++g_00DEDA60;
+		++DX8Wrapper::texture_changes;
 	}
 	if (DX8Wrapper::Textures[2])
 	{
@@ -143,7 +142,7 @@ void Rva007D6B70::reset(void)
 		DX8Wrapper::Textures[2] = 0;
 		filterSetTexture(2, 0);
 		++number_of_DX8_calls;
-		++g_00DEDA60;
+		++DX8Wrapper::texture_changes;
 	}
 	if (DX8Wrapper::Textures[3])
 	{
@@ -151,7 +150,7 @@ void Rva007D6B70::reset(void)
 		DX8Wrapper::Textures[3] = 0;
 		filterSetTexture(3, 0);
 		++number_of_DX8_calls;
-		++g_00DEDA60;
+		++DX8Wrapper::texture_changes;
 	}
 	if (DX8Wrapper::Textures[4])
 	{
@@ -159,7 +158,7 @@ void Rva007D6B70::reset(void)
 		DX8Wrapper::Textures[4] = 0;
 		filterSetTexture(4, 0);
 		++number_of_DX8_calls;
-		++g_00DEDA60;
+		++DX8Wrapper::texture_changes;
 	}
 	filterSetPixelShader(0);
 	++number_of_DX8_calls;
