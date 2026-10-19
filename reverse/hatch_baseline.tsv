@@ -2017,8 +2017,7 @@ address_global	Code/Libraries/Source/WWVegas/WW3D2/SceneSpatialRescale.cpp	g_Rva
 address_global	Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp	g_Va00DEDA06	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	g_Va00DEDA34	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	g_Va00DEDA7C	1
-address_global	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	g_Va00DEDA14	5
-address_global	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	g_Va00DEDA20	4
+address_global	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	g_Va00DEDA14	4
 address_global	Code/Libraries/Source/WWVegas/WW3D2/fxshadersetup.cpp	g_Va00DB5FA0	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	g_Va00DEC3D7	2
 address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373BCTimerTicks	2
@@ -5287,7 +5286,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeThrow2V55@
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?bfmeThrow2V56@BfmeStrV56@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?g_Va00DEDA14@@3HA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?g_Va00DEDA20@@3EA	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?rva001216E7ShutdownPhase@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	?theDebug@@3RAVDebug@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	_D3DXCreateTexture@32	1
@@ -39926,12 +39924,8 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8rendererdebugger.cpp	Up
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Begin_Scene@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Compute_Caps@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Create_Render_Target@DX8Wrapper@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Do_Onetime_Device_Dependent_Inits@DX8Wrapper@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Draw@DX8Wrapper@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Draw_Sorting_IB_VB@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Flush_DX8_Resource_Manager@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_DX8_Render_State_Value_Name@DX8Wrapper@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_DX8_Texture_Stage_State_Value_Name@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_FrameCount@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Last_Frame_DX8_Calls@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Last_Frame_Draw_Calls@DX8Wrapper@@	1
@@ -39945,7 +39939,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Last_Fr
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Last_Frame_Vertex_Buffer_Changes@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Render_Device_Count@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Get_Swap_Interval@DX8Wrapper@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Set_Light_Environment@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Toggle_Windowed@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	Validate_Device@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp	_Get_D3D_Device8@DX8Wrapper@@	10

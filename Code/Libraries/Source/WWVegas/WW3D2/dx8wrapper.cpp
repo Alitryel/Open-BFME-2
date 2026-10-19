@@ -369,15 +369,16 @@ static unsigned char g_rva00DB621CFlag;
 // (named g_Va00DEDA14 in ColdGlobalDwordGetters.cpp), not
 // texture_stage_state_changes, which lives at 0x00DEDA68.
 extern int g_Va00DEDA14;
-// Retail byte at VA 0x00DEDA20 (RVA 0x009EDA20) written by 0x00125430;
-// no donor or getter claims it so the VA-derived name asserts only the address.
-extern unsigned char g_Va00DEDA20;
+// Retail byte at VA 0x00DEDA20 (RVA 0x009EDA20), written by 0x00125430, is
+// bfmeSkipFixedFunctionState (defined below), the flag Set_Light_Environment
+// and Apply_Render_State_Changes test.
+extern bool bfmeSkipFixedFunctionState;
 
 void DX8Wrapper::Invalidate_Cached_Render_States(void)
 {
 	unsigned zero=0;
 	render_state_changed=zero;
-	g_Va00DEDA14=zero;
+	Light_Environment=(LightEnvironmentClass*)zero;
 
 	unsigned a;
 	for (a=0;a<sizeof(RenderStates)/sizeof(unsigned);++a) {
@@ -1447,7 +1448,7 @@ bool DX8Wrapper::Set_Next_Render_Device(void)
 // Address-derived global name asserts only the RVA not the original spelling.
 void Rva00125430(bool enable)
 {
-	g_Va00DEDA20 = enable;
+	bfmeSkipFixedFunctionState = enable;
 	if (!enable) {
 		LightEnvironmentClass *tmp = reinterpret_cast<LightEnvironmentClass *>(g_Va00DEDA14);
 		g_Va00DEDA14 = 0;
@@ -4435,9 +4436,8 @@ void DX8Wrapper::Draw_Sorting_IB_VB(unsigned primitive_type,unsigned start_index
 #pragma comment(linker, "/alternatename:?g_BFMEIndexBufferDebug@@3PAVBFMEIndexBufferDebugClass@@A=?theDebug@@3PAVDebug@@A")
 #pragma comment(linker, "/alternatename:?TheGen001336E5C@@3PAVGen001336E5C@@A=?theDebug@@3PAVDebug@@A")
 #pragma comment(linker, "/alternatename:?theDebug@@3RAVDebug@@A=?theDebug@@3PAVDebug@@A")
-// ?bfmeSkipFixedFunctionState@@3_NA: matched references place it at VA 0xdeda20; also referenced as ?g_Va00DEDA20@@3EA.
+// ?bfmeSkipFixedFunctionState@@3_NA: matched references place it at VA 0xdeda20.
 bool bfmeSkipFixedFunctionState;
-#pragma comment(linker, "/alternatename:?g_Va00DEDA20@@3EA=?bfmeSkipFixedFunctionState@@3_NA")
 // ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at this VA is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 #pragma comment(linker, "/alternatename:?RendererPtr00DF363C@@3PAURendererFVFDeleteListView@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
@@ -4449,8 +4449,6 @@ float bfmeProjectionBias;
 #pragma comment(linker, "/alternatename:?bfmeProjectionNear@@3MA=?ZNear@DX8Wrapper@@1MA")
 // ?g_Va00DEDA14@@3HA: the global at VA 0xdeda14 is ?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A.
 #pragma comment(linker, "/alternatename:?g_Va00DEDA14@@3HA=?Light_Environment@DX8Wrapper@@1PAVLightEnvironmentClass@@A")
-// ?g_Va00DEDA20@@3EA: the global at VA 0xdeda20 is ?bfmeSkipFixedFunctionState@@3_NA.
-#pragma comment(linker, "/alternatename:?g_Va00DEDA20@@3EA=?bfmeSkipFixedFunctionState@@3_NA")
 // ?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A: the global at VA 0xdf363c is ?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A.
 #pragma comment(linker, "/alternatename:?BfmeResetMeshRendererInstance@@3PAUBfmeResetMeshRenderer@@A=?TheDX8MeshRenderer@@3PAVDX8MeshRendererClass@@A")
 // ?BfmeResetDebugInstance@@3PAVBfmeResetDebug@@A: the global at VA 0xde0880 is ?theDebug@@3PAVDebug@@A.
