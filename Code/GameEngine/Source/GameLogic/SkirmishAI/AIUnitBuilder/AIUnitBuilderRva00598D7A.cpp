@@ -178,6 +178,7 @@ public:
  bool Rva00598738(const AsciiString *);
  void registerUnitFactory(ObjectID);
  AsciiString decideWhichTemplateToMake();
+ int rva00598192(const AsciiString &);
 
 private:
 	unsigned char m_pad00[8];
@@ -315,7 +316,6 @@ extern Rva002A8F24 *g_00DFEEF8;
 // WB129B860 reads the same AsciiString reference; identity stays address-named.
 struct HeroEconomyStatsView {char pad[0x14];unsigned int available;};
 class Rva004DFBED {public:char pad[0x0c];HeroEconomyStatsView*economy;int rva004DFBED(const AsciiString&);};
-class Rva00598192 { public: int rva00598192(const AsciiString &); };
 int GetGameLogicRandomValue(int,int,char *,int);
 // WB152D170 names getHeroIndex; assertions200..225 and native165B agree.
 int AIUnitBuilder::getHeroIndex()
@@ -326,7 +326,7 @@ int AIUnitBuilder::getHeroIndex()
    while (i!=end) {
      int index=*i;
      AsciiString *name=&heroNames[index];
-     if (!stats->rva004DFBED(*name) && !((Rva00598192 *)this)->rva00598192(*name)) {
+     if (!stats->rva004DFBED(*name) && !rva00598192(*name)) {
        ((_STL::vector<void *> *)&removedHeroes)->erase((void **)i);
        heroIndex=index;
        break;
@@ -532,7 +532,7 @@ Rva00598C3AItem *AIUnitBuilder::createBestHeroToBuild()
    BuildableUnitTemplateView *thing=(BuildableUnitTemplateView *)TheThingFactory->findTemplate(*name);
    Object *factory=Rva005982EA(name,0,true);
    bool fits=thing->getQuantity()<cap;
-   bool existing=stats->rva004DFBED(*name)!=0 || ((Rva00598192 *)this)->rva00598192(*name)!=0;
+   bool existing=stats->rva004DFBED(*name)!=0 || rva00598192(*name)!=0;
    bool found=factory!=0;
    if (!existing && found) {
      ThingTemplate *costTemplate=(ThingTemplate *)TheThingFactory->findTemplate(*name);
