@@ -7777,7 +7777,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??_GRva002CEC0A@@UAEPAXI@Z,,0x002CEC18,28,Code/GameEngine/Source/Common/Rva002CEC0ADtor.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x2CEC0A; flag plus pinned operator delete (moved from OpaqueScalarDeletingDtors.cpp whose MI view emitted a wrong dtor COMDAT; this unit emits the vftable and the exact ??_G)
 ??1Rva00180EA0@@UAE@XZ,,0x00180EA0,11,Code/Libraries/Source/WWVegas/WWLib/FamilyDeletingDtorsO2.cpp,matched,opaque single-inheritance dtor (vptr 0xBD5090 + tail-jmp pinned base 0x61ED80); 30B ??_G variant stays blocked
 ??_GRva004E18A2@@UAEPAXI@Z,,0x004E1D16,28,Code/GameEngine/Source/Common/Rva004E18A2Dtor.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x4E18A2; flag plus pinned operator delete (moved from OpaqueScalarDeletingDtors.cpp whose MI view emitted a wrong dtor COMDAT; this unit emits the vftable and the exact ??_G)
-??_GRva0057C3B6@@UAEPAXI@Z,,0x0057C4E2,28,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x57C3B6; flag plus pinned operator delete
+??_GAptLoadMovieFrame@@UAEPAXI@Z,,0x0057C4E2,28,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x57C3B6; flag plus pinned operator delete
 ?winSetEnabledImage@GameWindow@@QAEHHPBVImage@@@Z,,0x003143B9,36,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
 ?winSetEnabledColor@GameWindow@@QAEHHH@Z,,0x003143DD,34,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
 ?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z,,0x003143FF,34,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp,matched,
@@ -8898,7 +8898,7 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?get@Rva0066EA50DwordField@@QBEHXZ,,0x0066EA50,4,Code/GameEngine/Source/Common/Disp8DwordFieldGetters.cpp,matched,Disp8 dword getter
 ?get@Rva0066EA60DwordField@@QBEHXZ,,0x0066EA60,4,Code/GameEngine/Source/Common/Disp8DwordFieldGetters.cpp,matched,Disp8 dword getter
 ??1Rva005C3F02@@UAE@XZ,,0x005C3F02,14,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,opaque dtor explicit clear call on member at +4; helper pin 0x5C3EE8
-??1Rva0057C3B6@@UAE@XZ,,0x0057C3B6,14,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,opaque dtor explicit clear call on member at +4; helper pin 0x57C39C
+??1AptLoadMovieFrame@@UAE@XZ,,0x0057C3B6,14,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp,matched,opaque dtor explicit clear call on member at +4; helper pin 0x57C39C
 ?get@Rva000788F8FloatField@@QBEMXZ,,0x000788F8,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x4E8; first of 6-contiguous cluster
 ?Blit_Char@FontCharsClass@@QAEXGPAGHHH@Z,,0x001587C0,215,Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassBlitChar.cpp,matched,BFME1 BFME-blit verbatim plus load helper; caller inside Build_Sentence_Not_Centered
 ?get@Rva000788FFFloatField@@QBEMXZ,,0x000788FF,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,BFME1 DispFloatFieldGetters port; 7B fld getter at disp 0x4EC; second of 6-contiguous cluster

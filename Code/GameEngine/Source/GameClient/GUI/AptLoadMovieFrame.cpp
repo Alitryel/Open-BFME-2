@@ -137,16 +137,21 @@ static __forceinline AsciiStringPlusString operator+(const AsciiString &left, co
 // The +0x14 content callback: a reference-counted functor released by the
 // rowed holder destructor 0x005F8F96 and fired through the rowed two-argument
 // invoke 0x001531F2.
-class Rva001531F2Ref
+// The holder is the TreeHintRef00217D4C LoadContent 0x0057C339 takes by
+// reference (its row's signature); its destructor is the rowed 0x005F8F96.
+struct TreeHintRef00217D4C
+{
+	TreeHintRef00217D4C() : m_ptr(0) {}
+	~TreeHintRef00217D4C();
+
+	TargetRef00217D4C *m_ptr;
+};
+
+class Rva001531F2Ref : public TreeHintRef00217D4C
 {
 public:
-	Rva001531F2Ref() : m_op(0) {}
-	~Rva001531F2Ref();
 	int invoke(int a, int b);
-	bool isSet() const { return m_op != 0; }
-
-private:
-	void *m_op;
+	bool isSet() const { return m_ptr != 0; }
 };
 
 class AptLoadMovieFrame

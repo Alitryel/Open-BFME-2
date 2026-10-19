@@ -501,25 +501,29 @@ private:
 	int m_pad04;
 };
 
-class Rva0057C3B6
+// AptLoadMovieFrame (WorldBuilder's name): its one-slot vftable 0x0086F304
+// holds the deleting destructor 0x0057C4E2, and the frame's constructor
+// 0x0057C499 (AptLoadMovieFrame.cpp) installs it; the member at +4 owns Impl.
+class AptLoadMovieFrame
 {
 public:
-	virtual ~Rva0057C3B6();
+	class Impl;
+	virtual ~AptLoadMovieFrame();
 
 private:
 	Rva0057C39C m_member04;
 };
 
-Rva0057C3B6::~Rva0057C3B6()
+AptLoadMovieFrame::~AptLoadMovieFrame()
 {
 	m_member04.clear();
 }
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva0057C3B6_Anchor(Rva0057C3B6 *p)
+void AptLoadMovieFrame_Anchor(AptLoadMovieFrame *p)
 {
-	p->Rva0057C3B6::~Rva0057C3B6();
+	p->AptLoadMovieFrame::~AptLoadMovieFrame();
 }
 
 class Rva00589079
@@ -992,11 +996,6 @@ struct TreeHintRef00217D4C
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 int Rva0050E9FEAptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const char **a0ptr);
-class AptLoadMovieFrame
-{
-public:
-	class Impl;
-};
 class AptLoadMovieFrame::Impl
 {
 public:
