@@ -1,134 +1,108 @@
 // ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
-// partial score=0.43240399789584427 date=2026-10-19
+// partial score=0.5 date=2026-10-19
 // ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
-// partial score=0.564596189995357 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
-// partial score=0.5535265037759391 date=2026-10-14
-// cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-// HTreeClass::Anim_Update, native0x162BB0..0x163A79 RET12.
-// ZH/BF1 htree.cpp at cee35b7d8ca077d7255f1c39cb69e9fd9627aa85 supplies the algorithm.
-// Native proves58-byte quaternion/translation pivots, two paths and channel cursor state.
-// Complete3783/3785-byte bank; large register and scheduling residue remains.
-// Capture_Update1622B0 is still unrowed; its preexisting pin resolves this trial.
-class Vector3
-{
-public:
-	Vector3() {}
-	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-	Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
- float X, Y, Z;
+// partial score=0.5 date=2026-10-19
+// Bank r3 (claude-opus-5-5): 68 structural regions under build/try.sh (prior bank 78). Compiles with
+// /Ibuild/htshim = a copy of the htree shim header adding 'int Capture_Update(int);' to HTreeClass (same as 0x163A80 bank).
+// Handoff: reverse/attempt_support/00162bb0-anim-update-r3-20261019.md
+// cl: /O2 /Ibuild/htshim /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+/*
+**	Command & Conquer Generals Zero Hour(tm)
+**	Copyright 2025 Electronic Arts Inc.
+**
+**	This program is free software: you can redistribute it and/or modify
+**	it under the terms of the GNU General Public License as published by
+**	the Free Software Foundation, either version 3 of the License, or
+**	(at your option) any later version.
+**
+**	This program is distributed in the hope that it will be useful,
+**	but WITHOUT ANY WARRANTY; without even the implied warranty of
+**	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**	GNU General Public License for more details.
+**
+**	You should have received a copy of the GNU General Public License
+**	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// stlport
+// ZH read_pivots adapted to the BFME 2 compact pivot ABI proven by
+// WorldBuilder HTreeClass::read_pivots and retail RVA 0x001614F0 (526 bytes).
+// BFME 1 donor revision: ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f.
+#include "htree.h"
+#include "chunkio.h"
+#include <string.h>
+#include <assert.h>
+struct S2CompactTransform {
+ Quaternion Q; Vector3 Position;
+ S2CompactTransform(){}
+ __forceinline explicit S2CompactTransform(const Matrix3D &m) {
+  Q=Build_Quaternion(m);
+  m.Get_Translation(&Position);
+ }
+ explicit S2CompactTransform(bool init):Q(init),Position(0.0f,0.0f,0.0f){}
 };
-
-__forceinline Vector3 operator + (const Vector3 &a, const Vector3 &b)
-{
-	return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+struct S2PivotView {
+ char Name[16]; S2PivotView *Parent;
+ S2CompactTransform Base,Current;
+ int Index; bool visible; float factor;
+};
+class HAnimClass;
+class S2CompactAnimView {
+public:
+ virtual void vt0();virtual void vt4();virtual void vt8();virtual void vtC();virtual void vt10();
+ virtual void vt14();virtual void vt18();virtual void vt1C();virtual void vt20();virtual void vt24();
+ virtual void rva_vt28(S2CompactTransform&,int,float)const;
+};
+static __forceinline void rotate(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+q.W*v.X;
+ float y=-(q.X*v.Z-q.Z*v.X)+q.W*v.Y;
+ float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
+ float w=0.0f-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
+ out->X=(q.Y*z-y*q.Z)+(q.W*x-q.X*w);
+ out->Y=(q.W*y-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=(q.X*y-q.Y*x)+(q.W*z-q.Z*w);
+}
+static __forceinline void compose(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate(a.Q,b.Position,&r);result.Position=r+a.Position;
+ result.Q=a.Q*b.Q;
 }
 
-class Matrix3D
-{
-public:
-	float Row[3][4];
-};
-
-class Quaternion
-{
-public:
-	Quaternion() {}
-	Quaternion(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
-
-	template<int Path> __forceinline void Multiply(const Quaternion &b) {
-		Quaternion a = *this;
-		if(Path==0) {
-		 float x=a.Y*b.Z-b.Y*a.Z; x+=a.W*b.X; x+=b.W*a.X; X=x;
-		} else {
-		 X=a.Y*b.Z-b.Y*a.Z; X+=b.W*a.X; X+=a.W*b.X;
-		}
-		Y = a.W*b.Y + b.W*a.Y - (a.X*b.Z - b.X*a.Z);
-		float z=a.X*b.Y-b.X*a.Y; z+=b.W*a.Z; z+=a.W*b.Z; Z=z;
-		if(Path==0) W=a.W*b.W-((a.X*b.X+a.Z*b.Z)+a.Y*b.Y);
-		else W=a.W*b.W-((a.Y*b.Y+a.Z*b.Z)+a.X*b.X);
-	}
-	Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;}
- float X, Y, Z, W;
-};
-
-template<int Order> __forceinline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
-{
-	float x = (v.Z*q.Y - q.Z*v.Y) + q.W*v.X;
-	float y = q.W*v.Y - (v.Z*q.X - q.Z*v.X);
-	float z = (q.X*v.Y - v.X*q.Y) + v.Z*q.W;
-	float w;
-	if(Order==0) { w=v.X*q.X; w+=v.Z*q.Z; w+=v.Y*q.Y; }
-	else if(Order==1) { w=v.Y*q.Y; w+=v.Z*q.Z; w+=v.X*q.X; }
-	else { w=v.X*q.X; w+=v.Y*q.Y; w+=v.Z*q.Z; }
-	w=0.0f-w;
-
-	return Vector3
-	(
-		(z*q.Y - q.Z*y) + (q.W*x - q.X*w),
-		(q.W*y - w*q.Y) - (q.X*z - q.Z*x),
-		(q.X*y - x*q.Y) + (q.W*z - q.Z*w)
-	);
+static __forceinline void rotate3(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+v.X*q.W;
+ float y=v.Y*q.W-(q.X*v.Z-v.X*q.Z);
+ float z=(q.X*v.Y-q.Y*v.X)+v.Z*q.W;
+ float w=0.0f-((v.X*q.X+q.Y*v.Y)+q.Z*v.Z);
+ out->X=(q.Y*z-q.Z*y)+(x*q.W-q.X*w);
+ out->Y=(y*q.W-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=(q.X*y-q.Y*x)+(z*q.W-q.Z*w);
 }
-
-
-template<int Path> __forceinline Quaternion Product(const Quaternion &a, const Quaternion &b)
-{
- float x=a.Y*b.Z-b.Y*a.Z; x+=a.W*b.X; x+=b.W*a.X;
- float y=a.W*b.Y+b.W*a.Y-(a.X*b.Z-b.X*a.Z);
- float z=a.X*b.Y-b.X*a.Y; z+=b.W*a.Z; z+=a.W*b.Z;
- float w=a.W*b.W;
- if(Path==0) w-=((a.X*b.X+a.Z*b.Z)+a.Y*b.Y);
- else w-=((a.X*b.X+a.Y*b.Y)+a.Z*b.Z);
- return Quaternion(x,y,z,w);
+static __forceinline void qmul(const Quaternion &a,const Quaternion &b,Quaternion &self){
+ self.X=a.W*b.X+b.W*a.X+(a.Y*b.Z-b.Y*a.Z);
+ self.Y=a.W*b.Y+b.W*a.Y-(a.X*b.Z-b.X*a.Z);
+ self.Z=a.W*b.Z+b.W*a.Z+(a.X*b.Y-b.X*a.Y);
+ self.W=a.W*b.W-(a.X*b.X+a.Y*b.Y+a.Z*b.Z);
 }
-
-Quaternion Build_Quaternion(const Matrix3D &mat);
-
-// BFME 2 pivot transform: rotation quaternion plus translation.
-struct PivotTransform
-{
- PivotTransform() {}
-	Quaternion Rotation;
-	Vector3 Translation;
-};
-
-__forceinline PivotTransform operator * (const PivotTransform &parent, const PivotTransform &child)
-{
-	PivotTransform result;
-	result.Translation = Rotate_Vector<0>(child.Translation, parent.Rotation) + parent.Translation;
-	result.Rotation = Product<0>(parent.Rotation, child.Rotation);
-	return result;
+static __forceinline void qmuleq(Quaternion &self,const Quaternion &b){Quaternion a=self;qmul(a,b,self);}
+static __forceinline void compose3(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate3(a.Q,b.Position,&r);result.Position=a.Position+r;
+ result.Q=a.Q*b.Q;
 }
-
-struct PivotClass
-{
-	char Name[16];
-	PivotClass *Parent;					// +0x10
-	PivotTransform BaseTransform;		// +0x14
-	PivotTransform Transform;			// +0x30
-	int Index;							// +0x4C
-	bool IsVisible;						// +0x50
-	float m_bfme54;						// +0x54
-};
-
-
-void BFME2_Nlerp(Quaternion &,const Quaternion &,const Quaternion &,float);
-class ChunkLoadClass;
-class BFME2MotionChannel {
-public:
- virtual bool Load(ChunkLoadClass &); virtual ~BFME2MotionChannel(); virtual int UnknownSlot2();
- virtual void UnknownSlot3(float,float *,unsigned char **);
- virtual void UnknownSlot4(float,Vector3 *,unsigned char **); virtual void UnknownSlot5(float,Quaternion *,unsigned char **);
- virtual int UnknownSlot6();
- int Type,Pivot,Count,Components;
-};
 class TimeCodedBitChannelClass {public:int Get_Bit(int);};
-struct BlendNodeMotion {BFME2MotionChannel *X,*Y,*Z,*Q,*Fade;TimeCodedBitChannelClass *Vis;};
-class HAnimClass {
+class S2MotionChannel {
+public:
+ virtual void vt0();virtual void vt4();virtual void vt8();
+ virtual void Get_Vector(float,float *,unsigned char **);
+ virtual void vt10();virtual void Get_Quat(float,Quaternion *,unsigned char **);
+};
+struct S2NodeMotion {S2MotionChannel *X,*Y,*Z,*Q,*Fade;TimeCodedBitChannelClass *Vis;};
+class S2HAnimView {
 public:
  virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
  virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
@@ -138,114 +112,70 @@ public:
  virtual int Get_Num_Pivots();
  virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
  virtual void slot18(); virtual void slot19(); virtual void slot20(); virtual int Get_Class_ID();
- char pad[0x54]; BlendNodeMotion *Nodes;
+ char pad[0x54]; S2NodeMotion *Nodes;
 };
 class Rva00160FC0Input;
 class Rva00160FC0 {public:void rva00160FC0(Rva00160FC0Input*);};
-class HTreeClass {
-public:
- void Anim_Update(const Matrix3D &,HAnimClass *,float);
- __forceinline void Cached_Anim_Update(const Matrix3D &,HAnimClass *,float);
- int Capture_Update(int);
- char Name[16];int NumPivots;PivotClass *Pivot;float ScaleFactor;
- struct CapturedBone{int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
- CapturedBone *CapturedBegin,*CapturedEnd,*CapturedCapacity;
- HAnimClass *CachedMotion;unsigned char *ChannelCache;int CacheCapacity;
-};
-
-
-__forceinline void HTreeClass::Cached_Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame) {
-  BlendNodeMotion *nodes=motion->Nodes;
+void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *hmotion,float frame) {
+ S2HAnimView *motion=(S2HAnimView*)hmotion;
+ S2NodeMotion *nodes;
+ if(motion->Get_Class_ID()==1 && (nodes=motion->Nodes)!=0) {
   ((Rva00160FC0*)this)->rva00160FC0((Rva00160FC0Input*)motion);
-  PivotTransform &initial=Pivot[0].Transform;
-  initial.Rotation=Build_Quaternion(root);
-  initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
-  Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
-  unsigned char *cache=ChannelCache;
+  S2CompactTransform &initial=((S2PivotView*)Pivot)[0].Current;
+  initial.Q=Build_Quaternion(root);
+  initial.Position.X=root[0][3];initial.Position.Y=root[1][3];initial.Position.Z=root[2][3];
+  ((S2PivotView*)Pivot)[0].visible=true;((S2PivotView*)Pivot)[0].factor=1.0f;
+  unsigned char *cache=(unsigned char*)Unknown2C;
   int count=motion->Get_Num_Pivots();
-  int captured=CapturedBegin==CapturedEnd?-1:(_ReadWriteBarrier(),CapturedBegin->Index);
-  BlendNodeMotion *node=nodes+1;
-  for(int piv_idx=1;piv_idx<NumPivots;++piv_idx,++node) {
-   PivotClass *pivot=&Pivot[piv_idx];
-   // base pose
-   const PivotTransform &parent=pivot->Parent->Transform;
-   PivotTransform &current=pivot->Transform;
-   current.Translation=parent.Translation+Rotate_Vector<0>(pivot->BaseTransform.Translation,parent.Rotation);
-   current.Rotation=Product<0>(parent.Rotation,pivot->BaseTransform.Rotation);
-   // Don't update this pivot if the HTree doesn't have animation data for it...
+  int captured=OwnedSequence1C[0]==OwnedSequence1C[1]?-1:*(int*)OwnedSequence1C[0];
+  for(int piv_idx=1;piv_idx<NumPivots;++piv_idx) {
+   S2NodeMotion *node=&nodes[piv_idx];
+   S2PivotView *pivot=&((S2PivotView*)Pivot)[piv_idx];
+   compose3(pivot->Parent->Current,pivot->Base,pivot->Current);
    if(piv_idx<count) {
-    // animation
-    const float scale=ScaleFactor;
-    PivotTransform anim; Vector3 &trans=anim.Translation;
-    if(node->X)node->X->UnknownSlot3(frame,&trans.X,&cache);else trans.X=0;
-    if(node->Y)node->Y->UnknownSlot3(frame,&trans.Y,&cache);else trans.Y=0;
-    if(node->Z)node->Z->UnknownSlot3(frame,&trans.Z,&cache);else trans.Z=0;
+    float scale=ScaleFactor;
+    Vector3 trans;
+    if(node->X)node->X->Get_Vector(frame,&trans.X,&cache);else trans.X=0;
+    if(node->Y)node->Y->Get_Vector(frame,&trans.Y,&cache);else trans.Y=0;
+    if(node->Z)node->Z->Get_Vector(frame,&trans.Z,&cache);else trans.Z=0;
     trans.X*=scale;trans.Y*=scale;trans.Z*=scale;
-    Quaternion &rotation=anim.Rotation;
     if(node->Q) {
-     node->Q->UnknownSlot5(frame,&rotation,&cache);
-     current.Translation=Rotate_Vector<2>(trans,current.Rotation)+current.Translation;
-     current.Rotation.Multiply<0>(rotation);
+     Quaternion q;node->Q->Get_Quat(frame,&q,&cache);
+     Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=pivot->Current.Position+r;
+     qmuleq(pivot->Current.Q,q);
     } else {
-     current.Translation=Rotate_Vector<2>(trans,current.Rotation)+current.Translation;
+     Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=r+pivot->Current.Position;
     }
-    // visibility
-    if(node->Fade)node->Fade->UnknownSlot3(frame,&pivot->m_bfme54,&cache);else pivot->m_bfme54=1.0f;
-    pivot->IsVisible=node->Vis?node->Vis->Get_Bit((int)frame)!=0:true;
+    if(node->Fade)node->Fade->Get_Vector(frame,&pivot->factor,&cache);else pivot->factor=1.0f;
+    pivot->visible=node->Vis?node->Vis->Get_Bit((int)frame)!=0:true;
    }
    if(piv_idx==captured)captured=Capture_Update(captured);
   }
-}
-
-/***********************************************************************************************
- * HTreeClass::Anim_Update -- Computes the transform for each pivot with motion                *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   08/11/1997 GH  : Created.                                                                 *
- *=============================================================================================*/
-void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame) {
- if(motion->Get_Class_ID()==1 && motion->Nodes) {
-  Cached_Anim_Update(root,motion,frame);
  } else {
-  CachedMotion=0;
-  PivotTransform &initial=Pivot[0].Transform;
-  initial.Rotation=Build_Quaternion(root);
-  initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
-  Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
+  Unknown28=0;
+  S2CompactTransform &initial=((S2PivotView*)Pivot)[0].Current;
+  initial.Q=Build_Quaternion(root);
+  initial.Position.X=root[0][3];initial.Position.Y=root[1][3];initial.Position.Z=root[2][3];
+  ((S2PivotView*)Pivot)[0].visible=true;((S2PivotView*)Pivot)[0].factor=1.0f;
   int count=motion->Get_Num_Pivots();
-  int captured=CapturedBegin==CapturedEnd?-1:(_ReadWriteBarrier(),CapturedBegin->Index);
+  int captured=OwnedSequence1C[0]==OwnedSequence1C[1]?-1:*(int*)OwnedSequence1C[0];
   for(int piv_idx=1;piv_idx<NumPivots;++piv_idx) {
-   PivotClass *pivot=&Pivot[piv_idx];
-   // base pose
-   const PivotTransform &parent=pivot->Parent->Transform;
-   pivot->Transform.Translation=parent.Translation+Rotate_Vector<1>(pivot->BaseTransform.Translation,parent.Rotation);
-   pivot->Transform.Rotation=Product<1>(parent.Rotation,pivot->BaseTransform.Rotation);
-   // Don't update this pivot if the HTree doesn't have animation data for it...
+   S2PivotView *pivot=&((S2PivotView*)Pivot)[piv_idx];
+   compose3(pivot->Parent->Current,pivot->Base,pivot->Current);
    if(piv_idx<count) {
-    // animation
-    PivotTransform anim; Vector3 &trans=anim.Translation; motion->Get_Translation(trans,piv_idx,frame);
+    Vector3 trans;motion->Get_Translation(trans,piv_idx,frame);
     if(ScaleFactor!=1.0f){trans.X*=ScaleFactor;trans.Y*=ScaleFactor;trans.Z*=ScaleFactor;}
-    Quaternion &rotation=anim.Rotation;
-    bool gotRotation=motion->Get_Orientation(rotation,piv_idx,frame);
-    if(gotRotation) {
-     pivot->Transform.Translation=Rotate_Vector<2>(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
-     pivot->Transform.Rotation.Multiply<1>(rotation);
+    Quaternion q;
+    if(motion->Get_Orientation(q,piv_idx,frame)) {
+     Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=pivot->Current.Position+r;
+     qmuleq(pivot->Current.Q,q);
     } else {
-     pivot->Transform.Translation=Rotate_Vector<0>(trans,pivot->Transform.Rotation)+pivot->Transform.Translation;
+     Vector3 r;rotate3(pivot->Current.Q,trans,&r);pivot->Current.Position=r+pivot->Current.Position;
     }
-    // visibility
-    pivot->IsVisible=motion->Get_Visibility(piv_idx,frame);
-    pivot->m_bfme54=motion->Get_Fade(piv_idx,frame);
+    pivot->visible=motion->Get_Visibility(piv_idx,frame);
+    pivot->factor=motion->Get_Fade(piv_idx,frame);
    }
    if(piv_idx==captured)captured=Capture_Update(captured);
   }
  }
 }
-
-// Target arithmetic and comparison evidence: reverse/attempt_support/anim-update-162bb0-20261019-w7.md.
