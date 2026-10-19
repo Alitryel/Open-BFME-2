@@ -11,12 +11,14 @@ class LivingWorldAutoResolveBattle
 public:
 	void addUnitsForCurrentRound(int v);
 	void rva004F99CC(bool *out);
+	void completeRound();	// rowed 0x004F9D6A
 };
 
 class Rva004F6187
 {
 public:
 	void rva004F6187();
+	void rva004F61B1();	// rowed 0x004F61B1 (Rva004F8B89Fwd.cpp)
 };
 
 class Rva004F9F39
@@ -31,22 +33,10 @@ public:
 	void rva004F971E();
 };
 
-class Rva004F9D6A
-{
-public:
-	void rva004F9D6A();
-};
-
 class Rva004F9E59
 {
 public:
 	void rva004F9E59();
-};
-
-class Rva004F61B1
-{
-public:
-	void rva004F61B1();
 };
 
 class Rva004FA10FOwner
@@ -74,7 +64,7 @@ void Rva004FA10FOwner::rva004FA10F()
 		((Rva004F971E *)this)->rva004F971E();
 		((LivingWorldAutoResolveBattle *)this)->rva004F99CC(&ready);
 	} while (!ready);
-	((Rva004F9D6A *)this)->rva004F9D6A();
+	((LivingWorldAutoResolveBattle *)this)->completeRound();
 	((Rva004F9E59 *)this)->rva004F9E59();
-	((Rva004F61B1 *)this)->rva004F61B1();
+	((Rva004F6187 *)this)->rva004F61B1();
 }
