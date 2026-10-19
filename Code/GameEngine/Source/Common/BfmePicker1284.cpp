@@ -102,7 +102,7 @@ struct BfmePickWorld1284
 
 BfmePickWorld1284 *g_bfmeHolderBU;
 
-class BfmePicker1284
+class AptAnimationPoolData
 {
 public:
 	bool bfmeMeshHitTest1290(BfmeMesh1290 *mesh, const BfmeTransform2_1290 *transform,
@@ -110,8 +110,9 @@ public:
 	BfmePickNode1284 *bfmePick1284(int pointX, int pointY);
 };
 
+// The class is AptAnimationPoolData; the marker keeps its registered hatch key.
 // ?BfmePicker1284::bfmePick1284 present-unmatched
-BfmePickNode1284 *BfmePicker1284::bfmePick1284(int pointX, int pointY)
+BfmePickNode1284 *AptAnimationPoolData::bfmePick1284(int pointX, int pointY)
 {
 	int visited = 0;
 	for (int entryIndex = g_bfmeHolderBU->m_count818 - 1; entryIndex >= 0; --entryIndex) {
@@ -189,7 +190,7 @@ static int bfmeContains1283(const BfmeTriangle1290 *triangle, float x, float y)
 	return inside;
 }
 
-bool BfmePicker1284::bfmeMeshHitTest1290(BfmeMesh1290 *mesh,
+bool AptAnimationPoolData::bfmeMeshHitTest1290(BfmeMesh1290 *mesh,
 	const BfmeTransform2_1290 *transform, int pointX, int pointY)
 {
 	float x = pointX;

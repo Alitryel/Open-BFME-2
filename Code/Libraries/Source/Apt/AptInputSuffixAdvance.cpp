@@ -23,7 +23,8 @@ extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 #define INPUT_ASSERT(test,text,line) if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
-class AptAnimationPoolData {public:AptCIH *rva006FA420(int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void rva006FA340();};
+struct BfmeMesh1290;struct BfmeTransform2_1290;
+class AptAnimationPoolData {public:AptCIH *rva006FA420(int,int);bool bfmeMeshHitTest1290(BfmeMesh1290 *,const BfmeTransform2_1290 *,int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void rva006FA340();};
 static __declspec(noinline) bool rva006F97F0Parse(EAStringC *value,int *first,int *second)
 {
  if(value->IsEmpty())return false;
@@ -133,7 +134,6 @@ struct BfmeM1208 {float m[6];};
 void __cdecl bfmeMul1208(const BfmeM1208 *,const BfmeM1208 *,BfmeM1208 *);
 struct BfmeMesh1290;
 struct BfmeTransform2_1290;
-class BfmePicker1284 {public:bool bfmeMeshHitTest1290(BfmeMesh1290 *,const BfmeTransform2_1290 *,int,int);};
 struct AptButtonShape {int eType;int unknown04;float x0,y0,x1,y1;};
 struct AptButtonHitRecord {unsigned int flags;AptButtonShape *shape;int unknown08;BfmeM1208 matrix;char unknown24[0x44-0x24];};
 struct AptButtonHitDescriptor {char pad[0x24];int recordCount;AptButtonHitRecord *records;};
@@ -192,7 +192,7 @@ AptCIH *AptAnimationPoolData::rva006FA420(int x,int y)
    bfmeMul1208(&gpButtonPool->aButtonInstanceList[i].matrix,&matrix,&matrix);
    AptButtonShape *shape=desc->records[j].shape;
    if (shape->eType==1) {
-    if (((BfmePicker1284*)this)->bfmeMeshHitTest1290((BfmeMesh1290*)desc,(const BfmeTransform2_1290*)&matrix,x,y))
+    if (bfmeMeshHitTest1290((BfmeMesh1290*)desc,(const BfmeTransform2_1290*)&matrix,x,y))
      return (AptCIH*)gpButtonPool->aButtonInstanceList[i].pCIH;
    } else if (shape->eType==2) {
     float x0=shape->x0,x1=shape->x1,y0=shape->y0,y1=shape->y1;

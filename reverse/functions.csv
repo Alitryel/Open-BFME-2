@@ -39988,7 +39988,7 @@ _FilterBlock_mmx,,0x001D7330,486,Code/Libraries/Source/VP6/FilterBlockMmx.cpp,ma
 ?Rva0059F260Set@@YGXHVUnicodeString@@@Z,,0x0059F260,54,Code/GameEngine/Source/Common/Rva0059F20BSet.cpp,matched,stdcall wrapper over 0x0059F20B with by-value UnicodeString
 ?send@Rva007F49E0VtableSlot3@@UAEHPAURva007F49E0Packet@@@Z,,0x00661490,372,Code/GameEngine/Source/GameNetwork/Rva007F49E0UdpPacketSend.cpp,matched,
 _ReconBlock_C,,0x001D5C60,308,Code/Libraries/Source/VP6/ScalarRecon.cpp,matched,Clean-room spec 001d5c60; ReconBlock_C: cdecl adding the prediction block to the block in place then storing it through SatUnsigned8; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001d5c60.md and retail only
-?bfmeMeshHitTest1290@BfmePicker1284@@QAE_NPAUBfmeMesh1290@@PBUBfmeTransform2_1290@@HH@Z,,0x006F9DE0,272,Code/GameEngine/Source/Common/BfmePicker1284.cpp,matched,
+?bfmeMeshHitTest1290@AptAnimationPoolData@@QAE_NPAUBfmeMesh1290@@PBUBfmeTransform2_1290@@HH@Z,,0x006F9DE0,272,Code/GameEngine/Source/Common/BfmePicker1284.cpp,matched,
 _FilterBlock2dBil_mmx,,0x001D7100,254,Code/Libraries/Source/VP6/FilterBlock2dBilMmx.cpp,matched,Clean-room spec 001d7100; FilterBlock2dBil_mmx: cdecl clean-room reimplementation of FilterBlock2dBil_mmx per the spec; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001d7100.md and retail only
 _Rva0086B360Dispatch,,0x006AABE0,203,Code/GameEngine/Source/GameNetwork/GameSpy/peer/Rva0086B360Dispatch.cpp,matched,
 _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/peer/Rva0086B360Dispatch.cpp,matched,
