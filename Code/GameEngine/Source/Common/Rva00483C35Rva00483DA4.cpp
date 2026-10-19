@@ -1,8 +1,8 @@
 // cl: /DNDEBUG /MD
 //
-// ?getClearanceTestGeometryCenter@Rva00483C35@@UAEXPAUCoord3D@@@Z @0x00483DA4 84B.
+// ?getClearanceTestGeometryCenter@ClearanceTestingSlowDeathBehavior@@UAEXPAUCoord3D@@@Z @0x00483DA4 84B.
 // Target evidence: the only reference to this body is slot 1 of the vtable
-// 0x00C49D70 that the matched Rva00483C35 dtor 0x00483C35 installs at +0x50,
+// 0x00C49D70 that the matched ClearanceTestingSlowDeathBehavior dtor 0x00483C35 installs at +0x50,
 // the last interface base of this behavior class (vptrs at +0, +0xC, +0x10,
 // +0x20, +0x24, +0x50 as the dtor stores them); the slot's name is not
 // established, hence the address name. cl 7.1 compiles an override of a
@@ -36,12 +36,12 @@ public:
 	virtual void s00();
 	virtual void getClearanceTestGeometryCenter(Coord3D *out) = 0;
 };
-class Rva00483C35 : public B00, public B0C, public B10, public B20, public B24, public Iface50
+class ClearanceTestingSlowDeathBehavior : public B00, public B0C, public B10, public B20, public B24, public Iface50
 {
 public:
 	virtual void getClearanceTestGeometryCenter(Coord3D *out);
 };
-void Rva00483C35::getClearanceTestGeometryCenter(Coord3D *out)
+void ClearanceTestingSlowDeathBehavior::getClearanceTestGeometryCenter(Coord3D *out)
 {
 	const Rva00483C35ModuleData *md = m_moduleData;
 	Thing *obj = m_object;

@@ -75,17 +75,17 @@ Rva00461EEB::~Rva00461EEB()
 {
 }
 
-class Rva00483C35 : public Rva0045D39E
+class ClearanceTestingSlowDeathBehavior : public Rva0045D39E
 {
 public:
-	virtual ~Rva00483C35();
+	virtual ~ClearanceTestingSlowDeathBehavior();
 
 private:
 	char m_pad0028[0x50 - 0x28];
 	int m_extra0050;
 };
 
-Rva00483C35::~Rva00483C35()
+ClearanceTestingSlowDeathBehavior::~ClearanceTestingSlowDeathBehavior()
 {
 	m_extra0050 = ((unsigned int)vtbl_00C49D70);
 }

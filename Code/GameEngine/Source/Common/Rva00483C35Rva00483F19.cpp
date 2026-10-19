@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/moduledata /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 //
-// ?rva00483F19@Rva00483C35@@UAE_NXZ, retail 0x00483F19, 555 bytes.
+// ?rva00483F19@ClearanceTestingSlowDeathBehavior@@UAE_NXZ, retail 0x00483F19, 555 bytes.
 // Target evidence: slot 6 of vtable 0x00C49D70 (the trailing interface base
 // of ClearanceTestingSlowDeathBehavior, see Rva00483C35Rva00483DA4.cpp), the
 // subobject this at +0x24 reads module data (+4) and object (+8) as [ecx-0x20]
@@ -141,13 +141,13 @@ class Iface50
 public:
 	virtual void s00();
 };
-class Rva00483C35 : public B00, public B0C, public B10, public B20, public B24, public Iface50
+class ClearanceTestingSlowDeathBehavior : public B00, public B0C, public B10, public B20, public B24, public Iface50
 {
 public:
 	virtual bool rva00483F19();
 };
 
-bool Rva00483C35::rva00483F19()
+bool ClearanceTestingSlowDeathBehavior::rva00483F19()
 {
 	Rva00483C35ClearanceData *md = m_moduleData;
 	Object *obj = m_object;
