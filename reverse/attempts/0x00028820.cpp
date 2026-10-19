@@ -1,91 +1,67 @@
 // ?bfmeImplV21@BfmeStrV21@@QAEXPAD000@Z
-// partial score=0.237 date=2026-10-17
-// cl: /DNDEBUG /MD /EHsc /Od /Ob2 /D_STLP_USE_STATIC_LIB
+// partial score=0.8 date=2026-10-19
+// cl: /DNDEBUG /MD /Od /Ob1 /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// STLport 4.5.3, BFME1 donor revision 1281192f682.
-// Native 0x00028200..0x000284CB: reverse-iterator find_if with a
-// not-within-char-range predicate. Its four-way unroll, reverse steps,
-// predicate calls to 0x00026C60 and returned iterator establish the identity.
-// The char find_if / __find_if instantiations independently reproduce the
-// existing 34B/349B providers at 0x00026C60/0x00025B80.
-/*
- *
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Copyright (c) 1996,1997
- * Silicon Graphics Computer Systems, Inc.
- *
- * Copyright (c) 1997
- * Moscow Center for SPARC Technology
- *
- * Copyright (c) 1999 
- * Boris Fomitchev
- *
- * This material is provided "as is", with absolutely no warranty expressed
- * or implied. Any use is at your own risk.
- *
- * Permission to use or copy this software for any purpose is hereby granted 
- * without fee, provided the above notices are retained on all copies.
- * Permission to modify the code and to distribute modified code is granted,
- * provided the above notices are retained, and a notice that the code was
- * modified is included with the above copyright notice.
- *
- */
-
+// 0x00028820 (740 B, RET 0x10): STLport 4.5.3 basic_string<char>::insert<const char *>(iterator,
+// first, last, const forward_iterator_tag &) (vendor stl/_string.h:741), /Od with inlining.
+// Placeholders bfmeImplV21/V22/V44/VMF/VMR pin this address. This bank writes the vendor body as
+// an explicit specialization so retail's out-of-line copies are expressed: every
+// uninitialized_copy is a direct call to the rowed __copy_trivial 0x179B0 (retail pushes the
+// three arguments straight, so nothing was inlined there), _M_copy moves (memmove import
+// 0xBBA688), allocate is `len != 0 ? byte allocate(len, 0) : 0` (0x307F0), deallocate keeps
+// its named size. Instruction stream equals retail through the new_finish copies and the
+// null terminator; left: (1) retail calls the empty _Destroy(start, finish + 1) out of line
+// (0x0069E440, a 1-byte shared RET: no admissible real-name pin; placement delete is inline
+// in <new>), (2) retail's frame is 0x14 larger: one extra dword below -0x24, one below -0x40
+// and three between -0x58 and the -0x67 char temp (this at -0x74 vs our -0x60) - probably
+// empty tag temporaries of inline helpers retail kept (distance/advance/uninitialized_copy
+// dispatch) that this body does not reproduce.
 #include <string>
-
 namespace _STL {
-template <class _Tp>
-__declspec(dllimport) _Tp *__copy_trivial(const _Tp *__first, const _Tp *__last, _Tp *__result);
-}
-struct PadTmp { char *v; unsigned char pad[4]; };
-
-class BfmeStrV21 {
-public:
-    char *m_start;
-    char *m_finish;
-    char *m_end_of_storage;
-
-    void bfmeImplV21(char *, char *, char *, char *);
-};
-
-void BfmeStrV21::bfmeImplV21(char *p0, char *p1, char *p2, char *p3)
+// Retail's _M_copy for a const char range moves (memmove import), not memcpy.
+inline void __bfme_string_copy(const char *__first, const char *__last, char *__result)
 {
-    ptrdiff_t n = 0;
-    PadTmp t1; PadTmp t2; PadTmp t3; (void)t1; (void)t2; (void)t3;
-    {
-    char _buf[76];
-    (void)_buf;
-    }
-    if (p1 != p2) {
-    n = p2 - p1;
-
-    if ((m_end_of_storage - m_finish) >= n + 1) {
-        ptrdiff_t off = m_finish - p0;
-        char *cur_finish = m_finish;
-        if (off >= n) {
-            _STL::__copy_trivial(m_finish + 1 - n, m_finish + 1, m_finish + 1);
-            m_finish += n;
-            _STL::__copy_trivial(p0, p0 + n, p0 + n + 1);
-            *(p0 + n) = '\0';
-        } else {
-            char *old_finish = m_finish;
-            char *tmp = p1 + off + 1;
-            _STL::__copy_trivial(p2, tmp, m_finish + 1);
-            m_finish += n - off;
-            _STL::__copy_trivial(p0, old_finish + 1, p0);
-            m_finish += off;
-            _STL::__copy_trivial(p1, tmp, p0);
-        }
-    } else {
-        ptrdiff_t old_size = m_finish - m_start;
-        if (old_size < n)
-            old_size = n;
-        old_size += 1;
-        char *new_buf = old_size ? (char *)::operator new(old_size) : 0;
-        (void)new_buf;
-    }
-    }
+	char_traits<char>::move(__result, __first, __last - __first);
+}
+template <> template <>
+void basic_string<char, char_traits<char>, allocator<char> >::insert<const char *>(char *__position, const char *__first, const char *__last, const forward_iterator_tag &)
+{
+	if (__first != __last) {
+		difference_type __n = distance(__first, __last);
+		if (this->_M_end_of_storage._M_data - this->_M_finish >= __n + 1) {
+			const difference_type __elems_after = this->_M_finish - __position;
+			pointer __old_finish = this->_M_finish;
+			if (__elems_after >= __n) {
+				__copy_trivial((this->_M_finish - __n) + 1, this->_M_finish + 1, this->_M_finish + 1);
+				this->_M_finish += __n;
+				char_traits<char>::move(__position + __n, __position, (__elems_after - __n) + 1);
+				__bfme_string_copy(__first, __last, __position);
+			}
+			else {
+				const char *__mid = __first;
+				advance(__mid, __elems_after + 1);
+				__copy_trivial(__mid, __last, this->_M_finish + 1);
+				this->_M_finish += __n - __elems_after;
+				__copy_trivial(__position, __old_finish + 1, this->_M_finish);
+				this->_M_finish += __elems_after;
+				__bfme_string_copy(__first, __mid, __position);
+			}
+		}
+		else {
+			const size_type __old_size = size();
+			const size_type __len = __old_size + (max)(__old_size, __STATIC_CAST(size_type, __n)) + 1;
+			pointer __new_start = __len != 0 ? (pointer)allocator<char>::allocate(__len, 0) : 0;
+			pointer __new_finish = __new_start;
+			__new_finish = (pointer)__copy_trivial(this->_M_start, __position, __new_start);
+			__new_finish = (pointer)__copy_trivial(__first, __last, __new_finish);
+			__new_finish = (pointer)__copy_trivial(__position, this->_M_finish, __new_finish);
+			_M_construct_null(__new_finish);
+			::operator delete(this->_M_start, this->_M_finish + 1);
+			this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+			this->_M_start = __new_start;
+			this->_M_finish = __new_finish;
+			this->_M_end_of_storage._M_data = __new_start + __len;
+		}
+	}
+}
 }

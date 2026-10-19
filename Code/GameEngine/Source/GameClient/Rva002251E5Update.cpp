@@ -8,7 +8,7 @@
 // Eva walk through the pinned static alias of rowed 0x004114EF, self update
 // through rowed 0x00224818, throttle math off timeGetTime, notify through
 // pinned cdecl 0x006CF1B0, presence through rowed 0x006CD100, then a tail
-// thiscall to pinned 0x00224F6C. Address-derived method name; the class
+// thiscall to AptPlayer::HandleOverButtons 0x00224F6C. Address-derived method name; the class
 // attribution rests on the shared layout plus the self-call. No virtuals:
 // retail installs no vtable here.
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
@@ -40,12 +40,19 @@ void Rva004114EFStatic();
 void Rva006CF1B0(int delay);
 bool Rva006CD100Get();
 
+// The tail call reaches AptPlayer::HandleOverButtons (0x00224F6C, rowed in
+// AptPlayer.cpp; WB B905A0): this layout is the same player object.
+class AptPlayer
+{
+public:
+	void HandleOverButtons();
+};
+
 class Rva00222A8BTarget
 {
 public:
 	void rva00224818();
 	void rva00222E29(int index);
-	void rva00224F6C();
 	void rva002251E5();
 private:
 	char m_pad0[0xF0];
@@ -107,5 +114,5 @@ void Rva00222A8BTarget::rva002251E5()
 	m_b312 = false;
 	m_tickLast = now;
 	m_b329 = Rva006CD100Get();
-	rva00224F6C();
+	reinterpret_cast<AptPlayer *>(this)->HandleOverButtons();
 }
