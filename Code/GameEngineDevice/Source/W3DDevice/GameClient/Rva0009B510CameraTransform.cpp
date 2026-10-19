@@ -1,8 +1,4 @@
-// ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z
-// partial score=0.98 date=2026-10-19
-// ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z
-// partial score=0.85 date=2026-10-17
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // ?rva0009B510@Rva0009C134Host@@QAEXAAVMatrix3D@@MM@Z retail 0x0009B510..0x0009B7EA
 // (730 bytes, ret 0xC): the camera transform builder the rowed refresh
 // 0x0009BAA4 calls on the factory product (pinned there under the
@@ -15,61 +11,14 @@
 // a yaw eased from +0x11C towards 0 (and on by the fade) rotating the offset
 // about Z; an identity transform and the rowed Matrix3D::Look_At 0x00712150
 // with roll 0. Member meanings and the class name remain unresolved.
-// Remaining residue (size-exact, 37 diff lines): retail loads offset.X into
-// xmm2 right after the 0x0009AAA8 call, ahead of the x87 lerp, and adds
-// [edi] at 0x0009B623; ours loads m_110.X and adds [ebp-0x10]. A separate
-// eye variable for Look_At, a temporary, member-wise construction and
-// Vector3 ctor spellings do not move it.
-// Static Add keeps the original operand relationship across the member interpolation.
-// Continuation evidence: reverse/attempt_support/0x0009b510-20261019.md (model=gpt-6.1-sol).
+// Static Vector3::Add keeps the original operand relationship across the member
+// interpolation; the vector and matrix come from the real WWMath headers (BFME1
+// vector3.h / matrix3d.h), whose inlines give retail's x87 pop placement that the
+// earlier private Vector3/Matrix3D views could not (reverse/attempt_support/
+// 0x0009b510-20261019.md). Sibling 0x9B7EA uses the same headers and flags.
 #include <math.h>
 
-class Vector3
-{
-public:
-    float X, Y, Z;
-    Vector3() {}
-    Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-    __forceinline static void Add(const Vector3 &a, const Vector3 &b, Vector3 *r) { r->X = a.X + b.X; r->Y = a.Y + b.Y; r->Z = a.Z + b.Z; }
-    __forceinline Vector3 &operator+=(const Vector3 &v) { X += v.X; Y += v.Y; Z += v.Z; return *this; }
-    __forceinline Vector3 &operator-=(const Vector3 &v) { X -= v.X; Y -= v.Y; Z -= v.Z; return *this; }
-    __forceinline void Rotate_Z(float s, float c)
-    {
-        float tmp_x = X;
-        float tmp_y = Y;
-        X = c * tmp_x - s * tmp_y;
-        Y = s * tmp_x + c * tmp_y;
-    }
-    __forceinline static void Lerp(const Vector3 &a, const Vector3 &b, float alpha, Vector3 *result)
-    {
-        result->X = (b.X - a.X) * alpha + a.X;
-        result->Y = (b.Y - a.Y) * alpha + a.Y;
-        result->Z = (b.Z - a.Z) * alpha + a.Z;
-    }
-};
-
-class Vector4
-{
-public:
-    float X, Y, Z, W;
-    __forceinline float &operator[](int i) { return (&X)[i]; }
-    __forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
-};
-class Matrix3D
-{
-public:
-    Matrix3D() {}
-    __forceinline explicit Matrix3D(bool init) { if (init) Make_Identity(); }
-    __forceinline void Make_Identity()
-    {
-        Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
-        Row[1].Set(0.0f, 1.0f, 0.0f, 0.0f);
-        Row[2].Set(0.0f, 0.0f, 1.0f, 0.0f);
-    }
-    __forceinline void Set_Translation(const Vector3 &t) { Row[0][3] = t.X; Row[1][3] = t.Y; Row[2][3] = t.Z; }
-    void Look_At(const Vector3 &p, const Vector3 &t, float roll);
-    Vector4 Row[3];
-};
+#include "matrix3d.h"
 #define B510_SLOTS4(p) virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3();
 #define B510_SLOTS16(p) B510_SLOTS4(p##0) B510_SLOTS4(p##1) B510_SLOTS4(p##2) B510_SLOTS4(p##3)
 class Rva0009B510Object
