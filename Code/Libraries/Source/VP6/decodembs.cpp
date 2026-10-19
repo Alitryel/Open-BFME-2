@@ -57,9 +57,24 @@ unsigned char defaultModeProbs[80] = {
 	0x40u, 0u, 0u, 0u, 0u, 0u, 0x40u, 0u,
 	0x40u, 0x40u, 0x40u, 0u, 0u, 0u, 0u, 0u,
 };
-extern unsigned char defaultIsMvShort[2], defaultMvShort[14];
-extern unsigned char defaultMvSign[2], defaultMvSize[16];
-extern unsigned char DefaultInterlacedScanBands[64], DefaultNonInterlacedScanBands[64];
+// Key-frame defaults, retail .rdata contents (VA 0x00BD94CC .. 0x00BD94F1 and
+// 0x00BD8C80 / 0x00BD8CC0), copied into the frame state by VP6_DecodeFrameMbs.
+unsigned char defaultMvShort[14] = { 225, 146, 172, 147, 214, 39, 156, 204, 170, 119, 235, 140, 230, 228 };
+unsigned char defaultMvSize[16] = { 247, 210, 135, 68, 138, 220, 239, 246, 244, 184, 201, 44, 173, 221, 239, 253 };
+unsigned char defaultIsMvShort[2] = { 162, 164 };
+unsigned char defaultMvSign[2] = { 128, 128 };
+unsigned char DefaultNonInterlacedScanBands[64] = {
+	0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4,
+	5, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9,
+	9, 9, 9, 10, 10, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12,
+	12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15,
+};
+unsigned char DefaultInterlacedScanBands[64] = {
+	0, 1, 0, 1, 1, 2, 5, 3, 2, 2, 2, 2, 4, 7, 8, 10,
+	9, 7, 5, 4, 2, 3, 5, 6, 8, 9, 11, 12, 13, 12, 11, 10,
+	9, 7, 5, 4, 6, 7, 9, 11, 12, 12, 13, 13, 14, 12, 11, 9,
+	7, 9, 11, 12, 14, 14, 14, 15, 13, 11, 13, 15, 15, 15, 15, 15,
+};
 extern "C" void *memset(void *,int,unsigned);
 extern "C" void *memcpy(void *,const void *,unsigned);
 #pragma intrinsic(memset,memcpy)
