@@ -17,22 +17,7 @@
 
 #include "WorkOrder.h"
 
-class TeamInQueue
-{
-public:
-	virtual ~TeamInQueue();
-	bool isAllBuilt();
-	bool isMinimumBuilt();
-	bool areBuildsComplete();
-	void dlink_removeFrom_TeamReadyQueue(TeamInQueue **head);
-
-private:
-	TeamInQueue *m_previousBuild; // +04
-	TeamInQueue *m_nextBuild; // +08
-	TeamInQueue *m_previousReady; // +0C
-	TeamInQueue *m_nextReady; // +10
-	WorkOrder *m_workOrders;       // +0x14
-};
+#include "TeamInQueue.h"
 
 
 // ?isMinimumBuilt@TeamInQueue@@QAE_NXZ
@@ -74,12 +59,12 @@ bool TeamInQueue::areBuildsComplete()
 void TeamInQueue::dlink_removeFrom_TeamReadyQueue(TeamInQueue **head)
 {
     if (m_nextReady)
-        m_nextReady->m_previousReady = m_previousReady;
-    if (m_previousReady)
-        m_previousReady->m_nextReady = m_nextReady;
+        m_nextReady->m_prevReady = m_prevReady;
+    if (m_prevReady)
+        m_prevReady->m_nextReady = m_nextReady;
     else
         *head = m_nextReady;
-    m_previousReady = 0;
+    m_prevReady = 0;
     m_nextReady = 0;
 }
 

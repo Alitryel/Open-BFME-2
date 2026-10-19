@@ -872,37 +872,10 @@ public:
 
 #include "WorkOrder.h"
 
-class TeamInQueue
-{
-public:
-	TeamInQueue() throw();
-	virtual ~TeamInQueue();
-	TeamInQueue *dlink_next_TeamBuildQueue() const { return m_next; }
-	TeamInQueue *dlink_next_TeamReadyQueue() const { return m_nextReady; }
-	Bool isBuildTimeExpired();
-	Bool isMinimumBuilt();
-	Bool areBuildsComplete();
-	Bool isAllBuilt();
-	Bool includesADozer();
-	void disband() { if (m_team) m_team->disband(); }
-	__forceinline void deleteInstance() { ::delete this; }
+#include "TeamInQueue.h"
 
-	TeamInQueue *m_prev;			// +0x04
-	TeamInQueue *m_next;			// +0x08
-	TeamInQueue *m_prevReady;		// +0x0C
-	TeamInQueue *m_nextReady;		// +0x10
-	WorkOrder *m_workOrders;		// +0x14
-	Bool m_priorityBuild;			// +0x18
-	char m_pad19[0x1C - 0x19];
-	Team *m_team;				// +0x1C
-	char m_pad20[0x24 - 0x20];
-	unsigned int m_frameStarted;		// +0x24
-	Bool m_sentToStartLocation;		// +0x28
-	char m_pad29;
-	Bool m_reinforcement;			// +0x2A
-	char m_pad2B;
-	ObjectID m_reinforcementID;		// +0x2C
-};
+// ?TeamInQueue::disband present-unmatched
+inline void TeamInQueue::disband() { if (m_team) m_team->disband(); }
 
 class GlobalData
 {

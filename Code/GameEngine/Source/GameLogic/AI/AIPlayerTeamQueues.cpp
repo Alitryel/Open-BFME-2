@@ -50,36 +50,7 @@ public:
 	void set(Rva00160530 **pListHead);
 };
 
-class TeamInQueue
-{
-public:
-	virtual ~TeamInQueue();
-	TeamInQueue *dlink_prev_TeamBuildQueue() const { return m_dlink_TeamBuildQueue.m_prev; }
-	TeamInQueue *dlink_next_TeamBuildQueue() const { return m_dlink_TeamBuildQueue.m_next; }
-	TeamInQueue *dlink_next_TeamReadyQueue() const { return m_dlink_TeamReadyQueue.m_next; }
-	void dlink_swapLinks_TeamBuildQueue()
-	{
-		TeamInQueue *originalNext = m_dlink_TeamBuildQueue.m_next;
-		m_dlink_TeamBuildQueue.m_next = m_dlink_TeamBuildQueue.m_prev;
-		m_dlink_TeamBuildQueue.m_prev = originalNext;
-	}
-	Bool dlink_isInList_TeamBuildQueue(TeamInQueue *const *pListHead) const;
-	void dlink_removeFrom_TeamBuildQueue(TeamInQueue **pListHead);
-
-	Bool dlink_isInList_TeamReadyQueue(TeamInQueue *const *pListHead) const;
-	void dlink_removeFrom_TeamReadyQueue(TeamInQueue **pListHead);
-private:
-	struct DLINK
-	{
-		TeamInQueue *m_prev;
-		TeamInQueue *m_next;
-	};
-	DLINK m_dlink_TeamBuildQueue; // +0x04
-	DLINK m_dlink_TeamReadyQueue; // +0x0C
-	char m_pad14[0x1C - 0x14];
-public:
-	Team *m_team;		// +0x1C
-};
+#include "TeamInQueue.h"
 
 class AIPlayer
 {

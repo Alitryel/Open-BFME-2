@@ -1,47 +1,10 @@
-// cl: /Ob0
-
-// The BFME1 donor baked its own vtable VA as a literal, which cannot
-// transfer (same repair as Rva0081C2F0Set): the address of a sacrificial
-// anchor stands in (mov-imm-DIR32, patched from retail).
-static int Rva00161220VTableAnchor;
-
-// TeamInQueue (ZH AIPlayer.h): queueDozer 0x004F2931 and AIPlayer::xfer construct it on
-// new(0x30) and prepend it to the build/ready queues; its dtor is 0x004F05F0.
-class TeamInQueue
+// cl: /Ob1
+#include "../GameLogic/AI/TeamInQueue.h"
+// Native4EF5CE installs C62B78 and clears the complete 0x30 queue node.
+TeamInQueue::TeamInQueue() throw()
 {
-	void *m_vptr;
-	int m_04;
-	int m_08;
-	int m_0C;
-	int m_10;
-	int m_14;
-	char m_18;
-	int m_1C;
-	int m_20;
-	int m_24;
-	char m_28;
-	char m_29;
-	char m_2A;
-	int m_2C;
-
-public:
-	TeamInQueue();
-};
-
-TeamInQueue::TeamInQueue()
-{
-	m_vptr = (void *)&Rva00161220VTableAnchor;
-	m_04 = 0;
-	m_08 = 0;
-	m_0C = 0;
-	m_10 = 0;
-	m_14 = 0;
-	m_18 = 0;
-	m_1C = 0;
-	m_20 = 0;
-	m_24 = 0;
-	m_28 = 0;
-	m_29 = 0;
-	m_2A = 0;
-	m_2C = 0;
+    m_prev=0; m_next=0; m_prevReady=0; m_nextReady=0;
+    m_workOrders=0; m_priorityBuild=0; m_team=0; m_unknown20=0;
+    m_frameStarted=0; m_sentToStartLocation=0; m_stopQueueing=0;
+    m_reinforcement=0; m_reinforcementID=(ObjectID)0;
 }

@@ -131,14 +131,7 @@ public:
 };
 
 // TeamInQueue: the build-queue record ctor 0x004EF5CE (new 0x30).
-class TeamInQueue
-{
-public:
-	TeamInQueue() throw();
-private:
-	void *m_vptr;
-	char m_pad[0x30 - 4];
-};
+#include "TeamInQueue.h"
 
 class Player
 {

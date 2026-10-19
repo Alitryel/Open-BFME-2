@@ -31,7 +31,8 @@ BFME_LITERAL_NAME_GETTER(Rva004F5BAANamed, "ResourceGatheringManager")
 BFME_LITERAL_NAME_GETTER(Rva004F59ACNamed, "MissionStats")
 #include "../GameLogic/AI/WorkOrder.h"
 const char *WorkOrder::GetSnapshotName() const { return "WorkOrder"; }
-BFME_LITERAL_NAME_GETTER(Rva004EF600Named, "TeamInQueue")
+#include "../GameLogic/AI/TeamInQueue.h"
+const char *TeamInQueue::GetSnapshotName() const { return "TeamInQueue"; }
 BFME_LITERAL_NAME_GETTER(Rva004E4007Named, "ObjectivesMenu")
 BFME_LITERAL_NAME_GETTER(Rva004DEA62Named, "FiringTracker")
 BFME_LITERAL_NAME_GETTER(Rva004D86BBNamed, "TurretAI")

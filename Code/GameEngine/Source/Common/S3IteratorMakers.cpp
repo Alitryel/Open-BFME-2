@@ -12,13 +12,7 @@
 // both as TeamInQueue build/ready getters through the target queue walks.
 // Callable declarations only: no fields, instances or function bodies are
 // used here. The real rowed providers remain owners of both implementations.
-class TeamInQueue
-{
-public:
-    virtual ~TeamInQueue();
-    TeamInQueue *dlink_next_TeamBuildQueue() const;
-    TeamInQueue *dlink_next_TeamReadyQueue() const;
-};
+#include "../GameLogic/AI/TeamInQueue.h"
 typedef TeamInQueue *(TeamInQueue::*BfmeNextLink)() const;
 
 struct BfmeIterator

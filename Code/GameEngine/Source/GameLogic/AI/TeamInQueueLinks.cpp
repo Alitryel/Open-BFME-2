@@ -14,55 +14,29 @@
 typedef bool Bool;
 #define NULL 0
 
-class TeamInQueue
-{
-public:
-	TeamInQueue *dlink_prev_TeamBuildQueue() const { return m_dlink_TeamBuildQueue.m_prev; }
-	TeamInQueue *dlink_next_TeamBuildQueue() const { return m_dlink_TeamBuildQueue.m_next; }
-	void dlink_swapLinks_TeamBuildQueue()
-	{
-		TeamInQueue *originalNext = m_dlink_TeamBuildQueue.m_next;
-		m_dlink_TeamBuildQueue.m_next = m_dlink_TeamBuildQueue.m_prev;
-		m_dlink_TeamBuildQueue.m_prev = originalNext;
-	}
-	Bool dlink_isInList_TeamBuildQueue(TeamInQueue *const *pListHead) const;
-	void dlink_prependTo_TeamBuildQueue(TeamInQueue **pListHead);
-	void dlink_removeFrom_TeamBuildQueue(TeamInQueue **pListHead);
-
-	Bool dlink_isInList_TeamReadyQueue(TeamInQueue *const *pListHead) const;
-	void dlink_removeFrom_TeamReadyQueue(TeamInQueue **pListHead);
-private:
-	struct DLINK
-	{
-		TeamInQueue *m_prev;
-		TeamInQueue *m_next;
-	};
-	void *m_vtbl;
-	DLINK m_dlink_TeamBuildQueue; // +0x04
-	DLINK m_dlink_TeamReadyQueue; // +0x0C
-};
+#include "TeamInQueue.h"
 
 // ------------------------------------------------------------------------------------------------
 Bool TeamInQueue::dlink_isInList_TeamBuildQueue(TeamInQueue *const *pListHead) const
 {
-	return *pListHead == this || m_dlink_TeamBuildQueue.m_prev || m_dlink_TeamBuildQueue.m_next;
+	return *pListHead == this || m_prev || m_next;
 }
 
 void TeamInQueue::dlink_removeFrom_TeamBuildQueue(TeamInQueue **pListHead)
 {
-	if (m_dlink_TeamBuildQueue.m_next)
-		m_dlink_TeamBuildQueue.m_next->m_dlink_TeamBuildQueue.m_prev = m_dlink_TeamBuildQueue.m_prev;
-	if (m_dlink_TeamBuildQueue.m_prev)
-		m_dlink_TeamBuildQueue.m_prev->m_dlink_TeamBuildQueue.m_next = m_dlink_TeamBuildQueue.m_next;
+	if (m_next)
+		m_next->m_prev = m_prev;
+	if (m_prev)
+		m_prev->m_next = m_next;
 	else
-		*pListHead = m_dlink_TeamBuildQueue.m_next;
-	m_dlink_TeamBuildQueue.m_prev = 0;
-	m_dlink_TeamBuildQueue.m_next = 0;
+		*pListHead = m_next;
+	m_prev = 0;
+	m_next = 0;
 }
 
 Bool TeamInQueue::dlink_isInList_TeamReadyQueue(TeamInQueue *const *pListHead) const
 {
-	return *pListHead == this || m_dlink_TeamReadyQueue.m_prev || m_dlink_TeamReadyQueue.m_next;
+	return *pListHead == this || m_prevReady || m_nextReady;
 }
 
 // Native-neighbor home suggested by repair_queue dest: 4F03A2 ends at

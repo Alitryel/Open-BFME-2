@@ -171,25 +171,7 @@ extern TeamFactory *TheTeamFactory;
 
 #include "WorkOrder.h"
 
-class TeamInQueue
-{
-protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-private:
-	char m_unrecovered04[ 0x14 - 0x04 ];
-	WorkOrder *m_workOrders;																									///< 0x14
-	Bool m_priorityBuild;																											///< 0x18
-	Team *m_team;																															///< 0x1C
-	char m_unrecovered20[ 0x24 - 0x20 ];
-	Int m_frameStarted;																												///< 0x24
-	Bool m_sentToStartLocation;																								///< 0x28
-	Bool m_stopQueueing;																											///< 0x29
-	Bool m_reinforcement;																											///< 0x2A
-	ObjectID m_reinforcementID;																								///< 0x2C
-};
+#include "TeamInQueue.h"
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

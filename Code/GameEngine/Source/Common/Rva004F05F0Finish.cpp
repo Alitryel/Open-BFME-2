@@ -1,54 +1,27 @@
 // cl: /O1 /DNDEBUG /MD /GX /Ireference/shims/moduledata
-// ??1TeamInQueue@@UAE@XZ at 0x004F05F0 102B: TeamInQueue dtor (work-order list at +0x14, team at +0x1C).
-// Evidence: vptr 0x862B78 at +0 then Snapshot restore 0xBBB554; list at +0x14 via virtual slot0(0) plus operator delete 0x2FD60; flag bytes at +0x5D/+0x5E via +0x1C; layout matches Rva00161220Ctor TU; precedent PillageModuleDataDtor.
-
-void __cdecl operator delete(void *p);
-
-class Xfer;
-
-#include "Common/Snapshot.h"
-
-struct Rva004F05F0Node
-{
-	virtual void *rvaRelease(int flag);
-	unsigned char pad04[8];
-	Rva004F05F0Node *m_next;
+#include "../GameLogic/AI/TeamInQueue.h"
+#include "../GameLogic/AI/WorkOrder.h"
+// Native4F05F0 walks WorkOrder.next at +0C, calls virtual destructor
+// with flags0 and global delete, then marks Team bytes +5D/+5E.
+// Keep the existing evidenced flag view until Team has a shared layout.
+struct Rva004F05F0Flags {
+    unsigned char pad[0x5D];
+    unsigned char m_5D;
+    unsigned char m_5E;
 };
-
-struct Rva004F05F0Flags
-{
-	unsigned char pad[0x5D];
-	unsigned char m_5D;
-	unsigned char m_5E;
-};
-
-class TeamInQueue : public Snapshot
-{
-public:
-	virtual ~TeamInQueue();
-
-private:
-	unsigned char m_pad04[0x10]; // +04..+13
-	Rva004F05F0Node *m_listHead; // +14
-	unsigned char m_pad18[4]; // +18..+1B
-	Rva004F05F0Flags *m_flags; // +1C
-};
-
 TeamInQueue::~TeamInQueue()
 {
-	Rva004F05F0Node *cur = m_listHead;
-	while (cur != 0)
-	{
-		Rva004F05F0Node *next = cur->m_next;
-		void *p = cur->rvaRelease(0);
-		::operator delete(p);
-		cur = next;
-	}
-	Rva004F05F0Flags *flag = m_flags;
-	if (flag != 0 && flag->m_5D == 0)
-	{
-		flag->m_5E = 1;
-		flag->m_5D = 1;
-	}
-	m_listHead = 0;
+    WorkOrder *cur=m_workOrders;
+    while(cur!=0) {
+        WorkOrder *next=cur->m_next;
+        ::delete cur;
+        cur=next;
+    }
+    Rva004F05F0Flags *flag=(Rva004F05F0Flags *)m_team;
+    if(flag!=0 && flag->m_5D==0) {
+        flag->m_5E=1;
+        flag->m_5D=1;
+    }
+    m_workOrders=0;
 }
+void TeamInQueue::loadPostProcess() {}

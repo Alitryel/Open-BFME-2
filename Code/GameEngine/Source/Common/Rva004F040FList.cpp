@@ -53,11 +53,7 @@ public:
 };
 // The membership test and the link are the rowed
 // TeamInQueue::dlink_isInList_TeamReadyQueue and Rva00160620::set.
-class TeamInQueue
-{
-public:
-	Bool dlink_isInList_TeamReadyQueue(TeamInQueue *const *head) const;
-};
+#include "../GameLogic/AI/TeamInQueue.h"
 class Rva00160620
 {
 public:

@@ -321,25 +321,7 @@ private:
 	TeamPrototype *m_proto;			// +0x30
 };
 
-class TeamInQueue
-{
-public:
-	TeamInQueue() throw();
-	virtual ~TeamInQueue();
-	TeamInQueue *dlink_next_TeamBuildQueue() const { return m_next; }
-
-	TeamInQueue *m_prev;			// +0x04
-	TeamInQueue *m_next;			// +0x08
-	TeamInQueue *m_prevReady;		// +0x0C
-	TeamInQueue *m_nextReady;		// +0x10
-	WorkOrder *m_workOrders;		// +0x14
-	Bool m_priorityBuild;			// +0x18
-	char m_pad19[0x1C - 0x19];
-	Team *m_team;				// +0x1C
-	char m_pad20[0x24 - 0x20];
-	unsigned int m_frameStarted;		// +0x24
-	char m_pad28[0x30 - 0x28];
-};
+#include "TeamInQueue.h"
 
 template <class OBJCLASS> class DLINK_ITERATOR
 {
