@@ -276,10 +276,10 @@ struct PlayerStorage {
  unsigned size()const{return finish-start;}
 };
 namespace _STL {template<> vector<Rva004F69C3>::~vector();}
-class Rva004F6187 {public:void rva004F61B1();};
 class LivingWorldAutoResolveBattle {
 public:
  LivingWorldAutoResolveBattle(const PlayerStorage&);
+ void rva004F61B1();
  void rva004F9C8E(TreeHintRef00217D4C *,int);
  void rva004F68B8(unsigned,bool);
  void rva004F99CC(bool*);
@@ -475,7 +475,7 @@ LivingWorldAutoResolveBattle::LivingWorldAutoResolveBattle(const PlayerStorage&i
  }
  ((PairReserve*)&combined)->reserve(total);
  buildReinforcementMaps();addUnitsForCurrentRound(1);
- winner=-1;((Rva004F6187*)this)->rva004F61B1();
+ winner=-1;rva004F61B1();
 }
 
 
