@@ -54,6 +54,10 @@ namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned i
 namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, unsigned int) const; }
 namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
 // bfme link decl-only end
+// Retail keeps the 16-byte /O2 copy of the default _Bit_iter constructor
+// (0x00672310, stlport_vector_bool.cpp); this /O1 unit inlines every use, so
+// it must not emit its own 10-byte copy.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter() {} }
 
 // BFME's resize overload passes its fill value by value. The vendored STLport
 // headers use const references, so only these two element types are shadowed
@@ -65,6 +69,8 @@ class vector<Coord3D, allocator<Coord3D> > : public _Vector_base<Coord3D, alloca
 {
 public:
 	__forceinline vector() : _Vector_base<Coord3D, allocator<Coord3D> >(allocator<Coord3D>()) {}
+	// Both dtors bind to retail's inlined 14-byte copy (0x0007FAB3).
+	~vector();
 
 	unsigned int size() const
 	{
@@ -93,6 +99,7 @@ class vector<ObjectID, allocator<ObjectID> > : public _Vector_base<ObjectID, all
 {
 public:
 	__forceinline vector() : _Vector_base<ObjectID, allocator<ObjectID> >(allocator<ObjectID>()) {}
+	~vector();
 
 	typedef _STL::__type_traits<ObjectID>::has_trivial_assignment_operator _TrivialAss;
 
