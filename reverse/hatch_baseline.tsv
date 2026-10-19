@@ -5164,9 +5164,7 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?BFME
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?BfmeCurrentCaps@@3PAEA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?TheBoxTextureDirtyMask@@3IA	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_00DEDA4C@@3IA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_00DEDA98@@3IA	2
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_bfmeCountTDB@@3HA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	?g_d3dDevice@@3PAUIDirect3DDevice8@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererCtor.cpp	?SyncTime@WW3D@@2IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererSetTextureBFME1.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/TextureBaseReleaseRefThunk.cpp	?Release_Ref@BFME2TextureResource@@QAEXXZ	1
@@ -5217,7 +5215,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?b
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_Va00DEDA34@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_Va00DEDA7C@@3HA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_d3dDevice@@3PAUIDirect3DDevice8@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?DeviceProjectionMatrix@DX8Wrapper@@1VMatrix4@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?ProjectionDepthBias@DX8Wrapper@@1MA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp	??4BfmeFixedObject60@@QAEAAU0@ABU0@@Z	1

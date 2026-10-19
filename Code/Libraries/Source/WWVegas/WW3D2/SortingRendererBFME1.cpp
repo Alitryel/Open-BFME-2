@@ -539,7 +539,6 @@ void BFME2Set_Texture(unsigned stage, const struct BFME2TextureRef &texture);
 extern unsigned TheBoxTextureDirtyMask;
 // ?g_00DEE5DC@@3PAVVertexMaterialClass@@A: the global at this VA is ?ScreenMaterial@@3PAVVertexMaterialClass@@A; this name is an alias for it.
 extern class VertexMaterialClass *ScreenMaterial;
-extern struct IDirect3DDevice8 *g_d3dDevice;
 extern unsigned g_00DEDA4C;
 // ?g_00DEDA4C@@3IA: the global at this VA is ?matrix_changes@DX8Wrapper@@1IA; this name is an alias for it.
 extern unsigned int g_00DEDA4C;
@@ -568,10 +567,10 @@ void Rva0012D4D0Apply(RenderStateStruct &render_state)
 		}
 	}
 	++g_00DEDA4C;
-	g_d3dDevice->SetTransform(D3DTS_WORLD, reinterpret_cast<const D3DMATRIX *>(&render_state.world));
+	DX8Wrapper::_Get_D3D_Device8()->SetTransform(D3DTS_WORLD, reinterpret_cast<const D3DMATRIX *>(&render_state.world));
 	++number_of_DX8_calls;
 	++g_00DEDA4C;
-	g_d3dDevice->SetTransform(D3DTS_VIEW, reinterpret_cast<const D3DMATRIX *>(&render_state.view));
+	DX8Wrapper::_Get_D3D_Device8()->SetTransform(D3DTS_VIEW, reinterpret_cast<const D3DMATRIX *>(&render_state.view));
 	++number_of_DX8_calls;
 }
 
@@ -925,8 +924,6 @@ extern unsigned int TheBoxTextureDirtyMask;
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 #pragma comment(linker, "/alternatename:?BFME2RenderStateChanged@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 #pragma comment(linker, "/alternatename:?g_bfmeCountTDB@@3HA=?number_of_DX8_calls@@3IA")
-// ?g_d3dDevice@@3PAUIDirect3DDevice8@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
-#pragma comment(linker, "/alternatename:?g_d3dDevice@@3PAUIDirect3DDevice8@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
 // ?TheBoxTextureDirtyMask@@3IA: the global at VA 0xdec4f4 is ?render_state_changed@DX8Wrapper@@1IA.
 #pragma comment(linker, "/alternatename:?TheBoxTextureDirtyMask@@3IA=?render_state_changed@DX8Wrapper@@1IA")
 // ?BfmeCurrentCaps@@3PAEA: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.

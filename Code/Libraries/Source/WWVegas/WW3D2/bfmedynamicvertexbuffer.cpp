@@ -889,7 +889,6 @@ void WW3D::_Invalidate_Mesh_Cache()
 
 // ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at this VA is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A; this name is an alias for it.
 #pragma comment(linker, "/alternatename:?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
-#pragma comment(linker, "/alternatename:?g_d3dDevice@@3PAUIDirect3DDevice8@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
 #pragma comment(linker, "/alternatename:?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
 #pragma comment(linker, "/alternatename:?g_Va00DEDA34@@3HA=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
 // ?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A: the global at this VA is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A; this name is an alias for it.
