@@ -1,4 +1,6 @@
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
+// partial score=0.852608 date=2026-10-19
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.857 date=2026-10-17
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.872 date=2026-10-15
@@ -15,6 +17,8 @@
 // creates the new horde, merges upgrades and transfers the surviving carrier.
 // Original method spelling unknown. LatchRestore<bool> is the ZH reference
 // guard: native BC5314 slot0 is the already-owned 00051A46 destructor.
+// An empty member list leaves no member for the surviving banner carrier.
+// Pool-list disposal cannot throw C++ exceptions.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
@@ -72,7 +76,7 @@ class ExperienceTracker
 ;
 class Rva003BD306Target 
 {
- public: void rva0039B2C7(int,int);
+ public: void rva0039B2C7(int,bool);
  
 }
 ;
@@ -206,7 +210,8 @@ struct CreateMask
 ;
 class ThingFactory 
 {
- public: Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);
+ public: const ThingTemplate *findTemplate(const AsciiString &);
+ Object *newObject(const ThingTemplate *,Team *,const CreateMask *,bool);
  
 }
 ;
@@ -256,7 +261,7 @@ class Rva001EB984Member
 ;
 class Rva001EB769 
 {
- public: void rva001EB769();
+ public: void rva001EB769() throw();
  
 }
 ;
@@ -292,7 +297,7 @@ class ObjectList
   reinterpret_cast<Rva001EB984Member*>(this)->init(&alloc);
   
  }
- ~ObjectList() 
+ ~ObjectList() throw()
  {
   reinterpret_cast<Rva001EB769*>(this)->rva001EB769();
   
@@ -514,7 +519,7 @@ void HordeContain::rva00473197(Object *banner, const Object *source, bool flag, 
  int index = getBannerCarrierIndexToUse(source, &type);
  if (index != -1) 
  {
-  rva00473125(banner, &ordinary.id, index);
+  rva00473125(banner, &carrierID, index);
   rva00468E79((int)banner, (int)type, value);
   if (!flag) owner->tracker->rva0039B4EC(1, true, false);
   int levels = owner->tracker->level - banner->tracker->level;
@@ -564,9 +569,10 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
  Rva0046D158Record *record = rva0046D158(objectType->name);
  if (!record) return 0;
  AsciiString replacement(record->replacement);
- const ThingTemplate *type=(const ThingTemplate*)reinterpret_cast<Rva002D06CA*>(TheThingFactory)->rva002D06CA(&replacement);
- Object *created=0;
- if (type) 
+ const ThingTemplate *type=TheThingFactory->findTemplate(replacement);
+ if (!type) return 0;
+ Object *created;
+ 
  {
   ModuleSlot15 *module=(ModuleSlot15*)owner->rva0028BC58(0);
   if (module) module->clear();
@@ -576,7 +582,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
   ObjectList members;
   collect(members);
   Object *firstCarrier=TheGameLogic->findObjectByID((ObjectID)carrierID);
-  Object *firstMember;
+  Object *firstMember=0;
   if (firstCarrier) 
   {
    ObjectIterator found = _STL::find(members.begin(),members.end(),firstCarrier);
@@ -585,7 +591,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
     reinterpret_cast<_STL::list<Object*>*>(&members)->erase(found);
     
    }
-   _ReadWriteBarrier();
+
    if (!members.empty()) firstMember=members.front();
    
   }
