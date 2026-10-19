@@ -51,10 +51,20 @@ struct BfmeItemERF
 	~BfmeItemERF();
 };
 
-class BfmeVecERF
+// The callee's row (VectorResizeRva003F6EA1.cpp, 0x003F6EA1) spells the
+// vector and its 28-byte by-value record by address-derived names. The record
+// it takes is the one BfmeItemERF's constructor (0x003F609E) builds here, so
+// the argument view only renames that record for the call.
+struct Rva003F6EA1Record : BfmeItemERF
+{
+	Rva003F6EA1Record() {}
+	~Rva003F6EA1Record();
+};
+
+class Rva003F6EA1Vector
 {
 public:
-	void bfmeResizeERF( UnsignedInt count, BfmeItemERF value );
+	void resize( UnsignedInt count, Rva003F6EA1Record value );
 };
 
 class Rva00427130Vector
@@ -65,5 +75,5 @@ public:
 
 void Rva00427130Vector::resize( UnsignedInt count )
 {
-	((BfmeVecERF *)this)->bfmeResizeERF( count, BfmeItemERF() );
+	((Rva003F6EA1Vector *)this)->resize( count, Rva003F6EA1Record() );
 }
