@@ -79,6 +79,24 @@ ConnectionAsciiSet::~ConnectionAsciiSet()
 }
 typedef char ConnectionAsciiSetExtent[(sizeof(ConnectionAsciiSet)==12)?1:-1];
 
+// Retail's eight progress-map callbacks destroy through the existing
+// Rva004D1D32 owner, not the unrelated generic map<int,void*> destructor.
+// Keep the STLport empty-tree construction and allocator temporaries. The
+// comparator and payload spelling are construction views, not target types.
+typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>,
+    _STL::_Select1st<_STL::pair<const int, void *> >, _STL::less<int>,
+    _STL::allocator<_STL::pair<const int, void *> > > ConnectionProgressTree;
+class Rva004D1D32
+{
+public:
+    Rva004D1D32()
+        : m_tree(_STL::less<int>(), ConnectionProgressTree::allocator_type()) {}
+    ~Rva004D1D32();
+private:
+    ConnectionProgressTree m_tree;
+};
+typedef char ConnectionProgressExtent[(sizeof(Rva004D1D32)==12)?1:-1];
+
 class ConnectionManager
 {
 public:
@@ -111,7 +129,7 @@ public:
 	char m_12136pad[2];
 	_STL::map<int, void *> m_12138;
 	ConnectionAsciiSet m_12144;
-	_STL::map<int, void *> m_12150[8];
+	Rva004D1D32 m_12150[8];
 };
 
 ConnectionManager::ConnectionManager()

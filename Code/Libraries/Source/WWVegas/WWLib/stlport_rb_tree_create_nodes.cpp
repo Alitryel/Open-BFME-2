@@ -325,12 +325,6 @@ public:
 	~Rva004D0545();
 };
 
-class Rva004D0572
-{
-public:
-	~Rva004D0572();
-};
-
 class Rva004D1D2D
 {
 public:
@@ -341,15 +335,3 @@ void Rva004D1D2D::rva004D1D2D()
 {
 	((Rva004D0545 *)this)->~Rva004D0545();
 }
-
-class Rva004D1D32
-{
-public:
-	void rva004D1D32();
-};
-
-void Rva004D1D32::rva004D1D32()
-{
-	((Rva004D0572 *)this)->~Rva004D0572();
-}
-
