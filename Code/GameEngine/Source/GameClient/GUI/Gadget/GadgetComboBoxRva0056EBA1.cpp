@@ -70,9 +70,9 @@ UnicodeString Rva0056EA91::rva0056EA91()
 	return tmp;
 }
 
-// ?rva0056EBD0@Rva0056EBD0@@QAE?AVUnicodeString@@XZ retail 0x0056EBD0 132B
+// ?rva0056EBD0@AptOnlineLogin@@QAE?AVUnicodeString@@XZ retail 0x0056EBD0 132B
 // Evidence: empty 0x00A0C898 via 0x00037050; GadgetTextEntryGetText 0x00320AAB then set 0x00037150 release 0x00036E70; combo at +0xAC; sibling 0x0056EA91
-class Rva0056EBD0
+class AptOnlineLogin
 {
 public:
 	UnicodeString rva0056EBD0();
@@ -81,7 +81,7 @@ private:
 	GameWindow *m_combo;
 };
 
-UnicodeString Rva0056EBD0::rva0056EBD0()
+UnicodeString AptOnlineLogin::rva0056EBD0()
 {
 	UnicodeString tmp = UnicodeString::TheEmptyString;
 	if (m_combo != NULL) {

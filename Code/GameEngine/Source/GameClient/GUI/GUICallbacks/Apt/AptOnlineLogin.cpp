@@ -117,7 +117,6 @@ class Rva00222A8BTarget { public:
 };
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
-class Rva0056DCBF { public: void rva0056DCBF(bool); };
 struct AptOnlineLoginOwner { unsigned char pad[0x274]; void *movie; };
 class GameWindow { public: void *winGetUserData(); };
 // The country callback reads only this ledger-owned first word.
@@ -204,7 +203,6 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 extern "C" unsigned char *__cdecl _mbscpy(unsigned char *,const unsigned char *);
 class Rva0056EBA1 { public: UnicodeString rva0056EB15(); };
 class Rva0056EA91 { public: UnicodeString rva0056EA91(); };
-class Rva0056EBD0 { public: UnicodeString rva0056EBD0(); };
 // Donor request fields retained only where retail accesses them. Native
 // proves this request's prefix and 0x2B8 stack extent; remaining bytes opaque.
 struct LoginSubmitRequest {
@@ -376,6 +374,8 @@ template<class T> struct LoginApplyStringView {
 class AptOnlineLogin {
 public:
     void OnBttnRegisterFESL(const char *);
+    void rva0056DCBF(bool);		// 0x0056DCBF: enables the four login windows
+    UnicodeString rva0056EBD0();	// 0x0056EBD0: the password entry's text
     void OnAccountDeleted(bool);
     void rva00571C9D();
     void rva00572632(const char *);
@@ -465,7 +465,7 @@ void AptOnlineLogin::rva00572632(const char *)
         closeLocale=false;
         void *movie=owner->movie;
         ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"DoOpenLocale",0,0,0,0);
-        ((Rva0056DCBF *)this)->rva0056DCBF(false);
+        rva0056DCBF(false);
     }
 }
 
@@ -526,7 +526,7 @@ void AptOnlineLogin::rva00572768(const char *)
         closeLocale=true;
         void *movie=owner->movie;
         ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"DoOpenLocale",0,0,0,0);
-        ((Rva0056DCBF *)this)->rva0056DCBF(false);
+        rva0056DCBF(false);
     }
 }
 
@@ -642,7 +642,7 @@ void AptOnlineLogin::rva00570D36() {
  AsciiString login,password,email;
  email.translate(((Rva0056EBA1 *)this)->rva0056EB15());
  login.translate(((Rva0056EA91 *)this)->rva0056EA91());
- password.translate(((Rva0056EBD0 *)this)->rva0056EBD0());
+ password.translate(rva0056EBD0());
  if(!email.isEmpty() && !login.isEmpty() && !password.isEmpty()) {
   loginStartTime=timeGetTime();
   LoginSubmitRequest req;
@@ -658,7 +658,7 @@ void AptOnlineLogin::rva00570D36() {
   TheGameSpyInfo->setLocalEmail(email);
   TheGameSpyInfo->setLocalPassword(password);
   TheGameSpyBuddyMessageQueue->addRequest(req);
-  ((Rva0056DCBF *)this)->rva0056DCBF(false);
+  rva0056DCBF(false);
   rva00570C64();
  } else {
   if(email.isEmpty() && login.isEmpty() && password.isEmpty()) GSMessageBoxOk(TheGameText->fetch("GUI:Error"),TheGameText->fetch("GUI:GSNoLoginInfoAll"),0);
@@ -679,7 +679,7 @@ void AptOnlineLogin::rva00571129() {
  AsciiString login,password,email;
  email.translate(((Rva0056EBA1 *)this)->rva0056EB15());
  login.translate(((Rva0056EA91 *)this)->rva0056EA91());
- password.translate(((Rva0056EBD0 *)this)->rva0056EBD0());
+ password.translate(rva0056EBD0());
 
  { void *movie=owner->movie;
    ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"DisableButtonDeleteNickname",0,0,0,0); }
@@ -704,7 +704,7 @@ void AptOnlineLogin::rva00571129() {
   TheGameSpyInfo->setLocalEmail(email);
   TheGameSpyInfo->setLocalPassword(password);
   TheGameSpyBuddyMessageQueue->addRequest(req);
-  ((Rva0056DCBF *)this)->rva0056DCBF(false);
+  rva0056DCBF(false);
   rva00570C64();
  } else {
   if(email.isEmpty() && login.isEmpty() && password.isEmpty()) GSMessageBoxOk(TheGameText->fetch("GUI:Error"),TheGameText->fetch("GUI:GSNoLoginInfoAll"),0);
@@ -739,7 +739,7 @@ void AptOnlineLogin::rva0057179D(bool argument) {
  AsciiString login,password;
  AsciiString email(((Rva0056EBA1 *)this)->rva0056EB15());
  login.translate(((Rva0056EA91 *)this)->rva0056EA91());
- password.translate(((Rva0056EBD0 *)this)->rva0056EBD0());
+ password.translate(rva0056EBD0());
  if(!email.isEmpty() && !login.isEmpty() && !password.isEmpty()) {
   loginStartTime=timeGetTime();
   LoginSubmitRequest req;
@@ -756,7 +756,7 @@ void AptOnlineLogin::rva0057179D(bool argument) {
   TheGameSpyInfo->setLocalPassword(password);
   req.tail=false;
   TheGameSpyBuddyMessageQueue->addRequest(req);
-  ((Rva0056DCBF *)this)->rva0056DCBF(false);
+  rva0056DCBF(false);
   { void *movie=owner->movie; ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"DisableButtonLogin",0,0,0,0); }
   { void *movie=owner->movie; ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"DisableButtonDeleteNickname",0,0,0,0); }
   rva00570C64();
@@ -804,7 +804,7 @@ void AptOnlineLogin::rva005700A0()
         AsciiString login,password;
         login.translate(((Rva0056EA91 *)this)->rva0056EA91());
         if(remember && GadgetCheckBoxIsChecked(remember))
-            password.translate(((Rva0056EBD0 *)this)->rva0056EBD0());
+            password.translate(rva0056EBD0());
         else password.clear();
         (*(LoginPreferenceMap *)&loginPreferences)["lastName"]=login;
         GameSpyLoginPreferences *preferences2=(GameSpyLoginPreferences *)((char *)this+0x60);
@@ -1068,7 +1068,7 @@ bool AptOnlineLogin::rva005706D4()
         }
         {
             Rva0056FA50 minimum;
-            UnicodeString passwordText=((Rva0056EBD0 *)this)->rva0056EBD0();
+            UnicodeString passwordText=rva0056EBD0();
             Rva0056FAA5 passwordLength;
             passwordLength.rva0056FD46(((const LoginApplyStringView<unsigned short> *)&passwordText)->shortLength());
             minimum.value=0x88772DDE;
@@ -1119,7 +1119,7 @@ void AptOnlineLogin::rva00571C9D()
   HandleBuddyResponses();HandlePersistentStorageResponses();
   if(accountDeleted) OnAccountDeleted(true);
   if(responseFailed) {
-   ((Rva0056DCBF *)this)->rva0056DCBF(true);
+   rva0056DCBF(true);
    { void *movie=owner->movie; ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"EnableButtonDeleteNickname",0,0,0,0); }
    { void *movie=owner->movie; ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"EnableButtonCreate",0,0,0,0); }
    { void *movie=owner->movie; ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(movie,"CallChild",1,"EnableButtonLogin",0,0,0,0); }
@@ -1183,7 +1183,7 @@ void AptOnlineLogin::rva00571C9D()
      AsciiString label;loginStartTime=0;
      label.format("GUI:GSDisconReason%d",resp.profileOrReason);
      GSMessageBoxOk(TheGameText->fetch("GUI:GSErrorTitle"),TheGameText->fetch(label),0);
-     ((Rva0056DCBF *)this)->rva0056DCBF(true);
+     rva0056DCBF(true);
     }
     AsciiString motd=TheGameSpyInfo->getMOTD(),config=TheGameSpyInfo->getConfig();
     TearDownGameSpy();SetUpGameSpy(motd.str(),config.str());
@@ -1194,7 +1194,7 @@ void AptOnlineLogin::rva00571C9D()
     AsciiString email;
     email.translate(((Rva0056EBA1 *)this)->rva0056EB15());
     AsciiString password;
-    if(remember && GadgetCheckBoxIsChecked(remember)) password.translate(((Rva0056EBD0 *)this)->rva0056EBD0());
+    if(remember && GadgetCheckBoxIsChecked(remember)) password.translate(rva0056EBD0());
     else password.clear();
     AsciiString date("01/01/1970");
     int count=resp.nicknames.size();

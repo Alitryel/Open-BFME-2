@@ -38864,7 +38864,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00548800@Rva00548800@@QAE_NPBV?$list@PAVCreateAHeroData@@V?$allocator@PAVCreateAHeroData@@@_STL@@@_STL@@@Z,,0x00548800,59,Code/Libraries/Source/WWVegas/WWLib/Rva00548800Contains.cpp,matched,contains-check list nodes via rowed find same vector range callers prove
 ?xferAsciiStringVector@@YAPAVXfer@@PAV1@PAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z,,0x0005A170,241,Code/GameEngine/Source/Common/System/XferAsciiStringVector.cpp,matched,Ascii vector Xfer via Unicode donor plus reserve pushback throw
 ?rva0056EE5F@Rva0056EE5F@@QAEEXZ,,0x0056EE5F,121,Code/GameEngine/Source/Common/Rva0056EE5FRegistry.cpp,matched,Registry Registered true check via GetString compareNoCase
-?rva0056EBD0@Rva0056EBD0@@QAE?AVUnicodeString@@XZ,,0x0056EBD0,132,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetComboBoxRva0056EBA1.cpp,matched,TextEntry GetText wrapper sibling EA91 combo AC
+?rva0056EBD0@AptOnlineLogin@@QAE?AVUnicodeString@@XZ,,0x0056EBD0,132,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetComboBoxRva0056EBA1.cpp,matched,TextEntry GetText wrapper sibling EA91 combo AC
 ?Rva005D5CBFPartition@@YAPAVRva005D5A7E@@PAV1@0V1@@Z,,0x005D5CBF,68,Code/GameEngine/Source/Common/Rva005D5A7EComparator.cpp,matched,unguarded partition via rowed comparator and swap
 ?rva00238F91@Rva00238E1B@@QAEXHHH@Z,,0x00238F91,47,Code/GameEngine/Source/Common/Rva00238E1BCounter.cpp,matched,setter plus flags via same class
 ?restorePriorDisplayMode@Rva00238E1B@@QAEXXZ,,0x00238FC0,51,Code/GameEngine/Source/Common/Rva00238E1BCounter.cpp,matched,copy setter via same class; wb-lead 1/callgraph: WB D20460 GameClient::restorePriorDisplayMode (GameClient.cpp:2374 prior-res assert; same +0xD8..+0xE0 to +0xCC..+0xD4 copy and +0xC9/+0xCA flags)
@@ -39659,7 +39659,7 @@ _Rva000219C0LocaleName,,0x000219C0,23,Code/Libraries/Source/WWVegas/WWLib/stlpor
 ??0Rva00030DD0Lock@@QAE@XZ,,0x00030D60,21,Code/GameEngine/Source/Common/Rva00030DD0AddRef.cpp,matched,ctor zeroes ref plus InitCS
 ?rva006C21B0@Rva006C17B0@@QAEXXZ,,0x006C21B0,10,Code/GameEngine/Source/Common/Rva006C17B0.cpp,matched,chain of 0x006C17B0 same this true false
 ??0Rva005DD822@@QAE@I@Z,,0x005DD822,75,Code/GameEngine/Source/Common/Rva005DD772Ctor.cpp,matched,Rva005DD772 layout base plus float callers parsers format rowed
-?rva0056DCBF@Rva0056DCBF@@QAEX_N@Z,,0x0056DCBF,83,Code/GameEngine/Source/Common/System/Rva0056DCBFWindows.cpp,matched,window enabler with four winEnable calls
+?rva0056DCBF@AptOnlineLogin@@QAEX_N@Z,,0x0056DCBF,83,Code/GameEngine/Source/Common/System/Rva0056DCBFWindows.cpp,matched,window enabler with four winEnable calls
 ?updateCountsAndFlags@W3DRoadBuffer@@IAEXXZ,,0x000D52EA,487,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp,matched,gap updateCountsAndFlags via init guard like insertTee
 ?rva0037EACC@Rva0037EACC@@QAEXPAX@Z,,0x0037EACC,81,Code/GameEngine/Source/Common/Rva0037EACCCopy.cpp,matched,copy-to with AsciiString Rva assign and rep movsd
 ?rva0028FB6F@Object@@QAEXPAX@Z,,0x0028FB6F,79,Code/GameEngine/Source/GameLogic/Object/Object_Rva0028FB6F.cpp,matched,Object helper mask via slot44 plus status clear
