@@ -10,7 +10,7 @@
 // Evidence (target): same shape as the matched Rva00895050 inline-container
 // swap at 0x006D0040 (Rva00895050InlineContainerSwap.cpp) with 4-byte
 // handle elements: the EH vector constructor iterator builds the temporary
-// with the shared zeroing element constructor at 0x00013260 and the rowed
+// with the zeroing default constructor closure at 0x00013260 and the rowed
 // element destructor 0x000A9DF3 (as in the rowed ModuleTagString destructor
 // 0x006CE7F0 which destroys the same +0xC two-element array); the second
 // temporary slot is reset by assigning an empty handle whose release path
@@ -66,10 +66,14 @@ private:
 	unsigned int *m_count;
 };
 
-struct Rva004A9DF3Element : public Rva006D0F50Handle
+// A default-argument constructor on a class with no destructible subobject:
+// the EH vector constructor iterator then takes its default constructor
+// closure, which inlines the zeroing store (retail 0x00013260, 7 bytes).
+struct Rva004A9DF3Element
 {
-	Rva004A9DF3Element();
+	Rva004A9DF3Element(unsigned int *count = 0) : m_count(count) {}
 	~Rva004A9DF3Element();
+	unsigned int *m_count;
 };
 
 class ModuleTagString
@@ -105,7 +109,7 @@ void ModuleTagString::swap(ModuleTagString &other)
 	if (!otherInline && !thisInline)
 		return;
 	Rva004A9DF3Element temporary[2];
-	static_cast<Rva006D0F50Handle &>(temporary[1]) = Rva006D0F50Handle();
+	*(Rva006D0F50Handle *)&temporary[1] = Rva006D0F50Handle();
 	Rva006D0460Copy((BfmeRefVGO *)m_inline, (BfmeRefVGO *)(m_inline + 2), (BfmeRefVGO *)temporary);
 	Rva006D0460Copy((BfmeRefVGO *)other.m_inline, (BfmeRefVGO *)(other.m_inline + 2), (BfmeRefVGO *)m_inline);
 	Rva006D0460Copy((BfmeRefVGO *)temporary, (BfmeRefVGO *)(temporary + 2), (BfmeRefVGO *)other.m_inline);
