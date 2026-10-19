@@ -35,7 +35,9 @@ public:
 extern "C" int __identifier("??_7Rva0059D400MultiTailDtor@@6BRva0001AA9BMultiBase@@@");
 extern const FieldParse s5Table0059D600;
 
-struct S5Built0059D600 : public Rva00489210
+// The record's constructor (0x0035F2B3) is the rowed FullFadeTransition
+// constructor (GameWindowTransitionsStyles.cpp); the record is that class.
+struct FullFadeTransition : public Rva00489210
 {
 	volatile int m_10;
 	volatile int m_14;
@@ -46,12 +48,12 @@ struct S5Built0059D600 : public Rva00489210
 	int m_28;
 	int m_2C;
 
-	S5Built0059D600();
+	FullFadeTransition();
 };
 
 void s5parse0059D600( INI *ini, Gen_00489270 *sink )
 {
-	S5Built0059D600 *record = new S5Built0059D600;
+	FullFadeTransition *record = new FullFadeTransition;
 	ini->initFromINI( record, &s5Table0059D600 );
 	record->m_04 = record->m_14;
 	sink->m( (int)record );
