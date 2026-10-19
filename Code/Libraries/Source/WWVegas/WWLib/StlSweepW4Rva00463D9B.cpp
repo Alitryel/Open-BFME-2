@@ -15,12 +15,22 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
                               const _Rb_tree_iterator<_RbVal, _RbRight> &b)
 { return a._M_node != b._M_node; }
 }
+// The rowed callers erase ObjectID keys from the contain interface's int-keyed
+// name set: OpenContain::onRemoving passes opaqueKey(rider->getID())
+// (reinterpret_cast<const Element&>(int)) and HordeContain::removeMemberFromHorde
+// passes *(const Element*)&id, so the element is a trivial 4-byte key compared
+// as a signed int (the int-keyed twin of 0x00439862). The donor's declared
+// ctor/copy/assign/dtor were over-specification that left
+// ??1Rva00463D9BElement@@QAE@XZ unresolved; make the element trivial and give
+// the free operator< the inlined int compare.
 struct Rva00463D9BElement {
- Rva00463D9BElement(); Rva00463D9BElement(const Rva00463D9BElement&);
- ~Rva00463D9BElement(); Rva00463D9BElement&operator=(const Rva00463D9BElement&);
- char bytes[8];
+ int m_key;
+ char m_pad[4];
 };
-bool operator<(const Rva00463D9BElement&,const Rva00463D9BElement&);
+inline bool operator<(const Rva00463D9BElement &left, const Rva00463D9BElement &right)
+{
+ return left.m_key < right.m_key;
+}
 
 // Instantiate the recovered operation and its required template dependencies.
 template unsigned int _STL::_Rb_tree<Rva00463D9BElement, Rva00463D9BElement, _STL::_Identity<Rva00463D9BElement>, _STL::less<Rva00463D9BElement>, _STL::allocator<Rva00463D9BElement> >::erase(Rva00463D9BElement const &);
