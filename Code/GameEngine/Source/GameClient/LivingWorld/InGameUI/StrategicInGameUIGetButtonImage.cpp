@@ -25,7 +25,7 @@ class ThingFactory {public:const ThingTemplate *findTemplate(const AsciiString &
 class ThingTemplate {public:const Image *getButtonImage();const Image *rva0033BA46();};
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player *find(int,unsigned int *);};
-class Rva002E06B8 {public:void *rva002E06EF();};
+class LivingWorldPlayer {public:void *rva002E06EF();};
 class CreateAHeroHero;
 class CreateAHeroManager {public:const AsciiString &GetButtonImageName(const CreateAHeroHero *);};
 extern CreateAHeroManager *TheCreateAHeroManager;
@@ -43,7 +43,7 @@ const Image *GetButtonImage(const StrategicButtonImageView *view,int playerID) {
    if(((const unsigned char *)definition)[0x11f]&0x40) {
     Rva002E2903Player *player=((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(playerID,0);
     if(player) {
-     const CreateAHeroHero *hero=(const CreateAHeroHero *)((Rva002E06B8 *)player)->rva002E06EF();
+     const CreateAHeroHero *hero=(const CreateAHeroHero *)((LivingWorldPlayer *)player)->rva002E06EF();
      if(hero) image=TheMappedImageCollection->findImageByName(TheCreateAHeroManager->GetButtonImageName(hero));
     }
    }

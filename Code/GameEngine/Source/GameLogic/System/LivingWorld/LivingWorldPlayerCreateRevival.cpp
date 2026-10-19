@@ -64,14 +64,18 @@ class ExperienceLevelStore {public:
 // TheExperienceLevelStore is only an alias of the owned global TheExperienceLevelSystem (ledger names column); this unit reads the owner through its own view type.
 extern class ExperienceLevelSystem *TheExperienceLevelSystem;
 #define TheExperienceLevelStore (*(ExperienceLevelStore * *)&TheExperienceLevelSystem)
-class Rva002E06B8 {public: void *rva002E06EF();};
 class CreateAHeroHero;
 class CreateAHeroManager {public: const AsciiString &GetButtonImageName(const CreateAHeroHero*);};
 extern CreateAHeroManager *TheCreateAHeroManager;
 class ImageCollection {public: const Image *findImageByName(const AsciiString&);};
 extern ImageCollection *TheMappedImageCollection;
 struct RespawnIconView {char unknown00[0x118]; AsciiString name;};
-class LivingWorldPlayer;
+class LivingWorldPlayer {
+public: void rva002E3442(const RevivalSourceView*const*,const ThingTemplate*,int);
+ void InitBuildableHeroes();
+ void *rva002E06EF();
+ char unknown00[0x40]; int field40; char unknown44[0x1A8-0x44]; std::vector<UnitRevivalEntry> entries;
+};
 // ?CreateRevivalEntry@@YA?AVUnitRevivalEntry@@PAVLivingWorldPlayer@@PBQBURevivalSourceView@@PBVThingTemplate@@H@Z
 static __declspec(noinline) UnitRevivalEntry CreateRevivalEntry(LivingWorldPlayer *player,const RevivalSourceView *const *source,const ThingTemplate *thing,int kind) {
  UnitRevivalEntry entry(thing);
@@ -94,7 +98,7 @@ static __declspec(noinline) UnitRevivalEntry CreateRevivalEntry(LivingWorldPlaye
    const RespawnUpdateModuleData *rules=module->getRespawnData();
    const Image *image=0;
    if(thing->flags11F & 0x40) {
-    const CreateAHeroHero *hero=(const CreateAHeroHero*)reinterpret_cast<Rva002E06B8*>(player)->rva002E06EF();
+    const CreateAHeroHero *hero=(const CreateAHeroHero*)player->rva002E06EF();
     if(hero) image=TheMappedImageCollection->findImageByName(TheCreateAHeroManager->GetButtonImageName(hero));
    } else {
     const AsciiString &imageName=reinterpret_cast<const RespawnIconView*>(rules)->name;
@@ -108,11 +112,6 @@ static __declspec(noinline) UnitRevivalEntry CreateRevivalEntry(LivingWorldPlaye
  }
  return entry;
 }
-class LivingWorldPlayer {
-public: void rva002E3442(const RevivalSourceView*const*,const ThingTemplate*,int);
- void InitBuildableHeroes();
- char unknown00[0x40]; int field40; char unknown44[0x1A8-0x44]; std::vector<UnitRevivalEntry> entries;
-};
 // ?rva002E3442@LivingWorldPlayer@@QAEXPBQBURevivalSourceView@@PBVThingTemplate@@H@Z
 void LivingWorldPlayer::rva002E3442(const RevivalSourceView*const *source,const ThingTemplate *thing,int key) {
  UnitRevivalEntry entry=CreateRevivalEntry(this,source,thing,0);
@@ -195,7 +194,7 @@ void LivingWorldPlayer::InitBuildableHeroes() {
    const RevivalSourceView *unit=(const RevivalSourceView*)((const Rva0040CB2CIndexedField*)summary)->get(0);
    const ThingTemplate *thing=(const ThingTemplate*)((Rva0037DCA5*)unit)->GetThingTemplate();
    if(!thing) continue;
-   if((thing->flags11F & 0x40) && !((Rva002E06B8*)this)->rva002E06EF()) continue;
+   if((thing->flags11F & 0x40) && !rva002E06EF()) continue;
    if(thing->flags113 & 4) {
     Rva002E3518Handle handle(unit);
     rva002E3442(&handle.value,thing,record->key);

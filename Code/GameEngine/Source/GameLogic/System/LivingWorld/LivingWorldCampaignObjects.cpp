@@ -232,7 +232,12 @@ struct Rva002B2579Result;
 class Rva002BA8F1Logic { public:Rva002B2579Result *rva002B2579(int); };
 class Rva002E2903Player;
 class Rva004E0705 { public:Rva002E2903Player *rva004E0705(); };
-class Rva002E06B8 { public:void *rva002E06EF(); };
+class LivingWorldPlayer { public:
+ bool HasArmyQueuedInAnyBuilding(void *,int *,int);
+ bool rva002E12F3(int);
+ void *FindArmyWithHero(void *,int);
+ void *rva002E06EF();
+};
 
 // Complete native body and associated EH graph verified against retail.
 const Image *SpawnArmy::GetButtonImage(int id) {
@@ -245,7 +250,7 @@ const Image *SpawnArmy::GetButtonImage(int id) {
   if(!building)return missing;
   Rva002E2903Player *player=((Rva004E0705*)building)->rva004E0705();
   if(!player)return missing;
-  void *hero=((Rva002E06B8*)player)->rva002E06EF();
+  void *hero=((LivingWorldPlayer*)player)->rva002E06EF();
   if(!hero)return missing;
   image=TheMappedImageCollection->findImageByName(TheCreateAHeroManager->GetButtonImageName((const CreateAHeroHero*)hero));
  } else image=TheMappedImageCollection->findImageByName(m_0c);
@@ -265,7 +270,7 @@ const Image *SpawnArmy::GetPortraitImage(int id) {
   if(!building)return missing;
   Rva002E2903Player *player=((Rva004E0705*)building)->rva004E0705();
   if(!player)return missing;
-  void *hero=((Rva002E06B8*)player)->rva002E06EF();
+  void *hero=((LivingWorldPlayer*)player)->rva002E06EF();
   if(!hero)return missing;
   image=TheMappedImageCollection->findImageByName(TheCreateAHeroManager->GetButtonImageName((const CreateAHeroHero*)hero));
  } else image=((ThingTemplate*)thing)->getButtonImage();
@@ -296,7 +301,7 @@ UnicodeString Rva00319CED::rva004E25AF(int id) {
   if(!building)return title;
   Rva002E2903Player *player=((Rva004E0705*)building)->rva004E0705();
   if(!player)return title;
-  void *hero=((Rva002E06B8*)player)->rva002E06EF();
+  void *hero=((LivingWorldPlayer*)player)->rva002E06EF();
   if(!hero)return title;
   return *(const UnicodeString*)((char*)hero+8);
  }
@@ -362,11 +367,6 @@ void Rva004E141DParse(INI *ini,void *instance,void*,const void*) {
  ((Rva00566547Owner*)instance)->append((const Rva003A6F70&)record);
 }
 
-class LivingWorldPlayer { public:
- bool HasArmyQueuedInAnyBuilding(void *,int *,int);
- bool rva002E12F3(int);
- void *FindArmyWithHero(void *,int);
-};
 class Rva0020E89C { public:UnicodeString rva0020E89C(); };
 class Rva00318C32Ret;
 class Rva00318C79Owner { public:Rva00318C32Ret *rva00318C32(); };

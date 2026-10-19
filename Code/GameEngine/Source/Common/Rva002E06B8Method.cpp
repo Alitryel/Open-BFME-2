@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva002E06B8@Rva002E06B8@@QAEPAVGameSlot@@XZ @0x002E06B8 55B find slot matching this plus 0x14
+// ?rva002E06B8@LivingWorldPlayer@@QAEPAVGameSlot@@XZ @0x002E06B8 55B find slot matching this plus 0x14
 // Evidence: global TheGameInfo and callee rowed 0x003FF29F GameInfo getSlot; callers 0x002B336E 0x002E06EF; neighbours 0x002E0675 setter and 0x002E071E compare share /O1
 class GameSlot
 {
@@ -20,7 +20,7 @@ public:
 
 extern GameInfo *TheGameInfo;
 
-class Rva002E06B8
+class LivingWorldPlayer
 {
 public:
 	GameSlot *rva002E06B8();
@@ -30,7 +30,7 @@ private:
 	int m_14;
 };
 
-GameSlot *Rva002E06B8::rva002E06B8()
+GameSlot *LivingWorldPlayer::rva002E06B8()
 {
 	GameInfo *gi = TheGameInfo;
 	if (gi == 0)
@@ -46,7 +46,7 @@ GameSlot *Rva002E06B8::rva002E06B8()
 	return 0;
 }
 
-void *Rva002E06B8::rva002E06EF()
+void *LivingWorldPlayer::rva002E06EF()
 {
 	GameSlot *slot = rva002E06B8();
 	if (slot == 0)

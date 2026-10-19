@@ -41,7 +41,7 @@ public:
 	Rva002E2903Player *find(int v, unsigned int *x);
 };
 
-class Rva002E06B8
+class LivingWorldPlayer
 {
 public:
 	void *rva002E06EF();
@@ -79,7 +79,7 @@ void *Rva0037DCA5::GetDisplayNameStrategicGame(int v)
 	Rva002E2903Player *player = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->find(v, 0);
 	if (player == 0)
 		return (char *)found + 0x58;
-	void *inner = ((Rva002E06B8 *)player)->rva002E06EF();
+	void *inner = ((LivingWorldPlayer *)player)->rva002E06EF();
 	if (inner == 0)
 		return (char *)found + 0x58;
 	return (char *)inner + 8;

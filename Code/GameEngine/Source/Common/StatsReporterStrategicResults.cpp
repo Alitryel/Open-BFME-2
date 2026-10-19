@@ -169,11 +169,11 @@ class LivingWorldPlayer {
  char prefix[0x40];LivingWorldSideView*side;int playerKind;
  char beforeScore[0x280];LivingWorldScoreKeeper score;
  char beforeFlags[0xC];bool lost,guarded;
+ void*rva002E06EF();
 };
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player*rva002B52A8(int);};
 class Rva002E071E {public:bool rva002E071E(const Rva002E071E*)const;};
-class Rva002E06B8 {public:void*rva002E06EF();};
 class Rva0009AAA4DwordField {public:int get()const;};
 class Rva0021937DTarget;
 class Rva0021937D {public:void rva0021937D(Rva0021937DTarget*);void rva002193AB(Rva0021937DTarget*);};
@@ -215,7 +215,7 @@ void StatsReporter::ProcessStrategicSinglePlayerGame(LivingWorldPlayer*player) {
   prefs.rva00535F72(prefs.rva00535FBA()+1);
   prefs.rva00536003(counterMax(prefs.rva0053604B(),prefs.rva00535FBA()));
   prefs.rva00535DBF(side,0);prefs.rva00536094(0);
-  reinterpret_cast<Rva0021937D*>(TheCreateAHeroManager)->rva0021937D(static_cast<Rva0021937DTarget*>(reinterpret_cast<Rva002E06B8*>(player)->rva002E06EF()));
+  reinterpret_cast<Rva0021937D*>(TheCreateAHeroManager)->rva0021937D(static_cast<Rva0021937DTarget*>(player->rva002E06EF()));
  }else {
   prefs.rva00535C9D(side,prefs.rva00535CE4(side)+1);
   prefs.rva00535DBF(side,prefs.rva00535E06(side)+1);
@@ -223,7 +223,7 @@ void StatsReporter::ProcessStrategicSinglePlayerGame(LivingWorldPlayer*player) {
   prefs.rva00536094(prefs.rva005360DC()+1);
   prefs.rva00536125(counterMax(prefs.rva0053616D(),prefs.rva005360DC()));
   prefs.rva00535D2E(side,0);prefs.rva00535F72(0);
-  reinterpret_cast<Rva0021937D*>(TheCreateAHeroManager)->rva002193AB(static_cast<Rva0021937DTarget*>(reinterpret_cast<Rva002E06B8*>(player)->rva002E06EF()));
+  reinterpret_cast<Rva0021937D*>(TheCreateAHeroManager)->rva002193AB(static_cast<Rva0021937DTarget*>(player->rva002E06EF()));
  }
  if(!player->isLost()) {
   int enemies[7];int allies[7];memset(enemies,0,sizeof(enemies));memset(allies,0,sizeof(allies));

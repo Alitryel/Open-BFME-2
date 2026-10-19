@@ -82,6 +82,7 @@ class LivingWorldPlayer { public:
  bool rva002E0B30();
  void AddArmy(LivingWorldArmy *);
  bool rva002E12F3(int);
+ class GameSlot *rva002E06B8(); // 0x002E06B8
  int rva002E199E(const void *);
  void GetRevivalUnitData(int, LivingWorldRevivalUnitDataView *);
  void RemoveRevivalUnit(int);
@@ -1429,11 +1430,6 @@ bool isHuman()const;
 	unsigned char m_pad61[3];
 	unsigned char m_playerData[1];
 };
-class Rva002E06B8
-{
-public:
-	GameSlot *rva002E06B8();				// 0x002E06B8
-};
 class Rva00319CED
 {
 public:
@@ -1465,7 +1461,7 @@ Bool LivingWorldLogic::canBuildUnit(LivingWorldBuildingNuggetSpawnArmy *nugget, 
 	Rva002E2903Player *player = nugget->rva004FA618();
 	if (player == 0)
 		return false;
-	GameSlot *slot = ((Rva002E06B8 *)player)->rva002E06B8();
+	GameSlot *slot = ((LivingWorldPlayer *)player)->rva002E06B8();
 	if (slot != 0 && slot->GetPlayerData() == 0)
 	{
 		SpawnArmy spawn(0);
