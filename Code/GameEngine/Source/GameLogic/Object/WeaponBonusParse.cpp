@@ -25,6 +25,9 @@
 // WeaponTemplate alloc 0x002CA88B size 0x210 (22*0x18) calling with [esi+0xE0].
 // Gap between appendBonuses 0x002C96F7 and 0x002C9778 in WeaponBonusAppend.cpp;
 // needs /G7 for imul 6 (plain /O1 emits lea).
+#ifndef NULL
+#define NULL 0
+#endif
 typedef const char *ConstCharPtr;
 typedef const ConstCharPtr *ConstCharPtrArray;
 class INI
@@ -45,12 +48,28 @@ public:
 	void parseWeaponBonusSet(INI *ini);
 	WeaponBonus m_bonus[22];
 };
+// Zero Hour Weapon.h's header-static name tables; retail's copies for this
+// body are at 0x009BC6C0 and 0x009BC71C (contents read from retail).
+static const char *TheWeaponBonusNames[] =
+{
+	"GARRISONED", "HORDE", "CONTINUOUS_FIRE_MEAN", "CONTINUOUS_FIRE_FAST", "NATIONALISM",
+	"PLAYER_UPGRADE", "DRONE_SPOTTING", "DEMORALIZED_OBSOLETE", "ENTHUSIASTIC", "VETERAN",
+	"ELITE", "HERO", "BATTLEPLAN_BOMBARDMENT", "BATTLEPLAN_HOLDTHELINE", "BATTLEPLAN_SEARCHANDDESTROY",
+	"SUBLIMINAL", "SOLO_HUMAN_EASY", "SOLO_HUMAN_NORMAL", "SOLO_HUMAN_HARD", "SOLO_AI_EASY",
+	"SOLO_AI_NORMAL", "SOLO_AI_HARD",
+	NULL
+};
+static const char *TheWeaponBonusFieldNames[] =
+{
+	"DAMAGE", "RADIUS", "RANGE", "RATE_OF_FIRE", "PRE_ATTACK", "FIRING",
+	NULL
+};
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline void WeaponBonusSet::parseWeaponBonusSet(INI *ini)
 {
-	int wb = ini->scanIndexList(ini->getNextToken(0), reinterpret_cast<ConstCharPtrArray>(0x00DBC6C0));
-	int wf = ini->scanIndexList(ini->getNextToken(0), reinterpret_cast<ConstCharPtrArray>(0x00DBC71C));
+	int wb = ini->scanIndexList(ini->getNextToken(0), TheWeaponBonusNames);
+	int wf = ini->scanIndexList(ini->getNextToken(0), TheWeaponBonusFieldNames);
 	m_bonus[wb].m_field[wf] = ini->dup_002EE10(ini->getNextToken(0));
 }
 
