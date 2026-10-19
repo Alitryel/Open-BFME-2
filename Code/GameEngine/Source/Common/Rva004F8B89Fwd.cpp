@@ -35,12 +35,6 @@ public:
 	void rva002C6845();
 };
 
-class Rva004E93E8
-{
-public:
-	void *rva004E93E8();
-};
-
 class Rva004E9600
 {
 public:
@@ -148,6 +142,7 @@ struct Rva004E94FBHead
 class AIGameTeam
 {
 public:
+	void *rva004E93E8();	// 0x004E93E8
 	void rva004E94FB();
 	void rva004E951C(void *o);
 	void *getTargetByIndexForPlayer(int unused, int key);
@@ -203,7 +198,7 @@ void AIGameTeam::update()
 		Rva002C585A *x = 0;
 		if (m_0C != m_10)
 		{
-			void *p = ((Rva004E93E8 *)this)->rva004E93E8();
+			void *p = rva004E93E8();
 			if (p != 0)
 			{
 				void *q = ((Rva004E9600 *)this)->rva004E95D4(p);
@@ -217,7 +212,7 @@ void AIGameTeam::update()
 		}
 		if (m_24 != 0)
 		{
-			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E8FF6(((Rva004E93E8 *)this)->rva004E93E8());
+			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E8FF6(rva004E93E8());
 			Rva004E94FBHead *head = m_00;
 			for (Rva004E94FBNode *m = head->m_first; m != (Rva004E94FBNode *)head; m = (Rva004E94FBNode *)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base *)m))
 			{
@@ -226,7 +221,7 @@ void AIGameTeam::update()
 				((SkirmishAI *)m->m_14)->update();
 			}
 			((Rva004E94FB *)this)->rva004E9446();
-			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E9040(((Rva004E93E8 *)this)->rva004E93E8());
+			((Rva00DFEEF8World *)g_00DFEEF8)->m_obj->rva004E9040(rva004E93E8());
 		}
 	}
 }

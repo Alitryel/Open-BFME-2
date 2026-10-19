@@ -28,13 +28,13 @@ public:
 
 extern Rva002A8F24 *g_00DFEEF8;
 
-class Rva004E93E8
+class AIGameTeam
 {
 public:
 	void *rva004E93E8();
 };
 
-class Rva004E9600 : public Rva004E93E8
+class Rva004E9600 : public AIGameTeam
 {
 };
 
