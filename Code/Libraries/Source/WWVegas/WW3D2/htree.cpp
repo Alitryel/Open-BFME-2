@@ -195,53 +195,8 @@ HTreeClass::HTreeClass(void) :
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Anim_Update@HTreeClass@@ present-unmatched
-void HTreeClass::Anim_Update(const Matrix3D & root,HAnimClass * motion,float frame)
-{
-	PivotClass *pivot;
-	Matrix3D mtx;
-
-	Pivot[0].Transform = root;
-	Pivot[0].IsVisible = true;
-
-	int num_anim_pivots = motion->Get_Num_Pivots ();
-
-	for (int piv_idx=1; piv_idx < NumPivots; piv_idx++) {
-		pivot = &Pivot[piv_idx];
-
-		// base pose
-		assert(pivot->Parent != NULL);
-		Matrix3D::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
-			
-		// Don't update this pivot if the HTree doesn't have animation data for it...
-		if (piv_idx < num_anim_pivots) {
-			
-			// animation
-			Vector3 trans;
-			motion->Get_Translation(trans,piv_idx,frame);
-			pivot->Transform.Translate(trans * ScaleFactor);
-
-			Quaternion q;
-			motion->Get_Orientation(q,piv_idx,frame);
-			::Build_Matrix3D(q,mtx);
-
-#ifdef ALLOW_TEMPORARIES
-			pivot->Transform = pivot->Transform * mtx;
-#else
-			pivot->Transform.postMul(mtx);
-#endif
-
-			// visibility
-			pivot->IsVisible = motion->Get_Visibility(piv_idx,frame);
-		}
-
-		if (pivot->Is_Captured()) 
-		{ 
-			pivot->Capture_Update();
-			pivot->IsVisible = true;
-		} 
-	}
-}
+// HTreeClass::Anim_Update(const Matrix3D &, HAnimClass *, float) is defined in
+// HTreeClassFirstCapturedBone.cpp.
 								
 /*Customized version of the above which excludes interpolation and assumes HRawAnimClass
 For use by 'Generals' -MW*/

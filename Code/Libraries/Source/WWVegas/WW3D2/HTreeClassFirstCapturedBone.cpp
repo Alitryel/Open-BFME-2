@@ -60,6 +60,15 @@
 // assignment are __forceinline because cl stops inlining them this deep into
 // the body. Vector3::Lerp is a dllimport inline so the unit emits no copy to
 // compete with WWMath's out-of-line one (0x0009AA48).
+//
+// 0x00162BB0 (3785 bytes): HTreeClass::Anim_Update(root, HAnimClass *,
+// frame) in WorldBuilder's shape (0x00A16610, htree.cpp:565-610), the same
+// two paths as Blend_Update. The compressed fast path hands each node the
+// pivot transform through a node method (WB 0x00A16C80: translation scaled
+// unconditionally, PostMul of {orientation, translation} or Translate when
+// the node has no orientation channel, then the fade) and reads visibility
+// from the node's TimeCodedBitChannelClass at the truncated frame. The
+// generic path declares its CompactTransform before the root update.
 #include <vector>
 
 class Vector3
@@ -223,6 +232,12 @@ public:
 	virtual void Get_Quaternion(float frame, Quaternion * out, unsigned char ** cache);
 };
 
+class TimeCodedBitChannelClass
+{
+public:
+	int Get_Bit(int frame);
+};
+
 struct NodeCompressedMotionStruct
 {
 	__forceinline void Get_Translation(Vector3 & trans, float frame, unsigned char ** cache)
@@ -246,8 +261,17 @@ struct NodeCompressedMotionStruct
 	BFME2MotionChannel * Y;
 	BFME2MotionChannel * Z;
 	BFME2MotionChannel * Q;
+	__forceinline void Apply(CompactTransform & xf, float scale, float * fade, float frame, unsigned char ** cache)
+	{
+		CompactTransform delta;
+		Get_Translation(delta.Position, frame, cache);
+		delta.Position *= scale;
+		if (Get_Orientation(delta.Q, frame, cache)) xf.PostMul(delta);
+		else xf.Translate(delta.Position);
+		Get_Fade(fade, frame, cache);
+	}
 	BFME2MotionChannel * Fade;
-	void * Vis;
+	TimeCodedBitChannelClass * Vis;
 };
 
 class HCompressedAnimClass : public HAnimClass
@@ -305,6 +329,7 @@ public:
 	int rva00162290() const;
 	int Capture_Update(int pivot_index);
 	void Base_Update(const Matrix3D & root);
+	void Anim_Update(const Matrix3D & root, HAnimClass * motion, float frame);
 	void Blend_Update(const Matrix3D & root, HAnimClass * motion0, float frame0, HAnimClass * motion1, float frame1, float percentage);
 private:
 	struct CapturedPivot { int PivotIndex; CompactTransform Transform; bool WorldSpaceTranslation; };
@@ -565,6 +590,87 @@ void HTreeClass::Blend_Update(const Matrix3D & root, HAnimClass * motion0, float
 
 			pivot->IsVisible = motion0->Get_Visibility(piv_idx, frame0) || motion1->Get_Visibility(piv_idx, frame1);
 			pivot->PivotFade = Lerp(motion0->Get_Fade(piv_idx, frame0), motion1->Get_Fade(piv_idx, frame1), percentage);
+		}
+
+		if (piv_idx == captured) captured = Capture_Update(captured);
+	}
+}
+
+void HTreeClass::Anim_Update(const Matrix3D & root, HAnimClass * motion, float frame)
+{
+	if (motion->Get_Class_ID() == 1) {
+
+		HCompressedAnimClass *cmotion = (HCompressedAnimClass *)motion;
+		NodeCompressedMotionStruct *nodes = cmotion->Get_Nodes();
+
+		if (nodes != 0) {
+
+			((Rva00160FC0 *)this)->rva00160FC0((Rva00160FC0Input *)cmotion);
+
+			Pivot[0].Transform = root;
+			Pivot[0].IsVisible = true;
+			Pivot[0].PivotFade = 1.0f;
+
+			unsigned char *cache = ChannelCache;
+
+			int num_anim_pivots = motion->Get_Num_Pivots();
+
+			int captured = rva00162290();
+
+			for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
+
+				PivotClass *pivot = &Pivot[piv_idx];
+
+				CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+				if (piv_idx < num_anim_pivots) {
+
+					NodeCompressedMotionStruct *node = &nodes[piv_idx];
+					node->Apply(pivot->Transform, ScaleFactor, &pivot->PivotFade, frame, &cache);
+					if (node->Vis) {
+						pivot->IsVisible = node->Vis->Get_Bit((int)frame) != 0;
+					} else {
+						pivot->IsVisible = true;
+					}
+				}
+
+				if (piv_idx == captured) captured = Capture_Update(captured);
+			}
+			return;
+		}
+	}
+
+	CachedMotion = 0;
+
+	CompactTransform xform;
+
+	Pivot[0].Transform = root;
+	Pivot[0].IsVisible = true;
+	Pivot[0].PivotFade = 1.0f;
+
+	int num_anim_pivots = motion->Get_Num_Pivots();
+
+	int captured = rva00162290();
+
+	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
+
+		PivotClass *pivot = &Pivot[piv_idx];
+
+		CompactTransform::Multiply(pivot->Parent->Transform, pivot->BaseTransform, &(pivot->Transform));
+
+		if (piv_idx < num_anim_pivots) {
+
+			motion->Get_Translation(xform.Position, piv_idx, frame);
+			if (ScaleFactor != 1.0f) xform.Position *= ScaleFactor;
+
+			if (motion->Get_Orientation(xform.Q, piv_idx, frame)) {
+				pivot->Transform.PostMul(xform);
+			} else {
+				pivot->Transform.Translate(xform.Position);
+			}
+
+			pivot->IsVisible = motion->Get_Visibility(piv_idx, frame);
+			pivot->PivotFade = motion->Get_Fade(piv_idx, frame);
 		}
 
 		if (piv_idx == captured) captured = Capture_Update(captured);
