@@ -82,12 +82,14 @@ virtual void p0();virtual void p1();virtual void p2();virtual void p3();virtual 
 extern Debug *theDebug;void _bfme_debugRecordCallsite(int);
 class GameMessage;
 class CommandDumpFile0037BE15;
+union GameMessageArgumentType;
 class RecorderClass {
 public:
 virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();virtual void slot7();virtual void slot8();virtual void reset();
  char pad004[0x10-4];FILE*m_file;UnicodeString m_fileName;int field0018;int m_mode;int field0020;
  GameInfo m_gameInfo;char padGameInfo[0xe60-0x24-sizeof(GameInfo)];int field0e60,field0e64;char padE68[8];bool m_doingAnalysis;char padE71[3];int m_gameMode;
 public:void stopRecording();
+ void rva0037AF05(int,GameMessageArgumentType);
 protected:
  void dumpCommandHistory(CommandDumpFile0037BE15*,unsigned);
  void writeToFile(GameMessage*);
@@ -302,7 +304,6 @@ class Rva0030F47A {public:Rva0030F47A(void*);private:char storage[0x24];};
 struct Rva0054D54ANode {virtual void*destroy(unsigned);Rva0054D54ANode*next;int type,count;};
 class Rva0054D54A {public:Rva0054D54A();Rva0054D54A(GameMessage*);virtual ~Rva0054D54A();Rva0054D54ANode*first;void*last;int numTypes;};
 class Rva0054D5D3 {public:void rva0054D5D3(void*,void*);};
-class Rva0037AF05 {public:void rva0037AF05(int,GameMessageArgumentType);};
 class Rva0037AF88 {public:void rva0037AF88(int,GameMessage*);};
 #include "GameLogicObjectLookupView.h"
 extern GameLogic*TheGameLogic;
@@ -338,7 +339,7 @@ void RecorderClass::writeToFile(GameMessage *msg)
 
     int numArgs = msg->getArgumentCount();
     for (int i = 0; i < numArgs; ++i) {
-        ((Rva0037AF05*)this)->rva0037AF05((int)msg->getArgumentDataType(i), *(msg->getArgument(i)));
+        rva0037AF05((int)msg->getArgumentDataType(i), *(msg->getArgument(i)));
     }
 
     ::delete parser;

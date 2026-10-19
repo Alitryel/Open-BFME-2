@@ -8,7 +8,7 @@ extern "C" __declspec(dllimport) unsigned int __cdecl fwrite(const void *buf, un
 
 union GameMessageArgumentType {int integer;char payload[16];};
 
-class Rva0037AF05
+class RecorderClass
 {
 public:
 	void rva0037AF05(int type, GameMessageArgumentType arg);
@@ -17,7 +17,7 @@ private:
 	FILE *m_file10; // +0x10
 };
 
-void Rva0037AF05::rva0037AF05(int type, GameMessageArgumentType arg)
+void RecorderClass::rva0037AF05(int type, GameMessageArgumentType arg)
 {
 	if (type == 0) {
 		fwrite(&arg, 4, 1, m_file10);
