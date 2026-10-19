@@ -61,13 +61,16 @@ namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
 // The four sub-movie objects, each built from the loaded movie's level and
 // path by an unrowed constructor pinned by address. Sizes come from the
 // operator new calls.
+// 0x005D2A53, the command UI's per-frame update, is rowed as
+// StrategicHUD::CommandUIImpl::Update (StrategicHUDCommandUIImpl.cpp); the
+// object this view builds is that CommandUIImpl.
+namespace StrategicHUD { class CommandUIImpl { public: void Update(); }; }
+
 class Rva005D25F2
 {
 public:
 	Rva005D25F2(int level, const AsciiString &path);
 	~Rva005D25F2();
-	// Unrowed 0x005D2A53 (its per-frame update), pinned by address.
-	void rva005D2A53();
 
 	unsigned char m_pad[0xC4];
 };
@@ -84,7 +87,7 @@ public:
 class Rva005D3731
 {
 public:
-	Rva005D3731(int level, const AsciiString &path);
+	Rva005D3731(unsigned int level, const AsciiString &path);	// as rowed (Rva005D36D1Ctor.cpp)
 	~Rva005D3731();
 
 	unsigned char m_pad[0x20];
@@ -499,7 +502,7 @@ public:
 void StrategicHUD::Palantir::rva005785CD()
 {
 	if (m_commandUI.m_ptr != 0)
-		m_commandUI.m_ptr->rva005D2A53();
+		((StrategicHUD::CommandUIImpl *)m_commandUI.m_ptr)->Update();
 	if (m_regionUI.m_ptr != 0)
 		((Rva000B3FD0Nop *)m_regionUI.m_ptr)->noop();
 	if (m_regionStatsTray.m_ptr != 0)
