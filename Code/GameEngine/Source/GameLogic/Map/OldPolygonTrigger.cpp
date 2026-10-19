@@ -189,14 +189,10 @@ class Rva0030912A
 public:
 	void rva0030912A(int, StandingWaterRef);
 };
-class Rva00537F74
+class WaterArea
 {
 public:
 	void rva00537F74(const AsciiString &);
-};
-class Rva00537FA0
-{
-public:
 	void rva00537FA0(const AsciiString &);
 };
 class Rva00308765
@@ -217,9 +213,9 @@ void __cdecl rva0032927A(Rva003294B3Obj *record, int areaSet)
 	void (Rva0032927ABoundary::*setBoundary)(const void *) =
 		&Rva0032927ABoundary::setBoundary;
 	(water.m_ptr->m_boundary.*setBoundary)(&data->m_polygon.m_pointsBegin);
-	reinterpret_cast<Rva00537F74 *>(water.m_ptr)->rva00537F74(
+	reinterpret_cast<WaterArea *>(water.m_ptr)->rva00537F74(
 		*reinterpret_cast<const AsciiString *>(reinterpret_cast<char *>(record) + 4));
-	reinterpret_cast<Rva00537FA0 *>(water.m_ptr)->rva00537FA0(
+	reinterpret_cast<WaterArea *>(water.m_ptr)->rva00537FA0(
 		*reinterpret_cast<const AsciiString *>(reinterpret_cast<char *>(record) + 8));
 	reinterpret_cast<Rva00308765 *>(water.m_ptr)->rva00308765(0,
 		*reinterpret_cast<const AsciiString *>(reinterpret_cast<char *>(record) + 0x24));
@@ -296,8 +292,8 @@ void __cdecl rva00329339(Rva003294B3Obj *record, int areaSet)
 	Out *data = reinterpret_cast<Out *>(record);
 	RiverAreaRef river(new Rva0030C1FCOwner(
 		(data->m_polygon.m_pointsEnd - data->m_polygon.m_pointsBegin) / 2));
-	reinterpret_cast<Rva00537F74 *>(river.m_ptr)->rva00537F74(data->m_name);
-	reinterpret_cast<Rva00537FA0 *>(river.m_ptr)->rva00537FA0(data->m_extra);
+	reinterpret_cast<WaterArea *>(river.m_ptr)->rva00537F74(data->m_name);
+	reinterpret_cast<WaterArea *>(river.m_ptr)->rva00537FA0(data->m_extra);
 	reinterpret_cast<Rva0030BDEE *>(river.m_ptr)->rva0030BD5B(reinterpret_cast<const RGBColor *>(data->m_rgb));
 	reinterpret_cast<Rva0030BBC8 *>(river.m_ptr)->rva0030BBC8(data->m_44);
 	reinterpret_cast<Rva0030C1C8 *>(river.m_ptr)->rva0030C1C8(0, *(const StringBase<char> *)&data->m_strings[0]);
