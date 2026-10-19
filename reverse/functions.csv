@@ -18920,8 +18920,6 @@ uw_00767dc3,,0x00767DC3,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_00767ded,,0x00767DED,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L7397
 uw_00767df5,,0x00767DF5,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L7136
 uw_00767dfd,,0x00767DFD,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4956
-uw_00767ef0,,0x00767EF0,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4995
-uw_00767ef8,,0x00767EF8,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4996
 uw_00767f10,,0x00767F10,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5872
 uw_00767f18,,0x00767F18,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5872
 uw_00767f20,,0x00767F20,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5872
@@ -97115,3 +97113,7 @@ $L7514,,0x0078C6E5,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains
 ??1Rva005243BBVector@@QAE@XZ,,0x005243BB,63,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Independent real C++ member-vector destructor; native owner call and 8B element cleanup establish role and layout; original template identity unknown; full EH exact
 __ehhandler$??1Rva005243BBVector@@QAE@XZ,,0x0079666E,10,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,Compiler-emitted handler of actual parent 0x5243bb; whole10B and FuncInfo0x94a0a0; full parent EH exact
 $L7562,,0x00796666,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp,matched,gen-funclet;parent=??1Rva005243BBVector@@QAE@XZ;Actual parent storage cleanup; next named handler proves8B extent; full EH exact
+??1BfmeBstrVGP@@QAE@XZ,,0x00176FF0,22,Code/GameEngine/Source/GameNetwork/WOLBrowser/WebBrowserComWrappers.cpp,matched,gen-alias;Native wrapper EH actions767EF0/767EF8 call176FF0; actual by-value BSTR cleanup now releases Data_t and resets pointer as the whole22B native owner; all bytes and release176E90 relocation match; original class name remains descriptive; no pin or unique-byte credit
+__ehhandler$?invoke@Rva00958D30@@QAEJVBfmeBstrVGP@@0@Z,,0x00767F00,10,Code/GameEngine/Source/GameNetwork/WOLBrowser/WebBrowserComWrappers.cpp,matched,Naturally emitted two-BSTR wrapper handler; native135B parent177130 and170B sibling177010 share full exact FuncInfo90CA48; whole10B with real22B cleanup callee
+$L631,,0x00767EF0,8,Code/GameEngine/Source/GameNetwork/WOLBrowser/WebBrowserComWrappers.cpp,matched,gen-funclet;parent=?invoke@Rva00958D30@@QAEJVBfmeBstrVGP@@0@Z;Actual by-value BSTR cleanup reaches proven22B destructor176FF0; next action or named handler establishes8B extent
+$L632,,0x00767EF8,8,Code/GameEngine/Source/GameNetwork/WOLBrowser/WebBrowserComWrappers.cpp,matched,gen-funclet;parent=?invoke@Rva00958D30@@QAEJVBfmeBstrVGP@@0@Z;Actual by-value BSTR cleanup reaches proven22B destructor176FF0; next action or named handler establishes8B extent

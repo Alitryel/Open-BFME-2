@@ -48,7 +48,11 @@ public:
 	~BfmeBstrVGP() throw()
 	{
 		if (m_data)
+		{
 			m_data->bfmeGoVGP();
+			// Native out-of-line cleanup 176FF0 clears its owned pointer.
+			m_data = 0;
+		}
 	}
 };
 
