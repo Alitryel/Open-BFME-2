@@ -19,10 +19,13 @@
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.
+// Retail compares this file's map<int, void *> keys unsigned: its own rowed
+// int/void* erase(const int &) 0x004ABE65 calls equal_range 0x00362B5F, which
+// calls _M_lower_bound 0x004FF3B6 / _M_upper_bound 0x004FF539, both `jb`/`jae`.
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
-{ return a < b; }
+{ return (unsigned int)a < (unsigned int)b; }
 }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
@@ -37,6 +40,19 @@ typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>, _STL::_Select1st<_STL
 	_STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > IntPtrTree;
 typedef _STL::_Rb_tree<int, _STL::pair<const int, int>, _STL::_Select1st<_STL::pair<const int, int> >,
 	_STL::less<int>, _STL::allocator<_STL::pair<const int, int> > > IntIntTree;
+
+// The map<int, int> tree's bounds are emitted COMDATs here only as a side
+// effect of the other tree's instantiation; declare them out of line so this
+// TU calls the rowed int/int bodies (0x00382A92 / 0x004FF471, `jl`/`jge`)
+// instead of emitting the unsigned copies the comparator above now yields.
+namespace _STL {
+template <> _Rb_tree_node<pair<const int, int> > *
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >,
+         less<int>, allocator<pair<const int, int> > >::_M_lower_bound(const int &) const;
+template <> _Rb_tree_node<pair<const int, int> > *
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >,
+         less<int>, allocator<pair<const int, int> > >::_M_upper_bound(const int &) const;
+}
 
 class Rva0007E971
 {
