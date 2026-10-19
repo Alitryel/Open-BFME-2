@@ -20,6 +20,10 @@ typedef unsigned int UnsignedInt;
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ModuleData;
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_insert_overflow(const ModuleData **, const ModuleData *const &, const __true_type &, size_t, bool); }
 
 class Vector3 { public: float X, Y, Z; Vector3(float a, float b, float c) { X=a; Y=b; Z=c; } };
 
