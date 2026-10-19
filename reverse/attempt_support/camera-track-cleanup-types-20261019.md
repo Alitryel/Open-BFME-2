@@ -27,3 +27,12 @@ Evidence and checks:
   Earlier parent540B03 uses handler797DAF and cleanups797D9C/797DA4.
 
 This fixes the actual cleanup type before admitting further generated bodies.
+
+The emitted vector-base constructors were also compared as whole29B bodies
+at211E58, including their allocator-proxy relocations: all three exact and
+fully resolved. Their native folded owner rows and the three14B destructor
+rows were admitted by add_match with the existing ICF owners. No symbols.csv
+pin or alias pragma was added. This removes the two new shadow identity
+findings that appeared before the constructor fold rows existed.
+Paired link prediction remains clean for the constructor and all four
+reset/read providers (1482 bytes at the same census).
