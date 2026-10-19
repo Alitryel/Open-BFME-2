@@ -29,6 +29,14 @@
 // schedules the contain vtable load for removeFromContain before the
 // `lock = 0` store, as retail does (a plain statement store stays first).
 #include <vector>
+// Keep _Vector_base<Object*>::~_Vector_base inline-only: nothing here calls it
+// out of line, and this TU's COMDAT copy is not retail's body.
+class Object;
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline
+_Vector_base<Object *, allocator<Object *> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
 
 typedef int Int;
 typedef bool Bool;
