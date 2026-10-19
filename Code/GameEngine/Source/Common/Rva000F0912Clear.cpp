@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva000F0912@Rva000F0912@@QAEXXZ @0x000F0912 68B: clear 160 slots per node over +0x68 list with zero 12B triple. Evidence: caller 0x000F09C6 in 0x000F0972 plus LINK BONUS via 0x000F0972 plus callee 0x000EFB68 row.
+// ?invalidateCachedLightPositions@W3DVolumetricShadowManager@@QAEXXZ @0x000F0912 68B (ZH shape: setLightPosHistory(0,i,zero) per shadow): clear 160 slots per node over +0x68 list with zero 12B triple. Evidence: caller 0x000F09C6 in 0x000F0972 plus LINK BONUS via 0x000F0972 plus callee 0x000EFB68 row.
 class Rva000EFB68
 {
 public:
@@ -7,10 +7,10 @@ public:
 	char _pad[0x68];
 	Rva000EFB68 *m_next;
 };
-class Rva000F0912
+class W3DVolumetricShadowManager
 {
 public:
-	void rva000F0912();
+	void invalidateCachedLightPositions();
 private:
 	Rva000EFB68 *m_head;
 };
@@ -20,7 +20,7 @@ struct Rva000F0912Zero
 	float y;
 	float z;
 };
-void Rva000F0912::rva000F0912()
+void W3DVolumetricShadowManager::invalidateCachedLightPositions()
 {
 	Rva000EFB68 *node = m_head;
 	if (node == 0)

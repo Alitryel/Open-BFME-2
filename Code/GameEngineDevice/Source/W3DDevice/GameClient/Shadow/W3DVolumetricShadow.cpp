@@ -182,7 +182,6 @@ struct VolShadowDeviceLock {
  VolShadowDeviceLock() { BFME_DX8_Thread_Lock(); }
  ~VolShadowDeviceLock() { BFME_DX8_Thread_Assert(); }
 };
-class Rva000F0912 { public: void rva000F0972(); };
 #include "hash.h"
 // BFME1/WB geometry manager: nonvirtual and two hash-table pointers at0/4.
 class W3DShadowGeometryManager {
@@ -200,7 +199,7 @@ extern DynamicVectorClass<VolShadowTCBAccess::Type> g_00DEBE24;
 W3DVolumetricShadowManager::~W3DVolumetricShadowManager()
 {
  VolShadowDeviceLock guard;
- ((Rva000F0912 *)this)->rva000F0972();
+ ReleaseResources();
  delete m_W3DShadowGeometryManager;
  m_W3DShadowGeometryManager=0;
  delete TheW3DBufferManager;

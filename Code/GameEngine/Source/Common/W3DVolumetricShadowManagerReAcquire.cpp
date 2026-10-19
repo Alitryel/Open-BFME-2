@@ -55,14 +55,10 @@ public:
 	bool ReAcquireResources();
 };
 extern class W3DBufferManager *TheW3DBufferManager;
-class Rva000F0912
-{
-public:
-	void rva000F0972();
-};
 class W3DVolumetricShadowManager
 {
 public:
+	void ReleaseResources();
 	bool ReAcquireResources();
 };
 struct Rva000F09E1LockGuard
@@ -73,7 +69,7 @@ struct Rva000F09E1LockGuard
 bool W3DVolumetricShadowManager::ReAcquireResources()
 {
 	Rva000F09E1LockGuard guard;
-	((Rva000F0912 *)this)->rva000F0972();
+	ReleaseResources();
 	IDirect3DDevice8 *dev = DX8Wrapper::D3DDevice;
 	if (dev->CreateIndexBuffer(0x8000, 0x208, 0x65, 0, (void **)&(*(Rva000F0972Releasable * *)&shadowIndexBufferD3D), 0) < 0)
 		return false;

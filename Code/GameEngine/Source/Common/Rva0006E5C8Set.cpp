@@ -24,10 +24,10 @@ public:
 	void setLightPosition(int lightIndex, float x, float y, float z);
 };
 
-class Rva000F0912
+class W3DVolumetricShadowManager
 {
 public:
-	void rva000F0912();
+	void invalidateCachedLightPositions();
 };
 
 class Gen0003AC38;
@@ -46,6 +46,6 @@ void RTS3DScene::rva0006E5C8(Vector3 *src)
 	if (shadow == 0)
 		return;
 	shadow->setLightPosition(0, src->X, src->Y, src->Z);
-	if ((*(Rva000F0912 **)&TheW3DVolumetricShadowManager) != 0)
-		(*(Rva000F0912 **)&TheW3DVolumetricShadowManager)->rva000F0912();
+	if (TheW3DVolumetricShadowManager != 0)
+		TheW3DVolumetricShadowManager->invalidateCachedLightPositions();
 }

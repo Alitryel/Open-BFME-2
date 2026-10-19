@@ -2,10 +2,10 @@
 // ?Rva0009A3DECleanup@@YAXXZ retail 0x0009A3DE 61 bytes.
 // Four guarded releases via rowed callees with null-checked globals.
 // Evidence: callers at 0x0006689A in 0x00066808 plus chain from 0x00109DCF.
-class Rva000F0912
+class W3DVolumetricShadowManager
 {
 public:
-	void rva000F0972();
+	void ReleaseResources();
 };
 
 class Rva0074011F
@@ -35,8 +35,8 @@ extern class Rva0007DA23ResourceManager *Rva00DE1FF8Manager;
 
 void Rva0009A3DECleanup()
 {
-	if ((*(Rva000F0912 **)&TheW3DVolumetricShadowManager) != 0)
-		(*(Rva000F0912 **)&TheW3DVolumetricShadowManager)->rva000F0972();
+	if (TheW3DVolumetricShadowManager != 0)
+		TheW3DVolumetricShadowManager->ReleaseResources();
 	if ((*(Rva0074011F **)&TheW3DProjectedShadowManager) != 0)
 		(*(Rva0074011F **)&TheW3DProjectedShadowManager)->rva0074011F();
 	if ((*(R2GlobalReceiver **)&Rva00DEC2D8Manager) != 0)
