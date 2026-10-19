@@ -23,7 +23,6 @@ enum ObjectShroudStatus { SHROUD_STATUS_A = 0 };
 class Rva00203ACEByteField { public: unsigned char get() const; };
 class Rva00203B08 { public: bool rva0020424FF(); };
 class Rva00739800 { public: ObjectShroudStatus rva00739800(int, const Coord3D *) const; };
-class Rva000E76B8 { public: void rva000E76B8(); };
 class Rva000EC9C6 { public: void rva000E663B(int); };
 
 struct Rva000E89BDPlayer { unsigned char pad[0x54]; int index; };
@@ -76,6 +75,7 @@ public:
 	void drawShrubs(int arg);
 	void loadShrubsInVertexAndIndexBuffers(void);
 	void rva000E8365(void);
+	void rva000E76B8();
 
 protected:
 	void updateTexture();
@@ -142,7 +142,7 @@ void W3DShrubBuffer::drawShrubs(int arg)
 		m_nextKey++;
 	}
 	if (m_flag4fb5e)
-		((Rva000E76B8 *)this)->rva000E76B8();
+		rva000E76B8();
 
 	int playerIndex = ThePlayerList ? ((Rva000E89BDPlayerList *)ThePlayerList)->local->index : 0;
 	for (int curTree = 0; curTree < m_numTrees; curTree += m_treeIndexStep) {

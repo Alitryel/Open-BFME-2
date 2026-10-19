@@ -6,7 +6,7 @@
 // at +0x4FB5C, release 0x40 RefItem array at +0x4FB70 stride 0x5C, fill -1 over
 // [0x5C0,0x1948), zero tail at +0x51270.
 // Evidence: calls rowed rva000E65B1; count/dirty/tail offsets match Rva000E6FE3
-// Rva000E76B8 neighbours and W3DTreeBuffer second-array pattern; callers at
+// W3DShrubBuffer::rva000E76B8 neighbours and W3DTreeBuffer second-array pattern; callers at
 // 0x0006D5DE 0x000E9BCA 0x000E9CAD 0x000682B2. 0x000E9CAD is the W3DShrubBuffer
 // ctor on its own this; +0x4FB58/+0x4FB70/+0x51270 are its count, type array
 // and type count, past the Rva000E6AC0 base.

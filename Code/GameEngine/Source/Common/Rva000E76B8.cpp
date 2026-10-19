@@ -1,11 +1,12 @@
 // cl: /MD
 //
-// ?rva000E76B8@Rva000E76B8@@QAEXXZ, retail 0x000E76B8, 99 bytes.
+// ?rva000E76B8@W3DShrubBuffer@@QAEXXZ, retail 0x000E76B8, 99 bytes.
 // Loop over byte flags at +0x199C (stride 0xA0) calling rowed predicate
 // ?rva000E488F@Rva000E488F@@QAE_NPAX@Z on the payload at +4, storing the
 // inverted result and setting dirty at +0x4FB5C when it changes; count at
 // +0x4FB58, step at +0x51278, cleared flag at +0x4FB5E.
-// Evidence: retail lea/imultri plus neg/sbb/inc invert plus caller at 0x000E8AA0.
+// Evidence: retail lea/imultri plus neg/sbb/inc invert plus caller at 0x000E8AA0
+// (W3DShrubBuffer::drawShrubs, on its own this; the offsets are that class's).
 
 class Rva000E488F
 {
@@ -22,7 +23,7 @@ struct Rva000E76B8Elem
 	unsigned char data[0x9C];
 };
 
-class Rva000E76B8
+class W3DShrubBuffer
 {
 public:
 	void rva000E76B8();
@@ -39,7 +40,7 @@ public:
 	int m_step;
 };
 
-void Rva000E76B8::rva000E76B8()
+void W3DShrubBuffer::rva000E76B8()
 {
 	for (int i = 0; i < m_count; i += m_step) {
 		unsigned char v = m_checker.rva000E488F(m_elems[i].data) ? 0 : 1;

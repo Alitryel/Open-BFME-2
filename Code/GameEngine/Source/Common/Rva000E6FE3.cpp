@@ -1,7 +1,7 @@
 // cl: /MD
 // ?rva000E6FE3@Rva000E6FE3@@QAEX_N@Z retail 0x000E6FE3 51B unlock lane.
 // Evidence: byte-store loop over +0x199C stride 0xA0 with count at +0x4FB58
-// and dirty flag at +0x4FB5C; same offsets and stride as Rva000E76B8 in the
+// and dirty flag at +0x4FB5C; same offsets and stride as W3DShrubBuffer::rva000E76B8 in the
 // neighbour TU Code/GameEngine/Source/Common/Rva000E76B8.cpp; caller at
 // 0x000682D9 tail-jmps with the same 4-byte arg.
 struct Rva000E6FE3Elem
