@@ -5,6 +5,9 @@
 // +0x1A0/+0x1A1. Straight-line thiscall with six stack args, ret 0x18.
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
 // deallocate COMDATs (one byte shape per TU flags); explicit

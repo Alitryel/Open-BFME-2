@@ -17,6 +17,9 @@ template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*,
 }
 
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
 
 struct BfmeStringRecord002CF5B1
 {

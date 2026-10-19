@@ -3,6 +3,9 @@
 // ??0Rva0040AEE3@@QAE@ABV0@@Z @0x0040AEE3 27B
 // Evidence: unlock lane; calls rowed vector<ScienceType> copy 0x0054878E; copies int at +0xC; caller 0x0040B16A.
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
 // deallocate COMDATs (one byte shape per TU flags); explicit

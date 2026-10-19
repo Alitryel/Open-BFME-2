@@ -2,6 +2,9 @@
 // stlport
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@HV?$allocator@H@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void vector<int, allocator<int> >::_M_clear(); }
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator and
 // _STLP_alloc_proxy deallocate COMDATs (one byte shape per TU flags); explicit
