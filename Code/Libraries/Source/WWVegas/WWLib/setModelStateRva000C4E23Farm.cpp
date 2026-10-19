@@ -327,7 +327,14 @@ public:
 	V2(a)
 	virtual void addRenderObject(RenderObjClass *robj);               // +0x08
 };
-extern W3DDisplayView *g_Va00DE1B34Scene;
+// VA 0x00DE1B34 is the defined ?m_3DScene@W3DDisplay@@2PAVRTS3DScene@@A; this
+// unit calls it through its W3DDisplayView view.
+class RTS3DScene;
+class W3DDisplay
+{
+public:
+	static RTS3DScene *m_3DScene;
+};
 
 struct ThingTemplateView
 {
@@ -741,7 +748,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			}
 			rva000B5FE6();
 			((Rva000B3E82 *)this)->rva000B3E82(getW3DScriptedModelDrawModuleData()->m_15C);
-			g_Va00DE1B34Scene->addRenderObject(m_renderObject);
+			((W3DDisplayView *)W3DDisplay::m_3DScene)->addRenderObject(m_renderObject);
 			((RenderObjView *)m_renderObject)->Set_ObjectScale158(draw->m_248, 0);
 			Int decal = draw->m_A8;
 			setTerrainDecal50(decal);

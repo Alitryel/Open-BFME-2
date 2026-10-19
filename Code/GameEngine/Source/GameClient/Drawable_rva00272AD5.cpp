@@ -124,9 +124,9 @@ struct Rva00DFDC30
 	char m_pad00[0x80];
 	float m_80;		// +0x80
 };
-// g_Va00DFDC30 is only an alias of the owned global TheEva (ledger names column); this unit reads the owner through its own view type.
+// VA 0x00DFDC30 is the owned global TheEva; this unit reads it through its
+// Rva00DFDC30 view.
 extern class Eva *TheEva;
-#define g_Va00DFDC30 (*(Rva00DFDC30 * *)&TheEva)
 
 class Drawable
 {
@@ -144,5 +144,5 @@ Object *Drawable::rva00272AD5()
 	Rva0027231F kinds(*(BfmeFixedStorage0004543D *)&Rva0006EE7A(0, 0x7a, 0x9e));
 	Rva00261790 near((Arg00261790 *)this, true);
 	kinds.link(&alive)->link(&second)->link(&player)->link(&near);
-	return ThePartitionManager->getClosestObject(&m_pos, g_Va00DFDC30->m_80, 0, &kinds);
+	return ThePartitionManager->getClosestObject(&m_pos, ((Rva00DFDC30 *)TheEva)->m_80, 0, &kinds);
 }

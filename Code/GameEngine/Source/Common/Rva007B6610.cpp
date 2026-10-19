@@ -24,8 +24,10 @@
 // vector constructor. The member-pointer cast below supplies the target thiscall
 // ABI without asserting that the target object is vector<void *>.
 extern void Rva00142E20();
-// Existing global owner for the initialized storage at 0x00E0ABB4.
-unsigned int g_Va00E0ABB4;	// retail RVA 0x00A0ABB4 (.bss), defined here
+// The storage at 0x00E0ABB4 is VideoPlayerGetVideo.cpp's owned
+// g_bfmeVideoTableStorage (16 bytes).
+struct BfmeVideoTableStorage;
+extern BfmeVideoTableStorage g_bfmeVideoTableStorage;
 // Rowed ten-byte atexit thunk at RVA 0x007B9BC0.
 extern void __cdecl rva007B9BC0(void);
 
@@ -40,7 +42,7 @@ void Rva007B6610()
 	union { void (*function)(); Member method; } call;
 	RvaEmptyAlloc allocator;
 	call.function = Rva00142E20;
-	(((_STL::vector<void *> *)&g_Va00E0ABB4)->*call.method)(allocator);
+	(((_STL::vector<void *> *)&g_bfmeVideoTableStorage)->*call.method)(allocator);
 	atexit(rva007B9BC0);
 }
 

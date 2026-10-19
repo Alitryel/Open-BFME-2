@@ -1098,7 +1098,6 @@ address_global	Code/GameEngine/Source/Common/Rva007B49B3ButtonNameInits.cpp	g_Va
 address_global	Code/GameEngine/Source/Common/Rva007B49B3ButtonNameInits.cpp	g_Va00E06734	2
 address_global	Code/GameEngine/Source/Common/Rva007B49B3ButtonNameInits.cpp	g_Va00E06748	2
 address_global	Code/GameEngine/Source/Common/Rva007B4C70FrameScaleInits.cpp	g_Va00DBA4E4	5
-address_global	Code/GameEngine/Source/Common/Rva007B6610.cpp	g_Va00E0ABB4	2
 address_global	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	g_Va009E5DF8	3
 address_global	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	g_Va009EE920	3
 address_global	Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	g_Va009EE938	3
@@ -1424,7 +1423,6 @@ address_global	Code/GameEngine/Source/Common/VslotSmallBodiesY.cpp	g_Va00E032E0	
 address_global	Code/GameEngine/Source/Common/VtableSlotBodiesR3F.cpp	g_Va00DE204C	2
 address_global	Code/GameEngine/Source/Common/WW3DOptionSetter.cpp	g_Va00DEC40C	3
 address_global	Code/GameEngine/Source/GameClient/AttachedModelFXNuggetCtor.cpp	g_Va00DBA4E4	2
-address_global	Code/GameEngine/Source/GameClient/Drawable_rva00272AD5.cpp	g_Va00DFDC30	2
 address_global	Code/GameEngine/Source/GameClient/Drawable_rva00273755.cpp	g_Va007C26F0	3
 address_global	Code/GameEngine/Source/GameClient/Drawable_rva0027541E.cpp	g_Va00BBB8D8	2
 address_global	Code/GameEngine/Source/GameClient/GUI/AptGlobalQueryCallbacks.cpp	g_Va00E0302C	2
