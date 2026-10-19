@@ -28,6 +28,8 @@ Base: banked `reverse/attempts/0x0043003c.cpp` (score 0.9). The new bank differs
 - Passing group by const& to an empty inline helper; taking group's address.
 - A `Bool doubleTap = ...; if (doubleTap)` local.
 - Comparing as `m_lastGroupSelGroup == group`.
+- One function-scope `Int group;` shared by cases 52/62/72/82 (assigned per case): still 4 regions,
+  memory-operand diffs grow 106 -> 123. The per-case block locals stay.
 
 ## Landing prerequisites (unchanged from the w8/compact handoffs)
 
