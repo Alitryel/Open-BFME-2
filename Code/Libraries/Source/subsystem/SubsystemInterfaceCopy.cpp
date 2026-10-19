@@ -15,12 +15,22 @@
 class SubsystemInterface
 {
 public:
+	// The fourteen slots of the native header (reference/shims/subsystem_bfme2),
+	// as SubsystemInterface.cpp's table (first in link order) has them.
 	virtual ~SubsystemInterface();
 	virtual void init() = 0;
 	virtual bool loadIniFilesFromLegend();
+	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual int vslot06();
+	virtual void vslot07(int);
+	virtual void vslot08();
 	virtual void reset() = 0;
 	virtual void update() = 0;
-	virtual void draw();
+	virtual bool vslot11(int);
+	virtual void vslot12();
+	virtual void vslot13(int);
 	SubsystemInterface(const SubsystemInterface &that);
 	SubsystemInterface &operator=(const SubsystemInterface &that);
 private:
