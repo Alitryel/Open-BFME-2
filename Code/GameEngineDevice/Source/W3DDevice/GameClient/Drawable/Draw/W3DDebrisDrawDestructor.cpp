@@ -56,9 +56,16 @@ public:
 	void handle(void *object);
 };
 
-// ?g_scene@@3PAVSceneClass@@A: the global at this VA is ?m_3DScene@W3DDisplay@@2PAVRTS3DScene@@A; this name is an alias for it.
-extern SceneClass * g_scene;
-#pragma comment(linker, "/alternatename:?g_scene@@3PAVSceneClass@@A=?m_3DScene@W3DDisplay@@2PAVRTS3DScene@@A")
+// The scene the debris render object leaves is W3DDisplay's 3D scene.
+class RTS3DScene : public SceneClass
+{
+};
+
+class W3DDisplay
+{
+public:
+	static RTS3DScene *m_3DScene;
+};
 class W3DShadowManager; extern W3DShadowManager *TheW3DShadowManager;
 // g_shadowManager: VA 0xde5dfc (zero-filled .bss).
 class W3DShadowManager; extern W3DShadowManager *TheW3DShadowManager;
@@ -100,7 +107,7 @@ W3DDebrisDraw::~W3DDebrisDraw()
 	RenderObjClass *renderObject = m_renderObject;
 	if (renderObject != (RenderObjClass *)zero)
 	{
-		g_scene->Remove_Render_Object(renderObject);
+		W3DDisplay::m_3DScene->Remove_Render_Object(renderObject);
 		if (m_renderObject != (RenderObjClass *)zero)
 		{
 			m_renderObject->releaseRef();

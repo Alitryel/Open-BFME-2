@@ -3,7 +3,7 @@
 // ?GetGameFilePart@@YAPAVFile@@PBDHH@Z, retail 0x0007882F, 128 bytes.
 // Chain from 0x000783A1 landing: free File* opener (filename plus 2 ints)
 // via GameFileClass 0x220 stack object plus rowed FileSystem 4-arg wrapper.
-// Returns null unless globals at 0x9E1FAC and TheFileSystem at 0xA06A48 are
+// Returns null unless TheW3DFileSystem (0x9E1FAC) and TheFileSystem at 0xA06A48 are
 // set and GameFileClass+8 exists flag is set; filename for wrapper is
 // GameFileClass+9 filePath and access is 0x41 READ|BINARY. Callers at
 // 0x14D0C9 0x17FDF0 0x180166 0x1802D5 0x1808FC 0x180D87 become ready.
@@ -16,9 +16,9 @@ public:
 	File *rva000783A1(const char *filename, int access, int a, int b);
 };
 
-extern int g_009E1FAC;
-// ?g_009E1FAC@@3HA: the global at this VA is ?TheW3DFileSystem@@3PAVW3DFileSystem@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?g_009E1FAC@@3HA=?TheW3DFileSystem@@3PAVW3DFileSystem@@A")
+// The global at 0x9E1FAC is the W3D file system.
+class W3DFileSystem;
+extern W3DFileSystem *TheW3DFileSystem;
 extern FileSystem *TheFileSystem;
 
 class GameFileClass
@@ -33,7 +33,7 @@ public:
 
 File *GetGameFilePart(const char *filename, int a, int b)
 {
-	if (g_009E1FAC == 0)
+	if (TheW3DFileSystem == 0)
 		return 0;
 	if (TheFileSystem == 0)
 		return 0;

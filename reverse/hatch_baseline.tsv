@@ -4780,7 +4780,6 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawCtor.cpp	_vtbl_00BC97A0	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawCtor.cpp	_vtbl_00BC97A8	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawCtor.cpp	_vtbl_00C6FFFC	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawDestructor.cpp	?g_scene@@3PAVSceneClass@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DFloorDrawCtor.cpp	_vtbl_00BCD4D8	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DFloorDrawCtor.cpp	_vtbl_00BCD4E0	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DFloorDrawCtor.cpp	_vtbl_00C1C780	1
@@ -4803,7 +4802,6 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibra
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Gen00920BC0Handle.cpp	?Rva01340534Device@@3PAUGen00920BC0Device@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Render_Obj_Exists_Impl.cpp	?bfmeSay1025@BfmeP1025@@QAEDPAD@Z	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0007882FGet.cpp	?g_009E1FAC@@3HA	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?Rva00F4FAACRegistry@@3PAVRva009EEC60Registry@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?bfmeNextResource@@YA?AUBfmeResetAnyRef@@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva009EBDC0.cpp	?g_theAssetRegistry@@3PAVAssetRegistry@@A	2
