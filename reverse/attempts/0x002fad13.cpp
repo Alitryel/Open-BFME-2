@@ -1,8 +1,17 @@
 // ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
+// partial score=0.98 date=2026-10-19
+// ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
 // partial score=0.9796863056641045 date=2026-10-14
 // ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
 // partial score=0.97969 date=2026-10-14
 // cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /ICode/GameEngine/Source
+// 0x002FAD13 bank 2026-10-19 (claude-opus-5-5): hack-free in the function, 2117/2117, frame 0x7C, nd 37 (all EBP
+// displacements, 0 structural). Calls now resolve: 0x2CB35C = Weapon::isWithinAttackRange, 0x2C9C37 =
+// Weapon::getAttackDistance (class Weapon declared, weapon cast). Quick path follows WB D4A100/ZH literally
+// (delta.set/normalize/*=10, the bank's volatile reads and step struct gone); one {} block opening at
+// `PathfinderAttackCoord goal(*victimPos);` restores frame 0x7C. Left: 12-byte slot pairing (retail: quick
+// delta with scratch/start at the top, curPos with fallback delta/cellCenter at -0x78). The _ReadWriteBarrier
+// in the Rva002E6FDF ctor prefix is context - use the home's own. Home: pathfinder.cpp. Scratch: build/nbr/r11/2fad13/.
 // stlport
 
 namespace _STL {
@@ -1237,6 +1246,7 @@ struct PathfinderAttackHandle {
  __forceinline ~PathfinderAttackHandle(){((Rva002EAD62*)this)->rva002EAD62();}
 };
 class PartitionManager{public:float rva002C9C37(const Object*,const Object*,void*);};
+class Weapon{public:bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);float getAttackDistance(const Object*,const Object*,const Coord3D*)const;};
 struct PathfinderAttackNode{PathfinderAttackNode*next,*previous,*optimized;};
 struct PathfinderAttackPathView{void*vptr;PathfinderAttackNode*first;};
 struct AttackLimitView{char gap[0x9b8];Int debugAI;char pad[0x1214-0x9bc];unsigned int attackLimit;};
@@ -1340,6 +1350,8 @@ struct PathfinderAttackCoord : Coord3D {
     void scale(float f){x*=f;y*=f;z*=f;}
     void add(const Coord3D&p){x+=p.x;y+=p.y;z+=p.z;}
 };
+struct PIdx : ICoord2D { __forceinline PIdx() {} __forceinline PIdx &operator=(const ICoord2D &o){x=o.x;y=o.y;return *this;} };
+struct PIdxD : ICoord2D { __forceinline PIdxD() {} __forceinline ~PIdxD() {} __forceinline PIdxD &operator=(const ICoord2D &o){x=o.x;y=o.y;return *this;} };
 Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
  Object *victim,const Coord3D *victimPos,Rva002C9B80Owner *weapon,Bool skipQuick,Bool *partial)
 {
@@ -1357,18 +1369,21 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
     if(!skipQuick){
         PathfinderAttackCoord curPos(*(const Coord3D *)obj->position);
         PathfinderAttackCoord quickGoal(victim?*(const Coord3D *)victim->position:*victimPos);
-        struct {float x,y;} step;
-        {PathfinderAttackCoord delta;delta.set(quickGoal.x-curPos.x,quickGoal.y-curPos.y,0);
-        delta.normalize();step.x=(*(const volatile float*)&delta.x)*10.0f;step.y=(*(const volatile float*)&delta.y)*10.0f;}
-        for(Int i=1;i<10;++i){
+        PathfinderAttackCoord delta;
+        delta.set(quickGoal.x-curPos.x,quickGoal.y-curPos.y,0);
+        delta.normalize();
+        delta.x*=10.0f;
+        delta.y*=10.0f;
+        Int i;
+        for(i=1;i<10;++i){
             PathfinderAttackCoord test(curPos);
-            test.x+=step.x*i*0.5f;test.y+=step.y*i*0.5f;
+            test.x+=delta.x*i*0.5f;test.y+=delta.y*i*0.5f;
             ICoord2D index;Rva002E7875WorldToCell(&index,true,&test);
             if(human && (index.x<m_extentLowX || index.y<m_extentLowY || index.x>m_extentHighX || index.y>m_extentHighY))break;
             PathfindCell *cell=getCell((PathfindLayerEnum)obj->rva0028B511(),index.x,index.y);
             if(!cell || !((Rva002E6DC4 *)this)->rva002E6DC4(&movement,cell))break;
             if(!bfmeWrapE6E90(obj,(void *)index.x,(void *)index.y,(void *)obj->rva0028B511(),(void *)radius,*(void **)&center))break;
-            if(weapon->isWithinAttackRange(obj,&test,victim,victimPos,10.0f,true) &&
+            if(((Weapon*)weapon)->isWithinAttackRange(obj,&test,victim,victimPos,10.0f,true) &&
                !isAttackViewBlockedByObstacle(obj,&test,victim,victimPos)){
                 Path *path=new Path;
                 path->rva00265596(&test,(PathfindLayerEnum)obj->rva0028B511(),0x7fffffff);
@@ -1380,6 +1395,7 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
             }
         }
     }
+    {
     PathfinderAttackCoord goal(*victimPos);
     if(victim){
         if(victim->m_template->hasKind(150))victim->rva0028C2DD(&goal);
@@ -1394,7 +1410,7 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
     PathfinderAttackHandle hierarchical(FindClosestHierarchicalPath(human,locos,obj,from,&goal,crusher,&goal));
     if(!hierarchical.path)m_zoneManager.rva00531300();
     unsigned int count=0;
-    Int attackDistance=(Int)((PartitionManager *)weapon)->rva002C9C37(obj,victim,(void *)victimPos)+30;
+    Int attackDistance=(Int)((Weapon *)weapon)->getAttackDistance(obj,victim,victimPos)+30;
     PathfinderAttackCoord objectPos(*(const Coord3D *)obj->position);
     if(center){objectPos.x+=5.0f;objectPos.y+=5.0f;}
     ICoord2D startIndex;
@@ -1432,7 +1448,7 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
             }
         }
         Int cellState=parent->m_pathInfo?(Int)parent->m_pathInfo->parentWaypoint:0;
-        if(!cellState && weapon->isWithinAttackRange(obj,&cellCenter,victim,victimPos,0.0f,true)){
+        if(!cellState && ((Weapon*)weapon)->isWithinAttackRange(obj,&cellCenter,victim,victimPos,0.0f,true)){
             Int destinationDistance;
             if(CheckDestination(obj,parent->getXIndex(),parent->getYIndex(),(PathfindLayerEnum)parent->getLayer(),radius,center,&destinationDistance,false)){
                 Bool blocked=checkLOS?isAttackViewBlockedByObstacle(obj,&cellCenter,victim,victimPos):false;
@@ -1470,4 +1486,5 @@ Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coo
         rva002F40E7();return path;
     }
     rva002F40E7();m_isTunneling=false;goalCell->ReleaseInfo();return 0;
+    }
 }
