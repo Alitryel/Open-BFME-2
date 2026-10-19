@@ -16,7 +16,13 @@
 #include <list>
 
 class INI;
-struct FieldParse;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 class MultiIniFieldParse
 {
 public:
@@ -34,6 +40,21 @@ public:
 	const char *getNextToken(const char *seps);
 	float scanReal(const char *token);
 	unsigned int scanUnsignedInt(const char *token);
+	static void parseAngleReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord2D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord3D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseFXList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseGameClientRandomVariable(INI *ini, void *instance, void *store, const void *userData);
+	static void parseICoord2D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseIndexList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
 };
 
 typedef int Int;
@@ -584,3 +605,222 @@ void _bfmeFXListNuggetParseInlineAnchor()
 	FXListAtBonePosFXNugget::parse(0, 0, 0, 0);
 }
 #pragma inline_depth()
+
+// The nugget field tables the builders above add (retail .rdata, each closed by
+// a null entry). Every callback is a rowed parser; the strings are retail's
+// keywords. Offsets are into the nugget object (FXNugget's own fields below
+// 0x148, the derived class's from 0x148).
+void Rva000B9468Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva001DEE74Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva001DFBC7Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva001DFC09Parse(INI *ini, void *instance, void *store, const void *userData);
+void Rva001DFC2AParse(INI *ini, void *instance, void *store, const void *userData);
+void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
+void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *userData);
+
+// GameType.cpp's weather names: FXNugget's Weather field indexes them.
+extern char *WeatherNames[];
+
+// The Shader index-list names of DynamicDecalFXNugget (retail .data 0x009B8DE8).
+const char *DynamicDecalShaderNames[] = { "ALPHA", "ADDITIVE", 0 };
+
+// The BuffType index-list names of BuffNuggetFXNugget (retail .rdata 0x00816F58).
+extern const char *const BuffTypeNames[] =
+{
+	"DO_NOT_USE_THIS_TYPE", "Healing", "LeaderShip", "GloriousCharge", "Dominate",
+	"Cursed", "Buff", "Debuff", "Poison", 0
+};
+
+// retail .rdata 0x007DCA18 (8 entries + terminator)
+extern const FieldParse FXNuggetFieldParse[] =
+{
+	{ "ObjectFilter", iniParseObjectFilter, 0, 0xC },
+	{ "SourceObjectFilter", iniParseObjectFilter, 0, 0x8 },
+	{ "RequiredSecondaryModelConditions", Rva000B9468Parse, 0, 0xA8 },
+	{ "ExcludedSecondaryModelConditions", Rva000B9468Parse, 0, 0xF4 },
+	{ "RequiredSourceModelConditions", Rva000B9468Parse, 0, 0x10 },
+	{ "ExcludedSourceModelConditions", Rva000B9468Parse, 0, 0x5C },
+	{ "StopIfNuggetPlayed", INI::parseBool, 0, 0x144 },
+	{ "Weather", INI::parseIndexList, WeatherNames, 0x140 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCAD8 (3 entries + terminator)
+extern const FieldParse EvaEventFXNuggetFieldParse[] =
+{
+	{ "EvaEventOwner", Rva001DEE74Parse, 0, 0x148 },
+	{ "EvaEventAlly", Rva001DEE74Parse, 0, 0x14C },
+	{ "EvaEventEnemy", Rva001DEE74Parse, 0, 0x150 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCB18 (1 entry + terminator)
+extern const FieldParse SoundFXNuggetFieldParse[] =
+{
+	{ "Name", Rva00339900Parse, 0, 0x148 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCB58 (3 entries + terminator)
+extern const FieldParse RayEffectFXNuggetFieldParse[] =
+{
+	{ "Name", INI::parseAsciiString, 0, 0x148 },
+	{ "PrimaryOffset", INI::parseCoord3D, 0, 0x14C },
+	{ "SecondaryOffset", INI::parseCoord3D, 0, 0x158 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCBD8 (5 entries + terminator)
+extern const FieldParse LightPulseFXNuggetFieldParse[] =
+{
+	{ "Color", INI::parseRGBColor, 0, 0x148 },
+	{ "Radius", INI::parseReal, 0, 0x154 },
+	{ "RadiusAsPercentOfObjectSize", INI::parsePercentToReal, 0, 0x158 },
+	{ "IncreaseTime", INI::parseDurationUnsignedInt, 0, 0x15C },
+	{ "DecreaseTime", INI::parseDurationUnsignedInt, 0, 0x160 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCCF0 (14 entries + terminator)
+extern const FieldParse DynamicDecalFXNuggetFieldParse[] =
+{
+	{ "DecalName", INI::parseAsciiString, 0, 0x148 },
+	{ "Shader", INI::parseIndexList, DynamicDecalShaderNames, 0x14C },
+	{ "Size", INI::parseReal, 0, 0x150 },
+	{ "Color", INI::parseRGBColor, 0, 0x154 },
+	{ "Offset", INI::parseCoord2D, 0, 0x160 },
+	{ "OrientToObject", INI::parseBool, 0, 0x168 },
+	{ "OpacityStart", INI::parseUnsignedInt, 0, 0x16C },
+	{ "OpacityFadeTimeOne", INI::parseReal, 0, 0x170 },
+	{ "OpacityPeak", INI::parseUnsignedInt, 0, 0x174 },
+	{ "OpacityPeakTime", INI::parseReal, 0, 0x178 },
+	{ "OpacityFadeTimeTwo", INI::parseReal, 0, 0x17C },
+	{ "OpacityEnd", INI::parseUnsignedInt, 0, 0x180 },
+	{ "StartingDelay", INI::parseReal, 0, 0x184 },
+	{ "Lifetime", INI::parseReal, 0, 0x188 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCEB8 (13 entries + terminator)
+extern const FieldParse BuffNuggetFXNuggetFieldParse[] =
+{
+	{ "BuffType", INI::parseIndexList, BuffTypeNames, 0x148 },
+	{ "IsComplexBuff", INI::parseBool, 0, 0x14C },
+	{ "BuffThingTemplate", INI::parseAsciiString, 0, 0x154 },
+	{ "BuffOrcTemplate", INI::parseAsciiString, 0, 0x158 },
+	{ "BuffInfantryTemplate", INI::parseAsciiString, 0, 0x15C },
+	{ "BuffCavalryTemplate", INI::parseAsciiString, 0, 0x160 },
+	{ "BuffTrollTemplate", INI::parseAsciiString, 0, 0x164 },
+	{ "BuffMumakilTemplate", INI::parseAsciiString, 0, 0x168 },
+	{ "BuffShipTemplate", INI::parseAsciiString, 0, 0x16C },
+	{ "BuffMonsterTemplate", INI::parseAsciiString, 0, 0x170 },
+	{ "BuffLifeTime", INI::parseDurationUnsignedInt, 0, 0x150 },
+	{ "Extrusion", INI::parseReal, 0, 0x174 },
+	{ "Color", INI::parseRGBColor, 0, 0x178 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DCFD8 (3 entries + terminator)
+extern const FieldParse LaserFXNuggetFieldParse[] =
+{
+	{ "LaserName", INI::parseAsciiString, 0, 0x148 },
+	{ "LaserBackwards", INI::parseBool, 0, 0x14C },
+	{ "TargetPositionOffsetFallback", INI::parseCoord3D, 0, 0x150 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD040 (3 entries + terminator)
+extern const FieldParse CameraShakerVolumeFXNuggetFieldParse[] =
+{
+	{ "Radius", INI::parseReal, 0, 0x154 },
+	{ "Duration_Seconds", INI::parseReal, 0, 0x158 },
+	{ "Amplitude_Degrees", INI::parseReal, 0, 0x15C },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD118 (3 entries + terminator)
+extern const FieldParse AttachedModelFXNuggetFieldParse[] =
+{
+	{ "Modelname", INI::parseAsciiString, 0, 0x148 },
+	{ "RandomlyRotate", INI::parseBool, 0, 0x14C },
+	{ "ExpireTimer", INI::parseInt, 0, 0x150 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD278 (6 entries + terminator)
+extern const FieldParse TintDrawableFXNuggetFieldParse[] =
+{
+	{ "Color", Rva001DFC2AParse, 0, 0x148 },
+	{ "PreColorTime", INI::parseUnsignedInt, 0, 0x154 },
+	{ "PostColorTime", INI::parseUnsignedInt, 0, 0x158 },
+	{ "SustainedColorTime", INI::parseUnsignedInt, 0, 0x15C },
+	{ "Frequency", INI::parseReal, 0, 0x160 },
+	{ "Amplitude", INI::parseReal, 0, 0x164 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD2F8 (2 entries + terminator)
+extern const FieldParse FXListAtBonePosFXNuggetFieldParse[] =
+{
+	{ "FX", INI::parseFXList, 0, 0x148 },
+	{ "BoneName", INI::parseAsciiString, 0, 0x14C },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD428 (24 entries + terminator)
+extern const FieldParse ParticleSystemFXNuggetFieldParse[] =
+{
+	{ "Name", INI::parseAsciiString, 0, 0x148 },
+	{ "Count", INI::parseInt, 0, 0x14C },
+	{ "Offset", INI::parseCoord3D, 0, 0x150 },
+	{ "Radius", INI::parseGameClientRandomVariable, 0, 0x15C },
+	{ "Height", INI::parseGameClientRandomVariable, 0, 0x168 },
+	{ "InitialDelay", INI::parseGameClientRandomVariable, 0, 0x174 },
+	{ "RotateX", INI::parseAngleReal, 0, 0x180 },
+	{ "RotateY", INI::parseAngleReal, 0, 0x184 },
+	{ "RotateZ", INI::parseAngleReal, 0, 0x188 },
+	{ "OrientToObject", INI::parseBool, 0, 0x18C },
+	{ "Ricochet", INI::parseBool, 0, 0x195 },
+	{ "AttachToObject", INI::parseBool, 0, 0x18D },
+	{ "AttachToBone", INI::parseAsciiString, 0, 0x190 },
+	{ "CreateAtGroundHeight", INI::parseBool, 0, 0x194 },
+	{ "CreateBoneOverride", INI::parseAsciiString, 0, 0x198 },
+	{ "CreateBoneAtTarget", INI::parseBool, 0, 0x1A0 },
+	{ "TargetBoneOverride", INI::parseAsciiString, 0, 0x19C },
+	{ "TargetCoeff", INI::parseReal, 0, 0x1A4 },
+	{ "SystemLife", INI::parseInt, 0, 0x1A8 },
+	{ "UseTargetOffset", INI::parseBool, 0, 0x1AC },
+	{ "SetTargetMatrix", INI::parseBool, 0, 0x1AD },
+	{ "TargetOffset", INI::parseCoord3D, 0, 0x1B0 },
+	{ "OnlyIfOnLand", INI::parseBool, 0, 0x1AE },
+	{ "OnlyIfOnWater", INI::parseBool, 0, 0x1AF },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD600 (6 entries + terminator)
+extern const FieldParse CursorParticleSystemFXNuggetFieldParse[] =
+{
+	{ "Anim2DTemplateName", INI::parseAsciiString, 0, 0x148 },
+	{ "BurstCount", INI::parseUnsignedInt, 0, 0x14C },
+	{ "ParticleLife", INI::parseGameClientRandomVariable, 0, 0x150 },
+	{ "SystemLife", INI::parseGameClientRandomVariable, 0, 0x15C },
+	{ "DriftVelX", INI::parseGameClientRandomVariable, 0, 0x168 },
+	{ "DriftVelY", INI::parseGameClientRandomVariable, 0, 0x174 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD7F4 (1 entry + terminator)
+extern const FieldParse ViewShakeFXNuggetFieldParse[] =
+{
+	{ "Type", Rva001DFBC7Parse, 0, 0x148 },
+	{ 0, 0, 0, 0 }
+};
+
+// retail .rdata 0x007DD8A0 (3 entries + terminator)
+extern const FieldParse TerrainScorchFXNuggetFieldParse[] =
+{
+	{ "Type", Rva001DFC09Parse, 0, 0x148 },
+	{ "Radius", INI::parseReal, 0, 0x14C },
+	{ "RandomRange", INI::parseICoord2D, 0, 0x150 },
+	{ 0, 0, 0, 0 }
+};
