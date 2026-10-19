@@ -94,6 +94,7 @@ class Rva0040AF66 {char bytes[104];};
 namespace _STL {
 template<> void _Destroy(Rva0040AF66 *);
 template<> void _Destroy(Rva0040AF66 *,Rva0040AF66 *);
+template<> void _Destroy(Rva0040C0C7Element *,Rva0040C0C7Element *);
 template<> __declspec(noinline) _Vector_base<Rva0040C0C7Element,allocator<Rva0040C0C7Element> >::_Vector_base(const allocator<Rva0040C0C7Element> &a)
  : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
 template<> __declspec(noinline) _Vector_base<Rva0040AF66,allocator<Rva0040AF66> >::_Vector_base(const allocator<Rva0040AF66> &a)
