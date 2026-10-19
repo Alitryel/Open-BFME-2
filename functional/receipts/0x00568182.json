@@ -1,0 +1,8 @@
+{
+ "name": "??0Rva005681CE@@QAE@I@Z",
+ "rva": "0x00568182",
+ "size": 76,
+ "source": "functional/src/0x00568182.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ??0Rva005681CE@@QAE@I@Z"
+}

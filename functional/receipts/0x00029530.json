@@ -1,0 +1,8 @@
+{
+ "name": "?bfmeDoInsertQX@BfmeThingQX@@QAEXPADID@Z",
+ "rva": "0x00029530",
+ "size": 662,
+ "source": "functional/src/0x00029530.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?bfmeDoInsertQX@BfmeThingQX@@QAEXPADID@Z"
+}

@@ -1,0 +1,41 @@
+{
+ "name": "?rva0037609C@Rva0037609C@@QAE_NPAXPBUCoord3D@@PAVRva00312C95@@PBE3_N@Z",
+ "rva": "0x0037609C",
+ "size": 2148,
+ "extent": 2148,
+ "source": "functional/src/0x0037609c.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 20,
+  "by_value": 6,
+  "weak_left": 5
+ },
+ "isomorphic": false,
+ "iso_delta": 143,
+ "verdict": "logic",
+ "coverage": 0.866,
+ "per_vector": [
+  "binding: objects: call #10: retail rva:0x006C65F0(??0Rva006C65F0@@QAE@PBD0_N@Z) rebuilt rva:0x006C6000(?rva006C6000@Rva006C65F0@@QAEXXZ)",
+  "logic: zeros: 2 calls in retail, 3 rebuilt",
+  "logic: ints: 2 calls in retail, 3 rebuilt",
+  "logic: v3: 2 calls in retail, 3 rebuilt",
+  "logic: v4: 2 calls in retail, 3 rebuilt",
+  "logic: v5: 2 calls in retail, 3 rebuilt",
+  "logic: v6: 2 calls in retail, 3 rebuilt",
+  "logic: v7: 2 calls in retail, 3 rebuilt",
+  "logic: v8: call #2 rva:0x002FCFCF(?AdjustDestination@Pathfinder@@QAE_NPAVObject@@ABVLocomotorSet@@PAUCoord3D@@PBU4@@Z): args differ [(990322854, 0), (0, 9903223",
+  "logic: v9: call #2 rva:0x002FCFCF(?AdjustDestination@Pathfinder@@QAE_NPAVObject@@ABVLocomotorSet@@PAUCoord3D@@PBU4@@Z): args differ [(805314028, 805634640), (0,",
+  "binding: v10: call #10: retail rva:0x006C65F0(??0Rva006C65F0@@QAE@PBD0_N@Z) rebuilt rva:0x006C6000(?rva006C6000@Rva006C65F0@@QAEXXZ)",
+  "logic: v11: 2 calls in retail, 3 rebuilt",
+  "logic: v12: 2 calls in retail, 3 rebuilt",
+  "logic: v13: 2 calls in retail, 3 rebuilt",
+  "logic: v14: 2 calls in retail, 3 rebuilt",
+  "logic: v15: 2 calls in retail, 3 rebuilt"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 0,
+ "prefix_vectors": 0,
+ "reason": "zeros: 2 calls in retail, 3 rebuilt",
+ "ms": 1475.9,
+ "rebuilt_size": 1842
+}

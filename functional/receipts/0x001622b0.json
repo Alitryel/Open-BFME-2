@@ -7,10 +7,11 @@
  "vectors": 48,
  "bindings": {
   "aligned": 0,
+  "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 39,
+ "iso_delta": 18,
  "verdict": "regalloc-only",
  "coverage": 0.529,
  "per_vector": [
@@ -67,6 +68,6 @@
  "complete_vectors": 43,
  "prefix_vectors": 5,
  "reason": "objects",
- "ms": 387089.8,
+ "ms": 318227.7,
  "rebuilt_size": 1320
 }

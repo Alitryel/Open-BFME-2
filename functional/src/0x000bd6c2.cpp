@@ -192,11 +192,10 @@ void W3DScriptedModelDraw::rva000BD6C2()
      for(ListNode*n=events.node->next;n!=events.node;n=n->next){
       EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
       if(e->type==9){
-       unsigned particleID=e->particle;
-       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)particleID);
+       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
-       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==particleID){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
+       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==e->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
       }
      }
     }

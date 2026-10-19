@@ -116,7 +116,7 @@ void Player::rva002AD25B(const AsciiString &playerName)
  }
  Dict *sideDict=TheSidesList->getSkirmishSideInfo(skirmishIndex)->getDict();
  AsciiString originalPlayerName=sideDict->getAsciiString(TheKey_playerName.get());
- int teamID=TheSidesList->getSkirmishTeams()->getFirstTeamID();if(teamID)do {
+ int teamID=TheSidesList->getSkirmishTeams()->getFirstTeamID();while(teamID) {
   if (originalPlayerName==TheSidesList->getSkirmishTeams()->getTeamInfo(teamID)->getAsciiString(TheKey_teamOwner.get())) {
    Dict teamDict(*TheSidesList->getSkirmishTeams()->getTeamInfo(teamID));
    AsciiString teamName=teamDict.getAsciiString(TheKey_teamName.get());
@@ -128,5 +128,5 @@ void Player::rva002AD25B(const AsciiString &playerName)
     TheSidesList->getTeams()->removeTeam(existingTeam);
    TheSidesList->getTeams()->addTeam(&teamDict);
   }
- teamID=TheSidesList->getSkirmishTeams()->getNextTeamID(teamID); }while(teamID);
+ teamID=TheSidesList->getSkirmishTeams()->getNextTeamID(teamID); }
 }

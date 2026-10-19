@@ -12,7 +12,7 @@
 // partial score=0.9 date=2026-10-14
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.844802 date=2026-10-10
-// cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /EHa
+// cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 // stlport
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -69,7 +69,8 @@ struct Rva001F21E8Waypoint {
  Rva001F21E8Waypoint*getNext() const {return next;}
 };
 void Rva001F21E8::rva001F21E8(Coord3D*position){
- _ReadWriteBarrier();
+
+
  _STL::vector<Object*>matches;
  for(Object*node=TheTerrainLogic->getFirstWaypoint();node;node=(Object*)((Rva001F21E8Waypoint*)node)->getNext()){
   if(((Rva001F21E8Waypoint*)node)->getName().startsWith(prefix))matches.push_back(node);

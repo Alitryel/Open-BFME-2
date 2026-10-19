@@ -1,0 +1,41 @@
+{
+ "name": "?ProcessGameSpyResponse@AptMessengerOnline@@QAE_NPAX@Z",
+ "rva": "0x005AF12F",
+ "size": 2200,
+ "extent": 2200,
+ "source": "functional/src/0x005af12f.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 14,
+  "by_value": 0,
+  "weak_left": 9
+ },
+ "isomorphic": false,
+ "iso_delta": 343,
+ "verdict": "logic",
+ "coverage": 0.096,
+ "per_vector": [
+  "logic: objects: 0 calls in retail, 2 rebuilt",
+  "logic: zeros: 0 calls in retail, 2 rebuilt",
+  "logic: ints: 0 calls in retail, 2 rebuilt",
+  "binding: v3: call #0: retail rva:0x00037E30(??0?$StringBase@G@@AAE@PBG@Z) rebuilt addr:0xE80875FF",
+  "logic: v4: 0 calls in retail, 2 rebuilt",
+  "logic: v5: 0 calls in retail, 2 rebuilt",
+  "logic: v6: 0 calls in retail, 2 rebuilt",
+  "logic: v7: 0 calls in retail, 2 rebuilt",
+  "logic: v8: 0 calls in retail, 2 rebuilt",
+  "logic: v9: 0 calls in retail, 2 rebuilt",
+  "logic: v10: 0 calls in retail, 2 rebuilt",
+  "logic: v11: 0 calls in retail, 2 rebuilt",
+  "binding: v12: call #0: retail rva:0x00037E30(??0?$StringBase@G@@AAE@PBG@Z) rebuilt addr:0xE80875FF",
+  "binding: v13: call #0: retail rva:0x00037E30(??0?$StringBase@G@@AAE@PBG@Z) rebuilt addr:0xE80875FF",
+  "logic: v14: 0 calls in retail, 2 rebuilt",
+  "binding: v15: call #0: retail rva:0x00037E30(??0?$StringBase@G@@AAE@PBG@Z) rebuilt addr:0xE80875FF"
+ ],
+ "inconclusive_vectors": 0,
+ "complete_vectors": 0,
+ "prefix_vectors": 0,
+ "reason": "objects: 0 calls in retail, 2 rebuilt",
+ "ms": 1746.4,
+ "rebuilt_size": 1208
+}

@@ -450,7 +450,7 @@ public:
 	~ObjectTypesTemp() { ::delete m_types; }
 	ObjectTypesTypeSet *m_types;
 };
-ObjectTypes *Script_objectTypesFromParam(Parameter *typeParm, ObjectTypesTypeSet *&types);
+void Script_objectTypesFromParam(Parameter *typeParm, ObjectTypes *types);
 
 Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, Parameter *comparisonParm, Parameter *rankParm)
 {
@@ -461,7 +461,7 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(*typeParm->getString());
 	ObjectTypesTemp typesTemp;
 	if (types)
-		Script_objectTypesFromParam(typeParm, typesTemp.m_types);
+		Script_objectTypesFromParam(typeParm, (ObjectTypes *)typesTemp.m_types);
 	else
 		thingTemplate = TheThingFactory->findTemplate(*typeParm->getString());
 	PlayerTeamNode *head = player->getPlayerTeams();
@@ -475,7 +475,6 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 			Object *obj;
 			for (DLINK_ITERATOR<Object> iter2 = team->iterate_TeamMemberList(); (obj = iter2.cur()) != 0; iter2.advance())
 			{
-				_ReadWriteBarrier();
 				Bool typeMatches;
 				if (types)
 					typeMatches = typesTemp.m_types->isInSet(obj->getTemplate());
@@ -488,7 +487,6 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 					{
 						Int rank = tracker->getRank();
 						Bool matches = false;
-						*(Bool * volatile *)&matches = 0;
 						switch (comparisonParm->getInt())
 						{
 							case 0: matches = rank < rankParm->getInt(); break;

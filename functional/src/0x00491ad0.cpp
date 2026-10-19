@@ -279,7 +279,6 @@ void AttachUpdate::rva00491AD0()
 	Player *local2 = local;
 	Player *player2 = player;
 	if (local2 && player2) {
-		const Coord3D *where;
 		if (player == local) {
 			Object *ownerParent = parent;
 			TheEva->rva001DE2DA(data->m_parentOwnerAttachmentEvaEvent, ownerParent->getPosition(), 0);
@@ -288,7 +287,7 @@ void AttachUpdate::rva00491AD0()
 			TheEva->rva001DE2DA(data->m_parentAllyAttachmentEvaEvent, parent->getPosition(), 0);
 			m_diedEvaEvent = data->m_parentAllyDiedEvaEvent;
 		} else {
-			TheEva->rva001DE2DA(data->m_parentEnemyAttachmentEvaEvent, where, 0);
+			TheEva->rva001DE2DA(data->m_parentEnemyAttachmentEvaEvent, parent->getPosition(), 0);
 			m_diedEvaEvent = data->m_parentEnemyDiedEvaEvent;
 		}
 	}

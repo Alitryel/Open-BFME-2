@@ -1,0 +1,8 @@
+{
+ "name": "?onExit@SpecialAbilityUpdate@@AAEX_N0@Z",
+ "rva": "0x004502CE",
+ "size": 871,
+ "source": "functional/src/0x004502ce.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?onExit@SpecialAbilityUpdate@@AAEX_N0@Z"
+}

@@ -3,14 +3,17 @@
  "rva": "0x006EFBC0",
  "size": 5936,
  "extent": 5936,
- "source": "reverse/attempts/0x006efbc0.cpp",
- "vectors": 12,
+ "source": "functional/src/0x006efbc0.cpp",
+ "vectors": 16,
  "bindings": {
-  "aligned": 174,
-  "weak_left": 5
+  "aligned": 178,
+  "by_value": 0,
+  "weak_left": 0
  },
- "verdict": "regalloc-only",
- "coverage": 0.031,
+ "isomorphic": false,
+ "iso_delta": 76,
+ "verdict": "logic",
+ "coverage": 0.052,
  "per_vector": [
   "regalloc-only: objects",
   "regalloc-only: zeros",
@@ -21,14 +24,18 @@
   "regalloc-only: v6",
   "regalloc-only: v7",
   "regalloc-only: v8",
-  "regalloc-only: v9",
+  "logic: v9: end ('fault', 11469003, 'Unhandled CPU exception (UC_ERR_EXCEPTION)') None vs ('fault', 11469097, 'Unhandled CPU exception (UC_ERR_EXCEPTION)') None",
   "regalloc-only: v10",
-  "regalloc-only: v11"
+  "regalloc-only: v11",
+  "regalloc-only: v12",
+  "binding: v13: call #5: retail rva:0x006D8700(?Rva008A4EA0MakeFloat@@YAPAVAptValue@@M@Z) rebuilt addr:0x1E1D1C1B",
+  "regalloc-only: v14",
+  "regalloc-only: v15"
  ],
  "inconclusive_vectors": 0,
- "complete_vectors": 12,
+ "complete_vectors": 14,
  "prefix_vectors": 0,
- "reason": "objects",
- "ms": 475.8,
- "rebuilt_size": 5915
+ "reason": "v9: end ('fault', 11469003, 'Unhandled CPU exception (UC_ERR_EXCEPTION)') None vs ('fault', 11469097, 'Unhandled CPU exception (UC_ERR_EXCEPTION)') None",
+ "ms": 1632.2,
+ "rebuilt_size": 5891
 }

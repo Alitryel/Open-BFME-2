@@ -38,7 +38,6 @@ bool Rva000ADDCEWorldHeightMapView::rawTile(short tile,int width,
  unsigned char *buffer,int bytes,int mode) {
  TileData *source=0;
  int savedBytes = bytes;
- *(volatile int*)&savedBytes = savedBytes;
  if(tile/4<0x1000) {
   source=tiles[tile/4];
   if(mode==1) {

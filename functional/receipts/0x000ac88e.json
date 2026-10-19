@@ -11,7 +11,7 @@
   "weak_left": 4
  },
  "isomorphic": false,
- "iso_delta": 49,
+ "iso_delta": 47,
  "verdict": "logic",
  "coverage": 0.982,
  "per_vector": [
@@ -68,6 +68,6 @@
  "complete_vectors": 47,
  "prefix_vectors": 0,
  "reason": "v10: 0 calls in retail, 256 rebuilt",
- "ms": 4585.8,
- "rebuilt_size": 230
+ "ms": 4038.7,
+ "rebuilt_size": 228
 }

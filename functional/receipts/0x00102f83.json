@@ -11,7 +11,7 @@
   "weak_left": 1
  },
  "isomorphic": false,
- "iso_delta": 43,
+ "iso_delta": 34,
  "verdict": "logic",
  "coverage": 0.699,
  "per_vector": [
@@ -24,8 +24,8 @@
   "binding: v6: global reads differ",
   "binding: v7: global reads differ",
   "regalloc-only: v8",
-  "logic: v9: 5 written byte(s) differ, first 0x3000C008",
-  "logic: v10: 6 written byte(s) differ, first 0x30019008",
+  "logic: v9: call #8 rva:0x00358752(?lookupUnitByValue@Rva00358752Opaque@@QAEPAVObject@@VAsciiString@@@Z): args differ [(0, 4294428743)]",
+  "logic: v10: call #8 rva:0x00358752(?lookupUnitByValue@Rva00358752Opaque@@QAEPAVObject@@VAsciiString@@@Z): args differ [(0, 4294428743)]",
   "binding: v11: global reads differ",
   "binding: v12: global reads differ",
   "binding: v13: global reads differ",
@@ -35,7 +35,7 @@
  "inconclusive_vectors": 0,
  "complete_vectors": 2,
  "prefix_vectors": 0,
- "reason": "v9: 5 written byte(s) differ, first 0x3000C008",
- "ms": 1739.8,
+ "reason": "v9: call #8 rva:0x00358752(?lookupUnitByValue@Rva00358752Opaque@@QAEPAVObject@@VAsciiString@@@Z): args differ [(0, 4294428743)]",
+ "ms": 1714.5,
  "rebuilt_size": 4278
 }

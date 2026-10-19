@@ -107,7 +107,7 @@ struct AssetSetGroup
 	}
 };
 
-class Rva009EF0D0Element
+class AssetLoadEntry
 {
 public:
 	virtual const char *slot00();
@@ -203,7 +203,7 @@ void _bfme_debugRecordCallsite(int kind);
 extern char g_bfmeProfileFile[];
 extern char g_bfmeProfilePrevFile[];
 extern int g_bfmeProfileFrame;
-extern Rva009EF0D0Element *g_bfmeProfileAssets[];
+extern AssetLoadEntry *g_bfmeProfileAssets[];
 extern int g_bfmeProfileCount;
 __int64 rva0061FCE0GetClockCyclesFast(void) throw();
 // Same helper as the committed Rva0061FFD0Cluster.cpp / BFME1 profile.cpp:
@@ -231,12 +231,12 @@ public:
 	__forceinline ~AssetLock() { LeaveCriticalSection(m_cs); }
 };
 
-class AssetRegistry
+class AssetManagerImpl
 {
 public:
 	void Worker_Thread_00622480();
 	void Queue_Keys_00622680(bool front, const Rva001408C0Set &keys);
-	void LoadAsset(Rva009EF0D0Element *asset);
+	void LoadAsset(AssetLoadEntry *asset);
 	__forceinline void WaitForQueue()
 	{
 		int count = 0;
@@ -281,7 +281,7 @@ private:
 	unsigned char m_padding1f7;
 };
 
-void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
+void AssetManagerImpl::LoadAsset(AssetLoadEntry *asset)
 {
 	if (!asset->m_bfmeEntry || (asset->m_bfmeFlagsShared & 0xff0000) == 0x30000)
 		return;

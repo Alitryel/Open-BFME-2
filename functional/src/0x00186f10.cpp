@@ -151,7 +151,7 @@ void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	{
 	float del_copy = del;
 	tex_matrix = md * mv;
-	*(volatile float*)&del = del_copy;
+	del = del_copy;
 	}
 }
 

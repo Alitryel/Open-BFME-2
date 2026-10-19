@@ -13,7 +13,7 @@
  "isomorphic": true,
  "iso_delta": 0,
  "verdict": "regalloc-only",
- "coverage": 0.849,
+ "coverage": 0.828,
  "per_vector": [
   "regalloc-only: objects",
   "regalloc-only: zeros",
@@ -68,6 +68,6 @@
  "complete_vectors": 48,
  "prefix_vectors": 0,
  "reason": "objects",
- "ms": 4309.4,
+ "ms": 4164.9,
  "rebuilt_size": 615
 }

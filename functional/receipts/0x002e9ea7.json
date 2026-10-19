@@ -1,0 +1,8 @@
+{
+ "name": "?rva002E9EA7@Pathfinder@@QAE_NPAVObject@@HHW4PathfindLayerEnum@@HEPAH@Z",
+ "rva": "0x002E9EA7",
+ "size": 531,
+ "source": "functional/src/0x002e9ea7.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?rva002E9EA7@Pathfinder@@QAE_NPAVObject@@HHW4PathfindLayerEnum@@HEPAH@Z"
+}

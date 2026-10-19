@@ -140,7 +140,7 @@ void *Rva006C1F60::rva00033ED0(unsigned int size, int flags)
     *(volatile unsigned int*)&dummy1 = 0;
     *(volatile unsigned int*)&dummy2 = 0;
     {
-        if ((1 ? flags : flags) & 8)
+        if ((flags) & 8)
             return ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(size);
     }
 retry:
@@ -171,7 +171,7 @@ retry:
         binIdx = rounded >> 3;
         Rva00033ED0Chunk *c = binNext(binIdx);
         Rva00033ED0Chunk *head = binHead(binIdx);
-        if ((c ? c : c) != head)
+        if ((c) != head)
         {
             *(unsigned int *)((char *)c + rounded + 4) |= 1;
             c->m_next->m_prev = c->m_prev;
@@ -261,9 +261,7 @@ retry:
                 next->m_prev = c;
 
                 c = unsorted->m_next;
-                _ReadWriteBarrier();
                 if (c == unsorted)
-                    _ReadWriteBarrier();
                     break;
             }
         }

@@ -11,7 +11,7 @@
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 58,
+ "iso_delta": 46,
  "verdict": "logic",
  "coverage": 0.711,
  "per_vector": [
@@ -21,7 +21,7 @@
   "prefix-equal: v3: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "logic: v4: 8 written byte(s) differ, first 0x30022060",
   "logic: v5: 8 written byte(s) differ, first 0x3001B060",
-  "logic: v6: 6 written byte(s) differ, first 0x5",
+  "logic: v6: 4 written byte(s) differ, first 0x30015061",
   "regalloc-only: v7",
   "regalloc-only: v8",
   "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
@@ -29,13 +29,13 @@
   "regalloc-only: v11",
   "regalloc-only: v12",
   "regalloc-only: v13",
-  "logic: v14: end return (0, 15, 20) vs return (0, 0, 20)",
+  "regalloc-only: v14",
   "regalloc-only: v15"
  ],
  "inconclusive_vectors": 0,
- "complete_vectors": 7,
+ "complete_vectors": 8,
  "prefix_vectors": 4,
  "reason": "ints: 8 written byte(s) differ, first 0x30001060",
- "ms": 11489.6,
+ "ms": 11928.1,
  "rebuilt_size": 2147
 }

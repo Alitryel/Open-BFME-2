@@ -90,7 +90,7 @@ struct BfmeThingQX
 {
 	typedef _STL::char_traits<char> _Traits;
 
-	void bfmeDoInsertQX(char *__position, unsigned int __n, char __c);
+	void bfmeDoInsertQX(char *__position, unsigned int __n, unsigned char __c);
 
 	unsigned int size() const { return m_finish - m_start; }
 	char *allocate(unsigned int __n) { return __n != 0 ? _STL::allocator<char>::allocate(__n, 0) : 0; }
@@ -104,7 +104,7 @@ struct BfmeThingQX
 	char *m_end_of_storage;
 };
 
-void BfmeThingQX::bfmeDoInsertQX(char *__position, unsigned int __n, char __c)
+void BfmeThingQX::bfmeDoInsertQX(char *__position, unsigned int __n, unsigned char __c)
 {
 	if (__n != 0) {
 		if ((unsigned int)(m_end_of_storage - m_finish) >= __n + 1) {
@@ -114,14 +114,14 @@ void BfmeThingQX::bfmeDoInsertQX(char *__position, unsigned int __n, char __c)
 				_STL::uninitialized_copy((m_finish - __n) + 1, m_finish + 1, m_finish + 1);
 				m_finish += __n;
 				_Traits::move(__position + __n, __position, (__elems_after - __n) + 1);
-				_Traits::assign(__position, __n, __c);
+				_Traits::assign(__position, __n, *(char *)&__c);
 			}
 			else {
-				_STL::uninitialized_fill_n(m_finish + 1, __n - __elems_after - 1, __c);
+				_STL::uninitialized_fill_n(m_finish + 1, __n - __elems_after - 1, *(char *)&__c);
 				m_finish += __n - __elems_after;
 				_STL::uninitialized_copy(__position, __old_finish + 1, m_finish);
 				m_finish += __elems_after;
-				_Traits::assign(__position, __elems_after + 1, __c);
+				_Traits::assign(__position, __elems_after + 1, *(char *)&__c);
 			}
 		}
 		else {
@@ -130,7 +130,7 @@ void BfmeThingQX::bfmeDoInsertQX(char *__position, unsigned int __n, char __c)
 			char *__new_start = allocate(__len);
 			char *__new_finish = __new_start;
 			__new_finish = _STL::uninitialized_copy(m_start, __position, __new_start);
-			__new_finish = _STL::uninitialized_fill_n(__new_finish, __n, __c);
+			__new_finish = _STL::uninitialized_fill_n(__new_finish, __n, *(char *)&__c);
 			__new_finish = _STL::uninitialized_copy(__position, m_finish, __new_finish);
 			_M_construct_null(__new_finish);
 			_STL::_Destroy(m_start, m_finish + 1);

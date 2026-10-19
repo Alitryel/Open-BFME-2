@@ -7,10 +7,11 @@
  "vectors": 16,
  "bindings": {
   "aligned": 99,
+  "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 119,
+ "iso_delta": 42,
  "verdict": "regalloc-only",
  "coverage": 0.474,
  "per_vector": [
@@ -19,7 +20,7 @@
   "regalloc-only: ints",
   "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v5: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
   "regalloc-only: v8",
@@ -29,12 +30,12 @@
   "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v13: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "regalloc-only: v14",
-  "prefix-equal: v15: limit cut (retail events and rebuilt events): vector not completed"
+  "prefix-equal: v15: limit cut (retail instructions and rebuilt instructions): vector not completed"
  ],
  "inconclusive_vectors": 0,
  "complete_vectors": 5,
  "prefix_vectors": 11,
  "reason": "zeros",
- "ms": 31887.0,
+ "ms": 27890.3,
  "rebuilt_size": 15940
 }

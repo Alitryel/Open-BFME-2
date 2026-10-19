@@ -11,7 +11,7 @@
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 469,
+ "iso_delta": 172,
  "verdict": "binding",
  "coverage": 0.467,
  "per_vector": [
@@ -36,6 +36,6 @@
  "complete_vectors": 1,
  "prefix_vectors": 2,
  "reason": "objects: call #6: retail rva:0x001622B0 rebuilt addr:0x00000004 (before the limit cut: retail events and rebuilt events)",
- "ms": 11849.7,
+ "ms": 12694.7,
  "rebuilt_size": 3783
 }

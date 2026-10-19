@@ -66,8 +66,7 @@ Rva0036CA00Str MilesAudioManager::rva0005AC80(const AsciiString &name,int contex
   dirty=false;
   Rva0036CA00Str temp((AudioEventInfo*)new Rva001DA2D5);
   owned.push_back(temp);
-  AudioEventInfo *ownedInfo = (AudioEventInfo*)temp.get();
-  ((Rva00059FBBMap*)&infos)->rva00059FBB(name)=ownedInfo;
+  ((Rva00059FBBMap*)&infos)->rva00059FBB(name)=(AudioEventInfo*)temp.get();
   return Rva0036CA00Str(((Rva00059FBBMap*)&infos)->rva00059FBB(name));
  }
 }

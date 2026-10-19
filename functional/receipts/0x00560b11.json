@@ -11,7 +11,7 @@
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 122,
+ "iso_delta": 104,
  "verdict": "binding",
  "coverage": 0.697,
  "per_vector": [
@@ -36,6 +36,6 @@
  "complete_vectors": 14,
  "prefix_vectors": 0,
  "reason": "v3: call #24: retail import:msvcr71.dll!fabs rebuilt import:msvcr71.dll!cos",
- "ms": 1777.4,
+ "ms": 1588.6,
  "rebuilt_size": 2161
 }

@@ -1,0 +1,41 @@
+{
+ "name": "?updateFormationPreview@InGameUI@@QAEXXZ",
+ "rva": "0x002A4E1F",
+ "size": 2462,
+ "extent": 2462,
+ "source": "functional/src/0x002a4e1f.cpp",
+ "vectors": 16,
+ "bindings": {
+  "aligned": 1,
+  "by_value": 0,
+  "weak_left": 7
+ },
+ "isomorphic": false,
+ "iso_delta": 508,
+ "verdict": "binding",
+ "coverage": 0.444,
+ "per_vector": [
+  "binding: objects: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x2E910 (before the limit cut: retail instructions)",
+  "binding: zeros: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x5BD30 (before the limit cut: retail instructions)",
+  "binding: ints: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x6A9C0 (before the limit cut: retail events)",
+  "binding: v3: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x37E90 (before the limit cut: retail events)",
+  "inconclusive: v4: timeout",
+  "binding: v5: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail instructions)",
+  "binding: v6: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x73B10 (before the limit cut: retail events)",
+  "binding: v7: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail events)",
+  "binding: v8: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail events)",
+  "binding: v9: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail events)",
+  "binding: v10: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail events)",
+  "inconclusive: v11: timeout",
+  "binding: v12: call #1: retail addr:0x00000000 rebuilt heap:+0xE24C0",
+  "binding: v13: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x19200 (before the limit cut: retail events)",
+  "binding: v14: call #1: retail rva:0x0029D9F9 rebuilt addr:0x00000000 (before the limit cut: retail events)",
+  "binding: v15: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x976E0 (before the limit cut: retail events)"
+ ],
+ "inconclusive_vectors": 2,
+ "complete_vectors": 0,
+ "prefix_vectors": 0,
+ "reason": "objects: call #1: retail rva:0x0029D9F9 rebuilt heap:+0x2E910 (before the limit cut: retail instructions)",
+ "ms": 80852.7,
+ "rebuilt_size": 516
+}

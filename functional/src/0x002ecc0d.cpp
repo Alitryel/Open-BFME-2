@@ -148,28 +148,17 @@ Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
 			!flag, extent - 1, obj->rva0028AFBB());
 
 		Int start = -info.radius;
-		Int j = start;
-		Int i = start;
-		while ((i < info.radius) ? true : false)
+		for (Int i = start; i < info.radius; i++)
 		{
-			Int cur = i;
-			j = (cur ? cur : cur);
-			if (j < info.radius)
+			Int x = info.cell.x + i;
+			for (Int j = start; j < info.radius; j++)
 			{
-				Int x = *(volatile Int *)&info.cell.x + cur;
-				Int y0 = info.cell.y;
-				do
-				{
-					Int jj = j;
-					PathfindCell *c = getCell(info.layer, x, y0 + jj);
-					if (c == 0)
-						return false;
-					if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))
-						return false;
-					j = jj + 1;
-				} while (j < *(volatile Int *)&info.radius);
+				PathfindCell *c = getCell(info.layer, x, info.cell.y + j);
+				if (c == 0)
+					return false;
+				if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))
+					return false;
 			}
-			i++;
 		}
 	}
 

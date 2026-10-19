@@ -85,7 +85,7 @@ void OnlineHome::rva005B98E9()
 		UnicodeString text;
 		AsciiString motd;
 		motd = TheGameSpyInfo->getMOTD();
-		int color = *(volatile int *)&GameSpyColor[27];
+		int color = GameSpyColor[27];
 		while (motd.nextToken(&line, "\n"))
 		{
 			if (line.getCharAt(line.getLength() - 1) == '\r')

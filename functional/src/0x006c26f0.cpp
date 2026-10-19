@@ -354,14 +354,10 @@ void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool
   unsigned int footprint=(block->m_size&0x7FFFFFF8)+prev;
   unsigned int size=flags&0x7FFFFFF8;
   if(!(block->m_size&2))size+=4;
-  *(volatile unsigned int*)&size=size;
   unsigned int overhead=prev+8;
   unsigned int debugSize=rva006C2510((char *)block+8,0,0);
-  unsigned int usedSize=size-debugSize;
-  _ReadWriteBarrier();
-  unsigned int selectedSize=allocation ? usedSize : usedSize;
-  size=selectedSize-8;
-  _ReadWriteBarrier();
+  size-=debugSize;
+  size-=8;
   if(allocation) {
    m_lastAllocation=GetTickCount()/1000;
    ++m_metrics[0].currentCount;

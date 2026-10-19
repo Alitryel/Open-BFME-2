@@ -148,7 +148,6 @@ void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame
   BlendNodeMotion *node=nodes+1;
   for(int piv_idx=1;piv_idx<NumPivots;++piv_idx,++node) {
    PivotClass *pivot=&Pivot[piv_idx];
-   _ReadWriteBarrier();
    const PivotTransform &parent=pivot->Parent->Transform;
    pivot->Transform.Translation=parent.Translation+Rotate_Vector(pivot->BaseTransform.Translation,parent.Rotation);
    pivot->Transform.Rotation=parent.Rotation*pivot->BaseTransform.Rotation;

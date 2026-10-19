@@ -6,12 +6,12 @@
  "source": "functional/src/0x0052e914.cpp",
  "vectors": 48,
  "bindings": {
-  "aligned": 5,
+  "aligned": 3,
   "by_value": 0,
-  "weak_left": 0
+  "weak_left": 2
  },
  "isomorphic": false,
- "iso_delta": 18,
+ "iso_delta": 16,
  "verdict": "logic",
  "coverage": 0.793,
  "per_vector": [
@@ -20,8 +20,8 @@
   "regalloc-only: ints",
   "regalloc-only: v3",
   "regalloc-only: v4",
-  "logic: v5: 4 written byte(s) differ, first 0x10",
-  "logic: v6: 1 written byte(s) differ, first 0x11",
+  "binding: v5: global reads differ",
+  "binding: v6: global reads differ",
   "regalloc-only: v7",
   "regalloc-only: v8",
   "regalloc-only: v9",
@@ -36,7 +36,7 @@
   "logic: v18: 4 written byte(s) differ, first 0xC7BB8535",
   "regalloc-only: v19",
   "regalloc-only: v20",
-  "regalloc-only: v21",
+  "binding: v21: global reads differ",
   "regalloc-only: v22",
   "regalloc-only: v23",
   "regalloc-only: v24",
@@ -65,9 +65,9 @@
   "regalloc-only: v47"
  ],
  "inconclusive_vectors": 0,
- "complete_vectors": 43,
+ "complete_vectors": 42,
  "prefix_vectors": 0,
- "reason": "v5: 4 written byte(s) differ, first 0x10",
- "ms": 3976.6,
+ "reason": "v12: 1 written byte(s) differ, first 0x3001E00D",
+ "ms": 4265.1,
  "rebuilt_size": 1107
 }

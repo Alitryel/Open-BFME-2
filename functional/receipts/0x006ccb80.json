@@ -1,0 +1,8 @@
+{
+ "name": "?Rva006CCB80AptCall@@YAHPBDPAD0H0PAX222@Z",
+ "rva": "0x006CCB80",
+ "size": 513,
+ "source": "functional/src/0x006ccb80.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?Rva006CCB80AptCall@@YAHPBDPAD0H0PAX222@Z"
+}

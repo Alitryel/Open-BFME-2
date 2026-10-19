@@ -6,12 +6,12 @@
  "source": "functional/src/0x006bef80.cpp",
  "vectors": 48,
  "bindings": {
-  "aligned": 13,
-  "by_value": 1,
-  "weak_left": 0
+  "aligned": 10,
+  "by_value": 3,
+  "weak_left": 1
  },
  "isomorphic": false,
- "iso_delta": 72,
+ "iso_delta": 63,
  "verdict": "binding",
  "coverage": 0.24,
  "per_vector": [
@@ -68,6 +68,6 @@
  "complete_vectors": 41,
  "prefix_vectors": 6,
  "reason": "v9: call #0 rva:0x000069B1(?compare@?$StringBase@D@@QBEHPBD@Z): data-pointer args 0xBBAC1C/0xE03CA8 (before the limit cut: retail instructions and rebuilt instructions)",
- "ms": 195032.6,
+ "ms": 198346.1,
  "rebuilt_size": 1023
 }

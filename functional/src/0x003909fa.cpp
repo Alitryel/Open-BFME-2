@@ -94,7 +94,6 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  duration+=frames;
  float count=(float)duration;
  float peak=(vertical*0.5f)*(count*0.5f);
- *(volatile float*)&height = height;
  if(peak<0.0f)peak=0.0f;
  Coord3D destination=obj->position;
  position.x=velocity->x*count;destination.x+=position.x;

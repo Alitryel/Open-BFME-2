@@ -2,40 +2,7 @@
  "name": "?LoadAsset@AssetRegistry@@QAEXPAVRva009EF0D0Element@@@Z",
  "rva": "0x00623600",
  "size": 2780,
- "extent": 2812,
  "source": "functional/src/0x00623600.cpp",
- "vectors": 16,
- "bindings": {
-  "aligned": 63,
-  "by_value": 0,
-  "weak_left": 0
- },
- "isomorphic": false,
- "iso_delta": 75,
- "verdict": "regalloc-only",
- "coverage": 0.127,
- "per_vector": [
-  "prefix-equal: objects: limit cut (retail events and rebuilt events): vector not completed",
-  "regalloc-only: zeros",
-  "regalloc-only: ints",
-  "regalloc-only: v3",
-  "regalloc-only: v4",
-  "regalloc-only: v5",
-  "regalloc-only: v6",
-  "regalloc-only: v7",
-  "prefix-equal: v8: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
-  "regalloc-only: v11",
-  "regalloc-only: v12",
-  "regalloc-only: v13",
-  "regalloc-only: v14",
-  "regalloc-only: v15"
- ],
- "inconclusive_vectors": 0,
- "complete_vectors": 12,
- "prefix_vectors": 4,
- "reason": "zeros",
- "ms": 10752.5,
- "rebuilt_size": 2812
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?LoadAsset@AssetRegistry@@QAEXPAVRva009EF0D0Element@@@Z"
 }

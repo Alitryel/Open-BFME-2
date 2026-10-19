@@ -11,7 +11,7 @@
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 69,
+ "iso_delta": 32,
  "verdict": "logic",
  "coverage": 0.43,
  "per_vector": [
@@ -28,7 +28,7 @@
   "prefix-equal: v10: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v11: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v13: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v13: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "logic: v14: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)]",
   "logic: v15: call #3 rva:0x0013B040(??0DynamicVBAccessClass@@QAE@IIGI@Z): args differ [(2, 3)] (before the limit cut: retail events and rebuilt events)"
  ],
@@ -36,6 +36,6 @@
  "complete_vectors": 0,
  "prefix_vectors": 8,
  "reason": "zeros: 1 written byte(s) differ, first 0xDEE5D9",
- "ms": 21423.9,
+ "ms": 24889.0,
  "rebuilt_size": 14001
 }

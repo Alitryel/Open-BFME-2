@@ -7,14 +7,15 @@
  "vectors": 48,
  "bindings": {
   "aligned": 9,
+  "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 5,
- "verdict": "binding",
+ "iso_delta": 9,
+ "verdict": "logic",
  "coverage": 0.757,
  "per_vector": [
-  "binding: objects: global writes differ at 0xACEC85, 0xACEC86, 0xACEC87",
+  "logic: objects: call #4 rva:0x002D06CA(?findTemplate@ThingFactory@@QAEPBVThingTemplate@@ABVAsciiString@@@Z): args differ [(0, 2298514192)]",
   "regalloc-only: zeros",
   "regalloc-only: ints",
   "regalloc-only: v3",
@@ -30,7 +31,7 @@
   "regalloc-only: v13",
   "regalloc-only: v14",
   "regalloc-only: v15",
-  "binding: v16: global writes differ at 0xACEC85, 0xACEC86, 0xACEC87",
+  "logic: v16: call #4 rva:0x002D06CA(?findTemplate@ThingFactory@@QAEPBVThingTemplate@@ABVAsciiString@@@Z): args differ [(0, 2298514192)]",
   "regalloc-only: v17",
   "regalloc-only: v18",
   "regalloc-only: v19",
@@ -43,7 +44,7 @@
   "regalloc-only: v26",
   "regalloc-only: v27",
   "regalloc-only: v28",
-  "regalloc-only: v29",
+  "logic: v29: call #4 rva:0x002D06CA(?findTemplate@ThingFactory@@QAEPBVThingTemplate@@ABVAsciiString@@@Z): args differ [(0, 2298514192)]",
   "regalloc-only: v30",
   "regalloc-only: v31",
   "regalloc-only: v32",
@@ -64,9 +65,9 @@
   "regalloc-only: v47"
  ],
  "inconclusive_vectors": 0,
- "complete_vectors": 46,
+ "complete_vectors": 45,
  "prefix_vectors": 0,
- "reason": "objects: global writes differ at 0xACEC85, 0xACEC86, 0xACEC87",
- "ms": 4192.2,
+ "reason": "objects: call #4 rva:0x002D06CA(?findTemplate@ThingFactory@@QAEPBVThingTemplate@@ABVAsciiString@@@Z): args differ [(0, 2298514192)]",
+ "ms": 4074.7,
  "rebuilt_size": 1425
 }

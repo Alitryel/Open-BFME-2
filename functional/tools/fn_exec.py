@@ -215,12 +215,28 @@ def run(ctx, start_va, size, code, vector, timeout_us, leafs=None, cover=None):
                                D.norm(mu.reg_read(X.UC_X86_REG_ECX)) if thiscall else None))
         h = int.from_bytes(hashlib.sha1(f"{ident}#{n}#{vector['seed']}".encode()).digest()[:4], "little")
         value = (h >> 8) % 4 if h % 4 == 0 else D.HEAP + ((h >> 4) % (D.HEAP_SIZE // 16 - 64)) * 16
+        nm = ctx.name_of(ident) or ""
+        if "CxxThrowException" in nm or "CxxThrowException" in str(ident):
+            trace["calls"].append((ident, tuple(D.norm(a) for a in args), None))
+            trace["end"] = ("throw",)
+            mu.emu_stop()
+            return
+        if "?A" in nm.split("@@", 1)[-1][:6] and args:          # returns a class/struct by value
+            hidden = args[0]
+            if D.HEAP <= hidden < D.HEAP + D.HEAP_SIZE or D.STACK_LO <= hidden < D.STACK_HI:
+                try:
+                    mu.mem_write(hidden, hashlib.sha1(f"{ident}#{n}#{vector['seed']}#ret".encode()).digest()[:16])
+                    value = hidden
+                except U.UcError:
+                    pass
         mu.reg_write(X.UC_X86_REG_EAX, value)
         mu.reg_write(X.UC_X86_REG_EDX, 0)
         mu.reg_write(X.UC_X86_REG_ESP, sp + 4 + pop)
         mu.reg_write(X.UC_X86_REG_EIP, ret)
 
     def on_write(mu, _access, address, wsize, value, _):
+        if address < 0x10000:
+            return                      # fs:[0] SEH chain bookkeeping (EH frame present on one side only)
         data = b"SSSS" if wsize == 4 and D.STACK_LO <= value < D.STACK_HI else \
             (value & ((1 << (8 * wsize)) - 1)).to_bytes(wsize, "little")
         for i in range(wsize):
@@ -273,10 +289,11 @@ _RET = _re.compile(r"@@(?:[A-Z]{1,2}E|Y[AGI]|S[AGI])(?:\?[A-Z])?(_N|[XMNDEC])") 
 def ret_kind(name):
     """'void' | 'bool' | 'byte' | 'fp' | 'int' from the mangled return type (MSVC)."""
     import re
-    m = re.search(r"@@(?:[A-Z][A-Z]?E|Y[AGI]|S[AGI])(?:\?[AB])?(_N|X|M|N|D|E|C|O)", name or "")
+    m = re.search(r"@@(?:[A-Z][A-Z]?E|Y[AGI]|S[AGI])(?:\?[AB])?(_N|_J|_K|X|M|N|D|E|C|O)", name or "")
     if not m:
         return "int"
-    return {"X": "void", "_N": "bool", "D": "byte", "E": "byte", "C": "byte", "M": "fp", "N": "fp", "O": "fp"}[m.group(1)]
+    return {"X": "void", "_N": "bool", "_J": "int64", "_K": "int64", "D": "byte", "E": "byte", "C": "byte",
+            "M": "fp", "N": "fp", "O": "fp"}[m.group(1)]
 
 
 def mask_ret(trace, kind):
@@ -288,6 +305,8 @@ def mask_ret(trace, kind):
         trace["ret"] = (None, None, esp)
     elif kind in ("bool", "byte"):
         trace["ret"] = ((eax & 0xFF) if isinstance(eax, int) else eax, None, esp)
+    elif kind != "int64":
+        trace["ret"] = (eax, None, esp)          # EDX is scratch unless the function returns 64 bits
 
 
 def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, budget_ms=4000, retail_size=None):
@@ -305,6 +324,9 @@ def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, bu
         rec.update(verdict="inconclusive", reason="; ".join(problems[:3]))
         return rec
     learned = learn_bindings(ctx, rva, retail_size, compiled, relocs)
+    for nm, addr in converged_globals().items():
+        if any(s_["symbol"] == nm for s_ in sites):
+            learned[nm] = addr
     code, nre = rebind(ctx, row, code, sites, compiled, learned)
     code, nval = bind_constants_by_value(ctx, row, code, sites, compiled, info, objdata, sections, retail_size)
     weak = sum(1 for s in sites if s["source"] in WEAK_SOURCES)
@@ -343,6 +365,8 @@ def diff_body(ctx, row, compiled, relocs, info, objdata, sections, nvec=None, bu
         mask_ret(a, rk)
         mask_ret(b, rk)
         v, r = D.classify(ctx, a, b, row["name"])
+        if v == "binding" and "(twin bodies)" in (r or ""):
+            v, r = "regalloc-only", "callee twins with identical retail bytes: " + r
         if v == "none" and not same_code:
             v = "regalloc-only"
         per.append((v, f"{vec['name']}: {r}" if r else vec["name"]))
@@ -397,8 +421,9 @@ def learn_bindings(ctx, rva, retail_size, compiled, relocs):
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag == "equal" or (tag == "replace" and i2 - i1 == j2 - j1):
             for k in range(i2 - i1):
-                if a[i1 + k].size == b[j1 + k].size:
-                    pairs[a[i1 + k].address] = b[j1 + k]
+                x, y = a[i1 + k], b[j1 + k]
+                if x.size == y.size and x.mnemonic == y.mnemonic and na[i1 + k] == nb[j1 + k]:
+                    pairs[x.address] = y
     starts = sorted(pairs)
     import bisect
     learned, votes = {}, {}
@@ -427,6 +452,28 @@ def learn_bindings(ctx, rva, retail_size, compiled, relocs):
     for name, v in votes.items():
         learned[name] = max(v.items(), key=lambda kv: kv[1])[0]
     return learned
+
+
+_CONVERGED = None
+
+
+def converged_globals():
+    """{symbol name: VA} from reverse/data_converged.csv (one real global per converged address)."""
+    global _CONVERGED
+    if _CONVERGED is None:
+        import csv as _csv
+        _CONVERGED = {}
+        p = ROOT / "reverse" / "data_converged.csv"
+        if p.exists():
+            for r in _csv.DictReader(p.open(encoding="utf-8")):
+                name = r.get("symbol") or r.get("name") or ""
+                addr = r.get("address") or r.get("va") or r.get("rva") or ""
+                try:
+                    a = int(addr, 16)
+                except ValueError:
+                    continue
+                _CONVERGED[name] = a if a >= 0x400000 else a + 0x400000
+    return _CONVERGED
 
 
 def rebind(ctx, row, code, sites, compiled, learned):
@@ -489,9 +536,27 @@ def static_isomorphic(ctx, rva, retail_size, code):
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
     va = ctx.image.base + rva
     retail = ctx.image.read(rva, retail_size)
-    a = Counter(x for x in (_static_norm(i, ctx) for i in md.disasm(bytes(code).rstrip(b"\xcc"), va)) if x)
-    b = Counter(x for x in (_static_norm(i, ctx) for i in md.disasm(retail, va)) if x)
-    return a == b, sum(((a - b) + (b - a)).values())
+    def tokens(blob):
+        ops, loads = Counter(), set()
+        for i in md.disasm(blob, va):
+            t = _static_norm(i, ctx)
+            if not t:
+                continue
+            m = _re.match(r"^(\w+) (R|STK), (.*\[.*\].*)$", t)
+            if m and not i.mnemonic.startswith(("lea", "cmp", "test")) and "STK" not in m.group(3) and m.group(2) == "R":
+                loads.add(m.group(3))                       # memory source folded into an op
+                if i.mnemonic.startswith(("mov", "fld", "movss", "movsd", "movzx", "movsx")):
+                    continue                                # a plain load: just the load
+                t = f"{i.mnemonic} R, R"                    # the op itself, register form
+            elif i.mnemonic.startswith(("fld", "fild")) and "[" in t and "STK" not in t:
+                loads.add(t.split(" ", 1)[1])
+                continue
+            ops[t] += 1
+        return ops, loads
+    oa, la = tokens(bytes(code).rstrip(b"\xcc"))
+    ob, lb = tokens(bytes(retail))
+    delta = sum(((oa - ob) + (ob - oa)).values()) + len(la ^ lb)
+    return delta == 0, delta
 
 
 # ------------------------------------------------------------------ constants by value

@@ -35,9 +35,9 @@
 #include <list>
 #include <vector>
 #include "Common/Snapshot.h"
-#include "../../Common/GameLogicObjectLookupView.h"
-#include "../../Common/BfmeSpecialPowerTimer8.h"
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/BfmeSpecialPowerTimer8.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 class GameLogic;
 extern GameLogic *TheGameLogic;

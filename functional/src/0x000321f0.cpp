@@ -90,8 +90,8 @@ int GeneralAllocator::rva000321F0(int level)
     if ((lock != 0) ? lock != 0 : lock != 0)
     {
         EnterCriticalSection(lock);
-        int ref = *(volatile int*)&lock->m_ref;
-        *(volatile int*)&lock->m_ref = ref + 1;
+        int ref = lock->m_ref;
+        lock->m_ref = ref + 1;
     }
 
     if (level < 1)
@@ -313,7 +313,7 @@ int GeneralAllocator::rva000321F0(int level)
 unlock_return:
     if (lock != 0)
     {
-        *(volatile int*)&lock->m_ref = lock->m_ref - 1;
+        lock->m_ref = lock->m_ref - 1;
         LeaveCriticalSection(lock);
     }
     _ReadWriteBarrier();

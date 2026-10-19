@@ -7,6 +7,7 @@
  "vectors": 128,
  "bindings": {
   "aligned": 2,
+  "by_value": 0,
   "weak_left": 0
  },
  "isomorphic": false,
@@ -147,6 +148,6 @@
  "complete_vectors": 120,
  "prefix_vectors": 8,
  "reason": "objects",
- "ms": 265012.2,
+ "ms": 179761.1,
  "rebuilt_size": 292
 }

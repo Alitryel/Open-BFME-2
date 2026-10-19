@@ -1,0 +1,8 @@
+{
+ "name": "?dealDamageInternal@WeaponTemplate@@IBEXW4ObjectID@@0PBUCoord3D@@ABVWeaponBonus@@_N@Z",
+ "rva": "0x0049C93F",
+ "size": 240,
+ "source": "functional/src/0x0049c93f.cpp",
+ "verdict": "inconclusive",
+ "reason": "ValueError: symbol not found in object: ?dealDamageInternal@WeaponTemplate@@IBEXW4ObjectID@@0PBUCoord3D@@ABVWeaponBonus@@_N@Z"
+}

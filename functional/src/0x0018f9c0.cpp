@@ -404,12 +404,14 @@ void AdaptiveDeltaMotionChannelClass::decompress<4>(uint32 src_idx, float *srcda
 {
 	unsigned char *base = (unsigned char *) Data;
 	float *src = srcdata;
-	uint32 start = src_idx;
+	uint32 start;
 
 	if (srcdata == NULL) {
 		start = 0;
 		src = (float *) Data;
 		base = (unsigned char *) Data;
+	} else {
+		start = src_idx;
 	}
 
 	if (frame_idx >= NumFrames) {

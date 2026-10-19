@@ -11,7 +11,7 @@
   "weak_left": 0
  },
  "isomorphic": false,
- "iso_delta": 51,
+ "iso_delta": 50,
  "verdict": "regalloc-only",
  "coverage": 0.194,
  "per_vector": [
@@ -68,6 +68,6 @@
  "complete_vectors": 34,
  "prefix_vectors": 14,
  "reason": "v4",
- "ms": 26727.7,
+ "ms": 27488.6,
  "rebuilt_size": 1052
 }

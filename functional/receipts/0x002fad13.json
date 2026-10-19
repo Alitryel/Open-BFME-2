@@ -10,8 +10,8 @@
   "by_value": 0,
   "weak_left": 0
  },
- "isomorphic": true,
- "iso_delta": 0,
+ "isomorphic": false,
+ "iso_delta": 2,
  "verdict": "inconclusive",
  "coverage": 0.4,
  "per_vector": [
@@ -21,10 +21,10 @@
   "prefix-equal: v3: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v4: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v5: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v6: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v6: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "prefix-equal: v7: limit cut (retail events and rebuilt events): vector not completed",
   "prefix-equal: v8: limit cut (retail events and rebuilt events): vector not completed",
-  "prefix-equal: v9: limit cut (retail events and rebuilt events): vector not completed",
+  "prefix-equal: v9: limit cut (retail instructions and rebuilt instructions): vector not completed",
   "regalloc-only: v10",
   "regalloc-only: v11",
   "prefix-equal: v12: limit cut (retail events and rebuilt events): vector not completed",
@@ -36,6 +36,6 @@
  "complete_vectors": 2,
  "prefix_vectors": 14,
  "reason": "",
- "ms": 9626.9,
+ "ms": 13895.3,
  "rebuilt_size": 2117
 }

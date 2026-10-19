@@ -141,7 +141,6 @@ int Rva005C6D9C::rva005C6D9C(int n)
 	{
 		int tt = (int)timeGetTime();
 		t = tt;
-		*(volatile int*)&t = t;
 	}
 	if ((1 ? *(volatile int*)&m_count <= 0 : m_count <= 0))
 	{

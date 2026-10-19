@@ -53,9 +53,8 @@ void Pathfinder::AdjustFlingDestination(Object *object, const Coord3D *start, Co
  first.x = start->x;
  first.y = start->y;
  first.z = start->z;
- if (!(centered ? centered : centered)) {
+ if (!centered) {
   const float f5 = 5.0f;
-  *(volatile float *)&first.x = first.x;
   first.x += f5;
   first.y += f5;
   end->x += f5;

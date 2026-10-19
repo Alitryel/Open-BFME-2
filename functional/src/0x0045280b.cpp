@@ -192,7 +192,17 @@ namespace _STL
  
 }
 class Object;
-typedef _STL::list<Object *> ObjectPointerList;
+// Retail's list<Object*> here uses the object freelist pool policy: base ctor
+// 0x1EB984, clear 0x1EB130, base dtor 0x1EB769 (ledger names), push_back
+// shared with the generic instantiation 0x1EC03C.
+template <class T> class Rva001EB984PoolAllocator { public: Rva001EB984PoolAllocator() {} };
+class Rva001EB769 { public: void rva001EB769() throw(); };
+class Rva001EB130Holder { public: void rva001EB130(); };
+typedef Rva001EB984PoolAllocator<Object *> ObjectPoolAllocator;
+template <> inline _STL::_List_base<Object *, ObjectPoolAllocator>::~_List_base() throw() { ((Rva001EB769 *)this)->rva001EB769(); }
+template <> inline void _STL::_List_base<Object *, ObjectPoolAllocator>::clear() { ((Rva001EB130Holder *)this)->rva001EB130(); }
+template <> inline void _STL::list<Object *, ObjectPoolAllocator>::push_back(Object *const &x) { ((_STL::list<Object *> *)this)->push_back(x); }
+typedef _STL::list<Object *, ObjectPoolAllocator> ObjectPointerList;
 class ThingTemplate
 
 {
