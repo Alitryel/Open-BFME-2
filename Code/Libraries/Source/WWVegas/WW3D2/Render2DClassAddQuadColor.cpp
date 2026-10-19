@@ -1,4 +1,5 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/shims/wwmath
+#include "Vector2.h"
 // BFME2 target body at RVA 0x000428C7. The reference donor identifies this as
 // Render2DClass::Add_Quad(const RectClass &, unsigned long), BFME1 VA 0x006E73C0.
 // Donor revision 6583b3c1ff21db4a561285717028fdafc780b7db; source SHA256
@@ -66,6 +67,8 @@ public:
 	void Add_Quad(const RectClass &screen, const RectClass &uv,
 		BfmeUInt32 color0, BfmeUInt32 color1,
 		BfmeUInt32 color2, BfmeUInt32 color3);
+	void Add_Line(const Vector2 &a, const Vector2 &b, float width, BfmeUInt32 color);
+	void Add_Line(const Vector2 &a, const Vector2 &b, float width, BfmeUInt32 color, BfmeUInt32 color2);
 };
 
 void Render2DClass::Add_Quad(const RectClass &screen, BfmeUInt32 color)
@@ -123,4 +126,70 @@ void Render2DClass::Add_Quad(const RectClass &screen, const RectClass &uv,
 	indices[0] = baseVertexPair + 0x00010000;
 	indices[1] = baseVertexPair + 0x00020002;
 	indices[2] = baseVertexPair + 0x00030001;
+}
+
+// Render2DClass::Add_Line overloads, retail 0x00042A4D (563 B) and
+// 0x00042C80 (573 B), immediately after Add_Quad(RectClass, color).
+// Shape follows the BFME2 WorldBuilder twins (WB 0x004D04D0 / 0x00971330,
+// render2d.cpp, calling Render2DClass::_AddVertices = retail allocator
+// 0x0011BD80): one Vector2 corner_offset, one float reused for the squared
+// length and then the half-width scale, and separate base/indices locals
+// (WB local_4 / local_18, not a struct), vertices/indices declared after
+// the zero-length early return. ZH render2d.cpp supplies the names.
+// ?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z
+void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, BfmeUInt32 color)
+{
+	BfmeUInt32 base;
+	Vector2 corner_offset(a.Y - b.Y, b.X - a.X);
+	float len = corner_offset.Length2();
+	if (len == 0.0f)
+		return;
+
+	len = WWMath::Inv_Sqrt(len) * width / 2.0f;
+	corner_offset.X *= len;
+	corner_offset.Y *= len;
+
+	BfmeRenderVertex *vertices;
+	BfmeUInt32 *indices;
+	vertices = allocateGeometry006e(4, 6, &indices, &base);
+	convertPosition006e(vertices[0], a.X - corner_offset.X, a.Y - corner_offset.Y);
+	convertPosition006e(vertices[1], a.X + corner_offset.X, a.Y + corner_offset.Y);
+	convertPosition006e(vertices[2], b.X - corner_offset.X, b.Y - corner_offset.Y);
+	convertPosition006e(vertices[3], b.X + corner_offset.X, b.Y + corner_offset.Y);
+	vertices[0].u = vertices[1].u = vertices[0].v = vertices[2].v = 0.0f;
+	vertices[2].u = vertices[3].u = vertices[1].v = vertices[3].v = 1.0f;
+	vertices[0].color = vertices[1].color = vertices[2].color = vertices[3].color =
+		(*(BfmeColorConverter *)&g_Va00DB5FC8)(color);
+	indices[0] = base + 0x00010000;
+	indices[1] = base + 0x00020002;
+	indices[2] = base + 0x00030001;
+}
+
+// ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z
+void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, BfmeUInt32 color, BfmeUInt32 color2)
+{
+	BfmeUInt32 base;
+	Vector2 corner_offset(a.Y - b.Y, b.X - a.X);
+	float len = corner_offset.Length2();
+	if (len == 0.0f)
+		return;
+
+	len = WWMath::Inv_Sqrt(len) * width / 2.0f;
+	corner_offset.X *= len;
+	corner_offset.Y *= len;
+
+	BfmeRenderVertex *vertices;
+	BfmeUInt32 *indices;
+	vertices = allocateGeometry006e(4, 6, &indices, &base);
+	convertPosition006e(vertices[0], a.X - corner_offset.X, a.Y - corner_offset.Y);
+	convertPosition006e(vertices[1], a.X + corner_offset.X, a.Y + corner_offset.Y);
+	convertPosition006e(vertices[2], b.X - corner_offset.X, b.Y - corner_offset.Y);
+	convertPosition006e(vertices[3], b.X + corner_offset.X, b.Y + corner_offset.Y);
+	vertices[0].u = vertices[1].u = vertices[0].v = vertices[2].v = 0.0f;
+	vertices[2].u = vertices[3].u = vertices[1].v = vertices[3].v = 1.0f;
+	vertices[0].color = vertices[1].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color);
+	vertices[2].color = vertices[3].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color2);
+	indices[0] = base + 0x00010000;
+	indices[1] = base + 0x00020002;
+	indices[2] = base + 0x00030001;
 }

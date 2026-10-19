@@ -562,11 +562,7 @@ void	Render2DClass::Add_Quad( const Vector2 & v0, const Vector2 & v1, const Vect
 */
 // Add_Tri is recovered in Render2DClassAddTri.cpp using the native batch layout.
 
-// ?Add_Line@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, unsigned long color )
-{
-	Add_Line( a, b, width, RectClass( 0,0,1,1 ), color );
-}
+// Add_Line(a, b, width, color) is recovered in Render2DClassAddQuadColor.cpp (0x00042A4D).
 
 // ?Add_Line@Render2DClass@@ present-unmatched
 void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, const RectClass & uv, unsigned long color )
@@ -584,11 +580,7 @@ void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 }
 
 
-// ?Add_Line@Render2DClass@@ present-unmatched
-void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, unsigned long color, unsigned long color2 )
-{
-	Add_Line( a, b, width, RectClass( 0,0,1,1 ), color, color2 );
-}
+// Add_Line(a, b, width, color, color2) is recovered in Render2DClassAddQuadColor.cpp (0x00042C80).
 
 // ?Add_Line@Render2DClass@@ present-unmatched
 void Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width, const RectClass & uv, unsigned long color , unsigned long color2)
