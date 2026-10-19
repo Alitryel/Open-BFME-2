@@ -81,7 +81,17 @@ public:
     locale::facet **_M_facets;
     unsigned int _M_count;
 };
+// getloc is called out of line here; its COMDAT copy must be retail's
+// 0x00007EB0 body, which inlines the locale copy constructor (as in
+// stlport_narrow_num_get_bool.cpp and the verified owner stlport_locale.cpp).
+inline locale::locale(const locale &that) _STLP_NOTHROW {
+    _M_impl = 0;
+    _Locale_impl *impl = that._M_impl;
+    impl->_M_incr();
+    _M_impl = impl;
+}
 inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
+
 
 typedef ostreambuf_iterator<char, char_traits<char> > _NarrowOut;
 
