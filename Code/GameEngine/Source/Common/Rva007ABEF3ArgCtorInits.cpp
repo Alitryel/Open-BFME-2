@@ -85,7 +85,6 @@ void __cdecl rva007B6C2A();
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
 unsigned g_Va00DEBE24;	// retail RVA 0x009EBE24 (.bss), defined here
-unsigned g_Va00DF708C;	// retail RVA 0x009F708C (.bss), defined here
 // VA 0x00E01E08: the 16-byte Rva00346BC0 record rva007AEBB7 constructs at
 // static-init time; defined here, its initializer's unit, so the burning-death
 // state (AIBurningDeathStateUpdate.cpp) that passes it on resolves it.
@@ -147,6 +146,8 @@ class PointGroupClass
 	static Vector3Vector compressed_loc;
 	static Vector4Vector compressed_diffuse;
 };
+// VA 0x00DF708C is pointgr.cpp's global VertexLoc.
+extern Vector3Vector VertexLoc;
 typedef BitFlags<11> Mask11;
 typedef SimpleDynVecClass<BfmePod4> Pod4Vector;
 
@@ -212,7 +213,7 @@ void Rva007ABEF3ArgCtorInits::rva007ACEB0()
 // 0x007ACF20 (26B): VectorClass<Vector3>(0, 0) on VA 0x00DF708C, atexit(0x007B7400)
 void Rva007ABEF3ArgCtorInits::rva007ACF20()
 {
-	( (Vector3Vector *)&g_Va00DF708C )->Vector3Vector::VectorClass( 0, 0 );
+	( &VertexLoc )->Vector3Vector::VectorClass( 0, 0 );
 	atexit( rva007B7400 );
 }
 
