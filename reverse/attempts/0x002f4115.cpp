@@ -1,4 +1,6 @@
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
+// partial score=0.87 date=2026-10-19
+// ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.7 date=2026-10-17
 // ?rva002F4115@Pathfinder@@QAE_NPAVObject@@HHPAVLocomotorSet@@@Z
 // partial score=0.823262 date=2026-10-09
@@ -28,6 +30,9 @@ extern "C" void _ReadWriteBarrier(void);
 // are rowed under folded spellings; each is reached by that spelling
 // (casts below) and kept out of line by an explicit specialization
 // declaration. Names are address-derived.
+
+// STL definitions are visible here; only the queue destructor remains declaration-only.
+// The waypoint key uses its own storage, and AI surfaces are read once.
 
 #include <map>
 #include <set>
@@ -154,7 +159,16 @@ struct BfmeWordValue4
 	~BfmeWordValue4() {}
 };
 
-typedef _STL::multiset<int> FoldZoneTreeCtor;                         // 0x002F3039
+template<class T> class Rva002F0C32Allocator : public _STL::allocator<T>
+{
+public:
+ template<class U> struct rebind {typedef Rva002F0C32Allocator<U> other;};
+ Rva002F0C32Allocator() throw() {}
+ Rva002F0C32Allocator(const Rva002F0C32Allocator&) throw() {}
+ template<class U> Rva002F0C32Allocator(const Rva002F0C32Allocator<U>&) throw() {}
+};
+
+typedef _STL::multiset<int, _STL::less<int>, Rva002F0C32Allocator<int> > FoldZoneTreeCtor;                         // 0x002F3039
 typedef _STL::map<int, Rva002F0B8AElement> FoldZoneTreeDtorMap;       // 0x002F0B8A
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0B8AElement >, _STL::_Select1st<_STL::pair<const int, Rva002F0B8AElement > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0B8AElement > > > FoldZoneTreeDtor;
 typedef _STL::multimap<int, Rva002F1DA1Mapped> FoldZoneInsertMap;     // 0x002F1DA1
@@ -181,18 +195,6 @@ public:
 };
 
 namespace _STL {
-template <> FoldZoneTreeCtor::multiset();
-template <> FoldZoneTreeDtor::~_Rb_tree();
-template <> FoldZoneInsert::iterator FoldZoneInsert::insert_equal(const FoldZoneInsert::value_type &);
-template <> _STL::pair<FoldZoneRange::iterator, FoldZoneRange::iterator> FoldZoneRange::equal_range(const int &);
-template <> FoldWayTreeCtor::set();
-template <> FoldWayTreeDtor::~_Rb_tree();
-template <> unsigned int &FoldWayIndex::operator[](const unsigned int &);
-template <> FoldVisitedCtor::map();
-template <> _STL::pair<FoldVisited::iterator, bool> FoldVisited::insert(const int &);
-template <> FoldQueueCtor::_Deque_base(const _STL::allocator<BfmeWordValue4> &, size_t);
-template <> void FoldQueue::push_back(void *const &);
-template <> void FoldQueue::pop_front();
 template <> FoldQueueDtor::~_Deque_base();
 }
 
@@ -245,10 +247,7 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 	if (locoSet) {
 		surfaces = locoSet->m_validSurfaces;
 	} else {
-		Int t = *(volatile Int *)&ai->m_locomotorSurfaces;
-		t = *(volatile Int *)&ai->m_locomotorSurfaces;
-		t = *(volatile Int *)&ai->m_locomotorSurfaces;
-		surfaces = t;
+		surfaces = ai->m_locomotorSurfaces;
 	}
 	Int crusherLevel = obj->getTemplate()->m_56C;
 	Bool b634 = obj->getTemplate()->m_634;
@@ -257,9 +256,9 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 	ZoneQuery query;
 	query.m_04 = !b634;
 	query.m_05 = flagB;
+	query.m_surfaces = surfaces;
 	query.m_08 = crusherLevel - 1;
 	query.m_0C = flagA;
-	query.m_surfaces = surfaces;
 
 	ZoneWaypointMap zoneWaypoints;
 	WaypointZoneMap waypointZones;
@@ -276,7 +275,7 @@ Bool Pathfinder::rva002F4115(Object *obj, Int startZone, Int goalZone, Locomotor
 		Rva002F1DA1Mapped mapped;
 		mapped.a = (int)wp;
 		zoneWaypoints.tree().insert(FoldZoneInsertMap::value_type(zone, mapped));
-		(*reinterpret_cast<FoldWayIndex *>(&waypointZones))[(unsigned int)wp] = zone;
+		(*reinterpret_cast<FoldWayIndex *>(&waypointZones))[reinterpret_cast<const unsigned int &>(wp)] = zone;
 	}
 
 	ZoneQueue queue;
