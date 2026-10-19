@@ -72,12 +72,6 @@ public:
 	int m_id;
 };
 
-class Rva004E0809
-{
-public:
-	void rva004E0809();
-};
-
 class LivingWorldBuilding:public Snapshot,public Rva00330757Member,public CtorRegionTurnObserver
 {
 public:
@@ -87,6 +81,7 @@ public:
  virtual const char *GetSnapshotName();
  virtual void DoXfer(Xfer *xfer);
  void createIcon();
+ void rva004E0809();
 
 	
 	int m_id;
@@ -119,6 +114,6 @@ LivingWorldBuilding::LivingWorldBuilding(LivingWorldRegion *region,const Coord2D
   ((StringBase<char>*)((char*)m_armyEntry.m_ptr+4))->set(*(const StringBase<char>*)&((const Rva003F1BD3TemplateView*)m_template)->armyType);
   *(int*)((char*)m_armyEntry.m_ptr+0xB4)=m_id;
  }
- ((Rva004E0809*)this)->rva004E0809();
+ rva004E0809();
  ((Rva005A0B4CList*)((char*)TheLivingWorldLogic+0x1C))->append((Rva002BA8F1Listener*)(CtorRegionTurnObserver*)this);
 }

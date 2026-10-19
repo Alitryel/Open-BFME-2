@@ -66,6 +66,7 @@ public:
     int id;
     char before28[0xc];
     Rva003F0614BuildingLink *field28;
+    void rva004E0860(class Rva003F7BB4 *bonus);
 };
 
 class LivingWorldBattle;
@@ -430,7 +431,6 @@ public:
 };
 class Rva003F7478 { public: void rva003F7465(float scale); void rva003F7478(float scale); };
 class Rva003F74A0 { public: void rva003F74A0(float scale); };
-class Rva004E0809 { public: void rva004E0860(Rva003F7BB4 *bonus); };
 enum NameKeyType { NAMEKEY_NONE = 0 };
 class ArmorTemplate;
 class Rva002B6498 { public: ArmorTemplate *rva002B6498(NameKeyType key); };
@@ -451,7 +451,7 @@ static __forceinline void Rva003F2150ScanPlots(BuildPlotVector &plots, Rva003F7B
 	for (BuildPlotVector::iterator it = plots.begin(); it != plots.end(); ++it) {
 		LivingWorldBuildPlot *plot = *it;
 		if (plot->HasBuilding())
-			((Rva004E0809 *)plot->m_building)->rva004E0860(bonus);
+			plot->m_building->rva004E0860(bonus);
 	}
 }
 void LivingWorldRegion::rva003F2150(Rva003F7BB4 *bonus)
@@ -460,7 +460,7 @@ void LivingWorldRegion::rva003F2150(Rva003F7BB4 *bonus)
 	for (BuildPlotVector::iterator it = m_buildPlots.begin(); it != m_buildPlots.end(); ++it) {
 		LivingWorldBuildPlot *plot = *it;
 		if (plot->HasBuilding())
-			((Rva004E0809 *)plot->m_building)->rva004E0860(bonus);
+			plot->m_building->rva004E0860(bonus);
 	}
 	if (bonus->m_region != this || bonus->m_player->m_playerID != m_ownerPlayerID)
 		return;

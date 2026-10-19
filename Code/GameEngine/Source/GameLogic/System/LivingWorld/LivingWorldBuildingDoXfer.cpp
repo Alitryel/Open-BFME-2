@@ -121,17 +121,13 @@ struct BuildingRegionView
 	int m_id;
 };
 
-class Rva004E0809
-{
-public:
-	void rva004E0809();
-};
 
 class LivingWorldBuilding
 {
 public:
 	virtual void DoXfer(Xfer *xfer);
 	void rva004E060C(unsigned char v);
+	void rva004E0809();
 
 	char m_pad04[0x14];
 	int m_id;
@@ -205,7 +201,7 @@ void LivingWorldBuilding::DoXfer(Xfer *xfer)
 					xfer->skipBlock("LivingWorldBuildingNuggetBlock");
 			}
 		}
-		((Rva004E0809 *)this)->rva004E0809();
+		rva004E0809();
 	} else {
 		AsciiString templateName(*m_template);
 		xfer->xferAsciiString(&templateName);
