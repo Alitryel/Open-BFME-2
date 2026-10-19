@@ -129,7 +129,8 @@ class Rva005CEA51 {public:
  void rva005CE7EA();
  Rva005E8F50 *pointer;
 };
-class Rva0023A128Link {public:Rva0023A128Link(){}~Rva0023A128Link(){}virtual void rva00239B94(int);virtual void v01(int);};
+// The Link constructor is rowed in Rva0023A128Ctor.cpp (0x00238DDB); inlined here, so no copy.
+class Rva0023A128Link {public:__declspec(dllimport) __forceinline Rva0023A128Link(){}~Rva0023A128Link(){}virtual void rva00239B94(int);virtual void v01(int);};
 class Rva005CEF2F: public Rva005CE8F5,public Rva0023A128Link {
 public:Rva005CEF2F(Rva005CF22CBig*,int);virtual ~Rva005CEF2F();
  int selection;Rva005CEA51 secondary;
