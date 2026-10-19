@@ -2232,73 +2232,7 @@ void Locomotor::moveTowardsPositionOther(Object* obj, PhysicsBehavior *physics, 
 	return true if we can maintain the position without being called every frame (eg, we are
 	resting on the ground), false if not (eg, we are hovering or circling)
 */
-// ?Locomotor::locoUpdate_maintainCurrentPosition present-unmatched
-Bool Locomotor::locoUpdate_maintainCurrentPosition(Object* obj)
-{
-	if (!getFlag(MAINTAIN_POS_IS_VALID))
-	{
-		m_maintainPos = *obj->getPosition();
-		setFlag(MAINTAIN_POS_IS_VALID, true);
-	}
-
-	m_donutTimer = TheGameLogic->getFrame()+DONUT_TIME_DELAY_SECONDS*LOGICFRAMES_PER_SECOND;
-	setFlag(IS_BRAKING, false);
-	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
-	{
-		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
-		return TRUE;
-	}
-
-#ifdef DEBUG_OBJECT_ID_EXISTS
-//	DEBUG_ASSERTLOG(obj->getID() != TheObjectIDToDebug, ("locoUpdate_maintainCurrentPosition %f %f %f, speed %f (%f)\n",m_maintainPos.x,m_maintainPos.y,m_maintainPos.z,physics->getSpeed(),physics->getForwardSpeed2D()));
-#endif
-
-	Bool requiresConstantCalling = TRUE;	// assume the worst.
-	switch (m_template->m_appearance) 
-	{
-		case LOCO_THRUST:
-			maintainCurrentPositionThrust(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_LEGS_TWO:
-			maintainCurrentPositionLegs(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_CLIMBER:
-			maintainCurrentPositionLegs(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_WHEELS_FOUR:
-		case LOCO_MOTORCYCLE:
-			maintainCurrentPositionWheels(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_TREADS:
-			maintainCurrentPositionTreads(obj, physics);
-			requiresConstantCalling = FALSE;
-			break;
-		case LOCO_HOVER:
-			maintainCurrentPositionHover(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_WINGS:
-			maintainCurrentPositionWings(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-		case LOCO_OTHER:
-		default:
-			maintainCurrentPositionOther(obj, physics);
-			requiresConstantCalling = TRUE;
-			break;
-	}
-
-	// but we do need to do this even if not moving, for hovering/Thrusting things.
-	if (handleBehaviorZ(obj, physics, m_maintainPos))
-		requiresConstantCalling = TRUE;
-
-	return requiresConstantCalling;
-}
+// Locomotor::locoUpdate_maintainCurrentPosition is rowed at 0x001E84E5 in LocomotorMaintainCurrentPosition.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // ?Locomotor::maintainCurrentPositionThrust present-unmatched
