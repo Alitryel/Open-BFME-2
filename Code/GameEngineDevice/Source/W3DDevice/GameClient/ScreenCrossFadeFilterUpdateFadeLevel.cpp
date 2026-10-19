@@ -1,15 +1,9 @@
 // cl: /O1 /MD /G7 /arch:SSE /EHsc /DNDEBUG
 // ?updateFadeLevel@ScreenCrossFadeFilter@@IAE_NXZ @0x000F633A 193B
-// Evidence: named lane pin, BFME1 donor W3DShaderManager.cpp ScreenCrossFadeFilter::updateFadeLevel, caller preRender 0x000F63FB, globals g_00DEBFF8 g_00DEBFFC g_00DEC000 g_00DEBFF4.
-// Fade direction and frame count, owned here (also set by W3DView::setFadeParameters
-// and GapBodiesGE31); retail .data starts both at 0 (VA 0x00DEBFF8, 0x00DEBFFC).
-int g_00DEBFF8 = 0;
-int g_00DEBFFC = 0;
-extern int g_00DEC000;
-// Owned here: incremented below; retail .data starts it at 0 (VA 0x009EC000).
-int g_00DEC000 = 0;
-// Fade level (0x009EBFF4), zero-initialized like its g_00DEBFF8/g_00DEBFFC neighbours.
-float g_00DEBFF4 = 0;
+// Evidence: named lane pin, BFME1 donor W3DShaderManager.cpp ScreenCrossFadeFilter::updateFadeLevel, caller preRender 0x000F63FB, globals ScreenCrossFadeFilter::m_fadeDirection ScreenCrossFadeFilter::m_fadeFrames ScreenCrossFadeFilter::m_curFadeFrame ScreenCrossFadeFilter::m_curFadeValue.
+// Zero Hour W3DShaderManager.cpp ScreenCrossFadeFilter statics (m_curFadeValue,
+// m_fadeDirection, m_fadeFrames, m_curFadeFrame at VA 0x00DEBFF4..0x00DEC000, the
+// same order as ScreenBWFilter's at 0x00DEC1A0..AC); defined after the class below.
 extern float g_Va00BBB8D8;
 
 class TacticalView
@@ -330,43 +324,50 @@ public:
 protected:
 	static Bool m_skipRender;
  bool updateFadeLevel();
+public:
+	// Public like ScreenBWFilter's: W3DView::setFadeParameters and the
+	// out-of-line setter in GapBodiesGE31.cpp store them directly.
+	static Int m_fadeFrames;
+	static Int m_curFadeFrame;
+	static Int m_fadeDirection;
+	static Real m_curFadeValue;
 };
 
 
 
 bool ScreenCrossFadeFilter::updateFadeLevel()
 {
-	if (g_00DEBFF8 > 0)
+	if (ScreenCrossFadeFilter::m_fadeDirection > 0)
 	{
-		g_00DEC000++;
-		int fade = g_00DEC000;
-		if (fade < g_00DEBFFC)
+		ScreenCrossFadeFilter::m_curFadeFrame++;
+		int fade = ScreenCrossFadeFilter::m_curFadeFrame;
+		if (fade < ScreenCrossFadeFilter::m_fadeFrames)
 		{
-			g_00DEBFF4 = (float)fade / (float)g_00DEBFFC;
+			ScreenCrossFadeFilter::m_curFadeValue = (float)fade / (float)ScreenCrossFadeFilter::m_fadeFrames;
 		}
 		else
 		{
-			g_00DEC000 = 0;
-			g_00DEBFF4 = g_Va00BBB8D8;
-			g_00DEBFF8 = 0;
+			ScreenCrossFadeFilter::m_curFadeFrame = 0;
+			ScreenCrossFadeFilter::m_curFadeValue = g_Va00BBB8D8;
+			ScreenCrossFadeFilter::m_fadeDirection = 0;
 			return false;
 		}
 	}
-	else if (g_00DEBFF8 < 0)
+	else if (ScreenCrossFadeFilter::m_fadeDirection < 0)
 	{
-		int fade = g_00DEC000;
-		if (fade < g_00DEBFFC)
+		int fade = ScreenCrossFadeFilter::m_curFadeFrame;
+		if (fade < ScreenCrossFadeFilter::m_fadeFrames)
 		{
-			g_00DEBFF4 = g_Va00BBB8D8 - (float)fade / (float)g_00DEBFFC;
-			g_00DEC000++;
+			ScreenCrossFadeFilter::m_curFadeValue = g_Va00BBB8D8 - (float)fade / (float)ScreenCrossFadeFilter::m_fadeFrames;
+			ScreenCrossFadeFilter::m_curFadeFrame++;
 		}
 		else
 		{
-			g_00DEBFF4 = 0.0f;
+			ScreenCrossFadeFilter::m_curFadeValue = 0.0f;
 			((TacticalView *)TheTacticalView)->setViewFilterMode(0);
 			((TacticalView *)TheTacticalView)->setViewFilter(0);
-			g_00DEC000 = 0;
-			g_00DEBFF8 = 0;
+			ScreenCrossFadeFilter::m_curFadeFrame = 0;
+			ScreenCrossFadeFilter::m_fadeDirection = 0;
 			return false;
 		}
 	}
@@ -413,7 +414,7 @@ Bool ScreenCrossFadeFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
 	{
 		DX8Wrapper::Set_Texture(1,reinterpret_cast<TextureBaseClass &>(g_bfmeObjUDC).Peek_D3D_Base_Texture());
 
-		radius = (1.0f - g_00DEBFF4) * 2.0f;
+		radius = (1.0f - ScreenCrossFadeFilter::m_curFadeValue) * 2.0f;
 		if (radius <= 0)
 			radius = 0.01f;
 		radius = 0.5f / radius;
@@ -565,12 +566,17 @@ extern W3DFilterInterface *W3DFilters[FT_MAX];
 // the vtable pointer), as this plain definition compiles.
 ScreenCrossFadeFilter screenCrossFadeFilter;
 Bool ScreenCrossFadeFilter::m_skipRender = false;
+// Retail .data starts all four at 0.
+Int ScreenCrossFadeFilter::m_fadeFrames = 0;		// VA 0x00DEBFFC
+Int ScreenCrossFadeFilter::m_curFadeFrame = 0;		// VA 0x00DEC000
+Int ScreenCrossFadeFilter::m_fadeDirection = 0;	// VA 0x00DEBFF8
+Real ScreenCrossFadeFilter::m_curFadeValue = 0;	// VA 0x00DEBFF4
 
 Int ScreenCrossFadeFilter::init()
 {
 	if (!TheDisplay)
 		return false;
-	g_00DEC000 = 0;
+	ScreenCrossFadeFilter::m_curFadeFrame = 0;
 	if (!W3DShaderManager::canRenderToTexture())
 		return false;
 	reinterpret_cast<RefCountPtr<TextureClass> &>(g_bfmeObjUDC) =

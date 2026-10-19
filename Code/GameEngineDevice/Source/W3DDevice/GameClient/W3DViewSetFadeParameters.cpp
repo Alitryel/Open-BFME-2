@@ -3,7 +3,7 @@
 // 0x007C7530 slot 62. Zero Hour's W3DView::setFadeParameters hands the fade length and
 // direction to the screen filters: ScreenBWFilter's inline static setter (0x00DEC1A4..AC),
 // the rowed 0x00085553 for the next filter, and the cross-fade filter's frame/direction
-// globals (0x00DEBFF8..0x00DEC000, address names as in ScreenCrossFadeFilterUpdateFadeLevel.cpp).
+// statics (0x00DEBFF8..0x00DEC000, defined in ScreenCrossFadeFilterUpdateFadeLevel.cpp).
 typedef int Int;
 typedef float Real;
 
@@ -23,9 +23,13 @@ public:
 
 void Rva00085553Get(int a, int b);
 
-extern int g_00DEBFF8;
-extern int g_00DEBFFC;
-extern int g_00DEC000;
+class ScreenCrossFadeFilter
+{
+public:
+	static Int m_fadeFrames;
+	static Int m_curFadeFrame;
+	static Int m_fadeDirection;
+};
 
 class W3DView
 {
@@ -37,7 +41,7 @@ void W3DView::setFadeParameters(Int fadeFrames, Int direction)
 {
 	ScreenBWFilter::setFadeParameters(fadeFrames, direction);
 	Rva00085553Get(fadeFrames, direction);
-	g_00DEC000 = 0;
-	g_00DEBFF8 = direction;
-	g_00DEBFFC = fadeFrames;
+	ScreenCrossFadeFilter::m_curFadeFrame = 0;
+	ScreenCrossFadeFilter::m_fadeDirection = direction;
+	ScreenCrossFadeFilter::m_fadeFrames = fadeFrames;
 }

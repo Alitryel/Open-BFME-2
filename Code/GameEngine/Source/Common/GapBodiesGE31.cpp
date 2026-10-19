@@ -331,7 +331,7 @@ void Rva0008552B::rva0008552B(const GapWords3 &value)
 
 // --- 0x0008557F / 0x00085599 (26B each): fade parameter setters (restart
 // the fade, store frames and direction) of ScreenBWFilter's public statics
-// and of the 0x00DEBFF8..0x00DEC000 triple.
+// and of ScreenCrossFadeFilter's (0x00DEBFF8..0x00DEC000).
 class ScreenBWFilter
 {
 public:
@@ -340,9 +340,15 @@ public:
 	static int m_fadeDirection;
 };
 
-extern int g_00DEC000;
-extern int g_00DEBFFC;
-extern int g_00DEBFF8;
+// Zero Hour ScreenCrossFadeFilter statics (VA 0x00DEBFF8..0x00DEC000), defined in
+// ScreenCrossFadeFilterUpdateFadeLevel.cpp.
+class ScreenCrossFadeFilter
+{
+public:
+	static int m_curFadeFrame;
+	static int m_fadeFrames;
+	static int m_fadeDirection;
+};
 
 void rva0008557F(int frames, int direction)
 {
@@ -353,9 +359,9 @@ void rva0008557F(int frames, int direction)
 
 void rva00085599(int frames, int direction)
 {
-	g_00DEC000 = 0;
-	g_00DEBFFC = frames;
-	g_00DEBFF8 = direction;
+	ScreenCrossFadeFilter::m_curFadeFrame = 0;
+	ScreenCrossFadeFilter::m_fadeFrames = frames;
+	ScreenCrossFadeFilter::m_fadeDirection = direction;
 }
 
 // --- 0x000855BA (23B): the larger of two floats.
