@@ -2,7 +2,7 @@
 // ??1Rva002E0427@@UAE@XZ @0x002E0427 81B dtor over two hash members and SubsystemInterface
 // Vtable 0x00BE7628 slot 0 (deleting dtor 0x0022DA4A calls here); members at +0x10
 // (Rva0022CC67 dtor 0x0022CF13) and +0x24 (Rva0022366C dtor 0x0022366C) with base
-// 0x001B4E74; global g_00DFF09C cleared. Evidence: chain packet callees all rowed.
+// 0x001B4E74; global TheLivingWorldBuildingTemplateStore cleared. Evidence: chain packet callees all rowed.
 
 // TheLivingWorldBuildingTemplateStore (.data 0x009FF09C): the store this dtor
 // clears; its own INI block parser 0x002E048C (next in retail) and the living

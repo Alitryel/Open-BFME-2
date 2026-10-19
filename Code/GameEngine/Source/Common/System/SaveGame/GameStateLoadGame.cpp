@@ -77,7 +77,7 @@ class Rva00248558Scope { public: Rva00248558Scope(); ~Rva00248558Scope(); };
 class Rva002DCCFB { public: bool rva002DCCFB(UnicodeString); };
 class Rva002DC74A { public: UnicodeString rva002DC74A(const UnicodeString&)const; };
 class GameStateMap { public: void clearScratchPadMaps(); };
-extern void *g_Va00E030D8;
+extern void *TheGameStateMap;
 class Xfer { public: virtual ~Xfer(); };
 class Rva0060C5FA:public Xfer {
  char opaque04[0x1C];
@@ -195,7 +195,7 @@ checkLoadState:
 
  bool campaignSave=((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==0);
  if((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==4 || (*(int*)((char*)&info+0x28))==6)TheGameLogic->rva00376E92(false,false);
- ((GameStateMap*)g_Va00E030D8)->clearScratchPadMaps();
+ ((GameStateMap*)TheGameStateMap)->clearScratchPadMaps();
  UnicodeString path=((const Rva002DC74A*)this)->rva002DC74A(info.filename);
  LoadFileView *file=(LoadFileView*)TheFileSystem->rva00600676(path.str(),0x41,0);
  unsigned char error;

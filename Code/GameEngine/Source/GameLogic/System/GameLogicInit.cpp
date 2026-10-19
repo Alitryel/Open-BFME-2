@@ -4631,7 +4631,7 @@ extern BuildAssistant *TheBuildAssistant;
 extern WeaponStore *TheWeaponStore;
 extern LocomotorStore *TheLocomotorStore;
 extern DelayedExperienceLevelGrantSystem *TheDelayedExperienceLevelGrantSystem;
-extern void *g_Va00E01EDC;
+extern void *TheMineshaftPortalNetworkManager;
 extern "C" int (__cdecl * const _imp___unlink)(const char *path);
 
 // ?update@GameLogic@@UAEXH@Z @0x0024555A 2437B (vslot +0x34; ret 4 at
@@ -4858,7 +4858,7 @@ void GameLogic::update(int phase)
 		TheDelayedExperienceLevelGrantSystem->update();
 		((Rva0040CA98 *)&m_184)->rva0040CA98();
 		g_00DFEEF8->update();
-		((SubsystemInterface *)g_Va00E01EDC)->update();
+		((SubsystemInterface *)TheMineshaftPortalNetworkManager)->update();
 		TheTeamFactory->update();
 	}
 

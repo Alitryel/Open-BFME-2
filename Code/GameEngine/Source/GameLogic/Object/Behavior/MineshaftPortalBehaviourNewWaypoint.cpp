@@ -126,7 +126,7 @@ void XferWaypointID(Xfer *xfer, WaypointID *value);
 void XferObjectID(Xfer *xfer, ObjectID *value);
 class TerrainLogic;
 extern TerrainLogic *TheTerrainLogic;
-extern void *g_Va00E01EDC;
+extern void *TheMineshaftPortalNetworkManager;
 
 
 class Waypoint
@@ -328,7 +328,7 @@ void MineshaftPortalBehaviour::DoXfer(Xfer *xfer)
         };
         m_waypoint = id == INVALID_WAYPOINT_ID ? 0 : ((TerrainWaypointView *)TheTerrainLogic)->findWaypoint(id);
         if (m_waypoint)
-            ((MineshaftPortalNetworkManager *)g_Va00E01EDC)->addWaypoint(m_waypoint, ((Object *)m_object)->getControllingPlayer());
+            ((MineshaftPortalNetworkManager *)TheMineshaftPortalNetworkManager)->addWaypoint(m_waypoint, ((Object *)m_object)->getControllingPlayer());
     } else {
         WaypointID id = m_waypoint ? m_waypoint->getID() : INVALID_WAYPOINT_ID;
         XferWaypointID(xfer, &id);
@@ -372,7 +372,7 @@ void MineshaftPortalBehaviour::createWaypoint()
 		pos.y += m_object->y;
 		pos.z = ((Rva003738F6Terrain *)TheTerrainLogic)->groundHeight(pos.x, pos.y, 0);
 		m_waypoint = rva00372DFA(&pos);
-		((MineshaftPortalNetworkManager *)g_Va00E01EDC)->addWaypoint(
+		((MineshaftPortalNetworkManager *)TheMineshaftPortalNetworkManager)->addWaypoint(
 			m_waypoint, ((Object *)m_object)->getControllingPlayer());
 		m_registered = true;
 	}

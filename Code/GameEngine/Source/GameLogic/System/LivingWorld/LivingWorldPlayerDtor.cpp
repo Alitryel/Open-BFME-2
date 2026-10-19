@@ -90,10 +90,10 @@ class Rva002E1E51List {public:void forEach(void(Rva002E1E51Listener::*)(void*),v
 class Rva002E21D1 {public:void rva002E21D1();};
 Rva002E2AAE::~Rva002E2AAE(){((Rva002E21D1*)this)->rva002E21D1();((Rva002E1E51List*)((char*)this+4))->forEach(&Rva002E1E51Listener::notify,this);}
 class Rva002E18C3Lookup {public:AsciiString *find(const AsciiString&);};
-extern Rva002E18C3Lookup *Va00E03140Lookup;
+extern Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
 struct Rva004FB303Target;
 class Rva004FB222Owner {public:void rva004FB222(Rva004FB303Target*,int);};
-void Rva002E2AAE::loadPostProcess(){AsciiString*s=Va00E03140Lookup->find(zero48);if(!s)return;((Rva004FB222Owner*)&ai)->rva004FB222((Rva004FB303Target*)this,(int)s);}
+void Rva002E2AAE::loadPostProcess(){AsciiString*s=TheLivingWorldAITemplateStore->find(zero48);if(!s)return;((Rva004FB222Owner*)&ai)->rva004FB222((Rva004FB303Target*)this,(int)s);}
 const char *Rva002E2AAE::GetSnapshotName()const{return "LivingWorldPlayer";}
 typedef char PlayerSize[sizeof(Rva002E2AAE)==0x3c8?1:-1];
 
@@ -174,7 +174,7 @@ public:
 Xfer *Rva002E07FAXfer(Xfer*,unsigned int*);
 class INIException {public: INIException(int,const char*,...); INIException(const INIException&); ~INIException(); char *text; int tag;};
 
-extern Rva002E18C3Lookup *Va00DFF0B0Lookup;
+extern Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
 class ModuleData;
 class Rva00291440;
 void XferLivingWorldPlayerID(Xfer*,int*);
@@ -203,7 +203,7 @@ void Rva002E2AAE::xfer(Xfer *xfer) {
  if(xfer->IsLoading()) {
   AsciiString name;
   *xfer == name;
-  p40=Va00DFF0B0Lookup->find(name);
+  p40=TheLivingWorldPlayerTemplateStore->find(name);
   if(!p40) throw INIException(3,"A Player template for this LivingWorldPlayer could not be found (was it removed from an INI?)");
  } else {
   AsciiString name=*(AsciiString*)p40;

@@ -2,7 +2,7 @@
 // Native Ghidra 00373373..003733B5, 66B, RET0. The rowed 003733B5
 // wrapper calls this on its receiver minus20; preserve its opaque pin name.
 // Registration strings in GameEngine::init and GameState::init identify
-// the existing g_Va00E01EDC provider as the MineshaftPortalNetworkManager.
+// the existing TheMineshaftPortalNetworkManager provider as the MineshaftPortalNetworkManager.
 // Target facts: Object owner+8, portal+34, registration byte+38;
 // unregister through 173B RET8 helper003731CB with the controlling player,
 // then virtual slot0(flags0) plus global operator delete and clear fields.
@@ -23,7 +23,7 @@ class Rva0037381C
 public:
     void rva003731CB(Rva00373373Portal *portal, Player *player);
 };
-extern void *g_Va00E01EDC;
+extern void *TheMineshaftPortalNetworkManager;
 void __cdecl operator delete(void *pointer);
 
 class Rva003733B5Base
@@ -42,7 +42,7 @@ void Rva003733B5Base::Init()
 {
     if (registered)
     {
-        reinterpret_cast<Rva0037381C *>(g_Va00E01EDC)
+        reinterpret_cast<Rva0037381C *>(TheMineshaftPortalNetworkManager)
             ->rva003731CB(portal, owner->getControllingPlayer());
         void *released = portal ? portal->rva00373373Slot0(0) : 0;
         ::operator delete(released);

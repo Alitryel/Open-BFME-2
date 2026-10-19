@@ -100,7 +100,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 struct Rva002E1904Entry;
 class Rva002E1904Lookup {public: Rva002E1904Entry *find(const AsciiString &);};
 class Rva002E18C3Lookup;
-extern Rva002E18C3Lookup *Va00DFF0B0Lookup;
+extern Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
 class Rva002E0F1E {public: virtual ~Rva002E0F1E();};
 struct Rva002E0EF7 {
  void *vtable;
@@ -188,7 +188,7 @@ void LivingWorldCampaign::CreatePlayers()
     playerTemplate=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey("FactionObserver"));
     player.narrow(8).format("Observer_%d",i+1);
    }
-   Rva002E1904Entry *entry=((Rva002E1904Lookup *)Va00DFF0B0Lookup)->find(playerTemplate->getName());
+   Rva002E1904Entry *entry=((Rva002E1904Lookup *)TheLivingWorldPlayerTemplateStore)->find(playerTemplate->getName());
    if(!entry)continue;
    player.narrow(12)=*(const AsciiString *)entry;
    int baseRegion=slot->start;

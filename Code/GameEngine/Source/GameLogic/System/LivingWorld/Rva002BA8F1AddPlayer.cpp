@@ -34,7 +34,7 @@ class Rva002E18C3Lookup {
 public: AsciiString *find(const AsciiString &);
 private: char at00[0xc]; _STL::vector<AsciiString *> entries;
 };
-extern Rva002E18C3Lookup *Va00DFF0B0Lookup, *Va00E03140Lookup;
+extern Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore, *TheLivingWorldAITemplateStore;
 struct Rva002000D7Config { char at00[0x34]; int at34; };
 class Rva002000D7Store { public: Rva002000D7Config *get(int); };
 extern class RankInfoStore *TheRankInfoStore;
@@ -72,11 +72,11 @@ public:
 void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, Rva002BA8F1Slot *slot)
 {
     if (find(input->at08, 0)) return;
-    void *first = Va00DFF0B0Lookup->find(input->at0C);
+    void *first = TheLivingWorldPlayerTemplateStore->find(input->at0C);
     if (!first) return;
     void *second = 0;
     if (!input->at24) {
-        second = Va00E03140Lookup->find(input->at10);
+        second = TheLivingWorldAITemplateStore->find(input->at10);
         if (!second) return;
     }
     Rva002E2903Player *player = new Rva002E2903Player(input, first);
@@ -94,6 +94,6 @@ void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, 
     player->listeners.append(this);
 }
 
-// Va00E03140Lookup: matched references place it at VA 0xe03140 (zero-filled .bss).
-Rva002E18C3Lookup *Va00DFF0B0Lookup, * Va00E03140Lookup;
+// TheLivingWorldAITemplateStore: matched references place it at VA 0xe03140 (zero-filled .bss).
+Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore, * TheLivingWorldAITemplateStore;
 // ?Va00DFE78CStatePointer@@3PAUVa00DFE78CState@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.

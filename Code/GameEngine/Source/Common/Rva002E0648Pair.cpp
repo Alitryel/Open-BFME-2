@@ -39,7 +39,7 @@ struct Rva002E0648M4C
 {
 };
 
-extern class Rva002E18C3Lookup *Va00E03140Lookup;
+extern class Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
 
 class Rva002E0648Owner
 {

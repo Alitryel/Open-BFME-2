@@ -291,8 +291,8 @@ extern class Rva00421520 *g_00E03158;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 extern Rva0022AEE4Subsystem *TheDelayedExperienceLevelGrantSystem;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern class Rva002E18C3Lookup *Va00DFF0B0Lookup;
-extern class Rva002E18C3Lookup *Va00E03140Lookup;
+extern class Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
+extern class Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
 extern class Rva003EF328 *TheLivingWorldRegionEffectsManagerStore;
 extern class LivingWorldManager *TheLivingWorldManager;
 extern class LivingWorldLogic *TheLivingWorldLogic;
@@ -324,7 +324,7 @@ extern class Rva00E02D6C *TheCampaignManager;
 class VictorySystem;
 extern VictorySystem *TheVictorySystem;
 extern class Rva002872BA *TheTriggerManager;
-extern void *g_Va00E01EDC;
+extern void *TheMineshaftPortalNetworkManager;
 extern class Rva002A8F24 *g_00DFEEF8;
 extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
 // TheBaseTemplateLibrary (0x00A03124): registered below by name; retail .data starts it at 0.
@@ -333,12 +333,10 @@ Rva0022BD9ASubsystem *TheBaseTemplateLibrary = 0;
 extern class Rva003ED2A3Manager *g_manager;
 extern struct Rva005055DESrc *g_00E0311C;
 extern ActionManager *TheActionManager;
-extern void *g_Va00E030D8;
+extern void *TheGameStateMap;
 extern GameState *TheGameState;
 extern GameResultsInterface *TheGameResultsQueue;
-// g_00DFF09C is only an alias of the owned global TheLivingWorldBuildingTemplateStore (ledger names column); this unit reads the owner through its own view type.
 extern class Rva0022C0CDSubsystem *TheLivingWorldBuildingTemplateStore;
-#define g_00DFF09C (*(int *)&TheLivingWorldBuildingTemplateStore)
 extern class Rva0040AAD5 *g_00E02F74;
 // TheHeroManager is only an alias of the owned global TheCreateAHeroManager (ledger names column); this unit reads the owner through its own view type.
 extern class CreateAHeroManager *TheCreateAHeroManager;
@@ -865,8 +863,8 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<ExperienceLevelSystem *&>(TheExperienceLevelSystem)), "TheExperienceLevelSystem", new ExperienceLevelSystem, (Xfer *)&xferCRC);
 		initSubsystem(TheDelayedExperienceLevelGrantSystem, "TheDelayedExperienceLevelGrantSystem", new Rva0022AEE4Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022AF59Subsystem *&>(g_bfmeAptWindowManager)), "TheAptPlayer", createAptPlayer(), 0);
-		initSubsystem((reinterpret_cast<Rva0022AFCESubsystem *&>(Va00DFF0B0Lookup)), "TheLivingWorldPlayerTemplateStore", new Rva0022AFCESubsystem, (Xfer *)&xferCRC);
-		initSubsystem((reinterpret_cast<Rva0022B043Subsystem *&>(Va00E03140Lookup)), "TheLivingWorldAITemplateStore", new Rva0022B043Subsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022AFCESubsystem *&>(TheLivingWorldPlayerTemplateStore)), "TheLivingWorldPlayerTemplateStore", new Rva0022AFCESubsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022B043Subsystem *&>(TheLivingWorldAITemplateStore)), "TheLivingWorldAITemplateStore", new Rva0022B043Subsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022B0B8Subsystem *&>(TheLivingWorldRegionEffectsManagerStore)), "TheLivingWorldRegionEffectsManagerStore", new Rva0022B0B8Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022B12DSubsystem *&>(TheLivingWorldManager)), "TheLivingWorldManager", new Rva0022B12DSubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022B1A2Subsystem *&>(TheLivingWorldLogic)), "TheLivingWorldLogic", new Rva0022B1A2Subsystem, (Xfer *)&xferCRC);
@@ -892,7 +890,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022BADCSubsystem *&>(TheCampaignManager)), "TheLivingWorldCampaignManager", new Rva0022BADCSubsystem, 0);
 		initSubsystem((reinterpret_cast<VictorySystem *&>(TheVictorySystem)), "TheVictorySystem", new VictorySystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BBC6Subsystem *&>(TheTriggerManager)), "TheFireLogicSystem", new Rva0022BBC6Subsystem, 0);
-		initSubsystem((reinterpret_cast<Rva0022BC3BSubsystem *&>(g_Va00E01EDC)), "TheMineshaftPortalNetworkManager", new Rva0022BC3BSubsystem, 0);
+		initSubsystem((reinterpret_cast<Rva0022BC3BSubsystem *&>(TheMineshaftPortalNetworkManager)), "TheMineshaftPortalNetworkManager", new Rva0022BC3BSubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BCB0Subsystem *&>(g_00DFEEF8)), "TheSkirmishAIManager", new Rva0022BCB0Subsystem, 0);
 		initSubsystem(TheArmyDefinitionManager, "TheArmyDefinitionManager", new Rva0022BD25Subsystem, 0);
 		initSubsystem(TheBaseTemplateLibrary, "TheBaseTemplateLibrary", new Rva0022BD9ASubsystem, 0);
@@ -900,10 +898,10 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022BE84Subsystem *&>(g_00E0311C)), "TheAITargetHeuristicLibrary", new Rva0022BE84Subsystem, 0);
 		ini.loadFile("CommandMap.ini", INI_LOAD_OVERWRITE, 0);
 		initSubsystem(TheActionManager, "TheActionManager", new ActionManager, 0);
-		initSubsystem((reinterpret_cast<GameStateMap *&>(g_Va00E030D8)), "TheGameStateMap", new GameStateMap, 0);
+		initSubsystem((reinterpret_cast<GameStateMap *&>(TheGameStateMap)), "TheGameStateMap", new GameStateMap, 0);
 		initSubsystem(TheGameState, "TheGameState", new GameState, 0);
 		initSubsystem(TheGameResultsQueue, "TheGameResultsQueue", Rva0041AA6FCreateGameResults(), 0);
-		initSubsystem((reinterpret_cast<Rva0022C0CDSubsystem *&>(g_00DFF09C)), "TheLivingWorldBuildingTemplateStore", new Rva0022C0CDSubsystem, (Xfer *)&xferCRC);
+		initSubsystem((reinterpret_cast<Rva0022C0CDSubsystem *&>(TheLivingWorldBuildingTemplateStore)), "TheLivingWorldBuildingTemplateStore", new Rva0022C0CDSubsystem, (Xfer *)&xferCRC);
 		initSubsystem((reinterpret_cast<Rva0022C142Subsystem *&>(g_00E02F74)), "TheAwardSystemManager", new Rva0022C142Subsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022C1B7Subsystem *&>(TheHeroManager)), "TheCreateAHeroManager", new Rva0022C1B7Subsystem, (Xfer *)&xferCRC);
 		initSubsystem(TheScoredKillEvaAnnouncerController, "TheScoredKillEvaAnnouncerController", new Rva0022C22CSubsystem, (Xfer *)&xferCRC);

@@ -34,7 +34,7 @@ class AudioManager; extern AudioManager *TheAudio;
 class GameState; extern GameState *TheGameState;
 struct Rva0023D607Holder; class LinearCampaignManager; extern LinearCampaignManager *TheLinearCampaignManager;
 class RadarWindowOverrideSource; extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
-void *g_Va00E030D8 = 0;
+void *TheGameStateMap = 0;
 class TerrainLogic; extern TerrainLogic *TheTerrainLogic;
 class TeamFactory; extern TeamFactory *TheTeamFactory;
 class PlayerList; extern PlayerList *ThePlayerList;
@@ -57,7 +57,7 @@ VictorySystem *TheVictorySystem = 0;
 class BfmeTaintManager; extern BfmeTaintManager *TheTaintManager;
 class GlobalWeatherSystem; extern GlobalWeatherSystem *TheGlobalWeatherSystem;
 class Rva002A8F24; extern Rva002A8F24 *g_00DFEEF8;
-void *g_Va00E01EDC = 0;
+void *TheMineshaftPortalNetworkManager = 0;
 // Target initialization registers "TheAiOrdersManager" at VA 0x00E01E18.
 // Reuse this existing zero slot under that proven subsystem name.
 class AiOrdersManager;
@@ -71,7 +71,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_GameState", (Snapshot *)(SnapshotSubsystemView *)TheGameState, (SnapshotType)0);
     addSnapshotBlock("CHUNK_Campaign", (Snapshot *)TheLinearCampaignManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_Palantir", (Snapshot *)(SnapshotSubsystemView *)theRadarWindowOverrideSource, (SnapshotType)0);
-    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)g_Va00E030D8, (SnapshotType)0);
+    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)TheGameStateMap, (SnapshotType)0);
     addSnapshotBlock("CHUNK_TerrainLogic", (Snapshot *)TheTerrainLogic, (SnapshotType)0);
     addSnapshotBlock("CHUNK_TeamFactory", (Snapshot *)(SnapshotSubsystemView *)TheTeamFactory, (SnapshotType)0);
     addSnapshotBlock("CHUNK_Players", (Snapshot *)(SnapshotSubsystemView *)ThePlayerList, (SnapshotType)0);
@@ -92,7 +92,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_TaintManager", (Snapshot *)(SnapshotSubsystemView *)TheTaintManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_WeatherSystem", (Snapshot *)(SnapshotSubsystemView *)TheGlobalWeatherSystem, (SnapshotType)0);
     addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)g_00DFEEF8, (SnapshotType)0);
-    addSnapshotBlock("CHUNK_MineshaftPortalNetworkManager", (Snapshot *)(SnapshotSubsystemView *)g_Va00E01EDC, (SnapshotType)0);
+    addSnapshotBlock("CHUNK_MineshaftPortalNetworkManager", (Snapshot *)(SnapshotSubsystemView *)TheMineshaftPortalNetworkManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_AiOrdersManager", (Snapshot *)(SnapshotSubsystemView *)TheAiOrdersManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_SpellStore", (Snapshot *)Rva0043CCC2GetRoute(), (SnapshotType)0);
     addSnapshotBlock("CHUNK_ObjectivesMenu", (Snapshot *)Rva004E4312GetRoute(), (SnapshotType)0);
@@ -112,13 +112,13 @@ void GameState::init()
     addSnapshotBlock("CHUNK_GameState", (Snapshot *)(SnapshotSubsystemView *)TheGameState, (SnapshotType)3);
     addSnapshotBlock("CHUNK_Campaign", (Snapshot *)TheLinearCampaignManager, (SnapshotType)3);
     addSnapshotBlock("CHUNK_Palantir", (Snapshot *)(SnapshotSubsystemView *)theRadarWindowOverrideSource, (SnapshotType)3);
-    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)g_Va00E030D8, (SnapshotType)3);
+    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)TheGameStateMap, (SnapshotType)3);
     addSnapshotBlock("CHUNK_GameLogic", (Snapshot *)(SnapshotSubsystemView *)TheGameLogic, (SnapshotType)3);
     addSnapshotBlock("CHUNK_LivingWorldLogic", (Snapshot *)(SnapshotSubsystemView *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic), (SnapshotType)4);
     addSnapshotBlock("CHUNK_Audio", (Snapshot *)(SnapshotSubsystemView *)TheAudio, (SnapshotType)4);
     addSnapshotBlock("CHUNK_GameState", (Snapshot *)(SnapshotSubsystemView *)TheGameState, (SnapshotType)4);
     addSnapshotBlock("CHUNK_Campaign", (Snapshot *)TheLinearCampaignManager, (SnapshotType)4);
-    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)g_Va00E030D8, (SnapshotType)4);
+    addSnapshotBlock("CHUNK_GameStateMap", (Snapshot *)(SnapshotSubsystemView *)TheGameStateMap, (SnapshotType)4);
     addSnapshotBlock("CHUNK_GameLogic", (Snapshot *)(SnapshotSubsystemView *)TheGameLogic, (SnapshotType)4);
     m_isInLoadGame = false;
 }

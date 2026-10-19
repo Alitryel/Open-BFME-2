@@ -21,7 +21,7 @@ public:
 	AsciiString *find(const AsciiString &name);
 };
 
-extern Rva002E18C3Lookup *Va00DFF0B0Lookup;
+extern Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
 
 class INIException
 {
@@ -49,7 +49,7 @@ void Rva002E2612Parse(INI *ini, void *, void *store, const void *)
 		} found;
 		{
 			AsciiString key(token);
-			found.as = Va00DFF0B0Lookup->find(key);
+			found.as = TheLivingWorldPlayerTemplateStore->find(key);
 		}
 		if (found.as == 0)
 		{

@@ -374,8 +374,8 @@ public:
 	AsciiString *find(const AsciiString &name);
 };
 
-extern class Rva002E18C3Lookup *Va00DFF0B0Lookup;
-extern class Rva002E18C3Lookup *Va00E03140Lookup;
+extern class Rva002E18C3Lookup *TheLivingWorldPlayerTemplateStore;
+extern class Rva002E18C3Lookup *TheLivingWorldAITemplateStore;
 
 class Rva002E0F1E
 {
@@ -425,13 +425,13 @@ void LivingWorldPlayer::ParseLivingWorldPlayer(INI *ini, void *instance)
 		throw INIException(3, "ParseLivingWorldPlayer::No name specified.");
 	}
 	ini->initFromINI(&record, g_00C049D8);
-	AsciiString *found = Va00DFF0B0Lookup->find(record.m_0c);
+	AsciiString *found = TheLivingWorldPlayerTemplateStore->find(record.m_0c);
 	if (found == 0)
 		goto done;
 	if (record.m_24)
 		goto append;
 	{
-		AsciiString *found2 = Va00E03140Lookup->find(record.m_10);
+		AsciiString *found2 = TheLivingWorldAITemplateStore->find(record.m_10);
 		if (found2 == 0)
 			goto done;
 	}
