@@ -1311,7 +1311,7 @@ void AIUpdateInterface::transferAttack(ObjectID fromID, ObjectID toID)
 		BFMEGoalObjectMachine *stateMachine =
 			reinterpret_cast<BFMEGoalObjectMachine *>( self->m_stateMachine );
 		stateMachine->setGoalObject(
-			reinterpret_cast<BFMEObjectLookup *>(TheGameLogic)->findObjectByID( toID ) );
+			TheGameLogic->findObjectByID( toID ) );
 	}
 }
 
