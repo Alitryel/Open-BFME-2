@@ -80,6 +80,72 @@ bool _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1Rec
 template <> __declspec(dllimport) __forceinline
 bool set<Q1ReceiverKey, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
 { return _M_t.empty(); }
+typedef _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> > Q1ReceiverPtrTree;
+// This unit is first in link order for the pointer set's out-of-line insert
+// path, but retail's copies (0x004ABD36, 0x00422047, 0x00080691) are the
+// game's /O1 bodies. Template members take the optimize state of the TU end,
+// so the stock bodies are spelled as explicit specializations in a gsy region.
+#pragma optimize("gsy", on)
+template <> inline
+Q1ReceiverPtrTree::iterator _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::_M_insert(_Rb_tree_node_base *__x_, _Rb_tree_node_base *__y_, const Q1ReceiverKey &__v,
+	_Rb_tree_node_base *__w_)
+{
+	_Link_type __w = (_Link_type) __w_;
+	_Link_type __x = (_Link_type) __x_;
+	_Link_type __y = (_Link_type) __y_;
+	_Link_type __z;
+
+	if (__y == this->_M_header._M_data ||
+	    (__w == 0 && (__x != 0 || _M_key_compare(_Identity<Q1ReceiverKey>()(__v), _S_key(__y))))) {
+		__z = _M_create_node(__v);
+		_S_left(__y) = __z;
+		if (__y == this->_M_header._M_data) {
+			_M_root() = __z;
+			_M_rightmost() = __z;
+		}
+		else if (__y == _M_leftmost())
+			_M_leftmost() = __z;
+	}
+	else {
+		__z = _M_create_node(__v);
+		_S_right(__y) = __z;
+		if (__y == _M_rightmost())
+			_M_rightmost() = __z;
+	}
+	_S_parent(__z) = __y;
+	_S_left(__z) = 0;
+	_S_right(__z) = 0;
+	_Rb_global_inst::_Rebalance(__z, this->_M_header._M_data->_M_parent);
+	++_M_node_count;
+	return iterator(__z);
+}
+template <> inline
+pair<Q1ReceiverPtrTree::iterator, bool> _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::insert_unique(const Q1ReceiverKey &__v)
+{
+	_Link_type __y = this->_M_header._M_data;
+	_Link_type __x = _M_root();
+	bool __comp = true;
+	while (__x != 0) {
+		__y = __x;
+		__comp = _M_key_compare(_Identity<Q1ReceiverKey>()(__v), _S_key(__x));
+		__x = __comp ? _S_left(__x) : _S_right(__x);
+	}
+	iterator __j = iterator(__y);
+	if (__comp && __j == begin())
+		return pair<iterator, bool>(_M_insert(__y, __y, __v), true);
+	if (__comp)
+		--__j;
+	if (_M_key_compare(_S_key(__j._M_node), _Identity<Q1ReceiverKey>()(__v)))
+		return pair<iterator, bool>(_M_insert(__x, __y, __v), true);
+	return pair<iterator, bool>(__j, false);
+}
+template <> inline
+pair<Q1ReceiverPtrSet::iterator, bool> Q1ReceiverPtrSet::insert(const Q1ReceiverKey &__x)
+{
+	pair<Q1ReceiverPtrTree::iterator, bool> __p = _M_t.insert_unique(__x);
+	return pair<iterator, bool>(reinterpret_cast<const iterator &>(__p.first), __p.second);
+}
+#pragma optimize("", on)
 }
 
 void j_00015d7a();

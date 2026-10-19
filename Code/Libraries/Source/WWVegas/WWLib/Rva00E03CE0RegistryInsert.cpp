@@ -6,6 +6,7 @@
 // (size at +8) register itself via rowed Rva0020DFFBRegister 0x0020DFFB then
 // insert the key via rowed set::insert 0x00080691. Called from 0x004ABED8
 // and 0x004ABF47 with global 0x00E03CE0 as this. Flags match stlport neighbours.
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 class ModuleData { public: int x; };
 struct Rva001408C0Target { int x; };

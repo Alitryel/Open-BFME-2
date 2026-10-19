@@ -18,6 +18,7 @@
 #include "unicode_string.h"
 #include "ascii_string.h"
 #include <list>
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class

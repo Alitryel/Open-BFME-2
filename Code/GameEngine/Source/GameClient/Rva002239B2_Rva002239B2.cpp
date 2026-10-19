@@ -14,6 +14,7 @@
 // image pointer through the +0x90 table; it never treats it as a set element.
 // The table lookup target 0x2235F3 is pinned under an address-derived name from
 // the observed calls only; its body is a separate blocked candidate and is not recovered here.
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 #include "ascii_string.h"
 #include "../../../Libraries/Source/debug/debug.h"
