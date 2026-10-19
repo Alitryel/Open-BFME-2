@@ -54,6 +54,8 @@ public:
 	void rva002E36B7(int);
 
 private:
+	static int s_currentID;		// VA 0x00DBD0F0 (retail .data initial value 1)
+
 	unsigned char m_pad00[0x08];
 	Rva0030B719Shape m_shape;	// +0x08
 	unsigned char m_pad09[0x3c - 0x09];
@@ -65,6 +67,9 @@ private:
  char opaque51[3];
  int field54,field58;
 };
+
+// ZH PolygonTrigger.cpp: `Int PolygonTrigger::s_currentID = 1;`.
+int PolygonTrigger::s_currentID = 1;
 
 // PolygonTrigger::addPolygonTrigger, retail 0x002E36EF.
 void PolygonTrigger::addPolygonTrigger(PolygonTrigger *pTrigger)

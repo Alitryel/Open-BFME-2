@@ -4,7 +4,13 @@
 // 0x00DBD0F0 to 1. Head in ECX cleared via AND plus virtual slot-0 call
 // with 0 then operator delete; null head deletes null. Callers 0x00283589
 // 0x002E3E13 0x00328DCE. Owning class unproven so honest Rva names.
-extern int g_Va00DBD0F0;
+// VA 0x00DBD0F0 is PolygonTrigger's private ?s_currentID@PolygonTrigger@@0HA,
+// defined in PolygonTrigger.cpp (initial 1); reached through a friend view.
+class PolygonTrigger
+{
+	friend void Rva002E373CClear();
+	static int s_currentID;
+};
 
 struct Rva002E373CNode
 {
@@ -23,13 +29,12 @@ extern Rva002E36D5Node *g_00DFF0B8;
 // of the rowed zero-filled list head g_00DFF0B8.
 Rva002E373CHolder *g_Va00DBD0F4 = (Rva002E373CHolder *)&g_00DFF0B8;
 
-#define Rva00DBD0F0Counter g_Va00DBD0F0
 
 void Rva002E373CClear(void)
 {
 	Rva002E373CNode *head = g_Va00DBD0F4->m_head;
 	g_Va00DBD0F4->m_head = 0;
-	Rva00DBD0F0Counter = 1;
+	PolygonTrigger::s_currentID = 1;
 	void *toDelete;
 	if (head != 0)
 		toDelete = head->func(0);

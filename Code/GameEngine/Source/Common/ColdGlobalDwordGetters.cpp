@@ -145,16 +145,20 @@ int Rva00320607Get(void)
 	return g_Va00E032C8;
 }
 
-extern int g_Va00DBD0F0;
-// g_Va00DBD0F0: matched references place it at VA 0xdbd0f0 (retail .data initial value 1).
-int g_Va00DBD0F0 = 1;
+// VA 0x00DBD0F0 is PolygonTrigger's private ?s_currentID@PolygonTrigger@@0HA,
+// defined in PolygonTrigger.cpp (initial 1); reached through a friend view.
+class PolygonTrigger
+{
+	friend int Rva00328A65Get(void);
+	static int s_currentID;
+};
 
 // ?Rva00328A65Get@@YAHXZ @ 0x00328a65 (6B) over 0x00DBD0F0.
 // Follows a ret (prev C3), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
 int Rva00328A65Get(void)
 {
-	return g_Va00DBD0F0;
+	return PolygonTrigger::s_currentID;
 }
 
 class AptQuitMenu;

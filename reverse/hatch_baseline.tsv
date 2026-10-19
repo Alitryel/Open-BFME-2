@@ -32,7 +32,6 @@ address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00A0
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00A04908	2
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DB47EC	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DBB708	3
-address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DBD0F0	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DFE348	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00DFEFD8	3
 address_global	Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	g_Va00E032C8	3
@@ -839,7 +838,6 @@ address_global	Code/GameEngine/Source/Common/Rva002B5D36EndGame.cpp	g_Rva0107301
 address_global	Code/GameEngine/Source/Common/Rva002B749CCtor.cpp	g_Va00BBB8D8	2
 address_global	Code/GameEngine/Source/Common/Rva002B8860.cpp	g_Va00E032E0	2
 address_global	Code/GameEngine/Source/Common/Rva002E36D5Find.cpp	g_Va00DBD0F4	2
-address_global	Code/GameEngine/Source/Common/Rva002E373CClear.cpp	g_Va00DBD0F0	2
 address_global	Code/GameEngine/Source/Common/Rva002E373CClear.cpp	g_Va00DBD0F4	3
 address_global	Code/GameEngine/Source/Common/Rva002F0C32Helper.cpp	g_Va00DBD4B0	2
 address_global	Code/GameEngine/Source/Common/Rva002F0C55Helper.cpp	g_Va00DBD4C8	1
