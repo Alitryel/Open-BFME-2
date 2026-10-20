@@ -12,19 +12,21 @@ BfmeHub982 *W3DAptAux::s_renderer = 0;
 // in W3DAptAux_PostDraw.cpp set it, the flush at 0x000AA5E1 tests and clears
 // it; zero at load.
 char g_rva00785FD0Dirty = 0;
+// The two WW3D sync times saved around the Apt draw (RVA 0x009E6174/0x009E6178)
+// and the previous throttled elapsed time (RVA 0x009E6184): written only here.
+unsigned W3DAptAux::s_syncTime0, W3DAptAux::s_syncTime1;
+unsigned long AptObservedPreviousElapsed;
 class WW3D {friend void Rva000A8F98();public:static void Sync(unsigned);private:static unsigned SyncTime,PreviousSyncTime;};
-class Rva00785FD0Renderer {public:Rva00785FD0Renderer();private:char nativeStorage[0xe0];};
-class Rva00110FBF {public:void rva00110FBF();};
+class Rva00785FD0Renderer {public:Rva00785FD0Renderer();void rva00110FBF();private:char nativeStorage[0xe0];};
 void Rva00118990();
 extern float g_Va00DEC49C;
 extern unsigned char g_aptHostStateStorage[32];
 extern unsigned long g_00DE617C,g_00DE6180;
-extern unsigned long AptObservedPreviousElapsed;
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 void Rva000A8F98() {
  if(!W3DAptAux::s_renderer)W3DAptAux::s_renderer=(BfmeHub982*)new Rva00785FD0Renderer;
  if(W3DAptAux::s_renderer) {
-  ((Rva00110FBF*)W3DAptAux::s_renderer)->rva00110FBF();Rva00118990();
+  ((Rva00785FD0Renderer*)W3DAptAux::s_renderer)->rva00110FBF();Rva00118990();
   W3DAptAux::s_syncTime1=WW3D::SyncTime;g_Va00DEC49C=0.0f;W3DAptAux::s_syncTime0=WW3D::PreviousSyncTime;
   WW3D::Sync(AptObservedPreviousElapsed);
   unsigned long elapsed=g_00DE617C;

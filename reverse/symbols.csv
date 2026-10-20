@@ -15012,7 +15012,6 @@ _D3DXCreateTextureFromFileInMemoryEx@60,0x0062AF7A,Named d3dx9_27.dll PE import 
 ?Rva006DDCE0@@YAPAVAptValue@@PAV1@H@Z,0x006DDCE0,native AptValue callback registered by _constructBuiltInObjects 0x006DE8E0 (only used as a function pointer)
 ?queueClipEvents@AptCIH@@QAE_NHHH@Z,0x006E2010,AptCIH::queueClipEvents (WB AptInput.cpp name; returns bool: xor al al path and the caller 0x006FB120 stores al); respells the placeholder dispatch pin
 ?rva00319EF9@LivingWorldArmy@@QAEXPAV1@H@Z,0x00319EF9,callee of ?MoveArmyMember@@YAXPAVLivingWorldArmy@@H0@Z
-?rva00110FBF@Rva00110FBF@@QAEXXZ,0x00110FBF,callee of ?Rva000A8F98@@YAXXZ
 ??0Rva005FB14E@@QAE@IIPAX@Z,0x005FB14E,callee of ?rva005E9761@Rva005E9761@@QAE?AURvaF1Handle@@II@Z
 ??0Rva005FB204@@QAE@IIPAX@Z,0x005FB30A,matched constructor owner in Rva005FB204Ctor.cpp; callee of ?rva005E97D5@Rva005E97D5@@QAE?AURvaF1Handle@@II@Z
 ??0Rva005FB3D9@@QAE@IIPAX@Z,0x005FB4DF,matched constructor owner in Rva005FB204Ctor.cpp; callee of ?rva005E9849@Rva005E9849@@QAE?AURvaF1Handle@@II@Z
