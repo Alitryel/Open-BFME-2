@@ -74,6 +74,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // The exact assignment specialization is provided by StlportAsciiStringVectorAssign.cpp.
 // Keep this consumer on that verified body rather than instantiate the stock copy.
 #include <vector>
+#include <map>
+// Declare before W3DModelDraw.h instantiates the PristineBone map lifetime.
+struct PristineBoneInfo;
+namespace _STL {
+template <> map<NameKeyType, PristineBoneInfo, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::map();
+template <> _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Select1st<pair<const NameKeyType, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::~_Rb_tree();
+}
 #include "ascii_string.h"
 namespace _STL {
 template <> vector<AsciiString, allocator<AsciiString> > &
@@ -155,6 +162,11 @@ namespace _STL { template <> _Rb_tree_iterator<pair<NameKeyType const, PristineB
 namespace _STL { template <> _Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > > _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::insert_unique(_Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > >, pair<NameKeyType const, PristineBoneInfo> const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<NameKeyType const, PristineBoneInfo>, _Nonconst_traits<pair<NameKeyType const, PristineBoneInfo> > >, bool> _Rb_tree<NameKeyType, pair<NameKeyType const, PristineBoneInfo>, _Select1st<pair<NameKeyType const, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<NameKeyType const, PristineBoneInfo> > >::insert_unique(pair<NameKeyType const, PristineBoneInfo> const &); }
 namespace _STL { template <> void vector<AsciiString, allocator<AsciiString> >::push_back(AsciiString const &); }
+// Use the standalone tree-clear provider, whose genuine STLport erase
+// callee also supplies the native out-of-line body.
+namespace _STL {
+template <> void _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Select1st<pair<const NameKeyType, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::clear();
+}
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).

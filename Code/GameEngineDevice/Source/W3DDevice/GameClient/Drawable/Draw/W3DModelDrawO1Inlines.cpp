@@ -8,6 +8,14 @@
 #define NO_DEBUG_CRC
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include "Common/CRC.h"
+#include <map>
+enum NameKeyType;
+struct PristineBoneInfo;
+// Declare before the headers instantiate this tree. Its standalone owner
+// supplies the native 56-byte destructor and allocator-cleanup EH transition.
+namespace _STL {
+template <> _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Select1st<pair<const NameKeyType, PristineBoneInfo> >, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::~_Rb_tree();
+}
 #include "Common/CRCDebug.h"
 #include "Common/GameState.h"
 #include "Common/GlobalData.h"
