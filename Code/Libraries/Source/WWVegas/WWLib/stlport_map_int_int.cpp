@@ -23,6 +23,9 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > map<int, int, less<int>, allocator<pair<int const, int> > >::upper_bound(int const &); }
 namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::~_Rb_tree(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??0?$_Rb_tree_base@U?$pair@$$CBHH@_STL@@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAE@AB:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<const int, int>, allocator<pair<const int, int> > >::_Rb_tree_base(const allocator<pair<const int, int> > &); }
 
 // Preserve retail's inlined buffer release while using the canonical public allocator.
 namespace _STL {
