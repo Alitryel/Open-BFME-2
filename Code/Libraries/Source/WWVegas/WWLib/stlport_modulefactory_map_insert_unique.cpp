@@ -46,6 +46,10 @@ public:
 typedef _STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate> ModuleFactoryInsertValue;
 typedef _STL::_Rb_tree<NameKeyType, ModuleFactoryInsertValue, _STL::_Select1st<ModuleFactoryInsertValue>, _STL::less<NameKeyType>, _STL::allocator<ModuleFactoryInsertValue> > ModuleFactoryInsertTree;
 
+// The native insertion calls the factory already owned by ModuleFactory.cpp.
+template <> ModuleFactoryInsertTree::_Link_type
+ModuleFactoryInsertTree::_M_create_node(const ModuleFactoryInsertValue &);
+
 template _STL::pair<ModuleFactoryInsertTree::iterator, bool> ModuleFactoryInsertTree::insert_unique(const ModuleFactoryInsertTree::value_type &);
 
 // The outer map::insert at retail 0x004138A1 (20 bytes): forwards the

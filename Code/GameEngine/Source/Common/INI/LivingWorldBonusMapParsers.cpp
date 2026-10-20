@@ -29,6 +29,11 @@ public:
 enum NameKeyType { NAMEKEY_0 };
 class ModuleFactory { public: class ModuleTemplate { public: void *createProc,*createDataProc;int whichInterfaces; }; };
 typedef _STL::pair<const NameKeyType,ModuleFactory::ModuleTemplate> InsertValue;
+// Retain the inline raw-payload copy; the outline belongs to ModuleFactory.cpp.
+// ?InsertValue::pair present-unmatched
+template<> __declspec(dllimport) __forceinline
+InsertValue::pair(const NameKeyType &key,const ModuleFactory::ModuleTemplate &value)
+ : first(key),second(value) {}
 typedef _STL::_Rb_tree<NameKeyType,InsertValue,_STL::_Select1st<InsertValue>,_STL::less<NameKeyType>,_STL::allocator<InsertValue> > InsertTree;
 template<> _STL::pair<InsertTree::iterator,bool> InsertTree::insert_unique(const InsertValue &);
 void Rva004138C7Parse(INI *ini,void *,void *store,const void *) {

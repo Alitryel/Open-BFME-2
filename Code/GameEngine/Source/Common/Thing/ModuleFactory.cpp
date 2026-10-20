@@ -316,6 +316,15 @@ template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(Asc
 template <> FXBoneInfo *vector<FXBoneInfo, allocator<FXBoneInfo> >::erase(FXBoneInfo *, FXBoneInfo *);
 }
 
+// The no-hint insertion is owned by stlport_modulefactory_map_insert_unique.cpp.
+struct ModuleFactoryInsertAccess : ModuleFactory {
+    typedef ModuleTemplate Value;
+};
+typedef _STL::pair<const NameKeyType, ModuleFactoryInsertAccess::Value> ModuleFactoryInsertValue;
+typedef _STL::_Rb_tree<NameKeyType, ModuleFactoryInsertValue, _STL::_Select1st<ModuleFactoryInsertValue>, _STL::less<NameKeyType>, _STL::allocator<ModuleFactoryInsertValue> > ModuleFactoryInsertTree;
+template <> _STL::pair<ModuleFactoryInsertTree::iterator, bool>
+ModuleFactoryInsertTree::insert_unique(const ModuleFactoryInsertValue &);
+
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
 ModuleFactory *TheModuleFactory = NULL;  ///< the module factory singleton
 
