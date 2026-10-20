@@ -5246,7 +5246,7 @@ name,address,notes
 ??4locale@_STL@@QAEABV01@ABV01@@Z,0x00007160,STLport 4.5.3 locale assignment; address read from the retail wide basic_streambuf pubimbue REL32 displacement
 ??6@YAAAVDebug@@AAV0@ABUSignature@DebugStackwalk@@@Z,0x0003BF60,CrashDone free operator-left-shift for Signature; direct E8 from 0x0003A8A0+0x33B with (this sig); matches debug_stack.cpp free overload shape
 ??6AssetList@@QAEAAV0@ABVAsciiString@@@Z,0x0006C950,callee of ??0T1Base_005F3750@@QAE@PAX0@Z at retail 0x0055C903 read from its REL32 displacement; donor AssetList view of the unrowed AsciiString-insert body at this address
-??8@YA_NABVAsciiString@@0@Z,0x006EFBC0,address read from the REL32 displacement at a placed body; stlport 4.5.3
+?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z,0x006EFBC0,Native6E0520 vtable-slot7 wrapper REL32 at6E0556 and WB1784910 prove cdecl two-argument AptValue pointer lookup; replaces refuted AsciiString equality pin; see reverse/attempt_support/apt-cih-6e0520-20261020.md
 ??8Coord3D@@QAE_NABU0@@Z,0x00003702,DockUpdate getExitPosition native call at 0x00589A86; nonconst struct view of rowed Coord3D equality; three-float layout and thiscall ret4 agree
 ??8locale@_STL@@QBE_NABV01@@Z,0x0000BB10,STLport 4.5.3 locale equality; the body compares the two impl pointers then falls back on three name() calls at 0x0000BAE0 and a not-equal against the nameless string object at 0x00DDEB2C. Address read from the REL32 in the operator!= wrapper at 0x0000BC40
 ??A?$IndexClass@HPAUINISection@@@@QBEABQAUINISection@@ABH@Z,0x00616A60,address read from the REL32 displacement at a placed body; stlport 4.5.3

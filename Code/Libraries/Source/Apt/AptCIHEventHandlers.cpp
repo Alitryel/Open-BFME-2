@@ -4,7 +4,7 @@
 // checks it using AptCIH.h, and keeps that object in ESI for calls6EF199 /
 // 6EF1B6 /6EF218 /6EF27E to the two bodies below. Target virtual slot0C
 // returns the hash; its flags at+10 agree with AptNativeHashBFME2.cpp.
-// Only accessed vslots3/8 and the hash field are modeled; other slot prototypes are placeholders. This does not
+// Only accessed vslots3/7/8 and the hash field are modeled; other slot prototypes are placeholders. This does not
 // claim the complete donor class layout or identities of unused virtual slots.
 // Native 0x006E0560..0x006E05A5 is a complete 69-byte CIH forwarding
 // entry (RET12, then INT3 padding). Its this input is used only for the
@@ -17,6 +17,7 @@ class AptValue;
 class EAStringC;
 class BfmeAptValue006DCD20 { public: int isCharacterInst() const; };
 extern bool rva006EE6C0(AptValue *, const EAStringC *, AptValue *);
+extern AptValue *Rva006EFBC0ObjectMemberLookup(AptValue *, const EAStringC *);
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
@@ -31,14 +32,30 @@ class AptCIH {
     virtual void unused4();
     virtual void unused5();
     virtual void unused6();
-    virtual void unused7();
 public:
+    virtual AptValue *rva006E0520(AptValue *, const EAStringC *);
     void SetEventHandler(int mask);
     void RemoveEventHandler(int mask);
     virtual bool rva006E0560(AptValue *, const EAStringC *, AptValue *);
 };
 void AptCIH::SetEventHandler(int mask) { AptNativeHash *hash=GetNativeHashVirtual(); hash->eventFlags |= mask; }
 void AptCIH::RemoveEventHandler(int mask) { AptNativeHash *hash=GetNativeHashVirtual(); hash->eventFlags &= ~mask; }
+
+// Vtable CE8C24 slot7 points to the complete64B entry at6E0520. The
+// AptCIH.cpp:574 assertion checks the receiver; both stack arguments then
+// pass unchanged to the static character member-lookup worker. Its return
+// value is the AptValue pointer returned by that worker. The original
+// wrapper method name remains unknown.
+AptValue *AptCIH::rva006E0520(AptValue *context, const EAStringC *name)
+{
+    if ((unsigned char)((BfmeAptValue006DCD20 *)this)->isCharacterInst() == 0) {
+        g_bfmeAptAssertAtE17734("isCharacterInst()",
+            "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCIH.cpp", 574);
+        if (g_bfmeAptBreakOnAssertAtDDC01C)
+            __debugbreak();
+    }
+    return Rva006EFBC0ObjectMemberLookup(context, name);
+}
 
 bool AptCIH::rva006E0560(AptValue *context, const EAStringC *name, AptValue *value)
 {
