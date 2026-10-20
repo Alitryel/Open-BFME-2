@@ -5385,7 +5385,6 @@ _DeletePostProcInstance,,0x001B68D0,36,Code/Libraries/Source/VP6/PostProcInstanc
 ?Cast_Ray@AABTreeClass@@QAE_NAAVRayCollisionTestClass@@@Z,,0x00168C00,17,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
 ?Cast_AABox@AABTreeClass@@QAE_NAAVAABoxCollisionTestClass@@@Z,,0x00168C20,17,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
 ?Get_Poly_Surface_Type@MeshGeometryClass@@QBEEH@Z,,0x0016A220,16,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,
-?Get_Flag@LineGroupClass@@QAEHW4FlagsType@1@@Z,,0x001B36F0,15,Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp,matched,
 ?Set_Hierarchy_Valid@Animatable3DObjClass@@IBEX_N@Z,,0x0019B0D0,13,Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp,matched,
 ?Peek_Animation@Animatable3DObjClass@@UAEPAVHAnimClass@@XZ,,0x001A4DC0,19,Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp,matched,
 ?Set_Animation_Frame_Rate_Multiplier@Animatable3DObjClass@@UAEXM@Z,,0x001A5440,17,Code/Libraries/Source/WWVegas/WW3D2/animobj.cpp,matched,
@@ -97372,3 +97371,4 @@ $L1431,,0x007A8680,8,Code/Libraries/Source/Apt/AptLoad.cpp,matched,gen-funclet;p
 ?rva0023DCCE@Rva0023DCCE@@QAEXABVAsciiString@@ABUOpaqueRefElement4@@1@Z,,0x0023DCCE,122,Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp,matched,single canonical definition: retail emits the body as an inline COMDAT in GameLogic's unit (its caller 0x002423E3 inlines it); moved from Rva0023DCCESet.cpp to the retail home so the link keeps an owner's copy in sync with clear-to-releaseBuffer relocation
 ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEHPAX@Z,,0x00031F90,179,Code/GameEngine/Source/Common/System/memory_pool.cpp,matched,
 ?Set_View_Identity@DX8Wrapper@@SAXXZ,,0x001100E8,163,Code/Libraries/Source/WWVegas/WW3D2/Render2DClassRender.cpp,matched,
+?Get_Flag@LineGroupClass@@QAEHW4FlagsType@1@@Z,,0x001B36F0,15,Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassRender.cpp,matched,

@@ -124,10 +124,9 @@ void LineGroupClass::Set_Flag(FlagsType flag, bool on)
 		Flags &= ~(1 << flag);
 }
 
-int LineGroupClass::Get_Flag(FlagsType flag)
-{
-	return (Flags >> flag) & 0x1;
-}
+// Get_Flag is emitted by LineGroupClassRender.cpp (its Render inlines it);
+// this out-of-line copy was a second, NODUPLICATES definition of retail's
+// 15-byte body and made the render unit report LNK2005.
 
 // ?Set_Texture@LineGroupClass@@ present-unmatched
 void LineGroupClass::Set_Texture(TextureClass* texture)
