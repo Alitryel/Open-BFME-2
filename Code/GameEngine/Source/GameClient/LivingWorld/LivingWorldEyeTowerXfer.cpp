@@ -40,11 +40,11 @@ class TowerPoints:public _STL::vector<BfmeE8> {public:
  void clear(){((_STL::vector<BfmePod8>*)this)->erase((BfmePod8*)begin(),(BfmePod8*)end());}
 };
 class LivingWorldEyeTower {public:
- void rva003F9DE2(Xfer*);
+ void xfer(Xfer*);
  void rva003F9B5A();
  char prefix[0x3c];TowerPoints points;
 };
-void LivingWorldEyeTower::rva003F9DE2(Xfer*xfer) {
+void LivingWorldEyeTower::xfer(Xfer*xfer) {
  xfer->Version1();
  int count=points.size();
  xfer->xferInt(&count);

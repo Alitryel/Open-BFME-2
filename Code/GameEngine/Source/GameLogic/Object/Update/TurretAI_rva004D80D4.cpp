@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva004D80D4@TurretAI@@UAEXXZ, retail 0x004D80D4, 26 bytes.
+// ?loadPostProcess@TurretAI@@UAEXXZ, retail 0x004D80D4, 26 bytes.
 // Gap between ??1Rva004D7E61 (TurretStateMachine dtor) and Disp8 setters.
 // TurretAI layout from TurretAI_setTurretTargetObject.cpp: machine at +0x14,
 // victimInitialTeam at +0x28. Object team at +0x304. Single callee
@@ -23,7 +23,7 @@ public:
 class TurretAI
 {
 public:
-	virtual void rva004D80D4();
+	virtual void loadPostProcess();
 	char m_pad04[0x10 - 4];
 	Object *m_owner;
 	TurretStateMachine *m_machine;
@@ -31,7 +31,7 @@ public:
 	Team *m_victimInitialTeam;
 };
 
-void TurretAI::rva004D80D4()
+void TurretAI::loadPostProcess()
 {
 	Object *obj = m_machine->getGoalObject();
 	if (obj)

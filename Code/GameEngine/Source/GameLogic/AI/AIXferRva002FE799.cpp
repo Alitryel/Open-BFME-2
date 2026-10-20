@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
-// ?rva002FE799@AI@@UAEXPAVXfer@@@Z, retail 0x002FE799..0x002FE87D (228B, EH):
+// ?xfer@AI@@UAEXPAVXfer@@@Z, retail 0x002FE799..0x002FE87D (228B, EH):
 // a Ghidra-unlisted slot of the AI snapshot table 0x00C073C0. BFME 2 folds
 // Zero Hour's AI::crc and AI::xfer into one body: a CRC pass snapshots the
 // pathfinder, every TAiData and every AIGroup behind retail's own
@@ -58,7 +58,7 @@ class AIGroup : public Snapshot
 class AI
 {
 public:
-	virtual void rva002FE799(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 private:
 	Pathfinder *m_pathfinder;								// +0x04
 	_STL::list<AIGroup *> m_groupList;						// +0x08
@@ -67,7 +67,7 @@ private:
 	int m_14;												// +0x14
 };
 
-void AI::rva002FE799(Xfer *xfer)
+void AI::xfer(Xfer *xfer)
 {
 	if (xfer->IsCRC())
 	{
