@@ -724,19 +724,7 @@ void Rva00210CB6ByteOneSetter::enable()
 	m_enabled = 1;
 }
 
-class Rva0039B78DByteOneSetter
-{
-public:
-	void enable();
-
-	char m_lead[0x110];
-	unsigned char m_enabled;
-};
-
-void Rva0039B78DByteOneSetter::enable()
-{
-	m_enabled = 1;
-}
+// Native 39B78D is ScoreKeeper::LoadPostProcess, owned by ScoreKeeperDtor.cpp.
 
 class Rva0046F822ByteOneSetter
 {

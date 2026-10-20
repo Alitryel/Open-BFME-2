@@ -60,6 +60,18 @@ ScoreKeeper::~ScoreKeeper()
 	unhookAllScoredKillTrackers();
 }
 
+// Native C1AD98 slots 1 and 2 name these bodies at 39B78D/39C3A6.
+// The post-load flag's meaning beyond this byte store is not established.
+void ScoreKeeper::LoadPostProcess()
+{
+	opaque004[0x110 - 4] = 1;
+}
+
+const char *ScoreKeeper::GetSnapshotName() const
+{
+	return "ScoreKeeper";
+}
+
 // Keep the native24-byte map header allocation distinct from the older
 // unsigned-pair base binding at30087C. Original allocator spelling unknown.
 template<class T> class Rva0039CAE1Allocator : public _STL::allocator<T> {

@@ -42,7 +42,7 @@ BFME_LITERAL_NAME_GETTER(Rva00376A19Named, "ObjectTypes")
 BFME_LITERAL_NAME_GETTER(Rva003908A1Named, "PhysicsBehavior")
 BFME_LITERAL_NAME_GETTER(Rva0039143FNamed, "RadiusDecalUpdate")
 BFME_LITERAL_NAME_GETTER(Rva003957C0Named, "CastleMemberBehavior")
-BFME_LITERAL_NAME_GETTER(Rva0039C3A6Named, "ScoreKeeper")
+// ScoreKeeper::GetSnapshotName is owned by RTS/ScoreKeeperDtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003A25ABNamed, "TeamRelationMap")
 // TeamFactory::GetSnapshotName is owned by RTS/TeamFactoryDtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B03EDNamed, "GPUParticleSystemStorageModule")

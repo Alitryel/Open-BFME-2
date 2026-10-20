@@ -42,6 +42,13 @@ public:
  template<class U> Rva0039CAE1Allocator(const Rva0039CAE1Allocator<U>&) throw() {}
 };
 typedef _STL::map<unsigned,void*,_STL::less<unsigned>,Rva0039CAE1Allocator<_STL::pair<const unsigned,void*> > > ScoreCountMap;
+// Use the kept tree cleanup emitted by ScoreKeeperDtor.cpp; /EHsc here
+// would otherwise emit a different exception-state sequence around free.
+namespace _STL {
+template <> _Rb_tree<unsigned, pair<const unsigned,void*>,
+ _Select1st<pair<const unsigned,void*> >, less<unsigned>,
+ Rva0039CAE1Allocator<pair<const unsigned,void*> > >::~_Rb_tree();
+}
 class Rva0039B893 : public Snapshot {
 public:
  Rva0039B893();virtual __forceinline ~Rva0039B893(){}
