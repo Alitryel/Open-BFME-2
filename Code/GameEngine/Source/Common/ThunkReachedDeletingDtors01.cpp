@@ -9,28 +9,16 @@
 // resolves through a pin in reverse/symbols.csv read from the wrapper's own
 // REL32 at +4, so the dtors are non-virtual here; the thunks themselves are
 // not modelled. Owner identities and layouts are not recovered; class names
-// are the dtor addresses. 0x005E7ED7 is already rowed as a virtual MI dtor
-// (Rva005E7ED7Dtor.cpp), so its owner here takes a distinct view name;
-// 0x005F501E carries an existing pin.
-//  0x00254008 via dtor 0x00254024, thunk 0x00253328 sub ecx,4
+// are the dtor addresses. 0x005F501E carries an existing pin.
+//  0x00254008 is now the compiler's ??_GGateProxyBehavior in GateProxyBehaviorCtor.cpp
 //  0x002F312E is now the typed Pathfinder MI cleanup in AI/PathfinderDestructor.cpp
-//  0x005E7EBB via dtor 0x005E7ED7, thunk 0x005E7EB3 sub ecx,0x24
-//  0x005F06D3 via dtor 0x005F0584, thunk 0x005F05CF sub ecx,4
+//  0x005E7EBB is now the compiler's ??_GRva005E7ED7 in StrategicInGameUIBuildQueueIconSelect.cpp
+//  0x005F06D3 is now the compiler's ??_GRva005F0584 in Rva005F0584Dtor.cpp
 //  0x005F5087 via dtor 0x005F501E, unreferenced
 
-// Two dtors are rowed at their addresses as virtual dtors of other classes:
-// forward through imported inlines (same direct call, no stray copy).
-class GateProxyBehavior { public: virtual ~GateProxyBehavior(); };
-class Rva005E7ED7 { public: virtual ~Rva005E7ED7(); };
 
-class Rva00254024 { public: __declspec(dllimport) __forceinline ~Rva00254024() { reinterpret_cast<GateProxyBehavior *>(this)->GateProxyBehavior::~GateProxyBehavior(); } };
-class Rva005E7ED7View { public: __declspec(dllimport) __forceinline ~Rva005E7ED7View() { reinterpret_cast<Rva005E7ED7 *>(this)->Rva005E7ED7::~Rva005E7ED7(); } };
-class Rva005F0584 { public: ~Rva005F0584(); };
 class Rva005F501E { public: ~Rva005F501E(); };
 
 void operator delete(void *p);
 
-void Rva00254024_DeleteAnchor(Rva00254024 *p) { delete p; }
-void Rva005E7ED7View_DeleteAnchor(Rva005E7ED7View *p) { delete p; }
-void Rva005F0584_DeleteAnchor(Rva005F0584 *p) { delete p; }
 void Rva005F501E_DeleteAnchor(Rva005F501E *p) { delete p; }
