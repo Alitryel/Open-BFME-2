@@ -12,6 +12,10 @@
 // name (folded __copy_trivial at 0x000179B0) and _Destroy(char*,char*) is the
 // shared empty RET at 0x0069E440, both pinned from the StringReplace unit.
 #include <string.h>
+// MSVC imported-inline ownership keeps these fully inlined helper views from
+// emitting conflicting out-of-line copies. The COFF audit preserves every
+// surviving body and relocation and confirms there are no helper import edges.
+// The shared mutable-copy provider still has its separately tracked 68/41-byte debt.
 #pragma optimize("", off)
 
 namespace _STL
@@ -81,19 +85,19 @@ inline _OKToMemCpy<_Tp1, _Tp2> _IsOKToMemCpy(_Tp1 *, _Tp2 *)
 }
 
 template <class _InputIter, class _OutputIter>
-__forceinline _OutputIter __copy_ptrs(_InputIter __first, _InputIter __last, _OutputIter __result, __true_type)
+__declspec(dllimport) __forceinline _OutputIter __copy_ptrs(_InputIter __first, _InputIter __last, _OutputIter __result, __true_type)
 {
 	return (_OutputIter)__copy_trivial(__first, __last, __result);
 }
 
 template <class _InputIter, class _OutputIter>
-__forceinline _OutputIter __copy_aux(_InputIter __first, _InputIter __last, _OutputIter __result, __true_type)
+__declspec(dllimport) __forceinline _OutputIter __copy_aux(_InputIter __first, _InputIter __last, _OutputIter __result, __true_type)
 {
 	return __copy_ptrs(__first, __last, __result, _IsOKToMemCpy((char *)0, (char *)0)._Ret());
 }
 
 template <class _InputIter, class _ForwardIter>
-__forceinline _ForwardIter __uninitialized_copy(_InputIter __first, _InputIter __last, _ForwardIter __result, const __true_type &)
+__declspec(dllimport) __forceinline _ForwardIter __uninitialized_copy(_InputIter __first, _InputIter __last, _ForwardIter __result, const __true_type &)
 {
 	return __copy_aux(__first, __last, __result, _BothPtrType<_InputIter, _ForwardIter>::_Ret());
 }
@@ -125,7 +129,7 @@ inline _ForwardIter uninitialized_fill_n(_ForwardIter __first, _Size __n, const 
 }
 
 template <class _Tp>
-inline const _Tp &(max)(const _Tp &__a, const _Tp &__b)
+__declspec(dllimport) __forceinline const _Tp &(max)(const _Tp &__a, const _Tp &__b)
 {
 	return __a < __b ? __b : __a;
 }
@@ -139,14 +143,14 @@ public:
 
 	void insert(iterator __position, size_type __n, _CharT __c);
 
-	size_type size() const { return this->_M_finish - this->_M_start; }
+	__declspec(dllimport) __forceinline size_type size() const { return this->_M_finish - this->_M_start; }
 
 private:
 	pointer _M_allocate(size_type __n) { return __n != 0 ? _STL::allocator<char>::allocate(__n, 0) : 0; }
 	void _M_deallocate(pointer __p, size_type) { if (__p != 0) _STL::free(__p); }
 	void _M_deallocate_block() { _M_deallocate(this->_M_start, this->_M_end_of_storage - this->_M_start); }
-	void _M_construct_null_aux(pointer __p, const _STL::__true_type &) { *__p = 0; }
-	void _M_construct_null(pointer __p) { _M_construct_null_aux(__p, _STL::__true_type()); }
+	__declspec(dllimport) __forceinline void _M_construct_null_aux(pointer __p, const _STL::__true_type &) { *__p = 0; }
+	__declspec(dllimport) __forceinline void _M_construct_null(pointer __p) { _M_construct_null_aux(__p, _STL::__true_type()); }
 
 	pointer _M_start;
 	pointer _M_finish;
