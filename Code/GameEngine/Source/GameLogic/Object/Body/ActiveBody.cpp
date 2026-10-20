@@ -22,6 +22,39 @@ namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned 
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
 
+// Inline the hash_map lookup's vector<void *> accessors without emitting
+// per-unit COMDAT copies (retail's out-of-line size/begin are the /Od bodies
+// at 0x00023BC0/0x00023B90); STLport bodies verbatim.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::const_iterator vector<void *, allocator<void *> >::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline vector<void *, allocator<void *> >::size_type vector<void *, allocator<void *> >::size() const { return size_type(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline void *const &vector<void *>::operator[](size_t __n) const { return *(begin() + __n); }
+}
+// list<Drawable *> takes its nodes from the 12-byte pool at 0x00DBA5E0; this
+// unit calls the base constructor (0x00239BB0) and node creator (0x00239BD8)
+// out of line, so it spells retail's bodies as its siblings do.
+class Drawable;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> __declspec(noinline)
+_List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawable *> &__a)
+	: _M_node(__a, (_List_node<Drawable *> *)0)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+template <> __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	_Construct(&node->_M_data, value);
+	return node;
+}
+}
+
 typedef float Real;
 typedef int Int;
 typedef bool Bool;
@@ -737,7 +770,9 @@ class Rva003427DD { public: Rva003427DD &operator=(const Rva003427DD &other); };
 class Rva00294D61 { public: void report(Object *victim, Int flag); };
 class Rva0028B749Host { public: void rva0028B749(Int victim, Real ratio); };
 class Rva002AA201IndexedByteField { public: void set(int index); };
-class Gen_003bcb40 { public: void m(Int frame); };
+// The damage-delay call lands on the shared empty RET 4 at 0x0047A69C; it
+// goes through that address's rowed Rva0059BB50 name.
+class Rva0059BB50 { public: void rva0047A69C(int v); };
 
 class NameKeyGenerator
 {
@@ -1994,7 +2029,7 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 		internalChangeHealth(0.0f - amount, damageInfo);
 
 		if (md->m_damageDelayFrames > 0)
-			((Gen_003bcb40 *)obj)->m(TheGameLogic->getFrame() + md->m_damageDelayFrames);
+			((Rva0059BB50 *)obj)->rva0047A69C(TheGameLogic->getFrame() + md->m_damageDelayFrames);
 
 		damageInfo->m_actualDamageDealt = amount;
 		damageInfo->m_actualDamageClipped = m_prevHealth - m_currentHealth;
