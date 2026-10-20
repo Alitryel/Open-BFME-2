@@ -228,6 +228,10 @@ MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const Ascii
 }
 }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??R?$less@VAsciiString@@@_STL@@QBE_NABVAsciiString@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> bool less<AsciiString>::operator()(AsciiString const &,AsciiString const &) const; }
 // Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool bitset<116>::test(unsigned int) const; }
