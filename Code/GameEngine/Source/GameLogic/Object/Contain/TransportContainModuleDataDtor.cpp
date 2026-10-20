@@ -41,6 +41,8 @@ namespace _STL { template <> void allocator<_List_node<BfmePod8> >::deallocate(_
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;
 namespace _STL { template <> void _List_base<BfmePod8,allocator<BfmePod8> >::clear(); }
+// Bind the list teardown to the existing retail provider at 0x002FECBC.
+namespace _STL { template <> _List_base<BfmePod8,allocator<BfmePod8> >::~_List_base(); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
