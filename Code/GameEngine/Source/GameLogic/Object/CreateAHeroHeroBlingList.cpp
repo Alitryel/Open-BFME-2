@@ -26,6 +26,10 @@ namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, vector<unsig
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@IV?$allocator@I@_STL@@@_STL@@IAEXPAIABIABU__true_type@2@I_N@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_insert_overflow(unsigned int *, const unsigned int &, const __true_type &, size_t, bool); }
+// Its push_back then compiles to 58 bytes, not retail's 0x004DFCB0, and this
+// unit is the first in link order to emit one: ConstructHeroBlingList calls
+// the kept retail copy instead.
+namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::push_back(const unsigned int &); }
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
