@@ -33,6 +33,7 @@ extern CreateAHeroManager *TheCreateAHeroManager;
 class Rva0040A16E
 {
 public:
+	Rva0040A16E(int value) : m_val0(value) {}
 	bool rva0040A16E(const void *arg) const;
 	bool operator()(CreateAHeroData *p) const { return rva0040A16E(p); }
 private:
@@ -58,6 +59,7 @@ struct Rva0040A1ACRelease
 template Rva0040A1ACRelease _STL::for_each<CreateAHeroData **, Rva0040A1ACRelease>(CreateAHeroData **, CreateAHeroData **, Rva0040A1ACRelease);
 template CreateAHeroData **_STL::__find_if<CreateAHeroData **, Rva0040A16E>(CreateAHeroData **, CreateAHeroData **, Rva0040A16E, const _STL::random_access_iterator_tag &);
 template CreateAHeroData **_STL::__find_if<CreateAHeroData **, Rva0040A187>(CreateAHeroData **, CreateAHeroData **, Rva0040A187, const _STL::random_access_iterator_tag &);
+template CreateAHeroData **_STL::find_if<CreateAHeroData **, Rva0040A16E>(CreateAHeroData **, CreateAHeroData **, Rva0040A16E);
 template CreateAHeroData **_STL::find_if<CreateAHeroData **, Rva0040A187>(CreateAHeroData **, CreateAHeroData **, Rva0040A187);
 
 // Native 0x0040A59B..0x0040A5CF (52 bytes): clears the hero-data list: when
@@ -78,4 +80,26 @@ void Rva0040A59B::rva0040A59B()
 	if (m_ownsData)
 		_STL::for_each(m_data.begin(), m_data.end(), Rva0040A1ACRelease());
 	m_data.erase(m_data.begin(), m_data.end());
+}
+
+// Native 0x0040A3B1..0x0040A3D2 (33 bytes, RET4, no caller left in retail):
+// the hero-data list's lookup through the one-word functor: find_if
+// (0x0040A34B, above) over the +0/+4 range with the functor built in its
+// argument slot from the key, null when absent, else the element.
+class Rva0040A3F9
+{
+public:
+	CreateAHeroData *rva0040A3B1(int key);
+private:
+	CreateAHeroData **m_begin;	// +0x00
+	CreateAHeroData **m_end;	// +0x04
+};
+
+CreateAHeroData *Rva0040A3F9::rva0040A3B1(int key)
+{
+	CreateAHeroData **end = m_end;
+	CreateAHeroData **found = _STL::find_if(m_begin, end, Rva0040A16E(key));
+	if (found == end)
+		return 0;
+	return *found;
 }
