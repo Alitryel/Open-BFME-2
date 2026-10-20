@@ -1,20 +1,20 @@
 // ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@0_NAAVios_base@2@AAHAAV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.7 date=2026-10-11
+// partial score=0.845 date=2026-10-20
+// ?do_get@?$money_get@GV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$istreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@0_NAAVios_base@2@AAHAAV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
+// partial score=0.845 date=2026-10-20
 // cl: /Ob1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 // STLport4.5.3 wide money_get string parser; complete source, partial bytes.
-// Native12190..12C82 is2802B code;20B switch table follows before padding.
-// Retire both122B head12190 and2680B tail1220A only after full verification.
-// Adapted the earlier wide bank using the verified named-string storage
-// pattern in stlport_wide_num_put_bool.cpp and the landed narrow sibling.
-// Three named owners free their buffers; conditional string temporaries use
-// the separately verified base destructor. All fields remain vendor types.
-// This trial emits2740B and matches the first573B including the formerly
-// failing EDI prologue. Residue: tag/boolean homes, early iterator result
-// copies, cleanup factoring and exception states. Inline locale destructor
-// emits2912B with duplicated cleanup; O1/Os1883B, Og-off4586B regress.
-// Explicit assignment member-template declarations trigger MSVC C1001.
-// No gates/pins/Code were changed for this bank; never count it as recovery.
+// Native 12190..12C82 is 2802 B code; 20 B switch table follows before padding.
+// Retire both the 122 B head 12190 and the 2680 B tail 1220A only on full verification.
+// claude3 2026-10-20: forceinline __get_string(const wchar_t*)/__get_symbol, a
+// decl-only wide ~_String_base specialization, and _MoneyNameStorage owners for
+// __ns/__ps/__buf (inline free). 2764 B; first 0x23D bytes exact, edi prologue ok.
+// Residue: retail calls the wide dtor out of line at 13 sites (ternary temps x6,
+// __cs scope end, two early-exit groups) yet frees the same three names inline at
+// the final exit; ours inlines the named owners everywhere and outlines ~locale at
+// two early exits (retail: ~locale always inline). Handoff:
+// reverse/attempt_support/wide-money-get-string-12190-20261020/handoff.md
 /*
  * Copyright (c) 1999
  * Silicon Graphics Computer Systems, Inc.
@@ -226,7 +226,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
       string_type __cs = __intl ? __punct_intl.curr_symbol()
                                 : __punct.curr_symbol();
       pair<iter_type, bool>
-      __result  = __get_symbol(__s, __end, __cs.data(), __cs.data() + __cs.size());
+      __result  = __get_symbol(__s, __end, __cs.begin(), __cs.end());
       if (!__result.second && __symbol_required)
         __err = ios_base::failbit;
       __s = __result.first;
@@ -307,7 +307,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
   if (__is_positive) {
     if (__ps.size() > 1) {
       pair<_InputIter, bool>
-        __result = __get_string(__s, __end, __ps.data() + 1, __ps.data() + __ps.size());
+        __result = __get_string(__s, __end, ((const _MoneyNameStorage&)__ps).ref().begin() + 1, ((const _MoneyNameStorage&)__ps).ref().end());
       __s = __result.first;
       if (!__result.second)
 	__err |= ios::failbit;
@@ -318,7 +318,7 @@ template <> _MoneyIn money_get<wchar_t, _MoneyIn>::do_get(_MoneyIn __s, _MoneyIn
   else {
     if (__ns.size() > 1) {
       pair<_InputIter, bool>
-        __result = __get_string(__s, __end, __ns.data() + 1, __ns.data() + __ns.size());
+        __result = __get_string(__s, __end, ((const _MoneyNameStorage&)__ns).ref().begin() + 1, ((const _MoneyNameStorage&)__ns).ref().end());
       __s = __result.first;
       if (!__result.second)
 	__err |= ios::failbit;
