@@ -2,6 +2,8 @@
 // ?allocateShadowVolume@W3DVolumetricShadow@@IAE_NHHH@Z @0x000F185F 158B.
 // ?Create@Geometry@@QAEHHH@Z @0x000EFB99 172B.
 // ??0Geometry@@QAE@XZ @0x000F0F98 32B.
+// ?setBoundingBox@Geometry@@QAEXABVAABoxClass@@@Z @0x000F0FBD 8B.
+// ?setBoundingSphere@Geometry@@QAEXABVSphereClass@@@Z @0x000F0FC5 8B.
 //
 // W3DVolumetricShadow::allocateShadowVolume: makes sure a mesh has a
 // Geometry to build its shadow volume in, ORs in the caller's flags and,
@@ -46,6 +48,7 @@ class AABoxClass
 {
 public:
 	AABoxClass(void) {}
+	AABoxClass(const AABoxClass &box);
 	Vector3 Center;
 	Vector3 Extent;
 };
@@ -54,6 +57,7 @@ class SphereClass
 {
 public:
 	SphereClass(void) {}
+	SphereClass &operator=(const SphereClass &sphere);
 	Vector3 Center;
 	float Radius;
 };
@@ -122,6 +126,8 @@ struct Geometry
 	}
 	Int GetFlags (void) { return m_flags;}
 	void SetFlags (Int flags) { m_flags = flags;}
+	void setBoundingBox(const AABoxClass &box);
+	void setBoundingSphere(const SphereClass &sphere);
 
 private:
 	Vector3	*m_verts;
@@ -135,6 +141,18 @@ private:
 	SphereClass m_boundingSphere;
 	VisibleState	m_visibleState;
 };
+
+// Donor-carried setter names; target establishes the +0x1C/+0x34 copies.
+// The existing AABox copy-constructor fold supplies retail's box-copy call.
+void Geometry::setBoundingBox(const AABoxClass &box)
+{
+	m_boundingBox.AABoxClass::AABoxClass(box);
+}
+
+void Geometry::setBoundingSphere(const SphereClass &sphere)
+{
+	m_boundingSphere = sphere;
+}
 
 class W3DVolumetricShadow
 {
