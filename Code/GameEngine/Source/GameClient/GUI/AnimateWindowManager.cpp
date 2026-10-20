@@ -53,6 +53,14 @@
 #define __PLACEMENT_VEC_NEW_INLINE
 #include <list>		// BFME uses STLport node_alloc for AnimateWindow lists; include
 
+// Keep the existing allocator inline at these call sites without emitting
+// another out-of-line copy under this unit's compiler settings.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
+
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
 namespace _STL {

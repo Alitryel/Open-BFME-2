@@ -17,6 +17,14 @@
 // Bezier segment Rva0055A246) is not recovered yet; the creator calls it.
 #include <string.h>
 #include <list>
+
+// Keep the existing allocator inline at these call sites without emitting
+// another out-of-line copy under this unit's compiler settings.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 #include <vector>
 #include "ascii_string.h"
 
