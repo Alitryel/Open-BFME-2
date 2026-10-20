@@ -60,15 +60,6 @@ inline SimpleDynVecClass<Vector3>::SimpleDynVecClass(int size) :
 {
 }
 
-// LINK-OWNER anchor: this unit owns the SimpleDynVecClass<Vector3> ctor and
-// Resize rows; other units emit them inline, so the owner must also emit
-// select-any (inline) copies. Qualified calls force emission (Resize is
-// virtual, so a plain call would not emit the copy).
-#pragma inline_depth(0)
-// ?bfmeEmitsimplevec_vector3_dtor@@YAXPAV?$SimpleDynVecClass@VVector3@@@@@Z present-unmatched
-void bfmeEmitsimplevec_vector3_dtor(SimpleDynVecClass<Vector3> *p)
-{
-	p->SimpleDynVecClass<Vector3>::SimpleDynVecClass(0);
-	p->SimpleDynVecClass<Vector3>::Resize(0);
-}
-#pragma inline_depth()
+// Emit the owned constructor and Resize as select-any template bodies.
+template SimpleDynVecClass<Vector3>::SimpleDynVecClass(int size);
+template bool SimpleDynVecClass<Vector3>::Resize(int newsize);
