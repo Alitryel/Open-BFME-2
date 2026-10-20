@@ -41,6 +41,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(un
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?clear@?$_List_base@UupgradePair@@V?$allocator@UupgradePair@@@_STL@@@_STL@@QAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct upgradePair;
+namespace _STL { template <> void _List_base<upgradePair,allocator<upgradePair> >::clear(); }
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
