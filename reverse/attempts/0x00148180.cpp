@@ -1,21 +1,25 @@
 // ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
-// partial score=0.8151662527307312 date=2026-10-16
+// partial score=0.9973 date=2026-10-20
+// ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
+// partial score=0.9973 date=2026-10-20 (escape closure visible + AppendLock device_lock; handoff reverse/attempt_support/148180-escape-20261020/readme.md)
 #if 0
 Prerequisite for this owner-context bank: generate TWO ISOLATED header copies;
 never modify the read-only reference. Run from the BFME2 root:
 python3 - <<'HEADER_TRIAL'
 from pathlib import Path
 src=Path('reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2')
-out=Path('build/w9-a1/148180/include');out.mkdir(parents=True,exist_ok=True)
-s=(src/'dx8vertexbuffer.h').read_text();s=s.replace('AppendLockClass(VertexBufferClass* vertex_buffer,unsigned start_index, unsigned index_range);','AppendLockClass(VertexBufferClass* vertex_buffer,unsigned start_index, unsigned index_range);\n AppendLockClass(VertexBufferClass*,unsigned,unsigned,int);');(out/'dx8vertexbuffer.h').write_text(s)
+out=Path('build/am/148180/include');out.mkdir(parents=True,exist_ok=True)
+s=(src/'dx8vertexbuffer.h').read_text();s=s.replace('AppendLockClass(VertexBufferClass* vertex_buffer,unsigned start_index, unsigned index_range);','AppendLockClass(VertexBufferClass* vertex_buffer,unsigned start_index, unsigned index_range);\n AppendLockClass(VertexBufferClass*,unsigned,unsigned,int);\n struct DevLockTag{} device_lock;');(out/'dx8vertexbuffer.h').write_text(s)
 s=(src/'meshgeometry.h').read_text();s=s.replace('Get_Vertex_Normal_Array(void);','Get_Vertex_Normal_Array(void);\n const Vector3 *Get_Vertex_Normal_Array(bool);');(out/'meshgeometry.h').write_text(s)
 HEADER_TRIAL
 The full owner body below uses the header copies before their include guards.
+AppendLockClass carries the 0xC-byte BFME layout (device_lock member, as
+VertexBufferLockClasses.cpp 0x1395B0): without it the frame is 4 bytes short.
 The append-lock copy MUST precede the matrix link headers; later inclusion
 silently retains the old three-argument class declaration.
 #endif
 // cl: /Ireference/shims/bfmeshader /FIshader.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
-#include "../../../../../build/w9-a1/148180/include/dx8vertexbuffer.h"
+#include "../../../../../build/am/148180/include/dx8vertexbuffer.h"
 // Bind the UV accessor to the separately matched native D1F40 owner.
 #define BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
 // Keep native color-array calls bound to the separately matched D1FBD owner.
@@ -48,7 +52,7 @@ template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array
 //#define ENABLE_CATEGORY_LOG
 //#define ENABLE_STRIPING
 
-#include "../../../../../build/w9-a1/148180/include/meshgeometry.h"
+#include "../../../../../build/am/148180/include/meshgeometry.h"
 #include "dx8renderer.h"
 #include "dx8wrapper.h"
 // Zero Hour's dx8polygonrenderer.h class, with Render and Render_Sorted
@@ -761,7 +765,26 @@ class Vertex_Split_Table
 	bool allocated_polygon_array;
 
 public:
- Vertex_Split_Table(MeshModelClass* mmc_);
+	Vertex_Split_Table(MeshModelClass* mmc_)
+		:
+		mmc(mmc_),
+		npatch_enable(false),
+		allocated_polygon_array(false)
+	{
+		if (DX8Wrapper::Get_Current_Caps()->Support_NPatches() && mmc->Needs_Vertex_Normals()) {
+			if (mmc->Get_Flag(MeshGeometryClass::ALLOW_NPATCHES)) {
+				npatch_enable=true;
+			}
+		}
+
+		polygon_count=mmc->Get_Polygon_Count();
+		allocated_polygon_array=true;
+		polygon_array=W3DNEWARRAY TriIndex[polygon_count];
+		memcpy(
+			polygon_array,
+			mmc->Get_Polygon_Array(),
+			mmc->Get_Polygon_Count()*sizeof(TriIndex));
+	}
 
 	~Vertex_Split_Table()
 	{
@@ -777,18 +800,11 @@ public:
 
 	const Vector3* Get_Vertex_Normal_Array() const
 	{
-		return mmc->Get_Vertex_Normal_Array();
+		return mmc->Get_Vertex_Normal_Array(false);
 	}
 
-	const unsigned* Get_Color_Array(unsigned index) const
-	{
-		return mmc->Get_Color_Array(index,false);
-	}
-
-	const Vector2* Get_UV_Array(unsigned uv_array_index) const
-	{
-		return mmc->Get_UV_Array_By_Index(uv_array_index);
-	}
+	const unsigned* Get_Color_Array(unsigned index) const;
+	const Vector2* Get_UV_Array(unsigned uv_array_index) const;
 
 	unsigned Get_Vertex_Count() const
 	{
@@ -971,6 +987,8 @@ struct AddMeshMatView
 ;
 
 static AddMeshMatView *addMeshMaterial(MeshModelClass *m){return *(AddMeshMatView**)((char*)m+0x94);}
+inline const unsigned* Vertex_Split_Table::Get_Color_Array(unsigned index) const{return addMeshMaterial(mmc)->Get_Color_Array(index,false);}
+inline const Vector2* Vertex_Split_Table::Get_UV_Array(unsigned uv_array_index) const{return addMeshMaterial(mmc)->Get_UV_Array_By_Index(uv_array_index,false);}
 
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -979,7 +997,6 @@ typedef char AddMeshVBSize[(sizeof(BfmeDynamicNativeVB)==32)?1:-1];
 void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
 {
  Vertex_Split_Table split_table(mmc_);
- MeshModelClass *model=split_table.Get_Mesh_Model_Class();
  int needed_vertices=split_table.Get_Vertex_Count();
  if(!vertex_buffer)
  {
@@ -989,17 +1006,17 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
   else vertex_buffer=(VertexBufferClass*)new BfmeDynamicNativeVB(FVF,vb_size,(DX8Wrapper::Get_Current_Caps()->Support_NPatches() && WW3D::Get_NPatches_Level()>1)?4:0,0);
 
  }
- VertexBufferClass::AppendLockClass l((VertexBufferClass*)vertex_buffer,used_vertices,model->Get_Vertex_Count(),0);
+ VertexBufferClass::AppendLockClass l((VertexBufferClass*)vertex_buffer,used_vertices,split_table.Get_Vertex_Count(),0);
 
  const S2FVFInfo fi=((BfmeDynamicVBBase*)vertex_buffer)->FVF_Info();
  unsigned char *vb=(unsigned char*)l.Get_Vertex_Array();
 
  unsigned int i;
  const Vector3 *locs=split_table.Get_Vertex_Array();
- const Vector3 *norms=model->Get_Vertex_Normal_Array(false);
- const unsigned *diffuse=addMeshMaterial(model)->Get_Color_Array(0,false);
- const unsigned *specular=addMeshMaterial(model)->Get_Color_Array(1,false);
- for(i=0;i<model->Get_Vertex_Count();++i)
+ const Vector3 *norms=split_table.Get_Vertex_Normal_Array();
+ const unsigned *diffuse=split_table.Get_Color_Array(0);
+ const unsigned *specular=split_table.Get_Color_Array(1);
+ for(i=0;i<split_table.Get_Vertex_Count();++i)
  {
   *(Vector3*)(vb+fi.Get_Location_Offset())=locs[i];
   if((FVF&0x10)==0x10 && norms)*(Vector3*)(vb+fi.Get_Normal_Offset())=norms[i];
@@ -1022,8 +1039,8 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
  for(int j=0;j<uvcount;++j)
  {
   unsigned char *vb=(unsigned char*)l.Get_Vertex_Array();
-  const Vector2 *uvs=addMeshMaterial(model)->Get_UV_Array_By_Index(j,false);
-  if(uvs)for(i=0;i<model->Get_Vertex_Count();++i)
+  const Vector2 *uvs=split_table.Get_UV_Array(j);
+  if(uvs)for(i=0;i<split_table.Get_Vertex_Count();++i)
   {
    *(Vector2*)(vb+fi.Get_Tex_Offset(j))=uvs[i];
    vb+=fi.Get_FVF_Size();
@@ -1069,6 +1086,12 @@ struct Textures_Material_And_Shader_Booking_Struct
 		return true;
 	}
 };
+
+int g_ittc_probe;
+void DX8FVFCategoryContainer::Insert_To_Texture_Category(Vertex_Split_Table& split_table,TextureClass** texs,VertexMaterialClass* mat,ShaderClass shader,int pass,unsigned vertex_offset)
+{
+	g_ittc_probe+=split_table.Get_Polygon_Count()+pass;
+}
 
 // ?Generate_Texture_Categories@DX8FVFCategoryContainer@@ present-unmatched
 void DX8FVFCategoryContainer::Generate_Texture_Categories(Vertex_Split_Table& split_table,unsigned vertex_offset)

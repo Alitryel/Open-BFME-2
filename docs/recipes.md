@@ -112,6 +112,16 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 
 ## Frames, stores and locals
 
+- **A local object's fields held across calls: give every receiver of its
+  address a body in the TU.** cl 7.1 does intra-TU escape analysis: when
+  `&obj` reaches only functions defined in the same TU (in any order) that do
+  not leak it, calls do not kill `obj`'s fields, which then stay in
+  callee-saved registers. One declared-only receiver (ctor, `T&` method)
+  reloads them after every call. Flags, `const` and member qualifiers do not
+  reproduce this. Add_Mesh 0x00148180 went from 0.8152 to 0.9973 (with a
+  missing `device_lock` member in AppendLockClass); landing it means rehoming
+  the receivers' rows into the caller's TU:
+  `reverse/attempt_support/148180-escape-20261020/readme.md`.
 - **Outgoing ESP save without an EH frame: test the caller's nonthrowing
   contract.** Loader 0x000AB96D needed EH-enabled compilation to emit the
   stack save before its by-value ownership copy, but ordinary EH-enabled
