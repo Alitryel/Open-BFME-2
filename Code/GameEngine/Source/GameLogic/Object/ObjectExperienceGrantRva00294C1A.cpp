@@ -1,4 +1,4 @@
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
+// ?rva00294C1A@Object@@QAEXPAV1@_NM@Z
 // cl: /I. /O1 /G7 /arch:SSE /MD
 // Retail Object gap: the existing 0x00294C1A pin and BloodthirstyUpdate
 // caller prove the Object receiver and victim/bool/float ABI. ZH Object.cpp
@@ -172,7 +172,7 @@ class Weapon { public: char pad[4]; Rva002C9400ByteField *info; };
 struct ObjectExperienceTemplate { char pad[0x11f]; unsigned char flags11f; };
 class Object {
 public:
- void rva00294C1A(ObjectExperienceVictim,ObjectExperienceFlag,float);
+ void rva00294C1A(Object *,bool,float);
  bool rva0029493F(Object *,int);
  int rva002957FC();
  bool canCrushOrSquishNoAlly(Object *,int);
@@ -196,7 +196,9 @@ private:
 // The unions model reuse of four-byte argument slots, as in the BFME1
 // Rva001C9380Object donor at 9cbfb551fe20dae985f91f2319d8997287b6a705.
 // This raw ABI view preserves the pre-existing pointer/bool/float call ABI.
-void Object::rva00294C1A(ObjectExperienceVictim victim,ObjectExperienceFlag flag,float scale) {
+void Object::rva00294C1A(Object *victimObject,bool flagArg,float scale) {
+ ObjectExperienceVictim &victim=*(ObjectExperienceVictim*)&victimObject;
+ ObjectExperienceFlag &flag=*(ObjectExperienceFlag*)&flagArg;
  if (tracker && ((Rva0039ADF3*)tracker)->rva0039AE04()) {
   if (victim.object->testStatus(STATUS_CONSTRUCTION)) return;
   victim.points=((Rva0039ACBD*)victim.object->tracker)->rva0039ACBD(this,flag.flag)*scale;
