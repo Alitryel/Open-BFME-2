@@ -9,8 +9,8 @@
 // Each T is declared minimally (declared-only copy ctor, matching the
 // struct/class-ness of its rowed copy ctor); no member is ever touched, so
 // the emitted code is identical apart from the callee. Ledger names use the
-// true _Construct<T> object symbol where it is still unspent, else a dup_
-// name with an object-symbol note like 0x0002C485.
+// genuine _Construct<T> object symbol for its established owner. Distinct
+// native copies have typed address-derived owners; application names remain unknown.
 
 #include <memory>
 #include "ascii_string.h"
@@ -74,16 +74,10 @@ public:
 template void _STL::_Construct<TreeKey00242F5E, TreeKey00242F5E>(TreeKey00242F5E *, const TreeKey00242F5E &);
 template void _STL::_Construct<GeometryInfo, GeometryInfo>(GeometryInfo *, const GeometryInfo &);
 template void _STL::_Construct<FXList, FXList>(FXList *, const FXList &);
-template void _STL::_Construct<BfmeStringRecord00239B46, BfmeStringRecord00239B46>(BfmeStringRecord00239B46 *, const BfmeStringRecord00239B46 &);
-template void _STL::_Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
 template void _STL::_Construct<Rva0052BEF0, Rva0052BEF0>(Rva0052BEF0 *, const Rva0052BEF0 &);
 template void _STL::_Construct<Rva0052BD59, Rva0052BD59>(Rva0052BD59 *, const Rva0052BD59 &);
 template void _STL::_Construct<Rva0052BE33, Rva0052BE33>(Rva0052BE33 *, const Rva0052BE33 &);
 template void _STL::_Construct<Rva0052BDE6, Rva0052BDE6>(Rva0052BDE6 *, const Rva0052BDE6 &);
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?dup_00382BC3@@YAXXZ=??$_Construct@UTreeKey00242F5E@@U1@@_STL@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
 
 // Native unsigned-key/string map: subscript136A21 -> hint136777 ->
 // insert136642/1364F7 -> node1364AC -> Construct13623C. The subscript
@@ -101,3 +95,69 @@ template void _STL::_Construct<UnsignedAsciiPair, UnsignedAsciiPair>(UnsignedAsc
 // The genuine pair copy folds onto CF475; TreeKeyA7876 keeps its own identity.
 typedef _STL::pair<int, AsciiString> MutableAsciiPair;
 template void _STL::_Construct<MutableAsciiPair, MutableAsciiPair>(MutableAsciiPair *, const MutableAsciiPair &);
+
+// Distinct native placement-copy owners; original application names remain unknown.
+void Rva0023FC3EConstruct(BfmeStringRecord00239B46 *dest, const BfmeStringRecord00239B46 &source)
+{
+    new (dest) BfmeStringRecord00239B46(source);
+}
+
+void Rva0026061AConstruct(BfmeStringRecord005DDD40 *dest, const BfmeStringRecord005DDD40 &source)
+{
+    new (dest) BfmeStringRecord005DDD40(source);
+}
+
+void Rva000BBA47Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva000CF4D6Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva000D0469Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva002889E4Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva002927CBConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva0029FB9CConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva002A8C17Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva00382BC3Construct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva004634DCConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva0048C81FConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source)
+{
+    new (dest) TreeKey00242F5E(source);
+}
+
+void Rva003814A6Construct(BfmeStringRecord005DDD40 *dest, const BfmeStringRecord005DDD40 &source)
+{
+    new (dest) BfmeStringRecord005DDD40(source);
+}
