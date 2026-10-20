@@ -1,4 +1,6 @@
 // ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
+// partial score=0.98 date=2026-10-20
+// ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
 // partial score=0.61 date=2026-10-19
 // ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
 // partial score=0.7 date=2026-10-08
@@ -8,11 +10,17 @@
 // meshgeometry.cpp1944 proves vertex welding, directed edge pairing and
 // all three geometry diagnostics. Existing address-derived call view retained.
 // Scratch reconstruction: template callee folds still require verification.
+// WB-literal form: per-triangle row pointer, welded indices re-read into each edge key,
+// a float-staged position converted by the key constructor, inline Get_Name in the reports.
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
 #include <vector>
 #include <hash_map>
-struct Gen_p12pod { int a[3]; };
+struct VertexPosition { float x,y,z; };
+struct Gen_p12pod {
+ Gen_p12pod(const VertexPosition &p) { a[0]=int(p.x); a[1]=int(p.y); a[2]=int(p.z); }
+ int a[3];
+};
 inline bool compare_tail(const Gen_p12pod &a,const Gen_p12pod &b) {
  const int a1=a.a[1]; return b.a[1]>a1 || (!(b.a[1]<a1)&&a.a[2]<b.a[2]);
 }
@@ -45,14 +53,18 @@ struct MeshGeometrySlot64Element_00923F70 { unsigned char Data[16]; };
 template<class T> class ShareBufferClass {
 public:
  void Resize(int);
+ T *Get_Array() { return Array; }
+ int Get_Count() { return Count; }
  void *vptr;
  int references;
  T *RawBuffer,*Array;
  int Count,Alignment;
 };
 struct EdgeRecord { int vertex1,vertex2,triangle1,triangle2; };
-struct VertexPosition { float x,y,z; };
-struct TriangleIndices { unsigned short vertex[3]; };
+struct TriangleIndices {
+ unsigned short vertex[3];
+ unsigned short &operator[](int n) { return vertex[n]; }
+};
 class Debug {
 public:
  virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0c();
@@ -67,10 +79,11 @@ public:
 extern Debug *theDebug;
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int);
-#define GEOMETRY_REPORT(message) if(bfmeRva000387C0()) { _bfme_debugRecordCallsite(1); theDebug->slot60(); theDebug->slot6c(0,0,0).slot38("Geometry for model ").slot38(MeshName?MeshName->Array:0).slot38(message).slot4c(2); }
+#define GEOMETRY_REPORT(message) if(bfmeRva000387C0()) { _bfme_debugRecordCallsite(1); theDebug->slot60(); theDebug->slot6c(0,0,0).slot38("Geometry for model ").slot38(Get_Name()).slot38(message).slot4c(2); }
 class Rva0016E450Source {
 public:
  void *rva0016E450(int *edgeCount);
+ const char *Get_Name() { return MeshName ? MeshName->Get_Array() : 0; }
  char prefix[0x10];
  ShareBufferClass<char> *MeshName;
  char gap14[0x24-0x14];
@@ -80,79 +93,75 @@ public:
  char gap34[0x5c-0x34];
  ShareBufferClass<MeshGeometrySlot64Element_00923F70> *Edges;
 };
+// Welds vertices on positions quantized to 1/100, pairs each directed edge with its
+// reverse through a hash table and caches the edge list; the three reports flag meshes unfit for shadows.
 void *Rva0016E450Source::rva0016E450(int *edgeCount)
 {
  if(!Edges||!PolyCount||!VertexCount) { *edgeCount=0; return 0; }
- if(Edges->Count) { *edgeCount=Edges->Count; return Edges->Array; }
+ if(Edges->Get_Count()) { *edgeCount=Edges->Get_Count(); return Edges->Get_Array(); }
  Edges->Resize(PolyCount*3/2);
- EdgeRecord *output=(EdgeRecord*)Edges->Array;
+ EdgeRecord *edge=(EdgeRecord*)Edges->Get_Array();
  _STL::vector<int> vertexMap;
  {
   _STL::map<Gen_p12pod,int> welded;
-  VertexPosition *vertices=Vertices->Array;
-  for(int i=0;i<VertexCount;++i) {
-   int x=int(float(int(vertices[i].x*100.0f)));
-   int y=int(float(int(vertices[i].y*100.0f)));
-   int z=int(float(int(vertices[i].z*100.0f)));
-   Gen_p12pod key={x,y,z};
-   _STL::map<Gen_p12pod,int>::iterator found=welded.find(key);
+  VertexPosition *vertex=Vertices->Get_Array();
+  for(int i=0;i<VertexCount;i++,vertex++) {
+   VertexPosition pos;
+   pos.x=int(vertex->x*100.0f);
+   pos.y=int(vertex->y*100.0f);
+   pos.z=int(vertex->z*100.0f);
+   _STL::map<Gen_p12pod,int>::iterator found=welded.find(Gen_p12pod(pos));
    if(found==welded.end()) {
-    int id=welded.size();
-    vertexMap.push_back(id);
-    Gen_p12pod keyForInsert={x,y,z};
-    welded[keyForInsert]=id;
+    vertexMap.push_back(welded.size());
+    welded[Gen_p12pod(pos)]=welded.size();
    } else vertexMap.push_back(found->second);
   }
  }
  Rva0016E400 edgeTable;
- TriangleIndices *polys=Polys->Array;
- bool warned=false;
- for(int i=0;i<PolyCount;++i) {
-  for(int j=0;j<3;++j) {
-   int a=vertexMap[polys[i].vertex[j]];
-   int b=vertexMap[polys[i].vertex[(j+1)%3]];
-   if(a>b) {
-    Rva00928590Key key(a,b);
-    if(!warned&&edgeTable.table.find(key)!=edgeTable.table.end()) {
+ TriangleIndices *poly=Polys->Get_Array();
+ bool shared=false;
+ for(int i=0;i<PolyCount;i++,poly++) {
+  for(int j=0;j<3;j++) {
+   if(vertexMap[(*poly)[j]]>vertexMap[(*poly)[(j+1)%3]]) {
+    Rva00928590Key key(vertexMap[(*poly)[j]],vertexMap[(*poly)[(j+1)%3]]);
+    if(!shared&&edgeTable.table.find(key)!=edgeTable.table.end()) {
      GEOMETRY_REPORT(" shares an edge with more than two triangles, this will cause shadow bugs.");
-     warned=true;
+     shared=true;
     }
     edgeTable.table[key]=i;
    }
   }
  }
- polys=Polys->Array;
  int count=0;
- warned=false;
- for(int i=0;i<PolyCount;++i) {
-  for(int j=0;j<3;++j) {
-   int a=vertexMap[polys[i].vertex[j]];
-   int b=vertexMap[polys[i].vertex[(j+1)%3]];
-   if(a<b) {
-    Rva00928590Key key(b,a);
+ bool unpaired=false;
+ poly=Polys->Get_Array();
+ for(int i=0;i<PolyCount;i++,poly++) {
+  for(int j=0;j<3;j++) {
+   if(vertexMap[(*poly)[j]]<vertexMap[(*poly)[(j+1)%3]]) {
+    Rva00928590Key key(vertexMap[(*poly)[(j+1)%3]],vertexMap[(*poly)[j]]);
     EdgeMap::iterator found=edgeTable.table.find(key);
     if(found==edgeTable.table.end()) {
-     if(!warned) {
+     if(!unpaired) {
       GEOMETRY_REPORT(" contains at least one triangle that doesn't share an edge with another triangle.\nShadow bugs will occur.");
-      warned=true;
+      unpaired=true;
      }
-    } else if(count>=Edges->Count) warned=true;
+    } else if(count>=Edges->Get_Count()) unpaired=true;
     else {
-     output->vertex1=polys[i].vertex[j];
-     output->vertex2=polys[i].vertex[(j+1)%3];
-     output->triangle1=i;
-     output->triangle2=found->second;
-     ++output;
-     ++count;
+     edge->vertex1=(*poly)[j];
+     edge->vertex2=(*poly)[(j+1)%3];
+     edge->triangle1=i;
+     edge->triangle2=found->second;
+     edge++;
+     count++;
     }
    }
   }
  }
- if(count!=PolyCount*3/2||warned) {
+ if(count!=PolyCount*3/2||unpaired) {
   GEOMETRY_REPORT(" is not a valid shadow caster, it may contain T-junctions or not be closed. Shadow bugs are more than likely.");
-  if(count==0) { output->vertex1=0; output->vertex2=0; output->triangle1=0; output->triangle2=0; count=1; }
+  if(count==0) { edge->triangle2=0; edge->triangle1=0; edge->vertex2=0; edge->vertex1=0; count++; }
   Edges->Resize(count);
  }
- *edgeCount=Edges->Count;
- return Edges->Array;
+ *edgeCount=Edges->Get_Count();
+ return Edges->Get_Array();
 }
