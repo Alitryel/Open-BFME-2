@@ -1,18 +1,13 @@
-// ?rva00398E9A@CastleBehavior@@QAEXXZ
-// partial score=0.951049 date=2026-10-19
-// cl: /O1 /G7 /arch:SSE /EHs /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
-// ?rva00398E9A@CastleBehavior@@QAEXXZ
-// partial score=0.813 date=2026-10-17
-// ?rva00398E9A@CastleBehavior@@QAEXXZ
-// partial score=0.9 date=2026-10-15
-// ?rva00398E9A@CastleBehavior@@QAEXXZ
-// partial score=0.898 date=2026-10-15
-// ?rva00398E9A@CastleBehavior@@QAEXXZ
-// partial score=0.870247 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00398E9A@CastleBehavior@@QAEXXZ, retail 0x00398E9A (715 B). WB twin 0xEC0150: single exit
+// (one destructor copy of the vector/set at StackPacking), SetBit through a one-level inline set()
+// wrapper in the twin's order (the four ORs survive to packing and merge into one byte OR afterwards),
+// and the twin's scoring statements through inline accessors.
 // stlport
+#define free bfmeUnusedCRTFree
+#include <stdlib.h>
+#undef free
+void __cdecl free(void *);
 #include <vector>
 #include <set>
 #include <string.h>
@@ -20,19 +15,20 @@ extern "C" void _ReadWriteBarrier(void);
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 class Player;
 class Team;
-class ThingTemplate {public:char pad[0x618];int weight;};
+class ThingTemplate {public:int getWeight() const{return weight;}char pad[0x618];int weight;};
 class Rva0028BAC0Host {public:void rva0028BAC0();};
-class Object {public:void rva0028BAC0();Player *getControllingPlayer() const;void setTeam(Team*);void rva0028DCC4();void rva0028D253();char pad[4];ThingTemplate *type;char pad8[0x38-8];Coord3D pos;char pad44[0x304-0x44];Team *team;};
+class Object {public:const ThingTemplate *getTemplate() const{return type;}void rva0028BAC0();Player *getControllingPlayer() const;void setTeam(Team*);void rva0028DCC4();void rva0028D253();char pad[4];ThingTemplate *type;char pad8[0x38-8];Coord3D pos;char pad44[0x304-0x44];Team *team;};
 enum Relationship {ENEMY=0,NEUTRAL=1,ALLY=2};
-class Player {public:Relationship getRelationship(const Team*) const;char pad[0x54];int index;char pad58[4];void *state;char pad60[0x2ec-0x60];Team *team;};
+class Player {public:void *getState() const{return state;}int getIndex() const{return index;}Relationship getRelationship(const Team*) const;char pad[0x54];int index;char pad58[4];void *state;char pad60[0x2ec-0x60];Team *team;};
 enum NameKeyType {INVALID_KEY=0};
 class NameKeyGenerator {public:NameKeyType nameToKey(const char*);}; extern NameKeyGenerator *TheNameKeyGenerator;
 class PlayerList {public:Player* findPlayerWithNameKey(NameKeyType);Player*getNthPlayer(int);};extern PlayerList *ThePlayerList;
-class GameLogic {public:char pad[0x40];unsigned frame;};extern GameLogic *TheGameLogic;
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 extern PartitionManager *ThePartitionManager;
 class Rva000421C8 {public:Rva000421C8():next(0){}virtual ~Rva000421C8(){}virtual bool allow(Object*)=0;virtual int getPlayerMask(){return -1;}Rva000421C8 *link(Rva000421C8*);Rva000421C8 *next;};
 class Rva0026119DFilter:public Rva000421C8 {public:virtual bool allow(Object*);};
-class BfmeFixedStorage0004543D {public:BfmeFixedStorage0004543D(){memset(words,0,sizeof(words));}BfmeFixedStorage0004543D(int,int) throw();BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D&) throw();unsigned words[7];};
+class BfmeFixedStorage0004543D {public:void SetBit(unsigned bit){words[bit>>5]|=1<<(bit&31);} void set(int i){SetBit(i);}BfmeFixedStorage0004543D(){memset(words,0,sizeof(words));}BfmeFixedStorage0004543D(int,int) throw();BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D&) throw();unsigned words[7];};
 extern unsigned char g_00DFEFA4StoragePrototype[28];
 class Rva00045411BitSet:public BfmeFixedStorage0004543D{public:Rva00045411BitSet(int,int) throw();};
 class Rva003959FA:public Rva000421C8 {public:Rva003959FA(const BfmeFixedStorage0004543D&) throw();virtual bool allow(Object*);BfmeFixedStorage0004543D mask;};
@@ -52,7 +48,7 @@ void CastleBehavior::rva00398E9A(){
  if(d->radius<=0.0f || d->disabled)return;
  Coord3D pos;
  pos.x=object->pos.x;pos.y=object->pos.y;pos.z=object->pos.z;
- BfmeFixedStorage0004543D flags;flags.words[0]|=0xf00;
+ BfmeFixedStorage0004543D flags;flags.set(8);flags.set(10);flags.set(11);flags.set(9);
  BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&pos,d->radius,0,
   PartitionFilterRejectByKindOf(Rva00045411BitSet(0,127),*(BfmeFixedStorage0004543D*)g_00DFEFA4StoragePrototype).link(Rva003959FA(flags).link(&Rva0026119DFilter())),0);
  int initial=-1;_STL::vector<int> weights(20U,initial);
@@ -68,32 +64,23 @@ void CastleBehavior::rva00398E9A(){
    if(player->getRelationship(other->team)!=ALLY){hostile=true;break;}
   }
   players.insert(entry);
-  // Keep the state and index values live while forming the weight address.
-  void *state=player->state;
-  int value=state==0?2:1;
-  int index=player->index;
-  int &weight=weights[index];
-  if(weight<0)weight=value;
-  weight+=value;
-  _ReadWriteBarrier();
-  int scaled=value*candidate->type->weight;
-  weight+=scaled;
+  int value=player->getState()==0?2:1;
+  int index=player->getIndex();
+  if(weights[index]<0)weights[index]=value;
+  weights[index]+=value;
+  weights[index]+=candidate->getTemplate()->getWeight()*value;
  }
  int largest=-1;int chosen=largest;
  for(int i=0;i<20;++i){if(weights[i]>largest){chosen=i;largest=weights[i];}}
- Team *team;
- Player *player;
- if(chosen!=-1 && (player=ThePlayerList->getNthPlayer(chosen)) && !hostile){
-  team=player->team;
-  if(team==object->team)return;
-  if(((Rva00397EAC*)this)->isPlayerAllowedToCapture(player,2)){object->setTeam(team);object->rva0028BAC0();object->rva0028DCC4();object->rva0028D253();}
-  return;
- }else{
-  if(TheGameLogic->frame<=5 || !civilian || civilian==object->getControllingPlayer() || !civilian->team)return;
-  team=civilian->team;
+ Player *player=0;
+ if(chosen!=-1)player=ThePlayerList->getNthPlayer(chosen);
+ if(player && !hostile){
+  Team *team=player->team;
+  if(team!=object->team && ((Rva00397EAC*)this)->isPlayerAllowedToCapture(player,2)){
+   object->setTeam(team);object->rva0028BAC0();object->rva0028DCC4();object->rva0028D253();
+  }
+ }else if(TheGameLogic->getFrame()>5 && civilian && civilian!=object->getControllingPlayer()){
+  Team *team=civilian->team;
+  if(team){object->setTeam(team);object->rva0028BAC0();object->rva0028DCC4();object->rva0028D253();}
  }
- object->setTeam(team);
- object->rva0028BAC0();
- object->rva0028DCC4();
- object->rva0028D253();
 }
