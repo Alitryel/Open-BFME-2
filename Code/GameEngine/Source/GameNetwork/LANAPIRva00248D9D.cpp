@@ -101,7 +101,7 @@ public:
 	virtual void slot35() = 0;
 	virtual void slot36() = 0;
 	virtual void slot37() = 0;
-	virtual void rva00248D9D(const BfmeNetAddress *address, Bool flag);
+	virtual void OnAccept(const BfmeNetAddress *address, Bool flag);
 	virtual void slot39() = 0;
 	virtual void slot40() = 0;
 	virtual void slot41() = 0;
@@ -132,7 +132,7 @@ protected:
 	Rva00447773 *m_holder;
 };
 
-void LANAPI::rva00248D9D(const BfmeNetAddress *address, Bool flag)
+void LANAPI::OnAccept(const BfmeNetAddress *address, Bool flag)
 {
 	if (!slot54())
 		return;

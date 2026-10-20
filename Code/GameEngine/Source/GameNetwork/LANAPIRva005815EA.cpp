@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva005815EA@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x005815EA, 87 bytes.
+// ?handleSetAccept@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x005815EA, 87 bytes.
 // Chain via BfmeNetAddress compare 0x00248CBF plus LANAPI m_inLobby +0x41 plus
 // m_currentGame +0x44 plus game flag +0x11 plus 8 slots stride 0x1D0 with address
 // at slot+0 plus virtual slot 38 (0x98) with msg+0x40 byte.
@@ -79,7 +79,7 @@ public:
 	virtual void slot36() = 0;
 	virtual void slot37() = 0;
 	virtual void slot38(const BfmeNetAddress *addr, UnsignedByte val) = 0;
-	void rva005815EA(LANMessage *msg, const BfmeNetAddress *addr);
+	void handleSetAccept(LANMessage *msg, const BfmeNetAddress *addr);
 
 private:
 	UnsignedByte m_pad04[0x41 - 4];
@@ -88,7 +88,7 @@ private:
 	LANGame *m_currentGame;
 };
 
-void LANAPI::rva005815EA(LANMessage *msg, const BfmeNetAddress *addr)
+void LANAPI::handleSetAccept(LANMessage *msg, const BfmeNetAddress *addr)
 {
 	if (m_inLobby != 0)
 		return;

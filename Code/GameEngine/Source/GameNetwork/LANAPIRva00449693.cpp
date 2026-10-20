@@ -64,7 +64,7 @@ template <> class VSlots<0>
 class LANAPI : public VSlots<23>
 {
 public:
-	virtual void rva00449693( Bool arg );
+	virtual void RequestGameStart( Bool arg );
 	virtual void slot24( void ) = 0;
 	virtual void slot25( void ) = 0;
 	virtual void slot26( void ) = 0;
@@ -129,7 +129,7 @@ void Rva0044802D( char *buffer, Int size )
 		memset( buffer, 0, size );
 }
 
-void LANAPI::rva00449693( Bool arg )
+void LANAPI::RequestGameStart( Bool arg )
 {
 	if( m_inLobby || !m_currentGame )
 		return;

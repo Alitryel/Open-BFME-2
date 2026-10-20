@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // Retail 0x00449745, 167 bytes. LANAPI vtable slot 24 (vtable 0x0083E680,
 // class of ??1LANAPI@@UAE@XZ).
-// ?rva00449745@LANAPI@@UAEXI@Z
+// ?RequestGameStartTimer@LANAPI@@UAEXI@Z
 // Honest address name: __thiscall (ret 4: one UnsignedInt). Bails when flag
 // +0x41 is set or holder +0x44 is null; bails when the key at holder+0x114
 // differs from virtual slot64 via rowed Rva00248CDD compare; else stamps
@@ -84,7 +84,7 @@ public:
 	virtual void slot21() = 0;
 	virtual void slot22() = 0;
 	virtual void slot23() = 0;
-	virtual void rva00449745(UnsignedInt arg);
+	virtual void RequestGameStartTimer(UnsignedInt arg);
 	virtual void slot25() = 0;
 	virtual void slot26() = 0;
 	virtual void slot27() = 0;
@@ -139,7 +139,7 @@ protected:
 	Transport *m_transport;
 };
 
-void LANAPI::rva00449745(UnsignedInt arg)
+void LANAPI::RequestGameStartTimer(UnsignedInt arg)
 {
 	if (m_flag41 != 0)
 		return;

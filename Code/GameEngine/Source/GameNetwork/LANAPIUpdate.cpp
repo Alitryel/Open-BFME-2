@@ -542,9 +542,9 @@ protected:
 	void handleRequestLocations( LANMessage *msg, const BfmeNetAddress *sender );
  void handleRequestJoin(LANMessage*,const BfmeNetAddress*);
  public:
- void rva005815EA(LANMessage*,const BfmeNetAddress*);
+ void handleSetAccept(LANMessage*,const BfmeNetAddress*);
  void rva00581641(LANMessage*,const BfmeNetAddress*);
- void rva005816A3(LANMessage*,const BfmeNetAddress*);
+ void handleGameStartTimer(LANMessage*,const BfmeNetAddress*);
  void rva00582138(LANMessage*,const BfmeNetAddress*);
  void rva005816E3(LANMessage*,const BfmeNetAddress*);
 
@@ -613,13 +613,13 @@ void LANAPI::update() {
     case 8:flag=true;
     case 6:handleRequestGameLeave(msg,&sender,flag);break;
     case 7:handleRequestLobbyLeave(msg,&sender);break;
-    case 9:rva005815EA(msg,&sender);break;
+    case 9:handleSetAccept(msg,&sender);break;
     case 10:handleHasMap(msg,&sender);break;
     case 11:handleChat(msg,&sender);break;
     case 12:rva00581641(msg,&sender);break;
     case 13:handleGameOptions(msg,&sender,false);break;
     case 14:handleGameOptions(msg,&sender,true);break;
-    case 15:rva005816A3(msg,&sender);break;
+    case 15:handleGameStartTimer(msg,&sender);break;
     case 16:rva00582138(msg,&sender);break;
     case 17:handleInActive(msg,&sender);break;
     case 19:rva005816E3(msg,&sender);break;

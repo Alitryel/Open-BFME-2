@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva005816A3@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x005816A3, 64 bytes.
+// ?handleGameStartTimer@LANAPI@@QAEXPAULANMessage@@PBUBfmeNetAddress@@@Z, retail 0x005816A3, 64 bytes.
 // Chain via BfmeNetAddress compare 0x00248CBF plus LANAPI m_inLobby +0x41 plus
 // m_currentGame +0x44 plus game flag +0x11 plus slot0 address +0x114 plus
 // virtual slot 44 (0xB0) with msg+0x1E dword.
@@ -84,7 +84,7 @@ public:
 	virtual void slot42() = 0;
 	virtual void slot43() = 0;
 	virtual void slot44(UnsignedInt val) = 0;
-	void rva005816A3(LANMessage *msg, const BfmeNetAddress *addr);
+	void handleGameStartTimer(LANMessage *msg, const BfmeNetAddress *addr);
 
 private:
 	UnsignedByte m_pad04[0x41 - 4];
@@ -93,7 +93,7 @@ private:
 	LANGame *m_currentGame;
 };
 
-void LANAPI::rva005816A3(LANMessage *msg, const BfmeNetAddress *addr)
+void LANAPI::handleGameStartTimer(LANMessage *msg, const BfmeNetAddress *addr)
 {
 	if (m_inLobby != 0)
 		return;

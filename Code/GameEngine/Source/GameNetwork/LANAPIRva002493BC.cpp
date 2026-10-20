@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Retail 0x002493BC, 116 bytes. LANAPI vtable slot 35 (vtable 0x0083E680,
 // class of ??1LANAPI@@UAE@XZ).
-// ?rva002493BC@LANAPI@@UAEXHVUnicodeString@@@Z
+// ?OnPlayerJoin@LANAPI@@UAEXHVUnicodeString@@@Z
 // Honest address name: __thiscall (ret 8: dead int plus by-value
 // UnicodeString, destroyed in the EH epilogue via rowed releaseBuffer).
 // Bails to the enable tail when holder +0x44 is null or when the address at
@@ -86,7 +86,7 @@ public:
 	virtual void slot32() = 0;
 	virtual void slot33() = 0;
 	virtual void slot34() = 0;
-	virtual void rva002493BC(int unused, UnicodeString arg);
+	virtual void OnPlayerJoin(int unused, UnicodeString arg);
 	virtual void slot36() = 0;
 	virtual void slot37() = 0;
 	virtual void slot38() = 0;
@@ -122,7 +122,7 @@ protected:
 	Holder44 *m_holder;
 };
 
-void LANAPI::rva002493BC(int unused, UnicodeString arg)
+void LANAPI::OnPlayerJoin(int unused, UnicodeString arg)
 {
 	Holder44 *holder = m_holder;
 	if (holder == 0)
