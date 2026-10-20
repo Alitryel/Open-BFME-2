@@ -1,4 +1,6 @@
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.99 date=2026-10-20
+// ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.99 date=2026-10-19
 // ?update@EmotionTrackerUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.99 date=2026-10-19
@@ -54,31 +56,17 @@
 #include "../../Code/Libraries/Include/Lib/Coord3D.h"
 #include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 
-// The lookup bodies are visible so the compiler knows they only read the map
-// and keeps the closest ID and the active nugget across the lookups.
-struct EmotionLookupNode { EmotionLookupNode *next; ObjectID key; Object *object; };
-struct EmotionLookupBuckets {
- EmotionLookupNode **begin,**end,**capacity;
- unsigned int size() const { return end-begin; }
- EmotionLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
-};
-struct EmotionLookupMap { unsigned char hashEqual[4]; EmotionLookupBuckets buckets; };
-inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
- EmotionLookupMap *map=(EmotionLookupMap*)this;
- unsigned int bucket=(unsigned int)id % map->buckets.size();
- EmotionLookupNode *node;
- for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
- return (ObjectIdNode*)node;
-}
-
+#include <hash_map>
+typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHash;
 inline Object *GameLogic::findObjectByID(ObjectID id)
 {
 	if (id == INVALID_OBJECT_ID)
 		return 0;
-	ObjectIdNode *node = m_map.find(id);
-	if (node == 0)
+	ObjectPtrHash &map = *reinterpret_cast<ObjectPtrHash *>(reinterpret_cast<char *>(this) + 0xB4);
+	ObjectPtrHash::iterator it = map.find(id);
+	if (it == map.end())
 		return 0;
-	return node->object;
+	return (*it).second;
 }
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1, UPDATE_SLEEP_FOREVER = 0x3fffffff };
@@ -97,6 +85,7 @@ class ExperienceTracker { public: char pad[0x24]; int level; };
 class Object {
 public:
     const Coord3D *getPosition() const { return &pos; }
+    const ThingTemplate *getTemplate() const { return m_template; }
     ObjectID getID() const { return id; }
     bool status6() const { return (status94 & 0x40)!=0; }
     float rva00263763(const void *) const;
@@ -111,7 +100,9 @@ public:
     char pad78[0x94-0x78]; unsigned int status94;
     char pad98[0x264-0x98]; ExperienceTracker *m_tracker;
     char pad268[0x274-0x268]; Object *m_274;
+    Object *getContainedBy() const { return m_274; }
     char pad278[0x454-0x278]; bool flag454;
+    bool isEmotionTarget() const { return flag454; }
 };
 class Rva0028F326Owner { public: unsigned char rva0028F326(unsigned int, float); };
 class Rva2225E0Filter { public: bool accepts(Object *, Player *); void *value; };
@@ -127,6 +118,8 @@ class EmotionNugget {
 public:
     bool CanBeActivatedFor(int,int,Rva004DD018Arg *);
     void OnDeactivation();
+    void OnActivation(Object *,int);
+    int getType() const { return entry->kind; }
     char pad0[4]; EmotionEntry *entry;
 };
 class Emotion : public EmotionNugget { public: bool rva004DCEC4(); };
@@ -150,6 +143,7 @@ public:
     virtual ~EmotionModuleBase();
     Object *getObject() const { return m_object; }
     const EmotionUpdateData *getModuleData() const { return m_data; }
+    EmotionUpdateData *getEmotionTrackerUpdateModuleData() const { return m_data; }
     EmotionUpdateData *m_data;
     Object *m_object;
 };
@@ -185,6 +179,7 @@ public:
     int enemyCount,allyCount;
     Object *cached;
     bool tested;
+    bool wasTested() const { return tested; }
 };
 class RvaDistanceFilter:public PartitionFilter {
 public:
@@ -204,8 +199,7 @@ public:
 class PlayerList { public: int getPlayersWithRelationship(int,unsigned int,bool); };
 struct BfmePointFD;
 class Rva00739830 { public: int rva00739830(const BfmePointFD *,int,unsigned int) const; };
-struct EmotionSystemView { char pad[0x24]; _STL::vector<ObjectID> objects; };
-class EmotionSystem;
+class EmotionSystem { public: const _STL::vector<ObjectID> &getObjects() const { return objects; } char pad[0x24]; _STL::vector<ObjectID> objects; };
 class GlobalData;
 class TerrainLogic;
 class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &); };
@@ -237,11 +231,11 @@ float GetGameLogicRandomValueReal(float,float,char *,int);
 
 UpdateSleepTime EmotionTrackerUpdate::update()
 {
-    EmotionUpdateData *data=m_data;
+    EmotionUpdateData *data=getEmotionTrackerUpdateModuleData();
     if(!data) return (UpdateSleepTime)0x3fffffff;
     Object *obj=getObject();
     if(!obj) return (UpdateSleepTime)0x3fffffff;
-    if(obj->m_274) {
+    if(obj->getContainedBy()) {
         if(active) {
             active->OnDeactivation();
             active=0;
@@ -268,9 +262,9 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         filter.And(distance);
         filter.And(player);
         if(!obj->testStatus((ObjectStatusTypes)0x44))
-            closest=ThePartitionManager->getClosestObject(&obj->pos,data->range,0,(Rva000421C8 *)&filter);
+            closest=ThePartitionManager->getClosestObject(obj->getPosition(),data->range,0,(Rva000421C8 *)&filter);
         if(!closest) {
-            if(filter.tested) {
+            if(filter.wasTested()) {
                 flags[9]=true; flags[3]=false; flags[0]=false;
             } else {
                 flags[9]=false; flags[3]=false; flags[0]=false;
@@ -305,15 +299,14 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         float shroudRange=obj->getShroudClearingRange();
         float shroudDist=shroudRange*shroudRange;
         if(shroudDist<closestDist) closestDist=shroudDist;
-        EmotionSystemView *system=(EmotionSystemView *)TheEmotionSystem;
         float neutralDist=data->range20*data->range20;
         float allyDist=data->range24*data->range24;
-        const _STL::vector<ObjectID> &objects=system->objects;
+        const _STL::vector<ObjectID> &objects=TheEmotionSystem->getObjects();
         for(_STL::vector<ObjectID>::const_iterator it=objects.begin();it!=objects.end();++it) {
             Object *other=TheGameLogic->findObjectByID(*it);
-            if(!other || !other->flag454) continue;
+            if(!other || !other->isEmotionTarget()) continue;
             Relationship rel=obj->getRelationship(other);
-            if((other->m_template->flags11a & 1) &&
+            if((other->getTemplate()->flags11a & 1) &&
                (rel!=REL_ALLY || data->filter18.accepts(other,0))) {
                 float dist=obj->rva00263763(other);
                 if(dist<allyDist &&
@@ -321,9 +314,11 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                    ((Rva0028F326Owner *)obj)->rva0028F326((unsigned int)other,data->range24)) {
                     if(other->status6() ||
                        getObject()->rva0028B511()==other->rva0028B511()) {
-                        EmotionNugget **n=nuggets.begin();
-                        while(n!=nuggets.end() && ((*n)->entry->kind!=4 ||
-                              !(*n)->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other))) ++n;
+                        std::vector<EmotionNugget *>::iterator n;
+                        for(n=nuggets.begin();n!=nuggets.end();++n) {
+                            EmotionNugget *nugget=*n;
+                            if(nugget->getType()==4 && nugget->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other)) break;
+                        }
                         if(n!=nuggets.end()) {
                             bestAlly=other;
                             allyDist=dist;
@@ -334,9 +329,11 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                 if(dist<closestDist &&
                    (data->filter14.accepts(other,0) || data->filter18.accepts(other,0) || data->filter1c.accepts(other,0)) &&
                    ((Rva0028F326Owner *)obj)->rva0028F326((unsigned int)other,obj->getShroudClearingRange())) {
-                    EmotionNugget **n=nuggets.begin();
-                    while(n!=nuggets.end() && ((*n)->entry->kind!=3 ||
-                          !(*n)->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other))) ++n;
+                    std::vector<EmotionNugget *>::iterator n;
+                    for(n=nuggets.begin();n!=nuggets.end();++n) {
+                        EmotionNugget *nugget=*n;
+                        if(nugget->getType()==3 && nugget->CanBeActivatedFor(enemyCount,allyCount,(Rva004DD018Arg *)other)) break;
+                    }
                     if(n!=nuggets.end()) {
                         closest=other;
                         closestDist=dist;
@@ -351,9 +348,9 @@ UpdateSleepTime EmotionTrackerUpdate::update()
                     }
                 }
             }
-            if(other!=obj && (other->m_template->flags113 & 4)) {
+            if(other!=obj && (other->getTemplate()->flags113 & 4)) {
                 const ThingTemplate *tmpl=TheThingFactory->findTemplate(AsciiString("NeutralGollum"));
-                if(tmpl && tmpl->isEquivalentTo(other->m_template)) continue;
+                if(tmpl && tmpl->isEquivalentTo(other->getTemplate())) continue;
                 if(rel==REL_ALLY) {
                     float dist=obj->rva00263763(other);
                     if(dist<neutralDist &&
@@ -381,12 +378,12 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         PulseEmotion(8,0,1);
     EmotionNugget *selected=rva004B13D8();
     bool changed=false;
-    if(selected && closest && (selected->entry->kind==0 || selected->entry->kind==3) &&
-       closest->getID()!=targetID[selected->entry->kind]) {
-        Object *oldObj=TheGameLogic->findObjectByID(targetID[selected->entry->kind]);
+    if(selected && closest && (selected->getType()==0 || selected->getType()==3) &&
+       closest->getID()!=targetID[selected->getType()]) {
+        Object *oldObj=TheGameLogic->findObjectByID(targetID[selected->getType()]);
         Object *newObj=TheGameLogic->findObjectByID(closest->getID());
-        if(oldObj && oldObj->m_274) oldObj=oldObj->m_274;
-        if(newObj && newObj->m_274) newObj=newObj->m_274;
+        if(oldObj && oldObj->getContainedBy()) oldObj=oldObj->getContainedBy();
+        if(newObj && newObj->getContainedBy()) newObj=newObj->getContainedBy();
         if(oldObj!=newObj) changed=true;
     }
     if(selected==active && !changed) {
@@ -398,18 +395,17 @@ UpdateSleepTime EmotionTrackerUpdate::update()
         if(active) active->OnDeactivation();
         active=selected;
         if(active) {
-            int kind=active->entry->kind;
-            if(kind==0 || kind==3) {
-                if(closest) targetID[kind]=closest->getID();
-            } else if(kind==2) {
+            if(active->getType()==0 || active->getType()==3) {
+                if(closest) targetID[active->getType()]=closest->getID();
+            } else if(active->getType()==2) {
                 if(bestNeutral) targetID[2]=bestNeutral->getID();
-            } else if(kind==4) {
+            } else if(active->getType()==4) {
                 if(bestAlly) targetID[4]=bestAlly->getID();
             }
             if(forcedFrames>0)
-                ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(forcedTarget),forcedFrames);
+                active->OnActivation(TheGameLogic->findObjectByID(forcedTarget),forcedFrames);
             else
-                ((Rva004DCC84 *)active)->rva004DCC84(TheGameLogic->findObjectByID(targetID[active->entry->kind]),0);
+                active->OnActivation(TheGameLogic->findObjectByID(targetID[active->getType()]),0);
         }
     }
     for(int i=0;i<12;++i) {
