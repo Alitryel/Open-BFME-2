@@ -1,5 +1,5 @@
 // ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=0.86 date=2026-10-16
+// partial score=0.93 date=2026-10-20
 // cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -375,14 +375,24 @@ extern Db12 g_00DB447C;
 template <class T> inline const T &ShadowMin(const T &a, const T &b) { return b < a ? b : a; }
 template <class T> inline const T &ShadowMax(const T &a, const T &b) { return a < b ? b : a; }
 
+// The manager holds its cameras through RefCountPtr (WorldBuilder asserts name
+// RefCountPtr<CameraClass>::operator->); release inlines operator-> to a member load.
+template <class T> class RefCountPtr
+{
+public:
+	T *operator->() const { return m_obj; }
+	T &operator*() const { return *m_obj; }
+	T *m_obj;
+};
+
 class W3DShadowMapManager
 {
 public:
 	void UpdateShadowCamera();
 
 private:
-	CameraClass *m_camera;	// +0x00
-	CameraClass *m_sceneCamera;	// +0x04
+	RefCountPtr<CameraClass> m_camera;	// +0x00
+	RefCountPtr<CameraClass> m_sceneCamera;	// +0x04
 	Vector3 m_lightDirection;	// +0x08
 };
 
@@ -413,8 +423,7 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	lightTm.Get_Orthogonal_Inverse(lightInv);
 
 	AABoxClass box;
-	CameraClass *sceneCamera = m_sceneCamera;
-	TheTerrainRenderObject->getShadowCameraBox(sceneCamera, &box);
+	TheTerrainRenderObject->getShadowCameraBox(&*m_sceneCamera, &box);
 	float minZ = box.Center.Z - box.Extent.Z;
 	PlaneClass ground(Vector3(0.0f, 0.0f, -1.0f), ShadowMax(minZ, g_00DB447C.v2));
 	PlaneClass ceiling(Vector3(0.0f, 0.0f, 1.0f), box.Center.Z + box.Extent.Z + 400.0f);
