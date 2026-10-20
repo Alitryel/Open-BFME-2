@@ -1,5 +1,5 @@
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
-// partial score=0.912 date=2026-10-19
+// partial score=0.927 date=2026-10-19
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
 // partial score=0.9 date=2026-10-19
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
@@ -98,7 +98,9 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 	Rva0046247DPair outer;
 	UpdateModule *update = (UpdateModule *)((char *)this - 0x11C);
 	((Rva0046247D *)update)->rva0046247D(outer);
-	int count = (int)outer.objects->size();
+	int count = 0;
+	if (!outer.objects->empty())
+		count = (int)outer.objects->size();
 	ContainmentList::iterator first = outer.objects->begin();
 	if (count < 2)
 		return;

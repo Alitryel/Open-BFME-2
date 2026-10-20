@@ -36,3 +36,11 @@ Refuted on top of m1:
 - An empty()-guard before or with count<2 adds retail's entry test (q2), but loops 1-2 regress (541 B, R=21).
 - Explicit do-while count: 535. loop3 sharing `first`: inert.
 Next idea: q2 reproduces retail's entry test, so look for why its loop-1/2 allocation regresses.
+
+## Session 3 (22:22-22:30 PT): banked u4, R 14->12
+Banked: `int count = 0; if (!outer.objects->empty()) count = (int)outer.objects->size();`, then `first`.
+This reproduces retail's empty entry test (`cmp ecx,eax; je <return>`): 541 B, struct 4 / mem 4 / reg 1, insns 12/13.
+The guard is redundant source; treat it as a hypothesis.
+A hand-written do-while count under the guard (v3) rotates the count loop: 539 B, insns 12/12.
+One diff remains: begin is loaded into ECX for the count and moved to ESI afterwards. Retail loads ESI first and counts on an ECX copy.
+Every form that defines `first` before the count regresses (z1-z4, v1, v2: 531-539 B, R 16-61). Equivalent guard spellings are identical; a ternary is worse.
