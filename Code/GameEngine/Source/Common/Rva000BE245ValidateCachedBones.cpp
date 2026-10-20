@@ -108,6 +108,8 @@ static inline const int &min(const int &a, const int &b)
 }
 }
 #include <cstdarg>
+// Bind min<int> to the kept retail copy (STLport units at 0x00013xxx).
+namespace _STL { template <> const int & min<int>(const int &, const int &); }
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<pair<NameKeyType const, PristineBoneInfo>, pair<NameKeyType const, PristineBoneInfo> >(pair<NameKeyType const, PristineBoneInfo> *, pair<NameKeyType const, PristineBoneInfo> const &); }
 namespace _STL { template <> int const & min<int>(int const &, int const &); }
