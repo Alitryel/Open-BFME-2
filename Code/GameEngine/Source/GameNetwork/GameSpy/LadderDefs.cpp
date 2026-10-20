@@ -146,6 +146,13 @@ struct BfmeStringNoCaseLess
 	bool operator()(const AsciiString &a, const AsciiString &b) const;
 };
 typedef _STL::set<AsciiString, BfmeStringNoCaseLess> FilenameList;
+// The set's tree destructor is the rowed retail copy (0x0002CC38), and the
+// wide _String_base destructor, which nothing here calls out of line, stays
+// inline: this unit's own copies of both are not retail's.
+template <> _STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, BfmeStringNoCaseLess, _STL::allocator<AsciiString> >::~_Rb_tree();
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<wchar_t, allocator<wchar_t> >::~_String_base() { _M_deallocate_block(); }
+}
 class FileSystem
 {
 public:
