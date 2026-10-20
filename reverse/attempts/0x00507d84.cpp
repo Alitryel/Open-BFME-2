@@ -1,6 +1,6 @@
 // ?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z
-// partial score=0.9404761904761905 date=2026-10-19
-// cl: /O1 /arch:SSE /ICode/GameEngine/Source/Common /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
+// partial score=0.961038961038961 date=2026-10-20
+// cl: /O1 /arch:SSE /ICode/GameEngine/Source/Common /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 // stlport
 //
 // ??0Made002CC5E1@@QAE@XZ retail 0x00507C2D 343B
@@ -16,6 +16,8 @@
 // base rowed 0x0050775B plus derived vtables 0x00864048/0x00864C38/
 // 0x008650B8 plus callers parseDamageNugget 0x002CC606 plus derived
 // Made002CCA37 0x0050B1FF and Made002CCCF3 0x0050BF92 call here.
+// Position-effect body (WorldBuilder DamageNugget::doEffectPosition 0x0109FAD0):
+// handoff reverse/attempt_support/damage507d84-w6-20261020.md.
 #include <vector>
 #include <string.h>
 
@@ -74,13 +76,9 @@ typedef float Real;
 typedef bool Bool;
 typedef int Int;
 
-struct Coord3D
-{
-	Real x, y, z;
-	Real length() const;
-	void set(const Coord3D &a){x=a.x;y=a.y;z=a.z;}
-	void sub(const Coord3D &p){x-=p.x;y-=p.y;z-=p.z;}
-};
+#include "Lib/Coord3D.h"
+static inline void coordSet(Coord3D &d, const Coord3D *p) { d.x = p->x; d.y = p->y; d.z = p->z; }
+static inline void coordSub(Coord3D &d, const Coord3D *p) { d.x -= p->x; d.y -= p->y; d.z -= p->z; }
 
 class Vector3
 {
@@ -128,13 +126,20 @@ public:
 	unsigned char kind11D;
 };
 
+class Matrix3D
+{
+public:
+	Vector3 Get_X_Vector() const { return Vector3(Row[0][0], Row[1][0], Row[2][0]); }
+	Real Row[3][4];
+};
 class Thing
 {
 public:
  virtual Real calculateHeightAboveTerrain() const;
  Real getHeightAboveTerrain() const;
+ const Matrix3D *getTransformMatrix() const { return &m_transform; }
  Rva00507D84TemplateView *m_template;
- Real m_transform[3][4];
+ Matrix3D m_transform;
  Coord3D m_position;
  unsigned char pad44[0x54-0x44];
  mutable float m_cachedAltitudeAboveTerrain;
@@ -186,18 +191,7 @@ private:
 	BfmeFixedStorage0004543D m_24;
 };
 
-struct BfmeWideResult
-{
-	~BfmeWideResult();
-	Object *next();
-	void *m_value;
-};
-
-class PartitionManager
-{
-public:
-	BfmeWideResult iterateObjectsInRange(const Coord3D *pos, Real radius, Int mode, Rva000421C8 *filter, Int flags);
-};
+#include "PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
 
 struct Rva00507D84WeaponView
@@ -298,6 +292,8 @@ Made002CC5E1::Made002CC5E1()
 		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }
 
+// The single-target exit returns from inside the loop, as WorldBuilder 0x10A115B
+// does, so the range result is destroyed on both exits.
 void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 {
 	Real radius = m_130;
@@ -319,15 +315,15 @@ void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 	{
 		if (m_138 < 3.14159265359f)
 		{
-			Coord3D toObj; toObj.set(obj->m_position); toObj.sub(*position);
-			Coord3D delta; delta.set(*position); delta.sub(source->m_position);
+			Coord3D toObj; coordSet(toObj, obj->getPosition()); coordSub(toObj, position);
+			Coord3D delta; coordSet(delta, position); coordSub(delta, source->getPosition());
 			Vector3 facing(delta.x, delta.y, delta.z);
 			if (delta.length() == 0.0f)
-				facing = Vector3(source->m_transform[0][0], source->m_transform[1][0], source->m_transform[2][0]);
+				facing = source->getTransformMatrix()->Get_X_Vector();
 			Vector3 dir(toObj.x, toObj.y, toObj.z);
 			facing.Normalize();
 			dir.Normalize();
-			Real dot = Dot_Product(dir, facing);
+			Real dot = Dot_Product(facing, dir);
 			if (!(dot >= Cos(m_138)))
 			{
 				if (!m_13C)
@@ -354,13 +350,12 @@ void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 		}
 		if (m_134 > 0.0f)
 		{
-			Real minRange = m_134;
-			if (reinterpret_cast<Rva000CBA20 *>(obj)->distSq(reinterpret_cast<const Rva000CBA20Point *>(position)) < minRange * minRange)
+			if (reinterpret_cast<Rva000CBA20 *>(obj)->distSq(reinterpret_cast<const Rva000CBA20Point *>(position)) < m_134 * m_134)
 				continue;
 		}
 		if (!v14(weapon, obj, position))
 			continue;
 		if (TheGlobalData->m_singleTargetRadius >= radius)
-			break;
+			return;
 	}
 }
