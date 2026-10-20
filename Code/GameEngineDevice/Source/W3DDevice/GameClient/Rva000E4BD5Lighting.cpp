@@ -82,15 +82,18 @@ static Real Rva006F7DA0Fabs(Real value)
 
 class Rva000E4BD5Lighting {
 public:
-    static UnsignedInt __stdcall doLighting(const BfmeLighting36 *objectLighting,
-                                             const Coord3D *emissive,
-                                             UnsignedInt vertDiffuse,
-                                             Real scale,
-                                             UnsignedInt alpha);
+    UnsignedInt doLighting(const BfmeLighting36 *objectLighting,
+                           const Coord3D *emissive,
+                           UnsignedInt vertDiffuse,
+                           Real scale,
+                           UnsignedInt alpha);
 };
 
-// ?doLighting@Rva000E4BD5Lighting@@SGIPBUBfmeLighting36@@PBUCoord3D@@IMI@Z
-UnsignedInt __stdcall Rva000E4BD5Lighting::doLighting(
+// ?doLighting@Rva000E4BD5Lighting@@QAEIPBUBfmeLighting36@@PBUCoord3D@@IMI@Z
+// Thiscall: the sole caller (0x000E565D, the floor vertex builder 0x000E5406) keeps
+// the floor receiver in ECX for the call, as WorldBuilder's twin does; the body
+// never reads it.
+UnsignedInt Rva000E4BD5Lighting::doLighting(
     const BfmeLighting36 *objectLighting,
     const Coord3D *emissive,
     UnsignedInt vertDiffuse,
