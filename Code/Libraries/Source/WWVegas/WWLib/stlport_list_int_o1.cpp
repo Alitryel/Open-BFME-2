@@ -14,6 +14,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _List_iterator<
 // this unit calls it rather than emitting a copy with the node creation inlined.
 namespace _STL {
 template <> list<int, allocator<int> >::iterator list<int, allocator<int> >::insert(list<int, allocator<int> >::iterator, const int &);
+// The former no-value push_back row at 0x79E8D calls the proven
+// list<vector<unsigned> > default insert at 0x79CB6, not list<int>::insert.
+template <> void list<int, allocator<int> >::push_back();
 }
 
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>

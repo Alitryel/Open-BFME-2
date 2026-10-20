@@ -46,3 +46,6 @@ _STL::list<_STL::vector<unsigned int>, _STL::allocator<_STL::vector<unsigned int
 // Default value insert for the same call-proven list/vector family.
 typedef _STL::list<_STL::vector<unsigned int> > VecUIntList;
 template VecUIntList::iterator VecUIntList::insert(VecUIntList::iterator);
+
+// Retail 0x79E8D calls the default insert above at 0x79CB6.
+template void VecUIntList::push_back();

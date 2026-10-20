@@ -165,7 +165,9 @@ public:
 
 private:
 	char m_pad00[0x0C];
-	_STL::list<int> m_groups; // +0x0C
+	// Native default append calls the list<vector<unsigned> > provider at
+	// 0x79E8D. Elements hold pointer-sized drawable slots in this view.
+	_STL::list<_STL::vector<unsigned int> > m_groups; // +0x0C
 	_STL::vector<const ModuleData *> m_subObjects; // +0x10
 	_STL::vector<const ModuleData *> m_models; // +0x1C
 };
