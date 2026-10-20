@@ -9,6 +9,7 @@
 // pointer fields, count*4 allocation, initial begin==end and capacity=begin+n.
 // Its retail allocator includes the allocation-hint argument. The base pin
 // follows that independently decoded ABI/behavior, not a masked-call guess.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN
 #include <vector>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> _Vector_base<unsigned int,allocator<unsigned int> >::~_Vector_base(); }

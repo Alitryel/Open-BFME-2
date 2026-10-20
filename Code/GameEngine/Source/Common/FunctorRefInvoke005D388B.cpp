@@ -22,6 +22,8 @@ class FunctorNotSet : public exception
 {
 public:
 	__declspec(dllimport) __forceinline FunctorNotSet() {}
+	// The common throw type supplies its copy constructor in the kept unit.
+	FunctorNotSet(const FunctorNotSet &);
 public:
 	virtual ~FunctorNotSet();	// rowed elsewhere; declared so this unit binds to it
 };
