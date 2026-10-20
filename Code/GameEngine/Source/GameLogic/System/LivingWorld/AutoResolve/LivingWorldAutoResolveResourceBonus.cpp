@@ -26,6 +26,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00414258Element@@@_STL@@YAXPAURva00414258Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00414258Element;
+namespace _STL { template <> void _Destroy<Rva00414258Element *>(Rva00414258Element *,Rva00414258Element *); }
 
 class INI
 {
