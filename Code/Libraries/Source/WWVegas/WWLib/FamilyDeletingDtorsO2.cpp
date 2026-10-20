@@ -31,10 +31,10 @@ class Rva0061ED80 { public: virtual ~Rva0061ED80(); };
 class Rva00180EA0 : public Rva0061ED80 { public: virtual ~Rva00180EA0(); };
 Rva00180EA0::~Rva00180EA0() {}
 
-// ??_GGen_dtor_009f2600@@UAEPAXI@Z @0x6252d0
-class Gen_dtor_009f2600 { public: Gen_dtor_009f2600(EmitVtableTag *); virtual ~Gen_dtor_009f2600(); };
-// ?<Gen_dtor_009f2600::Gen_dtor_009f2600> absent-from-retail
-Gen_dtor_009f2600::Gen_dtor_009f2600(EmitVtableTag *) {}
+// ??_GPartitionManagerImpl@@UAEPAXI@Z @0x6252d0
+class PartitionManagerImpl { public: PartitionManagerImpl(EmitVtableTag *); virtual ~PartitionManagerImpl(); };
+// ?<PartitionManagerImpl::PartitionManagerImpl> absent-from-retail
+PartitionManagerImpl::PartitionManagerImpl(EmitVtableTag *) {}
 
 // ??_GRva00666BA0@@UAEPAXI@Z @0x661330
 class Rva00666BA0 { public: Rva00666BA0(EmitVtableTag *); virtual ~Rva00666BA0(); };

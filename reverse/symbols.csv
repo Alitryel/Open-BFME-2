@@ -8243,7 +8243,7 @@ name,address,notes
 ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z,0x002C7D03,REL32 read at 0x0028AF5D in the byte-verified Object::chooseBestWeaponForTarget forwarder (this plus three args to the +0x330 WeaponSet); native body opens with Zero Hour's m_curWeaponLockedStatus early return true (cmp [ebx+0x24] then mov al 1) after a BFME criteria-5 remap
 ?chooseGoodLocomotorFromCurrentSet@AIUpdateInterface@@QAEXXZ,0x00263FA7,address read from the REL32 displacement at 0x00268B53 in chooseLocomotorSet 0x00268B20 with ECX = this where Zero Hour calls chooseGoodLocomotorFromCurrentSet(); name donor-carried; body unrowed
 ?chooseLocomotorSetExplicit@AIUpdateInterface@@QAE_NH@Z,0x00268A37,address read from the REL32 displacement at 0x00268B48 in chooseLocomotorSet 0x00268B20 (AIUpdate vtable slot 142) with ECX = this and the set where Zero Hour calls chooseLocomotorSetExplicit(wst); its body starts by asking the owner's template (0x0033C288) for the set; name donor-carried; body unrowed
-?cleanup@Gen_dtor_009f2600@@QAEXXZ,0x00627600
+?cleanup@PartitionManagerImpl@@QAEXXZ,0x00627600
 ?cleanup@NestedAt0C@@QAEXXZ,0x003B70CA,callee read from the retail REL32 in placed BFME1-donor body ?cleanup@Gen0035B3A0@@QAEXXZ (0x003B7362)
 ?cleanup@NestedAt2C@@QAEXXZ,0x003B71E8,callee read from the retail REL32 in placed BFME1-donor body ?cleanup@Gen0035B3A0@@QAEXXZ (0x003B7362)
 ?cleanup@Rva00785FD0Item@@QAEXXZ,0x000A9F98,callee of ?rva00785FD0Flush@@YAXXZ at retail 0x000AA5E1 read from its REL32 displacement; body unrowed

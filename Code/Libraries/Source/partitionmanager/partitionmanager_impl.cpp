@@ -50,9 +50,8 @@ struct PartitionNode {
     PartitionNode **prevInLeaf;
 };
 
-// The legacy receiver spelling remains an ABI adapter over the one shared
-// storage view; this inheritance is reconstruction scaffolding, not a retail
-// class-hierarchy assertion. WB names the owner PartitionManagerImpl.
+// WB names the owner PartitionManagerImpl; its destructor (0x00627DE0)
+// runs cleanup and then destroys the 21 trees at +0x18.
 struct Gen009F5040Node;
 class PartitionManagerImpl {
 public:
@@ -60,6 +59,7 @@ public:
  void linkNode(Gen009F5040Node*);
  void *GetClosestObject(int,float,int,int,int);
  void _ClearNumObjBelow(void **slot, unsigned count);
+ __declspec(noinline) void cleanup();
  int prefix[6];
  _STL::vector<PartitionTreeCounter> trees[21];
  PartitionNode *head;
@@ -82,12 +82,7 @@ void PartitionManagerImpl::_ClearNumObjBelow(void **slot, unsigned count)
     }
 }
 
-class Gen_dtor_009f2600 : public PartitionManagerImpl {
-public:
- __declspec(noinline) void cleanup();
-};
-
-void Gen_dtor_009f2600::cleanup()
+void PartitionManagerImpl::cleanup()
 {
     for (PartitionNode *node = head; node; node = node->next) {
         *node->prevInLeaf = 0;
@@ -95,7 +90,7 @@ void Gen_dtor_009f2600::cleanup()
     }
     if (trees[0].size() != 0) {
         for (int i = 0; i < 21; ++i)
-            ((PartitionManagerImpl *)this)->_ClearNumObjBelow((void **)trees[i].begin(), trees[0].size() / 4);
+            _ClearNumObjBelow((void **)trees[i].begin(), trees[0].size() / 4);
     }
 }
 
@@ -118,7 +113,7 @@ void PartitionManagerImpl::SetTreeDepth(unsigned depth)
         --depth;
         count = count * 4 + 1;
     }
-    ((Gen_dtor_009f2600 *)this)->cleanup();
+    cleanup();
     for (int i = 0; i < 21; ++i) {
         Rva00627AA0TreeVector fresh(count);
         *reinterpret_cast<_STL::vector<PartitionAssignPair>*>(&trees[i]) = *reinterpret_cast<const _STL::vector<PartitionAssignPair>*>(&fresh);

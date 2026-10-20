@@ -21,7 +21,7 @@ struct BfmeNode912C
 	BfmeNode912C *m_next;
 };
 
-class Gen_dtor_009f2600
+class PartitionManagerImpl
 {
 public:
 	void cleanup();
@@ -57,7 +57,7 @@ public:
 void T_009f4fb0::m(Rva009F5970StateInit *value)
 {
 	T_009f4fb0 *self = this;
-	((Gen_dtor_009f2600 *)self)->cleanup();
+	((PartitionManagerImpl *)self)->cleanup();
 
 	self->m_values = *value;
 
