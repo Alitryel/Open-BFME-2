@@ -5,6 +5,10 @@
 // Evidence: calls rowed Pod8 vector op=; cmp [ebx+0x24]; callers 0x00330B59; unblocks 0x00330B50.
 #include <vector>
 struct BfmePod8 { int a[2]; };
+// Use the rowed assignment provider at 0x001D9BEE.
+namespace _STL {
+template <> vector<BfmePod8> &vector<BfmePod8>::operator=(const vector &);
+}
 struct Mid16 { int a[4]; };
 struct AreaPolygonBase
 {

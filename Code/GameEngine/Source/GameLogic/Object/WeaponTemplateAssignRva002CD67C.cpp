@@ -50,6 +50,11 @@ struct BfmePod8
 	int a[2];
 };
 
+// Retail calls the existing vector assignment at 0x001D9BEE.
+namespace _STL {
+template <> vector<BfmePod8> &vector<BfmePod8>::operator=(const vector &);
+}
+
 struct OpaqueRefElement4
 {
 	void *m_ptr;

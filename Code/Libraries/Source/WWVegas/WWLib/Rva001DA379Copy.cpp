@@ -24,6 +24,13 @@ struct BfmePod8
 	int a[2];
 };
 
+// Retail calls the existing assignment providers, rather than local copies.
+namespace _STL {
+template <> vector<Rva001DA05ERecord> &vector<Rva001DA05ERecord>::operator=(const vector &);
+template <> vector<BfmeStringTailRecord156> &vector<BfmeStringTailRecord156>::operator=(const vector &);
+template <> vector<BfmePod8> &vector<BfmePod8>::operator=(const vector &);
+}
+
 class Rva001DA379Base
 {
 public:
