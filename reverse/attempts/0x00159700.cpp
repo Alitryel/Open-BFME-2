@@ -1,5 +1,5 @@
 // ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.98276 date=2026-10-20
+// partial score=0.99809 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
 void __cdecl operator delete[](void *) throw();
@@ -332,7 +332,7 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
                         float shift=(float)floor((double)((extent.X-width)*0.5f-left+0.5f));
                         for (int j=start;j<i;++j) {
                             sentence_data[j].screen_left+=shift;
-                            sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
+                            sentence_data[j].screen_right+=shift;
                         }
                         if (i>=count) break;
                         start=i;
