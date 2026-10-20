@@ -139,8 +139,20 @@
    "name": "m_pad5C",
    "name_by": "opaque-storage",
    "offset": 92,
-   "size": 8,
-   "type": "uchar[8]"
+   "size": 4,
+   "type": "uchar[4]"
+  },
+  {
+   "decided_by": "bytes 0x000EB6BB sway type load +0x60",
+   "kind": "i4",
+   "name": "swayType",
+   "name_by": "zh-donor TTree",
+   "offset": 96,
+   "retail_widths": {},
+   "size": 4,
+   "type": "int",
+   "views": 1,
+   "witness": "0x000EB6BB"
   },
   {
    "decided_by": "bytes 0x000EBFD1 vertex offset +0x64",

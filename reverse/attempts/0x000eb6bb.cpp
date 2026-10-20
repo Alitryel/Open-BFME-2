@@ -1,4 +1,6 @@
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.98 date=2026-10-20
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.97 date=2026-10-20
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.76 date=2026-10-20
@@ -29,6 +31,9 @@
 // record/type views, header Scale/postMul, TU Translate/Transform_Vector with row 2 grouped, nested model
 // accessors, per-loop i and the (index, create) UV/colour accessors give retail's 2326 B with 0 regions.
 // The sway int at record +0x60 is read through m_pad5C; the create branch allocates a stand-in buffer.
+// Real UVBufferClass/ShareBufferClass create branches; the record's +0x60 int is the contract field swayType.
+// TranslateOffset/TreeTransform are WWINLINE (__forceinline) like the header helpers they copy; in the
+// sibling's unit (two callers) plain inline copies stay out of line. Merged there it gives these bytes.
 #include "vector3.h"
 #include "vector2.h"
 #include "matrix3d.h"
@@ -81,11 +86,41 @@ struct TriIndex
 	unsigned short I, J, K;
 };
 
-template <class T> struct ShareBufferView
+class RefCountClass
 {
-	unsigned char m_head[0x0c];
+public:
+	RefCountClass() : m_refs(1) {}
+	RefCountClass(const RefCountClass &) : m_refs(1) {}
+	virtual void Delete_This();
+
+protected:
+	virtual ~RefCountClass() {}
+
+private:
+	int m_refs;
+};
+
+template <class T>
+class ShareBufferClass : public RefCountClass
+{
+public:
+	ShareBufferClass(int count, const char *msg, int alignment = 0);
+	T *Get_Array() { return m_array; }
+
+protected:
+	T *m_rawBuffer;
 	T *m_array;
-	T *Get_Array(void) { return m_array; }
+	int m_count;
+	int m_alignment;
+};
+
+class UVBufferClass : public ShareBufferClass<Vector2>
+{
+public:
+	UVBufferClass(int count, const char *msg);
+
+private:
+	unsigned int m_crc;
 };
 
 class MeshMatDescClass
@@ -99,30 +134,32 @@ public:
 			return m_uv[m_uvSource[pass][stage]]->Get_Array();
 		return 0;
 	}
-	__forceinline Vector2 *Get_UV_Array_By_Index(int index, bool create)
+	inline Vector2 *Get_UV_Array_By_Index(int index, bool create)
 	{
 		if (create && !m_uv[index])
-			m_uv[index] = new ShareBufferView<Vector2>;
+			m_uv[index] = new UVBufferClass(m_vertexCount, "MeshMatDescClass::UV");
 		if (!create && m_unknown0C != 0 && index < 2)
 			return Get_UV_Array(0, index);
 		if (m_uv[index])
 			return m_uv[index]->Get_Array();
 		return 0;
 	}
-	__forceinline unsigned *Get_Color_Array(int index, bool create)
+	inline unsigned *Get_Color_Array(int index, bool create)
 	{
 		if (create && !m_colorArray[index])
-			m_colorArray[index] = new ShareBufferView<unsigned>;
+			m_colorArray[index] = new ShareBufferClass<unsigned>(m_vertexCount, "MeshMatDescClass::ColorArray");
 		if (m_colorArray[index])
 			return m_colorArray[index]->Get_Array();
 		return 0;
 	}
 private:
-	unsigned char m_head[0x0c];
+	int m_passCount;
+	int m_vertexCount;
+	int m_polyCount;
 	int m_unknown0C;
-	ShareBufferView<Vector2> *m_uv[8];
+	UVBufferClass *m_uv[8];
 	int m_uvSource[4][2];
-	ShareBufferView<unsigned> *m_colorArray[2];
+	ShareBufferClass<unsigned> *m_colorArray[2];
 };
 
 class MeshGeometryClass
@@ -131,21 +168,29 @@ public:
 	const Vector3 *Get_Vertex_Normal_Array(bool);
 };
 
-class Rva000EB6BBModel : public MeshGeometryClass
+template <class T> struct Rva000EBFD1ShareBuffer
+{
+	unsigned char m_head[0x0c];
+	T *m_array;
+	T *Get_Array(void) { return m_array; }
+};
+
+// The tree mesh's model.
+class Rva000EBFD1Model : public MeshGeometryClass
 {
 public:
 	int Get_Vertex_Count(void) const { return m_vertexCount; }
 	Vector3 *Get_Vertex_Array(void) const { return m_vertexArray->Get_Array(); }
 	int Get_Polygon_Count(void) const { return m_polyCount; }
 	TriIndex *Get_Polygon_Array(void) const { return m_polyArray->Get_Array(); }
-	__forceinline Vector2 *Get_UV_Array_By_Index(int index, bool create) { return m_matDesc->Get_UV_Array_By_Index(index, create); }
-	__forceinline unsigned *Get_Color_Array(int index, bool create) { return m_matDesc->Get_Color_Array(index, create); }
+	Vector2 *Get_UV_Array_By_Index(int index, bool create) { return m_matDesc->Get_UV_Array_By_Index(index, create); }
+	unsigned *Get_Color_Array(int index, bool create) { return m_matDesc->Get_Color_Array(index, create); }
 private:
 	unsigned char m_head[0x24];
 	int m_polyCount;
 	int m_vertexCount;
-	ShareBufferView<TriIndex> *m_polyArray;
-	ShareBufferView<Vector3> *m_vertexArray;
+	Rva000EBFD1ShareBuffer<TriIndex> *m_polyArray;
+	Rva000EBFD1ShareBuffer<Vector3> *m_vertexArray;
 	unsigned char m_pad34[0x94 - 0x34];
 	MeshMatDescClass *m_matDesc;
 };
@@ -154,10 +199,10 @@ private:
 class Rva000EDA94Ref
 {
 public:
-	Rva000EB6BBModel *Peek_Model(void) const { return m_model; }
+	Rva000EBFD1Model *Peek_Model(void) const { return m_model; }
 private:
 	unsigned char m_head[0xc4];
-	Rva000EB6BBModel *m_model;
+	Rva000EBFD1Model *m_model;
 };
 
 struct W3DTreeDrawModuleData
@@ -174,6 +219,14 @@ template <class T> struct PtrVector
 	T *begin(void) { return m_start; }
 	T &operator[](unsigned int n) { return *(begin() + n); }
 	unsigned int size(void) const { return unsigned(m_finish - m_start); }
+};
+
+class GlobalData;
+extern GlobalData *TheWritableGlobalData;
+struct Rva000EBFD1GlobalFade
+{
+	unsigned char m_pad00[0x40];
+	bool m_enabled;
 };
 
 class Rva000EC9C6
@@ -200,7 +253,7 @@ private:
 };
 
 // Matrix3D::Translate(x,y,z) applied to the offset, row 2 grouped as retail.
-static inline void TranslateOffset(Matrix3D &m, const float *t)
+static WWINLINE void TranslateOffset(Matrix3D &m, const float *t)
 {
 	m[0][3] += (float)(m[0][0] * t[0] + m[0][1] * t[1] + m[0][2] * t[2]);
 	m[1][3] += (float)(m[1][0] * t[0] + m[1][1] * t[1] + m[1][2] * t[2]);
@@ -208,7 +261,7 @@ static inline void TranslateOffset(Matrix3D &m, const float *t)
 }
 
 // Matrix3D::Transform_Vector, row 2 grouped as retail.
-static inline void TreeTransform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
+static WWINLINE void TreeTransform(const Matrix3D &A, const Vector3 &in, Vector3 *out)
 {
 	Vector3 tmp;
 	Vector3 *v;
@@ -223,6 +276,7 @@ static inline void TreeTransform(const Matrix3D &A, const Vector3 &in, Vector3 *
 	out->Z = ((A[2][0] * v->X + A[2][1] * v->Y) + A[2][2] * v->Z + A[2][3]);
 }
 
+// Rebuilds every buffer from the visible trees; the sway type rides in u2 unless the type never sways.
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 void Rva000EC9C6::rva000EB6BB(void)
 {
@@ -315,7 +369,7 @@ void Rva000EC9C6::rva000EB6BB(void)
 				if (V < 0.0f) V = 0.0f;
 				curVb->u1 = U * Uscale + UOffset;
 				curVb->v1 = V * Vscale + VOffset;
-				curVb->u2 = m_treeTypes[m_trees[curTree].treeType].m_data->m_noSway ? 0 : *(int *)&m_trees[curTree].m_pad5C[4];
+				curVb->u2 = m_treeTypes[m_trees[curTree].treeType].m_data->m_noSway ? 0 : m_trees[curTree].swayType;
 				curVb->v2 = loc.Z;
 				curVb++;
 			}

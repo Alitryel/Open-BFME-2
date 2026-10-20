@@ -21,7 +21,8 @@ public:
     bool visible;
     unsigned char m_pad45[19];
     unsigned int drawableID;
-    unsigned char m_pad5C[8];
+    unsigned char m_pad5C[4];
+    int swayType;
     int firstIndex;
     int bufferNdx;
     float m_angularVelocity;
