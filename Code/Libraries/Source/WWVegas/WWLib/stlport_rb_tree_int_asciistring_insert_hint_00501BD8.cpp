@@ -39,6 +39,12 @@ typedef _STL::pair<const int, AsciiString> IntAsciiValue;
 typedef _STL::_Rb_tree_node<IntAsciiValue> IntAsciiNode;
 typedef _STL::_Rb_tree<int, IntAsciiValue, _STL::_Select1st<IntAsciiValue>, _STL::less<int>, _STL::allocator<IntAsciiValue> > MapIntAsciiTree;
 
+// The specialized insertion body is defined by the 0x005014FF owner unit.
+// Keep this caller bound to it instead of instantiating a second definition.
+template <> MapIntAsciiTree::iterator MapIntAsciiTree::_M_insert(
+    MapIntAsciiTree::_Base_ptr, MapIntAsciiTree::_Base_ptr,
+    const MapIntAsciiTree::value_type &, MapIntAsciiTree::_Base_ptr);
+
 template MapIntAsciiTree::iterator MapIntAsciiTree::insert_unique(MapIntAsciiTree::iterator, const MapIntAsciiTree::value_type &);
 #undef insert_unique
 #undef _M_insert
