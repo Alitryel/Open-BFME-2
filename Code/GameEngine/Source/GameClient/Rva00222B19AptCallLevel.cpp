@@ -4,7 +4,7 @@
 // Level-gated APT call: below 14 build "/_level%d" plus "." plus prefix, at 14 use
 // prefix alone, above 14 return empty static buffer. Evidence: callers pass level
 // plus prefix plus APT args, callees rowed format 0x00038150 concat 0x00005629
-// releaseBuffer 0x00036410 plus pinned AptCall 0x006CCB80, statics g_00DFE5D8
+// releaseBuffer 0x00036410 plus APT string call 0x006CCB80, statics g_00DFE5D8
 // "." plus empty fallback g_Rva0107301CEmptyString, neighbours
 // Rva00222A8BAptCallLevel.cpp and Rva00222BCDInvoke.cpp same page.
 //
@@ -14,8 +14,8 @@
 // 0x10c-byte gap before the next known global there.
 char g_00DFE5D8[268];
 
-int __cdecl Rva006CCB80AptCall(const char *function, char *result, const char *path,
-	int argc, const char *a0, void *a1, void *a2, void *a3, void *a4);
+void Rva006CCB80CallFunction(const char *function, char *result, const char *target,
+	int nNumParams, ...);
 
 int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4)
 {
@@ -31,7 +31,7 @@ int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *fu
 		((StringBase<char> *)&path)->concat(prefix);
 	}
 	const char *s = path.str();
-	Rva006CCB80AptCall(function, g_00DFE5D8, s, argc, a0, a1, a2, a3, a4);
+	Rva006CCB80CallFunction(function, g_00DFE5D8, s, argc, a0, a1, a2, a3, a4);
 	return (int)g_00DFE5D8;
 }
 
