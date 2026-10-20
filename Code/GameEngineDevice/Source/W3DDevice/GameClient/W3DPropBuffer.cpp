@@ -69,7 +69,12 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "Common/PerfTimer.h"
 #include "Common/Player.h"
 #include "Common/PlayerList.h"
+// CameraClass::Cull_Sphere (emitted for cull) is retail's speed-optimised body at
+// 0x00135960, which W3DScene.cpp also emits: define camera.h's inline members for speed.
+#pragma optimize("s", off)
+#pragma optimize("t", on)
 #include "WW3D2/Camera.h"
+#pragma optimize("", on)
 #include "WW3D2/RInfo.h"
 #include "WW3D2/Light.h"
 #include "WW3D2/DX8Wrapper.h"
