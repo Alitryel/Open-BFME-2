@@ -94,7 +94,7 @@ struct AptPseudoCIH_t {AptControl *control;AptControlInfo *info; AptPseudoCIH_t 
  static void *operator new(unsigned int size){return ((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock(size);}
  static void operator delete(void *,unsigned int);
 };
-class AptPseudoDisplayList {public:void *head;AptCIH *parent;void FindInst(int,AptPseudoCIH_t **,AptPseudoCIH_t **);void Insert(AptPseudoCIH_t *); void Remove(AptPseudoCIH_t *); void rva006F8430(int); __forceinline void Insert(AptPseudoCIH_t *prev,AptPseudoCIH_t *item) {item->next=prev->next;item->prev=prev;if(item->next)item->next->prev=item;item->prev->next=item;}};
+class AptPseudoDisplayList {public:void *head;AptCIH *parent;void FindInst(int,AptPseudoCIH_t **,AptPseudoCIH_t **);void Insert(AptPseudoCIH_t *); void Remove(AptPseudoCIH_t *); void rva006F8430(int); void rva006F83F0(AptPseudoCIH_t *,AptPseudoCIH_t *,AptPseudoCIH_t *); __forceinline void Insert(AptPseudoCIH_t *prev,AptPseudoCIH_t *item) {item->next=prev->next;item->prev=prev;if(item->next)item->next->prev=item;item->prev->next=item;}};
 void AptMovie::DoTemporaryFrameControls(AptPseudoDisplayList *display,int frame) {
  CHECK(frame>=0 && frame<nFrames,0xb2,"nFrame >= 0 && nFrame < (int)nFrames");
  if(frame<0 || frame>=nFrames) return;
@@ -144,6 +144,16 @@ void AptPseudoDisplayList::Insert(AptPseudoCIH_t *item) {
 }
 
 #pragma comment(linker, "/alternatename:?Remove@AptPseudoDisplayList@@QAEXPAUAptPseudoCIH_t@@@Z=?Rva006F7C70Free@@YGXPAURva006F7C70Item@@@Z")
+
+// Native6F83F0..6F8421 RET0C beside the rowed Insert: removes the old entry
+// (when given) and links the item after prev through the inline Insert, with
+// Insert(item)'s arm shape (each arm inlines the link; cl merges them into one
+// join, where a shared trailing Insert is tail-duplicated at /O2).
+// Address-derived name.
+void AptPseudoDisplayList::rva006F83F0(AptPseudoCIH_t *item,AptPseudoCIH_t *prev,AptPseudoCIH_t *old) {
+ if(old) {Remove(old);Insert(prev,item);}
+ else Insert(prev,item);
+}
 
 // Native6F8430..6F845A: Ghidra-unlisted pseudo display list helper beside
 // the rowed Insert: finds the entry at a depth through the rowed FindInst and
