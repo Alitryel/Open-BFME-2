@@ -10,6 +10,12 @@
 // this unit creates no interface objects or invented vtable data.
 // cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
 // stlport
+#include <stl/_construct.h>
+// Use the local scalar placement copy without emitting a competing template.
+namespace _STL {
+static inline void _Construct(int *dest, const int &value)
+{ new (dest) int(value); }
+}
 #include <list>
 extern "C" void *__cdecl memcpy(void *,const void *,unsigned int);
 #pragma intrinsic(memcpy)
