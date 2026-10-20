@@ -1,4 +1,13 @@
 // ?AllocateAndFillBuffers@RenderableStandingWaterArea@@QAEXXZ
+// partial score=0.9197485019832898 date=2026-10-20
+// 2026-10-20: clean bank, superseding the inherited r5 status below.
+// Native extent 8304A..834CE remains1156; this partial emits1163.
+// Native frame88 and the complete parent EH graph now EXACT. No volatile
+// locals, barrier calls, padding objects or synthetic callee bodies.
+// Genuine cache ctor153 and coordinate-add39 definitions are byte-exact.
+// Remaining first-pass induction/zero web and argument scheduling are
+// recorded in reverse/attempt_support/water-buffer-lifetimes-20261020/readme.md.
+// ?AllocateAndFillBuffers@RenderableStandingWaterArea@@QAEXXZ
 // partial score=0.84 date=2026-10-17
 // cl: /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
@@ -13,7 +22,7 @@
 #include <vector>
 #include "string_base.h"
 class ModuleData;
-class Rva0030812E { public: void *rva0030812E(int index); };
+class Rva0030812E { public: void *getTextureName(int index); };
 enum WW3DFormat { WW3D_FORMAT_UNKNOWN = 0 };
 class W3DRadarFormatCaps { public: bool supportTextureFormat(WW3DFormat format); };
 class DX8Caps;
@@ -72,7 +81,7 @@ private:
  _STL::vector<const ModuleData*> vertexBuffers,vertexCounts,indexBuffers,indexCounts;
 };
 void RenderableStandingWaterArea::createTexture(int index) {
- StringBase<char> *s=(StringBase<char>*)m_area->rva0030812E(index);
+ StringBase<char> *s=(StringBase<char>*)m_area->getTextureName(index);
  if (!s->isEmpty()) {
   if (index == 0) {
    int format=0;
@@ -242,7 +251,7 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include <string.h>
-#include "../../../../../Libraries/Include/Lib/Coord2D.h"
+#include "../../Code/Libraries/Include/Lib/Coord2D.h"
 namespace _STL {
  template<> class vector<char,allocator<char> > {
   public: char *start,*finish,*end;
@@ -272,7 +281,7 @@ class ModuleData;
 class Rva00081F03 {public:void rva00081F03();};
 class Rva0030D111Shape {public:virtual int count();};
 bool Rva0030D111Contains(Rva0030D111Shape*,const Coord2D*);
-struct Region2D {Region2D(){} Region2D(const Region2D&r){x0=r.x0;y0=r.y0;x1=r.x1;y1=r.y1;} ~Region2D(){} float x0,y0,x1,y1;};
+#include "../../Code/Libraries/Include/Lib/Region2D.h"
 class PolygonTrigger { public:Region2D rva0007E03A();};
 class GameLODManager;
 extern GameLODManager *TheGameLODManager;
@@ -307,6 +316,21 @@ public:
 };
 MathCoord2D operator+(MathCoord2D,const MathCoord2D&);
 inline int *BfmeOriginInts(const Vector3 &v){return (int*)&v;}
+
+struct BfmeWordVec : _STL::vector<unsigned short> {
+ void resize(unsigned int,unsigned short);
+};
+Rva00082A53::Rva00082A53(int a1,int a2,int a3,float a4,int *a5,int a6)
+ :self(a1),cells(),dimX(a2+1),dimY(a3+1),records()
+{
+ origin[0]=a5[0];origin[1]=a5[1];origin[2]=a5[2];spacing=a4;
+ int n=dimX*dimY;
+ ((BfmeWordVec*)&cells)->resize((unsigned int)n,(unsigned short)0xFFFF);
+ ((_STL::vector<BfmePod44>*)&records)->reserve((unsigned int)a6);
+}
+
+MathCoord2D operator+(MathCoord2D left,const MathCoord2D &right){left.x+=right.x;left.y+=right.y;return left;}
+
 void RenderableStandingWaterArea::AllocateAndFillBuffers() {
  reinterpret_cast<Rva00081F03*>(this)->rva00081F03();
  BFMEDX8DeviceLock guard;
@@ -315,45 +339,46 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
  if(TheGameLODManager && *reinterpret_cast<int*>(reinterpret_cast<char*>(TheGameLODManager)+0x1784)<=2){limit=30000;spacing=40.0f;}
  int nx,ny,total;
  do {
-  nx=int(bounds.x1/spacing)-int(bounds.x0/spacing)+1;
-  ny=int(bounds.y1/spacing)-int(bounds.y0/spacing)+1;
+  nx=int(bounds.hi.x/spacing)-int(bounds.lo.x/spacing)+1;
+  ny=int(bounds.hi.y/spacing)-int(bounds.lo.y/spacing)+1;
   total=nx*ny;
   if(total>limit)spacing*=2.0f;
  }while(total>limit);
- bounds.x0=(float)int(bounds.x0/spacing)*spacing;
- bounds.y0=(float)int(bounds.y0/spacing)*spacing;
- bounds.x1=float(int(bounds.x1/spacing))*spacing+spacing;
- bounds.y1=float(int(bounds.y1/spacing))*spacing+spacing;
+ bounds.lo.x=(float)int(bounds.lo.x/spacing)*spacing;
+ bounds.lo.y=(float)int(bounds.lo.y/spacing)*spacing;
+ bounds.hi.x=float(int(bounds.hi.x/spacing))*spacing+spacing;
+ bounds.hi.y=float(int(bounds.hi.y/spacing))*spacing+spacing;
  _STL::_Vector_base<BfmeE12,_STL::allocator<BfmeE12> > flags((_STL::allocator<BfmeE12>()));
  reinterpret_cast<_STL::vector<char>*>(&flags)->resize(total,0);
  MathCoord2D half(spacing*.5f,spacing*.5f);
  MathCoord2D center=(*reinterpret_cast<MathCoord2D*>(&bounds))+half;
+ int y;
  int count=0;
- char *grid=*reinterpret_cast<char**>(&flags);
- for(int y=0;y<ny;++y) {
+
+ for(y=0;y<ny;++y) {
   Coord2D pos;pos.y=y*spacing+center.y;
   for(int x=0;x<nx;++x){
    pos.x=x*spacing+center.x;
    
    Rva0030D111Shape *shape=m_area ? reinterpret_cast<Rva0030D111Shape*>(reinterpret_cast<char*>(m_area)+0x18+(*reinterpret_cast<int**>(reinterpret_cast<char*>(m_area)+0x18))[1]) : 0;
    bool in=Rva0030D111Contains(shape,&pos);
-   *grid++=in;
+   (*reinterpret_cast<char**>(&flags))[y*nx+x]=in;
    count+=in;
   }
  }
  if(!count)return;
  {
   int indexCount=count*6;
-  Rva00082A53 cache(reinterpret_cast<int>(this),nx,ny,spacing,BfmeOriginInts(Vector3(bounds.x0,bounds.y0,boundary[2])),2*count+nx+1);
+  Rva00082A53 cache(reinterpret_cast<int>(this),nx,ny,spacing,BfmeOriginInts(Vector3(bounds.lo.x,bounds.lo.y,boundary[2])),2*count+nx+1);
   const ModuleData *ib=reinterpret_cast<const ModuleData*>(new DX8IndexBufferClass(indexCount,DX8IndexBufferClass::USAGE_DEFAULT));
   indexBuffers.push_back(ib);
   {
    IndexBufferClass::WriteLockClass lock(reinterpret_cast<IndexBufferClass*>(const_cast<ModuleData*>(indexBuffers.back())),0);
    unsigned short *out=lock.indices;
-   for(int y=0;y<ny;++y){
-    char * volatile slot = *reinterpret_cast<char**>(&flags)+y*nx;
+   for(y=0;y<ny;++y){
+
     for(int x=0;x<nx;++x){
-     if(*slot){
+     if((*reinterpret_cast<char**>(&flags))[y*nx+x]){
       out[0]=cache.rva00082E33(x,y);
       out[1]=cache.rva00082E33(x+1,y+1);
       out[2]=cache.rva00082E33(x,y+1);
@@ -362,11 +387,11 @@ void RenderableStandingWaterArea::AllocateAndFillBuffers() {
       out[5]=cache.rva00082E33(x+1,y+1);
       out+=6;
      }
-     ++slot;
+
     }
    }
   }
-  _STL::vector<BfmePod44> * volatile records = reinterpret_cast<_STL::vector<BfmePod44>*>(&cache.records);
+  _STL::vector<BfmePod44> *records = reinterpret_cast<_STL::vector<BfmePod44>*>(&cache.records);
   const ModuleData *vb=reinterpret_cast<const ModuleData*>(new BfmeDynamicNativeVB(0x252,records->size(),0,0));
   vertexBuffers.push_back(vb);
   {
