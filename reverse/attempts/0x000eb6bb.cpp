@@ -1,4 +1,6 @@
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
+// partial score=0.64 date=2026-10-20
+// ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.55 date=2026-10-17
 // ?rva000EB6BB@Rva000EC9C6@@QAEXXZ
 // partial score=0.9 date=2026-10-12
@@ -29,8 +31,12 @@ struct TreeVertex {float x,y,z,nx,ny,nz;unsigned diffuse;float u,v,u2,v2;};
 struct TreeModelVertices {char p[0xC];Vector3 *vertices;};
 struct TreeTriangle {unsigned short I,J,K;};
 template<class T>struct TreeArray {char p[0xC];T *array;};
-class MeshMatDescClass {public:Vector2*Get_UV_Array(int,int);char p[0xC];int uvCount;TreeArray<Vector2>*uv;char p14[0x50-0x14];TreeArray<unsigned>*colors;
- __forceinline Vector2*GetUV(){if(uvCount)return Get_UV_Array(0,0);if(uv)return uv->array;return 0;}
+// Get_UV_Array is the header-inline body of rowed 0x000D1F1A; cl keeps it out of line, and
+// seeing that it stores nothing lets the model pointer stay live across the call.
+class MeshMatDescClass {public:
+ Vector2*Get_UV_Array(int pass,int stage){if(UVSource[pass][stage]==-1)return 0;if(uv[UVSource[pass][stage]])return uv[UVSource[pass][stage]]->array;return 0;}
+ char p[0xC];int uvCount;TreeArray<Vector2>*uv[8];int UVSource[4][2];TreeArray<unsigned>*colors;
+ __forceinline Vector2*GetUV(){if(uvCount)return Get_UV_Array(0,0);if(uv[0])return uv[0]->array;return 0;}
  __forceinline unsigned*GetColor(){if(colors)return colors->array;return 0;}
 };
 class MeshGeometryClass {public:const Vector3*Get_Vertex_Normal_Array(bool);};
@@ -65,7 +71,7 @@ a[0][0] = x;
 a[0][1] = y;
 a[0][2] = z;
 a[0][3] += w;
-x = a[1][0] * b[0][0] + (&a?a[1][1]:a[1][1]) * b[1][0] + a[1][2] * b[2][0];
+x = a[1][0] * b[0][0] + a[1][1] * b[1][0] + a[1][2] * b[2][0];
 y = a[1][0] * b[0][1] + a[1][1] * b[1][1] + a[1][2] * b[2][1];
 z = a[1][0] * b[0][2] + a[1][1] * b[1][2] + a[1][2] * b[2][2];
 w = a[1][0] * b[0][3] + a[1][1] * b[1][3] + a[1][2] * b[2][3];
@@ -103,17 +109,16 @@ void Rva000EC9C6::rva000EB6BB(){
    else transform.Set(location);
    transform.Scale(scale);treePost(transform,trees[curTree].transform);transform.Translate(types[type].offset);
    int startVertex=vertexCounts[b];trees[curTree].buffer=b;trees[curTree].firstVertex=startVertex;
-   TreeType &tt=types[type];
-   int numVertex=tt.mesh->Peek_Model()->Get_Vertex_Count();
-   Vector3 *pVert=tt.mesh->Peek_Model()->Get_Vertex_Array();
+   int numVertex=types[type].mesh->Peek_Model()->Get_Vertex_Count();
+   Vector3 *pVert=types[type].mesh->Peek_Model()->Get_Vertex_Array();
    if(vertexCounts[b]+numVertex>=30000)break;
-   int numIndex=tt.mesh->Peek_Model()->Get_Polygon_Count();
-   const TreeTriangle*pPoly=tt.mesh->Peek_Model()->Get_Polygon_Array();
+   int numIndex=types[type].mesh->Peek_Model()->Get_Polygon_Count();
+   const TreeTriangle*pPoly=types[type].mesh->Peek_Model()->Get_Polygon_Array();
    if(indexCounts[b]+3*numIndex>=60000)break;
-   const Vector2*uvs=tt.mesh->Peek_Model()->GetUV();
-   const Vector3*normals=tt.mesh->Peek_Model()->Get_Vertex_Normal_Array(false);
-   const unsigned*colors=tt.mesh->Peek_Model()->GetColor();
-   float uScale=tt.uScale,vScale=tt.vScale,uOrigin=tt.uOrigin,vOrigin=tt.vOrigin;
+   const Vector2*uvs=types[type].mesh->Peek_Model()->GetUV();
+   const Vector3*normals=types[type].mesh->Peek_Model()->Get_Vertex_Normal_Array(false);
+   const unsigned*colors=types[type].mesh->Peek_Model()->GetColor();
+   float uScale=types[type].uScale,vScale=types[type].vScale,uOrigin=types[type].uOrigin,vOrigin=types[type].vOrigin;
    for(int j=0;j<numVertex;++j){
     Matrix3D::Transform_Vector(transform,pVert[j],(Vector3*)curVb);
     if(normals)*(Vector3*)&curVb->nx=normals[j];else{curVb->nx=0;curVb->ny=0;curVb->nz=1;}
