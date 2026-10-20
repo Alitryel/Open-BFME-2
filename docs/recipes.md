@@ -97,6 +97,15 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 
 ## Frames, stores and locals
 
+- **Outgoing ESP save without an EH frame: test the caller's nonthrowing
+  contract.** Loader 0x000AB96D needed EH-enabled compilation to emit the
+  stack save before its by-value ownership copy, but ordinary EH-enabled
+  compilation also installed a frame absent from retail. Declaring the loader
+  itself `throw()` retained the save and removed that frame: all 194 B match.
+  Marking its callees nonthrowing alone did not recover it. Missing EH data
+  alone does not prove this contract; distinguish the full instruction and
+  cleanup shape. Evidence and controls:
+  `reverse/attempt_support/animation-loader-ab96d-20261019.md`.
 - **A store-order mismatch can require ordering the entire native write group.**
   Allocator growth 0x000334A0 was exactly 604 B except that an immediate 9
   store moved ahead of loading/storing two 8 markers. Writing those three
