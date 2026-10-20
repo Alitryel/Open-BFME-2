@@ -44,6 +44,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <list>
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Construct@UBfmePod172@@U1@@_STL@@YAXPAUBfmePod172@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod172;
+namespace _STL { template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &); }
 class Rva001EB984Member { public: void *init(void *context); };
 class Rva001EB769 { public: void rva001EB769() throw(); };
 template<class T>class Rva001EB984PoolAllocator {};

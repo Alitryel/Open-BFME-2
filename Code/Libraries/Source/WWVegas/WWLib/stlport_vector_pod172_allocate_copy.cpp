@@ -15,6 +15,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Construct@UBfmePod172@@U1@@_STL@@YAXPAUBfmePod172@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod172;
+namespace _STL { template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &); }
 struct BfmePod172 { int a[43]; };
 // _Construct<BfmePod172> is rowed in stlport_construct_pod172.cpp; declare it so
 // this unit calls that copy instead of emitting its own.
