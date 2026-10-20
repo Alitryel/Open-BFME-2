@@ -4791,7 +4791,7 @@ name,address,notes
 ??1Rva005E9F7B@@UAE@XZ,0x005E9F7B,opaque dtor called by the scalar deleting dtor at 0x005EA68B (vtable 0x00C75374#0 0x00C77AD8#0 0x00C781B8#0); identity unproven; address-derived name
 ??1Rva005E9FC1@@UAE@XZ,0x005EA224,sole REL32 callee of the slot-0 ??_G at 0x005EA208 in vftable 0x00C78114; body starts right after that ??_G
 ??1Rva005EA2AB@@QAE@XZ,0x005EA2AB,destructor called by the vtable-referenced scalar deleting dtor 0x005EA28F (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
-??1Rva005EB095@@QAE@XZ,0x005EB095,destructor called by the vtable-referenced scalar deleting dtor 0x005EB079 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
+??1PlayerPanelMovieClip@Impl@DynamicAutoResolveDialog@StrategicInGameUI@@UAE@XZ,0x005EB095,Panel constructor5EAF19 stores primary table87820C to deleting wrapper5EB079 and secondary table8781FC to +8 adjustor5EB071; wrapper REL32+4 calls this54B virtual destructor; replaces opaque owner name
 ??1Rva005EB2E7@@QAE@XZ,0x005EB2E7,pointee destructor called by the owning-pointer reset 0x005EB430 (byte-exact modulo relocs in OwnedPointerResets.cpp) and directly by scalar deleting dtor 0x005EB35D (118B body); identity unproven; address-derived name
 ??1Rva005EB753@@UAE@XZ,0x005EB753,opaque dtor called by the scalar deleting dtor at 0x005EB761 (vtable 0x00C7823C#0); identity unproven; address-derived name
 ??1Rva005EB8D6@@QAE@XZ,0x005EB8D6,pointee destructor called by the owning-pointer reset 0x005EBC74 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name

@@ -64,34 +64,24 @@ Rva00221C15::~Rva00221C15()
 {
 }
 
-// Native 005EB095..005EB0CB is the complete EH destructor. Its deleting
-// wrapper 005EB079 and adjustor 005EB071 establish the opaque owner; the
-// subobject at +8 directly calls the rowed 005FBBEE virtual destructor.
-// Its cleanup view models only that call and the observed adjustment; the
-// source inheritance and complete payload layout remain unproven.
+// Native 005EB095..005EB0CB is the destructor of the panel constructed
+// at 005EAF19. Its primary table87820C points to deleting wrapper5EB079;
+// secondary table8781FC points to the +8 adjustor5EB071. The primary
+// counted base restores BC6F20; the movie-clip base at +8 calls5FBBEE.
+#include "../../Include/Common/Rva0007DF07.h"
 class Rva005FBBEE
 {
 public:
     virtual ~Rva005FBBEE();
 };
-
-class Rva005EB095Payload
+namespace StrategicInGameUI {
+class DynamicAutoResolveDialog { public: class Impl; };
+class DynamicAutoResolveDialog::Impl { public: class PlayerPanelMovieClip; };
+class __declspec(novtable) DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip
+    : public Rva0007DF07, public Rva005FBBEE
 {
 public:
-    ~Rva005EB095Payload()
-    {
-        reinterpret_cast<Rva005FBBEE *>(this)->Rva005FBBEE::~Rva005FBBEE();
-    }
-private:
-    const void *m_vtable;
+    virtual ~PlayerPanelMovieClip();
 };
-
-class Rva005EB095 : public Rva00221C15Base, public Rva005EB095Payload
-{
-public:
-    ~Rva005EB095();
-};
-
-Rva005EB095::~Rva005EB095()
-{
+DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip::~PlayerPanelMovieClip() {}
 }
