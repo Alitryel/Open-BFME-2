@@ -8,7 +8,7 @@
 #define Matrix4x4 Matrix4
 #include "ww3d.h"
 #include "vector2.h"
-#include "matrix4.h"
+#include "../../../../reference/shims/bfme_matrix4_sse_link/matrix4.h"
 
 class Rva00785FD0Renderer;
 extern Matrix4 BFME2World;
