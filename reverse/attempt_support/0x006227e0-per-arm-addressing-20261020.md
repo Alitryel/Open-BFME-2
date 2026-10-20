@@ -50,6 +50,8 @@ In arm1, deque 0 must be a member, either `m_deques78[0]` or `m_deques78->`, and
 - **m2, 952:** struct-temp meter, 56 g1 bases × 0-16 discarded `m_set190.m_tree.begin();`. Only k=0 and k=4 keep nd=4. No base goes below 4.
 - **m3, 512:** struct-temp shift 0-255 on the bank and on the old nd=8 bank, to test key wraparound once temp numbers pass ~1365. Floors stay 4 and 8; above about 180 the code changes structurally. The n swap is invariant under uniform shifts.
 - **g10, 32:** const on each ref and on the `queues` pointee or pointer. All inert, nd=4.
+- **g11:** `deque<Rva009EF0D0Element *>` instead of `deque<int>`, with the casts dropped. The count tail changes from +0xb4a on (nd 349-351, plus 8 unresolved instantiations). Disproven.
+- **permute.py:** it stops at once ("only constants or offsets differ"), because the residue looks like displacements. It cannot search this body.
 
 ## Not yet tried
 - Changing the numbering of upstream code without changing its bytes (equivalent STL spellings in the keys loop and the eviction loop) to shift d1's A against its B.
