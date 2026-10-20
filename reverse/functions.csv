@@ -93439,8 +93439,8 @@ uw_00794c94,,0x00794C94,10,Code/GameEngine/Source/Common/GapBodiesS3L.cpp,matche
 uw_00794c9e,,0x00794C9E,10,Code/GameEngine/Source/Common/GapBodiesS3L.cpp,matched,gen-funclet;parent=?rva005114C6@Rva005114C6@@UAEPAVRva005114C6Messenger@@PAX@Z;object-symbol=$L1805
 uw_0076c47a,,0x0076C47A,10,Code/GameEngine/Source/Common/INI/INIWaterTransparency.cpp,matched,gen-funclet;parent=?parseWaterTransparencyDefinition@INI@@SAXPAV1@@Z;object-symbol=$L1361
 uw_0076c484,,0x0076C484,10,Code/GameEngine/Source/Common/INI/INIWaterTransparency.cpp,matched,gen-funclet;parent=?parseWaterTransparencyDefinition@INI@@SAXPAV1@@Z;object-symbol=$L1362
-uw_00776001,,0x00776001,10,Code/GameEngine/Source/Common/RTS/PlayerDoXfer.cpp,matched,gen-funclet;parent=?DoXfer@Player@@QAEXPAVXfer@@@Z;object-symbol=$L9720
-uw_00776013,,0x00776013,10,Code/GameEngine/Source/Common/RTS/PlayerDoXfer.cpp,matched,gen-funclet;parent=?DoXfer@Player@@QAEXPAVXfer@@@Z;object-symbol=$L9722
+uw_00776001,,0x00776001,10,Code/GameEngine/Source/Common/RTS/PlayerDoXfer.cpp,matched,gen-funclet;parent=?DoXfer@Player@@QAEXPAVXfer@@@Z;object-symbol=$L9165
+uw_00776013,,0x00776013,10,Code/GameEngine/Source/Common/RTS/PlayerDoXfer.cpp,matched,gen-funclet;parent=?DoXfer@Player@@QAEXPAVXfer@@@Z;object-symbol=$L9167
 uw_0076e802,,0x0076E802,25,Code/GameEngine/Source/Common/Rva0021BFD8.cpp,matched,gen-funclet;parent=?Rva0021C12FStripName@@YA?AVAsciiString@@ABV1@@Z;object-symbol=$L1390
 uw_00779d87,,0x00779D87,31,Code/GameEngine/Source/Common/Rva0030902ECtor.cpp,matched,gen-funclet;parent=??0Rva0030902E@@QAE@H@Z;object-symbol=$L1414
 uw_0077a1c1,,0x0077A1C1,31,Code/GameEngine/Source/Common/Rva0030CAA9OwnerCtor.cpp,matched,gen-funclet;parent=??0Rva0030CAA9Owner@@QAE@H@Z;object-symbol=$L1384

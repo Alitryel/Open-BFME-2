@@ -8,7 +8,7 @@
 // byte-identical except the four REL32 call slots, which resolve through the
 // rowed TeamFactory::findTeamPrototypeByID and the pins for the two unrowed
 // Player::Xfer halves at 0x2AF236/0x2AF33B.
-// cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Native 2B1522..2B212A, 3080 bytes, WB C205C0 Player::DoXfer (Player.cpp
 // asserts 5614..6049 name m_ai, m_resourceGatheringManager, m_tunnelSystem,
