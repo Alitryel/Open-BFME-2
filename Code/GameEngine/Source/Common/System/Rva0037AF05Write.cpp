@@ -11,13 +11,13 @@ union GameMessageArgumentType {int integer;char payload[16];};
 class RecorderClass
 {
 public:
-	void rva0037AF05(int type, GameMessageArgumentType arg);
+	void writeArgument(int type, GameMessageArgumentType arg);
 private:
 	char m_pad00[0x10];
 	FILE *m_file10; // +0x10
 };
 
-void RecorderClass::rva0037AF05(int type, GameMessageArgumentType arg)
+void RecorderClass::writeArgument(int type, GameMessageArgumentType arg)
 {
 	if (type == 0) {
 		fwrite(&arg, 4, 1, m_file10);

@@ -45780,7 +45780,7 @@ _VP6_readTSC,,0x001B8E70,29,Code/Libraries/Source/VP6/CopyHelpers.cpp,matched,Cl
 ??0Rva000748F6@@QAE@XZ,,0x000748F6,25,Code/GameEngine/Source/Common/System/Rva000747E5Method.cpp,matched,unlock lane vector ctor iterator 3x Region3D at plus4
 ?rva0059ECD2@AptOnlineCustomMatch@@QAEXH@Z,,0x0059ECD2,70,Code/GameEngine/Source/Common/Rva0059ECD2.cpp,matched,state 0xA apt ClosePassword via rowed AptCall plus virtual prefix plus neighbours
 ??0Rva0059E6D3Data@@QAE@XZ,,0x0059E574,58,Code/GameEngine/Source/Common/Rva0059E6D3DataCtor.cpp,matched,OwnershipSet ctor via rowed Vector_base thrice plus vtable plus zero
-?rva0037AF88@RecorderClass@@QAEXHPAVGameMessage@@@Z,,0x0037AF88,446,Code/GameEngine/Source/Common/System/Rva0037AF88Read.cpp,matched,recorder message arg reader via fread plus rowed appends
+?readArgument@RecorderClass@@QAEXHPAVGameMessage@@@Z,,0x0037AF88,446,Code/GameEngine/Source/Common/System/Rva0037AF88Read.cpp,matched,recorder message arg reader via fread plus rowed appends
 ??0Rva005EA635@@QAE@XZ,,0x005EA635,86,Code/Libraries/Source/WWVegas/WWMath/Rva005EA635Ctor.cpp,matched,ctor AsciiString temp base vtable plus 10
 ?Rva00074AFFGet@@YGPAVRva000748F6@@H@Z,,0x00074AFF,60,Code/GameEngine/Source/Common/System/Rva00074AFFInit.cpp,matched,chain lane static init guard returns global Rva000748F6
 ?rva004CD4DC@TeleportToCasterSpecialPower@@QAEXPAVObject@@@Z,,0x004CD4DC,63,Code/GameEngine/Source/GameLogic/Object/Update/ModuleRva004CD4DC.cpp,matched,Update FX dispatcher via Object rva0029439D and FXList doFXObj slot 0x1EC
@@ -45794,7 +45794,7 @@ _rva0062AF4AD3DXVec4Transform@12,,0x0062AF4A,6,Code/GameEngine/Source/Common/Rva
 ?rva0055A40C@Rva0055A246@@QBEXMAAV1@0@Z,,0x0055A40C,520,Code/GameEngine/Source/Common/Rva0055A40CSplit.cpp,matched,Reference-guided de Casteljau split; donor6d943 arithmetic; target520B RET12 and evaluator call55A0DD; four12B point prefix; float-triple difference locals and intrinsic float copies; original identity unknown
 ?rva0055A627@Rva0055A246@@QBEMM@Z,,0x0055A627,436,Code/GameEngine/Source/Common/Rva0055A246Ctor.cpp,matched,Reference-guided adaptive cubic length; donor6d943 ConstructionAndLength; Ghidra436B boundary and all17 references; two48B holders split at0.5; original target identity unknown
 ??_GRva0014F699@@UAEPAXI@Z,,0x0014DC3F,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva0014F699.cpp,matched,deleting dtor calls 0014D1E3 vtable BC6F24 chain
-?rva0037AF05@RecorderClass@@QAEXHTGameMessageArgumentType@@@Z,,0x0037AF05,131,Code/GameEngine/Source/Common/System/Rva0037AF05Write.cpp,matched,recorder message arg writer via fwrite plus rowed reader sizes; caller37B550 and BFME1 writeArgument prove by-value16B union
+?writeArgument@RecorderClass@@QAEXHTGameMessageArgumentType@@@Z,,0x0037AF05,131,Code/GameEngine/Source/Common/System/Rva0037AF05Write.cpp,matched,recorder message arg writer via fwrite plus rowed reader sizes; caller37B550 and BFME1 writeArgument prove by-value16B union
 ?rva0059EC72@AptOnlineCustomMatch@@QAEXH@Z,,0x0059EC72,59,Code/GameEngine/Source/Common/Rva0059ECD2.cpp,matched,state 2or3 winEnable false twice to 4 via rowed winEnable
 ?rva0059E390@Rva0059E390@@QAEXPBVModuleData@@@Z,,0x0059E390,23,Code/GameEngine/Source/Common/Rva0059E390Holder.cpp,matched,guarded ModuleData append via rowed push_back plus caller Parse
 ?rva004B0EBC@EmotionTrackerUpdate@@QAE_NXZ,,0x004B0EBC,41,Code/GameEngine/Source/GameLogic/Object/Update/EmotionTrackerUpdateRva004B0EBC.cpp,matched,EmotionTrackerUpdate vector 0x90 honest bool loop

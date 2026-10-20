@@ -89,8 +89,8 @@ virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot
  char pad004[0x10-4];FILE*m_file;UnicodeString m_fileName;int field0018;int m_mode;int field0020;
  GameInfo m_gameInfo;char padGameInfo[0xe60-0x24-sizeof(GameInfo)];int field0e60,field0e64;char padE68[8];bool m_doingAnalysis;char padE71[3];int m_gameMode;
 public:void stopRecording();
- void rva0037AF05(int,GameMessageArgumentType);
- void rva0037AF88(int,GameMessage*);
+ void writeArgument(int,GameMessageArgumentType);
+ void readArgument(int,GameMessage*);
 protected:
  void dumpCommandHistory(CommandDumpFile0037BE15*,unsigned);
  void writeToFile(GameMessage*);
@@ -339,7 +339,7 @@ void RecorderClass::writeToFile(GameMessage *msg)
 
     int numArgs = msg->getArgumentCount();
     for (int i = 0; i < numArgs; ++i) {
-        rva0037AF05((int)msg->getArgumentDataType(i), *(msg->getArgument(i)));
+        writeArgument((int)msg->getArgumentDataType(i), *(msg->getArgument(i)));
     }
 
     ::delete parser;
@@ -389,7 +389,7 @@ void RecorderClass::appendNextCommand()
     }
 
     for (int j = 0; j < totalArgs; ++j) {
-        rva0037AF88(lasttype,msg);
+        readArgument(lasttype,msg);
 
         --argsLeftForType;
         if (argsLeftForType == 0) {

@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?rva0037AF88@RecorderClass@@QAEXHPAVGameMessage@@@Z @0x0037AF88 446B: recorder game-message arg reader via IAT fread plus rowed GameMessage appends 0-10. Evidence: FILE at +0x10 early dispatch plus fread sizes 4 1 12 8 16 2 plus appendInteger Real Boolean ObjectID DrawableID TeamID Location Pixel PixelRegion Timestamp WideChar; same FILE+0x10 family as Rva0037ADB6Write and Rva0037B287Write; caller 0x0037B94D.
+// ?readArgument@RecorderClass@@QAEXHPAVGameMessage@@@Z @0x0037AF88 446B: recorder game-message arg reader via IAT fread plus rowed GameMessage appends 0-10. Evidence: FILE at +0x10 early dispatch plus fread sizes 4 1 12 8 16 2 plus appendInteger Real Boolean ObjectID DrawableID TeamID Location Pixel PixelRegion Timestamp WideChar; same FILE+0x10 family as Rva0037ADB6Write and Rva0037B287Write; caller 0x0037B94D.
 struct FILE;
 extern "C" __declspec(dllimport) unsigned int __cdecl fread(void *buf, unsigned int size, unsigned int count, FILE *stream);
 
@@ -35,13 +35,13 @@ enum DrawableID
 class RecorderClass
 {
 public:
-	void rva0037AF88(int type, GameMessage *msg);
+	void readArgument(int type, GameMessage *msg);
 private:
 	char m_pad00[0x10];
 	FILE *m_file10; // +0x10
 };
 
-void RecorderClass::rva0037AF88(int type, GameMessage *msg)
+void RecorderClass::readArgument(int type, GameMessage *msg)
 {
 	if (type == 0) {
 		fread(&type, 4, 1, m_file10);
