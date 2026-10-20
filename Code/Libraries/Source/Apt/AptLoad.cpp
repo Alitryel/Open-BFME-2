@@ -223,7 +223,19 @@ struct Rva006D15B0Node
 	int *m_count;
 	Rva006D15B0Node *m_next;
 };
-class Rva006D15B0Stack { public: void rva006D15B0(int *const *); Rva006D15B0Node *m_head; };
+class Rva006D15B0Stack
+{
+public:
+	// The same node push as rva006D15B0, for the caller that retail inlines it into.
+	__forceinline void push(int *const *handle)
+	{
+		Rva006D15B0Node *node = new Rva006D15B0Node(handle);
+		node->m_next = m_head;
+		m_head = node;
+	}
+	void rva006D15B0(int *const *);
+	Rva006D15B0Node *m_head;
+};
 __declspec(noinline) inline void Rva006D15B0Stack::rva006D15B0(int *const *handle)
 {
 	Rva006D15B0Node *node = new Rva006D15B0Node(handle);
@@ -332,7 +344,7 @@ public:
 	void rva006D17F0();
 	void rva006D1450(Rva006D07E0Key);
 	void Load(const EAStringC &file, EAStringC target);
-private:
+protected:
 	// The link list's iterator, spelled as WorldBuilder's AptLoad.cpp calls it
 	// (begin, end, ==, !=, ++, *, a user-written copy constructor).
 	struct Iter
@@ -434,5 +446,39 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 		erase(it);
 		if (loaded.m_object)
 			add(loaded, cih);
+	}
+}
+
+struct Rva006D07E0Iterator
+{
+	Rva006D07E0Iterator(BfmeNodeVMU *p) : node(p) {}
+	Rva006D0790Ref &operator*() const { return node->entry; }
+	BfmeNodeVMU *node;
+};
+class Rva006D07E0List { public: Rva006D07E0Iterator find(Rva006D07E0Key); BfmeNodeVMU *head; };
+
+// AptLinker under the pinned neutral name of retail 0x006D1D10 (615B, RET8), called from 0x006D2773.
+// List nodes hold a counted record reference; the push uses the rowed 0x006D15B0 node shape.
+class Rva006D1D10 : public AptLinker
+{
+public:
+	void update(Rva006D07E0Key first, Rva006D07E0Key second);
+private:
+	__forceinline void push_front(const Rva006D0790Ref &r) { ((Rva006D15B0Stack *)this)->push((int *const *)&r); }
+};
+
+// WB 0x01752A20 shape: found = *find(first), it = findLink(target), end() test, erase only when found.
+// Both record constructors copy second; native loads [esp+0x38] after two pushes.
+void Rva006D1D10::update(Rva006D07E0Key first, Rva006D07E0Key second)
+{
+	rva006D1450(second);
+	Rva006D0790Ref found(*((Rva006D07E0List *)this)->find(first));
+	void *name = found->GetTarget();
+	Iter it = findLink(name);
+	if (it == end())
+		push_front(new Rva006D0790(second, name));
+	else {
+		erase(it);
+		push_front(new Rva006D0790(second, name));
 	}
 }
