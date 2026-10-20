@@ -45,6 +45,15 @@ static __declspec(noinline) bool Rva005E3FE6(const Rva005E4300Entry *a,const Rva
  return keyA<keyB;
 }
 }
+// Retail 0x005E3977: the group order (group 0 first, then ascending) as a
+// TU static; the comparator inlines it and cl keeps this register-convention
+// copy (second group in EAX, first on the stack).
+static bool compareGroups(int ga,int gb)
+{
+ if(ga==0)return true;
+ if(gb==0)return false;
+ return ga<gb;
+}
 class Rva005E4300Cmp {
 public:
  char operator()(int,int) const;
@@ -59,7 +68,7 @@ char Rva005E4300Cmp::operator()(int keyA,int keyB) const
  const Rva005E4300Entry *b=(const Rva005E4300Entry *)rawB;
  if(b->name.compare(*selected)==0)goto no;
  {int ga=a->group,gb=b->group;
- if(ga!=gb) {if(ga==0)return true; if(gb==0)goto no; return ga<gb;}
+ if(ga!=gb) return compareGroups(ga,gb);
  return StrategicInGameUI::Rva005E3FE6(a,b,keyA,keyB);}
  no:return false;
 }
