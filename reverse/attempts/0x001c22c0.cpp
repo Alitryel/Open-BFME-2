@@ -1,5 +1,5 @@
 // _DeringBlockWeak_C
-// partial score=0.944298820445609 date=2026-10-19
+// partial score=0.968545 date=2026-10-20
 // _DeringBlockWeak_C
 // cl: /O2 /G6 /DNDEBUG /MD
 // Approved clean-room specs 001c22c0 and 001c1ad0 plus retail only.
@@ -9,6 +9,8 @@
 // 243 fixed-offset differing bytes, first difference +0x63.
 // Existing independent-spec oracle passes 2560 native/C++/spec cases.
 // See reverse/attempt_support/dering-weak-mixed-counter-20261019/.
+// Weight stores index the arrays flat; the vertical and output loops share one unsigned column, and
+// each output reads its centre and right pixels first. See reverse/attempt_support/dering-weak-flat-20261020.md.
 extern "C" int Vp6FilterEdgeTagTable[];
 
 extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *source,
@@ -21,14 +23,13 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 	int cap = 3 * quality;
 	short vertical[72];
 	short horizontal[72];
-	int c;
+	unsigned int c;
 
 	if (cap > 24)
 		cap = 24;
 
 	const unsigned char *vrow = source;
-	short *vweight = vertical;
-	for (int r = 9; r != 0; --r) {
+	for (int r = 0; r < 9; r++) {
 		for (c = 0; c < 8; c++) {
 			int difference = (vrow[c] - vrow[c - pitch]) > 0 ? (vrow[c] - vrow[c - pitch]) : (vrow[c - pitch] - vrow[c]);
 			int weight;
@@ -39,14 +40,12 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 				weight = 0;
 			else if (weight > cap)
 				weight = cap;
-			vweight[c] = (short)weight;
+			vertical[r * 8 + c] = (short)weight;
 		}
 		vrow += pitch;
-		vweight += 8;
 	}
 	const unsigned char *hrow = source;
-	short *hweight = horizontal;
-	for (int r = 8; r != 0; --r) {
+	for (int r = 0; r < 8; r++) {
 		for (unsigned int hc = 0; hc < 9; hc++) {
 			int difference = (hrow[(int)hc] - hrow[(int)hc - 1]) > 0 ? (hrow[(int)hc] - hrow[(int)hc - 1]) : (hrow[(int)hc - 1] - hrow[(int)hc]);
 			int weight;
@@ -54,21 +53,22 @@ extern "C" void __cdecl DeringBlockWeak_C(void *instance, const unsigned char *s
 			if (weight < -64) weight = sharpen;
 			else if (weight < 0) weight = 0;
 			else if (weight > cap) weight = cap;
-			hweight[(int)hc] = (short)weight;
+			horizontal[r * 9 + (int)hc] = (short)weight;
 		}
 		hrow += pitch;
-		hweight += 9;
 	}
 
 	for (int r = 0; r < 8; r++) {
 		for (c = 0; c < 8; c++) {
+			int centerPixel = source[r * pitch + c];
+			int rightPixel = source[r * pitch + c + 1];
+			int left = horizontal[r * 9 + c];
 			int up = vertical[r * 8 + c];
 			int down = vertical[r * 8 + c + 8];
-			int left = horizontal[r * 9 + c];
 			int right = horizontal[r * 9 + c + 1];
-			int value = ((128 - right - down - up - left) * source[r * pitch + c]
+			int value = ((128 - right - down - up - left) * centerPixel
 				+ down * below[r * pitch + c] + left * source[r * pitch + c - 1]
-				+ right * source[r * pitch + c + 1] + up * above[r * pitch + c] + 64) >> 7;
+				+ right * rightPixel + up * above[r * pitch + c] + 64) >> 7;
 			int pixel;
 			if (value < 0) pixel = 0;
 			else if (value > 255) pixel = 255;
