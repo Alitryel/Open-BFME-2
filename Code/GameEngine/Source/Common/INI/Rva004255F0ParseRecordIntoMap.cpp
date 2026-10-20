@@ -6,7 +6,15 @@
 // pair result comes back through the hidden pointer) and destroyed by the
 // record destructor at 0x00423280.  Address-derived names.
 
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
 #include "ascii_string.h"
 
@@ -35,9 +43,17 @@ class INI
 {
 public:
 	void initFromINI( void *what, const FieldParse *parseTable );
+	static void parseAsciiString( INI *ini, void *instance, void *store, const void *userData );
 };
 
-extern const FieldParse Rva004255F0FieldParseTable[];
+void Rva00339900Parse( INI *ini, void *instance, void *store, const void *userData );
+
+// Retail VA 0x00BDC048: the record's two fields and the zero sentinel.
+extern const FieldParse Rva004255F0FieldParseTable[] = {
+	{ "Side", &INI::parseAsciiString, 0, 0x0 },
+	{ "Sound", &Rva00339900Parse, 0, 0x4 },
+	{ 0, 0, 0, 0 }
+};
 
 class Rva004255F0
 {
