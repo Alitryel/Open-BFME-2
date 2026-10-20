@@ -45,9 +45,15 @@ StringNode0070D9F0 *Rva0070DBB0Intern(const char *string);
 void Rva0070DDC0Remove(StringNode0070D9F0 *node);
 
 class Rva006DB160 { public: void *allocBlock(int blockSize); };
-class Rva006DB270;
+class Rva006DB270 { public: void freeBlock(void *block, int blockSize); };
 extern Rva006DB270 *g_pChainBlockAllocator;
-void Rva006D8680Free(void *block, int blockSize);
+// Native sized-delete cleanup calls the same22B pool-free owner at6D8680.
+// Expose that real forwarding body so each actual operator delete emits its
+// whole proven ICF twin rather than a distinct5B jump to an opaque wrapper.
+inline void Rva006D8680Free(void *block, int blockSize)
+{
+    g_pChainBlockAllocator->freeBlock(block, blockSize);
+}
 
 // The two pooled 12-byte value types built from constant types 8 and 4.
 class Rva006FB9C0 : public AptValue
