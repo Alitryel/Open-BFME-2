@@ -24,7 +24,7 @@ void __debugbreak();
 #pragma intrinsic(__debugbreak)
 #define INPUT_ASSERT(test,text,line) if(!(test)){g_bfmeAptAssertAtE17734(text,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
 struct BfmeMesh1290;struct BfmeTransform2_1290;
-class AptAnimationPoolData {public:AptCIH *rva006FA420(int,int);bool bfmeMeshHitTest1290(BfmeMesh1290 *,const BfmeTransform2_1290 *,int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void rva006FA340();};
+class AptAnimationPoolData {public:AptCIH *rva006FA420(int,int);bool bfmeMeshHitTest1290(BfmeMesh1290 *,const BfmeTransform2_1290 *,int,int);char unknown00[8];unsigned short count,capacity;AptCIH **entries;char unknown10[0x5C];AptCIH *current;void rva006FA100(AptCIH*,int);void setValidFocusButton();};
 static __declspec(noinline) bool rva006F97F0Parse(EAStringC *value,int *first,int *second)
 {
  if(value->IsEmpty())return false;
@@ -39,7 +39,7 @@ static __declspec(noinline) bool rva006F97F0Parse(EAStringC *value,int *first,in
  if(first)*first=atoi(cursor+1);
  return true;
 }
-void AptAnimationPoolData::rva006FA340()
+void AptAnimationPoolData::setValidFocusButton()
 {
  int first,second;
  if(current && rva006F97F0Parse(&current->name,&first,&second))return;

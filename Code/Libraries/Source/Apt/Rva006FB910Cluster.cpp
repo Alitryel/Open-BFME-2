@@ -79,12 +79,12 @@ public:
     int m78;
     AptCIH *rva006FA420(int x, int y); // address-derived, 0x006FA420
     void rva006FA100(AptCIH *value, int mode); // address-derived, 0x006FA100
-    void rva006FA340(); // address-derived call target from this object view
+    void setValidFocusButton(); // address-derived call target from this object view
     void rva006FB860(int value, char isFirst);
     void rva006FB120(int x, int y, int packed, int field, char isFirst);
-    void rva006FAB40(BfmeAptValue006DCD20 *, int, int);
+    void AddListenerToQueue(BfmeAptValue006DCD20 *, int, int);
     void rva006FB5B0(int x, int y, int packed, int field);
-    bool rva006FACA0(int x, int y, void **candidate);
+    bool HandleFocusButton(int x, int y, void **candidate);
     void Rva006F9EF0();
     void rva006FB910();
     void ProcessButtonState();
@@ -175,7 +175,7 @@ void AptAnimationPoolData::HandleAutoNav(AptCIH *candidate, int eventCode,
     case 15:
         if (m70 || transition)
             return;
-        rva006FA340();
+        setValidFocusButton();
         if (!m6c)
             return;
         if (!candidate) {
@@ -258,7 +258,7 @@ void AptAnimationPoolData::rva006FB860(int value, char isFirst)
 
     rva006FB120(x, y, value, field, isFirst);
     rva006FB5B0(x, y, value, field);
-    if (!rva006FACA0(x, y, &candidate))
+    if (!HandleFocusButton(x, y, &candidate))
         HandleAutoNav((AptCIH *)candidate, x, y);
 }
 
@@ -292,10 +292,10 @@ void AptAnimationPoolData::rva006FB5B0(int x, int y, int packed, int field)
             switch(y) {
             case 0:
                 APTINPUT_CHECK(x==0,"eType == AptInputType_MouseButton0",0x41f);
-                rva006FAB40(value,0x10,packed); break;
+                AddListenerToQueue(value,0x10,packed); break;
             case 1:
                 APTINPUT_CHECK(x==0,"eType == AptInputType_MouseButton0",0x423);
-                rva006FAB40(value,0x20,packed); break;
+                AddListenerToQueue(value,0x20,packed); break;
             case 3: case 4:
                 if (static_cast<unsigned char>(value->isCIH(false)) && static_cast<unsigned char>(value->rva006DCF60(false)->rva006E02B0())) {
                     if (m68==value) {
@@ -306,7 +306,7 @@ void AptAnimationPoolData::rva006FB5B0(int x, int y, int packed, int field)
                         value->rva006DCF60(false);
                         rva006EE6C0((AptValue *)value,&name,arg);
                     }
-                } else rva006FAB40(value,0x80000,packed);
+                } else AddListenerToQueue(value,0x80000,packed);
                 break;
             default: APTINPUT_CHECK(false,"NOT_REACHED",0x43c); break;
             }
@@ -318,8 +318,8 @@ void AptAnimationPoolData::rva006FB5B0(int x, int y, int packed, int field)
             if (!m1c[i]) continue;
             value=m1c[i];
             switch(y) {
-            case 0: rva006FAB40(value,0x40,packed); break;
-            case 1: rva006FAB40(value,0x80,packed); break;
+            case 0: AddListenerToQueue(value,0x40,packed); break;
+            case 1: AddListenerToQueue(value,0x80,packed); break;
             }
             ++count;
         }
