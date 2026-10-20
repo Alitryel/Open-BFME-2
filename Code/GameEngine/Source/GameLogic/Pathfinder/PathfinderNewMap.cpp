@@ -23,7 +23,7 @@
 // The waypoint test 0x002E6ECA is rowed with an int return but retail tests
 // only al after the call (WB reads its result as a byte): the narrowing cast
 // keeps the rowed name. The footprint call 0x00530212 is a thiscall member
-// (ecx = this before the call); its only pin spells a stdcall free function.
+// (ecx = this before the call); its bool flags match the ledger row's signature.
 #include <math.h>
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
@@ -179,7 +179,7 @@ public:
 	void NewMap();
 	void Rva0052F2EC();
 	void *rva001E3647Pos(int layer, const Coord3D *pos);
-	void rva00530212(Object *obj, int insert, int a2, int a3);
+	void rva00530212(Object *obj, bool insert, bool keepGate, bool goal);
 private:
 	char m_pad00[0x08];
 	bool m_isMapReady;			// +0x08
@@ -234,7 +234,7 @@ void Pathfinder::NewMap()
 	}
 	Rva0052F2EC();
 	for (Object *obj = TheGameLogic->getFirstObject(); obj; obj = ((ObjectNextView *)obj)->m_next) {
-		rva00530212(obj, 1, 0, 0);
+		rva00530212(obj, true, false, false);
 	}
 	m_zoneManager.MarkDirty((Rva005312BERect *)&m_extent);
 	((Rva002E713F460 *)&m_zoneManager)->rva00533BEC(m_map, m_layers, &m_extent);

@@ -8,8 +8,6 @@
 
 class Object;
 
-void __stdcall Rva00530212Helper(Object *object, int a1, int a2, int a3);
-
 class Rva0036666B
 {
 public:
@@ -30,6 +28,7 @@ public:
 	void RemoveObjectGoalFromPathfindMap(Object *object);
 	void RemoveObjectFromPathfindMapKeepingGateFlags(Object *object);
 	int AddBridge(int arg);
+	void rva00530212(Object *object, bool insert, bool keepGate, bool goal);	// 0x00530212 footprint classifier
 private:
 	char m_pad00[0x60];
 	struct Slot { char bytes[0x40]; };
@@ -39,22 +38,22 @@ private:
 // ?AddObjectToPathfindMap@Pathfinder@@QAEXPAVObject@@@Z
 void Pathfinder::AddObjectToPathfindMap(Object *object)
 {
-	Rva00530212Helper(object, 1, 0, 0);
+	rva00530212(object, true, false, false);
 }
 
 void Pathfinder::RemoveObjectFromPathfindMap(Object *object)
 {
-	Rva00530212Helper(object, 0, 0, 0);
+	rva00530212(object, false, false, false);
 }
 
 void Pathfinder::RemoveObjectGoalFromPathfindMap(Object *object)
 {
-	Rva00530212Helper(object, 0, 0, 1);
+	rva00530212(object, false, false, true);
 }
 
 void Pathfinder::RemoveObjectFromPathfindMapKeepingGateFlags(Object *object)
 {
-	Rva00530212Helper(object, 0, 1, 0);
+	rva00530212(object, false, true, false);
 }
 
 // ?AddBridge@Pathfinder@@QAEHH@Z @0x002E71BF 70B

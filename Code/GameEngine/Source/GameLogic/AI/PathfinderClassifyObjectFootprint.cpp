@@ -1,35 +1,16 @@
-// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
-// partial score=0.9997 date=2026-10-20
-// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
-// partial score=0.79 date=2026-10-17
-// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
-// partial score=0.9080518138749478 date=2026-10-14
-// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
-// partial score=0.9032743070748416 date=2026-10-14
-// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
-// partial score=0.8620093232384183 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
-// Native 00530212..00530F47, RET16, 3381B. UNMATCHED reconstruction.
-// 2026-10-13: full emitted body is 3380B; frame 0x164 versus retail 0x168.
-// Reference-derived fixes: CRT float floorf/ceilf wrappers and long fistp
-// conversion, -(c*STEP), ordered radius comparison, donor sphere locals.
-// Target-derived fixes: removal tests type before layer; pinching checks the
-// current layer once and counts neighboring clear types regardless of layer.
-// Object::isMobile now uses the existing canonical owner at 0x002907A1.
-// Residue: position copy folds +0x38 into its loads; box-cell CSE spills the
-// receiver instead of the type; bounding-region call has different registers;
-// stack homes differ. No proven original BFME2 member name: retain RVA name.
-// Diagnostic-only call bindings: Drawable::rva0027A018 -> 0x0027A018,
-// Pathfinder::rva0052E4C9 -> 0x0052E4C9 and rva0052F63F -> 0x0052F63F.
-// They are not admitted pins. Official permute.fitness with those bindings:
-// 0.8620093232384183; exact verification FAILS. Do not promote from length alone.
-// Reviewed donor cee35b7d8ca077d7255f1c39cb69e9fd9627aa85. Upstream 24656f4d
-// changes no relevant footprint body, ZH source, or VS2003 toolchain inputs.
-// ZH AIPathfind.cpp classifyObjectFootprint/internal_classifyObjectFootprint
-// provide the filtering/rasterization/pinching semantics. BFME-specific wall,
-// portal, multi-shape, gate and layer checks are read from target bytes and WB.
-// 2026-10-20 (claude-opus-5-5): the body is one byte from retail: the gate-path cell address at +0x551 encodes [ebx+eax] where retail has [eax+ebx];
-// the only other difference is the call to Pathfinder::rva0052F63F (0x0052F63F), which has no row and no pin. Handoff: reverse/attempt_support/0x00530212_20261020_one_byte.md
+// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z, native 0x00530212..0x00530F47
+// (RET 16, 3381 B): the object-footprint classifier behind the four
+// Pathfinder add/remove forwarders (PathfindShimAddObject.cpp) and newMap.
+// Identity and boundary are target facts (callers, RET 16, neighbours
+// 0x0052F63F and 0x00530F47); the semantic spine is carried from ZH
+// AIPathfind.cpp classifyObjectFootprint / internal_classifyObjectFootprint
+// (filters, box and sphere rasterizers, pinch and border passes). BFME-specific
+// wall, portal, multi-shape, gate and layer checks are read from target bytes
+// and WorldBuilder. No original BFME 2 member name is proven: the RVA name stays.
+// Codegen notes: the function-scope `int i, j;` used by the gate-clearing and
+// sphere loops (ZH style) sets retail's base/index order in the box gate path;
+// the post-switch passes declare their own loop counters.
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
@@ -81,6 +62,7 @@ class Pathfinder{public:
 };
 void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
 {
+ int i,j;
  const Coord3D *objPos=obj->getPosition();
  Drawable *drawable=obj->getDrawable();
  if(drawable){if(insert)drawable->createEmbeddedPortals();else ((Rva00279677*)drawable)->rva00279677();}
@@ -100,7 +82,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if((gate||bit22)&&!insert)changedGate=true;
  if(insert&&obj->templ->kind(120)&&obj->rva0006F039(94)){
   int x=(int)(objPos->x*0.1f),y=(int)(objPos->y*0.1f);
-  for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if(cell&&cell->gate()){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
+  for(i=-60;i<=60;++i)for(j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if(cell&&cell->gate()){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
  }
  Rva0027C36A data;
  void*poly;
@@ -155,7 +137,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    size=radius*0.1f;center.x=pos.x*0.1f;center.y=pos.y*0.1f;
    size+=0.4f;r2=size*size;
    bottomRight.x=(int)(topLeft.x+2*size+2);bottomRight.y=(int)(topLeft.y+2*size+2);
-   for(int j=topLeft.y;j<bottomRight.y;++j)for(int i=topLeft.x;i<bottomRight.x;++i){
+   for(j=topLeft.y;j<bottomRight.y;++j)for(i=topLeft.x;i<bottomRight.x;++i){
     delta.x=i+0.5f-center.x;delta.y=j+0.5f-center.y;
     if(!(delta.x*delta.x+delta.y*delta.y<=r2)||i<0||j<0||i>=extent.hx||j>=extent.hy||map[i][j].layer()!=1)continue;
     if(insert){In002E6BA1 p={i,j};if(map[i][j].rva0052DEEF((const Rva0052DEEFArg*)obj,false,&p))zones.MarkDirty(i,j);}
@@ -178,8 +160,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
   if(map[i][j].type()==5&&map[i][j].layer()==1){map[i][j].SetType_Dirty(0);zones.MarkDirty(i,j);}
  }
  // Check for pinched cells, and close them off.
- int i,j;
- for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
+ for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()!=1)continue;
   map[i][j].pinch(false);
   if(map[i][j].type()==0){
@@ -194,11 +175,11 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    if(ortho<2||total<4)map[i][j].pinch(true);
   }
  }
- for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
+ for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()==1&&map[i][j].pinched()&&map[i][j].type()==0){map[i][j].SetType_Dirty(5);map[i][j].pinch(false);zones.MarkDirty(i,j);}
  }
  // Expand building bounds 1 cell.
- for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
+ for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()==1&&map[i][j].type()==0){
    bool adjacent=false;
    for(int k=i-1;k<i+2;++k){if(k<extent.lx||k>extent.hx)continue;
