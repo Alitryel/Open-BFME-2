@@ -172,7 +172,7 @@ Coord2D rva0029D9F9();bool rva0029DB61();
 char pad4[0x5ac-4];int expires;bool active;char pad5b1[0x98d-0x5b1];bool directionValid;char pad98e[2];Coord3D position;Coord3D end;Coord2D direction;int formation;
 };
 extern InGameUI *TheInGameUI;
-Coord2D InGameUI::rva0029D9F9() {
+__declspec(noinline) inline Coord2D InGameUI::rva0029D9F9() {
  Coord2D dir(end.x-position.x,end.y-position.y);
  if(C2R(dir).GetLengthSqrd()<TheFormationAssistant->threshold*TheFormationAssistant->threshold) {
   if(directionValid)return direction;

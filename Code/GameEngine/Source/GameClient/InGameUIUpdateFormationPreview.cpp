@@ -1,17 +1,17 @@
-// ?updateFormationPreview@InGameUI@@QAEXXZ
-// partial score=0.97 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // stlport
 // Native 002A4E1F..002A57BD and WB 00DC0B00 establish the complete preview flow.
 // Native selection/hash behavior and offsets differ from the debug-build body.
+// Coord3D is retail's class with the empty user destructor, as WB's EH states around each position show.
 #define _STLP_USE_STATIC_LIB
 #define _STLP_USE_MALLOC
 #define _CRTIMP
 #define COORD2D_VIEW_DTOR
-#include "../../Code/Libraries/Include/Lib/Coord2DCtorView.h"
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/Libraries/Include/Lib/ICoord2D.h"
-#include "../../Code/Libraries/Include/Lib/RGBColor.h"
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord2DCtorView.h"
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -42,8 +42,7 @@ class Object {public:char p0[0x38];Coord3D position;char prefix[0x438-0x44];unsi
 class Player {public:char prefix[0x280];int color;};
 class PlayerList {public:char prefix[0x10];Player *localPlayer;};
 extern PlayerList *ThePlayerList;
-enum ObjectID {INVALID_ID=0,FORCE_OBJECT_ID_TO_LONG_SIZE=0x7ffffff};
-class GameLogic {public:Object *findObjectByID(ObjectID);};
+#include "../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 template<int N>class PreviewSlots:public PreviewSlots<N-1>{public:virtual void slot(char(*)[N]);};
 template<>class PreviewSlots<0>{};
@@ -226,7 +225,7 @@ inline float Coord2D::toAngle() const
     }
     return ACos(cosine);
 }
-Coord2D InGameUI::rva0029D9F9() {
+__declspec(noinline) inline Coord2D InGameUI::rva0029D9F9() {
  Coord2D dir(end.x-start.x,end.y-start.y);
  if(C2R(dir).GetLengthSqrd()<reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold*reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold) {
   if(directionValid)return direction;
@@ -257,8 +256,7 @@ void InGameUI::updateFormationPreview() {
    if(expires>now) {if(expires-now>500)expires=now;return;}
    float alpha=1.0f-(float)(now-expires)*(1.0f/(BfmeClientFramesPerSecond*0.5f));
    if(alpha<=0.0f){owner->rva002A3E24();return;}
-   float one=1.0f;
-   const float &clamped=alpha<one?alpha:one;alpha=clamped;
+   alpha=_STL::min(1.0f,alpha);
    for(BfmeE12View *it=first;it!=last;++it) {
     Drawable *d=it->pool?it->pool->drawable:0;
     if(d)d->opacity=alpha;
@@ -285,8 +283,10 @@ void InGameUI::updateFormationPreview() {
  ObjectList objects(allocator);
  int hash=0;
  for(IdNode *it=ids.head->next;it!=ids.head;it=it->next) {
+  unsigned hi=hash&0xF8000000;
+  unsigned rot=(hash<<5)^(hi>>27);
   ObjectID id=it->id;
-  unsigned hi=hash&0xF8000000;hash=(hash<<5)^(hi>>27)^id;
+  hash=rot^id;
   Object *obj=TheGameLogic->findObjectByID(id);
   if(obj && !(obj->flags&1))objects.push_back(obj);
  }
@@ -336,7 +336,7 @@ void InGameUI::updateFormationPreview() {
    frontOffset=arrows[1]->decal->height()+30.0f;
    Rva0029A469 *decal=arrows[1]->decal;
    if(decal) {
-    Coord3D pos={start.x+offset*unit.x,start.y+offset*unit.y,start.z};
+    Coord3D pos(start.x+offset*unit.x,start.y+offset*unit.y,start.z);
     decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
     float width=C2R(side).GetLength()*2.0f-arrowWidth;
     decal->setWidth(width);
@@ -347,19 +347,19 @@ void InGameUI::updateFormationPreview() {
   C2R(tip).Normalize();C2R(tip)*=tipLength;
   if(arrows[2] && arrows[2]->decal) {
    Rva0029A469 *decal=arrows[2]->decal;
-   Coord3D pos={start.x+offset*unit.x+tip.x,start.y+offset*unit.y+tip.y,start.z};
+   Coord3D pos(start.x+offset*unit.x+tip.x,start.y+offset*unit.y+tip.y,start.z);
    decal->setPosition(pos);decal->setOrientation(angle+3.1415927f-1.5707964f);
   }
   if(arrows[3] && arrows[3]->decal) {
    Rva0029A469 *decal=arrows[3]->decal;
-   Coord3D pos={start.x+offset*unit.x-tip.x,start.y+offset*unit.y-tip.y,start.z};
+   Coord3D pos(start.x+offset*unit.x-tip.x,start.y+offset*unit.y-tip.y,start.z);
    decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
   }
   if(arrows[0]) {
    frontOffset+=arrows[0]->decal->height()*0.5f;
    Rva0029A469 *decal=arrows[0]->decal;
    if(decal) {
-    Coord3D pos={start.x+frontOffset*unit.x,start.y+frontOffset*unit.y,end.z};
+    Coord3D pos(start.x+frontOffset*unit.x,start.y+frontOffset*unit.y,end.z);
     decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
    }
   }

@@ -76,3 +76,14 @@ association, temps, a hashStep helper, unsigned/int types, the shift split) were
 Bank: `reverse/attempts/0x002a4e1f.cpp` = `build/fp/n52.cpp`. Landing needs a home TU where the
 0x29D9F9 body is visible (InGameUIFormationFinalize.cpp, or move both to the destination unit);
 `tools/repair_queue.py dest 0x2A4E1F` proposes InGameUISuperweapons.cpp / InGameUI.cpp.
+
+## Round t (claude-opus-5-5, 2026-10-20): landed exact
+
+The body landed in `Code/GameEngine/Source/GameClient/InGameUIUpdateFormationPreview.cpp` (2462 B, 0 structural regions, 0 register differences; the 36 memory lines are absolute operands the gate fills). The bank was deleted by `add_match.py`.
+
+Two levers closed the round-s residue:
+
+- Transform-loop iterator. No priority tie: 1 to 16 extra uses never enregistered it, and chains of 20 to 180 copied locals at four positions changed nothing. Large diagnostic cuts (the fading alpha computation, or the arrows[1] block plus the tip) did enregister it with retail's `[ebp-0x20]` home. WB 0x00DC1CD8 opens EH state 4 around the loop position and states 5 to 7 for unit, side and tip, so the original Coord3D is retail's class with user constructors and the empty user destructor. Including `Lib/Coord3DCtorView.h` with `COORD3D_VIEW_DTOR` and building the four arrow positions with the three-float constructor gives retail's iterator in esi with its `[ebp-0x20]` spill home. Keep the loop position member-wise; the constructor form there swaps xmm0 and xmm2 in the transform.
+- Hash. Retail's `mov edx,ecx; xor edx,eax` needs the rotation assigned to a local before the id: `unsigned hi=hash&0xF8000000; unsigned rot=(hash<<5)^(hi>>27); ObjectID id=it->id; hash=rot^id;`. The operand assigned later (id) becomes the copied destination. `id^rot` gives the same bytes; folding `hi` into `rot` does not.
+
+`_STL::min(1.0f,alpha)` replaces the bank's `one`/`clamped` pair at identical bytes and matches WB's reference-returning min. The unit keeps its own `__declspec(noinline) inline` copy of 0x0029D9F9 (callee visibility, round s); its home `InGameUIFormationFinalize.cpp` now defines the helper the same way, and both still match. Coord2D::toAngle and length are inline in coord2d.cpp already. Trial sources and logs are in the seat's `build/w3_2a4e1f/`.
