@@ -38,7 +38,7 @@ public:
 };
 
 // ?bfmeEraseVMU@BfmeListVMU@@QAEXPAPAVBfmeNodeVMU@@@Z
-void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
+__declspec(noinline) inline void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
 {
 	BfmeNodeVMU *target = *it;
 	BfmeNodeVMU *head = m_bfmeHead;
@@ -69,3 +69,7 @@ void BfmeListVMU::bfmeEraseVMU(BfmeNodeVMU **it)
 		g_pChainBlockAllocator->freeBlock(node, 8);
 	}
 }
+
+// Select-any: AptLoad.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorBfmeListVMUErase absent-from-retail
+void bfmeAnchorBfmeListVMUErase(BfmeListVMU *p, BfmeNodeVMU **it) { p->bfmeEraseVMU(it); }

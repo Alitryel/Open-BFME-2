@@ -45,9 +45,13 @@ private:
 	Rva006D15B0Node *m_head;
 };
 
-void Rva006D15B0Stack::rva006D15B0(int *const *handle)
+__declspec(noinline) inline void Rva006D15B0Stack::rva006D15B0(int *const *handle)
 {
 	Rva006D15B0Node *node = new Rva006D15B0Node(handle);
 	node->m_next = m_head;
 	m_head = node;
 }
+
+// Select-any: AptLoad.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva006D15B0Push absent-from-retail
+void bfmeAnchorRva006D15B0Push(Rva006D15B0Stack *p, int *const *handle) { p->rva006D15B0(handle); }

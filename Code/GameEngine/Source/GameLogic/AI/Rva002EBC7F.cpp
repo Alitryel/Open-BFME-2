@@ -16,8 +16,12 @@ enum PathfindLayerEnum { LAYER_INVALID = 0 };
 PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
 typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
 // ?rva002EBC7F@@YAPAXPAX0PAURva002EBC7FPair@@H@Z @0x002EBC7F 40B (name guess).
-void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
+__declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
 {
 	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
 	return a1;
 }
+
+// Select-any: pathfinder.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002EBC7F absent-from-retail
+void *bfmeAnchorRva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4) { return rva002EBC7F(a1, a2, a3, a4); }
