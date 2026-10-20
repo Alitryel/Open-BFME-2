@@ -17,6 +17,8 @@
 // Preserve inline max semantics while the native 17-byte owner supplies external calls.
 namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
 #include <string.h>
+#include <list>
+#include <hash_map>
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
 
@@ -31,14 +33,17 @@ enum VeterancyLevel { LEVEL_REGULAR, LEVEL_VETERAN, LEVEL_ELITE, LEVEL_HEROIC };
 enum ArmorSetType { ARMORSET_VETERAN, ARMORSET_ELITE, ARMORSET_HERO };
 enum MaxHealthChangeType { SAME_CURRENTHEALTH, PRESERVE_RATIO };
 
-enum DamageType { DAMAGE_HEALING = 7 };
-enum KindOfType { KINDOF_4 = 4, KINDOF_220 = 0x220 };
+enum DamageType { DAMAGE_4 = 4, DAMAGE_6 = 6, DAMAGE_HEALING = 7, DAMAGE_UNRESISTABLE = 8, DAMAGE_23 = 0x17 };
+enum KindOfType { KINDOF_4 = 4, KINDOF_220 = 0x220, KINDOF_14A = 0x14A };
 enum ObjectID { INVALID_ID = 0 };
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_UNDER_CONSTRUCTION = 2,
 	OBJECT_STATUS_4 = 4,
+	OBJECT_STATUS_8 = 8,
 	OBJECT_STATUS_24 = 24,
+	OBJECT_STATUS_60 = 0x3C,
+	OBJECT_STATUS_65 = 0x41,
 	OBJECT_STATUS_77 = 0x4D,
 	OBJECT_STATUS_83 = 0x53
 };
@@ -262,7 +267,9 @@ public:
 	UnsignedInt m_field08;			// +0x08
 	DamageType m_damageType;		// +0x0C
 	Int m_damageFXType;			// +0x10
-	unsigned char m_pad14[0x28 - 0x14];
+	unsigned char m_pad14[0x20 - 0x14];
+	Bool m_kill;
+	unsigned char m_pad21[0x28 - 0x21];
 	Int m_creationType;			// +0x28
 };
 
@@ -282,7 +289,7 @@ public:
 class DamageModuleInterface
 {
 public:
-	virtual void d00();
+	virtual void onDamage(DamageInfo *damageInfo);
 	virtual void onHealing(DamageInfo *damageInfo);					// +0x04
 	virtual void onBodyDamageStateChange(DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);	// +0x08
 };
@@ -353,6 +360,29 @@ public:
 
 class BodyModuleInterface;
 
+class ActiveBody;
+
+template <int N> class VSlots : public VSlots<N - 1>
+{
+public:
+	virtual void gap(char (*)[N]) = 0;
+};
+template <> class VSlots<0>
+{
+};
+
+enum CommandSourceType { CMD_FROM_PLAYER, CMD_FROM_SCRIPT, CMD_FROM_AI };
+enum DisabledType { DISABLED_8 = 8 };
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+
+
+
+
+class Rva004BFD27
+{
+public:
+	void rva004BFD27(CommandSourceType cmdSource);
+};
 class AIUpdateInterface
 {
 public:
@@ -386,10 +416,70 @@ public:
 	virtual void a108(); virtual void a109();
 	virtual Bool isIdle() const;			// +0x1B8
 
-	unsigned char m_pad04[0x34 - 0x04];
+	int rva002632C7() const;
+	unsigned char rva002632C7Bool() const { return (unsigned char)rva002632C7(); }
+	void rva002632E1();
+	Rva004BFD27 *getCommandInterface() { return (Rva004BFD27 *)&m_commandInterface; }
+
+	unsigned char m_pad04[0x20 - 0x04];
+	void *m_commandInterface;
+	unsigned char m_pad24[0x34 - 0x24];
 	Int m_field34;				// +0x34
 };
 
+class Rva004BFE07ContainHelper : public VSlots<14>
+{
+public:
+	virtual void onClippedDamage(Object *obj);
+};
+class ContainModuleInterface : public VSlots<26>
+{
+public:
+	virtual void onContainedDamage(Object *obj, ActiveBody *body, DamageInfo *damageInfo);
+	virtual void c27(); virtual void c28(); virtual void c29(); virtual void c30();
+	virtual Rva004BFE07ContainHelper *getDamageHelper();
+	virtual void c32(); virtual void c33(); virtual void c34(); virtual void c35();
+	virtual void c36(); virtual void c37(); virtual void c38(); virtual void c39();
+	virtual void c40(); virtual void c41(); virtual void c42(); virtual void c43();
+	virtual void c44(); virtual void c45(); virtual void c46(); virtual void c47();
+	virtual void c48(); virtual void c49(); virtual void c50(); virtual void c51();
+	virtual void c52(); virtual void c53(); virtual void c54(); virtual void c55();
+	virtual void c56(); virtual void c57(); virtual void c58(); virtual void c59();
+	virtual void c60(); virtual void c61(); virtual void c62(); virtual void c63();
+	virtual void c64(); virtual void c65(); virtual void c66(); virtual void c67();
+	virtual void c68();
+	virtual UnsignedInt getContainCount(Int arg);
+};
+
+
+
+
+class Rva0028C1A9Result
+{
+public:
+	virtual void r0(); virtual void r1(); virtual void r2();
+	virtual Bool shouldKill(Object *victim);
+	virtual void r4(); virtual void r5(); virtual void r6(); virtual void r7();
+	virtual void onKill(Object *victim);
+};
+
+class Rva004BFE07Flagged
+{
+public:
+	unsigned char m_pad00[0x5C];
+	Bool m_byte5C;
+};
+
+class Player
+{
+public:
+	Int getPlayerIndex() const { return m_playerIndex; }
+
+	unsigned char m_pad00[0x54];
+	Int m_playerIndex;
+};
+
+class Module;
 class Object
 {
 public:
@@ -414,6 +504,18 @@ public:
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	Drawable *getDrawable() const;			// 0x005508E2
 	Object *getContainedBy() const { return m_containedBy; }
+	ContainModuleInterface *getContain() const { return m_contain; }
+	Object *rva002931F5(Bool flag);
+	void *rva0028C1A9() const;
+	Bool rva0028D491() const;
+	void rva0028B1D4(Int damageInfo, Int victim) const;
+	Player *getControllingPlayer() const;
+	void setDisabledUntil(DisabledType type, UnsignedInt frame);
+	void onDie(DamageInfo *damageInfo);
+protected:
+	friend class ActiveBody;
+	Module *findModule(NameKeyType key) const;
+public:
 	const Coord3D *getPosition() const { return (const Coord3D *)m_cachedPos; }
 
 	void *m_vptr;
@@ -426,12 +528,16 @@ public:
 	UnsignedInt m_status;			// +0x94
 	unsigned char m_pad98[0xA8 - 0x98];
 	BfmeObjE15 m_geometry;			// +0xA8
-	unsigned char m_padDC[0x244 - 0xDC];
+	unsigned char m_padDC[0x10C - 0xDC];
+	unsigned char m_kindOfMask[0x4C];
+	unsigned char m_pad158[0x244 - 0x158];
 	BehaviorModule **m_behaviors;		// +0x244
-	unsigned char m_pad248[0x254 - 0x248];
+	unsigned char m_pad248[0x250 - 0x248];
+	ContainModuleInterface *m_contain;
 	BodyModuleInterface *m_body;		// +0x254
 	AIUpdateInterface *m_ai;		// +0x258
-	unsigned char m_pad25C[0x274 - 0x25C];
+	Rva004BFE07Flagged *m_field25C;
+	unsigned char m_pad260[0x274 - 0x260];
 	Object *m_containedBy;			// +0x274
 	unsigned char m_pad278[0x280 - 0x278];
 	Int m_field280;				// +0x280
@@ -455,6 +561,8 @@ public:
 	Rva002390CB rva004BE152();		// key 0x31
 	Rva002390CB rva004BE16B();		// key 0x32
 	Rva002390CB rva004BE184();		// key 0x33
+	Rva002390CB rva004BE120();
+	Rva002390CB rva004BE139();
 	Object *getObject() const { return m_object; }
 
 	unsigned char m_pad00[0xFC];
@@ -466,14 +574,6 @@ public:
 class Rva002D9C2F { public: OpaqueRefElement4 &rva002D9C2F(const OpaqueRefElement4 &other); };
 class Rva002D9531 { public: void rva002D9531(int v); };
 
-template <int N> class VSlots : public VSlots<N - 1>
-{
-public:
-	virtual void gap(char (*)[N]) = 0;
-};
-template <> class VSlots<0>
-{
-};
 class AudioManager : public VSlots<25>
 {
 public:
@@ -506,15 +606,29 @@ public:
 	UnsignedInt rva0043B72D(Int id);	// 0x0043B72D
 };
 
+typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHash;
 class GameLogic
 {
 public:
 	UnsignedInt getFrame() const { return m_frame; }
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
+	// The header inline over the object hash map at +0xB4: MSVC calls the
+	// out-of-line copy 0x00049DC5, and only the inline declaration gives
+	// attemptDamage retail's TheGameLogic reloads.
+	Object *findObjectByID(ObjectID id)
+	{
+		if (id == (ObjectID)0)
+			return 0;
+		ObjectPtrHash::iterator it = m_objHash.find(id);
+		if (it == m_objHash.end())
+			return 0;
+		return (*it).second;
+	}
 
 	unsigned char m_pad00[0x40];
 	UnsignedInt m_frame;			// +0x40
-	unsigned char m_pad44[0x174 - 0x44];
+	unsigned char m_pad44[0xB4 - 0x44];
+	ObjectPtrHash m_objHash;
+	unsigned char m_padHash[0x174 - 0xB4 - sizeof(ObjectPtrHash)];
 	DOTManager *m_dotManager;		// +0x174
 };
 extern GameLogic *TheGameLogic;
@@ -525,13 +639,22 @@ public:
 	void AddObjectToPathfindMap(Object *obj);	// 0x002E7178
 	void RemoveObjectFromPathfindMap(Object *obj);	// 0x002E718A
 };
+class AIData
+{
+public:
+	unsigned char m_pad00[0x64];
+	Bool m_enableRepulsors;
+};
 class AI
 {
 public:
 	Pathfinder *pathfinder() { return m_pathfinder; }
 
+	const AIData *getAiData() const { return m_aiData; }
 	unsigned char m_pad00[0x10];
 	Pathfinder *m_pathfinder;		// +0x10
+	unsigned char m_pad14[4];
+	AIData *m_aiData;
 };
 extern AI *TheAI;
 
@@ -610,10 +733,100 @@ private:
 // Its original type and field semantics remain unknown.
 struct BfmeBodyDataPair8 { float value; unsigned word; BfmeBodyDataPair8() {} __forceinline BfmeBodyDataPair8(const BfmeBodyDataPair8 &that): value(that.value), word(that.word) {} };
 
+class Rva003427DD { public: Rva003427DD &operator=(const Rva003427DD &other); };
+class Rva00294D61 { public: void report(Object *victim, Int flag); };
+class Rva0028B749Host { public: void rva0028B749(Int victim, Real ratio); };
+class Rva002AA201IndexedByteField { public: void set(int index); };
+class Gen_003bcb40 { public: void m(Int frame); };
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const char *name);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+
+
+
+
+
+class Rva00265254
+{
+public:
+	Rva00265254(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4) throw();
+private:
+	unsigned int m_bits[19];
+};
+class Rva00263546 { public: bool rva00263546(const Rva00263546 *other) const; };
+class Rva0044EAF3
+{
+public:
+	Rva0044EAF3 *rva0044EAF3(int a, unsigned int b, unsigned int c, unsigned int d) throw();
+	unsigned int m_bits[4];
+};
+class Rva00331682Holder { public: bool test(const void *other) const; };
+
+class KindOfMaskType : public Rva00265254
+{
+public:
+	KindOfMaskType(unsigned int a, unsigned int b, unsigned int c, unsigned int d) : Rva00265254(a, b, c, d) {}
+	Bool anyIntersectionWith(const void *bits) const
+	{
+		return ((const Rva00263546 *)this)->rva00263546((const Rva00263546 *)bits);
+	}
+};
+class ObjectStatusMaskType : public Rva0044EAF3
+{
+public:
+	ObjectStatusMaskType(int a, unsigned int b, unsigned int c, unsigned int d) { rva0044EAF3(a, b, c, d); }
+	Bool testForAny(const void *bits) const { return ((const Rva00331682Holder *)this)->test(bits); }
+};
+
+
+
+class DrawableList : public _STL::list<Drawable *>
+{
+public:
+	~DrawableList() throw();
+};
+class PickAndPlayInfo;
+class GameMessage
+{
+public:
+	enum Type { MSG_BFME2_0x7E0 = 0x7E0 };
+};
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+	PickAndPlayInfo *info);
+
+struct BfmeDelayedLuaEvent
+{
+	unsigned char m_pad00[0x0C];
+	Int m_value;
+	unsigned char m_pad10[4];
+	Int m_type;
+};
+struct BfmeDelayedLuaEventList;
+struct DelayedLuaEventList
+{
+	DelayedLuaEventList();
+	virtual ~DelayedLuaEventList();
+	BfmeDelayedLuaEvent m_events[3];
+};
+class BfmeObjectEventDispatch
+{
+public:
+	void rva003360D2(int index, void *object, BfmeDelayedLuaEventList *eventList);
+};
+class LuaScriptEngine;
+extern LuaScriptEngine *TheLuaScriptEngine;
 class ActiveBodyModuleData
 {
 public:
-	unsigned char m_pad00[0x30];
+	unsigned char m_pad00[0x1C];
+	UnsignedInt m_damagedDisableFrames;
+	UnsignedInt m_reallyDamagedDisableFrames;
+	UnsignedInt m_damageDelayFrames;
+	unsigned char m_pad28[0x30 - 0x28];
 	AsciiString m_damagedAttributeModifier;		// +0x30
 	AsciiString m_reallyDamagedAttributeModifier;	// +0x34
 	unsigned char m_pad38[0x40 - 0x38];
@@ -621,6 +834,8 @@ public:
 	const FXList *m_healingFX;		// +0x48
 	unsigned char m_pad4C[0x51 - 0x4C];
 	Bool m_byte51;				// +0x51
+	unsigned char m_pad52[0x54 - 0x52];
+	const FXList *m_clippedDamageFX;
 };
 
 // The armor-set flags are BitFlags<21> in BFME 2: its setBitByName is rowed
@@ -729,6 +944,7 @@ class ActiveBody : public BodyModule, public BodyModuleInterface
 {
 public:
 	virtual void setInitialHealth(Real initialPercent, Bool directional);
+	virtual void attemptDamage(DamageInfo *damageInfo);
 	virtual void attemptHealing(DamageInfo *damageInfo);
 	virtual Real estimateDamage(DamageInfoInput &damageInfo) const;
 	virtual void setDamageState(BodyDamageType newState);
@@ -758,7 +974,7 @@ private:
 	const ActiveBodyModuleData *getActiveBodyModuleData() const { return m_moduleData; }
 	Object *getObject() const { return m_object; }
 
-	unsigned char m_pad14[4];
+	Real m_damageScalar;
 	Real m_currentHealth;			// +0x18
 	Real m_prevHealth;			// +0x1C
 	Real m_maxHealth;			// +0x20
@@ -1679,5 +1895,273 @@ void ActiveBody::rva004BFB1C(Real amount, const Coord3D *pos)
 			health = health + take;
 			remaining -= take;
 		}
+	}
+}
+
+static inline const Real &healthMin(const Real &a,const Real &b) { return b<a?b:a; }
+
+// ActiveBody, retail 0x004BFE07 (2107B): ZH ActiveBody::attemptDamage with
+// BFME 2's clipped-damage contain branch, damage delay and kill reporting.
+// The mask tests go through inline helpers taking the object (they keep
+// damageInfo in EBX), and the second contain lookup re-fetches through
+// getContainedBy() as retail reloads it.
+static inline Bool testStatusAny(const Object *o, const ObjectStatusMaskType &m) { return m.testForAny(&o->m_status); }
+static inline Bool testKindAny(const Object *o, const KindOfMaskType &m) { return m.anyIntersectionWith(o->m_kindOfMask); }
+void ActiveBody::attemptDamage(DamageInfo *damageInfo)
+{
+	validateArmorAndDamageFX();
+
+	Object *obj = getObject();
+	const ActiveBodyModuleData *md = getActiveBodyModuleData();
+	if (damageInfo == 0)
+		return;
+	if (m_indestructible)
+		return;
+	if (obj->isKindOf(KINDOF_14A))
+		return;
+	if (obj->testStatus(OBJECT_STATUS_60) && damageInfo->in.m_damageType != DAMAGE_UNRESISTABLE)
+		return;
+
+	Object *container = obj->getContainedBy();
+	if (container && !obj->getTemplate()->testKindOf(55) && container->getContain())
+		container->getContain()->onContainedDamage(obj, this, damageInfo);
+
+	damageInfo->m_actualDamageDealt = 0.0f;
+	damageInfo->m_actualDamageClipped = 0.0f;
+
+	if (obj->m_flags438 & 1)
+		return;
+
+	Real amount = m_curArmor.adjustDamage(&damageInfo->in, obj, false);
+	switch (damageInfo->in.m_damageType)
+	{
+	case DAMAGE_HEALING:
+		if (!damageInfo->in.m_kill)
+			attemptHealing(damageInfo);
+		return;
+	}
+	if (damageInfo->in.m_damageType != DAMAGE_UNRESISTABLE)
+		amount *= m_damageScalar;
+
+	Object *damager = TheGameLogic->findObjectByID(damageInfo->in.m_sourceID);
+	if (damager && damager->testStatus(OBJECT_STATUS_65))
+	{
+		Object *resolved = damager->rva002931F5(false);
+		if (resolved)
+		{
+			Rva0028C1A9Result *result = (Rva0028C1A9Result *)resolved->rva0028C1A9();
+			if (result && result->shouldKill(obj))
+			{
+				damageInfo->in.m_kill = true;
+				result->onKill(obj);
+			}
+		}
+	}
+
+	Rva004BFE07ContainHelper *helper = 0;
+	Bool clipped = false;
+	if (amount > 0.0f || damageInfo->in.m_kill)
+	{
+		Object *outer = obj->getContainedBy();
+		if (outer)
+			helper = outer->getContain()->getDamageHelper();
+
+		static const KindOfMaskType s_unclippedKinds(0, 0x81, 0x67, 0x69);
+		static const ObjectStatusMaskType s_unclippedStatus(0, 0x3A, 0x3D, 0x5A);
+		if (obj->getAI() && md->m_byte51
+			&& !testStatusAny(obj, s_unclippedStatus)
+			&& !testKindAny(obj, s_unclippedKinds)
+			&& (damageInfo->in.m_damageType == DAMAGE_6 || damageInfo->in.m_damageType == DAMAGE_23)
+			&& !(obj->m_field25C && obj->m_field25C->m_byte5C)
+			&& (!outer || helper))
+		{
+			Real limit = getHealth() - 1.0f;
+			Real clippedAmount = healthMin(limit, amount);
+			if (clippedAmount != amount)
+			{
+				amount = clippedAmount;
+				clipped = true;
+			}
+		}
+
+		BodyDamageType oldState = m_curDamageState;
+		if (damageInfo->in.m_kill)
+			amount = m_currentHealth;
+
+		if (damageInfo->in.m_damageType == DAMAGE_4)
+			rva004BFCD4(amount, damageInfo);
+
+		internalChangeHealth(0.0f - amount, damageInfo);
+
+		if (md->m_damageDelayFrames > 0)
+			((Gen_003bcb40 *)obj)->m(TheGameLogic->getFrame() + md->m_damageDelayFrames);
+
+		damageInfo->m_actualDamageDealt = amount;
+		damageInfo->m_actualDamageClipped = m_prevHealth - m_currentHealth;
+
+		if (m_lastDamageTimestamp != TheGameLogic->getFrame() && m_lastDamageTimestamp != TheGameLogic->getFrame() - 1)
+		{
+			*(Rva003427DD *)&m_lastDamageInfo = *(const Rva003427DD *)damageInfo;
+			m_lastDamageCleared = false;
+			m_lastDamageTimestamp = TheGameLogic->getFrame();
+		}
+		else
+		{
+			Object *srcObj1 = TheGameLogic->findObjectByID(m_lastDamageInfo.in.m_sourceID);
+			Object *srcObj2 = TheGameLogic->findObjectByID(damageInfo->in.m_sourceID);
+			if (srcObj2)
+			{
+				if (srcObj1)
+				{
+					if (srcObj2->getTemplate()->testKindOf(9) || srcObj2->getTemplate()->testKindOf(8)
+						|| srcObj2->rva0028D491())
+					{
+						*(Rva003427DD *)&m_lastDamageInfo = *(const Rva003427DD *)damageInfo;
+						m_lastDamageCleared = false;
+						m_lastDamageTimestamp = TheGameLogic->getFrame();
+					}
+				}
+				else
+				{
+					*(Rva003427DD *)&m_lastDamageInfo = *(const Rva003427DD *)damageInfo;
+					m_lastDamageCleared = false;
+					m_lastDamageTimestamp = TheGameLogic->getFrame();
+				}
+			}
+		}
+
+		Object *srcObj = 0;
+		if (m_lastDamageInfo.in.m_sourceID != INVALID_ID)
+		{
+			srcObj = TheGameLogic->findObjectByID(m_lastDamageInfo.in.m_sourceID);
+			if (srcObj)
+				((Rva002AA201IndexedByteField *)obj->getControllingPlayer())->set(srcObj->getControllingPlayer()->getPlayerIndex());
+		}
+
+		if (m_currentHealth < m_prevHealth)
+		{
+			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			{
+				DamageModuleInterface *d = (*m)->m_iface.getDamage();
+				if (d)
+					d->onDamage(damageInfo);
+			}
+
+			if (damager)
+				damager->rva0028B1D4((Int)damageInfo, (Int)obj);
+		}
+
+		if (m_curDamageState != oldState)
+		{
+			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			{
+				DamageModuleInterface *d = (*m)->m_iface.getDamage();
+				if (d)
+					d->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
+			}
+
+			if (m_curDamageState == BODY_DAMAGED && md->m_damagedDisableFrames > 0.0f)
+				obj->setDisabledUntil(DISABLED_8, TheGameLogic->getFrame() + md->m_damagedDisableFrames);
+			else if (m_curDamageState == BODY_REALLYDAMAGED && md->m_reallyDamagedDisableFrames > 0.0f)
+				obj->setDisabledUntil(DISABLED_8, TheGameLogic->getFrame() + md->m_reallyDamagedDisableFrames);
+
+			Drawable *draw = obj->getDrawable();
+			if (draw)
+			{
+				if (m_curDamageState == BODY_DAMAGED)
+				{
+					BfmeAudioEventPrefix136 damaged(draw->rva004BE120().m_04, 0);
+					((Rva002D9531 *)&damaged)->rva002D9531(obj->getID());
+					TheAudio->addAudioEvent(&damaged);
+				}
+				else if (m_curDamageState == BODY_REALLYDAMAGED)
+				{
+					BfmeAudioEventPrefix136 reallyDamaged(draw->rva004BE139().m_04, 0);
+					((Rva002D9531 *)&reallyDamaged)->rva002D9531(obj->getID());
+					TheAudio->addAudioEvent(&reallyDamaged);
+				}
+			}
+
+			if (m_linkedObjectID)
+			{
+				Object *linked = TheGameLogic->findObjectByID(m_linkedObjectID);
+				if (linked && linked->getBodyModule())
+					linked->getBodyModule()->rvaSlot39(m_curDamageState);
+			}
+		}
+
+		if (m_prevHealth / m_maxHealth >= 0.35f && m_currentHealth / m_maxHealth < 0.35f && m_currentHealth > 0.0f)
+		{
+			DrawableList drawList;
+			drawList.push_back(obj->getDrawable());
+			pickAndPlayUnitVoiceResponse(&drawList, GameMessage::MSG_BFME2_0x7E0, 0);
+		}
+
+		if (clipped || (m_currentHealth <= 0.0f && m_prevHealth > 0.0f))
+		{
+			if (damager)
+				((Rva00294D61 *)damager)->report(obj, 1);
+
+			if (!clipped)
+			{
+				static NameKeyType s_respawnKey = TheNameKeyGenerator->nameToKey("RespawnUpdate");
+				if (!obj->findModule(s_respawnKey))
+				{
+					Object *outerObj = obj->getContainedBy();
+					Bool contained = outerObj != 0;
+					if (contained && outerObj->getContain() && obj->getContainedBy()->getContain()->getContainCount(0) < 2)
+						contained = false;
+
+					obj->onDie(damageInfo);
+
+					if (m_linkedObjectID)
+					{
+						Object *linked = TheGameLogic->findObjectByID(m_linkedObjectID);
+						if (linked)
+						{
+							linked->onDie(damageInfo);
+							linked->setEffectivelyDead(true);
+						}
+					}
+
+					if (!contained && damageInfo->in.m_sourceID != INVALID_ID
+						&& !obj->getTemplate()->testKindOf(25) && !obj->getTemplate()->testKindOf(89))
+						rva004BF9ED();
+				}
+			}
+		}
+
+		if (damager)
+		{
+			Real ratio = damageInfo->m_actualDamageClipped / m_maxHealth;
+			if (ratio > 1.0f)
+				ratio = 1.0f;
+			if (ratio > 0.0f)
+				((Rva0028B749Host *)damager)->rva0028B749((Int)obj, ratio);
+		}
+
+		DelayedLuaEventList events;
+		if (srcObj)
+		{
+			events.m_events[0].m_value = srcObj->getID();
+			events.m_events[0].m_type = 3;
+		}
+		((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(0, obj, (BfmeDelayedLuaEventList *)&events);
+	}
+
+	doDamageFX(damageInfo);
+
+	if (TheAI->getAiData()->m_enableRepulsors && obj->getTemplate()->testKindOf(45))
+		obj->setStatus(OBJECT_STATUS_8, true);
+
+	if (clipped)
+	{
+		if (helper)
+			helper->onClippedDamage(obj);
+		if (obj->getAI()->rva002632C7Bool())
+			obj->getAI()->rva002632E1();
+		obj->getAI()->getCommandInterface()->rva004BFD27(CMD_FROM_AI);
+		if (md && md->m_clippedDamageFX)
+			FXList::doFXObj(md->m_clippedDamageFX, obj, 0);
 	}
 }

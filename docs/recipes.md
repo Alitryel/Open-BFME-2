@@ -112,6 +112,22 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
 
 ## Frames, stores and locals
 
+- **Retail reloads a global where yours keeps it in a register: declare the
+  callee inline.** In 0x004BFE07 retail reloaded `TheGameLogic` before each
+  `findObjectByID` call, but ours kept the condition's load in ECX. That
+  happened with an out-of-line declaration and with const or non-const views,
+  local copies and wrapper respellings. The fix was to declare
+  `GameLogic::findObjectByID` as the header inline over the hash_map at +0xB4.
+  MSVC still calls the out-of-line copy 0x00049DC5, but the inline candidate
+  changes the IL. SpawnBehavior::onDie got its register homes the same way.
+  Static mask tests in the same body (cached in EBX/EDI where retail keeps
+  `damageInfo` there) need a different lever: route them through static
+  inline helpers that take the object as a parameter. Helpers without that
+  parameter changed nothing.
+- **Re-fetch to defeat a second-level CSE.** If retail does
+  `cmp [eax+0x250],0; je; mov eax,[eax+0x250]`, spell the second use through
+  the base expression (`obj->getContainedBy()->getContain()`), not the cached
+  local.
 - **A stray vector-constructor-iterator call or a larger frame: spell the
   inline helpers' dead switch arms.** At /O1 even `__forceinline` helpers share
   one c2 inline budget per function, and an inlined switch's dead arms spend it
