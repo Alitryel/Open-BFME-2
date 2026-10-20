@@ -31,5 +31,29 @@ this new source, so no full LINKED census receipt is claimed. No census or
 other maintainer-only runner was started. Source inputs: BFME2 f4ef0902fa,
 BFME1 92f6bbe8e1dcdb46b5d27da0674313efc822b790; stock VC7.1 through Wine.
 
-Parent comparison residue C6B..C6F remains. Remaining parent admissions after
-this change: deselectAll 42F9DA, map constructor 43001D, destructor 42FD1C.
+The destructor prerequisite is now admitted as well. The unmodified /GX
+STLport hashtable<int,bool> destructor is exactly57B at42FD1C; its complete
+EH data is EXACT, not merely masked. Its clear worker is72B and folds into
+1DBCDC against every owner (clear-fold.json). add_match --replace-rva retires
+the generated ArmorTemplate alias at42FD1C. Both rows pass the scoped byte
+gate, find_declared_unmatched and link_check --new-variants. This removes one
+gen-alias/object-symbol escape hatch without adding pins or provider variants.
+The earlier /EHsc destructor's53B shape is disproved for this target; /GX is
+the evidence-backed compiler distinction. Canonical providers need no custom
+suppressions in this small unit.
+
+Fresh parent compilation retains4054B,184 relocations, and only the five raw
+comparison bytes C6B..C6F (parent-raw-diff.json). Extent and switch-table checks
+pass (parent-extent.json). Only two distinct callee admissions remain, three
+references: deselectAll42F9DA and the map constructor43001D
+(parent-resolved.json). The score-0.98 bank is preserved. No parent source
+shape trial was repeated: prior control-flow, lifetime, type/layout, visibility
+and compiler factorials remain disproved as listed in the earlier handoffs.
+
+The first destructor commit attempt was correctly refused by name_dependents:
+cleanup wrapper42FE3B still named the retired gen-alias. It is now an opaque
+thiscall cleanup wrapper, retaining ECX and tail-jumping the real typed
+destructor, rather than a free call to dup_0042fd1c. The original wrapper name
+and enclosing lifetime remain unknown. The complete5B and both destructor
+provider rows pass byte verification together; find_declared_unmatched and
+link_check --new-variants pass for both units. No verifier was changed.
