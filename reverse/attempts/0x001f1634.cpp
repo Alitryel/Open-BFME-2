@@ -1,10 +1,9 @@
 // ?reallyCreate@GenericObjectCreationNugget@@QBE?AV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z
+// partial score=0.9973 date=2026-10-20
+// ?reallyCreate@GenericObjectCreationNugget@@QBE?AV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@PBUCoord3D@@PBVMatrix3D@@MPBVObject@@I@Z
 // partial score=0.93 date=2026-10-20
 // stlport
-// cl: /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /ICode/Libraries/Include /ICode/GameEngine/Include /DNDEBUG /MD /EHsc
-// ?reallyCreate@GenericObjectCreationNugget@@IBEPAVObject@@PBUCoord3D@@PBVMatrix3D@@MPBV2@I@Z
-// partial score=0.059 date=2026-10-17
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
+// cl: /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /ICode/Libraries/Include /ICode/GameEngine/Include /DNDEBUG /MD /EHs
 //
 // GenericObjectCreationNugget members that gate and forward a create (retail
 // 0x001F1513 and 0x001F14B6; ObjectCreationList.cpp in the debug build).
@@ -49,8 +48,10 @@ class GeometryInfo;
 struct CreateMask { UnsignedInt m_bits[4]; };
 
 namespace _STL {
+enum { _STLP_LEAKS_CHECK = 0 };
+template <> allocator<Object *>::~allocator() _STLP_NOTHROW { if (_STLP_LEAKS_CHECK) free(this); }
 template<> vector<Object*>::vector(const vector<Object*> &);
-template<> vector<Object*>::vector(const allocator<Object*> &);
+template<> _Vector_base<Object*,allocator<Object*> >::_Vector_base(const allocator<Object*> &);
 template<> _Vector_base<Object*,allocator<Object*> >::~_Vector_base();
 template<> void vector<Object*>::push_back(Object * const &);
 }
@@ -165,10 +166,12 @@ public:
 };
 
 // Horde member list returned by value: owner word, then the member list.
+struct OclMemberOwner { virtual void destroy(int); };
+enum { OCL_MEMBER_CHECK = 0 };
 struct OclMemberList
 {
-	~OclMemberList() {}
-	void *m_owner;
+	~OclMemberList() { if (OCL_MEMBER_CHECK && m_owner) m_owner->destroy(0); }
+	OclMemberOwner *m_owner;
 	_STL::list<Object *> *m_list;
 };
 
