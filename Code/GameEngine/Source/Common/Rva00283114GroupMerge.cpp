@@ -14,6 +14,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // EH-framed body (0x001F1609); its uses here are all inlined, so none is emitted.
 class Object;
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
+// Likewise import-inline vector<Object*>'s dtor: retail's out-of-line copy is the
+// tail jump to the EH-framed base dtor (0x001F22A3), not this unit's inline form.
+namespace _STL { template <> __declspec(dllimport) __forceinline vector<Object *, allocator<Object *> >::~vector() { _Destroy(this->_M_start, this->_M_finish); } }
 
 class Object;
 typedef void *(__cdecl *Rva00282B26Callback)(void *key);
