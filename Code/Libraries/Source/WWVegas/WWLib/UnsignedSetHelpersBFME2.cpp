@@ -34,3 +34,7 @@ inline bool operator<(const Rva0061F910Key&a,const Rva0061F910Key&b){return a.a<
 typedef _STL::_Rb_tree<Rva0061F910Key,Rva0061F910Key,_STL::_Identity<Rva0061F910Key>,_STL::less<Rva0061F910Key>,_STL::allocator<Rva0061F910Key> > NativeTree;
 template void _STL::vector<unsigned int>::_M_insert_overflow(unsigned int *,const unsigned int &,const _STL::__true_type &,unsigned int,bool);
 template void NativeTree::_M_erase(_STL::_Rb_tree_node<Rva0061F910Key> *);
+// MeshGeometry GetEdges 0x0016E450 grows a signed vector<int> through the same folded
+// bodies: push_back 0x004DFCB0 (call at 0x0016E5FB), overflow 0x002DFCF6 (0x0016E5B8),
+// whose fill_n call goes to 0x0007E48F. This unit's /O1 /G7 copies are those bodies.
+template void _STL::vector<int, _STL::allocator<int> >::push_back(const int &);

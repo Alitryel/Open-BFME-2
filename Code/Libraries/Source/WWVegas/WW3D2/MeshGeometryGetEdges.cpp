@@ -1,17 +1,11 @@
-// ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
-// partial score=0.98 date=2026-10-20
-// ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
-// partial score=0.61 date=2026-10-19
-// ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
-// partial score=0.7 date=2026-10-08
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
-// Whole retail GetEdges:16E450..16EAEC,1692B,RET4. WB A0F6A0,
-// meshgeometry.cpp1944 proves vertex welding, directed edge pairing and
-// all three geometry diagnostics. Existing address-derived call view retained.
-// Scratch reconstruction: template callee folds still require verification.
-// WB-literal form: per-triangle row pointer, welded indices re-read into each edge key,
-// a float-staged position converted by the key constructor, inline Get_Name in the reports.
+// MeshGeometryClass::Get_Edges, retail 0x0016E450..0x0016EAEC (1692 B, ret 4).
+// Identity: WorldBuilder 0x00A0F6A0 MeshGeometryClass::GetEdges (meshgeometry.cpp:1944
+// assert) and the three shadow-caster geometry reports. Its own unit because the
+// body needs STLport containers with /EHs, which meshgeometry.cpp does not build with.
+// The map<,int>/vector<int> growth calls fold into the /O1 copies rowed by
+// UnsignedSetHelpersBFME2.cpp (0x004DFCB0, 0x002DFCF6, 0x0007E48F).
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <map>
 #include <vector>

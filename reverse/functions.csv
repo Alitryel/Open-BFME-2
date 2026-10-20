@@ -534,7 +534,7 @@ _free,,0x00030830,17,Code/GameEngine/Source/Common/System/GameMemoryFree.cpp,mat
 ?_M_switch_to_input_mode@?$basic_filebuf@DV?$char_traits@D@_STL@@@_STL@@AAE_NXZ,,0x0001E370,81,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_filebuf.cpp,matched,stlport-4.5.3
 ??$fill@PAHH@_STL@@YAXPAH0ABH@Z,,0x0001BCB0,30,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?__copy_trivial_backward@_STL@@YAPAXPBX0PAX@Z,,0x00620840,38,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
-??$fill_n@PAHIH@_STL@@YAPAHPAHIABH@Z,,0x00688330,29,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
+??$fill_n@PAPAVSubtitleEntry@@IPAV1@@_STL@@YAPAPAVSubtitleEntry@@PAPAV1@IABQAV1@@Z,,0x00688330,29,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?erase@?$vector@HV?$allocator@H@_STL@@@_STL@@QAEPAHPAH0@Z,,0x00688710,59,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?clear@?$vector@HV?$allocator@H@_STL@@@_STL@@QAEXXZ,,0x006887C0,42,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?push_back@?$vector@PAVSubtitleEntry@@V?$allocator@PAVSubtitleEntry@@@_STL@@@_STL@@QAEXABQAVSubtitleEntry@@@Z,,0x00688940,50,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
@@ -97348,3 +97348,4 @@ __ehhandler$?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z,,0
 ?rva0046BC30@HordeContain@@UAEXXZ,,0x0046BC30,320,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp,matched,reconstructed;native +0x11C interface slot50 and WB 0x010C2930 establish goal-offset rotation; donor Coord2D copy/Rotate guide; FSINCOS codegen exception; real C++
 ?rva007AD5A9@Rva007ABEF3ArgCtorInits@@SAXXZ,,0x007AD5A9,26,Code/GameEngine/Source/Common/Rva007ABEF3ArgCtorInits.cpp,matched,dynamic initializer: pool grow 0x002E8548(0 -1) on g_Va00DB9440 then atexit(0x007B75C4); twin of 0x007ABEF3; friend line added to the canonical pool header
 ?AddResultFunction@Profile@@SAXP6APAVProfileResultInterface@@HPBQBD@ZPBD2@Z,,0x006C53F0,5,Code/Libraries/Source/profile/profile.cpp,matched,Zero Hour profile.cpp Profile::AddResultFunction forwarder; tail jump to ProfileCmdInterface::AddResultFunction 0x006C67F0; sits between GetClockCyclesPerSecond and ProfileShutdown
+?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,,0x0016E450,1692,Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryGetEdges.cpp,matched,MeshGeometryClass::Get_Edges (WB 0x00A0F6A0; meshgeometry.cpp:1944); vector<int> and map growth fold into UnsignedSetHelpersBFME2.cpp /O1 copies

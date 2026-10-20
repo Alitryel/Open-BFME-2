@@ -37,5 +37,9 @@ template void _STL::vector<int, _STL::allocator<int> >::clear();
 // the 0x006887F0 overflow); vector<int>::push_back folds into 0x004DFCB0.
 class SubtitleEntry;
 template void _STL::vector<SubtitleEntry *, _STL::allocator<SubtitleEntry *> >::push_back(SubtitleEntry *const &);
+// 0x00688330 is the same object's fill_n for that vector (no retail caller; ZH's
+// SubtitleManager unit emits this 29B body); vector<int>'s growth at 0x002DFCF6 calls
+// fill_n<int> at 0x0007E48F, so that name folds there.
+template SubtitleEntry **_STL::fill_n<SubtitleEntry **, unsigned int, SubtitleEntry *>(SubtitleEntry **, unsigned int, SubtitleEntry *const &);
 template void _STL::vector<int, _STL::allocator<int> >::pop_back();
 template void _STL::vector<int, _STL::allocator<int> >::_M_fill_insert(iterator, size_type, const int &);
