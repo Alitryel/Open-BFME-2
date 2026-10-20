@@ -16,7 +16,13 @@
 // vector3.h / matrix3d.h), whose inlines give retail's x87 pop placement that the
 // earlier private Vector3/Matrix3D views could not (reverse/attempt_support/
 // 0x0009b510-20261019.md). Sibling 0x9B7EA uses the same headers and flags.
+// The sin/cos float overloads inline here; dllimport keeps <math.h> from
+// emitting their out-of-line copies, which differ from retail's fsin/fcos
+// ones (0x2FBB0/0x2FBC0). Same wrap as wwmath.cpp.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
 #include <math.h>
+#pragma pop_macro("inline")
 
 #include "matrix3d.h"
 #define B510_SLOTS4(p) virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3();

@@ -20,7 +20,13 @@
 // game/GameEngine/Source/GameClient/Drawable.cpp, and the matched target
 // calcPhysicsXformTreads / calcPhysicsXform dispatcher. Exact target identity
 // and offsets are distinguished from the donor field meanings above.
+// The float overloads of <math.h> inline here; dllimport keeps them from
+// emitting out-of-line copies that differ from retail's fsin/fcos ones
+// (0x2FBB0/0x2FBC0). Same wrap as wwmath.cpp.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
 #include <math.h>
+#pragma pop_macro("inline")
 #include "Coord3DInline.h"
 
 // ?length@Coord3D@@QBEMXZ
@@ -242,18 +248,18 @@ void Drawable::rva00272FB6(const Locomotor *locomotor, PhysicsXformInfo &info)
 		accel = vel;
 		accel.normalize();
 		Real v = ((Rva001E46E1 *)locomotor)->rva001E4845(obj);
-		accel.scale(v);
+		accel.scaleInlined(v);
 	}
 	else if (obj->isKindOf((KindOfType)0x88))
 	{
 		accel = vel;
 		accel.normalize();
 		Real v = -((Rva001E46E1 *)locomotor)->rva001E4845(obj) * REVERSE_SCALE;
-		accel.scale(v);
+		accel.scaleInlined(v);
 	}
 
-	vel.scale((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
-	accel.scale((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
+	vel.scaleInlined((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
+	accel.scaleInlined((Real)BfmeLogicFramesPerSecond / BfmeClientFramesPerSecond);
 
 	m_locoInfo->springStep(m_locoInfo->m_pitchRate, m_locoInfo->m_pitch, PITCH_STIFFNESS, PITCH_DAMPING);
 	m_locoInfo->springStep(m_locoInfo->m_rollRate, m_locoInfo->m_roll, ROLL_STIFFNESS, ROLL_DAMPING);

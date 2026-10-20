@@ -24,7 +24,13 @@
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
+// The float overloads of <math.h> inline here; dllimport keeps them from
+// emitting out-of-line copies that differ from retail's fsin/fcos ones
+// (0x2FBB0/0x2FBC0). Same wrap as wwmath.cpp.
+#pragma push_macro("inline")
+#define inline __declspec(dllimport) __forceinline
 #include <math.h>
+#pragma pop_macro("inline")
 #include <list>
 #include <vector>
 #include "ascii_string.h"
