@@ -113,19 +113,9 @@ void __cdecl operator delete(void *);
 // 0x005E3D22) are slot 0 of the virtual-base tables.
 // ?<Rva005E4202::Rva005E4202> absent-from-retail
 Rva005E4202::Rva005E4202(EmitHeroVtableTag *){}
-class Rva005F445D { public: void *destroy(unsigned int flags); };
-void *Rva005F445D::destroy(unsigned int flags) {
-    char *object=(char*)this-0x14;
-    Rva005F4179 *base=(Rva005F4179*)(object+0x14);
-    ((Rva005F422C*)object)->Rva005F422C::~Rva005F422C();
-    base->Rva005F4179::~Rva005F4179();
-    if(flags & 1)operator delete(object);
-    return object;
-}
-class Rva005F4224 {public:void *destroy(unsigned int flags);};
-void *Rva005F4224::destroy(unsigned int flags) {
- return ((Rva005F445D *)((char *)this - *(int *)((char *)this - 4)))->destroy(flags);
-}
+// The hero icon's own deleting destructor (0x005F445D) and its slot-0
+// vtordisp thunk (0x005F4224) are likewise the compiler's ??_G and ??_E
+// thunk, emitted with Rva005F422C's tables.
 
 typedef char FirstIconHas32Bytes[sizeof(Rva005F422C)==0x20?1:-1];
 typedef char DetailsIconHas32Bytes[sizeof(Rva005E3A76)==0x20?1:-1];
