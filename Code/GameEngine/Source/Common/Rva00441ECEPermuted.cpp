@@ -19,6 +19,7 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const;
 template <> void _Bvector_base<allocator<bool> >::_M_deallocate();
+template <> _Bvector_base<allocator<bool> >::~_Bvector_base();
 }
 struct TargetRef00217D4C { void *vtable; int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);

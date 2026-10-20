@@ -53,6 +53,7 @@ namespace _STL { template <> void vector<bool, allocator<bool> >::_M_fill_insert
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, unsigned int) const; }
 namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 // bfme link decl-only end
 // Retail keeps the 16-byte /O2 copy of the default _Bit_iter constructor
 // (0x00672310, stlport_vector_bool.cpp); this /O1 unit inlines every use, so

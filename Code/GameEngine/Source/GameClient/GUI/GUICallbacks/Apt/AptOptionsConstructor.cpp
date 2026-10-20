@@ -251,8 +251,20 @@ void Rva005186E1Format(OptionPreferences *prefs, AsciiString *out);
 // The open options screen (VA 0x00E04908).
 extern int g_Va00A04908;
 
-// .data name table 0x00DD15E0: the seven Externs query names.
-extern const char *g_Va00DD15E0[];
+// .data name table 0x00DD15E0: the seven Externs query names; the null
+// after the seventh ends the table (the next word starts another unit's
+// NONE/HOLD/KILL/SPAWN table).
+const char *g_aptOptionsExternNames[] =
+{
+	"MasterOption0Num",
+	"MasterOption0Current",
+	"MasterOption0ResetDefault",
+	"AllowResolutionChange",
+	"AllowAdvancedOptions",
+	"NetworkEnabled",
+	"AdvancedOnly",
+	NULL
+};
 
 // The static LOD level names (VeryLow..Custom).
 extern const char *rva00202B6CNames[];
@@ -427,7 +439,7 @@ AptOptions::AptOptions(void *context)
 		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptOptions::Externs);
 		for (i = 0; i < 7; ++i)
 		{
-			AsciiString name(g_Va00DD15E0[i]);
+			AsciiString name(g_aptOptionsExternNames[i]);
 			m_externHandlers.AddExternHandler(name, i, AptRef<AptExternHandler>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 		}
 	}

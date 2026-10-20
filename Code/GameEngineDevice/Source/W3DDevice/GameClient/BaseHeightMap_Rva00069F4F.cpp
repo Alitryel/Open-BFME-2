@@ -62,6 +62,7 @@ namespace _STL { template <> void vector<bool, allocator<bool> >::_M_insert_aux(
 namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsigned int); }
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 // bfme link decl-only end
 
 typedef _STL::vector<bool, _STL::allocator<bool> > W3DBoolVector;

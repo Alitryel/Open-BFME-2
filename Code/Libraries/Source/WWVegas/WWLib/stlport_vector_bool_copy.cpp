@@ -14,5 +14,6 @@ namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 // bfme link decl-only end
 template _STL::vector<bool>::vector(const _STL::vector<bool>&);
