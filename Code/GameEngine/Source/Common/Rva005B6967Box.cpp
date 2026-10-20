@@ -9,6 +9,12 @@
 // the existing thunk pin; the two table names are retail's string literals
 // ("SavedHeroList" 0x00C73640, "SavedHeroStats" 0x00C73630).
 extern "C" int __cdecl strcmp(const char *a, const char *b);
+// Retail compares arg1 against two .rdata string cells (VA 0x00C73640 /
+// 0x00C73630 = RVA 0x00873640 / 0x00873630, from the decoded push immediates).
+extern const char g_rva00873640[];
+const char g_rva00873640[16] = "SavedHeroList";
+extern const char g_rva00873630[];
+const char g_rva00873630[16] = "SavedHeroStats";
 
 struct Rva005B6967Buf
 {
@@ -43,7 +49,7 @@ void AptCreateAHero::Manager::InitGadgets(char *a, int unused, char *c)
 	if (c == 0)
 		return;
 	Rva005B6967Buf buf;
-	if (strcmp(a, "SavedHeroList") == 0) {
+	if (strcmp(a, g_rva00873640) == 0) {
 		buf.x = 9;
 		buf.y = 0x2e;
 		buf.z = 0x2d;
@@ -51,11 +57,12 @@ void AptCreateAHero::Manager::InitGadgets(char *a, int unused, char *c)
 		m_8 = c;
 		PopulateHeroList();
 	} else {
-		if (strcmp(a, "SavedHeroStats") != 0)
+		if (strcmp(a, g_rva00873630) != 0)
 			return;
 		buf.y = 0x50;
 		buf.z = 0x14;
 		GadgetListBoxSetColumnWidths((GameWindow *)c, 2, &buf.y);
+
 		GadgetListBoxAddMultiSelect((GameWindow *)c);
 		m_C = c;
 		rva005B5F2E();
