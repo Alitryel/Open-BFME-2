@@ -1,3 +1,10 @@
+// ?onComingOutOfShroud@Drawable@@AAEXXZ
+// partial score=0.93 date=2026-10-20
+// 2026-10-20: clean checked STLport bitset recovery; still 740/747 bytes.
+// Object home/frame now match retail; holder/template register choice remains.
+// Private method spelling agrees with the owned caller and existing pin.
+// Earlier comments below document superseded banks and do not describe this state.
+// stlport
 // ?onComingOutOfShroud@Drawable@@QAEXXZ
 // partial score=0.741 date=2026-10-17
 // ?onComingOutOfShroud@Drawable@@QAEXXZ
@@ -8,7 +15,7 @@
 // partial score=0.87 date=2026-10-13
 // ?onComingOutOfShroud@Drawable@@AAEXXZ
 // partial score=0.87 date=2026-10-13
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /Ob1 /d2inlS100 /D_STLP_USE_STATIC_LIB /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
 // ?onComingOutOfShroud@Drawable@@AAEXXZ, retail 0x0027893E..0x00278C29 (747 bytes).
 // Owner TU: Code/GameEngine/Source/GameClient/DrawableLazyHelper.cpp
 // (contiguous with rowed 0x002788C7; region default supplies -arch:SSE -G7).
@@ -49,8 +56,9 @@
 // obj web that sorts its slot FIRST (-0x10); a single shared 0x80 local (kind7
 // + 2 tests + 2 ors, born right before kind7) should then take ebx.
 // t=40 model=muse-spark (seat W7-MP6).
+#include <bitset>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
-#include "../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -65,11 +73,11 @@ class Drawable;
 class ThingTemplate
 {
 public:
-	__forceinline bool isKindOf(int kind) const
-	{ return (m_kindOf[kind >> 3] & (1 << (kind & 7))) != 0; }
+	__forceinline bool testKindInView(int kind) const
+	{ return m_kindOf.test(kind); }
 	char m_pad000[0x108];
-	unsigned char m_kindOf[0x20]; // +0x108
-	char m_pad128[0x59C - 0x128];
+	std::bitset<218> m_kindOf; // +0x108
+	char m_pad124[0x59C - 0x124];
 	int m_sightedEvent; // +0x59C
 	int m_sightedEventAlt; // +0x5A0
 	int m_revealedEvent; // +0x5A4
@@ -191,6 +199,7 @@ class Drawable
 {
 public:
 	Object *rva00272AD5();
+private:
 	void onComingOutOfShroud();
 private:
 	void *m_vtable;
@@ -212,26 +221,23 @@ struct SightedEventData
 
 void Drawable::onComingOutOfShroud()
 {
-	Object *obj = m_object;
-	Object *target = obj;
 	const ThingTemplate *tmpl = m_template;
-	Object *lateObj = obj;
-	int maskShared = 0x80;
-	*(volatile int*)&maskShared = 0x80;
-	*(volatile Object**)&lateObj = obj;
-	*(volatile const ThingTemplate**)&tmpl = tmpl;
+	
+	Object *obj = m_object;
+	
+	
 	Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : 0;
 	if (!tmpl || !obj || !localPlayer || !TheGameLogic || TheGameLogic->getFrame() <= 5)
 		return;
 
 	if (obj->rva00294471(localPlayer, 1)) {
-		if (!obj->isEffectivelyDead() && tmpl->m_sightedEvent != -1 && !tmpl->isKindOf(47) && !m_sightReported) {
+		if (!obj->isEffectivelyDead() && tmpl->m_sightedEvent != -1 && !tmpl->testKindInView(47) && !m_sightReported) {
 			Rva004A1828Holder *holder = (Rva004A1828Holder *)Rva004A1828Get((Rva004A1828Owner *)obj);
 			bool skip;
 			if (holder && holder->isReady()) {
 				skip = false;
 			} else {
-				Player *controller = target->getControllingPlayer();
+				Player *controller = obj->getControllingPlayer();
 				if (controller) {
 					SightedEventData data;
 					data.drawable = this;
@@ -245,12 +251,12 @@ void Drawable::onComingOutOfShroud()
 				}
 			}
 			if (!skip) {
-				Object *nearest = ((Drawable *)target)->rva00272AD5();
+				Object *nearest = ((Drawable *)obj)->rva00272AD5();
 				if (nearest) {
 					int event = tmpl->m_sightedEvent;
 					if (m_useAltSightedEvent && tmpl->m_sightedEventAlt != -1)
 						event = tmpl->m_sightedEventAlt;
-					if (TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), target->getPosition()) && holder && holder->isReady()) {
+					if (TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition()) && holder && holder->isReady()) {
 						m_sightReported = true;
 						Object *holderObject = TheGameLogic->findObjectByID(holder->getID());
 						if (holderObject) {
@@ -263,12 +269,11 @@ void Drawable::onComingOutOfShroud()
 			}
 		}
 
-		struct { int v; unsigned char pad[3]; } mask80 = { 0x80 };
-		*(volatile int *)&mask80.v = 0x80;
-		lateObj = target;
-		if (((tmpl->m_kindOf[0] & mask80.v) != 0) && !(m_status & 0x40)) {
+		int mask80 = 0x80;
+		
+		if (tmpl->testKindInView(7) && !(m_status & 0x40)) {
 			static NameKeyType key_CastleMemberBehavior = TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
-			Module *member = target->findModule(key_CastleMemberBehavior);
+			Module *member = obj->findModule(key_CastleMemberBehavior);
 			if (member) {
 				Object *castle = TheGameLogic->findObjectByID(member->m_castleID);
 				if (castle) {
@@ -279,9 +284,9 @@ void Drawable::onComingOutOfShroud()
 							Drawable *castleDraw = castle->getDrawable();
 							if (castleDraw) {
 								if (!(castleDraw->m_status & 0x40)) {
-									Object *nearest = ((Drawable *)target)->rva00272AD5();
+									Object *nearest = ((Drawable *)obj)->rva00272AD5();
 									if (nearest)
-										TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), target->getPosition());
+										TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition());
 								}
 								((Rva003974CE *)castleBehavior)->apply(rva002706F0, 0);
 							}
@@ -291,26 +296,26 @@ void Drawable::onComingOutOfShroud()
 			}
 		}
 
-		if (!(m_status & mask80.v) && !lateObj->isEffectivelyDead()) {
-			m_status |= mask80.v;
+		if (!(m_status & mask80) && !obj->isEffectivelyDead()) {
+			m_status |= mask80;
 			int event = tmpl->m_revealedEvent;
 			if (event != -1) {
-				Object *nearest = ((Drawable *)target)->rva00272AD5();
+				Object *nearest = ((Drawable *)obj)->rva00272AD5();
 				if (nearest)
-					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), target->getPosition());
+					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition());
 			}
 		}
 	} else {
 		if (((Rva00270260 *)this)->rva00270260())
 			return;
 		int mask80 = 0x80;
-		if (!(m_status & mask80) && !target->isEffectivelyDead()) {
+		if (!(m_status & mask80) && !obj->isEffectivelyDead()) {
 			m_status |= mask80;
 			int event = tmpl->m_shroudedEvent;
 			if (event != -1) {
-				Object *nearest = ((Drawable *)target)->rva00272AD5();
+				Object *nearest = ((Drawable *)obj)->rva00272AD5();
 				if (nearest)
-					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), target->getPosition());
+					TheEva->reportEvaEvent((EvaEventID)event, nearest->getPosition(), obj->getPosition());
 			}
 		}
 	}
