@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.97 date=2026-10-20
+// partial score=0.972 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -501,6 +501,7 @@ static __forceinline const BFME2TextureRef &AsRef(const RefCountPtr<TextureClass
 
 #define CLOUD ((CloudFields *)g_00DFE1E4)
 
+static inline void SetU(D3DXMATRIX &m, float x, float y) { m.m[3][1] = y; m.m[3][0] = x; }
 void BfmeB1137::Install_Materials(void) const
 {
 	Rva00094DD3Val wind;
@@ -638,8 +639,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
 		D3DXMatrixTranslation(&shift, diagonal * 5.0f, 0.0f, 0.0f);
 		D3DXMatrixIdentity(&uncenter);
-		uncenter.m[3][0] = sx * -0.5f;
-		uncenter.m[3][1] = sy * -0.5f;
+		SetU(uncenter, sx * -0.5f, sy * -0.5f);
 
 		partial = uncenter * rot * center;
 		world = partial * shift * drift;
