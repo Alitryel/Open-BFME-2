@@ -1,4 +1,6 @@
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
+// partial score=0.99 date=2026-10-20
+// ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
 // partial score=0.96 date=2026-10-19
 // r3 (claude-opus-5.5, 2026-10-19): bank 0.95 + explicit WB-order inline transform (aliasing tmp copy, row-wise X/Y/Z sums) -> Y/Z term order exact; align 4/58/2 (was 4/66/2), 4655/4656. Residue: m_type EAX load, src/bridge/terrainHeight slot cycle, caster/terrain lock cleanup cross-jump order. Handoff reverse/attempt_support/rva0010c841-20261019.md
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
@@ -1045,7 +1047,11 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 				Vector3 decalVertex;
 				if (pvVertices)
 				{
-					Vector3 *src = bridge ? bridge->getBridgeInfo()->m_corners : model->Get_Vertex_Array();
+					Vector3 *src;
+					if (bridge)
+						src = bridge->getBridgeInfo()->m_corners;
+					else
+						src = model->Get_Vertex_Array();
 					for (Int v = 0; v < numVerts; v++, src++)
 					{
 						if (bridge)
@@ -1147,8 +1153,10 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 
 	Int vertsPerRow = endX - startX + 1; //number of cells +1
 	Int vertsPerColumn = endY - startY + 1; //number of cells +1
-	if (vertsPerRow <= 1 || vertsPerColumn <= 1)
+	if (vertsPerRow <= 1)
 		return; //nothing to render
+	if (vertsPerColumn <= 1)
+		return;
 
 	Int numVerts = vertsPerRow * vertsPerColumn; //number of terrain vertices
 	Int numPolys = (endX - startX) * (endY - startY) * 2;
@@ -1263,3 +1271,4 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 // Worker repair: capture Get_Transform receiver across Validate_Transform; name both transform operands.
 // Retail 0x50D1BF..0x50D287 proves the saved receiver; original method name remains unproven.
 // Evidence: reverse/attempt_support/rva0010c841-20261019.md; model=gpt-6.1-sol
+// r5 (claude-opus-5-5): caster vertex source assigned in an if/else (WB 0x8CAFC8 stores it in each arm); the nothing-to-render test is two returns, which yields retail's lock-cleanup tail layout. Evidence reverse/attempt_support/rva0010c841-20261020.md
