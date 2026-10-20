@@ -44,6 +44,8 @@
 // value the compiler must copy out of eax, as the short probe forces) - shared with slots 3/5.
 // Round 2026-10-19: aggregate result copies, aggregate search returns, /Ob2, and const-ref results
 // retain the int copy wall. Bank body unchanged; see reverse/attempt_support/0x001b3159-20261019.md.
+// Round 2026-10-20 (opus): alternate 13.10 compilers, byte-record cursor, split/nested search inlines, pointer and
+// __int64 return casts keep the int copy wall; bank body unchanged; see reverse/attempt_support/0x001b3159-20261020.md.
 class Vector3 { public: float X, Y, Z; };
 class Quaternion { public: float X, Y, Z, W; };
 class ChunkLoadClass;
