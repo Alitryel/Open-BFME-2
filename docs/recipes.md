@@ -307,6 +307,15 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   factorial over alias placement and cell-pointer temps found it in 288
   compiles. Reproduce the effect in a small probe first; it showed the alias
   flips the order.
+- **KindOf tests as the full inline chain.** Write each KindOf test as
+  `obj->isKindOf(k)` → `getTemplate()->isKindOf(k)` → `BitFlags::test(k)`,
+  with the chain returning the masked `UnsignedInt` word as BuildAssistant.cpp
+  does, not as a one-level byte test on the template. MSVC narrows both forms
+  to the same `test byte [tmpl+0x108+k/8], mask`, but the deeper IL changes
+  register choice elsewhere in the body. In SelectionTranslator::
+  translateGameMessage 0x0043003C (4054 B), the byte-test spelling kept
+  `[ebp-0x10]` hoisted into esi in the team double-tap. The chain at all
+  eight sites closed it. Mixing the forms, or returning Bool, was worse.
 - **Stacked case labels versus separate identical bodies.** Retail's dispatch
   tail `sub eax,K; jne default; jmp X`, where our build has `je X; jmp
   default`, means the last case had a body of its own. Cross-jumping merged
