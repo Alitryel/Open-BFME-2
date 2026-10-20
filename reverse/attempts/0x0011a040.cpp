@@ -1,5 +1,7 @@
 // ?Render@Render2DClass@@QAEXXZ
-// partial score=0.9451478802311812 date=2026-10-14
+// partial score=0.9451478802311812 date=2026-10-20
+// Second opinion 2026-10-20: original code remains the best resolved-byte candidate.
+// New diagnostic and disproven trials: reverse/attempt_support/render2d-render-11a040-20261020/second-opinion.md
 // Round4: native MaxTexturesPerPass+2B0 and D3D9 stage slot67; WB9C07A0/9C2BD0 source shape.
 // Equal-arm count/batch reads retain native receiver and index webs; named string terminator,
 // volatile state flag and mode5 branches: 7476B, EC frame/EH exact, fitness .945147880.

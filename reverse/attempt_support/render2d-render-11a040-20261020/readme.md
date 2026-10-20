@@ -3,6 +3,12 @@
 Start from the bank `reverse/attempts/0x0011a040.cpp` (fit .9451478802311812,
 7476 B). Nothing this session beat it; the bank is unchanged.
 
+Later GPT second opinion: see [second-opinion.md](second-opinion.md). It retains
+the same best body, disproves the unconditional RS+next rule below, and preserves
+a smaller loop2 residue and a recovered-copy variant with only six terminator
+sites remaining as diagnostic patches. Read that continuation before
+repeating the proposed next angles here.
+
 ## Measuring
 
 Fitness hides where the residue sits. Split retail offsets into regions and
@@ -31,7 +37,7 @@ Site map: 1-3 override TSS2, 4-6 mode6, 7 dot3 RS TF, 8 COLORARG0,
   tracking budget. The named terminator spends 2 per site, plain spends 1, and
   the copy-region locals draw on the same budget. Retail with the plain
   terminator would need ~7 more consumers.
-- **RS+next rule**: in the dot3 else branch, the Set_DX8_Render_State site and
+- **RS+next observation (subsequently refuted; see second-opinion.md)**: in the dot3 else branch, the Set_DX8_Render_State site and
   the site right after it are always B. Changing value, state
   (TEXTUREFACTOR->AMBIENT), order (ARG1,ARG2,TF,OP gives NNBB), count (TF alone
   gives B) or placing the else first (inverted condition: all 4 E sites B, then
