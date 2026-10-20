@@ -200,7 +200,7 @@ class AptScoreScreen
  void objectiveChecked(int index, char *result, bool skip);
  void heroVetUpgrade(int index, char *result, bool skip);
  void OnButtonRenameAccept(int unused);
- int rva0051C452(int message, unsigned int wParam, unsigned int lParam);
+ int OnSystemMsg(int message, unsigned int wParam, unsigned int lParam);
  private:
  unsigned char m_pad000[0x274];
  void *m_movie;
@@ -239,7 +239,7 @@ class AptScoreScreen
 // may be renamed (heroes may not) and keeps that tooltip up after eight;
 // selecting one opens the rename entry on its current name, and the
 // entry's GEM_EDIT_DONE accepts it.
-int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int lParam)
+int AptScoreScreen::OnSystemMsg(int message, unsigned int wParam, unsigned int lParam)
 
 {
  switch (message)
