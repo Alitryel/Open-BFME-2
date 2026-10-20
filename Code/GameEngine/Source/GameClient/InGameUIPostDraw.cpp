@@ -8,6 +8,15 @@ namespace _STL { void __cdecl free(void *block); }
 #define free _STL::free
 #include <list>
 #include <map>
+
+// Use the typed node comparison here; the iterator-base out-of-line wrapper
+// belongs to the retail STLport owner compiled with its own settings.
+namespace _STL {
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits>& a,
+                              const _List_iterator<T, Traits>& b)
+{ return a._M_node != b._M_node; }
+}
 #undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
