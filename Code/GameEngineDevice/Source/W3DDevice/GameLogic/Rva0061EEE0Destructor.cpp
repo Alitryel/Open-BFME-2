@@ -64,6 +64,10 @@ void *&vector<void*>::operator[](size_t __n)
 // Bind to the kept retail copy instead of emitting this unit's own.
 // bfme link decl-only begin
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@PAURva001408C0Target@@@_STL@@@_STL@@QBEXPAU?$_Rb_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001408C0Target;
+namespace _STL { template <> void allocator<_Rb_tree_node<Rva001408C0Target *> >::deallocate(_Rb_tree_node<Rva001408C0Target *> *,unsigned int) const; }
 
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
