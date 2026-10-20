@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
-// ??1Rva00414932@@UAE@XZ @ 0x00414932 75B: novtable dtor restoring Snapshot vtable 0x007BB554,
+// ??1Rva004147CF@@UAE@XZ @ 0x00414932 75B: novtable dtor restoring Snapshot vtable 0x007BB554,
 // calls vector<BfmeAssignRecord44> dtor at +0x1C, Rva00360D26Member dtor at +0x14,
 // StringBase releaseBuffer at +0x04. Precedent Rva0040DB52Dtor plus
 // stlport_asciistring_record_bodies layout; callers include ??_G at 0x00414AEE.
@@ -19,10 +19,10 @@ private:
     unsigned m_unknown;
 };
 
-class __declspec(novtable) Rva00414932 : public Snapshot
+class __declspec(novtable) Rva004147CF : public Snapshot
 {
 public:
-    virtual ~Rva00414932();
+    virtual ~Rva004147CF();
 private:
     AsciiString m_str04;
     char m_pad08[0x14 - 0x08];
@@ -31,6 +31,6 @@ private:
     _STL::vector<BfmeAssignRecord44, _STL::allocator<BfmeAssignRecord44> > m_vec1C;
 };
 
-Rva00414932::~Rva00414932()
+Rva004147CF::~Rva004147CF()
 {
 }

@@ -6,10 +6,9 @@
 // ZH INIException/AsciiString behavior and STLport containers are semantic
 // guides; no clean donor application body was available.
 // Existing neutral constructor4148C0 and destructor414932 independently
-// establish the48B temporary lifetime. Rva004147CF inherits the cleanup call
-// view only to express that scope to the compiler, not to claim the original
-// class hierarchy. novtable suppresses an extra local vptr reset absent from
-// native; the existing constructor/destructor providers own actual vptr work.
+// establish the48B temporary lifetime. The native cleanup calls the same
+// physical object's rowed destructor directly; its neutral class name is
+// shared with the constructor and deleting-destructor providers.
 // Native absoluteE03074 establishes the registry role. Use the existing
 // data_ledger canonical TheScoredKillEvaAnnouncerController symbol and class
 // pointer spelling through an accessed-prefix view. COFF pointer extent4B
@@ -20,8 +19,7 @@
 #include <vector>
 
 class INI{public:const char *getNextToken(const char *separators=0);};
-class Rva00414932{public:virtual ~Rva00414932();private:char data[44];};
-class __declspec(novtable) Rva004147CF:public Rva00414932{public:Rva004147CF(const AsciiString&);__forceinline ~Rva004147CF(){};};
+class Rva004147CF{public:Rva004147CF(const AsciiString&);virtual ~Rva004147CF();private:char data[44];};
 struct Rva00414BDBElement{char data[48];};
 namespace _STL{template<>void vector<Rva00414BDBElement>::push_back(const Rva00414BDBElement&);}
 class Rva0041430D{public:void rva0041430D(INI*);};

@@ -32,6 +32,7 @@ class Rva004147CF : public Snapshot
 {
 public:
 	Rva004147CF(const AsciiString &name);
+	virtual ~Rva004147CF();
 private:
 	AsciiString m_str04;
 	int m_unk08;
