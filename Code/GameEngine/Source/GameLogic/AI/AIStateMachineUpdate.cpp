@@ -127,13 +127,19 @@ protected:
 
 class Waypoint;
 
-// vector::clear spelled out: the census's other vector<Coord3D>::clear copy
-// comes from a configuration that inlines erase, while retail calls the
-// out-of-line erase here.
+// Retail clear calls the shared 12-byte-element erase at RVA 0x002A133B.
+// The Coord3D erase name owns a distinct retail body at RVA 0x00081A24.
+// Use the existing Gen_p12pod owner for this call with unchanged pointers.
+struct Gen_p12pod;
+namespace _STL {
+template <> Gen_p12pod *vector<Gen_p12pod>::erase(Gen_p12pod *, Gen_p12pod *);
+}
 typedef _STL::vector<Coord3D> GoalPathVector;
 static inline void clearGoalPath(GoalPathVector &path)
 {
-	path.erase(path.begin(), path.end());
+	reinterpret_cast<_STL::vector<Gen_p12pod> *>(&path)->erase(
+        reinterpret_cast<Gen_p12pod *>(path.begin()),
+        reinterpret_cast<Gen_p12pod *>(path.end()));
 }
 
 class AIStateMachine : public StateMachine
@@ -217,3 +223,6 @@ void AIStateMachine::clear()
 	if (ai)
 		ai->friend_notifyStateMachineChanged();
 }
+
+// Preserve the separately rowed Coord3D erase implementation at 0x00081A24.
+template Coord3D *_STL::vector<Coord3D>::erase(Coord3D *, Coord3D *);
