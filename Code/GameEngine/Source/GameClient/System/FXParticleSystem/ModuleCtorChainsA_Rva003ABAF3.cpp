@@ -99,7 +99,28 @@ void __identifier("?rva00563ED1@Rva00563ED1@@UAEXPAVXfer@@@Z")();
 }
 extern const void *const g_00C1C620[4];
 extern "C" const void *const __identifier("??_7Rva003AF89A@@6BRva003AF8C7B1C@@@")[];
-extern const void *const g_00C1C6DC[];
+// The retail table at RVA 0x0081C6DC: 8 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003AD2AE@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+int __cdecl _purecall(void);
+void __identifier("?DoXfer@Rva0055DB41@@UAEXAAVXfer@@@Z")();
+void __identifier("?rva0055CD70@Rva0055CD70@@QAEXMMM@Z")();
+void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
+void __identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ")();
+void __identifier("?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z")();
+}
+extern const void *const g_00C1C6DC[8] = {
+	(const void *)&__identifier("??_GRva003AD2AE@@UAEPAXI@Z"), // slot 0 0x003AD42F
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("?DoXfer@Rva0055DB41@@UAEXAAVXfer@@@Z"), // slot 3 0x0055DB41
+	(const void *)&__identifier("?rva0055CD70@Rva0055CD70@@QAEXMMM@Z"), // slot 4 0x0055CD70
+	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // slot 5 0x0050B5C6
+	(const void *)&__identifier("?rva003ABEFD@Rva003ABEFD@@QAEMXZ"), // slot 6 0x003ABEFD
+	(const void *)&__identifier("?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z"), // slot 7 0x0055DDD1
+};
 extern "C" const void *const __identifier("??_7Rva003AF47D@@6BIntermediate3AFC6FC@@@")[];
 extern "C" const void *const __identifier("??_7?$CategoryModuleTemplate@$05@FXParticleSystem@@6B?$CategoryModuleInfo@$05@1@@")[];
 extern "C" const void *const __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$0A@@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@")[];
