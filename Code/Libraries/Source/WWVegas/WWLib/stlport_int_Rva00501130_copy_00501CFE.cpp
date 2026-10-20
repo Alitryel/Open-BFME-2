@@ -19,4 +19,6 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 struct Rva00501E3FElement { int a; };
 
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00501E3FElement>, _STL::_Select1st<_STL::pair<const int, Rva00501E3FElement> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00501E3FElement> > > IntRva00501130Tree;
+// The node factory is rowed in StlSweepR3Rva00501086.cpp (0x00501086).
+namespace _STL { template <> IntRva00501130Tree::_Link_type IntRva00501130Tree::_M_create_node(const IntRva00501130Tree::value_type &); }
 template IntRva00501130Tree::_Link_type IntRva00501130Tree::_M_copy(IntRva00501130Tree::_Link_type, IntRva00501130Tree::_Link_type);

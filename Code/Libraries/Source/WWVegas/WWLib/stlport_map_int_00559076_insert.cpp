@@ -30,6 +30,9 @@ struct Rva00559076Mapped { int a; };
 
 typedef _STL::map<int, Rva00559076Mapped, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00559076Mapped> > > Map005592FB;
 
+// The node factory 0x00558E9C is defined in StlportIntMapInsertFamily.cpp.
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00559076Mapped>, _STL::_Select1st<_STL::pair<const int, Rva00559076Mapped> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00559076Mapped> > > Tree00559076;
+namespace _STL { template <> Tree00559076::_Link_type Tree00559076::_M_create_node(const Tree00559076::value_type &); }
 template Map005592FB::iterator Map005592FB::insert(Map005592FB::iterator, const Map005592FB::value_type &);
 
 // Native 559318..5593AE is the stats map subscript: key+PSPlayerAllStats

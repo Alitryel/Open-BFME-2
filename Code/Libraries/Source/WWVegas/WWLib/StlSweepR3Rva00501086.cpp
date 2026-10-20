@@ -20,6 +20,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 struct Rva00501E3FElement {  int word0;int word1;int word2;int word3;int word4; };
+// The army-record pair copy and its _Construct are rowed in
+// StlportConstructFamily.cpp (0x00500856, 0x00500CD1); call those copies.
+namespace _STL {
+template <> pair<const int, Rva00501E3FElement>::pair(const pair<const int, Rva00501E3FElement> &);
+template <> void _Construct<pair<const int, Rva00501E3FElement>, pair<const int, Rva00501E3FElement> >(pair<const int, Rva00501E3FElement> *, const pair<const int, Rva00501E3FElement> &);
+}
 
 
 // Instantiate the recovered member; retain only its required template dependencies.

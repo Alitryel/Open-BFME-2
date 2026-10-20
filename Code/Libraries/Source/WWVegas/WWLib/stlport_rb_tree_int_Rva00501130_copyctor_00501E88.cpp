@@ -5,6 +5,12 @@
 #include <map>
 
 struct Rva00501E3FElement { int a[5]; };
+// The army-record pair copy and its _Construct are rowed in
+// StlportConstructFamily.cpp (0x00500856, 0x00500CD1); call those copies.
+namespace _STL {
+template <> pair<const int, Rva00501E3FElement>::pair(const pair<const int, Rva00501E3FElement> &);
+template <> void _Construct<pair<const int, Rva00501E3FElement>, pair<const int, Rva00501E3FElement> >(pair<const int, Rva00501E3FElement> *, const pair<const int, Rva00501E3FElement> &);
+}
 
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00501E3FElement>, _STL::_Select1st<_STL::pair<const int, Rva00501E3FElement> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00501E3FElement> > > IntRva00501130Tree2;
 template IntRva00501130Tree2::_Rb_tree(const IntRva00501130Tree2 &);

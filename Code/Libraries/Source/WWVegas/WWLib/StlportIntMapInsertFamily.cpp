@@ -73,6 +73,7 @@ template <> ScienceMemoBase::_Rb_tree_base(const allocator<ScienceMemoValue> &);
 template <> ScienceMemoBase::~_Rb_tree_base();
 template <> ScienceMemoTree::~_Rb_tree();
 template <> void ScienceMemoTree::clear();
+template <> ScienceMemoTree::_Link_type ScienceMemoTree::_M_create_node(const ScienceMemoValue &);
 }
 
 
@@ -81,12 +82,14 @@ struct Rva0032EB87Mapped { int a; };
 // 0x10-byte node header and the int key this leaves 0x10 bytes for this mapped
 // record. Its meaning and field layout remain unknown.
 struct Rva00439AAAMapped { unsigned char m_data[0x10]; };
-struct Rva004F90FFMapped { int a; };
-struct Rva00501776 { int a; };
+// Mapped sizes below follow the node allocations of the retail _M_create_node
+// bodies each _M_insert calls (0x10-byte node header plus the int key).
+struct Rva004F90FFMapped { unsigned char m_data[0x0C]; };
+struct Rva00501776 { unsigned char m_data[0x2C]; };
 // bfme link decl-only Rva00501776
 namespace _STL { template <> pair<int const, Rva00501776>::pair(pair<int const, Rva00501776> const &); }
-struct Rva00502BCDMapped { int a; };
-struct Rva00559076Mapped { int a; };
+struct Rva00502BCDMapped { unsigned char m_data[0x0C]; };
+struct Rva00559076Mapped { unsigned char m_data[0x548]; };
 
 // The player-record tree lifetime and erase bodies have verified providers.
 // This insertion unit must not instantiate alternative copies from its
@@ -131,6 +134,66 @@ Rva00439AAATree::_Link_type Rva00439AAATree::_M_create_node(const Rva00439AAATre
 
 template Rva00439AAATree::_Link_type Rva00439AAATree::_M_create_node(const Rva00439AAATree::value_type &);
 
+// The other int-keyed trees' node factories have the same 34-byte shape (37 for
+// the 0x55C-byte node): byte allocator 0x000307F0, then the rowed copy helper on
+// the value storage. Their callees are spelled by their row names.
+struct Rva004F868AElement;
+struct Rva00502667Element;
+struct Rva00557C90Element;
+namespace _STL {
+template <> void _Construct<Rva004F868AElement, Rva004F868AElement>(Rva004F868AElement *, const Rva004F868AElement &);
+template <> void _Construct<Rva00502667Element, Rva00502667Element>(Rva00502667Element *, const Rva00502667Element &);
+template <> void _Construct<Rva00557C90Element, Rva00557C90Element>(Rva00557C90Element *, const Rva00557C90Element &);
+template <> void _Construct<pair<const int, Rva00501776>, pair<const int, Rva00501776> >(pair<const int, Rva00501776> *, const pair<const int, Rva00501776> &);
+}
+
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva004F90FFMapped>, _STL::_Select1st<_STL::pair<const int, Rva004F90FFMapped> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<const int, Rva004F90FFMapped> > > Rva004F90FFTree;
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00502BCDMapped>, _STL::_Select1st<_STL::pair<const int, Rva00502BCDMapped> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00502BCDMapped> > > Rva00502BCDTree;
+typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00559076Mapped>, _STL::_Select1st<_STL::pair<const int, Rva00559076Mapped> >,
+	_STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00559076Mapped> > > Rva00559076Tree;
+
+// 0x00502645: 0x40-byte node, copy helper 0x00502082.
+// ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00501776@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501776@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501776@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHURva00501776@@@_STL@@@2@ABU?$pair@$$CBHURva00501776@@@2@@Z
+template <>
+PlayerRecordTree::_Link_type PlayerRecordTree::_M_create_node(const PlayerRecordTree::value_type &value)
+{
+	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<PlayerRecordTree::value_type>), 0);
+	_STL::_Construct(&node->_M_value_field, value);
+	return node;
+}
+
+// 0x004F8CE0: 0x20-byte node, copy helper 0x004F868A.
+// ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva004F90FFMapped@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva004F90FFMapped@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva004F90FFMapped@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHURva004F90FFMapped@@@_STL@@@2@ABU?$pair@$$CBHURva004F90FFMapped@@@2@@Z
+template <>
+Rva004F90FFTree::_Link_type Rva004F90FFTree::_M_create_node(const Rva004F90FFTree::value_type &value)
+{
+	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<Rva004F90FFTree::value_type>), 0);
+	_STL::_Construct((Rva004F868AElement *)&node->_M_value_field, (const Rva004F868AElement &)value);
+	return node;
+}
+
+// 0x005028E7: 0x20-byte node, copy helper 0x00502667.
+// ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00502BCDMapped@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00502BCDMapped@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00502BCDMapped@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHURva00502BCDMapped@@@_STL@@@2@ABU?$pair@$$CBHURva00502BCDMapped@@@2@@Z
+template <>
+Rva00502BCDTree::_Link_type Rva00502BCDTree::_M_create_node(const Rva00502BCDTree::value_type &value)
+{
+	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<Rva00502BCDTree::value_type>), 0);
+	_STL::_Construct((Rva00502667Element *)&node->_M_value_field, (const Rva00502667Element &)value);
+	return node;
+}
+
+// 0x00558E9C: 0x55C-byte node, copy helper 0x00557C90.
+// ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00559076Mapped@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00559076Mapped@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00559076Mapped@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHURva00559076Mapped@@@_STL@@@2@ABU?$pair@$$CBHURva00559076Mapped@@@2@@Z
+template <>
+Rva00559076Tree::_Link_type Rva00559076Tree::_M_create_node(const Rva00559076Tree::value_type &value)
+{
+	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<Rva00559076Tree::value_type>), 0);
+	_STL::_Construct((Rva00557C90Element *)&node->_M_value_field, (const Rva00557C90Element &)value);
+	return node;
+}
+
 template class _STL::_Rb_tree<ScienceType, _STL::pair<const ScienceType, bool>, _STL::_Select1st<_STL::pair<const ScienceType, bool> >, _STL::less<ScienceType>, _STL::allocator<_STL::pair<const ScienceType, bool> > >;
 template class _STL::_Rb_tree<int, _STL::pair<const int, Rva0032EB87Mapped>, _STL::_Select1st<_STL::pair<const int, Rva0032EB87Mapped> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva0032EB87Mapped> > >;
 template class _STL::_Rb_tree<int, _STL::pair<const int, Rva00439AAAMapped>, _STL::_Select1st<_STL::pair<const int, Rva00439AAAMapped> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00439AAAMapped> > >;
@@ -151,7 +214,7 @@ template class _STL::_Rb_tree<int, _STL::pair<const int, Rva00559076Mapped>, _ST
 
 struct Rva002F1DA1Mapped { int a; };
 struct Rva00501E3FElement { int a; };
-struct Rva00501656 { int a; };
+struct Rva00501656 { unsigned char m_data[0x58]; };
 // bfme link decl-only Rva00501656
 namespace _STL { template <> pair<int const, Rva00501656>::pair(pair<int const, Rva00501656> const &); }
 // Region-tree destruction is owned by the verified destructor-only unit.
@@ -159,6 +222,37 @@ typedef _STL::pair<const int, Rva00501656> RegionRecordTreeValue;
 typedef _STL::_Rb_tree<int, RegionRecordTreeValue, _STL::_Select1st<RegionRecordTreeValue>,
  _STL::less<int>, _STL::allocator<RegionRecordTreeValue> > RegionRecordTree;
 namespace _STL { template <> RegionRecordTree::~_Rb_tree(); }
+
+namespace _STL { template <> void _Construct<pair<const int, Rva00501656>, pair<const int, Rva00501656> >(pair<const int, Rva00501656> *, const pair<const int, Rva00501656> &); }
+// 0x00502EA4: 0x6C-byte node, copy helper 0x00502C53.
+// ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00501656@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501656@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501656@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHURva00501656@@@_STL@@@2@ABU?$pair@$$CBHURva00501656@@@2@@Z
+template <>
+RegionRecordTree::_Link_type RegionRecordTree::_M_create_node(const RegionRecordTree::value_type &value)
+{
+	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<RegionRecordTree::value_type>), 0);
+	_STL::_Construct(&node->_M_value_field, value);
+	return node;
+}
+
+// The ScienceType, 0x002F1DA1 and army-record node factories, and the
+// army-record tree's copy members, are rowed in their own units (0x001FF703,
+// 0x002EF239, 0x00501086; _M_copy 0x00501CFE, pair copy 0x00500856, _Construct
+// 0x00500CD1); this unit only calls them. The army-record node allocator folds
+// onto the 40-byte allocate 0x000B4039 and its _Rb_tree_base constructor is
+// emitted by the copy-constructor units.
+typedef _STL::pair<const int, Rva002F1DA1Mapped> Rva002F1DA1Value;
+typedef _STL::_Rb_tree<int, Rva002F1DA1Value, _STL::_Select1st<Rva002F1DA1Value>, _STL::less<int>, _STL::allocator<Rva002F1DA1Value> > Rva002F1DA1Tree;
+typedef _STL::pair<const int, Rva00501E3FElement> ArmyRecordValue;
+typedef _STL::_Rb_tree<int, ArmyRecordValue, _STL::_Select1st<ArmyRecordValue>, _STL::less<int>, _STL::allocator<ArmyRecordValue> > ArmyRecordTree;
+namespace _STL {
+template <> Rva002F1DA1Tree::_Link_type Rva002F1DA1Tree::_M_create_node(const Rva002F1DA1Value &);
+template <> ArmyRecordTree::_Link_type ArmyRecordTree::_M_create_node(const ArmyRecordValue &);
+template <> ArmyRecordTree::_Link_type ArmyRecordTree::_M_copy(ArmyRecordTree::_Link_type, ArmyRecordTree::_Link_type);
+template <> _Rb_tree_base<ArmyRecordValue, allocator<ArmyRecordValue> >::_Rb_tree_base(const allocator<ArmyRecordValue> &);
+template <> _Rb_tree_node<ArmyRecordValue> *allocator<_Rb_tree_node<ArmyRecordValue> >::allocate(size_t, const void *) const;
+template <> pair<const int, Rva00501E3FElement>::pair(const pair<const int, Rva00501E3FElement> &);
+template <> void _Construct<ArmyRecordValue, ArmyRecordValue>(ArmyRecordValue *, const ArmyRecordValue &);
+}
 
 template class _STL::_Rb_tree<int, _STL::pair<const int, Rva002F1DA1Mapped>, _STL::_Select1st<_STL::pair<const int, Rva002F1DA1Mapped> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva002F1DA1Mapped> > >;
 template class _STL::_Rb_tree<int, _STL::pair<const int, Rva00501E3FElement>, _STL::_Select1st<_STL::pair<const int, Rva00501E3FElement> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, Rva00501E3FElement> > >;
