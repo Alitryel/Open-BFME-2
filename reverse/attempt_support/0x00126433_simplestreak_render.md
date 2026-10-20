@@ -6,9 +6,9 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
-## Current best (claudeb4, 2026-10-20): 0.9069, norm 2341/2637, 12012 B
+## Current best (claudeb4, 2026-10-20): 0.9113, norm 2353/2637, 12009 B
 
-0.9069 = the 0.8371 body plus item 8; 0.8371 = the 0.8307 body plus item 7;
+0.9113 = the 0.9069 body plus item 9; 0.9069 = the 0.8371 body plus item 8; 0.8371 = the 0.8307 body plus item 7;
 0.8307 = the 0.8285 body plus item 6.
 
 The previous bank scored 0.7808 (norm 1974). The best body is built from that
@@ -67,6 +67,22 @@ bank as follows:
      That mode is a tie-break between equal-weight mulss operands (region d
      swaps `[esi]` and `[esi-0x14]`). It follows a temp or symbol count, so look
      for a second change that flips it back on top of o8.
+
+9. **WB holder API, mirrored** (`build/s126/gen_g10.py`, best `g10/v11100l0.cpp`).
+   WB names the two globals `s_AlphaShadowFXShader` (0xDEE870) and
+   `s_AdditiveShadowFXShader` (0xDEE86C) and calls `IsBound()`, the static
+   `WW3D::Is_Currently_Rendering_Shadow_Map()` and the member
+   `Is_Sorting_Disabled()`; the holder ctor takes `(T *obj)`. Factorial over
+   seven choices (192 variants, `g10/scores.txt`):
+   - `bool sorting = (!Is_Sorting_Disabled()) && ...` (getter instead of the
+     field) and operator-> as `{T *p = m_obj; return p;}` with `shadow->` calls
+     give 0.9113. `return m_obj;` gives 0.9012; `.m_obj->` calls give 0.8746.
+   - The getter/IsBound start (A), `shadow(0)` (C) and the getters in the
+     shadow and end blocks (D, E) are neutral; D+E together cost 0.0025.
+   - `shadow = additive ? s_Additive... : s_Alpha...;` (holder ternary, G)
+     costs 0.0008 against the pointer-cast form.
+   rs2 at the bank: 9:15 b:12 11:22 15:20 1d:8 1e:12 1f:14 24:15 25:16 28:8,
+   total 202.
 
 ## Inline budget (why the setters stay out of line)
 

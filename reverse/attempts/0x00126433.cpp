@@ -1,5 +1,5 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.9069 date=2026-10-20
+// partial score=0.9113 date=2026-10-20
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
 // partial score=0.7808 date=2026-10-17
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
@@ -55,7 +55,7 @@ class 	StaticSortListClass;
 
 class WW3D
 {
-public: static bool IsCurrentlyRenderingShadowMap;
+public: static bool IsCurrentlyRenderingShadowMap; static bool Is_Currently_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}
 public:
 
 	enum PrelitModeEnum {
@@ -1294,7 +1294,9 @@ class SimpleShadowPass { public: virtual void Delete_This(); virtual void slot1(
 class FXShaderSetup;
 class Rva00072A94 {public:Rva00072A94 &operator=(const RefCountPtr<FXShaderSetup> &r){return *this=*(const Rva00072A94*)&r;}Rva00072A94 &operator=(const Rva00072A94&);};
 class Rva00087A93 {public: Rva00087A93():p(0){} ~Rva00087A93(); SimpleShadowPass *p;};
-template<class T> class ShadowPtr { public: ShadowPtr():m_obj(0){} ~ShadowPtr(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} ShadowPtr&operator=(const ShadowPtr&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} T*operator->()const{return m_obj;} T*m_obj; };
+template<class T> class ShadowPtr { public: ShadowPtr(T*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~ShadowPtr(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} ShadowPtr&operator=(const ShadowPtr&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} T*operator->()const{T*p=m_obj;return p;} T*m_obj; };
+#define s_AlphaShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE870)
+#define s_AdditiveShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE86C)
 class Rva007B7024Object;
 extern Rva007B7024Object *g_Va00DEE870;
 extern Rva007B7024Object *g_Va00DEE86C;
@@ -1304,11 +1306,11 @@ struct Rva0007671F {Rva0007671F(); char data[64];};
 struct SimpleTextureTemp {TextureBaseClass *Ptr; SimpleTextureTemp():Ptr(0){} ~SimpleTextureTemp(){if(Ptr)Ptr->Release_Ref();}};
 class Rva00126314 {public:
 void rva00126433(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);
-TextureClass *Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled;
+TextureClass *Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; bool Is_Sorting_Disabled()const{return SortingDisabled;}
 };
 void Rva00126314::rva00126433(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
 {
-if(WW3D::IsCurrentlyRenderingShadowMap && (!g_Va00DEE870 || !g_Va00DEE86C))return;
+if(WW3D::Is_Currently_Rendering_Shadow_Map() && (!s_AlphaShadowFXShader.IsBound() || !s_AdditiveShadowFXShader.IsBound()))return;
 Matrix4 view;
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 Matrix4 identity(true);DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
@@ -1675,13 +1677,13 @@ for(pointIndex=0;pointIndex<point_cnt;++pointIndex)tex_v[pointIndex]=(texture_po
 			}
 		}
 
-bool sorting=(!SortingDisabled)&&(Shader.Get_Dst_Blend_Func()!=ShaderClass::DSTBLEND_ZERO&&Shader.Get_Alpha_Test()==ShaderClass::ALPHATEST_DISABLE);
-ShadowPtr<SimpleShadowPass> shadow;
+bool sorting=(!Is_Sorting_Disabled())&&(Shader.Get_Dst_Blend_Func()!=ShaderClass::DSTBLEND_ZERO&&Shader.Get_Alpha_Test()==ShaderClass::ALPHATEST_DISABLE);
+ShadowPtr<SimpleShadowPass> shadow(0);
 if(WW3D::IsCurrentlyRenderingShadowMap){
 sorting=false; bool additive=Shader.Get_Src_Blend_Func()==ShaderClass::SRCBLEND_ONE&&Shader.Get_Dst_Blend_Func()==ShaderClass::DSTBLEND_ONE;
 shadow=*(const ShadowPtr<SimpleShadowPass>*)(additive?&g_Va00DEE86C:&g_Va00DEE870);
 {SimpleTextureTemp t; BFME2Set_Texture(0,*(BFME2TextureRef*)&t);}
-unsigned passes=0;if(!shadow.m_obj->Begin(&passes,65535))continue;if(passes!=1)continue;shadow.m_obj->BeginPass(0);
+unsigned passes=0;if(!shadow->Begin(&passes,65535))continue;if(passes!=1)continue;shadow->BeginPass(0);
 }else{
 ShaderClass shader=Shader;shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
 VertexMaterialClass *mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);DX8Wrapper::Set_Material(mat);REF_PTR_RELEASE(mat);
@@ -1699,7 +1701,7 @@ DynamicIBAccessClass ib_access(sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_D
 {DynamicIBAccessClass::WriteLockClass lock(&ib_access);unsigned short *inds=lock.Get_Index_Array();for(unsigned i=0;i<triangleIndex;++i){*inds++=v_index_array[i].I;*inds++=v_index_array[i].J;*inds++=v_index_array[i].K;}}
 DX8Wrapper::Set_Index_Buffer(ib_access,0);DX8Wrapper::Set_Vertex_Buffer(Verts);BFME2Set_Texture(0,*(BFME2TextureRef*)&Texture);
 if(sorting)BfmeSortingDispatchAt0012FE00::Insert(*(const TargetCenter3*)&obj_sphere,0,triangleIndex,0,vnum);else DX8Wrapper::Draw_Triangles(0,triangleIndex,0,vnum);
-if(WW3D::IsCurrentlyRenderingShadowMap){shadow.m_obj->EndPass();shadow.m_obj->End();}
+if(WW3D::IsCurrentlyRenderingShadowMap){shadow->EndPass();shadow->End();}
 }
 DX8Wrapper::Set_Transform(D3DTS_VIEW,view);DX8Wrapper::Set_Vertex_Shader(0);DX8Wrapper::Set_Pixel_Shader(0);
 }
