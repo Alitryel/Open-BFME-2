@@ -3,7 +3,7 @@
 // AIGroup forward of rva0036F54D to each member via rowed 0x0036F54D,
 // null team returns, same list-at-+0 plus Object+0x258 plus +0x20 loop.
 // Evidence: calls 0x0036F54D; caller 0x003C2A94; unblocks 0x003C2A29;
-// precedent Rva00370410Group.cpp 65B same loop with rva0036F4DF.
+// precedent Rva00370410Group.cpp 65B same loop with aiGuardObject.
 #include <list>
 
 class Team;

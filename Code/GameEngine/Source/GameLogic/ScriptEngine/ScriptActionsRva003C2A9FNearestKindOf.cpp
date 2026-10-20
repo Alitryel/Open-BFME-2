@@ -59,7 +59,7 @@ enum CommandSourceType { CMD_FROM_SCRIPT = 1 };
 class AICommandInterface
 {
 public:
-	void rva0036F4DF(Object *target, int value, CommandSourceType cmdSource);	// 0x0036F4DF
+	void aiGuardObject(Object *target, int value, CommandSourceType cmdSource);	// 0x0036F4DF
 };
 class AIUpdateInterface
 {
@@ -291,7 +291,7 @@ void ScriptActions::Rva003C9C0AAttack(Parameter *unitParm, int kindBit)
 	AIUpdateInterface *ai = unit->getAI();
 	if (!ai)
 		return;
-	ai->m_cmd.rva0036F4DF(best, 0, CMD_FROM_SCRIPT);
+	ai->m_cmd.aiGuardObject(best, 0, CMD_FROM_SCRIPT);
 }
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.

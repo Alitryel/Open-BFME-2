@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 // ?rva00370410@AIGroup@@QAEXPAVObject@@HW4CommandSourceType@@@Z @0x00370410 65B
-// AIGroup forward of rva0036F4DF to each member via rowed 0x0036F4DF,
+// AIGroup forward of aiGuardObject to each member via rowed 0x0036F4DF,
 // null object returns, same list-at-+0 plus Object+0x258 plus +0x20 loop.
 // Evidence: calls 0x0036F4DF; callers 0x00378690 0x003BF807 0x003C2BB5;
 // precedent Rva003703CFGroup.cpp 65B same loop with aiGuardPosition.
@@ -18,7 +18,7 @@ enum CommandSourceType
 class AICommandInterface
 {
 public:
-	void rva0036F4DF(Object *obj, int x, CommandSourceType cmdSource);
+	void aiGuardObject(Object *obj, int x, CommandSourceType cmdSource);
 };
 
 class AIUpdateInterface
@@ -51,6 +51,6 @@ void AIGroup::rva00370410(Object *obj, int x, CommandSourceType cmdSource)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F4DF(obj, x, cmdSource);
+			ai->m_commands.aiGuardObject(obj, x, cmdSource);
 	}
 }

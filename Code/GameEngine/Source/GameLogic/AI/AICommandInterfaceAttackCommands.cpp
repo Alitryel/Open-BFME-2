@@ -146,7 +146,7 @@ public:
 	void aiGetHealed(Object *target, CommandSourceType cmdSource);
 	void aiGetRepaired(Object *target, CommandSourceType cmdSource);
 	void aiHarvest(const Coord3D *position, CommandSourceType cmdSource);
-	void rva0036F4DF(Object *target, Int value, CommandSourceType cmdSource);
+	void aiGuardObject(Object *target, Int value, CommandSourceType cmdSource);
 	void rva0036F54D(const Team *team, Int value, CommandSourceType cmdSource);
 	void aiGuardArea(const PolygonTrigger *area, Int value, CommandSourceType cmdSource);
 	void aiGuardAreaFromPosition(const PolygonTrigger *area, Int value, CommandSourceType cmdSource, const Coord3D *pos);
@@ -567,10 +567,10 @@ void AICommandInterface::aiHarvest(const Coord3D *position, CommandSourceType cm
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F4DF@AICommandInterface@@QAEXPAVObject@@HW4CommandSourceType@@@Z, retail 0x0036F4DF, 110 bytes.
+// ?aiGuardObject@AICommandInterface@@QAEXPAVObject@@HW4CommandSourceType@@@Z, retail 0x0036F4DF, 110 bytes.
 // Same 110B object-plus-int shape as aiForceAttackObject in this TU: AICMD 0x1F plus m_obj at +0x14 plus m_intValue at +0x34 plus slot-0 aiDoCommand.
 // Class proven by gap between aiGuardPosition and rva0036F6A7 plus same TU flags; callers at 0x00370440 0x003C8A0C 0x003C9D01.
-void AICommandInterface::rva0036F4DF(Object *target, Int value, CommandSourceType cmdSource)
+void AICommandInterface::aiGuardObject(Object *target, Int value, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x1F, cmdSource);
 	parms.m_obj = target;
@@ -580,7 +580,7 @@ void AICommandInterface::rva0036F4DF(Object *target, Int value, CommandSourceTyp
 
 // ?rva0036F54D@AICommandInterface@@QAEXPBVTeam@@HW4CommandSourceType@@@Z, retail 0x0036F54D, 110 bytes.
 // Same 110B team-plus-int shape as aiAttackTeam in this TU: AICMD 0x20 plus m_team at +0x1C plus m_intValue at +0x34 plus slot-0 aiDoCommand.
-// Class proven by gap between rva0036F4DF and rva0036F6A7 plus same TU flags; caller at 0x00370481.
+// Class proven by gap between aiGuardObject and rva0036F6A7 plus same TU flags; caller at 0x00370481.
 void AICommandInterface::rva0036F54D(const Team *team, Int value, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x20, cmdSource);
