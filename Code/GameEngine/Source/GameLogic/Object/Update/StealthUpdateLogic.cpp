@@ -115,15 +115,26 @@ private:
 
 class AsciiString;
 
+// The 8-byte id-plus-reference record whose assignment is rowed at 0x002C99FB.
+struct Rva002C99FB
+{
+	Int m_00;
+	OpaqueRefElement4 m_04;
+	Rva002C99FB &operator=(const Rva002C99FB &other);
+};
+
 // The per-unit sound record Drawable::rva00274CD8 returns: an id (-1 when
-// default-constructed, 0x004CEE6E) and a counted reference; assignment is
-// 0x002C99FB.
+// default-constructed, 0x004CEE6E) and a counted reference.
 class Rva002390CB
 {
 public:
 	Rva002390CB();
 	~Rva002390CB() { if (m_04.referent != 0) m_04.referent->Release_Ref(); }
-	Rva002390CB &operator=(const Rva002390CB &other);
+	// Assignment is the rowed record assignment 0x002C99FB.
+	__declspec(dllimport) __forceinline Rva002390CB &operator=(const Rva002390CB &other)
+	{
+		return (Rva002390CB &)(*(Rva002C99FB *)this = *(const Rva002C99FB *)&other);
+	}
 	Int m_00;
 	OpaqueRefElement4 m_04;
 };
@@ -569,12 +580,12 @@ enum DrawableStatus
 	DRAWABLE_STATUS_NONE = 0
 };
 
-class BFMEThingFactory
+// newDrawable is the rowed three-argument create 0x002CF21B.
+class ThingFactory
 {
 public:
-	Drawable *newDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits, Int a);
+	void *newDrawable(void *tmplate, Int statusBits, Int a);
 };
-class ThingFactory;
 extern ThingFactory *TheThingFactory;
 
 enum TimeOfDay
@@ -805,12 +816,12 @@ private:
 	unsigned char m_privateStatus; // +0x438
 };
 
-// The manager at TheGameLogic+0x178 and its call 0x00439E0C, pinned under an
-// address-derived name.
+// The manager at TheGameLogic+0x178 and its detection call 0x00439E0C (the
+// object, the detector, the duration and the feedback level).
 class Rva00439E0C
 {
 public:
-	void rva00439E0C(Object *obj, Int a, Int b, Int c);
+	bool rva00439E0C(Object *obj, Object *detector, Int duration, Int feedback);
 };
 
 extern GameLogic *TheGameLogic;
@@ -1358,7 +1369,7 @@ void StealthUpdate::changeVisualDisguise()
 		//Get rid of the old instance!
 		TheGameClient->destroyDrawable(draw);
 
-		draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(m_disguiseAsTemplate, DRAWABLE_STATUS_NONE, -1);
+		draw = (Drawable *)TheThingFactory->newDrawable((void *)m_disguiseAsTemplate, DRAWABLE_STATUS_NONE, -1);
 		if (draw)
 		{
 			TheGameLogic->bindObjectAndDrawable(self, draw);
@@ -1397,7 +1408,7 @@ void StealthUpdate::changeVisualDisguise()
 		//Get rid of the old instance!
 		TheGameClient->destroyDrawable(draw);
 
-		draw = ((BFMEThingFactory *)TheThingFactory)->newDrawable(self->getTemplate(), DRAWABLE_STATUS_NONE, -1);
+		draw = (Drawable *)TheThingFactory->newDrawable((void *)self->getTemplate(), DRAWABLE_STATUS_NONE, -1);
 		if (draw)
 		{
 			TheGameLogic->bindObjectAndDrawable(self, draw);
