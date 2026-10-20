@@ -78,3 +78,31 @@ retain unresolved/COMDAT debt. This work claims no linked-byte gain and does
 not add baseline allowances. The normal identity hook also reports divergent
 creator/pair/index copies in shadow mode; byte equality of the repaired
 owners does not resolve those other emitted copies.
+
+## Provider reconciliation
+
+Independent cached-object review identified four incorrect incidental
+definitions in ThingTemplate.cpp: creator, both insertions and map operator[].
+STLWeaponTemplateSetBitFlagsHintedInsertUnique.cpp emitted a different creator.
+Each is now a declaration of the verified provider; no class or function was
+renamed to avoid a conflict. All 28 existing rows in those two units still
+byte-match. VC7.1 rejects the private MapHelper name in explicit member
+specializations, so ThingTemplate uses the existing sparse_public include
+profile. That shim changes only the helper's access labels, with no field,
+body or layout change; no shared header was edited.
+
+The combined nine-source prediction now reports seven clean units and
+LINKED 776 -> 1656 bytes (+880 unique linked bytes relative to the published
+index). The creator, insertion, wrapper, index, lower-bound and comparator
+closure is clean, as is the unchanged AnimationSound unit. ThingTemplate
+and the older STLWeapon unit retain unrelated preexisting link debt.
+The pair constructor's 22/31-byte divergence predates this change and has no
+owned native address. Removing the incidental ThingTemplate map instantiation
+also removes its pair copy, so that divergence disappears without inventing
+a provider or native address.
+
+The raw repaired insertion/wrapper/index extents total 881 bytes. The progress
+rule merges source intervals and excludes 0xCC bytes; the sole excluded byte
+is at 0x0033C720 inside the hinted insertion, yielding 880. The intervals do
+not overlap. The required place_bodies scan over all six edited sources found
+zero additional bodies and zero pins.

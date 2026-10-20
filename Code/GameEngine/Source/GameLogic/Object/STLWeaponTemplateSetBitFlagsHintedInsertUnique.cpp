@@ -54,6 +54,11 @@ typedef _STL::_Rb_tree<const WeaponSetFlags, WeaponTemplateSetPair,
 	_STL::_Select1st<WeaponTemplateSetPair>, WeaponTemplateSetMapHelper,
 	_STL::allocator<WeaponTemplateSetPair> > WeaponTemplateSetTree;
 
+// The real 24-byte-node creator is verified in Rva002CF86FCreate.cpp.
+// Avoid emitting this donor instantiation's different allocation/copy body.
+template <> WeaponTemplateSetTree::_Link_type
+WeaponTemplateSetTree::_M_create_node(const WeaponTemplateSetPair &);
+
 // ?insert_unique@?$_Rb_tree@$$CBV?$BitFlags@$0BB@@@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Select1st@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@UMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@V?$allocator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@@2@U32@ABU?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@2@@Z present-unmatched
 template WeaponTemplateSetTree::iterator
 WeaponTemplateSetTree::insert_unique( WeaponTemplateSetTree::iterator,
