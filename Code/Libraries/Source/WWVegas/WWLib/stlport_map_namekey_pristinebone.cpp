@@ -22,6 +22,10 @@
 namespace _STL { void __cdecl free(void *block) throw(...); }
 #define free _STL::free
 #include <map>
+// Suppress this TU's non-retail copy of ??A?$map@W4NameKeyType@@UPristineBoneInfo@@U?$less@W4NameKeyType@@@_STL@@V?$allocator@U?$p:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; struct PristineBoneInfo;
+namespace _STL { template <> PristineBoneInfo &map<NameKeyType, PristineBoneInfo, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::operator[](const NameKeyType &); }
 #undef free
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
