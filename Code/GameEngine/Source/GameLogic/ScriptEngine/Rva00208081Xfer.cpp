@@ -2,7 +2,7 @@
 //
 // ?Rva00208081Xfer@@YAPAVXfer@@PAV1@PAX@Z, retail 0x00208081, 89 bytes.
 // Fixed 20-element array of 12-byte vectors via rowed Rva001ECA2DXfer.
-// Count via slot 0x78 checked against 0x14 with FormatText plus Throw.
+// Count via slot 0x78 checked against 0x14 with XferException on mismatch.
 // Evidence: leaf lane caller 0x0020B803 and rowed callees plus prev next Xfer list units.
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
@@ -43,15 +43,18 @@ public:
 	virtual Xfer &xferUnsignedInt(UnsignedInt &value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 extern Xfer *Rva001ECA2DXfer(Xfer *xfer, void *storage);
 
@@ -61,9 +64,7 @@ Xfer *Rva00208081Xfer(Xfer *xfer, void *storage)
 	xfer->xferUnsignedInt(count);
 	if (count != 20)
 	{
-		XferException error;
-		bfmeFormatText(&error, 0, 0);
-		_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+		throw XferException(0, 0);
 	}
 	char *p = (char *)storage;
 	UnsignedInt left = 20;

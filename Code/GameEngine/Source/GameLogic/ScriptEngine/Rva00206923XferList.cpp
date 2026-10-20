@@ -1,7 +1,7 @@
 // ?Rva00206923XferList@@YAPAVXfer@@PAV1@PAV?$list@UBfmeSpecialPowerTimer8@@V?$allocator@UBfmeSpecialPowerTimer8@@@_STL@@@_STL@@@Z @0x00206923 205B
 // cl: /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Source/WWVegas/WWLib
 // stlport
-// Free list<BfmeSpecialPowerTimer8> Xfer helper version {1 1} via slot 0x28 size via slots 0x2C 0x78 IsSaving via slot 0x08 saving walks timers via rowed Chain 0x00203D86 loading checks empty via FormatText plus Throw then reloads via Chain plus rowed push_back 0x004DE74D. Evidence: leaf lane 2 callers; prev 0x00206861 next 0x00206ABE; strings std::list List must be empty on load; same skeleton as rowed xferListInt 0x00206861 and Rva00207F91.
+// Free list<BfmeSpecialPowerTimer8> Xfer helper version {1 1} via slot 0x28 size via slots 0x2C 0x78 IsSaving via slot 0x08 saving walks timers via rowed Chain 0x00203D86 loading rejects a nonempty list with XferException then reloads via Chain plus rowed push_back 0x004DE74D. Evidence: leaf lane 2 callers; prev 0x00206861 next 0x00206ABE; strings std::list List must be empty on load; same skeleton as rowed xferListInt 0x00206861 and Rva00207F91.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
@@ -60,15 +60,18 @@ public:
 	virtual Xfer &xferUnsignedShort(UnsignedInt *value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 struct BfmeSpecialPowerTimer8
 {
@@ -111,9 +114,7 @@ Xfer *Rva00206923XferList(Xfer *xfer, ListTimer *list)
 	{
 		if (!list->empty())
 		{
-			XferException error;
-			bfmeFormatText(&error, 4, "List must be empty on load");
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(4, "List must be empty on load");
 		}
 
 		BfmeSpecialPowerTimer8 value = {0, 0};

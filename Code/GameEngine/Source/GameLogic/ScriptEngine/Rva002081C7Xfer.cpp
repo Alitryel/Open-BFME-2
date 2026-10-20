@@ -2,7 +2,7 @@
 // stlport
 //
 // ?Rva002081C7XferList@@YAPAVXfer@@PAV1@PAV?$list@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@@_STL@@@Z @0x002081C7 240B
-// Evidence: Xfer list helper like 0x00207F91 but saving/loading via rowed Rva00203E11Xfer at edi+8; virtual slots 0x28 version 0x2C typename 0x78 count 0x08 isSaving; loading checks empty via FormatText plus Throw then reloads via Chain plus rowed insert 0x00207B90; strings std::list plus List must be empty on load.
+// Evidence: Xfer list helper like 0x00207F91 but saving/loading via rowed Rva00203E11Xfer at edi+8; virtual slots 0x28 version 0x2C typename 0x78 count 0x08 isSaving; loading rejects a nonempty list with XferException then reloads via Chain plus rowed insert 0x00207B90; strings std::list plus List must be empty on load.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
@@ -62,15 +62,18 @@ public:
 	virtual Xfer &xferUnsignedShort(UnsignedInt *value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 struct NoCaseTreeValue4 { unsigned int m_value; NoCaseTreeValue4() : m_value(0) {} };
 
@@ -105,9 +108,7 @@ Xfer *Rva002081C7XferList(Xfer *xfer, ListNocase4 *list)
 	{
 		if (!list->empty())
 		{
-			XferException error;
-			bfmeFormatText(&error, 4, "List must be empty on load");
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(4, "List must be empty on load");
 		}
 
 		PairNocase4 value;

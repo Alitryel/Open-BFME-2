@@ -2,7 +2,7 @@
 // stlport
 //
 // ?Rva00209A09Xfer@@YAPAVXfer@@PAV1@PAV?$list@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@@_STL@@@Z @0x00209A09 89B
-// Evidence: chain lane calls 0x002081C7 now rowed; count 20 via slot 0x78 with throw on mismatch via FormatText plus Throw; loops 20 calling rowed 0x002081C7; callers 4x in 0x0020B47E.
+// Evidence: chain lane calls 0x002081C7 now rowed; count 20 via slot 0x78 with XferException on mismatch; loops 20 calling rowed 0x002081C7; callers 4x in 0x0020B47E.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 #include "ascii_string.h"
@@ -53,15 +53,18 @@ public:
 	virtual Xfer &xferUnsignedShort(UnsignedInt *value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 struct NoCaseTreeValue4 { unsigned int m_value; NoCaseTreeValue4() : m_value(0) {} };
 
@@ -75,9 +78,7 @@ Xfer *Rva00209A09Xfer(Xfer *xfer, ListNocase4 *lists)
 	UnsignedInt count = 20;
 	xfer->xferUnsignedShort(&count);
 	if (count != 20) {
-		XferException error;
-		bfmeFormatText(&error, 0, 0);
-		_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+		throw XferException(0, 0);
 	}
 	for (int i = 0; i < 20; ++i)
 		Rva002081C7XferList(xfer, &lists[i]);

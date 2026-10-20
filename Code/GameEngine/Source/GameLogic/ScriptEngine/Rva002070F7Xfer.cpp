@@ -52,15 +52,18 @@ public:
 	virtual Xfer &xferUnsignedShort(UnsignedInt *value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 typedef _STL::list<BfmeSpecialPowerTimer8> ListTimer;
 Xfer *Rva00206B02Xfer(Xfer *xfer, ListTimer *list);
@@ -70,9 +73,7 @@ Xfer *Rva002070F7Xfer(Xfer *xfer, ListTimer *lists)
 	UnsignedInt count = 20;
 	xfer->xferUnsignedShort(&count);
 	if (count != 20) {
-		XferException error;
-		bfmeFormatText(&error, 0, 0);
-		_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+		throw XferException(0, 0);
 	}
 	for (int i = 0; i < 20; ++i)
 		Rva00206B02Xfer(xfer, &lists[i]);
