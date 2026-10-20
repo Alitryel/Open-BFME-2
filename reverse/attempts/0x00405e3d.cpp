@@ -1,4 +1,6 @@
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
+// partial score=0.956 date=2026-10-20
+// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // partial score=0.955 date=2026-10-16
 // W9-O1 r1 (2026-10-16, claude-opus-5.5, 125 min): callee 0x2940B9 is now rowed as ?affectedByUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z
 // (const) - the old rva002940B9 name left this bank UNRESOLVED; fixed below (nn10 / 3292 B, EH exact, same 3 hunks as r14).
@@ -40,7 +42,7 @@
 // short. Neither variant is byte-exact. This bank retains best full score.
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /D_STLP_NO_EXCEPTIONS /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // Retail 0x00405E3D 3287 bytes RET4 (EH frame). Slot 3 of the help-source
@@ -52,6 +54,13 @@
 // then a 12-byte help record (rowed ctor 0x0056D5BD) returned through the
 // reference-counted handle (ArmySummaryHelpSource pattern). Callee names are
 // the ledger rows/pins at each address; offsets are read from retail.
+// H5E3D (2026-10-20, claude-opus-5-5): the hero vector temp needs the getter 0x0029FCB4 visible
+// (noinline, real body: friend_getFinalOverride then the rowed vector copy 0x0054878E) and
+// /D_STLP_NO_EXCEPTIONS as in ControlBarRappellerCount.cpp; then WB's own spelling (reference bound to
+// the by-value result, !empty() guard, plain const_iterator for loop, no barrier) gives retail's
+// `mov ebx,eax` hero loop exactly. Residue: only the sciences button EAX/ECX flip and else-arm reload.
+// With the getter and flag, the plain ZH sciences block plus one barrier after the upgrade load is
+// one instruction from retail (handoff reverse/attempt_support/0x00405e3d-visible-getter-20261020.md).
 
 // Vector storage is released through the pinned _STL::free (0x00030830).
 namespace _STL { void __cdecl free(void *block); }
@@ -348,11 +357,24 @@ public:
 	int rva0037E649(int index, Object *obj);
 };
 
+class Overridable
+{
+public:
+	const Overridable *friend_getFinalOverride() const;
+};
+
 class Rva0029FCB4
 {
 public:
-	_STL::vector<ScienceType> rva0029FCB4();
+	__declspec(noinline) inline _STL::vector<ScienceType> rva0029FCB4();
 };
+
+// Visible copy of the rowed getter so cl sees that the result slot does not escape.
+_STL::vector<ScienceType> Rva0029FCB4::rva0029FCB4()
+{
+	const Overridable *f = ((const Overridable *)this)->friend_getFinalOverride();
+	return *(const _STL::vector<ScienceType> *)((const char *)f + 0x24);
+}
 
 class CommandButton
 {
@@ -406,8 +428,6 @@ public:
 	CommandButton *m_commandButton; // +0x0C
 };
 
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 {
 	UnicodeString title;
@@ -423,7 +443,7 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 	UnicodeString requiresList = UnicodeString::TheEmptyString;
 	UnicodeString requiresString;
 	bool firstRequirement = true;
-	bool scienceLocked = false;
+	bool fireScienceButton = false;
 
 	if (m_commandButton)
 	{
@@ -441,12 +461,26 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 				if (m_commandButton->m_commandType != 0x19)
 				{
 					if (player && !player->hasScience(science) && i > 0)
+					{
+						//If we're not looking at a command button that purchases a science, then
+						//it means we are looking at a command button that can USE the science. This
+						//means we want to get the description for the previous science -- the one
+						//we can use, not purchase!
 						science = m_commandButton->m_sciences[i - 1];
-					scienceLocked = true;
+					}
+
+					//Now that we got the science for the button that executes the science, we need
+					//to generate a simpler help text!
+					fireScienceButton = true;
+
 					break;
 				}
 				if (player && !player->hasScience(science))
+				{
+					//Purchase science case. The first science we run into that we don't have, that's the
+					//one we'll want to show!
 					break;
+				}
 				++i;
 			} while (i < m_commandButton->m_sciences.size());
 		}
@@ -484,29 +518,27 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 		bool requireAll;Player *payer;
  if (localPlayer && m_commandButton->m_commandType == 0x26 && (hero=m_commandButton->m_createAHero))
 		{
-			_STL::vector<ScienceType> sciences = hero->rva0029FCB4();
-			if (sciences.begin()!=sciences.end()) {
-_ReadWriteBarrier();
-			ScienceType heroScience = SCIENCE_INVALID;
-			_STL::vector<ScienceType>::iterator it = sciences.begin();
-			do
+			const _STL::vector<ScienceType> &sciences = hero->rva0029FCB4();
+			if (!sciences.empty())
 			{
-				if (localPlayer->hasScience(*it))
+				ScienceType heroScience = SCIENCE_INVALID;
+				for (_STL::vector<ScienceType>::const_iterator it = sciences.begin(); it != sciences.end(); ++it)
 				{
-					heroScience = *it;
-					break;
+					if (localPlayer->hasScience(*it))
+					{
+						heroScience = *it;
+						break;
+					}
 				}
-				++it;
-			} while (it != sciences.end());
-			if (heroScience != SCIENCE_INVALID)
-			{
-				if (localPlayer->rva002AB82D((CreateAHeroData *)heroScience)
-					|| localPlayer->rva002AB855((CreateAHeroData *)heroScience)
-					|| !TheScienceStore->playerHasRootPrereqsForScience((const Player *)((char *)localPlayer + 4), heroScience))
+				if (heroScience != SCIENCE_INVALID)
 				{
-					description = TheGameText->fetchC("TOOLTIP:ScienceDisabled", 0);
+					if (localPlayer->rva002AB82D((CreateAHeroData *)heroScience)
+						|| localPlayer->rva002AB855((CreateAHeroData *)heroScience)
+						|| !TheScienceStore->playerHasRootPrereqsForScience((const Player *)((char *)localPlayer + 4), heroScience))
+					{
+						description = TheGameText->fetchC("TOOLTIP:ScienceDisabled", 0);
+					}
 				}
-			}
 			}
 		}
 
@@ -648,7 +680,7 @@ _ReadWriteBarrier();
 					cost.format(TheGameText->fetchPtrC("TOOLTIP:Cost", 0), upgradeCost);
 			}
 		}
-		else if (science != SCIENCE_INVALID && !scienceLocked)
+		else if (science != SCIENCE_INVALID && !fireScienceButton)
 		{
 			cost.format(TheGameText->fetchPtrC("TOOLTIP:ScienceCost", 0), TheScienceStore->getSciencePurchaseCost(science));
 		}
