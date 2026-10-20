@@ -85,28 +85,31 @@ void Rva0059AE55::rva0059AE55(void *source, void **slot)
 	m_value = *slot;
 }
 
-// ?rva0059AC4D@Rva0059AC4D@@QAEXPAX@Z @0x0059AC4D 33B
+// ?rva0059AC4D@AITeamBuilder@@QAEXPAX@Z @0x0059AC4D 33B
 // Target evidence: clamps the argument object's unsigned dword at +0x2D0 to
-// 2, stores it, then calls the address-derived helper at 0x0059ABC9 with the
-// same ECX and object argument. Domain identity remains unknown.
+// 2, stores it, then calls the address-named helper at 0x0059ABC9 with the
+// same ECX and object argument. The original method name remains unknown.
 struct Rva0059AC4DArg
 {
 	char m_pad[0x2D0];
 	unsigned int m_value;
 };
 
-class Rva0059AC4D
+class AITeamBuilder
 {
 public:
 	void rva0059AC4D(void *object);
 	__declspec(noinline) void rva0059ABC9(void *object);
 	class Team *rva00599F74(class TeamPrototype *);
+	int getCurNumUnits(class Team *);
+	void recruitPreDefined(class Team *, int *, class TeamPrototype *);	// row 0x0059A499
+	void recruitUnDefined(class Team *, int *);	// row 0x0059A8D7
 private:
 	char prefix00[0x14];
 	class Player *owner14;
 };
 
-void Rva0059AC4D::rva0059AC4D(void *object)
+void AITeamBuilder::rva0059AC4D(void *object)
 {
 	Rva0059AC4DArg *arg = (Rva0059AC4DArg *)object;
 	unsigned int value = arg->m_value;
@@ -280,10 +283,10 @@ void Rva0059AED2::rva0059AED2()
 }
 
 // Native 59ABC9..59AC4D (132B), RET4. WB15294A0 names the same sequence
-// AITeamBuilder::defineUnitsNormal, but the existing caller's address-derived
-// owner and ABI are retained. Native proves owner14, Team flags110/111 and
-// prototype subobject12C. The two recruitment callees and prototype lookup
-// retain address names; WB corroborates their roles and argument order.
+// AITeamBuilder::defineUnitsNormal; the address name and ABI are retained.
+// Native proves owner14, Team flags110/111 and prototype subobject12C. The
+// prototype lookup keeps its address name; WB corroborates the recruitment
+// callees' roles and argument order.
 class Team
 {
 public:
@@ -296,13 +299,6 @@ class TeamFactory
 {
 public:
     Team *createTeamOnPrototype(TeamPrototype *, bool);
-};
-class AITeamBuilder
-{
-public:
-    int getCurNumUnits(Team *);
-    void recruitPreDefined(Team *, int *, TeamPrototype *);	// row 0x0059A499
-    void recruitUnDefined(Team *, int *);	// row 0x0059A8D7
 };
 class Rva0039D5A9
 {
@@ -333,7 +329,7 @@ typedef _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>,
 extern TeamFactory *TheTeamFactory;
 extern Rva002A8F24 *TheSkirmishAIManager;
 
-void Rva0059AC4D::rva0059ABC9(void *object)
+void AITeamBuilder::rva0059ABC9(void *object)
 {
     TeamPrototype *prototype = static_cast<TeamPrototype *>(object);
     Team *team = rva00599F74(prototype);
@@ -345,13 +341,13 @@ void Rva0059AC4D::rva0059ABC9(void *object)
     void *stats = TheSkirmishAIManager->rva002A8F24(owner14);
     Rva002BEDABRangeView *range = *static_cast<Rva002BEDABRangeView **>(stats);
     if (range->bucket_count() > 0) {
-        int count = reinterpret_cast<AITeamBuilder *>(this)->getCurNumUnits(team);
+        int count = getCurNumUnits(team);
         Rva0039D5A9 *requirements = reinterpret_cast<Rva0039D5A9 *>(
             static_cast<char *>(object) + 0x12c);
         if (requirements->rva0039D5A9() > 0)
-            reinterpret_cast<AITeamBuilder *>(this)->recruitPreDefined(team, &count, prototype);
+            recruitPreDefined(team, &count, prototype);
         else
-            reinterpret_cast<AITeamBuilder *>(this)->recruitUnDefined(team, &count);
+            recruitUnDefined(team, &count);
     }
 }
 

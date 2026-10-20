@@ -12207,7 +12207,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?Rva00580AAC@@YAXPAPAXHHPAXVRva000795C1Record@@@Z,0x00580AAC,callee of ?Rva00580C6F@@YAXPAPAX0VRva000795C1Record@@00@Z
 ?Rva005807CE@@YAXPAPAXHHPAXVRva000795C1Record@@@Z,0x005807CE,callee of ?Rva00580AAC@@YAXPAPAXHHPAXVRva000795C1Record@@@Z
 ?Rva00580E10@@YAXPAPAX0VRva000795C1Record@@@Z,0x00580E10,callee of ?Rva00580E5F@@YAXPAPAX0VRva000795C1Record@@@Z
-?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z,0x0059ABC9,callee of ?rva0059AC4D@Rva0059AC4D@@QAEXPAX@Z
+?rva0059ABC9@AITeamBuilder@@QAEXPAX@Z,0x0059ABC9,callee of ?rva0059AC4D@AITeamBuilder@@QAEXPAX@Z
 ?flattenTerrain@TerrainLogic@@QAEXPAVObject@@@Z,0x0028458F,"ZH flattenTerrain call site of WorkerAIUpdate::construct 0x004A9FAF (REL32 at 0x004AA10C; ecx TheTerrainLogic 0x00DFEC50; the new object pushed after setOrientation and before the ground-height re-query); the body returns at once when the object's +0xAC flag is set before reading its position; the dozer twin calls it from 0x0048A2B6"
 ?findGoodBuildOrRepairPosition@WorkerAIUpdate@@IAE_NPBVObject@@0AAUCoord3D@@@Z,0x004AA4FE,"its own docking-trace BEGIN line (.rdata 0x00C54558) names WorkerAIUpdate::findGoodBuildOrRepairPosition(); called twice from the rowed findGoodBuildOrRepairPositionAndTarget 0x004AABB4 (REL32 at 0x004AACE1 and 0x004AAD51) with the full object, worker, target and an out position, bool result; BFME 1 spelling"
 ?rva0052C161@Rva0052C036@@QAEXXZ,0x0052C161,direct same-this call from 0x0052C9F9; Ghidra boundary 117; address-derived method, identity and semantics unknown
@@ -14009,7 +14009,7 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?CreateNewExpLevel@ExperienceLevelStore@@QAE_NABVAsciiString@@0000@Z,0x0028A473,callee of ?AddCommandButtonLevel@CreateAHeroHero@@QAE_NIABVAsciiString@@00@Z
 ?rva0041B603@Rva0041B790@@QAEXXZ,0x0041B603,callee of ??1Rva0041B790@@UAE@XZ
 ?rva00282135@Rva0028279F@@QAEXXZ,0x00282135,callee of ??1Rva0028279F@@QAE@XZ
-?rva00599F74@Rva0059AC4D@@QAEPAVTeam@@PAVTeamPrototype@@@Z,0x00599F74,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z
+?rva00599F74@AITeamBuilder@@QAEPAVTeam@@PAVTeamPrototype@@@Z,0x00599F74,callee of ?rva0059ABC9@AITeamBuilder@@QAEXPAX@Z
 ??0Rva005CCC74Record@@QAE@ABUChecklistItemRef@StrategicInGameUI@@PAVImpl@ChecklistItem@2@@Z,0x005CCC74,callee of ?AddItem@Impl@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@3@PAV1ChecklistItem@3@@Z
 ?rva005CCA0B@Impl@ChecklistItem@StrategicInGameUI@@QAEXABVRva005D1A87Ref@@@Z,0x005CCA0B,callee of ?AddItem@Impl@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@3@PAV1ChecklistItem@3@@Z
 ?rva005D1A87@Rva005D1A87UI@@QAE?AVRva005D1A87Ref@@XZ,0x005D1A87,callee of ?AddItem@Impl@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@3@PAV1ChecklistItem@3@@Z

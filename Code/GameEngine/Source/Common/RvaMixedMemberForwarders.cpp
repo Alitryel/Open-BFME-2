@@ -13,7 +13,7 @@
 // add ecx N / jmp embedded-member forwarders:
 //   0x0028BC4D Object +0x330 -> rowed ?rva002C7474@Rva002C7474@@QAEXXZ (pinned spelling)
 //   0x004EC072 +0x90 -> rowed ?registerTeamPrototype@AITeamBuilder@@QAEXPAUArg@@@Z
-//   0x004EC07D +0x90 -> 0x0059A153 (pinned Rva002A8AB1Record spelling)
+//   0x004EC07D +0x90 -> rowed AITeamBuilder 0x0059A153 (pinned Rva002A8AB1Record spelling)
 // Rva002A8AB1Record::rva004EC088 (0x004EC088, 49 bytes) picks a member by
 // kind: 0 asks the builder at +4 (rowed AIBaseBuilder 0x00506BF7), 1 the
 // member at +0x38 (rowed 0x005748B2), others return null. Its caller
@@ -82,18 +82,12 @@ void Object::rva0028BC4D()
 }
 
 struct Arg;
+class TeamPrototype;
 
-class AITeamBuilder
+class AITeamBuilder	// the +0x90 member both forwarders reach
 {
 public:
 	void registerTeamPrototype(Arg *arg);
-};
-
-class TeamPrototype;
-
-class Rva0059AC4D	// owner of the rowed 0x0059A153
-{
-public:
 	void rva0059A153(TeamPrototype *proto);
 };
 
@@ -117,7 +111,7 @@ public:
 	void *rva004EC088(Int kind, void *list, const void *name);
 private:
 	char m_lead[0x90];
-	Rva0059AC4D m_member;
+	AITeamBuilder m_member;
 };
 
 void Rva002A8AB1Record::rva004EC07D(TeamPrototype *proto)

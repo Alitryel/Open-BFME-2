@@ -94,24 +94,19 @@ public:
  int doesTeamMeetThreat(Team *);
  bool rva0059A01C(Object*,const AITeamRequirementView*,const AITargetView*);
  void checkIdleTeams();
- char prefix00[0x14]; Player* owner14;
-};
-class Rva0059AC4D {
- char prefix[8]; _STL::vector<TeamPrototype *> prototypes;
- Player *owner; _STL::set<int> busy;
-public:
  void update();
  void rva0059ABC9(void *);
  void rva0059AC4D(void *);
  Team *rva00599F74(TeamPrototype *);
  void rva0059A153(TeamPrototype *);
- void checkIdleTeams();
+ char prefix[8]; _STL::vector<TeamPrototype *> prototypes;
+ Player* owner14; _STL::set<int> busy;
 };
 
 
 // Native599F74..599FAA54B; WB1529260 getTeamForAIPrototype asserts157..166.
 // Head334 and callback5C4AF5 use the proven zero-adjusted8B member pointer.
-Team *Rva0059AC4D::rva00599F74(TeamPrototype *prototype)
+Team *AITeamBuilder::rva00599F74(TeamPrototype *prototype)
 {
  Team *first=0;
  for(DLINK_ITERATOR<Team> it=prototype->iterate_TeamInstanceList(); !it.done(); it.advance()) {
@@ -123,7 +118,7 @@ Team *Rva0059AC4D::rva00599F74(TeamPrototype *prototype)
 // Native59A153..59A1BF,110B RET4; WB AITeamBuilder::unRegisterTeamPrototype.
 // Find the prototype among the builder's, disband every live team of it
 // (activating the idle ones first, as update does), then erase its entry.
-void Rva0059AC4D::rva0059A153(TeamPrototype *prototype)
+void AITeamBuilder::rva0059A153(TeamPrototype *prototype)
 {
  // Retail's search is the folded 4-byte-element find (rowed under its int spelling).
  TeamPrototype **last=prototypes.end();

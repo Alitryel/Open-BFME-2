@@ -94,25 +94,20 @@ public:
  int doesTeamMeetThreat(Team *);
  bool rva0059A01C(Object*,const AITeamRequirementView*,const AITargetView*);
  void checkIdleTeams();
- char prefix00[0x14]; Player* owner14;
-};
-class Rva0059AC4D {
- char prefix[8]; _STL::vector<TeamPrototype *> prototypes;
- Player *owner; _STL::set<int> busy;
-public:
  void update();
  void rva0059ABC9(void *);
  void rva0059AC4D(void *);
  Team *rva00599F74(TeamPrototype *);
  void rva0059A153(TeamPrototype *);
- void checkIdleTeams();
+ char prefix[8]; _STL::vector<TeamPrototype *> prototypes;
+ Player* owner14; _STL::set<int> busy;
 };
 // Native59AC6E..59ADB9,331B; WB1528FA0 AITeamBuilder::update (assert125).
 // The two prototype passes, owner14, active/ready31C/31D, Team flags5D/5E
 // and110/111, set18 and every call are corroborated by retail. Keep the
-// existing address-derived receiver and recruited-helper ABIs. Threat
+// recruited-helper ABIs address-derived. Threat
 // provider is presently typed int; this call site consumes its low byte.
-void Rva0059AC4D::update()
+void AITeamBuilder::update()
 {
  for (_STL::vector<TeamPrototype *>::iterator it=prototypes.begin(); it!=prototypes.end(); ++it) {
   TeamPrototype *prototype=*it;
@@ -130,15 +125,15 @@ void Rva0059AC4D::update()
    Requirements *requirements=&prototype->requirements;
    Team *team=rva00599F74(prototype);
    if (team) {
-    int count=((AITeamBuilder *)this)->getCurNumUnits(team);
+    int count=getCurNumUnits(team);
     if ((unsigned)count >= requirements->minimum &&
         ((Rva0039D5A9 *)requirements)->rva0039D5A9()==0 &&
         (requirements->mode==1 || (unsigned)count>=requirements->maximum ||
-         (unsigned char)((AITeamBuilder *)this)->doesTeamMeetThreat(team))) {
+         (unsigned char)doesTeamMeetThreat(team))) {
      team->flag110=true;
      team->flag111=false;
      if (!team->active) { team->dirty=true; team->active=true; }
-     SkirmishAI *ai=(SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(owner);
+     SkirmishAI *ai=(SkirmishAI *)TheSkirmishAIManager->rva002A8AB1(owner14);
      ai->Register(team);
      prototype->building=false;
      prototype->ready=true;
@@ -150,7 +145,7 @@ void Rva0059AC4D::update()
   if (!TheGameLogic->findObjectByID((ObjectID)*it)) busy.erase(it++);
   else ++it;
  }
- ((AITeamBuilder *)this)->checkIdleTeams();
+ checkIdleTeams();
 }
 
 
