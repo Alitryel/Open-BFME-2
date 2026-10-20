@@ -89,6 +89,16 @@ template<> list<Snapshot *>::iterator list<Snapshot *>::erase(iterator);
 
 enum LocomotorSetType { LOCOMOTORSET_INVALID = -1 };
 class LocomotorTemplate;
+// Use the rowed 0x000796BC pair teardown rather than emitting a private copy.
+// MSVC still synthesizes the implicit destructor with a member specialization;
+// this declaration keeps the same const-key/vector layout and external ABI.
+namespace _STL {
+template <> struct pair<const LocomotorSetType, vector<const LocomotorTemplate *> > {
+ const LocomotorSetType first;
+ vector<const LocomotorTemplate *> second;
+ ~pair();
+};
+}
 typedef _STL::pair<const LocomotorSetType, _STL::vector<const LocomotorTemplate *> > Rva002ADC03Pair;
 struct Rva002ADC03Ref { int m_value; };
 struct Rva002ADC03Entry
