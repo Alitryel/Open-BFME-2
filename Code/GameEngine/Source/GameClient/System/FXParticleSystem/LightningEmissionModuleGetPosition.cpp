@@ -1,5 +1,10 @@
 // ?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z
-// partial score=0.92 date=2026-10-20
+// Retail 0x0055DDD1, 1295 bytes, with its EH handler 0x007999A7. The two inline copies of
+// Zero Hour's Matrix3D::Inverse_Transform_Vector keep ZH's left-deep X/Y rows; only the Z rows
+// are regrouped. The second copy's Z row parenthesizes its first product: a parenthesized
+// float term is a paren node in c2 3077's IL and reaches FactCanonSort as a hash-var temporary
+// keyed above the plain products, so A02*dx leads the sum and the second diff colours
+// dx/dy/dz xmm0/1/2 as retail (traced; reverse/attempt_support/fp-paren-nodes-20261020.md).
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
@@ -53,6 +58,9 @@ __forceinline void ITV1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	ITR1(A, diff, out);
 }
 
+// A parenthesized float subexpression is a paren IL node: (A[0][2] * v->X) reaches the final
+// canonical sort as a temporary keyed above the plain products, so it leads the Z sum and is the
+// destination, as in retail's second transform. ITR1's grouped Z sum leads with A[2][2]*z instead.
 __forceinline void ITR2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 {
 	Vector3 tmp;
@@ -65,7 +73,7 @@ __forceinline void ITR2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 	}
 	out->X = (A[0][0] * v->X + A[1][0] * v->Y + A[2][0] * v->Z);
 	out->Y = (A[0][1] * v->X + A[1][1] * v->Y + A[2][1] * v->Z);
-	out->Z = (A[1][2] * v->Y + (A[0][2] * v->X + A[2][2] * v->Z));
+	out->Z = ((A[0][2] * v->X) + A[1][2] * v->Y + A[2][2] * v->Z);
 }
 __forceinline void ITV2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
 {
