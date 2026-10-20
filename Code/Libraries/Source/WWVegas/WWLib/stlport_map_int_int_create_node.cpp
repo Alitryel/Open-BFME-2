@@ -10,6 +10,21 @@
 #define _M_copy _M_copy_0021C2CC
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+// Bind map<int, int> members to the retail copies rowed in stlport_map_int_int*.cpp
+// (or, for the unrowed default ctors, to the kept copy) instead of emitting this unit's own.
+namespace _STL {
+template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_Rb_tree(less<int> const &, allocator<pair<int const, int> > const &);
+template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &);
+template <> map<int, int, less<int>, allocator<pair<int const, int> > >::map();
+// The copy ctor inlines _M_empty_initialize; emit no out-of-line copy of it.
+template <> __declspec(dllimport) __forceinline void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_empty_initialize()
+{
+    _S_color(this->_M_header._M_data) = _S_rb_tree_red;
+    _M_root() = 0;
+    _M_leftmost() = this->_M_header._M_data;
+    _M_rightmost() = this->_M_header._M_data;
+}
+}
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::~_Rb_tree(); }

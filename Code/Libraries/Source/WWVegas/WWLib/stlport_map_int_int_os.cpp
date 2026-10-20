@@ -25,6 +25,11 @@ _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > 
     _M_node = _Rb_global_inst::_M_increment(_M_node);
     return *this;
 }
+// The size-built empty() is GameSlot::isOpen's 9-byte body (0x0029B257); the
+// named copy is the speed-built one stlport_map_int_int.cpp owns at 0x00620050.
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::empty() const
+{ return _M_node_count == 0; }
 }
 // Same for the decrement: retail's copy is stlport_map_int_int.cpp's 0x169EF0.
 namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
