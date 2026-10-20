@@ -1,10 +1,19 @@
 // cl: /Od
 
+// Native grow path calls the recovered forward-range insertion at 0x00028820.
+// Bind its owner and tag-reference ABI directly; the tag has no data payload.
+struct BfmeRangeTag;
+
+class Rva008314E0String
+{
+public:
+	void insertRange(char *position, char *first, char *last, const BfmeRangeTag &tag);
+};
+
 class BfmeStrV44
 {
 public:
 	void bfmeEraseV44(char *a, char *b);
-	void bfmeImplV44(char *a, char *b, char *c, char *d);
 
 	char *b;
 	char *e;
@@ -104,7 +113,7 @@ void __stdcall bfmeReplaceRangeV44(char *d0, char *d1, char *s0, char *s1, int e
 		mov eax, dword ptr [ebp+0x0C]
 		push eax
 		mov ecx, dword ptr [ebp-0xBC]
-		call BfmeStrV44::bfmeImplV44
+		call Rva008314E0String::insertRange
 	done:
 		mov eax, dword ptr [ebp-0xBC]
 	}
