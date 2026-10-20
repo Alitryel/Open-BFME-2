@@ -6,12 +6,11 @@
 
 struct NoCaseTreeValue4 { unsigned char m_data[4]; };
 
-void __cdecl dup_002FE87D(void);
-typedef void (__cdecl *PairNocase4ConstructFn)(_STL::pair<const AsciiString, NoCaseTreeValue4> *, const _STL::pair<const AsciiString, NoCaseTreeValue4> &);
+void __cdecl Rva002FE87DConstruct(void *dest, const void *source);
 
 void *__stdcall Rva002FE8AACreate(const _STL::pair<const AsciiString, NoCaseTreeValue4> *src)
 {
 	char *block = _STL::allocator<char>::allocate(0x10, 0);
-	((PairNocase4ConstructFn)&dup_002FE87D)((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 8), *src);
+	Rva002FE87DConstruct((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 8), src);
 	return block;
 }

@@ -28,14 +28,13 @@ struct BfmeStringNoCaseLess
 
 // ?_M_create_node (NoCaseTree4, dup 0x002CF954)
 typedef _STL::_Rb_tree<AsciiString, _STL::pair<const AsciiString, NoCaseTreeValue4>, _STL::_Select1st<_STL::pair<const AsciiString, NoCaseTreeValue4> >, BfmeStringNoCaseLess, _STL::allocator<_STL::pair<const AsciiString, NoCaseTreeValue4> > > NoCaseTree4CF550;
-void __cdecl dup_002CF954(void);
-typedef void (__cdecl *NoCaseTree4CF550ConstructFn)(_STL::pair<const AsciiString, NoCaseTreeValue4> *, _STL::pair<const AsciiString, NoCaseTreeValue4> const &);
+void __cdecl Rva002CF954Construct(void *dest, const void *source);
 // ?_M_create_node@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@3@UBfmeStringNoCaseLess@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@3@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@ABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@2@@Z
 template <>
 NoCaseTree4CF550::_Link_type NoCaseTree4CF550::_M_create_node(const NoCaseTree4CF550::value_type &value)
 {
 	_Link_type node = (_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<NoCaseTree4CF550::value_type>), 0);
-	((NoCaseTree4CF550ConstructFn)&dup_002CF954)(&node->_M_value_field, value);
+	Rva002CF954Construct(&node->_M_value_field, &value);
 	return node;
 }
 template NoCaseTree4CF550::_Link_type NoCaseTree4CF550::_M_create_node(const NoCaseTree4CF550::value_type &);

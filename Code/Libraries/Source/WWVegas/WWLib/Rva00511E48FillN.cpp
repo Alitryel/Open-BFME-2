@@ -12,8 +12,7 @@ struct Rva00511E48
 public:
 	Rva00511E48(const Rva00511E48 &that);
 };
-void __cdecl dup_00511CB9(void);
-typedef void (__cdecl *Rva00511E48ConstructFn)(Rva00511E48 *, const Rva00511E48 &);
+void __cdecl Rva00511CB9Construct(void *dest, const void *source);
 namespace _STL
 {
 struct __false_type {};
@@ -22,7 +21,7 @@ ForwardIter __uninitialized_fill_n(ForwardIter first, Size n, const T &x, const 
 {
 	ForwardIter cur = first;
 	for (; n > 0; --n, ++cur)
-		((Rva00511E48ConstructFn)&dup_00511CB9)(cur, x);
+		Rva00511CB9Construct(cur, &x);
 	return cur;
 }
 // ??$__uninitialized_fill_n@PAURva00511E48@@IU1@@_STL@@YAPAURva00511E48@@PAU1@IABU1@@Z @0x00511F58 27B:

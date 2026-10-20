@@ -18,8 +18,7 @@ public:
 
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> Bef1Pair;
 
-void __cdecl dup_0031BDC1(void);
-typedef void (__cdecl *Bef1ConstructFn)(Bef1Pair *, Bef1Pair const &);
+void __cdecl Rva0031BDC1Construct(void *dest, const void *source);
 
 struct Bef1Node
 {
@@ -36,6 +35,6 @@ void *Rva0031BEF1::rva0031BEF1(Bef1Pair const &src)
 {
     Bef1Node *p = (Bef1Node *)_STL::allocator<char>::allocate(12, 0);
     p->m_next = 0;
-    ((Bef1ConstructFn)&dup_0031BDC1)(&p->m_pair, src);
+    Rva0031BDC1Construct(&p->m_pair, &src);
     return p;
 }

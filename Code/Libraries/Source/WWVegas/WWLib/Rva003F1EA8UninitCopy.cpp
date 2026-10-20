@@ -10,8 +10,7 @@ struct Rva003F1EA8Elem
 public:
 	Rva003F1EA8Elem(const Rva003F1EA8Elem &that);
 };
-void __cdecl dup_003F1A5F(void);
-typedef void (__cdecl *Rva003F1EA8ConstructFn)(Rva003F1EA8Elem *, const Rva003F1EA8Elem &);
+void __cdecl Rva003F1A5FConstruct(void *dest, const void *source);
 namespace _STL
 {
 struct __false_type {};
@@ -20,7 +19,7 @@ ForwardIter __uninitialized_copy(InputIter first, InputIter last, ForwardIter re
 {
 	ForwardIter cur = result;
 	for (; first != last; ++first, ++cur)
-		((Rva003F1EA8ConstructFn)&dup_003F1A5F)(cur, *first);
+		Rva003F1A5FConstruct(cur, first);
 	return cur;
 }
 }

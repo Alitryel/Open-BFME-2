@@ -11,7 +11,7 @@ namespace _STL
 		static char *allocate(unsigned int n, const void *hint);
 	};
 }
-void __cdecl dup_0023FC6B() throw();
+void __cdecl Rva0023FC6BConstruct(void *dest, const void *source);
 struct Rva00240D0FValue
 {
 	char m_data[8];
@@ -26,7 +26,6 @@ struct Rva00240D0FNode * __stdcall Rva00240D0FCreate(const struct Rva00240D0FVal
 {
 	struct Rva00240D0FNode *tmp = (struct Rva00240D0FNode *)_STL::allocator<char>::allocate(0xC, (const void *)0);
 	tmp->m_00 = 0;
-	((void (__cdecl *)(struct Rva00240D0FValue *, const struct Rva00240D0FValue *))&dup_0023FC6B)(
-		(struct Rva00240D0FValue *)((char *)tmp + 4), &x);
+	Rva0023FC6BConstruct((struct Rva00240D0FValue *)((char *)tmp + 4), &x);
 	return tmp;
 }

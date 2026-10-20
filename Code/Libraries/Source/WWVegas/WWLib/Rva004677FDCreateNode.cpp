@@ -9,12 +9,11 @@
 #include <memory>
 #include <list>
 
-void __cdecl dup_00467763(void);
-typedef void (__cdecl *Rva004677FDConstructFn)(void *, const void *);
+void __cdecl Rva00467763Construct(void *dest, const void *source);
 
 void *__stdcall Rva004677FDCreateNode(const void *src)
 {
 	char *block = _STL::allocator<char>::allocate(0x10, 0);
-	((Rva004677FDConstructFn)&dup_00467763)(block + 8, src);
+	Rva00467763Construct(block + 8, src);
 	return block;
 }

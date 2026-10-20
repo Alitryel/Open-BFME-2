@@ -1,7 +1,7 @@
 // cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// Third batch of STLport _Construct<T> placement-copy helpers, same-shape
+// STLport placement-copy helpers and distinct native copy owners, same-shape
 // siblings of the rowed _Construct<AsciiString> at 0x0002C485 (45 bytes; see
 // stlport_construct_asciistring.cpp). Each body is the null-guarded
 // placement-new copy over a single element: the copy delegates out-of-line
@@ -111,16 +111,139 @@ Rva0023FD06::Rva0023FD06(const ConstructProbePair &value)
 {
 }
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?dup_0022112D@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_002CF954@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_0020596A@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_00511CB9@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@D@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@D@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_003F1A5F@@YAXXZ=??$_Construct@V?$vector@IV?$allocator@I@_STL@@@_STL@@V12@@_STL@@YAXPAV?$vector@IV?$allocator@I@_STL@@@0@ABV10@@Z")
-#pragma comment(linker, "/alternatename:?dup_00211F6D@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_004151EB@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_0020D5E6@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_0020F321@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_00222DBF@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
-#pragma comment(linker, "/alternatename:?dup_0031BDC1@@YAXXZ=??$_Construct@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@0@ABU10@@Z")
+
+// Distinct native copy helpers. Two-pointer ABI is proven; original signatures remain unknown.
+void Rva0007975EConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePairIV(*static_cast<const ConstructProbePairIV *>(source));
+}
+
+void Rva001D9B0FConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva001DD745Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0020596AConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0020D5E6Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0020F321Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva00211F6DConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0022112DConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva00222DBFConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0023FC6BConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva002CF954Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva002FE87DConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva00317CA0Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0031BDC1Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0032ACFCConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0035CA02Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva003EEFDBConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva004151EBConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0041FA07Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva00467763Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0049DD0BConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva004C3A9FConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva0052B6ACConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePair(*static_cast<const ConstructProbePair *>(source));
+}
+
+void Rva003F1A5FConstruct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbeVec(*static_cast<const ConstructProbeVec *>(source));
+}
+
+void Rva00460F18Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbeVec(*static_cast<const ConstructProbeVec *>(source));
+}
+
+void Rva001E7243Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePairIV(*static_cast<const ConstructProbePairIV *>(source));
+}
+
+void Rva00511CB9Construct(void *dest, const void *source)
+{
+    ::new (dest) ConstructProbePairC(*static_cast<const ConstructProbePairC *>(source));
+}

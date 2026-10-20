@@ -20,14 +20,13 @@ public:
 struct NoCaseTreeValue4 { public: unsigned char m_data[4]; };
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-void __cdecl dup_002CF954(void);
-typedef void (__cdecl *NoCasePairConstructFn)(_STL::pair<const AsciiString, NoCaseTreeValue4> *, _STL::pair<const AsciiString, NoCaseTreeValue4> const &);
+void __cdecl Rva002CF954Construct(void *dest, const void *source);
 
 void *__stdcall Rva002CF9DCCreate(const _STL::pair<const AsciiString, NoCaseTreeValue4> *src)
 {
 	char *block = _STL::allocator<char>::allocate(0xC, 0);
 	*(int *)block = 0;
-	((NoCasePairConstructFn)&dup_002CF954)((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 4), *src);
+	Rva002CF954Construct((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 4), src);
 	return block;
 }
 
@@ -44,6 +43,6 @@ void *Rva000427195::createNode(const _STL::pair<const AsciiString, NoCaseTreeVal
 {
 	char *block = _STL::allocator<char>::allocate(0xC, 0);
 	*(int *)block = 0;
-	((NoCasePairConstructFn)&dup_002CF954)((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 4), *src);
+	Rva002CF954Construct((_STL::pair<const AsciiString, NoCaseTreeValue4> *)(block + 4), src);
 	return block;
 }

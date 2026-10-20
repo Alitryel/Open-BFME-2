@@ -29,8 +29,7 @@ struct NoCaseTreeValue4
 
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NewNodePair;
 
-void __cdecl dup_00211F6D(void);
-typedef void (__cdecl *NewNodeConstructFn)(NewNodePair *, NewNodePair const &);
+void __cdecl Rva00211F6DConstruct(void *dest, const void *source);
 
 struct HashNode
 {
@@ -42,7 +41,7 @@ void *__stdcall Rva00212354NewNode(const void *src)
 {
 	HashNode *node = (HashNode *)_STL::allocator<char>::allocate(12, 0);
 	node->m_next = 0;
-	((NewNodeConstructFn)&dup_00211F6D)(&node->m_val, *(const NewNodePair *)src);
+	Rva00211F6DConstruct(&node->m_val, (const NewNodePair *)src);
 	return node;
 }
 

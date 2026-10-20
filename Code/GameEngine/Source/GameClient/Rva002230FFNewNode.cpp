@@ -20,9 +20,7 @@ struct NoCaseTreeValue4
 	char m_body[4];
 };
 
-void __cdecl dup_00222DBF(void);
-typedef void (__cdecl *PairConstructFn)(_STL::pair<const AsciiString, NoCaseTreeValue4> *,
-	const _STL::pair<const AsciiString, NoCaseTreeValue4> &);
+void __cdecl Rva00222DBFConstruct(void *dest, const void *source);
 
 struct Rva002230FFNode
 {
@@ -40,6 +38,6 @@ void *Rva002230FF::rva002230FF(const void *obj)
 {
 	Rva002230FFNode *n = (Rva002230FFNode *)_STL::allocator<char>().allocate(12, 0);
 	n->_M_next = 0;
-	((PairConstructFn)&dup_00222DBF)(&n->_M_val, *(const _STL::pair<const AsciiString, NoCaseTreeValue4> *)obj);
+	Rva00222DBFConstruct(&n->_M_val, (const _STL::pair<const AsciiString, NoCaseTreeValue4> *)obj);
 	return n;
 }

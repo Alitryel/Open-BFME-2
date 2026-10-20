@@ -10,12 +10,11 @@ struct NoCaseTreeValue4
 	char m_body[4];
 };
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NocasePair;
-void __cdecl dup_0020F321(void);
-typedef void (__cdecl *NocasePairConstructFn)(NocasePair *, NocasePair const &);
+void __cdecl Rva0020F321Construct(void *dest, const void *source);
 void *__stdcall Rva0020F569Alloc(const NocasePair &src)
 {
 	char *p = _STL::allocator<char>::allocate(0x0c, 0);
 	*(int *)p = 0;
-	((NocasePairConstructFn)&dup_0020F321)((NocasePair *)(p + 4), src);
+	Rva0020F321Construct((NocasePair *)(p + 4), &src);
 	return p;
 }
