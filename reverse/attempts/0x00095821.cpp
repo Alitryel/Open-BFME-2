@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.98 date=2026-10-20
+// partial score=0.985 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -632,7 +632,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX scaled;
 		D3DXMATRIX world;
 		D3DXMATRIX scroll;
-		{
+		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
 		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
 		hx = sx * 0.5f;
@@ -692,7 +692,6 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMatrixScaling(&scale, 0.0031746032f, 0.0031746032f, 1.0f);
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
 		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
-		}
 
 		if (m_6A)
 		{
@@ -719,7 +718,6 @@ void BfmeB1137::Install_Materials(void) const
 			float worldTexelHeight = m_40;
 			float widthScale = 1.0f / (worldTexelWidth * 128.0f);
 			float heightScale = 1.0f / (worldTexelHeight * 128.0f);
-			D3DXMATRIX scale;
 			D3DXMatrixScaling(&scale, widthScale, heightScale, 1);
 			*reinterpret_cast<D3DXMATRIX *>(&view) = inv * toOrigin * scale * toHalf;
 			DX8Wrapper::SetMatrix(0x13, *reinterpret_cast<D3DXMATRIX *>(&view));
@@ -790,6 +788,7 @@ void BfmeB1137::Install_Materials(void) const
 
 		D3DXMATRIX scroll;
 		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
+		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 0.00078125f, 0.00078125f, 1.0f);
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
 		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
