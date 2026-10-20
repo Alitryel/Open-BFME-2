@@ -11,26 +11,17 @@
 // for the unwind map is the rowed 0x001E6FE5), and SubsystemInterface last.
 // Owner and element identities are not established.
 #include <vector>
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::begin() { return this->_M_start; } }
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector<void *,allocator<void *> >::operator[](unsigned int n) { return *(this->_M_start + n); } }
-// bfme link decl-only begin
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
-// bfme link decl-only end
 
+class Rva001E72B4Owned;
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
 struct _Rb_tree_node_base;
-template<> inline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
+// The +0x18 vector holds owned-object pointers (retail unwinds it through the shared 14-byte
+// body 0x0007FAB3); only its range erase is reached through the vector<void *> row 0x0031BD55.
+template<> inline _Vector_base<Rva001E72B4Owned *, allocator<Rva001E72B4Owned *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
 template<> vector<void *>::iterator vector<void *>::erase(iterator first, iterator last);
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
 }
 
 class SubsystemInterface
@@ -90,7 +81,7 @@ public:
 	virtual ~Rva001E72B4();
 private:
 	Rva001E6FE5 m_map;			// +0x0C
-	_STL::vector<void *> m_owned;		// +0x18
+	_STL::vector<Rva001E72B4Owned *> m_owned;	// +0x18
 };
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
@@ -103,8 +94,9 @@ __declspec(noinline) inline Rva001E72B4::~Rva001E72B4()
 		::delete node->m_value;
 	m_map.clear();
 	for (unsigned int i = 0; i < m_owned.size(); ++i)
-		::delete static_cast<Rva001E72B4Owned *>(m_owned[i]);
-	m_owned.clear();
+		::delete m_owned[i];
+	_STL::vector<void *> &owned = reinterpret_cast<_STL::vector<void *> &>(m_owned);
+	owned.erase(owned.begin(), owned.end());
 }
 
 // ?bfmeAnchorRva001E72B4Dtor absent-from-retail

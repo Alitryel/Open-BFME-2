@@ -1,35 +1,12 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??1Rva00289ABD@@UAE@XZ, retail 0x00289D7A, 239 bytes.
-// Dtor: vptr, delete m_rva20 Record, delete vector<void*> elements + erase, slot9 cleanup, delete hash tables, tree dtor, free vec storage, base dtor.
+// Dtor: vptr, delete m_rva20 Record, delete the record-pointer vector's elements + erase, slot9 cleanup, delete hash tables, tree dtor, free vec storage, base dtor.
 // Evidence: pin ??1Rva00289ABD; callee rows 0x00288BF9 0x0002FD60 0x0031BD55 0x00289180 0x002895BF 0x00288B51 0x00030830 0x001B4E74; caller 0x00289E99 deleting dtor; layout mirrors ctor Rva00289ABDCtor.cpp.
 #include "ascii_string.h"
 #include <vector>
 
 #include <cstddef>
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> __declspec(dllimport) __forceinline allocator<void *>::~allocator() {} }
-// bfme link decl-only begin
-namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
-// bfme link decl-only end
-
-// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
-// shape per TU flags); explicit dllimport+forceinline specializations take
-// those calls inline so this TU emits no external copies.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void **vector<void*>::begin()
-{ return _M_start; }
-template <> __declspec(dllimport) __forceinline
-void **vector<void*>::end()
-{ return _M_finish; }
-template <> __declspec(dllimport) __forceinline
-size_t vector<void*>::size() const
-{ return size_t(this->_M_finish - this->_M_start); }
-template <> __declspec(dllimport) __forceinline
-void *&vector<void*>::operator[](size_t __n)
-{ return *(begin() + __n); }
-}
 
 extern "C" void __cdecl free(void *block);
 
@@ -69,7 +46,7 @@ public:
     virtual void rva00289180();
     Rva00289371HashTable *m_hash0C;
     Rva00289371HashTable *m_hash10;
-    _STL::vector<void *> m_vec14;
+    _STL::vector<Rva00288BF9Record *> m_vec14;
     Rva00288BF9Record *m_rva20;
     unsigned char m_b24;
     Rva0028881C m_map28;
@@ -85,11 +62,11 @@ __declspec(noinline) inline Rva00289ABD::~Rva00289ABD()
         ::operator delete(p);
     }
     m_rva20 = 0;
-    _STL::vector<void *> &v = m_vec14;
-    for (_STL::vector<void *>::size_type i = 0; i < m_vec14.size(); ++i) {
-        void *q = v[i];
+    _STL::vector<Rva00288BF9Record *> &v = m_vec14;
+    for (_STL::vector<Rva00288BF9Record *>::size_type i = 0; i < m_vec14.size(); ++i) {
+        Rva00288BF9Record *q = v[i];
         if (q != 0) {
-            ((Rva00288BF9Record *)q)->~Rva00288BF9Record();
+            q->~Rva00288BF9Record();
             ::operator delete(q);
         }
     }
