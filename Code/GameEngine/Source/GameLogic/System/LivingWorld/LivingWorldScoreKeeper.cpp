@@ -82,6 +82,7 @@ public:
 	virtual ~LivingWorldScoreKeeper();
 	void rva004EE5D2();
 	void rva004EE78A();
+	void collectEndOfTurnStats(int turn);
  virtual void event0_1(int,int);
 virtual void event1_0(Rva004E06FBPtrChase32Field*);virtual void event1_3(const Rva004E06FBPtrChase32Field*,int);
 virtual void event2_2(int,LivingWorldBattle*,void*);virtual void event3_0(int,int);virtual void event3_1(int,LivingWorldBattle*);
@@ -113,8 +114,7 @@ typedef char ScoreKeeperSize[sizeof(LivingWorldScoreKeeper)==0xFC?1:-1];
 #define LW_OBSERVERS(offset) ((Rva005A0B4CList *)((char *)TheLivingWorldLogic + (offset)))
 
 
-class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
-void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(phase); }
+void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { collectEndOfTurnStats(phase); }
 
 
 class ModuleData;
@@ -148,10 +148,10 @@ void LivingWorldScoreKeeper::loadPostProcess() {
 void LivingWorldScoreKeeper::event5_0(Rva004EF2ABArg*arg) {
  if(arg->m_14==m_playerIndex){if(m_startTime!=0){m_6C+=time(0)-m_startTime;m_startTime=0;}
  int turn=(int)TheLivingWorldLogic->m_FC;m_78=turn;
- ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(turn);rva004EE78A();}
+ collectEndOfTurnStats(turn);rva004EE78A();}
 }
 void LivingWorldScoreKeeper::event6_1(LivingWorldLogic*logic) {
- ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats((int)logic->m_FC);
+ collectEndOfTurnStats((int)logic->m_FC);
  if(m_startTime!=0){m_6C+=time(0)-m_startTime;m_startTime=0;}
 }
 struct Rva004EE260Base

@@ -311,7 +311,7 @@ void ActivateModuleSpecialPower::onObjectCreated()
 
 // 0x004EF2FA (interface at +0x04): the pinned 0x004EEE38 of the complete
 // object with the first argument.
-class Rva004EF2FAPrimary
+class LivingWorldScoreKeeper
 {
 public:
 	virtual void primarySlot();
@@ -322,7 +322,7 @@ class Rva004EF2FAIface
 public:
 	virtual void rva004EF2FA(Int a, Int unused) = 0;
 };
-class Rva004EF2FA : public Rva004EF2FAPrimary, public Rva004EF2FAIface
+class Rva004EF2FA : public LivingWorldScoreKeeper, public Rva004EF2FAIface
 {
 public:
 	void rva004EF2FA(Int a, Int unused);

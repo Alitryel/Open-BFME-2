@@ -132,6 +132,4 @@ LivingWorldScoreKeeper::LivingWorldScoreKeeper(int playerIndex, LivingWorldPlaye
 	((Rva005A0B4CList *)m_player)->append((Rva002BA8F1Listener *)(LivingWorldPlayerObserver *)this);
 }
 
-class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
-
 LivingWorldScoreKeeper::~LivingWorldScoreKeeper(){rva004EE78A();}
