@@ -7,6 +7,10 @@
 // SaveMapPreviewCopy.cpp; the non-const range instantiation is an ICF twin of the
 // Rva004E194E pin at the same address.
 #include <vector>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@VSaveMapPreview@@@_STL@@QBEXPAVSaveMapPreview@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class SaveMapPreview;
+namespace _STL { template <> void allocator<SaveMapPreview>::deallocate(SaveMapPreview *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
