@@ -134,13 +134,13 @@ class Path
 {
  friend class Pathfinder;
 public:
- void rva00265596(const Coord3D *,PathfindLayerEnum,Int);
+ void prependNode(const Coord3D *,PathfindLayerEnum,Int);
 	Path();										///< matched 0x00363DC8
 	// 0x00364551 / 0x00365E98 (unrowed): Zero Hour's optimize step with a
 	// BFME facing hint, and a final pass toward a direction (unnamed).
 	void rva00364551(Object *obj, LocomotorSurfaceTypeMask surfaces, Bool blocked, const float *facing);
 	void rva00365E98(Object *obj, const Coord3D *dir, LocomotorSurfaceTypeMask surfaces, Bool blocked);
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, Int portal);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, Int portal);
 	void SetLastNodePortal(Int portal);
 private:
 	void *word0;PathNode *firstNode;PathNode *lastNode;char wordC;Bool blockedByAlly;char padE[0x28-0xe];
@@ -2568,28 +2568,28 @@ void Pathfinder::PrependCells(Path *path,const Coord3D *fromPos,PathfindCell *go
    if(id!=0x7fffffff) {
     if(cell->waypoint) {
      if(path->firstNode){path->firstNode->portalID=cell->waypoint->id;path->firstNode->canOptimize=false;}
-     path->rva00265596(&cell->waypoint->location,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
+     path->prependNode(&cell->waypoint->location,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
     }
     Waypoint *link=cell->getParentWaypoint()->chainNext;
     while(link) {
      if(path->firstNode){path->firstNode->portalID=link->id;path->firstNode->canOptimize=false;}
-     path->rva00265596(&link->location,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
+     path->prependNode(&link->location,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
      if(link->linkCount!=0)break;
      link=link->chainNext;
     }
     if(path->firstNode){path->firstNode->portalID=id;path->firstNode->canOptimize=false;}
    }
   }
-  path->rva00265596(&pos,TheTerrainLogic->getLayerForDestination(0,&pos),0x7fffffff);
+  path->prependNode(&pos,TheTerrainLogic->getLayerForDestination(0,&pos),0x7fffffff);
   path->firstNode->canOptimize=canOptimize;
   if(cell->m_pathInfo->flags&1)path->blockedByAlly=true;
   if(prevCell)prevCell->m_pathInfo->parent=0;
   prevCell=cell;
  }
  if(cell && cell->m_pathInfo) {
-  if(goalCellNull) {pos=Rva002E8C23Call(center,cell);path->rva00265596(&pos,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);}
+  if(goalCellNull) {pos=Rva002E8C23Call(center,cell);path->prependNode(&pos,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);}
   if(fromPos->x!=path->firstNode->position.x || fromPos->y!=path->firstNode->position.y)
-   path->rva00265596(fromPos,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
+   path->prependNode(fromPos,(PathfindLayerEnum)cell->getLayer(),0x7fffffff);
  }
 }
 
@@ -2637,10 +2637,10 @@ Path *Pathfinder::GetAircraftPath(const Object *object,const Coord3D *to)
  struct { Coord3D p1,p2; union { Coord3D start; Coord3D p3; } stage; Coord3D adjusted; } scratch;
  scratch.adjusted.x=to->x; scratch.adjusted.y=to->y; scratch.adjusted.z=to->z;
  if(clips) CircleClipsTallBuilding(reinterpret_cast<const Coord3D *>(object->position),to,100.0f,avoid,&scratch.adjusted);
- path->rva00265596(&scratch.adjusted,PATHFIND_LAYER_GROUND,0x7fffffff);
+ path->prependNode(&scratch.adjusted,PATHFIND_LAYER_GROUND,0x7fffffff);
  // Native start-coordinate storage is later reused for the third detour output.
  scratch.stage.start.x=object->position[0]; scratch.stage.start.y=object->position[1]; scratch.stage.start.z=to->z;
- path->rva00265596(&scratch.stage.start,PATHFIND_LAYER_GROUND,0x7fffffff);
+ path->prependNode(&scratch.stage.start,PATHFIND_LAYER_GROUND,0x7fffffff);
  int limit=20;
  for(PathNode *node=path->firstNode;node && node->next;) {
   if(rva002F3392(node,node->next,avoid,&scratch.p1,&scratch.p2,&scratch.stage.p3)) {
@@ -3562,7 +3562,7 @@ Path *Pathfinder::PatchPath(Object *obj,const LocomotorSet &locomotorSet,Path *o
 			m_isTunneling = false;
 			Path *path = new Path;
 			for (PathNode *node = originalPath->lastNode; node != matchNode; node = node->previous)
-				path->rva00265596(&node->position, node->layer, 0x7FFFFFFF);
+				path->prependNode(&node->position, node->layer, 0x7FFFFFFF);
 			PrependCells(path, (const Coord3D *)obj->position, parentCell, centerInCell);
 			path->rva00364551(obj, locomotorSet.getValidSurfaces(), blocked, 0);
 			rva002F40E7();
@@ -4156,9 +4156,9 @@ Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet
 			Path *path = BuildActualPath(obj, locomotorSet.getValidSurfaces(), from, goalCell, centerInCell, false, false);
 			if (viaMineshaft) {
 				PathfindLayerEnum srcLayer = TheTerrainLogic->getLayerForDestination(NULL, &m_srcMineshaft->m_position);
-				path->rva002655E3(&m_srcMineshaft->m_position, srcLayer, m_srcMineshaft->m_portal);
+				path->appendNode(&m_srcMineshaft->m_position, srcLayer, m_srcMineshaft->m_portal);
 				PathfindLayerEnum destLayer = TheTerrainLogic->getLayerForDestination(NULL, &m_destMineshaft->m_position);
-				path->rva002655E3(&m_destMineshaft->m_position, destLayer, 0x7fffffff);
+				path->appendNode(&m_destMineshaft->m_position, destLayer, 0x7fffffff);
 				path->SetLastNodePortal(m_destMineshaft->m_portal);
 			}
 			Coord3D direction = *((const Thing *)obj)->getUnitDirectionVector2D();

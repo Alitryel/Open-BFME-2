@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva00265596@Path@@QAEXPBUCoord3D@@W4PathfindLayerEnum@@H@Z, retail 0x00265596 (77 bytes). Path head prepend
+// ?prependNode@Path@@QAEXPBUCoord3D@@W4PathfindLayerEnum@@H@Z, retail 0x00265596 (77 bytes). Path head prepend
 // with waypoint-ID store. Donor: BFME1 AIPathfind.cpp Path::prependNode plus PathNodeInsertion.cpp layout
 // (head +4 tail +8 optimized +0xC, node next +0 prev +4 nextOpti +8 pos +0xC layer +0x18 waypoint +0x20).
 // Callers pass (pos, LAYER_GROUND, id); pool global at 0x00A01E94, PathNode ctor at 0x0026212A,
@@ -51,7 +51,7 @@ extern Rva00065964ObjectPool g_pathNodePool;
 class Path
 {
 public:
-	void rva00265596(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
+	void prependNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
 
 private:
 	char m_pad00[4];
@@ -60,7 +60,7 @@ private:
 	Bool m_isOptimized;
 };
 
-void Path::rva00265596(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
+void Path::prependNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
 {
 	void *mem = g_pathNodePool.rva002635C2();
 	PathNode *node = mem ? new (mem) PathNode(pos, layer) : 0;

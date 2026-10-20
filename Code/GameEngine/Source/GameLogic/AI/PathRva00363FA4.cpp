@@ -68,7 +68,7 @@ extern AI *TheAI;
 class Path
 {
 public:
-	void rva00363FA4(Int pathDiameter);
+	void optimizeGroundPath(Int pathDiameter);
 
 private:
 	void *m_vtable;
@@ -78,8 +78,8 @@ private:
 };
 
 Int Rva002E6E6CGet(Int);
-// ?rva00363FA4@Path@@QAEXH@Z
-void Path::rva00363FA4(Int pathDiameter)
+// ?optimizeGroundPath@Path@@QAEXH@Z
+void Path::optimizeGroundPath(Int pathDiameter)
 {
 	PathNode *node, *anchor;
 

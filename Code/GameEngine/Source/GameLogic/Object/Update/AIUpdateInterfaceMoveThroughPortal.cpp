@@ -11,7 +11,7 @@
 #include "Lib/Coord3D.h"
 enum PathfindLayerEnum { LAYER_INVALID=0,LAYER_GROUND=1 };
 class Object {public:char pad[0x38];Coord3D position;};
-class Path {public:Path();void rva00265596(const Coord3D*,PathfindLayerEnum,int);char before[0xc];bool optimized;char after[0x28-0xd];};
+class Path {public:Path();void prependNode(const Coord3D*,PathfindLayerEnum,int);char before[0xc];bool optimized;char after[0x28-0xd];};
 class TerrainLogic {public:PathfindLayerEnum getLayerForDestination(Object*,const Coord3D*);};
 extern TerrainLogic *TheTerrainLogic;
 struct Rva002EDEABArg;
@@ -26,12 +26,12 @@ class AIUpdateInterface {public:char before[8];Object *object;char toPath[0x140-
 };
 void AIUpdateInterface::moveThroughPortalWithMicropath(const Coord3D *portalStart,const Coord3D *portalEnd,int id,PathfindLayerEnum layer,const Coord3D *midPos,const Coord3D *finalPos) {
  destroyPath();path=new Path;
- path->rva00265596(finalPos,TheTerrainLogic->getLayerForDestination(getObject(),finalPos),id);
- if(!const_cast<Coord3D*>(midPos)->operator==(*finalPos))path->rva00265596(midPos,TheTerrainLogic->getLayerForDestination(getObject(),midPos),id);
- path->rva00265596(portalEnd,layer,id);
- path->rva00265596(portalStart,TheTerrainLogic->getLayerForDestination(getObject(),portalStart),0x7fffffff);
+ path->prependNode(finalPos,TheTerrainLogic->getLayerForDestination(getObject(),finalPos),id);
+ if(!const_cast<Coord3D*>(midPos)->operator==(*finalPos))path->prependNode(midPos,TheTerrainLogic->getLayerForDestination(getObject(),midPos),id);
+ path->prependNode(portalEnd,layer,id);
+ path->prependNode(portalStart,TheTerrainLogic->getLayerForDestination(getObject(),portalStart),0x7fffffff);
  Coord3D position;position.x=object->position.x;position.y=object->position.y;position.z=object->position.z;
- path->rva00265596(&position,TheTerrainLogic->getLayerForDestination(getObject(),&position),0x7fffffff);
+ path->prependNode(&position,TheTerrainLogic->getLayerForDestination(getObject(),&position),0x7fffffff);
  path->optimized=true;
  if(TheWritableGlobalData->debugPath==1)TheAI->pathfinder->SetDebugPath(reinterpret_cast<Rva002EDEABArg*>(path));
  goalType=4;goal=*finalPos;

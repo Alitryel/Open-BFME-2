@@ -46,7 +46,7 @@ class Path
 {
 public:
 	Path();
-	void rva00265596(const Coord3D *pos, PathfindLayerEnum layer, Int limit);
+	void prependNode(const Coord3D *pos, PathfindLayerEnum layer, Int limit);
 	void rva00365E98(Object *obj, const Coord3D *direction, Int value, Bool flag);
 	PathNode *getLastNode() const { return m_lastNode; }
 private:
@@ -197,12 +197,12 @@ Bool AIUpdateInterface::computeQuickPath(const Coord3D *destination)
 	else
 	{
 		m_path = new Path;
-		m_path->rva00265596(destination, LAYER_GROUND, 0x7FFFFFFF);
+		m_path->prependNode(destination, LAYER_GROUND, 0x7FFFFFFF);
 		Coord3D pos;
 		pos.x = getObject()->getPosition()->x;
 		pos.y = getObject()->getPosition()->y;
 		pos.z = destination->z;
-		m_path->rva00265596(&pos, (PathfindLayerEnum)getObject()->rva0028B511(), 0x7FFFFFFF);
+		m_path->prependNode(&pos, (PathfindLayerEnum)getObject()->rva0028B511(), 0x7FFFFFFF);
 		if (TheWritableGlobalData->m_debugAI == 1)
 			TheAI->pathfinder()->SetDebugPath((Rva002EDEABArg *)m_path);
 	}

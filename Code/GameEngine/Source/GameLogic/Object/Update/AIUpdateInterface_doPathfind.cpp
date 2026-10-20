@@ -147,7 +147,7 @@ public:
 class PathNode { public: PathNode*next,*prev,*optimized; Coord3D pos; PathfindLayerEnum layer; };
 class Path { public:
  Path(); Rva003642DFResult rva00364521(const Rva0008BB38FloatField *arg);
- void rva00265596(const Coord3D*,PathfindLayerEnum,int);
+ void prependNode(const Coord3D*,PathfindLayerEnum,int);
  unsigned int pad; PathNode *head,*tail; Bool optimized, m_blockedByAlly; char rest[0x28-14];
 };
 class WeaponTemplate { public: Bool isContactWeapon()const; };

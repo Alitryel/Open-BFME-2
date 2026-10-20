@@ -4,7 +4,7 @@
 // Rebuilds the Path at +0x58 from an arg list: notifies GameInfo at 0x00E02EEC
 // slot 0x4C then returns early when the GlobalData flag at TheWritableGlobalData (VA 0x00DFE758)+0x9B8 is
 // clear else deletes the old Path news a fresh Path via 0x363DC8 and appends
-// each source node via Path::rva002655E3 with waypoint 0x7FFFFFFF.
+// each source node via Path::appendNode with waypoint 0x7FFFFFFF.
 // Target evidence: new(0x28) plus ctor 0x363DC8 plus append 0x2655E3 sequence
 // shared with PathCtor.cpp note; dtor 0x364A89 plus delete 0x2FD60 plus new
 // 0x2FDA0; callers at 0x2657B1 0x2658F6 0x265A83 0x265DA4 0x266E79 0x2F3B55
@@ -33,7 +33,7 @@ class Path
 public:
 	Path();
 	~Path();
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
 
 private:
 	void *m_unknown00;
@@ -115,5 +115,5 @@ void Pathfinder::SetDebugPath(Rva002EDEABArg *arg)
 	delete m_path;
 	m_path = new Path;
 	for (Rva002EDEABSrcNode *node = arg->m_head; node != 0; node = node->m_next)
-		m_path->rva002655E3(&node->m_pos, node->m_layer, 0x7FFFFFFF);
+		m_path->appendNode(&node->m_pos, node->m_layer, 0x7FFFFFFF);
 }

@@ -830,7 +830,7 @@ public:
 	Path();										///< matched 0x00363DC8
 	// AIUpdate slot 134 appends nodes with these (matched 0x002655E3 and
 	// 0x00363B24); unnamed.
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, Int value);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, Int value);
 	void SetLastNodePortal(Int value);
 	// The point `dist` along the path, and what slot 141 hands back to it.
 	// Unnamed.
@@ -2833,11 +2833,11 @@ void AIUpdateInterface::appendPositionToLocomotorPath(const Coord3D &pos, Int va
 	{
 		m_path = new Path;
 		Object *obj = getObject();
-		m_path->rva002655E3(obj->getPosition(), (PathfindLayerEnum)obj->rva0028B511(), 0x7fffffff);
+		m_path->appendNode(obj->getPosition(), (PathfindLayerEnum)obj->rva0028B511(), 0x7fffffff);
 		m_path->m_bfmeFlag0C = true;
 	}
 	m_path->SetLastNodePortal(value);
-	m_path->rva002655E3(&pos, TheTerrainLogic->getLayerForDestination(getObject(), &pos), value);
+	m_path->appendNode(&pos, TheTerrainLogic->getLayerForDestination(getObject(), &pos), value);
 }
 
 // Retail 0x00264DF8: the guard-area handler behind BFME2's status-bit,

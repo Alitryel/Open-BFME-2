@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?rva002655E3@Path@@QAEXPBUCoord3D@@W4PathfindLayerEnum@@H@Z, retail 0x002655E3 (132 bytes). Path tail append with duplicate-position
+// ?appendNode@Path@@QAEXPBUCoord3D@@W4PathfindLayerEnum@@H@Z, retail 0x002655E3 (132 bytes). Path tail append with duplicate-position
 // guard and waypoint-ID store. Donor: BFME1 AIPathfind.cpp Path::appendNode
 // plus PathNodeInsertion.cpp layout (head +4 tail +8 optimized +0xC,
 // node next +0 prev +4 nextOpti +8 pos +0xC layer +0x18 waypoint +0x20).
@@ -46,7 +46,7 @@ extern Rva00065964ObjectPool g_pathNodePool;
 class Path
 {
 public:
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID);
 
 private:
 	char m_pad00[4];
@@ -55,7 +55,7 @@ private:
 	Bool m_isOptimized;
 };
 
-void Path::rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
+void Path::appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
 {
 	if (m_isOptimized && m_pathTail)
 	{

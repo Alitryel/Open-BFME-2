@@ -273,7 +273,7 @@ class Path
 public:
 	Rva003642DFResult rva003642DF(float dist);
 	// Zero Hour's appendNode with a BFME 2 third argument.
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int bfmeArg);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int bfmeArg);
 };
 class Pathfinder
 {

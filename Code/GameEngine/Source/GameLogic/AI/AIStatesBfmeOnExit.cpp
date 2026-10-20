@@ -358,7 +358,7 @@ class Path
 {
 public:
 	// Rowed tail append; BFME 2 adds a trailing int to Zero Hour's appendNode.
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int bfmeLimit);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int bfmeLimit);
 };
 class TerrainLogic : public AIStateAISlots<6>
 {
@@ -1365,7 +1365,7 @@ StateReturnType AIMoveToPositionAndDieState::update()
 		if (!ai->getBfmeFlag3B1() && ai->getPath())
 		{
 			m_goalPosition.z = TheTerrainLogic->getGroundHeight(m_goalPosition.x, m_goalPosition.y, 0);
-			thePath->rva002655E3(&m_goalPosition, LAYER_GROUND, 0x7fffffff);
+			thePath->appendNode(&m_goalPosition, LAYER_GROUND, 0x7fffffff);
 			m_appendGoalPosition = false;
 		}
 	}

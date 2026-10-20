@@ -28,8 +28,8 @@ class Path
 {
 public:
 	Path();
-	void rva00265596(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// prependNode
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
+	void prependNode(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// prependNode
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
 	void markOptimized() { m_isOptimized = true; }
 private:
 	unsigned char m_pad00[0x0C];
@@ -111,7 +111,7 @@ void AIUpdateInterface::setPathFromWaypoint(const Waypoint *way, const Coord2D *
 	pos.x = objPos->x;
 	pos.y = objPos->y;
 	pos.z = objPos->z;
-	m_path->rva00265596(&pos, LAYER_GROUND, 0x7FFFFFFF);
+	m_path->prependNode(&pos, LAYER_GROUND, 0x7FFFFFFF);
 	m_path->markOptimized();
 	int count = 0;
 	while (way)
@@ -125,7 +125,7 @@ void AIUpdateInterface::setPathFromWaypoint(const Waypoint *way, const Coord2D *
 		wayPos.y += ((const Rva0026569FOffset *)offset)->y;
 		if (way->getLink(0) == 0)
 			Rva002EDE5B(getObject(), &wayPos);
-		m_path->rva002655E3(&wayPos, LAYER_GROUND, 0x7FFFFFFF);
+		m_path->appendNode(&wayPos, LAYER_GROUND, 0x7FFFFFFF);
 		way = way->getLink(0);
 		count++;
 		if (count > WAYPOINT_PATH_LIMIT)

@@ -162,7 +162,7 @@ public:
 class PathNode { public: PathNode*next,*prev,*optimized; Coord3D pos; };
 class Path { public:
  Path(); Rva003642DFResult rva00364521(const Rva0008BB38FloatField *arg);
- void rva00265596(const Coord3D*,PathfindLayerEnum,int);
+ void prependNode(const Coord3D*,PathfindLayerEnum,int);
  unsigned int pad; PathNode *head,*tail; Bool optimized, m_blockedByAlly; char rest[0x28-14];
 };
 class WeaponTemplate { public: Bool isContactWeapon()const; };
@@ -375,9 +375,9 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
    }
   }
   destroyPath();m_path=new Path;
-  m_path->rva00265596(&localVictimPos,LAYER_GROUND,0x7fffffff);
+  m_path->prependNode(&localVictimPos,LAYER_GROUND,0x7fffffff);
   Coord3D pos;const Coord3D *position=getObject()->getPosition();pos.x=position->x;pos.y=position->y;pos.z=localVictimPos.z;
-  m_path->rva00265596(&pos,LAYER_GROUND,0x7fffffff);
+  m_path->prependNode(&pos,LAYER_GROUND,0x7fffffff);
   if(TheWritableGlobalData->debugAI==1)TheAI->pathfinder()->SetDebugPath((Rva002EDEABArg*)m_path);
  }else{
   destroyPath();getObject()->rva0028AD32();

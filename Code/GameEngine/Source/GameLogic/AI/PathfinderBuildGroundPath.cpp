@@ -6,7 +6,7 @@
 // 7315..7316) names it; Zero Hour's buildGroundPath supplies the spine:
 // allocate a Path (operator new 0x28 and the rowed Path::Path 0x00363DC8),
 // prepend the cells (rowed PrependCells 0x002EE1C7) and ground-optimize it
-// with the path diameter (rowed Path::rva00363FA4). BFME 2 then smooths each
+// with the path diameter (rowed Path::optimizeGroundPath). BFME 2 then smooths each
 // interior corner as the WB twin does: the sum of the incoming and outgoing
 // segments is normalized (rowed Coord3D::Normalize 0x00005A70) and scaled
 // by twice TheAI's AI data +0xA0 value; the point is pushed sideways by the
@@ -42,7 +42,7 @@ struct AIData {char pad00[0xA0];float m_a0;};
 class AI {public:const AIData *getAiData() const {return m_aiData;}private:char pad00[0x10]; public: Pathfinder *pathfinder; private: char gap14[4]; const AIData *m_aiData;};
 extern AI *TheAI;
 struct PathGroundNode {PathGroundNode *next,*previous,*nextOptimized;Coord3D pos;int layer;};
-class Path {public:Path();void rva00363FA4(Int);void *vtable;PathGroundNode *first,*last;char padC[0x28-0xC];};
+class Path {public:Path();void optimizeGroundPath(Int);void *vtable;PathGroundNode *first,*last;char padC[0x28-0xC];};
 class Pathfinder {public:Path *BuildGroundPath(const Coord3D *,PathfindCell *,Bool,Int);void PrependCells(Path *,const Coord3D *,PathfindCell *,Bool);Int AdjustGroundPathPosition(const Coord3D *,Coord3D *);
 void rva002EFB3A();
 PathfindCell *getCell(PathfindLayerEnum,Int,Int);
@@ -63,7 +63,7 @@ Path *Pathfinder::BuildGroundPath(const Coord3D *fromPos, PathfindCell *goalCell
 {
 Path *path = new Path;
 PrependCells(path, fromPos, goalCell, center);
-path->rva00363FA4(pathDiameter);
+path->optimizeGroundPath(pathDiameter);
 Bool havePrev = false;
 PathGroundCoord prevPos;
 for (PathGroundNode *node = path->first; node; node = node->nextOptimized) {

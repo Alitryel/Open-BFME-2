@@ -191,7 +191,7 @@ class Path
 {
  friend class Pathfinder;
  public:
- void rva00265596(const Coord3D *,PathfindLayerEnum,Int);
+ void prependNode(const Coord3D *,PathfindLayerEnum,Int);
  Path();
 ///< matched 0x00363DC8
 // 0x00364551 / 0x00365E98 (unrowed): Zero Hour's optimize step with a

@@ -41,7 +41,7 @@ class Path
 public:
 	Path();
 	~Path();
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
 	void rva00364551(Object *obj, int surfaces, int flag, const Coord3D *extra);
 	void rva00365E98(Object *obj, const Coord3D *dir, int surfaces, Bool flag);
 private:
@@ -180,7 +180,7 @@ void AIUpdateInterface::rva002657CE()
 		m_path = 0;
 	}
 	m_path = new Path;
-	m_path->rva002655E3(obj->getPosition(), LAYER_GROUND, 0x7FFFFFFF);
+	m_path->appendNode(obj->getPosition(), LAYER_GROUND, 0x7FFFFFFF);
 	m_path->rva00364551(obj, locomotor->m_template->m_surfaces, 0, 0);
 	for (Int i = 0; i < m_stateMachine->getNumGoalPathPositions(); i++)
 	{
@@ -190,7 +190,7 @@ void AIUpdateInterface::rva002657CE()
 		pos.y = goal->y;
 		pos.z = goal->z;
 		PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
-		m_path->rva002655E3(&pos, layer, 0x7FFFFFFF);
+		m_path->appendNode(&pos, layer, 0x7FFFFFFF);
 	}
 	if (TheWritableGlobalData->m_debugAI == 1)
 		TheAI->pathfinder()->SetDebugPath((Rva002EDEABArg *)m_path);

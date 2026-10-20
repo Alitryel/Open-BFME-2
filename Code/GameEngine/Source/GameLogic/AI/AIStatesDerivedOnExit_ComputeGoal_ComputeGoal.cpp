@@ -277,7 +277,7 @@ class Path
 public:
 	Rva003642DFResult rva003642DF(float dist);
 	// Zero Hour's appendNode with a BFME 2 third argument.
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int bfmeArg);
+	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int bfmeArg);
 };
 class Pathfinder
 {
@@ -774,7 +774,7 @@ StateReturnType AIFollowWaypointPathState::update()
 		Path *thePath = ai->getPath();
 		if (!ai->isWaitingForPath() && ai->getPath())
 		{
-			thePath->rva002655E3(&m_goalPosition, LAYER_GROUND, 0x7FFFFFFF);
+			thePath->appendNode(&m_goalPosition, LAYER_GROUND, 0x7FFFFFFF);
 			m_appendGoalPosition = false;
 		}
 	}
