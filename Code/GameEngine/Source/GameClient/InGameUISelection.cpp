@@ -34,13 +34,15 @@ enum KindOfType { KINDOF_INVALID = -1 };
 class ThingTemplate
 {
 public:
-	bool isKindOf( KindOfType t ) const;
+	int rva000456AC( int bit ) const;
 };
 
 class Drawable
 {
 public:
-	bool isKindOf( KindOfType t ) const { return m_template->isKindOf( t ); }
+	// The rowed kind test returns int; these native callers examine AL.
+	unsigned char isKindOf( KindOfType t ) const
+	{ return (unsigned char)m_template->rva000456AC( t ); }
 private:
 	virtual void r0();
 	const ThingTemplate *m_template;				// +0x04
