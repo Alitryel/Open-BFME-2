@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
 //
-// ?postInit@Rva004E9F6E@@QAEXXZ @0x004E9F6E 68B.
+// ?postInit@AIWallBuilder@@QAEXXZ @0x004E9F6E 68B.
 // Empty-name gate: probe the +0x08 key through rowed 0x002A8B59 on the
 // 0x00DFEEF8 world; when the returned record's +0x28 name compares equal to
 // AsciiString::TheEmptyString, set the +0x04 flag. When the global
@@ -38,11 +38,6 @@ class AIWallBuilder
 {
 public:
 	void loadWallLibrary();
-};
-
-class Rva004E9F6E
-{
-public:
 	void postInit();
 private:
 	char m_pad[4];
@@ -51,14 +46,14 @@ private:
 	void *m_8;
 };
 
-void Rva004E9F6E::postInit()
+void AIWallBuilder::postInit()
 {
 	Rva002A8B59Data *rec = ((Rva002A8F24 *)TheSkirmishAIManager)->rva002A8B59(m_8);
 	if (rec->m_28.compare(AsciiString::TheEmptyString) == 0)
 		m_4 = 1;
 	if (g_00E04484.m_begin == g_00E04484.m_end) {
 		g_00E044A0 = 0;
-		reinterpret_cast<AIWallBuilder *>(this)->loadWallLibrary();
+		loadWallLibrary();
 	}
 }
 

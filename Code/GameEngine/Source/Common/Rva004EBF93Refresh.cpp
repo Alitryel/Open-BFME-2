@@ -2,7 +2,7 @@
 //
 // ?rva004EBF93@Rva004EBF93@@QAEXXZ @0x004EBF93 177B.
 // Subsystem refresh from world flags: run the six rowed member sweeps
-// (including the 0x004E9F6E gate at +0xE4), then latch bytes from the
+// (including AIWallBuilder::postInit 0x004E9F6E at +0xE4), then latch bytes from the
 // +0x10 world block's flag bytes in retail order
 // 848/849/84E/84A/84B/84C/84F. Member extents past each call site are
 // spacing pads; only the call targets and flag offsets are proven.
@@ -18,7 +18,7 @@ public:
 	void postInit();
 };
 
-class Rva004E9F6E
+class AIWallBuilder
 {
 public:
 	void postInit();
@@ -78,7 +78,7 @@ private:
 	char m_padB5[0xC4 - 0xB5];
 	unsigned char m_C4;
 	char m_padC5[0xE4 - 0xC5];
-	Rva004E9F6E m_E4;
+	AIWallBuilder m_E4;
 	char m_padE5[0xE8 - 0xE5];
 	unsigned char m_E8;
 	char m_padE9[0xFC - 0xE9];
