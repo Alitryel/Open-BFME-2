@@ -13,7 +13,11 @@
 // The wide allocator-base constructor now has whole-body recursive fold proof
 // at 0x00689600 in stlport_narrow_string.cpp. No unresolved callees remain.
 // Measurements, rejected hypotheses and the next angles are recorded in
-// reverse/attempt_support/df20-lifetime-fold-20261020/handoff.md.
+// reverse/attempt_support/df20-context-twin-20261020/handoff.md.
+// Removing the old pattern alignment preserves all function bytes/relocations.
+// The 23-state EH table agrees outside relocations; 17 funclet bytes remain
+// wrong, all locale/temporary-flag stack displacements. WorldBuilder has the
+// same optimized 2610-byte body and 327-byte cleanup region after address masks.
 //
 /*
  * Copyright (c) 1999
@@ -34,7 +38,7 @@
  */
 
 // Currency and zero-fraction copies use the retail helper; fractional and
-// sign-tail copies retain their inline loops. The pattern local is aligned.
+// sign-tail copies retain their inline loops. No explicit local alignment is needed.
 
 // Suppress stdlib.h so free retains the C++ linkage and throwing declaration
 // needed for retail's direct call and exception-state stores. These are the
@@ -262,7 +266,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   bool __generate_curr = (__str.flags() & ios_base::showbase) !=0;
   if (__generate_curr)
     __length += __curr_sym.size();
-  __declspec(align(8)) money_base::pattern __format =
+  money_base::pattern __format =
     __intl ? (__is_negative ? __punct_intl.neg_format()
                             : __punct_intl.pos_format())
            : (__is_negative ? __punct.neg_format()
