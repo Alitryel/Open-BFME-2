@@ -28,6 +28,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmePod128@@@_STL@@YAXPAUBfmePod128@@0ABU__false_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> void __destroy_aux<BfmePod128 *>(BfmePod128 *,BfmePod128 *,__false_type const &); }
 
 // 32-byte element; layout owner stlport_bfmeassignrecord32_destroy.cpp.
 struct BfmeAssignRecord32 { char m_pad[32]; public: BfmeAssignRecord32(const BfmeAssignRecord32 &); ~BfmeAssignRecord32(); };

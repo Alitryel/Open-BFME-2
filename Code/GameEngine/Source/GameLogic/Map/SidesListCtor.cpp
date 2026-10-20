@@ -18,6 +18,10 @@ private:
     int m_data[2];
 };
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmePod128@@@_STL@@YAXPAUBfmePod128@@0ABU__false_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> void __destroy_aux<BfmePod128 *>(BfmePod128 *,BfmePod128 *,__false_type const &); }
 class Rva00330757Member {
 public:
     Rva00330757Member() throw();

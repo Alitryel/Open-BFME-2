@@ -75,6 +75,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmePod128@@@_STL@@YAXPAUBfmePod128@@0ABU__false_type@0@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod128;
+namespace _STL { template <> void __destroy_aux<BfmePod128 *>(BfmePod128 *,BfmePod128 *,__false_type const &); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
 #undef free
