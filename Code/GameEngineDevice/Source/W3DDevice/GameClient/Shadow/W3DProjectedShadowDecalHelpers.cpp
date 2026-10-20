@@ -28,6 +28,10 @@
 #include "vector3.h"
 #include "matrix3d.h"
 #include "Lib/Coord3D.h"
+#include "../../../../../GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+// std::max as VC7.1 <xutility> spells it (<algorithm> collides with WWLib's
+// placement operator new definitions in this unit).
+namespace std { template<class _Ty> inline const _Ty &max(const _Ty &_Left, const _Ty &_Right) { return (_Left < _Right ? _Right : _Left); } }
 #include <math.h>
 #define __max(a,b) (((a)>(b))?(a):(b))
 #define __min(a,b) (((a)<(b))?(a):(b))
@@ -69,6 +73,7 @@ static void decalAxesRva00108E7A(const Rva00108E7AMatrix &objXform, Rva00108E7AV
 	uVector = objXform.Get_X_Vector();
 	uVector.Z = 0.0f;
 	float vecLength = uVector.Length();
+	//prevent divide by zero
 	if (vecLength != 0.0f) {
 		uVector *= 1.0f / vecLength;
 		vVector.Set(uVector.Y, -uVector.X, 0.0f);
@@ -76,10 +81,11 @@ static void decalAxesRva00108E7A(const Rva00108E7AMatrix &objXform, Rva00108E7AV
 		vVector = objXform.Get_Y_Vector();
 		vVector.Z = 0.0f;
 		vecLength = vVector.Length();
+		//prevent divide by zero
 		if (vecLength != 0.0f)
 			vVector *= 1.0f / vecLength;
 		else
-			vVector.Set(0.0f, -1.0f, 0.0f);
+			vVector.Set(0.0f, -1.0f, 0.0f); //Point uvector in default direction
 		uVector.Set(-vVector.Y, vVector.X, 0.0f);
 	}
 }
@@ -141,10 +147,13 @@ static WWINLINE Rva00108E7AVector operator+(const Rva00108E7AVector&a,const Rva0
 static void projectRangesRva00108FBD(const Rva00108E7AVector &axisA, const Rva00108E7AVector &axisB, float sizeA, float sizeB,
 	float offA, float offB, Rva00108E33Pair &xr, Rva00108E33Pair &yr)
 {
+	//Compute bounding box of projection
 	Rva00108E7AVector a0(axisA.X * (-((offA + 0.5f) * sizeA)), axisA.Y * (-((offA + 0.5f) * sizeA)), 0.0f);
 	Rva00108E7AVector a1(axisA.X * ((0.5f - offA) * sizeA), axisA.Y * ((0.5f - offA) * sizeA), 0.0f);
 	Rva00108E7AVector b0(axisB.X * (-((offB + 0.5f) * sizeB)), axisB.Y * (-((offB + 0.5f) * sizeB)), 0.0f);
 	Rva00108E7AVector b1(axisB.X * ((0.5f - offB) * sizeB), axisB.Y * ((0.5f - offB) * sizeB), 0.0f);
+	///@todo: Optimize this bounding box calculation to use transformed extents
+	//Also skip bounding box calculation if object has not moved.
 	Rva00108E7AVector c0 = b0 + a0;
 	Rva00108E7AVector c1 = b0 + a1;
 	Rva00108E7AVector c2 = b1 + a1;
@@ -154,10 +163,11 @@ static void projectRangesRva00108FBD(const Rva00108E7AVector &axisA, const Rva00
 }
 
 class Object {public:int rva0028B511()const;};
-class Drawable {public:char pad[0xfc];Object*object;};
+class Drawable {public:bool rva0027267D(int,int,int,int);bool rva002726C3(int,int,int,int);int rva0027261D();int rva0027264D();char pad[0xfc];Object*object;};
 struct DrawableInfo {void*unknown;Drawable*drawable;};
+class AABoxClass;
 class RenderObjClass{public:
-virtual void slot0();
+virtual void Delete_This();
 virtual void slot1();
 virtual void slot2();
 virtual void slot3();
@@ -177,7 +187,7 @@ virtual void slot16();
 virtual void slot17();
 virtual void slot18();
 virtual void slot19();
-virtual void Validate_Transform();
+virtual void Validate_Transform() const;
 virtual void slot21();
 virtual void slot22();
 virtual void slot23();
@@ -223,7 +233,7 @@ virtual void slot62();
 virtual void slot63();
 virtual void slot64();
 virtual void slot65();
-virtual void slot66();
+virtual const AABoxClass &Get_Bounding_Box() const;
 virtual void slot67();
 virtual void slot68();
 virtual void slot69();
@@ -246,7 +256,9 @@ virtual void slot85();
 virtual void slot86();
 virtual DrawableInfo*Get_User_Data();
 Vector3 Get_Position()const;
-char pad04[0x14];Matrix3D transform;
+void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
+int NumRefs;char pad08[0x10];Matrix3D transform;
+const Matrix3D &Get_Transform() const { Validate_Transform(); return transform; }
 };
 class TerrainLogic {public:
 virtual void pad0();
@@ -257,6 +269,39 @@ virtual void pad4();
 virtual void pad5();
 virtual void pad6();
 virtual float getLayerHeight(float,float,int,Rva00108E7AVector*,bool);
+virtual void pad8();
+virtual void pad9();
+virtual void pad10();
+virtual void pad11();
+virtual void pad12();
+virtual void pad13();
+virtual void pad14();
+virtual void pad15();
+virtual void pad16();
+virtual void pad17();
+virtual void pad18();
+virtual void pad19();
+virtual void pad20();
+virtual void pad21();
+virtual void pad22();
+virtual void pad23();
+virtual void pad24();
+virtual void pad25();
+virtual void pad26();
+virtual class BridgeView10C841 *findBridgeAt(float x, float y, float z);
+virtual void pad28();
+virtual void pad29();
+virtual float getBridgeHeight(class BridgeView10C841 *bridge);
+virtual void pad31();
+virtual void pad32();
+virtual void pad33();
+virtual void pad34();
+virtual void pad35();
+virtual void pad36();
+virtual void pad37();
+virtual void pad38();
+virtual void pad39();
+virtual class BridgeView10C841 *getFirstBridge();
 };extern TerrainLogic*TheTerrainLogic;
 static float layerHeightRva001086EC(RenderObjClass*robj,const Rva00108E7AVector&pos,Rva00108E7AVector&normal){
  if(robj&&robj->Get_User_Data()){
@@ -363,6 +408,7 @@ class W3DProjectedShadowManager
 {
 public:
 	void queueDualDecal(W3DDualProjectedShadow *shadow);
+	void rva0010C841(struct ShadowRenderEntry10DF33 *shadow, Int unused, Int flushFlags);
 	void flushDecals(ShadowType type, W3DShadowTexture *texture0, W3DShadowTexture *texture1, Int flags);
 	char m_pad[0x254];
 	VertexBufferClass *m_dynamicDecalVertexBuffer;	// +0x254
@@ -622,6 +668,597 @@ void W3DProjectedShadowManager::queueDualDecal(W3DDualProjectedShadow *shadow)
 	}
 
 	m_numDecalPolysInBatch += (endX - startX) * (endY - startY) * 2;
+	m_numDecalVertsInBuffer += numVerts;
+	m_numDecalVertsInBatch += numVerts;
+	m_numDecalIndicesInBuffer += numIndex;
+}
+class Rva000421C8 {
+public:
+ Rva000421C8():m_next(0) {}
+ virtual ~Rva000421C8() {}
+ virtual bool allow(Object*)=0;
+ virtual int getPlayerMask();
+ Rva000421C8* link(Rva000421C8*);
+ Rva000421C8* m_next;
+};
+struct Rva00045411BitSet { unsigned m_bits[7]; Rva00045411BitSet(int,int); };
+class BfmeFixedStorage0004543D {
+public: BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D&) throw();
+private: unsigned char bytes[28];
+};
+class Rva0004584D:public Rva000421C8 {
+public:
+ Rva0004584D(const BfmeFixedStorage0004543D&,const BfmeFixedStorage0004543D&) throw();
+ virtual bool allow(Object*);
+ BfmeFixedStorage0004543D m08,m24;
+};
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
+extern PartitionManager* ThePartitionManager;
+
+// ---- single projected decal: W3DProjectedShadowManager 0x10C841 ----
+struct BridgeInfoView10C841
+{
+	char m_pad00[0x6c];
+	Vector3 m_corners[4];				// bridge +0x78
+	unsigned short m_polys[2][3];		// bridge +0xA8
+};
+class BridgeView10C841
+{
+public:
+	BridgeInfoView10C841 *getBridgeInfo() { return &m_info; }
+	BridgeView10C841 *getNext() { return m_next; }
+	void *m_vtbl;
+	BridgeView10C841 *m_next;			// +0x04
+	int m_pad08;
+	BridgeInfoView10C841 m_info;		// +0x0C
+};
+class Rva00281BF7 { public: int rva00281BF7(); };
+class Rva0055A88BDwordField { public: int get() const; };
+class Rva000FE9E3PointBounds { public: Rva000FE9E3PointBounds *rva000FE9E3(Vector3 *points, int count); float m_box[6]; };
+class AABoxClass { public: WWINLINE AABoxClass(const Vector3 &center, const Vector3 &extent) : Center(center), Extent(extent) {} Vector3 Center; Vector3 Extent; };
+class CollisionMath { public: enum OverlapType { POS = 1 }; static OverlapType Overlap_Test(const AABoxClass &a, const AABoxClass &b); };
+class Thing { public: Drawable *getDrawable() const; };
+class PartitionObjectView10C841 : public Thing {};
+float Rva000930C0(float x, float y);
+
+// Retail's Coord3D is copy-constructed member-wise (user copy constructor) with
+// header-inline sub/lengthSqr; this unit keeps the canonical POD Coord3D for its
+// other bodies, so the scan delta uses an equivalent local value type.
+struct ScanDelta10C841
+{
+	Real x, y, z;
+	ScanDelta10C841(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
+	void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
+	Real lengthSqr() const { return x * x + y * y + z * z; }
+};
+
+struct ShadowGridOverlay10C841 { char m_pad[0x3c]; Real m_cellSize; };
+class TerrainResourceManager { public: void rva0035A61F(UnsignedInt *diffuse, Int x, Int y, Int playerIndex); };
+class GameLogic;
+extern GameLogic *TheGameLogic;
+struct GameLogicView10C841 { char m_pad[0x170]; TerrainResourceManager *m_terrainResources; };
+struct PlayerView10C841 { char m_pad[0x54]; Int m_playerIndex; Int getPlayerIndex() const { return m_playerIndex; } };
+class PlayerList;
+extern PlayerList *ThePlayerList;
+struct PlayerListView10C841 { char m_pad[0x10]; PlayerView10C841 *m_local; PlayerView10C841 *getLocalPlayer() { return m_local; } };
+class GlobalData;
+extern GlobalData *TheWritableGlobalData;
+struct GlobalDataView10C841 { char m_pad[0x9a7]; Bool m_shadowAlphaOverride; Real m_shadowAlpha; };
+
+struct MeshShareView10C841 { char m_pad[0xc]; void *m_array; };
+struct MeshModelView10C841
+{
+	char m_pad00[0x24];
+	Int m_polyCount;					// +0x24
+	Int m_vertexCount;					// +0x28
+	MeshShareView10C841 *m_poly;		// +0x2C
+	MeshShareView10C841 *m_vertex;		// +0x30
+	Vector3 *Get_Vertex_Array() { return (Vector3 *)m_vertex->m_array; }
+	unsigned short *get_polys() { return (unsigned short *)m_poly->m_array; }
+};
+struct MeshView10C841 { char m_pad[0xc4]; MeshModelView10C841 *m_model; };
+
+class GameClient
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s0a(); virtual void s0b();
+	virtual void s0c(); virtual void s0d(); virtual void s0e(); virtual void s0f();
+	virtual Drawable *findDrawableByID(Int id);	// +0x40
+};
+extern GameClient *TheGameClient;
+
+struct ShadowRenderEntry10DF33
+{
+	char m_pad00[8];
+	Coord3D m_position;					// +0x08
+	Coord3D m_normal;					// +0x14
+	Real m_angle;						// +0x20
+	Int m_pad24;
+	UnsignedInt m_diffuse;				// +0x28
+	char m_pad2c[4];
+	Bool m_isRotating;					// +0x30
+	char m_pad31[3];
+	ShadowType m_type;					// +0x34
+	char m_pad38[0x20];
+	Real m_decalSizeX;					// +0x58
+	Real m_decalSizeY;					// +0x5C
+	Real m_maxHeight;					// +0x60
+	Bool m_useTerrainHeight;			// +0x64
+	char m_pad65[3];
+	W3DShadowTexture *m_shadowTexture[2];	// +0x68
+	RenderObjClass *m_robj;				// +0x70
+	Int m_pad74;
+	Real m_decalOffsetU;				// +0x78
+	Real m_decalOffsetV;				// +0x7C
+	char m_pad80[8];
+	Coord3D m_lastScanPosition;			// +0x88
+	Int m_casterDrawableID[16];			// +0x94
+	BridgeView10C841 *m_casterBridge[16];	// +0xD4
+};
+
+// Single projected decal (native 0x10C841..0x10DA71, RET 0xC, EH); WB 0x8C9A10 is the shape guide.
+// The caller W3DProjectedShadowRenderShadows.cpp proves receiver and arguments; the name is address-derived.
+void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int unused, Int flushFlags)
+{
+	Matrix3D objXform(true);
+	Vector3 objPos;
+	Vector3 normal;
+	Real height = 0.0f;
+	RenderObjClass *robj = shadow->m_robj;
+	ShadowType type;
+
+	if (shadow->m_decalSizeX == 0.0f || shadow->m_decalSizeY == 0.0f)
+		return;
+
+	if (robj)
+	{
+		objPos = robj->Get_Position();
+		if (shadow->m_isRotating)
+		{
+			robj->Validate_Transform();
+			objXform = robj->transform;
+		}
+		height = objPos.Z;
+		type = shadow->m_type;
+	}
+	else
+	{
+		//no render object so use shadow's local position and default orientation
+		objPos.Set(shadow->m_position.x, shadow->m_position.y, shadow->m_position.z);
+		if (shadow->m_isRotating)
+			objXform.Rotate_Z(shadow->m_angle);
+		normal.Set(shadow->m_normal.x, shadow->m_normal.y, shadow->m_normal.z);
+		height = shadow->m_position.z;
+		type = shadow->m_type;
+	}
+
+	switch (type)
+	{
+		case 0x2000:
+		{
+			ShadowGridOverlay10C841 *grid = (ShadowGridOverlay10C841 *)((GameLogicView10C841 *)TheGameLogic)->m_terrainResources;
+			if (grid)
+			{
+				Real cellSize = grid->m_cellSize;
+				objPos.X -= Rva000930C0(objPos.X, cellSize);
+				objPos.Y -= Rva000930C0(objPos.Y, cellSize);
+			}
+			break;
+		}
+	}
+
+	Real terrainHeight = 0.0f;
+	Real bridgeHeight = -100.0f;
+	if (TheTerrainLogic)
+	{
+		terrainHeight = TheTerrainLogic->getLayerHeight(objPos.X, objPos.Y, 1, NULL, true);
+		BridgeView10C841 *bridge = TheTerrainLogic->findBridgeAt(objPos.X, objPos.Y, 0.0f);
+		if (bridge)
+			bridgeHeight = TheTerrainLogic->getBridgeHeight(bridge) + 1.0f;
+		terrainHeight = std::max(terrainHeight, bridgeHeight);
+	}
+
+	Bool useTerrainHeight = false;
+	if (shadow->m_useTerrainHeight)
+	{
+		useTerrainHeight = true;
+		objPos.Z = terrainHeight;
+		height = terrainHeight;
+	}
+
+	//Find size of heightmap sub-rectangle affected by shadow
+	//If user supplied size values, ignore bounding box
+	Vector3 uVector, vVector;
+	decalAxesRva00108E7A(*(Rva00108E7AMatrix *)&objXform, *(Rva00108E7AVector *)&uVector, *(Rva00108E7AVector *)&vVector);
+
+	Rva00108E33Pair xRange;
+	Rva00108E33Pair yRange;
+	projectRangesRva00108FBD(*(Rva00108E7AVector *)&uVector, *(Rva00108E7AVector *)&vVector, shadow->m_decalSizeX, shadow->m_decalSizeY,
+		shadow->m_decalOffsetU, shadow->m_decalOffsetV, xRange, yRange);
+	xRange.X += objPos.X;
+	xRange.Y += objPos.X;
+	yRange.X += objPos.Y;
+	yRange.Y += objPos.Y;
+
+	if (shadow->m_decalSizeX == 0.0f)
+		uVector.X = uVector.Y = uVector.Z = 0.0f;
+	else
+		uVector /= shadow->m_decalSizeX;
+	if (shadow->m_decalSizeY == 0.0f)
+		vVector.X = vVector.Y = vVector.Z = 0.0f;
+	else
+		vVector /= shadow->m_decalSizeY;
+
+	Real uOffset = shadow->m_decalOffsetU + 0.5f;
+	Real vOffset = shadow->m_decalOffsetV + 0.5f;
+	UnsignedInt diffuse = shadow->m_diffuse;
+	if (shadow->m_type == 0x1000 && ((GlobalDataView10C841 *)TheWritableGlobalData)->m_shadowAlphaOverride)
+	{
+		Int alpha = (Int)(((GlobalDataView10C841 *)TheWritableGlobalData)->m_shadowAlpha * 255.0f);
+		alpha = alpha < 0 ? 0 : (alpha > 255 ? 255 : alpha);
+		diffuse = (diffuse & 0xffffff) | (alpha << 24);
+	}
+
+	Coord3D pos;
+	pos.x = objPos.X;
+	pos.y = objPos.Y;
+	pos.z = objPos.Z;
+
+	if (!useTerrainHeight)
+	{
+		AABoxClass box(objPos, Vector3(shadow->m_decalSizeX, shadow->m_decalSizeY, shadow->m_maxHeight));
+		ScanDelta10C841 delta(shadow->m_lastScanPosition);
+		delta.sub(&pos);
+		if (flushFlags == 0 && ThePartitionManager && delta.lengthSqr() > 50.0f * 50.0f)
+		{
+			Real radius = sqrtf(shadow->m_decalSizeY * shadow->m_decalSizeY + shadow->m_decalSizeX * shadow->m_decalSizeX) + 50.0f;
+			BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&pos, radius, 1,
+				&Rva0004584D((const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 0x3c), *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE), 0);
+			Int count;
+			for (count = 0; count < 16; count++)
+			{
+				Object *obj = iter.next();
+				if (!obj)
+					break;
+				shadow->m_casterDrawableID[count] = ((Rva0055A88BDwordField *)((PartitionObjectView10C841 *)obj)->getDrawable())->get();
+				shadow->m_casterBridge[count] = NULL;
+			}
+			for (BridgeView10C841 *bridge = TheTerrainLogic->getFirstBridge(); count < 16 && bridge; bridge = bridge->getNext())
+			{
+				BridgeInfoView10C841 *info = bridge->getBridgeInfo();
+				if (info)
+				{
+					Rva000FE9E3PointBounds bounds;
+					bounds.rva000FE9E3(info->m_corners, 4);
+					if (CollisionMath::Overlap_Test(box, *(AABoxClass *)&bounds) != CollisionMath::POS && ((Rva00281BF7 *)bridge)->rva00281BF7())
+					{
+						shadow->m_casterDrawableID[count] = ((Rva0055A88BDwordField *)((Rva00281BF7 *)bridge)->rva00281BF7())->get();
+						shadow->m_casterBridge[count] = bridge;
+						count++;
+					}
+				}
+			}
+			if (count < 16)
+				shadow->m_casterDrawableID[count] = 0;
+			shadow->m_lastScanPosition = pos;
+		}
+
+		for (Int caster = 0; caster < 16; caster++)
+		{
+			Int id = shadow->m_casterDrawableID[caster];
+			if (!id)
+				break;
+			Drawable *draw = TheGameClient->findDrawableByID(id);
+			if (!draw)
+				continue;
+			BridgeView10C841 *bridge = shadow->m_casterBridge[caster];
+			for (Int part = 0; part < 4; part++)
+			{
+				RenderObjClass *casterObj = NULL;
+				MeshModelView10C841 *model = NULL;
+				Int numVerts = 0;
+				Int numPolys = 0;
+				Int numIndex = 0;
+				if (bridge)
+				{
+					if (part != 0)
+						break;
+					numVerts = 4;
+					numPolys = 2;
+					numIndex = numPolys * 3;
+				}
+				else
+				{
+					if (part == 0)
+						draw->rva0027267D(0, 0, (Int)&casterObj, 0);
+					else if (part == 1)
+						draw->rva002726C3(0, 0, (Int)&casterObj, 0);
+					else if (part == 2)
+						casterObj = (RenderObjClass *)draw->rva0027261D();
+					else
+						casterObj = (RenderObjClass *)draw->rva0027264D();
+					if (!casterObj)
+						continue;
+					if (CollisionMath::Overlap_Test(box, casterObj->Get_Bounding_Box()) == CollisionMath::POS)
+					{
+						if (casterObj)
+						{
+							casterObj->Release_Ref();
+							casterObj = NULL;
+						}
+						continue;
+					}
+					model = ((MeshView10C841 *)casterObj)->m_model;
+					numVerts = model->m_vertexCount;
+					numPolys = model->m_polyCount;
+					numIndex = numPolys * 3;
+				}
+
+				Bool flushed = false;
+				if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000) //check if room for model verts
+				{
+					//flush the buffer by drawing the contents and re-locking again
+					flushDecals(shadow->m_type, shadow->m_shadowTexture[0], shadow->m_shadowTexture[1], flushFlags);
+					m_decalStartVertex = 0;
+					m_decalStartIndex = 0;
+					m_numDecalPolysInBatch = 0; //reset number of polys in texture batch
+					m_numDecalVertsInBatch = 0;
+					m_numDecalVertsInBuffer = 0;
+					m_numDecalIndicesInBuffer = 0;
+					flushed = true;
+				}
+
+				{
+				VertexBufferClass::AppendLockClass lockVtxBuffer(m_dynamicDecalVertexBuffer, m_numDecalVertsInBuffer, numVerts, flushed ? 0x2000 : 0x1000);
+				SHADOW_DECAL_DUAL_VERTEX *pvVertices = (SHADOW_DECAL_DUAL_VERTEX *)lockVtxBuffer.Get_Vertex_Array();
+				if (!pvVertices)
+				{
+					if (!bridge && casterObj)
+					{
+						casterObj->Release_Ref();
+						casterObj = NULL;
+					}
+					return;
+				}
+				IndexBufferClass::AppendLockClass lockIdxBuffer(m_dynamicDecalIndexBuffer, m_numDecalIndicesInBuffer, numIndex, flushed ? 0x2000 : 0x1000);
+				UnsignedShort *pvIndices = lockIdxBuffer.Get_Index_Array();
+				if (!pvIndices)
+				{
+					if (!bridge && casterObj)
+					{
+						casterObj->Release_Ref();
+						casterObj = NULL;
+					}
+					return;
+				}
+
+				Vector3 vertex;
+				Vector3 decalVertex;
+				if (pvVertices)
+				{
+					Vector3 *src;
+					if (bridge)
+						src = bridge->getBridgeInfo()->m_corners;
+					else
+						src = model->Get_Vertex_Array();
+					for (Int v = 0; v < numVerts; v++, src++)
+					{
+						if (bridge)
+							vertex = *src;
+						else
+						{
+							const Vector3 &sourceVertex = *src;
+							const Matrix3D &transform = casterObj->Get_Transform();
+							Vector3 tmp;
+							const Vector3 *v;
+							if (&vertex == &sourceVertex) { tmp = sourceVertex; v = &tmp; } else v = &sourceVertex;
+							vertex.X = (transform[0][0] * v->X + transform[0][1] * v->Y + transform[0][2] * v->Z + transform[0][3]);
+							vertex.Y = (transform[1][0] * v->X + transform[1][1] * v->Y + transform[1][2] * v->Z + transform[1][3]);
+							vertex.Z = (transform[2][0] * v->X + transform[2][1] * v->Y + transform[2][2] * v->Z + transform[2][3]);
+						}
+						vertex.Z += 0.0f;
+						decalVertex = vertex - objPos;
+						pvVertices->x = vertex.X;
+						pvVertices->y = vertex.Y;
+						pvVertices->z = vertex.Z;
+						pvVertices->diffuse = diffuse;
+						pvVertices->u0 = Vector3::Dot_Product(uVector, decalVertex) + uOffset;
+						pvVertices->v0 = Vector3::Dot_Product(vVector, decalVertex) + vOffset;
+						pvVertices->u1 = 0.0f;
+						pvVertices->v1 = 0.0f;
+						pvVertices++;
+					}
+				}
+				if (pvIndices)
+				{
+					unsigned short *srcIndex;
+					if (bridge)
+						srcIndex = &bridge->getBridgeInfo()->m_polys[0][0];
+					else
+						srcIndex = model->get_polys();
+					for (Int p = 0; p < numPolys; p++, srcIndex += 3)
+					{
+						pvIndices[0] = srcIndex[0] + m_numDecalVertsInBatch;
+						pvIndices[1] = srcIndex[1] + m_numDecalVertsInBatch;
+						pvIndices[2] = srcIndex[2] + m_numDecalVertsInBatch;
+						pvIndices += 3;
+					}
+				}
+				}
+				m_numDecalPolysInBatch += numPolys;
+				m_numDecalIndicesInBuffer += numIndex;
+				m_numDecalVertsInBuffer += numVerts;
+				m_numDecalVertsInBatch += numVerts;
+				if (casterObj)
+				{
+					casterObj->Release_Ref();
+					casterObj = NULL;
+				}
+			}
+		}
+	}
+
+	if (!useTerrainHeight && !(pos.z - terrainHeight < shadow->m_maxHeight))
+		return;
+
+	objPos.Z = 0.0f; //we don't care about object height since shadows project top-down
+	height = 0.0f;
+
+	Real mapScaleInv = 1.0f / MAP_XY_FACTOR;
+	WorldHeightMap *hmap = TheTerrainRenderObject->m_map;
+	Int borderSize = hmap->m_borderSize;
+
+	//Get terrain cell index for area with shadow
+	Int startX = REAL_TO_INT_FLOOR(xRange.X * mapScaleInv) + borderSize;
+	Int endX = REAL_TO_INT_CEIL(xRange.Y * mapScaleInv) + borderSize;
+	Int startY = REAL_TO_INT_FLOOR(yRange.X * mapScaleInv) + borderSize;
+	Int endY = REAL_TO_INT_CEIL(yRange.Y * mapScaleInv) + borderSize;
+
+	startX = __max(startX, drawStartX);
+	startX = __min(startX, drawEdgeX);
+	startY = __max(startY, drawStartY);
+	startY = __min(startY, drawEdgeY);
+
+	endX = __max(endX, drawStartX);
+	endX = __min(endX, drawEdgeX);
+	endY = __max(endY, drawStartY);
+	endY = __min(endY, drawEdgeY);
+
+	//Check if decal too large to fit inside 65536 index buffer.
+	//try clipping each direction to < 104 since that's more than
+	//enough to cover typical map.
+	Int numExtraX = (endX - startX + 1) - 104;
+	if (numExtraX > 0)
+	{	//figure out how much to clip out at each edge of decal
+		Int numStartExtraX = REAL_TO_INT_FLOOR((float)numExtraX / 2.0f);
+		Int numEdgeExtraX = numExtraX - numStartExtraX;
+		startX += numStartExtraX;
+		endX -= numEdgeExtraX;
+	}
+	Int numExtraY = (endY - startY + 1) - 104;
+	if (numExtraY > 0)
+	{
+		Int numStartExtraY = REAL_TO_INT_FLOOR((float)numExtraY / 2.0f);
+		Int numEdgeExtraY = numExtraY - numStartExtraY;
+		startY += numStartExtraY;
+		endY -= numEdgeExtraY;
+	}
+
+	Int vertsPerRow = endX - startX + 1; //number of cells +1
+	Int vertsPerColumn = endY - startY + 1; //number of cells +1
+	if (vertsPerRow <= 1)
+		return; //nothing to render
+	if (vertsPerColumn <= 1)
+		return;
+
+	Int numVerts = vertsPerRow * vertsPerColumn; //number of terrain vertices
+	Int numPolys = (endX - startX) * (endY - startY) * 2;
+	Int numIndex = numPolys * 3; //6 indices per terrain cell (2 triangles).
+
+	Bool flushed = false;
+	if (m_numDecalVertsInBuffer + numVerts > 0x8000 || m_numDecalIndicesInBuffer + numIndex > 0x10000) //check if room for model verts
+	{
+		//flush the buffer by drawing the contents and re-locking again
+		flushDecals(shadow->m_type, shadow->m_shadowTexture[0], shadow->m_shadowTexture[1], flushFlags);
+		m_decalStartVertex = 0;
+		m_decalStartIndex = 0;
+		m_numDecalPolysInBatch = 0; //reset number of polys in texture batch
+		m_numDecalVertsInBatch = 0;
+		m_numDecalVertsInBuffer = 0;
+		m_numDecalIndicesInBuffer = 0;
+		flushed = true;
+	}
+
+	{
+	VertexBufferClass::AppendLockClass lockVtxBuffer(m_dynamicDecalVertexBuffer, m_numDecalVertsInBuffer, numVerts, flushed ? 0x2000 : 0x1000);
+	SHADOW_DECAL_DUAL_VERTEX *pvVertices = (SHADOW_DECAL_DUAL_VERTEX *)lockVtxBuffer.Get_Vertex_Array();
+	if (!pvVertices)
+		return;
+	IndexBufferClass::AppendLockClass lockIdxBuffer(m_dynamicDecalIndexBuffer, m_numDecalIndicesInBuffer, numIndex, flushed ? 0x2000 : 0x1000);
+	UnsignedShort *pvIndices = lockIdxBuffer.Get_Index_Array();
+	if (!pvIndices)
+		return;
+
+	Vector3 hmapVertex;
+	Vector3 decalVertex;
+	SHADOW_DECAL_DUAL_VERTEX *firstVertex = pvVertices;
+	//insert each cell's bottom/left edge vertex
+	for (Int j = startY; j <= endY; j++)
+	{
+		hmapVertex.Y = (float)(j - borderSize) * MAP_XY_FACTOR;
+		for (Int i = startX; i <= endX; i++)
+		{
+			hmapVertex.X = (float)(i - borderSize) * MAP_XY_FACTOR;
+			Real terrainZ = (float)hmap->getHeight(i, j) * MAP_HEIGHT_SCALE;
+			hmapVertex.Z = std::max(terrainZ, bridgeHeight);
+			decalVertex = hmapVertex - objPos;
+			pvVertices->x = hmapVertex.X;
+			pvVertices->y = hmapVertex.Y;
+			pvVertices->z = hmapVertex.Z;
+			pvVertices->diffuse = diffuse;
+			pvVertices->u0 = Vector3::Dot_Product(uVector, decalVertex) + uOffset;
+			pvVertices->v0 = Vector3::Dot_Product(vVector, decalVertex) + vOffset;
+			pvVertices->u1 = 0.0f;
+			pvVertices->v1 = 0.0f;
+			pvVertices++;
+		}
+	}
+
+	if (shadow->m_type == 0x2000)
+	{
+		TerrainResourceManager *resources = ((GameLogicView10C841 *)TheGameLogic)->m_terrainResources;
+		if (resources)
+		{
+			Int playerIndex = -1;
+			PlayerView10C841 *player = ((PlayerListView10C841 *)ThePlayerList)->getLocalPlayer();
+			if (player)
+				playerIndex = player->getPlayerIndex();
+			pvVertices = firstVertex;
+			for (Int j = startY; j <= endY; j++)
+			{
+				for (Int i = startX; i <= endX; i++)
+				{
+					resources->rva0035A61F(&pvVertices->diffuse, i - borderSize, j - borderSize, playerIndex);
+					pvVertices++;
+				}
+			}
+		}
+	}
+
+	//fill each cell's vertex indices
+	Int rowStart, j;
+	for (j = startY, rowStart = 0; j < endY; j++, rowStart += vertsPerRow)
+	{
+		for (Int i = rowStart, k = startX; k < endX; i++, k++)
+		{
+			///@todo: fix the winding order in heightmap to be in strip order like above!
+			if (((const Gen_0074B410 *)hmap)->bfmeBitA(k, j))
+			{
+				pvIndices[0] = i + 1 + m_numDecalVertsInBatch;
+				pvIndices[1] = i + vertsPerRow + m_numDecalVertsInBatch;
+				pvIndices[2] = i + m_numDecalVertsInBatch;
+				pvIndices[3] = i + 1 + m_numDecalVertsInBatch;
+				pvIndices[4] = i + 1 + vertsPerRow + m_numDecalVertsInBatch;
+				pvIndices[5] = i + vertsPerRow + m_numDecalVertsInBatch;
+			}
+			else
+			{
+				pvIndices[0] = i + m_numDecalVertsInBatch;
+				pvIndices[1] = i + 1 + vertsPerRow + m_numDecalVertsInBatch;
+				pvIndices[2] = i + vertsPerRow + m_numDecalVertsInBatch;
+				pvIndices[3] = i + m_numDecalVertsInBatch;
+				pvIndices[4] = i + 1 + m_numDecalVertsInBatch;
+				pvIndices[5] = i + 1 + vertsPerRow + m_numDecalVertsInBatch;
+			}
+			pvIndices += 6;
+		}
+	}
+	}
+
+	m_numDecalPolysInBatch += numPolys;
 	m_numDecalVertsInBuffer += numVerts;
 	m_numDecalVertsInBatch += numVerts;
 	m_numDecalIndicesInBuffer += numIndex;
