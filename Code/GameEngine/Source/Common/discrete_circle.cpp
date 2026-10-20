@@ -68,6 +68,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "prerts.h"
 #include "coord.h"
 #include "../../../../reference/open-bfme-1/game/GameEngine/Source/Common/discrete_circle.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UHorzLine@@@_STL@@QBEXPAUHorzLine@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct HorzLine;
+namespace _STL { template <> void allocator<HorzLine>::deallocate(HorzLine *,unsigned int) const; }
 
 //-------------------------------------------------------------------------------------------------
 DiscreteCircle::DiscreteCircle(Int xCenter, Int yCenter, Int radius)
