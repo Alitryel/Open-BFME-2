@@ -63,6 +63,13 @@ draft and `next_work.py` serves `wpo` candidates last.
   block linking. CreateAHeroManager::GetSubClassDefaultBlingId 0x0021BF11
   closed once a hand-written `ClassVector` view became
   `std::vector<CreateAHeroClass>`.
+- **Inlined `DynamicVectorClass::Add` growth sum: read `GrowthStep` into a
+  local.** Retail's `Resize(Length() + GrowthStep)` adds into the Length()
+  register (`add ecx,eax; push 0; push ecx`). The shared vector.h spelling
+  adds into EAX, and that one tie-break also swapped a later edi/ebx reload.
+  Specialize the element's `Add` in the TU with `int growth = GrowthStep;`.
+  Collect_Materials 0x001703D0, Render2DSentenceClass::Draw_Sentence
+  0x00155B00.
 
 ## Flags
 
