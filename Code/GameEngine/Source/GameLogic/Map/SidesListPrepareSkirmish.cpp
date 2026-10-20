@@ -1,12 +1,5 @@
-// ?rva0032FF91@SidesList@@QAEXXZ
-// partial score=0.864 date=2026-10-19
-// ?rva0032FF91@SidesList@@QAEXXZ
-// partial score=0.864 date=2026-10-17
-// ?rva0032FF91@SidesList@@QAEXXZ
-// partial score=0.85 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //
-// ?rva0032FF91@SidesList@@QAEXXZ
 // retail 0x0032FF91..0x00330440 (1199 bytes) thiscall no arguments, EH frame.
 //
 // BFME2's skirmish preparation of the map's sides (the role of Zero Hour's
@@ -28,6 +21,11 @@
 // runs the rowed 0x0032FEF5 and 0x0032C2C4 passes and the script pass again;
 // then swaps the twenty sides and the team record into the skirmish slots
 // at +0x7C4 (count +0x7C0) and +0xF60.
+// Retail's allocation (this in ebx, the side index in [ebp-0x10]) needs the
+// side loop as a guarded do-while on getNumSides() and the playerAIType
+// type held in a local.
+// stlport
+#include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
 
@@ -151,15 +149,10 @@ public:
 
 private:
 	char m_index[0x0C];
-	TeamsInfoEntry *m_teams;			// +0x0C, vector start
-	char m_rest[0x1C - 0x10];
+	_STL::vector<TeamsInfoEntry> m_teams;			// +0x0C, vector start
+	char m_rest[0x1C - 0x18];
 };
 
-class Rva0032FEF5
-{
-public:
-	void rva0032FEF5();					// 0x0032FEF5
-};
 
 enum { MAX_PLAYER_COUNT = 20 };
 
@@ -169,8 +162,10 @@ public:
 	SidesList();						// 0x0032EE24
 	virtual ~SidesList();				// 0x0032EC63
 	void rva0032FF91();
+	void rva0032FEF5();
 	int addSide(const Dict *dict);		// 0x0032D076
 	void removeSide(int side);			// 0x0032D850
+	int getNumSides() const { return m_numSides; }
 
 	char m_bases[0x3C - 4];
 	int m_numSides;						// +0x3C
@@ -188,23 +183,25 @@ void SidesList::rva0032FF91()
 	newSides.m_teamrec = m_teamrec;
 
 	int i = 0;
-	volatile int vi = 0;
-	for (; i < m_numSides; )
+	if (m_numSides > 0)
 	{
-		AsciiString name = m_sides[i].getDict()->getAsciiString(TheKey_playerName);
-		bool isCivilian = name.isEmpty() || name.compare("PlyrCivilian") == 0 || name.compare("PlyrCreeps") == 0;
-		if (isCivilian)
+		do
 		{
-			m_sides[i].getDict()->setBool(TheKey_playerIsHuman, false);
-			i = i + 1;
-		}
-		else
-		{
-			newSides.m_sides[newSides.m_numSides].swap(&m_sides[i]);
-			newSides.m_sides[newSides.m_numSides].m_scripts.rva003B693A();
-			newSides.m_numSides++;
-			removeSide(i);
-		}
+			AsciiString name = m_sides[i].getDict()->getAsciiString(TheKey_playerName);
+			bool isCivilian = name.isEmpty() || name.compare("PlyrCivilian") == 0 || name.compare("PlyrCreeps") == 0;
+			if (isCivilian)
+			{
+				m_sides[i].getDict()->setBool(TheKey_playerIsHuman, false);
+				i++;
+			}
+			else
+			{
+				newSides.m_sides[newSides.m_numSides].swap(&m_sides[i]);
+				newSides.m_sides[newSides.m_numSides].m_scripts.rva003B693A();
+				newSides.m_numSides++;
+				removeSide(i);
+			}
+		} while (i < getNumSides());
 	}
 
 	int id = m_teamrec.getFirstTeamID();
@@ -222,7 +219,8 @@ void SidesList::rva0032FF91()
 	for (int j = 0; j < newSides.m_numSides; ++j)
 	{
 		Dict *dict = newSides.m_sides[j].getDict();
-		if (dict->getType(TheKey_playerAIType) != Dict::DICT_ASCIISTRING)
+		int type = dict->getType(TheKey_playerAIType);
+		if (type != Dict::DICT_ASCIISTRING)
 		{
 			AsciiString faction = dict->getAsciiString(TheKey_playerFaction);
 			const PlayerTemplate *pt = ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(faction));
@@ -249,7 +247,7 @@ void SidesList::rva0032FF91()
 	d.setBool(TheKey_teamIsSingleton, true);
 	newSides.m_teamrec.addTeam(&d);
 
-	((Rva0032FEF5 *)&newSides)->rva0032FEF5();
+	newSides.rva0032FEF5();
 	for (int k = 0; k < newSides.m_numSides; ++k)
 		newSides.m_sides[k].m_scripts.rva003B693A();
 	newSides.m_teamrec.rva0032C2C4();
