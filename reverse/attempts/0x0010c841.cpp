@@ -1,6 +1,8 @@
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
 // partial score=0.99 date=2026-10-20
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
+// partial score=0.99 date=2026-10-20
+// ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
 // partial score=0.96 date=2026-10-19
 // r3 (claude-opus-5.5, 2026-10-19): bank 0.95 + explicit WB-order inline transform (aliasing tmp copy, row-wise X/Y/Z sums) -> Y/Z term order exact; align 4/58/2 (was 4/66/2), 4655/4656. Residue: m_type EAX load, src/bridge/terrainHeight slot cycle, caster/terrain lock cleanup cross-jump order. Handoff reverse/attempt_support/rva0010c841-20261019.md
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
