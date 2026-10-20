@@ -1,10 +1,99 @@
 // cl: /Od /Ob1 /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
 // stlport
-// STLport-style const char range replace at retail 0x008314E0 that handles a source range inside the string.
-// Inline helpers are defined so /Ob1 reserves retail's frame slots, including those of calls it declines to inline.
+// Const-source range insertion at RVA 0x00028820 and aliased replacement at RVA 0x0002B050.
+// Semantic guide: BFME 1 STLport 4.6 _string.h at donor revision
+// 92f6bbe8e1dcdb46b5d27da0674313efc822b790. Compilation keeps BFME 2's existing
+// toolchain/header context. Retail independently establishes the three-pointer
+// layout, overlap handling, terminator movement and allocation/copy/release calls.
+// Source constness is supported by the standard const-string callers and donor
+// overloads; the existing neutral names and pointer ABI carriers are retained.
 
 #include <string.h>
-#include <memory>
+// Bound nested helper expansion to reproduce both retail stack frames.
+// This is a reconstruction compiler setting, not a claim about the original build.
+#pragma inline_depth(6)
+namespace _STL
+{
+template <class CharT>
+class char_traits;
+
+template <>
+class char_traits<char>
+{
+public:
+	static void assign(char &destination, const char &source);
+};
+
+template <class _Tp>
+class allocator;
+
+template <>
+class allocator<char>
+{
+public:
+	static char *allocate(unsigned int __n, const void *);
+};
+
+void *__copy_trivial(const void *__first, const void *__last, void *__result);
+// Retail calls the shared empty destruction body at RVA 0x0069E440.
+// Keep its existing neutral binding; the declaration does not claim its original name.
+void Rva0069E440Destroy(char *, char *);
+
+struct __true_type
+{
+};
+
+// The POD-dispatch structure shared by the STLport sources. The four mutable
+// buffer copies keep this analysis context and the existing neutral call binding.
+// Their retail calls reach __copy_trivial at RVA 0x000179B0.
+template <class _Tp1, class _Tp2>
+struct _BothPtrType;
+
+template <class _Tp1, class _Tp2>
+struct _BothPtrType<_Tp1 *, _Tp2 *>
+{
+	static __true_type _Ret() { return __true_type(); }
+};
+
+template <class _Tp1, class _Tp2>
+struct _OKToMemCpy
+{
+	typedef __true_type _Type;
+	static _Type _Ret() { return _Type(); }
+};
+
+template <class _Tp1, class _Tp2>
+inline _OKToMemCpy<_Tp1, _Tp2> _IsOKToMemCpy(_Tp1 *, _Tp2 *)
+{
+	return _OKToMemCpy<_Tp1, _Tp2>();
+}
+
+template <class _InputIter, class _OutputIter>
+inline _OutputIter __copy_ptrs(_InputIter __first, _InputIter __last, _OutputIter __result, const __true_type &)
+{
+	return (_OutputIter)__copy_trivial(__first, __last, __result);
+}
+
+template <class _InputIter, class _OutputIter>
+inline _OutputIter __copy_aux(_InputIter __first, _InputIter __last, _OutputIter __result, const __true_type &)
+{
+	return __copy_ptrs(__first, __last, __result, _IsOKToMemCpy((char *)0, (char *)0)._Ret());
+}
+
+template <class _InputIter, class _ForwardIter>
+inline _ForwardIter __uninitialized_copy(_InputIter __first, _InputIter __last, _ForwardIter __result, const __true_type &)
+{
+	return __copy_aux(__first, __last, __result, _BothPtrType<_InputIter, _ForwardIter>::_Ret());
+}
+
+template <class _InputIter, class _ForwardIter>
+inline _ForwardIter Rva000179B0UninitializedCopy(_InputIter __first, _InputIter __last, _ForwardIter __result)
+{
+	return __uninitialized_copy(__first, __last, __result, __true_type());
+}
+}
+
+extern "C" void free(void *);
 
 #pragma intrinsic(memcpy)
 
@@ -45,40 +134,13 @@ inline void advance(_InputIterator &__i, _Distance __n)
 	__advance(__i, __n, BfmeRangeTag());
 }
 
-struct BfmeRangeTrueType
-{
-};
-
-template <class _Tp>
-inline _Tp *bfmeValueType(const _Tp *, const BfmeRangeTrueType &)
-{
-	return (_Tp *)0;
-}
-
-template <class _ForwardIterator>
-inline void bfmeDestroyAux(_ForwardIterator, _ForwardIterator, const BfmeRangeTrueType &)
-{
-}
-
-template <class _ForwardIterator, class _Tp>
-inline void bfmeDestroyTyped(_ForwardIterator __first, _ForwardIterator __last, _Tp *)
-{
-	bfmeDestroyAux(__first, __last, BfmeRangeTrueType());
-}
-
-template <class _ForwardIterator>
-inline void bfmeDestroy(_ForwardIterator __first, _ForwardIterator __last)
-{
-	bfmeDestroyTyped(__first, __last, bfmeValueType(__first, BfmeRangeTrueType()));
-}
-
 class Rva008314E0String
 {
 public:
 	Rva008314E0String &replaceRange(char *first, char *last,
 		char *sourceFirst, char *sourceLast, const BfmeRangeTag &tag);
 
-	// Out of line in retail (thunk 0x00007C1B); the body mirrors STLport's erase.
+	// Erase at RVA 0x00012150; the body mirrors STLport's erase.
 	char *erase(char *__first, char *__last)
 	{
 		if (__first != __last)
@@ -90,7 +152,8 @@ public:
 		return __first;
 	}
 
-	// Forward-iterator insert, out of line in retail at 0x00830410; this body models the slots it reserves.
+	// Forward-range insertion at RVA 0x00028820. The two source-range copies use
+	// the const-char overload's direct __copy_trivial call; four buffer copies use POD dispatch.
 	void insertRange(char *__position, char *__first, char *__last, const BfmeRangeTag &)
 	{
 		if (__first != __last)
@@ -102,7 +165,7 @@ public:
 				char *__old_finish = m_finish;
 				if (__elems_after >= __n)
 				{
-					_STL::uninitialized_copy((m_finish - __n) + 1, m_finish + 1, m_finish + 1);
+					_STL::Rva000179B0UninitializedCopy((m_finish - __n) + 1, m_finish + 1, m_finish + 1);
 					m_finish += __n;
 					move(__position + __n, __position, (__elems_after - __n) + 1);
 					copyIter(__first, __last, __position);
@@ -111,9 +174,9 @@ public:
 				{
 					char *__mid = __first;
 					advance(__mid, __elems_after + 1);
-					uninitializedCopyFwd(__mid, __last, m_finish + 1);
+					_STL::__copy_trivial(__mid, __last, m_finish + 1);
 					m_finish += __n - __elems_after;
-					_STL::uninitialized_copy(__position, __old_finish + 1, m_finish);
+					_STL::Rva000179B0UninitializedCopy(__position, __old_finish + 1, m_finish);
 					m_finish += __elems_after;
 					copyIter(__first, __mid, __position);
 				}
@@ -124,11 +187,11 @@ public:
 				const unsigned int __len = __old_size + maxOf(__old_size, (unsigned int)__n) + 1;
 				char *__new_start = allocate(__len);
 				char *__new_finish = __new_start;
-				__new_finish = _STL::uninitialized_copy(m_start, __position, __new_start);
-				__new_finish = uninitializedCopyFwd(__first, __last, __new_finish);
-				__new_finish = _STL::uninitialized_copy(__position, m_finish, __new_finish);
+				__new_finish = _STL::Rva000179B0UninitializedCopy(m_start, __position, __new_start);
+				__new_finish = (char *)_STL::__copy_trivial(__first, __last, __new_finish);
+				__new_finish = _STL::Rva000179B0UninitializedCopy(__position, m_finish, __new_finish);
 				constructNull(__new_finish);
-				bfmeDestroy(m_start, m_finish + 1);
+				_STL::Rva0069E440Destroy(m_start, m_finish + 1);
 				deallocateBlock();
 				m_start = __new_start;
 				m_finish = __new_finish;
@@ -142,22 +205,17 @@ public:
 	{
 		move(__result, __first, __last - __first);
 	}
-	static char *uninitializedCopyFwd(const char *first, const char *last, char *result);
-	static char *allocateLarge(unsigned int n);
-	static char *allocateNode(unsigned int n);
-	static char *allocate(unsigned int n)
-	{
-		return n != 0 ? (n > 128 ? allocateLarge(n) : allocateNode(n)) : 0;
-	}
+	char *allocate(unsigned int n) const { return n != 0 ? _STL::allocator<char>::allocate(n, 0) : 0; }
 	static const unsigned int &maxOf(const unsigned int &a, const unsigned int &b)
 	{
 		return a < b ? b : a;
 	}
-	void constructNullAux(char *p, const BfmeRangeFalseType &) { *p = 0; }
-	void constructNull(char *p) { constructNullAux(p, BfmeRangeFalseType()); }
-	void deallocateBlock();
+	void constructNullAux(char *p, const _STL::__true_type &) { *p = 0; }
+	void constructNull(char *p) { constructNullAux(p, _STL::__true_type()); }
+	void deallocate(char *p, size_t) const { if (p != 0) free(p); }
+	void deallocateBlock() { deallocate(m_start, m_endOfStorage - m_start); }
 
-	// Out of line in retail at 0x00830DE0: the plain forward-iterator replace.
+	// Plain forward-iterator replace at RVA 0x0002A730.
 	Rva008314E0String &replaceBase(char *__first, char *__last, char *__f,
 		char *__l, const BfmeRangeTag &)
 	{
