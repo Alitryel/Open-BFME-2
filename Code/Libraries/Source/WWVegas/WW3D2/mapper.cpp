@@ -636,3 +636,52 @@ void WSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 						0.0f, 0.0f, 0.0f, 1.0f );
 	tex_matrix = tex_matrix * mat2;
 }
+
+// Existing target 0x00186F10 (1166 bytes), moved home from the split unit.
+// EA GeneralsMD body; native vftable slot +0x24 and WB 0x00A38240 identify it.
+void GridWSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
+{
+	// multiply by inverse of view transform
+	Matrix4x4 mat;
+	DX8Wrapper::Get_Transform(D3DTS_VIEW,mat);
+	Matrix4x4 mv (	mat[0].X, mat[1].X, mat[2].X, 0.0f,
+						mat[0].Y, mat[1].Y, mat[2].Y, 0.0f,
+						mat[0].Z, mat[1].Z, mat[2].Z, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.0f );
+
+	update_temporal_state();
+
+	float u_offset, v_offset;
+	calculate_uv_offset(&u_offset, &v_offset);
+
+	float del=0.5f * OOGridWidth;
+	// Set up the offset matrix
+	Matrix4x4 md;
+
+	switch (Axis) {
+		case AXISTYPE_X:
+			md.Init(				0.0f, del, 0.0f, u_offset + del,
+									0.0f, 0.0f, del, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Y:
+			md.Init(				del, 0.0f, 0.0f, u_offset + del,
+									0.0f, 0.0f, del, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+		case AXISTYPE_Z:
+		default:
+			md.Init(				del, 0.0f, 0.0f, u_offset + del,
+									0.0f, del, 0.0f, v_offset + del,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f );
+			break;
+	}
+	// multiply by inverse of view transform, then
+	// change the world space reflection vector to a UV coordinate
+	// then offset by the grid coordinate
+
+	tex_matrix = md * mv;
+}
