@@ -12,7 +12,7 @@
 // for retail vtable 0x00BBB910. Layout is three AsciiStrings at +4/+8/+0x0C
 // plus bool at +0x10.
 
-#include "ascii_string.h"
+#include "Rva004E179A.h"
 
 class UnicodeString;
 class PooledString;
@@ -94,24 +94,6 @@ public:
 
 	unsigned char m_current;
 	unsigned char m_minimum;
-};
-
-class Rva004E179ABase
-{
-public:
-	virtual ~Rva004E179ABase() {}
-};
-
-class Rva004E179A : public Rva004E179ABase
-{
-public:
-	virtual ~Rva004E179A();
-	virtual void DoXfer(Xfer &xfer);
-
-	AsciiString m_member04;
-	AsciiString m_member08;
-	AsciiString m_member0C;
-	bool m_bool10;
 };
 
 void Rva004E179A::DoXfer(Xfer &xfer)
