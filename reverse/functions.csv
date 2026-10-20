@@ -84958,22 +84958,15 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?addArchiveFile@Win32BIGFileSystem@@UAE_NPBD_N@Z,,0x006046B0,314,Code/GameEngine/Source/GameClient/Win32BIGFileSystemRva006046B0.cpp,matched,banked partial closed by tools/permute.py; identity carried from the banked attempt
 ?j_00053ec3@@YAXXZ,,0x00053EC3,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00051B89
 ?j_000f1ca1@@YAXXZ,,0x000F1CA1,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x000F0E20
-?j_00152659@@YAXXZ,,0x00152659,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001524F9
 ?j_0018c737@@YAXXZ,,0x0018C737,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0018C6D5
-?j_001df428@@YAXXZ,,0x001DF428,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001DF2D3
 ?j_001e6f22@@YAXXZ,,0x001E6F22,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001E6731
 ?j_001f887e@@YAXXZ,,0x001F887E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001F8810
-?j_00359269@@YAXXZ,,0x00359269,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00358FA5
-?j_0035980c@@YAXXZ,,0x0035980C,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003597C3
 ?j_00383ead@@YAXXZ,,0x00383EAD,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00383A28
-?j_00385f24@@YAXXZ,,0x00385F24,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00385CBA
 ?j_00399273@@YAXXZ,,0x00399273,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00398257
 ?j_0039b433@@YAXXZ,,0x0039B433,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0039B20C
 ?j_0039fb0c@@YAXXZ,,0x0039FB0C,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0039F56E
 ?j_003bd41f@@YAXXZ,,0x003BD41F,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x004E400D
 ?j_003f2942@@YAXXZ,,0x003F2942,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003F2330
-?j_003f3744@@YAXXZ,,0x003F3744,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003F35E3
-?j_003f5724@@YAXXZ,,0x003F5724,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003F53DA
 ?j_0040c5d9@@YAXXZ,,0x0040C5D9,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0040C5DE
 ?j_00415adb@@YAXXZ,,0x00415ADB,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x004159AA
 ?j_0041a51a@@YAXXZ,,0x0041A51A,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0041A486
@@ -84983,12 +84976,8 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?j_00422638@@YAXXZ,,0x00422638,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00421EEA
 ?j_0042833f@@YAXXZ,,0x0042833F,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0042818F
 ?j_00435cf9@@YAXXZ,,0x00435CF9,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00435B4F
-?j_0043993e@@YAXXZ,,0x0043993E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00439862
 ?j_0043b65b@@YAXXZ,,0x0043B65B,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0043B4B4
 ?j_0043b6b5@@YAXXZ,,0x0043B6B5,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0043B4EC
-?j_004643c9@@YAXXZ,,0x004643C9,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00463D9B
-?j_0046491e@@YAXXZ,,0x0046491E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x004643E8
-?j_0046aade@@YAXXZ,,0x0046AADE,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x004633FC
 ?j_0046e2ce@@YAXXZ,,0x0046E2CE,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0046AB7D
 ?j_004766e3@@YAXXZ,,0x004766E3,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00470DC1
 ?j_0047a69f@@YAXXZ,,0x0047A69F,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x004697E1
