@@ -10,6 +10,7 @@ public:
 private:
     friend class Rva002EB448;
     friend class Rva001FF36A;
+    friend struct Rva007ABEF3ArgCtorInits; // static initializer 0x007AD5A9 grows g_Va00DB9440
     bool rva002E8548(int arena, int size);
 public:
     int m_00; // default node count

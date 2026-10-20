@@ -7,6 +7,7 @@
 // keeps an honest address name and each object an address-named extern.
 
 #include "../../Include/Common/Rva00041004Lock.h"
+#include "../../Include/Common/Rva002E8548Pool.h"
 
 extern "C" int __cdecl atexit(void (__cdecl *)(void));
 
@@ -81,6 +82,7 @@ void __cdecl rva007B7400();
 void __cdecl rva007B70AB();
 void __cdecl rva007B7B14();
 void __cdecl rva007B6C2A();
+void __cdecl rva007B75C4();
 
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
@@ -175,6 +177,7 @@ struct Rva007ABEF3ArgCtorInits
 	static void rva007ACDAC();
 	static void rva007AE806();
 	static void rva007AC0FA();
+	static void rva007AD5A9();
 };
 
 // 0x007ABEF3 (26B): 0x0006EFC8(0, -1) on VA 0x00DB424C, atexit(0x007B6B91 -> 0x001EAF7B)
@@ -304,4 +307,11 @@ void Rva007ABEF3ArgCtorInits::rva007AC0FA()
 {
 	( (Pod4Vector *)&BfmeFontCharsCache )->Pod4Vector::SimpleDynVecClass( 0 );
 	atexit( rva007B6C2A );
+}
+
+// 0x007AD5A9 (26B): pool grow 0x002E8548(0, -1) on VA 0x00DB9440, atexit(0x007B75C4 -> 0x001EAF7B)
+void Rva007ABEF3ArgCtorInits::rva007AD5A9()
+{
+	g_Va00DB9440.rva002E8548( 0, -1 );
+	atexit( rva007B75C4 );
 }
