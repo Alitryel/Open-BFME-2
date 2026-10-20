@@ -2,6 +2,10 @@
 // stlport
 // ?rva00359811@Rva00359811@@QAEIABURva003597C3Element@@_N@Z 0x00359811 27B; branch and set erase call are retail evidence
 #include <set>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@URva003597C3Element@@@_STL@@@_STL@@QBEXPAU?$_Rb_t:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003597C3Element;
+namespace _STL { template <> void allocator<_Rb_tree_node<Rva003597C3Element> >::deallocate(_Rb_tree_node<Rva003597C3Element> *,unsigned int) const; }
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
