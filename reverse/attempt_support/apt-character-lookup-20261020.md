@@ -252,3 +252,57 @@ Next leads (untested):
    11/13/14/15 into it, plus 18->10 with retail's `mov esi` form);
 3. case 17 as `if(IsEmpty()) return gUndef; return makeLookupString(..);`
    inside the full TU (the earlier probes used synthetic TUs only).
+
+## Round claudeb2 e11-e15 (2026-10-20, claude-opus-5-5): merge mechanism
+
+Best is still L0011 (fitness 0.79096, align sum 112), banked in 684db5cf09.
+Lead 3 tested: case 17 inverted inside the full TU gives +1 (worse).
+Leads 1 and 2 are now explained by the mechanism below; neither as written
+reaches retail's merge set.
+
+Disproved (do not repeat):
+- e11: the declaration order of `word`/`number`/`result` has no effect;
+- e12: `makeLookupString` inline vs a string literal has no effect;
+- e13: the WB shape `if(word){switch..} return 0;` crossed with label
+  position and goto sets gives 112 at best (= L0011);
+- e14: reordering cases 11-15 has no effect; moving 18-21 directly after 10
+  kills every merge (see rotation below).
+
+Mechanism findings (target codegen facts, not source facts):
+- The case-tail merges are post-register-allocation cross-jumps that run
+  before the peephole that folds `mov r,[m]; test r,imm` into `test [m],imm`.
+  They need identical registers. 18 merges into 10's
+  `mov esi,[eax+0x2c]; test esi,0xffffff; setne cl; push ecx` only when
+  18's scratch registers equal 10's. Without the merge, 18 shows the
+  `[ecx+0x30]/setne dl` or `[edx+0x30]/setne al` form and the load folds.
+- The scratch registers rotate eax/ecx/edx mod 3 over the cases. In the e14
+  power-set over 11/13/14/15/18 as knockouts, the merge happens exactly when
+  (refresh cases kept among 11/14/15 + 2*[13 kept]) mod 3 == 2. Filler cases
+  can realign the rotation.
+- Direction: with plain returns, the identical tail keeps the LATER copy
+  (10 jumps into 18). With 10 doing `goto done` and `done: return result;`
+  at the function end (c10, `build`-local e5/c10.cpp), the EARLIER copy (10)
+  is kept, as in retail.
+- POP merges (`add esp,4` tails of 11/13/14/15 into 10) in c10 are
+  all-or-nothing. They need the 18->10 T-merge seed and enough switch-2
+  cases: with 13 or fewer non-factory switch-2 cases only the T-merge occurs,
+  with 14 or more (any 14; dropping any single one of the 23 keeps them) the
+  full merge occurs. Switch-1 cases 1-9, 12, 16, 17 and 19-21 are irrelevant
+  while the rotation stays aligned.
+- In c10 the POP-merged set is exactly the add-esp-4 cases strictly between
+  the kept block (10) and the T-partner (18). In retail it is 18 and after
+  (19/20, 21, the switch-2 MakeFloat copies and the clamp), with J at 10.
+- Small synthetic probes (q15) reproduce the T-merge only when the rotation
+  aligns. They never reproduced POP merges, not even with 24 extra
+  non-candidate switch-2 returns, so the threshold depends on the
+  switch-2 candidate tails rather than a raw case count.
+
+Next leads:
+1. find a source where the T-partner of 10 brackets 18..end. The POP window
+   seems to run from the kept block to the T-partner, so the partner should
+   be the last candidate (switch-2 MakeFloat/clamp tail), with 18 aligned by
+   rotation;
+2. L0011 plus fillers or reordering to realign 18's registers with 10
+   (L0011 lost the 18->10 T-merge);
+3. tell apart a case-count threshold from a tail-size one at Z13->Z14:
+   pad one Z13 case, or swap the 14th case.
