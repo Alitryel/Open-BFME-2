@@ -6,8 +6,8 @@
 // table: UnitSpecificSounds at +0x1C8, Chance at +0x1D4, VoicePriority at
 // +0x1D8, RerollOnEveryFrame at +0x1DD. The +8 region is a 448-byte array
 // member (56 8-byte elements built by the 5-arg ehvec in 0x254FE4); the
-// +0x1C8 member is 12 bytes built by 0x24613C. Both are TU-local opaque
-// members with pins. The empty base (inline-empty ctor plus declared-only
+// +0x1C8 member is 12 bytes built by the rowed map ctor 0x24613C. Both are
+// declaration-only views. The empty base (inline-empty ctor plus declared-only
 // dtor) drives the two EH states with zero emitted code (Topple pattern);
 // without it the TU emits a single state. Chance defaults to 0.5 as a
 // literal (pool-merged movss, address masked).
@@ -67,23 +67,39 @@ private:
 	unsigned char m_data[0x1C0];
 };
 
-class Rva0024613CMember
+// The +0x1C8 member's ctor is the rowed pod-map ctor 0x0024613C, spelled as
+// Rva007ACDE1StlGlobalInits.cpp spells it; only the 12-byte header is modelled.
+struct BfmePod8;
+namespace _STL
+{
+template <class T> struct less;
+template <class A, class B> struct pair;
+template <class T> class allocator;
+
+template <class K, class V, class C = less<K>, class A = allocator<pair<const K, V> > >
+class map
 {
 public:
-	Rva0024613CMember();
-	~Rva0024613CMember();
+	map();
+	~map();
 
 private:
 	unsigned char m_data[0x0C];
 };
+}
 
-struct EmptyModuleDataBase
+typedef _STL::map<int, BfmePod8> Rva0024613CMap;
+
+// Retail's state-0 unwind funclet 0x00772097 jumps to the ModuleData dtor fold 0x0049B47C,
+// rowed for this base as ??1ModuleDataBase@@QAE@XZ (AnimationSteeringUpdateModuleDataCtor.cpp).
+class ModuleDataBase
 {
-	EmptyModuleDataBase() {}
-	~EmptyModuleDataBase();
+public:
+	__declspec(dllimport) __forceinline ModuleDataBase() {}
+	~ModuleDataBase();
 };
 
-class RandomSoundSelectorClientBehaviorModuleData : public EmptyModuleDataBase
+class RandomSoundSelectorClientBehaviorModuleData : public ModuleDataBase
 {
 public:
 	RandomSoundSelectorClientBehaviorModuleData();
@@ -92,7 +108,7 @@ private:
 	unsigned int m_vtable; // +0x00
 	unsigned int m_pad04; // +0x04
 	Rva00254FE4Member m_08; // +0x08 (0x1C0 bytes)
-	Rva0024613CMember m_unitSpecificSounds; // +0x1C8
+	Rva0024613CMap m_unitSpecificSounds; // +0x1C8
 	float m_chance; // +0x1D4
 	int m_voicePriority; // +0x1D8
 	bool m_unknown1DC; // +0x1DC

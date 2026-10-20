@@ -46,24 +46,28 @@ private:
 	int m_f1c;
 };
 
-class ALU_UpgradeMux
+class UpgradeMux
 {
 public:
-	ALU_UpgradeMux();
-	virtual void slot();
+	UpgradeMux();
+	// Rowed: slot 0 of retail's UpgradeMux table 0x00C5FF10 and of this class's 0x00C58C70.
+	virtual bool isAlreadyUpgraded() const;
 
 private:
 	bool m_upgradeExecuted;
 };
 
-class ALU_Iface4 { public: virtual void slot(); };
+// Slot 0 of the interface table 0x00C1C780 is __purecall.
+class ALU_Iface4 { public: virtual void rva004B7E3C(int) = 0; };
 
 class AudioLoopUpgrade : public UpdateModule,
-	public ALU_UpgradeMux,
+	public UpgradeMux,
 	public ALU_Iface4
 {
 public:
 	AudioLoopUpgrade(Thing *, const ModuleData *);
+	// Rowed in AudioLoopUpgradeRva004B7E3C.cpp: slot 0 of retail's table 0x00C58C68.
+	virtual void rva004B7E3C(int);
 
 private:
 	int m_x2c;
@@ -71,13 +75,8 @@ private:
 
 // ??0AudioLoopUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z
 AudioLoopUpgrade::AudioLoopUpgrade(Thing *thing, const ModuleData *moduleData)
-	: UpdateModule(thing, moduleData), ALU_UpgradeMux()
+	: UpdateModule(thing, moduleData), UpgradeMux()
 {
 	m_x2c = 1;
 	setWakeFrame(getObject(), UPDATE_SLEEP_FOREVER);
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?slot@ALU_UpgradeMux@@UAEXXZ=?Is_Valid@RegistryClass@@QAE_NXZ")

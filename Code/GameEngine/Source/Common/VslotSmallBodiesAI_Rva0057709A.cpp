@@ -189,15 +189,11 @@ private:
 
 
 // 0x005785CD: target starts after the ret at 0x005785CC and ends at the ret
-// before the rowed 0x005785F6 entry. It conditionally calls 0x005D2A53 for
-// this+0x44 then the shared empty body 0x000B3FD0 for this+0x4C and this+0x48.
-// Field ownership and the address-derived class identity are structural
-// views; the routine's original name and purpose are unknown.
-class Rva005D2A53Call
-{
-public:
-	void rva005D2A53();
-};
+// before the rowed 0x005785F6 entry. It conditionally calls the rowed
+// StrategicHUD::CommandUIImpl::Update 0x005D2A53 for this+0x44 then the shared
+// empty body 0x000B3FD0 for this+0x4C and this+0x48. Field ownership and the
+// address-derived class identity are structural views.
+namespace StrategicHUD { class CommandUIImpl { public: void Update(); }; }
 class Rva000B3FD0
 {
 public:
@@ -210,14 +206,14 @@ public:
 
 private:
 	char m_pad00[0x44];
-	Rva005D2A53Call *m_44;
+	StrategicHUD::CommandUIImpl *m_44;
 	Rva000B3FD0 *m_48;
 	Rva000B3FD0 *m_4C;
 };
 void Rva005785CD::rva005785CD()
 {
 	if (m_44 != 0)
-		m_44->rva005D2A53();
+		m_44->Update();
 	if (m_4C != 0)
 		m_4C->rva000B3FD0();
 	if (m_48 != 0)
@@ -678,7 +674,7 @@ class BfmeFixedStorage002CF0F0
 public:
 	__declspec(nothrow) BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &);
 };
-extern BfmeFixedStorage002CF0F0 g_00E0660C;
+extern unsigned g_Va00E0660C;
 // The retail table at RVA 0x0086E8A8: 19 slots, each a rowed code owner (the next
 // word is not a code address or starts another ledger datum).
 extern "C" {
@@ -732,7 +728,8 @@ private:
 	int m_08;
 };
 
-Rva0057709A::Rva0057709A(int v) : Rva005CBA04(g_00E0660C), m_08(v)
+Rva0057709A::Rva0057709A(int v)
+	: Rva005CBA04(*(BfmeFixedStorage002CF0F0 *)&g_Va00E0660C), m_08(v)
 {
 	*(const void **)this = g_00C6E8A8;
 }

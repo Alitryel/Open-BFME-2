@@ -29,18 +29,16 @@ public:
 	const Image *GetImage();
 };
 
-struct Rva005F5C77Base0
-{
-	Rva005F5C77Base0() : m_04(0) {}
-	virtual ~Rva005F5C77Base0();
-	int m_04;
-};
+// First base as in the sibling ctor 0x005F5C77: vptr 0x00C7A630 over the
+// zeroed +4 word, unwound through the rowed 0x004E84A4.
+#include "../../Include/Common/Rva0007DF07.h"
+#include "../../Include/Common/Rva00567960BaseMid.h"
 
-class Rva005CC37CHolder : public Rva005E1158
+class Rva005E12D1 : public Rva005E1158
 {
 public:
-	Rva005CC37CHolder(void *a1, const AsciiString &a2, void *a3);
-	virtual ~Rva005CC37CHolder();
+	Rva005E12D1(void *a1, const AsciiString &a2, void *a3);
+	virtual ~Rva005E12D1();
 private:
 	void *m_0C;
 	int m_10;
@@ -52,14 +50,12 @@ struct Rva005CC3C0In
 	int m_04;
 };
 
-struct Rva005E16DA;
-
-extern Rva005E16DA g_00E06620;
+extern unsigned g_Va00E06620;
 extern const void *const g_00C7A630[];
 extern const void *const g_00C74E38[];
 extern const void *const g_00C74E18[];
 
-class Rva005CC37C : public Rva005F5C77Base0, public Rva005CC37CHolder
+class Rva005CC37C : public Rva00567960BaseMid, public Rva005E12D1
 {
 public:
 	Rva005CC37C(void *a1, Rva005CC3C0In *a2);
@@ -69,10 +65,10 @@ private:
 };
 
 Rva005CC37C::Rva005CC37C(void *a1, Rva005CC3C0In *a2)
-	: Rva005F5C77Base0()
-	, Rva005CC37CHolder(a1, AsciiString("button"), a2->m_00)
+	: Rva00567960BaseMid()
+	, Rva005E12D1(a1, AsciiString("button"), a2->m_00)
 {
 	m_1C = a2->m_04;
-	const Image *img = ((Rva005E16B9 *)&g_00E06620)->GetImage();
+	const Image *img = ((Rva005E16B9 *)&g_Va00E06620)->GetImage();
 	((Rva005E1158 *)this)->rva005E1158(img);
 }
