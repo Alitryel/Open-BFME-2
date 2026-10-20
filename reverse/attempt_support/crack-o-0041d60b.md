@@ -44,3 +44,11 @@ reordering where the case-0x48/healing/0x55 temporaries are *created* in source
 order relative to switch2 (e.g. move the healing block into a helper-free
 earlier statement, or create the 0x55 named filter after its loop masks), and
 compare the temp-region order table above rather than the mismatch count.
+
+## Addendum: local names are inert
+
+300 random renames of all 28 named locals (castleKey, mod, radius, geometry,
+iter, target, castle*, pos, delta, distance, other, center, x/y bounds, alive,
+filter, mask, layer, loco, progress, health, maxHealth, range) all compile to
+3712 B / frame 0x2C4 / 42 mismatched homes. The equal-weight name-hash slot
+order seen on 0x00560B11 does not drive this residue.

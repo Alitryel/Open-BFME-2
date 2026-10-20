@@ -1,13 +1,5 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.8871513595518731 date=2026-10-19
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.862 date=2026-10-17
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.8044951179662893 date=2026-10-14
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.7862699169745524 date=2026-10-14
-// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
-// partial score=0.7682677643035726 date=2026-10-14
+// partial score=0.9045 date=2026-10-20
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
 // Corrected live-camera pitch semantics: no XY inverse-pitch adjustment on that branch.
 // Uses actual donor WWMath::Sqrt x87 helper and by-value constraints; see evidence JSON.
@@ -193,10 +185,23 @@ public:
     Matrix3D() {}
     explicit Matrix3D(bool init) {if(init)Make_Identity();}
     __forceinline Matrix3D(const Vector3 &a, float angle) {
-        float c = (float)cos(angle), s = (float)sin(angle);
-        Row[0].Set(a.X*a.X+c*(1.0f-a.X*a.X),a.X*a.Y*(1.0f-c)-a.Z*s,a.Z*a.X*(1.0f-c)+a.Y*s,0.0f);
-        Row[1].Set(a.X*a.Y*(1.0f-c)+a.Z*s,a.Y*a.Y+c*(1.0f-a.Y*a.Y),a.Y*a.Z*(1.0f-c)-a.X*s,0.0f);
-        Row[2].Set(a.Z*a.X*(1.0f-c)-a.Y*s,a.Y*a.Z*(1.0f-c)+a.X*s,a.Z*a.Z+c*(1.0f-a.Z*a.Z),0.0f);
+        float c = cosf(angle);
+        float s = sinf(angle);
+        Row[0].Set(
+            (float)(a.X*a.X + c*(1.0f - a.X*a.X)),
+            (float)(a.X*a.Y*(1.0f - c) - a.Z*s),
+            (float)(a.Z*a.X*(1.0f - c) + a.Y*s),
+            0.0f);
+        Row[1].Set(
+            (float)(a.X*a.Y*(1.0f - c) + a.Z*s),
+            (float)(a.Y*a.Y + c*(1.0f - a.Y*a.Y)),
+            (float)(a.Y*a.Z*(1.0f - c) - a.X*s),
+            0.0f);
+        Row[2].Set(
+            (float)(a.Z*a.X*(1.0f - c) - a.Y*s),
+            (float)(a.Y*a.Z*(1.0f - c) + a.X*s),
+            (float)(a.Z*a.Z + c*(1 - a.Z*a.Z)),
+            0.0f);
     }
     __forceinline Matrix3D &operator=(const Matrix3D &m) {
         Row[0][0]=m.Row[0][0];
@@ -430,6 +435,65 @@ __forceinline float cameraMax(float a,float b) {return a>b?a:b;}
 /** @todo This is inefficient. We should construct the matrix directly using vectors. */
 void W3DCamTransform::rva00102F83(CameraTransformInput *v)
 {
+    // 56 unused int locals (docs/recipes.md "Local count decides commutative operand
+    // order"): k=56 scored best of the k-scan 0..63; the count shifts symbol ranks
+    // and fixes the pitch-matrix and shake-rotate operand order.
+    int unused0 = 0;
+    int unused1 = 0;
+    int unused2 = 0;
+    int unused3 = 0;
+    int unused4 = 0;
+    int unused5 = 0;
+    int unused6 = 0;
+    int unused7 = 0;
+    int unused8 = 0;
+    int unused9 = 0;
+    int unused10 = 0;
+    int unused11 = 0;
+    int unused12 = 0;
+    int unused13 = 0;
+    int unused14 = 0;
+    int unused15 = 0;
+    int unused16 = 0;
+    int unused17 = 0;
+    int unused18 = 0;
+    int unused19 = 0;
+    int unused20 = 0;
+    int unused21 = 0;
+    int unused22 = 0;
+    int unused23 = 0;
+    int unused24 = 0;
+    int unused25 = 0;
+    int unused26 = 0;
+    int unused27 = 0;
+    int unused28 = 0;
+    int unused29 = 0;
+    int unused30 = 0;
+    int unused31 = 0;
+    int unused32 = 0;
+    int unused33 = 0;
+    int unused34 = 0;
+    int unused35 = 0;
+    int unused36 = 0;
+    int unused37 = 0;
+    int unused38 = 0;
+    int unused39 = 0;
+    int unused40 = 0;
+    int unused41 = 0;
+    int unused42 = 0;
+    int unused43 = 0;
+    int unused44 = 0;
+    int unused45 = 0;
+    int unused46 = 0;
+    int unused47 = 0;
+    int unused48 = 0;
+    int unused49 = 0;
+    int unused50 = 0;
+    int unused51 = 0;
+    int unused52 = 0;
+    int unused53 = 0;
+    int unused54 = 0;
+    int unused55 = 0;
     Vector3 sourcePos,targetPos;
     if(v->mode==4) {
         if(v->animation) {
@@ -448,8 +512,8 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         v->transform->Make_Identity();v->transform->Look_At(sourcePos,targetPos,v->roll); return;
     }
     if(v->constraintValid) {
-        v->pos.x=cameraMax(v->minX,v->pos.x);
-        v->pos.x=cameraMin(v->maxX,v->pos.x);
+        {float x=cameraMax(v->minX,v->pos.x); v->pos.x=x;
+        v->pos.x=cameraMin(v->maxX,x);}
         v->pos.y=cameraMax(v->minY,v->pos.y);
         v->pos.y=cameraMin(v->maxY,v->pos.y);
     }
