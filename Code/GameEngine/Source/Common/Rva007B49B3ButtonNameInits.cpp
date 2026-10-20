@@ -20,8 +20,8 @@ void __cdecl rva007B9979();
 void __cdecl rva007B9983();
 
 unsigned g_Va00E06620;	// retail RVA 0x00A06620 (.bss), defined here
-extern unsigned g_Va00E06734;
-extern unsigned g_Va00E06748;
+extern int g_00E06734;
+extern int g_00E06748;
 
 class Rva005E16DA
 {
@@ -44,12 +44,12 @@ void __cdecl Rva007B49B3ButtonNameInits::rva007B49B3()
 
 void __cdecl Rva007B49B3ButtonNameInits::rva007B509A()
 {
-	( (Rva005E16DA *)&g_Va00E06734 )->Rva005E16DA::Rva005E16DA( AsciiString( "DestroyBuildingButton" ) );
+	( (Rva005E16DA *)&g_00E06734 )->Rva005E16DA::Rva005E16DA( AsciiString( "DestroyBuildingButton" ) );
 	atexit( rva007B9979 );
 }
 
 void __cdecl Rva007B49B3ButtonNameInits::rva007B50E7()
 {
-	( (Rva005E16DA *)&g_Va00E06748 )->Rva005E16DA::Rva005E16DA( AsciiString( "CancelBuildingConstructionButton" ) );
+	( (Rva005E16DA *)&g_00E06748 )->Rva005E16DA::Rva005E16DA( AsciiString( "CancelBuildingConstructionButton" ) );
 	atexit( rva007B9983 );
 }

@@ -100,18 +100,18 @@ public:
 	static const FieldParse m_fieldParseTable[];			// 0x00C616C0
 };
 
-extern const FieldParse g_00C61830;
-extern const FieldParse g_00C61884;
+extern const FieldParse g_00C61830[];
+extern const FieldParse g_00C61884[];
 
 
 void rva004E12EF(INI *ini, void *instance, void *store, const void *userData)
 {
-	ini->initFromINI(store, &g_00C61830);
+	ini->initFromINI(store, g_00C61830);
 }
 
 void rva004E1342(INI *ini, void *instance, void *store, const void *userData)
 {
-	ini->initFromINI(store, &g_00C61884);
+	ini->initFromINI(store, g_00C61884);
 }
 
 // --- 0x005CB288 / 0x005E3955 / 0x005E9F80 (18B each): more table slots
@@ -151,19 +151,23 @@ private:
 
 
 // --- 0x003F9CD2 (54B): the pupil / eye-decal anim-object block: build a
-// fresh 0x74-byte 0x003F9C11 record, parse it through the static table
-// 0x00C37668 (retail's field names) and hand it to TheLivingWorldManager
-// (+0x2C4).
-class Rva003F9C11
+// fresh 0x74-byte Rva003F9D08 record (its ctor is rowed at 0x003F9C11), parse
+// it through the static table 0x00C37668 (retail's field names) and hand it to
+// TheLivingWorldManager (+0x2C4).
+class Rva003F9D08
 {
 public:
-	Rva003F9C11() throw();									// 0x003F9C11
-	static const FieldParse s_fieldParseTable[];
+	Rva003F9D08() throw();									// 0x003F9C11
 private:
 	char m_pad[0x74];
 };
 
-// The table definition is owned by GapBodiesS3E.cpp.
+// The table definition is owned by GapBodiesS3E.cpp, under this class name.
+class Rva003F9C11
+{
+public:
+	static const FieldParse s_fieldParseTable[];
+};
 
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
@@ -171,12 +175,12 @@ extern LivingWorldManager *TheLivingWorldManager;
 struct Rva003F9CD2ManagerView
 {
 	char m_pad[0x2C4];
-	Rva003F9C11 *m_2C4;										// +0x2C4
+	Rva003F9D08 *m_2C4;										// +0x2C4
 };
 
 void rva003F9CD2(INI *ini)
 {
-	Rva003F9C11 *record = new Rva003F9C11;
+	Rva003F9D08 *record = new Rva003F9D08;
 	ini->initFromINI(record, Rva003F9C11::s_fieldParseTable);
 	((Rva003F9CD2ManagerView *)TheLivingWorldManager)->m_2C4 = record;
 }
