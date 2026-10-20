@@ -16,10 +16,11 @@
 
 class Debug;
 
-class DebugCmdInterface
+// Abstract base only: keep the derived retail table without emitting a base table.
+class __declspec(novtable) DebugCmdInterface
 {
 protected:
-	virtual ~DebugCmdInterface() {}
+	__declspec(dllimport) __forceinline virtual ~DebugCmdInterface() {}
 
 public:
 	__declspec(dllimport) __forceinline DebugCmdInterface() {}

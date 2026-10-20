@@ -157,7 +157,11 @@ void rva007ACE00()
 inline void *operator new(unsigned int, void *where) throw() { return where; }
 
 class ProfileResultInterface;
+// This unit uses the interface only as ProfileCmdInterface's abstract base.
+// Its two-slot header view must not emit a stand-alone DebugCmdInterface table.
+#define DebugCmdInterface __declspec(dllimport) __declspec(novtable) DebugCmdInterface
 #include "../../../../Libraries/Source/debug/debug.h"
+#undef DebugCmdInterface
 #include "../../../../Libraries/Source/profile/internal_cmd.h"
 #include "../../../../Libraries/Source/profile/profile.h"
 
@@ -224,7 +228,8 @@ class OpaqueRefCounted
 public:
     void Release_Ref();
 };
-extern OpaqueRefCounted *g_Va00DFEBE4;
+// Native loader-zero pointer, released by the registered cleanup below.
+OpaqueRefCounted *g_Va00DFEBE4;
 
 void rva007B77EC()
 {
