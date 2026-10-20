@@ -1,4 +1,6 @@
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
+// partial score=0.973 date=2026-10-20
+// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.97 date=2026-10-19
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.9732493272630317 date=2026-10-16
