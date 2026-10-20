@@ -14,6 +14,10 @@
 #include <vector>
 
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ??$_Construct@URva005F2439Element@@U1@@_STL@@YAXPAURva005F2439Element@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005F2439Element;
+namespace _STL { template <> void _Construct<Rva005F2439Element,Rva005F2439Element>(Rva005F2439Element *,Rva005F2439Element const &); }
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
