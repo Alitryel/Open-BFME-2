@@ -62,7 +62,7 @@ struct CompletionModelFlags {
 };
 class Object:public Thing {
 public:
- void rva0028AFE7(Object *);
+ void setBuilder(Object *);
  void rva0028AE6D();
  void setStatus(ObjectStatusTypes,bool);
  float rva00263763(const void *)const;
@@ -108,14 +108,14 @@ void GettingBuiltBehavior::rva00454B5C()
  Object *builder=TheGameLogic->findObjectByID(obj->builderID);
  if(flag3d && (complete || body->health()>=body->maxHealth()) &&
     (obj->construction>=100.0f || obj->construction==-1.0f)) {
-   obj->rva0028AFE7(builder);
+   obj->setBuilder(builder);
    if(builder && builder->ai && builder!=obj && (builder->tmplate->kind[0]&0x4000)) {
      if(flag3c){
        builder->ai->ignoreObstacle(obj);
        AIUpdateInterface *workerAI=builder->ai;
        ((AICommandInterface *)((char *)workerAI+0x20))->aiIdle((CommandSourceType)2);
        flag30=true;
-     } else {obj->rva0028AFE7(0);flag3c=false;}
+     } else {obj->setBuilder(0);flag3c=false;}
    } else if(!builder)flag3c=false;
    if(!complete || !(obj->tmplate->kind[0]&0x20000)) {obj->clearCondition(3);obj->clearCondition(4);}
    obj->clearCondition(67);obj->clearCondition(69);obj->clearCondition(68);

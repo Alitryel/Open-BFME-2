@@ -69,7 +69,7 @@ public:
     BfmeAmmoProvider *getAmmoProvider() const { return m_ammoProvider; }
     // Owner-side ammo-availability gate used by Weapon::isAmmoReady; true name
     // unproven (address proven by REL32, body reads Object+0x330).
-    Bool rva0028AF65() const;
+    Bool isCurWeaponLocked() const;
 
     char m_padding[0x250];
     BfmeAmmoProvider *m_ammoProvider;
@@ -131,7 +131,7 @@ Bool Weapon::isAmmoReady() const
     Object *owner = TheGameLogic->findObjectByID(m_ownerID);
     if (owner != 0)
     {
-        if (owner->rva0028AF65())
+        if (owner->isCurWeaponLocked())
             return true;
     }
     return false;

@@ -33,7 +33,7 @@ class Object : public Thing {
 public:
  Player *getControllingPlayer() const;
  void setProducer(Object *);
- void rva0028AFE7(Object *);
+ void setBuilder(Object *);
  void setEffectivelyDead(bool);
  void setStatus(ObjectStatusTypes, bool);
  bool testStatus(ObjectStatusTypes) const;
@@ -77,7 +77,7 @@ void GettingBuiltBehaviorSecondary::resumeBuildingConstruction(bool instant)
  if (!builder) return;
  builder->setPosition(&object->position);
  builder->setProducer(object);
- object->rva0028AFE7(builder);
+ object->setBuilder(builder);
  *((bool *)this+0x1c) = true;
  if (object->privateStatus & 1) {
    object->setEffectivelyDead(false);

@@ -8894,7 +8894,7 @@ name,address,notes
 ?gen006896F0@@YAXPAUElem28@@PBU1@@Z,0x006896F0
 ?get@AptArray@@QAEPAVAptValue@@H@Z,0x006D9640,Native GetMember703AE0/SetMember703CE0 calls; original AptValue header504032fc6593aab6 and AptArray header9e5fc78057531b2e types; get checks index against length+28 and returns undefined on missing slot; source4416f7dfadc1781e get confirms semantics
 ?get@Bfme939Helper@@QBEHXZ,0x0030F2C7,TU-local alias of rowed disp8 dword getter at same body
-?get@Rva00091A56DwordField@@QBEHXZ,0x00091A56,Opaque alias for Object::rva0028AF65 target call at 0x28AF6B; +0x24 getter body is independently shared with rowed NetWrapperCommandMsg::getDataOffset; does not imply shared class identity
+?get@Rva00091A56DwordField@@QBEHXZ,0x00091A56,Opaque alias for Object::isCurWeaponLocked target call at 0x28AF6B; +0x24 getter body is independently shared with rowed NetWrapperCommandMsg::getDataOffset; does not imply shared class identity
 ?get@Rva001F5D98Slot@@QAEPAXPAX@Z,0x001F5D98,REL32 finder decoded from target call bytes of chained find 0x001FC451; identity unproven
 ?get@Rva001F5DACSlot@@QAEPAXPAX@Z,0x001F5DAC,REL32 finder decoded from target call bytes of chained find 0x001FC357; identity unproven
 ?get@Rva001F5DC0Slot@@QAEPAXPAX@Z,0x001F5DC0,REL32 finder decoded from target call bytes of chained find 0x001FBFEA; identity unproven
@@ -10242,7 +10242,7 @@ name,address,notes
 ?rva0028AC4E@Object@@QBEPBURva0028AC4EEntry@@XZ,0x0028AC4E,Object holder-entry getter. Ghidra boundary 0x28AC4E/20. Reads holder at +0x258 with null check then entry at +0x1F0. Called by 0x28AC62 and 0x28AC7D plus 6 more sites. False-path tail is the rowed 3B zero getter at 0x28AC5F so this stays pinned not rowed. Address-derived opaque entry view.
 ?rva0028AD7C@Object@@QAEXXZ,0x0028AD7C,"Object member forwarding to the helper at +0xA4; REL32 in AIUpdate loadPostProcess 0x0026870F; identity not recovered"
 ?rva0028AE6D@Object@@QAEXXZ,0x0028AE6D,thiscall no-arg notifier called after a condition-flag word at Object+0x110.. gains a bit (509 call sites; HordeSiegeEngineContain ctor 0x0047D247 word 5 bit 17 and HordeGarrisonContain ctor 0x0047A040 word 1 bit 10); BFME1 names its counterpart notifyModelConditionChanged; address from the direct call displacement; behaviour not recovered
-?rva0028AF65@Object@@QBE_NXZ,0x0028AF65,Object ammo-availability gate called by Weapon isAmmoReady; true name unproven; body adds 0x330 then checks dword at +0x24
+?isCurWeaponLocked@Object@@QBE_NXZ,0x0028AF65,Object ammo-availability gate called by Weapon isAmmoReady; true name unproven; body adds 0x330 then checks dword at +0x24
 ?rva0028B525@Object@@QAEXH@Z,0x0028B525,"Object setter of the word at +0x40C (ledger body Rva0028B525DwordSlot::set); REL32 in AIUpdate loadPostProcess 0x00268717"
 ?rva0028B701@Object@@QAEXM@Z,0x0028B701,"Object member taking a float; REL32 in CurseSpecialPower 0x004CCED3 with module data +0xD0"
 ?rva0028BBF3@Object@@QAEXPAV1@@Z,0x0028BBF3,opaque Object member (forwards its argument to the helper at +0x23C when present); REL32 callee of AIGuardState::onExit 0x003513A4 with ECX the state owner and the guarded object as argument

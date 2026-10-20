@@ -1,8 +1,10 @@
 // cl: /DNDEBUG /MD
-// Object-side ammo-availability gate called by Weapon::isAmmoReady (retail
-// 0x002CC3FF). The body advances this by 0x330 and null-checks a pointer the
-// callee fetches at +0x24 there; both identities are unproven so both names
-// are address-derived. The callee stays an opaque pin for this caller: its
+// Object::isCurWeaponLocked, called by Weapon::isAmmoReady (retail
+// 0x002CC3FF). ZH Object.h: m_weaponSet.isCurWeaponLocked(), i.e.
+// m_curWeaponLockedStatus != NOT_LOCKED; the WeaponSet sits at +0x330 and its
+// lock status at +0x24 (WeaponSetSetWeaponLock.cpp). BFME 1's
+// Object::isCurWeaponLocked (0x001BE370) is the same 17-byte body at its own
+// WeaponSet offset. The +0x24 getter stays an opaque pin for this caller: its
 // four-byte body is also used by NetWrapperCommandMsg::getDataOffset, which
 // does not make the Object-side subobject a network command.
 typedef bool Bool;
@@ -19,11 +21,11 @@ public:
 class Object
 {
 public:
-    Bool rva0028AF65() const;
+    Bool isCurWeaponLocked() const;
 };
 
-// ?rva0028AF65@Object@@QBE_NXZ @0x0028AF65 (17B)
-Bool Object::rva0028AF65() const
+// ?isCurWeaponLocked@Object@@QBE_NXZ @0x0028AF65 (17B)
+Bool Object::isCurWeaponLocked() const
 {
     const Rva00091A56DwordField *slot =
         (const Rva00091A56DwordField *)((const char *)this + 0x330);

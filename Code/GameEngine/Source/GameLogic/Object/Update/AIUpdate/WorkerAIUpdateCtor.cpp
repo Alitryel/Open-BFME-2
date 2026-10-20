@@ -517,7 +517,7 @@ public:
 	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
 	Bool isUsingAirborneLocomotor() const;
 	void setProducer(Object *obj);
-	void rva0028AFE7(Object *builder);
+	void setBuilder(Object *builder);
 	void setStatus(ObjectStatusTypes bit, Bool set);
 	void rva0028CFB2(const int *clear, const int *set);
 	void rva00290758(Int a1, Int a2);
@@ -1269,7 +1269,7 @@ Object *WorkerAIUpdate::construct(const ThingTemplate *what, const Coord3D *pos,
 
 	// even though we haven't actually built anything yet, this keeps things tidy
 	obj->setProducer(getObject());
-	obj->rva0028AFE7(getObject());
+	obj->setBuilder(getObject());
 
 	// leave the supply truck state and now behave like a dozer.
 	exitingSupplyTruckState();
@@ -1435,7 +1435,7 @@ void WorkerAIUpdate::newTask(DozerTask task, Object *target)
 		// sets us as the current builder of that object
 		//
 		if (task == DOZER_TASK_BUILD)
-			target->rva0028AFE7(me);
+			target->setBuilder(me);
 
 		m_dockPoint[task][DOZER_DOCK_POINT_START].valid = TRUE;
 		m_dockPoint[task][DOZER_DOCK_POINT_START].location = position;

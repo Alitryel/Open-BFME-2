@@ -44,7 +44,7 @@ class Object
 
 public:
 	RvaWeaponSlot *rva0028AEEA() const;
-	bool rva0028AEF5(void **outPtr, unsigned *outAmmo) const;
+	bool getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const;
 };
 
 // ?rva0028AEEA@Object@@QBEPAURvaWeaponSlot@@XZ
@@ -53,8 +53,8 @@ RvaWeaponSlot *Object::rva0028AEEA() const
 	return m_weaponSet.rva002C741C();
 }
 
-// ?rva0028AEF5@Object@@QBE_NPAPAXPAI@Z
-bool Object::rva0028AEF5(void **outPtr, unsigned *outAmmo) const
+// ?getAmmoPipShowingInfo@Object@@QBE_NPAPAXPAI@Z
+bool Object::getAmmoPipShowingInfo(void **outPtr, unsigned *outAmmo) const
 {
 	RvaWeaponSlot *slot = m_weaponSet.rva002C73F7();
 	if (slot != 0)

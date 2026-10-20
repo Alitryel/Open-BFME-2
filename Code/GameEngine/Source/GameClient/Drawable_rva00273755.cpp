@@ -194,7 +194,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-	Bool rva0028AEF5(void **outCapacity, unsigned *outAmmo) const;
+	Bool getAmmoPipShowingInfo(void **outCapacity, unsigned *outAmmo) const;
 	const Coord3D *getPosition() const
 	{
 		return reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this) + 0x38);
@@ -296,7 +296,7 @@ __declspec(noinline) inline void Drawable::drawAmmo()
     Player *localPlayer = ThePlayerList->getLocalPlayer();
     if (obj->getControllingPlayer() != localPlayer) return;
     Int numTotal, numFull;
-    if (!obj->rva0028AEF5(reinterpret_cast<void **>(&numTotal), reinterpret_cast<unsigned *>(&numFull))) return;
+    if (!obj->getAmmoPipShowingInfo(reinterpret_cast<void **>(&numTotal), reinterpret_cast<unsigned *>(&numFull))) return;
     if (!s_fullAmmo) return;
     const Image *emptyAmmo = s_emptyAmmo;
     if (!emptyAmmo) return;

@@ -56,7 +56,7 @@ class Object
 {
 public:
 	void setProducer(Object *producer);
-	void rva0028AFE7(Object *producer);
+	void setBuilder(Object *producer);
 	void setCustomIndicatorColor(Color c);
 	void removeCustomIndicatorColor();
 	Color getIndicatorColor() const;
@@ -84,7 +84,7 @@ void Object::setProducer(Object *producer)
 	m_producerID = producer ? producer->m_id : 0;
 }
 
-void Object::rva0028AFE7(Object *producer)
+void Object::setBuilder(Object *producer)
 {
 	m_7C = producer ? producer->m_id : 0;
 }

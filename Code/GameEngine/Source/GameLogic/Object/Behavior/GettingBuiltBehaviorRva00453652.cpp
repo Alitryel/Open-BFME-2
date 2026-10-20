@@ -113,7 +113,7 @@ public:
 	void setStatus(ObjectStatusTypes status, bool set);	// 0x0023DB0E
 	void setEffectivelyDead(bool dead);	// 0x0028D2FB
 	void rva0028CFB2(const Int *clearFlags, const Int *setFlags);	// 0x0028CFB2
-	void rva0028AFE7(Object *obj);	// 0x0028AFE7
+	void setBuilder(Object *obj);	// 0x0028AFE7
 	void updateUpgradeModules();	// 0x00292EEA
 	void rva0028AE6D();	// model-condition change notifier
 
@@ -321,7 +321,7 @@ void GettingBuiltBehavior::rva00453652(bool forced)
 	obj->clearModelConditionState(5);
 	obj->clearModelConditionState(62);
 	obj->clearModelConditionState(60);
-	obj->rva0028AFE7(obj);
+	obj->setBuilder(obj);
 	m_3C = false;
 	setWakeFrame(getObject(), UPDATE_SLEEP_NONE);
 

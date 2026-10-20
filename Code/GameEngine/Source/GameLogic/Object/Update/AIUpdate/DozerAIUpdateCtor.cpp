@@ -664,7 +664,7 @@ public:
 	void kill(DamageType damageType, DeathType deathType); // 0x002984D4
 	void rva0028BAC0(); // 0x0028BAC0
 	ObjectID getID() const { return m_id; }
-	void rva0028AFE7(Object *builder);
+	void setBuilder(Object *builder);
 	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
 	Bool isUsingAirborneLocomotor() const;
 	__forceinline UnsignedInt isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
@@ -1145,7 +1145,7 @@ void DozerAIUpdate::newTask(DozerTask task, Object *target)
 		// sets us as the current builder of that object
 		//
 		if (task == DOZER_TASK_BUILD)
-			target->rva0028AFE7(me);
+			target->setBuilder(me);
 
 		m_dockPoint[task][DOZER_DOCK_POINT_START].valid = TRUE;
 		m_dockPoint[task][DOZER_DOCK_POINT_START].location = position;
@@ -1858,7 +1858,7 @@ void DozerAIUpdate::createPhantomStructure(const ThingTemplate *what, Player *ow
 	obj->setModelConditionState(MODELCONDITION_PHANTOM_STRUCTURE);
 
 	obj->setProducer(getObject());
-	obj->rva0028AFE7(getObject());
+	obj->setBuilder(getObject());
 
 	if (m_isRebuild == FALSE)
 	{
@@ -2379,7 +2379,7 @@ StateReturnType DozerActionDoActionState::update()
 					else
 					{
 						if (goalObject->getBuilderID() == INVALID_ID)
-							goalObject->rva0028AFE7(dozer);
+							goalObject->setBuilder(dozer);
 					}
 				}
 			}

@@ -148,7 +148,7 @@ public:
 
 	Player *getControllingPlayer() const;
 	void setProducer(Object *producer);
-	void rva0028AFE7(Object *builder);
+	void setBuilder(Object *builder);
 	
 };
 
@@ -251,7 +251,7 @@ void BaseUpgrade::upgradeImplementation()
 	Object *newObject = TheThingFactory->newObject(
 		thingTemplate, team230, &status, false);
 	newObject->setProducer(object);
-	newObject->rva0028AFE7(object);
+	newObject->setBuilder(object);
 	reinterpret_cast<Thing *>(newObject)->setPosition(&position);
 	reinterpret_cast<Thing *>(newObject)->setOrientation(orientation);
 	TheAI->m_pathfinder->AddObjectToPathfindMap(newObject);

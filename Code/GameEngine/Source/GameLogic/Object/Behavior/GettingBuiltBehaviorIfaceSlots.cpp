@@ -112,7 +112,7 @@ public:
 	void setStatus(ObjectStatusTypes bit, bool set);
 	Relationship getRelationship(const Object *) const;
 	void kill(DamageType, DeathType);
-	void rva0028AFE7(Object *);
+	void setBuilder(Object *);
 	Player *getControllingPlayer() const;
 
 	unsigned char m_pad000[0x04];
@@ -676,7 +676,7 @@ bool GettingBuiltBehavior::rva004541AB()
     }
     builder->kill((DamageType)8, (DeathType)0x16);
    }
-   object->rva0028AFE7(0);
+   object->setBuilder(0);
    m_30 = false;
    }
   }

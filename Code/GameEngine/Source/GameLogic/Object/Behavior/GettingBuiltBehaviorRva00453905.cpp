@@ -42,7 +42,7 @@ public:
     void setStatus(ObjectStatusTypes, bool);
     void rva0028AE6D();
     void rva0028FC18();
-    void rva0028AFE7(Object *);
+    void setBuilder(Object *);
     __forceinline void clearCondition(int i) {
         if (conditions.test(i)) { conditions.clear(i); rva0028AE6D(); }
     }
@@ -137,7 +137,7 @@ void GettingBuiltBehavior::rva00453905(Object *other)
         obj->rva0028FC18();
         finish();
         if (obj->getBuilderID() == obj->getID()) {
-            obj->rva0028AFE7(0);
+            obj->setBuilder(0);
             flag3c = false;
         }
     }

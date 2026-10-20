@@ -209,7 +209,7 @@ public:
     DrawableBonusWordView m_bonus380;
 	Player *getControllingPlayer() const;
     bool testStatus(ObjectStatusTypes) const;
-	Bool rva0028AEF5(void **outCapacity, unsigned *outAmmo) const;
+	Bool getAmmoPipShowingInfo(void **outCapacity, unsigned *outAmmo) const;
 	const Coord3D *getPosition() const
 	{
 		return reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this) + 0x38);
