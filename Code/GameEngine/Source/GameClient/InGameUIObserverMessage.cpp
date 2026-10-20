@@ -62,7 +62,7 @@ class Rva005CB260;
 class CreateAHeroHero;
 class Object;
 class InGameNotificationBoxMovieClip {
-public: void rva004E6F30(const UnicodeString &, const Rva002217EA &, int, bool, int);
+public: void Open(const UnicodeString &, const Rva002217EA &, int, bool, int);
 };
 class InGameUI : public InGameUIPrimaryView, public InGameNotificationBox
 {
@@ -160,7 +160,7 @@ void InGameUI::notifyHeroEarnedAward(CreateAHeroHero *hero, int key)
  Rva002217EA data=type->rva00221ABB();
  data.rva0010670B(image);
  InGameNotificationBoxMovieClip *movie=awardMovie;
- movie->rva004E6F30(text,data,(int)(awardSeconds*1000.0f),0,0);
+ movie->Open(text,data,(int)(awardSeconds*1000.0f),0,0);
 }
 
 // Target evidence for 0x0029F954 (350 bytes ret 0x10): WB 0x00DC46B0 names
@@ -192,7 +192,7 @@ void InGameUI::notifyOfHeroSpawnEvent(Object *obj, const char *typeName, const i
  Rva002217EA data = type->rva00221ABB();
  data.rva0010670B(getButtonImage(tmpl, obj));
  InGameNotificationBoxMovieClip *movie = awardMovie;
- movie->rva004E6F30(text, data, (int)(seconds * 1000.0f), 0, 0);
+ movie->Open(text, data, (int)(seconds * 1000.0f), 0, 0);
 }
 
 // Native 0x0029B56E..0x0029B5CD (95B, RET 12): InGameUI's override of the
@@ -215,5 +215,5 @@ void InGameUI::rva0029B56E(const UnicodeString &text, const Rva002217EA &data, i
         mode = 2;
     else if (secondary)
         mode = 1;
-    awardMovie->rva004E6F30(text, data, timeoutMS, primary || secondary, mode);
+    awardMovie->Open(text, data, timeoutMS, primary || secondary, mode);
 }

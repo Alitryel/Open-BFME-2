@@ -158,7 +158,7 @@ public:
  void xferSaveData(Xfer*,SnapshotType);
  void rva002DC52B();
  int rva002DE3C1(TreeHintOpaque0043671B);
- int rva002DD91A(TreeHintOpaque0043671B);
+ int doLoadGame(TreeHintOpaque0043671B);
  static bool s_inLoadGame;
 };
 bool GameState::s_inLoadGame=false;
@@ -166,7 +166,7 @@ int GameState::rva002DE3C1(TreeHintOpaque0043671B info)
 {
  Rva0004224C guard;
  s_inLoadGame=true;
- int result=rva002DD91A(info);
+ int result=doLoadGame(info);
  s_inLoadGame=false;
  if(result>0 && result<=4) {
   HideControlBar(true);
@@ -178,7 +178,7 @@ int GameState::rva002DE3C1(TreeHintOpaque0043671B info)
  }
  return result;
 }
-int GameState::rva002DD91A(TreeHintOpaque0043671B info)
+int GameState::doLoadGame(TreeHintOpaque0043671B info)
 {
  // Keep the refusal return before the state test: cl 7.1 then shares its
  // pop/epilogue with the earlier return in the same order as retail.

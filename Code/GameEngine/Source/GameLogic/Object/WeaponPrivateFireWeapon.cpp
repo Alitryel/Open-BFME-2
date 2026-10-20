@@ -11,7 +11,7 @@
 // earlier single-function unit, still compiles to retail's bytes; retail keeps them all in
 // Weapon.cpp (the random-value diagnostics name it).
 //
-// WeaponTemplate::rva002CBBF5 (retail 0x002CBBF5..0x002CC20E, 1561 bytes, RET 0x2C): the weapon
+// WeaponTemplate::fireWeaponTemplate (retail 0x002CBBF5..0x002CC20E, 1561 bytes, RET 0x2C): the weapon
 // fire path; WorldBuilder 0xBB0E40 (WeaponTemplate::fireWeaponTemplate, callgraph lead) and the
 // Zero Hour Weapon.cpp body are the structural guides (donor facts), the eleven-word ABI, field
 // offsets, vslots and call targets are read from the retail bytes (target facts).
@@ -653,7 +653,7 @@ class WeaponTemplate
                                      ObjectID intendedVictimID) const;
 
   public:
-    void rva002CBBF5(Object *, int, int, int, Object *, int, const Coord3D *, const WeaponBonus &,
+    void fireWeaponTemplate(Object *, int, int, int, Object *, int, const Coord3D *, const WeaponBonus &,
                      bool, Weapon *, int);
     Int rva002C9322(const WeaponBonus &bonus, Real factor) const;
     const std::vector<WeaponLinearTarget> &getLinearTargetsVector() const
@@ -908,7 +908,7 @@ Bool WeaponTemplate::shouldProjectileCollideWith(
     return true;
 }
 
-void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word14, Object *victim, int word1C, const Coord3D *position, const WeaponBonus &, bool ignore, Weapon *weapon, int word30)
+void WeaponTemplate::fireWeaponTemplate(Object *source, int wordC, int barrel, int word14, Object *victim, int word1C, const Coord3D *position, const WeaponBonus &, bool ignore, Weapon *weapon, int word30)
 {
     if (!source || (!victim && !position)) return;
     const Coord3D *sourcePos=&source->pos;
@@ -1157,7 +1157,7 @@ bool Weapon::privateFireWeapon(const Object *sourceObj, const Coord3D *sourcePos
                     break;
                 Coord3D targetPos = getLinearPosition(m_template->getLinearTargetsVector(), m_linearIndex, sourceObj);
                 if (!m_template->skipFirstLinear || m_linearIndex != 0)
-                    m_template->rva002CBBF5((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
+                    m_template->fireWeaponTemplate((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
                         (Object *)victimObj, victimID, &targetPos, bonus, ignoreRanges, this, (int)projectileID);
                 delay = m_template->getLinearTargetsVector()[m_linearIndex].delay;
                 m_linearIndex = (m_linearIndex + 1) % m_template->getLinearTargetsVector().size();
@@ -1186,12 +1186,12 @@ bool Weapon::privateFireWeapon(const Object *sourceObj, const Coord3D *sourcePos
             // To erase from a vector, put the last on the one you used and pop the back.
             m_scatterTargetsUnused[randomPick] = m_scatterTargetsUnused.back();
             m_scatterTargetsUnused.pop_back();
-            m_template->rva002CBBF5((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
+            m_template->fireWeaponTemplate((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
                 (Object *)victimObj, victimID, &targetPos, bonus, ignoreRanges, this, (int)projectileID);
         }
         else
         {
-            m_template->rva002CBBF5((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
+            m_template->fireWeaponTemplate((Object *)sourceObj, (int)sourcePos, m_wslot, m_curBarrel,
                 (Object *)victimObj, victimID, victimPos, bonus, ignoreRanges, this, (int)projectileID);
         }
         m_lastFireFrame = now;

@@ -16,7 +16,7 @@ class LinearCampaign
 {
 public:
 	void rva001EB6FE();
-	void rva001EB68A();
+	void onMissionComplete();
 private:
 	char m_pad[0xC];
 	int m_0C;
@@ -37,8 +37,8 @@ void LinearCampaign::rva001EB6FE()
 	}
 }
 
-// ?rva001EB68A@LinearCampaign@@QAEXXZ
-void LinearCampaign::rva001EB68A()
+// ?onMissionComplete@LinearCampaign@@QAEXXZ
+void LinearCampaign::onMissionComplete()
 {
 	if (!m_C3) {
 		++m_0C;

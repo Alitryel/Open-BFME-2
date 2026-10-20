@@ -180,7 +180,7 @@ class InGameNotificationBoxMovieClip:public Rva004E6A9BBase {public:
  InGameNotificationBoxMovieClip();
  virtual unsigned char rva00578522()const;virtual void rva004E6B7D(bool);
  virtual void rva004E725F(const UnicodeString&,const Rva002217EA&,int);virtual void DoClose();
- void rva004E6F30(const UnicodeString&,const Rva002217EA&,int,bool,int);
+ void Open(const UnicodeString&,const Rva002217EA&,int,bool,int);
  void CloseImmediately();void OnInitialized(unsigned);void OnClosed(unsigned);void rva004E67D0(int);
  void ExternMessageWidth(int,const char*,bool);void RenderMessage(const Coord2D*,const Coord2D*,void*,void*);
  int level,state;Rva0052413E commands;Rva005241B0 externs;Rva00524265 renders;Rva005242D7 images;
@@ -216,7 +216,7 @@ typedef char NotificationFieldsHave84Bytes[sizeof(InGameNotificationBoxMovieClip
 // descriptor and the consuming assignment into the pending holder. The spec
 // getters are the rowed ICF twins (0x0047A6A9 self, LeaField get, 0x0030F45F,
 // rva001DB0A8, DwordField get); the descriptor field names are structural.
-void InGameNotificationBoxMovieClip::rva004E6F30(const UnicodeString&message,const Rva002217EA&spec,int timeout,bool show,int location){
+void InGameNotificationBoxMovieClip::Open(const UnicodeString&message,const Rva002217EA&spec,int timeout,bool show,int location){
  if(!flag50)return;
  Rva004E6A1D value(new Rva004E6935);
  Rva004E6935*descriptor=value.operator->();
@@ -231,4 +231,4 @@ void InGameNotificationBoxMovieClip::rva004E6F30(const UnicodeString&message,con
 }
 // Vtable862440 slot2 and WB1322EB0 forward three args to Open1322140;
 // native4E725F..4E7277 RET12 proves exact24B. Original wrapper name unproven.
-void InGameNotificationBoxMovieClip::rva004E725F(const UnicodeString&message,const Rva002217EA&spec,int timeout){rva004E6F30(message,spec,timeout,false,0);}
+void InGameNotificationBoxMovieClip::rva004E725F(const UnicodeString&message,const Rva002217EA&spec,int timeout){Open(message,spec,timeout,false,0);}

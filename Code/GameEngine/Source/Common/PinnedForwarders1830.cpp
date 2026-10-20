@@ -135,7 +135,7 @@ class LinearCampaign
 public:
 	void restartCurrentCampaignMission();
 	void rva001EB6FE();
-	void rva001EB68A();
+	void onMissionComplete();
 };
 
 class Rva0023D607Holder
@@ -368,7 +368,7 @@ private:
 void Rva001EB72F::rva001EB72F()
 {
 	if (m_10)
-		m_10->rva001EB68A();
+		m_10->onMissionComplete();
 }
 
 class Rva001EB75C

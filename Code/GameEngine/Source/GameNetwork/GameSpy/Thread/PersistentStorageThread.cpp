@@ -186,8 +186,8 @@ class MapIntHolder;
 class PSPlayerStats {
 public:
     void XferMap(MapHolder *, XferStub *);
-    void rva0055499A(MapFloatHolder *, XferStub *);
-    void rva00554A4A(MapIntHolder *, XferStub *);
+    void XferMap(MapFloatHolder *, XferStub *);
+    void XferMap(MapIntHolder *, XferStub *);
 };
 class Rva00553E47StatsCore;
 static void debugDumpStatsCore(const Rva00553E47StatsCore &);
@@ -479,15 +479,15 @@ void Rva00553E47StatsCore::rva00555109(XferStub *xfer) {
         ((PSPlayerStats *)this)->XferMap((MapHolder *)&m_maps4c[i], xfer);
         ((PSPlayerStats *)this)->XferMap((MapHolder *)&m_maps94[i], xfer);
     }
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_0, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_1, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_2, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_3, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_4, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_5, xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_6, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_0, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_1, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_2, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_3, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_4, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_5, xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_6, xfer);
     if (version.second >= 2)
-        ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)&m_mapsdc_7, xfer);
+        ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)&m_mapsdc_7, xfer);
     xfer->_slot80((short &)m_146);
     xfer->_slot80((short &)m_148);
     xfer->_slot80((short &)m_14a);
@@ -502,21 +502,21 @@ void Rva0038454E::rva00555109(XferStub *xfer) {
     version.first=1;
     version.second=1;
     xfer->_slot28(version);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map154), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map160), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map16c), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map178), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map184), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map190), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map19c), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1a8), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map154), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map160), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map16c), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map178), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map184), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map190), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map19c), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1a8), xfer);
     ((PSPlayerStats *)this)->XferMap((MapHolder *)((char *)&m_map1b4), xfer);
     ((PSPlayerStats *)this)->XferMap((MapHolder *)((char *)&m_map1c0), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1cc), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1d8), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1e4), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1f0), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map1fc), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1cc), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1d8), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1e4), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1f0), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map1fc), xfer);
 }
 
 // Native rva00555988: core transfer then version1 and the same map groups as its reset.
@@ -527,11 +527,11 @@ void Rva003844D7::rva00555109(XferStub *xfer) {
     version.first=1;
     version.second=1;
     xfer->_slot28(version);
-    ((PSPlayerStats *)this)->rva00554A4A((MapIntHolder *)((char *)&m_map154), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapIntHolder *)((char *)&m_map154), xfer);
     ((PSPlayerStats *)this)->XferMap((MapHolder *)((char *)&m_map160), xfer);
     ((PSPlayerStats *)this)->XferMap((MapHolder *)((char *)&m_map16c), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map178), xfer);
-    ((PSPlayerStats *)this)->rva0055499A((MapFloatHolder *)((char *)&m_map184), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map178), xfer);
+    ((PSPlayerStats *)this)->XferMap((MapFloatHolder *)((char *)&m_map184), xfer);
 }
 
 // Native [555DDC,555EB4),216B bridges the stored STL narrow string at19C

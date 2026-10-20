@@ -59,7 +59,7 @@ public:
 	bool rva005084FC(void *weapon, Object *target, const Coord3D *position);
 private:
 	unsigned char m_pad04[0x1A4 - 4];
-	bool rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
+	bool generateDamageInfo(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
 };
 
 class Made002CCA37 : public DamageNugget
@@ -78,7 +78,7 @@ bool Made002CCA37::rva0050B16F(void *weapon, Object *target, const Coord3D *posi
 	{
 		Rva0043B163 dot;
 		((Rva0043B208 *)&dot)->rva0043B208();
-		if (rva00508120(weapon, target, (DamageInfo *)&dot, false, position) == true)
+		if (generateDamageInfo(weapon, target, (DamageInfo *)&dot, false, position) == true)
 		{
 			unsigned int frame = TheGameLogic->getFrame();
 			dot.m_7C = m_1A4;

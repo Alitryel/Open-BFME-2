@@ -71,8 +71,8 @@ class PSPlayerStats
 {
 public:
 	void XferMap(MapHolder *a, XferStub *b);
-	void rva0055499A(MapFloatHolder *a, XferStub *b);
-	void rva00554A4A(MapIntHolder *a, XferStub *b);
+	void XferMap(MapFloatHolder *a, XferStub *b);
+	void XferMap(MapIntHolder *a, XferStub *b);
 };
 
 void PSPlayerStats::XferMap(MapHolder *a, XferStub *b)
@@ -102,7 +102,7 @@ void PSPlayerStats::XferMap(MapHolder *a, XferStub *b)
 }
 
 // Retail 0x0055499A: uchar/float map, node key +0x10 and value +0x14; xfer slots 0x88/0x70.
-void PSPlayerStats::rva0055499A(MapFloatHolder *a, XferStub *b)
+void PSPlayerStats::XferMap(MapFloatHolder *a, XferStub *b)
 {
 	unsigned int cnt = *(unsigned int *)((char *)a + 4);
 	unsigned int n = cnt;
@@ -129,7 +129,7 @@ void PSPlayerStats::rva0055499A(MapFloatHolder *a, XferStub *b)
 }
 
 // Retail 0x00554A4A: uchar/int map, node key +0x10 and value +0x14; xfer slots 0x88/0x78.
-void PSPlayerStats::rva00554A4A(MapIntHolder *a, XferStub *b)
+void PSPlayerStats::XferMap(MapIntHolder *a, XferStub *b)
 {
 	unsigned int cnt = *(unsigned int *)((char *)a + 4);
 	unsigned int n = cnt;

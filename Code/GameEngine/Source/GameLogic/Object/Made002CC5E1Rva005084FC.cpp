@@ -158,12 +158,12 @@ private:
  bool flag194;
  unsigned char pad195[3];
  float value198;
- bool rva00508120(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
+ bool generateDamageInfo(void *weapon, Object *target, DamageInfo *info, bool flag, const Coord3D *position);
 };
 bool DamageNugget::rva005084FC(void *weapon, Object *target, const Coord3D *position)
 {
  Rva00263895Member info;
- if (rva00508120(weapon, target, (DamageInfo*)&info, false, position) == true)
+ if (generateDamageInfo(weapon, target, (DamageInfo*)&info, false, position) == true)
  {
   if (info.damageType10 == 7)
    target->attemptHealing(info.amount20, target);
@@ -199,7 +199,7 @@ bool DamageNugget::rva005086CE(void *weapon,Object *target)
  Rva005084FCWeaponView *descriptor=(Rva005084FCWeaponView*)weapon;
  if(!rva005075D6(weapon,target)) return false;
  Rva00263895Member info;
- rva00508120(weapon,target,(DamageInfo*)&info,true,0);
+ generateDamageInfo(weapon,target,(DamageInfo*)&info,true,0);
  if(!target) return false;
  Object *source=TheGameLogic->findObjectByID((ObjectID)descriptor->sourceID08);
  if(!source) return false;
