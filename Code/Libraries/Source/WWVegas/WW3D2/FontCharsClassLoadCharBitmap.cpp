@@ -1,31 +1,12 @@
-// ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
-// partial score=0.78 date=2026-10-17
-// ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
-// partial score=0.775 date=2026-10-14
-// ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
-// partial score=0.7604897040120062 date=2026-10-10
 // cl: /Ireference/shims/sweep /O2 /G7 /DNDEBUG /MD /EHsc /arch:SSE
 // stlport
-// ZH Store_GDI_Char is the semantic guide; BFME1 reference575ba2b04.
-// BFME2 Thai glyph sibling supplies the proven tiled downsampling extension.
-// Native156A60..156F73 is1299B, not the queued truncated1292B extent.
-// Target glyph-index validation/cache at4C/44C/45C, scale40, font48,
-// buffer list14/count20, pixel28/height2C/ascent30/overlap38 measured.
-// Text-output flag2 and direct character cache replace Thai flag12/map.
-// This is a nonmatching bank: 1285B/frameA4 vs native 1299/frameAC,
-// all calls resolve. Tile size is a SIZE aggregate and halfArea a plain
-// int (volatile removed): struct-diff 81->71, rawnd 954->942. Remaining
-// wall: native does no LICM/strength reduction on the outer ty loop
-// (ty*tileX, ty*tile.cy multiplied and -tile.cx recomputed per ty, ty
-// counted up in edi/[B+A0]); ours strength-reduces it. RECT inside tx,
-// sy at ty level, do/while and goto outer loops all keep the SR.
+// FontCharsClass::loadCharBitmap: rasterizes one glyph through the shared GDI DIB in 64x64 tiles and
+// box-filters it by Scale into 4-bit alpha (ZH Store_GDI_Char semantics, Thai sibling 0x00157FF0 shape).
+// Tile, origin and cell coordinates are POINT/SIZE pairs; a missing glyph caches the -1 sentinel.
 #include <windows.h>
 extern "C" __declspec(dllimport) DWORD WINAPI GetGlyphIndicesW(HDC,LPCWSTR,int,LPWORD,DWORD);
 #include <map>
 #include <string.h>
-struct ABC { int abcA; unsigned int abcB; int abcC; };
-extern "C" __declspec(dllimport) int __stdcall GetTextExtentPointI(HDC,const unsigned short*,int,SIZE*);
-extern "C" __declspec(dllimport) int __stdcall GetCharABCWidthsI(HDC,unsigned int,unsigned int,const unsigned short*,ABC*);
 
 struct FontCharsClassCharDataStruct
 {
@@ -66,9 +47,6 @@ public:
  T &operator[](int i) { return items[i]; }
  int Count() const { return activeCount; }
 };
-namespace _STL {
-template<> map<unsigned short,int,less<unsigned short>,allocator<pair<const unsigned short,int> > >::mapped_type &map<unsigned short,int,less<unsigned short>,allocator<pair<const unsigned short,int> > >::operator[](const key_type &);
-}
 class FontCharsClass
 {
  void *unused00,*unused04;
@@ -100,64 +78,84 @@ const FontCharsClassCharDataStruct *FontCharsClass::loadCharBitmap(unsigned shor
  }
 
  int area=Scale*Scale;
-int halfArea = area>>1;
+ int halfArea=area>>1;
  int tileX=64/Scale;
  int tileY=64/Scale;
- SIZE tile={Scale*tileX,Scale*tileY};
+ SIZE tile_size={Scale*tileX,Scale*tileY};
  SIZE charSize;
  if(!::GetTextExtentPoint32W(g_fontCharsGdiState->dc,&ch,1,&charSize))
   charSize.cx=charSize.cy=1;
- int width=(Scale+charSize.cx-1)/Scale+overlap;
- int height=(Scale+charSize.cy-1)/Scale;
- Update_Current_Buffer(width);
- unsigned short *start=BufferList[BufferList.Count()-1]->Buffer+CurrPixelOffset;
+ SIZE cell_size;
+ cell_size.cx=(Scale+charSize.cx-1)/Scale+overlap;
+ cell_size.cy=(Scale+charSize.cy-1)/Scale;
+ // Get a pointer to the surface that this character should use
+ Update_Current_Buffer(cell_size.cx);
+ unsigned short *pixels=BufferList[BufferList.Count()-1]->Buffer+CurrPixelOffset;
  int top=ExtraHeight/2;
  int bottom=ExtraHeight-top;
- unsigned short *pixels=start+top*width;
- memset(start,0,top*width*2);
- memset(pixels+width*height,0,bottom*width*2);
- int tilesX=(width+tileX-1)/tileX;
- int tilesY=(height+tileY-1)/tileY;
- RECT rect={0,0,(Scale*tileX),tile.cy};
- for(int ty=0;ty<tilesY;++ty) {
-  for(int tx=0;tx<tilesX;++tx) {
-
-   int sx=tx*tile.cx,sy=ty*tile.cy;
-   ::ExtTextOutW(g_fontCharsGdiState->dc,-sx,-sy,2,&rect,&ch,1,0);
-   int maxX=tx*tileX+tileX;
-   if(maxX>width) maxX=width;
-   int maxY=ty*tileY+tileY;
-   if(maxY>height) maxY=height;
-   for(int y=ty*tileY;y<maxY;++y) {
-    unsigned short *dest=pixels+y*width+tx*tileX;
+ unsigned short *start=pixels;
+ pixels+=top*cell_size.cx;
+ memset(start,0,top*cell_size.cx*2);
+ memset(pixels+cell_size.cx*cell_size.cy,0,bottom*cell_size.cx*2);
+ SIZE tile_count;
+ tile_count.cx=(cell_size.cx+tileX-1)/tileX;
+ tile_count.cy=(cell_size.cy+tileY-1)/tileY;
+ // Copy the BMP contents to the buffer
+ POINT tile_pos;
+ for(tile_pos.y=0;tile_pos.y<tile_count.cy;++tile_pos.y) {
+  for(tile_pos.x=0;tile_pos.x<tile_count.cx;++tile_pos.x) {
+   // Draw the character into the memory DC
+   RECT rect={0,0,tile_size.cx,tile_size.cy};
+   POINT tile_origin;
+   tile_origin.x=tile_size.cx*tile_pos.x;
+   tile_origin.y=tile_size.cy*tile_pos.y;
+   ::ExtTextOutW(g_fontCharsGdiState->dc,-tile_origin.x,-tile_origin.y,2,&rect,&ch,1,0);
+   POINT cell_start;
+   cell_start.x=tileX*tile_pos.x;
+   cell_start.y=tileY*tile_pos.y;
+   POINT cell_end;
+   cell_end.x=cell_start.x+tileX;
+   if(cell_end.x>cell_size.cx) cell_end.x=cell_size.cx;
+   cell_end.y=cell_start.y+tileY;
+   if(cell_end.y>cell_size.cy) cell_end.y=cell_size.cy;
+   for(int y=cell_start.y;y<cell_end.y;++y) {
+    unsigned short *dest=pixels+y*cell_size.cx+cell_start.x;
     int y0=Scale*y;
     int y1=y0+Scale;
     if(y1>charSize.cy) y1=charSize.cy;
-    for(int x=tx*tileX;x<maxX;++x) {
+    for(int x=cell_start.x;x<cell_end.x;++x) {
      unsigned int intensity=0;
      int x0=Scale*x;
      int x1=x0+Scale;
      if(x1>charSize.cx) x1=charSize.cx;
      for(int row=y0;row<y1;++row) {
-      int index=(row-sy)*192+(x0-sx)*3;
+      // Compute the indices into the BMP and surface
+      int index=(row-tile_origin.y)*192+(x0-tile_origin.x)*3;
+      // Loop over each column
       for(int col=x0;col<x1;++col) {
+       // Get the pixel color at this location
        unsigned char sample=g_fontCharsGdiState->bits[index];
        index+=3;
        intensity+=(sample>>4)&15;
       }
      }
+     // Convert the pixel intensity from 8bit to 4bit and store it in our buffer
      unsigned short alpha=(intensity+halfArea)/area;
      *dest++=0xfff|(alpha<<12);
     }
    }
   }
  }
+ // Save information about this character in our list
  FontCharsClassCharDataStruct *data=new FontCharsClassCharDataStruct;
  data->Value=ch;
- data->Width=width;
+ data->Width=cell_size.cx;
  data->Bearing=0;
  data->Buffer=BufferList[BufferList.Count()-1]->Buffer+CurrPixelOffset;
+ // Insert this character into our array
  if(ch<256) directChars[ch]=data; else pages[ch-first]=data;
- CurrPixelOffset+=CharHeight*(width+overlap);
+ // Advance the character position
+ CurrPixelOffset+=CharHeight*(cell_size.cx+overlap);
+ // Return the index of the entry we just added
  return data;
 }
