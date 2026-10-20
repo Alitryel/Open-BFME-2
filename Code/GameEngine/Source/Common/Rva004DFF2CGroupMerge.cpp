@@ -23,6 +23,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 class Object;
 namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (this->_M_start != 0) this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); } }
 
+// Keep the standard inline teardown without a conflicting emitted copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<Object *, allocator<Object *> >::~vector()
+{ _Destroy(this->_M_start, this->_M_finish); }
+}
+
 class Object;
 typedef void *(__cdecl *Rva004DFE4FCallback)(void *key);
 // The 40-byte group built by the rowed constructor 0x00281A76; the member

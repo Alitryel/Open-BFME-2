@@ -25,6 +25,13 @@ template <> __declspec(dllimport) __forceinline
 _Vector_base<Object *, allocator<Object *> >::~_Vector_base()
 { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
+
+// Keep the standard inline teardown without a conflicting emitted copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<Object *, allocator<Object *> >::~vector()
+{ _Destroy(this->_M_start, this->_M_finish); }
+}
 // Complete native [281A76,281AB7) allocates a 40-byte group.
 // Callers establish active00 and selected18 byte flags plus a pointer vector1C.
 // The field subobject describes the observed initialization footprint; its
