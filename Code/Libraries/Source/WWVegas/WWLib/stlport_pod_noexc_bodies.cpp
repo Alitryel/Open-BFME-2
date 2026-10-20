@@ -19,6 +19,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include <deque>
+// Suppress this TU's non-retail copy of ?_M_fill_insert@?$vector@UBfmePod44@@V?$allocator@UBfmePod44@@@_STL@@@_STL@@QAEXPAUBfmePod:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod44;
+namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_fill_insert(BfmePod44 *, size_t, const BfmePod44 &); }
 struct BfmePod8 { int a[2]; };
 struct BfmePod16 { int a[4]; };
 struct BfmePod20 { int a[5]; };
