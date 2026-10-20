@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// BfmeThingCGD::bfmeOneCGD, retail 0x00758D10, 193B. Sibling definition lives
+// CollisionManagerImpl::bfmeOneCGD, retail 0x00758D10, 193B. Sibling definition lives
 // in BfmeConv597.cpp, which already carries the rowed 41B Update driver
 // (0x0075A490) that calls this; the two units agree on one class layout.
 //
@@ -14,9 +14,10 @@
 // subobject flags at +0x04/+0x10 are target instruction facts, read straight
 // off the native body.
 //
-// BfmeThingCGD and the node/sub-object names are address-derived placeholders:
-// retail ties no string, vtable slot or BFME helper to them. The original
-// subsystem, class and flag meanings stay unproven. Only the two list links
+// The node/sub-object names are address-derived placeholders: retail ties no
+// string, vtable slot or BFME helper to them, and the flag meanings stay
+// unproven. The owner is CollisionManagerImpl (WorldBuilder's Update lead and
+// collisionmanager_impl.cpp's +0xAE10/+0xC068 layout). Only the two list links
 // carry a role name, being the intrusive-hash-chain idiom already landed in
 // Rva009A3770HashChainInsert.cpp and Rva009A2BE0HashIterNext.cpp.
 //
@@ -45,7 +46,7 @@ struct Rva009A2FE0Node
 	Rva009A2FE0Node *m_next;
 };
 
-class BfmeThingCGD
+class CollisionManagerImpl
 {
 public:
 	void bfmeOneCGD();
@@ -66,7 +67,7 @@ void bfmeGlobalCGD();
 // Walk the 0x493-slot table at this+0xAE10 from the cursor at this+0xC064 and
 // move every node out of its bucket chain and onto the second list at this+0xC05C
 // according to the two sub-object flags.
-void BfmeThingCGD::bfmeOneCGD()
+void CollisionManagerImpl::bfmeOneCGD()
 {
 	Rva009A2FE0Node *nil = 0;
 	Rva009A2FE0Node **curp = &m_cur;

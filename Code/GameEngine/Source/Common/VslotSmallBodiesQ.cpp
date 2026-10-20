@@ -143,7 +143,7 @@ public:
 	static void StartRange(const char *range);
 	static void StopRange(const char *range);
 };
-class BfmeThingCGD
+class CollisionManagerImpl
 {
 public:
 	void Update();
@@ -154,7 +154,7 @@ public:
 	void rva007581E0();
 private:
 	char m_pad00[0x10];
-	BfmeThingCGD *m_10;
+	CollisionManagerImpl *m_10;
 };
 void Rva007581E0::rva007581E0()
 {

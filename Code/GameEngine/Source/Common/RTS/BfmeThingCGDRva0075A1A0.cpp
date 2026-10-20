@@ -1,4 +1,4 @@
-// ?rva0075A1A0@BfmeThingCGD@@QAEXXZ
+// ?rva0075A1A0@CollisionManagerImpl@@QAEXXZ
 // cl: /O2 /G6 /MD /EHs /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Retail 0x0075A1A0..0x0075A48E (750 B; Ghidra's 747 cut the add esp,0x18 / ret epilogue), thiscall, EH.
@@ -37,7 +37,7 @@ struct Rva009A2FE0Node
 	Rva009A2FE0Node *m_next;
 };
 
-class BfmeThingCGD
+class CollisionManagerImpl
 {
 public:
 	void bfmeOneCGD();
@@ -78,7 +78,7 @@ void bfmeGlobalCGD();
 
 typedef _STL::map<Rva009A2FE0Sub *, unsigned int> Rva0075A1A0Counts;
 
-inline Rva009A2FE0Node *BfmeThingCGD::nextNode()
+inline Rva009A2FE0Node *CollisionManagerImpl::nextNode()
 {
 	while (m_cur == 0)
 	{
@@ -94,8 +94,8 @@ inline Rva009A2FE0Node *BfmeThingCGD::nextNode()
 	return n;
 }
 
-// ?BfmeThingCGD::nextNode2 absent-from-retail (inlined into rva0075A1A0; no standalone retail body)
-inline Rva009A2FE0Node *BfmeThingCGD::nextNode2()
+// ?CollisionManagerImpl::nextNode2 absent-from-retail (inlined into rva0075A1A0; no standalone retail body)
+inline Rva009A2FE0Node *CollisionManagerImpl::nextNode2()
 {
 	while (m_cur2 == 0)
 	{
@@ -129,7 +129,7 @@ static inline unsigned int rva0075A1A0Max(Rva0075A1A0Counts &counts)
 	return most;
 }
 
-void BfmeThingCGD::rva0075A1A0()
+void CollisionManagerImpl::rva0075A1A0()
 {
 	Rva0075A1A0Counts counts;
 	Rva009A2FE0Node *n;

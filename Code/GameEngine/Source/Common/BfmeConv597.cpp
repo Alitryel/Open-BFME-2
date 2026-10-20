@@ -1,4 +1,4 @@
-class BfmeThingCGD
+class CollisionManagerImpl
 {
 public:
 	void bfmeOneCGD();
@@ -11,7 +11,7 @@ public:
 
 void bfmeGlobalCGD();
 
-void BfmeThingCGD::Update()
+void CollisionManagerImpl::Update()
 {
 	if (m_bfmeFirst != 0)
 	{
