@@ -7,6 +7,10 @@
 // StringBase ctor plus releaseBuffer plus rb-tree dtor rows.
 #include "ascii_string.h"
 #include <map>
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@HU?$pair@$$CBHURva0040A603Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHU:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0040A603Record;
+namespace _STL { template <> void _Rb_tree<int,pair<int const ,Rva0040A603Record>,_Select1st<pair<int const ,Rva0040A603Record> >,less<int>,allocator<pair<int const ,Rva0040A603Record> > >::_M_erase(_Rb_tree_node<pair<int const ,Rva0040A603Record> > *); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHURva0040A603Record@@@_STL@@@_STL@@@_:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva0040A603Record;
