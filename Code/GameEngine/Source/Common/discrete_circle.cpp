@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/GameEngine/Include/Precompiled /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath
+// cl: /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/game/GameEngine/Include/Precompiled /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath
 // stlport
 //
 // Bodies ported from Open-BFME-1's
@@ -81,12 +81,23 @@ namespace _STL { template <> _Vector_base<HorzLine,allocator<HorzLine> >::~_Vect
 struct HorzLine;
 namespace _STL { template <> void allocator<HorzLine>::deallocate(HorzLine *,unsigned int) const; }
 
+// Reuse the linked allocator; do not emit another node-pool policy copy.
+namespace _STL { template <> void *__node_alloc<true,0>::allocate(size_t); }
+
+// Retail reserve 0x003B0224 is owned by vector<BfmeE12>. Its three-int
+// element and three-pointer vector storage match this non-owning ABI view;
+// keep allocation/copy in that existing provider instead of another copy.
+struct BfmeE12 { int a[3]; };
+namespace _STL { template <> void vector<BfmeE12>::reserve(unsigned int); }
+typedef char CircleReserveElementSize[sizeof(HorzLine)==sizeof(BfmeE12) ? 1 : -1];
+typedef char CircleReserveVectorSize[sizeof(VecHorzLine)==sizeof(_STL::vector<BfmeE12>) ? 1 : -1];
+
 //-------------------------------------------------------------------------------------------------
 DiscreteCircle::DiscreteCircle(Int xCenter, Int yCenter, Int radius)
 {
 	m_yPos = yCenter;
 	m_yPosDoubled = (yCenter << 1);
-	m_edges.reserve(radius << 1);	// largest that it should ever be.
+	reinterpret_cast<_STL::vector<BfmeE12> *>(&m_edges)->reserve(radius << 1);	// largest that it should ever be.
 
 	generateEdgePairs(xCenter, yCenter, radius);
 	removeDuplicates();
