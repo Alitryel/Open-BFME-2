@@ -16,6 +16,9 @@ namespace _STL { template <> void basic_string<unsigned short, char_traits<unsig
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> unsigned int __char_traits_base<unsigned short, unsigned short>::length(unsigned short const *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAGGV?$allocator@G@_STL@@@_STL@@QAEPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * _STLP_alloc_proxy<unsigned short *,unsigned short,allocator<unsigned short> >::allocate(unsigned int); }
 
 extern "C" unsigned int __cdecl strlen(const char *s);
 extern "C" void *__cdecl memset(void *dest, int c, unsigned int n);
