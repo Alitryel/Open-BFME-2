@@ -62,13 +62,20 @@ struct NuggetNameList
 struct Coord3D;
 class Matrix3D;
 
-// reallyCreate's by-value result: three words torn down through the 5-byte
-// thunk at 0x001F22A3.
-struct NuggetCreated
+// reallyCreate's by-value result is the rowed STLport vector<Object*>
+// (0x001F1634's ledger name); its destructor is the 5-byte thunk at
+// 0x001F22A3. Declaration-only view of that template.
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector
 {
-	~NuggetCreated();
+public:
+	~vector();
+private:
 	char m_data[12];
 };
+}
+typedef _STL::vector<Object *, _STL::allocator<Object *> > NuggetCreated;
 
 class GenericObjectCreationNugget
 {
