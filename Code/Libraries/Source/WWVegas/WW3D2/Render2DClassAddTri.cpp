@@ -43,6 +43,10 @@ extern int g_Va00DB5FC8;
 // Retail calls the pointer stored in the slot, so the call goes through the
 // memory at the member's address rather than through a register copy of it.
 
+// Add_Quad's helper names the 0x00DEC49C Z global as its select-any home does.
+extern "C" float g_BfmeRender2DZ;
+class RectClass;
+
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/render2d.h
 class Render2DClass
 {
@@ -83,10 +87,20 @@ private:
         vertex.z = g_Va00DEC49C;
 	}
 
+	void convertPosition006e(BfmeRenderVertex &vertex, float x, float y)
+	{
+		vertex.x = x * m_coordinateScaleX + m_biasedCoordinateOffsetX;
+		vertex.y = y * m_coordinateScaleY + m_biasedCoordinateOffsetY;
+		vertex.z = g_BfmeRender2DZ;
+	}
+
 public:
 	void Add_Tri(const Vector2 &v0, const Vector2 &v1, const Vector2 &v2,
 		const Vector2 &uv0, const Vector2 &uv1, const Vector2 &uv2,
 		BfmeUInt32 color);
+	void Add_Quad(const RectClass &screen, const RectClass &uv,
+		BfmeUInt32 color0, BfmeUInt32 color1,
+		BfmeUInt32 color2, BfmeUInt32 color3);
 };
 
 // ?Add_Tri@Render2DClass@@QAEXABVVector2@@00000K@Z
@@ -132,6 +146,9 @@ void Render2DClass::Add_Tri(const Vector2 &v0, const Vector2 &v1, const Vector2 
 // is the unit's own rowed definition. Getter is exact only as a TU static
 // beside its caller (hidden result loaded into EDI once at entry).
 #include "ascii_string.h"
+#include "../../../Include/Lib/ICoord2D.h"
+#include "../../../Include/Lib/IRegion2D.h"
+#include <stdlib.h>
 float atan2(float, float);
 
 class TextureClass
@@ -179,7 +196,27 @@ public:
 	void setQuality(bool b) { ((TextureAsset *)this)->rva00132FE9(b); }
 };
 
-class RectClass{public:float Left,Top,Right,Bottom;float Width()const{return Right-Left;}float Height()const{return Bottom-Top;}};
+// WWMath rect.h members used here.
+class RectClass
+{
+public:
+	float	Left;
+	float	Top;
+	float	Right;
+	float	Bottom;
+
+	// Constructors
+	RectClass( void )		{};
+	RectClass( const RectClass & r )	{ Left = r.Left; Top = r.Top; Right = r.Right; Bottom = r.Bottom; }
+	RectClass( float left, float top, float right, float bottom )	{ Left = left; Top = top; Right = right; Bottom = bottom; }
+
+	// Assignment
+	RectClass & operator = (const RectClass & r) { Left = r.Left; Top = r.Top; Right = r.Right; Bottom = r.Bottom; return *this; }
+
+	// Access
+	float	Width(void) const		{ return Right - Left; }
+	float	Height(void) const	{ return Bottom - Top; }
+};
 class Image
 {
 public:
@@ -219,7 +256,7 @@ static BFME2ParticleTextureHandle Rva000470D5GetTexture(const Rva000470D5Source 
 }
 
 class Rva000456C9{public:void rva000456C9(const RefCountPtr<TextureClass>*);};
-class W3DDisplay{public:virtual void Rva000471AD(const Image*,float,float,float,float,float,unsigned long);char gap04[0x164];Render2DClass*render;};
+class W3DDisplay{public:virtual void Rva000471AD(const Image*,float,float,float,float,float,unsigned long);virtual void Rva0004776F(const Image*,float,float,float,float,unsigned long,int);char gap04[0x164];Render2DClass*render;IRegion2D m_clipRegion;bool m_isClippedEnabled;};
 inline float clockPi(){return 3.14159265358979323846f;}
 void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,float bottom,float percent,unsigned long color)
 {
@@ -321,3 +358,192 @@ void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,
  render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
 
 }
+
+// Render2DClass::Add_Quad, retail 0x00042719, rowed in Render2DClassAddQuadColor.cpp. This visible
+// select-any copy lets drawImage below treat the rectangles it passes as unaliased.
+__declspec(noinline) inline void Render2DClass::Add_Quad(const RectClass &screen, const RectClass &uv,
+	BfmeUInt32 color0, BfmeUInt32 color1,
+	BfmeUInt32 color2, BfmeUInt32 color3)
+{
+	BfmeUInt32 baseVertexPair;
+	BfmeUInt32 *indices;
+	BfmeRenderVertex *vertices = allocateGeometry006e(4, 6, &indices, &baseVertexPair);
+
+	convertPosition006e(vertices[0], screen.Left, screen.Top);
+	convertPosition006e(vertices[1], screen.Left, screen.Bottom);
+	convertPosition006e(vertices[2], screen.Right, screen.Top);
+	convertPosition006e(vertices[3], screen.Right, screen.Bottom);
+
+	vertices[0].u = vertices[1].u = uv.Left;
+	vertices[2].u = vertices[3].u = uv.Right;
+	vertices[0].v = vertices[2].v = uv.Top;
+	vertices[1].v = vertices[3].v = uv.Bottom;
+
+	vertices[0].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color0);
+	vertices[1].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color2);
+	vertices[2].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color1);
+	vertices[3].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color3);
+
+	indices[0] = baseVertexPair + 0x00010000;
+	indices[1] = baseVertexPair + 0x00020002;
+	indices[2] = baseVertexPair + 0x00030001;
+}
+
+// W3DDisplay vtable 0x00BC3C80 slot 62 (+0xF8): ZH W3DDisplay::drawImage with BFME2 float coordinates,
+// render-state switch and restore, and the static texture getter 0x000470D5 instead of Set_Texture.
+// ?Rva0004776F@W3DDisplay@@UAEXPBVImage@@MMMMKH@Z
+// W3DDisplay::drawImage ======================================================
+/** Draws an images at the screen coordinates and keeps it within the end
+	* screen coords specified */
+//=============================================================================
+void W3DDisplay::Rva0004776F( const Image *image, float startX, float startY,
+														float endX, float endY, unsigned long color, int mode)
+{
+
+	// sanity
+	if( image == 0 )
+		return;
+
+	// !!
+	// Remember to update the GUIEditDisplay::drawImage when you make
+	// changes to this, it technically uses W3D code to render itself,
+	// but it not derived on the W3DDisplay
+	// !!
+
+	const RectClass *uv = &image->uv;
+
+	render->set48( true );
+
+	///@todo: Why are we alpha blending all images?  Reduces our fillrate. -MW
+	switch (mode)
+	{
+		case 0: render->set00(0); break;
+		case 1: render->set00(3); break;
+		case 3: render->set00(1); break;
+		case 4: render->set00(4); break;
+		case 5: render->set00(6); break;
+		default:
+			break;
+	}
+
+	// if we have raw texture data we will use it, otherwise we are referencing filenames
+	((Rva000456C9*)render)->rva000456C9((const RefCountPtr<TextureClass>*)&Rva000470D5GetTexture((const Rva000470D5Source*)image));
+
+	RectClass screen_rect(startX,startY,endX,endY);
+	RectClass uv_rect(uv->Left,uv->Top,uv->Right,uv->Bottom);
+
+	if (m_isClippedEnabled)
+	{	//need to clip this quad to clip rectangle
+
+		//
+		//	Check for completely clipped
+		//
+		if (	endX <= m_clipRegion.lo.x ||
+				endY <= m_clipRegion.lo.y)
+		{
+			return;	//nothing to render
+		} else {
+			RectClass clipped_rect;
+			RectClass clipped_uv_rect;
+
+			if( image->m_status & 1 )
+			{
+
+
+				//
+				//	Clip the polygons to the specified area
+				//
+
+				clipped_rect.Left		= __max (screen_rect.Left, m_clipRegion.lo.x);
+				clipped_rect.Right	= __min (screen_rect.Right, m_clipRegion.hi.x);
+				clipped_rect.Top		= __max (screen_rect.Top, m_clipRegion.lo.y);
+				clipped_rect.Bottom	= __min (screen_rect.Bottom, m_clipRegion.hi.y);
+
+				//
+				//	Clip the texture to the specified area
+				//
+
+				float percent				= ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Top		= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Right - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Bottom	= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Top - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Right	= uv_rect.Right - (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Bottom - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Left		= uv_rect.Right - (uv_rect.Width () * percent);
+			}
+			else
+
+			{
+
+				//
+				//	Clip the polygons to the specified area
+				//
+
+				clipped_rect.Left		= __max (screen_rect.Left, m_clipRegion.lo.x);
+				clipped_rect.Right	= __min (screen_rect.Right, m_clipRegion.hi.x);
+				clipped_rect.Top		= __max (screen_rect.Top, m_clipRegion.lo.y);
+				clipped_rect.Bottom	= __min (screen_rect.Bottom, m_clipRegion.hi.y);
+
+				//
+				//	Clip the texture to the specified area
+				//
+
+				float percent				= ((clipped_rect.Left - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Left		= uv_rect.Left + (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Right - screen_rect.Left) / screen_rect.Width ());
+				clipped_uv_rect.Right	= uv_rect.Left + (uv_rect.Width () * percent);
+
+				percent						= ((clipped_rect.Top - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Top		= uv_rect.Top + (uv_rect.Height () * percent);
+
+				percent						= ((clipped_rect.Bottom - screen_rect.Top) / screen_rect.Height ());
+				clipped_uv_rect.Bottom	= uv_rect.Top + (uv_rect.Height () * percent);
+			}
+
+			//
+			//	Use the clipped rectangles to render
+			//
+			screen_rect = clipped_rect;
+			uv_rect		= clipped_uv_rect;
+		}
+	}
+
+	// if rotated 90 degrees clockwise we have to adjust the uv coords
+	if( image->m_status & 1 )
+	{
+
+		render->Add_Tri( Vector2( screen_rect.Left, screen_rect.Top ),
+												 Vector2( screen_rect.Left, screen_rect.Bottom ),
+												 Vector2( screen_rect.Right, screen_rect.Top ),
+												 Vector2( uv_rect.Right, uv_rect.Top),
+												 Vector2( uv_rect.Left, uv_rect.Top),
+												 Vector2( uv_rect.Right, uv_rect.Bottom ),
+												 color );
+
+		render->Add_Tri( Vector2( screen_rect.Right, screen_rect.Bottom ),
+												 Vector2( screen_rect.Right, screen_rect.Top ),
+												 Vector2( screen_rect.Left, screen_rect.Bottom ),
+												 Vector2( uv_rect.Left, uv_rect.Bottom ),
+												 Vector2( uv_rect.Right, uv_rect.Bottom ),
+												 Vector2( uv_rect.Left, uv_rect.Top ),
+												 color );
+
+	}  // end if
+	else
+	{
+
+		// just draw as normal
+		render->Add_Quad( screen_rect, uv_rect, color, color, color, color );
+
+	}  // end else
+
+	//reset to default states for next time this method is called.
+	if (mode != 2)
+		render->set00(2);
+
+}  // end drawImage
