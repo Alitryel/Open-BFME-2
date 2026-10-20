@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /ICode/Libraries/Include/Lib /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include "Coord3D.h"
 #include <vector>
@@ -233,8 +233,9 @@ namespace _STL { template<> void vector<Rva004C7878Record,allocator<Rva004C7878R
 
 namespace _STL {
 template<> inline __declspec(noinline) _Vector_base<Object *,allocator<Object *> >::_Vector_base(const allocator<Object *> &a) : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
-template<> inline void allocator<Object *>::deallocate(Object **p,unsigned int) const { if(p) Rva00030830FreeAllocation(p); }
+template<> inline void allocator<Object *>::deallocate(Object **p,unsigned int) const { if(p) free(p); }
 template<> void vector<Object *,allocator<Object *> >::push_back(Object * const &);
+template<> void vector<BfmeE8,allocator<BfmeE8> >::push_back(const BfmeE8 &);
 }
 // Keep the proven29B record-vector base as the exclusive provider, as the
 // E8 specialization above does. An earlier library COMDAT emits14B and
