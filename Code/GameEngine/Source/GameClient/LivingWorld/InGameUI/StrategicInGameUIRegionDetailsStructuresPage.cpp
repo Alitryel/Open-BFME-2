@@ -17,6 +17,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva005E2B0EElement@@@_STL@@YAXPAURva005E2B0EElement@@0ABU__false_type@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005E2B0EElement;
+namespace _STL { template <> void __destroy_aux<Rva005E2B0EElement *>(Rva005E2B0EElement *,Rva005E2B0EElement *,__false_type const &); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
