@@ -3,6 +3,10 @@
 // ??1Rva00102188@@UAE@XZ retail 0x00102188 54B
 // Evidence: chain calls vector dtor 0x000B0254 at +0x14 then +0x04; caller deleting dtor 0x001021BE
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UEvaMessageInfo@@V?$allocator@UEvaMessageInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct EvaMessageInfo;
+namespace _STL { template <> _Vector_base<EvaMessageInfo,allocator<EvaMessageInfo> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ??$_Destroy@PAUEvaMessageInfo@@@_STL@@YAXPAUEvaMessageInfo@@0@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct EvaMessageInfo;
