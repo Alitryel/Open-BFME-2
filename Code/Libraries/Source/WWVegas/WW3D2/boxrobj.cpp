@@ -812,6 +812,19 @@ int AABoxRenderObjClass::Class_ID(void) const
 }
 
 
+// Retail's Render adds the translation with the second and third products
+// parenthesized (each parenthesized float term is a paren node in c2's IL, so
+// the identity's 1.0 in rows 1 and 2 is folded only after the row sums are
+// reassociated): rows group as (y*0+z*0)+x, (y+x*0)+z*0, (z+x*0)+y*0, which
+// Matrix3D::Translate does not give. Evidence:
+// reverse/attempt_support/fp-paren-nodes-20261020.md.
+static inline void aaboxTranslate(Matrix3D &m, const Vector3 &t)
+{
+	m[0][3] += m[0][0]*t[0] + (m[0][1]*t[1]) + (m[0][2]*t[2]);
+	m[1][3] += m[1][0]*t[0] + (m[1][1]*t[1]) + (m[1][2]*t[2]);
+	m[2][3] += m[2][0]*t[0] + (m[2][1]*t[1]) + (m[2][2]*t[2]);
+}
+
 /***********************************************************************************************
  * AABoxRenderObjClass::Render -- render this box                                              *
  *                                                                                             *
@@ -827,9 +840,13 @@ int AABoxRenderObjClass::Class_ID(void) const
 // ?AABoxRenderObjClass::Render present-unmatched
 void AABoxRenderObjClass::Render(RenderInfoClass & rinfo)
 {
-	const Matrix3D & tm = Transform;
-	Matrix3D temp(1);
-	temp.Translate(Vector3(tm[0][3], tm[1][3], tm[2][3]));
+	Vector3 translation;
+	translation.X = Transform.Get_X_Translation();
+	translation.Y = Transform.Get_Y_Translation();
+	translation.Z = Transform.Get_Z_Translation();
+	Matrix3D temp;
+	temp.Make_Identity();
+	aaboxTranslate(temp, translation);
 	DX8Wrapper::Set_Transform(D3DTS_WORLD,temp);
 	render_box(rinfo,ObjSpaceCenter,ObjSpaceExtent);
 }
