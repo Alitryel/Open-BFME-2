@@ -12,6 +12,11 @@
 // +0x20), inline frees of three POD vector buffers at +0x6C, +0x60, +0x54
 // (0x00030830), then ~UpdateModule 0x0024A797. Base view as in
 // SpecialAbilityUpdateDtor.cpp; element types and owner unrecovered.
+// Native secondary table 0x00851D68: DockUpdate::update, followed by
+// UpdateModule's disabled-mask getter and wake-delay slot.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template<int NumBits> class BitFlags;
+
 #include <vector>
 
 class Rva0049B47C
@@ -38,7 +43,9 @@ public:
 class Rva0024A797_B2
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime) = 0;
 
 private:
 	char m_pad08[12];
@@ -48,6 +55,8 @@ class UpdateModule : public PrimaryP58A0F4, public Rva0024A797_B2
 {
 public:
 	virtual ~UpdateModule();
+	virtual BitFlags<11> getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime);
 };
 
 class Rva0058A0F4_B20
@@ -60,6 +69,7 @@ class DockUpdate : public UpdateModule, public Rva0058A0F4_B20
 {
 public:
 	virtual ~DockUpdate();
+	virtual UpdateSleepTime update();
 
 private:
 	unsigned char m_pad24[0x54 - 0x24];

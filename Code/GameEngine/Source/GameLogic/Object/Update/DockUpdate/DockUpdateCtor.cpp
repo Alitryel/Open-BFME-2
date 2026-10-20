@@ -156,10 +156,17 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+// Native secondary table 0x00851D68: DockUpdate::update, followed by
+// UpdateModule's disabled-mask getter and wake-delay slot.
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+template<int NumBits> class BitFlags;
+
 class UpdateModuleInterface
 {
 public:
-	virtual void update() = 0;
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime) = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -171,7 +178,9 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime);
 };
 
 class DockUpdateInterface
@@ -194,6 +203,7 @@ class DockUpdate : public UpdateModule, public DockUpdateInterface
 public:
 	DockUpdate(Thing *thing, const ModuleData *moduleData);
 	virtual ~DockUpdate();
+	virtual UpdateSleepTime update();
 
 	virtual void objectModuleAnchor();
 	virtual void behaviorAnchor();
