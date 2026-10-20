@@ -204,6 +204,9 @@ public:
 	virtual void v2();
 	virtual void v3slotC();
 	bool Rva0043B9E8();
+	bool getGameInfo();
+	void Rva0043BE36(const AsciiString &mapName);
+	AsciiString getPreferredMap();
 	_STL::list<UnicodeString> getUserNames_Rva0043C2D0();
 	UnicodeString Rva0043B9F5();
 	UnicodeString Rva0043BB88();
@@ -248,8 +251,15 @@ class GameInfo
 {
 public:
 	virtual void *v0slot0(int v);
+	virtual void vslot1(); virtual void vslot2(); virtual void vslot3();
+	virtual void vslot4(); virtual void vslot5(); virtual void vslot6();
+	virtual void vslot7(); virtual void vslot8(); virtual void vslot9();
+	virtual void vslot10();
 	GameSlot *getSlot(int index);
  AsciiString getMap() const;
+	void init(); void endGame(); void clearSlotList(); void enterGame();
+	void setSeed(int seed); void setMap(AsciiString mapName);
+	void setMapCRC(unsigned crc); void setMapSize(unsigned size);
 };
 class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern int g_Va00E0333C;
@@ -513,11 +523,16 @@ private:
 	unsigned char m_fields[0x13C];
 };
 
+enum SlotState { SLOT_CLOSED = 2, SLOT_PLAYER = 6 };
+struct GameSlotConnectInfo { GameSlotConnectInfo() : nat(0), port(0) {} int nat; unsigned short port, pad; };
+
 class GameSlot
 {
 public:
 	bool isOccupied() const;
 	void rva0037AD8D(const CreateAHeroData &data);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	void setPlayerTemplate(int index);
 
 	void *m_vtable;
 	unsigned char m_pad00[0x50 - 0x04];
@@ -531,6 +546,7 @@ class Rva0040A3F9
 {
 public:
 	CreateAHeroData *rva0040A32F(int index);
+	int findIndex(CreateAHeroData *hero) const;
 };
 
 class CreateAHeroManager
@@ -538,6 +554,7 @@ class CreateAHeroManager
 public:
 	Rva0040A3F9 *rva0021F797();
 	void rva0021A428(const CreateAHeroData &hero);
+	CreateAHeroData *GetDefaultHero(int side);
 };
 
 // The data ledger and GameEngine::init name RVA9FE344 TheCreateAHeroManager.
@@ -559,6 +576,7 @@ class AptMpGameSetup
 {
 public:
 	bool OnUpdate();bool OnHostStartGame(bool);
+	bool SetSlotHeroData(GameSlot *slot, int heroIndex);
 	int rva00442CB3(unsigned int message, unsigned int data1, unsigned int data2);
 	void rva0044303D();
 };
@@ -699,12 +717,12 @@ void AptSkirmish::MpOwnerGetLocalPlayerName(UnicodeString *out) {
 
 #include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
-class GlobalData {public:char pad[12];AsciiString map;};extern GlobalData *TheWritableGlobalData;
+class GlobalData {public:char pad[12];AsciiString map;char pad10[0x9d4-0x10];unsigned flags;};extern GlobalData *TheWritableGlobalData;
 class Display {public:char pad[0x114];bool flag;};extern Display *TheDisplay;
 class Shell {public:void rva0035BF4C(bool);};extern Shell *TheShell;
 class AptFocusTarget;class AptPlayer {public:void PopFocus(AptFocusTarget *);};
 struct StartGameInfoView {char pad[0x50];unsigned seed;int u54;int scenario;};
-class MapMetaData {public:char pad[0x24];bool official;};
+class MapMetaData {public:char pad[0x24];bool official;char pad25[3];unsigned size,crc;};
 class MapCache {public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
 void InitGameLogicRandom(unsigned);
 class GameMessageArgument {public:char pad[8];int value;char tail[12];int type;};
@@ -766,7 +784,7 @@ void AptSkirmish::StartGameAfterCDCheck() {
 void GameMessage::wb00EC9680(int value) { GameMessageArgument *a=allocArg();a->type=0;a->value=value; }
 
 class Rva0004582DSarAvgField {public:int get() const;};
-class Rva003B8BAA {public:void *GetCampaign(int);};extern class Rva00E02D6C *TheCampaignManager;
+class Rva003B8BAA {public:void *GetCampaign(int);void rva003B930D(_STL::vector<long> *scenarios);};extern class Rva00E02D6C *TheCampaignManager;
 #define g_00E02D6C (*(Rva003B8BAA * *)&TheCampaignManager)
 // ^ g_00E02D6C is only an alias of the owned global TheCampaignManager (ledger names column).
 class Rva003B8B2A {public:int rva003B8B2A();};
@@ -800,5 +818,69 @@ bool Rva005223D7Owner::rva005223D7(int index) {
   }
  }
  }
+ return true;
+}
+
+class SkirmishGameInfo : public GameInfo { public: SkirmishGameInfo(); char tail[0xe3c - 4]; };
+// Layout views of the game info and its slots. Their accessors stand for the inline
+// GameInfo::isInGame, scenario setter and getter and GameSlot::getState that WB expands.
+struct SkirmishGameView { bool isInGame() const { return inGame; } void setScenario(long id) { scenario = id; } long getScenario() const { return scenario; } char pad[0x10];bool inGame;char pad11[0x38-0x11];unsigned word38,word3c;char pad40[0x58-0x40];long scenario;char pad5c[4];char rules[0x28]; };
+struct SkirmishSlotView { int getState() const { return state; } void *v;int state;int u8;int team;char pad[0x38-0x10];unsigned word38,word3c; };
+class PlayerTemplateStore {public:bool rva001FD367(int,int *) const;};extern PlayerTemplateStore *ThePlayerTemplateStore;
+class SkirmishScenarioView {public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void select(long);};
+class MpGameRules { public: static void GetDefaults(int,void *); };
+extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
+extern "C" void *__cdecl memcpy(void *,const void *,unsigned);
+
+// Native 0x00521EDA..0x0052223E, WB 0x01467A90 AptSkirmish::InitTheGame: a fresh skirmish game
+// info with the local player against a closed slot 1 on Harlindon, unless the preferences hold one.
+bool AptSkirmish::InitTheGame() {
+ if(!TheSkirmishGameInfo) TheSkirmishGameInfo=new SkirmishGameInfo;
+ else if(((SkirmishGameView *)TheSkirmishGameInfo)->isInGame()) TheSkirmishGameInfo->endGame();
+ TheSkirmishGameInfo->init();
+ TheSkirmishGameInfo->clearSlotList();
+ TheSkirmishGameInfo->vslot10();
+ GameSlot *initial=TheSkirmishGameInfo->getSlot(0);
+ ((SkirmishGameView *)TheSkirmishGameInfo)->word38=((SkirmishSlotView *)initial)->word38;
+ ((SkirmishGameView *)TheSkirmishGameInfo)->word3c=((SkirmishSlotView *)initial)->word3c;
+ TheSkirmishGameInfo->enterGame();
+ GameSlot *player=TheSkirmishGameInfo->getSlot(0),*enemy=TheSkirmishGameInfo->getSlot(1);
+ if(!player || !enemy) return false;
+ SkirmishPreferences *prefs=(SkirmishPreferences *)((char *)this+0x698);
+ if(!prefs->getGameInfo()) {
+  Rva0040A3F9 *heroes=TheCreateAHeroManager->rva0021F797();
+  { GameSlotConnectInfo info;player->setState(SLOT_PLAYER,prefs->Rva0043B9F5(),&info); }
+  { GameSlotConnectInfo info;enemy->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&info); }
+  int index = 0;
+  int mode = *(int *)((char *)this+0x304);
+  int side = 1 != mode ? 2 : 1;
+  if(!ThePlayerTemplateStore->rva001FD367(side,&index)) index=-1;
+  player->setPlayerTemplate(index);
+  int hero=heroes->findIndex(TheCreateAHeroManager->GetDefaultHero(side));
+  ((AptMpGameSetup *)((char *)this+0x288))->SetSlotHeroData(player,hero);
+  if(!ThePlayerTemplateStore->rva001FD367(5,&index)) index=-1;
+  enemy->setPlayerTemplate(index);
+  hero=heroes->findIndex(TheCreateAHeroManager->GetDefaultHero(5));
+  ((AptMpGameSetup *)((char *)this+0x288))->SetSlotHeroData(enemy,hero);
+  ((SkirmishSlotView *)player)->team=0;((SkirmishSlotView *)enemy)->team=1;
+  prefs->Rva0043BE36(AsciiString("maps\\map mp harlindon\\map mp harlindon.map"));
+  if(*(int *)((char *)this+0x304)==1) {
+   _STL::vector<long> scenarios;g_00E02D6C->rva003B930D(&scenarios);
+   if(!scenarios.empty()) {
+    ((SkirmishGameView *)TheSkirmishGameInfo)->setScenario(scenarios[0]);
+    ((SkirmishScenarioView *)((char *)this+0x27c))->select(((SkirmishGameView *)TheSkirmishGameInfo)->getScenario());
+   }
+  }
+  char rules[0x28];int rmode=*(int *)((char *)this+0x304);MpGameRules::GetDefaults(rmode,rules);
+  memcpy(((SkirmishGameView *)TheSkirmishGameInfo)->rules,rules,0x28);
+ }
+ TheSkirmishGameInfo->setSeed(GetTickCount());
+ if((TheWritableGlobalData->flags&2) && ((SkirmishSlotView *)enemy)->getState()!=SLOT_CLOSED) {
+  GameSlotConnectInfo info;enemy->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&info);
+ }
+ TheSkirmishGameInfo->setMap(prefs->getPreferredMap());
+ const MapMetaData *map=TheMapCache->findMap(TheSkirmishGameInfo->getMap());
+ if(!map) { TheSkirmishGameInfo->setMapCRC(0);TheSkirmishGameInfo->setMapSize(0); }
+ else { TheSkirmishGameInfo->setMapCRC(map->crc);TheSkirmishGameInfo->setMapSize(map->size); }
  return true;
 }
