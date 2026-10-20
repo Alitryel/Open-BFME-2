@@ -1,11 +1,5 @@
 // ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.9672131147540983 date=2026-10-19
-// ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.9672131147540983 date=2026-10-19
-// ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.268 date=2026-10-17
-// ?doParticles@ButterflyDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.669017 date=2026-10-09
+// partial score=0.953 date=2026-10-20
 // Native560B11..561375 Butterfly renderer complete2148B; two wing quads per particle.
 // Purpose from WB1424D50 and exact Streak sibling. Five64B matrix default lifetimes
 // precede the loop in retail; conditional rotation owns a sixth.
@@ -132,7 +126,7 @@ int ButterflyDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*parti
  const ButterflyBox*box=(const ButterflyBox*)bounds;
  float cx=box->center.X,cy=box->center.Y,cz=box->center.Z;
  float ex=box->extent.X,ey=box->extent.Y,ez=box->extent.Z;
- Rva0007671F view;Rva0007671F matrixA,matrixB,matrixC,matrixD;
+ Rva0007671F view;Rva0007671F matrixB,matrixC,matrixD,matrixA;  // slot order follows the names (hash), not declaration order
  if(DX8Wrapper::render_state_changed&0x80000)view.identity();else view.transposeFrom(DX8Wrapper::render_state_view);
  if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())){
  ButterflyParticle*p=getSystem()->storage->getFirstParticle();
