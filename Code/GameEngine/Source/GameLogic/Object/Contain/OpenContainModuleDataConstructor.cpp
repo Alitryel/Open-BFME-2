@@ -18,6 +18,10 @@
 #include <vector>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Vector_base<AsciiString,allocator<AsciiString> >::~_Vector_base(); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
