@@ -11,7 +11,8 @@ extern "C" __declspec(dllimport) double __cdecl ceil(double);
 
 // BaseType.h verbatim: C cast emits out-of-line _ftol plus qword shape;
 // retail holds inline fld/fistp so the helper is load-bearing.
-__forceinline long fast_float2long_round(float f)
+// Local inline conversion; AIUpdate.cpp owns the retail external helper.
+static __forceinline long fast_float2long_round(float f)
 {
 	long i;
 	__asm {
