@@ -61,7 +61,7 @@ public:
       : basic_ios<CharT, Traits>(), gcount_(0) {
     this->init(streambuf);
   }
-  virtual ~basic_istream();
+  virtual ~basic_istream() {}
 private:
   int gcount_;
 };
@@ -74,6 +74,9 @@ public:
   }
   virtual ~basic_ostream();
 };
+// STLport 4.5.3 defines this empty destructor out of class (stl/_ostream.c).
+template <class CharT, class Traits>
+basic_ostream<CharT, Traits>::~basic_ostream() {}
 class _Filebuf_base {
 public:
   bool _M_open(int fd, int mode);
@@ -116,6 +119,8 @@ public:
     if (!buf_.open(name, mode | ios_base::in, protection))
       this->setstate(ios_base::failbit);
   }
+  // Bound to the rowed retail destructor (stlport_wide_ifstream.cpp).
+  virtual ~basic_ifstream();
 private:
   basic_filebuf<CharT, Traits> buf_;
 };
@@ -140,6 +145,8 @@ public:
     if (!buf_.open(name, mode | ios_base::out, protection))
       this->setstate(ios_base::failbit);
   }
+  // Bound to the rowed retail destructor (stlport_wide_ofstream.cpp).
+  virtual ~basic_ofstream();
 private:
   basic_filebuf<CharT, Traits> buf_;
 };

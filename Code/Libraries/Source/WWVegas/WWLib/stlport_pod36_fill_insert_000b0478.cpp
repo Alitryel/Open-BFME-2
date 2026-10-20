@@ -26,5 +26,8 @@ namespace _STL { template <> BfmePod36 * _STLP_alloc_proxy<BfmePod36 *,BfmePod36
 
 struct BfmePod36 { int a[9]; };
 
+// Bind element construction to its rowed retail body (stlport_pod_vector_bodies.cpp).
+namespace _STL { template <> void _Construct<BfmePod36,BfmePod36>(BfmePod36 *,const BfmePod36 &); }
+
 template void _STL::vector<BfmePod36>::_M_fill_insert(
 	BfmePod36 *, unsigned int, const BfmePod36 &);
