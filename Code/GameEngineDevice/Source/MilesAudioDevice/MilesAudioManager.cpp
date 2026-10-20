@@ -1834,6 +1834,15 @@ static int __fastcall getAppropriateStreamLoopCount(void *unusedEcx, const Audio
     }
 }
 
+// Retail 0x00051EC2 (unnamed; WorldBuilder keeps it out of line at 0x007857C0
+// and calls it from processRequest): whether a request's event lasts less
+// than one client frame. Retail inlines every call and still emits this
+// static copy under cl's register convention (handle in EAX).
+static int rva00051EC2(const BfmePoolRef10 &event)
+{
+    return !(event->m_at64 >= g_00DBA4FC);
+}
+
 // Retail 0x0005DD40 (WorldBuilder twin 0x0079B840 names it from its asserts
 // at lines 10100..10113): once a sound or stream stops on its own it checks
 // that it is still tracked (a stream or music track among the playing
@@ -3695,7 +3704,7 @@ void MilesAudioManager::processRequest(Rva00051107AudioRequest *req, bool *remov
             if (canPlay == 1)
                 reinterpret_cast<Rva00691040Handle &>(req->m_file) = m_audioFileCache->requestFile(
                     // Shorter than one client frame (WorldBuilder tests it out of line).
-                    req->m_pendingEvent, !(req->m_pendingEvent->m_at64 >= g_00DBA4FC));
+                    req->m_pendingEvent, rva00051EC2(req->m_pendingEvent));
         }
     }
 
