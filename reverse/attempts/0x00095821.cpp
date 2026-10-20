@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.925 date=2026-10-20
+// partial score=0.935 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -618,25 +618,32 @@ void BfmeB1137::Install_Materials(void) const
 		float fh = (float)height;
 		float sx = fw * 10.0f;
 		float sy = fh * 10.0f;
+		double hx;
+		float hy;
+		D3DXMATRIX rot;
+		D3DXMATRIX center;
+		D3DXMATRIX shift;
+		D3DXMATRIX uncenter;
+		D3DXMATRIX partial;
+		D3DXMATRIX scaled;
+		D3DXMATRIX world;
+		D3DXMATRIX scroll;
+		Rva00094DD3Val wind;
+		{
 		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
-		D3DXMATRIX rot;
 		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
-		double hx = sx * 0.5f;
-		float hy = sy * 0.5f;
-		D3DXMATRIX center;
+		hx = sx * 0.5f;
+		hy = sy * 0.5f;
 		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
-		D3DXMATRIX shift;
 		D3DXMatrixTranslation(&shift, diagonal * 5.0f, 0.0f, 0.0f);
-		D3DXMATRIX uncenter;
 		D3DXMatrixIdentity(&uncenter);
 		uncenter.m[3][0] = sx * -0.5f;
 		uncenter.m[3][1] = sy * -0.5f;
 
-		D3DXMATRIX partial = uncenter * rot * center;
-		partial = partial * shift;
-		D3DXMATRIX world = partial * drift;
-		D3DXMATRIX scaled = world * scale;
+		partial = uncenter * rot * center;
+		world = partial * shift * drift;
+		scaled = world * scale;
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scaled;
 		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
 
@@ -667,7 +674,6 @@ void BfmeB1137::Install_Materials(void) const
 		int elapsed = m_44 - last;
 		if (sameFrame)
 			elapsed = 0;
-		Rva00094DD3Val wind;
 		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
 		float fe = (float)elapsed;
 		m_4C += wind.x * fe * 0.002f;
@@ -681,12 +687,11 @@ void BfmeB1137::Install_Materials(void) const
 		while (m_50 < -1.0f)
 			m_50 += 1.0f;
 
-		D3DXMATRIX scroll;
 		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
 		D3DXMatrixScaling(&scale, 0.0031746032f, 0.0031746032f, 1.0f);
-		world = inv * scale;
-		*reinterpret_cast<D3DXMATRIX *>(&view) = world * scroll;
+		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
 		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
+		}
 
 		if (m_6A)
 		{
@@ -712,6 +717,7 @@ void BfmeB1137::Install_Materials(void) const
 			float worldTexelHeight = m_40;
 			float widthScale = 1.0f / (worldTexelWidth * 128.0f);
 			float heightScale = 1.0f / (worldTexelHeight * 128.0f);
+			D3DXMATRIX scale;
 			D3DXMatrixScaling(&scale, widthScale, heightScale, 1);
 			*reinterpret_cast<D3DXMATRIX *>(&view) = inv * toOrigin * scale * toHalf;
 			DX8Wrapper::SetMatrix(0x13, *reinterpret_cast<D3DXMATRIX *>(&view));
