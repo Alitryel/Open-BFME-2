@@ -41,6 +41,10 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00501E3FElement@@@_STL@@U?$_Select1st@U?$pair:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00501E3FElement;
+namespace _STL { template <> _Rb_tree_node<pair<const int, Rva00501E3FElement> > *_Rb_tree<int, pair<const int, Rva00501E3FElement>, _Select1st<pair<const int, Rva00501E3FElement> >, less<int>, allocator<pair<const int, Rva00501E3FElement> > >::_M_create_node(const pair<const int, Rva00501E3FElement> &); }
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$l:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
