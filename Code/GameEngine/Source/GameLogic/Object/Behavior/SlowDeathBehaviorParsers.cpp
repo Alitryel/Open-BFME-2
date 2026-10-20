@@ -39,6 +39,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVFXList@@V?$allocator@PBVFXList@@@_STL@@@_STL@@IAEXXZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class FXList;
+namespace _STL { template <> void vector<FXList const *,allocator<FXList const *> >::_M_clear(); }
 
 #define NULL 0
 
