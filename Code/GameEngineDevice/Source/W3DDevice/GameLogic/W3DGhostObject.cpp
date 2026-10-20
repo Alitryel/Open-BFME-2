@@ -121,103 +121,12 @@ void W3DRenderObjectSnapshot::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?W3DRenderObjectSnapshot::xfer present-unmatched
-void W3DRenderObjectSnapshot::xfer( Xfer *xfer )
+// W3DRenderObjectSnapshot::xfer is defined with its retail-matched body in W3DGhostObjectScene.cpp (0x00063CE9).
+// The BFME1 copy that stood here was this unit's only user of Matrix3D's default ctor; keep it emitted.
+void w3dGhostObjectTransformAnchor(Xfer *xfer)
 {
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// sanity
-	DEBUG_ASSERTCRASH( m_robj, ("W3DRenderObjectSnapshot::xfer - invalid m_robj\n") );
-
-	// transform on the main render object
 	Matrix3D transform;
-	transform = m_robj->Get_Transform();
 	xfer->xferUser( &transform, sizeof( Matrix3D ) );
-	if( xfer->getXferMode() == XFER_LOAD )
-		m_robj->Set_Transform( transform );
-
-	// how many sub objects of data will follow
-	Int subObjectCount = m_robj->Get_Num_Sub_Objects();
-	xfer->xferInt( &subObjectCount );
-
-	Bool visible;
-	RenderObjClass *subObject;
-	AsciiString subObjectName;
-	for( Int i = 0; i < subObjectCount; ++i )
-	{
-
-		//
-		// when saving we get sub objects by index and xfer their name, when loading
-		// we read the name and find that sub object
-		//
-		if( xfer->getXferMode() == XFER_SAVE )
-		{
-
-			// get sub object
-			subObject = m_robj->Get_Sub_Object( i );
-
-			// xfer sub object name which is unique among those in this render object
-			subObjectName.set( subObject->Get_Name() );
-			xfer->xferAsciiString( &subObjectName );
-
-		}  // end if, save
-		else
-		{
-
-			// read sub object name
-			xfer->xferAsciiString( &subObjectName );
-
-			// find this sub object on the object
-			subObject = m_robj->Get_Sub_Object_By_Name( subObjectName.str() );
-
-		}  // end else load
-
-		//
-		// NOTE that the remainder of this xfer code works on a sub object only *if*
-		// it is present.  It is possible that in future patches we change the artwork
-		// for some objects which could remove sub objects for which we have data saved
-		// for in the save game file.  If we encounter data in the save file for 
-		// sub objects that are no longer in the artwork we just read the data and
-		// throw it away
-		//
-
-		// visible/hidden status of this sub object
-		if( subObject )
-			visible = subObject->Is_Not_Hidden_At_All();
-		xfer->xferBool( &visible );
-		if( subObject && xfer->getXferMode() == XFER_LOAD )
-			subObject->Set_Hidden( !visible );
-
-		// transform of this sub object
-		if( subObject )
-			transform = subObject->Get_Transform();
-		xfer->xferUser( &transform, sizeof( Matrix3D ) );
-		if( subObject && xfer->getXferMode() == XFER_LOAD )
-			subObject->Set_Transform( transform );
-
-		// need to tell W3D that this sub object transforms are ok
-		if( subObject )
-		{
-
-			// need to cast to HLod if we can to validate the hierarchy
-			if( subObject->Class_ID() == RenderObjClass::CLASSID_HLOD )
-				((HLodClass *)subObject)->Friend_Set_Hierarchy_Valid( TRUE );
-
-		}  // end if
-
-		// release reference to sub object
-		if( subObject )
-			REF_PTR_RELEASE( subObject );
-
-	}  // end for, i
-
-	// tell W3D that the transforms for our sub objects are all OK cause we've done them ourselves
-	m_robj->Set_Sub_Object_Transforms_Dirty( FALSE );
-
 }  // end xfer
 
 // ------------------------------------------------------------------------------------------------
