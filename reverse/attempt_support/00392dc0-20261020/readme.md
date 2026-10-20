@@ -46,3 +46,45 @@ Raw logs and sources are in `build/w392/` of the seat (`<name>.cpp`, `<name>.ali
 ## What the next attempt needs
 
 A source-level reason for cl 7.1 to split `i` out of EDI in the refresh tail while EBX is free. Priority tuning of `i` alone cannot produce retail's shape (it jumps from fully enregistered to fully in memory). Leads not yet tested: controlled small trials of a loop with an if/else where one arm needs a callee-saved temporary across a call, to find what makes cl evict the loop index instead of taking a free register; and whether retail's zero constant (EBX at entry, rematerialised after the loop at +0x2F3) holds EBX across the loop body in retail's allocation. Start from `wb_structure_nested_call.cpp.txt`, which is the WB-faithful body; if the index allocation is fixed there, it is expected to remove the frame growth and most remaining differences.
+
+## Addendum 2026-10-20 (claude-opus-5-5): five more explanation families, bank kept
+
+Scored with a `permute.Scorer` copy of the bank (fit 0.93132, 1111 B, 18 normalized
+instruction diffs, regions 127 136 204 21a 220 234 23b 2af 2cf 2e3 380 387 450). Every
+trial below was compiled once and compared with that baseline.
+
+- Flags: `tools/permute.py --flags 0x00392DC0` closed nothing.
+- Types/callee visibility: a real STLport `bitset` `isKindOf(156)` (160/224/256 bits,
+  with and without the range check) in place of the `flag11B & 0x10` test, on the bank and
+  on the WB nested-call body: identical.
+- Control flow: swapped refresh/build arms (nb 100), `continue` then a flat build block
+  (identical), a `while` loop with duplicated increments (53), the increment as a separate
+  statement (51 to 57).
+- Lifetime: a named `unsigned price` local, an extra block around the loop, `i` declared
+  before the `for`, `i` defined before a `do`/`while`, 1 to 12 unused int locals at the
+  top or after the list, and `parent` declared at the top, after `tiles`, before or after
+  `created`: all identical.
+- Symbol count (the 0x004B1633 meter): an inert `__forceinline` chain of N int locals at
+  the entry status test (N = 1..197, step 4), the build-tail status test and the loop-top
+  `rva00392D71(i)` test (N = 2..194, step 8): all 100 variants identical. The index
+  allocation is not a tracked-symbol threshold.
+- Declaration count (the 0x006E5050 tie-break): 5 to 300 dummy classes or 10 to 300 dummy
+  function declarations before `BuildAssistant`, and 30 to 120 at the file top: all 94
+  variants identical.
+- Permuter: five 40-minute seeds (three from the bank, two from the WB nested-call body)
+  found nothing better than their starting body.
+
+New finding for the independent +0x380 residue (second outer loop, retail
+`test eax,eax; mov [ebp+0x18],eax; je; mov ecx,eax`): it is fixed when the index is
+defined after the loop-entry test, `if (tiles.count) { unsigned i = 0; do { ... } while
+(++i < tiles.count); }`. That form breaks the entry, which retail emits with `i = 0`
+stored before the `jbe` (`xor edi,edi; cmp [ebp-0x30],ebx; mov byte [ebp-4],1;
+mov [ebp+0xc],edi; jbe`), so the count stays at 18 (regions 9a a3 a6 replace 380 387).
+The +0x380 copy order is therefore a symbol numbering tie between the index and the
+second loop's object, not a control-flow difference.
+
+Register map worth keeping: in both builds `i` is a split variable with home
+`[ebp+0xC]`. Retail ends the EDI copy at the `if (old && dead)` test in the refresh arm
+and at the body block in the build arm, and reloads at the latch. Ours reloads after the
+body block (+0x202) and keeps EDI through the latch. EBX is unused in retail's refresh
+arm, so retail evicts `i` with a free register available.
