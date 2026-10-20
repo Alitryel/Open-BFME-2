@@ -13,6 +13,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeStringRecord000331962@@@_STL@@QBEXPAUBfmeStringRecord00033196:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord000331962;
+namespace _STL { template <> void allocator<BfmeStringRecord000331962>::deallocate(BfmeStringRecord000331962 *,unsigned int) const; }
 struct BfmeStringRecord000331962 {
     unsigned int word;
     AsciiString text;
