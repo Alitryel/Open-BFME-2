@@ -9,6 +9,10 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ??$__copy@PBURva0051F7ADRecord@@PAU1@H@_STL@@YAPAURva0051F7ADRecord@@PBU1@0PAU1@ABUrandom_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0051F7ADRecord;
+namespace _STL { template <> Rva0051F7ADRecord * __copy<Rva0051F7ADRecord const *,Rva0051F7ADRecord *,int>(Rva0051F7ADRecord const *,Rva0051F7ADRecord const *,Rva0051F7ADRecord *,random_access_iterator_tag const &,int *); }
 
 class Rva0051F6DF
 {
