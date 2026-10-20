@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.985 date=2026-10-20
+// partial score=0.99 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -506,7 +506,6 @@ static inline void SetU(D3DXMATRIX &m, float x, float y) { m.m[3][1] = y; m.m[3]
 void BfmeB1137::Install_Materials(void) const
 {
 	Rva00094DD3Val wind;
-	D3DXMATRIX scale;
 	if (!g_Va00DB47EC || !TheGlobalWeatherSystem)
 		return;
 
@@ -654,7 +653,6 @@ void BfmeB1137::Install_Materials(void) const
 		cy *= 10.0f;
 		m_94 = world;
 		D3DXMatrixInverse(&world, &det, &world);
-		{
 		D3DXVECTOR3 corner;
 		corner.x = cx;
 		corner.y = cy;
@@ -668,7 +666,6 @@ void BfmeB1137::Install_Materials(void) const
 		m_78.y = world.m[0][1];
 		m_78.z = world.m[0][2];
 		rva0062AF50D3DXPlaneFromPointNormal(&m_84, &m_6C, &m_78);
-		}
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
