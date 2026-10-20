@@ -22,6 +22,10 @@
 // Native C1AE1C slot 2 is the TeamFactory name getter at 3A261E.
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree@HU?$pair@$$CBHUBfmePod8@@@_STL@@U?$_Select1st@U?$pair@$$CBHUBfmePod8@@@_STL@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> _Rb_tree<int,pair<int const ,BfmePod8>,_Select1st<pair<int const ,BfmePod8> >,less<int>,allocator<pair<int const ,BfmePod8> > >::~_Rb_tree(); }
 
 class SubsystemInterface
 {
