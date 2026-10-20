@@ -8,7 +8,9 @@ class Rva001F376E
 {
 public:
 	Rva001F376E();
-	virtual ~Rva001F376E();
+	// Empty inline, as the generation loop 0x001F9BA4 destroys its local
+	// record (Rva001F9BA4Generate.cpp): both units emit one deleting dtor.
+	virtual ~Rva001F376E() {}
 private:
 	float m_04;
 	float m_08;

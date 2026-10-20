@@ -6,7 +6,9 @@
 // the name at +0x78 (none when empty); then, while the generator at +0xA4
 // still accepts (virtual slot 4), each of the requested particles gets its
 // start values from generateNewParticleStartValues (0x001F55A8, named by
-// WorldBuilder) into a local Rva001F376E record and is emitted through this
+// WorldBuilder; rowed as ParticleSystem::rva001F55A8 in ParticleSys.cpp,
+// whose record view is Rva001F55A8Info) into a local Rva001F376E record and
+// is emitted through this
 // system's virtual slot 5 -- unless the system emits above ground only
 // (+0x81) and the start position lies below the terrain height plus 0.01.
 // Evidence: WorldBuilder twin 0x00B12C90 (unnamed; its callees named),
@@ -51,6 +53,13 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
+struct Rva001F55A8Info;
+class ParticleSystem
+{
+public:
+	void rva001F55A8(Rva001F55A8Info *info, int particleNum, int particleCount);	// 0x001F55A8
+};
+
 class Rva001F9BA4Generator
 {
 public:
@@ -68,7 +77,6 @@ public:
 	virtual void emitParticle(Rva001F376E *info, void *context, ParticleSystemTemplate *slave, int flags);
 
 	void rva001F9BA4(void *context, int count);
-	void generateNewParticleStartValues(Rva001F376E *info, int index, int count);
 
 private:
 	unsigned char m_pad04[0x78 - 0x04];
@@ -87,7 +95,8 @@ void ParticleSystem::rva001F9BA4(void *context, int count)
 		for (int i = 0; i < count; ++i) {
 			if (!m_generator->canGenerate())
 				break;
-			generateNewParticleStartValues(&info, i, count);
+			reinterpret_cast<::ParticleSystem *>(this)->rva001F55A8(
+				reinterpret_cast<Rva001F55A8Info *>(&info), i, count);
 			if (m_aboveGroundOnly) {
 				Real height = info.m_z + 0.01f;
 				if (!(height >= TheTerrainLogic->getGroundHeight(info.m_x, info.m_y, 0)))
