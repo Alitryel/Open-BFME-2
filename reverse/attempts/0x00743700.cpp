@@ -1,7 +1,6 @@
 // ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.90966 date=2026-10-20
-// R6: symbol-count phase; residue merge-loop EdgePlane order, modelview rows. See attempt_support/00743700-phase-20261020.md
-// R5: BFME2 Clamp_Color "<= 0 ? 0 : (> 1 ? 1 : v)" form; modelview columns declare b2,b1,b0; residue = projection SSE regs at 744793/7449ca.
+// partial score=0.91005 date=2026-10-20
+// R7: BFME2 DX8Wrapper transform arms + b0,b1,b2. History: attempt_support/00743700-phase-20261020.md
 // cl: /I. /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -681,6 +680,8 @@ protected:
  static unsigned render_state_changed;
  static float ZNear,ZFar;
  static unsigned matrix_changes;
+ static Matrix4x4 ProjectionMatrix;
+ static Matrix4x4 DeviceProjectionMatrix;
 };
 WWINLINE Vector4 DX8Wrapper::Convert_Color(unsigned color)
 {
@@ -862,17 +863,18 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 		render_state_changed|=(unsigned)VIEW_CHANGED;
 		break;
 	case D3DTS_PROJECTION:
-		{
-			Matrix4x4 ProjectionMatrix=m.Transpose();
-			ZFar=0.0f;
-			ZNear=0.0f;
-			DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&ProjectionMatrix));
-		}
+		ProjectionMatrix=m.Transpose();
+		DeviceProjectionMatrix=ProjectionMatrix;
+		ZFar=0.0f;
+		ZNear=0.0f;
+		DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&DeviceProjectionMatrix));
 		break;
 	default:
+		{
 		DX8_RECORD_MATRIX_CHANGE();
 		Matrix4x4 m2=m.Transpose();
 		DX8CALL(SetTransform(transform,(D3DMATRIX*)&m2));
+		}
 		break;
 	}
 }
@@ -899,7 +901,6 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 }
 WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
 {
-	D3DMATRIX mat;
 	switch ((int)transform) {
 	case D3DTS_WORLD:
 		if (render_state_changed&WORLD_IDENTITY) m.Make_Identity();
@@ -909,10 +910,11 @@ WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4
 		if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
 		else m=render_state.view.Transpose();
 		break;
+	case D3DTS_PROJECTION:
+		m=DeviceProjectionMatrix.Transpose();
+		break;
 	default:
-		DX8CALL(GetTransform(transform,&mat));
-		m=*(Matrix4x4*)&mat;
-		m=m.Transpose();
+		m.Make_Identity();
 		break;
 	}
 }
@@ -1195,33 +1197,33 @@ const float a01=view2[0][1];
 const float a02=view2[0][2];
 const float a03=view2[0][3];
 {
-float b2=transform[2][0];
-float b1=transform[1][0];
 float b0=transform[0][0];
+float b1=transform[1][0];
+float b2=transform[2][0];
 modelview[0][0] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][0] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][0] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b2=transform[2][1];
-float b1=transform[1][1];
 float b0=transform[0][1];
+float b1=transform[1][1];
+float b2=transform[2][1];
 modelview[0][1] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][1] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][1] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b2=transform[2][2];
-float b1=transform[1][2];
 float b0=transform[0][2];
+float b1=transform[1][2];
+float b2=transform[2][2];
 modelview[0][2] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][2] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][2] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b2=transform[2][3];
-float b1=transform[1][3];
 float b0=transform[0][3];
+float b1=transform[1][3];
+float b2=transform[2][3];
 modelview[0][3] = a02 * b2 + a01 * b1 + a00 * b0 + a03;
 modelview[1][3] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0 + view2[1][3];
 modelview[2][3] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0 + view2[2][3];
