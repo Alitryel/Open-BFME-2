@@ -181,13 +181,30 @@ never moves: **9:15 a:6 b:12 13:4 18:4 1c:8 1d:7 1e:12 1f:14 26:2 27:4**.
   `X*X+Y*Y+Z*Z`, Normalize with `len2`/`oolen`, Cross_Product(a,b,set_result)
   with asserts then X,Y,Z, Dot_Product `a.X*b.X+a.Y*b.Y+a.Z*b.Z`, and
   Normalized_Cross_Product.
-- **Next (untried):** copy `vector3.h` into a variant directory (a quoted
-  include finds the variant's own directory first) and vary Length2
-  association, Cross_Product component order/temps, return-by-value
-  Cross_Product, Normalized_Cross_Product at the call sites and the Normalize body.
-  Score with `regs.py`, then compare the sym.py trees at 0xa1a, 0x1c31, 0x1e0e,
-  0x1f0c and 0x1ff1 with retail. A header shape that adds locals (Normalize's
-  `len2`, `oolen`) may explain the symbol count too.
+- **Tried (claude seat, 2026-10-20): vector3.h variants** (`build/rs/v_*`, a
+  ZH GeneralsMD `vector3.h` copied next to the trial and included by quote;
+  bank plus include scores 0.9134). None moves the float-sum residue:
+  - MSVC 7.1 /arch:SSE canonicalises an unparenthesised sum: Length2 written
+    `X*X+Z*Z+Y*Y`, `Z*Z+Y*Y+X*X` or `Y*Y+Z*Z+X*X` is byte-identical. Explicit
+    parentheses change the code but never produce retail's `(X²+Z²)+Y²` at 0xa1a.
+  - Normalize bodies (Length2 call, inline `X*X+...`, `len2`/`oolen` locals,
+    `if (len2 != 0.0f)` guard as WB has it), Cross_Product forms (temps, by
+    value, component order) and a Dot_Product local: best n_inl 0.9193, l_loc
+    0.9228 (with the ShroudFilter setter change). Neither replaces the symbol
+    lever: n_inl+setter+k30 gives 0.9654, l_loc+k30 drops to 0.9161, so the
+    lever depends on position, not on header locals.
+  - WB twin (`wb_show 0x00126433`, WB va 0xa1e840, 10149 B, real file
+    `WW3D2\simplestreakrender.cpp`, `SimpleStreakRendererClass::RenderStreak`):
+    Normalize = Length2 (isInitialized assert) then `if(len2!=0.0f){oolen=
+    WWMath::Inv_Sqrt(len2); X*=oolen; Y*=oolen; Z*=oolen;}`, out of line x21.
+    WB's own standalone Normalize also sums `(Z²+Y²)+X²`.
+- **Tried: dead ZH merge block** (`streakRender.cpp` 880-1085,
+  `if (Is_Merge_Intersections())`, about 27 named locals, at the position of the
+  k30 dummies, adapted to BFME2's 0x24-byte LineSegmentIntersection without
+  Fold/Parallel) under `if (false)` or `if (0)`: **0.7038**. Its Vector3 locals
+  (new_point, new_direction, pl) keep stack slots, so the frame grows by 0x24
+  (0x625c against retail 0x6238). WB also has no code between the intersection
+  loop and `vnum`. Refuted as the source of the symbol count.
 - WB callees, for shape: 0x71e1f0 Dot_Product, 0x71f9e0 unary `operator-`
   (7 calls, ours has 7), 0x99e0f0 `operator*(Vector3,float)`. WB's helpers are
   optimised copies with NaN validity checks and assert 0x712780. The
