@@ -15,6 +15,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned 
 // bfme link decl-only begin
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva00260B88Element@@@_STL@@YAXPAURva00260B88Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00260B88Element;
+namespace _STL { template <> void _Destroy<Rva00260B88Element *>(Rva00260B88Element *,Rva00260B88Element *); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
