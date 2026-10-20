@@ -117,3 +117,14 @@ void ScriptActions::Rva0042F9DAEmit()
 	msg->appendBooleanArgument(true);
 	TheInGameUI->notify();
 }
+
+// SelectionXlat.cpp's free helper is separate from the script member in WB:
+// 0x12AA0A0 (no this slot) versus 0x10194A0 (saved this at EBP-8).
+// Parent 0x43003C calls the former twice; script case 506 calls the latter.
+// Retail folds their complete bodies and relocations at 0x42F9DA.
+void deselectAll()
+{
+	GameMessage *msg = TheMessageStream->appendType(0x3EC);
+	msg->appendBooleanArgument(true);
+	TheInGameUI->notify();
+}
