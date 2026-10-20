@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.99964 date=2026-10-20
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8227 date=2026-10-20
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8035 date=2026-10-20
@@ -15,12 +17,13 @@
 // Barrier in wallDelta restores native MOV/spill/FILD; indexed layer receiver restores second-loop recompute.
 // Strict instruction similarity (only branch/global addresses normalized) .619883; stack displacement cascade dominates.
 // Existing owner851B classification row verified; this complete bank includes its class view context.
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /I.
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /I.
 // stlport
 #include <new>
 #include <set>
 #include <vector>
 #include "ascii_string.h"
+extern "C" void __cdecl free(void*);
 // ?Rva0052F2EC@Pathfinder@@QAEXXZ retail 0x0052F2EC..0x0052F63F (851 bytes).
 // BFME 2's Pathfinder::classifyMap twin (Zero Hour AIPathfind.cpp; Open-BFME-1
 // PathfinderClassifyMap.cpp is BFME 1's shape): over the logical extent at
@@ -68,6 +71,7 @@ public:
 	// Keep the native four-bit access inline without a competing getter copy.
 	__declspec(dllimport) __forceinline CellType getType() const { return (CellType)type; }
 	bool getPinched() const { return pinched; }
+	Int getLayer() const { return layer; }
 	void setPinched(bool pinch) { pinched = pinch; }
 	bool getBit22() const { return m_bit22; }
 	bool getBit23() const { return m_bit23; }
@@ -102,10 +106,10 @@ class PolygonTrigger{public:virtual void *destroy(unsigned);void getBounds(IRegi
 class Bridge{public:Bridge(Rva0027C36A&,Dict*,const AsciiString&,PolygonTrigger*);virtual void *destroy(unsigned);Bridge*next;char bytes[0xcc-8];};
 class Drawable{public:int rva002725E7(int);int rva002725B1(int);bool rva0027267D(int,int,int,int);bool rva002726C3(int,int,int,int);};
 struct WallTemplate{char pad[0x64];AsciiString name;const AsciiString&getName()const{return name;}};
-class Object{public:Drawable*getDrawable()const;const WallTemplate*getTemplate()const{return templ;}char pad0[4];WallTemplate*templ;char pad8[0x74-8];int id;char pad78[0x94-0x78];unsigned status;};
+class Object{public:Drawable*getDrawable()const;const WallTemplate*getTemplate()const{return templ;}char pad0[4];WallTemplate*templ;char pad8[0x74-8];int id;int getID()const{return id;}char pad78[0x94-0x78];unsigned status;};
 class Rva0036666B{public:bool rva0036666B();};
 class Rva0036658B{public:bool rva0036658B(void*,void*);};
-class PathfindLayer{public:bool DoBoundsOverlap(const IRegion2D*);void rva003667D4();void AddArea(void*);void allocateCells(const IRegion2D*);char pad[0x38];PolygonTrigger*areas;int height;};
+class PathfindLayer{public:bool DoBoundsOverlap(const IRegion2D*);void rva003667D4();void AddArea(void*);void allocateCells(const IRegion2D*);char pad[0x38];PolygonTrigger*areas;int height;int getHeight()const{return height;}};
 class Rva00366500{public:bool rva00366500(int);bool rva0036652D(int);};
 class Rva0052E001{public:bool rva0052E001(bool);};
 class PathfindZoneManager{public:void MarkDirty(int,int);};
@@ -114,19 +118,17 @@ class PathfindZoneManager{public:void MarkDirty(int,int);};
 extern GameLogic*TheGameLogic;
 class Debug{public:
  virtual void s00();virtual void s04();virtual void s08();virtual void s0C();virtual void s10();virtual void s14();virtual void s18();virtual void s1C();
- virtual Debug&operator<<(float);virtual void s24();virtual void s28();virtual void s2C();virtual void s30();virtual Debug&operator<<(int);virtual Debug&operator<<(const char*);virtual void s3C();virtual void s40();virtual void s44();virtual void s48();virtual bool CrashDone(int);virtual void s50();virtual void s54();virtual void s58();virtual void s5C();virtual void SkipNext();virtual void s64();virtual void s68();virtual Debug&CrashBegin(const char*,int,int);
+ virtual Debug&operator<<(const char*);virtual Debug&operator<<(int);virtual Debug&operator<<(unsigned);virtual Debug&operator<<(long);virtual Debug&operator<<(unsigned long);virtual Debug&operator<<(bool);virtual Debug&operator<<(float);virtual void s3C();virtual void s40();virtual void s44();virtual void s48();virtual bool CrashDone(int);virtual void s50();virtual void s54();virtual void s58();virtual void s5C();virtual void SkipNext();virtual void s64();virtual void s68();virtual Debug&CrashBegin(const char*,int,int);
 };
 extern Debug*theDebug;
 bool bfmeRva000387C0();void _bfme_debugRecordCallsite(int);
-extern "C" double __cdecl fabs(double);
-extern "C" __declspec(dllimport)double __cdecl floor(double);
-extern "C" __declspec(dllimport)double __cdecl ceil(double);
+#include <math.h>
 static __forceinline int float2long(float f){int i;__asm{
  fld f
  fistp i
 }return i;}
-#define FLOOR(x) float2long((float)floor(x))
-#define CEIL(x) float2long((float)ceil(x))
+#define FLOOR(x) float2long(floorf(x))
+#define CEIL(x) float2long(ceilf(x))
 
 
 class Pathfinder
@@ -256,19 +258,20 @@ static __forceinline float wallDelta(PathfindLayer *entry,const float &height) {
 static __forceinline void deletePoly(PolygonTrigger *p){operator delete(p?p->destroy(0):0);}
 // Normalize pinch queries through the Boolean accessor used by the map classifier.
 // Bounds arguments and wall diagnostic text follow the native call sites.
-float tolerance=3.5f;
 void Pathfinder::rva0052F63F(Object*obj,bool insert)
 {
+ const float tolerance=3.5f;
+ Int i, j;
  Drawable*drawable=obj->getDrawable();if(!drawable)return;
  Rva0027C36A data;PolygonTrigger*poly;
  if(insert){
   float h;poly=(PolygonTrigger*)drawable->rva002725E7((int)&h);
   if(poly){
-   unsigned char merged = false;
+   bool merged = false;
    int layer=2;IRegion2D bounds;poly->getBounds(&bounds);
    for(;layer <= 15;layer++){
     PathfindLayer *entry = &layers[layer];
-    if(((Rva0036666B*)entry)->rva0036666B() && entry->areas && entry->DoBoundsOverlap(&bounds) && fabs(wallDelta(entry,h))<tolerance){
+    if(((Rva0036666B*)entry)->rva0036666B() && entry->areas && entry->DoBoundsOverlap(&bounds) && fabs(entry->getHeight()-h)<tolerance){
      if(allocated)layers[layer].rva003667D4();
      layers[layer].AddArea(poly);
      if(allocated)layers[layer].allocateCells(&m_extent);
@@ -276,7 +279,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
     }
    }
    if(!merged){
-    for(layer=2;15 >= layer;++layer){
+    for(layer=2;layer <= 15;++layer){
      const PathfindLayer *entry = &layers[layer];
      if(!((Rva0036666B*)entry)->rva0036666B()){
       if(((Rva0036658B*)&layers[layer])->rva0036658B(poly,(void*)layer)){
@@ -303,11 +306,11 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   }
  }
  float height;PolygonTrigger*area=(PolygonTrigger*)drawable->rva002725B1((int)&height);if(!area)return;
- int layer=1;float closest=1000000.0f;
- for(int i=0;i<heightCount;++i){float distance=(float)fabs(height-heights[i]);if(distance<closest){closest=distance;layer=i+17;}}
- if(tolerance < closest){
+ float closest=1000000.0f;int layer=1;
+ for(int i=0;i<heightCount;++i){float distance=fabs(height-heights[i]);if(distance<closest){closest=distance;layer=i+17;}}
+ if(closest > tolerance){
   static int count=0;
-  if(9.9f > closest&&count<10){
+  if(closest < 9.9f&&count<10){
    ++count;
    if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();
@@ -317,66 +320,71 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   if(heightCount < 64){heights[heightCount]=height;names[heightCount]=obj->getTemplate()->getName();layer=heightCount+17;++heightCount;}
   else{
    static bool warned=false;
-   if((warned == 0)){warned=true;if(bfmeRva000387C0()){
+   if((!warned)){warned=true;if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();(theDebug->CrashBegin(0,0,0)<<"Ran out of wall entries; too many walls with different heights on map").CrashDone(2);
    }}
   }
  }
  if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->getTemplate()->getName();}
  IRegion2D world;area->getBounds(&world);
- long loX=FLOOR(world.lo.x/10)-2;
- int loY=FLOOR(world.lo.y/10)-2;
- long hiY=CEIL(world.hi.y/10)+2;
- int hiX=CEIL(world.hi.x/10)+2;
- _ReadWriteBarrier();
- if(loX<m_extent.lo.x)loX=m_extent.lo.x;
- if(loY<m_extent.lo.y)loY=m_extent.lo.y;
- if(hiY>m_extent.hi.y)hiY=m_extent.hi.y;
- if(hiX>m_extent.hi.x)hiX=m_extent.hi.x;
+ IRegion2D cellBounds;
+ cellBounds.lo.x=FLOOR(world.lo.x/10)-2;
+ cellBounds.lo.y=FLOOR(world.lo.y/10)-2;
+ cellBounds.hi.x=CEIL(world.hi.x/10)+2;
+ cellBounds.hi.y=CEIL(world.hi.y/10)+2;
+ 
+ if(cellBounds.lo.x<m_extent.lo.x)cellBounds.lo.x=m_extent.lo.x;
+ if(cellBounds.lo.y<m_extent.lo.y)cellBounds.lo.y=m_extent.lo.y;
+ if(cellBounds.hi.x>m_extent.hi.x)cellBounds.hi.x=m_extent.hi.x;
+ if(cellBounds.hi.y>m_extent.hi.y)cellBounds.hi.y=m_extent.hi.y;
  if(insert){
-  wallIDs.insert(obj->id);_STL::vector<BfmeE8>changed;
-  for(int j=loY;hiY >= j;++j)for(int i=loX;i<=hiX;++i){
+  wallIDs.insert(obj->getID());_STL::vector<BfmeE8>changed;
+  for(j=cellBounds.lo.y;j <= cellBounds.hi.y;++j)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
    if(rva0052E6E6(i,j,&m_map[i][j],area,layer,insert)){BfmeE8 p={i,j};changed.push_back(p);}
   }
-  for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
+  for(j=cellBounds.lo.y;j<=cellBounds.hi.y;++j)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
    const int current=m_map[i][j].layer;
-   if(current==layer)m_map[i][j].pinched=false;
+   if(current==layer)m_map[i][j].setPinched(false);
    if(m_map[i][j].getType()==0){
     int count=0;for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
-     for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&l==j)continue;
+     for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&j==l)continue;
       if(m_map[k][l].layer!=current)++count;
      }
     }
-    _ReadWriteBarrier();
-    if(1 < count)m_map[i][j].pinched=true;
+    if(count > 1)m_map[i][j].setPinched(true);
    }
   }
   for(_STL::vector<BfmeE8>::iterator p=changed.begin();p!=changed.end();p++){
-   const int i=p->a,j=p->b;if(m_map[i][j].getPinched()&&m_map[i][j].getType()==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].pinched=false;
+   const int i=p->a,j=p->b;if(m_map[i][j].getPinched()&&m_map[i][j].getType()==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].setPinched(false);
   }
  }else{
-  _STL::set<int>::iterator found=wallIDs.find(obj->id);if(found!=wallIDs.end())wallIDs.erase(found);
-  for(int j=loY;j<=hiY;j++)for(int i=loX;i<=hiX;++i){
-   if(m_map[i][j].getPinched()){int count=0;int current=m_map[i][j].layer;
+  _STL::set<int>::iterator found=wallIDs.find(obj->getID());if(found!=wallIDs.end())wallIDs.erase(found);
+  for(j=cellBounds.lo.y;j<=cellBounds.hi.y;j++)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
+   if(m_map[i][j].getPinched()){int current=m_map[i][j].layer;int count=0;
     for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
-     for(int l=j-1;l<j+2;l++){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(i == k&&l==j)continue;if(m_map[k][l].layer!=current)++count;}
+     for(int l=j-1;l<j+2;l++){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&j==l)continue;if(m_map[k][l].layer!=current)++count;}
     }
-    if(1 < count)m_map[i][j].pinched=false;
+    if(count > 1)m_map[i][j].setPinched(false);
    }
   }
-  for(int j=loY;j<=hiY;j++)for(int i=loX;i<=hiX;++i){
-   if(m_map[i][j].layer==layer){
-    PathfindCell*c=&m_map[i][j];bool dirty=c->SetType_Dirty(0);dirty|=((Rva0052E001*)c)->rva0052E001(false);dirty|=((Rva00366500*)c)->rva00366500(true);dirty|=((Rva00366500*)c)->rva0036652D(false);
+  for(j=cellBounds.lo.y;j<=cellBounds.hi.y;j++)for(i=cellBounds.lo.x;i<=cellBounds.hi.x;++i){
+   PathfindCell*c=&m_map[i][j];
+   if(c->layer==layer){
+    bool dirty=c->SetType_Dirty(0);dirty|=((Rva0052E001*)c)->rva0052E001(false);dirty|=((Rva00366500*)c)->rva00366500(true);dirty|=((Rva00366500*)c)->rva0036652D(false);
     _ReadWriteBarrier();
-    if(dirty)zones.MarkDirty(i,j);c->pinched=false;
+    if(dirty)zones.MarkDirty(i,j);c->setPinched(false);
    }
   }
   for(_STL::set<int>::iterator p=wallIDs.begin();p!=wallIDs.end();++p){
-   Object*other=TheGameLogic->findObjectByID((ObjectID)*p);if((other == 0)||(other->status&1))continue;
-   Drawable*d=other->getDrawable();if((d == 0))continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
+   Object*other=TheGameLogic->findObjectByID((ObjectID)*p);if((!other)||(other->status&1))continue;
+   Drawable*d=other->getDrawable();if((!d))continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
    IRegion2D qb;q->getBounds(&qb);
-   int lx=FLOOR(qb.lo.x/10)-2,ly=FLOOR(qb.lo.y/10)-2,hx=CEIL(qb.hi.x/10)+2,hy=CEIL(qb.hi.y/10)+2;
-   if((layer ? (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY) : (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY))){rva0052F63F(other,true);deletePoly(q);}
+   IRegion2D qc;
+   qc.lo.x=FLOOR(qb.lo.x/10)-2;
+   qc.lo.y=FLOOR(qb.lo.y/10)-2;
+   qc.hi.x=CEIL(qb.hi.x/10)+2;
+   qc.hi.y=CEIL(qb.hi.y/10)+2;
+   if((qc.lo.x<=cellBounds.hi.x&&qc.hi.x>=cellBounds.lo.x&&qc.lo.y<=cellBounds.hi.y&&qc.hi.y>=cellBounds.lo.y)){rva0052F63F(other,true);deletePoly(q);}
   }
  }
  deletePoly(area);
