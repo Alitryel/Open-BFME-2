@@ -624,7 +624,8 @@ private:
 EMPTY_DTOR(DeliverPayloadNugget)
 
 //-------------------------------------------------------------------------------------------------
-static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D* force)
+// The separately recovered ApplyRandomForceNugget::create calls this owner.
+void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPitch, Coord3D* force)
 {
 #line 581 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp"
 	Real angle = GameLogicRandomValueReal(0, 2*PI);
