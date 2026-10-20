@@ -42,6 +42,10 @@ namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> _Rb_tree<unsigned char, pair<unsigned char const, int>, _Select1st<pair<unsigned char const, int> >, less<unsigned char>, allocator<pair<unsigned char const, int> > >::~_Rb_tree(); }
 namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_STL@@U:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; struct PristineBoneInfo;
+namespace _STL { template <> void _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::_M_erase(_Rb_tree_node<pair<NameKeyType const ,PristineBoneInfo> > *); }
 
 namespace _STL
 {

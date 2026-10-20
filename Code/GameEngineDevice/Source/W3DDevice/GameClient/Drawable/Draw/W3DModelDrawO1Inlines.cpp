@@ -43,6 +43,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_STL@@U:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; struct PristineBoneInfo;
+namespace _STL { template <> void _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::_M_erase(_Rb_tree_node<pair<NameKeyType const ,PristineBoneInfo> > *); }
 
 // Use the rowed 104-bit comparator at 0x0033AD13. Its source in
 // SparseMatchFinderModelConditionCompare117.cpp owns the out-of-line copy.
