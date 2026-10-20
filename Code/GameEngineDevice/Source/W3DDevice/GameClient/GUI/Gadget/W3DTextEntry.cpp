@@ -24,6 +24,10 @@
 // composition at the cursor, the selection over a filled focus box in the
 // inverted drop colour (0x0009FE01), the timeGetTime-blinking cursor and the
 // rest of the text.
+// Its only native callers are the two callbacks in this unit (direct calls
+// at 0x000A0575 and 0x000A0860). Internal linkage reproduces its argument
+// homes without an artificial x-dependent font comparison; the corresponding
+// BFME1 helper uses this linkage at Open-BFME-1 revision 4483e88.
 
 #include "unicode_string.h"
 
@@ -277,7 +281,7 @@ struct CtorCoord : ICoord2D
 	* composition at the cursor, the selection inverted over a filled box, the
 	* blinking cursor and the rest. Retail 0x0009FE49 (1398B). */
 //=============================================================================
-void drawTextEntryText( GameWindow *window, Color textColor, Color textDropColor,
+static void drawTextEntryText( GameWindow *window, Color textColor, Color textDropColor,
 												Color compositeColor, Color compositeDropColor,
 												Int x, Int y )
 {
@@ -321,10 +325,8 @@ void drawTextEntryText( GameWindow *window, Color textColor, Color textDropColor
 	if( e->secretText )
 		text = e->sText;
 
-	// make sure our font is the same as our parents. Retail keeps x in its
-	// argument home through the outer code; reading x on both arms of this
-	// first test gives it that weight (docs/matching.md, equal-arm levers).
-	if( (x ? text->getFont() : text->getFont()) != window->winGetFont() )
+	// Make sure our font is the same as our parent's.
+	if( text->getFont() != window->winGetFont() )
 		text->setFont( window->winGetFont() );
 	if( e->constructText->getFont() != window->winGetFont() )
 		e->constructText->setFont( window->winGetFont() );
