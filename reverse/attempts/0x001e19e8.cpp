@@ -1,7 +1,5 @@
 // ?reallyDoFX@ParticleSystemFXNugget@@QBEXPBUCoord3D@@PBVMatrix3D@@PBVObject@@2@Z
-// partial score=0.93188302425107 date=2026-10-19
-// ?reallyDoFX@ParticleSystemFXNugget@@QBEXPBUCoord3D@@PBVMatrix3D@@PBVObject@@2@Z
-// partial score=0.8965821252031981 date=2026-10-16
+// partial score=0.95 date=2026-10-20
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Include /G7 /Oi- /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /GX
 //
 // ??0ParticleSystemFXNugget@@QAE@XZ 392B @0x001E0AEF: no-arg ctor called by
@@ -34,7 +32,7 @@ protected:
 class Object;
 #pragma intrinsic(sqrt)
 
-#include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "Lib/Coord3D.h"
 
 class GameClientRandomVariable
 {
@@ -205,8 +203,8 @@ void ParticleSystemFXNugget::reallyDoFX(const Coord3D*primary,const Matrix3D*mtx
     if(m_setTargetMatrix&&secondary){
      const Coord3D*sp=objectPos(secondary);
      Vector3 _bounddelta10=Vector3(-newPos.x,-newPos.y,-newPos.z)+Vector3(sp->x,sp->y,sp->z); Vector3 &delta=_bounddelta10;
-     float len=WWMath::Sqrt(delta.X*delta.X+delta.Y*delta.Y);delta.Z+=10.0f;float angleToTarget=(float)atan2((double)delta.Z,(double)len);float a=1.5707963267948966f-angleToTarget;
-     float s;Matrix3D rotation(true);rotateParticleY(rotation,s,(s=(float)sin(a),(float)cos(a)));orientation.postMul(rotation);
+     float len=WWMath::Sqrt(delta.X*delta.X+delta.Y*delta.Y);float y=delta.Z+10.0f;float angleToTarget=(float)atan2((double)y,(double)len);
+     Matrix3D rotation(true);rotation.Rotate_Y(3.1415927f-angleToTarget);orientation.postMul(rotation);
     }
     sys->setLocalTransform(&orientation);
    }
