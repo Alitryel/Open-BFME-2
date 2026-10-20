@@ -113,8 +113,15 @@ ArmorTemplate::ArmorTemplate(const AsciiString &name) : m_name()
 
 // ??1ArmorTemplate@@QAE@XZ
 // Empty body: the compiler tails into the member name dtor at 0x36410.
-ArmorTemplate::~ArmorTemplate()
+// Select-any: units that inline it still emit a copy for their unwind funclets.
+__declspec(noinline) inline ArmorTemplate::~ArmorTemplate()
 {
+}
+
+// ?bfmeAnchorArmorTemplateDtor absent-from-retail
+void bfmeAnchorArmorTemplateDtor(ArmorTemplate *p)
+{
+	p->~ArmorTemplate();
 }
 
 // ?parseArmorCoefficients@ArmorTemplate@@SAXPAVINI@@PAX1PBX@Z

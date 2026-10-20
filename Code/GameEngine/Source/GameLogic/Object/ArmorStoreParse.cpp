@@ -1,13 +1,4 @@
-// ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
-// partial score=0.99 date=2026-10-20
 // cl: /Ireference/shims/bfmealloc /I. /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
-// ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
-// partial score=0.921 date=2026-10-17
-// ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
-// partial score=0.9402902722801967 date=2026-10-13
-// ?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z
-// partial score=0.9402902722801967 date=2026-10-13
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC
 // stlport
 // WB ABCAB0 names ArmorStore::parseArmorDefinition; native1D9484..1D9611
 // supplies override/new/template layout and the exact four-entry field table.
