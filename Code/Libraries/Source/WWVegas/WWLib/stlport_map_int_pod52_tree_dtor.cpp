@@ -11,6 +11,10 @@
 // Companion to stlport_map_int_pod52_o1.cpp.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod52@@@_STL@@@_STL@@@_STL@@QBEPA:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod52;
+namespace _STL { template <> _Rb_tree_node<pair<int const ,BfmePod52> > * allocator<_Rb_tree_node<pair<int const ,BfmePod52> > >::allocate(unsigned int,void const *) const; }
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
