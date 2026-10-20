@@ -321,7 +321,6 @@ name,address,notes
 ??$_M_allocate_and_copy@PAURva004F6986@@@?$vector@URva004F6986@@V?$allocator@URva004F6986@@@_STL@@@_STL@@IAEPAURva004F6986@@IPAU2@0@Z,0x004F6BD8,address read from the REL32 displacement at byte-matched body 0x004F8B21
 ??$_M_allocate_and_copy@PAURva00500EFARecord@@@?$vector@URva00500EFARecord@@V?$allocator@URva00500EFARecord@@@_STL@@@_STL@@IAEPAURva00500EFARecord@@IPAU2@0@Z,0x00500BC8
 ??$_M_allocate_and_copy@PAURva00520211Element@@@?$vector@URva00520211Element@@V?$allocator@URva00520211Element@@@_STL@@@_STL@@IAEPAURva00520211Element@@IPAU2@0@Z,0x0052008F,"_M_allocate_and_copy as emitted by StlportVectorGrowthFootprints.cpp is byte-identical (45B; relocs masked) to retail at this unowned address; retail REL32 target of the placed body at 0x0052019D"
-??$_M_allocate_and_copy@PAURva00541021@@@?$vector@URva00541021@@V?$allocator@URva00541021@@@_STL@@@_STL@@IAEPAURva00541021@@IPAU2@0@Z,0x00469CED
 ??$_M_allocate_and_copy@PAURva00577F0FRecord@@@?$vector@URva00577F0FRecord@@V?$allocator@URva00577F0FRecord@@@_STL@@@_STL@@IAEPAURva00577F0FRecord@@IPAU2@0@Z,0x005E25EF
 ??$_M_allocate_and_copy@PAURva005C84F1Record@@@?$vector@URva005C84F1Record@@V?$allocator@URva005C84F1Record@@@_STL@@@_STL@@IAEPAURva005C84F1Record@@IPAU2@0@Z,0x005C8445
 ??$_M_allocate_and_copy@PAURva005E2896Record@@@?$vector@URva005E2896Record@@V?$allocator@URva005E2896Record@@@_STL@@@_STL@@IAEPAURva005E2896Record@@IPAU2@0@Z,0x005E25EF

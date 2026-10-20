@@ -93,12 +93,9 @@ struct Rva00474483Entry {
  __forceinline Rva00474483Entry() : target(0), slot(-1) {}
  void *target; int slot;
 };
-// 28-byte element of the rowed vector reserve 0x46EE38 (its emissions fold).
-struct Rva00541021 { int m_field0; char m_rest[0x18]; };
 // 8-byte conditional descriptor returned by the rowed 46247D pair out-copy twin.
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
 // bfme link decl-only begin
-namespace _STL { template <> void _Construct<Rva00541021, Rva00541021>(Rva00541021 *, Rva00541021 const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
 namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::~_Rb_tree(); }
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
@@ -165,7 +162,7 @@ void Rva00474431::rva00474519(int arg)
  int total=0; unsigned i=0; unsigned count=ranks.size();
  for(;i<count;++i) total+=ranks[i]->positions.size();
  _STL::vector<Rva00064640Record> &recordList=records;
- ((_STL::vector<Rva00541021> &)recordList).reserve(total);
+ recordList.reserve(total);
  Rva00474519Jitter jitter=data->jitter;
  Rva00226883 starts;
  for(i=0;i<ranks.size();++i) {
