@@ -21,6 +21,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <map>
 #include <algorithm>
+// Bind vector<unsigned int>::push_back to the kept retail copy (0x004DFCB0).
+namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::push_back(const unsigned int &); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void * * vector<void *,allocator<void *> >::end() { return this->_M_finish; } }
 // Bind to the kept retail copy instead of emitting this unit's own.
