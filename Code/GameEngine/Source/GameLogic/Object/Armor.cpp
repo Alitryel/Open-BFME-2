@@ -130,19 +130,7 @@ ArmorStore::ArmorStore()
 // ArmorStore::findArmorTemplate is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/ArmorStoreCtor.cpp (0x00360966).
 
 //-------------------------------------------------------------------------------------------------
-/*static */ void ArmorStore::parseArmorDefinition(INI *ini)
-{
-	static const FieldParse myFieldParse[] = 
-	{
-		{ "Armor", ArmorTemplate::parseArmorCoefficients, NULL, 0 }
-	};
-
-	const char *c = ini->getNextToken();
-	NameKeyType key = TheNameKeyGenerator->nameToKey(c);
-	ArmorTemplate& armorTmpl = TheArmorStore->m_armorTemplates[key];
-	armorTmpl.clear();
-	ini->initFromINI(&armorTmpl, myFieldParse);
-}
+// ArmorStore::parseArmorDefinition is owned by ArmorStoreParse.cpp (1D9484).
 
 //-------------------------------------------------------------------------------------------------
 /*static*/ void INI::parseArmorDefinition(INI *ini)
@@ -161,3 +149,13 @@ ArmorStore::ArmorStore()
 // Callers elsewhere reach this body through a spelling pinned to the same retail
 // address with the same calling convention; bind it here.
 #pragma comment(linker, "/alternatename:?resize@KeyToBucketMap@NameKeyGenerator@@AAEXI@Z=?resize@?$hashtable@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_STL@@@2@@_STL@@QAEXI@Z")
+
+// Keep the two rowed template bodies formerly emitted by the obsolete parser.
+// Explicit instantiation preserves their real definitions without retaining a
+// second ArmorStore::parseArmorDefinition.
+typedef _STL::pair<const NameKeyType, ArmorTemplate> ArmorRowValue;
+typedef _STL::hashtable<ArmorRowValue, NameKeyType, rts::hash<NameKeyType>,
+    _STL::_Select1st<ArmorRowValue>, rts::equal_to<NameKeyType>,
+    _STL::allocator<ArmorRowValue> > ArmorRowTable;
+template _STL::_Hashtable_node<ArmorRowValue> *ArmorRowTable::_M_find<NameKeyType>(const NameKeyType &) const;
+template void ArmorRowTable::resize(unsigned int);
