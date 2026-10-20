@@ -1,10 +1,16 @@
 // ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
-// partial score=0.95 date=2026-10-19
+// partial score=0.99 date=2026-10-20
+// ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
+// partial score=0.99 date=2026-10-20
 // ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z = GameLogic::setSawCRCMismatch (WB twin 0xD0CA20), retail 0x2401DD 1424 B.
 // Compact bank: compile as Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp (its // cl: line and
-// contents) followed by the declarations and body below; RecorderClass needs 'friend class GameLogic;'.
-// Stock shim: 1425 B; with a ZH-style str() TheNullChr fallback: 1423 B (see the log entry).
-// --- extras.inc ---
+// contents) followed by the declarations and body below. RecorderClass needs 'friend class GameLogic;',
+// 'class CommandDumpFile0037BE15;' and a protected 'void dumpCommandHistory(CommandDumpFile0037BE15 *, unsigned int);'.
+// GameLogic needs an inline 'unsigned int getFrame(void) const { return m_40; }'.
+// 1425 B, normalized diff 4 instructions: only the cond2 compare at +0xEB is
+// 'mov eax,[ebx+0x40]; cmp [g_value12A6F38],eax' against retail 'mov eax,[g]; cmp eax,[ebx+0x40]'
+// (plus the 1-byte tail shift). getFrame() in cond2 is what confines the zero web to the m_1bc block;
+// see reverse/attempt_support/002401dd-zero-web-20261020.md.
 
 class ScriptActions
 {
@@ -33,6 +39,7 @@ extern bool g_fakeDesync;
 extern bool TheBinaryDeepCRC;
 
 // --- body_r1.inc ---
+extern const char g_emptyMap[];
 void GameLogic::rva002401DD(BfmeThingEC *stream, unsigned int frame, int player)
 {
 	m_71 = true;
@@ -46,7 +53,7 @@ void GameLogic::rva002401DD(BfmeThingEC *stream, unsigned int frame, int player)
 		if (!TheRecorder || TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK || g_value12A6F38 == m_40)
 			Rva00437E84(4, TheGameText->fetch("GUI:DesyncTitle"), TheGameText->fetch("GUI:DesyncText"));
 		m_1b8 = 0;
-		if (!TheRecorder || TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK || g_value12A6F38 == m_40)
+		if (!TheRecorder || TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK || g_value12A6F38 == getFrame())
 			((Rva002036B4GlobalCopier *)TheScriptEngine)->apply();
 	}
 	if (!stream)
@@ -54,7 +61,7 @@ void GameLogic::rva002401DD(BfmeThingEC *stream, unsigned int frame, int player)
 	{
 		const char *map = ((const StringBase<char> &)TheWritableGlobalData->m_mapName).reverseFind('\\');
 		if (!map)
-			map = "";
+			map = g_emptyMap;
 		else
 			++map;
 
