@@ -18,6 +18,10 @@
 #include <vector>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
+// Suppress this TU's non-retail copy of ??1?$_List_base@UBfmePod32@@V?$allocator@UBfmePod32@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod32;
+namespace _STL { template <> _List_base<BfmePod32,allocator<BfmePod32> >::~_List_base(); }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
