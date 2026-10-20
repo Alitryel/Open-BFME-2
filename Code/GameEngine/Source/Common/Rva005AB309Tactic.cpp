@@ -143,6 +143,7 @@ class Object
 public:
 	const Coord3D *getPosition() const { return &m_pos; }
 	ObjectID getID() const { return m_id; }
+	void setTeam(class Team *team);
 	char m_pad000[4];
 	Rva005AB309Thing *m_04;		// +0x04
 	char m_pad008[0x38 - 8];
@@ -164,7 +165,26 @@ class Team
 {
 public:
 	void rva0039E5B9(Coord3D *out);
+	char m_pad00[0x5d];
+	bool m_5d;		// +0x5d
+	bool m_5e;		// +0x5e
 };
+
+struct Rva003A2FD4Proto
+{
+	char m_pad00[0x2cc];
+	int m_2cc;		// +0x2cc
+	char m_pad2D0[0x31c - 0x2d0];
+	bool m_31c;		// +0x31c
+};
+
+class TeamFactory
+{
+public:
+	Rva003A2FD4Proto *initTeamForTacticalAI(const AsciiString &name, void *ownerData, int a, unsigned int b);
+	Team *createTeamOnPrototype(class TeamPrototype *proto, bool b);
+};
+extern TeamFactory *TheTeamFactory;
 
 class Rva004EBF4B
 {
@@ -224,6 +244,7 @@ public:
 	void teamGarrisonObject(int index, Object *target);
 	void rva004ED372(const Coord3D *point);
 	void end(bool a, bool b);
+	void NotifyTeamCreated(Team *team);
 };
 
 class AITacticOffensive : public AITactic
@@ -234,7 +255,10 @@ public:
 	bool m_running;			// +0x10
 	char m_pad11[0x24 - 0x11];
 	Player *m_owner;		// +0x24
-	char m_pad28[0x58 - 0x28];
+	char m_pad28[4];		// +0x28
+	AsciiString m_name;		// +0x2c
+	unsigned int m_30;		// +0x30
+	char m_pad34[0x58 - 0x34];
 };
 
 class AIReturnTheRingTactic : public AITacticOffensive
@@ -339,6 +363,33 @@ void AIReturnTheRingTactic::moveToFortress()
 		Rva004EBF4B *record = (Rva004EBF4B *)TheSkirmishAIManager->rva002A8AB1(m_owner);
 		rva004ED372(&record->rva004EBF4B());
 	}
+}
+
+bool AIReturnTheRingTactic::buildReturnTeam()
+{
+	Object *obj = TheGameLogic->findObjectByID(m_holder);
+	if (obj && !(obj->m_438 & 1)) {
+		AsciiString name;
+		unsigned int id = m_30;
+		name.format("%s_%s_%u_%u", g_009BC1B8[0], m_name.str(), id, 0);
+		unsigned int tag = m_30;
+		Player *owner = m_owner;
+		Rva003A2FD4Proto *proto = TheTeamFactory->initTeamForTacticalAI(name, (char *)owner + 0x4c, -1, tag);
+		if (proto) {
+			proto->m_31c = false;
+			proto->m_2cc = 4;
+			m_58 = 1;
+			Team *team = TheTeamFactory->createTeamOnPrototype((TeamPrototype *)proto, false);
+			NotifyTeamCreated(team);
+			obj->setTeam(team);
+			if (!team->m_5d) {
+				team->m_5e = true;
+				team->m_5d = true;
+			}
+			return true;
+		}
+	}
+	return false;
 }
 
 void AIReturnTheRingTactic::update()
