@@ -30,6 +30,9 @@ namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *_Rb_tree
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod8;
 namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *allocator<_Rb_tree_node<pair<const int, BfmePod8> > >::allocate(size_t, const void *) const; }
+// The hinted insert is the rowed body 0x00422D9A; the dllimport tree helpers this
+// unit's STLport configuration names would make its own copy non-retail.
+namespace _STL { template <> _Rb_tree<int, pair<const int, BfmePod8>, _Select1st<pair<const int, BfmePod8> >, less<int>, allocator<pair<const int, BfmePod8> > >::iterator _Rb_tree<int, pair<const int, BfmePod8>, _Select1st<pair<const int, BfmePod8> >, less<int>, allocator<pair<const int, BfmePod8> > >::insert_unique(iterator, const pair<const int, BfmePod8> &); }
 
 // Keep the already-inlined node comparison local instead of emitting the
 // incompatible shared _Rb_tree_base_iterator::operator!= COMDAT.

@@ -137,13 +137,23 @@ private:
 	unsigned int m_index;
 };
 
+// Retail hands forEach the slot-2 vcall thunk 0x005CC208 (jmp [eax+8]).
 class Rva005CC208 : public Rva005258E2Listener
 {
 public:
+	virtual void slot04();
 	virtual void rva005CC208();
 };
 
 struct BfmePod12 { int a[3]; };
+
+// Node allocation stays out of line in insert, as rowed at 0x00420B35.
+template <> inline __declspec(noinline) _STL::_List_node<BfmePod12> *_STL::list<BfmePod12>::_M_create_node(const BfmePod12 &x)
+{
+	_Node *p = this->_M_node.allocate(1);
+	_Construct(&p->_M_data, x);
+	return p;
+}
 
 class Rva00525ABF : public Rva005258E2List
 {
