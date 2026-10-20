@@ -18804,8 +18804,6 @@ uw_007695a5,,0x007695A5,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obje
 uw_007695b7,,0x007695B7,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9881
 uw_007695ca,,0x007695CA,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2817
 uw_007695d5,,0x007695D5,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2820
-uw_0076960d,,0x0076960D,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
-uw_00769615,,0x00769615,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5899
 uw_0076964d,,0x0076964D,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9869
 uw_00769655,,0x00769655,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9901
 uw_00769660,,0x00769660,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2714
@@ -97484,3 +97482,5 @@ __ehhandler$?Render@Render2DClass@@QAEXXZ,,0x00764E96,10,Code/Libraries/Source/W
 ?Set_DX8_Light@DX8Wrapper@@SAXHPAU_D3DLIGHT8@@@Z,,0x0011C470,134,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
 ?Get_Lighting@VertexMaterialClass@@QBE_NXZ,,0x0012D2B0,4,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
 ?Get_Temp_Index_Array@@YAPAUTempIndexStruct@@I@Z,,0x0012D390,61,Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp,matched,rehomed from sortingrenderer.cpp to the Flush_Sorting_Pool unit which emits the identical copy
+$L8698,,0x0076960D,8,Code/GameEngine/Source/GameLogic/Object/ArmorStoreParse.cpp,matched,gen-funclet;parent=?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z; Matched parent 0x001D9484's EH graph is EXACT (eh_verify) and binds compiler label $L8698 to retail Unwind@00b6960d (was gen_uw scaffold uw_0076960d)
+$L8699,,0x00769615,11,Code/GameEngine/Source/GameLogic/Object/ArmorStoreParse.cpp,matched,gen-funclet;parent=?parseArmorDefinition@ArmorStore@@SAXPAVINI@@@Z; Matched parent 0x001D9484's EH graph is EXACT (eh_verify) and binds compiler label $L8699 to retail Unwind@00b69615 (was gen_uw scaffold uw_00769615)
