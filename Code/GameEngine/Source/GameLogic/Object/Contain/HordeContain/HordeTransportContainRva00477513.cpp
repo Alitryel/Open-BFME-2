@@ -134,6 +134,9 @@ class HordeTransportContain
 }
 ;
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@H@_STL@@@_STL@@QBEXPAU?$_List_node@H@2@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<_List_node<int> >::deallocate(_List_node<int> *, size_t) const; }
 class Thing 
 {
  public: void setPosition(const Coord3D *position);

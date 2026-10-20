@@ -46,6 +46,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void _Construct
 // bfme link decl-only begin
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@H@_STL@@@_STL@@QBEXPAU?$_List_node@H@2@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void allocator<_List_node<int> >::deallocate(_List_node<int> *, size_t) const; }
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 class Xfer;
