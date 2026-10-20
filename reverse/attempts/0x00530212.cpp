@@ -1,4 +1,6 @@
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
+// partial score=0.9997 date=2026-10-20
+// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.79 date=2026-10-17
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.9080518138749478 date=2026-10-14
@@ -26,16 +28,18 @@
 // ZH AIPathfind.cpp classifyObjectFootprint/internal_classifyObjectFootprint
 // provide the filtering/rasterization/pinching semantics. BFME-specific wall,
 // portal, multi-shape, gate and layer checks are read from target bytes and WB.
+// 2026-10-20 (claude-opus-5-5): the body is one byte from retail: the gate-path cell address at +0x551 encodes [ebx+eax] where retail has [eax+ebx];
+// the only other difference is the call to Pathfinder::rva0052F63F (0x0052F63F), which has no row and no pin. Handoff: reverse/attempt_support/0x00530212_20261020_one_byte.md
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
+#include "Code/Libraries/Include/Lib/Region2D.h"
 struct FootprintCoord2D{float x,y;};
-struct Region2D { float lx,ly,hx,hy; };
 struct FootprintBounds{int lx,ly,hx,hy;};
 class Rva0027C36A {public:Rva0027C36A();unsigned words[0xa8/4];};
 class Drawable {public:
  bool rva0027267D(int,int,int,int);bool rva002726C3(int,int,int,int);
- int rva0027257B(int);bool rva00272C1E();void rva0027A018();
+ int rva0027257B(int);bool rva00272C1E();void createEmbeddedPortals();
 };
 class Rva00279677{public:void rva00279677();};
 struct BfmeVecVNB{float x,y,z; BfmeVecVNB(const float *v):x(v[0]),y(v[1]),z(v[2]){} };
@@ -47,6 +51,7 @@ struct FootprintTemplate {char pad[0x108];union {unsigned kinds[6];struct {unsig
 enum ObjectStatusTypes{Status77=77,Status88=88};
 class Object {public:
  Drawable *getDrawable()const;void rva0028AD32();void rva0028AD8C();void rva0028AD7C();bool isMobile()const;bool testStatus(ObjectStatusTypes)const;bool rva0006F039(int)const;
+ const Coord3D *getPosition()const{return &position;}
  char pad0[4];FootprintTemplate *templ;char pad8[0x38-8];Coord3D position;float orientation;char pad48[0xac-0x48];bool small;char padAD[0xd4-0xad];BfmeShapeE15 *begin,*end;
 };
 class Thing{public:float getHeightAboveTerrain()const;};
@@ -76,54 +81,59 @@ class Pathfinder{public:
 };
 void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
 {
+ const Coord3D *objPos=obj->getPosition();
  Drawable *drawable=obj->getDrawable();
- if(drawable){if(insert)drawable->rva0027A018();else ((Rva00279677*)drawable)->rva00279677();}
+ if(drawable){if(insert)drawable->createEmbeddedPortals();else ((Rva00279677*)drawable)->rva00279677();}
  if(obj->templ->kind(25)||obj->templ->kind(24)||obj->templ->kind(149))return;
  bool wall=obj->templ->isWall;
  if(!wall && obj->templ->fenceWidth>0.0f && !obj->templ->kind(61)){rva0052E4C9(obj,insert);return;}
  if(!insert){obj->rva0028AD32();if(!goal)obj->rva0028AD8C();}else obj->rva0028AD7C();
+ // mobile aren't obstacles.
+ /// For now, all small objects will not be obstacles
  if(!obj->templ->kind(7)||obj->isMobile()||obj->small||obj->testStatus(Status88))return;
  if(wall){if(obj->templ->kind(150))wall=obj->getDrawable()->rva00272C1E();else if(obj->testStatus(Status77))wall=false;}
+ // Don't add bounds that are up in the air....
  if(((Thing*)obj)->getHeightAboveTerrain()>10.0f&&!wall)return;
  if(wall&&drawable){float z;if(!drawable->rva0027257B((int)&z)){changedWall=true;rva0052F63F(obj,insert);return;}}
- bool gate=(goal ? obj->templ : obj->templ)->kind(137)||wall;
+ bool gate=obj->templ->kind(137)||wall;
  bool bit22=insert ? ((obj->templ->words120>>9)&1)!=0:false;
  if((gate||bit22)&&!insert)changedGate=true;
  if(insert&&obj->templ->kind(120)&&obj->rva0006F039(94)){
-  int x=(int)(obj->position.x*0.1f),y=(int)(obj->position.y*0.1f);
-  for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if((i ? (cell&&cell->gate()) : (cell&&cell->gate()))){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
+  int x=(int)(objPos->x*0.1f),y=(int)(objPos->y*0.1f);
+  for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if(cell&&cell->gate()){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
  }
- struct { Rva0027C36A d; unsigned char pad[4]; } dataW; Rva0027C36A &data = dataW.d;
- if(drawable){void*poly;if(drawable->rva0027267D((int)&data,(int)&poly,0,0)||drawable->rva002726C3((int)&data,(int)&poly,0,0))gate=true;}
+ Rva0027C36A data;
+ void*poly;
+ if(drawable){if(drawable->rva0027267D((int)&data,(int)&poly,0,0)||drawable->rva002726C3((int)&data,(int)&poly,0,0))gate=true;}
  float angle=obj->orientation;
- for(int k=0;(k<obj->end-obj->begin) && obj->templ == obj->templ && obj->templ == obj->templ;++k){
+ for(int k=0;k<obj->end-obj->begin;++k){
   BfmeShapeE15 *shape=((BfmeObjE15*)((char*)obj+0xa8))->bfmeAtE15(k);
   if(!shape->enabled||shape->offsetZ>10.0f)continue;
-  BfmeVecVNB pos(&obj->position.x);
+  BfmeVecVNB pos(&objPos->x);
   float c=Cos(angle),s=Sin(angle);
   ((BfmeXformVNB*)shape)->bfmeApplyVNB(&pos,angle);
   switch(shape->type){
   case 2:{
    float halfX=shape->major,halfY=shape->minor;
+   // in theory, should be PATHFIND_CELL_SIZE_F exactly, but needs to be smaller to avoid aliasing problems
    float ydx=s*5.0f,ydy=-(c*5.0f),xdx=c*5.0f,xdy=s*5.0f;
    int nx=CEIL(2.0f*halfX/5.0f),ny=CEIL(2.0f*halfY/5.0f);
    float tlx=pos.x-halfX*c-halfY*s,tly=pos.y+halfY*c-halfX*s;
    for(int iy=0;iy<ny;++iy,tlx+=ydx,tly+=ydy){
     float x=tlx,y=tly;
-    for(unsigned int ix=0;nx > (obj->templ->fenceWidth ? ix : ix);++ix,x+=xdx,y+=xdy){
+    for(int ix=0;ix<nx;++ix,x+=xdx,y+=xdy){
      int cx=FLOOR((x+0.5f)*0.1f),cy=FLOOR((y+0.5f)*0.1f);
      if(cx<0||cy<0||cx>=extent.hx||cy>=extent.hy)continue;
      bool accept=false;
      if(map[cx][cy].layer()!=1){
       if(!gate)continue;
-      int ty=map[cx][cy].type();
-      if((ty==0||(k ? (ty==3) : (ty==3)))&&insert)accept=true;
-      if((ty==4||ty==3)&&!insert)accept=true;
+      if((map[cx][cy].type()==0||map[cx][cy].type()==3)&&insert)accept=true;
+      if((map[cx][cy].type()==4||map[cx][cy].type()==3)&&!insert)accept=true;
       if(!accept)continue;
      }
      bool dirty;
      if(insert){
-      if(gate){int ty=map[cx][cy].type();if(ty==2||ty==3){map[cx][cy].SetType_Dirty(0);zones.MarkDirty(cx,cy);}}
+      if(gate){if(map[cx][cy].type()==2||map[cx][cy].type()==3){map[cx][cy].SetType_Dirty(0);zones.MarkDirty(cx,cy);}}
       In002E6BA1 p={cx,cy};dirty=map[cx][cy].rva0052DEEF((const Rva0052DEEFArg*)obj,false,&p);
      }else dirty=map[cx][cy].rva0052DFB1((const Rva0052DFB1Arg*)obj);
      if(dirty)zones.MarkDirty(cx,cy);
@@ -132,7 +142,10 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
     }
    }
   }break;
-  case 0:case 1:{
+  case 0: // not quite right, but close enough
+  case 1:{
+   // fill in all cells that overlap as obstacle cells
+   /// @todo This is a very inefficient circle-rasterizer
    ICoord2D topLeft,bottomRight;
    FootprintCoord2D center,delta;
    float radius=shape->major;
@@ -145,10 +158,8 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    for(int j=topLeft.y;j<bottomRight.y;++j)for(int i=topLeft.x;i<bottomRight.x;++i){
     delta.x=i+0.5f-center.x;delta.y=j+0.5f-center.y;
     if(!(delta.x*delta.x+delta.y*delta.y<=r2)||i<0||j<0||i>=extent.hx||j>=extent.hy||map[i][j].layer()!=1)continue;
-    bool dirty;
-    if(insert){In002E6BA1 p={i,j};dirty=map[i][j].rva0052DEEF((const Rva0052DEEFArg*)obj,false,&p);}
-    else dirty=map[i][j].rva0052DFB1((const Rva0052DFB1Arg*)obj);
-    if(dirty)zones.MarkDirty((i ? i : i),j);
+    if(insert){In002E6BA1 p={i,j};if(map[i][j].rva0052DEEF((const Rva0052DEEFArg*)obj,false,&p))zones.MarkDirty(i,j);}
+    else if(map[i][j].rva0052DFB1((const Rva0052DFB1Arg*)obj))zones.MarkDirty(i,j);
     if(gate&&map[i][j].gate()!=insert){((Rva0052E001*)&map[i][j])->rva0052E001(insert);zones.MarkDirty(i,j);}
     if(((Rva0052E02F*)&map[i][j])->rva0052E02F(bit22))zones.MarkDirty(i,j);
    }
@@ -157,16 +168,18 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  }
  Region2D world;
  ((Rva0087E370*)((char*)obj+0xa8))->method(obj->position,obj->orientation,world);
- FootprintBounds b; b.lx=FLOOR(world.lx*0.1f)-1; b.ly=FLOOR(world.ly*0.1f)-1; b.hx=CEIL(world.hx*0.1f)+1; b.hy=CEIL(world.hy*0.1f)+1;
+ FootprintBounds b; b.lx=FLOOR(world.lo.x*0.1f)-1; b.ly=FLOOR(world.lo.y*0.1f)-1; b.hx=CEIL(world.hi.x*0.1f)+1; b.hy=CEIL(world.hi.y*0.1f)+1;
  if(b.lx<extent.lx)b.lx=extent.lx;
  if(b.ly<extent.ly)b.ly=extent.ly;
  if(b.ly<extent.ly)b.ly=extent.ly;
  if(b.hx>extent.hx)b.hx=extent.hx;
  if(b.hy>extent.hy)b.hy=extent.hy;
- if(!insert)for(int j=b.ly;b.hy >= j;++j)for(int i=b.lx;i<=b.hx;++i){
+ if(!insert)for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].type()==5&&map[i][j].layer()==1){map[i][j].SetType_Dirty(0);zones.MarkDirty(i,j);}
  }
- for(int j=(obj->small ? b.ly : b.ly);j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
+ // Check for pinched cells, and close them off.
+ int i,j;
+ for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()!=1)continue;
   map[i][j].pinch(false);
   if(map[i][j].type()==0){
@@ -177,13 +190,15 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
      if(map[k][l].type()==0){++total;if(k==i||l==j)++ortho;}
     }
    }
+   // If the total open cells are < 2 or total cells < 4, we are pinched.
    if(ortho<2||total<4)map[i][j].pinch(true);
   }
  }
- for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
+ for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()==1&&map[i][j].pinched()&&map[i][j].type()==0){map[i][j].SetType_Dirty(5);map[i][j].pinch(false);zones.MarkDirty(i,j);}
  }
- for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
+ // Expand building bounds 1 cell.
+ for(j=b.ly;j<=b.hy;++j)for(i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()==1&&map[i][j].type()==0){
    bool adjacent=false;
    for(int k=i-1;k<i+2;++k){if(k<extent.lx||k>extent.hx)continue;
