@@ -1,3 +1,5 @@
+#include <new>
+
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ??0Rva0020479E@@QAE@XZ @0x0020479E 43B, call sites 0x0020756E 0x0020A0B9
 // 0x0020A936. Installs the vtable at 0x00BE3A90, zeroes +0x04..+0x10, then the
@@ -15,7 +17,7 @@ struct Rva0020479EQuad {
 };
 class Rva0020479E {
 public:
-    Rva0020479E();
+    __declspec(noinline) inline Rva0020479E();
     virtual ~Rva0020479E();
     int m_04;
     int m_08;
@@ -26,4 +28,11 @@ public:
     int m_28;
 };
 Rva0020479E::Rva0020479E() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {
+}
+
+// Keep the rowed constructor emitted as a selectable copy; no retail caller.
+// ?bfmeEmitSequentialScriptCtor absent-from-retail
+Rva0020479E *bfmeEmitSequentialScriptCtor(void *storage)
+{
+    return new (storage) Rva0020479E;
 }
