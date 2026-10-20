@@ -16,9 +16,8 @@ public:
 
 #include "ascii_string.h"
 #include <vector>
-// bfme link decl-only begin
-namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &,unsigned int const &); }
-// bfme link decl-only end
+// _M_insert_overflow inlines max(size(), n) as retail's copy does; this TU emits no max copy of its own.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b) { return __a < __b ? __b : __a; } }
 
 
 class ObjectTypes {

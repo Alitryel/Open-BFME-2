@@ -4,6 +4,8 @@
 // so they are kept apart from the unit's bodies that already link.
 #include <vector>
 enum ObjectID{INVALID_OBJECT_ID=0};
+// The fill constructor calls retail's out-of-line uninitialized_fill_n, as its provider VectorObjectIDFillInsert.cpp compiles it.
+namespace _STL { template <> ObjectID *uninitialized_fill_n<ObjectID *, unsigned int, ObjectID>(ObjectID *, unsigned int, const ObjectID &) throw(); }
 // Native170B ctor57EDB2 and matched150B sibling57F486 establish the
 // novtable base58 forwarding initializer2D2C34/destructor5248D0 pair.
 // Retail proves reference58 counters5C/60 three12B vector controls64/70/7C

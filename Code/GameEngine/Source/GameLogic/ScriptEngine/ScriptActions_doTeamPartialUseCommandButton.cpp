@@ -23,6 +23,12 @@ namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 
+class Object;
+// The storage base destructor only inlines here; retail's out-of-line copy is the /EHs one at 0x001F1609.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<Object *, allocator<Object *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
+
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
 
 __forceinline long fast_float2long_round(float f)

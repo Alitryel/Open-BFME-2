@@ -24,6 +24,19 @@ struct Rva007B4CD0Entry
 	Rva007B4CD0Entry *m_next; // +0x114
 };
 
+// Retail's insert calls node creation out of line (insert 0x005925E2 calls 0x000B6447), as the
+// bfmelist header spells it for list<int>.
+namespace _STL {
+template <>
+inline __declspec(noinline) list<Rva007B4CD0Entry *, allocator<Rva007B4CD0Entry *> >::_Node *
+list<Rva007B4CD0Entry *, allocator<Rva007B4CD0Entry *> >::_M_create_node(Rva007B4CD0Entry *const &__x)
+{
+	_Node *__p = this->_M_node.allocate(1);
+	new (&__p->_M_data) Rva007B4CD0Entry *(__x);
+	return __p;
+}
+}
+
 class Rva00330A37
 {
 public:
