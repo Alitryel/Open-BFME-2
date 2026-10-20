@@ -3,15 +3,17 @@
 // Retail 0x0030BC94 (26 B, RET 4): forwards its argument to the 239-byte leaf
 // 0x0053841C on the member at +0x68, then calls virtual slot 10 (+0x28). Same
 // shape as the rowed 0x00330ABE (VtableSlotBodiesR4.cpp: container push on +0x08,
-// then slot 12). Owner and argument types are unrecovered; names stay
+// then slot 12). The forwarder's owner is unrecovered; its names stay
 // address-derived.
 
 struct Rva0053841CArg;
+class Matrix3D;
 
-class Rva0053841C
+// The leaf is QuadStrip2D's transform (Rva0053841CTransform.cpp); the argument is its Matrix3D.
+class QuadStrip2D
 {
 public:
-	void rva0053841C(const Rva0053841CArg *arg);
+	void rva0053841C(const Matrix3D &mtx);
 };
 
 class Rva0030BC94
@@ -31,6 +33,6 @@ private:
 
 void Rva0030BC94::rva0030BC94(const Rva0053841CArg *arg)
 {
-	((Rva0053841C *)m_member68)->rva0053841C(arg);
+	((QuadStrip2D *)m_member68)->rva0053841C(*(const Matrix3D *)arg);
 	changed();
 }
