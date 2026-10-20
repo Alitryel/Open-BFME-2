@@ -7,6 +7,10 @@
 // StringBase ctor plus releaseBuffer plus rb-tree dtor rows.
 #include "ascii_string.h"
 #include <map>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHURva0040A603Record@@@_STL@@@_STL@@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0040A603Record;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<int const ,Rva0040A603Record> > >::deallocate(_Rb_tree_node<pair<int const ,Rva0040A603Record> > *,unsigned int) const; }
 
 typedef int Int;
 
