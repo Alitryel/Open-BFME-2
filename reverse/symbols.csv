@@ -13199,7 +13199,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?Rva0010F011Get@@YAPAXXZ,0x0010F011,Retail REL32 from 0x0010F719 calls here; the body initializes a static critical section at VA 0x00DEC390 and returns its address used by ScopedCriticalSection; address-derived getter and owning class unresolved
 ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z,0x0016E450,Retail call at 0x00106D0B sets ECX from the first field owner +0xC4 and passes a local count out-pointer; target FUN_0056E450 has Ghidra extent 1692 bytes; address-derived operation only
 _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
-?rva00115044@Rva00115044@@QAEXPAHHHE@Z,0x00115044,callee of ?rva001159F1@Rva001159F1@@QAEXPAX@Z
 ?rva0057ABD0@ChecklistUIImpl@StrategicHUD@@QBEMXZ,0x0057ABD0,unrowed 60B const thiscall returning float: the checklist item list height (last item +0x38 plus its +8 0x004987FE plus 0x0057A24A on g_Va00E06360; that alone when the +0x30 list is empty); the scroll listener 0x0057AC8F calls it with this-8 (REL32 at 0x0057AC9A)
 ?MapGadgetInit@AptMapPreview@@QAEXPBDPAXPAVGameWindow@@@Z,0x0057E25D,callee of ?rva0057E45C@AptMapPreview@@QAEXXZ: bound as the "AptMapPreview::MapGadgetInit" screen reference (member pointer immediate 0x0097E25D at 0x0057E484); Ghidra FUN_0097e25d 382B ret 0xC; files the MapInfo/MapDescription/MapPicture/CurrentMap/StrategicScenario*/LivingWorld windows
 ?rva0057E058@AptMapPreview@@QAEXXZ,0x0057E058,callee of ?MapGadgetInit@AptMapPreview@@QAEXPBDPAXPAVGameWindow@@@Z (REL32 tail at 0x0057E3CF); same address as the ?rva0057E058@Rva0057E3DB@@QAEXXZ placeholder pin; address name
@@ -13215,7 +13214,6 @@ _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
 ?rva000EB6BB@Rva000EC9C6@@QAEXXZ,0x000EB6BB,callee of ?rva000EC9C6@Rva000EC9C6@@QAEXH@Z
 ?rva000EBFD1@Rva000EC9C6@@QAEXXZ,0x000EBFD1,callee of ?rva000EC9C6@Rva000EC9C6@@QAEXH@Z
 ?rva000E153A@Rva000E15D1@@QAEXXZ,0x000E153A,callee of ?rva000E15D1@Rva000E15D1@@QAEXXZ
-?rva00115044@Rva00115044El@@QAEXPAURva000E15D1Rec@@HHE@Z,0x00115044,callee of ?rva000E15D1@Rva000E15D1@@QAEXXZ
 ?rva00112259@Rva00115044El@@QAEXXZ,0x00112259,callee of ?rva000E127B@Rva000E127B@@QAEXH@Z
 ??4?$list@URva000B419E@@V?$allocator@URva000B419E@@@_STL@@@_STL@@QAEAAV01@ABV01@@Z,0x000BDBFA,callee of ??4BfmePod248@@QAEAAU0@ABU0@@Z
 ?renderShadows@W3DVolumetricShadowManagerV2@@QAEXAAVRenderInfoClass@@@Z,0x00107F8B,callee of ?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@Z

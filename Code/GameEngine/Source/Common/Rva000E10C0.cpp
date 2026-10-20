@@ -2,18 +2,15 @@
 // @0x000E10C0 197B. Fill a 16-byte record from the pointer at +0x37C0,
 // then walk y * cols + x. A live global tints with 50 - (int)(x * -45 / cols).
 
-struct Rva000E15D1Rec
-{
-	int m_a;
-	int m_b;
-	int m_c;
-	int m_d;
-};
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 
-class Rva00115044El
+class WorldHeightMap;
+// The 0xD4-byte terrain tile; doPartialUpdate is retail 0x00115044.
+class W3DTerrainBackground
 {
 public:
-	void rva00115044(Rva000E15D1Rec *rec, int value, int mode, unsigned char flag);
+	void doPartialUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, bool doTextures, bool flag);
 };
 
 struct Rva000E10C0View
@@ -62,7 +59,7 @@ public:
 	char m_pad0[0x37C0];
 	Rva000E10C0View *m_at37C0;
 	char m_pad37C4[0x37E0 - 0x37C4];
-	unsigned char m_at37E0;
+	bool m_at37E0;
 	char m_pad37E1[0x3888 - 0x37E1];
 	char *m_base;
 	char m_pad388C[4];
@@ -74,11 +71,11 @@ void Rva000E10C0::rva000E10C0()
 {
 	Rva000E10C0View *src = m_at37C0;
 	int x = 0;
-	Rva000E15D1Rec rec;
-	rec.m_a = x;
-	rec.m_b = x;
-	rec.m_c = src->m_c;
-	rec.m_d = src->m_d;
+	IRegion2D rec;
+	rec.lo.x = x;
+	rec.lo.y = x;
+	rec.hi.x = src->m_c;
+	rec.hi.y = src->m_d;
 	if (m_at3890 > 0)
 	{
 		for (; x < m_at3890; ++x)
@@ -87,9 +84,9 @@ void Rva000E10C0::rva000E10C0()
 				BfmeProgressIndicatorHead->apply(50 - (int)((float)x * -45.0f / (float)m_at3890));
 			for (int y = 0; y < m_at3894; ++y)
 			{
-				Rva00115044El *el =
-					(Rva00115044El *)(m_base + (y * m_at3890 + x) * 0xD4);
-				el->rva00115044(&rec, *(int *)&m_at37C0, 0, m_at37E0);
+				W3DTerrainBackground *el =
+					(W3DTerrainBackground *)(m_base + (y * m_at3890 + x) * 0xD4);
+				el->doPartialUpdate(rec, (WorldHeightMap *)m_at37C0, false, m_at37E0);
 				if (Rva0134FAA0 != 0)
 					Rva0134FAA0->slot38();
 			}

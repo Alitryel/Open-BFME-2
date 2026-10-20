@@ -6,6 +6,8 @@
 
 #include <math.h>
 #include <string.h>
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 class Rva000AD9AB
 {
@@ -33,6 +35,7 @@ class W3DTerrainBackground
 {
 public:
 	void setFlipRecursive(int, int, int);
+	void doPartialUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, bool doTextures, bool flag);
 	void calcBlendHeight(Real param, Int mode, Real *maxDelta);
 	void rva00113DE0(UnsignedShort *ib, Vector3 *heights, Int xOffset, Int yOffset, Int width,
 		UnsignedShort *ndx, Int &curIndex);
@@ -60,12 +63,6 @@ public:
 	void rva00111F0E();
 };
 
-class Rva00115044
-{
-public:
-	void rva00115044(int *, int, int, unsigned char);
-};
-
 class Rva001159F1
 {
 	char m_pad00[0x50];
@@ -74,7 +71,7 @@ class Rva001159F1
 	int m_span;
 	Rva000AD9AB *m_bitPlane;
 	unsigned char m_flags;
-	unsigned char m_mode;
+	bool m_mode;
 	char m_pad62[0x26];
 	void *m_current;
 	void *m_previous;
@@ -92,13 +89,13 @@ void Rva001159F1::rva001159F1(void *value)
 		0, 0, m_span);
 	reinterpret_cast<Rva00111F0E *>(this)->rva00111F0E();
 
-	int rectangle[4];
-	rectangle[0] = 0;
-	rectangle[1] = 0;
-	rectangle[2] = m_x + m_span;
-	rectangle[3] = m_y + m_span;
-	reinterpret_cast<Rva00115044 *>(this)->rva00115044(
-		rectangle, 0, 0, m_mode);
+	IRegion2D rectangle;
+	rectangle.lo.x = 0;
+	rectangle.lo.y = 0;
+	rectangle.hi.x = m_x + m_span;
+	rectangle.hi.y = m_y + m_span;
+	reinterpret_cast<W3DTerrainBackground *>(this)->doPartialUpdate(
+		rectangle, 0, false, m_mode);
 }
 
 

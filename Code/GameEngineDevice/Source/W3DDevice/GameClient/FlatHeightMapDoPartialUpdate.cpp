@@ -10,7 +10,7 @@
 // donor lead. The tile bounds are an IRegion2D local (its lo.x member is
 // enregistered, leaving retail's unused frame slot) converted with
 // REAL_TO_INT_FLOOR/CEIL spelled fast_float2long_round(floorf/ceilf(x)).
-// Tile callees: rowed rva00113110 and the pinned rva00115044.
+// Tile callees: rowed rva00113110 and W3DTerrainBackground::doPartialUpdate (0x00115044).
 #include <math.h>
 #include "Lib/ICoord2D.h"
 #include "Lib/IRegion2D.h"
@@ -28,7 +28,7 @@ __forceinline long fast_float2long_round(float f)
 class RefRenderObjListIterator;
 class WorldHeightMap { public: virtual void Delete_This(); int m_refs; };
 class Rva00113110Holder { public: void rva00113110(void *); };
-class Rva00115044 { public: void rva00115044(int *, int, int, unsigned char); };
+class W3DTerrainBackground { public: void doPartialUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, bool doTextures, bool flag); };
 struct TerrainTileView { char data[0xd4]; };
 class FlatHeightMapRenderObjClass
 {
@@ -38,7 +38,7 @@ private:
 	char m_pad0[0x37c0];
 	WorldHeightMap *m_map;
 	char m_pad37c4[0x37e0 - 0x37c4];
-	unsigned char m_tileFlag;
+	bool m_tileFlag;
 	char m_pad37e1[0x3888 - 0x37e1];
 	TerrainTileView *m_tiles;
 	int m_numTiles, m_tilesWidth, m_tilesHeight;
@@ -67,7 +67,7 @@ void FlatHeightMapRenderObjClass::doPartialUpdate(const IRegion2D &partialRange,
 		for (int j = tiles.lo.y; j < tiles.hi.y; ++j) {
 			TerrainTileView *tile = m_tiles + j * m_tilesWidth + i;
 			((Rva00113110Holder *)tile)->rva00113110(htMap);
-			((Rva00115044 *)tile)->rva00115044((int *)&partialRange, (int)htMap, 1, m_tileFlag);
+			((W3DTerrainBackground *)tile)->doPartialUpdate(partialRange, htMap, true, m_tileFlag);
 		}
 	m_needUpdate = false;
 }

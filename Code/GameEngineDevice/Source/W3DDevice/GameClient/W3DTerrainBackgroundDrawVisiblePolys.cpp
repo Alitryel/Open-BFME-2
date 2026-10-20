@@ -8,7 +8,10 @@
 // +0x78 vertices, +0x7C indices) drawn when the map helper 0x000AEAA6 has a
 // texture. The first two arguments are unused by the body; the third is the
 // rendering method driven through its slot +0x10. Every offset is a target
-// fact; the 0x00112898/0x00115044 receivers keep their pinned ledger names.
+// fact; 0x00112898 is setFlipRecursive and 0x00115044 doPartialUpdate.
+
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 class TextureClass
 {
@@ -96,16 +99,11 @@ public:
 class RenderInfoClass;
 
 
-class Rva00115044
-{
-public:
-	void rva00115044(int *, int, int, unsigned char);
-};
-
 class W3DTerrainBackground
 {
 public:
 	void setFlipRecursive(int, int, int);
+	void doPartialUpdate(const IRegion2D &partialRange, WorldHeightMap *htMap, bool doTextures, bool flag);
 	void rva0011580A(RenderInfoClass &rinfo, bool disableTextures, FXShader::RenderingMethod *method);
 
 private:
@@ -126,7 +124,7 @@ private:
 	int m_width;
 	WorldHeightMap *m_map;
 	unsigned char m_pad60;
-	unsigned char m_updateMode;
+	bool m_updateMode;
 	bool m_needUpdate;
 	unsigned char m_pad63[0x68 - 0x63];
 	VertexBufferClass *m_extraVertices;
@@ -143,14 +141,14 @@ void W3DTerrainBackground::rva0011580A(RenderInfoClass &rinfo, bool disableTextu
 		return;
 
 	if (m_needUpdate) {
-		int range[4];
+		IRegion2D range;
 		m_needUpdate = false;
-		range[0] = 0;
-		range[1] = 0;
-		range[2] = m_xOrigin + m_width;
-		range[3] = m_yOrigin + m_width;
+		range.lo.x = 0;
+		range.lo.y = 0;
+		range.hi.x = m_xOrigin + m_width;
+		range.hi.y = m_yOrigin + m_width;
 		setFlipRecursive(0, 0, m_width);
-		((Rva00115044 *)this)->rva00115044(range, 0, 0, m_updateMode);
+		doPartialUpdate(range, 0, false, m_updateMode);
 	}
 
 	if (m_curNumTerrainIndices == 0)
