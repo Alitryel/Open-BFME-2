@@ -175,9 +175,6 @@ DX8MeshRendererClass TheDX8MeshRenderer;
 bool DX8TextureCategoryClass::m_gForceMultiply = false; // Forces opaque materials to use the multiply blend - pseudo transparent effect.  jba.
 // ----------------------------------------------------------------------------
 
-static DynamicVectorClass<Vector3>				_TempVertexBuffer;
-static DynamicVectorClass<Vector3>				_TempNormalBuffer;
-
 static MultiListClass<MeshModelClass>			_RegisteredMeshList;
 static TextureCategoryList							texture_category_delete_list;
 static FVFCategoryList								fvf_category_container_delete_list;
@@ -636,13 +633,6 @@ void DX8FVFCategoryContainer::Change_Polygon_Renderer_Texture(
 struct RetailMeshModelFlagView { char _pad[0x18]; int Flags; char SortLevel; };
 struct RetailMeshMatDescView { char _pad[0x10]; void * UV[8]; };
 struct RetailMeshModelLayoutView { char _pad[0x94]; RetailMeshMatDescView * CurMatDesc; };
-// Retail MeshClass::Peek_Model (decalmsh.cpp's 7 B row) loads Model at
-// mesh+0x94; this TU's ZH header places Model at +0xC4, so the inline body it
-// would emit is a stale view that would take the name from decalmsh. Read the
-// pointer here instead of emitting that copy.
-struct RetailMeshClassView { char _pad[0x94]; MeshModelClass * Model; };
-static MeshModelClass * RetailMeshClass_Peek_Model(MeshClass * mesh)
-{ return ((RetailMeshClassView *)mesh)->Model; }
 static int RetailMeshModel_Get_Flag(const MeshModelClass * mmc,int flag)
 { return ((const RetailMeshModelFlagView *)mmc)->Flags & flag; }
 static int RetailMeshModel_Get_UV_Array_Count(const MeshModelClass * mmc)
@@ -1120,150 +1110,10 @@ void DX8SkinFVFCategoryContainer::Log(bool only_visible)
 
 // ----------------------------------------------------------------------------
 
-// ?Render@DX8SkinFVFCategoryContainer@@ present-unmatched
-void DX8SkinFVFCategoryContainer::Render(void)
-{
-	SNAPSHOT_SAY(("DX8SkinFVFCategoryContainer::Render()\n"));
-	if (!Anything_To_Render()) {
-		SNAPSHOT_SAY(("Nothing to render\n"));
-		return;
-	}
-	AnythingToRender=false;
-
-	DX8Wrapper::Set_Vertex_Buffer(NULL);	// Free up the reference to the current vertex buffer
-														// (in case it is the dynamic, which may have to be resized)
-
-	//'Generals' customization to allow more than 65535 vertices
-	unsigned int maxVertexCount=VisibleVertexCount;
-	if (maxVertexCount > 65535)
-	{	//clamp vertex count to maximum size that can be indexed by 16-bit index
-		maxVertexCount = 65535;
-	}
-
-	DynamicVBAccessClass vb(
-		sorting ? BUFFER_TYPE_DYNAMIC_SORTING : BUFFER_TYPE_DYNAMIC_DX8,
-		dynamic_fvf_type,
-		maxVertexCount);
-	SNAPSHOT_SAY(("DynamicVBAccess - %s - %d vertices\n",sorting ? "sorting" : "non-sorting",VisibleVertexCount));
-
-	unsigned int renderedVertexCount=0;
-
-	MeshClass * mesh = VisibleSkinHead;
-	MeshClass * remainingMesh = VisibleSkinHead;
-	while (renderedVertexCount < VisibleVertexCount)
-	{	mesh = remainingMesh;
-		{	DynamicVBAccessClass::WriteLockClass l(&vb);
-			VertexFormatXYZNDUV2 * dest_verts = l.Get_Formatted_Vertex_Array();
-			unsigned vertex_offset=0;
-			remainingMesh = NULL;
-
-			while (mesh != NULL) {
-
-				MeshModelClass * mmc = RetailMeshClass_Peek_Model(mesh);
-				int mesh_vertex_count=mmc->Get_Vertex_Count();
-				//'Generals' mod to deal with cases where not all meshes fit in VB.
-				if (vertex_offset+mesh_vertex_count > maxVertexCount || remainingMesh)
-				{	//flag mesh so we know it didn't fit in the vertex buffer
-					mesh->Set_Base_Vertex_Offset(VERTEX_BUFFER_OVERFLOW);
-					if (remainingMesh == NULL)
-						remainingMesh = mesh;	//start of meshes that didn't fit in buffer
-					mesh = mesh->Peek_Next_Visible_Skin();	//skip rendering this mesh
-					continue;
-				}
-
-
-		// If this assert hits, a skinned mesh has probably been added to the scene more than once.
-		// Example: A skinned mesh was added to the scene then it was attached to a bone without being removed from the scene.
-		WWASSERT((vertex_offset+mesh_vertex_count)<=VisibleVertexCount);
-			DX8_RECORD_SKIN_RENDER(mesh->Get_Num_Polys(),mesh_vertex_count);
-
-				if (_TempVertexBuffer.Length() < mesh_vertex_count) _TempVertexBuffer.Resize(mesh_vertex_count); 
-				if (_TempNormalBuffer.Length() < mesh_vertex_count) _TempNormalBuffer.Resize(mesh_vertex_count);
-
-				Vector3* loc=&(_TempVertexBuffer[0]);
-				Vector3* norm=&(_TempNormalBuffer[0]);
-				const Vector2* uv0=mmc->Get_UV_Array_By_Index(0);
-				const Vector2* uv1=mmc->Get_UV_Array_By_Index(1);
-				const unsigned* diffuse=mmc->Get_Color_Array(0,false);
-
-				VertexFormatXYZNDUV2* verts=dest_verts+vertex_offset;
-
-				mesh->Get_Deformed_Vertices(loc,norm);
-
-				for (int v=0;v<mesh_vertex_count;++v) {
-					verts[v].x=(*loc)[0];
-					verts[v].y=(*loc)[1];
-					verts[v].z=(*loc)[2];
-					verts[v].nx=(*norm)[0];
-					verts[v].ny=(*norm)[1];
-					verts[v].nz=(*norm)[2];
-					if (diffuse) {
-						verts[v].diffuse=*diffuse++;
-					}
-					else {
-						verts[v].diffuse=0;
-					}
-					if (uv0) {
-						verts[v].u1=(*uv0)[0];
-						verts[v].v1=(*uv0)[1];
-						uv0++;
-					}
-					else {
-						verts[v].u1=0.0f;
-						verts[v].v1=0.0f;
-					}
-					if (uv1) {
-						verts[v].u2=(*uv1)[0];
-						verts[v].v2=(*uv1)[1];
-						uv1++;
-					}
-					else {
-						verts[v].u2=0.0f;
-						verts[v].v2=0.0f;
-					}
-
-					loc++;
-					norm++;
-				}
-
-				mesh->Set_Base_Vertex_Offset(vertex_offset);
-				vertex_offset+=mesh_vertex_count;
-				renderedVertexCount += mesh_vertex_count;
-				
-				mesh = mesh->Peek_Next_Visible_Skin();
-			}	//while
-		}//lock
-
-		SNAPSHOT_SAY(("Set vb: %x ib: %x\n",vb,index_buffer));
-
-		DX8Wrapper::Set_Vertex_Buffer(vb);
-		DX8Wrapper::Set_Index_Buffer(index_buffer,0);
-
-		//Flush the meshes which fit in the vertex buffer, applying all texture variations
-		for (unsigned pass=0;pass<passes;++pass) {
-			SNAPSHOT_SAY(("Pass: %d\n",pass));
-
-			TextureCategoryListIterator it(&visible_texture_category_list[pass]);
-			while (!it.Is_Done()) {
-				it.Peek_Obj()->Render();
-				it.Next();
-			}
-		}
-
-		Render_Procedural_Material_Passes();
-	}//while
-
-	//remove all the rendered data from queues
-	for (unsigned pass=0;pass<passes;++pass) {
-		while (DX8TextureCategoryClass * tex = visible_texture_category_list[pass].Remove_Head()) {
-		}
-	}
-
-	WWASSERT(renderedVertexCount==VisibleVertexCount);
-
-
-	clearVisibleSkinList();
-}
+// DX8SkinFVFCategoryContainer::Render: defined in DX8SkinClearVisibleList.cpp (its row's unit).
+// ?bfmeAnchorSkinVertexOffsetInline absent-from-retail
+// Emits this unit's rowed out-of-line copy of MeshClass::Set_Base_Vertex_Offset.
+void bfmeAnchorSkinVertexOffsetInline(MeshClass *mesh, int offset) { mesh->Set_Base_Vertex_Offset(offset); }
 
 // DX8SkinFVFCategoryContainer::Check_If_Mesh_Fits: BFME 2's body is the row 0x00143C20 in DX8SkinClearVisibleList.cpp;
 // Zero Hour's copy here duplicated it.
