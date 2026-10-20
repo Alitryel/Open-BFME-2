@@ -24,6 +24,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Construct@VUnitRevivalEntry@@V1@@_STL@@YAXPAVUnitRevivalEntry@@ABV1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class UnitRevivalEntry;
+namespace _STL { template <> void _Construct<UnitRevivalEntry,UnitRevivalEntry>(UnitRevivalEntry *,UnitRevivalEntry const &); }
 
 class AsciiString;
 class UnicodeString;
