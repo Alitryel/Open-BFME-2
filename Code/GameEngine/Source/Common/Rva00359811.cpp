@@ -2,6 +2,10 @@
 // stlport
 // ?rva00359811@Rva00359811@@QAEIABURva003597C3Element@@_N@Z 0x00359811 27B; branch and set erase call are retail evidence
 #include <set>
+// Suppress this TU's non-retail copy of ?_M_lower_bound@?$_Rb_tree@URva003597C3Element@@U1@U?$_Identity@URva003597C3Element@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva003597C3Element;
+namespace _STL { template <> _Rb_tree_node<Rva003597C3Element> * _Rb_tree<Rva003597C3Element,Rva003597C3Element,_Identity<Rva003597C3Element>,less<Rva003597C3Element>,allocator<Rva003597C3Element> >::_M_lower_bound(Rva003597C3Element const &) const; }
 // Suppress this TU's non-retail copy of ?erase@?$_Rb_tree@URva003597C3Element@@U1@U?$_Identity@URva003597C3Element@@@_STL@@U?$less:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva003597C3Element;
