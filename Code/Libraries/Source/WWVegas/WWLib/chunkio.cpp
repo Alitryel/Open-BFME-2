@@ -17,7 +17,6 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "chunkio.h"
 #include <string.h>
 #include <assert.h>

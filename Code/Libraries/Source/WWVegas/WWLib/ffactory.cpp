@@ -7,21 +7,9 @@
 // factory. The CriticalSectionClass locks resolve to the game's shared out-of-line
 // ctor/dtor bodies via reverse/symbols.csv. assert() is compiled out (/DNDEBUG), which
 // is how the shipped binary built.
-// The compiler-generated vector constructor iterator (??_H) takes the
-// optimization state of the first function that needs it. Retail links one
-// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
-// copy that same body, so it no longer loses to retail's at link time.
-// It can also change how later array constructions here compile; checked to
-// change nothing else in this unit, but if a function added later that builds
-// an array will not match, try it without this block.
 #include "always.h"
 #include "../../../../../reference/shims/bfme_part_emt_inline/wwstring.h"
 
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-#include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include	"ffactory.h"
 #include	"rawfile.h"
 #include "bufffile.h"
