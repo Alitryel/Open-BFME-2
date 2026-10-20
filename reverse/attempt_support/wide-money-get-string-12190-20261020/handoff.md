@@ -171,3 +171,19 @@ The 13 calls name `??1?$basic_string@G...`. Its symbol-map candidates are
 0x142D70 (an ICF twin row), not 0xB3C0; `??1?$_String_base@G` is pinned at
 0xB3C0 (`symbols.csv:2764`). The scratch scorer forces both names to 0xB3C0. An
 exact body may still need the ledger to resolve `~basic_string<G>` to 0xB3C0.
+
+### Probe finding (claudeb4, end of session 2026-10-20)
+
+- Small probes on o_g's prelude (leaks-check `~allocator<G>` shim included)
+  inline every wide-string dtor (all `free`, no `??1` call). That held for:
+  - a loop with a switch and two early returns;
+  - ternary temporaries;
+  - an inner-scope local with an early return.
+- So the 13-outline / 3-inline split does not come from early exits as such.
+  It depends on do_get's size or its state count. Grow the probes towards
+  do_get's shape rather than shrink them.
+- Next leads, untried:
+  1. A TU-scoped `_string.h` shim (`/Ireference/shims/<dir>`) that declares
+     `_M_assign_dispatch` only, so A is opaque without an ICE. q_diag shows an
+     opaque A fixes the tag store and the bool slot (fit 0.9847).
+  2. Narrow-twin style decl-only non-template specializations.
