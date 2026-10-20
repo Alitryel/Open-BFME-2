@@ -431,15 +431,15 @@ public:
 	static NetCommandMsg *readRouterFallbackMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *readPlayerLeaveMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *readDestroyPlayerMessage(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DEC5(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DEF7(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DF29(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0059205C(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readKeepAliveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectKeepAliveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectPlayerMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectChatMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *readGameMessage(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva00592123(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readChatMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva00592208(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DFB8(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058E047(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDisconnectVoteMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readProgressMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E0B0(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E20D(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058E2D7(UnsignedByte *data, Int &readOffset);
@@ -2361,19 +2361,19 @@ NetCommandRef *NetPacket::ConstructNetCommandMsgFromRawData(UnsignedByte *data, 
 			} else if (commandType == 11) {
 				msg = readDestroyPlayerMessage(data, readOffset);
 			} else if (commandType == 12) {
-				msg = rva0058DEC5(data, readOffset);
+				msg = readKeepAliveMessage(data, readOffset);
 			} else if (commandType == 25) {
-				msg = rva0058DEF7(data, readOffset);
+				msg = readDisconnectKeepAliveMessage(data, readOffset);
 			} else if (commandType == 26) {
-				msg = rva0058DF29(data, readOffset);
+				msg = readDisconnectPlayerMessage(data, readOffset);
 			} else if (commandType == 13) {
-				msg = rva0059205C(data, readOffset);
+				msg = readDisconnectChatMessage(data, readOffset);
 			} else if (commandType == 27) {
-				msg = rva0058DFB8(data, readOffset);
+				msg = readDisconnectVoteMessage(data, readOffset);
 			} else if (commandType == 14) {
-				msg = rva00592123(data, readOffset);
+				msg = readChatMessage(data, readOffset);
 			} else if (commandType == 15) {
-				msg = rva0058E047(data, readOffset);
+				msg = readProgressMessage(data, readOffset);
 			} else if (commandType == 16) {
 				msg = rva0058E0B0(data, readOffset);
 			} else if (commandType == 17) {
@@ -2700,7 +2700,7 @@ NetCommandMsg *NetPacket::readRouterFallbackMessage(unsigned char *data, int &re
 }
 
 // ?readPlayerLeaveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DDF2, 105 bytes:
-// the same 1-byte-flag reader as rva0058E047 constructing the rowed Rva004D5795
+// the same 1-byte-flag reader as readProgressMessage constructing the rowed Rva004D5795
 // message (same 0x20 size) instead of Rva004D582B.
 NetCommandMsg *NetPacket::readPlayerLeaveMessage(unsigned char *data, int &readOffset)
 {
@@ -2723,11 +2723,11 @@ NetCommandMsg *NetPacket::readDestroyPlayerMessage(UnsignedByte *data, Int &read
 	return msg;
 }
 
-// ?rva0058DEC5@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DEC5 50B.
+// ?readKeepAliveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DEC5 50B.
 // Static NetCommandMsg factory constructing KeepAlive with no fields read.
 // Evidence: unlock lane plus sibling 0x0058E047 plus new-0x1c plus
 // NetKeepAliveCommandMsg ctor plus uniform factory signature.
-NetCommandMsg *NetPacket::rva0058DEC5(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readKeepAliveMessage(unsigned char *data, int &readOffset)
 {
 	(void)data;
 	(void)readOffset;
@@ -2735,9 +2735,9 @@ NetCommandMsg *NetPacket::rva0058DEC5(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DEF7@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DEF7 50B.
+// ?readDisconnectKeepAliveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DEF7 50B.
 // Static NetCommandMsg factory constructing DisconnectKeepAlive with no fields read.
-NetCommandMsg *NetPacket::rva0058DEF7(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readDisconnectKeepAliveMessage(unsigned char *data, int &readOffset)
 {
 	(void)data;
 	(void)readOffset;
@@ -2745,11 +2745,11 @@ NetCommandMsg *NetPacket::rva0058DEF7(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DF29@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DF29, 143 bytes:
+// ?readDisconnectPlayerMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DF29, 143 bytes:
 // ZH's readDisconnectPlayerMessage (slot byte, then disconnect frame) on the
 // rowed type-26 ctor Rva004D57F1; both setters are the folded 10-byte bodies
-// sendDisconnectCommand's pins name. Same shape as rva0058DFB8 below.
-NetCommandMsg *NetPacket::rva0058DF29(UnsignedByte *data, Int &readOffset)
+// sendDisconnectCommand's pins name. Same shape as readDisconnectVoteMessage below.
+NetCommandMsg *NetPacket::readDisconnectPlayerMessage(UnsignedByte *data, Int &readOffset)
 {
 	Rva004D57F1 *msg = new Rva004D57F1();
 	UnsignedByte slot = 0;
@@ -2763,10 +2763,10 @@ NetCommandMsg *NetPacket::rva0058DF29(UnsignedByte *data, Int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0059205C@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0059205C, 199 bytes:
+// ?readDisconnectChatMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0059205C, 199 bytes:
 // ZH's readDisconnectChatMessage on the rowed type-13 ctor Rva004D60CA: a
 // length byte, that many UTF-16 characters, then setText.
-NetCommandMsg *NetPacket::rva0059205C(UnsignedByte *data, Int &readOffset)
+NetCommandMsg *NetPacket::readDisconnectChatMessage(UnsignedByte *data, Int &readOffset)
 {
 	Rva004D60CA *msg = new Rva004D60CA();
 	UnsignedShort text[256];
@@ -2783,10 +2783,10 @@ NetCommandMsg *NetPacket::rva0059205C(UnsignedByte *data, Int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva00592123@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x00592123, 229 bytes:
+// ?readChatMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x00592123, 229 bytes:
 // ZH's readChatMessage on the rowed type-14 ctor Rva004D6134: the disconnect
 // chat text plus a player mask, stored through the folded +0x20 dword setter.
-NetCommandMsg *NetPacket::rva00592123(UnsignedByte *data, Int &readOffset)
+NetCommandMsg *NetPacket::readChatMessage(UnsignedByte *data, Int &readOffset)
 {
 	Rva004D6134 *msg = new Rva004D6134();
 	UnsignedShort text[256];
@@ -2902,14 +2902,14 @@ NetCommandMsg *NetPacket::readGameMessage(UnsignedByte *data, Int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DFB8@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DFB8 143B.
+// ?readDisconnectVoteMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DFB8 143B.
 // Static type-27 message factory reading a byte plus a dword from data+offset.
 // Native 0058E032 calls the complete +0x20 setter at 00317B9B. Bind the
 // existing BFMENetInformPlayerLeaveFrameCommandMsg::setLeavingPlayerID owner,
 // as the other packet readers do; the folded setter does not identify this
 // message payload as a DozerTask. BFME1 readDisconnectVoteMessage supplies
 // the vote-frame meaning, supported by the type-27 sendVoteCommand sibling.
-NetCommandMsg *NetPacket::rva0058DFB8(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readDisconnectVoteMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D580E *msg = new Rva004D580E();
 	bool flag = false;
@@ -2923,13 +2923,13 @@ NetCommandMsg *NetPacket::rva0058DFB8(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058E047@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E047 105B.
+// ?readProgressMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058E047 105B.
 // Static NetCommandMsg factory reading 1-byte relay flag from data+offset.
 // Evidence: unlock lane plus sibling 0x0058E511 plus new-0x20 plus
 // Rva004D582B ctor plus memcpy-1 plus dup_0006EDE3 row TYPES wrong;
 // retail calls thiscall bool setter at 0x0006EDE3 whose row is gen-alias
 // YAXXZ but object-symbol is ?setActive@Script@@QAEX_N@Z; declared as used.
-NetCommandMsg *NetPacket::rva0058E047(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readProgressMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D582B *msg = new Rva004D582B();
 	bool flag = false;
