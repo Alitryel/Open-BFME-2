@@ -7,9 +7,8 @@
 // byte-identical to retail once relocations are masked (unique hit on
 // unclaimed .text). Only the placed body is defined here.
 // RVA 0x002EA5D0 (donor): Events dispatch reached from matched LuaScriptEngineParseToken.cpp.
-// The retail backedge at +0xE9 repeats the status==1 check at +0x40.
-// Retail string/call pairs establish InternalEvent -> 002E2970, ScriptedEvent
-// -> 002E9590, ModelConditionEvent -> 002E9680, ObjectStatusEvent -> 002E9AA0.
+// Retail string/call pairs establish InternalEvent -> 00332C7A, ScriptedEvent
+// -> 00336BE4, ModelConditionEvent -> 00336C5D, ObjectStatusEvent -> 00336EB0.
 // All receive the unchanged engine ECX and parser stack argument; each returns ret 4.
 // BFME2 names from WorldBuilder's LuaScriptEngine.cpp: ProcessEventsElement
 // (:904-932, same Events / InternalEvent / ScriptedEvent / ModelConditionEvent /
@@ -37,7 +36,7 @@ public:
 	void ProcessEventsElement(BfmeLexEAN *parser);
 	void ProcessInternalEvent(XmlNameSlotList *xml);
 	void rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser);
-	void rva002E9590ParseScriptedEvent(BfmeLexEAN *parser);
+	void ProcessScriptedEvent(XmlNameSlotList *xml);
 	void rva002E9680ParseModelConditionEvent(BfmeLexEAN *parser);
 
 };
@@ -69,7 +68,8 @@ void LuaScriptEngine::ProcessEventsElement(BfmeLexEAN *parser)
 		cmp = strcmp(tag, "ScriptedEvent");
 		if (cmp == 0)
 		{
-			rva002E9590ParseScriptedEvent(parser);
+			// The recovered provider uses the same parser view as finish/InternalEvent.
+			ProcessScriptedEvent((XmlNameSlotList *)parser);
 			goto checkFinish;
 		}
 
