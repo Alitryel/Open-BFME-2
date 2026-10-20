@@ -1,4 +1,11 @@
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme_projection_matrix_link /Ireference/shims/bfme_vp_math /Ireference/shims/sweep /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// The vector constructor iterator (??_H) takes the optimization state of the
+// first function that needs it; retail links the /O1 body at 0x00001423.
+// Instantiate it first in an unemitted anchor so this unit's copy is that body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 // Rebase note: upstream d7b143eb97 retains the earlier 0.866 near-match in
 // history; this bank preserves the whole2821B byte/EH-exact canonical-owner body.
 // Copyright 2025 Electronic Arts Inc. SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,8 +18,12 @@
 // callgraph lead, not proof that this older layout has that original name.
 // Keep the independently pinned Rva00118F50 entry and its measured layout.
 //
-// Two named transpose results and a temporary final texture reference give
-// retail's lifetimes and 0x118-byte frame. ComposeShader preserves the native
+// ZH's identity local and BFME 2's Get_Transform/Set_Transform switches (every
+// arm, as in W3DAptRendererRva00111319.cpp) spend c2's inline budget so the
+// last two Transpose temps build their rows through ??_H, as retail does,
+// with the /O1 iterator; a temporary final texture reference gives retail's
+// lifetimes and 0x118-byte frame. The identity is spelled Make_Identity() so
+// no /O2 Matrix4(bool) copy competes with retail's /O1 one (0x000A682E). ComposeShader preserves the native
 // two-word evaluation order; no volatile local or new code/data pin is used.
 // Existing data owners are declared with their actual types/access so this
 // consumer does not introduce separate globals at the same retail addresses.
@@ -73,13 +84,13 @@ public:
 extern int BfmeRenderWidth,BfmeRenderHeight;
 #define renderDeviceWidth ((unsigned)BfmeRenderWidth)
 #define renderDeviceHeight ((unsigned)BfmeRenderHeight)
-extern int G00DB5FC0,G00DB5FC4,G00DB5FBC;
-extern int G00DEC4A0,G00DEC4A4;
-#define render2DSrcBlend ((unsigned)G00DB5FC0)
-#define render2DDstBlend ((unsigned)G00DB5FC4)
-#define render2DShaderBits ((unsigned)G00DB5FBC)
-#define render2DExtraShaderBits ((unsigned)G00DEC4A0)
-#define render2DShaderAlphaFlag ((unsigned)G00DEC4A4)
+extern int g_Va00DB5FC0,g_Va00DB5FC4,g_Va00DB5FBC;
+extern unsigned int g_Va00DEC4A0,g_Va00DEC4A4;
+#define render2DSrcBlend ((unsigned)g_Va00DB5FC0)
+#define render2DDstBlend ((unsigned)g_Va00DB5FC4)
+#define render2DShaderBits ((unsigned)g_Va00DB5FBC)
+#define render2DExtraShaderBits g_Va00DEC4A0
+#define render2DShaderAlphaFlag g_Va00DEC4A4
 extern unsigned number_of_DX8_calls;
 struct _D3DVIEWPORT8 {unsigned X,Y,Width,Height;float MinZ,MaxZ;};
 struct IDirect3DDevice8 { void **vtable; };
@@ -105,16 +116,26 @@ public:
         if(render_state.material)render_state.material->Release_Ref();
         render_state.material=m;render_state_changed|=0x4000;
     }
-    static __declspec(dllimport) __forceinline void GetView(Matrix4&m) {if(render_state_changed&0x80000)m.Make_Identity();else {const Matrix4 &src=render_state.view;m[0][0]=src[0][0];m[0][1]=src[1][0];m[0][2]=src[2][0];m[0][3]=src[3][0];m[1][0]=src[0][1];m[1][1]=src[1][1];m[1][2]=src[2][1];m[1][3]=src[3][1];m[2][0]=src[0][2];m[2][1]=src[1][2];m[2][2]=src[2][2];m[2][3]=src[3][2];m[3][0]=src[0][3];m[3][1]=src[1][3];m[3][2]=src[2][3];m[3][3]=src[3][3];}}
-    static __forceinline void GetProjection(Matrix4&m) {const Matrix4 &src=DeviceProjectionMatrix;m[0][0]=src[0][0];m[0][1]=src[1][0];m[0][2]=src[2][0];m[0][3]=src[3][0];m[1][0]=src[0][1];m[1][1]=src[1][1];m[1][2]=src[2][1];m[1][3]=src[3][1];m[2][0]=src[0][2];m[2][1]=src[1][2];m[2][2]=src[2][2];m[2][3]=src[3][2];m[3][0]=src[0][3];m[3][1]=src[1][3];m[3][2]=src[2][3];m[3][3]=src[3][3];}
     static __forceinline void SetWorldIdentity() {if(!(render_state_changed&0x40000)){render_state.world.Make_Identity();render_state_changed|=0x40001;}}
     static __forceinline void SetViewIdentity() {if(!(render_state_changed&0x80000)){render_state.view.Make_Identity();render_state_changed|=0x80002;}}
-    static __forceinline void SetProjection(const Matrix4&m) {
-        Matrix4 transposed=m.Transpose();ProjectionMatrix=transposed;DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
-        typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-        ((SetTransform)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++number_of_DX8_calls;
+    static __forceinline void Get_Transform(int transform,Matrix4&m) {
+        switch(transform) {
+        case 0x100: if(render_state_changed&0x40000)m.Make_Identity(); else m=render_state.world.Transpose(); break;
+        case 2: if(render_state_changed&0x80000)m.Make_Identity(); else m=render_state.view.Transpose(); break;
+        case 3: m=DeviceProjectionMatrix.Transpose(); break;
+        default: m.Make_Identity(); break;
+        }
     }
-    static __forceinline void SetView(const Matrix4&m) {Matrix4 transposed=m.Transpose();render_state.view=transposed;render_state_changed&=~0x80000;render_state_changed|=2;}
+    static __forceinline void Set_Transform(int transform,const Matrix4&m) {
+        typedef long(__stdcall *SetTransformFn)(IDirect3DDevice8*,unsigned,const Matrix4*);
+        switch(transform) {
+        case 0x100: render_state.world=m.Transpose();render_state_changed&=~0x40000;render_state_changed|=1;break;
+        case 2: render_state.view=m.Transpose();render_state_changed&=~0x80000;render_state_changed|=2;break;
+        case 3: ProjectionMatrix=m.Transpose();DeviceProjectionMatrix=ProjectionMatrix;ZFar=0.0f;ZNear=0.0f;
+            ((SetTransformFn)D3DDevice->vtable[0xB0/4])(D3DDevice,3,&DeviceProjectionMatrix);++number_of_DX8_calls;break;
+        default: {Matrix4 m2=m.Transpose();((SetTransformFn)D3DDevice->vtable[0xB0/4])(D3DDevice,transform,&m2);++number_of_DX8_calls;} break;
+        }
+    }
     static __forceinline void SetShader(unsigned shader) {
         if(!ShaderClass::ShaderDirty && shader==render_state.shader)return;
         render_state.shader=shader;render_state_changed|=0x8000;
@@ -134,16 +155,15 @@ static __forceinline unsigned ComposeShader(unsigned state,unsigned extra) { ret
 void Rva00118F50::rva00118F50() {
     if(vertices.Count) {
     Matrix4 view,proj;
+    Matrix4 identity;identity.Make_Identity();
     _ReadWriteBarrier();
-    DX8Wrapper::GetView(view);DX8Wrapper::GetProjection(proj);
+    DX8Wrapper::Get_Transform(2,view);DX8Wrapper::Get_Transform(3,proj);
     _D3DVIEWPORT8 vp={0,0,renderDeviceWidth,renderDeviceHeight,0.0f,1.0f};
     DX8Wrapper::Set_Viewport(&vp);
     VertexMaterialClass*vm=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
     DX8Wrapper::SetMaterial(vm);if(vm)vm->Release_Ref();
     DX8Wrapper::SetWorldIdentity();DX8Wrapper::SetViewIdentity();
-    DX8Wrapper::ProjectionMatrix.Make_Identity();DX8Wrapper::DeviceProjectionMatrix.Make_Identity();DX8Wrapper::ZFar=0.0f;DX8Wrapper::ZNear=0.0f;
-    typedef long(__stdcall *SetTransform)(IDirect3DDevice8*,unsigned,const Matrix4*);
-    ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&DX8Wrapper::DeviceProjectionMatrix);++number_of_DX8_calls;
+    DX8Wrapper::Set_Transform(3,identity);
     // Keep the native DWORD count argument loads; the equivalent conditional
     // preserves MSVC 7.1's argument lowering for these WORD-parameter ABIs.
     DynamicVBAccessClass vb(2,5,(vertices.Count ? vertices.Count : vertices.Count),0);
@@ -160,7 +180,7 @@ void Rva00118F50::rva00118F50() {
     ((render2DShaderBits & 0xFFFF3F1F) | (((render2DSrcBlend<<9)|render2DDstBlend)<<5)) &0xFFFFF8FF,
     (render2DExtraShaderBits&0xFFFE6703) | (render2DShaderAlphaFlag<<15) |0x22302));
     DX8Wrapper::Draw_Triangles(0,indices.Count/3,0,vertices.Count);
-    DX8Wrapper::SetView(view);DX8Wrapper::SetProjection(proj);
+    DX8Wrapper::Set_Transform(2,view);DX8Wrapper::Set_Transform(3,proj);
     BFME2Set_Texture(0,BFME2TextureRef());
 }
 }
