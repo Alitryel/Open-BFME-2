@@ -40,3 +40,22 @@ The side offset is scaled through a member-wise copy (`HordeOffset3D scaled(side
 ## Landing notes
 
 The view patch adds `#include <hash_map>`, the `ObjectPtrHash` typedef and the +0xB4 member to the home's existing private GameLogic view (an edit to an existing private copy, which the class gate does not refuse). Run `find_declared_unmatched` on the home once the body lands, because the home then emits the select-any `findObjectByID`. The link census was not run. Scratch trials and logs are in `build/w6_470dc1/` of the seat that produced this bank. Model: claude-opus-5-5.
+
+## Round 2 (claude-opus-5-5, 2026-10-20): slot-scale spelling, 0.9235 -> 0.9360
+
+Scored with a per-function fit on the current home (bank body adapted to today's view: `rva001E431E((const int *)&m_200)`): bank 0.92352 (raw 60 diff lines / 11 regions) -> new bank 0.93598 (raw 38 / 12, slot-masked 37/13, slot+reg-masked 17/12).
+
+What moved it: the third-branch slot scale as a float local applied in z, x, y order,
+`{ float s = (float)slot; pos.z = pos.z * s; pos.x = pos.x * s; pos.y = pos.y * s; }`.
+The other five orders, `pos.scale(s)`, `set()`, pointer/reference forms, product and preload locals, a copy (frame changes) and an int multiplier are each equal or worse. Retail still keeps `s` in XMM3 and preloads both pos.y and pos.z before the call-argument pushes; ours preloads z only.
+
+Ruled out this round (each built and scored against the new bank):
+
+- Side and dot (region 2): every scaled.*/side.* dot order, a dot local, an int `k` local, direct `pos.c += side.c * k`, a Coord3D scale temp, the WB form `side.scale(k); pos.add(&side)` (0.92548), WB's `Coord3D up(0,0,1)` with an inline member-style cross product helper (0.93515, cross order and up placement inert), empty dtor or user ctor on `side`'s type and on HordeOffset3D (identical; WB's EH states show BFME's Coord3D-like locals carry a dtor, retail has no EH frame).
+- Held 5.0 (region 3): `set()`, reversed operand forms, pre-read and product locals are identical. A product temp `Coord3D t` (0.92986) or a HordeOffset3D copy-scale-add-set (0.92426) reproduce retail's three pos preloads but schedule the three muls up front and put 5.0 in XMM0.
+- Flags: /Op (body grows past the extent: extra fstp/fld round trips), /Oy-, /O2, /G6, /Os, /Ob variants: none closer.
+- tools/permute.py, 1394 trials: 0.936 -> 0.937 only via a semantics-changing
+  mutation of the dot test (`side.y * 0.0f < toClosest.y`); its `const` qualifiers
+  on leader/target/dist are inert (0.93598). Rejected; no permuter gain.
+
+WB twin (`tools/wb_show.py 0x00470DC1 --max-lines 900`) confirms the source shape of all three regions: member `sub`/`normalize`/`scale(float)`/`add(const Coord3D*)` sequences, `toClosest.dot(&side)` (WB 0x41FB90), `side.CrossProduct(up, delta)`, and `pos.scale((float)slot)`. Retail's residue is SSE list-scheduling and register numbering inside those three straight-line sequences; the DAG-level spellings above do not change it.
