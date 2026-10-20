@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.95 date=2026-10-20
+// partial score=0.96 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -710,7 +710,7 @@ void BfmeB1137::Install_Materials(void) const
 				else if (!sameFrame)
 				{
 					float growth = CLOUD->getM2C();
-					float r = m_3C;
+					const float &r = m_3C;
 					m_3C = r + growth;
 				}
 			}
