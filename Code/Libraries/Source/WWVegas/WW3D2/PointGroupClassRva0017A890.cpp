@@ -47,7 +47,7 @@ class DX8Wrapper { public:
   if(render_state_changed&(1<<19)) v.Make_Identity();
   else {v[0][0]=render_state.view[0][0];v[0][1]=render_state.view[1][0];v[0][2]=render_state.view[2][0];v[0][3]=render_state.view[3][0];v[1][0]=render_state.view[0][1];v[1][1]=render_state.view[1][1];v[1][2]=render_state.view[2][1];v[1][3]=render_state.view[3][1];v[2][0]=render_state.view[0][2];v[2][1]=render_state.view[1][2];v[2][2]=render_state.view[2][2];v[2][3]=render_state.view[3][2];}
  }
-private: static Matrix4 ProjectionMatrix; static RenderStateStruct render_state; static unsigned render_state_changed;
+protected: static Matrix4 ProjectionMatrix; static RenderStateStruct render_state; static unsigned render_state_changed;
 };
 #include "ww3d.h"
 #include <d3dx8.h>
