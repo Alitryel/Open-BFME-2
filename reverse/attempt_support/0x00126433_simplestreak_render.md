@@ -6,6 +6,11 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
+Third session: read "Symbol numbering decides the sum order" first. The
+remaining Length2 trees follow c2's symbol numbering, and a padded,
+unfaithful body reaches 0.9729 (`0x00126433_v048_padded.cpp.txt`). The bank
+below is still the best faithful body.
+
 ## Current best (claudeb4, 2026-10-20, second session): 0.9134, norm 2363/2637, 12017 B
 
 The bank is `build/s126/r6/v000010000.cpp`: the 0.9113 body plus item 11. Chain:
@@ -225,6 +230,73 @@ never moves: **9:15 a:6 b:12 13:4 18:4 1c:8 1d:7 1e:12 1f:14 26:2 27:4**.
   optimised copies with NaN validity checks and assert 0x712780. The
   constant-store differences between WB and our /Od build are /arch:SSE artifacts.
 
+## Symbol numbering decides the sum order (claudeb4, 2026-10-20, third session)
+
+Best unfaithful body: `reverse/attempt_support/0x00126433_v048_padded.cpp.txt`
+(`build/s126/s16/b_1/v048.cpp`), **0.9729**, resid 68, 11977 B, frame 0x6238
+exact. It has three pads: K=29 referenced `int unusedN=0;` locals before the
+intersection loop's `float mid_tex_v`, a `__forceinline padf()` with P6=48 int
+locals called at the start of the render-submission tail, and `padQ03()`
+(one int local) called just before the `Cross_Product` of top_normal. Its
+residue is the four Length2 trees plus small scheduling items at 0xb9d,
+0x1378, 0x189c, 0x1b16, 0x23d6/0x242c and 0x2a5f.
+
+| Tree | Retail | v048 |
+|---|---|---|
+| 0xa1a | (X²+Z²)+Y² | (Z²+Y²)+X² |
+| 0x1c31 | (Z²+Y²)+X² | (X²+Z²)+Y² |
+| 0x1e0e | (Y²+Z²)+X² | (X²+Y²)+Z² |
+| 0x1ff1 | (Y²+Z²)+X² | (X²+Y²)+Z² |
+
+The other 16 square sums match (`build/s126/sq.py obj` lists all 20).
+
+**The order of a reassociated float sum is decided by c2's per-function
+symbol numbering, not by how the source writes it.** Probe
+`build/s126/s21/p0.cpp` (Cross_Product into a local, Normalize, store):
+
+- With n referenced front-end int locals, the order flips only in narrow
+  windows: n=564-565 give (YX)Z and n=566 gives (XZ)Y (retail's 0xa1a order).
+  The same happens at 575-577, 1236-1238, 1257-1259, 1908-1910 and 1940-1942.
+- Front-end locals count the same before or after the site. An inline pad
+  *before* the site counts like a front-end local, so inline-created temps are
+  numbered after all front-end symbols.
+- Locals in other functions of the TU do nothing.
+- s26 2D scan (m trailing inline locals after the site × n front-end locals,
+  `build/s126/s26/out.txt`): with m>0, (XZ)Y holds from n ≈ (545−m) mod ~683
+  up to n=577, after a two-wide (YX)Z window. With m=600, 1300 or 2000 it holds
+  for every n from 23 to 577. The order is a function of the total count and
+  of the site's position, which looks like hashing on symbol IDs.
+- The same numbering drives register allocation. Header-level pads in
+  Normalize or Cross_Product (`s24`) cost heavy collateral (best 0.924).
+
+Consequence: no local rewrite of Length2/Normalize/Cross can fix the trees.
+They come out right only once the function has retail's symbol count at
+retail's positions, i.e. once every shim is replaced by the real inline
+wrapper (DX8Wrapper, ShaderClass, ShadowPtr/RefCountPtr, the DynamicVB
+access, the BFME2Set_Texture shims, BfmeSortingDispatch, the ShroudTexture
+casts). The pads say roughly how many symbols are missing: about 29 in the
+front end before the intersection loop and about 48 inline in the
+render-submission tail (`v048` lines 1601-1757).
+
+Next angle: scan an m-count `__forceinline` pad placed after the last tree
+site (after 0x1ff1, e.g. at the start of vertex generation) in the full body,
+reading sq.py for the four trees. Then look for which real inline wrapper
+supplies that many temps.
+
+Also established this session:
+
+- WB `Cross_Product` (0x71bce0) computes X = a.Y*b.Z − a.Z*b.Y, then Y, then Z,
+  as ZH does, with isInitialized asserts. WB `Normalize` (0x71d310) has Length2
+  inlined, NaN sentinel checks, `(Z²+Y²)+X²`, then `if (len2 != 0)` and Inv_Sqrt.
+- At 0xa1a retail and v048 emit the Cross subtractions in the same order
+  (Y, Z, X); only the sum tree and one schedule at 0x9b2 differ.
+- An unparenthesised Length2 in any term order is byte-identical. A
+  right-associated `X*X+(Y*Y+Z*Z)` pins the inner pair in the probe, but on the
+  full body every right-associated form scores 0.83-0.88.
+- WB call shapes at the segment setup (SUB/ASSIGN/NORMALIZE/DOT/fchs/MULF/ADD
+  for nearest; CTOR offset, CROSS(segdir, nearest, &offset), NORMALIZE) match
+  our source.
+
 ## Inline budget (why the setters stay out of line)
 
 - Under /O1, plain `inline` expansion has a per-function size budget. It counts
@@ -330,10 +402,22 @@ still open.
 - Single-statement setter bodies.
 - Inert int locals: no effect on the inline budget.
 - Unforced setters with the BFME2 Set/Get_Transform shapes: still out of line.
+- Line numbers, local names and nested inline isInitialized checks: no effect
+  on the sum trees.
+- Moving one pad symbol between positions (shift sizes 1-24 at 13 positions):
+  only 0x1c31 flips, with damage elsewhere.
+- Header Length2/Normalize/Cross forms (s22) and header-level pads (s24).
+- Pads in other functions of the TU (s23/g).
 
 ## Scratch layout
 
 `build/s126/`:
+
+- Third session: `sq.py obj` (the 20 square-sum sites, retail vs obj),
+  `s21/pc.py` (parallel probe compile plus tree classifier), probes in `s21`,
+  header forms in `s22`, the front-end pad scans in `s23`, header pads in
+  `s24`, pad-position probes in `s25`, the 2D scan in `s26`, and the v048
+  family in `s16` (`gen.py`).
 
 - `score.py`, `regsum.py`, `odisr.py`, `omap.py` (ebp slot map), `frm.py`.
 - `gen_bf2.py` (Set/Get_Transform shapes) and `gen_f3.py` (T/R/n/p factorial).
