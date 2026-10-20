@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.89 date=2026-10-20
+// partial score=0.88 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -644,6 +644,7 @@ void BfmeB1137::Install_Materials(void) const
 		fh *= 10.0f;
 		m_94 = world;
 		D3DXMatrixInverse(&world, &det, &world);
+		{
 		D3DXVECTOR3 corner;
 		corner.x = fw;
 		corner.y = fh;
@@ -657,6 +658,7 @@ void BfmeB1137::Install_Materials(void) const
 		m_78.y = world.m[0][1];
 		m_78.z = world.m[0][2];
 		rva0062AF50D3DXPlaneFromPointNormal(&m_84, &m_6C, &m_78);
+		}
 
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
@@ -754,10 +756,12 @@ void BfmeB1137::Install_Materials(void) const
 		int last = m_44;
 		m_44 = WW3D::SyncTime;
 		int elapsed = WW3D::SyncTime - last;
+		{
 		Rva00094DD3Val wind;
 		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
 		m_4C += elapsed * wind.x * 0.001f;
 		m_50 += elapsed * wind.y * 0.001f;
+		}
 		while (m_4C > 1.0f)
 			m_4C -= 1.0f;
 		while (m_50 > 1.0f)
@@ -783,10 +787,12 @@ void BfmeB1137::Install_Materials(void) const
 		DX8Wrapper::Set_DX8_Render_State(24, cloud->m_C4);
 		DX8Wrapper::Set_DX8_Render_State(25, 7);
 		DX8Wrapper::Set_DX8_Render_State(26, 1);
+		{
 		RGBColor color;
 		color.red = color.green = color.blue = (float)cloud->m_C4 * (1.0f / 255.0f);
 		unsigned c = color.getAsInt();
 		DX8Wrapper::Set_DX8_Render_State(60, c | 0xFF000000);
+		}
 		DX8Wrapper::Set_DX8_Render_State(27, 1);
 		DX8Wrapper::Set_DX8_Render_State(19, 1);
 		DX8Wrapper::Set_DX8_Render_State(20, 3);
