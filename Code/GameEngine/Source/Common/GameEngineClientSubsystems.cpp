@@ -9,7 +9,7 @@
 class GameLogic
 {
 public:
-    void deleteLoadScreen(void);
+    bool rva002423E3(void);
 };
 
 class ClientSubsystem
@@ -167,7 +167,7 @@ unsigned int _bfme_updateTimedOps(void);
 
 void GameEngine::_bfme_updateClientSubsystems(void)
 {
-    TheGameLogic->deleteLoadScreen();
+    TheGameLogic->rva002423E3();
 
     unsigned char advanceFrame = ((ClientFrameSubsystem *)TheGameClient)->m_advanceFrame;
     if (advanceFrame != 0)

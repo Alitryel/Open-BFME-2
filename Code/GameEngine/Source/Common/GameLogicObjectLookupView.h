@@ -130,7 +130,7 @@ public:
 	void rva00376D49();	// 0x00376D49, window cleanup, donor closeWindows
 	void rva00248558(bool fromSave);	// 0x00248558, verified new-game/load pass
 	unsigned char isGamePaused();	// 0x0023CD97
-	void deleteLoadScreen();	// 0x002423E3
+	bool rva002423E3();	// 0x002423E3
 	void processDestroyList();	// 0x002413DF
 	void prepareLogicForObjectLoad();	// 0x00242C86
 	void processProgressComplete(int playerID);	// 0x0023D76E

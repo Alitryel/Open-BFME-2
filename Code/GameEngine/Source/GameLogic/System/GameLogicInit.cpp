@@ -564,7 +564,9 @@ public:
 	char m_pad027[0xd4 - 0x27];
 	float m_d4;
 	float m_d8;
-	char m_pad0DC[0x9c1 - 0xdc];
+	char m_pad0DC[0x9ad - 0xdc];
+	bool m_9ad;
+	char m_pad9AE[0x9c1 - 0x9ae];
 	bool m_9c1;
 	char m_pad9C2[0xaf5 - 0x9c2];
 	bool m_af5;
@@ -584,7 +586,9 @@ public:
 	int m_e94;
 	char m_padE98[0x1110 - 0xe98];
 	bool m_1110;
-	char m_pad1111[0x123d - 0x1111];
+	char m_pad1111[0x11c8 - 0x1111];
+	bool m_11c8;
+	char m_pad11C9[0x123d - 0x11c9];
 	bool m_123d;
 };
 
@@ -748,6 +752,7 @@ public:
 	void rva0023E0C7(void);
 	void lastHeardFrom(int playerIndex);
 	bool rva001DCD1C(void);
+	bool rva002423E3(void);
 	void rva0024622F(bool loadingSaveGame);
 	void setWidth(float width) { m_width = width; }
 	void setHeight(float height) { m_height = height; }
@@ -1440,6 +1445,7 @@ public:
 	void rva001DC5EC(void);
 	void reverse(AsciiString groupName);
 	void setGroup(AsciiString groupName, bool immidiate = false);
+	bool isFinished(void);
 };
 
 class Rva0023C7D2
@@ -2148,8 +2154,11 @@ public:
 	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
 	virtual void v08(); virtual void v09(); virtual void v0a(); virtual void v0b();
 	virtual void v0c(); virtual void v0d(); virtual void v0e(); virtual void v0f();
-	virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13();
-	virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17();
+	virtual void v10();
+	virtual void slot44(int a, int b, int c);                            // +0x44
+	virtual void v12(); virtual void v13();
+	virtual void slot50(bool enable);                                    // +0x50
+	virtual void v15(); virtual void v16(); virtual void v17();
 	virtual void v18();
 	virtual void addAudioEvent(const BfmeAudioEventPrefix136 *eventToAdd); // +0x64
 	virtual void v1a(); virtual void v1b();
@@ -2545,6 +2554,9 @@ public:
 	virtual bool slotAC(void);                                           // +0xAC
 	virtual void v2c();
 	virtual int slotB4(void);                                            // +0xB4
+	virtual void v2e(); virtual void v2f();
+	virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33();
+	virtual bool slotD0(void);                                           // +0xD0
 };
 
 extern ParticleSystemManager *TheParticleSystemManager;
@@ -3267,6 +3279,7 @@ public:
 	virtual void setQuitting(bool quitting);                             // +0x50
 	virtual void e15();
 	virtual bool isMultiplayerSession(void);                             // +0x58
+	virtual void slot5C(void);                                           // +0x5C
 };
 
 class Rva00E03138 : public SubsystemInterface
@@ -3296,8 +3309,11 @@ public:
 	virtual void d34(); virtual void d35(); virtual void d36(); virtual void d37();
 	virtual void d38(); virtual void d39(); virtual void d3a(); virtual void d3b();
 	virtual void d3c(); virtual void d3d(); virtual void d3e(); virtual void d3f();
-	virtual void d40(); virtual void d41(); virtual void d42(); virtual void d43();
-	virtual void d44(); virtual void d45(); virtual void d46(); virtual void d47();
+	virtual void d40(); virtual void d41(); virtual void d42();
+	virtual void slot10C(AsciiString movie, int a, int b);              // +0x10C
+	virtual void slot110(void);                                          // +0x110
+	virtual bool slot114(void);                                          // +0x114
+	virtual void d46(); virtual void d47();
 	virtual void d48(); virtual void d49(); virtual void d4a(); virtual void d4b();
 	virtual void d4c(); virtual void d4d(); virtual void d4e(); virtual void d4f();
 	virtual void d50(); virtual void d51(); virtual void d52(); virtual void d53();
@@ -3305,6 +3321,10 @@ public:
 	virtual void d58(); virtual void d59(); virtual void d5a(); virtual void d5b();
 	virtual void d5c(); virtual void d5d(); virtual void d5e(); virtual void d5f();
 	virtual void slot180(const Region3D *extent);                        // +0x180
+	char m_pad004[0x115 - 0x4];
+	bool m_115;                                                          // +0x115
+	char m_pad116[0x13c - 0x116];
+	int m_13c;                                                           // +0x13C
 };
 
 class Rva0023C6A4
@@ -3529,6 +3549,8 @@ public:
 class Rva0023E323
 {
 public:
+	__forceinline Rva0023E323(const AsciiString &groupName, int frame)
+	  : m_groupName(groupName), m_frame(frame) {}
 	int rva0023E323(float, int);
 
 private:
@@ -5534,6 +5556,7 @@ class Rva00211E75Callback : public Bfme5RefHolderA
 {
 public:
 	Rva00211E75Callback(const Rva0024004DFunctor &functor) : Bfme5RefHolderA((int)&functor) {}
+	Rva00211E75Callback(Rva0023E323 value);
 	Rva00211E75Callback(const Rva00211E75Callback &other);
 };
 
@@ -5623,6 +5646,287 @@ void GameLogic::rva0024004D(bool loadingSaveGame)
 		g_00DFE788 = 98.0f;
 		((Rva0024004DAudioView *)TheAudio)->v3c(0.0f, true);
 	}
+}
+
+// ?rva002423E3@GameLogic@@QAE_NXZ @0x002423E3 1436B (SEH; every exit is
+// mov al,1). Called once per client-subsystem update 0x00225C12, which
+// ignores the result. Target evidence: while +0x9C is set it pumps the
+// engine (+0x5C); in modes 1, 5 and 2 of a network game it reports load
+// progress (0x0023C7BB) for the first five frames, stepping the float at
+// 0x00DFE788 by 0.25, and answers early. Otherwise it clears +0x9C and,
+// with a load screen (+0x120) on a display whose +0x114 holds, fades the
+// screen through TheTransitionHandler's "FadeWholeScreen" group by mode
+// (+0x110): a saved game (+0x9E) fades out under the handler lock, modes
+// 2/3 and 0/6 queue the timed reverse 0x0023E323 through the event
+// sequencer 0x003FE7E6, 0/6 also plays the movie at +0x74 (Display +0x10C),
+// and 4/7 waits unless the Apt window manager's +0x31C is set. It then
+// deletes the load screen (0x0023C7D2), shows the cursor, sets the audio
+// mode from 0x001DCD1C and clears the +0x84 string and its two handles
+// (0x0023DCCE) and the +0x?? string (0x0023DC8E). WB 0x00CFF490 is the
+// identity lead; BFME 1 (deleteLoadScreen, naked dump only) and Zero Hour
+// (deleteLoadScreen is 0x0023C7D2 here) guide purpose only.
+class Rva001DBB82OneSetter
+{
+public:
+	void enable(void);
+};
+
+class W3DDisplay
+{
+public:
+	void rva0025D2F6(void);
+};
+
+class Rva00222A8BTarget
+{
+public:
+	void rva00222F55(bool flag);
+	char m_pad[0x31C];
+	int m_31c;
+};
+
+// The handle and holder operations of 0x00239099 / 0x000A8C9B stay visible
+// (out of line) so the unit knows 0x0023DCCE keeps no pointer to the
+// caller's empty handles: retail releases neither temporary on the normal
+// path.
+struct OpaqueRefCountView
+{
+	void *m_vtbl;
+	long m_refs;
+};
+
+inline __declspec(noinline) OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
+{
+	if (this != &other) {
+		if (other.referent)
+			InterlockedIncrement(&((OpaqueRefCountView *)other.referent)->m_refs);
+		if (referent)
+			referent->Release_Ref();
+		referent = other.referent;
+	}
+	return *this;
+}
+
+inline __declspec(noinline) void Rva000A8C9B::clear(void)
+{
+	OpaqueRefCounted *&ptr = *(OpaqueRefCounted **)this;
+	if (ptr) {
+		ptr->Release_Ref();
+		ptr = 0;
+	}
+}
+
+struct Rva002423E3NullRef : public OpaqueRefElement4
+{
+	Rva002423E3NullRef() { referent = 0; }
+	~Rva002423E3NullRef() { if (referent) referent->Release_Ref(); }
+};
+
+// GameLogic's conditional string-and-handles setter 0x0023DCCE, inline in
+// retail's unit (its COMDAT sits inside GameLogic's range).
+class Rva0023DCCE
+{
+public:
+	void rva0023DCCE(const AsciiString &a, const OpaqueRefElement4 &b, const OpaqueRefElement4 &c)
+	{
+		if (((const StringBase<char> *)&a)->isEmpty() || TheWritableGlobalData->m_9ad)
+		{
+			m_flag = 0;
+			m_str.clear();
+			((Rva000A8C9B *)&m_a)->clear();
+			((Rva000A8C9B *)&m_b)->clear();
+		}
+		else
+		{
+			m_flag = 1;
+			m_str = a;
+			m_a = b;
+			m_b = c;
+		}
+	}
+	char m_00[0x72];
+	unsigned char m_flag;
+	char m_01[0x11];
+	AsciiString m_str;
+	OpaqueRefElement4 m_a;
+	OpaqueRefElement4 m_b;
+};
+
+class Rva0023DC8E
+{
+public:
+	void rva0023DC8E(const AsciiString &a);
+};
+
+// The mode gate 0x001DCD1C stays visible (out of line) so the unit knows it
+// leaves TheAudio alone: retail keeps the pointer in a register across it.
+inline __declspec(noinline) bool GameLogic::rva001DCD1C(void)
+{
+	return m_110 == 8 || (m_110 == 9 && m_114 != 3);
+}
+
+// Queues the timed reverse of a transition group at the given frame.
+static __forceinline void queueTransitionReverse(const AsciiString &group, int frame)
+{
+	Rva003FE7E6(Rva0023E323(group, frame), &g_00E02EC4);
+}
+
+bool GameLogic::rva002423E3(void)
+{
+	if (!m_9c)
+		return true;
+
+	TheGameEngine->slot5C();
+
+	if (TheNetwork && !TheNetwork->slotD0())
+	{
+		int mode = m_110;
+		if (mode == 1 || mode == 5 || mode == 2)
+		{
+			unsigned int frame = TheGameLogic->getFrame();
+			if (frame < 6)
+			{
+				if (frame >= 5)
+				{
+					((Rva0023C7D2 *)this)->rva0023C7BB(100);
+					return true;
+				}
+				((Rva0023C7D2 *)this)->rva0023C7BB((int)g_00DFE788);
+				g_00DFE788 += 0.25f;
+				return true;
+			}
+		}
+	}
+
+	bool restoreMouse = false;
+	m_9c = false;
+
+	if (m_120 && TheDisplay->slot114() && !TheWritableGlobalData->m_11c8)
+	{
+		if (m_9e)
+		{
+			{
+				Rva0023C565 lock;
+				TheTransitionHandler->slot24();
+				TheTransitionHandler->setGroup("FadeWholeScreen");
+				((Rva001DBB82OneSetter *)TheTransitionHandler)->enable();
+				TheTransitionHandler->slot28();
+			}
+			while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
+			{
+				TheGameEngine->slot5C();
+				Sleep(1);
+			}
+			((W3DDisplay *)TheDisplay)->rva0025D2F6();
+			TheTransitionHandler->reverse("FadeWholeScreen");
+			TheTransitionHandler->slot28();
+			((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
+			m_9e = false;
+			restoreMouse = true;
+		}
+		else
+		{
+			switch (m_110)
+			{
+				case 0:
+				case 6:
+				{
+					((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(true);
+					TheTransitionHandler->setGroup("FadeWholeScreen");
+					((Rva001DBB82OneSetter *)TheTransitionHandler)->enable();
+					while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
+					{
+						TheGameEngine->slot5C();
+						Sleep(5);
+					}
+					((Rva0023C7D2 *)this)->rva0023C7D2();
+					if (!((const StringBase<char> *)&m_74)->isEmpty())
+					{
+						((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
+						TheTransitionHandler->slot24();
+						TheTransitionHandler->slot28();
+						TheDisplay->slot10C(m_74, 1, 0xa0);
+						m_74.clear();
+					}
+					else
+					{
+						TheDisplay->slot110();
+					}
+					restoreMouse = true;
+					queueTransitionReverse(AsciiString("FadeWholeScreen"), m_90);
+				}
+					break;
+				case 2:
+				case 3:
+					TheTransitionHandler->setGroup("FadeWholeScreen");
+					((Rva001DBB82OneSetter *)TheTransitionHandler)->enable();
+					TheTransitionHandler->slot28();
+					while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
+					{
+						TheGameEngine->slot5C();
+						Sleep(5);
+					}
+					{
+						AsciiString fadeGroup("FadeWholeScreen");
+						Rva003FE7E6(Rva0023E323(fadeGroup, m_90), &g_00E02EC4);
+					}
+					TheTransitionHandler->slot28();
+					break;
+
+				case 4:
+				case 7:
+					TheTransitionHandler->slot24();
+					if (!g_bfmeAptWindowManager || !((Rva00222A8BTarget *)g_bfmeAptWindowManager)->m_31c)
+					{
+						TheTransitionHandler->setGroup("FadeWholeScreen");
+						TheTransitionHandler->slot28();
+						while (TheDisplay->slot114() && TheDisplay->m_13c < 100 && !TheTransitionHandler->isFinished())
+						{
+							TheGameEngine->slot5C();
+							Sleep(1);
+						}
+					}
+					restoreMouse = true;
+					break;
+
+				default:
+					TheDisplay->slot110();
+					((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
+					restoreMouse = true;
+					break;
+
+			}
+		}
+	}
+	else
+	{
+		((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
+		restoreMouse = true;
+	}
+
+	if (m_120)
+		((Rva0023C7D2 *)this)->rva0023C7D2();
+	if (restoreMouse)
+		TheMouse->_bfme_setEngineVisibility(true);
+	TheDisplay->m_115 = false;
+	TheGameEngine->slot5C();
+	if (TheAudio)
+	{
+		if (rva001DCD1C())
+		{
+			TheAudio->slot50(true);
+			TheAudio->slot44(0x3f, 6, 0);
+		}
+		else
+		{
+			TheAudio->slot50(false);
+			TheAudio->slot44(0x3f, 5, 0);
+		}
+	}
+	((Rva0023DCCE *)this)->rva0023DCCE(AsciiString::TheEmptyString, Rva002423E3NullRef(), Rva002423E3NullRef());
+	((Rva0023DC8E *)this)->rva0023DC8E(AsciiString::TheEmptyString);
+	m_90 = 7;
+	return true;
 }
 
 

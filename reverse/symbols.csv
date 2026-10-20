@@ -8483,7 +8483,6 @@ name,address,notes
 ?decrement@Rva00894D90Accessor@@SAIPAH@Z,0x006CFDF0
 ?decrement@Rva00894D90Accessor@@SAIPAI@Z,0x006CFDF0
 ?deleteInstance@MemoryPoolObject@@QAEXXZ,0x0061ED10,address read from the REL32 displacement at a placed body
-?deleteLoadScreen@GameLogic@@QAEXXZ,0x002423E3,GameEngine slot 39 call target; BFME1 GameLogic deleteLoadScreen is the first client-subsystem operation and this BFME2 body owns the same GameLogic state
 ?deleteNode@Rva00289371HashTable@@AAEXPAUNode@1@@Z,0x00289164,callee of ?clear@Rva00289371HashTable@@QAEXXZ at retail 0x00289392 read from its REL32 displacement; destroys node+4 (0x00288B89) then operator delete
 ?deselectObject@GameLogic@@QAEXPAVObject@@IH@Z,0x0023C9F8,address read from the REL32 at StructureCollapseUpdate::onDie 0x004A466E; BFME2 PlayerMaskType 32-bit
 ?destroy@CustomAsciiStringShim@@QAEXXZ,0x00036410,AsciiString temp teardown for the volume-key temp; aliases the releaseBuffer pin at the same address

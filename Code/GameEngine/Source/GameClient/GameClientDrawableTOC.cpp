@@ -1856,7 +1856,7 @@ void GameClient::update()
 			((Rva00239300 *)this)->rva00239300(TheGameLogic->getFrame(), 0);
 	}
 
-	TheGameLogic->deleteLoadScreen();
+	TheGameLogic->rva002423E3();
 
 	if (!TheGameLogic->getFlag125())
 	{

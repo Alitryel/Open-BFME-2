@@ -35,7 +35,25 @@ private:
 
 public:
 	void *rva00240D8C(const AsciiString *value);
-	void *rva002419AB(AsciiString value, int option);
+};
+
+// The eight-byte (transition group name, frame) value the timed reverse
+// 0x0023E323 consumes; GameLogic's load-screen stage 0x002423E3 passes it by
+// value to build the callback for the event sequencer 0x003FE7E6.
+class Rva0023E323
+{
+public:
+	AsciiString m_groupName;
+	int m_frame;
+};
+
+class Rva00211E75Callback
+{
+public:
+	Rva00211E75Callback(Rva0023E323 value);
+
+private:
+	Rva0023FD06 *m_value;
 };
 
 // ?rva00240D8C@Rva002419ABOwner@@QAEPAXPBVAsciiString@@@Z @ 0x00240D8C (73B):
@@ -51,13 +69,12 @@ void *Rva002419ABOwner::rva00240D8C(const AsciiString *value)
 	return this;
 }
 
-// ?rva002419AB@Rva002419ABOwner@@QAEPAXVAsciiString@@H@Z @ 0x002419AB (55B):
-// target passes its by-value string to 0x00240D8C and destroys it at 0x00036410.
-// The second 4B argument is unused in retail. Owner and operation remain
-// address-derived.
-void *Rva002419ABOwner::rva002419AB(AsciiString value, int option)
+// ??0Rva00211E75Callback@@QAE@VRva0023E323@@@Z @ 0x002419AB (55B): the
+// callback's converting constructor from the by-value (group name, frame)
+// value. It hands the value to 0x00240D8C, which allocates the 16-byte
+// holder around it, and destroys the value's string at 0x00036410; the frame
+// word travels in the same eight-byte argument.
+Rva00211E75Callback::Rva00211E75Callback(Rva0023E323 value)
 {
-	(void)option;
-	rva00240D8C(&value);
-	return this;
+	((Rva002419ABOwner *)this)->rva00240D8C(&value.m_groupName);
 }
