@@ -34,6 +34,10 @@ char g_00BF43A8;
 // unwindability for EH states 0/1/4; the vector bases arm none.
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@UAngleFXInfo@@@_STL@@QBEXPAUAngleFXInfo@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct AngleFXInfo;
+namespace _STL { template <> void allocator<AngleFXInfo>::deallocate(AngleFXInfo *, size_t) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
