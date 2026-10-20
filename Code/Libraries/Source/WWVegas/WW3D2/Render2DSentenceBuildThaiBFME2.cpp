@@ -1,19 +1,9 @@
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.9994 date=2026-10-20
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.9988 date=2026-10-20
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.8796 date=2026-10-20
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.8622483746829656 date=2026-10-19
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.728 date=2026-10-17
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.7874684447557369 date=2026-10-14
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.707 date=2026-10-09
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z @0x00158E90 2151B.
 // stlport
 // cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /G7 /DNDEBUG /MD /EHs /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Render2DSentenceClass::Rva00158E90 (original name unknown): the Thai sentence builder that
+// Build_Sentence_Not_Centered (0x00159700) hands Thai text to. Evidence and earlier rounds:
+// reverse/attempt_support/158e90-claude3-20261020.md and the 158e90-* handoffs beside it.
 
 // CRT math/string calls remain DLL imports; allocator free uses the game wrapper.
 #undef _CRTIMP
@@ -223,6 +213,10 @@ bool DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Add(
 	const Render2DSentenceClass::PendingSurfaceStruct &object);
 
 
+// Retail reads both WrapWidth compares' 0.0f from the shared zero at 0x007BAEAC. Through the
+// named zero (the literal's own alias) cl reloads extent.Y before extent.X at the join after
+// the centering pass (+0x806) as retail does; the bare literal reloads X first.
+extern const float BfmeZeroRange;
 static __forceinline unsigned short NextGlyphIndex(unsigned short *&glyph) {
     unsigned short index=*glyph;
     ++glyph;
@@ -234,7 +228,6 @@ static __forceinline unsigned short NextGlyphIndex(unsigned short *&glyph) {
 // with a word-vector glyph buffer, GDI validation and alternate-font fallback.
 // Paired text/glyph cursors, nibble blitter1588A0 and font-argument recorder
 // 156540 are read from native calls. Real STLport word vector uses rowed resize824F9.
-// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z present-unmatched
 Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,int *hkY,bool justCalcExtents) {
     float maxX=0;
     int hotKeyPosX=0,hotKeyPosY=0;
@@ -287,7 +280,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 }
                 char_spacing=(float)active->Get_Glyph_Advance(glyphCh);
                 bool encountered_break_char=(ch==' ' || ch=='\n' || ch==0x95 || ch==0);
-                bool wordBiggerThenLine=useHardWordWrap && WrapWidth!=0 && (Cursor.X+TextureOffset.I-TextureStartX+char_spacing)>=WrapWidth;
+                bool wordBiggerThenLine=useHardWordWrap && WrapWidth!=BfmeZeroRange && (Cursor.X+TextureOffset.I-TextureStartX+char_spacing)>=WrapWidth;
                 // Do we need to record this portion of the sentence to its own chunk?
                 if (encountered_break_char || wordBiggerThenLine) {
                     if (!justCalcExtents) rva00156540(reinterpret_cast<const Rva00156540Param *>(active));
@@ -298,7 +291,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                     // Adjust the output coordinates
                     if (ch==' ' || ch==0x95) {
                         // Check to see if we need to wrap on this word-break
-                        if (WrapWidth>0) {
+                        if (WrapWidth>BfmeZeroRange) {
                             // Find the length of the next word
                             const unsigned short *word=text;
                             const unsigned short *wordGlyph=glyphPtr;
@@ -372,7 +365,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 for (int i=1;;++i) {
                     if (i>=count || sentence_data[i].screen_top!=top) {
                         float width=(active->Get_Extra_Overlap()*0.5f+right)-left;
-                        float shift=(float)floor((double)((extent.X-width)*0.5f-left)+0.5f);
+                        float shift=(float)floor((double)((extent.X-width)*0.5f-left+0.5f));
                         for (int j=start;j<i;++j) {
                             sentence_data[j].screen_left=sentence_data[j].screen_left+shift;
                             sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
