@@ -49,6 +49,10 @@ template <> __declspec(dllimport) __forceinline
 void * _STLP_CALL __node_alloc<true, 0>::allocate(size_t __n)
 { return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
 }
+// Suppress this TU's non-retail copy of ??0?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+
+namespace _STL { template <> hashtable<pair<const int, int>, int, hash<int>, _Select1st<pair<const int, int> >, equal_to<int>, allocator<pair<const int, int> > >::hashtable(size_t, const hash<int> &, const equal_to<int> &, const allocator<pair<const int, int> > &); }
 // Suppress this TU's non-retail copy of ?_M_initialize_buckets@?$hashtable@U?$pair@$$CBHH@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
