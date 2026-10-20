@@ -3596,109 +3596,16 @@ void HLodClass::Get_Snap_Point(int index,Vector3 * set)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodClass::Update_Obj_Space_Bounding_Volumes present-unmatched
-void HLodClass::Update_Obj_Space_Bounding_Volumes(void)
+// HLodClass::Update_Obj_Space_Bounding_Volumes: defined in HLodUpdateObjSpaceBoundingVolumes.cpp (its row's unit).
+// ?bfmeAnchorBoundingVolumeInlines absent-from-retail
+// Emits this unit's rowed out-of-line copies of the bounding-volume inlines.
+void bfmeAnchorBoundingVolumeInlines(Matrix3D &tm, SphereClass &sphere, AABoxClass &aabox, MinMaxAABoxClass &box)
 {
-	//
-	//	Do we still have a valid bounding box index?
-	//
-	ModelArrayClass &high_lod = Lod[LodCount - 1];
-	int count = high_lod.Count ();
-	if (	BoundingBoxIndex < 0 ||
-			BoundingBoxIndex >= count ||
-			high_lod[BoundingBoxIndex].Model->Class_ID () != RenderObjClass::CLASSID_OBBOX)
-	{
-		BoundingBoxIndex = -1;
-	}
-
-	//
-	//	Attempt to find an OBBox mesh inside the heirarchy
-	//
-	int index = high_lod.Count ();
-	while (index -- && BoundingBoxIndex == -1) {
-		RenderObjClass *model = high_lod[index].Model;
-		
-		//
-		//	Is this an OBBox mesh?
-		//
-		if (model->Class_ID () == RenderObjClass::CLASSID_OBBOX)
-		{
-			const char *name = model->Get_Name ();
-			const char *name_seg = ::strchr (name, '.');
-			if (name_seg != NULL) {
-				name = name_seg + 1;
-			}
-
-			//
-			//	Does the name match the designator we are looking for?
-			//
-			if (::stricmp (name, "BOUNDINGBOX") == 0) {				
-				BoundingBoxIndex = index;
-			}
-		}
-	}
-
-
-	int i;
-	RenderObjClass * robj = NULL;
-
-	// if we don't have any sub objects, just set default bounds
-	if (Get_Num_Sub_Objects() <= 0) {
-		ObjSphere.Init(Vector3(0,0,0),0);
-		ObjBox.Center.Set(0,0,0);
-		ObjBox.Extent.Set(0,0,0);
-		return;
-	}
-
-	// loop through all sub-objects, combining their object-space bounding spheres and boxes.
-	// Put our HTree in its base pose at the origin.
-	SphereClass sphere;
-	AABoxClass obj_aabox;
-	MinMaxAABoxClass box;
-
-	{ Matrix3D base_tm; base_tm.Make_Identity(); HTree->Base_Update(base_tm); }
-	
-	robj = Get_Sub_Object(0);
-	WWASSERT(robj);
-	
-	const Matrix3D & bonetm = HTree->Get_Transform(Get_Sub_Object_Bone_Index(robj));
-	robj->Get_Obj_Space_Bounding_Sphere(sphere);
-	sphere.Transform(bonetm);
-	robj->Get_Obj_Space_Bounding_Box(obj_aabox);
-	
-	box.Init(obj_aabox);
-	box.Transform(bonetm);
-
-	robj->Release_Ref();
-
-	for (i=1; i<Get_Num_Sub_Objects(); i++) {
-		robj = Get_Sub_Object(i);
-		WWASSERT(robj);
-		
-		const Matrix3D & bonetm = HTree->Get_Transform(Get_Sub_Object_Bone_Index(robj));
-		
-		SphereClass tmpsphere;
-		robj->Get_Obj_Space_Bounding_Sphere(tmpsphere);
-		tmpsphere.Transform(bonetm);
-		sphere.Add_Sphere(tmpsphere);
-
-		AABoxClass tmpbox; 
-		robj->Get_Obj_Space_Bounding_Box(tmpbox);
-		tmpbox.Transform(bonetm);
-		box.Add_Box(tmpbox);
-
-		robj->Release_Ref();
-	}
-
-	ObjSphere = sphere;
-	ObjBox = box;
-
-   Invalidate_Cached_Bounding_Volumes();
-	Set_Hierarchy_Valid(false);
-
-   // Now update the object space bounding volumes of this object's container:
-   RenderObjClass *container = Get_Container();
-   if (container) container->Update_Obj_Space_Bounding_Volumes();
+	tm.Make_Identity();
+	sphere.Init(Vector3(0,0,0),0);
+	sphere.Transform(tm);
+	aabox.Transform(tm);
+	box.Transform(tm);
 }
 
 
