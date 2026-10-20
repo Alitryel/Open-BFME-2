@@ -43,6 +43,19 @@ void _Construct<unsigned short, unsigned short>(unsigned short *p, const unsigne
 { new (p) unsigned short(value); }
 }
 // bfme link decl-only end
+// The wide-string units ahead in link order emit the first copies of these word helpers;
+// this TU takes them inline only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned short *_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t __n)
+{ return __stl_alloc_rebind(__STATIC_CAST(allocator<unsigned short>&, *this), (unsigned short *)0).allocate(__n, 0); }
+template <> __declspec(dllimport) __forceinline
+unsigned short *__uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x, const __true_type &)
+{ return fill_n(__first, __n, __x); }
+template <> __declspec(dllimport) __forceinline
+unsigned short *uninitialized_fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__x)
+{ return __uninitialized_fill_n(__first, __n, __x, __true_type()); }
+}
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {
 	void resize(unsigned n, unsigned short x);

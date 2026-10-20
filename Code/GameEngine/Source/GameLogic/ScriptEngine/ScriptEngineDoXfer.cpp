@@ -148,6 +148,10 @@ struct BfmeFloat4Record00469C61
 {
 	unsigned int m_frame;
 	Coord3D m_position;
+	BfmeFloat4Record00469C61() {}
+	// Retail's _Construct (0x469C61) calls this copy constructor out of line (0x4254E).
+	__declspec(noinline) BfmeFloat4Record00469C61(const BfmeFloat4Record00469C61 &o) : m_frame(o.m_frame)
+	{ m_position.x = o.m_position.x; m_position.y = o.m_position.y; m_position.z = o.m_position.z; }
 };
 typedef _STL::list<BfmeFloat4Record00469C61> ListToppleRecord;
 

@@ -2,6 +2,12 @@
 // stlport
 
 #include <sstream>
+// fill_n stays inline here: retail's out-of-line copy is the vector unit's (stlport_vector_word_o1.cpp).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned short *fill_n<unsigned short *, unsigned int, unsigned short>(unsigned short *__first, unsigned int __n, const unsigned short &__val)
+{ for ( ; __n > 0; --__n, ++__first) *__first = __val; return __first; }
+}
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(); }
