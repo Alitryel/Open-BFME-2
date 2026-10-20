@@ -19,7 +19,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 
-#include <vector>
+#include <stl/_construct.h>
 
 struct Rva004DA181Element {
 	char opaque[336];
@@ -28,10 +28,19 @@ struct Rva004DA181Element {
 	virtual ~Rva004DA181Element();
 };
 
+// Both emitter views call the same rowed placement-copy helper at 0x004D9B98.
+struct BfmePod340;
 namespace _STL {
-template <> void _Construct<Rva004DA181Element, Rva004DA181Element>(
-	Rva004DA181Element *, const Rva004DA181Element &);
+template <> void _Construct<BfmePod340, BfmePod340>(
+    BfmePod340 *, const BfmePod340 &);
+static inline void _Construct(
+    Rva004DA181Element *dest, const Rva004DA181Element &value)
+{
+    _Construct((BfmePod340 *)dest, (const BfmePod340 &)value);
 }
+}
+
+#include <vector>
 
 template void _STL::_Destroy<Rva004DA181Element *>(
 	Rva004DA181Element *, Rva004DA181Element *);
