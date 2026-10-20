@@ -57,3 +57,15 @@ destructor, rather than a free call to dup_0042fd1c. The original wrapper name
 and enclosing lifetime remain unknown. The complete5B and both destructor
 provider rows pass byte verification together; find_declared_unmatched and
 link_check --new-variants pass for both units. No verifier was changed.
+
+Session close: re-banked the identical best parent at score0.98 through re_log,
+with the new prerequisite evidence. The parent claim is released. Verified
+new row claims remain queued until publication, as required by claims.py.
+Primary6EFBC0 was held by another worker; it was not edited. BFME1 freshness
+update was skipped because the live shared update lock belonged to codex5;
+this seat did not certify a fresh pointer or run maintainer-only runners.
+The repository ledger, all scoped byte gates, exact EH, pin consistency,
+undeclared-definition checks and new-variant checks passed. The runner queued
+both implementation commits for batched publication. Continue the exact
+parent comparison or its two remaining admissions; do not repeat the earlier
+constructor visibility factorials without new compiler/provider evidence.
