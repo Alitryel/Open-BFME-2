@@ -93,3 +93,14 @@ explicit /Og /Oi /Ot /Oy /Ob1 /Gs /GF /Gy also give no change or worse.
 Next lever to look for: a source shape that stops G6 loop-invariant hoisting of
 the IAT load (e.g. the comparisons reached through an inline helper or a
 different loop/EH structure), not further declaration-order trials.
+## Resolution (2026-10-20, claude-opus-5-5)
+
+Landed exact in `Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp`.
+The register-home residue was not frame or declaration order: reading the
+separators through INI's inline getters (`getSeps()` +0x418,
+`getSepsColon()` +0x420, as the donor and `INISeparatorGetters.cpp` do) instead
+of the raw members fixed EBX/EBP homes, the manager slot, the loop alignment
+and the scratch-register rotation in one step. The comparator import is
+`_strcmpi` (msvcr71), not `_stricmp`. Diagnostic: /G7 alone had moved the homes
+(62 regions) but emits add/sub for retail's inc/dec, so it was a regalloc-weight
+tell, not retail's flag.
