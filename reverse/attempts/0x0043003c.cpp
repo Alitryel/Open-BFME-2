@@ -1,4 +1,6 @@
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
+// partial score=0.98 date=2026-10-20
+// ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial score=0.95 date=2026-10-20
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial score=0.9 date=2026-10-19
@@ -1297,7 +1299,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
      if (player)
 
      {
-      Squad *selectedSquad = (Squad *)((Rva002AA191 *)player)->rva002AA176(group);
+      Squad *selectedSquad = (Squad *)((Rva002AA191 *)player)->rva002AA176(m_lastGroupSelGroup);
       if (selectedSquad != NULL)
 
       {
