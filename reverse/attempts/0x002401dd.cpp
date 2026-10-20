@@ -2,6 +2,8 @@
 // partial score=0.99 date=2026-10-20
 // ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
 // partial score=0.99 date=2026-10-20
+// ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
+// partial score=0.99 date=2026-10-20
 // ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z = GameLogic::setSawCRCMismatch (WB twin 0xD0CA20), retail 0x2401DD 1424 B.
 // Compact bank: compile as Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp (its // cl: line and
 // contents) followed by the declarations and body below. RecorderClass needs 'friend class GameLogic;',
