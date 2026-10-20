@@ -64,8 +64,8 @@ struct Rva000A7E9EInput
 class AudioFileCache
 {
 public:
-	void rva000A7E9E(const Rva000A7E9EInput &input);
-	void rva000A80A8(struct Rva000A80A8Item *item, int treeDetached);
+	void eraseFromUnusedList(const Rva000A7E9EInput &input);
+	void deleteOpenAudioFile(struct Rva000A80A8Item *item, int treeDetached);
 	void rva000A8127(struct Rva000A80A8Item *item);
 	void freeUnusedSamples();
 
@@ -78,7 +78,7 @@ private:
 	unsigned int m_budget;
 };
 
-void AudioFileCache::rva000A7E9E(const Rva000A7E9EInput &input)
+void AudioFileCache::eraseFromUnusedList(const Rva000A7E9EInput &input)
 {
 	TreeKey00242F5E key(input.m_at38, input.m_at00);
 	m_tree.erase((const Rva000A7E31Key &)key);
@@ -133,14 +133,14 @@ public:
 	unsigned int m_numElements;
 };
 
-void AudioFileCache::rva000A80A8(Rva000A80A8Item *item, int treeDetached)
+void AudioFileCache::deleteOpenAudioFile(Rva000A80A8Item *item, int treeDetached)
 {
 	Rva000A80A8Item *entry = item;
 	if (entry->m_slot.shouldRemove(0))
 		*(unsigned int *)((char *)this + 0x38) -= entry->m_amount;
 
 	if (!treeDetached)
-		rva000A7E9E(*(const Rva000A7E9EInput *)(const void *)entry);
+		eraseFromUnusedList(*(const Rva000A7E9EInput *)(const void *)entry);
 
 	if (!entry->m_slot.shouldRemove(0)) {
 		_STL::list<int, _STL::allocator<int> > *list =
@@ -167,7 +167,7 @@ void AudioFileCache::rva000A8127(Rva000A80A8Item *item)
 		register unsigned int amount = item->m_amount;
 		m_count += amount;
 	} else {
-		rva000A80A8(item, 1);
+		deleteOpenAudioFile(item, 1);
 	}
 }
 
@@ -201,7 +201,7 @@ void AudioFileCache::freeUnusedSamples()
   if (node) {
    register unsigned int amount = node->m_item->m_amount;
    m_count -= amount;
-   rva000A80A8(node->m_item,1);
+   deleteOpenAudioFile(node->m_item,1);
   }
  }
 }

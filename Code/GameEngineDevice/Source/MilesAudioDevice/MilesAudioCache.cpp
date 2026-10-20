@@ -113,7 +113,7 @@ typedef _STL::list<int,_STL::allocator<int> > AudioFileCacheList;
 class AudioFileCache {
 public:
  void freeUnusedSamples();
- void rva000A7E9E(const Rva000A7E9EInput &);
+ void eraseFromUnusedList(const Rva000A7E9EInput &);
  Rva00690FF0Handle requestFile(const AsciiString &filename,int priority);
  void readAudioFile(OpenAudioFile *entry);
 private:
@@ -146,7 +146,7 @@ Rva00690FF0Handle AudioFileCache::requestFile(const AsciiString &filename,int pr
  Rva0041534BIter it; it = ((AudioFileCacheMap *)this)->find(filename);
  if (it.m_node) {
   Gen0002857E *file = it.m_node->m_file;
-  if (file->m_count == 0) rva000A7E9E(*(const Rva000A7E9EInput *)file);
+  if (file->m_count == 0) eraseFromUnusedList(*(const Rva000A7E9EInput *)file);
   if (!file->m_ready.check(0) && file->m_priority < priority) {
    AudioFileCacheList &list = m_lists[file->m_priority];
    AudioFileCacheList::iterator i = list.begin();

@@ -63,9 +63,9 @@ class AI;
 extern AI *TheAI;
 class PathfinderPosGoalManager {
 public:
-    void rva004DD8FA(Rva004DD843Slot *slot);
+    void RemoveObjPtr(Rva004DD843Slot *slot);
     void SetGoal(int position, float angle, int layer);
-    void rva004DDF51(Rva004DD843Slot *slot);
+    void AddObjPtr(Rva004DD843Slot *slot);
     bool rva004DE2ED();
     void rva004DE24B(int position);
     Object *m_object;
@@ -73,7 +73,7 @@ public:
     Rva004DD843Slot m_goal;
     Rva004DD843Slot m_other;
 };
-void PathfinderPosGoalManager::rva004DD8FA(Rva004DD843Slot *slot)
+void PathfinderPosGoalManager::RemoveObjPtr(Rva004DD843Slot *slot)
 {
     PathfindCell *cur = slot->m_cell;
     while (cur) {
@@ -233,9 +233,9 @@ void PathfinderPosGoalManager::SetGoal(int position,float angle,int layer)
      if (!ai->isAircraftThatAdjustsDestination()) return;
      mode=2;
    }
-   if (goal->m_value!=-666666) rva004DD8FA(goal);
+   if (goal->m_value!=-666666) RemoveObjPtr(goal);
    *(ICoord2DBase *)goal=asBase(cell); m_goal.m_angle=bin; m_goal.m_pathLayer=layer; m_goal.m_listKind=mode;
-   rva004DDF51(goal);
+   AddObjPtr(goal);
  }
 }
 
@@ -277,7 +277,7 @@ class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object
 float __cdecl Rva004DD722Get(int);
 int __cdecl Rva002E9B31Get(void *);
 int __cdecl Rva002E6E6CGet(int);
-void PathfinderPosGoalManager::rva004DDF51(Rva004DD843Slot *slot)
+void PathfinderPosGoalManager::AddObjPtr(Rva004DD843Slot *slot)
 {
  ICoord2DBase diameter;
  Object *obj=m_object;
@@ -409,12 +409,12 @@ void PathfinderPosGoalManager::rva004DE24B(int position)
  Object *obj=m_object;
  if (obj->m_status & 1)
  {
-  if(m_other.m_value!=-666666) rva004DD8FA(&m_other);
+  if(m_other.m_value!=-666666) RemoveObjPtr(&m_other);
   return;
  }
  if (!obj->testStatus(OBJECT_STATUS_NATIVE_38))
  {
-  if(m_other.m_value!=-666666) rva004DD8FA(&m_other);
+  if(m_other.m_value!=-666666) RemoveObjPtr(&m_other);
   return;
  }
  ICoord2D cell;
@@ -423,11 +423,11 @@ void PathfinderPosGoalManager::rva004DE24B(int position)
  Rva004DD843Slot *other=&m_other;
  if (!(cell==*(ICoord2DBase *)other) || layer!=m_other.m_pathLayer)
  {
-  if(other->m_value!=-666666) rva004DD8FA(other);
+  if(other->m_value!=-666666) RemoveObjPtr(other);
   *(ICoord2D *)&m_other=cell;
   m_other.m_pathLayer=layer;
   m_other.m_listKind=1;
-  rva004DDF51(&m_other);
+  AddObjPtr(&m_other);
  }
 }
 int Rva002E6E8AGet(int);
@@ -449,7 +449,7 @@ bool PathfinderPosGoalManager::rva004DE2ED()
    else
     m_object->rva0028B4CE((PathfindLayerEnum)newLayer);
   }
-  if(m_position.m_value!=-666666) rva004DD8FA(&m_position);
+  if(m_position.m_value!=-666666) RemoveObjPtr(&m_position);
   return false;
  }
  if (!TheAI->map->enabled()) return false;
@@ -457,7 +457,7 @@ bool PathfinderPosGoalManager::rva004DE2ED()
  if (!ai || !ai->isDoingGroundMovement()) return false;
  if (ai->bfmeSlot138())
  {
-  if(m_position.m_value!=-666666) rva004DD8FA(&m_position);
+  if(m_position.m_value!=-666666) RemoveObjPtr(&m_position);
   return false;
  }
  int bin;
@@ -468,10 +468,10 @@ bool PathfinderPosGoalManager::rva004DE2ED()
  int layer=m_object->rva0028B511();
  Rva004DD843Slot *slot=&m_position;
  if (cell==*(ICoord2DBase *)slot && bin==m_position.m_angle && layer==m_position.m_pathLayer) return false;
- if(slot->m_value!=-666666) rva004DD8FA(slot);
+ if(slot->m_value!=-666666) RemoveObjPtr(slot);
  if (!TheAI->map->getCell((PathfindLayerEnum)layer,cell.x,cell.y)) return false;
  slot->m_value=cell.x; slot->m_y=cell.y;
  m_position.m_angle=bin; m_position.m_pathLayer=layer; m_position.m_listKind=mode;
- rva004DDF51(slot);
+ AddObjPtr(slot);
  return true;
 }

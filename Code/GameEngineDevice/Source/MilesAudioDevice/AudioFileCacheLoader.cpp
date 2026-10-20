@@ -1,7 +1,7 @@
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // ?rva000A8437@AudioFileCache@@QAEKXZ @0x000A8437 238B: Miles cache loader thread. Under the cache mutex it takes the next
-// pending file by priority 2..0, makes its sample resident (rva000A7E9E when its count is 0), keeps a handle to it, pops the
+// pending file by priority 2..0, makes its sample resident (eraseFromUnusedList when its count is 0), keeps a handle to it, pops the
 // list entry, then reads it with readAudioFile (separate row, MilesAudioCache.cpp) and sleeps 1 ms until quit.
 // Own TU: a second EH function inside MilesAudioCache.cpp renumbers its unwind funclet labels.
 // Codegen: the count read in a named int local keeps the native compare-against-zero form.
@@ -81,7 +81,7 @@ extern "C" __declspec(dllimport) int __stdcall AIL_decompress_ADPCM(const int *,
 class AudioFileCache {
 public:
  void freeUnusedSamples();
- void rva000A7E9E(const Rva000A7E9EInput &);
+ void eraseFromUnusedList(const Rva000A7E9EInput &);
  void readAudioFile(OpenAudioFile *entry);
  unsigned long rva000A8437();
 private:
@@ -108,7 +108,7 @@ unsigned long AudioFileCache::rva000A8437()
      if (it != pending.end()) {
       entry=(OpenAudioFile *)*it;
       int _z = (int)(entry->m_count);
-      if (_z == 0) rva000A7E9E(*(const Rva000A7E9EInput *)entry);
+      if (_z == 0) eraseFromUnusedList(*(const Rva000A7E9EInput *)entry);
       ((Rva00691040Handle &)keep)=(const Rva00691040Handle &)AudioFileContainer((Gen0002857E *)entry);
       pending.pop_front();
      }

@@ -28,8 +28,8 @@ virtual void slot136();
 virtual bool slot137();
 };
 struct GoalOwner{char pad00[4];GoalTemplate*templ;char pad08[0x258-8];GoalAIInterface*ai;};
-class PathfinderPosGoalManager{public:void LoadPostProcess();void rva004DDF51(Rva004DD843Slot*);GoalOwner*owner;Rva004DD843Slot slot04,slot1C,slot34;};
+class PathfinderPosGoalManager{public:void LoadPostProcess();void AddObjPtr(Rva004DD843Slot*);GoalOwner*owner;Rva004DD843Slot slot04,slot1C,slot34;};
 void PathfinderPosGoalManager::LoadPostProcess(){
- if(slot04.value!=-666666){slot04.state=owner->templ->flags&0x2000?4:3;rva004DDF51(&slot04);}
- if(slot1C.value!=-666666){slot1C.state=owner->ai->slot137()?0:2;rva004DDF51(&slot1C);}
+ if(slot04.value!=-666666){slot04.state=owner->templ->flags&0x2000?4:3;AddObjPtr(&slot04);}
+ if(slot1C.value!=-666666){slot1C.state=owner->ai->slot137()?0:2;AddObjPtr(&slot1C);}
 }

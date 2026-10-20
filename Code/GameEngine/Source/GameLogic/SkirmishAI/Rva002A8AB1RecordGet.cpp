@@ -31,7 +31,7 @@ extern Rva002A8F24 *TheSkirmishAIManager;
 class AIGameTeam
 {
 public:
-	void *rva004E93E8();
+	void *getMasterPlayer();
 };
 
 class Rva004E9600 : public AIGameTeam
@@ -52,7 +52,7 @@ private:
 void *Rva002A8AB1Record::rva002C6ACB()
 {
 	Rva004E9600 *mid = TheSkirmishAIManager->rva002A8B24(m_15c);
-	void *found = mid->rva004E93E8();
+	void *found = mid->getMasterPlayer();
 	Player *p = (Player *)TheSkirmishAIManager->rva002A8AB1(found);
 	return p->m_164->rva002C5FD9();
 }

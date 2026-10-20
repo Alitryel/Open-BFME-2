@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva004E93E8@AIGameTeam@@QAEPAXXZ @0x004E93E8 49B search ptr array +0xc +0x10 for [elem+0x5c]==1 or global flag caller 0x004E9710
+// ?getMasterPlayer@AIGameTeam@@QAEPAXXZ @0x004E93E8 49B search ptr array +0xc +0x10 for [elem+0x5c]==1 or global flag caller 0x004E9710
 struct Elem004E93E8 { char _pad[0x5c]; int m_5c; };
 struct Glob004E93E8 { char _pad[0x860]; unsigned char m_860; };
 // TheSkirmishAIManager is owned as a Rva002A8F24 (Rva005EEA20Find.cpp); this
@@ -12,10 +12,10 @@ public:
     char _pad0[0xc];
     Elem004E93E8 **m_begin;
     Elem004E93E8 **m_end;
-    void *rva004E93E8();
+    void *getMasterPlayer();
 };
 
-void *AIGameTeam::rva004E93E8()
+void *AIGameTeam::getMasterPlayer()
 {
     void *found = 0;
     Elem004E93E8 **p = m_begin;

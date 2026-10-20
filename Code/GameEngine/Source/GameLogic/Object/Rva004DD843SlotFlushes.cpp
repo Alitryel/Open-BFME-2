@@ -25,7 +25,7 @@ public:
 	void rva004DDD6E();
 	void rva004DDD80();
 	void rva004DDD92();
-	void rva004DD8FA(Rva004DD843Slot *slot);
+	void RemoveObjPtr(Rva004DD843Slot *slot);
 
 private:
 	void *m_vtable;
@@ -37,17 +37,17 @@ private:
 void PathfinderPosGoalManager::rva004DDD6E()
 {
 	if (m_slot1C.m_value != RVA004DD843_UNSET)
-		rva004DD8FA(&m_slot1C);
+		RemoveObjPtr(&m_slot1C);
 }
 
 void PathfinderPosGoalManager::rva004DDD80()
 {
 	if (m_slot34.m_value != RVA004DD843_UNSET)
-		rva004DD8FA(&m_slot34);
+		RemoveObjPtr(&m_slot34);
 }
 
 void PathfinderPosGoalManager::rva004DDD92()
 {
 	if (m_slot04.m_value != RVA004DD843_UNSET)
-		rva004DD8FA(&m_slot04);
+		RemoveObjPtr(&m_slot04);
 }
