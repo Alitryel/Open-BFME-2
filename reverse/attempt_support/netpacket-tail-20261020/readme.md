@@ -72,3 +72,23 @@ Explanations not covered here (types and layout, callee visibility) are the
 provider, inheritance and accessor trials above. The residue is still the Z
 tail's reload order (`ebx` reload before `i = offset`), which decides whether
 cl cross-jumps into the D tail.
+
+## 2026-10-20 claude2 follow-up (all scored against the .995 bank)
+
+- WB twin 0x154E140 has no `offset` local: one `i` (local_14) is used by the
+  loop head, the memcpy arms and the readers (`lea eax,[local_14]`). Retail's
+  esi-across-memcpy plus [ebp-0x14]-in-D/Z shape still needs a register
+  candidate `i` and a separate address-taken home. Single address-taken `i`
+  (a1, 0.891) puts `i` in edx and stores it around every memcpy. `/Oi` and
+  `#pragma intrinsic(memcpy)` expand memcpy inline (0.796). `/Oa` and `/Ow`
+  are inert (0.891). In-TU noinline reader bodies are also inert (0.881 to
+  0.891), whether or not they store `&readOffset` globally. So the retail and
+  WB sources likely differ here, or the gap is a compiler setting not yet found.
+- Also disproven, all on the two-variable bank:
+  - else-continue join of D/Z at loop level (0.899: the join is laid after Z
+    and this/lastCommand swap registers);
+  - Z without `offset`, or `offset` scoped to D (0.773);
+  - scoped offsets (0.930);
+  - if/else and do/while/for-break wrappers around the D/Z tails (identical);
+  - lastCommand declaration position (no change);
+  - `permute.py --flags` (0 of 1 closed).
