@@ -202,3 +202,58 @@ def test_gen_asm_branch_uses_the_tripwire():
     assert "asm_rva_contained(body_ranges" in source, (
         "main()'s .asm branch stopped consulting the matched-range filter; "
         "prologue stubs of rowed parents will be served as fresh candidates")
+
+
+def recovery_row(name, rva, source, notes=""):
+    return {"name": name, "target_rva": f"0x{rva:08X}",
+            "target_size": "2", "source": source,
+            "status": "matched", "notes": notes}
+
+
+def queue_indexes(tmp_path, monkeypatch, rows):
+    # Two identical literal bodies, one per fixture RVA. The PE plumbing is
+    # irrelevant to ownership, so keep the real index builders and stub it.
+    exe = tmp_path / "game.dat"
+    exe.write_bytes(b"\x90\xc3" * 2)
+    monkeypatch.setattr(queue.build, "EXE", exe)
+    monkeypatch.setattr(queue.build, "pe_sections", lambda data: [])
+    monkeypatch.setattr(queue.build, "rva_to_file_offset",
+                        lambda sections, rva: rva - 0x1000)
+    by_source = {}
+    for row in rows:
+        by_source.setdefault(row["source"], []).append(row)
+    return (queue.matched_body_index(by_source, 2),
+            queue.matched_row_ranges(by_source))
+
+
+@pytest.mark.parametrize("notes", ["gen-dump", "gen-dump;bounds=inventory",
+                                  "  gen-dump;ghidra=FUN_00401000"])
+def test_own_dump_remains_open_in_all_recovery_filters(tmp_path, monkeypatch, notes):
+    dump = recovery_row("?d_00001000@@YAXXZ", 0x1000,
+                        "Code/gen_asm/d_00001000.asm", notes)
+    body_index, ranges = queue_indexes(tmp_path, monkeypatch, [dump])
+    assert not queue.asm_already_matched([dump], [dump], b"\x90\xc3", body_index)
+    assert not queue.asm_rva_contained(ranges, 0x1000, 2)
+    assert body_index == {} and ranges == []
+
+
+def test_another_dump_is_not_an_exact_byte_recovery(tmp_path, monkeypatch):
+    # The rule is keyed by the scaffold note, including historical dump rows
+    # outside gen_asm. An identical dump elsewhere is not recovered C++.
+    other = recovery_row("?other_dump@@YAXXZ", 0x1002,
+                         "Code/old_dump.cpp", "gen-dump")
+    body_index, ranges = queue_indexes(tmp_path, monkeypatch, [other])
+    assert not queue.asm_already_matched([], [], b"\x90\xc3", body_index)
+    assert not queue.asm_rva_contained(ranges, 0x1002, 2)
+
+
+def test_real_source_still_retires_a_matching_dump(tmp_path, monkeypatch):
+    dump = recovery_row("?d_00001000@@YAXXZ", 0x1000,
+                        "Code/gen_asm/d_00001000.asm", "gen-dump")
+    recovered = recovery_row("?real@@YAXXZ", 0x1002, "Code/real.cpp")
+    body_index, ranges = queue_indexes(tmp_path, monkeypatch, [dump, recovered])
+    assert queue.asm_already_matched([dump], [], b"\x90\xc3", body_index)
+    assert queue.asm_already_matched([], [recovered], b"different", {})
+    assert queue.asm_rva_contained(ranges, 0x1002, 2)
+    assert not queue.asm_rva_contained(ranges, 0x1000, 2)
+    assert list(body_index.values()) == [recovered]

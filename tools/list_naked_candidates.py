@@ -92,7 +92,7 @@ def collect_rows():
 
 
 def matched_body_index(rows_by_source, max_bytes):
-    """Exact binary bytes of every matched row -> row. A naked body that
+    """Exact binary bytes of every recovered source row -> row. A naked body that
     byte-verifies is a literal copy of the binary, so an already-matched
     function is recognizable by its bytes even when the symbol comment is
     missing or the source mangles the name differently than the ledger."""
@@ -101,7 +101,7 @@ def matched_body_index(rows_by_source, max_bytes):
     index = {}
     for rows in rows_by_source.values():
         for row in rows:
-            if row["status"] != "matched":
+            if row["status"] != "matched" or build.is_scaffold_row(row):
                 continue
             size = int(row["target_size"])
             if not 0 < size <= max_bytes:
@@ -162,15 +162,15 @@ _RVA_MAX = (1 << 32) - 1
 
 
 def matched_row_ranges(rows_by_source):
-    """Sorted disjoint (start, end) retail ranges of every matched row.
+    """Sorted (start, end) retail ranges backed by recovered source.
 
-    Any RvaNum range a matched row owns is claimed binary content; a dump
-    PROC lying fully inside one is done work, whatever its symbol says.
+    A dump PROC inside a recovered parent's range is done work, whatever its
+    symbol says. A gen-dump row proves only a boundary and stays open work.
     """
     ranges = []
     for rows in rows_by_source.values():
         for row in rows:
-            if row["status"] != "matched":
+            if row["status"] != "matched" or build.is_scaffold_row(row):
                 continue
             start = int(row["target_rva"], 16)
             ranges.append((start, start + int(row["target_size"])))
@@ -195,7 +195,8 @@ def asm_already_matched(own, symbol_rows, data, body_index):
     A naked dump body that byte-verifies is a literal copy of the binary, so
     serving it again lures agents into redoing landed work."""
     for rows in (own, symbol_rows):
-        if any(row.get("status") == "matched" for row in rows):
+        if any(row.get("status") == "matched" and not build.is_scaffold_row(row)
+               for row in rows):
             return True
     return data in body_index
 
@@ -585,7 +586,7 @@ def main():
                 # matched — by name under another source, or (when the symbol
                 # comment is missing) by its exact bytes; listing it as
                 # "untracked" lures agents into redoing done work
-                if any(r["status"] == "matched" for r in symbol_rows) or data in body_index:
+                if asm_already_matched([], symbol_rows, data, body_index):
                     already_matched += 1
                     continue
             if not row and not args.all:
