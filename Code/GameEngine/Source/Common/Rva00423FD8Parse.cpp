@@ -22,6 +22,10 @@ namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>:
 // bfme link decl-only begin
 namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod8@@@_STL@@@_STL@@@_STL@@QBEPAU:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *allocator<_Rb_tree_node<pair<const int, BfmePod8> > >::allocate(size_t, const void *) const; }
 
 // Keep the already-inlined node comparison local instead of emitting the
 // incompatible shared _Rb_tree_base_iterator::operator!= COMDAT.

@@ -10,6 +10,10 @@
 // bodies live in the sibling pod-map units.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBHUBfmePod8@@@_STL@@@_STL@@@_STL@@QBEPAU:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> _Rb_tree_node<pair<const int, BfmePod8> > *allocator<_Rb_tree_node<pair<const int, BfmePod8> > >::allocate(size_t, const void *) const; }
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
