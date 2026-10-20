@@ -1,6 +1,6 @@
 // cl: /O1 /GX- /MD
 //
-// ?rva0010BDF8@W3DProjectedShadow@@QAE_NXZ, retail 0x0010BDF8..0x0010BE72
+// ?init@W3DProjectedShadow@@QAE_NXZ, retail 0x0010BDF8..0x0010BE72
 // (122B), thiscall, returns bool.
 //
 // Zero Hour's W3DProjectedShadow::init in its BFME 2 form: it allocates two
@@ -49,7 +49,7 @@ public:
 class W3DProjectedShadow
 {
 public:
-	bool rva0010BDF8();
+	bool init();
 
 private:
 	char m_pad00[0x58];
@@ -57,7 +57,7 @@ private:
 	Rva00109610 *m_secondProjector;		// +0x5C
 };
 
-bool W3DProjectedShadow::rva0010BDF8()
+bool W3DProjectedShadow::init()
 {
 	m_projector = new Rva00109610;
 	if (!m_projector)

@@ -110,7 +110,7 @@ class W3DProjectedShadow : public Rva007B1380
 {
 public:
 	virtual void slot0();
-	bool rva0010BDF8();
+	bool init();
 
 	int m_34;
 	char m_pad38[0x20];
@@ -205,7 +205,7 @@ W3DProjectedShadow *W3DProjectedShadowManager::rva0010C2D5(int id, RenderObjClas
 	{
 		void *memory = operator new(0x68);
 		shadow = memory ? new (memory) W3DProjectedShadow : 0;
-		if (shadow == 0 || !shadow->rva0010BDF8())
+		if (shadow == 0 || !shadow->init())
 		{
 			releaseTexture(textureA);
 			releaseTexture(textureB);
