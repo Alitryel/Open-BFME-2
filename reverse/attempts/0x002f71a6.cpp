@@ -1,4 +1,6 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
+// partial score=0.91609 date=2026-10-20
+// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.88601 date=2026-10-16
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.8847884124981439 date=2026-10-15
@@ -27,11 +29,18 @@
 // Source/datum identity checks and owner integration remain required to land.
 // Context retains unrelated pre-existing assembly unchanged; none was added.
 // Discard the 4540B/nd243 ctor-view experiment: it outlined non-retail ctor calls.
+// opus r13 (2026-10-20): ONE reached-goal exit after the portal block (inner mineshaft
+// exit copy removed, portal guarded by !reachedGoal) fixes the frame order: point -0x28,
+// options -0x1c, goalBlockNdx -0xc (tail-merged duplicate exits inflated ref counts).
+// fit .91609 len4611 nd126. Residue: entry/cursor register shape (retail rawTo esi,
+// cursor edi+home 2C, xor-edi zero) appears only under a dataflow-size threshold that
+// counts conditional branches (attempt_support/0x002f71a6-exit-20261020), slot perm.
 // cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "reverse/attempt_evidence/pathfinder_hierarchy/owner_context.inc"
+struct HSO : HierarchySearchOptions { HSO(Int s,Bool a,Int b,Bool c,Bool d){surfaces=s;passFlag=a;objectFlag=c;priority=b;layerFlag=d;} };
 Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  LocomotorSurfaceTypeMask surfaces,Object *obj,const Coord3D *from,
  const Coord3D *rawTo,Bool crusher,Bool closestOK,Coord3D *adjustedTo)
@@ -39,7 +48,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  union CandidateStorage {Waypoint *waypoint;PathfindCell *cell;};CandidateStorage candidate;
  if(rawTo->x==0.0f && rawTo->y==0.0f)return 0;
  if(!m_isMapReady)return 0;
- struct SearchStorage {HierarchyPoint point;HierarchySearchOptions query;ICoord2D blockGoal;__forceinline SearchStorage(const Coord3D&p):point(p){} };SearchStorage storage(*rawTo);HierarchyPoint &adjustTo=storage.point;
+ HierarchyPoint adjustTo(*rawTo);
  _ReadWriteBarrier();
  Coord3D *to=&adjustTo;
  HierarchyPoint clipFrom(*from);
@@ -86,9 +95,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  }
  Int priority=obj->m_template->priority;
  Bool flag=obj->m_template->flag;
- Bool layerFlag=obj->rva0028AC62();
- Bool objectFlag=obj->rva0028AFBB();
- HierarchySearchOptions &options=storage.query;options.surfaces=surfaces;options.passFlag=!flag;options.objectFlag=objectFlag;options.priority=priority-1;options.layerFlag=layerFlag;
+ HSO options(surfaces,!flag,priority-1,obj->rva0028AFBB(),obj->rva0028AC62());
  Rva002E99F9Sub460 *zones=(Rva002E99F9Sub460 *)&m_zoneManager;
  Int zone1=zones->rva0053241F(&options,parentCell->quickZone());
  Int zone2=zones->rva0053241F(&options,goalCell->quickZone());
@@ -98,7 +105,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  parentCell->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parentCell,goalCell);
  Int cellCount=0;
  unsigned short goalBlockZone;
- ICoord2D &goalBlockNdx=storage.blockGoal;
+ ICoord2D goalBlockNdx;
  if((unsigned char)Rva002E6E6CGet(goalCell->getLayer())) {
   goalBlockZone=zones->rva00532041((Int)&options,goalCell->getXIndex(),goalCell->getYIndex(),(Rva00532041Record **)m_unknown10);
   goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
@@ -182,14 +189,8 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
      goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
     } else {goalBlockZone=goalCell->quickZone();goalBlockNdx.x=-1;goalBlockNdx.y=-1;}
    }
-   if(reachedGoal){
-   if(parentCell!=goalCell)hierarchySetParent(goalCell,parentCell);
-   m_isTunneling=false;
-   Path *path=(Path *)MakeHierarchicalPathPassable((void *)from,(Rva002E6C79 *)goalCell,((((const unsigned int *)obj->m_template->kinds)[5]>>31)&1)!=0);
-   rva002F40E7();goalCell->ReleaseInfo();goalCell->ReleaseInfo();*adjustedTo=adjustTo;return path;
   }
-  }
-  if(m_zoneManager.rva005315C8(parentCell->getXIndex(),parentCell->getYIndex())) {
+  if(!reachedGoal && m_zoneManager.rva005315C8(parentCell->getXIndex(),parentCell->getYIndex())) {
    Int i=0;
    for(Waypoint *wp=(Waypoint *)m_zoneManager.GetPortal(parentCell->getXIndex(),parentCell->getYIndex(),i);
        wp;wp=(Waypoint *)m_zoneManager.GetPortal(parentCell->getXIndex(),parentCell->getYIndex(),++i)) {
