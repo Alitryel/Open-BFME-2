@@ -676,7 +676,7 @@ public:
 	ContainModuleInterface *getContain() const { return m_contain; }
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
 	const AsciiString *rva00290E67() const;		// the command set name
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	Real getBuildCost() const { return m_buildCost; }
@@ -1493,7 +1493,7 @@ Bool BuildAssistant::isPossibleToMakeUnit( Object *builder, const ThingTemplate 
 
 						Bool has;
 						if( upgrade->getUpgradeType() == UPGRADE_TYPE_OBJECT )
-							has = builder->rva00290D2B( upgrade );
+							has = builder->hasUpgrade( upgrade );
 						else if( upgrade->getUpgradeType() == UPGRADE_TYPE_PLAYER )
 							has = builder->getControllingPlayer()->rva002AB87D( upgrade );
 						else

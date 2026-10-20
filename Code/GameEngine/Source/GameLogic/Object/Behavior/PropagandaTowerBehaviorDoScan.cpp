@@ -130,7 +130,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;	// 0x0028AFA9
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;	// 0x00290D2B
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;	// 0x00290D2B
 	const Coord3D *getPosition() const { return &m_pos; }
 	ObjectID getID() const { return m_id; }
 	char m_pad000[0x38];
@@ -212,7 +212,7 @@ void PropagandaTowerBehavior::doScan()
 			break;
 		}
 		case 1:
-			upgradePresent = us->rva00290D2B(m_upgradeRequired);
+			upgradePresent = us->hasUpgrade(m_upgradeRequired);
 			break;
 		}
 	}

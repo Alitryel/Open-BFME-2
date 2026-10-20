@@ -37400,7 +37400,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0039B718@Rva0039B709@@QAEIXZ,,0x0039B718,19,Code/GameEngine/Source/Common/Rva0039B709DivGetter.cpp,matched,fallback getter F0 else global40 two callers same class
 ??1?$vector@URva004F69C3@@V?$allocator@URva004F69C3@@@_STL@@@_STL@@QAE@XZ,,0x004F8832,63,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_Rva004F69C3_dtor.cpp,matched,dtor via _Destroy 0x40DCF1 and free 0x30830 same shape Rva005F8F96 caller 0x4FA33D
 ?_M_clear@?$vector@URva004F69C3@@V?$allocator@URva004F69C3@@@_STL@@@_STL@@IAEXXZ,,0x004F89F9,30,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_Rva004F69C3_dtor.cpp,matched,clear via _Destroy 0x40DCF1 and free 0x30830 same TU as dtor callers 0x40E170 0x4F8F45
-?rva00290D2B@Object@@QBE_NPBVUpgradeTemplate@@@Z,,0x00290D2B,23,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290D2B.cpp,matched,same-this Object bit query UpgradeTemplate 0x38 twin Player 23B
+?hasUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z,,0x00290D2B,23,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290D2B.cpp,matched,same-this Object bit query UpgradeTemplate 0x38 twin Player 23B
 ?Rva00318D63Copy@@YAXPAVRva00318B5C@@ABV1@@Z,,0x00318D63,18,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp,matched,null-guarded copy-construct of Rva00318B5C via rowed copy ctor; callers are 0x10-stride loops
 ?rva00290FBB@Object@@QBEEXZ,,0x00290FBB,14,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290FBB.cpp,matched,Object 1C8 bit4 inverted test abuts ghostObject
 ?rva0039B795@Rva0039B795@@QAEXH@Z,,0x0039B795,24,Code/GameEngine/Source/Common/Rva0039B795CondAdd.cpp,matched,conditional add plus08 when global98 nonzero caller 0x3B0D65

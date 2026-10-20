@@ -330,7 +330,7 @@ public:
 	void *rva0028BD92(Int type);
 	void *rva0028C197() const;
 	Rva00373EC6 *rva0028F4BC();
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
 	Bool isDisabled() const { return m_disabled.any(); }
@@ -582,7 +582,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 				}
 				else if (upgrade->m_upgradeType == 1)
 				{
-					Bool has = obj->rva00290D2B(upgrade);
+					Bool has = obj->hasUpgrade(upgrade);
 					if (requireAll)
 					{
 						if (has)
@@ -889,7 +889,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 			}
 			if (pu == 0)
 				return COMMAND_RESTRICTED;
-			if (obj->rva00290D2B(command->m_upgrade) == true || pu->isQueued(command->m_upgrade) == true)
+			if (obj->hasUpgrade(command->m_upgrade) == true || pu->isQueued(command->m_upgrade) == true)
 				return COMMAND_DONE;
 			if (queueMaxed)
 				return COMMAND_RESTRICTED;
@@ -913,7 +913,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 				if (member)
 				{
 					Object *castle = TheGameLogic->findObjectByID(((CastleMemberView *)member)->m_castleID);
-					if (castle && castle->rva00290D2B(command->m_upgrade))
+					if (castle && castle->hasUpgrade(command->m_upgrade))
 						return COMMAND_DONE;
 				}
 			}

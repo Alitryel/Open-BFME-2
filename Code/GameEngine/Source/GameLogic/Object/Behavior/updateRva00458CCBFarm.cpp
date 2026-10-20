@@ -200,7 +200,7 @@ class Object : public Thing
  public:
  Int rva0028B7C8() const;
  void rva0028AE6D();
- Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+ Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
  void clearWeaponSetFlag(WeaponSetType type);
  void setWeaponSetFlag(WeaponSetType type);
  void *rva0028BD3A() const;
@@ -357,7 +357,7 @@ UpdateSleepTime RampageBehavior::update()
  {
   const UpgradeTemplate *required = TheUpgradeCenter->findUpgrade(
   *(const AsciiString *)upgrade);
-  if (!owner->rva00290D2B(required))
+  if (!owner->hasUpgrade(required))
   return UPDATE_SLEEP_NONE;
   
  }

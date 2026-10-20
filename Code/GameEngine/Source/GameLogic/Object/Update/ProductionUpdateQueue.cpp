@@ -515,7 +515,7 @@ public:
 	ExitInterface *getObjectExitInterface() const;
 	Module *findUpdateModule(NameKeyType key) const { return findModule(key); }
 	Bool testStatus(ObjectStatusTypes bit) const;
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const; // hasUpgrade
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const; // hasUpgrade
 	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const; // affectedByUpgrade
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
 
@@ -1337,7 +1337,7 @@ Bool ProductionUpdate::queueUpgrade( const UpgradeTemplate *upgrade )
 			TheUpgradeCenter->rva0026F11A( player, upgrade, getObject(), FALSE ) == FALSE )
 		return FALSE;
 	else if( upgrade->getUpgradeType() == UPGRADE_TYPE_OBJECT &&
-					 (getObject()->rva00290D2B( upgrade ) == TRUE ||
+					 (getObject()->hasUpgrade( upgrade ) == TRUE ||
 					  getObject()->affectedByUpgrade( upgrade ) == FALSE) )
 		return FALSE;
 

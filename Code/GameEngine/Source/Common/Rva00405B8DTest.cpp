@@ -21,7 +21,7 @@ public:
 class Object
 {
 public:
-	bool rva00290D2B(const UpgradeTemplate *tmpl) const;
+	bool hasUpgrade(const UpgradeTemplate *tmpl) const;
 	Player *getControllingPlayer() const;
 };
 
@@ -41,7 +41,7 @@ bool OldSchoolHelpBoxContentSource::allRequiredUpgradesComplete(Object *obj, Upg
 		int v = tmpl->m_4;
 		bool r;
 		if (v == 1)
-			r = obj->rva00290D2B(tmpl);
+			r = obj->hasUpgrade(tmpl);
 		else if (v == 0)
 			r = obj->getControllingPlayer()->rva002AB87D(tmpl);
 		else

@@ -250,7 +250,7 @@ public:
  int rva0028B38D() const;
  bool held() const {return (m_held[0]&8)!=0;}
  CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType,const Object*,CommandSourceType) const;
-	bool rva00290D2B(const UpgradeTemplate*) const;
+	bool hasUpgrade(const UpgradeTemplate*) const;
 	bool affectedByUpgrade(const UpgradeTemplate*) const;
 	void *rva0028BC58(int);
 	Object *rva002931F5(bool);
@@ -475,7 +475,7 @@ void AIGroup::rva0036DE89(const UpgradeTemplate *upgrade)
   Object *obj=*i;
   if (!TheUpgradeCenter->rva0026F11A(obj->getControllingPlayer(),upgrade,obj,false)) continue;
   if (upgrade->type==1) {
-   if (obj->rva00290D2B(upgrade) || !obj->affectedByUpgrade(upgrade)) continue;
+   if (obj->hasUpgrade(upgrade) || !obj->affectedByUpgrade(upgrade)) continue;
   }
   Rva0036DE89Production *production=(Rva0036DE89Production*)obj->rva0028BC58(0);
   if (!production) continue;

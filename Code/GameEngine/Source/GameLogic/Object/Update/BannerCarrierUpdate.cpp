@@ -22,7 +22,7 @@ class BannerContain : public BannerSlots<31> { public: virtual BannerContainResu
 class Object { public:
  bool isKindOf(KindOfType) const;
  bool testStatus(ObjectStatusTypes) const;
- bool rva00290D2B(const UpgradeTemplate *) const;
+ bool hasUpgrade(const UpgradeTemplate *) const;
  Object *rva002931F5(bool);
  int rva0028AF76() const;
  char pad00[0x24C]; Gen_0028EF10 *m_stats; BannerContain *m_contain;
@@ -48,7 +48,7 @@ UpdateSleepTime BannerCarrierUpdate::update() {
  if(!obj) return (UpdateSleepTime)d->delay;
  if(!d->upgrade.isEmpty()) {
   const UpgradeTemplate *up=TheUpgradeCenter->findUpgrade(d->upgrade);
-  if(!up || !obj->rva00290D2B(up)) return (UpdateSleepTime)d->delay;
+  if(!up || !obj->hasUpgrade(up)) return (UpdateSleepTime)d->delay;
  }
  if(obj->isKindOf((KindOfType)0x45) || obj->testStatus((ObjectStatusTypes)0x57)
   || obj->isKindOf((KindOfType)0x220) || obj->testStatus((ObjectStatusTypes)0x3E)) return (UpdateSleepTime)d->delay;

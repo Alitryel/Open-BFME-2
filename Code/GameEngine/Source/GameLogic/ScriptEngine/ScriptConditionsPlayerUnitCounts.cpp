@@ -319,7 +319,7 @@ public:
 	ContainModuleInterface *getContain() const { return m_contain; }
 	Bool testStatus(ObjectStatusTypes bit) const;
 	Bool testBit(Int bit) const { return ((const Rva0028D891Owner *)this)->testBit(bit); }
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	void *rva0028C197() const;
 	void *rva0028BD92(Int slot);
 	const ThingTemplate *getTemplate() const { return m_template; }
@@ -870,7 +870,7 @@ Bool ScriptConditions::rva003E8785(Parameter *playerParm, Parameter *countParm, 
 				Object *obj = iter2.vcur();
 				if (!obj)
 					continue;
-				if (!obj->testStatus((ObjectStatusTypes)0x26) && iter2.vcur()->rva00290D2B(upgrade))
+				if (!obj->testStatus((ObjectStatusTypes)0x26) && iter2.vcur()->hasUpgrade(upgrade))
 					count++;
 			}
 		}

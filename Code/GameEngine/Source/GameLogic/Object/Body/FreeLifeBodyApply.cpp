@@ -14,7 +14,7 @@ class Player { public: bool rva002AB87D(const UpgradeTemplate *) const; };
 class Object {
 public:
     Player *getControllingPlayer() const;
-    bool rva00290D2B(const UpgradeTemplate *) const;
+    bool hasUpgrade(const UpgradeTemplate *) const;
     void setSpecialModelConditionState(ModelConditionFlagType, unsigned int);
 };
 struct Rva00294D61 { void report(Object *, int); };
@@ -57,7 +57,7 @@ void Rva004C19DCOwner::apply(float amount, DamageInfo *info)
     if (-health() >= amount && amountF4 > 0.0f) {
         if (md->upgrade) {
             bool has = player && player->rva002AB87D(md->upgrade);
-            bool objectHas = obj->rva00290D2B(md->upgrade);
+            bool objectHas = obj->hasUpgrade(md->upgrade);
             if (!has && !objectHas)
                 goto base;
         }

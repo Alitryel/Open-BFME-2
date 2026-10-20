@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 // ?rva00397357@Rva003972D3@@QAEXPBVUpgradeTemplate@@@Z RVA 0x00397357 148B
 // Evidence: finish from stash 0.9 ebp-ebx mirror; callers none; rowed findObjectByID via TheGameLogic;
-//   rowed rva00290D2B rva00293003 rva003972D3 affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
+//   rowed hasUpgrade rva00293003 rva003972D3 affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
 enum ObjectID
 {
@@ -23,7 +23,7 @@ class Object
 public:
 	void rva00293003(const void *arg);
 	void *rva0028BCF4() const;
-	bool rva00290D2B(const UpgradeTemplate *templ) const;
+	bool hasUpgrade(const UpgradeTemplate *templ) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
@@ -75,7 +75,7 @@ void Rva003972D3::rva00397357(const UpgradeTemplate *upgrade)
 	Object *obj = findByID(m_id38);
 	if (obj != 0)
 	{
-		if (!obj->rva00290D2B(upgrade))
+		if (!obj->hasUpgrade(upgrade))
 			obj->rva00293003(upgrade);
 	}
 	rva003972D3(&m_range50, upgrade);
@@ -85,7 +85,7 @@ void Rva003972D3::rva00397357(const UpgradeTemplate *upgrade)
 		Object *obj2 = findByID(*p);
 		if (obj2 == 0)
 			continue;
-		if (obj2->rva00290D2B(upgrade))
+		if (obj2->hasUpgrade(upgrade))
 			continue;
 		if (!obj2->affectedByUpgrade(upgrade))
 			continue;

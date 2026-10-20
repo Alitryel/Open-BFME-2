@@ -752,7 +752,7 @@ public:
 	Bool rva0028C1CC() const;
 	Real rva0028AC7D() const;
 	void *rva0028C197() const;
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	__declspec(dllimport) __forceinline Weapon *getWeaponInWeaponSlot(WeaponSlotType wslot) const { return m_weaponSet.getWeaponInWeaponSlot(wslot); }
 	__declspec(dllimport) __forceinline Bool testScriptStatusBit(ObjectScriptStatusBit bit) const { return (m_scriptStatus & bit) != 0; }
@@ -1159,7 +1159,7 @@ Bool StealthUpdate::rva00373F59(const Coord3D *pos, const Coord3D *ownerPos)
 				for (const AsciiString *it = data->m_removeTerrainRestrictionOnUpgrade.begin();
 					it != data->m_removeTerrainRestrictionOnUpgrade.end(); ++it)
 				{
-					if (!self->rva00290D2B(TheUpgradeCenter->findUpgrade(*it)))
+					if (!self->hasUpgrade(TheUpgradeCenter->findUpgrade(*it)))
 						return FALSE;
 				}
 			}

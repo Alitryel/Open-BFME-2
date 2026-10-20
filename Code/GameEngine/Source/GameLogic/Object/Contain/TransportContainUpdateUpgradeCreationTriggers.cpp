@@ -95,7 +95,7 @@ virtual bool s98(Object*,bool,bool);
 virtual void s9C(Object*);
 };
 class Object {public:
- bool rva00290D2B(const UpgradeTemplate*)const;
+ bool hasUpgrade(const UpgradeTemplate*)const;
  char pad00[0x250];TransportContainView*contain;TransportBodyView*body;
  char pad258[0x304-0x258];Team*team;
 };
@@ -125,7 +125,7 @@ void TransportContain::UpdateUpgradeCreationTriggers()
   if(!record)continue;
   active=true;
   const UpgradeTemplate*upgrade=TheUpgradeCenter->findUpgrade(list->getBegin()[i]);
-  if(!upgrade||!obj->rva00290D2B(upgrade))continue;
+  if(!upgrade||!obj->hasUpgrade(upgrade))continue;
   ((StringBase<char>*)&list->getBegin()[i])->clear();
   const ThingTemplate*tmpl=TheThingFactory->findTemplate(record->object);
   if(!tmpl)continue;

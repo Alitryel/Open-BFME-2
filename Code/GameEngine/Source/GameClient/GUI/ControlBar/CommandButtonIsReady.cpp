@@ -49,7 +49,7 @@ class Object
 {
 public:
 	SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate *power) const;
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const; // Object::hasUpgrade
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const; // Object::hasUpgrade
 	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Bool bfmeReadyFrameReached() const { Bool ready = m_readyFrame <= TheGameLogic->getFrame(); return ready; }
 private:
@@ -112,7 +112,7 @@ Bool CommandButton::isReady(const Object *sourceObj) const
 
 	if( m_commandType == 0x17 )
 	{
-		if( m_upgradeTemplate && !sourceObj->rva00290D2B( m_upgradeTemplate ) )
+		if( m_upgradeTemplate && !sourceObj->hasUpgrade( m_upgradeTemplate ) )
 			return false;
 		return sourceObj->bfmeReadyFrameReached();
 	}
@@ -121,7 +121,7 @@ Bool CommandButton::isReady(const Object *sourceObj) const
 	if( mod && mod->getPercentReady() == 1.0f )
 		return true;
 
-	if (m_upgradeTemplate && sourceObj->affectedByUpgrade(m_upgradeTemplate) && !sourceObj->rva00290D2B(m_upgradeTemplate))
+	if (m_upgradeTemplate && sourceObj->affectedByUpgrade(m_upgradeTemplate) && !sourceObj->hasUpgrade(m_upgradeTemplate))
 		return true;
 
 	return false;

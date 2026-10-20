@@ -28,7 +28,7 @@ extern UpgradeCenter *TheUpgradeCenter;
 class Object
 {
 public:
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
 struct Rva0049D1CAValue
@@ -74,7 +74,7 @@ float Rva0049D1CA::rva0049D1CA(const ThingTemplate *tmpl)
 				if (upgrade != 0)
 				{
 					Object *target = *(Object **)((char *)this - 0x18);
-					if (target->rva00290D2B(upgrade) == 0)
+					if (target->hasUpgrade(upgrade) == 0)
 						goto next;
 				}
 				acc *= value->m_scale;

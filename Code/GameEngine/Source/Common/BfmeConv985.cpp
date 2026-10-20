@@ -2,13 +2,13 @@
 // Open-BFME5 conversions.
 class BfmeArg985;
 
-// 0x00290D2B is rowed as Object::rva00290D2B(const UpgradeTemplate *) const
+// 0x00290D2B is rowed as Object::hasUpgrade(const UpgradeTemplate *) const
 // (ObjectRva00290D2B.cpp); the argument is the upgrade template.
 class UpgradeTemplate;
 class Object
 {
 public:
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
@@ -25,7 +25,7 @@ public:
 
 bool Rva00261130Filter::allow(Object *a)
 {
-	if (a->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !a->rva00290D2B((const UpgradeTemplate *)m_bfmeVal))
+	if (a->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !a->hasUpgrade((const UpgradeTemplate *)m_bfmeVal))
 		return true;
 
 	return false;

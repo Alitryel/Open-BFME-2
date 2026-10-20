@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva00290D2B@Object@@QBE_NPBVUpgradeTemplate@@@Z retail 0x00290D2B 23B.
+// ?hasUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z retail 0x00290D2B 23B.
 // Object null-guarded UpgradeTemplate bit test via rowed ?rva0028D9E5@Object@@QBE_NH@Z.
 // Evidence: same-this preserved-ecx call to rowed Object bit query at 0x00290D3A with int at +0x38;
 // UpgradeTemplate mask index at +0x38 per UpgradeCenterFindUpgradeByKey.cpp and UpgradeMuxData TU;
@@ -66,7 +66,7 @@ class Object
 {
 public:
 	bool rva0028D9E5(int bit) const;
-	bool rva00290D2B(const UpgradeTemplate *tmpl) const;
+	bool hasUpgrade(const UpgradeTemplate *tmpl) const;
 	void rva00290D42(const UpgradeTemplate *upgrade);
 
 private:
@@ -76,7 +76,7 @@ private:
 	unsigned int m_bits284[4];
 };
 
-bool Object::rva00290D2B(const UpgradeTemplate *tmpl) const
+bool Object::hasUpgrade(const UpgradeTemplate *tmpl) const
 {
 	if (!tmpl)
 		return false;

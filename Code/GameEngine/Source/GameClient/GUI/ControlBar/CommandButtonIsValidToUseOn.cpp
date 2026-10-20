@@ -48,7 +48,7 @@ class Object {
 public:
     void *rva0028BC58(int which);
     bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
-    bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+    bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 };
 class ActionManager {
 public:
@@ -91,7 +91,7 @@ bool Rva0035B2C3::rva0035B2C3(void *source, int target, const Coord3D *location,
                 if (pe->type == 2 && pe->upgrade) return false;
                 pe = pui->nextProduction(pe);
             }
-            return sourceObj->affectedByUpgrade(upgrade) && !sourceObj->rva00290D2B(upgrade);
+            return sourceObj->affectedByUpgrade(upgrade) && !sourceObj->hasUpgrade(upgrade);
         }
         return false;
     }

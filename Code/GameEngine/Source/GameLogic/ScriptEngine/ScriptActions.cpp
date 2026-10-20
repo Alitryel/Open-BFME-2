@@ -310,7 +310,7 @@ public:
  void rva00297000(const CommandButton *, Object *, int, int);
  void doCommandButtonAtPosition(const CommandButton *, const Coord3D *, int, int);
  bool affectedByUpgrade(const UpgradeTemplate *) const;
- bool rva00290D2B(const UpgradeTemplate *) const;
+ bool hasUpgrade(const UpgradeTemplate *) const;
  void rva00293077(const void *);
  const ThingTemplate *getTemplate() const { return m_template; }
 	unsigned char m_pad00[0x04];
@@ -1325,7 +1325,7 @@ void ScriptActions::rva003C739D(Parameter *castleName, Parameter *upgradeParm, P
 	while ((obj = hits.next()) != 0) {
 		if (!obj->affectedByUpgrade(upgrade))
 			continue;
-		if (obj->rva00290D2B(upgrade))
+		if (obj->hasUpgrade(upgrade))
 			continue;
 		const ThingTemplate *objTemplate = obj->getTemplate();
 		if (templ) {

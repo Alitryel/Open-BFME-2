@@ -5,7 +5,7 @@
 // Evidence: callers at 0x0039738F 0x0039739B pass [esi+0x50]/[esi+0x74] ranges with ebp upgrade;
 // rowed ?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z via TheGameLogic,
 // rowed ?rva00293003@Object@@QAEXPBX@Z, rowed ?rva0028BCF4@Object@@QBEPAXXZ with
-// virtual slot 3 (+0x0C) and slot 6 (+0x18), rowed ?rva00290D2B@Object@@QBE_NPBVUpgradeTemplate@@@Z,
+// virtual slot 3 (+0x0C) and slot 6 (+0x18), rowed ?hasUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z,
 // rowed Object::affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
 enum ObjectID
@@ -28,7 +28,7 @@ class Object
 public:
 	void rva00293003(const void *arg);
 	void *rva0028BCF4() const;
-	bool rva00290D2B(const UpgradeTemplate *templ) const;
+	bool hasUpgrade(const UpgradeTemplate *templ) const;
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
@@ -74,7 +74,7 @@ void Rva003972D3::rva003972D3(Rva003972D3Range *range, const UpgradeTemplate *up
 		Object *obj2 = mid->s06();
 		if (obj2 == 0)
 			continue;
-		if (obj2->rva00290D2B(upgrade))
+		if (obj2->hasUpgrade(upgrade))
 			continue;
 		if (!obj2->affectedByUpgrade(upgrade))
 			continue;

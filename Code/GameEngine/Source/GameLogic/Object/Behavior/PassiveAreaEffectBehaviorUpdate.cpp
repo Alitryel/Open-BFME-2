@@ -25,7 +25,7 @@ extern UpgradeCenter *TheUpgradeCenter;
 enum ObjectStatusTypes{status2=2};
 class Object {public:
  void *rva0028BD17()const;bool testStatus(ObjectStatusTypes)const;
- bool rva00290D2B(const UpgradeTemplate*)const;
+ bool hasUpgrade(const UpgradeTemplate*)const;
  char pad[0x438];unsigned char dead438;
 };
 // Existing Object::testStatus uses the enum spelling below.
@@ -47,7 +47,7 @@ UpdateSleepTime PassiveAreaEffectBehavior::update()
  if(!delay)delay=1;
  if(!data->upgrade.isEmpty()){
   const UpgradeTemplate *upgrade=TheUpgradeCenter->findUpgrade(data->upgrade);
-  if(!upgrade||!owner->rva00290D2B(upgrade))return (UpdateSleepTime)delay;
+  if(!upgrade||!owner->hasUpgrade(upgrade))return (UpdateSleepTime)delay;
  }
  Rva00484B6BCheckInterface *iface=(Rva00484B6BCheckInterface*)owner->rva0028BD17();
  if(iface){if(iface->s2C())return (UpdateSleepTime)delay;}else if(owner->testStatus(status2))return (UpdateSleepTime)delay;

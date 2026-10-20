@@ -10,7 +10,7 @@
 //
 // Evidence: the literal "CreateObjectDieIfEldestKindof" appears in the caller at 0x00485D11 and
 // passes the same `this`; vtable slot 12. Callees are all rowed: findUpgrade 0x0026F26D,
-// getControllingPlayer 0x0028AFA9, Player::rva002AB87D 0x002AB87D, Object::rva00290D2B 0x00290D2B,
+// getControllingPlayer 0x0028AFA9, Player::rva002AB87D 0x002AB87D, Object::hasUpgrade 0x00290D2B,
 // GameLogic::findObjectByID 0x00049DC5 and ObjectCreationList::create 0x001F08D3.
 // ModuleData view: OCL at +0x38, the upgrade name vector at +0x40 (begin) / +0x44 (end).
 //
@@ -47,7 +47,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-	bool rva00290D2B(const UpgradeTemplate *t) const;
+	bool hasUpgrade(const UpgradeTemplate *t) const;
 };
 
 enum ObjectID
@@ -119,7 +119,7 @@ void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 			if (t->m_04 == 0)
 				ok = obj->getControllingPlayer()->rva002AB87D(t);
 			else
-				ok = obj->rva00290D2B(t);
+				ok = obj->hasUpgrade(t);
 			if (!ok)
 				return;
 		}

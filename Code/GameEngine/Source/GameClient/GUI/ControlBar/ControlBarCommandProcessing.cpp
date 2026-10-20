@@ -290,7 +290,7 @@ class Object { public:
 Player *getControllingPlayer() const;
 ObjectID getID() const { return id; }
 const ThingTemplate *getTemplate() const { return thingTemplate; }
-void *rva0028BC58(int); bool rva00290D2B(const UpgradeTemplate*) const;
+void *rva0028BC58(int); bool hasUpgrade(const UpgradeTemplate*) const;
 void *rva0028C197() const;
 Module *module(NameKeyType key) const { return findModule(key); }
 protected: Module *findModule(NameKeyType) const;
@@ -638,7 +638,7 @@ CBCommandStatus ControlBar::processCommandUI(const CommandButton *commandButton,
             if (production && production->canQueue(upgrade)==4) {
                 UI->message(AsciiString("GUI:ProductionQueueFull")); break;
             }
-            if (obj->rva00290D2B(upgrade)) break;
+            if (obj->hasUpgrade(upgrade)) break;
             static NameKeyType castleMemberKey=TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
             struct CastleMemberView { char pad[0x18]; ObjectID castleID; };
             CastleMemberView *member=(CastleMemberView*)obj->module(castleMemberKey);

@@ -623,8 +623,7 @@ public:
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
 	Player *getControllingPlayer() const;
 	bool isInside(PolygonTrigger *trigger);
-	// Zero Hour's Object::hasUpgrade, rowed under its address name.
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	float getRva280() const { return m_280; }
 	// The template's KindOf bit 0x68 read in place: a getTemplate()
 	// temporary swaps retail's ESI/EDI choice in evaluateCanBuildAtBase.
@@ -1854,7 +1853,7 @@ bool ScriptConditions::rva003E61A4(Condition *pCondition, Parameter *pPlayerParm
 					continue;
 				for (DLINK_ITERATOR<Object> oiter = team->iterate_TeamMemberList(); !oiter.done(); oiter.advance()) {
 					Object *pObj = oiter.cur();
-					if (upgrade && !pObj->rva00290D2B(upgrade))
+					if (upgrade && !pObj->hasUpgrade(upgrade))
 						continue;
 					if (!types.m_types->isInSet(pObj->getTemplate()))
 						continue;

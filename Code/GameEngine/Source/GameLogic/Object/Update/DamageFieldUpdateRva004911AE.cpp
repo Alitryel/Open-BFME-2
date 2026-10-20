@@ -53,7 +53,7 @@ class Object
 {
 public:
 	Player *getControllingPlayer() const;
-	bool rva00290D2B(const UpgradeTemplate *upgrade) const;	// has the upgrade
+	bool hasUpgrade(const UpgradeTemplate *upgrade) const;	// has the upgrade
 	const Coord3D *getPosition() const { return &m_pos; }
 	ObjectID getID() const { return m_id; }
 	unsigned char m_pad00[0x38];
@@ -232,7 +232,7 @@ UpdateSleepTime DamageFieldUpdate::update()
 		if (data->m_requiredUpgrade != AsciiString::TheEmptyString)
 		{
 			const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(data->m_requiredUpgrade);
-			if (upgrade && !me->rva00290D2B(upgrade))
+			if (upgrade && !me->hasUpgrade(upgrade))
 				return UPDATE_SLEEP_NONE;
 		}
 

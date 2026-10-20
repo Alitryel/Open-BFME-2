@@ -151,7 +151,7 @@ class ContainListInterface:public Slots<70>{public:virtual Rva0036AE51ListView r
 class UpgradeTemplate;class UpgradeCenter{public:const UpgradeTemplate *findUpgrade(const AsciiString&)const;};extern UpgradeCenter *TheUpgradeCenter;
 class Player{public:char pad[0x54];int m_index;};class PlayerList{public:char pad[0x10];Player *m_local;};extern PlayerList *ThePlayerList;
 class Rva00439E0C{public:bool rva00439E0C(Object*,Object*,int,int);};extern GameLogic *TheGameLogic;
-class Object{public:bool testStatus(ObjectStatusTypes) const;bool isKindOf(KindOfType) const;bool rva00290D2B(const UpgradeTemplate*) const;float getVisionRange()const;
+class Object{public:bool testStatus(ObjectStatusTypes) const;bool isKindOf(KindOfType) const;bool hasUpgrade(const UpgradeTemplate*) const;float getVisionRange()const;
  int rva0028F4EF();int rva002933CD();Rva00373EC6 *rva0028F4BC();protected:Module *findModule(NameKeyType)const;friend class StealthDetectorUpdate;public:
  Player *getControllingPlayer()const;Relationship getRelationship(const Object*)const;CellShroudStatus getShroudStatusForPlayer(int) const;
  char pad[0x38];Coord3D m_pos;char pad44[0x74-0x44];ObjectID m_id;char pad78[0x250-0x78];ContainModuleInterface *m_contain;
@@ -170,7 +170,7 @@ UpdateSleepTime StealthDetectorUpdate::update(){
  if(self->testStatus((ObjectStatusTypes)0x13))return UPDATE_SLEEP_FOREVER;
  Object *containedBy=self->m_container;
  if(containedBy){ContainModuleInterface *contain=containedBy->m_contain;if(contain){if(contain->isGarrisonable()){if(!data->m_garrison)return (UpdateSleepTime)data->m_rate;}else if(!data->m_transport)return (UpdateSleepTime)data->m_rate;}}
- if(data->m_upgrade.compare(AsciiString::TheEmptyString)!=0){const UpgradeTemplate *upgrade=TheUpgradeCenter->findUpgrade(data->m_upgrade);if(!upgrade||!self->rva00290D2B(upgrade))return UPDATE_SLEEP_NONE;}
+ if(data->m_upgrade.compare(AsciiString::TheEmptyString)!=0){const UpgradeTemplate *upgrade=TheUpgradeCenter->findUpgrade(data->m_upgrade);if(!upgrade||!self->hasUpgrade(upgrade))return UPDATE_SLEEP_NONE;}
  float range=self->getVisionRange();if(data->m_range>0.0f)range=data->m_range;
  bool foundSomeone=false;
  BfmeWideResult iter=ThePartitionManager->iterateObjectsInRange(&self->m_pos,range,0,

@@ -12,7 +12,7 @@ enum NameKeyType;
 class Player { public: bool rva002AB87D(const UpgradeTemplate*) const; };
 class Object { public:
  Player *getControllingPlayer() const;
- bool rva00290D2B(const UpgradeTemplate*) const;
+ bool hasUpgrade(const UpgradeTemplate*) const;
  // Retail's Object::findModule is a protected member, so the mangled call
  // name carries that access; only the friend below may call it here.
 protected:
@@ -53,7 +53,7 @@ void DelayedDeathBody::internalChangeHealth(float amount,DamageInfo *info)
   }
   if(module->upgrade7C) {
    bool playerComplete=player && player->rva002AB87D(module->upgrade7C);
-   bool objectComplete=obj->rva00290D2B(module->upgrade7C);
+   bool objectComplete=obj->hasUpgrade(module->upgrade7C);
    if(!playerComplete && !objectComplete) goto finish;
   }
   LifetimeUpdate *lifetime=(LifetimeUpdate*)object()->findModule((NameKeyType)TheNameKeyGenerator->nameToKey("LifetimeUpdate"));

@@ -97,7 +97,7 @@ class Object
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	void *rva0028BC94();
-	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
+	Bool hasUpgrade(const UpgradeTemplate *upgrade) const;
 	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Player *getControllingPlayer() const;
 	Int rva00294ADD(Int entry);
@@ -122,7 +122,7 @@ Int Object::rva00294ADD(Int entry)
 		return 9;
 	if (upgrade->getUpgradeType() == 1)
 	{
-		if (rva00290D2B(upgrade) || !affectedByUpgrade(upgrade))
+		if (hasUpgrade(upgrade) || !affectedByUpgrade(upgrade))
 			return 9;
 	}
 	if (getControllingPlayer() != 0)
@@ -158,7 +158,7 @@ Int Object::rva00294ADD(Int entry)
 					}
 					else if (prereq->getUpgradeType() == 1)
 					{
-						Bool has = rva00290D2B(prereq);
+						Bool has = hasUpgrade(prereq);
 						if (requireAll)
 						{
 							if (has)
