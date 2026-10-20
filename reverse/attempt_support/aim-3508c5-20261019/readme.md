@@ -60,3 +60,14 @@ The candidate is a reusable partial, not an exact recovery. CSV/pin checks and f
 - Next: find a source-side use that weights source over the victim group
   without emitting code, or a shape of the struct copy (`movsd` block at
   0x350AEB, which reloads esi=source/edi=weapon) that keeps source in ESI.
+
+## Resolution (2026-10-20, claude-opus-5-5)
+
+Landed exact in `Code/GameEngine/Source/GameLogic/AI/AIAttackAimAtTargetStateUpdateInternal.cpp`
+from the native-ID body (no source-ID snapshot). The source/victim ESI/EDI swap was
+caused by the `const Real &turnLimit = source->getTemplate()->m_53c` binding. The
+WorldBuilder twin reads the template twice: `if (source->getTemplate()->m_53c < 360.0f)
+{ ... Real turnLimitValue = source->getTemplate()->m_53c; ... }`. With that shape the
+roles flip and every byte matches. Dropping the `turnLimitValue` local as well
+regresses (200 instructions). A permuter seed had found that the shape of the
+turn-limit block drives the tie (its own change was not semantic-preserving).
