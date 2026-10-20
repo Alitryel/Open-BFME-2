@@ -141,7 +141,28 @@ template <> void vector<ProductionPrerequisite, allocator<ProductionPrerequisite
 template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, const WeaponTemplateSet &);
 }
 
-template <> bool SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper::operator()(const BitFlags<17> &, const BitFlags<17> &) const;
+// Preserve the native comparator's visible read-only contract. The established
+// ledger spelling is BitFlags<17>; retail tests 21 bits in its first flag word.
+// BitFlags contains only STLport bitset storage: one 32-bit unsigned long at
+// offset zero. Read that measured word directly, without the legacy bit-count
+// bound checked by BitFlags::test. This does not establish the original count.
+typedef char BfmeWeaponFlagsWordSize[(sizeof(unsigned long) == 4) ? 1 : -1];
+typedef char BfmeWeaponFlagsStorageSize[(sizeof(BitFlags<17>) == 4) ? 1 : -1];
+template <> __declspec(noinline) bool SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper::operator()(const BitFlags<17> &a, const BitFlags<17> &b) const
+{
+    const unsigned long *aWords = reinterpret_cast<const unsigned long *>(&a);
+    const unsigned long *bWords = reinterpret_cast<const unsigned long *>(&b);
+    for (int i = 0; i < 21; ++i)
+    {
+        bool aBit = (aWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        bool bBit = (bWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        if (aBit && !bBit)
+            return false;
+        if (!aBit && bBit)
+            return true;
+    }
+    return false;
+}
 
 // The recovered Weapon map providers own these operations. This donor unit's
 // incidental copies differ from retail; refer to the verified bodies instead.

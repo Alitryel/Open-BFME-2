@@ -1,22 +1,14 @@
 // cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/reference/shims/asciistring_downloadmanager /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 // stlport
 //
-// Retail 0x001429C0 (629 B): STLport _Rb_tree::insert_unique(iterator hint,
-// const value&) for SparseMatchFinder<WeaponTemplateSet, BitFlags<17>>::MatchMap,
-// a byte-twin (tools/twin_scan.py) of the hinted insert_unique at 0x0019AA50
-// (Rva0019AA50TreeInsertUnique.cpp): same compile chain (PreRTS.h,
-// _BFME_RETAIL_TREE_INSERT_LAYOUT, _STLP_NO_EXCEPTIONS), only the comparator
-// and node-insert callees differ. The comparator is the already-matched
-// out-of-line ??RMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@
-// (SparseMatchFinderMapHelperThunks.cpp). SparseMatchFinder is restated here with
-// MapHelper::operator() given a VISIBLE body under __declspec(noinline): a
-// declared-only comparator is opaque to MSVC 7.1, which then assumes the call may
-// write the tree, reloads the header pointer after it and cannot cross-jump the
-// three `return insert_unique(v).first;` tails (661 B). With the body visible the
-// call is still emitted out of line (and pinned), but the compiler knows it is
-// side-effect free and produces retail's 629 B layout. See docs/shape_levers.md.
-// The reference BitFlags template is renamed away with a macro so a one-word
-// stand-in can carry the mangled name; the body only compares keys by reference.
+// Weapon SparseMatchFinder tree lookup: _M_find at 0x0033AF5F (92 bytes)
+// and const find at 0x0033B81C (20 bytes). Native _M_find calls the verified
+// 21-bit comparator 0x0033AD5C and reads the key at node +0x10.
+// Keep the comparator's read-only body visible and noinline: an opaque
+// declaration changes MSVC7.1 purity assumptions and lookup code generation.
+// BitFlags<17> retains the established ledger spelling; the native loop bound
+// is 21, not an inference about the original template argument.
+// STLport 4.5.3 and pinned Zero Hour SparseMatchFinder.h supply the algorithms.
 
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #define _STLP_NO_EXCEPTIONS
@@ -31,7 +23,7 @@ template <int Bits>
 class BitFlags
 {
 public:
-	unsigned int m_bits;
+	unsigned int m_flagWords[(Bits + 31) / 32];
 };
 
 template <class Set, class Flags>
@@ -42,7 +34,19 @@ public:
 	{
 		__declspec(noinline) bool operator()(const Flags &a, const Flags &b) const
 		{
-			return a.m_bits < b.m_bits;
+			for (int i = 0; i < 21; ++i)
+			{
+				bool aBit = (a.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				bool bBit = (b.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				if (aBit && bBit)
+					continue;
+				if (!aBit && !bBit)
+					continue;
+				if (!aBit)
+					return true;
+				return false;
+			}
+			return false;
 		}
 	};
 };
@@ -59,14 +63,12 @@ typedef _STL::_Rb_tree<const WeaponSetFlags, WeaponTemplateSetPair,
 template <> WeaponTemplateSetTree::_Link_type
 WeaponTemplateSetTree::_M_create_node(const WeaponTemplateSetPair &);
 
-// ?insert_unique@?$_Rb_tree@$$CBV?$BitFlags@$0BB@@@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Select1st@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@UMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@V?$allocator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@@2@U32@ABU?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@2@@Z present-unmatched
 template WeaponTemplateSetTree::iterator
 WeaponTemplateSetTree::insert_unique( WeaponTemplateSetTree::iterator,
 	const WeaponTemplateSetPair & );
 
-// The un-hinted insert_unique and the find of the same tree (dumps beside the
-// hinted insert: 0x00140F90/0x00141150 and 0x00141220/0x001412A0).
-// ?insert_unique@?$_Rb_tree@$$CBV?$BitFlags@$0BB@@@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Select1st@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@UMapHelper@?$SparseMatchFinder@VWeaponTemplateSet@@V?$BitFlags@$0BB@@@@@V?$allocator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@3@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBV?$BitFlags@$0BB@@@PBVWeaponTemplateSet@@@2@@Z present-unmatched
+// The insertion owners at 0x0033C176/0x0033C646 are verified in
+// stlport_rb_tree_0033c646_insert.cpp; retain their identical instantiations.
 template _STL::pair<WeaponTemplateSetTree::iterator, bool> WeaponTemplateSetTree::insert_unique( const WeaponTemplateSetPair & );
 const WeaponTemplateSetPair *bfmeFindAnchorWeaponTemplateSetTree( const WeaponTemplateSetTree &tree, const WeaponSetFlags &key )
 {
