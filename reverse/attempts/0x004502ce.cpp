@@ -1,4 +1,6 @@
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
+// partial score=0.97 date=2026-10-20
+// ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.9 date=2026-10-14
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.98 date=2026-10-11
@@ -464,7 +466,7 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 		Rva0044EAF3 mask;
 		obj->clearStatus(*(const Rva00346BC0 *)mask.rva0044EAF3(0, 0x18, 0x46, 0x17));
 	}
-	AIUpdateInterface *ai = getObject()->getAI();
+	AIUpdateInterface *ai = obj->getAI();
 	if (ai)
 	{
 		ai->m_3ca = false;
@@ -500,13 +502,13 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 			{
 				a->vslot43(target, data->m_2C, obj);
 				float value = c->vslot05() * 100.0f + data->m_30;
-				if ((data->m_28 ? (value > 100.0f) : (value > 100.0f)))
+				if (value > 100.0f)
 					value = 100.0f;
 				c->vslot21(value, 0);
 				obj->setSpecialModelConditionState(data->m_24, data->m_28);
 				target->setSpecialModelConditionState(data->m_24, data->m_28);
-				if (obj->getAI())
-					obj->getAI()->rva0045003E(data->m_28, CMD_FROM_AI);
+				if (ai)
+					ai->rva0045003E(data->m_28, CMD_FROM_AI);
 			}
 		}
 		}
