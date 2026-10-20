@@ -60,6 +60,14 @@ seen c2 produce.
 - Mix types per name: `__ns`/`__ps` as `basic_string` (outlined dtor) and
   `__buf` as storage, or the reverse, and check which group each name joins.
 
+## Merge note (claudeb4, 2026-10-21)
+
+Both parallel banks rescored with one scorer (`build/m12190/score.py`, fit =
+.5 mnemonic + .3 instruction + .2 byte): claude3 r25 (commit e7ee3c9b6c) fit
+0.9000, nd 80, 2860 B, D=10 F=9; claudeb4 `o_g` fit 0.9766, nd 21, 2820 B,
+D=13 F=7 (retail D=13 F=7). The bank keeps `o_g`; r25's per-site
+inline_depth(0) findings stay below for the remaining residue.
+
 ## Round 4 (claude3, 2026-10-21): per-site inline_depth(0)
 
 Bank replaced by `reverse/attempts/0x00012190.cpp` r25 (fit 0.898, nd 109; v2 was
@@ -100,3 +108,66 @@ Bank replaced by `reverse/attempts/0x00012190.cpp` r25 (fit 0.898, nd 109; v2 wa
 
   So no budget or instantiation-order effect reproduces retail's "early sites
   outlined, final teardown inline" split outside the real body.
+
+## Round claudeb4 (2026-10-20, later): bank fit 0.9766, nd 21
+
+The new bank (`reverse/attempts/0x00012190.cpp`, scratch name `o_g`) reproduces
+retail's full destruction map. With states, the call sequence is
+`D5 D4 Da D9 D10 Df Df F15 F14 F14 D14 D14 D14 F-1 D D D F F F`, where D is the
+wide dtor 0xB3C0 and F is free 0x30830. It equals retail.
+
+### What produces the map
+
+- **Leaks-check shim.** `template <> inline allocator<unsigned short>::~allocator()
+  { if (_MONEY_LEAKS_CHECK) free(0); }` before `<locale>`, with `free` declared
+  with C++ linkage (`_INC_STDLIB` suppressed).
+- **Why it works.** The shim gives the inlinee a proxy EH state. c2 then outlines
+  the ternary temps, the `__cs` scope end and both early-exit groups, and inlines
+  only the final exit. This split is structural, not budget: with four final-exit
+  locals (`ex/e1`), all four are inlined and the early exits stay out of line.
+- **No proxy state, no split.** Without a proxy state everything inlines (D=0):
+  - a vendor or trivial allocator;
+  - `extern "C"` free, `free(...) throw()` or `__declspec(nothrow)` free;
+  - a leaks call to another C++ function while free is `extern "C"`;
+  - shims on `deallocate`, `_M_deallocate_block` or `~_String_base` (dt/v0..v8).
+- **Noinline `~_String_base`.** It gives D=13 F=5, fit 0.9147.
+
+### Residue
+
+1. **Tag store and bool slot.** `_M_assign_dispatch<wchar_t*>` (A, 0x130A0) is
+   visible, so c2 knows A ignores its `__false_type` tag. It drops retail's
+   `mov byte [esp+0x1e],0` and shifts the bool slot.
+   - Diagnostic `q_diag`: a defined specialization calling an opaque
+     `__tag_sink(&t)` fixes both (fit 0.9847, nd 16). That is not a landable body.
+   - Every decl-only member-template specialization form ICEs (C1001).
+2. **Proxy EH states.** The three inlined final-exit dtors carry proxy states
+   0x16/0x17/0x18 (parents 9/4/0, proxies at ebp-0xb4/-0x98/-0xa4). Retail stores
+   the parent states 9/4/0 instead. States 0..0x15 equal retail's in parents and
+   object offsets.
+3. **Load order.** `mov edx,[esp+0xec]` is scheduled before the `[esi+4]` store
+   at 0x12bf3; retail loads it after.
+
+### Retail facts
+
+- **D's own frame.** D (0xB3C0) has state 0, whose funclet is `[ebp-0x10]+8` →
+  0x69E440, a 1-byte `ret` (the folded empty `~_STLP_alloc_proxy`). So retail's
+  string dtor did carry a proxy state, but its inline copies in do_get do not.
+- **Funclet targets.** Wide funclets jump to D, narrow ones to 0x542D70.
+
+### Refuted this round (no change from o_g/q_diag)
+
+- **Compile order:** a noinline helper before or after do_get that does any of:
+  - destroys a wide string or `_String_base`;
+  - explicitly destroys `_STLP_alloc_proxy`;
+  - holds a proxy or an allocator across a throwing call;
+  - passes a temporary wide string.
+- **Shim tweaks:** a `throw()` exception specification on the shim dtor.
+- **Explicit locals:** an extra explicit local (`ex/e1`): fit 0.72, because the
+  extra dtor goes out of line at the early exits.
+
+### Landing caveat
+
+The 13 calls name `??1?$basic_string@G...`. Its symbol-map candidates are
+0x142D70 (an ICF twin row), not 0xB3C0; `??1?$_String_base@G` is pinned at
+0xB3C0 (`symbols.csv:2764`). The scratch scorer forces both names to 0xB3C0. An
+exact body may still need the ledger to resolve `~basic_string<G>` to 0xB3C0.
