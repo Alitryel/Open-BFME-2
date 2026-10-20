@@ -3,8 +3,8 @@
 //
 // ShroudManagerImpl::DoShroudReveal (retail 0x0073CAF0) and UndoShroudReveal
 // (retail 0x0073CCC0), split out of ShroudManagerImpl008FBA40.cpp with its flags.
-// Their polygon rasters 0x0073BFE0 and 0x0073C450 are not yet retail's bodies
-// (banks reverse/attempts/0x0073bfe0.cpp and 0x0073c450.cpp); while the two callers sat in
+// Their polygon rasters 0x0073BFE0 and 0x0073C450 live in Rva0073BFE0Raster.cpp and
+// Rva0073C450Raster.cpp; while they were unrowed and the two callers sat in
 // ShroudManagerImpl008FBA40.cpp, those unresolved names kept that whole unit
 // from linking. Nothing else in that unit references them.
 // Keep MSVC's float math overloads local; the matched operations inline.

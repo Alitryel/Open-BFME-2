@@ -219,6 +219,14 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   for k=0..60 as `if (fast) {...} else {...}` with the generic transform at
   the top. WB's shape (fast block ends in `return`, the generic locals
   follow it at function scope) was exact at k=0.
+  When no k fixes every site, scan k per site first: each site flips on its
+  own window of k (period 32), and if no k lies in every site's good window,
+  the sites' relative numbering is wrong. Find a real construct that adds
+  temps between the sites. The 0x0073BFE0/0x0073C450 polygon rasters had
+  four inlined edge `set` sites with the start sum in the wrong register.
+  PREV/NEXT index-wrap macros left at least one site wrong for every k from
+  0 to 160. The same ternaries as `__forceinline int prevIndex(int i, int n)`
+  helpers were exact at k=0.
 - **The float `tan` overload is two inline levels.** In `<math.h>`,
   `tan(float)` forwards to `tanf`, which calls `tan(double)`. Each level moves
   the call's `pop ecx` cleanup later. `tanf(x)` (one level) at one site and
