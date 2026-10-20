@@ -32,7 +32,7 @@ typedef long HRESULT;
 typedef unsigned long DWORD;
 typedef unsigned long ULONG;
 
-struct IUnknown
+struct __declspec(uuid("00000000-0000-0000-c000-000000000046")) IUnknown
 {
 	virtual HRESULT __stdcall QueryInterface(const IID &requestedId, void **result) = 0;
 	virtual ULONG __stdcall AddRef() = 0;
@@ -80,7 +80,7 @@ public:
 
 	static const IID &GetIID() throw()
 	{
-		return g_bfmeIidTSA;
+		return ThisIIID::GetIID();
 	}
 
 	HRESULT CreateInstance(const CLSID &classId, IUnknown *outer, DWORD context) throw()
@@ -91,7 +91,7 @@ public:
 
 		if (context & (4 | 16)) {
 			IUnknown *unknownInstance;
-			createResult = CoCreateInstance(classId, outer, context, IID_IUnknown,
+			createResult = CoCreateInstance(classId, outer, context, __uuidof(IUnknown),
 				reinterpret_cast<void **>(&unknownInstance));
 
 			if (createResult >= 0) {
