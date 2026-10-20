@@ -35,3 +35,10 @@ ID branch as a __forceinline free helper taking `const set<int>&` (param propaga
 and checking whether retail's `this` is a secondary-base pointer whose uses in source go through a
 separately derived pointer (the call is on this-0xFC).
 
+
+## Session 2 (22:43-22:50 PT): the two untried ideas, both refuted
+- m_170 reads under `&&` / ternary / `empty()` / `!size()`, and a ternary final findObjectByID: all byte-identical to h2 (909 B, struct 12, mem 34, reg 9).
+- A `this` alias: `HordeContain *self = this` (before or after the slot call), an `_STL::set<int> &ids = m_170` reference: folded, identical.
+  `ContainModuleInterface *ci = this; ci->slot70` is worse (916 B, reg 15).
+- Retail detail: ESI=this is spilled to [ebp-0x10] before the slot call. The ID-set loops then reload it every iteration (`mov eax,[ebp-0x10]; cmp edi,[eax+0x54]`) and ESI is reused for obj.
+  So retail gives `this` LOWER priority than obj/k/pos; ours keeps this in EBX. The lever is allocator weight, not source aliasing.
