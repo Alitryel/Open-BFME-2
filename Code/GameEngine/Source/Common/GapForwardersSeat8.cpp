@@ -560,6 +560,13 @@ int Rva0030C4A6::rva0030C4A6() const
 	return ((const Rva0030BCAEDwordField *)((const char *)this - *(const int *)((char *)this - 4)))->get();
 }
 
+class Rva002BFBF0 { public: float rva002BFBF0(); };
+class Rva0030C4AE { public: float rva0030C4AE(); };
+float Rva0030C4AE::rva0030C4AE()
+{
+	return ((Rva002BFBF0 *)((char *)this - *(int *)((char *)this - 4)))->rva002BFBF0();
+}
+
 class Rva0030BCB2 { public: float rva0030BCB2(); };
 class Rva0030C4B6 { public: float rva0030C4B6(); };
 float Rva0030C4B6::rva0030C4B6()

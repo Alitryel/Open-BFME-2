@@ -134,10 +134,18 @@ float Rva0018BD82Get(void)
 }
 
 
-// ?Rva002BFBF0Get@@YAMXZ @ 0x002bfbf0 (7B) over 0x00BBAEAC (0.0f).
-// Follows a ret (prev C3); carried by 28 .rdata vtable slots, no direct callers,
-// no branch sources. Opaque address-derived name.
-float Rva002BFBF0Get(void)
+// ?rva002BFBF0@Rva002BFBF0@@QAEMXZ @ 0x002bfbf0 (7B) over 0x00BBAEAC (0.0f).
+// Follows a ret (prev C3); carried by 28 .rdata vtable slots and reached by the
+// vtordisp thunk 0x0030C4AE (sub ecx,[ecx-4]; jmp), so it is a virtual member
+// (ICF-folded 'return 0.0f' override), not a free function. this is unused, so
+// the thiscall body is the same seven bytes. Opaque address-derived name.
+class Rva002BFBF0
+{
+public:
+	float rva002BFBF0();
+};
+
+float Rva002BFBF0::rva002BFBF0()
 {
 	return 0.0f;
 }
