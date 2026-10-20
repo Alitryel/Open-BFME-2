@@ -97,7 +97,7 @@ public:
 class SpecialAbilityUpdate
 {
 public:
-	void rva0044F72E();
+	void killSpecialObjects();
 	Object *rva0044FEB6();
 
 private:
@@ -116,7 +116,7 @@ Object *SpecialAbilityUpdate::rva0044FEB6()
 	if (m_count68 == md->m_max80) {
 		if (md->m_flagA9)
 			return 0;
-		rva0044F72E();
+		killSpecialObjects();
 	}
 	const ThingTemplate *tmplRaw = TheThingFactory->findTemplate(md->m_name40);
 	if (tmplRaw != 0) {

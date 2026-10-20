@@ -43503,7 +43503,7 @@ _VP6_UpdateQC,,0x001B75B0,93,Code/Libraries/Source/VP6/UpdateQC.cpp,matched,Clea
 ?rva0029D30A@Rva0029D30A@@QAEXXZ,,0x0029D30A,72,Code/GameEngine/Source/GameClient/Rva0029D30AClear.cpp,matched,InGameUI list clearer via rowed erase and delete
 ??1FloatingTextData@@UAE@XZ,,0x0029D3B0,75,Code/GameEngine/Source/GameClient/Rva0029D3B0Dtor.cpp,matched,dtor via vtable 0x7FD1C0 DisplayStringManager and wide release
 ?rva005C962C@Rva005C962C@@QAEAAU1@ABU1@@Z,,0x005C962C,45,Code/Libraries/Source/WWVegas/WWLib/Rva005C962CAssign.cpp,matched,copy assign via StringBase set and TreeHintRef op caller 0x005C97EF
-?rva0044F72E@SpecialAbilityUpdate@@QAEXXZ,,0x0044F72E,118,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateXfer.cpp,matched,list destroy clear override 0x15 weapon lock via m64 m68
+?killSpecialObjects@SpecialAbilityUpdate@@QAEXXZ,,0x0044F72E,118,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateXfer.cpp,matched,list destroy clear override 0x15 weapon lock via m64 m68
 ?rva002736A8@Drawable@@QAEXXZ,,0x002736A8,18,Code/GameEngine/Source/GameClient/Drawable_rva00273648.cpp,matched,Drawable 0x354 rva00270025 call 10 sibling walks
 ?rva0027366A@Drawable@@QAEXXZ,,0x0027366A,28,Code/GameEngine/Source/GameClient/Drawable_rva00273648.cpp,matched,Drawable module walk slot 0xE4 gap sibling
 ?rva00459109@Rva00459109@@QAEHXZ,,0x00459109,75,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva00459109.cpp,matched,chain via 0x0045906E float m10 vs 0 plus double compare

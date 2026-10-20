@@ -587,7 +587,7 @@ protected:
 public:
 	void rva0044EE07();
 	void rva0044EE80();
-	void rva0044F72E();
+	void killSpecialObjects();
 	virtual void v14();
 	virtual void startPreparation();
 	virtual void startPacking(bool success);
@@ -744,7 +744,7 @@ void SpecialAbilityUpdate::endPreparation()
 	case 0x15:
 	case 0x1a:
 	case 0x1d:
-		rva0044F72E();
+		killSpecialObjects();
 		break;
 	}
 }

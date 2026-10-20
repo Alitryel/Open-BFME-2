@@ -332,7 +332,7 @@ struct ModuleDataFull
 class SpecialAbilityUpdate : public UpdateModule, public SpecialTrailing
 {
 public:
-	void rva0044F72E();
+	void killSpecialObjects();
 protected:
 	virtual void xfer(Xfer *xfer);
 	void validateSpecialObjects();
@@ -419,7 +419,7 @@ void SpecialAbilityUpdate::validateSpecialObjects()
 	}
 }
 
-void SpecialAbilityUpdate::rva0044F72E()
+void SpecialAbilityUpdate::killSpecialObjects()
 {
 	const ModuleDataFull *md = (const ModuleDataFull *)m_moduleData;
 	Overridable *holder = md->m_override38;

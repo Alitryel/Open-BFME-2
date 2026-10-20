@@ -149,7 +149,7 @@ class Rva0044E655 {public:bool rva0044E655();bool rva0044E689();
  char pad00[8];Object *m_object;char pad0C[0x7E-0xC];unsigned char m_7E,m_7F;
 };
 bool Rva0044E655::rva0044E689(){if(m_object->m_ai==0)return false;return m_7E==0||m_7F==0;}
-class Rva00451EAC {public:void rva0044F72E();void rva00451EAC();};
+class Rva00451EAC {public:void killSpecialObjects();void rva00451EAC();};
 struct AbilityObjectNode {AbilityObjectNode *next,*previous;ObjectID id;};
 class SpecialAbilityUpdate;
 class AbilityPrimary {public:virtual void v00();const SpecialAbilityUpdateModuleData *m_data;Object *m_object;};
@@ -183,7 +183,7 @@ virtual void onExit(bool,bool);
  virtual UpdateSleepTime update();
  protected: void validateSpecialObjects();void endPreparation(); public: void rva0044EE80();
  protected: bool isWithinAbilityAbortRange() const;bool isWithinStartAbilityRange(); public:
- protected: Object *getObject() const{return m_object;}bool initLaser(Object*,Object*);public:void rva0044F72E();void rva00451EAC(); bool rva0044F679();void rva0044F6D0();
+ protected: Object *getObject() const{return m_object;}bool initLaser(Object*,Object*);public:void killSpecialObjects();void rva00451EAC(); bool rva0044F679();void rva0044F6D0();
  UpdateSleepTime rva0044F881();
  char pad20[4];int m_useCount;char pad28[4];unsigned m_expiryFrame;int m_packingState;
  char pad34[0x3C-0x34];unsigned m_prepFrames;int m_targetID;Coord3D m_targetPos;
@@ -382,9 +382,9 @@ bool SpecialAbilityUpdate::initLaser(Object *specialObject,Object *target)
  const SpecialAbilityUpdateModuleData *d=m_data;
  static NameKeyType key_LaserUpdate=TheNameKeyGenerator->nameToKey("LaserUpdate");
  Drawable *draw=((Thing*)specialObject)->getDrawable();
- if(!draw){rva0044F72E();return false;}
+ if(!draw){killSpecialObjects();return false;}
  LaserUpdate *update=(LaserUpdate*)draw->findClientUpdateModule(key_LaserUpdate);
- if(!update){rva0044F72E();return false;}
+ if(!update){killSpecialObjects();return false;}
  Coord3D startPos;
  if(!getObject()->getSingleLogicalBonePosition(d->m_attachBone.str(),&startPos,0)){
   const Coord3D *position=&m_object->m_position;
