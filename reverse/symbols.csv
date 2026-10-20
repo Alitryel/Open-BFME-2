@@ -2136,7 +2136,6 @@ name,address,notes
 ??0PorcupineFormationBodyModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x004C1FE6,(Thing*;ModuleData*) ctor called by PorcupineFormationBodyModule::friend_newModuleInstance (0x002517CF); class from the ModuleFactory registration literal
 ??0PreorderCreate@@QAE@PAVThing@@PBVModuleData@@@Z,0x004B9257,(Thing*;ModuleData*) ctor called by PreorderCreate::friend_newModuleInstance (0x00250C1B); class from the ModuleFactory registration literal
 ??0PrereqUnitRec@ProductionPrerequisite@@QAE@ABU01@@Z,0x004EE1A9,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
-??0PristineBoneInfo@@QAE@XZ,0x000423C5,doSingleBoneName (0x000BD2BF) +0x1E builds its PristineBoneInfo local through this address; folded with the matched Matrix3D default ctor (ICF alias)
 ??0ProductionPrerequisite@@QAE@ABV0@@Z,0x002D08DA,prereq copy ctor called from the retail REL32 in _Construct at 0x002D0C33; 77B EH body ending c9 c2-04-00 with next prologue 55-8b-ec; ghidra 10B extent understated
 ??0ProductionPrerequisite@@QAE@XZ,0x004F527A,BFME1 ctor mangling; 3x 0x611E58 vector inits at +0 +0xC +0x18; 3 prereq-cluster callers
 ??0ProductionSpeedBonus@@QAE@PAVThing@@PBVModuleData@@@Z,0x004C2EF5,(Thing*;ModuleData*) ctor called by ProductionSpeedBonus::friend_newModuleInstance (0x00251AC6); class from the ModuleFactory registration literal

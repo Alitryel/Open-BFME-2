@@ -48,6 +48,8 @@ template <> _Rb_tree<NameKeyType, pair<const NameKeyType, PristineBoneInfo>, _Se
 #include "WW3D2/Mesh.h"
 #include "WW3D2/MeshMdl.h"
 #include "Common/BitFlagsIO.h"
+// Use the verified native map subscript provider at 0x000BCF68.
+namespace _STL { template <> PristineBoneInfo &map<NameKeyType, PristineBoneInfo, less<NameKeyType>, allocator<pair<const NameKeyType, PristineBoneInfo> > >::operator[](const NameKeyType &); }
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
@@ -135,10 +137,5 @@ const ModelConditionInfo *_bfmeModelDrawO1Anchor(ModelConditionInfo::WeaponBarre
 }
 #pragma inline_depth()
 
-// PristineBoneInfo's implicit copy constructor only comes out of line through
-// the map element assignment path.
-// ?_bfmePristineBoneAnchor@@ absent-from-retail
-void _bfmePristineBoneAnchor(PristineBoneInfoMap *m, NameKeyType k, const PristineBoneInfo &q)
-{
-	(*m)[k] = q;
-}
+// Keep the native insertion provider chain emitted independently of operator[].
+template PristineBoneInfoMap::iterator PristineBoneInfoMap::insert(PristineBoneInfoMap::iterator, const PristineBoneInfoMap::value_type &);

@@ -132,6 +132,9 @@ typedef std::vector<ParticleSysBoneInfo> ParticleSysBoneInfoVector;
 //-------------------------------------------------------------------------------------------------
 struct PristineBoneInfo
 {
+	// Retail constructs the matrix through the out-of-line 22-byte provider.
+	// The scalar bone index remains uninitialized until the bone lookup sets it.
+	PristineBoneInfo();
 	Matrix3D mtx;
 	Int boneIndex;
 };
