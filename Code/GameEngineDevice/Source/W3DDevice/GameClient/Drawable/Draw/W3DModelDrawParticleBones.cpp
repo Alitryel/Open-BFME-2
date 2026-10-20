@@ -64,6 +64,8 @@ template <> __forceinline _List_base<BfmePod32, allocator<BfmePod32> >::~_List_b
 {
 	reinterpret_cast<Rva000C6D44ListProxy74 *>(this)->~Rva000C6D44ListProxy74();
 }
+// push_back calls retail's 37-byte insert (0x000BC180) out of line; bind it there.
+template <> list<BfmePod32>::iterator list<BfmePod32>::insert(iterator, const BfmePod32 &);
 }
 
 // Copy at retail 0xB75AE (row ??0BfmeStringRecord000B75AE@@QAE@ABU0@@Z).

@@ -40,6 +40,8 @@ inline bool operator<(const BfmePod28 &x, const BfmePod28 &y) { return x.a[0] < 
 struct BfmePod32 { int a[8]; };
 inline bool operator==(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod32 &x, const BfmePod32 &y) { return x.a[0] < y.a[0]; }
+// push_back calls retail's 37-byte insert (0x000BC180) out of line; bind it there.
+namespace _STL { template <> list<BfmePod32>::iterator list<BfmePod32>::insert(iterator, const BfmePod32 &); }
 struct BfmePod60 { int a[15]; };
 inline bool operator==(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < y.a[0]; }
