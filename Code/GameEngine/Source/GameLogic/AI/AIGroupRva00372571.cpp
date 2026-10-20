@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs
 // ?rva00372571@AIGroup@@QAEXPAURva00372571Params@@H@Z @0x00372571 1432B
 //
 // AIGroup formation move. WorldBuilder twin 0xEE4170 in AIGroup.cpp (line 2156
@@ -15,7 +15,8 @@
 // the byte above the cmdSource slot ([ebp+0xF]; an empty class may overlap a
 // live slot). cl only does that when the allocator is an unnamed default
 // argument AND it can see that the list base constructor (0x001EB984, pinned
-// as _List_base<Object *, allocator<Object *> >) never keeps the allocator's
+// as _List_base<Object *, Rva001EB984PoolAllocator<Object *> >, the rowed
+// name every pooled list<Object *> unit shares) never keeps the allocator's
 // address, so that constructor is written below with its real body as an
 // in-class never-inlined definition (it emits the retail 40-byte body).
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
@@ -45,7 +46,33 @@ enum ObjectStatusTypes
 
 enum IterOrderType
 {
-	ITER_SORTED_NEAR_TO_FAR = 1
+	ITER_SORTED_NEAR_TO_FAR = 1,
+	ITER_SORTED_FAR_TO_NEAR = 2
+};
+
+// /EHs, not /EHsc: under /EHsc the extern "C" free is nothrow and cl drops the
+// EH state reset retail's aiMoveToPosition keeps before the parms teardown.
+// The C free keeps this copy identical to SlavedUpdateRepair's rowed one.
+extern "C" void free(void *block);
+
+enum AICommandType
+{
+	AICMD_MOVE_TO_POSITION = 0
+};
+
+// The 0xC0 command block: opaque constructor 0x00351BD0, inline
+// coordinate-buffer free on teardown.
+struct AICommandParms
+{
+	AICommandParms(AICommandType cmd, CommandSourceType cmdSource);
+	~AICommandParms() { if (m_coordsStart) free(m_coordsStart); }
+
+	AICommandType m_cmd; // +0x00
+	CommandSourceType m_cmdSource; // +0x04
+	Coord3D m_pos; // +0x08
+	char m_pad14[0x20 - 0x14];
+	void *m_coordsStart; // +0x20
+	char m_pad24[0xC0 - 0x24];
 };
 
 class Player;
@@ -66,7 +93,15 @@ public:
 	void aiMoveToPositionAmphibious(const Coord3D *pos, CommandSourceType cmdSource);
 	void aiAttackMoveToPositionAndFaceDirection(const Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource, Real angle);
 	void aiMoveToPositionAndFaceDirection(const Coord3D *pos, CommandSourceType cmdSource, Real angle);
-	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
+	virtual void aiDoCommand(const AICommandParms *parms);
+	// Retail 0x0026C26D, inline in the AI header as in Zero Hour: groupScatter
+	// relies on seeing that it does not retain the position.
+	__declspec(noinline) void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource)
+	{
+		AICommandParms parms(AICMD_MOVE_TO_POSITION, (CommandSourceType)cmdSource);
+		parms.m_pos = *pos;
+		aiDoCommand(&parms);
+	}
 };
 
 class AIUpdateInterface
@@ -114,6 +149,7 @@ public:
 	Bool canAutoAcquire() const { return m_data->m_autoAcquireEnemiesWhenIdle != 0; }
 	__declspec(dllimport) __forceinline Bool canAutoAcquireWhileStealthed() const { return (m_data->m_autoAcquireEnemiesWhenIdle & 2) != 0; }
 	AICommandInterface *getCommands() { return &m_commands; }
+	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource) { m_commands.aiMoveToPosition(pos, cmdSource); }
 
 	const AIModuleData *m_data; // +0x04
 	char m_pad08[0x20 - 0x08];
@@ -149,6 +185,12 @@ struct DisabledFlags
 	__forceinline Bool test(Int bit) const { return (m_bits[bit >> 3] & (1 << (bit & 7))) != 0; }
 };
 
+class Rva0028ECDBHost
+{
+public:
+	bool rva0028ECDB(void *pos);
+};
+
 class Object
 {
 public:
@@ -158,12 +200,12 @@ public:
 	Bool rva0028F518();
 	Rva00373EC6 *rva0028F4BC();
 	Bool isAbleToAttack() const;
-	Bool rva0028ECDB(const Coord3D *pos) const;
 
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAI() const { return m_ai; }
 	Bool isDisabledHeld() const { return m_disabled.test(3); }
-	Bool isImmobile() const { return (m_template->m_kindOf[0] & 4) != 0; }
+	UnsignedInt isImmobile() const { return m_template->m_kindOf[0] & 4; }
+	Real getBoundingCircleRadius() const { return m_boundingRadius; }
 	void setFormationID(UnsignedInt id) { m_formationID = id; }
 	void setFormationOffset(const Coord2D *offset) { m_formationOffset = *offset; }
 	void setUserDestination(const Coord2D *dest) { m_userDestination = *dest; }
@@ -172,7 +214,9 @@ public:
 	const ThingTemplate *m_template; // +0x04
 	char m_pad008[0x38 - 0x08];
 	Coord3D m_position; // +0x38
-	char m_pad044[0x1C8 - 0x44];
+	char m_pad044[0xB8 - 0x44];
+	Real m_boundingRadius; // +0xB8
+	char m_pad0BC[0x1C8 - 0xBC];
 	DisabledFlags m_disabled; // +0x1C8
 	char m_pad1CC[0x258 - 0x1CC];
 	AIUpdateInterface *m_ai; // +0x258
@@ -281,6 +325,18 @@ public:
 	allocator() {}
 };
 template <class _Tp, class _Traits, class _Alloc> class basic_string;
+template <class _Tp, class _Alloc> class _List_base;
+}
+
+// The pooled allocator policy of the 0x001EB984 list base.
+template <class _Tp> class Rva001EB984PoolAllocator
+{
+public:
+	Rva001EB984PoolAllocator() {}
+};
+
+namespace _STL
+{
 template <class _Tp, class _Alloc> class _List_base
 {
 public:
@@ -308,17 +364,17 @@ extern Rva0022AD10Subsystem *TheFormationAssistant;
 
 // The pooled list<Object *> body: its out-of-line ~_List_base is 0x001EB769
 // and the unwind funclet calls the out-of-line complete dtor 0x001EB940.
-class Gen_uwm_001eb769
+class Rva001EB769
 {
 public:
-	~Gen_uwm_001eb769();
+	void rva001EB769();
 };
 
-class Rva001EB940 : public _STL::_List_base<Object *, _STL::allocator<Object *> >
+class Rva001EB940 : public _STL::_List_base<Object *, Rva001EB984PoolAllocator<Object *> >
 {
 public:
-	__forceinline explicit Rva001EB940(const _STL::allocator<Object *> &a) : _STL::_List_base<Object *, _STL::allocator<Object *> >(a) {}
-	~Rva001EB940() { ((Gen_uwm_001eb769 *)this)->~Gen_uwm_001eb769(); }
+	__forceinline explicit Rva001EB940(const Rva001EB984PoolAllocator<Object *> &a) : _STL::_List_base<Object *, Rva001EB984PoolAllocator<Object *> >(a) {}
+	~Rva001EB940() { ((Rva001EB769 *)this)->rva001EB769(); }
 };
 
 struct Rva00372571Params
@@ -373,6 +429,7 @@ public:
 	static void computeIndividualDestination(Coord3D *dest, const Coord3D *groupDest, Object *obj,
 		const Coord3D *center, const Real *facing, Int mode);
 	void rva00372571(Rva00372571Params *params, int cmdSource);
+	void groupScatter(CommandSourceType cmdSource);
 
 private:
 	void recompute();
@@ -521,7 +578,7 @@ void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
 	SimpleObjectIterator *iter = new SimpleObjectIterator;
 	if (params->m_formationType != -1)
 	{
-		Rva001EB940 objList((_STL::allocator<Object *>()));
+		Rva001EB940 objList((Rva001EB984PoolAllocator<Object *>()));
 		if (((FormationAssistant *)TheFormationAssistant)->getValidObjectList(
 				(Rva001EB130Holder *)&m_head, params->m_player, (Rva001EB130Holder *)&objList))
 		{
@@ -640,7 +697,7 @@ void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
 			ai->getCommands()->rva0036EBB8(params->m_target, (CommandSourceType)cmdSource);
 		else if (params->m_addWaypoint)
 			ai->getCommands()->aiFollowPathAppend(&dest, (CommandSourceType)cmdSource);
-		else if (theUnit->rva0028ECDB(&goalPos))
+		else if (((Rva0028ECDBHost *)theUnit)->rva0028ECDB(&goalPos))
 		{
 			Coord2D userDest;
 			userDest.x = params->m_pos->x;
@@ -661,3 +718,60 @@ void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
 
 	::delete iter;
 }
+
+template <class T> inline volatile T &__vref(T &x) { return *(volatile T *)&x; }
+struct Coord3DCopy : public Coord3D { Coord3DCopy() {} Coord3DCopy(const Coord3D &p) { x = p.x; y = p.y; z = p.z; } };
+
+// ZH groupScatter; native 0036F757..0036F917 and WB EE56B0. It shares this
+// unit's strong getMinMaxAndCenter, whose visible body proves the bounds'
+// lifetime for slot reuse.
+void AIGroup::groupScatter(CommandSourceType cmdSource)
+{
+	if (m_dirty)
+		recompute();
+
+	Coord3D center;
+	Coord2D min;
+	Coord2D max;
+	Coord3DCopy dest;
+
+	getMinMaxAndCenter(&min, &max, &center);
+
+	SimpleObjectIterator *iter = new SimpleObjectIterator;
+	for (ObjectListIterator i = begin(); i != end(); ++i)
+	{
+		Real dx, dy;
+		if ((*i)->isDisabledHeld())
+			continue;
+		if ((*i)->isImmobile())
+			continue;
+		if ((*i)->getAI() == 0)
+			continue;
+		Coord3DCopy unitPos = *(*i)->getPosition();
+		(*i)->rva0028AD32();
+		dx = unitPos.x - center.x;
+		dy = unitPos.y - center.y;
+		iter->insert((int)(*i), dx * dx + dy * dy);
+	}
+
+	iter->sort(ITER_SORTED_FAR_TO_NEAR);
+	Object *theUnit;
+	for (theUnit = iter->first(); theUnit; theUnit = iter->next())
+	{
+		__vref(center.x) -= 0.01f;
+		AIUpdateInterface *ai = theUnit->getAI();
+		Coord3DCopy unitPos = *theUnit->getPosition();
+		Coord2D delta;
+		dest = unitPos;
+		delta.x = unitPos.x - center.x;
+		delta.y = unitPos.y - center.y;
+		delta.normalize();
+		dest.x += delta.x * theUnit->getBoundingCircleRadius() * 4;
+		dest.y += delta.y * theUnit->getBoundingCircleRadius() * 4;
+		ai->aiMoveToPosition(&dest, cmdSource);
+	}
+}
+
+#include <math.h>
+inline float Coord2D::length() const { return (float)sqrt(x * x + y * y); }
+inline void Coord2D::normalize() { float len = length(); if (len != 0.0f) { x /= len; y /= len; } }
