@@ -159,6 +159,7 @@ inline void *operator new(unsigned int, void *where) throw() { return where; }
 class ProfileResultInterface;
 #include "../../../../Libraries/Source/debug/debug.h"
 #include "../../../../Libraries/Source/profile/internal_cmd.h"
+#include "../../../../Libraries/Source/profile/profile.h"
 
 // Slot 0x84 of the Debug object: the command-group registration debug.h
 // leaves unnamed.
@@ -197,6 +198,16 @@ void rva007B6690()
 void rva007B66C0()
 {
     __RegisterDebugCmdGroup_Profile = ((Rva007B66C0DebugCommands *)theDebug)->AddCommands("profile", cmd);
+}
+
+// 0x007B66E0 (17B): Zero Hour's `__int64 Profile::m_clockCycles=GetClockCyclesFast();`
+// (the static is defined in profile.cpp at 0x00E0C200), between the command
+// registration and the atexit entry in the startup strip, as in Zero Hour's
+// profile.cpp.
+__int64 GetClockCyclesFast(void);
+void rva007B66E0()
+{
+    Profile::m_clockCycles = GetClockCyclesFast();
 }
 
 // 0x007B6700 (19B): profileTracerInit = atexit(ProfileShutdown).

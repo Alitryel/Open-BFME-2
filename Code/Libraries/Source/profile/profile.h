@@ -19,6 +19,7 @@
 class Profile
 {
 	friend class ProfileCmdInterface;
+	friend void rva007B66E0();  // m_clockCycles' startup initializer (GlobalChainCleanup.cpp)
 	Profile();
 
 public:

@@ -234,7 +234,8 @@ char **Profile::m_recNames;
 unsigned Profile::m_rec;
 // Zero Hour initializes this from GetClockCyclesFast(); with that dynamic
 // initializer in the unit StopRange's register allocation no longer
-// matches retail, so BFME2's initializer lives elsewhere (not recovered).
+// matches retail; BFME2's initializer is rva007B66E0 in
+// GameEngine/Source/Common/System/GlobalChainCleanup.cpp (a friend of Profile).
 __int64 Profile::m_clockCycles;
 
 // ?StopRange@Profile@@SAXPBD@Z
