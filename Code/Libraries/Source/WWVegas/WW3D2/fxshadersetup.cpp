@@ -41,6 +41,10 @@ static inline const int &min(const int &a, const int &b)
 }
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@URva0007BB16Record@@V?$allocator@URva0007BB16Record@@@_STL@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0007BB16Record;
+namespace _STL { template <> void vector<Rva0007BB16Record, allocator<Rva0007BB16Record> >::_M_insert_overflow(Rva0007BB16Record *, const Rva0007BB16Record &, const __false_type &, size_t, bool); }
 
 typedef unsigned int UINT;
 typedef unsigned long DWORD;
