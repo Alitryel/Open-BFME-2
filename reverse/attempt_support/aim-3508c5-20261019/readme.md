@@ -37,3 +37,26 @@ The five remaining structural regions are an early `pop ecx` around the aim-delt
 Ruled out by saved probes: float casts and inline float wrappers around CRT fabs add stores; reversing comparison operands adds instructions; source-position caching promotes an unwanted live range; a source-ID member reference, orientation cache, explicit source receiver, alternate victim-AI guard, named preventing boolean, and fallback-pointer scope do not close the register gap. Direct boolean assignment changes stack homes without improving alignment. Diagnostic-only source sinks show a one-reference priority gap, but no sink or synthetic operation is retained. No inline assembly, emitted bytes, naked function, optimization pragma, new alias, or new pin was introduced.
 
 The candidate is a reusable partial, not an exact recovery. CSV/pin checks and final comment/semantic assertions have raw outputs under the task folder. The coordinator can rerun them locally; no verification runner, network operation, git mutation, or background service was started.
+
+## Round 2 (2026-10-19, claude-opus-5-5): `<math.h>` fabs lever
+
+- Replacing the bare `extern "C" double fabs(double)` with `#include <math.h>`
+  (float overload, as AIStates.cpp's matched sibling does) fixes every x87
+  argument-pop scheduling region. The bank (reverse/attempts/0x003508c5.cpp) now
+  differs from retail in 3 regions only: the tail `sourceID` snapshot compiles
+  to an eager `mov esi,[esi+0x74]` before the victim test (+5 B, 1109 B total),
+  and retail pushes `[esi+0x74]` directly at the call.
+- Dropping the snapshot (`victimAI->addTargeter(source->getID(), true)`) gives
+  exactly 1104 B with a pure global ESI/EDI swap: retail keeps source in ESI
+  and {victim, weapon reload, shooter, victimAI} in EDI; ours is the reverse.
+  The snapshot is the only change found that flips the roles.
+- No effect on that swap (all 1104 B, the same 50 regions): ZH `Bool preventing`
+  tail; `Object *victim;` declared before source; victim+weapon declared first;
+  `const Real *turnLimit` pointer (sibling style); snapshot after the victimAI
+  ternary; `goalPos = *victim->getPosition()` without vp;
+  `source->rva002931BA()` for the shooter test; nested `if (victimAI) {..}` tail;
+  `const ObjectID &getID()`; `register Object *source`; `Object *const source`.
+  An `if (victim) victimAI = victim->getAI();` assignment form is worse (1105 B).
+- Next: find a source-side use that weights source over the victim group
+  without emitting code, or a shape of the struct copy (`movsd` block at
+  0x350AEB, which reloads esi=source/edi=weapon) that keeps source in ESI.

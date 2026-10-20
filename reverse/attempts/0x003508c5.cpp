@@ -1,4 +1,6 @@
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
+// partial score=0.9 date=2026-10-19
+// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.8125 date=2026-10-19
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.816 date=2026-10-17
@@ -68,7 +70,7 @@ enum ObjectStatusTypes
 ;
 class Object;
 class Player;
-extern "C" double __cdecl fabs(double);
+#include <math.h>
 // CRT fabs returns double; retail keeps its result on the x87 stack.
 Real normalizeAngle(Real angle);
 extern GameLogic *TheGameLogic;
