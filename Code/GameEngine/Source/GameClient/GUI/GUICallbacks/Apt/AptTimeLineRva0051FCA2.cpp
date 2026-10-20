@@ -204,17 +204,28 @@ static const char *s_statusQueries[] = {
 	"TimeLine:ScreenMode"
 };
 
+// Native callback words 0091E3A3 and 0091E766 already have rowed owners.
+// Both bindings use the complete time-line receiver without adjustment.
+class BfmeM1020
+{
+public:
+	void bfmeGo1020M(int unused);
+};
+class Rva0051E766
+{
+public:
+	void rva0051E766(int query, char *value, bool set);
+};
+
 class AptTimeLine : public _bfme_AptGameWindow
 {
 public:
 	virtual void rva0051FCA2();
-	void OnInitialized(const char *unused);
 	void OnButtonContinue(const char *unused);
 	// Bound as "AptTimeLine::OnButtonSaveReplay" and "AptScoreScreen::Save".
 	void rva0051E3C3(const char *unused);
 	void CaHAwardNumber(const char *value);
 	void RenderGraph(const Pair0051E31A &a, const Pair0051E31A &b, int c, const char *d);
-	void rva0051E766(int query, char *value, bool set);
 	void PlayerColor(int index, char *value, bool set);
 	void PlayerFaction(int index, char *value, bool set);
 	void GraphFocus(int index, const char *value, bool set);
@@ -230,7 +241,7 @@ void AptTimeLine::rva0051FCA2()
 	if (m_stats)
 		m_stats->rva005BF177();
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptTimeLine::OnInitialized);
+		FunctorMethod method = reinterpret_cast<FunctorMethod>(&BfmeM1020::bfmeGo1020M);
 		AsciiString name("AptTimeLine::OnInitialized");
 		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
@@ -255,7 +266,7 @@ void AptTimeLine::rva0051FCA2()
 		reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->AddCustomRender(name, AptRef<AptCustomRender>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptTimeLine::rva0051E766);
+		FunctorMethod method = reinterpret_cast<FunctorMethod>(&Rva0051E766::rva0051E766);
 		for (int query = 0; query < 6; ++query)
 		{
 			AsciiString name(s_statusQueries[query]);
