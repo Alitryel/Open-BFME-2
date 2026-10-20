@@ -7,6 +7,29 @@
 // spelling with two early returns is what reproduces retail's
 // test-first loop and twin je targets.
 
+// Retail 0x00035840 (21 B), immediately before the wide scan: the narrow
+// twin of the same file-static scan (pointer in EAX, character in DL),
+// likewise unreferenced in retail and kept by a visible call site.
+static const char *Rva00035840Scan(const char *s, char c)
+{
+	char v;
+	do
+	{
+		v = *s;
+		if (!v)
+			return 0;
+		if (v == c)
+			return s;
+		++s;
+	} while (1);
+}
+
+// ?<Rva00035840Keep> absent-from-retail
+const char *Rva00035840Keep(const char *s, char c)
+{
+	return Rva00035840Scan(s, c);
+}
+
 static const unsigned short *Rva00887300Scan(const unsigned short *s, unsigned short c)
 {
 	unsigned short v;
