@@ -1,12 +1,13 @@
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.999 date=2026-10-20
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z @0x000F2FFA 3369B.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /DBFME_VOLUMETRIC_DELETE_LAYOUT /Ireference/open-bfme-1/inputs/reference/shims/volumetricshadow /I. /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient/Shadow
 // stlport
-#define Region3D DonorRegion3D
 #define Matrix4x4 Matrix4  // BFME renamed it
-// W3DVolumetricShadow::updateMeshVolume @0x000F2FFA.
-// Donor: Open-BFME-1 W3DVolumetricShadow.cpp (updateMeshVolume matched at 0x007BE000);
-// carried here with the BFME_VOLUMETRIC_DELETE_LAYOUT preamble of W3DVolumetricShadow.cpp.
+// W3DVolumetricShadow::updateMeshVolume: rebuilds a mesh's shadow volume when the mesh or
+// the light moved enough, culls it against the shadow camera frustum and records its bounds.
+// Donor: Open-BFME-1 W3DVolumetricShadow.cpp (Zero Hour body, BFME 1 match at 0x007BE000),
+// carried with the BFME_VOLUMETRIC_DELETE_LAYOUT preamble of W3DVolumetricShadow.cpp. The
+// WorldBuilder twin (wb 0x806A80) shows the same locals and three plain Dot_Product rows.
+// Evidence and earlier passes: reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/.
 #include <assert.h>
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
@@ -19,8 +20,8 @@
 // takes the count at full width; use the BFME declaration of DX8IndexBufferClass
 // rather than the Zero Hour one the include path would otherwise find.
 #define BFME_DYNAMIC_IB_UINT_CTOR_ABI
-#include "reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/dx8vertexbuffer_bfme2.h.txt"
-#include "reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/dx8indexbuffer_bfme2.h.txt"
+#include "reference/shims/bfme_volumetricshadow_update/dx8vertexbuffer_bfme2.h"
+#include "reference/shims/bfme_volumetricshadow_update/dx8indexbuffer_bfme2.h"
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/dx8wrapper.h"
 #undef MESH_RENDER_SNAPSHOT_ENABLED
 #include "WW3D2/DX8Wrapper.h"
@@ -44,14 +45,11 @@
 
 extern float g_Va00DEBE08;
 #define cosAngleToCare g_Va00DEBE08
-extern FrustumClass g_Va00DEBD00;
-#define shadowCameraFrustum (&g_Va00DEBD00)
+extern FrustumClass shadowCameraFrustum;
 #define	SHADOW_EXTRUSION_BUFFER	0.1f
 // Stand-ins for retail's folded/opaque callees (rowed under honest address names).
 class Rva0007671F { public: Rva0007671F(); private: char m_bytes[0x40]; };
 class Rva000F26DC { public: void rva000F074E(int, int); };
-#undef Region3D
-struct Region3D { Region3D(const Region3D &); float x_min,y_min,z_min,x_max,y_max,z_max; };
 struct SHADOW_STATIC_VOLUME_VERTEX	//vertex structure passed to D3D
 {
 		float x,y,z;
@@ -70,14 +68,6 @@ struct SHADOW_STATIC_VOLUME_VERTEX	//vertex structure passed to D3D
 	#define SHADOW_DYNAMIC_VOLUME_FVF	D3DFVF_XYZ
 #endif
 
-LPDIRECT3DVERTEXBUFFER8 shadowVertexBufferD3D=NULL;		///<D3D vertex buffer
-LPDIRECT3DINDEXBUFFER8	shadowIndexBufferD3D=NULL;	///<D3D index buffer
-int nShadowVertsInBuf=0;	//model vetices in vertex buffer
-int nShadowStartBatchVertex=0;
-int nShadowIndicesInBuf=0;	//model vetices in vertex buffer
-int nShadowStartBatchIndex=0;
-int SHADOW_VERTEX_SIZE=4096;
-int SHADOW_INDEX_SIZE=8192;
 
 //Rough bounding box around visible portion of the terrain
 //useful for quick culling
@@ -180,7 +170,8 @@ struct Geometry
 	}
 
 	AABoxClass &getBoundingBox(void) {return m_boundingBox;}
-	void	setBoundingBox(const AABoxClass &box)	{((Region3D *)&m_boundingBox)->Region3D::Region3D(*(const Region3D *)&box);}
+	// Retail copies the box through the out-of-line AABoxClass copy (0x0009AC04) here.
+	void	setBoundingBox(const AABoxClass &box)	{m_boundingBox.AABoxClass::AABoxClass(box);}
 	void	setBoundingSphere(const SphereClass &sphere) {m_boundingSphere=sphere;}
 	SphereClass &getBoundingSphere(void) {return m_boundingSphere;}
 	void	setVisibleState(VisibleState state)	{m_visibleState=state;}
@@ -372,6 +363,12 @@ struct Rva000F2D25GeometryView
 };
 #define MAX_SHADOW_VOLUME_VERTS 16384
 
+// Rows 1 and 2 of the rotation test read through these instead of Vector3::Dot_Product: the
+// same value, accumulated one product per statement. cl 7.1 keeps statement order for
+// the x87 products, and retail multiplies row 1 Y, Z, X; routing row 2 through the Z, Y, X
+// form keeps the m_shadowLengthScale load ahead of the sqrt store as retail has it.
+static inline float Dot_H(const Vector3 &a,const Vector3 &b) { float r = a.Y*b.Y; r += a.Z*b.Z; r += a.X*b.X; return r; }
+static inline float Dot_Z(const Vector3 &a,const Vector3 &b) { float r = a.Z*b.Z; r += a.Y*b.Y; r += a.X*b.X; return r; }
 void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const Matrix3D *meshXform, const AABoxClass &meshBox, float floorZ )
 {
 	Vector3 lightPosObject;
@@ -449,10 +446,10 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	//change much based on object position.  Only the orientation to light matters.
 	Real cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](0)),(Vector3 &)(objectToWorld.operator [](0))));
 	if (cosAngle >= cosAngleToCare)
-	{	cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](1)),(Vector3 &)(objectToWorld.operator [](1))));
+	{	cosAngle = fabs (Dot_H((Vector3 &)(prevXForm->operator [](1)),(Vector3 &)(objectToWorld.operator [](1))));
 		if (cosAngle >= cosAngleToCare)
 		{
-			cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](2)),(Vector3 &)(objectToWorld.operator [](2))));
+			cosAngle = fabs (Dot_Z((Vector3 &)(prevXForm->operator [](2)),(Vector3 &)(objectToWorld.operator [](2))));
 			if (cosAngle < cosAngleToCare)
 				isMeshRotating=true;
 		}
@@ -578,9 +575,9 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		box.Init(Corners, 8);	//generate a new bounding box
 		sphere.Init(box.Center,box.Extent.Length());	//generate object space bounding sphere containing box.
 
-		CollisionMath::OverlapType result=CollisionMath::Overlap_Test(*shadowCameraFrustum,sphere);
+		CollisionMath::OverlapType result=CollisionMath::Overlap_Test(shadowCameraFrustum,sphere);
 		if (result == CollisionMath::OVERLAPPED)	//do a more accurate test
-			result=CollisionMath::Overlap_Test(*shadowCameraFrustum, box);
+			result=CollisionMath::Overlap_Test(shadowCameraFrustum, box);
 		
 		if (result != CollisionMath::OUTSIDE)
 		{
@@ -662,9 +659,10 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 
 // Retail's unit also defines buildSilhouette (0x000F2D25), constructVolume (0x000EFDF6) and
 // constructVolumeVB (0x000F0251). With their bodies visible cl 7.1 sees that &lightPosObject does not
-// escape, which places updateMeshVolume's frame homes as retail. All three bodies below compile
-// byte-exact to retail in this unit (buildSilhouette apart from the addNeighborlessEdges mangling:
-// the ZH header declares it protected, the ledger row 0x000F17CA carries a public name).
+// escape, which places updateMeshVolume's frame homes as retail. Their rows live in
+// W3DVolumetricShadowSilhouette.cpp and W3DVolumetricShadowConstructVolume.cpp; the select-any
+// copies below compile byte-exact to retail too (buildSilhouette apart from the addNeighborlessEdges
+// mangling: the ZH header declares it protected, the ledger row 0x000F17CA carries a public name).
 static __forceinline Vector3 ShadowSubtract(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
 __declspec(noinline) inline void W3DVolumetricShadow::buildSilhouette(Int meshIndex, Vector3 *lightPosObject)
 {
@@ -1133,56 +1131,3 @@ __declspec(noinline) inline void W3DVolumetricShadow::constructVolumeVB( Vector3
 		}
 	}
 }
-
-// ---- W6-MP1 r6 commute analysis (2026-10-13, 3369/3369 size-exact, 70 diffs, baseline re-measured) ----
-// Two systematic operand-order walls (both evaluate-swap flips, no size/structure/EH/calls diffs):
-// (1) x87 FMUL pair (~0xF3121): retail fld [ebp-0x48]; fmul [edi+0x14]; fld [ebp-0x44]; fmul [edi+0x18]
-//     (A*B first, then C*D); ours reverse (C*D then A*B). Swap the two products in source.
-// (2) scalar ADDSS (~0xF3494): retail movss xmm0,[ebp+0x10]; addss xmm0,[ebp+0x4] (X+Y);
-//     ours movss xmm0,[ebp+0x4]; addss xmm0,[ebp+0x10] (Y+X). Swap the addends in source.
-// Flipping evaluation order should also re-birth temps in retail order and may close the
-// home-slot diffs ([ebp-0x14/0x18/0x1C] vs [ebp+0x30/0x34/0x38]) as a cascade. The FMUL pair
-// uses two DISTINCT locals x two DISTINCT struct fields (not X*X+Y*Y); find the A*B+C*D
-// expression (candidates: Transform_Vector inlining, 2-term partial dots). t=20 model=muse-spark.
-
-// ---- W6-MP1 r6 row-1-dot refinement (2026-10-13) ----
-// The FMUL wall is specifically the MIDDLE of three sequential inlined Dots (cosAngle rows 0/1/2):
-// row 0 (f30f0: [ebp-0x54]*[edi+0x8] + [ebp-0x58]*[edi+0x4] + [ebp-0x5C]*[edi]) EXACT,
-// row 1 (f3121: [ebp-0x48]*[edi+0x14] + [ebp-0x44]*[edi+0x18] + [ebp-0x4C]*[edi+0x10]) has first
-// two products SWAPPED vs ours, row 2 (f3153+: [ebp-0x34]*[edi+0x28] ...) EXACT. Each dot is
-// followed by fabs-call/compare/jb (cosAngle<ToCare early-outs). So only row 1's two products
-// need evaluation-order flip (its homes/temps follow); rows 0/2 must NOT be touched. Candidate:
-// rewrite row 1's Dot_Product(prev[1],obj[1]) as manual Y-then-X partial sums, or swap its two
-// product statements if already manual. t=15 model=muse-spark.
-
-// Shared light-vector scratch is reused before the object-space transform.
-// Storage and identity evidence: reverse/attempt_support/update-mesh-volume-20261019.md.
-
-// ---- b1 WB-literal pass (2026-10-19, claude-opus-5-5) ----
-// WB twin of updateMeshVolume is wb 0x806A80 (wb_show labels it Vector3::Dot_Product; called from
-// updateVolumes wb 0x805CA0 -> gd 0xF2FFA). Its debug ctor/init order confirms the BF1/ZH donor
-// function-scope list verbatim: lightPosObject, worldToObject(Matrix4x4), objectCenter, toLight,
-// toPrevLight, prevPosToLight(dead), lightPosWorld, prevObjPosition(dead), then
-// isMeshRotating=false, isLightMoving=false, Int allocationFlags=0, objectToWorld(*meshXform),
-// prevXForm; the mesh flag sets isMeshRotating before allocationFlags and the row test is a
-// separate if(!isMeshRotating). Real length lives in the reconstruct block (WB local_164 next to
-// lightRay/vectorScaleMax). WB toPrevLight is the plain donor `objectCenter - history` temp,
-// rows 0..2 all plain Dot_Product, and `AABoxClass box(meshBox)` calls the AABox copy ctor.
-// All of those are byte-neutral here except the box: plain AABoxClass box(meshBox) closes the
-// Corner0 ADDSS commute (f3494) and needs the ICF fold pin ??0AABoxClass@@QAE@ABV0@@Z -> 0x9AC04
-// (this TU emits that COMDAT byte-identical to retail 0x9AC04, 43 B, no relocs).
-// Function-scope and block declaration order is fully ignored by the frame packer (12 random
-// permutations byte-identical); packing is liveness-based (toLight's slot is reused by
-// reconstruct-block values), so the T/lightPosObject sharing in retail is a greedy-order effect.
-// Plain toPrevLight (true WB form) puts the operator- temp at +0x30 (shared with sphere) instead
-// of retail's lightPosObject slot -0x1C; scope variants (toLight/toPrevLight in-block, det/sphere/
-// Corners/lightRay at function scope, named delta) do not move it.
-
-// ---- f2w5 callee-visibility pass (2026-10-20, claude-opus-5-5) ----
-// With buildSilhouette, constructVolume and constructVolumeVB defined in the unit, cl 7.1 treats
-// lightPosObject as unaliased; the plain donor `toPrevLight = objectCenter - history` temp then
-// shares lightPosObject's -0x1C slot and every frame home matches retail (any two of the three
-// visible leave the old frame). The Subtract-into-lightPosObject form and the dead locals
-// prevPosToLight/prevObjPosition are dropped: with visible callees the dead locals reschedule the
-// Corners block. Remaining: row-1 Dot_Product x87 pair (f3121). Handoff:
-// reverse/attempt_support/updatemeshvolume-f2ffa-20261020-w5.md.
