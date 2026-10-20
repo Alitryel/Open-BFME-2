@@ -207,13 +207,27 @@ struct Rva0043549AIndex
 // The extern queries' names (0x00DC8A20).
 static const char *s_externNames[] = { "SaveLoadMode", "GameTypes", "CurrentGameType" };
 
+// The list element's layout as its list provider (stlport_list_treehintopaque_00436e3b.cpp)
+// sees it: the node allocation is 0xDFC bytes.
+struct BfmeSubobject0022CE19
+{
+	virtual ~BfmeSubobject0022CE19();
+	unsigned char m_opaque[0xDE4];
+	BfmeSubobject0022CE19(const BfmeSubobject0022CE19 &);
+};
 struct TreeHintOpaque0043671B
 {
-	void *m_0;
-	void *m_4;
+	UnicodeString m_text;
+	BfmeSubobject0022CE19 m_subobject;
+	unsigned int m_wordDEC, m_wordDF0;
+	TreeHintOpaque0043671B(const TreeHintOpaque0043671B &);
+	~TreeHintOpaque0043671B();
 };
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy<TreeHintOpaque0043671B>(TreeHintOpaque0043671B *p) { typedef TreeHintOpaque0043671B BfmeDestroyT; p->~BfmeDestroyT(); } }
+// clear is called out of line: bind it to its row in the list provider instead of
+// emitting this unit's copy.
+namespace _STL { template <> void _List_base<TreeHintOpaque0043671B, allocator<TreeHintOpaque0043671B> >::clear(); }
 
 class GameWindow;
 
@@ -225,7 +239,7 @@ public:
 	void rva00433DF1(const char *unused); // "OnInitialized" and "ConfirmationCancel"
 	void OnClosed(const char *unused);
 	void Load(const char *unused);
-	void Save(const char *unused);
+	void OnButtonSave(const char *unused); // bound as "AptSaveLoad::Save"
 	void Delete(const char *unused);
 	void Cancel(const char *unused);
 	void ConfirmationOk(const char *unused);
@@ -278,7 +292,7 @@ AptSaveLoad::AptSaveLoad(void *context)
 	BIND_COMMAND(rva00433DF1, "AptSaveLoad::OnInitialized")
 	BIND_COMMAND(OnClosed, "AptSaveLoad::OnClosed")
 	BIND_COMMAND(Load, "AptSaveLoad::Load")
-	BIND_COMMAND(Save, "AptSaveLoad::Save")
+	BIND_COMMAND(OnButtonSave, "AptSaveLoad::Save")
 	BIND_COMMAND(Delete, "AptSaveLoad::Delete")
 	BIND_COMMAND(Cancel, "AptSaveLoad::Cancel")
 	BIND_COMMAND(ConfirmationOk, "AptSaveLoad::ConfirmationOk")

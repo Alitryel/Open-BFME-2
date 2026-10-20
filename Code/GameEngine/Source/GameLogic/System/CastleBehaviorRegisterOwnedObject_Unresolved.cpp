@@ -47,6 +47,10 @@ bool less<int>::operator()(const int &a, const int &b) const
 class Xfer;
 enum NameKeyType { NAMEKEY_INVALID=0 };
 #include "../../Common/GameLogicObjectLookupView.h"
+// erase and push_back are called out of line: bind them to retail's copies (erase is
+// rowed in DockUpdateCtor.cpp) instead of emitting this unit's __false_type copies.
+namespace _STL { template <> ObjectID *vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *, ObjectID *); }
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::push_back(const ObjectID &); }
 enum ObjectStatusTypes { OBJECT_STATUS_5=5, OBJECT_STATUS_79=79 };
 class Player;
 class Module;
@@ -591,7 +595,9 @@ public: BuildListInfo();
 protected: virtual ~BuildListInfo(); friend class CastleBehavior;
 private: unsigned char storage[124];
 };
-class SidesList { public: bool rva0032BD64(NameKeyType,int,PolygonTrigger*); bool rva0032BD25(NameKeyType,int,BuildListInfo*); };
+// The rowed lookups (SidesListCastleBuildLists.cpp) take an int key and a PolygonalArea.
+class PolygonalArea;
+class SidesList { public: bool rva0032BD64(int,int,PolygonalArea*); bool rva0032BD25(int,int,BuildListInfo*); };
 extern SidesList* TheSidesList;
 class Rva00396B0D { public: int rva00396B0D(); };
 void CastleBehavior::rva003993F2(bool instant) {
@@ -643,7 +649,7 @@ void CastleBehavior::rva00399370() {
  PolygonTrigger* polygon;
  for(;;) {
   polygon=new PolygonTrigger(1);
-  if(!TheSidesList->rva0032BD64(key,index,polygon)) break;
+  if(!TheSidesList->rva0032BD64(key,index,(PolygonalArea*)polygon)) break;
   rva0039865E(polygon);
   ++index;
  }

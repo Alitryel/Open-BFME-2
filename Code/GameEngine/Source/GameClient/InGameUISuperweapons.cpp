@@ -116,6 +116,8 @@ namespace rts {
 template <class T> struct hash {
 	size_t operator()(const T &value) const { return (size_t)value; }
 };
+// Import-inline: every use here is inlined, and this unit's unreferenced copy is not retail's.
+template <> __declspec(dllimport) __forceinline size_t hash<NameKeyType>::operator()(const NameKeyType &value) const { return (size_t)value; }
 }
 class NameKeyGenerator
 {
@@ -204,7 +206,7 @@ class RadiusDecalTemplate : public BfmeStringRecord000B94D2
 public:
 	RadiusDecalTemplate();
 	RadiusDecalTemplate(const RadiusDecalTemplate &other);
-	RadiusDecalTemplate &operator=(const RadiusDecalTemplate &other);
+	void rva00330CDD(const RadiusDecalTemplate &other); // the assignment, rowed at 0x00330CDD
 
 	static void parseRadiusDecalTemplate(INI *ini, void *instance, void *store, const void *userData);
 };
@@ -545,5 +547,5 @@ void InGameUI::parseNamedRadiusDecalTemplate(INI *ini, void *instance, void *sto
 
 	RadiusDecalTemplate decal;
 	RadiusDecalTemplate::parseRadiusDecalTemplate(ini, 0, &decal, 0);
-	ui->m_radiusCursorTemplates[key] = decal;
+	ui->m_radiusCursorTemplates[key].rva00330CDD(decal);
 }

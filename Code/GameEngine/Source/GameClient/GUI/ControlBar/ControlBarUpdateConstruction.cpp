@@ -19,14 +19,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // bfme link decl-only begin
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@_S:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> const ModuleData **_STLP_alloc_proxy<const ModuleData **, const ModuleData *, allocator<const ModuleData *> >::allocate(size_t); }
 // Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
 namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
+// reserve is called out of line: bind it to its row (ModuleFactoryVectorReserve.cpp)
+// instead of emitting this unit's copy.
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::reserve(unsigned int); }
+// Import-inline: every __malloc_alloc<0>::deallocate use here is inlined, and this
+// unit's out-of-line copy (referenced from .debug$F alone) is not the one the link keeps.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_CALL __malloc_alloc<0>::deallocate(void *__p, size_t) { free((char *)__p); } }
 
 typedef int Int;
 
