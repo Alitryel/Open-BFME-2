@@ -1,11 +1,11 @@
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
+// partial score=0.97 date=2026-10-20
+// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.81 date=2026-10-19
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.8212 date=2026-10-14
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.823 date=2026-10-10
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.85 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -19,7 +19,6 @@ extern "C" void _ReadWriteBarrier();
 // helper receivers keep their ledger names.
 
 #include <string.h>
-template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 
 typedef int Int;
 typedef float Real;
@@ -223,13 +222,11 @@ public:
 	ShroudFilter *getFilter(void);
 };
 
-class Rva0006B4CC
+class BaseHeightMapRenderObjClass
 {
 public:
-	int call(int x, int y, int flag);
+	int getStaticDiffuse(int x, int y, bool skipFirstLight);
 };
-
-class BaseHeightMapRenderObjClass;
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 
 class GameClient;
@@ -244,23 +241,36 @@ public:
 
 extern GlobalData *TheGlobalData;
 
-struct ICoord2D
-{
-	Int x;
-	Int y;
-};
+#include "../../Code/Libraries/Include/Lib/ICoord2D.h"
 
-struct IRegion2D
-{
-	ICoord2D lo;
-	ICoord2D hi;
-};
+#include "../../Code/Libraries/Include/Lib/IRegion2D.h"
 
 class BoundedShortGrid
 {
 public:
-	short rva00062A58(Int x, Int y);
+	short rva00062A58(int a, int b);
+
+private:
+	unsigned char m_unknown00[0x08];
+	int m_stride;
+	unsigned char m_unknown0C[0x20 - 0x0C];
+	int m_capacity;
+	short *m_data;
 };
+
+// Select-any copy of the rowed grid reader (home BoundedShortGridLoad.cpp); keeping
+// its body visible in this unit is what reproduces retail's register allocation.
+inline __declspec(noinline) short BoundedShortGrid::rva00062A58(int a, int b)
+{
+	int idx = m_stride * b + a;
+	if (idx < 0)
+		return 0;
+	if (idx >= m_capacity)
+		return 0;
+	if (m_data)
+		return m_data[idx];
+	return 0;
+}
 
 class Rva00729300BitPlane
 {
@@ -400,7 +410,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	if (maxX > limitX)
 		maxX = limitX;
 	if (maxY > limitY)
-		maxY = map->getYExtent() - 1;
+		maxY = limitY;
 	if (partialRange.lo.x > maxX || partialRange.lo.y > maxY
 		|| partialRange.hi.x < minX || partialRange.hi.y < minY)
 		return;
@@ -469,10 +479,10 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 
 			Vector3 pos;
 			Vector3 normal;
-			curVb->diffuse = (alpha[0] << 24) | ((Rva0006B4CC *)TheTerrainRenderObject)->call(i, j, 1);
+			curVb->diffuse = (alpha[0] << 24) | TheTerrainRenderObject->getStaticDiffuse(i, j, true);
 			pos.Z = ((Real)m_map->getHeight(i, j) * MAP_HEIGHT_SCALE);
-			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.X = i * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
+			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			m_map->getTerrainNormal(i, j, &normal);
 			curVb->u1 = info.u0;
 			curVb->v1 = info.v0;
@@ -485,7 +495,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			curVb++;
 			m_curNumCliffVertices++;
 
-			curVb->diffuse = (alpha[1] << 24) | ((Rva0006B4CC *)TheTerrainRenderObject)->call(i + 1, j, 1);
+			curVb->diffuse = (alpha[1] << 24) | TheTerrainRenderObject->getStaticDiffuse(i + 1, j, true);
 			pos.Z = ((Real)m_map->getHeight(i + 1, j) * MAP_HEIGHT_SCALE);
 			pos.X = (i + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
@@ -502,7 +512,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			curVb++;
 			m_curNumCliffVertices++;
 
-			curVb->diffuse = (alpha[3] << 24) | ((Rva0006B4CC *)TheTerrainRenderObject)->call(i, j + 1, 1);
+			curVb->diffuse = (alpha[3] << 24) | TheTerrainRenderObject->getStaticDiffuse(i, j + 1, true);
 			pos.Z = ((Real)m_map->getHeight(i, j + 1) * MAP_HEIGHT_SCALE);
 			pos.X = i * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = (j + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
@@ -518,7 +528,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			curVb++;
 			m_curNumCliffVertices++;
 
-			curVb->diffuse = (alpha[2] << 24) | ((Rva0006B4CC *)TheTerrainRenderObject)->call(i + 1, j + 1, 1);
+			curVb->diffuse = (alpha[2] << 24) | TheTerrainRenderObject->getStaticDiffuse(i + 1, j + 1, true);
 			pos.Z = ((Real)m_map->getHeight(i + 1, j + 1) * MAP_HEIGHT_SCALE);
 			pos.X = (i + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = (j + 1) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
@@ -534,21 +544,23 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			curVb++;
 			m_curNumCliffVertices++;
 
-			*curIb++ = base;
 			if (!m_map->getFlip(i, j)) {
+				*curIb++ = base;
 				*curIb++ = base + 3;
 				*curIb++ = base + 2;
 				*curIb++ = base;
 				*curIb++ = base + 1;
 				*curIb++ = base + 3;
+				m_curNumCliffIndices += 6;
 			} else {
+				*curIb++ = base;
 				*curIb++ = base + 1;
 				*curIb++ = base + 2;
 				*curIb++ = base + 1;
 				*curIb++ = base + 3;
 				*curIb++ = base + 2;
+				m_curNumCliffIndices += 6;
 			}
-			m_curNumCliffIndices += 6;
 		}
 	}
 }
