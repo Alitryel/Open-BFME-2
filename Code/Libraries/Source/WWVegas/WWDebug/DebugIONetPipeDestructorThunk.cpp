@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHa /Oy-
+// cl: /DNDEBUG /MD /EHa
 // Open-BFME: Debug I/O net destructor. Stores the net vtable, CloseHandle on
 // the pipe at +4 unless it is INVALID_HANDLE_VALUE, then restores the
 // DebugIOInterface vtable. Named apart from ??1DebugIONet which is already
@@ -10,6 +10,7 @@ extern "C" __declspec(dllimport) int __stdcall CloseHandle(HANDLE handle);
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug/debug_io.h
 class Debug;
+// Retail's base deleting destructor uses the default frameless codegen.
 class DebugIOInterface
 {
 protected:
@@ -24,6 +25,9 @@ public:
 	virtual void Execute(class Debug &dbg, const char *cmd, bool structuredCmd, unsigned argn, const char *const *argv) = 0;
 	virtual void Delete(void) = 0;
 };
+
+// The derived destructor and its EH graph retain their retail frame pointer.
+#pragma optimize("y", off)
 
 class Rva0088FB30NetIO : public DebugIOInterface
 {
