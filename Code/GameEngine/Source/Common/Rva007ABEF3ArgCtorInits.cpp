@@ -83,6 +83,9 @@ void __cdecl rva007B70AB();
 void __cdecl rva007B7B14();
 void __cdecl rva007B6C2A();
 void __cdecl rva007B75C4();
+void __cdecl rva007B7A41();
+void __cdecl rva007B7A37();
+extern Rva002E8548 g_IntKeyedTreeNodePool; // defined in Rva007B6880Thunks.cpp (0x00DBD4B0)
 
 extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 unsigned g_Va00DEBE0C;	// retail RVA 0x009EBE0C (.bss), defined here
@@ -178,6 +181,8 @@ struct Rva007ABEF3ArgCtorInits
 	static void rva007AE806();
 	static void rva007AC0FA();
 	static void rva007AD5A9();
+	static void rva007AE52D();
+	static void rva007AE547();
 };
 
 // 0x007ABEF3 (26B): 0x0006EFC8(0, -1) on VA 0x00DB424C, atexit(0x007B6B91 -> 0x001EAF7B)
@@ -314,4 +319,18 @@ void Rva007ABEF3ArgCtorInits::rva007AD5A9()
 {
 	g_Va00DB9440.rva002E8548( 0, -1 );
 	atexit( rva007B75C4 );
+}
+
+// 0x007AE52D (26B): pool grow 0x002E8548(0, -1) on VA 0x00DBD4B0, atexit(0x007B7A41 -> 0x001EAF7B)
+void Rva007ABEF3ArgCtorInits::rva007AE52D()
+{
+	g_IntKeyedTreeNodePool.rva002E8548( 0, -1 );
+	atexit( rva007B7A41 );
+}
+
+// 0x007AE547 (26B): pool grow 0x002E8548(0, -1) on VA 0x00DBD4C8, atexit(0x007B7A37 -> 0x001EAF7B)
+void Rva007ABEF3ArgCtorInits::rva007AE547()
+{
+	g_Va00DBD4C8.rva002E8548( 0, -1 );
+	atexit( rva007B7A37 );
 }
