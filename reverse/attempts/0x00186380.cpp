@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.93 date=2026-10-20
+// ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.926 date=2026-10-18
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.937 date=2026-10-17
@@ -11,8 +13,6 @@
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.88 date=2026-10-12
 // cl: /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /arch:SSE /DNDEBUG /MD /EHsc /G7 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
@@ -36,6 +36,12 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4 &tex_matrix)
 	float offset_u = CurrentUVOffset.X + UVOffsetDeltaPerMS.X * del;
 	float offset_v = CurrentUVOffset.Y + UVOffsetDeltaPerMS.Y * del;
 
+	// We need to clamp these texture coordinates to a reasonable range so the hardware doesn't
+	// choke on them. We do this in one of two ways:
+	// If ClampFix is not TRUE we use the fractional part of the offset, restricting it between
+	// 0 and 1 with wraparound. This works well for tiled textures.
+	// If ClampFix is TRUE we clamp the offsets between -Scale and +Scale with no wraparound.
+	// This works well for clamped textures.
 	if (!ClampFix) {
 		offset_u = offset_u - WWMath::Floor(offset_u);
 		offset_v = offset_v - WWMath::Floor(offset_v);
@@ -44,9 +50,16 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4 &tex_matrix)
 		offset_v = WWMath::Clamp(offset_v, -Scale.Y, Scale.Y);
 	}
 
+	// multiply by projection matrix
+	// followed by scale and translation
 	tex_matrix = g_mapperProjectionUpload_009EDBF0.Transpose();
 	tex_matrix[0] *= Scale.X; // entire row since we're pre-multiplying
-	tex_matrix[1] *= Scale.Y;
+	// Row 1 scales through a Scale.Y local, from which retail forms row1.X (movaps xmm3,xmm2).
+	float ky = Scale.Y;
+	tex_matrix[1].X = ky * tex_matrix[1].X;
+	tex_matrix[1].Y = ky * tex_matrix[1].Y;
+	tex_matrix[1].Z = ky * tex_matrix[1].Z;
+	tex_matrix[1].W = ky * tex_matrix[1].W;
 	// Row 0 differs from Zero Hour: retail adds each product with the row
 	// element folded as the addss memory operand, in Y,Z,W,X order (X, at
 	// displacement 0, is scheduled last). Writing the four products per element
@@ -65,6 +78,7 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4 &tex_matrix)
 	last *= offset_v;
 	tex_matrix[1] += last;
 
+	// Update state
 	CurrentUVOffset.X = offset_u;
 	CurrentUVOffset.Y = offset_v;
 	LastUsedSyncTime = WW3D::Get_Sync_Time();
