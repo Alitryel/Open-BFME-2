@@ -51,6 +51,10 @@ namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_new_node@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum Relationship;
+namespace _STL { template <> _Hashtable_node<pair<int const ,Relationship> > * hashtable<pair<int const ,Relationship>,int,hash<int>,_Select1st<pair<int const ,Relationship> >,equal_to<int>,allocator<pair<int const ,Relationship> > >::_M_new_node(pair<int const ,Relationship> const &); }
 // Suppress this TU's non-retail copy of ?_M_next_size@?$hashtable@U?$pair@$$CBIW4Relationship@@@_STL@@IU?$hash@I@2@U?$_Select1st@U:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 enum Relationship;
