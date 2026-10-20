@@ -577,7 +577,14 @@ void	Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 	float temp = corner_offset.X;					// Rotate 90
 	corner_offset.X = corner_offset.Y;
 	corner_offset.Y = -temp;
-	corner_offset.Normalize();						// scale to length width/2
+	// Expand the donor normalization here: the standalone retail Vector2
+	// helper has its own /Oy- owner in Vector2_Normalize.cpp.
+	float len2 = corner_offset.Length2();
+	if (len2 != 0.0f) {
+		float oolen = WWMath::Inv_Sqrt(len2);
+		corner_offset.X *= oolen;
+		corner_offset.Y *= oolen;
+	}
 	corner_offset *= width / 2;
 
 	Add_Quad( a - corner_offset, a + corner_offset, b - corner_offset, b + corner_offset, uv, color );
@@ -595,7 +602,14 @@ void Render2DClass::Add_Line( const Vector2 & a, const Vector2 & b, float width,
 	float temp = corner_offset.X;					// Rotate 90
 	corner_offset.X = corner_offset.Y;
 	corner_offset.Y = -temp;
-	corner_offset.Normalize();						// scale to length width/2
+	// Expand the donor normalization here: the standalone retail Vector2
+	// helper has its own /Oy- owner in Vector2_Normalize.cpp.
+	float len2 = corner_offset.Length2();
+	if (len2 != 0.0f) {
+		float oolen = WWMath::Inv_Sqrt(len2);
+		corner_offset.X *= oolen;
+		corner_offset.Y *= oolen;
+	}
 	corner_offset *= width / 2;
 
 	Add_Quad_HGradient( a - corner_offset, a + corner_offset, b - corner_offset, b + corner_offset, uv, color,color2);
