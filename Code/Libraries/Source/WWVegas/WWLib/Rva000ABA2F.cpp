@@ -81,7 +81,7 @@ extern void (__cdecl *g_bfmeAptMatrixCallbackAtE177A0)(AptMatrix *);
 extern "C" void *bfmeNotify1209Callback;
 extern void *g_aptDrawRenderingUnitSlot;
 extern void *g_aptCustomControlRenderSlot;
-extern "C" void *pointHitTestCallback;
+extern "C" int (__cdecl *pointHitTestCallback)(float, float, void *);
 extern void *g_aptGetStageHeightSlot;
 extern void *g_aptGetStageWidthSlot;
 
@@ -117,7 +117,7 @@ void rva000ABA2F()
 	bfmeNotify1209Callback = (void *)Rva000A994CSetColor;
 	g_aptDrawRenderingUnitSlot = (void *)w3dDrawRenderingUnit;
 	g_aptCustomControlRenderSlot = (void *)w3dCustomControlRender;
-	pointHitTestCallback = (void *)Rva000910FBAptPointHitTest;
+	pointHitTestCallback = (int (__cdecl *)(float, float, void *))Rva000910FBAptPointHitTest;
 	g_aptGetStageHeightSlot = (void *)Rva000A92A2Get;
 	g_aptGetStageWidthSlot = (void *)Rva000A92A9Get;
 	Rva006CD1F0Set(0);

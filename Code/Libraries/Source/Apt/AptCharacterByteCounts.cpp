@@ -177,10 +177,10 @@ class AptInteger {public:static AptValue *Create(int);};
 class AptBasePtrStack {public:AptValue *At(int);};
 struct AptActionInterpreter {AptBasePtrStack stack;void loadVariables(AptValue *,AptValue *,const EAStringC *);};
 extern AptActionInterpreter g_aptDateInterpreter;
-static int (__cdecl *pointHitTestCallback)(float,float,void*);
+extern "C" { int (__cdecl *pointHitTestCallback)(float,float,void*) = 0; }
 // 006ECA70: target gAptFuncs.pfnPointHitTest assertion identifies the callback
-// slot; its retail data word is initially zero. This is a private typed view
-// of that unclaimed slot, not a claim about the original global's scope.
+// slot at VA 0x00E177B4; its retail data word is initially zero. Export the
+// ledger-owned slot for the W3D Apt callback installer in Rva000ABA2F.cpp.
 // Native At calls use the interpreter's stack prefix at offset zero. The
 // two bounds rectangles form one aggregate to preserve the measured slots:
 // other +8 and receiver +18. All four bounds tests are inclusive and ordered.
