@@ -14,7 +14,8 @@ class Rva00785FD0Renderer;
 extern Matrix4 BFME2World;
 // Owned here: the world-matrix cache the render units overwrite with
 // Transpose() results; retail .data starts it at zeros.
-Matrix4 BFME2World;
+// Preserve zero-initialized storage without a default-constructor copy.
+Matrix4 BFME2World(false);
 typedef char RendererMatrixStorageSize[sizeof(Matrix4)==64 ? 1 : -1];
 class BfmeHub982 { public: void bfmeEnd982C(); };
 
