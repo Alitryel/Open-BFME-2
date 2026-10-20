@@ -1,4 +1,6 @@
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
+// partial score=0.9069 date=2026-10-20
+// ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.7658 date=2026-10-20
 // ?bfmeTwoCGD@BfmeThingCGD@@QAEXXZ
 // partial score=0.5915915915915916 date=2026-10-19
@@ -12,18 +14,23 @@
 // Keep the saved node while advancing the shared cursor.
 // Prepare each response with the two sources of that saved node.
 // Read the normal's x and y, copy its z, then negate all three into the reverse.
-struct ContactVector { float x,y,z; };
+// The reverse normal is a temporary copy of the normal, negated in place and passed to prepare.
+struct ContactVector {
+ float x,y,z;
+ ContactVector(const ContactVector &v) { x=v.x; y=v.y; z=v.z; }
+ ContactVector &negate() { x=-x; y=-y; z=-z; return *this; }
+};
 struct ContactSource {
  virtual void slot0()=0;
  virtual void slot1()=0;
  virtual void slot2()=0;
- virtual void *prepare(ContactVector *, ContactVector *)=0;
+ virtual void *prepare(const ContactVector &point, const ContactVector &normal)=0;
  virtual void slot4()=0;
  virtual void slot5()=0;
  virtual void slot6()=0;
  virtual void slot7()=0;
- virtual bool test(void *)=0;
- virtual void respond(void *)=0;
+ virtual bool test(void *info)=0;
+ virtual void respond(void *info)=0;
 };
 struct ContactData { void *owner; ContactSource *source; };
 struct ContactNode {
@@ -57,19 +64,10 @@ void BfmeThingCGD::bfmeTwoCGD() {
   if(node==0) return;
   if(node->first->source==0 || node->second->source==0) continue;
   if(node->state==0)
-   node->state=node->first->source->test(node->second->source->prepare(&node->point,&node->normal))?1:2;
+   node->state=node->first->source->test(node->second->source->prepare(node->point,node->normal))?1:2;
   if(node->state==2) continue;
-  ContactVector *n=&node->normal;
-  void *info=node->second->source->prepare(&node->point,n);
-  node->first->source->respond(info);
+  node->first->source->respond(node->second->source->prepare(node->point,node->normal));
   if(node->first->source==0 || node->second->source==0) continue;
-  float x=n->x,y=n->y;
-  ContactVector reverse;
-  reverse.z=n->z;
-  reverse.x=-x;
-  reverse.y=-y;
-  reverse.z=-reverse.z;
-  void *rinfo=node->first->source->prepare(&node->point,&reverse);
-  node->second->source->respond(rinfo);
+  node->second->source->respond(node->first->source->prepare(node->point,ContactVector(node->normal).negate()));
  }
 }
