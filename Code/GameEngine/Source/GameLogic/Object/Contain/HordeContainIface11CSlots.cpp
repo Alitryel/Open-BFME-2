@@ -998,7 +998,7 @@ public:
 	virtual void rva0046BEAC(Object *obj) = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
 	virtual void slot42(const Object *obj) = 0; virtual bool rva0046B9DC(int a1) = 0; virtual bool rva0046B95E(int a1) = 0; virtual void rva00468CA3(const Rva00468CA3Arg *arg) = 0;
 	virtual void rva0046E7E3(const UpgradeTemplate *upgrade, bool all) = 0; virtual void gap47() = 0; virtual void rva004707DB(Object *obj, float amount) = 0; virtual void rva004739B4() = 0;
-	virtual void gap50() = 0; virtual void rva0046BD70() = 0; virtual void rva0046BE0E() = 0; virtual void rva0046C3FE(Player *player) = 0;
+	virtual void rva0046BC30() = 0; virtual void rva0046BD70() = 0; virtual void rva0046BE0E() = 0; virtual void rva0046C3FE(Player *player) = 0;
 	virtual void gap54() = 0; virtual void rva0046C4C0() = 0; virtual void rva0046C327() = 0; virtual void rva0046C20B() = 0;
 	virtual bool rva0046C5D7(int value) = 0; virtual bool rva0046F8A5() = 0; virtual bool rva0046F8F4() = 0; virtual void gap61() = 0;
 	virtual bool rva0046AAB8() = 0; virtual void rva004738B6(Object *target) = 0; virtual void gap64() = 0; virtual unsigned int rva0046F7F8() const = 0;
@@ -1338,6 +1338,7 @@ public:
 	virtual bool rva0046A2EC(Object *target);
 	virtual bool rva0046A381(Object *target);
 	virtual void rva0046BEAC(Object *obj);
+	virtual void rva0046BC30();
 	virtual void rva0046BD70();
 	virtual void rva0046BE0E();
 	virtual void rva0046BA56(Object *source, int unused);
@@ -2648,6 +2649,74 @@ bool HordeContain::rva0046A381(Object *target)
 		}
 	}
 	return false;
+}
+
+// Retail 0x0046BC30 (320 bytes), +0x11C interface slot 50, WB twin 0x010C2930.
+// Moves live members to the goal plus their rotated formation offsets while +0x2A0 is unset.
+// Target evidence establishes the slot, record stride and goal calls; the original method name is unknown.
+// Coord2D's donor copy/Rotate operations guide the arithmetic; the retained FSINCOS pair is the native
+// x87 codegen exception after the two CRT calls. Copy, rotation and final addition must stay separate
+// member operations: their composed inlining reproduces retail's sine/y register reuse.
+struct Rva0046BC30Offset : public Coord2D
+{
+	Rva0046BC30Offset(const Coord2D &v) { x = v.x; y = v.y; }
+
+	__forceinline void AddTo(const Coord3D &goal, Coord3D &pos) const
+	{
+		pos.x = goal.x + x;
+		pos.y = goal.y + y;
+		pos.z = goal.z;
+	}
+	__forceinline Rva0046BC30Offset &Rotate(float angle)
+	{
+		struct TrigValues
+		{
+			float sine;
+			float cosine;
+		} trig;
+
+		trig.sine = (float)sin((double)angle);
+		trig.cosine = (float)cos((double)angle);
+		__asm {
+			fld angle
+			fsincos
+			fstp trig.cosine
+			fstp trig.sine
+		}
+
+		float new_x = trig.cosine * x - trig.sine * y;
+		float new_y = trig.cosine * y;
+		new_y += trig.sine * x;
+		y = new_y;
+		x = new_x;
+		return *this;
+	}
+};
+
+
+void HordeContain::rva0046BC30()
+{
+	if (m_2A0 != 0)
+		return;
+	Coord3D goal;
+	if (!m_object->GetGoalPosition(&goal))
+		return;
+	float angle = m_object->GetGoalAngle();
+	Rva0046247DPair p;
+	rva0046D27ASlot70(p);
+	for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); ++it)
+	{
+		Object *obj = *it;
+		if (obj->isEffectivelyDead())
+			continue;
+		int index = ((Rva0046ACF6 *)(UpdateModule *)this)->rva0046ACF6(obj->getID());
+		Rva0046BC30Offset offset(*reinterpret_cast<const Coord2D *>(&m_188Begin[index].m_04));
+		offset.Rotate(angle);
+
+		Coord3D pos;
+		offset.AddTo(goal, pos);
+		obj->rva0028ACEE((int)&pos, m_object->GetGoalLayer());
+	}
 }
 
 // ?rva0046BD70@HordeContain@@UAEXXZ @0x0046BD70: slot 51; hands every
