@@ -2,7 +2,7 @@
 //
 // ArrowStormUpdate's slot-15 and slot-17 overrides (vftable 0x00C4D700,
 // slot-2 name getter "ArrowStormUpdate"). Each first runs the base
-// SpecialAbilityUpdate slot (pinned rva00450D9A / triggerAbilityEffect) and carries
+// SpecialAbilityUpdate slot (rowed startPreparation / triggerAbilityEffect) and carries
 // that slot's address name, which cl 7.1 needs to place the override; the
 // method identities are not established. The +0x88 list is the one the
 // rowed ArrowStormUpdate::xfer transfers.
@@ -14,7 +14,7 @@
 //
 // ?rva00450D9A@ArrowStormUpdate@@UAEXXZ, retail 0x00490D0A, 53 bytes.
 // Slot 15: resets the list (rowed 0x0026549E), zeroes +0x8C/+0x90/+0x94 and
-// the flag at +0x98, then tail-calls the pinned member 0x00490AC5.
+// the flag at +0x98, then tail-calls the rowed member 0x00490AC5.
 
 class ModuleData;
 
@@ -48,7 +48,7 @@ public:
 	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
 	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
 	virtual void s12(); virtual void s13(); virtual void s14();
-	virtual void rva00450D9A();
+	virtual void startPreparation();	// row 0x00450D9A
 	virtual void s16();
 	virtual void triggerAbilityEffect();
 protected:
@@ -62,9 +62,10 @@ public:
 	virtual void rva00450D9A();
 	virtual void triggerAbilityEffect();
 
+	void rva00490AC5();	// row 0x00490AC5
+
 private:
 	bool rva0049083C();
-	void rva00490AC5();
 
 	Rva0029FB3BMember m_88;
 	int m_8C;
@@ -96,7 +97,7 @@ void ArrowStormUpdate::triggerAbilityEffect()
 // ?rva00450D9A@ArrowStormUpdate@@UAEXXZ @0x00490D0A
 void ArrowStormUpdate::rva00450D9A()
 {
-	SpecialAbilityUpdate::rva00450D9A();
+	SpecialAbilityUpdate::startPreparation();
 	m_88.reset();
 	m_8C = 0;
 	m_90 = 0;

@@ -7867,19 +7867,14 @@ name,address,notes
 ?bfmeHitZP@BfmeSlotZP@@QAEXPAVBfmeKeyZP@@@Z,0x0066E190
 ?bfmeImplV21@BfmeStrV21@@QAEXPAD000@Z,0x00028820
 ?bfmeImplV22@BfmeStrV22@@QAEXPAD000@Z,0x00028820
-?bfmeImplV23@BfmeStrV23@@QAEXPAD000@Z,0x000284D0
-?bfmeImplV24@BfmeStrV24@@QAEXPAD000@Z,0x000284D0
-?bfmeImplV43@BfmeStrV43@@QAEXPAD000@Z,0x000284D0
 ?bfmeImplV44@BfmeStrV44@@QAEXPAD000@Z,0x00028820
 ?bfmeImplVMF@BfmeStrVMF@@QAEXHHHPAD@Z,0x00028820
-?bfmeImplVMG@BfmeStrVMG@@QAEXHHHPAD@Z,0x000284D0
 ?bfmeImplVMI@BfmeStrVMI@@QAEXHHHHPAD@Z,0x0002AE50
 ?bfmeImplVML@BfmeStrVML@@QAEXHHHHPAD@Z,0x0002B050
 ?bfmeImplVMN@BfmeStrVMN@@QAEXHHHH@Z,0x0002B050
 ?bfmeImplVMO@BfmeStrVMO@@QAEXHHHH@Z,0x0002AE50
 ?bfmeImplVMP@BfmeStrVMP@@QAEXHHHH@Z,0x0002B050
 ?bfmeImplVMR@BfmeStrVMR@@QAEXHHH@Z,0x00028820
-?bfmeImplVMS@BfmeStrVMS@@QAEXHHH@Z,0x000284D0
 ?bfmeImplVMT@BfmeStrVMT@@QAEXHH@Z,0x0001B3E0
 ?bfmeImplVMW@BfmeStrVMW@@QAEXHHPAD@Z,0x000120F0
 ?bfmeImplVMX@BfmeStrVMX@@QAEXHHPAD@Z,0x0001B3E0
@@ -13213,7 +13208,6 @@ _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
 ?rva0057ABD0@ChecklistUIImpl@StrategicHUD@@QBEMXZ,0x0057ABD0,unrowed 60B const thiscall returning float: the checklist item list height (last item +0x38 plus its +8 0x004987FE plus 0x0057A24A on g_Va00E06360; that alone when the +0x30 list is empty); the scroll listener 0x0057AC8F calls it with this-8 (REL32 at 0x0057AC9A)
 ?MapGadgetInit@AptMapPreview@@QAEXPBDPAXPAVGameWindow@@@Z,0x0057E25D,callee of ?rva0057E45C@AptMapPreview@@QAEXXZ: bound as the "AptMapPreview::MapGadgetInit" screen reference (member pointer immediate 0x0097E25D at 0x0057E484); Ghidra FUN_0097e25d 382B ret 0xC; files the MapInfo/MapDescription/MapPicture/CurrentMap/StrategicScenario*/LivingWorld windows
 ?rva0057E058@AptMapPreview@@QAEXXZ,0x0057E058,callee of ?MapGadgetInit@AptMapPreview@@QAEXPBDPAXPAVGameWindow@@@Z (REL32 tail at 0x0057E3CF); same address as the ?rva0057E058@Rva0057E3DB@@QAEXXZ placeholder pin; address name
-?Rva00411523CallAsFree@@YAXXZ,0x00411523,Address-derived call-shape alias; 0x0022244D call site preserves original ECX and the body at 0x00411523 does not read it
 ?Rva00411B52@@YAXXZ,0x00411B52,Address-derived call views supported by direct retail calls or tail call at 0x0022274A; semantic names and unobserved ABI details unresolved
 ?Rva006CDF60@@YAXXZ,0x006CDF60,Address-derived call views supported by direct retail calls or tail call at 0x0022274A; semantic names and unobserved ABI details unresolved
 ?Rva006CC600@@YAXPBDPAD@Z,0x006CC600,Address-derived cdecl call view from retail direct call in 0x00222481; first arg is const literal and second is stack buffer

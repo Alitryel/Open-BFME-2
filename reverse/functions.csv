@@ -36707,7 +36707,7 @@ _FilterBlockBil_8_wmt,,0x001D7C80,204,Code/Libraries/Source/VP6/FilterBlockBil8W
 ?rva00056CF8@Rva00056CF8@@QAEXPAUHashNode00056CF8@@@Z,,0x00056CF8,53,Code/Libraries/Source/WWVegas/WWLib/Rva00056CF8Erase.cpp,matched,honest twin of rowed erase via same clear and free; caller clears same way
 ?Rva00411112Get@@YAPAXPBVAsciiString@@@Z,,0x00411112,25,Code/GameEngine/Source/GameClient/Rva00411112Get.cpp,matched,chain over rowed find via global table returning node plus 8 or null
 ?Rva004110DCGet@@YAPAXPBD@Z,,0x004110DC,54,Code/GameEngine/Source/GameClient/Rva004110DCGet.cpp,matched,chain over rowed find with temp string via global table returning node plus 8 or null
-?rva00411523@Rva00411523@@QAEXXZ,,0x00411523,44,Code/GameEngine/Source/GameClient/Rva00411523Walk.cpp,matched,Eva table walk via pinned first and rowed next clearing node plus 2C
+?rva00411523@Rva00411523@@SAXXZ,,0x00411523,44,Code/GameEngine/Source/GameClient/Rva00411523Walk.cpp,matched,Eva table walk via pinned first and rowed next clearing node plus 2C
 ?rva004114EF@Rva004114EF@@SAXXZ,,0x004114EF,52,Code/GameEngine/Source/GameClient/Rva004114EFWalk.cpp,matched,Eva table walk via pinned first and rowed next virtual-calling node plus 18
 ?tossEmitters@W3DTankTruckDraw@@IAEXXZ,,0x000CB5C3,191,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTankTruckDrawTossEmitters.cpp,matched,donor BFME1 W3DTankTruckDraw tossEmitters callers 0xCDE9F 0xCDF1B 0xCDE52 handles +0x2ec +0x2f8 +0x304 volatile preserves Make chases
 ?freeTerrainTracksResources@TerrainTracksRenderObjClass@@QAEHXZ,,0x0008E187,107,Code/GameEngineDevice/Source/W3DDevice/GameClient/TerrainTracksRenderObjClassFree.cpp,matched,dtor callsite and Render slot12 share D4 DC E0 E4 layout

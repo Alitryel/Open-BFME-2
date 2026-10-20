@@ -1,11 +1,18 @@
 // cl: /Od
 
+// basic_string<char>::insert<char*>(pos, first, last, forward tag), rowed at 0x000284D0.
+struct Rva008312E0Tag;
+class Rva008312E0String
+{
+public:
+	void insertRange(char *pos, char *first, char *last, const Rva008312E0Tag &tag);
+};
+
 class BfmeStrV43
 {
 public:
 	void bfmeThrowV43();
 	void bfmeLenErrV43();
-	void bfmeImplV43(char *a, char *b, char *c, char *d);
 
 	char *b;
 	char *e;
@@ -91,7 +98,7 @@ void __stdcall bfmeInsertRangeV43(int pos, BfmeStrV43 *other, int opos, int n)
 		add edx, dword ptr [ebp+8]
 		push edx
 		mov ecx, dword ptr [ebp-0xB0]
-		call BfmeStrV43::bfmeImplV43
+		call Rva008312E0String::insertRange
 		mov eax, dword ptr [ebp-0xB0]
 	}
 }

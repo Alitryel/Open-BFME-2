@@ -5,10 +5,13 @@
 // 0x006CC880 body through its retail thunk, and rowed 0x0041154F. The owner's
 // identity and the slot's semantic name remain unresolved.
 
-// The target retains its incoming ECX across the preceding virtual call. This
-// address-derived call view emits a direct cdecl call without restoring ECX;
-// the matched callee does not read ECX.
-void Rva00411523CallAsFree();
+// The target retains its incoming ECX across the preceding virtual call: the
+// rowed 0x00411523 walk is static and does not read ECX.
+class Rva00411523
+{
+public:
+	static void rva00411523();
+};
 
 // Retail calls the rowed 5-byte Apt tail jump 0x006CC940, which jumps to 0x006CC880.
 void rva006cc940();
@@ -42,7 +45,7 @@ void Rva0022244D::rva0022244D()
 		rva0022244DVslot10();
 		m_flag328 = 0;
 	}
-	Rva00411523CallAsFree();
+	Rva00411523::rva00411523();
 	rva006cc940();
 	Rva0041154FHide();
 }

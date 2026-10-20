@@ -31,7 +31,7 @@ class Render2DSentenceClass
 public:
 	void Reset_Polys();
 	void Set_Location(const Vector2 &loc);
-	void Draw_Sentence(Int color0, Int color1, Int color2, Int color3);
+	void Draw_Sentence(unsigned long color0, unsigned long color1, unsigned long color2, unsigned long color3);
 
 	char m_body[0xC4];
 };
