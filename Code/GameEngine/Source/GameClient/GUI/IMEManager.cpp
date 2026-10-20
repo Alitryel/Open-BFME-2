@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfmealloc /Ireference/shims/sweep /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /EHsc
 // stlport
 //
 // BFME2 IMEManager (retail block 0x00232D7B-0x00233E8B). Source carried from
