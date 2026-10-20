@@ -21,6 +21,22 @@
 // VC7.1 keeps the address-taken drawable parameter in EBX until the push and
 // writes its home only where the container branch replaces it, as retail does.
 #include <list>
+// list<Drawable *> takes its nodes from the 12-byte pool at VA 0x00DBA5E0:
+// the node creator 0x00239BD8 is spelled as InGameUISelectDrawable.cpp spells
+// it, so push_back's call reaches retail's body rather than a stock
+// allocator copy.
+class Drawable;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template <> __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+	_List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+	_Construct(&node->_M_data, value);
+	return node;
+}
+}
 #include "Common/GameLogicObjectLookupView.h"
 // bfme link decl-only begin
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
