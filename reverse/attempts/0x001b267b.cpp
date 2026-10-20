@@ -1,4 +1,6 @@
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
+// partial score=0.903 date=2026-10-20
+// ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
 // partial score=0.56 date=2026-10-19
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
 // partial score=0.58 date=2026-10-10
@@ -13,6 +15,8 @@
 // frame count at +0xC.
 // Codegen: `bit` kept as an int and used for both the select and the pointer step; the vi
 // loop advances packet in its increment expression.
+// Encoding 2 (rva001B267B): 17-byte component packets, a filter byte then 16 bytes biased by 128
+// with the filter scaled by 1/16; every component restarts at the in-block offset of `start`.
 class ChunkLoadClass;
 class Vector3 { public: float X, Y, Z; };
 class Quaternion { public: float X, Y, Z, W; };
@@ -149,18 +153,20 @@ void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int 
             *value1 = last;
             return;
         }
-        unsigned int fi0 = from & 0xF;
+        unsigned int start = from;
         from &= ~0xFu;
-        for (int vi = 0; vi < 3; ++vi, packet += 17) {
+        unsigned int fi = start & 0xF;
+        for (int vi = 0; vi < 3; ++vi, packet += 17, fi = start & 0xF) {
             float filter = filtertable[*packet] * Scale * 0.0625;
-            for (unsigned int fi = fi0; fi < 16; ++fi) {
+            for (; fi < 16; ++fi) {
                 unsigned int f = from + fi;
                 if (f == frame)
                     ((float *)value0)[vi] = ((float *)&last)[vi];
                 else if (f == frame + 1) {
                     ((float *)value1)[vi] = ((float *)&last)[vi];
+                    break;
                 }
-                int factor = (int)packet[1 + fi] - 0x80;
+                int factor = packet[fi + 1] - 128;
                 ((float *)&last)[vi] += (float)factor * filter;
             }
         }
