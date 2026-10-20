@@ -2,6 +2,12 @@
 // stlport
 // TeleportToCasterSpecialPower::teleportList: WB12777E0 assertion84 establishes name; native4CD51B..4CD68D RET8 establishes extent370 and layout/calls.
 // No applicable clean BF1/ZH TeleportToCaster source at donor9cbfb551 (rechecked at0bef414b). Data+CC/D0 ring radii, Object44 orientation/258 AI; native vector element IDs use shared lookup enum.
+// Keep vector growth's inlined max comparison local; the external template
+// body belongs to stlport_basic_ios_init.cpp (retail RVA 0x00013740).
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
+}
 #include <vector>
 #include <string.h>
 #include <math.h>
