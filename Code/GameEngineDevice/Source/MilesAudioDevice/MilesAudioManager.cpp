@@ -6785,3 +6785,133 @@ Rva0010F149Handle MilesAudioManager::newOwnedAudioEventInfo(const AsciiString &n
         return Rva0010F149Handle(m_allAudioEventInfo.rva00059FBB(name));
     }
 }
+
+struct QueuedStopEvent {char at00[0x8C];bool m_at8C;};
+// Native5FA3C..5FDC8 RET4; BF1 f989 rva006AFD00 is the primary clean
+// stop-chain donor. BFME2 adds the independently measured +80 stop holds
+// and queued-event +8C expiry request; all state collections are owned.
+// Loop 1 has WorldBuilder 0x792D90's shape (if (hold <= 0) {...} else return;
+// break;). Its found block reaches the event through two equal views of the
+// stream (the smart pointer and a raw copy): with one view cl 7.1 hoists
+// &audio->m_event into a register for the three loads, which retail does not.
+void MilesAudioManager::rva0005FA3C(unsigned int handle)
+{
+ if(handle<5)return;
+ {
+ for(PlayingAudioList::iterator it=m_playingStreams.begin();it!=m_playingStreams.end();++it) {
+  PlayingAudioRef audio=*it;
+  if(!audio.get())continue;
+  if(audio->m_event->m_playingHandle==handle) {
+   PlayingAudio *playing=audio.get();
+   --audio->m_event->m_at80;
+   if(playing->m_event->m_at80<=0) {
+    audio->m_event->m_at4C=true;
+    if(!(playing->m_event->m_info->m_control&0x10))processAudioCompletion(audio);
+   } else {
+    return;
+   }
+   break;
+  }
+ }
+ }
+ for(PlayingAudioList::iterator it=m_playingSounds.begin();it!=m_playingSounds.end();++it) {
+  PlayingAudioRef audio=*it;
+  if(!audio.get())continue;
+  if(audio->m_event->m_playingHandle==handle) {
+   --audio->m_event->m_at80;
+   if(audio->m_event->m_at80>0)return;
+   audio->m_event->m_at4C=true;
+   break;
+  }
+ }
+ for(PlayingAudioList::iterator it=m_playing3DSounds.begin();it!=m_playing3DSounds.end();++it) {
+  PlayingAudioRef audio=*it;
+  if(!audio.get())continue;
+  if(audio->m_event->m_playingHandle==handle) {
+   --audio->m_event->m_at80;
+   if(audio->m_event->m_at80>0)return;
+   audio->m_event->m_at4C=true;
+   break;
+  }
+ }
+ for(int i=0;i<3;++i) {
+  for(QueuedAudioEvents::iterator it=m_queuedEvents[i].begin();it!=m_queuedEvents[i].end();++it) {
+   if(it->m_playingHandle==handle) {
+    AudioEventRTS *event=reinterpret_cast<AudioEventRTS *>(it);
+    if(--event->m_at80>0)return;
+    reinterpret_cast<QueuedStopEvent *>(event)->m_at8C=true;
+    break;
+   }
+  }
+  PlayingAudioRef &music=m_playingMusic[i];
+  if(music.get()&&music->m_event->m_playingHandle==handle) {
+   --music->m_event->m_at80;
+   if(music->m_event->m_at80>0)return;
+   reinterpret_cast<Rva000A8C9B *>(&music)->clear();
+  }
+  for(int j=0;j<2;++j) {
+   MusicStack &stack=m_musicStack[i][j];
+   for(MusicStack::iterator it=stack.begin();it!=stack.end();++it) {
+    PlayingAudioRef &audio=reinterpret_cast<PlayingAudioRef &>(*it);
+    if(audio.get()&&audio->m_event->m_playingHandle==handle) {
+     --audio->m_event->m_at80;
+     if(audio->m_event->m_at80>0)return;
+     stack.erase(it);break;
+    }
+   }
+  }
+ }
+ {
+  Rva00054EBETable::iterator found=reinterpret_cast<Rva00055951 &>(m_requestSet).rva00055951(handle);
+  if(found._M_cur) {
+   Rva00051107AudioRequest *request = *reinterpret_cast<Rva00051107AudioRequestSet::iterator &>(found);
+   --request->m_pendingEvent->m_at80;
+   if(request->m_pendingEvent->m_at80>0)return;
+   Rva00054EBETable::iterator copy=found;
+   reinterpret_cast<Rva00051B89KeyedSet &>(m_requestSet).erase(reinterpret_cast<Rva00051B89KeyedSet::iterator &>(copy));
+   deleteAudioRequest(request);
+  }
+ }
+ for(Rva00051107AudioRequestList::iterator it=m_audioRequests.begin();it!=m_audioRequests.end();) {
+  Rva00051107AudioRequest *request=*it;
+  if(request&&request->m_request==0) {
+   bool matches;
+   if(request->m_pendingEvent.get())matches=request->m_pendingEvent->m_playingHandle==handle;
+   else matches=request->m_at08==handle;
+   if(matches) {
+    if(request->m_pendingEvent.get())--request->m_pendingEvent->m_at80;
+    if(request->m_pendingEvent.get()&&request->m_pendingEvent->m_at80>0)return;
+    deleteAudioRequest(request);
+    it=m_audioRequests.erase(it);continue;
+   }
+  }
+  ++it;
+ }
+}
+
+class __declspec(novtable) Rva00A86CE
+{
+public:
+    virtual ~Rva00A86CE();
+    int m_04;
+    unsigned int m_08;
+    int m_0C;
+    int m_10;
+    int m_14;
+};
+
+class __declspec(novtable) Rva000A8684 : public Rva00A86CE
+{
+public:
+    Rva000A8684();
+};
+
+Rva00054EBETable::iterator Rva00055951::rva00055951(unsigned int handle)
+{
+    Rva000A8684 request;
+    request.m_08 = handle;
+    return reinterpret_cast<Rva00054EBETable *>(this)->find(reinterpret_cast<int>(&request));
+}
+
+// model=gpt-6.1-sol; restores the request lookup and removes the extra volatile read.
+// See reverse/attempt_support/miles-stop-5fa3c-20261019.md for the remaining +0xBD mismatch.
