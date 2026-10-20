@@ -73,8 +73,13 @@ enum KindOfType { MoveAlliesKind9A=0x9A };
 enum NameKeyType { NAMEKEY_INVALID=0 };
 class Module;
 struct Coord3D;
+struct AttackGeometry{char gap[0x10];float radial;float getRadial()const{return radial;}};
 class Object
 {
+public:
+ __forceinline const AttackGeometry& getAttackGeometry()const{return (*reinterpret_cast<const AttackGeometry *>((const char*)this+0xa8));}
+ char rva00294815();
+ bool isSignificantlyAboveTerrain()const;
 friend class Rva002F23A6;
 public:
 	Player *getControllingPlayer() const;
@@ -463,6 +468,7 @@ class Weapon
 {
 public:
 	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
+ float getAttackDistance(const Object*,const Object*,const Coord3D*)const;
 };
 // ?PathfinderWeaponRangeAdapter absent-from-retail
 __forceinline Bool Rva002CB35CObj::rva002CB35C(Int a1, void *pos, void *a3, void *a4, float range, Int a6)
@@ -695,6 +701,9 @@ double Rva000422A0Atan2(float,float);
 struct Rva002F4491Info;
 class Pathfinder
 {
+public:
+ Path *FindAttackPath(Object *,const LocomotorSet &,const Coord3D *,Object *,const Coord3D *,Rva002C9B80Owner *,Bool,Bool *);
+ Bool isAttackViewBlockedByObstacle(const Object *,const Coord3D &,const Object *,const Coord3D &);
 private:
  Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,Rva002F4491Info *);
 public:
@@ -3769,8 +3778,10 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
 }
 
 float g_00DBD338 = 0.010000000707805157f;	// retail RVA 0x009BD338 (.data), defined here
-class Rva0053476A;
-class Rva002EAD62 { public: void rva002EAD62(); };
+class Rva0053476A{public:~Rva0053476A();};
+class Rva002EAD62 { public: void rva002EAD62();Rva0053476A *m_ptr; };
+void Rva002EAD62::rva002EAD62(){delete m_ptr;}
+
 class Rva002EAD39 { public: void rva002EAD39(Rva0053476A *); };
 // Owner of the hierarchical path the closest search consults.
 struct PathfinderAttackHandle
@@ -6250,4 +6261,171 @@ Path *Pathfinder::FindGroundPath(Object *obj,const Coord3D *from,const Coord3D *
         }
     }
     m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return 0;
+}
+
+struct PathfinderAttackNode{PathfinderAttackNode*next,*previous,*optimized;};
+struct PathfinderAttackPathView{void*vptr;PathfinderAttackNode*first;};
+struct AttackLimitView{char gap[0x9b8];Int debugAI;char pad[0x1214-0x9bc];unsigned int attackLimit;};
+__declspec(noinline) inline void Coord3D::normalize(){float len=length();if(len!=0.0f){float s=1.0f/len;x*=s;y*=s;z*=s;}}
+struct Rva002E8BCFSrc{char pad[0x10];Int m10;char m14;Bool m15;};
+__declspec(noinline) Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool a,Int b,Bool c){surfaces=src->m10;field4=a;field5=c;maxLayer=b;fieldC=src->m15;}
+struct PathfinderAttackCoord : Coord3D {
+    __forceinline PathfinderAttackCoord() {}
+    __forceinline PathfinderAttackCoord(const Coord3D &v) { x=v.x;y=v.y;z=v.z; }
+    __forceinline PathfinderAttackCoord(const PathfinderAttackCoord &v) { x=v.x;y=v.y;z=v.z; }
+    __forceinline ~PathfinderAttackCoord(){}
+    void set(float xx,float yy,float zz){x=xx;y=yy;z=zz;}
+    void sub(const Coord3D&p){x-=p.x;y-=p.y;z-=p.z;}
+    void scale(float f){x*=f;y*=f;z*=f;}
+    void add(const Coord3D&p){x+=p.x;y+=p.y;z+=p.z;}
+};
+
+inline __declspec(noinline) PathNode::PathNode(const Coord3D *p,PathfindLayerEnum l) throw() {
+ next=0;previous=0;nextOptimized=0;copyCoord3D(&position,p);layer=l;canOptimize=false;portalID=0x7fffffff;
+}
+
+class Rva0026E4A0 {public:Rva0026E4A0 &set(Rva0026E4A0 *) throw();};
+extern Rva00065964ObjectPool g_pathNodePool;
+inline __declspec(noinline) void Path::prependNode(const Coord3D *pos,PathfindLayerEnum layer,int id) {
+ void *mem=g_pathNodePool.rva002635C2();
+ PathNode *node=mem ? new(mem) PathNode(pos,layer):0;
+ node->portalID=id;
+ firstNode=(PathNode *)&((Rva0026E4A0 *)node)->set((Rva0026E4A0 *)firstNode);
+ if(lastNode==0)lastNode=node;
+ wordC=false;
+}
+
+Path *Pathfinder::FindAttackPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
+ Object *victim,const Coord3D *victimPos,Rva002C9B80Owner *weapon,Bool skipQuick,Bool *partial)
+{
+    if (!m_isMapReady) return 0;
+    if (partial) *partial=false;
+    m_srcMineshaft=0; m_destMineshaft=0;
+    Bool crusher=obj->rva00294815()>0;
+    Int radius; Bool center;
+    Rva002EBCA7Split(obj,&radius,(unsigned char *)&center);
+    Int priority=obj->m_template->priority;
+    Bool flag=obj->m_template->flag;
+    Rva002E8BCF movement((const Rva002E8BCFSrc *)&locos,!flag,priority-1,obj->rva0028AFBB());
+    Bool human=true;
+    if(obj->getControllingPlayer() && obj->getControllingPlayer()->m_playerType==1) human=false;
+    if(!skipQuick){
+        PathfinderAttackCoord curPos(*(const Coord3D *)obj->position);
+        PathfinderAttackCoord quickGoal(victim?*(const Coord3D *)victim->position:*victimPos);
+        PathfinderAttackCoord delta;
+        delta.set(quickGoal.x-curPos.x,quickGoal.y-curPos.y,0);
+        delta.normalize();
+        delta.x*=10.0f;
+        delta.y*=10.0f;
+        Int i;
+        for(i=1;i<10;++i){
+            PathfinderAttackCoord test(curPos);
+            test.x+=delta.x*i*0.5f;test.y+=delta.y*i*0.5f;
+            ICoord2D index;Rva002E7875WorldToCell(&index,true,&test);
+            if(human && (index.x<m_extentLowX || index.y<m_extentLowY || index.x>m_extentHighX || index.y>m_extentHighY))break;
+            PathfindCell *cell=getCell((PathfindLayerEnum)obj->rva0028B511(),index.x,index.y);
+            if(!cell || !((Rva002E6DC4 *)this)->rva002E6DC4(&movement,cell))break;
+            if(!bfmeWrapE6E90(obj,(void *)index.x,(void *)index.y,(void *)obj->rva0028B511(),(void *)radius,*(void **)&center))break;
+            if(((Weapon*)weapon)->isWithinAttackRange(obj,&test,victim,victimPos,10.0f,true) &&
+               !isAttackViewBlockedByObstacle(obj,test,victim,*victimPos)){
+                Path *path=new Path;
+                path->prependNode(&test,(PathfindLayerEnum)obj->rva0028B511(),0x7fffffff);
+                path->prependNode(&curPos,(PathfindLayerEnum)obj->rva0028B511(),0x7fffffff);
+                PathfinderAttackNode *first=((PathfinderAttackPathView *)path)->first;
+                first->optimized=first->next;
+                if(((AttackLimitView*)TheWritableGlobalData)->debugAI==1)SetDebugPath((Rva002EDEABArg *)path);
+                return path;
+            }
+        }
+    }
+    PathfinderAttackCoord goal(*victimPos);
+    if(victim){
+        if(victim->m_template->hasKind(150))victim->rva0028C2DD(&goal);
+        if(!weapon->m_04->get()){
+            PathfinderAttackCoord delta(*(Coord3D*)obj->position);delta.sub(*(Coord3D*)victim->position);delta.z=0;
+            delta.Normalize();
+            delta.scale(victim->getAttackGeometry().getRadial()+10.0f);goal.add(delta);
+        }
+    }
+    reinterpret_cast<_STL::vector<Gen_p12pod> &>(m_1C1CC).clear();
+    m_zoneManager.rva005312BE();
+    PathfinderAttackHandle hierarchical(FindClosestHierarchicalPath(human,locos,obj,from,&goal,crusher,&goal));
+    if(!hierarchical.path)m_zoneManager.rva00531300();
+    unsigned int count=0;
+    Int attackDistance=(Int)((Weapon *)weapon)->getAttackDistance(obj,victim,victimPos)+30;
+    PathfinderAttackCoord objectPos(*(const Coord3D *)obj->position);
+    if(center){objectPos.x+=5.0f;objectPos.y+=5.0f;}
+    ICoord2D startIndex;
+    { ICoord2D scratch; startIndex=*Rva002E7875WorldToCell(&scratch,true,&objectPos); }
+    PathfindCell *parent=rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(),&objectPos);
+    if(!parent)return 0;
+    if(!obj->getAI())return 0;
+    const PathfindCell *start=parent;
+    parent->allocateInfo((In002E6BA1 *)&startIndex);
+    parent->StartPathfind(0);
+    ICoord2D victimIndex;
+    Rva002E7875WorldToCell(&victimIndex,true,victim?(const Coord3D *)victim->position:victimPos);
+    PathfindCell *goalCell=getCell(PATHFIND_LAYER_GROUND,victimIndex.x,victimIndex.y);
+    if(!goalCell)return 0;
+    goalCell->allocateInfo((In002E6BA1 *)&victimIndex);
+    AddToOpenList(parent);
+    PathfindCell *acceptable=0,*closest=0;
+    Int destinationDistance;
+    Int acceptableDistance=9999999;
+    Int closestOrder=0;
+    Int dx=goalCell->getXIndex()-parent->getXIndex();
+    Int dy=goalCell->getYIndex()-parent->getYIndex();
+    float closestDistance=(float)(dx*dx+dy*dy)*0.9f;
+    Bool checkLOS=false;
+    if(!victim)checkLOS=true;
+    if(victim && !victim->isSignificantlyAboveTerrain())checkLOS=true;
+    PathfinderSearchCellsVisited=0;
+    while((parent=rva002F36E5())!=0){
+        PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+        if(hierarchical.path){
+            Int order=((HierarchicalPath *)hierarchical.path)->lookUpPositionOnPath((const Coord3D *)parent->m_pathInfo);
+            Int dx=goalCell->getXIndex()-parent->getXIndex(),dy=goalCell->getYIndex()-parent->getYIndex();
+            float distance=(float)(dx*dx+dy*dy);
+            if(order>closestOrder || (order==closestOrder && distance<closestDistance)){
+                closest=parent;closestOrder=order;closestDistance=distance;
+            }
+        }
+        Int cellState=parent->m_pathInfo?(Int)parent->m_pathInfo->parentWaypoint:0;
+        if(!cellState && ((Weapon*)weapon)->isWithinAttackRange(obj,&cellCenter,victim,victimPos,0.0f,true)){
+            if(CheckDestination(obj,parent->getXIndex(),parent->getYIndex(),(PathfindLayerEnum)parent->getLayer(),radius,center,&destinationDistance,false)){
+                Bool blocked=checkLOS?isAttackViewBlockedByObstacle(obj,cellCenter,victim,*victimPos):false;
+                if(start==parent)blocked=true;
+                else {
+                    PathfinderCellPoint pos=Rva002E8C23Call(center,parent);
+                    float dx=pos.x-objectPos.x,dy=pos.y-objectPos.y;
+                    if(dx*dx+dy*dy<25.0f)blocked=true;
+                }
+                if(!blocked && destinationDistance>1){
+                    blocked=true;
+                    if(destinationDistance<acceptableDistance){acceptable=parent;acceptableDistance=destinationDistance;partial=0;}
+                }
+                if(!blocked){
+                    parent->PutOnClosedList(&m_closedList);
+                    Path *path=BuildActualPath(obj,locos.getValidSurfaces(),(const Coord3D *)obj->position,parent,center,false,true);
+                    if(goalCell->m_pathInfo && !static_cast<unsigned char>(((Rva002E6B06 *)goalCell)->rva002E6B06()) && !static_cast<unsigned char>(((const Rva002E6AF3 *)goalCell)->get()))goalCell->ReleaseInfo();
+                    rva002F40E7();return path;
+                }
+            }
+        }
+        parent->PutOnClosedList(&m_closedList);
+        if(count<((AttackLimitView*)TheWritableGlobalData)->attackLimit){
+            if(!skipQuick)CheckChangeLayers(parent,obj);
+            count+=rva002F83F5(parent,goalCell,locos,human,center,radius,&startIndex,obj,attackDistance);
+        }
+    }
+    if(acceptable){
+        Path *path=BuildActualPath(obj,locos.getValidSurfaces(),(const Coord3D *)obj->position,acceptable,center,false,true);
+        rva002F40E7();return path;
+    }
+    if(closest){
+        if(partial)*partial=true;
+        Path *path=BuildActualPath(obj,locos.getValidSurfaces(),(const Coord3D *)obj->position,closest,center,false,true);
+        rva002F40E7();return path;
+    }
+    rva002F40E7();m_isTunneling=false;goalCell->ReleaseInfo();return 0;
 }

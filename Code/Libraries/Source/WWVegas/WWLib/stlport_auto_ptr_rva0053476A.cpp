@@ -7,18 +7,6 @@ public:
 	~Rva0053476A() throw();
 };
 
-class Rva002EAD62
-{
-public:
-	void rva002EAD62();
-private:
-	Rva0053476A *m_ptr;
-};
-
-void Rva002EAD62::rva002EAD62()
-{
-	delete m_ptr;
-}
 
 class Rva002EAD39
 {
