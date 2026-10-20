@@ -1,0 +1,34 @@
+# Additional reference coverage at BFME1b3cc6b1588f2
+
+These are read-only leads, not source imports or new coverage. Decoder/dump
+paths were excluded before reading sources. All compilations used normal
+place_bodies.py; no external donor path was placed in BFME2's ledger.
+
+-250 clean address-named engine/device/common units,500 compiler profiles:
+  donor settings and the established O1/G7/SSE retail profile.494 compiled
+  immediately. Four failed profiles used separated `/I game/...` operands;
+  joining each intended operand and resolving it to the real donor directory
+  repaired them. Two required the verified original PlatformSDK. All500 then
+  compiled; zero body/pin leads. This is distinct from the earlier426-unit
+  GameClient address-named pass and the named-file passes.
+-88 clean STLport donor units with explicit donor4.6 standard headers and the
+  target's const bfmealloc ABI.59 compiled immediately. A scratch-only allocator
+  overlay adds the standard optional char-allocation hint argument and removes
+  an invalid explicit instantiation of the already-specialized allocator<char>.
+  Neither change alters the allocation algorithm.82 then compiled; the remaining
+  six needed the actual donor STLport src/stlport_prefix.h or original SDK.
+  All88 ultimately compiled; zero body/pin leads. Intended files/directories
+  were checked explicitly. No fallback header substitution was used.
+
+These findings do not establish that all reference source is exhausted. The
+unvisited address-named engine families and other compiler/semantic adaptations
+remain independent leads. Unchanged profiles above should use their cached
+results rather than repeat the searches. The scratch allocator compatibility
+repairs are not production changes and are not a byte-proof receipt for any
+claimed BFME2 row.
+
+Hash-bound source/profile/revision manifests and complete outputs are under
+build/reference-address-remaining-oct20/, reference-address-repairs-oct20/,
+reference-stlport-headers-oct20/, reference-stlport-api-repair-oct20/ and
+reference-stlport-final-headers-oct20/. The latter four paths share build/.
+Code and the reference pointer remain unchanged.
