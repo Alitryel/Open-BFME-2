@@ -1,5 +1,7 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.88 date=2026-10-19
+// partial score=0.858 date=2026-10-20
+// ?Install_Materials@BfmeB1137@@UBEXXZ
+// partial score=0.858 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -45,7 +47,7 @@ struct IDirect3DDevice8
 	virtual void s36(); virtual void s37(); virtual void s38(); virtual void s39();
 	virtual void s40(); virtual void s41(); virtual void s42(); virtual void s43();
 	virtual HRESULT __stdcall SetTransform(DWORD state, const void *matrix) = 0;
-	virtual void s45(); virtual void s46(); virtual void s47();
+	virtual HRESULT __stdcall GetTransform(DWORD state, void *matrix) = 0; virtual void s46(); virtual void s47();
 	virtual void s48(); virtual void s49(); virtual void s50(); virtual void s51();
 	virtual void s52(); virtual void s53(); virtual void s54(); virtual void s55();
 	virtual void s56();
@@ -320,12 +322,30 @@ public:
 		number_of_DX8_calls++;
 		texture_changes++;
 	}
-	static __forceinline void GetView(Matrix4 &m)
+	static __forceinline void Get_Transform(DWORD transform, Matrix4 &m)
 	{
-		if (render_state_changed & (1 << 19))
-			m.Make_Identity();
-		else
-			m = render_state.view.Transpose();
+		D3DXMATRIX mat;
+		switch ((int)transform) {
+		case 256:
+			if (render_state_changed & (1 << 18)) m.Make_Identity();
+			else m = render_state.world.Transpose();
+			break;
+		case 2:
+			if (render_state_changed & (1 << 19)) m.Make_Identity();
+			else m = render_state.view.Transpose();
+			break;
+		default:
+			D3DDevice->GetTransform(transform, &mat);
+			number_of_DX8_calls++;
+			m = *(Matrix4 *)&mat;
+			m = m.Transpose();
+			break;
+		}
+	}
+	static __forceinline void _Get_DX8_Transform(DWORD transform, Matrix4 &m)
+	{
+		Get_Transform(transform, m);
+		m = m.Transpose();
 	}
 	static __forceinline void SetMatrix(unsigned state, const D3DXMATRIX &m)
 	{
@@ -570,8 +590,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX inv;
 		float det;
 		Rva0007671F view;
-		DX8Wrapper::GetView(view);
-		static_cast<Matrix4 &>(view) = view.Transpose();
+		DX8Wrapper::_Get_DX8_Transform(2, view);
 		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
 
 		D3DXMATRIX drift;
@@ -713,8 +732,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX inv;
 		float det;
 		Rva0007671F view;
-		DX8Wrapper::GetView(view);
-		static_cast<Matrix4 &>(view) = view.Transpose();
+		DX8Wrapper::_Get_DX8_Transform(2, view);
 		D3DXMatrixInverse(&inv, &det, reinterpret_cast<D3DXMATRIX *>(&view));
 
 		int last = m_44;
