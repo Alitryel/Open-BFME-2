@@ -375,7 +375,14 @@ template class _STL::allocator<BfmePod260>;
 template BfmePod260* _STL::__copy<BfmePod260*, BfmePod260*, int>(
     BfmePod260*, BfmePod260*, BfmePod260*,
     const _STL::random_access_iterator_tag&, int*);
-template class _STL::vector<BfmePod340, _STL::allocator<BfmePod340 > >;
+// Instantiate matched members without this profile's unrelated allocation/copy
+// body; the no-EH provider owns retail 0x004D9C1C.
+template void _STL::vector<BfmePod340>::push_back(const BfmePod340 &);
+template BfmePod340 *_STL::__uninitialized_copy<const BfmePod340 *, BfmePod340 *>(
+    const BfmePod340 *, const BfmePod340 *, BfmePod340 *, const _STL::__false_type &);
+template BfmePod340 *_STL::__uninitialized_fill_n<BfmePod340 *, unsigned int, BfmePod340>(
+    BfmePod340 *, unsigned int, const BfmePod340 &, const _STL::__false_type &);
+template BfmePod340 *_STL::allocator<BfmePod340>::allocate(unsigned int, const void *) const;
 // ??$__find@PAUBfmePod20@@U1@@_STL@@YAPAUBfmePod20@@PAU1@0ABU1@ABUrandom_access_iterator_tag@0@@Z @0x002194CC 118B
 // Unrolled random-access __find over 20-byte elements comparing a[0]; caller
 // 0x002198BE is the 27B find wrapper that becomes ready on landing.
