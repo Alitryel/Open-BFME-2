@@ -43,3 +43,57 @@ Each trial was measured against the 2026-10-14 body (6 regions, 191 memory, 159 
 ## What is left
 
 The exact landing needs two things: retail's loop entries for loops 1, 3 and 4, and retail's frame assignment. No source spelling tried so far changes the loop entries; the prior bank lists the earlier loop trials (const_iterator, postfix, reversed compare, while, outer iterator, `(*it)`, dropping the local list `operator!=`). For the frame, the constructor result shows that how a local is initialized moves its slot while declaration order does not; the next candidates are the remaining member-store initializations (the timer and topple records, the counter key and value) and whatever decides that `i`, not `count`, takes `[ebp+8]`. The four ICF callee addresses the bank header names now have ledger rows; whether this body's own instantiation names resolve to them was not checked.
+
+## Round 2 (2026-10-20, later): the frame wall pinned to the flags `bool`
+
+The bank body is unchanged (6137 B, 6 / 191 / 159). Variants were scored with the
+same `align_diff` call.
+
+- **Root cause of the frame difference.** The flags loop's 1-byte `bool value`
+  (`xfer->xferBool(&value)`) is packed into the 1-byte hole at `[ebp+0xB]` of the
+  dead `xfer` argument slot. Its live range overlaps `i`, so `i` can no longer
+  take `[ebp+8]`; `i` falls to -0x10 and the living-world `count` class takes
+  `[ebp+8]`. Retail has `i` at +8, the count class at -0x10, the flags value at
+  -0x2C (shared with the counters key's `second`), and uses +0xB only for the
+  names-list allocator temps and the v3 byte-flag values.
+- **Diagnostic proof** (`diagnostic-4byte-flag.patch`, not legit source, never
+  compile it into `Code/`): wrapping the flag in a 4-byte struct
+  (`struct { bool b; char pad[3]; } value;`) gives retail's whole frame: 6137 B,
+  6 structural, 2 memory (only the unrelocated globals `[0xDFE78C]` and
+  `[0xBBB8D8]`), 0 register. The only differences left are the three loop
+  entries below.
+- Size probes: a 2- or 3-byte struct goes to -0xE / -0x10 (wrong); 4 bytes goes to
+  -0x2C (retail). So the retail object in the flags loop is either 4-byte aligned
+  or is not packed into the +0xB hole for another reason.
+- Inert (the bool still lands at +0xB, or worse): renaming `count`; splitting
+  `count`; uninitialized-then-assigned value; value declared before the key;
+  inserting a `value_type`; an extra nested block; a 1-byte struct; `bool[1]`;
+  bool at loop or else scope; function-scope bool before or after `i` (worse);
+  bool right after the key; a block-scoped `i` per player loop; unused int locals
+  (k = 0..30 at the top, k = 1/2/4/8 in the loop); bool renames (flag, val, b,
+  state, flagValue, v, isSet); `XferVersion` padding and TU-prefix pads.
+- Untested hypothesis: address-taken locals are packed by scope first and the
+  spilled non-address-taken `i` by live range afterwards. Then retail would have
+  an address-taken 1-byte object whose scope encloses the flags loop and holds
+  +0xB first, or the flag value is a 4-byte type in retail's header (an `Int`/
+  `BOOL`-sized `Bool` typedef or an xfer overload taking a 4-byte value). The WB
+  twin's flag value `local_75` is block-scoped right after the key
+  (`local_74`/`local_70`) and is 1 byte, so the WB build does not settle it.
+- WB local layout: `local_10` is `i`, used only in the counters, flags and
+  attack loops (WB lines 252..260, 423..431, 1028..1038), the same three loops as
+  ours. The small offsets `local_10..local_44` are function-scope variables;
+  from about 0x48 the offsets follow the source order of nested declarations.
+
+### Loop entries (independent of the frame)
+
+Still guarded in all five loops in every variant, on top of the v5 frame:
+`while` loop; `it++`; `const_iterator`; removing loop 2; `names.end() != it`;
+`!(it == names.end())`; iterator declared before the `for`;
+`it = it._M_node->_M_next` (does not compile, private). Retail loop 3/4 entry:
+`mov eax,[ebp+8]; and [ebp-0x1C],0; and [ebp-0x18],0; mov edi,[eax]; jmp test`
+(the timer record is zeroed before the entry jump). All loop dtors call
+0x2FECBC (`_List_base<AsciiString>::~_List_base`, ICF-shared). Next ideas, not
+tried: the names list filled by a different callee shape (retail's 0x20700F
+helper inlined vs. not), and IL from the view-class casts the bank uses
+(`((Rva002065C8 *)&m_flags)->...`) that may differ from retail's real member
+types.
