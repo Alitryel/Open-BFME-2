@@ -21,6 +21,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UTreeHintRef00221D6B@@@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString; struct TreeHintRef00221D6B;
+namespace _STL { template <> void allocator<_Rb_tree_node<pair<AsciiString const ,TreeHintRef00221D6B> > >::deallocate(_Rb_tree_node<pair<AsciiString const ,TreeHintRef00221D6B> > *,unsigned int) const; }
 class INI { public: const char *getNextToken(const char *s); };
 class Rva00221A58 { public: Rva00221A58(const Rva00221A58 &other); private: char m_pad[0x1C]; };
 class Rva00221B42 { private: char m_pad[0x20]; };
