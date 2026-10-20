@@ -27,6 +27,22 @@ template<> void _Construct<Rva004E3E5AElement,Rva004E3E5AElement>(Rva004E3E5AEle
 template Rva004E3E5AElement *_STL::__uninitialized_copy<Rva004E3E5AElement*,Rva004E3E5AElement*>(Rva004E3E5AElement*,Rva004E3E5AElement*,Rva004E3E5AElement*,const _STL::__false_type&);
 template Rva004E3E5AElement *_STL::__uninitialized_fill_n<Rva004E3E5AElement*,unsigned int,Rva004E3E5AElement>(Rva004E3E5AElement*,unsigned int,const Rva004E3E5AElement&,const _STL::__false_type&);
 
-// Keep the existing complete cleanup provider and its destruction identity.
+// Declare cleanup before growth so its out-of-line call remains visible;
+// the complete retail cleanup definition follows the growth instantiation.
 namespace _STL {template<> void vector<Rva004E3E5AElement>::_M_clear();}
 template void _STL::vector<Rva004E3E5AElement>::_M_insert_overflow(Rva004E3E5AElement*,const Rva004E3E5AElement&,const _STL::__false_type&,unsigned int,bool);
+
+// Retail cleanup 4E3C71 calls the 4E377E record-destruction range worker,
+// then frees the allocation. The 32-byte record lifetime is independently
+// established by Rva004E2382's constructor/destructor and the owned cleanup.
+class Rva004E2382 { public: ~Rva004E2382(); private: char unknown[32]; };
+extern "C" void __cdecl free(void *);
+namespace _STL {
+template <> void vector<Rva004E3E5AElement>::_M_clear()
+{
+    _STL::_Destroy((Rva004E2382 *)_M_start, (Rva004E2382 *)_M_finish);
+    Rva004E3E5AElement *begin = _M_start;
+    if (begin != 0)
+        free(begin);
+}
+}

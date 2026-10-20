@@ -39,6 +39,13 @@ public:
 
 struct Rva004E3E5AElement { int a[8]; };
 
+// Bind construction and growth to the already rowed nontrivial providers.
+namespace _STL {
+template <> void _Construct<Rva004E3E5AElement, Rva004E3E5AElement>(Rva004E3E5AElement *, const Rva004E3E5AElement &);
+template <> void vector<Rva004E3E5AElement>::_M_insert_overflow(Rva004E3E5AElement *, const Rva004E3E5AElement &, const __false_type &, unsigned int, bool);
+template <> void vector<Rva004E3E5AElement>::push_back(const Rva004E3E5AElement &);
+}
+
 class Rva003BB680Owner {
 public:
 	void setGeometryName(AsciiString &name);
