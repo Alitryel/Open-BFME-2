@@ -1,4 +1,6 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
+// partial score=0.9556 date=2026-10-20
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
 // partial score=0.87 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 // ZH meshgeometry.cpp get_deformed_vertices guides the run-based transforms.
@@ -81,7 +83,7 @@ struct Matrix3DBlend : public Matrix3D {
  }
  __forceinline void blendNormalArray(const Vector3 *in,const Matrix3DBlend &tm1,const Vector3 *in2,Vector3 *out,int count) const {
   while(count--) {
-   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+tm1.Row[0].X*in2->X+tm1.Row[0].Y*in2->Y+tm1.Row[0].Z*in2->Z);
+   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+(tm1.Row[0].X*in2->X)+tm1.Row[0].Y*in2->Y+(tm1.Row[0].Z*in2->Z));
    out->Y=(Row[1].X*in->X+Row[1].Y*in->Y+Row[1].Z*in->Z+tm1.Row[1].X*in2->X+tm1.Row[1].Y*in2->Y+tm1.Row[1].Z*in2->Z);
    out->Z=(Row[2].X*in->X+Row[2].Y*in->Y+Row[2].Z*in->Z+tm1.Row[2].X*in2->X+tm1.Row[2].Y*in2->Y+tm1.Row[2].Z*in2->Z);
    ++in;
@@ -125,8 +127,8 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,Vector3 *dst_norm,c
   int bone0=bonelink[0];
   int bone1=bonelink[vertex_count];
   if(streams==2&&bone1!=0) {
-   float w0=bonelink[vertex_count*2]/100.0f;
-   float w1=bonelink[vertex_count*3]/100.0f;
+   float w0=(bonelink[vertex_count*2]/100.0f);
+   float w1=(bonelink[vertex_count*3]/100.0f);
    const BoneTransform &bt0=htree->Get_Transform(bone0);
    Matrix3D tm0;
    bt0.Get_Matrix3D(tm0);
