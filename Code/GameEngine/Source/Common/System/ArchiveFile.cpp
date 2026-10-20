@@ -125,6 +125,7 @@ public:
 #include "Common/ArchiveFileSystem.h"
 #include "Common/File.h"
 #include "Common/PerfTimer.h"
+namespace _STL { template <> void _Construct<AsciiString, AsciiString>(AsciiString *, AsciiString const &); }
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, DetailedArchivedDirectoryInfo>, _Select1st<pair<AsciiString const, DetailedArchivedDirectoryInfo> >, less<AsciiString>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::_Rb_tree(less<AsciiString> const &, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > const &); }
 namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, DetailedArchivedDirectoryInfo>, allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > >::_Rb_tree_base(allocator<pair<AsciiString const, DetailedArchivedDirectoryInfo> > const &); }

@@ -48,6 +48,10 @@ namespace _STL { template <> unsigned short basic_streambuf<unsigned short, char
 namespace _STL { template <> unsigned short basic_streambuf<unsigned short, char_traits<unsigned short> >::underflow(); }
 namespace _STL { template <> int basic_streambuf<unsigned short, char_traits<unsigned short> >::xsgetn(unsigned short *, int); }
 namespace _STL { template <> int basic_streambuf<unsigned short, char_traits<unsigned short> >::xsputn(unsigned short const *, int); }
+namespace _STL { template <> void basic_filebuf<unsigned short, char_traits<unsigned short> >::_M_setup_codecvt(locale const &); }
 // bfme link decl-only end
 
 template class _STL::basic_filebuf<wchar_t, _STL::char_traits<wchar_t> >;
+
+// Keep the independently rowed facet lookup when setup is bound externally.
+template const _STL::codecvt<unsigned short, char, int> & _STL::use_facet<_STL::codecvt<unsigned short, char, int> >(const _STL::locale &);
