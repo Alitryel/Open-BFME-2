@@ -42,10 +42,6 @@ namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
 namespace _STL { template <> _Rb_tree<unsigned char, pair<unsigned char const, int>, _Select1st<pair<unsigned char const, int> >, less<unsigned char>, allocator<pair<unsigned char const, int> > >::~_Rb_tree(); }
 namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@W4NameKeyType@@U?$pair@$$CBW4NameKeyType@@UPristineBoneInfo@@@_STL@@U:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-enum NameKeyType; struct PristineBoneInfo;
-namespace _STL { template <> void _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::_M_erase(_Rb_tree_node<pair<NameKeyType const ,PristineBoneInfo> > *); }
 
 namespace _STL
 {
@@ -179,9 +175,10 @@ typedef _STL::map<Int, Rva001DDBC6Record> GroupRoomMap;			// ctor 0x001DDBC6
 typedef _STL::map<unsigned char, int> StagingRoomMap;			// ctor 0x0033C432
 class DetailedArchivedDirectoryInfo { public: char m_pad[8]; };
 typedef _STL::map<AsciiString, DetailedArchivedDirectoryInfo> BuddyInfoMap;	// ctor 0x005B400A
-enum NameKeyType { NAMEKEY_INVALID_TWIN = 0 };
-struct PristineBoneInfo { char m_pad[52]; };	// 52 bytes, as the other PristineBoneInfo units define it
-typedef _STL::map<NameKeyType, PristineBoneInfo> PlayerInfoMap;		// ctor 0x004260FD
+typedef _STL::map<AsciiString, PlayerInfo, AsciiComparator> PlayerInfoMap;	// ctor folds onto 0x004260FD
+// Suppress this TU's non-retail copy of the PlayerInfoMap _M_erase; the copy
+// rowed in PeerDefs.cpp (0x00383ACA) serves the link. Declaration-only form.
+namespace _STL { template <> void _Rb_tree<AsciiString,pair<AsciiString const ,PlayerInfo>,_Select1st<pair<AsciiString const ,PlayerInfo> >,AsciiComparator,allocator<pair<AsciiString const ,PlayerInfo> > >::_M_erase(_Rb_tree_node<pair<AsciiString const ,PlayerInfo> > *); }
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
