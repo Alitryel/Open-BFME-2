@@ -32,6 +32,10 @@ basic_ostream<char, char_traits<char> >::sentry::sentry(basic_ostream<char, char
 namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_char(char); }
 namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_nowiden(char const *); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::flush(); }
+// Same for the sentry destructor: its COMDAT copy here is not retail's
+// 20-byte body at 0x001F498A (stlport_narrow_ostream_put_num.cpp). Plain
+// declaration-only form; the unwind path needs a callable body.
+namespace _STL { template <> basic_ostream<char, char_traits<char> >::sentry::~sentry(); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::put(char); }
 // The float inserter's body belongs to stlport_narrow_ostream_put_num.cpp; leave
 // it declared so this unit emits no wrong copy ahead of the rowed one.
