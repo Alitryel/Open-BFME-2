@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 // ?rva0050B479@Made002CCB04@@QAEXPAXPAVObject@@@Z @0x0050B479 105B
-// Emotion tracker forward: Made virtual slot 1 check, then GameLogic findObjectByID via global plus arg+8 fallback, then Object::rva0028ECA8 with m_128 plus (float)m_130 plus found as int. Evidence: members 0x128/0x130 in Made002CCB04Ctor, TheGameLogic plus g_Va00DFEFD8 plus findObjectByID rowed, float 0xBC26EC for unsigned conversion, callees rowed, callers in 0x0050B519.
+// Emotion tracker forward: Made virtual slot 1 check, then GameLogic findObjectByID via global plus arg+8 fallback, then Object::forceEmotion with m_128 plus (float)m_130 plus found as int. Evidence: members 0x128/0x130 in Made002CCB04Ctor, TheGameLogic plus g_Va00DFEFD8 plus findObjectByID rowed, float 0xBC26EC for unsigned conversion, callees rowed, callers in 0x0050B519.
 class GameLogic;
 extern GameLogic *TheGameLogic;
 extern int g_Va00DFEFD8;
@@ -15,7 +15,7 @@ struct MadeArg
 class Object
 {
 public:
-	void rva0028ECA8(int index, float value, int arg);
+	void forceEmotion(int index, float value, int arg);
 };
 
 class GameLogic
@@ -47,5 +47,5 @@ void Made002CCB04::rva0050B479(void *a, Object *b)
 	if (!found)
 		found = logic->findObjectByID(arg->m_id08);
 	float f = (float)m_130;
-	b->rva0028ECA8(m_128, f, (int)found);
+	b->forceEmotion(m_128, f, (int)found);
 }

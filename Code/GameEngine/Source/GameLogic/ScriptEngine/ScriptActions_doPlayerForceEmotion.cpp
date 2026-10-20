@@ -10,7 +10,7 @@
 // team-prototype list, each prototype's +0x334 instance list (member pointer
 // 0x009C4AF5) and each team's members (rowed iterate_TeamMemberList 0x00263864
 // and advance 0x00263526), and hands (index, value, 0) to the rowed
-// Object::rva0028ECA8 forwarder as doTeamForceEmotion does.
+// Object::forceEmotion forwarder as doTeamForceEmotion does.
 // Donor: the name and walk are BFME1's doPlayerForceEmotion
 // (reference/open-bfme-1 game/.../ScriptActions_doPlayerForceEmotion.cpp, which
 // limits the index to 10 and uses a 16-bit mask); the bounds, the int mask and
@@ -73,7 +73,7 @@ public:
 class Object
 {
 public:
-	void rva0028ECA8(int index, float value, int arg);
+	void forceEmotion(int index, float value, int arg);
 };
 
 class Team : public MemoryPoolObject, public Snapshot
@@ -163,7 +163,7 @@ void ScriptActions::doPlayerForceEmotion(Parameter *pPlayer, int index, float va
 					Object *obj = objIter.cur();
 					if (!obj)
 						continue;
-					obj->rva0028ECA8(index, value, 0);
+					obj->forceEmotion(index, value, 0);
 				}
 			}
 		}

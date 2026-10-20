@@ -4,7 +4,7 @@
 // script action (dispatcher call 0x003CE964) that, for an emotion index in
 // [0, 12), looks the team up by its parameter's name (+0x10 string) through
 // the rowed getTeamNamed and hands (index, value, 0) to each member's
-// emotion-tracker forwarder, the rowed Object::rva0028ECA8. Member walk and
+// emotion-tracker forwarder, the rowed Object::forceEmotion. Member walk and
 // null skip as in ScriptActions_doTeamSetRepulsor.cpp.
 #include "ascii_string.h"
 
@@ -25,7 +25,7 @@ public:
 class Object
 {
 public:
-	void rva0028ECA8(int index, float value, int arg);
+	void forceEmotion(int index, float value, int arg);
 };
 
 class Team
@@ -69,7 +69,7 @@ void ScriptActions::doUnitForceEmotion(Parameter *pUnit, int index, float value)
 	Object *obj = TheScriptEngine->getUnitNamed(pUnit);
 	if (!obj)
 		return;
-	obj->rva0028ECA8(index, value, 0);
+	obj->forceEmotion(index, value, 0);
 }
 
 void ScriptActions::doTeamForceEmotion(Parameter *pTeam, int index, float value)
@@ -83,6 +83,6 @@ void ScriptActions::doTeamForceEmotion(Parameter *pTeam, int index, float value)
 		Object *obj = it.cur();
 		if (!obj)
 			continue;
-		obj->rva0028ECA8(index, value, 0);
+		obj->forceEmotion(index, value, 0);
 	}
 }

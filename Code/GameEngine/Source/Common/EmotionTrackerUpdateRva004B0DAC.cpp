@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD /arch:SSE /Oy-
 // ?ForceEmotion@EmotionTrackerUpdate@@QAEXHMH@Z @0x004B0DAC 115B. Linkbody via
-// caller 0x0028ECD3 (Object::rva0028ECA8 forwards index value arg). Stores
+// caller 0x0028ECD3 (Object::forceEmotion forwards index value arg). Stores
 // index at +0xB0 when value>0; ceil scaled duration at +0xB4 via IAT ceil;
 // source id at +0xB8 from arg+0x74 or 0; clears +0x9C slot via rowed
 // rva004DD2C0. Evidence: pin name LINK BONUS, rowed/pinned callees,

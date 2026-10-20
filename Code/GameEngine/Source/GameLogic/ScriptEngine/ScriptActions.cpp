@@ -335,7 +335,7 @@ public:
 	unsigned char m_pad254[0x438 - 0x254];
 	unsigned char m_privateStatus;
 	Player *getControllingPlayer() const;
-	void rva0028ECA8(int index, float value, int arg);
+	void forceEmotion(int index, float value, int arg);
 	void setName(const AsciiString &name) { m_name = name; }
 	bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	const Coord3D *getPosition() const { return &m_position; }
