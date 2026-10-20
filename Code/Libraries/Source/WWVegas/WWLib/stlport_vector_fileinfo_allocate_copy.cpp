@@ -44,5 +44,10 @@ _STL::vector<MixFileCreator::FileInfoStruct,
     const _STL::vector<MixFileCreator::FileInfoStruct,
                        _STL::allocator<MixFileCreator::FileInfoStruct> > &);
 
+// Overflow is owned by the byte-verified 0x00218B20 unit.
+template <> void _STL::vector<MixFileCreator::FileInfoStruct>::_M_insert_overflow(
+    MixFileCreator::FileInfoStruct *, const MixFileCreator::FileInfoStruct &,
+    const _STL::__false_type &, unsigned int, bool);
+
 template class _STL::vector<MixFileCreator::FileInfoStruct,
                             _STL::allocator<MixFileCreator::FileInfoStruct> >;

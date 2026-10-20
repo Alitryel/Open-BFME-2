@@ -4,7 +4,7 @@
 // Vector<FileInfoStruct> fill-insert overflow (false_type path). Same 5-arg
 // ret-0x14 shape as Coord3D overflow 0x002CDF8A; callers push_back 0x00218DD2;
 // unblocks 0x00218DD2. Callees are the honest FileInfoStruct helpers rowed at
-// 0x0021784A (copy) 0x0021781D (dup Construct) 0x00217870 (fill) 0x0021887C
+// 0x0021784A (copy) 0x0021781D (placement-copy helper) 0x00217870 (fill) 0x0021887C
 // (destroy-free) plus the 16-byte allocator pin at 0x002226BE. The extra tag
 // pushes match retail because the honest callees ignore the trailing tag word,
 // called here through casts exactly like Rva0021784ACopy calls dup_0021781D.
@@ -43,12 +43,11 @@ typedef MixFileCreator::FileInfoStruct FileInfoStruct;
 // Honest callees: declared with their ledger-row signatures, invoked through
 // casts so the emitted pushes match retail (trailing __false_type tag word).
 FileInfoStruct *Rva0021784ACopy(FileInfoStruct *first, FileInfoStruct *last, FileInfoStruct *result);
-void __cdecl dup_0021781D();
+void Rva0021781DConstruct(FileInfoStruct *, const FileInfoStruct &);
 FileInfoStruct *Rva00217870Fill(FileInfoStruct *first, unsigned int count, const FileInfoStruct &value);
 
 typedef FileInfoStruct *(__cdecl *FileInfoCopyFn)(
 	FileInfoStruct *, FileInfoStruct *, FileInfoStruct *, const _STL::__false_type &);
-typedef void (__cdecl *FileInfoCtorFn)(FileInfoStruct *, const FileInfoStruct &);
 typedef FileInfoStruct *(__cdecl *FileInfoFillFn)(
 	FileInfoStruct *, unsigned int, const FileInfoStruct &, const _STL::__false_type &);
 
@@ -90,7 +89,7 @@ void vector<FileInfoStruct>::_M_insert_overflow(
 			this->_M_start, __position, __new_start, FILEINFO_TAG);
 		if (__fill_len == 1)
 		{
-			((FileInfoCtorFn)dup_0021781D)(__new_finish, __x);
+			Rva0021781DConstruct(__new_finish, __x);
 			++__new_finish;
 		}
 		else

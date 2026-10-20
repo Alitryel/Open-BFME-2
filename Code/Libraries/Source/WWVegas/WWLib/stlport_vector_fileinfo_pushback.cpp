@@ -3,7 +3,7 @@
 //
 // ?push_back@?$vector@UFileInfoStruct@MixFileCreator@@V?$allocator@UFileInfoStruct@MixFileCreator@@@_STL@@@_STL@@QAEXABUFileInfoStruct@MixFileCreator@@@Z @0x00218DD2 55B
 // STLport vector<MixFileCreator::FileInfoStruct>::push_back. Fast path calls
-// the rowed dup _Construct at 0x0021781D; growth path calls the rowed
+// the rowed placement-copy helper at 0x0021781D; growth path calls the rowed
 // _M_insert_overflow at 0x00218B20 with n=1 fill=1. Layout from
 // MixFileCreatorFileInfoStructAssign and stlport_vector_fileinfo_allocate_copy
 // (CRC Offset Size Filename, 16-byte stride). Chain from 0x00218B20;
@@ -39,9 +39,8 @@ public:
 
 typedef MixFileCreator::FileInfoStruct FileInfoStruct;
 
-void __cdecl dup_0021781D();
+void Rva0021781DConstruct(FileInfoStruct *, const FileInfoStruct &);
 
-typedef void (__cdecl *FileInfoCtorFn)(FileInfoStruct *, const FileInfoStruct &);
 
 // Retail passes a __false_type prvalue as the tag; MSVC 7.1 /O1 materialises
 // it in the dead padding of __x's argument slot ([ebp+0x0b]).
@@ -52,7 +51,7 @@ void vector<FileInfoStruct>::push_back(const FileInfoStruct &__x)
 {
 	if (_M_finish != _M_end_of_storage._M_data)
 	{
-		((FileInfoCtorFn)dup_0021781D)(_M_finish, __x);
+		Rva0021781DConstruct(_M_finish, __x);
 		++_M_finish;
 	}
 	else

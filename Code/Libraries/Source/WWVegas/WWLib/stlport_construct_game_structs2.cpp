@@ -43,4 +43,10 @@ public:
 template void _STL::_Construct<BfmeStringRecord004071F7, BfmeStringRecord004071F7>(BfmeStringRecord004071F7 *, const BfmeStringRecord004071F7 &);
 template void _STL::_Construct<BfmeStringRecord005F93E3, BfmeStringRecord005F93E3>(BfmeStringRecord005F93E3 *, const BfmeStringRecord005F93E3 &);
 template void _STL::_Construct<BfmeRecordOwner900, BfmeRecordOwner900>(BfmeRecordOwner900 *, const BfmeRecordOwner900 &);
-template void _STL::_Construct<MixFileCreator::FileInfoStruct, MixFileCreator::FileInfoStruct>(MixFileCreator::FileInfoStruct *, const MixFileCreator::FileInfoStruct &);
+// Retail 0x0021781D is a separate placement-copy body from the instantiation
+// at 0x00063CBC. Give its owner a typed name so callers bind to this body.
+void Rva0021781DConstruct(MixFileCreator::FileInfoStruct *dest,
+    const MixFileCreator::FileInfoStruct &source)
+{
+    new (dest) MixFileCreator::FileInfoStruct(source);
+}
