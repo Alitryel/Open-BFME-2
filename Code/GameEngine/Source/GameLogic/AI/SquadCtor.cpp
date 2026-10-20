@@ -12,6 +12,10 @@
 // member constructions, so this unit compiles without an EH option, like the
 // verified PlayerAITypeSet sibling.
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> _Vector_base<Object *, allocator<Object *> >::~_Vector_base(); }
 
 enum ObjectID
 {
