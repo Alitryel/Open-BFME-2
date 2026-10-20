@@ -5,42 +5,10 @@
 
 typedef unsigned short WChar;
 
-template <class T> class StringBase
-{
-	friend class AsciiString;
-	friend class UnicodeString;
-	struct Header { int refs; unsigned short length, capacity; };
-	Header *m_data;
-	StringBase(const T *s);
-	StringBase(const StringBase &that);
-	void releaseBuffer();
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-	bool isEmpty() const;
-	const T *str() const { return m_data ? (const T *)((const char *)m_data + 8) : (const T *)""; }
-	void set(const T *s);
-	void set(const StringBase &that);
-	void concat(const T *s);
-	void concat(const StringBase &that);
-};
-
+#include "../../reference/shims/bfme2_ascii/string_base.h"
 template <> void StringBase<char>::releaseBuffer() throw();
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const char *s) : StringBase<char>(s) {}
-};
-
-class UnicodeString : public StringBase<WChar>
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &that) : StringBase<WChar>(that) {}
-	void __cdecl format(const WChar *fmt, ...);
-};
+#include "../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "../../reference/shims/bfme2_ascii/unicode_string.h"
 #define W(s) ((const WChar *)L##s)
 
 struct Coord3D { float x, y, z; };
@@ -963,9 +931,9 @@ void W3DDisplay::gatherDebugStats(void)
 		if (draw && (selObj = draw->m_object) != 0)
 		{
 			AsciiString name;
-			name.set("No-Name");
+			name = "No-Name";
 			if (!selObj->m_name.isEmpty())
-				name.set(selObj->m_name);
+				name = selObj->m_name;
 			Coord3D selPos; const Coord3D *sp = draw->getPosition(); selPos.x = sp->x; selPos.y = sp->y; selPos.z = sp->z;
 			void *body = selObj->m_body;
 			PathfindLayerEnum layer = TheTerrainLogic->getHighestLayerForDestination(&selPos, false);
