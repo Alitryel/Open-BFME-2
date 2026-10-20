@@ -26,6 +26,11 @@ namespace _STL { template <> void vector<BfmeE16, allocator<BfmeE16> >::_M_fill_
 // bfme link decl-only end
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// The verified reserve at 0x0022118F supplies the native allocator/copy
+// chain. Declaring it here avoids this EH-profile's competing helper copy.
+namespace _STL {
+template <> void vector<BfmeE16, allocator<BfmeE16> >::reserve(unsigned int);
+}
 template class _STL::vector<BfmeE16, _STL::allocator<BfmeE16 > >;
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
