@@ -269,10 +269,15 @@ public:
 	Rva00469155 &rva00473F81(const Int &key);
 };
 
-class Rva00470041 : public _STL::map<UnsignedShort, Real>
+// The +0x258 map's comparator stand-in from HordeContainIface11CSlots.cpp,
+// whose map operator[] is the rowed 0x00470041.
+struct Rva00470041Less : public _STL::less<unsigned short> {};
+namespace _STL {
+template <> float &map<unsigned short, float, Rva00470041Less>::operator[](const unsigned short &);
+}
+
+class Rva00470041 : public _STL::map<UnsignedShort, Real, Rva00470041Less>
 {
-public:
-	Real &rva00470041(const UnsignedShort &key);
 };
 
 class Rva0046A93E : public _STL::map<Int, void *>
@@ -584,7 +589,7 @@ void HordeContain::xfer(Xfer *xfer)
 			Real value;
 			*xfer == key;
 			*xfer == value;
-			m_258.rva00470041(key) = value;
+			m_258[key] = value;
 		}
 	}
 
