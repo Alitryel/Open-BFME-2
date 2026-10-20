@@ -38,6 +38,14 @@ public:
 private:
  void *m_theFile; bool m_fileExists; char m_filePath[260],m_filename[260];
 };
+// Retail 0x000782C6 (27 B with its shared true tail): Zero Hour's
+// isImageFileType extended to BFME2's two extra image types, as a TU
+// static Set_Name inlines; cl still emits this register-convention copy
+// (type in EAX).
+static int isImageFileType(int fileType)
+{
+ return (fileType == 2 || fileType == 3 || fileType == 4 || fileType == 5);
+}
 const char *GameFileClass::Set_Name(const char *filename) {
  if(Is_Open()) Close();
  strncpy(m_filename,filename,260);
@@ -63,7 +71,7 @@ const char *GameFileClass::Set_Name(const char *filename) {
    char *end=m_filePath+strlen(m_filePath);
    *end++=filename[0];*end++=filename[1];*end++='\\';strcpy(end,filename);
   } else _mbscat(m_filePath,filename);
- } else if(fileType>=2 && fileType<=5) {
+ } else if(isImageFileType(fileType)) {
   if(strlen(name)>=2 && strncmp(filename,"apt_",4)!=0) {
    strcpy(m_filePath,"Art/CompiledTextures/");
    char *end=m_filePath+strlen(m_filePath);
