@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.9988 date=2026-10-20
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.8796 date=2026-10-20
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.8622483746829656 date=2026-10-19
@@ -245,15 +247,14 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
         active=font->AlternateFont();
     } else active=font;
     Vector2 extent;
-    W3DRadarResetSurface *cur=&CurSurface;
     glyph[length]=0xFFFF;
+    W3DRadarResetSurface *cur=&CurSurface;
     // Ensure we have a surface to start with
-    if ((1 ? (!cur->m_surface) : (!cur->m_surface))) Rva00158990(active,text,glyph,justCalcExtents);
+    if (!cur->m_surface) Rva00158990(active,text,glyph,justCalcExtents);
         TextureOffset.Set(2,0);
         TextureStartX=2;
         unsigned short *locked=0;
         int stride=0;
-        { }
         // Ensure the surface is locked
         if (!justCalcExtents) {
             locked=(unsigned short *)reinterpret_cast<Rva00116680 *>(cur)->rva00116680(&stride,false);
@@ -261,13 +262,11 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
         }
         float char_height=active->Get_Char_Height();
         unsigned short *glyphPtr=glyph;
-        unsigned short *curGlyph=glyph;
         // Loop over all the characters in the string
         while(text) {
             unsigned short ch=*text++;
             unsigned short glyphCh=*glyphPtr;
             ++glyphPtr;
-            (void)curGlyph;
             bool dontBlit=false;
             bool retry;
             float char_spacing;
@@ -303,7 +302,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                             const unsigned short *wordGlyph=glyphPtr;
                             float word_width=char_spacing;
                             while (*word!=0 && *word>' ' && *word!=0x95) {
-                                if (ParseHotKey && *word=='&') {++word;++wordGlyph;}
+                                if (ParseHotKey && *word=='&') {++wordGlyph;++word;}
                                 word_width+=active->Get_Glyph_Advance(*wordGlyph++);
                                 ++word;
                             }
@@ -330,8 +329,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                         Cursor.Y+=char_height;
                     }
                 }
-                if (!ch) break;
-            } while(retry);
+            } while(ch && retry);
             if (!ch) break;
             // Did the text extend past the edge of the texture?
             if (TextureOffset.I+char_spacing>=CurrTextureSize) {
@@ -366,21 +364,21 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
             const int count=sentence_data.Count();
             if (count>0) {
                 int start=0;
-                float left=sentence_data[0].screen_left;
                 float top=sentence_data[0].screen_top;
+                float left=sentence_data[0].screen_left;
                 float right=sentence_data[0].screen_right;
                 for (int i=1;;++i) {
                     if (i>=count || sentence_data[i].screen_top!=top) {
                         double width=active->Get_Extra_Overlap()*0.5f+right-left;
                         float shift=(float)floor((extent.X-width)*0.5f-left+0.5f);
                         for (int j=start;j<i;++j) {
-                            sentence_data[j].screen_left+=shift;
-                            sentence_data[j].screen_right=shift+sentence_data[j].screen_right;
+                            sentence_data[j].screen_left=sentence_data[j].screen_left+shift;
+                            sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
                         }
                         if (i>=count) break;
                         start=i;
-                        left=sentence_data[i].screen_left;
                         top=sentence_data[i].screen_top;
+                        left=sentence_data[i].screen_left;
                     }
                     right=sentence_data[i].screen_right;
                 }
