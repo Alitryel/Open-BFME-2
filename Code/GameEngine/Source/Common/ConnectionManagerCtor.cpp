@@ -143,7 +143,7 @@ public:
 	Rva004D1D32 m_12150[8];
 };
 
-ConnectionManager::ConnectionManager()
+__declspec(noinline) inline ConnectionManager::ConnectionManager()
 	: m_transport(0), m_localSlot(-1), m_packetRouterSlot(0),
 	  m_12050wrap(), m_1205c(0),
 	  m_12100(0), m_12124(0), m_12128(0), m_1212c(0), m_12130(0),
@@ -167,3 +167,9 @@ ConnectionManager::ConnectionManager()
 // The target calls the matched zero-and-state setter with zero and returns
 // this. CommandHistory is the donor name already used by the matched parent;
 // array size and callee are independently established by target bytes.
+
+// ?bfmeEmitConnectionManagerCtor absent-from-retail
+ConnectionManager *bfmeEmitConnectionManagerCtor()
+{
+	return new ConnectionManager;
+}

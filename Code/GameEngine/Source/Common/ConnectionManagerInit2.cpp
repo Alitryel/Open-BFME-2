@@ -147,7 +147,7 @@ public:
 	_STL::map<int, void *> m_12150[8];
 };
 
-ConnectionManager::ConnectionManager()
+__declspec(noinline) inline ConnectionManager::ConnectionManager()
 	: m_transport(0), m_localSlot(-1), m_packetRouterSlot(0),
 	  m_12050wrap(), m_1205c(0),
 	  m_12100(0), m_12124(0), m_12128(0), m_1212c(0), m_12130(0),
@@ -217,4 +217,10 @@ void ConnectionManager::init()
 	m_12130 = 0;
 	m_12134 = false;
 	m_12135 = true;
+}
+
+// ?bfmeEmitConnectionManagerInit2 absent-from-retail
+ConnectionManager *bfmeEmitConnectionManagerInit2()
+{
+	return new ConnectionManager;
 }

@@ -20,6 +20,10 @@
 namespace _STL 
 {
  template<> _List_base<int,allocator<int> >::~_List_base();
+ // Preserve constant-folded bit tests without emitting an incompatible helper.
+ template <> __declspec(dllimport) __forceinline
+ unsigned long _Base_bitset<4>::_S_maskbit(unsigned int pos)
+ { return 1UL << (pos % 32); }
  
 }
 #include "ascii_string.h"
@@ -28,7 +32,7 @@ namespace _STL
 class Matrix3D;
 class Player;
 extern GameLogic *TheGameLogic;
-extern float g_00DBA500;
+extern float BfmeClientFramesPerMillisecond;
 // Existing writable frames-per-millisecond scalar.
 enum DisabledType 
 {
@@ -283,14 +287,14 @@ void Rva00467AB8::rva00467AB8(Object *rider)
     if (o) 
     {
      Drawable *draw=o->getDrawable();
-     if (draw) draw->fadeIn(static_cast<unsigned>(g_00DBA500*module->m_fadeTime));
+     if (draw) draw->fadeIn(static_cast<unsigned>(BfmeClientFramesPerMillisecond*module->m_fadeTime));
      
     }
     
    }
    
   }
-  else riderDrawable->fadeIn(static_cast<unsigned>(g_00DBA500*module->m_fadeTime));
+  else riderDrawable->fadeIn(static_cast<unsigned>(BfmeClientFramesPerMillisecond*module->m_fadeTime));
   
  }
  
