@@ -90,11 +90,17 @@ static __forceinline Rva002D2DB2 *allocateCounter(int from,int to) {
  if(raw)return &raw->initialize(from,to-from);
  return 0;
 }
+// Retail 0x002D2D33: a percent bonus as a multiplier (1 + percent/100), a
+// file static the multiplier allocation inlines; cl keeps this copy, which
+// returns in XMM0 under its register convention.
+static float multiplierFromPercent(int percent) {
+ return percent*.01f+1.f;
+}
 static __forceinline Rva002D2DD4 *allocateMultiplier(const int &percent) {
  // Retail reads the member after operator new. A by-value factory argument
  // snapshots it too early and changes both the load and register allocation.
  Rva002D2DD4 *raw=(Rva002D2DD4*)::operator new(0xc);
- if(raw)return &raw->initialize(percent*.01f+1.f);
+ if(raw)return &raw->initialize(multiplierFromPercent(percent));
  return 0;
 }
 
