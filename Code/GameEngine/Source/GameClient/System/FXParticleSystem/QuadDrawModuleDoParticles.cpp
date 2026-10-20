@@ -1,23 +1,31 @@
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.967 date=2026-10-20
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.967 date=2026-10-20
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.96 date=2026-10-20
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.9 date=2026-10-19
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.83 date=2026-10-17
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.873 date=2026-10-14
-// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.8689438653277539 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
-// Retail 0x005601D9..0x00560A1B is thiscall RET12; WB 0x01422720 supplies the module identity.
-// Matrix operations use pristine ZH headers at donor a18d9ed50607e9175de4d6568798d7d73119de09.
-// The renderer's +0x14 texture slot (also assigned by the 8-byte setter 0x005601D1) is written through a bound reference.
-// Type-2 shader preset 0x00DB6250 is BfmeParticleType2ShaderBits, defined with the matched StreakDrawModule::doParticles.
+// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// retail 0x005601D9..0x00560A1B (2114 bytes EH thiscall RET 0xC).
+//
+// Identity (target): slot 4 of the QuadDrawModule vtable (shared signature
+// with the matched StreakDrawModule::doParticles 0x0055FD6B); WorldBuilder
+// twin 0x01422720 has the same calls, constants and the 512-particle cap.
+// Body: nothing while WW3D::IsCurrentlyRenderingShadowMap. The view matrix
+// comes from DX8Wrapper::Get_Transform(D3DTS_VIEW) (BFME 2 shape, WB
+// 0x009C1560 / matched copy 0x000768FE: dead WORLD/PROJECTION arms folded by
+// the constant). Live particles (0x001F4E2D) within the culling box grown by
+// their size (0x001F4D2D) get a +-size quad in the XZ plane, rotated about
+// the particle's axis kind (0x001F4DE6: Z/X/Y by D3DX or an arbitrary axis
+// with Y negated), translated to the position, transformed by the view and
+// appended (at most 512) to the position/colour share buffers g_00E065C8 /
+// g_00E065CC (colour 0x001F4E1B or black, alpha 0x001F4DF9). With any
+// particle the system texture (rowed TextureAsset::Get) and the shader
+// picked by its type (AdditiveSprite default; type 2 is
+// BfmeParticleType2ShaderBits from StreakDrawModuleDoParticles; HardwareFog
+// with DX8Wrapper::FogEnable) go to the quad renderer g_00E0623C, which
+// receives the buffers and renders (0x00177F82). Returns the count.
+// Shape notes (target): WB's debug body initialises the four corners by
+// direct member stores (no inline Set parameter temps, unlike the
+// black-colour arm) and adds the translation through Vector4::operator+=;
+// both keep retail's float operand order under the plain ZH Matrix4x4 *
+// Vector4. Matrix types: pristine ZH WWMath at donor
+// a18d9ed50607e9175de4d6568798d7d73119de09 (donor fact); RenderStateStruct
+// view at +0x22C (0x009EE804) is target evidence.
 #include "ascii_string.h"
 class RenderInfoClass;
 class RefCountClass;
@@ -27,15 +35,6 @@ public:
  __forceinline void identity() {Make_Identity();}
  __forceinline void transposeFrom(const Matrix4 &m) {*(Matrix4x4*)this=m.Transpose();}
 };
-// WWMath operator*(Matrix4x4,Vector4) with rows 1-2 regrouped W + ((X + Y) + Z): view rows 1-2 then sum W last as retail does
-__forceinline Vector4 operator * (const Matrix4 & a, const Vector4 & v) {
-	return Vector4(
-		a[0][0] * v[0] + a[0][1] * v[1] + a[0][2] * v[2] + a[0][3] * v[3],
-		a[1][3] * v[3] + ((a[1][0] * v[0] + a[1][1] * v[1]) + a[1][2] * v[2]),
-		a[2][3] * v[3] + ((a[2][0] * v[0] + a[2][1] * v[1]) + a[2][2] * v[2]),
-		a[3][0] * v[0] + a[3][1] * v[1] + a[3][2] * v[2] + a[3][3] * v[3]
-	);
-}
 class Rva0007671F:public Matrix4 {public:Rva0007671F();};
 struct D3DXMATRIX {float m[4][4];};
 extern "C" D3DXMATRIX*__stdcall D3DXMatrixRotationZ(D3DXMATRIX*,float);
@@ -54,14 +53,37 @@ template<class T>class RefCountPtr {public:const RefCountPtr&operator=(const Ref
 class Rva0090F8C0Holder {public:void set(int,RefCountClass*,RefCountClass*,RefCountClass*,RefCountClass*);};
 class Rva00177860 {public:void rva00177F82(RenderInfoClass&);void*refs[4];int count;RefCountPtr<TextureClass> texture;unsigned shader;float tail[4];};
 extern Rva00177860*g_00E0623C;
-class DX8Wrapper {public:static unsigned render_state_changed;static Matrix4 render_state_view;static bool Get_Fog_Enable(){return FogEnable;}static bool FogEnable;};
+enum D3DTRANSFORMSTATETYPE {D3DTS_VIEW=2,D3DTS_PROJECTION=3,D3DTS_WORLD=256,D3DTS_FORCE_DWORD=0x7fffffff};
+struct RenderStateStruct {char pad[0x1EC];Matrix4x4 world;Matrix4x4 view;};
+class DX8Wrapper {public:enum {WORLD_IDENTITY=1<<18,VIEW_IDENTITY=1<<19};static bool Get_Fog_Enable(){return FogEnable;}
+ // BFME 2 DX8Wrapper::Get_Transform (WB 0x009C1560)
+ static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
+{
+	switch ((int)transform) {
+	case D3DTS_WORLD:
+		if (render_state_changed&WORLD_IDENTITY) m.Make_Identity();
+		else m=render_state.world.Transpose();
+		break;
+	case D3DTS_VIEW:
+		if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
+		else m=render_state.view.Transpose();
+		break;
+	case D3DTS_PROJECTION:
+		m=DeviceProjectionMatrix.Transpose();
+		break;
+	default:
+		m.Make_Identity();
+		break;
+	}
+}
+protected:static bool FogEnable;static unsigned render_state_changed;static RenderStateStruct render_state;static Matrix4 DeviceProjectionMatrix;};
 namespace FXParticleSystem {class QuadDrawModule;}
 class WW3D {friend class FXParticleSystem::QuadDrawModule;static bool IsCurrentlyRenderingShadowMap;};
 class Rva001F4E2D {public:bool rva001F4E2D();};
 class Rva001F4D2D {public:float rva001F4D2D();};
 class Rva001F4DC4 {public:float rva001F4DC4();};
 class Rva001F4DE6 {public:int rva001F4DE6();};
-struct RGBColor {float red,green,blue;};
+#include "../../../../../Libraries/Include/Lib/RGBColor.h"
 class Rva001F4E1BSlot {public:const RGBColor*get()const;};
 class Rva001F4DF9 {public:float rva001F4DF9();};
 struct QuadParticle {char prefix[16];Vector3 axis;Vector3 position;char gap[0x3c];QuadParticle*next;};
@@ -80,16 +102,16 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
  float cx=box->center.X,cy=box->center.Y,cz=box->center.Z;
  float ex=box->extent.X,ey=box->extent.Y,ez=box->extent.Z;
  Rva0007671F view;Rva0007671F rotation;
- if(DX8Wrapper::render_state_changed&0x80000)view.identity();else view.transposeFrom(DX8Wrapper::render_state_view);
- if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get())){
- QuadParticle*p=getSystem()->storage->getFirstParticle();
+ DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
+ QuadParticle*p=0;if(!((unsigned char)((Rva0004CABDSevenEight*)getSystem())->get()))
+ p=getSystem()->storage->getFirstParticle();{
  for(;p;p=p->next){
   if(((Rva001F4E2D*)p)->rva001F4E2D())continue;
   const Vector3*pos=&p->position;float size=((Rva001F4D2D*)p)->rva001F4D2D();float angle=((Rva001F4DC4*)p)->rva001F4DC4();
   if(quadFabs(pos->X-cx)>ex+size)continue;
   if(quadFabs(pos->Y-cy)>ey+size)continue;
   if(quadFabs(pos->Z-cz)>ez+size)continue;
-  Vector4 vertices[4];vertices[0].Set(-size,0,size,1);vertices[1].Set(size,0,size,1);vertices[2].Set(-size,0,-size,1);vertices[3].Set(size,0,-size,1);
+  Vector4 vertices[4];vertices[0].X=-size;vertices[0].Y=0;vertices[0].Z=size;vertices[0].W=1;vertices[1].X=size;vertices[1].Y=0;vertices[1].Z=size;vertices[1].W=1;vertices[2].X=-size;vertices[2].Y=0;vertices[2].Z=-size;vertices[2].W=1;vertices[3].X=size;vertices[3].Y=0;vertices[3].Z=-size;vertices[3].W=1;
   int axis=((Rva001F4DE6*)p)->rva001F4DE6();
   if(axis==4)D3DXMatrixRotationZ((D3DXMATRIX*)&rotation,angle);
   else if(axis==2)D3DXMatrixRotationX((D3DXMATRIX*)&rotation,angle);
@@ -98,7 +120,7 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
   else rotation.identity();
   for(int i=0;i<4;++i)vertices[i]=rotation*vertices[i];
   Vector4 translation(pos->X,pos->Y,pos->Z,0);int start=count*4;
-  for(int j=0;j<4;++j){vertices[j].X+=translation.X;vertices[j].Y+=translation.Y;vertices[j].Z+=translation.Z;vertices[j].W+=translation.W;
+  for(int j=0;j<4;++j){vertices[j]+=translation;
    Vector4 out;out=view*vertices[j];positions[start+j].X=out[0];positions[start+j].Y=out[1];positions[start+j].Z=out[2];
   }
   const RGBColor*color=((Rva001F4E1BSlot*)p)->get();float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
