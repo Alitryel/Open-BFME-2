@@ -15,7 +15,7 @@
 // BFME 2 bodies already matched elsewhere, visible inline as in retail.
 
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
-#include "mapper.h"
+#include "../../../../../reference/shims/bfme_grid_mapper_link/mapper.h"
 #include "ini.h"
 #include "ww3d.h"
 #include "meshmatdesc.h"
@@ -42,7 +42,8 @@ inline void GridTextureMapperClass::update_temporal_state()
 	Remainder = Remainder % MSPerFrame;
 }
 
-inline void GridTextureMapperClass::calculate_uv_offset(float * u_offset, float * v_offset)
+// Keep the caller's inline expansion; mapper.cpp owns the external retail body.
+__declspec(dllimport) __forceinline void GridTextureMapperClass::calculate_uv_offset(float * u_offset, float * v_offset)
 {
 	unsigned int row_mask = ~(0xFFFFFFFF << GridWidthLog2);
 	unsigned int col_mask = row_mask << GridWidthLog2;
