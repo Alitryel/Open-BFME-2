@@ -102,7 +102,7 @@ public:
 	void tryUnderAttackEvent(const Object *object);
 	void tryInfiltrationEvent(const Object *object);
 	void createEvent(const Coord3D *world, RadarEventType type, Real secondsToLive);
-	void rva002D893B(const Rva002D893BColorSource *source, const Coord3D *world, RadarEventType type, Real scale);
+	void createPlayerEvent(const Rva002D893BColorSource *source, const Coord3D *world, RadarEventType type, Real scale);
 
 protected:
 	void internalCreateEvent(const Coord3D *world, RadarEventType type, Real secondsToLive,
@@ -152,7 +152,7 @@ void Radar::createEvent(const Coord3D *world, RadarEventType type, Real secondsT
 	internalCreateEvent(world, type, secondsToLive, &color[0], &color[1]);
 }
 
-void Radar::rva002D893B(const Rva002D893BColorSource *source, const Coord3D *world,
+void Radar::createPlayerEvent(const Rva002D893BColorSource *source, const Coord3D *world,
 	RadarEventType type, Real scale)
 {
 	if (source == 0 || world == 0)

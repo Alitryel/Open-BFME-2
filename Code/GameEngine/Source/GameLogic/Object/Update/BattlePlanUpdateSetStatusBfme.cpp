@@ -99,7 +99,7 @@ public:
 };
 struct Rva002D893BColorSource;
 enum RadarEventType { RADAR_EVENT_BATTLE_PLAN=7 };
-class Radar { public: void rva002D893B(const Rva002D893BColorSource *,const Coord3D *,RadarEventType,float); };
+class Radar { public: void createPlayerEvent(const Rva002D893BColorSource *,const Coord3D *,RadarEventType,float); };
 class Rva0033F15DDwordSlot { public: void set(int); };
 extern AudioManager *TheAudio; extern GameLogic *TheGameLogic;
 extern GameTextInterface *TheGameText; extern InGameUI *TheInGameUI;
@@ -267,7 +267,7 @@ void BattlePlanUpdate::setStatus(TransitionStatus newStatus)
         m_nextReadyFrame = now + modData->m_transitionIdleFrames;
         break;
     case UNPACKING:
-        TheRadar->rva002D893B((const Rva002D893BColorSource *)obj->getControllingPlayer(),obj->getPosition(),RADAR_EVENT_BATTLE_PLAN,4.0f);
+        TheRadar->createPlayerEvent((const Rva002D893BColorSource *)obj->getControllingPlayer(),obj->getPosition(),RADAR_EVENT_BATTLE_PLAN,4.0f);
         createVisionObject();
         switch (m_currentPlan)
         {

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva002D7DD5@Radar@@UAEXXZ, retail 0x002D7DD5, 147 bytes.
+// ?update@Radar@@UAEXXZ, retail 0x002D7DD5, 147 bytes.
 //
 // Radar frame tick: reads the client frame counter, force-flags the radar, then
 // walks the 64 radar-event slots retiring any that are marked, stamped and
@@ -143,7 +143,7 @@ struct RadarEvent
 class Radar
 {
 public:
-	virtual void rva002D7DD5();
+	virtual void update();
 
 private:
 	char m_pad04[0x0D - 0x04];
@@ -158,7 +158,7 @@ private:
 	unsigned int m_lastFrame;  // +0x145C
 };
 
-void Radar::rva002D7DD5()
+void Radar::update()
 {
 	unsigned int curFrame = ((ClientFrameSubsystem *)TheGameClient)->getFrame();
 	m_flag = true;

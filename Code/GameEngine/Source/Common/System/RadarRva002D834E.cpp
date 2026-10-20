@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?rva002D834E@Radar@@QAEPAVObject@@PBUICoord2D@@@Z retail 0x002D834E 71B.
+// ?objectUnderRadarPixel@Radar@@QAEPAVObject@@PBUICoord2D@@@Z retail 0x002D834E 71B.
 // Radar pixel pick: null-guard pixel then localPixelToRadar into a stack
 // ICoord2D then search m_localObjectList +0x18 then m_objectList +0x14 via
 // rowed searchListForRadarLocationMatch. Evidence: thiscall with ret 4 and same this as rowed
@@ -18,7 +18,7 @@ class Radar
 public:
 	bool localPixelToRadar(const ICoord2D *pixel, ICoord2D *radar);
 	Object *searchListForRadarLocationMatch(RadarObject *list, ICoord2D *target);
-	Object *rva002D834E(const ICoord2D *pixel);
+	Object *objectUnderRadarPixel(const ICoord2D *pixel);
 
 private:
 	char m_pad14[0x14];
@@ -26,7 +26,7 @@ private:
 	RadarObject *m_localObjectList; // +0x18
 };
 
-Object *Radar::rva002D834E(const ICoord2D *pixel)
+Object *Radar::objectUnderRadarPixel(const ICoord2D *pixel)
 {
 	ICoord2D radar;
 	if (pixel == 0)
