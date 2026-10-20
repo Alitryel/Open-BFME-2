@@ -1135,7 +1135,7 @@ public:
     virtual void init(); virtual void slot02(); virtual void slot03(); virtual void slot04();
     virtual void slot05(); virtual void slot06(); virtual void slot07(); virtual void slot08(); virtual void slot09();
     // Slot 10 (retail 0x00062690) is the per-frame update below.
-    virtual void rva00062690(); virtual void slot11(); virtual void slot12(); virtual void slot13(); virtual void rva00061C87(unsigned int viewMask);
+    virtual void update(); virtual void slot11(); virtual void slot12(); virtual void slot13(); virtual void rva00061C87(unsigned int viewMask);
     virtual void slot15(); virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
     virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23(); virtual void slot24();
     virtual void slot25(); virtual void removePlayingAudio(const AsciiString &eventName, int viewType); virtual void slot27();
@@ -1196,7 +1196,7 @@ public:
     bool rva0005538C(void);
     void rva0005BE59(void *slot, float value, void *index);
     void rva0005E377(const AsciiString &key, int viewType);
-    void rva0005DAFC(int viewType);
+    void setViewFocus(int viewType);
     int rva0005A7BE(AudioEventRTS *event, int arg1);
     void rva0005AF92(AudioEventInfo *info);
     AsciiString rva0005B19E(const AsciiString &key);
@@ -1207,7 +1207,7 @@ public:
     void rva0005407E(INI *ini);
     void rva000540A7(INI *ini);
     unsigned char rva00054120(INI *ini);
-    bool rva00061BD2(int unused);
+    bool attemptReload(int unused);
     void rva0006179C(int opaque);
     AsciiString rva00054714(void);
     PlayingAudioList::iterator rva000544CB(int viewType, int musicSystem, int filter);
@@ -1269,7 +1269,7 @@ public:
     void rva0005452B(void);
     void rva000606CE(bool accelerated);
     void rva00060123(unsigned int viewMask);
-    void rva00056FD9(unsigned int viewMask);
+    void removeAllAudioRequests(unsigned int viewMask);
     void rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *unused);
     bool rva000613A9(unsigned int handle);
     bool rva006AD9B0(void);    // 0x00059646, cached reinitialize setting
@@ -2212,7 +2212,7 @@ extern InGameUI *TheInGameUI;
 // only after the manager's rowed audio INI reload reports success.
 bool AudioEventsReloaded;
 
-bool MilesAudioManager::rva00061BD2(int unused)
+bool MilesAudioManager::attemptReload(int unused)
 {
  MilesMutexGuard guard(&m_mutex, 0);
  INI ini;
@@ -2236,7 +2236,7 @@ typedef _STL::hash_set<Rva00051B89Keyed *, Rva00051B89Hash, _STL::equal_to<Rva00
 // viewMask (all of them for 7; a request without an event counts as view
 // type 3, kept unless the mask is 7) from the request list and the pending
 // request set, deleting each one.
-void MilesAudioManager::rva00056FD9(unsigned int viewMask)
+void MilesAudioManager::removeAllAudioRequests(unsigned int viewMask)
 {
     Rva00051107AudioRequestList::iterator it = m_audioRequests.begin();
     while (it != m_audioRequests.end()) {
@@ -2287,7 +2287,7 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
 {
     MilesMutexGuard guard(&m_mutex, 0);
     rva00060123(viewMask);
-    rva00056FD9(viewMask);
+    removeAllAudioRequests(viewMask);
     if (viewMask & 1) {
         slot91();
         m_triggerAreas.clear();
@@ -4056,7 +4056,7 @@ void MilesAudioManager::rva000606CE(bool accelerated)
     selectProvider(accelerated);
     if (m_selectedProvider != (unsigned int)-1) {
         internalSetReverbRoomType(m_atBE4);
-        rva00062690();
+        update();
     }
 }
 
@@ -4297,7 +4297,7 @@ class Rva0005C892 { public: void rva0005C892(void); };
 // Retail 0x0005DAFC (address-derived): under the mutex, switches the active
 // view type (+0x678) and refreshes the reverb, the microphone and the 0x5C892
 // state; +0x6A5 marks the change.
-void MilesAudioManager::rva0005DAFC(int viewType)
+void MilesAudioManager::setViewFocus(int viewType)
 {
     MilesMutexGuard guard(&m_mutex, 0);
     if (viewType != m_at678) {
@@ -5499,7 +5499,7 @@ protected:
 // current view's volume records, runs the request, music and ambient passes,
 // clears the per-frame flags, ends each view's volume frame and deletes a
 // finished subtitle window.
-void MilesAudioManager::rva00062690()
+void MilesAudioManager::update()
 {
     if (TheWritableGlobalData && !((Rva00062690GlobalDataView *)TheWritableGlobalData)->m_audioOn)
         return;
