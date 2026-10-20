@@ -55,3 +55,12 @@ order xyz/yxz/xy/yx/zxy, dist expression order, a `const Coord3D *pos` local,
 A separate y temporary; delta declared outside the loop or before the switch; a
 distinct second delta variable; a getPosition()-style inline accessor returning
 `const Coord3D*`; differences computed without in-place stores; `Real` typedefs.
+
+## Landed (r15, 2026-10-20)
+
+Exact in `Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp`. Two last facts:
+the first mineshaft delta subtracts x in place and keeps y's difference in a temporary
+(`float dy=delta.y-obj->position[1];`), and the frame is only 0x110 when the body of `Pathfinder::rva002F5022`
+(0x2F5022) is visible earlier in the same TU (declaration only: frame 0x114, fit 0.807).
+0x2F5022 was rehomed there from `PathfinderProcessHierarchicalCell.cpp`; it stays exact
+with an uncached `examinedCount` and the PathfindCell bool getters `getPinched`/`getBit23`.

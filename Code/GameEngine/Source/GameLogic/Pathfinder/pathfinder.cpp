@@ -138,7 +138,12 @@ struct Rva002E93A7Info
 	Pathfinder *m_00;
 	Int m_04;
 };
-class Waypoint { public: Int word0,id;void *name;Coord3D location;char pad18[0x44-0x18];Waypoint *chainNext;Int word48,linkCount; };
+class Waypoint { public:
+ Bool isValidUnitType(Object *); Waypoint *getLink(Int) const;
+ Int word0,id;void *name;Coord3D location;Int word18;Waypoint *next;
+ char pad20[0x44-0x20];Waypoint *chainNext;Int word48,linkCount;
+ char pad50[0x60-0x50];Int type;
+};
 class PathfindCell;
 class Path
 {
@@ -230,6 +235,9 @@ public:
 	enum { LAYER_GROUND = 1 };
 
  Bool IsObstaclePresent(ObjectID) const;
+ Int CalcCostToHierGoal(PathfindCell *);
+ bool getPinched()const{return ((m_info>>16)&1)!=0;}
+ bool getBit23()const{return ((m_info>>23)&1)!=0;}
  Bool StartPathfind(Int);void ReleaseInfo();void SetParentCell(Int *);void PutOnClosedList(MixFileInfoBuffer **);Int CalcCostSoFar(const Rva002E6C79 *);
  __forceinline void allocateInfo(In002E6BA1 *pos) {
   if(!m_pathInfo) { if(!TheMixFileInfoPool)Rva0052DBCDInit();m_pathInfo=(PathfinderGroundInfo *)Rva002E8B7AInit((MixFileInfoBuffer **)&TheMixFileInfoPool,(Int)this,pos); }
@@ -540,6 +548,7 @@ class PathfindZoneManager
 {
 public:
 	void rva005312BE();
+ Bool rva00532069(Int,Int);Bool rva005315C8(Int,Int);Int GetPortal(Int,Int,Int);
  unsigned char IsPassable(Int,Int);
 	void rva00531300();
 	void rva00531481();
@@ -685,6 +694,7 @@ double Rva000422A0Atan2(float,float);
 class Pathfinder
 {
 public:
+ void rva002F5022(const ICoord2D &,const ICoord2D &,PathfindCell *,PathfindCell *,unsigned short,unsigned short *,Int &,Int,Int &);
 // Native vtable C053F8: slots 0..9 are modeled as placeholders (the rows that
 // own them keep their non-virtual spellings); FindCollisionFreeQuickPath is slot
 // 10. The vptr takes the first four bytes of the old leading pad.
@@ -842,6 +852,8 @@ class Rva002E99F9Sub460
 {
 public:
 	unsigned short rva0053241F(void *, unsigned short);
+ unsigned short rva00532041(Int,Int,Int,struct Rva00532041Record **);
+ bool rva005318DB(void *,void *,void *);
 	unsigned short rva00531FD4(void *, unsigned short);
 };
 
@@ -5701,4 +5713,320 @@ Bool Pathfinder::MoveAllies(Object *obj, Path *path, Bool force)
 	}
 	path->Unlock();
 	return true;
+}
+
+
+// Hierarchical search views: native2F71A6 and the complete WB D4FAE0 body
+// establish these accessed fields; ZH/BF1 supply the search algorithm only.
+class MineshaftPortalNetworkManager { public: Bool hasUsableNetwork(void *); };
+// The sole datum owner is GameStateInit.cpp g_Va00E01EDC (data_ledger A01EDC).
+// GameEngineInit.cpp registration literal independently identifies its role.
+extern void *g_Va00E01EDC;
+class HierarchyTerrain : public PathfinderNativeSlots<33> { public: virtual Waypoint *getFirstWaypoint(); };
+class Rva002E6ECA { public: Int get() const; };
+Int Rva002E6E6CGet(Int);
+class Rva003F69C0Object { public: void set(Int *,Int); };
+struct Disp32IntPair { Int x,y; };
+class Rva005315B0IntPairField { public: void get(Disp32IntPair &); };
+struct HierarchySearchOptions { Int surfaces;Bool passFlag,objectFlag;Int priority;Bool layerFlag; };
+struct HierarchyLayerView { char pad[0x18];ICoord2D start,end;Int word28,zone;Bool destroyed; };
+static __forceinline void hierarchySetParent(PathfindCell *cell,PathfindCell *parent,Waypoint *waypoint=0) {
+ ((Rva003F69C0Object *)cell)->set((Int *)parent,(Int)waypoint);
+}
+static __forceinline bool hierarchyClosed(PathfindCell *cell) { return (unsigned char)((Rva002E6B06 *)cell)->rva002E6B06()!=0; }
+static __forceinline bool hierarchyOpen(PathfindCell *cell) { return (unsigned char)((Rva002E6AF3 *)cell)->get()!=0; }
+struct HierarchyPoint : public Coord3D { HierarchyPoint(){}
+ HierarchyPoint(const HierarchyPoint &c) { x=c.x;y=c.y;z=c.z; }
+ HierarchyPoint(const Coord3D &c) { x=c.x;y=c.y;z=c.z; }
+ HierarchyPoint &operator=(const Coord3D &c) { *(Coord3D *)this=c;return *this; }
+};
+
+// Rehomed 0x002F5022 (645 B, RET 36), original PathfinderProcessHierarchicalCell.cpp:
+// the hierarchical cell expansion (BF1 cee35b7d ProcessHierarchicalCell, ZH
+// AIPathfind.cpp:7346 give purpose only). Retail compiled it in this unit: with
+// its body visible internal_findHierarchicalPath below takes retail's frame
+// (0x110, originalTo kept in its slot); declared only, the caller grows by a slot.
+// Reload examinedCount in the scan; the pinched/bit-23 tests stay bool getters.
+void Pathfinder::rva002F5022(const ICoord2D &scan,const ICoord2D &delta,PathfindCell *parent,PathfindCell *goal,unsigned short parentZone,unsigned short *examined,int &examinedCount,int profile,int &cellCount)
+{
+ if(scan.x<m_clampLo.x || scan.x>m_clampHi.x || scan.y<m_clampLo.y || scan.y>m_clampHi.y)return;
+ if(parentZone==((Rva002E99F9Sub460 *)&m_zoneManager)->rva00532041(profile,scan.x,scan.y,(Rva00532041Record**)m_unknown10)) {
+  PathfindCell *first=getCell(PATHFIND_LAYER_GROUND,scan.x,scan.y);
+  if(hierarchyOpen(first) || hierarchyClosed(first))return;
+  ICoord2D adjacent=scan;adjacent.x+=delta.x;adjacent.y+=delta.y;
+  if(adjacent.x<m_clampLo.x || adjacent.x>m_clampHi.x || adjacent.y<m_clampLo.y || adjacent.y>m_clampHi.y)return;
+  PathfindCell *next=getCell(PATHFIND_LAYER_GROUND,adjacent.x,adjacent.y);
+  if(hierarchyOpen(next) || hierarchyClosed(next))return;
+  unsigned short nextZone=((Rva002E99F9Sub460 *)&m_zoneManager)->rva00532041(profile,adjacent.x,adjacent.y,(Rva00532041Record**)m_unknown10);
+  for(int j=0;j<examinedCount;++j) {
+   if(examined[j]==nextZone){next->allocateInfo((In002E6BA1 *)&adjacent);next->PutOnClosedList(&m_closedList);return;}
+  }
+  if(!((Rva002E99F9Sub460 *)&m_zoneManager)->rva005318DB((void*)profile,first,next))return;
+  first->allocateInfo((In002E6BA1 *)&scan);
+  if(!hierarchyClosed(first) && !hierarchyOpen(first))first->PutOnClosedList(&m_closedList);
+  next->allocateInfo((In002E6BA1 *)&adjacent);++cellCount;
+  int currentCost=next->CalcCostToHierGoal(parent);
+  int remainingCost=next->CalcCostToHierGoal(goal);
+  if(next->getPinched() || first->getPinched() || next->getBit23() || first->getBit23())currentCost+=20;
+  else {examined[examinedCount]=nextZone;++examinedCount;}
+  next->m_pathInfo->costSoFar=parent->m_pathInfo->costSoFar+currentCost;
+  next->m_pathInfo->totalCost=next->m_pathInfo->costSoFar+remainingCost;
+  hierarchySetParent(next,parent);AddToOpenList(next);
+ }
+}
+
+// Native 0x002F71A6..0x002F83A3 (4605 B, RET 32); WorldBuilder D4FAE0
+// (pathfinder.cpp:7421..7827) is the unoptimised twin, ZH/BF1 AIPathfind.cpp's
+// hierarchical search the algorithm guide. Target shapes: the mineshaft scan
+// tests the waypoint type with a switch (WB switch temp), the first distance
+// subtracts x in place and keeps y's difference in a temporary (retail stores
+// the unsubtracted y), one reached-goal exit follows the portal block.
+// CandidateStorage is a storage adapter, not a claimed original class.
+struct HSO : HierarchySearchOptions { HSO(Int s,Bool a,Int b,Bool c,Bool d){surfaces=s;passFlag=a;objectFlag=c;priority=b;layerFlag=d;} };
+Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
+ LocomotorSurfaceTypeMask surfaces,Object *obj,const Coord3D *from,
+ const Coord3D *rawTo,Bool crusher,Bool closestOK,Coord3D *adjustedTo)
+{
+ union CandidateStorage {Waypoint *waypoint;PathfindCell *cell;};CandidateStorage candidate;
+ if(rawTo->x==0.0f && rawTo->y==0.0f)return 0;
+ if(!m_isMapReady)return 0;
+ HierarchyPoint adjustTo(*rawTo);
+ Coord3D *to=&adjustTo;
+ HierarchyPoint clipFrom(*from);
+ rva002E75A3(&clipFrom,&adjustTo);
+ m_isTunneling=false;
+ Bool useMineshaft=false;
+ HierarchyPoint originalTo(adjustTo);
+ if(((MineshaftPortalNetworkManager *)g_Va00E01EDC)->hasUsableNetwork(obj->getControllingPlayer())) {
+  float startDistance=0.0f,endDistance=0.0f;
+  for(Waypoint *way=((HierarchyTerrain *)TheTerrainLogic)->getFirstWaypoint();way;way=way->next) {
+   switch(way->type) { case 8: if((unsigned char)((Rva002E6ECA *)way)->get() && way->isValidUnitType(obj)) {
+    if(rva001E3647Pos(TheTerrainLogic->getLayerForDestination(0,&way->location),&way->location)) {
+     HierarchyPoint delta(way->location);
+     delta.x-=obj->position[0];float dy=delta.y-obj->position[1];delta.z-=obj->position[2];
+     float dist=delta.x*delta.x+dy*dy;
+     if(!m_srcMineshaft || dist<startDistance) {m_srcMineshaft=(PathfinderMineshaft *)way;startDistance=dist;}
+     delta=way->location;
+     delta.x-=rawTo->x;delta.y-=rawTo->y;delta.z-=rawTo->z;
+     dist=delta.x*delta.x+delta.y*delta.y;
+     if(!m_destMineshaft || dist<endDistance) {m_destMineshaft=(PathfinderMineshaft *)way;endDistance=dist;}
+    }
+   } break; }
+  }
+  if(m_srcMineshaft && m_destMineshaft && m_srcMineshaft!=m_destMineshaft &&
+     QuickDoesPathExist(obj,from,&m_srcMineshaft->m_position,0) &&
+     QuickDoesPathExist(obj,&m_destMineshaft->m_position,rawTo,0)) {
+   useMineshaft=true;adjustTo=m_srcMineshaft->m_position;rva002E75A3(&clipFrom,&adjustTo);
+  } else {m_srcMineshaft=0;m_destMineshaft=0;}
+ }
+ PathfindLayerEnum destinationLayer=TheTerrainLogic->getLayerForDestination(0,to);
+ ICoord2D cell;Rva002E7875WorldToCell(&cell,true,to);
+ PathfindCell *goalCell=getCell(destinationLayer,cell.x,cell.y);
+ if(!goalCell)return 0;
+ goalCell->allocateInfo((In002E6BA1 *)&cell);
+ PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(0,from);
+ PathfindCell *parentCell=rva002E8BF8(layer,&clipFrom);
+ if(!parentCell)return 0;
+ if(parentCell==goalCell) {goalCell->ReleaseInfo();return 0;}
+ { ICoord2D startCellNdx;
+ parentCell->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startCellNdx,true,&clipFrom)); }
+ if((parentCell->m_info & 15)==4 &&
+    (parentCell->m_pathInfo?parentCell->m_pathInfo->obstacleID:(ObjectID)0)!=m_ignoreObstacleID) {
+  goalCell->ReleaseInfo();parentCell->ReleaseInfo();return 0;
+ }
+ Int priority=obj->m_template->priority;
+ Bool flag=obj->m_template->flag;
+ HSO options(surfaces,!flag,priority-1,obj->rva0028AFBB(),obj->rva0028AC62());
+ Rva002E99F9Sub460 *zones=(Rva002E99F9Sub460 *)&m_zoneManager;
+ Int zone1=zones->rva0053241F(&options,parentCell->quickZone());
+ Int zone2=zones->rva0053241F(&options,goalCell->quickZone());
+ if((goalCell->m_info & 15)==4){zone2=zones->rva00531FD4(&options,(unsigned short)zone2);zone2=zones->rva0053241F(&options,(unsigned short)zone2);}
+ if(!closestOK && !rva002F4115(obj,zone1,zone2,0)) {goalCell->ReleaseInfo();parentCell->ReleaseInfo();return 0;}
+ parentCell->StartPathfind((Int)goalCell);
+ parentCell->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parentCell,goalCell);
+ Int cellCount=0;
+ unsigned short goalBlockZone;
+ ICoord2D goalBlockNdx;
+ if((unsigned char)Rva002E6E6CGet(goalCell->getLayer())) {
+  goalBlockZone=zones->rva00532041((Int)&options,goalCell->getXIndex(),goalCell->getYIndex(),(Rva00532041Record **)m_unknown10);
+  goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
+ } else {goalBlockZone=goalCell->quickZone();goalBlockNdx.x=-1;goalBlockNdx.y=-1;}
+ AddToOpenList(parentCell);
+ Int parentLayer=parentCell->getLayer();
+ if(!(unsigned char)Rva002E6E6CGet(parentLayer)) {
+  ICoord2D ndx=((HierarchyLayerView *)&m_layers[parentLayer])->start,toNdx=((HierarchyLayerView *)&m_layers[parentLayer])->end;
+  PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
+  PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+  if(end && start) {
+   rva002F36E5();parentCell->PutOnClosedList(&m_closedList);
+   start->allocateInfo((In002E6BA1 *)&ndx);hierarchySetParent(start,parentCell);++cellCount;
+   Int curCost=start->CalcCostToHierGoal(parentCell),remCost=start->CalcCostToHierGoal(goalCell);
+   start->m_pathInfo->costSoFar=(unsigned short)curCost;start->m_pathInfo->totalCost=(unsigned short)remCost;
+   hierarchySetParent(start,parentCell);AddToOpenList(start);
+   ++cellCount;end->allocateInfo((In002E6BA1 *)&toNdx);
+   curCost=end->CalcCostToHierGoal(parentCell);remCost=end->CalcCostToHierGoal(goalCell);
+   end->m_pathInfo->costSoFar=(unsigned short)curCost;end->m_pathInfo->totalCost=(unsigned short)remCost;
+   hierarchySetParent(end,parentCell);AddToOpenList(end);
+  }
+ }
+ candidate.cell=0;
+ float closestDistSqr=1.0e12f;
+ PathfindCell *initialCell=parentCell;
+ while((parentCell=rva002F36E5())!=0) {
+  parentCell->PutOnClosedList(&m_closedList);
+  unsigned short parentZone;
+  if((unsigned char)Rva002E6E6CGet(parentCell->getLayer()))
+   parentZone=zones->rva00532041((Int)&options,parentCell->getXIndex(),parentCell->getYIndex(),(Rva00532041Record **)m_unknown10);
+  else parentZone=parentCell->quickZone();
+  Bool reachedGoal=false;
+  Int blockX=parentCell->getXIndex()/16,blockY=parentCell->getYIndex()/16;
+  if(parentZone==goalBlockZone && (goalBlockNdx.x==-1 || (blockX==goalBlockNdx.x && blockY==goalBlockNdx.y)))reachedGoal=true;
+  Disp32IntPair extent;((Rva005315B0IntPairField *)&m_zoneManager)->get(extent);
+  if(!reachedGoal && m_zoneManager.rva00532069(parentCell->getXIndex(),parentCell->getYIndex())) {
+   for(Int i=0;i<=15;++i) {
+    HierarchyLayerView *bridge=(HierarchyLayerView *)&m_layers[i];
+    if(!((Rva0036666B *)bridge)->rva0036666B() || bridge->destroyed)continue;
+    ICoord2D ndx=bridge->start,toNdx=bridge->end;
+    if(ndx.x/16!=blockX || ndx.y/16!=blockY) {toNdx=bridge->start;ndx=bridge->end;}
+    if(ndx.x<0 || ndx.y<0)continue;
+    _ReadWriteBarrier();
+    if(toNdx.x<0 || toNdx.y<0)continue;
+    if(ndx.x/16==blockX && ndx.y/16==blockY) {
+     Int bridgeZone=zones->rva00532041((Int)&options,ndx.x,ndx.y,(Rva00532041Record **)m_unknown10);
+     if(bridgeZone!=parentZone) {
+      if(ndx.x/16==toNdx.x/16 && ndx.y/16==toNdx.y/16) {
+       ICoord2D temp=ndx;ndx=toNdx;toNdx=temp;
+       bridgeZone=zones->rva00532041((Int)&options,ndx.x,ndx.y,(Rva00532041Record **)m_unknown10);
+      }
+      if(bridgeZone!=parentZone)continue;
+     }
+     if(bridge->zone==goalBlockZone) {reachedGoal=true;break;}
+     PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
+     if(!end || hierarchyClosed(end) || hierarchyOpen(end))continue;
+     PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+     if(!start || start==end)continue;
+     if(start!=parentCell) {
+      start->allocateInfo((In002E6BA1 *)&ndx);hierarchySetParent(start,parentCell);
+      if(!hierarchyClosed(start) && !hierarchyOpen(start))start->PutOnClosedList(&m_closedList);
+     }
+     end->allocateInfo((In002E6BA1 *)&toNdx);hierarchySetParent(end,start);++cellCount;
+     Int curCost=end->CalcCostToHierGoal(start),remCost=end->CalcCostToHierGoal(goalCell);
+     end->m_pathInfo->costSoFar=(unsigned short)(start->m_pathInfo->costSoFar+curCost);
+     end->m_pathInfo->totalCost=(unsigned short)(end->m_pathInfo->costSoFar+remCost);
+     hierarchySetParent(end,start);AddToOpenList(end);
+    }
+   }
+  }
+  Bool wasMineshaft=useMineshaft;
+  if(reachedGoal) {
+   if(useMineshaft) {
+    useMineshaft=false;reachedGoal=false;adjustTo=originalTo;
+    PathfindLayerEnum dest=TheTerrainLogic->getLayerForDestination(0,to);
+    ICoord2D ndx;Rva002E7875WorldToCell(&ndx,true,to);
+    goalCell=getCell(dest,ndx.x,ndx.y);goalCell->allocateInfo((In002E6BA1 *)&ndx);
+    zone2=zones->rva0053241F(&options,goalCell->quickZone());
+    if((unsigned char)Rva002E6E6CGet(goalCell->getLayer())) {
+     goalBlockZone=zones->rva00532041((Int)&options,goalCell->getXIndex(),goalCell->getYIndex(),(Rva00532041Record **)m_unknown10);
+     goalBlockNdx.x=goalCell->getXIndex()/16;goalBlockNdx.y=goalCell->getYIndex()/16;
+    } else {goalBlockZone=goalCell->quickZone();goalBlockNdx.x=-1;goalBlockNdx.y=-1;}
+   }
+  }
+  if(!reachedGoal && m_zoneManager.rva005315C8(parentCell->getXIndex(),parentCell->getYIndex())) {
+   Int i=0;
+   for(Waypoint *wp=(Waypoint *)m_zoneManager.GetPortal(parentCell->getXIndex(),parentCell->getYIndex(),i);
+       wp;wp=(Waypoint *)m_zoneManager.GetPortal(parentCell->getXIndex(),parentCell->getYIndex(),++i)) {
+    if(wp->type==8 && !wasMineshaft)continue;
+    if(!wp->isValidUnitType(obj))continue;
+    ICoord2D ndx;Rva002E7875WorldToCell(&ndx,true,&wp->location);
+    for(Int j=0;j<wp->linkCount;++j) {
+     Waypoint *link=wp->getLink(j);if(!link)continue;
+     ICoord2D toNdx;Rva002E7875WorldToCell(&toNdx,true,&link->location);
+     HierarchyLayerView *bridge=(HierarchyLayerView *)&m_layers[i];
+     if(ndx.x/16!=blockX || ndx.y/16!=blockY) {toNdx=bridge->start;ndx=bridge->end;}
+     if(ndx.x<0 || ndx.y<0)continue;
+     if(toNdx.x<0 || toNdx.y<0)continue;
+     _ReadWriteBarrier();
+     if(ndx.x/16==blockX && ndx.y/16==blockY) {
+      unsigned short bridgeZone=zones->rva00532041((Int)&options,ndx.x,ndx.y,(Rva00532041Record **)m_unknown10);
+      if(bridgeZone!=parentZone)continue;
+      if(bridge->zone==goalBlockZone) {reachedGoal=true;break;}
+      PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
+      if(!end || hierarchyClosed(end) || hierarchyOpen(end))continue;
+      PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+      if(!start)continue;
+      if(start!=parentCell) {
+       start->allocateInfo((In002E6BA1 *)&ndx);hierarchySetParent(start,parentCell);
+       if(!hierarchyClosed(start) && !hierarchyOpen(start))start->PutOnClosedList(&m_closedList);
+      }
+      end->allocateInfo((In002E6BA1 *)&toNdx);hierarchySetParent(end,start,wp);++cellCount;
+      Int curCost=0;if(wp->type==8)curCost=500;else curCost=end->CalcCostToHierGoal(start);
+      Int remCost=end->CalcCostToHierGoal(goalCell);
+      end->m_pathInfo->costSoFar=(unsigned short)(start->m_pathInfo->costSoFar+curCost);
+      end->m_pathInfo->totalCost=(unsigned short)(end->m_pathInfo->costSoFar+remCost);
+      hierarchySetParent(end,start,wp);AddToOpenList(end);
+     }
+    }
+   }
+  }
+  if(reachedGoal){
+   if(parentCell!=goalCell)hierarchySetParent(goalCell,parentCell);
+   m_isTunneling=false;
+   Path *path=(Path *)MakeHierarchicalPathPassable((void *)from,(Rva002E6C79 *)goalCell,((((const unsigned int *)obj->m_template->kinds)[5]>>31)&1)!=0);
+   rva002F40E7();goalCell->ReleaseInfo();goalCell->ReleaseInfo();*adjustedTo=adjustTo;return path;
+  }
+  float dx=(float)((Int (__cdecl *)(Int))ji_00629952)(goalCell->getXIndex()-parentCell->getXIndex());
+  float dy=(float)((Int (__cdecl *)(Int))ji_00629952)(goalCell->getYIndex()-parentCell->getYIndex());
+  float distance=dx*dx+dy*dy;
+  if(distance<closestDistSqr) {candidate.cell=parentCell;closestDistSqr=distance;}
+  Int k; unsigned short examinedZones[16];Int examinedCount=0;
+  if(blockX>0) {
+   for(k=1;k<=16;++k) {
+    ICoord2D ndx; ndx.x=blockX*16;ndx.y=blockY*16;ndx.y+=8;Int offset=k>>1;if(k&1)offset=-offset;ndx.y+=offset;ICoord2D delta={ -1,0 };
+    PathfindCell *test=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+    if(test && !hierarchyClosed(test) && !hierarchyOpen(test) &&
+       (!isHuman || (ndx.x>=m_extentLowX && ndx.x<=m_extentHighX && ndx.y>=m_extentLowY && ndx.y<=m_extentHighY)))
+     rva002F5022(ndx,delta,parentCell,goalCell,parentZone,examinedZones,examinedCount,(Int)&options,cellCount);
+   }
+  }
+  if(blockX<extent.x-1) {
+   examinedCount=0;
+   for(k=1;k<=16;++k) {
+    ICoord2D ndx; ndx.x=blockX*16+15;ndx.y=blockY*16;ndx.y+=8;Int offset=k>>1;if(k&1)offset=-offset;ndx.y+=offset;ICoord2D delta={ 1,0 };
+    PathfindCell *test=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+    if(test && !hierarchyClosed(test) && !hierarchyOpen(test) &&
+       (!isHuman || (ndx.x>=m_extentLowX && ndx.x<=m_extentHighX && ndx.y>=m_extentLowY && ndx.y<=m_extentHighY)))
+     rva002F5022(ndx,delta,parentCell,goalCell,parentZone,examinedZones,examinedCount,(Int)&options,cellCount);
+   }
+  }
+  if(blockY>0) {
+   examinedCount=0;
+   for(k=1;k<=16;++k) {
+    ICoord2D ndx; ndx.y=blockY*16;ndx.x=blockX*16;ndx.x+=8;Int offset=k>>1;if(k&1)offset=-offset;ndx.x+=offset;ICoord2D delta={ 0,-1 };
+    PathfindCell *test=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+    if(test && !hierarchyClosed(test) && !hierarchyOpen(test) &&
+       (!isHuman || (ndx.x>=m_extentLowX && ndx.x<=m_extentHighX && ndx.y>=m_extentLowY && ndx.y<=m_extentHighY)))
+     rva002F5022(ndx,delta,parentCell,goalCell,parentZone,examinedZones,examinedCount,(Int)&options,cellCount);
+   }
+  }
+  if(blockY<extent.y-1) {
+   examinedCount=0;
+   for(k=1;k<=16;++k) {
+    ICoord2D ndx; ndx.y=blockY*16+15;ndx.x=blockX*16;ndx.x+=8;Int offset=k>>1;if(k&1)offset=-offset;ndx.x+=offset;ICoord2D delta={ 0,1 };
+    PathfindCell *test=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
+    if(test && !hierarchyClosed(test) && !hierarchyOpen(test) &&
+       (!isHuman || (ndx.x>=m_extentLowX && ndx.x<=m_extentHighX && ndx.y>=m_extentLowY && ndx.y<=m_extentHighY)))
+     rva002F5022(ndx,delta,parentCell,goalCell,parentZone,examinedZones,examinedCount,(Int)&options,cellCount);
+   }
+  }
+ }
+ if(closestOK && candidate.cell && candidate.cell!=initialCell) {
+  m_isTunneling=false;
+  Coord3D closest;
+  PathfinderGroundInfo *info=candidate.cell->m_pathInfo;
+  *adjustedTo=*(Coord3D *)Rva002E8C4DCall((Int)&closest,1,(Rva002E8C23Pair *)info,1);
+  Path *path=(Path *)MakeHierarchicalPathPassable((void *)from,(Rva002E6C79 *)candidate.cell,((((const unsigned int *)obj->m_template->kinds)[5]>>31)&1)!=0);
+  rva002F40E7();goalCell->ReleaseInfo();return path;
+ }
+ _STL::vector<Gen_p12pod> *hops=(_STL::vector<Gen_p12pod> *)&m_1C1CC;hops->erase(hops->begin(),hops->end());
+ m_isTunneling=false;rva002F40E7();goalCell->ReleaseInfo();return 0;
 }
