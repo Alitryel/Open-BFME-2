@@ -20,6 +20,7 @@
 //               is flagged, head for the next route point, or stop (1, 0)
 //               when the route is done
 #include <vector>
+#include <math.h>
 #include "ascii_string.h"
 
 struct Coord3DBase
@@ -29,7 +30,13 @@ struct Coord3DBase
 	float z;
 };
 
-#include "../../../../../../../Libraries/Include/Lib/Coord3D.h"
+// The WorldBuilder twin copy-constructs its points and mutates them through MathCoord3D.h's
+// inline members (-=, scale, +=), which the constructor view supplies.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+
+// The rowed push_back 0x002CE7DC: called, never emitted here with its overflow helper.
+namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D &); }
 
 class Xfer;
 class Player;
@@ -94,11 +101,15 @@ struct Rva005AA55DRecord
 	bool m_18;		// +0x18
 };
 
+// getPivotPoint's hidden result (Rva005AA05APivotPoint.cpp): member-wise copy constructor.
+struct Rva005AA05APoint { float x, y, z; Rva005AA05APoint(const Coord3D &v) { x = v.x; y = v.y; z = v.z; } };
+
 class AIFlankAttackTacticImp { public: void DoXfer(Xfer *); };
 class Rva0015334F
 {
 public:
 	void rva005AA2D9(Rva005AA55DRecord *record, const Coord3D *from, const Coord3D *to);
+	Rva005AA05APoint getPivotPoint(Rva005AA55DRecord *record, const Coord3D *from, const Coord3D *to);
 	/* the rowed AIFlankAttackTacticImp::DoXfer */ __declspec(dllimport) __forceinline void xfer(Xfer * p0) { ((AIFlankAttackTacticImp *)this)->DoXfer(p0); }
 	bool done() const { return m_next == m_points.end()-m_points.begin(); }
 	Coord3D *next() { int n=m_next++; return &(this ? m_points : m_points)[n]; }
@@ -150,7 +161,61 @@ private:
 	Rva0015334F *m_route;	// +0x58
 };
 
+// The rowed leaves 0x00003571 / 0x000035B6, visible and out of line as in
+// AIAttackApproachComputePath.cpp: the side vector's address does not escape.
+__declspec(noinline) inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
 
+__declspec(noinline) inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
+
+// Zero Hour's static Coord3D::crossProduct (BaseType.h), inlined here as in retail.
+static inline void crossProduct(const Coord3D *a, const Coord3D *b, Coord3D *r)
+{
+	r->x = (a->y * b->z - a->z * b->y);
+	r->y = (a->z * b->x - a->x * b->z);
+	r->z = (a->x * b->y - a->y * b->x);
+}
+
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
+int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
+#define FLANK_SOURCE_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\OffensiveTactics\\AIFlankAttackTactic.cpp"
+
+// AIFlankAttackTacticImp::calculatePath (WorldBuilder 0x0151B010): a route of the start, the pivot
+// point (0x005AA05A) pushed sideways, a point 600..1000 past the destination, and the destination.
+void Rva0015334F::rva005AA2D9(Rva005AA55DRecord *record, const Coord3D *from, const Coord3D *to)
+{
+	unsigned int distance = (int)(GetGameLogicRandomValueReal(0.0f, 400.0f, FLANK_SOURCE_FILE, 78) + 600.0f);
+	Coord3D dir(*to);
+	dir -= *from;
+	dir.normalize();
+	Coord3D beyond(*to);
+	dir.scale((float)distance);
+	beyond += dir;
+	Rva005AA05APoint pivot = getPivotPoint(record, from, to);
+	Coord3D up(0.0f, 0.0f, 1.0f);
+	if (GetGameLogicRandomValue(0, 1, FLANK_SOURCE_FILE, 91) == 1)
+		up.z = -1.0f;
+	Coord3D side;
+	crossProduct(&dir, &up, &side);
+	side.normalize();
+	side.scale((float)distance);
+	(Coord3D &)pivot += side;
+	m_points.push_back(*from);
+	m_points.push_back(*(const Coord3D *)&pivot);
+	m_points.push_back(beyond);
+	m_points.push_back(*to);
+}
 
 void AIFlankAttackTactic::xfer(Xfer *xfer)
 {
