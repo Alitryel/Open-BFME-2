@@ -69,3 +69,16 @@ template _STL::hashtable<Rva0042FFC0Pair,int,_STL::hash<int>,
     _STL::allocator<Rva0042FFC0Pair> >::hashtable(unsigned int,
     const _STL::hash<int>&,const _STL::equal_to<int>&,
     const _STL::allocator<Rva0042FFC0Pair>&);
+
+// SelectionTranslator uses four-byte IDs and Boolean membership values.
+// The initializer has its own verified provider in SelectionIDMap.cpp.
+typedef _STL::pair<const int,bool> SelectionIDValue;
+typedef _STL::hashtable<SelectionIDValue,int,_STL::hash<int>,
+    _STL::_Select1st<SelectionIDValue>,_STL::equal_to<int>,
+    _STL::allocator<SelectionIDValue> > SelectionIDTable;
+namespace _STL {
+template <> void SelectionIDTable::_M_initialize_buckets(unsigned int);
+}
+template SelectionIDTable::hashtable(unsigned int,
+    const _STL::hash<int>&,const _STL::equal_to<int>&,
+    const _STL::allocator<SelectionIDValue>&);
