@@ -74,7 +74,8 @@ public:
 };
 
 // The hero at owner+0x27c is accessed through its rowed button setter and
-// an unidentified target vslot at +0x14. This declaration adds no vtable body.
+// power clear and an unidentified target vslot at +0x14. This declaration
+// adds no vtable body.
 class CreateAHeroHero
 {
 public:
@@ -85,6 +86,7 @@ public:
 	virtual void slot10();
 	virtual void slot14();
 	bool SetButtonForLevel(const AsciiString &button, unsigned int level, unsigned int value);
+	bool ClearSpecialPower(int index);	// 0x004072D2
 };
 struct Rva005B3676Owner
 {
@@ -604,7 +606,6 @@ AptCreateAHero::Powers::~Powers()
     m_groupCurrent = 0;
 }
 
-class Rva004072D2 {public: bool ClearSpecialPower(int);};
 // Native virtual slot2 C72F3C+8, 5B455D..5B4610; WB1574990.
 // The current selection is a cell pointer; 24 is the requested retained count.
 void AptCreateAHero::Powers::rva005B455D(bool active)
@@ -622,7 +623,7 @@ void AptCreateAHero::Powers::rva005B455D(bool active)
        cell->m_powerIndex=-1;
        cell->m_owned=false;
        m_cells[m_numPowers]=0;
-       ((Rva004072D2*)&m_owner->m_hero)->ClearSpecialPower(m_numPowers);
+       m_owner->m_hero.ClearSpecialPower(m_numPowers);
        if (!FindPrereq(cell)) --m_numPalantir;
      }
    }
