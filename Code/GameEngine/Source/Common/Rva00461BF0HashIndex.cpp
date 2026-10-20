@@ -99,4 +99,33 @@ namespace rts
 typedef _STL::hash_map<AsciiString, Rva0045EF90Object,
 	rts::hash<AsciiString>, rts::equal_to<AsciiString> > Rva00461BF0Map;
 
-template Rva0045EF90Object &Rva00461BF0Map::operator[]( const AsciiString &key );
+// Retail 411205 calls the rowed find (41534B) and insert (410E23).
+// These declarations retain the providers' pointer/iterator ABI. They do
+// not identify the opaque native insert payload with the donor value type.
+struct TreeHintPayload00410E23 { unsigned char m_body[4]; };
+class Rva000427195 {
+public:
+ _STL::pair<const AsciiString, TreeHintPayload00410E23> *rva00410E23(
+  const _STL::pair<const AsciiString, TreeHintPayload00410E23> *);
+};
+class Rva00056F61;
+struct Rva0041534BIter { void *m_node; Rva00056F61 *m_table; };
+class Rva00056F61 {
+public:
+ __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString *);
+};
+typedef _STL::pair<const AsciiString, Rva0045EF90Object> Rva00461BF0Value;
+
+// ??A?$hash_map@VAsciiString@@VRva0045EF90Object@@U?$hash@VAsciiString@@@rts@@U?$equal_to@VAsciiString@@@4@V?$allocator@U?$pair@$$CBVAsciiString@@VRva0045EF90Object@@@_STL@@@_STL@@@_STL@@QAEAAVRva0045EF90Object@@ABVAsciiString@@@Z
+template <> Rva0045EF90Object &Rva00461BF0Map::operator[](const AsciiString &key)
+{
+ void *node;
+ { Rva0041534BIter found = reinterpret_cast<Rva00056F61 *>(this)->rva0041534B(&key); node = found.m_node; }
+ return !node ? *reinterpret_cast<Rva0045EF90Object *>(
+  reinterpret_cast<char *>(reinterpret_cast<Rva000427195 *>(this)->rva00410E23(
+   reinterpret_cast<const _STL::pair<const AsciiString, TreeHintPayload00410E23> *>(
+    &static_cast<const Rva00461BF0Value &>(Rva00461BF0Value(key, Rva0045EF90Object()))))) + 4)
+  : *reinterpret_cast<Rva0045EF90Object *>(reinterpret_cast<char *>(node) + 8);
+}
+
+template Rva0045EF90Object &Rva00461BF0Map::operator[](const AsciiString &key);
