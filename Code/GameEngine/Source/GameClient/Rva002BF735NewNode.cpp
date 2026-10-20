@@ -20,9 +20,7 @@ struct TreeHintRef00217D4C
 	char m_body[4];
 };
 
-void __cdecl dup_002BF35B(void);
-typedef void (__cdecl *PairConstructFn)(_STL::pair<const AsciiString, TreeHintRef00217D4C> *,
-	const _STL::pair<const AsciiString, TreeHintRef00217D4C> &);
+void __cdecl Rva002BF35BConstruct(void *dest, const void *source);
 
 struct Rva002BF735Node
 {
@@ -40,6 +38,6 @@ void *Rva002BF735::rva002BF735(const void *obj)
 {
 	Rva002BF735Node *n = (Rva002BF735Node *)_STL::allocator<char>().allocate(12, 0);
 	n->_M_next = 0;
-	((PairConstructFn)&dup_002BF35B)(&n->_M_val, *(const _STL::pair<const AsciiString, TreeHintRef00217D4C> *)obj);
+	Rva002BF35BConstruct(&n->_M_val, (const _STL::pair<const AsciiString, TreeHintRef00217D4C> *)obj);
 	return n;
 }

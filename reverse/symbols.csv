@@ -8539,9 +8539,7 @@ name,address,notes
 ?drawViewport@W3DShaderManager@@SAXH_NPBUVector2@@@Z,0x00075746,BFME2 3-arg form color plus scale flag plus vector; called from startRenderToTexture alpha path where donor calls drawViewport
 ?dtor@Rva00254008Dtor@@QAEXXZ,0x00254024,TU-local dtor pinned to thunk 0x254024 (ILT to rowed GateOpenAndClose dtor) for 0x254008
 ?dup_0013623C@@YAXXZ,0x0013623C,"Retail REL32 calls at 0x001364C0 resolve to this unique byte-matched row at 0x0013623C; synthetic dup alias only, original C++ identity remains unknown."
-?dup_002BF35B@@YAXXZ,0x002BF35B,"Retail REL32 calls at 0x002BF74C resolve to this unique byte-matched row at 0x002BF35B; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_003F1A8C@@YAXXZ,0x003F1A8C,"Retail REL32 call at 0x003F1EFC resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
-?dup_004109BC@@YAXXZ,0x004109BC,"Retail REL32 call at 0x00410A9D resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_0060C9D9@_STL@@YAXPAU?$pair@$$CBII@1@ABU21@@Z,0x0060C9D9,Address-derived placeholder for native 23B two-word copy target; template and scalar identity unknown
 ?duplicate@Condition@@QBEPAV1@XZ,0x003B5B07,callee of duplicate (0x003B6D06) at the site its BFME1 donor calls it; may be an ICF alias
 ?enableRadar@Player@@QAEXXZ,0x002AAAF9,address read from the REL32 displacement at a byte-verified placed body (0x2AB8D0)

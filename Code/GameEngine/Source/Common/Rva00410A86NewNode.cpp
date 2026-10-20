@@ -30,8 +30,7 @@ struct TreeHintPayload00410A86
 
 typedef _STL::pair<const AsciiString, TreeHintPayload00410A86> NewNodePair;
 
-void __cdecl dup_004109BC(void);
-typedef void (__cdecl *NewNodeConstructFn)(NewNodePair *, NewNodePair const &);
+void __cdecl Rva004109BCConstruct(void *dest, const void *source);
 
 struct HashNode
 {
@@ -49,6 +48,6 @@ void *Rva000427195::rva00410A86(const void *src)
 {
 	HashNode *node = (HashNode *)_STL::allocator<char>::allocate(12, 0);
 	node->m_next = 0;
-	((NewNodeConstructFn)&dup_004109BC)(&node->m_val, *(const NewNodePair *)src);
+	Rva004109BCConstruct(&node->m_val, (const NewNodePair *)src);
 	return node;
 }

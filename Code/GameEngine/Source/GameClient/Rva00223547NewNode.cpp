@@ -17,9 +17,7 @@ struct TreeHintRef00217D4C
 	char m_body[4];
 };
 
-void __cdecl dup_00223168(void);
-typedef void (__cdecl *PairConstructFn)(_STL::pair<const AsciiString, TreeHintRef00217D4C> *,
-	const _STL::pair<const AsciiString, TreeHintRef00217D4C> &);
+void __cdecl Rva00223168Construct(void *dest, const void *source);
 
 struct Rva00223547Node
 {
@@ -37,7 +35,7 @@ void *Rva00223547::rva00223547(const void *obj)
 {
 	Rva00223547Node *n = (Rva00223547Node *)_STL::allocator<char>().allocate(12, 0);
 	n->_M_next = 0;
-	((PairConstructFn)&dup_00223168)(&n->_M_val, *(const _STL::pair<const AsciiString, TreeHintRef00217D4C> *)obj);
+	Rva00223168Construct(&n->_M_val, (const _STL::pair<const AsciiString, TreeHintRef00217D4C> *)obj);
 	return n;
 }
 

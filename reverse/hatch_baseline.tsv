@@ -5197,9 +5197,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_classic_locale.cpp	?do
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_asciistring.cpp	?AsciiStringCopyConstructAtRva0002C485@@YAXPAVAsciiString@@ABV1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_pod80_rva.cpp	??$_Construct@URva00520211Element@@U1@@_STL@@YAXPAURva00520211Element@@ABU1@@Z	2
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	??$_Construct@URva0056644EElement@@U1@@_STL@@YAXPAURva0056644EElement@@ABU1@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	?Rva0052C404Construct@@YAXPAXPBX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	?dup_00223168@@YAXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp	?dup_002BF35B@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_istreambuf@_SgI@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_ostreambuf@_SgI@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	?_S_count@_Loc_init@ios_base@_STL@@0JA	1
@@ -5605,7 +5602,6 @@ object_symbol	reverse/functions.csv	0x001EDDFF	1
 object_symbol	reverse/functions.csv	0x00203618	1
 object_symbol	reverse/functions.csv	0x00210C87	1
 object_symbol	reverse/functions.csv	0x0021231B	1
-object_symbol	reverse/functions.csv	0x00223168	1
 object_symbol	reverse/functions.csv	0x0022C38B	1
 object_symbol	reverse/functions.csv	0x00239CC9	1
 object_symbol	reverse/functions.csv	0x00240C27	1
@@ -5618,7 +5614,6 @@ object_symbol	reverse/functions.csv	0x0029B257	1
 object_symbol	reverse/functions.csv	0x002B2E8E	1
 object_symbol	reverse/functions.csv	0x002B6B4C	1
 object_symbol	reverse/functions.csv	0x002BEDAB	1
-object_symbol	reverse/functions.csv	0x002BF35B	1
 object_symbol	reverse/functions.csv	0x002BF70F	1
 object_symbol	reverse/functions.csv	0x002D2580	1
 object_symbol	reverse/functions.csv	0x002D95FE	1
@@ -5636,7 +5631,6 @@ object_symbol	reverse/functions.csv	0x0032E7A3	1
 object_symbol	reverse/functions.csv	0x0033C21C	1
 object_symbol	reverse/functions.csv	0x0033F8CA	1
 object_symbol	reverse/functions.csv	0x00355257	1
-object_symbol	reverse/functions.csv	0x00358CA0	1
 object_symbol	reverse/functions.csv	0x00360C73	1
 object_symbol	reverse/functions.csv	0x003769C2	1
 object_symbol	reverse/functions.csv	0x0037D097	1
@@ -5646,7 +5640,6 @@ object_symbol	reverse/functions.csv	0x003B23B9	1
 object_symbol	reverse/functions.csv	0x003ED1BE	1
 object_symbol	reverse/functions.csv	0x003F30D1	1
 object_symbol	reverse/functions.csv	0x003F6619	1
-object_symbol	reverse/functions.csv	0x004109BC	1
 object_symbol	reverse/functions.csv	0x00410C7B	1
 object_symbol	reverse/functions.csv	0x004226CE	1
 object_symbol	reverse/functions.csv	0x0042E8ED	1
@@ -5667,7 +5660,6 @@ object_symbol	reverse/functions.csv	0x005227C0	1
 object_symbol	reverse/functions.csv	0x005243BB	1
 object_symbol	reverse/functions.csv	0x00524C88	1
 object_symbol	reverse/functions.csv	0x0052B6FE	1
-object_symbol	reverse/functions.csv	0x0052C404	1
 object_symbol	reverse/functions.csv	0x0053EC57	1
 object_symbol	reverse/functions.csv	0x00540324	1
 object_symbol	reverse/functions.csv	0x00541E77	1
@@ -23933,7 +23925,6 @@ pin	reverse/symbols.csv	0x002BED69	1
 pin	reverse/symbols.csv	0x002BEDA4	2
 pin	reverse/symbols.csv	0x002BEECD	1
 pin	reverse/symbols.csv	0x002BF0D6	1
-pin	reverse/symbols.csv	0x002BF35B	1
 pin	reverse/symbols.csv	0x002BF391	1
 pin	reverse/symbols.csv	0x002BF6A7	1
 pin	reverse/symbols.csv	0x002BF70F	2
@@ -26156,7 +26147,6 @@ pin	reverse/symbols.csv	0x0041072F	1
 pin	reverse/symbols.csv	0x00410765	1
 pin	reverse/symbols.csv	0x004107AE	1
 pin	reverse/symbols.csv	0x00410997	1
-pin	reverse/symbols.csv	0x004109BC	1
 pin	reverse/symbols.csv	0x004109F2	1
 pin	reverse/symbols.csv	0x00410A86	1
 pin	reverse/symbols.csv	0x00410AAB	2
