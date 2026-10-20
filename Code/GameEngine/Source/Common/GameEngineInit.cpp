@@ -57,6 +57,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Hashtable_node@U?$pair@$$CBW4NameKeyType@@VArmorTemplate@@@_ST:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum NameKeyType; class ArmorTemplate;
+namespace _STL { template <> void allocator<_Hashtable_node<pair<NameKeyType const ,ArmorTemplate> > >::deallocate(_Hashtable_node<pair<NameKeyType const ,ArmorTemplate> > *,unsigned int) const; }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
