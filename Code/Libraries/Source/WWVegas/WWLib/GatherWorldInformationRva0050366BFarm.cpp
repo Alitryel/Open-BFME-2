@@ -35,10 +35,12 @@
 #include <vector>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline bool less<int>::operator()(int const &x,int const &y)const  { return x < y; } }
+// Inline the map<int,int> iterator steps as stlport_map_int_int_os.cpp does, so the
+// hinted insert_unique copy is retail's 0x00422EC0 body.
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++() { _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; } }
+namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; } }
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
-namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }
-namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHURva00501E3FElement@@@_STL@@U?$_Select1st@U?$pair:
@@ -151,6 +153,10 @@ template <> void PlayerInfoMap::_Rep_type::clear();
 template <> void RegionInfoMap::_Rep_type::clear();
 template <> RegionInfoMap::iterator RegionInfoMap::insert(RegionInfoMap::iterator, const RegionInfoMap::value_type &);
 template <> _STL::pair<IntIntTree::iterator, IntIntTree::iterator> IntIntTree::equal_range(const int &);
+// The hinted player-map insert calls these rows (0x00502861, 0x00502645) out of line.
+typedef _Rb_tree<int, PlayerInfoMap::value_type, _Select1st<PlayerInfoMap::value_type>, less<int>, allocator<PlayerInfoMap::value_type> > PlayerInfoTree;
+template <> pair<PlayerInfoTree::iterator, bool> PlayerInfoTree::insert_unique(const PlayerInfoMap::value_type &);
+template <> _Rb_tree_node<PlayerInfoMap::value_type> *PlayerInfoTree::_M_create_node(const PlayerInfoMap::value_type &);
 template <> void vector<ScienceType>::push_back(const ScienceType &);
 template <> ScienceType *vector<ScienceType>::erase(ScienceType *, ScienceType *);
 template <> void vector<Rva00501E3FElement>::push_back(const Rva00501E3FElement &);

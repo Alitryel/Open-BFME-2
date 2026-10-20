@@ -38,6 +38,8 @@ namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *allocator<_Rb_t
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
 namespace _STL { template <> _Rb_tree_node<Rva001408C0Target *> *_STLP_alloc_proxy<_Rb_tree_node<Rva001408C0Target *> *, _Rb_tree_node<Rva001408C0Target *>, allocator<_Rb_tree_node<Rva001408C0Target *> > >::allocate(size_t); }
+// The row calls the set constructor out of line; bind it to retail's copy at 0x000D3A71.
+namespace _STL { template <> set<Rva001408C0Target *, less<Rva001408C0Target *>, allocator<Rva001408C0Target *> >::set(); }
 // Native12CB67..12CFA0/1081B. WB9D5C30 assetinit.cpp lines54..145 is
 // an independent debug semantic lead (larger assertions), with matching
 // FILE reads, EALA/102 header, asset registration and dependency collection.
@@ -99,15 +101,15 @@ bool Rva0012CB67(_iobuf *file,bool skipTextures)
    _strlwr(assetName);
    if(!Render_Obj_Exists(assetName)){
     switch(header.assetKind){
-    case 0x414E494D: Register_Aggregate_Prototype(assetName,asset.firstOffset,nameLen);break;
-    case 0x41474752: Rva00180C6FCreate(assetName,asset.firstOffset,nameLen);break;
-    case 0x46585348: FXShaderAsset::Register(assetName);break;
-    case 0x544558: if(skipTextures)break;TextureAsset::Register(assetName);break;
-    case 0x424F58: Rva001809EACreate(assetName,asset.firstOffset,nameLen);break;
-    case 0x50415254: Rva001806D8Create(assetName,asset.firstOffset,nameLen);break;
-    case 0x4D455348: Rva001804CBCreate(assetName,asset.firstOffset,nameLen);break;
-    case 0x484C4F44: Rva001800B2Create(assetName,asset.firstOffset,nameLen);break;
-    case 0x48494552: Rva0017FD2F_RegisterPrototype(assetName,asset.firstOffset,nameLen);break;
+    case 'ANIM': Register_Aggregate_Prototype(assetName,asset.firstOffset,nameLen);break;
+    case 'AGGR': Rva00180C6FCreate(assetName,asset.firstOffset,nameLen);break;
+    case 'FXSH': FXShaderAsset::Register(assetName);break;
+    case 'TEX': if(skipTextures)break;TextureAsset::Register(assetName);break;
+    case 'BOX': Rva001809EACreate(assetName,asset.firstOffset,nameLen);break;
+    case 'PART': Rva001806D8Create(assetName,asset.firstOffset,nameLen);break;
+    case 'MESH': Rva001804CBCreate(assetName,asset.firstOffset,nameLen);break;
+    case 'HLOD': Rva001800B2Create(assetName,asset.firstOffset,nameLen);break;
+    case 'HIER': Rva0017FD2F_RegisterPrototype(assetName,asset.firstOffset,nameLen);break;
     }
    }
    --asset.assetCount;

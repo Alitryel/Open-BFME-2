@@ -94,6 +94,9 @@ typedef _STL::map<Int, Int> BuddyInfoMap;
 // range erase 0x00384ED4, rowed under this tree; the record is opaque.
 struct Rva00384ED4Record { char word; };
 typedef _STL::map<Int, Rva00384ED4Record> BuddyRequestMap;
+// The key erase calls the range erase out of line; bind it to its row at 0x00384ED4.
+typedef _STL::_Rb_tree<Int, BuddyRequestMap::value_type, _STL::_Select1st<BuddyRequestMap::value_type>, _STL::less<Int>, _STL::allocator<BuddyRequestMap::value_type> > BuddyRequestTree;
+template <> void BuddyRequestTree::erase(BuddyRequestTree::iterator, BuddyRequestTree::iterator);
 
 class GameSpyInfoInterface
 {
