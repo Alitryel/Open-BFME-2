@@ -23,6 +23,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline void * & vector
 // bfme link decl-only begin
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$__less@I@_STL@@YA?AU?$less@I@0@PAI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> less<unsigned int> __less<unsigned int>(unsigned int *); }
 // Suppress this TU's non-retail copy of ??0?$_STLP_alloc_proxy@PAPAXPAXV?$allocator@PAX@_STL@@@_STL@@QAE@ABV01@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 
