@@ -136,7 +136,7 @@ public:
 	void rva0023DA4E();
 	void LivingWorldTacticalBattleComplete();
 	Rva003F468DParticipant *GetLivingWorldTacticalVictor();
-	void rva00376E92(bool a, bool b);
+	void clearGameData(bool a, bool b);
 	void TransitionFromLivingWorldTacticalBattle();
 
 private:
@@ -184,7 +184,7 @@ void GameLogic::LivingWorldTacticalBattleComplete()
 		else
 			g_00DFE1C8->rva00211FA8();
 	} else {
-		rva00376E92(true, false);
+		clearGameData(true, false);
 		TransitionFromLivingWorldTacticalBattle();
 	}
 }
@@ -203,7 +203,7 @@ void GameLogic::rva0023DA49()
 void GameLogic::rva0023DA4E()
 {
 	if ((*(Rva002BA8F1Logic **)&TheLivingWorldLogic) && (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B3669())
-		rva00376E92(false, true);
+		clearGameData(false, true);
 	else
 		LivingWorldTacticalBattleComplete();
 }

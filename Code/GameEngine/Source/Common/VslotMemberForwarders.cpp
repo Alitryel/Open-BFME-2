@@ -36,7 +36,7 @@ class RadiusDecal { public: void clear(); };
 class Rva00330E2DFrameOpacity { public: void rva00330E2D(unsigned int); };
 class Rva00358E6A { public: void rva00358F7C(); };
 class CreateAHeroData;
-class ConnectionManager { public: bool areAllQueuesEmpty(); void rva004D01D5(CreateAHeroData *, int, unsigned short, unsigned char); };
+class ConnectionManager { public: bool areAllQueuesEmpty(); void sendHero(CreateAHeroData *, int, unsigned short, unsigned char); };
 class UnicodeString;
 class Rva004D0E93 { public: void rva004D0E93(int, int, const UnicodeString &); };
 namespace FXParticleSystem { class DefaultColorModuleInfo { public: void tintAllColors(int); }; }
@@ -453,7 +453,7 @@ private:
 // vtable 0x00BF6040#34
 void Rva0025DC56Forwarder::rva0025DC56(Int a0, Int a1, Int a2, Int a3)
 {
-	((ConnectionManager *)m_member)->rva004D01D5((CreateAHeroData *)a0, a1, (unsigned short)a2, (unsigned char)a3);
+	((ConnectionManager *)m_member)->sendHero((CreateAHeroData *)a0, a1, (unsigned short)a2, (unsigned char)a3);
 }
 
 class Rva004D0E93Target

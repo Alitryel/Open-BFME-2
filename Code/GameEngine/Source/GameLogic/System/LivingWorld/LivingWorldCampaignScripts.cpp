@@ -71,6 +71,6 @@ void LivingWorldLogic::rva002B47C3()
         const char *root = Rva0030062CGet()->str();
         ((AsciiString *)((char *)TheWritableGlobalData + 0xC))->format("%s\\%s\\%s.%s", root, directory, file, extension);
         ((Rva00377064 *)TheGameLogic)->rva00377064(8, 1, 0);
-        TheGameLogic->rva00248558(false);
+        TheGameLogic->startNewGame(false);
     }
 }

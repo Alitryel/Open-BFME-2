@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /DWIN32 -D_WINDOWS -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork -ICode/GameEngine/Source/Common
-// ?rva004D00BB@ConnectionManager@@QAEXH@Z @0x004D00BB 179B: ConnectionManager local disconnect-player send.
+// ?requestLeave@ConnectionManager@@QAEXH@Z @0x004D00BB 179B: ConnectionManager local disconnect-player send.
 // Target evidence: new 0x24 Rva004D5A10 (0x004D5A10) whose +0x1C slot is set through the Rva004D57AE setter
 // 0x00318B09 and +0x20 through the folded dword setter 0x00317B9B (argument), TheGameLogic+0x38 frame at +4,
 // execution frame -1, DoesCommandRequireACommandID 0x005811B5 plus GenerateNextCommandID 0x005811A8,
@@ -87,7 +87,7 @@ struct NetCommandList
 class ConnectionManager
 {
 public:
-	void rva004D00BB(Int arg);
+	void requestLeave(Int arg);
 	void rva004D016E();
 	void sendLocalCommand(NetCommandMsg *msg, UnsignedByte relay);
 	void sendLocalCommandDirect(NetCommandMsg *msg, UnsignedByte relay);
@@ -101,7 +101,7 @@ private:
 	UnsignedInt m_lastTime;
 };
 
-void ConnectionManager::rva004D00BB(Int arg)
+void ConnectionManager::requestLeave(Int arg)
 {
 	Rva004D5A10 *cmd = new Rva004D5A10();
 	((Rva004D57AE *)cmd)->setPlayerIndex(m_localPlayerID);

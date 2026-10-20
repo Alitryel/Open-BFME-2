@@ -76,7 +76,7 @@ void Rva001EB456::rva001EB456(int unused,int useMissionName)
  if(record && !flagC1) {
   if(!((NetWrapperCommandMsg *)((Bfme939Helper *)TheRecorder))->getData())
    TheRecorder->stopRecording();
-  TheGameLogic->rva00376E92(false,false);
+  TheGameLogic->clearGameData(false,false);
   TheMouse->_bfme_setEngineVisibility(false);
   flagC0=false;flagC1=false;flagC3=false;
   ((CampaignGlobalView *)TheWritableGlobalData)->map=Rva001EB2CCGetMapPath(record->map.str());

@@ -141,7 +141,7 @@ case ((GameMessage::Type)30):
 
 			((Rva00377064 *)this)->rva00377064(gameMode,diff,rankPoints);
 
-			rva00248558(false);
+			startNewGame(false);
             if(CopyProtect::isVerified()) { GameMessage *verifiedMsg=((LogicDispatchMessageStreamView *)TheMessageStream)->append((GameMessage::Type)0x471); verifiedMsg->appendIntegerArgument(ThePlayerList->getLocalPlayer()->getPlayerIndex()); }
 
 			break;
@@ -161,7 +161,7 @@ case ((GameMessage::Type)29):
                 if((unsigned char)((Rva002B254F *)TheLivingWorldLogic)->rva002B254F()) { logic=TheGameLogic; showScore=false; }
                 else { logic=TheGameLogic; showScore=!((LogicDispatchUi174 *)TheLivingWorldLogic)->flag; }
             } else if(((LogicDispatchGameLogicView *)logic)->mode==2 || logic->isInMultiplayerGame() || ((LogicDispatchCampaign10 *)TheLinearCampaignManager)->campaign) showScore=true;
-            logic->rva00376E92(showScore,true);
+            logic->clearGameData(showScore,true);
             if(msg->getArgumentCount()==1) {
                 switch(msg->getArgument(0)->integer) {
                 case 1:

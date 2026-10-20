@@ -12,7 +12,7 @@
 // options, create-a-hero, the two campaign wrappers with the side at +0x2A8,
 // the LAN / online restarts registering callbacks 0x005148AA / 0x005148FD
 // through the rowed 0x003FE7E6 registry, skirmish after rowed
-// GameLogic::rva00376E92), then idles.
+// GameLogic::clearGameData), then idles.
 // Inner case bodies are written in retail's layout order.
 // Address-named pins: ?Rva00515BCA@@YAXD@Z / ?Rva00515C17@@YAXD@Z (retail passes
 // the side byte as is: mov al,[esi+0x2A8]; push eax) and
@@ -231,11 +231,11 @@ int AptMainMenu::rva00515C64()
 			break;
 		}
 		case 7:
-			TheGameLogic->rva00376E92(false, false);
+			TheGameLogic->clearGameData(false, false);
 			AptSkirmish::OpenScreen(0);
 			break;
 		case 8:
-			TheGameLogic->rva00376E92(false, false);
+			TheGameLogic->clearGameData(false, false);
 			AptSkirmish::OpenScreen(1);
 			break;
 		}

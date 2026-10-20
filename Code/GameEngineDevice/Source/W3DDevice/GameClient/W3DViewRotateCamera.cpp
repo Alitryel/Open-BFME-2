@@ -56,7 +56,7 @@ public:
 	virtual void cameraModFreezeAngle(void);
 	void rva0008ADEA(Int unused, ObjectID id, Bool enable, Bool snap);
 private:
-	void rva0008AAD4(void);
+	void rotateCameraOneFrame(void);
 };
 
 // BFME's W3DView rotate state as both bodies address it: m_rcInfo at +0x1AC
@@ -418,7 +418,7 @@ void W3DView::rva0008ADEA(Int unused, ObjectID id, Bool enable, Bool snap)
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?rva0008AAD4@W3DView@@AAEXXZ, retail 0x0008AAD4..0x0008AD96 (706B), plain
+// ?rotateCameraOneFrame@W3DView@@AAEXXZ, retail 0x0008AAD4..0x0008AD96 (706B), plain
 // ret. Zero Hour's W3DView::rotateCameraOneFrame with BFME's changes: called
 // by W3DView::updateCameraMovements (0x0008B010) on its own this while
 // m_doingRotateCamera (+0x1DC) is set. With camera movement disabled
@@ -438,7 +438,7 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 
-void W3DView::rva0008AAD4(void)
+void W3DView::rotateCameraOneFrame(void)
 {
 	BfmeW3DViewRotateFields *fields = (BfmeW3DViewRotateFields *)this;
 	Int curFrame = ++fields->m_curFrame;

@@ -71,7 +71,7 @@ enum PlayerLeaveCode
 class ConnectionManager
 {
 public:
-	void rva004D0E06(GameMessage *msg);	// 0x004D0E06, sendLocalGameMessage
+	void sendLocalGameMessage(GameMessage *msg);	// 0x004D0E06, sendLocalGameMessage
 	void rva004D0A0A();			// 0x004D0A0A
 	int getNumPlayers();			// 0x004CF926
 	bool rva004CF3E1();			// 0x004CF3E1
@@ -207,7 +207,7 @@ void Rva0025E4CD::rva0025E75F()
 			if (m_localStatus == 1 && m_conMgr != 0)
 			{
 				if (!((BFMEConnectionManager *)m_conMgr)->isPacketRouter() || !isLeaving())
-					m_conMgr->rva004D0E06(msg);
+					m_conMgr->sendLocalGameMessage(msg);
 			}
 			TheCommandList->removeMessage(msg);
 			deleteMessage(msg);

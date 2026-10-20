@@ -170,7 +170,7 @@ int GameState::rva002DE3C1(TreeHintOpaque0043671B info)
  s_inLoadGame=false;
  if(result>0 && result<=4) {
   HideControlBar(true);
-  TheGameLogic->rva00376E92(false,false);
+  TheGameLogic->clearGameData(false,false);
   ((LoadGameEngineResetView*)TheGameEngine)->reset();
   UnicodeString msg;
   msg.format(TheGameText->fetchPointer("GUI:ErrorLoadingGame"),info.filename.str());
@@ -194,7 +194,7 @@ checkLoadState:
  Rva00248558Scope scope;
 
  bool campaignSave=((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==0);
- if((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==4 || (*(int*)((char*)&info+0x28))==6)TheGameLogic->rva00376E92(false,false);
+ if((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==4 || (*(int*)((char*)&info+0x28))==6)TheGameLogic->clearGameData(false,false);
  ((GameStateMap*)TheGameStateMap)->clearScratchPadMaps();
  UnicodeString path=((const Rva002DC74A*)this)->rva002DC74A(info.filename);
  LoadFileView *file=(LoadFileView*)TheFileSystem->rva00600676(path.str(),0x41,0);
@@ -232,7 +232,7 @@ checkLoadState:
 failed:
    ((GameLoadDisplayView*)TheDisplay)->flag=true;
    ((GameLoadVideoView*)TheVideoPlayer)->slot28();
-   TheGameLogic->rva00376E92(false,true);
+   TheGameLogic->clearGameData(false,true);
    ((GameLoadDisplayView*)TheDisplay)->flag=true;
    ((GameLoadVideoView*)TheVideoPlayer)->slot28();
    return 3;

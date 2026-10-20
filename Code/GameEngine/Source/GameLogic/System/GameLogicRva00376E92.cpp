@@ -89,7 +89,7 @@ class Mouse { public: void _bfme_setEngineVisibility(bool); };
 extern Mouse *TheMouse;
 extern int SavedClientFrame;
 #undef VS
-void GameLogic::rva00376E92(bool showScoreScreen, bool arg2)
+void GameLogic::clearGameData(bool showScoreScreen, bool arg2)
 {
     Rva0023D46F counterRef(theBfmeDfe6e4);
     Rva00248558Scope scope;

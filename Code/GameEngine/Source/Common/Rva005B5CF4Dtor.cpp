@@ -3,7 +3,7 @@
 // by its literals the Create-a-Hero manager screen's destructor (opaque pin
 // of its scalar deleting destructor 0x005B6166; table 0x00C735C0). It closes
 // the "CahManager::InitGadgets" Apt screen; when its +0x16 flag is set it
-// stops the game (rowed GameLogic::rva00376E92) and continues by the mode at
+// stops the game (rowed GameLogic::clearGameData) and continues by the mode at
 // +0x40C of its +4 object: 1 starts the "TEST CaHTestMap" map the way
 // AptMainMenu::OnTutorial starts a tutorial (message 0x1D, map name, random
 // loading film 0x0023D614 through 0x0023DC8E, message 0x1E with 6, 0, 0), 2
@@ -80,7 +80,7 @@ Rva005B5CF4::~Rva005B5CF4()
 	_bfme_closeAptScreen(AsciiString("CahManager::InitGadgets"));
 	if (m_startOnExit)
 	{
-		TheGameLogic->rva00376E92(false, false);
+		TheGameLogic->clearGameData(false, false);
 		switch (m_setup->m_mode)
 		{
 		case 1:

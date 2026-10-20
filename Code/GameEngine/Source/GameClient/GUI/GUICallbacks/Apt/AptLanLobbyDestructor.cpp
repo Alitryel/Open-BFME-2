@@ -183,7 +183,7 @@ extern GameEngine *TheGameEngine;
 class AptLanLobby : public _bfme_AptGameWindow, public Rva004444D2 {
 public: virtual ~AptLanLobby(); void rva004443E7();
  AptLanLobby(void*);
- void rva00444E69(int);
+ void Cancel(int);
  void InitGadgets(const char*,void*,GameWindow*);
  void OnOptionsBttn(const char*);
  void OnExitBttn(const char*);
@@ -251,7 +251,7 @@ AptLanLobby::AptLanLobby(void *context)
    m_commandMaps.AddCommandMap(name,AptRef<AptCommandMap>(MakeBinding(method,reinterpret_cast<FunctorTarget*>(this))));
   }
   {
-   FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptLanLobby::rva00444E69);
+   FunctorMethod method=reinterpret_cast<FunctorMethod>(&AptLanLobby::Cancel);
    AsciiString name("AptLanLobby::OnCancelBttn");
    m_commandMaps.AddCommandMap(name,AptRef<AptCommandMap>(MakeBinding(method,reinterpret_cast<FunctorTarget*>(this))));
   }

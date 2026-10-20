@@ -100,8 +100,8 @@ class AptLanLobby
 {
 public:
 	void rva004443E7();
-	void rva00444E69(int unused);
-	void rva00444E8A();
+	void Cancel(int unused);
+	void CancelMenu();
 	void rva00444EC8();
 	virtual int rva0044522D(int msg, unsigned char key, int flags);
 	void OnGameCreate();
@@ -127,7 +127,7 @@ private:
 	unsigned char m_6C0; // +0x6C0
 };
 
-void AptLanLobby::rva00444E69(int unused)
+void AptLanLobby::Cancel(int unused)
 {
 	(void)unused;
 	if (m_currentState == 6)
@@ -138,7 +138,7 @@ void AptLanLobby::rva00444E69(int unused)
 	}
 }
 
-void AptLanLobby::rva00444E8A()
+void AptLanLobby::CancelMenu()
 {
 	if (TheInvoke00444E8ATarget == 0)
 		return;
@@ -171,7 +171,7 @@ int AptLanLobby::rva0044522D(int msg, unsigned char key, int flags)
 					return 1;
 				case 4:
 				case 9:
-					rva00444E69(0);
+					Cancel(0);
 					return 1;
 				}
 			}

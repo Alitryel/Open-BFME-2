@@ -683,7 +683,7 @@ int AptMainMenu::LinearCampaignStart(const AsciiString &campaign, float time, bo
 		TheShell->m_6c = true;
 		TheDisplay->m_114 = true;
 		TheVideoPlayer->stopAllVideo();
-		TheGameLogic->rva00376E92(false, false);
+		TheGameLogic->clearGameData(false, false);
 		int index = reinterpret_cast<Rva001EB8D7 *>(TheLinearCampaignManager)->rva001EB8D7(*(const StringBase<char> *)&campaign);
 		if (index != -1)
 		{
@@ -868,7 +868,7 @@ void AptMainMenu::OnTutorial(const char *params) {
   if(!TheCampaignManager)return;
   int index=((LivingWorldCampaignManager*)TheCampaignManager)->rva003B8F20();
   if(index<0)return;
-  TheGameLogic->rva00376E92(false,false);
+  TheGameLogic->clearGameData(false,false);
   if(TheLivingWorldManager)TheLivingWorldManager->rva0021427A();
   ((TutorialControlView*)((Rva002D3627Host *)TheLivingWorld))->slot10(1);
   GameMessage *message=TheMessageStream->appendMessage(0x1F);
@@ -885,7 +885,7 @@ void AptMainMenu::OnTutorial(const char *params) {
  if(!((TutorialGlobalView*)TheWritableGlobalData)->selected)return;
  AsciiString mapName(((TutorialGlobalView*)TheWritableGlobalData)->selected->mapName);
  if(mapName.isEmpty())return;
- TheGameLogic->rva00376E92(false,false);
+ TheGameLogic->clearGameData(false,false);
  ((TutorialGlobalView*)TheWritableGlobalData)->mapAC0=mapName;
  ((Rva0023DC8E*)TheGameLogic)->rva0023DC8E(((TutorialGlobalView*)TheWritableGlobalData)->selected->field4);
  {

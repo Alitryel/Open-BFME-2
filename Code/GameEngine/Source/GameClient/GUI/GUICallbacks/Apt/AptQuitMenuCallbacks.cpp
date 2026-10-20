@@ -40,7 +40,7 @@ public:
 	void rva0023CD9E(bool paused, int pauseMode, bool affectMouse);
 	void rva0023D0E3(bool selfDestruct);
 	// Zero Hour calls clearGameData at the same point; the name is unproven here.
-	void rva00376E92(bool showScoreScreen, bool flag);
+	void clearGameData(bool showScoreScreen, bool flag);
 
 	unsigned char m_pad000[0x40];
 	unsigned int m_40; // +0x40
@@ -868,7 +868,7 @@ void restartMissionMenu()
 	int diff = TheGameLogic->m_a4;
 	int fps = TheGameEngine->getFramesPerSecondLimit();
 
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 	TheGameEngine->setQuitting(false);
 	if ((*(BfmeSelectionState **)&TheLivingWorldLogic))
 		((Rva002BA8F1Logic *)(*(BfmeSelectionState **)&TheLivingWorldLogic))->rva002B36F3();

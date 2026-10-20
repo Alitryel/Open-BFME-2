@@ -296,7 +296,7 @@ AptSaveLoad::~AptSaveLoad()
 			else if (!TheRecorder->
 				playbackFile(m_pending->m_text))
 			{
-				((GameLogic *)*(void **)&TheGameLogic)->rva00376E92(
+				((GameLogic *)*(void **)&TheGameLogic)->clearGameData(
 					false, one);
 				GameEngineView *engine =
 					(GameEngineView *)*(void **)&TheGameEngine;

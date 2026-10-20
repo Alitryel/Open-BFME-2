@@ -74,7 +74,7 @@ int Rva005148AA()
 {
 	if (g_bfmeThreadAtE048E0 && !g_bfmeThreadAtE048E0->slot00(1))
 		return 1;
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 	Rva00444525Init();
 	operator delete(g_bfmeThreadAtE048E0 ? g_bfmeThreadAtE048E0->stop(0) : 0);
 	g_bfmeThreadAtE048E0 = 0;
@@ -85,7 +85,7 @@ int Rva005148FD()
 {
 	if (g_bfmeThreadAtE048E0 && !g_bfmeThreadAtE048E0->slot00(1))
 		return 1;
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 	rva00516FA9();
 	operator delete(g_bfmeThreadAtE048E0 ? g_bfmeThreadAtE048E0->stop(0) : 0);
 	g_bfmeThreadAtE048E0 = 0;

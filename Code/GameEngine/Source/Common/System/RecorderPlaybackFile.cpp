@@ -62,7 +62,7 @@ class RecorderClass {public:
 };
 bool RecorderClass::playbackFile(UnicodeString filename)
 {
- if(!doingAnalysis)TheGameLogic->rva00376E92(false,false);
+ if(!doingAnalysis)TheGameLogic->clearGameData(false,false);
  mode=1;
  Rva0037B5DF header;
  header.forPlayback2C=true;header.filename28=filename;

@@ -354,7 +354,7 @@ void GameStateMap::DoXfer(Xfer*xfer) {
   ::delete (*(GameInfo* *)&TheSkirmishGameInfo);(*(GameInfo* *)&TheSkirmishGameInfo)=0;
  }
  if(xfer->isLoading()) {
-  if(TheGameLogic->m_110!=9 && saveGameInfo->saveType!=6 && saveGameInfo->saveType!=4)TheGameLogic->rva00248558(true);
+  if(TheGameLogic->m_110!=9 && saveGameInfo->saveType!=6 && saveGameInfo->saveType!=4)TheGameLogic->startNewGame(true);
   *(bool*)((char*)TheGameLogic+0x6E)=false;
  }
 }

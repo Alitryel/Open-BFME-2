@@ -7,7 +7,7 @@
 // at +0x94 by RequestGameLeave). Zero Hour's body without the preferences
 // save: out of the lobby, with a current game that is not in progress (+0x11),
 // a leave by our own name (m_name +0x14) hands off to the LAN menu at VA
-// 0x00E03354 (its 0x00444E8A, rowed as AptLanLobby::rva00444E8A) or, with
+// 0x00E03354 (its 0x00444E8A, rowed as AptLanLobby::CancelMenu) or, with
 // no menu, pops the shell (0x0035BEC7) and sets LANbuttonPushed -- the
 // OnHostLeave pattern (LANAPILobbyMenuForwarders.cpp). Anyone else leaving a
 // game we host (slot-0 address +0x114 equal to the local address, vslot 64)
@@ -435,7 +435,7 @@ class AptLanLobby
 {
 public:
 	void OnGameJoin( void );
-	void rva00444E8A( void );
+	void CancelMenu( void );
 };
 
 class Rva00444357DwordImmSetter
@@ -479,7 +479,7 @@ extern NetworkInterface *TheNetwork;
 class GameLogic
 {
 public:
-	void rva00376E92( Bool first, Bool second );
+	void clearGameData( Bool first, Bool second );
 
 	UnsignedByte m_pre9D[0x9D];
 	Bool m_bfme9D;					// +0x9D, set as a LAN game starts
@@ -733,7 +733,7 @@ void LANAPI::OnPlayerLeave( UnicodeString player )
 		}
 		else
 		{
-			((AptLanLobby *)g_Va00E03354)->rva00444E8A();
+			((AptLanLobby *)g_Va00E03354)->CancelMenu();
 		}
 	}
 	else
@@ -940,7 +940,7 @@ void LANAPI::OnGameStart( void )
 		}
 
 		TheNetwork->parseUserList( m_currentGame );
-		TheGameLogic->rva00376E92( false, false );
+		TheGameLogic->clearGameData( false, false );
 
 		Bool heroesOk = Rva0044C3D4();
 		if( !heroesOk )
@@ -1021,7 +1021,7 @@ void LANAPI::OnWOTRGameStart( void )
 		}
 
 		TheNetwork->parseUserList( m_currentGame );
-		TheGameLogic->rva00376E92( false, false );
+		TheGameLogic->clearGameData( false, false );
 
 		Bool filesOk = Rva0044C3D4();
 		if( !filesOk )
@@ -1047,7 +1047,7 @@ void LANAPI::OnWOTRGameStart( void )
 		if( TheLivingWorldManager )
 			TheLivingWorldManager->rva0021427A();
 		TheLivingWorldLogic->m_bfmeEC = 0;
-		TheGameLogic->rva00376E92( false, false );
+		TheGameLogic->clearGameData( false, false );
 		((Rva002D3627Host *)TheLivingWorld)->rva10( 1 );
 
 		GameMessage *msg = TheMessageStream->appendMessage( 0x1F );

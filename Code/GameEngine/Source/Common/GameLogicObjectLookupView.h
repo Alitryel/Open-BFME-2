@@ -126,9 +126,9 @@ public:
 	void rva0023CF8B();	// 0x0023CF8B, called by AptLoadScreen::init 0x0043A5F6
 	void deselectObject(Object *obj, unsigned int playerMask, bool affectClient);	// 0x0023C9F8
 	void bindObjectAndDrawable(Object *obj, Drawable *draw);	// 0x0023CD4A
-	void rva00376E92(bool first, bool second);	// 0x00376E92
+	void clearGameData(bool first, bool second);	// 0x00376E92
 	void rva00376D49();	// 0x00376D49, window cleanup, donor closeWindows
-	void rva00248558(bool fromSave);	// 0x00248558, verified new-game/load pass
+	void startNewGame(bool fromSave);	// 0x00248558, verified new-game/load pass
 	unsigned char isGamePaused();	// 0x0023CD97
 	bool rva002423E3();	// 0x002423E3
 	void processDestroyList();	// 0x002413DF

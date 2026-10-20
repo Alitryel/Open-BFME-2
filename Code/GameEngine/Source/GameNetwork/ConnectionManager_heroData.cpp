@@ -209,7 +209,7 @@ public:
 // "Can not create MemoryReadFile in ConnectionManager::processHero" names the
 // enclosing function (SAGE convention, callgraph 2).
 	void processHero(NetCommandMsg *command);
-	void rva004D01D5(CreateAHeroData *hero, Int seed, UnsignedShort slot,
+	void sendHero(CreateAHeroData *hero, Int seed, UnsignedShort slot,
 		UnsignedByte playerMask);
 	void sendLocalCommand(NetCommandMsg *msg, UnsignedByte relay);
 
@@ -259,7 +259,7 @@ void ConnectionManager::processHero(NetCommandMsg *command)
 	file->close();
 }
 
-void ConnectionManager::rva004D01D5(CreateAHeroData *hero, Int seed,
+void ConnectionManager::sendHero(CreateAHeroData *hero, Int seed,
 	UnsignedShort slot, UnsignedByte playerMask)
 {
 	if (hero == 0)

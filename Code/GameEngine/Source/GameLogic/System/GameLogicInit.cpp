@@ -737,7 +737,7 @@ public:
 	void destroyAllObjectsImmediate(void);
 	void rva00376D49(void);
 	void rva00246422(bool dontCreate);
-	void rva00248558(bool loadingSaveGame);
+	void startNewGame(bool loadingSaveGame);
 	void startNewGame_Init(bool loadingSaveGame);
 	void rva002469A5(bool loadingSaveGame, int *progress);
 	void startNewGame_PlaceMPBuildings(bool loadingSaveGame, int *progress);
@@ -2105,7 +2105,7 @@ void GameLogic::rva00246422(bool dontCreate)
 	}
 }
 
-// ?rva00248558@GameLogic@@QAEX_N@Z
+// ?startNewGame@GameLogic@@QAEX_N@Z
 // @0x00248558 546B (ret 4 at 0x00248777; callers 0x002B4884 0x003779C4
 // 0x0041B5E3, the last passing true).
 // The new-game pass: with the main window's close item greyed and the
@@ -2256,7 +2256,7 @@ extern unsigned char g_00DFF004;
 extern char g_00E09B08[];
 int g_00E09A00;	// retail RVA 0x00A09A00 (.bss), defined here
 
-void GameLogic::rva00248558(bool loadingSaveGame)
+void GameLogic::startNewGame(bool loadingSaveGame)
 {
 	if (TheWritableGlobalData->m_123d)
 		g_00E09B08[0] = '\0';

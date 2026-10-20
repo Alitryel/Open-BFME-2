@@ -568,7 +568,7 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 		TheNetwork->initTransport();
 	}
 	TheNetwork->parseUserList(this);
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 
 	Bool heroesOk = Rva0044C3D4();
 	if (!heroesOk)
@@ -586,7 +586,7 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 	if (TheLivingWorldManager)
 		TheLivingWorldManager->rva0021427A();
 	TheLivingWorldLogic->m_bfmeEC = 0;
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 	((Rva002D3627Host *)TheLivingWorld)->rva10(1);
 
 	GameMessage *msg = TheMessageStream->appendMessage(0x1F);
@@ -664,7 +664,7 @@ void GameSpyStagingRoom::launchGame(void)
 		TheNetwork->initTransport();
 	}
 	TheNetwork->parseUserList(this);
-	TheGameLogic->rva00376E92(false, false);
+	TheGameLogic->clearGameData(false, false);
 
 	Bool heroesOk = Rva0044C3D4();
 	if (!heroesOk)

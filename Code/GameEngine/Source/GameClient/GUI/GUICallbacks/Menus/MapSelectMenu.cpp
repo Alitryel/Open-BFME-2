@@ -649,7 +649,7 @@ struct MapSelectShellStartView {char pad[0x54];bool flag54;};
 void doGameStart()
 {
  mapSelectStartGame=false;
- TheGameLogic->rva00376E92(false,false);
+ TheGameLogic->clearGameData(false,false);
  ((Rva00203BCDDwordSlot *)TheScriptEngine)->set(s_AIDiff);
  if(!showSoloMaps && mapSelectHeadlessCount)
   Rva0050CF3CStartHeadless();

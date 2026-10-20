@@ -10,7 +10,7 @@ extern GameLogic *TheGameLogic;
 
 int rva00210DB6(float, bool)
 {
-    TheGameLogic->rva00376E92(true, false);
+    TheGameLogic->clearGameData(true, false);
     return 3;
 }
 
@@ -54,7 +54,7 @@ int rva00211396(float,bool)
     Rva0020EAF6View *manager=logic->regionManager;
     Rva0020E89C *lookup=manager->rva0020EAF6(regionId);
     void *event=lookup;
-    TheGameLogic->rva00376E92(false,false);
+    TheGameLogic->clearGameData(false,false);
     if (TheCampaignManager) {
         if (((unsigned char *)TheCampaignManager)[0x2C]) {
             event=new BfmeRectVNH(2,AsciiString("LW:DefeatedMissionTextEvil"),0);

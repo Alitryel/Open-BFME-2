@@ -389,7 +389,7 @@ public:
 	Int getNumPlayers();	// 0x004CF926
 	void updateLoadProgress(Int progress);	// 0x004CF940
 	void loadProgressComplete();	// 0x004D02F6
-	void rva004D00BB(Int a0);	// 0x004D00BB
+	void requestLeave(Int a0);	// 0x004D00BB
 };
 class Rva004CF113NullTarget
 {
@@ -600,7 +600,7 @@ private:
 void Rva0025E27FNullForwarder::rva0025E27F(Int a0)
 {
 	if (m_member)
-		m_member->rva004D00BB(a0);
+		m_member->requestLeave(a0);
 }
 
 class Rva000B3FD0NullTarget

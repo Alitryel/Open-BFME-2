@@ -188,7 +188,7 @@ struct Rva0021246DInput {char pad[0x18];AsciiString name;};
 void Rva0021237E::rva0021246D(Rva0021246DInput *input)
 {
  if(!((Bfme939Helper *)TheRecorder)->get()) TheRecorder->stopRecording();
- TheGameLogic->rva00376E92(false,false);
+ TheGameLogic->clearGameData(false,false);
  TheMouse->_bfme_setEngineVisibility(false);
  rva0021237E();
  const char *base=input->name.str();

@@ -85,7 +85,7 @@ private:
 	// flag named after it and blends one Real field, +0x70 and +0x30.
 
 
-	void rva0008AAD4(void);
+	void rotateCameraOneFrame(void);
 
 	void moveAlongWaypointPath(Int milliseconds);
 	void moveCameraOrLocatorAlongSplinePath(Int milliseconds, Bool alternate);
@@ -144,7 +144,7 @@ Bool W3DView::updateCameraMovements(void)
 	}
 	if (m_doingRotateCamera) {
 		m_previousLookAtPosition = *(const Coord2D *)&m_pos;
-		rva0008AAD4();
+		rotateCameraOneFrame();
 		didUpdate = true;
 	}
 	if (m_doingMoveCameraOnWaypointPath) {

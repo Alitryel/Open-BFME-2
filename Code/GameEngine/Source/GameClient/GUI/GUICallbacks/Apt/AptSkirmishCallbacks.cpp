@@ -736,7 +736,7 @@ extern MessageStream *TheMessageStream;
 // second (WB 0x00EC9680) onto appendIntegerArgument at 0x0030F936. The full
 // emitted helper and its allocArg relocation are verified before binding it.
 void AptSkirmish::StartGameAfterCDCheck() {
- TheGameLogic->rva00376E92(false,false);
+ TheGameLogic->clearGameData(false,false);
  TheWritableGlobalData->map=(*(GameInfo * *)&TheSkirmishGameInfo)->getMap();
  ((StartGameSetupView *)(*(GameInfo * *)&TheSkirmishGameInfo))->start(0);
  InitGameLogicRandom(((StartGameInfoView *)(*(GameInfo * *)&TheSkirmishGameInfo))->seed);
@@ -747,7 +747,7 @@ void AptSkirmish::StartGameAfterCDCheck() {
    TheShell->rva0035BF4C(true);
    TheDisplay->flag=true;
    TheVideoPlayer->stopAll();
-   TheGameLogic->rva00376E92(false,false);
+   TheGameLogic->clearGameData(false,false);
    ((Rva002D3627Host *)TheLivingWorld)->enable(true);
    GameMessage *msg=TheMessageStream->append(31);
    if(msg) {msg->appendIntegerArgument(((StartGameInfoView *)(*(GameInfo * *)&TheSkirmishGameInfo))->scenario);msg->wb00EC9680(0);}

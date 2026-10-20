@@ -46,11 +46,11 @@ void Rva005F327ARun::run()
 class ConnectionManager
 {
 public:
-	void rva004D00BB(int arg);
+	void requestLeave(int arg);
 	void rva004D0E8B();
 };
 
 void ConnectionManager::rva004D0E8B()
 {
-	rva004D00BB(0);
+	requestLeave(0);
 }
