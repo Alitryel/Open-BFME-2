@@ -126,6 +126,8 @@ public:
 	bool rva00032830(const void *block, int addressType);	// ValidateAddress-like
 	bool rva00032920(const void *block);			// owns-address test
 	bool rva000329E0(int level);				// ValidateHeap-like
+	int rva000321F0(int level);				// heap validator 0x329E0 wraps (address-derived name)
+	int rva00031F90(void *block);				// in-use chunk check error count (address-derived name)
 	int rva000327E0(const void *blockData, unsigned int left, char *dst);
 	// Original address-derived spelling of the callee above, kept so the
 	// landed 0x000327E0 caller (which forwards positionally) still resolves
@@ -182,11 +184,24 @@ private:
 		ListNode *m_next;
 		ListNode *m_prev;
 	};
+	// 1 when the chunk lies in none of the sentinel regions from s up to end.
+	static int ChunkOutsideRegions(Rva00031BF0Chunk *c, ListNode *s, ListNode *end)
+	{
+		while (s != end)
+		{
+			if ((unsigned int)c >= (unsigned int)s &&
+				(unsigned int)c < (unsigned int)s + s->m_size)
+				return 0;
+			s = s->m_next;
+		}
+		return 1;
+	}
 	unsigned int m_unknown0;
 	unsigned int m_maxFastSize;
 	Rva00031BF0Chunk* m_fastBins[10];
 	Rva00031BF0Chunk* m_bins[256];
-	char m_pad430[0x10];
+	// +0x430: one bit per bin, which 0x321F0 checks against each bin's ring.
+	unsigned int m_binmap[4];
 	// +0x440: the distinguished chunk 0x31BF0 classifies as kind 3 and
 	// 0x31D00 checks for self-linked fd/bk (label descriptive).
 	void *m_topChunk;
@@ -207,7 +222,10 @@ public:
 	unsigned char m_pad46E[0x470 - 0x46E];
 	// +0x470: recursion guard 0x31D00 raises around its checks.
 	int m_checkDepth;
-	unsigned char m_pad474[0x490 - 0x474];
+	unsigned char m_pad474[0x488 - 0x474];
+	// +0x488: count 0x321F0 requires to be non-negative and at most +0x490.
+	unsigned int m_count488;
+	unsigned char m_pad48C[4];
 	unsigned int m_option490;
 	unsigned int m_option494;
 	bool m_option498;
@@ -215,7 +233,8 @@ public:
 	struct RegionLink
 	{
 		unsigned int m_base;
-		unsigned char m_pad[8];
+		unsigned int m_size;	// 0x321F0 counts an error when bit 1 is clear
+		unsigned char m_pad[4];
 		RegionLink *m_next;
 	};
 	RegionLink m_regions;
@@ -224,7 +243,7 @@ public:
 	unsigned char m_pad4B8[0x4C8 - 0x4B8];
 	unsigned int m_option4C8;
 	unsigned int m_option4CC;
-	unsigned char m_pad4D0[4];
+	unsigned int m_unknown4D0;	// 0x321F0 requires it non-zero
 	unsigned int m_pageSize;
 	unsigned int m_coreSize;
 	unsigned int m_growSize;
@@ -1603,6 +1622,249 @@ int GeneralAllocator::rva00031E60(const void *block)
 	}
 	else
 		errors += CheckCount(size <= 4);
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return errors;
+}
+
+// One bin's ring: its first node and the bin header the ring must contain.
+struct Rva000321F0BinRing
+{
+	Rva00031BF0Chunk *first;
+	Rva00031BF0Chunk *head;
+};
+
+// Native 321F0..327C7 RET4, the heap validator behind 0x329E0: failed checks per level under the +0x4E4
+// lock. Check meanings follow dlmalloc's state check; only offsets and operations are target facts.
+int GeneralAllocator::rva000321F0(int level)
+{
+	int errors = 0;
+	int index;
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	if (level >= 1)
+	{
+		unsigned int totalFast = 0;
+		if (m_topChunk == 0 || m_topChunk == (void *)m_bins)
+		{
+			if (lock != 0)
+			{
+				--lock->m_count;
+				LeaveCriticalSection(lock);
+			}
+			return 0;
+		}
+		unsigned int maxFast = m_maxFastSize;
+		errors += CheckCount(maxFast < 0x50);
+		if (level >= 2)
+		{
+			// Fast-bin chains: each node must live inside a sentinel region and
+			// carry the expected size flags.
+			for (index = 0; index < 10; ++index)
+			{
+				Rva00031BF0Chunk *c = m_fastBins[index];
+				int guard = 0;
+				while (c != 0)
+				{
+					if (guard >= 0x1e8480)
+						break;
+					errors += ChunkOutsideRegions(c, m_sentinel.m_next, &m_sentinel);
+					unsigned int size = c->size;
+					c = c->next;
+					errors += CheckCount(((int)size & (int)0x80000000) != 0);
+					errors += CheckCount((size & 4) != 0);
+					++guard;
+					errors += CheckCount(guard < 0x1e8480);
+				}
+			}
+
+			Rva00031BF0Chunk **link;
+			for (index = 0, link = m_bins; index < 0x100; index += 2, link += 2)
+			{
+				Rva00031BF0Chunk *c = *link;
+				if (index < 2)
+					errors += CheckCount(c == 0);
+				else
+				{
+					Rva000321F0BinRing ring = { c, (Rva00031BF0Chunk *)((char *)link - 8) };
+					errors += CheckCount(ring.first != 0);
+					Rva00031BF0Chunk *p = ring.first->next;
+					int count = 0;
+					if (p == ring.head)
+						count = 1;
+					while (p != ring.first)
+					{
+						if (p == ring.head)
+							++count;
+						else
+						{
+							errors += ChunkOutsideRegions(p, m_sentinel.m_next, &m_sentinel);
+						}
+						p = p->next;
+					}
+					errors += CheckCount(count != 0);
+				}
+			}
+
+			errors += CheckCount(m_option4CC < 0x186a0);
+			errors += CheckCount(m_unknown4D0 != 0);
+			errors += CheckCount((m_pageSize & (m_pageSize - 1)) == 0);
+			maxFast &= ~1u;
+			int maxFastIndex = (maxFast >> 3) - 2;
+			errors += CheckCount(maxFast <= 0x58);
+			for (index = 0; index < 10; ++index)
+			{
+				Rva00031BF0Chunk *c = m_fastBins[index];
+				if (index > maxFastIndex)
+					errors += CheckCount(c == 0);
+				while (c != 0)
+				{
+					unsigned int size = c->size;
+					c = c->next;
+					totalFast += size & 0x7ffffff8u;
+					errors += CheckCount(((size >> 3) & 0x0fffffffu) - 2 == (unsigned int)index);
+				}
+			}
+			if (totalFast != 0)
+				errors += CheckCount((m_maxFastSize & 1) != 0);
+
+			// Bin heads and the binmap must agree, and every bin list node
+			// must be a valid chunk of its bin's size class.
+			for (index = 1; index < 0x80; ++index)
+			{
+				Rva00031BF0Chunk *head = (Rva00031BF0Chunk *)((char *)&m_bins[index << 1] - 8);
+				if (index >= 2)
+				{
+					bool binbit = (m_binmap[index >> 5] & (1u << (index & 0x1f))) != 0;
+					bool nonEmpty = head != head->previous;
+					if (!binbit)
+						errors += CheckCount(!nonEmpty);
+					else if (nonEmpty)
+						errors += CheckCount(binbit);
+				}
+				Rva00031BF0Chunk *c = head->previous;
+				while (c != head)
+				{
+					errors += rva00031E60(c);
+					unsigned int size = c->size & 0x7ffffff8u;
+					if (index >= 2)
+					{
+						unsigned int idx;
+						if (size < 0x200)
+							idx = size >> 3;
+						else if ((size >> 6) <= 0x20)
+							idx = (size >> 6) + 0x38;
+						else if ((size >> 9) <= 0x14)
+							idx = (size >> 9) + 0x5b;
+						else if ((size >> 12) <= 0x0a)
+							idx = (size >> 12) + 0x6e;
+						else if ((size >> 15) <= 4)
+							idx = (size >> 15) + 0x77;
+						else if ((size >> 18) <= 2)
+							idx = (size >> 18) + 0x7c;
+						else
+							idx = 0x7e;
+						errors += CheckCount(idx == (unsigned int)index);
+						if (size >= 0x200)
+						{
+							Rva00031BF0Chunk *next = c->previous;
+							errors += CheckCount(next == head || (next->size & 0x7ffffff8u) >= size);
+						}
+					}
+
+					// Walk the chunk run behind every bin node.
+					Rva00031BF0Chunk *run = (Rva00031BF0Chunk *)((char *)c + size);
+					for (;;)
+					{
+						unsigned int runSize = run->size & 0x7ffffff8u;
+						if (runSize < 0x10)
+						{
+							ListNode *s = m_sentinel.m_next;
+							for (; s != &m_sentinel; s = s->m_next)
+							{
+								if ((unsigned int)run >= (unsigned int)s &&
+									(unsigned int)run < (unsigned int)s + s->m_size)
+								{
+									if ((unsigned int)run >= (unsigned int)s + s->m_size - 0x10)
+										goto runDone;
+									break;
+								}
+							}
+						}
+						if ((*(unsigned char *)((char *)run + runSize + 4) & 1) == 0 || runSize < 0x10)
+							break;
+						errors += rva00031F90(run);
+						run = (Rva00031BF0Chunk *)((char *)run + (run->size & 0x7ffffff8u));
+					}
+runDone:
+					c = c->previous;
+				}
+			}
+
+			// Sentinel region counters.
+			RegionLink *r = m_regions.m_next;
+			RegionLink *rend = &m_regions;
+			while (r != rend)
+			{
+				errors += CheckCount((r->m_size & 2) != 0);
+				unsigned int base = r->m_base;
+				Rva00031BF0Chunk *prev = (Rva00031BF0Chunk *)((char *)r - base);
+				r = r->m_next;
+				errors += CheckCount((prev->size & 2) != 0);
+			}
+		}
+		errors += rva00031D00(m_topChunk);
+		errors += CheckCount((int)m_count488 >= 0);
+		errors += CheckCount((int)m_count488 <= (int)m_option490);
+	}
+
+	if (level >= 3)
+	{
+		// Region link list: each link must report a valid owner.
+		RegionLink *r = m_regions.m_next;
+		RegionLink *rend = &m_regions;
+		while (r != rend)
+		{
+			void *owner = (char *)r - r->m_base;
+			errors += rva00032160(owner);
+			r = r->m_next;
+		}
+
+		// Full sentinel walk: every chunk run must be valid and end at the top.
+		ListNode *s = m_sentinel.m_prev;
+		ListNode *end = &m_sentinel;
+		while (s != end)
+		{
+			unsigned int size = s->m_size;
+			Rva00031BF0Chunk *c = (Rva00031BF0Chunk *)s->m_unk0;
+			unsigned int endAddr = (unsigned int)s + size - 0x10;
+			while ((unsigned int)c < endAddr)
+			{
+				unsigned int csize = c->size & 0x7ffffff8u;
+				int inUse = (*(unsigned int *)((char *)c + csize + 4) & 1);
+				if (inUse)
+					errors += rva00031F90(c);
+				else
+					errors += rva00031E60(c);
+				if (!inUse && c == c->next)
+				{
+					errors += CheckCount(c == m_topChunk);
+					break;
+				}
+				c = (Rva00031BF0Chunk *)((char *)c + (c->size & 0x7ffffff8u));
+			}
+			s = s->m_prev;
+		}
+	}
+
 	if (lock != 0)
 	{
 		--lock->m_count;
