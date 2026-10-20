@@ -1,6 +1,6 @@
 // cl: /MD
 //
-// ?rva000353F0@GeneralAllocator@Allocator@EA@@QAEXP6AXPBDPAX@Z1PAXH@Z @0x000353F0 331B.
+// ?rva000353F0@GeneralAllocator@Allocator@EA@@QAEXP6AXPBDPAX@Z11H@Z @0x000353F0 331B.
 // Heap trace over allocated blocks (PPMalloc TraceAllocatedMemory-like):
 // under the counted lock at +0x4E4 (use count at +0x18, the RAII guard of the
 // sibling 0x00035080 with its own EH state), runs the 0x00033930 helper when
@@ -48,12 +48,6 @@ public:
 	void rva00033930();
 };
 
-class Rva000353B0
-{
-public:
-	void *rva00034d10(int a, int b, int c, int d);
-};
-
 class Rva00033150
 {
 public:
@@ -91,8 +85,9 @@ public:
 
 	typedef bool (*ReportFunction)(const BlockInfo *info, void *context);
 
+	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
 	void rva000353F0(TraceFunction function, void *functionContext, void *context, int blockTypes);
-	bool rva00035540(ReportFunction function, void *context, int blockTypes, int copy, int storage, int storageSize);
+	bool rva00035540(ReportFunction function, void *context, int blockTypes, bool copy, char *storage, unsigned int storageSize);
 	int rva00031430(const void *block, char *dst, unsigned int left);
 	const BlockInfo *rva00032F60(void *context, int blockTypes);
 
@@ -134,7 +129,7 @@ void GeneralAllocator::rva000353F0(TraceFunction function, void *functionContext
 	if (function)
 	{
 		char buffer[4000];
-		Snapshot *snapshot = (Snapshot *)((::Rva000353B0 *)this)->rva00034d10(2, 0, (int)context, blockTypes);
+		Snapshot *snapshot = (Snapshot *)rva00034D10(2, false, context, blockTypes);
 		if (snapshot)
 			snapshot->m_state[1] = 1;
 		for (const BlockInfo *info = rva00032F60(snapshot, 0x1F); info; info = rva00032F60(snapshot, 0x1F))
@@ -150,19 +145,19 @@ void GeneralAllocator::rva000353F0(TraceFunction function, void *functionContext
 	}
 }
 
-// ?rva00035540@GeneralAllocator@Allocator@EA@@QAE_NP6A_NPBUBlockInfo@23@PAX@Z1HHHH@Z @0x00035540 154B.
+// ?rva00035540@GeneralAllocator@Allocator@EA@@QAE_NP6A_NPBUBlockInfo@23@PAX@Z1H_NPADI@Z @0x00035540 154B.
 // Unlocked heap report walk (ReportHeap-like, declared as such by
 // memory_pool.cpp): with a callback, opens the report through 0x00034D10
 // with the four trailing arguments, marks +0x0D, hands each 0x00032F60 entry
 // of the requested types to the cdecl bool callback until it returns false,
 // closes the report the same inlined way as 0x000353F0 and returns the last
 // callback result (false without a callback or report). Caller 0x0003094F.
-bool GeneralAllocator::rva00035540(ReportFunction function, void *context, int blockTypes, int copy, int storage, int storageSize)
+bool GeneralAllocator::rva00035540(ReportFunction function, void *context, int blockTypes, bool copy, char *storage, unsigned int storageSize)
 {
 	bool result = false;
 	if (function)
 	{
-		Snapshot *snapshot = (Snapshot *)((::Rva000353B0 *)this)->rva00034d10(blockTypes, copy, storage, storageSize);
+		Snapshot *snapshot = (Snapshot *)rva00034D10(blockTypes, copy, storage, storageSize);
 		if (snapshot)
 		{
 			result = true;

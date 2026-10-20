@@ -1,6 +1,6 @@
 // cl: /O2 /MD /DNDEBUG /EHsc
-// Split from Rva006C33D0Purge.cpp: these definitions reference a callee with no matched body yet,
-// so they are kept apart from the unit's bodies that already link.
+// Split from Rva006C33D0Purge.cpp. The report wrappers now call their
+// recovered allocator owners; the lower-level free body remains unrowed.
 //
 // ?rva006C33D0@Rva006C1F60@@QAEXHH@Z @ 0x006C33D0 643B, ret 8
 //
@@ -31,6 +31,9 @@ class GeneralAllocator
 {
 public:
 	unsigned rva00032A20(const void *);
+	typedef void (*TraceFunction)(const char *text, void *context);
+	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
+	void rva000353F0(TraceFunction function, void *functionContext, void *context, int blockTypes);
 };
 } }
 
@@ -66,21 +69,14 @@ struct Guard
 	Rva00030DD0Lock *lock;
 };
 
-class Rva000353B0
-{
-public:
-	void *rva00034d10(int a, int b, int c, int d);
-	void *rva000353F0(int a, int b, int c, int d);
-};
-
 class Rva006C1F60 : public GeneralAllocatorDebug
 {
 public:
 	void rva006C33D0(int policy, int limit);
 	void *rva00033ED0(unsigned int size, int flags);
 	void *rva006C1CC0(unsigned int size, int flags);
-	void *rva006C37E0(int a, int b, int c, int d);
-	void *rva006C3810(int a, int b, int c, int d);
+	void rva006C37E0(TraceFunction function, void *functionContext, void *context, int blockTypes);
+	void *rva006C3810(int blockTypes, bool copy, void *storage, unsigned int storageSize);
 
 	char unknown0[0x4e4];
 	Rva00030DD0Lock *lock;
@@ -107,16 +103,16 @@ public:
 // (policy 0) and then forward the four arguments to the allocator body at
 // 0x00034D10, returning its result. Its twin 0x006C37E0 does the same in
 // front of 0x000353F0. Names address-derived.
-void *Rva006C1F60::rva006C3810(int a, int b, int c, int d)
+void *Rva006C1F60::rva006C3810(int blockTypes, bool copy, void *storage, unsigned int storageSize)
 {
 	rva006C33D0(0, 0);
-	return ((Rva000353B0 *)this)->rva00034d10(a, b, c, d);
+	return rva00034D10(blockTypes, copy, storage, storageSize);
 }
 
-void *Rva006C1F60::rva006C37E0(int a, int b, int c, int d)
+void Rva006C1F60::rva006C37E0(TraceFunction function, void *functionContext, void *context, int blockTypes)
 {
 	rva006C33D0(0, 0);
-	return ((Rva000353B0 *)this)->rva000353F0(a, b, c, d);
+	rva000353F0(function, functionContext, context, blockTypes);
 }
 
 // Retail 0x006C1CC0 (71 B, ret 8), next to the location formatter: allocate

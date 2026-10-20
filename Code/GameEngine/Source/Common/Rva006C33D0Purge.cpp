@@ -29,6 +29,9 @@ class GeneralAllocator
 {
 public:
 	unsigned rva00032A20(const void *);
+	typedef void (*TraceFunction)(const char *text, void *context);
+	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
+	void rva000353F0(TraceFunction function, void *functionContext, void *context, int blockTypes);
 };
 } }
 
@@ -61,21 +64,14 @@ struct Guard
 	Rva00030DD0Lock *lock;
 };
 
-class Rva000353B0
-{
-public:
-	void *rva00034d10(int a, int b, int c, int d);
-	void *rva000353F0(int a, int b, int c, int d);
-};
-
 class Rva006C1F60 : public GeneralAllocatorDebug
 {
 public:
 	void rva006C33D0(int policy, int limit);
 	void *rva00033ED0(unsigned int size, int flags);
 	void *rva006C1CC0(unsigned int size, int flags);
-	void *rva006C37E0(int a, int b, int c, int d);
-	void *rva006C3810(int a, int b, int c, int d);
+	void rva006C37E0(TraceFunction function, void *functionContext, void *context, int blockTypes);
+	void *rva006C3810(int blockTypes, bool copy, void *storage, unsigned int storageSize);
 
 	char unknown0[0x4e4];
 	Rva00030DD0Lock *lock;

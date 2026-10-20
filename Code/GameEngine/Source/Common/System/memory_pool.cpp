@@ -127,11 +127,7 @@ public:
 	bool rva00032920(const void *block);			// owns-address test
 	bool rva000329E0(int level);				// ValidateHeap-like
 	int rva000321F0(int level);				// heap validator 0x329E0 wraps (address-derived name)
-	int rva000327E0(const void *blockData, unsigned int left, char *dst);
-	// Original address-derived spelling of the callee above, kept so the
-	// landed 0x000327E0 caller (which forwards positionally) still resolves
-	// through the existing 0x00031430 pin with byte-identical codegen.
-	int rva00031430(const void *block, unsigned int left, char *dst);
+	int rva000327E0(const void *blockData, char *dst, unsigned int left);
 	// True (block, dst, left) order proven by the WB debug build; the row
 	// below owns this name and address.
 	int rva00031430(const void *block, char *dst, unsigned int left);
@@ -409,12 +405,12 @@ bool GeneralAllocator::rva00031BB0(const void *block)
 	return false;
 }
 
-// ?rva000327E0@GeneralAllocator@Allocator@EA@@QAEHPBXIPAD@Z
-// Target evidence: retail locks with this+0x4E4/+0x18 around the call to
-// 0x00031430, passing blockData-8, left, and dst. The same allocator this and
-// lock layout are established by the matched 0x32A20 sibling; the helper's
-// address-derived role as the block formatter is supported by 0x353F0.
-int GeneralAllocator::rva000327E0(const void *blockData, unsigned int left, char *dst)
+// ?rva000327E0@GeneralAllocator@Allocator@EA@@QAEHPBXPADI@Z
+// Retail locks with this+0x4E4/+0x18 and forwards all three arguments to
+// 0x00031430 after subtracting the chunk header. The formatter's proven
+// (block, dst, left) ABI therefore also fixes this wrapper's argument types.
+// The allocator receiver and lock layout agree with the 0x32A20 sibling.
+int GeneralAllocator::rva000327E0(const void *blockData, char *dst, unsigned int left)
 {
 	Lock *lock = m_4E4;
 	if (lock != 0)
@@ -422,7 +418,7 @@ int GeneralAllocator::rva000327E0(const void *blockData, unsigned int left, char
 		EnterCriticalSection(lock);
 		++lock->m_count;
 	}
-	int result = rva00031430((const char *)blockData - 8, left, dst);
+	int result = rva00031430((const char *)blockData - 8, dst, left);
 	if (lock != 0)
 	{
 		--lock->m_count;
@@ -445,10 +441,7 @@ int GeneralAllocator::rva000327E0(const void *blockData, unsigned int left, char
 // 0x12/0x1E/0x10A/0x18 gate each line. Declaring data before size keeps
 // block in EDX with retail's spill/lea schedule. The 0x000327E0 sibling
 // (same TU) forwards block-8 positionally into this same (block, dst, left)
-// order (its positionally-forwarded call is untouched; the original
-// address-derived overload declaration above keeps it resolving through the
-// existing pin with byte-identical codegen, and its row is unchanged since
-// the rel32 target address is the same).
+// order and calls this actual owner directly.
 int GeneralAllocator::rva00031430(const void *block, char *dst, unsigned int left)
 {
 	char *start = dst;
