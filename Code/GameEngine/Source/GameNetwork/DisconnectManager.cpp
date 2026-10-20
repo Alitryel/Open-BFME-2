@@ -25,7 +25,7 @@ protected:
 	__declspec(noinline) void resetPlayerTimeout(Int slot);
 
 public:
-	void rva004D3CA8(void *a1, ConnectionManager *a2);
+	void processDisconnectKeepAlive(void *a1, ConnectionManager *a2);
 
 private:
 	unsigned char m_pad[0x14];
@@ -37,7 +37,7 @@ void DisconnectManager::resetPlayerTimeout(Int slot)
 	m_playerTimeouts[slot] = timeGetTime();
 }
 
-void DisconnectManager::rva004D3CA8(void *a1, ConnectionManager *a2)
+void DisconnectManager::processDisconnectKeepAlive(void *a1, ConnectionManager *a2)
 {
 	int valC = *(int *)((char *)a1 + 0xC);
 	int localID = a2->getLocalPlayerID();

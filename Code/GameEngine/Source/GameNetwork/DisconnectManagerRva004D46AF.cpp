@@ -6,7 +6,7 @@ class NetCommandMsg;
 class DisconnectManager
 {
 public:
-	void rva004D3CA8(void *msg, ConnectionManager *conMgr);
+	void processDisconnectKeepAlive(void *msg, ConnectionManager *conMgr);
 	void processDisconnectPlayer(NetCommandMsg *msg, ConnectionManager *conMgr);
 	void processDisconnectCommand(void *ref, ConnectionManager *conMgr);
 
@@ -27,7 +27,7 @@ void DisconnectManager::processDisconnectCommand(void *ref, ConnectionManager *c
 	void *msg = *(void **)ref;
 	int commandType = *(int *)((char *)msg + 0x14);
 	if (commandType == 0x19) {
-		rva004D3CA8(msg, conMgr);
+		processDisconnectKeepAlive(msg, conMgr);
 	} else if (commandType == 0x1A) {
 		processDisconnectPlayer((NetCommandMsg *)msg, conMgr);
 	} else if (commandType == 0x1B) {
