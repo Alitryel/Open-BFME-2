@@ -1,4 +1,6 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
+// partial score=0.8285 date=2026-10-20
+// ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
 // partial score=0.7808 date=2026-10-17
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
 // Native layouts/calls adapted; donor mathematical structure. Bank only.
@@ -12,6 +14,9 @@
 // Adapted from Command & Conquer Generals Zero Hour, copyright 2025 Electronic Arts Inc.
 
 #define Matrix4x4 Matrix4
+#define inline __forceinline
+#include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/shader.h"
+#undef inline
 void operator delete[](void*) throw();
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/texture.h"
 #include "reference/shims/bfmestreak/streakrender.h"
@@ -985,6 +990,8 @@ protected:
  static unsigned render_state_changed;
  static float ZNear,ZFar;
  static unsigned matrix_changes;
+ static Matrix4x4 ProjectionMatrix;
+ static Matrix4x4 DeviceProjectionMatrix;
 };
 WWINLINE Vector4 DX8Wrapper::Convert_Color(unsigned color)
 {
@@ -1166,12 +1173,11 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 		render_state_changed|=(unsigned)VIEW_CHANGED;
 		break;
 	case D3DTS_PROJECTION:
-		{
-			Matrix4x4 ProjectionMatrix=m.Transpose();
-			ZFar=0.0f;
-			ZNear=0.0f;
-			DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&ProjectionMatrix));
-		}
+		ProjectionMatrix=m.Transpose();
+		DeviceProjectionMatrix=ProjectionMatrix;
+		ZFar=0.0f;
+		ZNear=0.0f;
+		DX8CALL(SetTransform(D3DTS_PROJECTION,(D3DMATRIX*)&DeviceProjectionMatrix));
 		break;
 	default:
 		DX8_RECORD_MATRIX_CHANGE();
@@ -1203,20 +1209,21 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 }
 WWINLINE void DX8Wrapper::Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4x4& m)
 {
-	D3DMATRIX mat;
-	switch ((int)transform) {
+	switch ((int)transform)
+	{
 	case D3DTS_WORLD:
-		if (render_state_changed&WORLD_IDENTITY) m.Make_Identity();
-		else m=render_state.world.Transpose();
+		if (render_state_changed & WORLD_IDENTITY) m.Make_Identity();
+		else m = render_state.world.Transpose();
 		break;
 	case D3DTS_VIEW:
-		if (render_state_changed&VIEW_IDENTITY) m.Make_Identity();
-		else m=render_state.view.Transpose();
+		if (render_state_changed & VIEW_IDENTITY) m.Make_Identity();
+		else m = render_state.view.Transpose();
+		break;
+	case D3DTS_PROJECTION:
+		m = DeviceProjectionMatrix.Transpose();
 		break;
 	default:
-		DX8CALL(GetTransform(transform,&mat));
-		m=*(Matrix4x4*)&mat;
-		m=m.Transpose();
+		m.Make_Identity();
 		break;
 	}
 }
@@ -1280,8 +1287,8 @@ void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 extern unsigned number_of_DX8_calls;
 struct SimpleShaderDeviceVTable {void *unused0[92]; long (__stdcall *SetVS)(void*,unsigned); void *unused93[14];long (__stdcall *SetPS)(void*,unsigned);};
 struct SimpleShaderDevice {SimpleShaderDeviceVTable *v;};
-inline void DX8Wrapper::Set_Vertex_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetVS(d,shader);++number_of_DX8_calls;}
-inline void DX8Wrapper::Set_Pixel_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetPS(d,shader);++number_of_DX8_calls;}
+__forceinline void DX8Wrapper::Set_Vertex_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetVS(d,shader);++number_of_DX8_calls;}
+__forceinline void DX8Wrapper::Set_Pixel_Shader(DWORD shader){SimpleShaderDevice *d=(SimpleShaderDevice*)D3DDevice;d->v->SetPS(d,shader);++number_of_DX8_calls;}
 double Rva000032B8(float);
 class SimpleShadowPass { public: virtual void Delete_This(); virtual void slot1(); virtual bool Begin(unsigned*,unsigned); virtual void BeginPass(unsigned); virtual void slot4(); virtual void EndPass(); virtual void End(); int refs; };
 class FXShaderSetup;
@@ -1301,7 +1308,7 @@ TextureClass *Texture; ShaderClass Shader; float Width; Vector3 Color; float Opa
 void Rva00126314::rva00126433(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
 {
 if(WW3D::IsCurrentlyRenderingShadowMap && (!g_Va00DEE870 || !g_Va00DEE86C))return;
-Rva0007671F view_storage; Matrix4 &view=*(Matrix4*)&view_storage;
+Matrix4 view;
 DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 Matrix4 identity(true);DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
 const float parallel_factor=.9f;unsigned chunk_size=129;if(chunk_size>num_points)chunk_size=num_points;
@@ -1677,7 +1684,7 @@ unsigned passes=0;if(!shadow.p->Begin(&passes,65535)||passes!=1)continue;shadow.
 }else{
 ShaderClass shader=Shader;shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
 VertexMaterialClass *mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);DX8Wrapper::Set_Material(mat);REF_PTR_RELEASE(mat);
-shader.Set_Texturing(Texture?ShaderClass::TEXTURING_ENABLE:ShaderClass::TEXTURING_DISABLE);
+if(Texture)shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);else shader.Set_Texturing(ShaderClass::TEXTURING_DISABLE);
 ((ShroudTexture*)this)->getFilter()->u=1;((ShroudTexture*)this)->getFilter()->v=1;
 DX8Wrapper::Set_Shader(shader);
 }
