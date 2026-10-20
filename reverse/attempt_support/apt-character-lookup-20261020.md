@@ -144,3 +144,56 @@ rules out /GL or another compiler build (docs/recipes.md). A next seat should
 look for a source form whose IR already shares these tails: shared locals
 assigned per case with one `AptBoolean::Create(v)`/`MakeFloat(number)` return,
 or a helper inlined in several cases.
+
+## Round claudeb2 2026-10-20 (production direction, base4)
+
+Best production-direction body: `apt-character-lookup-20261020-base4.cpp.txt`
+(it has no `_ReadWriteBarrier` or equal-arm hacks; align sum 239: st=25 ins=32
+del=203 mem=3 reg=1, size 5872 vs retail 5935 with tables; fitness 0.7208,
+below the 0.7896 bank, which is therefore kept). Shape: switch 1 returns per
+case (`case 10: return AptBoolean::Create((text->definition->multiline&0xFFFFFF)!=0);`,
+18 the same with wordWrap, 19/20 `Rect r; ... float n=r.bottom-r.top; if(n<0)n=0;
+return MakeFloat(n);`, 21 `return AptBoolean::Create(text->mouseWheel);`);
+switch 2 assigns `number` and `break`s, factory cases return globals,
+`default: return 0;`, then `return MakeFloat(number);`. Helpers `refreshText`
+and `makeLookupString` are `__forceinline`.
+
+Retail switch-1 table (cases 1..21, offsets from 0x6EFBC0): 0xb3 0xfd 0x124
+0x149 0x170 0x498(default) 0x194 0x1c9 0x1e1 0x223 0x24e 0x290 0x2c9 0x2ee 0x330
+0x372 0x39a 0x3d1 0x3dc 0x41e 0x486. Cases 2,3,4,5,7,9,10,11,13,14,15 own their
+`add esp,4`+epilogue copy (EXIT4); 1,8,12,16,17 return objects/globals with own
+epilogues. Every merge comes from a block after case 17: 17->8 (`jne 0x1c9`),
+18->0x229 (case 10's `test esi,0xffffff`), 19->20's `fst` at 0x45e,
+20->0x238, 21->0x233, and switch-2's MakeFloat return ->0x238. Retail has
+53 `ret`s, base4 74. EH state stores and epilogue interleaving already match.
+
+Disproved this round (do not repeat):
+- w2..w7 WB-shape factors (bool locals, ternary clamps, `shr 3; and 1` bitfield
+  reads, case order) and w9 (64 spellings of cases 10/18): all stay at sum 239.
+- w8 (768 variants): T1 (the 18->10 merge) only appears with bool locals for
+  B10+B18 plus one helper, and costs an edi/register shift (sum 308).
+- z1: deleting all 27 factory cases leaves tails unmerged (A0 T0): function
+  size or a duplication budget is not the cutoff.
+- k6: EH-object fillers shift scratch-register rotation like extra calls but
+  do not block merges; identical I-cases (`and; push; call; add esp,4`) never
+  merge in probes, whereas bool cases (block starting at `test`) do.
+- Hidden temp: retail's `mov esi,[eax+0x2c]; test esi,0xffffff` means the
+  value was in a register when the tails merged, before the peephole folded
+  `test [mem],imm`; base4 folds first and so never merges.
+
+Lead for the next seat (evidence-backed, untested on this body): matched
+siblings share `add esp,4` ACROSS different callees at a result-variable join.
+`_FunctionAptActionIncrement` 0x703F40
+(`Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp`:
+`if(isInteger) result=AptInteger::Create(..); else result=MakeFloat(..);`)
+compiles to `call Create; jmp J` / `call MakeFloat` / `J: add esp,4; mov ebx,eax`.
+GameSpy `ProcessAdHocData` 0x6A9920 (`sb_serverlist.c`, `ret = ProcessX(..);
+break;` per case) shows the same: two cdecl calls `jmp 0xef` to one
+`add esp,4; mov ebx,eax`. Retail's EXIT4 (0x238, `add esp,4` + epilogue)
+receives exactly the late cases and switch 2's MakeFloat, so try: switch-1
+cases 18..21 (and maybe 17), plus the switch-2 MakeFloat, assigning one
+`AptValue *result` and `break`ing to a shared `return result;`, while cases
+2..15 keep direct `return`s. Factorial: which cases join (17/18/19/20/21
+each), whether switch 2 joins, result declared at function vs block scope.
+Tools used (untracked, recreate): align sum via `tools/align_diff.py`, jump
+table decode via `read_target_bytes(0x6EFBC0,5935)`.
