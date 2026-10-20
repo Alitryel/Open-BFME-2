@@ -113,6 +113,10 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::insert(voi
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_next_size@?$hashtable@U?$pair@$$CBHURva001FEAB2Element@@@_STL@@HU?$hash@H@2@U?$_Select:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva001FEAB2Element;
+namespace _STL { template <> unsigned int hashtable<pair<int const ,Rva001FEAB2Element>,int,hash<int>,_Select1st<pair<int const ,Rva001FEAB2Element> >,equal_to<int>,allocator<pair<int const ,Rva001FEAB2Element> > >::_M_next_size(unsigned int) const; }
 // Native ctor2AC340/dtor2AC366: Snapshot vptr, int+4, BfmeE16 vector+8.
 class Rva002AC340 : public Snapshot {
  friend class Player;
