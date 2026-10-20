@@ -1,7 +1,7 @@
+// BfmeB1137::Install_Materials
+// partial score=0.873 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.862 date=2026-10-20
-// ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.862 date=2026-10-20
+// partial score=0.873 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -601,9 +601,10 @@ void BfmeB1137::Install_Materials(void) const
 		int width = map->width;
 		int height = map->height;
 		bool sameFrame = false;
-		if (m_E4 == ((GameLogicView *)TheGameLogic)->m_frame)
+		int frame = ((GameLogicView *)TheGameLogic)->m_frame;
+		if (m_E4 == frame)
 			sameFrame = true;
-		m_E4 = ((GameLogicView *)TheGameLogic)->m_frame;
+		m_E4 = frame;
 		if (!sameFrame)
 			m_38 += ((Rva00214D4A *)g_00DFE1E4)->rva00214D4A();
 		if (m_38 > 1.0f)
@@ -634,10 +635,12 @@ void BfmeB1137::Install_Materials(void) const
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * (world * scale);
 		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
 
+		fw *= 0.5f;
+		fw *= 10.0f;
+		fh *= 0.5f;
+		fh *= 10.0f;
 		m_94 = world;
 		D3DXMatrixInverse(&world, &det, &world);
-		fw = fw * 0.5f * 10.0f;
-		fh = fh * 0.5f * 10.0f;
 		D3DXVECTOR3 corner;
 		corner.x = fw;
 		corner.y = fh;
@@ -659,8 +662,9 @@ void BfmeB1137::Install_Materials(void) const
 			elapsed = 0;
 		Rva00094DD3Val wind;
 		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
-		m_4C += wind.x * elapsed * 0.002f;
-		m_50 += wind.y * elapsed * 0.002f;
+		float fe = (float)elapsed;
+		m_4C += wind.x * fe * 0.002f;
+		m_50 += wind.y * fe * 0.002f;
 		while (m_4C > 1.0f)
 			m_4C -= 1.0f;
 		while (m_50 > 1.0f)
@@ -718,7 +722,10 @@ void BfmeB1137::Install_Materials(void) const
 			((ShroudTexture *)&m_5C)->getFilter()->m_vAddressMode = 0;
 			((ShroudTexture *)&m_5C)->getFilter()->SetMip(0);
 		}
-		BFME2Set_Texture(0, AsRef(((GlobalWeatherSystemView *)TheGlobalWeatherSystem)->m_10 == 1 ? m_5C : m_58));
+		if (((GlobalWeatherSystemView *)TheGlobalWeatherSystem)->m_10 == 1)
+			BFME2Set_Texture(0, AsRef(m_5C));
+		else
+			BFME2Set_Texture(0, AsRef(m_58));
 		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 7);
 		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 2, 2);
 		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 3, 3);
