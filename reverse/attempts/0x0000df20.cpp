@@ -7,17 +7,19 @@
 // Retail DF20..E952 is 2610 bytes; this bank emits 2594 bytes with the
 // retail 0x118 frame. Historical bank score 0.8114 is retained conservatively.
 // The negative-sign boolean is separate from the copy helper's empty tag.
+// The verified wide allocator-base constructor at 0x00689600 is declared
+// opaque here. Its visibility changes stack colouring even when both forms
+// keep the call: memory differences fall from 111 to 99, and EH nonrelocation
+// byte differences fall from 17 to one. All temporary-flag slots now agree.
+// Locale remains [ebp-0xF0] versus retail [ebp-0xF4] in the first funclet.
+// The 23-state EH table agrees outside relocations. This is not an EH match.
 // Per-site depth 0 retains currency temporary and first-return calls; the
 // opaque wide base destructor retains the sign/base calls. Cleanup remains
 // incorrect at early returns and at the three final wide-string destructions.
-// The wide allocator-base constructor now has whole-body recursive fold proof
-// at 0x00689600 in stlport_narrow_string.cpp. No unresolved callees remain.
-// Measurements, rejected hypotheses and the next angles are recorded in
-// reverse/attempt_support/df20-context-twin-20261020/handoff.md.
-// Removing the old pattern alignment preserves all function bytes/relocations.
-// The 23-state EH table agrees outside relocations; 17 funclet bytes remain
-// wrong, all locale/temporary-flag stack displacements. WorldBuilder has the
-// same optimized 2610-byte body and 327-byte cleanup region after address masks.
+// No unresolved ordinary callees remain. The optimized WorldBuilder twin
+// independently confirms retail's complete body and cleanup instruction shape.
+// Measurements, rejected hypotheses and next angles are recorded in
+// reverse/attempt_support/df20-constructor-visibility-20261020/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -87,6 +89,11 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 #define private public
 #include <string>
 #undef private
+// A declaration preserves the verified out-of-line constructor and its alias
+// effects; exposing its body changes the parent's local/temporary allocation.
+namespace _STL {
+template <> _String_base<wchar_t,allocator<wchar_t> >::_String_base(const allocator<wchar_t>&);
+}
 #include <locale>
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
