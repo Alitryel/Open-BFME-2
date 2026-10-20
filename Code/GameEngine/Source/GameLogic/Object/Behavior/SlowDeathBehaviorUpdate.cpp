@@ -351,7 +351,8 @@ public:
 	void rva0028CFB2(const int *clr, const int *set);
 	void rva0028AE6D();
 	Int rva0028B875() const;
-	void rva0028CDEB(const _STL::_Base_bitset<4> *mask, Bool set);
+	// The rowed 0x0028CDEB status-mask setter takes its 128-bit mask by reference.
+	void rva0028CDEB(const class Rva00346BC0 &mask, Bool set);
 	void rva001E431E(const int *mask);
 	__forceinline void clearModelConditionState(ModelConditionFlagType flag)
 	{
@@ -751,7 +752,7 @@ void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
 		obj->clearModelConditionState(MODELCONDITION_BIT37);
 		m_44 = obj->rva0028B875();
 		if (d->m_statusMask._M_is_any())
-			obj->rva0028CDEB(&d->m_statusMask, true);
+			obj->rva0028CDEB(*(const Rva00346BC0 *)&d->m_statusMask, true);
 
 		Drawable *draw = obj->getDrawable();
 		if (d->m_modelConditionMask.rva000B3EB3())
@@ -880,22 +881,10 @@ Int SlowDeathBehavior::getProbabilityModifier(const DamageInfo *damageInfo) cons
 }
 
 // Retail appends both onDie vectors through the ICF-folded 4-byte STLport
-// push_back 0x004DFCB0, rowed under an address-derived element type.
-struct Rva004DFCB0Element
-{
-	unsigned word0;
-	Rva004DFCB0Element &operator=(const Rva004DFCB0Element &b)
-	{
-		if (this != &b)
-			word0 = b.word0;
-		return *this;
-	}
-	bool operator<(const Rva004DFCB0Element &) const;
-	bool operator==(const Rva004DFCB0Element &) const;
-};
+// push_back 0x004DFCB0, rowed as vector<const ModuleData *>::push_back.
 template <class T> inline void sdbPushBack(std::vector<T> &v, const T &x)
 {
-	((std::vector<Rva004DFCB0Element> &)v).push_back((const Rva004DFCB0Element &)x);
+	((std::vector<const ModuleData *> &)v).push_back((const ModuleData *const &)x);
 }
 
 void SlowDeathBehavior::onDie(const DamageInfo *damageInfo)
