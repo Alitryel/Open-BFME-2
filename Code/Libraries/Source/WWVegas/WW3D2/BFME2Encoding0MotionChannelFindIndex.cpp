@@ -4,7 +4,7 @@
 // MotionChannelTimeCoded.cpp). Layout from the factory/ctor units: Count +0xC, Components +0x10,
 // TimeCodes +0x14, Samples +0x18. Retail inlines both searches into the slots and emits them standalone.
 class Quaternion { public: float X, Y, Z, W; };
-class Vector3;
+class Vector3 { public: float X, Y, Z; };
 class ChunkLoadClass;
 void BFME2_Nlerp(Quaternion &, const Quaternion &, const Quaternion &, float);
 class BFME2MotionChannel {
@@ -57,6 +57,39 @@ __forceinline int BFME2Encoding0MotionChannel::FindIndex(unsigned int time, int 
  int index = rva001B2DC4(time);
  if (context) { **context = index; ++*context; }
  return index;
+}
+
+static __forceinline float lerpRatio(float frame, float t0, float t1) { return (frame - t0) / (t1 - t0); }
+static __forceinline float lerpMotion(float a, float b, float t) { return (b - a) * t + a; }
+
+// ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z, retail 0x001B2FEF, 362 bytes:
+// scalar sample at frame, a held key copied, otherwise interpolated between the two bracketing keys.
+void BFME2Encoding0MotionChannel::UnknownSlot3(float frame,float *value,unsigned char **cursor)
+{
+ int index=FindIndex((unsigned int)frame,reinterpret_cast<int**>(cursor));
+ if(index==Count-1 || (TimeCodes[index+1]&0x8000)) {
+  *value=Samples[index*Components];return;
+ }
+ float t0=float(TimeCodes[index]&~0x8000),t1=float(TimeCodes[index+1]&~0x8000);
+ float ratio=(frame-t0)/(t1-t0);
+ float *samples=Samples+index*Components;
+ *value=lerpMotion(samples[0],samples[Components],ratio);
+}
+
+// ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z, retail 0x001B3159, 442 bytes:
+// vector sample at frame (WorldBuilder MotionChannelTimeCoded::GetVector), held keys copied.
+void BFME2Encoding0MotionChannel::UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor)
+{
+ int index = FindIndex((unsigned int)frame, reinterpret_cast<int **>(cursor));
+ if (index == Count - 1 || (TimeCodes[index + 1] & 0x8000)) {
+  float *samples = Samples + index * Components;
+  value->X = samples[0]; value->Y = samples[1]; value->Z = samples[2]; return;
+ }
+ float ratio = lerpRatio(frame, float(TimeCodes[index] & ~0x8000), float(TimeCodes[index + 1] & ~0x8000));
+ float *samples = Samples + index * Components;
+ value->X = lerpMotion(samples[0], samples[Components], ratio);
+ value->Y = lerpMotion(samples[1], samples[Components + 1], ratio);
+ value->Z = lerpMotion(samples[2], samples[Components + 2], ratio);
 }
 
 // ?UnknownSlot5@BFME2Encoding0MotionChannel@@UAEXMPAVQuaternion@@PAPAE@Z, retail 0x001B3313, 376 bytes:
