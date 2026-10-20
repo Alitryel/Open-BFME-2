@@ -1,7 +1,7 @@
 // cl: /O1 /EHsc /MD /DNDEBUG /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata /I. /Ireference/shims/bfmealloc
 // W7-G1 r6: exact. Frame levers: BFME2's DLINK_ITERATOR is {m_cur; 4 unused bytes; member pointer} = 16 B for
 // Team (24 B for Object), driven by the ZH iterate_TeamInstanceList()/done()/cur()/advance() loop shape as in the
-// matched sibling rva002AD93A (PlayerRva002AD93A.cpp); with that iterator the retail frame (this -10, vector -1C,
+// matched sibling onUpgradeCompleted (PlayerRva002AD93A.cpp); with that iterator the retail frame (this -10, vector -1C,
 // iterator -2C, member iterator -44) follows from cl's size-ascending slot ranking. Register roles: an equal-arm on
 // the prototype receiver ((science ? p : p)->iterate...) moves proto to EBX and the contained pointer to EDI.
 // stlport
@@ -15,7 +15,7 @@
 // the +0x54 index, and returns true.
 //
 // Views: the team walk (member-function pointer 0x9C4AF5, +0x334 head) and
-// the DLINK member iterator follow the matched sibling rva002AD9FD in
+// the DLINK member iterator follow the matched sibling onUpgradeRemoved in
 // PlayerRva002AD93A.cpp; the ScienceType find spelling follows the matched
 // hasScience in PlayerHasScience.cpp; the +0x244 contained-object array, the
 // +0x0C holder/AI virtuals (+0x18 provider, +0x1C grant, +0x20 int sink,

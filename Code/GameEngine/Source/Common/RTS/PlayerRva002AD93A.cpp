@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/moduledata /DNDEBUG /MD
 //
-// ?rva002AD93A@Player@@QAEXPBVUpgradeTemplate@@H@Z @ 0x002AD93A 195B
+// ?onUpgradeCompleted@Player@@QAEXPBVUpgradeTemplate@@H@Z @ 0x002AD93A 195B
 //
 // Target evidence: thiscall on Player (ret 8: upgrade template and an int
 // flag). Walks the +0x32C team-prototype list; for each prototype's +0x334
@@ -13,8 +13,9 @@
 // Donor (Zero Hour Player::onUpgradeCompleted): the team walk with Zero
 // Hour's null-team and null-member skips and the checked DLINK_ITERATOR
 // advance; those skips are what give retail's top-tested team loop with the
-// jmp back edge. The name onUpgradeCompleted and the meaning of the int flag
-// are donor inferences, so the row keeps its address name.
+// jmp back edge. Named onUpgradeCompleted: ZH's body, and addUpgrade
+// (0x002AE329) calls it in its complete branch as ZH does. The int flag's
+// meaning is a donor inference.
 
 typedef bool Bool;
 typedef int Int;
@@ -147,8 +148,8 @@ extern Eva *TheEva;
 class Player
 {
 public:
-	void rva002AD93A(const UpgradeTemplate *upgrade, Int x);
-	void rva002AD9FD(const UpgradeTemplate *upgrade, Int x);
+	void onUpgradeCompleted(const UpgradeTemplate *upgrade, Int x);
+	void onUpgradeRemoved(const UpgradeTemplate *upgrade, Int x);
 	Relationship getRelationship(const Team *team) const;
 private:
 	char m_pad00[0x2EC];
@@ -157,7 +158,7 @@ private:
 	PlayerTeamNode *m_playerTeamPrototypes; // +0x32C
 };
 
-void Player::rva002AD93A(const UpgradeTemplate *upgrade, Int x)
+void Player::onUpgradeCompleted(const UpgradeTemplate *upgrade, Int x)
 {
 	for (PlayerTeamNode *it = m_playerTeamPrototypes->m_next; it != m_playerTeamPrototypes; it = it->m_next)
 	{
@@ -193,9 +194,9 @@ void Player::rva002AD93A(const UpgradeTemplate *upgrade, Int x)
 
 // Target: 0x002AD9FD..0x002ADAC3, same list and iterator ABI as above.
 // Calls rowed Object::rva00290D42 with the template; Eva fields +58/+5C/+60.
-// ZH onUpgradeRemoved supplies the semantic lead; the target name stays
-// address-derived because its full donor identity is not independently proven.
-void Player::rva002AD9FD(const UpgradeTemplate *upgrade, Int x)
+// Named onUpgradeRemoved: removeUpgrade (0x002ADAC3) calls it where ZH's
+// removeUpgrade calls onUpgradeRemoved (ZH's own body is empty).
+void Player::onUpgradeRemoved(const UpgradeTemplate *upgrade, Int x)
 {
 	for (PlayerTeamNode *it = m_playerTeamPrototypes->m_next; it != m_playerTeamPrototypes; it = it->m_next)
 	{

@@ -67,7 +67,7 @@ class Player
 {
 public:
 	void rva002ADAC3(const UpgradeTemplate *upgradeTemplate, Int x);
-	void rva002AD9FD(const UpgradeTemplate *upgradeTemplate, Int x);
+	void onUpgradeRemoved(const UpgradeTemplate *upgradeTemplate, Int x);
 	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);	// rowed 0x002AA031 (Rva002AA031Find.cpp)
 
 private:
@@ -82,7 +82,7 @@ void Player::rva002ADAC3(const UpgradeTemplate *upgradeTemplate, Int x)
 {
 	if (upgradeTemplate->getUpgradeType() == 1)
 	{
-		rva002AD9FD(upgradeTemplate, x);
+		onUpgradeRemoved(upgradeTemplate, x);
 		return;
 	}
 
@@ -100,6 +100,6 @@ void Player::rva002ADAC3(const UpgradeTemplate *upgradeTemplate, Int x)
 		m_upgradesCompleted.clear(upgradeTemplate->getUpgradeBit());
 
 		if (upgrade->getStatus() == UPGRADE_STATUS_COMPLETE)
-			rva002AD9FD(upgradeTemplate, x);
+			onUpgradeRemoved(upgradeTemplate, x);
 	}
 }

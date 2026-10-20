@@ -63,7 +63,7 @@ class Player
 {
 public:
 	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
-	void rva002AD93A(const UpgradeTemplate *upgradeTemplate, Int x);
+	void onUpgradeCompleted(const UpgradeTemplate *upgradeTemplate, Int x);
 	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);	// rowed 0x002AA031 (Rva002AA031Find.cpp)
 
 private:
@@ -98,7 +98,7 @@ Upgrade *Player::rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStat
 	{
 		m_upgradesInProgress.clear(newBit);
 		m_upgradesCompleted.set(newBit);
-		rva002AD93A(upgradeTemplate, x);
+		onUpgradeCompleted(upgradeTemplate, x);
 	}
 
 	return u;
