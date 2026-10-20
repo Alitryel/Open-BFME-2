@@ -13,7 +13,12 @@
 // these flags (plus /arch:SSE for the movss/comiss compare); node key at +0x10
 // and count at +4 match the 10-byte family (2 floats + word at +8).
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
+// Match the other live tree provider's throwing game-allocation cleanup.
+void __cdecl Rva00030830FreeAllocation(void *);
+#include <cstdlib>
+#define free Rva00030830FreeAllocation
 #include <set>
+#undef free
 struct Rva00568FE4Key { float x; float y; unsigned short w; unsigned short pad; };
 void __cdecl Rva00568A9DCopy(void *dest, const void *src);
 struct Rva00568FE4Less {
@@ -32,7 +37,6 @@ Rva00568FE4Tree::_Link_type Rva00568FE4Tree::_M_create_node(const Rva00568FE4Tre
   Rva00568A9DCopy(node + 0x10, &value);
   return (Rva00568FE4Tree::_Link_type)node;
 }
-template Rva00568FE4Tree::iterator Rva00568FE4Tree::insert_unique(Rva00568FE4Tree::iterator, const Rva00568FE4Tree::value_type &);
 template Rva00568FE4Tree::iterator Rva00568FE4Tree::insert_equal(const Rva00568FE4Tree::value_type &);
 typedef _STL::multiset<Rva00568FE4Key, Rva00568FE4Less, _STL::allocator<Rva00568FE4Key> > Rva00568FE4Multi;
 template Rva00568FE4Multi::iterator Rva00568FE4Multi::insert(const Rva00568FE4Multi::value_type &);
