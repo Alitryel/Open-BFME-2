@@ -78,15 +78,6 @@ int Rva00507552Get(void)
 // Opaque address-derived name.
 
 
-// ?Rva00336E72Get@@YAHXZ @ 0x00336E72 (6B): returns 0x00736E78.
-// Follows a byte-identical dead twin at 0x336E6C (whole-image refs 0;
-// the linker kept both copies, only this one is used). 6 .rdata refs,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva00336E72Get(void)
-{
-	return 0x00736E78;
-}
-
 // ?Rva0056DD52Get@@YAHXZ @ 0x0056DD52 (6B): returns 0x00DC2884. Opens a
 // contiguous triple (52/58/5E, each B8-6 back to back) after an indirect
 // call + leave/ret. 2 direct E8 callers, Ghidra-6. Opaque name.
