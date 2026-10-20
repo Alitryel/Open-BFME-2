@@ -51,6 +51,12 @@ typedef _STL::pair<const int, BfmePod8> PodMapValue;
 namespace _STL { template <> _Rb_tree_node<PodMapValue> *allocator<_Rb_tree_node<PodMapValue> >::allocate(size_t, const void *) const; }
 typedef _STL::_Rb_tree<int, PodMapValue, _STL::_Select1st<PodMapValue>, _STL::less<int>, _STL::allocator<PodMapValue> > PodMapTree;
 typedef _STL::map<int, BfmePod8, _STL::less<int>, _STL::allocator<PodMapValue> > PodMapTreeMap;
+// Use the bfmealloc header-node constructor selected by the native call.
+// Its 36-byte provider is pinned at 0x0023E863; this malloc unit must not
+// publish its incompatible allocator-base copy.
+template <> _STL::_Rb_tree_base<PodMapValue, _STL::allocator<PodMapValue> >::_Rb_tree_base(const _STL::allocator<PodMapValue> &);
+// The shared tree destructor is supplied by the kept owner.
+template <> PodMapTree::~_Rb_tree();
 template <> PodMapTree::_Link_type PodMapTree::_M_create_node(const PodMapValue &);
 template <> PodMapTree::_Link_type PodMapTree::_M_copy(PodMapTree::_Link_type, PodMapTree::_Link_type);
 template <> _STL::pair<PodMapTree::iterator, bool> PodMapTree::insert_unique(const PodMapValue &);

@@ -26,6 +26,8 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 }
 struct BfmePod8 { int words[2]; };
 typedef _STL::_Rb_tree<int,_STL::pair<const int,BfmePod8>,_STL::_Select1st<_STL::pair<const int,BfmePod8> >,_STL::less<int>,_STL::allocator<_STL::pair<const int,BfmePod8> > > CopyTree;
+// Bind tree cleanup to the shared owner without a competing COMDAT.
+template <> CopyTree::~_Rb_tree();
 class Rva0039F56E:public CopyTree{public:void rva0039F56E();~Rva0039F56E();};
 class TeamPrototype{public:virtual ~TeamPrototype();};
 class TeamFactory{public:void clear();private:char unknown00[0x10];TeamPrototype*m_dummyTeams[40];Rva0039F56E m_prototypes;};
