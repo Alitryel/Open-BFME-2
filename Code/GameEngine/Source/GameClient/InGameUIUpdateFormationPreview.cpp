@@ -156,9 +156,11 @@ public:
  __forceinline const float &operator[](int i) const {return (&X)[i];}
  __forceinline void Set(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
 };
+// Keep these two helpers visible for native inlining, without emitting external
+// copies that compete with the rowed Matrix3D providers.
 class Matrix3D {
 public:
- __forceinline Matrix3D(const Vector3 &axis,float angle) {Set(axis,angle);}
+ __declspec(dllimport) __forceinline Matrix3D(const Vector3 &axis,float angle) {Set(axis,angle);}
  __forceinline void Set(const Vector3 &axis,float angle) {
   float c = cosf(angle);
   float s = sinf(angle);
@@ -186,7 +188,7 @@ public:
  }
  __forceinline Vector4 &operator[](int i) {return Row[i];}
  __forceinline const Vector4 &operator[](int i) const {return Row[i];}
- static __forceinline void Transform_Vector(const Matrix3D &A,const Vector3 &in,Vector3 *out) {
+ static __declspec(dllimport) __forceinline void Transform_Vector(const Matrix3D &A,const Vector3 &in,Vector3 *out) {
   Vector3 tmp;
   Vector3 *v;
   if (out == &in) {
