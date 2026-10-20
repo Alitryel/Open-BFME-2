@@ -424,13 +424,13 @@ public:
 	Bool rva0058D601(NetCommandRef *msg);
 	Int rva0058E57B();
 
-	static NetCommandMsg *rva0058DA7E(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DB4D(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DC1C(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DCEB(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DD89(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DDF2(UnsignedByte *data, Int &readOffset);
-	static NetCommandMsg *rva0058DE5B(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckBothMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckStage1Message(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readAckStage2Message(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readFrameMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readRouterFallbackMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readPlayerLeaveMessage(UnsignedByte *data, Int &readOffset);
+	static NetCommandMsg *readDestroyPlayerMessage(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058DEC5(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058DEF7(UnsignedByte *data, Int &readOffset);
 	static NetCommandMsg *rva0058DF29(UnsignedByte *data, Int &readOffset);
@@ -2347,19 +2347,19 @@ NetCommandRef *NetPacket::ConstructNetCommandMsgFromRawData(UnsignedByte *data, 
 			if (commandType == 4) {
 				msg = readGameMessage(data, readOffset);
 			} else if (commandType == 0) {
-				msg = rva0058DA7E(data, readOffset);
+				msg = readAckBothMessage(data, readOffset);
 			} else if (commandType == 1) {
-				msg = rva0058DB4D(data, readOffset);
+				msg = readAckStage1Message(data, readOffset);
 			} else if (commandType == 2) {
-				msg = rva0058DC1C(data, readOffset);
+				msg = readAckStage2Message(data, readOffset);
 			} else if (commandType == 3) {
-				msg = rva0058DCEB(data, readOffset);
+				msg = readFrameMessage(data, readOffset);
 			} else if (commandType == 23) {
-				msg = rva0058DD89(data, readOffset);
+				msg = readRouterFallbackMessage(data, readOffset);
 			} else if (commandType == 10) {
-				msg = rva0058DDF2(data, readOffset);
+				msg = readPlayerLeaveMessage(data, readOffset);
 			} else if (commandType == 11) {
-				msg = rva0058DE5B(data, readOffset);
+				msg = readDestroyPlayerMessage(data, readOffset);
 			} else if (commandType == 12) {
 				msg = rva0058DEC5(data, readOffset);
 			} else if (commandType == 25) {
@@ -2587,12 +2587,12 @@ void NetPacket::writeGameMessageArgumentToPacket(GameMessageArgumentDataType typ
 	}
 }
 
-// ?rva0058DA7E@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DA7E 207B.
+// ?readAckBothMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DA7E 207B.
 // Static NetAckBoth factory reading word + byte + two dwords from data+offset.
 // Evidence: sibling 0x0058DB4D 207B plus new-0x28 plus rowed
 // ??0NetAckBothCommandMsg@@QAE@XZ 0x004D568F plus triple memcpy plus word
 // setter 0x004D59AC byte setter 0x004D576C plus direct stores to +0x20 +0x24.
-NetCommandMsg *NetPacket::rva0058DA7E(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readAckBothMessage(unsigned char *data, int &readOffset)
 {
 	NetAckBothCommandMsg *msg = new NetAckBothCommandMsg();
 	unsigned int v0 = 0;
@@ -2614,9 +2614,9 @@ NetCommandMsg *NetPacket::rva0058DA7E(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DB4D@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DB4D 207B.
+// ?readAckStage1Message@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DB4D 207B.
 // Static NetAckStage1 factory; rowed ??0NetAckStage1CommandMsg@@QAE@XZ 0x004D56E6.
-NetCommandMsg *NetPacket::rva0058DB4D(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readAckStage1Message(unsigned char *data, int &readOffset)
 {
 	NetAckStage1CommandMsg *msg = new NetAckStage1CommandMsg();
 	unsigned int v0 = 0;
@@ -2638,9 +2638,9 @@ NetCommandMsg *NetPacket::rva0058DB4D(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DC1C@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DC1C 207B.
+// ?readAckStage2Message@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DC1C 207B.
 // Static NetAckStage2 factory; rowed ??0NetAckStage2CommandMsg@@QAE@XZ.
-NetCommandMsg *NetPacket::rva0058DC1C(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readAckStage2Message(unsigned char *data, int &readOffset)
 {
 	NetAckStage2CommandMsg *msg = new NetAckStage2CommandMsg();
 	unsigned int v0 = 0;
@@ -2662,11 +2662,11 @@ NetCommandMsg *NetPacket::rva0058DC1C(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DCEB@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DCEB 158B.
+// ?readFrameMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @0x0058DCEB 158B.
 // Static NetCommandMsg factory reading three 4-byte fields from data+offset.
 // Evidence: unlock lane plus sibling 0x0058E047 plus new-0x28 plus
 // NetFrameCommandMsg ctor 0x004CEEC3 plus triple memcpy-4 direct store to +0x1c +0x20 +0x24.
-NetCommandMsg *NetPacket::rva0058DCEB(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readFrameMessage(unsigned char *data, int &readOffset)
 {
 	NetFrameCommandMsg *msg = new NetFrameCommandMsg();
 	unsigned int v0 = 0;
@@ -2684,12 +2684,12 @@ NetCommandMsg *NetPacket::rva0058DCEB(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DD89@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @ 0x0058DD89 (105B): static
+// ?readRouterFallbackMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z @ 0x0058DD89 (105B): static
 // factory news 0x3C Rva004CEEE8 then reads 8 bytes into local order and calls
 // setPlayerOrder. Evidence: sibling factories 0x0058DCEB and 0x0058E047 plus
 // rowed Rva004CEEE8 0x004CEEE8 plus rowed setPlayerOrder 0x004D577B. Callers
 // 0x00592756 and 0x00594089.
-NetCommandMsg *NetPacket::rva0058DD89(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readRouterFallbackMessage(unsigned char *data, int &readOffset)
 {
 	Rva004CEEE8 *msg = new Rva004CEEE8();
 	int order[8];
@@ -2699,10 +2699,10 @@ NetCommandMsg *NetPacket::rva0058DD89(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DDF2@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DDF2, 105 bytes:
+// ?readPlayerLeaveMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z, retail 0x0058DDF2, 105 bytes:
 // the same 1-byte-flag reader as rva0058E047 constructing the rowed Rva004D5795
 // message (same 0x20 size) instead of Rva004D582B.
-NetCommandMsg *NetPacket::rva0058DDF2(unsigned char *data, int &readOffset)
+NetCommandMsg *NetPacket::readPlayerLeaveMessage(unsigned char *data, int &readOffset)
 {
 	Rva004D5795 *msg = new Rva004D5795();
 	bool flag = false;
@@ -2712,8 +2712,8 @@ NetCommandMsg *NetPacket::rva0058DDF2(unsigned char *data, int &readOffset)
 	return (NetCommandMsg *)msg;
 }
 
-// ?rva0058DE5B@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z 0x0058DE5B (106B).
-NetCommandMsg *NetPacket::rva0058DE5B(UnsignedByte *data, Int &readOffset)
+// ?readDestroyPlayerMessage@NetPacket@@SAPAVNetCommandMsg@@PAEAAH@Z 0x0058DE5B (106B).
+NetCommandMsg *NetPacket::readDestroyPlayerMessage(UnsignedByte *data, Int &readOffset)
 {
 	Rva004D57AE *msg = new Rva004D57AE;
 	UnsignedInt v = 0;
