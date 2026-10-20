@@ -68,7 +68,6 @@ struct ParticleMatrix {__forceinline ParticleMatrix() {} Rva0047A6A9Row16 r[3];v
  r[1].Set(0.0f,1.0f,0.0f,0.0f);
  r[2].Set(0.0f,0.0f,1.0f,0.0f);
 }};
-class Rva001FBCDC {public:~Rva001FBCDC();};
 namespace FXParticleSystem {
 class ParticleSystemInfo :public Snapshot {
 public:
@@ -79,7 +78,7 @@ public:
  AsciiString slaveName;ParticleVec slaveOffset;AsciiString attachedName;unsigned emissionVelocity;
  unsigned char hollow,ground,above,up,windMoving;ParticleRegion uv;unsigned unknown98;
 };
-class ParticleSystemTemplateTail {public:ParticleSystemTemplateTail() throw();~ParticleSystemTemplateTail(){((Rva001FBCDC*)this)->Rva001FBCDC::~Rva001FBCDC();} unsigned data[12];};
+class ParticleSystemTemplateTail {public:ParticleSystemTemplateTail() throw();~ParticleSystemTemplateTail(); unsigned data[12];};
 class ParticleSystemTemplate : public ParticleSystemInfo {
 public:
  BfmeParticleSystemHandle rva001F9CF3(bool)const;
