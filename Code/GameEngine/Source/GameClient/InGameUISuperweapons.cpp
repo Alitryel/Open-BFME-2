@@ -88,6 +88,10 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::si
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_List_base@PAVSuperweaponInfo@@V?$allocator@PAVSuperweaponInfo@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class SuperweaponInfo;
+namespace _STL { template <> _List_base<SuperweaponInfo *,allocator<SuperweaponInfo *> >::~_List_base(); }
 // Suppress this TU's non-retail copy of ?clear@?$_List_base@PAVSuperweaponInfo@@V?$allocator@PAVSuperweaponInfo@@@_STL@@@_STL@@QAE:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class SuperweaponInfo;
