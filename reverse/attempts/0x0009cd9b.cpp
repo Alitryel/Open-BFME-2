@@ -6,7 +6,7 @@
 // rva0009C0EB, the mesh texture assignment, two sun-ray matrix builds with
 // sin/cos, the livingworld.txt atof pass into the DE5E00 globals and the
 // SegmentedLineClass setup. Unrowed 0x9C18A/0x9B28C keep Rva-named methods.
-// cl: /O1 /arch:SSE /G7 /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /O1 /arch:SSE /G7 /MD /EHsc
 // Unrowed data cells (extern-only placeholders; the closers own their names).
 
 // Retail corrections: guarded resources, complete light colors/transforms and unchecked file reads.
@@ -15,8 +15,8 @@
 #define inline static inline
 #include <math.h>
 #undef inline
-#include "../../reference/shims/bfme2_ascii/ascii_string.h"
-#include "../../Code/Libraries/Include/Lib/Coord2D.h"
+#include "ascii_string.h"
+#include "Lib/Coord2D.h"
 extern "C" __declspec(dllimport) void *__cdecl fopen(const char *, const char *);
 extern "C" __declspec(dllimport) char *__cdecl fgets(char *, int, void *);
 extern "C" __declspec(dllimport) double __cdecl atof(const char *);
