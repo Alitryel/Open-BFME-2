@@ -17,6 +17,10 @@ namespace _STL { template <> void vector<BfmeE16,allocator<BfmeE16> >::_M_clear(
 // bfme link decl-only begin
 namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmeE16@@U1@V?$allocator@UBfmeE16@@@_STL@@@_STL@@QAEPAUBf:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeE16;
+namespace _STL { template <> BfmeE16 *_STLP_alloc_proxy<BfmeE16 *, BfmeE16, allocator<BfmeE16> >::allocate(size_t); }
 // Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
