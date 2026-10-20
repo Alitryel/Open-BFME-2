@@ -32,7 +32,7 @@ private:
 	FeNode *m_head14;
 };
 
-FeNode *WaterTracksRenderSystem::rva000FE207(const float *a, const float *b, int c)
+__declspec(noinline) inline FeNode *WaterTracksRenderSystem::rva000FE207(const float *a, const float *b, int c)
 {
 	FeNode *node = m_tail10;
 	while (node != 0)
@@ -53,3 +53,6 @@ FeNode *WaterTracksRenderSystem::rva000FE207(const float *a, const float *b, int
 	}
 	return 0;
 }
+// Select-any: W3DWaterTracks.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva000FE207Find absent-from-retail
+void bfmeAnchorRva000FE207Find(WaterTracksRenderSystem *p) { p->rva000FE207(0, 0, 0); }
