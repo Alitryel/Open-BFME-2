@@ -1,6 +1,8 @@
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.99 date=2026-10-20
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
+// partial score=0.99 date=2026-10-20
+// ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.9 date=2026-10-19
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.86 date=2026-10-15
