@@ -56,6 +56,33 @@ def test_staged_ledger_and_clean_trees_pass(repo):
     assert G.main(["--staged"]) == 0
 
 
+def test_windows_checkout_preserves_byte_bound_compiler_inputs(repo):
+    """A clean autocrlf checkout must satisfy the guard without weakening it."""
+    (repo / ".gitattributes").write_bytes((TOOLS.parent / ".gitattributes").read_bytes())
+    git(repo, "config", "core.autocrlf", "true")
+    git(repo, "config", "core.safecrlf", "false")
+    for path in G.COMPILER_INPUTS:
+        target = repo / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(b"fixture compiler input\nsecond line\n")
+    git(repo, "add", ".gitattributes", *G.COMPILER_INPUTS)
+    git(repo, "commit", "-qm", "compiler inputs")
+    for path in G.COMPILER_INPUTS:
+        (repo / path).unlink()
+    git(repo, "checkout-index", "--all")
+
+    assert G.main(["--staged"]) == 0
+    assert G.main(["--commit", "HEAD"]) == 0
+    for path in G.COMPILER_INPUTS:
+        assert (repo / path).read_bytes() == b"fixture compiler input\nsecond line\n"
+
+    # A real byte edit is still refused even when Git normalizes line endings.
+    target = repo / G.COMPILER_INPUTS[0]
+    target.write_bytes(target.read_bytes().replace(b"\n", b"\r\n"))
+    assert G.main(["--staged"]) == 1
+    assert G.main(["--commit", "HEAD"]) == 1
+
+
 def test_push_refuses_a_ledger_that_is_not_the_pushed_commits(repo):
     head = git(repo, "rev-parse", "HEAD").strip()
     assert G.main(["--commit", head]) == 0

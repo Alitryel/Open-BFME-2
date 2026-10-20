@@ -13,6 +13,15 @@ reverse/attempts/*.cpp -text
 # can make the verification policy disappear before it runs.
 .githooks/* text eol=lf
 
+# ledger_guard compares these compiler decisions to their Git blobs byte for
+# byte. A clean core.autocrlf=true checkout must not rewrite them to CRLF.
+tools/build.py text eol=lf
+tools/flag_defaults.py text eol=lf
+build.sh text eol=lf
+build.cmd text eol=lf
+reverse/retail_inventory/flag_regions.csv text eol=lf
+reverse/flag_overrides.csv text eol=lf
+
 # Append-mostly ledgers written concurrently by many agents. Union merge
 # combines both sides' added lines instead of emitting conflict markers, so
 # parallel row appends never conflict. git's built-in union also brings back
