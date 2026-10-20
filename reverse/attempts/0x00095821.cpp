@@ -1,6 +1,7 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.975 date=2026-10-20
+// partial score=0.98 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
+// partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -505,6 +506,7 @@ static inline void SetU(D3DXMATRIX &m, float x, float y) { m.m[3][1] = y; m.m[3]
 void BfmeB1137::Install_Materials(void) const
 {
 	Rva00094DD3Val wind;
+	D3DXMATRIX scale;
 	if (!g_Va00DB47EC || !TheGlobalWeatherSystem)
 		return;
 
@@ -631,7 +633,6 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX world;
 		D3DXMATRIX scroll;
 		{
-		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
 		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
 		hx = sx * 0.5f;
@@ -789,7 +790,6 @@ void BfmeB1137::Install_Materials(void) const
 
 		D3DXMATRIX scroll;
 		D3DXMatrixTranslation(&scroll, m_4C, m_50, 0.0f);
-		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 0.00078125f, 0.00078125f, 1.0f);
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scale * scroll;
 		DX8Wrapper::SetMatrix(0x10, *reinterpret_cast<D3DXMATRIX *>(&view));
