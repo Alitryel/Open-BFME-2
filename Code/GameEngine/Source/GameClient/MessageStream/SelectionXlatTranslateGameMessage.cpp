@@ -992,6 +992,10 @@ namespace _STL { template <> vector<Object *, allocator<Object *> >::vector(vect
 namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_List_node@PAVDrawable@@@_STL@@@_STL@@QBEXPAU?$_List_node@PAVDr:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Drawable;
+namespace _STL { template <> void allocator<_List_node<Drawable *> >::deallocate(_List_node<Drawable *> *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> bool bitset<116>::test(unsigned int) const; }
