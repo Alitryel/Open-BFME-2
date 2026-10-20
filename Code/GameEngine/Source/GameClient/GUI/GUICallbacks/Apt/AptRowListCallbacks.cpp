@@ -401,42 +401,14 @@ void Rva005105D7::OnRowShown(const char *params)
 	((Rva00575674 *)movie)->rva00575674((Object *)new Rva0050F909(level, AsciiString(AptUtils::SkipLevelN(name.str())), row->m_value0, row->m_value4));
 }
 
-static const char *const s_queries[2] = {"NumOfPlayers", "InSkirmish"};
-
-// Retail 0x005103A3, 528 bytes: binds "_level<n>.<name>_OnRowShown" and
-// "_OnRowHidden" and the "<...>_NumOfPlayers" and "_InSkirmish" queries,
-// then fills the rows. Not yet exact: retail puts the second command's
-// concatenation node 16 bytes deeper and builds the query binding with
-// other registers. It stays here so the vtable, the destructor and the
-// row constructor are emitted.
-// ?Rva005105D7::Rva005105D7 present-unmatched
-#pragma pointers_to_members(full_generality, multiple_inheritance)
-Rva005105D7::Rva005105D7(int level, const AsciiString &name)
-	: Rva0050EA74(level, name),
-	  m_count(0)
-{
-	AsciiString levelName;
-	levelName.format("_level%u.", m_level);
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&Rva005105D7::OnRowShown);
-		m_commandMaps.AddCommandMap(reinterpret_cast<PlusStringText>(static_cast<CharPlusText>(&operator+))(levelName + m_name, "_OnRowShown"), AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&Rva005105D7::OnRowHidden);
-		m_commandMaps.AddCommandMap(reinterpret_cast<PlusStringText>(static_cast<CharPlusText>(&operator+))(levelName + m_name, "_OnRowHidden"), AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
-	}
-	{
-		int i = 0;
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&Rva005105D7::rva0050E823);
-		FunctorBinding binding = MakeBinding(method, reinterpret_cast<FunctorTarget *>(this));
-		AsciiStringPlusString prefix = levelName + m_name;
-		for (; i < 2; ++i)
-		{
-			m_externHandlers.AddExternHandler(prefix + '_' + s_queries[i], i, AptRef<AptExternHandler>(binding));
-		}
-	}
-	rva0050EEDC();
-}
+// The constructor's matched home is AptRowListConstructor.cpp; these anchors keep the rowed
+// implicit destructor and the row constructor emitted in this unit.
+#pragma inline_depth(0)
+// ?bfmeAnchorRva005105D7Dtor absent-from-retail
+void bfmeAnchorRva005105D7Dtor(Rva005105D7 *p) { p->Rva005105D7::~Rva005105D7(); }
+// ?bfmeAnchorAptRowListRow absent-from-retail
+void bfmeAnchorAptRowListRow(AptRowListRow *p) { p->AptRowListRow::AptRowListRow(); }
+#pragma inline_depth()
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")

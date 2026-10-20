@@ -55,34 +55,9 @@ class Rva006D07E0Key
 public:
 	Rva006D07E0Key(Rva006D0280 *p = 0) : m_object(p) { if (p) ++p->m_useCount; }
 	Rva006D07E0Key(const Rva006D07E0Key &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
-	~Rva006D07E0Key()
+	__forceinline Rva006D07E0Key &operator=(const Rva006D07E0Key &o)
 	{
-		if (m_object && dec(&m_object->m_useCount) == 0) {
-			Rva006D0280 *p = m_object;
-			p->~Rva006D0280();
-			g_pChainBlockAllocator->freeBlock(p, 0x1c);
-		}
-	}
-	Rva006D0280 *m_object;
-};
-
-// The loaded-file handle: same counted pointer, under the view whose
-// out-of-line assignment retail calls.
-class BfmeRefVGO
-{
-public:
-	BfmeRefVGO(Rva006D0280 *p) : m_object(p) { if (p) ++p->m_useCount; }
-	~BfmeRefVGO()
-	{
-		Rva006D0280 *p = m_object;
-		if (p && dec(&p->m_useCount) == 0) {
-			p->~Rva006D0280();
-			g_pChainBlockAllocator->freeBlock(p, 0x1c);
-		}
-	}
-	__forceinline BfmeRefVGO &operator=(const Rva006D07E0Key &o)
-	{
-		if ((const void *)&o != this) {
+		if (&o != this) {
 			if (m_object && dec(&m_object->m_useCount) == 0) {
 				Rva006D0280 *p = m_object;
 				p->~Rva006D0280();
@@ -94,6 +69,22 @@ public:
 		}
 		return *this;
 	}
+	~Rva006D07E0Key()
+	{
+		if (m_object && dec(&m_object->m_useCount) == 0) {
+			Rva006D0280 *p = m_object;
+			p->~Rva006D0280();
+			g_pChainBlockAllocator->freeBlock(p, 0x1c);
+		}
+	}
+	Rva006D0280 *m_object;
+};
+
+// The same counted pointer under the view whose out-of-line assignment retail
+// calls on the loaded-file key.
+class BfmeRefVGO
+{
+public:
 	BfmeRefVGO &bfmeAssignVGO(const BfmeRefVGO &);
 	Rva006D0280 *m_object;
 };
@@ -367,7 +358,7 @@ protected:
 		return end();
 	}
 	__forceinline void erase(Iter &it) { ((BfmeListVMU *)this)->bfmeEraseVMU(&it.node); }
-	__forceinline void add(const BfmeRefVGO &file, AptCIH *target)
+	__forceinline void add(const Rva006D07E0Key &file, AptCIH *target)
 	{
 		Rva006D0790Ref link(new Rva006D0790(Rva006D07E0Key(file.m_object), target));
 		((Rva006D15B0Stack *)this)->rva006D15B0((int *const *)&link);
@@ -388,11 +379,11 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 			if (i != j)
 				CHECK(i->entry->GetTarget() != j->entry->GetTarget(), "(*i)->GetTarget() != (*j)->GetTarget()", APTLOAD_CPP, 0x262);
 
-	BfmeRefVGO loaded(0);
+	Rva006D07E0Key loaded; // retail unwinds it through the key destructor at 0x000A9DF3
 	if (!file.isEmpty()) {
 		loaded = ((Rva006D0A30List *)g_rva00893030Manager)->findSpecial(&file);
 		if (!loaded.m_object)
-			loaded.bfmeAssignVGO((const BfmeRefVGO &)((Rva006D0A30List *)g_rva00893030Manager)->rva006D0B40(file));
+			((BfmeRefVGO &)loaded).bfmeAssignVGO((const BfmeRefVGO &)((Rva006D0A30List *)g_rva00893030Manager)->rva006D0B40(file));
 		else
 			rva006D1450(Rva006D07E0Key(loaded.m_object));
 	}
