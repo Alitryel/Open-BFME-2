@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.9994 date=2026-10-20
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.9988 date=2026-10-20
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.8796 date=2026-10-20
@@ -369,8 +371,8 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                 float right=sentence_data[0].screen_right;
                 for (int i=1;;++i) {
                     if (i>=count || sentence_data[i].screen_top!=top) {
-                        double width=active->Get_Extra_Overlap()*0.5f+right-left;
-                        float shift=(float)floor((extent.X-width)*0.5f-left+0.5f);
+                        float width=(active->Get_Extra_Overlap()*0.5f+right)-left;
+                        float shift=(float)floor((double)((extent.X-width)*0.5f-left)+0.5f);
                         for (int j=start;j<i;++j) {
                             sentence_data[j].screen_left=sentence_data[j].screen_left+shift;
                             sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
