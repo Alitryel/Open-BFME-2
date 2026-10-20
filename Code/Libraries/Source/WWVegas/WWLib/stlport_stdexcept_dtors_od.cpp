@@ -16,7 +16,13 @@
 namespace _STL
 {
 
-// __Named_exception::~__Named_exception: defined in stlport_stdexcept_dtors.cpp (its row's unit).
+// Shared base destructor: retail uses the unoptimised body folded with
+// std::bad_alloc at 0x00023850. Keep the /O2 deleting wrappers external to it.
+// ?__Named_exception::~__Named_exception present-unmatched
+__Named_exception::~__Named_exception() _STLP_NOTHROW_INHERENTLY
+{
+}
+
 
 const char *__Named_exception::what() const _STLP_NOTHROW_INHERENTLY
 {

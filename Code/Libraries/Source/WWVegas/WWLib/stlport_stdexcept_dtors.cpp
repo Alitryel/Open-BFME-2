@@ -31,10 +31,8 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL
 {
 
-// ?__Named_exception::~__Named_exception present-unmatched
-__Named_exception::~__Named_exception() _STLP_NOTHROW_INHERENTLY
-{
-}
+// The shared base destructor is defined with its retail /Od settings in
+// stlport_stdexcept_dtors_od.cpp.
 
 logic_error::~logic_error() _STLP_NOTHROW_INHERENTLY
 {
