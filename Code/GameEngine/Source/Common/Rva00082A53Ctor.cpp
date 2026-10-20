@@ -38,6 +38,8 @@ namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_i
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 struct BfmePod44 { int a[11]; };
+// Use the rowed reserve owner at 0x00081A75 and its no-EH copy helper.
+namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::reserve(size_t); }
 struct BfmeWordVec : _STL::vector<unsigned short, _STL::allocator<unsigned short> >
 {
 	void resize(unsigned int n, unsigned short x);
@@ -78,10 +80,11 @@ Rva00082A53::Rva00082A53(int a1, int a2, int a3, float a4, int *a5, int a6)
 // Target82E33..82EB8 and WB740340 establish cached vertex lookup/append.
 // Existing constructor proves cells04/dim10/records18/origin24/spacing30.
 // Original nested class name remains a donor lead; neutral owner retained.
-class Rva0008026B
+struct Rva0008026BWaveInfo;
+class Rva0008026BStandingWaveQuery
 {
 public:
-    void rva0008026B(BfmePod44 *record);
+    void rva0008026B(Rva0008026BWaveInfo *record);
 };
 
 typedef _STL::vector<BfmePod44, _STL::allocator<BfmePod44> > BfmePod44Vector;
@@ -101,7 +104,7 @@ unsigned short Rva00082A53::rva00082E33(int x, int y)
         *(float *)((char *)record + 0) = (float)x * m_val30 + *(float *)((char *)this + 0x24);
         *(float *)((char *)record + 4) = (float)y * m_val30 + *(float *)((char *)this + 0x28);
         record->a[2] = m_data2C;
-        ((Rva0008026B *)m_unk00)->rva0008026B(record);
+        ((Rva0008026BStandingWaveQuery *)m_unk00)->rva0008026B((Rva0008026BWaveInfo *)record);
     }
     return *cell;
 }
