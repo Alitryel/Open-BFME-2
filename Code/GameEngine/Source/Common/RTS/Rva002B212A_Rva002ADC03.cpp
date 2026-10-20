@@ -19,6 +19,10 @@
 #include "ascii_string.h"
 #include <vector>
 #include <list>
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class LocomotorTemplate;
+namespace _STL { template <> _Vector_base<LocomotorTemplate const *,allocator<LocomotorTemplate const *> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVLocomotorTemplate@@@_STL@@QBEXPAPBVLocomotorTemplate@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class LocomotorTemplate;
