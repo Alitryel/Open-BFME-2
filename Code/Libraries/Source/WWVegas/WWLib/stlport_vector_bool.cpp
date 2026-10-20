@@ -4,6 +4,8 @@
 // Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members take the optimize state of their definition.
 #pragma optimize("s", on)
 #include <vector>
+// Bind the vector destructor to its kept provider, as for the base below.
+namespace _STL { template <> vector<bool, allocator<bool> >::~vector(); }
 // bfme link decl-only begin
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> __copy<_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, int>(_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, random_access_iterator_tag const &, int *); }
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> __copy<_Bit_iter<bool, bool const *>, _Bit_iter<_Bit_reference, _Bit_reference *>, int>(_Bit_iter<bool, bool const *>, _Bit_iter<bool, bool const *>, _Bit_iter<_Bit_reference, _Bit_reference *>, random_access_iterator_tag const &, int *); }

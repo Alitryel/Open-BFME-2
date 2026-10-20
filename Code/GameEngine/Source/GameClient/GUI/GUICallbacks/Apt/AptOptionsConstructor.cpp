@@ -37,6 +37,8 @@
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// Bind the vector destructor to its kept provider, as for the base below.
+namespace _STL { template <> vector<bool, allocator<bool> >::~vector(); }
 // bfme link decl-only begin
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
 namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
