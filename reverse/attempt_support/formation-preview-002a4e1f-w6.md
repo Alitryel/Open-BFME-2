@@ -46,3 +46,33 @@ and stores `fstp [ebp-0x20]` after the pops; hash `mov edx,ecx` register choice;
 (`fstp [ebp-0x28]` just before `movss xmm2`) where ours stores right after the call; preview-loop iterator held in esi
 (`mov esi,[it]; add esi,0xc; cmp; mov [it],esi`) where ours does `add [it],0xc`; side/unit scheduling around +0x5e3;
 arrows[1]->decal loads at +0x767; frame 0x74 vs 0x78.
+
+## Round s (claude-opus-5-5, 2026-10-20): 24 -> 4 regions (ours 2459 B vs 2462)
+
+Levers that helped:
+- The facing helper `InGameUI::rva0029D9F9` (0x29D9F9) is now matched in
+  `Code/GameEngine/Source/GameClient/InGameUIFormationFinalize.cpp`. With its real body in the same TU as
+  this function (instead of an opaque declaration), the facing copy, its squared length and the
+  angle temp keep retail's homes: in-TU mod/ref lets `facing` stay non-escaped.
+- The WB twin's MathCoord2D inlines spelled as members of a TU-local `struct C2 : Coord2D` view
+  (`GetLengthSqrd` = `sqr(y)+x*x`, `GetLength` with `<math.h>` sqrt, `Normalize` via `inv=1.0f/len`,
+  `Scale`, `Add`, `Set`), with `C2R(v)`/`C2C(v)` casts at every WB member call site, unit and side included.
+- `ObjectID` enum for `IdNode::id` and `Placement32::object` gives the ledger's real
+  `findObjectByID(ObjectID)` mangling (no codegen change).
+
+Remaining residue (both register/slot tie-breaks, all calls and relocations agree):
+1. Hash: retail `mov edx,ecx; xor edx,eax; push ecx; mov ecx,[TheGameLogic]; mov edi,edx`, ours
+   `xor eax,ecx; ...; mov edi,eax`.
+2. Transform-loop iterator: retail homes it in [ebp-0x20] (packed with the dead `angle+pi/2` Matrix3D
+   temp), enters with `mov esi,eax` and increments in a register at the latch
+   (`mov esi,[ebp-0x20]; add esi,0xc; cmp esi,[ebx+0x5a4]; mov [ebp-0x20],esi`). Ours homes it in
+   [ebp-0x14], reloads `mov esi,[ebp-0x14]` at the top and does `add [ebp-0x14],0xc; mov eax,..; cmp eax`.
+
+Disproven this round (do not repeat): ObjectID-typed hash with three hash spellings (n52-n54);
+a named `rot` local for the Matrix3D angle (n55); the iterator declared before the matrix (n56);
+a while loop with `++it` at the end (n57). The hash forms of rounds n18-n27 and n39-n50 (commutation,
+association, temps, a hashStep helper, unsigned/int types, the shift split) were all inert at st=4.
+
+Bank: `reverse/attempts/0x002a4e1f.cpp` = `build/fp/n52.cpp`. Landing needs a home TU where the
+0x29D9F9 body is visible (InGameUIFormationFinalize.cpp, or move both to the destination unit);
+`tools/repair_queue.py dest 0x2A4E1F` proposes InGameUISuperweapons.cpp / InGameUI.cpp.

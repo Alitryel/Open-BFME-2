@@ -1,5 +1,5 @@
 // ?updateFormationPreview@InGameUI@@QAEXXZ
-// partial score=0.84 date=2026-10-19
+// partial score=0.97 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // stlport
 // Native 002A4E1F..002A57BD and WB 00DC0B00 establish the complete preview flow.
@@ -15,17 +15,18 @@
 #include <list>
 #include <vector>
 #include <string>
-extern "C" double __cdecl sqrt(double);
-extern "C" double __cdecl cos(double);
-extern "C" double __cdecl sin(double);
+#include <math.h>
 
 class Thing { public: void setOrientation(float); };
 class Drawable {
 public:
  void setPosition(const Coord3D *);
- char prefix[0xB0]; float opacity;
+ char prefix[0xB0]; float opacity; char gapB4[0xFC-0xB4]; class Object *object;
+ class Object *getObject() const {return object;}
 };
-struct ShadowView { char prefix[8]; Coord3D position; char gap14[12]; float angle; char gap24[0x58-0x24]; float width,height; };
+struct ShadowView { char prefix[8]; Coord3D position; char gap14[12]; float angle; char gap24[0x58-0x24]; float width,height;
+ __forceinline Coord2D getSize() const {return Coord2D(width,height);}
+ __forceinline void setSize(float w,float h) {width=w;height=h;} };
 class Rva0029A469 {
 public:
  ShadowView *shadow;
@@ -34,14 +35,15 @@ public:
  __forceinline float height() const { return shadow?shadow->height:0.0f; }
  void setPosition(const Coord3D &p) { if(shadow)shadow->position=p; }
  void setOrientation(float a) { if(shadow)shadow->angle=a; }
- void setWidth(float w) { if(shadow){Coord2D size(w,shadow->height);shadow->width=size.x;shadow->height=size.y;} }
+ void setWidth(float w) { if(shadow)shadow->setSize(w,shadow->height); }
 };
 class ThingTemplate {public: char prefix[0x18]; float width;};
-class Object {public:char prefix[0x438];unsigned char flags;};
+class Object {public:char p0[0x38];Coord3D position;char prefix[0x438-0x44];unsigned char flags; const Coord3D *getPosition() const {return &position;}};
 class Player {public:char prefix[0x280];int color;};
 class PlayerList {public:char prefix[0x10];Player *localPlayer;};
 extern PlayerList *ThePlayerList;
-class GameLogic {public:Object *findObjectByID(int);};
+enum ObjectID {INVALID_ID=0,FORCE_OBJECT_ID_TO_LONG_SIZE=0x7ffffff};
+class GameLogic {public:Object *findObjectByID(ObjectID);};
 extern GameLogic *TheGameLogic;
 template<int N>class PreviewSlots:public PreviewSlots<N-1>{public:virtual void slot(char(*)[N]);};
 template<>class PreviewSlots<0>{};
@@ -49,7 +51,7 @@ class GameClient:public PreviewSlots<31>{public:virtual unsigned getFrame();};
 extern GameClient *TheGameClient;
 extern int BfmeClientFramesPerSecond;
 
-struct IdNode {IdNode *next,*prev;int id;};
+struct IdNode {IdNode *next,*prev;ObjectID id;};
 class Rva0029FB3BMember {public: IdNode *head; void *init(void *);};
 class PoolMember {public:void Rva00268902() throw();};
 class Rva001EB984Member {public:void *init(void *);};
@@ -71,7 +73,7 @@ public:
 };
 struct Rva00422544List;
 class Rva004233F5 {public:int rva004233F5(Rva00422544List*,float);};
-struct Placement32 {ThingTemplate **type;int object;char gap8[8];ICoord2D position;char tail[8];};
+struct Placement32 {ThingTemplate **type;ObjectID object;char gap8[8];ICoord2D position;char tail[8];};
 class Formation {public:Placement32 *first,*last,*limit;};
 class FormationAssistant {
 public:
@@ -82,10 +84,34 @@ public:
 class Rva0022AD10Subsystem;
 extern Rva0022AD10Subsystem *TheFormationAssistant;
 class Rva00423FBDThis {public:void Delete(_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >*);};
+struct DrawableListNode {DrawableListNode *m_next;DrawableListNode *m_prev;Drawable *m_drawable;};
+class DrawableList {public:DrawableListNode *m_head;};
 class InGameUI : public PreviewSlots<51> {
 public:
  class FormationPreviewPoolObject;
  virtual bool formationMode();
+ virtual void slot52();
+ virtual void slot53();
+ virtual void slot54();
+ virtual void slot55();
+ virtual void slot56();
+ virtual void slot57();
+ virtual void slot58();
+ virtual void slot59();
+ virtual void slot60();
+ virtual void slot61();
+ virtual void slot62();
+ virtual void slot63();
+ virtual void slot64();
+ virtual void slot65();
+ virtual void slot66();
+ virtual void slot67();
+ virtual void slot68();
+ virtual void slot69();
+ virtual void slot70();
+ virtual void slot71();
+ virtual void slot72();
+ virtual const DrawableList *getAllSelectedDrawables();
  Coord2D rva0029D9F9();
  void updateFormationPreview();
 private:
@@ -104,33 +130,124 @@ public:
 };
 struct BfmeE12 {int id;float key,z;};
 namespace _STL {template<> void vector<BfmeE12>::reserve(unsigned);}
-static __forceinline float lengthSq(const Coord2D &p){return p.x*p.x+p.y*p.y;}
-static __forceinline float length(const Coord2D &p){return (float)sqrt(lengthSq(p));}
-static __forceinline void normalize(Coord2D &p){float inv=1.0f/length(p);p.x*=inv;p.y*=inv;}
-static __forceinline void scale(Coord2D &p,float s){p.x*=s;p.y*=s;}
-struct PreviewMatrix {
- float row[3][4];
- __forceinline PreviewMatrix(float angle) {
-  float c=(float)cos(angle),s=(float)sin(angle);
-  float x=0.0f,y=0.0f,z=1.0f;
-  row[0][0]=x*x+(1.0f-x*x)*c;
-  row[0][1]=x*y*(1.0f-c)-s*z;
-  row[0][2]=z*x*(1.0f-c)+s*y;
-  row[0][3]=0.0f;
-  row[1][0]=x*y*(1.0f-c)+s*z;
-  row[1][1]=y*y+(1.0f-y*y)*c;
-  row[1][2]=y*z*(1.0f-c)-s*x;
-  row[1][3]=0.0f;
-  row[2][0]=z*x*(1.0f-c)-s*y;
-  row[2][1]=y*z*(1.0f-c)+s*x;
-  row[2][2]=z*z+(1.0f-z*z)*c;
-  row[2][3]=0.0f;
- }
- void transform(float x,float y,float &outX,float &outY)const {
-  outX=row[0][0]*x+row[0][1]*y+row[0][2]*0.0f+row[0][3];
-  outY=row[1][0]*x+row[1][1]*y+row[1][2]*0.0f+row[1][3];
- }
+static __forceinline float sqr(float v){return v*v;}
+struct C2 : Coord2D {
+ __forceinline float GetLengthSqrd() const {return sqr(y)+x*x;}
+ __forceinline float GetLength() const {return sqrt(sqr(y)+x*x);}
+ __forceinline void Normalize() {float len=GetLength();float inv=1.0f/len;x*=inv;y*=inv;}
+ __forceinline C2 &operator*=(float s) {x*=s;y*=s;return *this;}
+ __forceinline void Scale(float s) {x*=s;y*=s;}
+ __forceinline void Add(const Coord2D &o) {x+=o.x;y+=o.y;}
+ __forceinline void Set(float ax,float ay) {x=ax;y=ay;}
 };
+#define C2R(v) static_cast<C2&>(v)
+#define C2C(v) static_cast<const C2&>(v)
+class Vector3 {
+public:
+ float X,Y,Z;
+ __forceinline Vector3() {}
+ __forceinline Vector3(float x,float y,float z) {X=x;Y=y;Z=z;}
+ __forceinline float &operator[](int i) {return (&X)[i];}
+ __forceinline const float &operator[](int i) const {return (&X)[i];}
+};
+class Vector4 {
+public:
+ float X,Y,Z,W;
+ __forceinline float &operator[](int i) {return (&X)[i];}
+ __forceinline const float &operator[](int i) const {return (&X)[i];}
+ __forceinline void Set(float x,float y,float z,float w) {X=x;Y=y;Z=z;W=w;}
+};
+class Matrix3D {
+public:
+ __forceinline Matrix3D(const Vector3 &axis,float angle) {Set(axis,angle);}
+ __forceinline void Set(const Vector3 &axis,float angle) {
+  float c = cosf(angle);
+  float s = sinf(angle);
+  Set(axis,s,c);
+ }
+ __forceinline void Set(const Vector3 &axis,float s,float c) {
+  Row[0].Set(
+   (float)(axis[0]*axis[0] + c*(1.0f - axis[0]*axis[0])),
+   (float)(axis[0]*axis[1]*(1.0f - c) - axis[2]*s),
+   (float)(axis[2]*axis[0]*(1.0f - c) + axis[1]*s),
+   0.0f
+  );
+  Row[1].Set(
+   (float)(axis[0]*axis[1]*(1.0f - c) + axis[2]*s),
+   (float)(axis[1]*axis[1] + c*(1.0f - axis[1]*axis[1])),
+   (float)(axis[1]*axis[2]*(1.0f - c) - axis[0]*s),
+   0.0f
+  );
+  Row[2].Set(
+   (float)(axis[2]*axis[0]*(1.0f - c) - axis[1]*s),
+   (float)(axis[1]*axis[2]*(1.0f - c) + axis[0]*s),
+   (float)(axis[2]*axis[2] + c*(1 - axis[2]*axis[2])),
+   0.0f
+  );
+ }
+ __forceinline Vector4 &operator[](int i) {return Row[i];}
+ __forceinline const Vector4 &operator[](int i) const {return Row[i];}
+ static __forceinline void Transform_Vector(const Matrix3D &A,const Vector3 &in,Vector3 *out) {
+  Vector3 tmp;
+  Vector3 *v;
+  if (out == &in) {
+   tmp = in;
+   v = &tmp;
+  } else {
+   v = (Vector3 *)&in;
+  }
+  out->X = (A[0][0] * v->X + A[0][1] * v->Y + A[0][2] * v->Z + A[0][3]);
+  out->Y = (A[1][0] * v->X + A[1][1] * v->Y + A[1][2] * v->Z + A[1][3]);
+  out->Z = (A[2][0] * v->X + A[2][1] * v->Y + A[2][2] * v->Z + A[2][3]);
+ }
+private:
+ Vector4 Row[3];
+};
+
+float ACos(float value);
+inline float Coord2D::length() const { return (float)sqrt(x*x+y*y); }
+inline float Coord2D::toAngle() const
+{
+    float len = length();
+    if (len == 0.0f) {
+        return 0.0f;
+    }
+    const float raw = x / len;
+    float cosine;
+    if (raw < -1.0f) {
+        cosine = -1.0f;
+    } else if (raw > 1.0f) {
+        cosine = 1.0f;
+    } else {
+        cosine = raw;
+    }
+    if (y < 0.0f) {
+        return -ACos(cosine);
+    }
+    return ACos(cosine);
+}
+Coord2D InGameUI::rva0029D9F9() {
+ Coord2D dir(end.x-start.x,end.y-start.y);
+ if(C2R(dir).GetLengthSqrd()<reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold*reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold) {
+  if(directionValid)return direction;
+  C2R(dir).Set(0.0f,0.0f);
+  const DrawableList *list=getAllSelectedDrawables();
+  for(DrawableListNode *node=list->m_head->m_next;node!=list->m_head;node=node->m_next) {
+   Object *obj=node->m_drawable->getObject();
+   if(obj) {
+    const Coord3D *pos=obj->getPosition();
+    Coord2D delta(start.x-pos->x,start.y-pos->y);
+    C2R(dir).Add(delta);
+   }
+  }
+  C2R(dir).Normalize();
+  C2R(dir).Scale(reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold/2.0f);
+ } else {
+  directionValid=true;
+ }
+ direction=dir;
+ return dir;
+}
 
 void InGameUI::updateFormationPreview() {
  Rva002A3DD3 *owner=reinterpret_cast<Rva002A3DD3*>(this);
@@ -153,8 +270,8 @@ void InGameUI::updateFormationPreview() {
   return;
  }
  const Coord2D facing=rva0029D9F9();
- float facingSq=lengthSq(facing);
- float distance=length(facing);
+ float facingSq=C2C(facing).GetLengthSqrd();
+ float distance=C2C(facing).GetLength();
 
  if(!active && facingSq<reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold*reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->threshold) {
   float delay=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->delay;
@@ -168,7 +285,7 @@ void InGameUI::updateFormationPreview() {
  ObjectList objects(allocator);
  int hash=0;
  for(IdNode *it=ids.head->next;it!=ids.head;it=it->next) {
-  int id=it->id;
+  ObjectID id=it->id;
   unsigned hi=hash&0xF8000000;hash=(hash<<5)^(hi>>27)^id;
   Object *obj=TheGameLogic->findObjectByID(id);
   if(obj && !(obj->flags&1))objects.push_back(obj);
@@ -191,10 +308,12 @@ void InGameUI::updateFormationPreview() {
  }
  if((unsigned)(last-first)>0) {
   float angle=facing.toAngle();
-  PreviewMatrix matrix(angle+1.5707964f);
+  Matrix3D matrix(Vector3(0.0f,0.0f,1.0f),angle+1.5707964f);
   for(BfmeE12View *it=first;it!=last;++it) {
-   float fy=(float)it->y,fx=(float)it->x;float x,y;matrix.transform(fx,fy,x,y);
-   Coord3D pos;pos.x=x;pos.y=y;pos.z=0.0f;pos.x+=start.x;pos.y+=start.y;pos.z=start.z;
+   Vector3 in((float)it->x,(float)it->y,0.0f);
+   Vector3 out;
+   Matrix3D::Transform_Vector(matrix,in,&out);
+   Coord3D pos;pos.x=out.X+start.x;pos.y=out.Y+start.y;pos.z=start.z;
    Drawable *d=it->pool?it->pool->drawable:0;
    if(d){d->setPosition(&pos);reinterpret_cast<Thing*>(d)->setOrientation(angle);}
    Rva0029A469 *decal=it->pool?it->pool->decal:0;
@@ -208,11 +327,9 @@ void InGameUI::updateFormationPreview() {
   float arrowWidth=0.0f,lineWidth=0.0f;
   if(arrows[2] && arrows[2]->decal)arrowWidth=arrows[2]->decal->width();
   if(arrows[1] && arrows[1]->decal)lineWidth=reinterpret_cast<FormationAssistant*>(TheFormationAssistant)->templates[1]->width;
-  float unitInverse=1.0f/(float)sqrt((double)facingSq);Coord2D unit(facing.x*unitInverse,facing.y*unitInverse);
-  Coord2D side;side.x=-facing.y;side.y=facing.x;
-  float minimum=(lineWidth+arrowWidth)*0.5f;
-  float sideSq=lengthSq(side);
-  if((float)sqrt((double)sideSq)<minimum){float inverse=1.0f/(float)sqrt((double)sideSq);side.x*=inverse;side.y*=inverse;scale(side,minimum);}
+  Coord2D unit(facing);C2R(unit).Normalize();
+  Coord2D side(-facing.y,facing.x);
+  if(C2R(side).GetLength()<arrowWidth/2.0f+lineWidth/2.0f){C2R(side).Normalize();C2R(side)*=lineWidth/2.0f+arrowWidth/2.0f;}
   float offset=30.0f,frontOffset=30.0f;
   if(arrows[1]) {
    offset=arrows[1]->decal->height()*0.5f+30.0f;
@@ -221,13 +338,13 @@ void InGameUI::updateFormationPreview() {
    if(decal) {
     Coord3D pos={start.x+offset*unit.x,start.y+offset*unit.y,start.z};
     decal->setPosition(pos);decal->setOrientation(angle-1.5707964f);
-    float width=length(side)*2.0f-arrowWidth;
+    float width=C2R(side).GetLength()*2.0f-arrowWidth;
     decal->setWidth(width);
    }
   }
   Coord2D tip(side);
-  float tipLength=length(tip)-10.0f;
-  normalize(tip);scale(tip,tipLength);
+  float tipLength=C2R(tip).GetLength()-10.0f;
+  C2R(tip).Normalize();C2R(tip)*=tipLength;
   if(arrows[2] && arrows[2]->decal) {
    Rva0029A469 *decal=arrows[2]->decal;
    Coord3D pos={start.x+offset*unit.x+tip.x,start.y+offset*unit.y+tip.y,start.z};

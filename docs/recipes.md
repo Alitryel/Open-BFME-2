@@ -81,6 +81,13 @@ draft and `next_work.py` serves `wpo` candidates last.
   view keeps two x87/SSE schedule swaps. An early-return inline setter
   (`if (test(bit)) return; set(bit);`) gives retail's byte-narrowed
   `test/or byte`. AIUpdateInterface::quickHordeUpdate 0x0026C4EB.
+- **Coord2D the same way: a TU-local `struct C2 : Coord2D` view.** Spell the
+  WB twin's MathCoord2D inlines as C2 members (`GetLengthSqrd` = `sqr(y) +
+  x*x`, `GetLength` through `<math.h>` sqrt, `Normalize` with `inv =
+  1.0f/len`, `Scale`, `Add`, `Set`). Free static helpers with the same
+  arithmetic left an XMM-role permutation that 90 trials could not move.
+  Include `Lib/Coord2DCtorView.h`: its user copy ctor gives the cached
+  `fld/fstp` + `mov` copy. InGameUI::rva0029D9F9 0x0029D9F9.
 - **Vector3::Rotate_Z(angle) as WWMath's nested `sinf`/`cosf`.** When the
   cos result's `fstp [c]; movss xmm, [c]` sits after independent SSE loads
   in retail but straight after `call cos` in ours, spell the angle overload
@@ -224,6 +231,13 @@ cl 7.1 emits each inline function the unit uses.
   wrap only the class definition and admit the two lines with
   `tools/hatch_counters.py --admit`. Use it only for COMDATs with no retail
   address. 0x00104359.
+- **`duplicate` for a header-inline member: make the strong body `inline`.**
+  When one unit defines a member out of line (`Coord2D::Coord2D(float,
+  float)` in coord2d.cpp) and a header gives the same member in-class, the
+  strong definition and the select-any COMDAT collide. Mark the strong one
+  `inline` and keep it emitted from an anchor function compiled under
+  `#pragma inline_depth(0)`. InGameUIFormationFinalize.cpp went from 0 to 688
+  linked bytes. 0x0029D9F9.
 
 ## Stack-slot packing: what does not explain it
 
