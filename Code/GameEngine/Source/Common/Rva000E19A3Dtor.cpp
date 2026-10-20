@@ -133,7 +133,6 @@ public:
 
 struct TreeHintRef00217D4C : public Rva00080221
 {
-	explicit TreeHintRef00217D4C(const Rva000E19A3Callback *callback);
  __forceinline TreeHintRef00217D4C(Rva000E19A3Callback callback) : Rva00080221((const int *)&callback) {}
 
 
@@ -252,7 +251,8 @@ public:
 	TerrainFXShaderParameterSourceNamespace();
 	virtual ~TerrainFXShaderParameterSourceNamespace();
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-	virtual void setRenderingMode(int mode);
+	// Retail folds this body with GameSlot::setTeamNumber at 0x002E6A93 (vtable 0x00BCE50C slot 0).
+	virtual void setRenderingMode(int mode) { m_1C = mode; }
 	virtual void setBaseTexture(RefCountPtr<TextureClass> texture);
 	virtual void setNormalTexture(RefCountPtr<TextureClass> texture);
 	virtual void clearTextures();
@@ -336,14 +336,10 @@ void TerrainFXShaderParameterSourceNamespace::SourceNamespace_Cloud::ResolveBind
 	{
 		Rva001530E9Path path;
 		Rva001530E9Parse(name, &path);
-		Rva000E19A3Callback callback;
 		if (_strcmpi(path.m_name, "Texture") == 0)
-			callback = Rva000E2B00CloudTexture;
+			registry->AddBinding(Rva000E2B00CloudTexture, handle);
 		else if (_strcmpi(path.m_name, "ScaleUV_OffsetPerSecondUV") == 0)
-			callback = Rva000E2BEEScaleUVOffsetPerSecondUV;
-		else
-			return;
-		registry->AddBinding(TreeHintRef00217D4C(&callback), handle);
+			registry->AddBinding(Rva000E2BEEScaleUVOffsetPerSecondUV, handle);
 	}
 }
 
@@ -354,14 +350,10 @@ void TerrainFXShaderParameterSourceNamespace::SourceNamespace_Weather::ResolveBi
 	{
 		Rva001530E9Path path;
 		Rva001530E9Parse(name, &path);
-		Rva000E19A3Callback callback;
 		if (_strcmpi(path.m_name, "DarkeningColor") == 0)
-			callback = Rva000E2D26Vector;
+			registry->AddBinding(Rva000E2D26Vector, handle);
 		else if (_strcmpi(path.m_name, "LightningColor") == 0)
-			callback = Rva000E2DA4Level;
-		else
-			return;
-		registry->AddBinding(TreeHintRef00217D4C(&callback), handle);
+			registry->AddBinding(Rva000E2DA4Level, handle);
 	}
 }
 
