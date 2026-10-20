@@ -154,6 +154,7 @@ namespace _STL {
 template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &);
 template <> BfmePod172 *__uninitialized_copy<BfmePod172 *, BfmePod172 *>(BfmePod172 *, BfmePod172 *, BfmePod172 *, const __false_type &);
 template <> BfmePod172 *__uninitialized_fill_n<BfmePod172 *, unsigned int, BfmePod172>(BfmePod172 *, unsigned int, const BfmePod172 &, const __false_type &);
+template <> void vector<BfmePod172, allocator<BfmePod172> >::push_back(const BfmePod172 &);
 }
 namespace _STL { template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *); }
 struct Rva001EB8A4Elem;

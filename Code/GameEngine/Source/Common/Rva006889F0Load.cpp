@@ -7,14 +7,11 @@
 #include <string.h>
 #include "string_base.h"
 // Visible original StringBase C-string setter: receiver is computed before
-// its inlined nullable strlen, as it is in the native calling sequence.
-template <> __forceinline void StringBase<char>::set(const char *text) {
+// its inlined nullable strlen. Import-inline: expanded here, no copy emitted.
+template <> __declspec(dllimport) __forceinline void StringBase<char>::set(const char *text) {
     set(text, text ? strlen(text) : 0);
 }
 #include "ascii_string.h"
-// bfme link decl-only begin
-template <> void StringBase<char>::set(char const *);
-// bfme link decl-only end
 class Xfer;
 enum INILoadType {INI_LOAD_INVALID,INI_LOAD_OVERWRITE};
 class INI {

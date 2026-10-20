@@ -42,6 +42,8 @@ template <> __forceinline _Vector_base<Object *, allocator<Object *> >::_Vector_
 	: _M_start(0), _M_finish(0), _M_end_of_storage(a, (Object **)0) {}
 template <> __forceinline vector<Object *>::vector(const allocator<Object *> &a) : _Vector_base<Object *, allocator<Object *> >(a) {}
 template <> void vector<Object *>::push_back(Object *const &);
+// Retail calls the vector destructor out of line (0x001F22A3) from the body and its unwind.
+template <> inline __declspec(noinline) vector<Object *>::~vector() { _Destroy(this->_M_start, this->_M_finish); }
 }
 
 template _STL::_Vector_base<Object *, _STL::allocator<Object *> >::~_Vector_base();

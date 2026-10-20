@@ -90,6 +90,8 @@ struct hash
 {
 };
 
+// Both functors are expanded at every use and never called out of line, so this unit
+// emits no copy of either (import-inline).
 template <>
 struct hash<AsciiString>
 {
@@ -97,7 +99,7 @@ struct hash<AsciiString>
 	// canonicalizes most spellings identically; this order is tried for its
 	// effect on the bucket-size load scheduling (retail computes the size
 	// first and subtracts the start from memory).
-	size_t operator()(const AsciiString &key) const
+	__declspec(dllimport) __forceinline size_t operator()(const AsciiString &key) const
 	{
 		return key.m_first + (key.m_second << 16);
 	}
@@ -116,7 +118,7 @@ struct equal_to<AsciiString>
 	// against [key+0]/[key+4] with no calls; the identically-named
 	// out-of-line body at 0x6E054B (which forwards to operator==) belongs
 	// to another TU's view of this functor.
-	bool operator()(const AsciiString &a, const AsciiString &b) const
+	__declspec(dllimport) __forceinline bool operator()(const AsciiString &a, const AsciiString &b) const
 	{
 		return a.m_first == b.m_first && a.m_second == b.m_second;
 	}

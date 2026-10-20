@@ -54,6 +54,18 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(un
 namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
+// Declaration-only: the macro table's destructor binds the rowed hashtable destructor
+// (0x002236B9, INIMacroTableDtorO1.cpp) instead of emitting this unit's own copy.
+namespace _STL {
+template <> hashtable<pair<const AsciiString, AsciiString>, AsciiString, rts::hash<AsciiString>,
+	_Select1st<pair<const AsciiString, AsciiString> >, equal_to<AsciiString>,
+	allocator<pair<const AsciiString, AsciiString> > >::~hashtable();
+}
+// clear and its node delete are rows of this unit.
+template void _STL::hashtable<_STL::pair<const AsciiString, AsciiString>, AsciiString, rts::hash<AsciiString>,
+	_STL::_Select1st<_STL::pair<const AsciiString, AsciiString> >, _STL::equal_to<AsciiString>,
+	_STL::allocator<_STL::pair<const AsciiString, AsciiString> > >::clear();
+
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
 // this TU emits no per-flag copy of them or of their allocator leaves.
 namespace _STL {

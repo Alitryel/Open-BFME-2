@@ -91,6 +91,14 @@ struct Rva00289902BlockDC
 	int v[3];
 };
 
+// The three push_back calls go out of line to their rowed copies; declaring them
+// binds the calls there and keeps this unit from emitting its own growth paths.
+namespace _STL {
+template <> void vector<AsciiString, allocator<AsciiString> >::push_back(const AsciiString &);
+template <> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &);
+template <> void vector<Rva002898ACElement, allocator<Rva002898ACElement> >::push_back(const Rva002898ACElement &);
+}
+
 class Rva00289902
 {
 public:
