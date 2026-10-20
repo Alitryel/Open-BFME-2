@@ -40,7 +40,7 @@ struct ChecklistIteratorView
 	ChecklistIteratorView(const ChecklistIteratorView &other) : node(other.node) {}
 };
 
-struct Rva005D4433FontDesc;
+struct ChecklistFontDesc;
 
 extern unsigned g_Va00E06360;
 
@@ -57,7 +57,8 @@ private:
 class Rva005D40A6
 {
 public:
-	Rva005D40A6(void *level, const AsciiString &path, const Rva005D4433FontDesc *font);
+	// The rowed constructor 0x005D4433 (Rva005D40A6Dtor.cpp).
+	Rva005D40A6(int level, const AsciiString &name, const ChecklistFontDesc &fontDesc);
 	virtual ~Rva005D40A6();
 
 private:
@@ -94,8 +95,8 @@ private:
 
 StrategicHUD::ChecklistUIImpl::Item::Item(ChecklistUIImpl *owner, ChecklistIteratorView position,
 	int value, void *level, const AsciiString &path)
-	: Rva005D40A6(level, path,
-		reinterpret_cast<const Rva005D4433FontDesc *>(reinterpret_cast<char *>(&g_Va00E06360) + 8)),
+	: Rva005D40A6((int)level, path,
+		*reinterpret_cast<const ChecklistFontDesc *>(reinterpret_cast<char *>(&g_Va00E06360) + 8)),
 	  m_owner(owner), m_listPos(position), m_value(value), m_observer(0), m_58(0), m_5c(true)
 {
 	m_listPos.node->item = this;

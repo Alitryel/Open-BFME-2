@@ -220,14 +220,7 @@ void MouseCursorInfoArrayAnchor()
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-/**Had to move this out of main init() because I need this data to properly initialize
-the Win32 version of the mouse (by preloading resources before D3D device is created).*/
-// ?parseIni@Mouse@@ present-unmatched
-void Mouse::parseIni(void)
-{
-	INI ini;
-	ini.load( AsciiString( "Data\\INI\\Mouse.ini" ), INI_LOAD_OVERWRITE, NULL );
-}
+// Mouse::parseIni is defined with its retail-matched body in FontLibraryInit.cpp (0x001EE483).
 
 //-------------------------------------------------------------------------------------------------
 /** Initialize the mouse */
@@ -273,33 +266,12 @@ void Mouse::init( void )
 //-------------------------------------------------------------------------------------------------
 /** Tell mouse system display resolution changed. */
 //-------------------------------------------------------------------------------------------------
+// BFME 2's body is empty: its display-mode change calls the shared empty body
+// 0x000B3FD0 where Zero Hour calls this (GameClientDisplayModeChange.cpp).
 // ?mouseNotifyResolutionChange@Mouse@@ present-unmatched
 void Mouse::mouseNotifyResolutionChange( void )
 {
-	if(m_tooltipDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_tooltipDisplayString);
-	m_tooltipDisplayString = NULL;
-
-	m_tooltipDisplayString = TheDisplayStringManager->newDisplayString();
-
-	if (TheGlobalLanguageData && TheGlobalLanguageData->m_tooltipFontName.name.isNotEmpty())
-	{
-		m_tooltipDisplayString->setFont( TheFontLibrary->getFont(
-			TheGlobalLanguageData->m_tooltipFontName.name,
-			TheGlobalLanguageData->adjustFontSize(TheGlobalLanguageData->m_tooltipFontName.size),
-			TheGlobalLanguageData->m_tooltipFontName.bold) );
-	}
-	else
-	{
-		m_tooltipDisplayString->setFont( TheFontLibrary->getFont(
-			m_tooltipFontName,
-			TheGlobalLanguageData->adjustFontSize(m_tooltipFontSize),
-			m_tooltipFontIsBold ) );
-	}
-
-	m_tooltipDisplayString->setWordWrap(120);
-
-}  // end reset
+}
 
 
 //-------------------------------------------------------------------------------------------------
@@ -528,22 +500,7 @@ void Mouse::draw( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-void j_0002497e();
-// ?resetTooltipDelay@Mouse@@QAEXXZ present-unmatched
-void Mouse::resetTooltipDelay( void )
-{
-	char *self = reinterpret_cast<char *>(this);
-	*reinterpret_cast<UnsignedInt *>(self + 0x4ddc) = timeGetTime();
-	UnicodeString *tooltip = reinterpret_cast<UnicodeString *>(self + 0x10fc);
-	*reinterpret_cast<Bool *>(self + 0x110c) = FALSE;
-	if (!tooltip->isEmpty())
-	{
-		j_0002497e();
-		tooltip->clear();
-	}
-	reinterpret_cast<UnicodeString *>(self + 0x1100)->clear();
-	reinterpret_cast<UnicodeString *>(self + 0x1104)->clear();
-}
+// Mouse::resetTooltipDelay is retail 0x001EEC4B, matched in MouseRva001EEC4B_muse-f8cb.cpp.
 
 //-------------------------------------------------------------------------------------------------
 /** Draw the mouse tooltip if one is set */
