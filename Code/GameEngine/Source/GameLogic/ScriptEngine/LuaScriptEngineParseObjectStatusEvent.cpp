@@ -1,7 +1,13 @@
-// ?rva002E9AA0ParseObjectStatusEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.98 date=2026-10-20
 // stlport
 // cl: /O1 /EHsc /MD /G7 /arch:SSE /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// ?rva002E9AA0ParseObjectStatusEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z @0x00336EB0 482B.
+//
+// LuaScriptEngine::ProcessObjectStatusEvent (WorldBuilder 0x00C00CD0, LuaScriptEngine.cpp 1089..1133):
+// reads an object-status event element (its Name attribute and Conditions text), builds the
+// required/excluded condition record and appends it unless an equal record is already listed.
+// Statement shape as the twin: each parser->finish() lands in the named local `item` before its
+// test, and found=false follows setKeyFromName. That gives retail's allocation: the zero constant in
+// EBX up to the name.str() null test, i in ESI, the parser in EDI, `this` spilled, found later in BL.
 // BF1 9cbfb551 LuaScriptEngineParseModelConditionEvent.cpp semantic source.
 #include "ascii_string.h"
 #include <vector>
@@ -64,10 +70,12 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
   if(strcmp(reinterpret_cast<XmlNameSlotList *>(parser)->tagAt(i),"Name")==0)
    reinterpret_cast<StringBase<char> *>(&name)->set(reinterpret_cast<XmlNameSlotList *>(parser)->nameAt(i));
  }
- if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()!=1)return;
+ int item=reinterpret_cast<XmlNameSlotList *>(parser)->finish();
+ if(item!=1)return;
  bool isConditions=strcmp(parser->getTailEAN(),"Conditions")==0;
  if(!isConditions)return;
- if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()!=3)return;
+ item=reinterpret_cast<XmlNameSlotList *>(parser)->finish();
+ if(item!=3)return;
  const char *text=parser->getTailEAN();
  try {
   AsciiString conditions(text);
@@ -77,8 +85,8 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
   reinterpret_cast<Rva003339CE *>(&excluded)->rva00334506(conditions);
   excluded.flip();
   Rva00332FC1 record(*reinterpret_cast<BfmeObject872Header *>(&required),*reinterpret_cast<BfmeObject872Header *>(&excluded));
-  bool found=false;
   reinterpret_cast<EventFlagEntry *>(&record)->setKeyFromName(name.str());
+  bool found=false;
 
   for(Rva00336AECElement *it=m_objectStatusEvents.begin();it!=m_objectStatusEvents.end();++it) {
    if(record.rva00332FE7(*reinterpret_cast<Rva00332FC1 *>(it))) {found=true;break;}

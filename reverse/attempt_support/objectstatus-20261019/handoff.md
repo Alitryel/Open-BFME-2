@@ -96,3 +96,18 @@ setKeyFromName, then it = begin (local_84), end re-read each test. Measured on t
   declaration position with late found: inert (472/474B).
 The retail EBX zero lives to the str() compare while found is a separate late
 web in the same register; no source form above reproduces both.
+
+## Landed (2026-10-20, claude-opus-5-5)
+0x336EB0 landed byte-exact (482 B) in
+`Code/GameEngine/Source/GameLogic/ScriptEngine/LuaScriptEngineParseObjectStatusEvent.cpp`.
+- **What the WorldBuilder twin gave** (`LuaScriptEngine::ProcessObjectStatusEvent`, wb 0xC00CD0):
+  - each `parser->finish()` result goes into a named local `item` before its test;
+  - `found=false` comes after setKeyFromName.
+- **Result:** with both, the allocation is retail's:
+  - zero in EBX up to the name.str() null test;
+  - i in ESI, with its own xor;
+  - parser in EDI;
+  - this spilled to [ebp-0x20];
+  - found later in BL.
+- **Why the earlier attempts failed:** the late found definition only works together with the extra `item` candidate.
+- **Ledger cleanup:** the 6-byte `?Rva00337055Get@@YAHXZ` row in ConstIntGettersAddr.cpp was this body's catch(...) funclet (`mov eax,0x73705B; ret`). It is retired here, as in c497df6204.
