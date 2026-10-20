@@ -92,14 +92,9 @@ class PathfindZoneManager
 public:
 	void rva005328E2(Rva005312BERect *extent);
 	void MarkDirty(Rva005312BERect *extent);
+	void Update(PathfindCell **map, PathfindLayer *layers, const IRegion2D &bounds);
 private:
 	char m_pad[1];
-};
-
-class Rva002E713F460
-{
-public:
-	void rva00533BEC(void *map, void *layers, void *extent);
 };
 
 // The terrain's waypoint list: position at +0x0C, next at +0x1C.
@@ -237,6 +232,6 @@ void Pathfinder::NewMap()
 		rva00530212(obj, true, false, false);
 	}
 	m_zoneManager.MarkDirty((Rva005312BERect *)&m_extent);
-	((Rva002E713F460 *)&m_zoneManager)->rva00533BEC(m_map, m_layers, &m_extent);
+	m_zoneManager.Update(m_map, m_layers, m_extent);
 	m_isMapReady = true;
 }
