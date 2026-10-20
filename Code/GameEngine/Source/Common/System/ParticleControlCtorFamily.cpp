@@ -33,6 +33,8 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
 namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, size_t) const; }
+// Bind ~_Vector_base<AsciiString> to the copy the link keeps.
+namespace _STL { template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base(); }
 namespace _STL {
 template<> vector<AsciiString>::~vector();
 template<> __declspec(noinline) _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(const allocator<AsciiString> &a) : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
