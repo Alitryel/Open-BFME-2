@@ -1,13 +1,5 @@
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.99 date=2026-10-20
-// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.82 date=2026-10-20
-// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.82 date=2026-10-20
-// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.86 date=2026-10-17
-// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.75 date=2026-10-14
+// partial score=0.995 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /EHs /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /arch:SSE /G7 /DBFME_SNAPSHOT_CAPITALIZED_SLOTS
 // stlport
 //
@@ -55,9 +47,9 @@
 #include <list>
 #include <vector>
 #include "Common/Snapshot.h"
-#include "../../Common/GameLogicObjectLookupView.h"
-#include "../../Common/BfmeSpecialPowerTimer8.h"
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../Code/GameEngine/Source/Common/BfmeSpecialPowerTimer8.h"
+#include "../../../Code/Libraries/Include/Lib/Coord3D.h"
 
 class GameLogic;
 extern GameLogic *TheGameLogic;
@@ -363,6 +355,56 @@ protected:
 	Bool m_ChooseVictimAlwaysUsesNormal;                  // 0x1A4D6
 	Bool m_freezeByScript;                                // 0x1A4D7
 };
+
+// Stand-in bodies. Retail compiles both list fills in DoXfer's TU before it, and
+// c2 reuses their summary that `list` does not escape: DoXfer's loops 1, 3 and 4
+// then enter by jmp-to-test as in retail. The landing moves the real rows
+// (Rva0020700FXfer.cpp, Rva00207F91Xfer.cpp) here; see the handoff README round 4.
+Xfer *Rva0020700FXfer(Xfer *xfer, ListAsciiString *list)
+{
+	XferVersion version(1, 1);
+	xfer->xferVersion(&version);
+	UnsignedInt count = list->size();
+	xfer->xferUnsignedInt(&count);
+	if (xfer->IsStoring()) {
+		for (ListAsciiString::iterator it = list->begin(); it != list->end(); ++it)
+			xfer->xferAsciiString(&*it);
+	} else {
+		if (!list->empty())
+			throw XferException(4, "List must be empty on load");
+		AsciiString value;
+		while (count != 0) {
+			--count;
+			xfer->xferAsciiString(&value);
+			list->push_back(value);
+		}
+	}
+	return xfer;
+}
+Xfer *Rva00207F91XferList(Xfer *xfer, ListAsciiStringValue *list)
+{
+	XferVersion version(1, 1);
+	xfer->xferVersion(&version);
+	UnsignedInt count = list->size();
+	xfer->xferUnsignedInt(&count);
+	if (xfer->IsStoring()) {
+		for (ListAsciiStringValue::iterator it = list->begin(); it != list->end(); ++it) {
+			xfer->xferAsciiString(const_cast<AsciiString *>(&it->first));
+			xfer->xferUnsignedInt(&it->second.m_value);
+		}
+	} else {
+		if (!list->empty())
+			throw XferException(4, "List must be empty on load");
+		ListAsciiStringValue::value_type value;
+		while (count != 0) {
+			--count;
+			xfer->xferAsciiString(const_cast<AsciiString *>(&value.first));
+			xfer->xferUnsignedInt(&value.second.m_value);
+			list->push_back(value);
+		}
+	}
+	return xfer;
+}
 
 void ScriptEngine::DoXfer(Xfer *xfer)
 {

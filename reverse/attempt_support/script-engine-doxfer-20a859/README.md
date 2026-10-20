@@ -192,3 +192,56 @@ entries below remain.
   helpers). With `ScriptFlag` they mangle with `UScriptFlag@@` instead of `_N`;
   the rows (and `bfmeFlagForWrite`, `rva0020881A`, `evaluateFlag` users) must move
   to the struct type together, or DoXfer's relocations will not resolve.
+
+## Round 4 (2026-10-20, latest): loop-entry wall solved, landing pending
+
+Bank: 6131 B, **0 structural regions**, 2 memory (the two unrelocated globals),
+0 register. DoXfer's own source is the round-3 body unchanged; what changed is
+the TU around it.
+
+- **Fix.** Retail compiles the two list fills, `Rva0020700FXfer` (0x20700F,
+  loops 1/2/5) and `Rva00207F91XferList` (0x207F91, loops 3/4), in DoXfer's
+  TU, before DoXfer, as ordinary external functions (ZH has them as
+  `xferListAsciiString*` helpers in ScriptEngine.cpp). MSVC 7.1 c2 keeps a
+  per-function summary of TU-local bodies even without /GL: when the fill's
+  body does not let `list` escape, `&names` passed to it no longer marks
+  `names` as escaped. The guard load `[ebp+8]` is then not CSE'd with
+  `begin()`, and the guard cross-jumps to the bottom test (`jmp test`).
+  Loops 2 and 5 stay guarded with the very same callee, which is retail's
+  J,G,J,J,G pattern exactly. The bank defines stand-in fill bodies under the
+  real names before DoXfer.
+- **Escape rule, measured on the full body** (`ent5` classifier):
+  - no call taking `&names` (nofill, an element address, a copy): J;
+  - `&names` to any extern function, by pointer or reference, through inline
+    wrappers, a derived `this`, an operator, a template, a `__cdecl` member of
+    Xfer, an out-of-line thiscall, or `g_ptr = &names`: G;
+  - a fill defined in the TU (non-static) with a non-escaping body: J;
+  - an escaping body (`xfer->xferUser(list, 4)`): G;
+  - a body calling an out-of-line member with `this = list` whose body is
+    unknown in the TU (the current `Rva00207B90` hack class): G;
+  - a `static` fill gets a custom register convention (list in ecx or ebx, no
+    push). That is not retail's `lea eax,[ebp+8]; push eax; push ebx; call`,
+    so retail's fills are non-static.
+- **Disproven earlier this round** (all GGGGG): 18 loop control-flow forms
+  (`genfc`), local-structure probes (`genfd`), fill spellings (`genfe/ff/fg/fh`).
+- **Landing plan (next session).** This needs real work, not just a filing
+  step:
+  1. Create the DoXfer unit (`repair_queue.py dest` proposes
+     `ScriptEngine.cpp`; `ScriptEngine_dtor.cpp` has other flags) with the
+     bank's flags. Move the real bodies of 0x20700F (and its `__ehhandler`
+     row 0x76C948) and 0x207F91 into it, ahead of DoXfer. Repoint their rows
+     with `add_match --replace-existing` and delete the emptied files.
+  2. Today those rows compile at -O2 /EHsc /MD with other Xfer views. Check
+     their bytes under DoXfer's flags with one shared `Xfer` view: slot 11
+     `Xfer &xferTypeName(const char *const &)`, slot 30 chained on its
+     result.
+  3. Each fill's push_back must have a known body in the TU. 0x20700F calls
+     `list<AsciiString>::push_back` 0x1FD868 (a real-named row), so plain
+     STLport `list->push_back(value)` fits. 0x207F91 calls 0x207B90, rowed as
+     the placeholder `Rva00207B90::rva00207B90` with an unknown body, which
+     gives G. Use the real `list<pair<const AsciiString,NoCaseTreeValue4>>::push_back`
+     and rename the 0x207B90 owner row to that name (26 B `insert(end(), x)`
+     wrapper; check that its file still emits it). Or move that row here too.
+  4. Then land the flag-map rename (`ScriptFlag`, round 3 prerequisite), run
+     pin_consistency and find_declared_unmatched, and land with add_match and
+     `./build.sh`.
