@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// cl: /O1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /G7
 // ??1Rva007E3C20Vp6Stream@@UAE@XZ, retail 0x00090840..0x000908F6 (182
 // bytes, EH): the VP6 stream's destructor, called by its scalar deleting
 // destructor (??_GRva0090840, call at 0x00091156; table 0x00BC7F20).
@@ -41,6 +41,19 @@ class Rva00090840Owner
 public:
 	virtual void spare();
 	virtual ~Rva00090840Owner();
+	virtual void slot08();
+	virtual void slot0c();
+	virtual void *lock();
+	virtual void unlock();
+	unsigned int m_x;
+	unsigned int m_y;
+	unsigned int m_width;
+	unsigned int m_height;
+	unsigned int m_textureWidth;
+	unsigned int m_textureHeight;
+	int m_pitch;
+	float m_at20;
+	int m_format;
 };
 
 class AudioManager
@@ -67,6 +80,41 @@ public:
 	char movePair(int *output, int *first, unsigned int *second, unsigned int limit);
 };
 
+struct VP6Instance;
+struct VP6YUVConfig
+{
+	int yWidth;
+	int yHeight;
+	int yStride;
+	int uvWidth;
+	int uvHeight;
+	int uvStride;
+	unsigned char *y;
+	unsigned char *u;
+	unsigned char *v;
+	unsigned char *yOrigin;
+};
+extern "C" void __cdecl VP6_GetYUVConfig(VP6Instance *instance, VP6YUVConfig *config);
+extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count);
+
+void __cdecl BFME_DX8_Thread_Lock();
+bool __cdecl BFME_DX8_Thread_Assert();
+
+class BFMEDX8DeviceLock
+{
+public:
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
+};
+
+// The YUV to 32-bit tables VideoPlayer 0x0009111B fills (VA 0x00DE2098 ..).
+extern unsigned int g_Va00DE3498[0x400];
+extern int g_Va00DE3098[0x100];
+extern int g_Va00DE2C98[0x100];
+extern int g_Va00DE2898[0x100];
+extern int g_Va00DE2498[0x100];
+extern unsigned int g_Va00DE2098[0x100];
+
 struct PB_INSTANCE;
 extern "C" int __cdecl VP6_DecodeFrameToYUV(PB_INSTANCE *pbi, unsigned char *buffer, unsigned int byteCount);
 typedef void (__cdecl *Vp6ForwardFn)(int, int, int, int, int);
@@ -80,6 +128,9 @@ class Rva007E3C20Vp6Stream : public Gen_uwm_0068a110
 public:
 	virtual ~Rva007E3C20Vp6Stream();
 	void rva000908F6();
+	void rva000909B7();
+	__forceinline void renderAlpha(VP6YUVConfig &frame, VP6YUVConfig &alpha, void *bits, int pitch);
+	__forceinline void renderOpaque(VP6YUVConfig &frame, void *bits, int pitch);
 
 private:
 	void *m_at14;
@@ -157,4 +208,132 @@ void Rva007E3C20Vp6Stream::rva000908F6()
 	} while (tag != 0x4b30564d && tag != 0x4630564d);
 	((Vp6ForwardFn)VP6_DecodeFrameToYUV)((int)m_at14, (int)m_at54 + 8, size, m_at30, m_at34);
 	++m_at48;
+}
+
+// ?rva000909B7@Rva007E3C20Vp6Stream@@QAEXXZ, retail 0x000909B7..0x00090F72
+// (1467 bytes, EH): table 0x00BC7F20 slot 3, the frame upload. Under the
+// device lock (0x0011F520/0x00120F50) it locks the +0x2C texture (format 5 or
+// 2), fetches the decoded planes through VP6_GetYUVConfig (0x001B5C60; a
+// second time for the +0x18 alpha decoder on the alpha path) and converts two
+// rows per chroma row through the YUV tables at 0x00DE2098.., bottom-up, the
+// second row staged in a 4 KB buffer and copied with memcpy. Ported from
+// Open-BFME-1's banked reconstruction targets/game/reverse/attempts/
+// 0x007e3e60.cpp (at 92f6bbe8e). Read off retail: the plane dimensions are
+// assigned inside the two inlined converters in this order (it sets the
+// register choice and the reload of alpha.yHeight), the row pointer is
+// declared late from the untyped lock result, and the unit compiles /G7 (both
+// earlier bodies are unchanged under it).
+#define RGB_PIXEL(Y) (((g_Va00DE3498[(Y) + red] << 8) | g_Va00DE3498[(Y) + green]) << 8 | g_Va00DE3498[(Y) + blue])
+#define OPAQUE_PIXEL(Y) ((((g_Va00DE3498[(Y) + red] | 0xffffff00U) << 8) | g_Va00DE3498[(Y) + green]) << 8 | g_Va00DE3498[(Y) + blue])
+
+// ?renderAlpha@Rva007E3C20Vp6Stream absent-from-retail
+__forceinline void Rva007E3C20Vp6Stream::renderAlpha(VP6YUVConfig &frame, VP6YUVConfig &alpha, void *bits, int pitch)
+{
+	frame.yHeight = m_at34;
+	frame.uvWidth = m_at30 >> 1;
+	frame.uvHeight = m_at34 >> 1;
+	alpha.yHeight = m_at34;
+	alpha.uvWidth = m_at30 >> 1;
+	frame.yWidth = m_at30;
+	alpha.uvHeight = m_at34 >> 1;
+	alpha.yWidth = m_at30;
+	unsigned int row[1024];
+	unsigned char *y0 = frame.y + (frame.yHeight - 1) * frame.yStride;
+	unsigned char *y1 = y0 - frame.yStride;
+	unsigned char *u = frame.u + (frame.uvHeight - 1) * frame.uvStride;
+	unsigned char *v = frame.v + (frame.uvHeight - 1) * frame.uvStride;
+	unsigned char *a0 = alpha.y + (alpha.yHeight - 1) * alpha.yStride;
+	unsigned char *a1 = a0 - alpha.yStride;
+	unsigned int *dest = (unsigned int *)bits;
+	unsigned char *next = (unsigned char *)bits + pitch;
+	unsigned int *temp = row;
+	int ystep = -frame.yWidth - 2 * frame.yStride;
+	int uvstep = -frame.uvWidth - frame.uvStride;
+	int astep = -alpha.yWidth - 2 * alpha.yStride;
+	int dststep = (pitch - 2 * frame.yWidth) * 2;
+	for (int j = frame.uvHeight - 1; j >= 0; --j) {
+		for (int i = frame.uvWidth - 1; i >= 0; --i) {
+			int blue = g_Va00DE3098[*u];
+			int green = g_Va00DE2C98[*u] + g_Va00DE2898[*v];
+			int red = g_Va00DE2498[*v];
+			++u; ++v;
+			*dest++ = RGB_PIXEL(*y0) | g_Va00DE2098[*a0];
+			++y0; ++a0;
+			*dest++ = RGB_PIXEL(*y0) | g_Va00DE2098[*a0];
+			++y0; ++a0;
+			*temp++ = RGB_PIXEL(*y1) | g_Va00DE2098[*a1];
+			++y1; ++a1;
+			*temp++ = RGB_PIXEL(*y1) | g_Va00DE2098[*a1];
+			++y1; ++a1;
+		}
+		y0 += ystep; y1 += ystep;
+		u += uvstep; v += uvstep;
+		a0 += astep; a1 += astep;
+		dest = (unsigned int *)((unsigned char *)dest + dststep);
+		memcpy(next, row, m_at30 * 4);
+		temp = row;
+		next += pitch * 2;
+	}
+}
+
+// ?renderOpaque@Rva007E3C20Vp6Stream absent-from-retail
+__forceinline void Rva007E3C20Vp6Stream::renderOpaque(VP6YUVConfig &frame, void *bits, int pitch)
+{
+	frame.yWidth = m_at30; frame.yHeight = m_at34;
+	frame.uvWidth = m_at30 >> 1; frame.uvHeight = m_at34 >> 1;
+	unsigned int row[1024];
+	unsigned char *y0 = frame.y + (frame.yHeight - 1) * frame.yStride;
+	unsigned char *y1 = y0 - frame.yStride;
+	unsigned char *u = frame.u + (frame.uvHeight - 1) * frame.uvStride;
+	unsigned char *v = frame.v + (frame.uvHeight - 1) * frame.uvStride;
+	unsigned int *dest = (unsigned int *)bits;
+	unsigned char *next = (unsigned char *)bits + pitch;
+	unsigned int *temp = row;
+	int ystep = -frame.yWidth - 2 * frame.yStride;
+	int uvstep = -frame.uvWidth - frame.uvStride;
+	int dststep = (pitch - 2 * frame.yWidth) * 2;
+	for (int j = frame.uvHeight - 1; j >= 0; --j) {
+		for (int i = frame.uvWidth - 1; i >= 0; --i) {
+			int blue = g_Va00DE3098[*u];
+			int green = g_Va00DE2C98[*u] + g_Va00DE2898[*v];
+			int red = g_Va00DE2498[*v];
+			++u; ++v;
+			*dest++ = OPAQUE_PIXEL(*y0); ++y0;
+			*dest++ = OPAQUE_PIXEL(*y0); ++y0;
+			*temp++ = OPAQUE_PIXEL(*y1); ++y1;
+			*temp++ = OPAQUE_PIXEL(*y1); ++y1;
+		}
+		y0 += ystep; y1 += ystep;
+		u += uvstep; v += uvstep;
+		dest = (unsigned int *)((unsigned char *)dest + dststep);
+		memcpy(next, row, m_at30 * 4);
+		temp = row;
+		next += pitch * 2;
+	}
+}
+
+void Rva007E3C20Vp6Stream::rva000909B7()
+{
+	if (!m_at2c || !m_at14 || (m_at38 && !m_at18))
+		return;
+	BFMEDX8DeviceLock lock;
+	if (m_at2c->m_format != 5 && m_at2c->m_format != 2)
+		return;
+	unsigned int *dest = (unsigned int *)m_at2c->lock();
+	if (!dest)
+		return;
+	int pitch = m_at2c->m_pitch;
+	if (m_at38 && m_at2c->m_format == 5) {
+		VP6YUVConfig frame;
+		VP6YUVConfig alpha;
+		VP6_GetYUVConfig((VP6Instance *)m_at14, &frame);
+		VP6_GetYUVConfig((VP6Instance *)m_at18, &alpha);
+		renderAlpha(frame, alpha, dest, pitch);
+	} else {
+		VP6YUVConfig frame;
+		VP6_GetYUVConfig((VP6Instance *)m_at14, &frame);
+		renderOpaque(frame, dest, pitch);
+	}
+	m_at2c->unlock();
+	m_at4c = m_at48;
 }

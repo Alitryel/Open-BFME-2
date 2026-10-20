@@ -133,6 +133,16 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   missing `device_lock` member in AppendLockClass); landing it means rehoming
   the receivers' rows into the caller's TU:
   `reverse/attempt_support/148180-escape-20261020/readme.md`.
+- **Register choice for values stored into struct fields: search the source
+  order of the stores.** Retail's scheduled store order is not the source
+  order, and plain reorders of eight independent `cfg.field = expr;` stores
+  moved 0x000909B7 (Vp6Stream frame upload) from 0.929 to exact: which copy of
+  `m_at34` / `m_at34 >> 1` lands in which register, and whether a later read
+  of the field is a reload, follow the order. Generate random permutations
+  (`random.shuffle` of the store lines), score them in parallel with
+  `tools/variant.py`, then try single moves around the best. Retail's own
+  store order and its reverse were both wrong. Copying from the twin field
+  (`alpha.f = frame.f`) or deriving `uv = y >> 1` from a field was far worse.
 - **Outgoing ESP save without an EH frame: test the caller's nonthrowing
   contract.** Loader 0x000AB96D needed EH-enabled compilation to emit the
   stack save before its by-value ownership copy, but ordinary EH-enabled
