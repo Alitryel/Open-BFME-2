@@ -110,6 +110,9 @@ namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned s
 namespace _STL { template <> unsigned short * basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_insert_aux(unsigned short *, unsigned short); }
 namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$mismatch@V?$istreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@PAG@_STL@@YA?AU?$pair@V?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> pair<istreambuf_iterator<unsigned short,char_traits<unsigned short> >,unsigned short *> mismatch<istreambuf_iterator<unsigned short,char_traits<unsigned short> >,unsigned short *>(istreambuf_iterator<unsigned short,char_traits<unsigned short> >,istreambuf_iterator<unsigned short,char_traits<unsigned short> >,unsigned short *); }
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {
