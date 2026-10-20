@@ -25,6 +25,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
+// Use the measured BFME2 cull bit and 0x118 material layout before donor headers.
+#include "../../../../../reference/shims/bfmeshader/shader.h"
+#include "../../../../../reference/shims/meshmatdesclayout/meshmatdesc.h"
 #include "meshgeometry.h"	// the meshgeom shim has to win the include guard before meshmdl.h reaches the reference copy
 #include "meshmdl.h"
 #include "aabtree.h"
