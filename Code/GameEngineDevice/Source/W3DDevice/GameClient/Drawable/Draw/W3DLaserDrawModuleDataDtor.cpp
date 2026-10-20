@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata /ICode/GameEngine/Include/Common
 // stlport
 //
 // ??1W3DLaserDrawModuleData@@UAE@XZ, retail 0x000C9AE7, 54 bytes.
@@ -14,11 +14,16 @@
 
 #include <vector>
 
+class Xfer;
 #include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Vtable 0x00BCB960 is the shared 31-slot ModuleData table; teardown restores
+// Snapshot's table 0x00BBB554 (as in Rva004ABFD9Dtor.cpp).
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 #include "ascii_string.h"
 
-class W3DLaserDrawModuleData : public Snapshot
+class W3DLaserDrawModuleData : public ModuleData
 {
 public:
 	virtual ~W3DLaserDrawModuleData();

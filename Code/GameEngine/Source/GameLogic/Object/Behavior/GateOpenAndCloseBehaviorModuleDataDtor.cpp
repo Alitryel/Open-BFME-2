@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Ireference/shims/moduledata
+// cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Ireference/shims/moduledata /ICode/GameEngine/Include/Common
 //
 // ??1GateOpenAndCloseBehaviorModuleData@@UAE@XZ, retail 0x00498D46, 145 bytes.
 // Target evidence: the pinned ctor 0x00498E2E installs vtable 0x00C501B0,
@@ -12,12 +12,12 @@
 
 #include "ascii_string.h"
 
-class Snapshot
-{
-public:
-	Snapshot() {}
-	virtual ~Snapshot() {}
-};
+class Xfer;
+#include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Vtable 0x00C501B0 is the shared 31-slot ModuleData table; teardown restores
+// Snapshot's table 0x00BBB554 (as in Rva004ABFD9Dtor.cpp).
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 class OpaqueRefCounted
 {
@@ -44,7 +44,7 @@ private:
 	int m_x[3];
 };
 
-class GateOpenAndCloseBehaviorModuleData : public Snapshot
+class GateOpenAndCloseBehaviorModuleData : public ModuleData
 {
 public:
 	virtual ~GateOpenAndCloseBehaviorModuleData();

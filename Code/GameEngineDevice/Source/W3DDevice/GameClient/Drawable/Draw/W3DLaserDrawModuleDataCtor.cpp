@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0W3DLaserDrawModuleData@@QAE@XZ, retail 0x000C9A6F, 120 bytes.
@@ -22,6 +22,8 @@
 #include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
+// Vtable 0x00BCB960 is the shared 31-slot ModuleData table.
+#include "../../../../../../GameEngine/Include/Common/BfmeModuleData.h"
 
 typedef unsigned int Color;
 typedef unsigned int UnsignedInt;
@@ -51,7 +53,7 @@ private:
 	Color m_outerColor;		// +0x0C OuterColor
 };
 
-class W3DLaserDrawModuleData : public W3DLaserDrawModuleDataBase
+class W3DLaserDrawModuleData : public ModuleData, public W3DLaserDrawModuleDataBase
 {
 public:
 	W3DLaserDrawModuleData();

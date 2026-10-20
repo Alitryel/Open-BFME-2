@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata /ICode/GameEngine/Include/Common
 // stlport
 //
 // ??1WallHubBehaviorModuleData@@UAE@XZ, retail 0x00452F9F, 129 bytes.
@@ -16,7 +16,13 @@
 // at 0x00C3FF98.
 
 #include <vector>
+class Xfer;
 #include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Vtable 0x00C3FF98 is the shared 31-slot ModuleData table with slot 6
+// returning true (0x0050B5C6); teardown restores
+// Snapshot's table 0x00BBB554 (as in Rva004ABFD9Dtor.cpp).
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 #include "ascii_string.h"
 
@@ -29,10 +35,11 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
-class WallHubBehaviorModuleData : public Snapshot
+class WallHubBehaviorModuleData : public ModuleData
 {
 public:
 	virtual ~WallHubBehaviorModuleData();
+	virtual bool slot06() const { return true; }
 
 private:
 	unsigned char m_pad04[4]; // +0x04

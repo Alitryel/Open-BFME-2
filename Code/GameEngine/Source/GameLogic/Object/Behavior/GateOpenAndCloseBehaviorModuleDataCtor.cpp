@@ -61,8 +61,10 @@ private:
 };
 
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// Vtable 0x00C501B0 is the shared 31-slot ModuleData table.
+#include "../../../../Include/Common/BfmeModuleData.h"
 
-class GateOpenAndCloseBehaviorModuleData : public Snapshot
+class GateOpenAndCloseBehaviorModuleData : public ModuleData
 {
 public:
 	GateOpenAndCloseBehaviorModuleData();
@@ -89,7 +91,7 @@ private:
 
 // ??0GateOpenAndCloseBehaviorModuleData@@QAE@XZ @0x00498E2E
 GateOpenAndCloseBehaviorModuleData::GateOpenAndCloseBehaviorModuleData()
-	: Snapshot()
+	: ModuleData()
 	, m_proxy()
 	, m_ref1C()
 	, m_ref20()

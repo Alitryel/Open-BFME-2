@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /Ireference/shims/moduledata
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /Ireference/shims/moduledata /ICode/GameEngine/Include/Common
 //
 // ??1W3DLightDrawModuleData@@UAE@XZ, retail 0x000CFBA9, 54 bytes.
 // W3DLightDraw ModuleData dtor: reinstalls the vtable 0x00BCD820, tears
@@ -11,11 +11,16 @@
 // W3DSupplyDrawModuleDataDtor TU; the own vtable resolves through the
 // ??_7 pin at 0x00BCD820.
 
+class Xfer;
 #include "Common/Snapshot.h"
+#include "BfmeModuleData.h"
+// Vtable 0x00BCD820 is the shared 31-slot ModuleData table; teardown restores
+// Snapshot's table 0x00BBB554 (as in Rva004ABFD9Dtor.cpp).
+inline ModuleData::~ModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 #include "ascii_string.h"
 
-class W3DLightDrawModuleData : public Snapshot
+class W3DLightDrawModuleData : public ModuleData
 {
 public:
 	virtual ~W3DLightDrawModuleData();
