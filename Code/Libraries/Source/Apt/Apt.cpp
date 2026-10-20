@@ -21,6 +21,7 @@ public:
  void rva006D3C60();
  EAStringC(const char *);
  ~EAStringC();
+ EAStringC &operator=(const EAStringC &);
 };
 class AptCIH;
 class AptValue {
@@ -33,7 +34,11 @@ public:
  AptCIH *c_cih(bool);
 };
 class AptCIH : public AptValue {};
-class AptString : public AptValue {public:static AptString *Create();};
+class AptString : public AptValue {public:static AptString *Create();
+ // AptValue::SetString's body (rowed out of line at 0x006CBF70), which the
+ // string-argument call helper 0x006CCB80 inlines.
+ void setStringInline(const char *text) {EAStringC temp(text); m_string=temp;}
+ int m_04;EAStringC m_string;};
 class BfmeAptValue006DCD20;
 class AptBasePtrStack {public:int count,capacity;BfmeAptValue006DCD20 **elements;void Push(BfmeAptValue006DCD20 *);BfmeAptValue006DCD20 *At(int);void rva006FE920();};
 struct AptInitParmsT;
@@ -626,7 +631,8 @@ Rva006CD6C0SizedDeleting::~Rva006CD6C0SizedDeleting() {
  ((Rva006DAFA0Walk *)this)->rva006DAFA0();
 }
 
-#define GAPCHECK(e,s,l) do{if(!(e)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}}while(0)
+// The break is EA's inline-asm int 3; __debugbreak() moves 0x006CCB80's stack homes.
+#define GAPCHECK(e,s,l) do{if(!(e)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\Apt.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}}while(0)
 // Native6CD0B0..6CD0F4: Ghidra-unlisted body after the numeric parser. Asserts
 // bInitialized (Apt.cpp 0x65A, retail text) and, unless the E176D4 flag is set,
 // clears the +3C count of the E176D0 animation pool. Address name.
@@ -705,6 +711,40 @@ bool Rva006CCF30SetFocusPath(const char *path) {
 void *AptPushStaticData();
 #pragma comment(linker, "/alternatename:?AptPushStaticData@@YAPAXXZ=?PushStaticData@AptScriptFunctionBase@@SAPAXXZ")
 void rva007097B0(void *);
+// Native6CCB80..6CCD81, WB174F390: the string-argument twin of the call below.
+// Each variadic C string goes into a fresh AptString before the same push and call.
+void Rva006CCB80CallFunction(const char *function,char *result,const char *target,int nNumParams,...) {
+ GAPCHECK(nNumParams>=0 && nNumParams<32,"nNumParams >= 0 && nNumParams < APT_ARRAYSIZE(apStrings)",0x4E8);
+ AptValue *context;
+ if(target) {
+  EAStringC path(target);
+  context=g_aptDateInterpreter.getVariable(_AptGetAnimationAtLevel(0),0,&path,1,1,0);
+ } else {
+  context=_AptGetAnimationAtLevel(0);
+ }
+ AptString *apStrings[32];
+ va_list list;
+ va_start(list,nNumParams);
+ for(int i=0;i<nNumParams;i++) {
+  apStrings[i]=AptString::Create();
+  apStrings[i]->setStringInline(va_arg(list,const char *));
+ }
+ va_end(list);
+ for(int j=nNumParams-1;j>=0;j--)
+  g_aptDateInterpreter.stack.Push((BfmeAptValue006DCD20 *)apStrings[j]);
+ GAPCHECK(context,"pContext",0x504);
+ EAStringC name(function);
+ AptValue *value=g_aptDateInterpreter.getVariable(context,0,&name,1,1,0);
+ void *saved=AptPushStaticData();
+ g_aptDateInterpreter.callFunction(context,value,nNumParams);
+ rva007097B0(saved);
+ if(result) {
+  AptValue *top=(AptValue *)g_aptDateInterpreter.stack.At(0);
+  top->rva006DE870(result);
+ }
+ g_aptDateInterpreter.stack.rva006FE920();
+}
+
 void Rva006CCD90CallFunction(const char *function,char *result,const char *target,int nArgs,...) {
  AptValue *context;
  if(target) {
