@@ -1,10 +1,4 @@
 // ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
-// partial score=0.84 date=2026-10-17
-// ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
-// partial score=0.867823231141667 date=2026-10-14
-// ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
-// partial score=0.8618820999219237 date=2026-10-13
-// ?ProcessGameSpyResponses@AptOnlineCustomMatch@@QAEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -13,43 +7,34 @@
 //
 // The online custom match screen's GameSpy response pump: WorldBuilder
 // 0x014F0FA0 AptOnlineCustomMatch::ProcessGameSpyResponses
-// (AptOnlineCustomMatch.cpp). It merges Zero Hour's WOLLobbyMenuUpdate and
-// WOLGameSetupMenuUpdate response loops (semantic guide) onto the Apt
-// screen: buddy and persistent-storage responses first, then up to
-// getMaxMessagesPerUpdate peer responses, each also shown to the messenger
-// (0x005AF12F), until an important one is seen.
+// (AptOnlineCustomMatch.cpp; a unit of its own here for its /G7 flags). It
+// merges Zero Hour's WOLLobbyMenuUpdate and WOLGameSetupMenuUpdate response
+// loops (semantic guide) onto the Apt screen: buddy and persistent-storage
+// responses first, then up to getMaxMessagesPerUpdate peer responses, each
+// also shown to the messenger (0x005AF12F), until an important one is seen.
 // Evidence (target): the retail case bodies, labels and callees; field
 // offsets and virtual slots are read from retail (they differ from the
 // WorldBuilder build).
 //
-// Round3 bank: guarded do/while is behavior-equivalent to the original decrementing
-// response loop, including its final allowedMessages decrement. It removes entry
-// receiver enregistration and permits the native host-left/common-message tail merge.
-// Current emitted9233B vs retail9218, frame17D0 both; all calls resolve, EH8 offset
-// bytes differ. Normalized instruction alignment .931670 (baseline .921189), byte
-// fitness .861882 (baseline .851255). These differ from the prior bank's score metric.
-// Remaining: wrong entry test (no initial jump to bottom), stack homes1C/48 vs20/5C,
-// missing shared13 register constant, and statement/register scheduling differences.
-// Thirty-plus loop, receiver, compiler and helper variants plus focused mechanical
-// sweep did not close this. Outlined message helper yields .989 structural but adds
-// a call absent in retail and was discarded. No Code edits or new pins.
-
-// Round4: a compiler barrier after the important-message initialization restores
-// retail entry EH-state/flag store scheduling; inlining the single-use HWS slot
-// index restores the game pointer to ESI without adding instructions. Isolated
-// full-TU reproduction: 9233 bytes, frame17D0, zero unresolved calls, EH8 stack
-// displacement bytes remain. Fitness .86782323 (previous .86188210).
-// Over2100 trials rejected misleading score-only gains and retained real opcode
-// improvements. Other loop/field/lifetime/storage forms did not close the body.
+// The register shape (13 held in ESI from the switch head through the
+// PLAYERJOIN kick, `this` in a frame home) follows the original's inline
+// GameSlot accessors, which the WorldBuilder build shows as calls: the saved
+// slot getters while restoring a save in PLAYERJOIN and the slot getters in
+// PLAYERUTM. PLAYERCHANGEDFLAGS and response 22 are separate case bodies
+// (distinct WorldBuilder jump-table targets), which retail's dispatch tail
+// `jne default; jmp` keeps after cross-jumping merges them.
 
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+namespace _STL { void __cdecl free(void *block) throw(...); }
+#define free _STL::free
 #include <map>
 #include <string>
 #include <vector>
+#undef free
 
 typedef int Int;
 typedef bool Bool;
@@ -64,7 +49,7 @@ enum { PLAYERTEMPLATE_OBSERVER = -2 };
 enum SlotState { SLOT_OPEN = 0, SLOT_PLAYER = 6 };
 enum GameSpyColors { GSCOLOR_DEFAULT = 0 };
 
-// strncpy, sscanf, atoi and _stricmp go through msvcr71's import table while
+// strncpy, sscanf, atoi and _strcmpi go through msvcr71's import table while
 // the inlined STLport string destructors free through the game's direct
 // _free; /D_CRTIMP= gives the direct forms and the IAT forms live in their own
 // scope (as GameInfoPlayerCounts.cpp).
@@ -73,11 +58,11 @@ namespace CrtIAT
 extern "C" __declspec(dllimport) char *__cdecl strncpy(char *dest, const char *src, size_t count);
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char *s, const char *fmt, ...);
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *s);
-extern "C" __declspec(dllimport) int __cdecl _stricmp(const char *a, const char *b);
+extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
 }
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
-extern "C" __declspec(dllimport) unsigned long __stdcall ntohl(unsigned long netlong);
+extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long hostlong);
 
 extern Color GameSpyColor[];
 
@@ -88,7 +73,11 @@ int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *t, void *movie, const char *pa
 void HandleBuddyResponses();
 void HandlePersistentStorageResponses();
 // AptMessengerOnline::ProcessGameSpyResponse in WorldBuilder.
-void rva005AF12F(void *response);
+class AptMessengerOnline
+{
+public:
+	static bool ProcessGameSpyResponse(void *response);
+};
 // Zero Hour's GameSpyCloseAllOverlays.
 void Rva00548C1ACleanup();
 void GSMessageBoxOk(UnicodeString title, UnicodeString body, void (*okFunc)() = 0);
@@ -214,6 +203,21 @@ public:
 	void rva003FF5F2(const AsciiString &clanID);
 
 	const UnicodeString &getName() const { return m_name; }
+	Int getColor() const { return m_color; }
+	void setColor(Int v) { m_color = v; }
+	Int getStartPos() const { return m_startPos; }
+	void setStartPos(Int v) { m_startPos = v; }
+	void setStartPos14(Int v) { m_startPos14 = v; }
+	Int getPlayerTemplate() const { return m_playerTemplate; }
+	Int getTeamNumber() const { return m_teamNumber; }
+	void setTeamNumber(Int v) { m_teamNumber = v; }
+	Int getHandicap() const { return m_handicap; }
+	void setHandicap(Int v) { m_handicap = v; }
+	void setNATBehavior(Int v) { m_natBehavior = v; }
+	Int getHero0() const { return m_hero[0]; }
+	Int getHero1() const { return m_hero[1]; }
+	Int getHero2() const { return m_hero[2]; }
+	Int getHero3() const { return m_hero[3]; }
 
 	void setIP(UnsignedInt ip)
 	{
@@ -295,6 +299,15 @@ struct SavedSlot
 	UnsignedByte m_pad24[0x50 - 0x24];
 	Int m_hero[4];		   // +0x50
 	UnsignedByte m_pad60[0x1AC - 0x60];
+	Int getColor() const { return m_color; }
+	Int getStartPos() const { return m_startPos; }
+	Int getPlayerTemplate() const { return m_playerTemplate; }
+	Int getTeamNumber() const { return m_teamNumber; }
+	Int getHandicap() const { return m_handicap; }
+	Int getHero0() const { return m_hero[0]; }
+	Int getHero1() const { return m_hero[1]; }
+	Int getHero2() const { return m_hero[2]; }
+	Int getHero3() const { return m_hero[3]; }
 };
 
 struct SavedGameSlots
@@ -684,7 +697,7 @@ public:
 	void rva005A20A7();
 	bool rva005A1EEE();
 
-	void PopulateGamesListBox() { ((Rva005A0D61 *)this)->rva005A061B(); }
+	void PopulateGamesListBox();
 
 private:
 	AptMpGameSetup m_setup;			 // +0x70
@@ -706,23 +719,18 @@ private:
 };
 
 
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 void AptOnlineCustomMatch::ProcessGameSpyResponses()
 {
 	HandleBuddyResponses();
 	HandlePersistentStorageResponses();
 
 	Int allowedMessages = TheGameSpyInfo->getMaxMessagesPerUpdate();
-	struct { Int v; unsigned char pad[3]; } padAllowed = { 0 };
 	PeerResponse resp;
 	Bool sawImportantMessage = FALSE;
-	_ReadWriteBarrier();
-	while ((allowedMessages-- ? 1 : 1) && !sawImportantMessage)
+
+	while (allowedMessages-- && !sawImportantMessage && TheGameSpyPeerMessageQueue->getResponse(resp))
 	{
-		if (!TheGameSpyPeerMessageQueue->getResponse(resp))
-			break;
-		rva005AF12F(&resp);
+		AptMessengerOnline::ProcessGameSpyResponse(&resp);
 		switch (resp.peerResponseType)
 		{
 		case PeerResponse::PEERRESPONSE_CREATESTAGINGROOM:
@@ -785,8 +793,8 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 					void *movie = m_owner->m_movie;
 					Rva00524EF4AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager, movie, v10(), "ClosePassword");
 				}
-				Bool isHostPresent = (1 ? TRUE : TRUE);
-				if ((1 ? resp.joinStagingRoom.ok == TRUE : resp.joinStagingRoom.ok == TRUE))
+				Bool isHostPresent = TRUE;
+				if (resp.joinStagingRoom.ok == TRUE)
 				{
 					GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
 					if (!room)
@@ -795,11 +803,11 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 					}
 					else
 					{
-						isHostPresent = (1 ? FALSE : FALSE);
-						for (Int i = (1 ? 0 : 0); i < MAX_SLOTS; ++i)
+						isHostPresent = FALSE;
+						for (Int i = 0; i < MAX_SLOTS; ++i)
 						{
 							AsciiString hostName;
-							hostName.translate((1 ? room->getConstSlot(0)->m_name : room->getConstSlot(0)->m_name));
+							hostName.translate(room->getConstSlot(0)->m_name);
 							const char *playerName = resp.stagingRoomPlayerNames[i].c_str();
 							char name[256] = "";
 							CrtIAT::strncpy(name, playerName, 255);
@@ -891,11 +899,6 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 			}
 			break;
 
-		case PeerResponse::PEERRESPONSE_PLAYERCHANGEDFLAGS:
-			{
-				m_setup.enable();
-			}
-			break;
 
 		case PeerResponse::PEERRESPONSE_PLAYERINFO:
 			{
@@ -904,11 +907,6 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 			}
 			break;
 
-		case PeerResponse::PEERRESPONSE_22:
-			{
-				m_setup.enable();
-			}
-			break;
 
 		case PeerResponse::PEERRESPONSE_PLAYERJOIN:
 			{
@@ -970,23 +968,23 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 							UnicodeString uName;
 							uName.translate(resp.nick.c_str());
 							newSlot.setState(SLOT_PLAYER, uName, &GameSlotConnectInfo());
-							newSlot.m_ipPort = IPPort(ntohl(resp.player.IP), 8088);
+							newSlot.m_ipPort = IPPort(htonl(resp.player.IP), 8088);
 							if (game->m_restoringSave)
 							{
 								SavedGameSlots *saved = game->m_savedSlots;
 								if (saved)
 								{
 									const SavedSlot *savedSlot = &saved->m_slots[openSlotIndex];
-									newSlot.m_color = savedSlot->m_color;
-									newSlot.m_startPos = savedSlot->m_startPos;
-									newSlot.m_startPos14 = savedSlot->m_startPos;
-									newSlot.setPlayerTemplate(savedSlot->m_playerTemplate);
-									newSlot.m_teamNumber = savedSlot->m_teamNumber;
-									newSlot.m_handicap = savedSlot->m_handicap;
-									newSlot.m_hero[0] = savedSlot->m_hero[0];
-									newSlot.m_hero[1] = savedSlot->m_hero[1];
-									newSlot.m_hero[2] = savedSlot->m_hero[2];
-									((Rva003FF0E7DwordSlot *)&newSlot)->set(savedSlot->m_hero[3]);
+									newSlot.m_color = savedSlot->getColor();
+									newSlot.m_startPos = savedSlot->getStartPos();
+									newSlot.m_startPos14 = savedSlot->getStartPos();
+									newSlot.setPlayerTemplate(savedSlot->getPlayerTemplate());
+									newSlot.m_teamNumber = savedSlot->getTeamNumber();
+									newSlot.m_handicap = savedSlot->getHandicap();
+									newSlot.m_hero[0] = savedSlot->getHero0();
+									newSlot.m_hero[1] = savedSlot->getHero1();
+									newSlot.m_hero[2] = savedSlot->getHero2();
+									((Rva003FF0E7DwordSlot *)&newSlot)->set(savedSlot->getHero3());
 									newSlot.m_natBehavior = 1;
 								}
 							}
@@ -1019,6 +1017,15 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 				}
 				if (!kicked)
 					Rva0059FF9DDo();
+			}
+		case PeerResponse::PEERRESPONSE_PLAYERCHANGEDFLAGS:
+			{
+				m_setup.enable();
+			}
+			break;
+
+		case PeerResponse::PEERRESPONSE_22:
+			{
 				m_setup.enable();
 			}
 			break;
@@ -1252,26 +1259,24 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 						senderName = it->second.m_name;
 					else
 						senderName.set(resp.nick.c_str());
-					if (game && game->getSlot(0) && game->getSlot(0)->isPlayer(senderName) && !TheGameSpyInfo->amIHost())
+					Bool valid = game && game->getSlot(0) && game->getSlot(0)->isPlayer(senderName) && !TheGameSpyInfo->amIHost();
+					if (!valid)
+						break;
+					Int slotNum = -1;
+					AsciiString options = resp.commandOptions.c_str();
+					AsciiString token;
+					AsciiString name;
+					while (options.nextToken(&token, ",=") && options.nextToken(&name, ",="))
 					{
-						AsciiString options = resp.commandOptions.c_str();
-						Int slotNum = -1;
-						AsciiString token;
-						AsciiString name;
-						while (options.nextToken(&token, ",="))
+						if (CrtIAT::sscanf(token.str(), "%d", &slotNum) != 1)
+							break;
+						if (slotNum >= 0 && slotNum < MAX_SLOTS)
 						{
-							if (!options.nextToken(&name, ",="))
-								break;
-							if (CrtIAT::sscanf(token.str(), "%d", &slotNum) != 1)
-								break;
-							if (slotNum >= 0 && slotNum < MAX_SLOTS)
+							GameSlot *slot = game->getSlot(slotNum);
+							if (slot && !name.isEmpty())
 							{
-								GameSlot *slot = game->getSlot(slotNum);
-								if (slot && !name.isEmpty())
-								{
-									UnicodeString uName(MultiByteToWideCharSingleLine(name.str()).c_str());
-									slot->m_name = uName;
-								}
+								UnicodeString uName(MultiByteToWideCharSingleLine(name.str()).c_str());
+								slot->m_name = uName;
 							}
 						}
 					}
@@ -1305,14 +1310,14 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 						m_setup.rva0043DC0F();
 					}
 				}
-				else if (!CrtIAT::_stricmp(resp.command.c_str(), "NAT"))
+				else if (!CrtIAT::_strcmpi(resp.command.c_str(), "NAT"))
 				{
 					if (TheNAT != NULL)
 					{
 						TheNAT->processGlobalMessage(-1, resp.commandOptions.c_str());
 					}
 				}
-				else if (!CrtIAT::_stricmp(resp.command.c_str(), "Pings"))
+				else if (!CrtIAT::_strcmpi(resp.command.c_str(), "Pings"))
 				{
 					GameSpyStagingRoom *game = TheGameSpyInfo->getCurrentStagingRoom();
 					if (game && !TheGameSpyInfo->amIHost())
@@ -1334,7 +1339,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 						}
 					}
 				}
-				else if (!CrtIAT::_stricmp(resp.command.c_str(), "PIDS"))
+				else if (!CrtIAT::_strcmpi(resp.command.c_str(), "PIDS"))
 				{
 					GameSpyStagingRoom *game = TheGameSpyInfo->getCurrentStagingRoom();
 					if (game)
@@ -1396,7 +1401,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 					else
 						senderName.set(resp.nick.c_str());
 					Int slotNum = game->getSlotNum(senderName);
-					if ((slotNum >= 0) && (slotNum < MAX_SLOTS) && (!CrtIAT::_stricmp(resp.command.c_str(), "NAT")))
+					if ((slotNum >= 0) && (slotNum < MAX_SLOTS) && (!CrtIAT::_strcmpi(resp.command.c_str(), "NAT")))
 					{
 						// this is a command for NAT negotiations, pass if off to TheNAT
 						if (TheNAT != NULL)
@@ -1488,7 +1493,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 
 							if (key.compare("Color") == 0)
 							{
-								if (val >= -1 && val < TheMultiplayerSettings->getNumColors() && val != slot->m_color && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
+								if (val >= -1 && val < TheMultiplayerSettings->getNumColors() && val != slot->getColor() && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
 								{
 									slot->m_color = val;
 									change = true;
@@ -1513,7 +1518,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 							}
 							else if (key.compare("StartPos") == 0)
 							{
-								if (val >= -1 && val != slot->m_startPos && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
+								if (val >= -1 && val != slot->getStartPos() && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
 								{
 									Bool startPosAvailable = TRUE;
 									if (val != -1)
@@ -1521,7 +1526,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 										for (Int i = 0; i < MAX_SLOTS; i++)
 										{
 											GameSlot *checkSlot = game->getSlot(i);
-											if (val == checkSlot->m_startPos && slot != checkSlot)
+											if (val == checkSlot->getStartPos() && slot != checkSlot)
 											{
 												startPosAvailable = FALSE;
 												break;
@@ -1541,7 +1546,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 							}
 							else if (key.compare("Team") == 0)
 							{
-								if (val >= -1 && val < MAX_SLOTS / 2 && val != slot->m_teamNumber && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
+								if (val >= -1 && val < MAX_SLOTS / 2 && val != slot->getTeamNumber() && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
 								{
 									slot->m_teamNumber = val;
 									change = true;
@@ -1550,7 +1555,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 							}
 							else if (key.compare("clanID") == 0)
 							{
-								if (static_cast<const Rva004DBFF1Name &>(((const Rva003821B9AsciiField *)slot)->get()).compareText(options.str() + 1) != 0 && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
+								if (((const Rva003821B9AsciiField *)slot)->get().compare(options.str() + 1) != 0 && slot->m_playerTemplate != PLAYERTEMPLATE_OBSERVER)
 								{
 									slot->rva003FF5F2(AsciiString(options.str() + 1));
 									m_setup.enableByte();
@@ -1628,5 +1633,5 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 			}
 			break;
 		}
-	} while(allowedMessages-- && !sawImportantMessage);
+	}
 }
