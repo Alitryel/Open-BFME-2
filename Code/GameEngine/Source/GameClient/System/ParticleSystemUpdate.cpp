@@ -1,103 +1,17 @@
-// ?update@Rva001FAB59@@QAE_NH@Z
-// partial score=0.956 date=2026-10-13
-// ?update@Rva001FAB59@@QAE_NH@Z
-// partial score=0.9614 date=2026-10-11
-// cl: /O1 /Ob2 /Oy- /MD /arch:SSE /G7 /DNDEBUG /Ireference/shims/bfme2_ascii
-// ?update@Rva001FAB59@@QAE_NH@Z  retail 0x001FAB59..0x001FB201 (1704 B) RET 4
-// Intended home: Code/GameEngine/Source/GameClient/System/ParticleSystemUpdate.cpp
-// (includes are written relative to that path). ZH ParticleSystem::update shape
-// plus BFME2 profiling/bone attachment from WB debug body 0xB11B60.
-// Status 2026-10-11: compiles 1709 B; everything matches except the Matrix3D::mul
-// row-0 Z term in all four columns (retail movaps xmm3,xmm2; mulss xmm3,[esi+8];
-// ours movss xmm3,[esi+8]; mulss xmm3,xmm2) and the column-W row-1 X term.
-// Levers found: Vector3 Get_Translation + forceinline set through a pointer fixes
-// the translation copies; const Real *r = &row.X indexing in submul flips the Y
-// terms; Bool transformSet declared before parentXfrm (ZH order) matters.
-// Object transform is at +0x8. Canonical Coord3D only, no dead throw block.
+// cl: /O1 /Ob2 /Oy- /MD /arch:SSE /G7 /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// Rva001FAB59::update, retail 0x001FAB59 (1704 B, RET 4): Zero Hour ParticleSystem::update plus BFME 2's
+// profiling timer, master-system skip and bone-attached parent transform (WB debug body 0xB11B60).
+// Matrix3D, Vector3 and Vector4 come from WWMath's matrix3d.h; the Object transform is at +0x8.
 #include "ascii_string.h"
-#include "Code/Libraries/Include/Lib/Coord3D.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 
 typedef float Real;
 typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-class Vector3
-{
-public:
-	__forceinline Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
-	Real X, Y, Z;
-};
-
-class Vector4
-{
-public:
-	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
-	Real X, Y, Z, W;
-};
-
-static __forceinline Real submul(const Vector4 &row, Real tmp1, Real tmp2, Real tmp3)
-{
-	const Real *r = &row.X;
-	return r[0] * tmp1 + r[1] * tmp2 + r[2] * tmp3;
-}
-
-class Matrix3D
-{
-public:
-	__forceinline Matrix3D &operator=(const Matrix3D &m)
-	{
-		Row[0] = m.Row[0];
-		Row[1] = m.Row[1];
-		Row[2] = m.Row[2];
-		return *this;
-	}
-	__forceinline Vector3 Get_Translation() const { return Vector3(Row[0].W, Row[1].W, Row[2].W); }
-	__forceinline void Set_X_Translation(Real x) { Row[0].W = x; }
-	__forceinline void Set_Y_Translation(Real y) { Row[1].W = y; }
-	__forceinline void Set_Z_Translation(Real z) { Row[2].W = z; }
-
-	// does "this = A * B"
-	__forceinline void mul(const Matrix3D &A, const Matrix3D &B)
-	{
-		Real tmp1, tmp2, tmp3;
-
-		tmp1 = B.Row[0].X;
-		tmp2 = B.Row[1].X;
-		tmp3 = B.Row[2].X;
-
-		this->Row[0].X = submul(A.Row[0], tmp1, tmp2, tmp3);
-		this->Row[1].X = submul(A.Row[1], tmp1, tmp2, tmp3);
-		this->Row[2].X = submul(A.Row[2], tmp1, tmp2, tmp3);
-
-		tmp1 = B.Row[0].Y;
-		tmp2 = B.Row[1].Y;
-		tmp3 = B.Row[2].Y;
-
-		this->Row[0].Y = submul(A.Row[0], tmp1, tmp2, tmp3);
-		this->Row[1].Y = submul(A.Row[1], tmp1, tmp2, tmp3);
-		this->Row[2].Y = submul(A.Row[2], tmp1, tmp2, tmp3);
-
-		tmp1 = B.Row[0].Z;
-		tmp2 = B.Row[1].Z;
-		tmp3 = B.Row[2].Z;
-
-		this->Row[0].Z = submul(A.Row[0], tmp1, tmp2, tmp3);
-		this->Row[1].Z = submul(A.Row[1], tmp1, tmp2, tmp3);
-		this->Row[2].Z = submul(A.Row[2], tmp1, tmp2, tmp3);
-
-		tmp1 = B.Row[0].W;
-		tmp2 = B.Row[1].W;
-		tmp3 = B.Row[2].W;
-
-		this->Row[0].W = submul(A.Row[0], tmp1, tmp2, tmp3) + A.Row[0].W;
-		this->Row[1].W = submul(A.Row[1], tmp1, tmp2, tmp3) + A.Row[1].W;
-		this->Row[2].W = submul(A.Row[2], tmp1, tmp2, tmp3) + A.Row[2].W;
-	}
-
-	Vector4 Row[3];
-};
+#include "matrix3d.h"
 
 static __forceinline void setCoord(Coord3D *c, Real x, Real y, Real z)
 {
@@ -270,6 +184,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 		--m_delayLeft;
 
 		// system actually "starts" once initial delay is over
+		/// @todo reset start time when system is stopped/started
 		if (m_delayLeft == 0)
 			m_startTimestamp = TheGameClient->getFrame();
 
@@ -281,8 +196,12 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 
 	if (m_masterSystem == NULL)
 	{
+		// if this system is attached to a Drawable/Object, update the current transform
+		// matrix so generated particles' are relative to the parent Drawable's
+		// position and orientation
 		Bool transformSet = false;
 		const Matrix3D *parentXfrm = NULL;
+		Vector3 pos;
 
 		if (m_attachedToDrawableID)
 		{
@@ -298,7 +217,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 				parentXfrm = attachedTo->getTransformMatrix();
 
 				m_lastPos = m_pos;
-				Vector3 pos = parentXfrm->Get_Translation();
+				parentXfrm->Get_Translation(&pos);
 				setCoord(&m_pos, pos.X, pos.Y, pos.Z);
 
 				if (!m_attachedBoneName.isEmpty())
@@ -344,12 +263,12 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 					parentXfrm = objectAttachedTo->getTransformMatrix();
 
 				m_lastPos = m_pos;
-				Vector3 pos = parentXfrm->Get_Translation();
+				parentXfrm->Get_Translation(&pos);
 				setCoord(&m_pos, pos.X, pos.Y, pos.Z);
 			}
 			else
 			{
-				// Object has been destroyed - lose our attachment to it
+				// Drawable has been destroyed - lose our attachment to it
 				m_attachedToObjectID = INVALID_OBJECT_ID;
 
 				// destroy ourselves
@@ -361,7 +280,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 		{
 			if (m_skipParentXfrm)
 			{
-				// this particle system is already in world space so no need to apply parent xform.
+				//this particle system is already in world space so no need to apply parent xform.
 				m_transform = m_localTransform;
 			}
 			else
@@ -394,6 +313,7 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 		if (m_controlParticle)
 		{
 			const Coord3D *controlPos = m_controlParticle->getPosition();
+			/// @todo Concatenate this, instead of overriding (MSB)
 			m_transform.Set_X_Translation(controlPos->x);
 			m_transform.Set_Y_Translation(controlPos->y);
 			m_transform.Set_Z_Translation(controlPos->z);
@@ -402,6 +322,10 @@ Bool Rva001FAB59::update(Int localPlayerIndex)
 			m_pos = *controlPos;
 		}
 
+		//
+		// Generate new particles if the system hasn't been 'stopped' or 'destroyed'
+		// If we are a slave system, do not generate particles ourselves - our master will force us to
+		//
 		if (m_isDestroyed == false)
 		{
 			if (m_isForever || (m_isForever == false && m_systemLifetimeLeft > 0))
