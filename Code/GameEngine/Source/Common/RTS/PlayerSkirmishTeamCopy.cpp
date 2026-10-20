@@ -38,14 +38,12 @@ private:
 	void *m_data;
 };
 
-// Retail 0x003B693A is owned by this rowed receiver view.
-class Rva003B693AHolder { public: void rva003B693A(); };
-
 class ScriptList
 {
 public:
 	ScriptList(const ScriptList &src);
 	virtual ~ScriptList();
+	void rva003B693A();
 
 private:
 	char m_data[0x48];
@@ -209,7 +207,7 @@ void Player::rva002AD25B(const AsciiString &playerName)
 		ScriptList scripts(*TheSidesList->getSkirmishSideInfo(skirmishIndex)->getScriptList());
 		SidesInfo *side = TheSidesList->getSideInfo(m_playerIndex);
 		((BfmeThingGE *)&scripts)->rva003B89A7((BfmeSubGE *)side->getScriptList());
-		((Rva003B693AHolder *)&scripts)->rva003B693A();
+		scripts.rva003B693A();
 		side->setScriptList(&scripts);
 	}
 	// Now add teams.
