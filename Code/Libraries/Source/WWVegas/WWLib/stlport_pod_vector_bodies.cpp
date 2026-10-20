@@ -35,6 +35,10 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, siz
 // bfme link decl-only begin
 namespace _STL { template <> unsigned char * allocator<unsigned char>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod44@@V?$allocator@UBfmePod44@@@_STL@@@_STL@@IAEXPAUBfm:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod44;
+namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_insert_overflow(BfmePod44 *, const BfmePod44 &, const __false_type &, size_t, bool); }
 struct BfmePod20 { int a[5]; };
 struct BfmePod24 { int a[6]; };
 inline bool operator==(const BfmePod20 &x, const BfmePod20 &y) { return x.a[0] == y.a[0]; }
