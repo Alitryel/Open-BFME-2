@@ -28,6 +28,16 @@ class SubsystemInterface
 public:
 	SubsystemInterface();
 	virtual ~SubsystemInterface();
+	virtual void init() = 0;
+	virtual bool loadIniFilesFromLegend();
+	virtual void postProcessLoad();
+	virtual bool vslot04(int);
+	virtual bool vslot05();
+	virtual int vslot06();
+	virtual void vslot07(int);
+	virtual void vslot08();
+	virtual void reset() = 0;
+	virtual void update() = 0;
 
 private:
 	char m_pad04[8];
@@ -38,6 +48,11 @@ struct BfmePod8
 	int words[2];
 };
 
+typedef std::pair<const int, BfmePod8> TeamMapValue;
+typedef std::_Rb_tree<int, TeamMapValue, std::_Select1st<TeamMapValue>, std::less<int>, std::allocator<TeamMapValue> > TeamMapTree;
+// Use the shared destructor already selected for the POD-map family.
+template <> TeamMapTree::~_Rb_tree();
+
 class TeamPrototype;
 
 class TeamFactory : public SubsystemInterface, public Snapshot
@@ -45,6 +60,10 @@ class TeamFactory : public SubsystemInterface, public Snapshot
 public:
 	TeamFactory();
 	virtual ~TeamFactory();
+	// Native primary table slots, shared with TeamFactoryDtor.cpp.
+	virtual void init();
+	virtual void reset();
+	virtual void update();
 
 protected:
 	virtual void loadPostProcess();

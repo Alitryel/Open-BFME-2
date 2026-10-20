@@ -25,3 +25,9 @@ All 11 changed rows byte-match. Strict self preparation also passes all
 17 rows across the three measured units. No new variants, undeclared
 functions or CSV errors. These are legacy preview and self-strict results;
 closure/full link/census have not been run or updated.
+
+Shadow identity follow-up: removing the competing 33-byte base copy changes
+the kept 36-byte copy's binding from divergent to wrong/unknown, not a proven
+byte mismatch. Its alloc-proxy callee at 0x0014F3C4 has no known address; see
+the constructor follow-up evidence. Shadow divergent iterator/allocator
+helper findings remain. No closed-strict gain is claimed.
