@@ -19,6 +19,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 struct BfmePod8 { int a[2]; };
+namespace _STL { template <> BfmePod8 * __copy<BfmePod8 *, BfmePod8 *, int>(BfmePod8 *, BfmePod8 *, BfmePod8 *, const random_access_iterator_tag &, int *); }
 struct BfmeE8 { unsigned char m0; unsigned char m1; unsigned short m2; int m4; };
 // The rowed retail copy (stlport_vector_e8_allocate_copy.cpp, 0x00057C80) serves the link.
 namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, const BfmeE8 &, const __false_type &, unsigned int, bool); } namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(const BfmeE8 &); }
