@@ -5,7 +5,7 @@
 // Rva005C6D4D::secondarySetCount(int). Evidence: pinned name, 2 callers
 // including Rva0053ED1A::rva0053EFC7, prev/next TUs, RB_tree clear at
 // +0x30 (rowed 0x005C6B83), vtable slots 2/3 per-iteration plus
-// pin-only rva005C6D9C/rva005C674A tail calls. Layout from retail
+// rva005C6D9C/rva005C674A tail calls. Layout from retail
 // immediates: count+8, flag+4, -500 at +0xC/+0x10, zeros to +0x24,
 // 0.0f at +0x28/+0x2C, tree at +0x30 (same as Rva005C6C7B dtor view).
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
@@ -22,12 +22,6 @@ struct Rva0027EA49
 bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b);
 typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > Rva0027EA49Tree;
 
-class Rva005C674A
-{
-public:
-	void rva005C674A();
-};
-
 class Rva005C6D4D
 {
 public:
@@ -36,6 +30,7 @@ public:
 	virtual void v2(int a, void *b, void *c);
 	virtual void v3(int a, int b);
 	void rva005C6D9C();
+	void rva005C674A();
 	void secondarySetCount(int count);
 	void rva005C674AHelper();
 private:
@@ -86,5 +81,5 @@ void Rva005C6D4D::secondarySetCount(int count)
 		v3(i, 0);
 	}
 	rva005C6D9C();
-	((Rva005C674A *)this)->rva005C674A();
+	rva005C674A();
 }

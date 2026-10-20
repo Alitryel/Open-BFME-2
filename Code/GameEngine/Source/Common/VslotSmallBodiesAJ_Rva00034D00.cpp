@@ -1285,7 +1285,7 @@ public:
 };
 
 
-class Rva005C674A
+class Rva005C6D4D
 {
 public:
 	void rva005C674A();
@@ -1296,7 +1296,7 @@ public:
 	void rva0053EC3A();
 private:
 	char m_pad00[0x0C];
-	Rva005C674A m_0C;
+	Rva005C6D4D m_0C;
 };
 void Rva0053EC3A::rva0053EC3A()
 {
