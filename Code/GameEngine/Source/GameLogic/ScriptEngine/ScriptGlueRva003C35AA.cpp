@@ -42,3 +42,18 @@ void ScriptActions::Rva003C35AADo(const AsciiString *teamName, bool x, bool flag
 		return;
 	TheScriptEngine->rva00209811(*teamName, x);
 }
+
+// 0x003C35F7 (18B), a vtable slot right after 0x003C35AA: 0x003C35AA on the
+// same this with both arguments and true. Its owner is not recovered, so the
+// call goes through a member pointer that keeps the slot's two dwords.
+class Rva003C35F7
+{
+public:
+	void rva003C35F7(int a, int b);
+};
+
+void Rva003C35F7::rva003C35F7(int a, int b)
+{
+	(reinterpret_cast<ScriptActions *>(this)->*reinterpret_cast<void (ScriptActions::*)(int, int, bool)>(
+		&ScriptActions::Rva003C35AADo))(a, b, true);
+}

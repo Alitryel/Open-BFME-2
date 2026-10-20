@@ -78,13 +78,23 @@ private:
 };
 
 
-// 0x00349D02 (AI state tables): the pinned 0x003497E6 result, setting or
-// clearing status 0x1C on the owner as it is -1.
+// 0x00349D02 (AI state tables): the result of the rowed
+// AIAttackMeleeEngageState::updateInternal (0x003497E6, AIStates.cpp) on
+// this, setting or clearing status 0x1C on the owner as it is -1.
+enum StateReturnType
+{
+	STATE_CONTINUE = 0
+};
+class Rva00349D02;
+class AIAttackMeleeEngageState
+{
+	friend class Rva00349D02;
+	StateReturnType updateInternal();
+};
 class Rva00349D02
 {
 public:
 	Int rva00349D02();
-	Int rva003497E6();
 private:
 	char m_pad00[0x18];
 	Rva00349D02Machine *m_18;
@@ -92,7 +102,7 @@ private:
 Int Rva00349D02::rva00349D02()
 {
 	Object *owner = m_18->m_owner14;
-	Int result = rva003497E6();
+	Int result = reinterpret_cast<AIAttackMeleeEngageState *>(this)->updateInternal();
 	owner->setStatus(OBJECT_STATUS_1C, result == -1);
 	return result;
 }
@@ -141,20 +151,16 @@ public:
 
 
 
-// 0x003C35F7: the pinned 0x003C35AA with both arguments and true.
-class Rva003C35F7
-{
-public:
-	void rva003C35F7(Int a, Int b);
-	void rva003C35AA(Int a, Int b, bool c);
-};
-void Rva003C35F7::rva003C35F7(Int a, Int b)
-{
-	rva003C35AA(a, b, true);
-}
+// 0x003C35F7 lives beside its callee 0x003C35AA in ScriptGlueRva003C35AA.cpp.
 
 // 0x0040E0C5: for the argument's +0x78 object in state 4 (+0x2C), the
-// pinned 0x0040DF77 then the rowed 0x0040E02B; answers true.
+// rowed ArmySummary 0x0040DF77 (ArmySummary.cpp) then the rowed 0x0040E02B;
+// answers true.
+class ArmySummary
+{
+public:
+	void rva0040DF77();
+};
 class Rva0040E02B
 {
 public:
@@ -163,7 +169,6 @@ public:
 class Rva0040DF77 : public Rva0040E02B
 {
 public:
-	void rva0040DF77();
 	char m_pad00[0x2C];
 	Int m_2C;
 };
@@ -182,7 +187,7 @@ bool Rva0040E0C5::rva0040E0C5(Rva0040E0C5Arg *arg)
 	Rva0040DF77 *x = arg->m_78;
 	if (x && x->m_2C == 4)
 	{
-		x->rva0040DF77();
+		reinterpret_cast<ArmySummary *>(x)->rva0040DF77();
 		x->rva0040E02B();
 	}
 	return true;
@@ -263,18 +268,20 @@ public:
 };
 
 
-// 0x004CDF00 and 0x004CDF1D: the rowed base SpecialAbilityUpdate::onExit 0x004502CE with
-// both stack dwords then the pinned 0x004CDDBA(1); resp. only the latter while +0x08 is set.
+// 0x004CDF00 and 0x004CDF1D: the rowed SpecialAbilityUpdate::onExit
+// (0x004502CE, SpecialAbilityUpdate.cpp) with both arguments then the pinned
+// 0x004CDDBA(1); resp. only the latter while +0x08 is set.
+class ActivateModuleSpecialPower;
 class SpecialAbilityUpdate
 {
+	friend class ActivateModuleSpecialPower;
 protected:
 	virtual void onExit(bool a, bool b);
-	friend class ActivateModuleSpecialPower;
 };
 class ActivateModuleSpecialPower
 {
 public:
-	void rva004CDF00(Int a, Int b);
+	void rva004CDF00(bool a, bool b);
 	void onObjectCreated();
 	void SetWakeState(Int a);
 private:
@@ -282,9 +289,9 @@ private:
 	Int m_04;
 	Int m_08;
 };
-void ActivateModuleSpecialPower::rva004CDF00(Int a, Int b)
+void ActivateModuleSpecialPower::rva004CDF00(bool a, bool b)
 {
-	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::onExit((bool &)a, (bool &)b);
+	reinterpret_cast<SpecialAbilityUpdate *>(this)->SpecialAbilityUpdate::onExit(a, b);
 	SetWakeState(1);
 }
 
@@ -309,23 +316,23 @@ public:
 };
 
 
-// 0x00508925: whether the pinned 0x005075D6 accepts both arguments.
-class Rva00508925
-{
-public:
-	bool rva00508925(Int a, Int b);
-	unsigned char rva005075D6(Int a, Int b);
-};
-bool Rva00508925::rva00508925(Int a, Int b)
-{
-	return (bool)rva005075D6(a, b);
-}
-
+// 0x00508925: whether the rowed 0x005075D6 (Rva005075D6TargetFilter.cpp)
+// accepts both arguments on this.
 class Rva00507823
 {
 public:
 	unsigned char rva005075D6(const void *arg, Object *target);
 };
+
+class Rva00508925
+{
+public:
+	bool rva00508925(Int a, Int b);
+};
+bool Rva00508925::rva00508925(Int a, Int b)
+{
+	return (bool)reinterpret_cast<Rva00507823 *>(this)->rva005075D6((const void *)a, (Object *)b);
+}
 
 class Rva00508F1E : public Rva00507823
 {
@@ -367,17 +374,21 @@ private:
 
 
 // 0x003AFF06 (28B): a vtable slot that forwards both of its arguments to the
-// ParticleSystem member at 0x001F9BA4 (unrowed, pinned) through the system
+// ParticleSystem member at 0x001F9BA4 (rowed in Rva001F9BA4Generate.cpp as
+// FXParticleSystem::ParticleSystem::rva001F9BA4(void *, int)) through the system
 // held at +0x4, when one is held. The test goes through the conversion
 // operator, the call through operator->, which falls back to the rowed
 // null-system factory 0x001FCBD7 and re-reads +0x4 (volatile read), as the
 // sibling ParticleSystem::destroy (0x001F462C) does. Class and method names
 // are address-derived; the meaning is not recovered.
+class ParticleSystem;
+namespace FXParticleSystem {
 class ParticleSystem
 {
 public:
-	void rva001F9BA4(void *a, void *b);
+	void rva001F9BA4(void *context, Int count);
 };
+}
 
 ParticleSystem *Make001FCBD7(void);
 
@@ -414,5 +425,5 @@ private:
 void Rva003AFF06::rva003AFF06(void *a, void *b)
 {
 	if (m_system != 0)
-		m_system->rva001F9BA4(a, b);
+		reinterpret_cast<FXParticleSystem::ParticleSystem *>(m_system.operator->())->rva001F9BA4(a, (Int)b);
 }
