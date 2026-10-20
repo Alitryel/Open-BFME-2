@@ -15,6 +15,10 @@
 // releaseBuffer at 0x00887940.
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Construct@UGeometryRecord@@U1@@_STL@@YAXPAUGeometryRecord@@ABU1@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryRecord;
+namespace _STL { template <> void _Construct<GeometryRecord,GeometryRecord>(GeometryRecord *,GeometryRecord const &); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUGeometryShape@@U1@V?$allocator@UGeometryShape@@@_STL@@@_S:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryShape;
