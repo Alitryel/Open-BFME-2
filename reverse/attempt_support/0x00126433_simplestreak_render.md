@@ -6,9 +6,10 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
-## Current best (claudeb4, 2026-10-20): 0.8371, norm 2329/2637, 12025 B
+## Current best (claudeb4, 2026-10-20): 0.9069, norm 2341/2637, 12012 B
 
-0.8371 = the 0.8307 body plus item 7; 0.8307 = the 0.8285 body plus item 6.
+0.9069 = the 0.8371 body plus item 8; 0.8371 = the 0.8307 body plus item 7;
+0.8307 = the 0.8285 body plus item 6.
 
 The previous bank scored 0.7808 (norm 1974). The best body is built from that
 bank as follows:
@@ -47,6 +48,25 @@ bank as follows:
    0x1c into a worse register mode. The banked body splits each lane:
    `{float f=(c[i]<=0)?0:c[i]; c[i]=(f>1)?1:f;}` (0.8371, region 0x28 still has
    8 diffs, but 1b-1d stay in the good mode). Find a form that keeps both.
+8. **The shadow holder is an inline smart pointer** (`build/s126/g9/h5.cpp`).
+   WB's holder comes from BFME2's `WWLib/refcount.h`: member `m_obj`,
+   `operator->` asserts `m_obj != NULL` at refcount.h:308 (wb:0x74a690),
+   operator= (wb:0x74a5a0, retail 0x72A94) and the dtor (wb:0x74a4f0, retail
+   0x7B724) inc/dec `m_numRefs` at +4 and call vtable slot 0. Declaring
+   operator= and the dtor **inline** with those bodies changes everything: the
+   exhausted inline budget still leaves them out of line (retail's calls), but
+   MSVC no longer treats the holder as escaped. Result: this=ebx with the -0x180
+   spill as in retail, the holder at retail's -0x14, the referent cached in esi
+   across Begin/BeginPass and EndPass/End, frame +0x10 instead of +0x14.
+   Probe proof: `build/s126/pc/b1.cpp` (inline op= and dtor) caches; every
+   out-of-line declaration reloads.
+   - h5 calls `shadow.m_obj->Begin(...)`. Calling `shadow->` with an inline
+     `operator->` (h1, the WB shape) gives 0.8984: it flips c,d,1a-1f into the
+     bad mode. `T*p=m_obj;return p;` as the operator-> body (o8, 0.9045)
+     makes regions 5, 6 and 24 match and 7 almost match, but keeps c,d,1a-1f bad.
+     That mode is a tie-break between equal-weight mulss operands (region d
+     swaps `[esi]` and `[esi-0x14]`). It follows a temp or symbol count, so look
+     for a second change that flips it back on top of o8.
 
 ## Inline budget (why the setters stay out of line)
 
