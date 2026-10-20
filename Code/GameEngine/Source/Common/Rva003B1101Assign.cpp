@@ -33,6 +33,17 @@ void allocator<int>::deallocate(int* __p, size_t __n) const {
 template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
 }
 
+// Native 0x0021C21B is owned by the non-POD-traited four-byte record
+// specialization in StlSweepW5Rva0021C21B.cpp. Preserve this caller's
+// storage and argument ABI while naming the verified out-of-line provider.
+struct Rva0021C21BElement { char bytes[4]; };
+typedef _STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> > RetailAssignVector;
+namespace _STL {
+template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &
+vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(
+    const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &);
+}
+
 typedef int Int;
 
 class Overridable
@@ -117,7 +128,7 @@ Rva003B1101 &Rva003B1101::operator=(const Rva003B1101 &that)
 	m_18 = that.m_18;
 	m_1c = that.m_1c;
 	m_20 = that.m_20;
-	m_24 = that.m_24;
+	*(RetailAssignVector *)&m_24 = *(const RetailAssignVector *)&that.m_24;
 	m_30 = that.m_30;
 	m_34 = that.m_34;
 	m_38 = that.m_38;

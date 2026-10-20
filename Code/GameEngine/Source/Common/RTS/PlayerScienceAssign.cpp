@@ -30,6 +30,17 @@ void allocator<int>::deallocate(int* __p, size_t __n) const {
 template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
 }
 
+// Native 0x0021C21B is owned by the non-POD-traited four-byte record
+// specialization in StlSweepW5Rva0021C21B.cpp. Preserve this caller's
+// storage and argument ABI while naming the verified out-of-line provider.
+struct Rva0021C21BElement { char bytes[4]; };
+typedef _STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> > RetailAssignVector;
+namespace _STL {
+template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &
+vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(
+    const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &);
+}
+
 typedef std::vector<int> IntVec;
 
 class Player
@@ -43,5 +54,5 @@ public:
 void Player::rva002AC425(const IntVec &src)
 {
 	if (src.begin() != src.end())
-		m_vec2F0 = src;
+		*(RetailAssignVector *)&m_vec2F0 = *(const RetailAssignVector *)&src;
 }

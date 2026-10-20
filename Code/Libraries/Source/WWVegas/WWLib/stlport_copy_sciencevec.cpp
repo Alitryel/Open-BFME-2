@@ -31,6 +31,17 @@ private:
 
 }
 
+// Native 0x0021C21B is owned by the non-POD-traited four-byte record
+// specialization in StlSweepW5Rva0021C21B.cpp. Preserve this caller's
+// storage and argument ABI while naming the verified out-of-line provider.
+struct Rva0021C21BElement { char bytes[4]; };
+typedef _STL::vector<Rva0021C21BElement, _STL::allocator<Rva0021C21BElement> > RetailAssignVector;
+namespace _STL {
+template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &
+vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(
+    const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &);
+}
+
 typedef _STL::vector<int, _STL::allocator<int> > SciVec;
 
 SciVec *__cdecl Rva00339A8DCopy(SciVec *first, SciVec *last, SciVec *dest, void *tag, int extra)
@@ -39,7 +50,7 @@ SciVec *__cdecl Rva00339A8DCopy(SciVec *first, SciVec *last, SciVec *dest, void 
 	if (n <= 0)
 		return dest;
 	for (int i = n; i != 0; --i) {
-		*dest = *first;
+		*(RetailAssignVector *)dest = *(const RetailAssignVector *)first;
 		++first;
 		++dest;
 	}
@@ -60,7 +71,7 @@ SciVec *__cdecl Rva00339ABFCopy(SciVec *first, SciVec *last, SciVec *dest, void 
 	for (int i = n; i != 0; --i) {
 		--last;
 		--dest;
-		*dest = *last;
+		*(RetailAssignVector *)dest = *(const RetailAssignVector *)last;
 	}
 	return dest;
 }
