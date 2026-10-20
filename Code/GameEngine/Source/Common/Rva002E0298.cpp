@@ -15,6 +15,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <hash_map>
 #include <cstddef>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@W4ScienceType@@V?$allocator@W4ScienceType@@@_STL@@@_STL@@IAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ScienceType;
+namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(ScienceType *, const ScienceType &, const __false_type &, size_t, bool); }
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
 // the retail copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

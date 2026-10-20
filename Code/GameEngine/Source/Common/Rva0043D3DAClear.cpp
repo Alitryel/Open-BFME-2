@@ -19,6 +19,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@W4ScienceType@@V?$allocator@W4ScienceType@@@_STL@@@_STL@@IAEX:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+enum ScienceType;
+namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(ScienceType *, const ScienceType &, const __false_type &, size_t, bool); }
 // Suppress this TU's non-retail copy of ?allocate@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
