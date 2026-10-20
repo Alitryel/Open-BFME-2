@@ -104,10 +104,9 @@ namespace _STL { template <> allocator<void *>::~allocator(); }
 FXListStore *TheFXListStore = NULL;					///< the FXList store definition
 
 //-------------------------------------------------------------------------------------------------
-// Zero Hour's helper is static; here it has external linkage because
-// DynamicDecalFXNugget::doFXPos, its other caller, is built in its own unit
-// (DynamicDecalFXNuggetDoFXPos.cpp).
-void adjustVector(Coord3D *vec, const Matrix3D* mtx)
+// Zero Hour's helper is static; here it is select-any: DynamicDecalFXNuggetDoFXPos.cpp calls it,
+// and ParticleSystemFXNuggetReallyDoFX.cpp carries a visible copy for its caller's frame layout.
+__declspec(noinline) inline void adjustVector(Coord3D *vec, const Matrix3D* mtx)
 {
 	if (mtx)
 	{
