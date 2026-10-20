@@ -1,10 +1,10 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.985 date=2026-10-19
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.985 date=2026-10-18
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.9758 date=2026-10-15
-// W10-c5: the FX call goes through a static inline doFX(fx,a,b) wrapper (WB 0x10e9df0 shows the fx temp evaluated before the call), closing retail mov eax,[eax+0x30]; push edi; push ebx; push eax. Remaining: retail loads duration0c once (mov eax,[eax+0xc]; cmp eax,edx) where ours compares memory then reloads.
+// Duration: the configured-duration ternary reads entry04->duration0c directly (two reads,
+// CSE'd once; no if-conversion). templateID is read through an inline ThingTemplate getter
+// (WB 10ea04b keeps it in a short temp local_a6): that inline temp moves the register
+// priority so the frame stays ECX and the configured duration/ternary result take EAX,
+// matching retail mov eax,[eax+0xc]; cmp eax,edx; je; add eax,ecx.
+// FX call goes through a static inline doFX(fx,a,b) wrapper (fx evaluated before the pushes).
 // cl: /I. /O1 /G7 /arch:SSE /EHsc /MD /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Primary guide: BFME 1 EmotionNugget.cpp at verified pointer 0bef414b5.
@@ -31,7 +31,7 @@ protected:
 public:
     char pad04[0x3c5-4]; unsigned char allow04;
 };
-class ThingTemplate { public: char pad00[0x5d8]; unsigned short templateID; };
+class ThingTemplate { public: unsigned short getTemplateID() const { return templateID; } char pad00[0x5d8]; unsigned short templateID; };
 struct ModelConditionFlags {
  unsigned int words[19];
  unsigned int test(size_t bit) const { return words[bit/32] & (1UL << (bit%32)); }
@@ -98,21 +98,20 @@ public:
     _STL::map<unsigned short, int> templates20;
     unsigned until2c, activated30;
 };
-static inline unsigned addDur(unsigned frame, unsigned dur) { return dur ? frame + dur : 0; }
 static inline void doFX(const FXList *fx, const Object *a, const Object *b) { FXList::doFXObj(fx, a, b); }
 void EmotionNugget::OnActivation(Object *target, int duration)
 {
     activated30 = TheGameLogic->getFrame();
     if (target) {
         id08 = target->getID();
-        template0c = target->getTemplate()->templateID;
+        template0c = target->getTemplate()->getTemplateID();
     } else {
         id08 = 0;
         template0c = 0;
     }
     unsigned frame = activated30;
     if (duration > 0) until2c = frame + duration;
-    else until2c = getTemplate()->duration0c ? frame + getTemplate()->duration0c : 0;
+    else until2c = entry04->duration0c ? frame + entry04->duration0c : 0;
     if (getTemplate()->fx30) {
         Object *object = object00;
         void *query = object->rva0029439D();
