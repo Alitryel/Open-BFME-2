@@ -12,6 +12,10 @@
 // member constructions, so this unit compiles without an EH option, like the
 // verified PlayerAITypeSet sibling.
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> vector<Object *,allocator<Object *> >::~vector(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVObject@@@_STL@@QBEXPAPAVObject@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Object;
