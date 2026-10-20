@@ -427,7 +427,7 @@ void *rva002EBC59(void *out, void *obj, Int a2, Int a3, Int a4);
 class Rva002CB35CObj
 {
 public:
-	Bool rva002CB35C(Int a1, void *pos, void *a3, void *a4, float range, Int a6);
+	__declspec(dllimport) Bool rva002CB35C(Int a1, void *pos, void *a3, void *a4, float range, Int a6);	// forwards to the rowed Weapon::isWithinAttackRange
 };
 
 // CanApproachToTarget's helpers. The rowed 0x002C9B80 range query returns a
@@ -443,6 +443,10 @@ class Weapon
 public:
 	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
 };
+__forceinline Bool Rva002CB35CObj::rva002CB35C(Int a1, void *pos, void *a3, void *a4, float range, Int a6)
+{
+	return ((Weapon *)this)->isWithinAttackRange((Object *)a1, (const Coord3D *)pos, (Object *)a3, (const Coord3D *)a4, range, a6 != 0);
+}
 class Rva002C9B80Owner
 {
 public:
@@ -492,11 +496,12 @@ struct Rva002F35AFHop
 // The 0x14-byte hierarchical path (rowed constructor 0x005348AD); 0x00534557
 // adds a cell and 0x00534AAE finishes it (WorldBuilder: computeOrderMap).
 class Rva00534AAE { public: void rva00534AAE(); };
+class Rva00534557 { public: void rva00534557(const int *cell); };
 class Rva005348AD
 {
 public:
 	Rva005348AD();
-	void rva00534557(Rva002F35AFCell *cell);
+	/* the rowed Rva00534557::rva00534557 */ __declspec(dllimport) __forceinline void rva00534557(Rva002F35AFCell *cell) { ((Rva00534557 *)this)->rva00534557((const int *)cell); }
 	/* the rowed Rva00534AAE::rva00534AAE */ __declspec(dllimport) __forceinline void rva00534AAE() { ((Rva00534AAE *)this)->rva00534AAE(); }
 private:
 	char m_pad[0x14];
@@ -506,12 +511,13 @@ class Rva0036666B
 {
 public:
 	bool rva0036666B();
+	bool rva0036736E(bool destroyed);	// rowed 0x0036736E (PathfindLayer::setDestroyed body)
 };
 
 class PathfindLayer
 {
 public:
-	bool setDestroyed(bool destroyed);
+	/* the rowed Rva0036666B::rva0036736E */ __declspec(dllimport) __forceinline bool setDestroyed(bool destroyed) { return ((Rva0036666B *)this)->rva0036736E(destroyed); }
     __declspec(noinline) void rva000B3FD0();
 private:
 	char m_pad[0x40];
