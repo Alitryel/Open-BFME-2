@@ -1,5 +1,5 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.92 date=2026-10-20
+// partial score=0.98 date=2026-10-20
 // Bank draft of the GeneralAllocator heap validator at 0x000321F0 (1492B,
 // RET4, level argument). Decoded from the retail body with the memory_pool.cpp
 // GeneralAllocator view: sentinel region list at +0x448 (next +0x18/prev
@@ -9,6 +9,8 @@
 // the Lab2 alias binds.
 // All four callees are now rowed; every check counts through CheckCount, the
 // home unit's assert-style 0/1 helper, which gives retail's zero-then-one blocks.
+// The bin-ring check reads its first node and bin header through a local ring
+// record, so cl recomputes the header from the link each pass as retail does.
 // cl: /O2 /MD
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *cs);
@@ -63,6 +65,13 @@ inline int Rva000321F0Missing(Rva000321F0Chunk *c,
     }
     return 1;
 }
+
+// One bin's ring: its first node and the bin header the ring must contain.
+struct Rva000321F0BinRing
+{
+    Rva000321F0Chunk *first;
+    Rva000321F0Chunk *head;
+};
 
 static inline int CheckCount(bool ok)
 {
@@ -149,21 +158,23 @@ int GeneralAllocator::rva000321F0(int level)
                 }
             }
 
-            Rva000321F0Chunk **link = m_binLinks;
-            for (index = 0; index < 0x100; index += 2, link += 2)
+            Rva000321F0Chunk **link;
+            for (index = 0, link = m_binLinks; index < 0x100; index += 2, link += 2)
             {
                 Rva000321F0Chunk *c = *link;
                 if (index < 2)
                     errors += CheckCount(c == 0);
                 else
                 {
-                    errors += CheckCount(c != 0);
-                    Rva000321F0Chunk *p = c->m_prev;
-                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)&m_binLinks[index] - 8);
-                    int count = p == head ? 1 : 0;
-                    while (p != c)
+                    Rva000321F0BinRing ring = { c, (Rva000321F0Chunk *)((char *)link - 8) };
+                    errors += CheckCount(ring.first != 0);
+                    Rva000321F0Chunk *p = ring.first->m_prev;
+                    int count = 0;
+                    if (p == ring.head)
+                        count = 1;
+                    while (p != ring.first)
                     {
-                        if (p == head)
+                        if (p == ring.head)
                             ++count;
                         else
                         {
@@ -175,12 +186,9 @@ int GeneralAllocator::rva000321F0(int level)
                 }
             }
 
-            unsigned int control = m_4cc;
-            unsigned int divisor = m_4d0;
-            unsigned int page = m_4d4;
-            errors += CheckCount(control < 0x186a0);
-            errors += CheckCount(divisor != 0);
-            errors += CheckCount((page & (page - 1)) == 0);
+            errors += CheckCount(m_4cc < 0x186a0);
+            errors += CheckCount(m_4d0 != 0);
+            errors += CheckCount((m_4d4 & (m_4d4 - 1)) == 0);
             maxFast &= ~1u;
             int maxFastIndex = (maxFast >> 3) - 2;
             errors += CheckCount(maxFast <= 0x58);
@@ -316,11 +324,13 @@ runDone:
                 if (inUse)
                     errors += rva00031F90(c);
                 else
-                    errors += rva00031E60(c);
-                if (!inUse && c == c->m_prev)
                 {
-                    errors += CheckCount(c == m_top);
-                    break;
+                    errors += rva00031E60(c);
+                    if (c == c->m_prev)
+                    {
+                        errors += CheckCount(c == m_top);
+                        break;
+                    }
                 }
                 c = (Rva000321F0Chunk *)((char *)c + (c->m_size & 0x7ffffff8u));
             }
