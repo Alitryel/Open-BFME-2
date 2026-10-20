@@ -211,6 +211,14 @@ template <> class AIApproachAISlots<0>
 {
 };
 
+// The 0x00262FEB one-store setter is ICF-shared with the rowed
+// ParticleEmitterDefClass::Set_Burst_Size; retail calls it directly.
+class ParticleEmitterDefClass
+{
+public:
+	virtual void Set_Burst_Size(unsigned int value);
+};
+
 class AIUpdateInterface : public AIApproachAISlots<135>
 {
 public:
@@ -252,7 +260,7 @@ public:
 	Object *getNextMoodTarget(Bool calledByAI, Bool calledDuringIdle);
 	void rva00262AEA();
 	void rva00262ACE();
-	void rva00262FEB(Int id);
+	__declspec(dllimport) __forceinline void rva00262FEB(Int id) { ((ParticleEmitterDefClass *)this)->ParticleEmitterDefClass::Set_Burst_Size(id); }
 	const LocomotorSet *getLocomotorSet() const { return (const LocomotorSet *)m_locomotorSet; }
 private:
 	const AIUpdateModuleData *m_moduleData; // +0x04
