@@ -8,8 +8,8 @@
 // size 0x68 with the enable flags at +4/+5); the derived vtable is
 // 0x00BCEFC8. The member arrays m_lightPosHistory (+0x1200, Vector3) and
 // m_objectXformHistory (+0x1980, Matrix4x4) are built through the vector
-// constructor iterator, the latter with the out-of-line Matrix4x4 default
-// constructor 0x0007671F. Donor: Open-BFME-1 W3DVolumetricShadow.cpp
+// constructor iterator, the latter with the out-of-line 64-byte constructor
+// 0x0007671F. Donor: Open-BFME-1 W3DVolumetricShadow.cpp
 // constructor (ZH body); BFME 2 adds one byte flag at +0x4900, cleared after
 // the enable flags.
 
