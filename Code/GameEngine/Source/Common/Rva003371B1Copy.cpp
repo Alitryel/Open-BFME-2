@@ -25,6 +25,11 @@ namespace _STL { template <> BfmeStringRecord000331962 * _STLP_alloc_proxy<BfmeS
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord000331962;
 namespace _STL { template <> void allocator<BfmeStringRecord000331962>::deallocate(BfmeStringRecord000331962 *,unsigned int) const; }
+// Use the rowed vector copy constructor at 0x0033629E. This unit's /Ob2
+// copy and its allocation/copy helpers differ from the native providers.
+namespace _STL {
+template <> vector<BfmeStringRecord000331962,allocator<BfmeStringRecord000331962> >::vector(const vector<BfmeStringRecord000331962,allocator<BfmeStringRecord000331962> > &);
+}
 struct BfmeStringRecord000331962 {
     unsigned int word;
     AsciiString text;
