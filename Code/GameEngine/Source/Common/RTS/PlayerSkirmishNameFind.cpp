@@ -80,7 +80,7 @@ private:
 
 inline __declspec(noinline) SidesInfo *SidesList::getSkirmishSideInfo(int i){return i>=0 && i<m_numSkirmishSides?&sides[i]:0;}
 
-bool Player::rva002AC43F(int *index)
+__declspec(noinline) inline bool Player::rva002AC43F(int *index)
 {
 	int count = TheSidesList->getNumSkirmishSides();
 	*index = 0;
@@ -94,3 +94,7 @@ bool Player::rva002AC43F(int *index)
 	}
 	return false;
 }
+
+// Select-any: PlayerSkirmishTeamCopy.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorPlayerSkirmishNameFind absent-from-retail
+bool bfmeAnchorPlayerSkirmishNameFind(Player *p, int *index) { return p->rva002AC43F(index); }
