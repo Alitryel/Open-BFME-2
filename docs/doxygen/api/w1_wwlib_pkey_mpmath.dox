@@ -102,16 +102,11 @@
 /// take a 16-bit number, XMP_Signed_Mult, and the double-width product and
 /// reduction helpers behind XMP_Mod_Mult have entries of their own;
 /// \ref grp_w1012_wwlib_mpmath_arith gives an overview of them. The
-/// remaining routines are small and not documented one by one:
-/// - setup and moves: XMP_Init, XMP_Move;
-/// - bit helpers, inline in mpmath.h with out-of-line copies in retail:
-///   XMP_Set_Bit, XMP_Test_Bit, XMP_Bits_To_Mask, XMP_Bits_To_Digits,
-///   XMP_Digits_To_Bits, XMP_Is_Negative;
-/// - queries: XMP_Count_Bytes, XMP_Significance and XMP_Test_Eq_Int;
-/// - increment, decrement, absolute value and complement: XMP_Inc,
-///   XMP_Dec, XMP_Abs, XMP_Not;
-/// - the 3,511-entry primeTable (every prime up to 32719) that
-///   XMP_Fetch_Prime_Table and XMP_Fetch_Prime_Size expose.
+/// small routines (setup and copy, increment, decrement, complement and
+/// absolute value, the sign and size queries, the bit and digit helpers
+/// inline in mpmath.h, and the accessors for the 3,511-entry primeTable of
+/// every prime up to 32719) have entries in
+/// \ref grp_w1020_wwlib_mpmath_bits_primes.
 ///
 /// The byte and text conversions XMP_Encode, XMP_Encode_Bounded,
 /// XMP_Signed_Decode, XMP_Unsigned_Decode, XMP_DER_Encode, XMP_DER_Decode,
