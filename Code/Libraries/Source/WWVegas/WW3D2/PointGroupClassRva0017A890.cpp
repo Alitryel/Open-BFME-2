@@ -1,50 +1,21 @@
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.9481 date=2026-10-20
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.9337 date=2026-10-20
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.913 date=2026-10-17
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.857 date=2026-10-17
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.7990908115358819 date=2026-10-13
-// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// PointGroup geometry helper, target0x0017A890, full12000B including its12-entry table.
-// Identity/ABI: caller PointGroupClass::Render and existing neutral pin; twelve dispatch
-// entries and target calls align with ZH pointgr.cpp Update_Arrays geometry subsection.
-// Donor revision9cbfb551fe20dae985f91f2319d8997287b6a705. BFME1 still forwards this helper
-// to a dump, so ZH is the clean semantic lead. Target proof: view-cache loads transpose
-// three rows into a48B Matrix3D, billboard flagbit1, immediate scalar writes/reloads,
-// four-point main loops for the variable triangle paths; full RET16+table boundaries.
-// The RenderState view offset22C follows target DEE804 minus named render_state DEE5D8.
-// Round3: MatrixRotationZ import is now resolved by the normal ledger. Advancing
-// input pointers, split ground/billboard paths and ordinary C++ loops recover native
-// four-point unrolling. Fixed-size screen mode has three temporary vectors; varying
-// size has six. Explicit transposed view assignments preserve target layout.
-// Emitted12148B/frameCC vs native12000B/frameB8; all calls resolve, score0.799090812.
-// Remaining ground matrix/register allocation and stack homes prevent exact recovery.
-// Owner integration preserves43/43 existing rows. Removing its historical optimization
-// anchor also preserves those bytes but emits a50B ctor iterator vs retail42B; reverted.
-// Round4 (2026-10-17): case7 Matrix4 view via transposed Get_Transform(int,Matrix4&)
-// overload (row3 dead-stored as retail), TU-local by-value Matrix3D*Vector3 operator,
-// vertex_loc declared before loop_sel, four scaled offsets dx0/dx1/dy0/dy1 computed
-// before stores with integer Z copies: now 12000B/frameB8 exact size/frame, score0.841.
-// Disproven: ZH i-indexed case7 (vert+=4, point_loc[i]) 12036B score0.823.
-// Remaining: case7 keeps two vertex IVs and point_loc in memory (retail: one derived IV
-// lea esi,[eax+14h] from invariant base, point_loc in ebp); case0 lost its pre-loop
-// xmm6 reload through global register allocation; cases5/6 register choice.
-// Round5 (2026-10-17, merged with a parallel bank): cases 5/6 and the case-7 billboard
-// else loop keep retail's +8-biased output IV (stores [eax-8]..[eax+0x24], esi counter)
-// spelled as scalar vertex_loc[vert+k].C = point_loc[0].C + table[..][k].C * size; with
-// vert += 4 and loc-first pointer increments. Masked insn match 2074/2475 (round4 1860),
-// emitted 11968B. Disproven: Vector3 operators in cases 0/4/5/6, i-indexed inputs, ZH
-// indexed case 0. Open: case 0 regalloc, case 4 Z add order, case 7 rotation IVs, case 9.
-// Round6 (2026-10-17): ground case 7 uses output vertex index vert, 4 Vector3& aliases
-// v0..v3, and fresh X/Y point reads; case 0 captures default_size before scaling;
-// case 9 uses 6 const volatile Vector3& table aliases. Exact 12000B / frame 0xB8,
-// byte-identical over case 8 (1017B) and case 9 (1494B) at retail addresses, fitness 0.913.
-// Banked source is NOT verified recovery.
 // cl: /O2 /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// PointGroupClass vertex-location fill, retail RVA 0x0017A890 (VA 0x009148C0),
+// 12000 bytes including its 12-entry dispatch table. Called by the matched
+// array-update helper 0x0017F3A0 (PointGroupClassUpdateArrays00917B10.cpp),
+// which proves the receiver and the (point_loc, point_size, point_orientation,
+// active_points) ABI; the existing neutral pin keeps the address-named method.
+// Semantic lead (donor source, not a target fact): the location subsection of
+// ZH/BFME1 pointgr.cpp PointGroupClass::Update_Arrays (the WorldBuilder twin
+// names it Update_Location_Array), split out of Update_Arrays in BFME 2.
+// Target findings: view matrix read transposed from the DX8 render state
+// (offset 0x22C) into a 48-byte Matrix3D, billboard flag bit 1, scaled_offset[3]
+// built by the vector constructor iterator, per-case loops in the ZH shape.
+// Retail codegen only reproduces with VertexLoc at internal linkage: an extern
+// or non-static definition changes the prologue load and the induction
+// variables of the varying-size and ground cases. BFME 2's pointgr.cpp
+// therefore keeps VertexLoc file-static (ZH/BFME1 define it globally); this TU
+// carries its own static copy until the remaining VertexLoc users rejoin one
+// unit. History: reverse/attempt_support/rva17a890-2026-10-20.md.
 #include "sharebuf.h"
 #include "vector.h"
 #include "vector2.h"
@@ -90,7 +61,7 @@ static __forceinline Vector3 operator * (const Matrix3D &A,const Vector3 &a)
 	);
 }
 static Vector3 GroundMultiplierX(1,0,0),GroundMultiplierY(0,1,0);
-extern VectorClass<Vector3> VertexLoc;
+static VectorClass<Vector3> VertexLoc;
 extern VectorClass<Vector2> VertexUV;
 
 class PointGroupClass {
@@ -127,37 +98,6 @@ private:
 
 void PointGroupClass::rva009148C0(Vector3 *point_loc, float *point_size, unsigned char *point_orientation, int active_points)
 {
-	int dztop0 = 0;
-	int dztop1 = 0;
-	int dztop2 = 0;
-	int dztop3 = 0;
-	int dztop4 = 0;
-	int dztop5 = 0;
-	int dztop6 = 0;
-	int dztop7 = 0;
-	int dztop8 = 0;
-	int dztop9 = 0;
-	int dztop10 = 0;
-	int dztop11 = 0;
-	int dztop12 = 0;
-	int dztop13 = 0;
-	int dztop14 = 0;
-	int dztop15 = 0;
-	int dztop16 = 0;
-	int dztop17 = 0;
-	int dztop18 = 0;
-	int dztop19 = 0;
-	int dztop20 = 0;
-	int dztop21 = 0;
-	int dztop22 = 0;
-	int dztop23 = 0;
-	int dztop24 = 0;
-	int dztop25 = 0;
-	int dztop26 = 0;
-	int dztop27 = 0;
-	int dztop28 = 0;
-	int dztop29 = 0;
-	int dztop30 = 0;
 	enum LoopSelectionEnum {
 		TRIS_NOSIZE_NOORIENT		= ((int)TRIS << 2) + 0,
 		TRIS_SIZE_NOORIENT		= ((int)TRIS << 2) + 1,
@@ -288,7 +228,6 @@ void PointGroupClass::rva009148C0(Vector3 *point_loc, float *point_size, unsigne
 
 		case QUADS_SIZE_NOORIENT:
 			{
-				Vector3 *vertex_loc = &VertexLoc[0];
 				for (int i = 0; i < active_points; i++) {
 					vertex_loc[0].X = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0] + point_loc->X;
 					vertex_loc[0].Y = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0] + point_loc->Y;
