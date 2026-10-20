@@ -48,3 +48,9 @@ AINavyUnitBattleShip::AINavyUnitBattleShip(const Rva005DCC4BSource *source)
 	m_field08 = 0;
 	m_field0C = (Int)TheGameLogic->m_frame;
 }
+
+// 0x005AD6EA: the destructor installs this vtable and tail-calls the base
+// destructor (0x005FED52, ICF-folded with every empty vptr-only destructor).
+AINavyUnitBattleShip::~AINavyUnitBattleShip()
+{
+}

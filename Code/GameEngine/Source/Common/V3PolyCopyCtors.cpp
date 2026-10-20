@@ -700,6 +700,14 @@ Rva005DCC4B::Rva005DCC4B(const Rva005DCC4BSource *source)
 	m_field04 = source->m_field74;
 }
 
+// Empty virtual destructor: restores this vtable (0x00C1C780, the one the
+// constructor installs) and returns; retail ICF-folds it into 0x005FED52 with
+// every other vptr-only destructor. AINavyUnitBattleShip's destructor
+// 0x005AD6EA tail-calls it.
+Rva005DCC4B::~Rva005DCC4B()
+{
+}
+
 // ---- vptr + two member subobject copies (retail 0x0028F68F)
 // B2 body-address name: member at +0x04 copies with the rowed 171B body and
 // member at +0x6C with the rowed 33B body. Both member copies are pure
