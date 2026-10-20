@@ -150,8 +150,8 @@ GameWindow *staticTextPlayerName = 0;
 class PlayerTemplate
 {
 public:
-	const Image *rva001FD221() const;	// ZH getEnabledImage
-	const Image *rva001FD1FB() const;	// ZH getFlagWaterMarkImage
+	const Image *getEnabledImage() const;	// ZH getEnabledImage
+	const Image *getFlagWaterMarkImage() const;	// ZH getFlagWaterMarkImage
 };
 class ScoreKeeper
 {
@@ -298,7 +298,7 @@ void ControlBar::populateObserverList(void)
 				if (((const ParticleSystem *)p)->isSaveable())
 					continue;
 				Rva00328518(buttonPlayer[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->getEnabledImage());
 				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
@@ -334,7 +334,7 @@ void ControlBar::populateObserverList(void)
 			if (p && !((const ParticleSystem *)p)->isSaveable() && p->m_playerType == 0)
 			{
 				Rva00328518(buttonPlayer[currentButton], (Int)p);
-				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->rva001FD221());
+				GadgetButtonSetEnabledImage_Rva002C0433(buttonPlayer[currentButton], p->m_playerTemplate->getEnabledImage());
 				buttonPlayer[currentButton]->winSetTooltip(p->m_playerDisplayName);
 				buttonPlayer[currentButton]->winHide(false);
 				buttonPlayer[currentButton]->winSetStatus(0x200000);
@@ -399,7 +399,7 @@ void ControlBar::populateObserverInfoWindow(void)
 	GadgetStaticTextSetText(staticTextPlayerName, m_observerLookAtPlayer->m_playerDisplayName);
 	Int color = m_observerLookAtPlayer->m_color;
 	staticTextPlayerName->winSetEnabledTextColors(color, 0xFF000000);
-	winFlag->winSetEnabledImage(0, m_observerLookAtPlayer->m_playerTemplate->rva001FD1FB());
+	winFlag->winSetEnabledImage(0, m_observerLookAtPlayer->m_playerTemplate->getFlagWaterMarkImage());
 	winGeneralPortrait->winHide(false);
 }
 

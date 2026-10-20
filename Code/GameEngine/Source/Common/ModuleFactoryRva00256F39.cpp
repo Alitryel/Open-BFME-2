@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
-// ?rva00256F39@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z @0x00256F39 46B
+// ?findModuleInterfaceMask@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z @0x00256F39 46B
 // ModuleFactory helper: empty name returns 0; else findModuleTemplate (rowed
 // 0x0025674F) and return the int at template+0x0C, 0 when missing. isEmpty
 // via rowed StringBase 0x00001E2F. Evidence: unlock lane; callers 0x0033D8CC
@@ -20,12 +20,12 @@ public:
 		int m_08;
 		int m_tag0C;
 	};
-	int rva00256F39(const AsciiString &name, ModuleType type);
+	int findModuleInterfaceMask(const AsciiString &name, ModuleType type);
 protected:
 	const ModuleTemplate *findModuleTemplate(const AsciiString &name, ModuleType type);
 };
-// ?rva00256F39@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z
-int ModuleFactory::rva00256F39(const AsciiString &name, ModuleType type)
+// ?findModuleInterfaceMask@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z
+int ModuleFactory::findModuleInterfaceMask(const AsciiString &name, ModuleType type)
 {
 	if (!name.isEmpty())
 	{

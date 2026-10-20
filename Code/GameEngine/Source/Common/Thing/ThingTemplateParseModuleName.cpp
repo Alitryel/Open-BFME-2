@@ -20,7 +20,7 @@ class ModuleData { public:
 };
 class ThingTemplate;
 class ModuleFactory { public:
- int rva00256F39(const AsciiString &,ModuleType);
+ int findModuleInterfaceMask(const AsciiString &,ModuleType);
  ModuleData *newModuleDataFromINI(INI *,const AsciiString &,ModuleType,const AsciiString &);
 };
 extern ModuleFactory *TheModuleFactory;
@@ -51,10 +51,10 @@ void ThingTemplate::parseModuleName(INI *ini,void *instance,void *store,const vo
  int mask;
  if ((int)type==999) {
    type=MODULETYPE_BEHAVIOR;
-   mask=TheModuleFactory->rva00256F39(tokenStr,type);
+   mask=TheModuleFactory->findModuleInterfaceMask(tokenStr,type);
    if ((mask&32)==0) throw INIException(3,"Only Body allowed here");
  } else {
-   mask=TheModuleFactory->rva00256F39(tokenStr,type);
+   mask=TheModuleFactory->findModuleInterfaceMask(tokenStr,type);
    if ((mask&32)!=0) throw INIException(3,"No Body allowed here");
  }
  if (ini->getLoadType()==2) {

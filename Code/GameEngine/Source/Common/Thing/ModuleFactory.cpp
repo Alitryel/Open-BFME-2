@@ -428,22 +428,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 
 
 //-------------------------------------------------------------------------------------------------
-// ?ModuleFactory::findModuleInterfaceMask present-unmatched
-Int ModuleFactory::findModuleInterfaceMask(const AsciiString& name, ModuleType type)
-{
-	if (name.isEmpty())
-		return 0;
-
-	const ModuleTemplate* moduleTemplate = findModuleTemplate(name, type);
-	if (moduleTemplate)
-	{
-		return moduleTemplate->m_whichInterfaces;
-	}
-
-	return 0;
-}
-
-//-------------------------------------------------------------------------------------------------
 ModuleData* ModuleFactory::newModuleDataFromINI(INI* ini, const AsciiString& name, ModuleType type,
 																								const AsciiString& moduleTag)
 {

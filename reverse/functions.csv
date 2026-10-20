@@ -30561,8 +30561,8 @@ _FilterBlockBil_8_wmt,,0x001D7C80,204,Code/Libraries/Source/VP6/FilterBlockBil8W
 ??0Rva00507823@@QAE@XZ,,0x0050775B,172,Code/GameEngine/Source/Common/Rva00507823Ctor.cpp,matched,vtable 00864010 same as dtor 00507823 deleting 00507807 base of 00507C2D
 ??0DamageNugget@@QAE@XZ,,0x00507C2D,343,Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Ctor.cpp,matched,base rowed 0050775B derived vtable 00864048 callers parseDamage plus 0050B1FF plus 0050BF92
 ?findPlayerTemplate@PlayerTemplateStore@@QBEPBVPlayerTemplate@@W4NameKeyType@@@Z,,0x001FD31B,45,Code/GameEngine/Source/Common/RTS/PlayerTemplate.cpp,matched,BFME1 identity retail vector plus override via pinned getFinalOverride
-?rva001FD1FB@PlayerTemplate@@QBEPBVImage@@XZ,,0x001FD1FB,19,Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,matched,PlayerTemplate image getter at plus0x170 via TheMappedImageCollection
-?rva001FD221@PlayerTemplate@@QBEPBVImage@@XZ,,0x001FD221,19,Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,matched,PlayerTemplate image getter at plus0x174 via TheMappedImageCollection
+?getFlagWaterMarkImage@PlayerTemplate@@QBEPBVImage@@XZ,,0x001FD1FB,19,Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,matched,PlayerTemplate image getter at plus0x170 via TheMappedImageCollection
+?getEnabledImage@PlayerTemplate@@QBEPBVImage@@XZ,,0x001FD221,19,Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,matched,PlayerTemplate image getter at plus0x174 via TheMappedImageCollection
 ?rva001FD23F@PlayerTemplate@@QBEPBVImage@@XZ,,0x001FD23F,19,Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,matched,PlayerTemplate image getter at plus0x1D8 via TheMappedImageCollection
 ?rva001FD9EF@Rva001FD9EF@@QAEXPAX@Z,,0x001FD9EF,28,Code/GameEngine/Source/Common/Rva001FD9EFFree.cpp,matched,Hash node free clears key at plus4 then frees via rowed callees
 ?Rva001FD048Init@@YAXPAX@Z,,0x001FD048,38,Code/GameEngine/Source/GameLogic/Object/Rva001FB912Init.cpp,matched,FX init chain category 1 parse 0x001F84BD calls 0x001FD022
@@ -33802,7 +33802,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?rva006FE0B0@AptBasePtrStack@@QAEXH@Z,,0x006FE0B0,105,Code/Libraries/Source/Apt/AptBasePtrStackInit.cpp,matched,unlock AptBasePtrStack capacity init via pool allocBlock asserts
 ?updateTriggerAreaFlags@Object@@QAEXXZ,,0x0028B2BF,91,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028B2BF.cpp,matched,Object compaction caller 0x0028B352 0x0029208A neighbours share flags
 ??_GInvisibilityUpdateModuleData@@UAEPAXI@Z,,0x002560C7,28,Code/GameEngine/Source/GameLogic/Object/Update/InvisibilityUpdateModuleDataCtor.cpp,matched,Native28B deleting destructor at BF3640 slot0; emitted by the real named constructor and calls exact84B teardown2560E3; removes fake destructor scaffold
-?rva00256F39@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z,,0x00256F39,46,Code/GameEngine/Source/Common/ModuleFactoryRva00256F39.cpp,matched,unlock ModuleFactory tag lookup rowed isempty findtemplate
+?findModuleInterfaceMask@ModuleFactory@@QAEHABVAsciiString@@W4ModuleType@@@Z,,0x00256F39,46,Code/GameEngine/Source/Common/ModuleFactoryRva00256F39.cpp,matched,unlock ModuleFactory tag lookup rowed isempty findtemplate
 ?rva0059E2FD@Rva0059E2FD@@QAE_NABV?$StringBase@D@@@Z,,0x0059E2FD,34,Code/GameEngine/Source/Common/Rva0059E2FDContains.cpp,matched,vector contains via rowed Find with last-first locals
 ?rva0007BB4B@Rva0007DA23ResourceManager@@QAE?AV?$RefCountPtr@VTextureClass@@@@XZ,,0x0007BB4B,46,Code/GameEngine/Source/Common/Rva0007BB4BGet.cpp,matched,by-value AssetReference getter plus0x14 or plus0x18 via flag byte 0x009E1FFC; shape per sibling 0x000F5D1B
 ?rva0028B31A@Object@@QAEXH@Z,,0x0028B31A,65,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028B31A.cpp,matched,Object entry clear plus compact caller 0x0023D670 chain from 0x0028B2BF

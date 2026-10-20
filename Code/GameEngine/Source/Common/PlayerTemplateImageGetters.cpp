@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii
 // PlayerTemplate image getters via TheMappedImageCollection (0x00DFF078).
-// ?rva001FD1FB@PlayerTemplate@@QBEPBVImage@@XZ @0x001FD1FB 19B (AsciiString at +0x170)
-// ?rva001FD221@PlayerTemplate@@QBEPBVImage@@XZ @0x001FD221 19B (AsciiString at +0x174)
+// ?getFlagWaterMarkImage@PlayerTemplate@@QBEPBVImage@@XZ @0x001FD1FB 19B (AsciiString at +0x170)
+// ?getEnabledImage@PlayerTemplate@@QBEPBVImage@@XZ @0x001FD221 19B (AsciiString at +0x174)
 // ?rva001FD23F@PlayerTemplate@@QBEPBVImage@@XZ @0x001FD23F 19B (AsciiString at +0x1D8)
 // BFME1 PlayerTemplate.cpp getHeadWaterMarkImage/getFlagWaterMarkImage/getSideIconImage/
 // getGeneralImage/getEnabledImage all do TheMappedImageCollection->findImageByName(member).
@@ -26,8 +26,8 @@ int Rva0033A3F4Lookup(const AsciiString &name);
 class PlayerTemplate
 {
 public:
-	const Image *rva001FD1FB() const;
-	const Image *rva001FD221() const;
+	const Image *getFlagWaterMarkImage() const;
+	const Image *getEnabledImage() const;
 	int rva001FD234() const;
 	const Image *rva001FD23F() const;
 
@@ -41,12 +41,12 @@ private:
 	AsciiString m_1D8;
 };
 
-const Image *PlayerTemplate::rva001FD1FB() const
+const Image *PlayerTemplate::getFlagWaterMarkImage() const
 {
 	return TheMappedImageCollection->findImageByName(m_170);
 }
 
-const Image *PlayerTemplate::rva001FD221() const
+const Image *PlayerTemplate::getEnabledImage() const
 {
 	return TheMappedImageCollection->findImageByName(m_174);
 }
