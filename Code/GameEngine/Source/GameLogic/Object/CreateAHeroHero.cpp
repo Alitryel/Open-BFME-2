@@ -145,6 +145,9 @@ namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_t
 // bfme link decl-only end
 // Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > > _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::insert_unique(_Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > >,pair<unsigned int const ,bool> const &); }
+// Suppress this TU's non-retail copy of ?insert_unique@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned int const ,bool>,_Nonconst_traits<pair<unsigned int const ,bool> > >,bool> _Rb_tree<unsigned int,pair<unsigned int const ,bool>,_Select1st<pair<unsigned int const ,bool> >,less<unsigned int>,allocator<pair<unsigned int const ,bool> > >::insert_unique(pair<unsigned int const ,bool> const &); }
 // Suppress this TU's non-retail copy of ?_M_insert@?$_Rb_tree@IU?$pair@$$CBI_N@_STL@@U?$_Select1st@U?$pair@$$CBI_N@_STL@@@2@U?$les:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
