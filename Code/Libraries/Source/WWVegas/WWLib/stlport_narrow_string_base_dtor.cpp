@@ -74,4 +74,9 @@ _String_base<CharT, Alloc>::~_String_base()
 
 template class _String_base<char, allocator<char> >;
 
+// The wide instantiation compiles to the same 63 bytes and the image keeps one
+// body for both (the bool num_put readers call 0x0000B3C0 for their wide
+// strings); every other unit's wide copy is the frameless 14-byte form.
+template class _String_base<unsigned short, allocator<unsigned short> >;
+
 }

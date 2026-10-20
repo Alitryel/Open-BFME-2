@@ -31,6 +31,16 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, siz
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+// The vector<bool> copy constructor is the rowed retail copy (0x00389413),
+// and the bit iterator constructor and the two _String_base destructors, which
+// nothing here calls out of line, stay inline: this unit's own copies of all
+// four are not retail's.
+namespace _STL {
+template <> vector<bool, allocator<bool> >::vector(const vector<bool, allocator<bool> > &);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter() {}
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<wchar_t, allocator<wchar_t> >::~_String_base() { _M_deallocate_block(); }
+}
 
 struct BfmeOpaqueOwnedRecord492 {
 	BfmeOpaqueOwnedRecord492();

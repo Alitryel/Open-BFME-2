@@ -49,6 +49,9 @@ class basic_string : public _String_base<CharT, Alloc>
 {
 public:
 	typedef Alloc allocator_type;
+	// Nothing here destroys a whole string out of line; keep the implicit
+	// destructor's differing external copy out.
+	__declspec(dllimport) __forceinline ~basic_string() {}
 	template <class InputIter>
 	basic_string(InputIter f, InputIter l, const Alloc &a) : _String_base<CharT, Alloc>(a)
 	{

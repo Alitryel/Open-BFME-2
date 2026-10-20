@@ -43,6 +43,8 @@ namespace _STL { template<> basic_string<char>::basic_string(const char*, const 
 // Suppress this TU's non-retail _String_base<char> dtor copy (family2-LK3 rows
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
+// Likewise the wide one: the rowed 63B fold in that unit serves the link.
+template <> _STL::_String_base<unsigned short, _STL::allocator<unsigned short> >::~_String_base();
 #include <locale>
 // STLport defines locale::facet::~facet out of line in locale_impl.cpp, where
 // retail's ??_Gfacet (0x00007490) inlines the empty body; seeing it here makes

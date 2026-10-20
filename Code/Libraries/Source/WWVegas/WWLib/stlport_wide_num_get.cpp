@@ -38,6 +38,8 @@ template <> int _M_get_base_or_zero<istreambuf_iterator<wchar_t, char_traits<wch
 // Suppress this TU's non-retail _String_base<char> dtor copy (family2-LK3 rows
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
+// Likewise the wide one: the rowed 63B fold in that unit serves the link.
+template <> _STL::_String_base<unsigned short, _STL::allocator<unsigned short> >::~_String_base();
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> istreambuf_iterator<unsigned short, char_traits<unsigned short> > num_get<unsigned short, istreambuf_iterator<unsigned short, char_traits<unsigned short> > >::do_get(istreambuf_iterator<unsigned short, char_traits<unsigned short> >, istreambuf_iterator<unsigned short, char_traits<unsigned short> >, ios_base &, int &, float &) const; }

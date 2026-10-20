@@ -35,6 +35,14 @@ void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char *__p, siz
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+// The vector copy constructor is the rowed retail copy (0x000BC07E), and the
+// two _String_base destructors, which nothing here calls out of line, stay
+// inline: this unit's own copies of all three are not retail's.
+namespace _STL {
+template <> vector<AsciiString, allocator<AsciiString> >::vector(const vector<AsciiString, allocator<AsciiString> > &);
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); }
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<wchar_t, allocator<wchar_t> >::~_String_base() { _M_deallocate_block(); }
+}
 
 struct PeerResponse {
     PeerResponse();

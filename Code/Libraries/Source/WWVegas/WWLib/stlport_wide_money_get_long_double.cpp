@@ -96,6 +96,10 @@ wchar_t *allocator<wchar_t>::allocate(size_t, const void*) const;
 // Suppress this TU's non-retail _String_base<char> dtor copy (family2-LK3 rows
 // 22/26): the rowed 63B copy in stlport_narrow_string_base_dtor.cpp serves the link.
 template <> _STL::_String_base<char, _STL::allocator<char> >::~_String_base();
+// The wide one, which nothing here calls out of line, stays inline.
+namespace _STL {
+template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<unsigned short, allocator<unsigned short> >::~_String_base() { _M_deallocate_block(); }
+}
 #include <cstddef>
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
