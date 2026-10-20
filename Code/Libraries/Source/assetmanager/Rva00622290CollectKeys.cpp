@@ -19,6 +19,9 @@
 #include <windows.h>
 
 #include <cstddef>
+// Suppress this TU's non-retail copy of ?_M_erase@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@AAEXPAU?$_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> >::_M_erase(_Rb_tree_node<int> *); }
 // Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@PAURva001408C0Target@@V?$allocator@PAURva001408C0Target@@@_STL@@@_STL@@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva001408C0Target;
