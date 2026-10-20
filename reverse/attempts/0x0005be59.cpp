@@ -1,5 +1,5 @@
 // ?rva0005BE59@MilesAudioManager@@QAEXPAXM0@Z
-// partial score=0.97 date=2026-10-12
+// partial score=0.99 date=2026-10-20
 // ?rva0005BE59@MilesAudioManager@@QAEXPAXM0@Z
 // Bank for 0x0005BE59 (789 B, RET 0xC; WB twin 0x0079F2C0), BFME 2's
 // view-scoped Zero Hour adjustVolumeOfPlayingAudio, in
@@ -22,49 +22,20 @@
 // end-first (0x55FCA's form)/row pointer/typed (const AsciiString&,float,int)
 // signature all keep the jmp form; the volume/pan stack slots are also swapped
 // (retail volume and sample3D at -0x18, pan at -0x20).
+// 2026-10-20, 789 B with 0 structural regions: against the unit at c1701c17f3,
+// which already carries the visible rva0005A9F8 copy and both AIL imports, the
+// body only needs the appended definition below. Computing the queued loop's
+// end() before its begin() makes viewType's last use the begin index, so cl
+// keeps viewType in EAX across the music loops; the inner deque loop is then
+// rotated with retail's natural-exit reload (mov eax,[ebp+0x10]).
+// Remaining: 6 instructions in the 2D and 3D blocks use swapped frame slots
+// (retail: volume, sample3D and the music counter at -0x18, pan alone at -0x20;
+// ours: pan and the counter at -0x18, volume and sample3D at -0x20). A
+// function-scope pan (Zero Hour's spelling) gives retail's slot grouping but
+// drops the EBX PlayingAudioRef cache (766 B, 18 regions); see
+// reverse/attempt_support/miles-5be59-queued-end-first-20261020.md.
 #if 0
-740a741,742
-> extern "C" __declspec(dllimport) void __stdcall AIL_sample_volume_pan(void *sample, float *volume, float *pan);
-> extern "C" __declspec(dllimport) void __stdcall AIL_set_sample_volume_pan(void *sample, float volume, float pan);
-961a964,979
-> // Views 0x0005A9F8 reads through (as in its own unit).
-> class Rva001D990C { public: bool rva001D990C(int v); };
-> class Rva0005117B { public: float rva0005117B(float v); };
-> struct Rva0005A9F8AudioEvent {
->     char m_pad00[8];
->     Rva001D990C *m_info;
->     char m_pad0C[0x52 - 0x0C];
->     bool m_flag52;
-> };
-> struct Rva0005A9F8PlayingAudio {
->     char m_pad00[0x1C];
->     Rva0005A9F8AudioEvent *m_event;
->     char m_pad20[0x30 - 0x20];
->     float m_fadeFrame;
-> };
-> 
-1050c1068,1083
-<     float rva0005A9F8(void *ref, int a, int b);
----
->     // Rowed at 0x0005A9F8 (MilesAudioManagerRva0005A9F8.cpp); visible here
->     // and kept out of line so callers know it does not hold on to the
->     // playing reference it reads.
->     __declspec(noinline) float rva0005A9F8(void *ref, int a, int b)
->     {
->         Rva0005A9F8PlayingAudio *playing = *(Rva0005A9F8PlayingAudio **)ref;
->         Rva0005A9F8AudioEvent *event = playing->m_event;
->         float volume = rva00059AD0(event, a);
->         if (b == 1)
->             volume *= ((Rva0005117B *)this)->rva0005117B(playing->m_fadeFrame);
->         event = playing->m_event;
->         if (event->m_flag52 && volume < 0.01f && event->m_info != 0
->             && !event->m_info->rva001D990C(2))
->             volume = 0.01f;
->         return volume;
->     }
-5243a5277,5350
->     }
-> }
+6787a6788,6862
 > 
 > // Retail 0x0005BE59 (pinned, RET 0xC; WorldBuilder twin 0x0079F2C0): BFME 2's
 > // view-scoped form of Zero Hour's adjustVolumeOfPlayingAudio. For every
@@ -133,8 +104,11 @@
 >                 rva000592B8(playing->m_event.get());
 >         }
 >     }
->     for (QueuedAudioEvents::iterator event = m_queuedEvents[viewType].begin(), queuedEnd = m_queuedEvents[viewType].end(); event != queuedEnd; ++event) {
+>     QueuedAudioEvents::iterator queuedEnd = m_queuedEvents[viewType].end();
+>     for (QueuedAudioEvents::iterator event = m_queuedEvents[viewType].begin(); event != queuedEnd; ++event) {
 >         if (reinterpret_cast<const StringBase<char> *>(&eventName)->isEmpty()
 >             || reinterpret_cast<const BfmeAudioEventInfoNameView *>(event->m_info)->getEventName() == eventName)
 >             rva000592B8(playing->m_event.get());
+>     }
+> }
 #endif
