@@ -555,7 +555,7 @@ public:
 	virtual void xfer(Xfer *xfer);
 	bool findBestInterestZone();
 	AsciiString getBuildTemplateName();
-	bool rva005ABCFE(Coord3DBase *out, const AsciiString &name);
+	bool getBuildPos(Coord3DBase *out, const AsciiString &name);
 	bool validateTemplateName(const AsciiString &name);
 	bool isOffensiveBuilding(Object *obj);
 	bool rva005AC294();
@@ -844,7 +844,7 @@ struct BfmeVector3
 // from the WB twin (vector3.h operator-= / Normalize / Scale(Vector3) asserts,
 // then a Coord3D copy of the zone position plus the direction): with it cl
 // emits retail's component order and XMM coloring.
-bool AIStructureCreepTactic::rva005ABCFE(Coord3DBase *out, const AsciiString &name)
+bool AIStructureCreepTactic::getBuildPos(Coord3DBase *out, const AsciiString &name)
 {
 	Rva002A8AB1Record *record = TheSkirmishAIManager->rva002A8AB1(m_owner);
 	Player *zoneOwner = m_owner;
@@ -964,7 +964,7 @@ bool AIStructureCreepTactic::rva005AC294()
 	if (m_order != 0 || name.compare(AsciiString::TheEmptyString) == 0)
 		return false;
 	Coord3DBase pos;
-	if (!rva005ABCFE(&pos, name))
+	if (!getBuildPos(&pos, name))
 		return false;
 	m_order = new Rva00573B23;
 	m_order->m_radius = -1.0f;

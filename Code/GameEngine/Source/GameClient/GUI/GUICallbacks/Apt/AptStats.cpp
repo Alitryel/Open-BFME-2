@@ -64,7 +64,7 @@ public:
  void NextRankExtern(int,char*,bool);
  void InitializeFactionVariables();
  void rva005DD48C();void rva005DD22B();void rva005DD0EB(int);
- void rva005DD14D(const char*,int,GameWindow*);void rva005DD1D0(const char*);
+ void StatsList(const char*,int,GameWindow*);void rva005DD1D0(const char*);
  virtual void rva005DD06D();
  void*owner;
  int m_word1c;
@@ -208,7 +208,7 @@ void AptStats::rva005DD22B() {
  DelegateDesc desc;
  {
  AsciiString name("AptStats::InitGadgets");
- desc=MakeStatsDelegate(this,reinterpret_cast<StatsHandler>(&AptStats::rva005DD14D));
+ desc=MakeStatsDelegate(this,reinterpret_cast<StatsHandler>(&AptStats::StatsList));
  _bfme_setAptScreenRef(name,AptRef<AptScreenInitGadgets>(desc));
  }
  {
@@ -236,7 +236,7 @@ void AptStats::rva005DD0EB(int faction) {
 // Native [5DD14D,5DD1D0), complete EH entry and RET12, receives the
 // StatsList screen callback, sets 50/25/25 widths and restores the focus.
 // WB StatsList string lead does not establish a source method name.
-void AptStats::rva005DD14D(const char*name,int unused,GameWindow*window) {
+void AptStats::StatsList(const char*name,int unused,GameWindow*window) {
  if(strcmp(name,"AptStats::StatsList")==0) {
   std::vector<unsigned int> widths(3);
   widths[0]=50;widths[1]=25;widths[2]=25;

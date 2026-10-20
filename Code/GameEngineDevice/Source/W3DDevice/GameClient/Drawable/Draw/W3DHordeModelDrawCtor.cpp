@@ -28,7 +28,7 @@ void __identifier("?name@Rva00078B7DNamed@@QBEPBDXZ")();
 void __identifier("?xfer@W3DHordeModelDraw@@MAEXPAVXfer@@@Z")();
 void __identifier("?rva000078B38@W3DHordeModelDraw@@SA?AW4NameKeyType@@XZ")();
 void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
-void __identifier("?rva0007A7DD@W3DHordeModelDraw@@QAEXXZ")();
+void __identifier("?onDrawableBoundToObject@W3DHordeModelDraw@@QAEXXZ")();
 void __identifier("?rva000B7C18@W3DScriptedModelDraw@@QAEXXZ")();
 void __identifier("?getDebrisDrawInterface@W3DDebrisDraw@@UAEPAVDebrisDrawInterface@@XZ")();
 void __identifier("?doDrawModule@W3DModelDraw@@UAEXPBVMatrix3D@@@Z")();
@@ -88,7 +88,7 @@ extern const void *const g_00BC68F0[68] = {
 	(const void *)&__identifier("?xfer@W3DHordeModelDraw@@MAEXPAVXfer@@@Z"), // slot 3 0x00078BBB
 	(const void *)&__identifier("?rva000078B38@W3DHordeModelDraw@@SA?AW4NameKeyType@@XZ"), // slot 4 0x00078B38
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
-	(const void *)&__identifier("?rva0007A7DD@W3DHordeModelDraw@@QAEXXZ"), // slot 6 0x0007A7DD
+	(const void *)&__identifier("?onDrawableBoundToObject@W3DHordeModelDraw@@QAEXXZ"), // slot 6 0x0007A7DD
 	(const void *)&__identifier("?rva000B7C18@W3DScriptedModelDraw@@QAEXXZ"), // slot 7 0x000B7C18
 	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
 	(const void *)&__identifier("?getDebrisDrawInterface@W3DDebrisDraw@@UAEPAVDebrisDrawInterface@@XZ"), // slot 9 0x000CF155

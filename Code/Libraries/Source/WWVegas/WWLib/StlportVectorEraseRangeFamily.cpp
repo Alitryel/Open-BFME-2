@@ -386,15 +386,15 @@ public:
 class W3DHordeModelDraw
 {
 public:
-	void rva0007A7DD();
+	void onDrawableBoundToObject();
 };
 
 extern W3DHordeModelDrawManager *TheW3DHordeModelDrawManager;
 
-// ?rva0007A7DD@W3DHordeModelDraw@@QAEXXZ @ 0x0007A7DD (95B).
+// ?onDrawableBoundToObject@W3DHordeModelDraw@@QAEXXZ @ 0x0007A7DD (95B).
 // The function is virtual in the target vtable; this TU declares only the
 // thiscall body so it does not emit a competing class vftable.
-void W3DHordeModelDraw::rva0007A7DD()
+void W3DHordeModelDraw::onDrawableBoundToObject()
 {
 	static BfmeHelperYS s_bfmeHelperYS;
 	BfmeHelperYS *helper = &s_bfmeHelperYS;

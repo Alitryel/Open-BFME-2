@@ -109,7 +109,7 @@ struct Rva00460F90Data
 class DynamicPortalBehaviour
 {
 public:
-	void rva00460F90();
+	void createWaypoints();
 
 private:
 	void *m_vtable;
@@ -120,7 +120,7 @@ private:
 	bool m_created; // +0x3C
 };
 
-void DynamicPortalBehaviour::rva00460F90()
+void DynamicPortalBehaviour::createWaypoints()
 {
 	Coord3D locations[16];
 	Object *obj = (*(Object * volatile *)&(m_object));

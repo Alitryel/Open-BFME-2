@@ -72,7 +72,7 @@ public:
 class DynamicPortalBehaviour : public UpgradeModule
 {
 public:
-	void rva00460F90();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
+	void createWaypoints();	// 0x00460F90, rowed in DynamicPortalBehaviourCreateWaypoints.cpp
 	virtual void rva00461284(int a1);
 	virtual void rva0046129A();
 	virtual void rva0046132F();
@@ -106,7 +106,7 @@ void DynamicPortalBehaviour::rva00461257()
 {
 	const unsigned char *moduleData = (const unsigned char *)m_moduleData;
 	if (!m_3D && (moduleData[0x13C] != 0 || m_3C))
-		rva00460F90();
+		createWaypoints();
 }
 
 // The target Ghidra boundary at 0x00460872 is 43B. It loads the pointer at
@@ -198,7 +198,7 @@ void DynamicPortalBehaviour::rva0046129A()
             TheAI->pathfinder->AddObjectToPathfindMap(object);
         }
     }
-    rva00460F90();
+    createWaypoints();
     if (object->ai)
     {
         Rva0046129AExit *exit = (Rva0046129AExit *)object->rva0028BCF4();

@@ -478,7 +478,7 @@ public:
 	// Slot names 25, 26 and 31 are WorldBuilder's (DozerAIUpdate.cpp asserts).
 	virtual void createPhantomStructure(const ThingTemplate *what, Player *owningPlayer, const Coord3D *pos, Real angle) = 0; // vslot 25
 	virtual void makePhantomStructureReal() = 0; // vslot 26
-	virtual void rva00489D09() = 0; // vslot 27
+	virtual void destroyPhantomStructure() = 0; // vslot 27
 	virtual Object *slot28() = 0;
 	virtual Object *rva00489DD1() = 0; // vslot 29
 	virtual void slot30() = 0;
@@ -868,7 +868,7 @@ public:
 	virtual void finishBuildingSound();
 	virtual void createPhantomStructure(const ThingTemplate *what, Player *owningPlayer, const Coord3D *pos, Real angle);
 	virtual void makePhantomStructureReal();
-	virtual void rva00489D09();
+	virtual void destroyPhantomStructure();
 	virtual Object *rva00489DD1();
 	virtual void notifyConstructionComplete();
 	virtual void rva00488CF0();
@@ -1604,7 +1604,7 @@ DozerAIUpdate::~DozerAIUpdate()
 	}
 
 	if (m_4A4 != 0)
-		rva00489D09();
+		destroyPhantomStructure();
 }
 
 void DozerAIUpdate::internalTaskCompleteOrCancelled(DozerTask task)
@@ -1686,7 +1686,7 @@ void DozerAIUpdate::rva00488CF0()
 {
 	if (m_4A4)
 	{
-		rva00489D09();
+		destroyPhantomStructure();
 		return;
 	}
 	Object *goal = m_dozerMachine->getGoalObject();
@@ -1741,7 +1741,7 @@ void DozerAIUpdate::cancelTask(DozerTask task)
 	m_dozerMachine->resetToDefaultState();
 
 	if (rva00489DD1())
-		rva00489D09();
+		destroyPhantomStructure();
 
 	Rva0048A3B9Do(getObject(), 0, FALSE);
 }
@@ -1846,7 +1846,7 @@ public:
 void DozerAIUpdate::createPhantomStructure(const ThingTemplate *what, Player *owningPlayer, const Coord3D *pos, Real angle)
 {
 	if (m_4A4 != 0)
-		rva00489D09();
+		destroyPhantomStructure();
 
 	CreateMask statusBits;
 	statusBits._M_do_or(Rva00391F4E(0, OBJECT_STATUS_PENDING_CONSTRUCTION, OBJECT_STATUS_PHANTOM_STRUCTURE));
@@ -2028,7 +2028,7 @@ void DozerAIUpdate::makePhantomStructureReal()
 					BuildAssistant::SHROUD_REVEALED,
 					getObject(), 0) != LBC_OK)
 			{
-				rva00489D09();
+				destroyPhantomStructure();
 				return;
 			}
 		}
@@ -2507,13 +2507,14 @@ StateReturnType DozerActionDoActionState::update()
 // Native200B 489D09..489DD1 is dozer interface slot27 (primary object +3E4).
 // WB DozerAIUpdate.cpp:2794 names destroyPhantomStructure. Native fields/calls
 // prove +4A4 id, +40C rebuild flag, the cost refund, stats reversal, object
-// destruction and both UI/player id removals; keep the existing opaque method.
+// destruction and both UI/player id removals; the WB body's call order is
+// identical and createPhantomStructure stores the same phantom id.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 class ScoreKeeper { public: void addObjectBuilt(Object *, Int); };
 class Rva002ACECC { public: void rva002ACECC(Int); };
 
-void DozerAIUpdate::rva00489D09()
+void DozerAIUpdate::destroyPhantomStructure()
 {
 	if (m_4A4 == 0)
 		return;
