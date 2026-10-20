@@ -3,8 +3,8 @@
 // 0x004FA10F (89B): guarded one-time init. If +0x78 != -1 return; else
 // inc +0x7C, call 0x4F922C(0), 0x4F6187, 0x4F9F39, then loop 0x4F971E plus
 // 0x4F99CC(&ready) until ready, then 0x4F9D6A, 0x4F9E59, 0x4F61B1.
-// addUnitsForCurrentRound is now recovered in its WB-named class; the
-// remaining callees retain their existing opaque views.
+// addUnitsForCurrentRound and 0x4F971E (chooseTargets) are now in their
+// WB-named class; the remaining callees retain their existing opaque views.
 
 class LivingWorldAutoResolveBattle
 {
@@ -14,18 +14,13 @@ public:
 	void completeRound();	// rowed 0x004F9D6A
 	void rva004F6187();	// rowed 0x004F6187 (Rva004F8B89Fwd.cpp)
 	void rva004F61B1();	// rowed 0x004F61B1 (Rva004F8B89Fwd.cpp)
+	void rva004F971E();	// rowed 0x004F971E (chooseTargets)
 };
 
 class Rva004F9F39
 {
 public:
 	void rva004F9F39();
-};
-
-class Rva004F971E
-{
-public:
-	void rva004F971E();
 };
 
 class Rva004F9E59
@@ -56,7 +51,7 @@ void Rva004FA10FOwner::rva004FA10F()
 	bool ready = false;
 	do
 	{
-		((Rva004F971E *)this)->rva004F971E();
+		((LivingWorldAutoResolveBattle *)this)->rva004F971E();
 		((LivingWorldAutoResolveBattle *)this)->rva004F99CC(&ready);
 	} while (!ready);
 	((LivingWorldAutoResolveBattle *)this)->completeRound();

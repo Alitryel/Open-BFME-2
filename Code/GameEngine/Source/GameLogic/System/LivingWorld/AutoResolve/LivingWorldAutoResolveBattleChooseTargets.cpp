@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP=
-// ?rva004F971E@Rva004F971E@@QAEXXZ retail 0x004F971E..0x004F99CC (686 bytes)
-// under the pinned placeholder spelling. WorldBuilder twin 0x12ED000 is
+// ?rva004F971E@LivingWorldAutoResolveBattle@@QAEXXZ retail 0x004F971E..0x004F99CC (686 bytes)
+// (the method keeps its address name). WorldBuilder twin 0x12ED000 is
 // LivingWorldAutoResolveBattle::chooseTargets (LivingWorldAutoResolveBattle.cpp
 // asserts at lines 670..765); the ready loop of 0x004FA10F calls it.
 // Per side: clear each unit's target reference (+0x20); queue the units that
@@ -257,7 +257,7 @@ struct AutoResolveUnitVector
 	AutoResolveUnitRef *m_endOfStorage;
 };
 
-class Rva004F971E
+class LivingWorldAutoResolveBattle
 {
 public:
 	void rva004F971E();
@@ -266,7 +266,7 @@ public:
 	AutoResolveUnitVector m_units[2];					///< +0x0C
 };
 
-void Rva004F971E::rva004F971E()
+void LivingWorldAutoResolveBattle::rva004F971E()
 {
 	TargetList lists[8][2];
 	Rva00524306 queues[2];
