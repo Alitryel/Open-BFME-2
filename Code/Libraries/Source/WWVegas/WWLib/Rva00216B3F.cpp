@@ -31,7 +31,7 @@ class BannerUI
 {
 public:
 	void Hide(bool on);
-	void rva00216D2D();
+	void reset();
 private:
 	char m_pad00[0x20];
 	unsigned char m_flag20;
@@ -61,9 +61,9 @@ void BannerUI::Hide(bool on)
 	}
 }
 
-// ?rva00216D2D@BannerUI@@QAEXXZ, retail 0x00216D2D (47B, reached from a retail
+// ?reset@BannerUI@@QAEXXZ, retail 0x00216D2D (47B, reached from a retail
 // table): hide, empty the +0x28 records and zero the two +0x3C floats.
-void BannerUI::rva00216D2D()
+void BannerUI::reset()
 {
 	Hide(true);
 	_STL::vector<BfmePod28> &vr = m_vec28;

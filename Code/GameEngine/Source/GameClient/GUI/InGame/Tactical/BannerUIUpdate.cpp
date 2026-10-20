@@ -1,5 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /I.
-// ?rva002167A3@BannerUI@@QAEXXZ retail 0x002167A3..0x00216A2E (651B).
+// ?update@BannerUI@@QAEXXZ retail 0x002167A3..0x00216A2E (651B).
 // Same-TU callee lever: stateString's address goes to Rva00216332Call
 // (0x00216332) and progress's to Rva0021639AInvoke (0x0021639A); with both
 // rowed bodies owned here as select-any definitions cl proves the
@@ -138,7 +138,7 @@ class BannerUI
 {
 public:
 	void OnBannerButton(int slot);
-	void rva002167A3();
+	void update();
 
 	static __forceinline int bannerStateFor(int armyState)
 	{
@@ -163,7 +163,7 @@ private:
 	unsigned int m_summaryIndex;
 };
 
-void BannerUI::rva002167A3()
+void BannerUI::update()
 {
 	if (m_movieGone)
 		return;

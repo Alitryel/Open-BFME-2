@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?rva002B98AD@LivingWorldLogic@@UAEXXZ, retail 0x002B98AD..0x002B99F8 (331B,
+// ?init@LivingWorldLogic@@UAEXXZ, retail 0x002B98AD..0x002B99F8 (331B,
 // ends in a tail jump): slot 1 of the subsystem table at 0x00BFE2E4 (the
 // SubsystemInterface init slot by Zero Hour's order), a Ghidra-unlisted gap
 // body. It clears the logic's turn state and campaign bookkeeping through the
@@ -43,7 +43,7 @@ class LivingWorldLogic
 {
 public:
 	virtual ~LivingWorldLogic();
-	virtual void rva002B98AD();
+	virtual void init();
 	void processArmyDestroyList();							// 0x002B7BBB
 	void rva002B29BD();										// 0x002B29BD
 private:
@@ -87,7 +87,7 @@ private:
 	Rva002B9099 m_178;										// +0x178
 };
 
-void LivingWorldLogic::rva002B98AD()
+void LivingWorldLogic::init()
 {
 	m_F8 = -1;
 	m_F4 = 0;

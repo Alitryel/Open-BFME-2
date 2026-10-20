@@ -24,12 +24,12 @@ template<>class AnimationListenerSlots<1>{public:virtual void gap(char(*)[1]);};
 class AnimationListenerCalls:public AnimationListenerSlots<72>{public:virtual const Coord3D*listener();};
 static __forceinline void animationSubtract(Coord3D &a,const Coord3D &b){a.x-=b.x;a.y-=b.y;a.z-=b.z;}
 class AnimationSoundModuleManager {public:
- void rva00433025();
+ void update();
  char prefix[0x0c];AnimationSoundClientBehavior *cleanHead,*cleanTail,*dirtyHead,*dirtyTail;
  int count;Coord3D listenerPosition;
 };
 static __forceinline float animationSoundLengthSquared(const Coord3D&p){return p.z*p.z+p.y*p.y+p.x*p.x;}
-void AnimationSoundModuleManager::rva00433025(){
+void AnimationSoundModuleManager::update(){
  const Coord3D *listener=((AnimationListenerCalls*)TheAudio)->listener();
  Coord3D delta;delta.x=listener->x;delta.y=listener->y;delta.z=listener->z;
  animationSubtract(delta,listenerPosition);
