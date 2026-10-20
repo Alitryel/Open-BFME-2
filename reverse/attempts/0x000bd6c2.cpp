@@ -1,4 +1,6 @@
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
+// partial score=0.99 date=2026-10-20
+// ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.956 date=2026-10-20
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.955 date=2026-10-20
@@ -20,6 +22,7 @@
 // BF1 cee35b7d8 scripted model source has no recovered counterpart.
 // w1 2026-10-20: natural double e->particle read plus a strong in-unit Rva00704980 ctor; residue and landing prerequisite in reverse/attempt_support/0x000bd6c2_20261020_strong_ctor.md
 // w1 2026-10-20 (2): the STLport erase (0x000BC133) is visible as a select-any copy, as retail's unit saw the template; see reverse/attempt_support/0x000bd6c2_20261020_visible_erase.md
+// w6 2026-10-20: each arm of the destroy loop advances the node itself, so the node is referenced inside the particle arm and keeps EDI with the nugget in EBX as retail; see reverse/attempt_support/0x000bd6c2_20261020_arm_advance.md
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include <new>
@@ -205,14 +208,15 @@ void W3DScriptedModelDraw::rva000BD6C2()
      }
     }else if(frame>=event.end){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
-     for(ListNode*n=events.node->next;n!=events.node;n=n->next){
+     for(ListNode*n=events.node->next;n!=events.node;){
       if(reinterpret_cast<EventNugget*>(n->value)->type==9){
        EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
        BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
        for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==e->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
-      }
+       n=n->next;
+      }else n=n->next;
      }
     }
    }
