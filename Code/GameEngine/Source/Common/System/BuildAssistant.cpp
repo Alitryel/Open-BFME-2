@@ -1871,9 +1871,11 @@ inline void addCoord3D( Coord3D *sum, const Coord3D *a )
 }
 
 //-------------------------------------------------------------------------------------------------
-/** This will check the build conditions at the specified sample location point */
+/** This will check the build conditions at the specified sample location point. Zero Hour's is
+	* static; here it has external linkage so BuildAssistantGetPortTransform.cpp (the other
+	* footprint client, split out of this unit) can pass it to iterateFootprint (link repair). */
 //-------------------------------------------------------------------------------------------------
-static void checkSampleBuildLocation( const Coord3D *samplePoint, void *userData )
+void checkSampleBuildLocation( const Coord3D *samplePoint, void *userData )
 {
 	SampleBuildData *sampleData = (SampleBuildData *)userData;
 	Bool isK188 = sampleData->build->isKindOf( KINDOF_188 ) != 0;
@@ -1982,6 +1984,11 @@ static void checkSampleBuildLocation( const Coord3D *samplePoint, void *userData
 
 // The largest water to land sample ratio (either way) a KINDOF_188 build may
 // straddle. Retail reads it from this unit's .data, not as a literal.
+// BuildAssistant::getPortTransform's facing offset (PI/2, .data 0x00DC0854, directly before the
+// ratio below): retail compiled that function in this unit; it now lives in
+// BuildAssistantGetPortTransform.cpp, so the offset has external linkage.
+Real s_portAngleOffset = PI / 2;
+
 static Real s_maxWaterLandSampleRatio = 6.0f;
 
 extern PartitionManager *TheShroudManager;

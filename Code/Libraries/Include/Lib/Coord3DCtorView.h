@@ -10,7 +10,8 @@
 // before anything else that includes it: it takes Coord3D.h's include guard.
 // `#define COORD3D_VIEW_EXTERN_CTOR` / `COORD3D_VIEW_EXTERN_DTOR` declare the default constructor (0x0047A6A9) / destructor
 // (0x000B3FD0) out of line for units whose bytes call the retail rows instead of inlining them.
-// `#define COORD3D_VIEW_INLINE` first makes zero/set/add/sub/scale header-inline as in Zero Hour.
+// `#define COORD3D_VIEW_INLINE` first makes zero/set/add/sub/scale header-inline as in Zero Hour
+// (plus BFME2 MathCoord3D.h's in-place operators, operator/= among them).
 // `#define COORD3D_VIEW_DTOR` first adds retail's empty user destructor (0x000B3FD0), which keeps by-value
 // results and arrays on the unwind path (units whose temporaries or arrays retail registers for EH).
 #ifndef CANONICAL_COORD3D_H
@@ -54,6 +55,9 @@ struct Coord3D {
     Coord3D &operator-=(const Coord3D &o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
     Coord3D &operator+=(const Coord3D &o) { x += o.x; y += o.y; z += o.z; return *this; }
     Coord3D &operator*=(float s) { x *= s; y *= s; z *= s; return *this; }
+    // MathCoord3D.h:569 (WB 0x41FA20, assert "Coord3D::operator`/='"): one reciprocal, three
+    // multiplies; BuildAssistant::getPortTransform 0x392802 inlines it.
+    Coord3D &operator/=(float d) { float inv = 1.0f / d; x *= inv; y *= inv; z *= inv; return *this; }
     float lengthSqr() const { return x * x + y * y + z * z; }
 #else
     void zero();
