@@ -30,7 +30,7 @@ class TunnelTracker
 {
 public:
 	void removeFromContain(ObjectID val, int dummy);
-	bool rva004F550A(ObjectID val);
+	bool isInContainer(ObjectID val);
 private:
 	char m_pad[0x10];
 	_STL::list<ObjectID> m_list;
@@ -52,7 +52,7 @@ void TunnelTracker::removeFromContain(ObjectID val, int dummy)
 	--m_count;
 }
 
-bool TunnelTracker::rva004F550A(ObjectID val)
+bool TunnelTracker::isInContainer(ObjectID val)
 {
 	return _STL::find(m_list.begin(), m_list.end(), val) != m_list.end();
 }

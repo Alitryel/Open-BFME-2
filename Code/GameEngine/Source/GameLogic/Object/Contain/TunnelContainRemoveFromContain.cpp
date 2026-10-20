@@ -24,7 +24,7 @@ class Object;
 class TunnelTracker
 {
 public:
-	Bool rva004F550A( ObjectID id );
+	Bool isInContainer( ObjectID id );
 	void removeFromContain( ObjectID id, int exposeStealthUnits );
 };
 
@@ -110,7 +110,7 @@ void TunnelContain::removeFromContain( Object *obj, int exposeStealthUnits )
 	if( owningPlayer == 0 )
 		return;
 
-	if( primarySlot20( obj ) == 0 && !owningPlayer->getTunnelSystem()->rva004F550A( (ObjectID)(int)obj ) )
+	if( primarySlot20( obj ) == 0 && !owningPlayer->getTunnelSystem()->isInContainer( (ObjectID)(int)obj ) )
 		return;
 
 	owningPlayer->getTunnelSystem()->removeFromContain( (ObjectID)(int)obj, exposeStealthUnits );

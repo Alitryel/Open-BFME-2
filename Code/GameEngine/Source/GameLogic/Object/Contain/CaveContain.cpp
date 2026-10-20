@@ -111,11 +111,11 @@ public:
 class TunnelTracker : public Rva00466398
 {
 public:
-	Bool rva004F550A(ObjectID value);
+	Bool isInContainer(ObjectID value);
 	void removeFromContain(ObjectID value, int exposeStealthUnits);
 	void iterateContained(void (*callback)(Object*,void*), void *data, Bool reverse);
 	void addToContainList(Object *obj);
-	Bool rva004F5473(Object *obj, Bool checkCapacity);
+	Bool isValidContainerFor(Object *obj, Bool checkCapacity);
 	int getContainMax() const;
 };
 
@@ -272,7 +272,7 @@ void CaveContain::removeFromContain(Object *obj, Bool exposeStealthUnits)
 	// removeAllContained reads these 32-bit list values back as Object pointers.
 	ObjectID objectID = static_cast<ObjectID>(
 		reinterpret_cast<UnsignedInt>(obj));
-	if (tracker->rva004F550A(objectID))
+	if (tracker->isInContainer(objectID))
 	{
 		// The helper's second int is unused; retail forwards the whole Bool
 		// stack word, so preserve that call shape here.
@@ -377,7 +377,7 @@ void CaveContain::addToContainList(Object *obj)
 Bool CaveContain::isValidContainerFor(Object *obj, Bool checkCapacity, Bool)
 {
 	TunnelTracker *myTracker = TheCaveSystem->getTunnelTrackerForCaveIndex(m_caveIndex);
-	return myTracker->rva004F5473(obj, checkCapacity);
+	return myTracker->isValidContainerFor(obj, checkCapacity);
 }
 
 int CaveContain::rva00466504(BfmeTab1026 *tab)

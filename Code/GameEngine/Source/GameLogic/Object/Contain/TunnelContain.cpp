@@ -46,7 +46,7 @@ public:
 	void iterateContained(ContainIterateFunc cb, void *user, bool reverse);
 	void addToContainList(Object *obj);
 	int getContainMax() const;
-	bool rva004F5473(Object *obj, bool checkCapacity);
+	bool isValidContainerFor(Object *obj, bool checkCapacity);
 };
 class Rva004F5436 { public: int rva004F5436(class BfmeTab1026 *tab); };
 class Rva00466398 { public: Rva0036AE51ListView rva00466398(); };
@@ -374,7 +374,7 @@ bool TunnelContain::isValidContainerFor(Object *obj, bool checkCapacity, bool a3
 	if (!HordeGarrisonContain::isValidContainerFor(obj, false, a3))
 		return false;
 	Player *owningPlayer = m_1C->getControllingPlayer();
-	return owningPlayer->getTunnelSystem()->rva004F5473(obj, checkCapacity);
+	return owningPlayer->getTunnelSystem()->isValidContainerFor(obj, checkCapacity);
 }
 
 // ?onSelling@TunnelContain@@UAEXXZ, retail 0x0047E00F, 8 bytes:
