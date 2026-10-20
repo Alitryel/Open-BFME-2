@@ -131,11 +131,15 @@ void LineGroupClass::Set_Flag(FlagsType flag, bool on)
 // ?Set_Texture@LineGroupClass@@ present-unmatched
 void LineGroupClass::Set_Texture(TextureClass* texture)
 {
-	// TextureBaseClass::Add_Ref lives in ringobj.cpp (row at 0x000424B6);
-	// inline the WORD increment here so this TU calls but never emits it.
-	if (texture) ++*(unsigned short *)((char *)texture + 4);
-	if (Texture) Texture->Release_Ref();
-	Texture = texture;
+	TextureClass **next = reinterpret_cast<TextureClass **>(texture);
+	if (*next)
+		++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(*next) + 4);
+	if (Texture) {
+		Texture->Release_Ref();
+		Texture = *next;
+	} else {
+		Texture = *next;
+	}
 }
 
 // ?Get_Texture@LineGroupClass@@ present-unmatched
