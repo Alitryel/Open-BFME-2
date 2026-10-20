@@ -83,7 +83,7 @@ class BuddyThreadClass : public ThreadClass
 {
 public:
 	BuddyThreadClass(MutexClass *mutex);
-	virtual void Execute();
+	// Retail C6AC0C slot 1 inherits ThreadClass::Execute (6104B0).
 protected:
 	void Thread_Function();
 private:
