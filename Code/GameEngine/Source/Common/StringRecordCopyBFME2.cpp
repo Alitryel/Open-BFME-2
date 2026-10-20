@@ -374,3 +374,132 @@ template void __unguarded_linear_insert<S4SortElem12 *, S4SortElem12, S4Cmp002E1
     S4SortElem12 *, S4SortElem12, S4Cmp002E1690);
 
 }
+
+#include <list>
+
+class ParticleSystem;
+ParticleSystem *Make001FCBD7();
+class RvaSmartPtr12 {public:void rva0004CBC0()throw();};
+class BfmeParticleSystemHandle {public:
+ ParticleSystem *ptr;void *previous,*next;
+ __forceinline ~BfmeParticleSystemHandle()throw(){if(ptr)((RvaSmartPtr12*)this)->rva0004CBC0();}
+ __forceinline operator bool()const{return ptr!=0;}
+ __forceinline ParticleSystem *operator->()const{return ptr?ptr:Make001FCBD7();}
+};
+enum ParticleSystemID {INVALID_PARTICLE_SYSTEM_ID=0};
+class Rva000B75FF;
+class ParticleSystemManager {BfmeParticleSystemHandle findParticleSystemByID(ParticleSystemID);friend class Rva000B75FF;};
+extern ParticleSystemManager *TheParticleSystemManager;
+class Rva001F3852ByteOneSetter {public:void enable();};
+class Rva001F384AByteZeroSetter {public:void disable();};
+class Rva001F3C13ByteSlot {public:void set(unsigned char);};
+struct Rva001F38C1Arg {int words[12];};
+class Rva001F38C1Slot {public:void set(const Rva001F38C1Arg&);};
+struct ParticleFlagView {char pad[0x1a7];bool active;};
+struct ParticleMDView {char pad[0x12a];bool useDrawableBones;};
+struct ParticleTrackerNode {ParticleTrackerNode*next,*previous;BfmeStringRecord000B757D value;};
+class Drawable {public:bool rva00272835(int,int);};
+struct ParticleMatrixView {float values[12];};
+class ParticleRenderCallView {public:
+ virtual void s0();
+ virtual void s1();
+ virtual void s2();
+ virtual void s3();
+ virtual void s4();
+ virtual void s5();
+ virtual void s6();
+ virtual void s7();
+ virtual void s8();
+ virtual void s9();
+ virtual void s10();
+ virtual void s11();
+ virtual void s12();
+ virtual void s13();
+ virtual void s14();
+ virtual void s15();
+ virtual void s16();
+ virtual void s17();
+ virtual void s18();
+ virtual void s19();
+ virtual void s20();
+ virtual void s21();
+ virtual void s22();
+ virtual void s23();
+ virtual void s24();
+ virtual void s25();
+ virtual void s26();
+ virtual void s27();
+ virtual void s28();
+ virtual void s29();
+ virtual void s30();
+ virtual void s31();
+ virtual void s32();
+ virtual void s33();
+ virtual void s34();
+ virtual void s35();
+ virtual void s36();
+ virtual void s37();
+ virtual void s38();
+ virtual void s39();
+ virtual void s40();
+ virtual void s41();
+ virtual void s42();
+ virtual void s43();
+ virtual void s44();
+ virtual void s45();
+ virtual void s46();
+ virtual void s47();
+ virtual void s48();
+ virtual void s49();
+ virtual void s50();
+ virtual ParticleMatrixView Get_Bone_Transform(int)const;
+ virtual void s52();
+ virtual bool Is_Bone_Captured(int)const;
+};
+class Rva000B75FF {public:
+ char pad00[8];void *state;char pad0c[0x44-0xc];ParticleRenderCallView *render;char pad48[0x58-0x48];_STL::list<BfmeStringRecord000B757D> systems;
+ __forceinline const ParticleMDView *data()const{return *(const ParticleMDView*const*)((const char*)this-8);}
+ __forceinline Drawable *drawable()const{return *(Drawable*const*)((const char*)this-4);}
+ bool rva000B75FF(bool ignoreInactive);
+};
+// WB twin 0x92EF60 (callgraph score 1.0): three early-out guards, then a walk
+// over the tracked particle-system records. Each record's id is resolved via
+// TheParticleSystemManager; inactive systems end the update when
+// ignoreInactive is set. Drawable-bone systems copy the record and ask the
+// Drawable for the named bone transform, and on success apply it and continue
+// (the twin destroys the record and handle and jumps to the increment).
+// Otherwise a nonzero bone index drives captured/enabled state and the render
+// object's bone transform. Fields are read through the iterator as in the twin.
+bool Rva000B75FF::rva000B75FF(bool ignoreInactive)
+{
+ if(!state)return true;
+ if(!render)return true;
+ if(!drawable())return true;
+ for(_STL::list<BfmeStringRecord000B757D>::const_iterator it=systems.begin();it!=systems.end();++it)
+ {
+  BfmeParticleSystemHandle sys=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)it->word0);
+  if(!sys)continue;
+  if(!((ParticleFlagView*)sys.operator->())->active && ignoreInactive)return true;
+  int bone=it->word1;
+  if(data()->useDrawableBones)
+  {
+   ParticleMatrixView transform;
+   BfmeStringRecord000B757D record(*it);
+   if(drawable()->rva00272835((int)record.text.str(),(int)&transform))
+   {
+    ((Rva001F38C1Slot*)sys.operator->())->set(*(const Rva001F38C1Arg*)&transform);
+    ((Rva001F3C13ByteSlot*)sys.operator->())->set(1);
+    continue;
+   }
+  }
+  else if(bone)
+  {
+   if(render->Is_Bone_Captured(bone))((Rva001F384AByteZeroSetter*)sys.operator->())->disable();
+   else ((Rva001F3852ByteOneSetter*)sys.operator->())->enable();
+   const ParticleMatrixView transform=render->Get_Bone_Transform(bone);
+   ((Rva001F38C1Slot*)sys.operator->())->set(*(const Rva001F38C1Arg*)&transform);
+   ((Rva001F3C13ByteSlot*)sys.operator->())->set(1);
+  }
+ }
+ return true;
+}
