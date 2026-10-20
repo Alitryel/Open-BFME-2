@@ -159,7 +159,20 @@ private:
 };
 
 struct Rva002E8C23Pair { Int x,y; };
-void rva002E79A8(int,unsigned char,int,int,int);
+struct PathfinderCellPoint : Coord3D {
+	__forceinline PathfinderCellPoint() {}
+	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
+	__forceinline ~PathfinderCellPoint() {}
+};
+PathfinderCellPoint rva002E79A8(Bool centerInCell, Int cellX, Int cellY, PathfindLayerEnum layer);
+// The int-form callers hand 0x002E79A8 their hidden result pointer directly
+// (cdecl struct return: the hidden result pointer is the first argument).
+typedef void (__cdecl *Rva002E79A8HiddenResultForm)(int, unsigned char, int, int, int);
+#define RVA002E79A8_HIDDEN ((Rva002E79A8HiddenResultForm)(PathfinderCellPoint (*)(Bool, Int, Int, PathfindLayerEnum))rva002E79A8)
+static __forceinline void rva002E79A8(int out, unsigned char center, int x, int y, int layer)
+{
+	RVA002E79A8_HIDDEN(out, center, x, y, layer);
+}
 // ?Rva002E8C4DCall@@YAHHEPAURva002E8C23Pair@@H@Z, retail 0x002E8C4D (33 bytes):
 // cdecl cell-centre wrapper forwarding the cell's x/y to 0x002E79A8. Defined
 // here, ahead of its Pathfinder callers, because cl 7.1 reads the body: knowing
@@ -539,7 +552,7 @@ struct Rva002EBC7FPair { int x,y; };
 // CalcCollisionFreeExtraCosts hands it does not escape and rva002ECC0D's info stays local.
 __declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
 {
-	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	RVA002E79A8_HIDDEN((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
 	return a1;
 }
 #include <math.h>
@@ -619,7 +632,7 @@ public:
 };
 class Rva0006E009DwordField { public: int get() const; };
 class Rva0052DB4D { public: bool rva0052DB4D(int); };
-void rva002E79A8(int,unsigned char,int,int,int);
+
 // Native 0x002F01B6 addresses this 12-byte floating scratch first. Later
 // 0x002F0369 stores integer position at scratch+4 and diameter at scratch+12.
 // The two phases do not overlap; this local union preserves that 20-byte reuse.
@@ -2568,11 +2581,6 @@ Bool Pathfinder::AdjustDestination(Object *obj,const LocomotorSet &locomotorSet,
 	return false;
 }
 
-struct PathfinderCellPoint : Coord3D {
-	__forceinline PathfinderCellPoint() {}
-	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
-	__forceinline ~PathfinderCellPoint() {}
-};
 // 0x002E79A8 (186 B): the cell-to-world centre, WorldBuilder D4DC20 (Zero
 // Hour's adjustCoordToCell returning the point): the cell corner plus a half
 // cell (centred) or a small inset, scaled by the cell size; ground cells take
