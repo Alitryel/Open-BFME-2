@@ -25,9 +25,13 @@
 // RenderStateStruct (bfmestages/dx8wrapper.h) -- shader, material,
 // Textures[16], Lights[4] and LightEnable[4], then world at +0x1EC
 // (0x00DEE7C4) and view at +0x22C (0x00DEE804).
+class VertexMaterialClass;
+class VertexBufferClass;
 struct RenderStateStruct
 {
-	unsigned char m_pad00[0x1EC];
+	unsigned m_shader;
+	VertexMaterialClass *material;
+	unsigned char m_pad08[0x1EC - 8];
 	Matrix4 world;
 	Matrix4 view;
 };
@@ -36,6 +40,32 @@ extern int g_00DB5FB0;
 void Rva00118B50();
 void Rva00118BA0();
 void Rva00118C20();
+
+class RefCountClass
+{
+public:
+	virtual void Delete_This(void);
+	__forceinline void Add_Ref(void)
+	{
+		++m_numRefs;
+	}
+	__forceinline void Release_Ref(void)
+	{
+		--m_numRefs;
+		if (m_numRefs == 0)
+			Delete_This();
+	}
+
+private:
+	int m_numRefs;
+};
+
+class VertexMaterialClass : public W3DMPO, public RefCountClass
+{
+public:
+	enum PresetType { PRELIT_DIFFUSE = 0 };
+	static VertexMaterialClass *Get_Preset(PresetType type);
+};
 
 class BfmeHub982;
 
@@ -46,6 +76,8 @@ class DX8Wrapper
 public:
 	static bool Has_Stencil();
 	static void Set_DX8_Render_State(unsigned long state, unsigned value);
+	static void Set_Viewport(const D3DVIEWPORT8 *pViewport);
+	static void Set_Vertex_Buffer(const VertexBufferClass *vb, unsigned stream);
 
 protected:
 	static RenderStateStruct render_state;
@@ -55,18 +87,76 @@ protected:
 	static float ZFar;
 	static float ZNear;
 	static IDirect3DDevice8 *D3DDevice;
+	static int ResolutionWidth;
+	static int ResolutionHeight;
 
 	enum
 	{
+		WORLD_CHANGED = 1,
 		VIEW_CHANGED = 2,
+		MATERIAL_CHANGED = 0x4000,
+		WORLD_IDENTITY = 0x40000,
 		VIEW_IDENTITY = 0x80000
 	};
+
+	// Both transform switches keep every arm of the WB twin 0x0097C2C0 (WORLD,
+	// VIEW, PROJECTION, then a default: an assert and Make_Identity here, a
+	// transposed upload there). The dead arms still spend c2's inline budget,
+	// which is what leaves the last Transpose temp's row array to the vector
+	// constructor iterator 0x00001423 in bfmeEnd982C below.
+	static __forceinline void Get_Transform(D3DTRANSFORMSTATETYPE transform, Matrix4 &m)
+	{
+		switch ((int)transform)
+		{
+		case D3DTS_WORLD:
+			if (render_state_changed & (unsigned)WORLD_IDENTITY)
+				m.Make_Identity();
+			else
+				m = render_state.world.Transpose();
+			break;
+		case D3DTS_VIEW:
+			if (render_state_changed & (unsigned)VIEW_IDENTITY)
+				m.Make_Identity();
+			else
+				m = render_state.view.Transpose();
+			break;
+		case D3DTS_PROJECTION:
+			m = DeviceProjectionMatrix.Transpose();
+			break;
+		default:
+			m.Make_Identity();
+			break;
+		}
+	}
+
+	static __forceinline void Set_View_Identity(void)
+	{
+		if (render_state_changed & (unsigned)VIEW_IDENTITY)
+			return;
+		render_state.view.Make_Identity();
+		render_state_changed |= (unsigned)VIEW_CHANGED | (unsigned)VIEW_IDENTITY;
+	}
+
+	static __forceinline void Set_Material(const VertexMaterialClass *material)
+	{
+		if (material)
+			const_cast<VertexMaterialClass *>(material)->Add_Ref();
+		if (render_state.material)
+			render_state.material->Release_Ref();
+		render_state.material = const_cast<VertexMaterialClass *>(material);
+		render_state_changed |= (unsigned)MATERIAL_CHANGED;
+	}
 
 
 	static __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE transform, const Matrix4 &m)
 	{
 		switch ((int)transform)
 		{
+		case D3DTS_WORLD:
+			render_state.world = m.Transpose();
+			render_state_changed |= (unsigned)WORLD_CHANGED;
+			render_state_changed &= ~(unsigned)WORLD_IDENTITY;
+			break;
 		case D3DTS_VIEW:
 			render_state.view = m.Transpose();
 			render_state_changed |= (unsigned)VIEW_CHANGED;
@@ -79,6 +169,13 @@ protected:
 			ZNear = 0.0f;
 			D3DDevice->SetTransform(D3DTS_PROJECTION, &DeviceProjectionMatrix);
 			number_of_DX8_calls++;
+			break;
+		default:
+			{
+				Matrix4 m2 = m.Transpose();
+				D3DDevice->SetTransform(transform, &m2);
+				number_of_DX8_calls++;
+			}
 			break;
 		}
 	}
@@ -94,6 +191,7 @@ class BfmeHub982
 {
 public:
 	void bfmeBegin982C();
+	void bfmeEnd982C();
 
 private:
 	bool m_stateDirty;
@@ -105,6 +203,7 @@ private:
 	Matrix4 m_matrix;
 	Matrix4 m_view;
 	Matrix4 m_projection;
+	VertexBufferClass *m_vertexBuffer;
 };
 
 void BfmeHub982::bfmeBegin982C()
@@ -126,4 +225,44 @@ void BfmeHub982::bfmeBegin982C()
 			Rva00118C20();
 		g_00DB5FB0 = m_stencilRef;
 	}
+}
+
+// ?bfmeEnd982C@BfmeHub982@@QAEXXZ retail 0x00110611..0x00110CFE (1773 bytes;
+// placeholder pin name kept, ebp-biased frame): the state setup paired with
+// the restore above. A full-screen viewport from the resolution globals
+// 0x00DB5FD4/0x00DB5FD8 through the rowed Set_Viewport 0x0011D480, then the
+// inlined DX8Wrapper::Get_Transform saves of the view (identity when
+// VIEW_IDENTITY is set, else the transposed render-state view) into +0x50 and
+// of the transposed projection 0x00DEDBF0 into +0x90; Set_View_Identity and
+// an identity projection (ZFar/ZNear cleared, device slot +0xB0, counted);
+// the +0x10 matrix as the world transform (its Transpose temp's rows built by
+// the vector constructor iterator, callback 0x0047A6A9, once the inline
+// budget runs out); the rowed PRELIT_DIFFUSE preset
+// 0x0013D230 as the material (REF_PTR_SET then release); the +0xD0 vertex
+// buffer on stream 0 through the rowed Set_Vertex_Buffer 0x0011D4A0; both
+// dirty bytes set. Statement order follows Zero Hour's Render2DClass::Render
+// state setup; the target-only owner and offsets are retail-derived.
+void BfmeHub982::bfmeEnd982C()
+{
+	D3DVIEWPORT8 vp;
+	vp.X = 0;
+	vp.Y = 0;
+	vp.Width = DX8Wrapper::ResolutionWidth;
+	vp.Height = DX8Wrapper::ResolutionHeight;
+	vp.MinZ = 0.0f;
+	vp.MaxZ = 1.0f;
+	DX8Wrapper::Set_Viewport(&vp);
+	DX8Wrapper::Get_Transform(D3DTS_VIEW, m_view);
+	DX8Wrapper::Get_Transform(D3DTS_PROJECTION, m_projection);
+	Matrix4 identity(true);
+	DX8Wrapper::Set_View_Identity();
+	DX8Wrapper::Set_Transform(D3DTS_PROJECTION, identity);
+	DX8Wrapper::Set_Transform(D3DTS_WORLD, m_matrix);
+	VertexMaterialClass *vmat = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
+	DX8Wrapper::Set_Material(vmat);
+	if (vmat)
+		vmat->Release_Ref();
+	DX8Wrapper::Set_Vertex_Buffer(m_vertexBuffer, 0);
+	m_stateDirty = true;
+	m_textureDirty = true;
 }
