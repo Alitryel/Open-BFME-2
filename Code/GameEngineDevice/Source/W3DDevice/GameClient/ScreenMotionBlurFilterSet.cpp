@@ -66,7 +66,8 @@ public:
   ((Device *)D3DDevice)->v->SetRenderState((Device *)D3DDevice,state,value);
   ++number_of_DX8_calls; ++render_state_changes;
  }
- static __forceinline void Set_Material(const VertexMaterialClass *vmat) {
+ // Inline at the setter; the out-of-line body belongs to HeightMap.cpp.
+ static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass *vmat) {
   if(vmat) ++vmat->refs;
   if(ScreenMaterial) ScreenMaterial->Release_Ref();
   ScreenMaterial=(VertexMaterialClass *)vmat;
