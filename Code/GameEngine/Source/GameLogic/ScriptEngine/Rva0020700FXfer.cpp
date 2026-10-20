@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Source/WWVegas/WWLib /ICode/GameEngine/Source/Common /ICode/Libraries/Include/Lib
 // stlport
-// ?Rva0020700FXfer@@YAPAVXfer@@PAV1@PAV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z @0x0020700F 232B free list<AsciiString> Xfer helper version 1 1 via slot 0x28 size via slots 0x2C 0x78.
-// Evidence: leaf lane 3 callers in FUN_0060a859; prev 0x00206FE6 next 0x002070F7; strings std-list List-must-be-empty.
+// The list<AsciiString> fill Rva0020700FXfer (0x0020700F) moved to
+// ScriptEngineDoXfer.cpp: retail compiles it in DoXfer's unit, before DoXfer.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
 
@@ -14,12 +14,6 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 #include "ascii_string.h"
-
-// Use the existing native list-node provider; its local implicit instantiation
-// emits unused allocator wrappers that conflict with other units.
-namespace _STL {
-template<> _List_node<AsciiString> *list<AsciiString>::_M_create_node(const AsciiString &);
-}
 
 
 typedef unsigned char UnsignedByte;
@@ -79,52 +73,6 @@ public:
  char *text;
  int tag;
 };
-
-typedef _STL::list<AsciiString> ListAsciiString;
-
-// Retail expands the list size traversal; keeping it local avoids conflicting
-// public iterator/distance COMDAT copies without changing its loop.
-static __forceinline UnsignedInt asciiListSize(const ListAsciiString *list)
-{
- const _STL::_List_node_base *head = list->_M_node._M_data;
- const _STL::_List_node_base *at = head->_M_next;
- UnsignedInt result = 0;
- while (at != head) { at = at->_M_next; ++result; }
- return result;
-}
-
-
-Xfer *Rva0020700FXfer(Xfer *xfer, ListAsciiString *list)
-{
-	XferVersion version;
-	version.m_version = 1;
-	version.m_currentVersion = 1;
-	xfer->xferVersion(&version);
-
-	UnsignedInt count = asciiListSize(list);
-	xfer->xferTypeName("std::list").xferUnsignedShort(&count);
-
-	if (xfer->isSaving()) {
-		ListAsciiString::_Node *sentinel = (ListAsciiString::_Node *)list->_M_node._M_data;
-		ListAsciiString::_Node *node = (ListAsciiString::_Node *)sentinel->_M_next;
-		while (node != sentinel) {
-			xfer->xferAsciiString((AsciiString &)node->_M_data);
-			node = (ListAsciiString::_Node *)node->_M_next;
-		}
-	} else {
-		if (!list->empty()) {
-			throw XferException(4, "List must be empty on load");
-		}
-		AsciiString value;
-		while (count != 0) {
-			--count;
-			xfer->xferAsciiString(value);
-			list->push_back(value);
-		}
-		--count;
-	}
-	return xfer;
-}
 
 // BFME1 donor575 XferListAsciiStringCoord3D is the semantic guide.
 // BFME2 allocation206AE0 proves24-byte nodes and16-byte string/coordinate payload;

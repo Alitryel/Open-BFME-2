@@ -81,13 +81,6 @@ class Rva00203E11A;
 class Rva00203E11B;
 void Rva00203E11Xfer(Rva00203E11A *a, Rva00203E11B *b);
 
-class Rva00207B90
-{
-public:
-	ListNocase4 m_list;
-	void rva00207B90(const PairNocase4 &x);
-};
-
 Xfer *Rva002081C7XferList(Xfer *xfer, ListNocase4 *list)
 {
 	XferVersion version;
@@ -122,7 +115,7 @@ Xfer *Rva002081C7XferList(Xfer *xfer, ListNocase4 *list)
 		{
 			--count;
 			Rva00203E11Xfer((Rva00203E11A *)xfer, (Rva00203E11B *)&value);
-			((Rva00207B90 *)list)->rva00207B90(value);
+			list->push_back(value);
 		}
 		--count;
 	}

@@ -1,5 +1,3 @@
-// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
-// partial score=0.995 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /EHs /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /arch:SSE /G7 /DBFME_SNAPSHOT_CAPITALIZED_SLOTS
 // stlport
 //
@@ -13,43 +11,22 @@
 // and added the living-world maps, the per-player special power lists and the
 // version 2/3 maps after the object type lists.
 //
-// Bank state (explain_mismatch, 2026-10-14): 15 structural and 504 raw
-// instruction diffs out of 2027. Remaining walls:
-// - loop entry: retail enters the old-version CRC loops 1, 3 and 4 by
-//   jmp-to-test, while loops 2, 5 and the per-player loops use the guard
-//   (cmp edi,eax / je). Loops 1 and 2 have the same source. This build guards
-//   all of them. Tried without effect: const_iterator, postfix ++, reversed
-//   compare, while form, iterator declared outside or at the block top,
-//   (*it), and dropping the local _List_iterator operator!=.
-// - frame slots: retail order is counters, flags, sequentialScriptCount; req
-//   sits at -0x64, shared with the byte-flag name; version is at -0x34; the
-//   byte-flag value is in the dead xfer argument slot [ebp+0xb]. Renaming
-//   locals or moving their declarations does not change this layout.
-// - unresolved ICF STL callees: list dtor 0x2FECBC, list clear 0x23DAA5,
-//   the eh-vector element dtor 0x207F08 and the _List_base ctor 0x35C9A6
-//   need names or fold-proof pins.
-//
-// Re-banked 2026-10-20 from the 0.75 body. The farm body (score 0.86) dropped
-// the counters load loop's ++i (retail +0x2CB inc [ebp+8], jl back-edge at
-// +0x2D1) and carried a padded version struct and an equal-arm loop test.
-// The players store loop advances it, not pit, exactly as retail does: retail
-// +0x6C6 jumps back unconditionally and reuses esi, so the loop never exits.
-// Against retail this body differs only in the three loop entries above and in
-// frame slots: no member offset, callee or non-frame register differs.
-// The four ICF callee addresses named above now have ledger rows; whether this
-// body's own instantiation names resolve to them is unchecked.
-// XferVersion is built by a two-argument constructor, as WorldBuilder's twin
-// materializes 5 then 1 before storing the bytes; it moves version from the
-// third frame slot to -0x30 (retail -0x34).
-// Handoff: reverse/attempt_support/script-engine-doxfer-20a859/README.md
+// Retail compiles the list fills 0x0020700F and 0x00207F91 (and the list
+// push_back 0x00207B90) in this unit ahead of DoXfer; defined here with a
+// visible STLport push_back they give retail's loop entries. m_namedObjects is
+// cleared through the folded erase at 0x00207F0D (FXBoneInfo view below), and
+// the STL helpers retail folds by ICF have alias rows naming this unit. The
+// EH graph is exact, so its unwind funclets are rowed here as $L labels.
+// History of the walls this closed:
+//   reverse/attempt_support/script-engine-doxfer-20a859/README.md
 #include "ascii_string.h"
 #include <map>
 #include <list>
 #include <vector>
 #include "Common/Snapshot.h"
-#include "../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-#include "../../../Code/GameEngine/Source/Common/BfmeSpecialPowerTimer8.h"
-#include "../../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "../../Common/GameLogicObjectLookupView.h"
+#include "../../Common/BfmeSpecialPowerTimer8.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class GameLogic;
 extern GameLogic *TheGameLogic;
@@ -95,8 +72,8 @@ public:
 	virtual void slot07();
 	virtual void slot08();
 	virtual void xferUser(void *data, UnsignedInt size);
-	virtual void xferVersion(XferVersion *version);
-	virtual void slot11();
+	virtual Xfer &xferVersion(XferVersion *version);
+	virtual Xfer &xferTypeName(const char *const &name);
 	virtual void xferSnapshot(Snapshot *snapshot);
 	virtual void slot13();
 	virtual void slot14();
@@ -115,7 +92,7 @@ public:
 	virtual void xferAsciiString(AsciiString *value);
 	virtual void xferReal(Real *value);
 	virtual void slot29();
-	virtual void xferUnsignedInt(UnsignedInt *value);
+	virtual Xfer &xferUnsignedInt(UnsignedInt *value);
 	virtual void xferInt(Int *value);
 	virtual void xferUnsignedShort(UnsignedShort *value);
 	virtual void xferShort(Short *value);
@@ -192,6 +169,33 @@ public:
 	ObjectID getID() const { return m_id; }
 };
 
+// Retail clears m_namedObjects through the folded eight-byte-pair range erase
+// at 0x00207F0D, rowed as vector<FXBoneInfo>::erase in FXBoneInfoVectorErase.cpp.
+// As in ScriptEngine_rva0020A7C9.cpp, which clears the same vector, call it
+// through a declaration-only view so this unit emits no second erase copy.
+struct FXBoneInfo
+{
+	AsciiString m_boneName;
+	const void *m_template;
+};
+
+namespace _STL
+{
+template <> class vector<FXBoneInfo, allocator<FXBoneInfo> >
+{
+public:
+	typedef FXBoneInfo *iterator;
+	iterator begin() { return m_start; }
+	iterator end() { return m_finish; }
+	iterator erase(iterator first, iterator last);
+
+private:
+	iterator m_start;
+	iterator m_finish;
+	iterator m_endOfStorage;
+};
+}
+
 struct Rva0020A227Element
 {
 	AsciiString key;
@@ -201,19 +205,19 @@ struct Rva0020A227Element
 
 // Retail 0x0020479E (Rva0020479ECtor.cpp): stores only, so loading needs no
 // unwind state around the allocation.
-struct SequentialScriptQuad
+struct Rva0020479EQuad
 {
 	int m_count0;
 	int m_index0;
 	int m_count1;
 	int m_index1;
-	SequentialScriptQuad() : m_count0(0), m_index0(-1), m_count1(0), m_index1(-1) {}
+	Rva0020479EQuad() : m_count0(0), m_index0(-1), m_count1(0), m_index1(-1) {}
 };
 
-class SequentialScript : public Snapshot
+class Rva0020479E : public Snapshot
 {
 public:
-	SequentialScript() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {}
+	Rva0020479E() : m_04(0), m_08(0), m_0c(0), m_10(0), m_24(0), m_28(0) {}
 protected:
 	virtual void LoadPostProcess();
 	virtual void crc(Xfer *xfer);
@@ -222,7 +226,7 @@ protected:
 	int m_08;
 	int m_0c;
 	int m_10;
-	SequentialScriptQuad m_14;
+	Rva0020479EQuad m_14;
 	unsigned char m_24;
 	int m_28;
 };
@@ -288,7 +292,7 @@ protected:
 class ScriptEngine : public SubsystemInterface, public Snapshot
 {
 public:
-	typedef _STL::vector<SequentialScript *> VecSequentialScriptPtr;
+	typedef _STL::vector<Rva0020479E *> VecSequentialScriptPtr;
 	typedef _STL::vector<Rva0020A227Element> VecNamedRequests;
 	typedef _STL::vector<BfmeStringRecord00204A30> VecNamedReveal;
 	typedef _STL::vector<ObjectTypes *> AllObjectTypes;
@@ -356,52 +360,84 @@ protected:
 	Bool m_freezeByScript;                                // 0x1A4D7
 };
 
-// Stand-in bodies. Retail compiles both list fills in DoXfer's TU before it, and
-// c2 reuses their summary that `list` does not escape: DoXfer's loops 1, 3 and 4
-// then enter by jmp-to-test as in retail. The landing moves the real rows
-// (Rva0020700FXfer.cpp, Rva00207F91Xfer.cpp) here; see the handoff README round 4.
+// Retail compiles both list fills in DoXfer's TU before it, and c2 reuses
+// their summary that `list` does not escape: DoXfer's loops 1, 3 and 4 then
+// enter by jmp-to-test as in retail (handoff README round 4).
+static __forceinline UnsignedInt asciiListSize(const ListAsciiString *list)
+{
+	const _STL::_List_node_base *head = list->_M_node._M_data;
+	const _STL::_List_node_base *at = head->_M_next;
+	UnsignedInt result = 0;
+	while (at != head) { at = at->_M_next; ++result; }
+	return result;
+}
+
 Xfer *Rva0020700FXfer(Xfer *xfer, ListAsciiString *list)
 {
 	XferVersion version(1, 1);
 	xfer->xferVersion(&version);
-	UnsignedInt count = list->size();
-	xfer->xferUnsignedInt(&count);
+
+	UnsignedInt count = asciiListSize(list);
+	xfer->xferTypeName("std::list").xferUnsignedInt(&count);
+
 	if (xfer->IsStoring()) {
-		for (ListAsciiString::iterator it = list->begin(); it != list->end(); ++it)
-			xfer->xferAsciiString(&*it);
+		ListAsciiString::_Node *sentinel = (ListAsciiString::_Node *)list->_M_node._M_data;
+		ListAsciiString::_Node *node = (ListAsciiString::_Node *)sentinel->_M_next;
+		while (node != sentinel) {
+			xfer->xferAsciiString(&node->_M_data);
+			node = (ListAsciiString::_Node *)node->_M_next;
+		}
 	} else {
-		if (!list->empty())
+		if (!list->empty()) {
 			throw XferException(4, "List must be empty on load");
+		}
 		AsciiString value;
 		while (count != 0) {
 			--count;
 			xfer->xferAsciiString(&value);
 			list->push_back(value);
 		}
+		--count;
 	}
 	return xfer;
 }
+
+class Rva00203D6AA;
+void Rva00203D6AChain(Rva00203D6AA *a, void *b);
+
 Xfer *Rva00207F91XferList(Xfer *xfer, ListAsciiStringValue *list)
 {
 	XferVersion version(1, 1);
 	xfer->xferVersion(&version);
-	UnsignedInt count = list->size();
-	xfer->xferUnsignedInt(&count);
-	if (xfer->IsStoring()) {
-		for (ListAsciiStringValue::iterator it = list->begin(); it != list->end(); ++it) {
-			xfer->xferAsciiString(const_cast<AsciiString *>(&it->first));
-			xfer->xferUnsignedInt(&it->second.m_value);
+
+	UnsignedInt count = (UnsignedInt)list->size();
+	xfer->xferTypeName("std::list").xferUnsignedInt(&count);
+
+	if (xfer->IsStoring())
+	{
+		ListAsciiStringValue::_Node *sentinel = (ListAsciiStringValue::_Node *)list->_M_node._M_data;
+		ListAsciiStringValue::_Node *node = (ListAsciiStringValue::_Node *)sentinel->_M_next;
+		while (node != sentinel)
+		{
+			Rva00203D6AChain((Rva00203D6AA *)xfer, &node->_M_data);
+			node = (ListAsciiStringValue::_Node *)node->_M_next;
 		}
-	} else {
+	}
+	else
+	{
 		if (!list->empty())
+		{
 			throw XferException(4, "List must be empty on load");
+		}
+
 		ListAsciiStringValue::value_type value;
-		while (count != 0) {
+		while (count != 0)
+		{
 			--count;
-			xfer->xferAsciiString(const_cast<AsciiString *>(&value.first));
-			xfer->xferUnsignedInt(&value.second.m_value);
+			Rva00203D6AChain((Rva00203D6AA *)xfer, &value);
 			list->push_back(value);
 		}
+		--count;
 	}
 	return xfer;
 }
@@ -421,7 +457,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	// sequential scripts
 	UnsignedShort sequentialScriptCount = m_sequentialScripts.size();
 	xfer->xferUnsignedShort(&sequentialScriptCount);
-	SequentialScript *sequentialScript;
+	Rva0020479E *sequentialScript;
 	if (xfer->IsStoring())
 	{
 		VecSequentialScriptPtr::iterator it;
@@ -437,7 +473,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 			throw XferException(5, 0);
 		for (UnsignedShort i = 0; i < sequentialScriptCount; ++i)
 		{
-			sequentialScript = new SequentialScript;
+			sequentialScript = new Rva0020479E;
 			m_sequentialScripts.push_back(sequentialScript);
 			xfer->xferSnapshot(sequentialScript);
 		}
@@ -615,7 +651,8 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	else
 	{
 		Rva0020A227Element req;
-		m_namedObjects.clear();
+		_STL::vector<FXBoneInfo> &named = (_STL::vector<FXBoneInfo> &)m_namedObjects;
+		named.erase(named.begin(), named.end());
 		for (UnsignedShort i = 0; i < namedObjectsCount; ++i)
 		{
 			xfer->xferAsciiString(&namedObjectName);

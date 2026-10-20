@@ -245,3 +245,28 @@ the TU around it.
   4. Then land the flag-map rename (`ScriptFlag`, round 3 prerequisite), run
      pin_consistency and find_declared_unmatched, and land with add_match and
      `./build.sh`.
+
+## Landed (2026-10-20, claude-opus-5-5)
+
+The landing plan above worked as written. DoXfer 0x0020A859 (6131 B) and its
+`__ehhandler` 0x0076D178 are matched in
+`Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineDoXfer.cpp`.
+
+- The fills 0x0020700F (with handler 0x0076C948) and 0x00207F91 moved into the
+  unit ahead of DoXfer; `Rva00207F91Xfer.cpp` is deleted. 0x00207B90 is renamed
+  to the real `list<pair<const AsciiString,NoCaseTreeValue4>>::push_back` and
+  moved here as well. The ScriptFlag rename landed in
+  `ScriptEngineRva0020881A.cpp`.
+- The seven unresolved callees: six were STLport helpers that retail folds by
+  ICF (list base ctor/clear/dtor, pair ctor and dtor, the
+  `vector<Rva0020479E*>` push_back chain). They now have `--icf-owner` alias rows
+  naming this unit. The seventh is the `m_namedObjects` clear. This unit's own
+  erase inlines `__copy_ptrs` (54 B, retail 51 B), so it calls the rowed
+  FXBoneInfo erase at 0x00207F0D through a declaration-only view, as
+  `ScriptEngine_rva0020A7C9.cpp` does.
+- EH graph EXACT (`eh_verify`). Its 49 unwind funclets 0x0076CFA7..0x0076D170
+  are rowed here as `$L19682`..`$L19730`. That covers 43 `uw_gen` scaffold rows
+  (`--replace-rva`), four MASM rows retired from `EHStateCleanupRange36.asm`
+  (0x0076D075/08B/0A1/0B7, eh-vector-dtor) and the new row 0x0076D0E5. The
+  funclets' dtor callees needed 10 more ICF alias rows (pair and list dtors at
+  0x0048BA39, 0x002046BB and 0x00207F08).

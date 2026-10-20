@@ -22,15 +22,3 @@ _List_node<PairNocase4> *list<PairNocase4, allocator<PairNocase4> >::_M_create_n
 }
 
 template ListNocase4::iterator ListNocase4::insert(ListNocase4::iterator, const PairNocase4 &);
-
-class Rva00207B90
-{
-public:
-	ListNocase4 m_list;
-	void rva00207B90(const PairNocase4 &x);
-};
-
-void Rva00207B90::rva00207B90(const PairNocase4 &x)
-{
-	m_list.insert(ListNocase4::iterator((ListNocase4::_Node *)*(void **)this), x);
-}

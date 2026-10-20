@@ -26,15 +26,21 @@ struct ScriptCounter
 	bool m_isMillisecondTimer;
  ScriptCounter() : m_value(0), m_isCountdownTimer(false), m_isMillisecondTimer(false) {}
 };
+// A script flag's value; DoXfer's frame shows the class-typed default value.
+struct ScriptFlag
+{
+	bool m_value;
+	ScriptFlag() : m_value(false) {}
+};
 
 typedef _STL::pair<AsciiString,AsciiString> ScriptKey;
 class Rva002046C0Owner { public: AsciiString resolveName(const AsciiString &); };
 typedef _STL::_Rb_tree<ScriptKey,_STL::pair<const ScriptKey,ScriptCounter>,
  _STL::_Select1st<_STL::pair<const ScriptKey,ScriptCounter> >,_STL::less<ScriptKey>,
  _STL::allocator<_STL::pair<const ScriptKey,ScriptCounter> > > ScriptCounterTree;
-typedef _STL::_Rb_tree<ScriptKey,_STL::pair<const ScriptKey,bool>,
- _STL::_Select1st<_STL::pair<const ScriptKey,bool> >,_STL::less<ScriptKey>,
- _STL::allocator<_STL::pair<const ScriptKey,bool> > > ScriptFlagTree;
+typedef _STL::_Rb_tree<ScriptKey,_STL::pair<const ScriptKey,ScriptFlag>,
+ _STL::_Select1st<_STL::pair<const ScriptKey,ScriptFlag> >,_STL::less<ScriptKey>,
+ _STL::allocator<_STL::pair<const ScriptKey,ScriptFlag> > > ScriptFlagTree;
 
 // The retail trees use the existing byte allocator and omit the throwing
 // allocator cleanup wrapper. Node sizes are 0x20 and 0x1C, respectively.
@@ -45,7 +51,7 @@ ScriptCounterTree::_Link_type ScriptCounterTree::_M_create_node(const ScriptCoun
  _STL::_Construct(&node->_M_value_field,value);
  return node;
 }
-// ?_M_create_node@?$_Rb_tree@U?$pair@VAsciiString@@V1@@_STL@@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@_N@2@U?$_Select1st@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@_N@_STL@@@2@U?$less@U?$pair@VAsciiString@@V1@@_STL@@@2@V?$allocator@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@_N@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@_N@_STL@@@2@ABU?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@_N@2@@Z
+// ?_M_create_node@?$_Rb_tree@U?$pair@VAsciiString@@V1@@_STL@@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@UScriptFlag@@@2@U?$_Select1st@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@UScriptFlag@@@_STL@@@2@U?$less@U?$pair@VAsciiString@@V1@@_STL@@@2@V?$allocator@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@UScriptFlag@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@UScriptFlag@@@_STL@@@2@ABU?$pair@$$CBU?$pair@VAsciiString@@V1@@_STL@@UScriptFlag@@@2@@Z
 template <>
 ScriptFlagTree::_Link_type ScriptFlagTree::_M_create_node(const ScriptFlagTree::value_type &value) {
  _Link_type node=(_Link_type)_STL::allocator<char>::allocate(sizeof(_STL::_Rb_tree_node<ScriptFlagTree::value_type>),0);
@@ -101,7 +107,7 @@ protected:
 private:
  char m_unreconstructed[0x190A0];
  _STL::map<ScriptKey,ScriptCounter> m_counters;
- _STL::map<ScriptKey,bool> m_flags;
+ _STL::map<ScriptKey,ScriptFlag> m_flags;
  char m_beforeByteMap[0x190D0 - 0x190B8];
  ScriptByteMap m_byteFlags;
  ScriptDefaultIntMap m_defaults;
@@ -122,17 +128,17 @@ ScriptCounter *ScriptEngine::bfmeCounter(AsciiString name) {
 bool *ScriptEngine::bfmeFlagForWrite(AsciiString name) {
  AsciiString resolved = ((Rva002046C0Owner *)this)->resolveName(name);
  ScriptKey key(resolved,name);
- _STL::pair<_STL::map<ScriptKey,bool>::iterator,bool> result =
-  m_flags.insert(_STL::make_pair(key,false));
- return &result.first->second;
+ _STL::pair<_STL::map<ScriptKey,ScriptFlag>::iterator,bool> result =
+  m_flags.insert(_STL::make_pair(key,ScriptFlag()));
+ return &result.first->second.m_value;
 }
 
 
 void *ScriptEngine::rva0020881A(AsciiString name) {
  AsciiString resolved = ((Rva002046C0Owner *)this)->resolveName(name);
  ScriptKey key(resolved,name);
- _STL::map<ScriptKey,bool>::iterator found=m_flags.find(key);
- if(found!=m_flags.end()) return &found->second;
+ _STL::map<ScriptKey,ScriptFlag>::iterator found=m_flags.find(key);
+ if(found!=m_flags.end()) return &found->second.m_value;
  return 0;
 }
 
