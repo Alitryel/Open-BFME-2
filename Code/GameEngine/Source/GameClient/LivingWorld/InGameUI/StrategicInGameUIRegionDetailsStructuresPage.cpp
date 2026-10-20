@@ -17,6 +17,10 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva005E2B0EElement@@@_STL@@YAXPAURva005E2B0EElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva005E2B0EElement;
+namespace _STL { template <> void _Destroy<Rva005E2B0EElement *>(Rva005E2B0EElement *,Rva005E2B0EElement *); }
 // Suppress this TU's non-retail copy of ??$__destroy_aux@PAURva005E2B0EElement@@@_STL@@YAXPAURva005E2B0EElement@@0ABU__false_type@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct Rva005E2B0EElement;
