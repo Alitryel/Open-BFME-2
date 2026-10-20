@@ -12,6 +12,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva004F8D92Element@@@_STL@@YAXPAURva004F8D92Element@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva004F8D92Element;
+namespace _STL { template <> void _Destroy<Rva004F8D92Element *>(Rva004F8D92Element *,Rva004F8D92Element *); }
 // Keep __node_alloc<true,0>::deallocate inline-only: every call here is inlined,
 // and this TU's /O1 COMDAT copy differs from the copy the link keeps.
 namespace _STL {
