@@ -20,6 +20,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 
 struct Rva00501875Count
 {

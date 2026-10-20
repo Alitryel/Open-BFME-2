@@ -40,6 +40,9 @@ namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsign
 namespace _STL { template <> void vector<bool, allocator<bool> >::resize(unsigned int, bool); }
 namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *, unsigned int) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 #pragma optimize("", on)
 
 // RVA6D52A has a verified external provider; do not offer a wrong incidental copy.

@@ -34,6 +34,9 @@ class DX8_CleanupHook {public:DX8_CleanupHook(){}virtual void ReleaseResources()
 class TScorch:public Snapshot {public:TScorch();virtual~TScorch(){}virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);unsigned char data[24];};
 class TerrainRef {public:TerrainRef():data(0){}~TerrainRef();void *data;};
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??1?$_Bvector_base@V?$allocator@_N@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
 class W3DTreeBuffer {public:W3DTreeBuffer();char data[285800];};
 class Rva000E9C1D {public:Rva000E9C1D();char data[332416];};
 class W3DPropBuffer {public:W3DPropBuffer();char data[194344];};
