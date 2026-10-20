@@ -296,7 +296,7 @@ class ActivateModuleSpecialPower : public Rva004502CE
 public:
 	void rva004CDF00(Int a, Int b);
 	void onObjectCreated();
-	void rva004CDDBA(Int a);
+	void SetWakeState(Int a);
 private:
 	Int m_00;
 	Int m_04;
@@ -306,7 +306,7 @@ private:
 void ActivateModuleSpecialPower::onObjectCreated()
 {
 	if (m_08)
-		rva004CDDBA(1);
+		SetWakeState(1);
 }
 
 // 0x004EF2FA (interface at +0x04): the pinned 0x004EEE38 of the complete
