@@ -85,15 +85,19 @@ public:
 	void append(void *const &value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
 
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const struct _s__ThrowInfo *pThrowInfo);
 
 Xfer *xferSTLObjectIDList(Xfer *xfer, BridgeBehaviorObjectIDList *list)
 {
@@ -114,10 +118,7 @@ Xfer *xferSTLObjectIDList(Xfer *xfer, BridgeBehaviorObjectIDList *list)
 		}
 	} else {
 		if (!list->empty()) {
-			XferException error;
-			bfmeFormatText(&error, 4, "List must be empty on load");
-			_CxxThrowException(&error, (const struct _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-			__assume(0);
+			throw XferException(4, "List must be empty on load");
 		}
 		ObjectID value;
 		while (count != 0) {

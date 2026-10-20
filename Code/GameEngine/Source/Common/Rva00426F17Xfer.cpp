@@ -63,15 +63,18 @@ struct BfmeStringRecord00426A5B {
 	BfmeStringRecord00426A5B(const BfmeStringRecord00426A5B &o);
 };
 void * __cdecl Rva004266BCProcess(void *objRaw, void *rec);
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-struct _s__ThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 typedef _STL::vector<BfmeStringRecord00426A5B> BfmeVec;
 Xfer *Rva00426F17Xfer(Xfer *xfer, BfmeVec *vec)
 {
@@ -90,9 +93,7 @@ Xfer *Rva00426F17Xfer(Xfer *xfer, BfmeVec *vec)
 		}
 	} else {
 		if (!vec->empty()) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Vector must be empty on load");
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(4, "Vector must be empty on load");
 		}
 		vec->reserve(count);
 		BfmeStringRecord00426A5B value;

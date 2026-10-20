@@ -93,15 +93,19 @@ public:
 	virtual void slot35();
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
 
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern void __declspec(noreturn) __stdcall _CxxThrowException(void *object, void *throwInfo);
 
 // Same tag as the rowed pair helper so the call resolves, but the value is
 // bool rather than int: retail loads the node value with a byte mov and
@@ -136,9 +140,7 @@ Xfer *Rva00473FD4Xfer(Xfer *xfer, IntBoolMap *map)
 		}
 	} else {
 		if (!map->empty()) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Map must be empty on load");
-			_CxxThrowException(&error, &g_guardTargetTypeThrowInfo);
+			throw XferException(4, "Map must be empty on load");
 		}
 		Rva00469103Pair item;
 		item.m_id = 0;
@@ -151,6 +153,3 @@ Xfer *Rva00473FD4Xfer(Xfer *xfer, IntBoolMap *map)
 	}
 	return xfer;
 }
-
-// ?g_guardTargetTypeThrowInfo@@3HA: rowed via Rva00470222Xfer; declare use only.
-#pragma comment(linker, "/alternatename:?_CxxThrowException@@YGXPAX0@Z=__CxxThrowException@8")

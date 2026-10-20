@@ -75,16 +75,19 @@ public:
 	virtual Xfer &xferUnsignedInt(UnsignedInt &value);
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
 
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-struct _s__ThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 struct AICommandCoordVector : public _STL::vector<Coord3D>
 {
@@ -107,9 +110,7 @@ Xfer * __cdecl Rva00390911XferCoordVector(Xfer *xfer, AICommandCoordVector *vec)
 		}
 	} else {
 		if (!vec->empty()) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Vector must be empty on load");
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(4, "Vector must be empty on load");
 		}
 		reinterpret_cast<_STL::vector<Rva00390729Element> *>(vec)->reserve(count);
 		Coord3D value;
