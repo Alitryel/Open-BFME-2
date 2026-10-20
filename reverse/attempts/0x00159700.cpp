@@ -1,9 +1,5 @@
 // ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.75 date=2026-10-19
-// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.651 date=2026-10-17
-// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.66 date=2026-10-09
+// partial score=0.98276 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
 void __cdecl operator delete[](void *) throw();
@@ -232,7 +228,7 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
         }
         // Loop over all the characters in the string
         while(text) {
-            unsigned short ch=NextSentenceChar(text);
+            unsigned short ch=*text++;
             bool dontBlit=false;
             bool retry;
             float char_spacing;
@@ -244,7 +240,7 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
                     hotKeyPosY=(int)Cursor.Y;
                     if (calcHotKeyX) hotKeyPosX=0;
                     else hotKeyPosX=(int)(Cursor.X+TextureOffset.I-TextureStartX);//TextureOffset.I;
-                    ch=NextSentenceChar(text);
+                    ch=*text++;
                     dontBlit=true;
                 }
                 char_spacing=(float)font->Get_Char_Spacing(ch);
@@ -275,26 +271,25 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
                                 Cursor.X=0;
                                 Cursor.Y+=char_height;
                                 calcHotKeyX=true;
-                                do {ch=NextSentenceChar(text);} while(ch==' ' || ch==0x95);
+                                do {ch=*text++;} while(ch==' ' || ch==0x95);
                                 retry=true;
                             }
                         }
                         if (ch==0x95) {
-                            do {ch=NextSentenceChar(text);} while(ch==0x95);
+                            do {ch=*text++;} while(ch==0x95);
                             retry=true;
                         }
                     } else if (ch=='\n') {
                         Cursor.X=0;
                         Cursor.Y+=char_height;
-                        do {ch=NextSentenceChar(text);} while(ch==' ');
+                        do {ch=*text++;} while(ch==' ');
                         retry=true;
                     } else if (wordBiggerThenLine) { // we've entered this loop because we're greater then the wordwrap so we need to force a wordwrap
                         Cursor.X=0;
                         Cursor.Y+=char_height;
                     }
                 }
-                if (!ch) break;
-            } while((1 ? (retry) : (retry)));
+            } while(ch && retry);
             if (!ch) break;
             // Did the text extend past the edge of the texture?
             if (TextureOffset.I+char_spacing>=CurrTextureSize) {
@@ -325,30 +320,26 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
         extent.X=maxX+font->Get_Extra_Overlap();
         extent.Y=Cursor.Y+font->Get_Char_Height();
         if (!justCalcExtents && Centered) {
-            int count=sentence_data.Count();
+            const int count=sentence_data.Count();
             if (count>0) {
                 int start=0;
-                float left=sentence_data[0].screen_left;
                 float top=sentence_data[0].screen_top;
+                float left=sentence_data[0].screen_left;
                 float right=sentence_data[0].screen_right;
                 for (int i=1;;++i) {
-                    if (i<count && sentence_data[i].screen_top==top) {
-                        right=sentence_data[i].screen_right;
-                        continue;
-                    }
-                    double line_width=font->Get_Extra_Overlap()*0.5f+right-left;
-                    float shift=(float)floor((extent.X-line_width)*0.5f-left+0.5f);
-                    for (int j=start;j<i;++j) {
-                        sentence_data[j].screen_left+=shift;
-                        sentence_data[j].screen_right+=shift;
-                    }
-                    if (i>=count) break;
-                    {
+                    if (i>=count || sentence_data[i].screen_top!=top) {
+                        float width=font->Get_Extra_Overlap()*0.5f+right-left;
+                        float shift=(float)floor((double)((extent.X-width)*0.5f-left+0.5f));
+                        for (int j=start;j<i;++j) {
+                            sentence_data[j].screen_left+=shift;
+                            sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
+                        }
+                        if (i>=count) break;
                         start=i;
-                        left=sentence_data[i].screen_left;
                         top=sentence_data[i].screen_top;
-                        right=sentence_data[i].screen_right;
+                        left=sentence_data[i].screen_left;
                     }
+                    right=sentence_data[i].screen_right;
                 }
             }
         }
