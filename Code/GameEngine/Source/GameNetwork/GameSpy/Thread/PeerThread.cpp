@@ -127,6 +127,9 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Rb_tree_iterat
 #include "thread.h"
 
 #include "Common/MiniLog.h"
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PADDV?$allocator@D@_STL@@@_STL@@QAEPADI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> char * _STL::_STLP_alloc_proxy<char *,char,_STL::allocator<char> >::allocate(unsigned int); }

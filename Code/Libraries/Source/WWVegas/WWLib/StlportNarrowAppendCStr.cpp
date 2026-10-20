@@ -8,6 +8,9 @@
 // the no-code stack-slot pattern is established by the matched erase sibling.
 // Explicit category construction preserves both native tag temporaries.
 #include <string>
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 extern "C" unsigned int bfmeLen1153(const char *);
 namespace _STL {
 // ?retainAppendInlineSlot absent-from-retail
