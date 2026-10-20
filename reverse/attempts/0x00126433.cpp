@@ -1,7 +1,5 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.9134 date=2026-10-20
-// ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.7808 date=2026-10-17
+// partial score=0.9107 date=2026-10-21
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
 // Native layouts/calls adapted; donor mathematical structure. Bank only.
 // /Oy- (WW3D2 sibling flag) gives 12022 B vs 11984; ALLOW_TEMPORARIES operator* form is worse.
@@ -42,7 +40,7 @@ class		LightEnvironmentClass;
 class		MaterialPassClass;
 class 	StaticSortListClass;
 #define MESH_RENDER_SNAPSHOT_ENABLED
-#define SNAPSHOT_SAY(x) if (WW3D::Is_Snapshot_Activated()) { WWDEBUG_SAY(x); }
+#define SNAPSHOT_SAY(x)
 class WW3D
 {
 public: static bool IsCurrentlyRenderingShadowMap; static bool Is_Currently_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}
@@ -1234,6 +1232,7 @@ static bool _Is_Triangle_Draw_Enabled() { return _EnableTriangleDraw; }
 #include "sortingrenderer.h"
 struct TargetCenter3 { float x,y,z; };
 class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
+__forceinline void Rva0012630BForward(const TargetCenter3 &c,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count){BfmeSortingDispatchAt0012FE00::Insert(c,start_index,polygon_count,min_vertex_index,vertex_count);}
 struct BFME2TextureRef { TextureBaseClass *Ptr; };
 void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 #include "vp.h"
@@ -1259,20 +1258,21 @@ class SimpleShadowPass { public: virtual void Delete_This(); virtual void slot1(
 class FXShaderSetup;
 class Rva00072A94 {public:Rva00072A94 &operator=(const RefCountPtr<FXShaderSetup> &r){return *this=*(const Rva00072A94*)&r;}Rva00072A94 &operator=(const Rva00072A94&);};
 class Rva00087A93 {public: Rva00087A93():p(0){} ~Rva00087A93(); SimpleShadowPass *p;};
-template<class T> class ShadowPtr { public: ShadowPtr(T*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~ShadowPtr(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} ShadowPtr&operator=(const ShadowPtr&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} T*operator->()const{T*p=m_obj;return p;} T*m_obj; };
+template<class T> class ShadowPtr { public: ShadowPtr(T*obj=0):m_obj(obj){} bool IsBound()const{return m_obj!=0;} ~ShadowPtr(){if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}} ShadowPtr&operator=(const ShadowPtr&r){if(this!=&r){if(r.m_obj)r.m_obj->refs++;if(m_obj){if(--m_obj->refs==0)m_obj->Delete_This();}m_obj=r.m_obj;}return *this;} T*operator->()const{return m_obj;} T*m_obj; };
 #define s_AlphaShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE870)
 #define s_AdditiveShadowFXShader (*(ShadowPtr<SimpleShadowPass>*)&g_Va00DEE86C)
 class Rva007B7024Object;
 extern Rva007B7024Object *g_Va00DEE870;
 extern Rva007B7024Object *g_Va00DEE86C;
-class ShroudFilter {public: int unknown[3],u,v;};
+class ShroudFilter {public: int unknown[3],u,v; void Set_U_Addr_Mode(int m){u=m;} void Set_V_Addr_Mode(int m){v=m;}};
 class ShroudTexture {public:ShroudFilter *getFilter();};
 struct Rva0007671F {Rva0007671F(); char data[64];};
 struct SimpleTextureRefPtr : BFME2TextureRef {SimpleTextureRefPtr(){Ptr=0;} ~SimpleTextureRefPtr(){if(Ptr)Ptr->Release_Ref();}};
 struct SimpleTextureTemp : SimpleTextureRefPtr {SimpleTextureTemp(){}};
+struct SimpleTextureHolder { TextureClass *Ptr; bool Is_Valid() const { return Ptr != 0; } };
 class Rva00126314 {public:
 void rva00126433(RenderInfoClass&,const Matrix3D&,unsigned,Vector3*,float*,const SphereClass&);
-TextureClass *Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; bool Is_Sorting_Disabled()const{return SortingDisabled;}
+SimpleTextureHolder Texture; ShaderClass Shader; float Width; Vector3 Color; float Opacity,TextureLength; bool SortingDisabled; bool Is_Sorting_Disabled()const{return SortingDisabled;}
 };
 void Rva00126314::rva00126433(RenderInfoClass &rinfo,const Matrix3D &transform,unsigned num_points,Vector3 *input_points,float *texture_positions,const SphereClass &obj_sphere)
 {
@@ -1644,7 +1644,7 @@ break;
 }
 bool sorting=(!Is_Sorting_Disabled())&&(Shader.Get_Dst_Blend_Func()!=ShaderClass::DSTBLEND_ZERO&&Shader.Get_Alpha_Test()==ShaderClass::ALPHATEST_DISABLE);
 ShadowPtr<SimpleShadowPass> shadow(0);
-if(WW3D::IsCurrentlyRenderingShadowMap){
+if(WW3D::Is_Currently_Rendering_Shadow_Map()){
 sorting=false; bool additive=Shader.Get_Src_Blend_Func()==ShaderClass::SRCBLEND_ONE&&Shader.Get_Dst_Blend_Func()==ShaderClass::DSTBLEND_ONE;
 shadow=*(const ShadowPtr<SimpleShadowPass>*)(additive?&g_Va00DEE86C:&g_Va00DEE870);
 BFME2Set_Texture(0,SimpleTextureTemp());
@@ -1652,8 +1652,8 @@ unsigned passes=0;if(!shadow->Begin(&passes,65535))continue;if(passes!=1)continu
 }else{
 ShaderClass shader=Shader;shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
 VertexMaterialClass *mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);DX8Wrapper::Set_Material(mat);REF_PTR_RELEASE(mat);
-if(Texture)shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);else shader.Set_Texturing(ShaderClass::TEXTURING_DISABLE);
-((ShroudTexture*)this)->getFilter()->u=1;((ShroudTexture*)this)->getFilter()->v=1;
+if(Texture.Is_Valid())shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);else shader.Set_Texturing(ShaderClass::TEXTURING_DISABLE);
+((ShroudTexture*)this)->getFilter()->Set_U_Addr_Mode(1);((ShroudTexture*)this)->getFilter()->Set_V_Addr_Mode(1);
 DX8Wrapper::Set_Shader(shader);
 }
 DynamicVBAccessClass Verts(sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8,5,vnum,0);
@@ -1665,8 +1665,8 @@ for(unsigned i=0;i<vnum;++i){Vector3 *vertex=(Vector3*)(vb+verticesOffset);verte
 DynamicIBAccessClass ib_access(sorting?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8,triangleIndex*3);
 {DynamicIBAccessClass::WriteLockClass lock(&ib_access);unsigned short *inds=lock.Get_Index_Array();for(unsigned i=0;i<triangleIndex;++i){*inds++=v_index_array[i].I;*inds++=v_index_array[i].J;*inds++=v_index_array[i].K;}}
 DX8Wrapper::Set_Index_Buffer(ib_access,0);DX8Wrapper::Set_Vertex_Buffer(Verts);BFME2Set_Texture(0,*(BFME2TextureRef*)&Texture);
-if(sorting)BfmeSortingDispatchAt0012FE00::Insert(*(const TargetCenter3*)&obj_sphere,0,triangleIndex,0,vnum);else DX8Wrapper::Draw_Triangles(0,triangleIndex,0,vnum);
-if(WW3D::IsCurrentlyRenderingShadowMap){shadow->EndPass();shadow->End();}
+if(sorting)Rva0012630BForward(*(const TargetCenter3*)&obj_sphere,0,triangleIndex,0,vnum);else DX8Wrapper::Draw_Triangles(0,triangleIndex,0,vnum);
+if(WW3D::Is_Currently_Rendering_Shadow_Map()){shadow->EndPass();shadow->End();}
 }
 DX8Wrapper::Set_Transform(D3DTS_VIEW,view);DX8Wrapper::Set_Vertex_Shader(0);DX8Wrapper::Set_Pixel_Shader(0);
 }

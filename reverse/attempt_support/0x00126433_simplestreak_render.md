@@ -11,7 +11,108 @@ remaining Length2 trees follow c2's symbol numbering, and a padded,
 unfaithful body reaches 0.9729 (`0x00126433_v048_padded.cpp.txt`). The bank
 below is still the best faithful body.
 
-## Current best (claudeb4, 2026-10-20, second session): 0.9134, norm 2363/2637, 12017 B
+## Current best (fifth session, 2026-10-20/21): nd 379, 12006 B, permute fit 0.9107
+
+The bank is now the fifth-session body `faithful_bank_GHFABC` (claude-opus-5-5
+subagent agAE, LF line endings).
+- On the same scorer (`tools/permute.py` fitness, nd from `build/xs/score.py`)
+  the previous bank measures fit 0.8959, nd 478, 16/21 Length2 trees. Its
+  recorded 0.9134 came from an earlier scorer variant.
+- The new bank has 20/21 trees (only 0x1d20 is wrong) and all 8 struct-piece
+  sites right. The tail code is unchanged; only its inline wrappers differ,
+  each as WB spells it:
+  - **G:** Set_Material and Set_Shader without `SNAPSHOT_SAY`. WB 0x9a3dd0 and
+    0x44a6d0 never call `Is_Snapshot_Activated`; Set_Shader keeps
+    `StringClass str`. This removes one whole 32-symbol pool from the window in
+    every base (nd 478 to 415).
+  - **H:** the holder's `operator->` is `return m_obj;` (WB refcount.h:308).
+    −4 named.
+  - **F:** the filter writes are `Set_U_Addr_Mode(1)` / `Set_V_Addr_Mode(1)`.
+    +2 named, +4 GlobalOptimize hash vars (E).
+  - **A:** sorting goes through a 5-argument inline forwarder (retail COMDAT
+    0x12630b).
+  - **B:** both tail shadow tests use `Is_Currently_Rendering_Shadow_Map()`.
+  - **C:** the Texture holder has `bool Is_Valid()` (WB 0x9a0990).
+  - A, B and C are neutral.
+- Not used: **S1**, a named pointer for the chosen shadow setup (WB frame slot
+  `local_6358`). It gives nd 376 alone, but it is a front-end symbol (see the
+  pad-substitution note below).
+
+**Register mode.** The flip of regions c, d and 0x1a–0x25 is the FactCanonSort
+key of memory reads through a hash var, `0x10008 + ((H&3)<<14)`. All 91
+reordered operands are of that kind. Any change's net E shift must therefore
+be ≡ 0 (mod 4). Measured shifts:
+
+| Change | E shift |
+|---|---|
+| V: setters without the named `d`, D3D9 slots 92/107 | −5 |
+| E: WB's `Convert_Color_Clamp` | −5 |
+| K2 | −5 |
+| D: inline `_Get_D3D_Device8()` | −2 (frame +4, unexplained) |
+| F | +4 |
+
+Front-end pools move E only by multiples of 32.
+
+**Convert_Color_Clamp (0x12617C).** WB's spelling and K2 also compile to
+retail's 399 B exactly:
+
+```cpp
+Clamp_Color(color);
+return Convert_Color((Vector3&)color, color[3]);
+```
+
+The landed spelling is therefore not the only proven one. E costs +33 window
+symbols in this body.
+
+**The v048 tail pad was a stand-in for G.** Its `padf` (m=48) is unnecessary
+once G is in: v048's front pads plus G give nd 84.
+
+**What is still missing:**
+1. +30 IL-time A symbols (named locals, class temps, pieces) between function
+   entry and `Vector3 top_normal` in the segment loop.
+   - A post-IL 30-local pad gives nd 93 anywhere in that window except between
+     `view2` and `modelview` and right after `offset.Normalize()`.
+   - It fails from `bottom_normal` onwards.
+   - IL-time pads give nd 100 before the intersection loop and 93 after it.
+2. 1–7 fewer tail window symbols with zero E shift. The last `pl` piece site
+   needs its Y piece ≤ 6824 at k30 numbering; GH gives 6825.
+
+Diagnostic: the k30 front pad with G and H only (without F, A, B and C) gives
+nd 86, 18/21 trees, 11995 B. `0x00126433_k30_GH_pads.patch` applies to the
+bank and produces that body.
+
+**Helper forms measured on this bank** (fresh A / E / nd):
+
+| Form | A / E / nd |
+|---|---|
+| WB flag order in Set_Transform | 0 / 0 / 379 |
+| Make_Identity with float or int constants | 0 / 0 / 379 |
+| Vector4 init-list ctor | 0 / 0 / 379 |
+| Vector4 `op[]` via cast | 0 / 0 / 379 |
+| Matrix4(bool) without braces | 0 / 0 / 379 |
+| Transpose as 16 floats | −474 / +82 / 1775 |
+| Transpose with `.X` fields | +6 / +10 / 1312 |
+| Transpose via a named local | +124 / +682 / 1303 |
+| Make_Identity as `Row=Vector4()` | +125 / +22 / 901 |
+| Make_Identity with direct field stores | −9 / −229 / 690 |
+| Init via Set | +240 / 0 / 1333 |
+
+WB's /Od Get_Transform (3 Transposes, 2 identity tests, default Make_Identity)
+and Set_Transform (4 Transposes; PROJECTION with `op=`, `op=` and ZFar/ZNear;
+default `m2`) have the same arms as ours, so no helper arm is missing.
+
+**Next:**
+- Census WB's /Od frame for the window, mapping every slot (named locals and
+  by-value class temps) to ours. Unmapped slots are the real +30 candidates.
+- Validate each candidate by pad substitution: candidate (k fresh A) plus the
+  pad shrunk to 30−k must keep nd ≤ 93 with E ≡ 0 (mod 4). Start with S1 plus
+  pad 29.
+
+Fifth-session scratch tools (untracked) are in `build/agAE/`: `alloctrace2.py`
+and `zones.py` (symbol accounting), `ctrace.py` and `kdiff.py` (FactCanonSort
+operand order), and `objfit.py` and `fit.py` (fitness, nd, Length2 trees).
+
+## Second-session best (claudeb4, 2026-10-20): 0.9134, norm 2363/2637, 12017 B
 
 The bank is `build/s126/r6/v000010000.cpp`: the 0.9113 body plus item 11. Chain:
 0.9113 = the 0.9069 body plus item 9; 0.9069 = the 0.8371 body plus item 8;
