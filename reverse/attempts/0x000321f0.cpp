@@ -1,5 +1,5 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
-// partial score=0.86 date=2026-10-19
+// partial score=0.92 date=2026-10-20
 // Bank draft of the GeneralAllocator heap validator at 0x000321F0 (1492B,
 // RET4, level argument). Decoded from the retail body with the memory_pool.cpp
 // GeneralAllocator view: sentinel region list at +0x448 (next +0x18/prev
@@ -7,6 +7,8 @@
 // binmap +0x430, top +0x440, counters +0x488/+0x490/+0x494, lock +0x4E4.
 // The unrowed providers 0x31D00 / 0x31E60 / 0x31F90 keep Rva-named methods
 // the Lab2 alias binds.
+// All four callees are now rowed; every check counts through CheckCount, the
+// home unit's assert-style 0/1 helper, which gives retail's zero-then-one blocks.
 // cl: /O2 /MD
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *cs);
@@ -49,19 +51,6 @@ struct Rva000321F0Sentinel
     Rva000321F0Sentinel *m_prev;	// +0x1c
 };
 
-inline bool Rva000321F0AtRegionEnd(Rva000321F0Chunk *c,
-    Rva000321F0Sentinel *s, Rva000321F0Sentinel *end)
-{
-    while (s != end)
-    {
-        if ((unsigned int)c >= (unsigned int)s &&
-            (unsigned int)c < (unsigned int)s + s->m_size)
-            return (unsigned int)c >= (unsigned int)s + s->m_size - 0x10;
-        s = s->m_next;
-    }
-    return false;
-}
-
 inline int Rva000321F0Missing(Rva000321F0Chunk *c,
     Rva000321F0Sentinel *s, Rva000321F0Sentinel *end)
 {
@@ -75,6 +64,13 @@ inline int Rva000321F0Missing(Rva000321F0Chunk *c,
     return 1;
 }
 
+static inline int CheckCount(bool ok)
+{
+    if (ok)
+        return 0;
+    return 1;
+}
+
 namespace EA { namespace Allocator {
 
 class GeneralAllocator
@@ -82,7 +78,7 @@ class GeneralAllocator
 public:
     int rva000321F0(int level);
     int rva00031D00(void *chunk);
-    int rva00031E60(void *chunk);
+    int rva00031E60(const void *chunk);
     int rva00031F90(void *chunk);
     unsigned int rva00032160(void *chunk);
 
@@ -130,15 +126,14 @@ int GeneralAllocator::rva000321F0(int level)
             return 0;
         }
         unsigned int maxFast = m_flags4;
-        errors += (maxFast >= 0x50) && 1;
+        errors += CheckCount(maxFast < 0x50);
         if (level >= 2)
         {
             // Fast-bin chains: each node must live inside a sentinel region and
             // carry the expected size flags.
-            Rva000321F0Chunk **slot = m_fastBins;
-            for (index = 10; index != 0; --index, ++slot)
+            for (index = 0; index < 10; ++index)
             {
-                Rva000321F0Chunk *c = *slot;
+                Rva000321F0Chunk *c = m_fastBins[index];
                 int guard = 0;
                 while (c != 0)
                 {
@@ -147,24 +142,24 @@ int GeneralAllocator::rva000321F0(int level)
                     errors += Rva000321F0Missing(c, m_sentinel.m_next, &m_sentinel);
                     unsigned int size = c->m_size;
                     c = c->m_prev;
-                    errors += (((int)size & (int)0x80000000) == 0) && 1;
-                    errors += (((unsigned char)~(size >> 2)) & 1) && 1;
+                    errors += CheckCount(((int)size & (int)0x80000000) != 0);
+                    errors += CheckCount((size & 4) != 0);
                     ++guard;
-                    errors += (guard >= 0x1e8480) && 1;
+                    errors += CheckCount(guard < 0x1e8480);
                 }
             }
 
             Rva000321F0Chunk **link = m_binLinks;
             for (index = 0; index < 0x100; index += 2, link += 2)
             {
-                Rva000321F0Chunk *c = m_binLinks[index];
+                Rva000321F0Chunk *c = *link;
                 if (index < 2)
-                    errors += (c != 0) && 1;
+                    errors += CheckCount(c == 0);
                 else
                 {
-                    errors += (c == 0) && 1;
+                    errors += CheckCount(c != 0);
                     Rva000321F0Chunk *p = c->m_prev;
-                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)link - 8);
+                    Rva000321F0Chunk *head = (Rva000321F0Chunk *)((char *)&m_binLinks[index] - 8);
                     int count = p == head ? 1 : 0;
                     while (p != c)
                     {
@@ -176,35 +171,34 @@ int GeneralAllocator::rva000321F0(int level)
                         }
                         p = p->m_prev;
                     }
-                    errors += (count == 0) && 1;
+                    errors += CheckCount(count != 0);
                 }
             }
 
             unsigned int control = m_4cc;
             unsigned int divisor = m_4d0;
             unsigned int page = m_4d4;
-            errors += (control >= 0x186a0) && 1;
-            errors += (divisor == 0) && 1;
-            errors += ((page & (page - 1)) != 0) && 1;
+            errors += CheckCount(control < 0x186a0);
+            errors += CheckCount(divisor != 0);
+            errors += CheckCount((page & (page - 1)) == 0);
             maxFast &= ~1u;
             int maxFastIndex = (maxFast >> 3) - 2;
-            errors += (maxFast > 0x58) && 1;
-            slot = m_fastBins;
-            for (index = 0; index < 10; ++index, ++slot)
+            errors += CheckCount(maxFast <= 0x58);
+            for (index = 0; index < 10; ++index)
             {
-                Rva000321F0Chunk *c = *slot;
+                Rva000321F0Chunk *c = m_fastBins[index];
                 if (index > maxFastIndex)
-                    errors += (c != 0) && 1;
+                    errors += CheckCount(c == 0);
                 while (c != 0)
                 {
                     unsigned int size = c->m_size;
                     c = c->m_prev;
                     totalFast += size & 0x7ffffff8u;
-                    errors += (((size >> 3) & 0x0fffffffu) - 2 != (unsigned int)index) && 1;
+                    errors += CheckCount(((size >> 3) & 0x0fffffffu) - 2 == (unsigned int)index);
                 }
             }
             if (totalFast != 0)
-                errors += ((unsigned char)~m_flags4 & 1) && 1;
+                errors += CheckCount((m_flags4 & 1) != 0);
 
             // Bin heads and the binmap must agree, and every bin list node
             // must be a valid chunk of its bin's size class.
@@ -216,9 +210,9 @@ int GeneralAllocator::rva000321F0(int level)
                     bool binbit = (m_binmap[index >> 5] & (1u << (index & 0x1f))) != 0;
                     bool nonEmpty = head != head->m_next;
                     if (!binbit)
-                        errors += nonEmpty ? 1 : 0;
+                        errors += CheckCount(!nonEmpty);
                     else if (nonEmpty)
-                        errors += binbit ? 0 : 1;
+                        errors += CheckCount(binbit);
                 }
                 Rva000321F0Chunk *c = head->m_next;
                 while (c != head)
@@ -242,11 +236,11 @@ int GeneralAllocator::rva000321F0(int level)
                             idx = (size >> 18) + 0x7c;
                         else
                             idx = 0x7e;
-                        errors += (idx != (unsigned int)index) && 1;
+                        errors += CheckCount(idx == (unsigned int)index);
                         if (size >= 0x200)
                         {
                             Rva000321F0Chunk *next = c->m_next;
-                            errors += (next != head && (next->m_size & 0x7ffffff8u) < size) ? 1 : 0;
+                            errors += CheckCount(next == head || (next->m_size & 0x7ffffff8u) >= size);
                         }
                     }
 
@@ -284,18 +278,16 @@ runDone:
             Rva000321F0Region *rend = &m_regions;
             while (r != rend)
             {
-                errors += (((unsigned char)~(r->m_size >> 1)) & 1) && 1;
+                errors += CheckCount((r->m_size & 2) != 0);
                 unsigned int base = r->m_base;
                 Rva000321F0Chunk *prev = (Rva000321F0Chunk *)((char *)r - base);
                 r = r->m_next;
-                errors += (((unsigned char)~(prev->m_size >> 1)) & 1) && 1;
+                errors += CheckCount((prev->m_size & 2) != 0);
             }
         }
         errors += rva00031D00(m_top);
-        int a = (int)m_488;
-        int b = (int)m_490;
-        errors += (a < 0) && 1;
-        errors += (a > b) && 1;
+        errors += CheckCount((int)m_488 >= 0);
+        errors += CheckCount((int)m_488 <= (int)m_490);
     }
 
     if (level >= 3)
@@ -324,13 +316,11 @@ runDone:
                 if (inUse)
                     errors += rva00031F90(c);
                 else
-                {
                     errors += rva00031E60(c);
-                    if (c == c->m_prev)
-                    {
-                        errors += (c != m_top) && 1;
-                        break;
-                    }
+                if (!inUse && c == c->m_prev)
+                {
+                    errors += CheckCount(c == m_top);
+                    break;
                 }
                 c = (Rva000321F0Chunk *)((char *)c + (c->m_size & 0x7ffffff8u));
             }
