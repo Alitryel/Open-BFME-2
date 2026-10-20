@@ -563,7 +563,7 @@ class ControlBar {
 public:
     protected: void updateContextCommand(); public:
     void populateCommand(Object *,bool);
-    void rva0053BB16(Object *,CommandSet *);
+    void doTransportInventoryUI(Object *,CommandSet *);
     void setControlCommand(GameWindow *,const CommandButton *);
     const CommandButton *findCommandButton(const AsciiString &);
     void showRallyPoint(const Coord3D *);
@@ -613,7 +613,7 @@ void ControlBar::populateCommand(Object *obj,bool refresh)
         }
     }}
     CommandContainView *contain=((CommandObjectView *)obj)->contain;
-    if(contain&&contain->displayedOnControlBar())rva0053BB16(obj,set);
+    if(contain&&contain->displayedOnControlBar())doTransportInventoryUI(obj,set);
     int revivalIndex=0,templateIndex=0;
     CommandPlayerView *pv=(CommandPlayerView *)player;
     int entryCount=((_STL::vector<CommandPopulationEntry> *)((char *)player+0x73C))->size();

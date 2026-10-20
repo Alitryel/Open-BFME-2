@@ -234,7 +234,7 @@ protected:
     static void populateInvDataCallback(Object *,void *);
 public:
     int rva0053BA87(const CommandButton *,Object *) const;
-    void rva0053BB16(Object *,CommandSet *);
+    void doTransportInventoryUI(Object *,CommandSet *);
     void setControlCommand(GameWindow *,const CommandButton *);
     void rva0031D230();
     void setPortraitByObject(Object *obj);
@@ -248,12 +248,12 @@ private:
 };
 
 
-// ?rva0053BB16@ControlBar@@QAEXPAVObject@@PAVCommandSet@@@Z
+// ?doTransportInventoryUI@ControlBar@@QAEXPAVObject@@PAVCommandSet@@@Z
 // Whole native53BB16..53BC7E360, WB1116DA0/595 and complete ZH file
 // establish the transport inventory workflow. Native keeps both contain
 // queries for side effects, uses open+DE and32 slots, and passes true to
 // iteration. The callback data's native order is current/last/windows/obj.
-void ControlBar::rva0053BB16(Object *transport,CommandSet *set)
+void ControlBar::doTransportInventoryUI(Object *transport,CommandSet *set)
 {
     if(!transport||!set)return;
     CommandContainView *contain=((CommandObjectView *)transport)->contain;

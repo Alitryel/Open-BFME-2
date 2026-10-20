@@ -38,7 +38,7 @@ class GameLogic
 public:
 	bool isInMultiplayerGame();
 	void rva0023CD9E(bool paused, int pauseMode, bool affectMouse);
-	void rva0023D0E3(bool selfDestruct);
+	void DoExitMap(bool selfDestruct);
 	// Zero Hour calls clearGameData at the same point; the name is unproven here.
 	void clearGameData(bool showScoreScreen, bool flag);
 
@@ -763,7 +763,7 @@ AptQuitMenu::~AptQuitMenu()
 			msg->appendIntegerArgument(((Rva002B2B66 *)(*(BfmeSelectionState **)&TheLivingWorldLogic))->rva002B2B66());
 		}
 		else
-			logic->rva0023D0E3(true);
+			logic->DoExitMap(true);
 		if (g_bfmeAptWindowManager)
 			((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva002233A6(1);
 	}

@@ -236,7 +236,7 @@ protected:
     static void populateInvDataCallback(Object *,void *);
 public:
     int rva0053BA87(const CommandButton *,Object *) const;
-    void rva0053BB16(Object *,CommandSet *);
+    void doTransportInventoryUI(Object *,CommandSet *);
     void setControlCommand(GameWindow *,const CommandButton *);
     void rva0031D230();
     void setPortraitByObject(Object *obj);

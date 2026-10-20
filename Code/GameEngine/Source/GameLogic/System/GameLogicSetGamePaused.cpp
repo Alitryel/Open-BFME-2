@@ -18,7 +18,7 @@ public:
 	void rva0023CD9E(bool paused, int pauseMode, bool affectMouse);
 	bool rva0023CEE5();
 	void rva0023CF3F();
-	void rva0023D0E3(bool selfDestruct);
+	void DoExitMap(bool selfDestruct);
 
 private:
 	char m_pad[0x110];
@@ -271,7 +271,7 @@ class LivingWorld; extern LivingWorld *TheLivingWorld;
 // MSG_CLEAR_GAME_DATA (0x1D, argument 2 in a war of the ring game), the
 // unpause outside multiplayer and InGameUI's client-quiet byte. Name
 // unknown; the bool's purpose is inferred from the guarded message.
-void GameLogic::rva0023D0E3(bool selfDestruct)
+void GameLogic::DoExitMap(bool selfDestruct)
 {
 	if (selfDestruct && isInMultiplayerGame() && m_gameMode != 2 && TheGameInfo && !TheGameInfo->isSandbox())
 	{

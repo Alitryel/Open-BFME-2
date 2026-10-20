@@ -27,7 +27,7 @@ class GameLogic
 {
 public:
 	void rva00376D49();
-	void rva0023D0E3(bool selfDestruct);
+	void DoExitMap(bool selfDestruct);
 };
 extern GameLogic *TheGameLogic;
 
@@ -151,5 +151,5 @@ void LivingWorldLogic::rva002B88EC()
 	reinterpret_cast<void(__fastcall *)(LivingWorldLogic *)>(Rva002B29BDFire)(this);
 	if (!self->m_168)
 		self->m_4c.forEach(reinterpret_cast<void (Rva002B6151Listener::*)(void *)>(&Rva005CB260::rva005CB260), this);
-	TheGameLogic->rva0023D0E3(false);
+	TheGameLogic->DoExitMap(false);
 }

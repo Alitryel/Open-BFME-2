@@ -5,11 +5,11 @@
 class GameLogic
 {
 public:
-	void rva0023D0E3(bool paused);
+	void DoExitMap(bool paused);
 };
 extern GameLogic *TheGameLogic;
 
 void ScriptActions::Rva003BD108SetGamePaused()
 {
-	TheGameLogic->rva0023D0E3(true);
+	TheGameLogic->DoExitMap(true);
 }
