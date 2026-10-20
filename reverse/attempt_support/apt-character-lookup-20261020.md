@@ -90,3 +90,57 @@ It freezes its seed/provider source at the input revision above. The metrics
 driver operates on their normally compiled objects. Summary comparisons, the
 unresolved contract output and the useful alternative are retained here;
 all trial sources/full diagnostics remain in build/apt-character-contracts-oct20/.
+
+## Round 2026-10-20 (claude-opus-5-5, ~90 min)
+
+Bank unchanged (0.78957, nd 504, 5484B code); `nb` = bank without the three
+barriers/scroll ternary scores 0.72249. Retail tail sharing mapped (function
+offsets): case17 `jne 0x1c9` into case8's undefined block; case18 loads
+`[esi+0xc]->+0x30` and jumps to case10's `test esi,0xffffff` at 0x229; case21
+pushes `(mouseWheel>>3)&0xffffff01` and jumps to case10's `call AptBoolean` at
+0x233; case19 jumps to case20's `fst [esp+0x10]` at 0x45e; case20 and every
+switch-2 numeric case end `call MakeFloat; jmp 0x238` (case10's `add esp,4` +
+epilogue), number homed at [esp+0x10]; switch-2 rect clamp `jp 0x931` reaches a
+shared `mov edx,[esp+0x10]; push edx; call MakeFloat; jmp 0x238`. Retail has 53
+rets, nb 69.
+
+Disproven this round (all scored with the variant_search Scorer):
+- function-scope `number` in cases 19/20 (identical bytes), ternary clamp,
+  if-wrapped second half, inline `isText(lookupCheckedCIH(...))` without the
+  `initial` local (identical, already noted earlier);
+- compilers vc71-sp1 / vc71-ddk-4035 (identical to RTM);
+- flags /Ox, /Og /Oi /Ot /Oy (+/Ob1, /Ob2, /Gy), /O2 /Ob1, /O2 /Og- (0.327),
+  /Og /Os (0.254), /O1, /Os: all worse;
+- `/O2 /Op` scores 0.80780 (nd 349) and gives retail's register roles
+  (context=edi, cih/text=esi) but wrong float shapes (fstp/fld instead of fst,
+  number enregistered in esi in switch 2, constant-propagated `xor eax,eax;
+  push eax` instead of `mov [esp+0x10],0; mov ecx,[esp+0x10]; push ecx`).
+  Diagnostic only: the esi/edi coloring follows the float/number web, so fix
+  the number's lifetime/homing first and the role swap may follow.
+- Synthetic TUs (build-local): VC7.1 lays out blocks in source order; identical
+  whole return blocks merge keeping the LATER copy (retail keeps the earlier for
+  8/17, 10/18, 10/21); a shorter tail can jump into an earlier longer block; no
+  cross-callee `add esp,4`+epilogue sharing reproduced; no duplication budget.
+
+Open: what source makes every float return funnel through one
+`push; call MakeFloat; jmp epilogue` (a single `return MakeFloat(number)` after
+the switch with `break`s, a homed `number` that is address-exposed, or a
+`goto`-style shared exit) while keeping per-case epilogues for the
+integer/boolean returns.
+
+Merge-direction probes (synthetic TUs, VC7.1 /O2): a case-17-shaped
+`if(!s.IsEmpty()) return str; return undef;` next to an earlier
+`return undef;` case always keeps the LATER undef copy, whatever the spelling:
+if/else, inverted test, ternary either way, result variable, an inline
+`getUndef()` on either side, or moving the string case before the undef case in
+source (layout then follows source order). The bank does the same; retail keeps
+case 8's earlier copy. Partial tails do jump back into earlier blocks
+(`test; jne <earlier push/call/epilogue>`), and retail's 19->20 `fst` merge
+keeps the later block. Retail case 18 loads wordWrap into ESI and jumps to case
+10's `test esi,0xffffff`: the merged value lives in a callee-saved register
+across the jump, so that merge happened before register allocation, while the
+bank keeps the `test [mem],0xffffff` form and never merges. The Rich header
+rules out /GL or another compiler build (docs/recipes.md). A next seat should
+look for a source form whose IR already shares these tails: shared locals
+assigned per case with one `AptBoolean::Create(v)`/`MakeFloat(number)` return,
+or a helper inlined in several cases.

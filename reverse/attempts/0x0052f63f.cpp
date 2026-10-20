@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.8227 date=2026-10-20
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8035 date=2026-10-20
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.7051406402 date=2026-10-19
@@ -262,9 +264,9 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
  if(insert){
   float h;poly=(PolygonTrigger*)drawable->rva002725E7((int)&h);
   if(poly){
+   unsigned char merged = false;
    int layer=2;IRegion2D bounds;poly->getBounds(&bounds);
-   bool merged = false;
-   for(;layer<=15;++layer){
+   for(;layer <= 15;layer++){
     PathfindLayer *entry = &layers[layer];
     if(((Rva0036666B*)entry)->rva0036666B() && entry->areas && entry->DoBoundsOverlap(&bounds) && fabs(wallDelta(entry,h))<tolerance){
      if(allocated)layers[layer].rva003667D4();
@@ -274,8 +276,8 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
     }
    }
    if(!merged){
-    for(layer=2;layer<=15;++layer){
-     PathfindLayer *entry = &layers[layer];
+    for(layer=2;15 >= layer;++layer){
+     const PathfindLayer *entry = &layers[layer];
      if(!((Rva0036666B*)entry)->rva0036666B()){
       if(((Rva0036658B*)&layers[layer])->rva0036658B(poly,(void*)layer)){
        if(allocated){layers[layer].allocateCells(&m_extent);changedLayer=true;}
@@ -303,66 +305,66 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
  float height;PolygonTrigger*area=(PolygonTrigger*)drawable->rva002725B1((int)&height);if(!area)return;
  int layer=1;float closest=1000000.0f;
  for(int i=0;i<heightCount;++i){float distance=(float)fabs(height-heights[i]);if(distance<closest){closest=distance;layer=i+17;}}
- if(closest>tolerance){
+ if(tolerance < closest){
   static int count=0;
-  if(closest<9.9f&&count<10){
+  if(9.9f > closest&&count<10){
    ++count;
    if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();
     (theDebug->CrashBegin(0,0,0)<<obj->getTemplate()->getName().str()<<" has a wall height of "<<height<<" but there's already a wall with a height\nof "<<heightForLayer(layer)<<" defined by "<<nameForLayer(layer).str()<<" - maximum delta for considering two walls to\nbe equal is "<<tolerance<<"; needs to be fixed /"<<layer).CrashDone(2);
    }
   }
-  if(heightCount<64){heights[heightCount]=height;names[heightCount]=obj->getTemplate()->getName();layer=heightCount+17;++heightCount;}
+  if(heightCount < 64){heights[heightCount]=height;names[heightCount]=obj->getTemplate()->getName();layer=heightCount+17;++heightCount;}
   else{
    static bool warned=false;
-   if(!warned){warned=true;if(bfmeRva000387C0()){
+   if((warned == 0)){warned=true;if(bfmeRva000387C0()){
     _bfme_debugRecordCallsite(1);theDebug->SkipNext();(theDebug->CrashBegin(0,0,0)<<"Ran out of wall entries; too many walls with different heights on map").CrashDone(2);
    }}
   }
  }
  if(height>heightForLayer(layer)){heightForLayer(layer)=height;names[layer-17]=obj->getTemplate()->getName();}
  IRegion2D world;area->getBounds(&world);
- int loX=FLOOR(world.lo.x/10)-2;
- _ReadWriteBarrier();
+ long loX=FLOOR(world.lo.x/10)-2;
  int loY=FLOOR(world.lo.y/10)-2;
+ long hiY=CEIL(world.hi.y/10)+2;
  int hiX=CEIL(world.hi.x/10)+2;
- int hiY=CEIL(world.hi.y/10)+2;
+ _ReadWriteBarrier();
  if(loX<m_extent.lo.x)loX=m_extent.lo.x;
  if(loY<m_extent.lo.y)loY=m_extent.lo.y;
- if(hiX>m_extent.hi.x)hiX=m_extent.hi.x;
  if(hiY>m_extent.hi.y)hiY=m_extent.hi.y;
+ if(hiX>m_extent.hi.x)hiX=m_extent.hi.x;
  if(insert){
   wallIDs.insert(obj->id);_STL::vector<BfmeE8>changed;
-  for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
+  for(int j=loY;hiY >= j;++j)for(int i=loX;i<=hiX;++i){
    if(rva0052E6E6(i,j,&m_map[i][j],area,layer,insert)){BfmeE8 p={i,j};changed.push_back(p);}
   }
   for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
-   int current=m_map[i][j].layer;
+   const int current=m_map[i][j].layer;
    if(current==layer)m_map[i][j].pinched=false;
    if(m_map[i][j].getType()==0){
-    int count=0;for(int k=i-1;k<i+2;++k){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
+    int count=0;for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
      for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&l==j)continue;
       if(m_map[k][l].layer!=current)++count;
      }
     }
     _ReadWriteBarrier();
-    if(count>1)m_map[i][j].pinched=true;
+    if(1 < count)m_map[i][j].pinched=true;
    }
   }
-  for(_STL::vector<BfmeE8>::iterator p=changed.begin();p!=changed.end();++p){
-   int i=p->a,j=p->b;if(m_map[i][j].getPinched()&&m_map[i][j].getType()==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].pinched=false;
+  for(_STL::vector<BfmeE8>::iterator p=changed.begin();p!=changed.end();p++){
+   const int i=p->a,j=p->b;if(m_map[i][j].getPinched()&&m_map[i][j].getType()==0){m_map[i][j].SetType_Dirty(8);zones.MarkDirty(i,j);}m_map[i][j].pinched=false;
   }
  }else{
   _STL::set<int>::iterator found=wallIDs.find(obj->id);if(found!=wallIDs.end())wallIDs.erase(found);
-  for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
+  for(int j=loY;j<=hiY;j++)for(int i=loX;i<=hiX;++i){
    if(m_map[i][j].getPinched()){int count=0;int current=m_map[i][j].layer;
-    for(int k=i-1;k<i+2;++k){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
-     for(int l=j-1;l<j+2;++l){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(k==i&&l==j)continue;if(m_map[k][l].layer!=current)++count;}
+    for(int k=i-1;k<i+2;k++){if(k<m_extent.lo.x||k>m_extent.hi.x)continue;
+     for(int l=j-1;l<j+2;l++){if(l<m_extent.lo.y||l>m_extent.hi.y)continue;if(i == k&&l==j)continue;if(m_map[k][l].layer!=current)++count;}
     }
-    if(count>1)m_map[i][j].pinched=false;
+    if(1 < count)m_map[i][j].pinched=false;
    }
   }
-  for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
+  for(int j=loY;j<=hiY;j++)for(int i=loX;i<=hiX;++i){
    if(m_map[i][j].layer==layer){
     PathfindCell*c=&m_map[i][j];bool dirty=c->SetType_Dirty(0);dirty|=((Rva0052E001*)c)->rva0052E001(false);dirty|=((Rva00366500*)c)->rva00366500(true);dirty|=((Rva00366500*)c)->rva0036652D(false);
     _ReadWriteBarrier();
@@ -370,8 +372,8 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    }
   }
   for(_STL::set<int>::iterator p=wallIDs.begin();p!=wallIDs.end();++p){
-   Object*other=TheGameLogic->findObjectByID((ObjectID)*p);if(!other||(other->status&1))continue;
-   Drawable*d=other->getDrawable();if(!d)continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
+   Object*other=TheGameLogic->findObjectByID((ObjectID)*p);if((other == 0)||(other->status&1))continue;
+   Drawable*d=other->getDrawable();if((d == 0))continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
    IRegion2D qb;q->getBounds(&qb);
    int lx=FLOOR(qb.lo.x/10)-2,ly=FLOOR(qb.lo.y/10)-2,hx=CEIL(qb.hi.x/10)+2,hy=CEIL(qb.hi.y/10)+2;
    if((layer ? (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY) : (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY))){rva0052F63F(other,true);deletePoly(q);}
