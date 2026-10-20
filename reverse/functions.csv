@@ -2817,8 +2817,8 @@ _XMP_Is_Prime,,0x0061DA50,75,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ??_ESubObjectArrayClass@HLodDefClass@@QAEPAXI@Z,,0x0019EC30,84,Code/Libraries/Source/WWVegas/WW3D2/hlod.cpp,matched,placed by masked byte-scan; single hit
 ??4?$VectorClass@VModelNodeClass@HLodClass@@@@QAEAAV0@ABV0@@Z,,0x0019E5B0,234,Code/Libraries/Source/WWVegas/WW3D2/hlod.cpp,matched,BFME keeps IsValid up to date across the assignment; needs reference/shims/bfmevector
 ??4?$VectorClass@PAVRender2DClass@@@@QAEAAV0@ABV0@@Z,,0x00154C50,125,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,matched,placed by masked byte-scan once VectorClass kept IsValid current; single hit
-??YRectClass@@QAEAAV0@ABV0@@Z,,0x00154120,112,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,matched,placed by masked byte-scan once VectorClass kept IsValid current; single hit
-??YRectClass@@QAEAAV0@ABVVector2@@@Z,,0x001540D0,65,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp,matched,placed by masked byte-scan once VectorClass kept IsValid current; single hit
+??YRectClass@@QAEAAV0@ABV0@@Z,,0x00154120,112,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceDrawBFME2.cpp,matched,placed by masked byte-scan once VectorClass kept IsValid current; single hit
+??YRectClass@@QAEAAV0@ABVVector2@@@Z,,0x001540D0,65,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceDrawBFME2.cpp,matched,placed by masked byte-scan once VectorClass kept IsValid current; single hit
 ?Add@?$SimpleDynVecClass@K@@QAE_NABKH@Z,,0x00144940,85,Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp,matched,placed by masked byte-scan; single hit
 ?Grow@?$SimpleDynVecClass@K@@IAE_NH@Z,,0x00144050,67,Code/Libraries/Source/WWVegas/WW3D2/aabtree.cpp,matched,placed by masked byte-scan; single hit
 ?Floor@WWMath@@SAMM@Z,,0x001540B0,20,Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp,matched,placed by masked byte-scan; single hit

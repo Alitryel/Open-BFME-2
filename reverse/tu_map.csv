@@ -9102,8 +9102,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00153F08,336,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinder.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinder.cpp,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderInit.cpp
 0x00154058,73,code,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinder.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinder.cpp,Code/Libraries/Source/WWVegas/WW3D2/FXShaderParameterBinderCtor.cpp
 0x001540B0,20,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp
-0x001540D0,65,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,C,C=0x001540B0..0x00154120 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp
-0x00154120,112,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,C,C=0x001540B0..0x001541B0 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp
+0x001540D0,65,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,C,C=0x001540B0..0x00154120 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceDrawBFME2.cpp
+0x00154120,112,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,C,C=0x001540B0..0x001541B0 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/Render2DSentenceDrawBFME2.cpp
 0x00154190,20,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WWLib/wwstring.cpp N=Code/Libraries/Source/WWVegas/WW3D2/StringClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp
 0x001541B0,18,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,C,C=0x001540B0..0x001541D0 noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/dynamesh.cpp
 0x001541D0,16,code,Code/Libraries/Source/WWVegas/WW3D2/WWMath.cpp,proposed,U,N=Code/Libraries/Source/WWVegas/WW3D2/Vector2i.cpp noncontiguous,Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp
