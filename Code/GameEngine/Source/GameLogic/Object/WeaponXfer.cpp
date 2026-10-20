@@ -144,21 +144,22 @@ public:
 };
 
 extern WeaponStore *TheWeaponStore;
-extern int g_guardTargetTypeThrowInfo;
-
-struct _s__ThrowInfo;
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
 
 typedef unsigned char UnsignedByte;
 typedef unsigned short UnsignedShort;
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferWeaponSlotType(Xfer *xfer, int *slot);
@@ -206,10 +207,7 @@ void Weapon::xfer(Xfer *xfer)
 		const WeaponTemplate *tmpl = TheWeaponStore->findWeaponTemplate(nameTmp);
 		m_template = tmpl;
 		if (!tmpl) {
-			XferException err;
-			bfmeFormatText(&err, 5, 0);
-			_CxxThrowException(&err, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-			__assume(0);
+			throw XferException(5, 0);
 		}
 	}
 	XferObjectID(xfer, &m_ownerID);

@@ -4,7 +4,7 @@
 // Slot 3 (offset 0x0C) of vtable 0x0080793C (class of ??1GhostObject@@UAE@XZ).
 // Donor: ZH GeneralsMD GhostObject::xfer (parent ObjectID via getID at Object
 // +0x74 plus XferObjectID plus IsLoading-gated findObjectByID via TheGameLogic
-// plus FormatText/Throw on missing plus angle then position). BFME2 repairs:
+// plus XferException on missing plus angle then position). BFME2 repairs:
 // IsLightCRC early-out via Xfer slot 0x10, Version1 via rowed 0x000053EE,
 // ObjectID at +0x0C via rowed XferObjectID 0x003060B2, IsLoading via Xfer slot
 // 0x04, float at +0x1C via Xfer slot 0x70, Coord3DBase at +0x10 via Xfer slot
@@ -104,16 +104,18 @@ enum ObjectID
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(
-	XferException *result, int tag, const char *format, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-extern int g_guardTargetTypeThrowInfo;
 
 class Object
 {
@@ -160,9 +162,7 @@ void GhostObject::xfer(Xfer *xfer)
 	if (xfer->IsLoading()) {
 		m_parentObject = TheGameLogic->findObjectByID(parentObjectID);
 		if (parentObjectID != INVALID_ID && m_parentObject == 0) {
-			XferException error;
-			bfmeFormatText(&error, 5, 0);
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(5, 0);
 		}
 	}
 	*xfer == m_1C;

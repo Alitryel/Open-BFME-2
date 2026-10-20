@@ -155,23 +155,23 @@ private:
 	Bool m_targetVersionTwoFlag;              // +0x15
 };
 
-struct XferException
+// Retail ThrowInfo names the 8-byte XferException class and its rowed
+// copy constructor and destructor (see Common/System/XferException.cpp).
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
+
 	char *text;
 	int tag;
 };
-struct _s__ThrowInfo;
-extern int g_guardTargetTypeThrowInfo;
-extern "C" XferException *__cdecl bfmeFormatText(XferException *, int, ...);
-extern "C" void __stdcall _CxxThrowException(void *, const _s__ThrowInfo *);
 
 static __forceinline LocomotorTemplate *requireLocomotorTemplate(LocomotorTemplate *lt)
 {
 	if (lt == 0) {
-		XferException error;
-		bfmeFormatText(&error, 5, 0);
-		_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-		__assume(0);
+		throw XferException(5, 0);
 	}
 	return lt;
 }
@@ -198,10 +198,7 @@ void LocomotorSet::DoXfer(Xfer *xfer)
 	} else {
 		if (vectorState[0] != vectorState[1])
 		{
-			XferException error;
-			bfmeFormatText(&error, 4, 0);
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
-			__assume(0);
+			throw XferException(4, 0);
 		}
 
 		for (UnsignedShort i = 0; i < count; ++i) {
