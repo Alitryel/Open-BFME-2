@@ -1,4 +1,6 @@
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
+// partial score=0.9341 date=2026-10-20
+// ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.9337 date=2026-10-20
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.913 date=2026-10-17
@@ -244,7 +246,7 @@ vertex_loc[3].Z = point_loc->Z + scaled_offset[3].Z;
 			{
 Vector3 *vertex_loc = &VertexLoc[0];
 int vert = 0;
-for (i = 0; i < active_points; i++, point_loc++, point_size++, vert += 4) {
+for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_size++) {
 vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0];
 vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0];
 vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Z * point_size[0];
@@ -265,7 +267,7 @@ vertex_loc[vert + 3].Z = point_loc->Z + _QuadVertexLocationOrientationTable[Defa
 			{
 Vector3 *vertex_loc = &VertexLoc[0];
 int vert = 0;
-for (i = 0; i < active_points; i++, point_loc++, point_orientation++, vert += 4) {
+for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++) {
 vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * DefaultPointSize;
 vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * DefaultPointSize;
 vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * DefaultPointSize;
