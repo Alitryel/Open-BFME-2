@@ -1,5 +1,5 @@
 // ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=0.93 date=2026-10-20
+// partial score=0.96 date=2026-10-20
 // cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -11,7 +11,8 @@
 #define _OPERATOR_NEW_DEFINED_
 #include "wwmath.h"
 #pragma intrinsic(sqrt)
-struct BfmeE8 {float X,Y; BfmeE8(){} BfmeE8(float x,float y):X(x),Y(y){}};
+class Vector3;
+struct BfmeE8 {float X,Y; BfmeE8(){} BfmeE8(float x,float y):X(x),Y(y){} BfmeE8(const Vector3 &v);};
 void Rva00030830FreeAllocation(void*);
 namespace _STL {template<> inline void allocator<BfmeE8>::deallocate(BfmeE8*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}template<> inline void allocator<int>::deallocate(int*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}}
 struct BfmePod8 {int a[2];};
@@ -91,6 +92,8 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
 
 #include "matrix3d.h"
 
+inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
+
 struct Coord3D { float x, y, z; };
 struct Region2D { float lo[2], hi[2]; };
 struct BfmeFloat4Record00469C61 { float x, y, z, w; };
@@ -115,6 +118,7 @@ public:
 	PlaneClass() {}
 	PlaneClass(const Vector3 &normal, float dist) { N = normal; D = dist; }
 	void Set(const Vector3 &normal, const Vector3 &point) { N = normal; D = Vector3::Dot_Product(normal, point); }
+	PlaneClass(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3) { Set(point1, point2, point3); }
 	void Set(const Vector3 &point1, const Vector3 &point2, const Vector3 &point3);
 	bool Compute_Intersection(const Vector3 &p0, const Vector3 &p1, float *set_t) const;
 
@@ -447,23 +451,23 @@ void W3DShadowMapManager::UpdateShadowCamera()
 
 	std::vector<BfmeE8> points;
 	for (unsigned i = 0; i < 8; i++)
-		points.push_back(BfmeE8(corners[i].X, corners[i].Y));
+		points.push_back(BfmeE8(corners[i]));
 	std::vector<BfmeE8> hull;
 	Rva0007C637(points, hull, 0.0001f);
 
-	unsigned count = hull.size();
 	Coord3D blank;
-	PointList hullPts(count, blank);
-	for (unsigned i = 0; i < count; i++)
+	PointList hullPts(hull.size(), blank);
+	for (unsigned i = 0; i < hull.size(); i++)
 		Matrix3D::Transform_Vector(lightTm, Vector3(hull[i].X, hull[i].Y, 0.0f), (Vector3 *)&hullPts[i]);
 	PointList groundPts(hullPts.size(), blank);
 	PointList ceilingPts(hullPts.size(), blank);
-	for (unsigned i = 0; i < count; i++) {
+	for (unsigned i = 0; i < hull.size(); i++) {
 		float t = 0.0f;
-		ground.Compute_Intersection((Vector3 &)hullPts[i], lightDir + (Vector3 &)hullPts[i], &t);
-		(Vector3 &)groundPts[i] = lightDir * t + (Vector3 &)hullPts[i];
-		ceiling.Compute_Intersection((Vector3 &)hullPts[i], lightDir + (Vector3 &)hullPts[i], &t);
-		(Vector3 &)ceilingPts[i] = lightDir * t + (Vector3 &)hullPts[i];
+		const Vector3 &p = (const Vector3 &)hullPts[i];
+		ground.Compute_Intersection(p, lightDir + p, &t);
+		(Vector3 &)groundPts[i] = lightDir * t + p;
+		ceiling.Compute_Intersection(p, lightDir + p, &t);
+		(Vector3 &)ceilingPts[i] = lightDir * t + p;
 	}
 
 	Vector2 vmin(corners[0].X, corners[0].Y);
@@ -515,8 +519,7 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	m_camera->Set_Transform(lightTm);
 	((std::vector<Region2D> &)m_camera->m_clipPlanes).clear();
 	for (unsigned i = 0; i < ceilingPts.size(); i++) {
-		PlaneClass plane;
-		plane.Set((const Vector3 &)ceilingPts[i], (const Vector3 &)groundPts[i],
+		PlaneClass plane((const Vector3 &)ceilingPts[i], (const Vector3 &)groundPts[i],
 			(const Vector3 &)ceilingPts[(i + 1) % ceilingPts.size()]);
 		m_camera->m_clipPlanes.push_back((const BfmeFloat4Record00469C61 &)plane);
 	}
