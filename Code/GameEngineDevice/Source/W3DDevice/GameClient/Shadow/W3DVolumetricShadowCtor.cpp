@@ -43,10 +43,13 @@ public:
 	Real X, Y, Z, W;
 };
 
-class Matrix4x4
+// The vector-constructor callback is retail 0x0007671F, already owned under
+// this address-derived name. Preserve the donor matrix view without assigning
+// that constructor a second name.
+class Rva0007671F
 {
 public:
-	Matrix4x4(void);
+	Rva0007671F(void);
 	void Make_Identity(void)
 	{
 		Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
@@ -119,7 +122,7 @@ protected:
 	W3DVolumetricShadowRenderTask m_shadowVolumeRenderTask[ MAX_SHADOW_LIGHTS ][MAX_SHADOW_CASTER_MESHES];
 	Int m_shadowVolumeCount[MAX_SHADOW_CASTER_MESHES];
 	Vector3 m_lightPosHistory[ MAX_SHADOW_LIGHTS ][MAX_SHADOW_CASTER_MESHES];
-	Matrix4x4 m_objectXformHistory[ MAX_SHADOW_LIGHTS ][MAX_SHADOW_CASTER_MESHES];
+	Rva0007671F m_objectXformHistory[ MAX_SHADOW_LIGHTS ][MAX_SHADOW_CASTER_MESHES];
 	Short *m_silhouetteIndex[MAX_SHADOW_CASTER_MESHES];
 	Short m_numSilhouetteIndices[MAX_SHADOW_CASTER_MESHES];
 	Short m_maxSilhouetteEntries[MAX_SHADOW_CASTER_MESHES];
