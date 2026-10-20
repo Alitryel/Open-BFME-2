@@ -789,7 +789,7 @@ Rva00AAD26 *Rva00AAD26_Anchor(int)
 	return new Rva00AAD26(0);
 }
 
-// ??_GRva00B0028@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00B0028Dtor.cpp.
+// ??_GWorldHeightMap@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00B0028Dtor.cpp.
 
 class EventParameter
 {

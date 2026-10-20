@@ -296,60 +296,10 @@ const ThingTemplate *MapObject::getThingTemplate( void ) const
 
 TileData *WorldHeightMap::m_alphaTiles[NUM_ALPHA_TILES]={0,0,0,0,0,0,0,0,0,0,0,0};
 
-//
-// WorldHeightMap destructor .
-//
-// ??1WorldHeightMap@@ present-unmatched
-WorldHeightMap::~WorldHeightMap(void)
-{
-	if (m_data) {
-		delete(m_data);
-		m_data = NULL;
-	}
-	if (m_tileNdxes) {
-		delete(m_tileNdxes);
-		m_tileNdxes = NULL;
-	}
-	if (m_blendTileNdxes) {
-		delete(m_blendTileNdxes);
-		m_blendTileNdxes = NULL;
-	}
-	if (m_extraBlendTileNdxes) {
-		delete(m_extraBlendTileNdxes);
-		m_extraBlendTileNdxes = NULL;
-	}
-	if (m_cliffInfoNdxes) {
-		delete(m_cliffInfoNdxes);
-		m_cliffInfoNdxes = NULL;
-	}
-	if (m_cellFlipState)
-	{	delete (m_cellFlipState);
-		m_cellFlipState = NULL;
-	}
-	if (m_seismicUpdateFlag)
-	{	delete (m_seismicUpdateFlag);
-		m_seismicUpdateFlag = NULL;
-	}
-	if (m_seismicZVelocities)
-	{	delete (m_seismicZVelocities);
-		m_seismicZVelocities = NULL;
-	}
-	if (m_cellCliffState)
-	{	delete (m_cellCliffState);
-		m_cellCliffState = NULL;
-	}
-	int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		REF_PTR_RELEASE(m_sourceTiles[i]);
-		REF_PTR_RELEASE(m_edgeTiles[i]);
-	}
-	for (i=0; i<NUM_ALPHA_TILES; i++) {
-		REF_PTR_RELEASE(m_alphaTiles[i]);
-	}
-	REF_PTR_RELEASE(m_terrainTex);
-	REF_PTR_RELEASE(m_alphaTerrainTex);
-	REF_PTR_RELEASE(m_alphaEdgeTex);
-}
+// BFME 2's WorldHeightMap constructors and destructor are rowed in
+// WorldHeightMapCtors.cpp and Rva00B0028Dtor.cpp. The Zero Hour copies
+// that stood here emitted a six-slot WorldHeightMap vtable where retail's
+// (0x007C967C) has two, and kept those units from linking.
 
 // ?freeListOfMapObjects@WorldHeightMap@@ present-unmatched
 void WorldHeightMap::freeListOfMapObjects(void)
@@ -363,35 +313,6 @@ void WorldHeightMap::freeListOfMapObjects(void)
 }
 
 
-/**
- WorldHeightMap - create a new height map for class WorldHeightMap.
- Note that there is 1 m_numBlendedTiles, which is the implied
- transparent tile for non-blended tiles.
-*/
-// ??0WorldHeightMap@@ present-unmatched
-WorldHeightMap::WorldHeightMap():
-	m_width(0), m_height(0),  m_dataSize(0), m_data(NULL), m_cellFlipState(NULL), m_seismicUpdateFlag(NULL), m_seismicZVelocities(NULL),
-	m_drawOriginX(0), m_drawOriginY(0), 
-	m_numTextureClasses(0),	
-	m_drawWidthX(NORMAL_DRAW_WIDTH), m_drawHeightY(NORMAL_DRAW_HEIGHT), 
-	m_tileNdxes(NULL), m_blendTileNdxes(NULL), m_extraBlendTileNdxes(NULL), m_cliffInfoNdxes(NULL),
-	m_terrainTexHeight(1), m_alphaTexHeight(1),	m_cellCliffState(NULL),
-#ifdef EVAL_TILING_MODES
-	m_tileMode(TILE_4x4),
-#endif
-	m_numCliffInfo(1),
-	m_terrainTex(NULL), m_alphaTerrainTex(NULL), m_numBitmapTiles(0), m_numBlendedTiles(1)
-{
-	Int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		m_sourceTiles[i] = NULL;
-		m_edgeTiles[i] = NULL;
-	}
-
-	TheSidesList->validateSides();
-	setupAlphaTiles();
-}
-
 #ifdef EVAL_TILING_MODES
 static Bool ParseFunkyTilingDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
 {
@@ -400,91 +321,6 @@ static Bool ParseFunkyTilingDataChunk(DataChunkInput &file, DataChunkInfo *info,
 	return true;
 }
 #endif
-
-/**
-* WorldHeightMap - read a height map from a file.
-* Format is  Chunky.
-*
-*	Input: ChunkInputStream, 
-*		
-*/
-// ??0WorldHeightMap@@ present-unmatched
-WorldHeightMap::WorldHeightMap(ChunkInputStream *pStrm, Bool logicalDataOnly):
-	m_width(0), m_height(0),  m_dataSize(0), m_data(NULL), m_cellFlipState(NULL), m_seismicUpdateFlag(NULL), m_seismicZVelocities(NULL),
-	m_drawOriginX(0),	m_cellCliffState(NULL), m_drawOriginY(0),
-	m_numTextureClasses(0),	
-	m_drawWidthX(NORMAL_DRAW_WIDTH), m_drawHeightY(NORMAL_DRAW_HEIGHT), 
-	m_tileNdxes(NULL), m_blendTileNdxes(NULL), m_extraBlendTileNdxes(NULL), m_cliffInfoNdxes(NULL),
-	m_terrainTexHeight(1), m_alphaTexHeight(1),
-#ifdef EVAL_TILING_MODES
-	m_tileMode(TILE_4x4),
-#endif
-	m_numCliffInfo(1),
-	m_terrainTex(NULL), m_alphaTerrainTex(NULL), m_numBitmapTiles(0), m_numBlendedTiles(1)
-{
-
-	int i;
-	for (i=0; i<NUM_SOURCE_TILES; i++) {
-		m_sourceTiles[i]=NULL;
-		m_edgeTiles[i]=NULL;
-	}
-	if (TheGlobalData && TheGlobalData->m_stretchTerrain) {
-		m_drawWidthX=STRETCH_DRAW_WIDTH;
-		m_drawHeightY=STRETCH_DRAW_HEIGHT;
-	}
-
-	DataChunkInput file( pStrm );
-
-	if (logicalDataOnly) {
-		file.registerParser( AsciiString("HeightMapData"), AsciiString::TheEmptyString, ParseSizeOnlyInChunk );
-		file.registerParser( AsciiString("WorldInfo"), AsciiString::TheEmptyString, ParseWorldDictDataChunk );
-		file.registerParser( AsciiString("ObjectsList"), AsciiString::TheEmptyString, ParseObjectsDataChunk );
-		freeListOfMapObjects(); // just in case.
-		file.registerParser( AsciiString("PolygonTriggers"), AsciiString::TheEmptyString, PolygonTrigger::ParsePolygonTriggersDataChunk );
-// ?deleteTriggers@PolygonTrigger@@ present-unmatched
-		PolygonTrigger::deleteTriggers(); // just in case.
-		TheSidesList->emptySides();
-		file.registerParser(AsciiString("SidesList"), AsciiString::TheEmptyString,	SidesList::ParseSidesDataChunk );
-	}	else {
-		file.registerParser( AsciiString("HeightMapData"), AsciiString::TheEmptyString, ParseHeightMapDataChunk );
-		file.registerParser( AsciiString("BlendTileData"), AsciiString::TheEmptyString, ParseBlendTileDataChunk );
-#ifdef EVAL_TILING_MODES
-		file.registerParser( AsciiString("FUNKY_TILING"), AsciiString::TheEmptyString, ParseFunkyTilingDataChunk );
-#endif
-		file.registerParser( AsciiString("GlobalLighting"), AsciiString::TheEmptyString, ParseLightingDataChunk );
-	}
-	if (!file.parse(this)) {
-    
-		throw(ERROR_CORRUPT_FILE_FORMAT);
-	}
-	// patch bad maps. 
-	if (!logicalDataOnly) {
-		for(i=0; i<m_dataSize; i++) {
-			if (m_cliffInfoNdxes[i]<0 || m_cliffInfoNdxes[i]>= m_numCliffInfo) {
-				m_cliffInfoNdxes[i] = 0;		
-			}
-			if (m_blendTileNdxes[i]<0 || m_blendTileNdxes[i]>= m_numBlendedTiles) {
-				m_blendTileNdxes[i] = 0;		
-			}
-			if (m_extraBlendTileNdxes[i]<0 || m_extraBlendTileNdxes[i]>= m_numBlendedTiles) {
-				m_extraBlendTileNdxes[i] = 0;		
-			}
-		}
-	}
-	if (TheGlobalData && TheGlobalData->m_drawEntireTerrain) {
-		m_drawWidthX=m_width;
-		m_drawHeightY=m_height;
-	}
-	if (m_drawWidthX > m_width) {
-		m_drawWidthX = m_width;
-	}
-	if (m_drawHeightY > m_height) {
-		m_drawHeightY = m_height;
-	}
-
-	TheSidesList->validateSides();
-	setupAlphaTiles();
-}
 
 /** Optimized version of method to get triangle flip state of a terrain cell.  Use this
 *	instead of getAlphaUVData() whenever possible.

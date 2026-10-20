@@ -2,10 +2,14 @@
 // Native EH action 0x7612B6 destroys 512 records at +0x80CC; the complete 528B destructor EH graph proves this 27B lifetime.
 // Native EH action 0x7612D1 destroys 512 records at +0xD0D0; the complete 528B destructor EH graph proves this 27B lifetime.
 // Native EH action 0x7612FA destroys two texture references at +0x120D8; the complete 528B destructor EH graph proves this 24B lifetime.
-// ??1Rva00B0028@@UAE@XZ, retail 0x000B0028..0x000B0238 (528 bytes, EH):
-// by shape BFME2's WorldHeightMap::~WorldHeightMap (address-derived name kept
-// to agree with the pin its scalar deleting destructor 0x000B0238 calls; own
-// table 0x00BC967C over RefCountClass 0x00BC650C). As in Zero Hour it frees
+// ??1WorldHeightMap@@UAE@XZ, retail 0x000B0028..0x000B0238 (528 bytes, EH):
+// WorldHeightMap::~WorldHeightMap. It re-stores table 0x00BC967C (over
+// RefCountClass 0x00BC650C), the table the rowed WorldHeightMap constructors
+// (WorldHeightMapCtors.cpp; 0x000B0C38 is built by W3DTerrainLogic::loadMap)
+// install, whose slot 1 is the scalar deleting destructor 0x000B0238 that
+// calls this body; it shares the default constructor's EH handler 0x00761312
+// (identical unwind tables). Until the class was named it was Rva00B0028.
+// As in Zero Hour it frees
 // the five index arrays, releases every source and edge tile (4096 each at
 // +0xB0 and +0x40B0) and the twelve shared WorldHeightMap::m_alphaTiles
 // (VA 0x00DEA1C8). Retail's unwind map then destroys the two texture
@@ -29,15 +33,6 @@ private:
 
 class TileData : public RefCountClass
 {
-};
-
-class Rva00B0028;
-
-class WorldHeightMap
-{
-	friend class Rva00B0028;
-protected:
-	static TileData *m_alphaTiles[12];
 };
 
 #define REF_PTR_RELEASE(x) { if (x) { x->Release_Ref(); x = 0; } }
@@ -72,10 +67,12 @@ struct Gen_uw_0007fab3
 
 enum { NUM_SOURCE_TILES = 0x1000, NUM_ALPHA_TILES = 12 };
 
-class Rva00B0028 : public RefCountClass
+class WorldHeightMap : public RefCountClass
 {
 public:
-	virtual ~Rva00B0028();
+	virtual ~WorldHeightMap();
+protected:
+	static TileData *m_alphaTiles[NUM_ALPHA_TILES];
 private:
 	int m_08;
 	int m_0C;
@@ -112,7 +109,7 @@ private:
 	RefCountPtr<TextureClass> m_120D8[2];
 };
 
-Rva00B0028::~Rva00B0028()
+WorldHeightMap::~WorldHeightMap()
 {
 	delete[] m_data;
 	delete[] m_tileNdxes;

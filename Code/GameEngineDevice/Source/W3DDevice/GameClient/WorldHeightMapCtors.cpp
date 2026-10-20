@@ -103,7 +103,7 @@ public:
 	WorldHeightMap(ChunkInputStream *strm, int a, int b, int c);
 	virtual ~WorldHeightMap();
 
-	void parse(DataChunkInput &file, int a, int b, int c);	// 0x000AF238
+	void parse(DataChunkInput &file, void *polygonOwner, void *owner10, void *owner14);	// 0x000AF238 (WorldHeightMapParse.cpp)
 
 private:
 	int m_08;
@@ -159,5 +159,5 @@ WorldHeightMap::WorldHeightMap(ChunkInputStream *strm, int a, int b, int c)
 {
 	((Rva000B08F7 *)this)->rva000B08F7();
 	DataChunkInput file(strm);
-	parse(file, a, b, c);
+	parse(file, (void *)a, (void *)b, (void *)c);
 }
