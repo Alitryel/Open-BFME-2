@@ -241,9 +241,14 @@ extern "C" char * __cdecl strdup(const char *);
 
 
 /*
-** Loader Instance
+** BFME2 has no HLodLoaderClass in this unit: the HLOD loader and its
+** prototype moved to the /O1 unit around 0x0017FE00 (Load_HLOD@Rva00970880Proto
+** at 0x0018012A is the sole caller of the HLodDefClass constructor 0x0019EC00,
+** and 0x0017FF2F the sole caller of HLodClass(const HLodDefClass &) 0x0019FC80).
+** That unit also owns HLodDefClass's 28-byte scalar deleting destructor
+** (0x0017FEA5); the donor loader's HLodPrototypeClass would emit a 30-byte /O2
+** copy here.
 */
-HLodLoaderClass			_HLodLoader;
 
 
 /** 
@@ -293,47 +298,6 @@ public:
 	{
 	}
 };
-
-
-
-/*
-** The HLod Loader Implementation
-*/
-
-/***********************************************************************************************
- * HLodLoaderClass::Load_W3D -- Loads an HlodDef from a W3D file                               *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   1/26/00    gth : Created.                                                                 *
- *=============================================================================================*/
-// ?HLodLoaderClass::Load_W3D present-unmatched
-PrototypeClass *HLodLoaderClass::Load_W3D( ChunkLoadClass &cload )
-{
-	HLodDefClass * def = W3DNEW HLodDefClass;
-
-	if (def == NULL)
-	{
-		return NULL;
-	}
-
-	if (def->Load_W3D(cload) != WW3D_ERROR_OK) {
-		// load failed, delete the model and return an error
-		delete def;
-		return NULL;
-	} else {
-		// ok, accept this model! 
-		HLodPrototypeClass *proto = W3DNEW HLodPrototypeClass(def);
-		return proto;	
-	}
-	return NULL;
-}
-
 
 
 

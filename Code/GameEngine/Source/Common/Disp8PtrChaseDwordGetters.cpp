@@ -202,6 +202,16 @@ public:
  unsigned int *m_ptr;
 };
 unsigned int Rva0001CD70Word::get() const { return *m_ptr; }
+// 0x0001CDA0 is the same shape with the pointer at receiver offset 8 (1CDA0..1CDA5,
+// INT3 padding before, no reference in the image).
+class Rva0001CDA0Word
+{
+public:
+ unsigned int get() const;
+ char m_pad00[8];
+ unsigned int *m_ptr;
+};
+unsigned int Rva0001CDA0Word::get() const { return *m_ptr; }
 class Rva006F6830Word
 {
 public:
