@@ -94,7 +94,7 @@ public:
 	virtual Int getLocalSlotNum() const = 0;
 	GameSlot *getSlot(Int slotNum);
 	void setMapSize(UnsignedInt mapSize);
-	Int rva0040203C();
+	Int getMaxPlayers();
 private:
 	char m_pad0C[0x0C];
 	Bool m_inGame;
@@ -104,7 +104,7 @@ private:
 	UnsignedInt m_mapSize;
 };
 
-Int GameInfo::rva0040203C()
+Int GameInfo::getMaxPlayers()
 {
 	if (!TheMapCache)
 		return -1;

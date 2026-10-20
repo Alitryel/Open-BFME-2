@@ -44,7 +44,7 @@ public:
 	virtual void slot40() = 0;
 	virtual void slot44() = 0;
 	virtual void slot48() = 0;
-	virtual Bool rva003FF3B5() = 0;
+	virtual Bool isMultiPlayer() = 0;
 
 	const GameSlot *getConstSlot(Int slotNum) const;
 };

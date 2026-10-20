@@ -47,11 +47,11 @@ public:
 	virtual void slot40() = 0;
 	virtual void slot44() = 0;
 	virtual void slot48() = 0;
-	virtual Bool rva003FF3B5() = 0;
+	virtual Bool isMultiPlayer() = 0;
 
 	const GameSlot *getConstSlot(Int slotNum) const;
 	AsciiString getMap() const;
-	Int rva0040203C();
+	Int getMaxPlayers();
 };
 
 // Reference spine: ZH ScoreScreen.cpp updateChallengeMedals; BFME 2 replaces
@@ -85,7 +85,7 @@ void Rva005BF2C7Update(UserPreferences *prefs) {
   Int oldNormal=prefs->rva00537190(TheGameInfo->getMap(),3);
   Int oldHard=prefs->rva00537190(TheGameInfo->getMap(),4);
   Int oldBrutal=prefs->rva00537190(TheGameInfo->getMap(),5);
-  if(TheGameInfo->rva0040203C()-1==brutal)
+  if(TheGameInfo->getMaxPlayers()-1==brutal)
    prefs->rva0053711B(TheGameInfo->getMap(),6,counterMax(oldBrutal,brutal));
   else if(brutal)
    prefs->rva0053711B(TheGameInfo->getMap(),5,counterMax(oldBrutal,brutal));

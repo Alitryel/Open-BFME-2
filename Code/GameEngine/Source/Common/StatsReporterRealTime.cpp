@@ -163,7 +163,7 @@ class GameInfo {
  virtual void v12();
  virtual void v13();
  virtual bool isSandbox();
- const GameSlot*getConstSlot(int)const;int rva0040203C();
+ const GameSlot*getConstSlot(int)const;int getMaxPlayers();
 };
 class PlayerTemplate {public:const AsciiString&getSide()const{return side;} char prefix[24];AsciiString side;};
 class PlayerTemplateStore {public:const PlayerTemplate*getNthPlayerTemplate(int)const;};
@@ -244,7 +244,7 @@ void Rva005BF4BCProcess(Player*player) {
    }
   }
   if(!allied) {
-   if(TheGameInfo->rva0040203C()-1==brutal)prefs.rva0053587C(side,prefs.rva005358C3(side)+4);
+   if(TheGameInfo->getMaxPlayers()-1==brutal)prefs.rva0053587C(side,prefs.rva005358C3(side)+4);
    else if(hard)prefs.rva0053587C(side,prefs.rva005358C3(side)+3);
    else if(normal)prefs.rva0053587C(side,prefs.rva005358C3(side)+2);
    else if(easy)prefs.rva0053587C(side,prefs.rva005358C3(side)+1);

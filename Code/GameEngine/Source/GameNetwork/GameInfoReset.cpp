@@ -2,7 +2,7 @@
 // ?reset@GameInfo@@UAEXXZ @0x003FFF8F (267B):
 // GameInfo::reset, virtual slot 10 (+0x28) of vtable 0x008193C8 (rowed copy
 // ctor ??0GameInfo@@QAE@ABV0@@Z sets it; slot 13 getLocalSlotNum rowed,
-// slot 19 rva003FF3B5 rowed in GameSlotApparent.cpp). BFME2 reset vs ZH donor
+// slot 19 isMultiPlayer rowed in GameSlotApparent.cpp). BFME2 reset vs ZH donor
 // (GameInfo.cpp reset: NOMAP via temp, seed from GetTickCount, slots loop,
 // preorderMask clear): extra Unicode clear at +0x04, Version init at +0x90,
 // global at +0x0C from g_00DBC800, rules reset at +0x60 via MpGameRules::GetDefaults,
