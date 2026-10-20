@@ -36,6 +36,12 @@ struct BfmeStringRecord000331962 {
     unsigned char flag;
     ~BfmeStringRecord000331962();
 };
+// The member copy calls the rowed vector constructor at 0x0033629E.
+// Its provider owns the allocation/copy helpers; this caller only declares it.
+namespace _STL {
+template <> vector<BfmeStringRecord000331962>::vector(const vector &);
+}
+
 class Rva003371B1 {
 public:
     Rva003371B1(const Rva003371B1 &other);
