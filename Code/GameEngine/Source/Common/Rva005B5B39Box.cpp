@@ -15,7 +15,7 @@ enum Rva005B5B39Const
 };
 
 class CommandButton;
-class Rva00406ED7
+class CreateAHeroHero
 {
 public:
 	const CommandButton *GetButtonForLevel(int level);	// 0x00406ED7
@@ -49,7 +49,7 @@ void AptCreateAHero::Manager::OnMyPowerRollOver(char *s)
 	int v = atoi(s) - 1;
 	if (v < 0 || v >= 10 || v == m_24)
 		return;
-	const CommandButton *p = ((Rva00406ED7 *)((char *)m_4 + 0x27c))->GetButtonForLevel(v);
+	const CommandButton *p = ((CreateAHeroHero *)((char *)m_4 + 0x27c))->GetButtonForLevel(v);
 	Rva005B23D7HeroPowersDescription((void *)p, *(const AsciiString *)Rva005B5B39_K, *(const AsciiString *)Rva005B5B39_K);
 	m_24 = v;
 }

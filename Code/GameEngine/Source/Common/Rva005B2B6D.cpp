@@ -18,7 +18,7 @@ public:
 extern Mouse *TheMouse;
 
 class CommandButton;
-class Rva00406ED7
+class CreateAHeroHero
 {
 public:
 	const CommandButton *GetButtonForLevel(int index);
@@ -33,8 +33,8 @@ class Rva005B2B6DOwner
 {
 public:
 	char m_pad[0x27c];
-	Rva00406ED7 m_buttons;
-	char m_pad2[0x410 - 0x27c - sizeof(Rva00406ED7)];
+	CreateAHeroHero m_hero;
+	char m_pad2[0x410 - 0x27c - sizeof(CreateAHeroHero)];
 	AptCreateAHero::Powers *m_current;
 };
 
@@ -78,7 +78,7 @@ void AptCreateAHero::Powers::MyPowerToolTip(const char *path)
 	if (sscanf(path, "%d", &index) != 1)
 		return;
 	--index;
-	const CommandButton *button = m_owner->m_buttons.GetButtonForLevel(index);
+	const CommandButton *button = m_owner->m_hero.GetButtonForLevel(index);
 	if (m_owner->m_current == this)
 	{
 		AsciiString noCurrent("TOOLTIP:CAH_NO_CURRENT_POWER");

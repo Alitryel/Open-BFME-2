@@ -27,7 +27,7 @@ public:
 extern GameTextInterface *TheGameText;
 // CreateAHeroData's bling value get/set pair, rowed under this owner.
 class Rva00407E28 {public: int rva00407E28(int id);bool rva00407E53(int id);bool rva00407DE0(int id,int value);};
-class CreateAHeroHero {public: void ConstructHeroBlingList();};
+class CreateAHeroHero {public: void ConstructHeroBlingList();const class CommandButton *GetButtonForLevel(int);};
 // A bling binder (20 bytes): its name key, the game-text label, and the
 // slot and category it fills.
 struct BlingBinder {int key;AsciiString label;int pad08;unsigned int slot;int category;};
@@ -100,7 +100,6 @@ extern "C" __declspec(dllimport) int __cdecl atoi(const char *);
 // The Object fields the location map reads; offsets are retail's.
 class Object {public: char pad00[0x44];float field44;char pad48[0x74-0x48];int field74;char pad78[0x88-0x78];AsciiString name88;};
 class CommandButton;
-class Rva00406ED7 {public: const CommandButton *GetButtonForLevel(int);};
 void __cdecl Rva005B24CDHeroPowerText(void *,const char *,int);
 bool __cdecl rva005B2295(const CommandButton *button,const char *prefix,int index,int page);
 class Rva00223A94 {public: int rva00223A94(const AsciiString *);};
