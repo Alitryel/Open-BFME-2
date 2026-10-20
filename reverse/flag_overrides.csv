@@ -416,6 +416,7 @@ Code/GameEngine/Source/GameNetwork/Rva007F8790Demangler.cpp,,1,1,region default 
 Code/GameEngine/Source/GameNetwork/Rva007F91D0DemanglerLog.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007F94A0.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007F96C0Txn.cpp,,1,1,region default loses rows
+Code/GameEngine/Source/GameNetwork/Rva007F97B0Transactor.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007F99B0Busy.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007F9B80Ctor.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007F9C50Dtor.cpp,-O2,1,1,region default loses rows
