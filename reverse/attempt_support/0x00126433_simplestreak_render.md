@@ -205,6 +205,21 @@ never moves: **9:15 a:6 b:12 13:4 18:4 1c:8 1d:7 1e:12 1f:14 26:2 27:4**.
   (new_point, new_direction, pl) keep stack slots, so the frame grows by 0x24
   (0x625c against retail 0x6238). WB also has no code between the intersection
   loop and `vnum`. Refuted as the source of the symbol count.
+- **Tried: where the symbol count lives** (claude seat, 2026-10-20):
+  - TU scope: a preceding function with K referenced locals, or K file-scope
+    globals (K = 8..62), leaves the score at the 0.9108 baseline. The count
+    is per function.
+  - Named locals: the bank compiled at `/Od` (`build/rs/od`, script
+    `build/rs/gen/slots.py`) maps onto WB's 164 frame slots one for one in
+    first-use order. The only differences are `/Od` expression temps: WB's
+    `MIN()` temp for `point_cnt` (local_6774), operator-> temps, and our
+    two-temp `SimpleTextureTemp` pass. A WB-faithful
+    `point_cnt=MIN(point_cnt,chunk_size)` or ternary is byte-identical at
+    `/O1` (0.9134), so expression temps do not count either.
+  - What remains: named locals inside inline helpers from headers that differ
+    from BFME2's (ShadowPtr/RefCountPtr, texture ref temps, Matrix4/Matrix3D
+    ctors). The Vector3 helpers are already ruled out (n_inl, l_loc), and void
+    inlines with parameters were inert in r10. Unresolved.
 - WB callees, for shape: 0x71e1f0 Dot_Product, 0x71f9e0 unary `operator-`
   (7 calls, ours has 7), 0x99e0f0 `operator*(Vector3,float)`. WB's helpers are
   optimised copies with NaN validity checks and assert 0x712780. The
