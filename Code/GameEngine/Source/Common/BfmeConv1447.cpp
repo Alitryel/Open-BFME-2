@@ -1,3 +1,5 @@
+// Retail embedded-table destructor; parent lifetime proof: 0x0075A080 and
+// unwind entries 0x007AB790/0x007AB79B call the same whole cleanup body.
 void __cdecl operator delete(void *place);
 
 struct BfmeNodeVMN
@@ -6,16 +8,16 @@ struct BfmeNodeVMN
 	BfmeNodeVMN *m_bfme30;
 };
 
-class BfmeTableVMN
+class Rva009A4620VMNView
 {
 public:
-	void bfmeClearVMN(void);
+	~Rva009A4620VMNView() throw();
 	BfmeNodeVMN *m_bfme00[0x2b7b];
 	BfmeNodeVMN *m_bfmeadec;
+	unsigned char m_tail[8];
 };
 
-// ?bfmeClearVMN@BfmeTableVMN@@QAEXXZ
-void BfmeTableVMN::bfmeClearVMN()
+Rva009A4620VMNView::~Rva009A4620VMNView() throw()
 {
 	unsigned i;
 	BfmeNodeVMN *p;

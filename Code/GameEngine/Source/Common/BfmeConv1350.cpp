@@ -1,4 +1,6 @@
-// Open-BFME5 conversions, trimmed to the bfmeClearVDB unit.
+// Retail embedded-table destructor; parent lifetime proof: 0x0075A080 and
+// unwind entries 0x007AB790/0x007AB79B call the same whole cleanup body.
+// Node-deletion loop retained from the existing BFME 1 donor.
 
 void __cdecl operator delete(void *p);
 
@@ -8,15 +10,16 @@ struct BfmeNodeVDB
 	BfmeNodeVDB *m_bfmeNext;
 };
 
-class BfmeThingVDB
+class Rva009A4620VDBView
 {
 public:
-	void bfmeClearVDB();
+	~Rva009A4620VDBView() throw();
 	BfmeNodeVDB *m_bfmeTable[0x493];
 	BfmeNodeVDB *m_bfmeExtra;
+	unsigned char m_tail[8];
 };
 
-void BfmeThingVDB::bfmeClearVDB()
+Rva009A4620VDBView::~Rva009A4620VDBView() throw()
 {
 	for (unsigned i = 0; i < 0x493; ++i) {
 		BfmeNodeVDB *p = m_bfmeTable[i];

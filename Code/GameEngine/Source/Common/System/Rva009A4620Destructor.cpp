@@ -1,10 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
-// Retail 0x009A4620, 127 bytes. Address-derived owner; the list nodes
-// have the existing CollisionData destructor identity at 0x009A2390.
-// The two embedded table clear bodies (0x009A3200 and 0x009A4290)
-// only unlink nodes and call scalar operator delete at 0x00881EB0.
-// Their non-throwing release contract lets normal member destruction
-// reproduce the retail EH state without artificial state manipulation.
+// Retail BFME 2 parent 0x0075A080, 127 bytes (BFME 1 donor: 0x009A4620).
+// The list nodes use the existing CollisionData destructor identity.
+// Normal cleanup and the parent's two unwind entries independently establish
+// the embedded-table destructor lifetimes; their node-delete loops are retained
+// from the previously verified donor bodies. The opaque member extents come
+// from the target parent's offsets, not the donor class names.
 
 class Rva009A36F0Param;
 
@@ -27,26 +27,12 @@ public:
 	~Rva009A45A0CollisionData();
 };
 
-class BfmeTableVMN
-{
-public:
-	void bfmeClearVMN() throw();
-};
-
-class BfmeThingVDB
-{
-public:
-	void bfmeClearVDB() throw();
-};
-
+// Retail normal cleanup and both unwind entries call the same full table
+// destructors at 0x00758F30 and 0x00759D30, respectively.
 class Rva009A4620VMNView
 {
 public:
-	~Rva009A4620VMNView()
-	{
-		((BfmeTableVMN *)this)->bfmeClearVMN();
-	}
-
+	~Rva009A4620VMNView() throw();
 private:
 	unsigned char m_storage[0xADF8];
 };
@@ -54,11 +40,7 @@ private:
 class Rva009A4620VDBView
 {
 public:
-	~Rva009A4620VDBView()
-	{
-		((BfmeThingVDB *)this)->bfmeClearVDB();
-	}
-
+	~Rva009A4620VDBView() throw();
 private:
 	unsigned char m_storage[0x1258];
 };
