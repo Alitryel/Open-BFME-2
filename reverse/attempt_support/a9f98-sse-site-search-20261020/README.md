@@ -37,3 +37,10 @@ bank's placeholder fastcall names there (admissible: owners are placeholders) or
 rename the owner rows. Current W3DAptAux.cpp has diverged from the bank's TU;
 merge only the class deltas (AptShapeContainer m_shapes/render, friend,
 BfmeHub982 end-list decls) and the render body.
+
+Follow-up (same day): doubled the space with a store form (compute into locals
+`rx`/`ry`, then `out.X = rx; out.Y = ry;`, indices 147..293) to change
+out/in aliasing; greedy descent from the best config over all 294 spellings per
+site finds no improvement (still 29 + 3). Spelling-level levers at the helper
+are exhausted; the remaining lever is outside the helper (loop/pointer shape,
+which prior seats also swept).

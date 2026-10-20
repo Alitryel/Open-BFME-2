@@ -24,6 +24,7 @@ for pa in range(3):
         for fy in range(7):
             pre, x, y = PT[pa]
             H[pa * 49 + fx * 7 + fy] = pre + _row("out.X", x, y, "a", "c", "tx", fx, "X") + "\n\t" + _row("out.Y", x, y, "b", "d", "ty", fy, "Y")
+            H[147 + pa * 49 + fx * 7 + fy] = pre + _row("float rx", x, y, "a", "c", "tx", fx, "X") + "\n\t" + _row("float ry", x, y, "b", "d", "ty", fy, "Y") + "\n\tout.X = rx;\n\tout.Y = ry;"
 
 helpers = "".join(
     f"static __forceinline void aptMM{k}(V2 &out, const V2 &in, const AptRenderTransform &transform)\n{{\n\tconst AptMatrix &m = (const AptMatrix &)transform;\n\t{b}\n}}\n"
