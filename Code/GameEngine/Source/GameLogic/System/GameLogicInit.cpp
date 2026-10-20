@@ -6073,6 +6073,8 @@ class Rva0024076D
 {
 public:
 	Rva0024076D();
+	// The native member-wise copy is owned by Rva0024314ARecordCopy.cpp.
+	Rva0024076D(const Rva0024076D &);
 	~Rva0024076D();
 
 	AsciiString m_name;                                                  // +0x00
