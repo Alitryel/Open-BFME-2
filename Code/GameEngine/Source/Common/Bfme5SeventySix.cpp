@@ -94,9 +94,9 @@ public:
 class TaintManagerImpl
 {
 public:
-	void bfmeSetRegion(const Region3D *region, Real cellSize);
-	void bfmeConfigure(Region3D region, Real cellSize);
-	void bfmeApplyCircle(int x, int y, int radius, int amount, bool absolute, int mode);
+	void SetExtents(const Region3D *region, Real cellSize);
+	void _ReallocCells(Region3D region, Real cellSize);
+	void ChangeTaintLevel(int x, int y, int radius, int amount, bool absolute, int mode);
 	int rva006C0E40(const BfmePointFC *point, int *extra);
 	int rva006C0E70(int x, int y);
 	void rva006C0F50(GridXferView *xfer);
@@ -136,11 +136,11 @@ void BfmeTaintManager::bfmeResetGrid()
 	Region3D region;
 	bfmeZeroCoord3D(region.lo);
 	bfmeZeroCoord3D(region.hi);
-	m_bfmeGrid->bfmeSetRegion(&region, 0.0f);
+	m_bfmeGrid->SetExtents(&region, 0.0f);
 }
 
-// ?bfmeSetRegion@TaintManagerImpl@@QAEXPBURegion3D@@M@Z
-void TaintManagerImpl::bfmeSetRegion(const Region3D *region, Real cellSize)
+// ?SetExtents@TaintManagerImpl@@QAEXPBURegion3D@@M@Z
+void TaintManagerImpl::SetExtents(const Region3D *region, Real cellSize)
 {
 	if (cellSize <= 0.0f)
 		cellSize = m_bfmeCellSize;
@@ -148,7 +148,7 @@ void TaintManagerImpl::bfmeSetRegion(const Region3D *region, Real cellSize)
 	if (!(region->width() < 0.0f)
 		&& !(region->height() < 0.0f))
 	{
-		bfmeConfigure(*region, cellSize);
+		_ReallocCells(*region, cellSize);
 	}
 }
 
@@ -161,14 +161,14 @@ TaintManagerImpl::~TaintManagerImpl()
 	delete[] m_bfmeCells;
 }
 
-// Retail 0x006C0AB0 170B, chain from bfmeApplyCircle: world-to-cell via
+// Retail 0x006C0AB0 170B, chain from ChangeTaintLevel: world-to-cell via
 // ceil/floor and cellSizeInv, then grid paint with trailing mode word.
 void BfmeTaintManager::bfmeApplyCircleWorld(const BfmePointFC *point, Real radius, int amount, bool absolute, int mode)
 {
 	int cellRadius = bfmeFloatToLongFC(bfmeFloatCeilFC(radius * m_bfmeGrid->m_bfmeCellSizeInv));
 	int y = bfmeFloatToLongFC(bfmeFloatFloorFC((point->y - m_bfmeGrid->m_bfmeRegion.lo.y) * m_bfmeGrid->m_bfmeCellSizeInv));
 	int x = bfmeFloatToLongFC(bfmeFloatFloorFC((point->x - m_bfmeGrid->m_bfmeRegion.lo.x) * m_bfmeGrid->m_bfmeCellSizeInv));
-	m_bfmeGrid->bfmeApplyCircle(x, y, cellRadius, amount, absolute, mode);
+	m_bfmeGrid->ChangeTaintLevel(x, y, cellRadius, amount, absolute, mode);
 }
 
 // ?rva006C0850@BfmeTaintManager@@QAEHPBUBfmePointFC@@PAH@Z @ 0x006C0850 8B

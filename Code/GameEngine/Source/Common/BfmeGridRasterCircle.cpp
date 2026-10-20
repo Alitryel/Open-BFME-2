@@ -2,7 +2,7 @@
 // Distinct TU for two Bfme5SeventySix bodies (dest TU is twin-owned):
 // ?bfmeRasterCircleFC@@YAXHHHVBfmeRangeUpdaterFC@@@Z @ 0x006C1150 (137B,
 // b1 0x00881770) and ??0TaintManagerImpl@@QAE@XZ @ 0x006C1490 (102B,
-// b1 0x00881AA0). Trimmed copy of the BFME1 donor; bfmeConfigure and the
+// b1 0x00881AA0). Trimmed copy of the BFME1 donor; _ReallocCells and the
 // range-updater call resolve through ledger pins.
 
 // MSVC 7.1 folds `delete []` onto the scalar ??3@YAXPAX@Z unless the array
@@ -122,10 +122,10 @@ public:
 	TaintManagerImpl();
  void rva006C0F50(GridXferView*);
 	void rva006C0DA0();
-	void bfmeConfigure(Region3D region, Real cellSize);
+	void _ReallocCells(Region3D region, Real cellSize);
 	void bfmeGetCellRange(BfmeCellFC **first, BfmeCellFC **last,
 		int x1, int x2, int y);
-	void bfmeApplyCircle(int x, int y, int radius, int amount, bool absolute, int mode);
+	void ChangeTaintLevel(int x, int y, int radius, int amount, bool absolute, int mode);
 	BfmeCellFC *bfmeCellAtWorld(Real worldX, Real worldY) const;
 	int rva006C0E40(const BfmePointFC *point, int *extra);
 	BfmeCellFC *rva006C0C60(int x, int y);
@@ -177,7 +177,7 @@ TaintManagerImpl::TaintManagerImpl()
 	m_bfmeCellSize = 1.0f;
 	zeroCoord3D(m_bfmeRegion.hi);
 
-	bfmeConfigure(m_bfmeRegion, 1.0f);
+	_ReallocCells(m_bfmeRegion, 1.0f);
 }
 
 // ?bfmeRasterCircleFC@@YAXHHHVBfmeRangeUpdaterFC@@@Z
@@ -295,8 +295,8 @@ void BfmeCellFC::bfmeUpdate(int amount, bool absolute, int mode)
 }
 
 // Transferred from BFME 1's taintmanager_impl.cpp; only the cell size differs.
-// ?bfmeConfigure@TaintManagerImpl@@QAEXURegion3D@@M@Z
-void TaintManagerImpl::bfmeConfigure(Region3D region, Real cellSize)
+// ?_ReallocCells@TaintManagerImpl@@QAEXURegion3D@@M@Z
+void TaintManagerImpl::_ReallocCells(Region3D region, Real cellSize)
 {
 	if (region.width() < 1.0f)
 		region.hi.x = region.lo.x + 1.0f;
@@ -350,7 +350,7 @@ void TaintManagerImpl::bfmeConfigure(Region3D region, Real cellSize)
 
 // Retail 0x006C1580 86B: circle paint via bfmeRasterCircleFC; early-out on
 // radius<0 and on (amount==0 && !absolute). BFME2 adds trailing mode word.
-void TaintManagerImpl::bfmeApplyCircle(int x, int y, int radius, int amount, bool absolute, int mode)
+void TaintManagerImpl::ChangeTaintLevel(int x, int y, int radius, int amount, bool absolute, int mode)
 {
 	if (radius < 0)
 		return;
@@ -397,7 +397,7 @@ int TaintManagerImpl::rva006C0E40(const BfmePointFC *point, int *extra)
 
 // ??0BfmeRangeUpdaterFC@@QAE@PAVTaintManagerImpl@@H_NH@Z @ 0x006C0B80 32B.
 // Ghidra-unlisted out-of-line updater constructor: grid +0, amount +4, mode
-// +8 and the absolute flag byte +0C, in bfmeApplyCircle's argument order
+// +8 and the absolute flag byte +0C, in ChangeTaintLevel's argument order
 // (retail stores arg4 at +8 and the byte arg3 at +0C). Owner by layout.
 BfmeRangeUpdaterFC::BfmeRangeUpdaterFC(TaintManagerImpl *grid, int amount, bool absolute, int mode)
 {
