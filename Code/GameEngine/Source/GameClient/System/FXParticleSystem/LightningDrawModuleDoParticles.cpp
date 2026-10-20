@@ -58,7 +58,7 @@ extern ShareBufferClass<unsigned char> *g_00E065D4;
 class ShaderClass
 {
 public:
-	ShaderClass(const ShaderClass &s) { ShaderBits = s.ShaderBits; }
+	__declspec(dllimport) __forceinline ShaderClass(const ShaderClass &s) { ShaderBits = s.ShaderBits; }
 	ShaderClass &operator=(const ShaderClass &s) { ShaderBits = s.ShaderBits; return *this; }
 	void Enable_Fog(const char *source);
 
@@ -71,7 +71,7 @@ public:
 private:
 	unsigned int ShaderBits;
 };
-extern ShaderClass g_00DB6250;
+extern unsigned int BfmeParticleType2ShaderBits;
 
 class TextureClass
 {
@@ -279,7 +279,7 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
   g_00E0626C->Set_Texture((TextureClass*)&texture);g_00E0626C->Reset_Line();
   ShaderClass shader=ShaderClass::_PresetAdditiveSpriteShader;
   switch(getSystem()->m_shaderType){
-   case 2:shader=g_00DB6250;break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;
+   case 2:shader=*reinterpret_cast<const ShaderClass *>(&BfmeParticleType2ShaderBits);break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;
    case 4:shader=ShaderClass::_PresetATestSpriteShader;break;case 5:shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;
    case 6:shader=ShaderClass::_PresetAdditive2DShader;break;case 7:shader=ShaderClass::_PresetAlpha2DShader;break;
   }
