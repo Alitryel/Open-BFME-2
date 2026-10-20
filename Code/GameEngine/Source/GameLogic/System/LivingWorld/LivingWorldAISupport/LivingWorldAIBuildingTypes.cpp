@@ -18,6 +18,9 @@
 // Visible insertion workers are required for the native compiler stack layout;
 // their complete136/59/250B bodies and29B pair/map wrappers were also verified.
 // Parent: complete bytes/relocations and16-state EH graph independently EXACT.
+// Retail spells _Rb_tree::insert_unique(const value_type&)'s leftmost fast path
+// as `if (__comp && __j == begin())`; the vendored STLport carries it behind this switch.
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include "ascii_string.h"
 #include <vector>
 #include <map>
@@ -85,6 +88,12 @@ namespace _STL {
 template<> struct pair<const int,PodVectors> {typedef const int first_type;typedef PodVectors second_type;const int first;Rva00500E3D second;pair(const int&,const PodVectors&);pair(const pair&);};
 template<> void vector<ScienceType>::push_back(const ScienceType&);
 template<> void PodVector::push_back(const BfmePod88&);
+// Node creation is the rowed bodies 0x00501DB2 and 0x005028E7; this unit's own
+// copies would construct the pair differently from retail's.
+typedef _Rb_tree<int,pair<const int,PodVectors>,_Select1st<pair<const int,PodVectors> >,less<int>,allocator<pair<const int,PodVectors> > > VectorMapTree;
+typedef _Rb_tree<int,pair<const int,Rva00502BCDMapped>,_Select1st<pair<const int,Rva00502BCDMapped> >,less<int>,allocator<pair<const int,Rva00502BCDMapped> > > SetMapTree;
+template<> VectorMapTree::_Link_type VectorMapTree::_M_create_node(const pair<const int,PodVectors>&);
+template<> SetMapTree::_Link_type SetMapTree::_M_create_node(const pair<const int,Rva00502BCDMapped>&);
 
 template<> inline __declspec(noinline) SetMap::iterator SetMap::insert(SetMap::iterator p,const SetMap::value_type&v){return _M_t.insert_unique(p,v);}
 }

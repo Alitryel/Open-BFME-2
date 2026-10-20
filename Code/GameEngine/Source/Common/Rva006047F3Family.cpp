@@ -12,6 +12,9 @@ namespace _STL { template <> _Rb_tree_node<AsciiString> * allocator<_Rb_tree_nod
 struct BfmeStringNoCaseLess {
   bool operator()(const AsciiString&, const AsciiString&) const;
 };
+// set::insert calls the rowed insert_unique 0x0002C908; this unit's STLport
+// configuration would emit non-retail copies of it and its node helpers.
+namespace _STL { template <> pair<_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess, allocator<AsciiString> >::iterator, bool> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, BfmeStringNoCaseLess, allocator<AsciiString> >::insert_unique(const AsciiString &); }
 typedef std::set<AsciiString, BfmeStringNoCaseLess> FilenameList;
 
 int __cdecl BFME2Utf8ToWide(const char* src, int srclen, unsigned short* dst, int dstlen);
