@@ -17,10 +17,55 @@ extern int g_012F801C;
 
 class Rva006DABB0;
 
+extern class G00DFF080Obj *TheTerrainVisual;
+
+class Rva009FF080Manager
+{
+public:
+	virtual void _slot00() = 0;
+	virtual void _slot01() = 0;
+	virtual void _slot02() = 0;
+	virtual void _slot03() = 0;
+	virtual void _slot04() = 0;
+	virtual void _slot05() = 0;
+	virtual void _slot06() = 0;
+	virtual void _slot07() = 0;
+	virtual void _slot08() = 0;
+	virtual void _slot09() = 0;
+	virtual void _slot10() = 0;
+	virtual void _slot11() = 0;
+	virtual void _slot12() = 0;
+	virtual void _slot13() = 0;
+	virtual void _slot14() = 0;
+	virtual void _slot15() = 0;
+	virtual void _slot16() = 0;
+	virtual void _slot17() = 0;
+	virtual void _slot18() = 0;
+	virtual void _slot19() = 0;
+	virtual void _slot20() = 0;
+	virtual void _slot21() = 0;
+	virtual void _slot22() = 0;
+	virtual void _slot23() = 0;
+	virtual void _slot24() = 0;
+	virtual void _slot25(void *arg) = 0;
+};
+
+#define TheRva009FF080Manager (*(Rva009FF080Manager **)&TheTerrainVisual)
+
 class Manager012EF4F0
 {
 public:
-	void unregister(Rva006DABB0 *obj);
+	// Out of line in retail at 0x00306769 (the rowed Rva00306769Forward body):
+	// hands obj to TheTerrainVisual's slot 25 when both are set.
+	__declspec(noinline) void unregister(Rva006DABB0 *obj)
+	{
+		Rva009FF080Manager *manager = TheRva009FF080Manager;
+		if (manager == 0)
+			return;
+		if (obj == 0)
+			return;
+		manager->_slot25(obj);
+	}
 };
 
 // g_012EF4F0 is only an alias of the owned global TheBuffLogic (ledger names column); this unit reads the owner through its own view type.

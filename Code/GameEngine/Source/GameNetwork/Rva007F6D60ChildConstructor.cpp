@@ -91,7 +91,9 @@ public:
 class Rva007F6D60ChildBase
 {
 public:
-	virtual ~Rva007F6D60ChildBase();
+	// Inline: retail's child teardown (0x00661E10) and the base's deleting
+	// dtor (0x00663530) both end in this bare vptr store.
+	virtual ~Rva007F6D60ChildBase() {}
 };
 
 class Rva007F6D60Child : public Rva007F6D60ChildBase

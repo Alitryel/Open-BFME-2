@@ -2,10 +2,18 @@
 // @0x000EC9C6 135B. Early-out on the live dwords, clear the flag bytes,
 // then forward this into the four rowed callees.
 
+// The same tree buffer under its rowed name: its texture refresh is
+// W3DTreeBuffer::updateTexture (0x000EB40F, protected).
+class W3DTreeBuffer
+{
+	friend class Rva000EC9C6;
+protected:
+	void updateTexture();
+};
+
 class Rva000EC9C6
 {
 public:
-	void rva000EB40F();
 	void rva000EB6BB();
 	void rva000EBFD1();
 	void rva000E663B(int arg);
@@ -39,7 +47,7 @@ void Rva000EC9C6::rva000EC9C6(int arg)
 	if (m_at44556 != 0)
 	{
 		m_at44556 = 0;
-		rva000EB40F();
+		reinterpret_cast<W3DTreeBuffer *>(this)->updateTexture();
 	}
 	if (m_at38 == 0)
 		return;
