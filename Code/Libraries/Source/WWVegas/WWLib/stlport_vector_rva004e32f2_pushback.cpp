@@ -15,6 +15,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAVRva004E32F2@@@_STL@@YAXPAVRva004E32F2@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Rva004E32F2;
+namespace _STL { template <> void _Destroy<Rva004E32F2 *>(Rva004E32F2 *,Rva004E32F2 *); }
 // Suppress this TU's non-retail copy of ??$__destroy_aux@PAVRva004E32F2@@@_STL@@YAXPAVRva004E32F2@@0ABU__false_type@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Rva004E32F2;
