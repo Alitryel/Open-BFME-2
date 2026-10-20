@@ -1,7 +1,5 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.9975 date=2026-10-19
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.9975339087546239 date=2026-10-19
+// partial score=0.9988 date=2026-10-20
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
 // Refresh at retail 006227E0..0062348C, 3244 bytes; banked, not matched.
@@ -261,6 +259,9 @@ void Q1Receiver0134FAAC::refresh()
 		m_deques78[3].push_back(*(const int *)&it->second.m_entry);
 
 	Q1ReceiverQueue *queues = m_deques78;
+	Q1ReceiverQueue &r0 = m_deques78[0];
+	Q1ReceiverQueue &r1 = m_deques78[1];
+	Q1ReceiverQueue &r2 = m_deques78[2];
 	for (int pass = 0; pass < 2; ++pass)
 	{
 		BfmeThingBVA keys;
@@ -293,8 +294,8 @@ void Q1Receiver0134FAAC::refresh()
 		}
 
 		if (pass == 0)
-			m_field1e0 = queues[0].size() + queues[1].size() + queues[2].size();
+			m_field1e0 = r0.size() + r1.size() + r2.size();
 		else
-			m_field1e4 = queues[0].size() + queues[1].size() + queues[2].size() - m_field1e0;
+			m_field1e4 = m_deques78[0].size() + r1.size() + queues[2].size() - m_field1e0;
 	}
 }
