@@ -1,4 +1,4 @@
-// cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // Target3B15D6..3B17F3 (541B) SpecialPowerStore::parseSpecialPowerDefinition.
 // Reference: Zero Hour Common/RTS/SpecialPower.cpp; clean BFME1 donor
@@ -43,22 +43,6 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
-// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAPBVModuleData@@PBV1@V?$allocator@PBVModuleData@@@_STL@@@_S:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> const ModuleData **_STLP_alloc_proxy<const ModuleData **, const ModuleData *, allocator<const ModuleData *> >::allocate(size_t); }
-// Suppress this TU's non-retail copy of ?allocate@?$allocator@PBVModuleData@@@_STL@@QBEPAPBVModuleData@@IPBX@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
-// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVModuleData@@@_STL@@QBEXPAPBVModuleData@@I@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> void allocator<const ModuleData *>::deallocate(const ModuleData **, size_t) const; }
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-class ModuleData;
-namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
 inline const char *specialPowerNameText(const AsciiString &name) {
  const char *data=*(const char *const *)&name;
  return data ? data+8 : "";
@@ -72,6 +56,16 @@ public:
 	void initFromINI( void *what, const FieldParse *parseTable );
 	int getLoadType() const { return m_loadType; }
 
+	// The rowed field parsers m_specialPowerFieldParse names.
+	static void parseBool( INI *ini, void *instance, void *store, const void *userData );
+	static void parseInt( INI *ini, void *instance, void *store, const void *userData );
+	static void parseReal( INI *ini, void *instance, void *store, const void *userData );
+	static void parseAsciiString( INI *ini, void *instance, void *store, const void *userData );
+	static void parseBitString32( INI *ini, void *instance, void *store, const void *userData );
+	static void parseIndexList( INI *ini, void *instance, void *store, const void *userData );
+	static void parseDurationUnsignedInt( INI *ini, void *instance, void *store, const void *userData );
+	static void Rva00339AF1_ParseSciences( INI *ini, void *instance, void *store, const void *userData );
+
 private:
 	int m_unmodelled00;
 	int m_unmodelled04;
@@ -79,6 +73,15 @@ private:
 };
 
 enum { INI_LOAD_CREATE_OVERRIDES = 2 };
+
+typedef void (*INIFieldParseProc)( INI *ini, void *instance, void *store, const void *userData );
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Overridable.h
 class Overridable
@@ -119,6 +122,7 @@ public:
 	}
 
 private:
+	template<class T> friend struct DataRowPrivateProbe;
  static const FieldParse m_specialPowerFieldParse[];
 	char m_unknown0C[4];
  AsciiString m_name; // +0x10
@@ -152,6 +156,88 @@ protected:
 };
 
 extern SpecialPowerStore *TheSpecialPowerStore;
+
+void Rva00339900Parse( INI *ini, void *instance, void *store, const void *userData );
+void Rva001DEE74Parse( INI *ini, void *instance, void *store, const void *userData );
+void iniParseObjectFilter( INI *ini, void *instance, void *store, const void *userData );
+class Rva003B1017 { public: static void parseFromINI( INI *ini, void *instance, void *store, const void *userData ); };
+
+// The SpecialPowerNames index list (VA 0x00DC0B40).
+extern const char *SpecialPowerNames[];
+
+// .data name list VA 0x00DC0DD4, the Flags bit names. Retail puts no null
+// after PATHABLE_ONLY: the list runs on through a copy of the attribute
+// modifier names to the null at VA 0x00DC0E60. Only the table below refers
+// to it.
+const char *SpecialPowerFlagNames[] =
+{
+	"NEEDS_TARGET",
+	"WATER_OK",
+	"NEEDS_OBJECT_FILTER",
+	"LIMIT_DISTANCE",
+	"NO_FORBIDDEN_OBJECTS",
+	"RESPECT_RECHARGE_TIME_DISCOUNT",
+	"PATHABLE_ONLY",
+	"ATTRIBUTE_NONE",
+	"ARMOR",
+	"DAMAGE_ADD",
+	"DAMAGE_MULT",
+	"RESIST_FEAR",
+	"RESIST_TERROR",
+	"EXPERIENCE",
+	"RANGE",
+	"SPEED",
+	"CRUSH_DECELERATE",
+	"RESIST_KNOCKBACK",
+	"SPELL_DAMAGE",
+	"RECHARGE_TIME",
+	"PRODUCTION",
+	"HEALTH",
+	"HEALTH_MULT",
+	"VISION",
+	"BOUNTY_PERCENTAGE",
+	"MINIMUM_CRUSH_VELOCITY",
+	"AUTO_HEAL",
+	"SHROUD_CLEARING",
+	"RATE_OF_FIRE",
+	"DAMAGE_STRUCTURE_BOUNTY_ADD",
+	"CRUSHER_LEVEL",
+	"COMMAND_POINT_BONUS",
+	"CRUSHABLE_LEVEL",
+	"CRUSHED_DECELERATE",
+	"INVULNERABLE",
+	NULL
+};
+
+// .data VA 0x00DC0E78: 22 16-byte entries and the zero terminator. The
+// rowed getter 0x003B0FA0 returns this address; offsets are into the 0x80
+// template.
+const FieldParse SpecialPowerTemplate::m_specialPowerFieldParse[] =
+{
+	{ "Flags", INI::parseBitString32, SpecialPowerFlagNames, 0x18 },
+	{ "ReloadTime", INI::parseDurationUnsignedInt, NULL, 0x20 },
+	{ "RequiredSciences", INI::Rva00339AF1_ParseSciences, NULL, 0x24 },
+	{ "LightPointCost", INI::parseInt, NULL, 0x30 },
+	{ "InitiateSound", Rva00339900Parse, NULL, 0x34 },
+	{ "InitiateAtLocationSound", Rva00339900Parse, NULL, 0x38 },
+	{ "UnitSpecificSoundToUseAsInitiateIntendToDoVoice", INI::parseAsciiString, NULL, 0x3C },
+	{ "UnitSpecificSoundToUseAsEnterStateInitiateIntendToDoVoice", INI::parseAsciiString, NULL, 0x40 },
+	{ "EvaEventToPlayOnSuccess", Rva001DEE74Parse, NULL, 0x44 },
+	{ "PublicTimer", INI::parseBool, NULL, 0x58 },
+	{ "Enum", INI::parseIndexList, SpecialPowerNames, 0x1C },
+	{ "DetectionTime", INI::parseDurationUnsignedInt, NULL, 0x48 },
+	{ "SharedSyncedTimer", INI::parseBool, NULL, 0x59 },
+	{ "ViewObjectDuration", INI::parseDurationUnsignedInt, NULL, 0x4C },
+	{ "ViewObjectRange", INI::parseReal, NULL, 0x50 },
+	{ "RadiusCursorRadius", INI::parseReal, NULL, 0x54 },
+	{ "PalantirMovie", INI::parseAsciiString, NULL, 0x5C },
+	{ "ObjectFilter", iniParseObjectFilter, NULL, 0x60 },
+	{ "PreventActivationConditions", Rva003B1017::parseFromINI, NULL, 0x64 },
+	{ "MaxCastRange", INI::parseReal, NULL, 0x74 },
+	{ "ForbiddenObjectFilter", iniParseObjectFilter, NULL, 0x78 },
+	{ "ForbiddenObjectRange", INI::parseReal, NULL, 0x7C },
+	{ NULL, NULL, NULL, 0 }
+};
 
 void SpecialPowerStore::parseSpecialPowerDefinition( INI *ini )
 {
