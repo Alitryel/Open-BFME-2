@@ -37,3 +37,5 @@ The mesh-vs-mmc ESI swap still has no reload-free lever.
 ## Session 3 (22:40-22:46 PT)
 Inert on the w5 shape: const mmc / const desc, a split declaration of mesh_vertex_count, an `mmc=0` sink after Get_Deformed_Vertices, and mmc declared at the inner-block, function, or outer-loop scope.
 None of them moves mesh to ESI; mmc keeps ESI unless its web is split by a reload. No reload-free lever found.
+
+Session 3b (22:42-22:46 PT): on w5, dropping the uv1 equal-arm trick (R=131) or adding one on uv0 (R=139) is much worse. Retail's diffuse join (`mov edi,eax`) follows from the mesh/mmc swap: with mesh in ESI, diffuse takes the free EDI. So every remaining UV-block diff reduces to the mesh-vs-mmc ESI priority.
