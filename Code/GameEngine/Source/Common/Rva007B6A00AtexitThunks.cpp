@@ -219,7 +219,7 @@ unsigned g_Va00E03330;	// retail RVA 0x00A03330 (.bss), defined here
 unsigned g_Va00E04444;	// retail RVA 0x00A04444 (.bss), defined here
 unsigned g_Va00E04448;	// retail RVA 0x00A04448 (.bss), defined here
 unsigned g_Va00E0445C;	// retail RVA 0x00A0445C (.bss), defined here
-extern unsigned g_Va00E0447C;
+extern UnicodeString g_00E0447C;	// VA 0x00E0447C, defined in AptLobbyScreenInitCallbacks.cpp
 extern unsigned g_Va00E04490;
 unsigned g_Va00E048F4;	// retail RVA 0x00A048F4 (.bss), defined here
 unsigned g_Va00E048FC;	// retail RVA 0x00A048FC (.bss), defined here
@@ -672,10 +672,10 @@ void __cdecl rva007B8F26()
 	p->FXParticleSystem::OutwardEmissionVelocityInfo::~OutwardEmissionVelocityInfo();
 }
 
-// ?rva007B8F6D@@YAXXZ @ 0x007B8F6D (10B): ecx=&g_Va00E0447C, tail-jump to rowed ??1UnicodeString@@QAE@XZ (0x005B804E)
+// ?rva007B8F6D@@YAXXZ @ 0x007B8F6D (10B): ecx=&g_00E0447C, tail-jump to rowed ??1UnicodeString@@QAE@XZ (0x005B804E)
 void __cdecl rva007B8F6D()
 {
-	UnicodeString *p = (UnicodeString *)&g_Va00E0447C;
+	UnicodeString *p = &g_00E0447C;
 	p->~UnicodeString();
 }
 

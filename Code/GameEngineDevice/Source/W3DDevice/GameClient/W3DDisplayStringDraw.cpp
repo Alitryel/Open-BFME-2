@@ -149,7 +149,7 @@ public:
 	{ reinterpret_cast<Gen_00942BC0 *>(this)->process( (void *)text, hkX, hkY ); }
 	void Reset_Polys( void );
 	void Set_Location( const Vector2 &loc );
-	void Draw_Sentence( Color c0, Color c1, Color c2, Color c3 );
+	void Draw_Sentence( unsigned long c0, unsigned long c1, unsigned long c2, unsigned long c3 );
 	void Render( void ) { reinterpret_cast<Rva00155AD0 *>(this)->rva00155AD0(); }
 private:
 	char m_unrecovered04[ 0x84 - 0x04 ];

@@ -13,7 +13,7 @@ class Render2DSentenceClass
 {
 public:
 	void Draw_Sentence(uint32 color);
-	void Draw_Sentence(int color0, int color1, int color2, int color3);
+	void Draw_Sentence(uint32 color0, uint32 color1, uint32 color2, uint32 color3);
 };
 
 void Render2DSentenceClass::Draw_Sentence(uint32 color)
