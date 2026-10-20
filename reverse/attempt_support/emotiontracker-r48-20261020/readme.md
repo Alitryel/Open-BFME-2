@@ -31,3 +31,27 @@ tests for both bits. Remaining WB-called getters not yet used: the distance
 filter ctor argument and ThingFactory::findTemplate (ledger name at 0x2D06CA).
 Scratch build/nbr/r48/4b1633 (w3LKOb.cpp bitset version, w3LKOf1..4 mask
 shapes, meter.sh chain meter).
+
+## Round 2 (~50 min)
+KindOf test shape (lab: VC7.1 /O1 /G7 /arch:SSE listings, scratch kt*.cpp/cc.py):
+- STLport bitset<218>::test never inlines (range check + throw path).
+- One-expression bool forms ((w[i>>5]&(1<<(i&31)))!=0, 1UL/unsigned masks,
+  >>&1, ?:, !!, 0!=, (bool), swapped) give `shr eax,26; test al,1` for bit 0x5A.
+- Byte tests (`test byte ptr [+0x113],4` / `[+0x11a],1`) come from: word index
+  and shift in locals (`int word=bit>>5; int shift=bit&31; return
+  (m_words[word]&(1<<shift))!=0;`), a mask local, int/unsigned return, or an
+  if-return-true body. The byte-addressed form never inlines.
+- Layered Object::isKindOf -> getTemplate() -> ThingTemplate::isKindOf ->
+  TEST_KINDOFMASK -> BitFlags<218>::test (locals form), mask at template+0x108,
+  matches both kind-of sites exactly (scratch w3M1.cpp/w3M2.cpp), consistent with
+  WB's cdecl TEST_KINDOFMASK helper. Status bit 6 instead needs the plain
+  one-expression form (shr eax,6; test al,1): different helpers in the original.
+  Relevant to 0x5EC52E (WB BitFlags<218,KindOfType>::test(90) there).
+- Case-2 compare unmoved: meter still N=62 exact / 60 bank shape. Remaining WB
+  getters (shroud squaring local, getPosition pointer copy) ~1 unit; an invented
+  findTemplate wrapper inert; visible Object::rva00263763 not inlined.
+Gains came only from the hash_map lookup (~25), repeated WB inline getter calls
+(~2.5 per site) and the for/break scans (~5); ~61 units still missing. Next:
+EmotionNugget template/module-data accessor layers WB collapses into one temp,
+or a different real shape for the rva0028B511 layer comparison. Scratch
+best_r2.cpp (bank-identical bytes).
