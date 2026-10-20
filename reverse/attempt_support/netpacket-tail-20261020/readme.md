@@ -49,3 +49,26 @@ New provider, inheritance and compiler trials do not resolve the tail ordering.
 No asm, volatile, barrier, dummy helper effect, pin, baseline or Code change.
 Keep the better existing bank. Measurements and three concise patches preserve
 the useful tests; the next attempt needs new evidence for this exact tail.
+
+## Addendum, 2026-10-20 (claude-opus-5-5, second seat pass)
+
+The bank is unchanged: fit 0.9826, bytes 0.958644, 1475 B. Each trial below
+was scored against retail with the bank's flags.
+
+| Trial | Explanation tested | Change | Result |
+|---|---|---|---|
+| b1-b3 | control flow | `break` in place of the arm `return`s | 0.974 |
+| r1-r4 | control flow | if/else wrappers around the Z arm | inert (bank bytes) |
+| v4-v6 | control flow | loop wrappers (`for(;;)`, do/while) around the decode switch | inert |
+| s1 | control flow | nested structured join | 0.899, 1472 B |
+| g1 | control flow | `goto` shared tail | 0.912, 1472 B |
+| z1 | lifetime | Z arm without `offset` | 0.773 |
+| z2 | lifetime | Z arm without the `i = offset` reload | 0.804 |
+| a1 | lifetime | address-taken `i`; repeats the ZH form already disproven above | 0.891 |
+| flags | compiler settings | `permute.py --flags` | 0 of 1 closed |
+| permute | all | `permute.py 0x593F15 --minutes 30 --jobs 6` | 1167 trials, no gain in 600 |
+
+Explanations not covered here (types and layout, callee visibility) are the
+provider, inheritance and accessor trials above. The residue is still the Z
+tail's reload order (`ebx` reload before `i = offset`), which decides whether
+cl cross-jumps into the D tail.

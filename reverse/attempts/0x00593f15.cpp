@@ -1,4 +1,6 @@
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
+// partial score=0.9826 date=2026-10-20
+// ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.995 date=2026-10-18
 // ?getCommandList@NetPacket@@QAEPAVNetCommandList@@XZ
 // partial score=0.9857064040652715 date=2026-10-13
