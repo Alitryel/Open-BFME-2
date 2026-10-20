@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.96 date=2026-10-20
+// partial score=0.97 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
@@ -503,6 +503,7 @@ static __forceinline const BFME2TextureRef &AsRef(const RefCountPtr<TextureClass
 
 void BfmeB1137::Install_Materials(void) const
 {
+	Rva00094DD3Val wind;
 	if (!g_Va00DB47EC || !TheGlobalWeatherSystem)
 		return;
 
@@ -628,7 +629,6 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMATRIX scaled;
 		D3DXMATRIX world;
 		D3DXMATRIX scroll;
-		Rva00094DD3Val wind;
 		{
 		D3DXMATRIX scale;
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
@@ -647,16 +647,16 @@ void BfmeB1137::Install_Materials(void) const
 		*reinterpret_cast<D3DXMATRIX *>(&view) = inv * scaled;
 		DX8Wrapper::SetMatrix(0x12, *reinterpret_cast<D3DXMATRIX *>(&view));
 
-		fw *= 0.5f;
-		fw *= 10.0f;
-		fh *= 0.5f;
-		fh *= 10.0f;
+		float cx = fw * 0.5f;
+		cx *= 10.0f;
+		float cy = fh * 0.5f;
+		cy *= 10.0f;
 		m_94 = world;
 		D3DXMatrixInverse(&world, &det, &world);
 		{
 		D3DXVECTOR3 corner;
-		corner.x = fw;
-		corner.y = fh;
+		corner.x = cx;
+		corner.y = cy;
 		corner.z = 0.0f;
 		D3DXVECTOR4 out;
 		rva0062AF56D3DXVec3Transform(&out, &corner, &world);
