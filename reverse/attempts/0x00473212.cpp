@@ -1,4 +1,6 @@
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
+// partial score=0.922902 date=2026-10-20
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.852608 date=2026-10-19
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.857 date=2026-10-17
@@ -19,6 +21,8 @@
 // guard: native BC5314 slot0 is the already-owned 00051A46 destructor.
 // An empty member list leaves no member for the surviving banner carrier.
 // Pool-list disposal cannot throw C++ exceptions.
+// The member list lives at function scope; a failed containment returns null
+// after destroying the new object.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
@@ -253,12 +257,39 @@ struct ModuleData
  
 }
 ;
-class Rva001EB984Member 
+class FreelistProxyHead 
 {
- public: void *init(void *);
+ public: void setup(const void *,void *);
  
 }
 ;
+class FreelistPool 
+{
+ public: void *pop();
+ 
+}
+;
+extern FreelistPool g_freelistPool00DB8FEC;
+class Rva001EB984Member 
+{
+ public: void *m_head;
+ void *init(void *);
+ 
+}
+;
+// Byte copy of the rowed 0x001EB984 init, visible so cl sees that the
+// allocator temporary's address is not kept.
+__declspec(noinline) inline void *Rva001EB984Member::init(void *context)
+{
+ (void)context;
+ char dummyAlloc;
+ ((FreelistProxyHead *)this)->setup(&dummyAlloc,0);
+ void *node=g_freelistPool00DB8FEC.pop();
+ ((void **)node)[0]=node;
+ ((void **)node)[1]=node;
+ m_head=node;
+ return this;
+}
 class Rva001EB769 
 {
  public: void rva001EB769() throw();
@@ -572,134 +603,132 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
  const ThingTemplate *type=TheThingFactory->findTemplate(replacement);
  if (!type) return 0;
  Object *created;
- 
+
+ ModuleSlot15 *module=(ModuleSlot15*)owner->rva0028BC58(0);
+ if (module) module->clear();
+ module=(ModuleSlot15*)object->rva0028BC58(0);
+ if (module) module->clear();
+ refresh();
+ ObjectList members;
+ collect(members);
+ Object *firstCarrier=TheGameLogic->findObjectByID((ObjectID)carrierID);
+ Object *firstMember=0;
+ if (firstCarrier) 
  {
-  ModuleSlot15 *module=(ModuleSlot15*)owner->rva0028BC58(0);
-  if (module) module->clear();
-  module=(ModuleSlot15*)object->rva0028BC58(0);
-  if (module) module->clear();
-  refresh();
-  ObjectList members;
-  collect(members);
-  Object *firstCarrier=TheGameLogic->findObjectByID((ObjectID)carrierID);
-  Object *firstMember=0;
-  if (firstCarrier) 
+  ObjectIterator found = _STL::find(members.begin(),members.end(),firstCarrier);
+  if (found._M_node != members.head) 
   {
-   ObjectIterator found = _STL::find(members.begin(),members.end(),firstCarrier);
+   reinterpret_cast<_STL::list<Object*>*>(&members)->erase(found);
+   
+  }
+
+  if (!members.empty()) firstMember=members.front();
+  
+ }
+ Object *secondCarrier=0;
+ Object *secondMember=0;
+ if (object->isHorde()) 
+ {
+  HordeContain *other=object->contain->result()->horde();
+  other->refresh();
+  other->collect(members);
+  secondCarrier=TheGameLogic->findObjectByID((ObjectID)other->carrierID);
+  if (secondCarrier) 
+  {
+   ObjectIterator found = _STL::find(members.begin(),members.end(),secondCarrier);
    if (found._M_node != members.head) 
    {
     reinterpret_cast<_STL::list<Object*>*>(&members)->erase(found);
     
    }
-
-   if (!members.empty()) firstMember=members.front();
-   
-  }
-  Object *secondCarrier=0;
-  Object *secondMember=0;
-  if (object->isHorde()) 
-  {
-   HordeContain *other=object->contain->result()->horde();
-   other->refresh();
-   other->collect(members);
-   secondCarrier=TheGameLogic->findObjectByID((ObjectID)other->carrierID);
-   if (secondCarrier) 
-   {
-    ObjectIterator found = _STL::find(members.begin(),members.end(),secondCarrier);
-    if (found._M_node != members.head) 
-    {
-     reinterpret_cast<_STL::list<Object*>*>(&members)->erase(found);
-     
-    }
-    if (!members.empty()) secondMember=members.back();
-    
-   }
-   
-  }
-  else 
-  {
-   if (object->ai) object->ai->commands.rva0045003E(0,CMD_FROM_AI);
-   members.append(object);
-   
-  }
-  
-  {
-   CreateMask mask;
-   memset(&mask,0,sizeof(mask));
-   created=TheThingFactory->newObject(type,owner->getTeam(),&mask,false);
-   
-  }
-  reinterpret_cast<Thing*>(created)->setTransformMatrix(object->transform());
-  TheAI->pathfinder->AddObjectToPathfindMap(created);
-  BfmeFixedStorage128 upgrades(owner->upgrades);
-  reinterpret_cast<_STL::_Base_bitset<32>*>(&upgrades)->_M_do_or(*reinterpret_cast<_STL::_Base_bitset<32>*>(&object->upgrades));
-  reinterpret_cast<_STL::_Base_bitset<32>*>(&created->upgrades)->_M_do_or(*reinterpret_cast<_STL::_Base_bitset<32>*>(&upgrades));
-  if (owner->testStatus((ObjectStatusTypes)73)) created->setStatus((ObjectStatusTypes)73,true);
-  ContainResult *result=created->getContain() ? created->getContain()->result() : 0;
-  if (!result) 
-  {
-   TheGameLogic->destroyObject(created);
-   created=0;
-   
-  }
-  else 
-  {
-   HordeContain *combined=result->horde();
-   const Object *member=0;
-   Object *carrier=0;
-   if (firstCarrier && secondCarrier) 
-   {
-    if (firstCarrier->tracker->level>=secondCarrier->tracker->level) 
-    {
-     carrier=firstCarrier;
-     member=firstMember;
-     TheGameLogic->destroyObject(secondCarrier);
-     
-    }
-    else 
-    {
-     carrier=secondCarrier;
-     member=secondMember;
-     TheGameLogic->destroyObject(firstCarrier);
-     
-    }
-    
-   }
-   else if (firstCarrier) 
-   {
-    carrier=firstCarrier;
-    member=firstMember;
-    
-   }
-   else if (secondCarrier) 
-   {
-    carrier=secondCarrier;
-    member=secondMember;
-    
-   }
-   bool savedLatch=TheGameLogic->latch;
-   TheGameLogic->latch=false;
-   created->rva0028BAAE(owner->value45C);
-   if (carrier) 
-   {
-    if (member) 
-    {
-     LatchRestore<bool> suppress(combined->suppress,true);
-     combined->rva00473212(carrier,member,true);
-     
-    }
-    else TheGameLogic->destroyObject(carrier);
-    
-   }
-   combined->replaceMembers(members);
-   TheGameLogic->latch=savedLatch;
-   if (object->isHorde()) TheGameLogic->destroyObject(object);
-   TheGameLogic->destroyObject(owner);
-   reinterpret_cast<UpgradeView*>((char*)combined+0x20)->upgradesChanged(&created->upgrades,false);
+   if (!members.empty()) secondMember=members.back();
    
   }
   
  }
+ else 
+ {
+  if (object->ai) object->ai->commands.rva0045003E(0,CMD_FROM_AI);
+  members.append(object);
+  
+ }
+ 
+ {
+  CreateMask mask;
+  memset(&mask,0,sizeof(mask));
+  created=TheThingFactory->newObject(type,owner->getTeam(),&mask,false);
+  
+ }
+ reinterpret_cast<Thing*>(created)->setTransformMatrix(object->transform());
+ TheAI->pathfinder->AddObjectToPathfindMap(created);
+ BfmeFixedStorage128 upgrades(owner->upgrades);
+ reinterpret_cast<_STL::_Base_bitset<32>*>(&upgrades)->_M_do_or(*reinterpret_cast<_STL::_Base_bitset<32>*>(&object->upgrades));
+ reinterpret_cast<_STL::_Base_bitset<32>*>(&created->upgrades)->_M_do_or(*reinterpret_cast<_STL::_Base_bitset<32>*>(&upgrades));
+ if (owner->testStatus((ObjectStatusTypes)73)) created->setStatus((ObjectStatusTypes)73,true);
+ ContainResult *result=created->getContain() ? created->getContain()->result() : 0;
+ if (!result) 
+ {
+  TheGameLogic->destroyObject(created);
+  return 0;
+  
+ }
+ else 
+ {
+  HordeContain *combined=result->horde();
+  Object *carrier=0;
+  const Object *member=0;
+  if (firstCarrier && secondCarrier) 
+  {
+   if (firstCarrier->tracker->level>=secondCarrier->tracker->level) 
+   {
+    member=firstMember;
+    carrier=firstCarrier;
+    TheGameLogic->destroyObject(secondCarrier);
+    
+   }
+   else 
+   {
+    carrier=secondCarrier;
+    member=secondMember;
+    TheGameLogic->destroyObject(firstCarrier);
+    
+   }
+   
+  }
+  else if (firstCarrier) 
+  {
+   carrier=firstCarrier;
+   member=firstMember;
+   
+  }
+  else if (secondCarrier) 
+  {
+   carrier=secondCarrier;
+   member=secondMember;
+   
+  }
+  bool savedLatch=TheGameLogic->latch;
+  TheGameLogic->latch=false;
+  created->rva0028BAAE(owner->value45C);
+  if (carrier) 
+  {
+   if (member) 
+   {
+    LatchRestore<bool> suppress(combined->suppress,true);
+    combined->rva00473212(carrier,member,true);
+    
+   }
+   else TheGameLogic->destroyObject(carrier);
+   
+  }
+  combined->replaceMembers(members);
+  TheGameLogic->latch=savedLatch;
+  if (object->isHorde()) TheGameLogic->destroyObject(object);
+  TheGameLogic->destroyObject(owner);
+  reinterpret_cast<UpgradeView*>((char*)combined+0x20)->upgradesChanged(&created->upgrades,false);
+  
+ }
+ 
  return created;
  
 }
