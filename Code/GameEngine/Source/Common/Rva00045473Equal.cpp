@@ -11,7 +11,10 @@ typedef bool Bool;
 
 extern "C" int __cdecl memcmp(const void *left, const void *right, unsigned int count);
 
-Bool Rva00045473Equal(const void *a, const void *b)
+__declspec(noinline) inline Bool Rva00045473Equal(const void *a, const void *b)
 {
 	return memcmp(a, b, 0x4c) == 0;
 }
+// Select-any: LuaScriptEngineParseModelConditionEvent.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00045473Equal absent-from-retail
+void bfmeAnchorRva00045473Equal(const void *p) { Rva00045473Equal(p, p); }

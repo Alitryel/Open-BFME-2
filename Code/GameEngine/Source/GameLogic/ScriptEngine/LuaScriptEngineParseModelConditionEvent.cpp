@@ -1,13 +1,3 @@
-// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=1.0 date=2026-10-20
-// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.998 date=2026-10-19
-// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.99664 date=2026-10-14
-// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.99664 date=2026-10-13
-// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.9966386555 date=2026-10-08
 // stlport
 // cl: /O1 /EHsc /MD /G7 /arch:SSE /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // BF1 9cbfb551 LuaScriptEngineParseModelConditionEvent.cpp semantic source.

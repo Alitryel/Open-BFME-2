@@ -38,7 +38,10 @@ bool __cdecl Rva00045473Equal(const void *a, const void *b);
 
 // Returns bool: the result is the && chain's 1/0 in EAX (xor eax,eax; inc eax),
 // and the WorldBuilder debug twin 0xC00C20 returns mov al,[local].
-bool Rva00332F5B::rva00332F81(const Rva00332F5B &other) const
+__declspec(noinline) inline bool Rva00332F5B::rva00332F81(const Rva00332F5B &other) const
 {
 	return m_uni.m_text == other.m_uni.m_text && Rva00045473Equal(&m_a, &other.m_a) && Rva00045473Equal(&m_b, &other.m_b);
 }
+// Select-any: LuaScriptEngineParseModelConditionEvent.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00332F81 absent-from-retail
+void bfmeAnchorRva00332F81(const Rva00332F5B *p) { p->rva00332F81(*p); }
