@@ -297,6 +297,84 @@ Also established this session:
   for nearest; CTOR offset, CROSS(segdir, nearest, &offset), NORMALIZE) match
   our source.
 
+## WB call sequence and helper internals (claudeb4, 2026-10-20, fourth session)
+
+Bests unchanged: faithful bank 0.9134, padded v048 0.9729.
+
+**The call sequence matches WB.** A /Od copy of v048 (`build/s126/s43/od.cpp`)
+was compared with the WB twin (`s43/cmpseq.py`, sequences in `s43/wb_seq.txt`
+and `s43/od_seq.txt`). Through the whole geometry section, WB calls the same
+inline helpers in the same order as our source. Helper choice and expression
+shape in RenderStreak are therefore right. The only WB-only calls are in the
+tail: the 0x9a0990 texture test, 0x9ca0f0 Is_Currently_Rendering_Shadow_Map,
+and debug-only `_isnan`/`_finite`/0xdeadbeef asserts. All of these were tested
+before or exist only in debug builds.
+
+WB helpers:
+
+| WB address | Helper | Calls |
+|---|---|---|
+| 0x71bb50 | Vector3 `operator=` | 49 |
+| 0x71e1f0 | Dot_Product | 21 |
+| 0x71d310 | Normalize | 21 |
+| 0x99e0f0 | `operator*(V,f)`, assert line 291, returns `Vector3(...)` via ctor 0x71bb30 | 15 |
+| 0x71c1a0 | Matrix4 `operator[]` | 12 |
+| 0x71bb90 | binary `operator-` | 11 |
+| 0x71bce0 | Cross_Product | 10 |
+| 0x71bab0 | `Vector3()` (stores the 0x1dd08e0 sentinel) | 10 |
+| 0x71f9e0 | unary `-` (line 171) | 7 |
+| 0x722f00 | `operator+` | 5 |
+| 0x71e110 | Set | 4 |
+| 0x74a690 | ShadowPtr `->` | 4 |
+| 0x402527 | vector ctor iterator | 4 |
+
+BFME2's vector3.h is a longer revision with isInitialized asserts. Assert lines:
+
+| Helper | BFME2 | ZH | BFME1 |
+|---|---|---|---|
+| `operator-` | 356/357 | 266 | 281 |
+| Dot | 385 | 293 | 308 |
+| Normalize | 581 | 417 | 438 |
+
+**Helper-internal symbols (s44).** `s44/genh.py` writes modified copies of ZH
+vector3.h (`s44/h_<name>/vector3.h`) and includes them after the
+`#define inline __forceinline` line. Each variant was K-scanned 0..63 at P=48
+(`s42/res_h1.txt`, tc2 strings in `s44/perm_h1dot.txt`):
+
+| Variant | Change | Best | tc2 or note |
+|---|---|---|---|
+| ctl | unmodified copy | 0.9729 | baseline reproduced |
+| ctor_il | initializer-list ctor | 0.9729 | byte-identical |
+| n_oo | `oolen` at Normalize's outer scope | 0.9729 | byte-identical |
+| n_dir | `float len2 = X*X+Y*Y+Z*Z` in Normalize | 0.9661 | `.a?..........ab.b?b.` |
+| l2_l | Length2 with a local | 0.9181 | `.a?...?......ab.b?b.` |
+| dot_l | Dot_Product with a local | 0.9098 at K36 | `........b...ba?cb?bb` |
+| mul_n | `operator*` via a named Vector3 | 0.8375 | |
+| crs_l | Cross with locals cx, cy, cz | 0.7403 | |
+| n_sq | `1.0f/WWMath::Sqrt` | 0.6021 | |
+
+dot_l is the only change so far that fixes site 1 (0xa1a, the tree the pads
+never fix). At 17 K values it fixes sites 0-7 together, but sites 8 and 12
+are wrong at every K. Its P-scan 0..126 at K36 (`s42/res_h2.txt`) peaks at
+0.9412 (P12), and the late sites stay wrong (P80-102 plateau 0.9354).
+Helper-internal symbols therefore move the trees along a third axis, separate
+from the K/P pads.
+
+Not yet tried:
+
+- dot_l with a large P (150-700; the s26 period is about 683);
+- an extra local in `operator-`, `operator+`, unary `-` and Set, K-scanned
+  and combined with dot_l;
+- the K≡-3 (mod 32) reading of K=29: retail may have about three fewer
+  front-end symbols than our shims (SimpleTextureTemp, BFME2TextureRef,
+  padQ03). The s40 K-scan (K28 `.aa..........ab.b.b.`, K29
+  `.a...........ab.b.b.`, K30 `.a....?.a...aa?.b.ba`, K61
+  `.aaaa??.b...bab.b.bb`) shows K is not exactly periodic.
+
+Variant generator: `reverse/attempt_support/0x00126433_genh.py.txt` (copy of `build/s126/s44/genh.py`). Tools: `build/s126/tc2.py obj` prints one character per Length2 site
+(sites 0-19; `.` matches retail). `s44/run.sh tag files` scores and runs tc2
+in the background. `s44/show.py res [n]` lists the top n.
+
 ## Inline budget (why the setters stay out of line)
 
 - Under /O1, plain `inline` expansion has a per-function size budget. It counts
@@ -408,6 +486,9 @@ still open.
   only 0x1c31 flips, with damage elsewhere.
 - Header Length2/Normalize/Cross forms (s22) and header-level pads (s24).
 - Pads in other functions of the TU (s23/g).
+- Fourth session: these vector3.h variants under a K-scan: initializer-list
+  ctor, Normalize `oolen` scope, direct len2, Length2 local, Cross locals,
+  `operator*` via a named temp, `1/Sqrt`. Also dot_l with P 0..126.
 
 ## Scratch layout
 
