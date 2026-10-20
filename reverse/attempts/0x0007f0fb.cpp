@@ -1,5 +1,5 @@
 // ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
-// partial score=0.6 date=2026-10-19
+// partial score=0.7 date=2026-10-20
 // ?rva0007F0FB@Rva0007F0FBOwner@@QAEXPAVCameraClass@@_N@Z
 // partial score=0.6 date=2026-10-19
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
@@ -11,6 +11,7 @@
 // Native camera preparation uses CameraClass* and bool, with the counted camera pointer at owner+0xFC.
 // The donor provenance note above describes the preceding loadSetting body; reflection is only a donor algorithm lead.
 // Native-derived reconstruction; remaining code generation and declaration-binding evidence is in reverse/attempt_support/0007f0fb-20261019.md.
+// The transposed camera matrix is filled through the 16-float Matrix4x4 constructor, as ZH's FullMatrix; round 3 evidence is in reverse/attempt_support/0007f0fb-20261020.md.
 #include <float.h>
 #include "vector3.h"
 #include "vector4.h"
@@ -20,6 +21,14 @@ struct Matrix4 {
  float m[4][4];
  Matrix4(){}
  __forceinline Matrix4(const Matrix3D &s);
+ __forceinline Matrix4(float m11,float m12,float m13,float m14,float m21,float m22,float m23,float m24,
+  float m31,float m32,float m33,float m34,float m41,float m42,float m43,float m44)
+ {
+  m[0][0]=m11; m[0][1]=m12; m[0][2]=m13; m[0][3]=m14;
+  m[1][0]=m21; m[1][1]=m22; m[1][2]=m23; m[1][3]=m24;
+  m[2][0]=m31; m[2][1]=m32; m[2][2]=m33; m[2][3]=m34;
+  m[3][0]=m41; m[3][1]=m42; m[3][2]=m43; m[3][3]=m44;
+ }
 };
 class Matrix3D {
 public:
@@ -147,19 +156,10 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  setting=finalSetting(setting);
  float level=*(float*)((char*)setting+0x4c);
 
- Matrix4 full;
- full.m[0][0]=old.m[0][0];
- full.m[0][1]=old.m[1][0];
- full.m[0][2]=old.m[2][0];
- full.m[1][0]=old.m[0][1];
- full.m[1][1]=old.m[1][1];
- full.m[1][2]=old.m[2][1];
- full.m[2][0]=old.m[0][2];
- full.m[2][1]=old.m[1][2];
- full.m[2][2]=old.m[2][2];
- full.m[3][0]=old.m[0][3];
- full.m[3][1]=old.m[1][3];
- full.m[3][2]=old.m[2][3];
+ Matrix4 full(old.m[0][0],old.m[1][0],old.m[2][0],old.m[3][0],
+  old.m[0][1],old.m[1][1],old.m[2][1],old.m[3][1],
+  old.m[0][2],old.m[1][2],old.m[2][2],old.m[3][2],
+  old.m[0][3],old.m[1][3],old.m[2][3],old.m[3][3]);
  Vector3 waterNormal(0,0,1);
  Vector3 rRight,rUp,rN,rPos;
  float axis_distance=Vector3::Dot_Product((Vector3&)full.m[0],waterNormal);
@@ -192,8 +192,7 @@ void Rva0007F0FBOwner::rva0007F0FB(CameraClass *source,bool clearOverride)
  }
  D3DXMatrixInverse(&inverse,0,&inverse);
  float d=0.0f-level;
- Vector4 plane(0.0f,0.0f,1.0f,d);
- rva0062AF4AD3DXVec4Transform(&clip,&plane,&inverse);
+ rva0062AF4AD3DXVec4Transform(&clip,&Vector4(0.0f,0.0f,1.0f,d),&inverse);
  projection.m[0][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][0]; projection.m[0][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][0]; projection.m[0][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][0]; projection.m[0][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][0];
  projection.m[1][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][1]; projection.m[1][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][1]; projection.m[1][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][1]; projection.m[1][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][1];
  projection.m[2][0]=DX8Wrapper::DeviceProjectionMatrix.m[0][2]; projection.m[2][1]=DX8Wrapper::DeviceProjectionMatrix.m[1][2]; projection.m[2][2]=DX8Wrapper::DeviceProjectionMatrix.m[2][2]; projection.m[2][3]=DX8Wrapper::DeviceProjectionMatrix.m[3][2];
