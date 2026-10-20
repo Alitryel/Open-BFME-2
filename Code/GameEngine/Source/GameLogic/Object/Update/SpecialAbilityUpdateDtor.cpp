@@ -78,19 +78,33 @@ public:
 	virtual ~UpdateModule();
 };
 
+class SpecialPowerTemplate;
+class Object;
+struct Coord3D;
+class Waypoint;
+
+// Slot 0 of the interface vftable at +0x20 (0x00C552A4, stored by this
+// dtor) is the rowed SpecialAbilityUpdate::initiateIntentToDoSpecialPower.
 class SpecialAbilityUpdateInterface
 {
 public:
-	virtual void slot();
+	virtual void initiateIntentToDoSpecialPower(const SpecialPowerTemplate *specialPowerTemplate,
+		const Object *targetObj, const Coord3D *targetPos, unsigned int commandOptions,
+		const Waypoint *way) = 0;
 };
 
 class SpecialAbilityUpdate : public UpdateModule, public SpecialAbilityUpdateInterface
 {
 public:
 	virtual ~SpecialAbilityUpdate();
+	virtual void initiateIntentToDoSpecialPower(const SpecialPowerTemplate *specialPowerTemplate,
+		const Object *targetObj, const Coord3D *targetPos, unsigned int commandOptions,
+		const Waypoint *way);
+
+protected:
+	virtual void onExit(bool, bool);	// 0x004502CE, SpecialAbilityUpdate.cpp
 
 private:
-	void onExit(bool, bool);
 	unsigned char m_pad24[0x64 - 0x24];
 	_STL::list<int> m_specialObjectIDList;	// +0x64
 	unsigned char m_pad6C[0x88 - 0x6C];
@@ -98,7 +112,7 @@ private:
 
 SpecialAbilityUpdate::~SpecialAbilityUpdate()
 {
-	onExit(true, true);
+	SpecialAbilityUpdate::onExit(true, true);
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

@@ -320,8 +320,8 @@ public:
 	virtual bool rva0044FC52();
 	virtual void startUnpacking();
 	virtual UpdateSleepTime update();
-private:
-	void onExit(bool a, bool b);
+protected:
+	virtual void onExit(bool a, bool b);	// 0x004502CE, SpecialAbilityUpdate.cpp
 	friend class Rva00494E4D;
 };
 
