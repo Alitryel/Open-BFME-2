@@ -1,12 +1,4 @@
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9797027744815504 date=2026-10-15
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.99 date=2026-10-15
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.96 date=2026-10-15
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.92 date=2026-10-15
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ, retail 0x004C6A20,
 // 347 bytes (WB 0x01266AA0 debug twin). The UpdateModuleInterface slot,
@@ -19,11 +11,18 @@
 // owner->target direction (CMD_FROM_AI) and raises the target's model
 // condition bit 77. The owner then releases its weapon lock 2, drops model
 // condition bit 207 and the SpecialAbilityUpdate exit helper 0x004502CE runs.
+//
+// The length is written ((float)sqrt(...)), the shape a ((float)sqrt(x))
+// macro expands to. Each parenthesized floating-point expression is a paren
+// node in c2's IL; the two around the sqrt result are what let the scheduler
+// issue the data and target x loads ahead of the fstp of the length, as
+// retail does. Without them, "float length = sqrt(...)" stores the length
+// first (traced in c2 3077 with SchSelectInstrs picks, 2026-10-20).
 extern "C" double __cdecl sqrt(double);
-#include "../../../Common/GameLogicObjectLookupView.h"
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Coord3D.h"
 
 class WoundArrowConditionBits
 {
@@ -159,12 +158,13 @@ UpdateSleepTime WoundArrowUpdate::update()
 			if (target)
 			{
 				AIUpdateInterface *ai = target->m_ai;
-				if (!(!ai)) {
+				if (ai)
+				{
 				Coord3D dir;
 				dir.x = target->m_pos.x - owner->m_pos.x;
 				dir.y = target->m_pos.y - owner->m_pos.y;
 				const WoundArrowUpdateModuleData *data = m_moduleData;
-				float length = sqrt(dir.y * dir.y + dir.x * dir.x);
+				float length = ((float)sqrt(dir.y * dir.y + dir.x * dir.x));
 				float nx = dir.x / length;
 				float ny = dir.y / length;
 				float ox = nx * data->m_distance, oy = ny * data->m_distance;
@@ -175,9 +175,10 @@ UpdateSleepTime WoundArrowUpdate::update()
 				ai->chooseLocomotorSet(LOCOMOTORSET_WOUNDED);
 				ai->aiMoveToPosition(&dir, CMD_FROM_AI);
 				setModelConditionBit(target, 77);
-			
-} else return UPDATE_SLEEP_FOREVER;
-}
+				}
+				else
+					return UPDATE_SLEEP_FOREVER;
+			}
 			owner->releaseWeaponLock(LOCKED_TEMPORARILY);
 			clearModelConditionBit(owner, 207);
 			onExit(false, false);
