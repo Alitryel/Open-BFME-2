@@ -42,7 +42,7 @@ public:
 	Path();
 	~Path();
 	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int extra);	// appendNode
-	void rva00364551(Object *obj, int surfaces, int flag, const Coord3D *extra);
+	void rva00364551(Object *obj, int surfaces, bool blocked, const float *facing);
 	void rva00365E98(Object *obj, const Coord3D *dir, int surfaces, Bool flag);
 private:
 	unsigned char m_pad00[0x28];
@@ -181,7 +181,7 @@ void AIUpdateInterface::rva002657CE()
 	}
 	m_path = new Path;
 	m_path->appendNode(obj->getPosition(), LAYER_GROUND, 0x7FFFFFFF);
-	m_path->rva00364551(obj, locomotor->m_template->m_surfaces, 0, 0);
+	m_path->rva00364551(obj, locomotor->m_template->m_surfaces, false, 0);
 	for (Int i = 0; i < m_stateMachine->getNumGoalPathPositions(); i++)
 	{
 		Coord3D pos;

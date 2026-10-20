@@ -1,4 +1,4 @@
-// ?rva00364551@Path@@QAEXPAVObject@@HHPBUCoord3D@@@Z
+// ?rva00364551@Path@@QAEXPAVObject@@H_NPBM@Z
 // cl: /I. /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
 // Path optimize pass (WorldBuilder Path::optimize sibling, MathCoord2D.h Coord2D::GetLength/Normalize inlined):
 // portal exclusions, template108 ground-only flag, and an optional tail-direction constraint (|dot| < 0.9).
@@ -27,11 +27,12 @@ class AI {public:char pad00[0x10];Pathfinder *m_pathfinder;Pathfinder *pathfinde
 extern AI *TheAI;
 int Rva002E6E6CGet(int);
 class Path {public:
- void rva00364551(Object *,int,int,const Coord3D *);
+ void rva00364551(Object *,int,bool,const float *);
  void *vtable;PathNode *first,*last;bool optimized;
 };
-void Path::rva00364551(Object *obj,int surfaces,int blocked,const Coord3D *input)
+void Path::rva00364551(Object *obj,int surfaces,bool blocked,const float *facing)
 {
+const Coord3D *input=(const Coord3D *)facing;
  PathNode *anchor,*node;
  if(input) {
   anchor=last;
@@ -46,7 +47,7 @@ void Path::rva00364551(Object *obj,int surfaces,int blocked,const Coord3D *input
      if(dx==0 && abs(dy)==distance)passable=true;
      if(dy==0 && abs(dx)==distance)passable=true;
      if(abs(dx)==abs(dy) && abs(dx)==distance)passable=true;
-     if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,(void *)blocked))passable=true;
+     if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,*(void *const *)&blocked))passable=true;
     }
     if((unsigned char)Rva002E6E6CGet(curLayer)) {
      if(node->layer!=curLayer) {layer=node->layer;if(distance>30)passable=false;}
@@ -87,7 +88,7 @@ void Path::rva00364551(Object *obj,int surfaces,int blocked,const Coord3D *input
       if(node->portalID!=0x7fffffff)passable=true;
       PathNode *probe=node->next;
       for(int steps=0;steps<=3;steps++){if(!probe)break;if(probe->portalID!=0x7fffffff)passable=true;probe=probe->next;}
-      if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,(void *)blocked))passable=true;
+      if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,*(void *const *)&blocked))passable=true;
      }
     }
     if((unsigned char)Rva002E6E6CGet(curLayer)) {
