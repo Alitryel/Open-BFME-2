@@ -407,12 +407,15 @@ class Identity:
                     # Scoped receipts resolve local data only in this object. NUL
                     # keys cannot collide with any actual COFF external name.
                     local = self.local_data_addresses(path)
-                    bindings, resolved = {}, []
+                    bindings, static_calls = self.static_call_bindings(o, sym, raw, relocs, t)
+                    resolved = []
                     for w, k, ref in relocs:
                         if k == DIR32 and ref["storage"] == STATIC and ref["name"] in local:
                             local_key = "\0local-data:" + ref["name"]
                             bindings[local_key] = {local[ref["name"]]}
                             ref = {**ref, "name": local_key, "storage": EXTERNAL}
+                        elif (w, k, ref.get("index")) in static_calls:
+                            ref = {**ref, "name": static_calls[w, k, ref["index"]], "storage": EXTERNAL}
                         resolved.append((w, k, ref))
                     truth = self.truth
                     if bindings:
@@ -423,6 +426,112 @@ class Identity:
                     if v == "unknown" and self.certify_fold_receipt(path, name, t):
                         self._certified[key] = "retail"
         return self._certified[key]
+
+    def static_call_bindings(self, o, sym, raw, relocs, start):
+        """Prove direct calls to this object's private functions, one level only.
+
+        A private name has no global address. The actual COFF definition must
+        independently match a complete retail function, including relocations.
+        Do not recurse through inferred calls: cycles and deeper unknown local
+        dependencies remain unknown. These bindings exist only for this caller;
+        they never enter the shared ledger or certify an external kept copy.
+        """
+        def disjoint_fields(body, fields):
+            occupied = set()
+            for where, kind, _ in fields:
+                width = 2 if kind == 0xA else 4
+                if where < 0 or where + width > len(body):
+                    return False
+                span = set(range(where, where + width))
+                if occupied & span:
+                    return False
+                occupied.update(span)
+            return True
+
+        if raw is None or not disjoint_fields(raw, relocs):
+            return {}, {}
+        if not o.is_code(sym):
+            return {}, {}
+        parent_size, parent_pointer = o.sections[sym["section"] - 1][:2]
+        if (not 0 <= sym["value"] < parent_size
+                or len(raw) > parent_size - sym["value"]
+                or parent_pointer + parent_size > len(o.data)):
+            return {}, {}
+        candidates = []
+        for where, kind, ref in relocs:
+            if (kind != REL32 or ref["storage"] != STATIC
+                    or ref["section"] == sym["section"]
+                    or not o.is_code(ref) or ref["type"] & 0x30 != 0x20
+                    or not 0 < where <= len(raw) - 4
+                    or raw[where:where + 4] != b"\0" * 4):
+                continue
+            # by_name chooses the first definition. A repeated private spelling
+            # must not certify a different symbol than the relocation names.
+            definitions = [s for s in o.symbols.values()
+                           if s["name"] == ref["name"] and s["section"] > 0]
+            if len(definitions) != 1 or definitions[0] != ref:
+                continue
+            candidates.append((where, ref))
+        if not candidates:
+            return {}, {}
+        import capstone
+        decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+        direct = {ins.address + 1 for ins in decoder.disasm(raw, 0)
+                  if ins.size == 5 and ins.bytes[0] in (0xE8, 0xE9)}
+        retail = self.read(start, len(raw))
+        if retail is None:
+            return {}, {}
+        targets = collections.defaultdict(set)
+        sites = {}
+        for where, ref in candidates:
+            if where not in direct:
+                continue
+            target = start + where + 4 + struct.unpack_from("<i", retail, where)[0]
+            targets[ref["index"]].add(target)
+            sites[where] = ref
+        bindings, proven = {}, {}
+        for where, ref in sites.items():
+            addresses = targets[ref["index"]]
+            if len(addresses) != 1:
+                continue
+            target = next(iter(addresses))
+            # Require an independent start and boundary, never the padding-based
+            # extent heuristic or an interior target synthesized from a call.
+            if (not self.in_text(target) or self.container(target)[0] is not None
+                    or target not in self.at and target not in self.ghidra):
+                continue
+            extent = self.extent(target)
+            child, size, child_relocs = o.body(ref)
+            section_size, pointer = o.sections[ref["section"] - 1][:2]
+            if (not child or extent is None or extent <= 0
+                    or not 0 <= ref["value"] < section_size
+                    or len(child) != size or size > section_size - ref["value"]
+                    or pointer + section_size > len(o.data)):
+                continue
+            if size > extent and not child[extent:].strip(b"\xcc\x90"):
+                child, size = child[:extent], extent
+            if size != extent or not disjoint_fields(child, child_relocs):
+                continue
+            # _judge normally locates all own-section labels by offset. Do not
+            # let that rule prove an unjudged grandchild outside this body.
+            if any(r["section"] == ref["section"] and r["storage"] != EXTERNAL
+                   and (not ref["value"] <= r["value"] < ref["value"] + size
+                        or not ref["value"] <= r["value"] + (
+                            struct.unpack_from("<i", child, w)[0] if k != 0xA else 0
+                        ) < ref["value"] + size)
+                   for w, k, r in child_relocs):
+                continue
+            child_relocs = [
+                (w, k, {**r, "value": r["value"] - ref["value"]}
+                 if r["section"] == ref["section"] else r)
+                for w, k, r in child_relocs]
+            if self.truth._judge(target, {**ref, "value": 0},
+                                 child, child_relocs, size) != "retail":
+                continue
+            local_key = "\0local-code:" + str(ref["index"])
+            bindings[local_key] = {target}
+            proven[where, REL32, ref["index"]] = local_key
+        return bindings, proven
 
     def certify_fold_receipt(self, path, name, t):
         """Reuse admission's recursive proof only for its actual kept definitions.

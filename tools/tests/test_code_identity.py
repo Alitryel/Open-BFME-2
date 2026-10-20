@@ -4,6 +4,8 @@ import sys
 import unittest
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import allowed_symbols as allowed  # noqa: E402
@@ -258,6 +260,176 @@ class LocalDataReceiptTests(unittest.TestCase):
 
     def test_wrong_external_callee_is_still_refused(self):
         self.assertEqual(self.certificate(bad_callee=True), "bytes")
+
+
+@pytest.mark.parametrize("case,expected", [
+    ("direct", "retail"),
+    ("tail_jump", "retail"),
+    ("child_offset", "retail"),
+    ("child_padding", "retail"),
+    ("child_external", "retail"),
+    ("wrong_child", "unknown"),
+    ("wrong_parent", "bytes"),
+    ("wrong_child_external", "unknown"),
+    ("child_unknown_external", "unknown"),
+    ("nested_static", "unknown"),
+    ("same_section_grandchild", "unknown"),
+    ("same_section_outside_addend", "unknown"),
+    ("cycle", "unknown"),
+    ("nonzero_addend", "unknown"),
+    ("negative_addend", "unknown"),
+    ("conflicting_sites", "unknown"),
+    ("duplicate_name", "unknown"),
+    ("overlapping_external", "bytes"),
+    ("overlapping_child", "unknown"),
+    ("opcode_in_immediate", "unknown"),
+    ("nonfunction", "unknown"),
+    ("noncode", "unknown"),
+    ("external", "unknown"),
+    ("missing_definition", "unknown"),
+    ("invalid_symbol_index", "unknown"),
+    ("missing_boundary", "unknown"),
+    ("interior_target", "unknown"),
+    ("outside_text", "unknown"),
+    ("child_extent", "unknown"),
+    ("parent_section_extent", "unknown"),
+    ("child_section_extent", "unknown"),
+    ("empty_child", "unknown"),
+    ("child_crossing_relocation", "unknown"),
+    ("child_trailing_relocation", "unknown"),
+])
+def test_static_call_certificate(tmp_path, case, expected):
+    """Real COFF + RetailTruth: infer only a complete private direct callee."""
+    import struct
+    from test_gate_exploits import coff, TEXT
+
+    parent = b"\xe8\0\0\0\0\xc3"
+    child = b"\x33\xc0\xc3"
+    parent_relocs, child_relocs = [(1, 1, allowed.REL32)], []
+    child_section, child_storage, child_type, child_value = 2, allowed.STATIC, 0x20, 0
+    child_flags, target = TEXT, 0x2000
+    child_native = child
+    if case == "tail_jump":
+        parent = b"\xe9" + parent[1:]
+    if case == "child_offset":
+        child_value = 7
+    if case == "child_padding":
+        child += b"\xcc\x90"
+    if case == "wrong_child":
+        child = b"\x33\xc9\xc3"
+    if case in ("child_external", "wrong_child_external", "child_unknown_external",
+                "nested_static", "same_section_grandchild", "overlapping_child", "cycle"):
+        child = b"\xe8\0\0\0\0\xc3"
+        child_relocs = [(1, 0 if case == "cycle" else 2, allowed.REL32)]
+        destination = (0x3010 if case == "wrong_child_external" else
+                       0x1000 if case == "cycle" else
+                       0x2006 if case == "same_section_grandchild" else 0x3000)
+        child_native = b"\xe8" + struct.pack("<i", destination - 0x2005) + b"\xc3"
+    if case == "same_section_outside_addend":
+        child = b"\xe9\x06\0\0\0\xc3"
+        child_native = b"\xe9\x01\0\0\0\xc3"
+        child_relocs = [(1, 1, allowed.REL32)]
+    if case in ("nonzero_addend", "negative_addend"):
+        parent = b"\xe8" + struct.pack("<i", 1 if case == "nonzero_addend" else -1) + b"\xc3"
+    if case == "conflicting_sites":
+        parent = b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3"
+        parent_relocs.append((6, 1, allowed.REL32))
+    if case == "opcode_in_immediate":
+        parent = b"\xb8\xe8\0\0\0\0\xc3\xc3"
+        parent_relocs = [(2, 1, allowed.REL32)]
+    if case == "nonfunction":
+        child_type = 0
+    if case == "noncode":
+        child_flags = 0xC0300040
+    if case == "external":
+        child_storage = allowed.EXTERNAL
+    if case == "missing_definition":
+        child_section = 0
+    if case == "invalid_symbol_index":
+        parent_relocs = [(1, 999, allowed.REL32)]
+    if case == "child_extent":
+        child += b"\xc3"
+    if case == "empty_child":
+        child = child_native = b""
+    if case == "child_crossing_relocation":
+        child_relocs.append((1, 2, allowed.DIR32))
+    if case == "child_trailing_relocation":
+        child += b"\x90" * 4
+        child_relocs.append((3, 2, allowed.DIR32))
+    if case == "overlapping_external":
+        parent_relocs.append((1, 2, allowed.REL32))
+    if case == "overlapping_child":
+        child_relocs.append((1, 2, allowed.REL32))
+    if case == "outside_text":
+        target = 0x9000
+    native_parent = bytearray(parent)
+    for where, _, _ in parent_relocs:
+        dest = 0x2100 if case == "conflicting_sites" and where == 6 else target
+        struct.pack_into("<i", native_parent, where,
+                         dest - (0x1000 + where + 4) + struct.unpack_from("<i", parent, where)[0])
+    if case == "wrong_parent":
+        native_parent[-1] = 0x90
+    sections = [
+        (".text", TEXT, parent, parent_relocs),
+        (".text", child_flags, b"\xcc" * child_value + child, child_relocs),
+    ]
+    symbols = [
+        ("_parent", 0, 1, 0x20, allowed.STATIC if case == "cycle" else allowed.EXTERNAL, 0),
+        ("_helper", child_value, child_section, child_type, child_storage, 0),
+        ("_external", 0, 3 if case == "nested_static" else 0, 0x20,
+         allowed.STATIC if case == "nested_static" else allowed.EXTERNAL, 0),
+    ]
+    if case == "nested_static":
+        sections.append((".text", TEXT, b"\x33\xc0\xc3", []))
+    if case == "same_section_grandchild":
+        sections[1] = (".text", TEXT, child + b"\x33\xc0\xc3", child_relocs)
+        symbols[2] = ("_external", len(child), 2, 0x20, allowed.STATIC, 0)
+    if case == "duplicate_name":
+        sections.append((".text", TEXT, b"\x33\xc9\xc3", []))
+        symbols.append(("_helper", 0, 3, 0x20, allowed.STATIC, 0))
+        parent_relocs[0] = (1, 3, allowed.REL32)
+    if case == "child_section_extent":
+        symbols.append(("_past_section", len(child), 2, 0x20, allowed.STATIC, 0))
+    if case == "parent_section_extent":
+        symbols.append(("_past_parent_section", len(parent), 1, 0x20, allowed.STATIC, 0))
+    path = tmp_path / "own.obj"
+    object_data = bytearray(coff(sections, symbols))
+    if case == "child_section_extent":
+        struct.pack_into("<I", object_data, 20 + 40 + 16, 1)
+    if case == "parent_section_extent":
+        struct.pack_into("<I", object_data, 20 + 16, 1)
+    path.write_bytes(object_data)
+    memory = {0x1000: bytes(native_parent), target: child_native,
+              0x2100: child_native, 0x3000: b"\x33\xc0\xc3"}
+    read = lambda rva, size: memory.get(rva, b"")[:size] or None
+    truth = allowed.census.RetailTruth.__new__(allowed.census.RetailTruth)
+    truth.ledger = {} if case == "child_unknown_external" else {"_external": {0x3000}}
+    truth.pinned, truth.import_routes, truth.import_thunks, truth.slots = {}, {}, {}, {}
+    truth.shared, truth.sections, truth._read = set(), [], read
+    original = {k: set(v) for k, v in truth.ledger.items()}
+    ident = allowed.Identity.__new__(allowed.Identity)
+    ident.truth, ident.read, ident.text = truth, read, (0x1000, 0x4000)
+    ident.rows, ident.secs = [], []
+    ident.at = {0x1000: [{"target_size": str(len(parent))}],
+                target: [{"target_size": str(len(child_native))}]}
+    if case == "missing_boundary":
+        del ident.at[target]
+    ident.ghidra = {}
+    ident.spans = [(0x1000, 0x1000 + len(parent), ident.at[0x1000][0])]
+    if case == "interior_target":
+        ident.spans.append((0x1FF0, 0x2010, {"name": "_containing"}))
+    ident.span_starts = [s[0] for s in ident.spans]
+    ident._objcache, ident._certified, ident._extents = {}, {}, {}
+    ident._local_data_cache, ident._rows_by_object, ident._fold_pins = {}, {}, {}
+    assert ident.certify(str(path), "_parent", 0x1000) == expected
+    assert ident.certify(str(path), "_parent", 0x1000) == expected
+    assert truth.ledger == original
+    assert list(ident._certified) == [(str(path), "_parent", 0x1000)]
+
+
+def test_static_call_missing_body_is_not_a_certificate():
+    ident = allowed.Identity.__new__(allowed.Identity)
+    assert ident.static_call_bindings(None, None, None, [], 0x1000) == ({}, {})
 
 
 if __name__ == "__main__":
