@@ -29,7 +29,7 @@ class Rva0027C36A {public:Rva0027C36A();Rva0027C36A &operator=(const Rva0027C36A
 class Bridge {public:virtual ~Bridge();Bridge *next;int word8;Rva0027C36A info;BridgeBounds bounds;bool isPointOnBridge(const Coord3D *loc);float getBridgeHeight(const Coord3D *loc,Coord3D *normal);bool isCellOnEnd(const Region2D *cellBounds);};
 struct CellOwnerInfo{char pad[0x28];int owner;};
 struct Rva0052DFB1Arg;
-class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p?1:0;}bool rva0052DFB1(const Rva0052DFB1Arg *arg);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;bool SetType_Dirty(int);};
+class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p;}bool rva0052DFB1(const Rva0052DFB1Arg *arg);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;bool SetType_Dirty(int);};
 // cl evaluates the calls of an ORed setter chain by a key built from each call's
 // constant argument and its callee's declaration position (larger constants and
 // later declarations first). Retail's four orders need connect declared just
