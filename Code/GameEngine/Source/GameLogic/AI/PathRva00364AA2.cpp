@@ -1,22 +1,17 @@
-// ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
-// partial score=0.93 date=2026-10-20
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
 
-#define NULL 0
+// Path corner rounding at a middle node (WB twin 0x00F221B0, pathfinder_path.cpp):
+// offsets both legs by the radius, intersects them and appends the arc points.
+// WWMath's lineseg.h, the angle helper, appendNode and the PathNode ctor stay visible.
 
-
-// Path node reclamation and teardown (GameLogic AI pathfinding). Nodes live
-// in the Rva pool behind the global at 0x00E01E94 and are returned through
-// its rowed FreeObject body; the local node type carries its next link at
-// +0x0 (matching the rowed PathNode layout).
-
-struct Rva00065964ObjectPool
+class Rva00065964ObjectPool
 {
-	void FreeObject(void *obj);
+public:
+	void *rva002635C2() throw();
 };
 
-// g_pathNodePool: matched references place it at VA 0xe01e94 (zero-filled; a plain-data view).
-Rva00065964ObjectPool g_pathNodePool;
+// g_pathNodePool: defined in PathDtor.cpp (VA 0xe01e94).
+extern Rva00065964ObjectPool g_pathNodePool;
 
 #include "vector3.h"
 #include "Coord2D.h"
@@ -25,31 +20,7 @@ Rva00065964ObjectPool g_pathNodePool;
 #define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
 
-class LineSegClass
-{
-public:
-	LineSegClass(const Vector3 &p0, const Vector3 &p1);
-	void Set(const Vector3 &p0, const Vector3 &p1);
-	bool Find_Intersection(const LineSegClass &other_line, Vector3 *p1, float *fraction1, Vector3 *p2, float *fraction2) const;
-	const Vector3 &Get_Dir(void) const { return Dir; }
-	float Get_Length(void) const { return Length; }
-
-	Vector3 P0;
-	Vector3 P1;
-	Vector3 DP;
-	Vector3 Dir;
-	float Length;
-
-protected:
-	void recalculate(void);
-};
-
-// Header-inline body of retail 0x000927F9, visible so its Vector3 arguments do not escape.
-inline __declspec(noinline) LineSegClass::LineSegClass(const Vector3 &p0, const Vector3 &p1) : P0(p0), P1(p1)
-{
-	recalculate();
-}
-
+#include "lineseg.h"
 
 struct Rva00363B4BVector { float x, y, z; };
 float ACos(float);
@@ -95,12 +66,6 @@ inline __declspec(noinline) PathNode::PathNode(const Coord3D *position, Pathfind
 inline void *__cdecl operator new(size_t, void *p) { return p; }
 inline void __cdecl operator delete(void *, void *) { }
 
-class Rva00065964ObjectPoolAlloc
-{
-public:
-	void *rva002635C2() throw();
-};
-
 
 class Path
 {
@@ -110,16 +75,15 @@ class Path
 	bool m_isOptimized;
 
 public:
-	~Path();
 
-	inline __declspec(noinline) void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
+	inline __declspec(noinline) void appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
 	{
 		if (m_isOptimized && m_pathTail)
 		{
 			if (pos->x == m_pathTail->m_pos.x && pos->y == m_pathTail->m_pos.y)
 				return;
 		}
-		void *mem = ((Rva00065964ObjectPoolAlloc *)&g_pathNodePool)->rva002635C2();
+		void *mem = g_pathNodePool.rva002635C2();
 		PathNode *node = mem ? new (mem) PathNode(pos, layer) : 0;
 		node->m_id20 = waypointID;
 		PathNode *tail = m_pathTail;
@@ -138,65 +102,6 @@ public:
 	int rva003641AE(float angle, float radius);
 	void rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius);
 };
-
-// ?FreePooledNode@@YAXPAX@Z, retail 0x00265488, 22 bytes. Null-checked
-// pool free: drops nulls, otherwise returns the node to the path pool.
-void __cdecl FreePooledNode(void *node)
-{
-	if (node == NULL)
-		return;
-	g_pathNodePool.FreeObject(node);
-}
-
-// ??1Path@@QAE@XZ, retail 0x00364A89, 25 bytes. Walks the node list
-// returning each node to the path pool.
-Path::~Path()
-{
-	PathNode *node = m_head04;
-	if (node == NULL)
-		return;
-	PathNode *next;
-	do
-	{
-		next = node->m_next;
-		FreePooledNode(node);
-		node = next;
-	} while (next != NULL);
-}
-
-class Rva00364A37
-{
-public:
-	~Rva00364A37();
-};
-
-class Rva003652FF
-{
-public:
-	void rva003652FF();
-};
-
-void Rva003652FF::rva003652FF()
-{
-	((Rva00364A37 *)this)->~Rva00364A37();
-}
-
-class Rva00364A60
-{
-public:
-	~Rva00364A60();
-};
-
-class Rva00365304
-{
-public:
-	void rva00365304();
-};
-
-void Rva00365304::rva00365304()
-{
-	((Rva00364A60 *)this)->~Rva00364A60();
-}
 
 // Normal copies expire after the angle query; tail locals use a sibling scope.
 void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius)
@@ -271,32 +176,32 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 		if (turnLeft) {
 			Vector3 q = center - v1;
 			pt.set(q.X, q.Y, curPos.z);
-			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			v1 *= -1.0f;
 			for (int i = 1; i < count; ++i) {
 				q = center + v1;
 				v1.Rotate_Z(-step);
 				pt.set(q.X, q.Y, curPos.z);
-				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+				appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			}
 			Vector3 t = center - v2;
 			pt.set(t.X, t.Y, curPos.z);
-			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			cur->setPosition(&pt);
 		} else {
 			Vector3 q = center - v2;
 			pt.set(q.X, q.Y, curPos.z);
-			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			v2 *= -1.0f;
 			for (int i = 1; i < count; ++i) {
 				v2.Rotate_Z(step);
 				q = center + v2;
 				pt.set(q.X, q.Y, curPos.z);
-				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+				appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			}
 			Vector3 t = center - v1;
 			pt.set(t.X, t.Y, curPos.z);
-			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
+			appendNode(&pt, cur->getLayer(), 0x7fffffff);
 			cur->setPosition(&pt);
 		}
 	}

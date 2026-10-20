@@ -7,7 +7,7 @@
 struct Rva00363B4BVector { float x, y, z; };
 float ACos(float);
 
-float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b)
+__declspec(noinline) inline float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b)
 {
     float dot = a->z * b->z + a->y * b->y + a->x * b->x;
     if (dot > 1.0f) dot = 1.0f;
@@ -15,3 +15,7 @@ float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b)
     if (dot >= 0.99f) return 0.0f;
     return ACos(dot);
 }
+
+// Select-any: other units compile an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00363B4BAngle absent-from-retail
+float bfmeAnchorRva00363B4BAngle(const Rva00363B4BVector *a) { return rva00363B4BAngle(a, a); }

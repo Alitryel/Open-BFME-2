@@ -55,7 +55,7 @@ private:
 	Bool m_isOptimized;
 };
 
-void Path::appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
+__declspec(noinline) inline void Path::appendNode(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
 {
 	if (m_isOptimized && m_pathTail)
 	{
@@ -98,3 +98,7 @@ void **Rva00265691IndirectCopy::copy(void **output) const
 	*output = *indirect;
 	return output;
 }
+
+// Select-any: PathRva00364AA2.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorPathAppendNode absent-from-retail
+void bfmeAnchorPathAppendNode(Path *p, const Coord3D *pos) { p->appendNode(pos, LAYER_GROUND, 0); }
