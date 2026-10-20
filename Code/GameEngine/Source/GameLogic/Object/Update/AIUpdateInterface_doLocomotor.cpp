@@ -174,6 +174,8 @@ private:
 	Coord3D m_pos; // +0x38
 };
 
+class Rva0028B525DwordSlot { public: void set(Int); };
+
 class Object : public Thing
 {
 public:
@@ -181,7 +183,7 @@ public:
 	void setStatus(ObjectStatusTypes status, Bool set);
 	void rva0028AE6D(); // model-condition change notifier
 	Int rva0028B511() const; // the pathfind layer
-	void rva0028B525(Int layer);
+	/* the rowed Rva0028B525DwordSlot::set */ __declspec(dllimport) __forceinline void rva0028B525(Int layer) { ((Rva0028B525DwordSlot *)this)->set(layer); }
 	Rva00373EC6 *rva0028F4BC();
 	void rva001E431E(const Int *flags);
 
