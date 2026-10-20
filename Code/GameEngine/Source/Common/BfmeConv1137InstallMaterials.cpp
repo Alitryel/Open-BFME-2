@@ -153,7 +153,7 @@ public:
 private:
 	char *m_Buffer;
 	void Free_String();
-	char *Get_String(int new_len, bool is_temp);
+	void Get_String(int new_len, bool is_temp);
 	static char m_NullChar;
 	static char *m_EmptyString;
 };
@@ -426,7 +426,7 @@ __inline D3DXMATRIX *__stdcall D3DXMatrixIdentity(D3DXMATRIX *pOut)
 
 // The cloud settings object at 0x00DFE1E4 and its rowed getters.
 class Rva0027070CGlobal;
-extern Rva0027070CGlobal *g_00DFE1E4;
+extern Rva0027070CGlobal *TheCloudEffectManager;
 struct CloudFields
 {
 	char pad00[0x1C];
@@ -497,7 +497,7 @@ static __forceinline const BFME2TextureRef &AsRef(const RefCountPtr<TextureClass
 	return reinterpret_cast<const BFME2TextureRef &>(t);
 }
 
-#define CLOUD ((CloudFields *)g_00DFE1E4)
+#define CLOUD ((CloudFields *)TheCloudEffectManager)
 
 static inline void SetU(D3DXMATRIX &m, float x, float y) { m.m[3][1] = y; m.m[3][0] = x; }
 void BfmeB1137::Install_Materials(void) const
@@ -517,21 +517,21 @@ void BfmeB1137::Install_Materials(void) const
 	{
 		if (!m_58.ptr)
 		{
-			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
+			m_58 = TextureAsset::Get(((Rva00564E0D *)TheCloudEffectManager)->rva00564E0D().str(), 0, 0);
 			((ShroudTexture *)&m_58)->getFilter()->Set_U_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
 		}
 		if (!m_60.ptr)
 		{
-			m_60 = TextureAsset::Get(((Version *)g_00DFE1E4)->getAsciiBuildLocation().str(), 0, 0);
+			m_60 = TextureAsset::Get(((Version *)TheCloudEffectManager)->getAsciiBuildLocation().str(), 0, 0);
 			((ShroudTexture *)&m_60)->getFilter()->Set_U_Addr_Mode(1);
 			((ShroudTexture *)&m_60)->getFilter()->Set_V_Addr_Mode(1);
 			((ShroudTexture *)&m_60)->getFilter()->SetMip(0);
 		}
 		if (!m_64.ptr)
 		{
-			m_64 = TextureAsset::Get(((Rva0056394A *)g_00DFE1E4)->rva0056394A().str(), 0, 0);
+			m_64 = TextureAsset::Get(((Rva0056394A *)TheCloudEffectManager)->rva0056394A().str(), 0, 0);
 			((ShroudTexture *)&m_64)->getFilter()->Set_U_Addr_Mode(1);
 			((ShroudTexture *)&m_64)->getFilter()->Set_V_Addr_Mode(1);
 			((ShroudTexture *)&m_64)->getFilter()->SetMip(0);
@@ -607,7 +607,7 @@ void BfmeB1137::Install_Materials(void) const
 			sameFrame = true;
 		m_E4 = frame;
 		if (!sameFrame)
-			m_38 += ((Rva00214D4A *)g_00DFE1E4)->rva00214D4A();
+			m_38 += ((Rva00214D4A *)TheCloudEffectManager)->rva00214D4A();
 		if (m_38 > 1.0f)
 			m_38 = 1.0f;
 		float diagonal = WWMath::Sqrt((float)(height * height + width * width));
@@ -671,7 +671,7 @@ void BfmeB1137::Install_Materials(void) const
 			elapsed = 0;
 		{
 		Rva00094DD3Val wind;
-		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
+		((Rva00094DD3 *)TheCloudEffectManager)->rva00094DD3(&wind);
 		float fe = (float)elapsed;
 		m_4C += wind.x * fe * 0.002f;
 		m_50 += wind.y * fe * 0.002f;
@@ -729,14 +729,14 @@ void BfmeB1137::Install_Materials(void) const
 	{
 		if (!m_58.ptr)
 		{
-			m_58 = TextureAsset::Get(((Rva00564E0D *)g_00DFE1E4)->rva00564E0D().str(), 0, 0);
+			m_58 = TextureAsset::Get(((Rva00564E0D *)TheCloudEffectManager)->rva00564E0D().str(), 0, 0);
 			((ShroudTexture *)&m_58)->getFilter()->Set_U_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_58)->getFilter()->SetMip(0);
 		}
 		if (!m_5C.ptr)
 		{
-			m_5C = TextureAsset::Get(((FXParticleSystem::ParticleSystemTemplate *)g_00DFE1E4)->getTextureFilename().str(), 0, 0);
+			m_5C = TextureAsset::Get(((FXParticleSystem::ParticleSystemTemplate *)TheCloudEffectManager)->getTextureFilename().str(), 0, 0);
 			((ShroudTexture *)&m_5C)->getFilter()->Set_U_Addr_Mode(0);
 			((ShroudTexture *)&m_5C)->getFilter()->Set_V_Addr_Mode(0);
 			((ShroudTexture *)&m_5C)->getFilter()->SetMip(0);
@@ -768,7 +768,7 @@ void BfmeB1137::Install_Materials(void) const
 		int elapsed = m_44 - last;
 		{
 		Rva00094DD3Val wind;
-		((Rva00094DD3 *)g_00DFE1E4)->rva00094DD3(&wind);
+		((Rva00094DD3 *)TheCloudEffectManager)->rva00094DD3(&wind);
 		m_4C += elapsed * wind.x * 0.001f;
 		m_50 += elapsed * wind.y * 0.001f;
 		}
