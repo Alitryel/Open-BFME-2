@@ -221,6 +221,14 @@ static __declspec(noinline) DrawableListCIt rva00529045(const DrawableList &list
 	return it;
 }
 
+// Retail 0x00528C01: a selected drawable's portrait as a TU static;
+// GetCurrentPortraitImage inlines both calls and cl keeps this
+// register-convention copy (drawable in EAX, tail jump to the object getter).
+static const Image *drawablePortraitImage(Drawable *draw)
+{
+	return draw->getObject()->getObjectSelectedPortraitImage();
+}
+
 const Image *PalantirCommandInterface::Impl::GetCurrentPortraitImage(Object *obj)
 {
 	const Image *image = 0;
@@ -239,12 +247,12 @@ const Image *PalantirCommandInterface::Impl::GetCurrentPortraitImage(Object *obj
 		DrawableListCIt it = FindFirstNonIgnored(*list);
 		if (it != list->end())
 		{
-			image = (*it)->getObject()->getObjectSelectedPortraitImage();
+			image = drawablePortraitImage(*it);
 			if (image)
 			{
 				for (it = rva00529045(*list, it); it != list->end(); it = rva00529045(*list, it))
 				{
-					if ((*it)->getObject()->getObjectSelectedPortraitImage() != image)
+					if (drawablePortraitImage(*it) != image)
 					{
 						image = 0;
 						break;
