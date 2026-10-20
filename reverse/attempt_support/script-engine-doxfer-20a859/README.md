@@ -155,3 +155,40 @@ five conversion-loop entries were read from the disassembly.
   loop that c2 expands only after CSE; a `const ListAsciiString &` bound to the
   fill helper's return value (the fill returns `Xfer *`, so retail's helper may
   return the list); iterating a list that the fill helper returns by reference.
+
+## Round 3 (2026-10-20, later): frame wall solved by a class-typed flag value
+
+Bank: 6137 B, 6 structural, 2 memory (the two unrelocated globals `[0xDFE78C]`
+and `[0xBBB8D8]`, filled by relocations), 0 register. Only the three loop
+entries below remain.
+
+- **Fix.** The flags map's mapped type is a 1-byte class with a constructor,
+  `struct ScriptFlag { Bool m_value; ScriptFlag() : m_value(false) {} };`,
+  `typedef _STL::map<ScriptKey,ScriptFlag> ScriptFlagMap;`. The load loop
+  declares `ScriptFlag flag;`, transfers `&flag.m_value` and inserts
+  `make_pair(key, flag)`; the store loop transfers `&it->second.m_value`. This
+  mirrors the counters loop (`ScriptCounter` with a constructor) and ZH's
+  `TFlag`/`TCounter` pair. The WB twin inlines `ScriptCounter()` as member
+  stores (a dword and two bytes, padding untouched, so a real constructor and not
+  value-initialization), so its `mov byte [local_75],0` for the flag is the
+  inlined `ScriptFlag()` as well.
+- **Mechanism** (probe `build/` battery, flags section only): MSVC 7.1 packs
+  address-taken scalars (and 1-byte POD structs used only by field) into frame
+  holes before it places spilled register candidates, so a plain `bool` takes
+  `[ebp+0xB]` of the dead `xfer` slot and pushes `i` off `[ebp+8]`. An object
+  whose address is a `this` of an inlined constructor or member function is
+  placed after the spills, like retail's flag. Weighting `i` with extra loops does
+  not change the order.
+- **Disproven in this round** (flag stays at `+0xB`): BFME's real `Xfer` API
+  (`virtual Xfer &operator==(Bool &)` called as `*xfer == value`, or through an
+  inline `xferBool(Bool *p) { *this == *p; }` wrapper, also `__forceinline`);
+  `xferBool` by reference; union; aggregate-initialized POD struct; local
+  `bool &`; char cast; `bool()`; user `operator=` not called; empty base;
+  uninitialized flag; extra flag reads. A POD `ScriptFlag` without constructor
+  also stays at `+0xB`.
+- **Landing prerequisite.** The flags-map helpers DoXfer calls are rowed under
+  `bool` names in `ScriptEngineRva0020881A.cpp` (`make_pair` 0x205670, the
+  conversion constructor 0x204B33, `insert_unique` 0x2078D6 and the tree
+  helpers). With `ScriptFlag` they mangle with `UScriptFlag@@` instead of `_N`;
+  the rows (and `bfmeFlagForWrite`, `rva0020881A`, `evaluateFlag` users) must move
+  to the struct type together, or DoXfer's relocations will not resolve.

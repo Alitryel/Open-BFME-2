@@ -1,4 +1,6 @@
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
+// partial score=0.99 date=2026-10-20
+// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
 // partial score=0.82 date=2026-10-20
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
 // partial score=0.82 date=2026-10-20
@@ -152,7 +154,12 @@ struct ScriptCounter
 typedef _STL::pair<AsciiString,AsciiString> ScriptKey;
 struct TeamLess0019B850 : _STL::less<ScriptKey> {};
 typedef _STL::map<ScriptKey,ScriptCounter> ScriptCounterMap;
-typedef _STL::map<ScriptKey,bool> ScriptFlagMap;
+struct ScriptFlag
+{
+	Bool m_value;
+	ScriptFlag() : m_value(false) {}
+};
+typedef _STL::map<ScriptKey,ScriptFlag> ScriptFlagMap;
 typedef _STL::map<ScriptKey,int,TeamLess0019B850> ScriptDefaultIntMap;
 typedef _STL::map<ScriptKey,AsciiString> ScriptStringMap;
 typedef _STL::map<AsciiString,unsigned char> ScriptByteMap;
@@ -433,7 +440,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 		{
 			xfer->xferAsciiString(&const_cast<ScriptKey &>(it->first).first);
 			xfer->xferAsciiString(&const_cast<ScriptKey &>(it->first).second);
-			xfer->xferBool(&it->second);
+			xfer->xferBool(&it->second.m_value);
 		}
 	}
 	else
@@ -444,9 +451,9 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 			ScriptKey key;
 			xfer->xferAsciiString(&key.first);
 			xfer->xferAsciiString(&key.second);
-			bool value = false;
-			xfer->xferBool(&value);
-			m_flags.insert(_STL::make_pair(key, value));
+			ScriptFlag flag;
+			xfer->xferBool(&flag.m_value);
+			m_flags.insert(_STL::make_pair(key, flag));
 		}
 	}
 
