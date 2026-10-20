@@ -1,6 +1,9 @@
-// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
-// partial score=0.99809 date=2026-10-20
+// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z @0x00159700 2230B.
 // cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Render2DSentenceClass::Build_Sentence_Not_Centered: lays a sentence out glyph by glyph
+// (Zero Hour semantics) on BFME 2's private sentence view, hands Thai text to the native
+// builder at 0x00158E90 and centers each finished line. Evidence and earlier rounds:
+// reverse/attempt_support/159700-claude3-20261020.md and sentence-159700-20261019/.
 
 void __cdecl operator delete[](void *) throw();
 #include "vector.h"
@@ -185,6 +188,18 @@ static __forceinline unsigned short NextSentenceChar(const unsigned short *&p) {
     return ch;
 }
 
+// Copies the Thai builder's extent field by field: both fields are read
+// first (X, then Y), then stored Y before X.  Retail's return-path join
+// (+0x836) reloads extent.X before extent.Y only with this store order;
+// a plain Vector2 assignment stores X first and reverses those reloads.
+static inline void Copy_Extent(Vector2 &dst,const Vector2 &src)
+{
+    float x=src.X;
+    float y=src.Y;
+    dst.Y=y;
+    dst.X=x;
+}
+
 // ZH Build_Sentence_Not_Centered semantics adapted to target2230-byte body.
 // Native159700..159FB6: device mutex guard, Thai dispatch, local lock data,
 // separator95, retry after break skipping, and post-render line centering.
@@ -193,7 +208,6 @@ static __forceinline unsigned short NextSentenceChar(const unsigned short *&p) {
 // hidden return plus text/hotkey pointers/calc, and its full native helper is read.
 // Retail hard wrapping includes the terminal zero before the extent is finalized.
 // Centering snapshots the sentence count and processes the final line before exiting.
-// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z present-unmatched
 Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short *text,int *hkX,int *hkY,bool justCalcExtents) {
     Vector2 cursor=Cursor;
     int textureStartX=TextureStartX;
@@ -212,7 +226,7 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
     }
     Vector2 extent;
     if (thai) {
-        extent=Rva00158E90(text,hkX,hkY,justCalcExtents);
+        Copy_Extent(extent,Rva00158E90(text,hkX,hkY,justCalcExtents));
     } else {
         // Ensure we have a surface to start with
         if (!CurSurface.m_surface) Allocate_New_Surface(text,justCalcExtents);
@@ -332,7 +346,7 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
                         float shift=(float)floor((double)((extent.X-width)*0.5f-left+0.5f));
                         for (int j=start;j<i;++j) {
                             sentence_data[j].screen_left+=shift;
-                            sentence_data[j].screen_right+=shift;
+                            sentence_data[j].screen_right=sentence_data[j].screen_right+shift;
                         }
                         if (i>=count) break;
                         start=i;
