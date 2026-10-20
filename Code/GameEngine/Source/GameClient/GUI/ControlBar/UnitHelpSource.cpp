@@ -100,6 +100,13 @@ private:
  char pad304[0x468-0x304]; int m_battles;
  char pad46C[8]; UnicodeString m_name;
 };
+// Retail 0x004E729B: an object's maximum health as an int (0 without a body)
+// as a TU static; the tooltip builder inlines it and cl keeps this
+// register-convention copy (object in EAX, __ftol2 tail jump).
+static int maxHealthOf(const Object *obj)
+{
+ return obj->health() ? (int)obj->health()->maxHealth() : 0;
+}
 
 extern "C" __declspec(dllimport) double __cdecl floor(double);
 class ThingTemplate
@@ -250,7 +257,7 @@ TreeHintRef00217D4C Rva004E7506::rva004E7506()
       !obj->getTemplate()->hasKind(54) && !obj->getTemplate()->hasKind(136) &&
       !obj->getTemplate()->hasKind(104) && !disguise) {
     UnicodeString text;
-    int maximum=obj->health()?(int)obj->health()->maxHealth():0;
+    int maximum=maxHealthOf(obj);
     if(maximum>0) {
      text.format(TheGameText->formatText("TOOLTIP:MaxHealth",0),maximum);Rva004E74E0Append(&details,&text);
     }
