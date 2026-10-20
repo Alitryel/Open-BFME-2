@@ -1,4 +1,6 @@
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
+// partial score=0.955 date=2026-10-20
+// ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.97 date=2026-10-16
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.97 date=2026-10-16
@@ -14,6 +16,7 @@
 // WB945CC0 supplies the debug control-flow twin, not the original method name.
 // ZH W3DModelDraw::handleWeaponFireFX guides the FX emission relationship;
 // BF1 cee35b7d8 scripted model source has no recovered counterpart.
+// w1 2026-10-20: natural double e->particle read plus a strong in-unit Rva00704980 ctor; residue and landing prerequisite in reverse/attempt_support/0x000bd6c2_20261020_strong_ctor.md
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include <new>
@@ -44,7 +47,8 @@ class Rva00704980 {public:
  __declspec(noinline) Rva00704980();
  int m_00,m_04,m_08,m_0C,m_10,m_14,m_18;char m_1C,m_1D,m_1E,m_1F;
 };
-inline Rva00704980::Rva00704980(){m_00=0;m_04=0;m_08=0;m_0C=0;m_10=0;m_14=0;m_18=0;m_1C=0;m_1D=0;m_1E=0;m_1F=0;}
+// Strong (not select-any) so cl knows the ctor leaves EDX alone, as retail's create loop assumes.
+Rva00704980::Rva00704980(){m_00=0;m_04=0;m_08=0;m_0C=0;m_10=0;m_14=0;m_18=0;m_1C=0;m_1D=0;m_1E=0;m_1F=0;}
 struct ParticleEvent32:public Rva00704980 {
  ~ParticleEvent32(){reinterpret_cast<StringBase<char>*>(this)->clear();}
 };
@@ -192,11 +196,10 @@ void W3DScriptedModelDraw::rva000BD6C2()
      for(ListNode*n=events.node->next;n!=events.node;n=n->next){
       EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
       if(e->type==9){
-       unsigned particleID=e->particle;
-       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)particleID);
+       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
-       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==particleID){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
+       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==e->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
       }
      }
     }
