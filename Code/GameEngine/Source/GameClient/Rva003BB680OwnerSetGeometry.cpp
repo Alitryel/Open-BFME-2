@@ -37,7 +37,17 @@ public:
 	_STL::vector<BfmeE16> m_14;
 };
 
-struct Rva004E3E5AElement { int a[8]; };
+// The 32-byte record has nontrivial copy/destruction (native 4E2C66/4E2941).
+// Its rowed push_back is external; a POD view emitted a wrong cleanup here.
+struct Rva004E3E5AElement {
+ unsigned char unknown[32];
+ Rva004E3E5AElement(const Rva004E3E5AElement&);
+ ~Rva004E3E5AElement();
+};
+namespace _STL {
+template<> void _Construct<Rva004E3E5AElement,Rva004E3E5AElement>(Rva004E3E5AElement*,const Rva004E3E5AElement&);
+template<> void vector<Rva004E3E5AElement>::push_back(const Rva004E3E5AElement&);
+}
 
 // Bind construction and growth to the already rowed nontrivial providers.
 namespace _STL {
