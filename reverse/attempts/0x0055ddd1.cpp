@@ -1,5 +1,5 @@
 // ?getPosition@LightningEmissionModule@FXParticleSystem@@UAE?AUCoord3D@@MMHH@Z
-// partial score=0.9 date=2026-10-20
+// partial score=0.92 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib
 #define COORD3D_VIEW_DTOR
 #include "Lib/Coord3DCtorView.h"
@@ -24,6 +24,62 @@ __declspec(noinline) inline void Coord3D::normalize()
     }
 }
 
+
+__forceinline void ITR1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+{
+	Vector3 tmp;
+	Vector3 * v;
+	if (out == &in) {
+		tmp = in;
+		v = &tmp;
+	} else {
+		v = (Vector3 *)&in;
+	}
+	out->X = (A[0][0] * v->X + A[1][0] * v->Y + A[2][0] * v->Z);
+	out->Y = (A[0][1] * v->X + A[1][1] * v->Y + A[2][1] * v->Z);
+	out->Z = (A[0][2] * v->X + (A[1][2] * v->Y + A[2][2] * v->Z));
+}
+__forceinline void ITV1(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+{
+	Vector3 tmp;
+	Vector3 * v;
+	if (out == &in) {
+		tmp = in;
+		v = &tmp;
+	} else {
+		v = (Vector3 *)&in;
+	}
+	Vector3 diff(v->X - A[0][3], v->Y - A[1][3], v->Z - A[2][3]);
+	ITR1(A, diff, out);
+}
+
+__forceinline void ITR2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+{
+	Vector3 tmp;
+	Vector3 * v;
+	if (out == &in) {
+		tmp = in;
+		v = &tmp;
+	} else {
+		v = (Vector3 *)&in;
+	}
+	out->X = (A[0][0] * v->X + A[1][0] * v->Y + A[2][0] * v->Z);
+	out->Y = (A[0][1] * v->X + A[1][1] * v->Y + A[2][1] * v->Z);
+	out->Z = (A[1][2] * v->Y + (A[0][2] * v->X + A[2][2] * v->Z));
+}
+__forceinline void ITV2(const Matrix3D & A,const Vector3 & in,Vector3 * out)
+{
+	Vector3 tmp;
+	Vector3 * v;
+	if (out == &in) {
+		tmp = in;
+		v = &tmp;
+	} else {
+		v = (Vector3 *)&in;
+	}
+	Vector3 diff(v->X - A[0][3], v->Y - A[1][3], v->Z - A[2][3]);
+	ITR2(A, diff, out);
+}
 class GameClientRandomVariable
 {
 public:
@@ -151,11 +207,11 @@ Coord3D LightningEmissionModule::getPosition(float, float, int index, int count)
 			{
 				const Matrix3D &m = ((ParticleSystemView *)handle.system())->m_transform;
 				Vector3 a;
-				Matrix3D::Inverse_Transform_Vector(m, m.Get_Translation(), &a);
+				ITV1(m, m.Get_Translation(), &a);
 				start = *(Coord3D *)&a;
 				const Vector3 *p = &((ParticleSystemView *)handle.system())->m_position;
 				Vector3 b;
-				Matrix3D::Inverse_Transform_Vector(m, Vector3(p->X, p->Y, p->Z), &b);
+				ITV2(m, Vector3(p->X, p->Y, p->Z), &b);
 				end = *(Coord3D *)&b;
 			}
 			Coord3D delta;
