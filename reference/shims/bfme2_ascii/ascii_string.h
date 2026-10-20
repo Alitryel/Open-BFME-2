@@ -42,11 +42,33 @@ class PooledString;
 // Per-unit switch, default off (without it this header compiles as before): BFME_ASCII_DTOR_DECL
 // declares ~AsciiString only, for a unit whose retail code calls its out-of-line copy 0x0048BA39
 // (e.g. inside the compiler's ??_GAsciiString) where /O1 would expand it (link census, 2026-10-06).
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+// Second per-unit switch, default off: BFME_ASCII_IMPLICIT_DTOR gives AsciiString retail's
+// destructor structure. AsciiString declares no destructor; its one pointer is a StringBase<char>
+// member at offset 0 whose inline destructor calls releaseBuffer (0x00036410), so ~AsciiString is
+// the compiler-generated one (same name ??1AsciiString@@QAE@XZ, public, non-virtual; retail's
+// out-of-line copy 0x0048BA39 is `jmp 0x00036410`). Layout (4 bytes, pointer at +0) and every
+// ((StringBase<char> *)this) cast are unchanged.
+// Evidence: Script::~Script 0x003B35B1 (177 B). Its WorldBuilder debug twin 0x00AA79E0 destroys
+// each direct string member through one this-temp (`this+0x44 -> [local_24] -> ecx; call`) and
+// the string inside the +0x10 record through two (record this, then string this). A /Od /Ob1
+// compile of the user-declared-dtor form gives the record its temp but the direct strings none:
+// one inline level short, which an implicit ~AsciiString wrapping the member's inline dtor
+// supplies. At /O1 that extra inline level is what puts the destructor's loop trip count in a
+// frame slot ([ebp-0x10], dec in memory, push 0 / xor eax,eax kept apart) instead of EBX:
+// with this switch the plain WB-shaped body is byte-exact; with the default form it is 166 B.
+// Retail's unwind map (FuncInfo 0x00D2D678) is unchanged: base 0x0049B47C, strings 0x0048BA39,
+// record 0x0004F82B. Use only in units whose retail bytes prove this shape.
+#endif
 
 class AsciiString
 {
 public:
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+	AsciiString() {}
+#else
 	AsciiString() : m_text(0) {}
+#endif
 	__forceinline AsciiString(char c) { ((StringBase<char> *)this)->StringBase<char>::StringBase(c); }
 	AsciiString(const AsciiString &that)
 	{
@@ -69,7 +91,9 @@ public:
 		((StringBase<char> *)this)->StringBase<char>::StringBase(*(const StringBase<char> *)&that, start, len);
 	}
 	AsciiString(const UnicodeString &that);
-#ifdef BFME_ASCII_DTOR_DECL
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+	// No destructor declared: see BFME_ASCII_IMPLICIT_DTOR above.
+#elif defined(BFME_ASCII_DTOR_DECL)
 	~AsciiString();
 #else
 	~AsciiString() { ((StringBase<char> *)this)->releaseBuffer(); }
@@ -117,7 +141,11 @@ public:
 	void __cdecl format(const AsciiString *fmt, ...);
 	void translate(const UnicodeString &that);
 	void translate(const unsigned short *that);
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+	const char *str() const { const char *text = *(char *const *)&m_buf; return text ? text + 8 : ""; }
+#else
 	const char *str() const { return m_text ? m_text + 8 : ""; }
+#endif
 	int getLength() const { return ((const StringBase<char> *)this)->getLength(); }
 	char getCharAt(int i) const { return ((const StringBase<char> *)this)->getCharAt(i); }
 	// Inline in BFME, like str() above. INI::parseAudioEventRTS at 0x000BBB60
@@ -125,7 +153,15 @@ public:
 	// -- that is m_data == NULL || m_data->length == 0 against StringBase's
 	// Header {int ref_count; unsigned short length; unsigned short capacity;},
 	// which is the same header str()'s +8 comes from.
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+	bool isEmpty() const
+	{
+		const char *text = *(char *const *)&m_buf;
+		return text == 0 || *(const unsigned short *)(text + 4) == 0;
+	}
+#else
 	bool isEmpty() const { return m_text == 0 || *(const unsigned short *)(m_text + 4) == 0; }
+#endif
 	bool isNotEmpty() const { return ((const StringBase<char> *)this)->isNotEmpty(); }
 	bool isNone() const { return ((const StringBase<char> *)this)->isNone(); }
 	bool isNotNone() const { return ((const StringBase<char> *)this)->isNotNone(); }
@@ -177,7 +213,11 @@ public:
 	static const AsciiString TheEmptyString;
 
 private:
+#ifdef BFME_ASCII_IMPLICIT_DTOR
+	StringBase<char> m_buf;
+#else
 	char *m_text;
+#endif
 };
 
 inline bool operator==(const AsciiString &a, const AsciiString &b) { return a.compare(b) == 0; }

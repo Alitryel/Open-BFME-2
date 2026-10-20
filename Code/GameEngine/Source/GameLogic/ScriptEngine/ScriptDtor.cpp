@@ -6,9 +6,7 @@
 // - The body re-stores vtable 0x00C1F424, so this is Script's own destructor
 //   (protected virtual: MAE), called by the slot-0 scalar deleting
 //   destructor 0x003B41F8. It ends by restoring the Snapshot base vtable
-//   0x00BBB554 (see the matching Script dtor family: the Condition/Action
-//   dtors in ScriptConditionActionDtors.cpp restore their own tables the
-//   same way).
+//   0x00BBB554 (Snapshot's inline destructor).
 // - Members released: the owned pointer at +0x30, the two-element owned
 //   array at +0x34, and AsciiString members at +0x04/+0x08/+0x0C, at +0x0C
 //   of the 16-byte subrecord at +0x10, and at +0x44. Member names and the
@@ -18,27 +16,42 @@
 //   regions stay padding.
 // - Each owned pointer is released through its slot-0 virtual with flag 0
 //   and the returned block goes to the global operator delete, including
-//   for null (xor + push + call): `::operator delete(p ? p->v0(0) : 0)`.
-//   The Zero Hour donor (Scripts.cpp) calls deleteInstance() at the same
-//   sites; ScriptConditionActionDtors.cpp proves the BFME 2 lowering, where
-//   `::delete` through the virtual destructor emits the identical
-//   push-0-vcall-then-operator-delete shape. Rva003B35B1Owned models that
-//   slot-0 callee (OrCondition/ScriptAction per the WriteDataChunk view);
-//   the vcall bytes carry no static-type information.
-// - Base: the real Snapshot header (inline dtor, three pure slots, no
-//   undefined refs); the EH states match the string members above.
+//   for null (xor + push + call): the global-scope ::delete through a
+//   virtual destructor (the lowering ScriptConditionActionDtors.cpp proves
+//   in BFME 2). The Zero Hour donor (Scripts.cpp) calls deleteInstance() at
+//   the same sites.
+// - Body shape from the WorldBuilder debug twin 0x00AA79E0: ::delete of
+//   +0x30 (::delete's two operand temporaries), then
+//   `for (i = 0; i < 2; i++) ::delete m_actions[i]` with i the first local
+//   ([ebp-0x10]), then the member strings in reverse order.
+// - AsciiString's destructor is the compiler-generated one
+//   (BFME_ASCII_IMPLICIT_DTOR, see ascii_string.h): the WB twin's per-member
+//   this-temporaries show the extra inline level, and only that structure
+//   puts retail's trip count in [ebp-0x10] (166 bytes with an EBX counter
+//   otherwise). The unwind map (FuncInfo 0x00D2D678: Snapshot 0x0049B47C,
+//   AsciiString 0x0048BA39, subrecord 0x0004F82B) is unchanged by it.
+// - Script is not novtable: retail stores 0x00C1F424 on entry.
+// Carried from the donor: class, member and owned-type names.
 
+#define BFME_ASCII_IMPLICIT_DTOR
 #include "ascii_string.h"
 class Xfer;
 #define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-class Rva003B35B1Owned
+// Owned types per the ScriptWriteDataChunk.cpp view; only the virtual
+// destructor (vtable slot 0) is used here.
+class OrCondition
 {
 public:
-	virtual void *v0(int x);
+	virtual ~OrCondition();
 };
-void __cdecl operator delete(void *p);
+
+class ScriptAction
+{
+public:
+	virtual ~ScriptAction();
+};
 
 struct Rva003B3536
 {
@@ -48,7 +61,7 @@ struct Rva003B3536
 	AsciiString name;
 };
 
-class __declspec(novtable) Script : public Snapshot
+class Script : public Snapshot
 {
 public:
 	// Full interface per the ScriptWriteDataChunk.cpp view (Script(),
@@ -62,13 +75,21 @@ private:
 	AsciiString m_text0, m_text1, m_text2;	// +0x04/+0x08/+0x0C
 	Rva003B3536 m_subrecord;		// +0x10 (string name at +0x1C)
 	char m_pad20[0x10];			// +0x20: m_delay, m_mask, m_active..m_flag (untouched)
-	Rva003B35B1Owned *m_condition;		// +0x30 (OrCondition per writer view)
-	Rva003B35B1Owned *m_actions[2];		// +0x34 (ScriptAction per writer view)
+	OrCondition *m_condition;		// +0x30
+	ScriptAction *m_actions[2];		// +0x34
 	char m_pad3C[0x08];			// +0x3C: m_frame, m_currentActive, m_otherFlag (untouched)
 	AsciiString m_runtimeName44;		// +0x44
 	float m_conditionTime, m_currentTime;	// (untouched)
 	int m_conditionExecutedCount;		// (untouched)
 };
+
+Script::~Script()
+{
+	int i;
+	::delete m_condition;
+	for (i = 0; i < 2; i++)
+		::delete m_actions[i];
+}
 
 // ?GetSnapshotName@Script@@MBEPBDXZ: slot 2 of vtable 0x00C1F424.
 // The ledger rowed this body at 0x003B3662 under the placeholder name
@@ -79,4 +100,3 @@ const char *Script::GetSnapshotName() const
 {
 	return "Script";
 }
-
