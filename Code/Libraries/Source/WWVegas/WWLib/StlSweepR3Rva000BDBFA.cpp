@@ -30,7 +30,14 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 struct Rva000BDBFARecord { Rva000BDBFARecord(); Rva000BDBFARecord(const Rva000BDBFARecord&); ~Rva000BDBFARecord(); Rva000BDBFARecord&operator=(const Rva000BDBFARecord&); char bytes[1]; bool operator==(const Rva000BDBFARecord&) const; bool operator<(const Rva000BDBFARecord&) const; };
-namespace _STL {template<> void _Construct<Rva000BDBFARecord,Rva000BDBFARecord>(Rva000BDBFARecord*,const Rva000BDBFARecord&);}
+// Retail's node construction 0x000BB6CC reaches the rowed _Construct<BfmeStringRecord000B75AE>
+// 0x000B9478: forward to it.
+struct BfmeStringRecord000B75AE;
+namespace _STL {
+template<> void _Construct<BfmeStringRecord000B75AE,BfmeStringRecord000B75AE>(BfmeStringRecord000B75AE*,const BfmeStringRecord000B75AE&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva000BDBFARecord,Rva000BDBFARecord>(Rva000BDBFARecord*p,const Rva000BDBFARecord&v)
+{ _Construct(reinterpret_cast<BfmeStringRecord000B75AE*>(p),reinterpret_cast<const BfmeStringRecord000B75AE&>(v)); }
+}
 
 
 // This caller's native REL32 already names the kept provider at 0x000B419E.

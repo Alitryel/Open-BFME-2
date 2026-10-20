@@ -76,6 +76,39 @@ struct Region2D;
 struct BfmeStringRecord000B9534;
 struct Rva00173DF8Element;
 struct Rva00335C62Element;
+struct Rva0017341BWords;
+struct Rva00332EF3Element;
+
+// Retail's forwarders reach the element copy through rowed twins: 0x0007BF77
+// (Rva0007BF77Copy), 0x0017341B and 0x00332EF3 (__copy rows): forward to them.
+Region2D *Rva0007BF77Copy(Region2D *a, Region2D *b, Region2D *c, const _STL::__false_type &f, int i);
+
+namespace _STL
+{
+
+template <> __declspec(dllimport) __forceinline Region2D *__copy<Region2D *, Region2D *, int>(Region2D *__first,
+	Region2D *__last, Region2D *__result, const random_access_iterator_tag &__tag, int *__dist)
+{
+	return Rva0007BF77Copy(__first, __last, __result, reinterpret_cast<const __false_type &>(__tag), (int)__dist);
+}
+
+template <> __declspec(dllimport) __forceinline Rva00173DF8Element *__copy<Rva00173DF8Element *, Rva00173DF8Element *, int>(
+	Rva00173DF8Element *__first, Rva00173DF8Element *__last, Rva00173DF8Element *__result,
+	const random_access_iterator_tag &__tag, int *__dist)
+{
+	return reinterpret_cast<Rva00173DF8Element *>(__copy(reinterpret_cast<Rva0017341BWords *>(__first),
+		reinterpret_cast<Rva0017341BWords *>(__last), reinterpret_cast<Rva0017341BWords *>(__result), __tag, __dist));
+}
+
+template <> __declspec(dllimport) __forceinline Rva00335C62Element *__copy<Rva00335C62Element *, Rva00335C62Element *, int>(
+	Rva00335C62Element *__first, Rva00335C62Element *__last, Rva00335C62Element *__result,
+	const random_access_iterator_tag &__tag, int *__dist)
+{
+	return reinterpret_cast<Rva00335C62Element *>(__copy(reinterpret_cast<Rva00332EF3Element *>(__first),
+		reinterpret_cast<Rva00332EF3Element *>(__last), reinterpret_cast<Rva00332EF3Element *>(__result), __tag, __dist));
+}
+
+}
 
 template Region2D *_STL::vector<Region2D >::erase(Region2D *, Region2D *);
 template BfmeStringRecord000B9534 *_STL::vector<BfmeStringRecord000B9534 >::erase(BfmeStringRecord000B9534 *, BfmeStringRecord000B9534 *);

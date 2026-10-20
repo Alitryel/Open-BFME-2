@@ -29,8 +29,17 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 
-struct Rva00289FBCRecord { Rva00289FBCRecord(); Rva00289FBCRecord(const Rva00289FBCRecord&); ~Rva00289FBCRecord(); Rva00289FBCRecord&operator=(const Rva00289FBCRecord&); char bytes[1]; bool operator==(const Rva00289FBCRecord&) const; bool operator<(const Rva00289FBCRecord&) const; };
-namespace _STL {template<> void _Construct<Rva00289FBCRecord,Rva00289FBCRecord>(Rva00289FBCRecord*,const Rva00289FBCRecord&);}
+// Retail's node construction reaches the rowed _Construct<BfmePod264> 0x00289E69 (forward
+// to it), and its node erase 0x00288849 destroys the element through vtable slot 0.
+struct BfmePod264;
+struct Rva00289FBCRecord { Rva00289FBCRecord(); Rva00289FBCRecord(const Rva00289FBCRecord&); virtual ~Rva00289FBCRecord();
+ Rva00289FBCRecord&operator=(const Rva00289FBCRecord&);
+ char bytes[1]; bool operator==(const Rva00289FBCRecord&) const; bool operator<(const Rva00289FBCRecord&) const; };
+namespace _STL {
+template<> void _Construct<BfmePod264,BfmePod264>(BfmePod264*,const BfmePod264&);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva00289FBCRecord,Rva00289FBCRecord>(Rva00289FBCRecord*p,const Rva00289FBCRecord&v)
+{ _Construct(reinterpret_cast<BfmePod264*>(p),reinterpret_cast<const BfmePod264&>(v)); }
+}
 
 
 // Instantiate the recovered member; retain only its required template dependencies.

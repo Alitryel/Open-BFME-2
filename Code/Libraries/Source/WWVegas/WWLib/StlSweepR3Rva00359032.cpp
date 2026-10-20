@@ -8,7 +8,15 @@ struct Rva00359032Record {
  ~Rva00359032Record(); Rva00359032Record&operator=(const Rva00359032Record&);
  char bytes[8];
 };
-bool operator<(const Rva00359032Record&,const Rva00359032Record&);
+// Retail's key compare and node construction reach rowed twins: AsciiString's
+// operator< 0x0005598C and the pair construction 0x00358CA0: forward to them.
+class AsciiString;
+bool operator<(const AsciiString&,const AsciiString&);
+void Rva00358CA0Construct(void *dest,const void *source);
+__declspec(dllimport) __forceinline bool operator<(const Rva00359032Record&a,const Rva00359032Record&b)
+{ return reinterpret_cast<const AsciiString&>(a)<reinterpret_cast<const AsciiString&>(b); }
+namespace _STL {template<> __declspec(dllimport) __forceinline void _Construct<Rva00359032Record,Rva00359032Record>(Rva00359032Record*p,const Rva00359032Record&v)
+{ Rva00358CA0Construct(p,&v); }}
 
 
 // Instantiate the recovered member; retain only its required template dependencies.

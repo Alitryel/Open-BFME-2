@@ -38,7 +38,11 @@ struct Q3SortCompare
 class BfmeRoomQR
 {
 public:
-	BfmeRoomQR(const BfmeRoomQR &other);
+	// Retail's element copy 0x00217624 copies this slot as an AsciiString.
+	__forceinline BfmeRoomQR(const BfmeRoomQR &other)
+	{
+		reinterpret_cast<AsciiString *>(this)->AsciiString::AsciiString(reinterpret_cast<const AsciiString &>(other));
+	}
 	~BfmeRoomQR() throw() {}
 	int m_bfmeHandleQR;
 };

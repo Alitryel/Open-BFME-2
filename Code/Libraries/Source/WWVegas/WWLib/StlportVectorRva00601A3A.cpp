@@ -16,16 +16,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 struct Rva00601A3AElement {unsigned char unknown[12];};
-namespace _STL {template<> void _Construct<Rva00601A3AElement,Rva00601A3AElement>(Rva00601A3AElement*,const Rva00601A3AElement&);}
+// Retail's element construction calls the rowed copy helper 0x0060173A: forward to it.
+class Coord3D;
+struct Coord3DBase;
+void __cdecl Rva0060173ACopy(Coord3D *dst, const Coord3DBase &src);
+namespace _STL {template<> __declspec(dllimport) __forceinline void _Construct<Rva00601A3AElement,Rva00601A3AElement>(Rva00601A3AElement*p,const Rva00601A3AElement&v)
+{ Rva0060173ACopy(reinterpret_cast<Coord3D*>(p),reinterpret_cast<const Coord3DBase&>(v)); }}
 template void _STL::vector<Rva00601A3AElement>::_M_insert_overflow(Rva00601A3AElement*,const Rva00601A3AElement&,const _STL::__false_type&,unsigned int,bool);
 template Rva00601A3AElement *_STL::__uninitialized_copy<Rva00601A3AElement*,Rva00601A3AElement*>(Rva00601A3AElement*,Rva00601A3AElement*,Rva00601A3AElement*,const _STL::__false_type&);
 template Rva00601A3AElement *_STL::__uninitialized_fill_n<Rva00601A3AElement*,unsigned int,Rva00601A3AElement>(Rva00601A3AElement*,unsigned int,const Rva00601A3AElement&,const _STL::__false_type&);
 template Rva00601A3AElement *_STL::allocator<Rva00601A3AElement>::allocate(unsigned int,const void*) const;
-
-#pragma comment(linker, "/alternatename:??$_Construct@URva00601A3AElement@@U1@@_STL@@YAXPAURva00601A3AElement@@ABU1@@Z=?Rva0060173ACopy@@YAXPAVCoord3D@@ABUCoord3DBase@@@Z")
-
-// Placeholder names this unit's own object settles.  In retail each one holds
-// what the unit's matched code references or installs: the rowed function of
-// the vftable slot it occupies, or the function or datum the instruction
-// reaches, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:??$_Construct@URva00601A3AElement@@U1@@_STL@@YAXPAURva00601A3AElement@@ABU1@@Z=?Rva0060173ACopy@@YAXPAVCoord3D@@ABUCoord3DBase@@@Z")
