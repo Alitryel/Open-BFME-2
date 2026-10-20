@@ -93,6 +93,9 @@ namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned 
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_Unchecked_test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) const; }
 // Reuse the verified Coord3D push-back specialization at2CE7DC.
 namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D&); }
 

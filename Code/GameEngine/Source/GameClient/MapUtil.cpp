@@ -228,6 +228,9 @@ MapUtilMetadataTree::iterator MapUtilMetadataTree::find<AsciiString>(const Ascii
 }
 }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_Unchecked_test@?$bitset@$0HE@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<116>::_Unchecked_test(unsigned int) const; }
 
 #ifdef _INTERNAL
 // for occasional debugging...
