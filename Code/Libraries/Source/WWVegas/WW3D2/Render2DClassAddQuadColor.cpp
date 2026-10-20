@@ -100,7 +100,9 @@ void Render2DClass::Add_Quad(const RectClass &screen, BfmeUInt32 color)
 // as the overload above, with four independently converted corner colors.
 // The matched sibling's position helper includes Z; keeping that assignment
 // within the helper reproduces retail's last-vertex base and push scheduling.
-void Render2DClass::Add_Quad(const RectClass &screen, const RectClass &uv,
+// The sentence renderer also needs a visible inline copy. Keep the retail
+// owner select-any; the forwarding wrapper below makes this copy available.
+__declspec(noinline) inline void Render2DClass::Add_Quad(const RectClass &screen, const RectClass &uv,
 	BfmeUInt32 color0, BfmeUInt32 color1,
 	BfmeUInt32 color2, BfmeUInt32 color3)
 {
@@ -192,4 +194,17 @@ void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, Bf
 	indices[0] = base + 0x00010000;
 	indices[1] = base + 0x00020002;
 	indices[2] = base + 0x00030001;
+}
+
+// Retail 0x000456F0 forwards one colour to the four-colour overload.
+// Kept with its callee so its real call also emits the inline retail owner.
+struct Rva000456F0
+{
+    void rva000456F0(const RectClass &screen, const RectClass &uv, unsigned long color);
+};
+
+void Rva000456F0::rva000456F0(const RectClass &screen, const RectClass &uv,
+    unsigned long color)
+{
+    ((Render2DClass *)this)->Add_Quad(screen, uv, color, color, color, color);
 }
