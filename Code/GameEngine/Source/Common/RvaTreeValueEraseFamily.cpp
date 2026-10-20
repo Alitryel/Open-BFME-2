@@ -216,43 +216,17 @@ struct Rva00170B19Node
 	Rva00151DAB _val;
 };
 
-// owner Rva00170B19: erase 0x00170B19 (value ??1Rva00151DAB@@QAE@XZ), clear 0x00170BD6
-typedef Rva00151DAB Rva00170B19Value;
+// owner Rva00170B19: texturepacker.cpp's multimap<unsigned,AssetReference> tree,
+// whose erase, clear and destructor are rowed in texturepacker_area_tree.cpp
 class Rva00170B19
 {
 public:
-	void rva00170B19(void *node);
-	void rva00170BD6();
 	void *rva00170B70(const Rva00151DAB &x);
 	void rva00170C87(void **out, Rva00170B19Node *x, Rva00170B19Node *y, const Rva00151DAB &v, Rva00170B19Node *w);
 private:
 	Rva00170B19Node *m_00Head; // +0x00
 	int m_04Flag; // +0x04
 };
-
-void Rva00170B19::rva00170B19(void *p)
-{
-	RvaTreeValueNode *node = (RvaTreeValueNode *)p;
-	while (node) {
-		rva00170B19(node->right);
-		RvaTreeValueNode *left = node->left;
-		reinterpret_cast<Rva00170B19Value *>(node + 1)->~Rva00170B19Value();
-		free(node);
-		node = left;
-	}
-}
-
-void Rva00170B19::rva00170BD6()
-{
-	if (m_04Flag == 0)
-		return;
-	RvaTreeValueHead *h = (RvaTreeValueHead *)m_00Head;
-	rva00170B19(h->m_first);
-	((RvaTreeValueHead *)m_00Head)->m_next = (RvaTreeValueHead *)m_00Head;
-	((RvaTreeValueHead *)m_00Head)->m_first = 0;
-	((RvaTreeValueHead *)m_00Head)->m_child = (RvaTreeValueHead *)m_00Head;
-	m_04Flag = 0;
-}
 
 void *Rva00170B19::rva00170B70(const Rva00151DAB &x)
 {

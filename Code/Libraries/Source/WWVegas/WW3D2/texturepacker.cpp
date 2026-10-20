@@ -10,6 +10,11 @@
 // in-unit template bodies let the make_pair and value_type temporaries share
 // retail's frame slots (address-derived views of the same callees do not).
 // The receiver keeps the ledger's address-derived spelling.
+#include <functional>
+// less<unsigned> is the rowed vendored body at 0x00758C50; keep it inline here.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(const unsigned int &x, const unsigned int &y) const { return x < y; }
+}
 #include <map>
 
 class TextureClass {
@@ -66,6 +71,9 @@ extern "C" long __stdcall D3DXFilterTexture(void *,void *,unsigned,unsigned);
 
 typedef _STL::map<AssetReference,Rva00170999Data> RectangleMap;
 typedef _STL::multimap<unsigned,AssetReference> AreaMap;
+// The tree's destructor is the rowed /EHs body at 0x00170D7F (it resets the EH
+// state before freeing the header); this /EHsc unit's copy would not.
+namespace _STL { template <> _Rb_tree<unsigned int, pair<const unsigned int, AssetReference>, _Select1st<pair<const unsigned int, AssetReference> >, less<unsigned int>, allocator<pair<const unsigned int, AssetReference> > >::~_Rb_tree(); }
 class Rva00171024 {
 public:
     void rva001711a6();

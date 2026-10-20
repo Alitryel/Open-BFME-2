@@ -985,21 +985,6 @@ Rva00170AE4::~Rva00170AE4()
 	rva00170BAD();
 }
 
-// ??1Rva00170B19@@QAE@XZ @0x00170D7F 56B -> Rva00170B19::rva00170BD6
-class Rva00170B19
-{
-public:
-	RvaTreeFamilyHolder m_header;
-	int m_flag;
-	void rva00170BD6();
-	~Rva00170B19();
-};
-
-Rva00170B19::~Rva00170B19()
-{
-	rva00170BD6();
-}
-
 // ??1Rva002177CD@@QAE@XZ @0x00217C2E 56B -> Rva002177CD::rva002179D9
 class Rva002177CD
 {

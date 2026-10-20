@@ -18,11 +18,17 @@ struct Rva00170E3DElement { unsigned words[1];bool operator<(const Rva00170E3DEl
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::_Rb_tree_iterator<_STL::pair<unsigned int const, Rva00170E3DElement>, _STL::_Nonconst_traits<_STL::pair<unsigned int const, Rva00170E3DElement> > > _STL::_Rb_tree<unsigned int, _STL::pair<unsigned int const, Rva00170E3DElement>, _STL::_Select1st<_STL::pair<unsigned int const, Rva00170E3DElement> >, _STL::less<unsigned int>, _STL::allocator<_STL::pair<unsigned int const, Rva00170E3DElement> > >::insert_equal(_STL::pair<unsigned int const, Rva00170E3DElement> const &);
 
-class Rva00170B19
+// texturepacker.cpp's area multimap<unsigned,AssetReference> tree; its
+// destructor is the rowed /EHs body at 0x00170D7F.
+class TextureClass;
+class AssetReference
 {
 public:
-	~Rva00170B19();
+	TextureClass *object;
+	~AssetReference();
 };
+namespace _STL { template <> _Rb_tree<unsigned int, pair<const unsigned int, AssetReference>, _Select1st<pair<const unsigned int, AssetReference> >, less<unsigned int>, allocator<pair<const unsigned int, AssetReference> > >::~_Rb_tree(); }
+typedef _STL::_Rb_tree<unsigned int, _STL::pair<const unsigned int, AssetReference>, _STL::_Select1st<_STL::pair<const unsigned int, AssetReference> >, _STL::less<unsigned int>, _STL::allocator<_STL::pair<const unsigned int, AssetReference> > > AreaTree;
 
 class Rva00170AE4
 {
@@ -38,7 +44,7 @@ public:
 
 void Rva00170E78::rva00170E78()
 {
-	((Rva00170B19 *)this)->~Rva00170B19();
+	((AreaTree *)this)->~AreaTree();
 }
 
 class Rva00170E7D
