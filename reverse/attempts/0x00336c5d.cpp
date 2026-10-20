@@ -1,4 +1,6 @@
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
+// partial score=1.0 date=2026-10-20
+// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.998 date=2026-10-19
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.99664 date=2026-10-14
@@ -24,8 +26,17 @@ class WeaponTemplateSetHead {public:char bytes[76];};
 class Rva00332F5B {public:
  Rva00332F5B(const WeaponTemplateSetHead &,const WeaponTemplateSetHead &);
  bool rva00332F81(const Rva00332F5B &)const;
- unsigned char bytes[156];
+ int m_nameKey;
+ WeaponTemplateSetHead m_required;
+ WeaponTemplateSetHead m_excluded;
 };
+// Visible copies of the rowed predicates 0x00045473 and 0x00332F81: with both bodies in the unit,
+// cl proves the comparator cannot throw, so the caller tests its result as a plain temporary.
+__declspec(noinline) inline bool Rva00045473Equal(const void *a,const void *b) {return memcmp(a,b,0x4c)==0;}
+__declspec(noinline) inline bool Rva00332F5B::rva00332F81(const Rva00332F5B &other)const
+{
+ return m_nameKey==other.m_nameKey&&Rva00045473Equal(&m_required,&other.m_required)&&Rva00045473Equal(&m_excluded,&other.m_excluded);
+}
 struct EventFlagEntry {void setKeyFromName(const char *);};
 struct Rva00336AB2Element {unsigned char bytes[156];};
 extern template void _STL::vector<Rva00336AB2Element>::push_back(const Rva00336AB2Element &);
