@@ -13,6 +13,10 @@
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UBfmeStringRecord000331962@@V?$allocator@UBfmeStringRecord000331962@@@_S:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeStringRecord000331962;
+namespace _STL { template <> _Vector_base<BfmeStringRecord000331962,allocator<BfmeStringRecord000331962> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUBfmeStringRecord000331962@@U1@V?$allocator@UBfmeStringRec:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeStringRecord000331962;
