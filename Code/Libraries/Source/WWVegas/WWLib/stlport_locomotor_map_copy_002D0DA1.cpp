@@ -12,6 +12,7 @@
 // hence /GX-. Flags copied from stlport_locomotor_map_copy.cpp.
 
 class LocomotorTemplate;
+struct Rva002D0B9AElement { short words[1]; };
 
 enum LocomotorSetType
 {
@@ -78,6 +79,7 @@ struct _Rb_tree_node : public _Rb_tree_node_base
 template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 class _Rb_tree
 {
+	template <class K, class V, class S, class C, class A> friend class _Rb_tree;
 public:
 	typedef _Rb_tree_node<Value> Node;
 protected:
@@ -93,19 +95,24 @@ typedef less<LocomotorSetType> LocomotorMapCompare;
 typedef allocator<LocomotorMapValue> LocomotorMapAlloc;
 typedef _Rb_tree<LocomotorSetType, LocomotorMapValue, LocomotorMapKeyOf, LocomotorMapCompare, LocomotorMapAlloc> LocomotorMapTree;
 
+// Retail's two direct calls target 0x002D0B9A. That row is owned by an
+// address-derived tree view; use its name without asserting element identity.
+typedef pair<const Rva002D0B9AElement, int> CloneOwnerValue;
+typedef _Rb_tree<Rva002D0B9AElement, CloneOwnerValue, _Select1st<CloneOwnerValue>, less<Rva002D0B9AElement>, allocator<CloneOwnerValue> > CloneOwnerTree;
+
 // ?rva002D0DA1@?$_Rb_tree@W4LocomotorSetType@@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@U?$_Select1st@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@@3@U?$less@W4LocomotorSetType@@@3@V?$allocator@U?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@@3@@_STL@@QAEPAU?$_Rb_tree_node@U?$pair@$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@@2@PAU32@0@Z present-unmatched
 template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::Node *
 _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::rva002D0DA1(Node *x, Node *p)
 {
-	Node *top = _M_clone_node(x);
+	Node *top = (Node *)((CloneOwnerTree *)this)->_M_clone_node((CloneOwnerTree::Node *)x);
 	top->m_parent = (_Rb_tree_node_base *)p;
 	if (x->m_right != 0)
 		top->m_right = (_Rb_tree_node_base *)rva002D0DA1((Node *)x->m_right, top);
 	p = top;
 	x = (Node *)x->m_left;
 	while (x != 0) {
-		Node *y = _M_clone_node(x);
+		Node *y = (Node *)((CloneOwnerTree *)this)->_M_clone_node((CloneOwnerTree::Node *)x);
 		p->m_left = (_Rb_tree_node_base *)y;
 		y->m_parent = (_Rb_tree_node_base *)p;
 		if (x->m_right != 0)
