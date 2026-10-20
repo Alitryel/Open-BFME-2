@@ -38,6 +38,7 @@ class BFMEConnectionManager
 {
 public:
 	unsigned char rva004CEF58(Int a0);				// 0x004CEF58
+	int isPlayerSlotActive(int slot);				// 0x004CF0CD
 	void attachTransport(Transport *transport);			// 0x004CF113
 };
 
@@ -487,26 +488,21 @@ Int Rva0025DD01NullForwarder::rva0025DD01()
 	return 0x31;
 }
 
-class Rva004CF0CDNullTarget
-{
-public:
-	Bool rva004CF0CD(Int a0);
-};
-
 class Rva0025DEBBNullForwarder
 {
 public:
 	Bool rva0025DEBB(Int a0);
 private:
 	char m_lead[0xC];
-	Rva004CF0CDNullTarget *m_member;
+	BFMEConnectionManager *m_member;
 };
 
-// vtable 0x00BF6040#64
+// vtable 0x00BF6040#64: retail tail-jumps, passing the callee's al through.
 Bool Rva0025DEBBNullForwarder::rva0025DEBB(Int a0)
 {
 	if (m_member)
-		return m_member->rva004CF0CD(a0);
+		return (m_member->*reinterpret_cast<Bool (BFMEConnectionManager::*)(Int)>(
+			&BFMEConnectionManager::isPlayerSlotActive))(a0);
 	return false;
 }
 
@@ -543,7 +539,8 @@ void Rva0025E27FNullForwarder::rva0025E27F(Int a0)
 		m_member->requestLeave(a0);
 }
 
-class Rva000B3FD0NullTarget
+// The ICF-folded empty body at 0x000B3FD0 (EmptyFoldTwins.cpp).
+class Rva000B3FD0
 {
 public:
 	void rva000B3FD0();
@@ -555,7 +552,7 @@ public:
 	void rva0035BD00();
 private:
 	char m_lead[0x64];
-	Rva000B3FD0NullTarget *m_member;
+	Rva000B3FD0 *m_member;
 };
 
 // vtable 0x00C16208#1
