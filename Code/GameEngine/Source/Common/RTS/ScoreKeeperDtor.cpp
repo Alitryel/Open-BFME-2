@@ -21,6 +21,9 @@
 #undef BFME_SNAPSHOT_CAPITALIZED_SLOTS
 #undef BFME_SNAPSHOT_NAME_SLOT
 #include "unicode_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBIPAX@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tr:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_node<pair<unsigned int const ,void *> > * allocator<_Rb_tree_node<pair<unsigned int const ,void *> > >::allocate(unsigned int,void const *) const; }
 
 typedef _STL::map<unsigned, void *> ScoreCountMap;
 
