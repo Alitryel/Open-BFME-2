@@ -215,7 +215,7 @@ class Shell
 {
 public:
 	void rva0035BF4C(bool flag);
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 	void push(AsciiString name, bool flag);
 };
 
@@ -824,7 +824,7 @@ void ShowQuitMenu()
 	if (!logic->isInMultiplayerGame())
 		logic->rva0023CD9E(true, 0, true);
 	TheMouse->setCursor(2);
-	TheShell->rva0035C7CF(false);
+	TheShell->showShell(false);
 	TheShell->push(AsciiString("QuitMenu.apt"), false);
 	TheInGameUI->slot94(true);
 }

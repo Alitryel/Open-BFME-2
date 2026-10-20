@@ -26,7 +26,7 @@ struct BfmeAssignRecord36 {
 };
 class Rva001EB3A6 { public: BfmeAssignRecord36 *rva001EB3A6(int); };
 AsciiString __cdecl Rva001EB2CCGetMapPath(const char *);
-class Shell { public: bool showShellMap(bool,bool); void rva0035C7CF(bool); };
+class Shell { public: bool showShellMap(bool,bool); void showShell(bool); };
 extern Shell *TheShell;
 class RecorderClass { public: void stopRecording(); };
 class NetWrapperCommandMsg { public: unsigned char *getData(); };
@@ -103,7 +103,7 @@ void Rva001EB456::rva001EB456(int unused,int useMissionName)
   TheMouse->rva001EEA6D(UnicodeString::TheEmptyString,-1,0,1.0f);
  } else {
   TheShell->showShellMap(true,false);
-  TheShell->rva0035C7CF(true);
+  TheShell->showShell(true);
   flagC1=false;flagC0=false;
  }
 }

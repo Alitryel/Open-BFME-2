@@ -11,7 +11,7 @@
 class Shell
 {
 public:
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 };
 
 extern Shell *TheShell;
@@ -33,5 +33,5 @@ public:
 Rva0043A351::~Rva0043A351()
 {
 	Rva0043A31ECleanup();
-	TheShell->rva0035C7CF(true);
+	TheShell->showShell(true);
 }

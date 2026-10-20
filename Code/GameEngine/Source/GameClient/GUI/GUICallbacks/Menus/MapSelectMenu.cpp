@@ -66,7 +66,7 @@ class Shell
 public:
  void shutdownComplete(WindowLayout *layout, Bool impendingPush = FALSE);
  void reverseAnimatewindow();
- void rva0035BEC7();
+ void pop();
  void rva0035BF4C(Bool hide);
  Bool showShellMap(Bool useShellMap, Bool restartShellGame);
  void registerWithAnimateManager(GameWindow *win, AnimTypes animType,
@@ -393,7 +393,7 @@ WindowMsgHandledType MapSelectMenuSystem( GameWindow *window, UnsignedInt msg,
 			{
 
 				// go back one screen
-				TheShell->rva0035BEC7();
+				TheShell->pop();
 				buttonPushed = true;
 
 			}  // end if
@@ -661,7 +661,7 @@ void doGameStart()
   msg->appendIntegerArgument(0);
  }
  ((MapSelectShellStartView *)TheShell)->flag54=true;
- TheShell->rva0035BEC7();
+ TheShell->pop();
  TheShell->rva0035BF4C(true);
  mapSelectIsShuttingDown=true;
 }

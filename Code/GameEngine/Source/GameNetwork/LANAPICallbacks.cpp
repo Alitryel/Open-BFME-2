@@ -423,7 +423,7 @@ class Shell
 {
 public:
 	void push( AsciiString filename, Bool shutdownImmediate = false );
-	void rva0035BEC7( void );
+	void pop( void );
 };
 extern Shell *TheShell;
 extern Bool LANbuttonPushed;
@@ -728,7 +728,7 @@ void LANAPI::OnPlayerLeave( UnicodeString player )
 	{
 		if( !g_Va00E03354 )
 		{
-			TheShell->rva0035BEC7();
+			TheShell->pop();
 			LANbuttonPushed = true;
 		}
 		else

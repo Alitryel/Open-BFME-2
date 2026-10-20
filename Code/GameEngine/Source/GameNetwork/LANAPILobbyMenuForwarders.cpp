@@ -43,7 +43,7 @@ extern Rva004469D1Receiver *g_Va00E03354;
 class Shell
 {
 public:
-	void rva0035BEC7();							///< matched 0x0035BEC7
+	void pop();							///< matched 0x0035BEC7
 };
 extern Shell *TheShell;
 
@@ -78,7 +78,7 @@ void LANAPI::OnHostLeave()
 		return;
 	if (!g_Va00E03354)
 	{
-		TheShell->rva0035BEC7();
+		TheShell->pop();
 		LANbuttonPushed = true;
 	}
 	else

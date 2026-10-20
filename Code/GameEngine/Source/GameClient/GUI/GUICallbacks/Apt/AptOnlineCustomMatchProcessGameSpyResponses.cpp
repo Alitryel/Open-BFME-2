@@ -112,7 +112,7 @@ extern GameTextInterface *TheGameText;
 class Shell
 {
 public:
-	void rva0035BEC7();
+	void pop();
 };
 extern Shell *TheShell;
 
@@ -1088,7 +1088,7 @@ void AptOnlineCustomMatch::ProcessGameSpyResponses()
 				Rva00548C1ACleanup();
 				GSMessageBoxOk(title, body);
 				TheGameSpyInfo->reset();
-				TheShell->rva0035BEC7();
+				TheShell->pop();
 				TearDownGameSpy();
 			}
 			break;

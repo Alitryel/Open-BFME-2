@@ -636,7 +636,7 @@ class Shell
 {
 public:
 	// The pinned shell show/hide.
-	void rva0035C7CF(bool show);
+	void showShell(bool show);
 	void push(AsciiString filename, bool shutdownImmediately);
 };
 
@@ -681,7 +681,7 @@ void Rva004E41AB()
 	Rva004E855CClose();
 	((Rva005CB265 *)TheInGameUI->rva000CF155())->Rva005CB265::rva005CB265();
 	TheMouse->slot19(2);
-	TheShell->rva0035C7CF(false);
+	TheShell->showShell(false);
 	int mode;
 	if (((BfmeGlob939D *)TheGameLogic)->bfmeCall939D())
 	{

@@ -174,7 +174,7 @@ case ((GameMessage::Type)29):
                     if(TheNetwork) { ::operator delete(((LogicDispatchNetworkRelease *)TheNetwork)->release(0));TheNetwork=0; }
                     ((Rva0023D2D8DwordClearer *)TheGameLogic)->clear();
                     ((LogicDispatchGameLogicView *)TheGameLogic)->gameType=3;
-                    if(!((LogicDispatchShell5C *)TheShell)->flag) { TheShell->showShellMap(true,false); TheShell->rva0035C7CF(true); }
+                    if(!((LogicDispatchShell5C *)TheShell)->flag) { TheShell->showShellMap(true,false); TheShell->showShell(true); }
                     break;
                 }
             }

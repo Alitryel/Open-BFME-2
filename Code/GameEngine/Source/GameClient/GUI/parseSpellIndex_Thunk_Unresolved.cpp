@@ -523,7 +523,7 @@ extern Mouse *TheMouse;
 class Shell
 {
 public:
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 	void push(AsciiString name, bool flag);
 };
 

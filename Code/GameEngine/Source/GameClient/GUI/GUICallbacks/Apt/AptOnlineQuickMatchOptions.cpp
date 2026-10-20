@@ -121,7 +121,7 @@ class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern int g_Va00E06550;
 static __forceinline void *movieLevel(){return *(void **)((char *)*(void **)((char *)g_Va00E06550+0x58)+0x274);}
-class Shell {public:void rva0035BEC7();};extern Shell *TheShell;
+class Shell {public:void pop();};extern Shell *TheShell;
 void HandleBuddyResponses();void HandlePersistentStorageResponses();class AptMessengerOnline { public: static bool ProcessGameSpyResponse(void *); };void Rva00511730(int);void Rva00548C1ACleanup();void GSMessageBoxOk(UnicodeString,UnicodeString,void(*)()=0);void TearDownGameSpy();
 struct TargetRef00217D4C {void *vtbl;int references;};void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 class __multiple_inheritance FunctorTarget;typedef void(FunctorTarget::*FunctorMethod)(int);
@@ -175,7 +175,7 @@ void AptOnlineQuickMatch::rva005BB5F6(){
   }break;
   case 1:{important=true;UnicodeString title,body;AsciiString reason;reason.format("GUI:GSDisconReason%d",r.payload_word0.value);
    title=TheGameText->fetch("GUI:GSErrorTitle");body=TheGameText->fetch(reason);Rva00548C1ACleanup();GSMessageBoxOk(title,body);
-   TheGameSpyInfo->reset();TheShell->rva0035BEC7();TearDownGameSpy();}break;
+   TheGameSpyInfo->reset();TheShell->pop();TearDownGameSpy();}break;
   case 8:{if(r.payload_word0.value==0){UnicodeString s;s.format(L"Created staging room");}else{UnicodeString s;s.format(L"createStagingRoom result: %d",r.payload_word0.value);}}break;
   case 9:{unsigned char ok=*(unsigned char *)((char *)&r.payload_word0+4);if(ok==1){UnicodeString s;s.format(L"joinStagingRoom result: %d",ok);}else{UnicodeString s;s.format(L"joinStagingRoom result: %d",ok);}}break;
   case 4:{UnicodeString s;s.format(L"Staging room list callback",r.unknown_10.c_str());}break;

@@ -637,7 +637,7 @@ extern Mouse *TheMouse;
 class Shell
 {
 public:
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 	void push(AsciiString name, bool flag);
 };
 
@@ -692,7 +692,7 @@ void finishShowPurchaseScience(void)
 	AptPlayerTribute::CloseScreen();
 	((Rva005CB265 *)TheInGameUI->rva000CF155())->Rva005CB265::rva005CB265();
 	TheMouse->setCursor(2);
-	TheShell->rva0035C7CF(false);
+	TheShell->showShell(false);
 	TheShell->push(AsciiString("SpellStore.apt"), false);
 	TheInGameUI->slot94(true);
 }

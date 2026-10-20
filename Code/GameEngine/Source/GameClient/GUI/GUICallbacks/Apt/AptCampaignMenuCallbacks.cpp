@@ -203,14 +203,14 @@ class Rva001EB73C { public: bool rva001EB73C(); };
 class Rva001EB0CAHolder { public: unsigned char rva001EB0D9(); };
 class GameState { public: int rva002DD7E6AutoSave(); };
 extern GameState *TheGameState;
-class Shell { public: void rva0035C7CF(bool); void push(AsciiString, bool); };
+class Shell { public: void showShell(bool); void push(AsciiString, bool); };
 extern Shell *TheShell;
 bool AptCampaignMenu::OpenScreen()
 {
  if (!g_Va00E0492C) {
   if (((Rva001EB73C*)TheLinearCampaignManager)->rva001EB73C() &&
       ((Rva001EB0CAHolder*)TheLinearCampaignManager)->rva001EB0D9()) {
-   TheShell->rva0035C7CF(true);
+   TheShell->showShell(true);
    return false;
   }
   if (((Rva001EB0CAHolder*)TheLinearCampaignManager)->rva001EB0D9())

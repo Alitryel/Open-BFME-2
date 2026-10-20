@@ -109,7 +109,7 @@ class Shell
 {
 public:
 	void rva0035BF4C(bool hide);
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 };
 extern Shell *TheShell;
 
@@ -157,7 +157,7 @@ int AptMainMenu::rva00515C64()
 		if (found)
 		{
 			TheGameEngine->reset();
-			TheShell->rva0035C7CF(true);
+			TheShell->showShell(true);
 			m_pendingRestart = false;
 			m_state = 0;
 			g_bfmeAptWindowManager->rva00222F55(false);

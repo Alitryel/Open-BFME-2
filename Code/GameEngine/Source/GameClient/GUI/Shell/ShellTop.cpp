@@ -199,7 +199,7 @@ public:
 	void reverseAnimatewindow();
 	Bool isAnimReversed();
 	void loadScheme(AsciiString name);
-	void rva0035BEC7();
+	void pop();
 	void popImmediate();
 	void rva0035C16A();
 	void shutdownComplete(WindowLayout *screen, Bool impendingPush);
@@ -461,10 +461,10 @@ void Shell::loadScheme(AsciiString name)
 // ?popImmediate@Shell@@QAEXXZ retail 0x0035BF0E 62B
 // Unlock: top then WindowLayout slot 0xC with bool flag then m_pendingPop=0 then doPop(false) then TheIMEManager m3C.
 // Evidence: callees top 0x0035BD7E doPop 0x0035BDC2 rowed, TheIMEManager extern in use, member +0x51 pendingPop, callers 0x0035C087 0x005A20A7.
-// ?rva0035BEC7@Shell@@QAEXXZ @0x0035BEC7 71B
+// ?pop@Shell@@QAEXXZ @0x0035BEC7 71B
 // Gap between registerWithAnimateManager and popImmediate: top then GameSpy cleanup then pendingPop=1 then s03 slot 0xC with false flag then IMEManager m3C slot 0x3C.
 // Evidence: callees top 0x0035BD7E Rva00548C1ACleanup rowed, TheGameSpyInfo TheIMEManager externs in use, member +0x51, callers in packet.
-void Shell::rva0035BEC7()
+void Shell::pop()
 {
 	WindowLayout *layout = top();
 	if (TheGameSpyInfo)
@@ -490,14 +490,14 @@ void Shell::popImmediate()
 		TheIMEManager->m3C();
 }
 
-// ?rva0035C16A@Shell@@QAEXXZ @ 0x0035C16A (42B). Vtable slot 9 of 0x00816208; IMEManager m3C then while m_screenCount rva0035BEC7 then tail reset slot 0x24.
-// Evidence: callees TheIMEManager m3C rva0035BEC7 rowed and animate reset slot 9; members +0x4C +0x60; chain via 0x0035BEC7.
+// ?rva0035C16A@Shell@@QAEXXZ @ 0x0035C16A (42B). Vtable slot 9 of 0x00816208; IMEManager m3C then while m_screenCount pop then tail reset slot 0x24.
+// Evidence: callees TheIMEManager m3C pop rowed and animate reset slot 9; members +0x4C +0x60; chain via 0x0035BEC7.
 void Shell::rva0035C16A()
 {
 	if (TheIMEManager)
 		TheIMEManager->m3C();
 	while (m_screenCount != 0)
-		rva0035BEC7();
+		pop();
 	return m_animateWindowManager->reset();
 }
 

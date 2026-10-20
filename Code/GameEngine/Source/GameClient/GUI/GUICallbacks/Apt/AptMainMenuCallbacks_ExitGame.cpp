@@ -102,7 +102,7 @@ class Shell
 public:
 	// Rowed 0x0035BEC7; unrowed 0x0035BD5D (a byte query) and 0x0035C2B9,
 	// pinned by address.
-	void rva0035BEC7();
+	void pop();
 	bool rva0035BD5D();
 	void rva0035C2B9();
 	void rva0035BF4C(bool hide);	// rowed; Zero Hour's Shell::hide
@@ -438,7 +438,7 @@ void AptMainMenu::ExitGame(const char *unused)
 		TheScriptEngine->rva00357DD2(name);
 	}
 	TheAudio->v35(2, 1, 0);
-	TheShell->rva0035BEC7();
+	TheShell->pop();
 	TheGameEngine->v20(true);
 }
 

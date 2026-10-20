@@ -58,7 +58,7 @@ extern GameLogic *TheGameLogic;
 
 class Shell {
 	public:
-	void rva0035C7CF(bool);
+	void showShell(bool);
 };
 extern Shell *TheShell;
 
@@ -102,5 +102,5 @@ Rva003561BE::~Rva003561BE()
 	TheDisplay->slot68();
 	TheDisplay->rva0025D2F6();
 	if (m_flag24)
-		TheShell->rva0035C7CF(true);
+		TheShell->showShell(true);
 }

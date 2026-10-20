@@ -46,7 +46,7 @@ public:
 class Shell
 {
 public:
-	void rva0035BEC7();
+	void pop();
 };
 
 struct GlobalA04910
@@ -116,7 +116,7 @@ AptOptions::~AptOptions()
 			if (TheShell != 0)
 			{
 				((GlobalA01E48 *)TheShell)->m_54 = 1;
-				((Shell *)TheShell)->rva0035BEC7();
+				((Shell *)TheShell)->pop();
 			}
 		}
 	}

@@ -126,7 +126,6 @@ public:
 	//===============================================================================================
 
 	bool showShellMap(bool,bool);
- void rva0035C7CF(bool);										///< access function to turn on and off the shell map
 
 	void hide( Bool hide );																	///< show/hide all shell layouts
 

@@ -716,7 +716,7 @@ public:
 	virtual void reset();
 	virtual void update();
 	void push(AsciiString name, bool shutdownImmediate = false);
-	void rva0035C7CF(bool);
+	void showShell(bool);
 	bool showShellMap(bool, bool);
 
 	// GameClient::update clears +0x6C on its first pass and still updates
@@ -2304,7 +2304,7 @@ int rva00239122(void *, bool allowIntro)
 		if (((const StringBase<char> *)&TheWritableGlobalData->m_initialFile)->isEmpty())
 		{
 			TheShell->showShellMap(true, false);
-			TheShell->rva0035C7CF(true);
+			TheShell->showShell(true);
 		}
 		TheShell->m_byte6C = 1;
 		TheWritableGlobalData->m_afterIntro = false;

@@ -16,7 +16,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 class Shell
 {
 public:
-	void rva0035BEC7();
+	void pop();
 };
 extern Shell *TheShell;
 
@@ -90,7 +90,7 @@ void Rva00222A8BTarget::rva002251E5()
 	// pointer locals compared against imm0 instead.
 	if (m_b310)
 	{
-		TheShell->rva0035BEC7();
+		TheShell->pop();
 		m_b310 = false;
 	}
 	if (m_b311)

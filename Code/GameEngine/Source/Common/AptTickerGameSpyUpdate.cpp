@@ -92,7 +92,7 @@ extern GameSpyInfoInterface *TheGameSpyInfo;
 class Shell
 {
 public:
-	void rva0035BEC7();	// ZH Shell::pop
+	void pop();	// ZH Shell::pop
 };
 extern Shell *TheShell;
 void HandleBuddyResponses();			// ZH HandleBuddyResponses (pinned)
@@ -128,7 +128,7 @@ void Rva005B9378::rva005BA02B()
 				body = TheGameText->fetch(disconMunkee);
 				Rva00548C1ACleanup();
 				GSMessageBoxOk(title, body, 0);
-				TheShell->rva0035BEC7();
+				TheShell->pop();
 				TearDownGameSpy();
 			}
 			break;

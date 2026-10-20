@@ -259,7 +259,7 @@ extern InGameUI *TheInGameUI;
 class Shell
 {
 public:
-	void rva0035C7CF(bool);
+	void showShell(bool);
 	void push(AsciiString filename, bool shutdownImmediate);
 };
 extern Shell *TheShell;
@@ -372,7 +372,7 @@ void StrategicPlayerStatus::rva005234AD()
 		return;
 	Rva004E855CClose();
 	TheMouse->vslot19(2);
-	TheShell->rva0035C7CF(false);
+	TheShell->showShell(false);
 	TheShell->push("StrategicPlayerStatus.apt", false);
 	TheInGameUI->vslot94(1);
 }
@@ -424,7 +424,7 @@ void AptPlayerTribute::OpenScreen()
 	Rva004E855CClose();
 	((Rva005CB265 *)TheInGameUI->rva000CF155())->Rva005CB265::rva005CB265();
 	TheMouse->vslot19(2);
-	TheShell->rva0035C7CF(false);
+	TheShell->showShell(false);
 	TheShell->push("PlayerTribute.apt", false);
 	TheInGameUI->vslot94(1);
 }

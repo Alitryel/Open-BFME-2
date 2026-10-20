@@ -120,7 +120,7 @@ class Shell
 public:
 	void hide(bool doHide);
 	bool rva0035BD5D();
-	void rva0035C7CF(bool runInit);
+	void showShell(bool runInit);
 };
 
 class GameEngineView
@@ -289,7 +289,7 @@ AptSaveLoad::~AptSaveLoad()
 							rva002DE3C1(*m_pending);
 					if (result != 0)
 					{
-						((Shell *)*(void **)&TheShell)->rva0035C7CF(one);
+						((Shell *)*(void **)&TheShell)->showShell(one);
 						m_flag2A4 = false;
 					}
 				}
@@ -301,7 +301,7 @@ AptSaveLoad::~AptSaveLoad()
 				GameEngineView *engine =
 					(GameEngineView *)*(void **)&TheGameEngine;
 				engine->slot24();
-				((Shell *)*(void **)&TheShell)->rva0035C7CF(one);
+				((Shell *)*(void **)&TheShell)->showShell(one);
 				}
 			}
 		}

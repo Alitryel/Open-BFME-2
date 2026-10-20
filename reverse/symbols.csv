@@ -12215,7 +12215,7 @@ rva009C7380WeightPairs,0x009B84E0
 ??0Rva00529FC5Payload@@QAE@PAX0@Z,0x00529FC5,called by wrapper 0x0052A244 with ECX set to its 0xDC allocation and owner/argument forwarded; Ghidra boundary 615; address-derived payload constructor; fields and semantics unknown
 ??0Rva0052AD30Payload@@QAE@PAX0@Z,0x0052AD30,called by wrapper 0x0052AF1C with ECX set to its 0x230 allocation and owner/argument forwarded; Ghidra boundary 492; address-derived payload constructor; fields and semantics unknown
 ?method@Rva0054CFB8Target@@QAEXHABVUnicodeString@@0UTreeHintRef00217D4C@@1@Z,0x0054CFB8,callee of ?method@Rva0054D2DDTarget@@QAEXHABVUnicodeString@@0@Z
-?rva0035C7CF@Shell@@QAEX_N@Z,0x0035C7CF,callee of ??1Rva0043A351@@UAE@XZ
+?showShell@Shell@@QAEX_N@Z,0x0035C7CF,callee of ??1Rva0043A351@@UAE@XZ
 ?onDelete@OpenContain@@UAEXXZ,0x00464120,callee of ?onDelete@SiegeEngineContain@@UAEXXZ
 ?onContaining@OpenContain@@UAEXPAVObject@@_N@Z,0x00463097,slot 22 of the OpenContain +0x20 interface vtable 0x008433B0 installed by the OpenContain ctor 0x004649F8; base call of GarrisonContain::onContaining 0x00478C2C
 ?onRemoving@OpenContain@@UAEXPAVObject@@@Z,0x00464D02,slot 23 of the OpenContain +0x20 interface vtable 0x008433B0 installed by the OpenContain ctor 0x004649F8; base call of GarrisonContain::onRemoving 0x00478D0A

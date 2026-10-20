@@ -18,7 +18,7 @@
 // and native calls independently establish top/runInit and menu selection.
 // BFME2 native fields: initial-file stringABC, alternate-shell flagAC5,
 // shell-map flagAF0; Shell screenCount4C and active5C. Original target
-// spelling remains unknown, so retain the existing rva0035C7CF name.
+// spelling remains unknown, so retain the existing showShell name.
 // Canonical AsciiString inline forwarding constructs the by-value argument
 // in its stack slot. Calling StringBase<char>::isEmpty preserves the native
 // worker call; the menu selection has two branches and one shared active write.
@@ -75,7 +75,7 @@ private:
 public:
 	WindowLayout *top();
 	void push(AsciiString name, bool flag);
-	void rva0035C7CF(bool flag);
+	void showShell(bool flag);
 	void rva0035BF4C(bool shutdownImmediate);
 };
 
@@ -139,7 +139,7 @@ virtual void slot34()=0;
 virtual void slot35(int,int,int)=0;};extern AudioManager*TheAudio;
 class Rva0035BD3F {public:void rva0035BD3F();};
 
-void Shell::rva0035C7CF(bool flag)
+void Shell::showShell(bool flag)
 {
 	GlobalData *g = TheWritableGlobalData;
 	if (!reinterpret_cast<const StringBase<char> *>(&g->m_unk_abc)->isEmpty() && !g->m_unk_ac5)

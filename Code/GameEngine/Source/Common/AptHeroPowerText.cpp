@@ -234,7 +234,7 @@ extern GameSpyInfoInterface *TheGameSpyInfo;
 class Shell
 {
 public:
-	void rva0035BEC7();	// ZH Shell::pop
+	void pop();	// ZH Shell::pop
 };
 extern Shell *TheShell;
 void HandleBuddyResponses();			// ZH HandleBuddyResponses (pinned)
