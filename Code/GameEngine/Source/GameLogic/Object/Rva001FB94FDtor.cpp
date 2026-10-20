@@ -22,7 +22,6 @@ public:
     int m_00;
     ~Rva001FB94FFirst();
 };
-// ??1Rva001FB94FFirst@@QAE@XZ present-unmatched
 inline Rva001FB94FFirst::~Rva001FB94FFirst()
 {
     ((Rva001F4206 *)this)->rva001F4206();

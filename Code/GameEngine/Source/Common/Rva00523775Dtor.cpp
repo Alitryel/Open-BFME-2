@@ -68,7 +68,6 @@ extern "C" void __cdecl free(void *p);
 struct AutoFreePtr
 {
 	void *p;
-// ??1AutoFreePtr@@QAE@XZ present-unmatched
 	~AutoFreePtr() { if (p) free(p); }
 };
 
