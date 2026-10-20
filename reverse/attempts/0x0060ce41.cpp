@@ -1,11 +1,12 @@
+// ?rva0060CE41@XferSave@@UAEAAVXfer@@AAVRva0060CE41Argument@@@Z
+// partial score=0.99 date=2026-10-20
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.864 date=2026-10-17
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.5 date=2026-10-14
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.9 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.85 date=2026-10-11
 // cl: /DNDEBUG /MD
@@ -57,28 +58,117 @@ public:
 
 // The pooled-string table at +0x2C: the rowed lookup 0x0060CB2B and the
 // ICF-folded hash_map subscript 0x0060CDFD under their row spellings.
-class Xfer;
-class PooledString { public: const char *m_text; };
-struct Rva0060CB2BNode { void *m_next; const char *m_key; int m_offset; };
-class Rva0060CB2B { public: Rva0060CB2BNode *rva0060CB2B(const char *const &key) const; unsigned char m_data[0x10]; };
-enum NameKeyType { NAMEKEY_INVALID = 0 };
-class Rva00427157;
-namespace rts { template <class T> struct hash; }
-namespace _STL {
-template <class T> struct equal_to;
-template <class A, class B> struct pair;
-template <class T> class allocator;
-template <class K, class V, class H, class E, class A> class hash_map { public: V &operator[](const K &key); };
+// A char-pointer-keyed STLport hash_map; its _M_find, find and operator[]
+// bodies are visible, as in retail's TU, so the slot-11 key stays unaliased.
+namespace _STL
+{
+unsigned int __stl_hash_string(const char *str);
 }
-typedef _STL::hash_map<NameKeyType, const Rva00427157 *, rts::hash<NameKeyType>, _STL::equal_to<NameKeyType>,
-	_STL::allocator<_STL::pair<const NameKeyType, const Rva00427157 *> > > XferSaveStringTable;
+
+struct Rva0060CB2BNode
+{
+	Rva0060CB2BNode *m_next;
+	const char *m_key;
+	int m_offset;
+};
+
+struct Rva0060CB2BIterator
+{
+	Rva0060CB2BNode *m_cur;
+	const void *m_ht;
+
+	Rva0060CB2BIterator(Rva0060CB2BNode *cur, const void *ht)
+		: m_cur(cur), m_ht(ht)
+	{
+	}
+};
+
+struct Rva0060CB2BPair
+{
+	const char *first;
+	int second;
+
+	Rva0060CB2BPair(const char *const &a, const int &b)
+		: first(a), second(b)
+	{
+	}
+};
+
+struct Rva0060CB2BBuckets
+{
+	void **_M_start;
+	void **_M_finish;
+	void **_M_end;
+
+	unsigned int size() const
+	{
+		return (unsigned int)(_M_finish - _M_start);
+	}
+	void *operator[](unsigned int n) const
+	{
+		return _M_start[n];
+	}
+};
+
+class Rva0060CB2B
+{
+public:
+	Rva0060CB2BNode *rva0060CB2B(const char * const &key) const;
+	Rva0060CB2BIterator rva0060CB7C(const char * const &key);
+	Rva0060CB2BPair &rva0060CCD2(const Rva0060CB2BPair &obj);
+	int &rva0060CDFD(const char * const &key);
+
+	unsigned int size() const
+	{
+		return m_numElements;
+	}
+
+private:
+	int m_00;
+	Rva0060CB2BBuckets m_buckets;
+	unsigned int m_numElements;
+};
+
+__declspec(noinline) inline Rva0060CB2BNode *Rva0060CB2B::rva0060CB2B(const char * const &key) const
+{
+	const char *k = key;
+	unsigned int h = _STL::__stl_hash_string(k);
+	unsigned int n = h % m_buckets.size();
+	Rva0060CB2BNode *first = (Rva0060CB2BNode *)m_buckets[n];
+	for (; first && first->m_key != k; first = first->m_next)
+	{
+	}
+	return first;
+}
+
+__declspec(noinline) inline Rva0060CB2BIterator Rva0060CB2B::rva0060CB7C(const char * const &key)
+{
+	return Rva0060CB2BIterator(rva0060CB2B(key), this);
+}
+
+// STLport hash_map::operator[]: find, else insert (key, 0).
+__declspec(noinline) inline int &Rva0060CB2B::rva0060CDFD(const char * const &key)
+{
+	Rva0060CB2BIterator it = rva0060CB7C(key);
+	return it.m_cur == 0 ? rva0060CCD2(Rva0060CB2BPair(key, int())).second : it.m_cur->m_offset;
+}
+
+class Xfer;
+
+// Unidentified slot-11 argument: retail reads only its first field, an
+// interned (pointer-compared) string.
+class Rva0060CE41Argument
+{
+public:
+	const char *m_text;
+};
 
 class XferSave
 {
 public:
 	virtual void XferEnum(void *context, const void *bytes, unsigned int count);
 	virtual void endBlock();
-	virtual Xfer &operator==(PooledString &str);
+	virtual Xfer &rva0060CE41(Rva0060CE41Argument &str);
 
 private:
 	BfmeByteStream * volatile m_stream;
@@ -88,7 +178,6 @@ private:
 	unsigned char m_pad18[0x28 - 0x18];
 	int m_28;
 	Rva0060CB2B m_table;	// +0x2C
-	int m_3C;
 };
 
 void XferSave::XferEnum(void *context, const void *bytes, unsigned int count)
@@ -166,18 +255,19 @@ void XferSave::endBlock()
 // recording +0x28 plus +0x3C as its offset. Any short write throws
 // XferException(1, 0). The operator== spelling follows XferSaveAsText's
 // pooled-string slot.
-Xfer &XferSave::operator==(PooledString &str)
+// Slot 11 of XferSave's vtable 0x0087B010, not the PooledString slot 25, so the
+// name stays address-derived; +0x3C is the table's element count.
+Xfer &XferSave::rva0060CE41(Rva0060CE41Argument &str)
 {
 	if (m_stream == 0)
 		return *(Xfer *)this;
 	if (!m_flag || str.m_text == 0 || *str.m_text == 0)
 		return *(Xfer *)this;
-	{
-		struct { int v; unsigned char pad[3]; } marker;
-		marker.v = 0x44534352;
-		if (m_stream->write(&marker.v, 4) != 4)
-			throw XferException(1, 0);
-	}
+
+	int marker = 0x44534352;
+	if (m_stream->write(&marker, 4) != 4)
+		throw XferException(1, 0);
+
 	const char *key = str.m_text;
 	Rva0060CB2BNode *found = m_table.rva0060CB2B(key);
 	if (found != 0)
@@ -197,8 +287,9 @@ Xfer &XferSave::operator==(PooledString &str)
 			throw XferException(1, 0);
 		if (m_stream->write(key, length) != (int)length)
 			throw XferException(1, 0);
-		int offset = m_28 + m_3C;
-		((XferSaveStringTable *)&m_table)->operator[](*(const NameKeyType *)&key) = (const Rva00427157 *)offset;
+		int count = m_table.size();
+		int base = m_28;
+		m_table.rva0060CDFD(key) = base + count;
 	}
 	return *(Xfer *)this;
 }
