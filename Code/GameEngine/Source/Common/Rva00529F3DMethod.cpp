@@ -23,14 +23,20 @@ extern GameLogic *TheGameLogic;
 
 class PlayerList;
 extern PlayerList *ThePlayerList;
-class Rva005C38EChecker
+// PlayerList's relationship check 0x002A7DDE (BfmeThreeHundredTwentyFour.cpp).
+class Rva002A7DDEArg;
+class Rva002A7DDE
 {
 public:
-	bool Check(void *object);
+	bool rva002A7DDE(Rva002A7DDEArg *arg);
 };
 
 struct BfmeMsgDN;
 
+// The class is compiled without inlining: its scalar deleting destructor
+// (retail 0x00406B1D, shared) calls ~Rva004E7392 (0x004059AC) out of line,
+// while the bodies below still expand the inline destructor.
+#pragma inline_depth(0)
 struct Rva004E7392
 {
 	Rva004E7392(int a, int b)
@@ -42,6 +48,7 @@ struct Rva004E7392
 	int m_04;
 	int m_08;
 };
+#pragma inline_depth()
 
 class ControlBar
 {
@@ -74,7 +81,7 @@ void Rva00529F3D::rva00529F3D(int argument)
 		if (object != NULL)
 		{
 			if (ThePlayerList != NULL &&
-				((Rva005C38EChecker *)ThePlayerList)->Check(object))
+				((Rva002A7DDE *)ThePlayerList)->rva002A7DDE((Rva002A7DDEArg *)object))
 			{
 				Rva004E7392 msg(m_30, 0);
 				((Rva00405A50 *)TheControlBar)->rva00405C04(reinterpret_cast<BfmeThingGX *>(&msg));

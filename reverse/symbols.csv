@@ -5634,7 +5634,6 @@ name,address,notes
 ?ChangeBuffer@EAStringC@@AAEXIIIW4CBPushZero@1@I@Z,0x006D4AA0
 ?Change_Polygon_Renderer_Texture@DX8FVFCategoryContainer@@QAEXAAV?$MultiListClass@VDX8PolygonRendererClass@@@@ABV?$RefCountPtr@VTextureClass@@@@1II@Z,0x00146200,955B renderer texture migration; reference dx8renderer.cpp algorithm and unsigned pass/stage signature; retail compares handle referents then traverses pass category list and input polygon list to queue source/destination moves
 ?Check@Rva0059E647Entry@@QAE_NH@Z,0x002DFA43,wrapper-call spelling for the 0x59E647 entry predicate (thiscall 1 arg ret 4 verified); target REL32 from retail call at 0x0059E6A1
-?Check@Rva005C38EChecker@@QAE_NPAX@Z,0x002A7DDE,wrapper-call spelling for the 0x5C38EF handle check (thiscall 1 arg al result); target REL32 from retail call at 0x005C390F
 ?Check@Rva0093C4A0Target@@QAE_NPBGPAGH@Z,0x00154580,retail REL32 from Rva0093C870Owner::Check at 0x00154958 and 0x0015496E; BFME1 WW3D2 child-check identity
 ?Check_Depth_Stencil_Support@DX8Caps@@AAEXW4WW3DFormat@@ABU_D3DCAPS8@@@Z,0x0012B3A0,Retail depth-stencil probe at Ghidra 122-byte boundary; zeroes table at +0x22F and queries D3D formats 70..80; exact Compute_Caps call corroborates identity
 ?Check_Driver_Version_Status@DX8Caps@@AAEXXZ,0x0012B5B0,Retail 709-byte driver-status routine compares nv4.dll/nv4_disp.dll and known build numbers then logs driver status; exact Compute_Caps call corroborates identity

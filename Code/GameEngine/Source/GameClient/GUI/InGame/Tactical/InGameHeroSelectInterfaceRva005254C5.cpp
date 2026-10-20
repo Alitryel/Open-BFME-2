@@ -46,6 +46,10 @@ public:
 
 extern ControlBar *TheControlBar;
 
+// The class is compiled without inlining: its scalar deleting destructor
+// (retail 0x00406B1D, shared) calls ~Rva004E7392 (0x004059AC) out of line,
+// while the bodies below still expand the inline destructor.
+#pragma inline_depth(0)
 struct Rva004E7392
 {
 	Rva004E7392(int a, int b)
@@ -57,6 +61,7 @@ struct Rva004E7392
 	int m_04;
 	int m_08;
 };
+#pragma inline_depth()
 
 struct Rva005254C5HeroEntry
 {
