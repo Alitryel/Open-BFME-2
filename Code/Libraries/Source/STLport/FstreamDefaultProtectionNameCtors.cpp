@@ -16,6 +16,9 @@
 // The vendored header instead offers a two-argument open() overload that
 // stops one argument short, so each constructor needs its own explicit
 // member specialization rather than a plain explicit instantiation.
+// Retail's basic_ios<char>::widen is the generic ctype widen (0x000135E0, owned by
+// stlport_basic_ios_init.cpp); without this the char specialization emits a non-retail copy.
+#define _STLP_NO_METHOD_SPECIALIZATION
 #include <fstream>
 
 template <>

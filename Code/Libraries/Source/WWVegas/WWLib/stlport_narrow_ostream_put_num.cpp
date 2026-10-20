@@ -5,6 +5,9 @@
 // flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
 // overload keeps the inlined code and offers the link no second copy.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
+// Retail's basic_ios<char>::widen is the generic ctype widen (0x000135E0, owned by
+// stlport_basic_ios_init.cpp); without this the char specialization emits a non-retail copy.
+#define _STLP_NO_METHOD_SPECIALIZATION
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
