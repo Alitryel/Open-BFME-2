@@ -1,9 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 // stlport
-// The implicitly emitted public destructor is not a target identity claim.
-// Its masked placement at 0x00490E7B was retracted: the actual destructor
-// is the separately verified protected body at 0x004BA47C.
-// ??1TransitionDamageFX@@UAE@XZ present-unmatched
+// The protected destructor is the separately verified body at 0x004BA47C.
 //
 // ??0TransitionDamageFX@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x004BA3EA,
 // 71 bytes. TransitionDamageFX ctor over the rowed DamageModule base
@@ -80,6 +77,9 @@ class TransitionDamageFX : public DamageModule
 {
 public:
 	TransitionDamageFX(Thing *thing, const ModuleData *moduleData);
+
+protected:
+	virtual ~TransitionDamageFX();
 
 private:
 	int m_clear[0x30]; // +0x14
