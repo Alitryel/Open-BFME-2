@@ -20,6 +20,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
+// Suppress this TU's non-retail copy of ??1?$vector@URva00501E3FElement@@V?$allocator@URva00501E3FElement@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva00501E3FElement;
+namespace _STL { template <> vector<Rva00501E3FElement,allocator<Rva00501E3FElement> >::~vector(); }
 
 struct Rva00501E3FElement
 {
