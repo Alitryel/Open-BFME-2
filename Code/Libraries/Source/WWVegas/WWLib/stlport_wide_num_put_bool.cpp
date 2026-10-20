@@ -58,6 +58,9 @@ namespace _STL { template <> ostreambuf_iterator<unsigned short, char_traits<uns
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PAGPAG@_STL@@YAPAGPAG00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short * uninitialized_copy<unsigned short *,unsigned short *>(unsigned short *,unsigned short *,unsigned short *); }
 // Suppress this TU's non-retail copy of ??0?$_String_base@GV?$allocator@G@_STL@@@_STL@@QAE@ABV?$allocator@G@1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> _String_base<unsigned short,allocator<unsigned short> >::_String_base(allocator<unsigned short> const &); }
