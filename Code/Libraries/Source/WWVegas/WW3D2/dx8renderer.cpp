@@ -797,95 +797,12 @@ void DX8RigidFVFCategoryContainer::Render(void)
 
 // ----------------------------------------------------------------------------
 
-class Vertex_Split_Table
-{
-	MeshModelClass* mmc;
-	bool npatch_enable;
-	unsigned polygon_count;
-	TriIndex* polygon_array;
+// Vertex_Split_Table and every function that receives one (its constructor,
+// Peek_Texture/Peek_Material/Peek_Shader, Generate_Texture_Categories,
+// Insert_To_Texture_Category, DX8TextureCategoryClass::Add_Mesh and
+// DX8RigidFVFCategoryContainer::Add_Mesh) are DX8RendererAddMesh.cpp's rows.
 
-	bool allocated_polygon_array;
-
-public:
-	// BFME 2's constructor is the row 0x001454D0 in VertexSplitTableConstructorBFME.cpp.
-	Vertex_Split_Table(MeshModelClass* mmc_);
-
-	~Vertex_Split_Table()
-	{
-		if (allocated_polygon_array) {
-			delete[] polygon_array;
-		}
-	}
-
-	const Vector3* Get_Vertex_Array() const
-	{
-		return mmc->Get_Vertex_Array();
-	}
-
-	const Vector3* Get_Vertex_Normal_Array() const
-	{
-		return mmc->Get_Vertex_Normal_Array();
-	}
-
-	const unsigned* Get_Color_Array(unsigned index) const
-	{
-		return mmc->Get_Color_Array(index,false);
-	}
-
-	const Vector2* Get_UV_Array(unsigned uv_array_index) const
-	{
-		return mmc->Get_UV_Array_By_Index(uv_array_index);
-	}
-
-	unsigned Get_Vertex_Count() const
-	{
-		return mmc->Get_Vertex_Count();
-	}
-
-	unsigned Get_Polygon_Count() const
-	{
-		return polygon_count;
-	}
-
-	unsigned Get_Pass_Count() const
-	{
-		return mmc->Get_Pass_Count();
-	}
-
-	TextureClass* Peek_Texture(unsigned idx,unsigned pass,unsigned stage)
-	{
-		if (mmc->Has_Texture_Array(pass,stage)) {
-			if (idx>=unsigned(mmc->Get_Polygon_Count())) {
-				WWASSERT(mmc->Get_Gap_Filler());
-				return mmc->Get_Gap_Filler()->Get_Texture_Array(pass,stage)[idx-mmc->Get_Polygon_Count()];
-			}
-			return mmc->Peek_Texture(idx,pass,stage);
-		}
-		return mmc->Peek_Single_Texture(pass,stage);
-	}
-
-	// Retail bodies live in other units (Peek_Material: the 70 B row in
-	// DX8GenerateTextureCategoriesBFME2.cpp; Peek_Shader: the 131 B row in
-	// VertexSplitTablePeekShader.cpp). Declared only: the emitter's versions
-	// were stale non-retail bodies that, sitting at this unit's early link
-	// position, became the definition the link kept and blocked those owners.
-	VertexMaterialClass* Peek_Material(unsigned idx,unsigned pass);
-
-	ShaderClass Peek_Shader(unsigned idx,unsigned pass);
-
-	MeshModelClass* Get_Mesh_Model_Class()
-	{
-		return mmc;
-	}
-
-	unsigned short* Get_Polygon_Array(unsigned pass)
-	{
-		return (unsigned short*)polygon_array;
-	}
-};
-
-// The split-table views above no longer instantiate the mesh-model accessors
-// inline, but two kinds of copies this unit must keep emitting would then be
+// This unit no longer instantiates the mesh-model accessors inline, but two kinds of copies this unit must keep emitting would then be
 // lost, so take their addresses (the inline-anchor pattern):
 //   - the 11 B GapFillerClass getters, this unit's own matched rows;
 //   - the MeshModelClass/MeshMatDescClass accessors below. This unit emits the
@@ -903,127 +820,9 @@ extern bool (MeshModelClass::*const _bfmeShieldHasShaderArray)(int) const = &Mes
 
 // ----------------------------------------------------------------------------
 
-// ?Add_Mesh@DX8RigidFVFCategoryContainer@@ present-unmatched
-void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
-{
-	WWASSERT(Check_If_Mesh_Fits(mmc_));
-
-	Vertex_Split_Table split_table(mmc_);
-	int needed_vertices=split_table.Get_Vertex_Count();
-
-	// Peek_Shader's `ShaderClass shader;` local was this unit's direct use of
-	// ShaderClass's default ctor, giving it retail's inlined-Reset body; with
-	// Peek_Shader declaration-only, the booking struct's ShaderClass array
-	// below emits the call-through-Reset form instead. Keep a direct use here
-	// (observed through a volatile read, so it cannot be eliminated) so this
-	// unit's copy stays retail's.
-	ShaderClass shader_anchor;
-	*(volatile int*)&shader_anchor;
-
-	/*
-	** This FVFCategoryContainer doesn't have a vertex buffer yet so allocate one big
-	** enough to contain this mesh.
-	*/
-	if (!vertex_buffer) {
-		int vb_size=4000;
-		if (vb_size<needed_vertices) vb_size=needed_vertices;
-		if (sorting) {
-			vertex_buffer=NEW_REF(SortingVertexBufferClass,(vb_size));
-			WWASSERT(vertex_buffer->FVF_Info().Get_FVF()==FVF);	// Only one sorting FVF type!
-		}
-		else {
-			vertex_buffer=NEW_REF(DX8VertexBufferClass,(
-				FVF,
-				vb_size,
-				(DX8Wrapper::Get_Current_Caps()->Support_NPatches() && WW3D::Get_NPatches_Level()>1) ? DX8VertexBufferClass::USAGE_NPATCHES : DX8VertexBufferClass::USAGE_DEFAULT));
-		}
-	}
-
-	/*
-	** Append this mesh's vertices to the vertex buffer.
-	*/
-
-	VertexBufferClass::AppendLockClass l(vertex_buffer,used_vertices,split_table.Get_Vertex_Count());
-	const FVFInfoClass fi=vertex_buffer->FVF_Info();
-	unsigned char *vb=(unsigned char*) l.Get_Vertex_Array();
-	unsigned int i;
-	const Vector3 *locs=split_table.Get_Vertex_Array();
-	const Vector3 *norms=split_table.Get_Vertex_Normal_Array();
-	const unsigned *diffuse=split_table.Get_Color_Array(0);
-	const unsigned *specular=split_table.Get_Color_Array(1);
-	for (i=0; i<split_table.Get_Vertex_Count(); i++)
-	{
-		*(Vector3*)(vb+fi.Get_Location_Offset())=locs[i];
-		
-		if ((FVF&D3DFVF_NORMAL)==D3DFVF_NORMAL && norms) {
-			*(Vector3*)(vb+fi.Get_Normal_Offset())=norms[i];
-		}
-
-		if ((FVF&D3DFVF_DIFFUSE)==D3DFVF_DIFFUSE) {
-			if (diffuse) {
-				*(unsigned int*)(vb+fi.Get_Diffuse_Offset())=diffuse[i];
-			} else {
-				*(unsigned int*)(vb+fi.Get_Diffuse_Offset()) = 0xFFFFFFFF;
-			}
-		}
-		
-		if ((FVF&D3DFVF_SPECULAR)==D3DFVF_SPECULAR) {
-			if (specular) {
-				*(unsigned int*)(vb+fi.Get_Specular_Offset())=specular[i];
-			} else {
-				*(unsigned int*)(vb+fi.Get_Specular_Offset()) = 0xFFFFFFFF;
-			}
-		}
-
-		vb+=fi.Get_FVF_Size();
-	}
-	
-
-	/*
-	** Append the UV coordinates to the vertex buffer
-	*/
-	int uvcount = 0;
-	if ((FVF&D3DFVF_TEX1) == D3DFVF_TEX1) {
-		uvcount = 1;
-	}
-	if ((FVF&D3DFVF_TEX2) == D3DFVF_TEX2) {
-		uvcount = 2;
-	}
-	if ((FVF&D3DFVF_TEX3) == D3DFVF_TEX3) {
-		uvcount = 3;
-	}
-	if ((FVF&D3DFVF_TEX4) == D3DFVF_TEX4) {
-		uvcount = 4;
-	}
-	if ((FVF&D3DFVF_TEX5) == D3DFVF_TEX5) {
-		uvcount = 5;
-	}
-	if ((FVF&D3DFVF_TEX6) == D3DFVF_TEX6) {
-		uvcount = 6;
-	}
-	if ((FVF&D3DFVF_TEX7) == D3DFVF_TEX7) {
-		uvcount = 7;
-	}
-	if ((FVF&D3DFVF_TEX8) == D3DFVF_TEX8) {
-		uvcount = 8;
-	}
-	
-	for (int j=0; j<uvcount; j++) {
-		unsigned char *vb=(unsigned char*) l.Get_Vertex_Array();
-		const Vector2*uvs=split_table.Get_UV_Array(j);
-		if (uvs) {
-			for (i=0; i<split_table.Get_Vertex_Count(); i++)
-			{
-				*(Vector2*)(vb+fi.Get_Tex_Offset(j))=uvs[i];
-				vb+=fi.Get_FVF_Size();
-			}		
-		}
-	}
-
-	Generate_Texture_Categories(split_table,used_vertices);
-
-	used_vertices+=needed_vertices;//vertex_count;
-}
+// DX8RigidFVFCategoryContainer::Add_Mesh: BFME 2's body is the row 0x00148180 in
+// DX8RendererAddMesh.cpp, with every function its split table reaches (retail
+// compiled them in one unit; see that file). Zero Hour's copy here duplicated it.
 
 
 const unsigned MAX_ADDED_TYPE_COUNT=64;
@@ -1060,7 +859,7 @@ struct Textures_Material_And_Shader_Booking_Struct
 };
 
 // The retail Generate_Texture_Categories body and its split-table material
-// helper are owned by DX8GenerateTextureCategoriesBFME2.cpp (0x00146BA0).
+// helper are owned by DX8RendererAddMesh.cpp (0x00146BA0).
 // Keep the class declaration; the older Zero Hour definition duplicated it.
 
 // ----------------------------------------------------------------------------
