@@ -9,4 +9,10 @@ struct TreeHintRef00217D4C
 	~TreeHintRef00217D4C();
 };
 
+// Bind cleanup to the existing rowed STLport bodies instead of emitting copies.
+namespace _STL {
+template<> void _Destroy<TreeHintRef00217D4C *>(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
+template<> __declspec(dllimport) __forceinline void allocator<TreeHintRef00217D4C>::deallocate(TreeHintRef00217D4C *p, size_t) const { if (p) ::free(p); }
+}
+
 template _STL::vector<TreeHintRef00217D4C>::~vector();

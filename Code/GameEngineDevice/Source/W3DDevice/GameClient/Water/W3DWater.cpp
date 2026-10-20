@@ -115,7 +115,12 @@ struct WaterCountedRef {
 struct TreeHintRef00217D4C { ~TreeHintRef00217D4C(); };
 // The unit's vectors use STLport's own empty construction; their destructor
 // is the existing out-of-line instantiation.
-namespace _STL { template<> vector<TreeHintRef00217D4C>::~vector(); }
+namespace _STL {
+template<> vector<TreeHintRef00217D4C>::~vector();
+// Use the rowed retail folds for out-of-line vector storage cleanup.
+template<> _Vector_base<TreeHintRef00217D4C, allocator<TreeHintRef00217D4C> >::~_Vector_base();
+template<> void allocator<TreeHintRef00217D4C>::deallocate(TreeHintRef00217D4C *, size_t) const;
+}
 class WaterTracksRenderSystem {public: ~WaterTracksRenderSystem();};
 class Rva0007E12F {public: void rva0007E12F();};
 void BFME_DX8_Thread_Lock();
