@@ -127,7 +127,7 @@ public:
 	CameraClass & operator = (const CameraClass &);
 	virtual ~CameraClass(void);
 	virtual RenderObjClass *	Clone(void) const;
-	virtual int						Class_ID(void) const { return CLASSID_CAMERA; }
+	virtual int						Class_ID(void) const;	// out of line: retail's /O1 body 0x0007C3F8 (CameraClassClassID.cpp)
 		
 	/////////////////////////////////////////////////////////////////////////////
 	// Render Object Interface -  Rendering, cameras don't "render"
