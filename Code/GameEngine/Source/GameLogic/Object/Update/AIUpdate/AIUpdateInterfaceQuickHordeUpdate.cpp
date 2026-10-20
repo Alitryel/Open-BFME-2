@@ -209,7 +209,7 @@ public:
 class Matrix3D
 {
 public:
-	Matrix3D(bool init)
+	__declspec(dllimport) __forceinline Matrix3D(bool init)
 	{
 		if (init)
 		{
@@ -315,13 +315,20 @@ struct Rva0026C4EBGate
 	Bool m_5C;
 };
 
+// Retail 0x0028B525 stores the pathfind layer at Object +0x40C.
+// Use the rowed displacement view without claiming an Object method name.
+class Rva0028B525DwordSlot
+{
+public:
+	void set(int value);
+};
+
 class Object : public Thing
 {
 public:
 	Bool isKindOf(KindOfType t) const;
 	void rva0028AE6D(); // model-condition change notifier
 	Int rva0028B511() const; // the pathfind layer
-	void rva0028B525(Int layer);
 	Object *rva002931F5(Bool arg);
 	Real GetRelativeAngle(const Coord3D *pos) const;
 
@@ -671,7 +678,7 @@ UpdateSleepTime AIUpdateInterface::quickHordeUpdate()
 				doLocomotor();
 				m_locomotorGoalType = POSITION_EXPLICIT_HORDE;
 				if (m_path)
-					obj->rva0028B525(TheTerrainLogic->getLayerForDestination(obj, &m_path->m_08->m_pos));
+					((Rva0028B525DwordSlot *)obj)->set(TheTerrainLogic->getLayerForDestination(obj, &m_path->m_08->m_pos));
 			}
 			else
 			{
@@ -714,7 +721,7 @@ UpdateSleepTime AIUpdateInterface::quickHordeUpdate()
 				angle += PI;
 		}
 		mtx.rotateZ(angle);
-		obj->rva0028B525(TheTerrainLogic->getLayerForDestination(obj, &pos));
+		((Rva0028B525DwordSlot *)obj)->set(TheTerrainLogic->getLayerForDestination(obj, &pos));
 
 		if (m_locomotorGoalType != POSITION_EXPLICIT_HORDE || m_path == NULL)
 		{
