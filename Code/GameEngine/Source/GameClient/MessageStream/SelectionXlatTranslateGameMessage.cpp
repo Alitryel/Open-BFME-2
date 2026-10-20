@@ -999,6 +999,10 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVObject@@@_STL@@QBEXPAPAVObject@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> void allocator<Object *>::deallocate(Object **, size_t) const; }
 // Suppress this TU's non-retail copy of ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Object;

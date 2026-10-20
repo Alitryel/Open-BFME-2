@@ -16,6 +16,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PAVObject@@@_STL@@QBEXPAPAVObject@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class Object;
+namespace _STL { template <> void allocator<Object *>::deallocate(Object **, size_t) const; }
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@IAEXPAPAVObj:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class Object;
