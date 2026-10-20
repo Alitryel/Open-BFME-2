@@ -48,9 +48,28 @@ namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned 
 enum NameKeyType; struct PristineBoneInfo;
 namespace _STL { template <> void _Rb_tree<NameKeyType,pair<NameKeyType const ,PristineBoneInfo>,_Select1st<pair<NameKeyType const ,PristineBoneInfo> >,less<NameKeyType>,allocator<pair<NameKeyType const ,PristineBoneInfo> > >::_M_erase(_Rb_tree_node<pair<NameKeyType const ,PristineBoneInfo> > *); }
 
-// Use the rowed 104-bit comparator at 0x0033AD13. Its source in
-// SparseMatchFinderModelConditionCompare117.cpp owns the out-of-line copy.
-template<> bool SparseMatchFinder<ModelConditionInfo, ModelConditionFlags>::MapHelper::operator()(const ModelConditionFlags &, const ModelConditionFlags &) const;
+// Keep the native 104-bit comparator visible and noinline: an opaque
+// declaration changes VC7.1's _M_find allocation from the verified 92 bytes.
+// The donor BitFlags stores only a four-word STLport bitset at offset zero.
+// Its unsigned-long storage is measured here; 117 remains the existing ledger
+// spelling, not a newly established original template argument.
+typedef char BfmeModelFlagsWordSize[(sizeof(unsigned long) == 4) ? 1 : -1];
+typedef char BfmeModelFlagsStorageSize[(sizeof(ModelConditionFlags) == 16) ? 1 : -1];
+template<> __declspec(noinline) bool SparseMatchFinder<ModelConditionInfo, ModelConditionFlags>::MapHelper::operator()(const ModelConditionFlags &a, const ModelConditionFlags &b) const
+{
+    const unsigned long *aWords = reinterpret_cast<const unsigned long *>(&a);
+    const unsigned long *bWords = reinterpret_cast<const unsigned long *>(&b);
+    for (int i = 0; i < 104; ++i)
+    {
+        bool aBit = (aWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        bool bBit = (bWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+        if (aBit && !bBit)
+            return false;
+        if (!aBit && bBit)
+            return true;
+    }
+    return false;
+}
 
 // Use the rowed four-word SWAR intersection counters from
 // BitFlags117CountInverseIntersection.cpp (inverse: 0x0033AE53), not ZH COMDATs.
@@ -58,8 +77,7 @@ template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const
 template<> int BitFlags<117>::countInverseIntersection(const BitFlags<117> &that) const;
 
 // bfme link decl-only begin
-// The ModelCondition SparseMatchFinder comparator and slow path are owned by
-// SparseMatchFinderModelConditionCompare117.cpp (0x0033AD13) and
+// The ModelCondition SparseMatchFinder slow path is owned by
 // SparseMatchFinderModelConditionBestInfoSlow117.cpp (0x0033BDF8), and the
 // map/tree/pair bodies the /O1 instantiation emits here are owned
 // retail-identically by ModelConditionMap117InsertUnique.cpp (0x0033D142 and
@@ -78,7 +96,6 @@ template <> const ModelConditionInfo *& BfmeLinkMCMap::operator[](const BitFlags
 template <> BfmeLinkMCTree::iterator BfmeLinkMCTree::insert_unique(BfmeLinkMCTree::iterator, const BfmeLinkMCPair &);
 template <> pair<BfmeLinkMCTree::iterator, bool> BfmeLinkMCTree::insert_unique(const BfmeLinkMCPair &);
 }
-template <> bool SparseMatchFinder<ModelConditionInfo, BitFlags<117> >::MapHelper::operator()(const BitFlags<117> &, const BitFlags<117> &) const;
 template <> const ModelConditionInfo *SparseMatchFinder<ModelConditionInfo, BitFlags<117> >::findBestInfoSlow(const _STL::vector<ModelConditionInfo, _STL::allocator<ModelConditionInfo> > &, const BitFlags<117> &) const;
 // The rowed inverse-intersection counter was instantiated only as a side effect
 // of findBestInfoSlow's body above; keep it with an explicit instantiation.
