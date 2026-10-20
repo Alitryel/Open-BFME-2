@@ -14,6 +14,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Suppress this TU's non-retail copy of ??$_Destroy@PAURva002898ACElement@@@_STL@@YAXPAURva002898ACElement@@0@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva002898ACElement;
+namespace _STL { template <> void _Destroy<Rva002898ACElement *>(Rva002898ACElement *,Rva002898ACElement *); }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int vector<void *,allocator<void *> >::size()const  { return (unsigned int)(this->_M_finish - this->_M_start); } }
 // Bind to the kept retail copy instead of emitting this unit's own.
