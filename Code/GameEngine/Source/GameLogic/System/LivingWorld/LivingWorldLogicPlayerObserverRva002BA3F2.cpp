@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
 //
 // ?rva002BA3F2@LivingWorldLogic@@UAEXPBVRva002E0687@@@Z
@@ -162,6 +162,10 @@ public:
 	bool GetRegionCenterPoint(Rva0020E89C *region, Coord2D *center);
 };
 
+// The rowed 0x004FBC02 position setter (position +0x18, flag +0x24).
+struct Rva004FBC02Src;
+class Rva004FBC02 { public: void rva004FBC02(const Rva004FBC02Src *position); };
+
 class Rva004FBCBE
 {
 public:
@@ -170,7 +174,6 @@ public:
 	virtual ~Rva004FBCBE();
  virtual void slot04();
  virtual void slot08();
- void rva004FBC02(const Coord3D *position);	// 0x004FBC02: position +0x18, flag +0x24
  int m_refCount;				// +0x04
 	unsigned char m_pad08[0x14 - 0x08];
 	void *m_14;				// +0x14
@@ -366,6 +369,6 @@ void LivingWorldLogic::rva002BA654(const Rva002E0687 *player, Rva0020E89C *regio
 	((Rva002BF4F3 *)TheLivingWorld)->rva002BF5B0((const Vector3 *)&xy, (Vector3 *)&position);
 	void *word = region->m_3c;
 	message->m_14 = word;
-	message->rva004FBC02(&position);
+	((Rva004FBC02 *)message.operator->())->rva004FBC02((const Rva004FBC02Src *)&position);
 	addMessage(message);
 }

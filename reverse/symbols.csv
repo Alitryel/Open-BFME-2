@@ -11146,16 +11146,9 @@ name,address,notes
 ?swap@ScriptList@@QAEXPAV1@@Z,0x003B58DF,retail tail JMP from SidesInfo::setScriptList 0x3297F6; member-wise swap (null-checked base conversion then two member swaps) of the by-value ScriptList; name descriptive
 ?swap@SidesInfoStringVector@@QAEXAAV1@@Z,0x00567ECD,retail REL32 from SidesInfo swap 0x32B09F; TU vector stand-in swap; STLport vector swap body
 ?sync@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@MAEHXZ,0x0065CE90,STLport 4.5.3 narrow streambuf base default - slot 4 - folded onto the wide sync; xor eax eax / ret. Read from the narrow streambuf vtable where the slot holds an address already claimed for the wide facet
-?tail004E52DC@Rva004E52DCForwarder@@QAEXXZ,0x004E52DC,unrowed no-arg tail target of wrapper 0x004E54B8 read from its REL32
-?tail00596269@Rva00596269Forwarder@@QAEXXZ,0x00596269,unrowed no-arg tail target of wrapper 0x005962E7 read from its REL32
-?tail005D13C2@Rva005D13C2Forwarder@@QAEXXZ,0x005D13C2,unrowed no-arg tail target of wrapper 0x005D1516 read from its REL32
 ?tail005E18D0@Rva005E18D0Forwarder@@QAEXXZ,0x005E18D0,unrowed no-arg tail target of wrapper 0x005E1906 read from its REL32
 ?tail005E18DC@Rva005E18DCForwarder@@QAEXXZ,0x005E18DC,unrowed no-arg tail target of wrapper 0x005E1917 read from its REL32
-?tail005E1B9A@Rva005E1B9AForwarder@@QAEXXZ,0x005E1B9A,unrowed no-arg tail target of wrapper 0x005E1BC4 read from its REL32
-?tail005E254C@Rva005E254CForwarder@@QAEXXZ,0x005E254C,unrowed no-arg tail target of wrapper 0x005E25DE read from its REL32
 ?tail005E589E@Rva005E589EForwarder@@QAEXXZ,0x005E589E,unrowed no-arg tail target of wrapper 0x005E590F read from its REL32
-?tail005E6A9D@Rva005E6A9DForwarder@@QAEXXZ,0x005E6A9D,unrowed no-arg tail target of wrapper 0x005E6BA3 read from its REL32
-?tail005E6AD8@Rva005E6AD8Forwarder@@QAEXXZ,0x005E6AD8,unrowed no-arg tail target of wrapper 0x005E6BB4 read from its REL32
 ?tailA@Rva00066A9ASub@@QAEXXZ,0x000EA1F3,pin for 0x66A9A tail call
 ?tailB@Rva00066A9ASub@@QAEXXZ,0x000E6FC8,pin for 0x66A9A tail jmp
 ?target_00094652@W3DSnowManager@@AAEXXZ,0x00094652,Neutral snow-state call view; update949D9 passes this with no explicit arguments and ignores return. Full target boundary189 verified; reads weather globalDFE118 and manager state. Original method name and return type unknown
@@ -13385,7 +13378,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?init@Rva00224C95Table@@QAEXXZ,0x00224C76,TU-local thiscall table init pinned to 0x224C76 for 0x224C95
 ?Rva00629512ConstructN@@YGXPAXHH00@Z,0x00629512,stdcall vector-construct helper (ghidra eh_vector_constructor_iterator): constructs count objects of stride at ptr via pushed thiscall ctor with EH rollback via pushed dtor; retail pushes (this+0xC
 ?rva00222E29@Rva00222A8BTarget@@QAEXH@Z,0x00222E29,slot refresh thiscall taking the loop index; called 14x over the +0xF0 stride-0x28 entries in 0x2251E5; reads this+0xCC+idx*0x28 so its own layout view is pending with its body
-?Rva004114EFStatic@@YAXXZ,0x004114EF,static-call alias to rowed member ?rva004114EF@Rva004114EF@@QAEXXZ: 0x2251E5 calls it bare with no this setup
 ?rva00278341@Rva00278341Host@@QAEXHH@Z,0x00278341,thiscall with 2 ints from 0x2783F6
 ?rva0027601B@Rva0027601BHost@@QAEXXZ,0x0027601B,thiscall no args from switch 0x2796D9 case 0
 ?rva00275F3F@Rva00275F3FHost@@QAEXXZ,0x00275F3F,thiscall no args from switch 0x2796D9 case 1
@@ -15539,7 +15531,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??_ERva0043D1C9@@UAEPAXI@Z,0x0043D3BE,callee of ??_ERva0043D1C9@@WCBI@AEPAXI@Z
 ??_ERva004E4655@@UAEPAXI@Z,0x004E4750,callee of ??_ERva004E4655@@WCBI@AEPAXI@Z
 ??_EGen007F4D00@@UAEPAXI@Z,0x006617A0,callee of ??_EGen007F4D00@@W3AEPAXI@Z
-??0Rva004FF2C0@@QAE@PAVRva0020E89C@@PAVRva003F1241@@ABVUnicodeString@@2H@Z,0x004FF28E,callee of ?rva002BA654@LivingWorldLogic@@UAEXPBVRva002E0687@@PAVRva0020E89C@@PAVRva003F1241@@@Z
 ?rva004FBC02@Rva004FBCBE@@QAEXPBUCoord3D@@@Z,0x004FBC02,callee of ?rva002BA654@LivingWorldLogic@@UAEXPBVRva002E0687@@PAVRva0020E89C@@PAVRva003F1241@@@Z
 ??3Rva00672460@@SAXPAXI@Z,0x0065D030,callee of ??_GRva00672460@@UAEPAXI@Z
 ?updateInternal@AIAttackAimAtTargetState@@QAE?AW4StateReturnType@@_N@Z,0x003508C5,callee of ?update@AIAttackAimAtTargetState@@UAE?AW4StateReturnType@@XZ

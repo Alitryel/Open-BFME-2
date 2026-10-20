@@ -57,7 +57,8 @@ typedef void *(__cdecl *Rva004DFE4FCallback)(void *key);
 class Rva004DFCE6
 {
 public:
- void rva004DFCE6(void *key, Rva004DFE4FCallback callback);
+ // The rowed 0x004DFCE6 Rva004DFCE6::rva004DFCE6(Object *, void *).
+ void rva004DFCE6(class Object *object, void *callback);
  unsigned char active;
  char pad[0x1C-1];
  void **begin;
@@ -86,7 +87,7 @@ int Rva004DFE4F::rva004DFE4F(void *key)
    {
     group->active = 1;
     if (count == 0)
-     group->rva004DFCE6(key, m_callback);
+     group->rva004DFCE6((class Object *)key, (void *)m_callback);
     ++count;
     break;
    }

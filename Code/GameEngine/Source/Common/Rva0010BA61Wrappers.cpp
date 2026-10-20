@@ -34,13 +34,13 @@ private:
 };
 // Rva0010BA61::rva0010BA61 is defined with its retail-matched body in Code/GameEngine/Source/Common/Rva0010BA61.cpp (0x0010BA61).
 
-class Rva004E52DCForwarder
+class Rva004E52DC
 {
 public:
-	void tail004E52DC();
+	void rva004E52DC();
 };
 
-class Rva004E54B8 : public Rva004E52DCForwarder
+class Rva004E54B8 : public Rva004E52DC
 {
 public:
 	void rva004E54B8();
@@ -50,7 +50,7 @@ private:
 void Rva004E54B8::rva004E54B8()
 {
 	helper004E5372();
-	Rva004E52DCForwarder::tail004E52DC();
+	Rva004E52DC::rva004E52DC();
 }
 
 class Rva0025C010
@@ -59,13 +59,13 @@ public:
 	void rva0025C010();
 };
 
-class Rva00596269Forwarder
+class Rva005961D6
 {
 public:
-	void tail00596269();
+	void rva00596269();
 };
 
-class Rva005962E7 : public Rva00596269Forwarder
+class Rva005962E7 : public Rva005961D6
 {
 public:
 	void rva005962E7();
@@ -73,17 +73,17 @@ public:
 void Rva005962E7::rva005962E7()
 {
 	((Rva0025C010 *)this)->rva0025C010();
-	Rva00596269Forwarder::tail00596269();
+	Rva005961D6::rva00596269();
 }
 
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_EXTERN_DTOR
 #include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
-class Rva005D13C2Forwarder
+class Rva005D13C2
 {
 public:
-	void tail005D13C2();
+	void rva005D13C2();
 };
 
 class Rva005D1516
@@ -92,12 +92,12 @@ public:
 	void rva005D1516();
 private:
 	char m_pad00[8];
-	Rva005D13C2Forwarder *m_08;
+	Rva005D13C2 *m_08;
 };
 void Rva005D1516::rva005D1516()
 {
 	((Coord3D *)this)->~Coord3D();
-	m_08->tail005D13C2();
+	m_08->rva005D13C2();
 }
 
 class Overridable
@@ -152,11 +152,17 @@ void Rva005E1917::rva005E1917()
 	m_0C->tail005E18DC();
 }
 
-class Rva005E1B9AForwarder
+namespace StrategicInGameUI {
+class RegionDetailsArmiesPage
 {
 public:
-	void tail005E1B9A();
+	class Impl
+	{
+	public:
+		void Update();
+	};
 };
+}
 
 class Rva005E1BC4
 {
@@ -164,18 +170,18 @@ public:
 	void rva005E1BC4();
 private:
 	char m_pad00[0x0C];
-	Rva005E1B9AForwarder *m_0C;
+	StrategicInGameUI::RegionDetailsArmiesPage::Impl *m_0C;
 };
 void Rva005E1BC4::rva005E1BC4()
 {
 	((Coord3D *)this)->~Coord3D();
-	m_0C->tail005E1B9A();
+	m_0C->Update();
 }
 
-class Rva005E254CForwarder
+class Rva005E254C
 {
 public:
-	void tail005E254C();
+	void rva005E254C();
 };
 
 class Rva005E25DE
@@ -184,12 +190,12 @@ public:
 	void rva005E25DE();
 private:
 	char m_pad00[0x0C];
-	Rva005E254CForwarder *m_0C;
+	Rva005E254C *m_0C;
 };
 void Rva005E25DE::rva005E25DE()
 {
 	((Coord3D *)this)->~Coord3D();
-	m_0C->tail005E254C();
+	m_0C->rva005E254C();
 }
 
 class Rva005E589EForwarder
@@ -212,10 +218,10 @@ void Rva005E590F::rva005E590F()
 	m_08->tail005E589E();
 }
 
-class Rva005E6A9DForwarder
+class Rva005E6A9DRun
 {
 public:
-	void tail005E6A9D();
+	void run();
 };
 
 class Rva005E6BA3
@@ -224,18 +230,18 @@ public:
 	void rva005E6BA3();
 private:
 	char m_pad00[0x20];
-	Rva005E6A9DForwarder *m_20;
+	Rva005E6A9DRun *m_20;
 };
 void Rva005E6BA3::rva005E6BA3()
 {
 	((Coord3D *)this)->~Coord3D();
-	m_20->tail005E6A9D();
+	m_20->run();
 }
 
-class Rva005E6AD8Forwarder
+class Rva005E6AD8
 {
 public:
-	void tail005E6AD8();
+	void rva005E6AD8();
 };
 
 class Rva005E6BB4
@@ -244,12 +250,12 @@ public:
 	void rva005E6BB4();
 private:
 	char m_pad00[0x20];
-	Rva005E6AD8Forwarder *m_20;
+	Rva005E6AD8 *m_20;
 };
 void Rva005E6BB4::rva005E6BB4()
 {
 	((Coord3D *)this)->~Coord3D();
-	m_20->tail005E6AD8();
+	m_20->rva005E6AD8();
 }
 
 // Native 0x005E6B8F..0x005E6BA3, 20B. The +0x14 member runs the

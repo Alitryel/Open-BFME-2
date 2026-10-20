@@ -26,13 +26,13 @@ namespace _STL { template <> __declspec(dllimport) __forceinline _Vector_base<Ob
 class Object;
 typedef void *(__cdecl *Rva004DFE4FCallback)(void *key);
 // The 40-byte group built by the rowed constructor 0x00281A76; the member
-// call 0x004DFCE6 keeps its pinned address-derived class spelling.
-class Rva004DFCE6 { public: void rva004DFCE6(void *key, Rva004DFE4FCallback callback); };
+// call is the rowed 0x004DFCE6 Rva004DFCE6::rva004DFCE6(Object *, void *).
+class Rva004DFCE6 { public: void rva004DFCE6(Object *object, void *callback); };
 class Rva00281A76
 {
 public:
  Rva00281A76(float);
- void add(void *key, Rva004DFE4FCallback callback) { ((Rva004DFCE6 *)this)->rva004DFCE6(key, callback); }
+ void add(void *key, Rva004DFE4FCallback callback) { ((Rva004DFCE6 *)this)->rva004DFCE6((Object *)key, (void *)callback); }
  bool active00; float radius04, centerX08, centerY0C, centerZ10; float padding14; bool selected18;
  _STL::vector<Object *> objects1C;
  ~Rva00281A76() {}

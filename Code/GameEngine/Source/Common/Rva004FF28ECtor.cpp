@@ -4,10 +4,9 @@
 // rowed 0x003EE980, constructs a 3D point from record +0x48, and dispatches
 // TheLivingWorld slot 39 (+0x9C) with inline getters for +0x50/+0x54 and
 // rowed movement duration 0x002BEDCA (WB 0x1314300 compiler-temp order).
-// 0x004FF28E (50B): five-int init storing vtable 0xC63B34 plus +0x28,
-// forwarding three ints to the rowed 0x4FBC4D ctor and one int to the
-// 0x20E449 copy ctor.
-// Returns this as int. Identities unproven.
+// 0x004FF28E (50B): the Rva004FF2C0 constructor, storing vtable 0xC63B34
+// plus +0x28, forwarding the strings to the rowed 0x4FBC4D base ctor and the
+// army to the 0x20E449 copy ctor. Owner identities unproven.
 
 #include "Coord3D.h"
 #include "Coord2D.h"
@@ -109,6 +108,9 @@ class Rva004FBCBE
 {
 public:
 	Rva004FBCBE(const UnicodeString &a, const UnicodeString &b, int c);
+
+private:
+	char m_base[0x28];	// +0x00 vtable, then the base fields
 };
 
 class Rva0020E449
@@ -117,26 +119,29 @@ public:
 	Rva0020E449(const Rva0020E449 &other);
 };
 
-class Rva004FF28EOwner
+// The 0x48-byte region message: its destructor 0x004FF2C0 follows, and the
+// new-expression in LivingWorldLogicPlayerObserverRva002BA3F2.cpp names this
+// constructor. Only the members it writes; the base view has no destructor,
+// as the body unwinds nothing.
+class Rva0020E89C;
+class Rva003F1241;
+
+class Rva004FF2C0 : public Rva004FBCBE
 {
 public:
-	int rva004FF28E(int a0, int a1, int a2, int a3, int a4);
+	Rva004FF2C0(Rva0020E89C *region, Rva003F1241 *army, const UnicodeString &title, const UnicodeString &text, int arg);
 
 private:
-	int m_vptr;		// +0x00 = 0xC63B34
-	char m_pad04[0x24];	// +0x04..0x27
-	int m_28;		// +0x28 = a0
+	Rva0020E89C *m_28;	// +0x28 region
 	char m_2C[16];		// +0x2C copy target for 0x20E449
 };
 
-int Rva004FF28EOwner::rva004FF28E(int a0, int a1, int a2, int a3, int a4)
+Rva004FF2C0::Rva004FF2C0(Rva0020E89C *region, Rva003F1241 *army, const UnicodeString &title, const UnicodeString &text, int arg)
+	: Rva004FBCBE(title, text, arg)
 {
-	((Rva004FBCBE *)this)->Rva004FBCBE::Rva004FBCBE(
-		*(const UnicodeString *)a2, *(const UnicodeString *)a3, a4);
 	*(int *)this = ((unsigned int)vtbl_00C63B34);
-	m_28 = a0;
-	((Rva0020E449 *)m_2C)->Rva0020E449::Rva0020E449(*(const Rva0020E449 *)a1);
-	return (int)this;
+	m_28 = region;
+	((Rva0020E449 *)m_2C)->Rva0020E449::Rva0020E449(*(const Rva0020E449 *)army);
 }
 
 // Each retail call in this body reads an address the ledger already carries

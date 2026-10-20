@@ -1,9 +1,10 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva004114EF@Rva004114EF@@QAEXXZ, retail 0x004114EF (52B).
+// ?rva004114EF@Rva004114EF@@SAXXZ, retail 0x004114EF (52B).
 // Eva-table walk over global at 0x00E02FE4 via pinned first 0x00427195 and
 // rowed next 0x00411084, virtual-calling slot 0x14 on object at node+0x18
 // when non-null. Same first/next shape as 0x00411523; per-node action is
-// the virtual call. Owner unproven so honest-address thiscall.
+// the virtual call. Owner unproven so honest-address class; static, as the
+// body never reads ecx and its caller 0x002251E5 calls it with no this setup.
 
 class Rva000411084
 {
@@ -52,7 +53,7 @@ struct Rva004114EFNode
 class Rva004114EF
 {
 public:
-	void rva004114EF();
+	static void rva004114EF();
 };
 
 void Rva004114EF::rva004114EF()

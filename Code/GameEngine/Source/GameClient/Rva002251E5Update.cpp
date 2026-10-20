@@ -4,8 +4,8 @@
 // rowed 0x00224818 in Rva00224818.cpp (14 stride-0x28 entries at +0xF0,
 // refresh flag at +0x308, same union idiom extended here to the +0x30C
 // tick and +0x310/+0x311/+0x312/+0x328/+0x329 bytes this body touches).
-// IME/slot flags, per-slot refresh through the pinned thiscall 0x00222E29,
-// Eva walk through the pinned static alias of rowed 0x004114EF, self update
+// IME/slot flags, per-slot refresh through the rowed AptPlayer::LoadLevel 0x00222E29,
+// Eva walk through the rowed static 0x004114EF, self update
 // through rowed 0x00224818, throttle math off timeGetTime, notify through
 // pinned cdecl 0x006CF1B0, presence through rowed 0x006CD100, then a tail
 // thiscall to AptPlayer::HandleOverButtons 0x00224F6C. Address-derived method name; the class
@@ -36,7 +36,12 @@ struct RvaEntry
 	char m_pad[0x28 - 1];
 };
 
-void Rva004114EFStatic();
+// The rowed static 0x004114EF Eva walk.
+class Rva004114EF
+{
+public:
+	static void rva004114EF();
+};
 void Rva006CF1B0(int delay);
 bool Rva006CD100Get();
 
@@ -46,13 +51,13 @@ class AptPlayer
 {
 public:
 	void HandleOverButtons();
+	bool LoadLevel(unsigned int index);
 };
 
 class Rva00222A8BTarget
 {
 public:
 	void rva00224818();
-	void rva00222E29(int index);
 	void rva002251E5();
 private:
 	char m_pad0[0xF0];
@@ -96,11 +101,11 @@ void Rva00222A8BTarget::rva002251E5()
 		for (; i < 14; i++, entry++)
 		{
 			if (entry->m_flags.m_bit0)
-				rva00222E29(i);
+				reinterpret_cast<AptPlayer *>(this)->LoadLevel(i);
 		}
 		m_b308 = true;
 	}
-	Rva004114EFStatic();
+	Rva004114EF::rva004114EF();
 	rva00224818();
 	unsigned long now = timeGetTime();
 	unsigned long elapsed = now - m_tickLast;
