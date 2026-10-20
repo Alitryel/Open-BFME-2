@@ -1,5 +1,5 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.88 date=2026-10-20
+// partial score=0.884 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
 // partial score=0.885 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
@@ -621,7 +621,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
 		D3DXMATRIX rot;
 		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
-		float hx = sx * 0.5;
+		double hx = sx * 0.5f;
 		float hy = sy * 0.5f;
 		D3DXMATRIX center;
 		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
