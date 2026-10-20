@@ -35,6 +35,8 @@
 // non-empty +0x88 list short of the data's +0xD8 count is then topped up by
 // cycling through the local list (or through itself when the local list is
 // empty).
+// Keep standard iterator methods inline; use the rowed external helpers.
+namespace _STL { struct __declspec(dllimport) _List_iterator_base; }
 #include <list>
 // Compare the list nodes locally, as HordeContainXfer does, so this unit
 // does not emit a losing _List_iterator_base::operator!= copy.

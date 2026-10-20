@@ -31,6 +31,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // Suppress this TU's non-retail copy of ?_M_insert_overflow@?$vector@UBfmePod20@@V?$allocator@UBfmePod20@@@_STL@@@_STL@@IAEXPAUBfm:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod20;
+// Use retail's rowed push_back rather than this unit's external copy.
+namespace _STL { template <> void vector<BfmePod20, allocator<BfmePod20> >::push_back(const BfmePod20 &); }
 namespace _STL { template <> void vector<BfmePod20, allocator<BfmePod20> >::_M_insert_overflow(BfmePod20 *, const BfmePod20 &, const __false_type &, size_t, bool); }
 
 class ModuleData;
