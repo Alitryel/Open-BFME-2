@@ -399,8 +399,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( LaserUpdate );
 	BFME_EMIT_MODULE_INSTANCE( OCLUpdate );
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
-	// Keep the rowed destructor, not the unrelated ZH Worker INI parser.
-	(void)new WorkerAIUpdateModuleData;
 	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
 	BFME_EMIT_MODULE_INSTANCE( LockWeaponCreate );
 	BFME_EMIT_MODULE_INSTANCE( PreorderCreate );
