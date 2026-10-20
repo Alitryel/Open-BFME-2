@@ -125,6 +125,9 @@ private:
 	int ActiveCount, GrowthStep;
 };
 
+// The kept RefCountClass helpers come from size-optimized hlod.cpp, as
+// in MaterialInfoClassCtor.cpp. Keep the copy-constructor body at /O2.
+#pragma optimize("gsy", on)
 class RefCountClass
 {
 public:
@@ -137,6 +140,8 @@ protected:
 private:
 	int Count;
 };
+
+#pragma optimize("", on)
 
 class MaterialInfoClass : public RefCountClass
 {
