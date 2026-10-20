@@ -127,7 +127,7 @@ class Pathfinder
 {
 public:
 	Int GetOverlapGoalUnits(Object *obj, const Coord3D *pos, Int *ids);
-	Bool Rva002F1BA2(void *obj, void *locomotorSet, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
+	Bool IsHordeMeleeLinePassable(void *obj, void *locomotorSet, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
 	Bool rva002EDFF9(Object *obj, Coord3D *pos);
 };
 
@@ -198,6 +198,9 @@ struct Gen_t_00595870_p12cd { int a,b,c; };
 namespace _STL {
  template<> void deque<BfmeE8>::clear();
  template<> void deque<Gen_t_00595870_p12cd>::push_back(const Gen_t_00595870_p12cd &);
+ // pop_front calls the rowed retail body 0x00585063; max<int> is always inlined here.
+ template<> void deque<BfmeE12>::_M_pop_front_aux();
+ template<> __declspec(dllimport) __forceinline const int &max<int>(const int &__a, const int &__b) { return __a < __b ? __b : __a; }
 }
 class Rva00585257Iter : public _STL::_Deque_iterator_base<BfmeE12> { public: void *rva00585257(); };
 
@@ -301,7 +304,7 @@ Bool HordeMeleeFormation::findMeleeAttackPosition(Object *obj, Coord3D *result, 
 
 	Int overlapIds[16];
 	Bool overlapping = TheAI->pathfinder()->GetOverlapGoalUnits(obj, obj->getPosition(), overlapIds) > 0;
-	Bool blocked = !TheAI->pathfinder()->Rva002F1BA2(obj, locomotorSet, layer, &pos, &pos);
+	Bool blocked = !TheAI->pathfinder()->IsHordeMeleeLinePassable(obj, locomotorSet, layer, &pos, &pos);
 
 	Coord3D lastGood;
 	Int i, j;
@@ -320,7 +323,7 @@ Bool HordeMeleeFormation::findMeleeAttackPosition(Object *obj, Coord3D *result, 
 						copyCoord(cand, &pos);
 						cand.x += (Real)i * 10.0f;
 						cand.y += (Real)j * 10.0f;
-						if (TheAI->pathfinder()->Rva002F1BA2(obj, locomotorSet, layer, &cand, &cand))
+						if (TheAI->pathfinder()->IsHordeMeleeLinePassable(obj, locomotorSet, layer, &cand, &cand))
 						{
 							lastGood = cand;
 							blocked = false;
@@ -404,7 +407,7 @@ Bool HordeMeleeFormation::findMeleeAttackPosition(Object *obj, Coord3D *result, 
 						if (blocked)
 							ok = true;
 						else
-							ok = TheAI->pathfinder()->Rva002F1BA2(obj, locomotorSet, layer, &lastGood, &cand);
+							ok = TheAI->pathfinder()->IsHordeMeleeLinePassable(obj, locomotorSet, layer, &lastGood, &cand);
 					}
 					if (ok && candDist < bestDist)
 					{

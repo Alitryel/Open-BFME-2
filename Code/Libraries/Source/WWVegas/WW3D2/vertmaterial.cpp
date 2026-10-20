@@ -73,7 +73,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "w3derr.h"
 #include "ini.h"
 #include "xstraw.h"
-#include "dx8wrapper.h"
+// The DX8 home view only declares the state setters Apply_Null calls out of line
+// (retail's /O1 bodies 0x0006615F and 0x000661DD), so this unit emits no copy.
+#include "../../../../../reference/shims/bfme_dx8wrapper_home_link/dx8wrapper.h"
 
 #include <stdio.h>
 #include <string.h>

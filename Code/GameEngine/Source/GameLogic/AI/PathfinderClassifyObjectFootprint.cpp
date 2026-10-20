@@ -30,8 +30,9 @@ class BfmeObjE15{public:BfmeShapeE15 *bfmeAtE15(int);};
 class Rva0087E370{public:void method(const Coord3D&,float,Region2D&)const;};
 struct FootprintTemplate {char pad[0x108];union {unsigned kinds[6];struct {unsigned kind0;unsigned pad1:28;unsigned isWall:1;unsigned isDefense:1;unsigned pad2:2;unsigned rest[4];};};unsigned words120;char pad124[0x4a0-0x124];float fenceWidth;__forceinline unsigned kind(int b)const{return kinds[b/32]&(1u<<(b%32));}};
 enum ObjectStatusTypes{Status77=77,Status88=88};
+enum KindOfType{KINDOF_5E=0x5E};
 class Object {public:
- Drawable *getDrawable()const;void rva0028AD32();void rva0028AD8C();void rva0028AD7C();bool isMobile()const;bool testStatus(ObjectStatusTypes)const;bool rva0006F039(int)const;
+ Drawable *getDrawable()const;void rva0028AD32();void rva0028AD8C();void rva0028AD7C();bool isMobile()const;bool testStatus(ObjectStatusTypes)const;bool isKindOf(KindOfType)const;
  const Coord3D *getPosition()const{return &position;}
  char pad0[4];FootprintTemplate *templ;char pad8[0x38-8];Coord3D position;float orientation;char pad48[0xac-0x48];bool small;char padAD[0xd4-0xad];BfmeShapeE15 *begin,*end;
 };
@@ -80,7 +81,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  bool gate=obj->templ->kind(137)||wall;
  bool bit22=insert ? ((obj->templ->words120>>9)&1)!=0:false;
  if((gate||bit22)&&!insert)changedGate=true;
- if(insert&&obj->templ->kind(120)&&obj->rva0006F039(94)){
+ if(insert&&obj->templ->kind(120)&&obj->isKindOf(KINDOF_5E)){
   int x=(int)(objPos->x*0.1f),y=(int)(objPos->y*0.1f);
   for(i=-60;i<=60;++i)for(j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if(cell&&cell->gate()){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
  }

@@ -21,7 +21,7 @@ typedef unsigned long DWORD;typedef long HRESULT;typedef unsigned int UINT;typed
 #include "sphere.h"
 class FrustumClass;
 #include "frustum.h"
-class CameraClass {protected:void Update_Frustum() const;public:__forceinline const FrustumClass &Get_Frustum() const {const CameraClass *volatile p=this;Update_Frustum();return *(const FrustumClass *)((const char *)p+0x100);} };
+class CameraClass {protected:void Update_Frustum() const;public:__declspec(dllimport) __forceinline const FrustumClass &Get_Frustum() const {const CameraClass *volatile p=this;Update_Frustum();return *(const FrustumClass *)((const char *)p+0x100);} };
 class RenderInfoClass { public: CameraClass &Camera; };
 class RenderObjClass {
 public:
@@ -280,7 +280,10 @@ extern DX8MeshRendererClass *TheDX8MeshRenderer;
 // The bounds call is reached through the TU-local dispatch view above.
 class BaseHeightMapRenderObjClass;
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
-class WW3D {friend class W3DProjectedShadowManager;static bool IsCurrentlyRenderingShadowMap;static bool SnapshotActivated;public:static bool Is_Snapshot_Activated(){return SnapshotActivated;}static void Flush(RenderInfoClass &);};
+class WW3D {friend class W3DProjectedShadowManager;static bool IsCurrentlyRenderingShadowMap;static bool SnapshotActivated;public:static bool Is_Snapshot_Activated(){return SnapshotActivated;}};
+// WW3D::Flush(RenderInfoClass &) 0x001173F0, under the ledger row's spelling.
+void __cdecl rva001173f0(unsigned int renderArgument);
+class W3DDualProjectedShadow;
 static int drawStartX, drawStartY, drawEdgeX, drawEdgeY;
 inline void *operator new(size_t,void *p) throw(){return p;}
 inline void operator delete(void *,void *) throw(){}
@@ -296,7 +299,7 @@ class W3DProjectedShadowManager { public:
  char pad20[0x254-0x20];int count254;int unused258;int nShadowDecalVertsInBuf;int unused260;int nShadowDecalIndicesInBuf;int tail268[3];
  void flushDecals(ShadowType,class W3DShadowTexture *,W3DShadowTexture *,int);
  void rva0010C841(ShadowRenderEntry10DF33 *,int,int);
- void rva0010A736(ShadowPair10DF33 *);
+ void queueDualDecal(W3DDualProjectedShadow *);
  int rva0010DA71(RenderInfoClass&);
  int rva0010DF33(RenderInfoClass&);
 };
@@ -365,7 +368,7 @@ int W3DProjectedShadowManager::rva0010DF33(RenderInfoClass &rinfo)
   }
  }
  flushDecals((ShadowType)lastType,(W3DShadowTexture *)lastTexture,0,0);
- WW3D::Flush(rinfo);
+ rva001173f0((unsigned int)&rinfo);
  }
  if (m_decalList) {
  ShadowTextureView10DF33 *lastTexture=0;
@@ -401,7 +404,7 @@ int W3DProjectedShadowManager::rva0010DF33(RenderInfoClass &rinfo)
     lastTexture=texture; lastTexture2=texture2; lastType=type;
    }
    if(!pair->object60 || pair->object60->Is_Really_Visible()) {
-    rva0010A736(pair); ++projectionCount;
+    queueDualDecal((W3DDualProjectedShadow *)pair); ++projectionCount;
    }
   }
  }
