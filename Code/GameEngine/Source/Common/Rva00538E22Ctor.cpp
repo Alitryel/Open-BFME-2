@@ -77,6 +77,10 @@ struct Rva00538E43Result : Snapshot
 };
 
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UBfmeVectorRecord00319C84@@V?$allocator@UBfmeVectorRecord00319C84@@@_STL:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeVectorRecord00319C84;
+namespace _STL { template <> _Vector_base<BfmeVectorRecord00319C84,allocator<BfmeVectorRecord00319C84> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@UBfmeVectorRecord00319C84@@@_STL@@QBEXPAUBfmeVectorRecord00319C84@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmeVectorRecord00319C84;
