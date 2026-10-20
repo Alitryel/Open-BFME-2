@@ -86,6 +86,15 @@ __int64 Profile::GetClockCyclesPerSecond(void)
 	return m_clockCycles;
 }
 
+// ?AddResultFunction@Profile@@SAXP6APAVProfileResultInterface@@HPBQBD@ZPBD2@Z (0x006C53F0,
+// between GetClockCyclesPerSecond and ProfileShutdown): Zero Hour's public forwarder, a
+// tail jump to ProfileCmdInterface::AddResultFunction (0x006C67F0).
+void Profile::AddResultFunction(ProfileResultInterface *(*func)(int, const char *const *),
+	const char *name, const char *arg)
+{
+	ProfileCmdInterface::AddResultFunction(func, name, arg);
+}
+
 // ?ProfileShutdown@@YAXXZ
 void ProfileShutdown(void)
 {
