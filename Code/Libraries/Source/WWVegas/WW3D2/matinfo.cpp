@@ -137,7 +137,7 @@ MaterialCollectorClass::MaterialCollectorClass(void)
 // MaterialCollectorClass::Reset is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp (0x0016F460).
 
 
-void MaterialCollectorClass::Add_Shader(ShaderClass shader)
+inline void MaterialCollectorClass::Add_Shader(ShaderClass shader)
 {
 	if (shader == LastShader) return;
 	if (Find_Shader(shader) != -1) return;
@@ -145,7 +145,7 @@ void MaterialCollectorClass::Add_Shader(ShaderClass shader)
 	LastShader = shader;
 }
 
-void MaterialCollectorClass::Add_Vertex_Material(VertexMaterialClass * vmat)
+inline void MaterialCollectorClass::Add_Vertex_Material(VertexMaterialClass * vmat)
 {
 	if (vmat == NULL) return;
 	if (vmat == LastMaterial) return;
@@ -196,7 +196,7 @@ int MaterialCollectorClass::Find_Shader(const ShaderClass & shader)
 }
 
 
-int MaterialCollectorClass::Find_Vertex_Material(VertexMaterialClass * mat)
+inline int MaterialCollectorClass::Find_Vertex_Material(VertexMaterialClass * mat)
 {
 	for (int vi=0; vi<VertexMaterials.Count(); vi++) {
 		if (VertexMaterials[vi] == mat) {
