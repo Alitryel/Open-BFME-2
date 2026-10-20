@@ -67,12 +67,12 @@ private:
 	unsigned char m_pad100[0x11C - 0x100];
 };
 
-// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
-// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
-// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
-struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
-typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
-namespace _STL { template <> _Rb_tree<Rva00286656Element, pair<Rva00286656Element const, int>, _Select1st<pair<Rva00286656Element const, int> >, less<Rva00286656Element>, allocator<pair<Rva00286656Element const, int> > >::~_Rb_tree(); }
+// map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
+// erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
+// AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
+enum ObjectID { INVALID_ID = 0 };
+typedef _STL::map<ObjectID, int> ObjectIDIntMap;
+namespace _STL { template <> _Rb_tree<ObjectID, pair<ObjectID const, int>, _Select1st<pair<ObjectID const, int> >, less<ObjectID>, allocator<pair<ObjectID const, int> > >::~_Rb_tree(); }
 class SiegeEngineContain : public TransportContain
 {
 public:
@@ -87,7 +87,7 @@ private:
 	int m_120;
 	bool m_124;
 	unsigned char m_pad125[3];
-	Rva00286852Map m_map128;
+	ObjectIDIntMap m_map128;
 	_STL::list<int> m_list134;
 };
 

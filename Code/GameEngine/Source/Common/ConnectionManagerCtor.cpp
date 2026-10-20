@@ -97,13 +97,17 @@ private:
 };
 typedef char ConnectionProgressExtent[(sizeof(Rva004D1D32)==12)?1:-1];
 
-// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
-// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
-// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
-struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
-typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
-namespace _STL { template <> _Rb_tree_base<pair<Rva00286656Element const, int>, allocator<pair<Rva00286656Element const, int> > >::_Rb_tree_base(allocator<pair<Rva00286656Element const, int> > const &); }
-namespace _STL { template <> _Rb_tree<Rva00286656Element, pair<Rva00286656Element const, int>, _Select1st<pair<Rva00286656Element const, int> >, less<Rva00286656Element>, allocator<pair<Rva00286656Element const, int> > >::~_Rb_tree(); }
+// +0x12138 is the map ConnectionManagerInit2.cpp and ConnectionManager_dtor.cpp
+// spell map<int, Rva004D1B38Mapped>: retail's unwind for it (0x00790E8E) runs
+// ~map 0x004D233F -> tree dtor 0x004D21B4, and init/reset clear it through
+// 0x004D1EF1. Its default constructor is the shared folded 0x0033C432.
+struct Rva004D1B38Mapped
+{
+	AsciiString m_name;
+};
+typedef _STL::map<int, Rva004D1B38Mapped> Rva004D1B38Map;
+namespace _STL { template <> _Rb_tree_base<pair<int const, Rva004D1B38Mapped>, allocator<pair<int const, Rva004D1B38Mapped> > >::_Rb_tree_base(allocator<pair<int const, Rva004D1B38Mapped> > const &); }
+namespace _STL { template <> _Rb_tree<int, pair<int const, Rva004D1B38Mapped>, _Select1st<pair<int const, Rva004D1B38Mapped> >, less<int>, allocator<pair<int const, Rva004D1B38Mapped> > >::~_Rb_tree(); }
 class ConnectionManager
 {
 public:
@@ -134,7 +138,7 @@ public:
 	bool m_12134;
 	bool m_12135;
 	char m_12136pad[2];
-	Rva00286852Map m_12138;
+	Rva004D1B38Map m_12138;
 	ConnectionAsciiSet m_12144;
 	Rva004D1D32 m_12150[8];
 };

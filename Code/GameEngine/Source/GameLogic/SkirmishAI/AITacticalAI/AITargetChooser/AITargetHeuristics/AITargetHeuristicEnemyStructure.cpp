@@ -1,9 +1,21 @@
-// ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
-// partial score=0.995 date=2026-10-20
-// ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
-// retail 0x005735C6, 440 bytes, RET12. WB 0x01504010 names it (AITargetHeuristicEnemyStructure.cpp).
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/GameEngine/Source/Common /ICode/Libraries/Include
+// cl: /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/GameEngine/Source/Common /ICode/Libraries/Include /Ireference/shims/bfmealloc
 // stlport
+//
+// AITargetHeuristicEnemyStructure.cpp (WorldBuilder 0x01504010 names the file).
+// ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z,
+// retail 0x005735C6, 440 bytes, RET12; EH handler 0x0079AEBD, unwind funclet
+// 0x0079AEB5 (the vote map's ~map 0x00286921).
+// Each of the attacker's units votes for its nearest valid enemy structure
+// (isValidTarget 0x00573512); the structure with the most votes becomes the
+// target, weighted by the skirmish-AI manager's +0x884 value.
+// The vote map is map<ObjectID, int>: keyed by Object +0x74 (the object ID),
+// signed compare at node +0x10 (folded _M_find 0x00388F63), int count at +0x14
+// (folded operator[] 0x0028932C), destroyed by the map<ObjectID, int> tree chain
+// 0x00286852 -> 0x00286656 -> 0x00286183.
+// /EHs and the bfmealloc shim are the tree family's own settings
+// (stlport_map_int_ptr_tree_dtor.cpp): with them the COMDAT copies this unit
+// emits (~_Rb_tree, clear, _M_erase, map ctor/dtor, _M_find) equal retail's bodies;
+// /EHsc drops the dtor's EH frame and the default allocator calls deallocate.
 #include "GameLogicObjectLookupView.h"
 #include "Lib/Coord3D.h"
 #include <map>

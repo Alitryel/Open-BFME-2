@@ -99,7 +99,7 @@ struct BfmeE8 { int a[2]; };
 struct TreeOpaqueMapped00372FF4;
 struct Rva0021A917Element { short words[1]; bool operator<(const Rva0021A917Element &b) const { return words[0] < b.words[0]; } };
 struct TreeHintOpaque0043671B;
-struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
+enum ObjectID { INVALID_ID = 0 };
 struct Rva004D751DElement { short words[1]; bool operator<(const Rva004D751DElement &b) const { return words[0] < b.words[0]; } };
 class Rva00064640Record { public: bool operator<(const Rva00064640Record &) const; };
 template <int N> class BitFlags {};
@@ -120,7 +120,7 @@ typedef _STL::map<unsigned int, void *> MapP;                                   
 typedef _STL::stack<void *, _STL::deque<void *> > StackA;                                                                       // 0x003B55FE
 typedef _STL::map<Rva0021A917Element, int> MapQ;                                                                                // 0x004075A3
 typedef _STL::map<AsciiString, TreeHintOpaque0043671B> MapR;                                                                    // 0x00435AFB
-typedef _STL::map<Rva00286656Element, int> MapS;                                                                                // 0x0046AAD9
+typedef _STL::map<ObjectID, int> MapS;                                                                                // 0x0046AAD9
 typedef _STL::map<Rva004D751DElement, int> MapT;                                                                                // 0x004D755A
 typedef _STL::multimap<int, void *> MapU;                                                                                       // 0x004FFBD2
 typedef _STL::set<Rva00064640Record> SetV;                                                                                      // 0x00504491

@@ -64,7 +64,7 @@ typedef bool Bool;
 typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
-typedef unsigned int ObjectID;
+enum ObjectID { INVALID_ID = 0 };
 
 class Thing;
 class ModuleData;
@@ -234,17 +234,16 @@ struct Rva0046F543Tail
 	Bool m_2AC; // +0x2AC
 
 	__forceinline Rva0046F543Tail()
-		: m_27C(0), m_280(0), m_284(0), m_288(0), m_28C(0), m_290(0), m_294(false), m_298((UnsignedInt)-1),
+		: m_27C(0), m_280(0), m_284(0), m_288(INVALID_ID), m_28C(0), m_290(0), m_294(false), m_298((UnsignedInt)-1),
 		  m_29C(0), m_2A0(0), m_2A4(false), m_2A8(100), m_2AC(false)
 	{
 	}
 };
 
-// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
-// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
-// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
-struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
-typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
+// map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
+// erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
+// AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
+typedef _STL::map<ObjectID, int> ObjectIDIntMap;
 class HordeContain : public TransportContain, public HordeContainInterface
 {
 public:
@@ -258,14 +257,14 @@ private:
 	Bool m_121; // +0x121
 	Rva0042526Member m_124; // +0x124
 	Rva002EE9B7 m_170; // +0x170
-	Rva00286852Map m_17C; // +0x17C
+	ObjectIDIntMap m_17C; // +0x17C
 	_STL::vector<Rva00472329Record> m_188; // +0x188
 	_STL::list<Int> m_194; // +0x194
 	Bool m_198; // +0x198
 	Int m_19C; // +0x19C
 	Rva0046AB7D m_1A0; // +0x1A0
 	Rva00469187 m_1AC; // +0x1AC
-	Rva00286852Map m_24C; // +0x24C
+	ObjectIDIntMap m_24C; // +0x24C
 	Rva0046A915 m_258; // +0x258
 	Int m_264; // +0x264
 	Int m_268; // +0x268
@@ -298,7 +297,7 @@ HordeContain::HordeContain(Thing *thing, const ModuleData *moduleData)
 	  m_19C(0),
 	  m_264(0),
 	  m_268(0),
-	  m_26C(0),
+	  m_26C(INVALID_ID),
 	  m_2B0(0),
 	  m_2B4(false),
 	  m_2C4(false),

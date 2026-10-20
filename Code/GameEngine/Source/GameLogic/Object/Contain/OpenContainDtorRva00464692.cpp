@@ -139,11 +139,11 @@ public:
 	void destroyObject(Object *obj);
 };
 
-// Family X of the two retail int-keyed tree twins (dtor 0x00286852 -> clear
-// 0x00286656 -> erase 0x00286183); the int/void* names belong to the
-// 0x004ABCxx twins. Key view is the address-derived 0x00286656 element.
-struct Rva00286656Element { short words[1]; bool operator<(const Rva00286656Element &b) const { return words[0] < b.words[0]; } };
-typedef _STL::map<Rva00286656Element, int> Rva00286852Map;
+// map<ObjectID, int>: the tree family dtor 0x00286852 -> clear 0x00286656 ->
+// erase 0x00286183 (one instantiation: the self-recursive erase is not ICF-folded;
+// AITargetHeuristicEnemyStructure::findBestTarget 0x005735C6 keys it by object ID).
+enum ObjectID { INVALID_ID = 0 };
+typedef _STL::map<ObjectID, int> ObjectIDIntMap;
 class OpenContain
 	: public UpdateModule
 	, public ContainIface20
@@ -160,7 +160,7 @@ public:
 private:
 	int m_bfme38;
 	Rva00463782 m_riderMapA;
-	Rva00286852Map m_riderMapB;
+	ObjectIDIntMap m_riderMapB;
 	_STL::list<int> m_riderIdListA;
 	int m_bfme58;
 	Rva00462D08Map m_riderMapC;
