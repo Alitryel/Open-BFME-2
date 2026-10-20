@@ -70,6 +70,9 @@ const Real MAX_FRICTION = 0.99f;
 const Real STUN_RELIEF_EPSILON = 0.5f;
 
 #include "Common/CRCDebug.h"
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }
 
 const Int MOTIVE_FRAMES = LOGICFRAMES_PER_SECOND / 3;
 

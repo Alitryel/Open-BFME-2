@@ -49,6 +49,9 @@
 // bfme link decl-only begin
 namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }
 //#include "GameLogic/PartitionManager.h"
 
 #ifdef _INTERNAL
