@@ -36,12 +36,12 @@ public:
 		if (Referent != 0)
 			Referent->Add_Ref();
 	}
+	// BFME's destructor does not null the pointer (TextureStatisticsVector.cpp).
 	~RefCountPtr()
 	{
 		if (Referent != 0)
 		{
 			Referent->Release_Ref();
-			Referent = 0;
 		}
 	}
 	RefCountPtr const &operator=(RefCountPtr const &other)
@@ -300,12 +300,15 @@ DynamicVectorClass<T>::DynamicVectorClass(unsigned size, T const *array)
 	ActiveCount = 0;
 }
 
+// VectorClass::Resize is rowed in TextureStatisticsVectorResize.cpp; the
+// vftables here reference that body.
+template<> bool VectorClass<TextureStatisticsStruct>::Resize(
+	int, TextureStatisticsStruct const *);
+
 template DynamicVectorClass<TextureStatisticsStruct>::DynamicVectorClass(
 	unsigned, TextureStatisticsStruct const *);
 template VectorClass<TextureStatisticsStruct>::VectorClass(
 	unsigned, TextureStatisticsStruct const *);
-template bool VectorClass<TextureStatisticsStruct>::Resize(
-	int, TextureStatisticsStruct const *);
 template int VectorClass<TextureStatisticsStruct>::ID(
 	TextureStatisticsStruct const &);
 template void DynamicVectorClass<TextureStatisticsStruct>::Clear();
@@ -313,8 +316,6 @@ template int DynamicVectorClass<TextureStatisticsStruct>::ID(
 	TextureStatisticsStruct const &);
 template bool VectorClass<TextureStatisticsStruct>::operator==(
 	VectorClass<TextureStatisticsStruct> const &) const;
-template bool DynamicVectorClass<TextureStatisticsStruct>::Add(
-	TextureStatisticsStruct const &);
 template VectorClass<TextureStatisticsStruct>::~VectorClass();
 
 static int texture_memory;

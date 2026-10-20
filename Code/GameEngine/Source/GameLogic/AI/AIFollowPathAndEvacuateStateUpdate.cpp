@@ -50,6 +50,12 @@ struct BfmePod12
  
 }
 ;
+// The single-point erase is called out of line; its body is rowed in
+// stlport_pod_vector_malloc_bodies.cpp (0x0034C117).
+namespace _STL { template <> BfmePod12 *vector<BfmePod12, allocator<BfmePod12> >::erase(BfmePod12 *); }
+// Import-inline: every use of the range destroy is inlined here, and this
+// unit's trivial copy is not the body retail keeps under that name.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy(BfmePod12 *first, BfmePod12 *last) { __destroy(first, last, (BfmePod12 *)0); } }
 class Rva0034C0D0: public _STL::vector<BfmePod12> 
 
 {
