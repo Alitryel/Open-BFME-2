@@ -113,6 +113,9 @@ namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) cons
 namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
 namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0CN@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<45>::test(unsigned int) const; }
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.
