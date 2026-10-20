@@ -11,6 +11,9 @@ namespace _STL { void __cdecl free(void *); }
 #include <string>
 #include <vector>
 #include <hash_map>
+// Suppress this TU's non-retail copy of ?allocate@?$__malloc_alloc@$0A@@_STL@@SAPAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *__malloc_alloc<0>::allocate(size_t); }
 // Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
 // out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
 namespace _STL {
