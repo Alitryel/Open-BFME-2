@@ -769,7 +769,8 @@ void AptPlayer::HandleOverButtons()
    }
   }
   movie.setCopyInline(m_levelData[level].m_s0);
-  const char *dot = movie.find('.');
+  // Retail calls the rowed StringBase search directly.
+  const char *dot = ((const StringBase<char> *)&movie)->find('.');
   if (dot)
    movie.setCopyInline(AsciiString(movie, 0, dot - movie.str()));
   name.setCopyInline(movie);
