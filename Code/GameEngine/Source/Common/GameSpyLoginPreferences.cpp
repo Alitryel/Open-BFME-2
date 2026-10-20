@@ -109,6 +109,10 @@ namespace _STL { template <> _List_node<AsciiString> * _STLP_alloc_proxy<_List_n
 namespace _STL { template <> void _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::deallocate(_List_node<AsciiString> *, unsigned int); }
 namespace _STL { template <> pair<AsciiString const, AsciiString>::~pair(); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@_STL@@@_STL@@Q:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class AsciiString;
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const ,AsciiString> > * allocator<_Rb_tree_node<pair<AsciiString const ,AsciiString> > >::allocate(unsigned int,void const *) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@V1@@_STL@@@_STL@@@_STL@:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class AsciiString;
