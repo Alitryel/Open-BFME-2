@@ -23,6 +23,8 @@ namespace _STL {
 template <> __declspec(dllimport) __forceinline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
 }
 #include <hash_map>
+// Bind vector<void*>(n, value) to the kept retail copy in stlport_vector_voidptr_alloc.cpp.
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(size_t, void * const &, const allocator<void *> &); }
 #include "ascii_string.h"
 
 class INI;
