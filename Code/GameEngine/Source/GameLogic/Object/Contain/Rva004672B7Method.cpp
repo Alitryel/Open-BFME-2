@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva004672B7@TransportContain@@UAEXHH@Z @0x004672B7 99B: slot 9 Contain method with early-out plus flag-gated subobject virtuals.
+// ?onCapture@TransportContain@@UAEXHH@Z @0x004672B7 99B: slot 9 Contain method with early-out plus flag-gated subobject virtuals.
 // Evidence: slots 9 of six Contain vtables 0x00844278 0x00845C38 0x00845EB8 0x00846D28 0x008470F8 0x008474A0, ret 8 two args, flag byte at +0x1c8 bit 0x20 via +0x08, subobject at +0x20 slots 0x80 0x8c 0xa8 0xd8 0xe0.
 
 class Sub20_4672B7
@@ -85,7 +85,7 @@ public:
 	virtual void v06();
 	virtual void v07();
 	virtual void v08();
-	virtual void rva004672B7(int a1, int a2);
+	virtual void onCapture(int a1, int a2);
 private:
 	int m_04;
 	Obj08_4672B7 *m_08;
@@ -93,7 +93,7 @@ private:
 	Sub20_4672B7 m_20;
 };
 
-void TransportContain::rva004672B7(int a1, int a2)
+void TransportContain::onCapture(int a1, int a2)
 {
 	if (a1 == a2)
 		return;

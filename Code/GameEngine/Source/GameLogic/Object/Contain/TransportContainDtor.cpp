@@ -34,10 +34,10 @@ template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiStr
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 }
 
-class B0 { public: virtual void b0(); virtual void rva004672B7(int a1, int a2) = 0; private: unsigned char m_pad[8]; };
+class B0 { public: virtual void b0(); virtual void onCapture(int a1, int a2) = 0; private: unsigned char m_pad[8]; };
 class B1 { public: virtual void b1(); };
 class B2 { public: virtual void b2(); private: unsigned char m_pad[12]; };
-class B3 { public: virtual void b3(); virtual void rva004672B7(int a1, int a2) = 0; };
+class B3 { public: virtual void b3(); virtual void onCapture(int a1, int a2) = 0; };
 class B4 { public: virtual void b4(); };
 class B5 { public: virtual void b5(); };
 class B6 { public: virtual void b6(); };
@@ -56,7 +56,7 @@ class TransportContain : public OpenContain, public TransportExtra
 {
 public:
 	virtual ~TransportContain();
-	virtual void rva004672B7(int a1, int a2);
+	virtual void onCapture(int a1, int a2);
 
 private:
 	unsigned char m_pad100[0x10];

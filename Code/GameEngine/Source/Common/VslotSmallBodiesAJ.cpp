@@ -323,7 +323,7 @@ public:
 class TransportContain
 {
 public:
-	virtual void rva004672B7(int a, int b);
+	virtual void onCapture(int a, int b);
 };
 
 class Rva00497805
@@ -883,7 +883,7 @@ void Rva004766BE::rva004766BE(const Object *a)
 	HordeContain::slot42(a);
 }
 
-// 0x0047E33F: tail jump to TransportContain::rva004672B7.
+// 0x0047E33F: tail jump to TransportContain::onCapture.
 class Rva0047E33F : public TransportContain
 {
 public:
@@ -891,7 +891,7 @@ public:
 };
 void Rva0047E33F::rva0047E33F(int a, int b)
 {
-	TransportContain::rva004672B7(a, b);
+	TransportContain::onCapture(a, b);
 }
 
 // 0x00483CEF: tail jump to Rva00497805::loadPostProcess.
