@@ -32,6 +32,8 @@ namespace _STL { template <> void allocator<const ModuleData *>::deallocate(cons
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 class ModuleData;
 namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
+// The retail push_back body is rowed at 0x004DFCB0.
+namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &); }
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
 // shape per TU flags); explicit dllimport+forceinline specializations take
@@ -53,7 +55,6 @@ public:
 	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
 };
 extern "C" UpgradeCenter *TheUpgradeCenter;
-extern const char g_00BBE7A4[];
 extern "C" char *__cdecl _mbscpy(char *dst, const char *src);
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delim);
 
@@ -64,7 +65,8 @@ int SplitUpgrades(void *vecPtr, const AsciiString &list)
 	char *buf = (char *)alloca(list.getLength() + 1);
 	((VoidVec *)vecPtr)->erase(((VoidVec *)vecPtr)->begin(), ((VoidVec *)vecPtr)->end());
 	_mbscpy(buf, list.str());
-	char *tok = strtok(buf, g_00BBE7A4);
+	// Retail delimiter bytes at RVA 0x007BE7A4, including the trailing NUL.
+	char *tok = strtok(buf, " \n\r\t");
 	while (tok != 0)
 	{
 		const ModuleData *ut;
@@ -74,7 +76,7 @@ int SplitUpgrades(void *vecPtr, const AsciiString &list)
 		}
 		if (ut != 0)
 			((ModVec *)vecPtr)->push_back(ut);
-		tok = strtok(0, g_00BBE7A4);
+		tok = strtok(0, " \n\r\t");
 	}
 	return (int)((ModVec *)vecPtr)->size();
 }

@@ -8,7 +8,7 @@
 class StringClass
 {
 public:
-	StringClass(int initial_len = 0, bool hint_temporary = false) : m_Buffer(m_EmptyString)
+	__declspec(dllimport) __forceinline StringClass(int initial_len = 0, bool hint_temporary = false) : m_Buffer(m_EmptyString)
 	{
 		Get_String(initial_len, hint_temporary);
 		m_Buffer[0] = m_NullChar;
@@ -86,7 +86,7 @@ public:
 		render_state.material = material;
 		render_state_changed |= 0x4000;
 	}
-	static __forceinline void Set_Shader(const ShaderClass &shader)
+	static __declspec(dllimport) __forceinline void Set_Shader(const ShaderClass &shader)
 	{
 		if (!ShaderClass::ShaderDirty && shader.ShaderBits == render_state.shader)
 			return;
