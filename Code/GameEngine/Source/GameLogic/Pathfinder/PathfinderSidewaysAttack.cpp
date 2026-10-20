@@ -741,6 +741,8 @@ PathfinderCellPoint Rva002E8C23Call(Bool center, PathfindCell *cell);
 
 extern "C" void *__cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 extern int TheMixFileInfoCount;
 
 // Rehomed 0x002E6BA1 (65 B), original Rva002E6BA1Init.cpp: initializer
@@ -764,11 +766,15 @@ private:
 	int m_30;
 };
 
+// pathfinder.cpp owns the row. This TU's /Ow lets the scheduler hoist the
+// b->y load and the counter update, and this copy comes first in link order,
+// so the volatile accesses and the barrier keep retail's non-/Ow schedule.
+// Defining it here (not declaring it) keeps the rows' frames retail.
 inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 {
 	m_30 = a;
-	m_00 = b->x;
-	m_04 = b->y;
+	*(volatile int *)&m_00 = b->x;
+	m_04 = ((volatile In002E6BA1 *)b)->y;
 	m_08 = 0;
 	m_0C = 0;
 	m_10 = 0;
@@ -776,6 +782,7 @@ inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 	memset(m_14, 0, 20);
 	m_2C &= 0xffffffe0;
 	m_28 = 0;
+	_ReadWriteBarrier();
 	++TheMixFileInfoCount;
 }
 
