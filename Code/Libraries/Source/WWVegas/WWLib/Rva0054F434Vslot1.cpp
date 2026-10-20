@@ -20,6 +20,8 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 
 
 #include "ascii_string.h"
+// Bind get_allocator to the kept retail copy.
+namespace _STL { template <> allocator<AsciiString> _List_base<AsciiString, allocator<AsciiString> >::get_allocator() const; }
 // Use the existing retail list-base constructor at 4EC36C.
 namespace _STL { template <> _List_base<AsciiString, allocator<AsciiString> >::_List_base(const allocator_type &); }
 
