@@ -1277,7 +1277,29 @@ class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCen
 // and the LineUCoord determines the U coordinate of the texture to use
 // the V coordinate is always 0 at the flat end of the tetrahedron
 // and 1 at the apex
-// LineGroupClass::LineGroupClass: defined in LineGroupClassDefaultCtor.cpp (its row's unit).
+// Constructor from the same BFME1 linegrp.cpp donor (64d369b90170); retail
+// proves the existing field offsets and whole 114B initialization sequence.
+// Keeping it in the /O2 SSE home also emits retail's 30B deleting destructor.
+LineGroupClass::LineGroupClass(void) :
+	StartLineLoc(NULL),
+	EndLineLoc(NULL),
+	LineDiffuse(NULL),
+	TailDiffuse(NULL),
+	ALT(NULL),
+	LineSize(NULL),
+	LineUCoord(NULL),
+	LineCount(0),
+	Texture(NULL),
+	Flags(0),
+	Shader(ShaderClass::_PresetAdditiveSpriteShader.Get_Bits()),
+	DefaultLineSize(0.0f),
+	DefaultLineColor(1.0f, 1.0f, 1.0f),
+	DefaultLineAlpha(1.0f),
+	DefaultLineUCoord(0.0f),
+	DefaultTailDiffuse(0.0f, 0.0f, 0.0f, 0.0f),
+	LineMode(TETRAHEDRON)
+{
+}
 
 // LineGroupClass::~LineGroupClass: defined in LineGroupClassDestructor.cpp (its row's unit).
 
