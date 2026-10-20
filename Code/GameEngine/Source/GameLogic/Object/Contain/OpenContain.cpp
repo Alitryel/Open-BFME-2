@@ -105,6 +105,9 @@ template unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const;
 #include "GameLogic/Object.h"
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Weapon.h"
+// Suppress this TU's non-retail copy of ?_M_is_equal@?$_Base_bitset@$03@_STL@@QBE_NABU12@@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool _Base_bitset<4>::_M_is_equal(_Base_bitset<4> const &) const; }
 
 // Declaration-only _Construct: retail's vector<Coord3D> push_back calls the
 // pinned out-of-line helper (0x002CA82C) instead of inlining the element
