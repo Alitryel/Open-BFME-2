@@ -4,19 +4,13 @@
 // the body is the banked one up to statement/operand order and local types.
 // ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
 // stlport
-// W7-D1 r11: native6045A2..6046B0 RET16; whole270B and frame44 exact.
-// insertFolder(const source_pair&) makes the const-key copy INSIDE an inline
-// void helper. It consumes make_pair's actual EAX return, removing r10's LEA.
-// Two remaining instruction bytes are first source-pair home -40 versus
-// retail -50; the matching destructor funclet is off by16 in one byte too.
-// The old273B/frame44/EH-exact alternative is preserved in
-// reverse/attempt_evidence/big_archive_r11_eh_exact.cpp.
-// All8 original call candidates plus17 transitive bodies/relocations/EH
-// were independently checked whole against retail. See r11_call_graph.json.
-// No candidate is an admitted production pin; owner-unit/fold admission is
-// still required before this parent can land. Never substitute the existing
-// 4B Rva00603A00Mapped placeholder for the native12B member descriptor.
+// Native6045A2..6046B0 RET16: the nested index copies a twelve-byte member
+// descriptor. Keep its node's placement copy out of line, as native29E11A
+// calls the 30-byte Construct at41360E. This also preserves the real map
+// temporary lifetimes without layout padding or artificial wrapper objects.
+// Evidence: reverse/attempt_support/big-archive-recovery-20261020.md.
 #define strncmp HeaderStrncmp
+#define _STLP_BFME_TREE_NODE_BASE_O2
 #include <map>
 // ?init@Win32BIGFileSystem@@UAEX_N@Z @0x00603944 188B: vslot 1 of vtable 0x0087A94C (class of ??0Win32BIGFileSystem@@QAE@XZ). Loads lang big files. Evidence: vtable slot 1; strings "%s*.big" "lang\" "lang\%sAudio.big" "EnglishAudio.big" "*.big" "apt\"; global TheArchiveFileSystem; buffers g_00DD509C g_Rva0107301CEmptyString.
 
@@ -87,7 +81,7 @@ private:
 
 // Native DD5150/DD5154 point to full BIGF/BIG4 strings at BD22F0/BD22E8.
 // Mutable pointer storage keeps the same two global loads as the retail body.
-extern const char *BigArchiveSignatures[2];
+const char *BigArchiveSignatures[2] = { "BIGF", "BIG4" };
 
 struct BigArchiveHeader
 {
@@ -122,9 +116,7 @@ void __cdecl operator delete[](void *) throw();
 // Native 6045A2,270B,RET16; caller6046B0 and shared header at this+4.
 // Nested map semantics and record words are target-derived; names of mapped
 // records and fields are descriptive views, not original-name claims.
-static __forceinline void insertFolder(BigFolderMap&m,const _STL::pair<const char*,BigMemberMap>&v,BigFolderMap::iterator&out) { BigFolderMap::value_type copy(v);out=m.insert(copy).first; }
-struct SecondInfoPairPad { unsigned char pad[15]; BigMemberMap::value_type value; __forceinline SecondInfoPairPad(const char*k,const BigArchiveMemberInfo&i):value(k,i){} };
-// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z present-unmatched
+namespace _STL { template <> void _Construct<BigMemberMap::value_type, BigMemberMap::value_type>(BigMemberMap::value_type *, const BigMemberMap::value_type &); }
 bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
                                   BigArchiveMemberInfo *info, bool overwrite)
 {
@@ -134,13 +126,13 @@ bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
  Rva006054AF *pool = (Rva006054AF *)&g_Va00E06E60;
  if (parent == m_folders.end()) {
   folder = (const char *)pool->rva006054AF(folder);
-  insertFolder(m_folders,_STL::make_pair(folder,BigMemberMap()),parent);
+  parent = m_folders.insert(_STL::make_pair(folder, BigMemberMap())).first;
  }
  BigMemberMap &members = parent->second;
  BigMemberMap::iterator entry = members.find(name);
  if (entry == members.end()) {
   name = (const char *)pool->rva006054AF(name);
-  members.insert(SecondInfoPairPad(name,*info).value);
+  members.insert(BigMemberMap::value_type(name, *info));
  } else {
   if (!overwrite)
    return false;

@@ -22035,7 +22035,7 @@ pin	reverse/symbols.csv	0x00157E80	1
 pin	reverse/symbols.csv	0x00157FF0	1
 pin	reverse/symbols.csv	0x00158520	2
 pin	reverse/symbols.csv	0x00158580	1
-pin	reverse/symbols.csv	0x00158E90	1	allow=4230b7362ad3ab7fd2e1a07e9db9681cafa1c191
+pin	reverse/symbols.csv	0x00158E90	1
 pin	reverse/symbols.csv	0x00159700	2
 pin	reverse/symbols.csv	0x00159FC0	1
 pin	reverse/symbols.csv	0x0015A180	1
@@ -26261,9 +26261,9 @@ pin	reverse/symbols.csv	0x004128F0	1
 pin	reverse/symbols.csv	0x00412AF3	1
 pin	reverse/symbols.csv	0x00412E76	1
 pin	reverse/symbols.csv	0x0041345B	1
-pin	reverse/symbols.csv	0x0041360E	2
+pin	reverse/symbols.csv	0x0041360E	3	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
 pin	reverse/symbols.csv	0x004136B4	1
-pin	reverse/symbols.csv	0x00413727	6
+pin	reverse/symbols.csv	0x00413727	7	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
 pin	reverse/symbols.csv	0x004137C6	1
 pin	reverse/symbols.csv	0x00413951	1
 pin	reverse/symbols.csv	0x0041398E	1
@@ -29465,13 +29465,18 @@ pin	reverse/symbols.csv	0x0060263E	2
 pin	reverse/symbols.csv	0x00602740	1
 pin	reverse/symbols.csv	0x006027F0	1
 pin	reverse/symbols.csv	0x006038D4	1
-pin	reverse/symbols.csv	0x00603A2D	1
+pin	reverse/symbols.csv	0x00603A2D	3	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
+pin	reverse/symbols.csv	0x00603AA8	1	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
 pin	reverse/symbols.csv	0x00603AE0	2
 pin	reverse/symbols.csv	0x00603B9C	1
 pin	reverse/symbols.csv	0x00603C57	1
+pin	reverse/symbols.csv	0x00603E50	1	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
+pin	reverse/symbols.csv	0x00604251	1	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
+pin	reverse/symbols.csv	0x0060426C	1	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
 pin	reverse/symbols.csv	0x0060434B	1
 pin	reverse/symbols.csv	0x00604396	1
 pin	reverse/symbols.csv	0x00604465	1
+pin	reverse/symbols.csv	0x006044A0	1	allow=0fdabba5c3dc92c844fa32f832d970aae0253045
 pin	reverse/symbols.csv	0x00604A68	1
 pin	reverse/symbols.csv	0x00604D64	1
 pin	reverse/symbols.csv	0x006053AD	1

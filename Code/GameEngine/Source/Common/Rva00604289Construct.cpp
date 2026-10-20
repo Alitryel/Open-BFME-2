@@ -34,3 +34,17 @@ void Rva00604289Construct(Rva0060426C *dest, const Rva0060426C &src)
 {
 	new(dest) Rva0060426C(src);
 }
+
+// The archive member tree uses the same 16-byte placement copy at 0x41360E.
+// Keep its definition outside the indexing TU, whose node creator calls it
+// out of line. The file/offset/size record is proven by addArchiveFile6046B0.
+class File;
+struct BigArchiveMemberInfo
+{
+	File *file;
+	unsigned int offset;
+	unsigned int size;
+};
+typedef _STL::pair<const char *const, BigArchiveMemberInfo> BigArchiveMemberValue;
+template void _STL::_Construct<BigArchiveMemberValue, BigArchiveMemberValue>(
+	BigArchiveMemberValue *, const BigArchiveMemberValue &);
