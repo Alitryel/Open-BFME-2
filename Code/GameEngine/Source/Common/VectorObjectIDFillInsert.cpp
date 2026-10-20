@@ -17,6 +17,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 enum ObjectID { INVALID_ID = 0 };
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 
 template class _STL::vector<ObjectID>;
 

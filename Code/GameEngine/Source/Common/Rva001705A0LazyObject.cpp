@@ -49,6 +49,8 @@ enum ObjectID
 {
 	INVALID_OBJECT_ID = 0
 };
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 
 // Zero Hour's DLINK_ITERATOR (GameCommon.h). BFME2's Object carries a vbptr
 // at +0x68 (ObjectDlinkPmf.h), so the iterator's GetNextFunc is a

@@ -25,6 +25,8 @@ enum ObjectID
 {
 	INVALID_ID = 0
 };
+// Bind allocator<ObjectID>::deallocate to the kept retail copy.
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *, size_t) const; }
 
 class Object;
 class Xfer;
