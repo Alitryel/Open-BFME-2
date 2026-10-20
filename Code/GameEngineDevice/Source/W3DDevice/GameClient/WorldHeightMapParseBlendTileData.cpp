@@ -1,4 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
+// platformsdk
 // stlport
 // WorldHeightMap::parseBlendTileData, retail 0x000B1173 (2048 B): the Zero
 // Hour blend-tile chunk reader in its BFME 2 form (four extra byte grids,

@@ -1,4 +1,5 @@
 // cl: /MD /EHsc
+// platformsdk
 //
 // Zero Hour profile_highlevel.cpp as built into BFME2 (retail
 // 0x006C5C60-0x006C65EF). The lock is Zero Hour's ProfileFastCS

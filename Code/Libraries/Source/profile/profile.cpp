@@ -1,4 +1,5 @@
 // cl: /MD /EHsc
+// platformsdk
 //
 // Zero Hour profile.cpp as built into BFME2 (retail 0x006C5300-0x006C5C5F).
 // BFME2 changes read from the retail bytes (layouts in profile.h):

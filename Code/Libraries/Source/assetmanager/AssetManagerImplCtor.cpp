@@ -1,4 +1,5 @@
 // cl: /O2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_NO_CSTD_FUNCTION_IMPORTS
+// platformsdk
 // stlport
 // AssetManagerImpl constructor identity: WB167D4F0 names it in its own
 // assertion; the complete native624DB0..625034 body and member lifecycle

@@ -1,4 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// platformsdk
 // ?rva0025DA8D@Display@@UAE_NVAsciiString@@H@Z, retail 0x0025DA8D (160 bytes, EH, RET 8),
 // display vtable slot 72 (W3DDisplay table 0x007C3C80). Refuses on Windows 9x
 // (GetVersionExA platform 1); otherwise hands a copy of the movie name, the flags without

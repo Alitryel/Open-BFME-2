@@ -710,6 +710,21 @@ def source_needs_stlport(source):
     return "// stlport" in head
 
 
+def source_needs_platformsdk(source):
+    """A source declares it needs the toolchain's Vc7/PlatformSDK/Include
+    (windows.h and friends) with a `// platformsdk` line near the top. Opt-in
+    per file, like `// stlport`: on the global path the SDK headers would
+    replace the header set that cached exact objects were built against."""
+    if source is None:
+        return False
+    try:
+        with Path(source).open("r", encoding="utf-8", errors="replace") as handle:
+            head = handle.read()
+    except OSError:
+        return False
+    return re.search(r"^// platformsdk[ \t]*$", head, re.M) is not None
+
+
 def compiler_environment(root, source=None):
     env = os.environ.copy()
     bin_dir = root / "Vc7" / "bin"
@@ -720,6 +735,8 @@ def compiler_environment(root, source=None):
 
     if os.name == "nt":
         include = str(root / "Vc7" / "include")
+        if source_needs_platformsdk(source):
+            include += os.pathsep + str(root / "Vc7" / "PlatformSDK" / "Include")
         if stlport:
             include = str(stlport) + os.pathsep + include
         env["INCLUDE"] = include
@@ -730,6 +747,8 @@ def compiler_environment(root, source=None):
         return env
 
     include = wine_path(root / "Vc7" / "include")
+    if source_needs_platformsdk(source):
+        include += ";" + wine_path(root / "Vc7" / "PlatformSDK" / "Include")
     if stlport:
         include = wine_path(stlport) + ";" + include
     env["INCLUDE"] = include

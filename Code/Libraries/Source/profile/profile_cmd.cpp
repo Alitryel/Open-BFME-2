@@ -1,4 +1,5 @@
 // cl: /MD /EHsc
+// platformsdk
 //
 // Zero Hour profile_cmd.cpp as built into BFME2 (retail 0x006C67F0-
 // 0x006C6E7F). Zero Hour's static Debug::Command is a call through

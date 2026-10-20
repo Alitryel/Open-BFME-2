@@ -1,4 +1,5 @@
 // cl: /MD /EHsc
+// platformsdk
 //
 // Zero Hour profile_funclevel.cpp as built into BFME2 (retail 0x006C8380-
 // 0x006C87AF): the !HAS_PROFILE build. Every accessor returns empty data,

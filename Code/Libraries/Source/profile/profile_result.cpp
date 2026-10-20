@@ -1,4 +1,5 @@
 // cl: /MD /EHsc
+// platformsdk
 //
 // Zero Hour profile_result.cpp as built into BFME2 (retail 0x006C6E80-
 // 0x006C837F): the CSV, DOT and BFME2-new GTT result writers (layouts and

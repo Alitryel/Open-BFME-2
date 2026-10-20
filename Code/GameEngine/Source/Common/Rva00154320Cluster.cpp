@@ -1,4 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc /G7 /arch:SSE
+// platformsdk
 //
 // Four retail bodies recovered in the 0x00154320..0x00154573 cluster.
 //

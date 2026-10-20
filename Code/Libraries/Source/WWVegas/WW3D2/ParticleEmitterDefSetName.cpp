@@ -1,4 +1,5 @@
 // cl: /Ireference/shims /Ireference/shims/bfmerendobj /DNDEBUG /MD
+// platformsdk
 // ParticleEmitterDefClass::Set_Name + Set_User_String at retail 0x001AF880
 // (46B, m_pName+4) and 0x001AF850 (46B, m_pUserString+8).
 //
