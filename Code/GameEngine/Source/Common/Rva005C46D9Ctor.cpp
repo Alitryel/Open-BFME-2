@@ -21,6 +21,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> void _Rb_tree<basic_string<char, char_traits<char>, allocator<char> >, pair<basic_string<char, char_traits<char>, allocator<char> > const, int>, _Select1st<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> >, less<basic_string<char, char_traits<char>, allocator<char> > >, allocator<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> > >::_M_erase(_Rb_tree_node<pair<basic_string<char, char_traits<char>, allocator<char> > const, int> > *); }
 namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??1?$_Rb_tree_base@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_base<pair<basic_string<char,char_traits<char>,allocator<char> > const ,int>,allocator<pair<basic_string<char,char_traits<char>,allocator<char> > const ,int> > >::~_Rb_tree_base(); }
 
 class Rva004FA830
 {
