@@ -23,7 +23,8 @@ struct BfmeStringRecord00204A30 {
     BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &o);
     BfmeStringRecord00204A30 &operator=(const BfmeStringRecord00204A30 &o);
 };
-BfmeStringRecord00204A30::BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &o) : word0(o.word0), text0(o.text0), word1(o.word1), text1(o.text1), word2(o.word2) {}
+// Emit the rowed owner as a COMDAT, like the implicit copy in ScriptEngineDoXfer.
+inline BfmeStringRecord00204A30::BfmeStringRecord00204A30(const BfmeStringRecord00204A30 &o) : word0(o.word0), text0(o.text0), word1(o.word1), text1(o.text1), word2(o.word2) {}
 template void _STL::_Construct<BfmeStringRecord00204A30,BfmeStringRecord00204A30>(BfmeStringRecord00204A30*,const BfmeStringRecord00204A30&);
 
 // ??4BfmeStringRecord00204A30@@QAEAAU0@ABU0@@Z retail 0x00203DDA 55B.

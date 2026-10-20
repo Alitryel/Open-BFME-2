@@ -270,7 +270,8 @@ class BattlePlanUpdate { public: BattlePlanStatus getActiveBattlePlan() const; }
 NameKeyType Rva0045EE2CGet();
 
 class Rva00373EB6 { public: unsigned char rva00373EB6(); };
-class Rva0029FCB4 { public: ScienceVec rva0029FCB4(); };
+// The popup consumer also needs this visible body; share its COMDAT ownership.
+class Rva0029FCB4 { public: __declspec(noinline) inline ScienceVec rva0029FCB4(); };
 class Rva00331682Holder { public: bool test(const void *key) const; };
 class Rva0028B7C1DwordField { public: Int get() const; };
 class Rva0035B164 { public: Int rva0035B164(Int cur); };
