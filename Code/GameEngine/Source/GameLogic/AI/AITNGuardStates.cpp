@@ -46,7 +46,7 @@
 // BFME2 layout (target evidence): the attack sub-state is deleted with a
 // global-scope delete (vslot 0 with flag 0, then ::operator delete); owner
 // team +0x304, object id +0x74, player tunnel tracker +0x2E8, guard machine
-// nemesis id +0x48. setTeamTargetObject is the rowed Team::rva0039D84A;
+// nemesis id +0x48. setTeamTargetObject is the rowed Team::setTeamTargetObject;
 // Team::getTeamTargetObject (0x003A105B) and TunnelTracker::getCurNemesis
 // (0x004F5684) are pinned ZH-shaped bodies.
 typedef bool Bool;
@@ -90,8 +90,7 @@ public:
 	const TeamPrototype *getPrototype(void) { return m_proto; }
 	// LINK: same-body helper under a TU-unique name (identical inlined bytes); the getPrototype copy loses to the first-in-order copy. No flags touched.
 	const TeamPrototype *bfme_getPrototype_9492a(void) { return m_proto; }
-	void rva0039D84A(Object *target);
-	void setTeamTargetObject(Object *target) { rva0039D84A(target); }
+	void setTeamTargetObject(Object *target);
 	Object *getTeamTargetObject();
 private:
 	unsigned char m_pad00[0x30];

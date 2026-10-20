@@ -424,7 +424,7 @@ class Team
 {
 public:
 	Object *getTeamTargetObject();
-	void rva0039D84A(Object *target);
+	void setTeamTargetObject(Object *target);
 	unsigned char m_pad00[0x30];
 	TeamPrototype *m_proto; // +0x30
 };

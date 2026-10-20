@@ -73,7 +73,7 @@ class Rva0041B8D2Obj;
 
 
 class ActionManager { public:
- unsigned char rva0041BB26(const Object*,WeaponSlotType,CommandSourceType);
+ unsigned char canFireWeapon(const Object*,WeaponSlotType,CommandSourceType);
  bool rva0041BAD2(const Object*,const Object*,CommandSourceType,WeaponSlotType);
  bool canFireWeaponAtLocation(const Object*,const Coord3D*,CommandSourceType,WeaponSlotType,const Object*);
  CanAttackResult getCanAttackObject(const Object*,const Object*,CommandSourceType,AbleToAttackType);
@@ -302,7 +302,7 @@ bool InGameUI::canSelectedObjectsEffectivelyUseWeapon(const CommandButton *comma
   other=*it;
   count++;
   if(!doAtObject && !doAtPosition) {
-   if(TheActionManager->rva0041BB26(other->getObject(),slot,CMD_FROM_PLAYER)) {
+   if(TheActionManager->canFireWeapon(other->getObject(),slot,CMD_FROM_PLAYER)) {
     if(rule==SELECTION_ANY) return true;
     qualify++;
    }

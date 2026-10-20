@@ -87,7 +87,7 @@
 // conditions centre +0x28; the guard machine keeps the object-to-guard id at
 // +0x3C and a team-to-guard id at +0x40 (BFME 2 addition: with no object the
 // centre follows the team through the rowed Team::rva0039E5B9). Owner team
-// +0x304; setTeamTargetObject is the rowed Team::rva0039D84A. TeamFactory's
+// +0x304; setTeamTargetObject is the rowed Team::setTeamTargetObject. TeamFactory's
 // findTeamByID is the pinned 0x0039F761 (prototype walk as in Generals).
 typedef bool Bool;
 #define NULL 0
@@ -137,8 +137,7 @@ extern int BfmeLogicFramesPerSecond;
 class Team
 {
 public:
-	void rva0039D84A(Object *target);
-	void setTeamTargetObject(Object *target) { rva0039D84A(target); }
+	void setTeamTargetObject(Object *target);
 	void rva0039E5B9(Coord3D *pos);
 };
 class TeamFactory

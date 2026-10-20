@@ -125,8 +125,7 @@ class Team
 public:
 	const TeamPrototype *getPrototype(void) { return m_proto; }
 	Object *getTeamTargetObject();
-	void rva0039D84A(Object *target);
-	void setTeamTargetObject(Object *target) { rva0039D84A(target); }
+	void setTeamTargetObject(Object *target);
 private:
 	unsigned char m_pad00[0x30];
 	TeamPrototype *m_proto; // +0x30

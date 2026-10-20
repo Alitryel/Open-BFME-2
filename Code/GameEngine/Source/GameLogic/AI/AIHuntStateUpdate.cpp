@@ -127,7 +127,7 @@ class Team
 public:
 	const TeamPrototype *getPrototype() const { return m_proto; }
 	Object *getTeamTargetObject();
-	void rva0039D84A(Object *target);
+	void setTeamTargetObject(Object *target);
 private:
 	unsigned char m_pad00[0x30];
 	TeamPrototype *m_proto; // +0x30
@@ -333,7 +333,7 @@ StateReturnType AIHuntState::update()
 						if (teamVictimPriority >= victimPriority)
 							victim = teamVictim;
 					}
-					owner->getTeam()->rva0039D84A(victim);
+					owner->getTeam()->setTeamTargetObject(victim);
 				}
 			}
 

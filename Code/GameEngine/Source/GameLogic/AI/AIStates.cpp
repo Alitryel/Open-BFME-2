@@ -384,7 +384,7 @@ class Team : public MemoryPoolObject, public Snapshot
 {
 public:
 	Object *getTeamTargetObject();
-	void rva0039D84A(Object *target);
+	void setTeamTargetObject(Object *target);
 	Team *dlink_next_TeamInstanceList() const;
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 	unsigned char m_pad08[0x30 - 8];
@@ -1332,7 +1332,7 @@ StateReturnType AIAttackFireWeaponState::onEnter()
 	{
 		Team *&team = obj->m_team;
 		if (team->m_proto->m_216 && !team->getTeamTargetObject())
-			team->rva0039D84A(victim);
+			team->setTeamTargetObject(victim);
 		inRange = savedWeapon->isWithinAttackRange((const Object *)obj, victim, 0.0f, 1);
  weapon=savedWeapon;
 	}

@@ -120,7 +120,7 @@ class Team
 {
 public:
 	Object *getTeamTargetObject();
-	void rva0039D84A(Object *obj);
+	void setTeamTargetObject(Object *obj);
 };
 class ThingTemplate
 {
@@ -363,7 +363,7 @@ StateReturnType AIAttackState::update()
 		{
 			ai->friend_setGoalObject(0);
 			if (victim == source->getTeam()->getTeamTargetObject())
-				source->getTeam()->rva0039D84A(0);
+				source->getTeam()->setTeamTargetObject(0);
 			ai->notifyVictimIsDead();
 			return STATE_FAILURE;
 		}
@@ -373,13 +373,13 @@ StateReturnType AIAttackState::update()
 if (sourceAI && !victim->testStatus(OBJECT_STATUS_01) && victim->getContain() && victim->getContain()->isGarrisonable() && victim->getContain()->getContainCount(0) == 0 && source->getRelationship(victim) == NEUTRAL) {
 				sourceAI->friend_setGoalObject(0);
 				if (victim == source->getTeam()->getTeamTargetObject())
-					source->getTeam()->rva0039D84A(0);
+					source->getTeam()->setTeamTargetObject(0);
 				sourceAI->notifyVictimIsDead();
 				return STATE_FAILURE;
  } else if (source->getRelationship(victim) != ENEMIES) {
 				sourceAI->friend_setGoalObject(0);
 				if (victim == source->getTeam()->getTeamTargetObject())
-					source->getTeam()->rva0039D84A(0);
+					source->getTeam()->setTeamTargetObject(0);
 				sourceAI->notifyVictimIsDead();
 				return STATE_FAILURE;
  }
