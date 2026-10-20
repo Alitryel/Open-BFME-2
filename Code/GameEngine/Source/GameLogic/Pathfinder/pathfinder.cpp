@@ -5739,7 +5739,7 @@ Bool Pathfinder::MoveAllies(Object *obj, Path *path, Bool force)
 class MineshaftPortalNetworkManager { public: Bool hasUsableNetwork(void *); };
 // The sole datum owner is GameStateInit.cpp g_Va00E01EDC (data_ledger A01EDC).
 // GameEngineInit.cpp registration literal independently identifies its role.
-extern void *g_Va00E01EDC;
+void * g_Va00E01EDC;	// retail RVA 0x00A01EDC (.bss), defined here
 class HierarchyTerrain : public PathfinderNativeSlots<33> { public: virtual Waypoint *getFirstWaypoint(); };
 class Rva002E6ECA { public: Int get() const; };
 Int Rva002E6E6CGet(Int);
