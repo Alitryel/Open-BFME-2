@@ -15,6 +15,7 @@
 // Native scans EmotionSystem ObjectIDs before nested module-nugget eligibility scans.
 // Current evidence and unresolved codegen: reverse/attempt_support/0x004b1633-20261019-claude2.md
 // (earlier: reverse/attempt_support/0x004b1633-20261019-w6/readme.md)
+// Case-2 call order follows the function's tracked-local count: reverse/attempt_support/0x004b1633-20261020-w2/readme.md
 /* Inherited draft field annotations, retained as unverified evidence.
     unsigned int m_frame;			// +0x40
     void *m_274;				// +0x274
