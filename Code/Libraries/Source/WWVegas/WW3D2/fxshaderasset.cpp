@@ -30,6 +30,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #undef _strcmpi
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAURva0007BB16Record@@PAU1@@_STL@@YAPAURva0007BB16Record@@PAU1@00A:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct Rva0007BB16Record;
+namespace _STL { template <> Rva0007BB16Record *__uninitialized_copy<Rva0007BB16Record *, Rva0007BB16Record *>(Rva0007BB16Record *, Rva0007BB16Record *, Rva0007BB16Record *, const __false_type &); }
 
 extern "C" {
 char *__cdecl strcpy(char *d, const char *s);
