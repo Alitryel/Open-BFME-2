@@ -1,18 +1,16 @@
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.9 date=2026-10-20
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.8582949308755761 date=2026-10-19
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.804 date=2026-10-17
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.8867 date=2026-10-14
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.8996551009461485 date=2026-10-10
-// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
-// partial score=0.8459835826528512 date=2026-10-09
 // cl: /O1 /arch:SSE /G7 /DBFME_WWSTRING_CTOR_BUFFER_RELOAD /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/banked_segline /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// Rva00177860::rva00177F82: the renderer of the four-buffer point batch whose
+// constructor (0x00177825) and destructor (0x00177860) are rowed in
+// Rva00177860Dtor.cpp. Target evidence: native body 0x00177F82..0x00178E47
+// (3781 B, thiscall, RET 4) and its retail callees. Structure carried from
+// ZH PointGroupClass::Render's vertex fill (512-point
+// chunks of four vertices, sorting or DX8 submission). Structural inference:
+// the TU's out-of-line helpers at 0x00177ACB..0x00177F34 sit in this body's
+// usage order (colour pack, vec3 copy, colour convert, strided fill, normal
+// fill, UV step, pair copy, UV fill); retail inlines them here, so they are
+// written as __forceinline helpers (cl 7.1 /O1 does not inline them otherwise).
+// The original class, method and helper names are unknown.
+// The donor WW3D2 headers spell the 4x4 matrix Matrix4x4.
 #define Matrix4x4 Matrix4
 #include "sharebuf.h"
 #include "vector.h"
@@ -25,13 +23,8 @@ extern "C" void _ReadWriteBarrier(void);
 #include "dx8vertexbuffer.h"
 #include "sortingrenderer.h"
 
-extern VectorClass<Vector3> VertexLoc;
-extern VectorClass<Vector2> VertexUV;
-extern VectorClass<Vector4> VertexDiffuse;
-extern DX8IndexBufferClass *Tris;
 class Rva00177860Ref;
 extern Rva00177860Ref *Rva009F7044;
-extern SortingIndexBufferClass *SortingTris;
 extern Rva00177860Ref *Rva009F7048;
 // Retail's second sorting flag at VA 0x00DB5F7D is owned by
 // GlobalByteGetters.cpp; reuse that definition instead of the donor's name.
@@ -52,11 +45,11 @@ class PointGroupTargetFVF {
 	unsigned diffuse;
 
 public:
-	unsigned Get_FVF_Size() const { return *(volatile const unsigned *)&stride; }
-	unsigned Get_Location_Offset() const { return *(volatile const unsigned *)&location; }
- unsigned Get_Normal_Offset() const { return *(volatile const unsigned *)&normal; }
-	unsigned Get_Tex_Offset(unsigned) const { return *(volatile const unsigned *)&tex0; }
-	unsigned Get_Diffuse_Offset() const { return *(volatile const unsigned *)&diffuse; }
+	unsigned Get_FVF_Size() const { return stride; }
+	unsigned Get_Location_Offset() const { return location; }
+ unsigned Get_Normal_Offset() const { return normal; }
+	unsigned Get_Tex_Offset(unsigned) const { return tex0; }
+	unsigned Get_Diffuse_Offset() const { return diffuse; }
 };
 
 struct BfmeSortingVBAccess {
@@ -87,22 +80,6 @@ struct BfmeSortingVBAccess {
 };
 
 extern void BoxSetTexture(unsigned stage, TextureBaseClass *&texture);
-
-// Retail 0x0012FE00 takes an xyz center and four 32-bit ranges (the view
-// DX8DrawTrianglesDispatch.cpp pins).
-struct TargetCenter3 { float x, y, z; TargetCenter3(float a,float b,float c):x(a),y(b),z(c){} };
-class BfmeSortingDispatchAt0012FE00 {
-public:
-	static void Insert(const TargetCenter3& center, unsigned start,
-		unsigned polygons, unsigned minimum, unsigned vertices);
-};
-
-static __forceinline void InsertPointTriangles(
-	unsigned a, unsigned b, unsigned c, unsigned d)
-{
-	TargetCenter3 center(0.0f, 0.0f, 0.0f);
-	BfmeSortingDispatchAt0012FE00::Insert(center, a, b, c, d);
-}
 
 static __forceinline void ClampPointColor(Vector4 &color)
 {
@@ -174,6 +151,42 @@ static __forceinline unsigned ConvertDefaultPointColor(Vector4 color)
 	return DX8Wrapper::Convert_Color(reinterpret_cast<const Vector3 &>(color), color.W);
 }
 
+static __forceinline void CopyPointVectors(Vector3 *dst,int stride,const Vector3 *src,int count)
+{
+ for(;count;--count){dst->X=src->X;dst->Y=src->Y;dst->Z=src->Z;++src;dst=(Vector3*)((char*)dst+stride);}
+}
+static __forceinline void ConvertPointColors(unsigned *out,int stride,const Vector4 *colors,int count)
+{
+ for(;count;--count){const Vector4 *t;*out=ConvertPointColor(*(t=colors));++colors;out=(unsigned*)((char*)out+stride);}
+}
+static __forceinline void FillPointDiffuse(char *dest,int stride,int value,int count)
+{
+ while(count--){*(int*)dest=value;dest+=stride;}
+}
+static __forceinline void FillPointNormals(float *dst,int stride,float x,float y,float z,int count)
+{
+ if(count==0)return;
+ int n=count;
+ do{dst[0]=x;dst[1]=y;dst[2]=z;dst=(float*)((char*)dst+stride);--n;}while(n!=0);
+}
+struct PointUVPair{int a;int b;};
+static __forceinline void CopyPointUVs(void *dst,int stride,const PointUVPair *src,int count)
+{
+ for(;count;--count){((PointUVPair*)dst)->a=src->a;((PointUVPair*)dst)->b=src->b;++src;dst=(char*)dst+stride;}
+}
+static __forceinline void FillPointUVs(float *output,int stride,float first,float second,int count)
+{
+ float f=first,s=second;
+ register int remaining=count;
+ if(remaining==0)return;
+ float zero=0.0f;
+ float one=1.0f;
+ do{
+  output[0]=f;output[1]=s;
+  if(f!=0.0f){f=zero;s=one-s;}else{f=one;}
+  output=reinterpret_cast<float*>(reinterpret_cast<char*>(output)+stride);
+ }while(--remaining!=0);
+}
 // Native177F82..178E47: four vertex buffers at0/4/8/C; count10,texture14,
 // shader18,color1C and alpha28. This is distinct from PointGroupClass.
 // BF1 f989 and rowed3377B PointGroup submission provide the shared pipeline.
@@ -214,42 +227,16 @@ void Rva00177860::rva00177F82(RenderInfoClass&)
   BfmeSortingVBAccess vertices(sort?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8,5,delta*4,0);
   {
    BfmeSortingVBAccess::WriteLock lock(&vertices);
-   const PointGroupTargetFVF &fvf=vertices.FVF_Info();
+   unsigned stride=vertices.FVF_Info().Get_FVF_Size();
    unsigned char *vb=(unsigned char*)lock.Get_Formatted_Vertex_Array();
-   unsigned stride=fvf.Get_FVF_Size();
-   const Vector3 *volatile input=locations->Get_Array()+current*4;
-_ReadWriteBarrier();
-
-   unsigned char *out=vb+fvf.Get_Location_Offset();
-   for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {((Vector3*)out)->X=input->X;((Vector3*)out)->Y=input->Y;((Vector3*)out)->Z=(input++)->Z;out+=stride;}
-   if(diffuse) {
-    const Vector4 *input=diffuse->Get_Array()+current*4;
-    out=vb+(vertices.FVF_Info()).Get_Diffuse_Offset();
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(unsigned*)out=ConvertPointColor(*input);out+=stride;++input;}
-   } else {
-    out=vb+(vertices.FVF_Info()).Get_Diffuse_Offset();
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(unsigned*)out=defaultDiffuse;out+=stride;}
-   }
-   if(normals) {
-    const Vector3 *input = normals->Get_Array()+current*4;
-    out=vb+fvf.Get_Normal_Offset();
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(Vector3*)out=*input;out+=stride;++input;}
-   } else {
-    out=vb+fvf.Get_Normal_Offset();
-    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(Vector3*)out=Vector3(0.0f,0.0f,1.0f);out+=stride;}
-   }
-   out=vb+fvf.Get_Tex_Offset(0);
-   if(texcoords) {
-    const Vector2 *input=texcoords->Get_Array()+current*4;
-    for(unsigned i=0;i!=static_cast<unsigned>(delta*4);++i) {*(Vector2*)out=*input;out+=stride;++input;}
-   } else {
-    float first=0.0f,second=0.0f;
-    for(unsigned i=0;i!=static_cast<unsigned>(delta*4);++i) {
-     *(Vector2*)out=Vector2(first,second);
-     if(first!=0.0f){first=0.0f;second=1.0f-second;}else first=1.0f;
-     out+=stride;
-    }
-   }
+   const PointGroupTargetFVF &fvf=vertices.FVF_Info();
+   CopyPointVectors((Vector3*)(vb+fvf.Get_Location_Offset()),stride,locations->Get_Array()+current*4,delta*4);
+   if(diffuse) ConvertPointColors((unsigned*)(vb+fvf.Get_Diffuse_Offset()),stride,diffuse->Get_Array()+current*4,delta*4);
+   else FillPointDiffuse((char*)(vb+fvf.Get_Diffuse_Offset()),stride,defaultDiffuse,delta*4);
+   if(normals) CopyPointVectors((Vector3*)(vb+fvf.Get_Normal_Offset()),stride,normals->Get_Array()+current*4,delta*4);
+   else FillPointNormals((float*)(vb+fvf.Get_Normal_Offset()),stride,0.0f,0.0f,1.0f,delta*4);
+   if(texcoords) CopyPointUVs(vb+fvf.Get_Tex_Offset(0),stride,(const PointUVPair*)(texcoords->Get_Array()+current*4),delta*4);
+   else FillPointUVs((float*)(vb+fvf.Get_Tex_Offset(0)),stride,0.0f,0.0f,delta*4);
   }
   DX8Wrapper::Set_Vertex_Buffer(*reinterpret_cast<DynamicVBAccessClass*>(&vertices));
   if(sort)SortingRendererClass::Insert_Triangles(0,delta*2,0,delta*6);
@@ -260,4 +247,3 @@ _ReadWriteBarrier();
  DX8Wrapper::Set_Transform(D3DTS_WORLD,world);
 }
 
-// Chunk size bounds both UV loops; nonzero guards preserve their vertex range.
