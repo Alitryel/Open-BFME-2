@@ -1,13 +1,5 @@
 // ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.36 date=2026-10-20
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.36 date=2026-10-19
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.0 date=2026-10-17
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.27 date=2026-10-14
-// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
-// partial score=0.27 date=2026-10-14
+// partial score=0.93 date=2026-10-20
 // Bank draft of the LM_SunRays customized-render setup at 0x0009CD9B (1984B).
 // Decoded from the retail body: two Create_Render_Obj calls (the host's +0xD4
 // and "LM_SunRays" +0x188), the +0x18C/+0x190/+0x194 sub-object bindings via
@@ -111,17 +103,10 @@ public:
     char pad04[0xd4-4];
     Vector3 ambient,diffuse,specular;
 };
-struct LightAngles
-{
-    float center, angle;
-    LightAngles(float c, float a) : center(c), angle(a) {}
-};
-
-static __forceinline void lightDirection(Vector3 &direction, LightAngles angles) {
-    direction.X=sin(angles.center)*cos(angles.angle);
-    direction.Y=sin(angles.center)*sin(angles.angle);
-    direction.Z=cos(angles.center);
-}
+// Retail spills each light angle twice: X reads one copy, Y snapshots the
+// other through memory and Z reads it again. A volatile read of an aliased
+// copy reproduces that home/snapshot pair.
+#define SNAP(x) (*(volatile float *)&(x))
 
 class RenderObjClass;
 RenderObjClass *Create_Render_Obj(const char *);
@@ -196,8 +181,13 @@ void Rva0009C134Host::rva0009CD9B()
     if (m_c8) m_c4->ReleaseChild(m_c8);
     if (m_cc) {
         Vector3 color=*(const Vector3 *)(src+0x60);
-        LightAngles angles(*(float *)(src+0x58)*0.017453292f+1.5707964f,*(float *)(src+0x5c)*0.017453292f);
-        Vector3 direction; lightDirection(direction,angles);
+        float theta=*(float *)(src+0x58)*0.017453292f+1.5707964f;
+        float phi=*(float *)(src+0x5c)*0.017453292f;
+        float theta2=theta, phi2=phi;
+        Vector3 direction;
+        direction.X=sin(theta)*cos(phi);
+        direction.Y=sin(SNAP(theta2))*sin(SNAP(phi2));
+        direction.Z=cos(SNAP(theta2));
         m_cc->ambient.set(0.0f,0.0f,0.0f);
         m_cc->specular.set(0.0f,0.0f,0.0f);
         m_cc->diffuse=color;
@@ -210,8 +200,13 @@ void Rva0009C134Host::rva0009CD9B()
     }
     if (m_d0) {
         Vector3 color=*(const Vector3 *)(src+0x74);
-        LightAngles angles(*(float *)(src+0x6c)*0.017453292f+1.5707964f,*(float *)(src+0x70)*0.017453292f);
-        Vector3 direction; lightDirection(direction,angles);
+        float theta=*(float *)(src+0x6c)*0.017453292f+1.5707964f;
+        float phi=*(float *)(src+0x70)*0.017453292f;
+        float theta2=theta, phi2=phi;
+        Vector3 direction;
+        direction.X=sin(theta)*cos(phi);
+        direction.Y=sin(SNAP(theta2))*sin(SNAP(phi2));
+        direction.Z=cos(SNAP(theta2));
         m_d0->ambient.set(0.0f,0.0f,0.0f);
         m_d0->specular.set(0.0f,0.0f,0.0f);
         m_d0->diffuse=color;
