@@ -26,6 +26,9 @@
 
 #include <map>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBGH@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> _Rb_tree_node<pair<unsigned short const ,int> > * allocator<_Rb_tree_node<pair<unsigned short const ,int> > >::allocate(unsigned int,void const *) const; }
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> __declspec(dllimport) __forceinline pair<unsigned short const ,int>::pair(unsigned short const &a,int const &b) : first(a), second(b) {} }
 // Bind to the kept retail copy instead of emitting this unit's own.
