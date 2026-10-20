@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva0024076D@@QAE@XZ, retail 0x0024076D..0x0024080F (162 bytes, EH,
 // ret 0): the default constructor of the 0x50-byte local an Object method
@@ -35,6 +35,7 @@ class Rva0024076D
 {
 public:
 	Rva0024076D();
+	~Rva0024076D();
 
 private:
 	AsciiString m_name;										// +0x00
@@ -58,3 +59,18 @@ Rva0024076D::Rva0024076D()
 	m_48 = 0;
 	m_4C = 0;
 }
+
+// ??1Rva0024076D@@QAE@XZ, retail 0x00240831 (53 bytes, EH): tears down the
+// list at +0x44 (list base dtor 0x004EC395), then the AsciiString at +0. The
+// ledger carried this address as ??1WorkerAIUpdateModuleData@@UAE@XZ, but the
+// body stores no vptr and its layout is this record's; 0x002544B5 is the
+// vtable-0x00BF23C8 dtor of WorkerAIUpdateModuleData.
+Rva0024076D::~Rva0024076D()
+{
+}
+
+// ??_GRva0024076D@@QAEPAXI@Z, retail 0x00240DD5 (28 bytes): the record's
+// scalar deleting destructor (calls 0x00240831, then operator delete). No
+// vtable or call site references it.
+// ?bfmeEmitRva0024076DDelete@@YAXPAVRva0024076D@@@Z absent-from-retail
+void bfmeEmitRva0024076DDelete(Rva0024076D *record) { delete record; }
