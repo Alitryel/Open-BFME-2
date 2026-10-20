@@ -7,6 +7,9 @@ namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned s
 namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(); }
 namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::reserve(unsigned int); }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAGGV?$allocator@G@_STL@@@_STL@@QAEPAGI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> unsigned short *_STLP_alloc_proxy<unsigned short *, unsigned short, allocator<unsigned short> >::allocate(size_t); }
 // Suppress this TU's non-retail copy of ??$__uninitialized_copy@PAGPAG@_STL@@YAPAGPAG00ABU__true_type@0@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> unsigned short *__uninitialized_copy<unsigned short *, unsigned short *>(unsigned short *, unsigned short *, unsigned short *, const __true_type &); }
