@@ -1,10 +1,9 @@
 // ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
-// partial score=0.6981127453099645 date=2026-10-19
-// ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
-// partial score=0.6606047434 date=2026-10-16
+// partial score=0.85 date=2026-10-20
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
 
 #define NULL 0
+
 
 // Path node reclamation and teardown (GameLogic AI pathfinding). Nodes live
 // in the Rva pool behind the global at 0x00E01E94 and are returned through
@@ -21,7 +20,9 @@ Rva00065964ObjectPool g_pathNodePool;
 
 #include "vector3.h"
 #include "Coord2D.h"
+#include "vector2.h"
 #define COORD3D_VIEW_DTOR
+#define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
 
 class LineSegClass
@@ -41,23 +42,53 @@ public:
 };
 
 struct Rva00363B4BVector { float x, y, z; };
-float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b);
+float ACos(float);
+inline __declspec(noinline) float rva00363B4BAngle(const Rva00363B4BVector *a, const Rva00363B4BVector *b)
+{
+    float dot = a->z * b->z + a->y * b->y + a->x * b->x;
+    if (dot > 1.0f) dot = 1.0f;
+    if (dot < -1.0f) dot = -1.0f;
+    if (dot >= 0.99f) return 0.0f;
+    return ACos(dot);
+}
 
 enum PathfindLayerEnum { LAYER_INVALID = 0, LAYER_GROUND = 1 };
 
 class PathNode
 {
 public:
+	PathNode(const Coord3D *position, PathfindLayerEnum layer);
 	const Coord3D *getPosition(void) const { return &m_pos; }
 	void setPosition(const Coord3D *pos) { m_pos = *pos; }
 	PathfindLayerEnum getLayer(void) const { return m_layer; }
 
 	PathNode *m_next;
-	char m_pad04[8];
+	PathNode *m_previous;
+	PathNode *m_nextOptimized;
 	Coord3D m_pos;
 	PathfindLayerEnum m_layer;
-	int m_1c;
+	bool m_canOptimize;
 	int m_id20;
+};
+
+inline __declspec(noinline) PathNode::PathNode(const Coord3D *position, PathfindLayerEnum layer)
+{
+	m_next = 0;
+	m_previous = 0;
+	m_nextOptimized = 0;
+	m_pos = *position;
+	m_layer = layer;
+	m_canOptimize = false;
+	m_id20 = 0x7fffffff;
+}
+
+inline void *__cdecl operator new(size_t, void *p) { return p; }
+inline void __cdecl operator delete(void *, void *) { }
+
+class Rva00065964ObjectPoolAlloc
+{
+public:
+	void *rva002635C2() throw();
 };
 
 
@@ -65,11 +96,34 @@ class Path
 {
 	void *m_unknown00;
 	PathNode *m_head04;
+	PathNode *m_pathTail;
+	bool m_isOptimized;
 
 public:
 	~Path();
 
-	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int portal);
+	inline __declspec(noinline) void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int waypointID)
+	{
+		if (m_isOptimized && m_pathTail)
+		{
+			if (pos->x == m_pathTail->m_pos.x && pos->y == m_pathTail->m_pos.y)
+				return;
+		}
+		void *mem = ((Rva00065964ObjectPoolAlloc *)&g_pathNodePool)->rva002635C2();
+		PathNode *node = mem ? new (mem) PathNode(pos, layer) : 0;
+		node->m_id20 = waypointID;
+		PathNode *tail = m_pathTail;
+		if (tail)
+		{
+			tail->m_next = node;
+			node->m_previous = tail;
+		}
+		if (m_isOptimized && m_pathTail)
+			m_pathTail->m_nextOptimized = node;
+		m_pathTail = node;
+		if (m_head04 == 0)
+			m_head04 = node;
+	}
 	void rva003649B1(const PathNode *node);
 	int rva003641AE(float angle, float radius);
 	void rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius);
@@ -149,18 +203,22 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 		minLen = seg2.Get_Length();
 	if (radius > minLen * 0.75f)
 		radius = minLen * 0.75f;
-	Coord2D a, d;
+	Vector2 a, b, c, d;
 	bool turnLeft;
 	if (Vector3::Cross_Product_Z(seg1.Get_Dir(), seg2.Get_Dir()) < 0.0f) {
-		a.x = prevPos.x; a.y = prevPos.y;
-		d.x = nextPos.x; d.y = nextPos.y;
+		a.Set(prevPos.x, prevPos.y);
+		b.Set(curPos.x, curPos.y);
+		c = b;
+		d.Set(nextPos.x, nextPos.y);
 		turnLeft = true;
 	} else {
-		d.x = prevPos.x; d.y = prevPos.y;
-		a.x = nextPos.x; a.y = nextPos.y;
+		d.Set(prevPos.x, prevPos.y);
+		c.Set(curPos.x, curPos.y);
+		b = c;
+		a.Set(nextPos.x, nextPos.y);
 		turnLeft = false;
-		seg1.Set(Vector3(a.x, a.y, 0), Vector3(curPos.x, curPos.y, 0));
-		seg2.Set(Vector3(curPos.x, curPos.y, 0), Vector3(d.x, d.y, 0));
+		seg1.Set(Vector3(a.X, a.Y, 0), Vector3(b.X, b.Y, 0));
+		seg2.Set(Vector3(c.X, c.Y, 0), Vector3(d.X, d.Y, 0));
 	}
 	float angle = rva00363B4BAngle((const Rva00363B4BVector *)&seg1.Get_Dir(), (const Rva00363B4BVector *)&seg2.Get_Dir());
 	if (angle < 0.7225663304328919)
@@ -173,8 +231,14 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 	Vector3 v2 = radius * seg2.Get_Dir();
 	v1.Rotate_Z(-1.5707963705062866f);
 	v2.Rotate_Z(-1.5707963705062866f);
-	LineSegClass off1(Vector3(a.x, a.y, 0) + v1, Vector3(curPos.x, curPos.y, 0) + v1);
-	LineSegClass off2(Vector3(curPos.x, curPos.y, 0) + v2, Vector3(d.x, d.y, 0) + v2);
+	Vector3 p0 = Vector3(a.X, a.Y, 0) + v1;
+	Vector3 p1 = Vector3(b.X, b.Y, 0) + v1;
+	LineSegClass off1(p0, p1);
+	p0 = Vector3(c.X, c.Y, 0) + v2;
+	p1 = Vector3(d.X, d.Y, 0) + v2;
+	LineSegClass off2(p0, p1);
+	Vector3 center;
+	Vector3 other;
 	float arc;
 	{
 		Vector3 n1 = v1;
@@ -190,36 +254,38 @@ void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radi
 			return;
 		}
 		float step = arc / count;
-		Vector3 center;
-		Vector3 other;
 		float fraction;
 		if (!off1.Find_Intersection(off2, &center, &fraction, &other, &fraction))
 			return;
 		Coord3D pt;
 		if (turnLeft) {
-			pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
+			Vector3 q = center - v1;
+			pt.set(q.X, q.Y, curPos.z);
 			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			v1 *= -1.0f;
 			for (int i = 1; i < count; ++i) {
-				Vector3 q = center + v1;
+				q = center + v1;
 				v1.Rotate_Z(-step);
-				pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
+				pt.set(q.X, q.Y, curPos.z);
 				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			}
-			pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
+			Vector3 t = center - v2;
+			pt.set(t.X, t.Y, curPos.z);
 			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			cur->setPosition(&pt);
 		} else {
-			pt.x = center.X - v2.X; pt.y = center.Y - v2.Y; pt.z = curPos.z;
+			Vector3 q = center - v2;
+			pt.set(q.X, q.Y, curPos.z);
 			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			v2 *= -1.0f;
 			for (int i = 1; i < count; ++i) {
 				v2.Rotate_Z(step);
-				Vector3 q = center + v2;
-				pt.x = q.X; pt.y = q.Y; pt.z = curPos.z;
+				q = center + v2;
+				pt.set(q.X, q.Y, curPos.z);
 				rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			}
-			pt.x = center.X - v1.X; pt.y = center.Y - v1.Y; pt.z = curPos.z;
+			Vector3 t = center - v1;
+			pt.set(t.X, t.Y, curPos.z);
 			rva002655E3(&pt, cur->getLayer(), 0x7fffffff);
 			cur->setPosition(&pt);
 		}
