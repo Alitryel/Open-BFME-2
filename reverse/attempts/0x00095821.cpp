@@ -1,7 +1,5 @@
-// BfmeB1137::Install_Materials
-// partial score=0.873 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.873 date=2026-10-20
+// partial score=0.879 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -277,14 +275,14 @@ public:
 			if (WW3D::Is_Snapshot_Activated()) {}
 		}
 		RenderStates[state] = value;
-		D3DDevice->SetRenderState(state, value);
+		_Get_D3D_Device8()->SetRenderState(state, value);
 		number_of_DX8_calls++;
 		render_state_changes++;
 	}
 	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
 	{
 		if (stage >= 16) {
-			D3DDevice->SetTextureStageState(stage, state, value);
+			_Get_D3D_Device8()->SetTextureStageState(stage, state, value);
 			number_of_DX8_calls++;
 			return;
 		}
@@ -292,16 +290,15 @@ public:
 		if (WW3D::Is_Snapshot_Activated()) {
 			StringClass value_name(0, true);
 			Get_DX8_Texture_Stage_State_Value_Name(value_name, state, value);
-			if (WW3D::Is_Snapshot_Activated()) {}
 		}
 		TextureStageStates[stage][state] = value;
-		D3DDevice->SetTextureStageState(stage, state, value);
+		_Get_D3D_Device8()->SetTextureStageState(stage, state, value);
 		number_of_DX8_calls++;
 		texture_stage_state_changes++;
 	}
 	static __forceinline void Set_DX8_Sampler_State(unsigned stage, DWORD type, unsigned value)
 	{
-		D3DDevice->SetSamplerState(stage, type, value);
+		_Get_D3D_Device8()->SetSamplerState(stage, type, value);
 		number_of_DX8_calls++;
 		texture_stage_state_changes++;
 	}
@@ -309,7 +306,7 @@ public:
 	static __forceinline void Set_DX8_Texture(unsigned int stage, IDirect3DBaseTexture8 *texture)
 	{
 		if (stage >= 16) {
-			D3DDevice->SetTexture(stage, texture);
+			_Get_D3D_Device8()->SetTexture(stage, texture);
 			number_of_DX8_calls++;
 			return;
 		}
@@ -318,7 +315,7 @@ public:
 		if (Textures[stage]) Textures[stage]->Release();
 		Textures[stage] = texture;
 		if (Textures[stage]) Textures[stage]->AddRef();
-		D3DDevice->SetTexture(stage, texture);
+		_Get_D3D_Device8()->SetTexture(stage, texture);
 		number_of_DX8_calls++;
 		texture_changes++;
 	}
@@ -335,7 +332,7 @@ public:
 			else m = render_state.view.Transpose();
 			break;
 		default:
-			D3DDevice->GetTransform(transform, &mat);
+			_Get_D3D_Device8()->GetTransform(transform, &mat);
 			number_of_DX8_calls++;
 			m = *(Matrix4 *)&mat;
 			m = m.Transpose();
@@ -351,10 +348,12 @@ public:
 	{
 		if (WW3D::Is_Snapshot_Activated()) {}
 		++matrix_changes;
-		D3DDevice->SetTransform(state, &m);
+		_Get_D3D_Device8()->SetTransform(state, &m);
 		++number_of_DX8_calls;
 	}
 
+public:
+	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 protected:
 	static IDirect3DDevice8 *D3DDevice;
 	static unsigned RenderStates[];
