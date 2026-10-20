@@ -307,6 +307,14 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   factorial over alias placement and cell-pointer temps found it in 288
   compiles. Reproduce the effect in a small probe first; it showed the alias
   flips the order.
+- **Same store in both arms keeps a constant register local.** When retail
+  keeps a zero (or other constant) register live only inside one block,
+  write the source's if/else with the shared store repeated in both arms
+  (`if (c) { m = 0; } else { f(); m = 0; }`). Hoisting the store after the
+  test, or a negated single-arm test, lets the constant's web spread over the
+  rest of the function. MSVC tail-merges the duplicate stores into one, and
+  the merge point bounds the web. In GameLogic::setSawCRCMismatch 0x002401DD
+  (1424 B), this was the whole residue: nd=35 before, exact after.
 - **KindOf tests as the full inline chain.** Write each KindOf test as
   `obj->isKindOf(k)` → `getTemplate()->isKindOf(k)` → `BitFlags::test(k)`,
   with the chain returning the masked `UnsignedInt` word as BuildAssistant.cpp

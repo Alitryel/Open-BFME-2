@@ -2427,18 +2427,23 @@ enum RecorderModeType
 	RECORDERMODETYPE_NONE
 };
 
+class CommandDumpFile0037BE15;
+
 class RecorderClass : public SubsystemInterface
 {
+	friend class GameLogic;
 public:
 	bool isMultiplayer(void);
 	RecorderModeType getMode(void);
 	void logCRCMismatch(void);
-	void rva0037BE15(File *output, unsigned int frame);
 	void initControls(void);
 
 	char m_pad00C[0xe68 - 0xc];
 	int m_e68;
 	int m_e6c;
+
+protected:
+	void dumpCommandHistory(CommandDumpFile0037BE15 *output, unsigned int frame);
 };
 
 
@@ -4517,6 +4522,158 @@ const AsciiString &GameLogic::rva0023FB58(int index)
 		return m_58[index];
 	static AsciiString invalid("Invalid Slot");
 	return invalid;
+}
+
+// ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z @0x002401DD 1424B = the
+// desync reporter GameLogic::setSawCRCMismatch (WorldBuilder twin 0xD0CA20,
+// called from ProcessCRC). Records the mismatch once (recorder log, closes the
+// script windows, desync message box outside a forced playback desync, script
+// engine copy), then writes DESYNC-<frame>-<map>-<player>.txt from the CRC
+// stream and, under TheBinaryDeepCRC, BIN_DESYNC-....bin. The recorder test
+// keeps WorldBuilder's if/else with 'm_1b8 = 0' in both arms: the compiler
+// tail-merges the two stores, which confines the zero register to the m_1bc
+// block as retail does. Retail folds "" with StringBase<char>'s function-local
+// TheNullChr (0x7BAC1C), so every str() here goes through StringBase<char>.
+class ScriptActions;
+class ScriptActionsWindowView
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s0a(); virtual void s0b();
+	virtual void s0c(); virtual void s0d(); virtual void s0e();
+	virtual void closeWindows(bool suppressNewWindows);                  // +0x3C
+};
+extern ScriptActions *TheScriptActions;
+
+class Rva002036B4GlobalCopier
+{
+public:
+	void apply(void);
+};
+
+void Rva00437E84(int type, const UnicodeString &title, const UnicodeString &text);
+File *createMemoryReadFile(char *buffer, int size);
+bool Rva0060DFB5(File *input, File *output);
+
+extern "C" __declspec(dllimport) int __stdcall GetComputerNameA(char *buffer, unsigned long *size);
+
+extern bool g_fakeDesync;
+extern bool TheBinaryDeepCRC;
+
+// --- body_r1.inc ---
+static inline const char *nullChrStr(const AsciiString &s)
+{
+	return ((const StringBase<char> &)s).str();
+}
+
+void GameLogic::rva002401DD(BfmeThingEC *stream, unsigned int frame, int player)
+{
+	m_71 = true;
+	if (ignoreCRCMismatches && g_value12A6F38 != m_40)
+		return;
+	if (!m_1bc)
+	{
+		m_1bc = true;
+		TheRecorder->logCRCMismatch();
+		((ScriptActionsWindowView *)TheScriptActions)->closeWindows(true);
+		if (TheRecorder && TheRecorder->getMode() == RECORDERMODETYPE_PLAYBACK && g_value12A6F38 != m_40)
+		{
+			m_1b8 = 0;
+		}
+		else
+		{
+			Rva00437E84(4, TheGameText->fetch("GUI:DesyncTitle"), TheGameText->fetch("GUI:DesyncText"));
+			m_1b8 = 0;
+		}
+		if (!TheRecorder || TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK || g_value12A6F38 == m_40)
+			((Rva002036B4GlobalCopier *)TheScriptEngine)->apply();
+	}
+	if (!stream)
+		return;
+
+	const char *map = ((const StringBase<char> &)TheWritableGlobalData->m_mapName).reverseFind('\\');
+	if (!map)
+		map = "";
+	else
+		++map;
+
+	AsciiString playerName = ThePlayerList->getLocalPlayer()->m_4c;
+	if (playerName.isEmpty())
+	{
+		char computerName[256] = { 0 };
+		unsigned long size = 256;
+		GetComputerNameA(computerName, &size);
+		playerName = computerName;
+	}
+
+	AsciiString frameName;
+	if (nullChrStr(stream->m_04))
+		frameName.format("Frame%s", nullChrStr(stream->m_04));
+	else
+		frameName.format("Frame%d", frame);
+
+	AsciiString filename;
+	if (frame > 0)
+		filename.format("DESYNC-%s-%s-%s.txt", nullChrStr(frameName), map, nullChrStr(playerName));
+	else
+		filename.format("DESYNC-%s-%s.txt", map, nullChrStr(playerName));
+
+	File *output = TheFileSystem->openFile(nullChrStr(filename), 0x2a, 0);
+	if (!output)
+		return;
+
+	int size;
+	char *buffer = (char *)stream->bfmeTakeEC(&size);
+	File *input = createMemoryReadFile(buffer, size);
+	if (!input)
+		return;
+
+	AsciiString text;
+	if (frame > 0)
+	{
+		if (g_fakeDesync)
+			text.format("*** Frame #%d -- THIS IS A FAKE DESYNC THAT WAS TRIGGERED INTENTIONALLY BY THIS PLAYER! IGNORE!\n\n", frame);
+		else if (g_value12A6F38 == m_40)
+			text.format("*** Frame #%d -- THIS IS A FORCED DESYNC TRIGGERED ON FRAME %d USING COMMANDLINE -forceDesyncOnFrame %d! IGNORE!!!!\n\n", frame, m_40);
+		else
+			text.format("Frame #%d\n\n", frame);
+		output->write(nullChrStr(text), text.getLength());
+	}
+	text = m_54;
+	output->write(nullChrStr(text), text.getLength());
+	for (unsigned int i = 0; i < m_58.size(); ++i)
+	{
+		text = rva0023FB58(i);
+		output->write(nullChrStr(text), text.getLength());
+	}
+	text = m_64;
+	output->write(nullChrStr(text), text.getLength());
+	text = m_68;
+	output->write(nullChrStr(text), text.getLength());
+	text.format("\n");
+	output->write(nullChrStr(text), text.getLength());
+	text.format("\n--------------------------------------------------------\nREPLAY FILE\n---------------------------------------------------------\n");
+	output->write(nullChrStr(text), text.getLength());
+	TheRecorder->dumpCommandHistory((CommandDumpFile0037BE15 *)output, frame);
+	text.format("---------------------------------------------------------\n\n");
+	output->write(nullChrStr(text), text.getLength());
+	Rva0060DFB5(input, output);
+	input->close();
+	output->close();
+	if (TheBinaryDeepCRC)
+	{
+		if (frame > 0)
+			filename.format("BIN_DESYNC-%s-%s-%s.bin", nullChrStr(frameName), map, nullChrStr(playerName));
+		else
+			filename.format("BIN_DESYNC-%s-%s.bin", map, nullChrStr(playerName));
+		File *binFile = TheFileSystem->openFile(nullChrStr(filename), 0x4a, 0);
+		if (!binFile)
+			return;
+		binFile->write(buffer, size);
+		binFile->close();
+	}
+	free(buffer);
 }
 
 // The update modules GameLogic keeps per phase (vector<UpdateModule *> at
