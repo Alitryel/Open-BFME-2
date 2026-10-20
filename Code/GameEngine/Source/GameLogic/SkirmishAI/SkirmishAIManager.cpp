@@ -124,28 +124,6 @@ private:
     class ObjectCreationList *owned940;
 };
 
-void Rva002A8F24::rva002A9365(Object *object)
-{
-    if (object->excluded4b0)
-        return;
-    Rva002A8AB1Record *record = rva002A8AB1(object->getControllingPlayer());
-    if (record)
-        record->rva002C6A3D(object);
-    AIStatCollector *collector = static_cast<AIStatCollector *>(rva002A8F24(object->getControllingPlayer()));
-    if (collector)
-        collector->Register(object);
-    if (!(object->template04->kindOf121 & 0x10))
-        return;
-    ObjectID id = object->id74;
-    ObjectID *end = heroIDs934.end();
-    CreateAHeroData **found = _STL::find(reinterpret_cast<CreateAHeroData **>(heroIDs934.begin()),
-        reinterpret_cast<CreateAHeroData **>(end), reinterpret_cast<CreateAHeroData *&>(id));
-    if (reinterpret_cast<ObjectID *>(found) == end)
-    {
-        ObjectID appendID = object->id74;
-        heroIDs934.push_back(appendID);
-    }
-}
 
 // WB E8D510 and native 2A9411..2A9476: iterate every AI player's default
 // team and register its members. The 24-byte iterator ABI is independently
@@ -175,16 +153,7 @@ public:
     int playerCount14;
 };
 extern PlayerList *ThePlayerList;
-void Rva002A8F24::findPreSpawnedObjects() {
-    for (int i=0; i<ThePlayerList->playerCount14; ++i) {
-        Player *player=ThePlayerList->getNthPlayer(i);
-        if (player->rva002AA245()) {
-            for (DLINK_ITERATOR<Object> it=player->defaultTeam2ec->iterate_TeamMemberList();
-                !it.done(); it.advance())
-                rva002A9365(it.cur());
-        }
-    }
-}
+
 
 class GameInfo {
 public:
@@ -215,30 +184,7 @@ extern GameLogic *TheGameLogic;
 class Rva0023C6A4 { public: bool rva00200084(); };
 void Rva004ECE14Clear();
 class AIGameTeam { public: void rva004E94FB();void rva004E951C(void*); };
-// WB E8D0A0 names newMap. Native2A95F9..2A9706 preserves the
-// multiplayer/replay guards and AI/collector split before team startup.
-// addNewAIForPlayer remains a separately banked unconverted dependency.
-void Rva002A8F24::rva002A95F9() {
-    if (!TheGameInfo || (!TheGameInfo->slot48() && !TheGameInfo->slot4c()) ||
-        ((Rva0023C6A4 *)TheGameLogic)->rva00200084())
-        return;
-    Rva004ECE14Clear();
-    for (int i=0; i<ThePlayerList->playerCount14; ++i) {
-        Player *player=ThePlayerList->getNthPlayer(i);
-        if (player->rva002AA245()) {
-            if (*(int *)((char *)player+0x5c)==1 || forceAI860)
-                addNewAIForPlayer(player);
-            else {
-                AIStatCollector *collector=new AIStatCollector(player);
-                int id=*(int *)((char *)player+0x54);
-                collectors908[id]=(int)collector;
-            }
-        }
-    }
-    for (const ModuleData **it=teams914.begin(); it!=teams914.end(); ++it)
-        ((AIGameTeam *)*it)->rva004E94FB();
-    findPreSpawnedObjects();
-}
+
 
 // Native manager snapshot pass; version min1/current2, CRC bail then farm/wall
 // shared libraries, every owned team, and every collector with version pointer.
