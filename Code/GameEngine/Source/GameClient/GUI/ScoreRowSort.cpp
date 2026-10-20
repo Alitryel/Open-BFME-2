@@ -92,7 +92,8 @@ class ThingTemplate
 {
 public:
 	/// return true iff the template has the specified kindOf flag set.
-	bool isKindOf(KindOfType t) const { return BitFlags<218, KindOfType>::test(m_kindof, t); }
+	// Keep the visible constant tests without emitting a competing general helper.
+	__declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const { return BitFlags<218, KindOfType>::test(m_kindof, t); }
 
 private:
 	char m_pad000[0x108];
@@ -140,4 +141,16 @@ void Rva005ECD8C::rva005ECD8C(_STL::vector<S4SortElem8B> *input,int player) {
   row.value04=army->value0C;row.value08=army->value94;row.value0C=army->value98;row.value10=army->value9C;
   rows4.push_back(row);
  }
+}
+
+// Instantiation B reaches the same native comparator at 0x005EC52E.
+bool S4SortElem8B::operator<(const S4SortElem8B &other) const
+{
+	if (reinterpret_cast<const ThingTemplate *>(m_bfmeSecond)->isKindOf(KINDOF_90) != reinterpret_cast<const ThingTemplate *>(other.m_bfmeSecond)->isKindOf(KINDOF_90))
+		return reinterpret_cast<const ThingTemplate *>(m_bfmeSecond)->isKindOf(KINDOF_90);
+	int mine = reinterpret_cast<const Rva0037DCA5 *>(m_bfmeFirst)->value9C;
+	int theirs = reinterpret_cast<const Rva0037DCA5 *>(other.m_bfmeFirst)->value9C;
+	if (mine != theirs)
+		return mine > theirs;
+	return reinterpret_cast<const Rva0037DCA5 *>(m_bfmeFirst)->name04 < reinterpret_cast<const Rva0037DCA5 *>(other.m_bfmeFirst)->name04;
 }
