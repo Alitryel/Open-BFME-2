@@ -48,7 +48,7 @@ class Player;
 class ThingTemplate
 {
 public:
-	Int rva0033AA1F(const Player *player, Int a2, Int a3) const;	// 0x0033AA1F
+	Int calcTimeToBuild(const Player *player, Int a2, Int a3) const;	// 0x0033AA1F
 };
 
 // Object +0x254: slot 4 the health, slot 5 the maximum, slot 42 a health set.
@@ -277,7 +277,7 @@ void GettingBuiltBehavior::rva00453652(bool forced)
 	if (!forced)
 		rva0045318B();
 	if (m_2C == 0)
-		m_2C = obj->getTemplate()->rva0033AA1F(player, 0, -1);
+		m_2C = obj->getTemplate()->calcTimeToBuild(player, 0, -1);
 
 	m_35 = obj->m_438 & 1;
 	if (m_35)

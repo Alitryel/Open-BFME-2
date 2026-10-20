@@ -31,7 +31,7 @@ public:
    reinterpret_cast<const ProductionPrerequisite *const *>(&m_prereqInfo);
   return p[1] - p[0];
  }
- int rva0033AA1F(const Player *player,int objectCarrier,int timeOverride)const;
+ int calcTimeToBuild(const Player *player,int objectCarrier,int timeOverride)const;
 private:
 	char beforeName[0x64];
  char name[4];
@@ -113,7 +113,7 @@ __forceinline long fast_float2long_round(float f) {
  return i;
 }
 
-int ThingTemplate::rva0033AA1F(const Player *player,int objectCarrier,int timeOverride)const {
+int ThingTemplate::calcTimeToBuild(const Player *player,int objectCarrier,int timeOverride)const {
  int buildTime = timeOverride == -1 ? ((const ThingTemplate *)((Rva0033A68A *)this)->rva0033A68A())->time : timeOverride;
  buildTime *= ((const PlayerBuildView *)player)->handicap.getHandicap(Handicap::BUILDTIME,this);
  float factionModifier = 1.0f + ((Rva002AE98B *)player)->rva002AE98B((const AsciiString*)name);

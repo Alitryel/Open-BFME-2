@@ -19,7 +19,7 @@ public:
 class ThingTemplate
 {
 public:
-	int rva0033AA1F(const Player *player, int second, int third) const;
+	int calcTimeToBuild(const Player *player, int second, int third) const;
 };
 
 extern float g_00BBB8D8;
@@ -40,6 +40,6 @@ float Rva0028B6A2Host::rva0028B6A2()
 	const Player *player = ((const Object *)this)->getControllingPlayer();
 	if (!player)
 		return BfmeZeroRange;
-	int buildFrames = m_template->rva0033AA1F(player, 0, -1);
+	int buildFrames = m_template->calcTimeToBuild(player, 0, -1);
 	return g_00BBB8D8 / (float)buildFrames;
 }

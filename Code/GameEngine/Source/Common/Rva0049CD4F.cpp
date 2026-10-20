@@ -19,7 +19,7 @@ public:
 class ThingTemplate
 {
 public:
-	int rva0033AA1F(const Player *player, int second, int third) const;
+	int calcTimeToBuild(const Player *player, int second, int third) const;
 };
 
 class UpgradeTemplate
@@ -76,7 +76,7 @@ int ProductionUpdate::calcTotalProductionFrames(Rva0049CD4FArg *arg)
 	case 1:
 	{
 		int object = (int)m_obj;
-		result = arg->m_thing->rva0033AA1F(player, object, -1);
+		result = arg->m_thing->calcTimeToBuild(player, object, -1);
 		break;
 	}
 	case 2:

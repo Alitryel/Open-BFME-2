@@ -609,7 +609,7 @@ public:
 	const AsciiString &getName() const { return m_name; }
 	__forceinline UnsignedInt isKindOf(KindOfType t) const { return m_kindOf[t >> 5] & (1U << (t & 31)); }
 	Int rva0033A69A(const Player *player, Int builder, Int a3) const;
-	Int rva0033AA1F(const Player *player, Int builder, Int a3) const;
+	Int calcTimeToBuild(const Player *player, Int builder, Int a3) const;
 private:
 	unsigned char m_pad000[0x64];
 	AsciiString m_name; // +0x64
@@ -2293,7 +2293,7 @@ StateReturnType DozerActionDoActionState::update()
 				else
 				{
 					// increase the construction percent of the goal object
-					Int framesToBuild = goalObject->getTemplate()->rva0033AA1F(dozer->getControllingPlayer(), (Int)dozer, -1);
+					Int framesToBuild = goalObject->getTemplate()->calcTimeToBuild(dozer->getControllingPlayer(), (Int)dozer, -1);
 					Real percentProgressThisFrame = 100.0f / framesToBuild;
 					goalObject->setConstructionPercent(goalObject->bfme_construction_percent() + percentProgressThisFrame);
 

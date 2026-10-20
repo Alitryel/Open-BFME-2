@@ -11974,7 +11974,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva00216F91@Rva00217194Types@@QAEPAXABVAsciiString@@@Z,0x00216F91,unrowed banner-type find-or-create by name on the banner UI singleton type table (g_00DFE32C +0x0C; WB 0x00B6EFD0 unnamed); REL32 at 0x002171C4 in BannerUI::ParseBannerTypeInfo
 ??0ThingTemplate@@QAE@XZ,0x0033E1B8,WB ThingTemplate::ThingTemplate (WB 0x00BC7500); REL32 at 0x002D1AE9 in ThingFactory::newOverride after operator new(0x640)
 ??4ThingTemplate@@QAEAAV0@ABV0@@Z,0x002D1101,ThingTemplate copy assignment (WB 0x00A93F30, 4859B member-wise copy); REL32 at 0x002D1B02 in ThingFactory::newOverride copying the final override into the new template
-?rva0033AA1F@ThingTemplate@@QBEHPBVPlayer@@HH@Z,0x0033AA1F,unrowed thiscall build-time helper on the ThingTemplate returned by ThingFactory::findTemplate (player then 0 then the entry +0x9C value; ret 0xC); call at 0x0037E255 in UnitRevivalEntry::revivalEntryCalcTimeToBuild; types inferred
+?calcTimeToBuild@ThingTemplate@@QBEHPBVPlayer@@HH@Z,0x0033AA1F,unrowed thiscall build-time helper on the ThingTemplate returned by ThingFactory::findTemplate (player then 0 then the entry +0x9C value; ret 0xC); call at 0x0037E255 in UnitRevivalEntry::revivalEntryCalcTimeToBuild; types inferred
 ?teamAttackMove@AITactic@@QAEXHPBUCoord3D@@@Z,0x004ED1FD,AITactic member taking an int and a point (move the team there); REL32 at 0x005A9F32 in the SimpleSiege slot 7
 ?rva004ED342@AITactic@@QAEXPAX@Z,0x004ED342,AITactic member taking a point; REL32 at 0x005AA66A in the SimpleAttack slot 6
 ?rva004ED372@AITactic@@QAEXPBUCoord3D@@@Z,0x004ED372,const Coord3D spelling of the AITactic point member pinned as rva004ED372(void *); REL32 at 0x005AB714 in ReturnTheRing 0x005AB6DC

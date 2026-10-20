@@ -23,7 +23,7 @@ class Player;
 class ThingTemplate { public:
  unsigned char pad0[0x113];unsigned char flags113;unsigned char pad114[7];unsigned char flags11B;
  int rva0033A69A(const Player *player,int builder,int value)const;
- int rva0033AA1F(const Player *player,int builder,int value)const;
+ int calcTimeToBuild(const Player *player,int builder,int value)const;
 };
 
 class Object
@@ -181,6 +181,6 @@ Real AIBuildableUnit::rva005DAF59(Player *player) {
   Rva0037EE4C *tracker=&player->m_productionQuantities;
   int index=tracker->rva0037EE4C(unit,-1,0);
   time=((Rva0037E787*)tracker)->rva0037E787((void*)index,factory);
- } else time=unit->rva0033AA1F(player,(int)factory,-1);
+ } else time=unit->calcTimeToBuild(player,(int)factory,-1);
  return (float)time;
 }

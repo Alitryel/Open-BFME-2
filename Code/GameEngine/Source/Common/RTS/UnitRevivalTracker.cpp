@@ -45,7 +45,7 @@ class ThingTemplate
 {
 public:
 	const Image *getButtonImage();
-	Int rva0033AA1F(const Player *player, Int a, Int b) const;
+	Int calcTimeToBuild(const Player *player, Int a, Int b) const;
 	int rva0033B479() const;
 	Int rva0033A69A(const Player *player, Int a, Int b) const;	// 0x0033A69A, build cost
 };
@@ -392,7 +392,7 @@ Int UnitRevivalEntry::revivalEntryCalcTimeToBuild(const Player *player, Object *
 	}
 	const ThingTemplate *tmpl = TheThingFactory->findTemplate(m_templateName);
 	if (tmpl)
-		return (Int)(tmpl->rva0033AA1F(player, 0, m_9c) * factor);
+		return (Int)(tmpl->calcTimeToBuild(player, 0, m_9c) * factor);
 	return 0;
 }
 
