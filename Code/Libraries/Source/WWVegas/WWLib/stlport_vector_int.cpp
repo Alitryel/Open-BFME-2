@@ -33,6 +33,9 @@ int* _STLP_alloc_proxy<int*, int, allocator<int> >::allocate(size_t __n) {
 // captured every other unit's calls to them.
 template _STL::vector<int, _STL::allocator<int> >::iterator _STL::vector<int, _STL::allocator<int> >::erase(iterator, iterator);
 template void _STL::vector<int, _STL::allocator<int> >::clear();
-template void _STL::vector<int, _STL::allocator<int> >::push_back(const int &);
+// 0x00688940 is SubtitleManager's vector<SubtitleEntry*>::push_back (no retail caller; it calls
+// the 0x006887F0 overflow); vector<int>::push_back folds into 0x004DFCB0.
+class SubtitleEntry;
+template void _STL::vector<SubtitleEntry *, _STL::allocator<SubtitleEntry *> >::push_back(SubtitleEntry *const &);
 template void _STL::vector<int, _STL::allocator<int> >::pop_back();
 template void _STL::vector<int, _STL::allocator<int> >::_M_fill_insert(iterator, size_type, const int &);

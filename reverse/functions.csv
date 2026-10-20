@@ -537,7 +537,7 @@ _free,,0x00030830,17,Code/GameEngine/Source/Common/System/GameMemoryFree.cpp,mat
 ??$fill_n@PAHIH@_STL@@YAPAHPAHIABH@Z,,0x00688330,29,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?erase@?$vector@HV?$allocator@H@_STL@@@_STL@@QAEPAHPAH0@Z,,0x00688710,59,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?clear@?$vector@HV?$allocator@H@_STL@@@_STL@@QAEXXZ,,0x006887C0,42,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
-?push_back@?$vector@HV?$allocator@H@_STL@@@_STL@@QAEXABH@Z,,0x00688940,50,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
+?push_back@?$vector@PAVSubtitleEntry@@V?$allocator@PAVSubtitleEntry@@@_STL@@@_STL@@QAEXABQAVSubtitleEntry@@@Z,,0x00688940,50,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_int.cpp,matched,stlport-4.5.3
 ?_M_decrement@?$_Deque_iterator_base@H@_STL@@QAEXXZ,,0x003B3EA8,35,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp,matched,stlport-4.5.3
 ??0?$_Deque_iterator@HU?$_Nonconst_traits@H@_STL@@@_STL@@QAE@ABU01@@Z,,0x00620020,35,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp,matched,stlport-4.5.3
 ?_M_subtract@?$_Deque_iterator_base@H@_STL@@QBEHABU12@@Z,,0x00620060,47,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_int.cpp,matched,stlport-4.5.3
