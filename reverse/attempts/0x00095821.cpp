@@ -1,7 +1,7 @@
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.858 date=2026-10-20
+// partial score=0.862 date=2026-10-20
 // ?Install_Materials@BfmeB1137@@UBEXXZ
-// partial score=0.858 date=2026-10-20
+// partial score=0.862 date=2026-10-20
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class WWMath
@@ -434,6 +434,8 @@ struct CloudFields
 	char pad20[8];
 	float m_28;
 	float m_2C;
+	float getM28() const { return m_28; }
+	float getM2C() const { return m_2C; }
 	char pad30[0x94];
 	int m_C4;
 };
@@ -617,7 +619,7 @@ void BfmeB1137::Install_Materials(void) const
 		D3DXMatrixScaling(&scale, 1.0f / sx, 1.0f / sy, 1.0f);
 		D3DXMATRIX rot;
 		D3DXMatrixRotationZ(&rot, CLOUD->m_rotation);
-		float hx = sx * 0.5f;
+		float hx = sx * 0.5;
 		float hy = sy * 0.5f;
 		D3DXMATRIX center;
 		D3DXMatrixTranslation(&center, hx, hy, 0.0f);
@@ -682,14 +684,14 @@ void BfmeB1137::Install_Materials(void) const
 			D3DXMatrixTranslation(&toOrigin, 0.0f - m_D4, 0.0f - m_D8, 0.0f);
 			D3DXMATRIX toHalf;
 			D3DXMatrixTranslation(&toHalf, 0.5f, 0.5f, 0.0f);
-			float radius = CLOUD->m_28 + m_3C * 0.1f + m_3C * m_3C * 0.15000000596046448;
+			float radius = CLOUD->getM28() + m_3C * 0.1f + m_3C * m_3C * 0.15000000596046448;
 			m_40 = radius;
 			if (!m_68)
 			{
 				if (radius > 100.0f)
 					m_40 = 100.0f;
 				else if (!sameFrame)
-					m_3C += CLOUD->m_2C;
+					m_3C += CLOUD->getM2C();
 			}
 			D3DXMatrixScaling(&scale, 1.0f / (m_40 * 128.0f), 1.0f / (m_40 * 128.0f), 1.0f);
 			*reinterpret_cast<D3DXMATRIX *>(&view) = inv * toOrigin * scale * toHalf;
