@@ -16,4 +16,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct BfmePod340 { int a[85]; };
-template class _STL::vector<BfmePod340, _STL::allocator<BfmePod340> >;
+// The rowed _Construct owner is 0x004D9B98. Instantiating only this member
+// avoids unrelated vector members and their incompatible whole-class copies.
+namespace _STL {
+template <> void _Construct<BfmePod340, BfmePod340>(BfmePod340 *, const BfmePod340 &);
+}
+template BfmePod340 *_STL::vector<BfmePod340, _STL::allocator<BfmePod340> >::_M_allocate_and_copy<const BfmePod340 *>(unsigned int, const BfmePod340 *, const BfmePod340 *);

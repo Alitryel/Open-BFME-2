@@ -23,4 +23,5 @@ struct BfmePod172 { int a[43]; };
 // _Construct<BfmePod172> is rowed in stlport_construct_pod172.cpp; declare it so
 // this unit calls that copy instead of emitting its own.
 namespace _STL { template <> void _Construct<BfmePod172, BfmePod172>(BfmePod172 *, const BfmePod172 &); }
-template class _STL::vector<BfmePod172, _STL::allocator<BfmePod172> >;
+// Emit the rowed allocation/copy member without unrelated whole-class copies.
+template BfmePod172 *_STL::vector<BfmePod172, _STL::allocator<BfmePod172> >::_M_allocate_and_copy<const BfmePod172 *>(unsigned int, const BfmePod172 *, const BfmePod172 *);

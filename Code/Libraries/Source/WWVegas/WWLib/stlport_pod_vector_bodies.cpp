@@ -67,6 +67,11 @@ struct BfmePod44;
 namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_insert_overflow(BfmePod44 *, const BfmePod44 &, const __false_type &, size_t, bool); }
 struct BfmePod20 { int a[5]; };
 struct BfmePod24 { int a[6]; };
+// The dedicated no-EH provider owns this type's allocation/copy helper.
+// Assignment is unrowed here; leave it uninstantiated in this EH profile.
+namespace _STL { template <> vector<BfmePod24, allocator<BfmePod24> > &
+vector<BfmePod24, allocator<BfmePod24> >::operator=(
+    const vector<BfmePod24, allocator<BfmePod24> > &); }
 inline bool operator==(const BfmePod20 &x, const BfmePod20 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod20 &x, const BfmePod20 &y) { return x.a[0] < y.a[0]; }
 inline bool operator==(const BfmePod24 &x, const BfmePod24 &y) { return x.a[0] == y.a[0]; }
@@ -99,6 +104,11 @@ inline bool operator<(const BfmePod40 &x, const BfmePod40 &y) { return x.a[0] < 
 // specialization so this unit emits no competing copy.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod40, BfmePod40>(BfmePod40 *__p, const BfmePod40 &__val); }
 struct BfmePod44 { int a[11]; };
+// The dedicated no-EH provider owns this type's allocation/copy helper.
+// Assignment is unrowed here; leave it uninstantiated in this EH profile.
+namespace _STL { template <> vector<BfmePod44, allocator<BfmePod44> > &
+vector<BfmePod44, allocator<BfmePod44> >::operator=(
+    const vector<BfmePod44, allocator<BfmePod44> > &); }
 inline bool operator==(const BfmePod44 &x, const BfmePod44 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod44 &x, const BfmePod44 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod48 { int a[12]; };
@@ -148,6 +158,11 @@ inline bool operator<(const BfmePod92 &x, const BfmePod92 &y) { return x.a[0] < 
 // _Construct<BfmePod92> is the rowed non-trivial copy construct at 0x00049D44: declare it, as for Pod172.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod92, BfmePod92>(BfmePod92 *__p, const BfmePod92 &__val); }
 struct BfmePod104 { int a[26]; };
+// The dedicated no-EH provider owns this type's allocation/copy helper.
+// Assignment is unrowed here; leave it uninstantiated in this EH profile.
+namespace _STL { template <> vector<BfmePod104, allocator<BfmePod104> > &
+vector<BfmePod104, allocator<BfmePod104> >::operator=(
+    const vector<BfmePod104, allocator<BfmePod104> > &); }
 inline bool operator==(const BfmePod104 &x, const BfmePod104 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod104 &x, const BfmePod104 &y) { return x.a[0] < y.a[0]; }
 // Retail's _Construct<BfmePod104> is rowed in StlportConstructFamily.cpp
@@ -175,6 +190,11 @@ inline bool operator<(const BfmePod160 &x, const BfmePod160 &y) { return x.a[0] 
 // _Construct<BfmePod160> is the pinned copy construct at 0x003A454E: declare it, as for Pod172.
 namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod160, BfmePod160>(BfmePod160 *__p, const BfmePod160 &__val); }
 struct BfmePod172 { int a[43]; };
+// The dedicated no-EH provider owns this type's allocation/copy helper.
+// Assignment is unrowed here; leave it uninstantiated in this EH profile.
+namespace _STL { template <> vector<BfmePod172, allocator<BfmePod172> > &
+vector<BfmePod172, allocator<BfmePod172> >::operator=(
+    const vector<BfmePod172, allocator<BfmePod172> > &); }
 inline bool operator==(const BfmePod172 &x, const BfmePod172 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod172 &x, const BfmePod172 &y) { return x.a[0] < y.a[0]; }
 // _Construct<BfmePod172> has its own row (stlport_construct_pod172.cpp, 0x001EB9E6): declare that
@@ -221,6 +241,11 @@ struct BfmePod260 { int a[65]; };
 inline bool operator==(const BfmePod260 &x, const BfmePod260 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod260 &x, const BfmePod260 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod340 { int a[85]; };
+// The dedicated no-EH provider owns this type's allocation/copy helper.
+// Assignment is unrowed here; leave it uninstantiated in this EH profile.
+namespace _STL { template <> vector<BfmePod340, allocator<BfmePod340> > &
+vector<BfmePod340, allocator<BfmePod340> >::operator=(
+    const vector<BfmePod340, allocator<BfmePod340> > &); }
 inline bool operator==(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod340 &x, const BfmePod340 &y) { return x.a[0] < y.a[0]; }
 // Retail's _Construct<BfmePod340> is rowed in StlportConstructFamily.cpp

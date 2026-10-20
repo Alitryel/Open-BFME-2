@@ -32,4 +32,6 @@ namespace _STL { template <> BfmePod44 *vector<BfmePod44, allocator<BfmePod44> >
 struct BfmePod44;
 namespace _STL { template <> void vector<BfmePod44, allocator<BfmePod44> >::_M_fill_insert(BfmePod44 *, size_t, const BfmePod44 &); }
 struct BfmePod44 { int a[11]; };
-template class _STL::vector<BfmePod44, _STL::allocator<BfmePod44> >;
+// Emit the rowed allocation/copy member without unrelated whole-class copies.
+template BfmePod44 *_STL::vector<BfmePod44, _STL::allocator<BfmePod44> >::_M_allocate_and_copy<const BfmePod44 *>(unsigned int, const BfmePod44 *, const BfmePod44 *);
+template BfmePod44 *_STL::vector<BfmePod44, _STL::allocator<BfmePod44> >::_M_allocate_and_copy<BfmePod44 *>(unsigned int, BfmePod44 *, BfmePod44 *);

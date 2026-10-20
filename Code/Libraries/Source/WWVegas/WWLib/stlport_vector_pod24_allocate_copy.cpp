@@ -16,4 +16,5 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 struct BfmePod24 { int a[6]; };
-template class _STL::vector<BfmePod24, _STL::allocator<BfmePod24> >;
+// Emit the rowed allocation/copy member without unrelated whole-class copies.
+template BfmePod24 *_STL::vector<BfmePod24, _STL::allocator<BfmePod24> >::_M_allocate_and_copy<const BfmePod24 *>(unsigned int, const BfmePod24 *, const BfmePod24 *);
