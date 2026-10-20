@@ -23,3 +23,16 @@ A loop-2-local idx copy: rotates, but the frame becomes 0x14.
 Open question: what gives retail's long-lived begin ESI over loop 1's iterator while still letting loop 2 consume it.
 
 Follow-up 22:05-22:10 PT: cached end across loops 1-2 and unsigned index were inert. Under fsc, an explicit count loop from first (538) and std::distance(first,end) (542, R=37) were both worse.
+
+## Session 2 (22:12-22:35 PT): banked m1, R 17->14
+Banked: declare `ContainmentList::iterator first = outer.objects->begin();` right after `int count = size();`, before the `count < 2` early-out. Loop 2 walks `first`.
+Result: struct 4 / mem 4 / reg 1, 537 B. Loops 1-3 all match retail now (loop 1 copies first ESI to ECX; loop 2 index is in EDX).
+Two diffs remain, both in the size() count loop:
+- (a) It isn't rotated. Retail does `xor edi,edi; cmp ecx,eax; je <return>` then a do-while; ours jumps to the test.
+- (b) Begin goes to ECX and is copied to ESI after the loop. Retail loads ESI first and the count loop walks an ECX copy.
+Refuted on top of m1:
+- Defining first BEFORE size() (any form: decl, assignment, named end first, count loop from first): loop-1 regs collapse, 535-542 B, R~36.
+- Count via a for/while/std::distance loop: identical. The (int) cast, size_t, and a const list ref: same or worse.
+- An empty()-guard before or with count<2 adds retail's entry test (q2), but loops 1-2 regress (541 B, R=21).
+- Explicit do-while count: 535. loop3 sharing `first`: inert.
+Next idea: q2 reproduces retail's entry test, so look for why its loop-1/2 allocation regresses.

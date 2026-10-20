@@ -1,4 +1,6 @@
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
+// partial score=0.912 date=2026-10-19
+// ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
 // partial score=0.9 date=2026-10-19
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
@@ -97,6 +99,7 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 	UpdateModule *update = (UpdateModule *)((char *)this - 0x11C);
 	((Rva0046247D *)update)->rva0046247D(outer);
 	int count = (int)outer.objects->size();
+	ContainmentList::iterator first = outer.objects->begin();
 	if (count < 2)
 		return;
 	float best = 10000.0f;
@@ -105,6 +108,7 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 	QuarrelVector center;
 	center.zero();
 	ContainmentList::iterator it;
+
 	for (it = outer.objects->begin(); it != outer.objects->end(); ++it) {
 		QuarrelMember *member = *(QuarrelMember **)&*it;
 		if (!member) {
@@ -114,8 +118,8 @@ void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, Qu
 		center.add(&member->position);
 	}
 	center.scale(1.0f / count);
-	for (it = outer.objects->begin(); it != outer.objects->end(); ++it, ++index) {
-		QuarrelMember *member = *(QuarrelMember **)&*it;
+	for (; first != outer.objects->end(); ++first, ++index) {
+		QuarrelMember *member = *(QuarrelMember **)&*first;
 		if (!member) {
 			slot107();
 			return;
