@@ -587,3 +587,26 @@ int Rva0030C4D6::rva0030C4D6(int a)
 {
 	return ((Rva0030BEF9Owner *)((char *)this - *(int *)((char *)this - 4)))->fwd(a);
 }
+
+// ?rva0049B517@Rva0049B517@@QAEXXZ @0x0049B517 7B: no caller left in retail
+// (dead member forwarder after its update 0x0049B483); adjusts the receiver
+// to its member at +0x20 and tail-calls that member's first virtual. The
+// slot's return and argument contract is not established (an argument-taking
+// spelling compiles to the same jmp), so the view is void/no-argument.
+class Rva0049B517Member
+{
+public:
+	virtual void slot0();
+};
+class Rva0049B517
+{
+public:
+	void rva0049B517();
+private:
+	char m_pad[0x20];
+	Rva0049B517Member m_20;
+};
+void Rva0049B517::rva0049B517()
+{
+	m_20.slot0();
+}
