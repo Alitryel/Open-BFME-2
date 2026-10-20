@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Ireference/shims/moduledata
 //
 // ?rva00498DF3@GateOpenAndCloseBehavior@@QAEXPAURva00498DF3Arg@@M@Z, retail 0x00498DF3, 59 bytes.
-// Evidence: calls rowed 0x00262DD3 AIUpdateInterface::rva00262DD3 and rowed 0x0026C411 AICommandInterface::rva0026C411; Object+0x38 Coord3D and CMD_FROM_AI=2 match donors; caller at 0x00498F9E pushes ebp plus float and tests nothing; this+0xC Object pattern matches caller 0x00498F46.
+// Evidence: calls rowed 0x00262DD3 AIUpdateInterface::rva00262DD3 and rowed 0x0026C411 AICommandInterface::aiMoveAwayFromUnit; Object+0x38 Coord3D and CMD_FROM_AI=2 match donors; caller at 0x00498F9E pushes ebp plus float and tests nothing; this+0xC Object pattern matches caller 0x00498F46.
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -29,7 +29,7 @@ public:
 class AICommandInterface
 {
 public:
-	void rva0026C411(Object *victim, const Coord3D *pos, CommandSourceType cmdSource);
+	void aiMoveAwayFromUnit(Object *victim, const Coord3D *pos, CommandSourceType cmdSource);
 };
 
 class TurretStateMachine
@@ -88,7 +88,7 @@ void GateOpenAndCloseBehavior::rva00498DF3(Rva00498DF3Arg *arg, float flt)
 		return;
 	if (((AIUpdateInterface *)mid)->rva00262DD3(obj))
 		return;
-	((AICommandInterface *)((char *)mid + 0x20))->rva0026C411(obj, &obj->m_pos38, CMD_FROM_AI);
+	((AICommandInterface *)((char *)mid + 0x20))->aiMoveAwayFromUnit(obj, &obj->m_pos38, CMD_FROM_AI);
 }
 
 void GateOpenAndCloseBehavior::rva00498F46(Rva00498DF3Arg *arg, int u1, int u2)

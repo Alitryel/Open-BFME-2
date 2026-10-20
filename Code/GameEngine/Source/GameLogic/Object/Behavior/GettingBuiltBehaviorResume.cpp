@@ -16,7 +16,7 @@ enum ObjectStatusTypes { STATUS_NONE = 0 };
 enum CommandSourceType { SOURCE_NONE = 0 };
 class AICommandInterface {
 public:
- void rva0036F200(Object *, CommandSourceType);
+ void aiResumeConstruction(Object *, CommandSourceType);
  void rva0036F19B(Object *, CommandSourceType);
 };
 struct AIUpdateView { unsigned char pad[0x20]; AICommandInterface commands; };
@@ -91,7 +91,7 @@ void GettingBuiltBehaviorSecondary::resumeBuildingConstruction(bool instant)
  }
  AIUpdateView *ai = builder->ai;
  if (ai) {
-   if (object->testStatus((ObjectStatusTypes)2)) ai->commands.rva0036F200(object,(CommandSourceType)2);
+   if (object->testStatus((ObjectStatusTypes)2)) ai->commands.aiResumeConstruction(object,(CommandSourceType)2);
    else ai->commands.rva0036F19B(object,(CommandSourceType)2);
  }
  Drawable *drawable = builder->getDrawable();

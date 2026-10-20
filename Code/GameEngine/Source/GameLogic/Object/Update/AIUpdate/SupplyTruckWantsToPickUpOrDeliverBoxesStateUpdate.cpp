@@ -36,7 +36,7 @@ class Object;
 class AICommandInterface
 {
 public:
-	void rva0026C3AC(Object *obj, CommandSourceType cmdSource);
+	void aiDock(Object *obj, CommandSourceType cmdSource);
 	void aiHarvest(const Coord3D *pos, CommandSourceType cmdSource);
 };
 
@@ -154,7 +154,7 @@ StateReturnType SupplyTruckWantsToPickUpOrDeliverBoxesState::update()
 		Object *bestCenter = manager->findBestSupplyCenter(owner);
 		if (bestCenter)
 		{
-			ownerAI->m_commands.rva0026C3AC(bestCenter, CMD_FROM_AI);
+			ownerAI->m_commands.aiDock(bestCenter, CMD_FROM_AI);
 			return STATE_SUCCESS;
 		}
 	}
@@ -163,7 +163,7 @@ StateReturnType SupplyTruckWantsToPickUpOrDeliverBoxesState::update()
 		Object *bestWarehouse = manager->findBestSupplyWarehouse(owner);
 		if (bestWarehouse)
 		{
-			ownerAI->m_commands.rva0026C3AC(bestWarehouse, CMD_FROM_AI);
+			ownerAI->m_commands.aiDock(bestWarehouse, CMD_FROM_AI);
 			return STATE_SUCCESS;
 		}
 		if (update->slot6())

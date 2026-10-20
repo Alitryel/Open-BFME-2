@@ -395,7 +395,7 @@ public:
 	void rva0047971C(const Rva0035149F &path, Object *ignoreObject, CommandSourceType cmdSource);
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
 	void aiIdle(CommandSourceType cmdSource);
-	void rva0026C3AC(Object *obj, CommandSourceType cmdSource);
+	void aiDock(Object *obj, CommandSourceType cmdSource);
 	void rva0036F19B(Object *obj, CommandSourceType cmdSource);	// ZH aiRepair
 };
 
@@ -1990,7 +1990,7 @@ void AIPlayer::onUnitProduced(Object *factory, Object *unit)
 									if (obj)
 									{
 										info->setCurrentGatherers(info->getCurrentGatherers() + 1);
-										ai->getCommandInterface()->rva0026C3AC(obj, CMD_FROM_PLAYER);
+										ai->getCommandInterface()->aiDock(obj, CMD_FROM_PLAYER);
 									}
 								}
 							}

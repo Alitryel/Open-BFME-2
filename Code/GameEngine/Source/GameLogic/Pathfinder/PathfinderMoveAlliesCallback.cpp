@@ -57,7 +57,7 @@ class ThingTemplate
 class AICommandInterface
 {
   public:
-	void rva0026C411(Object *, const Coord3D *, CommandSourceType);
+	void aiMoveAwayFromUnit(Object *, const Coord3D *, CommandSourceType);
 };
 class StateMachine
 {
@@ -217,7 +217,7 @@ int Rva002F3F7DInfo::cellCallback(PathfindCell *previous, PathfindCell *current,
 			}
 			if (!moving)
 			{
-				((AICommandInterface *)((char *)ai + 0x20))->rva0026C411(m_obj, &m_destination, CMD_FROM_AI);
+				((AICommandInterface *)((char *)ai + 0x20))->aiMoveAwayFromUnit(m_obj, &m_destination, CMD_FROM_AI);
 				break;
 			}
 		}

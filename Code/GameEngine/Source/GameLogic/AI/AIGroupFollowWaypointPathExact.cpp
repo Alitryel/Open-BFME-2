@@ -47,13 +47,13 @@ public:
 	void aiEvacuate(Bool exposeStealthUnits, CommandSourceType cmdSource);
 	void aiMoveToAndEvacuateAndExit(const Coord3D *pos, CommandSourceType cmdSource);
 	void rva0036F19B(Object *obj, CommandSourceType cmdSource);
-	void rva0036F200(Object *obj, CommandSourceType cmdSource);
-	void rva0036F265(Object *obj, CommandSourceType cmdSource);
-	void rva0036F2CA(Object *obj, CommandSourceType cmdSource);
-	void rva0026C3AC(Object *obj, CommandSourceType cmdSource);
+	void aiResumeConstruction(Object *obj, CommandSourceType cmdSource);
+	void aiGetHealed(Object *obj, CommandSourceType cmdSource);
+	void aiGetRepaired(Object *obj, CommandSourceType cmdSource);
+	void aiDock(Object *obj, CommandSourceType cmdSource);
 	void aiHarvest(const Coord3D *pos, CommandSourceType cmdSource);
 	void aiExit(Object *objectToExit, CommandSourceType cmdSource);
-	void rva0036F400(const Rva003427DD *arg, CommandSourceType cmdSource);
+	void aiGoProne(const Rva003427DD *arg, CommandSourceType cmdSource);
 };
 
 class AIUpdateInterface
@@ -196,47 +196,47 @@ void AIGroup::rva003700C0(Object *obj, CommandSourceType cmdSource)
 	}
 }
 
-// retail 0x003700F6, 54 bytes -> AICommandInterface::rva0036F200
+// retail 0x003700F6, 54 bytes -> AICommandInterface::aiResumeConstruction
 void AIGroup::rva003700F6(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F200(obj, cmdSource);
+			ai->m_commands.aiResumeConstruction(obj, cmdSource);
 	}
 }
 
-// retail 0x0037012C, 54 bytes -> AICommandInterface::rva0036F265
+// retail 0x0037012C, 54 bytes -> AICommandInterface::aiGetHealed
 void AIGroup::rva0037012C(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F265(obj, cmdSource);
+			ai->m_commands.aiGetHealed(obj, cmdSource);
 	}
 }
 
-// retail 0x00370162, 54 bytes -> AICommandInterface::rva0036F2CA
+// retail 0x00370162, 54 bytes -> AICommandInterface::aiGetRepaired
 void AIGroup::rva00370162(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F2CA(obj, cmdSource);
+			ai->m_commands.aiGetRepaired(obj, cmdSource);
 	}
 }
 
-// retail 0x00370217, 54 bytes -> AICommandInterface::rva0026C3AC
+// retail 0x00370217, 54 bytes -> AICommandInterface::aiDock
 void AIGroup::rva00370217(Object *obj, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0026C3AC(obj, cmdSource);
+			ai->m_commands.aiDock(obj, cmdSource);
 	}
 }
 
@@ -262,14 +262,14 @@ void AIGroup::groupExit(Object *objectToExit, CommandSourceType cmdSource)
 	}
 }
 
-// retail 0x00370399, 54 bytes -> AICommandInterface::rva0036F400
+// retail 0x00370399, 54 bytes -> AICommandInterface::aiGoProne
 void AIGroup::rva00370399(const Rva003427DD *arg, CommandSourceType cmdSource)
 {
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
 	{
 		AIUpdateInterface *ai = (*i)->m_ai;
 		if (ai != 0)
-			ai->m_commands.rva0036F400(arg, cmdSource);
+			ai->m_commands.aiGoProne(arg, cmdSource);
 	}
 }
 

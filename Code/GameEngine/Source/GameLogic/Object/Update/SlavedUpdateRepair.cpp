@@ -642,7 +642,7 @@ public:
 	// Zero Hour's aiGoProne (0x0036F400: AICMD 0x1D copying the DamageInfo
 	// into the command block at +0x3C), rowed under a placeholder whose
 	// parameter class Rva003427DD is that DamageInfo.
-	void rva0036F400(const class Rva003427DD *info, CommandSourceType cmdSource);
+	void aiGoProne(const class Rva003427DD *info, CommandSourceType cmdSource);
 	// Retail 0x0026C26D; visible here (as in BFME1's twin) so VC7.1 sees it
 	// does not retain the position.
 	__declspec(noinline) void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource)
@@ -709,7 +709,7 @@ public:
 	void aiIdle(CommandSourceType cmdSource) { m_commands.aiIdle(cmdSource); }
 	void aiGoProne(const DamageInfo *info, CommandSourceType cmdSource)
 	{
-		m_commands.rva0036F400((const Rva003427DD *)info, cmdSource);
+		m_commands.aiGoProne((const Rva003427DD *)info, cmdSource);
 	}
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource) { m_commands.aiMoveToPosition(pos, cmdSource); }
 	void aiAttackPosition(Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource)

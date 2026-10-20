@@ -292,7 +292,7 @@ class SpawnView {public:virtual void slot00(); virtual void slot01(); virtual vo
 virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
 virtual void slot08();
 virtual void invoke();};
-class AICommandInterface {public:void rva0036F200(Object*,CommandSourceType);};
+class AICommandInterface {public:void aiResumeConstruction(Object*,CommandSourceType);};
 class AIUpdateInterface {public:void transferAttack(ObjectID,ObjectID);};
 class AIView {public:virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
 virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
@@ -387,7 +387,7 @@ int Rva00483645::update() {
        float orientation=fld<float>(hole,0x44);
        reconstructing=ai->construct(fld<const ThingTemplate*>(this,0x2c),&fld<Coord3D>(hole,0x38),orientation,hole->getControllingPlayer(),true,false);
        if(!reconstructing)return 0x3fffffff;
-      } else ((AICommandInterface*)((char*)ai+0x20))->rva0036F200(reconstructing,CMD_FROM_AI);
+      } else ((AICommandInterface*)((char*)ai+0x20))->aiResumeConstruction(reconstructing,CMD_FROM_AI);
      }
      worker->rva0028CDEB(*(const Rva00346BC0*)Rva0023DA79().rva0023DA79(0,3),true);
     }

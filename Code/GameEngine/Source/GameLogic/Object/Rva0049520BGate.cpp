@@ -172,7 +172,7 @@ public:
 class AICommandInterface
 {
 public:
-	void rva0036F265(Object *target, CommandSourceType source);
+	void aiGetHealed(Object *target, CommandSourceType source);
 };
 
 class Rva00495183
@@ -218,7 +218,7 @@ int Rva0049520B::rva0049520B()
 		Object *created = ((Rva00495183 *)((char *)this - 0x10))->rva00495183();
 		if (created != 0) {
 			AICommandInterface *ai = (AICommandInterface *)((char *)actor + 0x20);
-			ai->rva0036F265(created, CMD_FROM_AI);
+			ai->aiGetHealed(created, CMD_FROM_AI);
 		}
 	}
 	return 1;

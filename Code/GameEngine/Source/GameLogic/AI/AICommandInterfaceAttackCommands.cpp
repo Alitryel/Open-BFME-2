@@ -117,9 +117,9 @@ public:
 	void aiFacePosition(const Coord3D *pos, Int cmdSource);
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
 	void aiFaceObject(Object *target, CommandSourceType cmdSource);
-	void rva0026C3AC(Object *target, CommandSourceType cmdSource);
+	void aiDock(Object *target, CommandSourceType cmdSource);
 	void rva0026C486(Object *target, CommandSourceType cmdSource);
-	void rva0026C411(Object *victim, const Coord3D *pos, CommandSourceType cmdSource);
+	void aiMoveAwayFromUnit(Object *victim, const Coord3D *pos, CommandSourceType cmdSource);
 	void rva0026C347(Object *target, CommandSourceType cmdSource);
 	void aiWanderInPlace(CommandSourceType cmdSource);
 	void rva003C7653(Object *target, CommandSourceType cmdSource);
@@ -140,11 +140,11 @@ public:
 	void aiMoveToAndEvacuate(const Coord3D *position, CommandSourceType cmdSource);
 	void aiMoveToAndEvacuateAndExit(const Coord3D *position, CommandSourceType cmdSource);
 	void aiFollowPathAppend(const Coord3D *position, CommandSourceType cmdSource);
-	void rva0036F400(const Rva003427DD *info, CommandSourceType cmdSource);
+	void aiGoProne(const Rva003427DD *info, CommandSourceType cmdSource);
 	void rva0036F19B(Object *target, CommandSourceType cmdSource);
-	void rva0036F200(Object *target, CommandSourceType cmdSource);
-	void rva0036F265(Object *target, CommandSourceType cmdSource);
-	void rva0036F2CA(Object *target, CommandSourceType cmdSource);
+	void aiResumeConstruction(Object *target, CommandSourceType cmdSource);
+	void aiGetHealed(Object *target, CommandSourceType cmdSource);
+	void aiGetRepaired(Object *target, CommandSourceType cmdSource);
 	void aiHarvest(const Coord3D *position, CommandSourceType cmdSource);
 	void rva0036F4DF(Object *target, Int value, CommandSourceType cmdSource);
 	void rva0036F54D(const Team *team, Int value, CommandSourceType cmdSource);
@@ -244,11 +244,11 @@ void AICommandInterface::aiFaceObject(Object *target, CommandSourceType cmdSourc
 	aiDoCommand(&parms);
 }
 
-// ?rva0026C3AC@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0026C3AC, 101 bytes.
+// ?aiDock@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0026C3AC, 101 bytes.
 // Same 101B object shape as aiFaceObject in this TU: AICMD 0x18 plus m_obj at +0x14 plus slot-0 aiDoCommand.
 // Class proven by caller at 0x0037023C via lea ecx,[eax+0x20] (AICommandInterface subobject).
 // Callers at 0x0026DDE4 0x0037023C 0x004A72E5 plus 3 more; landing unblocks 3.
-void AICommandInterface::rva0026C3AC(Object *target, CommandSourceType cmdSource)
+void AICommandInterface::aiDock(Object *target, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x18, cmdSource);
 	parms.m_obj = target;
@@ -266,11 +266,11 @@ void AICommandInterface::rva0026C486(Object *target, CommandSourceType cmdSource
 	aiDoCommand(&parms);
 }
 
-// ?rva0026C411@AICommandInterface@@QAEXPAVObject@@PBUCoord3D@@W4CommandSourceType@@@Z, retail 0x0026C411, 117 bytes.
+// ?aiMoveAwayFromUnit@AICommandInterface@@QAEXPAVObject@@PBUCoord3D@@W4CommandSourceType@@@Z, retail 0x0026C411, 117 bytes.
 // Same TU object-plus-position shape: AICMD 0x34 plus m_obj at +0x14 plus m_pos at +0x08 plus slot-0 aiDoCommand.
 // Class proven by caller at 0x0026D837 via add ecx,0x20 to AIUpdate+0x258 (AICommandInterface subobject).
 // Callers at 0x0026D837 0x002F3F0F 0x002F40D9 0x00498E24; landing unblocks 4.
-void AICommandInterface::rva0026C411(Object *victim, const Coord3D *pos, CommandSourceType cmdSource)
+void AICommandInterface::aiMoveAwayFromUnit(Object *victim, const Coord3D *pos, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x34, cmdSource);
 	parms.m_obj = victim;
@@ -509,10 +509,10 @@ void AICommandInterface::aiFollowPathAppend(const Coord3D *position, CommandSour
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F400@AICommandInterface@@QAEXPBVRva003427DD@@W4CommandSourceType@@@Z, retail 0x0036F400, 106 bytes.
+// ?aiGoProne@AICommandInterface@@QAEXPBVRva003427DD@@W4CommandSourceType@@@Z, retail 0x0036F400, 106 bytes.
 // Gap between aiExit and aiGuardPosition in this TU: AICMD 0x1D plus m_3C at +0x3C via rowed 0x003427DD copy plus slot-0 aiDoCommand.
 // Class proven by caller at 0x003703BE via lea ecx,[eax+0x20] (AICommandInterface subobject); callers forward (info, source).
-void AICommandInterface::rva0036F400(const Rva003427DD *info, CommandSourceType cmdSource)
+void AICommandInterface::aiGoProne(const Rva003427DD *info, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x1D, cmdSource);
 	parms.m_3C = *info;
@@ -520,7 +520,7 @@ void AICommandInterface::rva0036F400(const Rva003427DD *info, CommandSourceType 
 }
 
 // ?rva0036F19B@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F19B, 101 bytes.
-// Same 101B object shape as rva0026C3AC in this TU: AICMD 0x13 plus m_obj at +0x14 plus slot-0 aiDoCommand.
+// Same 101B object shape as aiDock in this TU: AICMD 0x13 plus m_obj at +0x14 plus slot-0 aiDoCommand.
 // Class proven by caller at 0x003700E5 via mov eax [eax+0x258] plus lea ecx [eax+0x20] (AICommandInterface subobject).
 void AICommandInterface::rva0036F19B(Object *target, CommandSourceType cmdSource)
 {
@@ -529,28 +529,28 @@ void AICommandInterface::rva0036F19B(Object *target, CommandSourceType cmdSource
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F200@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F200, 101 bytes.
+// ?aiResumeConstruction@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F200, 101 bytes.
 // Same 101B object shape: AICMD 0x14 plus m_obj at +0x14 plus slot-0 aiDoCommand.
 // Class proven by caller at 0x0037011B via AIUpdate+0x258 plus 0x20 pattern.
-void AICommandInterface::rva0036F200(Object *target, CommandSourceType cmdSource)
+void AICommandInterface::aiResumeConstruction(Object *target, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x14, cmdSource);
 	parms.m_obj = target;
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F265@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F265, 101 bytes.
+// ?aiGetHealed@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F265, 101 bytes.
 // Same 101B object shape: AICMD 0x15 plus m_obj at +0x14 plus slot-0 aiDoCommand.
-void AICommandInterface::rva0036F265(Object *target, CommandSourceType cmdSource)
+void AICommandInterface::aiGetHealed(Object *target, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x15, cmdSource);
 	parms.m_obj = target;
 	aiDoCommand(&parms);
 }
 
-// ?rva0036F2CA@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F2CA, 101 bytes.
+// ?aiGetRepaired@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z, retail 0x0036F2CA, 101 bytes.
 // Same 101B object shape: AICMD 0x16 plus m_obj at +0x14 plus slot-0 aiDoCommand.
-void AICommandInterface::rva0036F2CA(Object *target, CommandSourceType cmdSource)
+void AICommandInterface::aiGetRepaired(Object *target, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x16, cmdSource);
 	parms.m_obj = target;
@@ -559,7 +559,7 @@ void AICommandInterface::rva0036F2CA(Object *target, CommandSourceType cmdSource
 
 // ?aiHarvest@AICommandInterface@@QAEXPBUCoord3D@@W4CommandSourceType@@@Z, retail 0x0036F32F, 108 bytes.
 // Same 108B position shape as aiTightenToPosition in this TU: AICMD 0x19 plus m_pos at +0x08 plus slot-0 aiDoCommand.
-// Class proven by gap between rva0036F2CA and aiExit plus same TU flags; callers at 0x00370272 0x00494767 0x004A731D.
+// Class proven by gap between aiGetRepaired and aiExit plus same TU flags; callers at 0x00370272 0x00494767 0x004A731D.
 void AICommandInterface::aiHarvest(const Coord3D *position, CommandSourceType cmdSource)
 {
 	AICommandParms parms((AICommandType)0x19, cmdSource);
@@ -704,7 +704,7 @@ void AICommandInterface::aiMoveToPositionAmphibious(const Coord3D *position, Com
 }
 
 // ?rva0037379B@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z @0x0037379B 101B:
-// Same 101B object shape as rva0026C3AC rva0026C486 rva0026C347 in this TU:
+// Same 101B object shape as aiDock rva0026C486 rva0026C347 in this TU:
 // AICMD 0x3E plus m_obj at +0x14 plus slot-0 aiDoCommand plus inline free 0x30830.
 // Callers 6 unclaimed; landing unblocks 3.
 void AICommandInterface::rva0037379B(Object *target, CommandSourceType cmdSource)

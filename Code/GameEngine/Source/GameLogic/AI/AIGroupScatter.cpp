@@ -43,7 +43,7 @@ public:
 	// Zero Hour's aiGoProne (0x0036F400: AICMD 0x1D copying the DamageInfo
 	// into the command block at +0x3C), rowed under a placeholder whose
 	// parameter class Rva003427DD is that DamageInfo.
-	void rva0036F400(const class Rva003427DD *info, CommandSourceType cmdSource);
+	void aiGoProne(const class Rva003427DD *info, CommandSourceType cmdSource);
 };
 
 class AIUpdateInterface

@@ -545,13 +545,13 @@ public:
 	void aiIdle(CommandSourceType commandSource);	///< matched 0x001E8A38
 	void rva0026C347(Object *obj, CommandSourceType commandSource);
 	void rva0026C486(Object *obj, CommandSourceType commandSource);	///< matched 0x0026C486
-	void rva0026C3AC(Object *obj, CommandSourceType commandSource);
+	void aiDock(Object *obj, CommandSourceType commandSource);
 	// Matched 0x0026C2D9: the object attack order privateAttackPosition
 	// gives the victim its partition search finds (ZH aiAttackObject there).
 	void rva0026C2D9(Object *victim, Int maxShotsToFire, CommandSourceType commandSource);
 	// Matched 0x0026C411: the object-plus-position order privateMoveAwayFromUnit
 	// hands to its horde container's AI.
-	void rva0026C411(Object *obj, const Coord3D *pos, CommandSourceType commandSource);
+	void aiMoveAwayFromUnit(Object *obj, const Coord3D *pos, CommandSourceType commandSource);
 	// Matched 0x0026C26D: the position order joinTeam gives where Zero Hour
 	// calls aiMoveToPosition(pos, CMD_FROM_AI).
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType commandSource);
@@ -1529,7 +1529,7 @@ void AIUpdateInterface::privateGetRepaired(Object *repairDepot, CommandSourceTyp
 {
 	if (TheActionManager->canGetRepairedAt(getObject(), repairDepot, commandSource) == false)
 		return;
-	reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(this) + 0x20)->rva0026C3AC(repairDepot, commandSource);
+	reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(this) + 0x20)->aiDock(repairDepot, commandSource);
 }
 
 // Command 0x1F, slot 64, retail 0x00264D0E: BFME1's privateGuardObject
@@ -2414,7 +2414,7 @@ void AIUpdateInterface::privateMoveAwayFromUnit(Object *unit, const Coord3D *pos
 		HordeContainInterface *horde = container->getContain() ? container->getContain()->getHordeContainInterface() : 0;
 		if (horde && container->getAI() && !reinterpret_cast<AIUpdateSlot110 *>(container->getAI())->isAttacking())
 		{
-			reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(container->getAI()) + 0x20)->rva0026C411(unit, pos, commandSource);
+			reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(container->getAI()) + 0x20)->aiMoveAwayFromUnit(unit, pos, commandSource);
 			reinterpret_cast<HordeContainSlot116 *>(horde)->slot116();
 			return;
 		}
