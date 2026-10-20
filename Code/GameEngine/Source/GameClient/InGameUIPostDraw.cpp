@@ -1,32 +1,8 @@
-// ?postDraw@InGameUI@@UAEXXZ
-// partial score=0.8864341856964102 date=2026-10-19
-// ?postDraw@InGameUI@@UAEXXZ
-// partial score=0.9195329738745678 date=2026-10-14
-// ?postDraw@InGameUI@@UAEXXZ
-// partial score=0.99 date=2026-10-13
-// ?postDraw@InGameUI@@UAEXXZ
-// partial score=0.99 date=2026-10-13
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
-//
-// ?postDraw@InGameUI@@UAEXXZ
-// Native [002A0161,002A0C87) 2854B, vftable 0x7FD410 slot 85 (after preDraw
-// 0x002A3255 in slot 84). WorldBuilder names the twin InGameUI::postDraw
-// (InGameUI.cpp asserts 5356..5490); Zero Hour's InGameUI::postDraw supplies
-// the shape: the UI messages, the superweapon timers per player map, the
-// named timers and the RMB scroll anchor.
-// NEAR DRAFT (helper agent), meant for Code/GameEngine/Source/GameClient/
-// (the ../Common include is relative to that directory). 2855B against 2854B;
-// with esi/edi/ebx normalised only two spots differ: (1) retail keeps this in
-// edi and the per-loop pointers in esi, ours the reverse (push edi lands in
-// the prologue in retail); (2) the superweapon list loop entry: retail does
-// cmp eax,esi; jmp to the shared bottom tail (mov [ebp-0x1c],eax; jne top)
-// and reloads listIt at the loop top, ours tests inline (mov; je end).
-// Both look like retail treating listIt as a memory variable. Everything else
-// (EH states, stack slots, all calls and constants) lines up; the shared
-// function-scope startY is what puts both timer blocks' y at [ebp-0x14].
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// InGameUI::postDraw [0x002A0161, 2854 B], vftable 0x7FD410 slot 85 after preDraw: the UI messages,
+// superweapon timers per player map, named timers and RMB scroll anchor. Shape from the
+// WorldBuilder twin InGameUI::postDraw (InGameUI.cpp asserts 5356..5490) and Zero Hour's postDraw.
 #include <stdlib.h>
 namespace _STL { void __cdecl free(void *block); }
 #define free _STL::free
@@ -185,9 +161,10 @@ public:
 	char m_opaque00[0x18];
 	Bool m_18;									// +0x18
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld;
+extern LivingWorld *TheLivingWorld;
 
-extern Int g_Va00DBA4E4;						// LOGICFRAMES_PER_SECOND
+extern Int BfmeLogicFramesPerSecond;			// LOGICFRAMES_PER_SECOND
 extern float g_secondsPerLogicFrame;			// SECONDS_PER_LOGICFRAME_REAL
 
 class Overridable
@@ -362,11 +339,9 @@ protected:
 /** This is called after the UI has been drawn. */
 void InGameUI::postDraw()
 {
-	Int startY;
-	_ReadWriteBarrier();
 	// render our display strings for the messages if on
 	if (m_messagesOn) {
-		ICoord2D pos = (g_00DFEF18 && g_00DFEF18->m_18) ? m_messagePositionAlt : m_messagePosition;
+		ICoord2D pos = (TheLivingWorld && ((Rva002D3627Host *)TheLivingWorld)->m_18) ? m_messagePositionAlt : m_messagePosition;
 		Int y = fast_float2long_round(floor((Real)TheDisplay->getHeight() * pos.y * (1.0f / 768.0f) + 0.5f));
 		Int x = fast_float2long_round(floor((Real)TheDisplay->getWidth() * pos.x * (1.0f / 1024.0f) + 0.5f));
 		for (Int i = MAX_UI_MESSAGES - 1; i >= 0; i--) {
@@ -396,7 +371,7 @@ void InGameUI::postDraw()
 	// draw superweapon timers
 	if (TheGameLogic->getFrame() > 0 && !m_superweaponHiddenByScript) {
 		Int startX = (Int)(TheDisplay->getWidth() * m_superweaponPositionX);
-		startY = (Int)(TheDisplay->getHeight() * m_superweaponPositionY);
+		Int startY = (Int)(TheDisplay->getHeight() * m_superweaponPositionY);
 		Int bottomMargin = (Int)((Real)TheTacticalView->getHeight() * 0.82f);
 		Bool marginExceeded = false;
 		for (Int i = 0; i < MAX_PLAYER_COUNT; ++i) {
@@ -420,8 +395,9 @@ void InGameUI::postDraw()
 							info->setFont(m_superweaponReadyFont, m_superweaponNormalPointSize, m_superweaponNormalBold);
 							info->drawTime(startX, startY, m_superweaponFlashColor, bgColor);
 							marginExceeded = true;
-							break;
 						}
+						if (marginExceeded)
+							break;
 
 						Object *owningObject = TheGameLogic->findObjectByID(info->m_id);
 						if (owningObject) {
@@ -442,7 +418,7 @@ void InGameUI::postDraw()
 								if (module->getReadyFrame() < TheGameLogic->getFrame())
 									readySecs = 0;
 								else
-									readySecs = (module->getReadyFrame() - TheGameLogic->getFrame()) / g_Va00DBA4E4;
+									readySecs = (module->getReadyFrame() - TheGameLogic->getFrame()) / BfmeLogicFramesPerSecond;
 								// Yes, integer math.  We can't have float imprecision display 4:01 on a disabled superweapon.
 
 								// Similarly, only checking timers is not truly indicitive of readyness.
@@ -509,7 +485,7 @@ void InGameUI::postDraw()
 	if (TheGameLogic->getFrame() > 0 && m_showNamedTimers) {
 		Bool reverseXDir = !m_namedTimerCentered && m_namedTimerPositionX >= 0.5f;
 		Int startX = (Int)(TheDisplay->getWidth() * (m_namedTimerOffsetX + m_namedTimerPositionX));
-		startY = (Int)(TheDisplay->getHeight() * m_namedTimerPositionY);
+		Int startY = (Int)(TheDisplay->getHeight() * m_namedTimerPositionY);
 		Color bgColor = GameMakeColor(0, 0, 0, 255);
 		for (NamedTimerMap::iterator mapIt = m_namedTimers.begin(); mapIt != m_namedTimers.end(); ++mapIt) {
 			AsciiString timerName = mapIt->first;
@@ -571,13 +547,15 @@ void InGameUI::postDraw()
 							m_namedTimerLastFlashFrame = TheGameLogic->getFrame();
 						}
 						info->displayString->setColors((m_namedTimerUsedFlashColor) ? info->color : m_namedTimerFlashColor, bgColor);
+						info->displayString->drawAtOffsets(drawX, startY, 1, 1);
 					} else {
 						info->displayString->setColors(info->color, bgColor);
+						info->displayString->drawAtOffsets(drawX, startY, 1, 1);
 					}
 				} else {
 					info->displayString->setColors(info->color, bgColor);
+					info->displayString->drawAtOffsets(drawX, startY, 1, 1);
 				}
-				info->displayString->drawAtOffsets(drawX, startY, 1, 1);
 
 				// increment text spot to next location
 				startY -= info->displayString->getFont()->height;
@@ -602,4 +580,3 @@ void InGameUI::postDraw()
 	}
 }  // end postDraw
 
-// Current alignment and declaration binding: reverse/attempt_support/postdraw-w5-20261019.md.
