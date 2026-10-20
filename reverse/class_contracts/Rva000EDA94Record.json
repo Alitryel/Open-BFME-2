@@ -101,13 +101,25 @@
    "witness": null
   },
   {
+   "decided_by": "bytes 0x000EBFD1 byte test +0x44",
+   "kind": "i1",
+   "name": "visible",
+   "name_by": "zh-donor TTree",
+   "offset": 68,
+   "retail_widths": {},
+   "size": 1,
+   "type": "bool",
+   "views": 1,
+   "witness": "0x000EBFD1"
+  },
+  {
    "decided_by": "retail-layout",
    "kind": "A",
-   "name": "m_pad44",
+   "name": "m_pad45",
    "name_by": "opaque-storage",
-   "offset": 68,
-   "size": 20,
-   "type": "uchar[20]"
+   "offset": 69,
+   "size": 19,
+   "type": "uchar[19]"
   },
   {
    "decided_by": "bytes",
@@ -127,8 +139,32 @@
    "name": "m_pad5C",
    "name_by": "opaque-storage",
    "offset": 92,
-   "size": 16,
-   "type": "uchar[16]"
+   "size": 8,
+   "type": "uchar[8]"
+  },
+  {
+   "decided_by": "bytes 0x000EBFD1 vertex offset +0x64",
+   "kind": "i4",
+   "name": "firstIndex",
+   "name_by": "zh-donor TTree",
+   "offset": 100,
+   "retail_widths": {},
+   "size": 4,
+   "type": "int",
+   "views": 1,
+   "witness": "0x000EBFD1"
+  },
+  {
+   "decided_by": "bytes 0x000EBFD1 buffer compare +0x68",
+   "kind": "i4",
+   "name": "bufferNdx",
+   "name_by": "zh-donor TTree",
+   "offset": 104,
+   "retail_widths": {},
+   "size": 4,
+   "type": "int",
+   "views": 1,
+   "witness": "0x000EBFD1"
   },
   {
    "decided_by": "bytes",
@@ -285,8 +321,29 @@
    "name": "m_padC5",
    "name_by": "opaque-storage",
    "offset": 197,
-   "size": 27,
-   "type": "uchar[27]"
+   "size": 3,
+   "type": "uchar[3]"
+  },
+  {
+   "decided_by": "bytes 0x000EBFD1 skip test +0xC8",
+   "kind": "i4",
+   "name": "m_fieldC8",
+   "name_by": "neutral-offset",
+   "offset": 200,
+   "retail_widths": {},
+   "size": 4,
+   "type": "int",
+   "views": 1,
+   "witness": "0x000EBFD1"
+  },
+  {
+   "decided_by": "retail-layout",
+   "kind": "A",
+   "name": "m_padCC",
+   "name_by": "opaque-storage",
+   "offset": 204,
+   "size": 20,
+   "type": "uchar[20]"
   },
   {
    "decided_by": "bytes",

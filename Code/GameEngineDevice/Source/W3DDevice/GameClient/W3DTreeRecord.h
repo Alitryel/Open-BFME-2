@@ -18,9 +18,12 @@ public:
     float scale;
     Matrix3D transform;
     int treeType;
-    unsigned char m_pad44[20];
+    bool visible;
+    unsigned char m_pad45[19];
     unsigned int drawableID;
-    unsigned char m_pad5C[16];
+    unsigned char m_pad5C[8];
+    int firstIndex;
+    int bufferNdx;
     float m_angularVelocity;
     float m_angularAcceleration;
     Coord3D m_toppleDirection;
@@ -31,7 +34,9 @@ public:
     Matrix3D m_mtx;
     unsigned int m_sinkFramesLeft;
     bool m_flagC4;
-    unsigned char m_padC5[27];
+    unsigned char m_padC5[3];
+    int m_fieldC8;
+    unsigned char m_padCC[20];
     int m_fieldE0;
     int m_fieldE4;
 };

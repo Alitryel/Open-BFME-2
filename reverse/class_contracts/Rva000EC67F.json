@@ -33,13 +33,37 @@
    "witness": null
   },
   {
+   "decided_by": "bytes 0x000EBFD1 translation operand +0x04",
+   "kind": "A",
+   "name": "m_offset",
+   "name_by": "zh-donor TTreeType",
+   "offset": 4,
+   "retail_widths": {},
+   "size": 12,
+   "type": "float[3]",
+   "views": 1,
+   "witness": "0x000EBFD1"
+  },
+  {
    "decided_by": "retail-layout",
    "kind": "A",
-   "name": "m_pad04",
+   "name": "m_pad10",
    "name_by": "opaque-storage",
-   "offset": 4,
-   "size": 32,
-   "type": "uchar[32]"
+   "offset": 16,
+   "size": 16,
+   "type": "uchar[16]"
+  },
+  {
+   "decided_by": "bytes 0x000EBFD1 fade step load +0x20",
+   "kind": "P",
+   "name": "m_data",
+   "name_by": "zh-donor TTreeType",
+   "offset": 32,
+   "retail_widths": {},
+   "size": 4,
+   "type": "const W3DTreeDrawModuleData*",
+   "views": 1,
+   "witness": "0x000EBFD1"
   },
   {
    "decided_by": "retail vector construction: count2 stride8 at +24/+34",

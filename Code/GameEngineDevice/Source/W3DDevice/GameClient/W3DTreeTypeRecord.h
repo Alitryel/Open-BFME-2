@@ -9,13 +9,16 @@
 // Coord2D has the nontrivial native array lifetime surface from the donor.
 #include "coord2d.h"
 class Rva000EDA94Ref;
+struct W3DTreeDrawModuleData;
 
 class Rva000EC67F {
 public:
     Rva000EC67F();
     ~Rva000EC67F();
     Rva000EDA94Ref *m_ref;
-    unsigned char m_pad04[32];
+    float m_offset[3];
+    unsigned char m_pad10[16];
+    const W3DTreeDrawModuleData *m_data;
     Coord2D m_coords24[2];
     Coord2D m_coords34[2];
     unsigned char m_flags44[4];
