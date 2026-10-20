@@ -1,4 +1,6 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
+// partial score=0.97 date=2026-10-19
+// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.96 date=2026-10-20
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.95 date=2026-10-19
@@ -93,7 +95,7 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  file=*reinterpret_cast<const AsciiString*>(filename);
  reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE188();
  if(0){EliminatedLifetime e0;EliminatedLifetime e1;eliminatedSink(&e0,&e1);}
- struct SegmentEndpoints {Vector2 midpoint,shifted;};
+ struct SegmentEndpoints {Vector2 shifted,midpoint;};
  SegmentEndpoints guide;Vector2 &endPos=guide.midpoint;Vector2 &startPos=guide.shifted;
  int flipU=0;AssetList00208F90 assets;
  if(W3DGCData00DE2000) {
