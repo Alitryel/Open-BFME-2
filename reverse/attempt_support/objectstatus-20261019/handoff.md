@@ -78,3 +78,21 @@ Ruled out this round:
 - `if(found)return; push_back` with `found` inside the try: 483 B, 21 regions.
 
 Untested next lever: break the zero CSE between the try and the post-catch code, so `found` stops being a copy of the zero register.
+
+## Round 2026-10-20 r44 (claude-opus-5-5, ~25 min)
+
+WB C00CD0 confirms the late definition: `found` (local_69) = 0 right after
+setKeyFromName, then it = begin (local_84), end re-read each test. Measured on the
+0.98 bank (482B, 3 lines):
+- found=false at function top (before or after `name`): prologue and the str()
+  `cmp eax,ebx` match; only retail's re-zero `xor bl,bl` before the loop is
+  missing (found coalesced with the EBX zero, 483B nd36).
+- Any found definition after setKeyFromName (decl+init, top decl + late assign,
+  decl before try + late assign, top init + redundant late reset, `for(it=..,
+  found=false;...)`, a forceinline has-event helper with its own found or with
+  return-in-loop) flips the prologue: zero/i coalesce in ESI, this in EDI,
+  parser in EBX, frame 0x58, 472B (nd160; helper-return form 474B nd48).
+- `const char *key=name.str()` before found: 484B nd49. Cached count / int i
+  declaration position with late found: inert (472/474B).
+The retail EBX zero lives to the str() compare while found is a separate late
+web in the same register; no source form above reproduces both.

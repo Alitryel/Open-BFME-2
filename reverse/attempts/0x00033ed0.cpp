@@ -1,17 +1,10 @@
 // ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
-// partial score=0.415507 date=2026-10-19
-// Semantic repair of the unreviewed 2026-10-17 bank; NOT a byte match.
-// Full retail boundary 33ED0..34496 (1478B), final RET8 at34493.
-// See reverse/attempt_support/allocator-33ed0-334a0-20261019.md.
-// No invented volatile accesses, dummy state or equal-arm expressions.
-// Bank draft of the EA GeneralAllocator malloc at 0x00033ED0 (1478B, RET8; retail RET at34493).
-// Decoded from the retail body with the MemoryPoolInit.cpp / memory_pool.cpp
-// GeneralAllocator views: 8-byte chunk header (prevSize +0, size|flags +4,
-// next +8, prev +0xC), 10 fast bins at +8, 128 8-byte bin heads from +0x30
-// (bin i head at 0x30+8i-8, next at 0x30+8i, prev at +4), binmap at +0x430,
-// top at +0x440/+0x444, grow callback at +0x4AC, lock at +0x4E4. Bin 1
-// (+0x30) is the unsorted list the scan drains into the proper bins.
+// partial score=0.982 date=2026-10-20
 // cl: /O2 /MD
+// dlmalloc 2.7 mALLOc structure, EA GeneralAllocator layout.
+
+extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *cs);
+extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *cs);
 
 struct Rva00030DD0Lock
 {
@@ -19,16 +12,16 @@ struct Rva00030DD0Lock
     int m_ref;
 };
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *cs);
-
-struct Rva00033ED0Chunk
+struct malloc_chunk
 {
-    unsigned int m_prevSize;	// +0x00
-    unsigned int m_size;		// +0x04 (bit0 in use, bit2 ...)
-    Rva00033ED0Chunk *m_next;	// +0x08
-    Rva00033ED0Chunk *m_prev;	// +0x0c
+    unsigned int prev_size;
+    unsigned int size;
+    malloc_chunk *bk;
+    malloc_chunk *fd;
 };
+typedef malloc_chunk *mchunkptr;
+typedef malloc_chunk *mbinptr;
+typedef malloc_chunk *mfastbinptr;
 
 class Rva00034C90
 {
@@ -46,338 +39,333 @@ public:
 };
 }}
 
+typedef bool (*GrowCallback)(void *, unsigned int, unsigned int, unsigned int);
+
+#define SIZE_BITS 0x80000007u
+#define chunksize(p) ((p)->size & ~(SIZE_BITS))
+#define chunk2mem(p) ((void *)((char *)(p) + 8))
+#define chunk_at_offset(p, s) ((mchunkptr)(((char *)(p)) + (s)))
+#define set_inuse_bit_at_offset(p, s) (((mchunkptr)(((char *)(p)) + (s)))->size |= 1)
+#define set_head(p, s) ((p)->size = (s))
+#define set_foot(p, s) (((mchunkptr)((char *)(p) + (s)))->prev_size = (s))
+#define MINSIZE 16
+#define in_smallbin_range(sz) ((unsigned long)(sz) < 0x200)
+#define smallbin_index(sz) (((unsigned)(sz)) >> 3)
+#define largebin_index(sz) \
+(((((unsigned long)(sz)) >>  6) <= 32)?  56 + (((unsigned long)(sz)) >>  6): \
+ ((((unsigned long)(sz)) >>  9) <= 20)?  91 + (((unsigned long)(sz)) >>  9): \
+ ((((unsigned long)(sz)) >> 12) <= 10)? 110 + (((unsigned long)(sz)) >> 12): \
+ ((((unsigned long)(sz)) >> 15) <=  4)? 119 + (((unsigned long)(sz)) >> 15): \
+ ((((unsigned long)(sz)) >> 18) <=  2)? 124 + (((unsigned long)(sz)) >> 18): \
+                                        126)
+#define bin_at(m, i) ((mbinptr)((char *)&((m)->bins[(i) << 1]) - 8))
+#define next_bin(b) ((mbinptr)((char *)(b) + 8))
+#define last(b) ((b)->bk)
+#define unsorted_chunks(M) (bin_at(M, 1))
+#define idx2block(i) ((i) >> 5)
+#define idx2bit(i) ((1U << ((i) & 31)))
+#define mark_bin(m, i) ((m)->binmap[idx2block(i)] |= idx2bit(i))
+#define fastbin_index(sz) ((((unsigned int)(sz)) >> 3) - 2)
+#define have_fastchunks(M) (((M)->max_fast & 1))
+#define unlink(P, BK, FD) { P->bk->fd = P->fd; P->fd->bk = P->bk; }
+#define request2size(req) \
+    (((req) + 4 + 7 <= MINSIZE) ? MINSIZE : ((req) + 4 + 7) & ~7u)
+
 class Rva006C1F60
 {
 public:
-    void *rva00033ED0(unsigned int size, int flags);
+    void *rva00033ED0(unsigned int bytes, int flags);
 
-private:
     unsigned int m_0;			// +0x00
-    unsigned int m_flags4;		// +0x04 (max fast size | trim bit0)
-    Rva00033ED0Chunk *m_fastBins[10];	// +0x08
-    Rva00033ED0Chunk *m_binLinks[256];	// +0x30
-    unsigned int m_binmap[4];		// +0x430
-    Rva00033ED0Chunk *m_top;		// +0x440
-    Rva00033ED0Chunk *m_top2;		// +0x444
+    unsigned int max_fast;		// +0x04
+    mfastbinptr fastbins[10];		// +0x08
+    mchunkptr bins[256];		// +0x30
+    unsigned int binmap[4];		// +0x430
+    mchunkptr top;			// +0x440
+    mchunkptr last_remainder;		// +0x444
     unsigned char m_pad448[0x46d - 0x448];
-    unsigned char m_flag46d;		// +0x46d
+    bool m_46d;				// +0x46d
     unsigned char m_pad46e[0x488 - 0x46e];
-    int m_488, m_48c, m_490; unsigned int m_494;
+    int n_mmaps;			// +0x488
+    int m_48c;
+    int n_mmaps_max;			// +0x490
+    unsigned int mmap_threshold;	// +0x494
     unsigned char m_pad498[0x4ac - 0x498];
-    bool (*m_grow)(Rva006C1F60 *, unsigned int, unsigned int, unsigned int);	// +0x4ac
-    unsigned int m_4b0, m_4b4;
+    GrowCallback m_grow;		// +0x4ac
+    unsigned int m_4b0;			// +0x4b0
+    unsigned int m_4b4;			// +0x4b4
     unsigned char m_pad4b8[0x4e4 - 0x4b8];
     Rva00030DD0Lock *m_lock;		// +0x4e4
-
-    Rva00033ED0Chunk *binHead(unsigned int i)
-    {
-        return (Rva00033ED0Chunk *)((char *)this + 0x30 + 8 * i - 8);
-    }
-    Rva00033ED0Chunk *&binNext(unsigned int i)
-    {
-        return *(Rva00033ED0Chunk **)((char *)this + 0x30 + 8 * i);
-    }
-    Rva00033ED0Chunk *&binPrev(unsigned int i)
-    {
-        return *(Rva00033ED0Chunk **)((char *)this + 0x30 + 8 * i + 4);
-    }
-    static __forceinline unsigned int largeBinIndex(unsigned int size)
-    {
-        unsigned int index = size >> 6;
-        if (index <= 0x20)
-            return index + 0x38;
-        index = size >> 9;
-        if (index <= 0x14)
-            return index + 0x5B;
-        index = size >> 12;
-        if (index <= 0x0A)
-            return index + 0x6E;
-        index = size >> 15;
-        if (index <= 4)
-            return index + 0x77;
-        index = size >> 18;
-        if (index <= 2)
-            return index + 0x7C;
-        return 0x7E;
-    }
 };
 
-void *Rva006C1F60::rva00033ED0(unsigned int size, int flags)
+void *Rva006C1F60::rva00033ED0(unsigned int bytes, int flags)
 {
-    unsigned int growAttempts = 0;
+    unsigned int attempts = 0;
     void *result = 0;
-    unsigned int rounded;
-    int binIdx;
-    Rva00033ED0Chunk *unsorted;
+
+    unsigned int nb;
+    int idx;
+    mbinptr bin;
+    mchunkptr victim;
+    unsigned int size;
+    int victim_index;
+    mchunkptr remainder;
+    unsigned int remainder_size;
+    unsigned int block;
+    unsigned int bit;
+    unsigned int map;
+    mchunkptr fwd;
+    mchunkptr bck;
+    mbinptr unsorted;
+
     if (flags & 8)
-        return ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(size);
-for (;;) {
-    rounded = size + 0xb;
-    if (rounded > 0x10) rounded &= ~7u;
-    else rounded = 0x10;
+        return ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(bytes);
 
-    // Fast bins.
-    if (rounded <= m_flags4)
+    for (;;)
     {
-        unsigned int fi = rounded >> 3;
-        Rva00033ED0Chunk **slot = (Rva00033ED0Chunk **)((char *)this + 4 * fi);
-        Rva00033ED0Chunk *c = *slot;
-        if (c != 0)
-        {
-            c->m_size = c->m_size & 0x7ffffffbu;
-            *slot = c->m_prev;
-            return (char *)c + 8;
-        }
-    }
+        nb = bytes + 4 + 7;
+        if (nb > MINSIZE)
+            nb &= ~7u;
+        else
+            nb = MINSIZE;
 
-    // Exact small bin.
-    if (rounded < 0x200)
-    {
-        binIdx = rounded >> 3;
-        Rva00033ED0Chunk *c = binNext(binIdx);
-        Rva00033ED0Chunk *head = binHead(binIdx);
-        if (c != head)
+        if (nb <= max_fast)
         {
-            *(unsigned int *)((char *)c + rounded + 4) |= 1;
-            c->m_next->m_prev = c->m_prev;
-            c->m_prev->m_next = c->m_next;
-            return (char *)c + 8;
-        }
-    }
-    else
-    {
-        binIdx = largeBinIndex(rounded);
-        if (m_flags4 & 1)
-            ((Rva00034C90 *)this)->rva00033930();
-    }
-
-    // Drain the unsorted list at bin 1 into the proper bins.
-    {
-        unsorted = binHead(1);
-for (;;) {
-        Rva00033ED0Chunk *c = unsorted->m_next;
-        if (c != unsorted)
-        {
-            for (;;)
+            mfastbinptr *fb = &fastbins[fastbin_index(nb)];
+            if ((victim = *fb) != 0)
             {
-                unsigned int csize = c->m_size & 0x7ffffff8u;
-                Rva00033ED0Chunk *cnext = c->m_next;
-                if (rounded < 0x200 && c == m_top2 && cnext == unsorted && csize > rounded + 0x10)
+                victim->size &= 0x7ffffffb;
+                *fb = victim->fd;
+                return chunk2mem(victim);
+            }
+        }
+
+        if (in_smallbin_range(nb))
+        {
+            idx = smallbin_index(nb);
+            bin = bin_at(this, idx);
+            if ((victim = last(bin)) != bin)
+            {
+                set_inuse_bit_at_offset(victim, nb);
+                unlink(victim, bck, fwd);
+                return chunk2mem(victim);
+            }
+        }
+        else
+        {
+            idx = largebin_index(nb);
+            if (have_fastchunks(this))
+                ((Rva00034C90 *)this)->rva00033930();
+        }
+
+        unsorted = unsorted_chunks(this);
+        for (;;)
+        {
+            while ((victim = unsorted->bk) != unsorted)
+            {
+                bck = victim->bk;
+                size = chunksize(victim);
+
+                if (in_smallbin_range(nb) &&
+                    victim == last_remainder &&
+                    bck == unsorted &&
+                    size > nb + MINSIZE)
                 {
-                    unsigned int rest = csize - rounded;
-                    Rva00033ED0Chunk *newTop = (Rva00033ED0Chunk *)((char *)c + rounded);
-                    unsorted->m_prev = newTop;
-                    unsorted->m_next = newTop;
-                    m_top2 = newTop;
-                    newTop->m_prev = unsorted;
-                    newTop->m_next = unsorted;
-                    c->m_size = rounded | 1;
-                    newTop->m_size = rest | 1;
-                    *(unsigned int *)((char *)newTop + rest) = rest;
-                    return (char *)c + 8;
+                    remainder_size = size - nb;
+                    remainder = chunk_at_offset(victim, nb);
+                    unsorted->bk = unsorted->fd = remainder;
+                    last_remainder = remainder;
+                    remainder->bk = remainder->fd = unsorted;
+                    set_head(victim, nb | 1);
+                    set_head(remainder, remainder_size | 1);
+                    set_foot(remainder, remainder_size);
+                    return chunk2mem(victim);
                 }
-                int idx;
-                Rva00033ED0Chunk *next;
-                Rva00033ED0Chunk *prev;
-                unsorted->m_next = cnext;
-                cnext->m_prev = unsorted;
-                if (csize == rounded)
+
+                unsorted->bk = bck;
+                bck->fd = unsorted;
+
+                if (size == nb)
                 {
-                    *(unsigned int *)((char *)c + rounded + 4) |= 1;
-                    return (char *)c + 8;
+                    set_inuse_bit_at_offset(victim, size);
+                    return chunk2mem(victim);
                 }
-                if (csize < 0x200)
+
+                if (in_smallbin_range(size))
                 {
-                    idx = csize >> 3;
-                    prev = binPrev(idx);
-                    next = binHead(idx);
+                    victim_index = smallbin_index(size);
+                    bck = bin_at(this, victim_index);
+                    fwd = bck->fd;
                 }
                 else
                 {
-                    idx = largeBinIndex(csize);
-                    prev = binPrev(idx);
-                    next = binHead(idx);
-                    if (next != prev)
+                    victim_index = largebin_index(size);
+                    bck = bin_at(this, victim_index);
+                    fwd = bck->fd;
+
+                    if (bck != fwd)
                     {
-                        Rva00033ED0Chunk *first = next->m_next;
-                        if (csize < first->m_size)
+                        if (size < bck->bk->size)
                         {
-                            prev = next;
-                            next = first;
+                            fwd = bck;
+                            bck = bck->bk;
                         }
                         else
                         {
-                            while (csize < (prev->m_size & 0x7ffffff8u))
-                                prev = prev->m_prev;
-                            next = prev->m_next;
+                            while (size < chunksize(fwd))
+                                fwd = fwd->fd;
+                            bck = fwd->bk;
                         }
                     }
                 }
-                m_binmap[idx >> 5] |= 1u << (idx & 0x1f);
-                c->m_next = next;
-                c->m_prev = prev;
-                prev->m_next = c;
-                next->m_prev = c;
 
-                c = unsorted->m_next;
-                if (c == unsorted)
-                    break;
+                block = victim_index >> 5;
+                binmap[block] |= idx2bit(victim_index);
+                victim->bk = bck;
+                victim->fd = fwd;
+                fwd->bk = victim;
+                bck->fd = victim;
             }
-        }
 
-
-    // Large bins: prescan the target bin, then walk the binmap upward.
-    if (rounded >= 0x200)
-    {
-        Rva00033ED0Chunk *end = binHead(binIdx);
-        for (Rva00033ED0Chunk *c = binNext(binIdx); c != end; c = c->m_next)
-        {
-            unsigned int csize = c->m_size & 0x7ffffff8u;
-            if (csize >= rounded)
-                {
-                c->m_next->m_prev = c->m_prev;
-                c->m_prev->m_next = c->m_next;
-                unsigned int rest = csize - rounded;
-                if (rest < 16) {
-                    *(unsigned int *)((char *)c + csize + 4) |= 1;
-                    return (char *)c + 8;
-                }
-                Rva00033ED0Chunk *rem = (Rva00033ED0Chunk *)((char *)c + rounded);
-                unsorted->m_prev = rem;
-                unsorted->m_next = rem;
-                rem->m_prev = unsorted;
-                rem->m_next = unsorted;
-
-                c->m_size = rounded | 1;
-                rem->m_size = rest | 1;
-                *(unsigned int *)((char *)rem + rest) = rest;
-                return (char *)c + 8;
-            }
-        }
-    }
-    {
-        int idx = binIdx + 1;
-        int wi = idx >> 5;
-        unsigned int map = m_binmap[wi];
-        Rva00033ED0Chunk *b = binHead(idx);
-        unsigned int bit = 1u << (idx & 0x1f);
-        for (;;)
-        {
-            if (bit > map || bit == 0)
+            if (!in_smallbin_range(nb))
             {
-                for (;;)
+                bin = bin_at(this, idx);
+                for (victim = last(bin); victim != bin; victim = victim->bk)
                 {
-                    wi++;
-                    if ((unsigned int)wi >= 4)
-                        goto topPath;
-                    map = m_binmap[wi];
-                    if (map != 0)
-                        break;
+                    size = chunksize(victim);
+                    if (size >= nb)
+                    {
+                        remainder_size = size - nb;
+                        unlink(victim, bck, fwd);
+                        if (remainder_size < MINSIZE)
+                        {
+                            set_inuse_bit_at_offset(victim, size);
+                            return chunk2mem(victim);
+                        }
+                        remainder = chunk_at_offset(victim, nb);
+                        unsorted->bk = unsorted->fd = remainder;
+                        remainder->bk = remainder->fd = unsorted;
+                        set_head(victim, nb | 1);
+                        set_head(remainder, remainder_size | 1);
+                        set_foot(remainder, remainder_size);
+                        return chunk2mem(victim);
+                    }
                 }
-                b = binHead(wi * 32);
-                bit = 1;
             }
-            if ((map & bit) == 0)
+
+            ++idx;
+            bin = bin_at(this, idx);
+            block = idx2block(idx);
+            map = binmap[block];
+            bit = idx2bit(idx);
+
+            for (;;)
             {
-                do
+                if (bit > map || bit == 0)
                 {
+                    do
+                    {
+                        if (++block >= 4)
+                            goto use_top;
+                    } while ((map = binmap[block]) == 0);
+                    bin = bin_at(this, (block << 5));
+                    bit = 1;
+                }
+
+                while ((bit & map) == 0)
+                {
+                    bin = next_bin(bin);
                     bit <<= 1;
-                    b = (Rva00033ED0Chunk *)((char *)b + 8);
                 }
-                while ((map & bit) == 0);
-            }
-            if (b->m_next != b)
-            {
-                Rva00033ED0Chunk *c = b->m_next;
-                unsigned int csize = c->m_size & 0x7ffffff8u;
-{
-                c->m_next->m_prev = c->m_prev;
-                c->m_prev->m_next = c->m_next;
-                unsigned int rest = csize - rounded;
-                if (rest < 16) {
-                    *(unsigned int *)((char *)c + csize + 4) |= 1;
-                    return (char *)c + 8;
-                }
-                Rva00033ED0Chunk *rem = (Rva00033ED0Chunk *)((char *)c + rounded);
-                unsorted->m_prev = rem;
-                unsorted->m_next = rem;
-                rem->m_prev = unsorted;
-                rem->m_next = unsorted;
-                if (rounded < 0x200) m_top2 = rem;
-                c->m_size = rounded | 1;
-                rem->m_size = rest | 1;
-                *(unsigned int *)((char *)rem + rest) = rest;
-                return (char *)c + 8;
-            }
-            }
-            map &= ~bit;
-            m_binmap[wi] = map;
-            b = (Rva00033ED0Chunk *)((char *)b + 8);
-            bit <<= 1;
-        }
-    }
 
-topPath:
-    {
-        Rva00033ED0Chunk *top = m_top;
-        unsigned int topSize = top->m_size & 0x7ffffff8u;
-        if (topSize >= rounded + 0x10)
-        {
-            unsigned int rest = topSize - rounded;
-            top->m_size = rounded | 1;
-            Rva00033ED0Chunk *newTop = (Rva00033ED0Chunk *)((char *)top + rounded);
-            newTop->m_size = rest | 1;
-            m_top = newTop;
-            newTop->m_size = rest | 1;
-            newTop->m_prev = newTop;
-            newTop->m_next = newTop;
-            *(unsigned int *)((char *)newTop + rest) = rest;
-            return (char *)top + 8;
-        }
-        if (m_flags4 & 1)
-        {
-            ((Rva00034C90 *)this)->rva00033930();
-            binIdx = rounded >> 3;
-            continue;
-        }
-        break;
-    }
-}
-        if (m_flag46d)
-        {
-            if (rounded >= m_494 && m_488 < m_490)
+                victim = last(bin);
+                if (victim == bin)
+                {
+                    binmap[block] = map &= ~bit;
+                    bin = next_bin(bin);
+                    bit <<= 1;
+                }
+                else
+                {
+                    size = chunksize(victim);
+                    unlink(victim, bck, fwd);
+                    remainder_size = size - nb;
+                    if (remainder_size < MINSIZE)
+                    {
+                        set_inuse_bit_at_offset(victim, size);
+                        return chunk2mem(victim);
+                    }
+                    remainder = chunk_at_offset(victim, nb);
+                    unsorted->bk = unsorted->fd = remainder;
+                    remainder->bk = remainder->fd = unsorted;
+                    if (in_smallbin_range(nb))
+                        last_remainder = remainder;
+                    set_head(victim, nb | 1);
+                    set_head(remainder, remainder_size | 1);
+                    set_foot(remainder, remainder_size);
+                    return chunk2mem(victim);
+                }
+            }
+
+        use_top:
+            victim = top;
+            size = chunksize(victim);
+            if (size >= nb + MINSIZE)
             {
-                result = ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(size);
-                if (result != 0)
+                remainder_size = size - nb;
+                set_head(victim, nb | 1);
+                remainder = chunk_at_offset(victim, nb);
+                set_head(remainder, remainder_size | 1);
+                top = remainder;
+                mchunkptr t = top;
+                set_head(t, remainder_size | 1);
+                t->bk = t->fd = t;
+                set_foot(t, remainder_size);
+                return chunk2mem(victim);
+            }
+            if (!have_fastchunks(this))
+                break;
+            ((Rva00034C90 *)this)->rva00033930();
+            idx = smallbin_index(nb);
+        }
+
+        if (m_46d)
+        {
+            if (nb >= mmap_threshold && n_mmaps < n_mmaps_max)
+            {
+                result = ((EA::Allocator::GeneralAllocator *)this)->rva00032DF0(bytes);
+                if (result)
                     return result;
             }
-            void *p = m_flag46d ? ((EA::Allocator::GeneralAllocator *)this)->rva000334A0(rounded) : 0;
-            if (p != 0)
+            if (m_46d)
             {
-                unsigned int psize = *(unsigned int *)((char *)p + 4) & 0x7ffffff8u;
-                *(unsigned int *)((char *)p + psize + 4) |= 1;
-                result = (char *)p + 8;
+                mchunkptr p = (mchunkptr)((EA::Allocator::GeneralAllocator *)this)->rva000334A0(nb);
+                if (p)
+                {
+                    set_inuse_bit_at_offset(p, chunksize(p));
+                    result = chunk2mem(p);
+                }
             }
         }
-        if (result || m_grow == 0 || ++growAttempts >= m_4b4)
-            return result;
-        Rva00030DD0Lock *lock = m_lock;
-        int refs = lock->m_ref;
+        if (result || !m_grow || ++attempts >= m_4b4)
+            break;
+
+        int refs = m_lock->m_ref;
         for (int i = 0; i < refs; ++i)
         {
-            lock = m_lock;
-            lock->m_ref = lock->m_ref - 1;
+            Rva00030DD0Lock *lock = m_lock;
+            --lock->m_ref;
             LeaveCriticalSection(lock);
         }
-        bool ok = m_grow(this, size, size + 0x40, m_4b0);
-        for (int i = 0; i < refs; ++i)
+        bool ok = m_grow(this, bytes, bytes + 0x40, m_4b0);
+        for (int j = 0; j < refs; ++j)
         {
-            lock = m_lock;
+            Rva00030DD0Lock *lock = m_lock;
             EnterCriticalSection(lock);
-            lock->m_ref = lock->m_ref + 1;
+            ++lock->m_ref;
         }
         if (!ok)
-            return result;
+            break;
     }
-}
+    return result;
 }

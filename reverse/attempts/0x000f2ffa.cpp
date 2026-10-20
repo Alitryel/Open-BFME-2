@@ -1,23 +1,5 @@
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.9988 date=2026-10-20
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.991 date=2026-10-19
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.9902048085485308 date=2026-10-19
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.894 date=2026-10-17
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.969603329480937 date=2026-10-14
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.97 date=2026-10-12
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.979 date=2026-10-12
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.9684191912493764 date=2026-10-10
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.9534271239838147 date=2026-10-10
-// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
-// partial score=0.93 date=2026-10-09
+// partial score=0.999 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /DBFME_VOLUMETRIC_DELETE_LAYOUT /Ireference/open-bfme-1/inputs/reference/shims/volumetricshadow /I. /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient/Shadow
 // stlport
 #define Region3D DonorRegion3D
@@ -37,7 +19,8 @@
 // takes the count at full width; use the BFME declaration of DX8IndexBufferClass
 // rather than the Zero Hour one the include path would otherwise find.
 #define BFME_DYNAMIC_IB_UINT_CTOR_ABI
-#include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.h"
+#include "reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/dx8vertexbuffer_bfme2.h.txt"
+#include "reverse/attempt_support/updatemeshvolume-f2ffa-20261020-r44/dx8indexbuffer_bfme2.h.txt"
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/dx8wrapper.h"
 #undef MESH_RENDER_SNAPSHOT_ENABLED
 #include "WW3D2/DX8Wrapper.h"
@@ -254,107 +237,38 @@ faster silhouette computation.  A model can contain many meshes for which we nee
 separate data so they can move relative to each other.*/
 class W3DShadowGeometryMesh
 {
-	//for the sake of speed, give direct access to classes that need this data.
 	friend class W3DShadowGeometry;
 	friend class W3DVolumetricShadow;
-	
-public:
-	W3DShadowGeometryMesh::W3DShadowGeometryMesh( void );
-#ifdef DO_TERRAIN_SHADOW_VOLUMES
-	virtual
-#endif
-	W3DShadowGeometryMesh::~W3DShadowGeometryMesh( void );
 
-	/// @todo: Cache/Store face normals someplace so they are not recomputed when lights move.
+public:
 	const Vector3& GetPolygonNormal(long dwPolyNormId) const
 	{
-		WWASSERT(m_polygonNormals);
 		return m_polygonNormals[dwPolyNormId];
 	}
 	int GetNumPolygon (void) const {return m_numPolygons;}
-	/// given loaded geometry this builds the polygon neighbor information
-	void buildPolygonNeighbors( void );
-	void buildPolygonNormals(void)
-	{
-		if (!m_polygonNormals)
-		{	//need to allocate storage
-			Vector3 *tempVec = NEW Vector3[m_numPolygons];
-			for (int i=0; i<m_numPolygons; i++)
-			{
-				buildPolygonNormal(i,&tempVec[i]);
-			}
-			m_polygonNormals = tempVec;
-		}
-	}
+	const Vector3 &GetVertex(Int index) const { return m_verts[index]; }
+	void buildPolygonNormals(void);
 protected:
-	Vector3 *buildPolygonNormal (long dwPolyNormId, Vector3 *pvNorm) const
-	{
-		if (m_polygonNormals)
-			return &(*pvNorm=m_polygonNormals[dwPolyNormId]);
-		short indexList[3];
-//		Vector3 vertexList[3];
-		//get vertex indices for this polygon
-		GetPolygonIndex(dwPolyNormId,indexList);
-		//get the vertices	
-//		GetVertex(indexList[0],&vertexList[0]);
-//		GetVertex(indexList[1],&vertexList[1]);
-//		GetVertex(indexList[2],&vertexList[2]);
-		const Vector3& v0=GetVertex(indexList[0]);
-		const Vector3& v1=GetVertex(indexList[1]);
-		const Vector3& v2=GetVertex(indexList[2]);
-
-		//compute triangle normal by crossing 2 edges
-		Vector3 edge1=v1-v0;
-		Vector3 edge2=v1-v2;
-#ifdef ALLOW_TEMPORARIES
-		*pvNorm=Vector3::Cross_Product(edge2,edge1);
-		pvNorm->Normalize();
-#else
-		Vector3::Normalized_Cross_Product(edge2,edge1, pvNorm);
-#endif
-		return pvNorm;
-	}
-
-	/// creating and deleting storage for the polygon neighbors
-	Bool allocateNeighbors( Int numPolys );
-	void deleteNeighbors( void );
-
-	// geometry shadow data access
 	PolyNeighbor *GetPolyNeighbor( Int polyIndex );
-	int GetNumVertex (void)	const {	return m_numVerts;}
-	///Get indices to the 3 vertices of this face.
-#ifdef DO_TERRAIN_SHADOW_VOLUMES
-	virtual
-#endif
-	void GetPolygonIndex (long dwPolyId, short *psIndexList) const
-	{	const TriIndex *polyi=&m_polygons[dwPolyId];
-		*psIndexList++ = m_parentVerts[polyi->I];
-		*psIndexList++ = m_parentVerts[polyi->J];
-		*psIndexList++ = m_parentVerts[polyi->K];
-	}
-#ifdef DO_TERRAIN_SHADOW_VOLUMES
-	virtual
-#endif
-	const Vector3& GetVertex (int dwVertId) const
-	{
-		return m_verts[dwVertId];
-	}
+	inline __declspec(noinline) void GetPolygonIndex (long dwPolyId, short *psIndexList) const {
+ struct TriIndex {UnsignedShort I,J,K;};const TriIndex *polyi=&(*(TriIndex**)((char*)m_polygonArray+0xc))[dwPolyId];
+ *psIndexList++=m_parentVerts[polyi->I];*psIndexList++=m_parentVerts[polyi->J];*psIndexList++=m_parentVerts[polyi->K];
+ }
 
-	MeshClass *m_mesh;	///< W3D mesh for this geometry
-	Int m_meshRobjIndex;	///<index of this mesh within hlod robj
-	const Vector3	*m_verts;		///<array of vertices
-	Vector3	*m_polygonNormals;	///<array of face normals
-	Int m_numVerts;	 ///< number of actual vertices after duplicates are removed.
-	Int m_numPolygons; ///<number of polygons in source geometry
-	const TriIndex	*m_polygons;	///<array of 3 vertex indices per face
-	UnsignedShort *m_parentVerts;	///<array of parent vertex indices for each vertex.
-	/// the neighbor info indexed by polygon id
+	void *m_polygonArray;
+	void *m_vertexArray;
+	const Vector3 *m_verts;
+	Int m_meshRobjIndex;
+	Vector3 *m_polygonNormals;
+	Int m_numVerts;
+	Int m_numVertsTotal;
+	Int m_numPolygons;
+	UnsignedShort *m_parentVerts;
 	PolyNeighbor *m_polyNeighbors;
-	Int m_numPolyNeighbors;  // length of m_polyNeighbors and the number of polygons
-							 // in our current geometry.
-	W3DShadowGeometry *m_parentGeometry; // mesh hierarchy containing this mesh.
-
-};	//end of meshInfo
+	Int m_numPolyNeighbors;
+	W3DShadowGeometry *m_parentGeometry;
+	Bool m_skinned;
+};
 
 // BFME's MeshClass has two render-object view slots after Class_ID; the
 // recovered HLOD path uses the later slot, which the Zero Hour headers omit.
@@ -450,6 +364,12 @@ class W3DShadowGeometry : public RefCountClass, public	HashableClass
 		Int m_numTotalsVerts;						///<number of verts in entire hierarchy
 };
   
+struct Rva000F2D25GeometryView
+{
+	char m_pad0[0x14];
+	W3DShadowGeometryMesh m_meshList[MAX_SHADOW_CASTER_MESHES];
+	W3DShadowGeometryMesh *getMesh(Int index) { return &m_meshList[index]; }
+};
 #define MAX_SHADOW_VOLUME_VERTS 16384
 
 void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const Matrix3D *meshXform, const AABoxClass &meshBox, float floorZ )
@@ -468,20 +388,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 
 	Matrix4x4 objectToWorld(*meshXform);
 	Matrix4x4 *prevXForm=&m_objectXformHistory[ lightIndex ][meshIndex];
-	struct Rva007BE000MeshRecordView
-	{
-		unsigned char m_beforeFlag[0x30];
-		unsigned char m_field30;
-		unsigned char m_tail[3];
-	};
-	struct Rva007BE000GeometryView
-	{
-		unsigned char m_beforeMeshes[0x14];
-		Rva007BE000MeshRecordView m_meshes[MAX_SHADOW_CASTER_MESHES];
-	};
-	Rva007BE000GeometryView *geometryView = (Rva007BE000GeometryView *)
-		((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry;
-	if (geometryView->m_meshes[meshIndex].m_field30)
+	if (((Rva000F2D25GeometryView *)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry)->getMesh(meshIndex)->m_skinned)
 	{
 		isMeshRotating = true;
 		allocationFlags = 1;
@@ -686,8 +593,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 			{	//this silhouette was built before and is being updated.
 				//this probably means it will change again in the future.
 				//make future updates faster by pre-caching face normals.
-			((W3DShadowGeometryMesh *)(meshIndex * sizeof(Rva007BE000MeshRecordView) +
-				(unsigned int)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry + 0x14))->buildPolygonNormals();
+			((Rva000F2D25GeometryView *)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry)->getMesh(meshIndex)->buildPolygonNormals();
 			}
 			m_numSilhouetteIndices[meshIndex] = 0;
 			buildSilhouette(meshIndex, &lightPosObject);
@@ -754,15 +660,479 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	}
 }
 
-// Visibility stand-ins: retail's unit defines these three callees, so &lightPosObject does not
-// escape; replace with byte-faithful __declspec(noinline) inline copies before landing.
-void __cdecl Rva000F2FFAOpaqueUse(int);
+// Retail's unit also defines buildSilhouette (0x000F2D25), constructVolume (0x000EFDF6) and
+// constructVolumeVB (0x000F0251). With their bodies visible cl 7.1 sees that &lightPosObject does not
+// escape, which places updateMeshVolume's frame homes as retail. All three bodies below compile
+// byte-exact to retail in this unit (buildSilhouette apart from the addNeighborlessEdges mangling:
+// the ZH header declares it protected, the ledger row 0x000F17CA carries a public name).
+static __forceinline Vector3 ShadowSubtract(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
 __declspec(noinline) inline void W3DVolumetricShadow::buildSilhouette(Int meshIndex, Vector3 *lightPosObject)
-{ Rva000F2FFAOpaqueUse((int)lightPosObject->X); m_numSilhouetteIndices[meshIndex] = 0; }
-__declspec(noinline) inline void W3DVolumetricShadow::constructVolume(Vector3 *lightPosObject, Real extrude, Int volumeIndex, Int meshIndex)
-{ Rva000F2FFAOpaqueUse((int)(lightPosObject->X + extrude) + volumeIndex + meshIndex); }
-__declspec(noinline) inline void W3DVolumetricShadow::constructVolumeVB(Vector3 *lightPosObject, Real extrude, Int volumeIndex, Int meshIndex)
-{ Rva000F2FFAOpaqueUse((int)(lightPosObject->Y + extrude) + volumeIndex + meshIndex); }
+{
+	PolyNeighbor *polyNeighbor;
+	Vector3 lightVector;
+	Bool visibleNeighborless;
+	Int numPolys;
+	W3DShadowGeometryMesh *geomMesh;
+	Int i, j;
+	Int meshEdgeStart=0;
+
+	geomMesh = &((Rva000F2D25GeometryView *)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry)->m_meshList[meshIndex];
+	if (!geomMesh->m_polygonNormals)
+		geomMesh->buildPolygonNormals();
+
+	meshEdgeStart=m_numSilhouetteIndices[meshIndex];
+
+	numPolys = geomMesh->GetNumPolygon();
+	for( i = 0; i < numPolys; i++ )
+	{
+		Short poly[ 3 ];
+		polyNeighbor = geomMesh->GetPolyNeighbor( i );
+		polyNeighbor->status = 0;
+		const Vector3& normal=geomMesh->GetPolygonNormal(i);
+		geomMesh->GetPolygonIndex( i, poly );
+		const Vector3& vertex=geomMesh->m_verts[poly[ 0 ]];
+		lightVector= ShadowSubtract(vertex,*lightPosObject);
+		if( Vector3::Dot_Product( lightVector, normal ) < 0.0f )
+			polyNeighbor->status = POLY_VISIBLE;
+	}
+
+	for( i = 0; i < numPolys; i++ )
+	{
+		PolyNeighbor *otherNeighbor;
+		polyNeighbor = geomMesh->GetPolyNeighbor( i );
+		visibleNeighborless = FALSE;
+		for( j = 0; j < MAX_POLYGON_NEIGHBORS; j++ )
+		{
+			otherNeighbor = NULL;
+			if( polyNeighbor->neighbor[ j ].neighborIndex != NO_NEIGHBOR )
+			{
+				otherNeighbor = geomMesh->GetPolyNeighbor( polyNeighbor->neighbor[ j ].neighborIndex );
+				if( BitTest( otherNeighbor->status, POLY_PROCESSED ) )
+					continue;
+			}
+			if( BitTest( polyNeighbor->status, POLY_VISIBLE ) )
+			{
+				if( otherNeighbor == NULL )
+				{
+					visibleNeighborless = TRUE;
+				}
+				else if( BitTest( otherNeighbor->status, POLY_VISIBLE ) == FALSE )
+				{
+					addSilhouetteEdge(meshIndex, polyNeighbor, otherNeighbor );
+				}
+			}
+			else if( otherNeighbor != NULL &&
+							 BitTest( otherNeighbor->status, POLY_VISIBLE ) )
+			{
+				addSilhouetteEdge(meshIndex, otherNeighbor, polyNeighbor );
+			}
+		}
+		if( visibleNeighborless == TRUE )
+		{
+			addNeighborlessEdges(meshIndex, polyNeighbor );
+		}
+		BitSet( polyNeighbor->status, POLY_PROCESSED );
+	}
+	m_numIndicesPerMesh[meshIndex] = m_numSilhouetteIndices[meshIndex] - meshEdgeStart;
+}
+static __forceinline Vector3 VolumeSubtractDirect(const Vector3 &a, const Vector3 &b) { Vector3 result; result.X=a.X-b.X; result.Y=a.Y-b.Y; result.Z=a.Z-b.Z; return result; }
+static __forceinline Vector3 VolumeMakePoint(Real x, Real y, Real z) { Vector3 result; result.X=x; result.Y=y; result.Z=z; return result; }
+static __forceinline Vector3 VolumeSubtractArgs(const Vector3 &a, const Vector3 &b) { return VolumeMakePoint(a.X-b.X, a.Y-b.Y, a.Z-b.Z); }
+__declspec(noinline) inline void W3DVolumetricShadow::constructVolume( Vector3 *lightPosObject,Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex )
+{
+	Geometry *shadowVolume;
+	Vector3 extrude2;
+	Short indexList[ 3 ];
+	Int i,k;
+	Int vertexCount;
+	Int polygonCount;
+	Int indicesPerMesh;
+	W3DShadowGeometryMesh *geomMesh;
+
+	if( volumeIndex < 0 ||
+			volumeIndex >= MAX_SHADOW_LIGHTS ||
+			lightPosObject == NULL )
+	{
+		return;
+	}
+
+	shadowVolume = m_shadowVolume[ volumeIndex ][meshIndex];
+
+	if( shadowVolume == NULL )
+	{
+		return;
+	}
+
+	vertexCount = 0;
+	polygonCount = 0;
+
+	indicesPerMesh=m_numIndicesPerMesh[meshIndex];
+	if (!indicesPerMesh)
+		return;
+
+	geomMesh = &((Rva000F2D25GeometryView *)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry)->m_meshList[meshIndex];
+
+	shadowVolume->SetNumActivePolygon(0);
+	shadowVolume->SetNumActiveVertex(0);
+
+	Short *silhouetteIndices=m_silhouetteIndex[meshIndex];
+
+	Short stripStartIndex=silhouetteIndices[ 0 ];
+	Short stripStartVertex=0;
+
+	const Vector3& ev2=
+		geomMesh->GetVertex( silhouetteIndices[ 0 ] );
+
+	extrude2 = VolumeSubtractDirect(ev2, *lightPosObject);
+	extrude2 *= shadowExtrudeDistance;
+	extrude2 += ev2;
+
+	shadowVolume->SetVertex( vertexCount, &ev2 );
+	shadowVolume->SetVertex( vertexCount + 1, &extrude2 );
+
+	vertexCount=2;
+	Int lastEdgeVertex2Index=0;
+	Int lastExtrude2Index=1;
+
+	for( i = 0; i < indicesPerMesh; i += 2 )
+	{
+		Short currentEdgeEnd=silhouetteIndices[i+1];
+
+		for (k=i+2; k<indicesPerMesh; k+=2)
+			if (silhouetteIndices[k]==currentEdgeEnd)
+			{
+				Int tempIndex=*(Int *)(&silhouetteIndices[i+2]);
+				*(Int *)&silhouetteIndices[i+2]=*(Int *)&silhouetteIndices[k];
+				*(Int *)&silhouetteIndices[k]=tempIndex;
+				break;
+			}
+
+		if (k >= indicesPerMesh)
+		{
+			if (currentEdgeEnd == stripStartIndex)
+			{
+				indexList[ 0 ] = lastEdgeVertex2Index;
+				indexList[ 1 ] = lastExtrude2Index;
+				indexList[ 2 ] = stripStartVertex;
+				shadowVolume->SetPolygonIndex( polygonCount, indexList );
+
+				indexList[ 0 ] = stripStartVertex;
+				indexList[ 1 ] = lastExtrude2Index;
+				indexList[ 2 ] = stripStartVertex+1;
+				shadowVolume->SetPolygonIndex( polygonCount + 1, indexList );
+			}
+			else
+			{
+				const Vector3& ev=geomMesh->GetVertex(currentEdgeEnd);
+				shadowVolume->SetVertex( vertexCount, &ev );
+
+				indexList[ 0 ] = lastEdgeVertex2Index;
+				indexList[ 1 ] = lastExtrude2Index;
+				indexList[ 2 ] = vertexCount;
+				shadowVolume->SetPolygonIndex( polygonCount, indexList );
+
+				extrude2 = VolumeSubtractDirect(ev, *lightPosObject);
+				extrude2 *= shadowExtrudeDistance;
+				extrude2 += ev;
+				shadowVolume->SetVertex( vertexCount + 1, &extrude2 );
+
+				indexList[ 0 ] = vertexCount;
+				indexList[ 1 ] = lastExtrude2Index;
+				indexList[ 2 ] = vertexCount+1;
+				shadowVolume->SetPolygonIndex( polygonCount + 1, indexList );
+
+				lastEdgeVertex2Index=vertexCount;
+				lastExtrude2Index=vertexCount+1;
+				vertexCount += 2;
+			}
+
+			if ((i+2) >= indicesPerMesh)
+			{
+				polygonCount += 2;
+				break;
+			}
+
+			const Vector3& ev=geomMesh->GetVertex( silhouetteIndices[ i+2 ] );
+			extrude2 = VolumeSubtractDirect(ev, *lightPosObject);
+			extrude2 *= shadowExtrudeDistance;
+			extrude2 += ev;
+
+			lastEdgeVertex2Index=vertexCount;
+			lastExtrude2Index=vertexCount + 1;
+			stripStartIndex=silhouetteIndices[ i+2 ];
+			stripStartVertex=lastEdgeVertex2Index;
+
+			shadowVolume->SetVertex( lastEdgeVertex2Index, &ev );
+			shadowVolume->SetVertex( lastExtrude2Index, &extrude2 );
+			vertexCount += 2;
+
+			polygonCount += 2;
+			continue;
+		}
+		else
+		{
+			const Vector3& ev=geomMesh->GetVertex( currentEdgeEnd );
+			shadowVolume->SetVertex( vertexCount, &ev );
+			indexList[ 0 ] = lastEdgeVertex2Index;
+			indexList[ 1 ] = lastExtrude2Index;
+			indexList[ 2 ] = vertexCount;
+			shadowVolume->SetPolygonIndex( polygonCount, indexList );
+
+			extrude2 = VolumeSubtractDirect(ev, *lightPosObject);
+			extrude2 *= shadowExtrudeDistance;
+			extrude2 += ev;
+
+			shadowVolume->SetVertex( vertexCount + 1, &extrude2 );
+
+			indexList[ 0 ] = vertexCount;
+			indexList[ 1 ] = lastExtrude2Index;
+			indexList[ 2 ] = vertexCount+1;
+			shadowVolume->SetPolygonIndex( polygonCount + 1, indexList );
+
+			lastEdgeVertex2Index=vertexCount;
+			lastExtrude2Index=vertexCount+1;
+
+			vertexCount += 2;
+			polygonCount += 2;
+		}
+	}
+
+	shadowVolume->SetNumActivePolygon(polygonCount);
+	shadowVolume->SetNumActiveVertex(vertexCount);
+}
+
+__declspec(noinline) inline void W3DVolumetricShadow::constructVolumeVB( Vector3 *lightPosObject,Real shadowExtrudeDistance, Int volumeIndex, Int meshIndex )
+{
+	Geometry *shadowVolume;
+	Vector3 extrude2;
+	Vector3 edgeVertex2;
+	Int i,k;
+	Int vertexCount;
+	Int polygonCount;
+	Int indicesPerMesh;
+	W3DShadowGeometryMesh *geomMesh;
+
+	W3DBufferManager::W3DVertexBufferSlot *vbSlot;
+	W3DBufferManager::W3DIndexBufferSlot *ibSlot;
+
+	if( volumeIndex < 0 ||
+			volumeIndex >= MAX_SHADOW_LIGHTS ||
+			lightPosObject == NULL )
+	{
+		return;
+	}
+
+	shadowVolume = m_shadowVolume[ volumeIndex ][meshIndex];
+
+	if( shadowVolume == NULL )
+	{
+		return;
+	}
+
+	{
+		vertexCount = 0;
+		polygonCount = 0;
+
+		indicesPerMesh=m_numIndicesPerMesh[meshIndex];
+		if (!indicesPerMesh)
+			return;
+
+		Short *silhouetteIndices=m_silhouetteIndex[meshIndex];
+
+		Short stripStartIndex=silhouetteIndices[ 0 ];
+		Short stripStartVertex=0;
+
+		vertexCount=2;
+		Int lastEdgeVertex2Index=0;
+		Int lastExtrude2Index=1;
+
+		for( i = 0; i < indicesPerMesh; i += 2 )
+		{
+			Short currentEdgeEnd=silhouetteIndices[i+1];
+
+			for (k=i+2; k<indicesPerMesh; k+=2)
+				if (silhouetteIndices[k]==currentEdgeEnd)
+				{
+					Int tempIndex=*(Int *)(&silhouetteIndices[i+2]);
+					*(Int *)&silhouetteIndices[i+2]=*(Int *)&silhouetteIndices[k];
+					*(Int *)&silhouetteIndices[k]=tempIndex;
+					break;
+				}
+
+			if (k >= indicesPerMesh)
+			{
+				if (currentEdgeEnd == stripStartIndex)
+				{
+				}
+				else
+				{
+					lastEdgeVertex2Index=vertexCount;
+					lastExtrude2Index=vertexCount+1;
+					vertexCount += 2;
+				}
+
+				if ((i+2) >= indicesPerMesh)
+				{
+					polygonCount += 2;
+					break;
+				}
+
+				lastEdgeVertex2Index=vertexCount;
+				lastExtrude2Index=vertexCount + 1;
+				stripStartIndex=silhouetteIndices[ i+2 ];
+				stripStartVertex=lastEdgeVertex2Index;
+
+				vertexCount += 2;
+
+				polygonCount += 2;
+				continue;
+			}
+			else
+			{
+				lastEdgeVertex2Index=vertexCount;
+				lastExtrude2Index=vertexCount+1;
+
+				vertexCount += 2;
+				polygonCount += 2;
+			}
+		}
+	}
+
+	vbSlot=m_shadowVolumeVB[ volumeIndex ][meshIndex] = TheW3DBufferManager->getSlot(W3DBufferManager::VBM_FVF_XYZ,
+		vertexCount);
+
+	ibSlot=m_shadowVolumeIB[ volumeIndex ][meshIndex] = TheW3DBufferManager->getSlot(polygonCount*3);
+
+	if (!ibSlot || !vbSlot)
+	{
+		if (ibSlot)
+			TheW3DBufferManager->releaseSlot(ibSlot);
+		if (vbSlot)
+			TheW3DBufferManager->releaseSlot(vbSlot);
+
+		m_shadowVolumeIB[ volumeIndex ][meshIndex]=NULL;
+		m_shadowVolumeVB[ volumeIndex ][meshIndex]=NULL;
+		return;
+	}
+
+	geomMesh = &((Rva000F2D25GeometryView *)((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry)->m_meshList[meshIndex];
+
+	VertexBufferClass::AppendLockClass lockVtxBuffer(vbSlot->m_VB->m_DX8VertexBuffer,vbSlot->m_start,vertexCount);
+	VertexFormatXYZ *vb = (VertexFormatXYZ*)lockVtxBuffer.Get_Vertex_Array();
+
+	if (vb == NULL)
+		return;
+
+	IndexBufferClass::AppendLockClass lockIdxBuffer(ibSlot->m_IB->m_DX8IndexBuffer,ibSlot->m_start,polygonCount*3);
+	UnsignedShort *ib = (UnsignedShort*)lockIdxBuffer.Get_Index_Array();
+
+	if (ib == NULL)
+		return;
+
+	shadowVolume->SetNumActivePolygon(polygonCount);
+	shadowVolume->SetNumActiveVertex(vertexCount);
+
+	Short *silhouetteIndices=m_silhouetteIndex[meshIndex];
+
+	Short stripStartIndex=silhouetteIndices[ 0 ];
+	Short stripStartVertex=0;
+
+	const Vector3& ev=geomMesh->GetVertex( silhouetteIndices[ 0 ] );
+
+	extrude2 = VolumeSubtractArgs(ev, *lightPosObject);
+	extrude2 *= shadowExtrudeDistance;
+	extrude2 += ev;
+
+	*vb++ = *(VertexFormatXYZ *)&ev;
+	*vb++ = *(VertexFormatXYZ *)&extrude2;
+
+	vertexCount=2;
+	polygonCount=0;
+	Int lastEdgeVertex2Index=0;
+	Int lastExtrude2Index=1;
+
+	for( i = 0; i < indicesPerMesh; i += 2 )
+	{
+		Short currentEdgeEnd=silhouetteIndices[i+1];
+
+		if (((i+2) >= indicesPerMesh) || silhouetteIndices[i+2] != currentEdgeEnd)
+		{
+			if (currentEdgeEnd == stripStartIndex)
+			{
+				ib[ 0 ] = lastEdgeVertex2Index;
+				ib[ 4 ] = ib[ 1 ] = lastExtrude2Index;
+				ib[ 3 ] = ib[ 2 ] = stripStartVertex;
+				ib[ 5 ] = stripStartVertex+1;
+				ib += 6;
+			}
+			else
+			{
+				const Vector3& ev=geomMesh->GetVertex( currentEdgeEnd );
+				*vb++ = *(VertexFormatXYZ *)&ev;
+
+				ib[ 0 ] = lastEdgeVertex2Index;
+				ib[ 4 ] = ib[ 1 ] = lastExtrude2Index;
+				ib[ 3 ] = ib[ 2 ] = vertexCount;
+				ib[ 5 ] = vertexCount+1;
+				ib += 6;
+
+				extrude2 = VolumeSubtractArgs(ev, *lightPosObject);
+				extrude2 *= shadowExtrudeDistance;
+				extrude2 += ev;
+				*vb++ = *(VertexFormatXYZ *)&extrude2;
+
+				lastEdgeVertex2Index=vertexCount;
+				lastExtrude2Index=vertexCount+1;
+				vertexCount += 2;
+			}
+
+			if ((i+2) >= indicesPerMesh)
+			{
+				polygonCount += 2;
+				break;
+			}
+
+			const Vector3& evb=geomMesh->GetVertex( silhouetteIndices[ i+2 ] );
+			extrude2 = VolumeSubtractArgs(evb, *lightPosObject);
+			extrude2 *= shadowExtrudeDistance;
+			extrude2 += evb;
+
+			lastEdgeVertex2Index=vertexCount;
+			lastExtrude2Index=vertexCount + 1;
+			stripStartIndex=silhouetteIndices[ i+2 ];
+			stripStartVertex=lastEdgeVertex2Index;
+
+			*vb++ = *(VertexFormatXYZ *)&evb;
+			*vb++ = *(VertexFormatXYZ *)&extrude2;
+			vertexCount += 2;
+
+			polygonCount += 2;
+			continue;
+		}
+		else
+		{
+			const Vector3& ev=geomMesh->GetVertex( currentEdgeEnd );
+			*vb++ = *(VertexFormatXYZ *)&ev;
+			ib[ 0 ] = lastEdgeVertex2Index;
+			ib[ 4 ] = ib[ 1 ] = lastExtrude2Index;
+			ib[ 3 ] = ib[ 2 ] = vertexCount;
+			ib[ 5 ] = vertexCount+1;
+			ib += 6;
+
+			extrude2 = VolumeSubtractArgs(ev, *lightPosObject);
+			extrude2 *= shadowExtrudeDistance;
+			extrude2 += ev;
+
+			*vb++ = *(VertexFormatXYZ *)&extrude2;
+
+			lastEdgeVertex2Index=vertexCount;
+			lastExtrude2Index=vertexCount+1;
+
+			vertexCount += 2;
+			polygonCount += 2;
+		}
+	}
+}
 
 // ---- W6-MP1 r6 commute analysis (2026-10-13, 3369/3369 size-exact, 70 diffs, baseline re-measured) ----
 // Two systematic operand-order walls (both evaluate-swap flips, no size/structure/EH/calls diffs):
