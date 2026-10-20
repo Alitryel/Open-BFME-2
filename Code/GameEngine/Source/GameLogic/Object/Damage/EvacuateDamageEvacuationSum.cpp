@@ -36,6 +36,15 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
 
+// The proven list erase fold at 0x438539 releases its node via GameMemory.
+extern void __cdecl Rva00030830FreeAllocation(void *);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<EvacuationRecord> >::deallocate(pointer node,
+                                                        size_type) const
+{ if (node) Rva00030830FreeAllocation(node); }
+}
+
 class EvacuateDamageModuleData
 {
 public:

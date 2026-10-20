@@ -94,6 +94,16 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 { if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
 }
 
+// Native erase (0x438539) and list-base destruction (0x4EC395) both
+// release these nodes through GameMemory free rather than __node_alloc.
+extern void __cdecl Rva00030830FreeAllocation(void *);
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<ResizerWindow *> >::deallocate(pointer node,
+                                                        size_type) const
+{ if (node) Rva00030830FreeAllocation(node); }
+}
+
 
 ControlBarResizer::~ControlBarResizer( void )
 {

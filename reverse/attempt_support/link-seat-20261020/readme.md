@@ -25,3 +25,9 @@ inputs was possible, no pointer was advanced and no success stamp was written.
 The next freshness check remains due and should retry the baseline/update
 comparison when the shared full-build lock is available. Do not treat this
 blocker as an exhausted donor/reference lane.
+
+A later seat retried the baseline before its own changes: the shared lock
+again remained unavailable for about 87 seconds, then the waiting build was
+interrupted (exit 130). Log: build/link-seat-freshness-20261020b/before-byte.txt.
+The same verified pointer and upstream comparison were preserved; no success
+stamp or pointer update was made.
