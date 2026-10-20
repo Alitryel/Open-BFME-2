@@ -1,4 +1,5 @@
 // cl: /O1 /Ob1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /arch:SSE /G7 /Ireference/shims/bfme2_ascii
+// platformsdk
 //
 // GameEngine.cpp: GameEngine bodies retail links from this TU (tu_map
 // approved), folded from the frame-admission and stopHeadlessClients split
@@ -14,6 +15,7 @@
 // frame counter at +0x38, and maintains the headroom limit at +0x44.
 
 #include <windows.h>
+#include <stdio.h>
 #include <string.h>
 #include "ascii_string.h"
 #include "GameLogicObjectLookupView.h"
