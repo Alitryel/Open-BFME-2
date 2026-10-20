@@ -27,11 +27,17 @@ namespace _STL { template <> void vector<Object *, allocator<Object *> >::_M_ins
 
 class Object;
 
+// 0x004DFF2C is rowed as ?rva004DFF2C@Rva004DFF2C@@QAEXPAX@Z; bind to that row.
+class Rva004DFF2C
+{
+public:
+	void rva004DFF2C(void *object);
+};
+
 class Rva004E00BAOwner
 {
 public:
 	void addObject(Object *object);
-	void rva004DFF2C(Object *object);
 
 private:
 	unsigned int m_opaquePrefix;
@@ -41,5 +47,5 @@ private:
 void Rva004E00BAOwner::addObject(Object *object)
 {
 	m_objects.push_back(object);
-	rva004DFF2C(object);
+	reinterpret_cast<Rva004DFF2C *>(this)->rva004DFF2C(object);
 }
