@@ -39,7 +39,12 @@ public:
 	bool Release_Head(void);
 };
 
-class BfmeRefSceneList : public RefMultiListClass<RenderObjClass>
+// This address-scoped owner is the ref-counted list itself: its destructor
+// drains the list and then calls GenericMultiListClass directly. Introducing
+// an empty RefMultiListClass base emits conflicting template constructors and
+// destructors; the reference template's real destructor also drains the list.
+// Use its already-rowed Release_Head method only as a layout-compatible view.
+class BfmeRefSceneList : public GenericMultiListClass
 {
 public:
 	BfmeRefSceneList();
@@ -47,8 +52,9 @@ public:
 };
 
 // ??0BfmeRefSceneList@@QAE@XZ, retail 0x0006E518 (18B): the rowed
-// GenericMultiListClass constructor 0x00065815 (RefMultiListClass's own is
-// empty) then vtable 0x00BC6260, the one the destructor below restores.
+// GenericMultiListClass constructor 0x00065815 then vtable 0x00BC6260,
+// the one the destructor below restores. This direct base also agrees
+// with the existing BfmeRefSceneList view in RTS3DSceneCtor.cpp.
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline BfmeRefSceneList::BfmeRefSceneList()
@@ -64,5 +70,5 @@ void *bfmeAnchorBfmeRefSceneListCtor(void *where)
 BfmeRefSceneList::~BfmeRefSceneList()
 {
 	while (!Is_Empty())
-		Release_Head();
+		reinterpret_cast<RefMultiListClass<RenderObjClass> *>(this)->Release_Head();
 }
