@@ -1,4 +1,6 @@
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
+// partial score=0.9988 date=2026-10-20
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.991 date=2026-10-19
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.9902048085485308 date=2026-10-19
@@ -457,9 +459,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	Vector3 objectCenter;
 	Vector3 toLight;
 	Vector3 toPrevLight;
-	Vector3 prevPosToLight;
 	Vector3 lightPosWorld;
-	Vector3 prevObjPosition;
 	//Figuring out if mesh has rotated is cheaper (no normalization) than figuring out if light angle has changed.
 	//So we divide the 2 tests.  Also, our light (sun) almost never moves so no second test needed at all.
 	Bool isMeshRotating = false;	//flag if mesh has rotated since last update. Translation doesn't matter for infinite light source.
@@ -481,7 +481,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	};
 	Rva007BE000GeometryView *geometryView = (Rva007BE000GeometryView *)
 		((W3DVolumetricShadow *)((char *)this + 0x30))->m_geometry;
-	if (*(unsigned char *)(meshIndex * sizeof(Rva007BE000MeshRecordView) + (unsigned int)geometryView + 0x44))
+	if (geometryView->m_meshes[meshIndex].m_field30)
 	{
 		isMeshRotating = true;
 		allocationFlags = 1;
@@ -585,8 +585,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		toLight.Normalize();
 
 		// compute vector from the previous light to the object position
-		Vector3::Subtract(objectCenter, m_lightPosHistory[ lightIndex ][meshIndex], &lightPosObject);
-		toPrevLight = lightPosObject;
+		toPrevLight = objectCenter - m_lightPosHistory[ lightIndex ][meshIndex];
 		toPrevLight.Normalize();
 
 		Real cosAngle = fabs (Vector3::Dot_Product(toLight,toPrevLight));
@@ -755,6 +754,16 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	}
 }
 
+// Visibility stand-ins: retail's unit defines these three callees, so &lightPosObject does not
+// escape; replace with byte-faithful __declspec(noinline) inline copies before landing.
+void __cdecl Rva000F2FFAOpaqueUse(int);
+__declspec(noinline) inline void W3DVolumetricShadow::buildSilhouette(Int meshIndex, Vector3 *lightPosObject)
+{ Rva000F2FFAOpaqueUse((int)lightPosObject->X); m_numSilhouetteIndices[meshIndex] = 0; }
+__declspec(noinline) inline void W3DVolumetricShadow::constructVolume(Vector3 *lightPosObject, Real extrude, Int volumeIndex, Int meshIndex)
+{ Rva000F2FFAOpaqueUse((int)(lightPosObject->X + extrude) + volumeIndex + meshIndex); }
+__declspec(noinline) inline void W3DVolumetricShadow::constructVolumeVB(Vector3 *lightPosObject, Real extrude, Int volumeIndex, Int meshIndex)
+{ Rva000F2FFAOpaqueUse((int)(lightPosObject->Y + extrude) + volumeIndex + meshIndex); }
+
 // ---- W6-MP1 r6 commute analysis (2026-10-13, 3369/3369 size-exact, 70 diffs, baseline re-measured) ----
 // Two systematic operand-order walls (both evaluate-swap flips, no size/structure/EH/calls diffs):
 // (1) x87 FMUL pair (~0xF3121): retail fld [ebp-0x48]; fmul [edi+0x14]; fld [ebp-0x44]; fmul [edi+0x18]
@@ -798,3 +807,12 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 // Plain toPrevLight (true WB form) puts the operator- temp at +0x30 (shared with sphere) instead
 // of retail's lightPosObject slot -0x1C; scope variants (toLight/toPrevLight in-block, det/sphere/
 // Corners/lightRay at function scope, named delta) do not move it.
+
+// ---- f2w5 callee-visibility pass (2026-10-20, claude-opus-5-5) ----
+// With buildSilhouette, constructVolume and constructVolumeVB defined in the unit, cl 7.1 treats
+// lightPosObject as unaliased; the plain donor `toPrevLight = objectCenter - history` temp then
+// shares lightPosObject's -0x1C slot and every frame home matches retail (any two of the three
+// visible leave the old frame). The Subtract-into-lightPosObject form and the dead locals
+// prevPosToLight/prevObjPosition are dropped: with visible callees the dead locals reschedule the
+// Corners block. Remaining: row-1 Dot_Product x87 pair (f3121). Handoff:
+// reverse/attempt_support/updatemeshvolume-f2ffa-20261020-w5.md.
