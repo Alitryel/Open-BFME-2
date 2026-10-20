@@ -4,7 +4,7 @@
 // STLport 4.5.3 map::operator[] for the weapon SparseMatchFinder map. Retail calls the
 // rowed _M_lower_bound 0x0033B7D0 and comparator 0x0033AD5C, copies the key through the
 // rowed out-of-line fixed-storage copy 0x002CF0F0, and inserts through the shared hint
-// insert wrapper 0x0033CBAD whose ledger name is the int-keyed instantiation (ICF).
+// insert wrapper 0x0033CBAD under the same actual WeaponMap17 specialization.
 #define _STLP_NO_EXCEPTIONS
 #include <map>
 class WeaponTemplateSet;
@@ -56,18 +56,8 @@ typedef SparseMatchFinder<WeaponTemplateSet, WeaponFlags17>::MapHelper WeaponMap
 typedef _STL::map<const WeaponFlags17, const WeaponTemplateSet *, WeaponMapHelper17,
 	_STL::allocator<WeaponPair17> > WeaponMap17;
 
-struct Rva0033CBADRecord { char bytes[1]; };
-typedef _STL::map<int, Rva0033CBADRecord, _STL::less<int>,
-	_STL::allocator<_STL::pair<const int, Rva0033CBADRecord> > > Rva0033CBADMap;
 namespace _STL {
 template <> __forceinline WeaponPair17::pair(const WeaponFlags17 &k, const WeaponTemplateSet *const &v) : first(k), second(v) {}
-template <> Rva0033CBADMap::iterator Rva0033CBADMap::insert(iterator, const value_type &);
-typedef Rva0033CBADMap::iterator (Rva0033CBADMap::*IntInsertFn)(Rva0033CBADMap::iterator, const Rva0033CBADMap::value_type &);
-typedef WeaponMap17::iterator (Rva0033CBADMap::*WeaponInsertFn)(WeaponMap17::iterator, const WeaponMap17::value_type &);
-template <> __forceinline WeaponMap17::iterator WeaponMap17::insert(iterator pos, const value_type &value)
-{
-	IntInsertFn real = &Rva0033CBADMap::insert;
-	return (reinterpret_cast<Rva0033CBADMap *>(this)->*reinterpret_cast<WeaponInsertFn &>(real))(pos, value);
-}
+template <> WeaponMap17::iterator WeaponMap17::insert(iterator pos, const value_type &value);
 }
 template const WeaponTemplateSet *&WeaponMap17::operator[](const WeaponFlags17 &);

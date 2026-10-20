@@ -24,3 +24,36 @@ void *__stdcall Rva002CF86FCreate(const Rva002CF13B *src)
 	Rva002CF36ECopy((Rva002CF13B *)(block + 0x10), src);
 	return block;
 }
+
+// The weapon SparseMatchFinder map reaches this same 24-byte-node creator
+// through its 0x0033C0E1 insertion worker. Its 8-byte value consists of the
+// existing 4-byte fixed-storage key and mapped pointer. Emit the real member
+// contract separately from its callers so their native this setup is retained.
+// BitFlags<17> preserves the established ledger spelling, not a new claim about
+// the original template count (the verified comparator examines 21 bits).
+class WeaponTemplateSet;
+class BfmeFixedStorage002CF0F0 {
+    char m_bytes[4];
+public:
+    __declspec(nothrow) BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &);
+};
+template <int BitCount> class BitFlags {
+public:
+    unsigned int m_flagWords[(BitCount+31)/32];
+    __forceinline BitFlags(const BitFlags &that) {
+        new (this) BfmeFixedStorage002CF0F0(*reinterpret_cast<const BfmeFixedStorage002CF0F0 *>(&that));
+    }
+};
+template <class MatchableType, class FlagSet> class SparseMatchFinder { public: struct MapHelper { bool operator()(const FlagSet &, const FlagSet &) const; }; };
+typedef BitFlags<17> WeaponFlags17;
+typedef _STL::pair<const WeaponFlags17,const WeaponTemplateSet *> WeaponPair17;
+typedef SparseMatchFinder<WeaponTemplateSet,WeaponFlags17>::MapHelper WeaponMapHelper17;
+typedef _STL::_Rb_tree<const WeaponFlags17,WeaponPair17,_STL::_Select1st<WeaponPair17>,WeaponMapHelper17,_STL::allocator<WeaponPair17> > WeaponTree17;
+template <> __declspec(noinline) WeaponTree17::_Link_type WeaponTree17::_M_create_node(const WeaponPair17 &value) {
+ typedef char WeaponPairSizeCheck[sizeof(WeaponPair17)==8?1:-1];
+ typedef char WeaponNodeSizeCheck[sizeof(WeaponTree17::_Node)==0x18?1:-1];
+ char *block = _STL::allocator<char>::allocate(0x18, 0);
+ Rva002CF36ECopy(reinterpret_cast<Rva002CF13B *>(block+0x10), reinterpret_cast<const Rva002CF13B *>(&value));
+ return reinterpret_cast<WeaponTree17::_Link_type>(block);
+}
+template WeaponTree17::_Link_type WeaponTree17::_M_create_node(const WeaponPair17 &value);

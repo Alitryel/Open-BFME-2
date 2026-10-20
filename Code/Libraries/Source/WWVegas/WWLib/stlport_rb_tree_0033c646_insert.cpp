@@ -1,26 +1,61 @@
 // cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?insert_unique@?$_Rb_tree@URva0033C646Key@@...@QAE?AU?$_Rb_tree_iterator@...@2@U32@ABURva0033C646Key@@@Z
-// retail 0x0033C646 449B: the hinted insert_unique of a second tree.
-// Evidence: byte-identical to the rowed Rva00568FE4 tree's hinted insert in
-// stlport_rb_tree_10byte_key_568fe4_insert.cpp except its calls. Its eight
-// comparator calls read 0x0033AD5C, the rowed
-// SparseMatchFinder<WeaponTemplateSet,BitFlags<17>>::MapHelper::operator(),
-// its _M_insert call reads 0x0033C0E1 and its unhinted insert_unique reads
-// 0x0033C176, next to it rather than near 0x00568FE4. So the tree is likely
-// that match finder's map; the key, comparator and tree names here are
-// generated and reuse the 568FE4 view only for its code shape.
+// SparseMatchFinder weapon-map identity is established by the native chain
+// operator[] 0x0033D19B -> map::insert 0x0033CBAD -> hinted tree insertion
+// 0x0033C646. Zero Hour SparseMatchFinder.h supplies map<const BITSET,
+// const MATCHABLE*, MapHelper>; native 0x002CF86F allocates a 24-byte node
+// containing an 8-byte key/pointer value. The old float/int views were wrong.
+// BitFlags<17> retains the existing ledger spelling; the native comparator
+// independently examines 21 bits. This does not recover the original count.
+// Reference: pinned BFME1 92f6bbe8 and its GeneralsMD SparseMatchFinder.h;
+// generic insertion comes from this repository's STLport 4.5.3 _tree.c.
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
-#include <set>
-struct Rva0033C646Key { float x; float y; unsigned short w; unsigned short pad; };
-struct Rva0033C646Less {
-  bool operator()(const Rva0033C646Key &a, const Rva0033C646Key &b) const {
-    if (a.x < b.x) return false;
-    if (a.x > b.x) return true;
-    if (a.y < b.y) return false;
-    if (a.y > b.y) return true;
-    return a.w < b.w;
-  }
+#include <map>
+class WeaponTemplateSet;
+class BfmeFixedStorage002CF0F0 {
+    char m_bytes[4];
+public:
+    __declspec(nothrow) BfmeFixedStorage002CF0F0(const BfmeFixedStorage002CF0F0 &);
 };
-typedef _STL::_Rb_tree<Rva0033C646Key, Rva0033C646Key, _STL::_Identity<Rva0033C646Key>, Rva0033C646Less, _STL::allocator<Rva0033C646Key> > Rva0033C646Tree;
-template Rva0033C646Tree::iterator Rva0033C646Tree::insert_unique(Rva0033C646Tree::iterator, const Rva0033C646Tree::value_type &);
+
+template <int BitCount>
+class BitFlags
+{
+public:
+	unsigned int m_flagWords[(BitCount + 31) / 32];
+	__forceinline BitFlags(const BitFlags &that)
+	{
+		new (this) BfmeFixedStorage002CF0F0(*reinterpret_cast<const BfmeFixedStorage002CF0F0 *>(&that));
+	}
+};
+template <class MatchableType, class FlagSet>
+class SparseMatchFinder
+{
+public:
+	struct MapHelper
+	{
+		bool operator()(const FlagSet &a, const FlagSet &b) const
+		{
+			for (int i = 0; i < 21; ++i)
+			{
+				bool aBit = (a.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				bool bBit = (b.m_flagWords[(unsigned)i >> 5] & (1u << (i & 31))) != 0;
+				if (aBit && bBit)
+					continue;
+				if (!aBit && !bBit)
+					continue;
+				if (!aBit)
+					return true;
+				return false;
+			}
+			return false;
+		}
+	};
+};
+typedef BitFlags<17> WeaponFlags17;
+typedef _STL::pair<const WeaponFlags17,const WeaponTemplateSet *> WeaponPair17;
+typedef SparseMatchFinder<WeaponTemplateSet,WeaponFlags17>::MapHelper WeaponMapHelper17;
+typedef _STL::_Rb_tree<const WeaponFlags17,WeaponPair17,_STL::_Select1st<WeaponPair17>,WeaponMapHelper17,_STL::allocator<WeaponPair17> > WeaponTree17;
+template <> WeaponTree17::_Link_type WeaponTree17::_M_create_node(const WeaponPair17 &value);
+template WeaponTree17::iterator WeaponTree17::insert_unique(WeaponTree17::iterator,const WeaponPair17 &);
+template _STL::pair<WeaponTree17::iterator,bool> WeaponTree17::insert_unique(const WeaponPair17 &);
