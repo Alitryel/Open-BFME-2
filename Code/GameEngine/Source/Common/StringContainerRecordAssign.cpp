@@ -6,6 +6,10 @@
 // 0x0004BEA7; neighbours 0x0004B193 0x0004B205.
 #include <vector>
 #include "ascii_string.h"
+// Suppress this TU's non-retail copy of ??$__destroy_aux@PAUBfmeContainerRecord00048139@@@_STL@@YAXPAUBfmeContainerRecord00048139@:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmeContainerRecord00048139;
+namespace _STL { template <> void __destroy_aux<BfmeContainerRecord00048139 *>(BfmeContainerRecord00048139 *,BfmeContainerRecord00048139 *,__false_type const &); }
 
 struct BfmeContainerRecord00048139 {
 	AsciiString text0;
