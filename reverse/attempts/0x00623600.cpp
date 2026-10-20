@@ -1,5 +1,5 @@
-// ?LoadAsset@AssetManagerImpl@@QAEXPAVAssetLoadEntry@@@Z
-// partial score=0.7 date=2026-10-17
+// ?LoadAsset@AssetManagerImpl@@QAEXPAVRva009EF0D0Element@@@Z
+// partial score=0.9 date=2026-10-20
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
 // ?LoadAsset@AssetManagerImpl@@QAEXPAVAssetLoadEntry@@@Z
@@ -14,7 +14,10 @@
 // scoped CS lock (EH states 2/3), Queue_Keys(true), out-of-line push_back_aux
 // 0x621620, inline pop_back_aux, set-group ctor, static freq, shifted type code.
 // Remaining: retail keeps this in ebp / asset in edi, frame 0x84 (mine 0x8c).
+// 2026-10-20 (claude-opus-5-5): Rva000309B0 is the pinned scoped ctor/dtor pair, as in GameEngineInit.cpp.
+// The tInit column reads t[8] (retail +0x40 from t[0]); the fourcc buffer is char[5]; phase gaps print when t[i] < t[i+1].
 
+#define _STLP_USE_MALLOC 1
 #define _STLP_NO_CSTD_FUNCTION_IMPORTS 1
 namespace _STL { void __cdecl free(void *); }
 
@@ -61,7 +64,15 @@ template <> inline void deque<int>::_M_reallocate_map(unsigned nodesToAdd, bool 
     _M_start._M_set_node(newStart);
     _M_finish._M_set_node(newStart + oldNumNodes - 1);
 }
-template <> void deque<int>::_M_push_back_aux_v(const int &value);
+template <> inline void deque<int>::_M_push_back_aux_v(const int &value) {
+    int copy = value;
+    if (2 > _M_map_size._M_data - (unsigned)(_M_finish._M_node - _M_map._M_data))
+        _M_reallocate_map(1, false);
+    *(_M_finish._M_node + 1) = (int *)allocator<char>::allocate(0x80, 0);
+    if (_M_finish._M_cur) *_M_finish._M_cur = copy;
+    _M_finish._M_set_node(_M_finish._M_node + 1);
+    _M_finish._M_cur = _M_finish._M_first;
+}
 template <> inline void deque<int>::_M_push_front_aux_v(const int &value) {
     int copy = value;
     if (1 > (unsigned)(_M_start._M_node - _M_map._M_data))
@@ -93,18 +104,11 @@ typedef _STL::map<int, void *> AssetKeyMap;
 
 struct AssetSetGroup
 {
+	AssetSetGroup() : m_count(0), m_active(true) {}
 	Rva001408C0Set m_tree;
 	unsigned int m_count;
 	bool m_active;
 	unsigned char m_padding[3];
-
-	AssetSetGroup() { clear(); }
-
-	void clear()
-	{
-		m_count = 0;
-		m_active = true;
-	}
 };
 
 class Rva009EF0D0Element
@@ -130,24 +134,29 @@ public:
 	{
 		volatile unsigned int m_bfmeFlags;
 		volatile unsigned int m_bfmeFlagsShared;
+		struct
+		{
+			volatile unsigned int m_bfmeLow : 16;
+			volatile unsigned int m_bfmeState : 8;
+			volatile unsigned int m_bfmeBit24 : 1;
+			volatile unsigned int m_bfmeQueued : 1;
+			volatile unsigned int m_bfmeBit26 : 1;
+			volatile unsigned int m_bfmeHigh : 5;
+		};
 	};
-	void *m_bfmeEntry;		// +0x08
+	Rva001408C0Key m_assetID;	// +0x08
 	Rva001408C0Key *m_bfmeKeys;	// +0x0C
 };
 
 typedef _STL::deque<int> AssetQueue;
 
-class Rva000309B0 {
-    void *m_previous;
+class Rva000309B0
+{
 public:
-    Rva000309B0 *rva00030980(void *value);
-    void rva000309B0();
-};
-class AssetHeapScope {
-    Rva000309B0 m_slot;
-public:
-    __forceinline AssetHeapScope(unsigned value) { m_slot.rva00030980((void *)value); }
-    __forceinline ~AssetHeapScope() { m_slot.rva000309B0(); }
+	Rva000309B0(unsigned int tag);
+	~Rva000309B0();
+private:
+	unsigned int m_tag;
 };
 
 int bfmeRva0011F600();
@@ -205,6 +214,8 @@ extern char g_bfmeProfilePrevFile[];
 extern int g_bfmeProfileFrame;
 extern Rva009EF0D0Element *g_bfmeProfileAssets[];
 extern int g_bfmeProfileCount;
+extern __int64 g_bfmeProfileFreq;
+extern char g_bfmeProfileFreqInit;
 __int64 rva0061FCE0GetClockCyclesFast(void) throw();
 // Same helper as the committed Rva0061FFD0Cluster.cpp / BFME1 profile.cpp:
 // inline rdtsc is compiler machinery (the retail bytes are this exact body).
@@ -223,15 +234,7 @@ __forceinline void ProfileGetTime(__int64 &t)
 	};
 }
 
-class AssetLock
-{
-	CRITICAL_SECTION *m_cs;
-public:
-	__forceinline AssetLock(CRITICAL_SECTION *cs) : m_cs(cs) { EnterCriticalSection(cs); }
-	__forceinline ~AssetLock() { LeaveCriticalSection(m_cs); }
-};
-
-class AssetRegistry
+class AssetManagerImpl
 {
 public:
 	void Worker_Thread_00622480();
@@ -281,9 +284,15 @@ private:
 	unsigned char m_padding1f7;
 };
 
-void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
+class CriticalSectionLock {
+public:
+    explicit CriticalSectionLock(CRITICAL_SECTION *lock) : m_lock(lock) { EnterCriticalSection(m_lock); }
+    ~CriticalSectionLock() { LeaveCriticalSection(m_lock); }
+    CRITICAL_SECTION *m_lock;
+};
+void AssetManagerImpl::LoadAsset(Rva009EF0D0Element *asset)
 {
-	if (!asset->m_bfmeEntry || (asset->m_bfmeFlagsShared & 0xff0000) == 0x30000)
+	if (!asset->m_assetID || asset->m_bfmeState == 3)
 		return;
 
 	__int64 tStart;
@@ -294,10 +303,10 @@ void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
 	}
 
 	EnterCriticalSection(&m_lock68);
-	if (((AssetKeyMap *)&m_set198)->find((int)(size_t)asset->m_bfmeEntry) == ((AssetKeyMap *)&m_set198)->end() &&
-		!(asset->m_bfmeFlagsShared & 0x4000000))
+	if (((AssetKeyMap *)&m_set198)->find((int)(size_t)asset->m_assetID) == ((AssetKeyMap *)&m_set198)->end() &&
+		!asset->m_bfmeBit26)
 	{
-		m_set1d4.m_tree.insert((Rva001408C0Key)asset->m_bfmeEntry);
+		m_set1d4.m_tree.insert(asset->m_assetID);
 		if (!m_flag1f5)
 			return;
 		if (m_flag1f6)
@@ -316,22 +325,22 @@ void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
 					->Finish(2);
 			}
 		}
-		m_set198.m_tree.insert((Rva001408C0Key)asset->m_bfmeEntry);
+		m_set198.m_tree.insert(asset->m_assetID);
 	}
 
-	while (((asset->m_bfmeFlagsShared & 0xff0000) == 0x10000 ||
-		(asset->m_bfmeFlagsShared & 0xff0000) == 0x50000) &&
-		m_deques80[(asset->m_bfmeFlagsShared >> 16) & 0xff].front() == (int)asset &&
+	while ((asset->m_bfmeState == 1 ||
+		asset->m_bfmeState == 5) &&
+		m_deques80[asset->m_bfmeState].front() == (int)asset &&
 		m_flag1f4)
 	{
 		WaitForQueue();
 	}
-	while ((asset->m_bfmeFlagsShared & 0xff0000) == 0x80000)
+	while (asset->m_bfmeState == 8)
 	{
 		WaitForQueue();
 	}
 
-	unsigned int queue = (asset->m_bfmeFlagsShared >> 16) & 0xff;
+	unsigned int queue = asset->m_bfmeState;
 	if (queue != 7)
 	{
 		unsigned int i = 0;
@@ -356,41 +365,41 @@ void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
 			t[k] = t[0];
 	}
 
-	asset->m_bfmeFlags |= 0x2000000;
-	AssetHeapScope heap(0x61737374);
+	asset->m_bfmeQueued = 1;
+	Rva000309B0 heap(0x61737374);
 	if (queue == 7)
-		asset->m_bfmeFlags &= 0xff00ffff;
+		asset->m_bfmeState = 0;
 
-	switch ((asset->m_bfmeFlagsShared >> 16) & 0xff)
+	switch (asset->m_bfmeState)
 	{
 	case 4:
 		m_totalCount += asset->slot38();
-		asset->m_bfmeFlags = (asset->m_bfmeFlagsShared & 0xff03ffff) | 0x30000;
+		asset->m_bfmeState = 3;
 		break;
 	case 5:
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 		asset->slot18();
-		asset->m_bfmeFlags = (asset->m_bfmeFlagsShared & 0xff06ffff) | 0x60000;
+		asset->m_bfmeState = 6;
 	case 6:
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 		asset->slot1C();
-		asset->m_bfmeFlags = asset->m_bfmeFlagsShared & 0xff00ffff;
+		asset->m_bfmeState = 0;
 	case 0:
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 		asset->slot04();
-		asset->m_bfmeFlags = (asset->m_bfmeFlagsShared & 0xff01ffff) | 0x10000;
+		asset->m_bfmeState = 1;
 	case 1:
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 		asset->slot08();
-		asset->m_bfmeFlags = (asset->m_bfmeFlagsShared & 0xff02ffff) | 0x20000;
+		asset->m_bfmeState = 2;
 		m_totalCount += asset->slot38();
 	case 2:
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 		asset->slot0C();
 		{
 			AssetSetGroup set;
@@ -404,38 +413,33 @@ void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
 			}
 			if (set.m_tree.size() != 0)
 			{
-				AssetLock lock(&m_lock68);
+				CriticalSectionLock lock(&m_lock68);
 				Queue_Keys_00622680(true, set.m_tree);
 			}
 		}
-		asset->m_bfmeFlags = (asset->m_bfmeFlagsShared & 0xff03ffff) | 0x30000;
+		asset->m_bfmeState = 3;
 		if (g_bfmeProfileFile[0])
-			ProfileGetTime(t[(asset->m_bfmeFlagsShared >> 16) & 0xff]);
+			ProfileGetTime(t[asset->m_bfmeState]);
 	default:
 		break;
 	}
 
-	AssetLock lock(&m_lock68);
+	CriticalSectionLock lock(&m_lock68);
 	m_deques80[3].push_back((int)asset);
 	if (g_bfmeProfileFile[0])
 	{
-		static __int64 g_bfmeProfileFreq = rva0061FCE0GetClockCyclesFast();
+		static __int64 s_profileFreq = rva0061FCE0GetClockCyclesFast();
 		__int64 tEnd;
 		ProfileGetTime(tEnd);
-		char type[8];
+		char type[5];
 		unsigned code = asset->slot34();
 		int n = 0;
-		if (code >> 24)
-			type[n++] = (char)(code >> 24);
-		code <<= 8;
-		if (code >> 24)
-			type[n++] = (char)(code >> 24);
-		code <<= 8;
-		if (code >> 24)
-			type[n++] = (char)(code >> 24);
-		code <<= 8;
-		if (code >> 24)
-			type[n++] = (char)(code >> 24);
+		for (int b = 0; b < 4; ++b)
+		{
+			if (code >> 24)
+				type[n++] = (char)(code >> 24);
+			code <<= 8;
+		}
 		type[n] = 0;
 		FILE *f;
 		if (strcmp(g_bfmeProfileFile, g_bfmeProfilePrevFile) != 0)
@@ -454,20 +458,20 @@ void AssetRegistry::LoadAsset(Rva009EF0D0Element *asset)
 			fprintf(f, "%s%s", k ? "/" : "", g_bfmeProfileAssets[k]->slot00());
 		}
 		fprintf(f, "\"");
-		fprintf(f, ",%.3lf", (double)(t[0] - tStart) / ((double)g_bfmeProfileFreq * 0.001));
+		fprintf(f, ",%.3lf", (double)(t[8] - tStart) / ((double)s_profileFreq * 0.001));
 		if (t[0] < t[1])
-			fprintf(f, ",%.3lf", (double)(t[1] - t[0]) / ((double)g_bfmeProfileFreq * 0.001));
+			fprintf(f, ",%.3lf", (double)(t[1] - t[0]) / ((double)s_profileFreq * 0.001));
 		else
 			fprintf(f, ",");
 		if (t[1] < t[2])
-			fprintf(f, ",%.3lf", (double)(t[2] - t[1]) / ((double)g_bfmeProfileFreq * 0.001));
+			fprintf(f, ",%.3lf", (double)(t[2] - t[1]) / ((double)s_profileFreq * 0.001));
 		else
 			fprintf(f, ",");
 		if (t[2] < t[3])
-			fprintf(f, ",%.3lf", (double)(t[3] - t[2]) / ((double)g_bfmeProfileFreq * 0.001));
+			fprintf(f, ",%.3lf", (double)(t[3] - t[2]) / ((double)s_profileFreq * 0.001));
 		else
 			fprintf(f, ",");
-		fprintf(f, ",%.3lf,%i\n", (double)(tEnd - tStart) / ((double)g_bfmeProfileFreq * 0.001), g_bfmeProfileCount);
+		fprintf(f, ",%.3lf,%i\n", (double)(tEnd - tStart) / ((double)s_profileFreq * 0.001), g_bfmeProfileCount);
 		fclose(f);
 		--g_bfmeProfileCount;
 	}
