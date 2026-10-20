@@ -1,5 +1,5 @@
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
-// partial score=0.9341 date=2026-10-20
+// partial score=0.9481 date=2026-10-20
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
 // partial score=0.9337 date=2026-10-20
 // ?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z
@@ -52,17 +52,31 @@
 #include "vector4.h"
 #include "matrix4.h"
 #include "matrix3d.h"
-struct RenderStateStruct { unsigned char opaque[0x22C]; Matrix4 view; };
+struct RenderStateStruct { unsigned char opaque[0x1EC]; Matrix4 world; Matrix4 view; };
 class DX8Wrapper { public:
- static __forceinline void Get_Transform(int,Matrix4& v) {
-  if(render_state_changed&(1<<19)) v.Make_Identity();
-  else v=render_state.view.Transpose();
+ static __forceinline void Get_Transform(int transform,Matrix4& m) {
+  switch (transform) {
+	case 0x100:
+		if (render_state_changed&(1<<18)) m.Make_Identity();
+		else m=render_state.world.Transpose();
+		break;
+	case 2:
+		if (render_state_changed&(1<<19)) m.Make_Identity();
+		else m=render_state.view.Transpose();
+		break;
+	case 3:
+		m=ProjectionMatrix.Transpose();
+		break;
+	default:
+		m.Make_Identity();
+		break;
+  }
  }
  static __forceinline void Get_Transform(int,Matrix3D& v) {
   if(render_state_changed&(1<<19)) v.Make_Identity();
   else {v[0][0]=render_state.view[0][0];v[0][1]=render_state.view[1][0];v[0][2]=render_state.view[2][0];v[0][3]=render_state.view[3][0];v[1][0]=render_state.view[0][1];v[1][1]=render_state.view[1][1];v[1][2]=render_state.view[2][1];v[1][3]=render_state.view[3][1];v[2][0]=render_state.view[0][2];v[2][1]=render_state.view[1][2];v[2][2]=render_state.view[2][2];v[2][3]=render_state.view[3][2];}
  }
-private: static RenderStateStruct render_state; static unsigned render_state_changed;
+private: static Matrix4 ProjectionMatrix; static RenderStateStruct render_state; static unsigned render_state_changed;
 };
 #include "ww3d.h"
 #include <d3dx8.h>
@@ -111,21 +125,39 @@ private:
   static Vector2 *_QuadVertexUVFrameTable[5];
 };
 
-void PointGroupClass::rva009148C0(Vector3*point_loc,float*point_size,unsigned char*point_orientation,int active_points) {
-int unused0 = 0;
-int unused1 = 0;
-int unused2 = 0;
-	int i, j;
-	Vector3 *vertex_loc = &VertexLoc[0];
-
-	/*
-	** Generate the vertex locations from the point locations (note that both are in camera space).
-	** Vertex locations depend on the point mode and the points' orientation and size
-	*/
-
-	// This defines the loop we run: the LSB indicates whether there is a size override array, the
-	// next bit indicates whether there is an orientation override array, and the higher bits
-	// indicate the point mode.
+void PointGroupClass::rva009148C0(Vector3 *point_loc, float *point_size, unsigned char *point_orientation, int active_points)
+{
+	int dztop0 = 0;
+	int dztop1 = 0;
+	int dztop2 = 0;
+	int dztop3 = 0;
+	int dztop4 = 0;
+	int dztop5 = 0;
+	int dztop6 = 0;
+	int dztop7 = 0;
+	int dztop8 = 0;
+	int dztop9 = 0;
+	int dztop10 = 0;
+	int dztop11 = 0;
+	int dztop12 = 0;
+	int dztop13 = 0;
+	int dztop14 = 0;
+	int dztop15 = 0;
+	int dztop16 = 0;
+	int dztop17 = 0;
+	int dztop18 = 0;
+	int dztop19 = 0;
+	int dztop20 = 0;
+	int dztop21 = 0;
+	int dztop22 = 0;
+	int dztop23 = 0;
+	int dztop24 = 0;
+	int dztop25 = 0;
+	int dztop26 = 0;
+	int dztop27 = 0;
+	int dztop28 = 0;
+	int dztop29 = 0;
+	int dztop30 = 0;
 	enum LoopSelectionEnum {
 		TRIS_NOSIZE_NOORIENT		= ((int)TRIS << 2) + 0,
 		TRIS_SIZE_NOORIENT		= ((int)TRIS << 2) + 1,
@@ -142,9 +174,7 @@ int unused2 = 0;
 	};
 	LoopSelectionEnum loop_sel = (LoopSelectionEnum)(((int)PointMode << 2) +
 		(point_orientation ? 2 : 0) + (point_size ? 1 : 0));
-
-	
-
+	Vector3 *vertex_loc = &VertexLoc[0];
 
 	/// @todo lorenzen sez: this switch statement may be done more compactly another way... look into it
 
@@ -152,311 +182,296 @@ int unused2 = 0;
 
 		case TRIS_NOSIZE_NOORIENT:
 			{
-Vector3 scaled_offset[3];
-scaled_offset[0] = _TriVertexLocationOrientationTable[DefaultPointOrientation][0] * DefaultPointSize;
-scaled_offset[1] = _TriVertexLocationOrientationTable[DefaultPointOrientation][1] * DefaultPointSize;
-scaled_offset[2] = _TriVertexLocationOrientationTable[DefaultPointOrientation][2] * DefaultPointSize;
-for (int i = 0; i < active_points; i++, point_loc++, vertex_loc += 3) {
-vertex_loc[0].X = point_loc->X + scaled_offset[0].X;
-vertex_loc[0].Y = point_loc->Y + scaled_offset[0].Y;
-vertex_loc[0].Z = point_loc->Z + scaled_offset[0].Z;
-vertex_loc[1].X = point_loc->X + scaled_offset[1].X;
-vertex_loc[1].Y = point_loc->Y + scaled_offset[1].Y;
-vertex_loc[1].Z = point_loc->Z + scaled_offset[1].Z;
-vertex_loc[2].X = point_loc->X + scaled_offset[2].X;
-vertex_loc[2].Y = point_loc->Y + scaled_offset[2].Y;
-vertex_loc[2].Z = point_loc->Z + scaled_offset[2].Z;
-}
+				Vector3 scaled_offset[3];
+				scaled_offset[0] = _TriVertexLocationOrientationTable[DefaultPointOrientation][0] * DefaultPointSize;
+				scaled_offset[1] = _TriVertexLocationOrientationTable[DefaultPointOrientation][1] * DefaultPointSize;
+				scaled_offset[2] = _TriVertexLocationOrientationTable[DefaultPointOrientation][2] * DefaultPointSize;
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = scaled_offset[0].X + point_loc->X;
+					vertex_loc[0].Y = scaled_offset[0].Y + point_loc->Y;
+					vertex_loc[0].Z = scaled_offset[0].Z + point_loc->Z;
+					vertex_loc[1].X = scaled_offset[1].X + point_loc->X;
+					vertex_loc[1].Y = scaled_offset[1].Y + point_loc->Y;
+					vertex_loc[1].Z = scaled_offset[1].Z + point_loc->Z;
+					vertex_loc[2].X = scaled_offset[2].X + point_loc->X;
+					vertex_loc[2].Y = scaled_offset[2].Y + point_loc->Y;
+					vertex_loc[2].Z = scaled_offset[2].Z + point_loc->Z;
+					vertex_loc += 3;
+					point_loc++;
+				}
 			}
 			break;
 
 		case TRIS_SIZE_NOORIENT:
 			{
-for (i = 0; i < active_points; i++, point_loc++, point_size++, vertex_loc += 3) {
-vertex_loc[0].X = point_loc->X + _TriVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0];
-vertex_loc[0].Y = point_loc->Y + _TriVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0];
-vertex_loc[0].Z = point_loc->Z + _TriVertexLocationOrientationTable[DefaultPointOrientation][0].Z * point_size[0];
-vertex_loc[1].X = point_loc->X + _TriVertexLocationOrientationTable[DefaultPointOrientation][1].X * point_size[0];
-vertex_loc[1].Y = point_loc->Y + _TriVertexLocationOrientationTable[DefaultPointOrientation][1].Y * point_size[0];
-vertex_loc[1].Z = point_loc->Z + _TriVertexLocationOrientationTable[DefaultPointOrientation][1].Z * point_size[0];
-vertex_loc[2].X = point_loc->X + _TriVertexLocationOrientationTable[DefaultPointOrientation][2].X * point_size[0];
-vertex_loc[2].Y = point_loc->Y + _TriVertexLocationOrientationTable[DefaultPointOrientation][2].Y * point_size[0];
-vertex_loc[2].Z = point_loc->Z + _TriVertexLocationOrientationTable[DefaultPointOrientation][2].Z * point_size[0];
-}
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = _TriVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0] + point_loc->X;
+					vertex_loc[0].Y = _TriVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0] + point_loc->Y;
+					vertex_loc[0].Z = _TriVertexLocationOrientationTable[DefaultPointOrientation][0].Z * point_size[0] + point_loc->Z;
+					vertex_loc[1].X = _TriVertexLocationOrientationTable[DefaultPointOrientation][1].X * point_size[0] + point_loc->X;
+					vertex_loc[1].Y = _TriVertexLocationOrientationTable[DefaultPointOrientation][1].Y * point_size[0] + point_loc->Y;
+					vertex_loc[1].Z = _TriVertexLocationOrientationTable[DefaultPointOrientation][1].Z * point_size[0] + point_loc->Z;
+					vertex_loc[2].X = _TriVertexLocationOrientationTable[DefaultPointOrientation][2].X * point_size[0] + point_loc->X;
+					vertex_loc[2].Y = _TriVertexLocationOrientationTable[DefaultPointOrientation][2].Y * point_size[0] + point_loc->Y;
+					vertex_loc[2].Z = _TriVertexLocationOrientationTable[DefaultPointOrientation][2].Z * point_size[0] + point_loc->Z;
+					vertex_loc += 3;
+					point_loc++;
+					point_size++;
+				}
 			}
 			break;
 
 		case TRIS_NOSIZE_ORIENT:
 			{
-for (i = 0; i < active_points; i++, point_loc++, point_orientation++, vertex_loc += 3) {
-vertex_loc[0].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][0].X * DefaultPointSize;
-vertex_loc[0].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][0].Y * DefaultPointSize;
-vertex_loc[0].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][0].Z * DefaultPointSize;
-vertex_loc[1].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][1].X * DefaultPointSize;
-vertex_loc[1].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][1].Y * DefaultPointSize;
-vertex_loc[1].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][1].Z * DefaultPointSize;
-vertex_loc[2].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][2].X * DefaultPointSize;
-vertex_loc[2].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][2].Y * DefaultPointSize;
-vertex_loc[2].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][2].Z * DefaultPointSize;
-}
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = _TriVertexLocationOrientationTable[point_orientation[0]][0].X * DefaultPointSize + point_loc->X;
+					vertex_loc[0].Y = _TriVertexLocationOrientationTable[point_orientation[0]][0].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[0].Z = _TriVertexLocationOrientationTable[point_orientation[0]][0].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc[1].X = _TriVertexLocationOrientationTable[point_orientation[0]][1].X * DefaultPointSize + point_loc->X;
+					vertex_loc[1].Y = _TriVertexLocationOrientationTable[point_orientation[0]][1].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[1].Z = _TriVertexLocationOrientationTable[point_orientation[0]][1].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc[2].X = _TriVertexLocationOrientationTable[point_orientation[0]][2].X * DefaultPointSize + point_loc->X;
+					vertex_loc[2].Y = _TriVertexLocationOrientationTable[point_orientation[0]][2].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[2].Z = _TriVertexLocationOrientationTable[point_orientation[0]][2].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc += 3;
+					point_loc++;
+					point_orientation++;
+				}
 			}
 			break;
 
 		case TRIS_SIZE_ORIENT:
 			{
-for (i = 0; i < active_points; i++, point_loc++, point_orientation++, point_size++, vertex_loc += 3) {
-vertex_loc[0].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][0].X * point_size[0];
-vertex_loc[0].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][0].Y * point_size[0];
-vertex_loc[0].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][0].Z * point_size[0];
-vertex_loc[1].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][1].X * point_size[0];
-vertex_loc[1].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][1].Y * point_size[0];
-vertex_loc[1].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][1].Z * point_size[0];
-vertex_loc[2].X = point_loc->X + _TriVertexLocationOrientationTable[point_orientation[0]][2].X * point_size[0];
-vertex_loc[2].Y = point_loc->Y + _TriVertexLocationOrientationTable[point_orientation[0]][2].Y * point_size[0];
-vertex_loc[2].Z = point_loc->Z + _TriVertexLocationOrientationTable[point_orientation[0]][2].Z * point_size[0];
-}
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = _TriVertexLocationOrientationTable[point_orientation[0]][0].X * point_size[0] + point_loc->X;
+					vertex_loc[0].Y = _TriVertexLocationOrientationTable[point_orientation[0]][0].Y * point_size[0] + point_loc->Y;
+					vertex_loc[0].Z = _TriVertexLocationOrientationTable[point_orientation[0]][0].Z * point_size[0] + point_loc->Z;
+					vertex_loc[1].X = _TriVertexLocationOrientationTable[point_orientation[0]][1].X * point_size[0] + point_loc->X;
+					vertex_loc[1].Y = _TriVertexLocationOrientationTable[point_orientation[0]][1].Y * point_size[0] + point_loc->Y;
+					vertex_loc[1].Z = _TriVertexLocationOrientationTable[point_orientation[0]][1].Z * point_size[0] + point_loc->Z;
+					vertex_loc[2].X = _TriVertexLocationOrientationTable[point_orientation[0]][2].X * point_size[0] + point_loc->X;
+					vertex_loc[2].Y = _TriVertexLocationOrientationTable[point_orientation[0]][2].Y * point_size[0] + point_loc->Y;
+					vertex_loc[2].Z = _TriVertexLocationOrientationTable[point_orientation[0]][2].Z * point_size[0] + point_loc->Z;
+					vertex_loc += 3;
+					point_loc++;
+					point_orientation++;
+					point_size++;
+				}
 			}
 			break;
 
 		case QUADS_NOSIZE_NOORIENT:
 			{
-Vector3 scaled_offset[4];
-scaled_offset[0] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0] * DefaultPointSize;
-scaled_offset[1] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][1] * DefaultPointSize;
-scaled_offset[2] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][2] * DefaultPointSize;
-scaled_offset[3] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][3] * DefaultPointSize;
-for (int i = 0; i < active_points; i++, point_loc++, vertex_loc += 4) {
-vertex_loc[0].X = point_loc->X + scaled_offset[0].X;
-vertex_loc[0].Y = point_loc->Y + scaled_offset[0].Y;
-vertex_loc[0].Z = point_loc->Z + scaled_offset[0].Z;
-vertex_loc[1].X = point_loc->X + scaled_offset[1].X;
-vertex_loc[1].Y = point_loc->Y + scaled_offset[1].Y;
-vertex_loc[1].Z = point_loc->Z + scaled_offset[1].Z;
-vertex_loc[2].X = point_loc->X + scaled_offset[2].X;
-vertex_loc[2].Y = point_loc->Y + scaled_offset[2].Y;
-vertex_loc[2].Z = point_loc->Z + scaled_offset[2].Z;
-vertex_loc[3].X = point_loc->X + scaled_offset[3].X;
-vertex_loc[3].Y = point_loc->Y + scaled_offset[3].Y;
-vertex_loc[3].Z = point_loc->Z + scaled_offset[3].Z;
-}
+				Vector3 scaled_offset[4];
+				scaled_offset[0] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0] * DefaultPointSize;
+				scaled_offset[1] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][1] * DefaultPointSize;
+				scaled_offset[2] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][2] * DefaultPointSize;
+				scaled_offset[3] = _QuadVertexLocationOrientationTable[DefaultPointOrientation][3] * DefaultPointSize;
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = scaled_offset[0].X + point_loc->X;
+					vertex_loc[0].Y = scaled_offset[0].Y + point_loc->Y;
+					vertex_loc[0].Z = scaled_offset[0].Z + point_loc->Z;
+					vertex_loc[1].X = scaled_offset[1].X + point_loc->X;
+					vertex_loc[1].Y = scaled_offset[1].Y + point_loc->Y;
+					vertex_loc[1].Z = scaled_offset[1].Z + point_loc->Z;
+					vertex_loc[2].X = scaled_offset[2].X + point_loc->X;
+					vertex_loc[2].Y = scaled_offset[2].Y + point_loc->Y;
+					vertex_loc[2].Z = scaled_offset[2].Z + point_loc->Z;
+					vertex_loc[3].X = scaled_offset[3].X + point_loc->X;
+					vertex_loc[3].Y = scaled_offset[3].Y + point_loc->Y;
+					vertex_loc[3].Z = scaled_offset[3].Z + point_loc->Z;
+					vertex_loc += 4;
+					point_loc++;
+				}
 			}
 			break;
 
 		case QUADS_SIZE_NOORIENT:
 			{
-Vector3 *vertex_loc = &VertexLoc[0];
-int vert = 0;
-for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_size++) {
-vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0];
-vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0];
-vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Z * point_size[0];
-vertex_loc[vert + 1].X = point_loc->X + _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].X * point_size[0];
-vertex_loc[vert + 1].Y = point_loc->Y + _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].Y * point_size[0];
-vertex_loc[vert + 1].Z = point_loc->Z + _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].Z * point_size[0];
-vertex_loc[vert + 2].X = point_loc->X + _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].X * point_size[0];
-vertex_loc[vert + 2].Y = point_loc->Y + _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].Y * point_size[0];
-vertex_loc[vert + 2].Z = point_loc->Z + _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].Z * point_size[0];
-vertex_loc[vert + 3].X = point_loc->X + _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].X * point_size[0];
-vertex_loc[vert + 3].Y = point_loc->Y + _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].Y * point_size[0];
-vertex_loc[vert + 3].Z = point_loc->Z + _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].Z * point_size[0];
-}
+				Vector3 *vertex_loc = &VertexLoc[0];
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].X * point_size[0] + point_loc->X;
+					vertex_loc[0].Y = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Y * point_size[0] + point_loc->Y;
+					vertex_loc[0].Z = _QuadVertexLocationOrientationTable[DefaultPointOrientation][0].Z * point_size[0] + point_loc->Z;
+					vertex_loc[1].X = _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].X * point_size[0] + point_loc->X;
+					vertex_loc[1].Y = _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].Y * point_size[0] + point_loc->Y;
+					vertex_loc[1].Z = _QuadVertexLocationOrientationTable[DefaultPointOrientation][1].Z * point_size[0] + point_loc->Z;
+					vertex_loc[2].X = _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].X * point_size[0] + point_loc->X;
+					vertex_loc[2].Y = _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].Y * point_size[0] + point_loc->Y;
+					vertex_loc[2].Z = _QuadVertexLocationOrientationTable[DefaultPointOrientation][2].Z * point_size[0] + point_loc->Z;
+					vertex_loc[3].X = _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].X * point_size[0] + point_loc->X;
+					vertex_loc[3].Y = _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].Y * point_size[0] + point_loc->Y;
+					vertex_loc[3].Z = _QuadVertexLocationOrientationTable[DefaultPointOrientation][3].Z * point_size[0] + point_loc->Z;
+					vertex_loc += 4;
+					point_loc++;
+					point_size++;
+				}
 			}
 			break;
 
 		case QUADS_NOSIZE_ORIENT:
 			{
-Vector3 *vertex_loc = &VertexLoc[0];
-int vert = 0;
-for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++) {
-vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * DefaultPointSize;
-vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * DefaultPointSize;
-vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * DefaultPointSize;
-vertex_loc[vert + 1].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][1].X * DefaultPointSize;
-vertex_loc[vert + 1].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][1].Y * DefaultPointSize;
-vertex_loc[vert + 1].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][1].Z * DefaultPointSize;
-vertex_loc[vert + 2].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][2].X * DefaultPointSize;
-vertex_loc[vert + 2].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][2].Y * DefaultPointSize;
-vertex_loc[vert + 2].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][2].Z * DefaultPointSize;
-vertex_loc[vert + 3].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][3].X * DefaultPointSize;
-vertex_loc[vert + 3].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][3].Y * DefaultPointSize;
-vertex_loc[vert + 3].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][3].Z * DefaultPointSize;
-}
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * DefaultPointSize + point_loc->X;
+					vertex_loc[0].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[0].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc[1].X = _QuadVertexLocationOrientationTable[point_orientation[0]][1].X * DefaultPointSize + point_loc->X;
+					vertex_loc[1].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][1].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[1].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][1].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc[2].X = _QuadVertexLocationOrientationTable[point_orientation[0]][2].X * DefaultPointSize + point_loc->X;
+					vertex_loc[2].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][2].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[2].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][2].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc[3].X = _QuadVertexLocationOrientationTable[point_orientation[0]][3].X * DefaultPointSize + point_loc->X;
+					vertex_loc[3].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][3].Y * DefaultPointSize + point_loc->Y;
+					vertex_loc[3].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][3].Z * DefaultPointSize + point_loc->Z;
+					vertex_loc += 4;
+					point_loc++;
+					point_orientation++;
+				}
 			}
 			break;
 
 		case QUADS_SIZE_ORIENT:
-{
-Vector3 dum0 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum1 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum2 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum3 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum4 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum5 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum6 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum7 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum8 = GroundMultiplierX + GroundMultiplierY;
-Vector3 dum9 = GroundMultiplierX + GroundMultiplierY;
-if (!Get_Flag(BILLBOARD)) {
-Matrix4 view;
-Vector4 result;
-DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
-Vector3 *vertex_loc = &VertexLoc[0];
-int vert = 0;
-for (int i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++, point_size++) {
-Matrix4 rotMat;
-D3DXMatrixRotationZ(&(D3DXMATRIX&) rotMat, ((float)point_orientation[0] / 255.0f * 2 * D3DX_PI));
-Vector4 orientedVecX = rotMat * GroundMultiplierX;
-Vector4 orientedVecY = rotMat * GroundMultiplierY;
-float dx0 = (orientedVecX.X + orientedVecY.X) * point_size[0];
-float dy0 = (orientedVecX.Y + orientedVecY.Y) * point_size[0];
-float dx1 = (orientedVecX.X - orientedVecY.X) * point_size[0];
-float dy1 = (orientedVecX.Y - orientedVecY.Y) * point_size[0];
-vertex_loc[vert + 0].X = point_loc->X + dx0;
-vertex_loc[vert + 0].Y = point_loc->Y + dy0;
-vertex_loc[vert + 0].Z = point_loc->Z;
-vertex_loc[vert + 1].X = point_loc->X + dx1;
-vertex_loc[vert + 1].Y = point_loc->Y + dy1;
-vertex_loc[vert + 1].Z = point_loc->Z;
-vertex_loc[vert + 2].X = point_loc->X - dx0;
-vertex_loc[vert + 2].Y = point_loc->Y - dy0;
-vertex_loc[vert + 2].Z = point_loc->Z;
-vertex_loc[vert + 3].X = point_loc->X - dx1;
-vertex_loc[vert + 3].Y = point_loc->Y - dy1;
-vertex_loc[vert + 3].Z = point_loc->Z;
-result = view*vertex_loc[vert + 0];
-vertex_loc[vert + 0].X = result.X;
-vertex_loc[vert + 0].Y = result.Y;
-vertex_loc[vert + 0].Z = result.Z;
-result = view*vertex_loc[vert + 1];
-vertex_loc[vert + 1].X = result.X;
-vertex_loc[vert + 1].Y = result.Y;
-vertex_loc[vert + 1].Z = result.Z;
-result = view*vertex_loc[vert + 2];
-vertex_loc[vert + 2].X = result.X;
-vertex_loc[vert + 2].Y = result.Y;
-vertex_loc[vert + 2].Z = result.Z;
-result = view*vertex_loc[vert + 3];
-vertex_loc[vert + 3].X = result.X;
-vertex_loc[vert + 3].Y = result.Y;
-vertex_loc[vert + 3].Z = result.Z;
-}
-} else {
-Vector3 *vertex_loc = &VertexLoc[0];
-int vert = 0;
-for (i = 0; i < active_points; i++, vert += 4, point_loc++, point_orientation++, point_size++) {
-vertex_loc[vert + 0].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * point_size[0];
-vertex_loc[vert + 0].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * point_size[0];
-vertex_loc[vert + 0].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * point_size[0];
-vertex_loc[vert + 1].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][1].X * point_size[0];
-vertex_loc[vert + 1].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][1].Y * point_size[0];
-vertex_loc[vert + 1].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][1].Z * point_size[0];
-vertex_loc[vert + 2].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][2].X * point_size[0];
-vertex_loc[vert + 2].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][2].Y * point_size[0];
-vertex_loc[vert + 2].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][2].Z * point_size[0];
-vertex_loc[vert + 3].X = point_loc->X + _QuadVertexLocationOrientationTable[point_orientation[0]][3].X * point_size[0];
-vertex_loc[vert + 3].Y = point_loc->Y + _QuadVertexLocationOrientationTable[point_orientation[0]][3].Y * point_size[0];
-vertex_loc[vert + 3].Z = point_loc->Z + _QuadVertexLocationOrientationTable[point_orientation[0]][3].Z * point_size[0];
-}
-}
-}
-break;
+			{
+				if (!Get_Flag(BILLBOARD)) {
+					Matrix4 rotMat;
+					Matrix4 view;
+					Vector4 result;
+					DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
+					for (int i = 0; i < active_points; i++) {
+						D3DXMatrixRotationZ(&(D3DXMATRIX&) rotMat, ((float)point_orientation[0] / 255.0f * 2 * D3DX_PI));
+						Vector4 orientedVecX = rotMat * GroundMultiplierX;
+						Vector4 orientedVecY = rotMat * GroundMultiplierY;
+						float dx0 = (orientedVecX.X + orientedVecY.X) * point_size[0];
+						float dy0 = (orientedVecX.Y + orientedVecY.Y) * point_size[0];
+						float dx1 = (orientedVecX.X - orientedVecY.X) * point_size[0];
+						float dy1 = (orientedVecX.Y - orientedVecY.Y) * point_size[0];
+						vertex_loc[0].X = dx0 + point_loc->X;
+						vertex_loc[0].Y = dy0 + point_loc->Y;
+						vertex_loc[0].Z = point_loc->Z;
+						vertex_loc[1].X = dx1 + point_loc->X;
+						vertex_loc[1].Y = dy1 + point_loc->Y;
+						vertex_loc[1].Z = point_loc->Z;
+						vertex_loc[2].X = point_loc->X - dx0;
+						vertex_loc[2].Y = point_loc->Y - dy0;
+						vertex_loc[2].Z = point_loc->Z;
+						vertex_loc[3].X = point_loc->X - dx1;
+						vertex_loc[3].Y = point_loc->Y - dy1;
+						vertex_loc[3].Z = point_loc->Z;
+						result = view * vertex_loc[0];
+						vertex_loc[0].X = result.X;
+						vertex_loc[0].Y = result.Y;
+						vertex_loc[0].Z = result.Z;
+						result = view * vertex_loc[1];
+						vertex_loc[1].X = result.X;
+						vertex_loc[1].Y = result.Y;
+						vertex_loc[1].Z = result.Z;
+						result = view * vertex_loc[2];
+						vertex_loc[2].X = result.X;
+						vertex_loc[2].Y = result.Y;
+						vertex_loc[2].Z = result.Z;
+						result = view * vertex_loc[3];
+						vertex_loc[3].X = result.X;
+						vertex_loc[3].Y = result.Y;
+						vertex_loc[3].Z = result.Z;
+						vertex_loc += 4;
+						point_loc++;
+						point_orientation++;
+						point_size++;
+					}
+				} else {
+					for (int i = 0; i < active_points; i++) {
+						vertex_loc[0].X = _QuadVertexLocationOrientationTable[point_orientation[0]][0].X * point_size[0] + point_loc->X;
+						vertex_loc[0].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][0].Y * point_size[0] + point_loc->Y;
+						vertex_loc[0].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][0].Z * point_size[0] + point_loc->Z;
+						vertex_loc[1].X = _QuadVertexLocationOrientationTable[point_orientation[0]][1].X * point_size[0] + point_loc->X;
+						vertex_loc[1].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][1].Y * point_size[0] + point_loc->Y;
+						vertex_loc[1].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][1].Z * point_size[0] + point_loc->Z;
+						vertex_loc[2].X = _QuadVertexLocationOrientationTable[point_orientation[0]][2].X * point_size[0] + point_loc->X;
+						vertex_loc[2].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][2].Y * point_size[0] + point_loc->Y;
+						vertex_loc[2].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][2].Z * point_size[0] + point_loc->Z;
+						vertex_loc[3].X = _QuadVertexLocationOrientationTable[point_orientation[0]][3].X * point_size[0] + point_loc->X;
+						vertex_loc[3].Y = _QuadVertexLocationOrientationTable[point_orientation[0]][3].Y * point_size[0] + point_loc->Y;
+						vertex_loc[3].Z = _QuadVertexLocationOrientationTable[point_orientation[0]][3].Z * point_size[0] + point_loc->Z;
+						vertex_loc += 4;
+						point_loc++;
+						point_orientation++;
+						point_size++;
+					}
+					}
+			}
+			break;
 
 		// Orientations are ignored for screensize pointgroups
 		case SCREEN_NOSIZE_NOORIENT:
 		case SCREEN_NOSIZE_ORIENT:
 			{
-				// Offsets need to be scaled to the current screen resolution
-
-   			// First find x and y scale factors (sizes in pixels need to be
-   			// normalized to 2D cam viewplane of -1,-1 to 1,1)
-   			int xres, yres, bitdepth;
-   			bool windowed;
-   			WW3D::Get_Render_Target_Resolution(xres, yres, bitdepth, windowed);
-   
-   			float x_scale = (VPXMax - VPXMin) / xres;
-   			float y_scale = (VPYMax - VPYMin) / yres;
-   
+				int xres, yres, bitdepth;
+				bool windowed;
+				WW3D::Get_Render_Target_Resolution(xres, yres, bitdepth, windowed);
+				float x_scale = (VPXMax - VPXMin) / xres;
+				float y_scale = (VPYMax - VPYMin) / yres;
 				int size_idx = (DefaultPointSize <= 1.0f) ? 0 : 1;
-Vector3 scaled_locs[3];
-scaled_locs[0].X = _ScreenspaceVertexLocationSizeTable[size_idx][0].X * x_scale;
-scaled_locs[0].Y = _ScreenspaceVertexLocationSizeTable[size_idx][0].Y * y_scale;
-scaled_locs[0].Z = _ScreenspaceVertexLocationSizeTable[size_idx][0].Z;
-scaled_locs[1].X = _ScreenspaceVertexLocationSizeTable[size_idx][1].X * x_scale;
-scaled_locs[1].Y = _ScreenspaceVertexLocationSizeTable[size_idx][1].Y * y_scale;
-scaled_locs[1].Z = _ScreenspaceVertexLocationSizeTable[size_idx][1].Z;
-scaled_locs[2].X = _ScreenspaceVertexLocationSizeTable[size_idx][2].X * x_scale;
-scaled_locs[2].Y = _ScreenspaceVertexLocationSizeTable[size_idx][2].Y * y_scale;
-scaled_locs[2].Z = _ScreenspaceVertexLocationSizeTable[size_idx][2].Z;
-// Add vertex offsets to point locations to get vertex locations
-				
-				for (i = 0; i < active_points; i++) {
-					vertex_loc[0].X = point_loc[0].X + scaled_locs[0].X;
-vertex_loc[0].Y = point_loc[0].Y + scaled_locs[0].Y;
-vertex_loc[0].Z = point_loc[0].Z + scaled_locs[0].Z;
-					vertex_loc[1].X = point_loc[0].X + scaled_locs[1].X;
-vertex_loc[1].Y = point_loc[0].Y + scaled_locs[1].Y;
-vertex_loc[1].Z = point_loc[0].Z + scaled_locs[1].Z;
-					vertex_loc[2].X = point_loc[0].X + scaled_locs[2].X;
-vertex_loc[2].Y = point_loc[0].Y + scaled_locs[2].Y;
-vertex_loc[2].Z = point_loc[0].Z + scaled_locs[2].Z;
-					vertex_loc += 3; ++point_loc;
+				Vector3 scaled_locs[3];
+				scaled_locs[0].X = x_scale * _ScreenspaceVertexLocationSizeTable[size_idx][0].X;
+				scaled_locs[0].Y = y_scale * _ScreenspaceVertexLocationSizeTable[size_idx][0].Y;
+				scaled_locs[0].Z = _ScreenspaceVertexLocationSizeTable[size_idx][0].Z;
+				scaled_locs[1].X = x_scale * _ScreenspaceVertexLocationSizeTable[size_idx][1].X;
+				scaled_locs[1].Y = y_scale * _ScreenspaceVertexLocationSizeTable[size_idx][1].Y;
+				scaled_locs[1].Z = _ScreenspaceVertexLocationSizeTable[size_idx][1].Z;
+				scaled_locs[2].X = x_scale * _ScreenspaceVertexLocationSizeTable[size_idx][2].X;
+				scaled_locs[2].Y = y_scale * _ScreenspaceVertexLocationSizeTable[size_idx][2].Y;
+				scaled_locs[2].Z = _ScreenspaceVertexLocationSizeTable[size_idx][2].Z;
+				for (int i = 0; i < active_points; i++) {
+					vertex_loc[0].X = scaled_locs[0].X + point_loc->X;
+					vertex_loc[0].Y = scaled_locs[0].Y + point_loc->Y;
+					vertex_loc[0].Z = scaled_locs[0].Z + point_loc->Z;
+					vertex_loc[1].X = scaled_locs[1].X + point_loc->X;
+					vertex_loc[1].Y = scaled_locs[1].Y + point_loc->Y;
+					vertex_loc[1].Z = scaled_locs[1].Z + point_loc->Z;
+					vertex_loc[2].X = scaled_locs[2].X + point_loc->X;
+					vertex_loc[2].Y = scaled_locs[2].Y + point_loc->Y;
+					vertex_loc[2].Z = scaled_locs[2].Z + point_loc->Z;
+					vertex_loc += 3;
+					point_loc++;
 				}
 			}
 			break;
-			
+
 		case SCREEN_SIZE_NOORIENT:
 		case SCREEN_SIZE_ORIENT:
 			{
-				// Offsets need to be scaled to the current screen resolution
-
-   			// First find x and y scale factors (sizes in pixels need to be
-   			// normalized to 2D cam viewplane of -1,-1 to 1,1)
-   			int xres, yres, bitdepth;
-   			bool windowed;
-   			WW3D::Get_Render_Target_Resolution(xres, yres, bitdepth, windowed);
-   
-   			float x_scale = (VPXMax - VPXMin) / xres;
-   			float y_scale = (VPYMax - VPYMin) / yres;
-   
+				int xres, yres, bitdepth;
+				bool windowed;
+				WW3D::Get_Render_Target_Resolution(xres, yres, bitdepth, windowed);
+				float x_scale = (VPXMax - VPXMin) / xres;
+				float y_scale = (VPYMax - VPYMin) / yres;
 				Vector3 scaled_locs[2][3];
-				const volatile Vector3 &t00 = _ScreenspaceVertexLocationSizeTable[0][0];
-				const volatile Vector3 &t01 = _ScreenspaceVertexLocationSizeTable[0][1];
-				const volatile Vector3 &t02 = _ScreenspaceVertexLocationSizeTable[0][2];
-				const volatile Vector3 &t10 = _ScreenspaceVertexLocationSizeTable[1][0];
-				const volatile Vector3 &t11 = _ScreenspaceVertexLocationSizeTable[1][1];
-				const volatile Vector3 &t12 = _ScreenspaceVertexLocationSizeTable[1][2];
-				scaled_locs[0][0].X = t00.X * x_scale;
-				scaled_locs[0][0].Y = t00.Y * y_scale;
-				scaled_locs[0][0].Z = t00.Z;
-				scaled_locs[0][1].X = t01.X * x_scale;
-				scaled_locs[0][1].Y = t01.Y * y_scale;
-				scaled_locs[0][1].Z = t01.Z;
-				scaled_locs[0][2].X = t02.X * x_scale;
-				scaled_locs[0][2].Y = t02.Y * y_scale;
-				scaled_locs[0][2].Z = t02.Z;
-				scaled_locs[1][0].X = t10.X * x_scale;
-				scaled_locs[1][0].Y = t10.Y * y_scale;
-				scaled_locs[1][0].Z = t10.Z;
-				scaled_locs[1][1].X = t11.X * x_scale;
-				scaled_locs[1][1].Y = t11.Y * y_scale;
-				scaled_locs[1][1].Z = t11.Z;
-				scaled_locs[1][2].X = t12.X * x_scale;
-				scaled_locs[1][2].Y = t12.Y * y_scale;
-				scaled_locs[1][2].Z = t12.Z;
-
-				// Add vertex offsets to point locations to get vertex locations
-				for (i = 0; i < active_points; i++, point_size++) {
+				for (int i = 0; i < 2; i++) {
+					scaled_locs[i][0].X = x_scale * _ScreenspaceVertexLocationSizeTable[i][0].X;
+					scaled_locs[i][0].Y = y_scale * _ScreenspaceVertexLocationSizeTable[i][0].Y;
+					scaled_locs[i][0].Z = _ScreenspaceVertexLocationSizeTable[i][0].Z;
+					scaled_locs[i][1].X = x_scale * _ScreenspaceVertexLocationSizeTable[i][1].X;
+					scaled_locs[i][1].Y = y_scale * _ScreenspaceVertexLocationSizeTable[i][1].Y;
+					scaled_locs[i][1].Z = _ScreenspaceVertexLocationSizeTable[i][1].Z;
+					scaled_locs[i][2].X = x_scale * _ScreenspaceVertexLocationSizeTable[i][2].X;
+					scaled_locs[i][2].Y = y_scale * _ScreenspaceVertexLocationSizeTable[i][2].Y;
+					scaled_locs[i][2].Z = _ScreenspaceVertexLocationSizeTable[i][2].Z;
+				}
+				for (i = 0; i < active_points; i++) {
 					int size_idx = (point_size[0] <= 1.0f) ? 0 : 1;
-					vertex_loc[0].X = point_loc[0].X + scaled_locs[size_idx][0].X;
-vertex_loc[0].Y = point_loc[0].Y + scaled_locs[size_idx][0].Y;
-vertex_loc[0].Z = point_loc[0].Z + scaled_locs[size_idx][0].Z;
-					vertex_loc[1].X = point_loc[0].X + scaled_locs[size_idx][1].X;
-vertex_loc[1].Y = point_loc[0].Y + scaled_locs[size_idx][1].Y;
-vertex_loc[1].Z = point_loc[0].Z + scaled_locs[size_idx][1].Z;
-					vertex_loc[2].X = point_loc[0].X + scaled_locs[size_idx][2].X;
-vertex_loc[2].Y = point_loc[0].Y + scaled_locs[size_idx][2].Y;
-vertex_loc[2].Z = point_loc[0].Z + scaled_locs[size_idx][2].Z;
-					vertex_loc += 3; ++point_loc;
+					vertex_loc[0].X = point_loc->X + scaled_locs[size_idx][0].X;
+					vertex_loc[0].Y = point_loc->Y + scaled_locs[size_idx][0].Y;
+					vertex_loc[0].Z = point_loc->Z + scaled_locs[size_idx][0].Z;
+					vertex_loc[1].X = point_loc->X + scaled_locs[size_idx][1].X;
+					vertex_loc[1].Y = point_loc->Y + scaled_locs[size_idx][1].Y;
+					vertex_loc[1].Z = point_loc->Z + scaled_locs[size_idx][1].Z;
+					vertex_loc[2].X = point_loc->X + scaled_locs[size_idx][2].X;
+					vertex_loc[2].Y = point_loc->Y + scaled_locs[size_idx][2].Y;
+					vertex_loc[2].Z = point_loc->Z + scaled_locs[size_idx][2].Z;
+					vertex_loc += 3;
+					point_loc++;
+					point_size++;
 				}
 			}
 			break;
@@ -464,7 +479,5 @@ vertex_loc[2].Z = point_loc[0].Z + scaled_locs[size_idx][2].Z;
 		default:
 			WWASSERT(0);
 			break;
-
 	}
-
 }
