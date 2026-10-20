@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/moduledata /MD /EHsc
+// cl: /Ireference/shims/moduledata /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii /MD /EHsc
 //
 // ??1Rva00420E67@@UAE@XZ retail 0x00420E67 76B.
 // MI dtor in the shape of Rva002D3573Dtor.cpp: primary SubsystemInterface
@@ -17,13 +17,9 @@ private:
 	char m_pad[8];
 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	char m_pad04[8];
-};
+// Keep the subsystem vtable shape consistent with the paired constructor.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 #include "Common/Snapshot.h"
 

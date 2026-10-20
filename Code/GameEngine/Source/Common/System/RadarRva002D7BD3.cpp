@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE /EHsc /Ireference/shims/moduledata
+// cl: /O1 /DNDEBUG /MD /arch:SSE /EHsc /Ireference/shims/moduledata /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 //
 // ?rva002D7BD3@Radar@@QAEXXZ @0x002D7BD3 42B Radar invalidate draw cache.
 // Evidence: stores 0xFFFF0001 at +0x144C and +0x1450 then 0xFFFF at +0x1454
@@ -22,16 +22,10 @@ class BFME2NativeNetwork
 public:
 };
 
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
-
-class __declspec(novtable) RadarSecondBase
-{
-public:
-	__forceinline RadarSecondBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual ~RadarSecondBase();
-	virtual void unused();
-};
+// The ctor at 0x001B4E63 and RadarDtor's +4 base teardown establish
+// the same twelve-byte subsystem base used by RadarDtor.cpp.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 class RadarEventRef
 {
@@ -49,7 +43,7 @@ private:
 	RadarEventRef *m_ref; // +0x4C
 };
 
-class Radar : public Snapshot, public RadarSecondBase
+class Radar : public Snapshot, public SubsystemInterface
 {
 public:
 	Radar();
@@ -58,7 +52,6 @@ public:
 protected:
 	void clearAllEvents();
 private:
-	char m_pad08[0x10 - 0x08];
 	bool m_hidden; // +0x10
 	bool m_forceOn; // +0x11
 	char m_pad12[0x14 - 0x12];

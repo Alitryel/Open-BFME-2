@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
 // ??1Rva0022CA95@@MAE@XZ, retail 0x002149AA..0x00214A6E (196 bytes, EH): the
 // AttributeModifier store's destructor (constructor 0x0022CA95, table
@@ -17,14 +17,9 @@ namespace _STL {
 template<> inline _Vector_base<Rva002146F7 *, allocator<Rva002146F7 *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
 }
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-private:
-	int m_04;
-	int m_08;
-};
+// Use the same proven twelve-byte subsystem base as the constructor.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 class Rva002146F7
 {

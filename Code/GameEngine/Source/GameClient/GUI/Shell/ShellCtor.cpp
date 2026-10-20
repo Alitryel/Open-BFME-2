@@ -1,29 +1,13 @@
-// cl: /DNDEBUG /MD /EHs
+// cl: /DNDEBUG /MD /EHs /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // ??0Shell@@QAE@XZ @0x0035BFBC (203B): chain ctor calls baseConstruct 0x001B4E63 then sets vtable 0x00816208; clears stack +0xC-0x4B; String set at +0x58 with empty string; NEW AnimateWindowManager 0x38 at +0x60 via 0x0053B550; NEW Rva002007D5 8 at +0x64 via 0x00200774.
 // Retail's unwind map destroys the SubsystemInterface-style base (0x001B4E74)
 // in state 0 and the narrow string at +0x58 in state 1, then guards both
 // allocations (states 2 and 3). The string therefore has a destructor; the
 // banked 0.93 attempt gave it none and lost state 1.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-
-class BFME2NativeNetwork
-{
-public:
-};
-
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
-
-class __declspec(novtable) BFME2NativeNetworkBase
-{
-public:
-	__forceinline BFME2NativeNetworkBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual ~BFME2NativeNetworkBase() { _ReadWriteBarrier(); }
-private:
-	char m_flag;
-	int m_value;
-};
+// The constructor and ShellTop's destructor use the rowed subsystem base.
+typedef bool Bool;
+#define BFME_ASCII_DTOR_DECL
+#include "subsystem_interface.h"
 
 class WindowLayout;
 class AnimateWindowManager
@@ -42,23 +26,10 @@ private:
 	char m_pad[8];
 };
 
-template <typename T>
-class StringBase
-{
-public:
-	StringBase() : m_data(0) {}
-	~StringBase();
-	void set(const T *str);
-private:
-	T *m_data;
-};
-
-class Shell : public BFME2NativeNetworkBase
+class Shell : public SubsystemInterface
 {
 public:
 	Shell();
-	virtual void init();
-	virtual void reset();
 	virtual void update();
 private:
 	WindowLayout *m_screenStack[16];
@@ -69,7 +40,7 @@ private:
 	unsigned char m_53;
 	unsigned char m_54;
 	unsigned char m_pad55[3];
-	StringBase<char> m_pendingPushName;
+	AsciiString m_pendingPushName;
 	bool m_isShellActive;
 	bool m_shellMapOn;
 	unsigned char m_pad5E[2];
@@ -108,8 +79,3 @@ Shell::Shell()
 	m_74 = 0;
 	m_screenCount = 0;
 }
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?update@Shell@@UAEXXZ=??1Coord2D@@QAE@XZ")

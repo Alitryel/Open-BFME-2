@@ -1,4 +1,4 @@
-// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
 // ??0Rva0022CA74@@QAE@XZ @0x0022CA74 33B
 // Derived ctor: baseConstruct via inlined base then vtable 0xBE2704 then
@@ -18,19 +18,12 @@ class BFME2NativeNetwork
 public:
 };
 
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+// Calls the rowed subsystem constructor; the paired destructor proves
+// the same twelve-byte base at +0 before the vector storage at +0x0C.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
-class __declspec(novtable) Rva0022CA74Base
-{
-public:
-	Rva0022CA74Base() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
-	char m_flag;
-	int m_value;
-};
-
-class Rva0022CA74 : public Rva0022CA74Base
+class Rva0022CA74 : public SubsystemInterface
 {
 public:
 	Rva0022CA74();

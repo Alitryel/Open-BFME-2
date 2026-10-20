@@ -1,4 +1,4 @@
-// cl: /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
 // ??0Rva00420E67@@QAE@XZ, retail 0x00420E0D, 82 bytes. MI ctor over
 // GameEngineDeletingBase-size base plus Snapshot plus Coord3D list at +0x10
@@ -15,22 +15,15 @@ class BFME2NativeNetwork
 public:
 };
 
-// 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
-
-class __declspec(novtable) Rva00420E67Base
-{
-public:
-	Rva00420E67Base() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	~Rva00420E67Base();
-	virtual void unused();
-	char m_pad04[8];
-};
+// The ctor calls 0x001B4E63 and the paired destructor calls 0x001B4E74;
+// both place Snapshot after the twelve-byte subsystem base.
+typedef bool Bool;
+#include "subsystem_interface.h"
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 
-class Rva00420E67 : public Rva00420E67Base, public Snapshot
+class Rva00420E67 : public SubsystemInterface, public Snapshot
 {
 public:
 	Rva00420E67();

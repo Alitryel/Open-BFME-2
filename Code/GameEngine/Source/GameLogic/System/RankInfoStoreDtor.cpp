@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP=
+// cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
 // stlport
 // Native200280..20030F. BFME1 f989 RankInfoDestructors.cpp and ZH
 // RankInfoStore::~RankInfoStore supply the signed deletion loop and clear.
@@ -26,13 +26,9 @@ template<> inline void allocator<Rva0022CA74Rank *>::deallocate(Rva0022CA74Rank 
 template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; }
 template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
 }
-class SubsystemInterface
-{
-public:
- virtual ~SubsystemInterface();
-private:
- char pad[8];
-};
+// Use the same proven twelve-byte subsystem base as the constructor.
+typedef bool Bool;
+#include "subsystem_interface.h"
 class RankInfo { public: virtual ~RankInfo(); };
 class Rva0022CA74 : public SubsystemInterface
 {
