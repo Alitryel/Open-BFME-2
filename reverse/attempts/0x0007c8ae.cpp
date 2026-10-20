@@ -1,6 +1,6 @@
 // ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=0.96 date=2026-10-20
-// cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// partial score=1.0 date=2026-10-20
+// cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /ICode/Libraries/Include
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
 // BuildCovexHull2D (sic), with point de-duplication and a stable orientation
@@ -10,6 +10,9 @@
 #include <algorithm>
 #define _OPERATOR_NEW_DEFINED_
 #include "wwmath.h"
+// LINK: max<unsigned> stays inline in _M_insert_overflow as in the retail
+// copies; its .debug$F-only copy is suppressed with dllimport forceinline.
+namespace _STL { template <> __declspec(dllimport) __forceinline unsigned int const & max<unsigned int>(unsigned int const &__a, unsigned int const &__b) { return __a < __b ? __b : __a; } }
 #pragma intrinsic(sqrt)
 class Vector3;
 struct BfmeE8 {float X,Y; BfmeE8(){} BfmeE8(float x,float y):X(x),Y(y){} BfmeE8(const Vector3 &v);};
@@ -45,7 +48,8 @@ static inline BfmeE8 operator-(const BfmeE8 &a,const BfmeE8 &b) {
 static inline float Perp_Dot_Product(const BfmeE8 &a,const BfmeE8 &b) {
  return a.X*-b.Y+a.Y*b.X;
 }
-bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon)
+// Select-any: W3DShadowMapConvexHull.cpp compiles the same body under its own flags.
+__declspec(noinline) inline bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon)
 {
  ClearPoints(output);
  std::vector<BfmeE8> points;
@@ -92,10 +96,11 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
 
 #include "matrix3d.h"
 
+// ?BfmeE8::BfmeE8 absent-from-retail
 inline BfmeE8::BfmeE8(const Vector3 &v) : X(v.X), Y(v.Y) {}
 
-struct Coord3D { float x, y, z; };
-struct Region2D { float lo[2], hi[2]; };
+#include "Lib/Coord3D.h"
+#include "Lib/Region2D.h"
 struct BfmeFloat4Record00469C61 { float x, y, z, w; };
 namespace _STL {
 template<> inline void allocator<Coord3D>::deallocate(Coord3D *p, size_t) const { if (p) Rva00030830FreeAllocation(p); }
@@ -402,6 +407,8 @@ private:
 
 typedef std::vector<Coord3D> PointList;
 
+// UpdateShadowCamera 0x0007C8AE, WorldBuilder twin 0x7F0310; retail places it right after the hull
+// helper. The Vector2 temps read through one pointer and the named translation follow WB.
 void W3DShadowMapManager::UpdateShadowCamera()
 {
 	if (!TheWritableGlobalData->m_useShadowMap)
@@ -463,18 +470,17 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	PointList ceilingPts(hullPts.size(), blank);
 	for (unsigned i = 0; i < hull.size(); i++) {
 		float t = 0.0f;
-		const Vector3 &p = (const Vector3 &)hullPts[i];
-		ground.Compute_Intersection(p, lightDir + p, &t);
-		(Vector3 &)groundPts[i] = lightDir * t + p;
-		ceiling.Compute_Intersection(p, lightDir + p, &t);
-		(Vector3 &)ceilingPts[i] = lightDir * t + p;
+		ground.Compute_Intersection((const Vector3 &)hullPts[i], lightDir + (const Vector3 &)hullPts[i], &t);
+		(Vector3 &)groundPts[i] = lightDir * t + (const Vector3 &)hullPts[i];
+		ceiling.Compute_Intersection((const Vector3 &)hullPts[i], lightDir + (const Vector3 &)hullPts[i], &t);
+		(Vector3 &)ceilingPts[i] = lightDir * t + (const Vector3 &)hullPts[i];
 	}
 
-	Vector2 vmin(corners[0].X, corners[0].Y);
-	Vector2 vmax(corners[0].X, corners[0].Y);
+	Vector2 vmin(&corners[0].X);
+	Vector2 vmax(&corners[0].X);
 	for (unsigned i = 1; i < 8; i++) {
-		vmin.Update_Min(Vector2(corners[i].X, corners[i].Y));
-		vmax.Update_Max(Vector2(corners[i].X, corners[i].Y));
+		vmin.Update_Min(Vector2(&corners[i].X));
+		vmax.Update_Max(Vector2(&corners[i].X));
 	}
 	corners[0].Set(vmin.X, vmin.Y, 0.0f);
 	corners[1].Set(vmin.X, vmax.Y, 0.0f);
@@ -511,7 +517,8 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	Vector2 center = (vmin + vmax) / 2.0f;
 	vmax -= center;
 	vmin -= center;
-	lightTm.Translate(Vector3(center.X, center.Y, zmin));
+	Vector3 trans(center.X, center.Y, zmin);
+	lightTm.Translate(trans);
 	lightTm.Scale(1.0f, -1.0f, -1.0f);
 
 	m_camera->Set_Clip_Planes(0.0f, zmax - zmin);
