@@ -786,10 +786,11 @@ class Pathfinder
 public:
 	Bool getClosestPointOnLand(const Coord3D *pos, Object *obj, Coord3D *result);
 	// Zero Hour's getMoveAwayFromPath (0x002F9DBA) and moveAllies
-	// (0x002F3C09, which BFME2 hands a third, Bool argument): the calls
+	// (0x002F3C09, WorldBuilder Pathfinder::MoveAllies: BFME2 hands it a third,
+	// Bool argument and it returns Bool, unused here): the calls
 	// privateMoveAwayFromUnit makes at Zero Hour's points. Names donor-carried.
 	Path *GetMoveAwayFromPath(Object *obj, Object *otherObj, Path *pathToAvoid, Object *otherObj2, Path *pathToAvoid2);
-	void moveAllies(Object *obj, Path *path, Bool flag);
+	Bool MoveAllies(Object *obj, Path *path, Bool flag);
 	// The two pathfinder calls AIUpdate slot 139 (0x0026412B) makes: one
 	// taking the owner, then one taking the owner and a destination and
 	// returning the new path. Unnamed.
@@ -2504,7 +2505,7 @@ void AIUpdateInterface::privateMoveAwayFromUnit(Object *unit, const Coord3D *pos
 			if (obj->testStatus((ObjectStatusTypes)0x39) || obj->testStatus((ObjectStatusTypes)0x32) || obj->rva0006F039(0x84))
 				moveAllies = false;
 			if (moveAllies)
-				ai->pathfinder()->moveAllies(obj, m_path, obj->rva0028CE7B() >= 4);
+				ai->pathfinder()->MoveAllies(obj, m_path, obj->rva0028CE7B() >= 4);
 		}
 	}
 }

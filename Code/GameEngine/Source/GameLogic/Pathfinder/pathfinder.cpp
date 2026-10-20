@@ -62,10 +62,14 @@ struct PathfinderTemplateView {
     __forceinline bool hasKind(int bit) const { return (kinds[bit/8] & (1<<(bit%8)))!=0; }
     // The same KindOf bit read as BitFlags words (dword tests in retail).
     __forceinline unsigned int testKindWord(unsigned int bit) const { return ((const unsigned int *)kinds)[bit>>5] & (1u<<(bit&31)); }
+    // The same bit as a 0/1 value (retail shr/and when stored to a Bool).
+    __forceinline Bool kindBit(unsigned int bit) const { return (((const unsigned int *)kinds)[bit>>5] >> (bit&31)) & 1; }
     __forceinline const char *name() const { return nameBuffer ? nameBuffer+8 : ""; }
 };
 enum Relationship { ENEMIES=0, NEUTRAL=1, ALLIES=2 };
-enum ObjectStatusTypes { QuickStatus49=49 };
+enum ObjectStatusTypes { QuickStatus49=49, MoveAlliesStatus5A=0x5A };
+// KindOf bit Object::isKindOf (0x0006F039) is asked for by Pathfinder::MoveAllies.
+enum KindOfType { MoveAlliesKind9A=0x9A };
 enum NameKeyType { NAMEKEY_INVALID=0 };
 class Module;
 struct Coord3D;
@@ -76,6 +80,8 @@ public:
 	Player *getControllingPlayer() const;
  Bool testStatus(ObjectStatusTypes) const;
 	Relationship getRelationship(const Object *) const;
+	Bool isKindOf(KindOfType) const;	// 0x0006F039
+	Bool rva002931BA();	// 0x002931BA
     int rva0028B511() const;
     Object *rva002931F5(Bool);
 void rva0028C2DD(Coord3D*)const;
@@ -96,7 +102,9 @@ public:
 	char m_pad08[0x38-8];
 	float position[3];
 	float m_orientation;				// +0x44
-	char m_pad48[0x258 - 0x48];
+	char m_pad48[0x78 - 0x48];
+	ObjectID m_id78;					// +0x78: MoveAllies skips a unit whose ID (+0x74) equals this
+	char m_pad7C[0x258 - 0x7C];
 	char *m_258;						// +0x258 (WorldBuilder +0x260: CanApproachToTarget's gate)
 	char m_pad25C[0x274-0x25C];
 	Object *container;
@@ -121,6 +129,8 @@ public:
     Int portalID;
     const Coord3D *getPosition() const { return &position; }
     PathNode *getNextOptimized() const { return nextOptimized; }
+    PathNode *getPrevious() const { return previous; }
+    PathfindLayerEnum getLayer() const { return layer; }
 };
 struct Rva002EDEABArg;
 struct Rva002E93A7Info
@@ -142,8 +152,10 @@ public:
 	void rva00365E98(Object *obj, const Coord3D *dir, LocomotorSurfaceTypeMask surfaces, Bool blocked);
 	void appendNode(const Coord3D *pos, PathfindLayerEnum layer, Int portal);
 	void SetLastNodePortal(Int portal);
+	void Lock() { m_refCount++; }
+	void Unlock() { if (m_refCount) m_refCount--; }
 private:
-	void *word0;PathNode *firstNode;PathNode *lastNode;char wordC;Bool blockedByAlly;char padE[0x28-0xe];
+	Int m_refCount;PathNode *firstNode;PathNode *lastNode;char wordC;Bool blockedByAlly;char padE[0x28-0xe];
 };
 
 struct Rva002E8C23Pair { Int x,y; };
@@ -525,13 +537,29 @@ __declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPai
 	return a1;
 }
 #include <math.h>
-class AIUpdateInterface {
+enum CommandSourceType { CMD_FROM_PLAYER = 0, CMD_FROM_SCRIPT = 1, CMD_FROM_AI = 2 };
+struct AICommandParms;
+// The AICommandInterface subobject sits at AIUpdateInterface+0x20 (callers add ecx,0x20).
+class AICommandInterface {
+public:
+    virtual void aiDoCommand(const AICommandParms *parms) = 0;
+    void aiMoveAwayFromUnit(Object *obj, const Coord3D *pos, CommandSourceType cmdSource);	// 0x0026C411
+};
+// The update-module part: Pathfinder::MoveAllies calls vftable slots 0x1B8/0x1BC (unnamed).
+class AIUpdateModuleView : public PathfinderNativeSlots<110> {
+public:
+    virtual Bool slot1B8();
+    virtual Bool slot1BC();
+    char m_pad04[0x20 - 4];
+};
+class AIUpdateInterface : public AIUpdateModuleView, public AICommandInterface {
 public:
     bool findNearestLabeledContactPointOnTarget(Object *,Coord3D *,const Coord3D *,bool);
     bool isAircraftThatAdjustsDestination() const;
     int rva0026417F(bool);
     Object *getCurrentVictim() const;
-    char gap[0x1f0];
+    Bool isMoving() const;	// 0x00264688
+    char gap[0x1f0 - 0x24];
     Locomotor *locomotor;
 };
 // Native 0x002EC0A2 reads Object nodes at cell-info +0x14, +0x20 and +0x24.
@@ -731,6 +759,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
 	int rva002F95B7(const Coord3D *from, const Coord3D *to, PathfindLayerEnum layer, Rva002F600CInfo *info);
 	Int iterateCellsAlongLine(const Coord3D *start, const Coord3D *destination, PathfindLayerEnum layer, Rva002F4D8BInfo *callbackInfo);
 	Bool CanApproachToTarget(Object *obj, const Coord3D *targetPos, Rva002C9B80Owner *weapon, Bool flag);
+	Bool MoveAllies(Object *obj, Path *path, Bool force);
 protected:
 	Path *FindHierarchicalPath(Bool isHuman,
 		const LocomotorSet &locomotorSet, Object *obj, const Coord3D *from,
@@ -758,7 +787,9 @@ private:
 	Bool m_1BEB6;		// +0x1BEB6: paths get a facing hint from the goal cell
 	char m_pad1BEB7[5];
 	float m_wallLayerHeights[48];
-	char m_pad1BF7C[0x1C1CC - 0x1BF7C];
+	char m_pad1BF7C[0x1C1BC - 0x1BF7C];
+	Int m_moveAlliesDepth;	// +0x1C1BC: MoveAllies recursion latch
+	char m_pad1C1C0[0x1C1CC - 0x1C1C0];
 	_STL::vector<Rva002F35AFHop> m_1C1CC;	// +0x1C1CC
  // +0x1C1D8/+0x1C1DC: mine-shaft portals; WorldBuilder asserts m_destMineshaft
  // on the second. Each carries a zone/portal ID at +4 and its position at +0xC.
@@ -5401,4 +5432,111 @@ newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+r
 AddToOpenList(newCell);
 }
 return cellCount;
+}
+
+// Zero Hour Common/LatchRestore.h: restores the latched value when the scope
+// ends. LatchRestore<int> ctor/dtor/deleting dtor are rowed at 0x002E7F52..
+template <class T>
+class LatchRestore
+{
+public:
+	LatchRestore(T &dest, const T &src) : m_whereToRestore(dest)
+	{
+		m_valueToRestore = dest;
+		dest = src;
+	}
+	virtual ~LatchRestore(void) { m_whereToRestore = m_valueToRestore; }
+protected:
+	T m_valueToRestore;
+	T &m_whereToRestore;
+};
+
+// ?MoveAllies@Pathfinder@@QAE_NPAVObject@@PAVPath@@_N@Z, retail 0x002F3C09, 884 bytes.
+// WorldBuilder 0xD47470 Pathfinder::MoveAllies (pathfinder.cpp): ZH moveAllies's
+// purpose (ask allies on the path to step aside), but BFME samples each path
+// segment cell by cell, handles a harvester branch and returns Bool.
+// Shape facts from the WB twin: harvester bit cached first; ZH member latch
+// (src temp then dest); no named dx/dy (the step loop recomputes the delta);
+// node->getLayer() through the getter; each branch owns its testStatus,
+// aiMoveAwayFromUnit and break. WorldToCell (0x002E7875) and the radius split
+// (0x002EBCD6) are visible above: they receive &curCell/&nextCell and
+// &radius/&numCellsAbove, and retail's allocation needs that.
+Bool Pathfinder::MoveAllies(Object *obj, Path *path, Bool force)
+{
+	PathfinderTemplateView *initialTemplate = obj->m_template;
+	Bool harvester = initialTemplate->kindBit(0x7d);
+	if (!initialTemplate->hasKind(0xe) && !initialTemplate->hasKind(0x10) && !harvester && !path->blockedByAlly)
+		return false;
+	if (initialTemplate->hasKind(0xbb))
+		return false;
+	LatchRestore<Int> recursiveDepth(m_moveAlliesDepth, m_moveAlliesDepth + 1);
+	if (m_moveAlliesDepth > 1)
+		return false;
+	Int radius, numCellsAbove;
+	Rva002EBCD6Split(obj, &radius, &numCellsAbove);
+	ObjectID ignoreId = (ObjectID)0;
+	if (obj->getAI())
+		ignoreId = (ObjectID)((Rva0006E009DwordField *)obj->getAI())->get();	// getIgnoredObstacleID
+	path->Lock();
+	Coord3D initialPosition;
+	initialPosition.x = path->lastNode->position.x;
+	initialPosition.y = path->lastNode->position.y;
+	initialPosition.z = path->lastNode->position.z;
+	for (PathNode *node = path->lastNode; node && node != path->firstNode; node = node->getPrevious()) {
+		if (!node->getPrevious())
+			break;
+		ICoord2D curCell, nextCell;
+		Rva002E7875WorldToCell(&curCell, true, node->getPosition());
+		Rva002E7875WorldToCell(&nextCell, true, node->getPrevious()->getPosition());
+		Int xSize = abs(nextCell.x - curCell.x);
+		Int ySize = abs(nextCell.y - curCell.y);
+		Int numSteps = xSize > ySize ? xSize : ySize;
+		for (Int step = 0; step < numSteps; step++) {
+			Int x = (nextCell.x - curCell.x) * step / numSteps + curCell.x;
+			Int y = (nextCell.y - curCell.y) * step / numSteps + curCell.y;
+			for (Int i = x - radius; i < x + numCellsAbove; i++) {
+				for (Int j = y - radius; j < y + numCellsAbove; j++) {
+					PathCollisionCell *cell = reinterpret_cast<PathCollisionCell *>(getCell(node->getLayer(), i, j));
+					if (!cell || !cell->info)
+						continue;
+					for (PathCollisionNode *unitNode = cell->info->goals; unitNode; unitNode = unitNode->next) {
+						if (unitNode->object == obj)
+							continue;
+						if (unitNode->object->getID() == ignoreId)
+							continue;
+						Object *other = unitNode->object;
+						if (obj->m_template->testKindWord(0x74) && other->m_template->testKindWord(0x74))
+							continue;
+						if (other->m_template->hasKind(0xb6))
+							continue;
+						if (other->m_template->testKindWord(0x6d) && other->getID() == obj->m_id78)
+							continue;
+						if (other->isKindOf(MoveAlliesKind9A))
+							continue;
+						if (obj->getRelationship(other) != ALLIES)
+							continue;
+						if (obj->m_template->testKindWord(0x6d) && (other->m_template->testKindWord(0x6d) || other->rva002931BA()))
+							continue;
+						if (harvester && !other->m_template->hasKind(0x7d)) {
+							if ((other->getAI()->slot1BC() || other->getAI()->isMoving()) && !force)
+								continue;
+							if (other->testStatus(MoveAlliesStatus5A))
+								continue;
+							other->getAI()->aiMoveAwayFromUnit(obj, &initialPosition, CMD_FROM_AI);
+							break;
+						} else if (other && other->getAI() && !other->getAI()->isMoving()) {
+							if (!other->getAI()->slot1B8() && !force)
+								continue;
+							if (other->testStatus(MoveAlliesStatus5A))
+								continue;
+							other->getAI()->aiMoveAwayFromUnit(obj, &initialPosition, CMD_FROM_AI);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	path->Unlock();
+	return true;
 }

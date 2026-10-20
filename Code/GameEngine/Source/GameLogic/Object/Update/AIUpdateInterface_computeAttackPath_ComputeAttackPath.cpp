@@ -195,7 +195,7 @@ class Pathfinder
 public:
 	Int IsLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c, Int a20, Int a24);
 	Bool IsValidMovementPositionForObject(const Coord3D *pos, Int layer, Int surfaces, const Object *obj);
-	void moveAllies(Object *obj, Path *path, Bool flag);
+	Bool MoveAllies(Object *obj, Path *path, Bool flag);
  Bool isAttackViewBlockedByObstacle(const Object*,const Coord3D&,const Object*,const Coord3D&);
  Bool AdjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);
  void rva003E3BFB(ObjectID);
@@ -413,7 +413,7 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
    if((kinds&0x2000)&&!ai->getAiData()->m_fieldB9)move=false;
    if(t->m_moveAllies||(kinds&0x20000000))move=true;
    if(obj->testStatus(OBJECT_STATUS_39)||obj->testStatus(OBJECT_STATUS_32)||obj->isKindOf(KINDOF_84))move=false;
-   if(move)ai->pathfinder()->moveAllies(obj,m_path,obj->rva0028CE7B()>=4);
+   if(move)ai->pathfinder()->MoveAllies(obj,m_path,obj->rva0028CE7B()>=4);
   }
  }
  m_pathTimestamp=TheGameLogic->getFrame();m_blockedFrames=0;m_isBlockedAndStuck=false;if(m_path)return true;return false;

@@ -9569,7 +9569,6 @@ name,address,notes
 ?method_005C902A@TargetObj005C8DBF@@QAEXM@Z,0x005C902A,TargetObj005C8DBF float method called by HostClass005C8E0A::method_005C9069
 ?method_005C90F1@Rva005C847BRecord@@QAEXHH@Z,0x005C90F1,Rva005C847BRecord method called by HostClass005C815B::method_005C839B
 ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z,0x005C9311,Rva005C847BRecord method called by HostClass005C815B::method_005C836F
-?moveAllies@Pathfinder@@QAEXPAVObject@@PAVPath@@_N@Z,0x002F3C09,address read from the REL32 displacement at 0x0026DB0E in privateMoveAwayFromUnit 0x0026D765 with ECX = TheAI+0x10 and (owner / new path / a Bool) where Zero Hour calls moveAllies(obj path); the third argument is BFME2's; name donor-carried; body unrowed
 ?moveAlongWaypointPath@W3DView@@AAEXH@Z,0x00086F56,read from the REL32 at 0x000892CB in W3DView::cameraModLookToward (called with 1 when the camera path is in waypoint mode as the BFME 1 donor does); the 1276B body there calls normAngle three times (0x000871D7 0x000871F0 0x00087218) and the ParabolicEase evaluator as Zero Hour moveAlongWaypointPath
 ?multiByteToWideChar@@YAHPBDHPAGH@Z,0x006CB730,CP_ACP MultiByteToWideChar forwarder read from REL32 at placed convertToWide 0x0023436C; single caller
 ?nameToKey@NameKeyGenerator@@QAE?AW4NameKeyType@@ABVAsciiString@@@Z,0x0009FA65,"29-byte __thiscall wrapper: inlines AsciiString::str() (m_data ? m_data+8 : the """" literal at 0x00BBAC1C) then tail-calls the proven const char* overload at 0x00148E1A - that inner REL32 is the identity evidence"

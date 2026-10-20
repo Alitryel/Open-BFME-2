@@ -181,7 +181,7 @@ class Pathfinder
 public:
 	Int IsLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c, Int a20, Int a24);
 	Bool IsValidMovementPositionForObject(const Coord3D *pos, Int layer, Int surfaces, const Object *obj);
-	void moveAllies(Object *obj, Path *path, Bool flag);
+	Bool MoveAllies(Object *obj, Path *path, Bool flag);
  Bool isAttackViewBlockedByObstacle(const Object*,const Coord3D*,const Object*,const Coord3D*);
  Bool AdjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);
  Bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);
@@ -367,7 +367,7 @@ void AIUpdateInterface::doPathfind(PathfindServicesInterface *services)
    if(t->m_moveAllies||(kinds&0x20000000))move=true;
    if(obj->testStatus(OBJECT_STATUS_39)||obj->testStatus(OBJECT_STATUS_32)||obj->isKindOf(KINDOF_84))move=false;
    if(move){
-    ai->pathfinder()->moveAllies(obj,m_path,obj->rva0028CE7B()>=4);
+    ai->pathfinder()->MoveAllies(obj,m_path,obj->rva0028CE7B()>=4);
     PATH_TRACE("CritterDesync: doPathfind11 -- m_requestedDestination=%g,%g,%g");
    }
   }

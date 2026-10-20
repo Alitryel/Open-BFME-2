@@ -164,7 +164,7 @@ class Pathfinder
 public:
 	Int IsLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c, Int a20, Int a24);
 	Bool IsValidMovementPositionForObject(const Coord3D *pos, Int layer, Int surfaces, const Object *obj);
-	void moveAllies(Object *obj, Path *path, Bool flag);
+	Bool MoveAllies(Object *obj, Path *path, Bool flag);
 };
 
 struct AIData
@@ -425,7 +425,7 @@ Bool AIUpdateInterface::computePath(PathfindServicesInterface *pathServices, Coo
 		if (moveAllies) {
 			CRITTER_TRACE("CritterDesync:  bblah6");
 			Object *mover = getObject();
-			TheAI->pathfinder()->moveAllies(mover, m_path, mover->rva0028CE7B() >= 4);
+			TheAI->pathfinder()->MoveAllies(mover, m_path, mover->rva0028CE7B() >= 4);
 		}
 	} else {
 		CRITTER_TRACE("CritterDesync:  There isn't a theNewPath");
