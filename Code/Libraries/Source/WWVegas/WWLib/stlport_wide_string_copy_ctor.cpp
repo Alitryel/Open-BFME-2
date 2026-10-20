@@ -43,10 +43,8 @@ public:
 	{
 	}
 
-	__declspec(dllimport) __forceinline ~_String_base()
-	{
-		_M_deallocate_block();
-	}
+	// Exceptional cleanup uses the rowed wide _String_base destructor.
+	~_String_base();
 
 	void _M_deallocate_block();
 

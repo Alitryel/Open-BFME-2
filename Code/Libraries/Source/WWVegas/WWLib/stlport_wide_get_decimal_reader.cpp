@@ -30,7 +30,7 @@ class basic_string
 {
 public:
     basic_string();
-    __declspec(dllimport) __forceinline ~basic_string()
+    __forceinline ~basic_string()
     {
         if (_M_start != 0)
             free(_M_start);

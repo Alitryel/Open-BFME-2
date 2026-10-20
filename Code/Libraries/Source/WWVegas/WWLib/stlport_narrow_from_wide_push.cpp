@@ -41,7 +41,7 @@ public:
 	allocator<unsigned short> get_allocator() const;
 	basic_string &append(const basic_string &s);
 	void push_back(char c);
-	__declspec(dllimport) __forceinline ~basic_string()
+	__forceinline ~basic_string()
 	{
 		if (_M_start != 0)
 			free(_M_start);
