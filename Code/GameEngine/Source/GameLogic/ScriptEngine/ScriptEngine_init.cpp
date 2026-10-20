@@ -1,6 +1,6 @@
 // cl: /EHsc
 //
-// ScriptEngine::init, retail 0x00205AFD (406 bytes, including the catch(...)
+// ScriptEngine::init, retail 0x00205AFD (406 bytes, including the catch
 // block Ghidra splits off at 0x00205BEF). Vtable slot 1 of the table at
 // 0x007E3D70; the virtual called last is slot 9.
 //
@@ -13,7 +13,7 @@
 //     0x00E02D7A is set, and everything sits under m_windowed;
 //   * the particle editor is a loader object (FXParticleEditorI.dll, class
 //     BfmeDualVtableReleaseDtor) built as a temporary and swapped into the
-//     global at 0x00DFE180 inside try/catch(...), since its base constructor
+//     global at 0x00DFE180 inside try/catch, since its base constructor
 //     throws when LoadLibrary fails;
 //   * a missing CreateDebugDialog frees the library, and a present one is
 //     followed by the sides-list hand-off (0x00203C21);
@@ -81,6 +81,20 @@ inline void swapValues(T &a, T &b)
 	T tmp = a;
 	a = b;
 	b = tmp;
+}
+
+// What the loader base constructor throws when LoadLibrary fails. Retail's
+// handler catches it by const reference: its TypeDescriptor 0x00DB97E8 is
+// .?AVException@DllHandle@ in this unit's anonymous namespace.
+namespace
+{
+class DllHandle
+{
+public:
+	class Exception
+	{
+	};
+};
 }
 
 class BfmeDualVtableReleaseBase
@@ -159,7 +173,7 @@ void ScriptEngine::init()
 		if (TheWritableGlobalData->m_particleEdit) {
 			try {
 				BfmeDualVtableReleaseDtor(0).swap(TheFXParticleEditor);
-			} catch (...) {
+			} catch (const DllHandle::Exception &) {
 			}
 		}
 
