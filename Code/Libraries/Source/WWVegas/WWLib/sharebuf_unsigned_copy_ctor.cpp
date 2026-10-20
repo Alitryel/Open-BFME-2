@@ -53,17 +53,23 @@ protected:
 	int Alignment;
 };
 
-template <class Type>
-ShareBufferClass<Type>::ShareBufferClass(const ShareBufferClass<Type> &that) :
+// The region supplies /O2 /arch:SSE /G7. Keep the explicit copy constructor
+// in its native speed profile and emit the deferred virtual wrapper for size.
+// No new imported symbols or virtual slots are introduced.
+template <> ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &);
+template class ShareBufferClass<unsigned>;
+#pragma optimize("gt", on)
+template <>
+ShareBufferClass<unsigned>::ShareBufferClass(const ShareBufferClass<unsigned> &that) :
 	Count(that.Count)
 {
 	Alignment = that.Alignment;
 	if (Alignment == 0) {
-		RawBuffer = new Type[Count];
+		RawBuffer = new unsigned[Count];
 		Array = RawBuffer;
 	} else {
-		RawBuffer = (Type *)new char[Count * sizeof(Type) + Alignment];
-		Array = (Type *)(((unsigned int)RawBuffer + Alignment - 1) &
+		RawBuffer = (unsigned *)new char[Count * sizeof(unsigned) + Alignment];
+		Array = (unsigned *)(((unsigned int)RawBuffer + Alignment - 1) &
 			~(unsigned int)(Alignment - 1));
 	}
 	for (int index = 0; index < Count; ++index) {
@@ -71,8 +77,7 @@ ShareBufferClass<Type>::ShareBufferClass(const ShareBufferClass<Type> &that) :
 	}
 }
 
-template ShareBufferClass<unsigned>::ShareBufferClass(
-	const ShareBufferClass<unsigned> &);
+#pragma optimize("s", on)
 
 // Color cloning15B840 calls this175-byte constructor. Its vtableBCE330
 // agrees with the unsigned-buffer constructor used by Get_Color_Array D1FBD.
