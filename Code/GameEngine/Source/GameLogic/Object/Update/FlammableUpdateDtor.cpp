@@ -648,7 +648,7 @@ public:
 	void tryToIgnite();
 	void rva0048C8F9();
 	void rva0048C7BF();
-	void rva0048C771();
+	void doAflameDamage();
 	virtual UpdateSleepTime update();
 
 protected:
@@ -992,7 +992,7 @@ UpdateSleepTime FlammableUpdate::update()
 	if (m_damageEndFrame != 0 && now >= m_damageEndFrame)
 	{
 		m_damageEndFrame = now + data->m_aflameDamageDelay;
-		rva0048C771();
+		doAflameDamage();
 	}
 	if (m_burnedEndFrame != 0 && now >= m_burnedEndFrame && data->m_flag34)
 	{

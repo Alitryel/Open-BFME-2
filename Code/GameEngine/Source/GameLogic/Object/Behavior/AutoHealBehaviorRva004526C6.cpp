@@ -1,5 +1,5 @@
 // cl: /MD /DNDEBUG
-// ?rva004526C6@AutoHealBehavior@@QAEXPAVObject@@_N@Z @0x004526C6 207B via AutoHeal pulse with nonStackable gate plus attribute bonus plus FX flag
+// ?pulseHealObject@AutoHealBehavior@@QAEXPAVObject@@_N@Z @0x004526C6 207B via AutoHeal pulse with nonStackable gate plus attribute bonus plus FX flag
 // Evidence: prev onDamage 0x0045266B same TU layout +0x04/+0x08/+0x2C/+0x30; callees rowed rva0028C149 0x13 bonus attemptHealing rva0028FEA7 doFXObj; TheGameLogic frame +0x40; ModuleData 0x11C/0x120/0x128/0x150/0x154 from ModuleDataCtor 0x160.
 
 typedef int Int;
@@ -71,7 +71,7 @@ struct AutoHealBehaviorModuleData
 class AutoHealBehavior
 {
 public:
-	void rva004526C6(Object *obj, Bool flag);
+	void pulseHealObject(Object *obj, Bool flag);
 
 private:
 	void *m_vtable;
@@ -82,7 +82,7 @@ private:
 	Bool m_stopped;
 };
 
-void AutoHealBehavior::rva004526C6(Object *obj, Bool flag)
+void AutoHealBehavior::pulseHealObject(Object *obj, Bool flag)
 {
 	if (m_stopped)
 		return;
