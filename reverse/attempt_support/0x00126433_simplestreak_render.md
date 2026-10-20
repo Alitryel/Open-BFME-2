@@ -6,7 +6,9 @@ Bank: `reverse/attempts/0x00126433.cpp`. Scores below are `score.py` fitness
 (0.5 mnemonic + 0.3 full + 0.2 bytes). "norm" counts instructions that match
 once `[ebp-X]` offsets are masked, out of 2637.
 
-## Current best (claudeb4, 2026-10-20): 0.8285, norm 2305/2637, 12022 B
+## Current best (claudeb4, 2026-10-20): 0.8307, norm 2307/2637, 12022 B
+
+0.8307 = the 0.8285 body below plus item 6.
 
 The previous bank scored 0.7808 (norm 1974). The best body is built from that
 bank as follows:
@@ -34,6 +36,10 @@ bank as follows:
    produces retail's out-of-line call at 0x7671F. To land, rename that row to
    `??0Matrix4@@QAE@XZ`; until then the build reports it UNRES. Without the
    rename (the `Rva0007671F` storage hack) the score is 0.8277.
+6. WB twin shape of the shadow pass (WB asserts `!(passesToRender != 1)`,
+   line 788): two separate continues,
+   `if(!sp->Begin(&passes,0xffff)) continue; if(passes!=1) continue;
+   sp->BeginPass(0);` instead of one `||` condition.
 
 ## Inline budget (why the setters stay out of line)
 
@@ -72,7 +78,31 @@ bank as follows:
 - **Region trade-off**: `v_Tnp` (setters and VS/PS not forced) is better in
   0x5-0xb, but it has out-of-line calls, so it cannot match.
 
+## Register-mode flip (read before adding anything)
+
+Adding almost any local or inline member flips regions 0xc, 0xd and 0x1a-0x1f
+into a worse allocation (about c:3 d:13 1a:11 1b:15 1c:18 1d:23 1e:18 diffs;
+region d shows swapped mulss operands `[esi-8]`/`[esi-0xc]`). The good mode is
+c:0 d:0 1a:~1 1d:~8. Check every variant with `build/s126/rs2.py` before
+trusting the total score. Triggers seen so far: an `operator->` member on the
+shadow pointer holder, a local `SimpleShadowPass *sp=shadow.p`, a `bool ok`
+temp around Begin.
+
+## Shadow-pointer caching (region 0x27/0x2b)
+
+Retail keeps `shader_setup.Referent` in esi across Begin/BeginPass and
+EndPass/End; ours reloads `[ebp-0x14]` before each virtual call. WB shows
+`RefCountPtr<FXShaderSetup> shader_setup(0)` at loop scope after `sorting`,
+assigned with the out-of-line operator= 0x72A94 and destroyed with 0x7B724.
+Probes in `build/s126/pb/` (loop vs function scope, no dtor, out-of-line copy
+ctor, inline operator=, inline dtor, /Oa, /Ow, /Ox) all reload, so the cause is
+still open.
+
 ## Disproven (do not repeat)
+
+- `operator->` on the shadow holder; member operator= on it; a local
+  `sp` alias in the Begin or End block; a `bool ok` temp for Begin
+  (all flip the register mode, see above).
 
 - ALLOW_TEMPORARIES `operator*` / `modelview=view2*transform`.
 - ZH `operator*` by value.
@@ -94,3 +124,7 @@ bank as follows:
 
 - `score.py`, `regsum.py`, `odisr.py`, `omap.py` (ebp slot map), `frm.py`.
 - `gen_bf2.py` (Set/Get_Transform shapes) and `gen_f3.py` (T/R/n/p factorial).
+- `rs2.py obj...` per-0x100 region diff counts with relocations, call targets
+  and immediates masked (better than regsum); `rs2.py obj lo hi` prints the
+  diff of one range. `sbs.py obj lo hi` side-by-side, `pdis.py f.cpp sym` probe
+  disassembly. `g4/` holds the 0.8307 family (w_A is the bank).

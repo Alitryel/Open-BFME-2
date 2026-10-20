@@ -1,5 +1,5 @@
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
-// partial score=0.8285 date=2026-10-20
+// partial score=0.8307 date=2026-10-20
 // ?rva00126433@Rva00126314@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAMABVSphereClass@@@Z
 // partial score=0.7808 date=2026-10-17
 // SimpleStreak renderer126433..129303; WB A1E840 and ZH Streak geometry.
@@ -1680,7 +1680,7 @@ if(WW3D::IsCurrentlyRenderingShadowMap){
 sorting=false; bool additive=Shader.Get_Src_Blend_Func()==ShaderClass::SRCBLEND_ONE&&Shader.Get_Dst_Blend_Func()==ShaderClass::DSTBLEND_ONE;
 *(Rva00072A94*)&shadow=*(const Rva00072A94*)(additive?&g_Va00DEE86C:&g_Va00DEE870);
 {SimpleTextureTemp t; BFME2Set_Texture(0,*(BFME2TextureRef*)&t);}
-unsigned passes=0;if(!shadow.p->Begin(&passes,65535)||passes!=1)continue;shadow.p->BeginPass(0);
+unsigned passes=0;if(!shadow.p->Begin(&passes,65535))continue;if(passes!=1)continue;shadow.p->BeginPass(0);
 }else{
 ShaderClass shader=Shader;shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
 VertexMaterialClass *mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);DX8Wrapper::Set_Material(mat);REF_PTR_RELEASE(mat);
