@@ -14,7 +14,7 @@ struct Rva002F1DA1Mapped { int a; };
 typedef _STL::pair<const int,Rva002F1DA1Mapped> Value2EF239;
 typedef _STL::pair<const int,int> Copy2EF239;
 namespace _STL {
-template<> __declspec(noinline) void _Construct<Copy2EF239,Copy2EF239>(Copy2EF239 *,const Copy2EF239 &);
+template<> __declspec(noinline) inline void _Construct<Copy2EF239,Copy2EF239>(Copy2EF239 *,const Copy2EF239 &);
 }
 typedef _STL::_Rb_tree<int,Value2EF239,_STL::_Select1st<Value2EF239>,_STL::less<int>,_STL::allocator<Value2EF239> > Tree2EF239;
 namespace _STL {
@@ -24,7 +24,7 @@ template<> Tree2EF239::_Link_type Tree2EF239::_M_create_node(const Value2EF239 &
  _Construct(reinterpret_cast<Copy2EF239 *>(&node->_M_value_field),reinterpret_cast<const Copy2EF239 &>(value));
  return node;
 }
-template<> __declspec(noinline) void _Construct<Copy2EF239,Copy2EF239>(Copy2EF239 *p,const Copy2EF239 &value) {
+template<> __declspec(noinline) inline void _Construct<Copy2EF239,Copy2EF239>(Copy2EF239 *p,const Copy2EF239 &value) {
  new(p) Copy2EF239(value);
 }
 }

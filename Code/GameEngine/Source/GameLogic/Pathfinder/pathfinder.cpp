@@ -6476,6 +6476,10 @@ typedef _STL::map<int, Rva002F0B8AElement> FoldZoneTreeDtorMap;       // 0x002F0
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F0B8AElement >, _STL::_Select1st<_STL::pair<const int, Rva002F0B8AElement > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F0B8AElement > > > FoldZoneTreeDtor;
 typedef _STL::multimap<int, Rva002F1DA1Mapped> FoldZoneInsertMap;     // 0x002F1DA1
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva002F1DA1Mapped >, _STL::_Select1st<_STL::pair<const int, Rva002F1DA1Mapped > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, Rva002F1DA1Mapped > > > FoldZoneInsert;
+// The pool-backed node factory is rowed in Rva002EF239CreateNode.cpp.
+namespace _STL {
+template <> FoldZoneInsert::_Link_type FoldZoneInsert::_M_create_node(const FoldZoneInsert::value_type &);
+}
 typedef _STL::multimap<int, int> FoldZoneRangeMap;                    // 0x002F1C89
 typedef _STL::_Rb_tree<int, _STL::pair<const int, int >, _STL::_Select1st<_STL::pair<const int, int > >, _STL::less<int >, _STL::allocator<_STL::pair<const int, int > > > FoldZoneRange;
 typedef _STL::set<Rva002F307AElement> FoldWayTreeCtor;                // 0x002F307A
