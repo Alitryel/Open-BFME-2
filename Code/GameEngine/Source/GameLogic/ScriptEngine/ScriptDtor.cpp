@@ -64,13 +64,14 @@ struct Rva003B3536
 class Script : public Snapshot
 {
 public:
-	// Full interface per the ScriptWriteDataChunk.cpp view (Script(),
-	// duplicate, parse, loadPostProcess, GetSnapshotName, xfer); only the
-	// destructor is defined here, so the remaining slots stay __purecall
-	// and this TU emits no undefined refs.
+	// The virtual slots match ScriptWriteDataChunk.cpp's view (loadPostProcess,
+	// GetSnapshotName, xfer) so both units emit the same Script vtable COMDAT;
+	// only the destructor is defined here.
 protected:
 	virtual ~Script();
+	virtual void loadPostProcess();
 	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 private:
 	AsciiString m_text0, m_text1, m_text2;	// +0x04/+0x08/+0x0C
 	Rva003B3536 m_subrecord;		// +0x10 (string name at +0x1C)
