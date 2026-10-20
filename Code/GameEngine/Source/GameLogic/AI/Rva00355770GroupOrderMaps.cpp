@@ -122,14 +122,15 @@ struct Rva00355100Pair
 };
 Xfer *Rva00355100Xfer(Xfer *, Rva00355100Pair *);
 
-struct XferException
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
 	char *text;
 	int tag;
 };
-extern "C" XferException *__cdecl bfmeFormatText(XferException *, int, const char *, ...);
-extern void __declspec(noreturn) __stdcall _CxxThrowException(void *, void *);
-extern int g_guardTargetTypeThrowInfo;
 
 // Native 0x35552A..0x35560B: version 1, named hash-map count, save pairs;
 // loading requires an empty map and reconstructs count pointer-valued slots.
@@ -154,9 +155,7 @@ Xfer *Rva0035552AXfer(Xfer *xfer, void *mapStorage)
 		}
 	} else {
 		if (map->m_count != 0) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Map must be empty on load");
-			_CxxThrowException(&error, &g_guardTargetTypeThrowInfo);
+			throw XferException(4, "Map must be empty on load");
 		}
 		Rva00355100Pair item = { 0, 0 };
 		while (count != 0) {
@@ -202,9 +201,7 @@ Xfer *Rva0035568FXfer(Xfer *xfer, void *mapStorage)
 		}
 	} else {
 		if (map->m_count != 0) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Map must be empty on load");
-			_CxxThrowException(&error, &g_guardTargetTypeThrowInfo);
+			throw XferException(4, "Map must be empty on load");
 		}
 		Rva0035511BPair item = { INVALID_ID, 0 };
 		while (count != 0) {

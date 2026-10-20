@@ -83,15 +83,15 @@ public:
 	virtual Xfer &xferUnsignedInt(UnsignedInt &value);
 };
 
-struct XferException
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
-extern int g_guardTargetTypeThrowInfo;
 
 Xfer *Rva00586231Xfer(Xfer *xfer, GenDeque *vec)
 {
@@ -113,9 +113,7 @@ Xfer *Rva00586231Xfer(Xfer *xfer, GenDeque *vec)
 		}
 	} else {
 		if (!evec->empty()) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Deque must be empty on load");
-			_CxxThrowException(&error, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo); __assume(0);
+			throw XferException(4, "Deque must be empty on load");
 		}
 		Gen_t_00595870_p12cd value;
 		while (count != 0) {

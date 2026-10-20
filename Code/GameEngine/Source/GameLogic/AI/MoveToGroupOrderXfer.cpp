@@ -149,16 +149,15 @@ public:
 
 extern Xfer &XferObjectID(Xfer *xfer, ObjectID *id);
 
-struct XferException
+class XferException
 {
+public:
+	XferException(int tag, const char *format, ...);
+	XferException(const XferException &that);
+	~XferException();
 	char *text;
 	int tag;
 };
-
-extern "C" XferException *__cdecl bfmeFormatText(XferException *result, int tag, const char *format, ...);
-extern int g_guardTargetTypeThrowInfo;
-extern void __declspec(noreturn) __stdcall _CxxThrowException(void *object, void *throwInfo);
-#pragma comment(linker, "/alternatename:?_CxxThrowException@@YGXPAX0@Z=__CxxThrowException@8")
 
 typedef _STL::pair<ObjectID, Coord3D> ObjectCoord3DPair;
 
@@ -381,9 +380,7 @@ Xfer *Rva0054755BXfer(Xfer *xfer, ObjectCoord3DMap *map)
 		}
 	} else {
 		if (map->size() != 0) {
-			XferException error;
-			bfmeFormatText(&error, 4, "Map must be empty on load");
-			_CxxThrowException(&error, &g_guardTargetTypeThrowInfo);
+			throw XferException(4, "Map must be empty on load");
 		}
 		ObjectCoord3DPair item;
 		while (count != 0) {
