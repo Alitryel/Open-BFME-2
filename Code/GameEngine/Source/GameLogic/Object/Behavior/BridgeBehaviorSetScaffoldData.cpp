@@ -62,9 +62,11 @@ protected:
 	void setScaffoldData(Object *object, Real *angle, Real *sunkenHeight,
 		const Coord3D *risePosition, const Coord3D *buildPosition,
 		const Coord3D *bridgeCenter);
+	friend void bfmeAnchorBridgeBehaviorSetScaffoldData(BridgeBehavior *p);
 };
 
-void BridgeBehavior::setScaffoldData(Object *object, Real *angle,
+// Select-any: BridgeBehaviorCreateScaffolding.cpp compiles an identical copy for its caller.
+__declspec(noinline) inline void BridgeBehavior::setScaffoldData(Object *object, Real *angle,
 	Real *sunkenHeight, const Coord3D *risePosition,
 	const Coord3D *buildPosition, const Coord3D *bridgeCenter)
 {
@@ -103,4 +105,11 @@ void BridgeBehavior::setScaffoldData(Object *object, Real *angle,
 	scaffold->setLateralSpeed(lateralSpeed * (buildDistance / riseDistance));
 	Real verticalSpeed = moduleData->m_verticalScaffoldSpeed;
 	scaffold->setVerticalSpeed(verticalSpeed);
+}
+
+// The anchor keeps the rowed select-any body emitted in this unit.
+// ?bfmeAnchorBridgeBehaviorSetScaffoldData absent-from-retail
+void bfmeAnchorBridgeBehaviorSetScaffoldData(BridgeBehavior *p)
+{
+	p->setScaffoldData(0, 0, 0, 0, 0, 0);
 }
