@@ -35,9 +35,12 @@ class GeometryInfo
  
 }
 ;
-class DamageInfo 
+class DamageInfo;
+// This stack view uses the rowed 0x00263895 constructor owner. Keep
+// DamageInfo as the consumer ABI type for Object::attemptDamage.
+class Rva00263895Member
 {
- public: DamageInfo();
+ public: Rva00263895Member();
  char unknown00[8];
  int sourceID;
  int unknown0C;
@@ -479,7 +482,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
  }
  BodyModuleInterface *body=getObject()->body;
  if(body && !body->permitsCrushing(other))return;
- DamageInfo damageInfo;
+ Rva00263895Member damageInfo;
  other->rva002929F9(getObject());
  if(other->tmplate->crushMagnitude>0.0f)
  {
@@ -495,7 +498,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
   damageInfo.deathType=0;
   damageInfo.sourceID=other->getID();
   damageInfo.amount=0.0f;
-  self->attemptDamage(&damageInfo);
+  self->attemptDamage((DamageInfo *)&damageInfo);
  }
  if(!(other->tmplate->flags&0x2000))
  {
@@ -507,7 +510,7 @@ void SquishCollide::onCollide(Object *other,const Coord3D *loc,const Coord3D *no
    damageInfo.deathType=2;
    damageInfo.sourceID=other->getID();
    damageInfo.amount=HUGE_DAMAGE_AMOUNT; // make sure they die
-   self->attemptDamage(&damageInfo);
+   self->attemptDamage((DamageInfo *)&damageInfo);
   }
   Weapon *crushedWeapon=self->crushedWeapon;
   if(crushedWeapon && !self->rva0028F44C(other))crushedWeapon->rva002CE6C5(self,other->getID(),other,0);
