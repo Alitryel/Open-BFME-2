@@ -8,6 +8,11 @@
 // copy worker at 0x0032A37A. Those callees are independently rowed; their
 // different type spellings leave the element's C++ identity unresolved.
 
+// These are the rowed call owners at 0x0032B580 and 0x0032BF1B.
+// The casts below bind the proven call targets without asserting element identity.
+class Rva0032A3A9Element;
+class Rva0032BF1B { public: ~Rva0032BF1B(); };
+
 namespace _STL {
 struct __false_type
 {
@@ -59,14 +64,14 @@ _STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const ve
 		if (xsize > capacity())
 		{
 			pointer tmp = _M_allocate_and_copy(xsize, x.m_start, x.m_finish);
-			_M_clear();
+			((Rva0032BF1B *)this)->~Rva0032BF1B();
 			m_start = tmp;
 			m_endOfStorage = tmp + xsize;
 		}
 		else if (size() >= xsize)
 		{
 			pointer new_finish = _STL::__copy_ptrs(x.m_start, x.m_finish, m_start, _STL::__false_type());
-			_STL::_Destroy(new_finish, m_finish);
+			_STL::_Destroy((Rva0032A3A9Element *)new_finish, (Rva0032A3A9Element *)m_finish);
 		}
 		else
 		{

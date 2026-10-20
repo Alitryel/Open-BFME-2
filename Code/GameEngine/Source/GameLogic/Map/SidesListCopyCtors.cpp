@@ -11,6 +11,16 @@ struct Rva0032C0E3Element
 	char m_body[0x80];
 };
 
+// Use the rowed 0x0032C0E3 assignment rather than emitting a POD-only copy.
+namespace _STL {
+// The record constructors only instantiate POD cleanup. Keep it inline so
+// this unit does not compete with the rowed nontrivial destroy worker.
+template <> __declspec(dllimport) __forceinline void _Destroy(
+    Rva0032C0E3Element *, Rva0032C0E3Element *) {}
+template <> vector<Rva0032C0E3Element> &vector<Rva0032C0E3Element>::operator=(
+    const vector<Rva0032C0E3Element> &);
+}
+
 class Rva0032C19D
 {
 public:
