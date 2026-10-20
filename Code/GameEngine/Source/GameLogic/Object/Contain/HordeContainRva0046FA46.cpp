@@ -16,6 +16,17 @@
 #include "Lib/Coord3D.h"
 #include <map>
 
+// _M_find inlines the child links; dllimport+forceinline keeps this TU's frame-pointer
+// copies of them out of the link (retail's are stlport_map_int_int.cpp's).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Rb_tree_node<pair<const int, int> > *&
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::_S_left(_Rb_tree_node<pair<const int, int> > *x)
+{ return (_Rb_tree_node<pair<const int, int> > *&)(x->_M_left); }
+template <> __declspec(dllimport) __forceinline _Rb_tree_node<pair<const int, int> > *&
+_Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::_S_right(_Rb_tree_node<pair<const int, int> > *x)
+{ return (_Rb_tree_node<pair<const int, int> > *&)(x->_M_right); }
+}
+
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
 // overloads take those calls instead so this TU emits no external copy.
