@@ -28,7 +28,8 @@ typedef int Int;
 class RefCountClass
 {
 public:
-	void Release_Ref(void)
+	// Always inlined here, so this unit emits no copy of the rowed 0x5D1A7D body.
+	__declspec(dllimport) __forceinline void Release_Ref(void)
 	{
 		NumRefs--;
 		if (NumRefs == 0)

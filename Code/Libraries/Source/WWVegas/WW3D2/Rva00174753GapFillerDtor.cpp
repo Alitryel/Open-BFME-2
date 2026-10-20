@@ -29,6 +29,9 @@ struct BfmeAssignRecord32 {
  ~BfmeAssignRecord32();
  Rva00087A93 s; int x; Rva00087A93 arr[6];
 };
+// The rowed range erase 0x173FB6 and vector destructor 0x173EBA: called, never emitted here.
+namespace _STL { template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32>::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *); }
+namespace _STL { template <> vector<BfmeAssignRecord32>::~vector(); }
 struct Rva00174350MeshView { char opaque00[0x310]; unsigned *slot310; };
 void __cdecl Rva00030830FreeAllocation(void *);
 void __cdecl operator delete(void *);

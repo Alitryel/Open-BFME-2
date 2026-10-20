@@ -134,14 +134,14 @@ void *bfmeAnchorBfmeSceneVectorCtor(void *where);
 // evidence for the original scene-node payload type or list spelling.
 // The pool erase body is visible for rescale inlining. Its retail /O1 /Ob0
 // provider and the outlined list destructor live in SceneNodeListProviders.cpp.
-// The identical inline specialization below permits normal COMDAT selection.
+// Forced inline below, so this /O2 unit emits no copy that differs from those rows.
 namespace _STL {
 template <> _Slist_node_base *
 _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base*,_Slist_node_base*);
 }
 
 namespace _STL {
-template <> inline _Slist_node_base *
+template <> __declspec(dllimport) __forceinline _Slist_node_base *
 _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base* head,_Slist_node_base* stop)
 {
  _Slist_node_base* current=head->_M_next;
@@ -154,6 +154,14 @@ _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base* head,_Slist_n
  }
  return head->_M_next=stop;
 }
+}
+
+// STLport's base constructor, forced inline so this unit emits no /O2 copy of row 0x6FA99.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Slist_base<int,allocator<int> >::_Slist_base(const allocator<int>& __a) :
+ _M_head(_STLP_CONVERT_ALLOCATOR(__a, _Slist_node<int>), _Slist_node_base())
+{ _M_head._M_data._M_next = 0; }
 }
 
 void BfmeSceneVector::rva00141F90(const Rva00141F90Bounds &newBounds)

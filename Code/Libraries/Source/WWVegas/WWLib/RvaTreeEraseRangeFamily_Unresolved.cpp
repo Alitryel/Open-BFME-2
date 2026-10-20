@@ -40,6 +40,9 @@ typedef _STL::_Rb_tree<int, _STL::pair<const int, void *>, _STL::_Select1st<_STL
 typedef _STL::_Rb_tree<int, _STL::pair<const int, int>, _STL::_Select1st<_STL::pair<const int, int> >,
 	_STL::less<int>, _STL::allocator<_STL::pair<const int, int> > > IntIntTree;
 
+// The rowed equal_range 0x00362B5F: called, never emitted here with its bound helpers.
+namespace _STL { template <> pair<IntPtrTree::iterator, IntPtrTree::iterator> IntPtrTree::equal_range(const int &); }
+
 class Rva0007E971
 {
 public:
