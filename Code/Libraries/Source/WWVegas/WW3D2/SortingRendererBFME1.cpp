@@ -162,7 +162,10 @@ public:
 #include "refcount.h"
 #undef REF_PTR_RELEASE
 #define REF_PTR_RELEASE(x)		{ if (x) { x->Release_Ref(); x = NULL; } }
-#include "dx8wrapper.h"
+// Link views: TextureBaseClass::Add_Ref and Set_Transform(Matrix4) stay inline
+// without emitting copies that lose to retail's owners (0x000424B6, 0x000A68A7).
+#include "../../../../../reference/shims/bfme_particle_create/texture.h"
+#include "../../../../../reference/shims/bfme_vertexmaterial_link/dx8wrapper.h"
 #include "vertmaterial.h"
 #include "texture.h"
 #include "ref_ptr.h"
