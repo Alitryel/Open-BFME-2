@@ -99,10 +99,15 @@ struct Rva008312E0FalseType
 {
 };
 
+// STLport returns the first reference on equality; the global max owner
+// has different tie semantics, so retain the donor namespace here.
+namespace _STL
+{
 template <class _Tp>
 inline const _Tp &(max)(const _Tp &__a, const _Tp &__b)
 {
 	return __a < __b ? __b : __a;
+}
 }
 
 template <class _RandomAccessIterator>
@@ -270,7 +275,7 @@ void Rva008312E0String::insertRange(char *__position, char *__first, char *__las
 		else
 		{
 			const size_t __old_size = size();
-			const size_t __len = __old_size + (max)(__old_size, (size_t)__n) + 1;
+			const size_t __len = __old_size + (_STL::max)(__old_size, (size_t)__n) + 1;
 			char *__new_start = allocate(__len);
 			char *__new_finish = __new_start;
 			__new_finish = _STL::Rva000179B0UninitializedCopy(m_start, __position, __new_start);
