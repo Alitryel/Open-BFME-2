@@ -36,6 +36,10 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 }
 
 #include "../../../../GameEngine/Source/Common/BattlePromptArmyPanelClipImplView.h"
+// Suppress this TU's non-retail copy of ?allocate@?$allocator@UBfmePod8@@@_STL@@QBEPAUBfmePod8@@IPBX@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct BfmePod8;
+namespace _STL { template <> BfmePod8 *allocator<BfmePod8>::allocate(size_t, const void *) const; }
 
 void BfmePod8Vector::resize(unsigned int n, BfmePod8 x)
 {
