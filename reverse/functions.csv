@@ -29100,7 +29100,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ??0Rva004FAC6B@@QAE@XZ,,0x004FAC6B,21,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva004FAC6BCtor.cpp,matched,calls rowed Rva00330757Member ctor at plus4 installs vtable 0x008633C0 called by derived ctor
 ??0Rva005D7531@@QAE@XZ,,0x005D751F,18,Code/GameEngine/Source/Common/Rva005D7D88Derived.cpp,matched,ctor calls base 005D7D76 precedes dtor 005D7531
 ?Rva0004CCCDCopyRange@@YAPAVRvaSmartPtr12@@PAV1@00@Z,,0x0004CCCD,50,Code/GameEngine/Source/Common/System/SmartPtrCopyRange.cpp,matched,copy range via rowed assignment with stride12 idiv
-?Rva005D896FGet@@YGHPAVObject@@@Z,,0x005D896F,27,Code/GameEngine/Source/Common/Rva005D896FGet_muse-1b6d.cpp,matched,stdcall helper over rowed getCurrentWeapon and byte getter
+?rva005D896F@Rva005D898A@@QAE_NPAVObject@@@Z,,0x005D896F,27,Code/GameEngine/Source/Common/Rva005D896FGet_muse-1b6d.cpp,matched,bool member helper over rowed getCurrentWeapon and byte getter; thiscall per its caller 0x005D898A (ecx = this; tests al)
 ?destroyDelete@Rva0004CCFF@@QAEPAXI@Z,,0x0004CCFF,33,Code/GameEngine/Source/Common/System/SmartPtrDestroyDelete.cpp,matched,conditional Bfme dtor plus conditional delete returning this
 ??0Weapon@@IAE@ABV0@@Z,,0x002CC2FC,162,Code/GameEngine/Source/GameLogic/Object/WeaponCtor.cpp,matched,vtable 0x0080214C copy ctor donor BFME1 WeaponCopyConstructor plus ZH protected copy
 ?call@Rva001F425C@@QAEXXZ,,0x001F425C,26,Code/GameEngine/Source/GameClient/FXParticleSystem.cpp,matched,sibling begin-end loop slot4 via O1 flags

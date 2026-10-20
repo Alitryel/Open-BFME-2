@@ -115,16 +115,27 @@ class PolygonTrigger
 	static int s_currentID;									// 0x00DBD0F0
 };
 
+class DataChunkInput;
+struct DataChunkInfo;
+
+class PolygonTriggerDataChunkParserBase
+{
+public:
+	bool parse(DataChunkInput &file, const DataChunkInfo *info);	// 0x002E40DB
+};
+
 class Rva002E41EC
 {
 public:
 	virtual bool rva002E41EC(void *a, void *b);
-	bool rva002E40DB(void *a, void *b);						// 0x002E40DB
 };
 
+// The parse step is the rowed PolygonTriggerDataChunkParserBase::parse; this
+// class's relation to it is not recovered, so it is reached through this.
 bool Rva002E41EC::rva002E41EC(void *a, void *b)
 {
-	if (!rva002E40DB(a, b))
+	if (!reinterpret_cast<PolygonTriggerDataChunkParserBase *>(this)->parse(
+			*static_cast<DataChunkInput *>(a), static_cast<const DataChunkInfo *>(b)))
 		return false;
 	int maxID = 0;
 	for (Rva002E373CTrigger *t = g_Va00DBD0F4->m_first; t; t = t->m_next)
