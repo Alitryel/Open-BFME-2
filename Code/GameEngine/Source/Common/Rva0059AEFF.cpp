@@ -17,7 +17,7 @@ extern int g_00C70E5C;
 class Rva0037DCA5
 {
 public:
-	void rva0037DF8D(Rva002206F9Sink *sink);
+	int rva0037DF8D(Rva002206F9Sink *sink);
 };
 struct Rva0059AEFF24
 {
