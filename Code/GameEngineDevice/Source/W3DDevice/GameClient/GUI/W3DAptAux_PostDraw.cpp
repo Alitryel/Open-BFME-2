@@ -135,7 +135,7 @@ struct AptRenderTransform
 	int m_data[6];
 };
 
-AptRenderTransform g_aptRenderTransform; // native zero-filled DE6148..DE6160
+extern AptRenderTransform g_aptRenderTransform; // native zero-filled DE6148..DE6160
 
 class AptShapeContainer
 {
@@ -265,8 +265,8 @@ struct Rva000A994CColors
  float x, y, z, w;
  void set(float a, float b, float c, float d) { x=a; y=b; z=c; w=d; }
 };
-Rva000A994CColors g_aptHostColorBlock0; // native DE6198..DE61A8
-Rva000A994CColors g_aptHostColorBlock1;void Rva000A994CSetColor(const float *value);
+extern Rva000A994CColors g_aptHostColorBlock0; // native DE6198..DE61A8
+extern Rva000A994CColors g_aptHostColorBlock1;void Rva000A994CSetColor(const float *value);
 
 
 class Rva00786BD0Owner
@@ -286,8 +286,8 @@ struct AptSizePair {
   return !(x==b.x && y==b.y);
  }
 };
-AptSizePair g_aptLastStageSize,g_aptLastDeviceSize; // DE61B8 and DE61C0, zero-filled
-AptRenderTransform g_aptTransformBeforeLinearScale; // DE6130, before the linear scale
+extern AptSizePair g_aptLastStageSize,g_aptLastDeviceSize; // DE61B8 and DE61C0, zero-filled
+extern AptRenderTransform g_aptTransformBeforeLinearScale; // DE6130, before the linear scale
 void Rva006CD6F0Get(void **,void **);
 extern "C" double __cdecl fabs(double);
 static __forceinline bool aptFar(float value) {
