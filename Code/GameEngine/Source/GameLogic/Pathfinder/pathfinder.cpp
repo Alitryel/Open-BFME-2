@@ -517,7 +517,13 @@ public:
 
 
 struct Rva002EBC7FPair { int x,y; };
-void *rva002EBC7F(void *,void *,Rva002EBC7FPair *,int);
+// The rowed 0x002EBC7F body (AI/Rva002EBC7F.cpp), visible here so that the pair
+// CalcCollisionFreeExtraCosts hands it does not escape and rva002ECC0D's info stays local.
+__declspec(noinline) inline void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
+{
+	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	return a1;
+}
 #include <math.h>
 class AIUpdateInterface {
 public:
@@ -657,6 +663,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
     int _GetOverlapUnits(Object *,const Coord3D *,int *);
     int GetOverlapGoalUnits(Object *,const Coord3D *,int *);
     int CountOverlapHordeGoalUnits(Object *,const Coord3D *);
+    Bool rva002ECC0D(Object *,const Coord3D *);
     int _GetAdjacentUnits(Object *,const Coord3D *,int *);
     Bool CircleClipsTallBuilding(const Coord3D *,const Coord3D *,float,unsigned,Coord3D *);
     Bool rva002F3392(PathNode *,PathNode *,unsigned,Coord3D *,Coord3D *,Coord3D *);
@@ -3230,6 +3237,42 @@ bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
 	if (v < 0 || (int)((flags >> 19) & 3) <= v)
 		return true;
 	return false;
+}
+// 0x002ECC0D (WB D3D140): obj fits at pos when every footprint cell exists and passes the mover's
+// surface check, checkForMovement accepts it and CalcCollisionFreeExtraCosts reports no conflict.
+Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
+{
+	TCheckMovementInfo info;
+	((Rva002E6FDF *)&info)->rva002E6FDF();
+	Rva002EBCA7Split(obj, &info.radius, (unsigned char *)&info.centerInCell);
+	{
+		ICoord2D cell;	// shares its slot with the later locomotor view
+		info.cell = *Rva002E7875WorldToCell(&cell, info.centerInCell, pos);
+	}
+	info.layer = (PathfindLayerEnum)obj->rva0028B511();
+	{
+		Int priority = obj->m_template->priority;
+		Bool flag = obj->m_template->flag;
+		AIUpdateInterface *ai = obj->getAI();
+		Rva002E8BCF movement((const Rva002E8BCFSrc *)((const char *)ai + 0x1cc), !flag, priority - 1, obj->rva0028AFBB());
+		Int i, j;
+		for (i = -info.radius; i < info.radius; i++) {
+			for (j = -info.radius; j < info.radius; j++) {
+				PathfindCell *cell = getCell(info.layer, info.cell.x + i, info.cell.y + j);
+				if (!cell)
+					return false;
+				if (!((Rva002E6DC4 *)this)->rva002E6DC4(&movement, cell))
+					return false;
+			}
+		}
+	}
+	info.m_11 = false;
+	info.m_14 = obj->m_template->testKindWord(90) ? 1 : 16;
+	info.m_18 = obj->getAI() ? (ObjectID)((Rva0006E009DwordField *)obj->getAI())->get() : (ObjectID)0;
+	if (!checkForMovement(obj, info))
+		return false;
+	return CalcCollisionFreeExtraCosts(obj, 0, (Rva002EBC7FPair *)&info, info.layer,
+		info.radius, info.radius + (info.centerInCell ? 1 : 0), false) == 0;
 }
 // 0x002EA34A (782 B), rehomed from PathfinderCheckForMovement.cpp.
 class StateMachine
