@@ -257,15 +257,6 @@ int Rva000907A1Get(void)
 	return 0x00CE4818;
 }
 
-// ?Rva003007A2Get@@YAHXZ @ 0x003007A2 (6B): returns 0x00700778.
-// Follows a leave/ret (0x30079F-A1) with a frame-style function after
-// (0x3007A8: push ebp). Ghidra-6, carried at 1 .rdata slot, no direct
-// callers, no branch sources. Opaque address-derived name.
-int Rva003007A2Get(void)
-{
-	return 0x00700778;
-}
-
 // ?Rva00200BBAGet@@YAHXZ @ 0x00200BBA (6B): returns 0x00C080B0.
 // Follows a leave/ret plus a sibling B8-6 (pair, 6 apart) with a
 // frame-style function after. Carried at 0x7E2BA0, no direct callers,
@@ -324,14 +315,6 @@ int Rva00655114Get(void)
 	return 1;
 }
 
-// ?Rva0002CF5EGet@@YAHXZ @ 0x0002CF5E (6B): returns 0x0042CF5A.
-// Ghidra-6 B8-imm/ret island; unclaimed on master; opaque address-derived
-// name following the ConstIntGetters family precedent.
-int Rva0002CF5EGet(void)
-{
-	return 0x0042CF5A;
-}
-
 
 
 
@@ -341,30 +324,6 @@ int Rva00337055Get(void)
 	return 0x0073705B;
 }
 
-
-// ?Rva0041A967Get@@YAHXZ @ 0x0041A967 (6B): returns 0x0081A8B1.
-int Rva0041A967Get(void)
-{
-	return 0x0081A8B1;
-}
-
-// ?Rva0055037EGet@@YAHXZ @ 0x0055037E (6B): returns 0x0095026E.
-int Rva0055037EGet(void)
-{
-	return 0x0095026E;
-}
-
-// ?Rva00552BD2Get@@YAHXZ @ 0x00552BD2 (6B): returns 0x009521D4.
-int Rva00552BD2Get(void)
-{
-	return 0x009521D4;
-}
-
-// ?Rva00558D07Get@@YAHXZ @ 0x00558D07 (6B): returns 0x009588A1.
-int Rva00558D07Get(void)
-{
-	return 0x009588A1;
-}
 
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
