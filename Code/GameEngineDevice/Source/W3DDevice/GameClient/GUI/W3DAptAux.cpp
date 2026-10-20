@@ -109,8 +109,12 @@ public:
 	virtual UnicodeString getText();			// +0x08
 	virtual void slot0C(); virtual void slot10(); virtual void slot14();
 	virtual void slot18(); virtual void slot1C(); virtual void slot20();
-	virtual void slot24(); virtual void slot28(); virtual void slot2C();
-	virtual void slot30(); virtual void slot34(); virtual void slot38();
+	virtual void slot24();
+	virtual void slot28(unsigned long color, unsigned long dropColor);	// +0x28
+	virtual void slot2C();
+	virtual void slot30();
+	virtual void slot34(Int x, Int y);				// +0x34
+	virtual void slot38(Int x, Int y, Int xDrop, Int yDrop);	// +0x38
 	virtual void getSize(Int *width, Int *height);		// +0x3C
 	virtual void slot40(); virtual void slot44();
 	virtual void slot48(Real x, Real y);			// +0x48, called with (0, 0)
@@ -395,4 +399,101 @@ static __declspec(noinline) void Rva000A9192TransformPoint(const Rva000A9192Poin
 void Rva000A9192TransformPointCaller(const Rva000A9192Point *p, const Rva000A9192Matrix *m, Rva000A9192Point *out)
 {
 	Rva000A9192TransformPoint(p, m, out);
+}
+
+// Private Apt ratio, retail 0x000A925D (69 bytes). BFME 1 donor
+// game/GameEngine/Source/Common/BfmeConv982.cpp at 1399ad37d4 (Rva007845D0Ratio
+// logic). Its three direct callers (the display-string render below) consume
+// XMM0: MSVC returns a TU-local float there when the caller is visible.
+// Native literals BC93B4/BCF628/BBB8D8 are 0.0001f/0.01f/1.0f.
+
+// <math.h>'s float overloads of fabs, which this unit does not include.
+static inline float __cdecl bfmeFabsf(float _X) {return ((float)fabs((double)_X)); }
+static inline float __cdecl bfmeFabs(float _X) {return (bfmeFabsf(_X)); }
+static float rva000A925D(float denominator, float numerator)
+{
+	if (denominator < 0.0001f)
+		return 1.0f;
+	if (bfmeFabs(numerator - denominator) < 0.01f)
+		return 1.0f;
+	return numerator / denominator;
+}
+
+// W3DAptDisplayString's render, retail 0x000A9570 (569 bytes; WB 0x8AB920, timed as
+// "DisplayStringRender"). The same object as W3DAptDisplayString above (display string
+// +0x08, size +0x1C); it stays rowed under the placeholder name its BfmeConv982.cpp
+// caller and pin use. The two corners go through the Apt transform (WB's inlined
+// aptMatrixMul, W3DAptAux.cpp:470: out = in.x*(a,b) + in.y*(c,d) + (tx,ty)). cl 7.1
+// picks each product's register operand from how its two address expressions were
+// formed, so the corner arithmetic below mixes the float and AptMatrix views of the
+// transform and the member and reference views of the corners; every form computes
+// the same values, and this mix is the one that reproduces retail's operand order.
+class BfmeT982
+{
+public:
+	void bfmeTouch982C();
+
+private:
+	unsigned char m_pad00[8];
+	DisplayString *m_displayString;			// +0x08
+	Coord2D m_topLeft;				// +0x0C
+	Coord2D m_bottomRight;				// +0x14
+	Coord2D m_size;					// +0x1C
+	unsigned long m_color;				// +0x24
+	Int m_alignment;				// +0x28
+	Bool m_preScaleTransform;			// +0x2C
+	Bool m_dropShadow;				// +0x2D
+	Bool m_centerVertically;			// +0x2E
+};
+
+// The six transform words as WB aptMatrixMul reads them.
+struct AptMatrix
+{
+	float a, b, c, d, tx, ty;
+};
+
+void BfmeT982::bfmeTouch982C()
+{
+	const float *m = m_preScaleTransform ? reinterpret_cast<const float *>(&g_aptTransformBeforeLinearScale) : reinterpret_cast<const float *>(&g_aptRenderTransform);
+	Coord2D topLeft, bottomRight;
+	const AptMatrix &mm = *(const AptMatrix *)m;
+	const Coord2D &tl = m_topLeft;
+	const Coord2D &br = m_bottomRight;
+	topLeft.x = m_topLeft.y * m[2] + tl.x * mm.a + m[4];
+	topLeft.y = tl.x * mm.b + m_topLeft.y * mm.d + mm.ty;
+	bottomRight.x = m_bottomRight.x * m[0] + br.y * mm.c + mm.tx;
+	bottomRight.y = br.y * m[3] + br.x * mm.b + mm.ty;
+	const Coord2D &size = m_size;
+	float scaleX = rva000A925D(m_bottomRight.x - m_topLeft.x, bottomRight.x - topLeft.x);
+	float scaleY = rva000A925D(m_bottomRight.y - m_topLeft.y, bottomRight.y - topLeft.y);
+	float width = scaleX * size.x;
+	float height = scaleY * size.y;
+	float span = bottomRight.x - topLeft.x;
+	if (width > span)
+	{
+		scaleX = rva000A925D(width, span);
+		width = span;
+	}
+	if (scaleX == 1.0f && scaleY == 1.0f)
+		m_displayString->slot48(0.0f, 0.0f);
+	else
+		m_displayString->slot48(width, height);
+	m_displayString->slot28(Rva000A90B0(m_color), Rva000A90B0(0xff000000));
+	float x = topLeft.x;
+	switch (m_alignment)
+	{
+	case 1:
+		x = bottomRight.x - width;
+		break;
+	case 2:
+		x += (bottomRight.x - topLeft.x - width) * 0.5f;
+		break;
+	}
+	float y = topLeft.y;
+	if (m_centerVertically)
+		y += (m_bottomRight.y - m_topLeft.y - m_size.y) / 2.0f;
+	if (m_dropShadow)
+		m_displayString->slot38((int)x, (int)y, 1, 1);
+	else
+		m_displayString->slot34((int)x, (int)y);
 }

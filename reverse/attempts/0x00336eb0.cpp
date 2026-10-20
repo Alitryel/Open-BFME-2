@@ -1,5 +1,5 @@
 // ?rva002E9AA0ParseObjectStatusEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
-// partial score=0.95 date=2026-10-20
+// partial score=0.98 date=2026-10-20
 // stlport
 // cl: /O1 /EHsc /MD /G7 /arch:SSE /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // BF1 9cbfb551 LuaScriptEngineParseModelConditionEvent.cpp semantic source.
@@ -18,8 +18,17 @@ class BfmeObject872Header {public:char bytes[16];};
 class Rva00332FC1 {public:
  Rva00332FC1(const BfmeObject872Header &,const BfmeObject872Header &);
  bool rva00332FE7(const Rva00332FC1 &)const;
- unsigned char bytes[36];
+ void *m_text;
+ BfmeObject872Header m_a;
+ BfmeObject872Header m_b;
 };
+// Visible copies of the rowed predicates 0x002634E0 and 0x00332FE7: with both bodies in the unit,
+// cl proves the comparator cannot throw, so the caller tests its result as a plain temporary.
+__declspec(noinline) inline bool Rva002634E0Equal(const void *a,const void *b) {return memcmp(a,b,16)==0;}
+__declspec(noinline) inline bool Rva00332FC1::rva00332FE7(const Rva00332FC1 &other)const
+{
+ return m_text==other.m_text&&Rva002634E0Equal(&m_a,&other.m_a)&&Rva002634E0Equal(&m_b,&other.m_b);
+}
 struct EventFlagEntry {void setKeyFromName(const char *);};
 struct Rva00336AECElement {unsigned char bytes[36];};
 extern template void _STL::vector<Rva00336AECElement>::push_back(const Rva00336AECElement &);
@@ -60,7 +69,6 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
  if(!isConditions)return;
  if(reinterpret_cast<XmlNameSlotList *>(parser)->finish()!=3)return;
  const char *text=parser->getTailEAN();
- bool found=false;
  try {
   AsciiString conditions(text);
   ConditionWords required,excluded;
@@ -69,6 +77,7 @@ void LuaScriptEngine::rva002E9AA0ParseObjectStatusEvent(BfmeLexEAN *parser)
   reinterpret_cast<Rva003339CE *>(&excluded)->rva00334506(conditions);
   excluded.flip();
   Rva00332FC1 record(*reinterpret_cast<BfmeObject872Header *>(&required),*reinterpret_cast<BfmeObject872Header *>(&excluded));
+  bool found=false;
   reinterpret_cast<EventFlagEntry *>(&record)->setKeyFromName(name.str());
 
   for(Rva00336AECElement *it=m_objectStatusEvents.begin();it!=m_objectStatusEvents.end();++it) {
