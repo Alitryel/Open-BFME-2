@@ -22,6 +22,22 @@ vector<void *>::operator[](size_t n) const
 }
 }
 
+// The native initializer reads the vector end field and calls the canonical
+// reserve/fill-insert providers. Keep those bodies in their owning units.
+namespace _STL {
+template <> void vector<void *>::reserve(size_t);
+template <> void vector<void *>::_M_fill_insert(void **, size_t, void *const &);
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end()
+{
+    return this->_M_finish;
+}
+template <> __declspec(dllimport) __forceinline void
+vector<void *>::insert(void **position, size_t count, void *const &value)
+{
+    _M_fill_insert(position, count, value);
+}
+}
+
 typedef _STL::pair<const int,bool> SelectionIDValue;
 typedef _STL::hashtable<SelectionIDValue,int,_STL::hash<int>,
     _STL::_Select1st<SelectionIDValue>,_STL::equal_to<int>,
@@ -32,3 +48,6 @@ template _STL::_Hashtable_node<SelectionIDValue> *
 // Native selection records membership through this subscript. The key and
 // Boolean value widths follow the caller's ID load and one-byte store.
 template bool &_STL::hash_map<int,bool>::operator[](const int &);
+
+// Constructor prerequisite: the same bucket count and zero-fill algorithm.
+template void SelectionIDTable::_M_initialize_buckets(unsigned int);

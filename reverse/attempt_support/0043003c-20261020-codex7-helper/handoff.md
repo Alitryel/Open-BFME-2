@@ -31,3 +31,46 @@ vector-base provider issue is documented in the prereqs/handoff.md.
 BFME2 inputs ec2e83a034 plus the previously verified local prerequisite commits;
 BFME1 checkout92f6bbe8e1dcdb46b5d27da0674313efc822b790. Freshness update
 remains with the live codex5 shared lock; this seat did not certify it.
+
+The typed bucket initializer is now independently admitted at148DDF/59B in
+the existing SelectionIDMap.cpp unit. Its complete body and every relocation
+pass fold proof against all owners (initializer-fold.json), and the unit's
+9/9 rows plus new-variant and undeclared-definition checks pass together.
+The end/insert wrappers use the established imported-inline idiom; reserve
+and fill-insert are declaration-only canonical providers. No vector copy
+is introduced. This is a zero-unique-byte prerequisite repair.
+
+New constructor trials, beyond the old base-visibility factorial:
+24 combinations hide the allocator-taking vector constructor (plain,
+__declspec(nothrow), throw()) with four allocator-dtor visibility contracts
+and /EHsc versus /GX. All keep the initializer59B exact but produce
+65/69/73/77B callers. No64B variant. Another24 test the real STLport
+_STLP_NO_TEMPLATE_CONVERSIONS and _STLP_NO_MEMBER_TEMPLATE_CLASSES
+conversion paths with the same vector/dtor choices; same results. The new
+argument lifetime/conversion path hypothesis is disproved. Reproduce using
+ctor_visibility.py and ctor_conversion.py; outputs remain under build/.
+All were isolated compiler_command trials, never shared-cache hand compiles.
+
+The WB map metadata is misleading at this pair:12AA280 (ret16, four
+arguments, inlined bucket construction) is the hashtable constructor, and
+12AA320 (ret4, reserve then fill-insert then size zero) is its bucket
+initializer. Automatic pairing calls the former hash_map and the latter
+hashtable. Parent12A8207 calls the former with count100 plus three empty
+function/allocator objects. Use the actual bodies and caller ABI, not the
+automatically assigned metadata names, for further constructor analysis.
+
+Six further controls keep the reference base-constructor body visible while
+applying the established dllimport-inline suppression pattern directly to
+_Vector_base: inline, forceinline and inline/noinline, each with ordinary
+or forced-inline vector wrapping. All six trigger VC7.1 C1001 at msc1.cpp
+line2701 on the explicit imported base-constructor specialization. This
+pattern cannot supply the needed analysis/no-emission combination in this
+compiler. ctor_base_import.py reproduces it; ctor-base-import-results.json
+retains the diagnostic. This is a compiler failure, not a verifier false reject.
+
+Session close preserves the unchanged best parent through re_log --stash
+--score0.98. The parent and unresolved constructors42FFC0/43001D are released;
+verified initializer/helper claims stay queued until publication. No more
+parent comparison shape trials were repeated. Concrete next work is the
+vector/base provider visibility prerequisite or a new evidence-backed source
+shape for the two comparison operands.
