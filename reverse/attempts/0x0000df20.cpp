@@ -1,25 +1,21 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.7262059973924381 date=2026-10-19
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.658 date=2026-10-17
-// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
-// partial score=0.2693486590038314 date=2026-09-07
-// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
+// partial score=0.8114 date=2026-10-20
+// cl:  /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 //
 // Partial reconstruction of STLport 4.5.3 wide monetary string formatting.
-// True retail code is DF20..E952, 2610 bytes; trailing 14 alignment bytes
-// are excluded. This source emits 2581 bytes and is NOT a matched claim.
-// The aligned pattern and opaque output assignment reproduce the broad ABI.
-// Remaining blocker: retail uses 3 whole-string and 6 base destructors plus
-// 6 inline frees; declaring the whole string destructor out of line merges
-// cleanup paths and emits the wrong lifetime policy. Generic allocator/proxy
-// destructor changes and inline-depth cycling do not reproduce that mixture.
-// Position equality is 703/2610 after eight independently verified 27-byte
-// facet getter aliases, with the Base allocator constructor still unresolved.
-// All getter proofs are relocation-free vtable-slot forwarding bodies at
-// 15E50 (grouping), EA30 (currency), EA50 (positive), and EA70 (negative).
-// No new pins or matched rows were added for this attempt.
+// True retail code is DF20..E952, 2610 bytes. This source emits 2576 bytes
+// (fit 0.8114) and is NOT a matched claim. Levers in place: per-site
+// #pragma inline_depth(0) around the curr_sym initialisation and the
+// no-digits return (only calls emitted while depth 0 is in effect stay
+// calls), an opaque explicit-specialisation declaration of the wide
+// ~_String_base (the bool num_put lever: inlined ~basic_string then calls
+// 0x0000B3C0), and an opaque wide copy constructor (0x0000EA90).
+// Remaining: retail destroys the same locals with three inline levels by
+// exit (curr_sym: 0x00142D70 at the no-digits return, 0x0000B3C0 at the
+// no-value return, inline free at the end), and the no-digits return
+// tail-merges into the final grouping free. See
+// reverse/attempt_support/df20-inline-sites-20261020/handoff.md.
 //
 /*
  * Copyright (c) 1999
@@ -89,7 +85,6 @@ int __cdecl wctomb(char *dest, unsigned short ch);
 #define private public
 #include <string>
 #undef private
-namespace _STL { template <> basic_string<wchar_t>::~basic_string(); }
 #include <locale>
 
 // The locale implementation is opaque in _locale.h. Its three vtable slots
@@ -121,6 +116,7 @@ template <> inline basic_string<char>::basic_string(const basic_string<char>& s)
 }
 namespace _STL {
 template <> basic_string<wchar_t>::basic_string(const basic_string<wchar_t>&);
+template <> _String_base<wchar_t, allocator<wchar_t> >::~_String_base();
 #pragma inline_depth(0)
 template <> template <> __forceinline basic_string<wchar_t>::basic_string(const wchar_t* first,const wchar_t* last,const allocator<wchar_t>& a) : _String_base<wchar_t,allocator<wchar_t> >(a) { _M_range_initialize(first,last,forward_iterator_tag()); }
 #pragma inline_depth(255)
@@ -181,16 +177,21 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   int __frac_digits      = __intl ? __punct_intl.frac_digits() 
                                   : __punct.frac_digits();
 
+#pragma inline_depth(0)
   string_type __curr_sym = __intl ? __punct_intl.curr_symbol() 
                                   : __punct.curr_symbol();
 
+#pragma inline_depth(255)
     // if there are no digits we are going to return __s.  If there
     // are digits, but not enough to fill the frac_digits, we are
     // going to add zeros.  I don't know whether this is right or
     // not.
 
   if (__digits.size() == 0) 
+#pragma inline_depth(0)
     return __s;
+#pragma inline_depth(255)
+
 
   string_type::const_iterator __digits_first = __digits.begin();
   string_type::const_iterator __digits_last  = __digits.end();
@@ -200,17 +201,22 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   if (__sign_policy.negative)
     ++__digits_first;
 
+#pragma inline_depth(1)
   string_type __sign = __intl ?
 			 __sign_policy.negative ? __punct_intl.negative_sign()
 				       : __punct_intl.positive_sign()
 			      :
 			 __sign_policy.negative ? __punct.negative_sign()
 				       : __punct.positive_sign();
+#pragma inline_depth(255)
   string_type::const_iterator __cp = __digits_first;
   while (__cp != __digits_last && __c_type.is(ctype_base::digit, *__cp))
     ++__cp;
   if (__cp == __digits_first)
+#pragma inline_depth(1)
     return __s;
+#pragma inline_depth(255)
+
   __digits_last = __cp;
 
   // If grouping is required, we make a copy of __digits and
