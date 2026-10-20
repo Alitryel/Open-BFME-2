@@ -74,7 +74,7 @@ class Object
  AIUpdateInterface *ai;
  bool clearDisabled(DisabledType);
  void rva0028AE6D();
- int rva0028FBBE();
+ int getTransportSlotCount();
  void *rva0028C197() const;
  Drawable *getDrawable() const;
  __forceinline void clearCondition(unsigned bit) 
@@ -253,7 +253,7 @@ void Rva00467AB8::rva00467AB8(Object *rider)
   
  }
  if (module->orient()) reinterpret_cast<Thing *>(rider)->setOrientation(reinterpret_cast<Thing *>(object())->getOrientation());
- extraSlots -= rider->rva0028FBBE()-1;
+ extraSlots -= rider->getTransportSlotCount()-1;
  if (count(0)==0) owner->clearCondition(87);
  rider->clearCondition(88);
  AIUpdateInterface *ai=rider->ai;
