@@ -55,7 +55,8 @@ template <class Pointer, class Value, class Alloc>
 class _STLP_alloc_proxy : public Alloc
 {
 public:
-	Value *allocate(size_t count)
+	// Inline only: this view's copy is not the proxy allocate other units link to.
+	__declspec(dllimport) __forceinline Value *allocate(size_t count)
 	{
 		return count != 0 ? Alloc::allocate(count * sizeof(Value), 0) : 0;
 	}

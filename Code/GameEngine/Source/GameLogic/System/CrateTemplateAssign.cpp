@@ -25,6 +25,21 @@ struct BfmeStringRecord000B757D
 namespace _STL { template <> _List_iterator<BfmeStringRecord000B757D, _Nonconst_traits<BfmeStringRecord000B757D> > list<BfmeStringRecord000B757D, allocator<BfmeStringRecord000B757D> >::insert(_List_iterator<BfmeStringRecord000B757D, _Nonconst_traits<BfmeStringRecord000B757D> >, BfmeStringRecord000B757D const &); }
 // bfme link decl-only end
 
+// Retail's list assignment (0x0035CDDF) erases its tail through the range erase
+// at 0x002FECD3, the row ?erase of list<AsciiString>; the call goes there by that name.
+namespace _STL {
+template <> list<AsciiString, allocator<AsciiString> >::iterator list<AsciiString, allocator<AsciiString> >::erase(iterator, iterator);
+template <> __declspec(dllimport) __forceinline
+list<BfmeStringRecord000B757D, allocator<BfmeStringRecord000B757D> >::iterator
+list<BfmeStringRecord000B757D, allocator<BfmeStringRecord000B757D> >::erase(iterator __first, iterator __last)
+{
+	typedef list<AsciiString, allocator<AsciiString> > _StringList;
+	return iterator((_Node *)((_StringList *)this)->erase(
+		_StringList::iterator((_List_node<AsciiString> *)__first._M_node),
+		_StringList::iterator((_List_node<AsciiString> *)__last._M_node))._M_node);
+}
+}
+
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
 template <class T, class Traits>

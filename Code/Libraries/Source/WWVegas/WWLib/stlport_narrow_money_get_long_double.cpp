@@ -103,6 +103,9 @@ namespace _STL { template <> bool __get_decimal_integer<char *, long double>(cha
 namespace _STL { template <> istreambuf_iterator<char, char_traits<char> > money_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(istreambuf_iterator<char, char_traits<char> >, istreambuf_iterator<char, char_traits<char> >, bool, ios_base &, int &, basic_string<char, char_traits<char>, allocator<char> > &) const; }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
 // bfme link decl-only end
+// Nothing here calls _String_base<char>'s destructor out of line, and this unit's
+// frameless copy is not retail's 0x0000B3C0 body; keep it inline only.
+namespace _STL { template <> __declspec(dllimport) __declspec(nothrow) __forceinline _String_base<char, allocator<char> >::~_String_base() { _M_deallocate_block(); } }
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

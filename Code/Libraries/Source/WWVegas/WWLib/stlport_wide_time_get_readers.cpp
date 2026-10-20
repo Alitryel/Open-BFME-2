@@ -37,6 +37,10 @@ template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { 
 #include <cstddef>
 // Bind to the kept retail copy instead of emitting this unit's own.
 namespace _STL { template <> basic_string<char,char_traits<char>,allocator<char> > * __match<istreambuf_iterator<unsigned short,char_traits<unsigned short> >,basic_string<char,char_traits<char>,allocator<char> > *,long>(istreambuf_iterator<unsigned short,char_traits<unsigned short> > &,istreambuf_iterator<unsigned short,char_traits<unsigned short> > &,basic_string<char,char_traits<char>,allocator<char> > *,basic_string<char,char_traits<char>,allocator<char> > *,long *); }
+// The format parser is retail's row in stlport_wide_get_formatted_time.cpp;
+// the four-argument __match forwarder is this unit's own row.
+namespace _STL { template <> const char * __get_formatted_time<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, const char *>(istreambuf_iterator<wchar_t, char_traits<wchar_t> >, istreambuf_iterator<wchar_t, char_traits<wchar_t> >, const char *, const char *, const _Time_Info &, ios_base::iostate &, tm *); }
+namespace _STL { template string * __match<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, string *>(istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, string *, string *); }
 // bfme link decl-only begin
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
 namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }

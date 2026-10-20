@@ -59,4 +59,14 @@ enum ScienceType
 	SCIENCE_NONE = 0
 };
 
+// Retail's _M_insert calls the int-keyed bucket resize at 0x0053F1EC, the
+// row ?resize of hashtable<pair<const int, bool>> (SelectionIDMap.cpp); the
+// relink never touches the mapped value, so the call goes there by that name.
+namespace _STL {
+typedef hashtable<pair<const int, bool>, int, hash<int>, _Select1st<pair<const int, bool> >, equal_to<int>, allocator<pair<const int, bool> > > _BfmeIntBoolTable;
+template <> void _BfmeIntBoolTable::resize(size_t);
+template <> __declspec(dllimport) __forceinline void hashtable<pair<const int, vector<ScienceType> >, int, hash<int>, _Select1st<pair<const int, vector<ScienceType> > >, equal_to<int>, allocator<pair<const int, vector<ScienceType> > > >::resize(size_t __num_elements_hint)
+{ ((_BfmeIntBoolTable *)this)->resize(__num_elements_hint); }
+}
+
 template _STL::vector<ScienceType> &_STL::hash_map<int, _STL::vector<ScienceType>, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, _STL::vector<ScienceType> > > >::operator[](const int &);
