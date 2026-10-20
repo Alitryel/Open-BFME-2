@@ -1,18 +1,21 @@
-// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
-// partial score=0.97 date=2026-10-19
-// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
-// partial score=0.9438 date=2026-10-18
-// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
-// partial score=0.9432 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
-// Native 28F326..28F44C 294B RET8; complete WB CE75F0 twin.
-// 2026-10-19 seat12: WB's MathCoord3D.h calls (copy-constructed delta,
-// operator-= 0x41F630, dot 0x41FB90 = x*r.x+y*r.y+z*r.z) via
-// Lib/Coord3DCtorView.h + an inline Coord3D::operator*(Coord3DBase): 294B,
-// 8 -> 3 differing lines; only retail's visionAngle movss sits after the
-// first dot fmul (ours before it). Inert: visionAngle local before/after
-// the dot, 3.141f/360 form, Bool result, dot operand orders, /G5-/G7,
-// 3-arg or set() facing (worse), data-> re-read (worse).
+//
+// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z, retail 0x0028F326..0x0028F44C,
+// 294 bytes, RET8; complete WB 0x00CE75F0 twin (unnamed there). A vision
+// test of the receiver (position +0x38, radius +0xB8, facing angle +0x1C0,
+// template vision angle +0x53C) against the target word: a negative range
+// means the receiver's vision range; the rowed seven-argument ellipse test
+// 0x004DF8D8 gates on the combined radii; a vision angle of 360 or more
+// passes; otherwise the normalized planar delta (WB MathCoord3D.h:
+// copy-constructed delta, operator-= 0x41F630, Normalize 0x5A70) is dotted
+// with (Cos(angle), Sin(angle), 0) and compared with Cos(visionAngle/2).
+//
+// The dot product's terms are parenthesized, (x*r.x)+(y*r.y)+(z*r.z) (WB
+// 0x41FB90). Each parenthesized floating-point term is a paren node in c2's
+// IL, which lengthens the dot chain, so the scheduler issues the first dot
+// fmul ahead of the visionAngle load as retail does (traced in c2 3077 with
+// SchSelectInstrs picks, 2026-10-20). The unparenthesized sum schedules the
+// load first.
 #define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
 #include "Coord3DBase.h"
@@ -35,7 +38,7 @@ __declspec(noinline) inline float Coord3D::Normalize()
 	return len;
 }
 
-inline float Coord3D::operator*(const Coord3DBase &r) const { return x*r.x+y*r.y+z*r.z; }
+inline float Coord3D::operator*(const Coord3DBase &r) const { return (x*r.x)+(y*r.y)+(z*r.z); }
 struct Vec2 {float x,y;};
 extern bool Rva004DF8D8Test(const Vec2*,const Vec2*,const Vec2*,float,float,float,float);
 extern float Cos(float),Sin(float);
