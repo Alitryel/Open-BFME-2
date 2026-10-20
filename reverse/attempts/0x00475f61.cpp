@@ -1,7 +1,9 @@
 // ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
-// partial score=0.38 date=2026-10-19
+// partial score=0.5 date=2026-10-20
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
+// ?rva00475F61@Rva00475F61Iface@@UAEXAAV?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@@Z
+// partial score=0.38 date=2026-10-19
 // ?rva00475F61@HordeContain@@UAEXXZ
 // partial score=0.017 date=2026-10-17
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
@@ -40,12 +42,17 @@ namespace _STL {
 template<class A,class B> Rva001EB984PoolAllocator<B> &__stl_alloc_rebind(Rva001EB984PoolAllocator<A> &,const B *);
 template<class A,class B> Rva001EB984PoolAllocator<B> __stl_alloc_create(const Rva001EB984PoolAllocator<A> &,const B *);
 }
+// STLport's allocators reach the C++-linkage free (0x00030830), so container teardown may throw.
+#include <stdlib.h>
+namespace _STL { void __cdecl free(void *); }
+#define free _STL::free
 #include "ascii_string.h"
 #include <list>
 #include <vector>
 #include <map>
 #include <bitset>
 #include <algorithm>
+#undef free
 #include <string.h>
 #include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/LatchRestore.h"
@@ -172,14 +179,8 @@ template<class A,class B> inline Rva001EB984PoolAllocator<B> __stl_alloc_create(
 }
 typedef _STL::list<Object *,Rva001EB984PoolAllocator<Object *> > PooledMemberList;
 typedef char PoolListExtent[sizeof(PooledMemberList)==4 ? 1 : -1];
-namespace _STL {
-template <> list<Object *,Rva001EB984PoolAllocator<Object *> >::iterator
-list<Object *,Rva001EB984PoolAllocator<Object *> >::insert(
-    list<Object *,Rva001EB984PoolAllocator<Object *> >::iterator,Object *const &);
-template <> _List_base<Object *,Rva001EB984PoolAllocator<Object *> >::~_List_base();
-}
 
-class Rva00475F61AIUpdate {
+class Rva00475F61AIModule {
 public:
     virtual void slot0();
     virtual void slot1();
@@ -325,9 +326,8 @@ public:
     virtual void slot141();
     virtual void slot142(int);
     char gap[0x20-4];
-    AICommandInterface command;
-    __forceinline AICommandInterface *commands() { return &command; }
 };
+class Rva00475F61AIUpdate : public Rva00475F61AIModule, public AICommandInterface {};
 class Rva00475F61Contain {
 public:
     virtual void slot0();
@@ -604,7 +604,6 @@ public:
 };
 
 namespace _STL {
-template <> vector<PooledMemberList>::~vector();
 template <> _List_base<Object *,allocator<Object *> >::~_List_base();
 }
 void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
@@ -629,8 +628,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         Object *obj=*it;
         if(obj->getAI()) obj->getAI()->slot142(0);
         bool found=false;
-        unsigned groupCount=groups.size();
-        for(unsigned i=0;i<groupCount;++i) {
+        for(unsigned i=0;i<groups.size();++i) {
             Object *first=groups[i].front();
             bool equal=first->getTemplate()->isEquivalentTo(obj->getTemplate());
             if(equal && (*(Rva00475F61ModuleData **)((char *)this-0x118))->m_sameRank) {
@@ -649,7 +647,6 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         slot42(obj);
     }
     _STL::vector<Rva00475F61Name *> &names=(*(Rva00475F61ModuleData **)((char *)this-0x118))->names;
-    unsigned groupCount=groups.size();
     for(_STL::vector<Rva00475F61Name *>::iterator it=names.begin();it!=names.end();++it) {
         Rva00475F61Name *entry=*it;
         bool used=false;
@@ -674,7 +671,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
             transform.m[2][3]=pos.z;
         }
         bool weaponFlag=false;
-        for(unsigned i=0;i<groupCount;++i) {
+        for(unsigned i=0;i<groups.size();++i) {
             Object *first=groups[i].front();
             char equal=((BfmeD975 *)first->getTemplate())->bfmeGo975D((int)&entry->memberName);
             if(equal && (*(Rva00475F61ModuleData **)((char *)this-0x118))->m_sameRank) {
@@ -684,20 +681,22 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
             if(equal) {
                 Rva00475F61Contain *contain=replacement ? (Rva00475F61Contain *)replacement->rva0028C197() : 0;
                 if(contain && replacement) {
-                    Object *old=groups[i].front();
+                    PooledMemberList &group=groups[i];
+                    Object *old=group.front();
                     if(old) {
                         weaponFlag=(((unsigned char *)((const Rva0028B7AELeaGetter *)old)->get())[3]&1)!=0;
                         ((_STL::_Base_bitset<32> *)replacement->m_mask)->_M_do_or(*(const _STL::_Base_bitset<32> *)old->m_mask);
                     }
-                    contain->slot30(&groups[i]);
+                    contain->slot30(&group);
                     used=true;
                     Rva00475F61Result *owner=contain->slot134();
                     LatchRestore<bool> restore(owner->flag,true);
                     if(weaponFlag) replacement->setWeaponSetFlag((WeaponSetType)0x18);
                 } else {
-                    for(PooledMemberList::iterator m=groups[i].begin();m!=groups[i].end();++m) {
+                    PooledMemberList &group=groups[i];
+                    for(PooledMemberList::iterator m=group.begin();m!=group.end();++m) {
                         Object *old=*m;
-                        old->m_ai->commands()->aiIdle((CommandSourceType)2);
+                        old->m_ai->aiIdle((CommandSourceType)2);
                         out.push_back(old);
                     }
                 }
@@ -706,7 +705,7 @@ void Rva00475F61Iface::rva00475F61(_STL::vector<Object *> &out)
         }
         if(used && replacement) {
             replacement->setTransformMatrix(&transform);
-            replacement->m_ai->commands()->aiIdle((CommandSourceType)2);
+            replacement->m_ai->aiIdle((CommandSourceType)2);
             TheAI->m_pathfinder->AddObjectToPathfindMap(replacement);
             out.push_back(replacement);
         } else if(replacement) TheGameLogic->destroyObject(replacement);
