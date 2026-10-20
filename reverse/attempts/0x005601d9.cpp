@@ -1,4 +1,6 @@
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.96 date=2026-10-20
+// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.9 date=2026-10-19
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.83 date=2026-10-17
@@ -10,6 +12,8 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // Retail 0x005601D9..0x00560A1B is thiscall RET12; WB 0x01422720 supplies the module identity.
 // Matrix operations use pristine ZH headers at donor a18d9ed50607e9175de4d6568798d7d73119de09.
+// The renderer's +0x14 texture slot (also assigned by the 8-byte setter 0x005601D1) is written through a bound reference.
+// Type-2 shader preset 0x00DB6250 is BfmeParticleType2ShaderBits, defined with the matched StreakDrawModule::doParticles.
 #include "ascii_string.h"
 class RenderInfoClass;
 class RefCountClass;
@@ -28,8 +32,8 @@ extern "C" D3DXMATRIX*__stdcall D3DXMatrixRotationAxis(D3DXMATRIX*,const Vector3
 template<class T>class ShareBufferClass {public:T*Get_Array(){return Array;}private:char pad[12];T*Array;};
 extern ShareBufferClass<Vector3>*g_00E065C8;
 extern ShareBufferClass<Vector4>*g_00E065CC;
-class ShaderClass {public:unsigned ShaderBits;static ShaderClass _PresetAdditive2DShader,_PresetAlpha2DShader,_PresetAdditiveSpriteShader,_PresetAlphaSpriteShader,_PresetATestSpriteShader,_PresetMultiplicativeSpriteShader;void Enable_Fog(const char*);};
-extern ShaderClass g_00DB6250;
+class ShaderClass {public:__declspec(dllimport) __forceinline ShaderClass(const ShaderClass&s){ShaderBits=s.ShaderBits;}__declspec(dllimport) __forceinline ShaderClass&operator=(const ShaderClass&s){ShaderBits=s.ShaderBits;return *this;}unsigned ShaderBits;static ShaderClass _PresetAdditive2DShader,_PresetAlpha2DShader,_PresetAdditiveSpriteShader,_PresetAlphaSpriteShader,_PresetATestSpriteShader,_PresetMultiplicativeSpriteShader;void Enable_Fog(const char*);};
+extern unsigned int BfmeParticleType2ShaderBits;
 class TextureClass {public:void Release_Ref();};
 class BFME2ParticleTextureHandle {public:~BFME2ParticleTextureHandle(){if(Ptr)Ptr->Release_Ref();}TextureClass*Ptr;};
 class TextureAsset {public:static BFME2ParticleTextureHandle Get(const char*,int,int);};
@@ -37,7 +41,7 @@ template<class T>class RefCountPtr {public:const RefCountPtr&operator=(const Ref
 class Rva0090F8C0Holder {public:void set(int,RefCountClass*,RefCountClass*,RefCountClass*,RefCountClass*);};
 class Rva00177860 {public:void rva00177F82(RenderInfoClass&);void*refs[4];int count;RefCountPtr<TextureClass> texture;unsigned shader;float tail[4];};
 extern Rva00177860*g_00E0623C;
-class DX8Wrapper {public:static unsigned render_state_changed;static Matrix4 render_state_view;static bool FogEnable;};
+class DX8Wrapper {public:static unsigned render_state_changed;static Matrix4 render_state_view;static bool Get_Fog_Enable(){return FogEnable;}static bool FogEnable;};
 namespace FXParticleSystem {class QuadDrawModule;}
 class WW3D {friend class FXParticleSystem::QuadDrawModule;static bool IsCurrentlyRenderingShadowMap;};
 class Rva001F4E2D {public:bool rva001F4E2D();};
@@ -72,19 +76,17 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
   if(quadFabs(pos->X-cx)>ex+size)continue;
   if(quadFabs(pos->Y-cy)>ey+size)continue;
   if(quadFabs(pos->Z-cz)>ez+size)continue;
-  Vector4 vertices[4];vertices[0].Set(0.0f-size,0,size,1);vertices[1].Set(size,0,size,1);vertices[2].Set(0.0f-size,0,0.0f-size,1);vertices[3].Set(size,0,0.0f-size,1);
+  Vector4 vertices[4];vertices[0].Set(-size,0,size,1);vertices[1].Set(size,0,size,1);vertices[2].Set(-size,0,-size,1);vertices[3].Set(size,0,-size,1);
   int axis=((Rva001F4DE6*)p)->rva001F4DE6();
   if(axis==4)D3DXMatrixRotationZ((D3DXMATRIX*)&rotation,angle);
   else if(axis==2)D3DXMatrixRotationX((D3DXMATRIX*)&rotation,angle);
   else if(axis==3)D3DXMatrixRotationY((D3DXMATRIX*)&rotation,angle);
-  else if(axis==5){Vector3 axisv(p->axis.X,0.0f-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
+  else if(axis==5){Vector3 axisv(p->axis.X,-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
   else rotation.identity();
-  for(int i=0;i<4;++i){Vector4&v=vertices[i];
-   v=rotation*v;
-  }
+  for(int i=0;i<4;++i)vertices[i]=rotation*vertices[i];
   Vector4 translation(pos->X,pos->Y,pos->Z,0);int start=count*4;
-  for(int j=0;j<4;++j){Vector4&v=vertices[j];v.X+=translation.X;v.Y+=translation.Y;v.Z+=translation.Z;v.W+=translation.W;
-   Vector4 out=view*v;positions[start+j].X=out.X;positions[start+j].Y=out.Y;positions[start+j].Z=out.Z;
+  for(int j=0;j<4;++j){vertices[j].X+=translation.X;vertices[j].Y+=translation.Y;vertices[j].Z+=translation.Z;vertices[j].W+=translation.W;
+   Vector4 out;out=view*vertices[j];positions[start+j].X=out[0];positions[start+j].Y=out[1];positions[start+j].Z=out[2];
   }
   const RGBColor*color=((Rva001F4E1BSlot*)p)->get();float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
   if(color){for(int k=0;k<4;++k){colors[start+k].X=color->red;colors[start+k].Y=color->green;colors[start+k].Z=color->blue;colors[start+k].W=alpha;}}else{for(int k=0;k<4;++k)colors[start+k].Set(0,0,0,alpha);}
@@ -92,10 +94,10 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
  }
  }
  if(count>0){BFME2ParticleTextureHandle texture=TextureAsset::Get(getSystem()->texture.str(),0,0);
-  if(g_00E0623C){g_00E0623C->texture=*(RefCountPtr<TextureClass>*)&texture;
+  if(g_00E0623C){RefCountPtr<TextureClass>&slot=g_00E0623C->texture;slot=*(RefCountPtr<TextureClass>*)&texture;
    ShaderClass shader=ShaderClass::_PresetAdditiveSpriteShader;
-   switch(getSystem()->shader){case 2:shader=g_00DB6250;break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;case 4:shader=ShaderClass::_PresetATestSpriteShader;break;case 5:shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;case 6:shader=ShaderClass::_PresetAdditive2DShader;break;case 7:shader=ShaderClass::_PresetAlpha2DShader;break;}
-   if(DX8Wrapper::FogEnable)shader.Enable_Fog("HardwareFog");g_00E0623C->shader=shader.ShaderBits;
+   switch(getSystem()->shader){case 2:shader=*reinterpret_cast<const ShaderClass*>(&BfmeParticleType2ShaderBits);break;case 3:shader=ShaderClass::_PresetAlphaSpriteShader;break;case 4:shader=ShaderClass::_PresetATestSpriteShader;break;case 5:shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;case 6:shader=ShaderClass::_PresetAdditive2DShader;break;case 7:shader=ShaderClass::_PresetAlpha2DShader;break;}
+   if(DX8Wrapper::Get_Fog_Enable())shader.Enable_Fog("HardwareFog");g_00E0623C->shader=shader.ShaderBits;
    ((Rva0090F8C0Holder*)g_00E0623C)->set(count,(RefCountClass*)g_00E065C8,(RefCountClass*)g_00E065CC,0,0);g_00E0623C->rva00177F82(rinfo);
   }
  }
