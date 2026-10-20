@@ -55,6 +55,10 @@
 #include "GameLogic/ObjectCreationList.h"
 #include "GameLogic/Weapon.h"
 #include "GameClient/Drawable.h"
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void allocator<ObjectCreationList const *>::deallocate(ObjectCreationList const * *,unsigned int) const; }
 // The FXList vector's proxy deallocate is rowed elsewhere (retail copies in
 // the slow-death parsers); this unit's copy is not retail's.
 namespace _STL { template <> void _STLP_alloc_proxy<const FXList **, const FXList *, allocator<const FXList *> >::deallocate(const FXList **, size_t); }

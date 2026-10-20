@@ -34,6 +34,10 @@ char g_00BF43A8;
 // unwindability for EH states 0/1/4; the vector bases arm none.
 
 #include <vector>
+// Suppress this TU's non-retail copy of ?deallocate@?$allocator@PBVObjectCreationList@@@_STL@@QBEXPAPBVObjectCreationList@@I@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+class ObjectCreationList;
+namespace _STL { template <> void allocator<ObjectCreationList const *>::deallocate(ObjectCreationList const * *,unsigned int) const; }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@UAngleFXInfo@@@_STL@@QBEXPAUAngleFXInfo@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct AngleFXInfo;
