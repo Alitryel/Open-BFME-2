@@ -1,4 +1,5 @@
-// cl: /O1 /GX /MD /DNDEBUG /arch:SSE
+// cl: /O1 /GX /MD /DNDEBUG /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
 //
 // ??0StructureCollapseUpdateModuleData@@QAE@XZ, retail 0x00256ACC (172 bytes).
 // StructureCollapse ModuleData default ctor: trivial virtual base (vptr
@@ -6,8 +7,8 @@
 // through the rowed 0x004CE534 body (spelled here as its default ctor via
 // an alias pin; DestroyDieModuleData precedent), two five-element 0xC member arrays
 // (OCL/FX vectors) built through the rowed ehvec iterator at 0x00629512
-// (CrushDie precedent: opaque element ctor/dtor keep the frame while the
-// element addresses stay DIR32 slots the patcher copies from retail), the
+// (actual STLport pointer vectors emit the folded default constructor
+// closure at 0x00256646 and destructor at 0x0007FAB3), the
 // scalar cadence from the BFME1 donor (min/max collapse 0, min burst 9999,
 // big burst 0, damping/shudder 0.0; max burst is INI-only so never stored),
 // and the donor's count loop (ocl/fx counts at +0xCC/+0xE0 set to 1, which
@@ -24,25 +25,16 @@ private:
 	unsigned char m_bytes[0x30];
 };
 
-class CollapseOCLVec
-{
-public:
-	CollapseOCLVec();
-	~CollapseOCLVec();
+#include <vector>
 
-private:
-	unsigned char m_data[0x0C];
-};
+class ObjectCreationList;
+class FXList;
 
-class CollapseFXVec
-{
-public:
-	CollapseFXVec();
-	~CollapseFXVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
+// ZH StructureCollapseUpdate.h supplies the element types; native parser
+// calls bind OCL and FX vectors separately. Retail proves the 12-byte header,
+// array counts, offsets and complete EH callback bodies.
+typedef _STL::vector<const ObjectCreationList *> CollapseOCLVec;
+typedef _STL::vector<const FXList *> CollapseFXVec;
 
 class StructureCollapseBase
 {
