@@ -159,8 +159,9 @@ void Rva0050F5A6::rva0050F5A6(int unused)
 	}
 }
 
-// The number of decimal digits in value.
-inline int countDigits(unsigned int value)
+// The number of decimal digits in value. Retail 0x0050E8BF: the TU-static copy
+// cl emits under its register convention (value in EAX); the one call folds.
+static int countDigits(unsigned int value)
 {
 	int digits = 0;
 	while (value)
