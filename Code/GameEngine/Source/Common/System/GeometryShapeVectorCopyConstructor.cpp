@@ -27,6 +27,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 typedef bool Bool;
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+// Suppress this TU's non-retail copy of ??1?$_Vector_base@UGeometryShape@@V?$allocator@UGeometryShape@@@_STL@@@_STL@@QAE@XZ:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+struct GeometryShape;
+namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?deallocate@?$allocator@UGeometryShape@@@_STL@@QBEXPAUGeometryShape@@I@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryShape;
