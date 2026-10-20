@@ -1,0 +1,10 @@
+--- Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicBaseDefense.cpp
++++ Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicBaseDefense.cpp
+@@ -87,6 +87,7 @@
+ {
+ public:
+ 	Rva00260F1BFilter(Player *player, int flags) : m_player(player), m_flags(flags) {}
++	__declspec(dllimport) __forceinline virtual ~Rva00260F1BFilter() {}
+ 	virtual bool allow(Object *obj);
+ 	virtual int getPlayerMask();
+ 	Player *m_player;

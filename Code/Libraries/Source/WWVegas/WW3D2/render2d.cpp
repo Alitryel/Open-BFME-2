@@ -14,6 +14,12 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("s", on)
 #include "refcount.h"
 #pragma optimize("", on)
+// Preserve native inline math without a competing Normalize COMDAT.
+#include "always.h"
+#include "wwmath.h"
+#define BFME_VECTOR2_NORMALIZE_INLINE_ONLY
+#include "../../../../../reference/shims/wwmath/Vector2.h"
+#undef BFME_VECTOR2_NORMALIZE_INLINE_ONLY
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
 // Ported verbatim from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WW3D2/render2d.cpp); this unit had no counterpart under Code/.

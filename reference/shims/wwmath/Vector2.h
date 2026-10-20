@@ -80,6 +80,7 @@
 #endif
 #endif
 
+#ifndef WWMATH_H
 class WWMath
 {
 public:
@@ -95,6 +96,7 @@ public:
 	static float __fastcall Inv_Sqrt(float a);
 	static bool Is_Valid_Float(float x);
 };
+#endif // WWMATH_H
 
 
 /*
@@ -133,7 +135,11 @@ public:
 	WWINLINE const float &  operator [](int i) const { return (&X)[i]; }  
 
 	// normalize, compute length
+#ifdef BFME_VECTOR2_NORMALIZE_INLINE_ONLY
+	__declspec(dllimport) __forceinline void Normalize(void);
+#else
 	WWINLINE void	Normalize(void);
+#endif
 	WWINLINE float Length(void) const;
 	WWINLINE float Length2(void) const;
 
@@ -364,7 +370,12 @@ WWINLINE bool Equal_Within_Epsilon(const Vector2 &a,const Vector2 &b,float epsil
  *                                                                        * 
  * HISTORY:                                                               * 
  *========================================================================*/
-WWINLINE void Vector2::Normalize()
+#ifdef BFME_VECTOR2_NORMALIZE_INLINE_ONLY
+__declspec(dllimport) __forceinline
+#else
+WWINLINE
+#endif
+void Vector2::Normalize()
 {
 	float len2 = Length2();
 	if (len2 != 0.0f) {
