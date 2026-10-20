@@ -1,17 +1,4 @@
 // ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.99 date=2026-10-17
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.98 date=2026-10-17
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.9773335563733689 date=2026-10-15
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.9655269320843091 date=2026-10-14
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.9655269320843091 date=2026-10-10
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.9535 date=2026-10-09
-// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
-// partial score=0.98 date=2026-10-09
 // cl: /I. /O1 /G7 /arch:SSE /MD
 // Retail Object gap: the existing 0x00294C1A pin and BloodthirstyUpdate
 // caller prove the Object receiver and victim/bool/float ABI. ZH Object.cpp
@@ -222,10 +209,8 @@ void Object::rva00294C1A(ObjectExperienceVictim victim,ObjectExperienceFlag flag
 
 
    scale=points;
-   Object *related=rva002931F5(false);
-   if (related->tracker) {
-    scale=((Rva0039AF9B*)related->tracker)->rva0039AF9B(points);
-   }
+   Rva0039AF9B *t;
+   if ((t=(Rva0039AF9B*)rva002931F5(false)->tracker)!=0) scale=t->rva0039AF9B(points);
    receiver->grant(this,scale);
   } else tracker->rva0039B315(points,true,true,true,false);
 
@@ -235,20 +220,4 @@ void Object::rva00294C1A(ObjectExperienceVictim victim,ObjectExperienceFlag flag
    if (sink) sink->grant(points);
   }
  }
-}
-bool Object::rva0029493F(Object *victim,int mode) {
- if (!canCrushOrSquishNoAlly(victim,mode)) return false;
- if (testStatus(STATUS_39) || testStatus(STATUS_32) || isKindOf(KINDOF_84)) return true;
- if (getRelationship(victim)!=ENEMIES) return false;
- const Weapon *weapon=getCurrentWeapon(0);
- if (weapon && !weapon->info->get()) return false;
- return true;
-}
-int Object::rva002957FC() {
- if (!(tmpl->flags11f & 1)) return false;
- ObjectVirtualView *receiver=(ObjectVirtualView*)rva0029439D();
- if (receiver) return receiver->query();
- unsigned int value=flags;
- unsigned int mask=1;
- return ((unsigned char)(value >> 7) & (unsigned char)mask)!=0 || ((unsigned char)(value >> 9) & (unsigned char)mask)!=0;
 }
