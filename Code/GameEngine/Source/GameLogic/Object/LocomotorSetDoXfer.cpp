@@ -1,5 +1,5 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /Ireference/open-bfme-1/inputs/vendor/stlport /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC
-//
+// cl: /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC
+// stlport
 // ?DoXfer@LocomotorSet@@UAEXPAVXfer@@@Z, retail 0x001E8730, 413 bytes.
 // Target identity: WorldBuilder names 0x005E8730 LocomotorSet::DoXfer in
 // Locomotor.cpp (lines 3753-3765); its target body xfers the LocomotorSet
@@ -20,6 +20,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN
 #include <vector>
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
@@ -27,10 +28,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
 // bfme link decl-only end
-// Suppress this TU's non-retail copy of ?_M_clear@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@IAEXXZ:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
+// Preserve the rowed growth helper's allocator call and inline cleanup.
 class ModuleData;
-namespace _STL { template <> void vector<const ModuleData *, allocator<const ModuleData *> >::_M_clear(); }
+namespace _STL { template <> const ModuleData **allocator<const ModuleData *>::allocate(size_t, const void *) const; }
 
 enum NameKeyType
 {
