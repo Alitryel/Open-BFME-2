@@ -12,6 +12,12 @@
 // BfmeZeroRange, MetaImpactRandomUpperBound, string literal.
 
 #include "Code/Libraries/Include/Lib/Coord3DInline.h"
+#include <math.h>
+// Retail Coord3D::length (0x00003571) is an inline body that /O1 leaves out of line.
+inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 #include "../../../Common/GameLogicObjectLookupView.h"
 
@@ -43,8 +49,28 @@ struct Rva2225E0Filter
 };
 class Player
 {
+public:
+	char m_pad00[0x54];
+	int m_playerIndex; // +0x54
 };
-class DamageInfo;
+class DamageInfo
+{
+public:
+	unsigned char m_pad00[8];
+	unsigned int m_sourceID; // +0x08
+	unsigned int m_sourcePlayerMask; // +0x0C
+	unsigned char m_pad10[0x18];
+	float m_amount; // +0x28
+	unsigned int m_pad2C;
+	unsigned int m_sourceObjectID; // +0x30
+	Coord3D m_direction; // +0x34
+	float m_40, m_44, m_48, m_4C;
+	bool m_50;
+	unsigned char m_pad51[3];
+	float m_54, m_58;
+	Coord3D m_center; // +0x5C
+	float m_68;
+};
 class Object
 {
 public:
@@ -59,7 +85,9 @@ public:
 	void *m_04;
 	float m_transform[3][4]; // +8; native fallback reads first column
 	Coord3D m_pos; // +0x38
-	char m_pad44[0x94 - 0x44];
+	char m_pad44[0x74 - 0x44];
+	unsigned int m_id; // +0x74
+	char m_pad78[0x94 - 0x78];
 	unsigned int m_statusBits[4];
 };
 inline bool Object::testStatus(ObjectStatusTypes bit) const
@@ -202,6 +230,7 @@ public:
 	Made002CC8A4();
 	void rva0050A1E9(void *a, Object *b);
 	virtual void rva0050A4A2(void *source, const Coord3D *pos);
+	unsigned char rva00509F3A(void *weapon, Object *victim, DamageInfo *info);
 private:
 	float m_128;
 	float m_12C;
@@ -224,6 +253,50 @@ private:
 	float m_15C;
 	Rva003623E5Member m_160;
 };
+
+// Slot 14 of Made002CC8A4 vtable 0x008649A0; WB 0x10A6DC0 twin (set/sub per arm, rotation tail).
+static inline const float &bfmeMin(const float &a, const float &b) { return b < a ? b : a; }
+unsigned char Made002CC8A4::rva00509F3A(void *weapon, Object *victim, DamageInfo *info)
+{
+ if (!weapon || !victim) return 0;
+ Object *source = TheGameLogic->findObjectByID((ObjectID)*(int *)((char *)weapon + 8));
+ if (!source) return 0;
+ info->m_40 = m_128;
+ Coord3D dir;
+ if (m_155 || !m_14C) {
+  dir.set(victim->getPosition());
+  dir.sub(source->getPosition());
+ } else {
+  dir.set(source->getPosition());
+  dir.sub(victim->getPosition());
+ }
+ if (m_144 != 0.0f) {
+  float side = bfmeMin(m_144, 1.0f);
+  float normal = 1.0f - side;
+  float a = dir.y * side;
+  float b = -dir.x * side;
+  dir.x = dir.x * normal + a * side;
+  dir.y = dir.y * normal + b * side;
+ }
+ if (fabs(dir.x) < 0.0001f && fabs(dir.y) < 0.0001f && fabs(dir.z) < 0.0001f) {
+  if (m_155) {
+   float angle = GetGameLogicRandomValueReal(0.0f, 6.2831855f, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x15B);
+   dir.x = (float)cos(angle); dir.y = (float)sin(angle);
+  } else dir.z = 1.0f;
+ }
+ info->m_direction = dir;
+ info->m_44 = m_12C; info->m_48 = m_138; info->m_4C = m_140;
+ info->m_50 = m_155; info->m_54 = m_158; info->m_58 = m_15C;
+ if (m_155) info->m_center = *source->getPosition();
+ info->m_amount = (float)(unsigned int)m_148;
+ info->m_68 = m_144;
+ if (m_13C > 0.0f) info->m_amount += dir.length() / m_13C;
+ info->m_sourceObjectID = source->m_id;
+ if (source->getControllingPlayer()) info->m_sourcePlayerMask = 1u << source->getControllingPlayer()->m_playerIndex;
+ info->m_sourceID = *(unsigned int *)((char *)weapon + 8);
+ info->m_sourcePlayerMask = source ? (1u << source->getControllingPlayer()->m_playerIndex) : 0;
+ return 1;
+}
 
 void Made002CC8A4::rva0050A1E9(void *a, Object *shooter)
 {
