@@ -84,7 +84,7 @@ public:
     virtual bool isLoading();
     virtual void slot02(); virtual bool isCRC(); virtual void slot04(); virtual void slot05();
     virtual void slot06(); virtual void slot07(); virtual void slot08(); virtual void slot09();
-    virtual void xferVersion(XferVersion *version); virtual void slot11(); virtual void slot12(); virtual void slot13();
+    virtual void xferVersion(XferVersion *version); virtual void slot11(); virtual void xferSnapshot(Snapshot *snapshot); virtual void slot13();
     virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
     virtual void slot18(); virtual void slot19(); virtual void slot20(); virtual void slot21();
     virtual void slot22(); virtual void slot23(); virtual void slot24(); virtual void slot25();
@@ -1214,7 +1214,7 @@ public:
     void rva000540A7(INI *ini);
     unsigned char rva00054120(INI *ini);
     bool attemptReload(int unused);
-    void rva0006179C(int opaque);
+    void rva0006179C(int skipRequestRefresh);
     AsciiString rva00054714(void);
     PlayingAudioList::iterator rva000544CB(int viewType, int musicSystem, int filter);
     PlayingAudioList::iterator rva0005442A(int viewType, int musicSystem, int filter);
@@ -5549,6 +5549,102 @@ void MilesAudioManager::update()
         delete subTitles;
         m_subTitleWindow = 0;
     }
+}
+
+// The memory stream the save pass writes into (0x006023C1) and its buffer
+// hand-off (0x006021A4), under their rowed address-derived names.
+class BfmeMade_009CB5F0;
+BfmeMade_009CB5F0 *bfmeMake_009CB5F0(void *owner);
+class BfmeThingEC { public: int bfmeTakeEC(int *out); };
+// XferSave (ctor 0x0060D1F7, dtor 0x0060D0B3, open 0x0060D10A); its close
+// 0x0060C8CD is rowed under an address-derived owner.
+class Gen009D6DD0 { public: void bfmeClose(); };
+class XferSave : public Xfer {
+public:
+    XferSave();
+    virtual ~XferSave();
+    unsigned char Open(Xfer *file, int a, bool b);
+private:
+    char m_data[0x3C];
+};
+// The load-side Xfer: built from three null pointers by 0x0060C5FA, opened by
+// 0x0060C3C3, closed by 0x0060C45E and torn down by the base destructor.
+class Rva0060C5FA : public Xfer {
+public:
+    Rva0060C5FA(void *a1, void *a2, void *a3);
+private:
+    unsigned char m_pad04[0x20 - 4];
+};
+struct Rva0060C3C3Stream;
+class XferLoad { public: bool Open(Rva0060C3C3Stream *stream, int *version); };
+class Rva0060C45E { public: void clear(); };
+class File { public: virtual ~File(); };
+File *createMemoryReadFile(char *data, int size);
+// The event refresh rowed at 0x002DAAD5 (play info regenerated around +0x74).
+class Rva002DAAD5Owner { public: void rva002DAAD5(); };
+
+// Retail 0x0006179C..0x000619D1 (RET 4, WorldBuilder twin 0x00798C50
+// MilesAudioManager::reinitializeAudioSystem): snapshot, reopen and reload the device.
+void MilesAudioManager::rva0006179C(int skipRequestRefresh)
+{
+    LatchRestore<bool> latch(m_atC00, true);
+    BfmeMade_009CB5F0 *writeFile = bfmeMake_009CB5F0(0);
+    if (!writeFile)
+        return;
+    try {
+        XferSave xferSave;
+        xferSave.Open((Xfer *)writeFile, 0, false);
+        Xfer *xfer = &xferSave;
+        xfer->xferSnapshot(this);
+        ((Gen009D6DD0 *)&xferSave)->bfmeClose();
+    } catch (const XferException &e) {
+        // WorldBuilder reports e here; retail keeps only its catch-object slot.
+    }
+    for (PlayingAudioList::iterator it = m_playingSounds.begin(); it != m_playingSounds.end(); ++it)
+        rva00059CE6(*it);
+    for (PlayingAudioList::iterator it3D = m_playing3DSounds.begin(); it3D != m_playing3DSounds.end(); ++it3D)
+        rva00059CE6(*it3D);
+    rva0006047C();
+    Sleep(10);
+    if (!skipRequestRefresh) {
+        Rva00051107AudioRequestList::iterator req = m_audioRequests.begin();
+        Rva00051107AudioRequestList::iterator reqEnd = m_audioRequests.end();
+        while (req != reqEnd) {
+            if ((*req)->m_pendingEvent.get()) {
+                ((Rva002DAAD5Owner *)(*req)->m_pendingEvent.get())->rva002DAAD5();
+                rva000592B8((*req)->m_pendingEvent.get());
+            }
+            ++req;
+        }
+        Rva00051107AudioRequestSet::iterator pending = m_requestSet.begin();
+        Rva00051107AudioRequestSet::iterator pendingEnd = m_requestSet.end();
+        while (pending != pendingEnd) {
+            if ((*pending)->m_pendingEvent.get()) {
+                ((Rva002DAAD5Owner *)(*pending)->m_pendingEvent.get())->rva002DAAD5();
+                rva000592B8((*pending)->m_pendingEvent.get());
+            }
+            ++pending;
+        }
+    }
+    openDevice();
+    int size = 0;
+    char *buffer = (char *)((BfmeThingEC *)writeFile)->bfmeTakeEC(&size);
+    File *readFile = createMemoryReadFile(buffer, size);
+    try {
+        Rva0060C5FA xferLoad(0, 0, 0);
+        int version;
+        ((XferLoad *)&xferLoad)->Open((Rva0060C3C3Stream *)readFile, &version);
+        Xfer *xfer = &xferLoad;
+        xfer->xferSnapshot(this);
+        ((Rva0060C45E *)&xferLoad)->clear();
+        m_at6B0 = 1;
+        loadPostProcess();
+    } catch (const XferException &e) {
+        // WorldBuilder reports "internal xfer load failed" with e here.
+    }
+    free(buffer);
+    ::delete readFile;
+    update();
 }
 
 static __forceinline const AsciiString &bfmeEventName(const AudioEventInfo *info)
