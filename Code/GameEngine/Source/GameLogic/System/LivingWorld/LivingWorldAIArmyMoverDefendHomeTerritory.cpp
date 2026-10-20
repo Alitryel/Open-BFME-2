@@ -46,6 +46,10 @@ struct BfmePod20
 	int m_0c;
 	int m_step;
 };
+// The caller uses the complete retail push_back provider at 0x0059B8C6.
+namespace _STL {
+template <> void vector<BfmePod20, allocator<BfmePod20> >::push_back(const BfmePod20 &);
+}
 
 class Rva002BA8F1Logic
 {
