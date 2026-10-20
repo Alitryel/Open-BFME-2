@@ -1,7 +1,9 @@
 // ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.91005 date=2026-10-20
-// R7: BFME2 DX8Wrapper transform arms + b0,b1,b2. History: attempt_support/00743700-phase-20261020.md
-// cl: /I. /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// partial score=0.96418 date=2026-10-20
+// ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
+// partial score=0.96418 date=2026-10-20
+// R8: by-value Convert_Color_Clamp, Texture operator bool, no WB-absent tail locals. History: attempt_support/00743700-symcount-20261020.md
+// cl: /I. /Ireference/shims/bfmeshader /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Adapted from Command & Conquer Generals Zero Hour, copyright 2025 Electronic Arts Inc.
@@ -672,7 +674,7 @@ render_state.view[3][3]=m[3][3];render_state_changed&=~(unsigned)VIEW_IDENTITY;r
  static Vector4 Convert_Color(unsigned);
  static unsigned Convert_Color(const Vector4&);
  static unsigned Convert_Color(const Vector3&,float);
- static unsigned Convert_Color_Clamp(const Vector4&);
+ static unsigned Convert_Color_Clamp(Vector4);
  static void Clamp_Color(Vector4&);
  static IDirect3DDevice8* _Get_D3D_Device8();
 protected:
@@ -824,11 +826,10 @@ WWINLINE void DX8Wrapper::Clamp_Color(Vector4& color)
 		mov dword ptr[esi+12],edi
 	}
 }
-WWINLINE unsigned int DX8Wrapper::Convert_Color_Clamp(const Vector4& color)
+WWINLINE unsigned int DX8Wrapper::Convert_Color_Clamp(Vector4 color)
 {
-	Vector4 clamped_color=color;
-	DX8Wrapper::Clamp_Color(clamped_color);
-	return Convert_Color(reinterpret_cast<const Vector3&>(clamped_color),clamped_color[3]);
+	DX8Wrapper::Clamp_Color(color);
+	return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }
 #endif
 WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
@@ -959,7 +960,7 @@ public:
 #include "sortingrenderer.h"
 struct TargetCenter3 { float x,y,z; };
 class BfmeSortingDispatchAt0012FE00 { public: static void Insert(const TargetCenter3 &, unsigned, unsigned, unsigned, unsigned); };
-struct BFME2TextureRef { TextureBaseClass *Ptr; };
+struct BFME2TextureRef { TextureBaseClass *Ptr; operator bool() const { return Ptr != 0; } };
 void BFME2Set_Texture(unsigned stage,const BFME2TextureRef &texture);
 #include "vp.h"
 #include "vector3i.h"
@@ -1165,10 +1166,10 @@ void StreakRendererClass::RenderStreak
 	DX8Wrapper::Get_Transform(D3DTS_VIEW,view);
 	Matrix4x4 identity(true);
 	DX8Wrapper::Set_Transform(D3DTS_WORLD,identity);
-	DX8Wrapper::SetUntransposedTransform(D3DTS_VIEW,identity);
+	DX8Wrapper::Set_Transform(D3DTS_VIEW,identity);
 	unsigned int delta = WW3D::Get_Sync_Time() - LastUsedSyncTime;
 	float del = (float)delta;
-	Vector2 uv_delta=UVOffsetDeltaPerMS; uv_delta *= del; Vector2 uv_offset=CurrentUVOffset + uv_delta;
+	Vector2 uv_offset = CurrentUVOffset + UVOffsetDeltaPerMS * del;
 	uv_offset.X = uv_offset.X - floorf(uv_offset.X);
 	uv_offset.Y = uv_offset.Y - floorf(uv_offset.Y);
 	CurrentUVOffset = uv_offset;
@@ -1192,42 +1193,7 @@ void StreakRendererClass::RenderStreak
 		Matrix3D modelview=view2*transform;
 #else
 		Matrix3D modelview;
-const float a00=view2[0][0];
-const float a01=view2[0][1];
-const float a02=view2[0][2];
-const float a03=view2[0][3];
-{
-float b0=transform[0][0];
-float b1=transform[1][0];
-float b2=transform[2][0];
-modelview[0][0] = a02 * b2 + a01 * b1 + a00 * b0;
-modelview[1][0] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
-modelview[2][0] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
-}
-{
-float b0=transform[0][1];
-float b1=transform[1][1];
-float b2=transform[2][1];
-modelview[0][1] = a02 * b2 + a01 * b1 + a00 * b0;
-modelview[1][1] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
-modelview[2][1] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
-}
-{
-float b0=transform[0][2];
-float b1=transform[1][2];
-float b2=transform[2][2];
-modelview[0][2] = a02 * b2 + a01 * b1 + a00 * b0;
-modelview[1][2] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
-modelview[2][2] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
-}
-{
-float b0=transform[0][3];
-float b1=transform[1][3];
-float b2=transform[2][3];
-modelview[0][3] = a02 * b2 + a01 * b1 + a00 * b0 + a03;
-modelview[1][3] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0 + view2[1][3];
-modelview[2][3] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0 + view2[2][3];
-}
+		modelview.mul(view2, transform);
 #endif
 		VectorProcessorClass::Transform(&xformed_pts[0],
 			&points[chunkIndex], modelview, point_cnt);
@@ -1774,12 +1740,12 @@ modelview[2][3] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0 + view2
 		bool sorting = (!Is_Sorting_Disabled()) && (Shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO && Shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_DISABLE);
 		ShaderClass shader = Shader;
 		shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
-		shader.Set_Primary_Gradient(ShaderClass::GRADIENT_MODULATE);
+		shader.Set_Primary_Gradient((ShaderClass::PriGradientType)6);
 		VertexMaterialClass *mat;
 		mat=VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
 		DX8Wrapper::Set_Material(mat);
 		REF_PTR_RELEASE(mat);
-		if (Texture)
+		if (reinterpret_cast<const BFME2TextureRef&>(Texture))
 		{
 			shader.Set_Texturing(ShaderClass::TEXTURING_ENABLE);
 		}
@@ -1793,9 +1759,6 @@ modelview[2][3] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0 + view2
 			unsigned int i;
 			unsigned char *vb=(unsigned char*)Lock.Get_Formatted_Vertex_Array();
 			const FVFInfoClass& fvfinfo=Verts.FVF_Info();
-			int segIdx = 0;
-			unsigned int argb = 0x00000000;
-			unsigned int oddEven = 0;
 			const unsigned verticesOffset = fvfinfo.Get_Location_Offset();
 			const unsigned diffuseOffset = fvfinfo.Get_Diffuse_Offset();
 			const unsigned textureOffset = fvfinfo.Get_Tex_Offset(0);
@@ -1840,7 +1803,6 @@ modelview[2][3] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0 + view2
 			DX8Wrapper::Draw_Triangles(0,triangleIndex,0,vnum);
 		}
 	}
-	if(0){StringClass unused;}
 	DX8Wrapper::Set_Transform(D3DTS_VIEW,view);
 }
 VertexFormatXYZUV1 *StreakRendererClass::getVertexBuffer(unsigned int number)
