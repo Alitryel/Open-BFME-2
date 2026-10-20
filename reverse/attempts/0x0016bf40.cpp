@@ -1,117 +1,156 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z
-// partial score=0.663 date=2026-10-19
+// partial score=0.87 date=2026-10-20
 // cl: /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 // ZH meshgeometry.cpp get_deformed_vertices guides the run-based transforms.
 // Target extends it with two bind-position streams, planar bone/percent-weight
 // arrays, a precomputed run list and compact quaternion transforms.
 // Existing MeshClass Get_Deformed_Vertices call sites identify the overloads;
 // target fields, run step and planar array indexing are independently measured.
+// Shape follows WorldBuilder's debug MeshGeometryClass::get_deformed_vertices (0xA0F000, meshgeometry.cpp),
+// its BoneTransform members (bonetransform.h) and two thiscall Matrix3D blend members (0xA0ECA0, 0xA0F390).
 #include "matrix3d.h"
 #include "quat.h"
 
 void Rva00129510Inc();
-struct BfmeSkinTransform {Quaternion Rotation;Vector3 Translation;};
-struct BfmeSkinPivot {char name[16];BfmeSkinPivot *parent;BfmeSkinTransform Base,Current;int index;bool visible;char tail[7];};
-typedef char BfmeSkinPivotStride[sizeof(BfmeSkinPivot)==0x58?1:-1];
-class HTreeClass {public:char fields00[0x14];BfmeSkinPivot *pivots;};
-template<class T> struct BfmeSkinBuffer {char fields00[0xc];T *data;};
-template<bool translate> static __forceinline void skinRotate(const BfmeSkinTransform &t,const Vector3 &v,Vector3 &out) {
- const Quaternion &q=t.Rotation;
- float z=(v.Y*q.X-v.X*q.Y)+v.Z*q.W;
- float y=q.W*v.Y-(q.X*v.Z-v.X*q.Z);
- float x=(v.Z*q.Y-v.Y*q.Z)+v.X*q.W;
- float w=-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
- if(translate) {
-  out.X=(q.Y*z-y*q.Z)+(x*q.W-w*q.X)+t.Translation.X;
-  out.Y=(y*q.W-w*q.Y)-(q.X*z-x*q.Z)+t.Translation.Y;
-  out.Z=(y*q.X-x*q.Y)+(z*q.W-w*q.Z)+t.Translation.Z;
- } else {
-  out.X=(q.Y*z-y*q.Z)+(x*q.W-w*q.X);
-  out.Y=(y*q.W-w*q.Y)-(q.X*z-x*q.Z);
-  out.Z=(y*q.X-x*q.Y)+(z*q.W-w*q.Z);
+// HTree pivot transform at pivot+0x30: rotation quaternion and translation.
+struct BoneTransform {
+ __forceinline void Get_Matrix3D(Matrix3D &m) const {
+  float xx=Rotation.X*Rotation.X*2.0f;
+  float xy=Rotation.X*Rotation.Y*2.0f;
+  float xz=Rotation.X*Rotation.Z*2.0f;
+  float xw=Rotation.X*Rotation.W*2.0f;
+  float yy=Rotation.Y*Rotation.Y*2.0f;
+  float yz=Rotation.Y*Rotation.Z*2.0f;
+  float yw=Rotation.Y*Rotation.W*2.0f;
+  float zz=Rotation.Z*Rotation.Z*2.0f;
+  float zw=Rotation.Z*Rotation.W*2.0f;
+  m[0][0]=1.0f-yy-zz;m[0][1]=xy-zw;m[0][2]=xz+yw;
+  m[1][0]=xy+zw;m[1][1]=1.0f-zz-xx;m[1][2]=yz-xw;
+  m[2][0]=xz-yw;m[2][1]=yz+xw;m[2][2]=1.0f-yy-xx;
+  m[0][3]=Translation.X;m[1][3]=Translation.Y;m[2][3]=Translation.Z;
  }
-}
-static __forceinline void skinMatrix(const BfmeSkinTransform &t,Matrix3D &m) {
- const Quaternion &q=t.Rotation;
- float xx=q.X*q.X*2.0f,xy=q.X*q.Y*2.0f,xz=q.Z*q.X*2.0f;
- float wx=q.W*q.X*2.0f,yy=q.Y*q.Y*2.0f,yz=q.Z*q.Y*2.0f;
- float wy=q.W*q.Y*2.0f,zz=q.Z*q.Z*2.0f,wz=q.W*q.Z*2.0f;
- m[0][0]=1.0f-yy-zz;m[0][1]=xy-wz;m[0][2]=xz+wy;
- m[1][0]=xy+wz;m[1][1]=1.0f-zz-xx;m[1][2]=yz-wx;
- m[2][0]=xz-wy;m[2][1]=yz+wx;m[2][2]=1.0f-yy-xx;
- m[0][3]=t.Translation.X;m[1][3]=t.Translation.Y;m[2][3]=t.Translation.Z;
-}
-static __forceinline void skinScale(Matrix3D &m,float s) {
- m[0]*=s;m[1]*=s;m[2]*=s;
-}
-static __forceinline void skinBlend(const Matrix3D &a,const Vector3 &v,const Matrix3D &b,const Vector3 &w,Vector3 &out) {
- out.X=v.X*a[0][0]+v.Y*a[0][1]+w.X*b[0][0]+w.Y*b[0][1]+w.Z*b[0][2]+v.Z*a[0][2]+b[0][3]+a[0][3];
- out.Y=v.Y*a[1][1]+w.Y*b[1][1]+w.Z*b[1][2]+v.X*a[1][0]+w.X*b[1][0]+v.Z*a[1][2]+b[1][3]+a[1][3];
- out.Z=w.Y*b[2][1]+v.Y*a[2][1]+w.Z*b[2][2]+v.X*a[2][0]+w.X*b[2][0]+v.Z*a[2][2]+b[2][3]+a[2][3];
-}
-static __forceinline void skinBlendNormals(const Matrix3D &a,const Vector3 &v,const Matrix3D &b,const Vector3 &w,Vector3 &out) {
- out.X=v.Y*a[0][1]+w.Y*b[0][1]+w.Z*b[0][2]+v.X*a[0][0]+v.Z*a[0][2]+w.X*b[0][0];
- out.Y=v.Y*a[1][1]+w.Y*b[1][1]+w.Z*b[1][2]+w.X*b[1][0]+v.X*a[1][0]+v.Z*a[1][2];
- out.Z=v.Y*a[2][1]+w.Y*b[2][1]+w.Z*b[2][2]+w.X*b[2][0]+v.Z*a[2][2]+v.X*a[2][0];
-}
+ __forceinline void TransformPositionArray(const Vector3 *inPosition,Vector3 *outPosition,int count) const {
+  while(count--) {
+   float x=Rotation.W*inPosition->X+(Rotation.Y*inPosition->Z-inPosition->Y*Rotation.Z);
+   float y=Rotation.W*inPosition->Y-(Rotation.X*inPosition->Z-inPosition->X*Rotation.Z);
+   float z=Rotation.W*inPosition->Z+(Rotation.X*inPosition->Y-inPosition->X*Rotation.Y);
+   float w=-(Rotation.X*inPosition->X+Rotation.Y*inPosition->Y+Rotation.Z*inPosition->Z);
+   outPosition->X=(x*Rotation.W-w*Rotation.X)+(z*Rotation.Y-y*Rotation.Z)+Translation.X;
+   outPosition->Y=(y*Rotation.W-w*Rotation.Y)-(z*Rotation.X-x*Rotation.Z)+Translation.Y;
+   outPosition->Z=(z*Rotation.W-w*Rotation.Z)+(y*Rotation.X-x*Rotation.Y)+Translation.Z;
+   inPosition++;
+   outPosition++;
+  }
+ }
+ __forceinline void TransformNormalArray(const Vector3 *inNormal,Vector3 *outNormal,int count) const {
+  while(count--) {
+   float x=Rotation.W*inNormal->X+(Rotation.Y*inNormal->Z-inNormal->Y*Rotation.Z);
+   float y=Rotation.W*inNormal->Y-(Rotation.X*inNormal->Z-inNormal->X*Rotation.Z);
+   float z=Rotation.W*inNormal->Z+(Rotation.X*inNormal->Y-inNormal->X*Rotation.Y);
+   float w=-(Rotation.X*inNormal->X+Rotation.Y*inNormal->Y+Rotation.Z*inNormal->Z);
+   outNormal->X=(x*Rotation.W-w*Rotation.X)+(z*Rotation.Y-y*Rotation.Z);
+   outNormal->Y=(y*Rotation.W-w*Rotation.Y)-(z*Rotation.X-x*Rotation.Z);
+   outNormal->Z=(z*Rotation.W-w*Rotation.Z)+(y*Rotation.X-x*Rotation.Y);
+   inNormal++;
+   outNormal++;
+  }
+ }
+ Quaternion Rotation;
+ Vector3 Translation;
+};
+struct BfmeSkinPivot {char name[16];BfmeSkinPivot *parent;BoneTransform Base,Transform;int index;bool visible;char tail[7];};
+typedef char BfmeSkinPivotStride[sizeof(BfmeSkinPivot)==0x58?1:-1];
+class HTreeClass {
+public:
+ const BoneTransform &Get_Transform(int pivot) const {return Pivot[pivot].Transform;}
+private:
+ char fields00[0x14];BfmeSkinPivot *Pivot;
+};
+template<class T> struct BfmeSkinBuffer {T *Get_Array() {return Array;} char fields00[0xc];T *Array;};
+// The two blend members BFME 2's Matrix3D carries and the shared WWMath header lacks, as a layout-identical view.
+struct Matrix3DBlend : public Matrix3D {
+ __forceinline void blendVector3Array(const Vector3 *in,const Matrix3D &tm1,const Vector3 *in2,Vector3 *out,int count) const {
+  while(count--) {
+   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+Row[0].W+tm1[0].X*in2->X+tm1[0].Y*in2->Y+tm1[0].Z*in2->Z+tm1[0].W);
+   out->Y=(Row[1].X*in->X+Row[1].Y*in->Y+Row[1].Z*in->Z+Row[1].W+tm1[1].X*in2->X+tm1[1].Y*in2->Y+tm1[1].Z*in2->Z+tm1[1].W);
+   out->Z=(Row[2].X*in->X+Row[2].Y*in->Y+Row[2].Z*in->Z+Row[2].W+tm1[2].X*in2->X+tm1[2].Y*in2->Y+tm1[2].Z*in2->Z+tm1[2].W);
+   ++in;
+   ++in2;
+   ++out;
+  }
+ }
+ __forceinline void blendNormalArray(const Vector3 *in,const Matrix3DBlend &tm1,const Vector3 *in2,Vector3 *out,int count) const {
+  while(count--) {
+   out->X=(Row[0].X*in->X+Row[0].Y*in->Y+Row[0].Z*in->Z+tm1.Row[0].X*in2->X+tm1.Row[0].Y*in2->Y+tm1.Row[0].Z*in2->Z);
+   out->Y=(Row[1].X*in->X+Row[1].Y*in->Y+Row[1].Z*in->Z+tm1.Row[1].X*in2->X+tm1.Row[1].Y*in2->Y+tm1.Row[1].Z*in2->Z);
+   out->Z=(Row[2].X*in->X+Row[2].Y*in->Y+Row[2].Z*in->Z+tm1.Row[2].X*in2->X+tm1.Row[2].Y*in2->Y+tm1.Row[2].Z*in2->Z);
+   ++in;
+   ++in2;
+   ++out;
+  }
+ }
+};
 class MeshModelClass {
 public:
  void get_deformed_vertices(Vector3 *,const HTreeClass *);
  void get_deformed_vertices(Vector3 *,Vector3 *,const HTreeClass *);
+ int Get_Vertex_Count() const {return VertexCount;}
 private:
- char fields00[0x28];int vertexCount;int fields2C;
- BfmeSkinBuffer<Vector3> *vertices[2],*normals[2];
- char fields40[0x10];BfmeSkinBuffer<unsigned short> *bones,*runs;
+ char fields00[0x28];int VertexCount;int fields2C;
+ BfmeSkinBuffer<Vector3> *Vertex[2],*VertexNorm[2];
+ char fields40[0x10];BfmeSkinBuffer<unsigned short> *VertexBoneLink,*VertexBoneRuns;
 };
 // Destination pointers MUST point to arrays large enough to hold all vertices
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z present-unmatched
-void MeshModelClass::get_deformed_vertices(Vector3 *dst,Vector3 *dstNorm,const HTreeClass *tree) {
- if(!runs)return;
- if(!bones)return;
- if(!tree)return;
+void MeshModelClass::get_deformed_vertices(Vector3 *dst_vert,Vector3 *dst_norm,const HTreeClass *htree) {
+ if(VertexBoneRuns==0||VertexBoneLink==0||htree==0)return;
  int streams=1;
- if(vertices[1])streams=2;
- Vector3 *source[2],*normal[2];
- for(int k=0;k<streams;++k) {
-  if(vertices[k])source[k]=vertices[k]->data;else source[k]=0;
-  if(normals[k])normal[k]=normals[k]->data;else normal[k]=0;
+ if(Vertex[1]!=0)streams=2;
+ Vector3 *src_vert[2];
+ Vector3 *src_norm[2];
+ int i;
+ for(i=0;i<streams;i++) {
+  if(Vertex[i]!=0)src_vert[i]=Vertex[i]->Get_Array();else src_vert[i]=0;
+  if(VertexNorm[i]!=0)src_norm[i]=VertexNorm[i]->Get_Array();else src_norm[i]=0;
  }
- unsigned short *run=runs->data;
- unsigned short *bone=bones->data;
+ unsigned short *runs=VertexBoneRuns->Get_Array();
+ unsigned short *bonelink=VertexBoneLink->Get_Array();
  Rva00129510Inc();
- int total=vertexCount;
- int remaining=total;
- while(remaining>0) {
-  unsigned int count=run[1];run+=2;
-  remaining-=count;
-  unsigned int first=bone[0],second=bone[total];
-  if(streams==2 && second) {
-   float firstWeight=bone[total*2]*0.01f;
-   float secondWeight=bone[total*3]*0.01f;
-   Matrix3D a,b;
-   skinMatrix(tree->pivots[first].Current,a);
-   skinMatrix(tree->pivots[second].Current,b);
-   a[0]*=firstWeight;b[0]*=secondWeight;a[1]*=firstWeight;b[1]*=secondWeight;a[2]*=firstWeight;b[2]*=secondWeight;
-   if(count) {
-   Vector3 *v=source[0],*w=source[1],*out=dst;
-   int n=count;
-   do {skinBlend(a,*v++,b,*w++,*out++);}while(--n);
-   v=normal[0];w=normal[1];out=dstNorm;n=count;
-   do {skinBlendNormals(a,*v++,b,*w++,*out++);}while(--n);
+ int vertex_count=Get_Vertex_Count();
+ int vi=vertex_count;
+ while(vi>0) {
+  int cnt=runs[1];
+  runs+=2;
+  vi-=cnt;
+  int bone0=bonelink[0];
+  int bone1=bonelink[vertex_count];
+  if(streams==2&&bone1!=0) {
+   float w0=bonelink[vertex_count*2]/100.0f;
+   float w1=bonelink[vertex_count*3]/100.0f;
+   const BoneTransform &bt0=htree->Get_Transform(bone0);
+   Matrix3D tm0;
+   bt0.Get_Matrix3D(tm0);
+   const BoneTransform &bt1=htree->Get_Transform(bone1);
+   Matrix3D tm1;
+   bt1.Get_Matrix3D(tm1);
+   for(int r=0;r<3;r++) {
+    tm0[r]*=w0;
+    tm1[r]*=w1;
    }
+   ((const Matrix3DBlend &)tm0).blendVector3Array(src_vert[0],tm1,src_vert[1],dst_vert,cnt);
+   ((const Matrix3DBlend &)tm0).blendNormalArray(src_norm[0],(const Matrix3DBlend &)tm1,src_norm[1],dst_norm,cnt);
   } else {
-   const BfmeSkinTransform &t=tree->pivots[first].Current;
-   Vector3 *v=source[0],*out=dst;
-   int n=count;
-   if(n) {
-   do {skinRotate<true>(t,*v++,*out++);}while(--n);
-   v=normal[0];out=dstNorm;n=count;
-   do {skinRotate<false>(t,*v++,*out++);}while(--n);
-   }
+   const BoneTransform &tm=htree->Get_Transform(bone0);
+   tm.TransformPositionArray(src_vert[0],dst_vert,cnt);
+   tm.TransformNormalArray(src_norm[0],dst_norm,cnt);
   }
-  bone+=count;
-  for(int k=0;k<streams;++k) {source[k]+=count;normal[k]+=count;}
-  dst+=count;dstNorm+=count;
+  bonelink+=cnt;
+  for(i=0;i<streams;i++) {
+   src_vert[i]+=cnt;
+   src_norm[i]+=cnt;
+  }
+  dst_vert+=cnt;
+  dst_norm+=cnt;
  }
 }
 
