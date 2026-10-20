@@ -31,6 +31,9 @@ namespace _STL { template <> basic_string<char, char_traits<char>, allocator<cha
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_stringbuf<char, char_traits<char>, allocator<char> >::str() const; }
 namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
 // bfme link decl-only end
+// Suppress this TU's non-retail copy of ??$uninitialized_copy@PADPAD@_STL@@YAPADPAD00@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> char * uninitialized_copy<char *,char *>(char *,char *,char *); }
 // Keep _STLP_alloc_proxy<char*>::deallocate inline-only: this TU never calls it
 // out of line, and its COMDAT copy (unit flags) differs from retail's 0x006892B0 body.
 namespace _STL {
