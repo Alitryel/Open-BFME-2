@@ -8564,7 +8564,6 @@ name,address,notes
 ?dup_00382BC3@@YAXXZ,0x00382BC3,"Retail REL32 call at 0x003834E1 resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_003F1A5F@@YAXXZ,0x003F1A5F,"Retail REL32 call at 0x003F1EB6 resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_003F1A8C@@YAXXZ,0x003F1A8C,"Retail REL32 call at 0x003F1EFC resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
-?dup_003F7674@@YAXXZ,0x003F7674,"Retail REL32 call at 0x003F774E resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_004109BC@@YAXXZ,0x004109BC,"Retail REL32 call at 0x00410A9D resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_004151EB@@YAXXZ,0x004151EB,"Retail REL32 call at 0x004152FD resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."
 ?dup_0041FA07@@YAXXZ,0x0041FA07,"Retail REL32 call at 0x0041FA4B resolves to this unique matched row; synthetic dup alias only, original C++ identity remains unknown."

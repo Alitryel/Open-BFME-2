@@ -1,7 +1,7 @@
 // cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
-// Second batch of STLport _Construct<T> placement-copy helpers, same-shape
+// Placement-copy helpers and one STLport _Construct<T> instantiation, same-shape
 // siblings of the rowed _Construct<AsciiString> at 0x0002C485 (45 bytes; see
 // stlport_construct_asciistring.cpp and stlport_construct_game_structs.cpp).
 // Each body is the null-guarded placement-new copy over a single element: the
@@ -40,8 +40,16 @@ public:
 	};
 };
 
-template void _STL::_Construct<BfmeStringRecord004071F7, BfmeStringRecord004071F7>(BfmeStringRecord004071F7 *, const BfmeStringRecord004071F7 &);
-template void _STL::_Construct<BfmeStringRecord005F93E3, BfmeStringRecord005F93E3>(BfmeStringRecord005F93E3 *, const BfmeStringRecord005F93E3 &);
+// Distinct retail placement-copy owners. Original application names remain
+// unknown; their complete native bodies and associated EH graphs are exact.
+void Rva003F7674Construct(BfmeStringRecord004071F7 *dest, const BfmeStringRecord004071F7 &source)
+{
+    new (dest) BfmeStringRecord004071F7(source);
+}
+void Rva005FE0F5Construct(BfmeStringRecord005F93E3 *dest, const BfmeStringRecord005F93E3 &source)
+{
+    new (dest) BfmeStringRecord005F93E3(source);
+}
 template void _STL::_Construct<BfmeRecordOwner900, BfmeRecordOwner900>(BfmeRecordOwner900 *, const BfmeRecordOwner900 &);
 // Retail 0x0021781D is a separate placement-copy body from the instantiation
 // at 0x00063CBC. Give its owner a typed name so callers bind to this body.
