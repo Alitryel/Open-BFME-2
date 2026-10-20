@@ -1,4 +1,6 @@
-// cl: /DNDEBUG /MD /EHsc /Ob2
+// cl: /DNDEBUG /MD /EHsc /Ob2 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+#include <vector>
 // ??1Rva001D28F0Element@@QAE@XZ, retail 0x00689500, 119 bytes.
 // Dedicated TU (Rva001D25F0VectorInsertOverflow.cpp instantiates
 // vector<Rva001D28F0Element> over this type; a same-TU definition would
@@ -30,7 +32,7 @@ public:
 class Rva001D28F0Element
 {
 public:
-	~Rva001D28F0Element();
+	__declspec(noinline) ~Rva001D28F0Element();
 
 private:
 	AsciiStringMember m_first;
@@ -52,3 +54,7 @@ Rva001D28F0Element::~Rva001D28F0Element()
 		operator delete(owned);
 	}
 }
+
+// Keep the destroy wrapper with its real element view. A declaration-only
+// view in DestroyInstances.cpp emitted a competing deleting destructor.
+template void _STL::_Destroy<Rva001D28F0Element>(Rva001D28F0Element *);

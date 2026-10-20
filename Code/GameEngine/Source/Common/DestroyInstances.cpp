@@ -235,11 +235,6 @@ class BfmeVectorRecord002AF478
 public:
 	~BfmeVectorRecord002AF478();
 };
-class Rva001D28F0Element
-{
-public:
-	~Rva001D28F0Element();
-};
 struct Rva004F69C3
 {
 	~Rva004F69C3();
@@ -338,7 +333,6 @@ template void _STL::_Destroy<Rva001EB940>(Rva001EB940 *);
 template void _STL::_Destroy<Rva004F7DD4>(Rva004F7DD4 *);
 template void _STL::_Destroy<Rva005C8FBD>(Rva005C8FBD *);
 template void _STL::_Destroy<BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478 *);
-template void _STL::_Destroy<Rva001D28F0Element>(Rva001D28F0Element *);
 
 // 0x00288FE5 -> ??1?$pair@$$CBHV?$list@UBfmePod264@@...@@ 0x00288B89 and
 // 0x002A1D94 -> ??1?$pair@VAsciiString@@VAudioEventRTS@@ 0x002A12E1 (ICF-shared
